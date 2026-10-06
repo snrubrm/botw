@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiUnarmedEnemySearchWeapon.h"
+#include <limits>
+#include <math/seadMathCalcCommon.h>
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "Game/AI/aiUnk_7100724C64.h"
@@ -7,6 +9,7 @@
 #include "Game/Actor/actEnemy.h"
 #include "Game/Actor/actWeapon.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/Physics/System/physNavMeshCharacter.h"
 
 namespace uking::ai {
 
@@ -101,6 +104,31 @@ bool UnarmedEnemySearchWeapon::sub_71003B8020(ksys::act::BaseProcLink& link) con
     actor->getMtx().getTranslation(self);
     const f32 reach = getReachDistanceMaybe();
     return (pos - self).squaredLength() < reach * reach;
+}
+
+// NON_MATCHING: only instruction order differs (the fcsel of the distance is emitted before the csel of the link, two
+// loop-invariant subs are swapped)
+// 0x71003b8e70
+ksys::act::BaseProcLink* UnarmedEnemySearchWeapon::sub_71003B8E70() {
+    ksys::act::BaseProcLink* nearest = nullptr;
+    if (auto* nav = mActor->m45()) {
+        const sead::Vector3f pos = nav->_194;
+        f32 nearest_distance = std::numeric_limits<f32>::max();
+        for (auto& entry : _78) {
+            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::acquireActor(&entry._0.mLink, &accessor);
+            const sead::Matrix34f& mtx = accessor.getActorMtx();
+            const sead::Vector3f target(mtx(0, 3), mtx(1, 3), mtx(2, 3));
+            const f32 distance = (pos - target).length();
+            if (distance <= nearest_distance) {
+                nearest_distance = distance;
+                nearest = &entry._0.mLink;
+            }
+        }
+    }
+    if (!nearest)
+        nearest = &ksys::act::getDummyBaseProcLink();
+    return nearest;
 }
 
 }  // namespace uking::ai

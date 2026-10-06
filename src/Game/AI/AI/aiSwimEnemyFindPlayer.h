@@ -21,6 +21,9 @@ public:
     bool m37() override;
     bool m38() override;
 
+    // 0x71005b3f30: the player is swimming / diving and within the climb height range and horizontal distance
+    bool sub_71005B3F30();
+
 protected:
     // 0x71005b4054: sets _170 to 15, then changes to the "対象壁つかまり" child
     void sub_71005B4054();

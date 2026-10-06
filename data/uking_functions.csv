@@ -24447,7 +24447,7 @@ Address,Quality,Size,Name
 0x00000071003b8780,U,000204,_ZN5uking2ai24UnarmedEnemySearchWeapon14sub_71003B8780Ev
 0x00000071003b884c,U,000792,
 0x00000071003b8b64,U,000780,
-0x00000071003b8e70,U,000280,
+0x00000071003b8e70,m,000280,_ZN5uking2ai24UnarmedEnemySearchWeapon14sub_71003B8E70Ev
 0x00000071003b8f88,O,000008,_ZNK5uking2ai24UnarmedEnemySearchWeapon27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE
 0x00000071003b8f90,O,000092,_ZNK5uking2ai24UnarmedEnemySearchWeapon18getRuntimeTypeInfoEv
 0x00000071003b8fec,O,000004,_ZN5uking2ai24UnarmedEnemySearchWeapon3m36Ev
@@ -34944,7 +34944,7 @@ Address,Quality,Size,Name
 0x00000071005b3c9c,O,000196,_ZN5uking2ai19SwimEnemyFindPlayer3m37Ev
 0x00000071005b3d60,O,000100,_ZN5uking2ai19SwimEnemyFindPlayer3m38Ev
 0x00000071005b3dc4,U,000364,uking::ai::SwimEnemyFindPlayer::m48
-0x00000071005b3f30,U,000292,
+0x00000071005b3f30,m,000292,_ZN5uking2ai19SwimEnemyFindPlayer14sub_71005B3F30Ev
 0x00000071005b4054,O,000220,_ZN5uking2ai19SwimEnemyFindPlayer14sub_71005B4054Ev
 0x00000071005b4130,U,000364,uking::ai::SwimEnemyFindPlayer::m49
 0x00000071005b429c,U,000396,uking::ai::SwimEnemyFindPlayer::m51

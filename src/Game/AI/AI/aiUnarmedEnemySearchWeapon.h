@@ -31,6 +31,8 @@ protected:
     // 0x71003b8020: the twin of LandHumEnemyUnarmedBattle::sub_7100470ED4: whether `link` is reachable (sub_7100739030) or within the reach distance
     bool sub_71003B8020(ksys::act::BaseProcLink& link) const;
     bool sub_71003B6888();
+    // 0x71003b8e70: the link of the entry of _78 nearest to the position of the navmesh character (the dummy link if none)
+    ksys::act::BaseProcLink* sub_71003B8E70();
     void sub_71003B8780();
     /* 0x68 */ ksys::act::BaseProcLink _68;
     // 0x7100d772d4 is the element destructor (Unk_71024dc858's D1 at the element start).

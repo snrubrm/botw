@@ -7,6 +7,7 @@
 #include "Game/gameStatisticsMgr.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
 
@@ -86,6 +87,32 @@ void SwimEnemyFindPlayer::sub_71005B4054() {
     ksys::act::ai::InlineParamPack pack;
     pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
     changeChild("対象壁つかまり", &pack);
+}
+
+// NON_MATCHING: same logic; the original keeps the early-out branches separate (b.mi / b.lt / b.hi to one `mov w19, 0` block
+// and `orr w19, 1` for the final compare instead of cset) and schedules the matrix loads differently
+// 0x71005b3f30
+bool SwimEnemyFindPlayer::sub_71005B3F30() {
+    bool result = false;
+    if (!(*mClimbHmax_s < 0.0f)) {
+        auto& link = sub_71005D94AC(mActor);
+        if (link.hasProc() && ksys::act::isPlayerProfile(&link)) {
+            ksys::act::acc::PlayerBase player;
+            ksys::act::acquireActor(&link, &player);
+            if (player.m186() || player.m187()) {
+                const sead::Matrix34f& mtx = player.getActorMtx();
+                const sead::Matrix34f& actor_mtx = mActor->getMtx();
+                const f32 dy = mtx(1, 3) - actor_mtx(1, 3);
+                if (!(dy < *mClimbVmin_s) && !(dy > *mClimbVmax_s)) {
+                    const f32 dx = mtx(0, 3) - actor_mtx(0, 3);
+                    const f32 dz = mtx(2, 3) - actor_mtx(2, 3);
+                    if (sead::Mathf::sqrt(dx * dx + dz * dz) <= *mClimbHmax_s)
+                        result = true;
+                }
+            }
+        }
+    }
+    return result;
 }
 
 }  // namespace uking::ai
