@@ -29,10 +29,12 @@ void StopCliffTongueAttack::leave_() {
     sub_71005DB3EC(mActor);
 }
 
+// NON_MATCHING: the original computes both member addresses (this + 0x48 / 0x58) and the SafeString vtable
+// into callee-saved registers up front (one more spilled register than ours).
 void StopCliffTongueAttack::loadParams_() {
     OnCliffWait::loadParams_();
-    getDynamicParam(&mTargetPos_d, "TargetPos");
     getStaticParam(&mRigidName_s, "RigidName");
+    getDynamicParam(&mTargetPos_d, "TargetPos");
 }
 
 void StopCliffTongueAttack::calc_() {

@@ -63,6 +63,8 @@ void sub_71007A3900(ksys::phys::RigidBody* body);  // SensorQueryOnly
 // The body `name` of the actor's "Atk" set: remove (2D7C), contact layer SensorNoHit with
 // `handler` (3270); all "Atk" bodies: remove (2E04).
 void sub_71007A2D7C(ksys::act::Actor* actor, const sead::SafeString& name);
+// 0x71007a338c (declaration only; SimpleLineBeam::calc_ passes "Beam").
+void sub_71007A338C(ksys::act::Actor* actor, const sead::SafeString& name);
 void sub_71007A2E04(ksys::act::Actor* actor);
 // 0x71007a3a8c (declaration only; lane3 s22; 1.2 KB): the AttackDirType value of a name (-1 for null / empty).
 int sub_71007A3A8C(const sead::SafeString* name);

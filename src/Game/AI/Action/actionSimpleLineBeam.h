@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::action {
 
@@ -27,8 +28,7 @@ protected:
     const bool* mIsGuardPierces_s{};
     // static_param at offset 0x38
     const bool* mIsSetAtIgnoreObstacle_s{};
-    void* _40{};
-    int _48 = 0;
+    ksys::Timer _40;
 };
 
 }  // namespace uking::action

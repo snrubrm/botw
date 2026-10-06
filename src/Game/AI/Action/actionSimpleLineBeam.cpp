@@ -1,5 +1,8 @@
 #include "Game/AI/Action/actionSimpleLineBeam.h"
+#include <math/seadMathCalcCommon.h>
+#include "Game/Actor/actBeamBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actAttackSensor.h"
@@ -17,13 +20,26 @@ bool SimpleLineBeam::init_(sead::Heap* heap) {
 }
 
 void SimpleLineBeam::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    mFlags.set(Flag::Changeable);
+    _40 = ksys::Timer(-1.0f, -1.0f, -1.0f);
+    if (auto* beam = sead::DynamicCast<uking::act::LineBeam>(mActor)) {
+        if (*mIsSetAtIgnoreObstacle_s)
+            sub_71007A44E4(mActor, true);
+        beam->sub_71000029CC();
+        sub_71007A2C30(beam, "Beam", &beam->getMtx());
+        m32();
+    } else {
+        setFailed();
+    }
 }
 
 void SimpleLineBeam::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (auto* beam = sead::DynamicCast<uking::act::LineBeam>(mActor))
+        beam->sub_7100002BF8();
+    sub_71007A2D7C(mActor, "Beam");
 }
 
+// NON_MATCHING: the original keeps `this + 0x20` and the SafeString vtable in callee-saved registers up front.
 void SimpleLineBeam::loadParams_() {
     getStaticParam(&mIsGuarantee_s, "IsGuarantee");
     getStaticParam(&mType_s, "Type");
@@ -32,7 +48,23 @@ void SimpleLineBeam::loadParams_() {
 }
 
 void SimpleLineBeam::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (isFinished() || isFailed())
+        return;
+    if (!(_40.value <= sead::Mathf::epsilon())) {
+        _40.update();
+        if (_40.value <= sead::Mathf::epsilon())
+            sub_71007A338C(mActor, "Beam");
+    }
+    if (hasAttackInfo(mActor)) {
+        const s32 count = getNumAttackInfoMaybe(mActor);
+        for (s32 index = 0; index < count; ++index) {
+            auto* info = getAttackInfo(mActor, index);
+            if (info && ksys::act::isPlayerProfile(&info->_50)) {
+                _40 = ksys::Timer(10.0f, 10.0f, -1.0f);
+                break;
+            }
+        }
+    }
 }
 
 void SimpleLineBeam::m32() {
