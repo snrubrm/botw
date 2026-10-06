@@ -11,8 +11,6 @@ namespace uking::ai {
 
 ViewWait::ViewWait(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
-ViewWait::~ViewWait() = default;
-
 bool ViewWait::m38() {
     sead::Vector3f front;
     mActor->getMtx().getBase(front, 2);

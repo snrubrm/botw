@@ -9,7 +9,7 @@ class ViewWait : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(ViewWait, ksys::act::ai::Ai)
 public:
     explicit ViewWait(const InitArg& arg);
-    ~ViewWait() override;
+    ~ViewWait() override = default;
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void calc_() override;
