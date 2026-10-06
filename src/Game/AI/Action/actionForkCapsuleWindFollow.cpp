@@ -40,4 +40,14 @@ bool ForkCapsuleWindFollow::updateForPreDelete() {
     return _40.sub_71010C4284();
 }
 
+// NON_MATCHING: same arithmetic (sead makeVectorRotation + fromQuat) but different register allocation and a
+// different operand order in the quaternion-to-matrix products.
+bool ForkCapsuleWindFollow::sub_7100149878(sead::Matrix33f* mtx, const sead::Vector3f& from,
+                                           const sead::Vector3f& to) {
+    sead::Quatf q;
+    const bool ok = q.makeVectorRotation(from, to);
+    mtx->fromQuat(q);
+    return ok;
+}
+
 }  // namespace uking::action

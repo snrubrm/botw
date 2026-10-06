@@ -22,6 +22,10 @@ public:
 protected:
     void calc_() override;
 
+    // 0x7100149878: the shortest-arc rotation from `from` to `to` as a matrix (identity if they are opposite);
+    // false in that case.
+    static bool sub_7100149878(sead::Matrix33f* mtx, const sead::Vector3f& from, const sead::Vector3f& to);
+
     // static_param at offset 0x20
     const float* mRadius_s{};
     // static_param at offset 0x28
