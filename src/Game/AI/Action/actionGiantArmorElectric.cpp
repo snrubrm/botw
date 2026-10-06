@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionGiantArmorElectric.h"
+#include "Game/Actor/actEnemy.h"
 #include "KingSystem/System/Timer.h"
 
 namespace uking::action {
@@ -29,6 +30,12 @@ void GiantArmorElectric::calc_() {
     if (_78 > 0.0f)
         ksys::Timer::update(&_78, -1.0f);
     GiantArmorAction::calc_();
+}
+
+bool GiantArmorElectric::m32() {
+    if (auto* enemy = sead::DynamicCast<uking::act::Enemy>(mActor))
+        return enemy->m151(4);
+    return false;
 }
 
 }  // namespace uking::action

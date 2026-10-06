@@ -33,6 +33,36 @@ void GiantArmorAction::loadParams_() {
 
 void GiantArmorAction::calc_() {
     ActionWithPosAngReduce::calc_();
+    switch (_68) {
+    case 0:
+        if (mStartAS_s.isEmpty()) {
+            _68 = 1;
+        } else if (isFinishedAS(0, 0)) {
+            _68 = 1;
+            playAS(mLoopAS_s.cstr(), false, 0, 0, -1.0f);
+        }
+        break;
+    case 1:
+        if (!m32() || isFinishedAS(0, 0)) {
+            _68 = 2;
+            playAS(mEndAS_s.cstr(), false, 0, 0, -1.0f);
+        }
+        break;
+    case 2:
+        if (*mUseRestart_s && m32()) {
+            _68 = 0;
+            if (!mStartAS_s.isEmpty())
+                playAS(mStartAS_s.cstr(), false, 0, 0, -1.0f);
+            else
+                playAS(mLoopAS_s.cstr(), false, 0, 0, -1.0f);
+        } else if (isFinishedAS(0, 0)) {
+            setFinished();
+        }
+        break;
+    default:
+        setFailed();
+        break;
+    }
 }
 
 }  // namespace uking::action

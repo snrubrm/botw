@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionGiantArmorBurned.h"
+#include "Game/Actor/actEnemy.h"
 
 namespace uking::action {
 
@@ -24,6 +25,12 @@ void GiantArmorBurned::loadParams_() {
 
 void GiantArmorBurned::calc_() {
     GiantArmorAction::calc_();
+}
+
+bool GiantArmorBurned::m32() {
+    if (auto* enemy = sead::DynamicCast<uking::act::Enemy>(mActor))
+        return enemy->m151(2);
+    return false;
 }
 
 }  // namespace uking::action

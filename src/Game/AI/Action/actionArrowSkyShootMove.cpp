@@ -36,18 +36,29 @@ void ArrowSkyShootMove::calc_() {
     ArrowShootMove::calc_();
 }
 
-// NON_MATCHING: register allocation / stack layout (the original compares _170 with 3, 1, 0 in that
-// order and keeps the three hit-position components in different registers).
+// NON_MATCHING: register allocation / stack layout only (the state is written as an ascending switch, which
+// gives the original's compare order; the original keeps the hit-position components in other registers).
 void ArrowSkyShootMove::m33() {
-    if (_170 == 3) {
+    switch (_170) {
+    case 0:
         ArrowShootMove::m33();
-        return;
-    }
-    if (_170 == 1) {
+        if (!mActor)
+            return;
+        {
+            const sead::Vector3f diff = mActor->getMtx().getTranslation() - _11c;
+            if (!(diff.length() >= *mSkyShootDist_s))
+                return;
+        }
+        _174 = ksys::Timer(*mInterval_s, *mInterval_s);
+        mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_20);
+        mActor->getMtx().getTranslation(_180);
+        _170 = 1;
+        break;
+    case 1: {
         if (auto* body = mActor->getMainBody())
             body->setLinearVelocity(sead::Vector3f::zero, sead::Mathf::epsilon());
         _174.update();
-        if (_174.value > sead::Mathf::epsilon())
+        if (!(_174.value <= sead::Mathf::epsilon()))
             return;
         sead::Vector3f dir = -sead::Vector3f::ey;
         if (mTargetActor_d) {
@@ -85,21 +96,13 @@ void ArrowSkyShootMove::m33() {
         _e4 = dir;
         mActor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_20);
         _170 = 3;
-    } else {
-        if (_170 != 0)
-            return;
+        break;
+    }
+    case 3:
         ArrowShootMove::m33();
-        if (!mActor)
-            return;
-        {
-            const sead::Vector3f diff = mActor->getMtx().getTranslation() - _11c;
-            if (diff.length() < *mSkyShootDist_s)
-                return;
-        }
-        _174 = ksys::Timer(*mInterval_s, *mInterval_s);
-        mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_20);
-        mActor->getMtx().getTranslation(_180);
-        _170 = 1;
+        break;
+    default:
+        break;
     }
 }
 

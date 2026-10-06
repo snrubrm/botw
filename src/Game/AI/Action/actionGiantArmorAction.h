@@ -18,6 +18,8 @@ public:
 
 protected:
     void calc_() override;
+    // Whether the armor effect is still active (the loop AS continues).
+    virtual bool m32() = 0;
 
     // static_param at offset 0x30
     const bool* mUseRestart_s{};
