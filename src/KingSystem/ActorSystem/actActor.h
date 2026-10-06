@@ -658,6 +658,8 @@ public:
     bool checkSignal(map::MapLinkDefType type) const;
     // 0x00000071011da678
     bool checkLinkSignal(map::MapLinkDefType type) const;
+    // 0x00000071011da69c: ObjectLinkData::sub_7100D4F9DC on the other actor's map object.
+    bool sub_71011DA69C(const Actor* other) const;
     // 0x00000071011d1808
     map::ObjectLink* findPlacementLinkWithType(map::MapLinkDefType type) const;
     // 0x00000071011da7a0
@@ -708,6 +710,8 @@ public:
     // calls onPlacementObjReset().
     void resetPlacementObj();
     void setFlag0x40();
+    // 0x71011c8ba4: while initializing or asleep, sets the root AI's `mI`.
+    void sub_71011C8BA4(u32 value);
     void setVelocity(const sead::Vector3f* vel, const sead::Vector3f* ang_vel);
     // 0x71011dae64 (CSV Actor::x_22): sets the linear / angular velocity of the main body and of the
     // character controller.

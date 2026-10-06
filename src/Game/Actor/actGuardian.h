@@ -93,6 +93,8 @@ public:
     // 0x7100035a90: switches the state _14d8 (no-op if equal; state 5 sends message 0x800000d to the
     // actor, 12 / 13 toggle the attention client; picks a new random sign for _14f0).
     void sub_7100035A90(s32 state);
+    // 0x71000370b4 (placeholder name): `_15cc < 30`.
+    bool sub_71000370B4() const;
     // 0x710003b090: writes _14d4.
     void sub_710003B090(u32 value);
     // 0x710003b43c / 0x710003b4c8: the target (link at Enemy::_c48._8, position _c48._18) is closer /
@@ -148,7 +150,7 @@ public:
     /* 0x15b8 */ u32 _15b8 = 0;
     /* 0x15c0 */ void* _15c0 = nullptr;
     /* 0x15c8 */ u32 _15c8 = 0;
-    /* 0x15cc */ u32 _15cc;
+    /* 0x15cc */ f32 _15cc;
     /* 0x15d0 */ void* _15d0 = nullptr;
     /* 0x15d8 */ u32 _15d8 = 0;
     /* 0x15e0 */ void* _15e0 = nullptr;

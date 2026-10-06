@@ -230,6 +230,19 @@ public:
     s32 getAttackPower();
     bool isThrowingBreakWeapon();
     bool bowHasArrowName();
+    // Bow modifier helpers (placeholder names, lane4 s45). The bow param's IsLeadShot / LeadShotNum /
+    // IsRapidFire / RapidFireNum, overridden by the AddSpreadFire / AddZoomRapid modifiers.
+    bool sub_71002EA0D4();
+    s32 sub_71002EA124();
+    bool sub_71002EA16C();
+    s32 sub_71002EA1A8();
+    // 0x71002ea21c / 0x71002ea244: the bow param's ExtraDamageRatio / BaseAttackPowerRatio.
+    f32 sub_71002EA21C();
+    f32 sub_71002EA244();
+    // 0x71002ed8a0: WeaponCommon's IsThrowingWeapon (false without the param).
+    bool sub_71002ED8A0();
+    // 0x71002ed8dc: WeaponThrow's ThrowDist, scaled by the AddThrow modifier.
+    f32 sub_71002ED8DC();
     bool hasCanPullGiantObjectTag();
     s32 getMaxHp();
     s32* getLife() override;

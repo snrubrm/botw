@@ -271,6 +271,9 @@ public:
     virtual bool m177(s32 idx, ksys::act::Actor* weapon);
     // 0x7100731cd8 (CSV Enemy::setDroppedWeaponFlag; declared only).
     void setDroppedWeaponFlag();
+    // 0x7100015438 (placeholder name, lane4 s45; called by PriestBossActorNormalRoot::m35): acquires `weapon` in
+    // slot `idx` and sets _e82 bit 12.
+    void sub_7100015438(s32 idx, ksys::act::Actor* weapon);
     // Creates the object returned by DynamicActor slot 159 (_e78).
     virtual Unk_71025ae680* m178(sead::Heap* heap);
     void setNecklaceFlag(s32 index);

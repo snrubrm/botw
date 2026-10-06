@@ -48,6 +48,7 @@ public:
     const ParamPack& getMapUnitParams() const { return mMapUnitParams; }
     const ParamPack& getAiTreeParams() const { return mAiTreeParams; }
     u32 getI() const { return mI; }
+    void setI(u32 i) { mI = i; }
     s16 getAt() const { return mAt; }
     // 0x7100d66b94 (CSV RootAi::x_0; lane1 s24, name is a guess): sets (`on`) or clears the bits `mask` of the
     // flag word at 0x3c of every Chemical of the actor.

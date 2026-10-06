@@ -174,6 +174,12 @@ bool Actor::checkLinkSignal(map::MapLinkDefType type) const {
     return false;
 }
 
+bool Actor::sub_71011DA69C(const Actor* other) const {
+    if (other && mMapObject && mMapObject->getLinkData())
+        return mMapObject->getLinkData()->sub_7100D4F9DC(other->mMapObject);
+    return false;
+}
+
 bool Actor::hasForbidAttentionLink() const {
     if (!findPlacementLinkWithType(map::MapLinkDefType::ForbidAttention))
         return false;
@@ -972,6 +978,11 @@ void Actor::afterUpdateState_() {
 void Actor::setFlag0x40() {
     if (isInit())
         mActorFlags.setBit(ActorFlag::_6);
+}
+
+void Actor::sub_71011C8BA4(u32 value) {
+    if ((isInit() || isSleep()) && mRootAi)
+        mRootAi->setI(value);
 }
 
 void Actor::setVelocity(const sead::Vector3f* vel, const sead::Vector3f* ang_vel) {

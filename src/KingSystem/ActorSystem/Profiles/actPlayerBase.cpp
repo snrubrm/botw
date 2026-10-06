@@ -112,6 +112,18 @@ bool PlayerBase::x_50() {
     return false;
 }
 
+bool PlayerBase::sub_7100848F40() {
+    return _17d0->playerCheckController(5);
+}
+
+bool PlayerBase::sub_7100848F54() {
+    return false;
+}
+
+bool PlayerBase::sub_7100848F5C() {
+    return _17d0->controllerCheckPressedMaybe(15);
+}
+
 bool PlayerBase::runeMgrCheckCanUseRoundBomb() {
     return uking::RuneMgr::instance()->checkIsSelectedRuneAndCanUse(0, this);
 }

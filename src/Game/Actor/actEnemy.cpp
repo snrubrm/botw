@@ -383,6 +383,11 @@ bool Enemy::m177(s32 idx, ksys::act::Actor* weapon) {
     return true;
 }
 
+void Enemy::sub_7100015438(s32 idx, ksys::act::Actor* weapon) {
+    _c38[idx].acquire(weapon, false);
+    _e82 |= 0x1000;
+}
+
 // NON_MATCHING: the original loads the flag byte after computing the bit mask (schedule only)
 ksys::act::LifeRecoverInfo* Enemy::getLifeRecoverInfo() {
     auto* info = _13c0;

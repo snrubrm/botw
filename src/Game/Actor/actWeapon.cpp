@@ -35,6 +35,7 @@
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectGuardianMiniWeapon.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectShield.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectWeaponCommon.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectWeaponThrow.h"
 #include "KingSystem/Utils/Byaml/Byaml.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
 
@@ -334,6 +335,51 @@ bool Weapon::isThrowingBreakWeapon() {
 bool Weapon::bowHasArrowName() {
     const auto* param = getParam()->getRes().mGParamList->getBow();
     return param && !param->mArrowName.ref().isEmpty();
+}
+
+// 0x71002ea0d4: IsLeadShot, or a positive AddSpreadFire modifier value.
+bool Weapon::sub_71002EA0D4() {
+    if (getParam()->getRes().mGParamList->getBow()->mIsLeadShot.ref())
+        return true;
+    return _f98.flags.isOn(WeaponModifier::AddSpreadFire) && _f98.value > 0;
+}
+
+// 0x71002ea124: the AddSpreadFire modifier value if set, else LeadShotNum.
+s32 Weapon::sub_71002EA124() {
+    if (_f98.flags.isOn(WeaponModifier::AddSpreadFire) && _f98.value >= 1)
+        return static_cast<f32>(_f98.value);
+    return getParam()->getRes().mGParamList->getBow()->mLeadShotNum.ref();
+}
+
+// 0x71002ea16c: IsRapidFire or the AddZoomRapid modifier.
+bool Weapon::sub_71002EA16C() {
+    return getParam()->getRes().mGParamList->getBow()->mIsRapidFire.ref() ||
+           _f98.flags.isOn(WeaponModifier::AddZoomRapid);
+}
+
+// 0x71002ea1a8: 3 with the AddZoomRapid modifier, else RapidFireNum.
+s32 Weapon::sub_71002EA1A8() {
+    if (_f98.flags.isOn(WeaponModifier::AddZoomRapid))
+        return 3;
+    return getParam()->getRes().mGParamList->getBow()->mRapidFireNum.ref();
+}
+
+f32 Weapon::sub_71002EA21C() {
+    return getParam()->getRes().mGParamList->getBow()->mExtraDamageRatio.ref();
+}
+
+f32 Weapon::sub_71002EA244() {
+    return getParam()->getRes().mGParamList->getBow()->mBaseAttackPowerRatio.ref();
+}
+
+bool Weapon::sub_71002ED8A0() {
+    const auto* param = getParam()->getRes().mGParamList->getWeaponCommon();
+    return param && param->mIsThrowingWeapon.ref();
+}
+
+f32 Weapon::sub_71002ED8DC() {
+    const f32 dist = getParam()->getRes().mGParamList->getWeaponThrow()->mThrowDist.ref();
+    return dist * (_f98.flags.isOn(WeaponModifier::AddThrow) ? _f98.value / 1000.0f : 1.0f);
 }
 
 bool Weapon::hasCanPullGiantObjectTag() {

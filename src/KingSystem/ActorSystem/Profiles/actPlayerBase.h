@@ -289,6 +289,10 @@ public:
     uking::Unk_710246d058* get17d0() const { return _17d0; }
     BaseProcLink& get1280() { return _1280; }
     bool x_50();                             // 0x848f4c
+    // lane4 s45 (placeholder names, from the bodies): controller checks on `_17d0`.
+    bool sub_7100848F40();  // playerCheckController(5)
+    bool sub_7100848F54();  // false
+    bool sub_7100848F5C();  // controllerCheckPressedMaybe(15)
     bool x_48();                             // 0x84a988
     bool x_2();                              // 0x84bce8
     // 0x84b580 (CSV PlayerBase::x_2; lane4 s45): 0 unless _cf4 bit 15 is set; then 1 if `_d24` is 0, else 2 if m227().

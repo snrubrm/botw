@@ -112,4 +112,9 @@ void Guardian::m44() {
         Actor::m44();
 }
 
+// NON_MATCHING: the original loads the 30.0 from rodata (adrp/ldr) instead of an fmov immediate
+bool Guardian::sub_71000370B4() const {
+    return _15cc < 30.0f;
+}
+
 }  // namespace uking::act
