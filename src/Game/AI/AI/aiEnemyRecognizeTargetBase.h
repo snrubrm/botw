@@ -24,6 +24,11 @@ public:
     bool handleMessage_(const ksys::Message* message) override;
     // 0x71003b08c0 (placeholder name)
     void changeToNotice();
+    // 0x71003b05cc / 0x71003b0768 (placeholder names)
+    void changeToContact();
+    void changeToDiscover();
+    // 0x71003b1178 (placeholder name)
+    void changeToActivateTrap();
 
 protected:
     // static_param at offset 0x38
@@ -41,7 +46,8 @@ protected:
     // static_param at offset 0x68
     const float* mNoCryDist_s{};
     void* _70{};
-    void* _78{};
+    f32 _78{};
+    f32 _7c{};
     ksys::act::BaseProcLink _80;
     Unk_7102372510 _90{mActor, 0x8000008};
     Unk_7102450a98 _c0;

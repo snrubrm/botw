@@ -22,6 +22,12 @@ public:
     void changeToMoveFar();
     // 0x71003d5204 (placeholder name)
     void changeToMoveOnNavMesh();
+    // 0x71003d501c (placeholder name)
+    void changeToViaPointMove();
+    // 0x71003d4ef0 (placeholder name): restarts the via point list with the target and moves to it.
+    void changeToTargetPosMove();
+    // 0x71003d53e0 (placeholder name): descends above the actor's position to `height`.
+    void changeToDescend(f32 height);
 
 protected:
     // static_param at offset 0x38

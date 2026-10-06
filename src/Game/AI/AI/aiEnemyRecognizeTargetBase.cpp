@@ -1,6 +1,8 @@
 #include "Game/AI/AI/aiEnemyRecognizeTargetBase.h"
+#include <random/seadGlobalRandom.h>
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "Game/Actor/actEnemy.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 
@@ -50,6 +52,45 @@ bool EnemyRecognizeTargetBase::m35() {
 
 bool EnemyRecognizeTargetBase::handleMessage_(const ksys::Message* message) {
     return _c0.m2(*message);
+}
+
+void EnemyRecognizeTargetBase::changeToContact() {
+    _78 = *mCryInterval_s;
+    const s32 min = *mRandomCryInterval_s;
+    const s32 max = *mRandomCryIntervalMax_s;
+    _7c = sead::GlobalRandom::instance()->getS32Range(min, max);
+
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+    changeChild("連絡", &pack);
+
+    if (ksys::act::isPlayerProfile(&sub_71005D94AC(mActor))) {
+        auto* actor = mActor;
+        if (sead::IsDerivedFrom<act::Enemy>(actor))
+            static_cast<act::Enemy*>(actor)->_e84.setBit(1);
+    }
+}
+
+void EnemyRecognizeTargetBase::changeToDiscover() {
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+    changeChild("発見", &pack);
+
+    if (ksys::act::isPlayerProfile(&sub_71005D94AC(mActor))) {
+        auto* actor = mActor;
+        if (sead::IsDerivedFrom<act::Enemy>(actor))
+            static_cast<act::Enemy*>(actor)->_e84.setBit(1);
+    }
+}
+
+void EnemyRecognizeTargetBase::changeToActivateTrap() {
+    ksys::act::ai::InlineParamPack pack;
+    pack.addActor(_c0._38._0, "TargetActor", -1);
+    ksys::act::ActorConstDataAccess commander;
+    ksys::act::acquireActor(&_c0._38._10, &commander);
+    _80 = _c0._38._0;
+    pack.addMesTransceiverId(*commander.getMessageTransceiverId(), "CommanderID", -1);
+    changeChild("仕掛け作動", &pack);
 }
 
 void EnemyRecognizeTargetBase::changeToNotice() {

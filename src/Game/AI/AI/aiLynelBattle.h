@@ -17,6 +17,13 @@ public:
     void loadParams_() override;
     // 0x710048d8a0 (placeholder name)
     void changeToMeleeBattle();
+    // 0x710048e13c / 0x710048e278 / 0x710048e3d8 / 0x710048e538 / 0x710048e658 (placeholder names): set the attack
+    // state bits of `mLynelAIFlags_a`, update the attack history and start the attack child.
+    void changeToThroughAttack();
+    void changeToChargeAttack(bool skip_prepare);
+    void changeToSixLegAttack(bool skip_prepare);
+    void changeToBreath();
+    void changeToRoarAttack();
 
 protected:
     // static_param at offset 0x38
@@ -53,7 +60,8 @@ protected:
     int* mLynelAIFlags_a{};
     int _d8{};
     int _dc{};
-    void* _e0{};
+    s32 _e0{};
+    s32 _e4{};
 };
 
 }  // namespace uking::ai

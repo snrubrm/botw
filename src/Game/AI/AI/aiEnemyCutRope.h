@@ -16,6 +16,11 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    // 0x71003864f8 / 0x7100386610 / 0x7100386728 (placeholder names)
+    void changeToCut();
+    void changeToRotate();
+    void changeToApproach();
+
 protected:
     // static_param at offset 0x38
     const int* mWeaponIdx_s{};

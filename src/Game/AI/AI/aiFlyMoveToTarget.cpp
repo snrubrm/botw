@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiFlyMoveToTarget.h"
+#include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
@@ -34,6 +35,33 @@ void FlyMoveToTarget::loadParams_() {
     getStaticParam(&mOutDist_s, "OutDist");
     getStaticParam(&mOffsetHeight_s, "OffsetHeight");
     getDynamicParam(&mTargetPos_d, "TargetPos");
+}
+
+// NON_MATCHING: the original adds in the other operand order (fadd y, h) with the height loaded first
+void FlyMoveToTarget::changeToTargetPosMove() {
+    sead::Vector3f target;
+    target = *mTargetPos_d;
+    target.y += *mOffsetHeight_s;
+    _60.clear();
+    _60.pushBack(target);
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(target, "TargetPos", -1);
+    changeChild("目標位置移動", &pack);
+}
+
+void FlyMoveToTarget::changeToDescend(f32 height) {
+    sead::Vector3f position = mActor->getMtx().getTranslation();
+    position.y = height;
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(position, "TargetPos", -1);
+    pack.addFloat(height, "TargetHeight", -1);
+    changeChild("下降", &pack);
+}
+
+void FlyMoveToTarget::changeToViaPointMove() {
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(_60[0], "TargetPos", -1);
+    changeChild("経由点移動", &pack);
 }
 
 // NON_MATCHING: the original adds in the other operand order (fadd y, h)

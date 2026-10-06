@@ -9,6 +9,34 @@
 
 namespace uking::ai {
 
+void FishGoToAndNibble::changeToFinalMove() {
+    ksys::act::ActorConstDataAccess target;
+    if (ksys::act::acquireActor(mTargetActor_d, &target)) {
+        _70 = mActor->getMtx().getTranslation();
+        sead::Vector3f position;
+        target.getActorMtx().getTranslation(position);
+        ksys::act::ai::InlineParamPack pack;
+        pack.addVec3(position, "TargetPos", -1);
+        changeChild("行進最後", &pack);
+    } else {
+        setFailed();
+    }
+}
+
+void FishGoToAndNibble::changeToMove() {
+    ksys::act::ActorConstDataAccess target;
+    if (ksys::act::acquireActor(mTargetActor_d, &target)) {
+        sead::Vector3f position;
+        target.getActorMtx().getTranslation(position);
+        position.y -= _88.getSizeY() * 0.5f * 0.5f + _a0.getSizeY() * 0.5f * 0.5f;
+        ksys::act::ai::InlineParamPack pack;
+        pack.addVec3(position, "TargetPos", -1);
+        changeChild("前進", &pack);
+    } else {
+        setFailed();
+    }
+}
+
 FishGoToAndNibble::FishGoToAndNibble(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
 FishGoToAndNibble::~FishGoToAndNibble() = default;

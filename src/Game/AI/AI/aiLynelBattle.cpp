@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiLynelBattle.h"
+#include <math/seadMathCalcCommon.h>
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 
@@ -41,6 +42,63 @@ void LynelBattle::loadParams_() {
     getStaticParam(&mBreathPartsKey1_s, "BreathPartsKey1");
     getStaticParam(&mBreathPartsKey2_s, "BreathPartsKey2");
     getAITreeVariable(&mLynelAIFlags_a, "LynelAIFlags");
+}
+
+void LynelBattle::changeToThroughAttack() {
+    ++_dc;
+    *mLynelAIFlags_a = (*mLynelAIFlags_a & ~0xfc0) | 0x40;
+
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+    pack.addVec3(sub_71005D9548(mActor), "TargetVel", -1);
+    pack.addBool(false, "IsSkipPrepare", -1);
+    changeChild("斬り抜け", &pack);
+}
+
+void LynelBattle::changeToChargeAttack(bool skip_prepare) {
+    _dc = 0;
+    _e0 = sead::Mathi::clamp(_e0 - 1, -5, 5);
+    *mLynelAIFlags_a = (*mLynelAIFlags_a & ~0xfc0) | 0x80;
+
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+    pack.addVec3(sub_71005D9548(mActor), "TargetVel", -1);
+    pack.addBool(skip_prepare, "IsSkipPrepare", -1);
+    changeChild("突進切り", &pack);
+}
+
+void LynelBattle::changeToSixLegAttack(bool skip_prepare) {
+    _dc = 0;
+    _e0 = sead::Mathi::clamp(_e0 + 1, -5, 5);
+    *mLynelAIFlags_a = (*mLynelAIFlags_a & ~0xfc0) | 0x100;
+
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+    pack.addVec3(sub_71005D9548(mActor), "TargetVel", -1);
+    pack.addBool(skip_prepare, "IsSkipPrepare", -1);
+    changeChild("6足攻撃", &pack);
+}
+
+void LynelBattle::changeToBreath() {
+    _e4 = sead::Mathi::clamp(_e4 - 1, -5, 5);
+    _dc = 0;
+    *mLynelAIFlags_a = (*mLynelAIFlags_a & ~0xfc0) | 0x200;
+    *mLynelAIFlags_a |= 4;
+
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+    changeChild("ブレス", &pack);
+}
+
+void LynelBattle::changeToRoarAttack() {
+    _e4 = sead::Mathi::clamp(_e4 + 1, -5, 5);
+    _dc = 0;
+    *mLynelAIFlags_a = (*mLynelAIFlags_a & ~0xfc0) | 0x400;
+    *mLynelAIFlags_a |= 8;
+
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+    changeChild("咆哮攻撃", &pack);
 }
 
 void LynelBattle::changeToMeleeBattle() {

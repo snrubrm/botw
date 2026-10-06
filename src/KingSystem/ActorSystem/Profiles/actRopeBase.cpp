@@ -58,6 +58,15 @@ bool RopeBase::sub_7100ED8344() const {
     return rope ? rope->_956 != 0 : false;
 }
 
+// NON_MATCHING: register allocation only (the original keeps the product in s3)
+sead::Vector3f RopeBase::sub_7100ED8440(f32 ratio) const {
+    if (auto* rope = getRopeBase()) {
+        const f32 length = rope->_938 * f32(rope->_930 + 1);
+        return rope->sub_7100ECE61C(length * sead::Mathf::clamp(ratio, 0.0f, 1.0f));
+    }
+    return sead::Vector3f::zero;
+}
+
 void RopeBase::requestCutOffHungPoint(int on) const {
     debugLog(1, "requestCutOff(HungPoint)");
     debugLog(2, "requestCutOff(HungPoint)");

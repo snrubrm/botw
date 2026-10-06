@@ -22,6 +22,11 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    // 0x71003cb38c / 0x71003cb4c0 (placeholder names): move to the target actor's position / to its position below
+    // the fish's own center; fail if the target actor is gone.
+    void changeToFinalMove();
+    void changeToMove();
+
 protected:
     // static_param at offset 0x38
     const int* mNumTimeNibbleMin_s{};
