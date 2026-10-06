@@ -45,6 +45,7 @@ public:
     void setRegisterCullingDistance(f32 distance);
     void setInteriorNum(s32 num);
     void setSpread(f32 spread);
+    void setListenerDirectivityEnabled(bool enabled) { _214 = enabled; }
 
 private:
     SpeakerBalanceUnifierAreaSegment* mSegments[cSegmentNum];
