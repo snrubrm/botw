@@ -54,8 +54,10 @@ bool GroupFolder::pushFrontChild_(Group* child) {
     if (!child)
         return false;
     auto* first = mTreeNode.child();
-    if (!first)
-        return pushBackChild_(child);
+    if (!first) {
+        pushBackChild_(child);
+        return true;
+    }
     Group* first_group = first->value();
     if (!first_group || first_group == child)
         return false;

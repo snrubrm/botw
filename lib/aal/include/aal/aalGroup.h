@@ -29,6 +29,8 @@ class Group : public NamedObj {
     friend class GroupFolder;
 
 public:
+    ~Group() override;
+
     /// Stops all the sounds of the group (and of its descendants) with the given fade out time (negative: the
     /// default release time).
     virtual void stopAllSound(f32 fade_time) = 0;
@@ -127,6 +129,8 @@ protected:
 class GroupFolder : public Group {
     SEAD_RTTI_OVERRIDE(GroupFolder, Group)
 public:
+    ~GroupFolder() override = default;
+
     void stopAllSound(f32 fade_time) override;
     void pauseAllSound(bool pause, f32 fade_time) override;
     void pauseAllSound(sead::BitFlag8 flags, bool pause, f32 fade_time) override;
