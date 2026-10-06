@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionPriestBossClonesSpawnForDemo.h"
+#include "Game/AI/aiUnk_7102450fa8.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actActor.h"
@@ -10,6 +11,10 @@ PriestBossClonesSpawnForDemo::PriestBossClonesSpawnForDemo(const InitArg& arg)
     : ksys::act::ai::Action(arg) {}
 
 PriestBossClonesSpawnForDemo::~PriestBossClonesSpawnForDemo() = default;
+
+Unk_7102450fa8* PriestBossClonesSpawnForDemo::sub_71000664E4() {
+    return sead::DynamicCast<Unk_7102450fa8>(*static_cast<Unk_71025afb58**>(mPriestBossMetaAIUnit_a));
+}
 
 bool PriestBossClonesSpawnForDemo::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);

@@ -2,6 +2,8 @@
 
 #include "KingSystem/ActorSystem/actAiAction.h"
 
+class Unk_7102450fa8;
+
 namespace uking::action {
 
 class PriestBossClonesSpawnForDemo : public ksys::act::ai::Action {
@@ -19,6 +21,9 @@ protected:
     // 0x7100066884 (declared only): out of line in the original.
     bool sub_7100066884();
     void calc_() override;
+
+    // 0x71000664e4 (placeholder name): the meta AI unit (null if it is not a Unk_7102450fa8).
+    Unk_7102450fa8* sub_71000664E4();
     virtual int m32();
     virtual f32 m33(f32 t);
 
