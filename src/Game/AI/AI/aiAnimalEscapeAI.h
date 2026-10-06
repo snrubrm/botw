@@ -23,6 +23,10 @@ public:
     virtual bool m37();
     virtual void m38(ksys::act::ai::InlineParamPack* params) {}
 
+    // 0x7100305314 / 0x7100305ae0 (placeholder names)
+    void changeToEscape();
+    void changeToStuckOnTerrain();
+
 protected:
     // static_param at offset 0xa8
     const int* mNumTimesAllowStuck_s{};
