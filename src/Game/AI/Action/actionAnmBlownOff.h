@@ -25,6 +25,9 @@ protected:
     virtual void m32(ksys::phys::CharacterController* controller);
     virtual void m33(const sead::Vector3f& velocity);
 
+    // 0x7100094b38: the velocity the weapons (or the item) are dropped with.
+    void sub_7100094B38(sead::Vector3f* out);
+
     // static_param at offset 0x20
     const int* mOnGroundTime_s{};
     // static_param at offset 0x28
