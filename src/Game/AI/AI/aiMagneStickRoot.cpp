@@ -4,7 +4,10 @@
 #include <math/seadBoundBox.h>
 #include "KingSystem/Utils/Thread/Message.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/Physics/System/physContactPointInfo.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actUnk_71006e45c4.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
@@ -294,6 +297,31 @@ void MagneStickRoot::m49(sead::Vector3f* out, sead::Vector3f pos, const sead::Ve
     const sead::Vector3f diff = pos - target;
     const f32 scale = 1.0f / std::max(diff.length(), 0.5f) * 0.25f;
     *out = actor->getMtx().getTranslation() + diff * scale;
+}
+
+// NON_MATCHING: the stack layout matches, but the original builds the SafeString at function entry (before
+// the null checks) and orders the accessor stores after the argument loads; the final fmul commutes.
+f32 MagneStickRoot::m42() {
+    const f32 radius = *mCollideRadius_m;
+    if (!mActor)
+        return radius;
+
+    const f32 factor = *mCollideRadiusFactor_s;
+    auto* body = mActor->getMainBody();
+    if (!body)
+        return radius;
+    auto* info = body->getContactPointInfo();
+    if (!info || info->getNumContactPoints() == 0 || info->begin().isEnd())
+        return radius;
+
+    const sead::SafeString slider_name("DgnObj_DLC_SliderBlockIron_A_01");
+    for (auto it = info->begin(), end = info->end(); it != end; ++it) {
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::sub_7100EEAC50(&accessor, (*it)->body_b);
+        if (accessor.hasProc() && accessor.getName() == slider_name)
+            return factor * radius;
+    }
+    return radius;
 }
 
 }  // namespace uking::ai

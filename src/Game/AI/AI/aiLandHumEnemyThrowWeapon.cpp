@@ -37,14 +37,16 @@ void LandHumEnemyThrowWeapon::loadParams_() {
     getDynamicParam(&mTargetPos_d, "TargetPos");
 }
 
-// NON_MATCHING: the original casts the held proc to act::Weapon twice (two guard-checked DynamicCast<Weapon> in a row)
 bool LandHumEnemyThrowWeapon::sub_710046CC20() {
-    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
-        auto* proc = enemy->_c38[*mWeaponIdx_s].getProc(nullptr, nullptr);
-        if (auto* weapon = sead::DynamicCast<act::Weapon>(proc))
-            return weapon->isBoomerang();
-    }
-    return false;
+    auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
+    if (!enemy)
+        return false;
+    auto* proc = enemy->_c38[*mWeaponIdx_s].getProc(nullptr, nullptr);
+    auto* weapon = sead::DynamicCast<act::Weapon>(proc);
+    auto* checked = sead::DynamicCast<act::Weapon>(weapon);
+    if (!checked)
+        return false;
+    return checked->isBoomerang();
 }
 
 }  // namespace uking::ai
