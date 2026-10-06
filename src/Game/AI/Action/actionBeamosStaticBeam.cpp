@@ -49,4 +49,23 @@ void BeamosStaticBeam::calc_() {
     _a8.sub_71006F3A6C();
 }
 
+void BeamosStaticBeam::m32(sead::Vector3f* muzzle_offset, sead::Vector3f* beam_direction) {
+    if (muzzle_offset) {
+        sead::Vector3f offset = *mMuzzleOffset_s;
+        const sead::Vector3f& scale = mActor->getScale();
+        if (!scale.equals(sead::Vector3f::ones, sead::Mathf::epsilon())) {
+            offset.x *= scale.x;
+            offset.y *= scale.y;
+            offset.z *= scale.z;
+        }
+        *muzzle_offset = offset;
+    }
+
+    if (beam_direction) {
+        sead::Vector3f direction = *mBeamDirection_s;
+        direction.normalize();
+        *beam_direction = direction;
+    }
+}
+
 }  // namespace uking::action

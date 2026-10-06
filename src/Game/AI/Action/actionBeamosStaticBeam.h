@@ -19,6 +19,7 @@ public:
 
 protected:
     void calc_() override;
+    virtual void m32(sead::Vector3f* muzzle_offset, sead::Vector3f* beam_direction);
 
     // static_param at offset 0x48
     const float* mBeamRange_s{};
