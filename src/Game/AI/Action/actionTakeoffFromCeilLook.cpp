@@ -1,5 +1,9 @@
 #include "Game/AI/Action/actionTakeoffFromCeilLook.h"
+#include <cmath>
+#include "Game/AI/aiUnk_71007377D4.h"
 #include "Game/AI/aiUnk_710073fa90.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/System/VFR.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actCCAccessor.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
@@ -44,8 +48,40 @@ void TakeoffFromCeilLook::loadParams_() {
     getStaticParam(&mRotReduceRatio_s, "RotReduceRatio");
 }
 
+// NON_MATCHING: the original keeps the scaled velocity in registers (s12-s14) across the powf call
+// (the reload only happens on the out-of-line getDeltaFrame path);
+// ours reloads it from the stack after the call (the vector's address escaped through sub_7100F5F598)
 void TakeoffFromCeilLook::calc_() {
-    ksys::act::ai::Action::calc_();
+    auto* actor = mActor;
+    auto* controller = actor->getCharacterController();
+    if (!controller) {
+        setFailed();
+        return;
+    }
+    if (auto* as_list = actor->getASList()) {
+        if (as_list->x(0x2f, nullptr, 0, 0, &ksys::as::ASList::Unk2::sub_71011638DC, true)) {
+            const sead::Vector3f target_vel = *mDescentSpeed_s * controller->get7c();
+            sead::Vector3f velocity;
+            controller->sub_7100F5F598(&velocity);
+            velocity = velocity * (1.0f / 30);
+            const f32 rate =
+                1.0f - std::pow(1.0f - *mAccRatio_s, ksys::VFR::instance()->getDeltaFrame());
+            velocity += (target_vel - velocity) * rate;
+            sub_7100737710(controller, velocity);
+        } else {
+            sub_71007377D4(controller, *mPosReduceRatio_s);
+        }
+        if (as_list->x(0x29, nullptr, 0, 0, &ksys::as::ASList::Unk2::sub_71011638DC, true)) {
+            sub_710073FA94(&_50, actor);
+            const sead::Vector3f up = getUpDir(actor);
+            sub_710074006C(&_50, _74, up, true, *mRotRatio_s, *mRotSpeed_s, 0.0f);
+            sub_7100740E04(_50, controller);
+        } else {
+            sub_7100738660(controller, *mRotReduceRatio_s);
+        }
+    }
+    if (isFinishedAS(0, 0))
+        setFinished();
 }
 
 }  // namespace uking::action
