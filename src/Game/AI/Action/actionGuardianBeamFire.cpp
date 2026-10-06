@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionGuardianBeamFire.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -26,6 +27,13 @@ void GuardianBeamFire::loadParams_() {
 
 void GuardianBeamFire::calc_() {
     BeamMove::calc_();
+}
+
+// NON_MATCHING: scheduling only (the original loads the three integers, computes the length, then stores them).
+void GuardianBeamFire::m40() {
+    mActor->getMtx().getBase(_40, 2);
+    _40.normalize();
+    _4c = *mSpeed_s;
 }
 
 }  // namespace uking::action

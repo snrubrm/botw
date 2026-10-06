@@ -2,6 +2,7 @@
 #include "Game/Damage/dmgDamageCallback.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace uking::action {
 
@@ -47,6 +48,17 @@ void GolemThrowPartsToTargetBase::calc_() {
     }
     if (isFinishedAS(0, 0))
         setFinished();
+}
+
+// NON_MATCHING: the original tests the three out/in pointers with cset/and (non-short-circuit) and only body with cbz; the natural short-circuit form branches per pointer.
+void GolemThrowPartsToTargetBase::m32(sead::Vector3f* linear_velocity,
+                                      sead::Vector3f* angular_velocity, sead::Matrix34f* mtx,
+                                      ksys::phys::RigidBody* body) {
+    if (body && linear_velocity && angular_velocity && mtx) {
+        body->getTransform(mtx);
+        *angular_velocity = body->getAngularVelocity() * (1.0f / 30.0f);
+        *linear_velocity = body->getLinearVelocity() * (1.0f / 30.0f);
+    }
 }
 
 }  // namespace uking::action

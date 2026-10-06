@@ -5,6 +5,13 @@
 #include "Game/AI/aiUnkDamageCallbacks.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
+#include <math/seadMatrix.h>
+#include <math/seadVector.h>
+
+namespace ksys::phys {
+class RigidBody;
+}
+
 namespace uking::action {
 
 class GolemThrowPartsToTargetBase : public ActionWithAS {
@@ -23,6 +30,9 @@ protected:
     void sub_710018D8DC();
     void sub_710018D998();
     void calc_() override;
+    // The body's transform and its velocities per frame (all four arguments are required).
+    virtual void m32(sead::Vector3f* linear_velocity, sead::Vector3f* angular_velocity,
+                     sead::Matrix34f* mtx, ksys::phys::RigidBody* body);
 
     // static_param at offset 0x30
     sead::SafeString mASName_s{};

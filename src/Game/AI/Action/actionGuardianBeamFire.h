@@ -18,6 +18,8 @@ public:
 
 protected:
     void calc_() override;
+    // Fires along the actor's z axis at Speed.
+    void m40() override;
 
     // static_param at offset 0x70
     const float* mSpeed_s{};
