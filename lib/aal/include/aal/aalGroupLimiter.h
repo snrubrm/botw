@@ -57,7 +57,8 @@ private:
     /// The sounds of the group that are counted by the limiters (set together with the limiter).
     sead::OffsetList<SoundSource>* mActiveSoundLimitList;
     sead::OffsetList<SoundSource>* mRequestSoundLimitList;
-    /// The lists of the nearest ancestor that has a limiter.
+    /// The lists of the nearest ancestor that has a limiter (the request interval limiter that is used is the one of
+    /// the OUTERMOST group that has one).
     sead::OffsetList<SoundSource>* mUpperActiveSoundLimitList;
     sead::OffsetList<SoundSource>* mUpperRequestSoundLimitList;
     RequestIntervalLimiter* mRequestIntervalLimiterForLimit;

@@ -58,14 +58,12 @@ void GroupLimiter::updateUpperRequestSoundLimitList() {
     }
 }
 
-// 0x7100b80314
+// 0x7100b80314: the outermost group with a limiter wins
 void GroupLimiter::updateUsingRequestIntervalLimiter() {
     mRequestIntervalLimiterForLimit = nullptr;
     for (Group* group = mGroup; group; group = group->getParent()) {
-        if (auto* limiter = group->mLimiter->mRequestIntervalLimiter) {
+        if (auto* limiter = group->mLimiter->mRequestIntervalLimiter)
             mRequestIntervalLimiterForLimit = limiter;
-            break;
-        }
     }
 }
 
