@@ -55,6 +55,7 @@ target_sources(uking PRIVATE
   gameCarriedItemEntry.cpp
   gameSceneSubsys12.cpp
   gameSceneStatusMgr.cpp
+  gameScene320.cpp
   gameSceneMgr.cpp
   gameSceneSubsys13.cpp
   gameSceneSubsys7.cpp

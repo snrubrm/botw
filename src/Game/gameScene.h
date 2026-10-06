@@ -3,6 +3,7 @@
 #include <prim/seadRuntimeTypeInfo.h>
 #include <math/seadVector.h>
 #include <prim/seadSafeString.h>
+#include "Game/gameScene320.h"
 #include "KingSystem/Utils/Types.h"
 
 namespace uking {
@@ -101,7 +102,9 @@ private:
     u8 _279;
     u8 _27a[0x2a8 - 0x27a];
     StageBinder* _2a8;
-    u8 _2b0[0x93c - 0x2b0];
+    u8 _2b0[0x320 - 0x2b0];
+    /* 0x320 */ GameScene320 _320;
+    u8 _348[0x93c - 0x348];
     s32 _93c;
 };
 

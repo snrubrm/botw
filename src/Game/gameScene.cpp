@@ -113,10 +113,17 @@ void StateMachineWrapper::exec6(void* arg) {
 
 // 0x71025cb530 (not written by any decompiled function yet; hidden visibility keeps the load from being folded and
 // from going through the GOT, as the original addresses it directly)
-KSYS_VISIBILITY_HIDDEN bool sIsFirstLaunch;
+struct SceneStatics {
+    bool isFirstLaunch;
+    u8 _1[0x2b];
+    s32 newSaveState_2c;
+    u8 _30[0x2c];
+    s32 newSaveState_5c;
+};
+KSYS_VISIBILITY_HIDDEN SceneStatics sSceneStatics;
 
 bool GameScene::getIsFirstLaunch() {
-    return sIsFirstLaunch;
+    return sSceneStatics.isFirstLaunch;
 }
 
 bool GameScene::m0(const sead::SafeString& name) {
@@ -264,6 +271,12 @@ void GameScene::StageTransitionLeave() {}
 
 bool GameScene::StageTransitionReenter() {
     return false;
+}
+
+void GameScene::NewSaveLeave() {
+    sSceneStatics.newSaveState_2c = 0;
+    sSceneStatics.newSaveState_5c = 0;
+    _320.reset();
 }
 
 bool GameScene::NewSaveReenter() {
