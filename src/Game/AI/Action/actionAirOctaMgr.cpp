@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionAirOctaMgr.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
 
 namespace uking::action {
 
@@ -32,3 +34,21 @@ void AirOctaMgr::calc_() {
 }
 
 }  // namespace uking::action
+
+bool uking::action::Unk_7102362ea8::m2(ksys::act::Unk_71024dc978* entry) {
+    auto* target = sead::DynamicCast<ksys::act::Unk_71024dc858>(entry);
+    if (!target)
+        return false;
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(&target->mLink, &accessor);
+    return accessor.isPlayerProfile();
+}
+
+bool uking::action::Unk_7102362ed0::m2(ksys::act::Unk_71024dc978* entry) {
+    auto* target = sead::DynamicCast<ksys::act::Unk_71024dc858>(entry);
+    if (!target)
+        return false;
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(&target->mLink, &accessor);
+    return accessor.isFlyingBalloon();
+}

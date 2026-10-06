@@ -1,5 +1,9 @@
 #include "Game/AI/Action/actionBoomerangMove.h"
 
+// 0x71000cb200 (placeholder name): an empty variadic function (a stripped debug-print; BoomerangMove::calc_ calls it
+// with ("", &vector, "%f", double)). Byte-identical to xlink2::UserInstance::printLogFadeOrKill.
+void sub_71000CB200(const char*, const sead::Vector3f*, const char*, ...) {}
+
 namespace uking::action {
 
 BoomerangMove::BoomerangMove(const InitArg& arg) : ksys::act::ai::Action(arg) {}

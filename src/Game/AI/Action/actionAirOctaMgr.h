@@ -2,7 +2,23 @@
 
 #include "KingSystem/ActorSystem/actAiAction.h"
 
+#include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
+
 namespace uking::action {
+
+// Awareness filters (like uking::ai::Unk_7102401238, which accepts flying balloons: _7102362ea8 accepts player
+// actors, _7102362ed0 flying balloons); each has its own vtable
+// (0x7102362ea8 / 0x7102362ed0), `m2` and D0 at 0x7100087f54 / 0x7100087f30 and 0x7100088038 / 0x7100088014.
+// Placeholder names.
+class Unk_7102362ea8 : public ksys::act::Unk_71024dccf8 {
+public:
+    bool m2(ksys::act::Unk_71024dc978* entry) override;
+};
+
+class Unk_7102362ed0 : public ksys::act::Unk_71024dccf8 {
+public:
+    bool m2(ksys::act::Unk_71024dc978* entry) override;
+};
 
 class AirOctaMgr : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(AirOctaMgr, ksys::act::ai::Action)
