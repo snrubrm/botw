@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Game/AI/Action/actionOnetimeStopASPlay.h"
+#include "Game/AI/aiUnk_7102357d20.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -21,6 +22,7 @@ protected:
 
     // static_param at offset 0x48
     sead::SafeString mPartsKey_s{};
+    Unk_710235abc8 _58{mActor, 0x8000006};
 };
 
 }  // namespace uking::action
