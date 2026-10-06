@@ -141,6 +141,9 @@ public:
     virtual bool m205() { return false; }
     virtual void m206(bool play_sound) {}
     virtual void m207();
+    // 0x7100ef4388 (lane4 s48: was Weapon::hasCanPullGiantObjectTag; the address is in the WeaponBase code, so Weapon::getMaxHp
+    // calls it out of line).
+    bool hasCanPullGiantObjectTag();
     virtual void m208();
     virtual void m209() {}
     virtual bool m210() { return false; }

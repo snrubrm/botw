@@ -483,11 +483,6 @@ bool Weapon::sub_71002E9A7C() {
     return !(chemical->_be & 4);
 }
 
-bool Weapon::hasCanPullGiantObjectTag() {
-    return getParam()->getRes().mActorLink->hasTag(0x2b533845);
-}
-
-// NON_MATCHING: the owned tag-query body is naturally inlined here.
 s32 Weapon::getMaxHp() {
     const bool can_pull = hasCanPullGiantObjectTag();
     const s32 life = ksys::act::Actor::getMaxLife();

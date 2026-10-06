@@ -272,7 +272,6 @@ public:
     f32 sub_71002ED9B0();
     // 0x71002ed8dc: WeaponThrow's ThrowDist, scaled by the AddThrow modifier.
     f32 sub_71002ED8DC();
-    bool hasCanPullGiantObjectTag();
     s32 getMaxHp();
     s32* getLife() override;
     ksys::act::Unk_71025ae640* getAtk() override;
