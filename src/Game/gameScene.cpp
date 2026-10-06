@@ -111,6 +111,49 @@ void StateMachineWrapper::exec6(void* arg) {
         mMachine.mCurrent->exec6(arg);
 }
 
+// 0x71025cb530 (not written by any decompiled function yet; hidden visibility keeps the load from being folded and
+// from going through the GOT, as the original addresses it directly)
+KSYS_VISIBILITY_HIDDEN bool sIsFirstLaunch;
+
+bool GameScene::getIsFirstLaunch() {
+    return sIsFirstLaunch;
+}
+
+bool GameScene::m0(const sead::SafeString& name) {
+    return m1(name, false);
+}
+
+bool GameScene::m1(const sead::SafeString& name, bool flag) {
+    if (name.isEmpty()) {
+        sub_71007B7D78();
+    } else {
+        _8.copy(name);
+        _120 = flag;
+        _121 = false;
+    }
+    return true;
+}
+
+bool GameScene::m2(const sead::SafeString& name, const sead::Vector3f& pos) {
+    _8.copy(name);
+    _120 = false;
+    _121 = true;
+    _124 = pos;
+    _130.clear();
+    return true;
+}
+
+bool GameScene::m3(const sead::SafeString& name, const sead::SafeString& name2) {
+    _8.copy(name);
+    _121 = true;
+    _120 = false;
+    _124.set(0, 0, 0);
+    _130.copy(name2);
+    if (_130.isEmpty())
+        _121 = false;
+    return true;
+}
+
 bool GameScene::getIsInitialisingStage() {
     return sIsInitialisingStage;
 }

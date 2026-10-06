@@ -5,6 +5,11 @@
 
 namespace uking {
 
+// (defined in a different file than GameScene::m1: its caller does not inline it in the original)
+void GameScene::sub_71007B7D78() {
+    sInstance2->sub_71007B4B50();
+}
+
 // 0x71025cc6a8 (.bss; the type is unknown: a string object that TitleStageArg::m8 hands out; its initialiser is
 // not decompiled).
 static sead::SafeString sUnk_71025cc6a8;

@@ -222,4 +222,57 @@ void ASList::Unk2::sub_7101161CF8(bool a1, f32 value) {
     }
 }
 
+bool ASList::Unk2::sub_7101162254(bool a1) {
+    if (!_18)
+        return false;
+    if (a1)
+        sub_7101161EE0(-1.0f, _18, true);
+    _10 = 1.0f;
+    mFlags = 1;
+    _48 = nullptr;
+    _44[0] = 1;
+    mBoneWeightRanges[0].params = nullptr;
+    mBoneWeightRanges[1].params = nullptr;
+    mBoneWeightRanges[2].params = nullptr;
+    _18 = nullptr;
+    _20 = nullptr;
+    _28 = nullptr;
+    if (_0->_d8) {
+        _0->_d8 = nullptr;
+        _0->sub_7101258C1C();
+    }
+    _0->mNumEvents2 = 0;
+    _0->sub_710125923C();
+    mFlags |= 8;
+    _0->_e0 = 1.0f;
+    sub_7101161FDC();
+    return true;
+}
+
+// NON_MATCHING: the scheduling of the argument moves before the tail call to m17 (the original sets w2 / w3 after the
+// ldp of the callee-saved registers)
+void ASList::Unk2::sub_71011633C0(Unk2* other) {
+    Element* element = _18;
+    if (!element)
+        return;
+    Element* other_element = other->_18;
+    if (!other_element)
+        return;
+    Context* other_context = other->_0;
+    const res::ASResource* other_resource = other_context->sub_7101258CC0();
+    if (const ElementParams* params = other_element->m25(other_context, other_resource)) {
+        const f32 duration = params->sub_710130296C(false);
+        Context* context = _0;
+        if (duration <= 0.0f) {
+            const res::ASResource* resource = context->sub_7101258CC0();
+            element->m17(context, 0, 0, resource, 0.0f, 0.0f);
+        } else {
+            const f32 start = (params->_4 - params->_10) / duration;
+            const f32 end = (params->_8 - params->_10) / duration;
+            const res::ASResource* resource = context->sub_7101258CC0();
+            element->m17(context, 0, 0, resource, start, end);
+        }
+    }
+}
+
 }  // namespace ksys::as
