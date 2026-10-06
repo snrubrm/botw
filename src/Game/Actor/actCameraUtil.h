@@ -202,6 +202,15 @@ void sub_7100926A50(ksys::act::ActorConstDataAccess* accessor);
 // 0x7100926a74 / 0x7100926a9c: acquires the player's horse (PlayerInfo's horse link).
 bool sub_7100926A74(ksys::act::ActorConstDataAccess* accessor);
 bool sub_7100926A9C(ksys::act::ActorConstDataAccess* accessor);
+// 0x7100926df0 / 0x7100926e7c: sub_7100E6ECC4 (the horse's mount state) == 6 / == 8; 0x7100926e0c: the player's horse is
+// in state 8 (false without a horse); 0x710092634c / 0x7100926398 / 0x71009263e4: `out` = the previous position / the
+// field-458 vector / the velocity unless it is NaN or infinite (lane1 s43).
+bool sub_7100926DF0(const ksys::act::ActorConstDataAccess& accessor);
+bool sub_7100926E0C();
+bool sub_7100926E7C(const ksys::act::ActorConstDataAccess& accessor);
+bool sub_710092634C(const ksys::act::ActorConstDataAccess& accessor, sead::Vector3f* out);
+bool sub_7100926398(const ksys::act::ActorConstDataAccess& accessor, sead::Vector3f* out);
+bool sub_71009263E4(const ksys::act::ActorConstDataAccess& accessor, sead::Vector3f* out);
 // 0x7100926cb0: acc::PlayerBase m190 || m191.
 bool sub_7100926CB0();
 // 0x7100926d24: acc::PlayerBase isRidingHorse || x_15 || x_17 || (x_16 && !x_17 && !x_18).

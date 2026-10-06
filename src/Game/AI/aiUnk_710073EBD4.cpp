@@ -6,6 +6,12 @@
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actAiActionBase.h"
 
+ksys::act::BaseProcLink& sub_710073E9A8(ksys::act::Actor* actor, const sead::SafeString& name) {
+    if (sead::IsDerivedFrom<uking::act::Enemy>(actor))
+        return static_cast<uking::act::Enemy*>(actor)->_1128.getActorPartsActor(name);
+    return ksys::act::getDummyBaseProcLink();
+}
+
 Unk_710073ebd4::Unk_710073ebd4(ksys::act::Actor* actor)
     : mActor(sead::DynamicCast<uking::act::Enemy>(actor)) {}
 

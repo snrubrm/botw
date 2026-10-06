@@ -5,6 +5,8 @@
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "Game/Damage/dmgDamageManager.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "KingSystem/ActorSystem/actActorAtk.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectEnemyShown.h"
 
 // Accessor-based wrappers in the TU 0x71006de3d8-0x71006df0f8 (lane4 s44; placeholder names, the CSV has none): they cast
@@ -79,6 +81,38 @@ bool sub_71006DF068(const ksys::act::ActorConstDataAccess& accessor) {
 bool sub_71006DF0F8(const ksys::act::ActorConstDataAccess& accessor) {
     auto* actor = getDynamicActor(accessor);
     return actor ? (actor->_a68 >> 3 & 1) : false;
+}
+
+// 0x71006de938 / 0x71006dea40: bit 0 / 1 of ActorAtk::_78.
+bool sub_71006DE938(const ksys::act::ActorConstDataAccess& accessor) {
+    auto* actor = getActorOfAccessor(accessor);
+    if (!actor)
+        return false;
+    auto* atk = sead::DynamicCast<ksys::act::ActorAtk>(actor->getAtk());
+    return atk ? (atk->_78 & 1) : false;
+}
+
+bool sub_71006DEA40(const ksys::act::ActorConstDataAccess& accessor) {
+    auto* actor = getActorOfAccessor(accessor);
+    if (!actor)
+        return false;
+    auto* atk = sead::DynamicCast<ksys::act::ActorAtk>(actor->getAtk());
+    return atk ? (atk->_78 >> 1 & 1) : false;
+}
+
+// 0x71006ded9c: sub_71005DC604 on the accessor's actor.
+void sub_71006DED9C(const ksys::act::ActorConstDataAccess& accessor, ksys::act::BaseProc* proc) {
+    if (auto* actor = getActorOfAccessor(accessor))
+        sub_71005DC604(actor, proc);
+}
+
+// 0x71006def64: DamageManager::_68 of the accessor's actor.
+s32 sub_71006DEF64(const ksys::act::ActorConstDataAccess* accessor) {
+    auto* actor = getActorOfAccessor(*accessor);
+    if (!actor)
+        return 0;
+    auto* manager = sead::DynamicCast<uking::dmg::DamageManager>(actor->getDamageMgr());
+    return manager ? manager->_68 : 0;
 }
 
 bool sub_71006D28AC(ksys::act::Actor* actor) {

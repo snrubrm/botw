@@ -1,6 +1,11 @@
 #include "Game/Actor/actCameraUtil.h"
 #include <cmath>
 #include <math/seadMathCalcCommon.h>
+#include "Game/Actor/actHorseBase.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "KingSystem/Utils/MathUtil.h"
 
 // Camera parameter globals (in .data / .bss). Nothing in the binary writes them or takes their
 // address, yet the loads are not folded and do not go through the GOT: hidden visibility (as for
@@ -564,3 +569,60 @@ void Unk_71024741b8::set(f32 p0, f32 p1, f32 p2, f32 p3, f32 w1, f32 w2) {
 }
 
 }  // namespace uking::act
+
+bool sub_7100926210(const ksys::act::ActorConstDataAccess& accessor, sead::Vector3f* out) {
+    const sead::Vector3f* pos;
+    if (accessor.isPlayerProfile()) {
+        ksys::act::acc::PlayerBase player;
+        player.acquireActor(accessor);
+        pos = &player.getLookAtPosForCamera();
+    } else {
+        pos = &accessor.getPreviousPos2();
+    }
+    const bool invalid = ksys::util::sub_71011F1040(*pos);
+    if (!invalid)
+        *out = *pos;
+    return !invalid;
+}
+
+bool sub_7100926DF0(const ksys::act::ActorConstDataAccess& accessor) {
+    return uking::act::sub_7100E6ECC4(accessor) == 6;
+}
+
+bool sub_7100926E0C() {
+    ksys::act::ActorConstDataAccess accessor;
+    bool result = false;
+    if (auto* info = ksys::act::PlayerInfo::instance()) {
+        if (ksys::act::acquireActor(&info->getHorseLink(), &accessor))
+            result = uking::act::sub_7100E6ECC4(accessor) == 8;
+    }
+    return result;
+}
+
+bool sub_7100926E7C(const ksys::act::ActorConstDataAccess& accessor) {
+    return uking::act::sub_7100E6ECC4(accessor) == 8;
+}
+
+bool sub_710092634C(const ksys::act::ActorConstDataAccess& accessor, sead::Vector3f* out) {
+    const sead::Vector3f& pos = accessor.getPreviousPos2();
+    const bool valid = !ksys::util::sub_71011F1040(pos);
+    if (valid)
+        *out = pos;
+    return valid;
+}
+
+bool sub_7100926398(const ksys::act::ActorConstDataAccess& accessor, sead::Vector3f* out) {
+    const sead::Vector3f& pos = accessor.getField458_Vec3();
+    const bool valid = !ksys::util::sub_71011F1040(pos);
+    if (valid)
+        *out = pos;
+    return valid;
+}
+
+bool sub_71009263E4(const ksys::act::ActorConstDataAccess& accessor, sead::Vector3f* out) {
+    const sead::Vector3f& pos = accessor.getVelocity();
+    const bool valid = !ksys::util::sub_71011F1040(pos);
+    if (valid)
+        *out = pos;
+    return valid;
+}
