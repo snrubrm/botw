@@ -203,6 +203,10 @@ public:
     SkyMgr* getSkyMgr() const { return static_cast<SkyMgr*>(mMgrs[1]); }
     ShootingStarMgr* getShootingStarMgr() const { return static_cast<ShootingStarMgr*>(mMgrs[2]); }
     WeatherMgr* getWeatherMgr() const { return static_cast<WeatherMgr*>(mMgrs[3]); }
+    // Inline-only in the original; name is a guess. Evidence: Puddle::enter_ / calc_ and
+    // WarpPlayerToAnchorGimmickReset::calc_ read `mMgrs[3]` (+0x5c8 -> +0x18) without the bounds check that
+    // getWeatherMgr() / getShootingStarMgr() have.
+    WeatherMgr* getWeatherMgrUnchecked() const { return static_cast<WeatherMgr*>(mMgrs.unsafeAt(3)); }
     TempMgr* getTempMgr() const { return static_cast<TempMgr*>(mMgrs[4]); }
     WindMgr* getWindMgr() const { return static_cast<WindMgr*>(mMgrs[5]); }
     EnvMgr* getEnvMgr() const { return static_cast<EnvMgr*>(mMgrs[6]); }

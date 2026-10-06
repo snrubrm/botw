@@ -67,7 +67,10 @@ public:
     u8 _193;
     ClimateWeathers mClimateWeathers[NumClimates];  // 0x194
     sead::SafeArray<u8, 6> _284;
-    u8 _28a[0x2dc - 0x28a];
+    u8 _28a[0x2d0 - 0x28a];
+    float _2d0;  // Puddle::enter_: 1 - _2d0 is subtracted from the home matrix height
+    u8 _2d4[0x2d8 - 0x2d4];
+    float _2d8;  // Puddle::calc_
     float _2dc;
     u8 _2e0[0x314 - 0x2e0];
     int _314;

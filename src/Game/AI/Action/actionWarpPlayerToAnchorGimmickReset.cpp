@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionWarpPlayerToAnchorGimmickReset.h"
+#include "Game/gameResetter.h"
+#include "KingSystem/World/worldManager.h"
+#include "KingSystem/World/worldWeatherMgr.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 
 namespace uking::action {
@@ -35,7 +38,28 @@ void WarpPlayerToAnchorGimmickReset::loadParams_() {
 }
 
 void WarpPlayerToAnchorGimmickReset::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (isFinished() || isFailed())
+        return;
+    const f32 time = _58;
+    if (time > 0) {
+        f32 current = time;
+        if (time > *mWaitFrameAfterReset_s) {
+            setFinished();
+            current = _58;
+        }
+        _58 = current + 1.0f;
+    } else if (_54) {
+        if (ksys::world::Manager::instance()->getWeatherMgrUnchecked()->_24 >= 1.0f)
+            _58 = time + 1.0f;
+    } else {
+        auto* resetter = Resetter::instance();
+        if (!resetter) {
+            setFailed();
+            return;
+        }
+        if (resetter->finishedReset())
+            _54 = true;
+    }
 }
 
 }  // namespace uking::action
