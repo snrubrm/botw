@@ -29,7 +29,7 @@ public:
     static ksys::act::BaseProc* construct(const CreateArg& arg, sead::Heap* heap);
 
     // 0x7100ef1adc (CSV OptionalWeaponMaybe::x; called when a WeaponBase drops its optional weapon).
-    void sub_7100EF1ADC();
+    bool sub_7100EF1ADC();
     // Declaration only.
     bool sub_7100EF1B90();
     bool sub_7100EF1B70();

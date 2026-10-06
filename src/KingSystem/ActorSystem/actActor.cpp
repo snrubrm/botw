@@ -1,4 +1,5 @@
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Mii/miiHylianInfo.h"
 #include "Game/gameEventMgr1.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/System/VFR.h"
@@ -407,6 +408,10 @@ void Actor::sub_71011DA824(ActorBind* info) {
 void Actor::sub_71011DA834(ActorBind* info) {
     if (!mActorFlags.isOnBit(ActorFlag::_5))
         mModelBindInfo = nullptr;
+}
+
+s32 Actor::sub_71011CA00C() const {
+    return mUMiiHylianInfo ? mUMiiHylianInfo->_18 : -1;
 }
 
 Unk_7100d8557c* Actor::sub_71011D89F8() {
