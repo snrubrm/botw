@@ -76,4 +76,15 @@ void SiteBossSpearAttackRoot::sub_710058C00C(const sead::Vector3f& pos) {
     changeChild("氷弾攻撃", &pack);
 }
 
+// 0x710058aa48
+void SiteBossSpearAttackRoot::sub_710058AA48(const sead::Vector3f& pos) {
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(pos, "TargetPos", -1);
+    auto* boss = sead::DynamicCast<act::SiteBoss>(mActor);
+    if (boss && boss->_1558.isOn(0x2000))
+        changeChild("槍壊れ待機", &pack);
+    else
+        changeChild("待機", &pack);
+}
+
 }  // namespace uking::ai

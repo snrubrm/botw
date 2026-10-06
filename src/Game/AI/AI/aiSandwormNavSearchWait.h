@@ -16,6 +16,8 @@ public:
     void loadParams_() override;
 
 protected:
+    // 0x710055b34c: changes to the "移動" child, aiming at the sandworm anchor position when this actor is above it and more than 1 away (XZ)
+    void sub_710055B34C();
     // dynamic_param at offset 0x38
     sead::Vector3f* mTargetPos_d{};
 };

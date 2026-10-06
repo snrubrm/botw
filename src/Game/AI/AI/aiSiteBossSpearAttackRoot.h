@@ -20,6 +20,8 @@ public:
     virtual void m34(sead::Vector3f* pos);
 
 protected:
+    // 0x710058aa48: "槍壊れ待機" when the boss has _1558 bit 0x2000, else "待機"
+    void sub_710058AA48(const sead::Vector3f& pos);
     // 0x710058c00c: clears _e0, then changes to the "氷弾攻撃" child
     void sub_710058C00C(const sead::Vector3f& pos);
     // static_param at offset 0x38

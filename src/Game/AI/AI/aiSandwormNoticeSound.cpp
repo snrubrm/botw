@@ -57,7 +57,7 @@ void SandwormNoticeSound::sub_710055C714() {
     changeChild("見失い", &pack);
 }
 
-// NON_MATCHING: operand load order of the XZ distance test (target first) and the Vector3 copy stays component-wise in the target
+// NON_MATCHING: operand load order of the XZ distance test (the original loads both target components first)
 // 0x710055c800
 void SandwormNoticeSound::sub_710055C800() {
     if (!isCurrentChild("移動") || _6d)
@@ -71,7 +71,7 @@ void SandwormNoticeSound::sub_710055C800() {
     _60 = ksys::Timer(15.0f, 15.0f);
     _6c = false;
     _6d = true;
-    _7c.set(mTargetPos_d->x, mTargetPos_d->y, mTargetPos_d->z);
+    _7c = *mTargetPos_d;
     _98 = *mTargetActor_d;
 }
 
