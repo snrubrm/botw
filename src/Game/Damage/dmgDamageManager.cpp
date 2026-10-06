@@ -150,6 +150,18 @@ ksys::act::BaseProcLink* DamageManager::m37() {
     }
 }
 
+// NON_MATCHING: the original duplicates the `info ? &info->_20 : nullptr` tail in both arms of the damage kind switch
+ksys::phys::MaterialMask* DamageManager::m33() {
+    auto* info = getAttackInfo_();
+    return info ? &info->_20 : nullptr;
+}
+
+// NON_MATCHING: same tail duplication as m33
+ksys::phys::MaterialMask* DamageManager::tgSensorMaterialOnHitMaybe() {
+    auto* info = getAttackInfo_();
+    return info ? &info->_38 : nullptr;
+}
+
 bool DamageManager::m41() {
     if (auto* info = getAttackInfo_())
         return info->_fc & 1;

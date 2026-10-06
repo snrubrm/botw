@@ -49,6 +49,9 @@ public:
     bool isSlowTime() override;
     bool m40(s32* out) override;
     bool m41() override;
+    // Slots 33 / 34 (CSV DamageMgr::m33 / m34): the material masks of the attack info (`_20` / `_38`) or null.
+    ksys::phys::MaterialMask* m33() override;
+    ksys::phys::MaterialMask* tgSensorMaterialOnHitMaybe() override;
     // Slots 36 / 37 (CSV DamageMgr::m36 / m37): the attacker links of the attack info the damage kind refers to
     // (`_d8` / `_e8`; kind 3: the first attack info's `_50`; kind 4 / 11: the actor's impulse link) or the dummy link.
     ksys::act::BaseProcLink* getAttacker() override;

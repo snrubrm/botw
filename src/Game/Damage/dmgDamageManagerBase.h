@@ -16,6 +16,7 @@ class DamageParam;
 }  // namespace ksys::res
 
 namespace ksys::phys {
+class MaterialMask;
 class RigidBody;
 }  // namespace ksys::phys
 
@@ -109,8 +110,8 @@ public:
     virtual s32 m31() { return 0; }
     // Signature from IceSplinterRoot::m43 (lane2): takes an out vector (a direction), result is tested.
     virtual bool m32(sead::Vector3f* out) { return false; }
-    virtual s64 m33() { return 0; }
-    virtual s64 tgSensorMaterialOnHitMaybe() { return 0; }
+    virtual ksys::phys::MaterialMask* m33() { return nullptr; }
+    virtual ksys::phys::MaterialMask* tgSensorMaterialOnHitMaybe() { return nullptr; }
     // Slot 35: overrides write a matrix (DamageMgr::m35: the attacker's actor matrix).
     virtual bool m35(sead::Matrix34f* out) { return false; }
 
