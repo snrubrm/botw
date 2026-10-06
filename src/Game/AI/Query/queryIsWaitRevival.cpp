@@ -1,5 +1,6 @@
 #include "Game/AI/Query/queryIsWaitRevival.h"
 #include <evfl/Query.h>
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::query {
 
@@ -7,9 +8,8 @@ IsWaitRevival::IsWaitRevival(const InitArg& arg) : ksys::act::ai::Query(arg) {}
 
 IsWaitRevival::~IsWaitRevival() = default;
 
-// FIXME: implement
 int IsWaitRevival::doQuery() {
-    return -1;
+    return mActor->isWaitRevivalForUsed();
 }
 
 void IsWaitRevival::loadParams(const evfl::QueryArg& arg) {}

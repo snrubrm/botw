@@ -1,5 +1,6 @@
 #include "Game/AI/Query/queryIsEquippedEnableDye.h"
 #include <evfl/Query.h>
+#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 
 namespace uking::query {
 
@@ -7,9 +8,16 @@ IsEquippedEnableDye::IsEquippedEnableDye(const InitArg& arg) : ksys::act::ai::Qu
 
 IsEquippedEnableDye::~IsEquippedEnableDye() = default;
 
-// FIXME: implement
 int IsEquippedEnableDye::doQuery() {
-    return -1;
+    s32 dye;
+    {
+        ksys::act::acc::PlayerBase accessor;
+        accessor.getPlayerFromPlayerInfo();
+        dye = accessor.getArmorDyeStuff();
+    }
+    if (dye != 0)
+        return dye != 3;
+    return 2;
 }
 
 void IsEquippedEnableDye::loadParams(const evfl::QueryArg& arg) {}

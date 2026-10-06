@@ -1,5 +1,6 @@
 #include "Game/AI/Query/queryIsNoEquipArmorAnyTarget.h"
 #include <evfl/Query.h>
+#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 
 namespace uking::query {
 
@@ -7,9 +8,14 @@ IsNoEquipArmorAnyTarget::IsNoEquipArmorAnyTarget(const InitArg& arg) : ksys::act
 
 IsNoEquipArmorAnyTarget::~IsNoEquipArmorAnyTarget() = default;
 
-// FIXME: implement
 int IsNoEquipArmorAnyTarget::doQuery() {
-    return -1;
+    bool result;
+    {
+        ksys::act::acc::PlayerBase accessor;
+        accessor.getPlayerFromPlayerInfo();
+        result = accessor.m280();
+    }
+    return result;
 }
 
 void IsNoEquipArmorAnyTarget::loadParams(const evfl::QueryArg& arg) {}

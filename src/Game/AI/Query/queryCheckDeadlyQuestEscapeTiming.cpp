@@ -1,5 +1,6 @@
 #include "Game/AI/Query/queryCheckDeadlyQuestEscapeTiming.h"
 #include <evfl/Query.h>
+#include "Game/AI/aiUnk_7100736460.h"
 
 namespace uking::query {
 
@@ -8,9 +9,8 @@ CheckDeadlyQuestEscapeTiming::CheckDeadlyQuestEscapeTiming(const InitArg& arg)
 
 CheckDeadlyQuestEscapeTiming::~CheckDeadlyQuestEscapeTiming() = default;
 
-// FIXME: implement
 int CheckDeadlyQuestEscapeTiming::doQuery() {
-    return -1;
+    return dlc::hasEscapedOneHitObliteratorQuest(true);
 }
 
 void CheckDeadlyQuestEscapeTiming::loadParams(const evfl::QueryArg& arg) {}
