@@ -235,4 +235,107 @@ void ScreenHomeMenuCapture::m94() {
     }
 }
 
+// 0x7100a4de00
+void ScreenShopBtnList5::m94() {
+    x_2();
+}
+
+// 0x7100a4ca64
+void ScreenShopBtnList20::m102(eui::AnimButton*) {
+    _3868 = 0;
+}
+
+// 0x7100a502e4
+void ScreenShopHorse::m99() {
+    _36bc = 0;
+}
+
+// 0x7100a2c28c
+void ScreenPauseMenuEiketsu::m101() {
+    _292 |= 0x20;
+}
+
+// 0x71009fc9e0
+void ScreenAppSystemWindow::m101() {
+    _3610 = 10;
+}
+
+// 0x7100a2807c
+void ScreenMiniGame::m100() {
+    _3650 = 0;
+}
+
+// 0x71009fc9ec
+void ScreenAppSystemWindow::m106(eui::AnimButton* button) {
+    if (!button->IsPlayDisableAnim())
+        mButtonGroup->_38 &= ~2;
+}
+
+// 0x7100a060ac
+void ScreenDLCWindow::m106(eui::AnimButton* button) {
+    mButtonGroup->_38 &= ~2;
+    if (button->mTag == 89)
+        invokeSoundLink2Event_("mc_WindowClose");
+}
+
+// 0x7100a205fc
+void ScreenMainShortCut::m99() {
+    if (sub_7100AA948C())
+        mStateMachine.changeState(&sUnk_71025ef170);
+    else
+        mStateMachine.changeState(&sUnk_71025ef290);
+}
+
+// 0x7100a0e054
+void ScreenHomeMenuCapture::m98() {
+    x_2();
+    _3618 = 0;
+    if (_3610)
+        _3610->startAnimCloseImpl_(false, true);
+}
+
+// 0x7100a60678
+void ScreenSystemWindowNoBtn::m93(sead::Heap*) {
+    _3610 = mLayout->createAnimatorAuto("FadeOut", false);
+    _3618 = mLayout->createAnimatorAuto("Type", false);
+}
+
+// 0x7100a286bc
+void ScreenOPtext::m93(sead::Heap*) {
+    _3610 = mLayout->createAnimatorAuto("Type", true);
+    if (_3610)
+        _3610->Stop(_3618);
+}
+
+// 0x7100a4a9c4
+void ScreenSeekPadMenuBG::m93(sead::Heap*) {
+    mLayout->startAnimCloseImpl_(false, true);
+    _3610 = mLayout->tryCreateAnimatorAuto("Type", false);
+    if (_3610)
+        _3610->StopAtMax();
+}
+
+// 0x7100a4dd8c
+void ScreenShopBtnList5::m93(sead::Heap*) {
+    _3618 = mLayout->createAnimatorAuto("Type", true);
+    if (_3618)
+        _3618->StopAtMin();
+    _3620 = mLayout->createAnimatorAuto("HaveNumOff", true);
+    if (_3620)
+        _3620->StopAtMin();
+}
+
+// 0x7100a00948
+void ScreenChallengeWin::m93(sead::Heap*) {
+    _3610 = sub_7100BEAFB0("Pa_ChallengeWin_00");
+    if (!_3610)
+        return;
+    _3868 = _3610->tryCreateAnimatorAuto("Check", false);
+    if (_3868)
+        _3868->StopAtMin();
+    _3870 = _3610->createAnimatorAuto("GuideOff", false);
+    if (_3870)
+        _3870->StopAtMin();
+}
+
 }  // namespace uking::ui

@@ -1168,6 +1168,9 @@ public:
     bool isEnableControl() const override;
     ~ScreenShopHorse() override;
     SEAD_RTTI_OVERRIDE(ScreenShopHorse, ScreenEx)
+    void m99() override;
+    u8 _pad_3610[0x36bc - 0x3610];
+    s32 _36bc;
 
     void sub_7100A4EBA0(s32);
 };
@@ -1180,6 +1183,7 @@ extern const ksys::StateBase sUnk_71025ec670;
 class ScreenMainShortCut : public ScreenEx {
 public:
     void m96() override;
+    void m99() override;
     bool isEnableControl() const override;
     ~ScreenMainShortCut() override;
     SEAD_RTTI_OVERRIDE(ScreenMainShortCut, ScreenEx)
@@ -1228,6 +1232,7 @@ class ScreenMiniGame : public ScreenEx {
 public:
     ~ScreenMiniGame() override;
     SEAD_RTTI_OVERRIDE(ScreenMiniGame, ScreenEx)
+    void m100() override;
 
     /* 0x3610 */ eui::LayoutEx* _3610[7];
     /* 0x3648 */ eui::Animator* _3648;
@@ -1736,10 +1741,12 @@ public:
     ScreenShopBtnList5();
     ~ScreenShopBtnList5() override;
     /* 0x3610 */ void* _3610{};
-    /* 0x3618 */ void* _3618{};
-    /* 0x3620 */ void* _3620{};
+    void m93(sead::Heap* heap) override;
+    /* 0x3618 */ eui::Animator* _3618{};
+    /* 0x3620 */ eui::Animator* _3620{};
     /* 0x3628 */ u8 _3628{};
     SEAD_RTTI_OVERRIDE(ScreenShopBtnList5, ScreenEx)
+    void m94() override;
 };
 
 class ScreenPauseMenuBG : public ScreenEx {
@@ -1762,7 +1769,8 @@ public:
     const char* getLayoutName_() const override;
     ScreenSeekPadMenuBG();
     ~ScreenSeekPadMenuBG() override;
-    /* 0x3610 */ void* _3610{};
+    void m93(sead::Heap* heap) override;
+    /* 0x3610 */ eui::Animator* _3610{};
     /* 0x3618 */ u8 _3618{};
     SEAD_RTTI_OVERRIDE(ScreenSeekPadMenuBG, ScreenEx)
 };
@@ -1847,8 +1855,9 @@ public:
     const char* getLayoutName_() const override;
     ScreenSystemWindowNoBtn();
     ~ScreenSystemWindowNoBtn() override;
-    /* 0x3610 */ void* _3610{};
-    /* 0x3618 */ void* _3618{};
+    void m93(sead::Heap* heap) override;
+    /* 0x3610 */ eui::Animator* _3610{};
+    /* 0x3618 */ eui::Animator* _3618{};
     SEAD_RTTI_OVERRIDE(ScreenSystemWindowNoBtn, ScreenEx)
 };
 
@@ -1907,6 +1916,7 @@ public:
     ~ScreenPauseMenuEiketsu() override;
     SEAD_RTTI_OVERRIDE(ScreenPauseMenuEiketsu, ScreenEx)
     void m93(sead::Heap* heap) override;
+    void m101() override;
     void m99() override;
     void m106(eui::AnimButton* button) override;
 };
@@ -1923,6 +1933,8 @@ public:
     ~ScreenAppSystemWindow() override;
     SEAD_RTTI_OVERRIDE(ScreenAppSystemWindow, ScreenEx)
     void m99() override;
+    void m101() override;
+    void m106(eui::AnimButton* button) override;
 
     /* 0x3610 */ s32 _3610 = 10;
     s32 _3614;
@@ -1970,8 +1982,9 @@ public:
     virtual void m154();  // placeholder: one extra virtual slot (vtable offsets +8)
     ScreenOPtext();
     ~ScreenOPtext() override;
-    /* 0x3610 */ void* _3610{};
-    /* 0x3618 */ u32 _3618{};
+    void m93(sead::Heap* heap) override;
+    /* 0x3610 */ eui::Animator* _3610{};
+    /* 0x3618 */ f32 _3618{};
     SEAD_RTTI_OVERRIDE(ScreenOPtext, ScreenEx)
 };
 
@@ -2072,6 +2085,7 @@ public:
     ~ScreenHomeMenuCapture() override;
     void m93(sead::Heap* heap) override;
     void m94() override;
+    void m98() override;
     /* 0x3610 */ eui::LayoutEx* _3610{};
     /* 0x3618 */ u8 _3618{};
     SEAD_RTTI_OVERRIDE(ScreenHomeMenuCapture, ScreenEx)
@@ -2083,6 +2097,9 @@ public:
     bool isEnableControl() const override;
     ~ScreenShopBtnList20() override;
     SEAD_RTTI_OVERRIDE(ScreenShopBtnList20, ScreenEx)
+    void m102(eui::AnimButton*) override;
+    u8 _pad_3610[0x3868 - 0x3610];
+    u64 _3868;
 };
 
 class ScreenTime : public ScreenEx {
@@ -2102,7 +2119,8 @@ public:
     ~ScreenChallengeWin() override;
     SEAD_RTTI_OVERRIDE(ScreenChallengeWin, ScreenEx)
 
-    /* 0x3610 */ u64 _3610{};
+    void m93(sead::Heap* heap) override;
+    /* 0x3610 */ eui::LayoutEx* _3610{};
     /* 0x3618 */ sead::FixedSafeString<256> _3618;
     /* 0x3730 */ sead::FixedSafeString<256> _3730;
     /* 0x3848 */ u64 _3848{};
@@ -2112,8 +2130,8 @@ public:
     u8 _385d[3];
     u8 _3860{};
     u8 _3861[7];
-    u64 _3868{};
-    u64 _3870{};
+    eui::Animator* _3868{};
+    eui::Animator* _3870{};
 };
 
 class ScreenControllerWindow : public ScreenEx {
@@ -2135,6 +2153,7 @@ public:
     ~ScreenDLCWindow() override;
     virtual void m154();  // placeholder: one extra virtual slot (vtable offsets +8)
     SEAD_RTTI_OVERRIDE(ScreenDLCWindow, ScreenEx)
+    void m106(eui::AnimButton* button) override;
 };
 
 class ScreenTitle : public ScreenEx {
@@ -2637,5 +2656,8 @@ bool sub_7100AA8F70();
 s32 sub_7100AA92AC(s32 current, s32 target);
 // 0x7100aa930c: sets the digits of the number text pane `pane_name` of `layout` (the roll randomises the low digits)
 void sub_7100AA930C(eui::LayoutEx* layout, const sead::SafeString& pane_name, s32 value, s32 prev, s32 delta);
+
+// 0x7100aa948c (declared only)
+bool sub_7100AA948C();
 
 }  // namespace uking::ui
