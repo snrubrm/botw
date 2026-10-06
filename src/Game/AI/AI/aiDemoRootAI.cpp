@@ -2,12 +2,25 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
 #include "KingSystem/Resource/Actor/resResourceAIProgram.h"
 #include "KingSystem/Utils/Thread/Message.h"
 #include "KingSystem/Utils/Thread/MessageAck.h"
 
 namespace uking::ai {
+
+// NON_MATCHING: only the select polarity (`csel x21, x24, x8, eq` in the original, `csel x21, x8, x24, ne` here).
+bool DemoRootAI::sub_7100D62394(DemoAiRequest* request) {
+    const s32 idx = getChildIdx("Demo_Idling");
+    if (idx != 0xffff) {
+        ksys::act::ai::InlineParamPack local;
+        auto* pack = request ? &request->mParams : &local;
+        pack->addBool(false, "DisablePhysics", -1);
+        changeChild(idx, pack);
+    }
+    return true;
+}
 
 DemoRootAI::DemoRootAI(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
