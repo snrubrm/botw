@@ -54,7 +54,7 @@ void PlayingStateController::reset() {
     if (mSoundController)
         mSoundController->reset();
     mState = 0;
-    mVirtualizeMode = static_cast<VirtualizeMode>(1);
+    mVirtualizeMode = VirtualizeMode(1);
     mPaused = false;
     mReleaseTime = 0.0f;
     _20 = 0.0f;

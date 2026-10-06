@@ -4,6 +4,7 @@
 #include <prim/seadBitFlag.h>
 #include <prim/seadSafeString.h>
 #include "aal/aalFadeCurveType.h"
+#include "aal/aalVirtualizeMode.h"
 
 namespace aal {
 
@@ -12,7 +13,6 @@ class MarkerController;
 class SoundGroup;
 class SoundParam;
 class SoundSource;
-enum class VirtualizeMode;
 
 /// A reference to a playing sound: the sound source and the id the source had when the handle
 /// was set up (sound sources are reused; a handle whose id differs from the source's is stale).

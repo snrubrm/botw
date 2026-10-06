@@ -2,6 +2,13 @@
 
 namespace aal {
 
+// 0x7100b842fc
+Listener::Listener()
+    : _58(1.0f), _60(nullptr), mIs2D(false), _ec(1.0f), _f0(false), mPoser(nullptr), _1a8(true), _1ac(0) {
+    setObjName("Listener");
+    _5c = -1.0f;
+}
+
 // 0x7100b84474 (D1) / 0x7100b84494 (D0)
 Listener::~Listener() = default;
 

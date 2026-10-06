@@ -333,6 +333,24 @@ void SoundSource::stopForce() {
     finishNow_();
 }
 
+// 0x7100b77f24
+bool SoundSource::setVirtualizeMode(VirtualizeMode mode) {
+    if (mState <= 2) {
+        VirtualizeMode virtualize_mode = mode;
+        if (!(mPrepareFlags & 1)) {
+            if (static_cast<s32>(mode) == 1)
+                virtualize_mode = VirtualizeMode(1);
+            else if (static_cast<s32>(mode) == 0)
+                virtualize_mode = VirtualizeMode(0);
+            else
+                return false;
+        }
+        mPlayingStateController->setVirtualizeMode(virtualize_mode);
+        return true;
+    }
+    return false;
+}
+
 // 0x7100b78478
 void SoundSource::execOnFinalizeEmitter() {
     if (mPrepareFlags & 2) {

@@ -6,6 +6,7 @@
 #include "aal/aalAssetInfo.h"
 #include "aal/aalDeviceType.h"
 #include "aal/aalTimedFader.h"
+#include "aal/aalVirtualizeMode.h"
 
 namespace sead {
 class Heap;
@@ -39,7 +40,6 @@ public:
 
 namespace aal {
 
-enum class VirtualizeMode;
 
 /// Controls the nn::atk sound of a SoundSource. TODO: only the members SoundSource forwards to are declared.
 class SoundController {
@@ -120,7 +120,7 @@ public:
     s32 mState = 0;
     /// Written by setVirtualizeMode; 0 means the sound can not be virtualized (SoundSource::canVirtualize). The
     /// names of the modes are not known (1 is the default, 2 restarts the sound when it is unvirtualized).
-    VirtualizeMode mVirtualizeMode = static_cast<VirtualizeMode>(1);
+    VirtualizeMode mVirtualizeMode = VirtualizeMode(1);
     bool mPaused = false;
     f32 mReleaseTime = 0.0f;
     f32 _20 = 0.0f;

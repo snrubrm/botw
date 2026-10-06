@@ -190,6 +190,13 @@ const char* Handle::getAssetName() const {
 }
 
 // NON_MATCHING: the original does not make the call a tail call (it keeps the frame and returns after it).
+// 0x7100b76018
+bool Handle::setVirtualizeMode(VirtualizeMode mode) {
+    if (auto* source = getSoundSource())
+        return source->setVirtualizeMode(mode);
+    return false;
+}
+
 // 0x7100b761ac
 const sead::SafeString& Handle::getSoundGroupName() const {
     if (auto* source = getSoundSource())
