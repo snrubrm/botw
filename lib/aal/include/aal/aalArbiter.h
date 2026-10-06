@@ -8,6 +8,22 @@ namespace aal {
 
 class Emitter;
 class SoundSource;
+class SpatialCalculator;
+class SpatialPlayingParam;
+
+/// The pools that the spatial calculators and the spatial playing parameters of the sound sources are allocated
+/// from. TODO: incomplete; only the release of an element is declared.
+class SpatialCalculatorPool {
+public:
+    /// 0x7100b90dec
+    void free(SpatialCalculator* calculator);
+};
+
+class SpatialPlayingParamPool {
+public:
+    /// 0x7100b916fc
+    void free(SpatialPlayingParam* param);
+};
 
 /// Allocates and keeps track of the emitters and the sound sources.
 /// TODO: incomplete (the constructor, the pools at +0x68 / +0x70 and most functions are not modeled).
@@ -29,12 +45,16 @@ public:
     void appendToActiveEmitterList(Emitter* emitter);
     void removeFromActiveEmitterList(Emitter* emitter);
 
+    SpatialCalculatorPool* getSpatialCalculatorPool() const { return mSpatialCalculatorPool; }
+    SpatialPlayingParamPool* getSpatialPlayingParamPool() const { return mSpatialPlayingParamPool; }
+
 private:
     u8 _0[0x10];
     sead::OffsetList<Emitter> mActiveEmitters;
     u8 _28[0x50 - 0x28];
     sead::OffsetList<SoundSource> mSoundSources;
-    u8 _68[0x78 - 0x68];
+    SpatialCalculatorPool* mSpatialCalculatorPool;
+    SpatialPlayingParamPool* mSpatialPlayingParamPool;
     sead::CriticalSection mEmitterCS;
     sead::CriticalSection mSoundSourceCS;
     /// Taken around the calls into the sound sources.

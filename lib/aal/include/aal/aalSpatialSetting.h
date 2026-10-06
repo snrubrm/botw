@@ -34,6 +34,7 @@ public:
     void setRotatingStereoEnabled(bool enable);
     void setListenerDirectivityEnabled(bool enable);
     void setUserParam(u64 param);
+    void reset();
     bool isUnified() const { return mFlags & 2; }
 
 private:

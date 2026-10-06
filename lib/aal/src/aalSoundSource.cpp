@@ -1,6 +1,7 @@
 #include "aal/aalSoundSource.h"
 #include <math/seadMathCalcCommon.h>
 #include "aal/aalEmitter.h"
+#include "aal/aalArbiter.h"
 #include "aal/aalGroup.h"
 #include "aal/aalISpeakerBalanceSupplier.h"
 #include "aal/aalMarkerController.h"
@@ -50,6 +51,61 @@ void SoundSource::finalize() {
         mMarkerController = nullptr;
     }
     _8 = 0;
+}
+
+// 0x7100b76a68
+void SoundSource::reset() {
+    freeUnifierSource_();
+    finishNow_();
+    freeUnifierSource_();
+
+    mPauseFlags = sead::BitFlag8(0);
+    mVirtualizedBy = 0;
+    mPrepareFlags = 1;
+    mPlayingTime = 0.0f;
+    mDefaultParam.reset();
+    mParam.reset();
+    mAggregatedParam->reset();
+    mDefaultParam.setDeviceVolume(DeviceType(0), 1.0f);
+    mDefaultParam.setBusVolume(BusType(0), 1.0f);
+    mTrackNum = 0;
+    mInteriorNum = 0;
+    for (u8& channel_num : mChannelNum)
+        channel_num = 0;
+    mPriority = 1.0f;
+    _d8 = 1.0f;
+    mPriorityScale = 1.0f;
+    mStartDelayTime = 0.0f;
+    mFadeInTime = 0.0f;
+    mFadeCurveType = FadeCurveType();
+    for (u8& track_volume : mTrackVolume)
+        track_volume = 0xff;
+    if (mPlayingStateController)
+        mPlayingStateController->reset();
+    if (mFader)
+        mFader->setValueImmediate(1.0f);
+    detachSoundGroup();
+    if (mEmitter) {
+        if (_1e8 || _1e0)
+            mEmitter->removeSoundSource(this);
+        mEmitter = nullptr;
+    }
+    mSpeakerBalanceSupplier = nullptr;
+    if (mSpatialCalculator) {
+        SystemAccessor::getArbiter()->getSpatialCalculatorPool()->free(mSpatialCalculator);
+        mSpatialCalculator = nullptr;
+    }
+    if (mSpatialPlayingParam) {
+        SystemAccessor::getArbiter()->getSpatialPlayingParamPool()->free(mSpatialPlayingParam);
+        mSpatialPlayingParam = nullptr;
+    }
+    mSpatialSetting.reset();
+    if (mMarkerController)
+        mMarkerController->reset();
+    _1c = -1;
+    _20 = 0;
+    mStartSamplePos = 0;
+    mState = 0;
 }
 
 // 0x7100b769a0
