@@ -334,6 +334,12 @@ public:
     bool sub_710115B01C(int slot, int bank, bool a3);
     // 0x710115c11c: clears bit 1 of _163 (returns whether it was set) and updates every slot.
     bool sub_710115C11C();
+    // 0x710115c278 (declared only; lane5 s5, placeholder name; PlayASForDemo::leave_ passes its `_a4`): per-slot follow-up of
+    // sub_710115C11C for the slot / bank `slot` (480 B).
+    void sub_710115C278(int slot);
+    // 0x710115d4a4 (declared only; lane5 s5, placeholder name; PlayASForDemo::sub_710021B2F0, TurnToActorBase::calc_): writes
+    // the root motion transform of the slots at time `t` (identity if none handles it).
+    void sub_710115D4A4(f32 t, sead::Matrix34f* out, bool a3);
     // 0x710115bed4: per-slot update (placeholder; returns a slot index). Not decompiled yet (calls
     // unnamed Unk1 helpers 0x71011653a4 / 0x7101164ff8 / 0x7101165008 / 0x7101164e38).
     s32 sub_710115BED4(bool a1);
