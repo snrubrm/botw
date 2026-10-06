@@ -24,6 +24,16 @@ public:
     void sub_710057A348(const sead::Vector3f& pos, bool a2);
 
 protected:
+    // 0x710057aeb8: "火炎渦" child; fails without a target actor
+    void sub_710057AEB8(const sead::Vector3f& pos, const sead::Vector3f& dest_pos);
+    // 0x710057ab3c: "火球投げ" child with the fire ball actor name; fails without a target actor
+    void sub_710057AB3C(const sead::Vector3f& pos);
+    // 0x710057b254: changes to the "横斬り" child and updates the attack weights (the used one is lowered by 22, the others rise)
+    void sub_710057B254(const sead::Vector3f& pos);
+    // 0x710057b120: changes to the "回転斬り" child and updates the attack weights (the used one is lowered by 22, the others rise)
+    void sub_710057B120(const sead::Vector3f& pos);
+    // 0x710057aff0: changes to the "縦斬り" child and updates the attack weights (the used one is lowered by 22, the others rise)
+    void sub_710057AFF0(const sead::Vector3f& pos);
     // 0x710057a810: changes to the "待機" child
     void sub_710057A810(const sead::Vector3f& pos);
     // static_param at offset 0x38

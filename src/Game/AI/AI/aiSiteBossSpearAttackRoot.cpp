@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiSiteBossSpearAttackRoot.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/Actor/actSiteBoss.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
@@ -62,6 +64,16 @@ void SiteBossSpearAttackRoot::m34(sead::Vector3f* pos) {
         *pos = sub_71005D9330(actor);
     else
         *pos = getPlayerPosition();
+}
+
+// 0x710058c00c
+void SiteBossSpearAttackRoot::sub_710058C00C(const sead::Vector3f& pos) {
+    _e0 = 0;
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(pos, "TargetPos", -1);
+    if (auto* target = sub_71005D9050(mActor))
+        pack.addActor(*target, "TargetActor", -1);
+    changeChild("氷弾攻撃", &pack);
 }
 
 }  // namespace uking::ai

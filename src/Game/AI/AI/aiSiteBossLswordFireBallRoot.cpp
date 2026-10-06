@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiSiteBossLswordFireBallRoot.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include <random/seadGlobalRandom.h>
 #include "Game/Actor/actSiteBoss.h"
 #include "KingSystem/ActorSystem/actActor.h"
@@ -86,6 +87,16 @@ void SiteBossLswordFireBallRoot::loadParams_() {
     getDynamicParam(&mThrowActorName_d, "ThrowActorName");
     getDynamicParam(&mTargetPos_d, "TargetPos");
     getDynamicParam(&mTargetActor_d, "TargetActor");
+}
+
+// 0x710057c100
+void SiteBossLswordFireBallRoot::sub_710057C100(const sead::Vector3f& pos) {
+    ksys::act::ai::InlineParamPack pack;
+    pack.addBool(*mIsThrowChildDevice_s, "IsThrowChildDevice", -1);
+    pack.addVec3(pos, "TargetPos", -1);
+    pack.addActor(*mTargetActor_d, "TargetActor", -1);
+    pack.addString(mThrowActorName_d, "PartsName", -1);
+    changeChild("投げる", &pack);
 }
 
 }  // namespace uking::ai

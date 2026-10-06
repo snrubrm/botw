@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiSiteBossLswordTornadoRoot.h"
+#include "KingSystem/ActorSystem/actActor.h"
 #include "Game/Actor/actSiteBoss.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
@@ -57,6 +58,17 @@ void SiteBossLswordTornadoRoot::sub_710057E4F0() {
     pack.addVec3(*mTargetPos_d, "TargetPos", -1);
     pack.addBool(false, "IsResetEndTime", -1);
     changeChild("待機", &pack);
+}
+
+// 0x710057e398
+void SiteBossLswordTornadoRoot::sub_710057E398() {
+    ksys::act::ai::InlineParamPack pack;
+    pack.addPointer(nullptr, "AttackActor", ksys::AIDefParamType::BaseProcHandle, -1);
+    pack.addBool(false, "IsThrowChildDevice", -1);
+    pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+    pack.addActor(*mTargetActor_d, "TargetActor", -1);
+    pack.addString("SiteBossBigFlameBall0", "PartsName", -1);
+    changeChild("放出", &pack);
 }
 
 }  // namespace uking::ai

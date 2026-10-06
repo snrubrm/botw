@@ -54,12 +54,11 @@ void NPCWander::sub_71004EA108() {
     changeChild("振り向く", &pack);
 }
 
-// NON_MATCHING: the original builds the "DynASKeyName" SafeString temporary before the virtual call inside _f0.cstr()
 // 0x71004ea4b0
 void NPCWander::sub_71004EA4B0() {
     ksys::act::ai::InlineParamPack pack;
     pack.addVec3(_114, "TargetPos", -1);
-    pack.addPointer(const_cast<char*>(_f0.cstr()), "DynASKeyName", ksys::AIDefParamType::String, -1);
+    pack.addString(_f0, "DynASKeyName", -1);
     changeChild("レール点に移動", &pack);
 }
 

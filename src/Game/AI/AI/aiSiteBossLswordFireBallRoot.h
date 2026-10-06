@@ -19,6 +19,8 @@ public:
     void loadParams_() override;
 
 protected:
+    // 0x710057c100: "投げる" child with the thrown actor name
+    void sub_710057C100(const sead::Vector3f& pos);
     // static_param at offset 0x38
     const float* mPredictPosRate_s{};
     // static_param at offset 0x40

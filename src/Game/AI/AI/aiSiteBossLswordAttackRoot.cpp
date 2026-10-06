@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiSiteBossLswordAttackRoot.h"
+#include "math/seadMathCalcCommon.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/Actor/actSiteBoss.h"
 #include "KingSystem/ActorSystem/actActor.h"
@@ -116,6 +117,68 @@ void SiteBossLswordAttackRoot::sub_710057A810(const sead::Vector3f& pos) {
     pack.addVec3(pos, "TargetPos", -1);
     pack.addBool(false, "IsResetEndTime", -1);
     changeChild("待機", &pack);
+}
+
+// 0x710057aff0
+void SiteBossLswordAttackRoot::sub_710057AFF0(const sead::Vector3f& pos) {
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(pos, "TargetPos", -1);
+    changeChild("縦斬り", &pack);
+    _a0 = sead::Mathi::max(_a0 - 22, 0);
+    _a4 = sead::Mathi::min(_a4 + 3, 100);
+    _a8 = sead::Mathi::min(_a8 + 3, 100);
+    _ac = sead::Mathi::min(_ac + 10, 100);
+    _b0 = sead::Mathi::min(_b0 + 3, 100);
+}
+
+// 0x710057b120
+void SiteBossLswordAttackRoot::sub_710057B120(const sead::Vector3f& pos) {
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(pos, "TargetPos", -1);
+    changeChild("回転斬り", &pack);
+    _a0 = sead::Mathi::min(_a0 + 3, 100);
+    _a4 = sead::Mathi::min(_a4 + 3, 100);
+    _a8 = sead::Mathi::max(_a8 - 22, 0);
+    _ac = sead::Mathi::min(_ac + 10, 100);
+    _b0 = sead::Mathi::min(_b0 + 3, 100);
+}
+
+// 0x710057b254
+void SiteBossLswordAttackRoot::sub_710057B254(const sead::Vector3f& pos) {
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(pos, "TargetPos", -1);
+    changeChild("横斬り", &pack);
+    _a0 = sead::Mathi::min(_a0 + 3, 100);
+    _a4 = sead::Mathi::max(_a4 - 22, 0);
+    _a8 = sead::Mathi::min(_a8 + 3, 100);
+    _ac = sead::Mathi::min(_ac + 10, 100);
+    _b0 = sead::Mathi::min(_b0 + 3, 100);
+}
+
+// 0x710057ab3c
+void SiteBossLswordAttackRoot::sub_710057AB3C(const sead::Vector3f& pos) {
+    ksys::act::ai::InlineParamPack pack;
+    pack.addString("SiteBossFlameBall", "ThrowActorName", -1);
+    pack.addVec3(pos, "TargetPos", -1);
+    if (auto* target = sub_71005D9050(mActor)) {
+        pack.addActor(*target, "TargetActor", -1);
+        changeChild("火球投げ", &pack);
+    } else {
+        setFailed();
+    }
+}
+
+// 0x710057aeb8
+void SiteBossLswordAttackRoot::sub_710057AEB8(const sead::Vector3f& pos, const sead::Vector3f& dest_pos) {
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(pos, "TargetPos", -1);
+    pack.addVec3(dest_pos, "DestPos", -1);
+    if (auto* target = sub_71005D9050(mActor)) {
+        pack.addActor(*target, "TargetActor", -1);
+        changeChild("火炎渦", &pack);
+    } else {
+        setFailed();
+    }
 }
 
 }  // namespace uking::ai

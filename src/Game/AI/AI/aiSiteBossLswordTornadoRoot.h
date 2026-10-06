@@ -21,6 +21,8 @@ public:
     void sub_710057DD54();
 
 protected:
+    // 0x710057e398: throws the big flame ball
+    void sub_710057E398();
     // 0x710057e4f0: changes to the "待機" child
     void sub_710057E4F0();
     // dynamic_param at offset 0x38
