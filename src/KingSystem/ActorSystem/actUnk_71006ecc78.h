@@ -12,6 +12,10 @@ namespace sead {
 class Heap;
 }
 
+namespace gsys {
+struct BoneAccessKey;
+}
+
 namespace ksys::act {
 
 class Actor;
@@ -40,6 +44,9 @@ public:
 
     // 0x71006ed484
     void sub_71006ED484();
+    // 0x71006ee07c (declared only; lane5 s5, placeholder name; Tumble::sub_710029D1BC): the transform of the bone `key`
+    // (with `offset`) of the ragdoll.
+    void sub_71006EE07C(sead::Matrix34f* out, const gsys::BoneAccessKey& key, const sead::Vector3f& offset);
     // 0x71006eda58: removes the actor's ragdoll from the world (true without a ragdoll).
     bool sub_71006EDA58();
     // 0x71006ed9ec: whether the ragdoll can be switched on (world state 0 and the controller selection
