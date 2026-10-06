@@ -154,3 +154,5 @@ extern const f32 sUnk_7102450fa0;
 // Global in the unit's TU (0x7102450f80): the three arrow actors the Priest Boss fires (fire / ice /
 // electric); PriestBossPhase::m40 stores a random one into `_2b0`. Placeholder name.
 extern const sead::SafeArray<const char*, 3> sUnk_7102450f80;
+// The part actor name of the grave (0x7102450f98, the pointer right after the three arrow names). Placeholder name.
+extern const char* const sUnk_7102450f98;

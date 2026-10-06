@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiPriestBossMode.h"
+#include "Game/Actor/actEnemy.h"
 #include "Game/AI/aiUnk_7102450fa8.h"
 
 namespace uking::ai {
@@ -24,6 +25,16 @@ void PriestBossMode::leave_() {
 Unk_7102450fa8* PriestBossMode::sub_7100505BE4() {
     return sead::DynamicCast<Unk_7102450fa8>(
         *static_cast<Unk_71025afb58**>(mPriestBossMetaAIUnit_a));
+}
+
+// 0x7100505bd8
+void PriestBossMode::sub_7100505BD8(Unk_71025afb58* unit) {
+    *static_cast<Unk_71025afb58**>(mPriestBossMetaAIUnit_a) = unit;
+}
+
+// 0x7100505c74
+bool PriestBossMode::sub_7100505C74() {
+    return sead::DynamicCast<act::Enemy>(mActor)->getActorPartsActor(sUnk_7102450f98).hasProc();
 }
 
 bool PriestBossMode::m34() {

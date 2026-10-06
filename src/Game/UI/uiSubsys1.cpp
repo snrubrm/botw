@@ -253,4 +253,99 @@ bool UiSubsys1::sub_7100964A0C(s32 index) {
     return result;
 }
 
+// 0x7100963538
+bool UiSubsys1::sub_7100963538(s32 value) const {
+    if (value >= 0 && value <= 5)
+        return true;
+    if (value >= 6 && value <= 10)
+        return false;
+    return value >= 11 && value <= 13;
+}
+
+// NON_MATCHING: only the operand order of the final `and` differs (the original ands the (value - 6 < 5) flag first)
+// 0x7100963560
+bool UiSubsys1::sub_7100963560(s32 value) const {
+    return u32(value - 6) < 5 && u32(value) > 5;
+}
+
+// 0x710096357c
+u8* UiSubsys1::sub_710096357C() const {
+    return _478 ? _478->_34 : nullptr;
+}
+
+// 0x7100963590
+s32 UiSubsys1::returnFF() const {
+    return 0xff;
+}
+
+// 0x710096371c
+u8 UiSubsys1::get12c() const {
+    return _12c;
+}
+
+// 0x71009638e8
+void UiSubsys1::set6e4(s32 value) {
+    _6e4 = value;
+}
+
+// 0x71009641d4
+bool UiSubsys1::is38e0Equal(s32 value) const {
+    return _38e0 == value;
+}
+
+// 0x71009641e4
+s32 UiSubsys1::sub_71009641E4() const {
+    const u32 value = _38e8;
+    if (value < 6)
+        return 0;
+    if (value - 6 < 5)
+        return 1;
+    if (value - 11 < 3)
+        return 0;
+    return 2;
+}
+
+// 0x71009645a0: remembers the first entry of the table at 0x610 that has bit 4 of its byte at 0x3c clear
+void UiSubsys1::sub_71009645A0() {
+    for (auto& entry : _610) {
+        if (!(entry._3c & 0x10)) {
+            _650 = &entry;
+            return;
+        }
+    }
+}
+
+// 0x7100964a40
+void UiSubsys1::sub_7100964A40(const sead::Vector3f& pos) {
+    _4c8 = true;
+    _4bc.set(pos);
+}
+
+// 0x7100964ba4
+s32 UiSubsys1::get614() const {
+    return _610.capacity();
+}
+
+// 0x7100965938
+s32 UiSubsys1::sub_7100965938() const {
+    if (_128 == -1)
+        return -1;
+    return _7c4[_128];
+}
+
+// 0x7100965994
+void UiSubsys1::set898(s32 value) {
+    _898 = value;
+}
+
+// 0x710096599c
+bool UiSubsys1::returnTrue2() const {
+    return true;
+}
+
+// 0x7100965cf0
+s32 UiSubsys1::get7c4(s32 index) const {
+    return _7c4[index];
+}
+
 }  // namespace uking::ui

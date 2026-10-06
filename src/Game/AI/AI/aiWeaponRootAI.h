@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/Physics/physDefines.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
 #include "KingSystem/System/Timer.h"
 
@@ -37,6 +38,10 @@ public:
     void sub_7100E21228();
 
 protected:
+    // 0x7100e1f34c: weapon: if m196() continue with sub_7100E21228, else reset the state byte _920
+    void sub_7100E1F34C();
+    // 0x7100e1ee94: sets the motion type of the "Body" rigid body
+    void sub_7100E1EE94(ksys::phys::MotionType type);
     // 0x7100e21100: true if nothing blocks the ray from the actor to 1.5 times the way to the main body's center of mass
     bool sub_7100E21100();
     // 0x7100e20db4: the weapon sticks into something: attack clients off, bodies removed from the world, "ChangeColor", then the "刺さる" child

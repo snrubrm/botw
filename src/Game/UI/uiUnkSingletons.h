@@ -238,24 +238,58 @@ public:
     void resetVec3834();
     u8 get3858() const;
     bool is38b8And38b9Clear() const;
+    // 0x7100963538 / 0x7100963560 (placeholder names): range tests of an s32 (6..10 / <6 or 11..13)
+    bool sub_7100963538(s32 value) const;
+    bool sub_7100963560(s32 value) const;
+    // 0x710096357c / 0x7100963590 / 0x710096371c / 0x71009638e8 (placeholder names)
+    u8* sub_710096357C() const;
+    s32 returnFF() const;
+    u8 get12c() const;
+    void set6e4(s32 value);
+    // 0x71009641d4 / 0x71009641e4 / 0x71009645a0 / 0x7100964a40 / 0x7100964ba4 (placeholder names)
+    bool is38e0Equal(s32 value) const;
+    s32 sub_71009641E4() const;
+    void sub_71009645A0();
+    void sub_7100964A40(const sead::Vector3f& pos);
+    s32 get614() const;
+    // 0x7100965938 / 0x7100965994 / 0x710096599c / 0x7100965cf0 (placeholder names)
+    s32 sub_7100965938() const;
+    void set898(s32 value);
+    bool returnTrue2() const;
+    s32 get7c4(s32 index) const;
 
 private:
     static UiSubsys1* sInstance;
 
     u8 _0[0x128];
     /* 0x128 */ s32 _128;
-    u8 _12c[0x280 - 0x12c];
+    /* 0x12c */ u8 _12c;
+    u8 _12d[0x280 - 0x12d];
     /* 0x280 */ sead::OffsetList<UiSubsys1ListEntry> _280;
     /* 0x298 */ UiSubsys1ListEntry* _298;
     u8 _2a0[0x310 - 0x2a0];
     /* 0x310 */ sead::PtrArray<UiSubsys1Marker> _310;
     u8 _320[0x378 - 0x320];
     /* 0x378 */ UiSubsys1Unk378* _378;
-    u8 _380[0x658 - 0x380];
+    u8 _380[0x478 - 0x380];
+    /* 0x478 */ UiSubsys1Entry* _478;
+    u8 _480[0x4bc - 0x480];
+    /* 0x4bc */ sead::Vector3f _4bc;
+    /* 0x4c8 */ bool _4c8;
+    u8 _4c9[0x610 - 0x4c9];
+    /* 0x610 */ sead::PtrArray<UiSubsys1Entry> _610;
+    u8 _620[0x650 - 0x620];
+    /* 0x650 */ UiSubsys1Entry* _650;
     /* 0x658 */ sead::PtrArray<UiSubsys1Entry> _658;
-    u8 _668[0x848 - 0x668];
+    u8 _668[0x6e4 - 0x668];
+    /* 0x6e4 */ s32 _6e4;
+    u8 _6e8[0x7c4 - 0x6e8];
+    /* 0x7c4 */ sead::SafeArray<s32, 15> _7c4;
+    u8 _800[0x848 - 0x800];
     /* 0x848 */ s32 _848;
-    u8 _84c[0x3820 - 0x84c];
+    u8 _84c[0x898 - 0x84c];
+    /* 0x898 */ s32 _898;
+    u8 _89c[0x3820 - 0x89c];
     /* 0x3820 */ s32 _3820;
     u8 _3824[0x3830 - 0x3824];
     /* 0x3830 */ s32 _3830;
@@ -275,9 +309,11 @@ private:
     /* 0x38b9 */ u8 _38b9;
     u8 _38ba[0x38c8 - 0x38ba];
     /* 0x38c8 */ u8 _38c8;
-    u8 _38c9[0x38e4 - 0x38c9];
+    u8 _38c9[0x38e0 - 0x38c9];
+    /* 0x38e0 */ s32 _38e0;
     /* 0x38e4 */ s32 _38e4;
-    u8 _38e8[0x38f8 - 0x38e8];
+    /* 0x38e8 */ s32 _38e8;
+    u8 _38ec[0x38f8 - 0x38ec];
     /* 0x38f8 */ s32 _38f8;
     u8 _38fc[0x3900 - 0x38fc];
     /* 0x3900 */ s32 _3900;

@@ -110,6 +110,8 @@ public:
     virtual bool m184() { return false; }
     // Public accessors for the two fields Enemy::m141 reads directly (inline-only in the original).
     u8 get920() const { return _920; }
+    // inline-only in the original (WeaponRootAI::sub_7100E1F34C stores 0xff); name is a guess
+    void set920(u8 value) { _920 = value; }
     bool get921() const { return _921; }
     virtual bool m185() { return _920 == 0; }
     virtual bool m186() { return _921; }
@@ -124,7 +126,7 @@ public:
     virtual bool m195() { return false; }
     virtual bool m196();
     virtual bool m197(sead::SafeString* out);
-    virtual void m198();
+    virtual bool m198();
     virtual void m199();
     virtual void m200();
     // 0x7100ee6afc (CSV WeaponBase::x_0): called by m200 (clears actor flags 0x21 and updates the model).

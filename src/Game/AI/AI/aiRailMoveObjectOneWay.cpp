@@ -4,6 +4,7 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/Map/mapRail.h"
+#include <math/seadMathCalcCommon.h>
 
 namespace uking::ai {
 
@@ -93,6 +94,20 @@ void RailMoveObjectOneWay::sub_71005348DC() {
     pack.addFloat(stop_time, "DynStopTime", -1);
     pack.addVec3(pos, "DynStopPos", -1);
     changeChild("停止", &pack);
+}
+
+// NON_MATCHING: the original loads mActor before the first compare (same code otherwise)
+// 0x7100534f90
+void RailMoveObjectOneWay::sub_7100534F90() {
+    const s32 last = _60 - 1;
+    const s32 index = _64;
+    if ((last == index && sead::Mathf::abs(_64 - last) <= 0) ||
+        (index == 0 && sead::Mathf::abs(_64) <= 0 && _6c == 2)) {
+        if (auto* as_list = mActor->getASList(); as_list && as_list->sub_710115AA68(mASKeyName_Off_s))
+            changeAS(mASKeyName_Off_s.cstr(), false, 0, 0);
+        _6c = 0;
+        _6e = true;
+    }
 }
 
 }  // namespace uking::ai

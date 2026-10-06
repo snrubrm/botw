@@ -18,6 +18,8 @@ public:
     void sub_71004D7DD8();
 
 protected:
+    // 0x71004d8644: "待機" child with a random wait time and the wait AS name
+    void sub_71004D8644();
     // static_param at offset 0x38
     const int* mWaitFrame_s{};
     // static_param at offset 0x40

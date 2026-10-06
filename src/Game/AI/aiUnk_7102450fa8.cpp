@@ -5,6 +5,7 @@ sead::Vector3f sUnk_71025c8cf8(0, 0, 900);
 const f32 sUnk_7102450fa0 = 50.0f;
 const sead::SafeArray<const char*, 3> sUnk_7102450f80 = {
     {"Priest_Boss_FireArrow", "Priest_Boss_IceArrow", "Priest_Boss_ElectricArrow"}};
+const char* const sUnk_7102450f98 = "Grave";
 
 bool Unk_7102450fa8::sub_7100719978(s32 idx) const {
     if (idx == 2 || u32(idx - 2) > 8)

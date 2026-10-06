@@ -320,4 +320,27 @@ bool WeaponRootAI::sub_7100E21100() {
     return !query.worldRayCast(ksys::phys::ContactLayerType::Entity);
 }
 
+// NON_MATCHING: the original keeps the first "Body" temporary alive across the findBodyByHavokName call
+// (two stack slots), ours reuses one slot
+// 0x7100e1ee94
+void WeaponRootAI::sub_7100E1EE94(ksys::phys::MotionType type) {
+    if (auto* physics = mActor->getPhysics()) {
+        if (auto* set = physics->findBodyByName("Body")) {
+            if (auto* body = set->findBodyByHavokName("Body"))
+                body->changeMotionType(type);
+        }
+    }
+}
+
+// 0x7100e1f34c
+void WeaponRootAI::sub_7100E1F34C() {
+    if (auto* weapon = sead::DynamicCast<ksys::act::WeaponBase>(mActor)) {
+        if (weapon->m198()) {
+            sub_7100E21228();
+            return;
+        }
+        weapon->set920(0xff);
+    }
+}
+
 }  // namespace uking::ai

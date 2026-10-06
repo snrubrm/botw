@@ -24,6 +24,8 @@ public:
     void sub_71005348DC();
 
 protected:
+    // 0x7100534f90: at the first / last rail point: play the off AS
+    void sub_7100534F90();
     // static_param at offset 0x38
     sead::SafeString mASKeyName_On_s{};
     // static_param at offset 0x48
@@ -32,7 +34,7 @@ protected:
     s32 _60 = 0;  // number of rail points
     f32 _64 = 0;
     f32 _68 = 0;
-    bool _6c = false;
+    u8 _6c = 0;
     bool _6d = false;
     bool _6e = false;
 };
