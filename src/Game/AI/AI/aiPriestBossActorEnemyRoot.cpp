@@ -104,6 +104,20 @@ void PriestBossActorEnemyRoot::m49() {
     }
 }
 
+void PriestBossActorEnemyRoot::m34(ksys::act::ai::InlineParamPack* params) {
+    _228.resetBit(Flag(Flag::_2));
+    if (sead::DynamicCast<Unk_7102450fa8>(*static_cast<Unk_71025afb58**>(mPriestBossMetaAIUnit_a)) &&
+        !m45() &&
+        _1e8 != sead::DynamicCast<Unk_7102450fa8>(
+                    *static_cast<Unk_71025afb58**>(mPriestBossMetaAIUnit_a))
+                    ->_3c) {
+        sub_7100506DB0();
+        changeChild("フェイズ開始", nullptr);
+        return;
+    }
+    EnemyRoot::m34(params);
+}
+
 void PriestBossActorEnemyRoot::sub_7100506DB0() {
     if (!sead::DynamicCast<Unk_7102450fa8>(*static_cast<Unk_71025afb58**>(mPriestBossMetaAIUnit_a)))
         return;

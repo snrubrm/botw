@@ -23,6 +23,7 @@ public:
     bool handleMessage_(const ksys::Message* message) override;
     void calc_() override;
 
+    void m34(ksys::act::ai::InlineParamPack* params) override;
     virtual bool m45();
     virtual bool m46();
     virtual bool m47();
