@@ -1,6 +1,7 @@
 #include "Game/AI/Action/actionWaterUpDownAnmDrivenMove.h"
 #include "Game/AI/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/System/physRayCastBodyQuery.h"
 
 namespace uking::action {
 
@@ -15,6 +16,26 @@ bool WaterUpDownAnmDrivenMove::init_(sead::Heap* heap) {
 
 void WaterUpDownAnmDrivenMove::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Action::enter_(params);
+}
+
+f32 WaterUpDownAnmDrivenMove::sub_71002B7EEC() {
+    ksys::phys::RayCastBodyQuery query(nullptr, ksys::phys::GroundHit::HitAll);
+    sead::Vector3f start;
+    mActor->getMtx().getTranslation(start);
+    sead::Vector3f end = start;
+    end.y -= 10.0f;
+    query.setStart(start);
+    query.setEnd(end);
+    query.enableLayer(ksys::phys::ContactLayer::EntityWater);
+    f32 y;
+    if (query.worldRayCast(ksys::phys::ContactLayerType::Entity)) {
+        sead::Vector3f hit;
+        query.getHitPosition(&hit);
+        y = hit.y;
+    } else {
+        y = end.y - 1.0f;
+    }
+    return y;
 }
 
 void WaterUpDownAnmDrivenMove::leave_() {

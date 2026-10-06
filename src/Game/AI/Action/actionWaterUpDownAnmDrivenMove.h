@@ -23,6 +23,10 @@ public:
 
 protected:
     void calc_() override;
+
+    // 0x71002b7eec (placeholder name): the height of the water surface below the actor (just below the
+    // ray's end if there is none).
+    f32 sub_71002B7EEC();
     virtual void m32(ksys::phys::CharacterController* controller);
 
     // static_param at offset 0x20
