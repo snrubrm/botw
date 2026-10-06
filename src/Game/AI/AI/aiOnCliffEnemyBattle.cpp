@@ -1,5 +1,7 @@
 #include "Game/AI/AI/aiOnCliffEnemyBattle.h"
 #include <cmath>
+#include <random/seadGlobalRandom.h>
+#include "KingSystem/System/Timer.h"
 #include <math/seadMathCalcCommon.h>
 #include <math/seadMatrix.h>
 #include "KingSystem/ActorSystem/actActor.h"
@@ -26,6 +28,51 @@ void OnCliffEnemyBattle::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::InlineParamPack pack;
     pack.addVec3(sub_71005D960C(mActor), "TargetPos", -1);
     changeChild("追跡", &pack);
+}
+
+// NON_MATCHING: same instructions; the original keeps `&_68` in a callee-saved register and loads the timer through it
+// (ldr s0, [x21]) where we address it from `this`, and schedules one address computation differently.
+void OnCliffEnemyBattle::calc_() {
+    const s32 state = sub_71005D9744(mActor);
+    if (state != 2 && state != 5)
+        ksys::Timer::update(&_68, -1.0f);
+    else
+        _68 = _6c == _70 ? _6c : sead::GlobalRandom::instance()->getS32Range(_6c, _70);
+
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed()) {
+        if (_68 <= 0.0f) {
+            setFailed();
+            return;
+        }
+        if (!isCurrentChild("攻撃")) {
+            setFailed();
+        } else {
+            if (mActor) {
+                const s32 time = static_cast<act::Enemy*>(mActor)->_f28.sub_7100001AA4(
+                    *mAttackIntervalIntensity_s);
+                if (time >= 0 && mActor)
+                    static_cast<act::Enemy*>(mActor)->_e68 = ksys::Timer(time, time);
+            }
+            ksys::act::ai::InlineParamPack pack;
+            pack.addVec3(sub_71005D960C(mActor), "TargetPos", -1);
+            changeChild("追跡", &pack);
+        }
+    } else if (child->isChangeable()) {
+        if (_68 <= 0.0f) {
+            setFailed();
+            return;
+        }
+        if (isCurrentChild("追跡")) {
+            auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
+            if (enemy && enemy->_e68.value <= sead::Mathf::epsilon() && m34()) {
+                ksys::act::ai::InlineParamPack pack;
+                pack.addVec3(sub_71005D960C(mActor), "TargetPos", -1);
+                changeChild("攻撃", &pack);
+            }
+        }
+    }
+    child->setDynamicParam(sub_71005D960C(mActor), "TargetPos");
 }
 
 bool OnCliffEnemyBattle::m34() {
