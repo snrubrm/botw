@@ -748,6 +748,15 @@ public:
     void x_15(void* a1, const char* a2);
     // 0x71011c98f8: kind 2.
     void sub_71011C98F8();
+    // lane4 s46 (placeholder names, unnamed in the CSV). 0x71011c7020: writes the translation / the 3x3 rotation /
+    // the scale of the actor matrix and updates the home matrix as setMatrix does (null arguments are skipped).
+    void sub_71011C7020(const sead::Vector3f* pos, const sead::Matrix33f* rot, const sead::Vector3f* scale);
+    // 0x71011dabc0 (IdleAction::leave_): adds the main body (bit 0), the body at _190 (bit 2) to the world and
+    // runs CharacterController::sub_7100F5EC30 (bit 3) according to the flag byte.
+    void sub_71011DABC0(const u8* flags);
+    // 0x71011cfa74 (lane4 s46, placeholder name): _4b4 = the centre of the local AABB of the controller's / the main
+    // body (or, without a body, mEnterCalcPos = the translation).
+    void sub_71011CFA74();
     // 0x71011c9964: kind 3, _8 = other->_1a0.
     void sub_71011C9964(Actor* other);
 

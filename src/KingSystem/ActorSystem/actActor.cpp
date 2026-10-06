@@ -263,6 +263,73 @@ void Actor::setMatrix(const sead::Matrix34f& mtx, const sead::Vector3f* scale) {
         mScale = *scale;
 }
 
+// NON_MATCHING: the original hoists &mMtx (add x2, x19, #0x398) above the getInvTransformedMatrix branch and
+// reuses it in the else branch
+void Actor::sub_71011C7020(const sead::Vector3f* pos, const sead::Matrix33f* rot,
+                           const sead::Vector3f* scale) {
+    if (pos) {
+        mMtx.m[0][3] = pos->x;
+        mMtx.m[1][3] = pos->y;
+        mMtx.m[2][3] = pos->z;
+    }
+    if (rot) {
+        mMtx.m[0][0] = rot->m[0][0];
+        mMtx.m[0][1] = rot->m[0][1];
+        mMtx.m[0][2] = rot->m[0][2];
+        mMtx.m[1][0] = rot->m[1][0];
+        mMtx.m[1][1] = rot->m[1][1];
+        mMtx.m[1][2] = rot->m[1][2];
+        mMtx.m[2][0] = rot->m[2][0];
+        mMtx.m[2][1] = rot->m[2][1];
+        mMtx.m[2][2] = rot->m[2][2];
+    }
+    if (scale)
+        mScale = *scale;
+    if (mFieldBodyGroup) {
+        mHomeMtx = phys::System::instance()->getStaticCompoundMgr()->getInvTransformedMatrix(
+            mFieldBodyGroup, mMtx);
+    } else {
+        mHomeMtx = mMtx;
+    }
+}
+
+// NON_MATCHING: only the register allocation of one fmul/str pair (s2 vs s5) differs
+void Actor::sub_71011CFA74() {
+    phys::RigidBody* body = nullptr;
+    if (mPhysics) {
+        if (auto* controller = mPhysics->getCharacterController())
+            body = controller->sub_7100F61A34();
+    }
+    if (!body)
+        body = mMainBody;
+    if (body) {
+        sead::BoundBox3f aabb(sead::Vector3f::zero, sead::Vector3f::ones);
+        body->getAabbInLocal(&aabb);
+        _4b4 = aabb.getCenter();
+    } else {
+        mMtx.getTranslation(mEnterCalcPos);
+    }
+}
+
+void Actor::sub_71011DABC0(const u8* flags) {
+    if (*flags & 1) {
+        if (mPhysics) {
+            if (auto* body = mPhysics->sub_7100FBAEDC(0, 0))
+                body->addToWorld();
+        }
+    }
+    if (*flags & 4) {
+        if (auto* body = mMainBody.load())
+            body->addToWorld();
+    }
+    if (*flags & 8) {
+        if (mPhysics) {
+            if (auto* controller = mPhysics->getCharacterController())
+                controller->sub_7100F5EC30();
+        }
+    }
+}
+
 void Actor::getHomeMtx(sead::Matrix34f* mtx) const {
     if (mFieldBodyGroup) {
         *mtx = phys::System::instance()->getStaticCompoundMgr()->getTransformedMatrix(

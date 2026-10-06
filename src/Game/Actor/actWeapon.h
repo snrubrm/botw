@@ -340,6 +340,10 @@ public:
     f32 sub_71002ED434();
     // Declaration only: 0x71002ed730, queried by PlayerOrEnemy::sub_7100007BF8 (lane4 s46).
     f32 sub_71002ED730(bool a1);
+    // lane4 s46 (placeholder names, unnamed in the CSV). 0x71002ea0c8: has the (unnamed) tag 0xdf7c57f6.
+    bool sub_71002EA0C8();
+    // 0x71002edb84: `_bd0 = value; _bd8 = true` under the lock `_b90`.
+    void sub_71002EDB84(const u64& value);
     void sub_71002EDA38(const Unk_71002eda38& arg);
     void sub_71002EDAEC(const Unk_71002edaec& arg);
     // 0x71002edb3c: stores `value` to _b88 (under _b48) and sets _b8c (behavior WeaponChemicalReset).

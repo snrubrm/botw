@@ -429,6 +429,16 @@ f32 Weapon::sub_71002EE594() {
     return getParam()->getRes().mGParamList->getBow()->mArrowFallStabilitySpeed.ref();
 }
 
+bool Weapon::sub_71002EA0C8() {
+    return ksys::act::hasTag(this, 0xdf7c57f6);
+}
+
+void Weapon::sub_71002EDB84(const u64& value) {
+    auto lock = sead::makeScopedLock(_b90);
+    _bd0 = value;
+    _bd8 = true;
+}
+
 bool Weapon::hasCanPullGiantObjectTag() {
     return getParam()->getRes().mActorLink->hasTag(0x2b533845);
 }
