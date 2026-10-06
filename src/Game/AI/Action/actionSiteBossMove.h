@@ -1,5 +1,6 @@
 #pragma once
 
+#include <math/seadMatrix.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -36,8 +37,11 @@ protected:
     // dynamic_param at offset 0x60
     sead::Vector3f* mMoveDstPos_d{};
     f32 _68 = 0.0f;
-    u8 _6c[0x3c];
-    u64 _a8 = 0;
+    sead::Vector3f _6c;
+    sead::Vector3f _78;
+    sead::Matrix33f _84;
+    u32 _a8 = 0;
+    u32 _ac = 0;
 };
 KSYS_CHECK_SIZE_NX150(SiteBossMove, 0xb0);
 

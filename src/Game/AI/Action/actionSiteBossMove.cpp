@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionSiteBossMove.h"
+#include "Game/AI/aiUnk_710073fa90.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -11,7 +13,17 @@ bool SiteBossMove::init_(sead::Heap* heap) {
 }
 
 void SiteBossMove::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    if (!mActor->getCharacterController()) {
+        setFailed();
+        return;
+    }
+    playAS(mASName_s.cstr(), true, 0, 0, -1.0f);
+    _6c = mActor->getVelocity();
+    _68 = mActor->getVelocity().length();
+    sub_710073FA90(&_84, mActor);
+    _78 = *mMoveDstPos_d;
+    mFlags.set(Flag::Changeable);
+    _ac = 0;
 }
 
 void SiteBossMove::leave_() {

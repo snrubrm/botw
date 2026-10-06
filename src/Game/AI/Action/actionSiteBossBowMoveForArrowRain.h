@@ -31,7 +31,7 @@ protected:
     // static_param at offset 0x50
     const sead::Vector3f* mMoveTarget_s{};
     float _58 = 0.0f;
-    u8 _5c[0x68 - 0x5c];
+    sead::Vector3f _5c;
     float _68 = 0.0f;
     float _6c = 0.0f;
 };
