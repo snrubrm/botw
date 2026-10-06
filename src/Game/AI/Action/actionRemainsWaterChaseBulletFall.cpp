@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionRemainsWaterChaseBulletFall.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
@@ -15,7 +16,15 @@ bool RemainsWaterChaseBulletFall::init_(sead::Heap* heap) {
 }
 
 void RemainsWaterChaseBulletFall::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    _40 = ksys::Timer(*mEndTimer_s, *mEndTimer_s);
+    if (auto* body = mActor->getMainBody()) {
+        _4c = body->isFlag100000Set();
+        body->setFlag100000();
+        const sead::Vector3f velocity = sub_7100232D60();
+        body->setLinearVelocity(velocity);
+    }
+    if (auto* as_list = mActor->getASList())
+        as_list->x_3(0, 0, &ksys::as::ASList::Unk2::sub_7101163100, 0.0f);
 }
 
 void RemainsWaterChaseBulletFall::leave_() {
