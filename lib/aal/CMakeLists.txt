@@ -13,6 +13,7 @@ add_library(aal OBJECT
   include/aal/aalDeviceType.h
   include/aal/aalEmitter.h
   include/aal/aalFadeCurveType.h
+  include/aal/aalFinalFxMgr.h
   include/aal/aalFxDelayParamSetter.h
   include/aal/aalFxParamSetter.h
   include/aal/aalGroup.h
@@ -57,6 +58,7 @@ add_library(aal OBJECT
   src/aalCurveReader.cpp
   src/aalArbiter.cpp
   src/aalEmitter.cpp
+  src/aalFinalFxMgr.cpp
   src/aalFxDelayParamSetter.cpp
   src/aalFxParamSetter.cpp
   src/aalGroup.cpp
