@@ -1,4 +1,5 @@
 #include "Game/UI/euiConstantBuffer.h"
+#include <nn/ui2d/DrawInfo.h>
 
 namespace eui {
 
@@ -18,5 +19,11 @@ void ConstantBuffer::map() {
 
 // 0x7100bf4364
 void ConstantBuffer::unmap() {}
+
+// 0x7100bf4368
+void ConstantBuffer::applyToDrawInfo(nn::ui2d::DrawInfo* draw_info) {
+    draw_info->mUi2dConstantBuffer = &mGpuBuffers[0];
+    draw_info->mFontConstantBuffer = &mGpuBuffers[1];
+}
 
 }  // namespace eui
