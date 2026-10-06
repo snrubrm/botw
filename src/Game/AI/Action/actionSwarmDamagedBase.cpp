@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionSwarmDamagedBase.h"
+#include "Game/AI/aiUnk_710072A944.h"
 
 namespace uking::action {
 
@@ -32,6 +33,12 @@ void SwarmDamagedBase::loadParams_() {
 
 void SwarmDamagedBase::calc_() {
     ksys::act::ai::Action::calc_();
+}
+
+void SwarmDamagedBase::m32(act::Swarm* swarm) {
+    // The result is discarded.
+    sub_7100729D5C(*mSpeed_s, swarm, nullptr, nullptr, nullptr, false);
+    sub_710072A108(swarm, sead::Vector3f::ey);
 }
 
 }  // namespace uking::action

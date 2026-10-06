@@ -3,6 +3,7 @@
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "Game/AI/aiUnk_71007377D4.h"
+#include "Game/AI/aiUnk_710072A944.h"
 
 namespace uking::action {
 
@@ -33,6 +34,12 @@ void SwarmAreaDamaged::calc_() {
     SwarmDamagedBase::calc_();
     if (auto* controller = mActor->getCharacterController())
         sub_7100737C0C(controller, 0.2f, -sead::Vector3f::ey);
+}
+
+void SwarmAreaDamaged::m32(act::Swarm* swarm) {
+    // The result is discarded.
+    sub_7100729D5C(*mSpeed_s, swarm, nullptr, nullptr, nullptr, false);
+    sub_7100729FAC(swarm, sead::Vector3f::ey);
 }
 
 }  // namespace uking::action

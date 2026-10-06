@@ -47,4 +47,9 @@ void NpcSwimNavMove::calc_() {
     RandomMoveAction::calc_();
 }
 
+s32 NpcSwimNavMove::m32(RandomMovePoints* points) {
+    points->add(*mTargetPos_d);
+    return *mUpdateTargetPosInterval_s;
+}
+
 }  // namespace uking::action

@@ -49,4 +49,9 @@ void NPCEscape::calc_() {
     RandomMoveAction::calc_();
 }
 
+s32 NPCEscape::m32(RandomMovePoints* points) {
+    points->add(_9c);
+    return -1;
+}
+
 }  // namespace uking::action

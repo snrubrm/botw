@@ -18,6 +18,7 @@ public:
 
 protected:
     void calc_() override;
+    s32 m32(RandomMovePoints* points) override;
     virtual void m34();
     // inline in the original (emitted out of line in this TU); signature is a guess
     virtual const sead::SafeString& m35() { return mASName_s; }

@@ -44,4 +44,9 @@ sead::SafeString NPCTargetMove::m35() {
     return mASKeyName_s;
 }
 
+s32 NPCTargetMove::m32(RandomMovePoints* points) {
+    points->add(*mTargetPos_d);
+    return *mUpdateTargetPosInterval_s;
+}
+
 }  // namespace uking::action

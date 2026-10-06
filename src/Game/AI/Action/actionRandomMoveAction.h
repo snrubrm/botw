@@ -1,5 +1,7 @@
 #pragma once
 
+#include <container/seadFreeList.h>
+#include <container/seadPtrArray.h>
 #include <math/seadVector.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
 
@@ -8,6 +10,24 @@ class NavMeshCharacter;
 }
 
 namespace uking::action {
+
+// Placeholder name: the list of positions that m32 appends to (a pointer array whose elements come from a free list;
+// the original has no out-of-line copy of the code that appends to it: NPCEscape / NPCTargetMove / NpcSwimNavMove /
+// DefRandomMoveAction::m32 all inline the same sequence).
+struct RandomMovePoints {
+    sead::PtrArray<sead::Vector3f> mPoints;
+    sead::FreeList mFreeList;
+
+    // inline-only in the original; name is a guess (the same sequence is inlined in the m32 of NPCEscape, NPCTargetMove,
+    // NpcSwimNavMove and DefRandomMoveAction).
+    void add(const sead::Vector3f& point) {
+        if (mPoints.isFull())
+            return;
+        auto* p = static_cast<sead::Vector3f*>(mFreeList.alloc());
+        p->set(point);
+        mPoints.pushBack(p);
+    }
+};
 
 class RandomMoveAction : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(RandomMoveAction, ksys::act::ai::Action)
@@ -25,7 +45,7 @@ public:
 protected:
     void calc_() override;
     // inline in the original (emitted out of line in this TU); signature is a guess
-    virtual bool m32() { return false; }
+    virtual s32 m32(RandomMovePoints* points) { return 0; }
     // The first parameter is unused; signature is a guess (0x7100d33e10).
     virtual void m33(void*, ksys::phys::NavMeshCharacter* nav);
 

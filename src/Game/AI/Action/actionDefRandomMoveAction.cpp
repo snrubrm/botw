@@ -48,4 +48,9 @@ void DefRandomMoveAction::calc_() {
     controller->sub_7100F5FDF0(controller->get64());
 }
 
+s32 DefRandomMoveAction::m32(RandomMovePoints* points) {
+    points->add(_a4);
+    return -1;
+}
+
 }  // namespace uking::action

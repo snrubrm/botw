@@ -18,6 +18,7 @@ public:
 
 protected:
     void calc_() override;
+    void m32(act::Swarm* swarm) override;
 
     // static_param at offset 0x1b8
     const int* mDeadSubActorMax_s{};

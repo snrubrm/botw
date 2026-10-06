@@ -18,6 +18,7 @@ public:
 
 protected:
     void calc_() override;
+    s32 m32(RandomMovePoints* points) override;
     virtual void m34();
     virtual sead::SafeString m35();
 

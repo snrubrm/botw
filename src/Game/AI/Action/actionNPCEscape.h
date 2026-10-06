@@ -22,6 +22,7 @@ public:
 
 protected:
     void calc_() override;
+    s32 m32(RandomMovePoints* points) override;
 
     // static_param at offset 0x38
     const int* mWallHitTime_s{};
