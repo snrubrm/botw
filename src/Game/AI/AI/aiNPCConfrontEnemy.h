@@ -23,6 +23,8 @@ public:
     void loadParams_() override;
 
 protected:
+    // 0x71004c84c8: updates the talk state, then finishes / "納刀" / the thank-you state
+    void sub_71004C84C8();
     // 0x71004c8ddc: starts the "気絶前振り向き" child (timer _98[1] = 600)
     void sub_71004C8DDC(const sead::Vector3f& pos);
     // 0x71004c82d0: starts the "お礼" child (timer _98[0] = 5)
@@ -50,7 +52,10 @@ protected:
     // map_unit_param at offset 0x80
     const float* mTerritoryArea_m{};
     act::NPC* _88{};
-    u32 _90 = 0;
+    bool _90 = false;
+    bool _91 = false;
+    u8 _92 = 0;
+    bool _93 = false;
     bool _94 = false;
     // Five timers (the confront / thank / faint states use the entries 0 and 1); zeroed together by one memset.
     ksys::Timer _98[5];

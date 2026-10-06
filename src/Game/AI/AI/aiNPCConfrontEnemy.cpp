@@ -80,4 +80,26 @@ void NPCConfrontEnemy::sub_71004C8DDC(const sead::Vector3f& pos) {
     changeChild("気絶前振り向き", &pack);
 }
 
+// 0x71004c84c8
+void NPCConfrontEnemy::sub_71004C84C8() {
+    mActor->x_6();
+    if (!_90 && !_91) {
+        if (_93) {
+            _88->_1048 = 0;
+            sub_7100713564(mActor, 0);
+        } else {
+            _88->_1048 = 1;
+            sub_7100713564(mActor, 1);
+        }
+    }
+    if (sub_71005DB7E4(mActor, 0) && !_90 && !_91) {
+        sub_71004C82D0();
+        return;
+    }
+    if (sub_71005DB7E4(mActor, 0))
+        setFinished();
+    else
+        changeChild("納刀", nullptr);
+}
+
 }  // namespace uking::ai
