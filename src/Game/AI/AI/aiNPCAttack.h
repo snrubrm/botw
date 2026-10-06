@@ -23,6 +23,8 @@ public:
     void loadParams_() override;
 
 protected:
+    // 0x71004c064c: NPC flag 0x1000, ASList::x_6(9, 0, 0), then the "接近" child
+    void sub_71004C064C();
     // static_param at offset 0x38
     const int* mActionBaseTime_s{};
     // static_param at offset 0x40

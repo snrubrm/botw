@@ -90,4 +90,14 @@ void NPCHorseRideWait::sub_71004CC76C() {
 
 void NPCHorseRideWait::loadParams_() {}
 
+// 0x71004cc680
+void NPCHorseRideWait::sub_71004CC680() {
+    if (auto* schedule = mActor->getSchedule())
+        schedule->_88 = schedule->_68;
+    _dc = 0;
+    ksys::act::ai::InlineParamPack pack;
+    pack.addFloat(f32(_dc), "GearSpeed", -1);
+    changeChild("到着", &pack);
+}
+
 }  // namespace uking::ai

@@ -24,6 +24,8 @@ public:
     void sub_71004CC76C();
 
 protected:
+    // 0x71004cc680: copies the schedule timeline name to the key name, _dc = 0, then the "到着" child with the gear speed
+    void sub_71004CC680();
     // Lock + position; &_88 is the payload of message 0x3800005 (sent by enter_).
     LockedVectorMaybe _38;
     LockedVectorMaybe _88;

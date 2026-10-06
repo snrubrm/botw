@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiNPCAttack.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 #include <random/seadGlobalRandom.h>
 #include "Game/Actor/actNPC.h"
 #include "KingSystem/ActorSystem/actActor.h"
@@ -62,6 +63,15 @@ void NPCAttack::loadParams_() {
 
 bool NPCAttack::isChangeable() const {
     return !isCurrentChild("攻撃") && !isCurrentChild("勝利");
+}
+
+// 0x71004c064c
+void NPCAttack::sub_71004C064C() {
+    _98->_fe8 |= 0x1000;
+    mActor->getASList()->x_6(9, 0, 0.0f);
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+    changeChild("接近", &pack);
 }
 
 }  // namespace uking::ai
