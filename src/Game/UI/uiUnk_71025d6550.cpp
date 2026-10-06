@@ -1,4 +1,5 @@
 #include <prim/seadMemUtil.h>
+#include "Game/UI/uiManager.h"
 #include "Game/UI/uiUnkSingletons.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 
@@ -101,6 +102,27 @@ bool Unk_71025d6550::getDAC() const {
 // 0x7100948fc0
 void Unk_71025d6550::setDAC(bool value) {
     _dac = value;
+}
+
+// 0x7100948eb4
+Unk_71025d6550Entry* Unk_71025d6550::sub_7100948EB4(s32 i, s32 j) {
+    return &_e8[i][j];
+}
+
+// 0x7100948f58
+s32 Unk_71025d6550::sub_7100948F58() {
+    switch (Manager::instance()->_64c38) {
+    case 0:
+        return _b64 + 1;
+    case 1:
+        return _b6c;
+    case 2:
+        return _b74;
+    case 4:
+        return _d64;
+    default:
+        return -1;
+    }
 }
 
 }  // namespace uking::ui
