@@ -49,11 +49,59 @@ public:
     u64 sub_7100D74880();
     // 0x7100d744b8 (CSV Attention::__auto12): sets the requested target link.
     void sub_7100D744B8(const BaseProcLink& link);
-    // 0x7100d748fc (declaration only; placeholder name): whether a target of `type` exists (wraps 0x7100d7457c).
-    bool sub_7100D748FC(u64 type);
-    // 0x7100d74530 (declaration only; placeholder name): sets bits 2-3 of the flag byte at +0xe22 to 2, +0xdb8 = `type`,
-    // +0xdc0 = `target`.
+    // 0x7100d74d78 (CSV Attention::x_1): updates the target lists with `client` (calls the four operations below).
+    void sub_7100D74D78(AttClient* client);
+    // 0x7100d74dd4 / 0x7100d74fec / 0x7100d750e0 / 0x7100d751d4 (CSV Attention::x_2 .. x_5; declared only).
+    void sub_7100D74DD4(AttClient* client);
+    void sub_7100D74FEC(AttClient* client);
+    void sub_7100D750E0(AttClient* client);
+    void sub_7100D751D4(AttClient* client);
+    // 0x7100d7457c (declaration only): the client to use among the target lists; `filter` selects whether
+    // `code` (an AttActionCode, None for any) has to match.
+    AttClient* sub_7100D7457C(bool filter, u32 code) const;
+    // 0x7100d74208: `*out = _58 of the current target`; false if there is none.
+    bool sub_7100D74208(u32* out) const;
+    // 0x7100d74258: whether `client` is in its target list.
+    bool sub_7100D74258(const AttClient* client) const;
+    // 0x7100d74550: whether sub_7100D7457C(false, None) has an actor.
+    bool sub_7100D74550() const;
+    // 0x7100d748b8 (declared only; the original keeps the action code in a stack slot): whether the action
+    // code of sub_7100D7457C(false, None) is not Remind.
+    bool sub_7100D748B8() const;
+    // 0x7100d748fc (declared only; the original zero-extends `code` with an `and x2, x1, #0xffffffff`): whether
+    // sub_7100D7457C(true, code) finds a client.
+    bool sub_7100D748FC(u64 code) const;
+    // 0x7100d74414: number of entries of the target list `list`.
+    s32 getTargetCount(s32 list) const;
+    // 0x7100d74504: `_c4c = value` for 0 and 1.
+    void sub_7100D74504(u32 value);
+    // 0x7100d74480 (CSV Attention::setPlayerLink): called by ksys::setPlayerLink.
+    void setPlayerLink(PlayerLink* link);
+    // 0x7100d74488 (CSV Attention::__auto11): the player's actor, or releases the accessor.
+    bool sub_7100D74488(ActorLinkConstDataAccess* out);
+    // 0x7100d744a8 (CSV Attention::__auto4): sets bit 0 of the flag byte at +0xe21.
+    void sub_7100D744A8();
+    // 0x7100d74514 (CSV Attention::__auto1) / 0x7100d74530: set the request state of the flag byte at +0xe22
+    // (value 1 / 2) and the requested target.
+    void sub_7100D74514(void* target);
     void sub_7100D74530(u64 type, void* target);
+    // 0x7100d753d8: whether `client` is the current target.
+    bool sub_7100D753D8(const AttClient* client) const;
+    // 0x7100d75410 / 18 / 20 / 28: the floats at +0xc30..0xc3c.
+    f32 sub_7100D75410() const;
+    f32 sub_7100D75418() const;
+    f32 sub_7100D75420() const;
+    f32 sub_7100D75428() const;
+    // 0x7100d75430 / 48 / 60 / 78: forward to the player (PlayerLink slots 18 / 26 / 29 / 67).
+    bool sub_7100D75430() const;
+    bool sub_7100D75448() const;
+    bool sub_7100D75460() const;
+    bool sub_7100D75478() const;
+    // 0x7100d75490: bit 1 of the flag byte at +0xe21.
+    bool sub_7100D75490() const;
+    // 0x7100d75654 (CSV Attention::setSomeFn) / 0x7100d75678 (CSV Attention::setController).
+    void setSomeFn(void* fn);
+    void setController(void* controller);
     // 0x7100d7565c (CSV Attention::setPauseState): bit 0 of the flag byte at +0xe22.
     void setPauseState(bool paused);
 

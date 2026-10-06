@@ -146,7 +146,7 @@ void Attention::sub_7100D74514(void* target) {
     _dc0 = target;
 }
 
-void Attention::sub_7100D74530(u32 type, void* target) {
+void Attention::sub_7100D74530(u64 type, void* target) {
     mFlagsE22.reset(0xc);
     mFlagsE22.set(8);
     _db8 = type;
