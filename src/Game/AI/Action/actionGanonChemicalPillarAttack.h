@@ -1,6 +1,11 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/System/Timer.h"
+
+namespace ksys::act {
+class ActorConstDataAccess;
+}
 
 namespace uking::action {
 
@@ -17,6 +22,7 @@ public:
 
 protected:
     void calc_() override;
+    void sub_7100178DC4(s32 index, ksys::act::ActorConstDataAccess* accessor);
 
     // static_param at offset 0x20
     const int* mAttackPower_s{};
@@ -48,6 +54,18 @@ protected:
     sead::SafeString mCreatePileASName_s{};
     // dynamic_param at offset 0xb0
     sead::Vector3f* mTargetPos_d{};
+    bool _b8 = false;
+    bool _b9 = false;
+    bool _ba = false;
+    s32 _bc = 0;
+    s32 _c0 = 0;
+    s32 _c4 = 0;
+    s32 _c8 = 0;
+    s32 _cc = 0;
+    f32 _d0 = 0;
+    f32 _d4 = 0;
+    sead::Vector3f _d8;
+    ksys::Timer _e4;
 };
 
 }  // namespace uking::action

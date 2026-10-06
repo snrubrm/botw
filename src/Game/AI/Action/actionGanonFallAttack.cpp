@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionGanonFallAttack.h"
+#include "Game/AI/aiUnk_710073fa90.h"
 #include "Game/Actor/actLastBoss.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
@@ -14,7 +15,17 @@ bool GanonFallAttack::init_(sead::Heap* heap) {
 }
 
 void GanonFallAttack::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    if (!mActor->getCharacterController()) {
+        setFailed();
+        return;
+    }
+    sub_710073FA90(&_4c, mActor);
+    _40.value = 0;
+    _40.prev_value = 0;
+    _30 = 1;
+    playAS("Fall_Attack", false, 0, 0, -1.0f);
+    if (auto* boss = sead::DynamicCast<act::LastBoss>(mActor))
+        boss->_14e8.setBit(3);
 }
 
 void GanonFallAttack::leave_() {

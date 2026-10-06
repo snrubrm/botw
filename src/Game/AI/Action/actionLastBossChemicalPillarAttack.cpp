@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionLastBossChemicalPillarAttack.h"
+#include "Game/Actor/actEnemy.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "Game/Damage/dmgDamageManager.h"
 #include "Game/AI/aiUnk_710072BA90.h"
 
@@ -8,6 +11,14 @@ LastBossChemicalPillarAttack::LastBossChemicalPillarAttack(const InitArg& arg)
     : ksys::act::ai::Action(arg) {}
 
 LastBossChemicalPillarAttack::~LastBossChemicalPillarAttack() = default;
+
+void LastBossChemicalPillarAttack::sub_71001CFA48(s32 index, ksys::act::ActorConstDataAccess* accessor) {
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
+        const sead::FormatFixedSafeString<64> name("IronPile%d", index);
+        if (enemy->getActorPartsActor(name).hasProc())
+            ksys::act::acquireActor(&enemy->getActorPartsActor(name), accessor);
+    }
+}
 
 bool LastBossChemicalPillarAttack::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);

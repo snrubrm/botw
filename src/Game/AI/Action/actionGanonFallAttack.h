@@ -2,6 +2,7 @@
 
 #include "KingSystem/ActorSystem/actBaseProcHandle.h"
 #include "KingSystem/System/VFRValue.h"
+#include <math/seadMatrix.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -27,7 +28,7 @@ protected:
     u16 _30 = 0;
     u8 _32[0xe];
     ksys::VFRValue _40;
-    u8 _4c[0x24];
+    sead::Matrix33f _4c;
     ksys::act::BaseProcHandle _70;
 };
 KSYS_CHECK_SIZE_NX150(GanonFallAttack, 0x80);

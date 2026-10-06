@@ -3,6 +3,10 @@
 #include "KingSystem/ActorSystem/actAiAction.h"
 #include "KingSystem/System/Timer.h"
 
+namespace ksys::act {
+class ActorConstDataAccess;
+}
+
 namespace uking::action {
 
 class LastBossChemicalPillarAttack : public ksys::act::ai::Action {
@@ -21,6 +25,7 @@ protected:
     void calc_() override;
     virtual void m32();
     virtual void m33();
+    void sub_71001CFA48(s32 index, ksys::act::ActorConstDataAccess* accessor);
 
     struct Params {
         // static_param at offset 0x20
