@@ -7,7 +7,17 @@
 
 namespace uking::action {
 
-struct Unk_SandwormTackleTarget;
+// Placeholder name (target of a tackle: an actor handle at 0x38 and a counter at 0x58; the destructor 0x71073e3bc is
+// declared only).
+struct Unk_SandwormTackleTarget {
+    ~Unk_SandwormTackleTarget();
+
+    u8 _0[0x38];
+    ksys::act::BaseProcLink _38;
+    u8 _48[0x58 - 0x48];
+    s32 _58;
+    u8 _5c[4];
+};
 
 // Actor plus a two-element list of targets (names are guesses). The member functions are
 // declared only (0x71f6dc, 0x71f858, 0x71fefc, 0x71ff70); SandwormJumpTackle has the same object
