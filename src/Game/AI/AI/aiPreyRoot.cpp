@@ -370,4 +370,61 @@ bool PreyRoot::handleMessage_(const ksys::Message* message) {
     return false;
 }
 
+// 0x7100505144
+void Unk_7102410b48::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
+                          dmg::DamageCallbackInfo* a6) {
+    if (*a5 == -1)
+        return;
+    auto* manager = sead::DynamicCast<dmg::DamageManagerBase>(mDamageManager);
+    if (!manager)
+        return;
+    auto* attacker = manager->getAttacker();
+    if (!attacker->hasProc())
+        return;
+    if (!(ksys::act::isPreyOrSwarm(attacker) && !ksys::act::isWolfOrBear(attacker))) {
+        if (!ksys::act::isWolfOrBear(mActor))
+            return;
+        if (!ksys::act::isWolfOrBear(attacker))
+            return;
+    }
+    *a1 = 0;
+    *a5 = -1;
+    auto* info = sead::DynamicCast<dmg::DamageCallbackInfo>(a6);
+    if (info)
+        info->mFlags = 0;
+}
+
+// 0x71005052b0
+void Unk_7102410b80::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
+                          dmg::DamageCallbackInfo* a6) {
+    if (*a5 == -1)
+        return;
+    auto* manager = sead::DynamicCast<dmg::DamageManagerBase>(mDamageManager);
+    if (!manager)
+        return;
+    if (!manager->getAttacker()->hasProc())
+        return;
+    if (*a5 != 6)
+        return;
+    *a1 = 0;
+    *a5 = -1;
+    auto* info = sead::DynamicCast<dmg::DamageCallbackInfo>(a6);
+    if (info)
+        info->mFlags = 0;
+}
+
+// 0x71005053e8
+void Unk_7102410bb8::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
+                          dmg::DamageCallbackInfo* a6) {
+    if (*a4 - 9 < 3) {
+        *a1 = 0;
+        *a2 = 0;
+        *a3 = 0;
+        *a5 = 0xf;
+        auto* info = sead::DynamicCast<dmg::DamageCallbackInfo>(a6);
+        if (info)
+            info->mFlags = 0;
+    }
+}
+
 }  // namespace uking::ai
