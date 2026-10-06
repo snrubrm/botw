@@ -22,6 +22,9 @@ public:
     void sub_7100E2EDF8(s32 idx, sead::BufferedSafeString* out);
     // 0x7100e2ed78 (CSV x_4): Player::m278 (-1 when slot `idx` > 2 or empty).
     s32 sub_7100E2ED78(s32 idx);
+    // 0x7100e30b00 (CSV x_35): the series type of part `idx` (empty without a part). 0x7100e313fc (unnamed): the head mask
+    // type of part `idx` (empty without a part).
+    void sub_7100E30B00(s32 idx, sead::BufferedSafeString* out);
     // 0x7100e30c78 (unnamed): Player::armorSeriesStuff (series type of part `idx` == `series`).
     bool sub_7100E30C78(s32 idx, const sead::SafeString& series);
     // 0x7100e2f61c (CSV x_0; out of line, returns `&_134`): the armor effect flags (bit 0: swim energy,
@@ -117,7 +120,8 @@ private:
     u8 _133;  // read by uking::act::Armor::m148 (the head armor then uses weight 0)
     sead::BitFlag16 _134;
     u8 _136;
-    u8 _137[0x170 - 0x137];
+    u8 _137[0x138 - 0x137];
+    sead::FixedSafeString<32> _138;
 };
 KSYS_CHECK_SIZE_NX150(PlayerArmors, 0x170);
 

@@ -3,6 +3,8 @@
 #include "Game/Actor/actArmorStrings.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actInfoData.h"
+#include "KingSystem/ActorSystem/actTag.h"
 #include "KingSystem/GameData/gdtManagerInline.h"
 
 namespace ksys::act {
@@ -369,6 +371,85 @@ s32 PlayerArmors::sub_7100E2ED78(s32 idx) {
         return accessor.sub_7100E2CE80();
     }
     return -1;
+}
+
+void PlayerArmors::sub_7100E2EDF8(s32 idx, sead::BufferedSafeString* out) {
+    auto& link = _10[idx];
+    if (link.hasProc()) {
+        ActorConstDataAccess accessor;
+        acquireActor(&link, &accessor);
+        out->copy(accessor.getName());
+    } else {
+        out->copy(sUnk_71026022f8[idx]);
+    }
+}
+
+void PlayerArmors::sub_7100E313FC(s32 idx, sead::BufferedSafeString* out) {
+    auto& link = _10[idx];
+    if (link.hasProc()) {
+        acc::Armor accessor;
+        acquireActor(&link, &accessor);
+        out->copy(accessor.getArmorHeadMaskType());
+    } else {
+        out->copy("");
+    }
+}
+
+// 0x7100e2f000: how many of the first three parts have the ArmorDye tag.
+s32 PlayerArmors::sub_7100E2F000() {
+    s32 count = 0;
+    for (s32 i = 0; i < 3; ++i) {
+        sead::FixedSafeString<64> name;
+        sub_7100E2EDF8(i, &name);
+        if (InfoData::instance()->hasTag(name.cstr(), tags::ArmorDye))
+            ++count;
+    }
+    return count;
+}
+
+// 0x7100e2f18c (Player::m280): one of the first three parts is a default armor ("Armor_Default*").
+bool PlayerArmors::sub_7100E2F18C() {
+    for (s32 i = 0; i < 3; ++i) {
+        sead::FixedSafeString<64> name;
+        sub_7100E2EDF8(i, &name);
+        if (name.startsWith("Armor_Default"))
+            return true;
+    }
+    return false;
+}
+
+void PlayerArmors::sub_7100E30B00(s32 idx, sead::BufferedSafeString* out) {
+    auto& link = _10[idx];
+    if (link.hasProc()) {
+        acc::Armor accessor;
+        acquireActor(&link, &accessor);
+        out->copy(accessor.getSeriesArmorSeriesType());
+    } else {
+        out->copy("");
+    }
+}
+
+bool PlayerArmors::sub_7100E30C78(s32 idx, const sead::SafeString& series) {
+    sead::FixedSafeString<64> name;
+    sub_7100E30B00(idx, &name);
+    return series == name;
+}
+
+bool PlayerArmors::sub_7100E30DA8() {
+    if (_138 == sUnk_71026024c8[2])
+        return true;
+    if (!sub_7100E30C78(1, sUnk_71026024c8[2]))
+        return false;
+    const sead::SafeString thunder = "Thunder";
+    if (sub_7100E30C78(0, sUnk_71026024c8[2]) || sub_7100E30C78(0, thunder)) {
+        const sead::SafeString desert = "Desert";
+        const sead::SafeString snow = "Snow";
+        if (sub_7100E30C78(2, sUnk_71026024c8[2]) || sub_7100E30C78(2, desert) ||
+            sub_7100E30C78(2, snow)) {
+            return true;
+        }
+    }
+    return false;
 }
 
 }  // namespace ksys::act
