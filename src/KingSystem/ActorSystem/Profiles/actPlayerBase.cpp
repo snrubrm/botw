@@ -158,6 +158,16 @@ u32 PlayerBase::getDeathReason() {
     return 0;
 }
 
+s32 PlayerBase::sub_710084B580() {
+    if (_cf4.isOnBit(15)) {
+        if (_d24 == 0)
+            return 1;
+        if (m227())
+            return 2;
+    }
+    return 0;
+}
+
 bool PlayerBase::sub_710084A6B8() {
     return (uking::RuneMgr::instance()->_90 >> 5) & 1;
 }

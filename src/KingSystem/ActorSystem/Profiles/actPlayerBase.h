@@ -291,6 +291,8 @@ public:
     bool x_50();                             // 0x848f4c
     bool x_48();                             // 0x84a988
     bool x_2();                              // 0x84bce8
+    // 0x84b580 (CSV PlayerBase::x_2; lane4 s45): 0 unless _cf4 bit 15 is set; then 1 if `_d24` is 0, else 2 if m227().
+    s32 sub_710084B580();
     bool checkCanUseRuneCommon();            // 0x84c04c
     bool x_13();                             // 0x84c378
     // Called by RuneMgr::checkCanUseRune (CSV names Player::checkCanUse*, but the player is

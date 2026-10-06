@@ -60,6 +60,9 @@ public:
 
     f32 getArmorChargeAttackAddLevel();
     f32 sub_7100885630(s32 level);
+    // 0x7100866f4c (CSV name): saves the champion ability reuse times / use counts and the Master Sword recover time
+    // to the game data (nothing during the Beast Ganon death event flow).
+    void updateChampionAbilitiesAndMasterSwordRecoverFlags();
 
     explicit Player(const CreateArg& arg);
     // CSV Player::construct: the actor factory function.

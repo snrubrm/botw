@@ -46,6 +46,9 @@ ksys::act::ActorAtk::Struct7::AttackInfo* getAttackInfo0(ksys::act::Actor* actor
     return getAttackInfo(actor, 0);
 }
 
+// Source namespace unknown (0x710084ca64); declaration only.
+bool isPlayingBeastGanonDeadEventFlow();
+
 namespace ksys::act {
 
 s32 Player::m378() {
@@ -78,6 +81,19 @@ BaseProc* Player::construct(const CreateArg& arg, sead::Heap* heap) {
 
 // NON_MATCHING: members are not declared yet
 Player::~Player() = default;
+
+void Player::updateChampionAbilitiesAndMasterSwordRecoverFlags() {
+    if (isPlayingBeastGanonDeadEventFlow())
+        return;
+    gdt::setFlag_WaterSupportReuseTimeInCastle(_1e18);
+    gdt::setFlag_WindSupportReuseTimeInCastle(_1df4);
+    gdt::setFlag_FireSupportReuseTimeInCastle(_1e00);
+    gdt::setFlag_ElectricSupportReuseTimeInCastle(_1e0c);
+    gdt::setFlag_WindSupportUseNum(_1cc8);
+    gdt::setFlag_ElectricSupportUseNum(_1ccc);
+    gdt::setFlag_FireSupportUseNum(_1cd0);
+    gdt::setFlag_MasterSwordRecoverTime(_1e24);
+}
 
 // The names of the weapons held in the right hand / left hand / bow slots (the default ones without a weapon).
 void Player::m379(sead::BufferedSafeString* out) {
