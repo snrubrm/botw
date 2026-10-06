@@ -83,6 +83,13 @@ public:
             mLayerMask2[i].setDirect(0xffffffff);
     }
 
+    // Inline-only in the original (CarryBox::enter_ clears both subscribed words with one 64-bit store; the name is
+    // a guess).
+    void unsubscribeAllLayers() {
+        for (int i = 0; i < NumContactLayerTypes; ++i)
+            mSubscribedLayers[i].makeAllZero();
+    }
+
     // Inline-only in the original (EventDisableContactIdle::init_ stores -1 over both subscribed words;
     // the name is a guess).
     void subscribeAllLayers() {
