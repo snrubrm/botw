@@ -1,6 +1,8 @@
 #include "Game/AI/Action/actionPlayerTurnAndLookToObject.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Utils/MathUtil.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 
 namespace uking::action {
@@ -81,6 +83,37 @@ void PlayerTurnAndLookToObject::calc_() {
 
 bool PlayerTurnAndLookToObject::isChangeable() const {
     return false;
+}
+
+// NON_MATCHING: the original keeps the "DemoTurn" / "DemoTurnNatural" choice as branches (ours: csel) and loads the
+// z component of `front` as an int before the x multiply.
+void PlayerTurnAndLookToObject::m40() {
+    auto* controller = mActor->getCharacterController();
+    if (_d8) {
+        setFinished();
+        return;
+    }
+    _38.y = 0.0f;
+    _38.normalize();
+    sead::Vector3f front(mActor->getMtx().m[0][2], 0.0f, mActor->getMtx().m[2][2]);
+    front.normalize();
+    sead::Vector3f axis;
+    f32 angle;
+    ksys::util::sub_71011EEB08(&axis, &angle, front, _38, sead::Vector3f::ey);
+    mActor->getASList()->x_6(6, 0, sead::Mathf::rad2deg(angle * axis.y));
+    if (!static_cast<ksys::act::Player*>(mActor)->m188()) {
+        const char* name;
+        if (*mIsUseSlowTurn_d)
+            name = "DemoTurnNatural";
+        else
+            name = "DemoTurn";
+        static_cast<ksys::act::Player*>(mActor)->switchToAnimSequenceMaybe(name, true, -1.0f);
+    }
+    mActor->getASList()->sub_710115EFD0(0, true, false, 0.1f);
+    if (controller) {
+        controller->sub_7100F5EDD8(0.0f);
+        controller->sub_7100F5FB24(sead::Vector3f::zero);
+    }
 }
 
 }  // namespace uking::action
