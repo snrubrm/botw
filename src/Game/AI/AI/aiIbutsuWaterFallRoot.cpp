@@ -1,13 +1,20 @@
 #include "Game/AI/AI/aiIbutsuWaterFallRoot.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
+#include "KingSystem/Map/mapPlacementMgr.h"
 #include "KingSystem/XLink/xlinkXLink.h"
 #include <aal/aalHandle.h>
 #include <aal/aalSoundSource.h>
 #include <xlink2/xlink2AssetExecutorSLink.h>
 #include <xlink2/xlink2EventSLink.h>
 
+namespace ksys::tera {
+// 0x710110b4a4 (declared only; CSV unnamed): terrain height at (x, z), written to `out_height`.
+void sub_710110B4A4(f32* out_height, const sead::Vector2f* xz, void* tera_system);
+}  // namespace ksys::tera
+
 namespace uking::ai {
+using ksys::tera::sub_710110B4A4;
 
 IbutsuWaterFallRoot::IbutsuWaterFallRoot(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
@@ -82,6 +89,41 @@ void IbutsuWaterFallRoot::calc_() {
         changeChild("停止中");
         _38 = true;
     }
+}
+
+void IbutsuWaterFallRoot::sub_7100445510() {
+    sead::Vector3f top;
+    top.setMul(mActor->getMtx(), sead::Vector3f(0.0f, 0.0f, 25.0f));
+    sead::Vector3f bottom = top;
+    if (auto* placement = ksys::map::PlacementMgr::instance()) {
+        if (placement->mTeraSystem) {
+            const sead::Vector2f xz(top.x, top.z);
+            f32 height = 0.0f;
+            sub_710110B4A4(&height, &xz, placement->mTeraSystem);
+            bottom = sead::Vector3f(top.x, height, top.z);
+        }
+    }
+    if (_40) {
+        const sead::Vector3f base = mActor->getMtx().getTranslation();
+        _40->setPosition(base);
+        _40->setVector(top - base);
+        _40->setRadius(3.0f);
+    }
+    if (_48) {
+        _48->setPosition(top);
+        _48->setVector(bottom - top);
+        _48->setRadius(3.0f);
+    }
+    if (_50) {
+        _50->setPosition(bottom);
+        _50->setRadius(3.0f);
+    }
+}
+
+void IbutsuWaterFallRoot::sub_7100445AA0() {
+    _58.fade();
+    _68.fade();
+    _78.fade();
 }
 
 void IbutsuWaterFallRoot::loadParams_() {}
