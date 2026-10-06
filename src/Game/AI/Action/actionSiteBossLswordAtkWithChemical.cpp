@@ -6,10 +6,8 @@
 
 namespace uking::action {
 
-// NON_MATCHING: the original zero-fills the 0x20 bytes of `_1c8` with plain stores; the user-provided Handle
-// constructors of Unk_71012419b4 initialise the two handles field by field.
 SiteBossLswordAtkWithChemical::SiteBossLswordAtkWithChemical(const InitArg& arg)
-    : SiteBossLswordAtk(arg) {}
+    : SiteBossLswordAtk(arg), _1c8() {}
 
 SiteBossLswordAtkWithChemical::~SiteBossLswordAtkWithChemical() {
     if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {

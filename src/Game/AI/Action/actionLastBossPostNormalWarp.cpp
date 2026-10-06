@@ -6,6 +6,9 @@
 #include "KingSystem/ActorSystem/Attention/actAttClient.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
+// 0x71002c67e8 (declaration only).
+void sub_71002C67E8(f32 a1, ksys::act::Actor* actor, bool a3);
+
 namespace uking::action {
 
 LastBossPostNormalWarp::LastBossPostNormalWarp(const InitArg& arg) : ksys::act::ai::Action(arg) {}
@@ -75,6 +78,10 @@ bool LastBossPostNormalWarp::isFailed() const {
         }
     }
     return false;
+}
+
+void LastBossPostNormalWarp::m33(f32 a1, ksys::act::Actor* actor, bool a3) {
+    sub_71002C67E8(a1, actor, a3);
 }
 
 }  // namespace uking::action

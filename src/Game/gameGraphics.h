@@ -1,6 +1,8 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <container/seadPtrArray.h>
+#include <gsys/gsysModelScene.h>
 
 // Partial declaration: name from the CSV Graphics::createInstance (0x7100f2a1d0).
 // Source namespace remains unknown; global spelling follows the existing scene placeholders.
@@ -28,6 +30,13 @@ public:
     Unk_a98* getUnk_a98() const { return _a98; }
 
 private:
-    u8 _0[0xa98];
+    u8 _0[0x150];
+
+public:
+    // 0x150: the model scenes (lane5 s3: SystemApplyEnvSetAction::enter_).
+    sead::PtrArray<gsys::ModelScene> mModelScenes;
+
+private:
+    u8 _160[0xa98 - 0x160];
     Unk_a98* _a98;
 };

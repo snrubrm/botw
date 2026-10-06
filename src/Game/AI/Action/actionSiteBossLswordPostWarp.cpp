@@ -57,4 +57,8 @@ void SiteBossLswordPostWarp::calc_() {
     }
 }
 
+void SiteBossLswordPostWarp::m33(f32 a1, ksys::act::Actor* actor, bool a3) {
+    LastBossPostNormalWarp::m33(a1, actor, a3);
+}
+
 }  // namespace uking::action

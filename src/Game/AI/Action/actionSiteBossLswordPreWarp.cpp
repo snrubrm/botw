@@ -48,4 +48,8 @@ void SiteBossLswordPreWarp::calc_() {
     }
 }
 
+void SiteBossLswordPreWarp::m34(f32 a1, ksys::act::Actor* actor, bool a3) {
+    LastBossPreNormalWarp::m34(a1, actor, a3);
+}
+
 }  // namespace uking::action

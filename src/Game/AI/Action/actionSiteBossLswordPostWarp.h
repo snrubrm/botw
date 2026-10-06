@@ -18,6 +18,7 @@ public:
 
 protected:
     void calc_() override;
+    void m33(f32 a1, ksys::act::Actor* actor, bool a3) override;
 
     // static_param at offset 0xb8
     sead::SafeString mCancelSleepPartsName_s{};

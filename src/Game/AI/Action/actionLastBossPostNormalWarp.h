@@ -20,6 +20,7 @@ public:
 protected:
     void calc_() override;
     virtual void m32();
+    virtual void m33(f32 a1, ksys::act::Actor* actor, bool a3);
 
     // static_param at offset 0x20
     const float* mWaitTime_s{};
