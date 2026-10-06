@@ -9,6 +9,8 @@
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/Profiles/actWeaponBase.h"
+#include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/ActorSystem/actTag.h"
 #include "KingSystem/System/PlayReportMgr.h"
 #include "KingSystem/GameData/gdtSpecialFlags.h"
@@ -381,6 +383,55 @@ bool Enemy::m177(s32 idx, ksys::act::Actor* weapon) {
     _c38[idx].acquire(weapon, false);
     _e80.set(1 << idx);
     return true;
+}
+
+bool Enemy::sub_7100016284(s32 idx) {
+    if (!_e80.isOnBit(idx))
+        return false;
+    auto* weapon = sead::DynamicCast<Weapon>(_c38[idx].getProc(nullptr, nullptr));
+    if (!weapon)
+        return false;
+    return weapon->isParentEqual(ksys::act::PlayerInfo::getSomeProcLink());
+}
+
+bool Enemy::sub_71000161A4(s32 idx) {
+    if (!sub_7100016284(idx))
+        return false;
+    auto* weapon = sead::DynamicCast<Weapon>(_c38[idx].getProc(nullptr, nullptr));
+    if (!weapon || !weapon->hasParentActor())
+        return false;
+    return !weapon->getParentLink().hasProcById(this);
+}
+
+void Enemy::sub_7100018A9C(f32 time) {
+    _f50 = time;
+    for (s32 i = 0; i < _c38.size(); ++i) {
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::acquireActor(&_c38[i], &accessor);
+        sub_71002F1400(accessor, s32(time));
+    }
+}
+
+void Enemy::sub_7100019C58(ksys::act::Actor* actor) {
+    if (!actor)
+        return;
+    for (auto& link : _ea8) {
+        if (link.hasProcById(actor)) {
+            link.reset();
+            return;
+        }
+    }
+}
+
+void Enemy::sub_7100019D38(const ksys::act::BaseProcLink& link) {
+    if (!link.hasProc())
+        return;
+    for (auto& other : _ea8) {
+        if (other == link) {
+            other.reset();
+            return;
+        }
+    }
 }
 
 void Enemy::sub_7100015438(s32 idx, ksys::act::Actor* weapon) {
