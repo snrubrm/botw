@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiPriestBossGiantStageRotate.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/AI/aiUnk_7102450fa8.h"
@@ -92,6 +93,21 @@ bool PriestBossGiantStageRotate::handleAck_(const ksys::MessageAck* ack) {
         return false;
     _140.setBit(Flag(Flag::_6));
     return true;
+}
+
+// 0x710051c44c
+// NON_MATCHING: the Unk1 enum temporary is above the accessor in the original (sp+0x28 vs ours sp+0) and the accessor
+// address is recomputed for the destructor instead of being kept in a second callee-saved register
+void PriestBossGiantStageRotate::sub_710051C44C() {
+    auto* unit = sub_7100505BE4();
+    if (!unit)
+        return;
+    ksys::act::ActorConstDataAccess accessor;
+    unit->sub_71007194D4(1, &accessor);
+    if (accessor.hasProc()) {
+        _118.sub_710070E2BC(false, -1);
+        _118.sub_710070DBB0(*accessor.getMessageTransceiverId(), true);
+    }
 }
 
 }  // namespace uking::ai
