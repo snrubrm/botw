@@ -34,9 +34,8 @@ public:
     void finalize();
     /// 0x7100b8eed4 (declared only)
     void updatePosition_();
-    /// 0x7100b8ef88 (declared only)
     void pause(bool pause, f32 fade_time);
-    /// 0x7100b8ef58 (declared only): the handle of the sound that plays the unified sources.
+    /// The handle of the sound that plays the unified sources.
     Handle getTargetHandle() const;
 
 private:
@@ -69,6 +68,8 @@ public:
     bool isActive() const;
 
 private:
+    friend class SoundSourceUnifierSource;
+
     SpeakerBalanceUnifier* mUnifier;
     Handle mHandle;
     sead::FixedSafeString<64> mName;
