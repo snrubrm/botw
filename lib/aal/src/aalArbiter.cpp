@@ -10,7 +10,8 @@ void Arbiter::freeSoundSource(SoundSource* sound_source) {
     if (sound_source) {
         sead::ScopedLock<sead::CriticalSection> lock(&mSoundSourceCS);
         sound_source->mId = 0;
-        mSoundSources.erase(sound_source);
+        if (mSoundSources.isNodeLinked(sound_source))
+            mSoundSources.erase(sound_source);
     }
 }
 
@@ -22,7 +23,7 @@ u32 Arbiter::getRequireEmitterCreateHeap(s32 emitter_num) {
 // 0x7100b9ea60
 void Arbiter::detachGroupFromSoundSourceAll() {
     sead::ScopedLock<sead::CriticalSection> lock(&mSoundSourceCS);
-    for (SoundSource& sound_source : mSoundSources)
+    for (SoundSource& sound_source : mSoundSources.robustRange())
         sound_source.detachSoundGroup();
 }
 
@@ -36,7 +37,8 @@ void Arbiter::setEmitterAllocateCallback(IEmitterAllocateCallback* callback) {}
 void Arbiter::appendToActiveEmitterList(Emitter* emitter) {
     if (emitter) {
         sead::ScopedLock<sead::CriticalSection> lock(&mEmitterCS);
-        mActiveEmitters.pushBack(emitter);
+        if (!mActiveEmitters.isNodeLinked(emitter))
+            mActiveEmitters.pushBack(emitter);
     }
 }
 
@@ -44,7 +46,8 @@ void Arbiter::appendToActiveEmitterList(Emitter* emitter) {
 void Arbiter::removeFromActiveEmitterList(Emitter* emitter) {
     if (emitter) {
         sead::ScopedLock<sead::CriticalSection> lock(&mEmitterCS);
-        mActiveEmitters.erase(emitter);
+        if (mActiveEmitters.isNodeLinked(emitter))
+            mActiveEmitters.erase(emitter);
     }
 }
 
