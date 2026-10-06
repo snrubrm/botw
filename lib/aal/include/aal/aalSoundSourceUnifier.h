@@ -52,6 +52,7 @@ public:
     Handle getTargetHandle() const;
 
 private:
+    friend class SoundSourceUnifier;
     friend class SoundSourceUnifierTarget;
 
     SoundSource* mSoundSource;
@@ -81,6 +82,7 @@ public:
     bool isActive() const;
 
 private:
+    friend class SoundSourceUnifier;
     friend class SoundSourceUnifierSource;
 
     SpeakerBalanceUnifier* mUnifier;
@@ -105,9 +107,8 @@ public:
     void finalize();
     /// 0x7100b8e604 (declared only)
     SoundSourceUnifierSource* allocSource(SoundSource* sound_source);
-    /// 0x7100b8ea64 (declared only): a negative fade time stops the target immediately.
+    /// A negative fade time stops the target immediately.
     void freeSource(SoundSourceUnifierSource* source, f32 fade_time);
-    /// 0x7100b8eca4 (declared only)
     void calc();
 
 private:
