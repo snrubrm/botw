@@ -2,6 +2,7 @@
 
 #include <cstddef>
 #include <nn/ui2d/Pane.h>
+#include <nn/ui2d/TextureInfo.h>
 
 namespace eui {
 
@@ -15,6 +16,9 @@ public:
                                                const nn::ui2d::Size& size, s32 texture_index);
 
     /* 0xe0 */ nn::util::IntrusiveListNode mDynamicTextureNode;
+    u8 _f0[0x108 - 0xf0];
+    /* 0x108 */ nn::ui2d::TextureInfo mTextureInfo;
+    /* 0x120 */ const void* mTexture;  // the capture's texture data (null until captured)
 };
 static_assert(offsetof(DynamicCapturePane, mDynamicTextureNode) == 0xe0);
 
