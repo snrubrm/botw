@@ -1224,6 +1224,7 @@ public:
 
 // State objects of ScreenMainShortCut (StateTemplate<...>; 0x71025ef170 / 0x71025ef290) and ScreenAppTool (0x71025ec670).
 extern const ksys::StateBase sUnk_71025ef170;
+extern const ksys::StateBase sUnk_71025ef1d0;
 extern const ksys::StateBase sUnk_71025ef290;
 extern const ksys::StateBase sUnk_71025ec670;
 
@@ -1239,9 +1240,15 @@ public:
     u8 _pad_3610[0x3638 - 0x3610];
     nn::ui2d::ArchiveHandle _3638;
     sead::PtrArray<Unk_Elem> _36f0;
-    u8 _pad_3700[0x3850 - 0x3700];
+    /* 0x3700 */ sead::BitFlag8 _3700;
+    u8 _pad_3701[0x3798 - 0x3701];
+    /* 0x3798 */ eui::Animator* _3798;
+    /* 0x37a0 */ eui::Animator* _37a0;
+    u8 _pad_37a8[0x3850 - 0x37a8];
     sead::Buffer<u8> _3850;  // element type not known
-    u8 _pad_3860[0x38d0 - 0x3860];
+    u8 _pad_3860[0x38cc - 0x3860];
+    /* 0x38cc */ u8 _38cc;
+    u8 _pad_38cd[3];
     UiTexSlots _38d0;
 
     virtual void m154();
@@ -1262,6 +1269,11 @@ public:
     virtual s32 m169();
 
     bool sub_7100A20DD0();
+    // 0x7100a2063c / 0x7100a209e4 / 0x7100a20ad4 / 0x7100a20cbc (CSV unnamed; declared only)
+    void sub_7100A2063C();
+    void sub_7100A209E4();
+    void sub_7100A20AD4();
+    void sub_7100A20CBC();
 };
 
 class ScreenReadyGo : public ScreenEx {

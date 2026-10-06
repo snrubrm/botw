@@ -127,6 +127,9 @@ bool sub_7100AA8F10();
 // the JumpButtonChange flag) on the parts pane `parts`; `name` is the icon pane's name.
 void sub_7100AA34A4(void* parts, const sead::SafeString& name, s32 icon);
 
+// 0x7100aa8f78: `actor` itself, or the player if there is none.
+ksys::act::Actor* getPlayerActor(ksys::act::Actor* actor);
+
 // 0x7100aa7d38 (placeholder name): the name of hero soul `index` (-1: the empty string) from a UI-side
 // table of 16-byte SafeStrings.
 const sead::SafeString& sub_7100AA7D38(s32 index);

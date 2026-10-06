@@ -9,6 +9,7 @@
 #include "Game/UI/uiUnkTiny.h"
 #include "Game/UI/uiShopMgr.h"
 #include "Game/UI/uiUtils.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 
 namespace uking::ui {
 
@@ -397,6 +398,38 @@ void ScreenHardModeTextDLC::m98() {
 // 0x7100a322bc
 void ScreenPauseMenuMantan::m98() {
     setReservedBoxCursorNode(findBoxCursorNodeByTag(137));
+}
+
+// 0x7100a2192c
+// NON_MATCHING: the original forms the address of the byte at 0x3700 (`add x8, x19, x8; ldrb w8, [x8]`) instead of
+// the register-offset load
+void ScreenMainShortCut::m155() {
+    sub_7100A20AD4();
+    sub_7100A20CBC();
+    getPlayerActor(nullptr);
+    sub_7100A2063C();
+    auto* player = static_cast<ksys::act::PlayerBase*>(getPlayerActor(nullptr));
+    if (player && player->_c48.isOnBit(28) && _3700.isOnBit(2))
+        sub_7100A209E4();
+    if (_38cc == 0) {
+        mStateMachine.changeState(&sUnk_71025ef1d0);
+    } else if (!sub_7100AA948C()) {
+        mStateMachine.changeState(&sUnk_71025ef290);
+    }
+}
+
+// 0x7100a22094
+void ScreenMainShortCut::m163() {
+    switch (_38cc) {
+    case 1:
+        _3798->PlayAuto(-1.0f);
+        _37a0->PlayAuto(-1.0f);
+        mStateMachine.changeState(&sUnk_71025ef170);
+        break;
+    case 0:
+        mStateMachine.changeState(&sUnk_71025ef1d0);
+        break;
+    }
 }
 
 // 0x7100a22134
