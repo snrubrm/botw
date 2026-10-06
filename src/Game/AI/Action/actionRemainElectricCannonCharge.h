@@ -1,5 +1,6 @@
 #pragma once
 
+#include <xlink2/xlink2HandleELink.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
 #include "KingSystem/Event/evtResidentEvent.h"
 
@@ -21,10 +22,8 @@ protected:
 
     // static_param at offset 0x20
     const float* mChargeTime_s{};
-    s32 _28 = 0;
-    u64 _30 = 0;
-    s32 _38 = 0;
-    u8 _3c[4];
+    f32 _28 = 0;
+    xlink2::HandleELink _30;
     bool _40 = false;
     ksys::evt::ResidentEvent _48;
 };
