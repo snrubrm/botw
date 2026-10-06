@@ -32,6 +32,11 @@ bool callPlayerRespawnEvent(ksys::act::Actor* player);
 // 0x71008bb56c (CSV callDemo007_1; lane3 s18): calls Demo007_1 for `proc` (FireWood, CookPotRoot).
 bool callDemo007_1(ksys::act::BaseProc* proc);
 
+// 0x71008bb274 / 0x71008bb46c (CSV callDemo005_0 / callDemo616_0; lane2 s45, declared only; the signature is read from
+// the UI caller sub_7100A9ED78, the result is unused): demo calls for `player` with two strings (map names).
+bool callDemo005_0(ksys::act::Actor* player, const sead::SafeString& a, const sead::SafeString& b);
+bool callDemo616_0(ksys::act::Actor* player, const sead::SafeString& a, const sead::SafeString& b);
+
 // 0x71008bad74 (CSV name): calls Demo006_0 at the player's matrix.
 bool callPlayerGameOverDemo(ksys::act::Actor* player);
 
