@@ -4,6 +4,7 @@ add_library(aal OBJECT
   include/aal/aalAssetInfo.h
   include/aal/aalFadeCurveType.h
   include/aal/aalGroup.h
+  include/aal/aalGroupLimiter.h
   include/aal/aalGroupMgr.h
   include/aal/aalHandle.h
   include/aal/aalIUnifiable.h
@@ -17,6 +18,7 @@ add_library(aal OBJECT
   include/aal/aalSystem.h
   include/aal/aalSystemAccessor.h
   include/aal/aalTimedFader.h
+  src/aalGroup.cpp
   src/aalHandle.cpp
   src/aalNamedObj.cpp
   src/aalShape.cpp

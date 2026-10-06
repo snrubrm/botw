@@ -33,4 +33,10 @@ private:
 };
 static_assert(sizeof(TimedFader) == 0x28, "aal::TimedFader size mismatch");
 
+/// A fader that moves a value to a target in a given time. TODO: only moveTo is declared (0x7100b7c9b8).
+class SimpleTimedFader {
+public:
+    void moveTo(f32 target, f32 time);
+};
+
 }  // namespace aal
