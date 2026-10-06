@@ -128,6 +128,9 @@ public:
     bool sub_7100E87710();
     // 0x7100e85bc0 (declaration only; NPCReceiveHorse).
     void sub_7100E85BC0();
+    // 0x7100e85cac (declaration only; NPCDeliverHorse::oneShot_): creates horse `index` at `pos` (1152 B).
+    void sub_7100E85CAC(sead::Heap* heap, s32 index, const sead::Vector3f& pos, ksys::act::Actor* actor,
+                        bool flag);
 
     /* 0x20 */ ksys::act::BaseProcLink mOwnedHorse;
     /* 0x30 */ ksys::act::BaseProcLink _30;  // the horse being registered / received (NPCRegisterHorse)

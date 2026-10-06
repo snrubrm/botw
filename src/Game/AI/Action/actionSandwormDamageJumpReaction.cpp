@@ -3,6 +3,7 @@
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "Game/Actor/actSandworm.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 
 namespace uking::action {
 
@@ -49,6 +50,20 @@ void SandwormDamageJumpReaction::loadParams_() {
 // 0x710023fb98
 bool SandwormDamageJumpReaction::isFinished() const {
     return ksys::act::ai::Action::isFinished() || sub_710023F818();
+}
+
+bool SandwormDamageJumpReaction::sub_710023F818() const {
+    if (_68)
+        return false;
+    if (*mWaitASFinish_s && !isFinishedAS(0, 0))
+        return false;
+    if (*mWaitSandOffset_s) {
+        if (auto* sandworm = sead::DynamicCast<act::Sandworm>(mActor)) {
+            if (sead::Mathf::abs(sandworm->_159c - sandworm->_159c) > 0.1f)
+                return false;
+        }
+    }
+    return isBgGroundHit(mActor, false);
 }
 
 void SandwormDamageJumpReaction::calc_() {

@@ -46,6 +46,11 @@ public:
     u32 sub_7100D74880();
     // 0x7100d744b8 (CSV Attention::__auto12): sets the requested target link.
     void sub_7100D744B8(const BaseProcLink& link);
+    // 0x7100d748fc (declaration only; placeholder name): whether a target of `type` exists (wraps 0x7100d7457c).
+    bool sub_7100D748FC(u64 type);
+    // 0x7100d74530 (declaration only; placeholder name): sets bits 2-3 of the flag byte at +0xe22 to 2, +0xdb8 = `type`,
+    // +0xdc0 = `target`.
+    void sub_7100D74530(u64 type, void* target);
     // 0x7100d7565c (CSV Attention::setPauseState): bit 0 of the flag byte at +0xe22.
     void setPauseState(bool paused);
 

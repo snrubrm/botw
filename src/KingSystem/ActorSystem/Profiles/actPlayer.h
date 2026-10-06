@@ -729,6 +729,10 @@ bool playerIsReloadingBow(Player* player);
 bool playerIsChargingBow(Player* player);
 bool playerIsReloadingOrChargingOrShootingBow(Player* player);
 
+// 0x710086b194 (declaration only; placeholder name, no `this`): the Attention target type (0x1800000 if the
+// current target's accessor fails sub_7100D10FB8, else Attention::sub_7100D74880()).
+u32 sub_710086B194();
+
 }  // namespace ksys::act
 
 // 0x7100a95270: equipped arrow name/count query; declaration only, namespace unknown.

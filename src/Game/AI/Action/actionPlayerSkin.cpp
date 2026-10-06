@@ -1,5 +1,6 @@
 #include "Game/AI/Action/actionPlayerSkin.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/ActorSystem/Attention/actAttentionSingleton.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
@@ -33,7 +34,28 @@ void PlayerSkin::loadParams_() {
 }
 
 void PlayerSkin::calc_() {
-    PlayerAction::calc_();
+    auto* player = static_cast<ksys::act::Player*>(mActor);
+    player->_20bc.value = 0;
+    player->_20bc.prev_value = 0;
+    static_cast<ksys::act::Player*>(mActor)->actionCommon();
+    player = static_cast<ksys::act::Player*>(mActor);
+    if (!player->_17f0) {
+        if (!(player->_1850.value <= sead::Mathf::epsilon())) {
+            player->_1850.update();
+        } else {
+            if (ksys::act::Attention::instance()->sub_7100D748FC(0x180000a))
+                ksys::act::Attention::instance()->sub_7100D74530(0x180000a, nullptr);
+            static_cast<ksys::act::Player*>(mActor)->_17f0 = 1;
+        }
+    }
+    player = static_cast<ksys::act::Player*>(mActor);
+    if (!(player->_1844.value <= sead::Mathf::epsilon())) {
+        player->_1844.update();
+        return;
+    }
+    _1c = true;
+    if (ksys::act::sub_710086B194() != 0x180000a)
+        setFinished();
 }
 
 bool PlayerSkin::isChangeable() const {

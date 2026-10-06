@@ -18,6 +18,8 @@ public:
     bool isChangeable() const override;
 
 protected:
+    // 0x710022a9e4 (declared only): turns towards TargetPos, driving the angular velocity.
+    void sub_710022A9E4();
     void calc_() override;
 
     struct Params {

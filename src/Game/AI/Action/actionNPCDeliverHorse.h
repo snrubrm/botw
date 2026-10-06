@@ -10,7 +10,7 @@ public:
     explicit NPCDeliverHorse(const InitArg& arg);
     ~NPCDeliverHorse() override;
 
-protected:
+    bool oneShot_() override;
 };
 
 }  // namespace uking::action

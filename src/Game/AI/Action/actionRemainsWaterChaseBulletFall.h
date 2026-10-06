@@ -18,7 +18,7 @@ public:
     bool isFinished() const override;
 
 protected:
-    // 0x7100232d60 (declared only; 232 B): the velocity to set (SetVelocity / SetVelocityFromWeapon).
+    // 0x7100232d60: the velocity to set (SetVelocity / SetVelocityFromWeapon), times 30.
     sead::Vector3f sub_7100232D60() const;
     void calc_() override;
 

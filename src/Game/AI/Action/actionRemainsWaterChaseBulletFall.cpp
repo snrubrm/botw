@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionRemainsWaterChaseBulletFall.h"
+#include "Game/AI/aiUnk_710072BA90.h"
+#include "Game/Damage/dmgDamageManager.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
@@ -37,6 +39,18 @@ void RemainsWaterChaseBulletFall::loadParams_() {
     getStaticParam(&mInWaterDepth_s, "InWaterDepth");
     getStaticParam(&mSetVelocity_s, "SetVelocity");
     getStaticParam(&mSetVelocityFromWeapon_s, "SetVelocityFromWeapon");
+}
+
+sead::Vector3f RemainsWaterChaseBulletFall::sub_7100232D60() const {
+    sead::Vector3f velocity = sead::Vector3f::ey * *mSetVelocity_s;
+    if (auto* manager = sub_710072BA90(mActor)) {
+        // Both results are discarded in the original.
+        manager->getField54();
+        manager->getField50();
+        if (manager->getField50() == 0 || manager->getField50() == 2 || manager->getField50() == 1)
+            velocity = sead::Vector3f::ey * *mSetVelocityFromWeapon_s;
+    }
+    return velocity * 30.0f;
 }
 
 void RemainsWaterChaseBulletFall::calc_() {
