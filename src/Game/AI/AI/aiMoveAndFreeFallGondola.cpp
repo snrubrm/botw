@@ -24,13 +24,10 @@ void MoveAndFreeFallGondola::enter_(ksys::act::ai::InlineParamPack* params) {
     RailMove::enter_(params);
 }
 
-// NON_MATCHING: the original calls `_40.m3()` through the vtable (not devirtualized) and ours calls
-// Unk_71024f15c0::m3 directly (the call probably sits in an inline member of the rail follower)
 void MoveAndFreeFallGondola::calc_() {
     RailMove::calc_();
-    if (!isCurrentChild("停止") && _40.m3()) {
-        auto* actor = sead::DynamicCast<ksys::act::Actor>(_b0.getProc(nullptr, nullptr));
-        _c0.sub_710070DC38(actor, false);
+    if (!isCurrentChild("停止") && (&_40)->m3()) {
+        _c0.sub_710070DC38(sead::DynamicCast<ksys::act::Actor>(_b0.getProc(nullptr, nullptr)), false);
         changeChild("停止");
     }
 }

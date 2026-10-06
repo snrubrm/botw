@@ -31,8 +31,9 @@ void MiniBeamAttack::calc_() {
     }
 }
 
-// NON_MATCHING: the original calls `worldRayCast()` through the vtable (ours devirtualizes the stack object) and
-// builds the start point's x / y as one 8-byte pair store
+// NON_MATCHING: the original builds the actor-position fallback of the start point's x / y with a vector lane insert
+// (`ld1 {v0.s}[1]`, one 8-byte store); ours loads / stores two words. (`(&query)->worldRayCast()` is a real vtable call
+// like in the original; the plain `query.worldRayCast()` is devirtualized.)
 void MiniBeamAttack::sub_710042CFA4(const sead::Vector3f& target) {
     auto* model = mActor->getModel();
     sead::Vector3f start;
@@ -55,7 +56,7 @@ void MiniBeamAttack::sub_710042CFA4(const sead::Vector3f& target) {
     query.sub_710090D8A4();
     query.setStart(start);
     query.setEnd(end);
-    if (query.worldRayCast()) {
+    if ((&query)->worldRayCast()) {
         query.getHitPosition(&end);
         end -= sead::Vector3f::ey * *mTargetOffsetY_s;
         _100.update(end);
