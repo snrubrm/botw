@@ -228,7 +228,7 @@ public:
     // 0x7100f6321c: sets / clears bit 0x200 of mFlags and updates the controller's friction-like values.
     void sub_7100F6321C(bool value);
     // 0x7100f63370: the byte at +0x6c of the object at +0x40.
-    u8 sub_7100F63370() const;
+    bool sub_7100F63370() const;
 
     // Unnamed small accessors (lane4 s32; placeholder names, bodies in the comments).
     // 0x7100f5e850: `if (value > 0) _10->_88 = value`.

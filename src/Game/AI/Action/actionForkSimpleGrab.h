@@ -18,6 +18,7 @@ public:
 
 protected:
     void calc_() override;
+    int m32() override;
 
     // static_param at offset 0x38
     const float* mCheckRadius_s{};

@@ -289,7 +289,7 @@ f32 CharacterController::sub_7100F62F58() const {
     return _218;
 }
 
-u8 CharacterController::sub_7100F63370() const {
+bool CharacterController::sub_7100F63370() const {
     return _40->_6c;
 }
 

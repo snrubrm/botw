@@ -1,6 +1,13 @@
 #include "Game/AI/Action/actionForkToggleFreeMoving.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actCCAccessor.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
 
 namespace uking::action {
+
+static const sead::SafeString sUnk_710235e1d0 = "Body";
 
 ForkToggleFreeMoving::ForkToggleFreeMoving(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
@@ -36,6 +43,20 @@ void ForkToggleFreeMoving::leave_() {
 void ForkToggleFreeMoving::loadParams_() {
     getStaticParam(&mEnterChoice_s, "EnterChoice");
     getStaticParam(&mLeaveChoice_s, "LeaveChoice");
+}
+
+void ForkToggleFreeMoving::sub_710005CA88(bool hover) {
+    const f32 gravity = hover ? 0.0f : 1.0f;
+    if (auto* set = mActor->getRigidBodyByName(sUnk_710235e1d0.cstr())) {
+        const int num_bodies = set->getRigidBodies().size();
+        for (int i = 0; i < num_bodies; ++i)
+            set->getRigidBody(i)->setGravityFactor(gravity);
+    }
+    if (auto* controller = mActor->getCharacterController()) {
+        controller->sub_7100F5F458(hover ? ksys::act::MotionType::Hover :
+                                           ksys::act::MotionType::_0);
+        controller->sub_7100F5EEB8(gravity);
+    }
 }
 
 void ForkToggleFreeMoving::calc_() {

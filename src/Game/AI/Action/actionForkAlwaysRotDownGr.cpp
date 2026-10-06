@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionForkAlwaysRotDownGr.h"
+#include "Game/AI/aiUnk_71007377D4.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
@@ -34,8 +36,28 @@ void ForkAlwaysRotDownGr::loadParams_() {
     getStaticParam(&mGroundRotAngle_s, "GroundRotAngle");
 }
 
+// NON_MATCHING: scheduling of the rotated-vector multiplies (same operations)
 void ForkAlwaysRotDownGr::calc_() {
-    ksys::act::ai::Action::calc_();
+    auto* controller = mActor->getCharacterController();
+    if (!controller)
+        return;
+
+    if (controller->sub_7100F63370()) {
+        sub_7100738AA8(mActor, 0.01f);
+        return;
+    }
+
+    if (_40) {
+        _40 = false;
+        return;
+    }
+
+    _28.lerp(*mGroundRotAngle_s, 0.06f);
+    _28.setToMin(*mGroundRotAngle_s);
+    sead::Vector3f dir;
+    dir.setRotated(mActor->getMtx(), _34);
+    _28.updateStats();
+    ksys::act::sub_7100EE5A14(mActor, dir * _28.value);
 }
 
 }  // namespace uking::action

@@ -18,7 +18,7 @@ struct CharacterControllerUnk40 {
     /* 0x69 */ bool _69;
     /* 0x6a */ bool _6a;
     /* 0x6b */ u8 _6b;
-    /* 0x6c */ u8 _6c;
+    /* 0x6c */ bool _6c;
     /* 0x6d */ u8 _6d;
     /* 0x6e */ u8 _6e;
     /* 0x6f */ u8 _6f;
