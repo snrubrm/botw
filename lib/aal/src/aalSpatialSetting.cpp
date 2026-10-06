@@ -1,10 +1,7 @@
 #include "aal/aalSpatialSetting.h"
+#include "aal/aalMeter.h"
 
 namespace aal {
-
-namespace Meter {
-f32 toLength(f32 meter);
-}
 
 // 0x7100b91860 / 0x7100b91864
 SpatialSetting::~SpatialSetting() = default;
