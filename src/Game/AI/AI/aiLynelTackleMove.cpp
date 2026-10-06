@@ -65,6 +65,18 @@ void LynelTackleMove::sub_710049B8F0() {
     }
 }
 
+void LynelTackleMove::changeToPassThrough() {
+    const sead::Vector3f pos = mActor->getMtx().getTranslation();
+    sead::Vector3f dir;
+    mActor->getMtx().getBase(dir, 2);
+    dir.normalize();
+    const f32 dist = dir.dot(*mTargetPos_d - pos) + *mThroughDist_s;
+    const sead::Vector3f target = pos + dir * dist;
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(target, "TargetPos", -1);
+    changeChild("通り過ぎ", &pack);
+}
+
 void LynelTackleMove::sub_710049BEC4() {
     if (auto* controller = mActor->getCharacterController()) {
         controller->disableContactLayer(ksys::phys::ContactLayer::EntityPlayer);

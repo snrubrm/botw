@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiGanonStateChangeRoot.h"
+#include "Game/Actor/actLastBoss.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
@@ -44,6 +45,37 @@ void GanonStateChangeRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     }
     sub_71003EEE18();
     _40 = 600.0f;
+}
+
+void GanonStateChangeRoot::changeToWallCling() {
+    ksys::act::ai::InlineParamPack pack;
+    sead::Vector3f pos;
+    sub_71002C64A0(&pos, mActor);
+    pack.addVec3(pos, "TargetPos", -1);
+    changeChild("壁張り付き", &pack);
+}
+
+void GanonStateChangeRoot::calc_() {
+    sub_71005DB3EC(mActor);
+    if (isCurrentChild("壁に向かう")) {
+        sead::Vector3f home;
+        mActor->getHomePos(&home);
+        const sead::Vector3f& position = mActor->getMtx().getTranslation();
+        const f32 dx = position.x - home.x;
+        const f32 dz = position.z - home.z;
+        if (dx * dx + dz * dz >= (sUnk_7101e79ee8 - 10.0f) * (sUnk_7101e79ee8 - 10.0f))
+            changeToWallCling();
+        ksys::Timer::update(&_40, -1.0f);
+        if (_40 < 0)
+            setFailed();
+    } else {
+        sead::Vector3f pos;
+        sub_71002C64A0(&pos, mActor);
+        getCurrentChild()->setDynamicParam(pos, "TargetPos");
+        auto* child = getCurrentChild();
+        if (child->isFinished() || child->isFailed())
+            setFinished();
+    }
 }
 
 void GanonStateChangeRoot::leave_() {

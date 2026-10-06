@@ -91,3 +91,6 @@ KSYS_CHECK_SIZE_NX150(LastBoss, 0x1e58);
 // 0x71002c6b30: the accessor's actor as a LastBoss (null otherwise). 0x71002c6b0c: `_14e4 == 1` (false without one).
 uking::act::LastBoss* sub_71002C6B30(const ksys::act::ActorConstDataAccess& accessor);
 bool sub_71002C6B0C(const ksys::act::ActorConstDataAccess& accessor);
+// 0x71002c64a0 (placeholder name): the point 2 units from the actor towards the up-axis component
+// perpendicular to its offset from the home position.
+void sub_71002C64A0(sead::Vector3f* out, ksys::act::Actor* actor);

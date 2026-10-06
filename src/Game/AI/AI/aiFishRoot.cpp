@@ -3,6 +3,7 @@
 #include "KingSystem/Physics/System/physInstanceSet.h"
 #include "KingSystem/Physics/System/physRayCastForRequest.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actChemical.h"
@@ -118,6 +119,37 @@ void FishRoot::m40() {
     if (auto* controller = mActor->getCharacterController())
         controller->sub_7100F60604();
     SimpleWildlifeRoot::m40();
+}
+
+void FishRoot::changeToDiscoverInterest() {
+    if (!isCurrentChild("興味対象発見")) {
+        ksys::act::ActorConstDataAccess accessor;
+        if (ksys::act::acquireActor(&_150, &accessor)) {
+            ksys::act::ai::InlineParamPack pack;
+            sead::Vector3f pos;
+            accessor.getActorMtx().getTranslation(pos);
+            pack.addVec3(pos, "TargetPos", -1);
+            pack.addActor(_150, "TargetActor", -1);
+            changeChild("興味対象発見", &pack);
+        }
+    }
+}
+
+void FishRoot::changeToReturn() {
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(_190, "TargetPos", -1);
+    pack.addVec3(_184, "MoveAwayFromPos", -1);
+    changeChild("帰還", &pack);
+}
+
+void FishRoot::changeToReturnToInitialPlacement(bool is_escape) {
+    if (!isCurrentChild("初期配置帰還")) {
+        mActor->getCharacterController();
+        ksys::act::ai::InlineParamPack pack;
+        pack.addVec3(_190, "TargetPos", -1);
+        pack.addBool(is_escape, "IsEscape", -1);
+        changeChild("初期配置帰還", &pack);
+    }
 }
 
 }  // namespace uking::ai

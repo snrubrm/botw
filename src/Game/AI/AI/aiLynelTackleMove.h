@@ -20,6 +20,8 @@ public:
     void loadParams_() override;
 
     void sub_710049BEC4();
+    // 0x710049bd00 (placeholder name)
+    void changeToPassThrough();
 
     void sub_710049B8F0();
     bool handleMessage_(const ksys::Message* message) override;

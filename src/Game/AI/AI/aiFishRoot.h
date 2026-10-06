@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Game/AI/AI/aiSimpleWildlifeRoot.h"
+#include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace ksys::phys {
@@ -34,6 +35,12 @@ protected:
     // 0x71003ce608 (placeholder name): submits a downward ground ray cast from `start` as tall as the actor.
     bool sub_71003CE608(const sead::Vector3f& start);
     void sub_71003CCA34();
+    // 0x71003cd730 (placeholder name)
+    void changeToReturn();
+    // 0x71003cde1c (placeholder name)
+    void changeToDiscoverInterest();
+    // 0x71003cd81c (placeholder name)
+    void changeToReturnToInitialPlacement(bool is_escape);
 
     // static_param at offset 0xf8
     const float* mInWaterDepth_s{};
@@ -57,10 +64,12 @@ protected:
     const float* mIgnoreFoodAfterSuccessBase_s{};
     // static_param at offset 0x148
     const float* mIgnoreFoodAfterSuccessRand_s{};
-    // 0x150: BaseProcLink (ctor), 0x160 .. 0x1b4: vector / counters (not decompiled)
-    u8 _150[0x184 - 0x150];
+    // 0x160 .. 0x1b4: vector / counters (not decompiled)
+    ksys::act::BaseProcLink _150;  // the target of interest
+    u8 _160[0x184 - 0x160];
     sead::Vector3f _184;
-    u8 _190[0x1a4 - 0x190];
+    sead::Vector3f _190;
+    u8 _19c[0x1a4 - 0x19c];
     f32 _1a4;
     u8 _1a8[0x1b0 - 0x1a8];
     s32 _1b0{};

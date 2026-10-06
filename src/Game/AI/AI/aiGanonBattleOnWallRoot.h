@@ -18,6 +18,11 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    // 0x71003e31b0 (placeholder name)
+    void changeToWait();
+    // 0x71003e3288 (placeholder name)
+    void changeToLongRangeAttack();
+
 protected:
     // static_param at offset 0x38
     const float* mGuardianActivateHP_s{};

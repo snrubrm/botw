@@ -15,7 +15,14 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    // 0x71004b38a8 (placeholder name)
+    void changeToAvoidPlayerMove(const sead::Vector3f& a, const sead::Vector3f& b);
+
 protected:
+    // 0x71004b43e4 (placeholder name): `out` is AvoidPlayerDist from the player, towards the direction
+    // derived from the (normalised) offsets of `a` and `b` from the player position.
+    void sub_71004B43E4(sead::Vector3f* out, const sead::Vector3f& a, const sead::Vector3f& b);
+
     // static_param at offset 0x38
     const int* mReverseTimer_s{};
     // static_param at offset 0x40

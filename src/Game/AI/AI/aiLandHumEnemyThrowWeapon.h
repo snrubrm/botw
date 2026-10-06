@@ -17,6 +17,8 @@ public:
     void loadParams_() override;
 
     void changeToThrowWeapon();
+    // 0x710046c574 (placeholder name): drops the weapon in slot WeaponIdx, then changes child "怒り".
+    void sub_710046C574();
     // 0x710046cc20 (placeholder name; declared only)
     bool sub_710046CC20();
 

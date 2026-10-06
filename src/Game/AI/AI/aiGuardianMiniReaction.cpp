@@ -83,6 +83,20 @@ void GuardianMiniReaction::changeToChance() {
     changeChild("チャンス", &params);
 }
 
+void GuardianMiniReaction::changeToDying() {
+    auto* actor = mActor;
+    if (actor->getModel() && actor->getASList()) {
+        actor->getASList()->sub_710115C11C();
+        actor->getASList()->sub_710115BED4(true);
+        actor = mActor;
+    }
+    actor->getASList()->sub_710115B140("ChanceWaitShader", 0, 0, 1, 1);
+
+    ksys::act::ai::InlineParamPack params;
+    params.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+    changeChild("瀕死", &params);
+}
+
 void GuardianMiniReaction::m40(ksys::act::ai::InlineParamPack* params) {
     if (*mGuardianMiniChanceTimeState_a == 1) {
         sub_71005D7014(mActor);

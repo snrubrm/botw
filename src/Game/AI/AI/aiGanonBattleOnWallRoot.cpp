@@ -29,6 +29,24 @@ void GanonBattleOnWallRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     changeChild("移動", &pack);
 }
 
+void GanonBattleOnWallRoot::changeToWait() {
+    sead::Vector3f pos;
+    sub_71002C64A0(&pos, mActor);
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(pos, "TargetPos", -1);
+    changeChild("待機", &pack);
+}
+
+void GanonBattleOnWallRoot::changeToLongRangeAttack() {
+    sead::Vector3f pos;
+    sub_71002C64A0(&pos, mActor);
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+    pack.addVec3(pos, "ViewPos", -1);
+    changeChild("遠距離攻撃", &pack);
+    ++_58;
+}
+
 void GanonBattleOnWallRoot::leave_() {
     if (auto* boss = sead::DynamicCast<act::LastBoss>(mActor)) {
         if (boss->_14f8._30.isOnBit(2))

@@ -18,6 +18,8 @@ public:
 
 protected:
     bool sub_71003E0DC4();
+    // 0x71003e1318 (placeholder name)
+    void sub_71003E1318(sead::Vector3f* out);
 
     // static_param at offset 0x38
     const float* mApproachTime_s{};

@@ -25,6 +25,8 @@ public:
     void sub_7100406E90();
     // 0x7100409314 (placeholder name)
     void changeToStopCommand();
+    // 0x71004096bc (placeholder name)
+    void changeToFollowPlayer();
     // 0x7100409824 (placeholder name)
     void changeToWaitForPlayerApproach();
     // 0x71004090d4 (placeholder name): the current child is one of the cannon jump states.

@@ -31,6 +31,8 @@ public:
     // 0x7100432294: with IsHitGround, the character controller stops colliding with the ground
     // layers.
     void sub_7100432294();
+    // 0x7100431ed0 (placeholder name)
+    void changeToWigReaction();
 protected:
     // static_param at offset 0x3d0
     const float* mOptionHitReactionDelay_s{};

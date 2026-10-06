@@ -26,6 +26,8 @@ public:
     void changeToGreatswordSideAttack();
     // 0x71003ed11c (placeholder name)
     void changeToSwordAttack();
+    // 0x71003ecdcc (placeholder name)
+    void changeToShockwave();
 
 protected:
     // static_param at offset 0x38

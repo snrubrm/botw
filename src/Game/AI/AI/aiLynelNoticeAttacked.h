@@ -19,6 +19,9 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    // 0x7100494d04 (placeholder name): changes child "発見" with the enemy's target position.
+    void sub_7100494D04();
+
 protected:
     // static_param at offset 0x38
     const int* mRepeatMax_s{};

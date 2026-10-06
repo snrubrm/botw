@@ -22,6 +22,8 @@ public:
     void m42(ksys::act::ai::InlineParamPack* params) override;
 
     void changeToChance();
+    // 0x710041ee9c (placeholder name)
+    void changeToDying();
     void m40(ksys::act::ai::InlineParamPack* params) override;
 protected:
     // static_param at offset 0x68

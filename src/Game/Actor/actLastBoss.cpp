@@ -163,3 +163,16 @@ bool sub_71002C6B0C(const ksys::act::ActorConstDataAccess& accessor) {
     auto* boss = sub_71002C6B30(accessor);
     return boss ? boss->_14e4 == 1 : false;
 }
+
+void sub_71002C64A0(sead::Vector3f* out, ksys::act::Actor* actor) {
+    const sead::Vector3f pos = actor->getMtx().getTranslation();
+    sead::Vector3f home;
+    actor->getHomePos(&home);
+    const sead::Vector3f diff = pos - home;
+    sead::Vector3f side;
+    side.setCross(diff, sead::Vector3f::ey);
+    sead::Vector3f dir;
+    dir.setCross(side, diff);
+    dir.normalize();
+    *out = pos + dir * 2.0f;
+}

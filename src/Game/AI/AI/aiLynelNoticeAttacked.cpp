@@ -1,5 +1,8 @@
 #include "Game/AI/AI/aiLynelNoticeAttacked.h"
+#include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/ActorSystem/actPlayerInfo.h"
 
 namespace uking::ai {
 
@@ -33,6 +36,17 @@ void LynelNoticeAttacked::loadParams_() {
     getStaticParam(&mForceReturnDistFromHomePos_s, "ForceReturnDistFromHomePos");
     getDynamicParam(&mTargetPos_d, "TargetPos");
     getAITreeVariable(&mLynelNoticeAttackRepeatNum_a, "LynelNoticeAttackRepeatNum");
+}
+
+void LynelNoticeAttacked::sub_7100494D04() {
+    sead::Vector3f target;
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor))
+        enemy->_e08._10.getTranslation(target);
+    else
+        target = getPlayerPosition();
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(target, "TargetPos", -1);
+    changeChild("発見", &pack);
 }
 
 void LynelNoticeAttacked::calc_() {

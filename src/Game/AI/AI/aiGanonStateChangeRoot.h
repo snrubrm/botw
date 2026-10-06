@@ -12,11 +12,14 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
 
     // 0x71003eee18 (declared only; placeholder name)
     void sub_71003EEE18();
+    // 0x71003ef138 (placeholder name)
+    void changeToWallCling();
 
 protected:
     // dynamic_param at offset 0x38

@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiGanonNearAttackOnFloorRoot.h"
+#include "Game/Actor/actLastBoss.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
@@ -84,6 +85,17 @@ void GanonNearAttackOnFloorRoot::changeToSwordAttack() {
     pack.addVec3(*mTargetPos_d, "TargetPos", -1);
     pack.addBool(false, "IsMoveSide", -1);
     changeChild("小剣攻撃", &pack);
+}
+
+void GanonNearAttackOnFloorRoot::changeToShockwave() {
+    _58 = 5;
+
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+    pack.addBool(false, "IsMoveSide", -1);
+    changeChild("衝撃波", &pack);
+    if (auto* boss = sead::DynamicCast<act::LastBoss>(mActor))
+        boss->_14e8.setBit(13);
 }
 
 }  // namespace uking::ai

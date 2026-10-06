@@ -43,6 +43,15 @@ void GanonBattleRoot::sub_71003E3BA0(const sead::Vector3f& position) {
     _38 = false;
 }
 
+void GanonBattleRoot::changeToStateChange(const sead::Vector3f& position) {
+    if (auto* boss = sead::DynamicCast<act::LastBoss>(mActor))
+        boss->_14e8.setBit(3);
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(position, "TargetPos", -1);
+    changeChild("状態遷移", &pack);
+    _38 = false;
+}
+
 void GanonBattleRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     if (sead::DynamicCast<act::LastBoss>(mActor)) {
         auto* actor = mActor;

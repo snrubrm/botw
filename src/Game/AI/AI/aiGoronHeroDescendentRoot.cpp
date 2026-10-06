@@ -1,6 +1,8 @@
 #include "Game/AI/AI/aiGoronHeroDescendentRoot.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "Game/AI/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/ActorSystem/actPlayerInfo.h"
 
 namespace uking::ai {
 
@@ -55,6 +57,16 @@ void GoronHeroDescendentRoot::changeToStopCommand() {
     pack.addBool(false, "TerrorOccurring", -1);
     pack.addVec3(mActor->getMtx().getTranslation(), "TargetPos", -1);
     changeChild("停止命令", &pack);
+}
+
+void GoronHeroDescendentRoot::changeToFollowPlayer() {
+    sead::Vector3f offset;
+    offset = *mPlayerFollowOffset_s;
+    offset.rotate(getPlayerPositionViaPlayerInfo());
+    const sead::Vector3f target = offset + getPlayerPosition();
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(target, "TargetPos", -1);
+    changeChild("プレイヤー追従", &pack);
 }
 
 void GoronHeroDescendentRoot::changeToWaitForPlayerApproach() {

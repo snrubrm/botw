@@ -1,10 +1,13 @@
 #include "Game/AI/AI/aiHiddenOctarockNormal.h"
+#include <random/seadGlobalRandom.h>
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
 namespace uking::ai {
@@ -139,6 +142,25 @@ void HiddenOctarockNormal::m34() {
     if (*mIsSitDown_s)
         sub_7100432294();
     EnemyNormal::m34();
+}
+
+// NON_MATCHING: only the placement of `add x21, sp, #0x18` (the pack address kept for the destructor loop), which the
+// original emits after sub_71005D8E9C instead of before addVec3.
+void HiddenOctarockNormal::changeToWigReaction() {
+    s32 delay = _418;
+    _410 = false;
+    if (_41c != _418)
+        delay = sead::GlobalRandom::instance()->getS32Range(_418, _41c);
+    _414 = delay;
+
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(sub_71005D8F28(mActor) ? sub_71005D9330(mActor) : getPlayerPosition(), "TargetPos", -1);
+    sub_71005D8E9C(mActor);
+    changeChild("カツラ反応", &pack);
+    if (*mIsIvalidateSight_s) {
+        if (auto* awareness = mActor->getAwareness())
+            awareness->sub_7100D7E9BC(0);
+    }
 }
 
 void HiddenOctarockNormal::sub_7100432294() {

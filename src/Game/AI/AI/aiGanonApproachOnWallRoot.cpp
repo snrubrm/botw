@@ -25,6 +25,30 @@ void GanonApproachOnWallRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     }
 }
 
+// NON_MATCHING: register numbering (the original keeps the x difference of the flattened direction in s8 and
+// reads the actor's y without a copy of its translation) and the order of the early-out copy.
+void GanonApproachOnWallRoot::sub_71003E1318(sead::Vector3f* out) {
+    const sead::Vector3f target = *mTargetPos_d;
+    sead::Vector3f home;
+    mActor->getHomePos(&home);
+    const sead::Vector3f position = mActor->getMtx().getTranslation();
+    if (position.y - home.y < 10.0f) {
+        *out = position;
+        out->y += 20.0f;
+        return;
+    }
+    const sead::Vector3f flat(target.x, home.y, target.z);
+    sead::Vector3f dir = home - flat;
+    if (dir.x == 0 && dir.y == 0 && dir.z == 0)
+        dir = sead::Vector3f::ex;
+    const f32 length = dir.normalize();
+    f32 dist = length;
+    if (!(*mMinDist_s < length))
+        dist = *mMinDist_s <= *mMaxDist_s ? *mMinDist_s : *mMaxDist_s;
+    *out = home + dir * dist;
+    out->y += 16.0f;
+}
+
 void GanonApproachOnWallRoot::leave_() {
     ksys::act::ai::Ai::leave_();
 }

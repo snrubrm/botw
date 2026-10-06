@@ -22,6 +22,17 @@ void LandHumEnemyThrowWeapon::changeToThrowWeapon() {
     changeChild("武器投げ", &pack);
 }
 
+void LandHumEnemyThrowWeapon::sub_710046C574() {
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
+        const s32 index = *mWeaponIdx_s;
+        enemy->_c38[index].reset();
+        enemy->_e80.resetBit(index);
+    }
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+    changeChild("怒り", &pack);
+}
+
 bool LandHumEnemyThrowWeapon::isChangeable() const {
     return false;
 }
