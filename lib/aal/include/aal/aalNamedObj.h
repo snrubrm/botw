@@ -1,5 +1,6 @@
 #pragma once
 
+#include <basis/seadTypes.h>
 #include <prim/seadSafeString.h>
 
 namespace aal {
@@ -18,5 +19,18 @@ protected:
     sead::SafeString mName;
 };
 static_assert(sizeof(NamedObj) == 0x18, "aal::NamedObj size mismatch");
+
+/// A named object that owns the storage of its name (the name of NamedObj points to it).
+template <s32 N>
+class FixedNamedObj : public NamedObj {
+public:
+    FixedNamedObj() = default;
+    ~FixedNamedObj() override = default;
+
+    void setObjName(const sead::SafeString& name) override;
+
+protected:
+    sead::FixedSafeString<N> mFixedName;
+};
 
 }  // namespace aal
