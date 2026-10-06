@@ -32,6 +32,10 @@ public:
     void sub_7100ECDE98();
     // 0x7100ece61c (lane1 s41, declaration only; placeholder name): the point of the rope at `length` from its start.
     sead::Vector3f sub_7100ECE61C(f32 length);
+    // 0x7100ece0cc / 0x7100ece140 (declared only; placeholder names; OctarockBalloonBase::m35): enable the contact
+    // layer / set every contact on each rigid body of the rope.
+    void sub_7100ECE0CC(phys::ContactLayer layer);
+    void sub_7100ECE140();
 
     // FIXME: figure out return types, parameters and names
     virtual void m148();

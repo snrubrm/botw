@@ -130,6 +130,26 @@ struct Unk_SoundMgr60 {
     u8 mSlinkResources[8];
 };
 
+// Placeholder name: the sound instances the AreaTagAction family (Shielding / Occlusion / Reverb) get from
+// SoundMgr::_a8.
+struct Unk_SoundInstance {
+    // 0x710104acb4 (declared only; 68 B).
+    bool sub_710104ACB4();
+
+    u8 _0[0x440];
+    /* 0x440 */ f32 _440;
+    u8 _444[0x490 - 0x444];
+    /* 0x490 */ bool _490;
+    /* 0x491 */ bool _491;
+};
+
+// Placeholder name (SoundMgr::_a8): the manager of the sound instances the AreaTagAction family hold at +0xa0.
+class Unk_SoundMgra8 {
+public:
+    // 0x710104b554 (CSV nullsub_4415; declared only): releases `instance`.
+    void sub_710104B554(Unk_SoundInstance* instance);
+};
+
 // FIXME: incomplete
 struct SoundMgr {
     SEAD_SINGLETON_DISPOSER(SoundMgr)

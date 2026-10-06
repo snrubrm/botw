@@ -10,6 +10,7 @@
 #include "KingSystem/ActorSystem/actBaseProcHandle.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/GameData/gdtFlagHandle.h"
+#include "KingSystem/Utils/Thread/MessageTransceiverId.h"
 
 namespace ksys::act {
 class Actor;
@@ -132,7 +133,9 @@ public:
     /* 0x60 */ ksys::act::BaseProcLink _60;  // RideHorseForEventAction::calc_
     u8 _70[0x80 - 0x70];
     /* 0x80 */ ksys::act::BaseProcHandle _80;  // the owned horse being created (WaitWhileCreatingOwnedHorse)
-    u8 _90[0xd0 - 0x90];
+    u8 _90[0xb0 - 0x90];
+    /* 0xb0 */ ksys::MesTransceiverId _b0;  // NPCHorseResurrect::oneShot_ messages the horse manager's receiver
+    u8 _c8[0xd0 - 0xc8];
     /* 0x0d0 */ s32 _d0;  // the selected horse (-1: none)
     u8 _d4[0x19c - 0xd4];
     /* 0x19c */ ksys::gdt::FlagHandle _19c;  // Horse_Familiarity
