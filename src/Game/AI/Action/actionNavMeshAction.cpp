@@ -2,6 +2,7 @@
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "Game/AI/aiUnk_71007377D4.h"
+#include "Game/AI/aiUnk_71007320F0.h"
 
 namespace uking::action {
 
@@ -32,6 +33,27 @@ void NavMeshAction::calc_() {
     m33();
     if (sub_71001F08E4())
         setFinished();
+}
+
+// NON_MATCHING: the three products of the dot product with the actor's z axis are scheduled in a
+// different order (everything else is identical).
+bool NavMeshAction::sub_71001F08E4() {
+    auto* actor = mActor;
+    const sead::Vector3f target = *m35();
+    sead::Vector3f dir = target - mActor->getMtx().getTranslation();
+    const f32 distance = dir.length();
+    dir.y = 0.0f;
+    dir.normalize();
+    const f32 fin_radius = *mParams.mFinRadius_s + sub_71007320F0(actor, *mParams.mWeaponIdx_s);
+    if (distance <= fin_radius) {
+        const f32 dot = dir.x * actor->getMtx().m[0][2] + dir.y * actor->getMtx().m[1][2] +
+                        dir.z * actor->getMtx().m[2][2];
+        if (dot >= sead::Mathf::cos(*mParams.mFinRotate_s)) {
+            if (sub_710072F944(actor, target, nullptr, fin_radius, 3.0f))
+                return true;
+        }
+    }
+    return false;
 }
 
 sead::Vector3f* NavMeshAction::m35() {
