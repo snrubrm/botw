@@ -19,6 +19,10 @@ public:
     void loadParams_() override;
 
 protected:
+    // 0x71004df78c: plays the schedule DynAS name in the slots 0x37 and 0x38
+    void sub_71004DF78C();
+    // 0x71004dfa0c: switches the character controller to the "Crouching" / "Standing" form
+    void sub_71004DFA0C(bool crouching);
     Unk_710240bc48 _38{mActor, 0x8000009};
     ksys::Timer _68{0, 0};
 };
