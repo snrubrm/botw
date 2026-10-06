@@ -17,6 +17,8 @@ class AttClient {
 public:
     // 0x0000007100d71170
     AttClient();
+    // 0x7100d71248
+    ~AttClient();
 
     const sead::SafeString& getName() const;
     void resetEnabled();
@@ -35,6 +37,9 @@ public:
     s32 sub_7100D72534() const;
     // 0x7100d721c0: declaration-only attention update operation.
     void sub_7100D721C0();
+    // 0x7100d72178 (CSV AttClient::x_3; declaration only): copies the matrix data of the resource client (reads the
+    // Attention singleton) into `_48..` and runs AttClient::checkM4.
+    void sub_7100D72178();
     // 0x7100d72320 (CSV AttClient::x_2): registers the client with the Attention singleton.
     void sub_7100D72320();
     // 0x7100d72144: whether the client has an actor and a resource client.
@@ -60,7 +65,7 @@ private:
     int _14 = 0;
     f32 _18 = 0.0;
     f32 _1c = 1.0;
-    f32 _20;
+    f32 _20 = 0.0f;
     void* mCallback = nullptr;
     void* _30 = nullptr;
     sead::Buffer<sead::Matrix34f> _38;  // one matrix per check of the resource client

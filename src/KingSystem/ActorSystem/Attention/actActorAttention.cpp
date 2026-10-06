@@ -3,9 +3,13 @@
 
 namespace ksys::act {
 
+ActorAttention::~ActorAttention() {
+    mClients.freeBuffer();
+}
+
 void ActorAttention::sub_7100D73454(sead::Vector3f* out) const {
     if (mList)
-        mList->x(out, mActor, &_50);
+        mList->x(out, mActor, &mBoneKey.getKey());
 }
 
 s32 ActorAttention::getNumClients() const {
@@ -81,6 +85,26 @@ void ActorAttention::enableAllClients() {
 void ActorAttention::disableAllClients() {
     for (auto& client : mClients)
         client.disable();
+}
+
+void ActorAttention::sub_7100D738EC() {
+    for (auto& client : mClients)
+        client.sub_7100D72178();
+}
+
+void ActorAttention::sub_7100D73924() {
+    for (auto& client : mClients)
+        client.sub_7100D721C0();
+}
+
+void ActorAttention::sub_7100D7395C() {
+    for (auto& client : mClients)
+        client.sub_7100D72320();
+}
+
+void ActorAttention::resetEnabled() {
+    for (auto& client : mClients)
+        client.resetEnabled();
 }
 
 }  // namespace ksys::act

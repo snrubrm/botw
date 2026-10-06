@@ -21,6 +21,9 @@ class Actor;
 // TODO: incomplete.
 class ActorAttention {
 public:
+    // 0x7100d72d64 (the Buffer<AttClient> is freed before the bone key is destroyed).
+    ~ActorAttention();
+
     s32 getNumClients() const;
     // 0x7100d73430 (the const-qualified twin is at 0x7100d7340c; not decompiled).
     AttClient* getClientByIdx(s32 idx);
@@ -34,17 +37,20 @@ public:
     bool disableClient(const sead::SafeString& name);
     void enableAllClients();
     void disableAllClients();
-    // 0x7100d738ec / 0x7100d73924: declaration-only operations on the clients.
+    // 0x7100d738ec / 0x7100d73924 / 0x7100d7395c / 0x7100d73994: call the matching operation on every client
+    // (AttClient::sub_7100D72178 / sub_7100D721C0 / sub_7100D72320 / resetEnabled).
     void sub_7100D738EC();
     void sub_7100D73924();
+    void sub_7100D7395C();
+    void resetEnabled();
     // 0x7100d73454: `mList->x(out, mActor, &_50)` (the position of the attention target; Actor::m88 stores it).
     void sub_7100D73454(sead::Vector3f* out) const;
 
     /* 0x00 */ res::AttClientList* mList;
     /* 0x08 */ Actor* mActor;
     /* 0x10 */ sead::Buffer<AttClient> mClients;
-    u8 _20[0x50 - 0x20];
-    /* 0x50 */ gsys::BoneAccessKey _50;
+    /* 0x20 */ gsys::BoneAccessKeyEx mBoneKey;
 };
+KSYS_CHECK_SIZE_NX150(ActorAttention, 0x58);
 
 }  // namespace ksys::act

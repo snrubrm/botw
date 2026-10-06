@@ -52,7 +52,9 @@ struct CharacterControllerShapes {
 
 // Placeholder: objects at CharacterController::_38 / _40 / _48 / _50 (only the fields read / written by the accessors).
 struct CharacterControllerUnk38 {
-    /* 0x00 */ u8 _0[0x34];
+    /* 0x00 */ u8 _0[0x1c];
+    /* 0x1c */ sead::Vector3f _1c;
+    /* 0x28 */ sead::Vector3f _28;
     /* 0x34 */ bool _34;
     /* 0x38 */ sead::Vector3f _38;
     /* 0x44 */ sead::Vector3f _44;
@@ -727,6 +729,61 @@ void CharacterController::sub_7100F60398(const sead::Vector3f& impulse) {
     if (impulse.x != 0.0f || impulse.y != 0.0f || impulse.z != 0.0f)
         _114 |= 0x20;
     _88 += impulse;
+}
+
+void CharacterController::sub_7100F5ED4C(UserTag* tag) {
+    mRigidBody->setUserTag(tag);
+    if (_114 & 0x2000) {
+        for (int i = 0; i < _288.size(); ++i) {
+            if (auto* body = _288[i])
+                body->setUserTag(tag);
+        }
+    }
+}
+
+UserTag* CharacterController::sub_7100F5EDA8() const {
+    return mRigidBody->getUserTag();
+}
+
+const sead::Vector3f& CharacterController::sub_7100F5F134() const {
+    return _38->_1c;
+}
+
+const sead::Vector3f& CharacterController::sub_7100F5F140() const {
+    return _38->_28;
+}
+
+const sead::Vector3f& CharacterController::sub_7100F609C0() const {
+    return _40->_54;
+}
+
+const sead::Vector3f& CharacterController::sub_7100F609CC() const {
+    return _40->_18;
+}
+
+void CharacterController::sub_7100F5FBA8(sead::Vector3f* velocity, const sead::Vector3f& target) const {
+    if (mFlags.isOn(0x10000))
+        _298->computeLinearVelocity(velocity, target, TakeAngularVelocityIntoAccount(false));
+    else
+        mRigidBody->computeLinearVelocity(velocity, target, TakeAngularVelocityIntoAccount(false));
+}
+
+void CharacterController::sub_7100F5E714(bool clear) {
+    mRigidBody->changeNoCharStandingOnFlag(!clear);
+}
+
+bool CharacterController::sub_7100F60840() const {
+    return mRigidBody->hasFlag(RigidBody::Flag::UseSystemTimeFactor);
+}
+
+void CharacterController::sub_7100F60850(bool clear) {
+    mRigidBody->clearFlag400000(clear);
+    if (_114 & 0x2000) {
+        for (int i = 0; i < _288.size(); ++i) {
+            if (auto* body = _288[i])
+                body->clearFlag400000(clear);
+        }
+    }
 }
 
 }  // namespace ksys::phys

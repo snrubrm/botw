@@ -76,7 +76,10 @@ public:
     /* 0xc3c */ f32 _c3c;
     /* 0xc40 */ u8 _c40[0xc4c - 0xc40];
     /* 0xc4c */ u32 _c4c;
-    /* 0xc50 */ u8 _c50[0xd98 - 0xc50];
+    /* 0xc50 */ u8 _c50[0xd88 - 0xc50];
+    /* 0xd88 */ f32 _d88;  // centre / width of the random delay AttClient's constructor picks
+    /* 0xd8c */ f32 _d8c;
+    /* 0xd90 */ u8 _d90[0xd98 - 0xd90];
     /* 0xd98 */ BaseProcLink mRequestedTarget;
     /* 0xda8 */ u8 _da8[0xdb8 - 0xda8];
     /* 0xdb8 */ u32 _db8;

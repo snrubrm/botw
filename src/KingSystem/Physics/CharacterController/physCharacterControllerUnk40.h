@@ -1,6 +1,7 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <math/seadVector.h>
 
 namespace ksys::phys {
 
@@ -12,7 +13,11 @@ struct CharacterControllerUnk40 {
 
     /* 0x00 */ u8 _0[0x10];
     /* 0x10 */ s32 _10;
-    /* 0x14 */ u8 _14[0x50];
+    /* 0x14 */ u8 _14[4];
+    /* 0x18 */ sead::Vector3f _18;
+    /* 0x24 */ u8 _24[0x54 - 0x24];
+    /* 0x54 */ sead::Vector3f _54;
+    /* 0x60 */ u8 _60[4];
     /* 0x64 */ u32 _64;
     /* 0x68 */ u8 _68;
     /* 0x69 */ bool _69;

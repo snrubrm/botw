@@ -23,6 +23,7 @@ class CollisionInfo;
 class ContactPointInfo;
 class RigidBody;
 class SystemGroupHandler;
+class UserTag;
 
 struct CharacterControllerUnk10;
 struct CharacterControllerUnk20;
@@ -210,6 +211,24 @@ public:
     // 0x7100f62bb8: sub_7100F5F270(0).
     void sub_7100F62BB8();
 
+    // 0x7100f5ed4c: sets the user tag of the main rigid body (and of every body of _288 if _114 has 0x2000).
+    void sub_7100F5ED4C(UserTag* tag);
+    // 0x7100f5eda8: the user tag of the main rigid body.
+    UserTag* sub_7100F5EDA8() const;
+    // 0x7100f5f134 / 0x7100f5f140: the vectors at `_38 + 0x1c` / `_38 + 0x28`.
+    const sead::Vector3f& sub_7100F5F134() const;
+    const sead::Vector3f& sub_7100F5F140() const;
+    // 0x7100f609c0 / 0x7100f609cc: the vectors at `_40 + 0x54` / `_40 + 0x18`.
+    const sead::Vector3f& sub_7100F609C0() const;
+    const sead::Vector3f& sub_7100F609CC() const;
+    // 0x7100f5fba8: RigidBody::computeLinearVelocity of the controller's body (or of _298 when flag 0x10000 is set).
+    void sub_7100F5FBA8(sead::Vector3f* velocity, const sead::Vector3f& target) const;
+    // 0x7100f5e714: changeNoCharStandingOnFlag(!clear) of the main rigid body.
+    void sub_7100F5E714(bool clear);
+    // 0x7100f60840: whether the main rigid body uses the system time factor.
+    bool sub_7100F60840() const;
+    // 0x7100f60850: RigidBody::clearFlag400000 on the main body and (if _114 has 0x2000) on every body of _288.
+    void sub_7100F60850(bool clear);
     // 0x7100f5e754: sets the byte at +0x50 of the sub-object at +0x48.
     void sub_7100F5E754(bool value);
     // 0x7100f5f060: copies `value` to _ec.

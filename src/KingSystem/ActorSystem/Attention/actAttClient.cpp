@@ -1,5 +1,7 @@
 #include "KingSystem/ActorSystem/Attention/actAttClient.h"
 #include <gfx/seadCamera.h>
+#include <math/seadMathCalcCommon.h>
+#include <random/seadGlobalRandom.h>
 #include "KingSystem/ActorSystem/Attention/actAttentionSingleton.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
@@ -7,6 +9,26 @@
 #include "KingSystem/System/CameraMgr.h"
 
 namespace ksys::act {
+
+// NON_MATCHING: the order of the member stores and the register assignment of the delay computation differ
+AttClient::AttClient() {
+    if (auto* attention = Attention::instance()) {
+        const f32 width = sead::Mathf::clampMin(attention->_d8c, 0.0f);
+        const f32 center = attention->_d88;
+        const f32 min = sead::Mathf::clampMin(center - width * 0.5f, 0.0f);
+        const f32 max = sead::Mathf::clampMin(center + width * 0.5f, 0.0f);
+        if (min == max)
+            _20 = min;
+        else
+            _20 = sead::GlobalRandom::instance()->getF32Range(min, max);
+    } else {
+        _20 = 30.0f;
+    }
+}
+
+AttClient::~AttClient() {
+    _38.freeBuffer();
+}
 
 const sead::SafeString& AttClient::getName() const {
     return mClient->name.ref();
