@@ -30,13 +30,12 @@ void ForkEndByDistance::loadParams_() {
     getDynamicParam(&mTargetPos_d, "TargetPos");
 }
 
-// NON_MATCHING: the original loads the actor Z translation with an integer load (ldr w; fmov) and orders the position loads
-// differently; the branches, sums and end checks are identical
+// NON_MATCHING: the translation copy (`const Vector3f pos = getTranslation()` reproduces the integer z load) and
+// the end checks match; the allocator/scheduler orders the pointer registers and the x / z subtractions differently
 void ForkEndByDistance::calc_() {
     Fork::calc_();
     auto* actor = mActor;
-    sead::Vector3f pos;
-    actor->getMtx().getTranslation(pos);
+    const sead::Vector3f pos = actor->getMtx().getTranslation();
     const f32 dx = pos.x - mTargetPos_d->x;
     const f32 dz = pos.z - mTargetPos_d->z;
     f32 sum;

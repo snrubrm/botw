@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionEventChangeShadowNearAndFar.h"
+#include "Game/gameGraphics.h"
 
 namespace uking::action {
 
@@ -26,8 +27,20 @@ void EventChangeShadowNearAndFar::loadParams_() {
     getDynamicParam(&mIsFarSetManual_d, "IsFarSetManual");
 }
 
+// NON_MATCHING: register allocation of the flag / value temporaries only.
 void EventChangeShadowNearAndFar::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (auto* graphics = Graphics::instance()) {
+        if (auto* shadow = graphics->getUnk_a98()) {
+            if (*mIsNearSetManual_d) {
+                shadow->mShadowNear = *mManualNearValue_d;
+                shadow->mFlags |= 0x100;
+            }
+            if (*mIsFarSetManual_d) {
+                shadow->mShadowFar = *mManualFarValue_d;
+                shadow->mFlags |= 0x200;
+            }
+        }
+    }
 }
 
 }  // namespace uking::action
