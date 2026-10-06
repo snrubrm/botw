@@ -26,6 +26,8 @@ public:
     f32 calcLocalDistance(const sead::Vector3f& position) const;
     /// Same as calcLocalPosition, with the other basis that is used for the angle calculation.
     void calcLocalPositionForAngle(sead::Vector3f* out, const sead::Vector3f& position) const;
+    /// The matrix `matrix` relative to the listener (with the basis of the angle calculation).
+    void calcLocalMatrixForAngle(sead::Matrix34f* out, const sead::Matrix34f& matrix) const;
     /// Purpose unknown (the byte at 0xf0 selects between the two bases of calcLocalPositionForAngle).
     bool isFlag0xf0() const { return _f0; }
 

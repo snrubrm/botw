@@ -41,6 +41,16 @@ void Listener::calcLocalPositionForAngle(sead::Vector3f* out, const sead::Vector
         out->z = 0.0f;
 }
 
+// NON_MATCHING: same vector code, but the original selects the basis with `csel ..., eq` (first operand the plain
+// matrix) where this builds `ne` with the operands swapped (the select of the flag at 0xf0 is canonicalised).
+// 0x7100b848a0
+void Listener::calcLocalMatrixForAngle(sead::Matrix34f* out, const sead::Matrix34f& matrix) const {
+    const sead::Matrix34f& basis = !_f0 ? mLocalMatrix : mLocalMatrixForAngle;
+    out->setMul(basis, matrix);
+    if (mIs2D)
+        out->m[2][3] = 0.0f;
+}
+
 // 0x7100b84930
 void Listener::setObjName(const sead::SafeString& name) {
     mFixedName.copy(name);
