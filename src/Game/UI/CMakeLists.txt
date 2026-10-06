@@ -144,6 +144,7 @@ target_sources(uking PRIVATE
   uiScreenButtonUnit.cpp
   uiScreenSlots.cpp
   uiScreenStates.cpp
+  uiScreenTimerSlots.cpp
   uiScreenOwnSlots.cpp
   uiScreens.h
   uiShopFacade.cpp

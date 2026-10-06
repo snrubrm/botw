@@ -233,6 +233,16 @@ bool UiSubsys1::return0D() const {
     return false;
 }
 
+// 0x7100966300
+void UiSubsys1::start388c() {
+    _388c.init(0.2f);
+}
+
+// 0x7100966e20
+bool UiSubsys1::checkEnded388c() {
+    return _388c.checkEnded();
+}
+
 // 0x7100967d98 (CSV uiSubsys1::__auto30)
 bool UiSubsys1::return0B() const {
     return false;

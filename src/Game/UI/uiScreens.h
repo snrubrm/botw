@@ -1741,15 +1741,13 @@ public:
     SEAD_RTTI_OVERRIDE(ScreenMessageTipsPauseMenu, ScreenEx)
     eui::TagProcessor* doCreateTagProcessor_(sead::Heap* heap) override;
 
+    void m93(sead::Heap* heap) override;
+    void m94() override;
+    void m98() override;
+
     /* 0x3610 */ s32 _3610 = 2;
-    s32 _3614{};
-    s32 _3618{};
-    s32 _361c{};
-    s32 _3620{};
-    f32 _3624 = 1.0f;
-    u8 _3628{};
-    u8 _3629[3];
-    u8 _362c{};
+    /* 0x3614 */ UiTimer _3614;
+    /* 0x362c */ u8 _362c{};
     u8 _362d[3];
 };
 

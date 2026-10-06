@@ -4,6 +4,7 @@
 #include <container/seadPtrArray.h>
 #include <math/seadVector.h>
 #include <container/seadSafeArray.h>
+#include "Game/UI/uiTimer.h"
 #include "KingSystem/Utils/Types.h"
 
 namespace ksys::act {
@@ -250,6 +251,9 @@ public:
     u8 get3904() const;
     u8 get3905() const;
     bool return0C() const;
+    // 0x7100966300 / 0x7100966e20 (placeholder names)
+    void start388c();
+    bool checkEnded388c();
     bool return0D() const;
     bool return0B() const;
     bool return0() const;
@@ -325,7 +329,7 @@ private:
     /* 0x3885 */ bool _3885;
     u8 _3886[0x3888 - 0x3886];
     /* 0x3888 */ s32 _3888;
-    u8 _388c[0x38a4 - 0x388c];
+    /* 0x388c */ UiTimer _388c;
     /* 0x38a4 */ s32 _38a4;
     /* 0x38a8 */ s32 _38a8;
     /* 0x38ac */ u8 _38ac;
