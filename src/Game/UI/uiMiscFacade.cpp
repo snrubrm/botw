@@ -7,6 +7,7 @@
 #include "Game/UI/uiUtils.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "Game/AI/AI/aiGoronHeroDescendentRoot.h"
+#include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 
 // UI wrapper functions around unidentified UI singletons (the 0x7100a94000 TU).
 namespace uking::ui {
@@ -162,6 +163,18 @@ void sub_7100A94B90() {
 void sub_7100A9B584(const sead::Vector3f* a0) {
     if (auto* s = Unk_71025d6550::instance())
         s->_80 = *a0;
+}
+
+// 0x7100a9d03c: the number of obtained rune items (remote bombs count twice).
+int sub_7100A9D03C() {
+    const s32 magnesis = ksys::gdt::getFlag_IsGet_Obj_Magnetglove();
+    const bool stop_timer = ksys::gdt::getFlag_IsGet_Obj_StopTimer();
+    s32 count = stop_timer ? (magnesis ? 2 : 1) : magnesis;
+    count += ksys::gdt::getFlag_IsGet_Obj_IceMaker();
+    count += ksys::gdt::getFlag_IsGet_Obj_Camera();
+    if (ksys::gdt::getFlag_IsGet_Obj_RemoteBomb())
+        count += 2;
+    return count;
 }
 
 // 0x7100a9d0b4

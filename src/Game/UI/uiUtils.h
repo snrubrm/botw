@@ -35,6 +35,10 @@ bool getRuntimeTipFlag(s32 index);
 void sub_7100A94AF0();
 bool sub_7100A96688();
 s32 sub_7100A968B4();
+// 0x7100a9a4bc (uiMiscFacade.cpp; declaration added by lane4 s44 for CanMarkMapPin).
+bool sub_7100A9A4BC();
+// 0x7100a9d03c (uiMiscFacade.cpp): the number of obtained runes (remote bombs count twice).
+int sub_7100A9D03C();
 bool openPickUpScreen(ksys::act::Actor* actor);
 
 enum class EquipmentSlot;
