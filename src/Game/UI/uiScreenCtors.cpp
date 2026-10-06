@@ -19,6 +19,9 @@ ScreenBoxCursorTV::ScreenBoxCursorTV() : Screen() {}
 // 0x71010a3ea8
 ScreenLoadSaveIcon::ScreenLoadSaveIcon() : Screen() {}
 
+// 0x710109e644
+ScreenDemoMessage::ScreenDemoMessage() : Screen() {}
+
 // 0x7100a53dc0
 ScreenSousaGuide::ScreenSousaGuide() : ScreenEx() {}
 

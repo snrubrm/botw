@@ -8,6 +8,7 @@
 #include <thread/seadCriticalSection.h>
 #include "Game/UI/euiAnimator.h"
 #include "Game/UI/euiControlBase.h"
+#include "Game/UI/euiMessageString.h"
 #include "Game/UI/euiScreen.h"
 #include "Game/UI/euiUIController.h"
 #include "Game/UI/uiButtonEventQueue.h"
@@ -673,8 +674,17 @@ public:
 // Nominal types of two more screens (ScreenId::DemoMessage, ScreenId::ErrorViewer).
 class ScreenDemoMessage : public Screen {
 public:
+    ScreenDemoMessage();
     ~ScreenDemoMessage() override;
     SEAD_RTTI_OVERRIDE(ScreenDemoMessage, Screen)
+
+    /* 0x300 */ eui::MessageString _300;
+    /* 0x310 */ void* _310{};
+    /* 0x318 */ sead::FixedSafeString<256> _318;
+    /* 0x430 */ sead::FixedSafeString<256> _430;
+    /* 0x548 */ s32 _548 = -1;
+    /* 0x550 */ u64 _550 = 0;
+    /* 0x558 */ u16 _558 = 0;
 
     // 0x710109e94c / 0x710109e96c (CSV unnamed, declared only): called by UI::sub_71010A7034 / sub_71010A6D84.
     void sub_710109E94C();
