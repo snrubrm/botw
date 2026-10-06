@@ -27,6 +27,10 @@ bool isPlayingOneHitObliteratorQuest();
 /// parameter is probably a `require the player on the ground` flag).
 int hasEscapedOneHitObliteratorQuest(bool a1);
 /// 0x7100736604 (CSV name; declared only; lane3 s36): DamageManager::sub_71006D8DE8 passes `true`.
+/// 0x71007364a8 (CSV name; lane4 s49): whether `actor` is not null and its link satisfies the check below.
+bool isOneHitObliteratorActor(ksys::act::Actor* actor, bool a2);
+/// 0x7100736510 (CSV name; declared only).
+bool isOneHitObliteratorBaseProcLink(ksys::act::BaseProcLink* link, bool a2);
 bool isOneHitObliteratorActorAccessor(const ksys::act::ActorConstDataAccess& accessor, bool a2);
 }
 

@@ -30,4 +30,30 @@ xlink2::HandleSLink searchAndEmitSLink(act::Actor* actor, const char* name, bool
     return sEmptyHandle;
 }
 
+void sub_710105DDB8(act::Actor* actor, const char* name, xlink2::HandleSLink* handle) {
+    if (!handle)
+        return;
+    if (auto* xlink = actor->getXLink()) {
+        if (!xlink->_cc.isOn(0x100)) {
+            if (auto* user_instance = xlink->_50)
+                user_instance->searchAndEmit(name, handle);
+        }
+    }
+}
+
+void sub_710105DF6C(act::Actor* actor, const char* name, bool a, bool b) {
+    if (auto* xlink = actor->getXLink())
+        xlink->sub_7101232FB4(name, a, false, b);
+}
+
+bool sub_710105E030(act::Actor* actor, u32 idx, s32 value) {
+    if (auto* xlink = actor->getXLink()) {
+        if (auto* user_instance = xlink->_50) {
+            user_instance->setPropertyValue(idx, value);
+            return true;
+        }
+    }
+    return false;
+}
+
 }  // namespace ksys::eft

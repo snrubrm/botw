@@ -54,6 +54,8 @@ public:
     void sleepELink();
     void resetELinkEvents();
     void sub_7101231468(u32 property, f32 value, bool force);
+    // 0x7101232fb4 (declared only): called by eft::sub_710105DF6C.
+    void sub_7101232FB4(const char* name, bool a, bool b, bool c);
 
     /* 0x00 */ u8 _0[0x48];
     /* 0x48 */ xlink2::UserInstanceELink* _48;

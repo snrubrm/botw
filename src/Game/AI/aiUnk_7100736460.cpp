@@ -1,5 +1,7 @@
 #include "Game/AI/aiUnk_7100736460.h"
+#include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actTag.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
@@ -21,6 +23,14 @@ bool sub_710073646C(ksys::act::BaseProcLink* link) {
 namespace dlc {
 bool isPlayingOneHitObliteratorQuest() {
     return ksys::gdt::getFlag_BalladOfHeroes_Step02() && !ksys::gdt::getFlag_BalladOfHeroes_Step03();
+}
+
+bool isOneHitObliteratorActor(ksys::act::Actor* actor, bool a2) {
+    if (!actor)
+        return false;
+    ksys::act::BaseProcLink link;
+    link.acquire(actor, false);
+    return isOneHitObliteratorBaseProcLink(&link, a2);
 }
 }  // namespace dlc
 
