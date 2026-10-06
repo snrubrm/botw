@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/System/Timer.h"
 
 namespace ksys::phys {
 class Constraint;
@@ -37,13 +38,12 @@ protected:
     // aitree_variable at offset 0x30
     bool* mIsTargetFixedAcceptor_a{};
     ksys::phys::Constraint* _38{};
-    f32 _40 = 0.0f;
-    int _44 = 0;
-    int _48 = 0;
+    ksys::Timer _40;
     f32 _4c = 0.0f;
     f32 _50 = 0.0f;
     f32 _54 = 0.0f;
-    u16 _58 = 0;
+    bool _58 = false;
+    bool _59 = false;
 };
 
 }  // namespace uking::action

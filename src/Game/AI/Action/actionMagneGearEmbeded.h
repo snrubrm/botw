@@ -1,5 +1,6 @@
 #pragma once
 
+#include <xlink2/xlink2HandleSLink.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace ksys::phys {
@@ -26,7 +27,7 @@ protected:
     ksys::phys::Constraint* _30{};
     ksys::phys::Constraint* _38{};
     ksys::phys::Constraint* _40{};
-    void* _48{};
+    xlink2::HandleSLink* _48{};
 };
 
 }  // namespace uking::action

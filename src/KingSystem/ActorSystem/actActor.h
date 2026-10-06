@@ -94,6 +94,7 @@ class WeaponBase;
 class ActorChemicals;
 class Unk_71006e45c4;
 class Unk_7100e4e084;
+struct ActorUnk6b8;
 class Unk_71025ae640;
 class Unk_71025b08f8;
 class ActorCreator;
@@ -606,6 +607,8 @@ public:
     sead::Atomic<bool>& get68c() { return _68c; }
     sead::Atomic<bool>& get68f() { return _68f; }
     bool get690() const { return _690; }
+    // lane3 s38 (FixedMagneStick::calc_); the type is a placeholder (only byte 0x8b is known).
+    ActorUnk6b8* get6b8() const { return _6b8; }
     float get6f0() const { return _6f0; }
     // lane5 s2 (NPCKnockBackMove::calc_ scales the knock-back speed by it); name is a guess.
     float get830() const { return _830; }
@@ -938,7 +941,7 @@ protected:
     /* 0x6a0 */ void* _6a0 = nullptr;
     /* 0x6a8 */ ActorChemicals* mChemical = nullptr;
     /* 0x6b0 */ phys::Reaction* mReaction = nullptr;
-    /* 0x6b8 */ void* _6b8 = nullptr;
+    /* 0x6b8 */ ActorUnk6b8* _6b8 = nullptr;
     /* 0x6c0 */ UMiiModelLink mUMiiModelLink{this};
     /* 0x6d0 */ float _6d0 = 0.0;
     /* 0x6d8 */ void* _6d8 = nullptr;

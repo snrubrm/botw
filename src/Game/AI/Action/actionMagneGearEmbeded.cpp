@@ -1,5 +1,9 @@
 #include "Game/AI/Action/actionMagneGearEmbeded.h"
+#include "Game/AI/aiXlinkHandle.h"
+#include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/Constraint/physConstraint.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
 
 namespace uking::action {
 
@@ -41,13 +45,38 @@ void MagneGearEmbeded::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void MagneGearEmbeded::leave_() {
-    ksys::act::ai::Action::leave_();
+    mActor->emitBasicSigOff();
+    if (_20)
+        _20->sub_7100F6A074();
+    if (_28)
+        _28->sub_7100F6A074();
+    if (_30)
+        _30->sub_7100F6A074();
+    if (_38)
+        _38->sub_7100F6A074();
+    if (_40)
+        _40->sub_7100F6A074();
+    if (_48)
+        xlink::fade(*_48, -1);
 }
 
 void MagneGearEmbeded::loadParams_() {}
 
 void MagneGearEmbeded::calc_() {
-    ksys::act::ai::Action::calc_();
+    mFlags.set(Flag::Changeable);
+    if (auto* body = mActor->getMainBody()) {
+        sead::Vector3f angular_velocity;
+        body->getAngularVelocity(&angular_velocity);
+        const f32 speed = angular_velocity.length();
+        if (_48) {
+            if (speed > 0.0f) {
+                if (!_48->isActive())
+                    ksys::eft::sub_710105DDB8(mActor, "Roll", _48);
+            } else {
+                xlink::fade(*_48, -1);
+            }
+        }
+    }
 }
 
 }  // namespace uking::action
