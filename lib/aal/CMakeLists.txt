@@ -44,6 +44,7 @@ add_library(aal OBJECT
   src/aalActiveSoundLimiter.cpp
   src/aalAttenuationComponentListReflexer.cpp
   src/aalCone.cpp
+  src/aalConeFactory.cpp
   src/aalArbiter.cpp
   src/aalEmitter.cpp
   src/aalFxDelayParamSetter.cpp
