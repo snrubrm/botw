@@ -19,12 +19,17 @@ protected:
     void calc_() override;
     virtual bool m32();
 
+    // 0x71002906cc / 0x71002907bc (placeholder names): take the actor's physics out of / back into the world.
+    void sub_71002906CC();
+    void sub_71002907BC();
+
     // static_param at offset 0x20
     const bool* mIsOnAttention_s{};
     // static_param at offset 0x28
     sead::SafeString mASName_s{};
     int _38 = -1;
-    u16 _3c = 0;
+    bool _3c = false;
+    bool _3d = false;
 };
 
 }  // namespace uking::action
