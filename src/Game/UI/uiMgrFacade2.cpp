@@ -314,4 +314,36 @@ bool sub_7100AA94C4(eui::LayoutEx* layout, bool visible) {
     return true;
 }
 
+// 0x7100aa950c
+bool sub_7100AA950C(Screen* screen, bool visible) {
+    if (screen && !screen->isClosed() && screen->mLayout->mPane->IsVisible() != visible) {
+        screen->m80(visible);
+        return true;
+    }
+    return false;
+}
+
+// NON_MATCHING: identical instructions; the original keeps the magnitude in w10 and the constant 1 in w9 (ours the
+// other way round: abs / fitSign / std::abs / ternary forms give other shapes)
+// 0x7100aa92ac (placeholder name): the signed step (1, 20, 50, 500 or 1000 by the size of the distance) from `from`
+// towards `to`; 0 when they are equal
+s32 sub_7100AA92AC(s32 from, s32 to) {
+    if (from == to)
+        return 0;
+    const s32 diff = to - from;
+    const s32 distance = sead::Mathi::abs(diff);
+    s32 step;
+    if (distance < 50)
+        step = 1;
+    else if (distance < 500)
+        step = 20;
+    else if (distance < 1000)
+        step = 50;
+    else if (distance < 2000)
+        step = 500;
+    else
+        step = 1000;
+    return step * (diff > 0 ? 1 : -1);
+}
+
 }  // namespace uking::ui

@@ -462,6 +462,13 @@ void ScreenSystemWindowNoBtn::m94() {
         _292 |= 0x20;
 }
 
+// 0x7100a60650
+void ScreenSystemWindowNoBtn::sub_7100A60650() {
+    if (!_3610 || _3610->mRate != 0)
+        return;
+    _3610->PlayAuto(1.0f);
+}
+
 // 0x7100a0b63c
 void ScreenHardModeTextDLC::m98() {
     eui::MessageString message;

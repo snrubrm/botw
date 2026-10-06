@@ -13,6 +13,7 @@ enum class CreateEquipmentSlot : u8;
 }
 
 namespace uking::ui {
+class Screen;
 class ScreenChildEx;
 }
 
@@ -171,6 +172,16 @@ bool sub_7100A9B1BC();
 void sub_7100AA9808(nn::ui2d::Pane* pane);
 // 0x7100aa94c4 (placeholder name): shows / hides the root pane of the (built) layout; returns whether it changed.
 bool sub_7100AA94C4(eui::LayoutEx* layout, bool visible);
+
+// 0x7100aa950c (placeholder name): sets the visibility of the screen through its slot 80 unless it is closed or already
+// in that state; returns whether it did.
+bool sub_7100AA950C(Screen* screen, bool visible);
+
+// 0x7100aa9678 (placeholder name): starts the animator of the system window without buttons (screen 55) if it exists.
+void sub_7100AA9678();
+
+// 0x7100aa92ac (placeholder name): the step of a counter that moves from `from` towards `to` (see the definition).
+s32 sub_7100AA92AC(s32 from, s32 to);
 
 // 0x7100aa9728 (placeholder name): sets the UI manager's byte at 0x652e8 (called by the ScreenBootUp ctor).
 void sub_7100AA9728();

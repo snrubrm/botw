@@ -1287,4 +1287,11 @@ bool sub_7100A9BBA8() {
     return mgr->getTargetFlag(2) == 0;
 }
 
+// 0x7100aa9678 (placeholder name)
+void sub_7100AA9678() {
+    if (auto* screen = sead::DynamicCast<ScreenSystemWindowNoBtn>(
+            eui::ScreenMgr::instance()->getScreen(ScreenId::SystemWindowNoBtn)))
+        screen->sub_7100A60650();
+}
+
 }  // namespace uking::ui

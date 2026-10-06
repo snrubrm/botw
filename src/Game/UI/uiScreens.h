@@ -2071,6 +2071,8 @@ public:
     ~ScreenSystemWindowNoBtn() override;
     void m93(sead::Heap* heap) override;
     void m94() override;
+    // 0x7100a60650 (placeholder name): starts the first animator if it is not running
+    void sub_7100A60650();
     /* 0x3610 */ eui::Animator* _3610{};
     /* 0x3618 */ eui::Animator* _3618{};
     SEAD_RTTI_OVERRIDE(ScreenSystemWindowNoBtn, ScreenEx)
