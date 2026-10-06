@@ -80,6 +80,19 @@ public:
     void sub_710103CFF4(StartParam& param);
     // 0x710103d094 (declared only)
     void sub_710103D094();
+
+    // 0x710103bb00 (declared only; CSV unnamed): applies the scene sound controls (bgm type, se type) now.
+    void sub_710103BB00(int bgm_type, int se_type);
+    // 0x710103cfe8: stores the two types in _5d0 / _5d4 for later (used while _5cc is set).
+    void sub_710103CFE8(int bgm_type, int se_type);
+
+    u8 _0[0x5cc];
+    /* 0x5cc */ bool _5cc;
+    u8 _5cd[0x5d0 - 0x5cd];
+    /* 0x5d0 */ int _5d0;
+    /* 0x5d4 */ int _5d4;
+    // Set by SceneSoundSetEndProcAction ("SkipAll"); name unknown.
+    /* 0x5d8 */ bool _5d8;
 };
 
 // Placeholder name (ctor 0x710104e5b4; SoundMgr::_90; the object has a byte at +0x2a0 whose bit 2 means "ducking

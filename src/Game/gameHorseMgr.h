@@ -145,3 +145,7 @@ public:
 };
 
 }  // namespace uking
+
+// 0x7100e86d84 (CSV name; declared only, class unknown): resurrects the horse with the given index; returns the new
+// index, or a negative number on failure.
+s32 resurrectHorseStuff(uking::HorseMgr* mgr, s32 index);

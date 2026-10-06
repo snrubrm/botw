@@ -43,7 +43,37 @@ void StrangeBeacon::loadParams_() {
 }
 
 void StrangeBeacon::calc_() {
-    ksys::act::ai::Action::calc_();
+    bool linked_calc = false;
+    if (auto* obj = mActor->getMapObject()) {
+        auto* link_data = obj->getLinkData();
+        if (link_data && link_data->mObjects.size() >= 1) {
+            if (auto* linked = link_data->mObjects[0]) {
+                ksys::act::ActorConstDataAccess accessor;
+                linked->getActorWithAccessor(accessor);
+                linked_calc = accessor.hasProc() && accessor.isStateCalc();
+            }
+        }
+    }
+
+    if (linked_calc) {
+        if (!ksys::gdt::getBoolByKey(mSaveFlag_s, false)) {
+            _50.fadeXLink();
+            return;
+        }
+        if (_50.sub_7101241B6C())
+            return;
+    } else {
+        const bool hidden = mActor->sub_7100EE1E94();
+        const bool active = _50.sub_7101241B6C();
+        if (hidden) {
+            if (active)
+                _50.fadeXLink();
+            return;
+        }
+        if (active || mActor->x_40())
+            return;
+    }
+    xlinkSearchAndEmit(mActor, mKeyName_s.cstr(), 2, &_50);
 }
 
 }  // namespace uking::action

@@ -388,6 +388,8 @@ public:
     // 0x7100ee1e94 (declaration only; placeholder name): queries the actor's `_570->_138` object with the
     // current time type; SystemHide::m32 forwards to it.
     bool sub_7100EE1E94();
+    // CSV name Actor::x_40 (0x7100ee1d48, 332 bytes; StrangeBeacon::calc_ tests its result before emitting an effect).
+    bool x_40();
     // Placeholder-named pieces of Actor::onJobPush2_ that NoCalcActor::onJobPush2_ calls one by one (declarations
     // only; lane4 s28): CSV Actor::deleteIfPlacementStuff (0x71011ccc68), Actor::decrementSkipJobPushTimer
     // (0x71011cddb8), Actor::x_14 (0x71011c99dc), Actor::x_16 (0x71011ce034) and

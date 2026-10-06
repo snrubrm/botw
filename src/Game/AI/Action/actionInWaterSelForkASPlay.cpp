@@ -2,6 +2,8 @@
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include <random/seadGlobalRandom.h>
+#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/System/VFR.h"
 
 namespace uking::action {
@@ -15,7 +17,19 @@ bool inWaterSelForkASPlay::init_(sead::Heap* heap) {
 }
 
 void inWaterSelForkASPlay::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    ksys::act::acc::PlayerBase player;
+    player.getPlayerFromPlayerInfo();
+    auto* as_list = mActor->getASList();
+    as_list->x_2(66, 18, player.sub_7100D0FF48(), true);
+    playAS(mASName_s.cstr(), *mIsIgnoreSame_s, *mTargetBone_s, *mSeqBank_s, -1.0f);
+    const f32 first_random_ratio = *mFirstRandomRatio_s;
+    if (first_random_ratio > 0.0f)
+        mActor->getASList()->sub_710115F1D8(0, 0, first_random_ratio * sead::GlobalRandom::instance()->getF32());
+    if (*mChangeableTiming_s == 0)
+        mFlags.set(Flag::Changeable);
+    else
+        mFlags.reset(Flag::Changeable);
+    _60 = 0.0f;
 }
 
 void inWaterSelForkASPlay::leave_() {

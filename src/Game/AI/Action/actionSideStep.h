@@ -21,6 +21,18 @@ public:
 protected:
     void calc_() override;
 
+    // 0x71002530e0 (placeholder name): sets the turn speed (ASList::x_6) to turn towards the target position and
+    // starts the step animation.
+    void sub_71002530E0();
+
+    // 0x7100252b24 (placeholder name): turns the actor towards the view target (or applies the stop rotation speed
+    // without one).
+    void sub_7100252B24();
+
+    // 0x7100252cfc (placeholder name): starts the jump: cancels the horizontal velocity, then launches the actor
+    // towards the target position.
+    void sub_7100252CFC();
+
     struct Params {
         // static_param at offset 0x20
         const float* mRotSpeedRatio_s{};

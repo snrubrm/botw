@@ -19,6 +19,10 @@ public:
 protected:
     void calc_() override;
 
+    // 0x7100276d2c (placeholder name): starts the death: disables the ground collisions of the character
+    // controller, passes the actor's velocities to the ragdoll and plays ASName.
+    void sub_7100276D2C();
+
     // static_param at offset 0x20
     const int* mTime_s{};
     // static_param at offset 0x28

@@ -10,7 +10,7 @@ public:
     explicit NPCHorseResurrect(const InitArg& arg);
     ~NPCHorseResurrect() override;
 
-protected:
+    bool oneShot_() override;
 };
 
 }  // namespace uking::action
