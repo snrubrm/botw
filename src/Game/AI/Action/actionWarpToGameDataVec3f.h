@@ -1,5 +1,6 @@
 #pragma once
 
+#include <math/seadMatrix.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -12,6 +13,7 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void loadParams_() override;
+    bool oneShot_() override;
 
 protected:
     virtual void m32();
@@ -30,6 +32,8 @@ protected:
     sead::SafeString mGameDataVec3fWarpToPos_d{};
     // dynamic_param at offset 0x58
     sead::SafeString mGameDataVec3fRotDir_d{};
+    sead::Matrix34f _68 = sead::Matrix34f::ident;
+    sead::Vector3f _98 = sead::Vector3f::ones;
 };
 
 }  // namespace uking::action

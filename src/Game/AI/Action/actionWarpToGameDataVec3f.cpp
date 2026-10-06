@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionWarpToGameDataVec3f.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -18,6 +19,16 @@ void WarpToGameDataVec3f::loadParams_() {
     getDynamicParam(&mRotToVec3f_d, "RotToVec3f");
     getDynamicParam(&mGameDataVec3fWarpToPos_d, "GameDataVec3fWarpToPos");
     getDynamicParam(&mGameDataVec3fRotDir_d, "GameDataVec3fRotDir");
+}
+
+bool WarpToGameDataVec3f::oneShot_() {
+    if (!mActor)
+        return false;
+
+    _98.set(mActor->getScale());
+    m32();
+    mActor->setMtx(_68, false, true);
+    return true;
 }
 
 }  // namespace uking::action

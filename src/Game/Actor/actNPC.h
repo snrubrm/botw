@@ -124,7 +124,7 @@ public:
     /* 0x1090 */ f32 _1090 = 5.0;
     /* 0x1094 */ f32 _1094 = -1.0;
     /* 0x1098 */ sead::Vector3f _1098;
-    /* 0x10a4 */ u32 _10a4 = 0;
+    /* 0x10a4 */ f32 _10a4 = 0;  // WarpToAnchor::oneShot_ stores the warp target height here (bit copy)
     /* 0x10a8 */ u8 _10a8[0x10b0 - 0x10a8];
     /* 0x10b0 */ u32 _10b0 = 0;
     /* 0x10b8 */ void* _10b8 = nullptr;
