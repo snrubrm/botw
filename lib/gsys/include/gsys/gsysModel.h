@@ -1,5 +1,6 @@
 #pragma once
 
+#include <algorithm>
 #include <basis/seadTypes.h>
 #include <container/seadBuffer.h>
 #include <container/seadOffsetList.h>
@@ -79,6 +80,33 @@ public:
     // min(mUnitPool.size(), mNumModels) pool entries. (0x7100bf7a04 is the maximum instead of the sum;
     // 0x7100bf7a68 / 0x7100bf7ac8 are the same for ModelUnit::getMaterialNum().)
     int getTotalBoneNum() const;
+    // 0x7100bf7a04 / 0x7100bf7a68 / 0x7100bf7ac8: the maximum bone count and the sum / maximum of the material
+    // counts of the used units (names are guesses).
+    int getMaxBoneNum() const;
+    int getTotalMaterialNum() const;
+    int getMaxMaterialNum() const;
+    // 0x7100bf7b2c (name is a guess): sets the total bone count; when `override` is false the count is
+    // recomputed (getTotalBoneNum) and the override flag (_a0 bit 3) cleared.
+    void setTotalBoneNum(int num, bool override);
+    // 0x7100bf7dd8 / 0x7100bf7e34 (names are guesses): whether any used unit has bit `bit` set in its
+    // visibility mask (ModelUnit +0xc, the mask x() changes) / sets the mask of every used unit.
+    bool isVisibilityBitOn(int bit) const;
+    void setVisibilityMask(u16 mask);
+    // 0x7100bf8b54 (CSV name) / 0x7100bf8ba8 / 0x7100bf8c04 (CSV name) / 0x7100bf8d18: each forwards one value to
+    // the used units (ModelUnit::resetRenderOption / resetRenderViewOption(option, -1) / 0x7100c3e79c /
+    // 0x7100c3e9b8(0x10, on)).
+    void resetRenderToDepthShadow(int option);
+    void sub_7100BF8BA8(int option);
+    void resetRenderToDepthShadowOnly(int value);
+    void sub_7100BF8D18(bool on);
+    // 0x7100bf7ea4 / 0x7100bf7f18 (names are guesses): the OR over the model units (access array) of the
+    // visibility mask (+0xc) / of the u16 at +0x14.
+    u16 getVisibilityMaskAll() const;
+    u16 getFlags14All() const;
+    // 0x7100bf7f8c (name is a guess): the maximum over the model units of the u32 at ModelUnit +0x18.
+    u32 getMaxValue18() const;
+    // 0x7100bf7358 (name is a guess): finalizes and frees the animation set.
+    void destroyAnimation_();
 
     // The bone setters forward to the model unit of the key (virtual slots of ModelUnit):
     // 0x7100bf7c30 (declared only)
@@ -111,6 +139,10 @@ public:
     sead::CriticalSection& getCS() const { return mCS; }
 
 private:
+    // inline-only in the original; name is a guess: the number of leading pool entries that hold model units
+    // (every per-unit loop below runs over min(pool size, mNumModels) entries).
+    u32 getUsedUnitNum() const { return std::min<u32>(mNumModels, mUnitPool.size()); }
+
     void gatherBounding_() const;
 
     sead::Buffer<ModelInfo> mUnitPool;

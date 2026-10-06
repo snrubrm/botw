@@ -35,6 +35,8 @@ using ModelUnitCallback = sead::IDelegate1<const ModelUnitCallbackArg&>;
 using ModelUnitCallbackStorage = sead::AnyDelegate1<const ModelUnitCallbackArg&>;
 
 // TODO
+class Model;
+
 class ModelUnit {
     SEAD_RTTI_BASE(ModelUnit)
 public:
@@ -186,6 +188,15 @@ public:
     virtual void forceCalcDrawSetup();
     virtual void setUpMaterialImpl(int, sead::Heap* heap);
 
+    // Non-virtual members (declared only): 0x7100c3ea8c / 0x7100c3eb54 / 0x7100c3ebd0 / 0x7100c3f7c0, and the
+    // unnamed 0x7100c3e79c / 0x7100c3e9b8 (called by Model::resetRenderToDepthShadowOnly / Model::sub_7100BF8D18).
+    void resetRenderOption(ModelEnum::RenderOption option);
+    void enableRenderViewOption(ModelEnum::RenderViewOption option, bool enable, int view);
+    void resetRenderViewOption(ModelEnum::RenderViewOption option, int view);
+    void setReferenceLod(const ModelUnit& other);
+    void sub_7100C3E79C(int value);
+    void sub_7100C3E9B8(int value, bool enable);
+
     // inline-only in the original; name is a guess: whether `option` is enabled for the shape `shape_idx` in the
     // view `view_idx`. The option records `mViewOptions` (one per shape and view, shape-major) are read like in
     // enableRenderViewOption() / resetRenderViewOption(): the base pointer is loaded before the virtual
@@ -198,6 +209,8 @@ public:
     sead::Vector3f* get50() const { return _50; }
 
 protected:
+    friend class Model;
+
     sead::TypedBitFlag<Flag, u8> mFlags;
     s8 mUnkIndex;
     s8 mNumLods;
@@ -207,7 +220,8 @@ protected:
     sead::TypedBitFlag<Attribute, u16> mAttributeFlags;
     u16 _14;
     u16 _16;
-    void* _18;
+    u32 _18;
+    u32 _1c;
     void* _20;
     ModelUnitDrawArray* mDrawArray;
     void* _30;

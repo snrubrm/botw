@@ -33,6 +33,10 @@ public:
         AnimationAccessKey<MaterialAnmType> getKey() const { return key; }
     };
 
+    /// 0x7100bfdc04 / 0x7100bfa52c (declared only): releases the animation set / frees the object.
+    void finalize();
+    static void destroy(ModelAnimation* animation);
+
     /// 0x7100bfe384 (declared only): sets the frame of the animation set on slot `slot`.
     void setMaterialAnmFrame(int slot, f32 frame);
 
