@@ -39,6 +39,26 @@ private:
     static UiLowPrioThreadMgr* sInstance;
 };
 
+// Instance pointer 0x71025d6ac0 (placeholder name; used by the UI facade).
+class Unk_71025d6ac0 {
+public:
+    static Unk_71025d6ac0* instance() { return sInstance; }
+
+    // 0x71009686a0: `_74 = value`, clears _80
+    void sub_71009686A0(s32 value);
+    // 0x71009686bc: clears _80, `_84 = value * 2`
+    void sub_71009686BC(s32 value);
+
+    u8 _0[0x74];
+    /* 0x74 */ s32 _74;
+    u8 _78[0x80 - 0x78];
+    /* 0x80 */ s32 _80;
+    /* 0x84 */ s32 _84;
+
+private:
+    static Unk_71025d6ac0* sInstance;
+};
+
 // Instance pointer 0x71025d6578 (createInstance 0x7100949bbc, size 0x78, polymorphic with a
 // singleton disposer at 0x8). `_3c` is a state (initialised to 13), `_40` is initialised to 7.
 class Unk_71025d6578 {

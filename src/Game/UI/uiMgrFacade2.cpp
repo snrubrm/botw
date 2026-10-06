@@ -6,6 +6,7 @@
 #include "Game/UI/uiManager.h"
 #include "Game/UI/euiLayoutEx.h"
 #include "Game/UI/uiUI.h"
+#include "Game/UI/uiUnkSingletons.h"
 #include "Game/UI/uiUtils.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
@@ -344,6 +345,21 @@ s32 sub_7100AA92AC(s32 from, s32 to) {
     else
         step = 1000;
     return step * (diff > 0 ? 1 : -1);
+}
+
+// 0x7100a9f410
+void sub_7100A9F410(s32 value) {
+    if (Unk_71025d6ac0::instance()) {
+        Unk_71025d6ac0::instance()->sub_71009686BC(value);
+        Unk_71025d6ac0::instance()->sub_71009686A0(0);
+    }
+}
+
+// 0x7100a9b5b0 (placeholder name): the original only evaluates the type check of the screen AppMapDungeon (id 34) and
+// ignores its result (the use of the cast screen was optimised away; called by SiteBossRoot)
+void sub_7100A9B5B0() {
+    sead::IsDerivedFrom<ScreenAppMapDungeon>(
+        eui::ScreenMgr::instance()->getScreen(ScreenId::AppMapDungeon));
 }
 
 }  // namespace uking::ui

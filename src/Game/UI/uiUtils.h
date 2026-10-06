@@ -183,6 +183,10 @@ void sub_7100AA9678();
 // 0x7100aa92ac (placeholder name): the step of a counter that moves from `from` towards `to` (see the definition).
 s32 sub_7100AA92AC(s32 from, s32 to);
 
+// 0x7100a9b5b0 (placeholder name): type check of the screen AppMapDungeon (id 34) with an ignored result (called by
+// SiteBossRoot).
+void sub_7100A9B5B0();
+
 // 0x7100aa9728 (placeholder name): sets the UI manager's byte at 0x652e8 (called by the ScreenBootUp ctor).
 void sub_7100AA9728();
 
