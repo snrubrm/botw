@@ -60,6 +60,8 @@ public:
 
     /* 0x20 */ ksys::act::BaseProcLink mOwnedHorse;
     /* 0x30 */ ksys::act::BaseProcLink _30;  // the horse being registered / received (NPCRegisterHorse)
+    u8 _40[0x20];
+    /* 0x60 */ ksys::act::BaseProcLink _60;  // RideHorseForEventAction::calc_
 };
 
 }  // namespace uking

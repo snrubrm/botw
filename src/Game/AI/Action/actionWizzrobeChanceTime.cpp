@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionWizzrobeChanceTime.h"
+#include "Game/AI/aiUnk_710072BA90.h"
+#include "Game/Damage/dmgDamageManager.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -23,7 +26,7 @@ void WizzrobeChanceTime::enter_(ksys::act::ai::InlineParamPack* params) {
         setFinished();
         return;
     }
-    _68 = ksys::Timer(counter, counter);
+    _60.mTimer = ksys::Timer(counter, counter);
 }
 
 void WizzrobeChanceTime::leave_() {
@@ -39,6 +42,29 @@ void WizzrobeChanceTime::loadParams_() {
 
 void WizzrobeChanceTime::calc_() {
     HoverBase::calc_();
+    if (isFinished() || isFailed())
+        return;
+
+    auto* manager = sub_710072BA90(mActor);
+    if (manager && manager->_216.isOn(2)) {
+        manager = sub_710072BA90(mActor);
+        if (manager && manager->_216.isOn(2)) {
+            switch (manager->getField50()) {
+            case 0:
+            case 1:
+            case 2:
+                _60.mTimer = ksys::Timer(*mDamageCounter_s, *mDamageCounter_s);
+                return;
+            default:
+                setFinished();
+                return;
+            }
+        }
+    }
+
+    _60.sub_7100D3BCE4();
+    if (_60.mTimer.value <= sead::Mathf::epsilon())
+        setFinished();
 }
 
 }  // namespace uking::action

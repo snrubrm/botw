@@ -1,5 +1,6 @@
 #pragma once
 
+#include "KingSystem/ActorSystem/actUnk_7100d3bc4c.h"
 #include "KingSystem/System/Timer.h"
 #include "Game/AI/Action/actionHoverBase.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
@@ -26,8 +27,7 @@ protected:
     const float* mDamageCounter_s{};
     // static_param at offset 0x50
     sead::SafeString mASName_s{};
-    ksys::act::Actor* _60 = mActor;
-    ksys::Timer _68;
+    ksys::act::Unk_7100d3bce4 _60{mActor};
 };
 
 }  // namespace uking::action
