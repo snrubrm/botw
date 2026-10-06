@@ -27,8 +27,10 @@ protected:
     void sub_710034E838();
     void sub_710034EEB0(sead::Vector3f* out);
 
-    // Declaration only; native w1 bit 0 gates direction selection.
+    // w1 bit 0 gates direction selection (sub_710034F16C).
     void sub_710034E90C(bool keep_direction);
+    // 0x710034f16c (declaration only, 644 B; placeholder name): picks the circling direction.
+    void sub_710034F16C();
 
     // static_param at offset 0x38
     const int* mDirection_s{};

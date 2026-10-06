@@ -1,6 +1,7 @@
 #include "Game/AI/AI/aiChemicalGiantArmorRoot.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actChemical.h"
+#include "KingSystem/System/VFR.h"
 
 namespace uking::ai {
 
@@ -46,6 +47,19 @@ void ChemicalGiantArmorRoot::calc_() {
         _48 = false;
         _4c = 0.0f;
     }
+}
+
+void ChemicalGiantArmorRoot::sub_7100348188() {
+    auto* chemical = mActor->getChemicalStuff();
+    if (!chemical)
+        return;
+    _4c = sead::Mathf::max(_4c, chemical->_1b4);
+    const f32 value = chemical->_1b8;
+    const u32 frames = u32(*mElectricTime_s) / ksys::VFR::instance()->getFrameRate();
+    f32 rate = _4c * (1.0f / f32(frames));
+    if (rate <= 1e-9f)
+        rate = 1e-9f;
+    chemical->sub_7100D945BC(rate, value, ksys::VFR::instance()->getDeltaFrame());
 }
 
 }  // namespace uking::ai

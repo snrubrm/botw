@@ -46,6 +46,26 @@ void CircleMove::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 // NON_MATCHING: Virtual-table loads and shared margin branches differ from the original.
+void CircleMove::sub_710034E90C(bool keep_direction) {
+    sead::Vector3f center;
+    m34(&center);
+    sead::Vector3f direction(mActor->getMtx().getTranslation().x - center.x, 0.0f,
+                             mActor->getMtx().getTranslation().z - center.z);
+    direction.normalize();
+    _58 = sead::Mathf::atan2(direction.x, direction.z);
+    if (!keep_direction)
+        sub_710034F16C();
+    const f32 speed = *mSpeed_s;
+    const f32 radius = m37();
+    _58 += _5c * (speed / radius) * ksys::VFR::instance()->getDeltaFrame();
+    _58 -= sead::Mathf::floor(_58 * (1.0f / sead::Mathf::pi2())) * sead::Mathf::pi2();
+    const f32 angle = _58 >= sead::Mathf::pi2() ? 0.0f : _58;
+    _58 = angle;
+    sead::Vector3f target;
+    m38(&target, angle, m37());
+    m35(target);
+}
+
 void CircleMove::calc_() {
     auto* child = getCurrentChild();
     if (child->isFinished() || child->isFailed()) {

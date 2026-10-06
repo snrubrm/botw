@@ -30,6 +30,9 @@ public:
 
     void sub_7100D8EAB4(int value);
     void sub_7100D8EEE0();
+    // 0x7100d945bc (declaration only, lane1 s39; placeholder name): ChemicalGiantArmorRoot passes the charge
+    // rate, _1b8 and the delta frame.
+    void sub_7100D945BC(f32 rate, f32 value, f32 delta_frame);
     // 0x7100d8f124: associates a chemical world holder (same incomplete type as _60).
     bool sub_7100D8F124(void* holder);
     void sub_7100D8F194();
