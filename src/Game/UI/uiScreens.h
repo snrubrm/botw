@@ -662,6 +662,12 @@ public:
     bool sub_7100A11D34(s32);
 };
 
+// Placeholder for the info overlay object ScreenMainScreen keeps at 0x3648.
+struct ScreenMainScreenUnk3648 {
+    // 0x710098a93c (CSV unnamed; declared only)
+    void sub_710098A93C(s32 type, const sead::SafeString& text);
+};
+
 // Placeholder for the object ScreenMainScreen keeps at 0x3658 (the int at 0x150 is written by sub_7100A1AB58).
 struct ScreenMainScreenUnk3658 {
     u8 _0[0x150];
@@ -676,11 +682,15 @@ public:
     ~ScreenMainScreen() override;
     SEAD_RTTI_OVERRIDE(ScreenMainScreen, ScreenEx)
 
-    u8 _pad_3610[0x3658 - 0x3610];
+    u8 _pad_3610[0x3648 - 0x3610];
+    /* 0x3648 */ ScreenMainScreenUnk3648* _3648;
+    u8 _pad_3650[0x3658 - 0x3650];
     /* 0x3658 */ ScreenMainScreenUnk3658* _3658;
     u8 _pad_3660[0x3704 - 0x3660];
     /* 0x3704 */ s32 _3704;
-    u8 _pad_3708[0x3aa8 - 0x3708];
+    u8 _pad_3708[0x3720 - 0x3708];
+    /* 0x3720 */ f32 _3720;  // -99.0f initially
+    u8 _pad_3724[0x3aa8 - 0x3724];
     /* 0x3aa8 */ u8 _3aa8;
     u8 _pad_3aa9[0x3ca8 - 0x3aa9];
     /* 0x3ca8 */ eui::LayoutEx* _3ca8;
@@ -691,6 +701,8 @@ public:
     void showInfoOverlayWithString(s32 type, const sead::SafeString& text);
 
     void sub_7100A1A4E4(s64);
+    // 0x7100a1a518 (CSV unnamed; declared only; the types are guesses)
+    void sub_7100A1A518(s64 a1, bool a2);
     bool sub_7100A1E1E0();
 };
 
@@ -1309,6 +1321,8 @@ public:
 
 // Placeholder for the map widget the AppMap screen owns (byte 0xb33a is set by ScreenAppMap::mainEnter).
 struct ScreenAppMapWidget {
+    // 0x71009a9438 (CSV unnamed; declared only)
+    bool sub_71009A9438();
     u8 _0[0xb33a];
     /* 0xb33a */ u8 _b33a;
 };

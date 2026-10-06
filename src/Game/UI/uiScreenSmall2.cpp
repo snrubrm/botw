@@ -45,6 +45,19 @@ void ScreenMainScreen::sub_7100A1AB58(s32 a1) {
         _3658->_150 = a1;
 }
 
+// 0x7100a1ab74
+void ScreenMainScreen::showInfoOverlayWithString(s32 type, const sead::SafeString& text) {
+    if (_3648)
+        _3648->sub_710098A93C(type, text);
+}
+
+// 0x7100a1a4e4
+void ScreenMainScreen::sub_7100A1A4E4(s64 a1) {
+    sub_7100A1A518(a1, false);
+    if (!sub_7100AA8F10())
+        _3720 = -99.0f;
+}
+
 // 0x7100a1e1e0
 bool ScreenMainScreen::sub_7100A1E1E0() {
     if (!_3ca8)
@@ -780,6 +793,11 @@ void ScreenAppSystemWindow::m94() {
         else
             close(-1);
     }
+}
+
+// 0x71009e9f10
+bool ScreenAppMap::sub_71009E9F10() {
+    return _3610 ? _3610->sub_71009A9438() : false;
 }
 
 }  // namespace uking::ui
