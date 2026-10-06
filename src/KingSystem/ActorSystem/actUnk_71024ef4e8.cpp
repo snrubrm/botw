@@ -8,6 +8,10 @@
 
 namespace ksys::act {
 
+void Unk_71024ef4e8::sub_7100EB480C(sead::Vector3f* out) const {
+    _20->getCenterOfMassInWorld(out);
+}
+
 void Unk_71024ef4e8::sub_7100EB2448() {
     if (mAttachInfo)
         mAttachInfo->sub_7100EB0D30();
