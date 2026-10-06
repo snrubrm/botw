@@ -1,7 +1,9 @@
 #include "Game/AI/Action/actionForkChemicalChuchuAttack.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/Physics/RigidBody/Shape/Sphere/physSphereRigidBody.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::action {
 
@@ -41,6 +43,41 @@ void ForkChemicalChuchuAttack::loadParams_() {
 
 void ForkChemicalChuchuAttack::calc_() {
     ForkNoWeaponAttackAllTime::calc_();
+    switch (_e0) {
+    case 0:
+        _e0 = 1;
+        break;
+    case 1:
+        if (isBgGroundHit(mActor, false)) {
+            _e0 = 2;
+            _d8 = *mLandAtkTime_s;
+            sub_710014A0D0();
+        }
+        break;
+    default:
+        const sead::Matrix34f mtx = _d0->getTransform();
+        _e8.mELink.setMatrix(mtx, {*mLandAtkRadius_s, *mLandAtkRadius_s, *mLandAtkRadius_s});
+        ksys::Timer::update(&_d8, -1.0f);
+        if (_d8 <= 0.0f) {
+            _e0 = 3;
+            sub_710015E71C();
+            setFinished();
+        }
+        break;
+    }
+}
+
+void ForkChemicalChuchuAttack::sub_710014A0D0() {
+    const f32 radius = *mLandAtkRadius_s;
+    if (_d0)
+        _d0->setRadius(radius);
+    xlinkSearchAndEmit(mActor, "ChemicalAttack", 2, &_e8);
+    if (_d0) {
+        const sead::Matrix34f mtx = _d0->getTransform();
+        _e8.mELink.setMatrix(mtx, {radius, radius, radius});
+    } else {
+        _e8.mELink.setMatrix(mActor->getMtx(), {radius, radius, radius});
+    }
 }
 
 }  // namespace uking::action

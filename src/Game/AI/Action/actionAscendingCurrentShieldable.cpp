@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionAscendingCurrentShieldable.h"
+#include <math/seadMathCalcCommon.h>
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Sound/sndMgr.h"
 
 namespace uking::action {
 
@@ -25,6 +28,11 @@ void AscendingCurrentShieldable::loadParams_() {
 
 void AscendingCurrentShieldable::calc_() {
     AscendingCurrent::calc_();
+    if (_68.isActive()) {
+        const f32 volume = ksys::snd::SoundMgr::instance()->_a8->sub_710104B558(mActor);
+        if (volume >= 0.0f)
+            _68.setVolumeScale(sead::Mathf::clampMin(volume, 0.0f));
+    }
 }
 
 }  // namespace uking::action

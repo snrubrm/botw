@@ -85,6 +85,35 @@ void AscendingCurrent::loadParams_() {
     getStaticParam(&mWindSpeed_s, "WindSpeed");
 }
 
+void AscendingCurrent::sub_71000A6F24() {
+    sead::Matrix34f mtx;
+    m34(&mtx);
+    sead::Vector3f size;
+    m33(&size);
+    sead::Vector3f up;
+    mtx.getBase(up, 1);
+    up.normalize();
+    sead::Vector3f pos = mtx.getTranslation();
+    pos += up * (size.y * 0.5f);
+    mtx.setTranslation(pos);
+    _28.sub_71010F1364(&up);
+    _28.sub_71010F15C8(&mtx);
+    _28.sub_71010F1664(&size);
+    if (mActor->getName() == "Obj_SupportApp_Wind") {
+        sead::Matrix34f wind_mtx;
+        wind_mtx.makeIdentity();
+        wind_mtx.setTranslation(mtx.getTranslation());
+        _58.setMatrix(wind_mtx, size);
+    } else {
+        _58.setMatrix(mtx, size);
+    }
+    if (_78) {
+        _78->setPosition(pos);
+        _78->setRotate(mtx);
+        _78->setVector(size);
+    }
+}
+
 void AscendingCurrent::calc_() {
     sub_71000A6F24();
     sub_71000A7354();

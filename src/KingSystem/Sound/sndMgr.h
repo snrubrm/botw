@@ -12,6 +12,10 @@ namespace xlink2 {
 class HandleSLink;
 }
 
+namespace ksys::act {
+class Actor;
+}
+
 namespace ksys::snd {
 
 // Only the interface needed by the UI sound wrapper is recovered.
@@ -148,6 +152,9 @@ class Unk_SoundMgra8 {
 public:
     // 0x710104b554 (CSV nullsub_4415; declared only): releases `instance`.
     void sub_710104B554(Unk_SoundInstance* instance);
+    // 0x710104b558 (declared only; 132 B): the volume the sound instance list gives `actor` (the first
+    // non-negative value of the instances' 0x710104ac00 query, else -1).
+    f32 sub_710104B558(ksys::act::Actor* actor);
 };
 
 // FIXME: incomplete
