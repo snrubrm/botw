@@ -1,7 +1,10 @@
 #include "Game/AI/Action/actionRemainsWaterBulletAction.h"
 #include <math/seadMathCalcCommon.h>
 #include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/Profiles/actBullet.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/Utils/MathUtil.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace uking::action {
@@ -73,6 +76,44 @@ void RemainsWaterBulletAction::m33() {
                 setFailed();
         }
     }
+}
+
+void RemainsWaterBulletAction::m34() {
+    auto* actor = mActor;
+    auto* body = actor->getMainBody();
+    if (!body)
+        return;
+    if (*mUseParentRevDirRot_s) {
+        if (auto* bullet = sead::DynamicCast<ksys::act::Bullet>(actor)) {
+            ksys::act::ActorConstDataAccess accessor;
+            if (ksys::act::acquireActor(&bullet->_bd0._0, &accessor)) {
+                const sead::Vector3f parent_pos = accessor.getActorMtx().getTranslation();
+                const sead::Vector3f pos = actor->getMtx().getTranslation();
+                sead::Vector3f dir;
+                dir.x = pos.x - parent_pos.x;
+                dir.z = pos.z - parent_pos.z;
+                dir.y = 0.0f;
+                if (dir.length() > 0.0f) {
+                    dir.normalize();
+                    sead::Matrix34f mtx;
+                    ksys::util::sub_71011F00EC(&mtx, dir, sead::Vector3f::ey,
+                                               sead::Vector3f::zero, false);
+                    body->changeRotation(mtx, sead::Mathf::epsilon());
+                    return;
+                }
+            }
+        }
+    }
+    f32 factor = 1.0f;
+    if (*mEndTimer_s > 0.0f && !(_6c.value <= sead::Mathf::epsilon()))
+        factor = sead::Mathf::clamp(1.0f - _6c.value / *mEndTimer_s, 0.0f, 1.0f);
+    sead::Vector3f velocity(0.57735026f, 0.57735026f, 0.57735026f);
+    velocity.rotate(actor->getMtx());
+    f32 speed = factor * *mMaxRotSpd_s;
+    if (speed < *mMinRotSpd_s)
+        speed = *mMinRotSpd_s;
+    velocity *= speed;
+    body->setAngularVelocity(velocity, sead::Mathf::epsilon());
 }
 
 void RemainsWaterBulletAction::leave_() {
