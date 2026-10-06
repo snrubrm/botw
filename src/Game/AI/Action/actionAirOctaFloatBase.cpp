@@ -1,7 +1,9 @@
 #include "Game/AI/Action/actionAirOctaFloatBase.h"
+#include <cmath>
 #include <math/seadMathCalcCommon.h>
 #include <random/seadGlobalRandom.h>
 #include "Game/AI/AI/AirOcta/AirOctaDataMgr.h"
+#include "KingSystem/ActorSystem/LOD/actLodState.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/System/VFR.h"
@@ -92,6 +94,84 @@ void AirOctaFloatBase::m33(sead::Vector3f* min, sead::Vector3f* max) {
 
 f32 AirOctaFloatBase::m34() {
     return *mAmplitude_s;
+}
+
+// NON_MATCHING: register allocation / scheduling of the PID terms (the original spills the velocity components to the
+// stack and keeps the target components in registers); structure and arithmetic match.
+void AirOctaFloatBase::sub_7100088E38(f32 p1, f32 p2, f32 p3, f32 p4, f32 p5, sead::Vector3f* out,
+                                      const sead::Vector3f* target, const sead::Vector3f* pos,
+                                      const sead::Vector3f* limit) {
+    f32 y = target->y;
+    const sead::Vector3f velocity = mActor->getMainBody()->getLinearVelocity();
+    auto* lod = mActor->getLodState();
+    if (!lod || !lod->mFlags8.isOnBit(7))
+        y += std::sin(_40) * m34();
+
+    const f32 dt = ksys::VFR::instance()->getDeltaTime();
+    const f32 ey = y - pos->y;
+    const f32 ex = target->x - pos->x;
+    const f32 ez = target->z - pos->z;
+    _48.x += dt * ex;
+    _48.y += dt * ey;
+    _48.z += dt * ez;
+    const f32 inv_dt = 1.0f / dt;
+    const f32 dx = inv_dt * (ex - _54.x);
+    const f32 dy = inv_dt * (ey - _54.y);
+    const f32 dz = inv_dt * (ez - _54.z);
+    out->x = ex * p1 - velocity.x * p4;
+    out->y = ey * p1 - velocity.y * p4;
+    out->z = ez * p1 - velocity.z * p4;
+    out->x = _48.x * p2 + out->x;
+    out->y = _48.y * p2 + out->y;
+    out->z = _48.z * p2 + out->z;
+    out->x = dx * p3 + out->x;
+    out->y = dy * p3 + out->y;
+    out->z = dz * p3 + out->z;
+    if (limit) {
+        out->x = sead::Mathf::clamp(out->x, -limit->x, limit->x);
+        out->y = sead::Mathf::clamp(out->y, -limit->y, limit->y);
+        out->z = sead::Mathf::clamp(out->z, -limit->z, limit->z);
+        if (p2 > 0.0f) {
+            _48 *= p2;
+            _48.x = sead::Mathf::clamp(_48.x, -limit->x, limit->x);
+            _48.y = sead::Mathf::clamp(_48.y, -limit->y, limit->y);
+            _48.z = sead::Mathf::clamp(_48.z, -limit->z, limit->z);
+            const f32 inv = 1.0f / p2;
+            _48.x = inv * _48.x;
+            _48.y = inv * _48.y;
+            _48.z = inv * _48.z;
+        }
+    }
+    if (p5 > 0.0f) {
+        const f32 length = out->length();
+        if (length > p5) {
+            const f32 scale = (1.0f / length) * p5;
+            out->x = scale * out->x;
+            out->y = scale * out->y;
+            out->z = scale * out->z;
+        }
+    }
+    _54.x = ex;
+    _54.y = ey;
+    _54.z = ez;
+}
+
+// NON_MATCHING: register naming of one integer translation load only.
+void AirOctaFloatBase::m32() {
+    auto* body = mActor->getMainBody();
+    if (!body)
+        return;
+    auto* manager = sead::DynamicCast<AirOctaDataMgr>(*mAirOctaDataMgr_a);
+    if (!manager)
+        return;
+    const f32 delta_frame = ksys::VFR::instance()->getDeltaFrame();
+    const sead::Vector3f pos = mActor->getMtx().getTranslation();
+    sead::Vector3f impulse;
+    sub_7100088E38(1.5f, 0.25f, 0.025f, 0.96f, 20.0f, &impulse, &manager->vec_F8, &pos, nullptr);
+    const f32 mass = body->getMass();
+    impulse *= mass;
+    impulse *= delta_frame;
+    body->applyLinearImpulse(impulse);
 }
 
 }  // namespace uking::action

@@ -31,6 +31,11 @@ protected:
     bool sub_7100088400();
     void sub_71000885B0();
     void sub_71000886B8();
+    // 0x7100088e38 (placeholder name): PID-like steering step. `out` = (target - pos) * p1 - velocity * p4 +
+    // integral (_48) * p2 + derivative * p3, each clamped to +-limit (if not null) and to the length p5.
+    void sub_7100088E38(f32 p1, f32 p2, f32 p3, f32 p4, f32 p5, sead::Vector3f* out,
+                        const sead::Vector3f* target, const sead::Vector3f* pos,
+                        const sead::Vector3f* limit);
 
     // static_param at offset 0x20
     const float* mAmplitude_s{};
