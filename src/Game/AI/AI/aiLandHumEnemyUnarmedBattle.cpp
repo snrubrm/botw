@@ -7,6 +7,8 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/Physics/System/physNavMeshCharacter.h"
 
 namespace uking::ai {
 
@@ -23,6 +25,31 @@ void LandHumEnemyUnarmedBattle::enter_(ksys::act::ai::InlineParamPack* params) {
     _798 = sub_7100726E54(mActor);
     _799 = true;
     UnarmedEnemySearch::enter_(params);
+}
+
+void LandHumEnemyUnarmedBattle::changeToFindItem() {
+    if (_118.hasProc()) {
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::acquireActor(&_118, &accessor);
+        sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x80000c3), mActor);
+    }
+    mActor->m45()->sub_7100F7D350();
+    ksys::act::ai::InlineParamPack pack;
+    pack.addActor(_118, "ShootItem", -1);
+    pack.addVec3(sub_71005D98D8(mActor), "TargetPos", -1);
+    changeChild("アイテム発見", &pack);
+}
+
+void LandHumEnemyUnarmedBattle::changeToAvoidDanger() {
+    if (_138.hasProcInCalcState()) {
+        ksys::act::ai::InlineParamPack pack;
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::acquireActor(&_138, &accessor);
+        const sead::Vector3f pos = accessor.getActorMtx().getTranslation();
+        pack.addVec3(pos, "TargetPos", -1);
+        pack.addActor(_138, "TargetActor", -1);
+        changeChild("危険回避", &pack);
+    }
 }
 
 void LandHumEnemyUnarmedBattle::leave_() {

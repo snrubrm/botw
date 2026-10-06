@@ -1,8 +1,14 @@
 #include "Game/AI/AI/aiGoronHeroDescendentRoot.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "Game/AI/aiUnk_71007377D4.h"
+#include "Game/UI/uiUnkSingletons.h"
+#include "KingSystem/GameData/gdtSpecialFlags.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
+
+namespace uking::ui {
+void sub_7100A9A694(const UiSubsys1PinArg* arg);
+}
 
 namespace uking::ai {
 
@@ -57,6 +63,20 @@ void GoronHeroDescendentRoot::changeToStopCommand() {
     pack.addBool(false, "TerrorOccurring", -1);
     pack.addVec3(mActor->getMtx().getTranslation(), "TargetPos", -1);
     changeChild("停止命令", &pack);
+}
+
+void GoronHeroDescendentRoot::updateYunboPin() {
+    sub_7100A9A6AC(false);
+    if (ksys::gdt::getBoolByKey("Fire_Relic_YunboStopGo", false)) {
+        ui::UiSubsys1PinArg arg;
+        arg.pos = mActor->getMtx().getTranslation();
+        arg.index = 0;
+        arg.value = 0;
+        if (isCurrentChild("プレイヤー追従") || isCurrentChild("減速"))
+            arg.value = 1;
+        ui::sub_7100A9A694(&arg);
+        sub_7100A9A6AC(true);
+    }
 }
 
 void GoronHeroDescendentRoot::changeToFollowPlayer() {

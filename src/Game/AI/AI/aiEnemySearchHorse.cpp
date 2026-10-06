@@ -132,4 +132,19 @@ bool EnemySearchHorse::isFinished() const {
     return false;
 }
 
+void EnemySearchHorse::changeToStraightMove() {
+    ksys::act::ai::InlineParamPack pack;
+    if (_58.hasProc()) {
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::acquireActor(&_58, &accessor);
+        sead::Vector3f pos;
+        accessor.getActorMtx().getTranslation(pos);
+        pack.addVec3(pos, "TargetPos", -1);
+        changeChild("直進", &pack);
+    } else {
+        _58.reset();
+        changeChild("馬未発見", nullptr);
+    }
+}
+
 }  // namespace uking::ai

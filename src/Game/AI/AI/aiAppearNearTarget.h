@@ -28,6 +28,11 @@ public:
     virtual void m38(sead::Matrix34f* mtx, const sead::Vector3f& pos);
     // 0x710030dbfc (placeholder name)
     void changeToSpawnPrepare();
+    // 0x710030dfec (placeholder name): once the fade screen is not opened, clears `_8e` and restarts the AS list.
+    void sub_710030DFEC();
+    // 0x710030db14 (placeholder name): when the actor has tag 0xa4c7ba34 (no name known) and the fade screen is opened,
+    // sets `_8e` and restarts the AS list at 0.
+    void sub_710030DB14();
 
 protected:
     // static_param at offset 0x38

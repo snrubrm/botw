@@ -46,6 +46,14 @@ inline void LastBossBeamAttackRoot::changeToAim(const sead::Vector3f& target_pos
     changeChild("照準", &pack);
 }
 
+void LastBossBeamAttackRoot::changeToFire(const sead::Vector3f& target_pos) {
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(target_pos, "TargetPos", -1);
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor))
+        pack.addActor(enemy->getActorPartsActor("Beam"), "IgniteActor", -1);
+    changeChild("発射", &pack);
+}
+
 void LastBossBeamAttackRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     {
         sead::Vector3f target_pos;

@@ -74,4 +74,18 @@ void LandHumEnemyFindBait::changeToAngry() {
     changeChild("怒り", &pack);
 }
 
+void LandHumEnemyFindBait::changeToFindBait() {
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(mTargetBait_d, &accessor);
+    sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x8000001), mActor);
+    sead::Vector3f pos;
+    accessor.getActorMtx().getTranslation(pos);
+    _bc = sub_71005DB4DC(mActor);
+    _c0 = sub_71005DB4FC(mActor);
+    ksys::act::ai::InlineParamPack pack;
+    pack.addActor(*mTargetBait_d, "TargetActor", -1);
+    pack.addVec3(pos, "TargetPos", -1);
+    changeChild("餌発見", &pack);
+}
+
 }  // namespace uking::ai

@@ -27,6 +27,8 @@ protected:
     void sub_71003B9624();
     void sub_71003B977C();
     void sub_71003B9A48();
+    // 0x71003ba088 (placeholder name)
+    void changeToStraightMove();
 
     struct Params {
         // static_param at offset 0x38

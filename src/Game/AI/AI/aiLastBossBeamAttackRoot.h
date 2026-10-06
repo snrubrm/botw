@@ -29,6 +29,8 @@ public:
     // 0x7100475b28 (placeholder name): the point the beam aims at: the target's (or the player's) position
     // raised by 1, pulled back by a ray cast from the model's bone / the actor.
     void sub_7100475B28(sead::Vector3f* out);
+    // 0x710047679c (placeholder name)
+    void changeToFire(const sead::Vector3f& target_pos);
 
 protected:
     // Inline-only in the original (name guess; evidence: the param pack and name temporary sit above enter_'s target).

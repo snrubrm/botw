@@ -23,6 +23,10 @@ public:
     // 0x71004703e8 (placeholder name): tells the actor of _118 that we let go (0x80000c3), unlinks it from the Enemy
     // and resets _118.
     void sub_71004703E8();
+    // 0x710046fd74 (placeholder name)
+    void changeToAvoidDanger();
+    // 0x710046fa70 (placeholder name)
+    void changeToFindItem();
     // 0x7100470ed4 (placeholder name): true if `link` is already handled or its actor is within the reach distance.
     bool sub_7100470ED4(ksys::act::BaseProcLink& link) const;
 

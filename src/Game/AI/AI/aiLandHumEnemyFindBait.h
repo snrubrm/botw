@@ -22,6 +22,8 @@ public:
     void changeToNotice();
     // 0x710045f29c (placeholder name)
     void changeToAngry();
+    // 0x710045fd0c (placeholder name)
+    void changeToFindBait();
 
 protected:
     // static_param at offset 0x68

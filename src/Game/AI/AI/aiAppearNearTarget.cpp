@@ -1,11 +1,16 @@
 #include "Game/AI/AI/aiAppearNearTarget.h"
+#include <random/seadGlobalRandom.h>
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/Damage/dmgDamageManager.h"
+#include "Game/UI/euiScreen.h"
+#include "Game/UI/uiScreens.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
+#include "KingSystem/System/StageInfo.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
 #include "KingSystem/Utils/MathUtil.h"
@@ -21,7 +26,29 @@ bool AppearNearTarget::init_(sead::Heap* heap) {
 }
 
 void AppearNearTarget::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    *mIsStopFallCheck_a = true;
+    _8d = false;
+    _8e = false;
+    if (*mTeraDist_s > 0.0f && !ksys::StageInfo::sIsDungeon)
+        _8d = true;
+    auto* actor = mActor;
+    if (auto* awareness = actor->getAwareness()) {
+        awareness->sub_7100D7EBE0(1.0f);
+        awareness->enable();
+    }
+    _58 = sead::GlobalRandom::instance()->getU32(10);
+    if (mActor->getMapObject()) {
+        sead::Vector3f pos;
+        mActor->getMtx().getTranslation(pos);
+        m37(pos);
+        sub_710030DB14();
+    } else {
+        changeToSpawnPrepare();
+    }
+    if (auto* damage_mgr = sead::DynamicCast<dmg::DamageManager>(actor->getDamageMgr()))
+        damage_mgr->addDamageCallback(3, &_60);
+    _88 = 9999.0f;
+    _8c = false;
 }
 
 bool AppearNearTarget::isChangeable() const {
@@ -102,6 +129,28 @@ void AppearNearTarget::changeToSpawnPrepare() {
     ksys::act::ai::InlineParamPack pack;
     pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
     changeChild("湧出準備", &pack);
+}
+
+void AppearNearTarget::sub_710030DB14() {
+    if (ksys::act::hasTag(mActor, 0xA4C7BA34u)) {
+        auto* fade = sead::DynamicCast<ui::Fade>(eui::ScreenMgr::instance()->getScreen(ui::ScreenId::Fade));
+        if (fade && fade->isOpened()) {
+            _8e = true;
+            if (auto* list = mActor->getASList())
+                list->sub_710115F228(0.0f);
+        }
+    }
+}
+
+void AppearNearTarget::sub_710030DFEC() {
+    if (_8e) {
+        auto* fade = sead::DynamicCast<ui::Fade>(eui::ScreenMgr::instance()->getScreen(ui::ScreenId::Fade));
+        if (!fade || !fade->isOpened()) {
+            _8e = false;
+            if (auto* list = mActor->getASList())
+                list->sub_710115F228(1.0f);
+        }
+    }
 }
 
 }  // namespace uking::ai
