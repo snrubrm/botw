@@ -83,4 +83,39 @@ bool PlayerTurnInner::isChangeable() const {
     return false;
 }
 
+// NON_MATCHING: register allocation / mActor reloads only (the original keeps `&mActor` in a register and reloads the
+// ASList through it in the isFinishedAS branch).
+void PlayerTurnInner::m35(ksys::phys::CharacterController* controller) {
+    sead::Vector3f front(mActor->getMtx().m[0][2], 0.0f, mActor->getMtx().m[2][2]);
+    front.normalize();
+    sead::Vector3f axis;
+    f32 angle;
+    ksys::util::sub_71011EEB08(&axis, &angle, front, _20, sead::Vector3f::ey);
+    const auto& anim_driven = mActor->getASList()->sub_710115D3B8();
+    f32 degrees = angle * axis.y * sead::Mathf::rad2deg(1);
+    if (!(degrees > 0.0f))
+        degrees = -degrees;
+    if (degrees < 3.0f) {
+        static_cast<ksys::act::Player*>(mActor)->sub_710086800C(angle * axis.y);
+        static_cast<ksys::act::Player*>(mActor)->_1c68 = static_cast<ksys::act::Player*>(mActor)->x_5();
+        static_cast<ksys::act::Player*>(mActor)->actionCommon();
+        setFinished();
+    } else {
+        const f32 y = anim_driven.y;
+        if (!isFinishedAS(0, 0)) {
+            static_cast<ksys::act::Player*>(mActor)->sub_710086800C(y);
+            static_cast<ksys::act::Player*>(mActor)->_1c68 = static_cast<ksys::act::Player*>(mActor)->x_5();
+            static_cast<ksys::act::Player*>(mActor)->actionCommon();
+        } else {
+            mActor->getASList()->x_6(6, 0, angle * axis.y * sead::Mathf::rad2deg(1));
+            if (controller)
+                controller->sub_7100F5FB24(sead::Vector3f::zero);
+            static_cast<ksys::act::Player*>(mActor)->switchToAnimSequenceMaybe("DemoTurn", true, -1.0f);
+        }
+    }
+    auto* player = static_cast<ksys::act::Player*>(mActor);
+    player->_20bc.value = 0;
+    player->_20bc.prev_value = 0;
+}
+
 }  // namespace uking::action
