@@ -3,22 +3,11 @@
 #include <basis/seadTypes.h>
 #include <container/seadOffsetList.h>
 #include <thread/seadCriticalSection.h>
+#include "aal/aalActiveSoundLimiter.h"
 
 namespace aal {
 
 class SoundSource;
-
-namespace LimiterUtil {
-/// 0x7100b835e4 (declared only)
-u32 getMaxActiveSoundLimiterSize();
-}  // namespace LimiterUtil
-
-/// Limits the number of active sounds. TODO: only calcLimit is declared.
-class ActiveSoundLimiter {
-public:
-    /// 0x7100b83310 (declared only)
-    void calcLimit(sead::OffsetList<SoundSource>* sound_sources);
-};
 
 /// Emits sounds (SoundSource) and keeps track of the ones that are playing.
 /// TODO: incomplete (the SoundParam at +0x10 and the SpatialSetting at +0xa8 are not modeled; the constructor and

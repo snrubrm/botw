@@ -1,6 +1,7 @@
 project(aal CXX ASM)
 
 add_library(aal OBJECT
+  include/aal/aalActiveSoundLimiter.h
   include/aal/aalArbiter.h
   include/aal/aalAssetInfo.h
   include/aal/aalDeviceType.h
@@ -28,6 +29,7 @@ add_library(aal OBJECT
   include/aal/aalSystem.h
   include/aal/aalSystemAccessor.h
   include/aal/aalTimedFader.h
+  src/aalActiveSoundLimiter.cpp
   src/aalArbiter.cpp
   src/aalEmitter.cpp
   src/aalFxDelayParamSetter.cpp
