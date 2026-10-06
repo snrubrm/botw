@@ -19,7 +19,9 @@ class Swarm : public Enemy {
 public:
     // One member of the swarm (placeholder; the AI patterns write _60 / _68).
     struct Unit {
-        u8 _0[0x5c];
+        u8 _0[0x8];
+        /* 0x08 */ sead::Matrix34f _8;  // unit pose (SwarmFlyAttack reads the translation)
+        u8 _38[0x5c - 0x38];
         /* 0x5c */ f32 _5c;  // random 0.1-0.2 set by BeeSwarmNormal::enter_
         /* 0x60 */ sead::Vector3f _60;
         /* 0x6c */ sead::Vector3f _6c;
@@ -34,7 +36,7 @@ public:
         void sub_71002DAA78();
         // 0x71002da3a0 (declared only; 320 B): material animation (name, frame) of the unit; called for every unit by
         // sub_710072A778.
-        void sub_71002DA3A0(f32 frame, const sead::SafeString& name);
+        bool sub_71002DA3A0(f32 frame, const sead::SafeString& name);
     };
 
     // The "Tgt" rigid body of a swarm unit (0x28 bytes; placeholder; SetThroughArrow reads _20).

@@ -1,5 +1,6 @@
 #include "Game/AI/Action/actionSwarmFlyAttack.h"
 #include "Game/Actor/actSwarm.h"
+#include "KingSystem/System/VFR.h"
 #include "Game/AI/aiUnk_710072A944.h"
 #include "KingSystem/ActorSystem/actAttackSensor.h"
 #include "KingSystem/ActorSystem/actActor.h"
@@ -35,6 +36,37 @@ void SwarmFlyAttack::enter_(ksys::act::ai::InlineParamPack* params) {
     _150 = ksys::Timer(0.0f, 0.0f, 1.0f);
     _15c = false;
     sub_710028508C();
+}
+
+// NON_MATCHING: the budget decrement: the original branches (`cmp #2; b.lt exit; sub 1`), ours turns it into
+// `cset; sub` (the counter is dead after the loop)
+void SwarmFlyAttack::sub_710028508C() {
+    if (mMaterialAnimName_s.isEmpty())
+        return;
+    auto* swarm = static_cast<act::Swarm*>(mActor);
+    const sead::Vector3f pos = swarm->getMtx().getTranslation();
+    sead::Vector3f target;
+    m32(&target);
+    if ((pos - target).length() >= *mApplyMaterialAnimDist_s)
+        return;
+    const s32 num_units = swarm->_14c8.size();
+    s32 remaining = s32(f32(*mApplyMaterialAnimNumPerFrame_s) * ksys::VFR::instance()->getDeltaFrame());
+    if (num_units < 1)
+        return;
+    if (remaining < 1)
+        remaining = 1;
+    for (s32 i = 0; i < num_units; ++i) {
+        auto* unit = swarm->_14c8[i];
+        if (!unit)
+            continue;
+        if ((unit->_8.getTranslation() - target).length() > *mApplyMaterialAnimDist_s)
+            continue;
+        if (unit->sub_71002DA3A0(*mMaterialAnimFrame_s, mMaterialAnimName_s)) {
+            if (remaining <= 1)
+                break;
+            --remaining;
+        }
+    }
 }
 
 void SwarmFlyAttack::leave_() {

@@ -9,6 +9,10 @@
 #include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 
+namespace ksys::phys {
+class CharacterController;
+}
+
 namespace ksys::act {
 namespace ai {
 class ActionBase;
@@ -382,3 +386,8 @@ struct Unk_71005e1be8 {
     sead::SafeString _20;
     sead::SafeString _30;
 };
+
+// 0x71005e2540 (declared only, 324 B): eases the character controller's velocity towards `target_velocity` (blend
+// factor `acc_ratio` per frame; reads the actor's velocity at +0x400).
+void sub_71005E2540(ksys::phys::CharacterController* controller, ksys::act::Actor* actor,
+                    const sead::Vector3f& target_velocity, f32 acc_ratio);
