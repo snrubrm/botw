@@ -1,4 +1,11 @@
 #include "Game/AI/Action/actionEquipDisplayCreate.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actBaseProcHandle.h"
+
+// 0x710070106c (CSV name; declared only, signature inferred from EquipDisplayCreate::enter_: the handle that
+// receives the created actor, the owner's matrix and the equip stand slot). Source namespace unknown.
+bool aiActionEquipDisplayCreateDoCreateActor(ksys::act::BaseProcHandle* handle,
+                                             const sead::Matrix34f* mtx, s32 slot);
 
 namespace uking::action {
 
@@ -11,7 +18,16 @@ bool EquipDisplayCreate::init_(sead::Heap* heap) {
 }
 
 void EquipDisplayCreate::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    _a8 = 2;
+    if (_b0.isAllocatedOrFailed()) {
+        _b0.deleteProc();
+        _b0.deleteProcIfFailed();
+    }
+    if (aiActionEquipDisplayCreateDoCreateActor(&_b0, &mActor->getMtx(), *mEquipStandSlot_m)) {
+        _a8 = 0;
+        return;
+    }
+    setFailed();
 }
 
 void EquipDisplayCreate::leave_() {
