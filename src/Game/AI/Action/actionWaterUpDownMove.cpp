@@ -29,4 +29,8 @@ void WaterUpDownMove::calc_() {
     WaterUpDownMoveBase::calc_();
 }
 
+void WaterUpDownMove::m32(ksys::as::ASList::Unk4* query) {
+    sub_71002B390C(*mTargetDepth_s, query->_10);
+}
+
 }  // namespace uking::action

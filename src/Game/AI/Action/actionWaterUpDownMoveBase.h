@@ -3,6 +3,7 @@
 #include "Game/AI/aiUnk_7100700620.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 #include "KingSystem/ActorSystem/actCCAccessor.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 
 namespace uking::action {
 
@@ -19,6 +20,18 @@ public:
 
 protected:
     void calc_() override;
+
+    // Called by calc_ when the AS event query (type 0x2f) fired; the event name holds the target depth.
+    virtual void m32(ksys::as::ASList::Unk4* query);
+    virtual void m33(ksys::phys::CharacterController* controller);
+    virtual void m34(ksys::phys::CharacterController* controller);
+
+    // 0x71002b390c (placeholder name): sets up the up/down movement towards `target_depth`
+    // (4 parameters of the spline stored in _60.._70).
+    void sub_71002B390C(f32 target_depth, f32 duration);
+    // 0x71002b3acc and 0x71002b3f78 (placeholder names): the velocity update of m33 / m34.
+    void sub_71002B3ACC(ksys::phys::CharacterController* controller);
+    void sub_71002B3F78(ksys::phys::CharacterController* controller);
 
     // 0x71002b37f8 (placeholder name): the height of the water surface below the actor (0 if none).
     f32 sub_71002B37F8();

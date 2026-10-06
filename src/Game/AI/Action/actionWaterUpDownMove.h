@@ -18,6 +18,7 @@ public:
 
 protected:
     void calc_() override;
+    void m32(ksys::as::ASList::Unk4* query) override;
 
     // static_param at offset 0x88
     const float* mStartDepth_s{};
