@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiDogNormal.h"
+#include <random/seadGlobalRandom.h>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
@@ -90,6 +91,31 @@ void DogNormal::sub_7100364460() {
         }
     }
     _45c = sead::Mathf::clamp(*mFoodFriendRate_s + _45c, 0.0f, 100.0f);
+}
+
+// Starts leading the player to the treasure (child 宝まで誘導): the target is a point next to the treasure.
+void DogNormal::sub_7100364610() {
+    sub_7100500B50(false, false, false);
+    mActor->emitBasicSigOn();
+    _464.setBit(Flag(Flag::_4));
+    _464.setBit(Flag(Flag::_2));
+    _460 = 0;
+
+    const sead::Vector3f side = sead::Vector3f::ex;
+    sead::Matrix34f rot;
+    rot.makeR({0.0f, _458, 0.0f});
+    sead::Vector3f dir;
+    dir.setRotated(rot, side);
+    dir.normalize();
+
+    sead::Vector3f target = _44c;
+    const s32 sign = (sead::GlobalRandom::instance()->getU32() & 2) - 1;
+    target.setScaleAdd(f32(sign) * 2.5f, dir, target);
+
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(target, "TargetPos", -1);
+    pack.addActor(ksys::act::PlayerInfo::getSomeProcLink(), "LeaderActor", -1);
+    changeChild("宝まで誘導", &pack);
 }
 
 void DogNormal::changeToFriendly() {
