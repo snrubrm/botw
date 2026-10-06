@@ -47,7 +47,7 @@ protected:
     ksys::VFRValue _7c;
     f32 _88 = 1.0f;
     f32 _8c = 0;
-    bool _90 = true;
+    s8 _90 = 1;  // +1 / -1: the sign of the actor's vertical velocity when entering
     bool _91 = false;
 };
 

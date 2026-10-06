@@ -1,5 +1,7 @@
 #include "Game/AI/Action/actionShootArrow.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/AI/aiUnk_71007377D4.h"
+#include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actCCAccessor.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
@@ -38,6 +40,17 @@ void ShootArrow::sub_710024E994() {
     _84.updateStats();
     if (auto* controller = mActor->getCharacterController())
         controller->sub_7100F5FB24(_84.value * 30.0f);
+}
+
+void ShootArrow::m33(const sead::Vector3f& pos, const sead::Vector3f* pos2) {
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor))
+        enemy->sub_7100016494();
+    sub_71005D80FC(mActor, *mWeaponIdx_s, pos, 0, 1.0f, pos2, nullptr);
+}
+
+void ShootArrow::m34() {
+    sub_710024E90C();
+    sub_710024E994();
 }
 
 void ShootArrow::loadParams_() {

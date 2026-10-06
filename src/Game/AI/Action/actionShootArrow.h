@@ -19,6 +19,10 @@ public:
 protected:
     void calc_() override;
     virtual void m32();
+    // 0x710024eee4: counts the shot for the enemy, then requests the shoot (sub_71005D80FC with the weapon index).
+    virtual void m33(const sead::Vector3f& pos, const sead::Vector3f* pos2);
+    // 0x710024e834: slows the velocity / angular velocity down (the bodies of sub_710024E90C / sub_710024E994).
+    virtual void m34();
 
     // 0x710024e90c / 0x710024e994 (placeholder names): slow the velocity / angular velocity down by the stop
     // ratios and apply them to the character controller.

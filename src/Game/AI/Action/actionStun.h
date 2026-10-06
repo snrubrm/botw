@@ -1,5 +1,6 @@
 #pragma once
 
+#include "KingSystem/System/Timer.h"
 #include "KingSystem/System/VFRValue.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
@@ -18,6 +19,10 @@ public:
 protected:
     void calc_() override;
 
+    // 0x7100281144 (placeholder name): starts the stun when the actor was hit by an attack of a stunning damage
+    // type: launches the actor along the hit direction and copies its angular velocity.
+    bool sub_7100281144();
+
     // static_param at offset 0x20
     const int* mTime_s{};
     // static_param at offset 0x28
@@ -26,8 +31,7 @@ protected:
     const float* mHitImpactForceLargeSwordS_s{};
     // static_param at offset 0x38
     const float* mHitImpactForceSpearS_s{};
-    u64 _40 = 0;
-    s32 _48 = 0;
+    ksys::Timer _40;
     ksys::VFRValue _4c;
     ksys::VFRVec3f _58;
     s32 _7c = 0;

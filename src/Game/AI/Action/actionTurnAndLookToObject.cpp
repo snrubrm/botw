@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionTurnAndLookToObject.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/Utils/MathUtil.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "Game/Actor/actNPC.h"
 #include "Game/AI/aiUnk_71007377D4.h"
@@ -77,6 +79,31 @@ void TurnAndLookToObject::calc_() {
     }
     if (controller)
         m41(controller);
+}
+
+// NON_MATCHING: the original stores the initial front vector (x, 0 / z) after the length computation; ours stores x first.
+void TurnAndLookToObject::m41(ksys::phys::CharacterController* controller) {
+    if (_d1) {
+        controller->sub_7100F5FB24(sead::Vector3f::zero);
+    } else {
+        sead::Vector3f front;
+        mActor->getMtx().getBase(front, 2);
+        front.y = 0.0f;
+        front.normalize();
+        sead::Vector3f axis;
+        f32 angle;
+        ksys::util::sub_71011EEB08(&axis, &angle, front, _38, sead::Vector3f::ey);
+        const sead::Vector3f& velocity = mActor->getASList()->sub_710115D3B8();
+        if (angle < sead::Mathf::abs(velocity.y)) {
+            const sead::Vector3f turn_velocity(0.0f, angle * axis.y * 30.0f, 0.0f);
+            controller->sub_7100F5FB24(turn_velocity);
+            _d1 = true;
+        } else {
+            controller->sub_7100F5FB24(velocity * 30.0f);
+        }
+    }
+    if (isFinishedAS(0, 0))
+        setFinished();
 }
 
 }  // namespace uking::action
