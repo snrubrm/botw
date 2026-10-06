@@ -33,6 +33,8 @@ public:
     enum Flag {
         KeepPosition = 0,
         KeepRotation = 1,
+        /// calcUnifiablePositions: the position that the angle is calculated with is searched separately.
+        SeparateAnglePosition = 2,
     };
 
     explicit Shape(const sead::SafeString& name);

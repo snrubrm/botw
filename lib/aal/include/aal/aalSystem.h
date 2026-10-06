@@ -19,7 +19,10 @@ class System {
 public:
     static System* sInstance;
 
-    u8 _0[0x30];
+    u8 _0[0x28];
+    /// Cleared while the system does not play sounds (Emitter::emit fails then).
+    bool mEnabled;
+    u8 _29[7];
     Arbiter* mArbiter;
     Settings* mSettings;
     GroupMgr* mGroupMgr;
@@ -29,6 +32,9 @@ public:
     SpeakerBalanceUnifierMgr* mSpeakerBalanceUnifierMgr;
     SoundSourceUnifier* mSoundSourceUnifier;
     FinalFxMgr* mFinalFxMgr;
+    u8 _78[0x28];
+    /// The directory of the stream files.
+    const char* mStreamFileRoot;
 };
 
 }  // namespace aal

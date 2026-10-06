@@ -1,5 +1,6 @@
 #include "aal/aalSpatialCalculator.h"
 #include <cstring>
+#include <prim/seadScopedLock.h>
 
 namespace aal {
 
@@ -54,6 +55,13 @@ bool SpatialCalculator::isReferred() const {
 // 0x7100b8fe5c
 bool SpatialCalculator::hasSetting(const Setting& setting) const {
     return std::memcmp(&mSetting, &setting, sizeof(Setting)) == 0;
+}
+
+// 0x7100b8f900
+void SpatialCalculator::detachPositioningInfo() {
+    sead::ScopedLock<sead::CriticalSection> lock(&mCS);
+    mSetting.actor_matrix = nullptr;
+    mSetting.velocity = nullptr;
 }
 
 }  // namespace aal

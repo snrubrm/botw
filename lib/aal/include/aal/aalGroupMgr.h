@@ -1,5 +1,6 @@
 #pragma once
 
+#include <container/seadBuffer.h>
 #include <container/seadOffsetList.h>
 #include <container/seadPtrArray.h>
 #include <hostio/seadHostIONode.h>
@@ -34,6 +35,12 @@ public:
     void destroyGroup(Group* group) override;
 };
 
+/// An entry of the sorted table of the groups of the GroupMgr.
+struct GroupHashEntry {
+    u32 hash;
+    Group* group;
+};
+
 /// Owns the sound group tree and finds groups by name.
 /// TODO: incomplete.
 class GroupMgr : public sead::hostio::Node {
@@ -48,6 +55,10 @@ public:
     Group* findGroup(const sead::SafeString& name) const;
     /// Same as findGroup, but only returns the group if it is a GroupFolder.
     GroupFolder* findGroupFolder(const sead::SafeString& name) const;
+    /// Same as findGroup, but only returns the group if it is a SoundGroup (nullptr for an empty name).
+    SoundGroup* findSoundGroup(const sead::SafeString& name) const;
+    /// The default sound group if there is no sound group with that name.
+    SoundGroup* findSoundGroupOrDefault(const sead::SafeString& name) const;
     /// 0x7100b8148c: the name of the placeholder group (a child that is inserted after is not moved).
     static const sead::SafeString& getDummyGroupName();
 
@@ -68,12 +79,12 @@ private:
     bool mInitialized = false;
     bool _9 = false;
     void* _10 = nullptr;
-    void* _18 = nullptr;
+    SoundGroup* mDefaultSoundGroup = nullptr;
     sead::OffsetList<Group> mGroups;
     IGroupFactory* mGroupFactory;
     GroupFactory mDefaultGroupFactory;
-    s32 mGroupHashTableSize = 0;
-    void* mGroupHashTable = nullptr;
+    /// The groups sorted by the CRC32 hash of their name (empty if it was not created).
+    sead::Buffer<GroupHashEntry> mGroupHashTable;
     SoundParam mDefaultSoundParam;
     u8 _98[8];
     void* _a0 = nullptr;

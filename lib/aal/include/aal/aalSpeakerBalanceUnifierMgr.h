@@ -5,6 +5,7 @@
 #include <hostio/seadHostIONode.h>
 #include <prim/seadSafeString.h>
 #include <thread/seadCriticalSection.h>
+#include "aal/aalDeviceType.h"
 
 namespace sead {
 class Heap;
@@ -31,10 +32,12 @@ public:
 
     void initialize(sead::Heap* heap);
     void makeTable();
+    f32 getTotalVolumeMax(DeviceType device, s32 interior) const;
 
 private:
     UnifierSpeakerBalanceData** mData;
-    f32* mInteriorMaxSpread;
+    /// The maximum of the total volume of each direction, for each interior.
+    f32* mTotalVolumeMax[DeviceType::size()];
     s32 mInteriorNum;
     s32 mCurrentInteriorNum;
 };

@@ -19,13 +19,13 @@ void SpatialSetting::setPositionFollow(bool follow) {
 // 0x7100b91880
 void SpatialSetting::setActorMatrix(const sead::Matrix34f& matrix) {
     mActorMatrix = matrix;
-    _48 = &mActorMatrix;
+    mSetting.actor_matrix = &mActorMatrix;
 }
 
 // 0x7100b918a0
 void SpatialSetting::setVelocity(const sead::Vector3f& velocity) {
     mVelocity = velocity;
-    _50 = &mVelocity;
+    mSetting.velocity = &mVelocity;
 }
 
 // 0x7100b919d0
@@ -36,43 +36,48 @@ void SpatialSetting::getPosition(sead::Vector3f* position) const {
 
 // 0x7100b91a28
 void SpatialSetting::setDopplerFactor(f32 factor) {
-    mDopplerFactor = factor;
+    mSetting.doppler_factor = factor;
 }
 
 // 0x7100b91a30
 void SpatialSetting::setSoundSourceSize(f32 size) {
     if (size >= 0.0f)
-        mSoundSourceSize = Meter::toLength(size);
+        mSetting.sound_source_size = Meter::toLength(size);
 }
 
 // 0x7100b91a5c
 void SpatialSetting::setUseSoundSourceSizeForAttenuation(bool enable) {
-    mFlags = enable ? mFlags | 4 : mFlags & ~4;
+    mSetting.flags = enable ? mSetting.flags | 4 : mSetting.flags & ~4;
 }
 
 // 0x7100b91a7c
 void SpatialSetting::setRotatingStereoEnabled(bool enable) {
-    mFlags = enable ? mFlags | 0x10 : mFlags & ~0x10;
+    mSetting.flags = enable ? mSetting.flags | 0x10 : mSetting.flags & ~0x10;
 }
 
 // 0x7100b91a9c
 void SpatialSetting::setListenerDirectivityEnabled(bool enable) {
-    mFlags = enable ? mFlags | 0x20 : mFlags & ~0x20;
+    mSetting.flags = enable ? mSetting.flags | 0x20 : mSetting.flags & ~0x20;
 }
 
 // 0x7100b91abc
 void SpatialSetting::setShape(Shape* shape) {
-    mShape = shape;
+    mSetting.shape = shape;
 }
 
 // 0x7100b91ac4
 void SpatialSetting::setUnified(bool unified) {
-    mFlags = unified ? mFlags | 2 : mFlags & ~2;
+    mSetting.flags = unified ? mSetting.flags | 2 : mSetting.flags & ~2;
+}
+
+// 0x7100b91aec
+void SpatialSetting::setSpatialCalculatorSetting(const SpatialCalculator::Setting& setting) {
+    mSetting = setting;
 }
 
 // 0x7100b91ae4
 void SpatialSetting::setUserParam(u64 param) {
-    mUserParam = param;
+    mSetting.user_param = param;
 }
 
 }  // namespace aal

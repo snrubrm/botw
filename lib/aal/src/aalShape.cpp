@@ -1,6 +1,7 @@
 #include "aal/aalShape.h"
 #include <gfx/seadPrimitiveRenderer.h>
 #include <prim/seadScopedLock.h>
+#include "aal/aalListener.h"
 #include "aal/aalShapeMgr.h"
 #include "aal/aalSpatialCalculator.h"
 #include "aal/aalSystemAccessor.h"
@@ -30,6 +31,57 @@ void Shape::destroy() {
 // pointer (this + 0x18); D0 0x7100b9a3dc matches
 // 0x7100b9a334 / 0x7100b9a3dc
 Shape::~Shape() = default;
+
+// 0x7100b9a714
+bool Shape::calcPositionByListener(const Listener& listener, sead::Vector3f* out) const {
+    if (!out)
+        return false;
+
+    sead::Vector3f position;
+    listener.mMatrix.getTranslation(position);
+    calcPosition(position, out);
+    return true;
+}
+
+// 0x7100b9a764
+bool Shape::calcPositionForAngle(const Listener& listener, sead::Vector3f* out) const {
+    if (!out)
+        return false;
+
+    sead::Vector3f position;
+    if (listener._f0)
+        position = listener.mPositionForAngle;
+    else
+        listener.mMatrix.getTranslation(position);
+    calcPosition(position, out);
+    return true;
+}
+
+// NON_MATCHING: same code; the registers of two flag loads are swapped.
+// 0x7100b9a7d8
+bool Shape::calcUnifiablePositions(const Listener& listener, sead::Vector3f* a, sead::Vector3f* b) {
+    sead::Vector3f position;
+    listener.mMatrix.getTranslation(position);
+    sead::Vector3f local;
+    calcPosition(position, &local);
+    listener.calcLocalPosition(a, local);
+
+    if (!mFlags.isOnBit(SeparateAnglePosition)) {
+        if (listener._f0)
+            listener.calcLocalPositionForAngle(b, local);
+        else
+            *b = *a;
+    } else {
+        if (listener._f0)
+            position = listener.mPositionForAngle;
+        else
+            listener.mMatrix.getTranslation(position);
+        sead::Vector3f local_for_angle;
+        calcPosition(position, &local_for_angle);
+        listener.calcLocalPositionForAngle(b, local_for_angle);
+    }
+    return true;
+}
 
 // 0x7100b9a520
 void Shape::setPosition(const sead::Vector3f& position) {

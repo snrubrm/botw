@@ -55,9 +55,8 @@ void SoundSourceUnifierSource::updatePosition_() {
 
 // 0x7100b8ef58
 Handle SoundSourceUnifierSource::getTargetHandle() const {
-    if (mTarget)
-        return mTarget->mHandle;
-    return Handle();
+    const Handle& handle = mTarget ? mTarget->mHandle : Handle::cInvalid;
+    return handle;
 }
 
 // NON_MATCHING: same copy order difference as getTargetHandle.

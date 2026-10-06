@@ -2,12 +2,14 @@
 
 #include <basis/seadTypes.h>
 #include <cstddef>
+#include <container/seadListImpl.h>
 
 #include <prim/seadBitFlag.h>
 #include <prim/seadSafeString.h>
 #include "aal/aalFadeCurveType.h"
 #include "aal/aalHandle.h"
 #include "aal/aalSoundController.h"
+#include "aal/aalStartResult.h"
 #include "aal/aalSoundParam.h"
 #include "aal/aalSpatialCalculator.h"
 #include "aal/aalSpatialSetting.h"
@@ -45,6 +47,8 @@ public:
 
     void initialize(sead::Heap* heap);
     void finalize();
+    /// 0x7100b778e8 (declared only): sets the source up to play the asset.
+    StartResult setup(const AssetInfo& asset, const SetupInfo* setup);
 
     /// Life cycle state: 0 is unused and 7 is finished; states up to 2 are the ones before playback
     /// starts (the start delay is counted down in state 1).
@@ -101,9 +105,11 @@ public:
     SpatialPlayingParam* mSpatialPlayingParam;
     SoundSourceUnifierSource* mUnifierSource;
     MarkerController* mMarkerController;
-    u8 _1c0[0x1e0 - 0x1c0];
-    u64 _1e0;
-    u64 _1e8;
+    /// The node in the list of the sound sources of the arbiter.
+    sead::ListNode mArbiterNode;
+    u8 _1d0[0x1e0 - 0x1d0];
+    /// The node in the list of the sound sources of the emitter.
+    sead::ListNode mEmitterNode;
 
     // Non-virtual members, declared only (each is called through aal::Handle).
     /// 0x7100b77ca0: same as reset()
@@ -120,6 +126,7 @@ public:
     void finishNow_();
     void execOnDestroyWaveAsset(u64 a, u64 b, bool c, bool d);
     void execOnFianlizeSoundSourceUnifierSource();
+    void execOnFinalizeEmitter();
     s32 getChannelNum(s32 track) const;
     bool setSpeakerBalanceSupplier(ISpeakerBalanceSupplier* supplier);
     bool isAttachedSound() const;
@@ -178,6 +185,6 @@ static_assert(offsetof(SoundSource, mFader) == 0x108, "aal::SoundSource layout m
 static_assert(offsetof(SoundSource, mChannelSpeakerType) == 0x110, "aal::SoundSource layout mismatch");
 static_assert(offsetof(SoundSource, mSpatialPlayingParam) == 0x1a8, "aal::SoundSource layout mismatch");
 static_assert(offsetof(SoundSource, mUnifierSource) == 0x1b0, "aal::SoundSource layout mismatch");
-static_assert(offsetof(SoundSource, _1e8) == 0x1e8, "aal::SoundSource layout mismatch");
+static_assert(offsetof(SoundSource, mEmitterNode) == 0x1e0, "aal::SoundSource layout mismatch");
 
 }  // namespace aal

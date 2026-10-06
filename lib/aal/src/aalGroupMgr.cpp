@@ -1,11 +1,17 @@
 #include "aal/aalGroupMgr.h"
 #include <basis/seadNew.h>
+#include <codec/seadHashCRC32.h>
+#include <prim/seadRuntimeTypeInfo.h>
 #include "aal/aalGroup.h"
 #include "aal/aalGroupLimiter.h"
 #include "aal/aalArbiter.h"
 #include "aal/aalSystemAccessor.h"
 
 namespace aal {
+
+namespace {
+const sead::SafeString sDummyGroupName = "@aalDummy";
+}  // namespace
 
 // 0x7100bb652c
 IGroupFactory::~IGroupFactory() = default;
@@ -36,11 +42,7 @@ GroupMgr::GroupMgr() : mGroupFactory(&mDefaultGroupFactory) {}
 GroupMgr::~GroupMgr() {
     if (mInitialized) {
         destroyGroupAll_();
-        if (mGroupHashTable) {
-            delete[] static_cast<u8*>(mGroupHashTable);
-            mGroupHashTable = nullptr;
-            mGroupHashTableSize = 0;
-        }
+        mGroupHashTable.freeBuffer();
         mInitialized = false;
     }
 }
@@ -57,7 +59,7 @@ void GroupMgr::destroyGroupAll_() {
     }
     mGroups.clear();
     _10 = nullptr;
-    _18 = nullptr;
+    mDefaultSoundGroup = nullptr;
 }
 
 // 0x7100b805c0
@@ -68,6 +70,76 @@ void GroupMgr::initialize(sead::Heap*, IGroupFactory* factory) {
     mGroups.clear();
     mGroupFactory = factory == nullptr ? &mDefaultGroupFactory : factory;
     mInitialized = true;
+}
+
+// 0x7100b80ca0
+GroupFolder* GroupMgr::findGroupFolder(const sead::SafeString& name) const {
+    if (!mInitialized)
+        return nullptr;
+    Group* group = findGroup(name);
+    if (!group)
+        return nullptr;
+    return sead::DynamicCast<GroupFolder>(group);
+}
+
+// 0x7100b80e24
+Group* GroupMgr::findGroup(const sead::SafeString& name) const {
+    if (!mInitialized)
+        return nullptr;
+
+    if (mGroupHashTable.isBufferReady()) {
+        const u32 hash = sead::HashCRC32::calcStringHash(name.cstr());
+        s32 low = 0;
+        s32 high = mGroupHashTable.size();
+        while (true) {
+            const s32 mid = (low + high) / 2;
+            const GroupHashEntry& entry = mGroupHashTable[mid];
+            if (entry.hash == hash)
+                return entry.group;
+            if (entry.hash < hash) {
+                if (low == mid)
+                    return nullptr;
+                low = mid;
+            } else {
+                if (high == mid)
+                    return nullptr;
+                high = mid;
+            }
+        }
+    }
+
+    for (Group& group : mGroups) {
+        if (group.getObjName().isEqual(name))
+            return &group;
+    }
+    return nullptr;
+}
+
+// NON_MATCHING: the original keeps a second null check of the group after the type test.
+// 0x7100b80ff8
+SoundGroup* GroupMgr::findSoundGroup(const sead::SafeString& name) const {
+    if (!mInitialized || name.getStringTop()[0] == sead::SafeString::cNullChar)
+        return nullptr;
+    Group* group = findGroup(name);
+    if (!group)
+        return nullptr;
+    SoundGroup* sound_group = sead::DynamicCast<SoundGroup>(group);
+    return sound_group;
+}
+
+// NON_MATCHING: see findSoundGroup.
+// 0x7100b810b0
+SoundGroup* GroupMgr::findSoundGroupOrDefault(const sead::SafeString& name) const {
+    if (mInitialized && name.getStringTop()[0] != sead::SafeString::cNullChar) {
+        if (SoundGroup* group = sead::DynamicCast<SoundGroup>(findGroup(name)))
+            return group;
+    }
+    return mDefaultSoundGroup;
+}
+
+// 0x7100b8148c
+const sead::SafeString& GroupMgr::getDummyGroupName() {
+    return sDummyGroupName;
 }
 
 // 0x7100b80c60

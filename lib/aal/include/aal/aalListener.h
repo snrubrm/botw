@@ -12,6 +12,8 @@ class ListenerPoser;
 
 /// A listener of the sounds (the position and orientation sounds are heard from). TODO: incomplete.
 class Listener : public FixedNamedObj<32>, public sead::hostio::Node {
+    friend class Shape;
+
 public:
     Listener();
     ~Listener() override;
@@ -44,7 +46,9 @@ private:
     sead::Matrix34f mLocalMatrix;
     sead::Matrix34f mMatrix;
     sead::Matrix34f mLocalMatrixForAngle;
-    u8 _190[0x1b0 - 0x190];
+    /// The position that the angle calculation uses if the byte at 0xf0 is set.
+    sead::Vector3f mPositionForAngle;
+    u8 _19c[0x1b0 - 0x19c];
 };
 static_assert(sizeof(Listener) == 0x1b0, "aal::Listener size mismatch");
 

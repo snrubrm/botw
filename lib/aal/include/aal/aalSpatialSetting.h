@@ -3,6 +3,7 @@
 #include <basis/seadTypes.h>
 #include <math/seadMatrix.h>
 #include <math/seadVector.h>
+#include "aal/aalSpatialCalculator.h"
 
 namespace aal {
 
@@ -34,8 +35,12 @@ public:
     void setRotatingStereoEnabled(bool enable);
     void setListenerDirectivityEnabled(bool enable);
     void setUserParam(u64 param);
+    void setSpatialCalculatorSetting(const SpatialCalculator::Setting& setting);
     void reset();
-    bool isUnified() const { return mFlags & 2; }
+    bool isUnified() const { return mSetting.flags & 2; }
+    bool isPositioned() const { return mPositioned; }
+    bool isPositionFollow() const { return mPositionFollow; }
+    const SpatialCalculator::Setting& getSpatialCalculatorSetting() const { return mSetting; }
 
 private:
     sead::Matrix34f mActorMatrix;
@@ -43,16 +48,7 @@ private:
     bool mPositioned;
     bool mPositionFollow;
     u8 _46;
-    // aal::SpatialCalculator::Setting (0x48..0x80):
-    const sead::Matrix34f* _48;
-    const sead::Vector3f* _50;
-    void* _58;
-    f32 mDopplerFactor;
-    f32 mSoundSourceSize;
-    Shape* mShape;
-    u16 mFlags;
-    u16 _72;
-    u64 mUserParam;
+    SpatialCalculator::Setting mSetting;
 };
 static_assert(sizeof(SpatialSetting) == 0x80, "aal::SpatialSetting size mismatch");
 

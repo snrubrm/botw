@@ -10,7 +10,13 @@ class SoundSource;
 /// the constructor / setup / reset initialise are modeled (names of the unknown ones start with an underscore).
 class MarkerController {
 public:
+    struct MarkerCallbackInfo;
+    using MarkerCallback = void (*)(const MarkerCallbackInfo& info, void* user_data);
+
     MarkerController();
+
+    /// 0x7100b9f8ac: also marks the sound source (a marker callback needs the playing state to be tracked).
+    void setMarkerCallback(MarkerCallback callback, s32 param, void* user_data);
 
     void setup(SoundSource* sound_source);
     void reset();
@@ -18,9 +24,9 @@ public:
 private:
     SoundSource* mSoundSource;
     void* _8;
-    void* _10;
-    s32 _18;
-    u64 _20;
+    MarkerCallback mCallback;
+    s32 mCallbackParam;
+    void* mCallbackUserData;
     s32 _28;
     s32 _2c;
 };

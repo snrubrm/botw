@@ -8,9 +8,7 @@ f32 AudioMetaReader::getAmplitudePeakValue() const {
         return 0.0f;
     if (mData->version != 0x400)
         return 1.0f;
-    auto* peak_block =
-        reinterpret_cast<const PeakBlock*>(mData->peak_block_offset + reinterpret_cast<uintptr_t>(mData));
-    return peak_block->amplitude_peak;
+    return getAssetBlock_()->amplitude_peak;
 }
 
 // NON_MATCHING: only the operand order of the final address addition differs

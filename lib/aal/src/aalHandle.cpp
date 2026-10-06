@@ -3,6 +3,8 @@
 
 namespace aal {
 
+const Handle Handle::cInvalid;
+
 // 0x7100b75d44
 Handle::Handle() = default;
 

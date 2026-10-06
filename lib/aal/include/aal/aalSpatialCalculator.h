@@ -73,6 +73,8 @@ public:
     /// Detaches the calculator from its shape; with `reset_position`, also forgets the position/matrix
     /// pointers of the setting. Returns whether a shape was attached.
     bool detachShape(bool reset_position);
+    /// 0x7100b8f900: forgets the matrix and velocity pointers of the setting.
+    void detachPositioningInfo();
 
     /// The calculator is shared by the sounds that use it (0x7100b8fe28 / 0x7100b8fe38 / 0x7100b8fe4c).
     void beginReferred();

@@ -9,6 +9,11 @@ namespace aal {
 // 0x7100b946d4
 UnifierSpeakerBalanceTable::UnifierSpeakerBalanceTable() : mData(nullptr) {}
 
+// 0x7100b95630
+f32 UnifierSpeakerBalanceTable::getTotalVolumeMax(DeviceType device, s32 interior) const {
+    return mTotalVolumeMax[device][interior];
+}
+
 // 0x7100b946dc
 UnifierSpeakerBalanceTable::~UnifierSpeakerBalanceTable() {
     if (mData) {
@@ -19,9 +24,9 @@ UnifierSpeakerBalanceTable::~UnifierSpeakerBalanceTable() {
         delete[] mData;
         mData = nullptr;
     }
-    if (mInteriorMaxSpread) {
-        delete[] mInteriorMaxSpread;
-        mInteriorMaxSpread = nullptr;
+    if (mTotalVolumeMax[0]) {
+        delete[] mTotalVolumeMax[0];
+        mTotalVolumeMax[0] = nullptr;
     }
 }
 
@@ -32,7 +37,7 @@ void UnifierSpeakerBalanceTable::initialize(sead::Heap* heap) {
     if (OutputDevice* device = SystemAccessor::getSettings()->getOutputDevice(DeviceType::TV))
         num = device->getNumOfInteriorMax();
     mData[0] = new (heap, 8) UnifierSpeakerBalanceData[num];
-    mInteriorMaxSpread = new (heap, 8) f32[num];
+    mTotalVolumeMax[0] = new (heap, 8) f32[num];
     mInteriorNum = num;
     makeTable();
 }

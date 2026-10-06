@@ -1,6 +1,28 @@
 #include "aal/aalSettings.h"
+#include "aal/aalOutputDevice.h"
+#include "aal/aalSpeakerBalanceUnifierMgr.h"
+#include "aal/aalSystemAccessor.h"
 
 namespace aal {
+
+// 0x7100ba0f80
+void Settings::calc() {
+    mOutputDevices[0]->calc();
+}
+
+// 0x7100ba10f4
+void Settings::setSpeakerBalanceMode(OutputMode output_mode, SpeakerBalanceMode mode) {
+    mSpeakerBalanceModes[output_mode] = mode;
+    if (SpeakerBalanceUnifierMgr* mgr = SystemAccessor::getSpeakerBalanceUnifierMgr()) {
+        mgr->setupUnifierSpeakerBalanceTable();
+        mgr->setupInteriorSize();
+    }
+}
+
+// 0x7100ba1148
+SpeakerBalanceMode Settings::getCurrentSpeakerBalanceMode(DeviceType device) const {
+    return getSpeakerBalanceMode(mOutputModes[device]);
+}
 
 // 0x7100ba104c
 void Settings::setBaseFPS(f32 fps) {

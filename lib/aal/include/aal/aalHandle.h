@@ -20,6 +20,9 @@ class Handle {
 public:
     Handle();
 
+    /// The handle that does not refer to a sound (the functions that return a handle return it when there is none).
+    static const Handle cInvalid;
+
     /// Returns the sound source if the handle is still valid (the ids match), nullptr otherwise.
     SoundSource* getSoundSource();
     const SoundSource* getSoundSource() const;

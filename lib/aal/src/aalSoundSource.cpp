@@ -19,8 +19,8 @@ SoundSource::SoundSource()
       mInteriorNum(0), mTrackNum(0), mChannelNum(), mPriority(1.0f), _d8(1.0f), mPriorityScale(1.0f),
       mSoundGroup(nullptr), mEmitter(nullptr), mSpeakerBalanceSupplier(nullptr),
       mPlayingStateController(nullptr), mFader(nullptr), mSpatialSetting(), mSpatialCalculator(nullptr),
-      mSpatialPlayingParam(nullptr), mUnifierSource(nullptr), mMarkerController(nullptr), _1c0(), _1e0(0),
-      _1e8(0) {}
+      mSpatialPlayingParam(nullptr), mUnifierSource(nullptr), mMarkerController(nullptr), mArbiterNode(), _1d0(),
+      mEmitterNode() {}
 
 // 0x7100b768a0 (D1) / 0x7100b76964 (D0)
 SoundSource::~SoundSource() {
@@ -87,7 +87,7 @@ void SoundSource::reset() {
         mFader->setValueImmediate(1.0f);
     detachSoundGroup();
     if (mEmitter) {
-        if (_1e8 || _1e0)
+        if (mEmitterNode.isLinked())
             mEmitter->removeSoundSource(this);
         mEmitter = nullptr;
     }
@@ -157,6 +157,27 @@ bool SoundSource::setFadeInTime(f32 fade_in_time) {
 void SoundSource::startPrepared() {
     mPlayingStateController->mSoundController->startPrepared();
     mState = 4;
+}
+
+// 0x7100b781fc
+Handle SoundSource::getUnifiedSoundHandle() const {
+    if (mUnifierSource)
+        return mUnifierSource->getTargetHandle();
+    return Handle::cInvalid;
+}
+
+// NON_MATCHING: same checks and calls; the original does not shrink-wrap the frame setup around the state test.
+// 0x7100b78228
+u32 SoundSource::getPlaySamplePosition() const {
+    if (mState == 0 || mState == 7)
+        return 0;
+    if (mState != 8)
+        return mPlayingStateController->getPlayingSamplePos();
+
+    Handle handle = getUnifiedSoundHandle();
+    if (const SoundSource* sound_source = handle.getSoundSource())
+        return sound_source->getPlaySamplePosition();
+    return 0;
 }
 
 // 0x7100b781a4
@@ -251,7 +272,7 @@ inline void SoundSource::finishNow_() {
     mPriority = 0.0f;
     mPlayingStateController->stopForce();
     if (mEmitter) {
-        if (_1e8 || _1e0)
+        if (mEmitterNode.isLinked())
             mEmitter->removeSoundSource(this);
         mEmitter = nullptr;
     }
