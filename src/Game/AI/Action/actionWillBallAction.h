@@ -19,6 +19,10 @@ public:
 
 protected:
     void calc_() override;
+    // 0x71002bbb84 (parameter names are guesses): the unit direction from the actor towards the target (plus the
+    // height offset; flat when the ball is on the ground), the horizontal distance and its ratio to the horizontal
+    // distance from the start position.
+    virtual void m32(sead::Vector3f* direction, f32* distance, f32* progress);
 
     struct Params {
         // static_param at offset 0x20

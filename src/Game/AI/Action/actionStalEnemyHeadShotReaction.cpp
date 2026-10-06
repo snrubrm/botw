@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionStalEnemyHeadShotReaction.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/AI/aiUnk_71007377D4.h"
 #include "Game/AI/aiUnk_7100724C64.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
@@ -16,6 +17,17 @@ bool StalEnemyHeadShotReaction::init_(sead::Heap* heap) {
 
 void StalEnemyHeadShotReaction::enter_(ksys::act::ai::InlineParamPack* params) {
     ActionWithPosAngReduce::enter_(params);
+    _90 = 0;
+    auto* actor = mActor;
+    if (*mIsTgOff_s)
+        sub_71007A397C(actor);
+    if (!mASName_s.isEmpty())
+        playAS(mASName_s.cstr(), false, 0, 0, -1.0f);
+    sub_7100277AF4();
+    if (*mIsDropWeapon_s)
+        sub_71005D8748(actor, sead::Vector3f::zero, false, false, nullptr, false);
+    if (*mIsChangeable_s)
+        mFlags.set(Flag::Changeable);
 }
 
 void StalEnemyHeadShotReaction::leave_() {

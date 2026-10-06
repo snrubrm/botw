@@ -51,6 +51,25 @@ void WillBallAction::enter_(ksys::act::ai::InlineParamPack* params) {
     _91 = true;
 }
 
+// NON_MATCHING: the original keeps the y component as an integer register (fmov w23, s1; eor 0x80000000; csel) and
+// stores the vector through integer stores; the x / z negation and the squared-length order also differ.
+void WillBallAction::m32(sead::Vector3f* direction, f32* distance, f32* progress) {
+    const sead::Vector3f target = *mParams.mTargetPos_d;
+    const sead::Vector3f pos = mActor->getMtx().getTranslation();
+    const f32 dx = pos.x - target.x;
+    const f32 dy = pos.y - (target.y + _8c);
+    const f32 dz = pos.z - target.z;
+    const f32 start_dx = target.x - _70.x;
+    const f32 start_dz = target.z - _70.z;
+    const f32 horizontal_distance = sead::Mathf::sqrt(dx * dx + dz * dz);
+    const f32 start_distance = sead::Mathf::sqrt(start_dx * start_dx + start_dz * start_dz);
+    sead::Vector3f dir(dx, *mParams.mIsGround_s ? 0.0f : -dy, dz);
+    dir.normalize();
+    *direction = dir;
+    *distance = horizontal_distance;
+    *progress = horizontal_distance / start_distance;
+}
+
 void WillBallAction::leave_() {
     if (auto* body = mActor->getMainBody())
         body->setGravityFactor(_88);

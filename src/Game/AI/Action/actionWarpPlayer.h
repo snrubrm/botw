@@ -19,6 +19,7 @@ public:
 protected:
     void calc_() override;
     bool m33() override;
+    void m32() override;
 
     // dynamic_param at offset 0x60
     sead::SafeString mWarpDestMapName_d{};

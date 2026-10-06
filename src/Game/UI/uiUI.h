@@ -77,6 +77,9 @@ public:
     // 0x71010a7008 / 0x71010a701c (CSV UI::__auto3 / __auto5): _a4 in [3, 8) (reset to 0).
     bool sub_71010A7008();
     void sub_71010A701C();
+    // 0x71010a66cc (CSV UI::x; declared only, lane5 s3): called with the name of the last added item before the
+    // shop-selected item name is shown (OpenGetDemoDialogDressFairy::calc_).
+    void x(const sead::SafeString& item_name);
     // 0x71010a7168 (CSV UI::getTradeItemNum).
     s32 getTradeItemNum();
 

@@ -1,5 +1,6 @@
 #include "Game/AI/Action/actionStick.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 
 namespace uking::action {
 
@@ -26,6 +27,31 @@ void Stick::loadParams_() {
     getDynamicParam(&mStickPosDiv_d, "StickPosDiv");
     getDynamicParam(&mStickActor_d, "StickActor");
     getDynamicParam(&mStickBodyName_d, "StickBodyName");
+}
+
+// NON_MATCHING: the original makes a real vtable call for the bind's m10 (ours devirtualises the empty ActorBind::m10).
+bool Stick::sub_710027D3AC() {
+    if (!mStickActor_d)
+        return false;
+    if (mStickActor_d->isAccessingSpecifiedProcUnsafe(nullptr))
+        return false;
+    auto* actor = sead::DynamicCast<ksys::act::Actor>(mStickActor_d->getProc(nullptr, nullptr));
+    if (!actor)
+        return false;
+    auto& parent_link = actor->getParentLinkMaybe();
+    if (!parent_link.hasProc())
+        return false;
+    if (!parent_link.isAccessingSpecifiedProcUnsafe(nullptr))
+        return false;
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(&parent_link, &accessor);
+    if (accessor.isStateCalc()) {
+        _48._58 = parent_link;
+        _48._8.acquire(nullptr, false);
+        _48.m10(&_48._8);
+        return true;
+    }
+    return false;
 }
 
 void Stick::calc_() {

@@ -4,6 +4,11 @@
 #include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
+bool sub_71007D86B4(ksys::act::Player* player) {
+    return player->getASList()->x_1(1, 1) == "HorseCall" || player->getASList()->x_1(1, 1) == "CallComeon" ||
+           player->getASList()->x_1(1, 1) == "CallStay";
+}
+
 namespace uking::action {
 
 PlayerBackJump::PlayerBackJump(const InitArg& arg) : PlayerAction(arg) {}

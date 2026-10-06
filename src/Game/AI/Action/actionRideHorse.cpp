@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionRideHorse.h"
+#include "Game/AI/aiUnk_71007377D4.h"
 #include "Game/AI/aiUnk_710073fa90.h"
 #include "Game/Actor/actHorseRideInfo.h"
 #include "Game/Actor/actRideable.h"
@@ -79,6 +80,17 @@ void RideHorse::sub_710023A4C8() {
         }
         _180 = false;
     }
+}
+
+// NON_MATCHING: only the order of the two argument register moves at the top differs.
+void RideHorse::sub_710023A6B0(f32 rate, ksys::phys::CharacterController* controller,
+                               ksys::act::ActorLinkConstDataAccess* accessor) {
+    sead::Vector3f front;
+    accessor->getActorMtx().getBase(front, 2);
+    front.normalize();
+    const sead::Vector3f up = getUpDir(controller->get70());
+    sub_71007407F0(&_6c, front, up, true, rate);
+    sub_7100740E04(_6c, controller);
 }
 
 void RideHorse::leave_() {

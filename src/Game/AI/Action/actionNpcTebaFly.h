@@ -18,6 +18,10 @@ public:
 protected:
     void calc_() override;
 
+    // 0x7100208d90 (placeholder name): finds the nearest linked "RemainsWind_Battery_A_01" actor that is in the calc
+    // state (within 10000 units of the player) and writes its position to `out`.
+    bool sub_7100208D90(sead::Vector3f* out);
+
     // static_param at offset 0x20
     const int* mTurnEnableFrame_s{};
     // static_param at offset 0x28

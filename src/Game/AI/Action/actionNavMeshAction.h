@@ -27,6 +27,10 @@ public:
 protected:
     // 0x71001f08e4 (declared only): out of line in the original.
     bool sub_71001F08E4();
+    // 0x71001f1350 / 0x71001f135c (placeholder names): out-of-line copies of inline-only getters of the Speed /
+    // RotSpd static params (NavMeshSlippedWalk::m32 calls them).
+    f32 sub_71001F1350() const;
+    f32 sub_71001F135C() const;
     void calc_() override;
     virtual void m32();
     virtual void m33();

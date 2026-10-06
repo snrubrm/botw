@@ -19,6 +19,9 @@ public:
 protected:
     void calc_() override;
 
+    // 0x7100277af4 (declaration only; placeholder name, 1220 B): starts the head shot reaction movement.
+    void sub_7100277AF4();
+
     // static_param at offset 0x30
     const float* mSpeed_s{};
     // static_param at offset 0x38

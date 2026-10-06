@@ -1,5 +1,10 @@
 #include "Game/AI/Action/actionNpcTebaFly.h"
 #include "Game/Actor/actNPC.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "KingSystem/Map/mapObject.h"
+#include "KingSystem/Map/mapObjectLink.h"
 
 namespace uking::action {
 
@@ -33,6 +38,39 @@ void NpcTebaFly::loadParams_() {
     getStaticParam(&mEvacuateRemainsDist_s, "EvacuateRemainsDist");
     getStaticParam(&mTargetPosRatio_s, "TargetPosRatio");
     getStaticParam(&mPlayerApproachCannonDist_s, "PlayerApproachCannonDist");
+}
+
+// NON_MATCHING: float register allocation / frame size (the original keeps only d8-d11 live).
+bool NpcTebaFly::sub_7100208D90(sead::Vector3f* out) {
+    auto* obj = mActor->getMapObject();
+    if (!obj)
+        return false;
+    auto* link_data = obj->getLinkData();
+    if (!link_data)
+        return false;
+    const sead::Vector3f player_pos = getPlayerPosition();
+    const s32 count = link_data->mObjects.size();
+    bool found = false;
+    f32 nearest = 10000.0f;
+    for (s32 i = 0; i < count; ++i) {
+        auto* object = link_data->mObjects(i);
+        if (!object)
+            continue;
+        if (sead::SafeString(object->getUnitConfigName()) != "RemainsWind_Battery_A_01")
+            continue;
+        ksys::act::ActorConstDataAccess accessor;
+        object->getActorWithAccessor(accessor);
+        if (!accessor.isStateCalc())
+            continue;
+        const sead::Vector3f pos = accessor.getActorMtx().getTranslation();
+        const f32 distance = (player_pos - pos).length();
+        if (distance < nearest) {
+            nearest = distance;
+            found = true;
+            *out = pos;
+        }
+    }
+    return found;
 }
 
 void NpcTebaFly::calc_() {

@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionPriestBossClonesSpawn.h"
+#include "Game/AI/aiUnk_7102450fa8.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
@@ -35,6 +36,12 @@ void PriestBossClonesSpawn::calc_() {
     PriestBossClonesSpawnForDemo::calc_();
     if (sub_7100066884())
         sub_71002218D8();
+}
+
+int PriestBossClonesSpawn::m32() {
+    if (sub_71000664E4())
+        return !sub_71000664E4()->isFlagOn(Unk_7102450fa8::Flag::_4);
+    return true;
 }
 
 }  // namespace uking::action

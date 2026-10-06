@@ -73,4 +73,12 @@ void NavMeshAction::m37(const sead::Matrix34f& mtx) {
         controller->sub_7100F5FC8C(mtx);
 }
 
+f32 NavMeshAction::sub_71001F1350() const {
+    return *mParams.mSpeed_s;
+}
+
+f32 NavMeshAction::sub_71001F135C() const {
+    return *mParams.mRotSpd_s;
+}
+
 }  // namespace uking::action

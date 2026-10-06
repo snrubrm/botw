@@ -20,6 +20,10 @@ public:
 protected:
     void calc_() override;
 
+    // 0x710027d3ac (placeholder name): binds the stick to the parent link of the StickActor actor if that actor is in
+    // the calc state.
+    bool sub_710027D3AC();
+
     // dynamic_param at offset 0x20
     sead::Vector3f* mStickPos_d{};
     // dynamic_param at offset 0x28

@@ -1,4 +1,8 @@
+#include <aal/aalGroup.h>
+#include <aal/aalGroupMgr.h>
+#include <aal/aalSystemAccessor.h>
 #include "Game/AI/Action/actionStopAllDemoSoundAction.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::action {
 
@@ -21,7 +25,19 @@ void StopAllDemoSoundAction::leave_() {
 void StopAllDemoSoundAction::loadParams_() {}
 
 void StopAllDemoSoundAction::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (isFinished() || isFailed())
+        return;
+    if (_1c <= 0.0f) {
+        if (auto* mgr = aal::SystemAccessor::getGroupMgr()) {
+            if (auto* group = mgr->findGroup("Demo"))
+                group->stopAllSound(-1.0f);
+            if (auto* group = mgr->findGroup("SystemAcrossScene"))
+                group->stopAllSound(-1.0f);
+        }
+        setFinished();
+        mFlags.set(Flag::Changeable);
+    }
+    ksys::Timer::update(&_1c, -1.0f);
 }
 
 }  // namespace uking::action

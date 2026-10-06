@@ -1,5 +1,7 @@
 #include "Game/AI/Action/actionWarpPLAndResetGimmick.h"
+#include <prim/seadSafeString.h>
 #include "Game/gameResetter.h"
+#include "KingSystem/Event/evtManager.h"
 
 namespace uking::action {
 
@@ -12,7 +14,13 @@ bool WarpPLAndResetGimmick::init_(sead::Heap* heap) {
 }
 
 void WarpPLAndResetGimmick::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    if (!Resetter::instance()->sub_71007D2320(nullptr, *mSystemResetOption_d, mStartPosName_d,
+                                              mAdditionalResetActor_d, false)) {
+        sead::FixedSafeString<128> flow;
+        sead::FixedSafeString<128> entry;
+        getActiveEventFlowPath_0(mActor, &flow, &entry);
+        setFailed();
+    }
 }
 
 void WarpPLAndResetGimmick::leave_() {

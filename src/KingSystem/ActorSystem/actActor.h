@@ -952,6 +952,9 @@ public:
     // Bit 1 is set by AirOctaWoodBridge::init_ and AirOctaMgr::init_.
     /* 0x732 */ sead::BitFlag16 mDrawDistanceFlags;
 
+    // The link to the parent actor (_738; Stick::sub_710027D3AC reads it directly; the name is a guess).
+    BaseProcLink& getParentLinkMaybe() { return _738; }
+
 protected:
     /* 0x738 */ BaseProcLink _738;
     /* 0x748 */ BaseProcLink mCreateArgBaseProcLink;

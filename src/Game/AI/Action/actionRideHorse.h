@@ -4,6 +4,14 @@
 #include "KingSystem/ActorSystem/actAiAction.h"
 #include "KingSystem/ActorSystem/actModelBindInfo.h"
 
+namespace ksys::act {
+class ActorLinkConstDataAccess;
+}
+
+namespace ksys::phys {
+class CharacterController;
+}
+
 namespace uking::action {
 
 class RideHorse : public ksys::act::ai::Action {
@@ -51,6 +59,9 @@ protected:
 
     // 0x710023a4c8 (declaration only)
     void sub_710023A4C8();
+    // 0x710023a6b0 (placeholder name): turns the actor so that it faces the direction of the horse accessor.
+    void sub_710023A6B0(f32 rate, ksys::phys::CharacterController* controller,
+                        ksys::act::ActorLinkConstDataAccess* accessor);
     // 0x710023a050 (placeholder name): whether the linked actor is the one this actor is attached to.
     bool sub_710023A050(ksys::act::BaseProcLink* link);
 };

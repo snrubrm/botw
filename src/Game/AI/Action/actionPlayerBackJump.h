@@ -3,6 +3,14 @@
 #include "Game/AI/Action/actionPlayerAction.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
+namespace ksys::act {
+class Player;
+}
+
+// 0x71007d86b4 (placeholder name; unnamed in the CSV, called from Player::m81 and others): whether the player's
+// current AS (slot 1, bank 1) is one of the horse call sequences.
+bool sub_71007D86B4(ksys::act::Player* player);
+
 namespace uking::action {
 
 class PlayerBackJump : public PlayerAction {

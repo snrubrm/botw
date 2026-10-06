@@ -15,6 +15,8 @@ public:
     void loadParams_() override;
 
 protected:
+    void m32(f32 a, f32 b, f32 c, f32 d, f32 e) override;
+
     // static_param at offset 0xe8
     const float* mPosReduceRatio_s{};
     // static_param at offset 0xf0
