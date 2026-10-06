@@ -161,7 +161,6 @@ bool PlayerPullSword::isChangeable() const {
     return false;
 }
 
-// NON_MATCHING: signed state loads replace the target's zero-extended loads in interval switches.
 void PlayerPullSword::sub_7100807630() {
     static_cast<ksys::act::Player*>(mActor)->_1850.update();
     const f32 time = static_cast<ksys::act::Player*>(mActor)->_1850.value;

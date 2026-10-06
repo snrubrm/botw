@@ -2,7 +2,9 @@
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/Utils/MathUtil.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
+#include "Game/Actor/actHorseRideInfo.h"
 #include "Game/Actor/actNPC.h"
+#include "KingSystem/ActorSystem/actSchedule.h"
 #include "Game/AI/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
@@ -55,6 +57,34 @@ void TurnAndLookToObject::enter_(ksys::act::ai::InlineParamPack* params) {
         setFailed();
     }
     m40();
+}
+
+// NON_MATCHING: the original loads NPC::_fe8 as a full word (`ldr w8, [x19, #0xfe8]; and w8, w8, #0x40100000`; the plain u32
+// gets narrowed to `ldrh` of the upper half here; an Atomic<u32> load would not be), and keeps `this` in x20 / the actor in x19.
+void TurnAndLookToObject::m33() {
+    LookAtObject::m33();
+    auto* actor = mActor;
+    auto* npc = sead::DynamicCast<uking::act::NPC>(actor);
+    if (!npc) {
+        setFailed();
+        return;
+    }
+    _d0 = false;
+    _d1 = false;
+    if (npc->_fe8 & 0x40100000) {
+        _d0 = true;
+        if (_34 == 0)
+            setFailed();
+    }
+    if (mActor->getPlayerRideInfo() && (mActor->getPlayerRideInfo()->_30 & 1)) {
+        _d0 = true;
+        if (_34 == 0)
+            setFailed();
+    }
+    if (auto* schedule = npc->getSchedule()) {
+        if (!schedule->_88.isEmpty())
+            npc->_104c = _30 == -1 ? 2 : 1;
+    }
 }
 
 void TurnAndLookToObject::leave_() {

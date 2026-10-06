@@ -126,6 +126,9 @@ public:
     void sub_7100FBADDC();
     // 0x7100fba174 (declared only; lane3 s20; TurnToActorBase::leave_): triggers the scheduled motion type changes.
     void sub_7100FBA174();
+    // 0x7100fba0f4 (declared only; lane5 s5; TurnToActorBase::enter_ / PlayASForDemo::enter_): twin of sub_7100FBA174 that
+    // calls updateMotionTypeRelatedFlags on the rigid body sets / bodies.
+    void sub_7100FBA0F4();
     // 0x7100fbb29c (declared only; lane3 s20; Explode::leave_): loops over the body sets and bodies calling
     // sub_7100FBB00C.
     void sub_7100FBB29C();

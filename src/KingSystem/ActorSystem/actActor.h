@@ -68,6 +68,7 @@ class Reaction;
 class RigidBody;
 class CharacterController;
 class RagdollInstance;
+enum class MotionType;
 }  // namespace phys
 
 namespace res {
@@ -758,6 +759,9 @@ public:
     // 0x71011dabc0 (IdleAction::leave_): adds the main body (bit 0), the body at _190 (bit 2) to the world and
     // runs CharacterController::sub_7100F5EC30 (bit 3) according to the flag byte.
     void sub_71011DABC0(const u8* flags);
+    // 0x71011dac3c (lane5 s5, placeholder name; TurnToActorBase::enter_, PlayASForDemo::enter_ pass (Fixed-like type 2,
+    // true)): resets the controller's velocities and sets the character controller / main bodies to the motion type.
+    void sub_71011DAC3C(phys::MotionType type, bool flag);
     // 0x71011cfa74 (lane4 s46, placeholder name): _4b4 = the centre of the local AABB of the controller's / the main
     // body (or, without a body, mEnterCalcPos = the translation).
     void sub_71011CFA74();
@@ -968,6 +972,10 @@ public:
 
     // The link to the parent actor (_738; Stick::sub_710027D3AC reads it directly; the name is a guess).
     BaseProcLink& getParentLinkMaybe() { return _738; }
+
+    // lane5 s5 (TurnToActor::m33 reads an actor matrix at its start; TurnToActorBase::enter_ tests it for null);
+    // placeholder name, the type is not known.
+    void* get7d0() const { return _7d0; }
 
 protected:
     /* 0x738 */ BaseProcLink _738;

@@ -22,6 +22,7 @@ public:
 
 protected:
     void calc_() override;
+    void m33() override;
     virtual void m40();
     virtual void m41(ksys::phys::CharacterController* controller);
 

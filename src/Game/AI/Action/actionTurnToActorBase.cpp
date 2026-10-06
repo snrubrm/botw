@@ -3,6 +3,7 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
+#include "KingSystem/Physics/physDefines.h"
 
 namespace uking::action {
 
@@ -15,7 +16,21 @@ bool TurnToActorBase::init_(sead::Heap* heap) {
 }
 
 void TurnToActorBase::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    mFlags.set(Flag::Changeable);
+    auto* actor = mActor;
+    auto* as_list = actor->getASList();
+    if (!as_list) {
+        setFailed();
+        return;
+    }
+    _1c = actor->get7d0() != nullptr;
+    if (_1c) {
+        if (auto* physics = actor->getPhysics())
+            physics->sub_7100FBA0F4();
+        actor->sub_71011DAC3C(ksys::phys::MotionType::Keyframed, true);
+        actor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_10);
+    }
+    as_list->sub_710115CE44("Root");
 }
 
 void TurnToActorBase::leave_() {

@@ -1,5 +1,8 @@
 #include "Game/AI/Action/actionRotate.h"
+#include <math/seadMatrix.h>
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/System/VFR.h"
 
 namespace uking::action {
 
@@ -48,8 +51,29 @@ void Rotate::loadParams_() {
     getMapUnitParam(&mTiltAngularSpeed_m, "TiltAngularSpeed");
 }
 
+// NON_MATCHING: only the `_4c = _58` copy differs (the original copies z first through two address registers;
+// `_4c.set(_58)` gives that order but hoists the address computations into the earlier loads).
 void Rotate::calc_() {
-    ksys::act::ai::Action::calc_();
+    auto* actor = mActor;
+    const f32 step = sead::Mathf::deg2rad(*mTiltAngularSpeed_m) * ksys::VFR::instance()->getDeltaFrame();
+    sead::Vector3f dir = _58;
+    dir -= _4c;
+    const f32 length = dir.length();
+    if (length <= step) {
+        _4c = _58;
+        setFinished();
+    } else {
+        dir *= 1.0f / length;
+        _4c += dir * step;
+    }
+    if (auto* body = actor->getMainBody()) {
+        sead::Matrix34f home;
+        actor->getHomeMtx(&home);
+        sead::Matrix34f rot;
+        rot.makeR(_4c);
+        home.setMul(home, rot);
+        body->changePositionAndRotation(home, 1.1920929e-07f);
+    }
 }
 
 }  // namespace uking::action

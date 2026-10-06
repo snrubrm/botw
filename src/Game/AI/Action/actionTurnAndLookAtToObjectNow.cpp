@@ -1,5 +1,7 @@
 #include "Game/AI/Action/actionTurnAndLookAtToObjectNow.h"
+#include "Game/Actor/actHorseRideInfo.h"
 #include "Game/Actor/actNPC.h"
+#include "KingSystem/ActorSystem/actSchedule.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
@@ -55,6 +57,32 @@ void TurnAndLookAtToObjectNow::enter_(ksys::act::ai::InlineParamPack* params) {
         setFailed();
     }
     m40();
+}
+
+// NON_MATCHING: same as TurnAndLookToObject::m33 (NPC::_fe8 is loaded as a half word here; register swap)
+void TurnAndLookAtToObjectNow::m33() {
+    LookAtObject::m33();
+    auto* actor = mActor;
+    auto* npc = sead::DynamicCast<uking::act::NPC>(actor);
+    if (!npc) {
+        setFailed();
+        return;
+    }
+    _d0 = false;
+    if (npc->_fe8 & 0x40100000) {
+        _d0 = true;
+        if (_34 == 0)
+            setFailed();
+    }
+    if (mActor->getPlayerRideInfo() && (mActor->getPlayerRideInfo()->_30 & 1)) {
+        _d0 = true;
+        if (_34 == 0)
+            setFailed();
+    }
+    if (auto* schedule = npc->getSchedule()) {
+        if (!schedule->_88.isEmpty())
+            npc->_104c = _30 == -1 ? 2 : 1;
+    }
 }
 
 void TurnAndLookAtToObjectNow::leave_() {
