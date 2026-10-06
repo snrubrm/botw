@@ -19,6 +19,7 @@ public:
     void loadParams_() override;
 
 protected:
+    void sub_7100575448(s32 index);
     void sub_7100576744(s32 index);
 
     // static_param at offset 0xf8

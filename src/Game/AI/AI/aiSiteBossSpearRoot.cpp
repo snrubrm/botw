@@ -1,10 +1,12 @@
 #include "Game/AI/AI/aiSiteBossSpearRoot.h"
 #include "Game/AI/aiUnk_710072BA90.h"
+#include "Game/Actor/actEnemy.h"
 #include "Game/Actor/actSiteBoss.h"
 #include "Game/Damage/dmgDamageManager.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
@@ -14,7 +16,17 @@ namespace uking::ai {
 
 SiteBossSpearRoot::SiteBossSpearRoot(const InitArg& arg) : SiteBossRoot(arg) {}
 
-SiteBossSpearRoot::~SiteBossSpearRoot() = default;
+// NON_MATCHING: the original initialises the data access object after the parts actor lookup (`auto& link =
+// enemy->getActorPartsActor(..)` before `ActorConstDataAccess accessor;` matches, see the log)
+SiteBossSpearRoot::~SiteBossSpearRoot() {
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::acquireActor(&enemy->getActorPartsActor("AutoAim0"), &accessor);
+        if (accessor.isStateCalc())
+            accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+        enemy->sub_7100D3CFEC("AutoAim0");
+    }
+}
 
 bool SiteBossSpearRoot::init_(sead::Heap* heap) {
     return SiteBossRoot::init_(heap);

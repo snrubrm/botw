@@ -15,9 +15,31 @@ void sub_71002D36C8(uking::act::Enemy* enemy, const sead::SafeString& part_name)
 
 namespace uking::ai {
 
+namespace {
+// inline-only in the original; name is a guess (repeated four times in the destructor)
+void deletePartsActor(act::Enemy* enemy, const char* name) {
+    if (enemy->getActorPartsActor(name).hasProc()) {
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::acquireActor(&enemy->getActorPartsActor(name), &accessor);
+        accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+    }
+}
+}  // namespace
+
 SiteBossLswordRoot::SiteBossLswordRoot(const InitArg& arg) : SiteBossRoot(arg) {}
 
-SiteBossLswordRoot::~SiteBossLswordRoot() = default;
+SiteBossLswordRoot::~SiteBossLswordRoot() {
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
+        deletePartsActor(enemy, "WearFlame");
+        deletePartsActor(enemy, "DrawingFlame");
+        deletePartsActor(enemy, "SiteBossBigFlameBall0");
+        deletePartsActor(enemy, "SiteBossBigFlameBall1");
+        enemy->sub_7100D3CFEC("WearFlame");
+        enemy->sub_7100D3CFEC("DrawingFlame");
+        enemy->sub_7100D3CFEC("SiteBossBigFlameBall0");
+        enemy->sub_7100D3CFEC("SiteBossBigFlameBall1");
+    }
+}
 
 bool SiteBossLswordRoot::init_(sead::Heap* heap) {
     return SiteBossRoot::init_(heap);

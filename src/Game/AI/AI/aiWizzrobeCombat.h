@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/ActorSystem/actBaseProcHandle.h"
 
 namespace uking::ai {
 
@@ -40,6 +41,10 @@ protected:
     int* mSummonCount_a{};
     // aitree_variable at offset 0x90
     bool* mIsWizzrobeInBattleAreaFlag_a{};
+    ksys::act::BaseProcHandle _98;
+    // The rest (0xa8 - 0x5a0: FixedSafeString<64> + SafeString arrays) is not recovered yet.
+    u8 _a8[0x5a0 - 0xa8];
 };
+KSYS_CHECK_SIZE_NX150(WizzrobeCombat, 0x5a0);
 
 }  // namespace uking::ai

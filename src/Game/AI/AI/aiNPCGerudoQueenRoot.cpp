@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiNPCGerudoQueenRoot.h"
+#include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/GameData/gdtSpecialFlags.h"
 
 namespace uking::ai {
@@ -12,7 +13,14 @@ static const sead::SafeString sUnk_710240b650[] = {
 
 NPCGerudoQueenRoot::NPCGerudoQueenRoot(const InitArg& arg) : NPCRoot(arg) {}
 
-NPCGerudoQueenRoot::~NPCGerudoQueenRoot() = default;
+NPCGerudoQueenRoot::~NPCGerudoQueenRoot() {
+    if (_240) {
+        mActor->sub_71011DA868(&_240[0]);
+        mActor->sub_71011DA868(&_240[1]);
+        mActor->sub_71011DA868(&_240[2]);
+        delete[] _240;
+    }
+}
 
 bool NPCGerudoQueenRoot::init_(sead::Heap* heap) {
     return NPCRoot::init_(heap);

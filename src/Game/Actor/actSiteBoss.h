@@ -133,6 +133,9 @@ public:
         void sub_710066CBD4(int idx);                // 0x800005c, no target
         // 0x710066cc64: deletes bound actor `idx`.
         void sub_710066CC64(int idx);
+        // 0x710066bc04 (declared only; placeholder name): deletes every bound actor that is still alive (the links
+        // at 0x320 - 0x3a0 and _3b0); called by the destructors of SiteBoss*Root.
+        void sub_710066BC04();
         // 0x710066c074: number of bound actors that are in the calc state.
         s32 sub_710066C074();
         // 0x710066d9b8 (declaration only; 124 B): if the message of bound actor `idx` is still pending, sends it and returns true.

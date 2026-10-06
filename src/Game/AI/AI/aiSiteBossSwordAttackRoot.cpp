@@ -1,4 +1,8 @@
 #include "Game/AI/AI/aiSiteBossSwordAttackRoot.h"
+#include "Game/Actor/actEnemy.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
 
 namespace uking::ai {
 
@@ -6,7 +10,21 @@ namespace uking::ai {
 // register it already used); ours loads it earlier into x10
 SiteBossSwordAttackRoot::SiteBossSwordAttackRoot(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
-SiteBossSwordAttackRoot::~SiteBossSwordAttackRoot() = default;
+SiteBossSwordAttackRoot::~SiteBossSwordAttackRoot() {
+    if (auto* boss = sead::DynamicCast<act::Enemy>(mActor)) {
+        if (mElectricCounterMax_s) {
+            for (s32 i = 0; i < *mElectricCounterMax_s; ++i) {
+                sead::FormatFixedSafeString<32> name("ElectricBall%d", i);
+                if (boss->getActorPartsActor(name).hasProc()) {
+                    ksys::act::ActorConstDataAccess accessor;
+                    ksys::act::acquireActor(&boss->getActorPartsActor(name), &accessor);
+                    accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+                }
+                boss->sub_7100D3CFEC(name);
+            }
+        }
+    }
+}
 
 bool SiteBossSwordAttackRoot::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);

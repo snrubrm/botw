@@ -1,5 +1,6 @@
 #pragma once
 
+#include <aal/aalShape.h>
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
@@ -18,7 +19,7 @@ public:
     void sub_71005EBEC0();
 
 protected:
-    void* _38 = nullptr;
+    aal::Shape* _38 = nullptr;  // an aal::ShapeCapsule created in init_
     void* _40 = nullptr;
     u32 _48 = 0;
 };

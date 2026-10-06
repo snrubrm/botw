@@ -4,7 +4,12 @@ namespace uking::ai {
 
 WaterFallWithSound::WaterFallWithSound(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
-WaterFallWithSound::~WaterFallWithSound() = default;
+WaterFallWithSound::~WaterFallWithSound() {
+    if (_38) {
+        _38->destroy();
+        _38 = nullptr;
+    }
+}
 
 bool WaterFallWithSound::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);

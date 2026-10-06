@@ -11,6 +11,19 @@ namespace uking::ai {
 
 static const char* const sUnitNames[] = {"Unit_A", "Unit_B", "Unit_C", "Unit_D"};
 
+// 0x7100575448: deletes the parts actor of the unit
+void SiteBossBowRoot::sub_7100575448(s32 index) {
+    sead::SafeString name = u32(index) < 4 ? sUnitNames[index] : "";
+    if (auto* boss = sead::DynamicCast<act::SiteBoss>(mActor)) {
+        if (boss->getActorPartsActor(name).hasProc()) {
+            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::acquireActor(&boss->getActorPartsActor(name), &accessor);
+            accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+        }
+        boss->sub_7100D3CFEC(name);
+    }
+}
+
 void SiteBossBowRoot::sub_7100576744(s32 index) {
     sead::SafeString name = u32(index) < 4 ? sUnitNames[index] : "";
     if (auto* boss = sead::DynamicCast<act::SiteBoss>(mActor)) {
@@ -25,7 +38,14 @@ void SiteBossBowRoot::sub_7100576744(s32 index) {
 
 SiteBossBowRoot::SiteBossBowRoot(const InitArg& arg) : SiteBossRoot(arg) {}
 
-SiteBossBowRoot::~SiteBossBowRoot() = default;
+SiteBossBowRoot::~SiteBossBowRoot() {
+    sub_7100575448(0);
+    sub_7100575448(1);
+    sub_7100575448(2);
+    sub_7100575448(3);
+    if (auto* boss = sead::DynamicCast<act::SiteBoss>(mActor))
+        boss->_1560.sub_710066BC04();
+}
 
 bool SiteBossBowRoot::init_(sead::Heap* heap) {
     return SiteBossRoot::init_(heap);

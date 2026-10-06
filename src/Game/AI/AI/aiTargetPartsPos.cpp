@@ -6,7 +6,10 @@ namespace uking::ai {
 
 TargetPartsPos::TargetPartsPos(const InitArg& arg) : TargetPosAI(arg) {}
 
-TargetPartsPos::~TargetPartsPos() = default;
+TargetPartsPos::~TargetPartsPos() {
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor))
+        enemy->sub_7100D3CFEC(mPartsName_s);
+}
 
 bool TargetPartsPos::init_(sead::Heap* heap) {
     if (!TargetPosAI::init_(heap))

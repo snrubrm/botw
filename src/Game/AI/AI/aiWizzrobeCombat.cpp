@@ -1,10 +1,22 @@
 #include "Game/AI/AI/aiWizzrobeCombat.h"
+#include "Game/Actor/actEnemy.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
 WizzrobeCombat::WizzrobeCombat(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
-WizzrobeCombat::~WizzrobeCombat() = default;
+WizzrobeCombat::~WizzrobeCombat() {
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
+        if (mSummonBufferSize_s) {
+            sead::FixedSafeString<64> name;
+            for (s32 i = 0; i < *mSummonBufferSize_s; ++i) {
+                name.format("%s_%d", mSummonBufferKey_s.cstr(), i);
+                enemy->sub_7100D3CFEC(name);
+            }
+        }
+    }
+}
 
 bool WizzrobeCombat::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
