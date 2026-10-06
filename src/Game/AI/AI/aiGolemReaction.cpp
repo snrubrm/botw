@@ -5,6 +5,8 @@
 #include "Game/AI/aiUnk_7102357210.h"
 #include "Game/Damage/dmgDamageManager.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorAtk.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 
 namespace uking::ai {
 
@@ -115,6 +117,39 @@ void GolemReaction::sub_71003FE9C4() {
                            mChmArmRName_s, mArmRMaterialName_s, mBreakArmRXLinkKey_s);
         }
     }
+}
+
+bool GolemReaction::sub_71003FEAB0() {
+    auto* damage = mActor->getDamageMgr();
+    if (damage && damage->getField50() == 4) {
+        auto* actor = mActor;
+        const s32 num = sub_71007A26AC(actor);
+        for (s32 i = 0; i < num; ++i) {
+            auto* info = sub_71007A255C(actor, i);
+            if (info && (info->_50 & 0x10)) {
+                if (!(_140 == info->_d8) || _128.mTimer.value <= sead::Mathf::epsilon()) {
+                    _140 = info->_d8;
+                    bool right = false;
+                    bool left = false;
+                    sub_71003FF3F8(&right, &left);
+                    if (!right) {
+                        if (!left)
+                            return false;
+                        _128.mTimer.reset(f32(*mIgnoreBombTime_s));
+                        sub_71003FF79C(mBodyArmLName1_s, mBodyArmLName2_s, "", mLeftArmTgtBodyName_s,
+                                       mChmArmLName_s, mArmLMaterialName_s, mBreakArmLXLinkKey_s);
+                    } else {
+                        _128.mTimer.reset(f32(*mIgnoreBombTime_s));
+                        sub_71003FF79C(mBodyArmRName1_s, mBodyArmRName2_s, "", mRightArmTgtBodyName_s,
+                                       mChmArmRName_s, mArmRMaterialName_s, mBreakArmRXLinkKey_s);
+                    }
+                    changeChild("ふっとび");
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
 }
 
 }  // namespace uking::ai
