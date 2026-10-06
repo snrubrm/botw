@@ -96,4 +96,6 @@ target_sources(uking PRIVATE
   gameWildHorseMgr.h
   E3Mgr.cpp
   E3Mgr.h
+  gameRIDDemoSaveFileDevice.cpp
+  gameRIDDemoSaveFileDevice.h
 )
