@@ -440,6 +440,15 @@ ksys::act::Actor* sub_710073D318(ksys::act::Actor* actor) {
     return sead::DynamicCast<ksys::act::Actor>(info->_18.getProc(nullptr, info->mActor));
 }
 
+uking::act::Rideable* sub_710073D3C8(ksys::act::Actor* actor) {
+    auto* info = actor->getPlayerRideInfo();
+    if (!info)
+        return nullptr;
+    if (auto* rider = sead::DynamicCast<ksys::act::Actor>(info->_18.getProc(nullptr, info->mActor)))
+        return rider->getHorseOptionsMaybe();
+    return nullptr;
+}
+
 const sead::Matrix34f& getPlayerPositionViaPlayerInfo() {
     if (auto* info = ksys::act::PlayerInfo::instance()) {
         ksys::act::ActorConstDataAccess accessor;

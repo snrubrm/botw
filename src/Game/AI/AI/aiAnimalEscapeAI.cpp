@@ -2,6 +2,7 @@
 #include <limits>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
 
 namespace uking::ai {
@@ -88,6 +89,35 @@ void AnimalEscapeAI::changeToStuckOnTerrain() {
     pack.addVec3(target, "TargetPos", -1);
     pack.addVec3(hit_position, "HitPos", -1);
     changeChild("地形嵌り", &pack);
+}
+
+// NON_MATCHING: the original loads mActor into a callee-saved register before the velocity query and the
+// NavMeshCharacter speed limit before the IsStuckOnTerrain test, and computes the half depth before testing
+// `*mIsStuckOnTerrain_a` (instruction order and block layout only).
+void AnimalEscapeAI::sub_71003051C0() {
+    if (!*mIsDynamicallyOffsetNavChar_s)
+        return;
+    auto* nav = mActor->m45();
+    auto* controller = mActor->getCharacterController();
+    if (!nav || !controller)
+        return;
+    sead::Vector3f velocity;
+    controller->sub_7100F5F598(&velocity);
+    const f32 speed = sead::Mathf::sqrt(velocity.x * velocity.x + velocity.z * velocity.z);
+    const sead::BoundBox3f& aabb = mActor->getAabb();
+    f32 offset;
+    if (mIsStuckOnTerrain_a && *mIsStuckOnTerrain_a)
+        offset = -((aabb.getMax().z - aabb.getMin().z) * 0.5f);
+    else
+        offset = speed / nav->_8->_6c * ((aabb.getMax().z - aabb.getMin().z) * 0.5f) + 0.0f;
+    const sead::Vector3f value{
+        0, 0,
+        sead::Mathf::clamp(offset, (aabb.getMax().z - aabb.getMin().z) * -0.5f,
+                           (aabb.getMax().z - aabb.getMin().z) * 0.5f)};
+    if (!value.isNan()) {
+        auto lock = sead::makeScopedLock(nav->_1e0);
+        nav->_284 = value;
+    }
 }
 
 void AnimalEscapeAI::loadParams_() {

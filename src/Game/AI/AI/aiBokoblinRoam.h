@@ -25,6 +25,8 @@ public:
     void changeToIdle();
     // 0x71003344ac (placeholder name)
     void changeToRotate();
+    // 0x710033433c (placeholder name): ray cast ahead of the actor (TurnCheckDist, TurnCheckHeight)
+    bool sub_710033433C();
 
 protected:
     // static_param at offset 0x38

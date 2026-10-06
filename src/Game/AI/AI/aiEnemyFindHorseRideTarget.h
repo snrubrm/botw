@@ -15,6 +15,10 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    // 0x710038d018 (placeholder name): the target is within the attack range / height band while the actor is
+    // below AttackTargetSpeed
+    bool sub_710038D018();
+
 protected:
     // static_param at offset 0x38
     const int* mSurpriseAttackPer_s{};

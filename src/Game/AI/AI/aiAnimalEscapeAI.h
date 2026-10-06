@@ -26,6 +26,8 @@ public:
     // 0x7100305314 / 0x7100305ae0 (placeholder names)
     void changeToEscape();
     void changeToStuckOnTerrain();
+    // 0x71003051c0 (placeholder name)
+    void sub_71003051C0();
 
 protected:
     // static_param at offset 0xa8

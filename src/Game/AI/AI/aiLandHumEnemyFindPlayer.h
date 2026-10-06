@@ -41,6 +41,9 @@ public:
     void getChemTargetPos(sead::Vector3f* pos);
     // 0x7100461c98: _1dc = 15, then the child "対象壁つかまり" with TargetPos = the enemy target position.
     void changeToGrabTargetWall();
+    // 0x7100461d74 (placeholder name): whether the linked actor (_1c8) is in a chemical state that the weapon (m53)
+    // can exploit but the NoChemSearch weapon cannot: on fire (chemical state 2) or Voltage reached
+    bool sub_7100461D74();
 
 protected:
     bool sub_7100462A28();

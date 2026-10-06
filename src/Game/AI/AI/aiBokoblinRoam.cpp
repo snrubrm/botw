@@ -6,6 +6,7 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
+#include "Game/AI/aiUnk_71007377D4.h"
 
 namespace uking::ai {
 
@@ -62,6 +63,22 @@ bool BokoblinRoam::sub_7100333E68() {
         return false;
     dir.negate();
     return dir.dot(mActor->getMtx().getBase(2)) >= sead::Mathf::cos(*mSpAttackServiceAngle_s);
+}
+
+bool BokoblinRoam::sub_710033433C() {
+    if (*mTurnCheckDist_s < 0.0f)
+        return false;
+    if (*mTurnCheckHeight_s < 0.0f)
+        return false;
+    sead::Vector3f forward;
+    mActor->getMtx().getBase(forward, 2);
+    forward.normalize();
+    sead::Vector3f from;
+    mActor->getMtx().getTranslation(from);
+    sead::Vector3f to = from + forward * *mTurnCheckDist_s;
+    from.y += *mTurnCheckHeight_s;
+    to.y += *mTurnCheckHeight_s;
+    return sub_710072E928(from, to, nullptr, nullptr, nullptr, 0.5f);
 }
 
 void BokoblinRoam::changeToSearch() {

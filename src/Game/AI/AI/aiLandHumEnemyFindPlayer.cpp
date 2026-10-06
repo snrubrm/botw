@@ -130,6 +130,19 @@ void LandHumEnemyFindPlayer::changeToGrabTargetWall() {
     changeChild("対象壁つかまり", &pack);
 }
 
+bool LandHumEnemyFindPlayer::sub_7100461D74() {
+    if (!_1c8.hasProcInCalcState())
+        return false;
+    const bool a = sub_71005DA434(mActor, m53()) && !sub_71005DA434(mActor, *mParams.mNoChemSearchWpIdx_s);
+    const bool b = sub_71005DA4F0(mActor, m53()) && !sub_71005DA4F0(mActor, *mParams.mNoChemSearchWpIdx_s);
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(&_1c8, &accessor);
+    if ((a && accessor.sub_7100D13448(-1)) ||
+        (b && !(accessor.sub_7100D13080() < *mParams.mVoltage_s)))
+        return true;
+    return false;
+}
+
 void LandHumEnemyFindPlayer::m40() {
     if (sub_7100462A28()) {
         ksys::act::ai::InlineParamPack pack;

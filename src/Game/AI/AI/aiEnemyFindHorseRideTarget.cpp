@@ -1,6 +1,10 @@
 #include "Game/AI/AI/aiEnemyFindHorseRideTarget.h"
 #include <random/seadGlobalRandom.h>
+#include <limits>
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/AI/aiUnk_71007320F0.h"
+#include "Game/AI/aiUnk_71007377D4.h"
+#include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
@@ -21,6 +25,19 @@ void EnemyFindHorseRideTarget::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::InlineParamPack pack;
     pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
     changeChild("追跡", &pack);
+}
+
+bool EnemyFindHorseRideTarget::sub_710038D018() {
+    const sead::Vector3f& velocity = sub_71005D9548(mActor);
+    if (sead::Mathf::sqrt(velocity.x * velocity.x + velocity.z * velocity.z) < *mAttackTargetSpeed_s) {
+        const auto& target = sub_71005D9330(mActor);
+        auto* actor = mActor;
+        const f32 max_dist = *mAttackRange_s + sub_71007320F0(actor, *mWeaponIdx_s);
+        return inlineIsTargetInReach(target, max_dist, *mAttackVMin_s, *mAttackVMax_s,
+                                     actor->getMtx(), sead::Mathf::pi(), sead::Mathf::maxNumber(),
+                                     0.8f);
+    }
+    return false;
 }
 
 void EnemyFindHorseRideTarget::leave_() {

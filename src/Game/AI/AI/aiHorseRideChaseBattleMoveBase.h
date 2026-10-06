@@ -22,6 +22,10 @@ public:
     virtual void m35() = 0;
     virtual bool m36() = 0;
 
+    // 0x71004409d4 (placeholder name): 3 without a target; otherwise 0 (target farther than SpeedUpDist ahead of
+    // the actor), 2 (closer than SlowDownDist) or 1, from the signed distance along the actor's forward axis
+    s32 sub_71004409D4();
+
 protected:
     // static_param at offset 0x38
     const float* mSlowDownDist_s{};
