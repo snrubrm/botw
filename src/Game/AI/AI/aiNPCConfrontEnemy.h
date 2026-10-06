@@ -23,6 +23,8 @@ public:
     void loadParams_() override;
 
 protected:
+    // 0x71004c69b0: finds the first NPC among the linked map objects and acquires it into `link`
+    bool sub_71004C69B0(ksys::act::BaseProcLink* link);
     // 0x71004c84c8: updates the talk state, then finishes / "納刀" / the thank-you state
     void sub_71004C84C8();
     // 0x71004c8ddc: starts the "気絶前振り向き" child (timer _98[1] = 600)

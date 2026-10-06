@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiNPCRunaway.h"
+#include "KingSystem/Map/mapObjectLink.h"
+#include "KingSystem/Map/mapObject.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
@@ -130,6 +132,25 @@ bool NPCRunaway::sub_71004DEBA0() {
             return false;
     }
     return true;
+}
+
+// 0x71004dd654
+// NON_MATCHING: the original loads the object array pointer once before the loop but re-reads the size every
+// iteration (`i != size`); ours re-loads both (a local copy of the array hoists both)
+bool NPCRunaway::sub_71004DD654(ksys::act::BaseProcLink* link) {
+    if (auto* obj = mActor->getMapObject()) {
+        if (auto* link_data = obj->getLinkData()) {
+            for (s32 i = 0; i != link_data->mObjects.size(); ++i) {
+                ksys::act::ActorConstDataAccess accessor;
+                link_data->mObjects(i)->getActorWithAccessor(accessor);
+                if (accessor.isNPCProfile()) {
+                    accessor.linkAcquire(link);
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
 }
 
 }  // namespace uking::ai
