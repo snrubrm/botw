@@ -210,6 +210,9 @@ public:
     TempMgr* getTempMgr() const { return static_cast<TempMgr*>(mMgrs[4]); }
     WindMgr* getWindMgr() const { return static_cast<WindMgr*>(mMgrs[5]); }
     EnvMgr* getEnvMgr() const { return static_cast<EnvMgr*>(mMgrs[6]); }
+    // Inline-only in the original; name is a guess. Evidence: GerudoQueenBattle::sub_71003F4648 reads `mMgrs[6]`
+    // (+0x5c8 -> +0x30) without the bounds check of getEnvMgr().
+    EnvMgr* getEnvMgrUnchecked() const { return static_cast<EnvMgr*>(mMgrs.unsafeAt(6)); }
     DofMgr* getDofMgr() const { return static_cast<DofMgr*>(mMgrs[7]); }
     // 0x71010f7930: the chemical manager's element holder.
     void* getElementHolderMaybe() const;

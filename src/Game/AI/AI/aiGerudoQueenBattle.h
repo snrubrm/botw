@@ -26,6 +26,9 @@ public:
     void leave_() override;
     void loadParams_() override;
     bool handleMessage_(const ksys::Message* message) override;
+    // 0x71003f4648 (placeholder name): the bait `_70` is in range and the player rides a sand seal while the
+    // "雷攻撃無効化" child runs.
+    bool sub_71003F4648();
 
 protected:
     // static_param at offset 0x38

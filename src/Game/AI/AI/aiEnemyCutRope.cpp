@@ -1,9 +1,33 @@
 #include "Game/AI/AI/aiEnemyCutRope.h"
+#include <cmath>
+#include "Game/AI/aiUnk_71007320F0.h"
+#include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/Profiles/actRopeBase.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
+
+// NON_MATCHING: the original loads `mActor` (x0) before `*mCutDist_s` for the weapon distance call
+bool EnemyCutRope::sub_7100386374() {
+    auto* actor = mActor;
+    sead::Vector3f target;
+    {
+        ksys::act::acc::RopeBase rope;
+        ksys::act::acquireActor(mTargetActor_d, &rope);
+        target = rope.sub_7100ED8440(!*mCutFlyAttack_s ? 1.0f : 0.7f);
+    }
+    const sead::Vector3f pos(actor->getMtx().m[0][3], actor->getMtx().m[1][3], actor->getMtx().m[2][3]);
+    sead::Vector3f to_target = target - pos;
+    const f32 dist = to_target.normalize();
+    to_target.y = 0;
+    to_target.normalize();
+    if (!(dist < *mCutDist_s + sub_71007320F0(mActor, *mWeaponIdx_s)))
+        return false;
+    sead::Vector3f forward;
+    actor->getMtx().getBase(forward, 2);
+    return to_target.dot(forward) >= std::cos(*mCutAngle_s);
+}
 
 // NON_MATCHING: the original selects the 0.7 / 1.0 ratio with a branch (the constant load is not speculated), ours
 // with fcsel

@@ -22,6 +22,59 @@ EnemySyncAttack::~EnemySyncAttack() {
     ;
 }
 
+// NON_MATCHING: stack slots of the two bone keys (the original keeps them 8 bytes apart: root at sp+8, bone at sp)
+void EnemySyncAttack::sub_71003BEDD0(const sead::SafeString& bone) {
+    auto* actor = mActor;
+    if (!actor)
+        return;
+    if (!actor->getModel())
+        return;
+    auto* as_list = actor->getASList();
+    if (!as_list)
+        return;
+    const auto root_key = actor->getModel()->searchBone(mRootNodeName_s);
+    const auto bone_key = actor->getModel()->searchBone(bone);
+    if (!root_key.isValid() || !bone_key.isValid())
+        return;
+    const s32 normal_slot = *mNormalASSlot_s;
+    as_list->sub_710115C9E0(normal_slot);
+    as_list->mSlots[normal_slot].sub_7101165008(root_key, 0, true);
+    as_list->mSlots[normal_slot].sub_7101165008(bone_key, 3, true);
+    as_list->mSlots[normal_slot].sub_7101164E38(false);
+    const s32 attack_slot = *mAttackASSlot_s;
+    as_list->sub_710115C9E0(attack_slot);
+    as_list->mSlots[attack_slot].sub_7101165008(root_key, 3, true);
+    as_list->mSlots[attack_slot].sub_7101165008(bone_key, 0, true);
+    as_list->mSlots[attack_slot].sub_7101164E38(false);
+    if (auto* list = mActor->getASList()) {
+        if (list->x_4(*mAttackASSlot_s, 0))
+            as_list->startAnimationMaybe(-1.0f, -1.0f, mAttackASName_s, *mAttackASSlot_s, 0, true);
+    }
+}
+
+void EnemySyncAttack::sub_71003BEFB4() {
+    auto* body = mActor->findPhysicsBodyByName(sub_71007A24BC()->cstr(), "AtkEnemyBody");
+    if (!body)
+        return;
+    sead::Matrix34f mtx;
+    bool found = false;
+    if (auto* actor = mActor) {
+        if (auto* model = actor->getModel()) {
+            const auto key = model->searchBone(mAtNodeName_s);
+            if (key.isValid()) {
+                actor->getModel()
+                    ->getUnits()
+                    .unsafeAt(key.model_unit_index)
+                    ->mModelUnit->getBoneWorldMatrix(&mtx, key.bone_index);
+                found = true;
+            }
+        }
+    }
+    if (!found)
+        mtx = sead::Matrix34f::zero;
+    body->changePositionAndRotation(mtx);
+}
+
 // NON_MATCHING: register allocation only (x8 / x9 and w8 / w9 swapped in the last add)
 void EnemySyncAttack::sub_71003BF444() {
     auto* actor = mActor;

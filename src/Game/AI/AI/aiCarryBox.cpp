@@ -4,6 +4,7 @@
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/System/physContactMgr.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
 #include "KingSystem/Utils/Thread/Message.h"
 
@@ -64,6 +65,25 @@ void CarryBox::enter_(ksys::act::ai::InlineParamPack* params) {
 
 bool CarryBox::hasUpdateForPreDeleteCb() {
     return true;
+}
+
+void CarryBox::sub_7100343FD0(ksys::phys::RigidBody* body, ksys::phys::ContactPointInfo* info,
+                              bool has_contacts) {
+    auto* scene = GameSceneSubsys12::instance();
+    if (!scene) {
+        callDeleteAndCreateDropAndEmit(mActor, 0);
+        return;
+    }
+    if (has_contacts) {
+        if (body) {
+            auto it = info->begin();
+            const sead::Vector3f position =
+                it.getPointPosition(ksys::phys::ContactPointInfo::Iterator::Point::BodyB) -
+                (*it)->separating_normal * 0.5f;
+            body->setPosition(position, ksys::phys::PropagateToLinkedMotions{true});
+        }
+        scene->sub_7100664484(2, &_80);
+    }
 }
 
 // NON_MATCHING: the original calls sub_71003440A8 without loading its second argument (x2 is left as it was), so the

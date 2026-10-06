@@ -15,6 +15,8 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    bool sub_7100312994();
+
 protected:
     void sub_71003118F0();
 

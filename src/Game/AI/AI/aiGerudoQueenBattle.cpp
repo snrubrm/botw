@@ -1,5 +1,9 @@
 #include "Game/AI/AI/aiGerudoQueenBattle.h"
+#include "Game/AI/aiUnk_710073033C.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "KingSystem/World/worldEnvMgr.h"
+#include "KingSystem/World/worldManager.h"
 #include "KingSystem/ActorSystem/actUnk_71024ef620.h"
 
 namespace uking::ai {
@@ -7,6 +11,20 @@ namespace uking::ai {
 GerudoQueenBattle::GerudoQueenBattle(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
 GerudoQueenBattle::~GerudoQueenBattle() = default;
+
+// NON_MATCHING: register numbering (the original keeps `this` in x20 and `&_70` in x19)
+bool GerudoQueenBattle::sub_71003F4648() {
+    if (!_70.hasProc())
+        return false;
+    const bool in_range = sub_710073033C(
+        mActor, &_70, ksys::world::Manager::instance()->getEnvMgrUnchecked()->get6b548());
+    if (!isCurrentChild("雷攻撃無効化"))
+        return false;
+    ksys::act::acc::PlayerBase player;
+    player.getPlayerFromPlayerInfo();
+    const bool riding = player.isRidingSandSeal();
+    return in_range && riding;
+}
 
 bool GerudoQueenBattle::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);

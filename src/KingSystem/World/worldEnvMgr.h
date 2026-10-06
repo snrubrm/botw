@@ -214,6 +214,8 @@ public:
 
     float getWarpMistIntensity() const { return mWarpMistIntensity; }
     float getExposure() const { return mExposure; }
+    // Read by GerudoQueenBattle::sub_71003F4648 (the float at +0x6b548, after mCharMainLightScale).
+    float get6b548() const { return _6b548; }
 
 protected:
     void init_(sead::Heap* heap) override;

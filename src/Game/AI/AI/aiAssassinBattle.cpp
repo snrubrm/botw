@@ -16,6 +16,31 @@ bool AssassinBattle::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
 }
 
+bool AssassinBattle::sub_7100312994() {
+    const f32 tired_dist = *mTiredDist_s;
+    const f32 area = *mTerritoryArea_m;
+    const f32 base = area > 0.0f ? area : tired_dist;
+    const f32 limit = base - *mNearTiredOffset_s;
+    if (limit <= 0.0f)
+        return false;
+    auto* actor = mActor;
+    const f32 x = actor->getMtx().m[0][3];
+    const f32 z = actor->getMtx().m[2][3];
+    sead::Vector3f home;
+    actor->getHomePos(&home);
+    sead::Vector3f to_home = home;
+    to_home.x -= x;
+    to_home.y = 0;
+    to_home.z -= z;
+    const f32 home_dist = to_home.normalize();
+    sead::Vector3f to_player = sub_71005D9330(actor);
+    to_player.x -= x;
+    to_player.y = 0;
+    to_player.z -= z;
+    to_player.normalize();
+    return home_dist > limit && to_home.dot(to_player) > 0.0f;
+}
+
 // NON_MATCHING: distance loads and signed range selection are scheduled differently.
 void AssassinBattle::enter_(ksys::act::ai::InlineParamPack* params) {
     auto* actor = mActor;

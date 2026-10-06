@@ -20,6 +20,13 @@ public:
 
     // 0x71003bf444 (declared only, 412 bytes; placeholder name)
     void sub_71003BF444();
+    // 0x71003befb4 (placeholder name): moves the "AtkEnemyBody" body to the world matrix of the bone `mAtNodeName_s`
+    // (zero matrix without it).
+    void sub_71003BEFB4();
+    // 0x71003bedd0 (placeholder name): makes the root node `mRootNodeName_s` and the bone `bone` partial bones of the AS
+    // slots `mNormalASSlot_s` / `mAttackASSlot_s` (swapped modes) and starts the attack animation.
+    void sub_71003BEDD0(const sead::SafeString& bone);
+
 
 protected:
     // static_param at offset 0x38

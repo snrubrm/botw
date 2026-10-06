@@ -21,6 +21,8 @@ public:
     void changeToRotate();
     void changeToApproach();
 
+    bool sub_7100386374();
+
 protected:
     // static_param at offset 0x38
     const int* mWeaponIdx_s{};

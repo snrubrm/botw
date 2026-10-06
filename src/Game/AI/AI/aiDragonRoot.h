@@ -54,6 +54,9 @@ public:
     // freed by a member destructor rather than by ~DragonRoot's body. Placeholder.
     struct Unk2 {
         ~Unk2() { _0.freeBuffer(); }
+        // 0x710036b89c (placeholder name): gives every ready entry's actor to its link and wakes it (DragonIceRoot::m42,
+        // DragonRoot::m42).
+        void sub_710036B89C();
         sead::Buffer<Unk1> _0;
     };
 
