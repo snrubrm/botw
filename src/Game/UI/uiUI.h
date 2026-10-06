@@ -69,6 +69,8 @@ public:
     bool sub_71010A5C18();
     // 0x71010a5c8c: forwards to the message dialog screen (if any).
     void sub_71010A5C8C();
+    // 0x71010a7994 (lane2 s46): forwards `flag` to the message dialog screen's sub_71010B34A0 (if any).
+    void sub_71010A7994(bool flag);
     // 0x71010a6d84 / 0x71010a7034: the DemoMessage screen's close (with its first helper) / other helper.
     void sub_71010A6D84();
     void sub_71010A7034();

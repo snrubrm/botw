@@ -55,6 +55,11 @@ void ScreenPauseMenuRecipe::m101() {
     _292 |= 0x20;
 }
 
+// 0x7100a16164
+void ScreenMainScreen3D::m87() {
+    _3f34 = -1;
+}
+
 // 0x7100a28688
 void ScreenOPtext::m154(s32 index) {
     static const f32 frames[3] = {0.0f, 1.0f, 2.0f};

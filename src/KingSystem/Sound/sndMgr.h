@@ -176,6 +176,11 @@ public:
     f32 sub_710104B558(ksys::act::Actor* actor);
 };
 
+// Placeholder (lane2 s46): the sound kind (0..5) the UI hands to SoundMgr (a 4-byte class: passed in a full register).
+struct UiSoundKind {
+    s32 value;
+};
+
 // FIXME: incomplete
 struct SoundMgr {
     SEAD_SINGLETON_DISPOSER(SoundMgr)
@@ -187,6 +192,12 @@ struct SoundMgr {
     void sub_71011FC29C();
 
 public:
+    // 0x71011fc288 (declared only; lane2 s46): called by ScreenFadeDemo's slot 101 (nothing happens while the byte at 0xf8 is set)
+    void sub_71011FC288();
+    // 0x71011fc0c0 / 0x71011fc17c (CSV Sound::__auto4 / __auto5; declared only): `kind` 0..5, `bit` the bit set in the byte at 0xf8
+    void sub_71011FC0C0(UiSoundKind kind, s32 bit);
+    void sub_71011FC17C(UiSoundKind kind, s32 bit);
+
     u8 _28[0x38 - 0x28];
     Unk_SoundMgr38* _38;
     /* 0x40 */ UiSoundMgr* mUiSoundMgr;

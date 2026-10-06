@@ -18,6 +18,7 @@
 #include "Game/UI/uiTexSlots.h"
 #include "Game/UI/uiUnkTiny.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
+#include "KingSystem/Sound/sndMgr.h"
 #include "KingSystem/System/UIGlue.h"
 #include "KingSystem/Utils/StateMachine.h"
 #include "KingSystem/Utils/Thread/ActorMessageTransceiver.h"
@@ -675,13 +676,15 @@ class ScreenMainScreen3D : public ScreenEx {
 public:
     const char* getLayoutName_() const override;
     void m84() override;
+    void m87() override;
     s32 m141(const ksys::Message& message) override;
     s32 m142(const ksys::Message& message) override;
     void m82() override;
     ~ScreenMainScreen3D() override;
     SEAD_RTTI_OVERRIDE(ScreenMainScreen3D, ScreenEx)
 
-    u8 _pad_3610[0x3f38 - 0x3610];
+    u8 _pad_3610[0x3f34 - 0x3610];
+    /* 0x3f34 */ s32 _3f34;
     /* 0x3f38 */ u8 _3f38;
     u8 _pad_3f39[0x4010 - 0x3f39];
     /* 0x4010 */ u64 _4010;
@@ -938,6 +941,9 @@ public:
     /* 0xa26 */ bool _a26 = false;
 };
 
+// 0x71010a0de0 (placeholder name): the sound kind (0..5) of the fade demo screen's state
+ksys::snd::UiSoundKind sub_71010A0DE0(bool a, bool b, s32 c);
+
 class ScreenFadeDemo : public Screen {
 public:
     ScreenFadeDemo();
@@ -947,6 +953,9 @@ public:
     const char* getLayoutName_() const override;
     bool isOpenEnd_() override;
     void m74(f32 progress) override;
+    void m98() override;
+    void m100() override;
+    void m101() override;
     // 0x71010a01f8 (declaration only; lane3 s38): `_350 = value` then a tail call into 0x71010a0200.
     void sub_71010A01F8(s32 value);
 

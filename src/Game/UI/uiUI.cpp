@@ -86,6 +86,12 @@ void UI::sub_71010A5C8C() {
         dialog->sub_71010B343C();
 }
 
+// 0x71010a7994
+void UI::sub_71010A7994(bool flag) {
+    if (auto* dialog = getSomeMessageSpStuff())
+        dialog->sub_71010B34A0(flag);
+}
+
 // 0x71010a6b98
 // NON_MATCHING: the original compares `actor` against `_30` as `cmp actor, _30`, ours has the operands swapped
 void UI::sub_71010A6B98(ksys::act::Actor* actor) {

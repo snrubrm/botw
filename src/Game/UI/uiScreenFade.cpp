@@ -9,6 +9,7 @@
 #include "Game/UI/uiScreens.h"
 #include "Game/UI/uiTagProcessor.h"
 #include "Game/UI/uiUI.h"
+#include "KingSystem/Sound/sndMgr.h"
 #include "KingSystem/System/UIGlue.h"
 
 namespace uking::ui {
@@ -106,6 +107,24 @@ bool ScreenFadeDemo::isOpenEnd_() {
         return false;
     }
     return false;
+}
+
+// 0x71010a0534
+void ScreenFadeDemo::m98() {
+    _358 = false;
+    ksys::snd::SoundMgr::instance()->sub_71011FC0C0(sub_71010A0DE0(false, mLayout->_91 == 2, _350), 1);
+    UI::instance()->sub_71010A7994(true);
+}
+
+// 0x71010a059c
+void ScreenFadeDemo::m100() {
+    ksys::snd::SoundMgr::instance()->sub_71011FC17C(sub_71010A0DE0(false, mLayout->_91 == 0, _350), 1);
+    UI::instance()->sub_71010A7994(false);
+}
+
+// 0x71010a05fc
+void ScreenFadeDemo::m101() {
+    ksys::snd::SoundMgr::instance()->sub_71011FC288();
 }
 
 // 0x71010a02f0 (the same code as Fade::m74, with the state at 0x354)
