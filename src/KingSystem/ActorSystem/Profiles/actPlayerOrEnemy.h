@@ -108,6 +108,11 @@ public:
     bool getWeapon(ActorConstDataAccess* accessor, int idx) const;
     bool isGuard() const;
     bool isGuardJust() const;
+    // 0x7100009860 (lane4 s44; names are guesses): the number of weapon slots (the weapons object is fetched through
+    // its virtual getter and discarded), 0 without a PlayerOrEnemy.
+    s32 getNumWeaponSlots() const;
+    // 0x7100009aa8: the flag `_10` of the weapon slot `idx`.
+    bool sub_7100009AA8(int idx) const;
 
 protected:
     act::PlayerOrEnemy* getPlayerOrEnemy() const;

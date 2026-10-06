@@ -6,6 +6,7 @@ target_sources(uking PRIVATE
     dmgDamageMgrNPC.h
     dmgClothStiffnessMgr.cpp
     dmgClothStiffnessMgr.h
+    dmgActorAccessors.cpp
     dmgInfoManager.cpp
     dmgInfoManager.h
     dmgStruct20.h

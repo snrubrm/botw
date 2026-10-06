@@ -211,6 +211,20 @@ bool PlayerOrEnemy::getWeapon(ActorConstDataAccess* accessor, int idx) const {
     return true;
 }
 
+s32 PlayerOrEnemy::getNumWeaponSlots() const {
+    auto* poe = getPlayerOrEnemy();
+    if (!poe)
+        return 0;
+    return poe->getWeapons()->mWeapons.size();
+}
+
+bool PlayerOrEnemy::sub_7100009AA8(int idx) const {
+    auto* poe = getPlayerOrEnemy();
+    if (!poe)
+        return false;
+    return poe->getWeapons()->mWeapons[idx]._10;
+}
+
 }  // namespace acc
 
 }  // namespace ksys::act
