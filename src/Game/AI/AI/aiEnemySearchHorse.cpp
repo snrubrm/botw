@@ -18,8 +18,7 @@ bool EnemySearchHorse::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
 }
 
-// NON_MATCHING: `_110 = getSomeProcLink()` - the original computes the address of _110 before the call (C++14
-// operand order of an overloaded operator=; we build as C++17).
+// `_110.operator=(...)`: with the operator syntax (C++17 operand order) the RHS call would be evaluated before &_110.
 void EnemySearchHorse::sub_71003B9624() {
     ksys::act::ai::InlineParamPack pack;
     if (_58.hasProc()) {
@@ -32,7 +31,7 @@ void EnemySearchHorse::sub_71003B9624() {
         _58.reset();
     } else {
         sub_71005D7270(&pack, "TargetPos");
-        _110 = ksys::act::PlayerInfo::getSomeProcLink();
+        _110.operator=(ksys::act::PlayerInfo::getSomeProcLink());
     }
     changeChild("怒り", &pack);
 }

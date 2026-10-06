@@ -282,16 +282,16 @@ bool Unk_7102450888::m2(const ksys::Message& message) {
     {
         sead::ScopedLock<sead::JobQueueLock> lock(&payload->mLock);
         _38._0 = payload->_0;
-        _38.mLink = payload->mLink;
+        _38.mLink.operator=(payload->mLink);
     }
-    _8 = payload->mLink;
+    _8.operator=(payload->mLink);
     _30 = true;
     _18 = message.getSource();
     return true;
 }
 
-// NON_MATCHING: the original evaluates the destination of BaseProcLink::operator= before the source
-// (lane2 log: overloaded operator= evaluation order)
+// `.operator=(...)` instead of `a = b`: the original evaluates the destination (&a) before the source; the operator
+// syntax evaluates the source first (C++17 order).
 bool Unk_71024508b8::m2(const ksys::Message& message) {
     if (message.getType() != 0x80000da)
         return false;
@@ -305,9 +305,9 @@ bool Unk_71024508b8::m2(const ksys::Message& message) {
         _38._0 = payload->_0;
         _38._4 = payload->_4;
         _38._14 = payload->_14;
-        _38.mLink = payload->mLink;
+        _38.mLink.operator=(payload->mLink);
     }
-    _8 = payload->mLink;
+    _8.operator=(payload->mLink);
     _30 = true;
     _18 = message.getSource();
     return true;
@@ -324,16 +324,16 @@ bool Unk_71024508e8::m2(const ksys::Message& message) {
     {
         sead::ScopedLock<sead::JobQueueLock> lock(&payload->mLock);
         _38._0 = payload->_0;
-        _38.mLink = payload->mLink;
+        _38.mLink.operator=(payload->mLink);
     }
-    _8 = payload->mLink;
+    _8.operator=(payload->mLink);
     _30 = true;
     _18 = message.getSource();
     return true;
 }
 
-// NON_MATCHING: the original evaluates the destination of BaseProcLink::operator= before the source
-// (lane2 log: overloaded operator= evaluation order)
+// `.operator=(...)` instead of `a = b`: the original evaluates the destination (&a) before the source; the operator
+// syntax evaluates the source first (C++17 order).
 bool Unk_7102450918::m2(const ksys::Message& message) {
     if (message.getType() != 0x80000dc)
         return false;
@@ -346,16 +346,16 @@ bool Unk_7102450918::m2(const ksys::Message& message) {
         sead::ScopedLock<sead::JobQueueLock> lock(&payload->mLock);
         _38._0 = payload->_0;
         _38._4 = payload->_4;
-        _38.mLink = payload->mLink;
+        _38.mLink.operator=(payload->mLink);
     }
-    _8 = payload->mLink;
+    _8.operator=(payload->mLink);
     _30 = true;
     _18 = message.getSource();
     return true;
 }
 
-// NON_MATCHING: the original evaluates the destination of BaseProcLink::operator= before the source
-// (lane2 log: overloaded operator= evaluation order)
+// `.operator=(...)` instead of `a = b`: the original evaluates the destination (&a) before the source; the operator
+// syntax evaluates the source first (C++17 order).
 bool Unk_7102450948::m2(const ksys::Message& message) {
     if (message.getType() != 0x80000d5)
         return false;
@@ -368,9 +368,9 @@ bool Unk_7102450948::m2(const ksys::Message& message) {
         sead::ScopedLock<sead::JobQueueLock> lock(&payload->mLock);
         _38._0 = payload->_0;
         _38._18 = payload->_18;
-        _38.mLink = payload->mLink;
+        _38.mLink.operator=(payload->mLink);
     }
-    _8 = payload->mLink;
+    _8.operator=(payload->mLink);
     _30 = true;
     _18 = message.getSource();
     return true;
@@ -404,7 +404,7 @@ bool Unk_7102450708::m2(const ksys::Message& message) {
 
     {
         sead::ScopedLock<sead::JobQueueLock> lock(&payload->mLock);
-        _38.mLink = payload->mLink;
+        _38.mLink.operator=(payload->mLink);
         _38._10 = payload->_10;
     }
     auto* actor = sead::DynamicCast<ksys::act::Actor>(payload->mLink.getProc(nullptr, nullptr));
@@ -476,8 +476,8 @@ bool Unk_7102450858::m2(const ksys::Message& message) {
     return true;
 }
 
-// NON_MATCHING: the original evaluates the destination of BaseProcLink::operator= before the source
-// (lane2 log: overloaded operator= evaluation order)
+// `.operator=(...)` instead of `a = b`: the original evaluates the destination (&a) before the source; the operator
+// syntax evaluates the source first (C++17 order).
 bool Unk_7102450978::m2(const ksys::Message& message) {
     if (message.getType() != 0x80000d4)
         return false;
@@ -489,12 +489,12 @@ bool Unk_7102450978::m2(const ksys::Message& message) {
     {
         sead::ScopedLock<sead::JobQueueLock> lock(&payload->mLock);
         _38._0 = payload->_0;
-        _38._8 = payload->_8;
-        _38._18 = payload->_18;
+        _38._8.operator=(payload->_8);
+        _38._18.operator=(payload->_18);
         _38._28 = payload->_28;
         _38._38 = payload->_38;
     }
-    _8 = payload->_8;
+    _8.operator=(payload->_8);
     _30 = true;
     _18 = message.getSource();
     return true;
