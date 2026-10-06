@@ -108,6 +108,10 @@ void sub_7100AA9728();
 // 0x7100aa8f10 (placeholder name): bit 12 of the UI manager's flag word.
 bool sub_7100AA8F10();
 
+// 0x7100aa34a4 (placeholder name; declared only, 760 B): sets the button icon `icon` (a UI button id; 28 / 29 depend on
+// the JumpButtonChange flag) on the parts pane `parts`; `name` is the icon pane's name.
+void sub_7100AA34A4(void* parts, const sead::SafeString& name, s32 icon);
+
 // 0x7100aa7d38 (placeholder name): the name of hero soul `index` (-1: the empty string) from a UI-side
 // table of 16-byte SafeStrings.
 const sead::SafeString& sub_7100AA7D38(s32 index);

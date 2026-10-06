@@ -1802,7 +1802,13 @@ public:
 
 class ScreenSkip : public ScreenEx {
 public:
-    // Declaration only.
+    // The icon holder at ScreenSkip + 0x3610 (placeholder; only the pointer at +0x20 is used).
+    struct IconHolder {
+        u8 _0[0x20];
+        void* _20;
+    };
+
+    // 0x7100a537f8: opens the screen and switches the skip icon (10 with the button, 8 without).
     void sub_7100A537F8(bool with_button);
     ScreenSkip();
     const char* getLayoutName_() const override;
@@ -1811,7 +1817,7 @@ public:
     ~ScreenSkip() override;
     SEAD_RTTI_OVERRIDE(ScreenSkip, ScreenEx)
 
-    /* 0x3610 */ u64 _3610{};
+    /* 0x3610 */ IconHolder* _3610{};
     s32 _3618 = 30;
     s32 _361c;
 };
