@@ -2,6 +2,9 @@
 #include "Game/Actor/actWeapon.h"
 #include "Game/AI/aiUnk_7100736460.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/ActorSystem/actChemical.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayerOrEnemy.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actImpulseBaseProcLink.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
@@ -157,6 +160,35 @@ void DamageManager::sub_71006D81D8(f32 value) {
         _80 = value;
         sub_71006D27BC();
     }
+}
+
+// NON_MATCHING: the original keeps the element state compares in source order (1, 6, 2); ours turns them into a switch
+// (6, 2, 1) and lays the blocks out differently
+s32 DamageManager::sub_71006D7FB0(ksys::act::ActorAtk::Unk_710079e64c::Unk1* info) {
+    ksys::act::ActorConstDataAccess attacker;
+    ksys::act::acquireActor(&info->_e8, &attacker);
+    auto* chemical = mActor->getChemicalStuff();
+    if (!chemical)
+        return -1;
+    auto* param = mActor->getParam();
+    if (!param)
+        return -1;
+    auto* damage_param = param->getRes().mDamageParam;
+    if (!damage_param)
+        return -1;
+
+    const s32 state = attacker.sub_7100D131D0(-1);
+    if (state == 1 || state == 6) {
+        auto* player_or_enemy = sead::DynamicCast<ksys::act::PlayerOrEnemy>(mActor);
+        if (player_or_enemy && player_or_enemy->m151(3))
+            return -1;
+        return damage_param->mIceable.ref() ? 10 : -1;
+    }
+    if (state == 2)
+        return damage_param->mBurnable.ref() ? 9 : -1;
+    if (!damage_param->mElectricable.ref() || attacker.sub_7100D13080() <= chemical->_1b8)
+        return 6;
+    return 11;
 }
 
 s32 DamageManager::sub_71006D8130() {

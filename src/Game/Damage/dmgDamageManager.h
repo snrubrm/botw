@@ -88,6 +88,9 @@ public:
     // _5c: 2 / 6 via sub_71007A255C, 4 via the actor's +0x708 object), or null.
     ksys::phys::RigidBody* sub_71006D69F8();
 
+    // 0x71006d7fb0 (lane4 s48; placeholder name): the reaction code (10 freeze, 9 burn, 6 / 11 electric, -1 none) the
+    // attacker link of `info` (_e8) causes on this actor, from the attacker's element state and the damage param.
+    s32 sub_71006D7FB0(ksys::act::ActorAtk::Unk_710079e64c::Unk1* info);
     // 0x71006d27bc / 0x71006d81d8 (lane4 s48; placeholder names): sets the maximum impulse of the main body / character
     // controller to `_80` times the first non-negative impulse threshold of the actor's damage param (-1 if none),
     // unless the param has IsCommonCalcImpuleDamage; the second one first stores `value` in `_80`.
