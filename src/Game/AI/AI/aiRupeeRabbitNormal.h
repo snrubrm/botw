@@ -5,6 +5,13 @@
 
 namespace uking::ai {
 
+// vtable 0x710241b1f8 (m2 0x7100554de8, D0 0x71005550c8): the awareness filter of RupeeRabbitNormal::m43.
+// Placeholder name.
+class Unk_710241b1f8 : public ksys::act::Unk_71024dccf8 {
+public:
+    bool m2(ksys::act::Unk_71024dc978* entry) override;
+};
+
 class RupeeRabbitNormal : public PreyNormal {
     SEAD_RTTI_OVERRIDE(RupeeRabbitNormal, PreyNormal)
 public:

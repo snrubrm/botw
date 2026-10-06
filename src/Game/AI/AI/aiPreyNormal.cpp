@@ -193,7 +193,7 @@ bool PreyNormal::m41() {
 }
 
 // NON_MATCHING: scheduling (the original computes the clamped index before the own-target link)
-ksys::act::Unk_7100d78e50* PreyNormal::sub_7100501B84(s32 idx, Unk_7102410738* filter) {
+ksys::act::Unk_7100d78e50* PreyNormal::sub_7100501B84(s32 idx, ksys::act::Unk_71024dccf8* filter) {
     const auto& own_target = _d0 ? _d0->_c48._8 : ksys::act::sUnk_71026505e0;
     while (_d8->_260[idx]) {
         auto* entry = ksys::act::sub_7100D7EEE8(&_d8->_260[idx]->_8, filter);
