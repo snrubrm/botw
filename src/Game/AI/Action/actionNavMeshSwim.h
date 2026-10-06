@@ -20,6 +20,8 @@ public:
 protected:
     void calc_() override;
     void m34() override;
+    void m36(ksys::phys::CharacterController* controller, f32 speed,
+             const sead::Vector3f& up) override;
 
     // static_param at offset 0xa8
     const float* mInWaterDepth_s{};

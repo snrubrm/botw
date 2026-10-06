@@ -17,6 +17,9 @@ public:
     void loadParams_() override;
 
 protected:
+    void m33(ksys::phys::CharacterController* controller, f32 speed,
+             const sead::Vector3f& dir) override;
+
     // static_param at offset 0x80
     const float* mFloatDepth_s{};
     // static_param at offset 0x88
