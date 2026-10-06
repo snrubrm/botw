@@ -23,6 +23,9 @@ public:
 protected:
     void calc_() override;
     bool m33() override;
+    void m34(sead::Vector3f* pos) override;
+    void m35(ksys::VFRValue* speed, const sead::Vector3f& from, const sead::Vector3f& to,
+             f32 limit) override;
 
     // static_param at offset 0x148
     const float* mAddTargetDist_s{};

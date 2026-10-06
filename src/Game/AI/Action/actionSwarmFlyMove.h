@@ -20,6 +20,7 @@ protected:
     // 0x7100285ad8 (declared only): out of line in the original.
     bool sub_7100285AD8();
     void calc_() override;
+    void m33(sead::Vector3f* dir, f32* dist) override;
     void m32(sead::Vector3f* target) override {
         if (target)
             target->set(_f0);

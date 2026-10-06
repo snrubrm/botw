@@ -33,4 +33,11 @@ void SwarmFlyMove::calc_() {
         setFailed();
 }
 
+void SwarmFlyMove::m33(sead::Vector3f* dir, f32* dist) {
+    if (dir)
+        dir->set(_fc);
+    if (dist)
+        *dist = _108.x;
+}
+
 }  // namespace uking::action

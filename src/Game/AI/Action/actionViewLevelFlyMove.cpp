@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionViewLevelFlyMove.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -25,6 +26,13 @@ void ViewLevelFlyMove::loadParams_() {
 
 void ViewLevelFlyMove::calc_() {
     WizzrobeVisibleWalk::calc_();
+}
+
+void ViewLevelFlyMove::m36(sead::Vector3f* dir) {
+    const sead::Vector3f& target = *mAttPos_d;
+    sead::Vector3f pos;
+    mActor->getMtx().getTranslation(pos);
+    *dir = {target.x - pos.x, 0, target.z - pos.z};
 }
 
 }  // namespace uking::action

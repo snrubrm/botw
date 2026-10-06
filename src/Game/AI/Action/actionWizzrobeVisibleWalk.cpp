@@ -1,5 +1,7 @@
 #include "Game/AI/Action/actionWizzrobeVisibleWalk.h"
 #include <math/seadMathCalcCommon.h>
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Utils/MathUtil.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 
 namespace uking::action {
@@ -52,6 +54,38 @@ bool WizzrobeVisibleWalk::m33() {
     if (*mAddTargetDist_s > 0.0f)
         return false;
     return LevelFlyMove::m33();
+}
+
+void WizzrobeVisibleWalk::m34(sead::Vector3f* pos) {
+    const bool flag = mFlags.isOn(static_cast<Flag>(3));
+    LevelFlyMove::m34(pos);
+    if (!flag)
+        return;
+
+    const f32 dist = *mAddTargetDist_s;
+    sead::Vector3f offset;
+    offset.setMul(mActor->getMtx(), {0, 0, dist});
+    pos->x = offset.x;
+    pos->z = offset.z;
+}
+
+void WizzrobeVisibleWalk::m35(ksys::VFRValue* speed, const sead::Vector3f& from,
+                              const sead::Vector3f& to, f32 limit) {
+    if (!speed)
+        return;
+    if (!*mIsNoBrake_s) {
+        LevelFlyMove::m35(speed, from, to, limit);
+        return;
+    }
+
+    sead::Vector3f axis;
+    f32 angle;
+    ksys::util::sub_71011EEB08(&axis, &angle, from, to, sead::Vector3f::ey);
+    const f32 rate = sead::Mathf::max(speed->value, *mXZSpeed_s) * 0.1f;
+    const f32 target = *mXZSpeed_s;
+    speed->chase(target, rate);
+    speed->setToMin(limit);
+    speed->updateStats();
 }
 
 void WizzrobeVisibleWalk::loadParams_() {
