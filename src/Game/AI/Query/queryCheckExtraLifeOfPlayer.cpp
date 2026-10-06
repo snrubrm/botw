@@ -1,5 +1,6 @@
 #include "Game/AI/Query/queryCheckExtraLifeOfPlayer.h"
 #include <evfl/Query.h>
+#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 
 namespace uking::query {
 
@@ -7,9 +8,20 @@ CheckExtraLifeOfPlayer::CheckExtraLifeOfPlayer(const InitArg& arg) : ksys::act::
 
 CheckExtraLifeOfPlayer::~CheckExtraLifeOfPlayer() = default;
 
-// FIXME: implement
 int CheckExtraLifeOfPlayer::doQuery() {
-    return -1;
+    s32 result;
+    {
+        ksys::act::acc::PlayerBase accessor;
+        accessor.getPlayerFromPlayerInfo();
+        if (!accessor.hasProc()) {
+            result = 0;
+        } else if (accessor.m321() > *mThreshold) {
+            result = 2;
+        } else {
+            result = accessor.m321() >= *mThreshold;
+        }
+    }
+    return result;
 }
 
 void CheckExtraLifeOfPlayer::loadParams(const evfl::QueryArg& arg) {
