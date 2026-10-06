@@ -23,6 +23,10 @@ bool EventSpeaker::getPos(sead::Vector3f* out) const {
     return true;
 }
 
+bool EventSpeaker::sub_7100E497B8(act::Actor* actor) const {
+    return mLink.hasProc() && mLink.hasProcById(actor);
+}
+
 bool EventSpeaker::setSpeaker(act::Actor* actor) {
     {
         auto lock = sead::makeScopedLock(mCS);
