@@ -413,6 +413,25 @@ struct BoneBlendState {
     s32 _20;
     f32 _24;
     const res::ASSetting::BoneParams* _28;
+    s32 mNumEntries;  // 0x30
+
+    // A queued blend request (0x40 bytes; written by sub_7101257884; names are guesses).
+    struct Entry {
+        ASList::Unk2* _0;
+        const gsys::AnimationAccessKey<gsys::SkeletalAnmType>* key;
+        Context::Record* record;
+        f32 weight;
+        f32 _1c;
+        f32 frame;
+        s32 _24;
+        void* _28;
+        const res::ASSetting::BoneParams* _30;
+        bool partial;
+        s32 _3c;
+    };
+    static_assert(sizeof(Entry) == 0x40);
+
+    /* 0x38 */ sead::SafeArray<Entry, 64> mEntries;
 };
 
 // 0x7101259c78 (declaration only): finds the first event of `type` whose mask has a bit of `mask` in the

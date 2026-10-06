@@ -13,6 +13,31 @@ bool Context::sub_710125A924(const Context& other) {
         other.mFrames[other._f4 ? other._f4 - 1 : 2]);
 }
 
+void BoneBlendState::sub_7101257884(const gsys::AnimationAccessKey<gsys::SkeletalAnmType>* key,
+                                    Context::Record* record, bool partial, f32 frame) {
+    if (mNumEntries >= 64)
+        return;
+    Entry& entry = mEntries[mNumEntries];
+    ++mNumEntries;
+    entry._0 = _10;
+    entry.key = key;
+    entry.record = record;
+    entry.weight = weight * record->_4;
+    entry.frame = frame;
+    entry._24 = _18;
+    entry._28 = _8;
+    entry._30 = _28;
+    entry.partial = partial;
+    entry._3c = _20;
+    if (_20 == 2) {
+        entry._1c = _24;
+        return;
+    }
+    entry._1c = entry.weight;
+    if (_20 == 1)
+        _24 = sead::Mathf::max(_24, entry.weight);
+}
+
 // NON_MATCHING: the separate mode/float stores are not combined with the pointer as a 64-bit pair.
 void BoneBlendState::sub_7101257920(const res::ASSetting::BoneParams* params) {
     _20 = 1;
