@@ -28,16 +28,6 @@ void GameSceneSubsys5::sub_7100905DE0(bool value) {
     _32f = value;
 }
 
-void GameSceneSubsys13::init() {
-    _34 = -1;
-    _38 = 0;
-}
-
-void GameSceneSubsys13::sub_71008A53E4() {
-    _34 = -1;
-    _38 = 0;
-}
-
 void GameSceneStatusMgr::sub_71010BDCE4(bool value) {
     _20 = value;
 }

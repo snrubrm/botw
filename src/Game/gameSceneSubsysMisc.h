@@ -89,18 +89,6 @@ public:
     bool _331;
 };
 
-// GameSceneSubsys13: CSV createInstance 0x71008a52e0, init 0x71008a53d8, setGameOverPosition 0x71008a53f0.
-class GameSceneSubsys13 {
-public:
-    // 0x71008a53d8 / 0x71008a53e4: identical copies.
-    void init();
-    void sub_71008A53E4();
-
-    u8 _0[0x34];
-    s32 _34;
-    s32 _38;
-};
-
 // GameSceneStatusMgr: CSV createInstance 0x71010bd158, registerStatus 0x71010bd280.
 class GameSceneStatusMgr {
 public:
