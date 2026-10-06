@@ -121,8 +121,9 @@ void PlayingStateController::calc() {
 // 0x7100ba01d8
 void PlayingStateController::unvirtualize() {
     mCS.lock();
-    if (mState == 3 && static_cast<s32>(mVirtualizeMode) == 2) {
-        mSamplePos = 0.0f;
+    if (mState == 3) {
+        if (static_cast<s32>(mVirtualizeMode) == 2)
+            mSamplePos = 0.0f;
         mState = 4;
     }
     mCS.unlock();

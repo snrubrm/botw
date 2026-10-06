@@ -32,7 +32,10 @@ private:
     u8 _0[0x64];
     s32 mReferredCount;
     u8 _68[0x80 - 0x68];
-    sead::Buffer<Result> mResults;
+    /// volatile: the original reads the count again for the bounds check of the result.
+    volatile s32 mResultNum;
+    u8 _84[4];
+    Result* mResults;
 };
 
 }  // namespace aal
