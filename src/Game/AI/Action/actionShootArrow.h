@@ -20,6 +20,11 @@ protected:
     void calc_() override;
     virtual void m32();
 
+    // 0x710024e90c / 0x710024e994 (placeholder names): slow the velocity / angular velocity down by the stop
+    // ratios and apply them to the character controller.
+    void sub_710024E90C();
+    void sub_710024E994();
+
     // static_param at offset 0x20
     const float* mStopSpeedRatio_s{};
     // static_param at offset 0x28

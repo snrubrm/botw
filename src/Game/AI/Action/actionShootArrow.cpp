@@ -1,5 +1,8 @@
 #include "Game/AI/Action/actionShootArrow.h"
+#include "Game/AI/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actCCAccessor.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
 namespace uking::action {
 
@@ -19,6 +22,22 @@ void ShootArrow::enter_(ksys::act::ai::InlineParamPack* params) {
     _84.value = ang_vel;
     _84.prev_value = ang_vel;
     _ac = false;
+}
+
+void ShootArrow::sub_710024E90C() {
+    _78 *= *mStopSpeedRatio_s;
+    _78.updateStats();
+    if (auto* controller = mActor->getCharacterController()) {
+        sub_710072C1B4(controller, mActor->getMtx().getBase(2));
+        controller->sub_7100F5E7F0(_78.value * 30.0f);
+    }
+}
+
+void ShootArrow::sub_710024E994() {
+    _84 *= *mStopRotSpeedRatio_s;
+    _84.updateStats();
+    if (auto* controller = mActor->getCharacterController())
+        controller->sub_7100F5FB24(_84.value * 30.0f);
 }
 
 void ShootArrow::loadParams_() {
