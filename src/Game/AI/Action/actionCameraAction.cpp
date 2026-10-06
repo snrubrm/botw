@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionCameraAction.h"
+#include "Game/AI/aiXlinkHandle.h"
 #include "Game/Actor/actCameraUtil.h"
 
 namespace uking::action {
@@ -88,6 +89,13 @@ void CameraAction::m41() {
     if (auto* camera = getCamera()) {
         if (camera->_860._817 != 0xff)
             ++camera->_860._817;
+    }
+}
+
+void CameraAction::sub_710074BCB4() {
+    if (_48 & 1) {
+        _48 &= ~1;
+        xlink::fade(_30, -1);
     }
 }
 
