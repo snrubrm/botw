@@ -566,4 +566,9 @@ void ScreenMessageTips::m100() {
     _3a8 = 29;
 }
 
+// 0x7100a22124
+void ScreenMainShortCut::m166() {
+    m80(false);
+}
+
 }  // namespace uking::ui

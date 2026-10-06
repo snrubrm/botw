@@ -264,6 +264,30 @@ void ScreenRupee::sub_7100A41264(s32 mode) {
     }
 }
 
+// 0x7100a41b2c
+void ScreenRupee::m166() {
+    mLayout->startAnimCloseImpl_(false, false);
+}
+
+// 0x7100a41b3c
+void ScreenRupee::m167() {
+    if (mLayout->isAnimCloseEnd(false)) {
+        if (sub_7100A98038(mId)) {
+            _100 = 0;
+        } else {
+            _100 = 1;
+            const s32 old_mode = _3634;
+            _3634 = 1;
+            sub_7100A410D8(old_mode);
+        }
+    }
+}
+
+// 0x7100a41b98
+void ScreenRupee::m168() {
+    _100 = 1;
+}
+
 // 0x7100a41a6c
 void ScreenRupee::m162() {
     if (_3634 == 3)
