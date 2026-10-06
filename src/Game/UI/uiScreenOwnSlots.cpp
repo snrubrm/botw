@@ -476,4 +476,30 @@ bool ScreenErrorViewer::isEnableControl() const {
     return true;
 }
 
+// 0x7100a3d64c
+void ScreenPauseMenu::m160() {
+    _3618 = 15;
+    mButtonGroup->_38 |= 2;
+}
+
+// 0x7100a3d80c
+void ScreenPauseMenu::m164() {
+    mButtonGroup->_38 |= 2;
+}
+
+// 0x7100a3d820
+void ScreenPauseMenu::m166() {
+    mButtonGroup->_38 &= ~2;
+}
+
+// 0x7100a3d9f8
+void ScreenPauseMenu::m168() {
+    mButtonGroup->_38 |= 2;
+}
+
+// 0x7100a3db6c
+void ScreenPauseMenu::m172() {
+    mButtonGroup->_38 |= 2;
+}
+
 }  // namespace uking::ui
