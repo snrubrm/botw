@@ -4,8 +4,6 @@ namespace uking::action {
 
 AreaFireObserveBase::AreaFireObserveBase(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
-AreaFireObserveBase::~AreaFireObserveBase() = default;
-
 void AreaFireObserveBase::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Action::enter_(params);
 }
