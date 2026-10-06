@@ -27,7 +27,8 @@ protected:
     const float* mAdditionalVelocityMax_s{};
     // static_param at offset 0xc8
     const float* mWaterEffectSpeedRate_s{};
-    u8 _d0[0x18];
+    sead::Vector3f _d0;
+    sead::Vector3f _dc;
 };
 KSYS_CHECK_SIZE_NX150(WaterFloatWaitEx, 0xe8);
 
