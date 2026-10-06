@@ -15,6 +15,7 @@ add_library(aal OBJECT
   include/aal/aalHandle.h
   include/aal/aalInterior.h
   include/aal/aalISpeakerBalanceSupplier.h
+  include/aal/aalListenerMgr.h
   include/aal/aalIUnifiable.h
   include/aal/aalMeter.h
   include/aal/aalNamedObj.h
@@ -61,6 +62,7 @@ add_library(aal OBJECT
   src/aalSoundParam.cpp
   src/aalSystem.cpp
   src/aalSoundSource.cpp
+  src/aalSpatialPlayingParam.cpp
   src/aalSpatialSetting.cpp
   src/dummy.cpp
 )
