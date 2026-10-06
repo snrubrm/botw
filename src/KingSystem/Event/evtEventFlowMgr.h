@@ -4,6 +4,7 @@
 #include <math/seadVector.h>
 #include <prim/seadSafeString.h>
 #include <thread/seadCriticalSection.h>
+#include "KingSystem/ActorSystem/actBaseProcHandle.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Utils/Byaml/Byaml.h"
 #include "KingSystem/Utils/Types.h"
@@ -21,7 +22,7 @@ public:
     // One entry of the flow's actor table (0x30 bytes; the first member is read by BaseProcLink::getProc).
     struct ActorEntry {
         act::BaseProcLink mLink;
-        u8 _10[0x20 - 0x10];
+        act::BaseProcHandle mHandle;
         /* 0x20 */ u64 mKey;
         u8 _28[0x30 - 0x28];
     };
@@ -34,6 +35,9 @@ public:
     void setState3();
     // 0x7100dc1258 (CSV EventFlow::loadEventResource): true if there is no resource
     bool loadEventResource(bool a1);
+    // 0x7100dc1160 (CSV unnamed): if the slot is in use: resets the actor links, frees the actor table and the
+    // resource and marks the slot free
+    void sub_7100DC1160();
     // 0x7100dc1078 (CSV EventFlow::unload; not decompiled)
     void unload(bool a1);
     // 0x7100dc01ec (CSV EventFlow::initAndAllocResource): copies the names, allocates the EventResource on `heap`

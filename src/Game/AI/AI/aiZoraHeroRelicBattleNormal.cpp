@@ -6,7 +6,10 @@
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Map/mapObjectLink.h"
+#include "Game/AI/aiUnk_71007377D4.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/System/physRayCastBodyQuery.h"
 
 namespace uking::ai {
 
@@ -130,6 +133,36 @@ void ZoraHeroRelicBattleNormal::sub_7100612D98(const sead::Vector3f& pos) {
     ksys::act::ai::InlineParamPack pack;
     pack.addVec3(pos, "TargetPos", -1);
     changeChild("水中ワープ", &pack);
+}
+
+// NON_MATCHING: only the order of the argument copies at the start (the original moves `pos` after the two floats)
+// 0x7100613404
+bool ZoraHeroRelicBattleNormal::sub_7100613404(f32 top, f32 bottom, const sead::Vector3f& pos,
+                                               sead::Vector3f* hit_pos) {
+    ksys::phys::RayCastBodyQuery query(
+        sub_7100738C18(&ksys::act::PlayerInfo::getSomeProcLink(), 0), ksys::phys::GroundHit::HitAll);
+    query.enableLayer(ksys::phys::ContactLayer::EntityWater);
+    query.setGroundHit(ksys::phys::GroundHit::HitAll);
+    query.setNormalCheckingMode(ksys::phys::RayCast::NormalCheckingMode::_0);
+    query.enableLayer(ksys::phys::ContactLayer::EntityWater);
+    query.enableLayer(ksys::phys::ContactLayer::EntityGround);
+    query.enableLayer(ksys::phys::ContactLayer::EntityGroundRough);
+    query.enableLayer(ksys::phys::ContactLayer::EntityGroundSmooth);
+    query.enableLayer(ksys::phys::ContactLayer::EntityHitOnlyGround);
+    query.enableLayer(ksys::phys::ContactLayer::EntityGroundObject);
+    query.enableLayer(ksys::phys::ContactLayer::EntityObject);
+    query.enableLayer(ksys::phys::ContactLayer::EntityTree);
+    const sead::Vector3f start = pos + sead::Vector3f(0, top, 0);
+    const sead::Vector3f end = pos + sead::Vector3f(0, bottom, 0);
+    query.setStartAndEnd(start, end);
+    if (!query.worldRayCast(ksys::phys::ContactLayerType::Entity))
+        return false;
+    auto* body = query.getHitRigidBody();
+    if (!body || body->getContactLayer() != ksys::phys::ContactLayer::EntityWater)
+        return false;
+    if (hit_pos)
+        query.getHitPosition(hit_pos);
+    return true;
 }
 
 }  // namespace uking::ai

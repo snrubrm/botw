@@ -1,6 +1,8 @@
 #include "Game/AI/AI/aiNPCAvoid.h"
 #include "Game/Actor/actNPC.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/System/physRayCastBodyQuery.h"
 
 namespace uking::ai {
 
@@ -36,6 +38,22 @@ void NPCAvoid::loadParams_() {
 
 bool NPCAvoid::isChangeable() const {
     return isCurrentChild("アラート") || isCurrentChild("脅威解除");
+}
+
+// 0x71004c2a4c
+bool NPCAvoid::sub_71004C2A4C() {
+    ksys::phys::RayCastBodyQuery query(nullptr, ksys::phys::GroundHit::HitAll);
+    query.enableLayer(ksys::phys::ContactLayer::EntityGround);
+    query.enableLayer(ksys::phys::ContactLayer::EntityGroundRough);
+    query.enableLayer(ksys::phys::ContactLayer::EntityGroundObject);
+    const sead::Vector3f start = mActor->getMtx().getTranslation();
+    const sead::Vector3f dir = -sead::Vector3f::ey;
+    query.setStartAndDisplacementScaled(start, dir, 10.0f);
+    if (!query.worldRayCast(ksys::phys::ContactLayerType::Entity))
+        return true;
+    sead::Vector3f hit;
+    query.getHitPosition(&hit);
+    return mActor->getMtx().getTranslation().y - hit.y > 2.0f;
 }
 
 }  // namespace uking::ai

@@ -59,6 +59,24 @@ void EventFlow::initAndAllocResource(sead::Heap* heap, const sead::SafeString& e
 }
 
 // 0x7100dc1078
+// NON_MATCHING: the original keeps the bounds checks of `mActors(i)` (compare of the 64-bit index with the table size)
+// in the loop; ours folds them away because the loop condition already implies them
+void EventFlow::sub_7100DC1160() {
+    if (mState == 0)
+        return;
+    for (s32 i = 0; i < mActors.size(); ++i) {
+        if (mActors(i).mLink.hasProc())
+            mActors(i).mLink.reset();
+    }
+    mActors.freeBuffer();
+    delete mResource;
+    mResource = nullptr;
+    mState = 0;
+    _c = 0;
+    _118 = -1;
+    mRefCount = 0;
+}
+
 void EventFlow::unload(bool a1) {
     if (!a1) {
         mRefCount = 1;

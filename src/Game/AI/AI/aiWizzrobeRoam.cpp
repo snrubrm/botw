@@ -1,7 +1,9 @@
 #include "Game/AI/AI/aiWizzrobeRoam.h"
 #include "random/seadGlobalRandom.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "Game/AI/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/Physics/System/physRayCastBodyQuery.h"
 
 namespace uking::ai {
 
@@ -32,6 +34,23 @@ void WizzrobeRoam::loadParams_() {
     getStaticParam(&mHeightOffset_s, "HeightOffset");
     getDynamicParam(&mCentralPos_d, "CentralPos");
     getAITreeVariable(&mWizzrobeMagicWeatherUnit_a, "WizzrobeMagicWeatherUnit");
+}
+
+// 0x71005fedb4
+bool WizzrobeRoam::sub_71005FEDB4(sead::Vector3f start, sead::Vector3f end, sead::Vector3f* hit_pos) {
+    ksys::phys::RayCastBodyQuery query(sub_710072E804(mActor, 0), ksys::phys::GroundHit::HitAll);
+    query.enableLayer(ksys::phys::ContactLayer::EntityGround);
+    query.enableLayer(ksys::phys::ContactLayer::EntityGroundRough);
+    query.enableLayer(ksys::phys::ContactLayer::EntityGroundObject);
+    query.enableLayer(ksys::phys::ContactLayer::EntityObject);
+    query.enableLayer(ksys::phys::ContactLayer::EntityTree);
+    query.setStartAndEnd(start, end);
+    query.setNormalCheckingMode(ksys::phys::RayCast::NormalCheckingMode::_0);
+    if (!query.worldRayCast(ksys::phys::ContactLayerType::Entity))
+        return false;
+    if (hit_pos)
+        query.getHitPosition(hit_pos);
+    return true;
 }
 
 // 0x71005fe85c

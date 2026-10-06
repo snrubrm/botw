@@ -20,6 +20,10 @@ namespace al {
 class ByamlIter;
 }
 
+namespace ksys::xlink {
+class XLink;
+}
+
 namespace ksys::res {
 // CSV ResDerived (ctor 0x71011fc5c0: `res::Handle::Handle()` + its own vtable store; 71 callers): a res::Handle
 // subclass that holds a model resource. Placeholder name; declared only.
@@ -48,6 +52,8 @@ public:
     void x_0();
     // 0x7100dc9208 (CSV EventXlinkInfo::finishLoad; not decompiled)
     bool finishLoad(bool a1);
+    // 0x7100dc9628: the XLink of the linked actor (null without an acquirable actor)
+    xlink::XLink* sub_7100DC9628();
 
     // Only the members used by x_0 / x_1 are known; the extent is not recovered.
     u8 _0[8];

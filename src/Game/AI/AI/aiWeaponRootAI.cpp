@@ -9,6 +9,7 @@
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
+#include "KingSystem/Physics/System/physRayCastBodyQuery.h"
 
 namespace uking::ai {
 
@@ -296,6 +297,27 @@ void WeaponRootAI::sub_7100E20DB4() {
         }
     }
     changeChild("刺さる");
+}
+
+// NON_MATCHING: scheduling of the start / end vector stores and the scaled-add (the original stores the start
+// components one by one and copies it into `end` with a 64-bit pair)
+// 0x7100e21100
+bool WeaponRootAI::sub_7100E21100() {
+    auto* body = mActor->getMainBody();
+    if (!body)
+        return false;
+    const sead::Vector3f center = body->getCenterOfMassInWorld();
+    const sead::Vector3f start = mActor->getMtx().getTranslation();
+    const sead::Vector3f diff = center - start;
+    sead::Vector3f end = start;
+    end.setScaleAdd(1.5f, diff, end);
+    ksys::phys::RayCastBodyQuery query(nullptr, ksys::phys::GroundHit::HitAll);
+    query.setStartAndEnd(start, end);
+    query.enableLayer(ksys::phys::ContactLayer::EntityGround);
+    query.enableLayer(ksys::phys::ContactLayer::EntityGroundRough);
+    query.enableLayer(ksys::phys::ContactLayer::EntityGroundObject);
+    query.enableLayer(ksys::phys::ContactLayer::EntityTree);
+    return !query.worldRayCast(ksys::phys::ContactLayerType::Entity);
 }
 
 }  // namespace uking::ai

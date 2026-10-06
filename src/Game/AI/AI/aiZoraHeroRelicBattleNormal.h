@@ -42,6 +42,10 @@ public:
     void sub_7100612D98(const sead::Vector3f& pos);
 
 protected:
+    // 0x7100613404: casts a ray from `pos` + `top` to `pos` + `bottom` and reports (with the hit position) whether it hit
+    // a water body
+    bool sub_7100613404(f32 top, f32 bottom, const sead::Vector3f& pos, sead::Vector3f* hit_pos);
+
     sead::SafeArray<Unk1, 5> _38;
     // static_param at offset 0x88
     const float* mWarpDistanceXZ_s{};

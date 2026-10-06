@@ -3,6 +3,7 @@
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/System/physRayCastBodyQuery.h"
 
 namespace uking::ai {
 
@@ -69,6 +70,25 @@ void WizzrobeCombat::sub_71005FC01C() {
     pack.addPointer(&_98, "IgniteHandle", ksys::AIDefParamType::BaseProcHandle, -1);
     pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
     changeChild("召喚魔法", &pack);
+}
+
+// 0x71005fc498
+bool WizzrobeCombat::sub_71005FC498(const sead::Vector3f& start, const sead::Vector3f& end) {
+    ksys::phys::RayCastBodyQuery query(nullptr, ksys::phys::GroundHit::HitAll);
+    query.enableLayer(ksys::phys::ContactLayer::EntityGroundObject);
+    query.enableLayer(ksys::phys::ContactLayer::EntityObject);
+    query.enableLayer(ksys::phys::ContactLayer::EntityWater);
+    query.enableLayer(ksys::phys::ContactLayer::EntityGround);
+    query.enableLayer(ksys::phys::ContactLayer::EntityGroundSmooth);
+    query.enableLayer(ksys::phys::ContactLayer::EntityGroundRough);
+    query.setStartAndEnd(start, end);
+    query.setNormalCheckingMode(ksys::phys::RayCast::NormalCheckingMode::_0);
+    bool result = false;
+    if (query.worldRayCast(ksys::phys::ContactLayerType::Entity)) {
+        const auto material = query.getMaterialMask().getMaterial();
+        result = material != ksys::phys::Material::Bog && material != ksys::phys::Material::Water;
+    }
+    return result;
 }
 
 }  // namespace uking::ai

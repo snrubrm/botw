@@ -37,6 +37,8 @@ public:
     void sub_7100E21228();
 
 protected:
+    // 0x7100e21100: true if nothing blocks the ray from the actor to 1.5 times the way to the main body's center of mass
+    bool sub_7100E21100();
     // 0x7100e20db4: the weapon sticks into something: attack clients off, bodies removed from the world, "ChangeColor", then the "刺さる" child
     void sub_7100E20DB4();
     // 0x7100e1f710: fixes the weapon in place: the body becomes Fixed, ground contact layers on, "ChangeColor", then the "Fixed配置" child

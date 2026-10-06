@@ -27,6 +27,8 @@ public:
     virtual void m43();
 
 protected:
+    // 0x71005e6b84: the angle between the direction to `target` and the front (both flattened) is below FrontAngle
+    bool sub_71005E6B84(const sead::Vector3f& target);
     // static_param at offset 0x60
     const int* mAvoidFrame_s{};
     // static_param at offset 0x68

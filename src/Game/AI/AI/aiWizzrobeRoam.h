@@ -16,6 +16,8 @@ public:
     void loadParams_() override;
 
 protected:
+    // 0x71005fedb4: raycast from `start` to `end` (ground / object / tree layers); the hit position goes to `hit_pos`
+    bool sub_71005FEDB4(sead::Vector3f start, sead::Vector3f end, sead::Vector3f* hit_pos);
     // 0x71005fe5cc: counts the move, picks the next position (sub_71005FEB18) and starts the "移動" child
     void sub_71005FE5CC();
     // 0x71005feb18 (declared only, 668 bytes): picks the next roam position (returned in s0 / s1 / s2).

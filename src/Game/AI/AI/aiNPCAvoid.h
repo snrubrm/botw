@@ -22,6 +22,8 @@ public:
     void loadParams_() override;
 
 protected:
+    // 0x71004c2a4c: true unless ground within 2 below the actor is found by a downward ray (length 10)
+    bool sub_71004C2A4C();
     // static_param at offset 0x38
     const int* mTargetTerrorLevel_s{};
     // static_param at offset 0x40

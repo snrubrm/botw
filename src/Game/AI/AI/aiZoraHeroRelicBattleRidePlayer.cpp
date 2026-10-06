@@ -5,6 +5,7 @@
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/Physics/System/physRayCastBodyQuery.h"
 
 namespace uking::ai {
 
@@ -63,6 +64,19 @@ void ZoraHeroRelicBattleRidePlayer::sub_7100613FF0() {
         }
     }
     changeChild("周回", nullptr);
+}
+
+// 0x710061430c
+bool ZoraHeroRelicBattleRidePlayer::sub_710061430C(const sead::Vector3f& target) {
+    ksys::phys::RayCastBodyQuery query(nullptr, ksys::phys::GroundHit::HitAll);
+    query.enableLayer(ksys::phys::ContactLayer::EntityGroundObject);
+    query.enableLayer(ksys::phys::ContactLayer::EntityGround);
+    query.enableLayer(ksys::phys::ContactLayer::EntityGroundSmooth);
+    query.enableLayer(ksys::phys::ContactLayer::EntityGroundRough);
+    query.setGroundHit(ksys::phys::GroundHit::HitAll);
+    query.setStartAndEnd(mActor->getMtx().getTranslation(), target);
+    query.setNormalCheckingMode(ksys::phys::RayCast::NormalCheckingMode::_0);
+    return !query.worldRayCast(ksys::phys::ContactLayerType::Entity);
 }
 
 }  // namespace uking::ai

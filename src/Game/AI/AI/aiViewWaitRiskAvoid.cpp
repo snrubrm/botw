@@ -1,5 +1,7 @@
 #include "Game/AI/AI/aiViewWaitRiskAvoid.h"
 #include <math/seadMathCalcCommon.h>
+#include <math/seadVector.h>
+#include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
@@ -57,6 +59,23 @@ bool ViewWaitRiskAvoid::m35() {
         }
     }
     return ViewWait::m35();
+}
+
+// NON_MATCHING: float register allocation (the original keeps the constant 0 and the front vector in fewer
+// registers: one saved d register less)
+// 0x71005e6b84
+bool ViewWaitRiskAvoid::sub_71005E6B84(const sead::Vector3f& target) {
+    const sead::Matrix34f& mtx = mActor->getMtx();
+    sead::Vector3f dir = target - mtx.getTranslation();
+    dir.y = 0;
+    dir.normalize();
+    sead::Vector3f front;
+    mtx.getBase(front, 2);
+    front.y = 0;
+    front.normalize();
+    sead::Vector3f cross;
+    cross.setCross(front, dir);
+    return std::atan2(cross.length(), dir.dot(front)) < *mFrontAngle_s;
 }
 
 }  // namespace uking::ai

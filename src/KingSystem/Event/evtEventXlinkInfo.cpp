@@ -1,5 +1,6 @@
 #include "KingSystem/Event/evtEventResource.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 
 namespace ksys::evt {
 
@@ -20,6 +21,16 @@ void EventXlinkInfo::x_0() {
         actor->sleep(act::BaseProc::SleepWakeReason::_0);
         actor->sub_71011C98F8();
     }
+}
+
+// 0x7100dc9628
+xlink::XLink* EventXlinkInfo::sub_7100DC9628() {
+    if (_18.hasProc()) {
+        act::ActorConstDataAccess accessor;
+        if (act::acquireActor(&_18, &accessor))
+            return accessor.sub_7100D0F214();
+    }
+    return nullptr;
 }
 
 }  // namespace ksys::evt
