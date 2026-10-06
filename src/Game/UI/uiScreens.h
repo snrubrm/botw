@@ -1222,6 +1222,7 @@ public:
     ScreenReadyGo();
     ~ScreenReadyGo() override;
     SEAD_RTTI_OVERRIDE(ScreenReadyGo, ScreenEx)
+    void m94() override;
 
     bool sub_7100A40BF8();
     // 0x7100a40b58 (CSV unnamed; not decompiled)
@@ -1809,6 +1810,7 @@ public:
     ScreenAppSystemWindowNoBtn();
     ~ScreenAppSystemWindowNoBtn() override;
     void m93(sead::Heap* heap) override;
+    void m94() override;
     /* 0x3610 */ eui::Animator* _3610{};
     /* 0x3618 */ u32 _3618{};
     SEAD_RTTI_OVERRIDE(ScreenAppSystemWindowNoBtn, ScreenEx)
@@ -1856,6 +1858,7 @@ public:
     ScreenSystemWindowNoBtn();
     ~ScreenSystemWindowNoBtn() override;
     void m93(sead::Heap* heap) override;
+    void m94() override;
     /* 0x3610 */ eui::Animator* _3610{};
     /* 0x3618 */ eui::Animator* _3618{};
     SEAD_RTTI_OVERRIDE(ScreenSystemWindowNoBtn, ScreenEx)
@@ -2061,6 +2064,7 @@ public:
     ScreenBootUp();
     ~ScreenBootUp() override;
     SEAD_RTTI_OVERRIDE(ScreenBootUp, ScreenEx)
+    void m94() override;
 };
 
 class ScreenAppMenuBtn : public ScreenEx {

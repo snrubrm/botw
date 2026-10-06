@@ -338,4 +338,34 @@ void ScreenChallengeWin::m93(sead::Heap*) {
         _3870->StopAtMin();
 }
 
+// 0x7100a00440
+void ScreenBootUp::m94() {
+    if (isOpened()) {
+        if (mLayout->mPane)
+            mLayout->mPane->SetVisible(false);
+        close(-4);
+    }
+}
+
+// 0x7100a40c58
+void ScreenReadyGo::m94() {
+    eui::Animator* animator = mLayout->mOpenAnimator;
+    if (animator && animator->mFrame == static_cast<f32>(animator->GetFrameSize()))
+        close(-4);
+}
+
+// 0x71009fb9bc
+void ScreenAppSystemWindowNoBtn::m94() {
+    if ((_291 & 2) || isOpened() ||
+        (_3610 && _3610->mFrame == static_cast<f32>(_3610->GetFrameSize())))
+        _292 |= 0x20;
+}
+
+// 0x7100a606c4
+void ScreenSystemWindowNoBtn::m94() {
+    if ((_291 & 2) || isOpened() ||
+        (_3610 && _3610->mFrame == static_cast<f32>(_3610->GetFrameSize())))
+        _292 |= 0x20;
+}
+
 }  // namespace uking::ui
