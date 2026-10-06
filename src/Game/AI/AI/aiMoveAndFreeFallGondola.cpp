@@ -1,6 +1,9 @@
 #include "Game/AI/AI/aiMoveAndFreeFallGondola.h"
 #include "Game/AI/aiUnk_71024f15c0.h"
+#include "Game/gameStasisMgr.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorSystem.h"
 #include "KingSystem/Utils/Thread/Message.h"
 
 namespace uking::ai {
@@ -65,6 +68,26 @@ bool MoveAndFreeFallGondola::handleMessage_(const ksys::Message* message) {
             sub_71004AF894(message);
     }
     return false;
+}
+
+// NON_MATCHING: logic matches, but we keep the address of `accessor` in a callee-saved register across the
+// call (extra x22/x23 and a bigger frame); the original rematerializes it for the destructor
+void MoveAndFreeFallGondola::sub_71004AF894(const ksys::Message* message) {
+    if (!_b0.hasProc())
+        return;
+
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(&_b0, &accessor);
+    if (accessor.hasProc()) {
+        const auto& source = message->getSource();
+        const auto& dest = *accessor.getMessageTransceiverId();
+        if (source.isRegistered() && dest.isRegistered() &&
+            !(source.queue_id == dest.queue_id && source.id == dest.id)) {
+            auto* sender = ksys::act::ActorSystem::instance()->getStasisMessageSender();
+            sender->sendMessage(sead::DynamicCast<ksys::act::Actor>(_b0.getProc(nullptr, nullptr)),
+                                message->getType(), true);
+        }
+    }
 }
 
 }  // namespace uking::ai
