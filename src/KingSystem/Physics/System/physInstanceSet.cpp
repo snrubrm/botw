@@ -1,8 +1,10 @@
 #include "KingSystem/Physics/System/physInstanceSet.h"
 #include <basis/seadNew.h>
+#include <resource/seadArchiveRes.h>
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Physics/Cloth/physClothSet.h"
 #include "KingSystem/Physics/Ragdoll/physRagdollController.h"
+#include "KingSystem/Physics/Ragdoll/physRagdollParam.h"
 #include "KingSystem/Physics/Ragdoll/physRagdollInstance.h"
 #include "KingSystem/Physics/Ragdoll/physRagdollRigidBody.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
@@ -19,10 +21,87 @@
 #include "KingSystem/Physics/System/physGroupFilter.h"
 #include "KingSystem/Physics/System/physParamSet.h"
 #include "KingSystem/Physics/System/physSystem.h"
+#include "KingSystem/ActorSystem/actActorParamMgr.h"
+#include "KingSystem/Physics/Cloth/physClothResource.h"
+#include "KingSystem/Physics/Ragdoll/physRagdollResource.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodyResource.h"
+#include "KingSystem/Physics/SupportBone/physSupportBoneResource.h"
 #include "KingSystem/Resource/Actor/resResourceRagdollConfigList.h"
+#include "KingSystem/Resource/resHandle.h"
+#include "KingSystem/Resource/resLoadRequest.h"
 #include "KingSystem/Resource/Actor/resResourceRagdollBlendWeight.h"
 
 namespace ksys::phys {
+
+// Loads a physics resource from the RomFS or, failing that, from the actor pack.
+// Placeholder name: the original has four copies of this function (RigidBodyResource, RagdollResource,
+// ClothResource, SupportBoneResource; the last three have no RTTI of their own).
+// NON_MATCHING: the original combines `in_pack` and `res == nullptr` of the retry condition with a single `and`
+// (`in_pack & (res == nullptr)` matches; not applied)
+template <typename T>
+T* loadFromRomOrActorPack(res::Handle* handle, const sead::SafeString& path, res::Handle* pack_handle,
+                          const sead::SafeString& actor_name, bool) {
+    if (!handle)
+        return nullptr;
+
+    T* res;
+    {
+        res::SimpleLoadRequest req;
+        req._8 = true;
+        req.mRequester = actor_name;
+        req.mPath = path;
+        req.mLaneId = 2;
+        res = sead::DynamicCast<T>(handle->load(path, &req));
+    }
+    if (res)
+        return res;
+
+    if (!pack_handle->isSuccess())
+        act::ActorParamMgr::instance()->loadActorPack(pack_handle, actor_name, 1);
+
+    bool in_pack = false;
+    if (pack_handle && !act::ActorParamMgr::instance()->checkPath(path)) {
+        auto* pack = sead::DynamicCast<sead::ArchiveRes>(pack_handle->getResource());
+        if (pack)
+            in_pack = pack->getFile(path) != nullptr;
+    }
+
+    res::LoadRequest req;
+    req.mLoadDataAlignment = 0x10;
+    req.mRequester = "physInstanceSet";
+    req.mPackHandle = in_pack ? pack_handle : nullptr;
+    res::Handle::Status status = res::Handle::Status::NoFile;
+    res = sead::DynamicCast<T>(handle->load(path, &req, &status));
+    if (!res && in_pack) {
+        req.mPackHandle = nullptr;
+        res = sead::DynamicCast<T>(handle->load(path, &req, &status));
+    }
+    return res;
+}
+
+template RigidBodyResource* loadFromRomOrActorPack<RigidBodyResource>(
+    res::Handle*, const sead::SafeString&, res::Handle*, const sead::SafeString&, bool);
+template RagdollResource* loadFromRomOrActorPack<RagdollResource>(
+    res::Handle*, const sead::SafeString&, res::Handle*, const sead::SafeString&, bool);
+template ClothResource* loadFromRomOrActorPack<ClothResource>(
+    res::Handle*, const sead::SafeString&, res::Handle*, const sead::SafeString&, bool);
+template SupportBoneResource* loadFromRomOrActorPack<SupportBoneResource>(
+    res::Handle*, const sead::SafeString&, res::Handle*, const sead::SafeString&, bool);
+
+// NON_MATCHING: the original keeps the ragdoll param pointer in the register that becomes the string `this`
+// (`ldr x8, [x21, #0x98]!`); ours computes the +0x98 address up front and needs one more saved register
+bool InstanceSet::sub_7100FBE808(sead::Heap* heap, res::Handle* pack_handle) {
+    auto* ragdoll = mParamSet->ragdoll;
+    if (!ragdoll || ragdoll->ragdoll_setup_file_path.ref().isEmpty())
+        return false;
+
+    mRagdollInstance = new (heap) RagdollInstance(_178[0]);
+    mRagdollResHandle = new (heap) res::Handle;
+    const sead::SafeString& file = ragdoll->ragdoll_setup_file_path.ref();
+    sead::FormatFixedSafeString<128> path("Physics/Ragdoll/%s", file.cstr());
+    loadFromRomOrActorPack<RagdollResource>(mRagdollResHandle, path, pack_handle, mName, true);
+    return true;
+}
 
 bool InstanceSet::sub_7100FBE184(RigidBody* body) const {
     return body->hasFlag(RigidBody::Flag::_20);

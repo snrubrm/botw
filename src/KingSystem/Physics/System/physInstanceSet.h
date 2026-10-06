@@ -176,6 +176,9 @@ public:
     void systemGroupHandlerStuff(SystemGroupHandler* handler, ContactLayerType layer_type);
     void sub_7100FBC890(const sead::Matrix34f& mtx, bool a2, bool a3);
     s32 sub_7100FBDA2C(const sead::SafeString& name) const;
+    // 0x7100fbe808 (lane4 s48; placeholder name; called by the ragdoll part of init): creates the RagdollInstance and
+    // loads "Physics/Ragdoll/<ragdoll_setup_file_path>" (false without a ragdoll param or file name).
+    bool sub_7100FBE808(sead::Heap* heap, res::Handle* pack_handle);
     // 0x7100fbe7f0: CharacterControllerParam::findFormIdx(name) of the param data's character
     // controller param (`_18->_58`), or -1. Placeholder name (declaration only).
     s32 sub_7100FBE7F0(const sead::SafeString& name) const;

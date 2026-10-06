@@ -46,6 +46,9 @@ public:
     void unloadParam(ActorParam* param);
 
     bool requestLoadActorPack(res::Handle* handle, const sead::SafeString& actor_name, u32 lane_id);
+    // Public: also called by physInstanceSet's resource loaders (lane4 s48).
+    res::Archive* loadActorPack(res::Handle* handle, const sead::SafeString& actor_name,
+                                u32 lane_id);
 
     ActorParam* loadParamAsync(const char* actor_name, res::Handle* pack_handle,
                                bool* allocated_new, void* x, u32 lane_id);
@@ -71,9 +74,6 @@ private:
                                   const sead::SafeString& extension,
                                   const sead::SafeString& file_name, res::Handle* pack_handle,
                                   u32 lane_id, const sead::SafeString& requester);
-    res::Archive* loadActorPack(res::Handle* handle, const sead::SafeString& actor_name,
-                                u32 lane_id);
-
     template <typename T>
     T* loadFile(ActorParam* param, ActorParam::ResourceType type, const char* dir_name_c,
                 const char* extension_c, const char* name_c, res::Handle* pack_handle, void* x,
