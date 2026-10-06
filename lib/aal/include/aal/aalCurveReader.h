@@ -2,6 +2,7 @@
 
 #include <basis/seadTypes.h>
 #include <prim/seadEnum.h>
+#include <prim/seadSafeString.h>
 #include "aal/aalResourceHeader.h"
 #include "aal/aalRollOffCurve.h"
 
@@ -97,6 +98,24 @@ private:
     };
 
     const Data* mData = nullptr;
+};
+
+/// The list of the assets that loop (signature "BLAL"): the sorted CRC32 hashes of their names. The reader converts the
+/// byte order of the list in place.
+class LoopAssetListReader {
+public:
+    explicit LoopAssetListReader(u8* data);
+
+    bool contains(const sead::SafeString& name) const;
+
+private:
+    struct Data {
+        ResourceHeader header;
+        s32 num_hashes;
+        u32 hashes[1];
+    };
+
+    Data* mData = nullptr;
 };
 
 }  // namespace aal

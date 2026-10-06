@@ -1,4 +1,5 @@
 #include "aal/aalCurveReader.h"
+#include <codec/seadHashCRC32.h>
 
 namespace aal {
 
@@ -21,6 +22,47 @@ const CustomCurveReader::SegmentParam* CustomCurveReader::getSegmentParam(s32 in
     if (!mData || index >= mData->num_segments)
         return nullptr;
     return &mData->segments[index];
+}
+
+// 0x7100b96bf0
+LoopAssetListReader::LoopAssetListReader(u8* data) {
+    if (!data)
+        return;
+    mData = reinterpret_cast<Data*>(data);
+    if (mData->header.readSignature() != 0x4c414c42)  // "BLAL"
+        return;
+    if (sead::Endian::markToEndian(mData->header.byte_order_mark) == sead::Endian::getHostEndian())
+        return;
+
+    mData->header.byte_order_mark = sead::Endian::swapU16(mData->header.byte_order_mark);
+    mData->num_hashes = sead::Endian::swapU32(mData->num_hashes);
+    for (s32 i = 0; i < mData->num_hashes; ++i)
+        mData->hashes[i] = sead::Endian::swapU32(mData->hashes[i]);
+}
+
+// 0x7100b96d0c
+bool LoopAssetListReader::contains(const sead::SafeString& name) const {
+    if (!mData || mData->num_hashes < 1)
+        return false;
+
+    const u32 hash = sead::HashCRC32::calcStringHash(name);
+    u32 low = 0;
+    u32 high = mData->num_hashes;
+    for (;;) {
+        const u32 middle = (low + high) / 2;
+        const u32 middle_hash = mData->hashes[middle];
+        if (middle_hash == hash)
+            return true;
+        if (middle_hash < hash) {
+            if (low == middle)
+                return false;
+            low = middle;
+        } else {
+            if (high == middle)
+                return false;
+            high = middle;
+        }
+    }
 }
 
 // 0x7100b97368
