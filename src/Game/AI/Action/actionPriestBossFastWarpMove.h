@@ -15,6 +15,11 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+    bool isFinished() const override {
+        if (_204 >= *mAppearFrame_s)
+            return true;
+        return mFlags.isOn(Flag::Finished);
+    }
 
 protected:
     void calc_() override;
@@ -39,6 +44,9 @@ protected:
     sead::Vector3f* mAfterImage0Pos_d{};
     // dynamic_param at offset 0x78
     sead::Vector3f* mAfterImage1Pos_d{};
+    // Not decompiled yet (the ctor / calc_ are W).
+    u8 _80[0x204 - 0x80];
+    f32 _204 = 0.0f;
 };
 
 }  // namespace uking::action
