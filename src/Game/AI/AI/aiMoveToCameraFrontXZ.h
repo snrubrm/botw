@@ -19,6 +19,12 @@ public:
     void changeToAvoidPlayerMove(const sead::Vector3f& a, const sead::Vector3f& b);
 
 protected:
+    // 0x71004b42f0 (placeholder name): whether the actor's model bounding sphere (in world space) is on screen.
+    bool sub_71004B42F0();
+    // 0x71004b4180 (placeholder name): whether `pos` (XZ) lies within `scale` times the camera's half field of view of its
+    // look direction; true when the actor has no screen-relevant target (sub_71005D8FBC).
+    bool sub_71004B4180(f32 scale, const sead::Vector3f& pos);
+
     // 0x71004b43e4 (placeholder name): `out` is AvoidPlayerDist from the player, towards the direction
     // derived from the (normalised) offsets of `a` and `b` from the player position.
     void sub_71004B43E4(sead::Vector3f* out, const sead::Vector3f& a, const sead::Vector3f& b);

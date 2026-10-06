@@ -24,6 +24,9 @@ public:
     // calc parent (0x710040daf8 / 0x710040dc54 return the Guardian's _15a8 / _15b0, nullptr if there is none).
     act::Guardian::Unk15a8* sub_710040DAF8();
     act::Guardian::Unk1* sub_710040DC54();
+    // 0x710040dc50 / 0x710040ddac: out-of-line tail calls to sub_710040DAF8 / sub_710040DC54 (callers in GuardianRoot / GuardianTargetLost).
+    act::Guardian::Unk15a8* sub_710040DC50();
+    act::Guardian::Unk1* sub_710040DDAC();
     // 0x710040ddb0: Guardian::sub_7100035A90(state); 0x710040de48: Guardian::sub_7100034514(on).
     void sub_710040DDB0(s32 state);
     void sub_710040DE48(bool on);

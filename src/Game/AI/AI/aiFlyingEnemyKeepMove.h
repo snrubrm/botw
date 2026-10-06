@@ -26,6 +26,8 @@ public:
     // 0x71003d26f0 (placeholder name): moves BaseDist away from the position of m36 on the ground plane.
     void changeToAdjustPosition();
 
+    bool sub_71003D1F88();
+
 protected:
     struct Params {
         // static_param at offset 0x38

@@ -2,9 +2,11 @@
 #include <math/seadMathCalcCommon.h>
 #include <random/seadGlobalRandom.h>
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/AI/aiUnk_71007368A4.h"
 #include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actBoneControl.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 
@@ -72,6 +74,68 @@ void LandHumEnemyFindBait::changeToAngry() {
     ksys::act::ai::InlineParamPack pack;
     pack.addVec3(_58, "TargetPos", -1);
     changeChild("怒り", &pack);
+}
+
+bool LandHumEnemyFindBait::sub_710045FC10() {
+    if (sub_71005DEC08(mTargetBait_d, mActor, 999.0f, 999.0f, sead::Mathf::pi()))
+        return false;
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(mTargetBait_d, &accessor);
+    const auto& target_pos = accessor.getActorMtx().getTranslation();
+    const auto& pos = mActor->getMtx().getTranslation();
+    if ((target_pos - pos).length() <= getReachDistanceMaybe())
+        return true;
+    return sub_7100739030(mActor, *mTargetBait_d);
+}
+
+void LandHumEnemyFindBait::m38() {
+    f32& time = _b0;
+    if (sub_71005DEC08(mTargetBait_d, mActor, 999.0f, 999.0f, sead::Mathf::pi())) {
+        ksys::Timer::update(&time, -1.0f);
+    } else {
+        time = _b4 == _b8 ? _b4 : sead::GlobalRandom::instance()->getS32Range(_b4, _b8);
+    }
+    if (time <= 0.0f) {
+        changeToAngry();
+        return;
+    }
+    if (sub_710045FC10()) {
+        if (ksys::act::isWeaponProfile(mTargetBait_d)) {
+            ksys::act::ai::InlineParamPack params;
+            params.addActor(*mTargetBait_d, "TargetWeapon", -1);
+            changeChild("疑似餌発見", &params);
+        } else {
+            changeToFindBait();
+        }
+    } else {
+        _90.update();
+        if (_90.value <= sead::Mathf::epsilon())
+            m37();
+    }
+}
+
+void LandHumEnemyFindBait::m39() {
+    f32& time = _b0;
+    if (sub_71005DEC08(mTargetBait_d, mActor, 999.0f, 999.0f, sead::Mathf::pi())) {
+        ksys::Timer::update(&time, -1.0f);
+    } else {
+        time = _b4 == _b8 ? _b4 : sead::GlobalRandom::instance()->getS32Range(_b4, _b8);
+    }
+    if (time <= 0.0f) {
+        changeToAngry();
+        return;
+    }
+    if (sub_710045FC10()) {
+        if (ksys::act::isWeaponProfile(mTargetBait_d)) {
+            ksys::act::ai::InlineParamPack params;
+            params.addActor(*mTargetBait_d, "TargetWeapon", -1);
+            changeChild("疑似餌発見", &params);
+        } else {
+            changeToFindBait();
+        }
+    } else {
+        m37();
+    }
 }
 
 void LandHumEnemyFindBait::changeToFindBait() {

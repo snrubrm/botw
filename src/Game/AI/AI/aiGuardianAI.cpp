@@ -49,6 +49,14 @@ act::Guardian::Unk1* GuardianAI::sub_710040DC54() {
     return guardian ? guardian->_15b0 : nullptr;
 }
 
+act::Guardian::Unk15a8* GuardianAI::sub_710040DC50() {
+    return sub_710040DAF8();
+}
+
+act::Guardian::Unk1* GuardianAI::sub_710040DDAC() {
+    return sub_710040DC54();
+}
+
 void GuardianAI::sub_710040DDB0(s32 state) {
     if (auto* guardian = sead::DynamicCast<act::Guardian>(mActor))
         guardian->sub_7100035A90(state);

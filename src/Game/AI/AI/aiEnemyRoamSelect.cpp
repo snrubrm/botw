@@ -1,4 +1,9 @@
 #include "Game/AI/AI/aiEnemyRoamSelect.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/Actor/actEnemy.h"
+#include "KingSystem/ActorSystem/actActor.h"
+
+bool sub_710072C9FC(ksys::act::Actor* actor, f32 distance);
 
 namespace uking::ai {
 
@@ -12,6 +17,18 @@ bool EnemyRoamSelect::init_(sead::Heap* heap) {
 
 void EnemyRoamSelect::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
+}
+
+bool EnemyRoamSelect::sub_71003B3720() {
+    auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
+    if (sub_71005D9F04(mActor)) {
+        if (isRootAiParamINot5())
+            return false;
+        return !sub_710072C9FC(mActor, 2.0f);
+    }
+    if (enemy && enemy->_e84.isOnBit(23))
+        return false;
+    return (mActor->getMtx().getTranslation() - *mCentralPos_d).length() > *mNotReturnDist_s;
 }
 
 bool EnemyRoamSelect::isFailed() const {

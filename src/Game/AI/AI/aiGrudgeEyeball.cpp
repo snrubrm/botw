@@ -2,6 +2,11 @@
 
 namespace uking::ai {
 
+void Unk_71023f64e0::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) {
+    if (*a5 != -1)
+        *a1 = 0;
+}
+
 GrudgeEyeball::GrudgeEyeball(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
 GrudgeEyeball::~GrudgeEyeball() = default;

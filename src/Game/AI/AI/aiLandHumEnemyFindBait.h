@@ -17,6 +17,8 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+    void m38() override;
+    void m39() override;
 
     // 0x710045ed68: starts the "気づき" child towards the bait (TargetPos = its position, or zero).
     void changeToNotice();
@@ -24,6 +26,8 @@ public:
     void changeToAngry();
     // 0x710045fd0c (placeholder name)
     void changeToFindBait();
+
+    bool sub_710045FC10();
 
 protected:
     // static_param at offset 0x68

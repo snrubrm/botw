@@ -19,6 +19,8 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    bool sub_71003B3720();
+
 protected:
     // static_param at offset 0x38
     const float* mHideGrassHeight_s{};

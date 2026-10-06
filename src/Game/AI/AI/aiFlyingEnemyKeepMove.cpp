@@ -2,6 +2,7 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/AI/aiUnk_71007377D4.h"
 
 namespace uking::ai {
 
@@ -65,6 +66,22 @@ void FlyingEnemyKeepMove::changeToAdjustPosition() {
     ksys::act::ai::InlineParamPack pack;
     pack.addVec3(pos, "TargetPos", -1);
     changeChild("位置調整", &pack);
+}
+
+bool FlyingEnemyKeepMove::sub_71003D1F88() {
+    sead::Vector3f target;
+    m36(&target);
+    sead::Vector3f pos;
+    sead::Vector3f dir;
+    m34(&dir);
+    m35(&pos, dir);
+    sead::Vector3f to_pos = pos;
+    to_pos -= target;
+    to_pos.y = 0;
+    to_pos.normalize();
+    sead::Vector3f position;
+    mActor->getMtx().getTranslation(position);
+    return sub_710072DCFC(position, target, to_pos, *mParams.mAngleRange_s);
 }
 
 bool FlyingEnemyKeepMove::sub_71003D2500() {
