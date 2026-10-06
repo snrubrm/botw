@@ -1,5 +1,6 @@
 #pragma once
 
+#include <container/seadBuffer.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/ActorSystem/actModelBindInfo.h"
@@ -50,11 +51,21 @@ protected:
     const int* mCreateLimit_m{};
     // map_unit_param at offset 0x98
     const float* mScaleTime_m{};
-    u8 _a0[0xf8 - 0xa0];
+    s32 _a0 = 0;
+    f32 _a4 = 1.0f;
+    bool _a8 = false;
+    f32 _ac = 0;
+    f32 _b0 = 0;
+    f32 _b4 = 0;
+    f32 _b8 = 0;
+    f32 _bc = 0;
+    bool _c0 = false;
+    u8 _c1[0xd0 - 0xc1];
+    f32 _d0[8]{};
+    f32 _f0 = 0;
     ksys::act::ModelBindInfo _f8;
     ksys::act::BaseProcLink _198;
-    s32 _1a8 = 0;
-    void* _1b0 = nullptr;
+    sead::Buffer<ksys::act::BaseProcLink> _1a8;
 };
 
 }  // namespace uking::action

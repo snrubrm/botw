@@ -1,11 +1,24 @@
 #include "Game/AI/Action/actionChemicalStayObject.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 
 namespace uking::action {
 
 ChemicalStayObject::ChemicalStayObject(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
-ChemicalStayObject::~ChemicalStayObject() = default;
+ChemicalStayObject::~ChemicalStayObject() {
+    if (_1a8.isBufferReady()) {
+        for (s32 i = 0; i < _1a8.size(); ++i) {
+            if (_1a8[i].hasProc()) {
+                ksys::act::ActorConstDataAccess accessor;
+                ksys::act::acquireActor(&_1a8[i], &accessor);
+                if (!accessor.isDeletedOrDeleting())
+                    accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+            }
+        }
+        _1a8.freeBuffer();
+    }
+}
 
 bool ChemicalStayObject::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
