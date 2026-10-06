@@ -1,5 +1,7 @@
 #include <basis/seadNew.h>
+#include <prim/seadScopedLock.h>
 #include "Game/Actor/actBeamBase.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/Physics/RigidBody/Shape/Capsule/physCapsuleRigidBody.h"
 
@@ -32,3 +34,20 @@ void LineBeam::m166() {
 }
 
 }  // namespace uking::act
+
+// Accessor-based wrapper in the LineBeam TU (0x71002c7d1c; lane4 s44; placeholder name, the CSV has none): sets `_cc8`
+// (under the lock `_c88`) of the accessor's actor if it is a LineBeam.
+// inline-only in the original; name is a guess (same helper as in acc::Weapon / acc::Armor).
+static ksys::act::BaseProc* getProcIfActor(ksys::act::BaseProc* proc) {
+    if (proc && sead::IsDerivedFrom<ksys::act::Actor>(proc))
+        return proc;
+    return nullptr;
+}
+
+void sub_71002C7D1C(const ksys::act::ActorConstDataAccess& accessor, const sead::Vector3f& value) {
+    auto* actor = static_cast<ksys::act::Actor*>(getProcIfActor(accessor.getProc()));
+    if (auto* beam = sead::DynamicCast<uking::act::LineBeam>(actor)) {
+        auto lock = sead::makeScopedLock(beam->_c88);
+        beam->_cc8 = value;
+    }
+}

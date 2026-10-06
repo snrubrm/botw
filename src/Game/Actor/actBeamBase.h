@@ -161,3 +161,6 @@ public:
 KSYS_CHECK_SIZE_NX150(LineBeam, 0xd58);
 
 }  // namespace uking::act
+
+// 0x71002c7d1c (lane4 s44; placeholder name): sets LineBeam::_cc8 of the accessor's actor (nothing if it is not a LineBeam).
+void sub_71002C7D1C(const ksys::act::ActorConstDataAccess& accessor, const sead::Vector3f& value);

@@ -114,6 +114,8 @@ public:
 
     // Placeholder names (non-virtual functions called by AI code, the horse manager and Horse).
     void sub_7100E6C464(s32 id);
+    // 0x7100e6c12c (unnamed in the CSV; declaration only): called by sub_7100E6C360.
+    bool sub_7100E6C12C(s32 id);
     bool sub_7100E68270() const;
     // The horse's Nature GParam as a placeholder SEAD_ENUM (RideableHorse converts it through the stack).
     SEAD_ENUM(Nature, _0, _1, _2)
@@ -229,6 +231,9 @@ void sub_7100E6E98C(const ksys::act::ActorConstDataAccess& accessor, bool on);
 void sub_7100E6EBA4(const ksys::act::ActorConstDataAccess& accessor, bool on);
 bool sub_7100E6ED04(const ksys::act::ActorConstDataAccess& accessor);
 bool sub_7100E6F010(const ksys::act::ActorConstDataAccess& accessor);
+// 0x7100e6c360: HorseBase::sub_7100E6C12C(id) (false without a horse). 0x7100e6c5a4: HorseBase::sub_7100E6C464(id).
+bool sub_7100E6C360(const ksys::act::ActorConstDataAccess& accessor, s32 id);
+void sub_7100E6C5A4(const ksys::act::ActorConstDataAccess& accessor, s32 id);
 // 0x7100e6edfc: `_c00` (the empty string without a horse). 0x7100e6ef00: `_8d0._40` read under the lock `_890`.
 const sead::SafeString& sub_7100E6EDFC(const ksys::act::ActorConstDataAccess& accessor);
 const sead::SafeString& sub_7100E6EF00(const ksys::act::ActorConstDataAccess& accessor);

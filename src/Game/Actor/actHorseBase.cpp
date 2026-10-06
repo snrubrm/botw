@@ -412,6 +412,16 @@ bool sub_7100E6DC50(const ksys::act::ActorConstDataAccess& accessor) {
     return sead::IsDerivedFrom<HorseBase>(actor);
 }
 
+bool sub_7100E6C360(const ksys::act::ActorConstDataAccess& accessor, s32 id) {
+    auto* horse = getHorseBase(accessor);
+    return horse ? horse->sub_7100E6C12C(id) : false;
+}
+
+void sub_7100E6C5A4(const ksys::act::ActorConstDataAccess& accessor, s32 id) {
+    if (auto* horse = getHorseBase(accessor))
+        horse->sub_7100E6C464(id);
+}
+
 void* sub_7100E6DD40(const ksys::act::ActorConstDataAccess& accessor) {
     auto* horse = getHorseBase(accessor);
     return horse ? horse->_b48 : nullptr;

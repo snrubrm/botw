@@ -411,6 +411,12 @@ s32 getShieldMirrorLevel(const ActorConstDataAccess& accessor);
 // 0x71002efc98 / 0x71002efe08: WeaponCommon IsBlunt / IsWeakBreaker.
 bool sub_71002EFC98(const ksys::act::ActorConstDataAccess& accessor);
 bool sub_71002EFE08(const ksys::act::ActorConstDataAccess& accessor);
+// 0x71002efec0: a master sword whose parent has full life. 0x71002f000c: such a master sword's parent life (at least 4),
+// 0 otherwise. 0x71002f034c: the Bow charge rate multiplied by the RapidFire modifier (1 without it or a weapon). 0x71002f0924: `_920 != 0xff || _921`.
+bool sub_71002EFEC0(const ksys::act::ActorConstDataAccess& accessor);
+f32 sub_71002F000C(const ksys::act::ActorConstDataAccess& accessor);
+f32 sub_71002F034C(const ksys::act::ActorConstDataAccess& accessor);
+bool sub_71002F0924(const ksys::act::ActorConstDataAccess& accessor);
 // 0x71002f0154: Weapon::m153. 0x71002f0258: `_cf0` (the weapon type), -1 without a weapon.
 bool sub_71002F0154(const ksys::act::ActorConstDataAccess& accessor);
 s32 sub_71002F0258(const ksys::act::ActorConstDataAccess& accessor);

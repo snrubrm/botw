@@ -1,5 +1,6 @@
 #include "Game/Actor/actWeapon.h"
 #include "Game/Actor/actNPC.h"
+#include <algorithm>
 #include <prim/seadScopedLock.h>
 #include <random/seadGlobalRandom.h>
 #include "Game/Damage/dmgInfoManager.h"
@@ -1171,6 +1172,46 @@ f32 sub_71002F0490(const ksys::act::ActorConstDataAccess& accessor) {
 uking::act::WeaponModifierInfo* sub_71002F05D8(const ksys::act::ActorConstDataAccess& accessor) {
     auto* weapon = getWeaponOfAccessor(accessor);
     return weapon ? &weapon->_f98 : nullptr;
+}
+
+bool sub_71002EFEC0(const ksys::act::ActorConstDataAccess& accessor) {
+    auto* weapon = getWeaponOfAccessor(accessor);
+    if (!weapon || !weapon->isMasterSword())
+        return false;
+    ksys::act::ActorConstDataAccess parent;
+    ksys::act::acquireActor(&weapon->getParentLink(), &parent);
+    return parent.getLife() >= parent.getMaxLife();
+}
+
+f32 sub_71002F000C(const ksys::act::ActorConstDataAccess& accessor) {
+    f32 result = 0.0f;
+    if (auto* weapon = getWeaponOfAccessor(accessor)) {
+        if (weapon->isMasterSword()) {
+            ksys::act::ActorConstDataAccess parent;
+            ksys::act::acquireActor(&weapon->getParentLink(), &parent);
+            result = std::max(f32(parent.getLife()), 4.0f);
+        }
+    }
+    return result;
+}
+
+f32 sub_71002F034C(const ksys::act::ActorConstDataAccess& accessor) {
+    f32 result = 1.0f;
+    if (auto* weapon = getWeaponOfAccessor(accessor)) {
+        const f32 rate = weapon->getParam()->getRes().mGParamList->getBow()->mArrowChargeRate.ref();
+        f32 multiplier = 1.0f;
+        if (weapon->_f98.flags.isOn(uking::act::WeaponModifier::AddRapidFire))
+            multiplier = weapon->_f98.value / 1000.0f;
+        result = rate * multiplier;
+    }
+    return result;
+}
+
+bool sub_71002F0924(const ksys::act::ActorConstDataAccess& accessor) {
+    auto* weapon = getWeaponOfAccessor(accessor);
+    if (!weapon)
+        return false;
+    return weapon->get920() != 0xff || weapon->get921();
 }
 
 bool actorCheckIsGuard(ksys::act::Actor* actor) {
