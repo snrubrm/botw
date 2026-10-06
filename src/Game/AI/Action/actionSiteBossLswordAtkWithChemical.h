@@ -19,6 +19,10 @@ public:
 protected:
     void calc_() override;
 
+    virtual void m37(sead::Vector3f* pos);
+    virtual f32 m38();
+    virtual int m39();
+
     // static_param at offset 0xe8
     const int* mEmitNum_s{};
     // static_param at offset 0xf0
@@ -53,6 +57,9 @@ protected:
     sead::SafeString mCallSEKeyAtAtOn_s{};
     // static_param at offset 0x180
     const sead::Vector3f* mEmitActorSpeed_s{};
+    // The ctor zeroes 0x188..0x1e8; the dtor frees two sead::Buffers (sizes at 0x1a8 and 0x1b8,
+    // pointers at 0x1b0 and 0x1c0). Not decompiled yet.
+    u8 _188[0x1e8 - 0x188];
 };
 
 }  // namespace uking::action

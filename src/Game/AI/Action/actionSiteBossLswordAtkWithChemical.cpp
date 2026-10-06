@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionSiteBossLswordAtkWithChemical.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -42,6 +43,18 @@ void SiteBossLswordAtkWithChemical::loadParams_() {
 
 void SiteBossLswordAtkWithChemical::calc_() {
     SiteBossLswordAtk::calc_();
+}
+
+void SiteBossLswordAtkWithChemical::m37(sead::Vector3f* pos) {
+    mActor->getMtx().getTranslation(*pos);
+}
+
+f32 SiteBossLswordAtkWithChemical::m38() {
+    return *mEmitOffsetFromParent_s;
+}
+
+int SiteBossLswordAtkWithChemical::m39() {
+    return 2;
 }
 
 }  // namespace uking::action
