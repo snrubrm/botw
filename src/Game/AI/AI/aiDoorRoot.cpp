@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiDoorRoot.h"
+#include <math/seadMathCalcCommon.h>
+#include "Game/AI/aiAwarenessFilters.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
@@ -17,6 +19,38 @@ DoorRoot::~DoorRoot() = default;
 bool DoorRoot::init_(sead::Heap* heap) {
     *mIsOpenDoor_a = false;
     *mIsOpenToInside_a = false;
+    return true;
+}
+
+// Returns true when nothing is inside the awareness range of the door (the door may close).
+bool DoorRoot::sub_7100366D0C() {
+    if (isCurrentChild("Open"))
+        return false;
+    if (!*mIsOpenDoor_a)
+        return false;
+    auto* awareness = mActor->getAwareness();
+    if (!awareness)
+        return false;
+
+    Unk_71024515b0 filter;
+    auto* actor = mActor;
+    const f32 radius = awareness->_2f4;
+    const sead::Vector3f pos = actor->getMtx().getTranslation();
+    const sead::Matrix34f mtx = actor->getMtx();
+    sead::Matrix34f inv;
+    sead::Matrix34CalcCommon<f32>::inverse(inv, mtx);
+    while (auto* entry = ksys::act::sub_7100D7EEE8(&awareness->_8, &filter)) {
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::acquireActor(&entry->_0.mLink, &accessor);
+        const sead::Vector3f entry_pos = accessor.getActorMtx().getTranslation();
+        const sead::Vector3f diff = pos - entry_pos;
+        if (radius >= std::sqrt(diff.x * diff.x + diff.z * diff.z)) {
+            if (*mIsCheckBack_s &&
+                diff.x * inv(0, 0) + diff.y * inv(0, 1) + diff.z * inv(0, 2) < 0.0f)
+                continue;
+            return false;
+        }
+    }
     return true;
 }
 
