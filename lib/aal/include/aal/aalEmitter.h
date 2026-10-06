@@ -24,9 +24,13 @@ public:
     void setDebugSolo(bool solo);
     void setDebugMute(bool mute);
     bool isDebugMuted() const;
+    /// The spread (added to the spread of the sounds that are unified into one sound).
+    f32 getSpread() const { return mSpread; }
 
 private:
-    u8 _0[0x50];
+    u8 _0[0x48];
+    f32 mSpread;
+    u8 _4c[4];
     sead::OffsetList<SoundSource>* mSoundSources;
     sead::CriticalSection mCS;
     u8 _98[8];

@@ -101,6 +101,8 @@ protected:
 public:
     static constexpr s32 getGroupListNodeOffset() { return 0x168; }
 
+    const SoundParam* getAggregatedParam() const { return mAggregatedParam; }
+
 protected:
     sead::TTreeNode<Group*>& treeNode() { return *this; }
     const sead::TTreeNode<Group*>& treeNode() const { return *this; }

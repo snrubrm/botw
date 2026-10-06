@@ -1,4 +1,6 @@
 #include "aal/aalSoundSourceUnifier.h"
+#include "aal/aalEmitter.h"
+#include "aal/aalGroup.h"
 #include "aal/aalSoundSource.h"
 #include "aal/aalSpatialCalculator.h"
 #include "aal/aalSpeakerBalanceUnifier.h"
@@ -46,6 +48,24 @@ void SoundSourceUnifierTarget::calc() {
         if (index++ == 0)
             setParamsFromSoundSource(source.mSoundSource);
         source.updatePosition_();
+    }
+}
+
+// 0x7100b8f2a4
+void SoundSourceUnifierTarget::setParamsFromSoundSource(SoundSource* sound_source) {
+    if (SoundSource* target = mHandle.getSoundSource()) {
+        SoundParam::copy(&target->mDefaultParam, sound_source->mDefaultParam);
+        SoundParam::copy(&target->mParam, sound_source->mParam);
+        target->setPriority(sound_source->mPriority);
+    }
+
+    if (mUnifier) {
+        f32 spread = sound_source->mDefaultParam.getSpread() + sound_source->mParam.getSpread();
+        if (sound_source->mEmitter)
+            spread += sound_source->mEmitter->getSpread();
+        if (sound_source->mSoundGroup)
+            spread += sound_source->mSoundGroup->getAggregatedParam()->getSpread();
+        mUnifier->setSpread(spread);
     }
 }
 

@@ -74,7 +74,7 @@ public:
     void initialize(const SoundSourceUnifierCondition& condition);
     void finalize();
     void calc();
-    /// 0x7100b8f2a4 (declared only): copies the sound parameters of the sound source to the target sound.
+    /// Copies the sound parameters of the sound source to the target sound.
     void setParamsFromSoundSource(SoundSource* sound_source);
     /// Sets up the unifier and the sound with the settings of the first sound source (then calls setParamsFromSoundSource).
     void setParamsFromSoundSourceFirst(SoundSource* sound_source);

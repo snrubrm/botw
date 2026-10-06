@@ -15,6 +15,8 @@ class SpeakerBalanceUnifier {
 public:
     /// 0x7100b92ac4 (declared only)
     void setAttenuator(Attenuator* attenuator);
+    /// 0x7100b92ba4 (declared only)
+    void setSpread(f32 spread);
     /// 0x7100b92b34 (declared only)
     void setInteriorNum(s32 num);
     /// 0x7100b92c18 (declared only)
