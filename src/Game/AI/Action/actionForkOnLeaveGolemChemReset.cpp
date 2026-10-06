@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionForkOnLeaveGolemChemReset.h"
+#include "Game/AI/aiUnk_7102450410.h"
 
 namespace uking::action {
 
@@ -16,7 +17,11 @@ void ForkOnLeaveGolemChemReset::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void ForkOnLeaveGolemChemReset::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (auto* controller = sead::DynamicCast<Unk_7102450410>(
+            *static_cast<Unk_71025afb58**>(mGolemChemicalController_a))) {
+        for (s32 i = 0; i < controller->_8.size(); ++i)
+            controller->_8[i].sub_71007086AC();
+    }
 }
 
 void ForkOnLeaveGolemChemReset::loadParams_() {

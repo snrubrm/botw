@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionDungeonMoveReset.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -7,7 +8,11 @@ DungeonMoveReset::DungeonMoveReset(const InitArg& arg) : ksys::act::ai::Action(a
 DungeonMoveReset::~DungeonMoveReset() = default;
 
 bool DungeonMoveReset::init_(sead::Heap* heap) {
-    return ksys::act::ai::Action::init_(heap);
+    _68 = mActor->getFieldBodyGroup();
+    if (!mActor->getMapObjIter().tryGetParamIntByKey(&_70, "FieldBodyGroup"))
+        _70 = -1;
+    _60 = *mInitDgnPriority_m;
+    return true;
 }
 
 void DungeonMoveReset::enter_(ksys::act::ai::InlineParamPack* params) {
