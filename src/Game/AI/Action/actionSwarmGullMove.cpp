@@ -17,7 +17,16 @@ void SwarmGullMove::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void SwarmGullMove::leave_() {
-    ksys::act::ai::Action::leave_();
+    sub_71002868BC();
+    for (auto& gull : _70) {
+        if (gull._0.isAllocatedOrFailed()) {
+            gull._0.deleteProc();
+            if (gull._10) {
+                sub_7100287830(&gull);
+                gull._10->m10();
+            }
+        }
+    }
 }
 
 void SwarmGullMove::loadParams_() {
