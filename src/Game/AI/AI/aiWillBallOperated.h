@@ -18,6 +18,19 @@ public:
     bool handleMessage_(const ksys::Message* message) override;
 
 protected:
+    void getTargetActorPos(sead::Vector3f* pos) const;
+    // 0x71005f4c24: resets flag _1000000, then changes to "予兆" child
+    void sub_71005F4C24();
+    // 0x71005f4b08: resets flag _1000000, then changes to "意識途切れ" child
+    void sub_71005F4B08();
+    // 0x71005f49ec: resets flag _1000000, then changes to "落下攻撃" child
+    void sub_71005F49EC();
+    // 0x71005f4890: resets flag _1000000, then changes to "放物攻撃" child
+    void sub_71005F4890();
+    // 0x71005f4754: resets flag _1000000, then changes to "攻撃" child
+    void sub_71005F4754();
+    // 0x71005f4638: sets flag _1000000, then changes to "待機" child at the target actor position
+    void sub_71005F4638();
     struct Params {
         // static_param at offset 0x38
         const float* mWarpDist_s{};
