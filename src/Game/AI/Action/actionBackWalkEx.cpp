@@ -36,4 +36,18 @@ void BackWalkEx::calc_() {
     BackWalkBase::calc_();
 }
 
+void BackWalkEx::m32(ksys::phys::CharacterController* controller) {
+    _b0.lerp(*mParams.mDecelRatio_s * *mParams.mSpeed_s, 0.1f);
+    _b0.updateStats();
+    controller->sub_7100F5E7F0(_b0.value * 30.0f);
+    sub_710072C1B4(controller, -mActor->getMtx().getBase(2));
+}
+
+void BackWalkEx::m33(ksys::phys::CharacterController* controller) {
+    _b0.lerp(f32(*mParams.mSpeed_s), 0.08f);
+    _b0.updateStats();
+    controller->sub_7100F5E7F0(_b0.value * 30.0f);
+    sub_710072C1B4(controller, -mActor->getMtx().getBase(2));
+}
+
 }  // namespace uking::action

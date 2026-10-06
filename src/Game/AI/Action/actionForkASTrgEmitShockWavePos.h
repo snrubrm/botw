@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Game/AI/Action/actionForkASTrgEmitShockWave.h"
+#include <math/seadMatrix.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -18,6 +19,7 @@ public:
 
 protected:
     void calc_() override;
+    virtual bool m33(sead::Matrix34f* mtx);
 
     // static_param at offset 0xb8
     const sead::Vector3f* mOffsetPos_s{};
