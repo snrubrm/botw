@@ -20,6 +20,7 @@ add_library(aal OBJECT
   src/aalHandle.cpp
   src/aalNamedObj.cpp
   src/aalShape.cpp
+  src/aalSoundController.cpp
   src/aalSoundParam.cpp
   src/aalSystem.cpp
   src/aalSoundSource.cpp

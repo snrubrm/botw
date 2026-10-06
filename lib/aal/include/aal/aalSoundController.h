@@ -7,6 +7,22 @@
 namespace nn::atk {
 enum StreamRegionCallbackResult : int;
 struct StreamRegionCallbackParam;
+
+namespace detail {
+/// TODO: only the members aal::SoundController uses are declared.
+class BasicSound {
+public:
+    void SetPitch(f32 pitch);
+    void SetLpfFreq(f32 lpf_freq);
+    bool IsPause() const;
+};
+}  // namespace detail
+
+/// A handle to a playing sound (the original header's SoundHandle). TODO: partial.
+class SoundHandle {
+public:
+    detail::BasicSound* m_pSound;
+};
 }  // namespace nn::atk
 
 namespace aal {
@@ -23,16 +39,35 @@ public:
     void setStartSampleOffset(u32 offset);
     void setStreamRegionCallback(StreamRegionCallback callback, void* user_data);
     void setIgnorePrefetch(bool ignore);
+    /// 0x7100ba248c (declared only)
+    s32 getPlayingSamplePos() const;
+    /// 0x7100ba2098 / 0x7100ba21e8 / 0x7100ba255c: forwarded to the nn::atk sound if there is one (the low pass is a
+    /// negated frequency).
+    void setPitch(f32 pitch);
+    void setLpf(f32 lpf);
+    bool isInnerPaused() const;
 
     u8 _0[0x30];
     const AssetInfo* mAssetInfo;
+    u8 _38[0x40 - 0x38];
+    nn::atk::SoundHandle* mSoundHandle;
 };
 
 /// The playing state of a SoundSource (SoundSource +0x100). TODO: only the controller pointer is modeled.
 class PlayingStateController {
 public:
+    /// 0x7100b9fd14 / 0x7100ba025c: a negative release time is ignored / the sample position of the sound
+    /// (-1 if there is none).
+    void setReleaseTime(f32 release_time);
+    s32 getPlayingSamplePos() const;
+
     u8 _0[8];
     SoundController* mSoundController;
+    u32 mState;
+    u8 _14[0x1c - 0x14];
+    f32 mReleaseTime;
+    u8 _20[0x24 - 0x20];
+    f32 mSamplePos;
 };
 
 }  // namespace aal
