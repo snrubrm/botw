@@ -2,6 +2,9 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
 
+// 0x710030c688 (placeholder name): how far the terrain is above the highest ground below `pos` (searched `limit` below).
+f32 sub_710030C688(void* unused, const sead::Vector3f* pos, f32 limit);
+
 namespace uking::ai {
 
 AnimalRoamCheckWater::AnimalRoamCheckWater(const InitArg& arg) : AnimalRoam(arg) {}
@@ -69,6 +72,32 @@ bool AnimalRoamCheckWater::m40(sead::Vector3f* pos) {
         }
     }
     return false;
+}
+
+// NON_MATCHING: the original never sets the first argument of sub_710030C688 (x0 is whatever m35() returned; ours passes
+// nullptr)
+bool AnimalRoamCheckWater::m38() {
+    auto* nav = mActor->m45();
+    if (!nav)
+        return false;
+
+    if (AnimalRoam::m38()) {
+        _108 = false;
+        return true;
+    }
+
+    if (!m35() || _108)
+        return false;
+
+    const f32 depth = sub_710030C688(nullptr, &nav->_194, 7.0f);
+    if (*mWaterLevelLimitLower_s <= depth && *mWaterLevelLimitUpper_s >= depth) {
+        _108 = true;
+        _10c = nav->_194;
+        return false;
+    }
+
+    _108 = false;
+    return true;
 }
 
 bool AnimalRoamCheckWater::m39() {

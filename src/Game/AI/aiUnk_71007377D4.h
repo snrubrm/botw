@@ -304,6 +304,12 @@ ksys::phys::SystemGroupHandler* sub_710072E804(ksys::act::Actor* actor, int idx)
 // (nullptr without one).
 ksys::phys::SystemGroupHandler* sub_7100738C18(ksys::act::BaseProcLink* link, int idx);
 
+/// 0x710072c494 (placeholder name): the terrain height at the (x, z) of `pos` (a nonzero result on success, 0 without a terrain system; the return type is not bool: the result is passed on unmasked).
+u32 sub_710072C494(f32* out_height, const sead::Vector3f* pos);
+
+/// 0x710072c21c (placeholder name): the same through the second terrain query (0x71011094a0) with its parameters -1 / 0.
+u32 sub_710072C21C(f32* out_height, const sead::Vector3f* pos);
+
 /// 0x7100739578 (lane1 s22): the attack info the actor's attack sensor reports (a DynamicCast'ed
 /// object's +0x6c selects it; falls back to ActorAtk entry 0 when the actor has attack info), or
 /// null. Its first three floats are the attack position. Placeholder name.

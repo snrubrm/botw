@@ -10,7 +10,7 @@
 
 namespace ksys::tera {
 // 0x710110b4a4 (declared only; CSV unnamed): terrain height at (x, z), written to `out_height`.
-void sub_710110B4A4(f32* out_height, const sead::Vector2f* xz, void* tera_system);
+u32 sub_710110B4A4(f32* out_height, const sead::Vector2f* xz, void* tera_system);
 }  // namespace ksys::tera
 
 namespace uking::ai {

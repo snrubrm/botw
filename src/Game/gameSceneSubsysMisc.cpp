@@ -211,9 +211,8 @@ bool GameSceneSubsys5::sub_710090611C(f32 length, ksys::act::BaseProcLink*, cons
     return false;
 }
 
-// NON_MATCHING: the order of the argument copies into callee-saved registers (length before dir and start)
-bool GameSceneSubsys5::sub_7100906218(f32 length, ksys::act::BaseProcLink* link, const sead::Vector3f& start,
-                                      const sead::Vector3f& dir, sead::Vector3f* out) {
+bool GameSceneSubsys5::sub_7100906218(ksys::act::BaseProcLink* link, const sead::Vector3f& start,
+                                      const sead::Vector3f& dir, f32 length, sead::Vector3f* out) {
     bool hit = false;
     if (!link->hasProc()) {
         ksys::phys::RayCastBodyQuery query(nullptr, ksys::phys::GroundHit::HitAll);

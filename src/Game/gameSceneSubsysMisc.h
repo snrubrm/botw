@@ -114,8 +114,8 @@ public:
                         const sead::Vector3f& dir, sead::Vector3f* out);
     // 0x7100906218 (placeholder name): magnesis ray cast from `start` along `dir * length`; always fails while `link`
     // has a proc, `out` receives the hit position (not null-checked).
-    bool sub_7100906218(f32 length, ksys::act::BaseProcLink* link, const sead::Vector3f& start,
-                        const sead::Vector3f& dir, sead::Vector3f* out);
+    bool sub_7100906218(ksys::act::BaseProcLink* link, const sead::Vector3f& start, const sead::Vector3f& dir,
+                        f32 length, sead::Vector3f* out);
     // 0x7100905d28 / 0x7100905de0: bool setters
     void sub_7100905D28(bool value);
     void sub_7100905DE0(bool value);
