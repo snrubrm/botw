@@ -13,6 +13,10 @@
 #include "aal/aalSpatialSetting.h"
 #include "aal/aalTimedFader.h"
 
+namespace sead {
+class Heap;
+}
+
 namespace aal {
 
 class AssetInfo;
@@ -29,7 +33,11 @@ class SoundSourceUnifierSource;
 /// ends with a zeroed 0x50-byte block at 0x1a0, right after the spatial setting.
 class SoundSource {
 public:
+    SoundSource();
     virtual ~SoundSource();
+
+    void initialize(sead::Heap* heap);
+    void finalize();
 
     /// Life cycle state: 0 is unused and 7 is finished; states up to 2 are the ones before playback
     /// starts (the start delay is counted down in state 1).
@@ -45,7 +53,8 @@ public:
     /// Non-zero while the sound is virtualized.
     u8 mVirtualizedBy;
     f32 mPlayingTime;
-    u8 _1c[0x24 - 0x1c];
+    s32 _1c;
+    u32 _20;
     s32 mStartSamplePos;
     f32 mStartDelayTime;
     f32 mFadeInTime;
@@ -54,7 +63,9 @@ public:
     /// The parameters the sound was set up with (Handle::getDefaultParamPtr) and the live ones.
     SoundParam mDefaultParam;
     SoundParam mParam;
-    u8 _b8[0xc8 - 0xb8];
+    /// The parameters that the others are aggregated into: placement-constructed in `mAggregatedParamBuffer`.
+    SoundParam* mAggregatedParam;
+    u8* mAggregatedParamBuffer;
     u16 mInteriorNum;
     /// Number of tracks that have a channel count, and the channel count of each track.
     u16 mTrackNum;
@@ -148,6 +159,7 @@ static_assert(offsetof(SoundSource, mDefaultParam) == 0x38, "aal::SoundSource la
 static_assert(offsetof(SoundSource, mParam) == 0x78, "aal::SoundSource layout mismatch");
 static_assert(offsetof(SoundSource, mSoundGroup) == 0xe8, "aal::SoundSource layout mismatch");
 static_assert(offsetof(SoundSource, mSpeakerBalanceSupplier) == 0xf8, "aal::SoundSource layout mismatch");
+static_assert(offsetof(SoundSource, mAggregatedParam) == 0xb8, "aal::SoundSource layout mismatch");
 static_assert(offsetof(SoundSource, mPlayingStateController) == 0x100, "aal::SoundSource layout mismatch");
 static_assert(offsetof(SoundSource, mPriority) == 0xd4, "aal::SoundSource layout mismatch");
 static_assert(offsetof(SoundSource, mMarkerController) == 0x1b8, "aal::SoundSource layout mismatch");

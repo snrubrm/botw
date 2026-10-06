@@ -11,7 +11,7 @@ class SoundParam {
 public:
     SoundParam();
     SoundParam(const SoundParam& other);
-    virtual ~SoundParam();
+    virtual ~SoundParam() = default;
 
     void reset();
     static void copy(SoundParam* dst, const SoundParam& src);

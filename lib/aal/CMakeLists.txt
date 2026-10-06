@@ -19,6 +19,7 @@ add_library(aal OBJECT
   include/aal/aalISpeakerBalanceSupplier.h
   include/aal/aalListenerMgr.h
   include/aal/aalIUnifiable.h
+  include/aal/aalMarkerController.h
   include/aal/aalMeter.h
   include/aal/aalNamedObj.h
   include/aal/aalRequestIntervalLimiter.h
@@ -53,6 +54,7 @@ add_library(aal OBJECT
   src/aalInterior.cpp
   src/aalInteriorSet.cpp
   src/aalISpeakerBalanceSupplier.cpp
+  src/aalMarkerController.cpp
   src/aalMeter.cpp
   src/aalNamedObj.cpp
   src/aalRequestIntervalLimiter.cpp

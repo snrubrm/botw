@@ -13,6 +13,7 @@ class Shape;
 /// calculator: it points back at the matrix and the velocity.
 class SpatialSetting {
 public:
+    SpatialSetting();
     virtual ~SpatialSetting();
 
     /// Makes the sound follow the shape (the sound position is the point of the shape closest to

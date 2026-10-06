@@ -3,10 +3,70 @@
 #include "aal/aalEmitter.h"
 #include "aal/aalGroup.h"
 #include "aal/aalISpeakerBalanceSupplier.h"
+#include "aal/aalMarkerController.h"
 #include "aal/aalSoundSourceUnifier.h"
 #include "aal/aalSystemAccessor.h"
 
 namespace aal {
+
+// 0x7100b76808
+SoundSource::SoundSource()
+    : _8(0), mState(0), mId(0), mPrepareFlags(0), mPauseFlags(0), mVirtualizedBy(0), mPlayingTime(0.0f),
+      _1c(-1), _20(0), mStartSamplePos(0), mStartDelayTime(0.0f), mFadeInTime(0.0f), mFadeCurveType(),
+      mDefaultParam(), mParam(), mAggregatedParam(nullptr), mAggregatedParamBuffer(nullptr),
+      mInteriorNum(0), mTrackNum(0), mChannelNum(), mPriority(1.0f), _d8(1.0f), mPriorityScale(1.0f),
+      mSoundGroup(nullptr), mEmitter(nullptr), mSpeakerBalanceSupplier(nullptr),
+      mPlayingStateController(nullptr), mFader(nullptr), mSpatialSetting(), mSpatialCalculator(nullptr),
+      mSpatialPlayingParam(nullptr), mUnifierSource(nullptr), mMarkerController(nullptr), _1c0(), _1e0(0),
+      _1e8(0) {}
+
+// 0x7100b768a0 (D1) / 0x7100b76964 (D0)
+SoundSource::~SoundSource() {
+    finalize();
+}
+
+// 0x7100b768d4
+void SoundSource::finalize() {
+    if (!_8)
+        return;
+
+    reset();
+    if (mPlayingStateController) {
+        mPlayingStateController->finalize();
+        delete mPlayingStateController;
+        mPlayingStateController = nullptr;
+    }
+    if (mFader) {
+        delete mFader;
+        mFader = nullptr;
+    }
+    if (mAggregatedParamBuffer) {
+        delete mAggregatedParamBuffer;
+        mAggregatedParamBuffer = nullptr;
+    }
+    mAggregatedParam = nullptr;
+    if (mMarkerController) {
+        delete mMarkerController;
+        mMarkerController = nullptr;
+    }
+    _8 = 0;
+}
+
+// 0x7100b769a0
+void SoundSource::initialize(sead::Heap* heap) {
+    if (_8)
+        return;
+
+    mPlayingStateController = new (heap, 8) PlayingStateController;
+    if (mPlayingStateController)
+        mPlayingStateController->initialize(heap);
+    mAggregatedParamBuffer = new (heap, 0x20) u8[sizeof(SoundParam)];
+    mAggregatedParam = new (mAggregatedParamBuffer) SoundParam;
+    mFader = new (heap, 8) SimpleTimedFader(1.0f);
+    mMarkerController = new (heap, 8) MarkerController;
+    reset();
+    _8 = 1;
+}
 
 // 0x7100b77d6c
 void SoundSource::pause(bool pause, f32 fade_time) {

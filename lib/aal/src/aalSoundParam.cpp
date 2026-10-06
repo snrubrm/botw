@@ -14,9 +14,6 @@ SoundParam::SoundParam(const SoundParam& other) {
     copy(this, other);
 }
 
-// 0x7100b767fc / 0x7100b76800
-SoundParam::~SoundParam() = default;
-
 // 0x7100b76308
 void SoundParam::reset() {
     mPitch = 1.0f;
