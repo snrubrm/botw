@@ -13,8 +13,8 @@ bool ShutterOpen::init_(sead::Heap* heap) {
     return ActionEx::init_(heap);
 }
 
-// NON_MATCHING: the copy of _64 into _58 is a memory copy (ldr w + ldur x from this) in the
-// original; set() addresses the source through a materialised pointer.
+// NON_MATCHING: the copy `_58 = _64` now matches (a memory copy, ldr w + ldur x); the multiply-add order of the
+// `_70 * dist + zero` differs (s0 / s3 roles).
 void ShutterOpen::enter_(ksys::act::ai::InlineParamPack* params) {
     auto* actor = mActor;
     if (!mASName_s.isEmpty())
@@ -32,7 +32,7 @@ void ShutterOpen::enter_(ksys::act::ai::InlineParamPack* params) {
     }
     _64 = _70 * *mMoveDis_m + sead::Vector3f::zero;
     if (*mIsPreOpen_s) {
-        _58.set(_64);
+        _58 = _64;
         if (auto* body = actor->getMainBody()) {
             sead::Matrix34f home;
             mActor->getHomeMtx(&home);
@@ -78,7 +78,7 @@ void ShutterOpen::calc_() {
     diff -= _58;
     const f32 len = diff.length();
     if (len <= step) {
-        _58.set(_64);
+        _58 = _64;
         setFinished();
     } else {
         const f32 inv = 1.0f / len;

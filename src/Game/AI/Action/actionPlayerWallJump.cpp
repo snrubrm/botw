@@ -44,8 +44,9 @@ void PlayerWallJump::enter_(ksys::act::ai::InlineParamPack* params) {
         controller->sub_7100F62B70(*mJumpHeight_s);
     }
     auto* player = static_cast<ksys::act::Player*>(mActor);
-    player->_20bc.value = *mJumpSpeedF_s;
-    player->_20bc.prev_value = *mJumpSpeedF_s;
+    const f32* speed = mJumpSpeedF_s;
+    player->_20bc.value = *speed;
+    player->_20bc.prev_value = *speed;
     static_cast<ksys::act::Player*>(mActor)->_1c68 = static_cast<ksys::act::Player*>(mActor)->x_5();
     static_cast<ksys::act::Player*>(mActor)->_17f0 = 0;
 }
