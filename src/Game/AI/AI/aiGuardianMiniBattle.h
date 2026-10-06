@@ -27,6 +27,11 @@ public:
     void sub_7100413A38();
     bool sub_7100415140(s32 idx);
     s32 sub_7100415EAC();
+    // 0x7100415258 (declaration only, 1136 B; placeholder name): sets up the arm bones of the rolling attack
+    // for the weapon pair (a, b) from the static node names.
+    void sub_7100415258(s32 a, s32 b, s32 c, s32 d);
+    void m37() override;
+    void m43(ksys::act::ai::InlineParamPack* params) override;
     bool m40() override;
     void changeToMoveTurning();
 

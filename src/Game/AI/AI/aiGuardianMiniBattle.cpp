@@ -207,4 +207,46 @@ bool GuardianMiniBattle::m40() {
     return false;
 }
 
+// NON_MATCHING: the original re-tests the AS list at each step without threading the null case to the end
+// (it reloads `mActor` after every call); same behaviour otherwise.
+void GuardianMiniBattle::m43(ksys::act::ai::InlineParamPack* params) {
+    if (!params)
+        return;
+    auto* actor = mActor;
+    if (actor) {
+        if (actor->getModel() && actor->getASList()) {
+            actor->getASList()->sub_710115C11C();
+            actor->getASList()->sub_710115BED4(true);
+            actor = mActor;
+        }
+        if (actor && actor->getASList()) {
+            actor->getASList()->sub_710115B01C(*mASSlotRight_s, 0, true);
+            actor = mActor;
+        }
+        if (actor && actor->getASList()) {
+            actor->getASList()->sub_710115B01C(*mASSlotLeft_s, 0, true);
+            actor = mActor;
+        }
+        if (actor && actor->getASList()) {
+            actor->getASList()->sub_710115B01C(*mASSlotBack_s, 0, true);
+            actor = mActor;
+        }
+    }
+    s32 a;
+    s32 b;
+    s32 c = -1;
+    sub_71007091AC(mActor, &a, &b, &c);
+    sub_7100415258(a, b, c, 0);
+    params->addInt(a, "DynWeaponIdx", -1);
+}
+
+void GuardianMiniBattle::m37() {
+    s32 a;
+    s32 b;
+    s32 c = -1;
+    sub_71007091AC(mActor, &a, &b, &c);
+    sub_7100415258(a, b, c, -1);
+    EnemyBattle::m37();
+}
+
 }  // namespace uking::ai
