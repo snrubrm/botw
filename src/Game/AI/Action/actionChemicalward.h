@@ -2,6 +2,7 @@
 
 #include "Game/AI/Action/actionActionWithPosAngReduce.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/ActorSystem/actBoneHandle.h"
 
 namespace uking::action {
 
@@ -42,6 +43,15 @@ protected:
     sead::Vector3f* mTargetPos_d{};
     // dynamic_param at offset 0x88
     ksys::act::BaseProcLink* mTargetActor_d{};
+    ksys::act::BoneHandle _90;
+    // NOTE: the original constructor stores _13a before _138 (ours the other way round), so the constructor stays W.
+    u16 _138 = 0xffff;
+    u16 _13a = 0xffff;
+    u8 _13c[0x16c - 0x13c];
+    s32 _16c = -1;
+    void* _170{};
+    void* _178{};
 };
+KSYS_CHECK_SIZE_NX150(Chemicalward, 0x180);
 
 }  // namespace uking::action
