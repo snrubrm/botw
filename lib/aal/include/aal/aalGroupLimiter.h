@@ -96,6 +96,8 @@ public:
         f32 getFaderVolume() const;
 
     private:
+        friend class GroupDucker;
+
         Group* mGroup;
         TargetSettings mSettings;
         TimedFader mFader;
@@ -110,19 +112,27 @@ public:
     void finalize();
     void setup(const Settings& settings);
     void calc();
+    /// 0x7100b83064 (declared only)
+    bool createAndAddTarget(Group* group, const TargetSettings& settings, sead::Heap* heap);
+    bool createAndAddTarget(const sead::SafeString& group_name, const TargetSettings& settings, sead::Heap* heap);
+    void removeAndDestroyAllTargets();
     /// Stops the ducking (the state is not the idle one).
     void suspend();
     void resetState();
 
 private:
+    /// 0x7100b82c64 / 0x7100b82e30 (declared only)
+    void updateStartEnd_();
+    void updateState_();
+
     bool mInitialized;
     Settings mSettings;
     s32 mState;
     u8 _1c[4];
     IDuckingSource* mSource;
     sead::OffsetList<Target> mTargets;
-    s32 _40;
-    s32 _44;
+    f32 _40;
+    f32 _44;
 };
 static_assert(sizeof(GroupDucker) == 0x48, "aal::GroupDucker size mismatch");
 

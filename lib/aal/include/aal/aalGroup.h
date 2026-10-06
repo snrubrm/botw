@@ -45,6 +45,7 @@ class Group : public FixedNamedObj<32>,
     friend class GroupFolder;
     friend class GroupMgr;
     friend class GroupLimiter;
+    friend class GroupDucker;
 
 public:
     Group();

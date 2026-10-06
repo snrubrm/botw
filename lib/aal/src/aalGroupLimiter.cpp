@@ -2,6 +2,7 @@
 #include "aal/aalGroup.h"
 #include "aal/aalGroupMgr.h"
 #include "aal/aalRequestIntervalLimiter.h"
+#include "aal/aalSettings.h"
 #include "aal/aalSystemAccessor.h"
 
 namespace aal {
@@ -103,7 +104,7 @@ namespace aal {
 
 // 0x7100b82af0
 GroupDucker::GroupDucker(IDuckingSource* source)
-    : mInitialized(false), mSettings(), mState(0), mSource(source), _40(0), _44(0) {
+    : mInitialized(false), mSettings(), mState(0), mSource(source), _40(0.0f), _44(0.0f) {
     mTargets.initOffset(0x40);
     if (source)
         source->getDuckingSourceName();
@@ -117,8 +118,8 @@ GroupDucker::~GroupDucker() {
 // 0x7100b82b70
 void GroupDucker::initialize(sead::Heap*) {
     if (!mInitialized) {
-        _40 = 0;
-        _44 = 0;
+        _40 = 0.0f;
+        _44 = 0.0f;
         mState = 0;
         mInitialized = true;
     }
@@ -134,6 +135,29 @@ void GroupDucker::setup(const Settings& settings) {
     mSettings = settings;
 }
 
+// 0x7100b82ba0
+void GroupDucker::calc() {
+    if (mTargets.size() == 0)
+        return;
+
+    updateStartEnd_();
+    updateState_();
+    if (mState != 0) {
+        for (Target& target : mTargets) {
+            target.mFader.calc();
+            if (target.mGroup)
+                target.mGroup->aggregateDuckingVolumeFromDucker_(target.mFader.getValue());
+        }
+        if (aal::Settings* settings = SystemAccessor::getSettings()) {
+            _40 += settings->mCalcTimeStep;
+            _44 += settings->mCalcTimeStep;
+        }
+    } else {
+        _40 = 0.0f;
+        _44 = 0.0f;
+    }
+}
+
 // 0x7100b83050
 void GroupDucker::suspend() {
     mState = 6;
@@ -142,6 +166,29 @@ void GroupDucker::suspend() {
 // 0x7100b8305c
 void GroupDucker::resetState() {
     mState = 0;
+}
+
+// NON_MATCHING: the original calls the other overload as a tail call; this one converts the returned bool.
+// 0x7100b831a0
+bool GroupDucker::createAndAddTarget(const sead::SafeString& group_name, const TargetSettings& settings,
+                                     sead::Heap* heap) {
+    if (GroupMgr* mgr = SystemAccessor::getGroupMgr()) {
+        if (Group* group = mgr->findGroup(group_name))
+            return createAndAddTarget(group, settings, heap);
+    }
+    return false;
+}
+
+// 0x7100b8321c
+void GroupDucker::removeAndDestroyAllTargets() {
+    if (mTargets.isEmpty())
+        return;
+
+    for (Target& target : mTargets.robustRange()) {
+        if (mTargets.indexOf(&target) >= 0)
+            mTargets.erase(&target);
+        delete &target;
+    }
 }
 
 }  // namespace aal
