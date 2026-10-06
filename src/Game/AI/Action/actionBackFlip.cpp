@@ -43,6 +43,27 @@ void BackFlip::loadParams_() {
 }
 
 void BackFlip::calc_() {
+    if (_cd && !_cc) {
+        auto* actor = mActor;
+        bool value;
+        if (isBgGroundHit(actor, false)) {
+            value = mActor->getVelocity().y < 0.0f;
+        } else {
+            sead::Vector3f pos;
+            actor->getMtx().getTranslation(pos);
+            const sead::Vector3f dir = -sead::Vector3f::ey;
+            if (somePositionCalc(&pos, pos, dir, *mNearGrHeight_s))
+                value = mActor->getVelocity().y < 0.0f;
+            else
+                value = true;
+        }
+        _cc = value;
+    }
+    if (auto* checker = sead::DynamicCast<Unk_71025b0578>(*_a0._0)) {
+        checker->sub_7100716408(mActor->getMtx().getTranslation());
+        if (checker->_78 <= 0.0f)
+            setFinished();
+    }
     RotateTurnToTarget::calc_();
 }
 

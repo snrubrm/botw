@@ -1,6 +1,8 @@
 #include "Game/AI/Action/actionAttackJumpToTarget.h"
 #include "Game/Damage/dmgDamageCallback.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/AI/aiUnk_71007320F0.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 #include "Game/Actor/actWeapon.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include <algorithm>
@@ -43,8 +45,26 @@ void AttackJumpToTarget::loadParams_() {
     getStaticParam(&mParams.mIsCheckNoChangeAS_s, "IsCheckNoChangeAS");
 }
 
+// NON_MATCHING: stack layout only (the original keeps the Unk_71002edaec temporary above the ASList query, as in
+// HorseRideAttack::calc_ / AnmDrivenMoveAttack::calc_)
 void AttackJumpToTarget::calc_() {
     JumpToTarget::calc_();
+    if (*mParams.mIsCheckNoChangeAS_s) {
+        if (sub_71005DD798(mActor, 0x16, nullptr, 0, 0))
+            mFlags.reset(Flag::Changeable);
+        else
+            mFlags.set(Flag::Changeable);
+    }
+    const f32 base = sub_71007322E8(mActor, *mParams.mWeaponIdx_s);
+    sub_71005DAB2C(mActor, base + *mParams.mJustAvoidSideDist_s, base + *mParams.mJustAvoidBackDist_s,
+                   *mParams.mJustAvoidAngle_s, 0);
+    ksys::as::ASList::Unk4 query;
+    if (sub_71005DD66C(mActor, &query, 0, 0)) {
+        sub_71005D7ADC(mActor, *mParams.mWeaponIdx_s, 2, &query.name, nullptr, 1, 1, 0, 1, 1.0f,
+                       1.0f);
+    } else if (sub_71005DD74C(mActor, nullptr, 0, 0)) {
+        sub_71005D79AC(mActor, *mParams.mWeaponIdx_s, act::Unk_71002edaec(1));
+    }
 }
 
 const sead::Vector3f& AttackJumpToTarget::m44() {
