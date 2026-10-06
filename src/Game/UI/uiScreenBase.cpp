@@ -26,7 +26,7 @@ void* ScreenBase::getSlink2ResourceList_(xlink2::UserInstanceSLink*) const {
 void ScreenBase::doSetupDrawInfo_() {
     mDrawInfo->mGraphicsResource = mMgr->getGraphicsResource();
     eui::SetupDrawInfoPerspective(0.6981317f, mDrawInfo, mLayout->GetLayoutSize());
-    mMgr->getConstantBuffer()->setupDrawInfo(mDrawInfo);
+    mMgr->getConstantBuffer()->applyToDrawInfo(mDrawInfo);
 }
 
 // 0x71010aa230 (CSV ScreenBase::dtorDelete)

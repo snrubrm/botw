@@ -100,7 +100,7 @@ DrawInfoEx* Screen::doCreateDrawInfoEx_(sead::Heap* heap) {
 void Screen::doSetupDrawInfo_() {
     mDrawInfo->mGraphicsResource = mMgr->getGraphicsResource();
     SetupDrawInfoOrtho(mDrawInfo, mLayout->GetLayoutSize());
-    mMgr->getConstantBuffer()->setupDrawInfo(mDrawInfo);
+    mMgr->getConstantBuffer()->applyToDrawInfo(mDrawInfo);
 }
 
 // 0x7100beac04
