@@ -72,6 +72,9 @@ protected:
 
     // 0x71002749b4 (placeholder name): raises the character controller's `_110` by the frame time.
     void sub_71002749B4();
+    // 0x710027588c (placeholder name): the velocity of a dropped weapon (the actor's horizontal velocity scaled to
+    // WeaponDropSpeedXZ, WeaponDropSpeedY upwards).
+    void sub_710027588C(sead::Vector3f* velocity);
 };
 
 }  // namespace uking::action

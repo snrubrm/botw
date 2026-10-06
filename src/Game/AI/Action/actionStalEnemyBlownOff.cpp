@@ -1,5 +1,6 @@
 #include "Game/AI/Action/actionStalEnemyBlownOff.h"
 #include <math/seadMathCalcCommon.h>
+#include "KingSystem/ActorSystem/Profiles/actDynamicActor.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actCCAccessor.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
@@ -25,6 +26,24 @@ void StalEnemyBlownOff::sub_71002749B4() {
     else
         step = delta * 0.03;
     controller->sub_7100F5EEB8(sead::Mathf::clamp(current + step, 0.0f, 1.0f));
+}
+
+// NON_MATCHING: the original loads WeaponDropSpeedXZ into a callee-saved register before the sqrt NaN
+// check call (d8) and stores the two zero components in a different order; same instructions otherwise.
+void StalEnemyBlownOff::sub_710027588C(sead::Vector3f* velocity) {
+    auto* actor = sead::DynamicCast<ksys::act::DynamicActor>(mActor);
+    if (actor && !sead::Mathf::equalsEpsilon(*mWeaponDropSpeedXZ_s, 0.0f)) {
+        actor->sub_71006DD908(velocity);
+        velocity->y = 0.0f;
+        const f32 length = velocity->length();
+        const f32 speed = *mWeaponDropSpeedXZ_s;
+        if (length > 0.0f)
+            *velocity *= speed / length;
+    } else {
+        velocity->x = 0.0f;
+        velocity->z = 0.0f;
+    }
+    velocity->y = *mWeaponDropSpeedY_s;
 }
 
 void StalEnemyBlownOff::enter_(ksys::act::ai::InlineParamPack* params) {
