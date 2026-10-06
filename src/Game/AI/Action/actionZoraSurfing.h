@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/ActorSystem/actCCAccessor.h"
 
 namespace uking::action {
 
@@ -60,6 +61,9 @@ protected:
     const sead::Vector3f* mAddCalcStickX_s{};
     // dynamic_param at offset 0x148
     sead::SafeString mUniqueName_d{};
+    /* 0x158 */ ksys::act::CCAccessor _158;
+    // Not modelled yet (static string pointers and floats, see the W constructor at 0x71002c1354).
+    u8 _160[0x1d8 - 0x160];
 };
 
 }  // namespace uking::action
