@@ -13,16 +13,18 @@ bool EventBind::init_(sead::Heap* heap) {
     return true;
 }
 
-// NON_MATCHING: vector argument construction schedules the rotation loads differently.
 void EventBind::enter_(ksys::act::ai::InlineParamPack* params) {
     auto* bind = _130._8 ? _130._8 : &_90;
     if (auto* link = m32()) {
         bind->x(*link);
         bind->_28 = mNodeName_d.cstr();
         bind->_30.getKey().reset();
-        bind->_68.makeRT(sead::Vector3f(*mRotOffsetX_d, *mRotOffsetY_d, *mRotOffsetZ_d) *
-                            sead::Mathf::deg2rad(1),
-                        sead::Vector3f(*mTransOffsetX_d, *mTransOffsetY_d, *mTransOffsetZ_d));
+        sead::Vector3f rotate;
+        rotate.x = *mRotOffsetX_d * sead::Mathf::deg2rad(1);
+        rotate.y = *mRotOffsetY_d * sead::Mathf::deg2rad(1);
+        rotate.z = *mRotOffsetZ_d * sead::Mathf::deg2rad(1);
+        bind->_68.makeRT(rotate,
+                         sead::Vector3f(*mTransOffsetX_d, *mTransOffsetY_d, *mTransOffsetZ_d));
         mActor->sub_71011DA824(bind);
         setFinished();
     } else {

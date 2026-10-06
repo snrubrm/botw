@@ -15,8 +15,6 @@ bool AirWallHorse::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }
 
-// NON_MATCHING: the original builds the extents vector component by component (ldr / fadd / str each) before the
-// setExtents call; `getScale() * 2` and several equivalent spellings schedule the three loads first
 void AirWallHorse::enter_(ksys::act::ai::InlineParamPack* params) {
     auto* physics = mActor->getPhysics();
     if (!physics)
@@ -26,8 +24,13 @@ void AirWallHorse::enter_(ksys::act::ai::InlineParamPack* params) {
         return;
     const int num_bodies = set->getRigidBodies().size();
     for (int i = 0; i < num_bodies; ++i) {
-        if (auto* box = sead::DynamicCast<ksys::phys::BoxRigidBody>(set->getRigidBody(i)))
-            box->setExtents(mActor->getScale() * 2);
+        if (auto* box = sead::DynamicCast<ksys::phys::BoxRigidBody>(set->getRigidBody(i))) {
+            sead::Vector3f extents;
+            extents.x = mActor->getScale().x * 2;
+            extents.y = mActor->getScale().y * 2;
+            extents.z = mActor->getScale().z * 2;
+            box->setExtents(extents);
+        }
     }
     physics->setMtxAndScale(mActor->getMtx(), false, false, 1.0f);
     physics->sub_7100FBA9BC();
