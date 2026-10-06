@@ -429,6 +429,11 @@ void ASList::sub_710115F444(int slot, int bank, void (Unk2::*fn)()) {
         (entry->*fn)();
 }
 
+void ASList::sub_710115F4A0(bool value, s32 slot, s32 bank, void (Unk2::*fn)(bool)) {
+    if (auto* entry = getEntry(slot, bank))
+        (entry->*fn)(value);
+}
+
 void ASList::sub_710115F228(f32 value) {
     for (int i = 0; i < mSlots.size(); ++i) {
         for (int j = 0; j < mSlots[i]._20.size(); ++j)
