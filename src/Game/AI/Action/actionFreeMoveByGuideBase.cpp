@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionFreeMoveByGuideBase.h"
+#include "Game/AI/aiUnk_710073fa90.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -11,7 +13,14 @@ bool FreeMoveByGuideBase::init_(sead::Heap* heap) {
 }
 
 void FreeMoveByGuideBase::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    if (!mActor->getMainBody())
+        return;
+    if (!mASKeyName_s.isEmpty())
+        playAS(mASKeyName_s.cstr(), false, 0, 0, -1.0f);
+    _a8.value = 0;
+    _a8.prev_value = 0;
+    sub_7100741034(&_84, mActor);
+    sub_7100741038(&_84, mActor);
 }
 
 void FreeMoveByGuideBase::leave_() {
@@ -26,8 +35,6 @@ bool FreeMoveByGuideBase::reenter_(ksys::act::ai::ActionBase* other, bool x) {
         return false;
     _78 = prev->_78;
     _84 = prev->_84;
-    _90 = prev->_90;
-    _9c = prev->_9c;
     _a8 = prev->_a8;
     _b4 = prev->_b4;
     return true;

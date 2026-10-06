@@ -40,9 +40,7 @@ protected:
     // dynamic_param at offset 0x70
     sead::Vector3f* mTargetFrontDir_d{};
     sead::Vector3f _78;
-    sead::Vector3f _84;
-    sead::Vector3f _90;
-    sead::Vector3f _9c;
+    sead::Matrix33f _84;
     ksys::VFRValue _a8;
     sead::Matrix34f _b4;
     u32 _e4;

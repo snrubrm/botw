@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionForkStalEnemyGrabOwnPart.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/AI/aiUnk_7100724C64.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -16,7 +19,15 @@ void ForkStalEnemyGrabOwnPart::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void ForkStalEnemyGrabOwnPart::leave_() {
-    ksys::act::ai::Action::leave_();
+    auto* actor = mActor;
+    if (_48 && actor->getConnectedCalcChild()) {
+        if (auto* child = sead::DynamicCast<ksys::act::Actor>(actor->getConnectedCalcChild()))
+            sub_71005DC41C(child);
+    }
+    if (_49) {
+        _49 = false;
+        sub_71007275C8(sub_7100724D7C(actor));
+    }
 }
 
 void ForkStalEnemyGrabOwnPart::loadParams_() {

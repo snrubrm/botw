@@ -3,6 +3,7 @@
 #include "Game/AI/aiUnk_710072BA90.h"
 #include "Game/AI/aiUnk_710073fa90.h"
 #include "Game/AI/aiUnk_71007377D4.h"
+#include "Game/Damage/dmgDamageManager.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
@@ -56,6 +57,23 @@ void FlyingCharacterDamageBase::loadParams_() {
 
 void FlyingCharacterDamageBase::calc_() {
     FlyingCharacterReaction::calc_();
+    auto* controller = mActor->getCharacterController();
+    if (!controller) {
+        setFailed();
+        return;
+    }
+    if (mActor->getActorFlags2().isOn(ksys::act::Actor::ActorFlag2::Alive))
+        return;
+    auto* mgr = sub_710072BA90(mActor);
+    if (!mgr)
+        return;
+    if (!sub_7100732AD0(mgr->getField54()))
+        return;
+    sead::Vector3f dir;
+    if (!mgr->getAttackPos(&dir))
+        return;
+    sub_71005E2318(&dir, mActor, mgr);
+    sub_7100130868(controller, dir);
 }
 
 void FlyingCharacterDamageBase::m33() {

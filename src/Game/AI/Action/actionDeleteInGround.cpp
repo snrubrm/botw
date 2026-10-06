@@ -31,10 +31,8 @@ void DeleteInGround::enter_(ksys::act::ai::InlineParamPack* params) {
     } else {
         playAS(mASName_s.cstr(), false, 0, 0, -1.0f);
     }
-    if (auto* controller = mActor->getCharacterController()) {
-        const sead::Vector3f down = -sead::Vector3f::ey;
-        sub_7100737C0C(controller, 0.0f, down);
-    }
+    if (auto* controller = mActor->getCharacterController())
+        sub_7100737C0C(controller, 0.0f, -sead::Vector3f::ey);
     sub_710072BB28(mActor);
     if (auto* unit = mActor->get548())
         unit->_18._50 = 1;

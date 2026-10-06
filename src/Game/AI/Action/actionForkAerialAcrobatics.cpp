@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionForkAerialAcrobatics.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/AI/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
@@ -35,7 +37,24 @@ void ForkAerialAcrobatics::loadParams_() {
 }
 
 void ForkAerialAcrobatics::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (sub_71005DD5B0(mActor, 47, nullptr, 0, 0))
+        _60 = true;
+
+    if (_60) {
+        sub_7100738488(mActor, *mParams.mSpeedKeepRatio_s, -sead::Vector3f::ey);
+        _50.lerp(_5c, *mParams.mRetGravityPer_s);
+    } else {
+        if (*mParams.mIsStopGravitySpeed_s) {
+            sub_7100738428(mActor, *mParams.mSpeedKeepRatio_s);
+        } else {
+            sub_7100738488(mActor, *mParams.mSpeedKeepRatio_s, -sead::Vector3f::ey);
+        }
+        _50.lerp(*mParams.mMinGravityScale_s, *mParams.mGravityPer_s);
+    }
+    sub_7100738AA8(mActor, *mParams.mRotSpeedKeepRatio_s);
+    _50.updateStats();
+    if (auto* controller = mActor->getCharacterController())
+        controller->sub_7100F5EEB8(_50.value);
 }
 
 }  // namespace uking::action
