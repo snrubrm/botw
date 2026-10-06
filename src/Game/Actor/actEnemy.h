@@ -355,7 +355,7 @@ public:
     /* 0xf48 */ f32 _f48 = 0;
     /* 0xf4c */ u32 _f4c = 0;
     /* 0xf50 */ f32 _f50 = -1.0;
-    /* 0xf54 */ u16 _f54 = 0;
+    /* 0xf54 */ sead::BitFlag16 _f54;
     /* 0xf58 */ Actor* _f58 = this;
     /* 0xf60 */ Unk_7100701be4 _f60{this};  // eyelid controller (EyeBlink / CloseEye / DieEye)
     /* 0x10f8 */ HorseRideInfo* _10f8 = nullptr;  // getPlayerRideInfo

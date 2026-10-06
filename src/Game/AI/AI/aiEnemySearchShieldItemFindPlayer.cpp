@@ -1,11 +1,45 @@
 #include "Game/AI/AI/aiEnemySearchShieldItemFindPlayer.h"
 #include "Game/Actor/actWeapon.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/AI/aiAwarenessFilters.h"
+#include "Game/AI/aiUnk_71007377D4.h"
+#include "Game/Actor/actEnemy.h"
+#include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
+#include "KingSystem/ActorSystem/actActor.h"
 #include "Game/AI/aiUnk_7100724C64.h"
 #include "Game/AI/aiUnk_71007302CC.h"
 #include "Game/AI/aiUnk_710073033C.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
+
+bool EnemySearchShieldItemFindPlayer::sub_71003BADD8() {
+    bool result = false;
+    auto* actor = mActor;
+    if (auto* awareness = actor->getAwareness()) {
+        if (auto* enemy = sead::DynamicCast<act::Enemy>(actor)) {
+            _220.reset();
+            Unk_7102451808 filter;
+            while (auto* entry = ksys::act::sub_7100D7EEE8(&awareness->_8, &filter)) {
+                auto* weapon = sead::DynamicCast<act::Weapon>(sead::DynamicCast<ksys::act::Actor>(
+                    entry->_0.mLink.getProc(nullptr, nullptr)));
+                if (weapon && weapon->_cf0 == 4 && !weapon->sub_71002E9A50() &&
+                    sub_710072E154(mActor, entry->_88, nullptr, -1) &&
+                    enemy->_f54.isOnBit(weapon->_cf0) && !weapon->hasParentActor())
+                    _220.acquire(weapon, false);
+            }
+            result = _220.hasProc();
+        }
+    }
+    return result;
+}
+
+void EnemySearchShieldItemFindPlayer::sub_71003BAC8C() {
+    ksys::act::ai::InlineParamPack pack;
+    auto* weapon = sead::DynamicCast<act::Weapon>(_220.getProc(nullptr, nullptr));
+    pack.acquireActor(weapon, "TargetWeapon", -1);
+    changeChild("盾拾い", &pack);
+}
 
 EnemySearchShieldItemFindPlayer::EnemySearchShieldItemFindPlayer(const InitArg& arg)
     : LandHumEnemyFindPlayer(arg) {}

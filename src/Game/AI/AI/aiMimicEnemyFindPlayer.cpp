@@ -4,8 +4,22 @@
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/AI/aiUnk_71007377D4.h"
+#include "KingSystem/Utils/MathUtil.h"
 
 namespace uking::ai {
+
+void MimicEnemyFindPlayer::sub_71004A70B4() {
+    if (auto* controller = mActor->getCharacterController()) {
+        sead::Vector3f front;
+        mActor->getMtx().getBase(front, 2);
+        front.normalize();
+        const sead::Vector3f up = getUpDir(controller->get70());
+        sead::Matrix34f mtx;
+        ksys::util::sub_71011F00EC(&mtx, front, up, sead::Vector3f::zero, false);
+        controller->sub_7100F5FC8C(mtx);
+    }
+}
 
 MimicEnemyFindPlayer::MimicEnemyFindPlayer(const InitArg& arg) : EnemyBaseFindPlayer(arg) {}
 

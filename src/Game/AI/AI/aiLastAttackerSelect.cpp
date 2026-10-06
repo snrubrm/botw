@@ -1,8 +1,35 @@
 #include "Game/AI/AI/aiLastAttackerSelect.h"
+#include "Game/Actor/actEnemy.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/AI/aiUnk_71007377D4.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/Actor/actEnemy.h"
 
 namespace uking::ai {
+
+void LastAttackerSelect::sub_7100474A28() {
+    sead::Vector3f position;
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor))
+        enemy->_e08._10.getTranslation(position);
+    else
+        position = getPlayerPosition();
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(position, "TargetPos", -1);
+    changeChild("発見", &pack);
+}
+
+void LastAttackerSelect::sub_7100474B94() {
+    sead::Vector3f position;
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor))
+        enemy->_e08._10.getTranslation(position);
+    else
+        position = getPlayerPosition();
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(position, "TargetPos", -1);
+    changeChild("未発見", &pack);
+}
+
 
 LastAttackerSelect::LastAttackerSelect(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 

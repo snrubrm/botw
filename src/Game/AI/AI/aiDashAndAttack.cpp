@@ -3,6 +3,10 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 
+// Declaration only (defined in the AI utility TU; same declaration as in aiSimpleEscapeFromTarget.cpp).
+bool sub_710072F99C(ksys::act::Actor* actor, const sead::Vector3f& from, const sead::Vector3f& to,
+                    sead::Vector3f* out_pos, s32 a5, f32 a6, f32 a7);
+
 namespace uking::ai {
 
 DashAndAttack::DashAndAttack(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
@@ -11,6 +15,19 @@ DashAndAttack::~DashAndAttack() = default;
 
 bool DashAndAttack::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
+}
+
+void DashAndAttack::sub_710035B9E0(sead::Vector3f* target) {
+    auto* actor = mActor;
+    sead::Vector3f v = *mParams.mTargetPos_d;
+    v -= actor->getMtx().getTranslation();
+    v.y = 0.0f;
+    v.normalize();
+    v = sead::Vector3f(-v.z, 0.0f, v.x);
+    v *= *mParams.mOffsetLR_s;
+    v += *mParams.mTargetPos_d;
+    if (sub_710072F99C(actor, *mParams.mTargetPos_d, v, target, -1, -1.0f, -1.0f))
+        *target = v;
 }
 
 // NON_MATCHING: Target vector and parameter-pack stack placement differs.
