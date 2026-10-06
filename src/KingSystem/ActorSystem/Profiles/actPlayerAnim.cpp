@@ -81,7 +81,7 @@ bool Player::sub_7100859FC0(bool a1) {
     if (a1) {
         if (_2d30)
             return true;
-        mode = evt::EventSystem::instance()->_c8.hasProc() ? 4 : 0;
+        mode = evt::EventSystem::instance()->mSpeaker.mLink.hasProc() ? 4 : 0;
     }
     _2d30 = a1;
     _2d34 = mode;
