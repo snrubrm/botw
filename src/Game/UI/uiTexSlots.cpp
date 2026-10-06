@@ -73,4 +73,7 @@ bool UiTexSlots::isLoaded(s32 index) {
     return mEntries[index].loaded;
 }
 
+// 0x71009f2778 (D1) / 0x71009f278c (D0)
+Unk_7102481e30::~Unk_7102481e30() = default;
+
 }  // namespace uking::ui

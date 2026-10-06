@@ -58,4 +58,14 @@ private:
 };
 static_assert(sizeof(UiTexSlots) == 0xd0);
 
+// vtable 0x7102481e30 (only the destructors): a holder of one UiTexSlots (ScreenAppMap's own member; the name is a
+// placeholder).
+class Unk_7102481e30 {
+public:
+    virtual ~Unk_7102481e30();
+
+    u8 _8[8];
+    UiTexSlots _10;
+};
+
 }  // namespace uking::ui
