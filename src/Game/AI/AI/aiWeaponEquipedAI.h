@@ -2,6 +2,7 @@
 
 #include <xlink2/xlink2HandleELink.h>
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/Physics/physDefines.h"
 
 namespace uking::ai {
 
@@ -16,6 +17,14 @@ public:
     void leave_() override;
 
     void sub_7100E1DC50();
+    // 0x7100e1db34: sets the contact layer of the main body and of the first "Chemical" body (unless the weapon m213() holds)
+    void sub_7100E1DB34(ksys::phys::ContactLayer main_layer, ksys::phys::ContactLayer chemical_layer);
+    // 0x7100e1d7a8: resets the chemical state unless the weapon m213() holds
+    void sub_7100E1D7A8();
+    // 0x7100e1e104: emits the "SpearAttack" effect for a weapon whose m233() holds
+    void sub_7100E1E104();
+    // 0x7100e1e024: fades the second effect handle (_50), like sub_7100E1DC50 does for _40
+    void sub_7100E1E024();
 
 protected:
     bool _38 = false;
