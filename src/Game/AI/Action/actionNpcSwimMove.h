@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/ActorSystem/actCCAccessor.h"
 
 namespace uking::action {
 
@@ -49,6 +50,12 @@ protected:
     const sead::Vector3f* mAddCalcStickX_s{};
     // dynamic_param at offset 0x90
     sead::Vector3f* mTargetPos_d{};
+    ksys::act::CCAccessor _98;
+    // Pairs of constants / pointers set by the ctor (default values of the dynamic state); not
+    // decompiled yet.
+    u8 _a0[0x118 - 0xa0];
 };
+
+KSYS_CHECK_SIZE_NX150(NpcSwimMove, 0x118);
 
 }  // namespace uking::action

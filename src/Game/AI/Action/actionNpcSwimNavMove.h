@@ -2,6 +2,7 @@
 
 #include "Game/AI/Action/actionRandomMoveAction.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/ActorSystem/actCCAccessor.h"
 
 namespace uking::action {
 
@@ -53,6 +54,11 @@ protected:
     const sead::Vector3f* mAddCalcStickX_s{};
     // dynamic_param at offset 0xb0
     sead::Vector3f* mTargetPos_d{};
+    // Constants / pointers set by the ctor (not decompiled yet).
+    u8 _b8[0x130 - 0xb8];
+    ksys::act::CCAccessor _130;
 };
+
+KSYS_CHECK_SIZE_NX150(NpcSwimNavMove, 0x138);
 
 }  // namespace uking::action

@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionNpcSwimNavMove.h"
+#include "Game/Actor/actNPC.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -21,6 +23,10 @@ void NpcSwimNavMove::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void NpcSwimNavMove::leave_() {
+    auto* actor = mActor;
+    if (auto* npc = sead::DynamicCast<act::NPC>(actor))
+        npc->_fe8 &= ~0x10000000;
+    _130.resetMotionType(_130.sub_710072ACF8(actor));
     RandomMoveAction::leave_();
 }
 
