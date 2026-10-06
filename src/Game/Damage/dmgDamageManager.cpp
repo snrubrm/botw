@@ -162,6 +162,24 @@ ksys::phys::MaterialMask* DamageManager::tgSensorMaterialOnHitMaybe() {
     return info ? &info->_38 : nullptr;
 }
 
+bool DamageManager::m29(sead::Vector3f* out) {
+    if (getDamageType() == 7 && _216.isOn(0x40)) {
+        *out = _cc;
+        out->normalize();
+        return true;
+    }
+    return DamageManagerBase::m29(out);
+}
+
+bool DamageManager::m30(sead::Vector3f* out) {
+    if (getDamageType() == 7 && _216.isOn(0x40)) {
+        *out = _cc;
+        out->normalize();
+        return true;
+    }
+    return DamageManagerBase::m30(out);
+}
+
 bool DamageManager::m41() {
     if (auto* info = getAttackInfo_())
         return info->_fc & 1;

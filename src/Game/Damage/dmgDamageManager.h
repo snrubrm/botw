@@ -49,6 +49,10 @@ public:
     bool isSlowTime() override;
     bool m40(s32* out) override;
     bool m41() override;
+    // Slots 29 / 30 (CSV DamageMgr::m29 / m30): the normalised `_cc` for damage kind 7 when bit 6 of `_216` is set,
+    // else the base class.
+    bool m29(sead::Vector3f* out) override;
+    bool m30(sead::Vector3f* out) override;
     // Slots 33 / 34 (CSV DamageMgr::m33 / m34): the material masks of the attack info (`_20` / `_38`) or null.
     ksys::phys::MaterialMask* m33() override;
     ksys::phys::MaterialMask* tgSensorMaterialOnHitMaybe() override;
@@ -92,7 +96,9 @@ public:
     u8 _78[0x88 - 0x78];
     s32 _88;  // attack info index of damage kind 6 (DamageManager::getAttackInfo_)
     s32 _8c;  // WeakPointRoot::m35
-    u8 _90[0x210 - 0x90];
+    u8 _90[0xcc - 0x90];
+    sead::Vector3f _cc;  // direction used by damage kind 7 (m29 / m30)
+    u8 _d8[0x210 - 0xd8];
     // 0x210-0x22c: zeroed by the ctor (0x210 and 0x214 with one 8-byte store).
     u16 _210;
     u16 _212;
