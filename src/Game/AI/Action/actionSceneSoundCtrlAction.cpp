@@ -1,6 +1,12 @@
 #include "Game/AI/Action/actionSceneSoundCtrlAction.h"
+#include "KingSystem/Utils/InitTimeInfo.h"
 
 namespace uking::action {
+
+namespace {
+ksys::util::InitConstants sInitConstants;
+ksys::util::InitTimeInfo sInitTimeInfo;
+}  // namespace
 
 SceneSoundCtrlAction::SceneSoundCtrlAction(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 

@@ -66,4 +66,9 @@ void RisingAirOneTime::calc_() {
     }
 }
 
+void RisingAirOneTime::m32() {
+    _28._2c = true;
+    _28.sub_71010F16FC();
+}
+
 }  // namespace uking::action

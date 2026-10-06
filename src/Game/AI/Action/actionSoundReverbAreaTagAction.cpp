@@ -1,6 +1,12 @@
 #include "Game/AI/Action/actionSoundReverbAreaTagAction.h"
+#include "KingSystem/Utils/InitTimeInfo.h"
 
 namespace uking::action {
+
+namespace {
+ksys::util::InitConstants sInitConstants;
+ksys::util::InitTimeInfo sInitTimeInfo;
+}  // namespace
 
 SoundReverbAreaTagAction::SoundReverbAreaTagAction(const InitArg& arg) : AreaTagAction(arg) {}
 
