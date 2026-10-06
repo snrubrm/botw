@@ -41,10 +41,9 @@ void TargetBeatGetDrop::calc_() {
     }
 }
 
-// NON_MATCHING: the original computes &_40 before &_50 for `_40 = _50` (pre-C++17 operand order of an
-// overloaded operator=); we compute the right-hand side first.
 void TargetBeatGetDrop::sub_71005BCF48() {
-    _40 = _50;
+    // C++14 evaluation order: the original evaluates the destination first
+    _40.operator=(_50);
     _50.reset();
     ksys::act::ai::InlineParamPack params;
     params.addActor(_40, "TargetBait", -1);

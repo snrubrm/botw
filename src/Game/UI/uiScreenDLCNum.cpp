@@ -168,7 +168,8 @@ void ScreenRupee::m93(sead::Heap*) {
 // 0x7100a416f4
 void ScreenRupee::m94() {
     if (sub_7100A98038(mId) && isOpened() &&
-        !isSameStateId(*mStateMachine.getState(), sUnk_71025f1d70)) {
+        // called through a pointer in the original (not devirtualised)
+        mStateMachine.getState()->getId() != (&sUnk_71025f1d70)->getId()) {
         mStateMachine.changeState(&sUnk_71025f1d70);
         return;
     }
@@ -183,7 +184,8 @@ void ScreenRupee::m98() {
 
 // 0x7100a417e8
 void ScreenRupee::m99() {
-    if (!isSameStateId(*mStateMachine.getState(), sUnk_71025f1d10))
+    // called through a pointer in the original (not devirtualised)
+    if (mStateMachine.getState()->getId() != (&sUnk_71025f1d10)->getId())
         sub_7100A41264(_3634);
 }
 
@@ -243,7 +245,8 @@ bool ScreenRupee::sub_7100A41354(bool flag) {
         return false;
     if (_3634 != 1 && _3634 != 2)
         return false;
-    if (_3610 || isSameStateId(*mStateMachine.getState(), sUnk_71025f1cb0)) {
+    // called through a pointer in the original (not devirtualised)
+    if (_3610 || mStateMachine.getState()->getId() == (&sUnk_71025f1cb0)->getId()) {
         _3634 = 3;
         return false;
     }
@@ -260,7 +263,8 @@ bool ScreenRupee::sub_7100A41354(bool flag) {
 bool ScreenRupee::sub_7100A41440() {
     if (_3610)
         return true;
-    return isSameStateId(*mStateMachine.getState(), sUnk_71025f1cb0);
+    // called through a pointer in the original (not devirtualised)
+    return mStateMachine.getState()->getId() == (&sUnk_71025f1cb0)->getId();
 }
 
 // 0x7100a414a0
@@ -284,7 +288,8 @@ void ScreenRupee::sub_7100A41264(s32 mode) {
         mStateMachine.changeState(&sUnk_71025f1cb0);
     } else {
         const ksys::StateBase* state = mStateMachine.getState();
-        if (!isSameStateId(*state, sUnk_71025f1c50) && !isSameStateId(*state, sUnk_71025f1cb0))
+        // called through a pointer in the original (not devirtualised)
+        if (state->getId() != (&sUnk_71025f1c50)->getId() && state->getId() != (&sUnk_71025f1cb0)->getId())
             mStateMachine.changeState(&sUnk_71025f1c50);
     }
 }

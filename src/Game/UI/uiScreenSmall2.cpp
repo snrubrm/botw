@@ -25,14 +25,17 @@ void ScreenRupee::sub_7100A41558() {
 
 // 0x7100a20dd0
 bool ScreenMainShortCut::sub_7100A20DD0() {
-    if (isSameStateId(*mStateMachine.getState(), sUnk_71025ef170))
+    // called through a pointer in the original (not devirtualised)
+    if (mStateMachine.getState()->getId() == (&sUnk_71025ef170)->getId())
         return false;
-    return !isSameStateId(*mStateMachine.getState(), sUnk_71025ef290);
+    // called through a pointer in the original (not devirtualised)
+    return mStateMachine.getState()->getId() != (&sUnk_71025ef290)->getId();
 }
 
 // 0x71009fd674
 bool ScreenAppTool::sub_71009FD674() {
-    return isSameStateId(*mStateMachine.getState(), sUnk_71025ec670);
+    // called through a pointer in the original (not devirtualised)
+    return mStateMachine.getState()->getId() == (&sUnk_71025ec670)->getId();
 }
 
 // 0x7100a31be0

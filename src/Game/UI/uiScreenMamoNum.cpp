@@ -47,7 +47,8 @@ void ScreenMamoNum::m99() {
         return;
     }
     const ksys::StateBase* state = mStateMachine.getState();
-    if (!isSameStateId(*state, sUnk_71025ef518) && !isSameStateId(*state, sUnk_71025ef578))
+    // called through a pointer in the original (not devirtualised)
+    if (state->getId() != (&sUnk_71025ef518)->getId() && state->getId() != (&sUnk_71025ef578)->getId())
         mStateMachine.changeState(&sUnk_71025ef518);
 }
 
@@ -120,7 +121,8 @@ void ScreenMamoNum::sub_7100A22A80(s32 a1) {
         return;
     }
     const ksys::StateBase* state = mStateMachine.getState();
-    if (!isSameStateId(*state, sUnk_71025ef518) && !isSameStateId(*state, sUnk_71025ef578))
+    // called through a pointer in the original (not devirtualised)
+    if (state->getId() != (&sUnk_71025ef518)->getId() && state->getId() != (&sUnk_71025ef578)->getId())
         mStateMachine.changeState(&sUnk_71025ef518);
 }
 
@@ -128,7 +130,8 @@ void ScreenMamoNum::sub_7100A22A80(s32 a1) {
 bool ScreenMamoNum::sub_7100A22B98() {
     if (_3630 != 0)
         return false;
-    if (isSameStateId(*mStateMachine.getState(), sUnk_71025ef578)) {
+    // called through a pointer in the original (not devirtualised)
+    if (mStateMachine.getState()->getId() == (&sUnk_71025ef578)->getId()) {
         _3630 = 1;
         return false;
     }

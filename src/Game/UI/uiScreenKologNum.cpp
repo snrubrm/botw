@@ -64,7 +64,8 @@ void ScreenKologNum::sub_7100A0F098() {
 bool ScreenKologNum::sub_7100A0EFA4() {
     if (_3634 != 0)
         return false;
-    if (_3610 || isSameStateId(*mStateMachine.getState(), sUnk_71025eed10)) {
+    // called through a pointer in the original (not devirtualised)
+    if (_3610 || mStateMachine.getState()->getId() == (&sUnk_71025eed10)->getId()) {
         _3634 = 1;
         return false;
     }
@@ -76,7 +77,8 @@ bool ScreenKologNum::sub_7100A0EFA4() {
 bool ScreenKologNum::sub_7100A0F038() {
     if (_3610)
         return true;
-    return isSameStateId(*mStateMachine.getState(), sUnk_71025eed10);
+    // called through a pointer in the original (not devirtualised)
+    return mStateMachine.getState()->getId() == (&sUnk_71025eed10)->getId();
 }
 
 // 0x7100a0f220

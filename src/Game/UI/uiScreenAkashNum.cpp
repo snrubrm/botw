@@ -102,7 +102,8 @@ void ScreenAkashNum::m163() {
 bool ScreenAkashNum::sub_71009CEF28() {
     if (_3634 != 0)
         return false;
-    if (_3610 || isSameStateId(*mStateMachine.getState(), sUnk_71025dc090)) {
+    // called through a pointer in the original (not devirtualised)
+    if (_3610 || mStateMachine.getState()->getId() == (&sUnk_71025dc090)->getId()) {
         _3634 = 1;
         return false;
     }
@@ -114,7 +115,8 @@ bool ScreenAkashNum::sub_71009CEF28() {
 bool ScreenAkashNum::sub_71009CEFBC() {
     if (_3610)
         return true;
-    return isSameStateId(*mStateMachine.getState(), sUnk_71025dc090);
+    // called through a pointer in the original (not devirtualised)
+    return mStateMachine.getState()->getId() == (&sUnk_71025dc090)->getId();
 }
 
 // 0x71009ceee0

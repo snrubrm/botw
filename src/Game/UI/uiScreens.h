@@ -1174,12 +1174,6 @@ public:
     void sub_71009CF01C(s32);
 };
 
-// inline-only in the original; name is a guess. The number screens compare state ids through the vtable (a call on a
-// reference parameter is not devirtualized, a call on the static state object is).
-inline bool isSameStateId(const ksys::StateBase& a, const ksys::StateBase& b) {
-    return a.getId() == b.getId();
-}
-
 // State objects of ScreenMamoNum (StateTemplate<ScreenMamoNum>, 0x71025ef578 / 0x71025ef518).
 extern const ksys::StateBase sUnk_71025ef578;
 extern const ksys::StateBase sUnk_71025ef4b8;
