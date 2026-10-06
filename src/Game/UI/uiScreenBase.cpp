@@ -5,6 +5,14 @@
 
 namespace uking::ui {
 
+// 0x71010a9b0c (CSV ScreenBase::ctor)
+ScreenBase::ScreenBase() = default;
+
+// 0x71010a9d9c
+void ScreenBase::doInitialize_(sead::Heap* heap) {
+    eui::Screen::doInitialize_(heap);
+}
+
 // 0x71010aa230 (CSV ScreenBase::dtorDelete)
 ScreenBase::~ScreenBase() = default;
 

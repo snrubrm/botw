@@ -27,9 +27,12 @@ namespace uking::ui {
 
 class ScreenBase : public eui::Screen {
 public:
+    ScreenBase();
     ~ScreenBase() override;
     SEAD_RTTI_OVERRIDE(ScreenBase, eui::Screen)
 
+    // 0x71010a9d9c (CSV ScreenBase::doInitialize_)
+    void doInitialize_(sead::Heap* heap) override;
     // 0x71010a9f44 (CSV ScreenBase::getAnimationStep_)
     f32 getAnimationStep_() const override;
     const char* getArchiveName_() const override;
@@ -171,10 +174,10 @@ public:
     ksys::StateMachine mStateMachine;
     u8 _188[0x250 - 0x188];
     /* 0x250 */ sead::PtrArray<ScreenChild> mChildren;
-    u8 _260[0x270 - 0x260];
-    /* 0x270 */ s32 _270;
+    /* 0x260 */ sead::Buffer<s32> mChildGroupSizes;  // the number of children of each group (the groups are consecutive in mChildren)
+    /* 0x270 */ f32 _270;
     u8 _274[0x288 - 0x274];
-    /* 0x288 */ void* _288;
+    /* 0x288 */ eui::Animator* _288;
     /* 0x290 */ u8 _290;
     u8 _291;
     /* 0x292 */ u16 _292;
@@ -183,6 +186,8 @@ public:
     void open(s32 option) override;
     void close(s32 option) override;
     void update() override;
+    // 0x71010aa7a0 (CSV Screen::x_0): the child with index `index` of the group `group` (null if out of range)
+    ScreenChild* getChild(s32 group, s32 index);
     // 0x71010ab66c (CSV Screen::doUpdate_WorldMgrStuff; not decompiled)
     void doUpdate_WorldMgrStuff();
 
@@ -213,12 +218,12 @@ public:
     virtual void m70();
     virtual void m71();
     virtual s32 m72();
-    virtual void m73();
+    virtual void m73(f32 value);
     virtual void m74(f32 progress);
     virtual void m75();
     virtual void m76();
     virtual void m77();
-    virtual void m78();
+    virtual void m78(f32 frame);
     virtual void m79();
     virtual void m80(bool visible);
     virtual s32 m81();

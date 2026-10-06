@@ -1,5 +1,6 @@
 #include "Game/UI/uiScreens.h"
 #include <nn/ui2d/Pane.h>
+#include "Game/UI/euiAnimator.h"
 #include "Game/UI/euiLayoutEx.h"
 #include "Game/UI/uiTagProcessor.h"
 
@@ -39,6 +40,22 @@ void Screen::updateControl_() {
 void Screen::updateAnimator_() {
     if (_292 & 0x10)
         eui::Screen::updateAnimator_();
+}
+
+// 0x71010aaa70 (CSV Screen::m73)
+void Screen::m73(f32 value) {
+    _270 = value;
+    m110();
+    open(4);
+}
+
+// 0x71010aad0c (CSV Screen::m78)
+void Screen::m78(f32 frame) {
+    if (_288) {
+        const u16 frame_size = _288->GetFrameSize();
+        if (frame > 0.0f && f32(frame_size) >= frame)
+            _288->Stop(frame);
+    }
 }
 
 // 0x71010aacac (CSV Screen::m76)
@@ -293,5 +310,18 @@ void Screen::m115() {}
 
 // 0x7100a8290c (CSV Screen::m116_null)
 void Screen::m116() {}
+
+// 0x71010aa7a0 (CSV Screen::x_0)
+ScreenChild* Screen::getChild(s32 group, s32 index) {
+    if (!mChildGroupSizes.isIndexValid(group))
+        return nullptr;
+    if (mChildGroupSizes(group) <= index)
+        return nullptr;
+
+    s32 offset = 0;
+    for (s32 i = 0; i < group; ++i)
+        offset += mChildGroupSizes[i];
+    return mChildren.at(offset + index);
+}
 
 }  // namespace uking::ui
