@@ -4,6 +4,7 @@
 #include <container/seadObjList.h>
 #include <container/seadSafeArray.h>
 #include <heap/seadDisposer.h>
+#include <math/seadQuat.h>
 #include <math/seadVector.h>
 #include <xlink2/xlink2HandleELink.h>
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
@@ -127,7 +128,19 @@ public:
     void sub_7100905D28(bool value);
     void sub_7100905DE0(bool value);
 
-    u8 _0[0x48];
+    // The oriented bounding box of the magnetised object (layout from its writer, 0x71006e5440: world centre of mass,
+    // half extents of the local AABB, rotation).
+    struct Box {
+        sead::Vector3f center;
+        sead::Vector3f half_extents;
+        sead::Quatf rotation;
+    };
+    // 0x7100905d84 / 0x7100905d8c
+    Box* sub_7100905D84();
+    void sub_7100905D8C(const Box& box);
+
+    u8 _0[0x20];
+    Box _20;
     xlink2::HandleELink _48;
     bool _58;
     u8 _59[0x8c - 0x59];

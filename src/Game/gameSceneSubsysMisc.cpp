@@ -187,6 +187,14 @@ void GameSceneSubsys5::sub_7100905D68(const sead::Vector3f& value) {
     _100 = value;
 }
 
+GameSceneSubsys5::Box* GameSceneSubsys5::sub_7100905D84() {
+    return &_20;
+}
+
+void GameSceneSubsys5::sub_7100905D8C(const Box& box) {
+    _20 = box;
+}
+
 void GameSceneSubsys5::sub_7100905D28(bool value) {
     _328 = value;
 }
