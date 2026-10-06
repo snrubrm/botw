@@ -1,6 +1,7 @@
 #include "Game/AI/Action/actionForkMultiSleep.h"
 #include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 
 namespace uking::action {
 
@@ -28,7 +29,19 @@ bool ForkMultiSleep::init_(sead::Heap* heap) {
 }
 
 void ForkMultiSleep::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
+        sead::FixedSafeString<32> key;
+        for (s32 i = 0; i < *mNum_s; ++i) {
+            key.format("%s%d", mPartsBaseName_s.cstr(), i);
+            auto& link = enemy->getActorPartsActor(key.cstr());
+            if (link.hasProcInCalcState()) {
+                ksys::act::ActorConstDataAccess accessor;
+                ksys::act::acquireActor(&link, &accessor);
+                accessor.sleep(ksys::act::BaseProc::SleepWakeReason::_0);
+            }
+        }
+    }
+    setFinished();
 }
 
 void ForkMultiSleep::leave_() {

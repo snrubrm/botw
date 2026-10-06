@@ -1,6 +1,9 @@
 #pragma once
 
+#include <math/seadMatrix.h>
+#include <math/seadVector.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/System/Timer.h"
 
 namespace ksys::phys {
 class CharacterController;
@@ -37,10 +40,10 @@ protected:
         const float* mUpdateTargetUpDirRatio_s{};
     };
     Params mParams;
-    u8 _48[0x18];
-    u64 _60 = 0;
-    f32 _68 = 0.0f;
-    u8 _6c[0x24];
+    sead::Vector3f _48;
+    sead::Vector3f _54;
+    ksys::Timer _60;
+    sead::Matrix33f _6c;
     f32 _90 = 0.0f;
     u8 _94[0x4];
 };

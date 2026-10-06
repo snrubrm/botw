@@ -18,6 +18,7 @@ public:
 
 protected:
     void calc_() override;
+    void m32(sead::Matrix34f* mtx) override;
 
     // static_param at offset 0x68
     sead::SafeString mTransBaseBoneName_s{};

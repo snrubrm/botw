@@ -110,6 +110,10 @@ public:
 
     // set by sub_7100F5EEB8
     const sead::Vector3f& get64() const { return _64; }
+    // lane3 s39 (FloatWait::calc_)
+    const sead::Vector3f& get180() const { return _180; }
+    u8 get18c() const { return _18c; }
+    bool isBit4Of116() const { return _116 & 0x10; }
     const sead::Vector3f& get70() const { return _70; }
     const sead::Vector3f& get7c() const { return _7c; }
     f32 get110() const { return _110; }
@@ -331,7 +335,8 @@ public:
     f32 _164;
     f32 _168;
     f32 _16c;
-    u8 _170[0x18c - 0x170];
+    u8 _170[0x180 - 0x170];
+    sead::Vector3f _180;
     u8 _18c;
     u8 _18d[0x210 - 0x18d];
     f32 _210;

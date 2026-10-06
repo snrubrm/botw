@@ -3,6 +3,9 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "gsys/gsysModelAccessKey.h"
 #include "gsys/gsysModel.h"
+#include <math/seadMathCalcCommon.h>
+#include "Game/AI/aiUnk_710073fa90.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 
 namespace uking::action {
 
@@ -19,7 +22,30 @@ bool GanonMove::init_(sead::Heap* heap) {
 }
 
 void GanonMove::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    auto* controller = mActor->getCharacterController();
+    if (!controller) {
+        setFailed();
+        return;
+    }
+
+    if (*mIsUpEqualGravity_s) {
+        _8c = controller->get70();
+        _8c.normalize();
+    } else {
+        _8c = sead::Vector3f::ey;
+    }
+    mActor->getASList()->x_6(9, 0, 0.0f);
+    playAS(mASName_s.cstr(), true, 0, 0, -1.0f);
+    _70 = sead::Mathf::sqrt(mActor->getVelocity().x * mActor->getVelocity().x +
+                            mActor->getVelocity().z * mActor->getVelocity().z);
+    sub_7100741034(&_98, mActor);
+    _74 = *mDstPos_d;
+    _80 = mActor->getVelocity();
+    if (*mIsChangeable_d)
+        mFlags.set(Flag::Changeable);
+    else
+        mFlags.reset(Flag::Changeable);
+    _bc[1] = 0;
 }
 
 void GanonMove::leave_() {

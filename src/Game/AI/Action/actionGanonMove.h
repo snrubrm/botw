@@ -1,5 +1,7 @@
 #pragma once
 
+#include <math/seadMatrix.h>
+#include <math/seadVector.h>
 #include <gsys/gsysModelAccessKey.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
 
@@ -39,7 +41,10 @@ protected:
     // dynamic_param at offset 0x68
     sead::Vector3f* mDstPos_d{};
     f32 _70 = 0.0f;
-    u8 _74[0x48];
+    sead::Vector3f _74;
+    sead::Vector3f _80;
+    sead::Vector3f _8c;
+    sead::Matrix33f _98;
     s32 _bc[2]{};
     u8 _c4[0x4];
     gsys::BoneAccessKeyEx _c8;
