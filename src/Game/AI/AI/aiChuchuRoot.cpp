@@ -2,6 +2,7 @@
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/AI/aiUnk_71006F5B14.h"
 #include "Game/Actor/actEnemy.h"
+#include "Game/Actor/actGelEnemy.h"
 #include "Game/Damage/dmgInfoManager.h"
 #include "KingSystem/ActorSystem/Profiles/actBullet.h"
 #include "KingSystem/ActorSystem/actActorCreator.h"
@@ -133,3 +134,13 @@ void ChuchuRoot::changeToCreateDrop() {
 }
 
 }  // namespace uking::ai
+
+// 0x71006f6284
+void Unk_71024500d8::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
+                          uking::dmg::DamageCallbackInfo* a6) {
+    if (*a1 < 1)
+        return;
+    auto* gel = sead::DynamicCast<uking::act::GelEnemy>(mDamageManager->mActor);
+    if (gel && (gel->_1678 & 4))
+        *a5 = 0x1e;
+}

@@ -210,3 +210,28 @@ void Unk_7102451d40::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
             *a5 = _28;
     }
 }
+
+// 0x7100749720
+void Unk_7102451ba0::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
+                          uking::dmg::DamageCallbackInfo* a6) {
+    if (*a5 != 0xf && *a5 != 5)
+        return;
+    auto* manager = mDamageManager;
+    if (!manager)
+        return;
+    auto* actor = manager->mActor;
+    if (actor->getASList()->x(5, nullptr, 0, 0, &ksys::as::ASList::Unk2::sub_71011638DC, true))
+        return;
+    if (isSlowTimeMaybe())
+        return;
+    if (_24) {
+        *a5 = 2;
+        return;
+    }
+    if (actor->getActorFlags2().isOn(ksys::act::Actor::ActorFlag2::_40))
+        return;
+    auto* damage_manager = sead::DynamicCast<uking::dmg::DamageManager>(manager);
+    if (damage_manager && damage_manager->sub_71006D8534() > 0)
+        return;
+    *a5 = 2;
+}
