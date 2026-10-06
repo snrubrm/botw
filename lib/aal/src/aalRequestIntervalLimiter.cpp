@@ -12,13 +12,14 @@ RequestIntervalLimiter::RequestIntervalLimiter() {
 // 0x7100b83650
 void RequestIntervalLimiter::calc() {
     mStopWatch.calc();
-    if (mStopWatch.getTime() < 0.0f) {
-        if (mRunning)
-            mStopWatch.start();
-    } else if (mStopWatch.getTime() >= mInterval) {
-        mStopWatch.stop();
-        mRunning = false;
+    const f32 time = mStopWatch.getTime();
+    if (time >= 0.0f) {
+        if (time >= mInterval)
+            mStopWatch.stop();
+    } else if (mRunning) {
+        mStopWatch.start();
     }
+    mRunning = false;
 }
 
 // 0x7100b836b0
@@ -33,12 +34,12 @@ bool RequestIntervalLimiter::limit(SoundSource* source) {
         return false;
     if (source->isLooped())
         return true;
-    if (mStopWatch.getTime() < 0.0f) {
-        mRunning = true;
-        return true;
+    if (mStopWatch.getTime() >= 0.0f) {
+        source->stopForce();
+        return false;
     }
-    source->stopForce();
-    return false;
+    mRunning = true;
+    return true;
 }
 
 }  // namespace aal
