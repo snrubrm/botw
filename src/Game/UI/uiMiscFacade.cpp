@@ -485,8 +485,8 @@ void loadMapMainFieldLocationMubin() {
 }
 
 // 0x7100a9f53c
-void findDungeonNameForPositionImpl(const void* a0, void* a1) {
-    Manager::instance()->sub_7100A7F2EC(a0, a1);
+bool findDungeonNameForPositionImpl(f32 radius, sead::SafeString* out_name, const sead::Vector3f* pos) {
+    return Manager::instance()->sub_7100A7F2EC(radius, out_name, pos);
 }
 
 // 0x7100a9f55c

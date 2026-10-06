@@ -5,6 +5,7 @@
 #include <prim/seadBitFlag.h>
 #include <thread/seadCriticalSection.h>
 #include <math/seadVector.h>
+#include <prim/seadSafeString.h>
 #include "KingSystem/Utils/Types.h"
 
 namespace sead {
@@ -44,7 +45,7 @@ public:
     void sub_7100A7DA38();
     void sub_7100A7C71C();
     void sub_7100A7F0D0();
-    void sub_7100A7F2EC(const void* a1, void* a2);
+    bool sub_7100A7F2EC(f32 radius, sead::SafeString* out_name, const sead::Vector3f* pos);
     void sub_7100A7F468(const void* a1, void* a2);
     void sub_7100A7C8D4();
     void sub_7100A7C9AC();
