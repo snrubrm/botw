@@ -15,6 +15,14 @@ bool CircleMove::init_(sead::Heap* heap) {
 }
 
 // NON_MATCHING: Direct margin branches and vector stack placement differ from the original.
+void CircleMove::sub_710034E838() {
+    sead::Vector3f target;
+    sub_710034EEB0(&target);
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(target, "TargetPos", -1);
+    changeChild("遠ざかり", &pack);
+}
+
 void CircleMove::enter_(ksys::act::ai::InlineParamPack* params) {
     _5c = 1.0f;
     sead::Vector3f offset;

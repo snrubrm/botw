@@ -18,6 +18,19 @@ bool GuardianMiniChangeWeapon::init_(sead::Heap* heap) {
     return _a0 != nullptr;
 }
 
+// NON_MATCHING: scheduling of the rotation vector math around the payload lock (the original loads the
+// vector first and interleaves the multiplications with the lock acquisition).
+void GuardianMiniChangeWeapon::sub_710041A6DC() {
+    sead::Vector3f dir = sead::Vector3f::ey * static_cast<f32>(*mRotValue_s) * 2.0943952f;
+    _a0->_18.set(dir, *mRotSpeed_s);
+    _a0->sub_710070DBB0(*mActor->getMessageTransceiver().getId(), true);
+    changeChild("武器切替");
+    if (auto* as_list = mActor->getASList()) {
+        if (as_list->x_1(1, 0) != mDamageASName_s)
+            sub_710041AA18();
+    }
+}
+
 void GuardianMiniChangeWeapon::enter_(ksys::act::ai::InlineParamPack* params) {
     mActor->getDamageMgr();
     setDamageCallbackTiming(mActor, 4, &_78);

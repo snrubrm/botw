@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiSafeMoveAroundTarget.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include <math/seadMathCalcCommon.h>
 #include <random/seadGlobalRandom.h>
 
@@ -10,6 +11,12 @@ SafeMoveAroundTarget::~SafeMoveAroundTarget() = default;
 
 bool SafeMoveAroundTarget::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
+}
+
+void SafeMoveAroundTarget::sub_71005553EC() {
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(sub_71005556F0(), "TargetPos", -1);
+    changeChild("移動", &pack);
 }
 
 void SafeMoveAroundTarget::enter_(ksys::act::ai::InlineParamPack* params) {

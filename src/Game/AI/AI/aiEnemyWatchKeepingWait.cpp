@@ -2,6 +2,7 @@
 #include <math/seadMathCalcCommon.h>
 #include <random/seadGlobalRandom.h>
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/System/Timer.h"
 #include "KingSystem/Utils/MathUtil.h"
 
@@ -13,6 +14,29 @@ EnemyWatchKeepingWait::~EnemyWatchKeepingWait() = default;
 
 bool EnemyWatchKeepingWait::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
+}
+
+// NON_MATCHING: only the operand order of the last fmul of the angle product differs.
+void EnemyWatchKeepingWait::sub_71003C5F34() {
+    auto* actor = mActor;
+    sead::Matrix34f home;
+    actor->getHomeMtx(&home);
+    sead::Vector3f dir;
+    home.getBase(dir, 2);
+    sead::Vector3f target;
+    actor->getMtx().getTranslation(target);
+    ++_7d;
+    if (sead::Mathf::abs(f32(_7d)) >= 4.0f) {
+        _7d = 0;
+        _7c = -_7c;
+    }
+    const s32 turns = _7d;
+    ksys::util::sub_71011EF010(
+        &dir, f32(_7c) * sead::Mathf::deg2rad(*mRotAngle_m) * f32(turns > 2 ? 4 - turns : turns));
+    target += dir * 3.0f;
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(target, "TargetPos", -1);
+    changeChild("回転", &pack);
 }
 
 // NON_MATCHING: Angle registers and the signed absolute-value sequence differ from the original.

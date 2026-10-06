@@ -3,6 +3,7 @@
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/Utils/Thread/Message.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
@@ -33,6 +34,23 @@ void GuardianMiniOnNoNavMesh::changeToOnIceMaker() {
     ksys::act::ai::InlineParamPack pack;
     pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
     changeChild("アイスメーカー上", &pack);
+}
+
+void GuardianMiniOnNoNavMesh::sub_710041E15C() {
+    if (_5c & 1) {
+        if (!isBgGroundHit(mActor, false))
+            _5c = (_5c & 0xfffc) | 2;
+    } else if (_5c & 2) {
+        if (isBgGroundHit(mActor, false)) {
+            _5c = (_5c & 0xfff9) | 4;
+            if (_40.hasProc()) {
+                ksys::act::ActorConstDataAccess accessor;
+                ksys::act::acquireActor(&_40, &accessor);
+                sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x8000004), nullptr);
+                _40.reset();
+            }
+        }
+    }
 }
 
 void GuardianMiniOnNoNavMesh::calc_() {

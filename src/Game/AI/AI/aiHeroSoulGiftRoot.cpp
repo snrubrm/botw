@@ -30,6 +30,13 @@ void HeroSoulGiftRoot::enter_(ksys::act::ai::InlineParamPack* params) {
         changeChild("待機");
 }
 
+void HeroSoulGiftRoot::sub_710042EF94() {
+    ksys::act::acc::PlayerBase player;
+    player.getPlayerFromPlayerInfo();
+    if (player.hasProc())
+        _58 = player.getActorMtx();
+}
+
 // NON_MATCHING: register allocation (ours keeps the address of the player accessor in a callee-saved
 // register for the destructor call; the original recomputes it)
 bool HeroSoulGiftRoot::m34(sead::Matrix34f* mtx) {

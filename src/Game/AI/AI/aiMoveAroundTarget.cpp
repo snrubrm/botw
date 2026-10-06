@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiMoveAroundTarget.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include <math/seadMathCalcCommon.h>
 #include <random/seadGlobalRandom.h>
 #include "Game/AI/aiUnk_71007377D4.h"
@@ -17,6 +18,12 @@ bool MoveAroundTarget::isChangeable() const {
 
 bool MoveAroundTarget::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
+}
+
+void MoveAroundTarget::sub_71004B004C() {
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(sub_71004B0238(), "TargetPos", -1);
+    changeChild("移動", &pack);
 }
 
 void MoveAroundTarget::enter_(ksys::act::ai::InlineParamPack* params) {

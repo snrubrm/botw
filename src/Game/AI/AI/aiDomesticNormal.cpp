@@ -2,6 +2,7 @@
 
 #include <random/seadGlobalRandom.h>
 #include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
@@ -11,6 +12,16 @@ DomesticNormal::~DomesticNormal() = default;
 
 bool DomesticNormal::init_(sead::Heap* heap) {
     return PreyNormal::init_(heap);
+}
+
+void DomesticNormal::sub_71003653B0() {
+    sub_7100364F7C();
+    ksys::act::ai::InlineParamPack pack;
+    sead::Vector3f target = _380;
+    target.x += sead::GlobalRandom::instance()->getF32Range(-5.0f, 5.0f);
+    target.z += sead::GlobalRandom::instance()->getF32Range(-5.0f, 5.0f);
+    pack.addVec3(target, "TargetPos", -1);
+    changeChild("帰還", &pack);
 }
 
 void DomesticNormal::enter_(ksys::act::ai::InlineParamPack* params) {

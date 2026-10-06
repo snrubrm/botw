@@ -1,7 +1,15 @@
 #include "Game/AI/AI/aiEnemySyncAttack.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/ActorSystem/actAttackSensor.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Resource/Actor/resResourceGParamList.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectAttack.h"
+#include <gsys/gsysModel.h>
+#include <gsys/gsysModelAccessKey.h>
+#include <gsys/gsysModelUnit.h>
 #include <random/seadGlobalRandom.h>
 
 namespace uking::ai {
@@ -15,6 +23,41 @@ EnemySyncAttack::~EnemySyncAttack() {
 }
 
 // NON_MATCHING: register allocation only (x8 / x9 and w8 / w9 swapped in the last add)
+void EnemySyncAttack::sub_71003BF444() {
+    auto* actor = mActor;
+    if (!actor || !actor->getModel())
+        return;
+    auto* body = actor->findPhysicsBodyByName(sub_71007A24BC()->cstr(), "AtkEnemyBody");
+    if (!body)
+        return;
+    if (!actor->getModel()->searchBone(mAtNodeName_s).isValid())
+        return;
+
+    sead::Matrix34f mtx;
+    bool found = false;
+    if (auto* actor2 = mActor) {
+        if (auto* model = actor2->getModel()) {
+            const auto key = model->searchBone(mAtNodeName_s);
+            if (key.isValid()) {
+                actor2->getModel()
+                    ->getUnits()
+                    .unsafeAt(key.model_unit_index)
+                    ->mModelUnit->getBoneWorldMatrix(&mtx, key.bone_index);
+                found = true;
+            }
+        }
+    }
+    if (!found)
+        mtx = sead::Matrix34f::zero;
+    body->setTransform(mtx);
+    sub_71007A2B64(body, nullptr);
+    sub_71007A3258(body, nullptr);
+    getActorAttackSensor(mActor)->activateAttackSensor(
+        0x2000, 0x4000, actor->getParam()->getRes().mGParamList->getAttack()->mPower.ref(),
+        actor->getParam()->getRes().mGParamList->getAttack()->mImpulse.ref(), 0.0f, 0, 1, -1,
+        false, 1, -1);
+}
+
 void EnemySyncAttack::enter_(ksys::act::ai::InlineParamPack* params) {
     _c8 = false;
     sub_71003BF444();

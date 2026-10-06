@@ -26,6 +26,24 @@ void EnemyLost::enter_(ksys::act::ai::InlineParamPack* params) {
     m34();
 }
 
+void EnemyLost::m34() {
+    ksys::act::ai::InlineParamPack pack;
+    sead::Vector3f target;
+    if (sub_71005D9F04(mActor)) {
+        auto* object = mActor->getMapObject();
+        if (!object || !object->getRails_0() || sub_710072C7A0(&target, mActor))
+            setFinished();
+        pack.addVec3(target, "TargetPos", -1);
+        _58 = *mParams.mRailCheckInterval_s;
+    } else {
+        pack.addVec3(*mParams.mTargetPos_d, "TargetPos", -1);
+    }
+    if (!*mParams.mSealForceReturn_s && sub_71005E2128(mActor))
+        changeChild("強制帰還", &pack);
+    else
+        changeChild("行動", &pack);
+}
+
 void EnemyLost::calc_() {
     if (!*mParams.mSealForceReturn_s && !isCurrentChild("強制帰還") &&
         sub_71005E2128(mActor)) {

@@ -3,6 +3,8 @@
 #include "Game/Actor/actEnemy.h"
 #include "Game/Actor/actRideable.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 
@@ -31,6 +33,26 @@ void LynelRodeo::enter_(ksys::act::ai::InlineParamPack* params) {
 void LynelRodeo::leave_() {
     mActor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_80000000);
     *mLynelRodeoAttackHitNum_a = 0;
+}
+
+void LynelRodeo::sub_7100499D48() {
+    auto* rideable = mActor->getHorseOptionsMaybe();
+    if (rideable &&
+        int(act::Unk_7100e8b2b8::Unk8(rideable->act::Unk_7100e8b2b8::_8.load() & 0xff)) !=
+            act::Unk_7100e8b2b8::Unk8::_0 &&
+        (rideable->act::Unk_7100e8b2b8::_8.load() & 0x400)) {
+        auto* actor = mActor;
+        if (sub_71007A2604(actor)) {
+            const s32 num = sub_71007A26AC(actor);
+            for (s32 i = 0; i < num; ++i) {
+                auto* info = sub_71007A255C(actor, i);
+                if (info && ksys::act::isPlayerProfile(&info->_d8)) {
+                    ++*mLynelRodeoAttackHitNum_a;
+                    return;
+                }
+            }
+        }
+    }
 }
 
 // NON_MATCHING: the two enum temporaries use different stack locations.

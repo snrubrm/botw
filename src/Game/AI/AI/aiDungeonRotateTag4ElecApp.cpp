@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiDungeonRotateTag4ElecApp.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/GameData/gdtSpecialFlags.h"
 
 namespace uking::ui {
@@ -17,6 +18,24 @@ DungeonRotateTag4ElecApp::~DungeonRotateTag4ElecApp() = default;
 
 bool DungeonRotateTag4ElecApp::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
+}
+
+void DungeonRotateTag4ElecApp::sub_710037816C() {
+    _4c = _50;
+    switch (*mCtrlDgnRemainsElectricBodyPart_m) {
+    case 0:
+        ksys::gdt::setBoolByKey(false, "RemainsElectric_Drum1Rotate0");
+        break;
+    case 1:
+        ksys::gdt::setBoolByKey(false, "RemainsElectric_Drum2Rotate0");
+        break;
+    case 2:
+        ksys::gdt::setBoolByKey(false, "RemainsElectric_Drum3Rotate0");
+        break;
+    }
+    ksys::act::ai::InlineParamPack pack;
+    pack.addFloat(_48, "DynTargetAng", -1);
+    changeChild("回転", &pack);
 }
 
 void DungeonRotateTag4ElecApp::enter_(ksys::act::ai::InlineParamPack* params) {
