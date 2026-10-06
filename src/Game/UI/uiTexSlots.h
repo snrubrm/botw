@@ -48,6 +48,8 @@ public:
     void setAnimator(s32 index, eui::LayoutEx* layout, const sead::SafeString& name);
     // 0x7100a81f14
     bool isLoaded(s32 index);
+    // 0x7100a816d8 (804 bytes, declared only; lane2 s46): called by the shop screens' slot 94
+    void sub_7100A816D8();
 
 private:
     /* 0x08 */ sead::Buffer<Entry> mEntries;

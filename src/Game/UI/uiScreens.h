@@ -637,6 +637,7 @@ public:
 class ScreenDoCommand : public ScreenEx {
 public:
     ScreenDoCommand();
+    void m100() override;
     void m101() override;
     ~ScreenDoCommand() override;
     SEAD_RTTI_OVERRIDE(ScreenDoCommand, ScreenEx)
@@ -1276,6 +1277,7 @@ struct ScreenAppPictureBookUnk;
 class ScreenMainShortCut : public ScreenEx {
 public:
     void m96() override;
+    void m98() override;
     void m99() override;
     bool isEnableControl() const override;
     ~ScreenMainShortCut() override;
@@ -1507,7 +1509,11 @@ public:
     SEAD_RTTI_OVERRIDE(ScreenPauseMenu, ScreenEx)
     eui::TagProcessor* doCreateTagProcessor_(sead::Heap* heap) override;
 
+    void m101() override;
+    void m106(eui::AnimButton* button) override;
     void m107(eui::AnimButton* button) override;
+    // 0x7100a3840c (CSV unnamed, 1248 bytes; declared only; tail-called by m106)
+    void sub_7100A3840C(eui::AnimButton* button);
     // 0x7100a392d8 (CSV unnamed, 396 bytes; declared only)
     void sub_7100A392D8();
     // 0x7100a38028 (CSV unnamed, 296 bytes; declared only)
@@ -1623,6 +1629,8 @@ public:
 struct ScreenAppPictureBookUnk {
     // 0x710093f594 (CSV unnamed; not decompiled)
     void sub_710093F594(bool a1);
+    // 0x710093dae8 (declared only; lane2 s46)
+    void sub_710093DAE8(s32 a1);
 };
 
 class ScreenAppPictureBook : public ScreenEx {
@@ -1939,7 +1947,9 @@ class ScreenShopBG : public ScreenEx {
 public:
     const char* getLayoutName_() const override;
     void m94() override;
+    void m98() override;
     void m100() override;
+    void m101() override;
     ScreenShopBG();
     ~ScreenShopBG() override;
     SEAD_RTTI_OVERRIDE(ScreenShopBG, ScreenEx)
@@ -2552,6 +2562,7 @@ public:
     const char* getLayoutName_() const override;
     ~ScreenShopBtnList15() override;
     SEAD_RTTI_OVERRIDE(ScreenShopBtnList15, ScreenEx)
+    void m94() override;
     void m100() override;
     void m106(eui::AnimButton* button) override;
     void m107(eui::AnimButton* button) override;
@@ -2562,7 +2573,9 @@ public:
 class ScreenShopInfo : public ScreenEx {
 public:
     const char* getLayoutName_() const override;
+    void m94() override;
     void m96() override;
+    void m101() override;
     ~ScreenShopInfo() override;
     SEAD_RTTI_OVERRIDE(ScreenShopInfo, ScreenEx)
     eui::TagProcessor* doCreateTagProcessor_(sead::Heap* heap) override;
@@ -2571,7 +2584,9 @@ public:
     sead::PtrArray<Unk_Elem> _3658;
     u8 _pad_3668[0x3678 - 0x3668];
     Unk_710247dc70 _3678;
-    u8 _pad_3680[0x3698 - 0x3680];
+    u8 _pad_3680[0x3690 - 0x3680];
+    /* 0x3690 */ eui::LayoutEx* _3690;
+
     UiTexSlots _3698;
 };
 

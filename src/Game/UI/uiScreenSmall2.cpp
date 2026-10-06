@@ -3,6 +3,7 @@
 #include "Game/UI/euiButton.h"
 #include "Game/UI/euiLayoutEx.h"
 #include "Game/UI/uiScreens.h"
+#include "Game/gameGraphics.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "Game/gameSaveSystem.h"
 #include "Game/UI/uiUnkSingletons.h"
@@ -36,6 +37,53 @@ bool ScreenMainShortCut::sub_7100A20DD0() {
 bool ScreenAppTool::sub_71009FD674() {
     // called through a pointer in the original (not devirtualised)
     return mStateMachine.getState()->getId() == (&sUnk_71025ec670)->getId();
+}
+
+// 0x7100a4ac24 / 0x7100a4ac40
+void ScreenShopBG::m98() {
+    Graphics::instance()->sub_7100F35FA4(true, false);
+}
+
+void ScreenShopBG::m101() {
+    Graphics::instance()->sub_7100F35FA4(false, false);
+}
+
+// 0x7100a4b0a8
+void ScreenShopBtnList15::m94() {
+    _3610.sub_7100A816D8();
+}
+
+// 0x7100a52310
+void ScreenShopInfo::m94() {
+    _3698.sub_7100A816D8();
+}
+
+// 0x7100a5231c
+void ScreenShopInfo::m101() {
+    if (_3690 && _3690->_91)
+        _3690->startAnimCloseImpl_(false, true);
+}
+
+// 0x7100a081e8
+void ScreenDoCommand::m100() {
+    _3660 = -1;
+}
+
+// 0x7100a205f0
+void ScreenMainShortCut::m98() {
+    _3790->sub_710093DAE8(2);
+}
+
+// 0x7100a38018
+void ScreenPauseMenu::m101() {
+    if (_3674)
+        sub_7100A38028();
+}
+
+// 0x7100a383f4
+void ScreenPauseMenu::m106(eui::AnimButton* button) {
+    if (static_cast<u32>(button->mTag - 9) <= 59)
+        sub_7100A3840C(button);
 }
 
 // 0x7100a07cf4
