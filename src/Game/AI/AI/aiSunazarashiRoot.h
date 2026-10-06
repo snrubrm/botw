@@ -5,6 +5,15 @@
 #include "Game/AI/aiUnk_7102357210.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
+#include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
+
+// Awareness filter of SunazarashiRoot's TU (vtable 0x7102426418, m2 0x71005afd40, D0 0x71005afd58): visits the
+// entries whose bit 1 is set. Placeholder name.
+class Unk_7102426418 : public ksys::act::Unk_71024dccf8 {
+public:
+    bool m2(ksys::act::Unk_71024dc978* entry) override;
+};
+
 namespace uking::ai {
 
 // vtable 0x7102426440 (D0 in this TU; m2/m3 are Unk_7102450648's)

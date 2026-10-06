@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiWeaponRootAI.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
@@ -183,6 +184,118 @@ bool WeaponRootAI::m42() {
     if (auto* weapon = sead::DynamicCast<ksys::act::WeaponBase>(mActor))
         return !weapon->m183();
     return true;
+}
+
+// 0x7100e1f3fc
+void WeaponRootAI::sub_7100E1F3FC() {
+    _39 = false;
+    m35();
+    m45();
+    m37();
+    if (mActor) {
+        if (auto* as_list = mActor->getASList()) {
+            if (as_list->sub_710115AA68("ChangeColor")) {
+                as_list->startAnimationMaybe(-1.0f, -1.0f, "ChangeColor", 0, 1, true);
+                as_list->x_3(0, 1, &ksys::as::ASList::Unk2::sub_7101163298, 0);
+                as_list->x_3(0, 1, &ksys::as::ASList::Unk2::sub_7101163100, 0);
+            }
+        }
+    }
+    changeChild("吊るす");
+}
+
+// 0x7100e1ed2c
+// NON_MATCHING: the original stores the _64 / _70 timers in a different order / merging (rate of _64 before _70)
+void WeaponRootAI::sub_7100E1ED2C() {
+    _a8 = false;
+    _aa = false;
+    m34();
+    _40 = ksys::Timer(0, 0);
+    _4c = ksys::Timer(2, 2);
+    _64 = ksys::Timer(10, 10);
+    _70 = ksys::Timer(0, 0);
+    if (mActor->get68f())
+        m45();
+    _c8.fadeXLink();
+    if (mActor) {
+        if (auto* as_list = mActor->getASList()) {
+            if (as_list->sub_710115AA68("ChangeColor")) {
+                as_list->startAnimationMaybe(-1.0f, -1.0f, "ChangeColor", 0, 1, true);
+                as_list->x_3(0, 1, &ksys::as::ASList::Unk2::sub_7101163298, 0);
+                as_list->x_3(0, 1, &ksys::as::ASList::Unk2::sub_7101163100, 0);
+            }
+        }
+    }
+    _38 = false;
+    m37();
+    changeChild("非装備");
+}
+
+// 0x7100e1f710
+// NON_MATCHING: same as m34: the original builds the first "Body" SafeString before the physics null check
+// (two SafeString slots alive: frame 0x60 vs our 0x50); every instruction otherwise matches
+void WeaponRootAI::sub_7100E1F710() {
+    _a8 = false;
+    _aa = false;
+    m45();
+    _39 = true;
+    m34();
+    if (auto* physics = mActor->getPhysics()) {
+        if (auto* set = physics->findBodyByName("Body")) {
+            if (auto* body = set->findBodyByHavokName("Body"))
+                body->changeMotionType(ksys::phys::MotionType::Fixed);
+        }
+    }
+    if (auto* body = mActor->getMainBody()) {
+        body->enableContactLayer(ksys::phys::ContactLayer::EntityGround);
+        body->enableContactLayer(ksys::phys::ContactLayer::EntityGroundRough);
+        body->enableContactLayer(ksys::phys::ContactLayer::EntityGroundObject);
+        body->enableContactLayer(ksys::phys::ContactLayer::EntityTree);
+    }
+    if (mActor) {
+        if (auto* as_list = mActor->getASList()) {
+            if (as_list->sub_710115AA68("ChangeColor")) {
+                as_list->startAnimationMaybe(-1.0f, -1.0f, "ChangeColor", 0, 1, true);
+                as_list->x_3(0, 1, &ksys::as::ASList::Unk2::sub_7101163298, 0);
+                as_list->x_3(0, 1, &ksys::as::ASList::Unk2::sub_7101163100, 0);
+            }
+        }
+    }
+    changeChild("Fixed配置");
+}
+
+// 0x7100e20db4
+// NON_MATCHING: same as m34: the original builds the first "Body" SafeString before the physics null check
+// (two SafeString slots alive: frame 0x60 vs our 0x50); every instruction otherwise matches
+void WeaponRootAI::sub_7100E20DB4() {
+    _a8 = false;
+    _aa = false;
+    ksys::act::disableAllAttClients(mActor);
+    if (auto* physics = mActor->getPhysics()) {
+        if (auto* set = physics->findBodyByName("Body")) {
+            if (auto* body = set->findBodyByHavokName("Body")) {
+                if (body->isAddedToWorld())
+                    body->removeFromWorld();
+            }
+        }
+        if (auto* set = physics->findBodyByName("Chemical")) {
+            if (auto* body = set->getRigidBodies()[0]) {
+                if (body->isAddedToWorld())
+                    body->removeFromWorld();
+            }
+        }
+    }
+    m39();
+    if (mActor) {
+        if (auto* as_list = mActor->getASList()) {
+            if (as_list->sub_710115AA68("ChangeColor")) {
+                as_list->startAnimationMaybe(-1.0f, -1.0f, "ChangeColor", 0, 1, true);
+                as_list->x_3(0, 1, &ksys::as::ASList::Unk2::sub_7101163298, 0);
+                as_list->x_3(0, 1, &ksys::as::ASList::Unk2::sub_7101163100, 0);
+            }
+        }
+    }
+    changeChild("刺さる");
 }
 
 }  // namespace uking::ai

@@ -37,6 +37,14 @@ public:
     void sub_7100E21228();
 
 protected:
+    // 0x7100e20db4: the weapon sticks into something: attack clients off, bodies removed from the world, "ChangeColor", then the "刺さる" child
+    void sub_7100E20DB4();
+    // 0x7100e1f710: fixes the weapon in place: the body becomes Fixed, ground contact layers on, "ChangeColor", then the "Fixed配置" child
+    void sub_7100E1F710();
+    // 0x7100e1ed2c: unequips the weapon: resets the timers, "ChangeColor" animation, then the "非装備" child
+    void sub_7100E1ED2C();
+    // 0x7100e1f3fc: switches the weapon to the hanging state: "ChangeColor" animation, then the "吊るす" child
+    void sub_7100E1F3FC();
     void sub_7100E1FC5C();
     void sub_7100E20C2C();
 

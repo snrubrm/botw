@@ -10,6 +10,10 @@
 #include "KingSystem/Physics/Cloth/physClothSet.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
 
+bool Unk_7102426418::m2(ksys::act::Unk_71024dc978* entry) {
+    return entry->m5(1);
+}
+
 namespace uking::ai {
 
 SunazarashiRoot::SunazarashiRoot(const InitArg& arg) : PreyRoot(arg) {}
