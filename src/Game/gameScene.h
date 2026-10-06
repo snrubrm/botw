@@ -118,6 +118,9 @@ public:
     static void sub_71007B8DB4();
     // 0x71007bea6c (CSV name; the namespace is a guess)
     static bool hasLoadingScreenStarted();
+    // 0x71007adfb0 (CSV GameScene::canTriggerPanicBloodMoon): not in a dungeon / AocField / test field / debug map, no scene
+    // status, fade, event or demo, and the player stands within 0.5 of the saved position.
+    static bool canTriggerPanicBloodMoon();
     // 0x71007beb18 (CSV GameScene::returnZero; called by unloadStage and handleAppearGameOver): always false.
     static bool returnZero();
     // 0x71007b7d88 / 0x71007beb30 (CSV GameScene::setInstance2 / setInstance3): copy sInstance to the other two
@@ -206,3 +209,12 @@ void setForceEnableGlidingSurfingRupee(bool value);
 
 // 0x71007b7da4 (CSV name; global namespace: E3Mgr declares it that way): `sInstance2->sub_71007B0D3C()`.
 bool isStageSelectState();
+
+// 0x7100f3d304 (CSV getSceneStatus; declared only): the scene status of the scene status manager.
+s32 getSceneStatus();
+// 0x7100b62c4 (declared only; CSV ui::isFadeDemoOrFadeScreenOpened).
+namespace ui {
+bool isFadeDemoOrFadeScreenOpened();
+}
+// 0x71008bb840 (CSV someEventMgrCheck; declared only): the event manager's current event check (global namespace).
+bool someEventMgrCheck();

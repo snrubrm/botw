@@ -6,6 +6,10 @@
 #include "KingSystem/ActorSystem/actActorSystem.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/System/StageInfo.h"
+#include "KingSystem/GameData/gdtCommonFlagsUtils.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Event/evtManager.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/Resource/resResource.h"
 
 namespace uking {
@@ -251,6 +255,34 @@ const sead::Vector3f& StageInfo::getPSavePosAngleForStageGen() {
 
 const sead::Vector3f& StageInfo::getPSavePosForStageGen() {
     return sPSavePosForStageGen;
+}
+
+// NON_MATCHING: the original ends with a branch (`mov w0, wzr; b.pl; orr w0, wzr, #1`) where ours has `cset w0, mi`.
+bool GameScene::canTriggerPanicBloodMoon() {
+    if (ksys::StageInfo::sIsDungeon)
+        return false;
+    if (ksys::StageInfo::getCurrentMapType() == "AocField")
+        return false;
+    if (ksys::StageInfo::getCurrentMapType() == "GameTestField")
+        return false;
+    if (ksys::StageInfo::getCurrentMapType() == "GameTestField2")
+        return false;
+    if (ksys::StageInfo::sIsDebugOrDevMap)
+        return false;
+    if (getSceneStatus() != 0)
+        return false;
+    if (ui::isFadeDemoOrFadeScreenOpened())
+        return false;
+    if (someEventMgrCheck())
+        return false;
+    if (ksys::evt::Manager::instance()->hasActiveEvent())
+        return false;
+    auto* player = ksys::act::PlayerInfo::instance()->getPlayer();
+    if (!player)
+        return false;
+    sead::Vector3f save_pos;
+    ksys::gdt::getFlag_PlayerSavePos(&save_pos, false);
+    return (player->getMtx().getTranslation() - save_pos).squaredLength() < 0.25f;
 }
 
 bool GameScene::returnZero() {
