@@ -53,6 +53,7 @@ target_sources(uking PRIVATE
   actMergedDungeonParts.h
   actMapConstPassive.cpp
   actMotorcycle.cpp
+  actMotorcycleAccessors.cpp
   actMotorcycle.h
   actMotorcycleStickControl.h
   actMotorcycleUtil.cpp

@@ -1,7 +1,11 @@
 #include "Game/Actor/actBeamBase.h"
 #include <prim/seadScopedLock.h>
 #include "Game/AI/aiUnk_71007377D4.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
+#include "KingSystem/Resource/Actor/resResourceGParamList.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectBeam.h"
 
 namespace uking::act {
 
@@ -55,6 +59,41 @@ void BeamBase::sub_710000395C(ksys::act::Actor* shooter, const sead::SafeString&
 
 void BeamBase::m165(sead::Vector3f* out) {
     mMtx.getTranslation(*out);
+}
+
+// inline-only in the original; name is a guess (same helper as in acc::Weapon / acc::Armor).
+static ksys::act::BaseProc* getProcIfActor(ksys::act::BaseProc* proc) {
+    if (proc && sead::IsDerivedFrom<ksys::act::Actor>(proc))
+        return proc;
+    return nullptr;
+}
+
+static inline BeamBase* getBeamBase(const ksys::act::ActorConstDataAccess& accessor) {
+    auto* actor = static_cast<ksys::act::Actor*>(getProcIfActor(accessor.getProc()));
+    return sead::DynamicCast<BeamBase>(actor);
+}
+
+void sub_71000039E0(const ksys::act::ActorConstDataAccess& accessor, ksys::act::Actor* shooter,
+                    const sead::SafeString& bone) {
+    if (auto* beam = getBeamBase(accessor))
+        beam->sub_7100003804(shooter, bone);
+}
+
+void sub_7100003B1C(const ksys::act::ActorConstDataAccess& accessor, f32 value) {
+    if (auto* beam = getBeamBase(accessor)) {
+        auto lock = sead::makeScopedLock(beam->_b90._0);
+        beam->_c24 = value;
+    }
+}
+
+void sub_7100003C34(const ksys::act::ActorConstDataAccess& accessor) {
+    if (auto* beam = getBeamBase(accessor))
+        beam->_c84.setBitOn(0);
+}
+
+s32 sub_7100003D30(const ksys::act::ActorConstDataAccess& accessor) {
+    auto* beam = getBeamBase(accessor);
+    return beam ? beam->getParam()->getRes().mGParamList->getBeam()->mBeamLevel.ref() : 0x1ff;
 }
 
 }  // namespace uking::act

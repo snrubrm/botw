@@ -2,6 +2,7 @@
 #include <basis/seadNew.h>
 #include "Game/Actor/actSiteBoss.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 
 namespace uking::act {
@@ -145,3 +146,20 @@ bool LastBoss::m140() {
 }
 
 }  // namespace uking::act
+
+// inline-only in the original; name is a guess (same helper as in acc::Weapon / acc::Armor).
+static ksys::act::BaseProc* getProcIfActor(ksys::act::BaseProc* proc) {
+    if (proc && sead::IsDerivedFrom<ksys::act::Actor>(proc))
+        return proc;
+    return nullptr;
+}
+
+uking::act::LastBoss* sub_71002C6B30(const ksys::act::ActorConstDataAccess& accessor) {
+    auto* actor = static_cast<ksys::act::Actor*>(getProcIfActor(accessor.getProc()));
+    return sead::DynamicCast<uking::act::LastBoss>(actor);
+}
+
+bool sub_71002C6B0C(const ksys::act::ActorConstDataAccess& accessor) {
+    auto* boss = sub_71002C6B30(accessor);
+    return boss ? boss->_14e4 == 1 : false;
+}

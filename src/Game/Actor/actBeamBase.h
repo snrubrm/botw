@@ -85,7 +85,22 @@ KSYS_CHECK_SIZE_NX150(BeamBase, 0xc88);
 
 }  // namespace uking::act
 
+namespace ksys::act {
+class ActorConstDataAccess;
+}
+
 namespace uking::act {
+
+// Accessor-based wrappers in the BeamBase TU (lane4 s44; placeholder names, the CSV has none): they cast the accessor's
+// proc to a BeamBase (nothing / the default without one).
+// 0x71000039e0: BeamBase::sub_7100003804 (shooter + bone). 0x7100003b1c: `_c24 = value` under the lock `_b90._0`.
+// 0x7100003c34: `_c84.setBitOn(0)`. 0x7100003d30 (CSV act::acc::BeamBase::getBeamLevel): the Beam GParam BeamLevel (0x1ff
+// without a beam).
+void sub_71000039E0(const ksys::act::ActorConstDataAccess& accessor, ksys::act::Actor* shooter,
+                    const sead::SafeString& bone);
+void sub_7100003B1C(const ksys::act::ActorConstDataAccess& accessor, f32 value);
+void sub_7100003C34(const ksys::act::ActorConstDataAccess& accessor);
+s32 sub_7100003D30(const ksys::act::ActorConstDataAccess& accessor);
 
 // Name from the CSV (Beam::*; the namespace is a guess). Factory 0x7100001c20: new(0xc98) + inlined ctor (two
 // pointer members). RTTI static 0x71025ae560.

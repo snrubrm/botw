@@ -86,3 +86,8 @@ public:
 KSYS_CHECK_SIZE_NX150(LastBoss, 0x1e58);
 
 }  // namespace uking::act
+
+// Accessor-based wrappers in the LastBoss TU (lane4 s44; placeholder names, the CSV has none).
+// 0x71002c6b30: the accessor's actor as a LastBoss (null otherwise). 0x71002c6b0c: `_14e4 == 1` (false without one).
+uking::act::LastBoss* sub_71002C6B30(const ksys::act::ActorConstDataAccess& accessor);
+bool sub_71002C6B0C(const ksys::act::ActorConstDataAccess& accessor);
