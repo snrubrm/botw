@@ -24,6 +24,10 @@ protected:
     void calc_() override;
     s32 m32(RandomMovePoints* points) override;
 
+    // 0x71001f76d8 (placeholder name): picks the collision shape ("Standing" / "Swimming") and the AS for the
+    // NPC's current state.
+    void sub_71001F76D8();
+
     // static_param at offset 0x38
     const int* mWallHitTime_s{};
     // static_param at offset 0x40
