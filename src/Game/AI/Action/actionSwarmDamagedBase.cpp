@@ -19,6 +19,14 @@ void SwarmDamagedBase::leave_() {
     ksys::act::ai::Action::leave_();
 }
 
+bool SwarmDamagedBase::sub_7100284D00(void* ptr) const {
+    for (const Entry& entry : _78) {
+        if (entry.mPtr == ptr)
+            return true;
+    }
+    return false;
+}
+
 void SwarmDamagedBase::loadParams_() {
     getStaticParam(&mIgnoreHitGroundTime_s, "IgnoreHitGroundTime");
     getStaticParam(&mTime_s, "Time");

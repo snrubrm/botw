@@ -25,6 +25,8 @@ protected:
     // 0x7100284a40 (CSV swarmStuff, declared only): puts `unit` into a free slot of _78 (creating a dead-actor
     // proc with AI tree params CreateDeadConditionType / DropTable "Swarm") or finishes it at once.
     void swarmStuff(act::Swarm::Unit* unit, s32 deadConditionType);
+    // 0x7100284d00 (placeholder name): whether one of the tracked entries has this pointer.
+    bool sub_7100284D00(void* ptr) const;
 
     // static_param at offset 0x20
     const int* mIgnoreHitGroundTime_s{};
