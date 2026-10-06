@@ -37,6 +37,9 @@ public:
     void sub_7100A76420();  // empty (CSV nullsub_6139)
     void sub_7100A76424();
     void sub_7100A79968();
+    // 0x7100a79a04 / 0x7100a79b38 (CSV uiManager::__auto13 / __auto12; declared only)
+    void sub_7100A79A04();
+    bool sub_7100A79B38();
     void sub_7100A79ED4();
     void sub_7100A7A4C0();
     void sub_7100A7A6E4(s32 a1);

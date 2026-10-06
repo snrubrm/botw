@@ -47,6 +47,23 @@ bool Manager::sub_7100A7FDB4() const {
 // 0x7100a76420 (CSV nullsub_6139)
 void Manager::sub_7100A76420() {}
 
+// 0x7100a79968
+void Manager::sub_7100A79968() {
+    switch (_64c2c) {
+    case 2:
+        sub_7100A79A04();
+        _64c2c = 3;
+        break;
+    case 4:
+        if (!sub_7100A79B38())
+            return;
+        _64c2c = 5;
+        break;
+    }
+    if (!isPausedMaybe())
+        _cc = -1;
+}
+
 // 0x7100a7a6e4
 void Manager::sub_7100A7A6E4(s32 a1) {
     _64b0c |= 1 << a1;
