@@ -827,6 +827,18 @@ void Player::sub_7100887B68() {
     x_23("GrabWait", false, -1.0f);
 }
 
+bool Player::sub_71008927D8() {
+    return getASList()->sub_710115ED5C(0x42, 0x24) && getASList()->sub_710115ED5C(0x42, 0x26);
+}
+
+bool Player::sub_710086CAB8() {
+    return !x_44();
+}
+
+bool Player::sub_71008697C0() {
+    return sead::Mathf::abs(_20bc.value) < 0.01f;
+}
+
 // NON_MATCHING: the singleton load is scheduled before the status-level member reads, whose load
 // order also differs from the original.
 void Player::updateResistHotVal() {

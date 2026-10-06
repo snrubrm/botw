@@ -329,6 +329,11 @@ public:
     f32 sub_7100885818();
     // 0x7100887b68 (lane4 s45, unnamed in the CSV): starts the animation sequence "GrabWait".
     void sub_7100887B68();
+    // 0x710086cab8 / 0x71008697c0 (lane4 s45, unnamed in the CSV): !x_44() / |_20bc| < 0.01.
+    bool sub_710086CAB8();
+    // 0x71008927d8 (lane4 s45, unnamed in the CSV): the AS list has the bits 0x24 and 0x26 of slot 0x42.
+    bool sub_71008927D8();
+    bool sub_71008697C0();
     void updateResistHotVal();
     void updateResistColdVal();
     void updateStatusEffectAttackUp();

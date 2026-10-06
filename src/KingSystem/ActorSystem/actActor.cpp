@@ -583,13 +583,11 @@ void Actor::decrementSkipJobPushTimer() {
 }
 
 bool Actor::sub_71011CDDCC() const {
-    if (mSkipJobPushTimer)
-        return false;
-    if (_1a0)
-        return false;
-    if (mMapObject && mMapObject->getFlags0().isOn(map::Object::Flag0::_20000))
-        return false;
-    return true;
+    if (!mSkipJobPushTimer && !_1a0) {
+        if (!mMapObject || !mMapObject->getFlags0().isOn(map::Object::Flag0::_20000))
+            return true;
+    }
+    return false;
 }
 
 void Actor::sub_71011DB138() {
