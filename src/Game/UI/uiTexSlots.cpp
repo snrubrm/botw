@@ -1,6 +1,11 @@
 #include "Game/UI/uiTexSlots.h"
 #include "Game/UI/euiAnimator.h"
+#include "Game/UI/euiLayoutEx.h"
 #include "KingSystem/Resource/resHandle.h"
+
+namespace eui {
+void SetTextureInfoFromTexMap(nn::ui2d::TextureInfo* out, const nn::ui2d::TexMap& map);
+}
 
 namespace uking::ui {
 
@@ -33,6 +38,39 @@ UiTexSlots::~UiTexSlots() {
         ++i;
     }
     mEntries.freeBuffer();
+}
+
+// 0x7100a819fc
+void UiTexSlots::setMaterial(s32 index, nn::ui2d::Material* material, bool apply) {
+    mEntries[index].material = material;
+    if (apply && material)
+        eui::SetTextureInfoFromTexMap(&mTexInfo, material->GetTexMapArray()[0]);
+}
+
+// 0x7100a81a30
+void UiTexSlots::setMaterialAndTexMapIndex(s32 index, nn::ui2d::Material* material, s32 tex_map_index,
+                                           bool apply) {
+    mEntries[index].material = material;
+    mEntries[index].texMapIndex = tex_map_index;
+    if (apply && material)
+        eui::SetTextureInfoFromTexMap(&mTexInfo, material->GetTexMapArray()[0]);
+}
+
+// 0x7100a81a7c
+void UiTexSlots::applyMaterial(s32 index) {
+    if (nn::ui2d::Material* material = mEntries[index].material)
+        eui::SetTextureInfoFromTexMap(&mTexInfo, material->GetTexMapArray()[0]);
+}
+
+// 0x7100a81aac
+void UiTexSlots::setAnimator(s32 index, eui::LayoutEx* layout, const sead::SafeString& name) {
+    if (layout)
+        mEntries[index].animator = layout->tryCreateAnimatorAuto(name.cstr(), false);
+}
+
+// 0x7100a81f14
+bool UiTexSlots::isLoaded(s32 index) {
+    return mEntries[index].loaded;
 }
 
 }  // namespace uking::ui

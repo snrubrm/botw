@@ -12,6 +12,7 @@ class Handle;
 
 namespace eui {
 class Animator;
+class LayoutEx;
 }
 
 namespace uking::ui {
@@ -37,6 +38,16 @@ public:
 
     // 0x7100a813e0
     void unload(s32 index);
+
+    // 0x7100a819fc / 0x7100a81a30 / 0x7100a81a7c (placeholder names): store the material of entry `index` (and its texture
+    // map index) and optionally attach the default texture info of the first texture map / re-apply it
+    void setMaterial(s32 index, nn::ui2d::Material* material, bool apply);
+    void setMaterialAndTexMapIndex(s32 index, nn::ui2d::Material* material, s32 tex_map_index, bool apply);
+    void applyMaterial(s32 index);
+    // 0x7100a81aac: creates the entry's animator `name` of `layout`
+    void setAnimator(s32 index, eui::LayoutEx* layout, const sead::SafeString& name);
+    // 0x7100a81f14
+    bool isLoaded(s32 index);
 
 private:
     /* 0x08 */ sead::Buffer<Entry> mEntries;
