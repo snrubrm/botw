@@ -3,7 +3,12 @@
 #include "KingSystem/ActorSystem/Profiles/actDynamicActor.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actCCAccessor.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actUnk_71006ecc78.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/Physics/Ragdoll/physRagdollInstance.h"
+#include "KingSystem/Physics/Ragdoll/physRagdollRigidBody.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/System/VFR.h"
 
 bool sub_71006F562C(ksys::phys::CharacterController* controller);
@@ -44,6 +49,37 @@ void StalEnemyBlownOff::sub_710027588C(sead::Vector3f* velocity) {
         velocity->z = 0.0f;
     }
     velocity->y = *mWeaponDropSpeedY_s;
+}
+
+void StalEnemyBlownOff::sub_7100274D98() {
+    if (_16d)
+        return;
+    auto* dynamic_actor = sead::DynamicCast<ksys::act::DynamicActor>(mActor);
+    if (!dynamic_actor)
+        return;
+    auto* ragdoll = dynamic_actor->getRagdollInstance();
+    if (!ragdoll)
+        return;
+    const auto& mtx = mActor->getMtx();
+    _164 = sead::Mathf::atan2(mtx.m[1][2], sead::Mathf::sqrt(mtx.m[0][2] * mtx.m[0][2] +
+                                                            mtx.m[2][2] * mtx.m[2][2])) *
+           sead::Mathf::rad2deg(1.0f);
+    mActor->getASList()->x_6(9, 0, _164);
+    auto* controller = mActor->getCharacterController();
+    if (!controller)
+        return;
+    sead::Matrix34f transform;
+    controller->physicsXXXGetMtx_1(&transform);
+    if (_160 >= 0 && ragdoll->getRigidBodies_()[_160]) {
+        const sead::Vector3f center = ragdoll->getRigidBodies_()[_160]->getCenterOfMassInWorld();
+        transform.m[0][3] = center.x;
+        transform.m[1][3] = center.y;
+        transform.m[2][3] = center.z;
+    } else if (auto* handler = dynamic_actor->_868) {
+        handler->sub_71006EE1F8(mPosBaseRagdollRbName_s);
+        handler->sub_71006EDE54(&transform, mPosBaseRagdollRbName_s);
+    }
+    controller->sub_7100F5F938(transform);
 }
 
 void StalEnemyBlownOff::enter_(ksys::act::ai::InlineParamPack* params) {

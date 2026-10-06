@@ -67,11 +67,17 @@ protected:
     // static_param at offset 0x128
     const sead::Vector3f* mHeadRotateOffset_s{};
     // Not decompiled yet (see the ctor at 0x71002734c8): 0x130-0x154 are zeroed together with the static params.
-    u8 _130[0x16e - 0x130];
+    u8 _130[0x160 - 0x130];
+    s32 _160 = -1;
+    f32 _164 = 0.0f;
+    u8 _168[0x16d - 0x168];
+    bool _16d = false;
     bool _16e = false;
 
     // 0x71002749b4 (placeholder name): raises the character controller's `_110` by the frame time.
     void sub_71002749B4();
+    // 0x7100274d98 (placeholder name): tilts the character controller to the ragdoll's pose.
+    void sub_7100274D98();
     // 0x710027588c (placeholder name): the velocity of a dropped weapon (the actor's horizontal velocity scaled to
     // WeaponDropSpeedXZ, WeaponDropSpeedY upwards).
     void sub_710027588C(sead::Vector3f* velocity);
