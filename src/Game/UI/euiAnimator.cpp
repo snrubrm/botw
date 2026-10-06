@@ -220,6 +220,8 @@ void Animator::UpdateFrame(f32 delta) {
 // 0x7100be7c78
 AnimatorSet::AnimatorSet() = default;
 
+AnimatorSet::~AnimatorSet() = default;
+
 // 0x7100be7c94
 AnimatorSet::AnimatorSet(const AnimatorSet& other, LayoutEx* layout, sead::Heap* heap) {
     if (other.mAnimators.size() == 0)

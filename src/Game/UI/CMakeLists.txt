@@ -80,6 +80,7 @@ target_sources(uking PRIVATE
   uiScreenDtors.cpp
   uiScreenDtors2.cpp
   uiScreenDtors3.cpp
+  uiScreenDtors4.cpp
   uiScreenFacade.cpp
   uiScreenBase.cpp
   uiScreenChild.cpp

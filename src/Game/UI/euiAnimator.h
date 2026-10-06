@@ -67,7 +67,8 @@ class AnimatorSet {
 public:
     AnimatorSet();
     AnimatorSet(const AnimatorSet& other, LayoutEx* layout, sead::Heap* heap);
-    virtual ~AnimatorSet() = default;
+    // 0x7100be7f18 (D1: `ret`) / 0x7100be7f1c (D0)
+    virtual ~AnimatorSet();
 
     // 0x7100be7e40 / 0x7100be7f20
     void allocBuffer(u32 count, sead::Heap* heap);
