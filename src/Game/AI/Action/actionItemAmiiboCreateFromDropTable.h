@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/ActorSystem/actBaseProcHandle.h"
 
 namespace uking::action {
 
@@ -70,6 +71,8 @@ protected:
     sead::SafeString mNotFlagActor_1_s{};
     // static_param at offset 0x128
     const sead::Vector3f* mCreateOffset_s{};
+    u8 _130[0xa68 - 0x130];
+    ksys::act::BaseProcHandle _a68;
 };
 
 }  // namespace uking::action

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -22,7 +23,8 @@ protected:
     const float* mGimmickTimeLimit_m{};
     // map_unit_param at offset 0x28
     const bool* mIsBillboard_m{};
-    u8 _30[0xab0 - 0x30];
+    ksys::act::ActorConstDataAccess _30;
+    u8 _48[0xab0 - 0x48];
 };
 
 }  // namespace uking::action

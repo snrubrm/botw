@@ -30,6 +30,7 @@ public:
     /// The memory needed for the given number of emitters.
     static u32 getRequireEmitterCreateHeap(s32 emitter_num);
 
+    void freeEmitter(Emitter* emitter);
     Emitter* allocEmitter(sead::Heap* heap, const sead::SafeString& name);
     void setEmitterAllocateCallback(IEmitterAllocateCallback* callback);
     void dumpActiveSoundSource() const;

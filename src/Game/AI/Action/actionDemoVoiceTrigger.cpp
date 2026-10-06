@@ -6,7 +6,14 @@ namespace uking::action {
 
 DemoVoiceTrigger::DemoVoiceTrigger(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
-DemoVoiceTrigger::~DemoVoiceTrigger() = default;
+DemoVoiceTrigger::~DemoVoiceTrigger() {
+    if (mEmitter) {
+        if (auto* arbiter = aal::SystemAccessor::getArbiter()) {
+            arbiter->freeEmitter(mEmitter);
+            mEmitter = nullptr;
+        }
+    }
+}
 
 bool DemoVoiceTrigger::init_(sead::Heap* heap) {
     mEmitter = aal::SystemAccessor::getArbiter()->allocEmitter(heap, "demoVoiceTrigger");

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <time/seadTickTime.h>
+
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -17,6 +19,11 @@ public:
 
 protected:
     void calc_() override;
+    sead::TickTime _20;
+    s64 _28 = 0;
+    sead::TickTime _30;
+    s32 _38 = 0;
 };
+KSYS_CHECK_SIZE_NX150(EnvSeEmitPointBirdPlayAction, 0x40);
 
 }  // namespace uking::action
