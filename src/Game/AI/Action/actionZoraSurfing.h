@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "Game/AI/aiUnk_71024f15c0.h"
 #include "KingSystem/ActorSystem/actCCAccessor.h"
 
 namespace uking::action {
@@ -22,9 +23,15 @@ protected:
     virtual void m33();
     virtual void m34();
     virtual void m35();
+    virtual void m36();
+    virtual bool m37();
+    virtual void m38();
+    virtual const sead::SafeString* m39();
+    void sub_71002C2AD0();
 
     // FIXME: remove this
-    u8 pad_0x20[0x90];
+    /* 0x20 */ Unk_71024f15c0 _20;
+    u8 pad_0x80[0x30];
     // static_param at offset 0xb0
     const float* mRotRadPerSec_s{};
     // static_param at offset 0xb8
@@ -63,7 +70,9 @@ protected:
     sead::SafeString mUniqueName_d{};
     /* 0x158 */ ksys::act::CCAccessor _158;
     // Not modelled yet (static string pointers and floats, see the W constructor at 0x71002c1354).
-    u8 _160[0x1d8 - 0x160];
+    u8 _160[0x1d5 - 0x160];
+    u8 _1d5;
+    u8 _1d6[2];
 };
 
 }  // namespace uking::action

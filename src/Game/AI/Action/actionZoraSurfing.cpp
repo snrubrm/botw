@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionZoraSurfing.h"
+#include <math/seadMathCalcCommon.h>
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -41,6 +43,35 @@ void ZoraSurfing::loadParams_() {
 
 void ZoraSurfing::calc_() {
     ksys::act::ai::Action::calc_();
+}
+
+// NON_MATCHING: instruction scheduling only (the original loads the target x/y pair before the actor translation).
+float ZoraSurfing::m32() {
+    const auto& target = _20._8.sub_7100EEB370();
+    const sead::Vector3f pos = mActor->getMtx().getTranslation();
+    const float distance = (pos - target).length();
+    const float t = sead::Mathf::clamp((distance - *mOnRailDistance_s) / (*mFarDistance_s - *mOnRailDistance_s), 0.0f, 1.0f);
+    return (1.0f - t) * 10.0f;
+}
+
+void ZoraSurfing::m36() {
+    sub_7100EEF078(_20._8.rail, _20._30.progress);
+    sub_71002C2AD0();
+}
+
+bool ZoraSurfing::m37() {
+    return true;
+}
+
+void ZoraSurfing::m38() {
+    if (m39()->isEmpty())
+        return;
+    playAS(m39()->cstr(), true, 0, 0, -1.0f);
+}
+
+// NON_MATCHING: select operand order only (the original adds 0x130 first and selects with eq).
+const sead::SafeString* ZoraSurfing::m39() {
+    return _1d5 != 0 ? &mASNameJump_s : &mASName_s;
 }
 
 }  // namespace uking::action
