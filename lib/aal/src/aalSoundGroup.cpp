@@ -58,7 +58,7 @@ bool SoundGroup::isGroupFolder() const {
 
 void SoundGroup::addToPlayingSoundSources(SoundSource* sound_source) {
     if (sound_source)
-        mPlayingSoundSources.pushFront(sound_source);
+        mPlayingSoundSources.pushBack(sound_source);
 }
 
 void SoundGroup::calcSilence_() {
