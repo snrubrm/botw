@@ -35,6 +35,7 @@ protected:
     // 0x71001c9444 (declared name; 232 B): the hit impact force of the damage manager's weapon type / strength.
     f32 sub_71001C9444();
 
+
     struct Params {
         // static_param at offset 0x20
         const float* mVelReduce_s{};

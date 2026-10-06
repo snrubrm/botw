@@ -57,8 +57,37 @@ void TakeHitImpactForce::loadParams_() {
     getStaticParam(&mParams.mVelReduceY_s, "VelReduceY");
 }
 
+// NON_MATCHING: same logic; the original lays out the blocks differently (the slow-time / velocity-reduce arms first)
+// and the impact block is the same as enter_'s (inlined in both).
 void TakeHitImpactForce::calc_() {
-    ActionEx::calc_();
+    sead::Vector3f velocity;
+    sead::Vector3f dir;
+    auto* manager = sub_710072BA90(mActor);
+    if (manager && sub_7100732AD0(manager->getField54()) && m33(&dir, manager)) {
+        if (!manager->isSlowTime()) {
+            auto* actor = mActor;
+            sead::Vector3f out = sead::Vector3f::zero;
+            sub_71005E22D4(&out, actor, dir, sub_71001C9444());
+            _68.value = out;
+            _68.prev_value = out;
+            if (!mActor->getCharacterController()) {
+                const f32 force = sub_71001C9444();
+                if (auto* body = mActor->getMainBody()) {
+                    const f32 y = force * dir.y;
+                    velocity.set(force * dir.x, y < 0.0f ? -y : y, force * dir.z);
+                    velocity *= 30.0f;
+                    body->setLinearVelocity(velocity);
+                }
+            }
+        }
+        m34();
+    } else {
+        _68 *= *mParams.mVelReduce_s;
+    }
+    _68.updateStats();
+    m35();
+    if (m37())
+        setFinished();
 }
 
 bool TakeHitImpactForce::isChangeable() const {
