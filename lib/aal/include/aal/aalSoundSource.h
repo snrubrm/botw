@@ -124,9 +124,14 @@ public:
     void pauseImpl_(bool pause, f32 fade_time);
     void freeUnifierSource_();
     void finishNow_();
+    /// 0x7100b776cc (declared only): starts the release of the sound.
+    void beginToStop_();
+    /// 0x7100b78478
+    void execOnFinalizeEmitter();
+    /// 0x7100b770e4: allocates the spatial calculator (and the unifier source); stops the sound if that fails.
+    bool setupSpatialCalcUnified_(bool* unified);
     void execOnDestroyWaveAsset(u64 a, u64 b, bool c, bool d);
     void execOnFianlizeSoundSourceUnifierSource();
-    void execOnFinalizeEmitter();
     s32 getChannelNum(s32 track) const;
     bool setSpeakerBalanceSupplier(ISpeakerBalanceSupplier* supplier);
     bool isAttachedSound() const;

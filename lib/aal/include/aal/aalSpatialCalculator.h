@@ -55,6 +55,8 @@ public:
         u16 _2a;
         u64 user_param;
 
+        Setting() : flags(0), _2a(0) { initialize(); }
+
         /// 0x7100b8f4ec
         void initialize();
     };
@@ -95,9 +97,11 @@ private:
 
     /// Node in the calculator list of the attached Shape.
     sead::ListNode mShapeListNode;
-    u8 _18[0x20 - 0x18];
+    bool mInitialized;
+    u8 _19[0x20 - 0x19];
     Setting mSetting;
-    u8 _58[0x64 - 0x58];
+    Cone* mCone;
+    u8 _60[0x64 - 0x60];
     s32 mReferredCount;
     /// The index in the SpatialCalculatorPool.
     s32 mPoolIndex;

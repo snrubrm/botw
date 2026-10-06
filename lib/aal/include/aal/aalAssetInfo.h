@@ -41,6 +41,16 @@ public:
     /// 0x7100b959a8
     void setup(const void* audio_data, AudioMetaReader* reader);
     bool isValid() const;
+    /// The name of the asset (nullptr if there is no string table).
+    const char* getAssetName() const {
+        if (!mReader.mData)
+            return nullptr;
+        const u32 name_offset = mReader.getAssetBlock_()->stream_name_offset;
+        const char* table = mReader.getStringTable();
+        if (!table)
+            return nullptr;
+        return table + name_offset;
+    }
     bool getStreamFilePath(sead::BufferedSafeStringBase<char>* path) const;
     bool getTrackParam(StreamTrack* track, s32 index) const;
     bool getLoopInfo(LoopInfo* info) const;

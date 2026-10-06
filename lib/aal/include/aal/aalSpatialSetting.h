@@ -40,6 +40,9 @@ public:
     bool isUnified() const { return mSetting.flags & 2; }
     bool isPositioned() const { return mPositioned; }
     bool isPositionFollow() const { return mPositionFollow; }
+    /// Whether the spatial calculator must not be shared with other sounds (SpatialCalculatorPool::alloc).
+    bool isCalculatorExclusive() const { return mExclusiveCalculator; }
+    const SpatialCalculator::Setting& getCalculatorSetting() const { return mSetting; }
     const SpatialCalculator::Setting& getSpatialCalculatorSetting() const { return mSetting; }
 
 private:
@@ -47,7 +50,7 @@ private:
     sead::Vector3f mVelocity;
     bool mPositioned;
     bool mPositionFollow;
-    u8 _46;
+    bool mExclusiveCalculator;
     SpatialCalculator::Setting mSetting;
 };
 static_assert(sizeof(SpatialSetting) == 0x80, "aal::SpatialSetting size mismatch");

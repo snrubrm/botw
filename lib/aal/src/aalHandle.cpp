@@ -189,6 +189,14 @@ const char* Handle::getAssetName() const {
     return nullptr;
 }
 
+// NON_MATCHING: the original does not make the call a tail call (it keeps the frame and returns after it).
+// 0x7100b761ac
+const sead::SafeString& Handle::getSoundGroupName() const {
+    if (auto* source = getSoundSource())
+        return source->getSoundGroupName();
+    return sead::SafeString::cEmptyString;
+}
+
 // 0x7100b7617c
 SoundGroup* Handle::getSoundGroup() const {
     if (auto* source = getSoundSource())

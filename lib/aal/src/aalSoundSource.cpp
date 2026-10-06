@@ -226,6 +226,28 @@ const AssetInfo* SoundSource::getAssetInfo() const {
     return mPlayingStateController->mSoundController->mAssetInfo;
 }
 
+// 0x7100b78524
+void SoundSource::aggregateAndClampParams_() {
+    SoundParam::aggregate(mAggregatedParam, mDefaultParam, mParam);
+    if (mEmitter) {
+        SoundParam::aggregate(mAggregatedParam, mEmitter->mSoundParam);
+        if (mEmitter->isDebugMuted())
+            mAggregatedParam->setVolume(0.0f);
+    }
+    if (mSoundGroup)
+        SoundParam::aggregate(mAggregatedParam, *mSoundGroup->getAggregatedParam());
+    mAggregatedParam->clampExceptVolume();
+    mAggregatedParam->clampMinBusVolume();
+}
+
+// NON_MATCHING: same loads and calls; the original sets up the frame at the start and keeps branches where this uses a conditional select.
+// 0x7100b782a4
+const char* SoundSource::getAssetName() const {
+    if (const AssetInfo* info = getAssetInfo())
+        return info->getAssetName();
+    return nullptr;
+}
+
 // 0x7100b78310
 bool SoundSource::isLooped() const {
     if (auto* info = mPlayingStateController->mSoundController->mAssetInfo)
@@ -283,6 +305,72 @@ inline void SoundSource::finishNow_() {
 void SoundSource::stopForce() {
     freeUnifierSource_();
     finishNow_();
+}
+
+// 0x7100b78478
+void SoundSource::execOnFinalizeEmitter() {
+    if (mPrepareFlags & 2) {
+        if (!(mState >= 6 && mState < 8)) {
+            if (mState <= 2) {
+                finishNow_();
+            } else {
+                mStartDelayTime = 0.0f;
+                mFadeInTime = 0.0f;
+                beginToStop_();
+            }
+        }
+    }
+    mEmitter = nullptr;
+}
+
+// NON_MATCHING: same code; the original zeroes the return value after the state store (it reuses the null emitter register on the early path).
+// 0x7100b770e4
+bool SoundSource::setupSpatialCalcUnified_(bool* unified) {
+    if (mSpatialCalculator) {
+        *unified = false;
+        return true;
+    }
+
+    if (mSpatialSetting.isPositioned()) {
+        mSpatialCalculator = SystemAccessor::getArbiter()->getSpatialCalculatorPool()->alloc(
+            mSpatialSetting.getCalculatorSetting(), mSpatialSetting.isCalculatorExclusive());
+        if (!mSpatialCalculator)
+            return false;
+        if (!mUnifierSource)
+            mUnifierSource = SystemAccessor::getSoundSourceUnifier()->allocSource(this);
+        if (mUnifierSource) {
+            *unified = true;
+            return true;
+        }
+    }
+
+    finishNow_();
+    return false;
+}
+
+// 0x7100b77ca4
+void SoundSource::stop(f32 fade_time, f32 release_time) {
+    if (fade_time < 0.0f) {
+        freeUnifierSource_();
+        finishNow_();
+        return;
+    }
+
+    if (mState >= 6 && mState < 8)
+        return;
+
+    if (mState <= 2) {
+        finishNow_();
+        return;
+    }
+
+    // The delay and fade-in time are not used any more once the sound plays: they hold the release parameters.
+    mStartDelayTime = release_time;
+    mFadeInTime = fade_time;
+    if (release_time == 0.0f)
+        beginToStop_();
+    else
+        mState = 5;
 }
 
 // 0x7100b772cc

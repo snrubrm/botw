@@ -1,6 +1,8 @@
 #include "aal/aalSpatialCalculator.h"
 #include <cstring>
 #include <prim/seadScopedLock.h>
+#include "aal/aalCone.h"
+#include "aal/aalShape.h"
 
 namespace aal {
 
@@ -17,6 +19,43 @@ void SpatialCalculator::Setting::initialize() {
     doppler_factor = 0.0f;
     sound_source_size = 0.0f;
     shape = nullptr;
+}
+
+// 0x7100b8f5a0 (D2) / 0x7100b8f684 (D0)
+SpatialCalculator::~SpatialCalculator() {
+    finalize();
+}
+
+// 0x7100b8f61c
+void SpatialCalculator::finalize() {
+    if (!mInitialized)
+        return;
+
+    if (mCone) {
+        ConeFactory::instance()->destroy(mCone);
+        mCone = nullptr;
+    }
+    if (mResults) {
+        delete[] mResults;
+        mResults = nullptr;
+        mResultNum = 0;
+    }
+    if (mSetting.shape)
+        mSetting.shape->detachSpatialCalculator_(this);
+    mInitialized = false;
+}
+
+// 0x7100b8f930
+bool SpatialCalculator::detachShape(bool reset_position) {
+    if (!mSetting.shape)
+        return false;
+
+    sead::ScopedLock<sead::CriticalSection> lock(&mCS);
+    mSetting.shape->detachSpatialCalculator_(this);
+    mSetting.shape = nullptr;
+    if (reset_position)
+        detachPositioningInfo();
+    return true;
 }
 
 // 0x7100b8fb00

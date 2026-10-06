@@ -3,6 +3,23 @@
 
 namespace aal {
 
+// 0x7100b91744
+SpatialSetting::SpatialSetting() {
+    reset();
+}
+
+// 0x7100b917e8
+void SpatialSetting::reset() {
+    mActorMatrix = sead::Matrix34f::zero;
+    mVelocity = sead::Vector3f::zero;
+    mPositioned = true;
+    mPositionFollow = true;
+    mExclusiveCalculator = 0;
+    mSetting.initialize();
+    mSetting.actor_matrix = &mActorMatrix;
+    mSetting.velocity = &mVelocity;
+}
+
 // 0x7100b91860 / 0x7100b91864
 SpatialSetting::~SpatialSetting() = default;
 

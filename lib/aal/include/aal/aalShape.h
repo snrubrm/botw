@@ -66,6 +66,8 @@ public:
     void getPositionWithOffset(sead::Vector3f* out) const;
 
 protected:
+    friend class SpatialCalculator;
+
     virtual void drawShape_(sead::PrimitiveDrawer& drawer, const sead::Color4f& color,
                             f32 scale) const;
 

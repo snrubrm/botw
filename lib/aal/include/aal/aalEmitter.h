@@ -24,6 +24,7 @@ class SoundSource;
 /// destructor are not decompiled).
 class Emitter : public sead::hostio::Node {
     friend class Arbiter;
+    friend class SoundSource;
 
 public:
     Emitter();
