@@ -11,11 +11,33 @@ namespace ksys::act {
 class Actor;
 }
 
+namespace ksys::util {
+class TaskThread;
+}
+
 namespace uking::ui {
 
 // UI singletons whose classes are not identified yet. Placeholder names after the address of the
 // singleton instance pointer (data_symbols.csv); only the fields used by the UI facade functions
 // (uiMiscFacade.cpp) are declared, at their original offsets.
+
+// The UI's low priority thread manager (CSV uiLowPrioThreadMgr; instance pointer 0x71025f59e0). Only the thread it
+// forwards pause / resume / clearQueue to is declared.
+class UiLowPrioThreadMgr {
+public:
+    static UiLowPrioThreadMgr* instance() { return sInstance; }
+
+    // 0x7100a6d978 / 0x7100a6d988 / 0x7100a6d998
+    void pause();
+    void resume();
+    void clearQueue();
+
+    u8 _0[0x28];
+    /* 0x28 */ ksys::util::TaskThread* _28;
+
+private:
+    static UiLowPrioThreadMgr* sInstance;
+};
 
 // Instance pointer 0x71025d6578 (createInstance 0x7100949bbc, size 0x78, polymorphic with a
 // singleton disposer at 0x8). `_3c` is a state (initialised to 13), `_40` is initialised to 7.

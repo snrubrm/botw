@@ -916,6 +916,64 @@ void sub_7100A9AC84(void* a1) {
         child->sub_71009B62CC(a1);
 }
 
+// 0x7100a944d8 (placeholder name)
+void sub_7100A944D8() {
+    if (auto* thread_mgr = UiLowPrioThreadMgr::instance())
+        thread_mgr->pause();
+    if (auto* mgr = eui::ScreenMgr::instance()) {
+        if (auto* screen = sead::DynamicCast<ScreenEx>(mgr->getScreen(ScreenId::AppCamera)))
+            screen->sub_7100A48A18();
+    }
+    if (auto* manager = Manager::instance())
+        manager->_64c30 |= 0x40;
+}
+
+// 0x7100a945bc (placeholder name)
+void sub_7100A945BC() {
+    if (auto* thread_mgr = UiLowPrioThreadMgr::instance())
+        thread_mgr->clearQueue();
+    if (eui::ScreenMgr::instance()) {
+        const s32 ids[] = {ScreenId::AppCamera,  ScreenId::AppMap,        ScreenId::AppMapDungeon,
+                           ScreenId::AppAlbum,   ScreenId::AppPictureBook, ScreenId::SystemWindow01};
+        for (s32 id : ids) {
+            if (auto* screen = sead::DynamicCast<ScreenEx>(eui::ScreenMgr::instance()->getScreen(id)))
+                screen->sub_7100A48AAC();
+        }
+    }
+}
+
+// NON_MATCHING: register allocation only (the original keeps the ScreenMgr instance pointer in x23 and the id table in x24)
+// 0x7100a946ac (placeholder name)
+void sub_7100A946AC() {
+    const s32 ids[] = {ScreenId::AppMap,         ScreenId::AppMapDungeon,  ScreenId::AppAlbum,
+                       ScreenId::AppPictureBook, ScreenId::SystemWindow01, ScreenId::AkashNum};
+    for (s32 id : ids) {
+        if (auto* screen = sead::DynamicCast<ScreenEx>(eui::ScreenMgr::instance()->getScreen(id)))
+            screen->sub_7100A48B40();
+    }
+    UiLowPrioThreadMgr::instance()->resume();
+}
+
+// 0x7100a947ac (placeholder name)
+void sub_7100A947AC() {
+    for (s32 id = 0; id != 99; ++id) {
+        if (auto* screen = sead::DynamicCast<Screen>(eui::ScreenMgr::instance()->getScreen(id)))
+            screen->m125();
+    }
+    Manager::instance()->sub_7100A7FE9C();
+}
+
+// NON_MATCHING: the original masks the bool (`and w8, w19, #1`) separately before each of the two stores, ours once on entry
+// 0x7100a94914 (placeholder name)
+void sub_7100A94914(bool value) {
+    const s32 ids[] = {ScreenId::HomeMenuCapture, ScreenId::HomeMenuCapture2};
+    for (s32 id : ids) {
+        if (auto* screen =
+                sead::DynamicCast<ScreenHomeMenuCapture>(eui::ScreenMgr::instance()->getScreen(id)))
+            screen->_3618 = value;
+    }
+}
+
 // 0x7100a95924
 void showInfoOverlayWithString(s32 type, const sead::SafeString& text) {
     if (sub_7100AA8F10())

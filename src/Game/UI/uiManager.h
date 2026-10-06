@@ -44,6 +44,8 @@ public:
     void sub_7100A7A4C0();
     void sub_7100A7A6E4(s32 a1);
     void sub_7100A7A704(s32 a1);
+    // 0x7100a7fe9c (declared only)
+    void sub_7100A7FE9C();
     void sub_7100A7C904();
     void sub_7100A7DA38();
     void sub_7100A7C71C();

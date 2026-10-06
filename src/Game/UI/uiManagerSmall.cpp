@@ -1,4 +1,6 @@
 #include "Game/UI/uiManager.h"
+#include "Game/UI/uiUnkSingletons.h"
+#include "KingSystem/Utils/Thread/TaskThread.h"
 #include "Game/UI/euiUIController.h"
 #include "Game/UI/uiUtils.h"
 
@@ -9,6 +11,24 @@ sead::Heap* sUnk_71025f59d0;
 
 sead::Heap* getHeap() {
     return sUnk_71025f59d0;
+}
+
+// 0x7100a6d978
+void UiLowPrioThreadMgr::pause() {
+    if (_28)
+        _28->pause();
+}
+
+// 0x7100a6d988
+void UiLowPrioThreadMgr::resume() {
+    if (_28)
+        _28->resume();
+}
+
+// 0x7100a6d998
+void UiLowPrioThreadMgr::clearQueue() {
+    if (_28)
+        _28->clearQueue();
 }
 
 // 0x7100945320 / 0x7100945344: the two gauge ranges (value, maximum, default limit); names are guesses
