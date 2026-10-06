@@ -11,19 +11,19 @@ namespace uking::ai {
 // `call`s and D0s live in the EnemyHorseRide TU (0x7100396008-0x710039635c).
 class Unk_71023e8328 : public dmg::DamageCallback {
 public:
-    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) override;
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, dmg::DamageCallbackInfo* a6) override;
 };
 KSYS_CHECK_SIZE_NX150(Unk_71023e8328, 0x28);
 
 class Unk_71023e8360 : public dmg::DamageCallback {
 public:
-    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) override;
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, dmg::DamageCallbackInfo* a6) override;
 };
 KSYS_CHECK_SIZE_NX150(Unk_71023e8360, 0x28);
 
 class Unk_71023e8398 : public dmg::DamageCallback {
 public:
-    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) override;
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, dmg::DamageCallbackInfo* a6) override;
 };
 KSYS_CHECK_SIZE_NX150(Unk_71023e8398, 0x28);
 

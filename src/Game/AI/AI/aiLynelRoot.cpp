@@ -5,12 +5,12 @@
 
 namespace uking::ai {
 
-void Unk_7102406048::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) {
+void Unk_7102406048::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, dmg::DamageCallbackInfo* a6) {
     if (mDamageManager->mActor->getActorFlags2().isOn(ksys::act::Actor::ActorFlag2::_40))
         return;
     if (u32(*a5 - 3) > 25)
         return;
-    auto* info = sead::DynamicCast<dmg::DamageCallbackInfo>(reinterpret_cast<dmg::DamageCallbackInfo*>(a6));
+    auto* info = sead::DynamicCast<dmg::DamageCallbackInfo>(a6);
     if (info && (info->mFlags & 1))
         *a5 = 2;
 }

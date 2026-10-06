@@ -13,7 +13,7 @@ class LumberjackFallenTree;
 class Unk_7102403e48 : public dmg::DamageCallback {
 public:
     explicit Unk_7102403e48(LumberjackFallenTree* owner) : _28(owner) {}
-    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) override;
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, dmg::DamageCallbackInfo* a6) override;
 
     LumberjackFallenTree* _28;
 };
@@ -22,7 +22,7 @@ public:
 class Unk_7102403e80 : public dmg::DamageCallback {
 public:
     explicit Unk_7102403e80(LumberjackFallenTree* owner) : _28(owner) {}
-    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) override;
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, dmg::DamageCallbackInfo* a6) override;
 
     LumberjackFallenTree* _28;
 };

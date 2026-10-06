@@ -88,14 +88,15 @@ bool LandHumEnemyFindBait::sub_710045FC10() {
     return sub_7100739030(mActor, *mTargetBait_d);
 }
 
+// NON_MATCHING: the original keeps &_b0 in a register across the branches (a reference local reproduced
+// it but was rejected as register steering).
 void LandHumEnemyFindBait::m38() {
-    f32& time = _b0;
     if (sub_71005DEC08(mTargetBait_d, mActor, 999.0f, 999.0f, sead::Mathf::pi())) {
-        ksys::Timer::update(&time, -1.0f);
+        ksys::Timer::update(&_b0, -1.0f);
     } else {
-        time = _b4 == _b8 ? _b4 : sead::GlobalRandom::instance()->getS32Range(_b4, _b8);
+        _b0 = _b4 == _b8 ? _b4 : sead::GlobalRandom::instance()->getS32Range(_b4, _b8);
     }
-    if (time <= 0.0f) {
+    if (_b0 <= 0.0f) {
         changeToAngry();
         return;
     }
@@ -114,14 +115,15 @@ void LandHumEnemyFindBait::m38() {
     }
 }
 
+// NON_MATCHING: the original keeps &_b0 in a register across the branches (a reference local reproduced
+// it but was rejected as register steering).
 void LandHumEnemyFindBait::m39() {
-    f32& time = _b0;
     if (sub_71005DEC08(mTargetBait_d, mActor, 999.0f, 999.0f, sead::Mathf::pi())) {
-        ksys::Timer::update(&time, -1.0f);
+        ksys::Timer::update(&_b0, -1.0f);
     } else {
-        time = _b4 == _b8 ? _b4 : sead::GlobalRandom::instance()->getS32Range(_b4, _b8);
+        _b0 = _b4 == _b8 ? _b4 : sead::GlobalRandom::instance()->getS32Range(_b4, _b8);
     }
-    if (time <= 0.0f) {
+    if (_b0 <= 0.0f) {
         changeToAngry();
         return;
     }

@@ -10,7 +10,7 @@ namespace uking::ai {
 // one of the damage callbacks embedded in LynelRoot (offset not recovered yet).
 class Unk_7102406048 : public dmg::DamageCallback {
 public:
-    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) override;
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, dmg::DamageCallbackInfo* a6) override;
 };
 
 class LynelRoot : public EnemyRoot {

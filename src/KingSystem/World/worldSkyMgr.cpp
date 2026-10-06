@@ -506,9 +506,4 @@ void SkyMgr::sub_71010E50BC(f32 x, f32 y) {
     _3f28.y = y;
 }
 
-void SkyMgr::sub_71010E50B0(f32 x, f32 y) {
-    _3f20.x = x;
-    _3f20.y = y;
-}
-
 }  // namespace ksys::world
