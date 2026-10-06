@@ -62,6 +62,8 @@ public:
 class Unk_710235aba0 : public Unk_7102357d20 {
 public:
     using Unk_7102357d20::Unk_7102357d20;
+    // Array element (AnchorSummon::_70): the transceiver is set after allocation.
+    Unk_710235aba0() : Unk_7102357d20(0x8000040) {}
     void* m2() override { return &_18; }
 
     Unk_710235aba0_Payload _18;

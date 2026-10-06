@@ -170,7 +170,7 @@ struct Unk_71023b1860_Payload {
 // Message 0x80000a5 (sender Unk_7102379de0)
 struct Unk_7102379de0_Payload {
     ksys::act::BaseProcLink mLink;
-    u32 _10;
+    u32 _10 = u32(-1);
     sead::JobQueueLock mLock;
 };
 

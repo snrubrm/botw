@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionBolt.h"
+#include "Game/Actor/actModelMaterialUtil.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Map/mapObjectLink.h"
@@ -40,7 +42,18 @@ bool Bolt::handleMessage_(const ksys::Message* message) {
 }
 
 void Bolt::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (_38._30) {
+        const auto key = mActor->getModel()->searchMaterial("Mt_Rope");
+        if (key.isValid())
+            act::setMaterialVisible(mActor->getModel(), key, false);
+        _38.x();
+    }
+
+    if (!*mIsNoBindAlive_m) {
+        ksys::act::ActorConstDataAccess accessor;
+        if (!ksys::act::acquireActor(&_28, &accessor) || accessor.isStateSleep())
+            mActor->deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+    }
 }
 
 }  // namespace uking::action

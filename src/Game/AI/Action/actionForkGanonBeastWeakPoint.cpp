@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionForkGanonBeastWeakPoint.h"
+#include "Game/AI/aiUnk_71025b2d88.h"
 
 namespace uking::action {
 
@@ -28,6 +29,17 @@ void ForkGanonBeastWeakPoint::loadParams_() {
 
 void ForkGanonBeastWeakPoint::calc_() {
     Fork::calc_();
+    auto* weak_points =
+        sead::DynamicCast<Unk_71025b2d88>(*static_cast<Unk_71025afb58**>(mWeakPointActiveFlag_a));
+    if (weak_points) {
+        for (s32 i = 0; i < 18; ++i) {
+            if (!(weak_points->mFlags & (1u << i)))
+                continue;
+            if (!isFinishedAS(1, i + *mTargetSlotIdx_s))
+                return;
+        }
+    }
+    setEndState();
 }
 
 void ForkGanonBeastWeakPoint::m32(s32 point, s32 target_slot) {}

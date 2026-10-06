@@ -3,6 +3,7 @@
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/LOD/actLodState.h"
+#include "KingSystem/Physics/Cloth/physClothSet.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
 
 namespace uking::action {
@@ -15,8 +16,34 @@ bool ForkClothOnOffASPlay::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }
 
+// NON_MATCHING: same logic; the original computes the `cloth_set && cloth_set->_60 < 1.0f` test as a bool (`cset`) that is
+// tested together with the LodState flag (`ldr x; tbz #1`, AS branch first), we branch on the compare directly and load the
+// flag byte.
 void ForkClothOnOffASPlay::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    auto* lod = mActor->getLodState();
+    if (lod) {
+        auto* physics = mActor->getPhysics();
+        if (physics) {
+            const char* name;
+            auto* cloth_set = physics->getClothSet();
+            bool cloth_off = false;
+            if (cloth_set)
+                cloth_off = cloth_set->_60 < 1.0f;
+            if (!cloth_off && lod->mFlags8.isOn(2)) {
+                lod->mFlags10.set(2);
+                name = mASName_s.cstr();
+            } else {
+                physics->getFlags().set(ksys::phys::InstanceSet::Flag::_20000);
+                name = mClothOffASName_s.cstr();
+            }
+            playAS(name, *mIsIgnoreSame_s, *mTargetBone_s, *mSeqBank_s, -1.0f);
+        }
+    }
+
+    if (*mChangeableTiming_s == 0)
+        mFlags.set(Flag::Changeable);
+    else
+        mFlags.reset(Flag::Changeable);
 }
 
 void ForkClothOnOffASPlay::leave_() {

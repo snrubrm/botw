@@ -13,7 +13,14 @@ namespace uking::action {
 
 EmitElectricWaterBall::EmitElectricWaterBall(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
-EmitElectricWaterBall::~EmitElectricWaterBall() = default;
+EmitElectricWaterBall::~EmitElectricWaterBall() {
+    if (_30.hasProc()) {
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::acquireActor(&_30, &accessor);
+        if (accessor.hasProc() && accessor.isStateSleep())
+            accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+    }
+}
 
 // NON_MATCHING: the short-circuit fallback naturally emits a tail call.
 bool EmitElectricWaterBall::init_(sead::Heap* heap) {
