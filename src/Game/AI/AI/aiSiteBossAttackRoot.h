@@ -1,5 +1,6 @@
 #pragma once
 
+#include <container/seadSafeArray.h>
 #include "KingSystem/ActorSystem/actAiAi.h"
 #include "KingSystem/ActorSystem/actBaseProcHandle.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
@@ -19,6 +20,13 @@ public:
     void loadParams_() override;
 
 protected:
+    static constexpr const char* sWeaponNames[] = {
+        "Weapon_Bow_022",
+        "Enemy_SiteBoss_Sword_Weapon",
+        "Enemy_SiteBoss_Lsword_Weapon",
+        "Enemy_SiteBoss_Spear_Weapon",
+    };
+
     void sub_7100571EB4(s32 kind, s32 slot);
     void sub_710057201C(s32 kind);
     void sub_71005721F4();
@@ -28,8 +36,8 @@ protected:
 
     // static_param at offset 0x38
     const int* mEquipWeapon_s{};
-    ksys::act::BaseProcHandle _40[2];
-    ksys::act::BaseProcLink _60[2];
+    sead::SafeArray<ksys::act::BaseProcHandle, 2> _40;
+    sead::SafeArray<ksys::act::BaseProcLink, 2> _60;
 };
 KSYS_CHECK_SIZE_NX150(SiteBossAttackRoot, 0x80);
 
