@@ -452,6 +452,19 @@ void Weapon::sub_71002EDC14(const Unk_71002edc14& value) {
     _ce0 = true;
 }
 
+// NON_MATCHING: the original selects the address of the parameter value (add #0x70 / #0x90, then a plain load) and
+// loads the flags byte after the param array clamp; we select the parameter and fold the value offset into the load.
+f32 Weapon::sub_71002ECAFC(const sead::BitFlag8& flags) {
+    auto* attack = getParam()->getRes().mGParamList->getAttack();
+    return flags.isOn(6) ? attack->mImpulseLarge.ref() : attack->mImpulse.ref();
+}
+
+// NON_MATCHING: only the position of the flags byte load and the temporary registers differ.
+s32 Weapon::sub_71002ECB3C(const sead::BitFlag8& flags) {
+    s32 power = getParam()->getRes().mGParamList->getAttack()->mGuardBreakPower.ref();
+    return flags.isOn(6) ? (power * 3) >> 1 : power;
+}
+
 bool Weapon::sub_71002ED274() {
     auto* chemical = getChemicalStuff();
     if (!chemical)

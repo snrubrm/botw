@@ -354,6 +354,10 @@ public:
     bool sub_71002EA0C8();
     // 0x71002edb84: `_bd0 = value; _bd8 = true` under the lock `_b90`.
     void sub_71002EDB84(const u64& value);
+    // lane4 s46 (placeholder names; the callers pass a local holding 4): 0x71002ecafc: the Attack param Impulse
+    // (ImpulseLarge if `flags` has bit 1 or 2). 0x71002ecb3c: GuardBreakPower (x1.5 with those bits).
+    f32 sub_71002ECAFC(const sead::BitFlag8& flags);
+    s32 sub_71002ECB3C(const sead::BitFlag8& flags);
     // lane4 s46 (placeholder names): 0x71002ed274 / 0x71002e9a7c test the chemical material attribute (bit 0 / both of
     // 0x88) and a flag of the chemical (_be bit 0 / bit 2).
     bool sub_71002ED274();

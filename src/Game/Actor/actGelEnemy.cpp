@@ -109,6 +109,14 @@ void GelEnemy::sub_71000269C8() {
     }
 }
 
+void GelEnemy::sub_7100026AA8() {
+    _1620.x = getParam()->getRes().mGParamList->getGelEnemy()->mEyeUpMoveRate.ref();
+}
+
+void GelEnemy::sub_7100026AD4() {
+    _1620.x = getParam()->getRes().mGParamList->getGelEnemy()->mEyeDownMoveRate.ref();
+}
+
 void GelEnemy::sub_7100026A38() {
     if (auto* physics = getPhysics()) {
         if (auto* cloth_set = physics->getClothSet()) {
