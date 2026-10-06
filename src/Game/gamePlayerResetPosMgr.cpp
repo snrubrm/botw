@@ -1,11 +1,20 @@
 #include "Game/gamePlayerResetPosMgr.h"
 #include <prim/seadScopedLock.h>
+#include "Game/Actor/actCamera.h"
+#include "Game/Actor/actCameraUtil.h"
 #include "KingSystem/GameData/gdtManager.h"
 
 SEAD_SINGLETON_DISPOSER_IMPL(PlayerResetPosMgr)
 
 bool PlayerResetPosMgr::isNotResetting() const {
     return mStatus == 0;
+}
+
+void PlayerResetPosMgr::callCameraM151IfStatus4() {
+    if (mStatus == 4) {
+        if (auto* camera = uking::act::Root6::instance()->getCameraActor())
+            camera->m151(&mCameraPos, &mCameraAt, false);
+    }
 }
 
 void PlayerResetPosMgr::addResetPos(const sead::Vector3f& position, f32 yaw) {

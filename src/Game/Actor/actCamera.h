@@ -360,7 +360,7 @@ public:
     /* 148 */ virtual void m148();
     /* 149 */ virtual void m149();
     /* 150 */ virtual void m150();
-    /* 151 */ virtual void m151();
+    /* 151 */ virtual void m151(const sead::Vector3f* pos, const sead::Vector3f* at, bool a3);  // lane1 s44: signature from PlayerResetPosMgr
     /* 152 */ virtual void m152();
     /* 153 */ virtual void m153();
     /* 154 */ virtual void m154(f32 value, bool a2);

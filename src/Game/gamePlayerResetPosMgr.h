@@ -22,6 +22,8 @@ public:
     void clearResetPos();
     // 0x71007a5d58
     bool isNotResetting() const;
+    // 0x71007a64d0
+    void callCameraM151IfStatus4();
 
 protected:
     struct ResetPos {
@@ -41,5 +43,7 @@ protected:
     u8 _444[0x448 - 0x444];
     /* 0x448 */ sead::SpinLock mLock;
     /* 0x458 */ s32 mStatus = 0;
-    u8 _45c[0x478 - 0x45c];
+    /* 0x45c */ sead::Vector3f mCameraPos;
+    /* 0x468 */ sead::Vector3f mCameraAt;
+    u8 _474[0x478 - 0x474];
 };
