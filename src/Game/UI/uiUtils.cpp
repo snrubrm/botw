@@ -1,6 +1,7 @@
 #include "Game/UI/uiUtils.h"
 #include "Game/UI/euiLayoutEx.h"
 #include <nn/ui2d/Pane.h>
+#include "Game/UI/euiAnimator.h"
 #include <nn/ui2d/Parts.h>
 #include "Game/UI/euiMessageString.h"
 #include "Game/UI/euiMessageMgr.h"
@@ -384,6 +385,21 @@ nn::ui2d::Parts* sub_7100AA0D40(nn::ui2d::Layout* layout, const WidgetPathEntry*
         layout = parts->mPartsLayoutLink.layout;
     }
     return parts;
+}
+
+// 0x7100aa1d5c (placeholder name): restarts `layout` (when it is stopped / closed) and lets its animator continue from
+// the one of `other`
+void sub_7100AA1D5C(eui::LayoutEx* layout, eui::LayoutEx* other, bool a3) {
+    if (!layout)
+        return;
+    if (layout->_91 == 3 || layout->_91 == 0) {
+        if (a3)
+            layout->sub_7100BDDE7C(false, 0, true);
+        else
+            layout->sub_7100BDDE7C(false, 1, true);
+    }
+    if (other && layout->_70 && other->_91 && other->_70)
+        layout->_70->ContinueFrom(*other->_70);
 }
 
 // 0x7100aa16e8 (placeholder name): whether `pane` and all of its ancestors are visible (false for null)

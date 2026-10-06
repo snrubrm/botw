@@ -94,6 +94,8 @@ struct WidgetPathEntry {
 };
 nn::ui2d::Pane* sub_7100AA0CB4(eui::LayoutEx* layout, const WidgetPathEntry* entries, s32 count);
 nn::ui2d::Parts* sub_7100AA0D40(nn::ui2d::Layout* layout, const WidgetPathEntry* entries, s32 count);
+// 0x7100aa1d5c
+void sub_7100AA1D5C(eui::LayoutEx* layout, eui::LayoutEx* other, bool a3);
 // 0x7100aa16e8 (uiUtils.cpp)
 bool sub_7100AA16E8(const nn::ui2d::Pane* pane);
 // 0x7100aa7a50: the guard power (`is_shield`) or the attack power of the actor `name` (0 without actor info).

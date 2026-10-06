@@ -175,6 +175,44 @@ s32 sub_7100A82D20() {
     return PauseMenuDataMgr::instance()->getNumTabs();
 }
 
+// 0x7100a82d3c (placeholder name): the number of slots of a pouch category (20 for all but weapons, bows and shields)
+s32 sub_7100A82D3C(PouchCategory category) {
+    if (u32(s32(category) - 3) < 4)
+        return 20;
+    switch (category) {
+    case PouchCategory::Sword:
+        return ksys::gdt::getFlag_WeaponPorchStockNum(false);
+    case PouchCategory::Bow: {
+        const s32 stock = ksys::gdt::getFlag_BowPorchStockNum(false);
+        return stock + PauseMenuDataMgr::instance()->countItems(PouchItemType::Arrow, false);
+    }
+    case PouchCategory::Shield:
+        return ksys::gdt::getFlag_ShieldPorchStockNum(false);
+    default:
+        return 0;
+    }
+}
+
+// 0x7100a82f9c (placeholder name)
+s32 sub_7100A82F9C(s32 index) {
+    switch (index) {
+    case 0:
+        return 0;
+    case 1:
+        return 1;
+    case 2:
+        return 2;
+    case 3:
+        return 3;
+    case 4:
+        return 4;
+    case 5:
+        return 6;
+    default:
+        return 5;
+    }
+}
+
 // 0x7100a82e00 (placeholder name)
 const PouchItem* sub_7100A82E00(PouchCategory category, s32 index) {
     return PauseMenuDataMgr::instance()->getItemByIndex(category, index);
