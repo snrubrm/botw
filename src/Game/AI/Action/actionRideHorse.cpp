@@ -57,6 +57,15 @@ void RideHorse::enter_(ksys::act::ai::InlineParamPack* params) {
     setFailed();
 }
 
+bool RideHorse::sub_710023A050(ksys::act::BaseProcLink* link) {
+    if (link->hasProc() && !link->isAccessingSpecifiedProcUnsafe(mActor)) {
+        auto* proc = link->getProc(nullptr, mActor);
+        if (auto* actor = sead::DynamicCast<ksys::act::Actor>(proc))
+            return mActor->getConnectedCalcParent() == actor;
+    }
+    return false;
+}
+
 void RideHorse::sub_710023A4C8() {
     auto* ride_info = mActor->getPlayerRideInfo();
     if (ride_info->_30 & 1)

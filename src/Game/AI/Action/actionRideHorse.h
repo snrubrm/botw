@@ -51,6 +51,8 @@ protected:
 
     // 0x710023a4c8 (declaration only)
     void sub_710023A4C8();
+    // 0x710023a050 (placeholder name): whether the linked actor is the one this actor is attached to.
+    bool sub_710023A050(ksys::act::BaseProcLink* link);
 };
 KSYS_CHECK_SIZE_NX150(RideHorse, 0x188);
 
