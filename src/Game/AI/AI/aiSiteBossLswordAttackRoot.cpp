@@ -181,4 +181,28 @@ void SiteBossLswordAttackRoot::sub_710057AEB8(const sead::Vector3f& pos, const s
     }
 }
 
+// 0x710057a908
+void SiteBossLswordAttackRoot::sub_710057A908(const sead::Vector3f& pos) {
+    ksys::act::ai::InlineParamPack pack;
+    pack.addString("SiteBossBigFlameBall1", "ThrowActorName", -1);
+    pack.addVec3(pos, "TargetPos", -1);
+    pack.addInt(0, "RailIndex", -1);
+    pack.addBool(false, "IsReturnHome", -1);
+    pack.addBool(false, "IsForceWarp", -1);
+    pack.addBool(!act::SiteBoss::sub_71002D3804(mActor, "WearFlame"), "IsPartsActorTgOn", -1);
+    if (auto* target = sub_71005D9050(mActor)) {
+        pack.addActor(*target, "TargetActor", -1);
+        pack.addBool(false, "IsPartsWarpEffectSync", -1);
+        changeChild("大火球投げ", &pack);
+        _a0 = *mHighSlashRate_s;
+        _a4 = *mCrossSlashRate_s;
+        _a8 = *mWhirlSlashRate_s;
+        _ac = 0;
+        _b0 = 0;
+        _fc = ksys::Timer(*mForceApproachCount_s, *mForceApproachCount_s);
+    } else {
+        setFailed();
+    }
+}
+
 }  // namespace uking::ai

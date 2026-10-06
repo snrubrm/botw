@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiSiteBossSwordAttackRoot.h"
+#include "Game/AI/aiUnk_71007368A4.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/Actor/actSiteBoss.h"
@@ -160,6 +161,39 @@ void SiteBossSwordAttackRoot::sub_7100595768() {
     }
     _108 |= 3;
     sub_7100596A4C(pos, true);
+}
+
+// 0x7100595808
+void SiteBossSwordAttackRoot::sub_7100595808(const sead::Vector3f& pos, s32 attack) {
+    if (auto* boss = sead::DynamicCast<act::SiteBoss>(mActor))
+        boss->_14c8._30.set(0x80);
+    _108 &= 0xfd9f;
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(pos, "TargetPos", -1);
+    pack.addVec3(_fc, "OldTargetPos", -1);
+    pack.addBool(false, "IsNoCharge", -1);
+    pack.addBool(false, "IsAttackPatternFixed", -1);
+    pack.addBool(true, "IsResetEndTime", -1);
+    pack.addBool(_108 & 1, "IsRestart", -1);
+    switch (attack) {
+    case 0:
+        changeChild("近接攻撃", &pack);
+        break;
+    case 1:
+        changeChild("近接攻撃2", &pack);
+        break;
+    case 2:
+        changeChild("近接攻撃3", &pack);
+        break;
+    default:
+        break;
+    }
+    if (checkHpRate(mActor, *mSecondAttackHPRate_s))
+        changeChild("近接攻撃3", &pack);
+    else if (checkHpRate(mActor, *mFirstAttackHPRate_s))
+        changeChild("近接攻撃2", &pack);
+    else
+        changeChild("近接攻撃", &pack);
 }
 
 }  // namespace uking::ai

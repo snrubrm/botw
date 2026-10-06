@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiSiteBossBowChildDeviceRoot.h"
+#include "Game/Damage/dmgDamageManager.h"
+#include "Game/AI/aiUnk_710072BA90.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
@@ -195,6 +197,29 @@ void SiteBossBowChildDeviceRoot::sub_7100574A74() {
     pack.addActor(_70, "ParentActor", -1);
     pack.addFloat(_9c, "XRotateAngle", -1);
     changeChild("通常待機", &pack);
+}
+
+// 0x7100574840
+// NON_MATCHING: block layout only: the original turns the final hasTag() result into a constant true / false on a branch
+// (every path ends in `mov w0, w19`); ours returns the call result (`and w0, w19, #1`)
+bool SiteBossBowChildDeviceRoot::sub_7100574840() {
+    auto* manager = sub_710072BA90(mActor);
+    if (!manager)
+        return false;
+    if (s32(manager->getDamage()) <= 0 && manager->getField54() == -1)
+        return false;
+    auto* attacker = manager->getAttacker();
+    if (!attacker->hasProc())
+        return true;
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(attacker, &accessor);
+    if (accessor.isPlayerProfile())
+        return true;
+    if (manager->getField50() == 4)
+        return true;
+    if (accessor.getName() == "PlayerBeam")
+        return true;
+    return accessor.hasTag(0x19f6c13a);
 }
 
 }  // namespace uking::ai

@@ -24,6 +24,8 @@ public:
     void sub_710057A348(const sead::Vector3f& pos, bool a2);
 
 protected:
+    // 0x710057a908: "大火球投げ" child (big fire ball: WearFlame part decides IsPartsActorTgOn) and the attack weight reset; fails without a target actor
+    void sub_710057A908(const sead::Vector3f& pos);
     // 0x710057aeb8: "火炎渦" child; fails without a target actor
     void sub_710057AEB8(const sead::Vector3f& pos, const sead::Vector3f& dest_pos);
     // 0x710057ab3c: "火球投げ" child with the fire ball actor name; fails without a target actor
