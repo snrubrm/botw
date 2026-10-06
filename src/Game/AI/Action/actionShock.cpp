@@ -3,6 +3,9 @@
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/AI/aiUnk_71007377D4.h"
 #include "Game/Actor/actEnemy.h"
+#include "Game/AI/aiUnk_710072BA90.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/Utils/MathUtil.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
@@ -10,8 +13,49 @@ namespace uking::action {
 
 Shock::Shock(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
+// NON_MATCHING: the original scales the XZ drop velocity with sead's normalize() body where the 1.0f
+// is replaced by the speed (`fdiv s0, speed, len` and element-wise x/y/z multiplies) and only writes
+// x/z in the "no drop speed" arm; ours uses `*= speed / len` (ldp/stp pairs, address of y in a register)
 void Shock::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    auto* controller = mActor->getCharacterController();
+    if (!controller)
+        return;
+
+    sead::Vector3f impulse = mActor->getVelocity();
+    if (hasAttackInfo(mActor)) {
+        const auto* info = getAttackInfo(mActor, 0);
+        impulse += info->_c * *mHitImpactForce_s;
+    } else if (auto* damage_mgr = sub_710072BA90(mActor)) {
+        sead::Vector3f hit_dir;
+        sub_71005E242C(&hit_dir, mActor, damage_mgr);
+        impulse += hit_dir * *mHitImpactForce_s;
+    }
+
+    ksys::util::sub_71011EFA00(&impulse, impulse, getUpDir(mActor));
+    sead::Vector3f dir = impulse;
+    dir.normalize();
+    sub_710072C1B4(controller, dir);
+
+    if (m32()) {
+        sead::Vector3f drop_velocity;
+        if (!(*mWeaponDropSpeedXZ_s <= sead::Mathf::epsilon() &&
+              *mWeaponDropSpeedXZ_s >= -sead::Mathf::epsilon())) {
+            const sead::Vector3f front = mActor->getMtx().getBase(2);
+            drop_velocity.set(-front.x, 0, -front.z);
+            const f32 length = drop_velocity.length();
+            if (length > 0.0f)
+                drop_velocity *= *mWeaponDropSpeedXZ_s / length;
+        } else {
+            drop_velocity.x = 0;
+            drop_velocity.z = 0;
+        }
+        drop_velocity.y = *mWeaponDropSpeedY_s;
+        m33(&drop_velocity);
+    }
+
+    playAS(mASName_s.cstr(), false, *mASSlot_s, 0, -1.0f);
+    mFlags.set(Flag::Changeable);
+    _68.reset(f32(*mKnockBackTime_s));
 }
 
 void Shock::leave_() {
