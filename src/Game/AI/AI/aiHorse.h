@@ -21,10 +21,9 @@ protected:
     const float* mDistanceFall_s{};
     // static_param at offset 0x40
     const float* mDistanceFallDie_s{};
-    bool _48 = false;
+    sead::BitFlag8 _48;
     u32 _4c{};
-    u32 _50{};
-    u32 _54{};
+    u64 _50{};
     u32 _58{};
 };
 

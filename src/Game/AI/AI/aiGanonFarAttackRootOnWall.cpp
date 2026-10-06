@@ -10,6 +10,26 @@ GanonFarAttackRootOnWall::GanonFarAttackRootOnWall(const InitArg& arg) : ksys::a
 
 GanonFarAttackRootOnWall::~GanonFarAttackRootOnWall() = default;
 
+bool GanonFarAttackRootOnWall::sub_71003E8F1C() {
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
+        const s32 pillar_max = *mPillarMax_s;
+        if (pillar_max >= 0) {
+            s32 i = -1;
+            do {
+                ++i;
+                sead::FormatFixedSafeString<64> name("IronPile%d", i);
+                if (enemy->getActorPartsActor(name).hasProc()) {
+                    ksys::act::ActorConstDataAccess accessor;
+                    ksys::act::acquireActor(&enemy->getActorPartsActor(name), &accessor);
+                    if (accessor.sub_7100D13BB8())
+                        return true;
+                }
+            } while (i < pillar_max);
+        }
+    }
+    return false;
+}
+
 bool GanonFarAttackRootOnWall::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
 }

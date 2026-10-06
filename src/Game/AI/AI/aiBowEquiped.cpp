@@ -1,6 +1,9 @@
 #include "Game/AI/AI/aiBowEquiped.h"
 #include "Game/Actor/actWeapon.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
 
 namespace uking::ai {
 
@@ -9,6 +12,22 @@ BowEquiped::BowEquiped(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
 bool BowEquiped::isChangeable() const {
     return !_38.isAllocatedOrFailed();
+}
+
+void BowEquiped::sub_7100337E2C(ksys::phys::ContactLayer first, ksys::phys::ContactLayer second) {
+    auto* weapon = sead::DynamicCast<act::Weapon>(mActor);
+    if (weapon && !weapon->m213()) {
+        if (auto* body = mActor->getMainBody())
+            body->setContactLayerAndGroundHit(first, ksys::phys::GroundHit::HitAll);
+        if (auto* physics = mActor->getPhysics()) {
+            if (auto* set = physics->findBodyByName("Chemical")) {
+                if (set->getRigidBodies().size() != 0) {
+                    if (auto* body = set->getRigidBody(0))
+                        body->setContactLayerAndGroundHit(second, ksys::phys::GroundHit::HitAll);
+                }
+            }
+        }
+    }
 }
 
 void BowEquiped::enter_(ksys::act::ai::InlineParamPack* params) {

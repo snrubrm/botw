@@ -6,6 +6,9 @@
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/ActorSystem/actAiRoot.h"
+#include "Game/Actor/actEnemy.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
 namespace uking::ai {
 
@@ -47,6 +50,21 @@ bool MimicEnemyNormal::sub_71004A7D18() {
         }
     }
     return false;
+}
+
+// NON_MATCHING: same instructions; the "IsMimicry" SafeString temporary is materialised before the load of the
+// root AI parameters in the original (same scheduling difference as YunBoCannon::m36 / sub_7100731000).
+void MimicEnemyNormal::sub_71004A7DDC() {
+    *mIsStartResetMimicry_a = true;
+    sub_71005DD34C(mActor, true);
+    sub_71005DD2E8(mActor);
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor))
+        enemy->_e84.reset(0x10000);
+    if (auto* controller = mActor->getCharacterController())
+        controller->sub_7100F62BB8();
+    mActor->getRootAi()->getMapUnitParams().setAITreeVariable("IsMimicry", ksys::AIDefParamType::Bool,
+                                                              false);
+    changeChild("擬態解除");
 }
 
 void MimicEnemyNormal::enter_(ksys::act::ai::InlineParamPack* params) {
