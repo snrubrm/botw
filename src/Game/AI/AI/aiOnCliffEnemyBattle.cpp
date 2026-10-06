@@ -30,18 +30,19 @@ void OnCliffEnemyBattle::enter_(ksys::act::ai::InlineParamPack* params) {
     changeChild("追跡", &pack);
 }
 
-// NON_MATCHING: same instructions; the original keeps `&_68` in a callee-saved register and loads the timer through it
-// (ldr s0, [x21]) where we address it from `this`, and schedules one address computation differently.
+// NON_MATCHING: same instructions; the original computes `&enemy->_f28` after loading the scale argument, we compute
+// it before (one address computation is scheduled differently).
 void OnCliffEnemyBattle::calc_() {
+    f32& timer = _68;
     const s32 state = sub_71005D9744(mActor);
     if (state != 2 && state != 5)
-        ksys::Timer::update(&_68, -1.0f);
+        ksys::Timer::update(&timer, -1.0f);
     else
-        _68 = _6c == _70 ? _6c : sead::GlobalRandom::instance()->getS32Range(_6c, _70);
+        timer = _6c == _70 ? _6c : sead::GlobalRandom::instance()->getS32Range(_6c, _70);
 
     auto* child = getCurrentChild();
     if (child->isFinished() || child->isFailed()) {
-        if (_68 <= 0.0f) {
+        if (timer <= 0.0f) {
             setFailed();
             return;
         }
@@ -59,7 +60,7 @@ void OnCliffEnemyBattle::calc_() {
             changeChild("追跡", &pack);
         }
     } else if (child->isChangeable()) {
-        if (_68 <= 0.0f) {
+        if (timer <= 0.0f) {
             setFailed();
             return;
         }
