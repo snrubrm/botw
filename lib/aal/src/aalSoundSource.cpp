@@ -119,7 +119,7 @@ void SoundSource::kill() {
     reset();
 }
 
-// 0x7100b777dc
+// 0x7100b777dc: NON_MATCHING (the load of mUnifierSource is scheduled before the frame pointer setup)
 void SoundSource::stopForce() {
     if (mUnifierSource) {
         if (auto* unifier = SystemAccessor::getSoundSourceUnifier()) {
@@ -137,7 +137,7 @@ void SoundSource::stopForce() {
     mState = 7;
 }
 
-// 0x7100b778b8
+// 0x7100b778b8: NON_MATCHING (same scheduling difference as stopForce)
 void SoundSource::detachSoundGroup() {
     if (mSoundGroup)
         mSoundGroup->removeSound(this);
@@ -147,7 +147,7 @@ void SoundSource::detachSoundGroup() {
 // 0x7100b78134
 bool SoundSource::prepare(bool prepare) {
     if (mState <= 2) {
-        mPrepareFlags = prepare ? mPrepareFlags | 4 : mPrepareFlags & ~4;
+        mPrepareFlags = !prepare ? mPrepareFlags & ~4 : mPrepareFlags | 4;
         return true;
     }
     return false;
@@ -168,12 +168,13 @@ s32 SoundSource::getChannelNum(s32 track) const {
 
 // 0x7100b780e8
 bool SoundSource::setSpeakerBalanceSupplier(ISpeakerBalanceSupplier* supplier) {
-    if (mState > 2 || mSpeakerBalanceSupplier)
-        return false;
-    mSpeakerBalanceSupplier = supplier;
-    if (supplier)
-        aggregateAndClampParams_();
-    return true;
+    if (mState <= 2 && !mSpeakerBalanceSupplier) {
+        mSpeakerBalanceSupplier = supplier;
+        if (supplier)
+            aggregateAndClampParams_();
+        return true;
+    }
+    return false;
 }
 
 // 0x7100b7850c
