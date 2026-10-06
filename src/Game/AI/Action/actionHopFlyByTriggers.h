@@ -18,6 +18,7 @@ public:
 
 protected:
     void calc_() override;
+    void sub_710019DF74(f32 height);
 
     // static_param at offset 0x20
     const float* mXZSpeedMax_s{};
