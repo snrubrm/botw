@@ -4,6 +4,7 @@ add_library(aal OBJECT
   include/aal/aalActiveSoundLimiter.h
   include/aal/aalArbiter.h
   include/aal/aalAssetInfo.h
+  include/aal/aalAttenuationComponentListReflexer.h
   include/aal/aalDeviceType.h
   include/aal/aalEmitter.h
   include/aal/aalFadeCurveType.h
@@ -37,6 +38,7 @@ add_library(aal OBJECT
   include/aal/aalSystemAccessor.h
   include/aal/aalTimedFader.h
   src/aalActiveSoundLimiter.cpp
+  src/aalAttenuationComponentListReflexer.cpp
   src/aalArbiter.cpp
   src/aalEmitter.cpp
   src/aalFxDelayParamSetter.cpp
