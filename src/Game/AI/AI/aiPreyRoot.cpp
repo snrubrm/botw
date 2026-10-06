@@ -10,7 +10,11 @@
 #include "KingSystem/ActorSystem/LOD/actLodState.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "Game/AI/aiUnk_7100D8C538.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actGlobalParameter.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectGlobal.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actUnk_7100e4e084.h"
 
@@ -425,6 +429,40 @@ void Unk_7102410bb8::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
         if (info)
             info->mFlags = 0;
     }
+}
+
+// 0x7100504fac
+void Unk_7102410b10::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, dmg::DamageCallbackInfo* a6) {
+    if (*a1 <= 0)
+        return;
+    auto* manager = sead::DynamicCast<dmg::DamageManager>(mDamageManager);
+    if (manager && manager->_6c >= 0) {
+        const auto* info = sub_71007A255C(mActor, manager->_6c);
+        if (info && info->_d0 != 0x28)
+            return;
+    }
+
+    const auto* lod = mActor->getLodState();
+    const s32 lod_value = lod ? lod->_1c : 0;
+    const s32* life = mActor->getLife();
+    const f32 life_value = life ? f32(*life) : 1.0f;
+    if (f32(*a1) >= life_value) {
+        if (lod_value < 2)
+            return;
+    } else {
+        auto* global = ksys::act::GlobalParameter::instance();
+        if (!global)
+            return;
+        auto* param = global->getGlobalParam();
+        if (!param)
+            return;
+        sead::Vector3f camera_pos;
+        cam::getCameraPositionMaybe(&camera_pos);
+        const sead::Vector3f diff = camera_pos - mActor->getMtx().getTranslation();
+        if (!(diff.length() > param->mEnemyAnimalNoDamageDist.ref()))
+            return;
+    }
+    *a1 = 0;
 }
 
 }  // namespace uking::ai
