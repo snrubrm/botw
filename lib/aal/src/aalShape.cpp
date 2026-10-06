@@ -1,8 +1,30 @@
 #include "aal/aalShape.h"
+#include <gfx/seadPrimitiveRenderer.h>
 #include <prim/seadScopedLock.h>
+#include "aal/aalShapeMgr.h"
 #include "aal/aalSpatialCalculator.h"
+#include "aal/aalSystemAccessor.h"
 
 namespace aal {
+
+// NON_MATCHING: the original stores the NamedObj vtable after the name member is set up, and the member stores are not merged
+// 0x7100b9a26c
+Shape::Shape(const sead::SafeString& name) : NamedObj(name) {
+    mSpatialCalculators.initOffset(offsetof(SpatialCalculator, mShapeListNode));
+}
+
+// NON_MATCHING: register allocation of the list walk (the original keeps the offset-adjusted end pointer in one register)
+// 0x7100b9a46c
+void Shape::destroy() {
+    {
+        sead::ScopedLock<sead::CriticalSection> lock(&mCS);
+        for (SpatialCalculator& calculator : mSpatialCalculators)
+            calculator.detachShape(true);
+        mSpatialCalculators.clear();
+    }
+    SystemAccessor::getShapeMgr()->removeShape(this);
+    delete this;
+}
 
 // NON_MATCHING (D1 0x7100b9a334 and its thunk): the original base destructor keeps the final store of the IUnifiable vtable
 // pointer (this + 0x18); D0 0x7100b9a3dc matches
@@ -23,6 +45,24 @@ void Shape::setRotate(const sead::Matrix34f& rotation) {
         mMatrix = rotation;
         mMatrix.setTranslation(translation);
     }
+}
+
+// NON_MATCHING: same arithmetic, but the original builds the rows in a different vector register order
+// 0x7100b9a580
+void Shape::setRotate(const sead::Vector3f& rotation) {
+    if (!mFlags.isOnBit(KeepRotation)) {
+        sead::Matrix34f matrix;
+        matrix.makeR(rotation);
+        sead::Vector3f translation;
+        mMatrix.getTranslation(translation);
+        mMatrix = matrix;
+        mMatrix.setTranslation(translation);
+    }
+}
+
+// 0x7100b9a8f0
+void Shape::getPositionWithOffset(sead::Vector3f* out) const {
+    out->setMul(mMatrix, mOffset);
 }
 
 // 0x7100b9a6a0
@@ -80,7 +120,7 @@ void Shape::detachSpatialCalculator_(SpatialCalculator* calculator) {
 
 // 0x7100b9aba0
 void Shape::setShapeParam(const sead::Vector3f& vector, const sead::Vector3f& rotation,
-                          bool keep_position) {}
+                          bool position_at_bottom) {}
 
 // 0x7100b9aba4
 void Shape::setRadius(f32 radius) {}
@@ -108,5 +148,26 @@ const sead::Vector3f& Shape::getUp() const {
 
 // 0x7100b9abd0
 void Shape::drawShape_(sead::PrimitiveDrawer& drawer, const sead::Color4f& color, f32 scale) const {}
+
+// 0x7100b9abd4
+ShapeCapsule* ShapeCapsule::create(const sead::SafeString& name, sead::Heap* heap) {
+    auto* shape = new (heap, 8) ShapeCapsule(name);
+    SystemAccessor::getShapeMgr()->addShape(shape);
+    return shape;
+}
+
+// 0x7100b9bbc0
+ShapeCylinder* ShapeCylinder::create(const sead::SafeString& name, sead::Heap* heap) {
+    auto* shape = new (heap, 8) ShapeCylinder(name);
+    SystemAccessor::getShapeMgr()->addShape(shape);
+    return shape;
+}
+
+// 0x7100b9cd38
+ShapeSegment* ShapeSegment::create(const sead::SafeString& name, sead::Heap* heap) {
+    auto* shape = new (heap, 8) ShapeSegment(name);
+    SystemAccessor::getShapeMgr()->addShape(shape);
+    return shape;
+}
 
 }  // namespace aal

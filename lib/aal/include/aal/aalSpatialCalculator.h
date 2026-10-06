@@ -2,12 +2,15 @@
 
 #include <basis/seadTypes.h>
 #include <container/seadBuffer.h>
+#include <container/seadOffsetList.h>
 
 namespace sead {
 class Heap;
 }
 
 namespace aal {
+
+class Shape;
 
 /// The spatial calculation result for one listener (0x98 bytes, partially modeled: the fields are the ones
 /// SpatialPlayingParam::aggregate reads).
@@ -46,7 +49,12 @@ public:
     const Result* getResult(s32 index) const;
 
 private:
-    u8 _0[0x64];
+    friend class Shape;
+
+    u8 _0[8];
+    /// Node in the calculator list of the attached Shape.
+    sead::ListNode mShapeListNode;
+    u8 _18[0x64 - 0x18];
     s32 mReferredCount;
     u8 _68[0x80 - 0x68];
     /// volatile: the original reads the count again for the bounds check of the result.

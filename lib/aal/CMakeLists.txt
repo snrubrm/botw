@@ -27,6 +27,7 @@ add_library(aal OBJECT
   include/aal/aalRollOffCurve.h
   include/aal/aalSettings.h
   include/aal/aalShape.h
+  include/aal/aalShapeMgr.h
   include/aal/aalSoundController.h
   include/aal/aalSoundParam.h
   include/aal/aalSoundSource.h
@@ -61,6 +62,8 @@ add_library(aal OBJECT
   src/aalRequestSoundLimiter.cpp
   src/aalRollOffCurve.cpp
   src/aalShape.cpp
+  src/aalShapeCube.cpp
+  src/aalShapeSphere.cpp
   src/aalSoundGroup.cpp
   src/aalSimpleTimedFader.cpp
   src/aalStopWatch.cpp

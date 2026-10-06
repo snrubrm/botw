@@ -41,8 +41,9 @@ public:
     /// Detaches the shape from all spatial calculators, removes it from the ShapeMgr and deletes it.
     void destroy();
 
+    /// `position_at_bottom`: the shape position is the bottom (base) of the shape instead of its center.
     virtual void setShapeParam(const sead::Vector3f& vector, const sead::Vector3f& rotation,
-                               bool keep_position);
+                               bool position_at_bottom);
     virtual void calcPosition(const sead::Vector3f& source, sead::Vector3f* out) const = 0;
     virtual void setRadius(f32 radius);
     virtual f32 getRadius() const;
@@ -88,10 +89,12 @@ protected:
 class ShapeSegment : public Shape {
     SEAD_RTTI_OVERRIDE(ShapeSegment, Shape)
 public:
+    explicit ShapeSegment(const sead::SafeString& name) : Shape(name) {}
+
     static ShapeSegment* create(const sead::SafeString& name, sead::Heap* heap);
 
     void setShapeParam(const sead::Vector3f& vector, const sead::Vector3f& rotation,
-                       bool keep_position) override;
+                       bool position_at_bottom) override;
     void calcPosition(const sead::Vector3f& source, sead::Vector3f* out) const override;
     void setVector(const sead::Vector3f& vector) override { mVector = vector; }
     const sead::Vector3f& getVector() const override { return mVector; }
@@ -100,7 +103,7 @@ protected:
     void drawShape_(sead::PrimitiveDrawer& drawer, const sead::Color4f& color,
                     f32 scale) const override;
 
-    sead::Vector3f mVector;
+    sead::Vector3f mVector = sead::Vector3f::zero;
 };
 static_assert(sizeof(ShapeSegment) == 0x100, "aal::ShapeSegment size mismatch");
 
@@ -108,13 +111,15 @@ static_assert(sizeof(ShapeSegment) == 0x100, "aal::ShapeSegment size mismatch");
 class ShapeCube : public Shape {
     SEAD_RTTI_OVERRIDE(ShapeCube, Shape)
 public:
+    explicit ShapeCube(const sead::SafeString& name) : Shape(name) {}
+
     static ShapeCube* create(const sead::SafeString& name, sead::Heap* heap);
 
     /// Same as setVector (0x7100b9b49c; the virtual one is 0x7100b9bb4c).
     void setSize(const sead::Vector3f& size);
 
     void setShapeParam(const sead::Vector3f& vector, const sead::Vector3f& rotation,
-                       bool keep_position) override;
+                       bool position_at_bottom) override;
     void calcPosition(const sead::Vector3f& source, sead::Vector3f* out) const override;
     void setVector(const sead::Vector3f& vector) override;
     const sead::Vector3f& getVector() const override { return mVector; }
@@ -131,10 +136,12 @@ static_assert(sizeof(ShapeCube) == 0x100, "aal::ShapeCube size mismatch");
 class ShapeCylinder : public Shape {
     SEAD_RTTI_OVERRIDE(ShapeCylinder, Shape)
 public:
+    explicit ShapeCylinder(const sead::SafeString& name) : Shape(name) {}
+
     static ShapeCylinder* create(const sead::SafeString& name, sead::Heap* heap);
 
     void setShapeParam(const sead::Vector3f& vector, const sead::Vector3f& rotation,
-                       bool keep_position) override;
+                       bool position_at_bottom) override;
     void calcPosition(const sead::Vector3f& source, sead::Vector3f* out) const override;
     void setRadius(f32 radius) override {
         if (radius >= 0.0f)
@@ -158,10 +165,12 @@ static_assert(sizeof(ShapeCylinder) == 0x100, "aal::ShapeCylinder size mismatch"
 class ShapeCapsule : public Shape {
     SEAD_RTTI_OVERRIDE(ShapeCapsule, Shape)
 public:
+    explicit ShapeCapsule(const sead::SafeString& name) : Shape(name) {}
+
     static ShapeCapsule* create(const sead::SafeString& name, sead::Heap* heap);
 
     void setShapeParam(const sead::Vector3f& vector, const sead::Vector3f& rotation,
-                       bool keep_position) override;
+                       bool position_at_bottom) override;
     void calcPosition(const sead::Vector3f& source, sead::Vector3f* out) const override;
     void setRadius(f32 radius) override {
         if (radius >= 0.0f)
@@ -184,10 +193,12 @@ static_assert(sizeof(ShapeCapsule) == 0x100, "aal::ShapeCapsule size mismatch");
 class ShapeSphere : public Shape {
     SEAD_RTTI_OVERRIDE(ShapeSphere, Shape)
 public:
+    explicit ShapeSphere(const sead::SafeString& name) : Shape(name) {}
+
     static ShapeSphere* create(const sead::SafeString& name, sead::Heap* heap);
 
     void setShapeParam(const sead::Vector3f& vector, const sead::Vector3f& rotation,
-                       bool keep_position) override;
+                       bool position_at_bottom) override;
     void calcPosition(const sead::Vector3f& source, sead::Vector3f* out) const override;
     void setRadius(f32 radius) override {
         if (radius >= 0.0f)
