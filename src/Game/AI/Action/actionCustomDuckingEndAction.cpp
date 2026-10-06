@@ -1,8 +1,14 @@
 #include "Game/AI/Action/actionCustomDuckingEndAction.h"
 
 #include "KingSystem/Sound/sndMgr.h"
+#include "KingSystem/Utils/InitTimeInfo.h"
 
 namespace uking::action {
+
+namespace {
+ksys::util::InitConstants sInitConstants;
+ksys::util::InitTimeInfo sInitTimeInfo;
+}  // namespace
 
 CustomDuckingEndAction::CustomDuckingEndAction(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 

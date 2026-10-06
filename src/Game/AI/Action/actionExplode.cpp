@@ -1,6 +1,10 @@
 #include "Game/AI/Action/actionExplode.h"
 #include "KingSystem/System/VFR.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/AI/aiUnk_710072BA90.h"
+#include <gsys/gsysModel.h>
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/Physics/RigidBody/Shape/Sphere/physSphereRigidBody.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
@@ -25,7 +29,26 @@ bool Explode::init_(sead::Heap* heap) {
 }
 
 void Explode::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    auto* actor = mActor;
+    m33();
+    if (auto* body = mActor->getMainBody()) {
+        body->setContactLayerAndGroundHit(ksys::phys::ContactLayer::EntityNoHit,
+                                          ksys::phys::GroundHit::HitAll);
+        body->changeMotionType(ksys::phys::MotionType::Keyframed);
+        body->setLinearVelocity(sead::Vector3f::zero);
+        body->setAngularVelocity(sead::Vector3f::zero);
+    }
+    sub_710072BB28(mActor);
+    if (*mIsVanish_s) {
+        if (auto* model = actor->getModel())
+            model->getUnits()[0]->_1e &= ~0x20;
+    }
+    ksys::act::disableAllAttClients(actor);
+    _68 = ksys::Timer(*mExplodeTime_s, *mExplodeTime_s);
+    if (auto* chemical = actor->getChemicalStuff()) {
+        if (chemical->_c0 != 4)
+            chemical->sub_7100D909A4();
+    }
 }
 
 void Explode::leave_() {

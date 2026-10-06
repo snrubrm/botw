@@ -1,7 +1,13 @@
 #include "Game/AI/Action/actionEventTalkEndAction.h"
 #include "Game/UI/uiUI.h"
+#include "KingSystem/Utils/InitTimeInfo.h"
 
 namespace uking::action {
+
+namespace {
+ksys::util::InitConstants sInitConstants;
+ksys::util::InitTimeInfo sInitTimeInfo;
+}  // namespace
 
 EventTalkEndAction::EventTalkEndAction(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 

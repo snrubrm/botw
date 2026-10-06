@@ -3,8 +3,14 @@
 #include <xlink2/xlink2HandleSLink.h>
 #include "Game/AI/aiXlinkHandle.h"
 #include "KingSystem/Utils/Thread/Message.h"
+#include "KingSystem/Utils/InitTimeInfo.h"
 
 namespace uking::action {
+
+namespace {
+ksys::util::InitConstants sInitConstants;
+ksys::util::InitTimeInfo sInitTimeInfo;
+}  // namespace
 
 CameraVibrate::CameraVibrate(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 

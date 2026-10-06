@@ -26,9 +26,16 @@ protected:
     const float* mMeanderSpeed_s{};
     // static_param at offset 0xb8
     const float* mJumpUpSpeedReduceRatio_s{};
-    u8 _c0[0xc]{};
+    f32 _c0{};
+    f32 _c4{};
+    f32 _c8{};
     f32 _cc{};
-    u8 _d0[0x2a]{};
+    f32 _d0{};
+    sead::Vector3f _d4{0, 0, 0};
+    sead::Vector3f _e0{0, 0, 0};
+    sead::Vector3f _ec{0, 0, 0};
+    bool _f8{};
+    bool _f9{};
     bool _fa{};
 };
 

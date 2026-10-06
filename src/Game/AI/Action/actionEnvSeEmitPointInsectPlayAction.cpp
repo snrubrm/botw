@@ -2,8 +2,14 @@
 #include <xlink2/xlink2Event.h>
 #include <xlink2/xlink2HandleSLink.h>
 #include "Game/AI/aiXlinkHandle.h"
+#include "KingSystem/Utils/InitTimeInfo.h"
 
 namespace uking::action {
+
+namespace {
+ksys::util::InitConstants sInitConstants;
+ksys::util::InitTimeInfo sInitTimeInfo;
+}  // namespace
 
 EnvSeEmitPointInsectPlayAction::EnvSeEmitPointInsectPlayAction(const InitArg& arg)
     : ksys::act::ai::Action(arg) {}
