@@ -4,7 +4,9 @@
 #include "Game/UI/uiUnkSingletons.h"
 #include "KingSystem/GameData/gdtSpecialFlags.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "KingSystem/Utils/MathUtil.h"
 
 namespace uking::ui {
 void sub_7100A9A694(const UiSubsys1PinArg* arg);
@@ -63,6 +65,21 @@ void GoronHeroDescendentRoot::changeToStopCommand() {
     pack.addBool(false, "TerrorOccurring", -1);
     pack.addVec3(mActor->getMtx().getTranslation(), "TargetPos", -1);
     changeChild("停止命令", &pack);
+}
+
+void GoronHeroDescendentRoot::changeToJumpPrepare() {
+    ksys::act::setEnabledTalkAndLockOn(mActor, false);
+    const sead::Vector3f target = _90.getTranslation();
+    const sead::Vector3f position = mActor->getMtx().getTranslation();
+    sead::Vector3f to_target(target.x - position.x, 0.0f, target.z - position.z);
+    to_target.normalize();
+    sead::Vector3f axis;
+    f32 angle;
+    ksys::util::sub_71011EEB08(&axis, &angle, sead::Vector3f::ez, to_target, sead::Vector3f::ey);
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(mActor->getMtx().getTranslation(), "TargetPos", -1);
+    pack.addVec3(sead::Vector3f(0.0f, angle * axis.y, 0.0f), "TargetRot", -1);
+    changeChild("ジャンプ準備", &pack);
 }
 
 void GoronHeroDescendentRoot::updateYunboPin() {

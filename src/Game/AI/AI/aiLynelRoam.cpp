@@ -81,6 +81,21 @@ bool LynelRoam::sub_7100498C00() {
 }
 
 // NON_MATCHING: stack layout only (the original puts `position` below the shared direction / parameter pack slot).
+// NON_MATCHING: stack layout (the original keeps `target` at sp+8 and `direction` at sp+0x18 below the pack; ours puts
+// `direction` above it) and the operand order of the squared XZ length.
+void LynelRoam::sub_7100498EF8() {
+    const sead::Vector3f position = mActor->getMtx().getTranslation();
+    sead::Vector3f direction(mCentralPos_d->x - position.x, 0.0f, mCentralPos_d->z - position.z);
+    if (direction.x * direction.x + direction.z * direction.z < 1.0f)
+        direction.normalize();
+    ksys::util::sub_71011EF010(
+        &direction, sead::GlobalRandom::instance()->getF32Range(-1.0f, 1.0f) * (sead::Mathf::pi() / 6));
+    const sead::Vector3f target = position + direction;
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(target, "TargetPos", -1);
+    changeChild("回転", &pack);
+}
+
 void LynelRoam::sub_7100498D14() {
     sead::Vector3f position;
     if (!sub_7100498398(&position)) {

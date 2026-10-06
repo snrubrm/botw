@@ -18,8 +18,11 @@ public:
     void leave_() override;
     void loadParams_() override;
 
-    // 0x7100490f58 (placeholder name; declared only): finds a position to escape to (writes `out`).
+    // 0x7100490f58 (placeholder name): finds a position to escape to (writes `out`): away from the target, then rotated by 45 and -45 degrees.
     bool sub_7100490F58(sead::Vector3f* out);
+    // 0x71004914e0 (placeholder name): the point SpaceDist away from `pos` along `direction` if the way there is clear, or
+    // the hit position if it is farther than MoveDistMin.
+    bool sub_71004914E0(sead::Vector3f* out, const sead::Vector3f& pos, const sead::Vector3f& direction);
 
 protected:
     // Inline-only in the original (name guesses; evidence: the two branches of enter_ each carry their own

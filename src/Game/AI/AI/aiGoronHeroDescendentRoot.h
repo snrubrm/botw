@@ -29,6 +29,8 @@ public:
     void changeToFollowPlayer();
     // 0x7100409004 (placeholder name): shows the Yunbo pin on the map while the "Fire_Relic_YunboStopGo" flag is set.
     void updateYunboPin();
+    // 0x7100409418 (placeholder name): turns towards `_90`'s position (talk / lock-on disabled) with the "ジャンプ準備" child.
+    void changeToJumpPrepare();
     // 0x7100409824 (placeholder name)
     void changeToWaitForPlayerApproach();
     // 0x71004090d4 (placeholder name): the current child is one of the cannon jump states.

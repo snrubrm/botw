@@ -3,6 +3,10 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/System/Timer.h"
+#include "KingSystem/Utils/MathUtil.h"
+
+bool sub_710072F99C(ksys::act::Actor* actor, const sead::Vector3f& from, const sead::Vector3f& to,
+                    sead::Vector3f* out_pos, s32 kind, f32 tolerance, f32 unused);
 
 namespace uking::ai {
 
@@ -62,6 +66,42 @@ void LynelEscapeFromTarget::calc_() {
                 changeToEscapeMove(pos);
         }
     }
+}
+
+// NON_MATCHING: the original reloads the position copy from memory for `direction` (no store forwarding of z) and
+// stores direction.y after direction.x; ours keeps z in a register (`mov w8, w8`) and stores y first.
+bool LynelEscapeFromTarget::sub_7100490F58(sead::Vector3f* out) {
+    sead::Vector3f position;
+    mActor->getMtx().getTranslation(position);
+    sead::Vector3f direction = position;
+    direction.x = direction.x - mTargetPos_d->x;
+    direction.y = 0;
+    direction.z = direction.z - mTargetPos_d->z;
+    direction.normalize();
+    if (sub_71004914E0(out, position, direction))
+        return true;
+    ksys::util::sub_71011EF010(&direction, sead::Mathf::pi() / 4);
+    if (sub_71004914E0(out, position, direction))
+        return true;
+    ksys::util::sub_71011EF010(&direction, -sead::Mathf::pi() / 2);
+    return sub_71004914E0(out, position, direction);
+}
+
+bool LynelEscapeFromTarget::sub_71004914E0(sead::Vector3f* out, const sead::Vector3f& pos,
+                                           const sead::Vector3f& direction) {
+    sead::Vector3f target = direction;
+    target *= *mSpaceDist_s;
+    target += pos;
+    sead::Vector3f hit;
+    if (sub_710072F99C(mActor, pos, target, &hit, -1, -1.0f, -1.0f)) {
+        *out = target;
+        return true;
+    }
+    if ((hit - pos).length() > *mMoveDistMin_s) {
+        *out = hit;
+        return true;
+    }
+    return false;
 }
 
 void LynelEscapeFromTarget::leave_() {

@@ -16,6 +16,9 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    // 0x7100307530 (placeholder name): starts the child of the given gear (1-4) and restarts the gear-up restriction timer.
+    void changeToGear(s32 gear);
+
 protected:
     // static_param at offset 0x38
     const int* mStartGear_s{};

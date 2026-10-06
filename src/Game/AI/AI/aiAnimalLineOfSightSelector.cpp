@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiAnimalLineOfSightSelector.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
@@ -24,6 +25,27 @@ void AnimalLineOfSightSelector::loadParams_() {
     getStaticParam(&mMaxGear_s, "MaxGear");
     getStaticParam(&mGearUpRestrictionFrames_s, "GearUpRestrictionFrames");
     getDynamicParam(&mTargetPos_d, "TargetPos");
+}
+
+void AnimalLineOfSightSelector::changeToGear(s32 gear) {
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+    switch (gear) {
+    case 1:
+        changeChild("Gear1", &pack);
+        break;
+    case 2:
+        changeChild("Gear2", &pack);
+        break;
+    case 3:
+        changeChild("Gear3", &pack);
+        break;
+    case 4:
+        changeChild("Gear4", &pack);
+        break;
+    }
+    _6c = true;
+    _60 = ksys::Timer(*mGearUpRestrictionFrames_s, *mGearUpRestrictionFrames_s);
 }
 
 }  // namespace uking::ai

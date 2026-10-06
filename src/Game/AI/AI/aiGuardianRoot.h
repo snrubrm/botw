@@ -21,6 +21,8 @@ public:
     void changeToReactToSight();
     // 0x710042b7c4 (placeholder name)
     void changeToReactToSound();
+    // 0x710042b60c (placeholder name)
+    void changeToChase();
 
 protected:
     // map_unit_param at offset 0x38

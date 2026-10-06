@@ -1,6 +1,8 @@
 #include "Game/AI/AI/aiGuardianRoot.h"
+#include "Game/AI/aiUnk_71024f15c0.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/Map/mapRail.h"
 
 namespace uking::ai {
 
@@ -47,6 +49,29 @@ void GuardianRoot::loadParams_() {
     GuardianAI::loadParams_();
     getMapUnitParam(&mIsSuspended_m, "IsSuspended");
     getAITreeVariable(&mForceSetDropPos_a, "ForceSetDropPos");
+}
+
+// NON_MATCHING: register allocation (the original keeps the rail pointer in x20 from the call on and the string-temp
+// vtable pointer in x22).
+void GuardianRoot::changeToChase() {
+    sead::Vector3f pos;
+    if (sub_710040E008(&pos)) {
+        ksys::act::ai::InlineParamPack pack;
+        pack.addVec3(pos, "TargetPos", -1);
+        sead::Vector3f stop_pos;
+        if (auto* rail = sub_7100EEF034(mActor, 0)) {
+            mActor->getMtx().getTranslation(stop_pos);
+            const f32 progress = sub_7100EEF7AC(rail, stop_pos, false, 0.2f, -0.0f);
+            rail->calcTranslate(&stop_pos, progress);
+        } else {
+            mActor->getMtx().getTranslation(stop_pos);
+        }
+        pack.addFloat(180.0f, "DynStopTime", -1);
+        pack.addVec3(stop_pos, "DynStopPos", -1);
+        changeChild("追跡", &pack);
+        sub_710040DDB0(5);
+        sub_710040DE48(true);
+    }
 }
 
 void GuardianRoot::changeToReactToSight() {
