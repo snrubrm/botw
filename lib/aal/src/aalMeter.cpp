@@ -16,8 +16,11 @@ f32 Meter::toMeter(f32 length) {
 
 // 0x7100b7c8e4
 sead::Vector3f Meter::toLength(const sead::Vector3f& meter) {
+    const f32 x = meter.x;
+    const f32 y = meter.y;
+    const f32 z = meter.z;
     const f32 scale = System::sInstance->mSettings->mLengthPerMeter;
-    return {meter.x * scale, scale * meter.y, meter.z * scale};
+    return {x * scale, scale * y, z * scale};
 }
 
 }  // namespace aal
