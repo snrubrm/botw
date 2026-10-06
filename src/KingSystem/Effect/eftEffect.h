@@ -17,9 +17,12 @@ public:
     // Bits of mFlags. Bit 12 is exposed to xlink as global property 0x28 (XLink::calc); WaterSurfaceBase
     // sets it while its "move" sound event is running.
     static constexpr u32 cFlag_WaterSurfaceMaybe = 0x1000;
+    // Tested by ItemConductor::calc_ (a byte load of bit 0 at +0x192f5); meaning unknown.
+    static constexpr u32 cFlag_Unk100 = 0x100;
 
     void setFlags(u32 mask) { mFlags |= mask; }
     void clearFlags(u32 mask) { mFlags &= ~mask; }
+    bool hasFlags(u32 mask) const { return (mFlags & mask) != 0; }
 
 private:
     u8 _38[0x192f4 - 0x38];

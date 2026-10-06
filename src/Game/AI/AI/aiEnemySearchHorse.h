@@ -24,6 +24,8 @@ public:
     bool sub_71003B9914();
 
 protected:
+    // 0x71003ba1c4 (declared only): searches a rideable horse into `link` (false without one).
+    bool sub_71003BA1C4(ksys::act::BaseProcLink* link);
     void sub_71003B9624();
     void sub_71003B977C();
     void sub_71003B9A48();

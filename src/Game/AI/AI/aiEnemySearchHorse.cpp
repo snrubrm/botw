@@ -1,5 +1,6 @@
 #include "Game/AI/AI/aiEnemySearchHorse.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/AI/aiUnk_71007377D4.h"
 #include <math/seadMathCalcCommon.h>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
@@ -59,6 +60,30 @@ void EnemySearchHorse::sub_71003B977C() {
         _58.reset();
         changeChild("馬未発見");
     }
+}
+
+// NON_MATCHING: stack layout (the original shares one 0x18 slot between the "直進" string temporaries and the accessor; ours
+// needs 0x10 more) and the register of the accessor address
+bool EnemySearchHorse::sub_71003B9914() {
+    if (!*mParams.mNoWeaponRiding_s && sub_71005D8B60(mActor))
+        return false;
+    if (isCurrentChild("直進") && _58.hasProc()) {
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::acquireActor(&_58, &accessor);
+        if (accessor.getLife() >= 1) {
+            sead::Vector3f pos;
+            accessor.getActorMtx().getTranslation(pos);
+            if (sub_710072E154(mActor, pos, nullptr, -1))
+                return true;
+        } else {
+            _58.reset();
+        }
+    }
+    if (!sub_71003BA1C4(&_58))
+        return false;
+    if (!isCurrentChild("直進"))
+        changeToStraightMove();
+    return true;
 }
 
 void EnemySearchHorse::enter_(ksys::act::ai::InlineParamPack* params) {
