@@ -88,6 +88,9 @@ class LifeRecoverInfo;
 class Actor;
 class ActorAtk;
 class ActorConstDataAccess;
+namespace acc {
+class WeaponBase;
+}
 class ActorChemicals;
 class Unk_71006e45c4;
 class Unk_7100e4e084;
@@ -752,6 +755,7 @@ protected:
     friend class ActorConstDataAccess;
     friend class ActorSystem;
     friend class ActorBind;  // sub_7100D3C5E0 reads _738 and mSpecialJobTypesMaskOverride
+    friend class acc::WeaponBase;  // acc::WeaponBase::sub_7100EFA6B8 reads mSpecialJobTypesMaskOverride
     friend struct ActorBindEntry;  // writes mMtx / mScale
     friend class uking::act::Unk_71024e8738;  // writes mMtx / mScale (ActorBind subclass copying a pose)
     friend class uking::action::ChemicalAttack;  // lerps mScale.x in place

@@ -449,7 +449,7 @@ bool WeaponBase::m217(sead::SafeString* out) {
     return false;
 }
 
-bool WeaponBase::m223() {
+bool WeaponBase::m223(s32* out) {
     return false;
 }
 
@@ -523,3 +523,168 @@ void WeaponBase::m200() {
 }
 
 }  // namespace ksys::act
+
+namespace ksys::act::acc {
+
+// inline-only in the original; name is a guess (same helper as in acc::Weapon / acc::Armor: the null test comes
+// before the RTTI check).
+static BaseProc* getProcIfActor(BaseProc* proc) {
+    if (proc && sead::IsDerivedFrom<Actor>(proc))
+        return proc;
+    return nullptr;
+}
+
+inline ksys::act::WeaponBase* WeaponBase::getWeapon() const {
+    auto* actor = static_cast<Actor*>(getProcIfActor(mProc));
+    return sead::DynamicCast<ksys::act::WeaponBase>(actor);
+}
+
+bool WeaponBase::m153() const {
+    auto* weapon = getWeapon();
+    return weapon ? weapon->m153() : false;
+}
+
+bool WeaponBase::isWeaponType0Or1Or2() const {
+    auto* weapon = getWeapon();
+    return weapon ? weapon->isWeaponType0Or1Or2() : false;
+}
+
+bool WeaponBase::isWeaponType3() const {
+    auto* weapon = getWeapon();
+    return weapon ? weapon->isWeaponType3() : false;
+}
+
+void WeaponBase::m167(sead::Vector3f* out) const {
+    if (auto* weapon = getWeapon())
+        weapon->m167(out);
+    else
+        *out = sead::Vector3f::zero;
+}
+
+void WeaponBase::m168(sead::Vector3f* out) const {
+    if (auto* weapon = getWeapon())
+        weapon->m168(out);
+    else
+        *out = sead::Vector3f::zero;
+}
+
+void WeaponBase::m169(sead::Vector3f* out) const {
+    if (auto* weapon = getWeapon())
+        weapon->m169(out);
+    else
+        *out = sead::Vector3f::zero;
+}
+
+void WeaponBase::m170(sead::Vector3f* out) const {
+    if (auto* weapon = getWeapon())
+        weapon->m170(out);
+    else
+        *out = sead::Vector3f::zero;
+}
+
+void WeaponBase::m171(sead::Vector3f* out) const {
+    if (auto* weapon = getWeapon())
+        weapon->m171(out);
+    else
+        *out = sead::Vector3f::zero;
+}
+
+void WeaponBase::m172(sead::Vector3f* out) const {
+    if (auto* weapon = getWeapon())
+        weapon->m172(out);
+    else
+        *out = sead::Vector3f::zero;
+}
+
+bool WeaponBase::m222() const {
+    auto* weapon = getWeapon();
+    return weapon ? weapon->m222() : false;
+}
+
+bool WeaponBase::sub_7100EFA6B8() const {
+    auto* weapon = getWeapon();
+    if (weapon && !weapon->m159().isEmpty()) {
+        if (!weapon->m161())
+            return true;
+        auto* optional_weapon = weapon->m162();
+        return optional_weapon && !optional_weapon->mSpecialJobTypesMaskOverride.isOn(2);
+    }
+    return false;
+}
+
+bool WeaponBase::acquireParentActor(ActorConstDataAccess* out) const {
+    auto* weapon = getWeapon();
+    return weapon ? ksys::act::acquireActor(&weapon->_938, out) : false;
+}
+
+bool WeaponBase::hasParentActor_() const {
+    auto* weapon = getWeapon();
+    return weapon ? weapon->hasParentActor_() : false;
+}
+
+Actor* WeaponBase::getParentActor() const {
+    auto* weapon = getWeapon();
+    return weapon ? weapon->getParentActor() : nullptr;
+}
+
+bool WeaponBase::m188() const {
+    auto* weapon = getWeapon();
+    return weapon ? weapon->m188() : false;
+}
+
+bool WeaponBase::m186() const {
+    auto* weapon = getWeapon();
+    return weapon ? weapon->m186() : false;
+}
+
+bool WeaponBase::m154() const {
+    auto* weapon = getWeapon();
+    return weapon ? weapon->m154() : false;
+}
+
+bool WeaponBase::m155() const {
+    auto* weapon = getWeapon();
+    return weapon ? weapon->m155() : false;
+}
+
+bool WeaponBase::m156() const {
+    auto* weapon = getWeapon();
+    return weapon ? weapon->m156() : false;
+}
+
+bool WeaponBase::m223(s32* out) const {
+    auto* weapon = getWeapon();
+    if (weapon)
+        return weapon->m223(out);
+    *out = 0;
+    return false;
+}
+
+// NON_MATCHING: the original selects `weapon + 0xa00` / null directly on the RTTI result (one csel); ours keeps the null test
+// of the cast result and an extra csel
+ModelBindInfo* WeaponBase::getBindInfo() const {
+    auto* weapon = getWeapon();
+    return weapon ? &weapon->_a00 : nullptr;
+}
+
+bool WeaponBase::sub_7100EFB338() const {
+    auto* weapon = getWeapon();
+    return weapon ? weapon->mModelBindInfo != nullptr : false;
+}
+
+void WeaponBase::m228(BaseProc* proc) const {
+    if (auto* weapon = getWeapon())
+        weapon->m228(proc);
+}
+
+void WeaponBase::sub_7100EFB53C(gsys::Model* model) const {
+    if (auto* weapon = getWeapon())
+        weapon->sub_71011C5630(model);
+}
+
+bool WeaponBase::sub_7100EFB798() const {
+    auto* weapon = getWeapon();
+    return weapon ? weapon->_ab0 != 0 : false;
+}
+
+}  // namespace ksys::act::acc

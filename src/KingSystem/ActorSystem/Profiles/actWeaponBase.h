@@ -4,6 +4,7 @@
 #include <prim/seadSafeString.h>
 #include <thread/seadCriticalSection.h>
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/ActorSystem/actBaseProcHandle.h"
 #include "KingSystem/ActorSystem/actModelBindInfo.h"
@@ -19,6 +20,9 @@ class EquipedAction;
 namespace ksys::act {
 
 class InstParamPack;
+namespace acc {
+class WeaponBase;
+}
 
 // 0x0000007100ef2808
 eco::WeaponModifier getRandomWeaponModifier(eco::WeaponModifier modifier,
@@ -63,8 +67,8 @@ public:
     virtual const sead::SafeString& m164();
     virtual void m165();
     virtual void m166();
-    virtual void m167();
-    virtual void m168();
+    virtual void m167(sead::Vector3f* out);
+    virtual void m168(sead::Vector3f* out);
     // 0x7100ef57dc: the shield-affect rotation offset of the weapon type (SmallSword / LargeSword / Spear, the grab
     // variant of the spear when m155), zero when held by an unarmed owner or for the bow / shield types.
     virtual void m169(sead::Vector3f* out);
@@ -143,7 +147,7 @@ public:
     virtual void masterSwordReturnToForest() {}
     virtual void* m221();
     virtual bool m222() { return false; }
-    virtual bool m223();
+    virtual bool m223(s32* out);
     virtual void m224(sead::Vector3f* out) { *out = sead::Vector3f::ones; }
     virtual bool m225() { return false; }
     virtual bool m226() { return false; }
@@ -182,6 +186,7 @@ public:
 protected:
     // EquipedAction binds the weapon through `_a00` (lane3 s23).
     friend class uking::action::EquipedAction;
+    friend class acc::WeaponBase;
 
     // lane4 s30: BaseProc / Actor overrides of the weapon (slots 22, 23, 12, 13).
     IsSpecialJobTypeResult isSpecialJobType_(JobType type) override;
@@ -230,3 +235,49 @@ protected:
 KSYS_CHECK_SIZE_NX150(WeaponBase, 0xab8);
 
 }  // namespace ksys::act
+
+namespace ksys::act::acc {
+
+// Accessor for WeaponBase actors (lane4 s44; the 0x7100ef9bb8-0x7100efb798 functions in the WeaponBase TU, unnamed in
+// the CSV; class and method names are guesses). Each one casts the accessor's proc to a WeaponBase (null / not an
+// actor / not a weapon: the default value) and forwards to a virtual function of the weapon (named after it).
+class WeaponBase : public ActorConstDataAccess {
+public:
+    bool m153() const;
+    bool isWeaponType0Or1Or2() const;
+    bool isWeaponType3() const;
+    void m167(sead::Vector3f* out) const;
+    void m168(sead::Vector3f* out) const;
+    void m169(sead::Vector3f* out) const;
+    void m170(sead::Vector3f* out) const;
+    void m171(sead::Vector3f* out) const;
+    void m172(sead::Vector3f* out) const;
+    bool m222() const;
+    // 0x7100efa6b8: the weapon has a name (m159) and either no optional weapon (m161) or one that does not have the
+    // flag 2 of its `mSpecialJobTypesMaskOverride`; false without a weapon.
+    bool sub_7100EFA6B8() const;
+    // 0x7100efa910: acquires the parent actor (`_938`) into `out`.
+    bool acquireParentActor(ActorConstDataAccess* out) const;
+    bool hasParentActor_() const;
+    Actor* getParentActor() const;
+    bool m188() const;
+    bool m186() const;
+    bool m154() const;
+    bool m155() const;
+    bool m156() const;
+    bool m223(s32* out) const;
+    // 0x7100efb240: `_a00` of the weapon.
+    ModelBindInfo* getBindInfo() const;
+    // 0x7100efb338: the actor member at +0x4d0 is set.
+    bool sub_7100EFB338() const;
+    void m228(BaseProc* proc) const;
+    // 0x7100efb53c: forwards to Actor::sub_71011C5630.
+    void sub_7100EFB53C(gsys::Model* model) const;
+    // 0x7100efb798: `_ab0` is set.
+    bool sub_7100EFB798() const;
+
+protected:
+    ksys::act::WeaponBase* getWeapon() const;
+};
+
+}  // namespace ksys::act::acc
