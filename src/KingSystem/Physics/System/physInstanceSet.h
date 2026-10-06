@@ -297,6 +297,8 @@ private:
 public:
     // 0x7100fc00ec (lane4 s47; placeholder name): the listed body entry `idx` (null if out of range).
     Unk2* sub_7100FC00EC(s32 idx);
+    // 0x7100fc0124: the buffer of listed body entries.
+    sead::Buffer<Unk2>* sub_7100FC0124();
 
 private:
     u16 _110{};

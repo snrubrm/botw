@@ -865,4 +865,8 @@ InstanceSet::Unk2* InstanceSet::sub_7100FC00EC(s32 idx) {
     return &_100[idx];
 }
 
+sead::Buffer<InstanceSet::Unk2>* InstanceSet::sub_7100FC0124() {
+    return &_100;
+}
+
 }  // namespace ksys::phys
