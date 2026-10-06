@@ -1,6 +1,7 @@
 #include "Game/UI/euiDynamicCaptureUsePictureEx.h"
 #include <nn/ui2d/Layout.h>
 #include "Game/UI/euiDynamicCapturePane.h"
+#include "Game/UI/euiTypes.h"
 
 namespace eui {
 
@@ -27,6 +28,15 @@ void DynamicCaptureUsePictureEx::Calculate(nn::ui2d::DrawInfo& draw_info,
         mCapturePane->applyTextureInfoToMaterialForCalculate(this, context.mLayout->GetLayoutSize(),
                                                             mTextureIndex);
     Picture::Calculate(draw_info, context, force_dirty);
+}
+
+// 0x7100bf345c
+void DynamicCaptureUsePictureEx::DrawSelf(nn::ui2d::DrawInfo& draw_info,
+                                          nn::gfx::CommandBuffer& command_buffer) {
+    if (mCapturePane && mCapturePane->mTexture) {
+        ApplyTextureInfoToMaterial(this, mCapturePane->mTextureInfo, mTextureIndex);
+        Picture::DrawSelf(draw_info, command_buffer);
+    }
 }
 
 }  // namespace eui

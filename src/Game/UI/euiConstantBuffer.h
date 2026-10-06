@@ -1,6 +1,7 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <nn/font/font_GpuBuffer.h>
 #include "KingSystem/Utils/Types.h"
 
 namespace eui {
@@ -16,7 +17,9 @@ public:
     void swapIndex() { mIndex = 1 - mIndex; }
 
 private:
-    u8 _0[0x1a8];
+    u8 _0[0x120];
+    /* 0x120 */ nn::font::GpuBuffer mGpuBuffers[2];
+    u8 _1a0[0x1a8 - 0x1a0];
     /* 0x1a8 */ s8 mIndex;
     /* 0x1a9 */ bool _1a9;
     /* 0x1aa */ bool _1aa;

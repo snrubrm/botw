@@ -18,6 +18,7 @@ public:
     ~DynamicCaptureUsePictureEx() override = default;
     void Calculate(nn::ui2d::DrawInfo& draw_info, nn::ui2d::Pane::CalculateContext& context,
                    bool force_dirty) override;
+    void DrawSelf(nn::ui2d::DrawInfo& draw_info, nn::gfx::CommandBuffer& command_buffer) override;
 
     // 0x7100bf33f4 (placeholder name)
     void setCapture(DynamicCapturePane* capture_pane, u8 texture_index);
