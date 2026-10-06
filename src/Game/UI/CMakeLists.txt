@@ -68,6 +68,7 @@ target_sources(uking PRIVATE
   uiMgrFacade2.cpp
   uiAppStateGlobals.cpp
   uiMiscFacade.cpp
+  uiGdtFacade.cpp
   uiManagerFacade.cpp
   uiManagerSmall.cpp
   uiOnUiActorMgr.cpp

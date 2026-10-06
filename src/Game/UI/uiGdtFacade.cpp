@@ -1,0 +1,104 @@
+#include "Game/UI/uiManager.h"
+#include "Game/UI/uiUtils.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "KingSystem/GameData/gdtCommonFlagsUtils.h"
+
+// Thin UI-side wrappers around the game data flags (and a few Manager flag readers) from the 0x7100aa8000 UI TU.
+namespace uking::ui {
+
+namespace shop {
+
+// 0x7100aa8108
+void setScreenType(s32 type) {
+    ksys::gdt::setFlag_Shop_ScreenType(type, false);
+}
+
+// 0x7100aa8110
+void setDecideTrig(bool trig) {
+    ksys::gdt::setFlag_Shop_DecideTrig(trig, false);
+}
+
+// 0x7100aa811c
+void setSelectItemName(const sead::SafeString& name) {
+    ksys::gdt::setFlag_Shop_SelectItemName(name, false);
+}
+
+// 0x7100aa8124
+void setSelectItemPrice(s32 price) {
+    ksys::gdt::setFlag_Shop_SelectItemPrice(price, false);
+}
+
+// 0x7100aa812c
+void setItemState(s32 state) {
+    ksys::gdt::setFlag_Shop_ItemState(state, false);
+}
+
+// 0x7100aa8134
+void setSelectItemNum(s32 num) {
+    ksys::gdt::setFlag_Shop_SelectItemNum(num, false);
+}
+
+// 0x7100aa813c
+void setTradeItemNum(s32 num) {
+    ksys::gdt::setFlag_Shop_TradeItemNum(num, false);
+}
+
+// 0x7100aa8144
+void setTradePrice(s32 price) {
+    ksys::gdt::setFlag_ShopTradePrice(price, false);
+}
+
+// 0x7100aa8154 (CSV unnamed; placeholder name)
+void sub_7100AA8154(bool is_manufacture_equip_item) {
+    ksys::gdt::setFlag_Shop_IsManufactureEquipItem(is_manufacture_equip_item, false);
+}
+
+// 0x7100aa8160 (CSV unnamed; placeholder name)
+void sub_7100AA8160(s32 vacancy) {
+    ksys::gdt::setFlag_Shop_SelectPictureBookVacancy(vacancy, false);
+}
+
+}  // namespace shop
+
+// 0x7100aa814c
+void setColorChangeMaterialIndex(s32 index) {
+    ksys::gdt::setFlag_ColorChange_MaterialIndex(index, false);
+}
+
+// 0x7100aa8fc4
+bool getMainScreenOnOff() {
+    return ksys::gdt::getFlag_MainScreenOnOff(false);
+}
+
+// 0x7100aa8f78: `actor` itself, or the player if there is no actor.
+// NON_MATCHING: the original tail-calls PlayerInfo::getPlayer; ours converts PlayerBase* -> Actor* and does not
+// emit the tail call (and tests `actor` the other way round)
+ksys::act::Actor* getPlayerActor(ksys::act::Actor* actor) {
+    if (actor)
+        return actor;
+    if (auto* info = ksys::act::PlayerInfo::instance())
+        return info->getPlayer();
+    return nullptr;
+}
+
+// 0x7100aa8f30 / 0x7100aa8f50 (placeholder names): bit 13 / bit 18 of the Manager's flag word.
+bool sub_7100AA8F30() {
+    return (Manager::instance()->_64c30 & 0x2000) != 0;
+}
+
+bool sub_7100AA8F50() {
+    return (Manager::instance()->_64c30 & 0x40000) != 0;
+}
+
+// 0x7100aa948c (CSV uiManager::x_11) / 0x7100aa94a8 (placeholder name): the bytes at 0x64b14 / 0x64b15.
+u8 sub_7100AA948C() {
+    return Manager::instance()->_64b14;
+}
+
+u8 sub_7100AA94A8() {
+    return Manager::instance()->_64b15;
+}
+
+}  // namespace uking::ui
