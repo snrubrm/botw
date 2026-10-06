@@ -20,16 +20,8 @@ public:
 protected:
     void calc_() override;
 
-    // static_param at offset 0x30
-    sead::SafeString mPartsKey0_s{};
-    // static_param at offset 0x40
-    sead::SafeString mPartsKey1_s{};
-    // static_param at offset 0x50
-    sead::SafeString mPartsKey2_s{};
-    // static_param at offset 0x60
-    sead::SafeString mPartsKey3_s{};
-    // static_param at offset 0x70
-    sead::SafeString mPartsKey4_s{};
+    // static_params at offset 0x30: PartsKey0 .. PartsKey4 (indexed by calc_)
+    sead::SafeString mPartsKey_s[5]{};
     ksys::act::BaseProcHandle _80[5];
 };
 KSYS_CHECK_SIZE_NX150(ForkSwapPartsItemFromDropTable, 0xd0);
