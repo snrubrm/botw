@@ -89,17 +89,3 @@ public:
     bool _331;
 };
 
-// GameSceneStatusMgr: CSV createInstance 0x71010bd158, registerStatus 0x71010bd280.
-class GameSceneStatusMgr {
-public:
-    // 0x71010bdce4 / 0x71010bdcf0 / 0x71010bdcfc: bool setters
-    void sub_71010BDCE4(bool value);
-    void sub_71010BDCF0(bool value);
-    void sub_71010BDCFC(bool value);
-
-    u8 _0[0x20];
-    bool _20;
-    u8 _21;
-    bool _22;
-    bool _23;
-};
