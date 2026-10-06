@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/ActorSystem/actBaseProcHandle.h"
 
 namespace uking::action {
 
@@ -24,6 +25,8 @@ protected:
     const float* mIntervalTime_m{};
     // map_unit_param at offset 0x38
     const float* mRailMoveSpeed_m{};
+    u8 _40[0x980 - 0x40];
+    ksys::act::BaseProcHandle _980[6];
 };
 
 }  // namespace uking::action

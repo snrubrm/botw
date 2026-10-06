@@ -1,6 +1,7 @@
 #include "Game/AI/Action/actionDemoVoiceTrigger.h"
 #include <aal/aalArbiter.h>
 #include <aal/aalSystemAccessor.h>
+#include "Game/UI/uiUI.h"
 
 namespace uking::action {
 
@@ -26,7 +27,8 @@ void DemoVoiceTrigger::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void DemoVoiceTrigger::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (!_52)
+        ui::UI::instance()->sub_71010A6D84();
 }
 
 void DemoVoiceTrigger::loadParams_() {
@@ -36,7 +38,19 @@ void DemoVoiceTrigger::loadParams_() {
 }
 
 void DemoVoiceTrigger::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (_50) {
+        if (!_52)
+            ui::UI::instance()->sub_71010A7034();
+        _50 = false;
+    }
+
+    if (_52)
+        return;
+
+    if (_51 && !_f8.isEnabled()) {
+        if (ui::UI::instance()->sub_71010A5BC8())
+            ui::UI::instance()->sub_71010A6D84();
+    }
 }
 
 }  // namespace uking::action

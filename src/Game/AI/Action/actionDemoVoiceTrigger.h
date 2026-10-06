@@ -1,5 +1,6 @@
 #pragma once
 
+#include <aal/aalHandle.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace aal {
@@ -30,6 +31,10 @@ protected:
     sead::SafeString mActorInstance_d{};
     aal::Emitter* mEmitter = nullptr;
     bool _50 = false;
+    bool _51 = false;
+    bool _52 = false;
+    u8 _53[0xf8 - 0x53];
+    aal::Handle _f8;
 };
 
 }  // namespace uking::action

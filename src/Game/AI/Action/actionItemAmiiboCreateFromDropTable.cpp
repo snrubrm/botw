@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionItemAmiiboCreateFromDropTable.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace uking::action {
 
@@ -16,7 +17,8 @@ void ItemAmiiboCreateFromDropTable::enter_(ksys::act::ai::InlineParamPack* param
 }
 
 void ItemAmiiboCreateFromDropTable::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (!_a8d)
+        _a80->removeFromWorldAndResetLinks();
 }
 
 void ItemAmiiboCreateFromDropTable::loadParams_() {

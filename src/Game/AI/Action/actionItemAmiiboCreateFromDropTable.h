@@ -3,6 +3,10 @@
 #include "KingSystem/ActorSystem/actAiAction.h"
 #include "KingSystem/ActorSystem/actBaseProcHandle.h"
 
+namespace ksys::phys {
+class RigidBody;
+}
+
 namespace uking::action {
 
 class ItemAmiiboCreateFromDropTable : public ksys::act::ai::Action {
@@ -73,6 +77,10 @@ protected:
     const sead::Vector3f* mCreateOffset_s{};
     u8 _130[0xa68 - 0x130];
     ksys::act::BaseProcHandle _a68;
+    u8 _a78[0xa80 - 0xa78];
+    ksys::phys::RigidBody* _a80{};
+    u8 _a88[0xa8d - 0xa88];
+    bool _a8d = false;
 };
 
 }  // namespace uking::action

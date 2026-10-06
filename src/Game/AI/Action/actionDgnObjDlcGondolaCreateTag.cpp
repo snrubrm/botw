@@ -16,7 +16,8 @@ void DgnObjDlcGondolaCreateTag::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void DgnObjDlcGondolaCreateTag::leave_() {
-    ksys::act::ai::Action::leave_();
+    for (auto& handle : _980)
+        handle.deleteProc();
 }
 
 void DgnObjDlcGondolaCreateTag::loadParams_() {
