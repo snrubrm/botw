@@ -7,7 +7,7 @@ namespace aal {
 
 // NON_MATCHING: the two stores of the trailing members come after the list initialization in the original.
 // 0x7100b8efc8
-SoundSourceUnifierTarget::SoundSourceUnifierTarget() : mUnifier(nullptr), _70(0), _78(nullptr) {
+SoundSourceUnifierTarget::SoundSourceUnifierTarget() : mUnifier(nullptr), _70{}, _78(nullptr) {
     mSources.initOffset(offsetof(SoundSourceUnifierSource, mTargetListNode));
 }
 
@@ -24,8 +24,27 @@ void SoundSourceUnifierTarget::finalize() {
     }
     mSources.clear();
     mName.clear();
-    _70 = 0;
+    _70.first = 0;
     _78 = nullptr;
+}
+
+// 0x7100b8f110
+void SoundSourceUnifierTarget::initialize(const SoundSourceUnifierCondition& condition) {
+    mName.copy(condition.name);
+    _78 = condition._60;
+    const sead::SafeString& name = mName;
+    _70 = condition._58;
+    mUnifier = SystemAccessor::getSpeakerBalanceUnifierMgr()->allocSpeakerBalanceUnifier(name, nullptr);
+}
+
+// 0x7100b8f224
+void SoundSourceUnifierTarget::calc() {
+    s32 index = 0;
+    for (SoundSourceUnifierSource& source : mSources) {
+        if (index++ == 0)
+            setParamsFromSoundSource(source.mSoundSource);
+        source.updatePosition_();
+    }
 }
 
 // 0x7100b8f38c

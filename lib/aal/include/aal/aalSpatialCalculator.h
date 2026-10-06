@@ -5,6 +5,7 @@
 #include <container/seadOffsetList.h>
 #include <math/seadMatrix.h>
 #include <math/seadVector.h>
+#include <thread/seadCriticalSection.h>
 #include <prim/seadRuntimeTypeInfo.h>
 
 namespace sead {
@@ -86,6 +87,7 @@ public:
 
 private:
     friend class Shape;
+    friend class SoundSourceUnifierSource;
 
     /// Node in the calculator list of the attached Shape.
     sead::ListNode mShapeListNode;
@@ -100,7 +102,9 @@ private:
     volatile s32 mResultNum;
     u8 _84[4];
     Result* mResults;
-    u8 _90[0xd8 - 0x90];
+    sead::CriticalSection mCS;
+    u32 _d0;
+    u8 _d4[4];
 };
 static_assert(sizeof(SpatialCalculator) == 0xd8);
 

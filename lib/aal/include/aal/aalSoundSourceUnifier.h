@@ -18,8 +18,23 @@ namespace aal {
 
 class SoundSource;
 class SoundSourceUnifierTarget;
-struct SoundSourceUnifierCondition;
 class SpeakerBalanceUnifier;
+
+/// What the sounds have to have in common to be unified.
+/// TODO: incomplete (only the members that SoundSourceUnifierTarget::initialize reads are modeled).
+struct SoundSourceUnifierCondition {
+    /// Purpose unknown (copied as a whole by the target).
+    struct Pair {
+        s32 first;
+        s32 second;
+    };
+
+    /// The name of the speaker balance unifier.
+    sead::SafeString name;
+    u8 _10[0x58 - 0x10];
+    Pair _58;
+    void* _60;
+};
 
 /// The part of a unified (merged) group of sounds that belongs to one SoundSource: the position of the sound source
 /// (its own or, when it follows a shape, the shape's) that is unified in the target.
@@ -29,10 +44,8 @@ public:
     SoundSourceUnifierSource();
     ~SoundSourceUnifierSource();
 
-    /// 0x7100b8ee4c (declared only)
     void initialize(SoundSource* sound_source);
     void finalize();
-    /// 0x7100b8eed4 (declared only)
     void updatePosition_();
     void pause(bool pause, f32 fade_time);
     /// The handle of the sound that plays the unified sources.
@@ -57,11 +70,11 @@ public:
     SoundSourceUnifierTarget();
     ~SoundSourceUnifierTarget();
 
-    /// 0x7100b8f110 (declared only)
     void initialize(const SoundSourceUnifierCondition& condition);
     void finalize();
-    /// 0x7100b8f224 (declared only)
     void calc();
+    /// 0x7100b8f2a4 (declared only): copies the sound parameters of the sound source to the target sound.
+    void setParamsFromSoundSource(SoundSource* sound_source);
     void stopSound(f32 fade_time);
     void addSource(SoundSourceUnifierSource* source);
     void removeSource(SoundSourceUnifierSource* source);
@@ -73,7 +86,7 @@ private:
     SpeakerBalanceUnifier* mUnifier;
     Handle mHandle;
     sead::FixedSafeString<64> mName;
-    s32 _70;
+    SoundSourceUnifierCondition::Pair _70;
     void* _78;
     sead::OffsetList<SoundSourceUnifierSource> mSources;
 };

@@ -1,4 +1,8 @@
 #include "aal/aalSoundSourceUnifier.h"
+#include <prim/seadScopedLock.h>
+#include "aal/aalShape.h"
+#include "aal/aalSoundSource.h"
+#include "aal/aalSpatialCalculator.h"
 
 namespace aal {
 
@@ -21,6 +25,34 @@ void SoundSourceUnifierSource::finalize() {
 
 // NON_MATCHING: the original copies the 16 bytes of the handle in forward order (ldp/stp), the member copy here goes
 // backwards (SROA splits the copy).
+// 0x7100b8ee4c
+void SoundSourceUnifierSource::initialize(SoundSource* sound_source) {
+    mTarget = nullptr;
+    mSoundSource = sound_source;
+    mUnifiable = &mPosition;
+    updatePosition_();
+}
+
+// 0x7100b8eed4
+void SoundSourceUnifierSource::updatePosition_() {
+    SpatialCalculator* calculator = mSoundSource->mSpatialCalculator;
+    if (!calculator)
+        return;
+
+    if (Shape* shape = calculator->mSetting.shape) {
+        mUnifiable = shape;
+        return;
+    }
+
+    sead::ScopedLock<sead::CriticalSection> lock(&calculator->mCS);
+    if (const sead::Matrix34f* matrix = calculator->mSetting.actor_matrix) {
+        sead::Vector3f translation;
+        matrix->getTranslation(translation);
+        mPosition.mPosition = translation;
+        mUnifiable = &mPosition;
+    }
+}
+
 // 0x7100b8ef58
 Handle SoundSourceUnifierSource::getTargetHandle() const {
     if (mTarget)
