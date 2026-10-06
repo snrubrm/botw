@@ -1,4 +1,6 @@
 #include "aal/aalSoundSourceUnifier.h"
+#include "aal/aalSoundSource.h"
+#include "aal/aalSpatialCalculator.h"
 #include "aal/aalSpeakerBalanceUnifier.h"
 #include "aal/aalSpeakerBalanceUnifierMgr.h"
 #include "aal/aalSystemAccessor.h"
@@ -45,6 +47,25 @@ void SoundSourceUnifierTarget::calc() {
             setParamsFromSoundSource(source.mSoundSource);
         source.updatePosition_();
     }
+}
+
+// 0x7100b8f454
+void SoundSourceUnifierTarget::setParamsFromSoundSourceFirst(SoundSource* sound_source) {
+    if (mUnifier) {
+        if (SpatialCalculator* calculator = sound_source->mSpatialCalculator) {
+            mUnifier->setAttenuator(calculator->mSetting.attenuator);
+            mUnifier->mInteriorMask = calculator->mSetting._2a;
+            const s32 interior_num = sound_source->mInteriorNum;
+            mUnifier->setInteriorNum(interior_num);
+            mUnifier->setListenerDirectivityEnabled((calculator->mSetting.flags >> 5) & 1);
+        }
+    }
+
+    const f32 fade_in_time = sound_source->getFadeInTimeIfBeforePlaying();
+    if (fade_in_time >= 0.0f)
+        mHandle.setFadeInTime(fade_in_time);
+    mHandle.setFadeCurveType(sound_source->mFadeCurveType);
+    setParamsFromSoundSource(sound_source);
 }
 
 // 0x7100b8f38c

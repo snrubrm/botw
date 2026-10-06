@@ -14,6 +14,7 @@ class Heap;
 
 namespace aal {
 
+class Attenuator;
 class Cone;
 class Shape;
 
@@ -46,7 +47,7 @@ public:
     struct Setting {
         const sead::Matrix34f* actor_matrix;
         const sead::Vector3f* velocity;
-        void* _10;
+        Attenuator* attenuator;
         f32 doppler_factor;
         f32 sound_source_size;
         Shape* shape;
@@ -88,6 +89,7 @@ public:
 private:
     friend class Shape;
     friend class SoundSourceUnifierSource;
+    friend class SoundSourceUnifierTarget;
 
     /// Node in the calculator list of the attached Shape.
     sead::ListNode mShapeListNode;
