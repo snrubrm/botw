@@ -51,8 +51,6 @@ void GuardianAimBeamState::sub_71006F2D08() {
     _48.fade();
     _58.fade(0);
     _68.fade(0);
-    xlink::fade(_58, 0);
-    xlink::fade(_68, 0);
     _d8 = 0;
 }
 
