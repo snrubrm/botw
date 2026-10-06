@@ -1,6 +1,8 @@
 #include "Game/AI/Action/actionHuntingDead.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actCCAccessor.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
 namespace uking::action {
 
@@ -19,6 +21,27 @@ void HuntingDead::enter_(ksys::act::ai::InlineParamPack* params) {
             return;
     }
     setFailed();
+}
+
+// NON_MATCHING: the original tail-calls sub_7100F5F458 from both branches, loads the actor's y before _6f0 and
+// the InWaterDepth param after the subtraction.
+void HuntingDead::sub_71001B4AFC(ksys::phys::CharacterController* controller) {
+    if (!controller)
+        return;
+    auto* actor = mActor;
+    const f32 y = actor->getMtx().m[1][3];
+    if (actor->get68f() && actor->get6f0() - y > *mInWaterDepth_s) {
+        const ksys::act::MotionType current = controller->sub_7100F5F0E4();
+        if (int(current) != int(ksys::act::MotionType::Hover))
+            controller->sub_7100F5F458(ksys::act::MotionType::Hover);
+    } else {
+        const ksys::act::MotionType ground = controller->sub_7100F5F0E4();
+        if (int(ground) == int(ksys::act::MotionType::_0))
+            return;
+        const ksys::act::MotionType current = controller->sub_7100F5F0E4();
+        if (int(current) != int(ksys::act::MotionType::_1))
+            controller->sub_7100F5F458(ksys::act::MotionType::_1);
+    }
 }
 
 void HuntingDead::leave_() {

@@ -23,6 +23,20 @@ void BoomerangMove::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Action::enter_(params);
 }
 
+void BoomerangMove::sub_71000CB538(f32 gravity_factor) {
+    auto* actor = mActor;
+    ksys::phys::RigidBody* body = nullptr;
+    if (auto* weapon = sead::DynamicCast<ksys::act::WeaponBase>(actor)) {
+        auto* weapon_body = static_cast<ksys::phys::RigidBody*>(weapon->m221());
+        if (weapon_body && (weapon_body->isAddingBodyToWorld() || weapon_body->isAddedToWorld()))
+            body = weapon_body;
+    }
+    if (!body)
+        body = actor->getMainBody();
+    if (body)
+        body->setGravityFactor(gravity_factor);
+}
+
 void BoomerangMove::leave_() {
     auto* actor = mActor;
     ksys::phys::RigidBody* body = nullptr;

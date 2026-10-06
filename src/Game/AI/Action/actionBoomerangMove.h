@@ -20,6 +20,7 @@ public:
 protected:
     void calc_() override;
     virtual void m32();
+    void sub_71000CB538(f32 gravity_factor);
 
     // static_param at offset 0x20
     const float* mPreCurveTimer_s{};
