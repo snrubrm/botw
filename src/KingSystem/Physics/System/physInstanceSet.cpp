@@ -6,6 +6,10 @@
 #include "KingSystem/Physics/Ragdoll/physRagdollInstance.h"
 #include "KingSystem/Physics/Ragdoll/physRagdollRigidBody.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
+#include "KingSystem/Physics/RigidBody/Shape/Box/physBoxRigidBody.h"
+#include "KingSystem/Physics/RigidBody/Shape/Capsule/physCapsuleRigidBody.h"
+#include "KingSystem/Physics/RigidBody/Shape/CylinderWater/physCylinderWaterRigidBody.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodyFromShape.h"
 #include "KingSystem/Physics/RigidBody/Shape/Sphere/physSphereRigidBody.h"
 #include "KingSystem/Physics/RigidBody/Shape/Sphere/physSphereShape.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodySetParam.h"
@@ -566,6 +570,81 @@ void InstanceSet::sub_7100FC0600(RigidBody* body) {
             return;
         }
     }
+}
+
+CapsuleRigidBody* InstanceSet::sub_7100FC03A0(RigidBodyInstanceParam* param, sead::Heap* heap) {
+    auto* body = CapsuleRigidBody::make(param, heap);
+    if (body) {
+        if (param->groundhit_mask == 0)
+            body->setSystemGroupHandler(_188[body->isSensor()]);
+        body->setUserTag(mUserTag);
+        auto* node = new (heap, 8) sead::TListNode<RigidBody*>(body);
+        mList.pushBack(node);
+    }
+    return body;
+}
+
+BoxRigidBody* InstanceSet::sub_7100FC0440(RigidBodyInstanceParam* param, sead::Heap* heap) {
+    auto* body = BoxRigidBody::make(param, heap);
+    if (body) {
+        if (param->groundhit_mask == 0)
+            body->setSystemGroupHandler(_188[body->isSensor()]);
+        body->setUserTag(mUserTag);
+        auto* node = new (heap, 8) sead::TListNode<RigidBody*>(body);
+        mList.pushBack(node);
+    }
+    return body;
+}
+
+CylinderWaterRigidBody* InstanceSet::sub_7100FC04E0(RigidBodyInstanceParam* param, sead::Heap* heap) {
+    auto* body = CylinderWaterRigidBody::make(param, heap);
+    if (body) {
+        if (param->groundhit_mask == 0)
+            body->setSystemGroupHandler(_188[body->isSensor()]);
+        body->setUserTag(mUserTag);
+        auto* node = new (heap, 8) sead::TListNode<RigidBody*>(body);
+        mList.pushBack(node);
+    }
+    return body;
+}
+
+RigidBody* InstanceSet::sub_7100FC0580(RigidBodyFromShape* shape, sead::Heap* heap) {
+    auto* body = shape->clone(heap, nullptr);
+    if (body) {
+        body->setUserTag(mUserTag);
+        auto* node = new (heap, 8) sead::TListNode<RigidBody*>(body);
+        mList.pushBack(node);
+    }
+    return body;
+}
+
+bool InstanceSet::sub_7100FBB374(RigidBody* body) const {
+    for (auto& set : mRigidBodySets) {
+        auto& bodies = set.getRigidBodies();
+        for (s32 i = 0; i < bodies.size(); ++i) {
+            if (bodies[i] == body)
+                return true;
+        }
+    }
+    for (auto& listed : mList) {
+        if (listed == body)
+            return true;
+    }
+    return false;
+}
+
+bool InstanceSet::sub_7100FBB420() const {
+    for (auto& set : mRigidBodySets) {
+        if (set.hasActiveEntityBody())
+            return true;
+    }
+    for (auto& body : mList) {
+        if (!body->isSensor() && body->isActive())
+            return true;
+    }
+    if (mRagdollInstance && mRagdollInstance->isAddedToWorld())
+        return true;
+    return false;
 }
 
 SphereRigidBody* InstanceSet::sub_7100FC0300(SphereParam* param, sead::Heap* heap) {

@@ -36,6 +36,11 @@ class ParamSet;
 class RagdollController;
 class RagdollInstance;
 class RigidBodySet;
+class BoxRigidBody;
+class CapsuleRigidBody;
+class CylinderWaterRigidBody;
+class RigidBodyFromShape;
+class RigidBodyInstanceParam;
 class SphereParam;
 class SphereRigidBody;
 class SystemGroupHandler;
@@ -197,6 +202,17 @@ public:
     // 0x7100fc0300: makes a sphere rigid body (group handler from _188 unless the param has one)
     // and links it into the body list at 0x148. Used by ksys::act::AITerror.
     SphereRigidBody* sub_7100FC0300(SphereParam* param, sead::Heap* heap);
+    // lane4 s46 (placeholder names): 0x7100fc03a0 / 0x7100fc0440 / 0x7100fc04e0: sub_7100FC0300 for a capsule / box /
+    // water cylinder body; 0x7100fc0580: clones `shape` (no group handler) and links it into the same list.
+    CapsuleRigidBody* sub_7100FC03A0(RigidBodyInstanceParam* param, sead::Heap* heap);
+    BoxRigidBody* sub_7100FC0440(RigidBodyInstanceParam* param, sead::Heap* heap);
+    CylinderWaterRigidBody* sub_7100FC04E0(RigidBodyInstanceParam* param, sead::Heap* heap);
+    RigidBody* sub_7100FC0580(RigidBodyFromShape* shape, sead::Heap* heap);
+    // 0x7100fbb374 (lane4 s46; placeholder name): `body` belongs to a rigid body set or to the listed bodies.
+    bool sub_7100FBB374(RigidBody* body) const;
+    // 0x7100fbb420 (lane4 s46; placeholder name): any rigid body set has an active entity body, any listed
+    // non-sensor body is active or the ragdoll is added to the world.
+    bool sub_7100FBB420() const;
     // 0x7100fc0600: unlinks `body` from that list and deletes it.
     void sub_7100FC0600(RigidBody* body);
 
