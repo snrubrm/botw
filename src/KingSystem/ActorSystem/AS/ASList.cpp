@@ -729,6 +729,14 @@ bool ASList::x(int a1, Unk4* query, int slot, int bank, bool (Unk2::*fn)(Unk4*, 
     return false;
 }
 
+bool ASList::sub_710115FB60(EventQueryResults* query, int a1, int slot, int bank,
+                            bool (Unk2::*fn)(EventQueryResults*, int, bool), bool a6) {
+    query->count = 0;
+    if (auto* entry = getEntry(slot, bank))
+        return (entry->*fn)(query, a1, a6);
+    return false;
+}
+
 // Fallback getters of the float parameters (the actor's speed components; the controller's velocity is stored per
 // frame (1/30 s) and is subtracted from / added to the actor's own velocity).
 f32 ASList::sub_710115F740() {

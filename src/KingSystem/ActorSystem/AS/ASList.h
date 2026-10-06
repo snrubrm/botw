@@ -258,6 +258,9 @@ public:
     // Call `fn` on the entry of slot `slot`, bank `bank` (if it exists).
     // `query` is null in 356 of the 432 calls in the original.
     bool x(int a1, Unk4* query, int slot, int bank, bool (Unk2::*fn)(Unk4*, int, bool), bool a6);
+    // 0x710115fb60 (placeholder name): like x() for the event result lists; clears `query->count` first.
+    bool sub_710115FB60(EventQueryResults* query, int a1, int slot, int bank,
+                        bool (Unk2::*fn)(EventQueryResults*, int, bool), bool a6);
     void x_3(int slot, int bank, void (Unk2::*fn)(f32), f32 value);
     // 0x710115f5c0: updates a slot/bank entry and all subsequent entries linked to it.
     void sub_710115F5C0(f32 value, int slot, int bank);
