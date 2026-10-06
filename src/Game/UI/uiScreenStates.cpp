@@ -23,3 +23,6 @@ template class ksys::StateTemplate<uking::ui::Unk_710247e468>;
 template class ksys::StateTemplate<uking::ui::ScreenAppAlbum>;
 template class ksys::StateTemplate<uking::ui::ScreenAppCamera>;
 template class ksys::StateTemplate<uking::ui::ScreenSaveTransferWindow>;
+template class ksys::StateTemplate<uking::ui::Screen>;
+template class ksys::StateTemplate<uking::ui::ScreenBase>;
+template class ksys::StateTemplate<uking::ui::ScreenTitle>;
