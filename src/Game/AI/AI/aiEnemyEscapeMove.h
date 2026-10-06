@@ -1,6 +1,10 @@
 #pragma once
 
+#include <container/seadObjList.h>
+#include <math/seadVector.h>
+#include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
@@ -17,11 +21,30 @@ public:
     void loadParams_() override;
 
 protected:
+    void calc_() override;
+    // 0x7100389d34: picks the escape target behind the actor and starts the escape child
+    void sub_7100389D34();
+    // 0x710038a5b0: `out` = a point in front of the actor (if the target is in its front cone) that is reachable
+    bool sub_710038A5B0(sead::Vector3f* out);
+    // 0x710038a78c: starts "直進逃走" towards _48
+    void sub_710038A78C();
+    // 0x710038a8ec: starts "ジャンプ" towards _d18
+    void sub_710038A8EC();
+    // 0x710038ab40 (declaration only): collects the candidate points around the actor into _58
+    bool sub_710038AB40();
+
     // dynamic_param at offset 0x38
     sead::Vector3f* mTargetPos_d{};
     // static_param at offset 0x40
     const f32* mBehindCheckDist_s{};
-    // The remaining native tail is not modeled.
+    /* 0x48 */ sead::Vector3f _48{0, 0, 0};
+    /* 0x58 */ sead::FixedObjList<sead::Vector3f, 100> _58;
+    /* 0xd08 */ s32 _d08 = -1;
+    /* 0xd0c */ ksys::Timer _d0c{0, 0};
+    /* 0xd18 */ sead::Vector3f _d18{0, 0, 0};
+    /* 0xd24 */ bool _d24 = false;
+    /* 0xd28 */ uking::act::Enemy::Unk_12d0* _d28{};
 };
+KSYS_CHECK_SIZE_NX150(EnemyEscapeMove, 0xd30);
 
 }  // namespace uking::ai
