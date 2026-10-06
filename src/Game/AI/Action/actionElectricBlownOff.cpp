@@ -8,6 +8,7 @@
 #include "KingSystem/ActorSystem/actActorHeapUtil.h"
 #include "KingSystem/ActorSystem/actInstParamPack.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include <algorithm>
 #include <math/seadMathCalcCommon.h>
 #include "Game/AI/aiUnk_710072BA90.h"
 #include "Game/Damage/dmgDamageManager.h"
@@ -25,13 +26,13 @@ bool ElectricBlownOff::init_(sead::Heap* heap) {
     return BlownOff::init_(heap) && sub_7100103E00(heap);
 }
 
-// NON_MATCHING: the byte reset and the timer's current/previous stores are scheduled differently.
 void ElectricBlownOff::enter_(ksys::act::ai::InlineParamPack* params) {
     BlownOff::enter_(params);
     if (auto* manager = sub_710072BA90(mActor)) {
         if (manager->checkDamageFlags(0)) {
+            const f32 max_keep_time = static_cast<f32>(std::max(*mMaxKeepTimer_s, 1));
             _1a8 = 0;
-            _19c.reset(sead::Mathi::max(1, *mMaxKeepTimer_s));
+            _19c = ksys::Timer(max_keep_time, max_keep_time);
             sub_710010441C();
             return;
         }
