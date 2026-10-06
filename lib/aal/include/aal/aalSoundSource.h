@@ -151,5 +151,14 @@ static_assert(offsetof(SoundSource, mSpeakerBalanceSupplier) == 0xf8, "aal::Soun
 static_assert(offsetof(SoundSource, mPlayingStateController) == 0x100, "aal::SoundSource layout mismatch");
 static_assert(offsetof(SoundSource, mPriority) == 0xd4, "aal::SoundSource layout mismatch");
 static_assert(offsetof(SoundSource, mMarkerController) == 0x1b8, "aal::SoundSource layout mismatch");
+static_assert(offsetof(SoundSource, mInteriorNum) == 0xc8, "aal::SoundSource layout mismatch");
+static_assert(offsetof(SoundSource, mChannelNum) == 0xcc, "aal::SoundSource layout mismatch");
+static_assert(offsetof(SoundSource, mPriorityScale) == 0xdc, "aal::SoundSource layout mismatch");
+static_assert(offsetof(SoundSource, mEmitter) == 0xf0, "aal::SoundSource layout mismatch");
+static_assert(offsetof(SoundSource, mFader) == 0x108, "aal::SoundSource layout mismatch");
+static_assert(offsetof(SoundSource, mChannelSpeakerType) == 0x110, "aal::SoundSource layout mismatch");
+static_assert(offsetof(SoundSource, mSpatialPlayingParam) == 0x1a8, "aal::SoundSource layout mismatch");
+static_assert(offsetof(SoundSource, mUnifierSource) == 0x1b0, "aal::SoundSource layout mismatch");
+static_assert(offsetof(SoundSource, _1e8) == 0x1e8, "aal::SoundSource layout mismatch");
 
 }  // namespace aal
