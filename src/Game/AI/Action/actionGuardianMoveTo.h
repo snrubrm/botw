@@ -8,6 +8,14 @@ namespace ksys::act {
 class Actor;
 }
 
+// 0x710003955c (declared only): reads the actor's parameters (Actor::mActorParam chain); `_70` == 2 selects
+// the rail-following behaviour of Unk_7100041da4::m0 / the straight-line mode of GuardianMoveToPosition::m0.
+struct Unk_710003955c {
+    u8 _0[0x70];
+    s32 _70;
+};
+const Unk_710003955c* sub_710003955C(ksys::act::Actor* actor);
+
 // Placeholder name = its only virtual (default implementation 0x7100041da4). Second base class of
 // GuardianMoveTo (at +0x20, 8 bytes: just the vptr); the Guardian reads it through a pointer that
 // GuardianMoveTo::enter_ stores (Guardian component +0x50). No RTTI, no virtual destructor.

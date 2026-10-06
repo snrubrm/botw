@@ -4,14 +4,6 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Map/mapRail.h"
 
-// 0x710003955c (declared only): reads the actor's parameters (Actor::mActorParam chain); `_70` == 2 selects
-// the rail-following behaviour of Unk_7100041da4::m0.
-struct Unk_710003955c {
-    u8 _0[0x70];
-    s32 _70;
-};
-const Unk_710003955c* sub_710003955C(ksys::act::Actor* actor);
-
 void Unk_7100041da4::m0(Data* data, ksys::act::Actor* actor) {
     if (sub_710003955C(actor)->_70 == 2) {
         if (auto* rail = sub_7100EEF034(actor, 0)) {
