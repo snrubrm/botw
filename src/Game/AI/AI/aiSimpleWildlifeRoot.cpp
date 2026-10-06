@@ -4,6 +4,7 @@
 #include "Game/AI/aiUnk_710072BA90.h"
 #include "Game/Damage/dmgDamageManager.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/LOD/actLodState.h"
@@ -262,6 +263,19 @@ void SimpleWildlifeRoot::m44() {
 
 bool Unk_71023dcc38::m0() {
     return _28;
+}
+
+// 0x7100343738
+bool Unk_71023dcc20::m2(ksys::act::Unk_71024dc978* entry) {
+    auto* target = sead::DynamicCast<ksys::act::Unk_71024dc858>(entry);
+    if (!target)
+        return false;
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(&target->mLink, &accessor);
+    accessor.getProfile();
+    return ksys::act::isPlayerProfile(accessor) || ksys::act::isEnemyProfile(accessor) ||
+           ksys::act::isNPCProfile(accessor) || ksys::act::isPreyOrSwarm(accessor) ||
+           ksys::act::isHorseProfile(accessor);
 }
 
 }  // namespace uking::ai
