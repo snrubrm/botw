@@ -168,12 +168,12 @@ void Group::pushDescendantGroupArrayChild_(sead::PtrArray<Group>* groups) {
 void Group::calcDuckingVolume_() {
     if (mNumSounds != 0) {
         if (Group* parent = getParent()) {
-            if (mDuckingMode == 1) {
+            if (mDuckingMode == 0) {
+                mDuckingVolume = parent->mDuckingVolume * mDuckingVolume;
+            } else if (mDuckingMode == 1) {
                 const f32 own = mDuckingVolume;
                 const f32 parent_volume = parent->mDuckingVolume;
                 mDuckingVolume = own < parent_volume ? own : parent_volume;
-            } else if (mDuckingMode == 0) {
-                mDuckingVolume = parent->mDuckingVolume * mDuckingVolume;
             }
         }
         mDuckingVolume = mDuckingVolume < mDuckingVolumeFloor ? mDuckingVolumeFloor : mDuckingVolume;
