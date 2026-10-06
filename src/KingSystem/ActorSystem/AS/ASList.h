@@ -309,6 +309,14 @@ public:
     void sub_710115F444(int slot, int bank, void (Unk2::*fn)());
     // 0x710115f4a0 (declaration only): dispatches the bool setter for an entry.
     void sub_710115F4A0(bool value, s32 slot, s32 bank, void (Unk2::*fn)(bool));
+    // 0x710115c1d0 (lane1 s41, placeholder name): Unk2::sub_7101162E88 on the entry (slot, bank) with the entry
+    // (other_slot, other_bank) (the flag tells whether the other entry is not before this one).
+    void sub_710115C1D0(int slot, int other_slot, int bank, int other_bank);
+    // 0x710115c8d8 (lane1 s41, placeholder name; `a1` is unused): applies the animation to the model, with the
+    // flags 2 (`a2`) or 3 (and sets bit 2 of `_163`).
+    void sub_710115C8D8(bool a1, bool a2);
+    // 0x710115c9ac (lane1 s41, placeholder name): the slot's per-slot update (Unk1::sub_7101164900).
+    void sub_710115C9AC(int slot);
     // 0x710115c9e0 (declaration only; lane4 s23): `slot`'s partial bone setup (ModelList::isParticalEnable(slot),
     // then the slot's helper 0x7101164ff8).
     void sub_710115C9E0(int slot);

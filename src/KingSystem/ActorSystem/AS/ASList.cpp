@@ -441,6 +441,21 @@ void ASList::sub_710115F228(f32 value) {
     }
 }
 
+void ASList::sub_710115C8D8(bool a1, bool a2) {
+    if (_8) {
+        if (a2) {
+            _8->applyAnimationTo(_8, 2);
+        } else {
+            _8->applyAnimationTo(_8, 3);
+            _163 |= 4;
+        }
+    }
+}
+
+void ASList::sub_710115C9AC(int slot) {
+    mSlots[slot].sub_7101164900(_d8->getParam()->getRes().mModelList, slot, _d8);
+}
+
 void ASList::sub_710115C9E0(int slot) {
     _d8->getParam()->getRes().mModelList->isParticalEnable(slot);
     mSlots[slot].sub_7101164FF8();

@@ -3,6 +3,16 @@
 
 namespace ksys::as {
 
+// (in this file because the original does not inline Unk2::sub_7101162E88 into it)
+void ASList::sub_710115C1D0(int slot, int other_slot, int bank, int other_bank) {
+    const bool a1 = other_slot > slot || (other_slot == slot && other_bank >= bank);
+    auto* entry = getEntry(slot, bank);
+    if (!entry)
+        return;
+    auto* other_entry = getEntry(other_slot, other_bank);
+    entry->sub_7101162E88(other_entry, a1);
+}
+
 void ASList::Unk1::sub_7101164EB8() {
     Unk2* first = nullptr;
     f32 highest = 0.0f;

@@ -17,6 +17,14 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    // 0x710039b064 (placeholder names): turns to the unreachable state / whether the enemy has no usable weapon.
+    void sub_710039B064();
+    bool sub_710039B164();
+    // 0x710039b400 (placeholder name): picks up the shield (the target weapon `_c8`).
+    void sub_710039B400();
+    // 0x710039b240 (placeholder name): the weapon of the shield slot can be picked up; stores its link in `out`.
+    bool sub_710039B240(ksys::act::BaseProcLink* out);
+
 protected:
     // aitree_variable at offset 0x38
     bool* mIsTrgChangeUnderWaterState_a{};
