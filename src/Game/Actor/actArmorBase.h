@@ -152,10 +152,14 @@ public:
     int getArmorUpperUseMantleType() const;
     // 0x7100e2c2e0
     const char* getArmorEffectEffectType() const;
-    // 0x7100e2c3d8 (declared only; `effect` is a SafeString)
+    // 0x7100e2c3d8: the effect level when `effect` is this armor's effect type or one of the two effects a combined
+    // effect type consists of.
     int getArmorEffectEffectLevel_checkEffect(const sead::SafeString& effect) const;
     // 0x7100e2c844
     bool getArmorEffectAncientPowUp() const;
+private:
+    int getArmorEffectEffectLevel() const;
+public:
     // 0x7100e2c930
     bool getArmorEffectEnableClimbWaterfall() const;
     // 0x7100e2ca1c

@@ -1,4 +1,5 @@
 #include "Game/Actor/actArmorBase.h"
+#include "Game/Actor/actArmorStrings.h"
 #include "Game/Actor/actModelMaterialUtil.h"
 #include <gsys/gsysModel.h>
 #include <gsys/gsysModelAccessKey.h>
@@ -266,6 +267,97 @@ void ArmorBase::sub_7100E2BACC(const s32* frame) {
 
 }  // namespace uking::act
 
+namespace {
+
+// Placeholder name and layout (only the six {combined, a, b} entries are read: acc::Armor::getArmorEffectEffectLevel_checkEffect;
+// the original initialises the object dynamically in the static initializer 0x7100e2d0f0).
+struct Unk_7102602670 {
+    Unk_7102602670() {}
+    s32 _0 = 0;
+    s32 _4 = 0x8004ef;
+    struct Entry {
+        s32 combined;
+        s32 a;
+        s32 b;
+    };
+    sead::SafeArray<Entry, 6> entries = {{{13, 2, 12}, {14, 3, 12}, {15, 4, 12}, {16, 6, 12}, {21, 1, 18}, {22, 20, 19}}};
+};
+
+Unk_7102602670 sUnk_7102602670;
+
+}  // namespace
+
+namespace ksys::act {
+
+sead::SafeString sUnk_71026022e8 = "Armor_Default";
+sead::SafeArray<sead::SafeString, 6> sUnk_71026022f8 = {{
+    "Armor_Default_Head",  // +0x0
+    "Armor_Default_Upper",  // +0x10
+    "Armor_Default_Lower",  // +0x20
+    "Armor_Default_Extra_00",  // +0x30
+    "Armor_Default_Extra_01",  // +0x40
+    "Item_Conductor",  // +0x50
+}};
+sead::SafeArray<sead::SafeString, 23> sUnk_7102602358 = {{
+    "None",  // +0x0
+    "ResistHot",  // +0x10
+    "ResistBurn",  // +0x20
+    "ResistCold",  // +0x30
+    "ResistElectric",  // +0x40
+    "ResistLightning",  // +0x50
+    "SwimSpeed",  // +0x60
+    "ClimbSpeed",  // +0x70
+    "AttackUp",  // +0x80
+    "Quietness",  // +0x90
+    "SandMove",  // +0xa0
+    "SnowMove",  // +0xb0
+    "ResistAncient",  // +0xc0
+    "ResistBurnAndResistAncient",  // +0xd0
+    "ResistColdAndResistAncient",  // +0xe0
+    "ResistElectricAndResistAncient",  // +0xf0
+    "SwimSpeedAndResistAncient",  // +0x100
+    "ResistFreeze",  // +0x110
+    "WakeWind",  // +0x120
+    "BeamPowerUp",  // +0x130
+    "ClimbSpeedHorizontalOnly",  // +0x140
+    "ResistHotAndWakeWind",  // +0x150
+    "ClimbSpeedAndBeamPowerUp",  // +0x160
+}};
+sead::SafeArray<sead::SafeString, 24> sUnk_71026024c8 = {{
+    "Zora",  // +0x0
+    "Gerudo",  // +0x10
+    "GerudoCloth",  // +0x20
+    "Rito",  // +0x30
+    "Goron",  // +0x40
+    "Sheikah",  // +0x50
+    "Stalfos",  // +0x60
+    "Ancient",  // +0x70
+    "Climb",  // +0x80
+    "Rubber",  // +0x90
+    "Power",  // +0xa0
+    "Korok",  // +0xb0
+    "AmiiboOcarinaOfTime",  // +0xc0
+    "AmiiboWindWaker",  // +0xd0
+    "AmiiboTwilightPrincess",  // +0xe0
+    "AmiiboSkywardSword",  // +0xf0
+    "AmiiboFirstHero",  // +0x100
+    "AmiiboMajorasMask",  // +0x110
+    "Black",  // +0x120
+    "Tingle",  // +0x130
+    "Phantom",  // +0x140
+    "Collaboration",  // +0x150
+    "PhantomGanon",  // +0x160
+    "RoyalGuard",  // +0x170
+}};
+}  // namespace ksys::act
+
+namespace uking::act {
+
+sead::SafeString ArmorDyeColor = "ArmorDyeColor";
+sead::SafeString EnableDynamicColorChange = "EnableDynamicColorChange";
+
+}  // namespace uking::act
+
 namespace ksys::act::acc {
 
 
@@ -358,6 +450,37 @@ const char* Armor::getArmorEffectEffectType() const {
         return param->getRes().mGParamList->getArmorEffect()->mEffectType.ref().cstr();
     }
     return "";
+}
+
+// inline-only in the original (the level lookup is inlined twice into getArmorEffectEffectLevel_checkEffect); name is a guess.
+inline int Armor::getArmorEffectEffectLevel() const {
+    if (auto* actor = static_cast<Actor*>(getProcIfActor(mProc))) {
+        const auto* param = actor->getParam();
+        if (param->getActorName().isEmpty()) {
+            const char* name = actor->getName().getStringTop();
+            return ksys::act::getArmorEffectEffectLevel(InfoData::instance(), name);
+        }
+        return param->getRes().mGParamList->getArmorEffect()->mEffectLevel.ref();
+    }
+    return 0;
+}
+
+// NON_MATCHING: the loop counter lives in a 64-bit register (zero-extended update, sign-extended index) in the original;
+// ours keeps a 32-bit counter and sign-extends it inside the loop
+int Armor::getArmorEffectEffectLevel_checkEffect(const sead::SafeString& effect) const {
+    const sead::SafeString effect_type = getArmorEffectEffectType();
+    if (effect_type == effect)
+        return getArmorEffectEffectLevel();
+    s32 i = 0;
+    while (!(effect_type == ksys::act::sUnk_7102602358[sUnk_7102602670.entries(i).combined])) {
+        if (++i == 6)
+            return 0;
+    }
+    if (effect == ksys::act::sUnk_7102602358[sUnk_7102602670.entries(i).a] ||
+        effect == ksys::act::sUnk_7102602358[sUnk_7102602670.entries(i).b]) {
+        return getArmorEffectEffectLevel();
+    }
+    return 0;
 }
 
 bool Armor::getArmorEffectAncientPowUp() const {

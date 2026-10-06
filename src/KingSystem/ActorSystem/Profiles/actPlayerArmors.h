@@ -51,6 +51,49 @@ public:
     // 0x7100e2f358 (CSV x_24): the head armor (`_10[0]`) has a mantle (acc::Armor::sub_7100E2BF44; false without a head armor).
     bool sub_7100E2F358();
 
+    // Effect level sums (lane4 s44; the names are guesses: effect strings from the table 0x7102602358).
+    // 0xe2f624 (CSV x_21): the summed level of the effect "ResistBurn" of the first three parts.
+    s32 getArmorEffectLevelResistBurn();
+    // 0xe2f734 (CSV x_1): the summed level of the effect "ResistCold" of the first three parts.
+    s32 getArmorEffectLevelResistCold();
+    // 0xe2f844 (CSV x_11): the summed level of the effect "ResistFreeze" of the first three parts.
+    s32 getArmorEffectLevelResistFreeze();
+    // 0xe2fa78 (CSV x_13): the summed level of the effect "ResistLightning" of the first three parts.
+    s32 getArmorEffectLevelResistLightning();
+    // 0xe2fb88 (CSV x_14): the summed level of the effect "SwimSpeed" of the first three parts.
+    s32 getArmorEffectLevelSwimSpeed();
+    // 0xe2fc98 (CSV x_15): the summed level of the effect "ClimbSpeed" of the first three parts.
+    s32 getArmorEffectLevelClimbSpeed();
+    // 0xe2fda8 (CSV x_16): the summed level of the effect "AttackUp" of the first three parts.
+    s32 getArmorEffectLevelAttackUp();
+    // 0xe2ffa4 (CSV x_18): the summed level of the effect "Quietness" of the first three parts.
+    s32 getArmorEffectLevelQuietness();
+    // 0xe300b4 (CSV x_19): the summed level of the effect "SandMove" of the first three parts.
+    s32 getArmorEffectLevelSandMove();
+    // 0xe301c4 (CSV x_20): the summed level of the effect "SnowMove" of the first three parts.
+    s32 getArmorEffectLevelSnowMove();
+    // 0xe302d4 (CSV x_10): the summed level of the effect "ResistAncient" of the first three parts.
+    s32 getArmorEffectLevelResistAncient();
+    // 0xe306b4 (CSV x_6): the summed level of the effect "ClimbSpeedHorizontalOnly" of the first three parts.
+    s32 getArmorEffectLevelClimbSpeedHorizontalOnly();
+
+    // 0x7100e2feb8 (CSV x_17): the summed defence add level of the first three parts.
+    s32 getArmorDefenceAddLevelSum();
+    // 0x7100e304d4 (CSV x_8) / 0x7100e305c4 (CSV x_7) / 0x7100e30a0c (CSV x_34): one of the first three parts enables
+    // climbing waterfalls / the spin attack / has the series completion bonus.
+    bool hasEnableClimbWaterfall();
+    bool hasEnableSpinAttack();
+    bool hasSeriesCompBonus();
+
+    // 0x7100e2f4f8 (CSV x): summed "ResistHot" level (1 when it is 0 and `_134` bit 2 is set).
+    s32 getArmorEffectLevelResistHot();
+    // 0x7100e2f954 (CSV x_12): 3 when "ResistLightning" is active, else the summed "ResistElectric" level.
+    s32 getArmorEffectLevelResistElectric();
+    // 0x7100e307c4: "WakeWind" is active.
+    bool hasWakeWindArmorEffect();
+    // 0x7100e308e4 (CSV x_33): `_136` bit 3 is set or "BeamPowerUp" is active.
+    bool hasBeamPowerUpEffect();
+
     // Inline in the original (uking::act::Armor::m148).
     bool get133() const { return _133; }
 
@@ -63,7 +106,8 @@ private:
     u8 _70[0x133 - 0x70];
     u8 _133;  // read by uking::act::Armor::m148 (the head armor then uses weight 0)
     sead::BitFlag16 _134;
-    u8 _136[0x170 - 0x136];
+    u8 _136;
+    u8 _137[0x170 - 0x137];
 };
 KSYS_CHECK_SIZE_NX150(PlayerArmors, 0x170);
 

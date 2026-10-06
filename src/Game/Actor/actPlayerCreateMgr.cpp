@@ -1,4 +1,5 @@
 #include "Game/Actor/actPlayerCreateMgr.h"
+#include "Game/Actor/actArmorStrings.h"
 #include <prim/seadRuntimeTypeInfo.h>
 #include <prim/seadStringBuilder.h>
 #include "Game/Actor/actPlayerCreateUtils.h"
@@ -188,13 +189,6 @@ void CreatePlayerEquipActorMgr::requestCreateWeapon(const sead::SafeString& name
 
     requestCreateWeapon((s32)slot, name, value, modifier, caller);
 }
-
-// TODO: initialized in sInitArmorStrings (0x7100E2D0F0)
-// find a better place to put these
-// NOLINTNEXTLINE(misc-use-internal-linkage) doesn't match with static
-sead::SafeString ArmorDyeColor;  // "ArmorDyeColor"
-// NOLINTNEXTLINE(misc-use-internal-linkage) doesn't match with static
-sead::SafeString EnableDynamicColorChange;  // "EnableDynamicColorChange"
 
 void CreatePlayerEquipActorMgr::requestCreateArmor(s32 slot_idx, const sead::SafeString& name,
                                                    int dye_color, const sead::SafeString& caller) {
