@@ -1,5 +1,6 @@
 #pragma once
 
+#include <xlink2/xlink2HandleELink.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -22,10 +23,8 @@ protected:
     const int* mCount_m{};
     // aitree_variable at offset 0x28
     void* mSiteBossSwordAfterImageUnit_a{};
-    void* _30{};
-    int _38 = 0;
-    void* _40{};
-    int _48 = 0;
+    xlink2::HandleELink _30;
+    xlink2::HandleELink _40;
 };
 
 }  // namespace uking::action

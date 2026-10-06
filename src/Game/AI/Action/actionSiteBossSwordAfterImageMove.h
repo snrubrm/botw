@@ -19,6 +19,19 @@ public:
     void loadParams_() override;
     bool handleMessage_(const ksys::Message* message) override;
 
+public:
+    // Local class of the object the "SiteBossSwordAfterImageUnit" AI tree variable points to
+    // (also read by SiteBossSwordAfterImageAction).
+    class Unit : public Unk_71025afb58 {
+        SEAD_RTTI_OVERRIDE(Unit, Unk_71025afb58)
+    public:
+        Unit() = default;
+        ~Unit() override = default;
+
+        bool _8 = false;
+        bool _9 = false;
+    };
+
 protected:
     void calc_() override;
 
@@ -35,18 +48,6 @@ protected:
     bool _5d = false;
     bool _5e = false;
     bool _5f = false;
-
-    // Local class of the object the "SiteBossSwordAfterImageUnit" AI tree variable points to
-    // (embedded in the action; vtable only referenced by this action's constructor).
-    class Unit : public Unk_71025afb58 {
-        SEAD_RTTI_OVERRIDE(Unit, Unk_71025afb58)
-    public:
-        Unit() = default;
-        ~Unit() override = default;
-
-        bool _8 = false;
-        bool _9 = false;
-    };
 
     Unit _60;
 };
