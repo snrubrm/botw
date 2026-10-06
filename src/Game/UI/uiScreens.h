@@ -915,10 +915,17 @@ public:
     /* 0x324 */ u32 _324 = 0;
 };
 
+// State object of ScreenGameOver (CSV: unnamed data, 0x71025edda0).
+extern const ksys::StateBase sUnk_71025edda0;
+
 class ScreenGameOver : public ScreenEx {
 public:
     ScreenGameOver();
+    void m93(sead::Heap* heap) override;
+    void m94() override;
     void m101() override;
+    void m99() override;
+    void m100() override;
     bool isEnableControl() const override;
     ~ScreenGameOver() override;
     SEAD_RTTI_OVERRIDE(ScreenGameOver, ScreenEx)
@@ -1676,9 +1683,10 @@ public:
     const char* getLayoutName_() const override;
     ScreenKeyNum();
     ~ScreenKeyNum() override;
+    void m93(sead::Heap* heap) override;
     /* 0x3610 */ u32 _3610{};
     u8 _pad_3614[0x3618 - 0x3614];
-    /* 0x3618 */ void* _3618{};
+    /* 0x3618 */ eui::Animator* _3618{};
     SEAD_RTTI_OVERRIDE(ScreenKeyNum, ScreenEx)
 };
 
@@ -1741,6 +1749,8 @@ public:
     void m83() override;
     ScreenPauseMenuBG();
     ~ScreenPauseMenuBG() override;
+    void m93(sead::Heap* heap) override;
+    void m94() override;
     /* 0x3610 */ u8 _3610{};
     SEAD_RTTI_OVERRIDE(ScreenPauseMenuBG, ScreenEx)
 };
@@ -1790,7 +1800,8 @@ public:
     const char* getLayoutName_() const override;
     ScreenAppSystemWindowNoBtn();
     ~ScreenAppSystemWindowNoBtn() override;
-    /* 0x3610 */ void* _3610{};
+    void m93(sead::Heap* heap) override;
+    /* 0x3610 */ eui::Animator* _3610{};
     /* 0x3618 */ u32 _3618{};
     SEAD_RTTI_OVERRIDE(ScreenAppSystemWindowNoBtn, ScreenEx)
 };
@@ -1882,6 +1893,7 @@ public:
     bool isEnableControl() const override;
     ~ScreenPauseMenuMantan() override;
     SEAD_RTTI_OVERRIDE(ScreenPauseMenuMantan, ScreenEx)
+    void m93(sead::Heap* heap) override;
     void m99() override;
     void m106(eui::AnimButton* button) override;
 };
@@ -1894,6 +1906,7 @@ public:
     ScreenPauseMenuEiketsu();
     ~ScreenPauseMenuEiketsu() override;
     SEAD_RTTI_OVERRIDE(ScreenPauseMenuEiketsu, ScreenEx)
+    void m93(sead::Heap* heap) override;
     void m99() override;
     void m106(eui::AnimButton* button) override;
 };
@@ -2012,7 +2025,9 @@ public:
     const char* getLayoutName_() const override;
     ScreenChangeController();
     ~ScreenChangeController() override;
-    void* _3610{};
+    void m93(sead::Heap* heap) override;
+    void m94() override;
+    eui::Animator* _3610{};
     SEAD_RTTI_OVERRIDE(ScreenChangeController, ScreenEx)
 };
 
@@ -2022,7 +2037,8 @@ public:
     const char* getLayoutName_() const override;
     ScreenDemoStart();
     ~ScreenDemoStart() override;
-    void* _3610{};
+    void m93(sead::Heap* heap) override;
+    eui::Animator* _3610{};
     SEAD_RTTI_OVERRIDE(ScreenDemoStart, ScreenEx)
 };
 
@@ -2054,7 +2070,9 @@ public:
     const char* getLayoutName_() const override;
     ScreenHomeMenuCapture();
     ~ScreenHomeMenuCapture() override;
-    /* 0x3610 */ void* _3610{};
+    void m93(sead::Heap* heap) override;
+    void m94() override;
+    /* 0x3610 */ eui::LayoutEx* _3610{};
     /* 0x3618 */ u8 _3618{};
     SEAD_RTTI_OVERRIDE(ScreenHomeMenuCapture, ScreenEx)
 };

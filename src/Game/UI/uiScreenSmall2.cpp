@@ -1,4 +1,6 @@
 #include "Game/UI/euiTagProcessor.h"
+#include "Game/UI/euiAnimator.h"
+#include "Game/UI/euiButton.h"
 #include "Game/UI/euiLayoutEx.h"
 #include "Game/UI/uiScreens.h"
 
@@ -159,6 +161,78 @@ bool ScreenMessageTips::sub_71010A87F0(s32 type) {
     else
         type = _3ac;
     return type != 29;
+}
+
+// 0x7100a00e74
+void ScreenChangeController::m93(sead::Heap*) {
+    _3610 = mLayout->createAnimatorAuto("Type", false);
+}
+
+// 0x7100a00ea8
+void ScreenChangeController::m94() {
+    if (isOpened())
+        close(-4);
+}
+
+// 0x7100a041b4
+void ScreenDemoStart::m93(sead::Heap*) {
+    _3610 = mLayout->createAnimatorAuto("Decide", false);
+}
+
+// 0x7100a0e870
+void ScreenKeyNum::m93(sead::Heap*) {
+    _3618 = mLayout->createAnimatorAuto("Flash", false);
+}
+
+// 0x71009fb988
+void ScreenAppSystemWindowNoBtn::m93(sead::Heap*) {
+    _3610 = mLayout->createAnimatorAuto("FadeOut", false);
+}
+
+// 0x7100a321e8
+void ScreenPauseMenuMantan::m93(sead::Heap*) {
+    eui::ButtonGroup* group = mButtonGroup;
+    for (eui::ListNode* node = group->mButtons.next; node != &group->mButtons; node = node->next)
+        static_cast<eui::ButtonBase*>(eui::ControlBase::fromNode(node))->mFlags |= 0x20;
+    mButtonGroup->_38 &= ~2;
+}
+
+// 0x7100a2c1ac
+void ScreenPauseMenuEiketsu::m93(sead::Heap*) {
+    eui::ButtonGroup* group = mButtonGroup;
+    for (eui::ListNode* node = group->mButtons.next; node != &group->mButtons; node = node->next)
+        static_cast<eui::ButtonBase*>(eui::ControlBase::fromNode(node))->mFlags |= 0x20;
+    mButtonGroup->_38 &= ~2;
+}
+
+// 0x7100a2be98
+void ScreenPauseMenuBG::m93(sead::Heap*) {
+    mLayout->startAnimCloseImpl_(false, true);
+}
+
+// 0x7100a2bec8
+void ScreenPauseMenuBG::m94() {
+    if (_3610)
+        x_2();
+}
+
+// 0x7100a0dfc8
+void ScreenHomeMenuCapture::m93(sead::Heap*) {
+    _3610 = sub_7100BEAFB0("Pa_LoadingIcon_00");
+    if (_3610)
+        _3610->startAnimCloseImpl_(false, true);
+}
+
+// 0x7100a0e00c
+void ScreenHomeMenuCapture::m94() {
+    if (!_3610)
+        return;
+    if (_3618) {
+        if (_3610->_91 == 0)
+            _3610->sub_7100BDDE7C(false, 0, true);
+    } else if (_3610->_91 == 2) {
+        _3610->startAnimCloseImpl_(false, false);
+    }
 }
 
 }  // namespace uking::ui

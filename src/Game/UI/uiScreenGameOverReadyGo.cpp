@@ -5,6 +5,35 @@
 
 namespace uking::ui {
 
+// 0x7100a0a538
+void ScreenGameOver::m93(sead::Heap*) {
+    _3618 = mLayout->createAnimatorAuto("Color", false);
+    _3620 = findPane_("P_BG_00");
+    eui::ButtonGroup* group = mButtonGroup;
+    for (eui::ListNode* node = group->mButtons.next; node != &group->mButtons; node = node->next) {
+        auto* button = static_cast<eui::ButtonBase*>(eui::ControlBase::fromNode(node));
+        button->mFlags |= 0x20;
+        button->setFlag10(false);
+    }
+    mStateMachine.startState(&sUnk_710261ee98);
+}
+
+// 0x7100a0a5ec
+void ScreenGameOver::m94() {
+    mStateMachine.run();
+}
+
+// 0x7100a0a71c
+void ScreenGameOver::m99() {
+    moveBoxCursorByTag_(120);
+    mStateMachine.changeState(&sUnk_71025edda0);
+}
+
+// 0x7100a0a74c
+void ScreenGameOver::m100() {
+    mStateMachine.changeState(&sUnk_710261ee98);
+}
+
 // 0x7100a0a75c
 void ScreenGameOver::m101() {
     _3610 = 0;
