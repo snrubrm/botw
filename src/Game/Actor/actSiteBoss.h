@@ -31,7 +31,7 @@ public:
 
     /* 0x28 */ SiteBoss* mBoss;
     /* 0x30 */ sead::BitFlag16 _30;  // read by many SiteBoss AI functions (SiteBoss + 0x14f8)
-    /* 0x34 */ u32 _34 = 0;
+    /* 0x34 */ s32 _34 = 0;  // compared as an s32 with SiteBoss::_1500 (SiteBossBowBlowOff::m36)
 };
 KSYS_CHECK_SIZE_NX150(Unk_71023d04f8, 0x38);
 
@@ -99,9 +99,9 @@ public:
     static bool sub_71002D3804(ksys::act::Actor* actor, const sead::SafeString& part);
 
     /* 0x14c8 */ Unk_71023d04f8 _14c8{this};
-    /* 0x1500 */ f32 _1500 = 0;
-    /* 0x1504 */ f32 _1504 = 0;
-    /* 0x1508 */ f32 _1508 = 0;
+    /* 0x1500 */ s32 _1500 = 0;
+    /* 0x1504 */ s32 _1504 = 0;
+    /* 0x1508 */ s32 _1508 = 0;
     /* 0x150c */ u32 _150c = 0;
     /* 0x1510 */ s32 _1510 = -1;
     /* 0x1514 */ f32 _1514 = 1.0;

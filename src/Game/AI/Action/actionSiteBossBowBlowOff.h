@@ -19,7 +19,11 @@ public:
 protected:
     void calc_() override;
 
+    bool m36() override;
     s32 m37() override;
+
+    // 0x7100256c34 (placeholder name): the boss is back within the force recover range of its home.
+    bool sub_7100256C34();
 
     // static_param at offset 0x170
     const int* mAddForceRecoverTime_s{};

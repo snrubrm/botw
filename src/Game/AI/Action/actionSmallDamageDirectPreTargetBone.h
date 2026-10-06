@@ -14,6 +14,8 @@ public:
     void loadParams_() override;
 
 protected:
+    void m38() override;
+
     // static_param at offset 0x90
     const int* mPreTargetBone_s{};
     // static_param at offset 0x98

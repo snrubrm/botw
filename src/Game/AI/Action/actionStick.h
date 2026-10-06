@@ -35,7 +35,8 @@ protected:
     /* 0x48 */ Unk_710244ecf0 _48;
     /* 0xc0 */ ksys::act::ModelBindInfo _c0;
     /* 0x160 */ u32 _160 = 0;
-    /* 0x164 */ u16 _164 = 0;
+    /* 0x164 */ bool _164 = false;
+    /* 0x165 */ u8 _165 = 0;
 };
 KSYS_CHECK_SIZE_NX150(Stick, 0x168);
 

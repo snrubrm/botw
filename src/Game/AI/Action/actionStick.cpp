@@ -1,6 +1,8 @@
 #include "Game/AI/Action/actionStick.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/Profiles/actWeaponBase.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actBaseProc.h"
 
 namespace uking::action {
 
@@ -55,7 +57,46 @@ bool Stick::sub_710027D3AC() {
 }
 
 void Stick::calc_() {
-    ActionEx::calc_();
+    switch (_160) {
+    case 2:
+    case 3: {
+        {
+            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::acquireActor(&_48._58, &accessor);
+            if (!accessor.hasProc() || !accessor.isStateCalc()) {
+                mActor->deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+                return;
+            }
+        }
+        if (_160 == 3) {
+            if (_164) {
+                ksys::act::acc::WeaponBase accessor;
+                ksys::act::acquireActor(mStickActor_d, &accessor);
+                if (accessor.hasProc() && accessor.sub_7100EFB338()) {
+                    if (auto* info = accessor.getBindInfo()) {
+                        if (_c0._28 != info->_28) {
+                            _c0._28 = info->_28;
+                            _c0._30.getKey().reset();
+                        }
+                    }
+                }
+            }
+            auto* actor = _c0.sub_7100D3C5E0(mActor);
+            if (!actor || !actor->getModel() || !actor->isCalc())
+                mActor->deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+        }
+        break;
+    }
+    case 1:
+        if (sub_710027D3AC()) {
+            _160 = 2;
+        } else {
+            auto* actor = _48.sub_7100D3C5E0(mActor);
+            if (!actor || !actor->getModel() || !actor->isCalc())
+                mActor->deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+        }
+        break;
+    }
 }
 
 }  // namespace uking::action

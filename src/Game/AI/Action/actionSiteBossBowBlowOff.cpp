@@ -5,6 +5,11 @@
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
 
+// 0x71002d17d4 (declared only; placeholder name, signature from SiteBossBowBlowOff::sub_7100256C34): tests whether
+// `pos` is within `range` of `home` + `offset` (xz distance and y; `flag` selects the alternative test).
+bool sub_71002D17D4(ksys::act::Actor* actor, const sead::Vector3f* home, const sead::Vector3f* pos,
+                    const sead::Vector3f* range, const sead::Vector3f* offset, bool flag);
+
 namespace uking::action {
 
 SiteBossBowBlowOff::SiteBossBowBlowOff(const InitArg& arg) : SiteBossBlowOff(arg) {}
@@ -61,6 +66,31 @@ void SiteBossBowBlowOff::calc_() {
             setFinished();
     }
     SiteBossBlowOff::calc_();
+}
+
+// NON_MATCHING: the original returns `!within` (`eor w8, w0, #1`) in the within-range path and loads ForceRecoverDist.y
+// before ForceRecoverOffset.y.
+bool SiteBossBowBlowOff::sub_7100256C34() {
+    sead::Vector3f home;
+    mActor->getHomePos(&home);
+    auto* actor = mActor;
+    sead::Vector3f pos;
+    actor->getMtx().getTranslation(pos);
+    auto* boss = sead::DynamicCast<act::SiteBoss>(actor);
+    const bool is_kind_4 = boss && (boss->_1534 & ~3) == 4;
+    if (sub_71002D17D4(mActor, &home, &pos, mForceRecoverDist_s, mForceRecoverOffset_s, is_kind_4))
+        return false;
+    return (mForceRecoverOffset_s->y - mForceRecoverDist_s->y) + home.y > pos.y;
+}
+
+bool SiteBossBowBlowOff::m36() {
+    bool result = SiteBossBlowOff::m36();
+    result |= sub_7100256C34();
+    if (auto* boss = sead::DynamicCast<act::SiteBoss>(mActor)) {
+        result |= boss->_1500 <= boss->_14c8._34;
+        result |= boss->_1508 <= boss->_1504;
+    }
+    return result;
 }
 
 s32 SiteBossBowBlowOff::m37() {
