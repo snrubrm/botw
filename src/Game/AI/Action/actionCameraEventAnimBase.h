@@ -6,6 +6,14 @@
 #include "KingSystem/ActorSystem/actAiAction.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 
+namespace ksys::act {
+class ActorConstDataAccess;
+}
+
+namespace ksys::map {
+class Object;
+}
+
 namespace uking::action {
 
 class CameraEventAnimBase : public CameraEvent {
@@ -39,6 +47,8 @@ protected:
     // 0x7100757a78 / 0x7100757c24 (non-virtual helpers, declared only).
     void sub_7100757A78();
     void sub_7100757C24();
+    void sub_7100758F80(const ksys::act::ActorConstDataAccess* access);
+    void sub_7100758FC0(const ksys::map::Object* object);
 
     ksys::act::BaseProcLink _50;
     sead::Matrix34f _60 = sead::Matrix34f::ident;

@@ -1,4 +1,11 @@
 #include "Game/AI/Action/actionEnemyRushAttack.h"
+#include <limits>
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
+#include "KingSystem/Physics/System/physNavMeshCharacter.h"
 
 namespace uking::action {
 
@@ -15,6 +22,17 @@ void EnemyRushAttack::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void EnemyRushAttack::leave_() {
+    if (auto* set = mActor->getPhysics()->findBodyByName(*sub_71007A24BC())) {
+        if (auto* body = set->getRigidBodies()[0])
+            body->setContactLayer(ksys::phys::ContactLayer::SensorNoHit);
+    }
+    sub_71005DA114(mActor, &_78);
+    if (auto* nav = mActor->m45()) {
+        const f32 value = _c8;
+        nav->_8->_a0->_24 = sead::Mathf::abs(value) > std::numeric_limits<f32>::max() ?
+                                ksys::phys::sUnk_7101ec27f4 :
+                                value;
+    }
     RandomMoveAction::leave_();
 }
 

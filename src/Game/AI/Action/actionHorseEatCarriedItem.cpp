@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionHorseEatCarriedItem.h"
+#include "Game/Actor/actHorseStrings.h"
 #include "Game/Actor/actRideable.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
@@ -13,7 +14,14 @@ bool HorseEatCarriedItem::init_(sead::Heap* heap) {
 }
 
 void HorseEatCarriedItem::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    auto* rideable = mActor->m132();
+    if (!rideable) {
+        setFailed();
+        return;
+    }
+    rideable->_18.sub_7100E76E74(act::sUnk_71026032e0, false);
+    _48.setDirect(sead::BitFlag8::makeMask(Bit(Bit::_0)));
+    _50 = sead::SafeString::cEmptyString;
 }
 
 void HorseEatCarriedItem::leave_() {

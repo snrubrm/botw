@@ -39,6 +39,8 @@ struct NavMeshCharacterUnk8A0 {
     /* 0x00 */ u8 _0[0xc];
     /* 0x0c */ f32 _c;
     /* 0x10 */ f32 _10;
+    /* 0x14 */ u8 _14[0x24 - 0x14];
+    /* 0x24 */ f32 _24;
 };
 
 // Placeholder: the 0xe0-byte object at NavMeshCharacter::_8 (only the accessed fields are modelled).

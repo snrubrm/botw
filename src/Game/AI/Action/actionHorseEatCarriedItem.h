@@ -1,5 +1,7 @@
 #pragma once
 
+#include <prim/seadBitFlag.h>
+#include <prim/seadEnum.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -16,6 +18,8 @@ public:
     void loadParams_() override;
 
 protected:
+    SEAD_ENUM(Bit, _0, _1)
+
     void calc_() override;
 
     // static_param at offset 0x20
@@ -28,7 +32,7 @@ protected:
     const float* mDelayFrames_s{};
     // dynamic_param at offset 0x40
     ksys::act::BaseProcLink* mTargetActor_d{};
-    bool _48 = false;
+    sead::BitFlag8 _48;
     u8 _49[0x3];
     s32 _4c = 0;
     sead::SafeString _50{};

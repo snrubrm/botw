@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionCameraEventAnimBase.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Utils/Thread/Message.h"
 
 namespace uking::action {
@@ -14,6 +16,23 @@ bool CameraEventAnimBase::handleMessage_(const ksys::Message* message) {
             sub_7100757C24();
     }
     return true;
+}
+
+void CameraEventAnimBase::sub_7100758F80(const ksys::act::ActorConstDataAccess* access) {
+    if (access && access->hasProc()) {
+        access->linkAcquire(&_50);
+        _90 = 2;
+    }
+}
+
+void CameraEventAnimBase::sub_7100758FC0(const ksys::map::Object* object) {
+    if (!object)
+        return;
+    _90 = 3;
+    const sead::Vector3f rotate = object->getRotate();
+    const sead::Vector3f translate = object->getTranslate();
+    _60.makeRT(rotate, translate);
+    _17a |= 1;
 }
 
 void CameraEventAnimBase::m45() {

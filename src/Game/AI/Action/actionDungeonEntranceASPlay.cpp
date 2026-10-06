@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionDungeonEntranceASPlay.h"
+#include "Game/UI/uiUtils.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -11,6 +14,16 @@ bool DungeonEntranceASPlay::init_(sead::Heap* heap) {
 }
 
 void DungeonEntranceASPlay::enter_(ksys::act::ai::InlineParamPack* params) {
+    auto* actor = mActor;
+    sead::Vector3f position;
+    actor->getMtx().getTranslation(position);
+    sead::SafeString name;
+    if (mSetDgnName_s.isEmpty()) {
+        if (ui::findDungeonNameForPositionImpl(5.0f, &name, &position))
+            actor->getASList()->goLimpFromHeadShotMaybe(0x40, name, 0);
+    } else {
+        actor->getASList()->goLimpFromHeadShotMaybe(0x40, mSetDgnName_s, 0);
+    }
     NullASPlay::enter_(params);
 }
 

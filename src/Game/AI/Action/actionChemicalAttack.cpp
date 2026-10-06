@@ -97,6 +97,14 @@ void ChemicalAttack::m32() {
     ksys::act::sub_7100EE5980(mActor, _6c);
 }
 
+sead::SafeString* ChemicalAttack::sub_710010559C() {
+    return &mRigidBodyName_m;
+}
+
+ksys::phys::RigidBody* ChemicalAttack::sub_71001055A4() const {
+    return mActor->findPhysicsBodyByName(sub_71007A24BC()->cstr(), mRigidBodyName_m.cstr());
+}
+
 float ChemicalAttack::m34() {
     return *mRange_m;
 }

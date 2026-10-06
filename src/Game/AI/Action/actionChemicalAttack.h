@@ -2,6 +2,10 @@
 
 #include "KingSystem/ActorSystem/actAiAction.h"
 
+namespace ksys::phys {
+class RigidBody;
+}
+
 namespace uking::action {
 
 class ChemicalAttack : public ksys::act::ai::Action {
@@ -25,6 +29,10 @@ protected:
     virtual int m37();
     virtual int m38();
     virtual int m39();
+
+    // Non-virtual helpers shared with subclasses.
+    sead::SafeString* sub_710010559C();
+    ksys::phys::RigidBody* sub_71001055A4() const;
 
     // static_param at offset 0x20
     const int* mAttackIntensity_s{};

@@ -1,5 +1,11 @@
 #include "Game/AI/Action/actionLinearFlyAttackBase.h"
 #include "Game/AI/aiUnk_71007377D4.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorChemicals.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/ActorSystem/actChemical.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
 namespace uking::action {
 
@@ -17,7 +23,17 @@ void LinearFlyAttackBase::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void LinearFlyAttackBase::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (auto* chemicals = mActor->getChemicalContainer())
+        chemicals->sub_7100E39614(_d0);
+    if (auto* chemical = mActor->getChemicalStuff())
+        chemical->_c &= ~0x20;
+    sub_71007A2D7C(mActor, "AtkBody");
+    auto* actor = mActor;
+    if (auto* controller = actor->getCharacterController())
+        controller->sub_7100F60604();
+    if (auto* physics = actor->getPhysics())
+        physics->sub_7100FBADDC();
+    sub_71005DA114(mActor, &_50);
 }
 
 void LinearFlyAttackBase::loadParams_() {

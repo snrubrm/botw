@@ -1,6 +1,8 @@
 #pragma once
 
+#include <math/seadVector.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::action {
 
@@ -46,6 +48,22 @@ protected:
     sead::Vector3f* mMoveTargetPos_d{};
     // dynamic_param at offset 0x88
     ksys::act::BaseProcLink* mParentActor_d{};
+    f32 _90 = 0;
+    f32 _94 = 0;
+    f32 _98 = 0;
+    f32 _9c = 0;
+    f32 _a0 = 0;
+    bool _a4 = false;
+    sead::Vector2f _a8 = {0, 0};
+    f32 _b0 = 0;
+    u8 _b4[0xd8 - 0xb4];
+    void* _d8{};
+    void* _e0{};
+    void* _e8{};
+    void* _f0{};
+    void* _f8{};
+    u8 _100[0x10c - 0x100];
+    sead::Vector2f _10c = {0, 0};
 };
 
 }  // namespace uking::action
