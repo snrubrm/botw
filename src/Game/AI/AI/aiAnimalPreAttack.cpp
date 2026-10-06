@@ -1,5 +1,7 @@
 #include "Game/AI/AI/aiAnimalPreAttack.h"
+#include <math/seadMathCalcCommon.h>
 #include <random/seadGlobalRandom.h>
+#include "Game/AI/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/System/Timer.h"
@@ -29,6 +31,23 @@ void AnimalPreAttack::enter_(ksys::act::ai::InlineParamPack* params) {
         pack.addVec3(*mTargetPos_d, "TargetPos", -1);
         changeChild("対象を向く", &pack);
     }
+}
+
+// Whether there is a cliff (or an obstacle) behind the animal, relative to the target.
+bool AnimalPreAttack::sub_7100307B44() {
+    auto* actor = mActor;
+    if (!actor)
+        return false;
+    const sead::Vector3f pos = actor->getMtx().getTranslation();
+    sead::Vector3f dir;
+    actor->getMtx().getBase(dir, 2);
+    dir = *mTargetPos_d - pos;
+    dir.normalize();
+    const sead::Vector3f axis = sead::Vector3f::ey;
+    sead::Matrix34f rot;
+    rot.makeR(axis * sead::Mathf::pi());
+    dir.rotate(rot);
+    return sub_710072FEC4(mActor, dir, *mBackCliffCheckLength_s, nullptr, false, nullptr);
 }
 
 // NON_MATCHING: a single instruction: the first read of `_58` after the first isCurrentChild is `ldr s0, [x19, #0x58]` in
