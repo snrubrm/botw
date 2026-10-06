@@ -21,6 +21,7 @@ public:
 protected:
     void calc_() override;
     virtual int m32();
+    virtual void m33(int weapon_idx, const sead::SafeString* name, bool a3, f32 a4);
 
     struct Params {
         // static_param at offset 0x20

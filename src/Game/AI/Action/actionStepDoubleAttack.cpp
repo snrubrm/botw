@@ -51,4 +51,17 @@ int StepDoubleAttack::m32() {
     return 1;
 }
 
+// NON_MATCHING: argument copies at entry are scheduled in another order (regalloc only; same as
+// ForkWeaponAttackBase::m32)
+void StepDoubleAttack::m33(int weapon_idx, const sead::SafeString* name, bool a3, f32 a4) {
+    auto* actor = mActor;
+    u32 flags = m32();
+    if (a3) {
+        flags |= 0x40;
+        sub_71005D7ADC(actor, weapon_idx, flags, name, nullptr, 1, 1, 0, 1, a4, 1.0f);
+    } else {
+        sub_71005D7ADC(actor, weapon_idx, flags, name, nullptr, 1, 1, 0, 1, a4, 1.0f);
+    }
+}
+
 }  // namespace uking::action
