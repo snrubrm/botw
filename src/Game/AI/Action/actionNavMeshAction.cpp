@@ -2,6 +2,8 @@
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "Game/AI/aiUnk_71007377D4.h"
+#include "Game/AI/aiUnk_710073fa90.h"
+#include "KingSystem/Physics/System/physNavMeshCharacter.h"
 #include "Game/AI/aiUnk_71007320F0.h"
 
 namespace uking::action {
@@ -9,12 +11,36 @@ namespace uking::action {
 // NON_MATCHING: the 0x90-0xa3 zero/-1 stores are merged differently (stp xzr,x8 @0x90 vs str/stur/str)
 NavMeshAction::NavMeshAction(const InitArg& arg) : ActionEx(arg) {}
 
+// NON_MATCHING: the NavMeshCharacter setters are inline-only in the original and use one custom ldxr/stxr loop
+// `(old & ~bit) | bit`; the sead::Atomic version has one `and` less (see NavMeshCharacter::inlineSetField2BC)
 void NavMeshAction::enter_(ksys::act::ai::InlineParamPack* params) {
-    ActionEx::enter_(params);
+    m34();
+    mFlags.set(Flag::Changeable);
+    auto* actor = mActor;
+    auto* nav = actor->m45();
+    if (!nav) {
+        setFailed();
+        return;
+    }
+    const f32 speed = actor->getVelocity().length();
+    _60.value = speed;
+    _60.prev_value = speed;
+    sub_7100741034(&_6c, actor);
+    _9c = nav->_8->_6c;
+    _a0 = nav->_8->_a0->_10;
+    nav->inlineSetField2BC(*mParams.mSpeed_s * 30.0f);
+    nav->inlineSetField2C0(*mParams.mSpeed_s * 2 * 30.0f);
+    _90 = nullptr;
+    _98 = -1.0f;
 }
 
+// NON_MATCHING: same custom ldxr/stxr read-modify-write as enter_
 void NavMeshAction::leave_() {
-    ActionEx::leave_();
+    auto* nav = mActor->m45();
+    if (!nav)
+        return;
+    nav->inlineSetField2BC(_9c);
+    nav->inlineSetField2C0(_a0);
 }
 
 void NavMeshAction::loadParams_() {

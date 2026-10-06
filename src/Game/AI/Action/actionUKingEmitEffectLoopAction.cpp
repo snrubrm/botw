@@ -1,5 +1,6 @@
 #include "Game/AI/Action/actionUKingEmitEffectLoopAction.h"
 #include "Game/AI/aiXlinkHandle.h"
+#include "KingSystem/Effect/eftEffect.h"
 
 namespace uking::action {
 
@@ -13,7 +14,7 @@ bool UKingEmitEffectLoopAction::init_(sead::Heap* heap) {
 }
 
 void UKingEmitEffectLoopAction::enter_(ksys::act::ai::InlineParamPack* params) {
-    sub_71002A36BC(params);
+    sub_71002A36BC();
 }
 
 void UKingEmitEffectLoopAction::leave_() {
@@ -43,7 +44,11 @@ void UKingEmitEffectLoopAction::loadParams_() {
 }
 
 void UKingEmitEffectLoopAction::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (*mCutChangeReset_d && ksys::eft::Effect::instance()->get193e0() == 2) {
+        xlink::kill(_d0);
+        _d0.reset();
+        sub_71002A36BC();
+    }
 }
 
 }  // namespace uking::action

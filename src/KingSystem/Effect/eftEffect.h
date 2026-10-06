@@ -27,7 +27,9 @@ public:
 private:
     u8 _38[0x192f4 - 0x38];
     u32 mFlags;
-    u8 _192f8[0x2a750 - 0x192f8];
+    u8 _192f8[0x193e0 - 0x192f8];
+    s32 _193e0;
+    u8 _193e4[0x2a750 - 0x193e4];
 };
 static_assert(sizeof(Effect) == 0x2a750);
 
