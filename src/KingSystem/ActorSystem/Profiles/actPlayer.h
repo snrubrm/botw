@@ -334,6 +334,9 @@ public:
     // 0x71008927d8 (lane4 s45, unnamed in the CSV): the AS list has the bits 0x24 and 0x26 of slot 0x42.
     bool sub_71008927D8();
     bool sub_71008697C0();
+    // 0x71008494ac / 0x710087acc8 (lane4 s45, unnamed in the CSV): controller check 35 / returns _d10.
+    bool sub_71008494AC();
+    u8 sub_710087ACC8();
     void updateResistHotVal();
     void updateResistColdVal();
     void updateStatusEffectAttackUp();

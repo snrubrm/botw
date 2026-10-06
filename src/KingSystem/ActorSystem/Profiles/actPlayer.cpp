@@ -831,6 +831,14 @@ bool Player::sub_71008927D8() {
     return getASList()->sub_710115ED5C(0x42, 0x24) && getASList()->sub_710115ED5C(0x42, 0x26);
 }
 
+bool Player::sub_71008494AC() {
+    return _17d0->playerCheckController(35);
+}
+
+u8 Player::sub_710087ACC8() {
+    return _d10;
+}
+
 bool Player::sub_710086CAB8() {
     return !x_44();
 }

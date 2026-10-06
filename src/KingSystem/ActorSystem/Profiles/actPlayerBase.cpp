@@ -1353,3 +1353,10 @@ bool sub_710084D068() {
         return false;
     return info->getPlayerLink().hasProc();
 }
+
+s32 sub_710084A5E0(const ksys::act::ActorConstDataAccess& accessor) {
+    const s32 type = sub_71002F0258(accessor);
+    if (type == 3)
+        return 2;
+    return type == 4;
+}
