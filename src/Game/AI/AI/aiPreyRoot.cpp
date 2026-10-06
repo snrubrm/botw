@@ -116,6 +116,21 @@ bool PreyRoot::m38() {
     return false;
 }
 
+// 0x7100504070
+bool PreyRoot::sub_7100504070() {
+    if (m34()) {
+        if (auto* cc = mActor->getCharacterController()) {
+            if (cc->_116 & 4) {
+                if (cc->_18c == 1)
+                    return true;
+            }
+            if ((cc->_116 & 0x14) == 0x10)
+                return true;
+        }
+    }
+    return false;
+}
+
 // NON_MATCHING: block layout only; the original places the shared `return true` block right after the
 // first four m151 checks (mine puts it at the end); every instruction is otherwise identical
 bool PreyRoot::m39() {

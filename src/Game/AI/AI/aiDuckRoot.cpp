@@ -1,5 +1,6 @@
 #include "Game/AI/AI/aiDuckRoot.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
@@ -43,6 +44,28 @@ bool DuckRoot::m37() {
     if (isCurrentChild("滝接触"))
         return false;
     return PreyRoot::m37();
+}
+
+// 0x71003740f8
+void DuckRoot::m41() {
+    if (isCurrentChild("滝接触"))
+        return;
+    if (!isCurrentChild("リアクション") && sub_7100504070()) {
+        if (!mActor->isDeletedOrDeleting())
+            sub_7100374194();
+        return;
+    }
+    PreyRoot::m41();
+}
+
+// 0x7100374194
+void DuckRoot::sub_7100374194() {
+    sub_7100504BF0();
+    sead::Vector3f pos;
+    mActor->getMtx().getTranslation(pos);
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(pos, "TargetPos", -1);
+    changeChild("滝接触", &pack);
 }
 
 }  // namespace uking::ai

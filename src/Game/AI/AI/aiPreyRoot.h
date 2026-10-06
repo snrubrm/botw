@@ -91,6 +91,9 @@ protected:
     void sub_71005035A8();
     void sub_7100503864();
     void sub_7100503A78();
+    // Unnamed in the binary (0x7100504070): m34() and the controller's _116 / _18c flags say it is in a
+    // grounded-like state.
+    bool sub_7100504070();
     // 0x7100504ed0 (lane1 s22): clears the disappear type and deletes the actor (same sequence as BirdEscape)
     void sub_7100504ED0();
 

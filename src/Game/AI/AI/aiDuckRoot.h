@@ -19,9 +19,13 @@ public:
     bool m34() override;
     bool m35() override;
     bool m37() override;
+    void m41() override;
 
 protected:
     void calc_() override;
+    // Unnamed in the binary (0x7100374194): sub_7100504BF0(), then changes to the "滝接触" child with the
+    // actor position.
+    void sub_7100374194();
 };
 
 }  // namespace uking::ai
