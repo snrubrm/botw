@@ -206,10 +206,13 @@ bool TextBoxEx::isWordwrapOn_() {
     return data->GetIntArray()[0] != 0;
 }
 
-// NON_MATCHING: the compiler combines the final test into a conditional result.
 // 0x7100be2dc8
 bool TextBoxEx::isTextChangeOn_() const {
-    return mTextId && mTextId[0] == '@';
+    if (mTextId) {
+        if (mTextId[0] == '@')
+            return true;
+    }
+    return false;
 }
 
 // 0x7100be2dec
