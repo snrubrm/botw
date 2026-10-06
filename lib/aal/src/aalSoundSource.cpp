@@ -172,9 +172,10 @@ bool SoundSource::setReleaseTime(f32 release_time) {
 
 // 0x7100b778b8
 void SoundSource::detachSoundGroup() {
-    if (mSoundGroup)
+    if (mSoundGroup) {
         mSoundGroup->removeSound(this);
-    mSoundGroup = nullptr;
+        mSoundGroup = nullptr;
+    }
 }
 
 // 0x7100b78134
