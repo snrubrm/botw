@@ -40,3 +40,23 @@ bool ScreenMainScreen::sub_7100A1E1E0() {
 }
 
 }  // namespace uking::ui
+
+namespace uking::ui {
+
+// 0x71010a87f0
+// NON_MATCHING: the original keeps the "type 18 while 19 is current" case as its own branch that jumps to the shared
+// store; clang makes it a select
+bool ScreenMessageTips::sub_71010A87F0(s32 type) {
+    if ((type | 1) != 19)
+        return false;
+
+    if (type == 18 && _3a8 == 19)
+        type = 19;
+    if (_3a8 == type)
+        _3ac = type;
+    else
+        type = _3ac;
+    return type != 29;
+}
+
+}  // namespace uking::ui

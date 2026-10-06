@@ -337,6 +337,12 @@ f32 Screen::getOpenFrameSize() const {
     return animator->GetFrameSize();
 }
 
+// 0x7100be9dd4
+void Screen::sub_7100BE9DD4(f32 frame) {
+    if (Animator* animator = mLayout->mOpenAnimator)
+        animator->Stop(frame);
+}
+
 // 0x7100beaad0
 const char* Screen::getLayoutName_() const {
     return nullptr;

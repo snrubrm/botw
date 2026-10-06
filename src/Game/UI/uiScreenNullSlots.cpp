@@ -19,10 +19,10 @@ void ScreenAppCamera::m127() {}
 void ScreenDoCommand::m101() {}
 
 // 0x7100a03fc4
-void ScreenDemoName::m93() {}
+void ScreenDemoName::m93(sead::Heap*) {}
 
 // 0x7100a03cf8
-void ScreenDemoNameEnemy::m93() {}
+void ScreenDemoNameEnemy::m93(sead::Heap*) {}
 
 // 0x7100a4ac20
 void ScreenShopBG::m94() {}
@@ -144,7 +144,7 @@ void ScreenDLCSinJuAkashiNum::m70() {}
 void ScreenDLCSinJuAkashiNum::m71() {}
 
 // 0x7100a0e5b0
-void ScreenKeyBoradTextArea::m93() {}
+void ScreenKeyBoradTextArea::m93(sead::Heap*) {}
 
 // 0x7100a0e5b4
 void ScreenKeyBoradTextArea::m94() {}

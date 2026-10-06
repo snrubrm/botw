@@ -86,6 +86,10 @@ public:
     virtual f32 m31() const;
     virtual void m32(char16* glyph, u16* font_index, u8 type);
 
+    // inline-only in the original; name is a guess (uking::ui::Fade::doCreateTagProcessor_ stores 1 at 0x48 and the
+    // constructor of uking::ui::TagProcessor stores 0 there)
+    void setRubyEnabled(bool enabled) { mRubyEnabled = enabled; }
+
     // 0x7100be6254: type 0x80, two parameter bytes (the first is the negated flag)
     static char16* setAlphaTag(char16* out, bool flag, u8 alpha);
     // 0x7100be628c: type 0x82, one u16 parameter

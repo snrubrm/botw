@@ -90,6 +90,11 @@ public:
                                            bool*, s32 page, void*);
     void adjustPaneSizeToTextSizeRecursive_(nn::ui2d::Pane*);
 
+    // inline-only in the original; names are guesses (uking::ui::Fade::x_2 evaluates the layout pointer before the
+    // animator in each of its four stores to these members)
+    void setOpenAnimator(Animator* animator) { mOpenAnimator = animator; }
+    void setCloseAnimator(Animator* animator) { mCloseAnimator = animator; }
+
     /* 0x60 */ Animator* mOpenAnimator = nullptr;
     /* 0x68 */ Animator* mCloseAnimator = nullptr;
     /* 0x70 */ Animator* _70 = nullptr;

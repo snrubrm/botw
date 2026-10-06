@@ -70,7 +70,7 @@ void* ScreenEx::m143() {
 }
 
 // 0x7100a00584
-void Screen::m93() {}
+void Screen::m93(sead::Heap*) {}
 
 // 0x7100a03e18
 void Screen::m94() {}

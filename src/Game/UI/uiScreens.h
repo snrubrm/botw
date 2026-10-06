@@ -3,6 +3,7 @@
 #include <container/seadBuffer.h>
 #include <container/seadFreeList.h>
 #include <container/seadPtrArray.h>
+#include <container/seadRingBuffer.h>
 #include <math/seadVector.h>
 #include <prim/seadSafeString.h>
 #include <thread/seadCriticalSection.h>
@@ -247,7 +248,7 @@ public:
     virtual void m90();
     virtual void m91();
     virtual void m92(sead::Heap*);
-    virtual void m93();
+    virtual void m93(sead::Heap*);
     virtual void m94();
     virtual void m95();
     virtual void m96();  // open(1)
@@ -712,13 +713,63 @@ public:
     /* 0x304 */ s32 _304;
 };
 
+// The fade screen (id 78): a full-screen fade that can also show a loading tip; its tip texts are queued in a ring
+// buffer (_3b8 .. _3c8, storage _3cc).
 class Fade : public Screen {
 public:
+    Fade();
     ~Fade() override;
     SEAD_RTTI_OVERRIDE(Fade, Screen)
+    bool isEnableControl() const override;
+    void open(s32 option) override;
+    void close(s32 option) override;
+    const char* getLayoutName_() const override;
+    eui::TagProcessor* doCreateTagProcessor_(sead::Heap* heap) override;
+    bool isOpenEnd_() override;
     void m74(f32 progress) override;
+
     void sub_71010A0EE8(f32 progress);
-    void x(bool flag);
+    // 0x71010a0bbc: starts the colour animator forwards / backwards
+    void x(s32 forward);
+    // 0x71010a0b6c
+    void stopColorAnimatorAt(s32 where);
+    // 0x71010a0be0 / 0x71010a0be8 / 0x71010a0d34 / 0x71010a0d40
+    void x_1(s32 type);
+    void x_2();
+    void setStartedMaybe(bool started);
+    void clearSomeTipsField();
+
+    /* 0x300 */ eui::Animator* _300 = nullptr;
+    /* 0x308 */ eui::AnimatorSet _308;
+    /* 0x328 */ eui::AnimatorSet _328;
+    /* 0x348 */ eui::AnimatorSet* _348{};
+    /* 0x350 */ eui::AnimatorSet* _350{};
+    /* 0x358 */ eui::Animator* _358{};
+    /* 0x360 */ eui::Animator* _360{};
+    /* 0x368 */ eui::Animator* _368{};
+    /* 0x370 */ eui::Animator* _370{};
+    /* 0x378 */ eui::Animator* _378{};
+    /* 0x380 */ eui::Animator* _380{};
+    /* 0x388 */ eui::Animator* _388{};
+    /* 0x390 */ eui::TagProcessor* _390{};
+    /* 0x398 */ eui::Animator* _398{};
+    /* 0x3a0 */ eui::Animator* _3a0{};
+    /* 0x3a8 */ bool _3a8{};
+    /* 0x3ac */ s32 _3ac = 1;
+    /* 0x3b0 */ f32 _3b0 = 0;
+    // Two tip texts (string pointers); 4-byte aligned, the storage starts at 0x3cc.
+    struct TipEntry {
+        u32 _0[4];
+    };
+    /* 0x3b8 */ sead::FixedRingBuffer<TipEntry, 100> mTips;
+    /* 0xa10 */ s32 _a10 = 0;
+    /* 0xa14 */ s32 _a14 = 0;
+    /* 0xa18 */ f32 _a18 = 0;
+    /* 0xa1c */ f32 _a1c = 90.0f;
+    /* 0xa20 */ s32 _a20 = -1;
+    /* 0xa24 */ bool _a24 = false;
+    /* 0xa25 */ bool _a25 = false;
+    /* 0xa26 */ bool _a26 = false;
 };
 
 class ScreenFadeDemo : public Screen {
@@ -1516,7 +1567,7 @@ class ScreenDemoName : public ScreenEx {
 public:
     const char* getLayoutName_() const override;
     bool isPlayPartsInOut_() const override;
-    void m93() override;
+    void m93(sead::Heap*) override;
     ScreenDemoName();
     ~ScreenDemoName() override;
     virtual void m154();  // placeholder: one extra virtual slot (vtable offsets +8)
@@ -1526,7 +1577,7 @@ public:
 class ScreenDemoNameEnemy : public ScreenEx {
 public:
     bool isPlayPartsInOut_() const override;
-    void m93() override;
+    void m93(sead::Heap*) override;
     ScreenDemoNameEnemy();
     ~ScreenDemoNameEnemy() override;
     virtual void m154();  // placeholder: one extra virtual slot (vtable offsets +8)
@@ -2392,7 +2443,7 @@ public:
     const char* getLayoutName_() const override;
     s32 m141(const ksys::Message& message) override;
     s32 m142(const ksys::Message& message) override;
-    void m93() override;
+    void m93(sead::Heap*) override;
     void m94() override;
     void m96() override;
     void m97() override;
