@@ -33,7 +33,7 @@ void ForkGanonBeastWeakPoint::calc_() {
         sead::DynamicCast<Unk_71025b2d88>(*static_cast<Unk_71025afb58**>(mWeakPointActiveFlag_a));
     if (weak_points) {
         for (s32 i = 0; i < 18; ++i) {
-            if (!(weak_points->mFlags & (1u << i)))
+            if (!((1u << i) & weak_points->mFlags))
                 continue;
             if (!isFinishedAS(1, i + *mTargetSlotIdx_s))
                 return;

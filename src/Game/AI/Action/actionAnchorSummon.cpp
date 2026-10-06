@@ -17,6 +17,8 @@ AnchorSummon::~AnchorSummon() {
     _80.freeBuffer();
 }
 
+// NON_MATCHING: register allocation only (the original computes &mActor->getMessageTransceiver() into the
+// register that held the loop bound compare, ours reuses the actor register)
 bool AnchorSummon::init_(sead::Heap* heap) {
     auto* object = mActor->getMapObject();
     if (!object)

@@ -19,6 +19,10 @@ public:
 protected:
     void calc_() override;
 
+    // 0x7100129760: ends the field: puts the actor to sleep if its creator (a Bullet's `_bd0` link or the create
+    // arg link) is alive, else deletes it.
+    void sub_7100129760();
+
     // map_unit_param at offset 0x20
     const int* mAttackPower_m{};
     // map_unit_param at offset 0x28

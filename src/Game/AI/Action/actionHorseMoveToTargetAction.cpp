@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionHorseMoveToTargetAction.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/System/physNavMeshCharacter.h"
 
 namespace uking::action {
 
@@ -10,6 +12,16 @@ bool HorseMoveToTargetAction::init_(sead::Heap* heap) {
 
 void HorseMoveToTargetAction::enter_(ksys::act::ai::InlineParamPack* params) {
     AnimalMoveGuidedBase::enter_(params);
+    mActor->m132();                      // discarded call
+    mActor->getCharacterController();  // discarded call
+    if (auto* nav = mActor->m45()) {
+        if (*mIsCancelRequestedPathFirst_s)
+            nav->inlineReset();
+        if (mTargetPos_d && !mTargetPos_d->isNan()) {
+            nav->sub_7100F75F8C(*mTargetPos_d);
+            nav->inlineClearTargets();
+        }
+    }
 }
 
 void HorseMoveToTargetAction::leave_() {
