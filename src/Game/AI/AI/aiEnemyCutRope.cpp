@@ -86,6 +86,49 @@ void EnemyCutRope::enter_(ksys::act::ai::InlineParamPack* params) {
         changeToApproach();
 }
 
+void EnemyCutRope::calc_() {
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed()) {
+        if (isCurrentChild("接近")) {
+            if (sub_7100386374())
+                changeToCut();
+            else if (isFinished())
+                changeToRotate();
+            else
+                setFailed();
+        } else {
+            ksys::act::acc::RopeBase rope;
+            ksys::act::acquireActor(mTargetActor_d, &rope);
+            if (rope.sub_7100ED8344()) {
+                setFinished();
+            } else if (sub_7100386374()) {
+                if (isCurrentChild("カット")) {
+                    if (_68 <= 0) {
+                        setFailed();
+                        return;
+                    }
+                    --_68;
+                }
+                changeToCut();
+            } else {
+                setFailed();
+            }
+        }
+    } else if (child->isChangeable()) {
+        if (isCurrentChild("接近") && sub_7100386374())
+            changeToCut();
+    }
+    ksys::act::acc::RopeBase rope;
+    ksys::act::acquireActor(mTargetActor_d, &rope);
+    if (isCurrentChild("接近")) {
+        child->setDynamicParam(rope.sub_7100ED8440(1.0f), "TargetPos");
+    } else if (*mCutFlyAttack_s) {
+        child->setDynamicParam(rope.sub_7100ED8440(0.5f), "TargetPos");
+    } else {
+        child->setDynamicParam(rope.sub_7100ED8440(1.0f), "TargetPos");
+    }
+}
+
 void EnemyCutRope::leave_() {
     ksys::act::ActorConstDataAccess acc;
     ksys::act::acquireActor(mTargetActor_d, &acc);
