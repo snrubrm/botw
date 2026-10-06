@@ -2,7 +2,6 @@
 
 #include <container/seadSafeArray.h>
 #include <heap/seadDisposer.h>
-#include <container/seadSafeArray.h>
 #include <math/seadVector.h>
 #include <thread/seadSpinLock.h>
 

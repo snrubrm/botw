@@ -64,26 +64,3 @@ void PlayerResetPosMgr::clearResetPos() {
     }
     mNumResetPos = 0;
 }
-
-void PlayerResetPosMgr::addResetPos(const sead::Vector3f& position, f32 yaw) {
-    sead::ScopedLock<sead::SpinLock> lock(&mLock);
-    if (_20 < 64) {
-        mResetPositions[_20].position = position;
-        mResetPositions[_20].yaw = yaw;
-        ++_20;
-    }
-}
-
-void PlayerResetPosMgr::setResetPos(const sead::Vector3f& position, f32 yaw, ksys::act::Actor* actor) {
-    sead::ScopedLock<sead::SpinLock> lock(&mLock);
-    _428 = actor;
-    _430 = true;
-    _434 = position;
-    _440 = yaw;
-}
-
-void PlayerResetPosMgr::sub_71007A6620(ksys::act::Actor* actor) {
-    sead::ScopedLock<sead::SpinLock> lock(&mLock);
-    if (_428 == actor)
-        _430 = false;
-}

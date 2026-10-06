@@ -3,6 +3,7 @@
 #include <basis/seadTypes.h>
 #include <container/seadPtrArray.h>
 #include <gfx/seadCamera.h>
+#include <prim/seadBitFlag.h>
 #include <gsys/gsysModelScene.h>
 
 // Partial declaration: name from the CSV Graphics::createInstance (0x7100f2a1d0).
