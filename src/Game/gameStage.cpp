@@ -1,4 +1,5 @@
 #include "Game/gameStage.h"
+#include "Game/gamePlayReport.h"
 #include "Game/gameSaveSystem.h"
 #include "Game/gameScene.h"
 #include "Game/gameStageInfo.h"
@@ -9,6 +10,8 @@
 #include "KingSystem/World/worldEnvMgr.h"
 
 namespace uking {
+
+bool eventMgrHasActiveEvent();
 
 // (defined in a different file than GameScene::m1: its caller does not inline it in the original)
 void GameScene::sub_71007B7D78() {
@@ -32,6 +35,26 @@ bool gameSceneIsNotNeedStageGenFinalStepInPreCalc() {
 // (a u32 or an enum parameter gives the same code as s32 here).
 void gameSceneSetFadeType(s32 type) {
     GameScene::sInstance2->setFadeType(type);
+}
+
+void StageBinder::initAndReportDungeonLeaveEnter() {
+    if (getType() != 4 && !m12())
+        eventMgrHasActiveEvent();
+
+    const sead::SafeString& current_type = GameScene::getCurrentMapType();
+    const sead::SafeString& current_name = GameScene::getCurrentMapName();
+    const sead::SafeString& next_type = m8();
+    const sead::SafeString& next_name = m9();
+
+    if (current_type == "CDungeon" || current_type == "MainFieldDungeon") {
+        if (!next_name.isEmpty() && current_name != next_name)
+            reportDungeon(current_name, "leave");
+    }
+    if (next_type == "CDungeon" || next_type == "MainFieldDungeon") {
+        if (!current_name.isEmpty() && current_name != next_name)
+            reportDungeon(next_name, "enter");
+    }
+    GameScene::sInstance2->setStageBinder(this);
 }
 
 void sub_71007BEB20() {

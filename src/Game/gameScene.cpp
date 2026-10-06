@@ -2,9 +2,11 @@
 #include "Game/gameSceneStateMachine.h"
 #include "Game/gamePlayerResetPosMgr.h"
 #include "Game/gameStageInfo.h"
+#include "Game/gameStageBinder.h"
 #include "KingSystem/ActorSystem/actActorSystem.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/System/StageInfo.h"
+#include "KingSystem/Resource/resResource.h"
 
 namespace uking {
 
@@ -312,6 +314,16 @@ bool GameScene::sub_71007B0D3C() const {
 
 bool GameScene::hasStageBinder() const {
     return _2a8 != nullptr;
+}
+
+OpenWorldStageBinder* GameScene::createOpenWorldStageBinder() {
+    if (!_288)
+        return nullptr;
+    return new (_288, 8) OpenWorldStageBinder;
+}
+
+ksys::res::Resource* GameScene::getEnvArchive() const {
+    return sead::DynamicCast<ksys::res::Resource>(_2c0.getResource());
 }
 
 void GameScene::LunchTitleLeave() {}

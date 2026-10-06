@@ -5,12 +5,18 @@
 #include <prim/seadSafeString.h>
 #include <thread/seadAtomic.h>
 #include "Game/gameScene320.h"
+#include "KingSystem/Resource/resHandle.h"
 #include "KingSystem/Utils/StateMachine.h"
 #include "KingSystem/Utils/Thread/Event.h"
 #include "KingSystem/Utils/Types.h"
 
+namespace ksys::res {
+class Resource;
+}
+
 namespace uking {
 
+class OpenWorldStageBinder;
 class StageBinder;
 
 // 0x71025cb350 (a state object of the GameScene TU; only its id is read by GameScene::sub_71007B0D3C).
@@ -82,6 +88,10 @@ public:
 
     void setFadeType(s32 type);
     bool hasStageBinder() const;
+    // 0x71007aef00 (CSV GameScene::getEnvArchive): the resource of the handle at 0x2c0 (DynamicCast to res::Resource).
+    ksys::res::Resource* getEnvArchive() const;
+    // 0x71007ba238 (CSV GameScene::createOpenWorldStageBinder): a new binder on the heap at 0x288 (null without heap).
+    OpenWorldStageBinder* createOpenWorldStageBinder();
     void setStageBinder(StageBinder* binder);
 
     // 0x71007b5340 / 0x71007b5350: getters of the static flags below.
@@ -120,6 +130,8 @@ public:
     static GameScene* sInstance3;                      // 0x71025cb898
     static bool sFlag;                                 // 0x71025cb8ac
 
+    friend void createTitleStageBinder(bool a1, bool a2);
+
 private:
     static bool sIsOpenWorldDemo;
 
@@ -134,9 +146,13 @@ private:
     /* 0x1d0 */ ksys::StateMachine _1d0;
     u8 _1f8[0x279 - 0x1f8];
     u8 _279;
-    u8 _27a[0x2a8 - 0x27a];
+    u8 _27a[0x288 - 0x27a];
+    /* 0x288 */ sead::Heap* _288;
+    u8 _290[0x2a8 - 0x290];
     StageBinder* _2a8;
-    u8 _2b0[0x320 - 0x2b0];
+    u8 _2b0[0x2c0 - 0x2b0];
+    /* 0x2c0 */ ksys::res::Handle _2c0;  // the env archive
+    u8 _310[0x320 - 0x310];
     /* 0x320 */ GameScene320 _320;
     u8 _348[0x6e6 - 0x348];
     /* 0x6e6 */ bool _6e6;

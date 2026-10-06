@@ -8,6 +8,9 @@
 
 namespace uking {
 
+void createTitleStageBinder(bool a1, bool a2);
+void sub_71007BE380(s32 a1, bool a2);
+
 // Two empty polymorphic helper classes (RTTI base + virtual destructor) that every binder embeds (the Title /
 // Viewer binders at 0x30 / 0x38, the OpenWorld one at 0x210 / 0x218). Their out-of-line functions sit in the
 // binders' TU (0x71007bee20-0x71007befc4). Names: placeholders after their vtables.
@@ -22,7 +25,7 @@ class Unk_710245ac20 {
 public:
     virtual ~Unk_710245ac20();
 
-    /* 0x08 */ bool _8;  // set by the stages' postInit
+    /* 0x08 */ bool _8 = false;  // set by the stages' postInit
 };
 
 // Base of the "arg" classes (RTTI base only; its typeinfo is checked by OpenWorldStageArg's checkDerived...;
@@ -96,6 +99,9 @@ public:
     // 0x71007cbcec
     Stage* getStage() const;
 
+    // 0x71007b79a8 (CSV StageBinder::initAndReportDungeonLeaveEnter; declared only).
+    void initAndReportDungeonLeaveEnter();
+
 protected:
     /* 0x08 */ Stage* mStage;
 };
@@ -104,6 +110,8 @@ protected:
 class OpenWorldStageArg : public StageArg {
     SEAD_RTTI_OVERRIDE(OpenWorldStageArg, StageArg)
 public:
+    // inline-only in the original (GameScene::createOpenWorldStageBinder).
+    OpenWorldStageArg() : _8(nullptr), mHeap(nullptr), _1f4(-99), _1f8(-1), _1fc(false), _1d8(false) {}
     ~OpenWorldStageArg() override;
 
     s32 m4() override { return 0; }
@@ -123,7 +131,13 @@ public:
     /* 0x168 */ sead::FixedSafeString<0x20> _168;
     /* 0x1a0 */ sead::FixedSafeString<0x20> _1a0;
     /* 0x1d8 */ bool _1d8;
-    u8 _1d9[0x1f4 - 0x1d9];
+    u8 _1d9[0x1dc - 0x1d9];
+    u32 _1dc;
+    u32 _1e0;
+    u32 _1e4;
+    u32 _1e8;
+    u32 _1ec;
+    u32 _1f0;
     /* 0x1f4 */ s32 _1f4;
     /* 0x1f8 */ s32 _1f8;
     /* 0x1fc */ bool _1fc;
@@ -138,6 +152,8 @@ static_assert(sizeof(OpenWorldStageArg) == 0x200);
 class TitleStageArg : public StageArg {
     SEAD_RTTI_OVERRIDE(TitleStageArg, StageArg)
 public:
+    // inline-only in the original (createTitleStageBinder).
+    TitleStageArg() : mEnvArchive(nullptr), mHeap(nullptr), _18(-99), _1c(false) {}
     s32 m4() override { return 3; }
     s32 m5() override { return 3; }
     const sead::SafeString& m8() override;
@@ -243,6 +259,8 @@ struct StartupSaveCheckStageArg {
 class TitleStageBinder : public StageBinder {
     SEAD_RTTI_OVERRIDE(TitleStageBinder, StageBinder)
 public:
+    // inline-only in the original (createTitleStageBinder).
+    TitleStageBinder() = default;
     ~TitleStageBinder() override;
 
     s32 getType() override { return 3; }
@@ -259,6 +277,8 @@ private:
     /* 0x10 */ TitleStageArg _10;
     /* 0x30 */ Unk_710245abf0 _30;
     /* 0x38 */ Unk_710245ac20 _38;
+
+    friend void createTitleStageBinder(bool a1, bool a2);
 };
 
 class ViewerStageBinder : public StageBinder {
@@ -285,6 +305,8 @@ private:
 class OpenWorldStageBinder : public StageBinder {
     SEAD_RTTI_OVERRIDE(OpenWorldStageBinder, StageBinder)
 public:
+    // inline-only in the original (GameScene::createOpenWorldStageBinder).
+    OpenWorldStageBinder() = default;
     ~OpenWorldStageBinder() override;
 
     s32 getType() override { return 0; }
@@ -298,6 +320,8 @@ public:
     bool m12() override { return _10._1fc; }
 
 private:
+    friend void sub_71007BE380(s32 a1, bool a2);
+
     /* 0x010 */ OpenWorldStageArg _10;
     /* 0x210 */ Unk_710245abf0 _210;
     /* 0x218 */ Unk_710245ac20 _218;
