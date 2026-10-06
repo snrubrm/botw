@@ -1334,6 +1334,12 @@ public:
 // The state ScreenAppMap::mainRun changes to (0x71025df1e0; placeholder name).
 extern const ksys::StateBase sUnk_71025df1e0;
 
+// Placeholder for the object ScreenAppMap keeps at 0x3c98 (its state at 0x104 decides which animators play).
+struct ScreenAppMapUnk3c98 {
+    u8 _0[0x104];
+    /* 0x104 */ s32 _104;
+};
+
 // Placeholder for the map widget the AppMap screen owns (byte 0xb33a is set by ScreenAppMap::mainEnter).
 struct ScreenAppMapWidget {
     // 0x71009a9438 (CSV unnamed; declared only)
@@ -1399,6 +1405,8 @@ public:
     u8 _3ad3[0x3c00 - 0x3ad3];
     /* 0x3c00 */ eui::Animator* _3c00;
     /* 0x3c08 */ eui::Animator* _3c08;
+    u8 _3c10[0x3c98 - 0x3c10];
+    /* 0x3c98 */ ScreenAppMapUnk3c98* _3c98;
 };
 
 class ScreenPauseMenu : public ScreenEx {

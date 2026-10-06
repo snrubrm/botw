@@ -50,6 +50,19 @@ void ScreenAppMap::mainRun() {
         mStateMachine.changeState(&sUnk_71025df1e0);
 }
 
+// 0x71009eb814 (CSV ScreenAppMap::subEnter)
+void ScreenAppMap::subEnter() {
+    _3c00->PlayFromCurrent(eui::Animator::PlayType(0), -1.0f);
+    if (_3c98) {
+        const s32 state = _3c98->_104;
+        if (state == 7 || (u32(state - 1) <= 4 && ((state - 1) & 1) == 0))
+            _3c08->PlayFromCurrent(eui::Animator::PlayType(0), -1.0f);
+    }
+    _3ad1 = 1;
+    UiSubsys1::instance()->clear3885();
+    _3610->_b350 = 0;
+}
+
 // 0x71009eb810 (CSV ScreenAppMap::mainLeave)
 void ScreenAppMap::mainLeave() {}
 
