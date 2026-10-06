@@ -11,6 +11,7 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
 
@@ -18,6 +19,8 @@ public:
     // 0x7100397db4 (placeholder name): the lift target position (the shoot item's previous position, else the
     // actor's forward point).
     sead::Vector3f sub_7100397DB4();
+    // 0x7100397a64 (declared only): throws the lifted item (changes to the 投げつけ child).
+    void sub_7100397A64();
 
 protected:
     // static_param at offset 0x38
