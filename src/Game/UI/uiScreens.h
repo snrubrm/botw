@@ -1331,6 +1331,9 @@ public:
     bool openMinigameScreen(s32, s32);
 };
 
+// The state ScreenAppMap::mainRun changes to (0x71025df1e0; placeholder name).
+extern const ksys::StateBase sUnk_71025df1e0;
+
 // Placeholder for the map widget the AppMap screen owns (byte 0xb33a is set by ScreenAppMap::mainEnter).
 struct ScreenAppMapWidget {
     // 0x71009a9438 (CSV unnamed; declared only)
@@ -1369,6 +1372,10 @@ public:
     void sub_71009EF57C(f32 a1, s32 a2);
 
     bool sub_71009EF5A8(s32);
+    // 0x71009e9f48 / 0x71009eb52c / 0x71009eb72c (CSV unnamed; declared only)
+    bool sub_71009E9F48();
+    void sub_71009EB52C();
+    void sub_71009EB72C();
     bool sub_71009E9F10();
 
     // State callbacks (slots 154-165: main / sub / demo screens x enter / run / leave / a fourth one that returns 0)

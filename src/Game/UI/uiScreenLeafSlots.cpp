@@ -30,6 +30,16 @@ void ScreenAppMap::mainEnter() {
     _3610->_b33a = 1;
 }
 
+// 0x71009eb4b8 (CSV ScreenAppMap::mainRun)
+void ScreenAppMap::mainRun() {
+    if (UiSubsys1::instance()->is848EqualTo1())
+        sub_71009EB52C();
+    else if (UiSubsys1::instance()->is848Zero())
+        sub_71009EB72C();
+    if (sub_71009E9F48())
+        mStateMachine.changeState(&sUnk_71025df1e0);
+}
+
 // 0x71009eb810 (CSV ScreenAppMap::mainLeave)
 void ScreenAppMap::mainLeave() {}
 
