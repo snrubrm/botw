@@ -22,6 +22,8 @@ public:
     bool shouldUnload(s32* a1) override { return false; }
     void initMaybe() override;
     Actor* m31() override;
+    // 0x7100029b54 (unnamed in the CSV, placeholder name): the GiantArmor param's DamageScale.
+    f32 sub_7100029B54() const;
 
 protected:
     bool canWakeUp_() override;

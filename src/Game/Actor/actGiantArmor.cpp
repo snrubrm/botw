@@ -1,5 +1,8 @@
 #include "Game/Actor/actGiantArmor.h"
 #include <basis/seadNew.h>
+#include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/Resource/Actor/resResourceGParamList.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectGiantArmor.h"
 
 namespace uking::act {
 
@@ -7,6 +10,10 @@ GiantArmor::GiantArmor(const CreateArg& arg) : DynamicActor(arg) {}
 
 ksys::act::BaseProc* GiantArmor::construct(const CreateArg& arg, sead::Heap* heap) {
     return new (heap, std::nothrow) GiantArmor(arg);
+}
+
+f32 GiantArmor::sub_7100029B54() const {
+    return getParam()->getRes().mGParamList->getGiantArmor()->mDamageScale.ref();
 }
 
 void GiantArmor::initMaybe() {
