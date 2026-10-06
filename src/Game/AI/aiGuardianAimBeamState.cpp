@@ -2,6 +2,7 @@
 #include <math/seadMathCalcCommon.h>
 #include <random/seadGlobalRandom.h>
 #include "KingSystem/ActorSystem/actActor.h"
+#include "Game/AI/aiXlinkHandle.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
 
 namespace uking::ai {
@@ -44,14 +45,14 @@ bool GuardianAimBeamState::init(ksys::act::Actor* actor, const sead::SafeString&
     return true;
 }
 
-// NON_MATCHING: the original fades the two SLink handles with `Event::fade(0)`; lib/xlink2's
-// HandleSLink::fade() has no frame argument (it always passes -1).
 void GuardianAimBeamState::sub_71006F2D08() {
     _38.fade();
     _28.fade();
     _48.fade();
     _58.fade(0);
     _68.fade(0);
+    xlink::fade(_58, 0);
+    xlink::fade(_68, 0);
     _d8 = 0;
 }
 
