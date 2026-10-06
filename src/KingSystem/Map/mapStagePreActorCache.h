@@ -39,6 +39,7 @@ public:
     void m4(int* x, int* z, const sead::SafeString& name) override;
 
     LazyTraverseList* getObjects() const { return mObjects; }
+    Placement18* getPlacement18() const { return mPlacement18; }
     auto* getForestRenderer() { return mForestRenderer; }
 
 private:

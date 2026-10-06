@@ -17,6 +17,10 @@
 #include "KingSystem/Utils/StateMachine.h"
 #include "KingSystem/Utils/Thread/ActorMessageTransceiver.h"
 
+namespace ksys::act {
+class Actor;
+}
+
 namespace uking::ui {
 
 // The game's UI screen classes (CSV: ScreenBase / Screen / ScreenEx / Screen<Name>, IDA placeholder
@@ -181,7 +185,8 @@ public:
     /* 0x290 */ u8 _290;
     u8 _291;
     /* 0x292 */ u16 _292;
-    u8 _294[0x300 - 0x294];
+    // Ends at 0x2fc: the members of ScreenMainDungeon start there (tail padding of the non-POD base).
+    u8 _294[0x2fc - 0x294];
 
     void open(s32 option) override;
     void close(s32 option) override;
@@ -628,6 +633,33 @@ public:
     ~ScreenMessage3D() override;
     SEAD_RTTI_OVERRIDE(ScreenMessage3D, Screen)
     void sub_71010AE7C0(bool flag);
+    // 0x71010ae9e8 (CSV unnamed, declared only): called by UI::sub_71010A5B0C with the actor.
+    bool sub_71010AE9E8(ksys::act::Actor* actor);
+};
+
+// The class of the three message dialog screens (ids ScreenId::Unk17, MessageDialog and Unk76; constructor
+// 0x71010b25c8 takes a bool). Only the nominal type and the members read by the UI facade are recovered.
+class ScreenMessageDialog : public Screen {
+public:
+    ~ScreenMessageDialog() override;
+    SEAD_RTTI_OVERRIDE(ScreenMessageDialog, Screen)
+
+    u8 _2fc[0x350 - 0x2fc];
+    /* 0x350 */ s32 _350;
+    u8 _354[0x5ec - 0x354];
+    /* 0x5ec */ s32 _5ec;
+};
+
+// Only the nominal type and the three state words checked by UI::sub_71010A5CFC / sub_71010A5DB0 / sub_71010A5E64
+// are recovered (the constructor, 0x71010a4560, initialises them to 3).
+class ScreenMainDungeon : public Screen {
+public:
+    ~ScreenMainDungeon() override;
+    SEAD_RTTI_OVERRIDE(ScreenMainDungeon, Screen)
+
+    /* 0x2fc */ s32 _2fc;
+    /* 0x300 */ s32 _300;
+    /* 0x304 */ s32 _304;
 };
 
 class Fade : public Screen {

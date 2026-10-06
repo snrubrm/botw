@@ -17,6 +17,7 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    ksys::map::Rail* m34() override;
     Unk_71024f15c0* m45() override;
 
 protected:

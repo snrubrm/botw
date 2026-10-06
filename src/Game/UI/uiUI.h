@@ -9,6 +9,12 @@ class Actor;
 
 namespace uking::ui {
 
+class ScreenMessageDialog;
+
+// 0x71010a58b4 (CSV ui::getSomeMessageSpStuff; placeholder name): the first of the screens ScreenId::Unk76,
+// Unk17, MessageDialog that is a ScreenMessageDialog (null if none).
+ScreenMessageDialog* getSomeMessageSpStuff();
+
 // The UI singleton (CSV: UI::createInstance 0x71010a5714, size 0xb0; sInstance 0x710261ebc0).
 // The layout is incomplete (only the methods that callers need are declared) and the namespace is
 // a guess (neighbouring ui:: functions live in uking::ui).
@@ -57,6 +63,12 @@ public:
     // 0x71010a6454 (CSV unnamed): called by Message3DText with its message set / message label.
     bool sub_71010A6454(const sead::SafeString& message_set, const sead::SafeString& label,
                         ksys::act::Actor* actor, f32 time, bool flag);
+
+    // The layout is mostly unmodelled (size 0xb0).
+    u8 _20[0x98 - 0x20];
+    /* 0x98 */ s32 _98;
+    u8 _9c[0xb0 - 0x9c];
 };
+static_assert(sizeof(UI) == 0xb0);
 
 }  // namespace uking::ui
