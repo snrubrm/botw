@@ -9,6 +9,8 @@
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
+extern const f32 sUnk_7101e79ee8;
+
 namespace uking::ai {
 
 GanonBattleRoot::GanonBattleRoot(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
@@ -17,6 +19,42 @@ GanonBattleRoot::~GanonBattleRoot() = default;
 
 bool GanonBattleRoot::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
+}
+
+// NON_MATCHING: the switch over `_14e4` tests 1 before 2 (the original tests 0, 2, 1 in that order)
+void GanonBattleRoot::sub_71003E3644() {
+    sead::Vector3f position;
+    auto* actor = mActor;
+    if (actor) {
+        auto* target = sub_71005D9050(actor);
+        if (target && target->hasProc() && ksys::act::isPlayerProfile(target))
+            position = sub_71005D9330(actor);
+        else
+            position = getPlayerPosition();
+    }
+    auto* boss = sead::DynamicCast<act::LastBoss>(mActor);
+    if (!boss) {
+        sub_71003E3BA0(position);
+        return;
+    }
+    const sead::Vector3f pos = mActor->getMtx().getTranslation();
+    sead::Vector3f home;
+    mActor->getHomePos(&home);
+    const f32 dx = pos.x - home.x;
+    const f32 dz = pos.z - home.z;
+    if (dx * dx + dz * dz >= (sUnk_7101e79ee8 - 15.0f) * (sUnk_7101e79ee8 - 15.0f))
+        boss->_14e4 = 2;
+    switch (boss->_14e4) {
+    case 2:
+        changeToStateChange(position);
+        break;
+    case 1:
+        sub_71003E3A3C(position);
+        break;
+    default:
+        sub_71003E3BA0(position);
+        break;
+    }
 }
 
 void GanonBattleRoot::sub_71003E3A3C(const sead::Vector3f& position) {
