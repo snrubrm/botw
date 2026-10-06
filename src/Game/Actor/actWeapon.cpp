@@ -1077,6 +1077,102 @@ bool Weapon::sub_71002F1228() const {
 
 }  // namespace ksys::act::acc
 
+// inline-only in the original; name is a guess (same cast as acc::Weapon::getWeapon, on a const accessor).
+static inline uking::act::Weapon* getWeaponOfAccessor(const ksys::act::ActorConstDataAccess& accessor) {
+    auto* actor = static_cast<ksys::act::Actor*>(ksys::act::acc::getProcIfActor(accessor.getProc()));
+    return sead::DynamicCast<uking::act::Weapon>(actor);
+}
+
+namespace ksys::act {
+
+bool getWeaponCommonIsPikohan(const ActorConstDataAccess& accessor) {
+    auto* actor = static_cast<ksys::act::Actor*>(ksys::act::acc::getProcIfActor(accessor.getProc()));
+    if (!actor)
+        return false;
+    const auto* param = actor->getParam()->getRes().mGParamList->getWeaponCommon();
+    return param && param->mIsPikohan.ref();
+}
+
+s32 getShieldMirrorLevel(const ActorConstDataAccess& accessor) {
+    auto* weapon = getWeaponOfAccessor(accessor);
+    if (!weapon)
+        return 0;
+    const auto* param = weapon->getParam()->getRes().mGParamList->getShield();
+    return param ? param->mMirrorLevel.ref() : 0;
+}
+
+}  // namespace ksys::act
+
+bool sub_71002EFC98(const ksys::act::ActorConstDataAccess& accessor) {
+    auto* actor = static_cast<ksys::act::Actor*>(ksys::act::acc::getProcIfActor(accessor.getProc()));
+    if (!actor)
+        return false;
+    const auto* param = actor->getParam()->getRes().mGParamList->getWeaponCommon();
+    return param && param->mIsBlunt.ref();
+}
+
+bool sub_71002EFE08(const ksys::act::ActorConstDataAccess& accessor) {
+    auto* actor = static_cast<ksys::act::Actor*>(ksys::act::acc::getProcIfActor(accessor.getProc()));
+    if (!actor)
+        return false;
+    const auto* param = actor->getParam()->getRes().mGParamList->getWeaponCommon();
+    return param && param->mIsWeakBreaker.ref();
+}
+
+bool sub_71002F0154(const ksys::act::ActorConstDataAccess& accessor) {
+    auto* weapon = getWeaponOfAccessor(accessor);
+    return weapon ? weapon->m153() : false;
+}
+
+s32 sub_71002F0258(const ksys::act::ActorConstDataAccess& accessor) {
+    auto* weapon = getWeaponOfAccessor(accessor);
+    return weapon ? weapon->_cf0 : -1;
+}
+
+bool sub_71002F0DE0(const ksys::act::ActorConstDataAccess& accessor) {
+    auto* weapon = getWeaponOfAccessor(accessor);
+    return weapon ? weapon->_1014 < 5 : false;
+}
+
+void sub_71002F1400(const ksys::act::ActorConstDataAccess& accessor, s32 value) {
+    if (auto* weapon = getWeaponOfAccessor(accessor))
+        weapon->_cec = value;
+}
+
+bool sub_71002F1000(const ksys::act::ActorConstDataAccess& accessor) {
+    auto* weapon = getWeaponOfAccessor(accessor);
+    return weapon ? weapon->m214() : false;
+}
+
+bool sub_71002F0EE0(const ksys::act::ActorConstDataAccess& accessor) {
+    auto* weapon = getWeaponOfAccessor(accessor);
+    return weapon ? weapon->isTrueFormMasterSword() : false;
+}
+
+s32 sub_71002F0CB4(const ksys::act::ActorConstDataAccess& accessor) {
+    auto* weapon = getWeaponOfAccessor(accessor);
+    return weapon ? weapon->getShieldGuardPower() : 0;
+}
+
+f32 sub_71002F0490(const ksys::act::ActorConstDataAccess& accessor) {
+    f32 result = 1.0f;
+    if (auto* weapon = getWeaponOfAccessor(accessor)) {
+        const f32 rate = weapon->getParam()->getRes().mGParamList->getBow()->mArrowReloadRate.ref();
+        f32 multiplier = 1.0f;
+        if (weapon->_f98.flags.isOn(uking::act::WeaponModifier::AddRapidFire))
+            multiplier = weapon->_f98.value / 1000.0f;
+        result = rate * (1.0f / multiplier);
+    }
+    return result;
+}
+
+// NON_MATCHING: the original selects `weapon + 0xf98` / null directly on the RTTI result (one csel), as in
+// acc::WeaponBase::getBindInfo; ours keeps the null test of the cast result
+uking::act::WeaponModifierInfo* sub_71002F05D8(const ksys::act::ActorConstDataAccess& accessor) {
+    auto* weapon = getWeaponOfAccessor(accessor);
+    return weapon ? &weapon->_f98 : nullptr;
+}
+
 bool actorCheckIsGuard(ksys::act::Actor* actor) {
     if (hasAttackInfo(actor))
         return getAttackInfo(actor, 0)->_18 & 1;

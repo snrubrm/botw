@@ -325,8 +325,9 @@ public:
     /* 0xbe0 */ sead::CriticalSection _be0;
     /* 0xc20 */ Unk_71002edaec _c20;
     /* 0xc4c */ bool _c4c = false;
-    /* 0xc4d */ u8 _c4d[0xcf0 - 0xc4d];  // TODO
-    /* 0xcf0 */ s32 _cf0 = 0;  // flags (BitFlag32; the sign bit is tested by AI helpers); sub_71005DBB60 returns it
+    /* 0xc4d */ u8 _c4d[0xcec - 0xc4d];  // TODO
+    /* 0xcec */ s32 _cec = -1;
+    /* 0xcf0 */ s32 _cf0 = -1;  // flags (BitFlag32; the sign bit is tested by AI helpers); sub_71005DBB60 returns it
     /* 0xcf4 */ u8 _cf4[0xd08 - 0xcf4];  // TODO
     /* 0xd08 */ u8 _d08;  // read by ChemicalWeaponRoot / DeadlyBlowWeaponRoot::m42 (lane1 request)
     /* 0xd09 */ bool _d09;
@@ -368,6 +369,8 @@ public:
     /* 0xfd8 */ bool _fd8;
     /* 0xfd9 */ u8 _fd9[0x1008 - 0xfd9];  // TODO
     /* 0x1008 */ ksys::act::Actor::Unk3 _1008;
+    /* 0x1010 */ u8 _1010[0x1014 - 0x1010];
+    /* 0x1014 */ u8 _1014;
 };
 
 }  // namespace uking::act
@@ -397,3 +400,28 @@ KSYS_CHECK_SIZE_NX150(Weapon, 0x18);
 // 0x71002edc68 / 0x71002edca8 (CSV names): guard bits of the actor's attack info zero, if present.
 bool actorCheckIsGuard(ksys::act::Actor* actor);
 bool actorCheckIsGuardJust(ksys::act::Actor* actor);
+
+// Accessor-based wrappers in the Weapon TU (0x71002efa84-0x71002f1400). They cast the accessor's proc to a
+// uking::act::Weapon (the default value without one) and read a GParam / member or forward to a virtual.
+// Placeholder names (sub_<ADDR>) where the CSV has none.
+namespace ksys::act {
+bool getWeaponCommonIsPikohan(const ActorConstDataAccess& accessor);
+s32 getShieldMirrorLevel(const ActorConstDataAccess& accessor);
+}  // namespace ksys::act
+// 0x71002efc98 / 0x71002efe08: WeaponCommon IsBlunt / IsWeakBreaker.
+bool sub_71002EFC98(const ksys::act::ActorConstDataAccess& accessor);
+bool sub_71002EFE08(const ksys::act::ActorConstDataAccess& accessor);
+// 0x71002f0154: Weapon::m153. 0x71002f0258: `_cf0` (the weapon type), -1 without a weapon.
+bool sub_71002F0154(const ksys::act::ActorConstDataAccess& accessor);
+s32 sub_71002F0258(const ksys::act::ActorConstDataAccess& accessor);
+// 0x71002f0de0: `_1014 < 5`. 0x71002f1400: `_cec = value`.
+bool sub_71002F0DE0(const ksys::act::ActorConstDataAccess& accessor);
+void sub_71002F1400(const ksys::act::ActorConstDataAccess& accessor, s32 value);
+// 0x71002f1000: Weapon::m214. 0x71002f0ee0: Weapon::isTrueFormMasterSword.
+bool sub_71002F1000(const ksys::act::ActorConstDataAccess& accessor);
+// 0x71002f0cb4: Weapon::getShieldGuardPower (0 without a weapon). 0x71002f0490: the Bow reload rate divided by the RapidFire modifier (1 without a weapon).
+// 0x71002f05d8: `&_f98` (the modifier info).
+s32 sub_71002F0CB4(const ksys::act::ActorConstDataAccess& accessor);
+f32 sub_71002F0490(const ksys::act::ActorConstDataAccess& accessor);
+uking::act::WeaponModifierInfo* sub_71002F05D8(const ksys::act::ActorConstDataAccess& accessor);
+bool sub_71002F0EE0(const ksys::act::ActorConstDataAccess& accessor);
