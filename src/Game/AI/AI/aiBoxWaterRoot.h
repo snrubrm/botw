@@ -1,6 +1,15 @@
 #pragma once
 
+#include <xlink2/xlink2HandleSLink.h>
 #include "KingSystem/ActorSystem/actAiAi.h"
+
+namespace aal {
+class ShapeCube;
+}
+
+namespace ksys::phys {
+class RigidBody;
+}
 
 namespace uking::ai {
 
@@ -16,8 +25,19 @@ public:
     void loadParams_() override;
 
 protected:
-    // FIXME: remove this
-    u8 pad_0x38[0x38];
+    void calc_() override;
+
+    // 0x710033d4c8 (declared only): applies the params to the water bodies and shapes.
+    void sub_710033D4C8();
+
+    // Created in init_: the cylinder water body (waterfall), the box body of the waterfall and the
+    // body of the part below it.
+    ksys::phys::RigidBody* _38{};
+    ksys::phys::RigidBody* _40{};
+    ksys::phys::RigidBody* _48{};
+    aal::ShapeCube* _50{};
+    aal::ShapeCube* _58{};
+    xlink2::HandleSLink _60{};
     // map_unit_param at offset 0x70
     const int* mWaterMaterial_m{};
     // map_unit_param at offset 0x78

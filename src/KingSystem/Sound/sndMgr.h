@@ -4,6 +4,10 @@
 #include <heap/seadDisposer.h>
 #include <prim/seadSafeString.h>
 
+namespace aal {
+class Shape;
+}
+
 namespace xlink2 {
 class HandleSLink;
 }
@@ -14,6 +18,25 @@ namespace ksys::snd {
 class UiSoundMgr {
 public:
     bool playSound(const sead::SafeString& label, xlink2::HandleSLink* handle);
+};
+
+// Placeholder name (SoundMgr::_38::_30). Holds the aal::SpeakerBalanceUnifier objects at +0x68 (count at +0x60,
+// guarded by a CriticalSection at +0x20); shapes are registered with the one picked by a size threshold.
+class SpeakerBalanceUnifierMgr {
+public:
+    // 0x7101027d4c (declared only): adds `shape` to the unifier chosen by `size` (3 thresholds).
+    void sub_7101027D4C(f32 size, aal::Shape* shape);
+    // 0x7101027e0c (declared only): removes `shape` from every unifier.
+    void sub_7101027E0C(aal::Shape* shape);
+    // 0x7101027e90 (declared only): emits the SLink sound for `type` (1 or 2) picked by `size` and
+    // attaches `shape` to its sound source.
+    xlink2::HandleSLink sub_7101027E90(f32 size, int type, aal::Shape* shape);
+};
+
+// Placeholder name (SoundMgr::_38).
+struct Unk_SoundMgr38 {
+    u8 _0[0x30];
+    SpeakerBalanceUnifierMgr* _30;
 };
 
 // Name from the CSV (snd::DuckingMgr::startDucking 0x7101042078; ctor 0x710103e404, init 0x710103e58c).
@@ -94,7 +117,8 @@ struct SoundMgr {
     virtual ~SoundMgr();
 
 public:
-    u8 _28[0x40 - 0x28];
+    u8 _28[0x38 - 0x28];
+    Unk_SoundMgr38* _38;
     /* 0x40 */ UiSoundMgr* mUiSoundMgr;
     /* 0x48 */ Unk_SoundMgr48* _48;
     u8 _50[0x58 - 0x50];
