@@ -8,8 +8,32 @@ namespace uking::action {
 
 PlayerWaterDivingJump::PlayerWaterDivingJump(const InitArg& arg) : PlayerAction(arg) {}
 
+// NON_MATCHING: scheduling of the two makeRIdx expansions (same operations; the original orders the sin / cos table
+// multiplies and the stores differently).
 void PlayerWaterDivingJump::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
+    static_cast<ksys::act::Player*>(mActor)->_cec.set(0x2);
+    static_cast<ksys::act::Player*>(mActor)->_cec.set(0x2000);
+    static_cast<ksys::act::Player*>(mActor)->_cf4.set(0x20000);
+    auto* player = static_cast<ksys::act::Player*>(mActor);
+    player->_1b6c.makeRIdx(0, player->_1c68.value, 0);
+    static_cast<ksys::act::Player*>(mActor)->_1b48.makeRIdx(0, 0, 0);
+    if (mActor->getASList()->x_1(0, 0) != "Jump") {
+        const f32* speed = mDiveSpeedF_s;
+        auto* p = static_cast<ksys::act::Player*>(mActor);
+        p->_20bc.value = *speed;
+        p->_20bc.prev_value = *speed;
+        if (auto* controller = mActor->getCharacterController()) {
+            controller->sub_7100F5EF08(true);
+            controller->sub_7100F62B70(*mDiveHeight_s);
+        }
+    }
+    static_cast<ksys::act::Player*>(mActor)->switchToAnimSequenceMaybe("WaterDiveJump", true, -1.0f);
+    static_cast<ksys::act::Player*>(mActor)->x_8(false, false);
+    if (auto* controller = mActor->getCharacterController()) {
+        static_cast<ksys::act::Player*>(mActor)->_1800 = controller->sub_7100F62CA0();
+        controller->sub_7100F62C14(1.0e7f);
+    }
 }
 
 void PlayerWaterDivingJump::leave_() {
