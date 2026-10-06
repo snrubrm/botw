@@ -34,7 +34,11 @@ struct Unk_7100716408 {
     // BackFlip::enter_ (value 15.0f)
     void reset(f32 value) {
         _88 = value;
-        _78 = value;
+        reset();
+    }
+    // LevelFlyMoveBase::enter_ (inline-only in the original; name is a guess): restarts from the current _88.
+    void reset() {
+        _78 = _88;
         _7c = 0;
         _80 = 0;
         _90.setUndef();

@@ -38,6 +38,11 @@ protected:
     virtual void m36(sead::Vector3f* dir) {}
     virtual void m37(sead::Vector3f* dir) {}
 
+    // 0x71001da0d0 (feeds the vibrate checker; inlined into calc_) / 0x71001da1a4 (1.6 KB, declared only): both live in
+    // this class' TU (the CSV had them under LevelFlyMove). WizzrobeVisibleWalk::calc_ calls them too.
+    void sub_71001DA0D0();
+    void sub_71001DA1A4();
+
     // static_param at offset 0x20
     const float* mXZSpeed_s{};
     // static_param at offset 0x28

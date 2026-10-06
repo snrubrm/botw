@@ -1,5 +1,4 @@
 #include "Game/AI/Action/actionLevelFlyMove.h"
-#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -25,13 +24,6 @@ void LevelFlyMove::loadParams_() {
 
 void LevelFlyMove::calc_() {
     LevelFlyMoveBase::calc_();
-}
-
-void LevelFlyMove::sub_71001DA0D0() {
-    if (*mVibrateMemoryStep_s > 0.0f && *mVibrateCheckFrame_s > 0.0f) {
-        if (auto* checker = sead::DynamicCast<Unk_71025b0578>(*_108._0))
-            checker->sub_7100716408(mActor->getMtx().getTranslation());
-    }
 }
 
 }  // namespace uking::action

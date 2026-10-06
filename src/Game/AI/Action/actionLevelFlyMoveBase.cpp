@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionLevelFlyMoveBase.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "Game/AI/aiUnk_710073fa90.h"
 #include "KingSystem/Utils/MathUtil.h"
 #include <math/seadMathCalcCommon.h>
 #include "KingSystem/ActorSystem/actActor.h"
@@ -15,8 +17,42 @@ bool LevelFlyMoveBase::init_(sead::Heap* heap) {
     return _108.acquire(heap, static_cast<Unk_71025afb58**>(mRefPosVibrateChecker_a));
 }
 
+// NON_MATCHING: the original keeps `dir` in registers until after the `< epsilon` select (one store before the
+// sub_71011EFAA4 call); ours keeps it in a stack slot (extra stores, integer-register copy of `ey`)
 void LevelFlyMoveBase::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    auto* actor = mActor;
+    auto* controller = actor->getCharacterController();
+    if (!controller) {
+        setFailed();
+        return;
+    }
+    mFlags.set(Flag::Changeable);
+    _110.changeMotionType(controller, ksys::act::MotionType::Hover);
+    if (m32())
+        setFinished();
+
+    sead::Vector3f dir = -controller->get70();
+    if (dir.normalize() < sead::Mathf::epsilon())
+        dir = sead::Vector3f::ey;
+    const f32 speed = sead::Vector2f(actor->getVelocity().x, actor->getVelocity().z).length();
+    _a8.value = _a8.prev_value = speed;
+    _b4.value = actor->getVelocity().y;
+    _b4.prev_value = actor->getVelocity().y;
+    _fc.value = _fc.prev_value = ksys::util::sub_71011EFAA4(actor->getAngVelocity(), dir);
+    sub_710073FA90(&_d8, actor);
+    _c0 = {0, 0, 1};
+    _cc = {0, 0, 1};
+
+    if (*mVibrateMemoryStep_s > 0.0f && *mVibrateCheckFrame_s > 0.0f) {
+        if (auto* checker = sead::DynamicCast<Unk_71025b0578>(*_108._0)) {
+            if (*mVibrateMemoryStep_s > 0.0f)
+                checker->_84 = *mVibrateMemoryStep_s;
+            if (*mVibrateCheckFrame_s > 0.0f)
+                checker->_88 = *mVibrateCheckFrame_s;
+            checker->reset();
+        }
+    }
+    _118.sub_71006F3DE8();
 }
 
 void LevelFlyMoveBase::leave_() {
@@ -48,7 +84,20 @@ void LevelFlyMoveBase::loadParams_() {
 }
 
 void LevelFlyMoveBase::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (isFinished() || isFailed())
+        return;
+    sub_71001DA0D0();
+    if (m32())
+        setFinished();
+    else
+        sub_71001DA1A4();
+}
+
+void LevelFlyMoveBase::sub_71001DA0D0() {
+    if (*mVibrateMemoryStep_s > 0.0f && *mVibrateCheckFrame_s > 0.0f) {
+        if (auto* checker = sead::DynamicCast<Unk_71025b0578>(*_108._0))
+            checker->sub_7100716408(mActor->getMtx().getTranslation());
+    }
 }
 
 bool LevelFlyMoveBase::m32() {
