@@ -1,5 +1,6 @@
 #include "Game/UI/uiUI.h"
 #include "Game/UI/uiScreens.h"
+#include "KingSystem/Sound/sndMgr.h"
 
 namespace uking::ui {
 
@@ -65,6 +66,100 @@ bool UI::sub_71010A5B0C(ksys::act::Actor* actor) {
 bool UI::sub_71010A5C68() {
     auto* dialog = getSomeMessageSpStuff();
     return dialog && dialog->_350 == 10;
+}
+
+// 0x71010a5bc8
+bool UI::sub_71010A5BC8() {
+    auto* screen = eui::ScreenMgr::instance()->getScreen(ScreenId::DemoMessage);
+    return screen && !screen->isClosed();
+}
+
+// 0x71010a5c18
+bool UI::sub_71010A5C18() {
+    auto* screen = eui::ScreenMgr::instance()->getScreen(ScreenId::MessageTips);
+    return screen && !screen->isClosed();
+}
+
+// 0x71010a5c8c
+void UI::sub_71010A5C8C() {
+    if (auto* dialog = getSomeMessageSpStuff())
+        dialog->sub_71010B343C();
+}
+
+// 0x71010a6b98
+// NON_MATCHING: the original compares `actor` against `_30` as `cmp actor, _30`, ours has the operands swapped
+void UI::sub_71010A6B98(ksys::act::Actor* actor) {
+    if (!actor || !_30 || _30 == actor) {
+        if (auto* dialog = getSomeMessageSpStuff()) {
+            dialog->close(-1);
+            ksys::snd::SoundMgr::instance()->_48->sub_7101055B44();
+        }
+    }
+}
+
+// 0x71010a6bec
+void UI::sub_71010A6BEC(ksys::act::Actor* actor, bool flag) {
+    auto* screen = sead::DynamicCast<ScreenMessage3D>(
+        eui::ScreenMgr::instance()->getScreen(ScreenId::Message3D));
+    if (screen) {
+        screen->sub_71010AE548(actor, flag);
+        ksys::snd::SoundMgr::instance()->_48->sub_7101055B44();
+    }
+}
+
+// 0x71010a6d84
+void UI::sub_71010A6D84() {
+    auto* screen = sead::DynamicCast<ScreenDemoMessage>(
+        eui::ScreenMgr::instance()->getScreen(ScreenId::DemoMessage));
+    if (screen) {
+        screen->sub_710109E96C();
+        screen->close(-1);
+    }
+}
+
+// 0x71010a6f40
+void UI::sub_71010A6F40() {
+    if (_a4 == 2) {
+        auto* screen = sead::DynamicCast<ScreenErrorViewer>(
+            eui::ScreenMgr::instance()->getScreen(ScreenId::ErrorViewer));
+        if (screen)
+            screen->close(-1);
+    }
+}
+
+// 0x71010a7008
+bool UI::sub_71010A7008() {
+    return u32(_a4 - 3) < 5;
+}
+
+// 0x71010a701c
+void UI::sub_71010A701C() {
+    if (u32(_a4 - 3) <= 4)
+        _a4 = 0;
+}
+
+// 0x71010a7034
+void UI::sub_71010A7034() {
+    auto* screen = sead::DynamicCast<ScreenDemoMessage>(
+        eui::ScreenMgr::instance()->getScreen(ScreenId::DemoMessage));
+    if (screen)
+        screen->sub_710109E94C();
+}
+
+// 0x71010a7118
+void UI::setPlacedItemStockNum(bool choice_mode, s32 stock) {
+    const s32 num = (choice_mode && stock < 1) ? 1 : stock;
+    mChoiceMode = choice_mode;
+    mStockNum = num;
+    if (auto* dialog = getSomeMessageSpStuff())
+        dialog->sub_71010B34B4(choice_mode, num);
+}
+
+// 0x71010a7168
+// NON_MATCHING: the two address computations (this + 0x9c / dialog + 0x73c) are emitted in the other order
+s32 UI::getTradeItemNum() {
+    auto* dialog = getSomeMessageSpStuff();
+    return dialog == nullptr ? _9c : dialog->_73c;
 }
 
 // 0x71010a70e4

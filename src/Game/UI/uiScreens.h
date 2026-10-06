@@ -633,6 +633,8 @@ public:
     ~ScreenMessage3D() override;
     SEAD_RTTI_OVERRIDE(ScreenMessage3D, Screen)
     void sub_71010AE7C0(bool flag);
+    // 0x71010ae548 (CSV unnamed, declared only): called by UI::sub_71010A6BEC.
+    void sub_71010AE548(ksys::act::Actor* actor, bool flag);
     // 0x71010ae9e8 (CSV unnamed, declared only): called by UI::sub_71010A5B0C with the actor.
     bool sub_71010AE9E8(ksys::act::Actor* actor);
 };
@@ -648,6 +650,29 @@ public:
     /* 0x350 */ s32 _350;
     u8 _354[0x5ec - 0x354];
     /* 0x5ec */ s32 _5ec;
+    u8 _5f0[0x73c - 0x5f0];
+    /* 0x73c */ s32 _73c;
+
+    // 0x71010b343c / 0x71010b34b4 (CSV unnamed, declared only): called by UI::sub_71010A5C8C / setPlacedItemStockNum.
+    void sub_71010B343C();
+    void sub_71010B34B4(bool choice_mode, s32 stock);
+};
+
+// Nominal types of two more screens (ScreenId::DemoMessage, ScreenId::ErrorViewer).
+class ScreenDemoMessage : public Screen {
+public:
+    ~ScreenDemoMessage() override;
+    SEAD_RTTI_OVERRIDE(ScreenDemoMessage, Screen)
+
+    // 0x710109e94c / 0x710109e96c (CSV unnamed, declared only): called by UI::sub_71010A7034 / sub_71010A6D84.
+    void sub_710109E94C();
+    void sub_710109E96C();
+};
+
+class ScreenErrorViewer : public Screen {
+public:
+    ~ScreenErrorViewer() override;
+    SEAD_RTTI_OVERRIDE(ScreenErrorViewer, Screen)
 };
 
 // Only the nominal type and the three state words checked by UI::sub_71010A5CFC / sub_71010A5DB0 / sub_71010A5E64

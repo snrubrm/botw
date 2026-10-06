@@ -64,10 +64,34 @@ public:
     bool sub_71010A6454(const sead::SafeString& message_set, const sead::SafeString& label,
                         ksys::act::Actor* actor, f32 time, bool flag);
 
-    // The layout is mostly unmodelled (size 0xb0).
-    u8 _20[0x98 - 0x20];
+    // 0x71010a5bc8 / 0x71010a5c18 (CSV UI::__auto6): whether the DemoMessage / MessageTips screen exists and is open.
+    bool sub_71010A5BC8();
+    bool sub_71010A5C18();
+    // 0x71010a5c8c: forwards to the message dialog screen (if any).
+    void sub_71010A5C8C();
+    // 0x71010a6d84 / 0x71010a7034: the DemoMessage screen's close (with its first helper) / other helper.
+    void sub_71010A6D84();
+    void sub_71010A7034();
+    // 0x71010a6f40 (CSV UI::__auto4): closes the ErrorViewer screen while _a4 is 2.
+    void sub_71010A6F40();
+    // 0x71010a7008 / 0x71010a701c (CSV UI::__auto3 / __auto5): _a4 in [3, 8) (reset to 0).
+    bool sub_71010A7008();
+    void sub_71010A701C();
+    // 0x71010a7168 (CSV UI::getTradeItemNum).
+    s32 getTradeItemNum();
+
+    // The layout is mostly unmodelled (size 0xb0; the original has a vtable at 0 and the singleton disposer at 8).
+    u8 _20[0x28 - 0x20];
+    /* 0x28 */ u8 _28;
+    /* 0x29 */ bool mChoiceMode;
+    u8 _2a[0x30 - 0x2a];
+    /* 0x30 */ ksys::act::Actor* _30;
+    u8 _38[0x98 - 0x38];
     /* 0x98 */ s32 _98;
-    u8 _9c[0xb0 - 0x9c];
+    /* 0x9c */ s32 _9c;
+    /* 0xa0 */ s32 mStockNum;
+    /* 0xa4 */ s32 _a4;
+    u8 _a8[0xb0 - 0xa8];
 };
 static_assert(sizeof(UI) == 0xb0);
 

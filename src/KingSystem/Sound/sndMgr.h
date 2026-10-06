@@ -33,6 +33,13 @@ public:
     Ducker* sub_7101042024(int idx);
 };
 
+// Placeholder name (SoundMgr::_48; the object has an aal::Handle at +0x18). Used by the UI message screens.
+class Unk_SoundMgr48 {
+public:
+    // 0x7101055b44 (declared only; CSV unnamed)
+    void sub_7101055B44();
+};
+
 // Placeholder name (ctor 0x710103b704; SoundMgr::_98): starts / stops the two custom duckers (indices 0x30 / 0x31
 // of the DuckingMgr). Used by CustomDuckingStartAction / CustomDuckingEndAction.
 class Unk_710103b704 {
@@ -89,7 +96,8 @@ struct SoundMgr {
 public:
     u8 _28[0x40 - 0x28];
     /* 0x40 */ UiSoundMgr* mUiSoundMgr;
-    u8 _48[0x58 - 0x48];
+    /* 0x48 */ Unk_SoundMgr48* _48;
+    u8 _50[0x58 - 0x50];
     ListenerPoser* _58;
     u8 _60[0x80 - 0x60];
     /* 0x80 */ DuckingMgr* mDuckingMgr;
