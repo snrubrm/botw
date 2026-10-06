@@ -28,7 +28,21 @@ bool SystemHide::init_(sead::Heap* heap) {
 }
 
 void SystemHide::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    sub_7100290438();
+    mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_1);
+    if (*mIsOnAttention_s) {
+        ksys::act::disableAttClient(mActor, "LockOn");
+        ksys::act::disableAttClient(mActor, "AutoAim");
+    }
+    if (!mASName_s.isEmpty())
+        playAS(mASName_s.cstr(), false, 0, 0, -1.0f);
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
+        _38 = enemy->_e90;
+        enemy->_e90 = 1;
+    }
+    if (auto* awareness = mActor->get548())
+        awareness->_18._50 = true;
+    mFlags.set(Flag::Changeable);
 }
 
 void SystemHide::sub_7100290438() {
