@@ -42,6 +42,31 @@ bool PlayerLookAtObject::oneShot_() {
     return true;
 }
 
+void PlayerLookAtObject::m37(ksys::act::BaseProcLink* link, const sead::Vector3f* pos) {
+    switch (_30) {
+    case 0:
+        if (link)
+            static_cast<ksys::act::Player*>(mActor)->sub_7100859EDC(_45, 1, &_68, link,
+                                                                   &sead::Vector3f::zero);
+        else
+            static_cast<ksys::act::Player*>(mActor)->sub_7100859EDC(_45, 2, &sead::Vector3f::zero,
+                                                                   nullptr, pos);
+        break;
+    case 1:
+        static_cast<ksys::act::Player*>(mActor)->sub_7100859EDC(_45, 2, &sead::Vector3f::zero,
+                                                               nullptr, pos);
+        break;
+    case 2:
+        static_cast<ksys::act::Player*>(mActor)->sub_7100859EDC(_45, 3, &sead::Vector3f::zero,
+                                                               nullptr, pos);
+        break;
+    case 3:
+        static_cast<ksys::act::Player*>(mActor)->sub_7100859EDC(_45, 1, &_68, link,
+                                                               &sead::Vector3f::zero);
+        break;
+    }
+}
+
 void PlayerLookAtObject::m38() {
     if (static_cast<ksys::act::Player*>(mActor)->_ea8.hasProc())
         static_cast<ksys::act::Player*>(mActor)->sub_7100859EDC(

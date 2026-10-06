@@ -17,6 +17,7 @@ public:
     bool oneShot_() override;
 
 protected:
+    void m37(ksys::act::BaseProcLink* link, const sead::Vector3f* pos) override;
     void m38() override;
 };
 

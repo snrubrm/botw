@@ -29,7 +29,7 @@ protected:
     virtual bool m35(ksys::act::BaseProcLink* link, sead::Vector3f* pos, const sead::SafeString& name1,
                      const sead::SafeString& name2);
     virtual void m36(const ksys::act::BaseProcLink* link, const sead::Vector3f& pos);
-    virtual void m37() {}
+    virtual void m37(ksys::act::BaseProcLink* link, const sead::Vector3f* pos) {}
     virtual void m38() {}
     virtual sead::Vector3f* m39() { return mTurnPosition_d; }
 
