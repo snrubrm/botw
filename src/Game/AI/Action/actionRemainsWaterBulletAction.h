@@ -22,6 +22,9 @@ protected:
     virtual void m33();
     virtual void m34();
 
+    // 0x7100230304 (placeholder name): how much of the sign animation is left (1 without one).
+    f32 sub_7100230304();
+
     // static_param at offset 0x20
     const int* mSignASFrame_s{};
     // static_param at offset 0x28
