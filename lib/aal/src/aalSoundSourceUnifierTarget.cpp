@@ -9,9 +9,11 @@
 
 namespace aal {
 
-// NON_MATCHING: the two stores of the trailing members come after the list initialization in the original.
+// NON_MATCHING: the original stores the name's terminator right after its vtable pointer and only then initializes the
+// list; the two stores of the trailing members (_70.first, mSoundGroup) come after the list link stores there.
 // 0x7100b8efc8
-SoundSourceUnifierTarget::SoundSourceUnifierTarget() : mUnifier(nullptr), _70{}, _78(nullptr) {
+SoundSourceUnifierTarget::SoundSourceUnifierTarget() : mUnifier(nullptr), mSoundGroup(nullptr) {
+    mName.clear();
     mSources.initOffset(offsetof(SoundSourceUnifierSource, mTargetListNode));
 }
 
@@ -29,13 +31,13 @@ void SoundSourceUnifierTarget::finalize() {
     mSources.clear();
     mName.clear();
     _70.first = 0;
-    _78 = nullptr;
+    mSoundGroup = nullptr;
 }
 
 // 0x7100b8f110
 void SoundSourceUnifierTarget::initialize(const SoundSourceUnifierCondition& condition) {
     mName.copy(condition.name);
-    _78 = condition._60;
+    mSoundGroup = condition.sound_group;
     const sead::SafeString& name = mName;
     _70 = condition._58;
     mUnifier = SystemAccessor::getSpeakerBalanceUnifierMgr()->allocSpeakerBalanceUnifier(name, nullptr);

@@ -1,6 +1,8 @@
 #include "aal/aalSoundSourceUnifier.h"
 #include <prim/seadScopedLock.h>
+#include "aal/aalArbiter.h"
 #include "aal/aalSoundSource.h"
+#include "aal/aalSystemAccessor.h"
 
 namespace aal {
 
@@ -35,6 +37,68 @@ void SoundSourceUnifier::finalize() {
         mTargets.freeBuffer();
         mInitialized = false;
     }
+}
+
+// NON_MATCHING: same code except for the search of the target: the original loop keeps a status word (0 / 4: keep
+// searching, 1: found, 2: end of the list) and selects the found target with a csel instead of leaving the loop, and it
+// keeps the list node of the new source / target in a register for the failure path.
+// 0x7100b8e604
+SoundSourceUnifierSource* SoundSourceUnifier::allocSource(SoundSource* sound_source) {
+    if (!mInitialized)
+        return nullptr;
+
+    sead::ScopedLock<sead::CriticalSection> lock(&mCS);
+    SoundSourceUnifierSource* source = mSources.emplaceBack();
+    if (!source)
+        return nullptr;
+
+    source->initialize(sound_source);
+
+    SoundSourceUnifierCondition condition;
+    if (sound_source->getAssetName())
+        condition.name.copy(sound_source->getAssetName());
+    condition.sound_group = sound_source->mSoundGroup;
+    condition._58.first = sound_source->isLooped() ? 0 : SystemAccessor::getArbiter()->get_8();
+
+    SoundSourceUnifierTarget* target = nullptr;
+    for (SoundSourceUnifierTarget& t : mTargets) {
+        if (t.mName.isEqual(condition.name) && t._70.first == condition._58.first &&
+            t.mSoundGroup == condition.sound_group) {
+            if (t.mSources.size() != 0) {
+                target = &t;
+                break;
+            }
+        }
+    }
+
+    if (!target) {
+        target = mTargets.emplaceBack();
+        if (!target)
+            return nullptr;
+
+        target->initialize(condition);
+
+        SoundSource::SetupInfo setup;
+        setup.sound_group = sound_source->mSoundGroup;
+        setup._8 = nullptr;
+        setup.prepare_flags = sound_source->mPrepareFlags;
+        // volatile: the original stores the result to the stack, reloads it for the comparison and reads it once more
+        // (an unused load) on the failure path.
+        volatile StartResult result = target->startSound(*sound_source->getAssetInfo(), &setup);
+        if (result > StartResult::Success) {
+            (void)result;
+            target->finalize();
+            mTargets.erase(target);
+            source->finalize();
+            mSources.erase(source);
+            return nullptr;
+        }
+        target->setParamsFromSoundSourceFirst(sound_source);
+    }
+
+    target->addSource(source);
+    source->mTarget = target;
+    return source;
 }
 
 // 0x7100b8ea64

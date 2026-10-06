@@ -37,9 +37,13 @@ public:
 
     SpatialCalculatorPool* getSpatialCalculatorPool() const { return mSpatialCalculatorPool; }
     SpatialPlayingParamPool* getSpatialPlayingParamPool() const { return mSpatialPlayingParamPool; }
+    /// Zero-initialized by the constructor; SoundSourceUnifier::allocSource puts it into the condition of non-looped sounds.
+    s32 get_8() const { return _8; }
 
 private:
-    u8 _0[0x10];
+    u8 _0[8];
+    s32 _8;
+    u8 _c[4];
     sead::OffsetList<Emitter> mActiveEmitters;
     u8 _28[0x50 - 0x28];
     sead::OffsetList<SoundSource> mSoundSources;

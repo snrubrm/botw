@@ -33,8 +33,12 @@ class SoundSourceUnifierSource;
 /// ends with a zeroed 0x50-byte block at 0x1a0, right after the spatial setting.
 class SoundSource {
 public:
-    /// The information a sound is set up with. TODO: not decompiled yet.
-    struct SetupInfo;
+    /// The information a sound is set up with. TODO: incomplete (only what SoundSourceUnifier::allocSource fills in).
+    struct SetupInfo {
+        SoundGroup* sound_group;
+        void* _8;
+        u16 prepare_flags;
+    };
 
     SoundSource();
     virtual ~SoundSource();

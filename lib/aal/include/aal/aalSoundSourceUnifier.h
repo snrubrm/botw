@@ -19,24 +19,32 @@ class Heap;
 namespace aal {
 
 class AssetInfo;
+class SoundGroup;
 class SoundSourceUnifierTarget;
 class SpeakerBalanceUnifier;
 
-/// What the sounds have to have in common to be unified.
-/// TODO: incomplete (only the members that SoundSourceUnifierTarget::initialize reads are modeled).
+/// What the sounds have to have in common to be unified (SoundSourceUnifier::allocSource builds it on the stack from the
+/// sound source and compares it with the condition of every target).
 struct SoundSourceUnifierCondition {
-    /// Purpose unknown (copied as a whole by the target).
+    /// Purpose unknown (copied as a whole by the target). Only `first` is ever initialized (the constructors of the
+    /// condition and of the target store just the first word).
     struct Pair {
-        s32 first;
+        s32 first = 0;
         s32 second;
     };
 
-    /// The name of the speaker balance unifier.
-    sead::SafeString name;
-    u8 _10[0x58 - 0x10];
+    /// The name of the asset; the speaker balance unifier of the target is named after it.
+    SoundSourceUnifierCondition() {
+        name.clear();
+        _58.first = 0;
+        sound_group = nullptr;
+    }
+
+    sead::FixedSafeString<64> name;
     Pair _58;
-    void* _60;
+    SoundGroup* sound_group;
 };
+static_assert(sizeof(SoundSourceUnifierCondition) == 0x68, "aal::SoundSourceUnifierCondition size mismatch");
 
 /// The part of a unified (merged) group of sounds that belongs to one SoundSource: the position of the sound source
 /// (its own or, when it follows a shape, the shape's) that is unified in the target.
@@ -94,7 +102,7 @@ private:
     Handle mHandle;
     sead::FixedSafeString<64> mName;
     SoundSourceUnifierCondition::Pair _70;
-    void* _78;
+    SoundGroup* mSoundGroup;
     sead::OffsetList<SoundSourceUnifierSource> mSources;
 };
 static_assert(sizeof(SoundSourceUnifierTarget) == 0x98, "aal::SoundSourceUnifierTarget size mismatch");
@@ -113,7 +121,7 @@ public:
 
     void initialize(const InitializeArg& arg, sead::Heap* heap);
     void finalize();
-    /// 0x7100b8e604 (declared only)
+    /// Returns nullptr if there is no room left for the source or its target.
     SoundSourceUnifierSource* allocSource(SoundSource* sound_source);
     /// A negative fade time stops the target immediately.
     void freeSource(SoundSourceUnifierSource* source, f32 fade_time);
