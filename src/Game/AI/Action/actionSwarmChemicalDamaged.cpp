@@ -1,6 +1,9 @@
 #include "Game/AI/Action/actionSwarmChemicalDamaged.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/Actor/actUnk_71025ae680.h"
+#include "KingSystem/ActorSystem/Profiles/actDynamicActor.h"
+#include "KingSystem/ActorSystem/actActor.h"
 #include "Game/Damage/dmgDamageManager.h"
 
 namespace uking::action {
@@ -50,6 +53,19 @@ void SwarmChemicalDamaged::m34(dmg::DamageManager* mgr, sead::Vector3f* pos, sea
     else
         mgr->getPosition(pos);
     sub_71005E2318(dir, mActor, mgr);
+}
+
+// NON_MATCHING: the original loads `_1d4` into w1 before the `mIsResetAllObject` test and `_1d8` after it.
+void SwarmChemicalDamaged::sub_71002831E4() {
+    if (_1d0) {
+        _1d0 = false;
+        if (auto* unk = sead::DynamicCast<act::Unk_71025ae680>(static_cast<ksys::act::DynamicActor*>(mActor)->m159())) {
+            if (*mIsResetAllObject_s)
+                unk->sub_71006EF05C();
+            else
+                unk->sub_71006EEFB4(_1d4, _1d8);
+        }
+    }
 }
 
 }  // namespace uking::action

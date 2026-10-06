@@ -45,6 +45,11 @@ public:
     // then m11(enable), then updates the bit (behavior Invincible).
     void sub_71006DFA04(bool enable);
 
+    // 0x71006ef05c / 0x71006eefb4 (declared only, lane5 s6; 0x71006ef05c resets everything, 0x71006eefb4 resets the
+    // range [a, b]): called by SwarmChemicalDamaged::sub_71002831E4.
+    void sub_71006EF05C();
+    void sub_71006EEFB4(s32 a, s32 b);
+
     // 0x71006df5a4: resolves the actor damage resource.
     ksys::res::DamageParam* sub_71006DF5A4();
 
