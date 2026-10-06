@@ -19,4 +19,13 @@ int GuardianMiniGuardBreak::m33() {
 
 void GuardianMiniGuardBreak::m34() {}
 
+void GuardianMiniGuardBreak::m32() {
+    for (int i = 0; i < 4; ++i) {
+        if (i == 0 || *mASSlot_s == i)
+            playAS(mGuardBreakASName_s.cstr(), false, i, 0, -1.0f);
+        else
+            playAS(mOtherASName_s.cstr(), true, i, 0, -1.0f);
+    }
+}
+
 }  // namespace uking::action
