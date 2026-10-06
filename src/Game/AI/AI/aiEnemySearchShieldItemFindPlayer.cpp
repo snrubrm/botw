@@ -92,6 +92,22 @@ ksys::act::BaseProcLink* EnemySearchShieldItemFindPlayer::sub_71003BB3A4() {
     return result;
 }
 
+// 0x71003baa9c
+bool EnemySearchShieldItemFindPlayer::sub_71003BAA9C(ksys::act::BaseProcLink* out) {
+    auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
+    if (enemy && !enemy->sub_7100016284(*mParams.mShieldIdx_s) &&
+        !enemy->sub_71000161A4(*mParams.mShieldIdx_s)) {
+        auto* weapon = sead::DynamicCast<act::Weapon>(
+            enemy->_c38[*mParams.mShieldIdx_s].getProc(nullptr, nullptr));
+        if (sead::IsDerivedFrom<act::Weapon>(weapon) && !weapon->sub_71002E9A50()) {
+            if (out)
+                *out = enemy->_c38[*mParams.mShieldIdx_s];
+            return true;
+        }
+    }
+    return false;
+}
+
 // 0x71003ba99c
 bool EnemySearchShieldItemFindPlayer::sub_71003BA99C() {
     auto* link = sub_71003BB3A4();

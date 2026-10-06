@@ -195,6 +195,10 @@ public:
     // 0x7100018a9c: declaration-only start timer update for this Enemy and its linked weapons.
     void sub_7100018A9C(f32 time);
     bool sub_71000198E4(ksys::act::Actor* actor);
+    // 0x7100016284 / 0x71000161a4 (declaration only, lane1 s39; placeholder names): queries on the weapon slot
+    // `idx` (the second calls the first and checks the held weapon).
+    bool sub_7100016284(s32 idx);
+    bool sub_71000161A4(s32 idx);
     void sub_7100019C58(ksys::act::Actor* actor);
     void sub_7100019D38(const ksys::act::BaseProcLink& link);
 
