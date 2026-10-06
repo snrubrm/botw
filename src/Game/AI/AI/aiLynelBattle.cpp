@@ -11,6 +11,7 @@
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/ActorSystem/actAiRoot.h"
 
 namespace uking::ai {
 
@@ -26,8 +27,38 @@ bool LynelBattle::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
 }
 
+// NON_MATCHING: register numbering of the normalization of the forward axis (the reciprocal and the zero swap
+// registers).
 void LynelBattle::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (!testRootAiFlag2(ksys::act::ai::RootAiFlag2::_0) &&
+        !testRootAiFlag2(ksys::act::ai::RootAiFlag2::_4) &&
+        !testRootAiFlag2(ksys::act::ai::RootAiFlag2::_1)) {
+        _d8 = 0;
+    }
+    if (*mBreathStartLifeRate_s >= 1.0f)
+        *mLynelAIFlags_a |= 4;
+    if (sub_710048D794())
+        return;
+
+    const sead::Vector3f position = mActor->getMtx().getTranslation();
+    const sead::Vector3f& target_pos = sub_71005D9330(mActor);
+    const f32 dist = sead::Vector2f(position.x - target_pos.x, position.z - target_pos.z).length();
+    if (dist <= *mCloseBattleStartDist_s + sub_71007320F0(mActor, *mWeaponIdx_s)) {
+        const sead::Vector3f actor_pos = mActor->getMtx().getTranslation();
+        const sead::Vector3f target_now = sub_71005D9330(mActor);
+        sead::Vector3f to_target(target_now.x - actor_pos.x, 0.0f, target_now.z - actor_pos.z);
+        to_target.normalize();
+        sead::Vector3f forward;
+        mActor->getMtx().getBase(forward, 2);
+        forward.y = 0;
+        forward.normalize();
+        if (to_target.dot(forward) >= sead::Mathf::cos(*mCloseBattleStartAngle_s) &&
+            (*mCloseBattleRepeatMax_s < 1 || _d8 < *mCloseBattleRepeatMax_s)) {
+            changeToMeleeBattle();
+            return;
+        }
+    }
+    m34(false);
 }
 
 void LynelBattle::leave_() {

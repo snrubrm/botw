@@ -1,5 +1,6 @@
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include <limits>
+#include <prim/seadBitFlag.h>
 #include <gsys/gsysModelNW.h>
 #include "KingSystem/ActorSystem/AS/asElement.h"
 #include "KingSystem/Resource/Actor/resResourceModelList.h"
@@ -8,6 +9,8 @@
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/Resource/Actor/resResourceAS.h"
+#include "KingSystem/Resource/Actor/resResourceASResource.h"
 
 
 namespace ksys::as {
@@ -766,6 +769,38 @@ f32 ASList::sub_710115FA78() {
         return 0.0f;
     const sead::Vector3f& vec = (chemical->_c & 0x1000000) ? sead::Vector3f::zero : chemical->_e4;
     return sead::Mathf::sqrt(vec.x * vec.x + vec.y * vec.y + vec.z * vec.z);
+}
+
+// NON_MATCHING: register numbering (the original keeps the typeinfo static in x24 and the resource in x23) and the
+// children loop uses a 64-bit zero-extended index / size compare (ours: 32-bit).
+void ASList::sub_710115E218(u32* mask, const res::AS* as, u32 index) {
+    for (;;) {
+        const res::ASResource* resource = as->getElementResources()[index];
+        auto* selector = sead::DynamicCast<const res::ASResourceWithChildren>(resource);
+        if (index < 0x200)
+            mask[index >> 5] |= 1u << (index & 0x1f);
+        if (!selector)
+            return;
+        const s32 value = IntSelector::getValue(_d8, selector);
+        const auto& children = selector->getChildren();
+        const s32 count = children.size();
+        if (value < 0) {
+            if (count > 0) {
+                sub_710115E218(mask, as, children[0]->getIndex());
+                for (u32 i = 1; i < u32(count); ++i)
+                    sub_710115E218(mask, as, children[i]->getIndex());
+            }
+            return;
+        }
+        index = children[value]->getIndex();
+    }
+}
+
+s32 sub_710115E3A0(const u32* mask) {
+    s32 count = 0;
+    for (s32 i = 0; i < 16; ++i)
+        count += sead::BitFlagUtil::countOnBit(mask[i]);
+    return count;
 }
 
 }  // namespace ksys::as

@@ -9,6 +9,7 @@
 #include "KingSystem/Resource/resResourceASSetting.h"
 namespace ksys::res {
 class ModelList;
+class AS;
 class ASResource;
 }
 namespace gsys {
@@ -303,6 +304,10 @@ public:
     // 0x710115d2d4: the anim-driven translation of this frame (_68), accumulated over all slots on the
     // first call (bit 0 of _163; _74 is accumulated alongside). ~36 anim-driven move actions use it.
     const sead::Vector3f& sub_710115D2D4();
+    // 0x710115e218 (placeholder name): sets the bit of every element resource of `as` that can play from the
+    // element `index` on: follows the selectors' current values (all children for a negative value) into `mask`
+    // (512 bits; see sub_710115E3A0).
+    void sub_710115E218(u32* mask, const res::AS* as, u32 index);
     // 0x710115d3b8: the same, returning _74 (~40 callers).
     const sead::Vector3f& sub_710115D3B8();
     // 0x710115baf8: sets the bone name _18 and looks it up in the model (_14; invalid if empty).
@@ -473,6 +478,10 @@ bool sub_7101259D04(Context* ctx, ASList::EventQueryResults* query, u32 type, u1
 // code of the slot entries): the constants 1 / 0.99 and 1 / 0.01.
 f32 sub_710125E644();
 f32 sub_710125E650();
+
+// 0x710115e3a0 (placeholder name; lane1 s44): the number of set bits of a 512-bit mask (16 words) such as the
+// stack masks that the slot-chain walker 0x710115e218 fills.
+s32 sub_710115E3A0(const u32* mask);
 
 // 0x7102620bb0 (GOT 0x25a15c8): the ASList that Actor::mASList is compared with before use (Actor::m120 /
 // m121, job0_2, job2_1, ...): a placeholder / null list. Name is a guess.
