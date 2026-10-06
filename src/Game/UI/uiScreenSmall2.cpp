@@ -749,4 +749,37 @@ void ScreenMessageGet::m99() {
     }
 }
 
+// 0x7100a32228
+void ScreenPauseMenuMantan::m94() {
+    if ((mButtonGroup->_38 & 2) && (_292 & 0x40) && sub_71010AA9D0() && mUIController &&
+        mUIController->isTrig(2)) {
+        sub_71010AA894();
+        if (auto* button = mButtonGroup->FindButtonByTag(137))
+            button->Down();
+        else
+            close(-1);
+    }
+}
+
+// 0x7100a2c1ec
+void ScreenPauseMenuEiketsu::m94() {
+    if ((mButtonGroup->_38 & 2) && (_292 & 0x40) && sub_71010AA9D0() && mUIController &&
+        mUIController->isTrig(2)) {
+        if (auto* button = sub_7100A480B4("Pa_Btn_00"))
+            button->Down();
+    }
+}
+
+// 0x71009fc77c
+void ScreenAppSystemWindow::m94() {
+    if ((mButtonGroup->_38 & 2) && isOpened() && (_292 & 0x40) && sub_71010AA9D0() && mUIController &&
+        mUIController->isTrig(2)) {
+        sub_71010AA894();
+        if (_3638)
+            _3638->DownOff(false);
+        else
+            close(-1);
+    }
+}
+
 }  // namespace uking::ui

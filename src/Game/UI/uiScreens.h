@@ -215,6 +215,8 @@ public:
     s32 sub_71010AA868(s32 group) const;
     void sub_71010AA8D0();
     void sub_71010AA910();
+    // 0x71010aa894 (declared only; 19 callers)
+    void sub_71010AA894();
     // 0x71010aa9d0 (placeholder name; 107 callers): `DynamicCast<ksys::SeadController>(mUIController->getController())`
     ksys::SeadController* sub_71010AA9D0();
 
@@ -1976,6 +1978,7 @@ public:
     ~ScreenPauseMenuMantan() override;
     SEAD_RTTI_OVERRIDE(ScreenPauseMenuMantan, ScreenEx)
     void m93(sead::Heap* heap) override;
+    void m94() override;
     void m98() override;
     void m107(eui::AnimButton* button) override;
 
@@ -1997,6 +2000,7 @@ public:
     ~ScreenPauseMenuEiketsu() override;
     SEAD_RTTI_OVERRIDE(ScreenPauseMenuEiketsu, ScreenEx)
     void m93(sead::Heap* heap) override;
+    void m94() override;
     void m101() override;
     void m99() override;
     void m106(eui::AnimButton* button) override;
@@ -2014,6 +2018,7 @@ public:
     ~ScreenAppSystemWindow() override;
     SEAD_RTTI_OVERRIDE(ScreenAppSystemWindow, ScreenEx)
     void m99() override;
+    void m94() override;
     void m101() override;
     void m106(eui::AnimButton* button) override;
 
@@ -2023,7 +2028,7 @@ public:
     u64 _3620{};
     u64 _3628{};
     u64 _3630{};
-    u64 _3638{};
+    eui::AnimButton* _3638{};
     u64 _3640{};
     u64 _3648{};
     // own virtual slots (state callbacks; groups of four: void, void, void, s32 -- the types are guesses from the trivial ones)
