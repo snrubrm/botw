@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionShutterOpenWait.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace uking::action {
 
@@ -38,7 +40,14 @@ void ShutterOpenWait::loadParams_() {
 }
 
 void ShutterOpenWait::calc_() {
-    ActionEx::calc_();
+    if (auto* body = mActor->getMainBody()) {
+        sead::Matrix34f mtx;
+        mActor->getHomeMtx(&mtx);
+        sead::Matrix34f offset;
+        offset.makeT(_40 * *mMoveDis_m);
+        mtx.setMul(mtx, offset);
+        body->changePositionAndRotation(mtx, sead::Mathf::epsilon());
+    }
 }
 
 }  // namespace uking::action
