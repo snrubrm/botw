@@ -1273,6 +1273,23 @@ bool Player::sub_71008737E4(u32 a, u32 b) {
     return false;
 }
 
+f32 Player::sub_7100883698() {
+    ActorConstDataAccess accessor;
+    auto& link = getWeapons()->mWeapons[2].link;
+    if (link.hasProc())
+        acquireActor(&link, &accessor);
+    const bool slow = isSlowTime();
+    f32 time = getParam()->getRes().mGParamList->getPlayer()->mInvalidReloadTime.ref() *
+               sub_71002F0490(accessor);
+    if (slow) {
+        f32 divisor = 1.0f;
+        if (isSlowTime() && _cf4.isOnBit(17))
+            divisor = getParam()->getRes().mGParamList->getPlayer()->mBowSlowRateDiam.ref();
+        time /= divisor;
+    }
+    return time;
+}
+
 bool Player::sub_710086CB30() {
     if (_c44.isOnBit(4))
         return false;

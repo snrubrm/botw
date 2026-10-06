@@ -35,6 +35,10 @@ KSYS_CHECK_SIZE_NX150(Unk_710243c250, 0x48);
 
 class Unk_7100041da4;  // actionGuardianMoveTo.h
 
+namespace ksys::res {
+class GParamListObjectGuardian;
+}
+
 namespace uking::act {
 
 class Guardian;
@@ -93,6 +97,13 @@ public:
     // 0x7100035a90: switches the state _14d8 (no-op if equal; state 5 sends message 0x800000d to the
     // actor, 12 / 13 toggle the attention client; picks a new random sign for _14f0).
     void sub_7100035A90(s32 state);
+    // lane4 s46 (placeholder names): 0x710003955c: the Guardian param. 0x7100033e10: a table of the
+    // GuardianControllerType (0, 1: 6, 2: 3). 0x710003b1e4: 0xffffffff / that value * a (0 for type 0).
+    const ksys::res::GParamListObjectGuardian* sub_710003955C() const;
+    int sub_7100033E10() const;
+    u32 sub_710003B1E4(u32 a) const;
+    // 0x710003b238: (number of set bits of _14cc) / (the table value); 0 for controller type 0.
+    f32 sub_710003B238() const;
     // 0x71000370b4 (placeholder name): `_15cc < 30`.
     bool sub_71000370B4() const;
     // 0x710003b2c4 / 0x710003b2ec: the Guardian param's MaxSpeed / CannonBoneName.

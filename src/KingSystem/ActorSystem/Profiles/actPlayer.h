@@ -355,6 +355,9 @@ public:
     bool sub_71008737E4(u32 a, u32 b);
     // lane4 s46 (placeholder names): 0x710086d138: 0.5 if the armor effect flag `_2` bit 2 is set, else 1.
     f32 sub_710086D138();
+    // 0x7100883698 (placeholder name): the invalid reload time of the Player param scaled by the weapon in slot 2
+    // (sub_71002F0490), divided by mBowSlowRateDiam while the slow time applies.
+    f32 sub_7100883698();
     // 0x710086cb30 (placeholder name): false while falling-blocking states hold; true during the "落下" (fall) action,
     // else !x_44().
     bool sub_710086CB30();

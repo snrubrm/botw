@@ -82,6 +82,37 @@ bool Guardian::m33() {
     return getParam()->getRes().mGParamList->getGuardian()->mGuardianControllerType.ref() == 2;
 }
 
+const ksys::res::GParamListObjectGuardian* Guardian::sub_710003955C() const {
+    return getParam()->getRes().mGParamList->getGuardian();
+}
+
+int Guardian::sub_7100033E10() const {
+    switch (getParam()->getRes().mGParamList->getGuardian()->mGuardianControllerType.ref()) {
+    case 0:
+        return 0;
+    case 1:
+        return 6;
+    case 2:
+        return 3;
+    default:
+        return 0;
+    }
+}
+
+u32 Guardian::sub_710003B1E4(u32 a) const {
+    const int count = sub_7100033E10();
+    if (!count)
+        return 0;
+    return 0xFFFFFFFFu / count * a;
+}
+
+f32 Guardian::sub_710003B238() const {
+    const int count = sub_7100033E10();
+    if (!count)
+        return 0.0f;
+    return f32(sead::BitFlagUtil::countOnBit(_14cc.getDirect())) / f32(count);
+}
+
 f32 Guardian::sub_710003B2C4() const {
     return getParam()->getRes().mGParamList->getGuardian()->mMaxSpeed.ref();
 }

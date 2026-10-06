@@ -1,4 +1,5 @@
 #include "Game/Actor/actSiteBoss.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
@@ -18,6 +19,16 @@ void forwardX17ToParts(ksys::act::Actor* actor, ksys::act::Unk117* arg) {
     }
 }
 }  // namespace
+
+void SiteBoss::sub_71002D2A5C(s32 bit, bool on) {
+    if (mASList)
+        mASList->x_2(0x42, bit, on, false);
+}
+
+void SiteBoss::sub_71002D2A1C(const char* name) {
+    if (mASList)
+        mASList->goLimpFromHeadShotMaybe(0x2f, name, 0);
+}
 
 void SiteBoss::m117(ksys::act::Unk117* arg) {
     forwardX17ToParts(this, arg);

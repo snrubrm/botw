@@ -45,6 +45,10 @@ public:
     void sub_71002D2420();
     void sub_71002D2390();
     void sub_71002D22B8();
+    // lane4 s46 (placeholder names): 0x71002d2a5c: AS list x_2(0x42, bit, on, false). 0x71002d2a1c: AS list
+    // goLimpFromHeadShotMaybe(0x2f, name, 0).
+    void sub_71002D2A5C(s32 bit, bool on);
+    void sub_71002D2A1C(const char* name);
 
     explicit SiteBoss(const CreateArg& arg);
     ~SiteBoss() override;
