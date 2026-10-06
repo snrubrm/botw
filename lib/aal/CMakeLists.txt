@@ -29,6 +29,7 @@ add_library(aal OBJECT
   include/aal/aalSoundSource.h
   include/aal/aalSoundSourceUnifier.h
   include/aal/aalSpatialCalculator.h
+  include/aal/aalSpeakerBalanceUnifierArea.h
   include/aal/aalSpeakerBalanceUnifierMgr.h
   include/aal/aalSpatialSetting.h
   include/aal/aalStopWatch.h
@@ -64,6 +65,8 @@ add_library(aal OBJECT
   src/aalSoundSource.cpp
   src/aalSpatialPlayingParam.cpp
   src/aalSpatialSetting.cpp
+  src/aalSpeakerBalanceUnifierArea.cpp
+  src/aalSpeakerBalanceUnifierAreaSegment.cpp
   src/dummy.cpp
 )
 
