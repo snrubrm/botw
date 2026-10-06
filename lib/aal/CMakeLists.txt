@@ -22,8 +22,12 @@ add_library(aal OBJECT
   include/aal/aalGroupReader.h
   include/aal/aalGroupMgr.h
   include/aal/aalHandle.h
+  include/aal/aalFinalFxCtrl.h
+  include/aal/aalFinalOutputMeasure.h
   include/aal/aalInterior.h
   include/aal/aalInteriorSet.h
+  include/aal/aalOutputDevice.h
+  include/aal/aalOutputMode.h
   include/aal/aalISpeakerBalanceSupplier.h
   include/aal/aalListenerDirectivity.h
   include/aal/aalListenerMgr.h
@@ -73,6 +77,7 @@ add_library(aal OBJECT
   src/aalInterior.cpp
   src/aalListenerDirectivity.cpp
   src/aalInteriorSet.cpp
+  src/aalOutputDevice.cpp
   src/aalISpeakerBalanceSupplier.cpp
   src/aalMarkerController.cpp
   src/aalMeter.cpp
