@@ -732,12 +732,11 @@ void Actor::x_22(const sead::Vector3f& vel, const sead::Vector3f& ang_vel) {
     }
 }
 
-// NON_MATCHING: register / scheduling difference in the main body test
 bool Actor::sub_71011DAE0C() const {
     if (mPhysics) {
         if (mPhysics->getCharacterController())
             return false;
-        if (mPhysics->getRagdollInstance())
+        if (mPhysics->getClothSet())
             return false;
     }
     if (!getMainBody())

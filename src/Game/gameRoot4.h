@@ -3,6 +3,7 @@
 #include <basis/seadTypes.h>
 #include <container/seadBuffer.h>
 #include <heap/seadDisposer.h>
+#include <prim/seadBitFlag.h>
 #include <hostio/seadHostIONode.h>
 #include <prim/seadEnum.h>
 #include "KingSystem/Utils/Types.h"
@@ -31,8 +32,8 @@ public:
         s32 _0;
         u32 _4;
     };
-    u32 _28 = 0xffffffff;
-    u32 _2c = 0;
+    sead::BitFlag32 _28{0xffffffff};
+    sead::BitFlag32 _2c;
     sead::Buffer<Record> _30;
 };
 KSYS_CHECK_SIZE_NX150(Root4, 0x40);
