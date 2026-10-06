@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionRotatedWait.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace uking::action {
 
@@ -36,7 +38,15 @@ void RotatedWait::loadParams_() {
 }
 
 void RotatedWait::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (auto* body = mActor->getMainBody()) {
+        sead::Matrix34f mtx;
+        mActor->getHomeMtx(&mtx);
+        const f32 angle = *mTiltAngle_m * sead::Mathf::deg2rad(1);
+        sead::Matrix34f rot;
+        rot.makeR(_38 * angle);
+        mtx.setMul(mtx, rot);
+        body->changePositionAndRotation(mtx, sead::Mathf::epsilon());
+    }
 }
 
 }  // namespace uking::action
