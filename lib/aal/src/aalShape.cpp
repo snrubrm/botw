@@ -149,11 +149,4 @@ const sead::Vector3f& Shape::getUp() const {
 // 0x7100b9abd0
 void Shape::drawShape_(sead::PrimitiveDrawer& drawer, const sead::Color4f& color, f32 scale) const {}
 
-// 0x7100b9bbc0
-ShapeCylinder* ShapeCylinder::create(const sead::SafeString& name, sead::Heap* heap) {
-    auto* shape = new (heap, 8) ShapeCylinder(name);
-    SystemAccessor::getShapeMgr()->addShape(shape);
-    return shape;
-}
-
 }  // namespace aal
