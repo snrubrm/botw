@@ -1,10 +1,31 @@
 #include "Game/AI/Action/actionItemConductorDemoBind.h"
+#include "Game/Actor/actArmorBase.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
 ItemConductorDemoBind::ItemConductorDemoBind(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
 ItemConductorDemoBind::~ItemConductorDemoBind() = default;
+
+bool ItemConductorDemoBind::sub_71001C20C0() {
+    auto* armor = sead::DynamicCast<act::ArmorBase>(mActor);
+    if (!armor)
+        return false;
+    auto* player = sead::DynamicCast<ksys::act::PlayerBase>(armor->getOwner());
+    return player && player->_c44.isOnBit(16);
+}
+
+bool ItemConductorDemoBind::sub_71001C21C0() {
+    auto* armor = sead::DynamicCast<act::ArmorBase>(mActor);
+    if (!armor)
+        return false;
+    auto* player = sead::DynamicCast<ksys::act::PlayerBase>(armor->getOwner());
+    if (!player)
+        return false;
+    return sub_71001C2C68(player);
+}
 
 void ItemConductorDemoBind::enter_(ksys::act::ai::InlineParamPack* params) {
     if (sub_71001C20C0()) {

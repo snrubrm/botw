@@ -2,7 +2,14 @@
 
 #include "KingSystem/ActorSystem/actAiAction.h"
 
+namespace ksys::act {
+class PlayerBase;
+}
+
 namespace uking::action {
+
+// 0x71001c2c68 (declaration only): tail-called by ItemConductorDemoBind::sub_71001C21C0 with the armor owner.
+bool sub_71001C2C68(ksys::act::PlayerBase* player);
 
 class ItemConductorDemoBind : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ItemConductorDemoBind, ksys::act::ai::Action)
