@@ -505,6 +505,10 @@ public:
     Unk_7102509148();
     virtual ~Unk_7102509148();
 
+    // 0x71010a7ca4 / 0x71010a7edc (declared only): attach the tips layout / the amiibo tips layout and its animator
+    void sub_71010A7CA4(eui::LayoutEx* layout);
+    void sub_71010A7EDC(eui::LayoutEx* layout, eui::Animator* animator);
+
     u8 _8[0x88]{};
 };
 

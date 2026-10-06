@@ -542,4 +542,28 @@ void ScreenWolfLinkHeartGauge::m94() {
     _3610->sub_710093515C(getAnimationStep_());
 }
 
+// 0x71010a8840
+void ScreenMessageTips::m93(sead::Heap*) {
+    _318.sub_71010A7CA4(sub_7100BEAFB0("Pa_Tips_00"));
+    _318.sub_71010A7EDC(sub_7100BEAFB0("Pa_TipsAmiibo_00"), mLayout->createAnimatorAuto("Type", false));
+    _300 = sub_7100BEAFB0("Pa_ABtn_00");
+    if (_300)
+        _308 = _300->tryCreateAnimatorAutoWithWarning("DecideOut", true);
+}
+
+// 0x71010a8aa0
+void ScreenMessageTips::m98() {
+    if (_300) {
+        if (_308)
+            _308->StopAtMin();
+        _300->startAnimCloseImpl_(false, true);
+    }
+    _310 = false;
+}
+
+// 0x71010a8af0
+void ScreenMessageTips::m100() {
+    _3a8 = 29;
+}
+
 }  // namespace uking::ui

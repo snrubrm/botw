@@ -698,12 +698,15 @@ public:
     ScreenMessageTips();
     ~ScreenMessageTips() override;
     SEAD_RTTI_OVERRIDE(ScreenMessageTips, Screen)
+    void m93(sead::Heap* heap) override;
+    void m98() override;
+    void m100() override;
 
     // 0x71010a87f0 (CSV unnamed, declared only): called by ui::sub_7100A981B0 with the tip type 18.
     bool sub_71010A87F0(s32 type);
 
-    /* 0x300 */ void* _300{};
-    /* 0x308 */ void* _308{};
+    /* 0x300 */ eui::LayoutEx* _300{};
+    /* 0x308 */ eui::Animator* _308{};
     /* 0x310 */ bool _310 = false;
     /* 0x318 */ Unk_7102509148 _318;
     /* 0x3a8 */ s32 _3a8 = 29;
