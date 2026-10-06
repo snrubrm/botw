@@ -3,6 +3,8 @@
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectGuardianMini.h"
 
@@ -86,6 +88,21 @@ bool GuardianMiniBeamAttack::m46(sead::Vector3f* out) {
         return false;
     *out = sub_71005D9330(mActor);
     return true;
+}
+
+void GuardianMiniBeamAttack::m37() {
+    _2c4 = ksys::Timer(*mAttackInterval_s, *mAttackInterval_s);
+    m46(&_2b8);
+    if (sub_710041760C()) {
+        _2d0 = sub_71005DB4DC(mActor);
+        if (!mPreLaunchEffectName_s.isEmpty())
+            xlinkSearchAndEmit(mActor, mPreLaunchEffectName_s.cstr(), 2, nullptr);
+        MiniBeamAttack::m37();
+        return;
+    }
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(_2b8, "TargetPos", -1);
+    changeChild("ビーム準備", &pack);
 }
 
 }  // namespace uking::ai

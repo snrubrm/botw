@@ -1,5 +1,7 @@
 #include "Game/AI/AI/aiGuardianMiniViewWait.h"
+#include "Game/AI/aiUnk_71007091AC.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
@@ -18,6 +20,21 @@ void GuardianMiniViewWait::calc_() {
 
 void GuardianMiniViewWait::leave_() {
     ViewWait::leave_();
+}
+
+void GuardianMiniViewWait::m36() {
+    s32 a;
+    s32 b;
+    s32 c = -1;
+    sub_71007091AC(mActor, &a, &b, &c);
+    sub_7100429D14(a, b);
+    _5c = false;
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(m34(), "TargetPos", -1);
+    pack.addInt(a, "DynRightWeaponIdx", -1);
+    pack.addInt(b, "DynLeftWeaponIdx", -1);
+    pack.addInt(c, "DynBackWeaponIdx", -1);
+    changeChild("待機", &pack);
 }
 
 void GuardianMiniViewWait::loadParams_() {

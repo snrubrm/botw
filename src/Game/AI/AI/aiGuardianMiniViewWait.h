@@ -16,9 +16,14 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    void m36() override;
     void m37() override;
 
 protected:
+    // 0x7100429d14 (declaration only, 1012 B; placeholder name): arm bone setup for the weapon pair (a, b),
+    // like GuardianMiniBattle::sub_7100415258.
+    void sub_7100429D14(s32 a, s32 b);
+
     // static_param at offset 0x60
     const int* mASSlotRight_s{};
     // static_param at offset 0x68

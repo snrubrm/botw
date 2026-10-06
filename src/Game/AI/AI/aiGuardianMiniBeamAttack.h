@@ -21,10 +21,14 @@ public:
     bool isChangeable() const override;
     const sead::Vector3f* m35() override;
     const sead::SafeString& m36() override;
+    void m37() override;
     bool m38() override;
     virtual bool m46(sead::Vector3f* out);
 
 protected:
+    // 0x710041760c (declaration only, 500 B; placeholder name): looks up the head node of the model.
+    bool sub_710041760C();
+
     // static_param at offset 0x250
     sead::SafeString mHeadNodeName_s{};
     // static_param at offset 0x260
