@@ -6,6 +6,8 @@
 
 namespace gsys {
 
+class Model;
+
 enum class MaterialAnmType;
 enum class SkeletalAnmType;
 
@@ -36,6 +38,10 @@ public:
     /// 0x7100bfdc04 / 0x7100bfa52c (declared only): releases the animation set / frees the object.
     void finalize();
     static void destroy(ModelAnimation* animation);
+    /// 0x7100bfd768 (CSV name) / 0x7100bfddcc (unnamed): apply the skeletal / (probably) the material animations to a
+    /// model.
+    void applySkeletalAnm(Model* model);
+    void sub_7100BFDDCC(Model* model);
 
     /// 0x7100bfe384 (declared only): sets the frame of the animation set on slot `slot`.
     void setMaterialAnmFrame(int slot, f32 frame);

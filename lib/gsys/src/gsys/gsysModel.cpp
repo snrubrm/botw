@@ -189,6 +189,92 @@ void Model::remove_(IModelAccesssHandle* handle) const {
     mHandleList.erase(handle);
 }
 
+// 0x7100bf8e24
+void Model::applyAnimationTo(Model* target, u32 flags) {
+    if (mAnimation) {
+        if (target->mUpdateHook)
+            target->mUpdateHook->m0(target);
+        if (flags & 1)
+            mAnimation->applySkeletalAnm(target);
+        if (flags & 2)
+            mAnimation->sub_7100BFDDCC(target);
+    }
+}
+
+// 0x7100bf8f48
+void Model::safeApplyAnimation(u32 flags) {
+    if (mAnimation) {
+        if (mUpdateHook)
+            mUpdateHook->m0(this);
+        if (flags & 1)
+            mAnimation->applySkeletalAnm(this);
+        if (flags & 2)
+            mAnimation->sub_7100BFDDCC(this);
+    }
+}
+
+// 0x7100bf8e9c
+void Model::updateWorldMatrix() {
+    if (auto* hook = mUpdateHook) {
+        hook->m1(this);
+        for (auto& info : _48)
+            updateWorldMatrixModelUnit_(&info);
+        hook->m2(this);
+    } else {
+        for (auto& info : _48)
+            updateWorldMatrixModelUnit_(&info);
+    }
+    _a0 &= ~1;
+}
+
+// 0x7100bf8fb0
+void Model::safeUpdateWorldMatrix() {
+    if (auto* hook = mUpdateHook) {
+        hook->m1(this);
+        for (auto& info : _48)
+            updateWorldMatrixModelUnit_(&info);
+        hook->m2(this);
+    } else {
+        for (auto& info : _48)
+            updateWorldMatrixModelUnit_(&info);
+    }
+    _a0 &= ~1;
+}
+
+// 0x7100bf905c
+void Model::updateWorldMatrix(int unit_idx) {
+    updateWorldMatrixModelUnit_(_48.at(unit_idx));
+}
+
+// 0x7100bf8738
+void Model::sub_7100BF8738() {
+    for (auto it = mUnitPool.begin(), end = mUnitPool.begin(getUsedUnitNum()); it != end; ++it) {
+        for (int i = 0, n = it->mModelUnit->getMaterialNum(); i < n; ++i)
+            it->mModelUnit->clearMaterialParameter(i);
+    }
+    if (mUpdateHook)
+        mUpdateHook->m3(this);
+}
+
+// NON_MATCHING: the stores of reference._1e and reference._8 come out in the other order (scheduling)
+// 0x7100bf8d70
+void Model::sub_7100BF8D70(int unit_idx) {
+    ModelInfo& reference = mUnitPool[unit_idx];
+    reference._1e &= ~8;
+    reference._8 = nullptr;
+    reference.mModelUnit->setReferenceLod(*reference.mModelUnit);
+    ModelInfo* last = &reference;
+    for (auto it = mUnitPool.begin(), end = mUnitPool.begin(getUsedUnitNum()); it != end; ++it) {
+        if (&*it == &reference)
+            continue;
+        it->_1e |= 8;
+        it->_8 = nullptr;
+        it->mModelUnit->setReferenceLod(*reference.mModelUnit);
+        last->_8 = &*it;
+        last = &*it;
+    }
+}
+
 // 0x7100bf8b54
 void Model::resetRenderToDepthShadow(int option) {
     for (auto it = mUnitPool.begin(), end = mUnitPool.begin(getUsedUnitNum()); it != end; ++it)

@@ -21,17 +21,29 @@ class IModelRigObj;
 struct MaterialAccessKey;
 class ModelAnimation;
 class ModelBone;
+class Model;
+
+// Interface of the object at Model +0xd8 (names are placeholders): slot 0 is called before animations are applied
+// to a model, slots 1 / 2 around the world matrix update of the model units, slot 3 after the material parameters
+// were cleared.
+class ModelUpdateHook {
+public:
+    virtual void m0(Model* model) = 0;
+    virtual void m1(Model* model) = 0;
+    virtual void m2(Model* model) = 0;
+    virtual void m3(Model* model) = 0;
+};
 class ModelScene;
 class ModelUnit;
 
 class ModelInfo {
 public:
     ModelUnit* mModelUnit;
-    void* _8;
+    ModelInfo* _8;  // next unit of the reference LOD chain (0x7100bf8d70)
     void* _10;
     u32 _18;
     s16 mAccessIndex;
-    u8 _1e;
+    u8 _1e;  // bit 3: the unit refers to the LOD of another unit
     /// The rig objects attached to this model unit (0x7100bf9c08 / 0x7100bf9c58); the list offset is set by the
     /// creator.
     sead::OffsetList<IModelRigObj> mRigObjs;
@@ -67,7 +79,10 @@ public:
     void forceAutoAnimationFrame(f32 frame);
     /// Updates the auto animation of each ModelNW unit that has one right away.
     void forceUpdateAutoAnimation();
+    /// Clears the material parameters of every material of the used units, then calls the update hook.
     void sub_7100BF8738();
+    // 0x7100bf8d70 (name is a guess): makes unit `unit_idx` the reference of the LOD chain of the used units.
+    void sub_7100BF8D70(int unit_idx);
 
     /// Writes the bounding sphere of the model: the override if one is set, otherwise the union of the bounding
     /// spheres of the model units, gathered on demand. 0x7100bf97cc
@@ -139,6 +154,13 @@ public:
     // 0x7100bf6e20 / 0x7100bf76d0 (CSV names): remove / search every registered access handle.
     void clearModelAccesssHandle();
     void updateModelAccesssHandle_();
+    // 0x7100bf8fb0 / 0x7100bf8e9c / 0x7100bf905c (CSV names): update the world matrices of the model units in `_48`
+    // (the Ei overload one unit by index) and clear the matrix changed flag (_a0 bit 0).
+    void safeUpdateWorldMatrix();
+    void updateWorldMatrix(int unit_idx);
+    void updateWorldMatrixModelUnit_(ModelInfo* info);
+    // 0x7100bf8f48 (CSV name): applyAnimationTo(this, flags).
+    void safeApplyAnimation(u32 flags);
     // 0x7100bf7cf0 (CSV name; declared only): sets (`on`) or clears bit `bit` of the u16 flags at
     // +0xc of the model unit of each of the first min(mUnitPool.size(), mNumModels) pool entries.
     void x(bool on, int bit);
@@ -188,7 +210,9 @@ private:
     /// If set, getBounding returns this instead of gathering the unit bounds. The name is a guess.
     const sead::BoundSphere3f* mBoundingOverrideMaybe;
     ModelAnimation* mAnimation;
-    u8 _d8[0xf0 - 0xd8];
+    /// The update hook (name is a guess); may be null.
+    ModelUpdateHook* mUpdateHook;
+    u8 _e0[0xf0 - 0xe0];
     /// The scene the model is bound to (bind()).
     ModelScene* mScene;
     u8 _f8[0x140 - 0xf8];
