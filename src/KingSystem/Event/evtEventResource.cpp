@@ -9,6 +9,7 @@
 
 namespace ksys::evt {
 
+
 bool EventResource::invokedParseExtraModelRes() {
     _158.parseResource(nullptr);
     if (_158.isSuccess())

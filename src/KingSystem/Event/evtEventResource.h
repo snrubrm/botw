@@ -1,6 +1,8 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <container/seadBuffer.h>
+#include <prim/seadDelegate.h>
 #include <evfl/EvflAllocator.h>
 #include <prim/seadSafeString.h>
 #include "KingSystem/ActorSystem/actBaseProcHandle.h"
@@ -8,6 +10,7 @@
 #include "KingSystem/Event/evtDemoInfo.h"
 #include "KingSystem/Resource/resHandle.h"
 #include "KingSystem/Resource/resTempResourceLoader.h"
+#include "KingSystem/Utils/Thread/LowPrioThreadMgr.h"
 
 namespace sead {
 class Heap;
@@ -56,9 +59,23 @@ public:
 // 0x7100da3fe0, not decompiled).
 class CameraSystem {
 public:
+    using LoadFn = sead::Delegate1R<CameraSystem, void*, bool>;
+
     // 0x7100da3f00: polls the loading of the camera resources; true once they are loaded
     bool finishLoad();
+
+    u8 _0[8];
+    /* 0x08 */ s32 _8;  // 1: loading, 2: the low priority request has been submitted
+    u8 _c[4];
+    /* 0x10 */ sead::Buffer<res::Handle> _10;
+    u8 _20[0x30 - 0x20];
+    /* 0x30 */ s32 _30;
+    u8 _34[0x2c8 - 0x34];
+    /* 0x2c8 */ LoadFn _2c8;
 };
+
+// 0x7100dcb270 (CSV submitLowPriorityRequest): submits `request` to the LowPrioThreadMgr (if there is one).
+void submitLowPriorityRequest(const util::LowPrioThreadMgr::Request& request);
 
 // CSV EventBgmInfo (size 0x70; ctor 0x7100dc6e20, init 0x7100dc7180, finishLoad 0x7100dc7450; declared only).
 // EventResource::_1c0.

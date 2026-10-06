@@ -28,16 +28,16 @@ public:
     KSYS_CHECK_SIZE_NX150(CoreThreadTask, 0x10);
 
     struct Request {
-        bool try_submit;
-        s32 lane_id;
+        bool try_submit = false;
+        s32 lane_id = 0;
         sead::BitFlag32 flags;
-        TaskDelegate* delegate;
-        void* user_data;
-        TaskRemoveCallback* remove_callback;
-        TaskPostRunCallback* post_callback;
-        ManagedTask* task;
-        TaskMgr* mgr;
-        ManagedTaskHandle* handle;
+        TaskDelegate* delegate = nullptr;
+        void* user_data = nullptr;
+        TaskRemoveCallback* remove_callback = nullptr;
+        TaskPostRunCallback* post_callback = nullptr;
+        ManagedTask* task = nullptr;
+        TaskMgr* mgr = nullptr;
+        ManagedTaskHandle* handle = nullptr;
         sead::SafeString name;
     };
     KSYS_CHECK_SIZE_NX150(Request, 0x58);

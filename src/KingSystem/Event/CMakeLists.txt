@@ -32,6 +32,8 @@ target_sources(uking PRIVATE
   evtEventResource.cpp
   evtEventResource.h
   evtEventXlinkInfo.cpp
+  evtCameraSystem.cpp
+  evtSubmitLowPriorityRequest.cpp
   evtInfoData.cpp
   evtInfoData.h
   evtManager.cpp
