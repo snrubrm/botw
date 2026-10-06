@@ -19,8 +19,8 @@ namespace uking {
 class OpenWorldStageBinder;
 class StageBinder;
 
-// 0x71025cb350 (a state object of the GameScene TU; only its id is read by GameScene::sub_71007B0D3C).
-extern ksys::StateBase sUnk_71025cb350;
+// 0x71025cb150 (a state object of the GameScene TU; only its id is read, by GameScene::m4 / sub_71007B0D3C).
+extern ksys::StateBase sUnk_71025cb150;
 
 // TODO
 class GameScene {
@@ -31,7 +31,7 @@ public:
     virtual bool m1(const sead::SafeString& name, bool flag);
     virtual bool m2(const sead::SafeString& name, const sead::Vector3f& pos);
     virtual bool m3(const sead::SafeString& name, const sead::SafeString& name2);
-    virtual void m4();
+    virtual bool m4();
     virtual bool m5(const sead::SafeString& name, const sead::SafeString& name2);
 
     SEAD_RTTI_BASE(GameScene)
@@ -159,9 +159,12 @@ private:
     /* 0x2c0 */ ksys::res::Handle _2c0;  // the env archive
     u8 _310[0x320 - 0x310];
     /* 0x320 */ GameScene320 _320;
-    u8 _348[0x6e6 - 0x348];
+    u8 _348[0x6e0 - 0x348];
+    /* 0x6e0 */ s32 _6e0;
+    u8 _6e4[0x6e6 - 0x6e4];
     /* 0x6e6 */ bool _6e6;
-    u8 _6e7[0x6e9 - 0x6e7];
+    /* 0x6e7 */ bool _6e7;
+    u8 _6e8;
     /* 0x6e9 */ bool _6e9;
     u8 _6ea[0x8c9 - 0x6ea];
     /* 0x8c9 */ bool _8c9;

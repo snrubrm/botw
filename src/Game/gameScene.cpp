@@ -11,6 +11,8 @@
 #include "KingSystem/Event/evtManager.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/Resource/resResource.h"
+#include "Game/UI/euiScreen.h"
+#include "Game/UI/uiScreens.h"
 
 namespace uking {
 
@@ -206,6 +208,27 @@ void setSceneChangeEventFlow(const sead::SafeString& flow, const sead::SafeStrin
     sSceneChangeEventFlowEntryPoint.copy(entry_point);
 }
 
+// The state objects are used through pointers: clang devirtualizes `sUnk.getId()` on the object itself (the original
+// calls getId() through the vtable). The first half evaluates calls whose results are not used.
+bool GameScene::m4() {
+    PlayerResetPosMgr::instance()->isNotResetting();
+    sead::DynamicCast<ui::Fade>(eui::ScreenMgr::instance()->getScreen(ui::ScreenId::Fade))->isClosed();
+    if (!_6e7) {
+        _1d0.getState()->getId();
+        (&sUnk_71025cb150)->getId();
+    }
+    someEventMgrCheck();
+    if (!_2a8 && _8.isEmpty() && _6e0 == 0 && PlayerResetPosMgr::instance()->isNotResetting()) {
+        if (sead::DynamicCast<ui::Fade>(eui::ScreenMgr::instance()->getScreen(ui::ScreenId::Fade))->isClosed()) {
+            if (!_6e7 && _1d0.getState()->getId() != (&sUnk_71025cb150)->getId())
+                return false;
+            if (!someEventMgrCheck())
+                return true;
+        }
+    }
+    return false;
+}
+
 bool GameScene::getIsInitialisingStage() {
     return sIsInitialisingStage;
 }
@@ -292,7 +315,7 @@ bool GameScene::canTriggerPanicBloodMoon() {
         return false;
     if (getSceneStatus() != 0)
         return false;
-    if (ui::isFadeDemoOrFadeScreenOpened())
+    if (::ui::isFadeDemoOrFadeScreenOpened())
         return false;
     if (someEventMgrCheck())
         return false;
@@ -363,10 +386,8 @@ bool GameScene::sub_71007B4C00() const {
     return _948.isBitOn(1);
 }
 
-// NON_MATCHING: the original calls StateBase::getId() through the vtable on the global state; clang devirtualizes the
-// call on the static state object (same as the UI screens' state comparisons).
 bool GameScene::sub_71007B0D3C() const {
-    return _1d0.getState()->getId() == sUnk_71025cb350.getId();
+    return _1d0.getState()->getId() == (&sUnk_71025cb150)->getId();
 }
 
 bool GameScene::hasStageBinder() const {
