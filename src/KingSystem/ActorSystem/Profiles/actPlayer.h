@@ -407,6 +407,9 @@ public:
     // Declared only (placeholder member functions of the player; all take the player as `this`):
     void sub_710086800C(f32 a1);       // 0x710086800c
     void sub_71008824AC(bool a1);      // 0x71008824ac
+    // 0x7100877e2c / 0x7100888d24 (declared only, lane5 s6; called in sequence by PlayerSubjectWait::calc_).
+    void sub_7100877E2C();
+    void sub_7100888D24();
     // 0x71008901d0 (declared only, lane5 s6; 216 B): a float derived from controller / mode checks (PlayerAtnMove::enter_).
     f32 sub_71008901D0();
     // 0x7100881418 (declared only, lane5 s6; 356 B): character-controller / ASList (x_1 name) check run first by

@@ -401,10 +401,10 @@ protected:
 
 public:
     // Written directly by AI code (PlayerBeetle::leave_: equipment type name 0).
-    /* 0xd30 */ sead::FixedSafeString<64> _d30;
-
-protected:
-    /* 0xd88 */ u8 _d88[0xda0 - 0xd88];
+    // Two 0x38-byte strings (lane5 s6: PlayerSubjectWait::calc_ compares the string at +0xd68 with the equipment type
+    // name too; the old layout was one FixedSafeString<64> over both).
+    /* 0xd30 */ sead::FixedSafeString<32> _d30;
+    /* 0xd68 */ sead::FixedSafeString<32> _d68;
 
 public:
     // Public: read by AI_Query_CheckLastDamageAttacker (the last damage attacker's name).
