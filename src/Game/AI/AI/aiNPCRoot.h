@@ -35,6 +35,8 @@ public:
     void sub_71004D8C5C();
 
 protected:
+    // 0x71004dc204: whether the player wears the Black / Stalfos / PhantomGanon armor series
+    bool sub_71004DC204();
     struct Unk1 {
         bool _0 = false;
         ksys::act::BaseProcLink _8;

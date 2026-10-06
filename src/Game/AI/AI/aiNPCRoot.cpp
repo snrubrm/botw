@@ -1,4 +1,8 @@
 #include "Game/AI/AI/aiNPCRoot.h"
+#include <prim/seadSafeString.h>
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "Game/Actor/actNPC.h"
 #include "KingSystem/ActorSystem/actActor.h"
@@ -60,6 +64,15 @@ bool NPCRoot::handleMessage_(const ksys::Message* message) {
     }
     changeChild("EventStartWait", nullptr);
     return true;
+}
+
+// 0x71004dc204
+bool NPCRoot::sub_71004DC204() {
+    ksys::act::acc::PlayerBase accessor;
+    ksys::act::acquireActor(&ksys::act::PlayerInfo::getSomeProcLink(), &accessor);
+    sead::FixedSafeString<32> series;
+    accessor.getArmorSeriesType(&series);
+    return series == "Black" || series == "Stalfos" || series == "PhantomGanon";
 }
 
 }  // namespace uking::ai
