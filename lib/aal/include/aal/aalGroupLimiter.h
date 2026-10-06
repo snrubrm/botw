@@ -36,6 +36,8 @@ public:
     void updateUsingRequestIntervalLimiter();
     /// 0x7100b80354 (declared only)
     void addToActiveSoundLimitList(sead::OffsetList<SoundSource>* sources);
+    /// 0x7100b8040c (declared only): returns whether the sound was added to the limit list.
+    bool addToActiveSoundLimitList(SoundSource* source);
 
 private:
     u8 _0[8];

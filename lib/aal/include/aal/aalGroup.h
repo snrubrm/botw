@@ -3,6 +3,8 @@
 #include <basis/seadTypes.h>
 #include <container/seadOffsetList.h>
 #include <container/seadPtrArray.h>
+#include <thread/seadCriticalSection.h>
+#include <prim/seadScopedLock.h>
 #include <container/seadTreeNode.h>
 #include <prim/seadBitFlag.h>
 #include <prim/seadRuntimeTypeInfo.h>
@@ -119,6 +121,8 @@ public:
     s32 getStartWaitSoundNum() const override;
 
     void setReleaseTime(f32 release_time);
+    /// Registers the sound source in the group (and the limiters); false if it is limited.
+    bool addSound(SoundSource* sound_source);
     void addToPlayingSoundSources(SoundSource* sound_source);
     f32 getReleaseTime() const { return mReleaseTime; }
     /// 0x7100b826f8 (declared only): removes the sound source from the playing sounds of the group.
@@ -138,6 +142,7 @@ protected:
     sead::BitFlag8 mEmitFlags;
     SimpleTimedFader* mSilenceFader;
     sead::OffsetList<SoundSource> mPlayingSoundSources;
+    sead::CriticalSection mCS;
 };
 
 /// A group that only contains other groups: forwards the operations to its children.
