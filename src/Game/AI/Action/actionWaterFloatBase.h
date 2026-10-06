@@ -19,6 +19,8 @@ public:
 protected:
     // 0x71002b50b4 (declared only): the body of calc_ is out of line in the original.
     void sub_71002B50B4();
+    // 0x71002b51b8 (placeholder name): like sub_71002B50B4 but only stores the floating speed in _50.
+    void sub_71002B51B8();
     void calc_() override;
 
     // static_param at offset 0x20

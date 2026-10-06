@@ -20,6 +20,9 @@ public:
 protected:
     void calc_() override;
 
+    // 0x71002b37f8 (placeholder name): the height of the water surface below the actor (0 if none).
+    f32 sub_71002B37F8();
+
     // static_param at offset 0x20
     const float* mInWaterDepth_s{};
     // static_param at offset 0x28

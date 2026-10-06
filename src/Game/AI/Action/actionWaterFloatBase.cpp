@@ -64,6 +64,31 @@ void WaterFloatBase::sub_71002B50B4() {
     _50 = vel.y * 30.0f;
 }
 
+void WaterFloatBase::sub_71002B51B8() {
+    auto* cc = mActor->getCharacterController();
+    if (!cc) {
+        setFailed();
+        return;
+    }
+    f32 speed;
+    {
+        sead::Vector3f velocity;
+        cc->sub_7100F5F598(&velocity);
+        speed = velocity.y / 30.0f;
+    }
+    f32 out = speed;
+    f32 depth = 0.0f;
+    if (mActor->get68f().load()) {
+        const f32 y = mActor->getMtx().m[1][3];
+        depth = mActor->get6f0() - y;
+    }
+    sub_71005DF820(&out, speed, depth, *mFloatDepth_s, *mInWaterDepth_s, *mFloatRadius_s,
+                   *mFloatCycleTime_s, *mChangeDepthSpeed_s);
+    if (*mIsCheckWaterFall_s && (cc->_116 & 0x10))
+        out = 0.0f;
+    _50 = out * 30.0f;
+}
+
 void WaterFloatBase::calc_() {
     sub_71002B50B4();
 }
