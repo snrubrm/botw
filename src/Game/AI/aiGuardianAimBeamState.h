@@ -23,10 +23,10 @@ public:
     GuardianAimBeamState();
     ~GuardianAimBeamState();
 
-    // 0x71006f1f60 (declaration only). Emits the ELinks named by the first strings ("Target",
+    // 0x71006f1f60. Emits the ELinks named by the first strings ("Target",
     // "Laser", the caller's name, "BeamSightSearch", "BeamSightLocking", "BeamSightLocked").
     // The position of the float parameters relative to the others is a guess.
-    void init(ksys::act::Actor* actor, const sead::SafeString& a1, const sead::SafeString& a2,
+    bool init(ksys::act::Actor* actor, const sead::SafeString& a1, const sead::SafeString& a2,
               const sead::SafeString& a3, const sead::SafeString& a4, const sead::SafeString& a5,
               const sead::SafeString& a6, f32 a7, f32 a8, f32 a9, f32 a10,
               const sead::Vector3f& target_pos, const sead::SafeString& node_name,
@@ -38,7 +38,7 @@ public:
     // 0x71006f2d08 (declaration only): fades the emitted ELinks.
     void sub_71006F2D08();
 
-    void* _0 = nullptr;
+    ksys::act::Actor* _0 = nullptr;
     sead::SafeString _8;
     sead::SafeString _18;
     // Five emitted links (event pointer + create id each): three ELinks and two SLinks.
@@ -48,15 +48,15 @@ public:
     xlink2::HandleSLink _58;
     xlink2::HandleSLink _68;
     sead::Vector3f _78 = sead::Vector3f::zero;
-    u32 _84 = 0;
+    f32 _84 = 0;
     sead::Vector3f _88 = sead::Vector3f::zero;
-    u32 _94 = 0;
-    u32 _98 = 0;
-    u32 _9c = 0;
+    f32 _94 = 0;
+    f32 _98 = 0;
+    f32 _9c = 0;
     gsys::BoneAccessKeyEx _a0;
     f32 _d8 = 0;
     sead::Vector3f _dc = sead::Vector3f::zero;
-    u8 _e8[0xf4 - 0xe8];
+    sead::Vector3f _e8;
     f32 _f4 = 150.0;
 };
 KSYS_CHECK_SIZE_NX150(GuardianAimBeamState, 0xf8);
