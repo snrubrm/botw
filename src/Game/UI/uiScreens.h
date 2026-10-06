@@ -402,6 +402,20 @@ public:
     /* 0x1038 */ sead::FixedPtrArray<eui::AnimButton, 400> mButtons;
     u8 _1cc8[0x3610 - 0x1cc8];
 
+    // Unnamed helpers of ScreenEx (placeholder names after the addresses; the hubs of the UI: 20 / 52 / 62 callers).
+    // 0x7100a480b4: the button of the pane that `path` (slash separated) resolves to
+    eui::ButtonBase* sub_7100A480B4(const sead::SafeString& path);
+    // 0x7100a48104 / 0x7100a48328: the pane / object `path` resolves to in the screen's layout (`out` receives the parent)
+    nn::ui2d::Pane* sub_7100A48104(const sead::SafeString& path, nn::ui2d::Pane** parent);
+    void* sub_7100A48328(const sead::SafeString& path, void* out);
+    // 0x7100a4810c: the button whose layout is `layout`
+    eui::ControlBase* sub_7100A4810C(const eui::LayoutEx* layout);
+    // 0x7100a48258: appends a button's unit and the button itself
+    void sub_7100A48258(Unk_7102474e38* unit, eui::AnimButton* button);
+    // 0x7100a482a4 / 0x7100a482e8: index of / control with the layout in the screen's control list
+    s32 sub_7100A482A4(const eui::ControlBase* control) const;
+    eui::ControlBase* sub_7100A482E8(const eui::LayoutEx* layout) const;
+
     // New virtual slots of ScreenEx (CSV ScreenEx::mNN, 127-153). Only the trivial ones have known signatures.
     virtual void m127();
     virtual void m128();
@@ -2663,5 +2677,9 @@ void sub_7100AA930C(eui::LayoutEx* layout, const sead::SafeString& pane_name, s3
 
 // 0x7100aa948c (declared only)
 bool sub_7100AA948C();
+
+// 0x7100aa0dc0 / 0x7100aa1260 (declared only): resolve a slash separated pane path inside a layout
+nn::ui2d::Pane* sub_7100AA0DC0(eui::LayoutEx* layout, const sead::SafeString& path, nn::ui2d::Pane** parent);
+void* sub_7100AA1260(eui::LayoutEx* layout, const sead::SafeString& path, void* out);
 
 }  // namespace uking::ui

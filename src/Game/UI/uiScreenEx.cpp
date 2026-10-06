@@ -302,4 +302,65 @@ void ScreenEx::registerController_() {
         mUIController->registerWith(Manager::instance()->_649f0, false);
 }
 
+// 0x7100a480b4
+eui::ButtonBase* ScreenEx::sub_7100A480B4(const sead::SafeString& path) {
+    nn::ui2d::Pane* parent = nullptr;
+    nn::ui2d::Pane* pane = sub_7100AA0DC0(mLayout, path, &parent);
+    if (!pane)
+        return nullptr;
+    if (parent)
+        return mButtonGroup->FindButton(pane->GetName(), parent->GetName());
+    return mButtonGroup->FindControlByName(pane->GetName());
+}
+
+// 0x7100a48104
+nn::ui2d::Pane* ScreenEx::sub_7100A48104(const sead::SafeString& path, nn::ui2d::Pane** parent) {
+    return sub_7100AA0DC0(mLayout, path, parent);
+}
+
+// 0x7100a48328
+void* ScreenEx::sub_7100A48328(const sead::SafeString& path, void* out) {
+    return sub_7100AA1260(mLayout, path, out);
+}
+
+// 0x7100a4810c
+eui::ControlBase* ScreenEx::sub_7100A4810C(const eui::LayoutEx* layout) {
+    if (!layout)
+        return nullptr;
+    for (eui::ListNode* node = mButtonGroup->mButtons.next; node != &mButtonGroup->mButtons;
+         node = node->next) {
+        eui::ControlBase* control = eui::ControlBase::fromNode(node);
+        if (control->mLayout == layout)
+            return control;
+    }
+    return nullptr;
+}
+
+// 0x7100a48258
+void ScreenEx::sub_7100A48258(Unk_7102474e38* unit, eui::AnimButton* button) {
+    mButtonUnits.pushBack(unit);
+    mButtons.pushBack(button);
+}
+
+// 0x7100a482a4
+s32 ScreenEx::sub_7100A482A4(const eui::ControlBase* control) const {
+    s32 index = 0;
+    for (const eui::ListNode* node = mControls.next; node != &mControls; node = node->next) {
+        if (eui::ControlBase::fromNode(node) == control)
+            return index;
+        ++index;
+    }
+    return -1;
+}
+
+// 0x7100a482e8
+eui::ControlBase* ScreenEx::sub_7100A482E8(const eui::LayoutEx* layout) const {
+    for (const eui::ListNode* node = mControls.next; node != &mControls; node = node->next) {
+        const eui::ControlBase* control = eui::ControlBase::fromNode(node);
+        if (control->mLayout == layout)
+            return const_cast<eui::ControlBase*>(control);
+    }
+    return nullptr;
+}
+
 }  // namespace uking::ui
