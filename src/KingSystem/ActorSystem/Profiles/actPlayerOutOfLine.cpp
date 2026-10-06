@@ -3,6 +3,11 @@
 #include <prim/seadRuntimeTypeInfo.h>
 #include "Game/AI/aiUnk_7101E7C2B4.h"
 #include "Game/Damage/dmgDamageMgrPlayer.h"
+#include "KingSystem/ActorSystem/Attention/actAttentionSingleton.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
+#include "KingSystem/Sound/sndUnk_7102502138.h"
 
 namespace ksys::act {
 
@@ -30,6 +35,30 @@ bool Player::stillAlive() {
 void Player::sub_7100884578() {
     if (auto* mgr = sead::DynamicCast<uking::dmg::DamageMgrPlayer>(getDamageMgr()))
         mgr->_22c = uking::sUnk_7101e7c2b0;
+}
+
+void Player::sub_710088A854() {
+    getWeapons()->mWeapons[1]._10 = true;
+    _c40.resetBit(3);
+    sub_7100888278();
+    snd::Unk_7102502138::instance()->sub_710103B430(false);
+}
+
+void Player::sub_710086952C() {
+    if (auto* physics = mPhysics) {
+        if (auto* set = physics->findBodyByName("Tgt")) {
+            if (auto* body = set->findBodyByHavokName("Body"))
+                physics->sub_7100FBD918(body, 0);
+        }
+    }
+}
+
+// NON_MATCHING: the original returns the value with `mov w0, w19` (ours: `mov x0, x19`, the struct built from an int)
+AttActionCodeValue sub_710086B194() {
+    ActorConstDataAccess accessor;
+    Attention::instance()->sub_7100D7482C(&accessor);
+    return AttActionCodeValue(accessor.sub_7100D10FB8() ? 0x1800000 :
+                                                          int(Attention::instance()->sub_7100D74880()));
 }
 
 }  // namespace ksys::act

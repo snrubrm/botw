@@ -52,6 +52,8 @@ public:
 
     void auto3();
     bool someCheck() const;
+    // lane4 s49 (placeholder name): the save thread state (`SaveSystem::isFinishedSavingMaybe` tests it for 0).
+    u32 get38() const { return _38; }
     bool auto0();
     bool enableGdtMgrChangeOnlyMode(s32 x);
     void auto5();

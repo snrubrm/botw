@@ -51,11 +51,18 @@ private:
 
     // FIXME: rename
     struct Unk1 {
+        // Placeholder: an intrusive singly linked list (`_8` is the next pointer of a node).
+        struct Node {
+            void* _0;
+            Node* _8;
+        };
+
         virtual ~Unk1() { finalize(); }
+        // 0x7100d7efe0 (lane4 s49): unlinks every node of the list.
         void finalize();
         void calc();
 
-        void* _8{};
+        Node* _8{};
         void* _10{};
     };
 

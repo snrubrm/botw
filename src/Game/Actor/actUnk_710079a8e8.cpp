@@ -226,9 +226,9 @@ void Unk_710079a8e8::sub_710079AE88(f32 value) {
     _804.sub_710079AE20(0x8000);
 }
 
-// NON_MATCHING: the original evaluates the destination of BaseProcLink::operator= before the source
 void Unk_710079a8e8::sub_710079BC98() {
-    _240 = _230;
+    // C++14 evaluation order: the original evaluates the destination first
+    _240.operator=(_230);
     _39c = _354;
     _3cc = _384;
     _3d8 = _390;

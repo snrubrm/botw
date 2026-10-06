@@ -55,6 +55,7 @@ target_sources(uking PRIVATE
     Awareness/actAITerror.cpp
     Awareness/actAITerror.h
     Awareness/actAwareness.cpp
+    Awareness/actAwarenessUnk1.cpp
     Awareness/actAwareness.h
     Awareness/actAwarenessDefs.cpp
     Awareness/actAwarenessDefs.h

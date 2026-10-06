@@ -2,6 +2,7 @@
 
 #include <basis/seadTypes.h>
 #include <heap/seadDisposer.h>
+#include "KingSystem/Utils/Types.h"
 
 namespace ksys::snd {
 
@@ -19,6 +20,21 @@ public:
     // 0x710103b41c (declared only): forwards `flag` to the sub-object at +0x68 (0x710104d398). Called with false by
     // SetPlayerDrawingSword::oneShot_.
     void sub_710103B41C(bool flag);
+    // 0x710103b430 (lane4 s49): forwards `flag` to the sub-object at +0x68 (0x710104d620). Called with false by
+    // Player::sub_710088A854.
+    void sub_710103B430(bool flag);
+
+    // Placeholder (the sub-object at +0x68; declaration only).
+    struct Unk68 {
+        void sub_710104D398(bool flag);
+        void sub_710104D620(bool flag);
+    };
+
+private:
+    u8 _28[0x68 - 0x28];
+    /* 0x68 */ Unk68* _68;
+    u8 _70[0xfa8 - 0x70];
 };
+KSYS_CHECK_SIZE_NX150(Unk_7102502138, 0xfa8);
 
 }  // namespace ksys::snd
