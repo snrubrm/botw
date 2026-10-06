@@ -96,20 +96,23 @@ void Kick::sub_71001C8818() {
     sub_7100740E04(_58, controller);
 }
 
-// NON_MATCHING: the original composes the rotation (0, DirAngle, 0) -> Matrix33 and applies it with a different
-// association / operand order than sead's makeR + Vector3::mul; calls, constants and the stores match.
+// NON_MATCHING: a single fadd: the original adds the z terms as (up.z + impulse.z), ours as (impulse.z + up.z); everything
+// else matches (rotation through `Matrix34f::makeR` + `rotate`, with the global axis copied first)
 void Kick::sub_71001C8A10() {
     if (!mTargetActor_d)
         return;
     sead::Vector3f impulse;
     mActor->getMtx().getBase(impulse, 2);
-    sead::Matrix33f rotation;
-    rotation.makeR(sead::Vector3f::ey * *mDirAngle_s);
-    impulse.mul(rotation);
-    impulse = sead::Vector3f::ey * *mUpRate_s + impulse * *mPower_s;
+    const sead::Vector3f axis = sead::Vector3f::ey;
+    sead::Matrix34f rotation;
+    rotation.makeR(axis * *mDirAngle_s);
+    impulse.rotate(rotation);
+    impulse *= *mPower_s;
+    const sead::Vector3f up = sead::Vector3f::ey * *mUpRate_s;
+    impulse = up + impulse;
     ksys::act::ActorConstDataAccess accessor;
     ksys::act::acquireActor(mTargetActor_d, &accessor);
-    _88.sub_7100D3D3C4(0, &impulse, 0, true);
+    _88.sub_7100D3D3C4(0, &impulse, nullptr, true);
     _88.sub_7100D3D49C(mActor, &accessor, 0);
 }
 

@@ -15,7 +15,7 @@ struct Unk_7100d3d3a8 {
     Unk_7100d3d3a8();
 
     // Placeholder names (out of line, no names known; signatures from Kick::sub_71001C8A10).
-    void sub_7100D3D3C4(int a, const sead::Vector3f* vec, int b, bool c);
+    void sub_7100D3D3C4(int a, const sead::Vector3f* vec, const sead::Vector3f* b, bool c);
     bool sub_7100D3D49C(ksys::act::Actor* actor, ksys::act::ActorConstDataAccess* accessor, int a);
 
     u16 _0 = 0;
