@@ -4,6 +4,9 @@
 #include <gsys/gsysModelUnit.h>
 #include <basis/seadNew.h>
 #include "Game/AI/aiUnk_71007377D4.h"
+#include "Game/AI/aiUnk_710072BA90.h"
+#include "Game/Damage/dmgDamageManager.h"
+#include "Game/gameRoot4.h"
 #include "Game/AI/aiUnk_7100736460.h"
 #include "Game/Actor/actHorseRideInfo.h"
 #include "Game/Actor/actMotorcycle.h"
@@ -1267,6 +1270,32 @@ bool Player::sub_71008737E4(u32 a, u32 b) {
             return true;
     }
     return false;
+}
+
+void Player::sub_7100885820() {
+    auto* chemical = getChemicalStuff();
+    if (_23e0.sub_7100E2F61C()->isOnBit(4))
+        chemical->_180 = 3;
+    else
+        chemical->_180 = s32(f32(std::min(_2030 + _2014, 2)));
+}
+
+f32 Player::sub_710086D138() {
+    return _23e0.sub_7100E2F61C()->_2 & 4 ? 0.5f : 1.0f;
+}
+
+// NON_MATCHING: the original keeps the result in w19 across the checkFlag call (set to 1 after the null check, cleared if
+// the flag is on); we fold it into an eor.
+bool Player::sub_71008744D4() {
+    auto* root = uking::Root4::instance();
+    return root && !root->checkFlag(uking::Root4::FlagIdx::_1);
+}
+
+sead::Vector3f Player::sub_710087386C() {
+    sead::Vector3f dir = sead::Vector3f::zero;
+    if (auto* manager = sub_710072BA90(this))
+        manager->m30(&dir);
+    return dir;
 }
 
 bool Player::sub_71008738BC() {

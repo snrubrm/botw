@@ -119,7 +119,7 @@ bool PlayerArmors::sub_7100E2F358() {
     return result;
 }
 
-sead::BitFlag16* PlayerArmors::sub_7100E2F61C() {
+PlayerArmors::EffectFlags* PlayerArmors::sub_7100E2F61C() {
     return &_134;
 }
 
@@ -356,7 +356,7 @@ bool PlayerArmors::hasWakeWindArmorEffect() {
 }
 
 bool PlayerArmors::hasBeamPowerUpEffect() {
-    if (_136 & 8)
+    if (_134._2 & 8)
         return true;
     for (s32 i = 0; i < 3; ++i) {
         if (_10(i).hasProc()) {

@@ -53,7 +53,16 @@ public:
     bool sub_7100E30C78(s32 idx, const sead::SafeString& series);
     // 0x7100e2f61c (CSV x_0; out of line, returns `&_134`): the armor effect flags (bit 0: swim energy,
     // bit 7: bone attack, bit 8: climb jump energy, bit 9: drop rate bonus are active).
-    sead::BitFlag16* sub_7100E2F61C();
+    // Placeholder (lane4 s46): the armor effect flags (`_134`): 16 flag bits, then flag bytes (bit 2 of `_2`: read by
+    // Player::sub_710086D138; bit 3 of `_2`: sub_7100E308E4).
+    struct EffectFlags {
+        bool isOnBit(int bit) const { return flags.isOnBit(bit); }
+
+        sead::BitFlag16 flags;
+        u8 _2 = 0;
+        u8 _3 = 0;
+    };
+    EffectFlags* sub_7100E2F61C();
     // 0x7100e303e4.
     bool hasAncientPowUpEffect();
     // 0x7100e2f490 (CSV x_5): Player::m234.
@@ -149,9 +158,7 @@ private:
     u8 _131 = 0;
     u8 _132 = 0;
     u8 _133 = 0;  // read by uking::act::Armor::m148 (the head armor then uses weight 0)
-    sead::BitFlag16 _134;
-    u8 _136 = 0;
-    u8 _137 = 0;
+    EffectFlags _134;
     sead::FixedSafeString<32> _138{sead::SafeString::cEmptyString};
 };
 KSYS_CHECK_SIZE_NX150(PlayerArmors, 0x170);

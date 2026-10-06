@@ -22,6 +22,7 @@
 #include "KingSystem/ActorSystem/actInfoCommon.h"
 #include "KingSystem/ActorSystem/actInfoData.h"
 #include "KingSystem/ActorSystem/actInstParamPack.h"
+#include "KingSystem/Chemical/chmSystemConfig.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
@@ -439,6 +440,36 @@ void Weapon::sub_71002EDB84(const u64& value) {
     _bd8 = true;
 }
 
+void Weapon::sub_71002EDBCC(const u32& value) {
+    auto lock = sead::makeScopedLock(_c50);
+    _c90 = value;
+    _c94 = true;
+}
+
+void Weapon::sub_71002EDC14(const Unk_71002edc14& value) {
+    auto lock = sead::makeScopedLock(_c98);
+    _cd8 = value;
+    _ce0 = true;
+}
+
+bool Weapon::sub_71002ED274() {
+    auto* chemical = getChemicalStuff();
+    if (!chemical)
+        return false;
+    if (!(chemical->mMaterial->attribute.ref() & 1))
+        return false;
+    return !(chemical->_be & 1);
+}
+
+bool Weapon::sub_71002E9A7C() {
+    auto* chemical = getChemicalStuff();
+    if (!chemical)
+        return false;
+    if ((chemical->mMaterial->attribute.ref() & 0x88) != 0x88)
+        return false;
+    return !(chemical->_be & 4);
+}
+
 bool Weapon::hasCanPullGiantObjectTag() {
     return getParam()->getRes().mActorLink->hasTag(0x2b533845);
 }
@@ -606,6 +637,19 @@ bool Weapon::m214() {
         return charge >= threshold;
     }
     return charge >= f32(state->_8->_2c8);
+}
+
+bool Unk_71002ef75c::sub_71002E999C() {
+    const f32 charge = _14;
+    if (_0 && _0->m233() && (_0->_c20._14 & 8)) {
+        f32 threshold = 0.0f;
+        if (_0->_d38)
+            threshold = s32(f32(_0->_d38->_8->_2a8)) / 13;
+        if (s32(_14 / threshold) == 1)
+            threshold = _14;
+        return charge >= threshold;
+    }
+    return charge >= f32(_8->_2c8);
 }
 
 void Unk_71002ef75c::sub_71002EF850() {

@@ -409,6 +409,32 @@ bool InstanceSet::sub_7100FBDBD8(s32 idx, s32 bone, f32 weight) {
     return true;
 }
 
+bool InstanceSet::sub_7100FBDC24(s32 idx, const sead::SafeString& bone_name, f32 weight) {
+    if (idx < 0 || idx >= _98.size())
+        return false;
+    _98[idx]->setBoneWeight(bone_name, weight);
+    return true;
+}
+
+bool InstanceSet::sub_7100FC0234() const {
+    for (s32 i = 0; i < _100.size(); ++i) {
+        if (_100[i]._98)
+            return true;
+    }
+    return false;
+}
+
+bool InstanceSet::sub_7100FBD390() const {
+    if (!mClothSet)
+        return true;
+    const s32 size = mClothSet->_18.size();
+    for (s32 i = 0; i < size; ++i) {
+        if (mClothSet->_18[i]._18 & 4)
+            return true;
+    }
+    return false;
+}
+
 void InstanceSet::sub_7100FBDC70(f32 scale) {
     if (!mRagdollConfigList || !mRagdollInstance)
         return;

@@ -353,6 +353,14 @@ public:
     bool sub_710086D168();
     // 0x71008737e4: AS list x(0x31, ...) / x_4(a, b) unless sub_71008921A8().
     bool sub_71008737E4(u32 a, u32 b);
+    // lane4 s46 (placeholder names): 0x710086d138: 0.5 if the armor effect flag `_2` bit 2 is set, else 1.
+    f32 sub_710086D138();
+    // 0x7100885820: sets the chemical's `_180` (3 with the armor effect flag 4, else min(_2014 + _2030, 2)).
+    void sub_7100885820();
+    // 0x71008744d4: the Root4 exists and its flag 1 is off.
+    bool sub_71008744D4();
+    // 0x710087386c: the damage manager's m30 direction (zero if there is no manager).
+    sead::Vector3f sub_710087386C();
     // 0x71008738bc / 0x71008738ec / 0x710087391c / 0x710087394c: tests of the damage manager's getField54().
     bool sub_71008738BC();
     bool sub_71008738EC();
@@ -609,12 +617,14 @@ public:
     /* 0x2008 */ u8 _2008[0x200c - 0x2008];
     /* 0x200c */ s32 _200c;
     /* 0x2010 */ s32 _2010;
-    /* 0x2014 */ u8 _2014[0x201c - 0x2014];
+    /* 0x2014 */ s32 _2014;
+    /* 0x2018 */ u8 _2018[0x201c - 0x2018];
     /* 0x201c */ s32 _201c;  // sub_71008859EC
     /* 0x2020 */ u8 _2020[0x2028 - 0x2020];
     /* 0x2028 */ s32 _2028;
     /* 0x202c */ s32 _202c;
-    /* 0x2030 */ u8 _2030[0x2038 - 0x2030];
+    /* 0x2030 */ s32 _2030;
+    /* 0x2034 */ u8 _2034[0x2038 - 0x2034];
     /* 0x2038 */ s32 _2038;  // sub_71008859EC
     /* 0x203c */ u8 _203c[0x2040 - 0x203c];
     /* 0x2040 */ s32 _2040;

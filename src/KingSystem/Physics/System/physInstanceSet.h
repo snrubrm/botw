@@ -138,6 +138,12 @@ public:
     // `idx` is out of range).
     bool sub_7100FBDB90(s32 idx, f32 factor);
     bool sub_7100FBDBD8(s32 idx, s32 bone, f32 weight);
+    // 0x7100fbdc24 (lane4 s46): setBoneWeight(name, weight) of controller `idx` (false if out of range).
+    bool sub_7100FBDC24(s32 idx, const sead::SafeString& bone_name, f32 weight);
+    // 0x7100fc0234 (lane4 s46): any listed body (0xb0-byte entries at 0x108) has a 0x98 entry.
+    bool sub_7100FC0234() const;
+    // 0x7100fbd390 (lane4 s46): true without a cloth set or if any cloth has flag 4 (placeholder name).
+    bool sub_7100FBD390() const;
     // 0x7100fbdc70 (declaration only): scales the friction of the bodies by the ragdoll config.
     void sub_7100FBDC70(f32 scale);
     // 0x7100fbdd40 (declaration only).
@@ -232,7 +238,13 @@ private:
     void* _f0{};
 
     NavMeshCharacter* mNavMeshCharacter;
-    sead::Buffer<void*> _100;
+    // The listed bodies: 0xb0-byte entries (only the 0x98 entry is known).
+    struct Unk2 {
+        /* 0x00 */ u8 _0[0x98];
+        /* 0x98 */ void* _98;
+        /* 0xa0 */ u8 _a0[0xb0 - 0xa0];
+    };
+    sead::Buffer<Unk2> _100;
     u16 _110{};
     s8 _112;
     sead::ObjArray<Unk1> mLinkMatricesMaybe;

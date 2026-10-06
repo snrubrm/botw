@@ -183,6 +183,9 @@ struct Unk_71002ef75c {
     // charge / 13 (or `_14`)) and sets the flag 1 of _18 when it reaches 0. Names are guesses.
     void sub_71002EF75C();
 
+    // 0x71002e999c: the part of Weapon::m214 after the `_18` check (lane4 s46; placeholder name).
+    bool sub_71002E999C();
+
     // 0x71002ef850: `_14 -= (f32)_8->_2a8; if (_14 <= 0) { _18 |= 1; _14 = 0; }`.
     void sub_71002EF850();
     // 0x71002ef74c: the maximum charge: `(f32)_8->_2a8`.
@@ -194,6 +197,13 @@ struct Unk_71002ef75c {
     /* 0x10 */ u32 _10;
     /* 0x14 */ f32 _14;
     /* 0x18 */ u8 _18;  // flags (bit 0: charge used up; bit 3 starts the "ChemSwordChargeLoop" xlink)
+};
+
+// Request passed to Weapon::sub_71002EDC14 (stored at Weapon+0xcd8 under the lock at 0xc98; flag at 0xce0).
+// Placeholder name and fields (lane4 s46).
+struct Unk_71002edc14 {
+    /* 0x0 */ u32 _0 = 0;
+    /* 0x4 */ u8 _4 = 0;
 };
 
 struct Unk_71002edaec {
@@ -344,6 +354,14 @@ public:
     bool sub_71002EA0C8();
     // 0x71002edb84: `_bd0 = value; _bd8 = true` under the lock `_b90`.
     void sub_71002EDB84(const u64& value);
+    // lane4 s46 (placeholder names): 0x71002ed274 / 0x71002e9a7c test the chemical material attribute (bit 0 / both of
+    // 0x88) and a flag of the chemical (_be bit 0 / bit 2).
+    bool sub_71002ED274();
+    bool sub_71002E9A7C();
+    // 0x71002edbcc: `_c90 = value; _c94 = true` under the lock `_c50`.
+    void sub_71002EDBCC(const u32& value);
+    // 0x71002edc14: `_cd8 = value; _ce0 = true` under the lock `_c98`.
+    void sub_71002EDC14(const Unk_71002edc14& value);
     void sub_71002EDA38(const Unk_71002eda38& arg);
     void sub_71002EDAEC(const Unk_71002edaec& arg);
     // 0x71002edb3c: stores `value` to _b88 (under _b48) and sets _b8c (behavior WeaponChemicalReset).
@@ -365,7 +383,14 @@ public:
     /* 0xbe0 */ sead::CriticalSection _be0;
     /* 0xc20 */ Unk_71002edaec _c20;
     /* 0xc4c */ bool _c4c = false;
-    /* 0xc4d */ u8 _c4d[0xcec - 0xc4d];  // TODO
+    /* 0xc4d */ u8 _c4d[0xc50 - 0xc4d];  // TODO
+    /* 0xc50 */ sead::CriticalSection _c50;
+    /* 0xc90 */ u32 _c90 = 0;
+    /* 0xc94 */ bool _c94 = false;
+    /* 0xc98 */ sead::CriticalSection _c98;
+    /* 0xcd8 */ Unk_71002edc14 _cd8;
+    /* 0xce0 */ bool _ce0 = false;
+    /* 0xce1 */ u8 _ce1[0xcec - 0xce1];  // TODO
     /* 0xcec */ s32 _cec = -1;
     /* 0xcf0 */ s32 _cf0 = -1;  // flags (BitFlag32; the sign bit is tested by AI helpers); sub_71005DBB60 returns it
     /* 0xcf4 */ u8 _cf4[0xd08 - 0xcf4];  // TODO
