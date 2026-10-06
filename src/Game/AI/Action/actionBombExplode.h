@@ -2,9 +2,11 @@
 
 #include "Game/AI/Action/actionActionEx.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/System/Timer.h"
 
 namespace ksys::phys {
 class RigidBody;
+class SphereRigidBody;
 }
 
 namespace uking::action {
@@ -21,14 +23,16 @@ public:
 
 protected:
     void calc_() override;
-    float _1c = 0.0f;
-    float _20 = 0.0f;
-    float _24 = -1.0f;
-    void* _28{};
-    void* _30{};
-    void* _38{};
-    void* _40{};
-    ksys::phys::RigidBody* _48{};
+    ksys::Timer _1c{0.0f, 0.0f};
+    // static_param at offset 0x28
+    const int* mSizeUpTime_s{};
+    // static_param at offset 0x30
+    const int* mExplodeTime_s{};
+    // static_param at offset 0x38
+    const float* mShockPower_s{};
+    // static_param at offset 0x40
+    const bool* mUseDefaultEffect_s{};
+    ksys::phys::SphereRigidBody* _48{};
     float _50 = 0.0f;
     float _54 = 0.0f;
     float _58 = 0.0f;
