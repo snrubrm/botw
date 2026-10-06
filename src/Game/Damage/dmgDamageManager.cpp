@@ -29,7 +29,35 @@ f32 DamageManager::sub_71006D8DE8() {
 }
 
 s32 DamageManager::sub_71006D8534() const {
-    return _220 ? _220->_10 : 0;
+    return _220 ? _220->mHits.size() : 0;
+}
+
+s32 DamageManager::m49(s32 damageTypeMaybe) {
+    if (_8c & 0x10)
+        return 1;
+    return DamageManagerBase::m49(damageTypeMaybe);
+}
+
+bool DamageManager::sub_71006D82D4() const {
+    if (!_219)
+        return false;
+    return _220 && _220->mHits.size() > 0;
+}
+
+bool DamageManager::sub_71006D83B8(s32 bit) const {
+    return _220->mHits.back()._18 & (1 << bit);
+}
+
+s32 DamageManager::sub_71006D8304() const {
+    return _220->mHits.back()._0;
+}
+
+s32 DamageManager::sub_71006D8340() const {
+    return _220->mHits.back()._14;
+}
+
+s32 DamageManager::sub_71006D837C() const {
+    return _220->mHits.back()._10;
 }
 
 }  // namespace uking::dmg

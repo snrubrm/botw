@@ -1,5 +1,7 @@
 #pragma once
 
+#include <container/seadRingBuffer.h>
+
 #include <prim/seadBitFlag.h>
 #include <prim/seadRuntimeTypeInfo.h>
 #include "Game/Damage/dmgDamageManagerBase.h"
@@ -14,9 +16,22 @@ namespace uking::dmg {
 // TODO: incomplete. Size 0x230 (the ctor's last store is at 0x228; Horse embeds one at 0xd20
 // followed by a member at 0xf50).
 // Placeholder (the object at DamageManager::_220; only the field read by sub_71006D8534).
+struct DamageManagerHit {
+    /* 0x00 */ s32 _0;
+    /* 0x04 */ u8 _4[0xc];
+    /* 0x10 */ s32 _10;
+    /* 0x14 */ s32 _14;
+    /* 0x18 */ u32 _18;
+    /* 0x1c */ u8 _1c[0x4c - 0x1c];
+};
+KSYS_CHECK_SIZE_NX150(DamageManagerHit, 0x4c);
+
+// Placeholder (the object at DamageManager::_220): starts with the ring buffer of the recent damage records (0x4c bytes
+// each; the accessors below read the most recent one).
 struct DamageManagerUnk220 {
-    u8 _0[0x10];
-    s32 _10;
+    /* 0x000 */ sead::RingBuffer<DamageManagerHit> mHits;
+    /* 0x018 */ u8 _18[0x27a - 0x18];
+    /* 0x27a */ bool _27a;
 };
 
 class DamageManager : public DamageManagerBase {
@@ -24,6 +39,8 @@ class DamageManager : public DamageManagerBase {
 public:
     explicit DamageManager(ksys::act::Actor* actor);
     void preDelete1() override;
+    // 0x71006d8520: 1 while _8c has bit 4, else the base class's table lookup.
+    s32 m49(s32 damageTypeMaybe) override;
 
     // 0x71006d69f8 (not decompiled): the rigid body hit by the current damage (by damage kind
     // _5c: 2 / 6 via sub_71007A255C, 4 via the actor's +0x708 object), or null.
@@ -35,6 +52,15 @@ public:
 
     // 0x71006d8534 (lane1 s22): `_220 ? _220->_10 : 0`. Placeholder name.
     s32 sub_71006D8534() const;
+    // 0x71006d8304 / 0x71006d8340 / 0x71006d837c (lane4 s47; placeholder names): fields 0x0 / 0x14 / 0x10 of the most
+    // recent damage record.
+    s32 sub_71006D8304() const;
+    s32 sub_71006D8340() const;
+    s32 sub_71006D837C() const;
+    // 0x71006d82d4: `_219` is set and there are damage records.
+    bool sub_71006D82D4() const;
+    // 0x71006d83b8: whether bit `bit` of field 0x18 of the most recent damage record is set.
+    bool sub_71006D83B8(s32 bit) const;
 
     s32 _68;  // WolfLinkRoot::enter_
     s32 _6c;  // read by PreyRoot's damage callback (lane2 s42)
@@ -49,7 +75,8 @@ public:
     u16 _214;
     // Flags (ctor: 9). AI code tests bit 1 (`_216.isOn(2)`, ~15 functions).
     sead::BitFlag16 _216;
-    u16 _218;
+    u8 _218;
+    bool _219;
     DamageManagerUnk220* _220;
     u32 _228;
 };
