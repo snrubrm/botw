@@ -36,4 +36,79 @@ void Interior::setRearSpeakerGain(f32 gain) {
         mRearSpeakerGain = gain;
 }
 
+// 0x7100b85a38
+bool InteriorSquare::hasCenter() const {
+    return false;
+}
+
+// 0x7100b85a40
+bool InteriorSquare::hasLFE() const {
+    return false;
+}
+
+// 0x7100b85a48
+bool InteriorSquare::hasRear() const {
+    return true;
+}
+
+// 0x7100b85a54
+bool InteriorWide::hasCenter() const {
+    return false;
+}
+
+// 0x7100b85a5c
+bool InteriorWide::hasLFE() const {
+    return false;
+}
+
+// 0x7100b85a64
+bool InteriorWide::hasRear() const {
+    return true;
+}
+
+// 0x7100b85a70
+bool Interior5point1ch::hasCenter() const {
+    return true;
+}
+
+// 0x7100b85a78
+bool Interior5point1ch::hasLFE() const {
+    return true;
+}
+
+// 0x7100b85a80
+bool Interior5point1ch::hasRear() const {
+    return true;
+}
+
+// 0x7100b85a8c
+bool Interior4point1ch::hasCenter() const {
+    return false;
+}
+
+// 0x7100b85a94
+bool Interior4point1ch::hasLFE() const {
+    return true;
+}
+
+// 0x7100b85a9c
+bool Interior4point1ch::hasRear() const {
+    return true;
+}
+
+// 0x7100b85aac
+bool InteriorStereo::hasCenter() const {
+    return false;
+}
+
+// 0x7100b85ab4
+bool InteriorStereo::hasLFE() const {
+    return false;
+}
+
+// 0x7100b85abc
+bool InteriorStereo::hasRear() const {
+    return false;
+}
+
 }  // namespace aal
