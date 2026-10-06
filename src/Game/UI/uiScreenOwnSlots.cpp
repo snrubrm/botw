@@ -1,6 +1,7 @@
 #include "Game/UI/euiBoxCursor.h"
 #include "Game/UI/euiButton.h"
 #include "Game/UI/uiScreens.h"
+#include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "Game/DLC/aocManager.h"
 
 // Trivial overrides of the leaf screens' own state-callback slots (154+).
@@ -500,6 +501,29 @@ void ScreenPauseMenu::m156() {
     const u32 index = _3a18 < 3 ? _3a18 : 0;
     if (_3a00[index])
         _3a00[index]->sub_71009B0224(false);
+}
+
+// 0x7100a3e2d4
+void ScreenPauseMenu::m186() {
+    if (_3674)
+        sub_7100A38028();
+    moveBoxCursorByTag_(_3b88);
+    if (_3b98)
+        _3b98->sub_71009B5FC8(true);
+    _3ba4 = 0;
+    if (!sub_7100A25D7C(0) && _3b98 && _3b98->_1a0 >= 2) {
+        _3c14.reset();
+        _3c10 = 1;
+    }
+}
+
+// 0x7100a3e654
+void ScreenPauseMenu::m188() {
+    if (_3b98)
+        _3b98->sub_71009B5FC8(false);
+    _3c10 = 0;
+    if (auto* screen = eui::ScreenMgr::instance()->getScreen(ScreenId::MessageTipsPauseMenu))
+        screen->close(-1);
 }
 
 // 0x7100a3e0f4

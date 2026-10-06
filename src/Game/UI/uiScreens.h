@@ -1432,6 +1432,14 @@ struct ScreenPauseMenuUnk3a00 {
     void sub_71009B0224(bool a1);
 };
 
+// Placeholder for the object ScreenPauseMenu keeps at 0x3b98.
+struct ScreenPauseMenuUnk3b98 {
+    u8 _0[0x1a0];
+    /* 0x1a0 */ s32 _1a0;
+    // 0x71009b5fc8 (CSV unnamed; declared only)
+    void sub_71009B5FC8(bool a1);
+};
+
 class ScreenPauseMenu : public ScreenEx {
 public:
     s32 m72() override;
@@ -1459,12 +1467,18 @@ public:
     u8 _pad_3a19[0x3b80 - 0x3a19];
     /* 0x3b80 */ s32 _3b80;
     /* 0x3b84 */ s32 _3b84;
-    u8 _pad_3b88[0x3b90 - 0x3b88];
+    /* 0x3b88 */ s32 _3b88;
+    u8 _pad_3b8c[0x3b90 - 0x3b8c];
     /* 0x3b90 */ ScreenPauseMenuUnk3b90* _3b90;
-    u8 _pad_3b98[0x3ba4 - 0x3b98];
+    /* 0x3b98 */ ScreenPauseMenuUnk3b98* _3b98;
+    u8 _pad_3ba0[0x3ba4 - 0x3ba0];
     /* 0x3ba4 */ u8 _3ba4;
     u8 _pad_3ba5[0x3bb4 - 0x3ba5];
     /* 0x3bb4 */ s32 _3bb4;
+    u8 _pad_3bb8[0x3c10 - 0x3bb8];
+    /* 0x3c10 */ u8 _3c10;
+    u8 _pad_3c11[3];
+    /* 0x3c14 */ UiTimer _3c14;
 
     // own virtual slots (state callbacks; groups of four: void, void, void, s32 -- the types are guesses from the trivial ones)
     virtual void m154();
@@ -2877,6 +2891,8 @@ public:
 // Placeholder-named UI facade helpers (declared only unless noted; names after the original addresses).
 // 0x7100a98038 (defined in uiScreenFacade.cpp)
 bool sub_7100A98038(s32 excluded_id);
+// 0x7100a25d7c (placeholder name): the "guide point" flag of kind 0 (challenge points) or 1 (visit marks); true otherwise.
+bool sub_7100A25D7C(s32 kind);
 // 0x7100a9b278 (defined in uiMiscFacade.cpp)
 bool sub_7100A9B278();
 // 0x7100aa8f70: `isActiveEventDemo000Or001Or002()` (a 4-byte jump in the original: its own function)

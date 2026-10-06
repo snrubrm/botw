@@ -202,6 +202,18 @@ void ScreenDemoStart::m93(sead::Heap*) {
     _3610 = mLayout->createAnimatorAuto("Decide", false);
 }
 
+// 0x7100a25d7c
+bool sub_7100A25D7C(s32 kind) {
+    switch (kind) {
+    case 0:
+        return ksys::gdt::getFlag_GuideP_ChallengePoint(false);
+    case 1:
+        return ksys::gdt::getFlag_GuideP_VisitMark(false);
+    default:
+        return true;
+    }
+}
+
 // 0x7100a0e7fc
 void ScreenKeyNum::open(s32 option) {
     if (mState != 1 && mState != 2 && ksys::StageInfo::sIsDungeon) {
