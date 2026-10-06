@@ -20,6 +20,9 @@ protected:
     void calc_() override;
     virtual const char* m32();
     virtual void m33(const sead::SafeString& name);
+    // 0x7100218184 (lane5 s5): applies the animation-driven root motion to the actor (character controller, rigid
+    // body or plain actor transform).
+    void sub_7100218184();
 
     // dynamic_param at offset 0x20
     int* mCloseDialogOption_d{};

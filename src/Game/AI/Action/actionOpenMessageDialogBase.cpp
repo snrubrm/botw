@@ -1,5 +1,8 @@
 #include "Game/AI/Action/actionOpenMessageDialogBase.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace uking::action {
 
@@ -41,5 +44,27 @@ const char* OpenMessageDialogBase::m32() {
 }
 
 void OpenMessageDialogBase::m33(const sead::SafeString& name) {}
+
+void OpenMessageDialogBase::sub_7100218184() {
+    auto* actor = mActor;
+    auto* as_list = actor->getASList();
+    sead::Matrix34f mtx;
+    sead::Matrix34f delta;
+    as_list->sub_710115D4A4(as_list->x_5(0, 0, &ksys::as::ASList::Unk2::sub_71011632F8), &delta, true);
+    mtx.setMul(*static_cast<const sead::Matrix34f*>(actor->get7d0()), delta);
+    auto* controller = actor->getCharacterController();
+    auto* body = actor->getMainBody();
+    if (controller) {
+        controller->sub_7100F5F6FC(sead::Vector3f::zero);
+        controller->sub_7100F5FB24(sead::Vector3f::zero);
+        controller->sub_7100F60500(mtx);
+    } else if (body) {
+        body->setLinearVelocity(sead::Vector3f::zero);
+        body->setAngularVelocity(sead::Vector3f::zero);
+        body->setTransform(mtx);
+    } else {
+        actor->sub_71011C88C0(mtx);
+    }
+}
 
 }  // namespace uking::action
