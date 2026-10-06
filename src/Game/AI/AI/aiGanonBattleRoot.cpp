@@ -5,6 +5,9 @@
 #include "Game/Actor/actLastBoss.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
 namespace uking::ai {
 
@@ -14,6 +17,30 @@ GanonBattleRoot::~GanonBattleRoot() = default;
 
 bool GanonBattleRoot::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
+}
+
+void GanonBattleRoot::sub_71003E3A3C(const sead::Vector3f& position) {
+    if (auto* controller = mActor->getCharacterController())
+        controller->sub_7100F62BB0();
+    if (auto* boss = sead::DynamicCast<act::LastBoss>(mActor))
+        boss->_14e8.reset(0x2008);
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(position, "TargetPos", -1);
+    changeChild("壁", &pack);
+    _38 = false;
+}
+
+void GanonBattleRoot::sub_71003E3BA0(const sead::Vector3f& position) {
+    if (auto* controller = mActor->getCharacterController()) {
+        controller->sub_7100F5EDE8(sead::Vector3f::ey);
+        controller->sub_7100F5EE1C(sead::Vector3f::ey * -29.0f);
+        controller->sub_7100F62BB8();
+    }
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(position, "TargetPos", -1);
+    pack.addBool(_38, "IsNoWait", -1);
+    changeChild("床", &pack);
+    _38 = false;
 }
 
 void GanonBattleRoot::enter_(ksys::act::ai::InlineParamPack* params) {

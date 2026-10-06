@@ -1301,6 +1301,37 @@ bool EnemyNormal::sub_71003A361C(Unk2* out, s32 type, Unk1* info) {
     return true;
 }
 
+// NON_MATCHING: the original loads `entry->_a0` into a callee-saved register before the payload lock spin
+// (only a named local used once reproduces that; then only the stack slot of `flags` differs by 4 bytes).
+bool EnemyNormal::sub_710039FFA8(bool a1) {
+    auto* actor = mActor;
+    u16 flags = 0;
+    auto* entry = sub_71003A0114(a1, 0, 0, &flags);
+    if (!entry)
+        return false;
+    sub_71005D8DE8(actor, entry->_0.mLink, &entry->_58, nullptr);
+    Unk2 target;
+    target.sub_71003A02A4(entry);
+    sub_71003A02E0(&target);
+    if (actor->getActorFlags2().isOn(ksys::act::Actor::ActorFlag2::_2000000)) {
+        _3ac.setBit(0);
+        {
+            sead::ScopedLock<sead::JobQueueLock> lock(&_130._18.mLock);
+            auto& data = _130._18.mData;
+            data._0 = entry->_0.mLink;
+            data._10.acquire(actor, false);
+            data._20 = 0;
+            data._24 = entry->_a0;
+            data._28 = entry->_88;
+            data._34 = 0;
+        }
+        sub_710039F938(true);
+    } else {
+        _3ac.resetBit(0);
+    }
+    return true;
+}
+
 bool EnemyNormal::sub_710039DB34(bool a1) {
     return m45(sub_71005D9330(mActor), sub_71005D94AC(mActor), a1);
 }

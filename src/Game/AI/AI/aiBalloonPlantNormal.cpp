@@ -3,6 +3,7 @@
 #include "KingSystem/ActorSystem/actActorCreator.h"
 #include "KingSystem/ActorSystem/actActorHeapUtil.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actInstParamPack.h"
 
 namespace uking::ai {
@@ -13,6 +14,14 @@ BalloonPlantNormal::~BalloonPlantNormal() = default;
 
 bool BalloonPlantNormal::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
+}
+
+void BalloonPlantNormal::sub_7100327C24() {
+    ksys::act::ai::InlineParamPack pack;
+    pack.addPointer(&_50, "RopeActorHandle", ksys::AIDefParamType::BaseProcHandle, -1);
+    pack.addString(_60, "ConnectRigidName", -1);
+    pack.addVec3(_b8, "ConnectRigidOffset", -1);
+    changeChild("寄生する", &pack);
 }
 
 void BalloonPlantNormal::enter_(ksys::act::ai::InlineParamPack* params) {

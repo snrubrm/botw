@@ -1,6 +1,7 @@
 #include "Game/AI/AI/aiCommonPickedItem.h"
 #include "Game/AI/aiUnk_71005E0420.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 
@@ -26,6 +27,22 @@ bool CommonPickedItem::handleMessage_(const ksys::Message* message) {
     if (sub_710072B8E8(actor))
         return true;
     return handleItemPickedMessageMaybe(*message, &_88, actor, nullptr);
+}
+
+void CommonPickedItem::sub_7100355818() {
+    auto* actor = mActor;
+    _88.x();
+    if (--_c8 <= 0)
+        ksys::act::disableAttClient(actor, "NoticeDo");
+    m35();
+    actor->emitBasicSigOn();
+    if (!_d0.getBufferPtr()) {
+        changeChild("メインボタン");
+    } else {
+        ksys::act::ai::InlineParamPack pack;
+        pack.addString(_d0[_e0 - 1 - _c8], "GetActorName", -1);
+        changeChild("メインボタン", &pack);
+    }
 }
 
 void CommonPickedItem::enter_(ksys::act::ai::InlineParamPack* params) {
