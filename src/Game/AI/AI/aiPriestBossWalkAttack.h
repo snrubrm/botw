@@ -16,6 +16,8 @@ public:
     void loadParams_() override;
 
 protected:
+    // 0x7100531900: ASList::x_6(0x10, 0, XZ distance to the player), then the "移動" child
+    void sub_7100531900();
     // static_param at offset 0x38
     const int* mAtDirType_s{};
     // static_param at offset 0x40

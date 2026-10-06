@@ -1,4 +1,7 @@
 #include "Game/AI/AI/aiPriestBossWalkAttack.h"
+#include <cmath>
+#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
@@ -66,6 +69,19 @@ void PriestBossWalkAttack::loadParams_() {
     getStaticParam(&mAngleNeedTurn_s, "AngleNeedTurn");
     getDynamicParam(&mTargetPos_d, "TargetPos");
     getAITreeVariable(&mPriestBossMetaAIUnit_a, "PriestBossMetaAIUnit");
+}
+
+// 0x7100531900
+void PriestBossWalkAttack::sub_7100531900() {
+    const sead::Vector3f pos = mActor->getMtx().getTranslation();
+    const sead::Vector3f& player_pos = getPlayerPosition();
+    const f32 dx = pos.x - player_pos.x;
+    const f32 dz = pos.z - player_pos.z;
+    const f32 distance = std::sqrt(dx * dx + dz * dz);
+    mActor->getASList()->x_6(0x10, 0, distance);
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+    changeChild("移動", &pack);
 }
 
 }  // namespace uking::ai
