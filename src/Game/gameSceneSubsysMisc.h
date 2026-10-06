@@ -65,11 +65,27 @@ public:
     void sub_7100905C70();
     // 0x7100905c8c: declaration only, current selected bank force-off flag.
     void sub_7100905C8C();
+    // Small accessors (placeholder names after the offsets they use; addresses in the comments).
+    void sub_7100905B1C();  // _331 = true
+    void sub_7100905B28();  // _331 = false, _58 = false
+    bool sub_7100905C30() const;  // _32f
+    const sead::Vector3f& sub_7100905C38() const;  // _dc[_148]
+    void sub_7100905C54();  // _d8[_144] = true
+    void sub_7100905CEC(s32* out) const;  // out = {_124, _128}
+    void sub_7100905D04(const s32* value);
+    f32 sub_7100905D18() const;  // _130
+    void sub_7100905D20(f32 value);
+    f32 sub_7100905D34() const;  // _134
+    void sub_7100905D3C(f32 value);
+    sead::Vector3f sub_7100905D58() const;  // _100
+    void sub_7100905D68(const sead::Vector3f& value);
     // 0x7100905d28 / 0x7100905de0: bool setters
     void sub_7100905D28(bool value);
     void sub_7100905DE0(bool value);
 
-    u8 _0[0x8c];
+    u8 _0[0x58];
+    bool _58;
+    u8 _59[0x8c - 0x59];
     f32 _8c;
     f32 _90;
     u8 _94[0x9c - 0x94];
@@ -80,9 +96,19 @@ public:
     ksys::act::BaseProcLink _c8;
     sead::SafeArray<bool, 2> _d8;
     u8 _da[0xdc - 0xda];
-    u8 _dc[0xfc - 0xdc];
+    sead::SafeArray<sead::Vector3f, 2> _dc;
+    u8 _f4[0xfc - 0xf4];
     sead::SafeArray<bool, 2> _fc;
-    u8 _fe[0x144 - 0xfe];
+    u8 _fe[0x100 - 0xfe];
+    sead::Vector3f _100;
+    u8 _10c[0x124 - 0x10c];
+    s32 _124;
+    s32 _128;
+    u8 _12c[0x130 - 0x12c];
+    f32 _130;
+    f32 _134;
+    u8 _138[0x140 - 0x138];
+    s32 _140;
     s32 _144;
     s32 _148;
     u8 _14c[0x150 - 0x14c];
