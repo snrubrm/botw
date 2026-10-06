@@ -73,6 +73,7 @@ add_library(aal OBJECT
   src/aalRequestSoundLimiter.cpp
   src/aalRollOffCurve.cpp
   src/aalShape.cpp
+  src/aalShapeCapsule.cpp
   src/aalShapeCube.cpp
   src/aalShapeSegment.cpp
   src/aalShapeSphere.cpp

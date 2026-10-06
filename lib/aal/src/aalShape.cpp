@@ -149,13 +149,6 @@ const sead::Vector3f& Shape::getUp() const {
 // 0x7100b9abd0
 void Shape::drawShape_(sead::PrimitiveDrawer& drawer, const sead::Color4f& color, f32 scale) const {}
 
-// 0x7100b9abd4
-ShapeCapsule* ShapeCapsule::create(const sead::SafeString& name, sead::Heap* heap) {
-    auto* shape = new (heap, 8) ShapeCapsule(name);
-    SystemAccessor::getShapeMgr()->addShape(shape);
-    return shape;
-}
-
 // 0x7100b9bbc0
 ShapeCylinder* ShapeCylinder::create(const sead::SafeString& name, sead::Heap* heap) {
     auto* shape = new (heap, 8) ShapeCylinder(name);
