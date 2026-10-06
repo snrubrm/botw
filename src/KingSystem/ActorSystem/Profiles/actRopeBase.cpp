@@ -38,3 +38,33 @@ int RopeBase::getExtraHeapSize() {
 }
 
 }  // namespace ksys::act
+
+namespace ksys::act::acc {
+
+// inline-only in the original; name is a guess (same helper as in acc::Weapon / acc::Armor).
+static BaseProc* getProcIfActor(BaseProc* proc) {
+    if (proc && sead::IsDerivedFrom<Actor>(proc))
+        return proc;
+    return nullptr;
+}
+
+inline ksys::act::RopeBase* RopeBase::getRopeBase() const {
+    auto* actor = static_cast<Actor*>(getProcIfActor(mProc));
+    return sead::DynamicCast<ksys::act::RopeBase>(actor);
+}
+
+bool RopeBase::sub_7100ED8344() const {
+    auto* rope = getRopeBase();
+    return rope ? rope->_956 != 0 : false;
+}
+
+void RopeBase::requestCutOffHungPoint(int on) const {
+    debugLog(1, "requestCutOff(HungPoint)");
+    debugLog(2, "requestCutOff(HungPoint)");
+    if (auto* rope = getRopeBase()) {
+        rope->_971 = true;
+        rope->_974 = on ? rope->_930 + 1 : 0;
+    }
+}
+
+}  // namespace ksys::act::acc

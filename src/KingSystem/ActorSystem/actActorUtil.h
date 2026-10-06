@@ -181,6 +181,7 @@ bool isWolfOrBear(const ActorConstDataAccess& accessor);
 bool isWolfOrBear(Actor* actor);
 bool isWolfOrBear(BaseProcLink* link);
 
+bool isRope(const ActorConstDataAccess& accessor);
 bool isRope(Actor* actor);
 bool isRope(BaseProcLink* link);
 

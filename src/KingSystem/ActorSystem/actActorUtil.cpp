@@ -654,6 +654,10 @@ bool isRope(BaseProcLink* link) {
     return accessor.hasProc() && accessor.isDerivedFrom<RopeBase>();
 }
 
+bool isRope(const ActorConstDataAccess& accessor) {
+    return accessor.hasProc() && accessor.isDerivedFrom<RopeBase>();
+}
+
 bool isTreeOrScaffoldOrSignboard(Actor* actor) {
     const auto accessor = getAccessor(actor);
     if (!accessor.hasProc())

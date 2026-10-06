@@ -2,6 +2,7 @@
 
 #include <container/seadBuffer.h>
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actBaseProcHandle.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 
@@ -10,6 +11,10 @@ class RigidBody;
 }  // namespace ksys::phys
 
 namespace ksys::act {
+
+namespace acc {
+class RopeBase;
+}
 
 // TODO
 class RopeBase : public Actor {
@@ -30,6 +35,8 @@ public:
     virtual void m149();
     virtual void m150();
 
+    friend class acc::RopeBase;
+
 protected:
     // TODO
     u8 _840[0x860 - 0x840];
@@ -40,11 +47,35 @@ protected:
     BaseProcLink _8c0[2];
     u8 _8e0[0x92c - 0x8e0];
     s32 _92c;
-    u8 _930[0x95a - 0x930];
+    s32 _930;
+    u8 _934[0x956 - 0x934];
+    u8 _956;
+    u8 _957[0x95a - 0x957];
     bool _95a;
-    u8 _95b[0x9d0 - 0x95b];
+    u8 _95b[0x971 - 0x95b];
+    bool _971;
+    u8 _972[0x974 - 0x972];
+    s32 _974;
+    u8 _978[0x9d0 - 0x978];
     BaseProcHandle _9d0;
     u8 _9e0[0xa00 - 0x9e0];
 };
 
 }  // namespace ksys::act
+
+namespace ksys::act::acc {
+
+// Accessor for RopeBase actors (CSV act::acc::x::requestCutOffHungPoint; lane4 s44; the other names are guesses; functions
+// 0x7100ed8344-0x7100ed8580).
+class RopeBase : public ActorConstDataAccess {
+public:
+    // 0x7100ed8344: `_956` is set.
+    bool sub_7100ED8344() const;
+    // 0x7100ed8580 (debugLog "requestCutOff(HungPoint)" twice): `_971 = true; _974 = on ? _930 + 1 : 0`.
+    void requestCutOffHungPoint(int on) const;
+
+protected:
+    ksys::act::RopeBase* getRopeBase() const;
+};
+
+}  // namespace ksys::act::acc
