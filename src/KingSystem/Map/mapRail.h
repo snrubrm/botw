@@ -44,7 +44,8 @@ public:
     virtual ~Rail();
     virtual void init(MubinIter* iter, sead::Heap* heap);
     virtual s32 x_18() { return 0; }
-    virtual s32 x_20() { return 0; }
+    // Whether this is a route (RailRoute overrides it; tested as a bool by AI_Query_CheckRoad).
+    virtual bool x_20() { return false; }
     virtual RailPoint* allocPoint(sead::Heap* heap);
     virtual bool parse(MubinIter* iter);
     virtual void x_38() {}
@@ -151,7 +152,7 @@ public:
     ~RailConnectable() override;
 
     s32 x_18() override { return 1; }
-    s32 x_20() override { return 1; }
+    bool x_20() override { return true; }
     void x_38() override {}
 };
 

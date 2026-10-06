@@ -1,5 +1,7 @@
 #include "Game/AI/Query/queryCheckTime.h"
 #include <evfl/Query.h>
+#include "KingSystem/World/worldManager.h"
+#include "KingSystem/World/worldTimeMgr.h"
 
 namespace uking::query {
 
@@ -7,9 +9,28 @@ CheckTime::CheckTime(const InitArg& arg) : ksys::act::ai::Query(arg) {}
 
 CheckTime::~CheckTime() = default;
 
-// FIXME: implement
 int CheckTime::doQuery() {
-    return -1;
+    auto* manager = ksys::world::Manager::instance();
+    if (!manager)
+        return 0;
+
+    const int hour = *mHour;
+    const int minute = *mMinute;
+    if (mConditionType == "ge") {
+        if (hour < manager->getTimeMgr()->getHour())
+            return 1;
+        if (hour != manager->getTimeMgr()->getHour())
+            return 0;
+        return minute <= manager->getTimeMgr()->getMinute();
+    }
+    if (mConditionType == "le") {
+        if (manager->getTimeMgr()->getHour() < hour)
+            return 1;
+        if (manager->getTimeMgr()->getHour() != hour)
+            return 0;
+        return manager->getTimeMgr()->getMinute() <= minute;
+    }
+    return 0;
 }
 
 void CheckTime::loadParams(const evfl::QueryArg& arg) {
