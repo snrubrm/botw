@@ -27,7 +27,7 @@ public:
     void m37() override;
 
 protected:
-    // Declaration only; controls the physics restoration.
+    // Re-adds the bodies of the ball to the physics world (see the .cpp).
     void sub_7100301D90(bool restore_groups);
 
     // static_param at offset 0x100

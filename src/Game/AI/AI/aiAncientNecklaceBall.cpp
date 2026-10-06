@@ -7,8 +7,48 @@
 #include "KingSystem/ActorSystem/actActorBind.h"
 #include "KingSystem/GameData/gdtSpecialFlags.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
 
 namespace uking::ai {
+
+// Re-enables the main body of the ball in the physics system (and the "Chemical" body); with
+// `restore_groups` also the system group handlers.
+void AncientNecklaceBall::sub_7100301D90(bool restore_groups) {
+    auto* physics = mActor->getPhysics();
+    if (!physics)
+        return;
+    if (auto* body = mActor->getMainBody()) {
+        physics->sub_7100FBAF18(body);
+        if (!body->isAddedToWorld()) {
+            body->addToWorld();
+            physics->sub_7100FC012C(nullptr);
+        }
+        body->setMaxAngularVelocity(_12c);
+        body->resetFlag1000000();
+        body->changeMotionType(ksys::phys::MotionType::Dynamic);
+        sead::Vector3f position;
+        mActor->getMtx().getTranslation(position);
+        body->setPosition(position);
+        sead::Vector3f velocity = body->getLinearVelocity();
+        if (velocity.length() > 10.0f) {
+            const f32 length = velocity.length();
+            if (length > 0.0f)
+                velocity *= 10.0f / length;
+            body->setLinearVelocity(velocity);
+        }
+        mActor->nullsub_4649();
+    }
+    if (restore_groups) {
+        physics->sub_7100FBDFA4(physics->get178(0));
+        physics->sub_7100FBDFA4(physics->get178(1));
+    }
+    if (auto* set = physics->findBodyByName("Chemical")) {
+        if (auto* body = set->getRigidBodies()[0]) {
+            if (!body->isAddedToWorld())
+                body->addToWorld();
+        }
+    }
+}
 
 AncientNecklaceBall::AncientNecklaceBall(const InitArg& arg) : AncientNecklaceBallBase(arg) {}
 
