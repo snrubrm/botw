@@ -14,6 +14,24 @@ f32 UnifierSpeakerBalanceTable::getTotalVolumeMax(DeviceType device, s32 interio
     return mTotalVolumeMax[device][interior];
 }
 
+// 0x7100b95524
+void UnifierSpeakerBalanceTable::getSpeakerBalanceU8Range(SpeakerChannelVolume* volume, s32 angle, DeviceType device,
+                                                          s32 interior) const {
+    const UnifierSpeakerBalanceData::ChannelBalance& balance = mData[device][interior].mBalance[0][angle];
+    for (s32 i = 0; i < 5; ++i)
+        volume->volume[i] = balance[i];
+}
+
+// 0x7100b95598
+void UnifierSpeakerBalanceTable::getSpeakerBalanceU8RangeWithSpread(SpeakerChannelVolume* volume, s32 angle,
+                                                                    DeviceType device, s32 interior, f32 spread) const {
+    const s32 spread_index = static_cast<s32>(spread * 47.0f);
+    const UnifierSpeakerBalanceData::ChannelBalance& balance =
+        mData[device][interior].mBalance[spread_index][angle];
+    for (s32 i = 0; i < 5; ++i)
+        volume->volume[i] = balance[i];
+}
+
 // 0x7100b946dc
 UnifierSpeakerBalanceTable::~UnifierSpeakerBalanceTable() {
     if (mData) {

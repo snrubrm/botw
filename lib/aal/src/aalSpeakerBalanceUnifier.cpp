@@ -278,4 +278,28 @@ void SpeakerBalanceUnifier::calcSpeakerBalance(SpeakerChannelVolume* volume, Dev
     calcSpeakerBalance(volume, device, 0, index, spread);
 }
 
+// NON_MATCHING: same code; the original keeps the result at 0x18 of the frame (next to the handle) and stores the handle
+// before it reads the result.
+// 0x7100b9281c
+Handle SpeakerBalanceUnifier::emit(const AssetInfo& asset, SoundSource::SetupInfo* setup, StartResult* result) {
+    if (!mEmitter) {
+        if (result)
+            *result = static_cast<StartResult>(8);
+        return Handle::cInvalid;
+    }
+
+    StartResult emit_result = StartResult::Success;
+    Handle handle = mEmitter->emit(asset, setup, &emit_result);
+    if (emit_result > StartResult::Success) {
+        if (result)
+            *result = emit_result;
+        return Handle::cInvalid;
+    }
+
+    handle.getSoundSource()->setSpeakerBalanceSupplier(this);
+    if (result)
+        *result = StartResult::Success;
+    return handle;
+}
+
 }  // namespace aal

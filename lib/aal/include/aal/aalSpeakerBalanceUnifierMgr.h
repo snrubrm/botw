@@ -2,10 +2,12 @@
 
 #include <container/seadOffsetList.h>
 #include <container/seadPtrArray.h>
+#include <container/seadSafeArray.h>
 #include <hostio/seadHostIONode.h>
 #include <prim/seadSafeString.h>
 #include <thread/seadCriticalSection.h>
 #include "aal/aalDeviceType.h"
+#include "aal/aalSpeakerChannelVolume.h"
 
 namespace sead {
 class Heap;
@@ -15,13 +17,15 @@ namespace aal {
 
 class SpeakerBalanceUnifier;
 
-/// The speaker balances of the sixty four directions around a listener for each interior (0x3c00 bytes each, not
-/// modeled).
+/// The speaker balances of an interior: five channel volumes (0..255) for each of the sixty four directions around
+/// the listener and for each of the forty eight spreads.
 struct UnifierSpeakerBalanceData {
-    UnifierSpeakerBalanceData() : _0{} {}
+    UnifierSpeakerBalanceData() : mBalance{} {}
 
-    u8 _0[0x3c00];
+    using ChannelBalance = sead::SafeArray<u8, 5>;
+    sead::SafeArray<sead::SafeArray<ChannelBalance, 64>, 48> mBalance;
 };
+static_assert(sizeof(UnifierSpeakerBalanceData) == 0x3c00, "aal::UnifierSpeakerBalanceData size mismatch");
 
 /// The table of the speaker balances of the unifiers: one UnifierSpeakerBalanceData for each interior of each device.
 /// TODO: incomplete (makeTable and the calcSpeakerBalance functions are not decompiled, 0x7100b94830 declared only).
@@ -33,6 +37,10 @@ public:
     void initialize(sead::Heap* heap);
     void makeTable();
     f32 getTotalVolumeMax(DeviceType device, s32 interior) const;
+    /// The speaker balance of the direction as a float in 0..255 (the first five channels).
+    void getSpeakerBalanceU8Range(SpeakerChannelVolume* volume, s32 angle, DeviceType device, s32 interior) const;
+    void getSpeakerBalanceU8RangeWithSpread(SpeakerChannelVolume* volume, s32 angle, DeviceType device, s32 interior,
+                                            f32 spread) const;
 
 private:
     UnifierSpeakerBalanceData** mData;
