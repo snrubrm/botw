@@ -17,7 +17,14 @@ ForkMultiSleep::~ForkMultiSleep() {
 }
 
 bool ForkMultiSleep::init_(sead::Heap* heap) {
-    return ksys::act::ai::Action::init_(heap);
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
+        sead::FixedSafeString<32> key;
+        for (s32 i = 0; i < *mNum_s; ++i) {
+            key.format("%s%d", mPartsBaseName_s.cstr(), i);
+            enemy->sub_7100D3CED8(key, heap);
+        }
+    }
+    return true;
 }
 
 void ForkMultiSleep::enter_(ksys::act::ai::InlineParamPack* params) {

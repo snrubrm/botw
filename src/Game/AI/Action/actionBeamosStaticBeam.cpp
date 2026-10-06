@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionBeamosStaticBeam.h"
+#include "KingSystem/Utils/Thread/Message.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/XLink/xlinkXLink.h"
 
@@ -66,6 +67,14 @@ void BeamosStaticBeam::m32(sead::Vector3f* muzzle_offset, sead::Vector3f* beam_d
         direction.normalize();
         *beam_direction = direction;
     }
+}
+
+bool BeamosStaticBeam::handleMessage_(const ksys::Message* message) {
+    if (message->getType() == 0x3000003)
+        _a8.sub_71006F3B14(true);
+    else if (message->getType() == 0x3000004)
+        _a8.sub_71006F3A70(true);
+    return false;
 }
 
 }  // namespace uking::action
