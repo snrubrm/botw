@@ -25,6 +25,8 @@ protected:
     virtual void m34(f32 ratio);
     virtual void m35(sead::Vector3f* up);
     virtual void m36(sead::Vector3f* target);
+    // 0x7100168770 (CSV unnamed): target direction (projected, normalised) and up vector for calc_.
+    void sub_7100168770(sead::Vector3f* to_target, sead::Vector3f* up);
 
     // static_param at offset 0x20
     const float* mRotSpd_s{};

@@ -3,6 +3,7 @@
 #include "KingSystem/Utils/MathUtil.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "Game/AI/aiUnk_71007377D4.h"
 #include "Game/AI/aiUnk_71007377D4.h"
 
@@ -47,6 +48,33 @@ void ForkTurn::enter_(ksys::act::ai::InlineParamPack* params) {
         mFlags.set(Flag::Changeable);
 }
 
+void ForkTurn::sub_7100168770(sead::Vector3f* to_target, sead::Vector3f* up) {
+    if (*mIsUpdateTarget_s)
+        m36(&_b0);
+    sead::Vector3f up_dir;
+    m35(&up_dir);
+
+    auto* actor = mActor;
+    sead::Vector3f dir = _b0;
+    dir -= actor->getMtx().getTranslation();
+    if (!*mIsUpFollow_s)
+        ksys::util::sub_71011EFA00(&dir, dir, up_dir);
+    dir.normalize();
+
+    sead::Vector3f result_up;
+    bool found = false;
+    if (*mIsFollowGround_s) {
+        if (auto* controller = actor->getCharacterController())
+            found = controller->sub_7100F5F234(&result_up);
+    }
+    if (!found)
+        result_up = up_dir;
+
+    m33(&dir);
+    *to_target = dir;
+    *up = result_up;
+}
+
 void ForkTurn::leave_() {
     if (*mIsFinishForceStopRot_s)
         sub_7100738AA8(mActor, 0.0f);
@@ -67,8 +95,35 @@ void ForkTurn::loadParams_() {
     getStaticParam(&mIsUpFollow_s, "IsUpFollow");
 }
 
+// NON_MATCHING: only the scheduling of the loads for the sub_7100741578 arguments (front components, base ratio and
+// the up-follow flag, which the original negates with `eor #1` instead of `cmp / cset`).
 void ForkTurn::calc_() {
-    ksys::act::ai::Action::calc_();
+    auto* actor = mActor;
+    sub_7100741038(&_8c, actor);
+    m34(*mPosReduceRatio_s);
+    _80.lerp(*mRotSpd_s, *mRotAccRatio_s, *mRotSpd_s * *mRotAccMaxSpeedRatio_s);
+    _80.updateStats();
+
+    sead::Vector3f up;
+    sead::Vector3f to_target;
+    sub_7100168770(&to_target, &up);
+    sead::Vector3f front;
+    mActor->getMtx().getBase(front, 2);
+    front.y = 0.0f;
+    sub_7100741578(&_8c, to_target, up, !*mIsUpFollow_s, *mBaseRotRatio_s, _80.value, _80.value / 10);
+    if (m32())
+        sub_7100741B0C(_8c, actor);
+
+    front.normalize();
+    to_target.y = 0.0f;
+    to_target.normalize();
+    const f32 dot = front.x * to_target.x + front.y * to_target.y + front.z * to_target.z;
+    if (dot >= sead::Mathf::cos(*mFinRotate_s)) {
+        if (*mIsRotEndFinish_s)
+            setFinished();
+        else
+            mFlags.set(Flag::Changeable);
+    }
 }
 
 bool ForkTurn::m32() {

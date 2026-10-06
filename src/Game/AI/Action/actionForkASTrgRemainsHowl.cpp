@@ -1,5 +1,15 @@
 #include "Game/AI/Action/actionForkASTrgRemainsHowl.h"
+#include <gsys/gsysModel.h>
+#include <gsys/gsysModelAccessKey.h>
+#include <gsys/gsysModelUnit.h>
+#include <xlink2/xlink2HandleSLink.h>
+#include "KingSystem/XLink/xlinkActorUtil.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
 
 namespace uking::action {
 
@@ -9,6 +19,47 @@ ForkASTrgRemainsHowl::~ForkASTrgRemainsHowl() = default;
 
 bool ForkASTrgRemainsHowl::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
+}
+
+void ForkASTrgRemainsHowl::sub_7100142EC4(bool on) {
+    auto* set = mActor->getRigidBodyByName(ksys::act::getStr_Body().cstr());
+    if (!set)
+        return;
+    auto& bodies = set->getRigidBodies();
+    for (s32 i = 0, n = bodies.size(); i < n; ++i) {
+        auto* body = bodies[i];
+        if (!body)
+            continue;
+        if (!body->getHkBodyName().include("Spine") && !body->getHkBodyName().include("Head")) {
+            if (on)
+                body->enableContactLayer(ksys::phys::ContactLayer::EntityPlayer);
+            else
+                body->disableContactLayer(ksys::phys::ContactLayer::EntityPlayer);
+        }
+    }
+}
+
+void ForkASTrgRemainsHowl::sub_7100143068() {
+    auto* actor = mActor;
+    if (!actor)
+        return;
+    xlink2::HandleSLink handle;
+    ksys::eft::sub_710105DDB8(actor, "RoarSe", &handle);
+    if (!handle.isActive())
+        return;
+    auto* as_list = actor->getASList();
+    if (!as_list)
+        return;
+    auto* model = as_list->_8;
+    if (!model)
+        return;
+    const auto key = model->searchBone("Head");
+    if (!key.isValid())
+        return;
+    sead::Matrix34f mtx;
+    model->getUnits().unsafeAt(key.model_unit_index)->mModelUnit->getBoneWorldMatrix(&mtx, key.bone_index);
+    if (handle.isActive())
+        handle.setPosition(mtx.getTranslation());
 }
 
 // NON_MATCHING: accessor address caching and stack placement differ.
