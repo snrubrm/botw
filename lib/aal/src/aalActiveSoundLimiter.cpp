@@ -7,8 +7,7 @@ ActiveSoundLimiter::ActiveSoundLimiter() = default;
 
 // 0x7100b832fc
 void ActiveSoundLimiter::setup(const Settings& settings) {
-    mFlagA = settings.mFlagA;
-    mFlagB = settings.mFlagB;
+    mFlags = settings.mFlags;
     mLimitNum = settings.mLimitNum;
 }
 

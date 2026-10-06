@@ -11,10 +11,15 @@ class SoundSource;
 /// TODO: partial (the subclasses and the limiting calculation are not modeled).
 class ActiveSoundLimiter {
 public:
+    /// Two flags that are copied together (the names are not known).
+    struct Flags {
+        u8 mA = 0;
+        u8 mB = 0;
+    };
+
     struct Settings {
         s32 mLimitNum;
-        u8 mFlagA;
-        u8 mFlagB;
+        Flags mFlags;
     };
 
     ActiveSoundLimiter();
@@ -26,8 +31,7 @@ public:
 
 private:
     s32 mLimitNum = -1;
-    u8 mFlagA = 0;
-    u8 mFlagB = 0;
+    Flags mFlags;
     s32 _10 = 1;
     u16 _14 = 0;
     u8 _16 = 0;
