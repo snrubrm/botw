@@ -3,6 +3,7 @@
 #include <basis/seadTypes.h>
 #include <container/seadObjList.h>
 #include <container/seadSafeArray.h>
+#include <heap/seadDisposer.h>
 #include <math/seadVector.h>
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Utils/Types.h"
@@ -24,10 +25,12 @@ class NavMeshCharacter;
 // GameSceneSubsys4: the path request manager (CSV createInstance 0x710066a204, ctor 0x710066a598). Only the members
 // the AI code calls are declared (declaration only; the name follows the CSV).
 class GameSceneSubsys4 {
+    SEAD_SINGLETON_DISPOSER(GameSceneSubsys4)
+    // 0x710066a598 / 0x710066a28c (declaration only)
+    GameSceneSubsys4();
+    virtual ~GameSceneSubsys4();
+
 public:
-    // The instance pointer (0x71025c5d48, GOT 0x2586ab0; the singleton machinery is not declared yet).
-    static GameSceneSubsys4* instance() { return sInstance; }
-    static GameSceneSubsys4* sInstance;
 
     // 0x710066b8c0 (declaration only): drops the path requests of `actor` (called by EnemyHide's destructor and
     // before a new request).
@@ -37,7 +40,11 @@ public:
     // 0x710066b1bc (declaration only): path request using the points in `points`; the result is written to `out`.
     s32 sub_710066B1BC(f32 time, ksys::act::Actor* actor, ksys::phys::NavMeshCharacter* nav,
                        sead::ObjList<sead::Vector3f>* points, sead::ObjList<sead::Vector3f>* out);
+
+private:
+    u8 _28[0x16d0 - 0x28];
 };
+KSYS_CHECK_SIZE_NX150(GameSceneSubsys4, 0x16d0);
 
 // GameSceneSubsys5: CSV createInstance 0x71009052fc, init 0x7100905468, postCalc 0x71009054bc.
 class GameSceneSubsys5 {

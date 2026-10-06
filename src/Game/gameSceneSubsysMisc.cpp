@@ -1,6 +1,8 @@
 #include "Game/gameSceneSubsysMisc.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 
+SEAD_SINGLETON_DISPOSER_IMPL(GameSceneSubsys4)
+
 void GameSceneSubsys5::init() {
     _9c = 1;
     _8c = 0.5f;
