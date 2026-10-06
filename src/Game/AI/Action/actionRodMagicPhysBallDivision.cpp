@@ -1,6 +1,7 @@
 #include "Game/AI/Action/actionRodMagicPhysBallDivision.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/Profiles/actBullet.h"
 
 namespace uking::action {
 
@@ -48,6 +49,13 @@ void RodMagicPhysBallDivision::loadParams_() {
 }
 
 void RodMagicPhysBallDivision::calc_() {
+    if (auto* bullet = sead::DynamicCast<ksys::act::Bullet>(mActor)) {
+        if (bullet->_cf4 & 8) {
+            const sead::Vector3f pos = mActor->getMtx().getTranslation();
+            if ((_210 - pos).length() >= *mDivDist_s)
+                sub_710023C72C();
+        }
+    }
     RodMagicPhysBall::calc_();
 }
 
