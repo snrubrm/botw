@@ -310,6 +310,8 @@ public:
 
     bool hasItem(const sead::SafeString& name) const;
     PouchItem* getMasterSword() const;
+    // 0x710097a5c8 (CSV PauseMenuDataMgr::armorShopStuff; declared only; lane4 s44, CheckHasManifactureArmor).
+    bool armorShopStuff(s32 level);
 
     void removeGrabbedItems();
     bool removeGrabbedItem(ksys::act::BaseProcLink* link);

@@ -1,5 +1,7 @@
 #include "Game/AI/Query/queryCheckHasManifactureArmor.h"
 #include <evfl/Query.h>
+#include "Game/UI/uiPauseMenuDataMgr.h"
+#include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 
 namespace uking::query {
 
@@ -8,9 +10,11 @@ CheckHasManifactureArmor::CheckHasManifactureArmor(const InitArg& arg)
 
 CheckHasManifactureArmor::~CheckHasManifactureArmor() = default;
 
-// FIXME: implement
 int CheckHasManifactureArmor::doQuery() {
-    return -1;
+    const s32 revival_num = ksys::gdt::getFlag_FairyRevivalNum();
+    if (auto* mgr = ui::PauseMenuDataMgr::instance())
+        return mgr->armorShopStuff(revival_num + 1);
+    return 0;
 }
 
 void CheckHasManifactureArmor::loadParams(const evfl::QueryArg& arg) {}
