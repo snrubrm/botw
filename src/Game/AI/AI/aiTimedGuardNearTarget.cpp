@@ -51,7 +51,7 @@ void TimedGuardNearTarget::loadParams_() {
     getStaticParam(&mGuardEndAngle_s, "GuardEndAngle");
 }
 
-bool TimedGuardNearTarget::m35() {
+bool TimedGuardNearTarget::m35(float distance) {
     bool result = false;
     auto* target = sub_71005D9050(mActor);
     if (target && ksys::act::isPlayerProfile(target) &&

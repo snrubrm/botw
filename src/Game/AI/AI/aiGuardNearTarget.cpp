@@ -33,6 +33,59 @@ void GuardNearTarget::enter_(ksys::act::ai::InlineParamPack* params) {
     }
 }
 
+// NON_MATCHING: only the stack slots differ (the original lets the SafeString temporaries share the InlineParamPack's
+// storage: pack at sp+0x18 and the strings below it; ours puts the pack lowest); instruction sequence and branches match
+// Child names: 通常 (normal), ガード開始 (start guard), ガード待機 (guard wait), ガード終了 (end guard).
+void GuardNearTarget::calc_() {
+    const float distance = sub_710044C9E8();
+    auto* child = getCurrentChild();
+    child->setDynamicParam(*mParams.mTargetPos_d, "TargetPos");
+    if (!child->isFinished() && !child->isFailed()) {
+        if (child->isChangeable()) {
+            if (!isCurrentChild("通常") && !isCurrentChild("ガード終了")) {
+                if (!isCurrentChild("ガード待機"))
+                    return;
+                if (!m36(distance))
+                    return;
+                m37(false);
+                ksys::act::ai::InlineParamPack pack;
+                pack.addVec3(*mParams.mTargetPos_d, "TargetPos", -1);
+                changeChild("ガード終了", &pack);
+                return;
+            }
+            if (m35(distance)) {
+                changeToStartFastGuard();
+            } else if (m34(distance)) {
+                changeToStartGuard();
+            }
+        }
+    } else if (!isCurrentChild("ガード開始") && !isCurrentChild("高速ガード開始")) {
+        if (isCurrentChild("ガード待機")) {
+            m37(false);
+            ksys::act::ai::InlineParamPack pack;
+            pack.addVec3(*mParams.mTargetPos_d, "TargetPos", -1);
+            changeChild("ガード終了", &pack);
+            return;
+        }
+        if (isCurrentChild("ガード終了")) {
+            ksys::act::ai::InlineParamPack pack;
+            pack.addVec3(*mParams.mTargetPos_d, "TargetPos", -1);
+            changeChild("通常", &pack);
+            return;
+        }
+        if (child->isFinished())
+            setFinished();
+        else
+            setFailed();
+    } else {
+        m37(true);
+        _60._25 = true;
+        ksys::act::ai::InlineParamPack pack;
+        pack.addVec3(*mParams.mTargetPos_d, "TargetPos", -1);
+        changeChild("ガード待機", &pack);
+    }
+}
+
 float GuardNearTarget::sub_710044C9E8() const {
     return (mActor->getMtx().getTranslation() - *mParams.mTargetPos_d).length();
 }

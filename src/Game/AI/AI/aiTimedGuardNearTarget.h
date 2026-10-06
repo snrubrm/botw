@@ -17,7 +17,7 @@ public:
     void leave_() override;
     void loadParams_() override;
 
-    bool m35() override;
+    bool m35(float distance) override;
     bool m36(float distance) override;
     bool m38() override { return true; }
     virtual bool m39(float distance);

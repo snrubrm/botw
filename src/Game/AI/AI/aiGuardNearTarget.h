@@ -19,7 +19,7 @@ public:
     bool isChangeable() const override;
 
     virtual bool m34(float distance);
-    virtual bool m35() { return false; }
+    virtual bool m35(float distance) { return false; }
     virtual bool m36(float distance);
     virtual void m37(bool enable);
     virtual bool m38() { return false; }
