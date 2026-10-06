@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Game/gameWildHorseMgr.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
@@ -23,8 +24,7 @@ protected:
     // static_param at offset 0x48
     const float* mMinWaitTime_s{};
     f32 _50 = 0;
-    s8 _54 = -1;
-    s8 _55 = -1;
+    /* 0x54 */ WildHorseMgr::Client _54{-1, -1};  // priority, slot
     s8 _56 = 0;
 };
 KSYS_CHECK_SIZE_NX150(WildHorseDefWanderAI, 0x58);

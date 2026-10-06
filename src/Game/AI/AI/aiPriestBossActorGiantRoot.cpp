@@ -6,6 +6,8 @@
 
 namespace uking::ai {
 
+// NON_MATCHING: the original keeps `_9c = 2` and `_a0 = 0` as two 32-bit stores (we merge them into one
+// 64-bit store).
 PriestBossActorGiantRoot::PriestBossActorGiantRoot(const InitArg& arg) : PriestBossActorRoot(arg) {}
 
 PriestBossActorGiantRoot::~PriestBossActorGiantRoot() = default;

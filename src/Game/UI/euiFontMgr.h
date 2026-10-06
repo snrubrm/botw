@@ -6,6 +6,7 @@
 #include <prim/seadSafeString.h>
 #include <thread/seadThread.h>
 #include <nn/font/font_ResFont.h>
+#include <nn/font/font_ScalableFont.h>
 #include <nn/font/font_TextureCache.h>
 #include "Game/UI/euiSharcArchive.h"
 #include "KingSystem/Utils/Types.h"
@@ -47,8 +48,16 @@ public:
         void calc_(sead::MessageQueue::Element message) override;
     };
 
+    // A font of the manager together with its name (0x48 bytes).
+    struct FontEntry {
+        sead::SafeString name;
+        nn::font::ScalableFont font;
+    };
+
     // 0x7100be5684: the font of the scalable font set for `name` (null if there is none)
     Font* getFont(const sead::SafeString& name);
+    // 0x7100be5b40: the name of the font (null if it does not belong to the manager)
+    const char* findFontName(const nn::font::ScalableFont* font) const;
     // 0x7100be55a8 (no CSV name): per-frame update of the texture cache (called from ScreenMgr::update)
     void sub_7100BE55A8();
 
@@ -58,7 +67,9 @@ public:
 
     // Unknown base and prefix; these fields are consumed by the scalable text
     // pane and the cache update. No constructor or full manager extent is claimed.
-    u8 _0[0x88];
+    u8 _0[0x30];
+    /* 0x30 */ sead::Buffer<FontEntry> mFonts;
+    u8 _40[0x88 - 0x40];
     /* 0x88 */ u32 mCacheGeneration;
     /* 0x8c */ u8 _8c;
     /* 0x8d */ bool mCacheUpdatePending;

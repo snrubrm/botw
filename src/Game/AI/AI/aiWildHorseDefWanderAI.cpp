@@ -20,7 +20,17 @@ void WildHorseDefWanderAI::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void WildHorseDefWanderAI::leave_() {
-    ksys::act::ai::Ai::leave_();
+    auto* mgr = WildHorseMgr::instance();
+    if (!mgr)
+        return;
+    if (_54.slot < 0)
+        return;
+    if (mgr->mSlots[_54.slot].client == &_54) {
+        mgr->mSlots[_54.slot].client = nullptr;
+        mgr->mSlots[_54.slot].timer = 0;
+    } else {
+        _54.slot = -1;
+    }
 }
 
 void WildHorseDefWanderAI::loadParams_() {

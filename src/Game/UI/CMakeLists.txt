@@ -32,6 +32,7 @@ target_sources(uking PRIVATE
   euiSharcArchive.cpp
   euiMessageMgr.cpp
   euiFontMgr.cpp
+  euiScalableFontMgr.cpp
   euiNwAllocator.cpp
   euiArcResourceMgr.cpp
   euiMultiArcResourceAccessor.cpp
