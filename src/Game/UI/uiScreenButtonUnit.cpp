@@ -3,6 +3,9 @@
 // Kept out of uiScreenEx.cpp: the original calls these forwarders out of line.
 namespace uking::ui {
 
+// 0x7100939c18
+Unk_7102474e38::Unk_7102474e38() {}
+
 // 0x7100939ef8
 void Unk_7102474e38::sub_7100939EF8(eui::AnimButton* button) {
     m15(button);

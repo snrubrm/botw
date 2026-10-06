@@ -330,6 +330,20 @@ public:
     void sub_7100939F34(eui::AnimButton* button);
     void sub_7100939F40(eui::AnimButton* button);
     void sub_7100939F4C(eui::AnimButton* button);
+
+    // 0x7100939bd8 (C2) / 0x7100939c18 (C1): two identical copies in the original
+    Unk_7102474e38();
+
+    /* 0x08 */ u64 _8{};
+    /* 0x10 */ u64 _10{};
+    /* 0x18 */ u64 _18{};
+    /* 0x20 */ u64 _20{};
+    /* 0x28 */ u64 _28{};
+    /* 0x30 */ s32 _30{};
+    /* 0x34 */ sead::Vector2f _34 = sead::Vector2f::zero;
+    /* 0x3c */ s32 _3c = -1;
+    /* 0x40 */ s32 _40 = -1;
+    /* 0x44 */ s32 _44 = -1;
 };
 
 // ScreenEx's helper at+0x330. The constructor0x92fc8c and destructor0x92fcb4 prove
