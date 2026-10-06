@@ -1,10 +1,15 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <thread/seadCriticalSection.h>
 #include "aal/aalFadeCurveType.h"
 #include "aal/aalAssetInfo.h"
 #include "aal/aalDeviceType.h"
 #include "aal/aalTimedFader.h"
+
+namespace sead {
+class Heap;
+}
 
 namespace nn::atk {
 enum StreamRegionCallbackResult : int;
@@ -59,7 +64,11 @@ public:
     SoundController();
     virtual ~SoundController();
 
+    void initialize(sead::Heap* heap);
     void finalize();
+    void reset();
+    void calc();
+    bool start(f32 fade_time, bool prepare);
     /// Fades the sound out; the controller counts as released (state 3) once the fade has been started.
     void release(f32 fade_time);
     void pause(bool pause, f32 fade_time);
@@ -81,27 +90,45 @@ public:
     nn::atk::SoundHandle* mSoundHandle = nullptr;
 };
 
-/// The playing state of a SoundSource (SoundSource +0x100). TODO: only the controller pointer is modeled.
+/// The playing state of a SoundSource (SoundSource +0x100): owns the SoundController and handles stopping,
+/// virtualization (a virtualized sound is not played, but its position is advanced) and pausing.
+/// State: 0 stopped, 1 playing, 2 releasing, 3 virtualized, 4 about to restart after the virtualization.
 class PlayingStateController {
 public:
+    PlayingStateController();
+    virtual ~PlayingStateController();
+
+    void initialize(sead::Heap* heap);
+    void finalize();
+    void reset();
+    bool start(bool prepare);
+    void stopWithRelease();
+    void stopForce();
+    void preCalc();
+    void calc();
+    void unvirtualize();
     /// 0x7100b9fd14 / 0x7100ba025c: a negative release time is ignored / the sample position of the sound
     /// (-1 if there is none).
     void setReleaseTime(f32 release_time);
     s32 getPlayingSamplePos() const;
-    /// 0x7100b9fdf4 / 0x7100ba0228 (declared only)
-    void stopForce();
     void pause(bool pause, f32 fade_time);
     void setVirtualizeMode(VirtualizeMode mode);
 
-    u8 _0[8];
-    SoundController* mSoundController;
-    u32 mState;
-    /// Written by setVirtualizeMode; 0 means the sound can not be virtualized (SoundSource::canVirtualize).
-    VirtualizeMode mVirtualizeMode;
-    u8 _18[0x1c - 0x18];
-    f32 mReleaseTime;
-    u8 _20[0x24 - 0x20];
-    f32 mSamplePos;
+    SoundController* mSoundController = nullptr;
+    u32 mState = 0;
+    /// Written by setVirtualizeMode; 0 means the sound can not be virtualized (SoundSource::canVirtualize). The
+    /// names of the modes are not known (1 is the default, 2 restarts the sound when it is unvirtualized).
+    VirtualizeMode mVirtualizeMode = static_cast<VirtualizeMode>(1);
+    bool mPaused = false;
+    f32 mReleaseTime = 0.0f;
+    f32 _20 = 0.0f;
+    f32 mSamplePos = 0.0f;
+
+private:
+    void restart_(u32 sample_pos, f32 param);
+    void updateVirtualPlayingPos_();
+
+    sead::CriticalSection mCS;
 };
 
 }  // namespace aal
