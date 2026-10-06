@@ -4,6 +4,7 @@ add_library(aal OBJECT
   include/aal/aalActiveSoundLimiter.h
   include/aal/aalArbiter.h
   include/aal/aalAssetInfo.h
+  include/aal/aalAudioMetaReader.h
   include/aal/aalAttenuationComponentListReflexer.h
   include/aal/aalAttenuationReader.h
   include/aal/aalCone.h
@@ -50,6 +51,7 @@ add_library(aal OBJECT
   src/aalActiveSoundLimiter.cpp
   src/aalAttenuationComponentListReflexer.cpp
   src/aalAttenuationReader.cpp
+  src/aalAudioMetaReader.cpp
   src/aalCone.cpp
   src/aalConeFactory.cpp
   src/aalCurveReader.cpp
