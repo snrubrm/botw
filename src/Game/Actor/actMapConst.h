@@ -100,10 +100,13 @@ public:
     ~MapConstPassiveBase() override = default;
 
 protected:
+    bool prepareInit_(sead::Heap* heap, PrepareArg& arg) override;
+    void preDelete2_(const PreDeleteArg& arg) override;
     void onDeleteRequested_(DeleteReason reason) override;
 
 public:
     void m63() override;
+    void initMaybe() override;
     void updatePositionMaybe() override;
 };
 KSYS_CHECK_SIZE_NX150(MapConstPassiveBase, 0x850);

@@ -113,6 +113,10 @@ bool PlayerOrEnemy::startPreparingForPreDelete_() {
     return DynamicActor::startPreparingForPreDelete_();
 }
 
+void PlayerOrEnemy::initMaybe() {
+    DynamicActor::initMaybe();
+}
+
 void PlayerOrEnemy::m51(bool on) {
     Actor::m51(on);
     getWeapons()->sub_7100EFCF10(on);

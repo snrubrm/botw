@@ -26,6 +26,10 @@ ksys::act::Actor* GiantArmor::m31() {
     return sead::DynamicCast<Actor>(_be8.getProc(nullptr, nullptr));
 }
 
+void GiantArmor::m73() {
+    DynamicActor::m73();
+}
+
 bool GiantArmor::canWakeUp_() {
     if (!Actor::canWakeUp_())
         return false;
