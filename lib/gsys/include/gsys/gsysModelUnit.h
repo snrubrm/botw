@@ -194,6 +194,10 @@ public:
     // unnamed 0x7100c3e79c / 0x7100c3e9b8 (called by Model::resetRenderToDepthShadowOnly / Model::sub_7100BF8D18).
     void setReferenceLod(const ModelUnit& other);
     void setMaterialVisibleAll(bool visible);
+    void setShaderAssignVariation(ModelEnum::ShaderAssignType assign_type, int variation);
+    void enableReverseCulling(bool enable);
+    void updateQueueInfo();
+    void updateQueueInfo_();
 
     // Material record setters (names marked "guess" follow the visible effect only).
     void sub_7100C3E79C(int value);

@@ -38,6 +38,51 @@ void ModelUnit::enableRenderViewOption(int material_idx, ModelEnum::RenderViewOp
     }
 }
 
+// 0x7100c3e5a0
+void ModelUnit::setMaterialVisibleAll(bool visible) {
+    for (int i = 0, n = getMaterialNum(); i < n; ++i)
+        setMaterialVisible(i, visible);
+}
+
+// 0x7100c3e60c
+void ModelUnit::setShaderAssignVariation(ModelEnum::ShaderAssignType assign_type, int variation) {
+    for (int i = 0, n = getMaterialNum(); i < n; ++i)
+        setMaterialShaderAssignVariation(i, assign_type, variation);
+}
+
+// 0x7100c3e684
+void ModelUnit::copyBoneLocalMatrixTo(ModelUnit* target) const {
+    for (int i = 0, n = getBoneNum(); i < n; ++i) {
+        sead::Matrix34f matrix;
+        sead::Vector3f scale;
+        getBoneLocalMatrix(&matrix, &scale, i);
+        target->setBoneLocalMatrix(matrix, scale, i);
+    }
+}
+
+// 0x7100c3e714
+void ModelUnit::copyBoneWorldMatrixTo(ModelUnit* target) const {
+    for (int i = 0, n = getBoneNum(); i < n; ++i) {
+        sead::Matrix34f matrix;
+        getBoneWorldMatrix(&matrix, i);
+        target->setBoneWorldMatrix(matrix, i);
+    }
+}
+
+// 0x7100c3e82c
+void ModelUnit::enableReverseCulling(bool enable) {
+    for (int i = 0, n = getMaterialNum(); i < n; ++i)
+        enableReverseCulling(i, enable);
+}
+
+// 0x7100c3f4c4
+void ModelUnit::updateQueueInfo() {
+    if (mFlags.isOn(Flag::Changed)) {
+        updateQueueInfo_();
+        mFlags.reset(Flag::Changed);
+    }
+}
+
 // 0x7100c3e79c
 void ModelUnit::sub_7100C3E79C(int value) {
     for (int i = 0, n = getMaterialNum(); i < n; ++i)
