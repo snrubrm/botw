@@ -1,5 +1,6 @@
 #pragma once
 
+#include <basis/seadRawPrint.h>
 #include <container/seadTList.h>
 
 namespace aal {
@@ -12,7 +13,8 @@ class Listener;
 class IUnifiable : public sead::TListNode<IUnifiable*> {
 public:
     IUnifiable() : TListNode(this) {}
-    virtual ~IUnifiable() = default;
+    /// The body (an assert that the node is not linked any more) keeps the vtable store in the destructor.
+    virtual ~IUnifiable() { SEAD_ASSERT(!isLinked()); }
 
     virtual bool calcUnifiablePositions(const Listener& listener, sead::Vector3<f32>* a,
                                         sead::Vector3<f32>* b) {

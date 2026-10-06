@@ -27,8 +27,6 @@ void Shape::destroy() {
     delete this;
 }
 
-// NON_MATCHING (D1 0x7100b9a334 and its thunk): the original base destructor keeps the final store of the IUnifiable vtable
-// pointer (this + 0x18); D0 0x7100b9a3dc matches
 // 0x7100b9a334 / 0x7100b9a3dc
 Shape::~Shape() = default;
 
