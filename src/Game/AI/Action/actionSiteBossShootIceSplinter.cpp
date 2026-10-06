@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionSiteBossShootIceSplinter.h"
+#include "Game/Actor/actSiteBoss.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
@@ -27,7 +28,12 @@ void SiteBossShootIceSplinter::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void SiteBossShootIceSplinter::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (_62)
+        return;
+    if (auto* boss = sead::DynamicCast<act::SiteBoss>(mActor)) {
+        for (u32 i = *mThrowIdxOffset_s; i < 9; ++i)
+            boss->_1560.sub_710066CBF8(i);
+    }
 }
 
 void SiteBossShootIceSplinter::loadParams_() {

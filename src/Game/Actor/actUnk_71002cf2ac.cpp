@@ -61,6 +61,15 @@ void SiteBoss::Unk_71002cf2ac::sub_710066CBD4(int idx) {
     sub_710066C164(mOwner, nullptr, ksys::MessageType(0x800005c), idx, 0, nullptr);
 }
 
+void SiteBoss::Unk_71002cf2ac::sub_710066CBF8(int idx) {
+    auto& link = _1e0[idx];
+    if (!link.hasProc())
+        return;
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(&link, &accessor);
+    accessor.sleep(ksys::act::BaseProc::SleepWakeReason::_0);
+}
+
 void SiteBoss::Unk_71002cf2ac::sub_710066CC64(int idx) {
     auto& link = _1e0[idx];
     if (!link.hasProc())

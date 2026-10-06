@@ -135,6 +135,8 @@ public:
         void sub_710066CBD4(int idx);                // 0x800005c, no target
         // 0x710066cc64: deletes bound actor `idx`.
         void sub_710066CC64(int idx);
+        // 0x710066cbf8: puts bound actor `idx` to sleep (index >= 20 is treated as 0).
+        void sub_710066CBF8(int idx);
         // 0x710066bc04 (declared only; placeholder name): deletes every bound actor that is still alive (the links
         // at 0x320 - 0x3a0 and _3b0); called by the destructors of SiteBoss*Root.
         void sub_710066BC04();
