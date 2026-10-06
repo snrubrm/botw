@@ -1,5 +1,6 @@
 #pragma once
 
+#include <math/seadMatrix.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -17,6 +18,8 @@ public:
 
 protected:
     void calc_() override;
+    // The actor's matrix.
+    virtual void m32(sead::Matrix34f* mtx);
 
     // static_param at offset 0x20
     const int* mWeaponIdx_s;

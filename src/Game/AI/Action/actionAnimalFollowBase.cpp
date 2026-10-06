@@ -47,4 +47,8 @@ float AnimalFollowBase::m32() {
     return 0.0f;
 }
 
+ksys::act::BaseProcLink* AnimalFollowBase::m33() {
+    return &ksys::act::sUnk_71026505e0;
+}
+
 }  // namespace uking::action

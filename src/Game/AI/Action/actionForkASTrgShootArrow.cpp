@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionForkASTrgShootArrow.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -33,6 +35,10 @@ void ForkASTrgShootArrow::loadParams_() {
 
 void ForkASTrgShootArrow::calc_() {
     ksys::act::ai::Action::calc_();
+}
+
+void ForkASTrgShootArrow::m32(sead::Vector3f* dir) {
+    mActor->getMtx().getBase(*dir, 2);
 }
 
 }  // namespace uking::action

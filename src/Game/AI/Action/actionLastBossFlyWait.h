@@ -1,5 +1,6 @@
 #pragma once
 
+#include <math/seadMatrix.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -18,6 +19,10 @@ public:
 
 protected:
     void calc_() override;
+    // 0x71001d0d04 (declared only): the target matrix of the flight (called by calc_ and sub_7100F5F938).
+    virtual void m32(sead::Matrix34f* mtx);
+    virtual float* m33() { return &_90; }
+    virtual void m34() {}
 
     // static_param at offset 0x20
     const int* mDamageCounter_s{};

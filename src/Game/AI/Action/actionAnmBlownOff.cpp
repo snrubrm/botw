@@ -1,6 +1,7 @@
 #include "Game/AI/Action/actionAnmBlownOff.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/AI/aiUnk_71007377D4.h"
 
 namespace uking::action {
@@ -43,6 +44,10 @@ void AnmBlownOff::calc_() {
 
 void AnmBlownOff::m32(ksys::phys::CharacterController* controller) {
     sub_7100738660(controller, *mRotReduceRatio_s);
+}
+
+void AnmBlownOff::m33(const sead::Vector3f& velocity) {
+    sub_71005D8748(mActor, velocity, true, false, nullptr, false);
 }
 
 }  // namespace uking::action

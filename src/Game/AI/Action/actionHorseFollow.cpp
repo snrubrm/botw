@@ -38,4 +38,13 @@ float HorseFollow::m32() {
     return *mDistanceKept_d;
 }
 
+void HorseFollow::m34(const s32* value) {
+    if (auto* rideable = mActor->getHorseOptionsMaybe()) {
+        if (*value == 0)
+            rideable->RideableBase::_8.setBitOn(21);
+        else
+            rideable->RideableBase::_8.setBitOff(21);
+    }
+}
+
 }  // namespace uking::action

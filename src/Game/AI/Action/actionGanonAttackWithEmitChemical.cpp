@@ -5,6 +5,18 @@
 
 namespace uking::action {
 
+void GanonAttackWithEmitChemical::m32(sead::Vector3f* pos) {
+    mActor->getMtx().getTranslation(*pos);
+}
+
+float GanonAttackWithEmitChemical::m33() {
+    return *mEmitOffsetFromParent_s;
+}
+
+int GanonAttackWithEmitChemical::m34() {
+    return 2;
+}
+
 GanonAttackWithEmitChemical::GanonAttackWithEmitChemical(const InitArg& arg)
     : GanonWeaponNearAttack(arg) {}
 

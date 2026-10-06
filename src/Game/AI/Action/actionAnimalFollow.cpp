@@ -1,5 +1,6 @@
 #include "Game/AI/Action/actionAnimalFollow.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/Actor/actRideable.h"
 
 namespace uking::action {
@@ -37,6 +38,12 @@ void AnimalFollow::calc_() {
 
 float AnimalFollow::m32() {
     return *mDistanceKept_s;
+}
+
+ksys::act::BaseProcLink* AnimalFollow::m33() {
+    if (auto* link = sub_71005D9050(mActor))
+        return link;
+    return &ksys::act::sUnk_71026505e0;
 }
 
 }  // namespace uking::action

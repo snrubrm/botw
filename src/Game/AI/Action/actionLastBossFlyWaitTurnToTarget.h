@@ -17,6 +17,9 @@ public:
     void loadParams_() override;
 
 protected:
+    // 0x71001d12d0 (declared only): the turning version of the flight target matrix.
+    void m32(sead::Matrix34f* mtx) override;
+
     // static_param at offset 0xa0
     const float* mTurnStartDiffAng_s{};
     // static_param at offset 0xa8

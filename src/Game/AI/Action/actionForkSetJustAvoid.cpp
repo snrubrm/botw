@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionForkSetJustAvoid.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actActor.h"
 #include <cstring>
 
 namespace uking::action {
@@ -35,6 +37,10 @@ void ForkSetJustAvoid::loadParams_() {
 
 void ForkSetJustAvoid::calc_() {
     ksys::act::ai::Action::calc_();
+}
+
+void ForkSetJustAvoid::m32(sead::Matrix34f* mtx) {
+    *mtx = mActor->getMtx();
 }
 
 }  // namespace uking::action

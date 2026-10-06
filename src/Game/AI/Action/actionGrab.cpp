@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionGrab.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -31,6 +33,10 @@ void Grab::calc_() {
 
 void Grab::m32() {
     playAS("Grab", false, 0, 0, -1.0f);
+}
+
+bool Grab::m33() {
+    return mActor->getASList()->x(0x45, nullptr, 0, 0, &ksys::as::ASList::Unk2::sub_71011637EC, true);
 }
 
 }  // namespace uking::action

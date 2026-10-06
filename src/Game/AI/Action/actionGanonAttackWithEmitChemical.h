@@ -18,6 +18,9 @@ public:
 
 protected:
     void calc_() override;
+    virtual void m32(sead::Vector3f* pos);
+    virtual float m33();
+    virtual int m34();
 
     // static_param at offset 0xa8
     const int* mEmitNum_s{};

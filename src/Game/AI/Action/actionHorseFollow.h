@@ -19,6 +19,8 @@ public:
 protected:
     void calc_() override;
     float m32() override;
+    ksys::act::BaseProcLink* m33() override { return mTargetActor_d; }
+    void m34(const s32* value) override;
 
     // dynamic_param at offset 0xc0
     float* mDistanceKept_d{};

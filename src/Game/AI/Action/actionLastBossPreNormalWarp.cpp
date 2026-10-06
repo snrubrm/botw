@@ -5,8 +5,14 @@
 
 // 0x71002c67e8 (declaration only).
 void sub_71002C67E8(f32 a1, ksys::act::Actor* actor, bool a3);
+// 0x71002c67e8 (declared only): Actor::x_3(value) then the follow-up with the value or 0 (as the flag says).
+void sub_71002C67E8(f32 value, ksys::act::Actor* actor, bool flag);
 
 namespace uking::action {
+
+void LastBossPreNormalWarp::m34(f32 value, ksys::act::Actor* actor, bool flag) {
+    sub_71002C67E8(value, actor, flag);
+}
 
 LastBossPreNormalWarp::LastBossPreNormalWarp(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 

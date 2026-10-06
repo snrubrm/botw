@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/ActorSystem/actBaseProcLink.h"
 
 namespace uking::action {
 
@@ -18,6 +19,10 @@ public:
 protected:
     void calc_() override;
     virtual float m32();
+    // The link of the leader (none by default).
+    virtual ksys::act::BaseProcLink* m33();
+    // Sets / clears the rideable's flag 21 (set for 0); empty by default.
+    virtual void m34(const s32* value) {}
 
     // static_param at offset 0x20
     const int* mUseGearType_s{};

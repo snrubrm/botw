@@ -17,6 +17,8 @@ public:
 
 protected:
     void calc_() override;
+    // The actor's z axis.
+    virtual void m32(sead::Vector3f* dir);
 
     // static_param at offset 0x20
     const int* mWeaponIdx_s{};
