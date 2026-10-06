@@ -17,6 +17,7 @@ add_library(aal OBJECT
   src/aalHandle.cpp
   src/aalSoundParam.cpp
   src/aalSoundSource.cpp
+  src/aalSpatialSetting.cpp
   src/dummy.cpp
 )
 

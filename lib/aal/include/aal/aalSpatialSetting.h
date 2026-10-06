@@ -19,6 +19,21 @@ public:
     /// the listener).
     void setShape(Shape* shape);
 
+    void setPositioned(bool positioned);
+    void setPositionFollow(bool follow);
+    /// Also points the spatial calculator setting at the stored matrix / velocity.
+    void setActorMatrix(const sead::Matrix34f& matrix);
+    void setVelocity(const sead::Vector3f& velocity);
+    void getPosition(sead::Vector3f* position) const;
+    void setDopplerFactor(f32 factor);
+    /// Ignores negative sizes; the size is converted with aal::Meter::toLength.
+    void setSoundSourceSize(f32 size);
+    void setUnified(bool unified);
+    void setUseSoundSourceSizeForAttenuation(bool enable);
+    void setRotatingStereoEnabled(bool enable);
+    void setListenerDirectivityEnabled(bool enable);
+    void setUserParam(u64 param);
+
 private:
     sead::Matrix34f mActorMatrix;
     sead::Vector3f mVelocity;
