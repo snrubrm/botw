@@ -14,6 +14,7 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+    bool isFinished() const override;
 
 protected:
     void calc_() override;
@@ -24,7 +25,9 @@ protected:
     const float* mGravityScale_s{};
     // map_unit_param at offset 0x30
     const bool* mIsCreateOnFace_m{};
-    u8 _38[0x80 - 0x38];
+    u8 _38[0x44 - 0x38];
+    sead::Vector3f _44;
+    u8 _50[0x80 - 0x50];
     sead::Vector3f _80;
     int _8c = 0;
     float _90 = 1.0f;

@@ -20,6 +20,7 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+    bool isFinished() const override;
 
 protected:
     void calc_() override;
@@ -57,7 +58,7 @@ protected:
     u8 _68 = 0;
     u8 _69 = 0;
     bool _6a = false;
-    bool _6b = false;
+    mutable bool _6b = false;
     u32 _6c = 0;
 };
 

@@ -1,5 +1,6 @@
 #include "Game/AI/Action/actionLandOnCeil.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Physics/System/physSystem.h"
 
@@ -31,6 +32,21 @@ void LandOnCeil::loadParams_() {
     getStaticParam(&mRotRatio_s, "RotRatio");
     getStaticParam(&mGravityScale_s, "GravityScale");
     getMapUnitParam(&mIsCreateOnFace_m, "IsCreateOnFace");
+}
+
+bool LandOnCeil::isFinished() const {
+    auto* actor = mActor;
+    sead::Vector3f up;
+    actor->getMtx().getBase(up, 1);
+    up.normalize();
+
+    if (ksys::act::ai::Action::isFinished())
+        return true;
+    if (_8c != 2)
+        return false;
+    if (isLandedMaybe(actor, false) || isBgGroundHit(actor, false))
+        return up.dot(_44) >= 0.99984771f;
+    return false;
 }
 
 void LandOnCeil::calc_() {

@@ -181,7 +181,8 @@ void updateLifeAndMaxLife(s32 life, s32 max_life) {
 }
 
 // 0x7100a9b4a4
-void updateStaminaAndMax(f32 stamina, f32 max_stamina) {
+// The third argument is passed by the callers but ignored.
+void updateStaminaAndMax(f32 stamina, f32 max_stamina, f32) {
     if (Manager::instance())
         sub_7100945320(sead::Mathf::clampMin(stamina, 0.0f), sead::Mathf::clampMin(max_stamina, 0.0f));
 }

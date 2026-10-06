@@ -4,6 +4,8 @@
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/Physics/System/physContactPointInfo.h"
 
 namespace uking::action {
 
@@ -115,6 +117,29 @@ int BeamMove::m42() {
 
 int BeamMove::m43() {
     return 2;
+}
+
+bool BeamMove::isFinished() const {
+    if (hasAttackInfo(mActor) && (getAttackInfo(mActor, 0)->_18 & 0xb))
+        return ksys::act::ai::Action::isFinished();
+
+    auto* info = _50->getContactPointInfo();
+    if (!info || info->getNumContactPoints() == 0 || info->begin().isEnd()) {
+        if (!ksys::act::ai::Action::isFinished())
+            return false;
+    }
+
+    if (_6b)
+        return true;
+
+    if (_60) {
+        sead::Matrix34f mtx;
+        _50->getTransform(&mtx);
+        _60->setTransform(mtx);
+        _60->setLinearVelocity(sead::Vector3f::zero);
+    }
+    _6b = true;
+    return true;
 }
 
 }  // namespace uking::action

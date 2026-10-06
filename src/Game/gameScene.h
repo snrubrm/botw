@@ -100,6 +100,8 @@ public:
     void sub_71007B4BCC();
     void sub_71007B4BE4();
     bool sub_71007B4C00() const;
+    // 0x71007b4c28 (declared only; placeholder name): called by the appear-game-over thunk.
+    void sub_71007B4C28();
     // 0x71007b0d3c (declared only): the current state of the state machine at 0x1d0 has the id of a global state.
     bool sub_71007B0D3C() const;
     // 0x71007b8db4 (placeholder name): `sInstance3->_8c9 = true`.
@@ -172,6 +174,8 @@ bool gameSceneHasStageBinder();
 void gameSceneSetNeedStageGenFinalStepInPreCalc();
 bool gameSceneIsNotNeedStageGenFinalStepInPreCalc();
 void gameSceneSetFadeType(s32 type);
+// 0x71007beb20 (CSV appearGameOver_; placeholder name): `sInstance3->sub_71007B4C28()`.
+void sub_71007BEB20();
 void sub_71007B7E4C();
 void sub_71007B7E5C();
 bool sub_71007B7E6C();

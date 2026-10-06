@@ -34,6 +34,10 @@ void gameSceneSetFadeType(s32 type) {
     GameScene::sInstance2->setFadeType(type);
 }
 
+void sub_71007BEB20() {
+    GameScene::sInstance3->sub_71007B4C28();
+}
+
 void sub_71007B7E4C() {
     GameScene::sInstance2->sub_71007B4BCC();
 }
