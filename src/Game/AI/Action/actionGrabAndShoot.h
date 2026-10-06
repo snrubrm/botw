@@ -1,5 +1,6 @@
 #pragma once
 
+#include <math/seadMatrix.h>
 #include "KingSystem/System/VFRValue.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
@@ -34,7 +35,7 @@ protected:
         sead::Vector3f* mTargetPos_d{};
     };
     Params mParams;
-    u8 _50[0x24];
+    sead::Matrix33f _50;
     ksys::VFRValue _74;
     s32 _80 = -1;
     u8 _84[0x4];
