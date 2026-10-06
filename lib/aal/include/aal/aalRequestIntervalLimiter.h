@@ -17,7 +17,7 @@ public:
     };
 
     RequestIntervalLimiter();
-    virtual ~RequestIntervalLimiter() = default;
+    virtual ~RequestIntervalLimiter();
 
     void setup(const Settings& settings);
     void calc();

@@ -9,6 +9,9 @@ RequestIntervalLimiter::RequestIntervalLimiter() {
     mRunning = false;
 }
 
+// 0x7100b83638 / 0x7100b8364c
+RequestIntervalLimiter::~RequestIntervalLimiter() {}
+
 // 0x7100b83650
 void RequestIntervalLimiter::calc() {
     mStopWatch.calc();
