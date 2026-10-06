@@ -1,6 +1,7 @@
 #pragma once
 
 #include <math/seadVector.h>
+#include "Game/AI/aiUnk_71025afb58.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 #include "KingSystem/ActorSystem/actBoneHandle.h"
 
@@ -24,6 +25,8 @@ public:
 protected:
     void calc_() override;
     virtual void m32();
+    virtual void m33(sead::Vector3f* min, sead::Vector3f* max);
+    virtual f32 m34();
     AirOctaDataMgr* sub_7100088DA8();
     bool sub_7100088400();
     void sub_71000885B0();
@@ -36,7 +39,7 @@ protected:
     // static_param at offset 0x30
     const bool* mGoalInSuccessEnd_s{};
     // aitree_variable at offset 0x38
-    void* mAirOctaDataMgr_a{};
+    Unk_71025afb58** mAirOctaDataMgr_a{};
     f32 _40 = 0.0f;
     f32 _44 = 0.0f;
     sead::Vector3f _48 = sead::Vector3f::zero;
