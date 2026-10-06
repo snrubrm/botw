@@ -3,6 +3,7 @@
 #include <container/seadSafeArray.h>
 #include <heap/seadDisposer.h>
 #include <prim/seadBitFlag.h>
+#include <thread/seadCriticalSection.h>
 #include <math/seadVector.h>
 #include "KingSystem/Utils/Types.h"
 
@@ -144,7 +145,9 @@ public:
     /* 0x64c68 */ bool _64c68;
     u8 _64c69[0x650f0 - 0x64c69];
     /* 0x650f0 */ s32 _650f0;
-    u8 _650f4[0x65160 - 0x650f4];
+    u8 _650f4[0x650f8 - 0x650f4];
+    /* 0x650f8 */ sead::CriticalSection _650f8;
+    u8 _65130[0x65160 - 0x650f8 - sizeof(sead::CriticalSection)];
     /* 0x65160 */ u64 _65160;
     /* 0x65168 */ s32 _65168;
     u8 _6516c[0x651f8 - 0x6516c];

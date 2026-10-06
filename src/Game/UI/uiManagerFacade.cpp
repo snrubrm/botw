@@ -1,4 +1,5 @@
 #include <math/seadMathCalcCommon.h>
+#include <prim/seadScopedLock.h>
 #include "Game/UI/uiManager.h"
 
 // UI wrapper functions around uking::ui::Manager (the 0x7100a94000 TU).
@@ -6,6 +7,50 @@ namespace uking::ui {
 
 void sub_7100945320(f32, f32);
 void sub_7100945344(f32, f32);
+
+// 0x7100a9c0dc (placeholder name): table lookup, -1 when out of range.
+s32 sub_7100A9C0DC(s32 index) {
+    static const s32 sTable[] = {10, 11, 0, 1, 2, 3, 12, 13};
+    if (u32(index) < 8)
+        return sTable[index];
+    return -1;
+}
+
+// 0x7100a9e27c
+void sub_7100A9E27C() {
+    auto* manager = Manager::instance();
+    auto lock = sead::makeScopedLock(manager->_650f8);
+    manager->_650f0 = 0;
+}
+
+// NON_MATCHING: the original tests `cmp w8, #5; b.hs` (ours `cmp w8, #4; b.hi`)
+// 0x7100a9eea4 (placeholder name): the map name of the current dungeon-type state (null: none).
+const char* sub_7100A9EEA4() {
+    auto* manager = Manager::instance();
+    if (!manager)
+        return nullptr;
+    static const char* const sNames[] = {"MainField/B-2", "MainField/H-2", "MainField/I-4",
+                                         "MainField/B-8", "MainField/D-6"};
+    const s32 state = manager->_64c38;
+    if (u32(state) < 5)
+        return sNames[state];
+    return state == 5 ? "MainField/E-4" : nullptr;
+}
+
+// NON_MATCHING: same range test as above
+// 0x7100a9eef4 (placeholder name): the escape destination of the current dungeon-type state (null: none).
+const char* sub_7100A9EEF4() {
+    auto* manager = Manager::instance();
+    if (!manager)
+        return nullptr;
+    static const char* const sNames[] = {"RemainsWind_Escape", "RemainsFire_Escape",
+                                         "RemainsWater_Escape", "RemainsElectric_Escape",
+                                         "FinalTrial_Escape"};
+    const s32 state = manager->_64c38;
+    if (u32(state) < 5)
+        return sNames[state];
+    return state == 5 ? "HyruleCastleExit" : nullptr;
+}
 
 // 0x7100a94158
 bool uiManagerInitialised() {
