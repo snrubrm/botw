@@ -26,6 +26,7 @@ class ActorFactory;
 class BaseProcLinkForEvent;
 class Context;
 class EventFlowBase;
+class EventXlinkInfo;
 class EventMgrStruct1;
 struct CallArg;
 class Metadata;
@@ -127,7 +128,7 @@ public:
     // 0x7100db20d0 / 0x7100db137c (CSV EventMgr::__auto11 / __auto8; placeholder names): the active flow's
     // type is 1 (timeline) / the `_1b8` member of the active flow's resource
     bool sub_7100DB20D0() const;
-    void* sub_7100DB137C() const;
+    EventXlinkInfo* sub_7100DB137C() const;
     // 0x7100db2804 / 0x7100db2884 (CSV EventMgr::__auto0 / __auto13; placeholder names)
     bool sub_7100DB2804(bool a1);
     // 0x7100db26d0 (CSV EventMgr::finishedLoadingResidentData)

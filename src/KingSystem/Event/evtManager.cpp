@@ -118,7 +118,7 @@ bool Manager::checkJustBeforeEventCancel() const {
 }
 
 // 0x7100db137c
-void* Manager::sub_7100DB137C() const {
+EventXlinkInfo* Manager::sub_7100DB137C() const {
     if (!_1d2b8)
         return nullptr;
     auto* resource = _1d2b8->getCurrentFlowUnchecked()->_108;
