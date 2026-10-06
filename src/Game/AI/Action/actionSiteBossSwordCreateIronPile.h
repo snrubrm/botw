@@ -1,5 +1,6 @@
 #pragma once
 
+#include <math/seadVector.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -58,6 +59,17 @@ protected:
     const sead::Vector3f* mNotCreatePosBase_s{};
     // dynamic_param at offset 0xd0
     sead::Vector3f* mTargetPos_d{};
+    bool _d8 = false;
+    bool _d9 = false;
+    bool _da = false;
+    u8 _db;
+    sead::Vector2f _dc = {0, 0};
+    u8 _e4[0x114 - 0xe4];
+    sead::Vector2f _114 = {0, 0};
+    sead::Vector2f _11c = {0, 0};
+    sead::Vector2f _124 = {0, 0};
+    u8 _12c[4];
 };
+KSYS_CHECK_SIZE_NX150(SiteBossSwordCreateIronPile, 0x130);
 
 }  // namespace uking::action

@@ -1,6 +1,8 @@
 #pragma once
 
+#include <prim/seadSafeString.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/ActorSystem/actBaseProcLink.h"
 
 namespace uking::action {
 
@@ -37,7 +39,20 @@ protected:
     bool _61 = false;
     bool _62 = false;
     s32 _64 = 0;
-    // 0x68: a member with an out-of-line ctor (0x2631cc) whose type is not known yet
+    struct Entry {
+        ksys::act::BaseProcLink _0;
+        s32 _10 = 0;
+        sead::FixedSafeString<32> _18;
+        u8 _50[0x18];
+    };
+    // Placeholder name (0x2631cc is its out-of-line ctor): a 0x18-byte header, one entry and an array of 8 entries.
+    struct Entries {
+        Entries();
+        u8 _0[0x18];
+        Entry _18;
+        Entry _80[8];
+    };
+    Entries _68;
 };
 
 }  // namespace uking::action

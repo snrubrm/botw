@@ -1,11 +1,28 @@
 #include "Game/AI/Action/actionSiteBossSwordCreateIronPile.h"
+#include "Game/Actor/actEnemy.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 
 namespace uking::action {
 
 SiteBossSwordCreateIronPile::SiteBossSwordCreateIronPile(const InitArg& arg)
     : ksys::act::ai::Action(arg) {}
 
-SiteBossSwordCreateIronPile::~SiteBossSwordCreateIronPile() = default;
+SiteBossSwordCreateIronPile::~SiteBossSwordCreateIronPile() {
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
+        if (mCreateNum_s) {
+            for (s32 i = 0; i <= *mCreateNum_s; ++i) {
+                const sead::FormatFixedSafeString<64> name("IronPile%d", i);
+                if (enemy->getActorPartsActor(name).hasProc()) {
+                    ksys::act::ActorConstDataAccess accessor;
+                    ksys::act::acquireActor(&enemy->getActorPartsActor(name), &accessor);
+                    accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+                }
+                enemy->sub_7100D3CFEC(name);
+            }
+        }
+    }
+}
 
 bool SiteBossSwordCreateIronPile::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);

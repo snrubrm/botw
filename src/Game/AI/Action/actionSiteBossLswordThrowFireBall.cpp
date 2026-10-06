@@ -9,6 +9,8 @@ namespace uking::action {
 SiteBossLswordThrowFireBall::SiteBossLswordThrowFireBall(const InitArg& arg)
     : ksys::act::ai::Action(arg) {}
 
+SiteBossLswordThrowFireBall::Entries::~Entries() = default;
+
 SiteBossLswordThrowFireBall::~SiteBossLswordThrowFireBall() = default;
 
 bool SiteBossLswordThrowFireBall::init_(sead::Heap* heap) {

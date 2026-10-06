@@ -42,14 +42,20 @@ protected:
     ksys::act::BaseProcLink* mTargetActor_d{};
     bool _80 = false;
     u8 _81[0x7];
-    u8 _88[0x18];
     struct Entry {
         ksys::act::BaseProcLink _0;
         s32 _10 = 0;
         sead::FixedSafeString<32> _18;
         u8 _50[0x18];
     };
-    Entry _a0[21];
+    // Placeholder name (0x25ee64 is its out-of-line destructor, called by D1 / D0): a 0x18-byte header and the 21
+    // entries.
+    struct Entries {
+        ~Entries();
+        u8 _0[0x18];
+        Entry _18[21];
+    };
+    Entries _88;
 };
 KSYS_CHECK_SIZE_NX150(SiteBossLswordThrowFireBall, 0x928);
 

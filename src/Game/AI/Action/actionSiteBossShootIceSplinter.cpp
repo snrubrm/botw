@@ -4,6 +4,10 @@
 
 namespace uking::action {
 
+// NON_MATCHING: the original hoists the cNullChar load above the first entry (as for a plain Entry[9]), which
+// would make the destructor mismatch instead.
+SiteBossShootIceSplinter::Entries::Entries() = default;
+
 SiteBossShootIceSplinter::SiteBossShootIceSplinter(const InitArg& arg)
     : ksys::act::ai::Action(arg) {}
 

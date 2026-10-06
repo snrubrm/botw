@@ -1,6 +1,9 @@
 #pragma once
 
+#include <math/seadVector.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/ActorSystem/actBaseProcLink.h"
+#include "KingSystem/ActorSystem/actCCAccessor.h"
 
 namespace uking::action {
 
@@ -68,14 +71,26 @@ protected:
     // static_param at offset 0x128
     const sead::Vector3f* mHeadRotateOffset_s{};
     // Not decompiled yet (see the ctor at 0x71002734c8): 0x130-0x154 are zeroed together with the static params.
-    u8 _130[0x154 - 0x130];
+    u8 _130[0x154 - 0x130]{};
     s32 _154 = -1;
-    u8 _158[0x160 - 0x158];
+    s32 _158 = 0;
+    s32 _15c = 1;
     s32 _160 = -1;
     f32 _164 = 0.0f;
-    u8 _168[0x16d - 0x168];
+    s32 _168 = 0;
+    bool _16c = false;
     bool _16d = false;
     bool _16e = false;
+    u8 _16f[0x194 - 0x16f];
+    sead::Vector3f _194 = sead::Vector3f::zero;
+    sead::Vector3f _1a0 = sead::Vector3f::zero;
+    sead::Vector3f _1ac = sead::Vector3f::zero;
+    u64 _1b8 = 0;
+    s32 _1c0 = 0;
+    u64 _1c8 = 0;
+    s32 _1d0 = 0;
+    ksys::act::BaseProcLink _1d8;
+    ksys::act::CCAccessor _1e8;
 
     // 0x71002749b4 (placeholder name): raises the character controller's `_110` by the frame time.
     void sub_71002749B4();
