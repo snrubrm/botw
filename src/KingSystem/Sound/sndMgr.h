@@ -2,6 +2,7 @@
 
 #include <basis/seadTypes.h>
 #include <heap/seadDisposer.h>
+#include <math/seadVector.h>
 #include <prim/seadSafeString.h>
 
 namespace aal {
@@ -37,8 +38,26 @@ public:
     xlink2::HandleSLink sub_7101027E90(f32 size, int type, aal::Shape* shape);
 };
 
+// Placeholder name (SoundMgr::_38::_28; lane5 s6): the occlusion volume state of the sound manager, used by the
+// SoundOcclusionTag* actions (the sound is occluded while the player is inside the box set by sub_7101037ED8).
+class Unk_SoundMgr38_28 {
+public:
+    // 0x7101037ed8 (declared only; 132 B): sets the box (centre `pos`, size `size`) and stores both vectors.
+    void sub_7101037ED8(const sead::Vector3f* pos, const sead::Vector3f* size);
+    // 0x7101037f5c: stores `value` in the byte at +0x344.
+    void sub_7101037F5C(u8 value);
+    // 0x7101037f64: sets the enabled flag at +0x328 (clears the pointers at +0x3c0 / +0x3c8 when disabled).
+    void sub_7101037F64(bool enabled);
+
+    u8 _0[0x398];
+    /* 0x398 */ f32 _398;
+};
+
 // Placeholder name (SoundMgr::_38).
 struct Unk_SoundMgr38 {
+    // 0x710102c104 (declared only; 8 B): returns `_28`.
+    Unk_SoundMgr38_28* sub_710102C104() const;
+
     u8 _0[0x30];
     SpeakerBalanceUnifierMgr* _30;
 };

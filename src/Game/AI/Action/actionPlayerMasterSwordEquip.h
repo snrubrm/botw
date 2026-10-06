@@ -14,6 +14,7 @@ public:
     bool init_(sead::Heap* heap) override;
 
 protected:
+    bool oneShot_() override;
 };
 
 }  // namespace uking::action
