@@ -6,6 +6,9 @@
 #include "KingSystem/ActorSystem/actAiRoot.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
+#include "KingSystem/Physics/System/physSystem.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/Event/evtManager.h"
 
 namespace uking::action {
@@ -20,6 +23,23 @@ bool FireWood::init_(sead::Heap* heap) {
 
 void FireWood::enter_(ksys::act::ai::InlineParamPack* params) {
     FireWoodBase::enter_(params);
+    _40 = false;
+    if (auto* damage_mgr = mActor->getDamageMgr())
+        damage_mgr->mField_34 = 0;
+    auto* actor = mActor;
+    auto* main_body = actor->getMainBody();
+    auto* body = actor->findPhysicsBodyByName(ksys::act::getStr_Body().cstr(), "Barrier");
+    auto* physics = mActor->getPhysics();
+    auto* handler = ksys::phys::System::instance()->sub_7101216894(
+        ksys::phys::ContactLayerType::Entity, 1);
+    if (physics)
+        physics->sub_7100FBDFA4(handler);
+    if (main_body && actor->getMapObject())
+        main_body->changeMotionType(ksys::phys::MotionType::Fixed);
+    if (body) {
+        body->setContactAll();
+        body->disableContactLayer(ksys::phys::ContactLayer::EntitySmallObject);
+    }
 }
 
 void FireWood::leave_() {

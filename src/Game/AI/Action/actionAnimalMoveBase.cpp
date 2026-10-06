@@ -1,6 +1,9 @@
 #include "Game/AI/Action/actionAnimalMoveBase.h"
 #include "KingSystem/System/VFR.h"
+#include <random/seadGlobalRandom.h>
 #include "Game/AI/aiUnk_71007377D4.h"
+#include "Game/Actor/actRideable.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -12,8 +15,27 @@ bool AnimalMoveBase::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }
 
+// NON_MATCHING: the original loads the max-gear param first and computes the range size as (max + 1) - min (we
+// get 1 - min + max).
 void AnimalMoveBase::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    mFlags.set(Flag::Changeable);
+    auto* rideable = mActor->m132();
+    if (!rideable) {
+        setFailed();
+        return;
+    }
+    s32 gear = *mMinUseGear_s;
+    const s32 max = *mMaxUseGear_s;
+    if (max >= gear)
+        gear = sead::GlobalRandom::instance()->getS32Range(gear, max + 1);
+    _68 = gear;
+    if (*mCanUseHorseGearInput_s) {
+        const act::Rideable::Gear input_gear(rideable->_134);
+        if (int(input_gear) > 0)
+            gear = rideable->_134;
+    }
+    rideable->sub_7100E63224(u32(*mUseGearType_s), u32(gear));
+    rideable->_18.sub_7100E770C4(false);
 }
 
 void AnimalMoveBase::leave_() {
