@@ -16,10 +16,19 @@ public:
     static ksys::act::BaseProc* construct(const CreateArg& arg, sead::Heap* heap);
 
 protected:
+    bool prepareInit_(sead::Heap* heap, PrepareArg& arg) override;
+    void onPreDeleteStart_(PrepareArg& arg) override;
+    void preDelete2_(const PreDeleteArg& arg) override;
+    void onEnterDelete_() override;
     bool canWakeUp_() override;
 
 public:
     void m63() override;
+    void initMaybe() override;
+    void calcMaybe() override;
+    void updatePositionMaybe() override;
+    void m73() override;
+    void m76(ksys::VFR::ScopedDeltaSetter* setter) override;
     void onPlacementObjReset() override;
 
     /* 0xb90 */ void* _b90 = nullptr;
