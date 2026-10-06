@@ -75,8 +75,20 @@ void GuardianMiniGroggy::calc_() {
     }
 }
 
+// NON_MATCHING: the original compares the current AS name without the virtual assureTermination call on it
+// (only on the parameter strings); our SafeString operator== calls it on both operands.
 void GuardianMiniGroggy::leave_() {
-    ksys::act::ai::Ai::leave_();
+    const sead::SafeString& current = mActor->getASList()->x_1(0, 1);
+    if (current != mDefaultASName_s && current != mRestartASName_s) {
+        auto* list = mActor->getASList();
+        list->sub_710115B140(sead::SafeString(mDefaultASName_s.cstr()), 0, 0, 1, 1);
+    }
+    _74 = sub_710041C850(&_78);
+    if (!_75 && _74 && _78 != -1) {
+        sub_7100428358(mActor, false, _78);
+        playerOrEnemyDropWeapon(mActor, &sead::Vector3f::zero, _78, false, false, nullptr, false);
+        _75 = true;
+    }
 }
 
 void GuardianMiniGroggy::loadParams_() {

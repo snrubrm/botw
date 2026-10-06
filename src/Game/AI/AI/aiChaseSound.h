@@ -41,7 +41,7 @@ protected:
     };
     Params mParams;
     sead::Vector3f _68{0, 0, 0};
-    u32 _74{};
+    f32 _74{};
     ksys::phys::RayCastForRequest* _78{};
     sead::Vector3f _80;
     bool _8c = false;

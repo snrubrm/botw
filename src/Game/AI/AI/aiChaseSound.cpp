@@ -1,5 +1,7 @@
 #include "Game/AI/AI/aiChaseSound.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/Physics/System/physRayCastForRequest.h"
 
 bool sub_71005E2068(ksys::act::Actor* actor);
@@ -10,8 +12,28 @@ ChaseSound::ChaseSound(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
 ChaseSound::~ChaseSound() = default;
 
+// NON_MATCHING: the order of the position / target loads in the horizontal direction differs.
 void ChaseSound::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    sub_71005E21E8(mActor);
+    if (_78) {
+        _78->release();
+        _78 = nullptr;
+    }
+    auto* actor = mActor;
+    _80 = actor->getMtx().getTranslation();
+    _74 = 30.0f;
+    sead::Vector3f direction = *mParams.mTargetPos_d - actor->getMtx().getTranslation();
+    direction.y = 0.0f;
+    direction.normalize();
+    const sead::Vector3f front = mActor->getMtx().getBase(2);
+    if (front.dot(direction) >= sead::Mathf::cos(*mParams.mTurnDir_s)) {
+        if (!sub_7100345C2C())
+            setFailed();
+    } else {
+        ksys::act::ai::InlineParamPack pack;
+        pack.addVec3(*mParams.mTargetPos_d, "TargetPos", -1);
+        changeChild("回転", &pack);
+    }
 }
 
 void ChaseSound::leave_() {
