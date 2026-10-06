@@ -18,7 +18,7 @@ void FxParamSetter::reset() {
 
 // 0x710140652c
 bool FxParamSetter::isOnModifiedFlagBit(int bit) const {
-    return mModifiedFlag & (1 << bit);
+    return (1 << bit) & mModifiedFlag;
 }
 
 // 0x7101406544
