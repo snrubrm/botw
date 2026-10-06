@@ -129,7 +129,7 @@ public:
     // Signature from the AssassinBossRoot damage callbacks (lane2): takes an out value; DamageMgr::m40 writes -1 first
     // and returns whether it found a value.
     virtual bool m40(s32* out) { return false; }
-    virtual s32 m41() { return 0; }
+    virtual bool m41() { return false; }
     virtual bool m42() { return false; }
     virtual void m43() {}
     virtual bool canTakeDamage();

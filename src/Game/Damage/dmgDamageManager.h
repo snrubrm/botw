@@ -5,6 +5,7 @@
 #include <prim/seadBitFlag.h>
 #include <prim/seadRuntimeTypeInfo.h>
 #include "Game/Damage/dmgDamageManagerBase.h"
+#include "KingSystem/ActorSystem/actActorAtk.h"
 
 namespace ksys::phys {
 class RigidBody;
@@ -41,6 +42,21 @@ public:
     void preDelete1() override;
     // 0x71006d8520: 1 while _8c has bit 4, else the base class's table lookup.
     s32 m49(s32 damageTypeMaybe) override;
+    // Overrides of the base slots (lane4 s47; CSV DamageMgr::m18 / checkDamageFlags / m42 / m39 / m40 / m41).
+    s32 getNumCallbacks() override;
+    bool checkDamageFlags(s32 bit) override;
+    bool m42() override;
+    bool isSlowTime() override;
+    bool m40(s32* out) override;
+    bool m41() override;
+    // The new virtual slots 50-56 (placeholders; m52 / m53 are constants).
+    virtual void m50();
+    virtual void m51();
+    virtual s32 m52() { return 40; }
+    virtual s32 m53() { return 0; }
+    virtual void m54();
+    virtual void m55();
+    virtual void m56();
 
     // 0x71006d69f8 (not decompiled): the rigid body hit by the current damage (by damage kind
     // _5c: 2 / 6 via sub_71007A255C, 4 via the actor's +0x708 object), or null.
@@ -66,7 +82,8 @@ public:
     s32 _6c;  // read by PreyRoot's damage callback (lane2 s42)
     s32 _70;  // current shield guard power (PlayerOrEnemy::m160)
     s32 _74;  // Horse::loadReduceAncientEnemyDamageInfo
-    u8 _78[0x8c - 0x78];
+    u8 _78[0x88 - 0x78];
+    s32 _88;  // attack info index of damage kind 6 (DamageManager::getAttackInfo_)
     s32 _8c;  // WeakPointRoot::m35
     u8 _90[0x210 - 0x90];
     // 0x210-0x22c: zeroed by the ctor (0x210 and 0x214 with one 8-byte store).
@@ -79,6 +96,11 @@ public:
     bool _219;
     DamageManagerUnk220* _220;
     u32 _228;
+
+private:
+    // Inline-only in the original (name is a guess; evidence: m39 / m40 / m41 and the other overrides start with
+    // it): the attack info the current damage kind (6: index _88 if bit 8 of _216 is set, 2: index _6c) refers to.
+    ksys::act::ActorAtk::Unk_710079e64c::Unk1* getAttackInfo_();
 };
 KSYS_CHECK_SIZE_NX150(DamageManager, 0x230);
 

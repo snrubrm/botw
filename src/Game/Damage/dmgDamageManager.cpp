@@ -2,6 +2,7 @@
 #include "Game/Actor/actWeapon.h"
 #include "Game/AI/aiUnk_7100736460.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 
 namespace uking::dmg {
 
@@ -30,6 +31,62 @@ f32 DamageManager::sub_71006D8DE8() {
 
 s32 DamageManager::sub_71006D8534() const {
     return _220 ? _220->mHits.size() : 0;
+}
+
+ksys::act::ActorAtk::Unk_710079e64c::Unk1* DamageManager::getAttackInfo_() {
+    s32 index;
+    switch (getDamageType()) {
+    case 2:
+        index = _6c;
+        if (index < 0)
+            return nullptr;
+        break;
+    case 6:
+        if (!_216.isOn(0x100))
+            return nullptr;
+        index = _88;
+        if (index < 0)
+            return nullptr;
+        break;
+    default:
+        return nullptr;
+    }
+    return ::sub_71007A255C(mActor, index);
+}
+
+s32 DamageManager::getNumCallbacks() {
+    return 7;
+}
+
+bool DamageManager::checkDamageFlags(s32 bit) {
+    return (1 << bit) & _8c;
+}
+
+bool DamageManager::m42() {
+    return checkDamageFlags(14);
+}
+
+bool DamageManager::isSlowTime() {
+    if (DamageManagerBase::isSlowTime())
+        return true;
+    auto* info = getAttackInfo_();
+    return info && info->sub_71007A1F78(0x4000000);
+}
+
+bool DamageManager::m40(s32* out) {
+    *out = -1;
+    if (auto* info = getAttackInfo_()) {
+        *out = info->_bc;
+        return true;
+    }
+    return false;
+}
+
+// NON_MATCHING: the original sets up its stack frame at the top (no shrink wrapping around the call)
+bool DamageManager::m41() {
+    if (auto* info = getAttackInfo_())
+        return info->_fc & 1;
+    return false;
 }
 
 s32 DamageManager::m49(s32 damageTypeMaybe) {
