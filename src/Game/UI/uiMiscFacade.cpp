@@ -11,7 +11,27 @@
 // UI wrapper functions around unidentified UI singletons (the 0x7100a94000 TU).
 namespace uking::ui {
 
-// NON_MATCHING: the success and failure return values use a smaller frame and different join paths.
+// 0x7366d4
+bool isOneHitObliteratorActorName(const sead::SafeString& name) {
+    if (name.isEmpty())
+        return false;
+    return name == "Weapon_Sword_502";
+}
+
+// 0x7100a963c0
+bool sub_7100A963C0(const sead::SafeString& item, s32 option) {
+    bool opened = false;
+    if (auto* manager = eui::ScreenMgr::instance()) {
+        if (auto* screen = sead::DynamicCast<ScreenPickUp>(manager->getScreen(ScreenId::PickUp))) {
+            opened = true;
+            screen->setItemAndOpen(item, true);
+        }
+    }
+    return opened;
+}
+
+// NON_MATCHING: the original keeps the result in a callee-saved register that is cleared right after the prologue
+// (`mov w21, wzr` before the actor test); ours returns the null actor register / sinks the constants
 bool openPickUpScreen(ksys::act::Actor* actor) {
     if (!actor)
         return false;
