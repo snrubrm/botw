@@ -2,6 +2,39 @@
 
 namespace aal {
 
+// 0x7100b95e60
+AttenuatorReader::AttenuatorReader(const void* data) {
+    auto* header = static_cast<const Data*>(data);
+    if (!header->header.isValid(0x4e544141))  // "AATN"
+        return;
+    if (header->header.version == 1)
+        mData = header;
+}
+
+// NON_MATCHING: the original stores the SafeString vtable once and selects the string pointer (name or the empty string)
+// 0x7100b95f58
+sead::SafeString AttenuatorReader::getDirectivityName() const {
+    const char* name = mData ? getName_(mData->directivity_name_offset) : nullptr;
+    return name ? sead::SafeString(name) : sead::SafeString::cEmptyString;
+}
+
+// NON_MATCHING: same as getDirectivityName
+// 0x7100b95fb8
+sead::SafeString AttenuatorReader::getCullingName() const {
+    const char* name = mData ? getName_(mData->culling_name_offset) : nullptr;
+    return name ? sead::SafeString(name) : sead::SafeString::cEmptyString;
+}
+
+// 0x7100b96018
+bool AttenuatorReader::isListenerDirectivityEnabled() const {
+    return mData ? mData->listener_directivity_enabled != 0 : false;
+}
+
+// 0x7100b96038
+bool AttenuatorReader::isOcclusionEnabled() const {
+    return mData ? mData->occlusion_enabled != 0 : false;
+}
+
 // 0x7100b95c78
 AttenuationCullingReader::AttenuationCullingReader(const void* data) {
     auto* header = static_cast<const Data*>(data);
