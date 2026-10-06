@@ -83,6 +83,19 @@ ksys::act::Actor* getPlayerActor(ksys::act::Actor* actor) {
     return nullptr;
 }
 
+// 0x7100aa8e5c / 0x7100aa8e9c (placeholder names): bit 21 / bit 22 of the Manager's flag word.
+bool sub_7100AA8E5C() {
+    if (!uiManagerInitialised())
+        return false;
+    return (Manager::instance()->_64c30 & 0x200000) != 0;
+}
+
+bool sub_7100AA8E9C() {
+    if (!uiManagerInitialised())
+        return false;
+    return (Manager::instance()->_64c30 & 0x400000) != 0;
+}
+
 // 0x7100aa8f30 / 0x7100aa8f50 (placeholder names): bit 13 / bit 18 of the Manager's flag word.
 bool sub_7100AA8F30() {
     return (Manager::instance()->_64c30 & 0x2000) != 0;

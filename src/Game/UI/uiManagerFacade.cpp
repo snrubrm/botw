@@ -1,6 +1,11 @@
 #include <math/seadMathCalcCommon.h>
 #include <prim/seadScopedLock.h>
+#include "Game/Actor/actPlayerCreateMgr.h"
+#include "Game/Damage/dmgInfoManager.h"
 #include "Game/UI/uiManager.h"
+#include "Game/UI/uiPauseMenuDataMgr.h"
+#include "Game/UI/uiUtils.h"
+#include "KingSystem/Resource/resGameResourceSystem.h"
 
 // UI wrapper functions around uking::ui::Manager (the 0x7100a94000 TU).
 namespace uking::ui {
@@ -50,6 +55,37 @@ const char* sub_7100A9EEF4() {
     if (u32(state) < 5)
         return sNames[state];
     return state == 5 ? "HyruleCastleExit" : nullptr;
+}
+
+// 0x7100aa4a2c (placeholder name): table lookup, -1 when out of range.
+s32 sub_7100AA4A2C(s32 index) {
+    static const s32 sTable[] = {4, 5, 6, 16, 10, 11, 12, 13};
+    if (u32(index) < 8)
+        return sTable[index];
+    return -1;
+}
+
+// 0x7100aa6f90 (placeholder name): 1 without a value; with one, 2 for the true form Master Sword and 0 otherwise.
+s32 sub_7100AA6F90(const PouchItem& item) {
+    if (item.getValue() < 1)
+        return 1;
+    return dmg::DamageInfoMgr::instance()->isTrueFormMasterSword() ? 2 : 0;
+}
+
+// 0x7100aa8294 (placeholder name)
+bool sub_7100AA8294() {
+    if (auto* mgr = uking::act::CreatePlayerEquipActorMgr::instance())
+        return mgr->areAllWeaponActorsReady();
+    return true;
+}
+
+// 0x7100aa9838 / 0x7100aa9848 (CSV ResourceSystem::stopCompactionIfTooLong1_0 / unnamed)
+void sub_7100AA9838() {
+    ksys::res::GameResourceSystem::instance()->pauseCompaction();
+}
+
+void sub_7100AA9848() {
+    ksys::res::GameResourceSystem::instance()->resumeCompaction();
 }
 
 // 0x7100a94158
