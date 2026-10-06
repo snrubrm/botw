@@ -19,6 +19,7 @@ public:
 
 protected:
     void calc_() override;
+    void m32() override;
 
     // dynamic_param at offset 0x58
     sead::SafeString mRailName_d{};

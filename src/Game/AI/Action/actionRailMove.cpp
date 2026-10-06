@@ -44,4 +44,16 @@ void RailMove::calc_() {
     RailMoveBase::calc_();
 }
 
+void RailMove::m32() {
+    if (_68.sub_7100EEBB74()) {
+        const sead::Vector3f& target = _68._30.sub_7100EEB370();
+        const sead::Vector3f pos = mActor->getMtx().getTranslation();
+        const f32 dx = target.x - pos.x;
+        const f32 dz = target.z - pos.z;
+        if (sead::Mathf::sqrt(dx * dx + dz * dz) < 1.0f)
+            _68.x(0.5f);
+        _1c = _68._30.sub_7100EEB370() - mActor->getMtx().getTranslation();
+    }
+}
+
 }  // namespace uking::action
