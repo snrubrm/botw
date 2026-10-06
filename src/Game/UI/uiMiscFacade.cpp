@@ -1,4 +1,8 @@
+#include <xlink2/xlink2HandleELink.h>
+#include "Game/Actor/actCameraUtil.h"
 #include "Game/UI/euiScreen.h"
+#include "KingSystem/ActorSystem/actBaseProcLink.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
 #include "Game/UI/uiManager.h"
 #include "Game/UI/uiPauseMenuDataMgr.h"
 #include "Game/UI/uiScreens.h"
@@ -644,3 +648,24 @@ void sub_7100A9A6AC(bool on) {
 }
 
 }  // namespace uking::ai
+
+namespace {
+// The handle of the "SlowEffect" xlink effect (a TU static at 0x25f6500).
+xlink2::HandleELink sSlowEffectHandle;
+}  // namespace
+
+// 0x7100a94ecc (CSV startSlowEffectMaybe; global namespace)
+bool startSlowEffectMaybe() {
+    ksys::act::BaseProcLink link;
+    sub_710092DB30(&link);
+    sSlowEffectHandle = ksys::eft::searchAndEmitELink(&link, "SlowEffect");
+    return true;
+}
+
+// 0x7100a94f2c (CSV fadeSlowEffect; global namespace)
+bool fadeSlowEffect() {
+    if (!sSlowEffectHandle.isActive())
+        return false;
+    sSlowEffectHandle.fade();
+    return true;
+}

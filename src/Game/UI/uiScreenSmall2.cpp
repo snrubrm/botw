@@ -43,6 +43,39 @@ void ScreenPauseMenuInfo::sub_7100A31BE0() {
         _391c = 2;
 }
 
+// 0x7100a1ab14
+void ScreenMainScreen::sub_7100A1AB14(s64 a1, f32 value) {
+    sub_7100A1A518(a1, true);
+    _3720 = value;
+}
+
+// 0x7100a1ab84
+void ScreenMainScreen::sub_7100A1AB84(s32 a1) {
+    if (_3648)
+        _3648->sub_710098AE8C(a1);
+}
+
+// 0x7100a1abc8
+void ScreenMainScreen::sub_7100A1ABC8(s32 value) {
+    if (_3620 && _36b0) {
+        _36bc = value;
+        _36b8 = 1;
+    }
+}
+
+// 0x7100a1abe8
+bool ScreenMainScreen::sub_7100A1ABE8() const {
+    return _36b8 != 0;
+}
+
+// 0x7100a1abf8
+void ScreenMainScreen::sub_7100A1ABF8() {
+    if (_3620 && _36b0) {
+        _36b8 = 1;
+        _36bc = 0;
+    }
+}
+
 // 0x7100a1ab58
 void ScreenMainScreen::sub_7100A1AB58(s32 a1) {
     if (_3658)

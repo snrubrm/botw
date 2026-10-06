@@ -202,6 +202,10 @@ sead::Heap* getHeap();
 // signatures come from the callers, none is decompiled yet).
 void sub_7100A94B40(bool display, bool display_ex, bool get_demo);
 void sub_7100A95B44(const sead::SafeString& item_name);
+// 0x7100a82e28 (uiPouchFacade.cpp; placeholder name): `u32(value - 4) < 3` (the armor item types)
+bool sub_7100A82E28(s32 value);
+// 0x7100a95a10 (CSV ui::showCannotPickupBuyAnyMoreMessageMaybe)
+void showCannotPickupBuyAnyMoreMessageMaybe(const sead::SafeString& name, bool a2);
 bool sub_7100A96DDC(bool a1);
 bool sub_7100A97024();
 bool sub_7100A9C15C();

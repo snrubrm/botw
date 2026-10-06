@@ -8,6 +8,7 @@
 
 namespace ksys::act {
 class Actor;
+class BaseProcLink;
 }
 
 namespace ksys::xlink {
@@ -61,6 +62,8 @@ namespace ksys::eft {
 // the actor has none (ELink: also for a null actor; SLink: also when XLink::_cc bit 8 is set unless
 // `force`). Defined in xlinkEmit.cpp.
 xlink2::HandleELink searchAndEmitELink(act::Actor* actor, const char* name);
+// 0x7100da08a0: the same for the actor behind `link` (declared here, defined in xlinkEmit.cpp).
+xlink2::HandleELink searchAndEmitELink(act::BaseProcLink* link, const char* name);
 xlink2::HandleSLink searchAndEmitSLink(act::Actor* actor, const char* name, bool force);
 /// 0x710105ddb8 (declaration only): searchAndEmit(name, handle) on the actor's SLink user instance (XLink::_50),
 /// unless `handle` is null or XLink::_cc bit 1 is set.

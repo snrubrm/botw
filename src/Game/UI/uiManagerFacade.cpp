@@ -7,6 +7,8 @@
 #include "Game/UI/uiUtils.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/Resource/resGameResourceSystem.h"
+#include "KingSystem/System/CameraMgr.h"
+#include <gfx/seadCamera.h>
 
 // UI wrapper functions around uking::ui::Manager (the 0x7100a94000 TU).
 namespace uking::ui {
@@ -309,6 +311,36 @@ void sub_7100A9B800(sead::Vector3f* out) {
         if (auto* manager = Manager::instance())
             *out = manager->_80;
     }
+}
+
+// NON_MATCHING: the original loads `_8c.x` / `_8c.z` first but still compares x, y, z in that order; ours compares x, z, y
+// 0x7100a9b830 (placeholder name): the heading in degrees (0 - 360) of the manager's direction `_8c` (0 if it is zero).
+f32 sub_7100A9B830() {
+    auto* manager = Manager::instance();
+    if (!manager)
+        return 0;
+    const sead::Vector3f dir = manager->_8c;
+    if (dir.x == 0.0f && dir.y == 0.0f && dir.z == 0.0f)
+        return 0;
+    return sub_7100AA0B6C(sead::Mathf::idx2deg(sead::Mathf::atan2Idx(dir.x, dir.z)) + 180.0f);
+}
+
+// 0x7100a9b89c (placeholder name): the heading in degrees of the look-at camera's direction (0 without a camera).
+f32 sub_7100A9B89C() {
+    if (auto* mgr = ksys::CameraMgr::instance()) {
+        if (auto* camera = mgr->getLookAtCamera()) {
+            const sead::Vector3f dir = camera->getAt() - camera->getPos();
+            if (dir.x != 0.0f || dir.y != 0.0f || dir.z != 0.0f)
+                return sub_7100AA0B6C(sead::Mathf::idx2deg(sead::Mathf::atan2Idx(dir.x, dir.z)) + 180.0f);
+        }
+    }
+    return 0;
+}
+
+// 0x7100a9b928 (placeholder name)
+const sead::Vector2f& sub_7100A9B928() {
+    auto* manager = Manager::instance();
+    return manager ? manager->_98 : sead::Vector2f::zero;
 }
 
 // 0x7100a9b94c

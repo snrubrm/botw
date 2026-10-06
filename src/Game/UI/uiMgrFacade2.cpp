@@ -4,7 +4,9 @@
 #include "Game/UI/uiScreens.h"
 #include "Game/UI/uiManager.h"
 #include "Game/UI/uiUtils.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/Physics/System/physRayCast.h"
 #include "KingSystem/Physics/System/physRayCastBodyQuery.h"
 #include "KingSystem/Utils/MathUtil.h"
@@ -146,6 +148,72 @@ void sub_7100AA0A8C(s32 a1) {
 // 0x7100a9f4f8
 void sub_7100A9F4F8() {
     Manager::instance()->loadStaticInfo(getHeap());
+}
+
+// NON_MATCHING: the original tests the hole 4..9 with a 64-bit range compare (`sxtw; sub x9, x8, #4; cmp x9, #6`) and
+// then loads the item from a 14-entry table; ours tests the hole with a bit mask (`lsr w8, 0x3c0f, w8`)
+// 0x7100a9bcd4 (placeholder name): whether UI rune `rune` is the rune that is selected in the RuneMgr (false for the
+// UI runes 4 - 9, which have no RuneMgr item).
+bool sub_7100A9BCD4(s32 rune) {
+    s32 item;
+    switch (rune) {
+    case 0:
+        item = 2;
+        break;
+    case 1:
+        item = 3;
+        break;
+    case 2:
+        item = 4;
+        break;
+    case 3:
+        item = 5;
+        break;
+    case 10:
+        item = 0;
+        break;
+    case 11:
+        item = 1;
+        break;
+    case 12:
+        item = 6;
+        break;
+    case 13:
+        item = 7;
+        break;
+    default:
+        return false;
+    }
+    return RuneMgr::instance()->getCurrentItem() == item;
+}
+
+// 0x7100a9bebc (placeholder name): whether the player (the current one if null) can use UI rune `rune`.
+bool sub_7100A9BEBC(s32 rune, ksys::act::PlayerBase* player) {
+    if (!player) {
+        auto* info = ksys::act::PlayerInfo::instance();
+        if (!info)
+            return false;
+        player = info->getPlayer();
+    }
+    if (!player)
+        return false;
+    if (rune == 8 || rune == 10 || rune == 11)
+        return player->x_13();
+    if (rune == 1 || rune == 2)
+        return player->checkCanUseRuneCommon();
+
+    switch (rune) {
+    case 0:
+        return player->checkCanUseMagnesis();
+    case 3:
+        return player->checkCanUseCamera();
+    case 12:
+        return player->checkCanUseAmiibo();
+    case 13:
+        return player->checkCanUseMotorcycle();
+    default:
+        return true;
+    }
 }
 
 // 0x7100a9f888

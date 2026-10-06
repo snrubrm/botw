@@ -1,7 +1,9 @@
 #include "Game/UI/uiScreens.h"
 #include <prim/seadRuntimeTypeInfo.h>
 #include "Game/UI/uiManager.h"
-#include "Game/UI/uiManager.h"
+#include "Game/UI/uiPauseMenuDataMgr.h"
+#include "KingSystem/ActorSystem/actInfoData.h"
+#include "KingSystem/ActorSystem/actTag.h"
 #include "Game/UI/uiUnkSingletons.h"
 #include "Game/UI/uiUtils.h"
 
@@ -713,6 +715,106 @@ void sub_7100A956C0(s32 a, s32 b, f32 c) {
     mgr->_a8 = b;
     mgr->_ac = c;
     mgr->sub_7100A7A704(4);
+}
+
+// 0x7100a95a10 (CSV ui::showCannotPickupBuyAnyMoreMessageMaybe)
+void showCannotPickupBuyAnyMoreMessageMaybe(const sead::SafeString& name, bool a2) {
+    if (name.isEmpty())
+        return;
+
+    al::ByamlIter iter;
+    if (!ksys::act::InfoData::instance()->getActorIter(&iter, name.cstr(), true))
+        return;
+
+    PouchItemType type;
+    bool has_item = false;
+    if (ksys::act::InfoData::instance()->hasTag(iter, ksys::act::tags::CanStack)) {
+        const int count = PauseMenuDataMgr::instance()->getItemCount(name, true);
+        type = PauseMenuDataMgr::getType(name, &iter);
+        has_item = count > 0;
+    } else {
+        type = PauseMenuDataMgr::getType(name, &iter);
+    }
+
+    s32 message;
+    if (!has_item) {
+        switch (type) {
+        case PouchItemType::Sword:
+            message = 0;
+            break;
+        case PouchItemType::Bow:
+            message = 2;
+            break;
+        case PouchItemType::Shield:
+            message = 1;
+            break;
+        case PouchItemType::Food:
+            message = 4;
+            break;
+        default:
+            if (!sub_7100A82E28(s32(type)))
+                return;
+            showInfoOverlayWithString(5, sead::SafeString::cEmptyString);
+            return;
+        }
+    } else {
+        message = a2 ? 7 : 6;
+    }
+    showInfoOverlayWithString(message, sead::SafeString::cEmptyString);
+}
+
+// 0x7100a95b44
+void sub_7100A95B44(const sead::SafeString& name) {
+    if (name.isEmpty())
+        return;
+
+    al::ByamlIter iter;
+    if (!ksys::act::InfoData::instance()->getActorIter(&iter, name.cstr(), true))
+        return;
+
+    PouchItemType type;
+    bool has_item = false;
+    if (ksys::act::InfoData::instance()->hasTag(iter, ksys::act::tags::CanStack)) {
+        const int count = PauseMenuDataMgr::instance()->getItemCount(name, true);
+        type = PauseMenuDataMgr::getType(name, &iter);
+        has_item = count > 0;
+    } else {
+        type = PauseMenuDataMgr::getType(name, &iter);
+    }
+
+    s32 message;
+    if (has_item) {
+        message = 6;
+    } else {
+        switch (type) {
+        case PouchItemType::Sword:
+            message = 0;
+            break;
+        case PouchItemType::Bow:
+            message = 2;
+            break;
+        case PouchItemType::Shield:
+            message = 1;
+            break;
+        case PouchItemType::Food:
+            message = 4;
+            break;
+        default:
+            if (!sub_7100A82E28(s32(type)))
+                return;
+            message = 5;
+            break;
+        }
+    }
+
+    auto* mgr = eui::ScreenMgr::instance();
+    if (!mgr)
+        return;
+    auto* screen = sead::DynamicCast<ScreenMainScreen>(mgr->getScreen(ScreenId::MainScreen));
+    if (!screen)
+        return;
+    screen->sub_7100A1AB84(message);
+    Manager::instance()->sub_7100A7A6E4(0);
 }
 
 // 0x7100a95924

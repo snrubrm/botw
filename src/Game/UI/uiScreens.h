@@ -670,6 +670,8 @@ public:
 struct ScreenMainScreenUnk3648 {
     // 0x710098a93c (CSV unnamed; declared only)
     void sub_710098A93C(s32 type, const sead::SafeString& text);
+    // 0x710098ae8c (declared only)
+    void sub_710098AE8C(s32 a1);
 };
 
 // Placeholder for the object ScreenMainScreen keeps at 0x3658 (the int at 0x150 is written by sub_7100A1AB58).
@@ -686,11 +688,18 @@ public:
     ~ScreenMainScreen() override;
     SEAD_RTTI_OVERRIDE(ScreenMainScreen, ScreenEx)
 
-    u8 _pad_3610[0x3648 - 0x3610];
+    u8 _pad_3610[0x3620 - 0x3610];
+    /* 0x3620 */ void* _3620;
+    u8 _pad_3628[0x3648 - 0x3628];
     /* 0x3648 */ ScreenMainScreenUnk3648* _3648;
     u8 _pad_3650[0x3658 - 0x3650];
     /* 0x3658 */ ScreenMainScreenUnk3658* _3658;
-    u8 _pad_3660[0x3704 - 0x3660];
+    u8 _pad_3660[0x36b0 - 0x3660];
+    /* 0x36b0 */ void* _36b0;
+    // The two ints are written together by sub_7100A1ABF8 ({1, 0}) and separately by sub_7100A1ABC8.
+    /* 0x36b8 */ s32 _36b8;
+    /* 0x36bc */ s32 _36bc;
+    u8 _pad_36c0[0x3704 - 0x36c0];
     /* 0x3704 */ s32 _3704;
     u8 _pad_3708[0x3720 - 0x3708];
     /* 0x3720 */ f32 _3720;  // -99.0f initially
@@ -705,6 +714,12 @@ public:
     void showInfoOverlayWithString(s32 type, const sead::SafeString& text);
 
     void sub_7100A1A4E4(s64);
+    // 0x7100a1ab14 / 0x7100a1abc8 / 0x7100a1abe8 / 0x7100a1abf8 (placeholder names)
+    void sub_7100A1AB14(s64 a1, f32 value);
+    void sub_7100A1AB84(s32 a1);
+    void sub_7100A1ABC8(s32 value);
+    bool sub_7100A1ABE8() const;
+    void sub_7100A1ABF8();
     // 0x7100a1a518 (CSV unnamed; declared only; the types are guesses)
     void sub_7100A1A518(s64 a1, bool a2);
     bool sub_7100A1E1E0();
