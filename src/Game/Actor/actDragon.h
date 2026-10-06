@@ -58,6 +58,8 @@ public:
     // by dragon kind (_1e0c) (declared only; DragonFireRoot::sub_71003687B4).
     ksys::map::Object* sub_710000C440() const;
     bool getGameDataFlagGrudgeAlive(int idx);  // CSV name
+    // 0x710000ff60 (lane4 s45, unnamed in the CSV): `_1f70` has the bit `idx` and not the bit `idx + 4`.
+    bool sub_710000FF60(int idx);
     bool getGameDataFlag(const sead::SafeString& name, int idx);  // CSV name
     void x(const sead::Matrix34f& mtx);  // CSV name (0x710000ff8c)
     void sub_710000C160(const Dragon* other);  // copies state from another dragon (DragonRoot::reenter_)

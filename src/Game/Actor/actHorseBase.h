@@ -111,6 +111,8 @@ public:
 
     // CSV name. Reads GParamList HorseUnit (RiddenAnimalType); 1 if there is none.
     s32 x() const;
+    // 0x7100e668c0 (lane4 s45, unnamed in the CSV): a speed factor by the RiddenAnimalType: 1.5 for 6, 0.8 for 7, else 1.
+    f32 sub_7100E668C0() const;
 
     // Placeholder names (non-virtual functions called by AI code, the horse manager and Horse).
     void sub_7100E6C464(s32 id);

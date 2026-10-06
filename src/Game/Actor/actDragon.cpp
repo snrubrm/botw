@@ -8,6 +8,10 @@
 
 namespace uking::act {
 
+bool Dragon::sub_710000FF60(int idx) {
+    return !_1f70.isOn(0x10 << idx) && _1f70.isOn(1 << idx);
+}
+
 ksys::act::BaseProc* Dragon::construct(const CreateArg& arg, sead::Heap* heap) {
     return new (heap, std::nothrow) Dragon(arg);
 }

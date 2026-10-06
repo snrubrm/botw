@@ -178,6 +178,18 @@ s32 HorseBase::x() const {
     return unit->mRiddenAnimalType.ref();
 }
 
+f32 HorseBase::sub_7100E668C0() const {
+    const HorseMgr::RiddenAnimalType type(x());
+    switch (type) {
+    case HorseMgr::RiddenAnimalType::_6:
+        return 1.5f;
+    case HorseMgr::RiddenAnimalType::_7:
+        return 0.8f;
+    default:
+        return 1.0f;
+    }
+}
+
 int HorseBase::m109() {
     return _b70 >> 7 & 2 ^ 10;
 }
