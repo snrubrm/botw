@@ -1,3 +1,4 @@
+#include "Game/UI/euiAnimator.h"
 #include "Game/UI/euiLayoutEx.h"
 #include "Game/UI/euiTextBoxEx.h"
 #include "Game/UI/uiScreens.h"
@@ -14,6 +15,72 @@ void ScreenAkashNum::m93(sead::Heap*) {
     _3638.sub_71009331C(sub_7100BEAFB0("Pa_PlusMinus_00"),
                         eui::sub_7100933580(mLayout->mPane->FindPaneByName("T_Num_00", true)));
     _3638.set30(mLayout->tryCreateAnimatorAuto("Flash", false));
+}
+
+// 0x71009cee28
+void ScreenAkashNum::m94() {
+    if (isOpened() && sub_7100A98038(mId)) {
+        if (mState != 0 && mState != 3) {
+            const s32 count = ksys::gdt::getFlag_DungeonClearSealNum(false);
+            _3618 = count;
+            _3614 = count;
+            sub_7100AA930C(mLayout, "T_Num_00", count, 0, 0);
+            close(-1);
+        }
+        return;
+    }
+    mStateMachine.run();
+}
+
+// 0x71009cf0d0
+void ScreenAkashNum::m98() {
+    sub_7100AA930C(mLayout, "T_Num_00", _3614, 0, 0);
+    _3638.sub_71009333AC();
+}
+
+// 0x71009cf22c
+void ScreenAkashNum::m158() {
+    const s32 delta = _3618 - _3614;
+    if (delta == 0)
+        return;
+    if (sead::Mathi::abs(delta) >= 2) {
+        _3638.set38(delta);
+    } else if (_3638._30) {
+        _3638._30->PlayAuto(1.0f);
+    }
+    if (delta >= 1)
+        invokeSoundLink2Event_("mc_CountUpAkashi");
+    else
+        invokeSoundLink2Event_("mc_CountDownAkashi");
+}
+
+// 0x71009cf2cc
+// NON_MATCHING: the original tests `_3634 == 2` before `_3634 == 1` and lays the two state arms out the other way round
+void ScreenAkashNum::m159() {
+    if (_3634 != 2) {
+        const s32 old_count = _3618;
+        if (getFlagInt(&_3618, ksys::gdt::flagname::DungeonClearSealNum()))
+            _3638.set38(_3618 - old_count);
+    }
+    if (_291 & 2)
+        return;
+    _3638.sub_71009333CC();
+    const s32 step = sub_7100AA92AC(_3614, _3618);
+    _3614 += step;
+    sub_7100AA930C(mLayout, "T_Num_00", _3614, _3618, step);
+    if (_3614 == _3618) {
+        switch (_3634) {
+        case 2:
+            _3634 = 1;
+            [[fallthrough]];
+        case 1:
+            mStateMachine.changeState(&sUnk_71025dc0f0);
+            break;
+        default:
+            mStateMachine.changeState(&sUnk_71025dc030);
+            break;
+        }
+    }
 }
 
 // 0x71009cf3f0

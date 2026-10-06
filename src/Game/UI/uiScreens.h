@@ -945,6 +945,9 @@ public:
 
 extern const ksys::StateBase sUnk_71025f1bf0;
 extern const ksys::StateBase sUnk_71025f1cb0;
+extern const ksys::StateBase sUnk_71025f1c50;
+extern const ksys::StateBase sUnk_71025f1d10;
+extern const ksys::StateBase sUnk_71025f1d70;
 
 class ScreenRupee : public ScreenEx {
 public:
@@ -955,6 +958,9 @@ public:
     ~ScreenRupee() override;
     SEAD_RTTI_OVERRIDE(ScreenRupee, ScreenEx)
     void m93(sead::Heap* heap) override;
+    void m94() override;
+    void m98() override;
+    void m99() override;
     void m69() override;
     void m100() override;
 
@@ -990,12 +996,14 @@ public:
     bool sub_7100A41440();
     bool sub_7100A41354(s32);
     void sub_7100A414A0();
+    void sub_7100A41264(s32 mode);
 };
 
 // State object of the number screens (CSV: unnamed data; a StateTemplate<ScreenKologNum>, 0x71025eed10).
 extern const ksys::StateBase sUnk_71025eed10;
 extern const ksys::StateBase sUnk_71025eec50;
 extern const ksys::StateBase sUnk_71025eecb0;
+extern const ksys::StateBase sUnk_71025eed70;
 
 class ScreenKologNum : public ScreenEx {
 public:
@@ -1006,6 +1014,8 @@ public:
     ~ScreenKologNum() override;
     SEAD_RTTI_OVERRIDE(ScreenKologNum, ScreenEx)
     void m93(sead::Heap* heap) override;
+    void m94() override;
+    void m98() override;
     void m69() override;
     void m99() override;
     void m100() override;
@@ -1043,6 +1053,7 @@ public:
 extern const ksys::StateBase sUnk_71025dc090;
 extern const ksys::StateBase sUnk_71025dc030;
 extern const ksys::StateBase sUnk_71025dbfd0;
+extern const ksys::StateBase sUnk_71025dc0f0;
 // State object of ScreenHardMode (CSV: unnamed data, 0x710261ee98).
 extern const ksys::StateBase sUnk_710261ee98;
 
@@ -1054,6 +1065,8 @@ public:
     void m71() override;
     ~ScreenAkashNum() override;
     SEAD_RTTI_OVERRIDE(ScreenAkashNum, ScreenEx)
+    void m94() override;
+    void m98() override;
     void m99() override;
     void m100() override;
     void m93(sead::Heap* heap) override;
@@ -2593,6 +2606,8 @@ public:
 // Placeholder-named UI facade helpers (declared only unless noted; names after the original addresses).
 // 0x7100a98038 (defined in uiScreenFacade.cpp)
 bool sub_7100A98038(s32 excluded_id);
+// 0x7100a9b278 (defined in uiMiscFacade.cpp)
+bool sub_7100A9B278();
 // 0x7100aa8f70: `isActiveEventDemo000Or001Or002()` (a 4-byte jump in the original: its own function)
 bool sub_7100AA8F70();
 // 0x7100aa92ac: the step of the counter roll from `current` to `target` (signed, 1 / 20 / 50 / 500 / 1000 by distance)

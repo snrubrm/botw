@@ -1,3 +1,4 @@
+#include "Game/UI/euiAnimator.h"
 #include "Game/UI/euiLayoutEx.h"
 #include "Game/UI/euiTextBoxEx.h"
 #include "Game/UI/uiScreens.h"
@@ -82,6 +83,76 @@ bool ScreenKologNum::sub_7100A0F038() {
 void ScreenKologNum::m69() {
     _3614 = 0;
     _3634 = -1;
+}
+
+// 0x7100a0eea4
+void ScreenKologNum::m94() {
+    if (isOpened() && sub_7100A98038(mId)) {
+        if (mState != 0 && mState != 3) {
+            const s32 count = ksys::gdt::getFlag_KorokNutsNum(false);
+            _3618 = count;
+            _3614 = count;
+            sub_7100AA930C(mLayout, "T_Num_00", count, 0, 0);
+            close(-1);
+        }
+        return;
+    }
+    mStateMachine.run();
+}
+
+// 0x7100a0f14c
+void ScreenKologNum::m98() {
+    sub_7100AA930C(mLayout, "T_Num_00", _3614, 0, 0);
+    _3638.sub_71009333AC();
+}
+
+// 0x7100a0f2a8
+void ScreenKologNum::m158() {
+    if (_3634 == 2) {
+        if (_3618 != _3614 && _3638._30)
+            _3638._30->PlayAuto(1.0f);
+    } else {
+        _3638.set38(_3618 - _3614);
+    }
+}
+
+// 0x7100a0f2fc
+// NON_MATCHING: the original tests `_3634 == 2` before `_3634 == 1` and lays the two state arms out the other way round
+void ScreenKologNum::m159() {
+    if (_3634 != 2) {
+        const s32 old_count = _3618;
+        if (getFlagInt(&_3618, ksys::gdt::flagname::KorokNutsNum()))
+            _3638.set38(_3618 - old_count);
+    }
+    if (_291 & 2)
+        return;
+    _3638.sub_71009333CC();
+    const s32 current = _3614;
+    const s32 target = _3618;
+    const s32 step = sub_7100AA92AC(current, target);
+    _3614 += step;
+    sub_7100AA930C(mLayout, "T_Num_00", _3614, _3618, step);
+    if (_3614 == _3618) {
+        if (current < target)
+            invokeSoundLink2Event_("mc_CountUpKorogNutEnd");
+        else
+            invokeSoundLink2Event_("mc_CountDownKorogNutEnd");
+        switch (_3634) {
+        case 2:
+            _3634 = 1;
+            [[fallthrough]];
+        case 1:
+            mStateMachine.changeState(&sUnk_71025eed70);
+            break;
+        default:
+            mStateMachine.changeState(&sUnk_71025eecb0);
+            break;
+        }
+    } else if (current < target) {
+        invokeSoundLink2Event_("mc_CountUpKorogNut");
+    } else {
+        invokeSoundLink2Event_("mc_CountDownKorogNut");
+    }
 }
 
 // 0x7100a0f1ac
