@@ -18,6 +18,7 @@ add_library(aal OBJECT
   include/aal/aalInterior.h
   include/aal/aalInteriorSet.h
   include/aal/aalISpeakerBalanceSupplier.h
+  include/aal/aalListenerDirectivity.h
   include/aal/aalListenerMgr.h
   include/aal/aalIUnifiable.h
   include/aal/aalMarkerController.h
@@ -56,6 +57,7 @@ add_library(aal OBJECT
   src/aalSpatialCalculator.cpp
   src/aalHandle.cpp
   src/aalInterior.cpp
+  src/aalListenerDirectivity.cpp
   src/aalInteriorSet.cpp
   src/aalISpeakerBalanceSupplier.cpp
   src/aalMarkerController.cpp
