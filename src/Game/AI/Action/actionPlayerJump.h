@@ -19,6 +19,9 @@ public:
 protected:
     void calc_() override;
 
+    // 0x71007f7fbc (placeholder name): feeds the stick length and the turn angle into the AS controller.
+    void sub_71007F7FBC();
+
     // static_param at offset 0x20
     const float* mJumpHeight_s;
     // static_param at offset 0x28
