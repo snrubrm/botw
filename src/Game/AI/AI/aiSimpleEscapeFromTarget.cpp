@@ -101,14 +101,12 @@ void SimpleEscapeFromTarget::m37() {
         m34();
 }
 
-// NON_MATCHING: same operations; the original loads dir.x first (then y/z as a pair) and so assigns
-// different registers to the rotation terms
 void SimpleEscapeFromTarget::m38(sead::Vector3f* dir, s32 idx) {
     const s32 sign = (idx & 1) ? 1 : -1;
     const f32 angle = sead::Mathf::deg2rad(f32(sign * (idx + 1)) * 0.5f);
-    sead::Matrix33f rot;
+    sead::Matrix34f rot;
     rot.makeR({0, angle, 0});
-    dir->setRotated(rot, *dir);
+    dir->rotate(rot);
 }
 
 // NON_MATCHING: the position copy and query arguments are scheduled differently.

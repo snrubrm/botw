@@ -20,25 +20,22 @@ void FlyingEnemyDiagonallyKeepMove::leave_() {
     FlyingEnemySideKeepMove::leave_();
 }
 
-// NON_MATCHING: instruction scheduling of the unrolled sin / cos products of the rotation (the
-// original applies R = Rz * Ry * Rx with a different association of the products)
 void FlyingEnemyDiagonallyKeepMove::m37(sead::Vector3f* out) {
     *out = sead::Vector3f::ex;
-    sead::Matrix33f mtx;
+    sead::Matrix34f mtx;
     sead::Vector3f rot = sead::Vector3f::ey;
     rot *= -*mDiagAngle_s;
     mtx.makeR(rot);
-    *out = mtx * *out;
+    out->rotate(mtx);
 }
 
-// NON_MATCHING: as m37
 void FlyingEnemyDiagonallyKeepMove::m38(sead::Vector3f* out) {
     *out = -sead::Vector3f::ex;
-    sead::Matrix33f mtx;
+    sead::Matrix34f mtx;
     sead::Vector3f rot = sead::Vector3f::ey;
     rot *= *mDiagAngle_s;
     mtx.makeR(rot);
-    *out = mtx * *out;
+    out->rotate(mtx);
 }
 
 void FlyingEnemyDiagonallyKeepMove::loadParams_() {
