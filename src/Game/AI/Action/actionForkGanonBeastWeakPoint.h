@@ -28,6 +28,7 @@ protected:
     void* mWeakPointActiveFlag_a{};
     // aitree_variable at offset 0x48
     void* mWeakPointAliveFlag_a{};
+    s32 _50 = 0;
 };
 
 }  // namespace uking::action

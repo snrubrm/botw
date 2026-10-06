@@ -13,6 +13,17 @@ bool ForkGanonBeastWeakPoint::init_(sead::Heap* heap) {
 
 void ForkGanonBeastWeakPoint::enter_(ksys::act::ai::InlineParamPack* params) {
     Fork::enter_(params);
+    _50 = 0;
+    // unused in the original too (constructed and destroyed around the loop)
+    sead::FixedSafeString<64> unused_name;
+    auto* weak_points =
+        sead::DynamicCast<Unk_71025b2d88>(*static_cast<Unk_71025afb58**>(mWeakPointActiveFlag_a));
+    if (weak_points) {
+        for (s32 i = 0; i < 18; ++i) {
+            if ((1u << i) & weak_points->mFlags)
+                m32(i, *mTargetSlotIdx_s);
+        }
+    }
 }
 
 void ForkGanonBeastWeakPoint::leave_() {
