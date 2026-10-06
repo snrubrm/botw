@@ -20,6 +20,10 @@ public:
     // 0x7100915764 (CSV SaveSystem::isFinishedSavingMaybe): ksys::SaveMgr is idle (+0x38 == 0) and
     // this->_3c == 0.
     bool isFinishedSavingMaybe() const;
+    // 0x710091579c (CSV SaveSystem::loadDone): the same test as isFinishedSavingMaybe (a separate copy).
+    bool loadDone() const;
+    // 0x71009147f4 (CSV SaveSystem::startLoad2; declaration only)
+    void startLoad2(s32 slot);
     // 0x71009167f8 (CSV SaveSystem::requestAutoSaveForGameClear; declaration only)
     void requestAutoSaveForGameClear(const sead::SafeString& game_clear_flag);
     // 0x71009146f8 (CSV SaveSystem::setRetryData; declaration only)

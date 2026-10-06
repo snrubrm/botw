@@ -253,6 +253,10 @@ const sead::Vector3f& StageInfo::getPSavePosForStageGen() {
     return sPSavePosForStageGen;
 }
 
+bool GameScene::returnZero() {
+    return false;
+}
+
 bool GameScene::ret0() {
     return false;
 }

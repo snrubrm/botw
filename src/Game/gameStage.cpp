@@ -4,6 +4,7 @@
 #include "Game/gameGearMgr.h"
 #include "Game/gameLastBossMgr.h"
 #include "Game/gameSaveSystem.h"
+#include "KingSystem/GameData/gdtSaveMgr.h"
 #include "Game/gameSceneSubsys14.h"
 #include "Game/gameSceneSubsysMisc.h"
 #include "Game/gameScene.h"
@@ -191,6 +192,45 @@ StartupSaveCheckStage::StartupSaveCheckStage() : mHeap(nullptr), mState(nullptr)
 
 StartupSaveCheckStage::~StartupSaveCheckStage() {
     mHeap->destroy();
+}
+
+// NON_MATCHING: the original stores the phase / _c pairs as `stp w, w`; ours merges the two constant stores into one
+// 64-bit immediate store.
+void StartupSaveCheckStage::calc() {
+    auto* state = mState;
+    if (state) {
+        switch (state->mPhase) {
+        case 0:
+            if (state->mSlot >= 8) {
+                state->mPhase = 4;
+                state->_c = 1;
+            } else {
+                SaveSystem::instance()->startLoad2(state->mSlot);
+                state->mPhase = 1;
+            }
+            break;
+        case 1:
+            if (SaveSystem::instance()->loadDone()) {
+                if (ksys::SaveMgr::instance()->_40 == 0) {
+                    ++state->mSlot;
+                    state->mPhase = 0;
+                } else {
+                    state->mPhase = 2;
+                    state->_c = 2;
+                }
+            }
+            break;
+        case 2:
+            state->mPhase = 3;
+            break;
+        case 3:
+            state->mPhase = 4;
+            break;
+        }
+        if (mState->mPhase != 4)
+            return;
+    }
+    createTitleStageBinder(true, true);
 }
 
 void IndoorStage::postCalc() {

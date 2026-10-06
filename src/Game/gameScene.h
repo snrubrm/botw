@@ -118,6 +118,8 @@ public:
     static void sub_71007B8DB4();
     // 0x71007bea6c (CSV name; the namespace is a guess)
     static bool hasLoadingScreenStarted();
+    // 0x71007beb18 (CSV GameScene::returnZero; called by unloadStage and handleAppearGameOver): always false.
+    static bool returnZero();
     // 0x71007b7d88 / 0x71007beb30 (CSV GameScene::setInstance2 / setInstance3): copy sInstance to the other two
     // pointers.
     static void setInstance2();

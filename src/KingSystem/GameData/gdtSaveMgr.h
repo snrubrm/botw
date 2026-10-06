@@ -15,6 +15,10 @@ namespace ksys::gdt {
 class TriggerParam;
 }  // namespace ksys::gdt
 
+namespace uking {
+class StartupSaveCheckStage;
+}
+
 namespace ksys {
 
 // FIXME
@@ -65,6 +69,8 @@ public:
     Unk1020* get1020() const { return _1020; }
 
 private:
+    friend class uking::StartupSaveCheckStage;
+
     struct Unk2 {
         u32 _0;
         s32 _4;
@@ -84,7 +90,8 @@ private:
     sead::DelegateThread* _30;
     u32 _38;
     u32 _3c;
-    u8 _40[0xf8 - 0x40];
+    u32 _40;
+    u8 _44[0xf8 - 0x44];
     bool _f8;
     u8 _f9[0x140 - 0xf9];
     u16 _140;
