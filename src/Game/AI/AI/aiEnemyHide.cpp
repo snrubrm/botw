@@ -21,8 +21,6 @@ bool EnemyHide::init_(sead::Heap* heap) {
     return true;
 }
 
-// NON_MATCHING: the original builds the end iterator of the path list before the begin iterator (sub x2 before
-// sub x1)
 void EnemyHide::enter_(ksys::act::ai::InlineParamPack* params) {
     auto* actor = mActor;
     _278 = sub_71005E2BCC(actor);
@@ -39,7 +37,8 @@ void EnemyHide::enter_(ksys::act::ai::InlineParamPack* params) {
     _38.clear();
     if (sub_7100393EC4() == 2 && _38.size() != 0) {
         if (auto* move = _278; move && move->_0) {
-            move->_0->sub_7100394884(_38.begin(), _38.end());
+            const auto end = _38.end();
+            move->_0->sub_7100394884(_38.begin(), end);
             move->_8 = 0;
         }
     }
@@ -174,11 +173,11 @@ void EnemyHide::sub_710039439C() {
     }
 }
 
-// NON_MATCHING: same iterator order as enter_
 void EnemyHide::sub_7100394648() {
     if (sub_7100393EC4() == 2 && _38.size() != 0) {
         if (auto* move = _278; move && move->_0) {
-            move->_0->sub_7100394884(_38.begin(), _38.end());
+            const auto end = _38.end();
+            move->_0->sub_7100394884(_38.begin(), end);
             move->_8 = 0;
         }
         if (!isCurrentChild("見まわす"))
