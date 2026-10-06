@@ -214,6 +214,16 @@ bool shouldUseWeaponSword503() {
     return dlc::isOneHitObliteratorActor(ksys::act::PlayerInfo::instance()->getPlayer()->m273(), true);
 }
 
+// 0x7100a9fc20 (placeholder name): the "infinite" attack power (-111; see formatSpecialAttackPower) of the One-Hit
+// Obliterator
+bool sub_7100A9FC20(const sead::SafeString& name, s32* out, bool force) {
+    if (!name.isEmpty() && isOneHitObliteratorActorName(name) && (force || shouldUseWeaponSword503())) {
+        *out = -111;
+        return true;
+    }
+    return false;
+}
+
 // NON_MATCHING: the compiler reverses the special-value comparisons and their branches.
 bool formatSpecialAttackPower(s32 power, sead::BufferedSafeString* out) {
     if (power == 99999) {

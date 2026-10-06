@@ -83,6 +83,7 @@ bool isOneHitObliteratorActorName(const sead::SafeString& name);
 int getItemGeneralLife(const char* name);
 bool formatSpecialAttackPower(s32 power, sead::BufferedSafeString* out);
 bool shouldUseWeaponSword503();
+bool sub_7100A9FC20(const sead::SafeString& name, s32* out, bool force);
 
 // TODO: move this to yet another translation unit (TBD but not the same one as the above)
 void addItemForDebug(const sead::SafeString& name, int value);
