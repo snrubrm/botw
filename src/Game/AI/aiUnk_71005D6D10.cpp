@@ -1,4 +1,7 @@
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include "KingSystem/ActorSystem/Attention/actActorAttention.h"
+#include "KingSystem/ActorSystem/Attention/actAttClient.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include <cmath>
 #include "Game/AI/aiUnk_7102357d20.h"
 #include "Game/AI/aiUnk_71007377D4.h"
@@ -89,6 +92,15 @@ bool sub_71005D8748(ksys::act::Actor* actor, const sead::Vector3f& velocity, boo
                                                                               a6);
     if (sead::IsDerivedFrom<NPC>(actor))
         return static_cast<NPC*>(actor)->sub_7100022554(velocity, a3, a4, a5, a6);
+    return false;
+}
+
+bool sub_71005D88AC(ksys::act::Actor* actor, const sead::Vector3f& target, const sead::Vector3f& pos,
+                    bool a3, bool a4, void* a5, bool a6) {
+    if (sead::IsDerivedFrom<ksys::act::PlayerOrEnemy>(actor)) {
+        return static_cast<ksys::act::PlayerOrEnemy*>(actor)->sub_7100007A78(target, pos, a3, a4,
+                                                                             a5, a6);
+    }
     return false;
 }
 
@@ -227,6 +239,54 @@ bool setDamageCallbackTiming(ksys::act::Actor* actor, s32 timing,
         return false;
     mgr->addDamageCallback(timing, callback);
     return true;
+}
+
+bool sub_71005DA434(ksys::act::Actor* actor, int idx) {
+    if (idx < 0)
+        return false;
+    auto* weapons = actor->getWeapons();
+    if (idx > 5 || !weapons)
+        return false;
+    auto* weapon = sead::DynamicCast<uking::act::Weapon>(weapons->getEquippedWeapon(idx));
+    if (!weapon)
+        return false;
+    return weapon->sub_71002ED274();
+}
+
+bool sub_71005DA4F0(ksys::act::Actor* actor, int idx) {
+    if (idx < 0)
+        return false;
+    auto* weapons = actor->getWeapons();
+    if (idx > 5 || !weapons)
+        return false;
+    auto* weapon = sead::DynamicCast<uking::act::Weapon>(weapons->getEquippedWeapon(idx));
+    if (!weapon)
+        return false;
+    return weapon->sub_71002E9A7C();
+}
+
+bool sub_71005DA738(ksys::act::Actor* actor, int idx) {
+    if (idx < 0)
+        return false;
+    auto* weapons = actor->getWeapons();
+    if (idx > 5 || !weapons)
+        return false;
+    auto* weapon = sead::DynamicCast<uking::act::Weapon>(weapons->getEquippedWeapon(idx));
+    if (!weapon)
+        return false;
+    return weapon->sub_71002EA0C8();
+}
+
+bool sub_71005DAA70(ksys::act::Actor* actor, int idx) {
+    if (idx < 0)
+        return false;
+    auto* weapons = actor->getWeapons();
+    if (idx > 5 || !weapons)
+        return false;
+    auto* weapon = sead::DynamicCast<uking::act::Weapon>(weapons->getEquippedWeapon(idx));
+    if (!weapon)
+        return false;
+    return hasAttackInfo(weapon);
 }
 
 bool sub_71005DA5AC(ksys::act::Actor* actor, int idx) {
@@ -693,6 +753,35 @@ bool sub_71005D9F4C(const sead::Vector3f& pos) {
     return mgr->isNonAutoPlacement(pos, true);
 }
 
+bool sub_71005D9FC0(ksys::act::BaseProcLink* link) {
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(link, &accessor);
+    sead::Vector3f pos;
+    accessor.getActorMtx().getTranslation(pos);
+    auto* mgr = ksys::map::AutoPlacementMgr::instance();
+    if (!mgr)
+        return false;
+    return mgr->isNonAutoPlacement(pos, true);
+}
+
+void sub_71005D8C94(ksys::act::Actor* actor, int idx, const u32& value) {
+    if (idx < 0)
+        return;
+    auto* weapons = actor->getWeapons();
+    if (!weapons)
+        return;
+    if (auto* weapon = sead::DynamicCast<uking::act::Weapon>(weapons->getEquippedWeapon(idx)))
+        weapon->sub_71002EDBCC(value);
+}
+
+bool sub_71005D90E0(ksys::act::Actor* actor) {
+    if (!sead::IsDerivedFrom<Enemy>(actor))
+        return false;
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(&static_cast<Enemy*>(actor)->_c48._8, &accessor);
+    return accessor.sub_7100D12E64();
+}
+
 bool sub_71005D9F70(ksys::act::Actor* actor) {
     sead::Vector3f pos;
     actor->getMtx().getTranslation(pos);
@@ -930,6 +1019,20 @@ bool sub_71005DA8CC(ksys::act::Actor* actor, int idx) {
     if (!chemical)
         return false;
     return chemical->_1b8 > 0.0f;
+}
+
+void sub_71005DDA44(ksys::act::Actor* actor) {
+    if (auto* attention = actor->getAttention()) {
+        if (auto* client = attention->getClientByName("LockOn"))
+            client->sub_7100D724FC(1);
+    }
+}
+
+void sub_71005DDA94(ksys::act::Actor* actor) {
+    if (auto* attention = actor->getAttention()) {
+        if (auto* client = attention->getClientByName("LockOn"))
+            client->sub_7100D7250C(1);
+    }
 }
 
 void sub_71005DD2E8(ksys::act::Actor* actor) {

@@ -58,6 +58,12 @@ bool sub_71005D91A0(ksys::act::Actor* actor, f32 value);
 /// 0x71005da5ac (lane1 s21): whether the weapon in slot `idx` (0 - 5) of the actor's ActorWeapons is
 /// a Weapon whose chemical is in state 2 (Weapon::sub_71002E9A50); false otherwise.
 bool sub_71005DA5AC(ksys::act::Actor* actor, int idx);
+// 0x71005da434 / 4f0 / 738 / aa70 (lane1 s43): the same equipped-weapon test family (idx 0-5, Weapon only):
+// Weapon::sub_71002ED274 / sub_71002E9A7C / sub_71002EA0C8 / hasAttackInfo.
+bool sub_71005DA434(ksys::act::Actor* actor, int idx);
+bool sub_71005DA4F0(ksys::act::Actor* actor, int idx);
+bool sub_71005DA738(ksys::act::Actor* actor, int idx);
+bool sub_71005DAA70(ksys::act::Actor* actor, int idx);
 // 0x71005d8d4c (declared only): forwards to the object at Actor+0x548 (slot 8 -> slot 9 with
 // `value` and `a2`; if `a3`, also slot 10 with (true, true)). AlertNearbyEnemies: noise level.
 void sub_71005D8D4C(ksys::act::Actor* actor, f32 value, int idx, bool a3);
@@ -144,6 +150,15 @@ bool sub_71005D9E68(ksys::act::Actor* actor);
 bool sub_71005D9F4C(const sead::Vector3f& pos);
 // 0x71005d9f70: the same for the actor's translation.
 bool sub_71005D9F70(ksys::act::Actor* actor);
+// 0x71005d88ac (lane1 s43): PlayerOrEnemy::sub_7100007A78 (drops all weapons towards the target); false for other actors.
+bool sub_71005D88AC(ksys::act::Actor* actor, const sead::Vector3f& target, const sead::Vector3f& pos, bool a3,
+                    bool a4, void* a5, bool a6);
+// 0x71005d9fc0 (lane1 s43): sub_71005D9F70 for the actor behind a link.
+bool sub_71005D9FC0(ksys::act::BaseProcLink* link);
+// 0x71005d8c94 (lane1 s43): Weapon::sub_71002EDBCC on the equipped weapon `idx`.
+void sub_71005D8C94(ksys::act::Actor* actor, int idx, const u32& value);
+// 0x71005d90e0 (lane1 s43): the Enemy's target link satisfies ActorConstDataAccess::sub_7100D12E64.
+bool sub_71005D90E0(ksys::act::Actor* actor);
 // 0x71005e0384: the actor has a LOD state whose _1c is not 1 and is more than 100 from the player.
 bool sub_71005E0384(ksys::act::Actor* actor);
 
