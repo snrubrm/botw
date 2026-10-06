@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionSlideMoveViewTarget.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
@@ -29,6 +30,17 @@ void SlideMoveViewTarget::loadParams_() {
 void SlideMoveViewTarget::calc_() {
     sub_710026F368();
     MoveBase::calc_();
+}
+
+// NON_MATCHING: operand order of the last fadd of the squared length (z*z + (x*x + y*y)).
+void SlideMoveViewTarget::m35(ksys::phys::CharacterController* controller,
+                              const sead::Vector3f& dir) {
+    const sead::Vector3f& view_target = sub_71005D9330(mActor);
+    const sead::Vector3f pos = mActor->getMtx().getTranslation();
+    sead::Vector3f new_dir = view_target;
+    new_dir = {new_dir.x - pos.x, 0.0f, new_dir.z - pos.z};
+    new_dir.normalize();
+    MoveBase::m35(controller, new_dir);
 }
 
 void SlideMoveViewTarget::m32(sead::Vector3f* dir) {
