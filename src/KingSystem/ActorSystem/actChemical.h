@@ -9,6 +9,16 @@
 
 namespace ksys::act {
 
+class Unk_71024e6560;
+
+// Placeholder (lane4 s47): the object the debug-watch global 0x7102600e50 points to; only its two bytes are used (the
+// flag byte `_84` and a counter `_85` that the Chemical setters reset to 100).
+struct Unk_ChemicalWatch {
+    /* 0x00 */ u8 _0[0x84];
+    /* 0x84 */ u8 _84;
+    /* 0x85 */ u8 _85;
+};
+
 // Placeholder (lane1 s22): the object Chemical::_90 points to; only these two fields are read (ChmCheck).
 struct Unk_ChemicalData {
     /* 0x00 */ u8 _0[0x12];
@@ -63,6 +73,11 @@ public:
     // 0x7100d91360: `_1c8->_1a`, or byte 0x182 while _c0 is 2, else 0.
     u8 sub_7100D91360() const;
     sead::Vector3f sub_7100D9155C() const;
+    // 0x7100d9cb54 (declared only): `world->...(chemical)`: whether `chemical` is one the chemical world watches
+    // (`world` is `_60`).
+    static bool sub_7100D9CB54(void* world, const Chemical* chemical);
+    // 0x7100d8cd24 (declared only): releases the sub-object `_1c8` / `_1d0` points to.
+    static void sub_7100D8CD24(void* object, bool a2);
     // 0x7100d9472c (CSV: gsys::ModelSceneBuffer::isDeferredShadingEnabled, a mislabeled ICF body; AI code calls it on
     // getChemicalStuff()): `_60->byte 0x198 && _60->_1b0 == this`. Declared only.
     bool sub_7100D9472C() const;
@@ -79,7 +94,7 @@ public:
     /* 0x008 */ u8 _8 = 0;
     /* 0x00c */ u32 _c = 0;  // flags
     /* 0x010 */ int _10 = 0;
-    /* 0x018 */ void* _18 = nullptr;  // owner (polymorphic; vtable slots 4, 5, 22, 23, 26, 32)
+    /* 0x018 */ Unk_71024e6560* _18 = nullptr;  // owner (polymorphic; vtable slots 4, 5, 22, 23, 26, 32)
     /* 0x020 */ const chm::SystemConfig::Material* mMaterial = nullptr;
     /* 0x028 */ u8 _28[0x34 - 0x28];
     /* 0x034 */ f32 _34;
@@ -139,7 +154,20 @@ public:
     /* 0x1b4 */ f32 _1b4;
     /* 0x1b8 */ f32 _1b8;
     /* 0x1bc */ f32 _1bc;
-    /* 0x1c0 */ u8 _1c0[0x238 - 0x1c0];
+    /* 0x1c0 */ u8 _1c0[0x1c8 - 0x1c0];
+    /* 0x1c8 */ void* _1c8;
+    /* 0x1d0 */ void* _1d0;
+    /* 0x1d8 */ u8 _1d8[0x238 - 0x1d8];
+
+    // The debug-watch global (0x7102600e50, not in the symbol list before lane4 s47): the chemical the debug UI watches.
+    static Unk_ChemicalWatch* sUnk_7102600e50;
+
+private:
+    // Inline-only in the original; name is a guess. The same block opens the setters sub_7100D90C2C / 90CD8 / 90D7C
+    // / 90E40 / 90ED0 / 90F60 / 90FF0 / 91098 / 91158 (and the destructor of the 0x2d8-byte element, which embeds a
+    // Chemical): when the chemical world watches this chemical and the watch flag is set, the watch counter is
+    // reset (the call result of getCurrentThread() is discarded).
+    void notifyWatch_();
 };
 KSYS_CHECK_SIZE_NX150(Chemical, 0x238);
 
