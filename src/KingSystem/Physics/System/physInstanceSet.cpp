@@ -721,7 +721,7 @@ RigidBody* InstanceSet::sub_7100FBB918(const sead::SafeString& a1, const sead::S
     const s32 idx = sub_7100FBB668(a1);
     if (idx < 0)
         return nullptr;
-    auto* set = mRigidBodySets[idx];
+    const RigidBodySet* set = mRigidBodySets[idx];
     if (!set)
         return nullptr;
     return set->findBodyByHavokName(a2);
