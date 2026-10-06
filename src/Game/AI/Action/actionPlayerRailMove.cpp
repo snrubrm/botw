@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionPlayerRailMove.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayer.h"
+#include "KingSystem/Map/mapPlacement18.h"
+#include "KingSystem/Map/mapPlacementMgr.h"
 
 namespace uking::action {
 
@@ -7,6 +10,14 @@ PlayerRailMove::PlayerRailMove(const InitArg& arg) : PlayerGuidedMove(arg) {}
 PlayerRailMove::~PlayerRailMove() = default;
 
 void PlayerRailMove::enter_(ksys::act::ai::InlineParamPack* params) {
+    auto* rail = ksys::map::PlacementMgr::instance()->mPlacement18->sub_7100D48744(mRailName_d);
+    if (!rail) {
+        setFailed();
+        return;
+    }
+    _68.sub_7100EEBAE0(rail, 0.0f);
+    _68.x(static_cast<ksys::act::Player*>(mActor)->_20f0 * 0.5f);
+    _4c = _68._30.sub_7100EEB370() - static_cast<ksys::act::Player*>(mActor)->_1770;
     PlayerGuidedMove::enter_(params);
 }
 
