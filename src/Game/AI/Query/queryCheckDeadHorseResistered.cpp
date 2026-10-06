@@ -1,5 +1,6 @@
 #include "Game/AI/Query/queryCheckDeadHorseResistered.h"
 #include <evfl/Query.h>
+#include "Game/gameHorseMgr.h"
 
 namespace uking::query {
 
@@ -8,9 +9,11 @@ CheckDeadHorseResistered::CheckDeadHorseResistered(const InitArg& arg)
 
 CheckDeadHorseResistered::~CheckDeadHorseResistered() = default;
 
-// FIXME: implement
 int CheckDeadHorseResistered::doQuery() {
-    return -1;
+    auto* mgr = HorseMgr::instance();
+    if (mgr)
+        return mgr->getNumDeadHorsesRegistered() > 0;
+    return 0;
 }
 
 void CheckDeadHorseResistered::loadParams(const evfl::QueryArg& arg) {}

@@ -1,5 +1,6 @@
 #include "Game/AI/Query/queryIsHorseFamiliarityPassedAlready.h"
 #include <evfl/Query.h>
+#include "Game/gameHorseMgr.h"
 
 namespace uking::query {
 
@@ -8,9 +9,11 @@ IsHorseFamiliarityPassedAlready::IsHorseFamiliarityPassedAlready(const InitArg& 
 
 IsHorseFamiliarityPassedAlready::~IsHorseFamiliarityPassedAlready() = default;
 
-// FIXME: implement
 int IsHorseFamiliarityPassedAlready::doQuery() {
-    return -1;
+    auto* mgr = HorseMgr::instance();
+    if (mgr)
+        return mgr->isSelectedHorseFamiliarityChecked();
+    return 0;
 }
 
 void IsHorseFamiliarityPassedAlready::loadParams(const evfl::QueryArg& arg) {}

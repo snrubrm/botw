@@ -1,5 +1,6 @@
 #include "Game/AI/Query/queryCheckTypeOfOwnedHorseForEvent.h"
 #include <evfl/Query.h>
+#include "Game/gameHorseMgr.h"
 
 namespace uking::query {
 
@@ -8,9 +9,15 @@ CheckTypeOfOwnedHorseForEvent::CheckTypeOfOwnedHorseForEvent(const InitArg& arg)
 
 CheckTypeOfOwnedHorseForEvent::~CheckTypeOfOwnedHorseForEvent() = default;
 
-// FIXME: implement
+// NON_MATCHING: the original keeps `type` at sp+8 (ours at sp+0xc); stack slot placement only.
 int CheckTypeOfOwnedHorseForEvent::doQuery() {
-    return -1;
+    auto* mgr = HorseMgr::instance();
+    if (mgr) {
+        s32 type = 0;
+        mgr->sub_7100E8612C(&type);
+        return type == 6;
+    }
+    return 0;
 }
 
 void CheckTypeOfOwnedHorseForEvent::loadParams(const evfl::QueryArg& arg) {}

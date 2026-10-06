@@ -1,5 +1,6 @@
 #include "Game/AI/Query/queryCheckHorseRegistered.h"
 #include <evfl/Query.h>
+#include "Game/gameHorseMgr.h"
 
 namespace uking::query {
 
@@ -7,9 +8,8 @@ CheckHorseRegistered::CheckHorseRegistered(const InitArg& arg) : ksys::act::ai::
 
 CheckHorseRegistered::~CheckHorseRegistered() = default;
 
-// FIXME: implement
 int CheckHorseRegistered::doQuery() {
-    return -1;
+    return HorseMgr::instance()->getNumRegisteredHorses() > 0;
 }
 
 void CheckHorseRegistered::loadParams(const evfl::QueryArg& arg) {}
