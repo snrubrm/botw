@@ -28,6 +28,8 @@ target_sources(uking PRIVATE
   gameMaskController.cpp
   gameMaskController.h
   gameMotorcycleMgr.cpp
+  gameNFP.cpp
+  gameNFP.h
   gameMotorcycleMgr.h
   gameResetter.cpp
   gameRuneMgr.cpp

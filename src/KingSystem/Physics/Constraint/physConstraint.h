@@ -1,5 +1,6 @@
 #pragma once
 
+#include <math/seadMatrix.h>
 #include <prim/seadRuntimeTypeInfo.h>
 #include <thread/seadCriticalSection.h>
 #include <thread/seadSpinLock.h>
@@ -45,6 +46,11 @@ public:
     void sub_7100F6A21C();
     // 0x7100f6a6f8
     void sub_7100F6A6F8(bool a1, bool a2);
+    // 0x7100f6aaa4 (lane4 s49; declared only, 308 B): attaches the constraint to the two bodies.
+    void sub_7100F6AAA4(RigidBody* a, RigidBody* b);
+    // 0x7100f6d420 (lane4 s49; declared only, 696 B): sets the pivot transforms (the matrices are converted to
+    // quaternions and positions).
+    void sub_7100F6D420(const sead::Matrix34f& a, const sead::Matrix34f& b, const sead::Matrix34f& c);
 
     /* 0x08 */ hkpConstraintInstance* mConstraintInstance;
     /* 0x10 */ u32 _10;

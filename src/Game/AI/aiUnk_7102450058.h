@@ -30,10 +30,8 @@ public:
     explicit CarriedData(ksys::act::Actor* actor);
     virtual ~CarriedData();
 
-    // 0x71006f8f14 / 0x71006f8d58 / 0x71006f5450 / 0x71006f4804 (CSV CarriedData::x_10 .. x_13; declared only;
-    // called directly (devirtualised) by Carried::leave_). The matrix / vector are passed by value.
-    void x_10();
-    void x_11();
+    // 0x71006f5450 / 0x71006f4804 (CSV CarriedData::x_12 / x_13; declared only; called directly (devirtualised) by
+    // Carried::leave_). The matrix / vector are passed by value.
     // 0x71006f9460 / 0x71006f8ad4 (CSV CarriedData::x / x_0) / 0x71006f3e80 / 0x71006f4f78 / 0x71006f4128 /
     // 0x71006f41f4 / 0x71006f536c / 0x71006f5484 (declared only; signatures from Carried::enter_).
     void x();
@@ -50,14 +48,10 @@ public:
     void x_7();
     void x_8();
     void x_9();
-    bool x_15();
     void x_16();
-    void x_17();
-    void x_18(ksys::act::Actor* actor);
     void x_19();
     void x_20();
     void x_21();
-    void x_22(ksys::phys::RigidBody* body);
     void x_23(ksys::act::Actor* actor);
     void x_12();
     void x_13(sead::Matrix34f mtx, bool a2, sead::Vector3f pos);
@@ -87,6 +81,21 @@ public:
     bool sub_71006F8AB4() const;
     // 0x7100f6d358 + store; false when the constraint could not be created.
     bool init(sead::Heap* heap);
+
+    // The non-virtual methods of the constraint-carried object (CSV CarriedData::x_*; lane4 s49: they read `_30`, so they
+    // belong to this class; the CSV rows are renamed). Called by Carried::enter_ / calc_ / leave_.
+    // 0x71006f8f14: `_30->sub_7100F6A074()`.
+    void x_10();
+    // 0x71006f8d58 (declared only).
+    void x_11();
+    // 0x71006f8f24: bit 0 of the constraint's `_50`.
+    bool x_15();
+    // 0x71006f8cb0 (declared only).
+    void x_17();
+    // 0x71006f8e60: links the bodies of `mActor` and `actor` with the constraint.
+    void x_18(ksys::act::Actor* actor);
+    // 0x71006f8f40: moves the constraint to the actor's matrix and `body`'s transform.
+    void x_22(ksys::phys::RigidBody* body);
 
     ksys::phys::Constraint* _30 = nullptr;
     f32 _38 = 1.0f;

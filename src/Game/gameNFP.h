@@ -6,6 +6,19 @@ namespace uking {
 class Unk_710243b770;
 }  // namespace uking
 
+// Placeholder name (CSV NFPThread; ctor 0xf45e58; NFP::_30): the thread object NFP forwards to. Only `_195` (flag byte) and
+// the four forwarded methods are declared (names after their addresses; declaration only).
+class NFPThread {
+public:
+    void sub_F48478(uking::Unk_710243b770* listener);  // insertFunctions
+    void sub_F484CC(uking::Unk_710243b770* listener);  // eraseFunctions
+    void sub_F4851C(const s32* amiibo_id);
+    void sub_F48570(const s32* amiibo_id);
+
+    u8 _0[0x195];
+    /* 0x195 */ u8 _195;
+};
+
 // Name from the CSV (NFP::createInstance 0xf45988, NFP::init, NFP::quitThread, NFPThread::*): the
 // amiibo (nn::nfp) manager singleton in the NFP TU 0xf458b8-0xf48478 (instance pointer 0x710260c120).
 // Only the small methods AmiiboMgr uses are declared, and only declared: they read the NFPThread
@@ -35,4 +48,7 @@ public:
 
 private:
     static NFP* sInstance;
+
+    u8 _0[0x30];
+    /* 0x30 */ NFPThread* _30;
 };

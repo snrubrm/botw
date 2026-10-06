@@ -2239,6 +2239,7 @@ target_sources(uking PRIVATE
   actionMoveByAnimeDrivenDynAS.cpp
   actionMoveByAnimeDrivenDynAS.h
   actionMoveByAnimeDriven.h
+  actionMoveByAnimeDrivenHelper.cpp
   actionMoveByAnimeDrivenToTarget.cpp
   actionMoveByAnimeDrivenToTarget.h
   actionMoveKeyFramed.cpp
