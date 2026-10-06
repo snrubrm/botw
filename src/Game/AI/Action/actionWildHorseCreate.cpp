@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionWildHorseCreate.h"
+#include <random/seadGlobalRandom.h>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/Map/mapPlacementActors.h"
@@ -8,10 +9,27 @@ namespace uking::action {
 
 WildHorseCreate::WildHorseCreate(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
-WildHorseCreate::~WildHorseCreate() = default;
+WildHorseCreate::~WildHorseCreate() {
+    _38.freeBuffer();
+    _48.freeBuffer();
+}
 
 bool WildHorseCreate::init_(sead::Heap* heap) {
-    return ksys::act::ai::Action::init_(heap);
+    s32 num = *mWildHorseCreateNum_m;
+    if (num >= 1) {
+        if (num > *mMaxCreateNum_s)
+            num = *mMaxCreateNum_s;
+    } else {
+        const s32 min = *mMinCreateNum_s;
+        const s32 max = *mMaxCreateNum_s;
+        num = sead::GlobalRandom::instance()->getS32Range(min, max + 1);
+    }
+    if (num >= 1) {
+        _38.tryAllocBuffer(num, heap);
+        _48.tryAllocBuffer(num, heap);
+    }
+    _5c = 0;
+    return true;
 }
 
 void WildHorseCreate::enter_(ksys::act::ai::InlineParamPack* params) {
