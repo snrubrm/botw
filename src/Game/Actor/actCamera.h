@@ -92,6 +92,8 @@ public:
 class Unk_710079c1c8 {
 public:
     bool sub_710079C1C8(u8 mask) const;  // any of the bits set
+    void sub_710079C1DC(u8 mask);        // set the bits
+    void sub_710079C1EC();               // reset
 
     u8 _0 = 0;
 };
@@ -100,6 +102,8 @@ public:
 class Unk_710079c1f4 {
 public:
     bool sub_710079C1F4(u8 mask) const;  // any of the bits set
+    void sub_710079C208(u8 mask);        // set the bits
+    void sub_710079C218();               // reset
 
     u8 _0 = 0;
 };

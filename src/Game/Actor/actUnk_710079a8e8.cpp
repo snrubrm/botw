@@ -44,6 +44,22 @@ bool Unk_710079c1f4::sub_710079C1F4(u8 mask) const {
     return (_0 & mask) != 0;
 }
 
+void Unk_710079c1c8::sub_710079C1DC(u8 mask) {
+    _0 |= mask;
+}
+
+void Unk_710079c1c8::sub_710079C1EC() {
+    _0 = 0;
+}
+
+void Unk_710079c1f4::sub_710079C208(u8 mask) {
+    _0 |= mask;
+}
+
+void Unk_710079c1f4::sub_710079C218() {
+    _0 = 0;
+}
+
 void Unk_710079a8e8::sub_710079AD90() {
     _7f0[0] = -1.0;
     _7f0[1] = -1.0;
