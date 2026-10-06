@@ -30,6 +30,10 @@ namespace ksys::act {
 class Actor;
 }
 
+namespace ksys::res {
+class Handle;
+}
+
 namespace uking::ui {
 
 // The game's UI screen classes (CSV: ScreenBase / Screen / ScreenEx / Screen<Name>, IDA placeholder
@@ -2928,11 +2932,14 @@ public:
 
     /* 0x3610 */ u8 _3610[0x85]{};
     u8 _3695[3];
-    eui::ControlBase* _3698{};
-    eui::ControlBase* _36a0{};
-    eui::ControlBase* _36a8{};
-    eui::ControlBase* _36b0{};
-    eui::ControlBase* _36b8{};
+    ksys::res::Handle* _3698{};
+    ksys::res::Handle* _36a0{};
+    ksys::res::Handle* _36a8{};
+    ksys::res::Handle* _36b0{};
+    ksys::res::Handle* _36b8{};
+
+    // 0x7100a32d98 (slot 101): unloads the requested resources
+    void m101() override;
 };
 
 class ScreenStaffRoll : public ScreenEx {

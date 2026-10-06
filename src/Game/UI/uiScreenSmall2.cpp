@@ -3,6 +3,7 @@
 #include "Game/UI/euiButton.h"
 #include "Game/UI/euiLayoutEx.h"
 #include "Game/UI/uiScreens.h"
+#include "KingSystem/Resource/resHandle.h"
 #include "Game/gameGraphics.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "Game/gameSaveSystem.h"
@@ -37,6 +38,21 @@ bool ScreenMainShortCut::sub_7100A20DD0() {
 bool ScreenAppTool::sub_71009FD674() {
     // called through a pointer in the original (not devirtualised)
     return mStateMachine.getState()->getId() == (&sUnk_71025ec670)->getId();
+}
+
+// 0x7100a32d98
+void ScreenPauseMenuRecipe::m101() {
+    if (_3698->requestedLoad())
+        _3698->requestUnload2();
+    if (_36a0->requestedLoad())
+        _36a0->requestUnload2();
+    if (_36a8->requestedLoad())
+        _36a8->requestUnload2();
+    if (_36b0->requestedLoad())
+        _36b0->requestUnload2();
+    if (_36b8->requestedLoad())
+        _36b8->requestUnload2();
+    _292 |= 0x20;
 }
 
 // 0x7100a28688

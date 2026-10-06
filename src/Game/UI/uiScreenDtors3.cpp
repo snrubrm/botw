@@ -1,4 +1,5 @@
 #include "Game/UI/uiScreens.h"
+#include "KingSystem/Resource/resHandle.h"
 #include "KingSystem/Utils/SafeDelete.h"
 
 // Screen<Name> destructors of classes whose members are not modelled yet. NON_MATCHING: the original
