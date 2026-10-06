@@ -1,6 +1,7 @@
 #pragma once
 
 #include <nn/ui2d/ResourceAccessor.h>
+#include <nn/ui2d/ResourceTextureInfo.h>
 #include <nn/ui2d/ArcExtractor.h>
 #include <nn/ui2d/ShaderContainer.h>
 #include <nn/util/util_IntrusiveList.h>
@@ -35,7 +36,7 @@ public:
     // nn::ui2d::ResourceTextureInfo (0x10, vtable 0x24c7f88; not modelled) and a heap copy of the name.
     struct TextureLink {
         nn::util::IntrusiveListNode node;
-        u8 _10[0x18];
+        nn::ui2d::ResourceTextureInfo texture;
         char* name;
     };
     static_assert(sizeof(TextureLink) == 0x30);

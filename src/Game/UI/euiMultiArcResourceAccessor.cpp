@@ -28,8 +28,6 @@ MultiArcResourceAccessor::~MultiArcResourceAccessor() {
     }
 }
 
-// NON_MATCHING: matches once nn::util::IntrusiveList::size() is defined inline in lib (the
-// original counts the nodes inline); until then it is an undefined call.
 // 0x7100be022c
 const void* MultiArcResourceAccessor::sub_7100BE022C(const char* layout_name,
                                                      const char* animation_name, u32* size) {
@@ -70,8 +68,6 @@ const void* MultiArcResourceAccessor::sub_7100BE022C(const char* layout_name,
     return nullptr;
 }
 
-// NON_MATCHING: the original sign-extends the file size (ldursw): needs nn::ui2d::ArcFileInfo::size
-// to be s32 (lib); with u32 only that load differs.
 // 0x7100be03f4
 void* MultiArcResourceAccessor::GetResource(size_t* size, u32 type, const char* name) {
     sead::FixedStringBuilder<256> path;
@@ -94,6 +90,38 @@ void* MultiArcResourceAccessor::GetResource(size_t* size, u32 type, const char* 
         }
     }
     return nullptr;
+}
+
+// NON_MATCHING: loop layout only (the original keeps the node pointer and loads the slot before
+// the descriptor address is formed; ours hoists the address into a preincrement load).
+// 0x7100be06b4
+void MultiArcResourceAccessor::RegisterTextureViewToDescriptorPool(
+    TextureViewDescriptorCallback callback, void* user_data) {
+    for (auto& link : mTextures) {
+        nn::ui2d::TextureInfo& texture = link.texture;
+        if (!texture.GetDescriptorSlot().IsValid())
+            callback(&texture.GetDescriptorSlot(), *texture.GetTextureView(), user_data);
+    }
+}
+
+// 0x7100be0738
+void MultiArcResourceAccessor::UnregisterTextureViewFromDescriptorPool(
+    TextureViewDescriptorCallback callback, void* user_data) {
+    for (auto& link : mTextures) {
+        nn::ui2d::TextureInfo& texture = link.texture;
+        callback(&texture.GetDescriptorSlot(), *texture.GetTextureView(), user_data);
+        texture.InvalidateDescriptorSlot();
+    }
+}
+
+// 0x7100be07c0
+void MultiArcResourceAccessor::Finalize(nn::gfx::Device* device) {
+    for (auto& link : mTextures) {
+        nn::ui2d::TextureInfo& texture = link.texture;
+        texture.Finalize(device);
+    }
+    mShaders.Finalize(device);
+    ResourceAccessor::Finalize(device);
 }
 
 // 0x7100be050c
