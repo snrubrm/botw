@@ -1,4 +1,8 @@
 #include "Game/AI/Action/actionAnimalFollowBase.h"
+#include <limits>
+#include <math/seadMathCalcCommon.h>
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/System/physNavMeshCharacter.h"
 
 namespace uking::action {
 
@@ -15,7 +19,19 @@ void AnimalFollowBase::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void AnimalFollowBase::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (auto* nav = mActor->m45()) {
+        if (_b0 >= 0)
+            nav->sub_7100F7D2C8();
+        const f32 radius_scale = _b4;
+        if (radius_scale != 0.0f && !sead::Mathf::isNan(radius_scale) &&
+            !(sead::Mathf::abs(radius_scale) > sead::Mathf::maxNumber()) &&
+            nav->_2ac != radius_scale) {
+            auto lock = sead::makeScopedLock(nav->_1e0);
+            nav->_2ac = radius_scale;
+            nav->_220 |= 0x10;
+        }
+        nav->sub_7100F76314();
+    }
 }
 
 void AnimalFollowBase::loadParams_() {

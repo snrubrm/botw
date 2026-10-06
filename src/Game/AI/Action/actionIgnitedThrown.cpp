@@ -1,5 +1,9 @@
 #include "Game/AI/Action/actionIgnitedThrown.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/AI/aiUnk_71007377D4.h"
+#include "Game/AI/aiXlinkHandle.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 
 namespace uking::action {
@@ -17,7 +21,13 @@ void IgnitedThrown::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void IgnitedThrown::leave_() {
-    ksys::act::ai::Action::leave_();
+    auto* actor = mActor;
+    sub_71005DC02C(actor);
+    if (auto* chemical = actor->getChemicalStuff())
+        chemical->sub_7100D91098(_72);
+    if (_71)
+        sub_7100738DC8(actor);
+    xlink::fade(_80, -1);
 }
 
 void IgnitedThrown::loadParams_() {

@@ -25,7 +25,9 @@ protected:
     u8 _29[0x3];
     f32 _2c = 0.0f;
     sead::Vector3f _30 = sead::Vector3f::zero;
-    u8 _3c[0x34];
+    u8 _3c[0x24];
+    sead::Vector3f _60;
+    u8 _6c[0x4];
 
 };
 KSYS_CHECK_SIZE_NX150(GanonChangeState, 0x70);

@@ -30,6 +30,15 @@ void GelJumpTackle::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void GelJumpTackle::leave_() {
+    if (auto* gel = sead::DynamicCast<act::GelEnemy>(mActor)) {
+        if (!*mIsEnableCloth_s)
+            gel->sub_7100026A38();
+        gel->_1678 &= ~1;
+        gel->sub_7100026AD4();
+        gel->sub_7100026AA8();
+    }
+    if (!mLeaveSubAS_s.isEmpty())
+        playAS(mLeaveSubAS_s.cstr(), false, 0, *mSubASSlot_s, -1.0f);
     JumpTackle::leave_();
 }
 

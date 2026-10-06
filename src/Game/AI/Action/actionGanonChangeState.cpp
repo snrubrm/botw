@@ -1,4 +1,8 @@
 #include "Game/AI/Action/actionGanonChangeState.h"
+#include "Game/Actor/actLastBoss.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actCCAccessor.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
 namespace uking::action {
 
@@ -15,7 +19,15 @@ void GanonChangeState::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void GanonChangeState::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (auto* controller = mActor->getCharacterController()) {
+        controller->sub_7100F5EE1C(_60 * 29.0f);
+        controller->sub_7100F5EEB8(1.0f);
+        controller->sub_7100F5F458(ksys::act::MotionType::_0);
+        controller->sub_7100F5FB24(sead::Vector3f::zero);
+        controller->sub_7100F5F6FC(sead::Vector3f::zero);
+    }
+    if (auto* boss = sead::DynamicCast<act::LastBoss>(mActor))
+        boss->_14e8.resetBit(3);
 }
 
 void GanonChangeState::loadParams_() {

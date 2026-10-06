@@ -1,5 +1,6 @@
 #pragma once
 
+#include <xlink2/xlink2HandleSLink.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -44,10 +45,7 @@ protected:
     f32 _74 = 0.0f;
     s32 _78 = 0;
     s32 _7c = 0;
-    s32 _80 = 0;
-    s32 _84 = 0;
-    s32 _88 = 0;
-    u8 _8c[0x4];
+    xlink2::HandleSLink _80;
     sead::Vector3f _90 = sead::Vector3f::zero;
     u16 _9c = 0;
     bool _9e = false;

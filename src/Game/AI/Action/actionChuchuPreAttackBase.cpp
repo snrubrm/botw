@@ -34,7 +34,12 @@ void ChuchuPreAttackBase::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void ChuchuPreAttackBase::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (auto* gel = sead::DynamicCast<act::GelEnemy>(mActor)) {
+        gel->_1678 &= ~1;
+        gel->_14c8._68 = sead::Matrix34f::ident;
+        gel->sub_7100026AD4();
+        gel->sub_7100026AA8();
+    }
 }
 
 void ChuchuPreAttackBase::loadParams_() {
