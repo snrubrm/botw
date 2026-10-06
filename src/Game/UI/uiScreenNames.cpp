@@ -128,4 +128,39 @@ const char* ScreenHomeMenuCapture::getLayoutName_() const {
     return "HomeMenuCapture_00";
 }
 
+// 0x710109ff58
+const char* ScreenErrorViewer::getLayoutName_() const {
+    return "ErrorViewer_00";
+}
+
+// 0x71010a486c
+const char* ScreenMainDungeon::getLayoutName_() const {
+    return "MainDungeon_00";
+}
+
+// 0x710109df74
+const char* ScreenChangeControllerNN::getLayoutName_() const {
+    return "ChangeControllerNN_00";
+}
+
+// 0x71010a076c
+const char* ScreenFadeDemo::getLayoutName_() const {
+    return "FadeDemo_00";
+}
+
+// 0x71010a2258
+const char* ScreenHomeNixSign::getLayoutName_() const {
+    return "HomeNixSign_00";
+}
+
+// 0x71010a4380
+const char* ScreenLoadSaveIcon::getLayoutName_() const {
+    return "LoadSaveIcon_00";
+}
+
+// 0x71010af818
+const char* ScreenMessage3D::getLayoutName_() const {
+    return "Message3D_00";
+}
+
 }  // namespace uking::ui

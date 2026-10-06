@@ -663,6 +663,8 @@ class ScreenMessage3D : public Screen {
 public:
     ~ScreenMessage3D() override;
     SEAD_RTTI_OVERRIDE(ScreenMessage3D, Screen)
+    // 0x71010af818
+    const char* getLayoutName_() const override;
     void sub_71010AE7C0(bool flag);
     // 0x71010ae548 (CSV unnamed, declared only): called by UI::sub_71010A6BEC.
     void sub_71010AE548(ksys::act::Actor* actor, bool flag);
@@ -713,6 +715,8 @@ class ScreenErrorViewer : public Screen {
 public:
     ~ScreenErrorViewer() override;
     SEAD_RTTI_OVERRIDE(ScreenErrorViewer, Screen)
+    // 0x710109ff58
+    const char* getLayoutName_() const override;
 };
 
 // Only the nominal type and the three state words checked by UI::sub_71010A5CFC / sub_71010A5DB0 / sub_71010A5E64
@@ -721,6 +725,8 @@ class ScreenMainDungeon : public Screen {
 public:
     ~ScreenMainDungeon() override;
     SEAD_RTTI_OVERRIDE(ScreenMainDungeon, Screen)
+    // 0x71010a486c
+    const char* getLayoutName_() const override;
     eui::TagProcessor* doCreateTagProcessor_(sead::Heap* heap) override;
 
     /* 0x2fc */ s32 _2fc;
@@ -793,6 +799,8 @@ public:
     ScreenFadeDemo();
     ~ScreenFadeDemo() override;
     SEAD_RTTI_OVERRIDE(ScreenFadeDemo, Screen)
+    // 0x71010a076c
+    const char* getLayoutName_() const override;
     void m74(f32 progress) override;
 
     /* 0x300 */ void* _300{};
@@ -810,6 +818,8 @@ public:
     ScreenChangeControllerNN();
     ~ScreenChangeControllerNN() override;
     SEAD_RTTI_OVERRIDE(ScreenChangeControllerNN, Screen)
+    // 0x710109df74
+    const char* getLayoutName_() const override;
 };
 
 class ScreenHomeNixSign : public Screen {
@@ -817,6 +827,8 @@ public:
     ScreenHomeNixSign();
     ~ScreenHomeNixSign() override;
     SEAD_RTTI_OVERRIDE(ScreenHomeNixSign, Screen)
+    // 0x71010a2258
+    const char* getLayoutName_() const override;
 
     /* 0x2fc */ s32 _2fc = 0;
 };
@@ -835,6 +847,8 @@ public:
     ScreenLoadSaveIcon();
     ~ScreenLoadSaveIcon() override;
     SEAD_RTTI_OVERRIDE(ScreenLoadSaveIcon, Screen)
+    // 0x71010a4380
+    const char* getLayoutName_() const override;
 
     /* 0x300 */ void* _300{};
     /* 0x308 */ void* _308{};
