@@ -21,6 +21,9 @@ public:
 protected:
     void calc_() override;
 
+    // 0x710024f634 (CSV name shootingStarDropStuff; declared only): called from calc_ with the landing position.
+    void shootingStarDropStuff(const sead::Vector3f& pos);
+
     // static_param at offset 0x20
     const float* mDisappearDistance_s{};
     // dynamic_param at offset 0x28
@@ -31,7 +34,7 @@ protected:
     sead::Matrix34f _6c = sead::Matrix34f::ident;
     sead::Vector3f _9c = sead::Vector3f::zero;
     f32 _a8 = 50.0f;
-    f32 _ac = 0;
+    f32 _ac = 0;  // timer: Timer::update(&_ac, 1)
 };
 
 }  // namespace uking::action

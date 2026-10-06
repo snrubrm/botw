@@ -35,6 +35,10 @@ public:
     s32 getRepeatNum(s32 table_idx) const;
     s32 getRepeatNum(const sead::SafeString& table_name) const;
 
+    // Inline-only in the original; name is a guess (ShootingStarBrightTower::shootingStarDropStuff reads +0x2f8 and
+    // compares it with 1 before looking up the Normal table).
+    s32 getNumTables() const { return mTableNum.ref(); }
+
     bool ParamIO_m0(char* data) override { return true; }
     void doCreate_(u8*, u32, sead::Heap*) override {}
     bool needsParse() const override { return true; }

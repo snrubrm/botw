@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Game/AI/aiUnk_71025afb58.h"
+#include "Game/Actor/actWeapon.h"
 #include "Game/AI/aiUnk_7102357210.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
@@ -10,7 +11,7 @@
 class Unk_710242cd08 : public Unk_71025afb58 {
     SEAD_RTTI_OVERRIDE(Unk_710242cd08, Unk_71025afb58)
 public:
-    u64 _8 = 0;
+    uking::act::WeaponModifierInfo _8;
     Unk_71025afb58* _10 = nullptr;  // deleted by ~TreasureBox
 };
 KSYS_CHECK_SIZE_NX150(Unk_710242cd08, 0x18);

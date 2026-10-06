@@ -1,5 +1,6 @@
 #pragma once
 
+#include <math/seadMatrix.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
 #include "KingSystem/ActorSystem/actBaseProcHandle.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
@@ -30,8 +31,7 @@ protected:
     sead::SafeString* mDropActorName_a{};
     // aitree_variable at offset 0x50
     void* mSharpWeaponAddParam_a{};
-    // FIXME: 0x30-byte struct copied from a global in the constructor
-    u8 _58[0x30]{};
+    sead::Matrix34f _58 = sead::Matrix34f::ident;
 };
 
 }  // namespace uking::action
