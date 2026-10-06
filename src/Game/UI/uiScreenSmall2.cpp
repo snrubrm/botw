@@ -657,4 +657,64 @@ void ScreenAmiiboWindow::m107(eui::AnimButton* button) {
         close(-1);
 }
 
+// 0x7100a02ca0
+void ScreenControllerWindow::m99() {
+    if (_3851) {
+        close(-1);
+    } else if (!_3850) {
+        mButtonGroup->_38 |= 2;
+        if (_3618)
+            _3618->sub_710093F594(true);
+    }
+}
+
+// 0x7100a02cec
+void ScreenControllerWindow::m100() {
+    mButtonGroup->_38 &= ~2;
+    if (_3618)
+        _3618->sub_710093F594(false);
+}
+
+s32 ScreenDLCWindow::sResult = 2;
+
+// 0x7100a060e0
+void ScreenDLCWindow::m107(eui::AnimButton* button) {
+    if (button->IsPlayDisableAnim()) {
+        mButtonGroup->_38 |= 2;
+        return;
+    }
+    switch (button->mTag) {
+    case 89:
+        sResult = 1;
+        break;
+    case 90:
+        sResult = 0;
+        break;
+    }
+    if (sResult)
+        close(-1);
+}
+
+s32 ScreenPauseMenuMantan::sResult = 5;
+
+// 0x7100a3219c
+s32 ScreenPauseMenuMantan::takeResult() {
+    const s32 result = sResult;
+    sResult = 5;
+    return result;
+}
+
+// 0x7100a32310
+void ScreenPauseMenuMantan::m107(eui::AnimButton* button) {
+    switch (button->mTag) {
+    case 138:
+        sResult = _3610;
+        break;
+    case 137:
+        sResult = 4;
+        break;
+    }
+    close(-1);
+}
+
 }  // namespace uking::ui

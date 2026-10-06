@@ -1977,6 +1977,13 @@ public:
     SEAD_RTTI_OVERRIDE(ScreenPauseMenuMantan, ScreenEx)
     void m93(sead::Heap* heap) override;
     void m98() override;
+    void m107(eui::AnimButton* button) override;
+
+    // 0x71024929f8 (placeholder name): the window's result (5: none yet); 0x7100a3219c takes it and resets it
+    static s32 sResult;
+    static s32 takeResult();
+
+    /* 0x3610 */ s32 _3610 = 5;
     void m99() override;
     void m106(eui::AnimButton* button) override;
 };
@@ -2211,6 +2218,8 @@ public:
     eui::Animator* _3870{};
 };
 
+struct ScreenAppPictureBookUnk;
+
 class ScreenControllerWindow : public ScreenEx {
 public:
     void m101() override;
@@ -2221,6 +2230,14 @@ public:
     const char* getLayoutName_() const override;
     ~ScreenControllerWindow() override;
     SEAD_RTTI_OVERRIDE(ScreenControllerWindow, ScreenEx)
+    void m99() override;
+    void m100() override;
+
+    u8 _pad_3610[0x3618 - 0x3610];
+    /* 0x3618 */ ScreenAppPictureBookUnk* _3618;
+    u8 _pad_3620[0x3850 - 0x3620];
+    /* 0x3850 */ u8 _3850;
+    /* 0x3851 */ u8 _3851;
 };
 
 class ScreenDLCWindow : public ScreenEx {
@@ -2231,6 +2248,10 @@ public:
     virtual void m154();  // placeholder: one extra virtual slot (vtable offsets +8)
     SEAD_RTTI_OVERRIDE(ScreenDLCWindow, ScreenEx)
     void m106(eui::AnimButton* button) override;
+    void m107(eui::AnimButton* button) override;
+
+    // 0x7102486d48 (placeholder name): the window's result (0: no, 1: yes, 2: none yet)
+    static s32 sResult;
 };
 
 class ScreenTitle : public ScreenEx {
