@@ -34,6 +34,60 @@ void SoundParam::copy(SoundParam* dst, const SoundParam& src) {
     std::memcpy(dst, &src, sizeof(SoundParam));
 }
 
+// 0x7100b764ec
+void SoundParam::aggregate(SoundParam* dst, const SoundParam& src) {
+    dst->mVolume = src.mVolume * dst->mVolume;
+    for (s32 i = 0; i < 1; ++i) {
+        if (src.mDeviceVolume[i] >= 0.0f)
+            dst->mDeviceVolume[i] = dst->mDeviceVolume[i] < 0.0f ? src.mDeviceVolume[i]
+                                                                  : src.mDeviceVolume[i] * dst->mDeviceVolume[i];
+    }
+    for (s32 i = 0; i < 4; ++i) {
+        if (src.mBusVolume[i] >= 0.0f)
+            dst->mBusVolume[i] = dst->mBusVolume[i] < 0.0f ? src.mBusVolume[i] : src.mBusVolume[i] * dst->mBusVolume[i];
+    }
+    dst->mPitch = src.mPitch * dst->mPitch;
+    dst->mLfe = src.mLfe + dst->mLfe;
+    dst->mLpf = src.mLpf + dst->mLpf;
+    if (dst->mBiquadType < 0)
+        dst->mBiquadType = src.mBiquadType;
+    dst->mBiquadValue = src.mBiquadValue + dst->mBiquadValue;
+    dst->mAngleIdx = src.mAngleIdx + dst->mAngleIdx;
+    dst->mSpread = src.mSpread + dst->mSpread;
+}
+
+// NON_MATCHING: the same results; the original keeps branches in the volume merge where this uses conditional selects.
+// 0x7100b7660c
+void SoundParam::aggregate(SoundParam* dst, const SoundParam& src1, const SoundParam& src2) {
+    dst->mVolume = src1.mVolume * src2.mVolume;
+    for (s32 i = 0; i < 1; ++i) {
+        f32 volume = src1.mDeviceVolume[i];
+        if (src2.mDeviceVolume[i] >= 0.0f)
+            volume = volume < 0.0f ? src2.mDeviceVolume[i] : src2.mDeviceVolume[i] * volume;
+        dst->mDeviceVolume[i] = volume;
+    }
+    for (s32 i = 0; i < 4; ++i) {
+        f32 volume = src1.mBusVolume[i];
+        if (src2.mBusVolume[i] >= 0.0f)
+            volume = volume < 0.0f ? src2.mBusVolume[i] : src2.mBusVolume[i] * volume;
+        dst->mBusVolume[i] = volume;
+    }
+    dst->mPitch = src1.mPitch * src2.mPitch;
+    dst->mLfe = src1.mLfe + src2.mLfe;
+    dst->mLpf = src1.mLpf + src2.mLpf;
+    dst->mBiquadType = src2.mBiquadType < 0 ? src1.mBiquadType : src2.mBiquadType;
+    dst->mBiquadValue = src1.mBiquadValue + src2.mBiquadValue;
+    dst->mAngleIdx = src2.mAngleIdx + src1.mAngleIdx;
+    dst->mSpread = src1.mSpread + src2.mSpread;
+}
+
+// NON_MATCHING: the same comparison; the static initial parameters and their guard are laid out in the other order.
+// 0x7100b76758
+bool SoundParam::isInitial(const SoundParam& param) {
+    static SoundParam sInitialParam;
+    return std::memcmp(&param, &sInitialParam, sizeof(SoundParam)) == 0;
+}
+
 // 0x7100b76354
 void SoundParam::setVolume(f32 volume) {
     if (volume >= 0.0f)

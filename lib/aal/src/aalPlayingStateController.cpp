@@ -1,3 +1,4 @@
+#include "aal/aalAssetInfo.h"
 #include "aal/aalSoundController.h"
 
 namespace aal {
@@ -99,6 +100,22 @@ void PlayingStateController::stopForce() {
     mSamplePos = 0.0f;
     mPaused = false;
     mCS.unlock();
+}
+
+// NON_MATCHING: the same conditions, but the original keeps separate branches for the looped test and the two flags (this merges
+// the flags with an and).
+// 0x7100ba028c
+bool PlayingStateController::execOnDestroyWaveAsset(u64 begin, u64 size, bool a, bool b) {
+    const AssetInfo* asset = mSoundController->mAssetInfo;
+    if (!asset || !(begin <= reinterpret_cast<u64>(asset->mAudioData) &&
+                    begin + size > reinterpret_cast<u64>(asset->mAudioData)))
+        return false;
+
+    if (mState < 3 && (!(asset->mFlags & 1) || !b) && !a)
+        return false;
+
+    stopForce();
+    return true;
 }
 
 // 0x7100b9fe3c
