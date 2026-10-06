@@ -74,6 +74,8 @@ target_sources(uking PRIVATE
   gameSceneTaskMgr.h
   gameStageBinder.cpp
   gameStage.cpp
+  gameOpenWorldStageMapProps.cpp
+  gameOpenWorldStageMapProps.h
   gameStageBinderCreate.cpp
   gameStage.h
   gameStageBinder.h
