@@ -27,6 +27,9 @@ public:
     void changeToAdjustPosition();
 
     bool sub_71003D1F88();
+    // 0x71003d2880 (placeholder name): the mean direction away from the (up to 10) awareness entries within `range`,
+    // scaled by range / count; false without awareness
+    bool sub_71003D2880(f32 range, sead::Vector3f* out);
 
 protected:
     struct Params {

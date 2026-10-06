@@ -8,6 +8,8 @@
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/Utils/MathUtil.h"
+#include "Game/AI/aiUnk_71024f15c0.h"
+#include "KingSystem/Map/mapRail.h"
 
 namespace uking::ui {
 void sub_7100A9A694(const UiSubsys1PinArg* arg);
@@ -60,6 +62,27 @@ bool GoronHeroDescendentRoot::sub_71004095E4() {
         return true;
     }
     return false;
+}
+
+bool GoronHeroDescendentRoot::sub_71004091AC(sead::Vector3f* out) {
+    auto* rail = sub_7100EEF034(mActor, 0);
+    if (!rail)
+        return false;
+    const s32 num_points = rail->getNumPoints();
+    if (num_points < 1)
+        return false;
+    const sead::Vector3f pos = mActor->getMtx().getTranslation();
+    sead::Vector3f nearest = rail->calcTranslate(0.0f);
+    f32 nearest_dist = (nearest - pos).length();
+    for (s32 i = 1; i < num_points; ++i) {
+        const f32 dist = (rail->calcTranslate(i) - pos).length();
+        if (dist < nearest_dist) {
+            nearest = rail->calcTranslate(i);
+            nearest_dist = dist;
+        }
+    }
+    *out = nearest;
+    return true;
 }
 
 void GoronHeroDescendentRoot::changeToStopCommand() {

@@ -68,6 +68,13 @@ public:
                                        const sead::Vector3f& displacement,
                                        float displacement_scale);
 
+    // Inline-only in the original (lane1 s44; name is a guess): `if (handler) mGroupHandler = handler;` after the
+    // query was constructed with a null handler (8 call sites, e.g. GuardianBeamAttack::sub_7100410730).
+    void setGroupHandlerIfAny(SystemGroupHandler* handler) {
+        if (handler)
+            mGroupHandler = handler;
+    }
+
     /// @warning Only up to 4 groups can be ignored.
     bool addIgnoredGroup(SystemGroupHandler* group_handler);
     void setRigidBody(RigidBody* body);

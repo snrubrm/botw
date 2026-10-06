@@ -33,6 +33,21 @@ bool MoriblinSpearBattle::isChangeable() const {
     return getCurrentChild()->isChangeable();
 }
 
+// NON_MATCHING: load order / register numbering of the second (direction) part: the original loads the actor
+// pointer before the TargetPos pointer, interleaves the x / z loads and loads the forward axis after the sqrt.
+bool MoriblinSpearBattle::sub_71004AAEAC() {
+    sead::Vector3f diff = sub_71005D9330(mActor);
+    diff -= mActor->getMtx().getTranslation();
+    diff.y = 0;
+    if (!(diff.length() <= sub_71007320F0(mActor, *mWeaponIdx_s) + *mNearDist_s))
+        return false;
+    sead::Vector3f dir = *mTargetPos_d - mActor->getMtx().getTranslation();
+    dir.y = 0;
+    const sead::Vector3f forward = mActor->getMtx().getBase(2);
+    dir.normalize();
+    return forward.dot(dir) >= sead::Mathf::cos(*mAttackStartRotate_s);
+}
+
 void MoriblinSpearBattle::leave_() {
     sub_71005DA114(mActor, &_90);
 }

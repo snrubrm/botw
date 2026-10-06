@@ -22,6 +22,12 @@ public:
 protected:
     // 0x710048bf14 (placeholder name): picks the through time in [_94, _98] and starts the child with the target.
     void sub_710048BF14();
+    // 0x710048c58c (placeholder name): the target is within FrontAngle in front of the actor and nothing blocks the
+    // way (sub_710072FD28)
+    bool sub_710048C58C(const sead::Vector3f& target);
+    // 0x710048c958 (placeholder name): the point ThroughDist beyond the target, in the direction from the actor to the
+    // target (or the actor's forward axis); the closest reachable point if it is not reachable
+    void sub_710048C958(sead::Vector3f* out);
 
     struct Params {
         // static_param at offset 0x38

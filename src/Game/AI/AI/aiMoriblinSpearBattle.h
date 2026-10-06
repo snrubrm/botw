@@ -20,6 +20,8 @@ public:
     void changeToShortRange();
     void sub_71004AA888();
     void changeToWait();
+    // 0x71004aaeac (placeholder name): the target is within reach and in front of the actor (AttackStartRotate)
+    bool sub_71004AAEAC();
     // 0x71004aaff0 (placeholder name)
     void changeToForcedSmallAttack();
     // 0x71004ab2f4 (placeholder name)

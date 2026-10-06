@@ -2,7 +2,9 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/AI/aiAwarenessFilters.h"
 #include "Game/AI/aiUnk_71007377D4.h"
+#include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 
 namespace uking::ai {
 
@@ -20,6 +22,32 @@ void FlyingEnemyKeepMove::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::InlineParamPack pack;
     pack.addVec3(pos, "TargetPos", -1);
     changeChild("待機", &pack);
+}
+
+// NON_MATCHING: register allocation: the original carries the sum through the loop in integer registers (w22-w24,
+// bitcast to float each iteration), so the range and the actor position stay in d8-d11; ours keeps the sum in float
+// registers and spills the range and the position x.
+bool FlyingEnemyKeepMove::sub_71003D2880(f32 range, sead::Vector3f* out) {
+    auto* awareness = mActor->getAwareness();
+    if (!awareness)
+        return false;
+    sead::Vector3f sum = sead::Vector3f::zero;
+    const sead::Vector3f pos = mActor->getMtx().getTranslation();
+    s32 count = 0;
+    Unk_7102451448 filter;
+    do {
+        auto* entry = ksys::act::sub_7100D7EEE8(&awareness->_8, &filter);
+        if (!entry || entry->_a8 > range)
+            break;
+        sead::Vector3f dir = entry->_88 - pos;
+        dir.normalize();
+        sum -= dir;
+        ++count;
+    } while (count < 10);
+    if (count >= 1)
+        sum *= range / count;
+    *out = sum;
+    return true;
 }
 
 void FlyingEnemyKeepMove::leave_() {

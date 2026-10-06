@@ -38,6 +38,9 @@ public:
 
     // 0x710040fc24 (2.8 KB, not decompiled): called by Unk_71023f6f80::m5.
     void sub_710040FC24();
+    // 0x7100410730 (placeholder name): (radius, length) of the light: casts a ray from `start` along `dir` over
+    // LightLength and shortens the length to the hit distance (+ LightLengthOffset)
+    sead::Vector2f sub_7100410730(const sead::Vector3f& dir, const sead::Vector3f& start);
 
 protected:
     sead::Vector3f _38 = sead::Vector3f::ey;

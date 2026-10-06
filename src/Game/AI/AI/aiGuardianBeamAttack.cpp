@@ -1,6 +1,8 @@
 #include "Game/AI/AI/aiGuardianBeamAttack.h"
 #include "KingSystem/Utils/Thread/Message.h"
+#include "Game/AI/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/System/physRayCastBodyQuery.h"
 
 namespace uking::ai {
 
@@ -34,6 +36,33 @@ void GuardianBeamAttack::leave_() {
     mActor->sub_71011DA834(_78);
     _48.fade();
     _58.fade();
+}
+
+sead::Vector2f GuardianBeamAttack::sub_7100410730(const sead::Vector3f& dir,
+                                                  const sead::Vector3f& start) {
+    f32 length = *mLightLength_s;
+    f32 radius = *mLightRadius_s;
+    ksys::phys::RayCastBodyQuery query(nullptr, ksys::phys::GroundHit::HitAll);
+    query.enableLayer(ksys::phys::ContactLayer::EntityGround);
+    query.enableLayer(ksys::phys::ContactLayer::EntityGroundObject);
+    query.enableLayer(ksys::phys::ContactLayer::EntityNPC);
+    sead::Vector3f pos = dir * length + start;
+    query.setStartAndEnd(start, pos);
+    query.setGroupHandlerIfAny(sub_710072E804(mActor, 0));
+    if (query.worldRayCast(ksys::phys::ContactLayerType::Entity)) {
+        query.getHitPosition(&pos);
+        const f32 distance = (start - pos).length();
+        if (*mAdjustRadius_s) {
+            length = distance + *mLightLengthOffset_s;
+        } else {
+            const f32 ratio = radius / length;
+            length = distance + *mLightLengthOffset_s;
+            radius = ratio * length;
+        }
+    } else {
+        length += *mLightLengthOffset_s;
+    }
+    return {radius, length};
 }
 
 bool GuardianBeamAttack::handleMessage_(const ksys::Message* message) {

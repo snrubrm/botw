@@ -38,6 +38,9 @@ public:
     bool sub_71004090D4();
     // 0x71004095e4 (placeholder name): the current child is one of the follow / stop states.
     bool sub_71004095E4();
+    // 0x71004091ac (placeholder name): the point of the actor's rail (first one) closest to the actor's position;
+    // false without rail points
+    bool sub_71004091AC(sead::Vector3f* out);
 
 protected:
     // static_param at offset 0x38
