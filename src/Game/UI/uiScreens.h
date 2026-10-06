@@ -410,6 +410,19 @@ public:
     void* sub_7100A48328(const sead::SafeString& path, void* out);
     // 0x7100a4810c: the button whose layout is `layout`
     eui::ControlBase* sub_7100A4810C(const eui::LayoutEx* layout);
+    // 0x7100a48a18 / 48aac / 48b40 / 48bd4: m127 - m130 followed by ScreenChildEx::m81 - m84 of every ScreenChildEx child
+    void sub_7100A48A18();
+    void sub_7100A48AAC();
+    void sub_7100A48B40();
+    void sub_7100A48BD4();
+    // 0x7100a47a5c (hub: 49 callers): copies the layout `source` under `name` and links its root pane next to /
+    // below `base` (mode 0: before, 1: after, 2: first child, 3: last child); the flags select the follow-up
+    // setups 0x7100a47bc4 / 0x7100a47d60 (declared only)
+    eui::LayoutEx* sub_7100A47A5C(sead::Heap* heap, s32 mode, const eui::LayoutEx* source,
+                                  const sead::SafeString& name, nn::ui2d::Pane* base, bool setup1,
+                                  bool setup2);
+    void sub_7100A47BC4(sead::Heap* heap, const eui::LayoutEx* source, eui::LayoutEx* layout);
+    void sub_7100A47D60(sead::Heap* heap, const eui::LayoutEx* source, eui::LayoutEx* layout);
     // 0x7100a48258: appends a button's unit and the button itself
     void sub_7100A48258(Unk_7102474e38* unit, eui::AnimButton* button);
     // 0x7100a482a4 / 0x7100a482e8: index of / control with the layout in the screen's control list

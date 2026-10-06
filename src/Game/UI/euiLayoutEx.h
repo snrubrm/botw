@@ -41,6 +41,8 @@ public:
 
     // 0x7100bdd16c (not decompiled)
     explicit LayoutEx(Screen* screen);
+    // 0x7100bdd1b4 (not decompiled): copies `other` (including its pane tree) under the name `name`
+    LayoutEx(const LayoutEx& other, const char* name, LayoutEx* parent);
     ~LayoutEx() override;
 
     bool BuildImpl(nn::ui2d::BuildResultInformation*, nn::gfx::Device*, const void*,

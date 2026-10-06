@@ -1,4 +1,5 @@
 #include "Game/UI/uiScreens.h"
+#include "Game/UI/euiLayoutEx.h"
 #include "Game/UI/uiManager.h"
 #include "KingSystem/Utils/Thread/Message.h"
 
@@ -361,6 +362,96 @@ eui::ControlBase* ScreenEx::sub_7100A482E8(const eui::LayoutEx* layout) const {
             return const_cast<eui::ControlBase*>(control);
     }
     return nullptr;
+}
+
+// 0x7100a48a18
+void ScreenEx::sub_7100A48A18() {
+    m127();
+    for (auto it = mChildren.begin(), end = mChildren.end(); it != end; ++it) {
+        ScreenChild* child = it.operator->();
+        auto* type = ScreenChildEx::GetRuntimeTypeInfoStatic();
+        ScreenChildEx* c = child->GetRuntimeTypeInfo()->IsDerivedFrom(type) ? static_cast<ScreenChildEx*>(child) : nullptr;
+        if (c)
+            c->m81();
+    }
+}
+
+// 0x7100a48aac
+void ScreenEx::sub_7100A48AAC() {
+    m128();
+    for (auto it = mChildren.begin(), end = mChildren.end(); it != end; ++it) {
+        ScreenChild* child = it.operator->();
+        auto* type = ScreenChildEx::GetRuntimeTypeInfoStatic();
+        ScreenChildEx* c = child->GetRuntimeTypeInfo()->IsDerivedFrom(type) ? static_cast<ScreenChildEx*>(child) : nullptr;
+        if (c)
+            c->m82();
+    }
+}
+
+// 0x7100a48b40
+void ScreenEx::sub_7100A48B40() {
+    m129();
+    for (auto it = mChildren.begin(), end = mChildren.end(); it != end; ++it) {
+        ScreenChild* child = it.operator->();
+        auto* type = ScreenChildEx::GetRuntimeTypeInfoStatic();
+        ScreenChildEx* c = child->GetRuntimeTypeInfo()->IsDerivedFrom(type) ? static_cast<ScreenChildEx*>(child) : nullptr;
+        if (c)
+            c->m83();
+    }
+}
+
+// 0x7100a48bd4
+void ScreenEx::sub_7100A48BD4() {
+    m130();
+    for (auto it = mChildren.begin(), end = mChildren.end(); it != end; ++it) {
+        ScreenChild* child = it.operator->();
+        auto* type = ScreenChildEx::GetRuntimeTypeInfoStatic();
+        ScreenChildEx* c = child->GetRuntimeTypeInfo()->IsDerivedFrom(type) ? static_cast<ScreenChildEx*>(child) : nullptr;
+        if (c)
+            c->m84();
+    }
+}
+
+// 0x7100a47a5c
+// NON_MATCHING: only the callee-saved register assignment differs (original: layout x20, heap x21, setup2 w22)
+eui::LayoutEx* ScreenEx::sub_7100A47A5C(sead::Heap* heap, s32 mode, const eui::LayoutEx* source,
+                                        const sead::SafeString& name, nn::ui2d::Pane* base,
+                                        bool setup1, bool setup2) {
+    if (!source || !base)
+        return nullptr;
+    auto* layout = new (heap, 8) eui::LayoutEx(*source, name.cstr(), nullptr);
+    if (!layout)
+        return nullptr;
+    switch (mode) {
+    case 0:
+        if (nn::ui2d::Pane* parent = base->GetParent())
+            parent->InsertChild(base, layout->mPane);
+        break;
+    case 1:
+        if (nn::ui2d::Pane* parent = base->GetParent()) {
+            auto last = parent->GetChildList().end();
+            --last;
+            if (&*last == base) {
+                parent->AppendChild(layout->mPane);
+            } else {
+                auto next = parent->GetChildList().iterator_to(*base);
+                ++next;
+                parent->InsertChild(&*next, layout->mPane);
+            }
+        }
+        break;
+    case 2:
+        base->PrependChild(layout->mPane);
+        break;
+    case 3:
+        base->AppendChild(layout->mPane);
+        break;
+    }
+    if (setup1)
+        sub_7100A47BC4(heap, source, layout);
+    if (setup2)
+        sub_7100A47D60(heap, source, layout);
+    return layout;
 }
 
 }  // namespace uking::ui
