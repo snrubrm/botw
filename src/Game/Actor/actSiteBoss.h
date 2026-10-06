@@ -142,6 +142,9 @@ public:
         void sub_710066BC04();
         // 0x710066c074: number of bound actors that are in the calc state.
         s32 sub_710066C074();
+        // 0x710066c738 (declared only; 200 B): `pos`, then two floats (SiteBossMoveAndAttack passes 0.8 / 0.4); looks for a
+        // free actor handle at 0xa0 + 0x10 * i and continues in 0x710066c800.
+        void sub_710066C738(sead::Vector3f* pos, f32 a, f32 b);
         // 0x710066d9b8 (declaration only; 124 B): if the message of bound actor `idx` is still pending, sends it and returns true.
         bool sub_710066D9B8(s32 idx);
         // 0x710066dabc (declaration only).

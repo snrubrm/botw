@@ -486,7 +486,7 @@ public:
     /* 0x1800 */ f32 _1800;  // copy of _1770.y (PlayerSuperJump::enter_)
     /* 0x1804 */ f32 _1804;  // zeroed by PlayerGlide::enter_
     /* 0x1808 */ f32 _1808;
-    /* 0x180c */ u8 _180c[0x1810 - 0x180c];
+    /* 0x180c */ f32 _180c;
     /* 0x1810 */ sead::Vector3f _1810;  // compared with _1770 by PlayerSuperJumpCharge::calc_
     /* 0x181c */ sead::Vector3f _181c;  // ladder climb displacement (PlayerLadderToClimb::calc_)
     /* 0x1828 */ sead::Vector3f _1828;  // ladder start displacement (PlayerLadderUpStart::calc_)
@@ -618,7 +618,8 @@ public:
     /* 0x20d4 */ f32 _20d4;  // water surface height (PlayerSwimJump)
     /* 0x20d8 */ u8 _20d8[0x20f0 - 0x20d8];
     /* 0x20f0 */ f32 _20f0;
-    /* 0x20f4 */ u8 _20f4[0x2100 - 0x20f4];
+    /* 0x20f4 */ f32 _20f4;
+    /* 0x20f8 */ u8 _20f8[0x2100 - 0x20f8];
     /* 0x2100 */ f32 _2100;  // PlayerLadderUpEnd::enter_
     /* 0x2104 */ f32 _2104;  // the blend frame of the last switchToAnimSequenceMaybe
     /* 0x2108 */ u8 _2108[0x211c - 0x2108];

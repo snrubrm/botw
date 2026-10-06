@@ -19,6 +19,9 @@ public:
 protected:
     void calc_() override;
 
+    // 0x71007fee10 (declared only; 1320 B, shared by enter_ and calc_).
+    void sub_71007FEE10();
+
     // static_param at offset 0x20
     const float* mDRCEnergy_s{};
 };

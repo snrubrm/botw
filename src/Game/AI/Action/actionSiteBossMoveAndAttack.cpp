@@ -1,5 +1,6 @@
 #include "Game/AI/Action/actionSiteBossMoveAndAttack.h"
 #include "Game/Actor/actSiteBoss.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
@@ -30,6 +31,12 @@ void SiteBossMoveAndAttack::loadParams_() {
 
 void SiteBossMoveAndAttack::calc_() {
     SiteBossMove::calc_();
+    if (mActor->getASList()->x(71, nullptr, 0, 0, &ksys::as::ASList::Unk2::sub_71011637EC, true)) {
+        if (auto* boss = sead::DynamicCast<uking::act::SiteBoss>(mActor)) {
+            if (boss->_1560.sub_710066C074())
+                boss->_1560.sub_710066C738(m32(), 0.8f, 0.4f);
+        }
+    }
 }
 
 }  // namespace uking::action
