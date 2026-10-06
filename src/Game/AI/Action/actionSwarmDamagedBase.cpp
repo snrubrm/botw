@@ -1,5 +1,10 @@
 #include "Game/AI/Action/actionSwarmDamagedBase.h"
+#include <random/seadGlobalRandom.h>
 #include "Game/AI/aiUnk_710072A944.h"
+#include "Game/Actor/actSwarm.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actCCAccessor.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
 namespace uking::action {
 
@@ -12,7 +17,26 @@ bool SwarmDamagedBase::init_(sead::Heap* heap) {
 }
 
 void SwarmDamagedBase::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    auto* swarm = sead::DynamicCast<act::Swarm>(mActor);
+    if (!swarm) {
+        setFailed();
+        return;
+    }
+    if (auto* controller = swarm->getCharacterController()) {
+        sead::Vector3f velocity;
+        controller->sub_7100F5F598(&velocity);
+        const f32 min_speed = *mRiseSpeedMin_s * 30.0f;
+        if (velocity.y < min_speed)
+            velocity.y = min_speed;
+        controller->sub_7100F5F6FC(velocity);
+        controller->sub_7100F5FB24(sead::Vector3f::zero);
+    }
+    for (int i = 0; i < swarm->_14c8.size(); ++i) {
+        if (auto* unit = swarm->_14c8[i])
+            unit->_5c = sead::GlobalRandom::instance()->getF32Range(*mSubAccRateMin_s,
+                                                                    *mSubAccRateMax_s);
+    }
+    _68 = sead::Vector3f(0.0f, 0.0f, 1.0f);
 }
 
 void SwarmDamagedBase::leave_() {
