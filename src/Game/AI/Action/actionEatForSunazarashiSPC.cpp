@@ -1,5 +1,6 @@
 #include "Game/AI/Action/actionEatForSunazarashiSPC.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/Event/evtBaseProcLinkForEvent.h"
 #include "KingSystem/Event/evtManager.h"
 #include "KingSystem/Event/evtMetadata.h"
@@ -16,6 +17,12 @@ bool EatForSunazarashiSPC::init_(sead::Heap* heap) {
 
 void EatForSunazarashiSPC::enter_(ksys::act::ai::InlineParamPack* params) {
     HorseEatAction::enter_(params);
+    auto* link = mTargetActor_d;
+    if (link && mPrevEatActorName_a && link->hasProc()) {
+        ksys::act::ActorConstDataAccess accessor;
+        if (ksys::act::acquireActor(link, &accessor))
+            static_cast<sead::BufferedSafeString*>(mPrevEatActorName_a)->copy(accessor.getName());
+    }
 }
 
 // NON_MATCHING: stack layout only (the original keeps an extra 8-byte local below the CallArg, and shares the Bit

@@ -29,7 +29,7 @@ protected:
     sead::Vector3f* mFallPoint1_d{};
     ksys::act::BaseProcHandle _50;
     f32 _60 = 0.0f;
-    bool _64 = false;
+    s8 _64 = 0;  // 0: waiting for the actor, 1: counting down
     u8 _65[0x3];
 };
 KSYS_CHECK_SIZE_NX150(DemoBeastGanonGrudgeDrop, 0x68);
