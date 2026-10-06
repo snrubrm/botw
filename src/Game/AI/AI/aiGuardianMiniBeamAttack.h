@@ -26,8 +26,10 @@ public:
     virtual bool m46(sead::Vector3f* out);
 
 protected:
-    // 0x710041760c (declaration only, 500 B; placeholder name): looks up the head node of the model.
+    // 0x710041760c (500 B; placeholder name): sub_710041740C towards `_2b8`. 0x710041740c: whether the direction from
+    // the head node of the model to `target` (XZ) is within `mInDirAngle_s` of its forward direction.
     bool sub_710041760C();
+    bool sub_710041740C(const sead::Vector3f& target);
 
     // static_param at offset 0x250
     sead::SafeString mHeadNodeName_s{};

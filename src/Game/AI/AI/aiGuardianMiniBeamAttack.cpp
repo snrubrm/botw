@@ -1,4 +1,8 @@
 #include "Game/AI/AI/aiGuardianMiniBeamAttack.h"
+#include <gsys/gsysModel.h>
+#include <gsys/gsysModelAccessKey.h>
+#include <gsys/gsysModelUnit.h>
+#include <math/seadMathCalcCommon.h>
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
@@ -9,6 +13,67 @@
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectGuardianMini.h"
 
 namespace uking::ai {
+
+// NON_MATCHING: float register numbering of the four loads of the direction to the target (the original uses s0 / s2 and
+// s1 / s3 for the two component pairs); same operations
+bool GuardianMiniBeamAttack::sub_710041740C(const sead::Vector3f& target) {
+    auto* actor = mActor;
+    if (actor) {
+        if (auto* model = actor->getModel()) {
+            const auto key = model->searchBone(mHeadNodeName_s.cstr());
+            if (key.isValid()) {
+                sead::Matrix34f mtx;
+                actor->getModel()
+                    ->getUnits()
+                    .unsafeAt(key.model_unit_index)
+                    ->mModelUnit->getBoneWorldMatrix(&mtx, key.bone_index);
+                sead::Vector3f dir;
+                mtx.getBase(dir, 2);
+                dir.y = 0.0f;
+                dir.normalize();
+                sead::Vector3f to_target;
+                to_target.x = target.x - actor->getMtx().m[0][3];
+                to_target.y = 0.0f;
+                to_target.z = target.z - actor->getMtx().m[2][3];
+                to_target.normalize();
+                const f32 dot = sead::Mathf::clamp(dir.dot(to_target), -1.0f, 1.0f);
+                const f32 angle = sead::Mathf::acos(dot);
+                return angle >= -*mInDirAngle_s && angle <= *mInDirAngle_s;
+            }
+        }
+    }
+    return false;
+}
+
+// NON_MATCHING: same as sub_710041740C (the original has this copy with `_2b8` inlined)
+bool GuardianMiniBeamAttack::sub_710041760C() {
+    auto* actor = mActor;
+    if (actor) {
+        if (auto* model = actor->getModel()) {
+            const auto key = model->searchBone(mHeadNodeName_s.cstr());
+            if (key.isValid()) {
+                sead::Matrix34f mtx;
+                actor->getModel()
+                    ->getUnits()
+                    .unsafeAt(key.model_unit_index)
+                    ->mModelUnit->getBoneWorldMatrix(&mtx, key.bone_index);
+                sead::Vector3f dir;
+                mtx.getBase(dir, 2);
+                dir.y = 0.0f;
+                dir.normalize();
+                sead::Vector3f to_target;
+                to_target.x = _2b8.x - actor->getMtx().m[0][3];
+                to_target.y = 0.0f;
+                to_target.z = _2b8.z - actor->getMtx().m[2][3];
+                to_target.normalize();
+                const f32 dot = sead::Mathf::clamp(dir.dot(to_target), -1.0f, 1.0f);
+                const f32 angle = sead::Mathf::acos(dot);
+                return angle >= -*mInDirAngle_s && angle <= *mInDirAngle_s;
+            }
+        }
+    }
+    return false;
+}
 
 GuardianMiniBeamAttack::GuardianMiniBeamAttack(const InitArg& arg) : MiniBeamAttack(arg) {}
 
