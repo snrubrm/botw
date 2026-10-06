@@ -9,7 +9,6 @@ DogNormal::DogNormal(const InitArg& arg) : DomesticNormal(arg) {}
 
 DogNormal::~DogNormal() = default;
 
-// NON_MATCHING: the original copies the translation as 8+4 bytes in x, z order
 bool DogNormal::init_(sead::Heap* heap) {
     if (!DomesticNormal::init_(heap))
         return false;
@@ -34,7 +33,8 @@ bool DogNormal::init_(sead::Heap* heap) {
         return true;
 
     _464.setBit(Flag(Flag::_0));
-    _44c.set(target->getTranslate());
+    const sead::Vector3f translate = target->getTranslate();
+    _44c = translate;
     _458 = target->getRotate().y;
     return true;
 }

@@ -10,11 +10,11 @@ DungeonResetPosTag::DungeonResetPosTag(const InitArg& arg) : ksys::act::ai::Ai(a
 
 DungeonResetPosTag::~DungeonResetPosTag() = default;
 
-// NON_MATCHING: translation snapshot loads and stores are combined differently.
 bool DungeonResetPosTag::init_(sead::Heap* heap) {
     auto* actor = mActor;
     if (!actor->hasPlacementLinkForBasicSig()) {
-        const sead::Vector3f position = actor->getMtx().getTranslation();
+        sead::Vector3f position;
+        actor->getMtx().getTranslation(position);
         f32 yaw = 0.0f;
         if (auto* object = actor->getMapObject())
             yaw = sead::Mathf::rad2deg(object->getRotate().y);
