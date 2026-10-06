@@ -1,5 +1,8 @@
 #include "Game/AI/Action/actionSwitchElectricOn.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actChemical.h"
+#include "KingSystem/System/VFR.h"
 
 namespace uking::action {
 
@@ -29,7 +32,20 @@ void SwitchElectricOn::loadParams_() {
 }
 
 void SwitchElectricOn::calc_() {
-    ksys::act::ai::Action::calc_();
+    auto* actor = mActor;
+    f32 value = 0;
+    if (auto* chemical = actor->getChemicalStuff()) {
+        const f32 energy = chemical->sub_7100D945BC(*mElecReq_s, *mVolReq_s,
+                                                    ksys::VFR::instance()->getDeltaFrame());
+        if (energy <= *mMinEnergyRate_s)
+            mFlags.set(Flag::Changeable);
+        value = chemical->_1b4 / (*mTargetVol_s / chemical->_58);
+    }
+    if (*mUseSklAnm_s) {
+        const f32 rate = actor->getASList()->x_5(1, 0, &ksys::as::ASList::Unk2::sub_710116323C);
+        value = sead::Mathf::clamp(value * rate, 0.0f, rate);
+        actor->getASList()->x_3(1, 0, &ksys::as::ASList::Unk2::sub_7101163298, value);
+    }
 }
 
 }  // namespace uking::action

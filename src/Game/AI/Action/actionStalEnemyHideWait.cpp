@@ -17,6 +17,19 @@ bool StalEnemyHideWait::init_(sead::Heap* heap) {
 
 void StalEnemyHideWait::enter_(ksys::act::ai::InlineParamPack* params) {
     ActionWithPosAngReduce::enter_(params);
+    auto* actor = mActor;
+    auto* controller = actor->getCharacterController();
+    ksys::act::disableAllAttClients(actor);
+    if (controller) {
+        controller->mFlags.set(0x400);
+        controller->sub_7100F636B0(false);
+        controller->enableContactLayer(ksys::phys::ContactLayer::EntityNPC);
+        controller->sub_7100F62BB0();
+    }
+    playAS(mASName_s.cstr(), true, 0, 0, -1.0f);
+    if (auto* dynamic_actor = sead::DynamicCast<ksys::act::DynamicActor>(mActor))
+        dynamic_actor->_a68 &= ~1;
+    mFlags.set(Flag::Changeable);
 }
 
 void StalEnemyHideWait::leave_() {

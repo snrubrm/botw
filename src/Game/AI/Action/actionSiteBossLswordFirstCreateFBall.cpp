@@ -1,4 +1,8 @@
 #include "Game/AI/Action/actionSiteBossLswordFirstCreateFBall.h"
+#include <math/seadMathCalcCommon.h>
+#include "Game/Actor/actSiteBoss.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -31,7 +35,25 @@ void SiteBossLswordFirstCreateFBall::loadParams_() {
 }
 
 void SiteBossLswordFirstCreateFBall::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (auto* boss = sead::DynamicCast<act::SiteBoss>(mActor)) {
+        bool all_bound = true;
+        for (u32 i = 0; i < u32(*mParams.mCreateNum_s); ++i) {
+            if (!(boss->_1560._9c & (1u << i))) {
+                all_bound = false;
+                break;
+            }
+        }
+        if (all_bound)
+            _70 = true;
+    }
+    if (_70) {
+        if (!mActor->getASList()->x(22, nullptr, 0, 0, &ksys::as::ASList::Unk2::sub_71011638DC,
+                                    true))
+            setFinished();
+    }
+    _74.update();
+    if (_74.value <= sead::Mathf::epsilon())
+        setFinished();
 }
 
 }  // namespace uking::action

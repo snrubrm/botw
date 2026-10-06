@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::action {
 
@@ -39,9 +40,7 @@ protected:
     Params mParams;
     bool _70 = false;
     u8 _71[0x3];
-    f32 _74 = 0.0f;
-    f32 _78 = 0.0f;
-    f32 _7c = 0.0f;
+    ksys::Timer _74;
 };
 KSYS_CHECK_SIZE_NX150(SiteBossLswordFirstCreateFBall, 0x80);
 
