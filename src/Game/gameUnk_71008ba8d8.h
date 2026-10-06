@@ -41,3 +41,9 @@ bool callDemo616_0(ksys::act::Actor* player, const sead::SafeString& a, const se
 bool callPlayerGameOverDemo(ksys::act::Actor* player);
 
 }  // namespace uking
+
+// Global-namespace event state checks of the same TU (lane2 s45, declared only; placeholder names except the CSV one).
+bool sub_71008BB600();
+bool sub_71008BB804();
+bool sub_71008BB830();
+bool someEventMgrCheck();

@@ -661,43 +661,6 @@ void sub_7100A9ED78(const char* from, const char* to, ksys::act::Actor* actor) {
         mgr->setPlayerTrackReporter28();
 }
 
-// NON_MATCHING: the original indexes two global 5-entry string tables (0x249d6c0 maps, 0x249d6f0 exits; not declared here)
-// and handles state 5 separately; ours switches over constants
-// 0x7100a9ee24 (CSV ui::doRequestExitFromMap)
-void doRequestExitFromMap(ksys::act::Actor* actor) {
-    const char* from = nullptr;
-    const char* to = nullptr;
-    if (auto* manager = Manager::instance()) {
-        switch (u32(manager->_64c38)) {
-        case 0:
-            from = "MainField/B-2";
-            to = "RemainsWind_Escape";
-            break;
-        case 1:
-            from = "MainField/H-2";
-            to = "RemainsFire_Escape";
-            break;
-        case 2:
-            from = "MainField/I-4";
-            to = "RemainsWater_Escape";
-            break;
-        case 3:
-            from = "MainField/B-8";
-            to = "RemainsElectric_Escape";
-            break;
-        case 4:
-            from = "MainField/D-6";
-            to = "FinalTrial_Escape";
-            break;
-        case 5:
-            from = "MainField/E-4";
-            to = "HyruleCastleExit";
-            break;
-        }
-    }
-    sub_7100A9ED78(from, to, actor);
-}
-
 }  // namespace uking::ui
 
 namespace uking::ai {

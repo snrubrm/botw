@@ -1,3 +1,4 @@
+#include "Game/gameUnk_71008ba8d8.h"
 #include "Game/UI/uiManager.h"
 #include "Game/UI/uiUtils.h"
 #include "KingSystem/ActorSystem/actActor.h"
@@ -131,6 +132,11 @@ bool sub_7100AA8E9C() {
     if (!uiManagerInitialised())
         return false;
     return (Manager::instance()->_64c30 & 0x400000) != 0;
+}
+
+// 0x7100aa8edc (placeholder name)
+bool sub_7100AA8EDC() {
+    return sub_71008BB804() || sub_71008BB600() || sub_71008BB830() || someEventMgrCheck();
 }
 
 // 0x7100aa8f30 / 0x7100aa8f50 (placeholder names): bit 13 / bit 18 of the Manager's flag word.

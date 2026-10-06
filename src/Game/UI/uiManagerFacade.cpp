@@ -19,6 +19,8 @@ namespace uking::ui {
 ksys::act::Actor* getPlayerActor(ksys::act::Actor* actor);
 
 void sub_7100945320(f32, f32);
+// 0x7100a9ed78 (uiMiscFacade.cpp)
+void sub_7100A9ED78(const char* from, const char* to, ksys::act::Actor* actor);
 // 0x7100a9c374 (declared only)
 void sub_7100A9C374(s32 rune);
 void sub_7100945344(f32, f32);
@@ -65,6 +67,12 @@ const char* sub_7100A9EEF4() {
     if (u32(state) < 5)
         return sNames[state];
     return state == 5 ? "HyruleCastleExit" : nullptr;
+}
+
+// NON_MATCHING: same range test as sub_7100A9EEA4 (`cmp w9, #5; b.hs` in the original, `cmp #4; b.hi` here); nothing else differs
+// 0x7100a9ee24 (CSV ui::doRequestExitFromMap): the two name functions above are inlined here in the original
+void doRequestExitFromMap(ksys::act::Actor* actor) {
+    sub_7100A9ED78(sub_7100A9EEA4(), sub_7100A9EEF4(), actor);
 }
 
 // 0x7100aa4a2c (placeholder name): table lookup, -1 when out of range.
