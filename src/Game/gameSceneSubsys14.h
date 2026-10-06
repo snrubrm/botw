@@ -26,6 +26,7 @@ public:
     bool sub_7100904F28() const;
     bool sub_7100904F34() const;
     bool sub_7100904F40() const;
+    bool sub_7100904F4C() const;
     bool sub_7100904F68() const;
 
     u8 _28[0x168 - 0x28];

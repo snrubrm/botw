@@ -36,6 +36,10 @@ bool GameSceneSubsys14::sub_7100904F40() const {
     return _16c >> 6 & 1;
 }
 
+bool GameSceneSubsys14::sub_7100904F4C() const {
+    return (_16c >> 7 & 1) || (_168 & 1);
+}
+
 bool GameSceneSubsys14::sub_7100904F68() const {
     return _16c >> 8 & 1;
 }

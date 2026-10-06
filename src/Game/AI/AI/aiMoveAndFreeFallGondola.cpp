@@ -35,6 +35,15 @@ void MoveAndFreeFallGondola::calc_() {
     }
 }
 
+void MoveAndFreeFallGondola::sub_71004AFD30(ksys::act::BaseProc* proc) {
+    _b0.acquire(proc, false);
+}
+
+void MoveAndFreeFallGondola::sub_71004AFD3C(ksys::map::Rail* rail) {
+    _f0 = rail;
+    _f8 = *mGondolaRailOffsetTime_m;
+}
+
 void MoveAndFreeFallGondola::m34() {}
 
 ksys::map::Rail* MoveAndFreeFallGondola::m36() {

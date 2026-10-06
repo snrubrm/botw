@@ -27,6 +27,11 @@ public:
     // the message's sender is the linked actor `_b0` (and not this actor), forwards the message.
     void sub_71004AF894(const ksys::Message* message);
 
+    // 0x71004afd30 / 0x71004afd3c (placeholder names; called by DgnObjDlcGondolaCreateTag::calc_): links the actor `_b0`,
+    // sets the rail and copies the GondolaRailOffsetTime parameter.
+    void sub_71004AFD30(ksys::act::BaseProc* proc);
+    void sub_71004AFD3C(ksys::map::Rail* rail);
+
 protected:
     // map_unit_param at offset 0xa0
     const float* mRailMoveSpeed_m{};
@@ -35,7 +40,7 @@ protected:
     ksys::act::BaseProcLink _b0;
     Unk_71023e7bc0 _c0{mActor, 0x8000041};
     ksys::map::Rail* _f0 = nullptr;
-    u32 _f8 = 0;
+    f32 _f8 = 0;
 };
 KSYS_CHECK_SIZE_NX150(MoveAndFreeFallGondola, 0x100);
 
