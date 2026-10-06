@@ -274,6 +274,8 @@ public:
     // 0x710115ca28 (declaration only): called on the Swarm animation lists.
     void sub_710115CA28();
     f32 sub_710115CAFC(const sead::SafeString& bone_name);
+    // 0x710115cbac (CSV name ASList::x_0; declared only, lane5 s6; 352 B): takes the key of one bone (two s16 indices).
+    void x_0(const gsys::BoneAccessKey* key);
     bool sub_710115F0BC(int slot, int bank, f32 value);
     void sub_710115F10C(int slot, int bank);
     void sub_710115F6F4(int key, int slot, int bank, f32 value);

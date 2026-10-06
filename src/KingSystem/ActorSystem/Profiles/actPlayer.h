@@ -590,7 +590,7 @@ public:
     /* 0x19e8 */ u8 _19e8[0x19f0 - 0x19e8];
     /* 0x19f0 */ sead::SafeArray<gsys::BoneAccessKey, 0x4a> _19f0;
     /* 0x1b18 */ sead::Matrix34f _1b18;
-    /* 0x1b48 */ u8 _1b48[0x1b6c - 0x1b48];
+    /* 0x1b48 */ sead::Matrix33f _1b48;
     /* 0x1b6c */ sead::Matrix33f _1b6c;  // rotation around the x_5() angle (PlayerSwimMove::enter_)
     /* 0x1b90 */ void* _1b90;
     /* 0x1b98 */ u8 _1b98[0x1c68 - 0x1b98];
