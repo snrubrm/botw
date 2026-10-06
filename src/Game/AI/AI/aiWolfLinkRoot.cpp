@@ -207,4 +207,23 @@ void WolfLinkRoot::sub_710060B700() {
     changeChild("通常行動", &params);
 }
 
+// 0x710060b8d8
+void Unk_7102432d40::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
+                          dmg::DamageCallbackInfo* a6) {
+    if (*a5 == -1)
+        return;
+    auto* manager = sead::DynamicCast<dmg::DamageManagerBase>(mDamageManager);
+    if (!manager)
+        return;
+    if (!manager->getAttacker()->hasProc())
+        return;
+    if (*a5 != 6)
+        return;
+    *a1 = 0;
+    *a5 = -1;
+    auto* info = sead::DynamicCast<dmg::DamageCallbackInfo>(a6);
+    if (info)
+        info->mFlags = 0;
+}
+
 }  // namespace uking::ai

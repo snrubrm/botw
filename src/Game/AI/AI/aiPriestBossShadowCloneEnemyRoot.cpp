@@ -1,6 +1,7 @@
 #include "Game/AI/AI/aiPriestBossShadowCloneEnemyRoot.h"
 #include "Game/Actor/actUnk_71025ae680.h"
 #include "Game/AI/aiUnk_7102450fa8.h"
+#include "Game/Damage/dmgDamageManager.h"
 #include "Game/Damage/dmgDamageManagerBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
@@ -69,6 +70,30 @@ void PriestBossShadowCloneEnemyRoot::sub_710052D6E8() {
 
 bool PriestBossShadowCloneEnemyRoot::m45() {
     return m35();
+}
+
+// 0x710052d3d4
+// NON_MATCHING: the original compares the name with the literal without the SafeString assure-termination
+// virtual calls (a plain loop starting with the first character of the literal, `ldr x9, [name, #8]`)
+void Unk_7102415ae8::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
+                          dmg::DamageCallbackInfo* a6) {
+    if (*a4 != 6)
+        return;
+    auto* manager = sead::DynamicCast<dmg::DamageManager>(mDamageManager);
+    if (!manager)
+        return;
+    if (!manager->mActor->getActorFlags2().isOn(ksys::act::Actor::ActorFlag2::_40))
+        return;
+    ksys::act::ActorConstDataAccess accessor;
+    if (!ksys::act::acquireActor(manager->getAttacker(), &accessor))
+        return;
+    if (accessor.getName() == "Priest_Boss_ShadowClone") {
+        *a1 = 0;
+        *a2 = 0;
+        *a3 = 0;
+        *a4 = -1;
+        *a5 = -1;
+    }
 }
 
 }  // namespace uking::ai
