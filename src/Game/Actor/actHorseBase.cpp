@@ -17,6 +17,53 @@
 
 namespace uking::act {
 
+// NON_MATCHING: the select of the first free slot is inverted (csel operands) and the last slot is handled separately in
+// the original
+bool HorseBase::sub_7100E6C12C(s32 id) {
+    if (auto* registry = _b68) {
+        auto lock = sead::makeScopedLock(registry->_0);
+        s32 free_idx = 10;
+        for (s32 i = 0; i < 10; ++i) {
+            if (registry->_40[i] == id)
+                return false;
+            s32 next = registry->_40[i] == -1 ? i : 10;
+            if (free_idx != 10)
+                next = free_idx;
+            free_idx = next;
+        }
+        if (free_idx == 10)
+            return false;
+        registry->_40[free_idx] = id;
+        return true;
+    }
+    if (_b30.hasProcById(this))
+        return true;
+    ksys::act::ActorConstDataAccess accessor;
+    if (!ksys::act::acquireActor(&_b30, &accessor))
+        return true;
+    return sub_7100E6C360(accessor, id);
+}
+
+void HorseBase::sub_7100E6C464(s32 id) {
+    if (id == -1)
+        return;
+    if (auto* registry = _b68) {
+        auto lock = sead::makeScopedLock(registry->_0);
+        for (s32 i = 0; i < 10; ++i) {
+            if (registry->_40[i] == id) {
+                registry->_40[i] = -1;
+                break;
+            }
+        }
+        return;
+    }
+    if (!_b30.hasProcById(this)) {
+        ksys::act::ActorConstDataAccess accessor;
+        if (ksys::act::acquireActor(&_b30, &accessor))
+            sub_7100E6C5A4(accessor, id);
+    }
+}
+
 void HorseBase::onEnterSleep_() {
     Actor::onEnterSleep_();
     {

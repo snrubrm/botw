@@ -144,6 +144,14 @@ public:
     bool sub_7100E6C094(bool on);
     bool sub_7100E6C0E0(bool on);
 
+    // Placeholder name (HorseBase::_b68): a critical section and ten ids (-1 = free) registered by
+    // sub_7100E6C12C / removed by sub_7100E6C464 (shared with the parent horse through `_b30`).
+    struct Unk_b68 {
+        sead::CriticalSection _0;
+        s32 _40[10];
+    };
+    static_assert(sizeof(Unk_b68) >= 0x68);
+
     // Zero-initialised as a whole (memset) by the ctor.
     struct Unk1 {
         /* 0x000 */ ksys::act::BaseProcHandle _0;
@@ -179,7 +187,7 @@ public:
     /* 0xb40 */ ksys::map::Rail* _b40 = nullptr;  // the rail of the horse (HorseLoopTargetAndWaitAI::m34)
     /* 0xb48 */ void* _b48 = nullptr;
     /* 0xb50 */ ksys::MesTransceiverId _b50;
-    /* 0xb68 */ void* _b68 = nullptr;
+    /* 0xb68 */ Unk_b68* _b68 = nullptr;
     /* 0xb70 */ sead::Atomic<u32> _b70 = 0;  // flags (m109)
     /* 0xb74 */ sead::BitFlag16 _b74;  // flags
     /* 0xb78 */ s32 _b78 = -1;
