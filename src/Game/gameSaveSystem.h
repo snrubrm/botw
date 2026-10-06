@@ -25,7 +25,12 @@ public:
     // 0x71009146f8 (CSV SaveSystem::setRetryData; declaration only)
     bool setRetryData();
 
-    u8 _28[0x1a50 - 0x28];
+    u8 _28[0x30 - 0x28];
+    s32 _30;
+    u8 _34[0x3c - 0x34];
+    // The save state (read by GameScene::sub_71007B1C64, isFinishedSavingMaybe).
+    u32 _3c;
+    u8 _40[0x1a50 - 0x40];
     // bit 2 (4): auto saving paused (cleared by DisableAutoSavePausing); bit 11 (0x800) is tested by calc
     u16 _1a50;
 };

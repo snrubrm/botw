@@ -64,8 +64,26 @@ bool EnemyCutRope::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
 }
 
+// NON_MATCHING: the original loads `mActor` (x0) before `*mCutDist_s` for the weapon distance call (same as sub_7100386374)
 void EnemyCutRope::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _68 = 3;
+    if (sub_7100386374()) {
+        changeToCut();
+        return;
+    }
+    auto* actor = mActor;
+    sead::Vector3f target;
+    {
+        ksys::act::acc::RopeBase rope;
+        ksys::act::acquireActor(mTargetActor_d, &rope);
+        target = rope.sub_7100ED8440(!*mCutFlyAttack_s ? 1.0f : 0.7f);
+    }
+    const sead::Vector3f pos(actor->getMtx().m[0][3], actor->getMtx().m[1][3], actor->getMtx().m[2][3]);
+    const f32 dist = (pos - target).length();
+    if (dist < *mCutDist_s + sub_71007320F0(mActor, *mWeaponIdx_s))
+        changeToRotate();
+    else
+        changeToApproach();
 }
 
 void EnemyCutRope::leave_() {

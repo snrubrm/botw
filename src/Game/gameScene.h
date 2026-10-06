@@ -64,6 +64,13 @@ public:
     // 0x71007aefac: source namespace and static spelling follow the CSV owner and callers.
     static void resetStage(s32 mode, bool flag);
 
+    // 0x71007b1c64 (placeholder name; called by genStage / doGenStageStep6): stores the stage-gen save position, its angle
+    // and the current map type / name in the PlayerSavePos flags (unless this is a debug or dev map or the save system is
+    // in one of the states 10-13).
+    static void sub_71007B1C64();
+    // 0x71007aef94 (placeholder name; RestartStageFromGameOver::enter_): `resetStage(SaveSystem::instance()->_30, true)`.
+    static void sub_71007AEF94();
+
     /// Get the current map type (e.g. MainFieldDungeon)
     static const sead::SafeString& getCurrentMapType();
 

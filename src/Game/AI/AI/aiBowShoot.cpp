@@ -9,6 +9,14 @@ void sub_7100A94AA8(bool value);
 
 namespace uking::ai {
 
+bool BowShoot::sub_710033C888() {
+    for (s32 i = 0; i < 20; ++i) {
+        if (!mHandles[i].hasProcCreationFailed())
+            return false;
+    }
+    return true;
+}
+
 BowShoot::BowShoot(const InitArg& arg) : ksys::act::ai::Ai(arg), mHandles() {}
 
 BowShoot::~BowShoot() {

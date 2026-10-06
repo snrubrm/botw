@@ -1,6 +1,7 @@
 #include "Game/gameScene.h"
 #include "Game/gameSceneStateMachine.h"
 #include "Game/gamePlayerResetPosMgr.h"
+#include "Game/gameStageInfo.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/System/StageInfo.h"
 
@@ -228,6 +229,14 @@ const sead::SafeString& GameScene::getCurrentMapType() {
 
 const sead::SafeString& GameScene::getCurrentMapName() {
     return ksys::StageInfo::getCurrentMapName();
+}
+
+const sead::Vector3f& StageInfo::getPSavePosAngleForStageGen() {
+    return sPSavePosAngleForStageGen;
+}
+
+const sead::Vector3f& StageInfo::getPSavePosForStageGen() {
+    return sPSavePosForStageGen;
 }
 
 bool GameScene::ret0() {

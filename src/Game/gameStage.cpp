@@ -1,5 +1,9 @@
 #include "Game/gameStage.h"
+#include "Game/gameSaveSystem.h"
 #include "Game/gameScene.h"
+#include "Game/gameStageInfo.h"
+#include "KingSystem/GameData/gdtCommonFlagsUtils.h"
+#include "KingSystem/System/StageInfo.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/World/worldManager.h"
 #include "KingSystem/World/worldEnvMgr.h"
@@ -50,6 +54,22 @@ bool GameScene::hasLoadingScreenStarted() {
     if (sInstance3)
         return sInstance3->_6e6;
     return false;
+}
+
+void GameScene::sub_71007AEF94() {
+    resetStage(SaveSystem::instance()->_30, true);
+}
+
+void GameScene::sub_71007B1C64() {
+    auto* save_system = SaveSystem::instance();
+    if (!save_system || ksys::StageInfo::sIsDebugOrDevMap)
+        return;
+    if (u32(save_system->_3c - 10) < 4)
+        return;
+    ksys::gdt::setFlag_PlayerSavePos(StageInfo::getPSavePosForStageGen(), false);
+    ksys::gdt::setFlag_PlayerSavePosAngleYDegree(StageInfo::getPSavePosAngleForStageGen().y, false);
+    ksys::gdt::setFlag_PlayerSavePosMapType(getCurrentMapType().cstr(), false);
+    ksys::gdt::setFlag_PlayerSavePosMapName(getCurrentMapName().cstr(), false);
 }
 
 void recoverLifeAndStamina() {
