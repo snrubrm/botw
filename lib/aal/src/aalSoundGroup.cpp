@@ -69,16 +69,16 @@ bool SoundGroup::addSound(SoundSource* sound_source) {
     if (!(sound_source->mSpatialSetting.isUnified() || sound_source->mState > 2 || sound_source->isLooped())) {
         if (!mLimiter->limitRequestInterval(sound_source))
             return false;
+        bool added;
+        {
+            sead::ScopedLock<sead::CriticalSection> lock(&mCS);
+            added = mLimiter->addToActiveSoundLimitList(sound_source);
+        }
+        if (added)
+            return true;
     }
-    bool added;
-    {
-        sead::ScopedLock<sead::CriticalSection> lock(&mCS);
-        added = mLimiter->addToActiveSoundLimitList(sound_source);
-    }
-    if (!added) {
-        sead::ScopedLock<sead::CriticalSection> lock(&mCS);
-        mPlayingSoundSources.pushBack(sound_source);
-    }
+    sead::ScopedLock<sead::CriticalSection> lock(&mCS);
+    mPlayingSoundSources.pushBack(sound_source);
     return true;
 }
 
