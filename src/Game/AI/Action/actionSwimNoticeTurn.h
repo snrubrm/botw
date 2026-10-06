@@ -18,6 +18,9 @@ public:
 protected:
     void calc_() override;
 
+    // 0x710028afe0 (declared only; 596 B; shared by enter_ and calc_).
+    void sub_710028AFE0(ksys::act::Actor* actor, f32 value);
+
     // static_param at offset 0x60
     const float* mAngSpd_s{};
     // static_param at offset 0x68
