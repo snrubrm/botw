@@ -2249,7 +2249,8 @@ public:
 class ScreenOPtext : public ScreenEx {
 public:
     const char* getLayoutName_() const override;
-    virtual void m154();  // placeholder: one extra virtual slot (vtable offsets +8)
+    // 0x7100a28688: the first animator's frame of the text index 0..2 (0 / 1 / 2)
+    virtual void m154(s32 index);
     ScreenOPtext();
     ~ScreenOPtext() override;
     void m93(sead::Heap* heap) override;

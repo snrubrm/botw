@@ -39,6 +39,16 @@ bool ScreenAppTool::sub_71009FD674() {
     return mStateMachine.getState()->getId() == (&sUnk_71025ec670)->getId();
 }
 
+// 0x7100a28688
+void ScreenOPtext::m154(s32 index) {
+    static const f32 frames[3] = {0.0f, 1.0f, 2.0f};
+    if (static_cast<u32>(index) > 2 || !_3610)
+        return;
+    const f32 frame = frames[index];
+    _3618 = frame;
+    _3610->Stop(frame);
+}
+
 // 0x7100a4ac24 / 0x7100a4ac40
 void ScreenShopBG::m98() {
     Graphics::instance()->sub_7100F35FA4(true, false);
