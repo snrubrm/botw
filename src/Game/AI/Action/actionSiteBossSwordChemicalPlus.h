@@ -18,7 +18,9 @@ public:
 
 protected:
     void calc_() override;
-    u16 _30 = 0;
+    bool _30 = false;
+    u8 _31 = 0;
+    void sub_7100268FCC();
     bool _32 = false;
 };
 
