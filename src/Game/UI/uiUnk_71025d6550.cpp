@@ -188,4 +188,17 @@ bool Unk_71025d6550::sub_7100948DB0() {
     return _b58[0] != *value;
 }
 
+// 0x710094852c
+// NON_MATCHING: same unrolled search; for the first entry the original stores the already loaded null pointer (w8) as the
+// index 0 into the shared `_b38` store block, ours materialises the constant in its own block like the other indices
+void Unk_71025d6550::sub_710094852C() {
+    for (s32 i = 0; i < 10; ++i) {
+        if (!_e8[0][i]._50) {
+            _b38 = i;
+            return;
+        }
+    }
+    _b38 = 10;
+}
+
 }  // namespace uking::ui
