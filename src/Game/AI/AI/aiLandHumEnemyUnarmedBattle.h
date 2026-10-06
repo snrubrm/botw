@@ -20,6 +20,12 @@ public:
 
     void m36() override {}
 
+    // 0x71004703e8 (placeholder name): tells the actor of _118 that we let go (0x80000c3), unlinks it from the Enemy
+    // and resets _118.
+    void sub_71004703E8();
+    // 0x7100470ed4 (placeholder name): true if `link` is already handled or its actor is within the reach distance.
+    bool sub_7100470ED4(ksys::act::BaseProcLink& link) const;
+
 protected:
     struct Params {
         // static_param at offset 0x68

@@ -1,5 +1,6 @@
 #include "Game/AI/AI/aiLandHumEnemyUnarmedBattle.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/AI/aiUnk_71007368A4.h"
 #include "Game/AI/aiUnk_7100724C64.h"
 #include "Game/Actor/actEnemy.h"
 #include "Game/Actor/actWeapon.h"
@@ -38,6 +39,31 @@ void LandHumEnemyUnarmedBattle::leave_() {
         sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x80000c3), mActor);
     }
     _150.clear();
+}
+
+void LandHumEnemyUnarmedBattle::sub_71004703E8() {
+    if (_118.hasProc()) {
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::acquireActor(&_118, &accessor);
+        sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x80000c3), mActor);
+    }
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor))
+        enemy->sub_7100019D38(_118);
+    _118.reset();
+}
+
+bool LandHumEnemyUnarmedBattle::sub_7100470ED4(ksys::act::BaseProcLink& link) const {
+    auto* actor = mActor;
+    if (sub_7100739030(actor, link))
+        return true;
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(&link, &accessor);
+    sead::Vector3f pos;
+    accessor.getActorMtx().getTranslation(pos);
+    sead::Vector3f self;
+    actor->getMtx().getTranslation(self);
+    const f32 reach = getReachDistanceMaybe();
+    return (pos - self).squaredLength() < reach * reach;
 }
 
 void LandHumEnemyUnarmedBattle::loadParams_() {
