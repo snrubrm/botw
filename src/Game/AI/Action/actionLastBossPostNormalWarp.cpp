@@ -86,8 +86,4 @@ bool LastBossPostNormalWarp::isFailed() const {
     return false;
 }
 
-void LastBossPostNormalWarp::m33(f32 a1, ksys::act::Actor* actor, bool a3) {
-    sub_71002C67E8(a1, actor, a3);
-}
-
 }  // namespace uking::action

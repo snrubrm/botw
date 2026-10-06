@@ -41,8 +41,6 @@ protected:
     sead::Vector3f sub_71000B7980();
     // 0x71000b7f94: messages 0x3000011 to the rope actor unless the actor is held or its LOD flag is set.
     void sub_71000B7F94();
-    // 0x71000b7980: the chemical's wind vector (zero without chemicals or while flag 24 is set), as in m33.
-    sead::Vector3f sub_71000B7980();
     // 0x71000b89dc: whether the actor is at or above the (remains) height limit.
     bool sub_71000B89DC() const;
     ksys::act::BaseProcLink _20;

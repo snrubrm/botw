@@ -49,8 +49,4 @@ void LastBossPreNormalWarp::m33() {
         client->disable();
 }
 
-void LastBossPreNormalWarp::m34(f32 a1, ksys::act::Actor* actor, bool a3) {
-    sub_71002C67E8(a1, actor, a3);
-}
-
 }  // namespace uking::action

@@ -201,9 +201,6 @@ public:
     // 0x7100016284 / 0x71000161a4 (declaration only, lane1 s39; placeholder names): queries on the weapon slot
     // `idx` (the second calls the first and checks the held weapon).
     bool sub_7100016284(s32 idx);
-    // 0x7100016494 (lane3 s36; declaration only; 216 B): counts one more arrow shot (+0x11a0, capped by the
-    // enemy's arrow-shoot-number-for-delete from its info data) when the actor asks for it (vtable slot 165).
-    void sub_7100016494();
     bool sub_71000161A4(s32 idx);
     void sub_7100019C58(ksys::act::Actor* actor);
     void sub_7100019D38(const ksys::act::BaseProcLink& link);

@@ -224,6 +224,9 @@ public:
     // 0x71002ee7e8 (lane1 s41, declaration only; placeholder name): writes the enemy actor link that is both the
     // player's attention target and the weapon's `_b18` (or `_b18` itself) to `out`; false if there is none.
     bool sub_71002EE7E8(ksys::act::BaseProcLink* out);
+    // 0x71002e5ddc (lane3 s36; declared only; 260 B): a direction in the weapon's local space, read from its
+    // main body (RTTI-checked). Placeholder name.
+    void sub_71002E5DDC(sead::Vector3f* out);
     // 0x71002edc64 (CSV Weapon::x_6): `return hasAttackInfo(this)` (a tail call).
     bool x_6();
     // 0x71002e4374: bit7 of _e50, or a type3 weapon with a connected calc child.

@@ -104,13 +104,6 @@ sead::Vector3f BalloonBase::sub_71000B7980() {
 // NON_MATCHING: the original loads _b0 before the vector component (pre-indexed load)
 // NON_MATCHING: the original loads the three components separately (x/y/z addresses computed per branch)
 // where ours uses ldp + ldr.
-sead::Vector3f BalloonBase::sub_71000B7980() {
-    const sead::Vector3f* vec = &sead::Vector3f::zero;
-    if (auto* chemical = mActor->getChemicalStuff())
-        vec = (chemical->_c & 0x1000000) ? &sead::Vector3f::zero : &chemical->_d8;
-    return *vec;
-}
-
 float BalloonBase::m33() {
     const sead::Vector3f* vec = &sead::Vector3f::zero;
     if (auto* chemical = mActor->getChemicalStuff())

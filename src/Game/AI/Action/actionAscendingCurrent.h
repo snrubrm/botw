@@ -42,8 +42,11 @@ protected:
 
     // static_param at offset 0x20
     const float* mWindSpeed_s{};
-    // 0x28: a 0x30-byte member (out-of-line ctor at 0x710f122c) followed by 0x58..0x80 pointer/int pairs
-    u8 _28[0x58];
+    Unk_710250d530 _28;
+    xlink2::HandleELink _58;
+    xlink2::HandleSLink _68;
+    // created in init_ with aal::ShapeCube::create
+    aal::Shape* _78 = nullptr;
 };
 KSYS_CHECK_SIZE_NX150(AscendingCurrent, 0x80);
 
