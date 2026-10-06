@@ -9,6 +9,19 @@ Horse::Horse(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
 Horse::~Horse() = default;
 
+void Horse::sub_7100435180(u64 value) {
+    _48.reset(0x70);
+    _48.set(0x50);
+    _50 = value;
+    _4c = 0;
+    if (auto* rideable = mActor->getHorseOptionsMaybe()) {
+        rideable->sub_7100E8BE10();
+        rideable->Unk_7100e8b2b8::_8 = 0x200;
+    }
+    if (auto* horse = sead::DynamicCast<act::HorseBase>(mActor))
+        horse->sub_7100E6C0E0(true);
+}
+
 void Horse::sub_7100435420() {
     if (_48.isOn(0x30)) {
         mActor->x_3(0.0f);

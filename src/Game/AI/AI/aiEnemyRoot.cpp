@@ -2,6 +2,8 @@
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/AI/aiUnk_71007368A4.h"
 #include "Game/Actor/actEnemy.h"
+#include "Game/Actor/actHorseRideInfo.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
@@ -152,6 +154,15 @@ void EnemyRoot::m42() {
 
 bool EnemyRoot::m35() {
     return sub_71005D6E28(mActor);
+}
+
+void EnemyRoot::changeToRide() {
+    ksys::act::ai::InlineParamPack pack;
+    if (auto* info = mActor->getPlayerRideInfo()) {
+        auto* horse = sead::DynamicCast<ksys::act::Actor>(info->_18.getProc(nullptr, info->mActor));
+        pack.acquireActor(horse, "Horse", -1);
+    }
+    changeChild("騎乗", &pack);
 }
 
 void EnemyRoot::sub_71003B5644() {

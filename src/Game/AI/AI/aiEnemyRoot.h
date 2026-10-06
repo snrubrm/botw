@@ -72,6 +72,8 @@ public:
     // 0x71003b5644: clears *mIsTrgChangeUnderWaterState_a and updates the awareness flag (bit 3 of
     // _318) from IsInHyruleCastleArea.
     void sub_71003B5644();
+    // 0x71003b56a0 (placeholder name)
+    void changeToRide();
 
 protected:
     Unk_7100702370* _38{};
