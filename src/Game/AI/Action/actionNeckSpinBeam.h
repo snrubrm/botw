@@ -19,6 +19,7 @@ public:
 
 protected:
     void calc_() override;
+    bool handleMessage_(const ksys::Message* message) override;
     // inline in the original (emitted out of line in this TU); signature is a guess
     virtual const sead::SafeString& m34() { return mBeamActorName_s; }
     // inline in the original (emitted out of line in this TU); signature is a guess

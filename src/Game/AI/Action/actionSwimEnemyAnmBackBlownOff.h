@@ -19,6 +19,7 @@ public:
 
 protected:
     void calc_() override;
+    void m33() override;
 
     // static_param at offset 0x70
     const float* mRotSpeed_s{};

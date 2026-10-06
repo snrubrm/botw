@@ -1,6 +1,8 @@
 #pragma once
 
+#include <math/seadMatrix.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/System/Timer.h"
 
 namespace ksys::phys {
 class RigidBody;
@@ -36,17 +38,12 @@ protected:
     const float* mFrequency_s{};
     // static_param at offset 0x50
     const float* mIgnoreHitFrame_s{};
-    f32 _58 = 0.0f;
-    u8 _5c[0x4]{};
-    s32 _60 = 0;
-    f32 _64 = 0.0f;
-    u8 _68[0x4]{};
-    s32 _6c = 0;
+    ksys::Timer _58;
+    ksys::Timer _64;
     f32 _70 = 0.0f;
-    u8 _74[0x30];
-    f32 _a4 = 0.0f;
-    f32 _a8 = 0.0f;
-    f32 _ac = 0.0f;
+    sead::Matrix33f _74;
+    sead::Vector3f _98;
+    ksys::Timer _a4;
     ksys::phys::RigidBody* _b0 = nullptr;
 };
 KSYS_CHECK_SIZE_NX150(TornadoMove, 0xb8);

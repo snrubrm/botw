@@ -18,6 +18,7 @@ public:
 
 protected:
     void calc_() override;
+    void m32(sead::Vector3f* out) override;
 };
 
 }  // namespace uking::action

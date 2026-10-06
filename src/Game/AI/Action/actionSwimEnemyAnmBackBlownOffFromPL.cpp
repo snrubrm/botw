@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionSwimEnemyAnmBackBlownOffFromPL.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actPlayerInfo.h"
 
 namespace uking::action {
 
@@ -25,6 +27,16 @@ void SwimEnemyAnmBackBlownOffFromPL::loadParams_() {
 
 void SwimEnemyAnmBackBlownOffFromPL::calc_() {
     SwimEnemyAnmBackBlownOff::calc_();
+}
+
+// NON_MATCHING: same instructions; x / z live in swapped callee-saved registers (s8 / s9) and the normalisation
+// multiplies are scheduled differently
+void SwimEnemyAnmBackBlownOffFromPL::m32(sead::Vector3f* out) {
+    const sead::Vector3f& player = getPlayerPosition();
+    sead::Vector3f dir = mActor->getMtx().getTranslation() - player;
+    dir.y = 0;
+    dir.normalize();
+    *out = dir;
 }
 
 }  // namespace uking::action

@@ -1,5 +1,6 @@
 #include "Game/AI/Action/actionSwimEnemyAnmBackBlownOff.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "Game/AI/aiUnk_71007377D4.h"
 #include "Game/AI/aiUnk_710073fa90.h"
 #include "KingSystem/Utils/MathUtil.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
@@ -45,6 +46,24 @@ void SwimEnemyAnmBackBlownOff::loadParams_() {
 
 void SwimEnemyAnmBackBlownOff::calc_() {
     SwimEnemyAnmBackBlownOffBase::calc_();
+}
+
+// NON_MATCHING: the original keeps `this + 0x9c` in a register (pre-indexed load) and reads _9c.z through it
+void SwimEnemyAnmBackBlownOff::m33() {
+    auto* controller = mActor->getCharacterController();
+    if (!controller)
+        return;
+
+    sub_7100737C0C(controller, *mPosReduceRatio_s, controller->get7c());
+    if (_9c.x == 0.0f && _9c.z == 0.0f) {
+        sub_7100738660(controller, *mRotReduceRatio_s);
+        return;
+    }
+
+    const sead::Vector3f up = -controller->get7c();
+    sub_710073FA94(&_78, mActor);
+    sub_71007407F0(&_78, _9c, up, true, *mRotSpeed_s);
+    sub_7100740E04(_78, controller);
 }
 
 }  // namespace uking::action

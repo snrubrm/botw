@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionTornadoMove.h"
+#include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace uking::action {
@@ -11,8 +12,18 @@ bool TornadoMove::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }
 
+// NON_MATCHING: same stores; the original issues the matrix loads in address order (translation components interleaved)
 void TornadoMove::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    _64 = ksys::Timer(*mDeleteTimer_s, *mDeleteTimer_s);
+    _58 = ksys::Timer(*mIgnoreHitFrame_s, *mIgnoreHitFrame_s);
+    _a4 = ksys::Timer(0.0f, 0.0f, 1.0f);
+    _70 = *mMinAmplitude_s;
+    const sead::Vector3f translation = mActor->getMtx().getTranslation();
+    const sead::Matrix33f rotation(mActor->getMtx());
+    _98 = translation;
+    _74 = rotation;
+    if (auto* body = mActor->getMainBody())
+        body->setGravityFactor(0.0f);
 }
 
 void TornadoMove::leave_() {

@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionNeckSpinBeam.h"
+#include "KingSystem/Utils/Thread/Message.h"
 
 namespace uking::action {
 
@@ -39,6 +40,14 @@ void NeckSpinBeam::loadParams_() {
 void NeckSpinBeam::calc_() {
     NeckSpin::calc_();
     _b8.sub_71006F3A6C();
+}
+
+bool NeckSpinBeam::handleMessage_(const ksys::Message* message) {
+    if (message->getType() == 0x3000003)
+        _b8.sub_71006F3B14(true);
+    else if (message->getType() == 0x3000004)
+        _b8.sub_71006F3A70(true);
+    return false;
 }
 
 }  // namespace uking::action
