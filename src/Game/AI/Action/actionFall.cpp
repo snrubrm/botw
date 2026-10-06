@@ -3,6 +3,7 @@
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "Game/Actor/actEnemy.h"
+#include "Game/AI/aiUnk_71007377D4.h"
 
 namespace uking::action {
 
@@ -11,7 +12,23 @@ Fall::Fall(const InitArg& arg) : ActionEx(arg) {}
 Fall::~Fall() = default;
 
 void Fall::enter_(ksys::act::ai::InlineParamPack* params) {
-    ActionEx::enter_(params);
+    if (!mASName_s.isEmpty())
+        playAS(mASName_s.cstr(), false, 0, 0, -1.0f);
+
+    auto* actor = mActor;
+    _44.value = actor->getAngVelocity();
+    _44.prev_value = actor->getAngVelocity();
+    _68 = actor->getVelocity();
+    _68.y = 0.0f;
+    const f32 length = _68.length();
+    if (length > 0.0f)
+        _68 *= 1.0f / length;
+    _38.value = length;
+    _38.prev_value = length;
+    if (auto* controller = mActor->getCharacterController())
+        sub_710072C1B4(controller, _68);
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor))
+        enemy->_e84.set(0x40000);
 }
 
 void Fall::leave_() {

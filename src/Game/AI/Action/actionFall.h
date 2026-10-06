@@ -27,7 +27,8 @@ protected:
     sead::SafeString mASName_s{};
     ksys::VFRValue _38;
     ksys::VFRVec3f _44;
-    u8 _68[0x10];
+    sead::Vector3f _68;
+    u8 _74[0x4];
 };
 KSYS_CHECK_SIZE_NX150(Fall, 0x78);
 
