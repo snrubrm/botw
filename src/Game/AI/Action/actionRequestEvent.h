@@ -2,6 +2,10 @@
 
 #include "KingSystem/ActorSystem/actAiAction.h"
 
+namespace ksys::evt {
+class Metadata;
+}
+
 namespace uking::action {
 
 class RequestEvent : public ksys::act::ai::Action {
@@ -16,6 +20,8 @@ public:
     void loadParams_() override;
 
 protected:
+    // 0x710023600c (declared only; CSV AI_Action_RequestEvent::initEvent, 528 B): fills `metadata` from the params.
+    void initEvent(ksys::evt::Metadata* metadata);
     void calc_() override;
 
     // static_param at offset 0x20

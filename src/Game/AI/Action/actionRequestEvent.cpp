@@ -1,4 +1,8 @@
 #include "Game/AI/Action/actionRequestEvent.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Event/evtBaseProcLinkForEvent.h"
+#include "KingSystem/Event/evtManager.h"
+#include "KingSystem/Event/evtMetadata.h"
 
 namespace uking::action {
 
@@ -11,7 +15,21 @@ bool RequestEvent::init_(sead::Heap* heap) {
 }
 
 void RequestEvent::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    auto* manager = ksys::evt::Manager::instance();
+    if (!manager) {
+        setFailed();
+        return;
+    }
+
+    ksys::evt::CallArg arg;
+    ksys::evt::Metadata metadata;
+    initEvent(&metadata);
+    arg.proc = mActor;
+    arg.metadata = &metadata;
+    arg._31 = *mIsPauseOtherActors_s;
+    manager->callEvent(arg);
+    if (!*mIsWaitRun_s)
+        setFinished();
 }
 
 void RequestEvent::leave_() {

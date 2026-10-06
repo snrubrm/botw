@@ -3,6 +3,10 @@
 #include "Game/AI/Action/actionRandomMoveAction.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
+namespace uking::act {
+class NPC;
+}
+
 namespace uking::action {
 
 class NPCTargetMove : public RandomMoveAction {
@@ -42,8 +46,9 @@ protected:
     sead::SafeString mASKeyName_s{};
     // dynamic_param at offset 0x88
     sead::Vector3f* mTargetPos_d{};
-    // 0x90-0x178: state (not yet decompiled; enter_/calc_ use it)
-    u8 _90[0xe8];
+    // 0x98-0x178: state (not yet decompiled; enter_/calc_ use it)
+    uking::act::NPC* _90;
+    u8 _98[0xe0];
 };
 
 }  // namespace uking::action

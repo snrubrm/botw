@@ -2,6 +2,7 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "Game/AI/Action/actionTeleportBase.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
 #include "KingSystem/Utils/MathUtil.h"
 
 namespace uking::action {
@@ -21,6 +22,16 @@ bool RemainsWaterBulletRevive::init_(sead::Heap* heap) {
 
 void RemainsWaterBulletRevive::enter_(ksys::act::ai::InlineParamPack* params) {
     RemainsWaterBulletWait::enter_(params);
+    auto* actor = mActor;
+    sub_710072BB70(actor, nullptr, false, false);
+    if (auto* body = actor->getMainBody())
+        body->setContactAll();
+    xlinkSearchAndEmit(mActor, mXLinkKey_s.cstr(), 2, &_c0);
+    if (_c0.sub_7101241B6C()) {
+        sead::Matrix34f matrix;
+        sub_7100230AFC(&matrix);
+        _c0.sub_7101241A44(matrix);
+    }
 }
 
 void RemainsWaterBulletRevive::leave_() {

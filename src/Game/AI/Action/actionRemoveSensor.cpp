@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionRemoveSensor.h"
+#include "Game/Damage/dmgDamageManager.h"
+#include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 
 namespace uking::action {
@@ -12,7 +14,10 @@ bool RemoveSensor::init_(sead::Heap* heap) {
 }
 
 void RemoveSensor::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    auto* actor = mActor;
+    ksys::act::sub_7100EE5624(actor);
+    if (auto* manager = sead::DynamicCast<uking::dmg::DamageManager>(actor->getDamageMgr()))
+        manager->_216.reset(1);
 }
 
 void RemoveSensor::leave_() {

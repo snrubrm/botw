@@ -1,4 +1,8 @@
 #include "Game/AI/Action/actionNPCTargetMove.h"
+#include "Game/Actor/actNPC.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
 
 namespace uking::action {
 
@@ -16,6 +20,19 @@ void NPCTargetMove::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void NPCTargetMove::leave_() {
     RandomMoveAction::leave_();
+    if (auto* controller = mActor->getCharacterController()) {
+        controller->sub_7100F5F6FC(sead::Vector3f::zero);
+        controller->sub_7100F5FB24(sead::Vector3f::zero);
+    }
+    if (_90 && (_90->_fe8 & 0x8000000)) {
+        auto* controller = mActor->getCharacterController();
+        auto* physics = mActor->getPhysics();
+        if (controller && physics) {
+            const s32 idx = physics->sub_7100FBE7F0("Standing");
+            if (idx >= 0)
+                controller->sub_7100F5F270(idx);
+        }
+    }
 }
 
 void NPCTargetMove::loadParams_() {
