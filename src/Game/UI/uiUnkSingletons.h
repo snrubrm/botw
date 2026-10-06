@@ -243,6 +243,14 @@ public:
     void set3820(s32 value);
     void set3904(bool value);
     bool return0A() const;
+    // 0x7100967504 / 0x7100967524 / 0x7100967570 / 0x71009675a4 / 0x71009675c0 / 0x71009675d4 / 0x71009675dc (placeholder names)
+    bool isValid38e0() const;
+    bool is38e4Equal(s32 value) const;
+    void set38ec(s32 a, s32 b);
+    u8 get3904() const;
+    u8 get3905() const;
+    bool return0C() const;
+    bool return0D() const;
     bool return0B() const;
     bool return0() const;
     s32 get3820() const;
@@ -330,13 +338,15 @@ private:
     /* 0x38e0 */ s32 _38e0;
     /* 0x38e4 */ s32 _38e4;
     /* 0x38e8 */ s32 _38e8;
-    u8 _38ec[0x38f4 - 0x38ec];
+    /* 0x38ec */ s32 _38ec;
+    /* 0x38f0 */ s32 _38f0;
     /* 0x38f4 */ s32 _38f4;
     /* 0x38f8 */ s32 _38f8;
     /* 0x38fc */ s32 _38fc;
     /* 0x3900 */ s32 _3900;
     /* 0x3904 */ bool _3904;
-    u8 _3905[0x3920 - 0x3905];
+    /* 0x3905 */ u8 _3905;
+    u8 _3906[0x3920 - 0x3906];
 };
 
 }  // namespace uking::ui

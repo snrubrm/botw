@@ -197,6 +197,42 @@ bool UiSubsys1::return0A() const {
     return false;
 }
 
+// 0x7100967504
+bool UiSubsys1::isValid38e0() const {
+    return _38e0 != -1;
+}
+
+// 0x7100967524
+bool UiSubsys1::is38e4Equal(s32 value) const {
+    return _38e4 == value;
+}
+
+// 0x7100967570
+void UiSubsys1::set38ec(s32 a, s32 b) {
+    _38ec = a;
+    _38f0 = b;
+}
+
+// 0x71009675a4
+u8 UiSubsys1::get3904() const {
+    return _3904;
+}
+
+// 0x71009675c0
+u8 UiSubsys1::get3905() const {
+    return _3905;
+}
+
+// 0x71009675d4
+bool UiSubsys1::return0C() const {
+    return false;
+}
+
+// 0x71009675dc
+bool UiSubsys1::return0D() const {
+    return false;
+}
+
 // 0x7100967d98 (CSV uiSubsys1::__auto30)
 bool UiSubsys1::return0B() const {
     return false;
