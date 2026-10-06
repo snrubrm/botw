@@ -42,6 +42,13 @@ private:
 
 // Instance pointer 0x71025d6550 (a large map / compass related UI object; `_b64`, `_b6c`, `_b74`
 // are states).
+// The index and display value select a pin; producers supply an actor's world position.
+struct UiSubsys1PinArg {
+    s32 index;
+    s32 value;
+    sead::Vector3f pos;
+};
+
 class Unk_71025d6550 {
 public:
     static Unk_71025d6550* instance() { return sInstance; }
@@ -55,13 +62,27 @@ public:
 
     u8 _0[0x80];
     /* 0x80 */ sead::Vector3f _80;
-    u8 _8c[0xb64 - 0x8c];
+    u8 _8c[0xb3c - 0x8c];
+    /* 0xb3c */ u32 _b3c;
+    u8 _b40[0xb54 - 0xb40];
+    /* 0xb54 */ s32 _b54;
+    u8 _b58[0xb64 - 0xb58];
     /* 0xb64 */ s32 _b64;
     /* 0xb68 */ f32 _b68;
     /* 0xb6c */ s32 _b6c;
     /* 0xb70 */ f32 _b70;
     /* 0xb74 */ s32 _b74;
-    u8 _b78[0xd38 - 0xb78];
+    u8 _b78[0xb80 - 0xb78];
+    // The three pins (index 0x193 - 0x195 of the pin argument) set by sub_7100948CC4 (placeholder layout).
+    struct Pin {
+        sead::Vector3f pos;
+        u8 _c[0x18 - 0xc];
+        /* 0x18 */ s32 value;
+        /* 0x1c */ bool valid;
+        u8 _1d[0x38 - 0x1d];
+    };
+    /* 0xb80 */ Pin _b80[3];
+    u8 _c28[0xd38 - 0xc28];
     /* 0xd38 */ u16 _d38;
     /* 0xd3a */ u8 _d3a;
     u8 _d3b;
@@ -135,12 +156,6 @@ struct UiSubsys1Unk378 {
     /* 0x64 */ sead::SafeArray<Entry, 2> _64;
 };
 
-// The index and display value select a pin; producers supply an actor's world position.
-struct UiSubsys1PinArg {
-    s32 index;
-    s32 value;
-    sead::Vector3f pos;
-};
 
 // Instance pointer 0x71025d6aa8 (CSV uiSubsys1, createInstance 0x710095a4bc, size 0x3920,
 // polymorphic with a singleton disposer at 0x8).

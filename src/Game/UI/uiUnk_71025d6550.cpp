@@ -29,6 +29,29 @@ void Unk_71025d6550::sub_71009482FC() {
     _d64 = b;
 }
 
+// 0x7100948cc4
+void Unk_71025d6550::sub_7100948CC4(const void* a1) {
+    const auto* arg = static_cast<const UiSubsys1PinArg*>(a1);
+    switch (_b3c) {
+    case 0:
+    case 1: {
+        auto* manager = instance();
+        manager->_b54 = arg->value;
+        break;
+    }
+    case 3: {
+        const s32 index = u32(arg->index) - 0x193;
+        if (u32(index) <= 2) {
+            auto& pin = instance()->_b80[index];
+            pin.value = arg->value;
+            pin.pos = arg->pos;
+            pin.valid = true;
+        }
+        break;
+    }
+    }
+}
+
 // 0x7100948ee4
 bool Unk_71025d6550::isD78Zero() const {
     return _d78 == 0;
