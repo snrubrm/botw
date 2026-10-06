@@ -1426,6 +1426,12 @@ struct ScreenPauseMenuUnk3b90 {
     void sub_71009B9F94(bool a1);
 };
 
+// Placeholder for the three objects ScreenPauseMenu keeps at 0x3a00 (indexed by the byte at 0x3a18).
+struct ScreenPauseMenuUnk3a00 {
+    // 0x71009b0224 (CSV unnamed; declared only)
+    void sub_71009B0224(bool a1);
+};
+
 class ScreenPauseMenu : public ScreenEx {
 public:
     s32 m72() override;
@@ -1447,7 +1453,11 @@ public:
     /* 0x3618 */ s32 _3618;
     u8 _pad_361c[0x3674 - 0x361c];
     /* 0x3674 */ s32 _3674;
-    u8 _pad_3678[0x3b84 - 0x3678];
+    u8 _pad_3678[0x3a00 - 0x3678];
+    /* 0x3a00 */ ScreenPauseMenuUnk3a00* _3a00[3];
+    /* 0x3a18 */ u8 _3a18;
+    u8 _pad_3a19[0x3b80 - 0x3a19];
+    /* 0x3b80 */ s32 _3b80;
     /* 0x3b84 */ s32 _3b84;
     u8 _pad_3b88[0x3b90 - 0x3b88];
     /* 0x3b90 */ ScreenPauseMenuUnk3b90* _3b90;

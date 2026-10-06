@@ -1,3 +1,5 @@
+#include "Game/UI/euiBoxCursor.h"
+#include "Game/UI/euiButton.h"
 #include "Game/UI/uiScreens.h"
 #include "Game/DLC/aocManager.h"
 
@@ -489,6 +491,15 @@ void ScreenPauseMenu::m171() {
         sub_7100A392D8();
         mStateMachine.changeState(&sUnk_71025f0cf0);
     }
+}
+
+// 0x7100a3d014
+void ScreenPauseMenu::m156() {
+    if (mActiveCursorNode)
+        _3b80 = mActiveCursorNode->mButton->mTag;
+    const u32 index = _3a18 < 3 ? _3a18 : 0;
+    if (_3a00[index])
+        _3a00[index]->sub_71009B0224(false);
 }
 
 // 0x7100a3e0f4
