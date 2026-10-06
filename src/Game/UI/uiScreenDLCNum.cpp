@@ -101,7 +101,6 @@ void ScreenDLCSinJuAkashiNum::m158() {
 }
 
 // 0x7100a04d48
-// NON_MATCHING: the original tests `_3638 == 2` before `_3638 == 1` and lays the two state arms out the other way round
 void ScreenDLCSinJuAkashiNum::m159() {
     if (_3638 != 2) {
         const s32 old_count = _361c;
@@ -120,10 +119,11 @@ void ScreenDLCSinJuAkashiNum::m159() {
     sub_7100AA930C(mLayout, "T_Num_00", _3614, _361c, step);
     if (_3614 == _361c) {
         switch (_3638) {
+        case 1:
+            mStateMachine.changeState(&sUnk_71025ecc60);
+            break;
         case 2:
             _3638 = 1;
-            [[fallthrough]];
-        case 1:
             mStateMachine.changeState(&sUnk_71025ecc60);
             break;
         default:

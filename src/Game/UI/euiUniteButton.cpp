@@ -147,15 +147,18 @@ void UniteButton::FinishCancel() {
     }
 }
 
-// NON_MATCHING: clang tests `type == 2` first (the original: 5 / 3 first, 2 last)
 // 0x7100bdb750
 bool UniteButton::ProcessOn() {
-    if (mType == 5 || mType == 3) {
-        if (mState == kDown)
-            return true;
-    } else if (mType == 2) {
+    switch (mType) {
+    case 2:
         if ((mState & 0xfe) == kStartDown)
             return true;
+        break;
+    case 3:
+    case 5:
+        if (mState == kDown)
+            return true;
+        break;
     }
     return AnimButton::ProcessOn();
 }

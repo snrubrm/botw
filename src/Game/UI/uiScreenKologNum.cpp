@@ -117,7 +117,6 @@ void ScreenKologNum::m158() {
 }
 
 // 0x7100a0f2fc
-// NON_MATCHING: the original tests `_3634 == 2` before `_3634 == 1` and lays the two state arms out the other way round
 void ScreenKologNum::m159() {
     if (_3634 != 2) {
         const s32 old_count = _3618;
@@ -138,10 +137,11 @@ void ScreenKologNum::m159() {
         else
             invokeSoundLink2Event_("mc_CountDownKorogNutEnd");
         switch (_3634) {
+        case 1:
+            mStateMachine.changeState(&sUnk_71025eed70);
+            break;
         case 2:
             _3634 = 1;
-            [[fallthrough]];
-        case 1:
             mStateMachine.changeState(&sUnk_71025eed70);
             break;
         default:

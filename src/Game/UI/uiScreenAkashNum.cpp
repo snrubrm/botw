@@ -55,7 +55,6 @@ void ScreenAkashNum::m158() {
 }
 
 // 0x71009cf2cc
-// NON_MATCHING: the original tests `_3634 == 2` before `_3634 == 1` and lays the two state arms out the other way round
 void ScreenAkashNum::m159() {
     if (_3634 != 2) {
         const s32 old_count = _3618;
@@ -70,10 +69,11 @@ void ScreenAkashNum::m159() {
     sub_7100AA930C(mLayout, "T_Num_00", _3614, _3618, step);
     if (_3614 == _3618) {
         switch (_3634) {
+        case 1:
+            mStateMachine.changeState(&sUnk_71025dc0f0);
+            break;
         case 2:
             _3634 = 1;
-            [[fallthrough]];
-        case 1:
             mStateMachine.changeState(&sUnk_71025dc0f0);
             break;
         default:
