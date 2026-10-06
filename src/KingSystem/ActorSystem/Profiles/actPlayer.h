@@ -407,6 +407,11 @@ public:
     // Declared only (placeholder member functions of the player; all take the player as `this`):
     void sub_710086800C(f32 a1);       // 0x710086800c
     void sub_71008824AC(bool a1);      // 0x71008824ac
+    // 0x7100892098 (declared only, lane5 s6; 104 B): a flag derived from _1c90 (PlayerJump / PlayerBackJump::enter_ set
+    // _c44 bit 24 when it is true).
+    bool sub_7100892098();
+    // 0x71008692f8 (declared only, lane5 s6; last call of PlayerBackJump::enter_).
+    void sub_71008692F8();
     // 0x7100877e2c / 0x7100888d24 (declared only, lane5 s6; called in sequence by PlayerSubjectWait::calc_).
     void sub_7100877E2C();
     void sub_7100888D24();
@@ -622,7 +627,9 @@ public:
     /* 0x1cec */ f32 _1cec;
     /* 0x1cf0 */ u8 _1cf0[0x1cf8 - 0x1cf0];
     /* 0x1cf8 */ f32 _1cf8;
-    /* 0x1cfc */ u8 _1cfc[0x1d34 - 0x1cfc];
+    /* 0x1cfc */ u8 _1cfc[0x1d10 - 0x1cfc];
+    /* 0x1d10 */ ksys::Timer _1d10;  // set by PlayerBackJump::enter_ (NoDamageTime)
+    /* 0x1d1c */ u8 _1d1c[0x1d34 - 0x1d1c];
     /* 0x1d34 */ f32 _1d34;  // set by m372 (EnergyAutoRecoverInvalidTime1)
     /* 0x1d38 */ f32 _1d38;
     /* 0x1d3c */ f32 _1d3c;  // set to -1 by m372
