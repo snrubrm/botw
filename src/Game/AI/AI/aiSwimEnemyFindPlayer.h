@@ -22,6 +22,8 @@ public:
     bool m38() override;
 
 protected:
+    // 0x71005b4054: sets _170 to 15, then changes to the "対象壁つかまり" child
+    void sub_71005B4054();
     // static_param at offset 0x140
     const bool* mIsAbleToLand_s{};
     u64 _148;
@@ -33,7 +35,7 @@ protected:
     const float* mClimbVmax_s{};
     // static_param at offset 0x168
     const float* mClimbHmax_s{};
-    u32 _170 = 0;
+    f32 _170 = 0;
 };
 KSYS_CHECK_SIZE_NX150(SwimEnemyFindPlayer, 0x178);
 

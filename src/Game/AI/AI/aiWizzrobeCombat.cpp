@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiWizzrobeCombat.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
@@ -51,6 +53,22 @@ bool WizzrobeCombat::isChangeable() const {
     if (child->isFinished())
         return true;
     return child->isFailed();
+}
+
+// 0x71005fadc4
+void WizzrobeCombat::sub_71005FADC4() {
+    _59d = false;
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+    changeChild("武器攻撃", &pack);
+}
+
+// 0x71005fc01c
+void WizzrobeCombat::sub_71005FC01C() {
+    ksys::act::ai::InlineParamPack pack;
+    pack.addPointer(&_98, "IgniteHandle", ksys::AIDefParamType::BaseProcHandle, -1);
+    pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+    changeChild("召喚魔法", &pack);
 }
 
 }  // namespace uking::ai

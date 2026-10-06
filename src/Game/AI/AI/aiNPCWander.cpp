@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiNPCWander.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
@@ -41,6 +43,24 @@ void NPCWander::loadParams_() {
     getStaticParam(&mRainASKeyName_s, "RainASKeyName");
     getStaticParam(&mRailUniqueName_s, "RailUniqueName");
     getDynamicParam(&mIsPathRest_d, "IsPathRest");
+}
+
+// 0x71004ea108
+void NPCWander::sub_71004EA108() {
+    ksys::act::ai::InlineParamPack pack;
+    sead::Vector3f pos = mActor->getMtx().getTranslation();
+    pack.addVec3(pos, "TargetPos", -1);
+    pack.addVec3(_120, "TargetRot", -1);
+    changeChild("振り向く", &pack);
+}
+
+// NON_MATCHING: the original builds the "DynASKeyName" SafeString temporary before the virtual call inside _f0.cstr()
+// 0x71004ea4b0
+void NPCWander::sub_71004EA4B0() {
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(_114, "TargetPos", -1);
+    pack.addPointer(const_cast<char*>(_f0.cstr()), "DynASKeyName", ksys::AIDefParamType::String, -1);
+    changeChild("レール点に移動", &pack);
 }
 
 }  // namespace uking::ai

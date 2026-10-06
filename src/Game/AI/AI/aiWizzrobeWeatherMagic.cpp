@@ -48,4 +48,14 @@ void WizzrobeWeatherMagic::sub_71005FF9BC() {
     changeChild("準備", &params);
 }
 
+// 0x71005ffe8c
+void WizzrobeWeatherMagic::sub_71005FFE8C() {
+    ksys::act::ai::InlineParamPack pack;
+    sead::Vector3f pos;
+    pack.addVec3(*mTargetPos_d, "AttPos", -1);
+    sub_71005FFF84(&pos);
+    pack.addVec3(pos, "TargetPos", -1);
+    changeChild("詠唱", &pack);
+}
+
 }  // namespace uking::ai

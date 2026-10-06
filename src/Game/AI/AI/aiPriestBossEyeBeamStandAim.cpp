@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiPriestBossEyeBeamStandAim.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
@@ -28,6 +29,14 @@ void PriestBossEyeBeamStandAim::loadParams_() {
     getStaticParam(&mBorderHeight_s, "BorderHeight");
     getDynamicParam(&mTargetPos_d, "TargetPos");
     getDynamicParam(&mAimTargetPos_d, "AimTargetPos");
+}
+
+// 0x7100516b30
+void PriestBossEyeBeamStandAim::sub_7100516B30() {
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(*mAimTargetPos_d, "AimTargetPos", -1);
+    pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+    changeChild("遠距離", &pack);
 }
 
 }  // namespace uking::ai

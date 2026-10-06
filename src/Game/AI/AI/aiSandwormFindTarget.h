@@ -16,6 +16,8 @@ public:
     void loadParams_() override;
 
 protected:
+    // 0x710055a530: changes to the "威嚇" child with the target position
+    void sub_710055A530();
     // static_param at offset 0x38
     const int* mLostTimer_s{};
     // static_param at offset 0x40

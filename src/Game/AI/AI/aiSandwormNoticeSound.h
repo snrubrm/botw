@@ -19,6 +19,12 @@ public:
     void loadParams_() override;
 
 protected:
+    // 0x710055c800: starts the notice if the "移動" child is close enough to the target
+    void sub_710055C800();
+    // 0x710055c714: changes to the "見失い" child
+    void sub_710055C714();
+    // 0x710055c464: changes to the "移動" child
+    void sub_710055C464();
     // static_param at offset 0x38
     const float* mRetryDist_s{};
     // static_param at offset 0x40

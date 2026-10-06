@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiSwimEnemyFindPlayer.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include <math/seadMathCalcCommon.h>
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/AI/aiUnk_71007320F0.h"
@@ -77,6 +78,14 @@ bool SwimEnemyFindPlayer::m38() {
     if (nav && nav->_1d8 == 13 && (nav->_2a4 & 0xffff) == 7)
         return false;
     return EnemyBaseFindPlayer::m38();
+}
+
+// 0x71005b4054
+void SwimEnemyFindPlayer::sub_71005B4054() {
+    _170 = 15.0f;
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+    changeChild("対象壁つかまり", &pack);
 }
 
 }  // namespace uking::ai

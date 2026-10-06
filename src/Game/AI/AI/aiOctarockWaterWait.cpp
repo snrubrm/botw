@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiOctarockWaterWait.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "Game/AI/aiUnk_7102450d10.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
@@ -36,6 +37,16 @@ void OctarockWaterWait::loadParams_() {
 
 bool OctarockWaterWait::isChangeable() const {
     return isCurrentChild("待機") && getCurrentChild()->isChangeable();
+}
+
+// 0x71004f10ec
+void OctarockWaterWait::sub_71004F10EC() {
+    if (_8c < 0.0f)
+        _8c = mActor->getMtx().m[1][3];
+    mActor->m93(0, 0.0f);
+    ksys::act::ai::InlineParamPack pack;
+    pack.addFloat(_8c, "BaseHeight", -1);
+    changeChild("浮遊", &pack);
 }
 
 }  // namespace uking::ai

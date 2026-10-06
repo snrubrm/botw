@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiSandwormFindTarget.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 
 namespace uking::ai {
@@ -25,6 +27,14 @@ void SandwormFindTarget::loadParams_() {
     getStaticParam(&mLostVMax_s, "LostVMax");
     getStaticParam(&mLostRange_s, "LostRange");
     getStaticParam(&mAttackRange_s, "AttackRange");
+}
+
+// 0x710055a530
+void SandwormFindTarget::sub_710055A530() {
+    const sead::Vector3f pos = sub_71005D9330(mActor);
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(pos, "TargetPos", -1);
+    changeChild("威嚇", &pack);
 }
 
 }  // namespace uking::ai

@@ -16,6 +16,8 @@ public:
     void loadParams_() override;
 
 protected:
+    // 0x7100516b30: changes to the "遠距離" child
+    void sub_7100516B30();
     // static_param at offset 0x38
     const float* mBorderDist_s{};
     // static_param at offset 0x40

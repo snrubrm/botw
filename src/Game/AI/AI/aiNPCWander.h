@@ -19,6 +19,10 @@ public:
     void loadParams_() override;
 
 protected:
+    // 0x71004ea4b0: changes to the "レール点に移動" child
+    void sub_71004EA4B0();
+    // 0x71004ea108: changes to the "振り向く" child
+    void sub_71004EA108();
     // static_param at offset 0x78
     const float* mRainWaitTime_s{};
     // static_param at offset 0x80
@@ -41,9 +45,7 @@ protected:
     sead::SafeString _f0{};
     sead::SafeString _100{};
     f32 _110 = -1.0f;
-    f32 _114;
-    s32 _118;
-    f32 _11c;
+    sead::Vector3f _114;
     sead::Vector3f _120;
     u32 _12c;
 };

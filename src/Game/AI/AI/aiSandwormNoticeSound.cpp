@@ -38,4 +38,41 @@ void SandwormNoticeSound::loadParams_() {
     getDynamicParam(&mTargetActor_d, "TargetActor");
 }
 
+// 0x710055c464
+void SandwormNoticeSound::sub_710055C464() {
+    _6c = false;
+    _6d = false;
+    sub_710055C800();
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+    changeChild("移動", &pack);
+}
+
+// 0x710055c714
+void SandwormNoticeSound::sub_710055C714() {
+    mActor->m93(0, 0.0f);
+    _98.reset();
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+    changeChild("見失い", &pack);
+}
+
+// NON_MATCHING: operand load order of the XZ distance test (target first) and the Vector3 copy stays component-wise in the target
+// 0x710055c800
+void SandwormNoticeSound::sub_710055C800() {
+    if (!isCurrentChild("移動") || _6d)
+        return;
+    const auto& mtx = mActor->getMtx();
+    const f32 dx = mtx.m[0][3] - mTargetPos_d->x;
+    const f32 dz = mtx.m[2][3] - mTargetPos_d->z;
+    if (!(dx * dx + dz * dz <= *mTargetActorLockOnDist_s * *mTargetActorLockOnDist_s))
+        return;
+    mActor->m93(4, 0.0f);
+    _60 = ksys::Timer(15.0f, 15.0f);
+    _6c = false;
+    _6d = true;
+    _7c.set(mTargetPos_d->x, mTargetPos_d->y, mTargetPos_d->z);
+    _98 = *mTargetActor_d;
+}
+
 }  // namespace uking::ai

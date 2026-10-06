@@ -23,6 +23,8 @@ public:
     void sub_71005FFF84(sead::Vector3f* out);
 
 protected:
+    // 0x71005ffe8c: changes to the "詠唱" child
+    void sub_71005FFE8C();
     // aitree_variable at offset 0x38
     void* mWizzrobeMagicWeatherUnit_a{};
     // static_param at offset 0x40
