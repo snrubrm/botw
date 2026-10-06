@@ -54,7 +54,9 @@ public:
     u8 _b8[0xd4 - 0xb8];
     /// Priority scale in [0, 1] (default 1; the constructor initialises 0xd4..0xe0 to 1).
     f32 mPriority;
-    u8 _d8[0xe8 - 0xd8];
+    u8 _d8[0xe0 - 0xd8];
+    /// Per-track volumes in 1/255 steps (getTrackVolume).
+    u8 mTrackVolume[8];
     SoundGroup* mSoundGroup;
     u8 _f0[0xf8 - 0xf0];
     /// The speaker balance supplier of the sound (SoundSource::setSpeakerBalanceSupplier).
@@ -88,8 +90,11 @@ public:
     void startPrepared();
     void setPriority(f32 priority);
     f32 getFadeInTimeIfBeforePlaying() const;
-    u32 getPlaySamplePosition() const;
+    // 0x7100b78084 / 0x7100b78310 / 0x7100b78178
     const AssetInfo* getAssetInfo() const;
+    bool isLooped() const;
+    f32 getTrackVolume(s32 track) const;
+    u32 getPlaySamplePosition() const;
     const char* getAssetName() const;
     const sead::SafeString& getSoundGroupName() const;
 };

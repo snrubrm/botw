@@ -1,6 +1,7 @@
 project(aal CXX ASM)
 
 add_library(aal OBJECT
+  include/aal/aalAssetInfo.h
   include/aal/aalFadeCurveType.h
   include/aal/aalGroup.h
   include/aal/aalGroupMgr.h

@@ -2,6 +2,7 @@
 
 #include <basis/seadTypes.h>
 #include "aal/aalFadeCurveType.h"
+#include "aal/aalAssetInfo.h"
 
 namespace nn::atk {
 enum StreamRegionCallbackResult : int;
@@ -22,6 +23,9 @@ public:
     void setStartSampleOffset(u32 offset);
     void setStreamRegionCallback(StreamRegionCallback callback, void* user_data);
     void setIgnorePrefetch(bool ignore);
+
+    u8 _0[0x30];
+    const AssetInfo* mAssetInfo;
 };
 
 /// The playing state of a SoundSource (SoundSource +0x100). TODO: only the controller pointer is modeled.

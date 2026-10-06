@@ -77,6 +77,34 @@ bool SoundSource::setStartSamplePos(s32 position) {
     return result;
 }
 
+// 0x7100b78084
+const AssetInfo* SoundSource::getAssetInfo() const {
+    return mPlayingStateController->mSoundController->mAssetInfo;
+}
+
+// 0x7100b78310
+bool SoundSource::isLooped() const {
+    if (auto* info = mPlayingStateController->mSoundController->mAssetInfo)
+        return info->mFlags & 1;
+    return false;
+}
+
+// 0x7100b78178
+f32 SoundSource::getTrackVolume(s32 track) const {
+    if (static_cast<u32>(track) <= 7)
+        return mTrackVolume[track] * (1.0f / 255.0f);
+    return 0.0f;
+}
+
+// 0x7100b77eec
+bool SoundSource::setReleaseCurveType(FadeCurveType type) {
+    if (mState <= 2) {
+        mPlayingStateController->mSoundController->setFadeCurveType(type);
+        return true;
+    }
+    return false;
+}
+
 // 0x7100b781c0
 bool SoundSource::isVirtualized() const {
     return mVirtualizedBy != 0;
