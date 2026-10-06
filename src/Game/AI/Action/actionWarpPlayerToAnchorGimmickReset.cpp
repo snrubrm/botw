@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionWarpPlayerToAnchorGimmickReset.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 
 namespace uking::action {
 
@@ -8,7 +9,15 @@ WarpPlayerToAnchorGimmickReset::WarpPlayerToAnchorGimmickReset(const InitArg& ar
 WarpPlayerToAnchorGimmickReset::~WarpPlayerToAnchorGimmickReset() = default;
 
 bool WarpPlayerToAnchorGimmickReset::init_(sead::Heap* heap) {
-    return ksys::act::ai::Action::init_(heap);
+    ksys::act::acc::PlayerBase player;
+    player.getPlayerFromPlayerInfo();
+    if (player.hasProc())
+        _48.set(player.getField418());
+    else
+        _48.set(1.0f, 1.0f, 1.0f);
+    _54 = false;
+    _58 = 0.0f;
+    return true;
 }
 
 void WarpPlayerToAnchorGimmickReset::enter_(ksys::act::ai::InlineParamPack* params) {

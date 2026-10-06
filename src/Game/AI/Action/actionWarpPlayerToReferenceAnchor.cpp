@@ -1,5 +1,6 @@
 #include "Game/AI/Action/actionWarpPlayerToReferenceAnchor.h"
 #include "Game/gameResetter.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 
 namespace uking::action {
 
@@ -9,7 +10,13 @@ WarpPlayerToReferenceAnchor::WarpPlayerToReferenceAnchor(const InitArg& arg)
 WarpPlayerToReferenceAnchor::~WarpPlayerToReferenceAnchor() = default;
 
 bool WarpPlayerToReferenceAnchor::init_(sead::Heap* heap) {
-    return ksys::act::ai::Action::init_(heap);
+    ksys::act::acc::PlayerBase player;
+    player.getPlayerFromPlayerInfo();
+    if (player.hasProc())
+        _1c.set(player.getField418());
+    else
+        _1c.set(1.0f, 1.0f, 1.0f);
+    return true;
 }
 
 void WarpPlayerToReferenceAnchor::enter_(ksys::act::ai::InlineParamPack* params) {

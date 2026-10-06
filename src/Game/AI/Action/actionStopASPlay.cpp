@@ -12,6 +12,7 @@ void StopASPlay::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void StopASPlay::leave_() {}
 
+// NON_MATCHING: same calls; the original computes `this + 0x30` before the first getStaticParam (extra callee-saved register)
 void StopASPlay::loadParams_() {
     getStaticParam(&mASName_s, "ASName");
     getStaticParam(&mIsIgnoreSame_s, "IsIgnoreSame");
