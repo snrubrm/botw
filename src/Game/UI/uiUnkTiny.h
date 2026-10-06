@@ -3,6 +3,8 @@
 #include <basis/seadTypes.h>
 #include <container/seadBuffer.h>
 #include <container/seadPtrArray.h>
+#include <container/seadSafeArray.h>
+#include <prim/seadEnum.h>
 #include <prim/seadSafeString.h>
 
 // Placeholder classes whose only member is a virtual destructor (vtable = [D1, D0], D1 empty): the
@@ -339,11 +341,19 @@ public:
     explicit Unk_7102474b58(void* owner);
     virtual ~Unk_7102474b58();
 
+    // The index is a SEAD_ENUM in the original (a 4-byte class passed in x1; `operator int() const volatile` spills it).
+    SEAD_ENUM(Index, _0, _1)
+
+    // 0x71009319c: copies the two strings into entry `index`.
+    void sub_71009319C(Index index, const sead::SafeString& a, const sead::SafeString& b);
+
+    struct Entry {
+        sead::SafeString a = sead::SafeString::cEmptyString;
+        sead::SafeString b = sead::SafeString::cEmptyString;
+    };
+
     void* _8;
-    sead::SafeString _10 = sead::SafeString::cEmptyString;
-    sead::SafeString _20 = sead::SafeString::cEmptyString;
-    sead::SafeString _30 = sead::SafeString::cEmptyString;
-    sead::SafeString _40 = sead::SafeString::cEmptyString;
+    sead::SafeArray<Entry, 2> _10;
     u64 _50{};
 };
 

@@ -1,3 +1,6 @@
+#include "Game/UI/euiAnimator.h"
+#include "Game/UI/euiLayoutEx.h"
+#include "Game/UI/euiTextBoxEx.h"
 #include "Game/UI/uiPauseMenuDataMgr.h"
 #include "Game/UI/uiScreens.h"
 #include "Game/gameFlagUtils.h"
@@ -21,6 +24,18 @@ s32 ScreenDLCSinJuAkashiNum::sub_7100A0488C() {
     }
 }
 
+// 0x7100a04680
+void ScreenDLCSinJuAkashiNum::m93(sead::Heap*) {
+    _3620.init(5.0f);
+    mStateMachine.startState(&sUnk_71025ecb40);
+    _3640.sub_71009331C(sub_7100BEAFB0("Pa_PlusMinus_00"),
+                        eui::sub_7100933580(mLayout->mPane->FindPaneByName("T_Num_00", true)));
+    _3640.set30(mLayout->tryCreateAnimatorAuto("Flash", false));
+    _3680 = mLayout->createAnimatorAuto("Pattern", true);
+    if (_3680)
+        _3680->Stop(0.0f);
+}
+
 // 0x7100a04e5c
 void ScreenDLCSinJuAkashiNum::m162() {
     _3620.init(5.0f);
@@ -40,6 +55,17 @@ void ScreenDLCSinJuAkashiNum::m163() {
         _3610 = 0;
         close(-1);
     }
+}
+
+// 0x7100a415b4
+void ScreenRupee::m93(sead::Heap*) {
+    _361c.init(5.0f);
+    mStateMachine.startState(&sUnk_71025f1bf0);
+    _3638.sub_71009331C(sub_7100BEAFB0("Pa_PlusMinus_00"),
+                        eui::sub_7100933580(mLayout->mPane->FindPaneByName("T_Rupee_00", true)));
+    _3638.set30(mLayout->tryCreateAnimatorAuto("Flash", false));
+    _3678.sub_71009319C(0, "mc_CountUpRupee", "mc_CountUpRupeeEnd");
+    _3678.sub_71009319C(1, "mc_CountDownRupee", "mc_CountDownRupeeEnd");
 }
 
 // 0x7100a41a6c

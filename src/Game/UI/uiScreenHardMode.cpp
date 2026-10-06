@@ -1,6 +1,24 @@
 #include "Game/UI/uiScreens.h"
+#include "Game/UI/euiLayoutEx.h"
 
 namespace uking::ui {
+
+// 0x7100a0bc24
+void ScreenHardMode::m93(sead::Heap*) {
+    _3610 = mLayout->createAnimatorAuto("Type", true);
+    _3620 = mLayout->createAnimatorAuto("ContentOut", true);
+    _3618 = mLayout->createAnimatorAuto("ContentIn", true);
+    _3638 = static_cast<eui::AnimButton*>(mButtonGroup->FindControlByName("Pa_BtnL_00"));
+    _3640 = static_cast<eui::AnimButton*>(mButtonGroup->FindControlByName("Pa_BtnR_00"));
+    _3648 = mLayout;
+    _3658 = sub_7100BEAFB0("Pa_BtnL_00");
+    _3660 = sub_7100BEAFB0("Pa_BtnR_00");
+    _3718 = -1;
+    _3700 = -1;
+    _3704 = 0;
+    _3668.clear();
+    mStateMachine.startState(&sUnk_710261ee98);
+}
 
 // 0x7100a0bb1c (CSV ScreenHardMode::m6)
 void ScreenHardMode::close(s32) {

@@ -1,9 +1,20 @@
+#include "Game/UI/euiLayoutEx.h"
+#include "Game/UI/euiTextBoxEx.h"
 #include "Game/UI/uiScreens.h"
 #include "KingSystem/GameData/gdtSpecialFlagNames.h"
 #include "Game/gameFlagUtils.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 
 namespace uking::ui {
+
+// 0x71009ced60
+void ScreenAkashNum::m93(sead::Heap*) {
+    _361c.init(5.0f);
+    mStateMachine.startState(&sUnk_71025dbfd0);
+    _3638.sub_71009331C(sub_7100BEAFB0("Pa_PlusMinus_00"),
+                        eui::sub_7100933580(mLayout->mPane->FindPaneByName("T_Num_00", true)));
+    _3638.set30(mLayout->tryCreateAnimatorAuto("Flash", false));
+}
 
 // 0x71009cf3f0
 void ScreenAkashNum::m162() {

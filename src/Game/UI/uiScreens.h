@@ -948,6 +948,7 @@ public:
     void m71() override;
     ~ScreenRupee() override;
     SEAD_RTTI_OVERRIDE(ScreenRupee, ScreenEx)
+    void m93(sead::Heap* heap) override;
     void m69() override;
     void m100() override;
 
@@ -998,6 +999,7 @@ public:
     void m71() override;
     ~ScreenKologNum() override;
     SEAD_RTTI_OVERRIDE(ScreenKologNum, ScreenEx)
+    void m93(sead::Heap* heap) override;
     void m69() override;
     void m99() override;
     void m100() override;
@@ -1048,6 +1050,7 @@ public:
     SEAD_RTTI_OVERRIDE(ScreenAkashNum, ScreenEx)
     void m99() override;
     void m100() override;
+    void m93(sead::Heap* heap) override;
     void m69() override;
 
     // own virtual slots (state callbacks; groups of four: void, void, void, s32 -- the types are guesses from the trivial ones)
@@ -1092,6 +1095,7 @@ public:
     void m71() override;
     ~ScreenMamoNum() override;
     SEAD_RTTI_OVERRIDE(ScreenMamoNum, ScreenEx)
+    void m93(sead::Heap* heap) override;
     void m69() override;
     void m100() override;
 
@@ -1420,6 +1424,7 @@ public:
     void m71() override;
     ~ScreenDLCSinJuAkashiNum() override;
     SEAD_RTTI_OVERRIDE(ScreenDLCSinJuAkashiNum, ScreenEx)
+    void m93(sead::Heap* heap) override;
     void m69() override;
     void m100() override;
 
@@ -1447,7 +1452,7 @@ public:
     /* 0x3620 */ UiTimer _3620;
     /* 0x3638 */ s32 _3638 = -1;
     Unk_7102474b78 _3640;
-    u64 _3680{};
+    /* 0x3680 */ eui::Animator* _3680{};
     /* 0x3688 */ s32 _3688{};
 };
 
@@ -1468,6 +1473,7 @@ public:
 
     bool isEnableControl() const override;
     void close(s32 option) override;
+    void m93(sead::Heap* heap) override;
     void m98() override;
     void m99() override;
     void m106(eui::AnimButton* button) override;

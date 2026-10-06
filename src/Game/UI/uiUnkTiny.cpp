@@ -153,6 +153,13 @@ Unk_7102474b58::Unk_7102474b58(void* owner) : _8(owner) {}
 // 0x7100933184
 Unk_7102474b58::~Unk_7102474b58() { ; }
 
+// 0x710093319c
+void Unk_7102474b58::sub_71009319C(Index index, const sead::SafeString& a, const sead::SafeString& b) {
+    Entry& entry = _10[index];
+    entry.a = a;
+    entry.b = b;
+}
+
 // 0x7100959a84
 Unk_7102476a40::~Unk_7102476a40() { ; }
 
