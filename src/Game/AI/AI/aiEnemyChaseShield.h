@@ -22,6 +22,8 @@ public:
 
 protected:
     void sub_71003835C0();
+    // 0x71003843e4 (placeholder name)
+    void sub_71003843E4();
     bool sub_7100383680();
     void sub_7100383768();
 

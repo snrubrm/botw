@@ -24,6 +24,13 @@ void BalloonPlantNormal::sub_7100327C24() {
     changeChild("寄生する", &pack);
 }
 
+bool BalloonPlantNormal::sub_7100327B54() {
+    auto* actor = sead::DynamicCast<ksys::act::Actor>(mActor->getConnectedCalcChild());
+    if (actor && _c8 == actor->getId() && actor->findPhysicsBodyByName("Body", _60.cstr()))
+        return true;
+    return false;
+}
+
 void BalloonPlantNormal::enter_(ksys::act::ai::InlineParamPack* params) {
     sub_710032782C();
     _60.copy("Body");
