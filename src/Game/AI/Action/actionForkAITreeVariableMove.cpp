@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionForkAITreeVariableMove.h"
+#include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/System/physRayCastBodyQuery.h"
 
 namespace uking::action {
@@ -11,8 +12,22 @@ bool ForkAITreeVariableMove::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }
 
+// NON_MATCHING: the original loads the main body (actor + 0x190) before testing the character controller; with
+// `auto* body = actor->getMainBody();` declared before the branch it matches (borderline, not applied)
 void ForkAITreeVariableMove::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    auto* actor = mActor;
+    *mDestinationPos_a = actor->getMtx().getTranslation();
+    sub_710005BE70();
+    if (*mIsChangeable_s)
+        mFlags.set(Flag::Changeable);
+    if (actor->getCharacterController())
+        _ac = 1;
+    else if (actor->getMainBody())
+        _ac = 2;
+    _88.set(*mDestinationPos_a);
+    *mIsArrivedAtDestination_a = false;
+    _b0 = false;
+    _b1 = false;
 }
 
 void ForkAITreeVariableMove::leave_() {
