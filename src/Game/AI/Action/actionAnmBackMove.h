@@ -1,5 +1,6 @@
 #pragma once
 
+#include <math/seadVector.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -24,10 +25,12 @@ protected:
     const float* mRotReduceRatio_s{};
     // static_param at offset 0x30
     sead::SafeString mASName_s{};
-    u64 _40 = 0;
-    s32 _48 = 0;
-    f32 _4c = -1.0f;
+    f32 _40 = 0;
+    sead::Vector3f _44{0.0f, 0.0f, -1.0f};
 
+    // 0x71000942b8: turns the stored direction into the actor's frame and hands it, with the ratio,
+    // to the character controller.
+    void sub_71000942B8();
 };
 KSYS_CHECK_SIZE_NX150(AnmBackMove, 0x50);
 

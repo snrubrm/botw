@@ -184,6 +184,8 @@ public:
 };
 
 // vtable 0x710239bc68 (HorseRideChargeCommand::_98; message 0x3800006): the target actor
+// NON_MATCHING: D2/D0 (m): the original stores the vtable with `str x8, [x0], #0x58` (post-increment to the
+// BaseProcLink) and computes &mLock with `add`; ours post-increments the lock address instead.
 class Unk_710239bc68 : public Unk_7102357d20 {
 public:
     using Unk_7102357d20::Unk_7102357d20;
@@ -195,6 +197,8 @@ public:
 };
 
 // vtable 0x710239bdc0 (HorseRideChaseCommand::_a0; message 0x3800008): the target actor and keep distance
+// NON_MATCHING: D2/D0 (m): the original stores the vtable with `str x8, [x0], #0x58` (post-increment to the
+// BaseProcLink) and computes &mLock with `add`; ours post-increments the lock address instead.
 class Unk_710239bdc0 : public Unk_7102357d20 {
 public:
     using Unk_7102357d20::Unk_7102357d20;

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <math/seadVector.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -31,11 +32,17 @@ protected:
     // static_param at offset 0x48
     sead::SafeString mASName_s{};
     f32 _58 = 0.0f;
-    f32 _5c = 0.0f;
-    f32 _60 = 0.0f;
-    f32 _64 = 1.0f;
+    sead::Vector3f _5c{0.0f, 0.0f, 1.0f};
     f32 _68 = 1.0f;
     u8 _6c[0x4];
+
+    // 0x7100095aa0: moves a point in front of the actor (`_5c * _68 * scale` rotated by its matrix) and
+    // returns the horizontal distance to the position the probe 0x710072fbd4 reports; `scale` itself if
+    // the reachability check is off.
+    f32 sub_7100095AA0(f32 scale);
+    // 0x7100095bd0: hands the stored direction (rotated into the actor's frame) and the ratio to the
+    // character controller.
+    void sub_7100095BD0();
 };
 KSYS_CHECK_SIZE_NX150(AnmDirectionMove, 0x70);
 

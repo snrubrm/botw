@@ -163,6 +163,11 @@ bool sub_710072F854(ksys::act::Actor* actor, const sead::Vector3f& from, const s
 /// Placeholder name.
 bool sub_710072F944(ksys::act::Actor* actor, const sead::Vector3f& target, sead::Vector3f* out_pos,
                     f32 a3, f32 a4);
+/// 0x710072fbd4 (lane3 s36; declared only): probe from `from` towards `to` (like sub_710072FAB0 with two
+/// points); AnmDirectionMove::sub_7100095AA0 passes (0, -1, actor, from, to, &to, -1) and reads `to`
+/// back as the position the probe reports. Placeholder name; parameter types guessed.
+bool sub_710072FBD4(f32 a1, f32 a2, ksys::act::Actor* actor, const sead::Vector3f& from,
+                    const sead::Vector3f& to, sead::Vector3f* out_pos, s32 a6);
 /// 0x710072fab0 (lane1 s25; declared only; 22 callers, all pass -1 / -1 / -1): forwards the normalized
 /// direction from the actor to `target` and its length to 0x710072edfc. `a5` is forwarded, `a6` is set
 /// by every caller but not read by the wrapper. Placeholder name; parameter types guessed.
