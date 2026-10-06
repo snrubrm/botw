@@ -65,6 +65,23 @@ void SiteBossSwordThrowElectricBall::calc_() {
     SiteBossThrowParts::calc_();
 }
 
+// NON_MATCHING: register / block layout of the unrolled search (the original returns name 0 through a shared tail
+// and keeps the actor pointer in x20).
+const sead::SafeString& SiteBossSwordThrowElectricBall::m34() {
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
+        const sead::SafeString* name = &_110[0];
+        for (auto& part : _110) {
+            auto& link = enemy->getActorPartsActor(part);
+            if (link.hasProc() && !link.hasProcInCalcState()) {
+                name = &part;
+                break;
+            }
+        }
+        return *name;
+    }
+    return sead::SafeString::cEmptyString;
+}
+
 void SiteBossSwordThrowElectricBall::m35() {
     sub_710026E3B0(false);
 }

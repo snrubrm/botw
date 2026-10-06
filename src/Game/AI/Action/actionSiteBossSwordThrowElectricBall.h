@@ -20,6 +20,7 @@ public:
 
 protected:
     void calc_() override;
+    const sead::SafeString& m34() override;
     void m35() override;
 
     struct Params {
