@@ -95,6 +95,9 @@ public:
     Chemical* getStuff(int idx);
     // 0x7100e3718c (lane1 s22, placeholder name): the element itself (not its Chemical), ~25 callers.
     Unk_71024e6428* sub_7100E3718C(int idx);
+    // 0x7100e37fa8 (lane4 s47): a second out-of-line copy of sub_7100E3718C (byte-identical; ~15 callers: Arrow AI and
+    // others).
+    Unk_71024e6428* sub_7100E37FA8(int idx);
     // 0x7100e39614 (lane1 s41, placeholder name): Chemical::sub_7100D91098(on) on every chemical.
     void sub_7100E39614(bool on);
     // 0x7100e37788: same as getStuff (a separate copy in the binary; Actor::sub_71011D8A44).

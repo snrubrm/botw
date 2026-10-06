@@ -1,0 +1,149 @@
+#pragma once
+
+#include <prim/seadRuntimeTypeInfo.h>
+
+// Placeholder classes (lane4 s47) for vtables of the original that have no name: every class here has only trivial
+// virtual functions (the destructor is empty, the other slots are constant results). The name is the address of
+// the vtable; the class is only defined so that its RTTI functions, destructors and stubs can be matched.
+
+// vtable 0x71023f3710 (4 slots)
+class Unk_71023f3710 {
+    SEAD_RTTI_BASE(Unk_71023f3710)
+public:
+    virtual ~Unk_71023f3710();
+};
+
+// vtable 0x710245a498 (4 slots)
+class Unk_710245a498 {
+    SEAD_RTTI_BASE(Unk_710245a498)
+public:
+    virtual ~Unk_710245a498();
+};
+
+// vtable 0x710245a4c8 (4 slots)
+class Unk_710245a4c8 {
+    SEAD_RTTI_BASE(Unk_710245a4c8)
+public:
+    virtual ~Unk_710245a4c8();
+};
+
+// vtable 0x710245a4f8 (4 slots)
+class Unk_710245a4f8 {
+    SEAD_RTTI_BASE(Unk_710245a4f8)
+public:
+    virtual ~Unk_710245a4f8();
+};
+
+// vtable 0x710245a578 (4 slots)
+class Unk_710245a578 {
+    SEAD_RTTI_BASE(Unk_710245a578)
+public:
+    virtual ~Unk_710245a578();
+};
+
+// vtable 0x710245bee0 (4 slots)
+class Unk_710245bee0 {
+    SEAD_RTTI_BASE(Unk_710245bee0)
+public:
+    virtual ~Unk_710245bee0();
+};
+
+// vtable 0x710245c6b8 (4 slots)
+class Unk_710245c6b8 {
+    SEAD_RTTI_BASE(Unk_710245c6b8)
+public:
+    virtual ~Unk_710245c6b8();
+};
+
+// vtable 0x710245c858 (4 slots)
+class Unk_710245c858 {
+    SEAD_RTTI_BASE(Unk_710245c858)
+public:
+    virtual ~Unk_710245c858();
+};
+
+// vtable 0x710246c330 (4 slots)
+class Unk_710246c330 {
+    SEAD_RTTI_BASE(Unk_710246c330)
+public:
+    virtual ~Unk_710246c330();
+};
+
+// vtable 0x710246c360 (4 slots)
+class Unk_710246c360 {
+    SEAD_RTTI_BASE(Unk_710246c360)
+public:
+    virtual ~Unk_710246c360();
+};
+
+// vtable 0x710246cec8 (4 slots)
+class Unk_710246cec8 {
+    SEAD_RTTI_BASE(Unk_710246cec8)
+public:
+    virtual ~Unk_710246cec8();
+};
+
+// vtable 0x71024dcf80 (4 slots)
+class Unk_71024dcf80 {
+    SEAD_RTTI_BASE(Unk_71024dcf80)
+public:
+    virtual ~Unk_71024dcf80();
+};
+
+// vtable 0x71024dd5c8 (4 slots)
+class Unk_71024dd5c8 {
+    SEAD_RTTI_BASE(Unk_71024dd5c8)
+public:
+    virtual ~Unk_71024dd5c8();
+};
+
+// vtable 0x71024e8128 (4 slots)
+class Unk_71024e8128 {
+    SEAD_RTTI_BASE(Unk_71024e8128)
+public:
+    virtual ~Unk_71024e8128();
+};
+
+// vtable 0x71024e80e0 (4 slots)
+class Unk_71024e80e0 : public Unk_71024e8128 {
+    SEAD_RTTI_OVERRIDE(Unk_71024e80e0, Unk_71024e8128)
+public:
+    ~Unk_71024e80e0() override;
+};
+
+// vtable 0x71024efd58 (11 slots)
+class Unk_71024efd58 {
+    SEAD_RTTI_BASE(Unk_71024efd58)
+public:
+    virtual ~Unk_71024efd58();
+    virtual bool m4() { return true; }
+    virtual void m5() {}
+    virtual void m6() {}
+    virtual void m7() {}
+    virtual void m8() {}
+    virtual void m9() {}
+    virtual void m10() {}
+};
+
+// vtable 0x710250dcd8 (4 slots)
+class Unk_710250dcd8 {
+    SEAD_RTTI_BASE(Unk_710250dcd8)
+public:
+    virtual ~Unk_710250dcd8();
+};
+
+// vtable 0x7102518b60 (4 slots)
+class Unk_7102518b60 {
+    SEAD_RTTI_BASE(Unk_7102518b60)
+public:
+    virtual ~Unk_7102518b60();
+};
+
+// vtable 0x710251b678 (6 slots)
+class Unk_710251b678 {
+    SEAD_RTTI_BASE(Unk_710251b678)
+public:
+    virtual ~Unk_710251b678();
+    virtual void m4() {}
+    virtual void m5() {}
+};

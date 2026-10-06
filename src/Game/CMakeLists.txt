@@ -51,6 +51,8 @@ target_sources(uking PRIVATE
   gameUnk_71008be174.cpp
   gameUnk_71008be174.h
   gamePlayerResetPosMgr.cpp
+  gameUnkRttiClasses.cpp
+  gameUnkRttiClasses.h
   gamePlayReport.cpp
   gamePlayReport.h
   gameScene.cpp

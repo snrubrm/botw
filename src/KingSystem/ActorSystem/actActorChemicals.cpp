@@ -19,6 +19,15 @@ Unk_71024e6428* ActorChemicals::sub_7100E3718C(int idx) {
     return &_70[idx - _58.size()];
 }
 
+Unk_71024e6428* ActorChemicals::sub_7100E37FA8(int idx) {
+    const auto lock = sead::makeScopedLock(mCS);
+    if (_58.size() + _80 < 1)
+        return nullptr;
+    if (idx < _58.size())
+        return &_58[idx];
+    return &_70[idx - _58.size()];
+}
+
 // NON_MATCHING: the original's null path skips the conversion (branch target only)
 Chemical* ActorChemicals::sub_7100E37788(int idx) {
     const auto lock = sead::makeScopedLock(mCS);
