@@ -48,7 +48,8 @@ protected:
     sead::Vector3f* mTargetPos_d{};
     // 0x98-0x178: state (not yet decompiled; enter_/calc_ use it)
     uking::act::NPC* _90;
-    u8 _98[0xe0];
+    sead::BitFlag8 _98;
+    u8 _99[0xdf];
 };
 
 }  // namespace uking::action

@@ -1,5 +1,7 @@
 #include "Game/AI/Action/actionRodMagicPhysBall.h"
+#include "KingSystem/ActorSystem/Profiles/actBullet.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 
 namespace uking::action {
 
@@ -34,6 +36,27 @@ void RodMagicPhysBall::calc_() {
 }
 
 bool RodMagicPhysBall::m33() {
+    return false;
+}
+
+f32 RodMagicPhysBall::m40() {
+    f32 time = *mDeleteTime_s;
+    if (auto* bullet = sead::DynamicCast<ksys::act::Bullet>(mActor)) {
+        if (bullet->_cf8 >= 0.0f)
+            time = bullet->_cf8;
+    }
+    return time;
+}
+
+bool RodMagicPhysBall::sub_710023B234(Unk1a8* out) {
+    if (auto* bullet = sead::DynamicCast<ksys::act::Bullet>(mActor)) {
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::acquireActor(&bullet->_ba0, &accessor);
+        if (accessor.hasProc()) {
+            accessor.getActorMtx().getTranslation(out->_0);
+            return true;
+        }
+    }
     return false;
 }
 

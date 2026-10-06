@@ -19,6 +19,7 @@ public:
 protected:
     void calc_() override;
     bool m33() override;
+    f32 m40() override;
     int m36() override;
 
     // static_param at offset 0xb8
@@ -37,13 +38,12 @@ protected:
     };
     /* 0x168 */ Entry _168[4];
     /* 0x1a8 */ struct Unk1a8 {
-        void* _0;
-        u32 _8;
-        bool _c;
-        u8 _d[3];
+        sead::Vector3f _0{0, 0, 0};
+        bool _c = false;
+        u8 _d[3]{};
     } _1a8{};
     // 0x710023b234 (declared only): out of line in the original.
-    void sub_710023B234(Unk1a8* out);
+    bool sub_710023B234(Unk1a8* out);
 };
 
 }  // namespace uking::action

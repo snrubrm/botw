@@ -1,4 +1,8 @@
 #include "Game/AI/Action/actionThrowWeaponByBodyCenter.h"
+#include "Game/Actor/actEnemy.h"
+#include "Game/Actor/actWeapon.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace uking::action {
 
@@ -29,6 +33,19 @@ void ThrowWeaponByBodyCenter::loadParams_() {
 
 void ThrowWeaponByBodyCenter::calc_() {
     ThrowWeapon::calc_();
+}
+
+void ThrowWeaponByBodyCenter::m32(sead::Vector3f* pos, uking::act::Enemy* enemy, int weapon_idx) {
+    if (auto* weapon = sead::DynamicCast<uking::act::Weapon>(
+            enemy->_c38[weapon_idx].getProc(nullptr, mActor))) {
+        if (auto* body = weapon->getMainBody()) {
+            sead::BoundBox3f aabb;
+            body->getAabbInWorld(&aabb);
+            aabb.getCenter(pos);
+            return;
+        }
+    }
+    ThrowWeapon::m32(pos, enemy, weapon_idx);
 }
 
 void ThrowWeaponByBodyCenter::m33() {

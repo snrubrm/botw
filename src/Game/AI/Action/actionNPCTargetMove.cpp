@@ -1,6 +1,9 @@
 #include "Game/AI/Action/actionNPCTargetMove.h"
 #include "Game/Actor/actNPC.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/Resource/Actor/resResourceGParamList.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectNpc.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
 
@@ -10,8 +13,15 @@ NPCTargetMove::NPCTargetMove(const InitArg& arg) : RandomMoveAction(arg) {}
 
 NPCTargetMove::~NPCTargetMove() = default;
 
+// NON_MATCHING: the original compares the actor name with the literal in an inline loop without the
+// assureTermination calls / pointer-equality fast path of SafeString::isEqual (a different, unknown comparison).
 bool NPCTargetMove::init_(sead::Heap* heap) {
-    return RandomMoveAction::init_(heap);
+    _90 = sead::DynamicCast<uking::act::NPC>(mActor);
+    _98.change(0x4,
+               mActor->getParam()->getRes().mGParamList->getNpc()->mIsWalkUnderShelterFromRain.ref());
+    if (mActor->getName() == "Npc_TripMaster")
+        _98.set(0x18);
+    return true;
 }
 
 void NPCTargetMove::enter_(ksys::act::ai::InlineParamPack* params) {

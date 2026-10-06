@@ -18,6 +18,7 @@ public:
 
 protected:
     void calc_() override;
+    void m33(const sead::Vector3f* target) override;
 
     // static_param at offset 0x138
     const float* mBulletOffset_s{};

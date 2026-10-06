@@ -1,6 +1,9 @@
 #pragma once
 
+#include <container/seadBuffer.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/ActorSystem/actBaseProcHandle.h"
+#include "KingSystem/ActorSystem/actBaseProcLink.h"
 
 namespace uking::action {
 
@@ -24,12 +27,8 @@ protected:
     const int* mMaxCreateNum_s{};
     // map_unit_param at offset 0x30
     const int* mWildHorseCreateNum_m{};
-    s32 _38 = 0;
-    u8 _3c[0x4];
-    u64 _40 = 0;
-    s32 _48 = 0;
-    u8 _4c[0x4];
-    u64 _50 = 0;
+    sead::Buffer<ksys::act::BaseProcLink> _38;
+    sead::Buffer<ksys::act::BaseProcHandle> _48;
     f32 _58 = 40000.0f;
     s32 _5c = 4;
 };

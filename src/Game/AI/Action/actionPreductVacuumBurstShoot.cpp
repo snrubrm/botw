@@ -1,5 +1,6 @@
 #include "Game/AI/Action/actionPreductVacuumBurstShoot.h"
 #include "Game/AI/aiUnk_710073EBD4.h"
+#include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 
 namespace uking::action {
@@ -39,6 +40,23 @@ void PreductVacuumBurstShoot::loadParams_() {
 
 void PreductVacuumBurstShoot::calc_() {
     HoverPredictVacuumShoot::calc_();
+}
+
+// NON_MATCHING: the original builds a separate SafeString temporary in each arm of the PartsKey2 / PartsKey3 choice (two
+// stack slots) and keeps the direction in different float registers.
+void PreductVacuumBurstShoot::m33(const sead::Vector3f* target) {
+    if (_160 < _164) {
+        _78.sub_710073F14C(target);
+        sead::Vector3f dir = *target - mActor->getMtx().getTranslation();
+        dir.normalize();
+        _121 = true;
+        _124 = *target + dir * *mBulletOffset_s;
+        if (_160)
+            _78.mWork = sead::SafeString(mPartsKey3_s.getStringTop());
+        else
+            _78.mWork = sead::SafeString(mPartsKey2_s.getStringTop());
+        ++_160;
+    }
 }
 
 }  // namespace uking::action

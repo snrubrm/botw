@@ -18,6 +18,7 @@ public:
 
 protected:
     void calc_() override;
+    void m32(sead::Vector3f* pos, uking::act::Enemy* enemy, int weapon_idx) override;
     void m33() override;
 
     // static_param at offset 0x80
