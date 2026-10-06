@@ -24,7 +24,10 @@ public:
     /* 0x12c */ u8 _12c[0x160 - 0x12c];
     /* 0x160 */ sead::SafeString _160;  // DynAS name (NPCReturnAnchor: fine weather)
     /* 0x170 */ sead::SafeString _170;  // DynAS name (NPCReturnAnchor: rain / snow / thunderstorm)
-    /* 0x180 */ u8 _180[0x2f8 - 0x180];
+    /* 0x180 */ u8 _180[0x248 - 0x180];
+    /* 0x248 */ sead::SafeString _248;  // NPCAnchorWait::enter_ compares the current animation name with it (fine weather)
+    /* 0x258 */ sead::SafeString _258;  // same, for a rain anchor
+    /* 0x268 */ u8 _268[0x2f8 - 0x268];
     /* 0x2f8 */ u32 _2f8;  // flags (bit 1 set by KakarikoKokkoTimeline::init_)
 };
 

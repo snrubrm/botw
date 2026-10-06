@@ -20,4 +20,26 @@ inline bool getBoolByNameBypassPerm(Manager* mgr, bool* value, const sead::SafeS
     return ref.get().getBuffer0()->getBool2(value, name, ref.shouldCheckPermissions(), true);
 }
 
+// inline-only in the original; names are guesses. NPCSaleAppReception::calc_ repeats the same sequence for the by-name
+// getters below (the buffer is loaded after the SafeString temporary created by the caller).
+inline bool getS32IfCopiedByName(Manager* mgr, s32* value, const sead::SafeString& name) {
+    auto& ref = mgr->getParam();
+    return ref.get().getBuffer0()->getS32IfCopied(value, name, false, true);
+}
+
+inline bool getBoolByNameNoBool2(Manager* mgr, bool* value, const sead::SafeString& name) {
+    auto& ref = mgr->getParam();
+    return ref.get().getBuffer0()->getBool(value, name, ref.shouldCheckPermissions(), true);
+}
+
+inline bool getS32ByName(Manager* mgr, s32* value, const sead::SafeString& name) {
+    auto& ref = mgr->getParam();
+    return ref.get().getBuffer0()->getS32(value, name, ref.shouldCheckPermissions(), true);
+}
+
+inline bool getStr64ByName(Manager* mgr, const char** value, const sead::SafeString& name) {
+    auto& ref = mgr->getParam();
+    return ref.get().getBuffer0()->getStr64(value, name, ref.shouldCheckPermissions(), true);
+}
+
 }  // namespace ksys::gdt

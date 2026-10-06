@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionSiteBossShootIceSplinter.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -34,7 +36,20 @@ void SiteBossShootIceSplinter::loadParams_() {
 }
 
 void SiteBossShootIceSplinter::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (_60) {
+        _61 = false;
+        if (mActor->getASList()->x(71, nullptr, 0, 0, &ksys::as::ASList::Unk2::sub_71011637EC,
+                                   true)) {
+            sub_710026354C(*mThrowIdxOffset_s + _64);
+            _64 += 1;
+        }
+        if (isFinishedAS(0, 0))
+            setFinished();
+    } else if (isFinishedAS(0, 0)) {
+        _60 = true;
+        _61 = true;
+        playAS(mThrowASName_s.cstr(), true, 0, 0, -1.0f);
+    }
 }
 
 bool SiteBossShootIceSplinter::isFinished() const {

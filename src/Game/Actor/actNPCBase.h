@@ -32,7 +32,8 @@ public:
     /* 0x840 */ void* _840 = nullptr;
     /* 0x848 */ Unk_71024f15c0 _848;  // ctor 0x7100eebaac (CSV Rail::ctor)
     /* 0x8a8 */ sead::SafeString _8a8;
-    /* 0x8b8 */ u16 _8b8 = 0;
+    /* 0x8b8 */ u8 _8b8 = 0;
+    /* 0x8b9 */ bool _8b9 = false;  // set by NPCAnchorWait::enter_ (rain anchor)
     /* 0x8c0 */ sead::FixedSafeString<64> _8c0;
     /* 0x918 */ sead::FixedSafeString<128> _918;
     /* 0x9b0 */ sead::FixedSafeString<16> _9b0;
