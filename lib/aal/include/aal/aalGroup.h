@@ -32,6 +32,7 @@ class Group : public NamedObj {
     SEAD_RTTI_BASE(Group)
     friend class GroupFolder;
     friend class GroupMgr;
+    friend class GroupLimiter;
 
 public:
     ~Group() override;

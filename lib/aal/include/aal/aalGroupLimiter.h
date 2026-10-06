@@ -20,9 +20,16 @@ public:
     bool limit(SoundSource* source);
 };
 
-/// Limits the number of sounds of a group. TODO: partial; the object has a vtable at +0.
+class ActiveSoundLimiter;
+class RequestSoundLimiter;
+
+/// Limits the number of sounds of a group. The limiters can be set per group; a group without a limiter of its own
+/// uses the one of the nearest ancestor that has one (the `Upper` / `Using` pointers).
+/// TODO: partial; the object has a vtable at +0.
 class GroupLimiter {
 public:
+    virtual ~GroupLimiter();
+
     void initialize(Group* group, sead::Heap* heap);
     void finalize();
     void calc();
@@ -30,7 +37,6 @@ public:
     /// 0x7100b80170 / 0x7100b80274 (declared only)
     void calcActiveSoundLimit();
     void calcRequestSoundLimit();
-    /// 0x7100b8029c / 0x7100b802d8 / 0x7100b80314 (declared only)
     void updateUpperActiveSoundLimitList();
     void updateUpperRequestSoundLimitList();
     void updateUsingRequestIntervalLimiter();
@@ -38,14 +44,22 @@ public:
     void addToActiveSoundLimitList(sead::OffsetList<SoundSource>* sources);
     /// 0x7100b8040c (declared only): returns whether the sound was added to the limit list.
     bool addToActiveSoundLimitList(SoundSource* source);
+    void setActiveSoundLimiter(ActiveSoundLimiter* limiter, sead::OffsetList<SoundSource>* sources);
+    void setRequestSoundLimiter(RequestSoundLimiter* limiter, sead::OffsetList<SoundSource>* sources);
+    void setRequestIntervalLimiter(RequestIntervalLimiter* limiter);
 
 private:
-    u8 _0[8];
     bool mInitialized;
     Group* mGroup;
-    u8 _18[0x28 - 0x18];
+    ActiveSoundLimiter* mActiveSoundLimiter;
+    RequestSoundLimiter* mRequestSoundLimiter;
     RequestIntervalLimiter* mRequestIntervalLimiter;
-    u8 _30[0x50 - 0x30];
+    /// The sounds of the group that are counted by the limiters (set together with the limiter).
+    sead::OffsetList<SoundSource>* mActiveSoundLimitList;
+    sead::OffsetList<SoundSource>* mRequestSoundLimitList;
+    /// The lists of the nearest ancestor that has a limiter.
+    sead::OffsetList<SoundSource>* mUpperActiveSoundLimitList;
+    sead::OffsetList<SoundSource>* mUpperRequestSoundLimitList;
     RequestIntervalLimiter* mRequestIntervalLimiterForLimit;
 };
 
