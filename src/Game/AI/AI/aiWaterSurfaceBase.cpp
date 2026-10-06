@@ -6,6 +6,7 @@
 #include <xlink2/xlink2EventSLink.h>
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Effect/eftEffect.h"
 #include "KingSystem/Physics/RigidBody/Shape/BoxWater/physBoxWaterRigidBody.h"
 #include "KingSystem/System/StageInfo.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
@@ -103,6 +104,33 @@ void WaterSurfaceBase::sub_71005ED41C() {
                 if (auto* source = executor->getHandle()->getSoundSource())
                     source->mSpatialSetting.setShape(_40);
         }
+    }
+}
+
+// 0x71005ed79c
+void WaterSurfaceBase::sub_71005ED79C() {
+    auto* actor = mActor;
+    if (!_58.isActive()) {
+        _58 = ksys::eft::searchAndEmitSLink(actor, "move", false);
+        if (_58.isActive() && _40) {
+            if (auto* executor =
+                    static_cast<xlink2::EventSLink*>(_58.getEvent())->getAliveAssetExecutor())
+                if (auto* source = executor->getHandle()->getSoundSource())
+                    source->mSpatialSetting.setShape(_40);
+        }
+    }
+    ksys::eft::Effect::instance()->setFlags(ksys::eft::Effect::cFlag_WaterSurfaceMaybe);
+}
+
+// 0x71005ed864
+void WaterSurfaceBase::sub_71005ED864() {
+    if (_58.isActive()) {
+        if (auto* executor = static_cast<xlink2::EventSLink*>(_58.getEvent())->getAliveAssetExecutor())
+            if (auto* source = executor->getHandle()->getSoundSource())
+                if (auto* calculator = source->mSpatialCalculator)
+                    calculator->detachShape(true);
+        _58.fade();
+        ksys::eft::Effect::instance()->clearFlags(ksys::eft::Effect::cFlag_WaterSurfaceMaybe);
     }
 }
 

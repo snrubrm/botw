@@ -1,4 +1,6 @@
 #include "Game/UI/euiMultiArcResourceAccessor.h"
+#include <prim/seadStringBuilder.h>
+#include "Game/UI/euiFontMgr.h"
 #include <cstdio>
 #include <nn/gfx/gfx_ResTexture.h>
 #include <nn/ui2d/Layout.h>
@@ -10,6 +12,94 @@ namespace eui {
 MultiArcResourceAccessor::MultiArcResourceAccessor(const ArcResourceMgr* arc_resource_mgr,
                                                    const FontMgr* font_mgr)
     : mArcResourceMgr(arc_resource_mgr), mFontMgr(font_mgr) {}
+
+MultiArcResourceAccessor::~MultiArcResourceAccessor() {
+    for (auto it = mTextures.begin(); it != mTextures.end();) {
+        TextureLink& texture = *it;
+        ++it;
+        nn::ui2d::Layout::FreeMemory(texture.name);
+        nn::ui2d::Layout::FreeMemory(&texture);
+    }
+    for (auto it = mArchives.begin(); it != mArchives.end();) {
+        ArchiveLink& archive = *it;
+        ++it;
+        archive.~ArchiveLink();
+        nn::ui2d::Layout::FreeMemory(&archive);
+    }
+}
+
+// NON_MATCHING: matches once nn::util::IntrusiveList::size() is defined inline in lib (the
+// original counts the nodes inline); until then it is an undefined call.
+// 0x7100be022c
+const void* MultiArcResourceAccessor::sub_7100BE022C(const char* layout_name,
+                                                     const char* animation_name, u32* size) {
+    sead::FixedStringBuilder<256> path;
+    nn::ui2d::ArcExtractor* extractor;
+    if (mArchives.size() == 1) {
+        extractor = &mArchives.begin()->extractor;
+    } else {
+        path.copy("blyt/", 5);
+        path.append(layout_name, -1);
+        path.append(".bflyt", 6);
+        for (auto it = mArchives.begin();; ++it) {
+            if (!(it != mArchives.end()))
+                return nullptr;
+            nn::ui2d::ArcFileInfo info{};
+            extractor = &it->extractor;
+            const s32 entry_id = extractor->ConvertPathToEntryId(path.cstr());
+            if (entry_id >= 0 && extractor->GetFileFast(&info, entry_id))
+                break;
+        }
+    }
+
+    path.copy("anim/", 5);
+    path.append(layout_name, -1);
+    path.append("_", 1);
+    path.append(animation_name, -1);
+    path.append(".bflan", 6);
+    nn::ui2d::ArcFileInfo info{};
+    const s32 entry_id = extractor->ConvertPathToEntryId(path.cstr());
+    if (entry_id < 0)
+        return nullptr;
+    const void* data = extractor->GetFileFast(&info, entry_id);
+    if (data) {
+        if (size)
+            *size = info.size;
+        return data;
+    }
+    return nullptr;
+}
+
+// NON_MATCHING: the original sign-extends the file size (ldursw): needs nn::ui2d::ArcFileInfo::size
+// to be s32 (lib); with u32 only that load differs.
+// 0x7100be03f4
+void* MultiArcResourceAccessor::GetResource(size_t* size, u32 type, const char* name) {
+    sead::FixedStringBuilder<256> path;
+    {
+        const char type_name[5] = {char(type >> 24), char(type >> 16), char(type >> 8), char(type),
+                                   0};
+        path.copy(type_name, 4);
+    }
+    path.append("/", 1);
+    path.append(name, -1);
+    for (auto& link : mArchives) {
+        nn::ui2d::ArcFileInfo info{};
+        const s32 entry_id = link.extractor.ConvertPathToEntryId(path.cstr());
+        if (entry_id < 0)
+            continue;
+        if (void* data = const_cast<void*>(link.extractor.GetFileFast(&info, entry_id))) {
+            if (size)
+                *size = info.size;
+            return data;
+        }
+    }
+    return nullptr;
+}
+
+// 0x7100be050c
+nn::font::Font* MultiArcResourceAccessor::AcquireFont(nn::gfx::Device*, const char* name) {
+    return mFontMgr->tryGetFont(name);
+}
 
 bool MultiArcResourceAccessor::LoadTexture(nn::ui2d::ResourceTextureInfo* texture,
                                          nn::gfx::Device* device, const char* name) {

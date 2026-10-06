@@ -7,6 +7,7 @@
 #include <math/seadBoundBox.h>
 #include <math/seadMathCalcCommon.h>
 #include <nn/ui2d/DrawInfo.h>
+#include <nn/ui2d/GraphicsResource.h>
 #include "KingSystem/Utils/Types.h"
 #include <prim/seadRuntimeTypeInfo.h>
 #include <prim/seadSafeString.h>
@@ -311,6 +312,9 @@ public:
     // inline-only in the original; name is a guess (the draw target byte is loaded before the target manager)
     u8 getTargetFlag(u8 target_index) { return mTargetFlags[mTargetMgr->getDrawTarget(target_index)]; }
     ScreenTargetMgr* getTargetMgr() const { return mTargetMgr; }
+    // inline-only in the original; names are guesses (Screen::doSetupDrawInfo_)
+    nn::ui2d::GraphicsResource* getGraphicsResource() { return &mGraphicsResource; }
+    ConstantBuffer* getConstantBuffer() const { return mConstantBuffer; }
 
     // 0x7100bec794 / 0x7100bec724 / 0x7100bec7e8 / 0x7100bec808
     void resetScreenId(s32 id);
@@ -329,7 +333,8 @@ private:
     sead::Buffer<Screen*> mScreens;
     /* 0x38 */ sead::Buffer<s8> mScreenTargets;  // draw target of each screen (-1: inactive)
     /* 0x48 */ ScreenTargetMgr* mTargetMgr;
-    u8 _50[0xb10 - 0x50];  // 0x50: nn::ui2d::GraphicsResource, 0xb08: unknown object, SharcArchive at 0xb28
+    /* 0x50 */ nn::ui2d::GraphicsResource mGraphicsResource;
+    u8 _b08[0xb10 - 0xb08];  // unknown object; SharcArchive at 0xb28
     /* 0xb10 */ ArcResourceMgr* mArcResourceMgr;
     /* 0xb18 */ BoxCursorMgr* mBoxCursorMgr;
     /* 0xb20 */ f32 mAnimationStep;

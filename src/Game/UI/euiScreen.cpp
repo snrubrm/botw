@@ -4,6 +4,7 @@
 #include "Game/UI/euiArcResourceMgr.h"
 #include "Game/UI/euiMultiArcResourceAccessor.h"
 #include "Game/UI/euiBoxCursor.h"
+#include "Game/UI/euiConstantBuffer.h"
 #include "Game/UI/euiLayoutEx.h"
 #include "Game/UI/euiScreen.h"
 
@@ -92,6 +93,14 @@ LayoutEx* Screen::doCreateLayout_(sead::Heap* heap) {
 // 0x7100beab38
 DrawInfoEx* Screen::doCreateDrawInfoEx_(sead::Heap* heap) {
     return new (heap, 16) DrawInfoEx;
+}
+
+// NON_MATCHING: only the register assignment of the first two loads differs (mMgr / mDrawInfo)
+// 0x7100beabbc
+void Screen::doSetupDrawInfo_() {
+    mDrawInfo->mGraphicsResource = mMgr->getGraphicsResource();
+    SetupDrawInfoOrtho(mDrawInfo, mLayout->GetLayoutSize());
+    mMgr->getConstantBuffer()->setupDrawInfo(mDrawInfo);
 }
 
 // 0x7100beac04

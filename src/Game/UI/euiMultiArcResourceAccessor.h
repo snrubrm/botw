@@ -31,6 +31,15 @@ public:
         nn::gfx::ResTextureFile* textures;
     };
 
+    // A named texture (0x30 bytes, ctor 0x7100be0bb0): list node, an embedded
+    // nn::ui2d::ResourceTextureInfo (0x10, vtable 0x24c7f88; not modelled) and a heap copy of the name.
+    struct TextureLink {
+        nn::util::IntrusiveListNode node;
+        u8 _10[0x18];
+        char* name;
+    };
+    static_assert(sizeof(TextureLink) == 0x30);
+
     // 0x7100be022c: archive animation lookup; writes the byte size when requested.
     const void* sub_7100BE022C(const char* layout_name, const char* animation_name, u32* size);
 
@@ -58,8 +67,9 @@ public:
     using ArchiveList = nn::util::IntrusiveList<
         ArchiveLink, nn::util::IntrusiveListMemberNodeTraits<ArchiveLink, &ArchiveLink::node>>;
     /* 0x28 */ ArchiveList mArchives;
-    // The list of the texture links (0x38; the element type, a ResourceTextureInfo holder, is not modelled).
-    /* 0x38 */ nn::util::IntrusiveListNode _38;
+    using TextureList = nn::util::IntrusiveList<
+        TextureLink, nn::util::IntrusiveListMemberNodeTraits<TextureLink, &TextureLink::node>>;
+    /* 0x38 */ TextureList mTextures;
 };
 static_assert(sizeof(MultiArcResourceAccessor) == 0x48);
 
