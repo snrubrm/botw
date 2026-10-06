@@ -7,6 +7,7 @@
 #include <prim/seadSafeString.h>
 #include "aal/aalFadeCurveType.h"
 #include "aal/aalHandle.h"
+#include "aal/aalSoundController.h"
 #include "aal/aalSoundParam.h"
 #include "aal/aalSpatialCalculator.h"
 #include "aal/aalSpatialSetting.h"
@@ -30,7 +31,9 @@ public:
     /// Life cycle state: 0 is unused and 7 is finished; states up to 2 are the ones before playback
     /// starts (the start delay is counted down in state 1).
     u8 _8;
-    s32 mState;
+    /// volatile: the original reads it twice in isActive / getPlaySamplePosition, and reads it without using the value
+    /// in setInteriorNum (`ldr wzr`), which is how a volatile read that is discarded compiles.
+    volatile s32 mState;
     u32 mId;
     u8 _14;
     u8 _15;
@@ -39,7 +42,8 @@ public:
     /// Non-zero while the sound is virtualized.
     u8 mVirtualizedBy;
     f32 mPlayingTime;
-    u8 _1c[0x28 - 0x1c];
+    u8 _1c[0x24 - 0x1c];
+    s32 mStartSamplePos;
     f32 mStartDelayTime;
     f32 mFadeInTime;
     FadeCurveType mFadeCurveType;
@@ -47,12 +51,16 @@ public:
     /// The parameters the sound was set up with (Handle::getDefaultParamPtr) and the live ones.
     SoundParam mDefaultParam;
     SoundParam mParam;
-    u8 _b8[0xe8 - 0xb8];
+    u8 _b8[0xd4 - 0xb8];
+    /// Priority scale in [0, 1] (default 1; the constructor initialises 0xd4..0xe0 to 1).
+    f32 mPriority;
+    u8 _d8[0xe8 - 0xd8];
     SoundGroup* mSoundGroup;
     u8 _f0[0xf8 - 0xf0];
     /// The speaker balance supplier of the sound (SoundSource::setSpeakerBalanceSupplier).
     ISpeakerBalanceSupplier* mSpeakerBalanceSupplier;
-    u8 _100[0x120 - 0x100];
+    PlayingStateController* mPlayingStateController;
+    u8 _108[0x120 - 0x108];
     SpatialSetting mSpatialSetting;
     /// Allocated from the spatial calculator pool when the sound is positioned in space; nullptr if none.
     SpatialCalculator* mSpatialCalculator;
@@ -73,6 +81,13 @@ public:
     void pause(sead::BitFlag8 mask, bool pause, f32 fade_time);
     void setTrackVolume(sead::BitFlag32 tracks, f32 volume);
     bool isVirtualized() const;
+    // 0x7100b78094 / 0x7100b780c8 / 0x7100b78048 / 0x7100b77e5c / 0x7100b781a4 / 0x7100b783b8
+    bool setStreamRegionCallback(SoundController::StreamRegionCallback callback, void* user_data);
+    void setIgnorePrefetch(bool ignore);
+    bool setStartSamplePos(s32 position);
+    void startPrepared();
+    void setPriority(f32 priority);
+    f32 getFadeInTimeIfBeforePlaying() const;
     u32 getPlaySamplePosition() const;
     const AssetInfo* getAssetInfo() const;
     const char* getAssetName() const;
@@ -88,6 +103,8 @@ static_assert(offsetof(SoundSource, mDefaultParam) == 0x38, "aal::SoundSource la
 static_assert(offsetof(SoundSource, mParam) == 0x78, "aal::SoundSource layout mismatch");
 static_assert(offsetof(SoundSource, mSoundGroup) == 0xe8, "aal::SoundSource layout mismatch");
 static_assert(offsetof(SoundSource, mSpeakerBalanceSupplier) == 0xf8, "aal::SoundSource layout mismatch");
+static_assert(offsetof(SoundSource, mPlayingStateController) == 0x100, "aal::SoundSource layout mismatch");
+static_assert(offsetof(SoundSource, mPriority) == 0xd4, "aal::SoundSource layout mismatch");
 static_assert(offsetof(SoundSource, mMarkerController) == 0x1b8, "aal::SoundSource layout mismatch");
 
 }  // namespace aal

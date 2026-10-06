@@ -8,6 +8,7 @@ add_library(aal OBJECT
   include/aal/aalIUnifiable.h
   include/aal/aalNamedObj.h
   include/aal/aalShape.h
+  include/aal/aalSoundController.h
   include/aal/aalSoundParam.h
   include/aal/aalSoundSource.h
   include/aal/aalSpatialCalculator.h

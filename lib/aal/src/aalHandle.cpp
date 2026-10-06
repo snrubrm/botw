@@ -32,7 +32,6 @@ bool Handle::isEnabled() const {
     return mSoundSource && mId == mSoundSource->mId;
 }
 
-// NON_MATCHING: the original reads mState twice (once for the unused test, once for the finished test)
 // 0x7100b75d74
 bool Handle::isActive() const {
     if (auto* source = getSoundSource())
