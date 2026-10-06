@@ -337,9 +337,6 @@ public:
     // 0x710115f158: Unk2::sub_71011633C0 on this list's entry (slot, bank) with `other`'s entry
     // (other_slot, other_bank).
     void sub_710115F158(ASList* other, int slot, int other_slot, int bank, int other_bank);
-    // 0x710115c1d0 (lane4 s46): Unk2::sub_7101162E88 of the entry (slot, bank) with the entry (other_slot, other_bank)
-    // (null if there is none); the flag is true if the other slot is later (or the same slot with a later bank).
-    void sub_710115C1D0(int slot, int other_slot, int bank, int other_bank);
     // 0x710115ec5c: the integer parameter `kind` (_e0[_f0[kind]]), 0 if unset; `a2` is unused.
     int sub_710115EC5C(int kind, int a2);
     // 0x710115ec98: the float parameter `kind`, or `fn`'s result when given; `a4` is unused.

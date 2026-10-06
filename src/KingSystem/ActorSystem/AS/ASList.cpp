@@ -606,15 +606,6 @@ void ASList::sub_710115F158(ASList* other, int slot, int other_slot, int bank, i
     entry->sub_71011633C0(other_entry);
 }
 
-// NON_MATCHING: Unk2::sub_7101162E88 (same TU) is inlined; the original calls it (tail call).
-void ASList::sub_710115C1D0(int slot, int other_slot, int bank, int other_bank) {
-    const bool later = other_slot > slot || (other_slot == slot && other_bank >= bank);
-    auto* entry = getEntry(slot, bank);
-    if (!entry)
-        return;
-    entry->sub_7101162E88(getEntry(other_slot, other_bank), later);
-}
-
 f32 ASList::sub_710115F3F0(int slot, int bank, bool a1) {
     if (auto* entry = getEntry(slot, bank))
         return entry->sub_7101163354(a1);
