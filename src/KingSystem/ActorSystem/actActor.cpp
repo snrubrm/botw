@@ -754,15 +754,15 @@ bool Actor::sub_71011D55A8(void* a1, sead::Heap* heap) {
     return true;
 }
 
-// NON_MATCHING: the original has a separate epilogue for the empty list
+// Frees the list `_5b0`: false if it was empty.
 bool Actor::sub_71011C4EF4() {
-    if (_5b0) {
-        do {
-            auto* node = _5b0;
-            _5b0 = node->mNext;
-            delete node;
-        } while (_5b0);
-    }
+    if (!_5b0)
+        return false;
+    do {
+        auto* node = _5b0;
+        _5b0 = node->mNext;
+        delete node;
+    } while (_5b0);
     return true;
 }
 
