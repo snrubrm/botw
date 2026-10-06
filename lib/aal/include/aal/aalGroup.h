@@ -2,6 +2,7 @@
 
 #include <basis/seadTypes.h>
 #include <container/seadOffsetList.h>
+#include <container/seadPtrArray.h>
 #include <container/seadTreeNode.h>
 #include <prim/seadBitFlag.h>
 #include <prim/seadRuntimeTypeInfo.h>
@@ -27,6 +28,7 @@ class SoundSource;
 class Group : public NamedObj {
     SEAD_RTTI_BASE(Group)
     friend class GroupFolder;
+    friend class GroupMgr;
 
 public:
     ~Group() override;
@@ -55,6 +57,8 @@ public:
     virtual void finalize();
 
     /// The number of ancestors of the group.
+    /// 0x7100b7fc30 (declared only): pushes the descendants of the group into the array.
+    void pushDescendantGroupArray(sead::PtrArray<Group>* groups);
     s32 calcTreeDepth() const;
     Group* getParent() const;
     void setDuckingVolumeFloor(f32 floor);

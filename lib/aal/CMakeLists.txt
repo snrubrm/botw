@@ -30,6 +30,7 @@ add_library(aal OBJECT
   src/aalGroup.cpp
   src/aalGroupFolder.cpp
   src/aalGroupLimiter.cpp
+  src/aalGroupMgr.cpp
   src/aalSpatialCalculator.cpp
   src/aalHandle.cpp
   src/aalISpeakerBalanceSupplier.cpp

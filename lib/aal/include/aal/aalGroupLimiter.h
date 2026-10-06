@@ -29,6 +29,10 @@ public:
     /// 0x7100b80170 / 0x7100b80274 (declared only)
     void calcActiveSoundLimit();
     void calcRequestSoundLimit();
+    /// 0x7100b8029c / 0x7100b802d8 / 0x7100b80314 (declared only)
+    void updateUpperActiveSoundLimitList();
+    void updateUpperRequestSoundLimitList();
+    void updateUsingRequestIntervalLimiter();
 
 private:
     u8 _0[8];
