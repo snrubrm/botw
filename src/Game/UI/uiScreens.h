@@ -6,6 +6,7 @@
 #include <math/seadVector.h>
 #include <prim/seadSafeString.h>
 #include <thread/seadCriticalSection.h>
+#include "Game/UI/euiAnimator.h"
 #include "Game/UI/euiControlBase.h"
 #include "Game/UI/euiScreen.h"
 #include "Game/UI/euiUIController.h"
@@ -171,6 +172,8 @@ public:
 // handleMessage override at primary slot111; ScreenEx overrides that same slot.
 class Screen : public ScreenBase, public ksys::ActorMessageTransceiver::IHandler {
 public:
+    // 0x71010aa3b0 (CSV Screen::ctor; declared only)
+    Screen();
     ~Screen() override;
     SEAD_RTTI_OVERRIDE(Screen, ScreenBase)
     u8 _118[0x160 - 0x118];
@@ -698,9 +701,60 @@ public:
 
 class ScreenFadeDemo : public Screen {
 public:
+    ScreenFadeDemo();
     ~ScreenFadeDemo() override;
     SEAD_RTTI_OVERRIDE(ScreenFadeDemo, Screen)
     void m74(f32 progress) override;
+
+    /* 0x300 */ void* _300{};
+    /* 0x308 */ eui::AnimatorSet _308;
+    /* 0x328 */ eui::AnimatorSet _328;
+    /* 0x348 */ void* _348{};
+    /* 0x350 */ s32 _350 = 1;
+    /* 0x354 */ s32 _354 = -1;
+    /* 0x358 */ bool _358 = false;
+};
+
+// Nominal types of more Screen (not ScreenEx) leaf classes; only their constructors are recovered.
+class ScreenChangeControllerNN : public Screen {
+public:
+    ScreenChangeControllerNN();
+    ~ScreenChangeControllerNN() override;
+    SEAD_RTTI_OVERRIDE(ScreenChangeControllerNN, Screen)
+};
+
+class ScreenHomeNixSign : public Screen {
+public:
+    ScreenHomeNixSign();
+    ~ScreenHomeNixSign() override;
+    SEAD_RTTI_OVERRIDE(ScreenHomeNixSign, Screen)
+
+    /* 0x2fc */ s32 _2fc = 0;
+};
+
+class ScreenBoxCursorTV : public Screen {
+public:
+    ScreenBoxCursorTV();
+    ~ScreenBoxCursorTV() override;
+    SEAD_RTTI_OVERRIDE(ScreenBoxCursorTV, Screen)
+
+    /* 0x300 */ void* _300{};
+};
+
+class ScreenLoadSaveIcon : public Screen {
+public:
+    ScreenLoadSaveIcon();
+    ~ScreenLoadSaveIcon() override;
+    SEAD_RTTI_OVERRIDE(ScreenLoadSaveIcon, Screen)
+
+    /* 0x300 */ void* _300{};
+    /* 0x308 */ void* _308{};
+    /* 0x310 */ void* _310{};
+    /* 0x318 */ u16 _318 = 0;
+    /* 0x31a */ bool _31a = true;
+    /* 0x31c */ u32 _31c = 0;
+    /* 0x320 */ u32 _320 = 0;
+    /* 0x324 */ u32 _324 = 0;
 };
 
 class ScreenGameOver : public ScreenEx {

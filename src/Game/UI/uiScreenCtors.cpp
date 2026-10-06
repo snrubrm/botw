@@ -4,6 +4,21 @@
 
 namespace uking::ui {
 
+// 0x71010a0138
+ScreenFadeDemo::ScreenFadeDemo() : Screen() {}
+
+// 0x710109de68
+ScreenChangeControllerNN::ScreenChangeControllerNN() : Screen() {}
+
+// 0x71010a2114
+ScreenHomeNixSign::ScreenHomeNixSign() : Screen() {}
+
+// 0x710109da7c
+ScreenBoxCursorTV::ScreenBoxCursorTV() : Screen() {}
+
+// 0x71010a3ea8
+ScreenLoadSaveIcon::ScreenLoadSaveIcon() : Screen() {}
+
 // 0x7100a4ad38
 ScreenShopBtnList15::ScreenShopBtnList15() : ScreenEx() {}
 
