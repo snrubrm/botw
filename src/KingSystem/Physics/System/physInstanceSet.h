@@ -219,6 +219,21 @@ public:
     bool sub_7100FBB420() const;
     // 0x7100fc0600: unlinks `body` from that list and deletes it.
     void sub_7100FC0600(RigidBody* body);
+    // 0x7100fb83b8 (called by the destructor; lane4 s47, placeholder name): frees every collision info / contact
+    // point info (and the arrays) and the ragdoll's contact point info.
+    void sub_7100FB83B8();
+    // 0x7100fb9db0: setUseSystemTimeFactor(use) on the character controller, the rigid body sets, the listed bodies
+    // and the ragdoll.
+    void sub_7100FB9DB0(bool use);
+    // 0x7100fba0f4 / 0x7100fbd434 / 0x7100fbde90 / 0x7100fbdf08 / 0x7100fc00ec (lane4 s47; placeholder names): update
+    // the motion type related flags of every body (and the controller); forward `type` to every set / listed body;
+    // whether `body` is a linked sensor body or a link-matrix entry key; whether `key` is an entry key; the listed
+    // body entry `idx` (null if out of range).
+    void sub_7100FBA0F4();
+    void sub_7100FBD434(u8 type);
+    bool sub_7100FBDE90(RigidBody* body) const;
+    bool sub_7100FBDF08(const void* key) const;
+
     // 0x7100fbd918 / 0x7100fbd94c / 0x7100fbd984 (lane4 s47; placeholder names): set field 0x40 / byte 0x44 of the
     // entry of mLinkMatricesMaybe whose key (+0x38) is `key` / of every entry.
     void sub_7100FBD918(const void* key, s32 value);
@@ -278,6 +293,12 @@ private:
         /* 0xa0 */ u8 _a0[0xb0 - 0xa0];
     };
     sead::Buffer<Unk2> _100;
+
+public:
+    // 0x7100fc00ec (lane4 s47; placeholder name): the listed body entry `idx` (null if out of range).
+    Unk2* sub_7100FC00EC(s32 idx);
+
+private:
     u16 _110{};
     s8 _112;
     sead::ObjArray<Unk1> mLinkMatricesMaybe;

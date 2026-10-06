@@ -229,6 +229,8 @@ public:
     bool sub_7100F60840() const;
     // 0x7100f60850: RigidBody::clearFlag400000 on the main body and (if _114 has 0x2000) on every body of _288.
     void sub_7100F60850(bool clear);
+    // 0x7100f5f5a0 (declared only; the InstanceSet calls it after updating the motion type flags).
+    void sub_7100F5F5A0();
     // 0x7100f5e754: sets the byte at +0x50 of the sub-object at +0x48.
     void sub_7100F5E754(bool value);
     // 0x7100f5f060: copies `value` to _ec.

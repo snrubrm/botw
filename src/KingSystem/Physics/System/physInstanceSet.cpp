@@ -788,4 +788,81 @@ gsys::BoneAccessKey InstanceSet::sub_7100FBDF54(const void* key) const {
     return {};
 }
 
+void InstanceSet::sub_7100FB83B8() {
+    while (mContactPointInfo.size() >= 1) {
+        auto* info = mContactPointInfo.popBack();
+        if (!info)
+            break;
+        ContactPointInfo::free(info);
+    }
+    while (mCollisionInfo.size() >= 1) {
+        auto* info = mCollisionInfo.popBack();
+        if (!info)
+            break;
+        CollisionInfo::free(info);
+    }
+    mCollisionInfo.freeBuffer();
+    mContactPointInfo.freeBuffer();
+    if (mRagdollContactPointInfo) {
+        ContactPointInfo::free(mRagdollContactPointInfo);
+        mRagdollContactPointInfo = nullptr;
+    }
+}
+
+void InstanceSet::sub_7100FB9DB0(bool use) {
+    if (mCharacterController)
+        mCharacterController->sub_7100F607CC(use);
+    for (auto& set : mRigidBodySets)
+        set.setUseSystemTimeFactor(use);
+    for (auto* body : mList)
+        body->setUseSystemTimeFactor(use);
+    if (mRagdollInstance)
+        mRagdollInstance->setUseSystemTimeFactor(use);
+}
+
+void InstanceSet::sub_7100FBA0F4() {
+    for (auto& set : mRigidBodySets)
+        set.updateMotionTypeRelatedFlags();
+    for (auto* body : mList)
+        body->updateMotionTypeRelatedFlags();
+    if (mCharacterController)
+        mCharacterController->sub_7100F5F5A0();
+}
+
+void InstanceSet::sub_7100FBD434(u8 type) {
+    for (auto& set : mRigidBodySets)
+        set.callRigidBody_x_7(type);
+    for (auto* body : mList)
+        body->x_17(type);
+}
+
+bool InstanceSet::sub_7100FBDE90(RigidBody* body) const {
+    if (!body)
+        return false;
+    if (body->hasFlag(RigidBody::Flag::IsSensor) && body->getLinkedRigidBody() &&
+        !body->isSensorMotionFlag40000Set())
+        return true;
+    for (auto& entry : mLinkMatricesMaybe) {
+        if (entry._38 == body)
+            return true;
+    }
+    return false;
+}
+
+bool InstanceSet::sub_7100FBDF08(const void* key) const {
+    if (!key)
+        return false;
+    for (auto& entry : mLinkMatricesMaybe) {
+        if (entry._38 == key)
+            return true;
+    }
+    return false;
+}
+
+InstanceSet::Unk2* InstanceSet::sub_7100FC00EC(s32 idx) {
+    if (idx < 0 || idx >= _100.size())
+        return nullptr;
+    return &_100[idx];
+}
+
 }  // namespace ksys::phys
