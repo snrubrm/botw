@@ -1,5 +1,6 @@
 #pragma once
 
+#include "KingSystem/ActorSystem/Attention/actAttention.h"
 #include <math/seadVector.h>
 #include "Game/Actor/actHorseRideInfo.h"
 #include "KingSystem/ActorSystem/actModelBindInfo.h"
@@ -739,7 +740,7 @@ bool playerIsReloadingOrChargingOrShootingBow(Player* player);
 
 // 0x710086b194 (declaration only; placeholder name, no `this`): the Attention target type (0x1800000 if the
 // current target's accessor fails sub_7100D10FB8, else Attention::sub_7100D74880()).
-u32 sub_710086B194();
+AttActionCodeValue sub_710086B194();
 
 }  // namespace ksys::act
 

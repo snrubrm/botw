@@ -39,7 +39,7 @@ void HorseManeCollarSyncAction::enter_(ksys::act::ai::InlineParamPack* params) {
         }
     } else if (bank_count >= 5) {
         {
-            const act::Unk_7100e8b2b8::Unk8 type = rideable->sub_7100E8C03C();
+            const ksys::act::Unk_7100d14598 type = rideable->sub_7100E8C03C();
             switch (type) {
             case 3:
                 mane->getASList()->startAnimationMaybe(-1.0f, -1.0f, act::sUnk_7102603480, 0, 0,

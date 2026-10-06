@@ -100,7 +100,7 @@ bool Unk_7100e8b2b8::sub_7100E8BFD4() {
     return !(_8.fetchOr(0x100) & 0x100);
 }
 
-u32 Unk_7100e8b2b8::sub_7100E8C03C() const {
+ksys::act::Unk_7100d14598 Unk_7100e8b2b8::sub_7100E8C03C() const {
     return mActor->getParam()->getRes().mGParamList->getHorseUnit()->mRiddenAnimalType.ref();
 }
 

@@ -82,7 +82,7 @@ bool Attention::sub_7100D74258(const AttClient* client) const {
 }
 
 bool Attention::sub_7100D747D8(BaseProcLink* out) {
-    if (auto* client = sub_7100D7457C(false, u32(AttActionCode::None))) {
+    if (auto* client = sub_7100D7457C(false, AttActionCodeValue(int(AttActionCode::None)))) {
         if (auto* actor = client->getActor()) {
             out->acquire(actor, false);
             return true;
@@ -93,7 +93,7 @@ bool Attention::sub_7100D747D8(BaseProcLink* out) {
 
 bool Attention::sub_7100D7482C(ActorLinkConstDataAccess* out) {
     if (out) {
-        if (auto* client = sub_7100D7457C(false, u32(AttActionCode::None))) {
+        if (auto* client = sub_7100D7457C(false, AttActionCodeValue(int(AttActionCode::None)))) {
             if (auto* actor = client->getActor()) {
                 out->acquire(actor);
                 return true;
@@ -103,8 +103,32 @@ bool Attention::sub_7100D7482C(ActorLinkConstDataAccess* out) {
     return false;
 }
 
+AttActionCodeValue Attention::sub_7100D74880() {
+    if (auto* client = sub_7100D7457C(false, AttActionCodeValue(int(AttActionCode::None))))
+        return client->sub_7100D72544();
+    return 0x1800029;
+}
+
+bool Attention::sub_7100D748B8() const {
+    if (auto* client = sub_7100D7457C(false, AttActionCodeValue(int(AttActionCode::None))))
+        return int(client->sub_7100D72544()) != int(AttActionCode::Remind);
+    return false;
+}
+
+bool Attention::sub_7100D748FC(AttActionCodeValue code) const {
+    return sub_7100D7457C(true, code) != nullptr;
+}
+
+AttActionCodeValue Attention::sub_7100D74430(s32 list, s32 index) const {
+    const auto& target_list = mLists[list];
+    AttClient* client = nullptr;
+    if (u32(index) < u32(target_list.mCount))
+        client = target_list.mEntries[index];
+    return client->sub_7100D72544();
+}
+
 bool Attention::sub_7100D74550() const {
-    auto* client = sub_7100D7457C(false, u32(AttActionCode::None));
+    auto* client = sub_7100D7457C(false, AttActionCodeValue(int(AttActionCode::None)));
     return client && client->getActor();
 }
 
@@ -146,7 +170,7 @@ void Attention::sub_7100D74514(void* target) {
     _dc0 = target;
 }
 
-void Attention::sub_7100D74530(u64 type, void* target) {
+void Attention::sub_7100D74530(AttActionCodeValue type, void* target) {
     mFlagsE22.reset(0xc);
     mFlagsE22.set(8);
     _db8 = type;

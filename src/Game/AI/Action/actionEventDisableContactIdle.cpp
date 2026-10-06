@@ -30,8 +30,8 @@ bool EventDisableContactIdle::DisableContactCallback::invoke(
     ksys::phys::ContactPointInfo::ShouldDisableContact* disable,
     const ksys::phys::ContactPointInfo::Event& event) {
     if (event.body) {
-        const u32 layer = u32(event.body->getContactLayer().value());
-        if ((1 << (layer & 0x1f)) & mLayerMask) {
+        const auto layer = event.body->getContactLayer();
+        if ((1u << layer.getRelativeIndex()) & mLayerMask) {
             *disable = ksys::phys::ContactPointInfo::ShouldDisableContact::Yes;
             return false;
         }

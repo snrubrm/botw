@@ -49,10 +49,9 @@ void FlyingCharacterFreeze::calc_() {
     FlyingCharacterReaction::calc_();
 }
 
-// NON_MATCHING: sub_7100F5F0E4 returns a 4-byte struct in the original (the result is spilled to the stack)
 void FlyingCharacterFreeze::m34(ksys::phys::CharacterController* controller) {
     if (_78.value <= sead::Mathf::epsilon()) {
-        if (controller->sub_7100F5F0E4() != ksys::act::MotionType::_1)
+        if (int(controller->sub_7100F5F0E4()) != ksys::act::MotionType::_1)
             controller->sub_7100F5F458(ksys::act::MotionType::_1);
         return;
     }

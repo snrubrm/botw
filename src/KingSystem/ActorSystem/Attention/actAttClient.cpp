@@ -74,7 +74,7 @@ Actor* AttClient::getActor() const {
     return mActor;
 }
 
-u32 AttClient::sub_7100D72544() const {
+AttActionCodeValue AttClient::sub_7100D72544() const {
     return int(mClient->client->getActionCode());
 }
 

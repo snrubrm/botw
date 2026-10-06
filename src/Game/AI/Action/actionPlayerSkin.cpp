@@ -54,7 +54,7 @@ void PlayerSkin::calc_() {
         return;
     }
     _1c = true;
-    if (ksys::act::sub_710086B194() != 0x180000a)
+    if (ksys::act::sub_710086B194() != ksys::act::AttActionCodeValue(0x180000a))
         setFinished();
 }
 

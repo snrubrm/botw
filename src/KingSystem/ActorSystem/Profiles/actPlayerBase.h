@@ -330,7 +330,9 @@ public:
     bool sub_710084A6B8();                   // 0x84a6b8 (RuneMgr flag bit 5; unnamed in the CSV)
     // 0x736fd0 (CSV Player::getDeathReason; lane4 s45): the damage manager's death reason (0 without a manager;
     // low 16 bits: the cause, high 16 bits: the kind; read by AI_Query_CheckPlayerDeadCause).
-    u32 getDeathReason();
+    // Returns a 4-byte class by value (AArch64 returns it zero-extended in x0: `and x0, x0, #0xffffffff`); sead::BitFlag32
+    // is a guess for its type.
+    sead::BitFlag32 getDeathReason();
 
 protected:
     friend class acc::PlayerBase;

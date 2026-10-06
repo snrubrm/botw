@@ -163,9 +163,7 @@ f32 PlayerBase::m317() {
     return 0.0f;
 }
 
-// NON_MATCHING: the original calls the damage manager slot without a tail call and zero-extends the result to 64 bits
-// (`and x0, x0, #0xffffffff`; the return type is probably wider than u32).
-u32 PlayerBase::getDeathReason() {
+sead::BitFlag32 PlayerBase::getDeathReason() {
     if (auto* manager = getDamageMgr())
         return manager->getFlags2();
     return 0;

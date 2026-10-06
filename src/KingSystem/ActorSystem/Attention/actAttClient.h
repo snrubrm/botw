@@ -1,5 +1,6 @@
 #pragma once
 
+#include "KingSystem/ActorSystem/Attention/actAttention.h"
 #include <container/seadBuffer.h>
 #include <math/seadMatrix.h>
 #include <math/seadVector.h>
@@ -56,7 +57,7 @@ public:
     // 0x7100d7252c
     Actor* getActor() const;
     // 0x7100d72544: the action code of the resource client (see sub_7100D72534: the attention type).
-    u32 sub_7100D72544() const;
+    AttActionCodeValue sub_7100D72544() const;
 
 private:
     Actor* mActor = nullptr;

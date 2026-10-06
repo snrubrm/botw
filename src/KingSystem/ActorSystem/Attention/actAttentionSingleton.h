@@ -4,6 +4,7 @@
 #include <container/seadSafeArray.h>
 #include <heap/seadDisposer.h>
 #include <prim/seadBitFlag.h>
+#include "KingSystem/ActorSystem/Attention/actAttention.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 
 namespace ksys::act {
@@ -44,9 +45,8 @@ public:
     bool sub_7100D7482C(ActorLinkConstDataAccess* out);
     // 0x7100d747d8 (CSV Attention::__auto2): same for a BaseProcLink.
     bool sub_7100D747D8(BaseProcLink* out);
-    // 0x7100d74880 (CSV Attention::__auto8; declared only, the original zero-extends the result with `and x0, x0,
-    // #0xffffffff`): the target's type, or 0x1800029 if there is none.
-    u64 sub_7100D74880();
+    // 0x7100d74880 (CSV Attention::__auto8): the target's action code, or 0x1800029 if there is none.
+    AttActionCodeValue sub_7100D74880();
     // 0x7100d744b8 (CSV Attention::__auto12): sets the requested target link.
     void sub_7100D744B8(const BaseProcLink& link);
     // 0x7100d74d78 (CSV Attention::x_1): updates the target lists with `client` (calls the four operations below).
@@ -58,19 +58,20 @@ public:
     void sub_7100D751D4(AttClient* client);
     // 0x7100d7457c (declaration only): the client to use among the target lists; `filter` selects whether
     // `code` (an AttActionCode, None for any) has to match.
-    AttClient* sub_7100D7457C(bool filter, u32 code) const;
+    AttClient* sub_7100D7457C(bool filter, AttActionCodeValue code) const;
     // 0x7100d74208: `*out = _58 of the current target`; false if there is none.
     bool sub_7100D74208(u32* out) const;
     // 0x7100d74258: whether `client` is in its target list.
     bool sub_7100D74258(const AttClient* client) const;
     // 0x7100d74550: whether sub_7100D7457C(false, None) has an actor.
     bool sub_7100D74550() const;
-    // 0x7100d748b8 (declared only; the original keeps the action code in a stack slot): whether the action
-    // code of sub_7100D7457C(false, None) is not Remind.
+    // 0x7100d748b8: whether the action code of sub_7100D7457C(false, None) is not Remind.
     bool sub_7100D748B8() const;
-    // 0x7100d748fc (declared only; the original zero-extends `code` with an `and x2, x1, #0xffffffff`): whether
-    // sub_7100D7457C(true, code) finds a client.
-    bool sub_7100D748FC(u64 code) const;
+    // 0x7100d748fc: whether sub_7100D7457C(true, code) finds a client.
+    bool sub_7100D748FC(AttActionCodeValue code) const;
+    // 0x7100d74430 (lane4 s48; placeholder name): the action code of entry `index` of the target list `list` (the
+    // original calls AttClient::sub_7100D72544 on a null client when `index` is out of range).
+    AttActionCodeValue sub_7100D74430(s32 list, s32 index) const;
     // 0x7100d74414: number of entries of the target list `list`.
     s32 getTargetCount(s32 list) const;
     // 0x7100d74504: `_c4c = value` for 0 and 1.
@@ -84,7 +85,7 @@ public:
     // 0x7100d74514 (CSV Attention::__auto1) / 0x7100d74530: set the request state of the flag byte at +0xe22
     // (value 1 / 2) and the requested target.
     void sub_7100D74514(void* target);
-    void sub_7100D74530(u64 type, void* target);
+    void sub_7100D74530(AttActionCodeValue type, void* target);
     // 0x7100d753d8: whether `client` is the current target.
     bool sub_7100D753D8(const AttClient* client) const;
     // 0x7100d75410 / 18 / 20 / 28: the floats at +0xc30..0xc3c.
@@ -130,7 +131,7 @@ public:
     /* 0xd90 */ u8 _d90[0xd98 - 0xd90];
     /* 0xd98 */ BaseProcLink mRequestedTarget;
     /* 0xda8 */ u8 _da8[0xdb8 - 0xda8];
-    /* 0xdb8 */ u32 _db8;
+    /* 0xdb8 */ AttActionCodeValue _db8;
     /* 0xdbc */ u8 _dbc[0xdc0 - 0xdbc];
     /* 0xdc0 */ void* _dc0;
     /* 0xdc8 */ u8 _dc8[0xe20 - 0xdc8];

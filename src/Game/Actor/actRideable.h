@@ -8,6 +8,7 @@
 #include <prim/seadSafeString.h>
 #include <thread/seadAtomic.h>
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
+#include "KingSystem/ActorSystem/actUnk_7100d14598.h"
 #include "KingSystem/Utils/Types.h"
 
 namespace sead {
@@ -100,7 +101,9 @@ public:
     bool sub_7100E8BFF4();
     // 0x7100e8c018: `HorseMgr::instance()` (null: false) `->isLinkedToActor(mActor)`.
     bool sub_7100E8C018();
-    u32 sub_7100E8C03C() const;
+    // The ridden animal type of the horse unit param (a 4-byte SEAD_ENUM by value: ActorConstDataAccess::sub_7100D14598
+    // returns it unchanged, which is where the `and x0, x0, #0xffffffff` comes from).
+    ksys::act::Unk_7100d14598 sub_7100E8C03C() const;
     // 0x7100e8c068: with Unk8 3, the previous position of the actor linked in _20.
     bool sub_7100E8C068(sead::Vector3f* pos);
 

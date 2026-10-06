@@ -44,7 +44,7 @@ bool AreaActorObserveByGroup::sub_710009E7D0(const ksys::act::ActorConstDataAcce
         return false;
 
     auto* base = static_cast<act::Unk_7100e8b2b8*>(rideable);
-    switch (base->sub_7100E8C03C()) {
+    switch (base->sub_7100E8C03C().value()) {
     case 1:
     case 3:
     case 4:

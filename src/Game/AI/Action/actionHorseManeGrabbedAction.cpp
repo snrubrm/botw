@@ -26,7 +26,7 @@ void HorseManeGrabbedAction::enter_(ksys::act::ai::InlineParamPack* params) {
             bool synced = false;
             if (horse->getASList()->getSlot0BankCount() >= 6) {
                 if (auto* rideable = horse->getHorseOptionsMaybe()) {
-                    const act::Unk_7100e8b2b8::Unk8 type = rideable->sub_7100E8C03C();
+                    const ksys::act::Unk_7100d14598 type = rideable->sub_7100E8C03C();
                     switch (type) {
                     case 1:
                     case 2:

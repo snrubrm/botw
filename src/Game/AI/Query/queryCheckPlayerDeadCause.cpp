@@ -9,8 +9,9 @@ CheckPlayerDeadCause::CheckPlayerDeadCause(const InitArg& arg) : ksys::act::ai::
 
 CheckPlayerDeadCause::~CheckPlayerDeadCause() = default;
 
-// NON_MATCHING: same logic; the original computes the table / kind selects first and only then tests cause 12 / 10
-// (ours tests them before the selects), and its index is `(s16)(cause - 1)` after the range check.
+// NON_MATCHING: same logic; the original computes the table / kind selects (including `kind == 4`) first and only then
+// tests cause 12 / 10 (ours sinks the selects below those tests), and subtracts 1 from the whole reason (`sub w8, w0,
+// #1`) before masking the index to 16 bits (ours: `add w9, w0, #0xffff`).
 int CheckPlayerDeadCause::doQuery() {
     auto* player = ksys::act::PlayerInfo::instance()->getPlayer();
     if (!player)
@@ -21,7 +22,7 @@ int CheckPlayerDeadCause::doQuery() {
     const u32 kind = reason >> 16;
 
     int result;
-    switch (static_cast<u16>(cause - 1)) {
+    switch (static_cast<u16>(reason - 1)) {
     case 0:
         result = 0;
         break;

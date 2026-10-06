@@ -73,7 +73,9 @@ public:
     virtual s32 getField50() { return mField_50; }
     virtual s32 getField54() { return mField_54; }
     virtual bool checkDamageFlags(s32 bit) { return false; }
-    virtual s32 getFlags2() { return mFlags2; }
+    // lane4 s48: returns u64 (callers mask it with 64-bit instructions: ForceDispLifeGage; PlayerBase::getDeathReason
+    // truncates it to 32 bits and widens it again: `and x0, x0, #0xffffffff`).
+    virtual u64 getFlags2() { return mFlags2; }
     // lane1 s22: AssassinBossRoot sets the low nibble of mField_64 (name is a guess).
     void setField64LowNibble(u8 value) { mField_64 = (mField_64 & 0xf0) | value; }
     virtual void addDamageCallback(s32 eventId, DamageCallback* callback);
@@ -182,7 +184,7 @@ private:
     s32 mMinDmg = 0;
     s32 mField_50 = -1;
     s32 mField_54 = -1;
-    s32 mFlags2 = 0;
+    u32 mFlags2 = 0;
     s32 mDamageType = 0;
     s32 mDamageReactionTableStuff = -1;
     u8 mField_64 = 0;
