@@ -202,6 +202,17 @@ void ScreenDemoStart::m93(sead::Heap*) {
     _3610 = mLayout->createAnimatorAuto("Decide", false);
 }
 
+// 0x7100a0e7fc
+void ScreenKeyNum::open(s32 option) {
+    if (mState != 1 && mState != 2 && ksys::StageInfo::sIsDungeon) {
+        if (ksys::gdt::getSmallKeyNum(GameScene::getCurrentMapName(), false) < 1)
+            return;
+        if (sub_7100A98038(mId))
+            return;
+        Screen::open(option);
+    }
+}
+
 // 0x7100a0e8a4
 void ScreenKeyNum::m84() {
     _3610 = ksys::StageInfo::sIsDungeon ? ksys::gdt::getSmallKeyNum(GameScene::getCurrentMapName(), false) : 0;
