@@ -4,6 +4,8 @@
 
 namespace ksys::phys {
 
+const f32 sUnk_7101ec27f4 = 1000000.0f;
+
 NavMeshCharacter::~NavMeshCharacter() {
     finalize();
 }

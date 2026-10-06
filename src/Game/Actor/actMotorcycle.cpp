@@ -1248,7 +1248,7 @@ void Motorcycle::sub_710007D034() {
     _f88.set(8);
 }
 
-f32 getMotorcycleEnergy() {
+f32 MotorcycleStruct0::getMotorcycleEnergy() {
     return MotorcycleMgr::instance()->mEnergy;
 }
 

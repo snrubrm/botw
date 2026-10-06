@@ -1,6 +1,7 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <math/seadVector.h>
 #include <prim/seadRuntimeTypeInfo.h>
 
 #include "KingSystem/Utils/Types.h"
@@ -40,7 +41,6 @@ public:
     s32 mField_10 = 0;
     s32 mField_14 = -1;
     s32 mField_18 = -1;
-    u32 mField_1C;  // Flag of some kind
 };
 KSYS_CHECK_SIZE_NX150(Struct20, 0x20);
 
@@ -48,16 +48,19 @@ class Struct20_2 : public Struct20 {
     SEAD_RTTI_OVERRIDE(Struct20_2, Struct20)
 
 public:
-    ~Struct20_2() override { ; }
+    // 0x71006d8e7c (CSV unnamed; callers: ForkDrownTimer / ForkStalEnemyForceDamage calc_, the Guardian / Horse /
+    // Lynel / Sandworm AI roots): builds the damage message the AI sends to the actor's damage manager.
+    Struct20_2();
+    ~Struct20_2() override = default;
 
     void reset() override;
     void combineMaybe(Struct20Base* other) override;
 
-    f32 mField_20;
-    f32 mField_24;
-    f32 mField_28;
-    f32 mField_2C;
-    bool mField_30;
+    // Sits in the tail padding of Struct20 (0x1c): its constructor is the only one that initialises it.
+    u32 mField_1C = 0;  // Flag of some kind
+    sead::Vector3f mField_20{sead::Vector3f::ey};
+    f32 mField_2C = 1.0f;
+    bool mField_30 = false;
 };
 KSYS_CHECK_SIZE_NX150(Struct20_2, 0x38);
 

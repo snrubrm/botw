@@ -25,6 +25,8 @@ void Struct20::combineMaybe(Struct20Base* other) {
     }
 }
 
+Struct20_2::Struct20_2() = default;
+
 void Struct20_2::reset() {
     mField_1C = 0;
     mField_30 = false;
@@ -44,8 +46,6 @@ void Struct20_2::combineMaybe(Struct20Base* other) {
     if (mField_18 == otherStruct->mField_18 && otherStruct->mField_30) {
         mField_30 = true;
         mField_20 = otherStruct->mField_20;
-        mField_24 = otherStruct->mField_24;
-        mField_28 = otherStruct->mField_28;
         mField_2C = otherStruct->mField_2C;
     }
 }

@@ -377,7 +377,12 @@ public:
 
 protected:
     /* 0xd88 */ u8 _d88[0xda0 - 0xd88];
+
+public:
+    // Public: read by AI_Query_CheckLastDamageAttacker (the last damage attacker's name).
     /* 0xda0 */ sead::FixedSafeString<64> _da0;
+
+protected:
     /* 0xdf8 */ sead::FixedSafeString<64> _df8;
     /* 0xe50 */ u8 _e50[0xe54 - 0xe50];
     /* 0xe54 */ f32 _e54;

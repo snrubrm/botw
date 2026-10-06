@@ -6,6 +6,7 @@
 #include "KingSystem/ActorSystem/actBaseProc.h"
 #include "KingSystem/ActorSystem/actBaseProcHandle.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
+#include "KingSystem/Utils/Thread/MessageTransceiverTxOnly.h"
 #include "KingSystem/Utils/Types.h"
 
 namespace ksys::act {
@@ -17,8 +18,26 @@ struct Unk117;
 // 0x7100e2c1fc-0x7100e31570): the player's armor state, embedded in Player at +0x23e0 (0x170
 // bytes; Actor::getArmors returns it). Not decompiled: only the methods the Player slots forward
 // to are declared (all placeholder names).
-class PlayerArmors {
+// Placeholder name: the second base of PlayerArmors (vptr at +8; the vtable at 0x71024e5ed0 + 0x38 only
+// holds its two destructors, there is no data).
+class PlayerArmorsUnkBase8 {
 public:
+    virtual ~PlayerArmorsUnkBase8() = default;
+};
+
+// The first base (vptr at +0) is IHandler: the vtable at 0x71024e5ed0 + 0x10 is {D1 0x7100e2d66c, D0 0x7100e2d7b0,
+// handleAck = the shared empty function 0x710064c188}.
+class PlayerArmors : public MessageTransceiverTxOnly::IHandler, public PlayerArmorsUnkBase8 {
+public:
+    // 0x7100e2d490 (CSV PlayerArmors::ctor); `flag` is stored in `_130` (Player passes it).
+    explicit PlayerArmors(bool flag);
+    // 0x7100e2d66c (D1) / 0x7100e2d7b0 (D0) + the 0x7100e2d7a8 / 0x7100e2d7d4 thunks of the second base.
+    ~PlayerArmors() override;
+
+    // 0x7100e2d70c (called by the destructor; CSV unnamed): deletes the six worn part actors (the part
+    // handles and the linked actors).
+    void sub_7100E2D70C();
+
     // 0x7100e2edf8 (CSV x_3): Player::getArmorPartName (the name of the actor in part slot `idx`).
     void sub_7100E2EDF8(s32 idx, sead::BufferedSafeString* out);
     // 0x7100e2ed78 (CSV x_4): Player::m278 (-1 when slot `idx` > 2 or empty).
@@ -117,17 +136,19 @@ public:
     BaseProcLink& getPartsLink(int idx) { return _10[idx]; }
 
 private:
-    u8 _0[0x10];
     sead::SafeArray<BaseProcLink, 6> _10;
     sead::SafeArray<BaseProcHandle, 6> _70;
-    u8 _d0[0x128 - 0xd0];
-    Actor* _128;  // the owner (setActor)
-    u8 _130[0x133 - 0x130];
-    u8 _133;  // read by uking::act::Armor::m148 (the head armor then uses weight 0)
+    u8 _d0 = 0;
+    /* 0xd8 */ MessageTransceiverTxOnly mTransceiver{this};
+    Actor* _128 = nullptr;  // the owner (setActor)
+    bool _130;
+    u8 _131 = 0;
+    u8 _132 = 0;
+    u8 _133 = 0;  // read by uking::act::Armor::m148 (the head armor then uses weight 0)
     sead::BitFlag16 _134;
-    u8 _136;
-    u8 _137[0x138 - 0x137];
-    sead::FixedSafeString<32> _138;
+    u8 _136 = 0;
+    u8 _137 = 0;
+    sead::FixedSafeString<32> _138{sead::SafeString::cEmptyString};
 };
 KSYS_CHECK_SIZE_NX150(PlayerArmors, 0x170);
 

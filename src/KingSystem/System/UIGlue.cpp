@@ -54,13 +54,14 @@ void callIncreasePouchNum(void* a1, void* a2) {
         sCallIncreasePouchNumHandler(a1, a2);
 }
 
-using SCheckVacancyItemHandlerFn = void (*)();
+using SCheckVacancyItemHandlerFn = int (*)();
 SCheckVacancyItemHandlerFn sCheckVacancyItemHandler;
 
 // 0x7100edc380
-void checkVacancyItem() {
+int checkVacancyItem() {
     if (sCheckVacancyItemHandler)
-        sCheckVacancyItemHandler();
+        return sCheckVacancyItemHandler();
+    return 0;
 }
 
 using SGetPorchNumHandlerFn = s32 (*)(const sead::SafeString&);
@@ -205,13 +206,13 @@ void sub_7100EDC518() {
         sSub_7100EDC518Handler();
 }
 
-using SSub_7100EDC530HandlerFn = void (*)(void*, void*);
+using SSub_7100EDC530HandlerFn = void (*)(s32, void*);
 SSub_7100EDC530HandlerFn sSub_7100EDC530Handler;
 
 // 0x7100edc530
-void sub_7100EDC530(void* a1, void* a2) {
+void sub_7100EDC530(s32 id, void* a2) {
     if (sSub_7100EDC530Handler)
-        sSub_7100EDC530Handler(a1, a2);
+        sSub_7100EDC530Handler(id, a2);
 }
 
 

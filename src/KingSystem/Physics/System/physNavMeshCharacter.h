@@ -2,6 +2,7 @@
 
 #include <basis/seadTypes.h>
 #include <limits>
+#include <math/seadMathCalcCommon.h>
 #include <math/seadVector.h>
 #include <prim/seadScopedLock.h>
 #include <thread/seadAtomic.h>
@@ -33,11 +34,26 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(Unk_7100f7e9f0, 0x18);
 
-// Placeholder: the 0xe0-byte object at NavMeshCharacter::_8 (only the accessed field is modelled).
-struct NavMeshCharacterUnk8 {
-    /* 0x00 */ u8 _0[0x98];
-    /* 0x98 */ u32 _98;
+// Placeholder: object at NavMeshCharacterUnk8::_a0 (the initial values of the speed limits).
+struct NavMeshCharacterUnk8A0 {
+    /* 0x00 */ u8 _0[0xc];
+    /* 0x0c */ f32 _c;
+    /* 0x10 */ f32 _10;
 };
+
+// Placeholder: the 0xe0-byte object at NavMeshCharacter::_8 (only the accessed fields are modelled).
+struct NavMeshCharacterUnk8 {
+    /* 0x00 */ u8 _0[0x6c];
+    /* 0x6c */ f32 _6c;
+    /* 0x70 */ u8 _70[0x98 - 0x70];
+    /* 0x98 */ u32 _98;
+    /* 0x9c */ u8 _9c[0xa0 - 0x9c];
+    /* 0xa0 */ NavMeshCharacterUnk8A0* _a0;
+};
+
+// 0x7101ec27f4 (placeholder name, read-only data; 1000000.0f): the replacement for an infinite value in
+// NavMeshCharacter::inlineSetField2C0.
+extern const f32 sUnk_7101ec27f4;
 
 // Placeholder: object at NavMeshCharacter::_10 + 0x78 (move parameters).
 struct NavMeshCharacterMoveParam {
@@ -137,6 +153,37 @@ public:
                  std::numeric_limits<f32>::quiet_NaN());
     }
 
+    // Inline-only in the original (lane5 s1 / lane4 s45; names are guesses): the setters used by the NavMeshAction
+    // family (NavMeshAction enter_ / leave_, also EnemyRushAttack, KokkoMove, AnimalFollowBase and
+    // AnimalMoveStraightTimed use them). Both store a value under `_1e0` and set a bit of the flags `_220`.
+    // `_2bc` (bit 0x400) is only changed for a valid value (checks in the original order: |v| <= FLT_MAX,
+    // v >= 0, not NaN). `_2c0` (bit 0x800) is only changed if `value` is not below the initial limit
+    // `_8->_a0->_c`; a value above FLT_MAX is replaced by 1000000.0 (sUnk_7101ec27f4); the replacement is
+    // computed before the lock is taken.
+    // NON_MATCHING note for users: the original sets the bit with ONE ldxr/stxr loop computing
+    // `(old & ~bit) | bit` (a custom read-modify-write); sead::Atomic only has fetchOr (a plain `orr` in the
+    // loop, one `and` less), so callers differ by that instruction. FLT_MAX is also loaded once into a
+    // callee-saved register in the original but rematerialised here, and the original branches separately
+    // per range check where we get fcmp+ccmp.
+    void inlineSetField2BC(f32 value) {
+        if (sead::Mathf::abs(value) > std::numeric_limits<f32>::max() || value < 0.0f ||
+            sead::Mathf::isNan(value))
+            return;
+        auto lock = sead::makeScopedLock(_1e0);
+        _2bc = value;
+        _220 |= 0x400;
+    }
+
+    void inlineSetField2C0(f32 value) {
+        if (_8->_a0->_c > value)
+            return;
+        const f32 clamped =
+            sead::Mathf::abs(value) > std::numeric_limits<f32>::max() ? sUnk_7101ec27f4 : value;
+        auto lock = sead::makeScopedLock(_1e0);
+        _2c0 = clamped;
+        _220 |= 0x800;
+    }
+
     /* 0x008 */ NavMeshCharacterUnk8* _8 = nullptr;  // heap object (0xe0 bytes) created by init
     /* 0x010 */ NavMeshCharacterUnk10* _10 = nullptr;
     /* 0x018 */ HavokAI* _18 = nullptr;
@@ -177,7 +224,10 @@ public:
     /* 0x2a8 */ f32 _2a8;
     /* 0x2ac */ f32 _2ac;
     /* 0x2b0 */ f32 _2b0;
-    /* 0x2b4 */ u8 _2b4[0x2cc - 0x2b4];
+    /* 0x2b4 */ u8 _2b4[0x2bc - 0x2b4];
+    /* 0x2bc */ f32 _2bc;
+    /* 0x2c0 */ f32 _2c0;
+    /* 0x2c4 */ u8 _2c4[0x2cc - 0x2c4];
     /* 0x2cc */ f32 _2cc;
     /* 0x2d0 */ f32 _2d0;
     /* 0x2d4 */ f32 _2d4;

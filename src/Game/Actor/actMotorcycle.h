@@ -116,6 +116,10 @@ struct MotorcycleStruct0 {
     // energy; sets _19e when it is used up.
     void sub_710006C270();
 
+    // 0x710006c810: the global motorcycle energy (MotorcycleMgr::mEnergy); `this` is unused (callers pass
+    // `&Motorcycle::_bc8`, e.g. DemoMotorcyclePutMaterials::leave_).
+    f32 getMotorcycleEnergy();
+
     // 0x710006c388 (name is a guess): computes the engine rpm from the speed (`flag`: accelerating)
     // and feeds it to the pitch controller `_0._58`.
     void updateEngineSoundMaybe(f32 speed, bool flag);
@@ -580,8 +584,5 @@ public:
     /* 0x1668 */ void* _1668 = nullptr;
 };
 KSYS_CHECK_SIZE_NX150(Motorcycle, 0x1670);
-
-// 0x710006c810: the global motorcycle energy (MotorcycleMgr::mEnergy).
-f32 getMotorcycleEnergy();
 
 }  // namespace uking::act

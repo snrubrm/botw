@@ -1,5 +1,6 @@
 #include "Game/AI/Query/queryCheckVacancyItem.h"
 #include <evfl/Query.h>
+#include "KingSystem/System/UIGlue.h"
 
 namespace uking::query {
 
@@ -7,9 +8,8 @@ CheckVacancyItem::CheckVacancyItem(const InitArg& arg) : ksys::act::ai::Query(ar
 
 CheckVacancyItem::~CheckVacancyItem() = default;
 
-// FIXME: implement
 int CheckVacancyItem::doQuery() {
-    return -1;
+    return ksys::ui::checkVacancyItem() >= *mCount;
 }
 
 void CheckVacancyItem::loadParams(const evfl::QueryArg& arg) {

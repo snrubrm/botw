@@ -9,6 +9,24 @@
 
 namespace ksys::act {
 
+PlayerArmors::PlayerArmors(bool flag) : _130(flag) {}
+
+PlayerArmors::~PlayerArmors() {
+    sub_7100E2D70C();
+}
+
+void PlayerArmors::sub_7100E2D70C() {
+    for (s32 i = 0; i < 6; ++i) {
+        if (_70[i].isAllocatedOrFailed())
+            _70[i].deleteProc();
+        ActorConstDataAccess accessor;
+        acquireActor(&_10[i], &accessor);
+        if (!accessor.sub_7100D14250())
+            accessor.deleteLater(BaseProc::DeleteReason::_0);
+        _10[i].reset();
+    }
+}
+
 bool PlayerArmors::hasAncientPowUpEffect() {
     for (s32 i = 0; i < 3; ++i) {
         if (_10(i).hasProc()) {
