@@ -28,6 +28,7 @@ protected:
     void calc_() override;
 
     // 0x710033d4c8 (declared only): applies the params to the water bodies and shapes.
+    void m9() override;
     void sub_710033D4C8();
 
     // Created in init_: the cylinder water body (waterfall), the box body of the waterfall and the

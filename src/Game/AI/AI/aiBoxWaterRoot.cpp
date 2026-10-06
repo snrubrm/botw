@@ -13,6 +13,10 @@ namespace uking::ai {
 // 0xa0 alone first, then pairs downward to 0x38; ours pairs 0xa0 with 0x98 and leaves 0x70 alone).
 BoxWaterRoot::BoxWaterRoot(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
+void BoxWaterRoot::m9() {
+    sub_710033D4C8();
+}
+
 BoxWaterRoot::~BoxWaterRoot() {
     if (_50) {
         _50->destroy();
