@@ -1,3 +1,5 @@
+#include "KingSystem/Event/evtAction.h"
+#include "KingSystem/Event/evtActionContext.h"
 #include "KingSystem/Event/evtActorBase.h"
 #include "KingSystem/Event/evtActorBindings.h"
 #include "KingSystem/Event/evtEventFlow.h"
@@ -127,6 +129,35 @@ bool EventActorSet::x_4() {
             return false;
     }
     return true;
+}
+
+// NON_MATCHING: same instructions, but the original re-reads the (checked) action pointer for the entry instead of
+// reusing the one it used for the slot test, and orders the first array reads slightly differently.
+// 0x7100da375c
+void EventActorSet::x_2() {
+    struct Entry {
+        Action* action;
+        ActionBase::Slot* slot;
+    };
+    sead::SafeArray<Entry, 32> entries;
+    s32 count = 0;
+
+    for (s32 i = 0; i < mActors.size(); ++i) {
+        auto* actor = mActors(i);
+        for (s32 j = 0; j < actor->mActions.size(); ++j) {
+            for (s32 k = 0; k < 32; ++k) {
+                auto* action = static_cast<Action*>(actor->mActions.at(j));
+                auto& slot = action->mSlots[k];
+                if (slot.context && slot.context->mStatus == 6) {
+                    entries[count] = {static_cast<Action*>(actor->mActions.at(j)), &slot};
+                    ++count;
+                }
+            }
+        }
+    }
+
+    for (s32 i = 0; i < count; ++i)
+        entries[i].action->x_0(entries[i].slot);
 }
 
 }  // namespace ksys::evt

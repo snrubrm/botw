@@ -9,6 +9,7 @@ namespace ksys::evt {
 
 class ActionContext;
 class ActorBase;
+class EventActorSet;
 
 // The event system's per-actor action state (CSV evt::ActionBase / evt::Action; 0x720 bytes, created by
 // ukingEventMgr::makeAction 0x71008ac620). It owns 32 slots, each an evfl::ActionDoneHandler plus the ActionContext
@@ -46,6 +47,8 @@ public:
     void sub_7100DA70A8(const evfl::ActionArg& arg, evfl::ActionDoneHandler& handler);
 
 protected:
+    friend class EventActorSet;
+
     /* 0x008 */ ActorBase* mActor;
     /* 0x010 */ Slot mSlots[32];
     /* 0x710 */ const evfl::ResAction* mRes;
