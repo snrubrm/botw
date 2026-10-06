@@ -97,6 +97,17 @@ void Fade::m74(f32 progress) {
     sub_7100BE9DD4(frame);
 }
 
+// 0x71010a060c (the same code as Fade::isOpenEnd_, with the flag at 0x358)
+bool ScreenFadeDemo::isOpenEnd_() {
+    if (_358)
+        return true;
+    if (eui::Screen::isOpenEnd_()) {
+        _358 = true;
+        return false;
+    }
+    return false;
+}
+
 // 0x71010a02f0 (the same code as Fade::m74, with the state at 0x354)
 void ScreenFadeDemo::m74(f32 progress) {
     if (_354 == -1 || _270 == 0)

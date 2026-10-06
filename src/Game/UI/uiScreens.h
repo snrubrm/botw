@@ -935,6 +935,7 @@ public:
     SEAD_RTTI_OVERRIDE(ScreenFadeDemo, Screen)
     // 0x71010a076c
     const char* getLayoutName_() const override;
+    bool isOpenEnd_() override;
     void m74(f32 progress) override;
     // 0x71010a01f8 (declaration only; lane3 s38): `_350 = value` then a tail call into 0x71010a0200.
     void sub_71010A01F8(s32 value);
