@@ -24,6 +24,8 @@ public:
     virtual void m38();
 
 protected:
+    // 0x71005cc40c: 26 frames have passed on the _68 timer
+    bool sub_71005CC40C() const;
     // 0x71005cc384: whether the towing is at a standstill state: not in the controller motion type, standard speed reached while _38 == 0, or slowing down (3)
     bool sub_71005CC384();
     s32 _38 = 0;  // speed state (1: accelerating, 2: keeping the max speed, 3: slowing down)

@@ -90,6 +90,18 @@ void NPCTravel::sub_71004E3B10(f32 value, bool onProcessingThread) {
     }
 }
 
+void NPCTravel::sub_71004E59D4() {
+    ksys::act::ActorConstDataAccess accessor;
+    if (ksys::act::acquireActor(&_88->_f70, &accessor)) {
+        const sead::Vector3f other_pos = accessor.getActorMtx().getTranslation();
+        const sead::Vector3f diff = mActor->getMtx().getTranslation() - other_pos;
+        if (diff.length() < 2.0f) {
+            mActor->sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x3800007),
+                                nullptr, true);
+        }
+    }
+}
+
 void NPCTravel::loadParams_() {
     NPCTravelBase::loadParams_();
     getStaticParam(&mWaitHorseReturnDist_s, "WaitHorseReturnDist");

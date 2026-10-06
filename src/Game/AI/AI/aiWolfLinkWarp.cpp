@@ -61,6 +61,45 @@ void WolfLinkWarp::leave_() {
     _a8->sub_71002F2E78(Idx::_10);
 }
 
+void WolfLinkWarp::sub_710060ECE0() {
+    _b0 = ksys::phys::RayCastForRequest::allocRequest(nullptr, ksys::phys::GroundHit::NPC);
+    if (!_b0)
+        return;
+    _b0->enableLayer(ksys::phys::ContactLayer::EntityAirWall);
+    _b0->enableLayer(ksys::phys::ContactLayer::EntityGround);
+    _b0->enableLayer(ksys::phys::ContactLayer::EntityGroundObject);
+    _b0->enableLayer(ksys::phys::ContactLayer::EntityGroundSmooth);
+    _b0->enableLayer(ksys::phys::ContactLayer::EntityGroundRough);
+    _b0->enableLayer(ksys::phys::ContactLayer::EntityNPC);
+    _b0->enableLayer(ksys::phys::ContactLayer::EntityNPC_NoHitPlayer);
+    _b0->enableLayer(ksys::phys::ContactLayer::EntityObject);
+    _b0->enableLayer(ksys::phys::ContactLayer::EntityPlayer);
+    _b0->enableLayer(ksys::phys::ContactLayer::EntityRagdoll);
+    _b0->enableLayer(ksys::phys::ContactLayer::EntityTree);
+    sead::Vector3f start = _80;
+    sead::Vector3f end = _80;
+    start.y += 2.5f;
+    end.y += -2.5f;
+    _b0->setStartAndEnd(start, end);
+    _b0->submitRequest(ksys::phys::ContactLayerType::Entity);
+    setFlag(Flag::_5);
+}
+
+void WolfLinkWarp::sub_710060EE14() {
+    if (_b0->hasHit()) {
+        _b0->getHitPosition(&_80);
+        clearFlag(Flag::_5);
+        setFlag(Flag::_6);
+    } else {
+        clearFlag(Flag::_5);
+        setFlag(Flag::_7);
+    }
+    if (_b0) {
+        _b0->release();
+        _b0 = nullptr;
+    }
+}
+
 void WolfLinkWarp::calc_() {
     if (isFinished() || isFailed())
         return;

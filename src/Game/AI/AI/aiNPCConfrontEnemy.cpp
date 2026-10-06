@@ -51,7 +51,7 @@ bool NPCConfrontEnemy::sub_71004C83DC() {
         ksys::act::ActorConstDataAccess accessor;
         ksys::act::acquireActor(&_e8[i], &accessor);
         const sead::Vector3f other_pos = accessor.getActorMtx().getTranslation();
-    const sead::Vector3f diff = mActor->getMtx().getTranslation() - other_pos;
+        const sead::Vector3f diff = mActor->getMtx().getTranslation() - other_pos;
         const f32 distance = diff.length();
         if (distance < *mReleaseDistance_s)
             return false;

@@ -21,6 +21,8 @@ public:
     void sub_7100545B8C();
 
 protected:
+    // 0x710054623c: tracks the player state (height, ground contact, the m204 action) in the _b4-_b8 flags
+    void sub_710054623C();
     // 0x71005464ec: resets the timers and flags, marks the battle info, then the "パオーン" child
     void sub_71005464EC();
     // static_param at offset 0x38

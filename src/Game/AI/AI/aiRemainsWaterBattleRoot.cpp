@@ -2,6 +2,7 @@
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "Game/AI/aiUnk_7102419cb0.h"
 #include "Game/gameIceBlockMgr.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Utils/Thread/Message.h"
 
@@ -103,6 +104,39 @@ void RemainsWaterBattleRoot::sub_71005464EC() {
     ksys::act::ai::InlineParamPack pack;
     pack.addBool(false, "IsTargetLost", -1);
     changeChild("パオーン", &pack);
+}
+
+// NON_MATCHING: the height compare is `fcmp _b0, y; b.le` in the original (we emit `fcmp y, _b0; b.pl`); the
+// operand order that gives the original compare loads _b0 before y
+// 0x710054623c
+void RemainsWaterBattleRoot::sub_710054623C() {
+    ksys::act::acc::PlayerBase player;
+    if (!player.getPlayerFromPlayerInfo())
+        return;
+
+    const auto& mtx = player.getActorMtx();
+    if (!(_68.mTimer.value <= sead::Mathf::epsilon()) && mtx.m[1][3] < _b0)
+        _b4 = true;
+
+    if (player.m191()) {
+        _b5 = true;
+    } else if (_b5 &&
+               (player.m193() || player.m188() || player.m186() || player.isBgGroundHit())) {
+        _b5 = false;
+        _b8 = true;
+    }
+
+    if (player.m204()) {
+        _b7 = !_b6;
+        _b6 = true;
+    } else {
+        if (_b7 || _b6) {
+            _98.mTimer = ksys::Timer(*mAfterHellTimer_s, *mAfterHellTimer_s);
+            _b8 = true;
+        }
+        _b7 = false;
+        _b6 = false;
+    }
 }
 
 }  // namespace uking::ai

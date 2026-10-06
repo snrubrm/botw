@@ -127,6 +127,10 @@ void Towing::m38() {}
 // 0x71005cc384
 // NON_MATCHING: the original materialises `in_motion` (w8) and the `_3c >= limit && _38 == 0` term separately and
 // returns `!in_motion` / `_38 == 3` from two blocks; the natural expression is folded differently
+bool Towing::sub_71005CC40C() const {
+    return _68.hasEnded(26);
+}
+
 bool Towing::sub_71005CC384() {
     auto* controller = mActor->getCharacterController();
     const bool in_motion = controller ? controller->sub_7100F5F0E4() != ksys::act::MotionType::_0 : true;

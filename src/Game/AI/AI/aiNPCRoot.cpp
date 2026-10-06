@@ -4,7 +4,9 @@
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
+#include "Game/Actor/actModelMaterialUtil.h"
 #include "Game/Actor/actNPC.h"
+#include "KingSystem/GameData/gdtSpecialFlags.h"
 #include "Game/Damage/dmgDamageManagerBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
@@ -98,6 +100,64 @@ bool NPCRoot::sub_71004DC100(sead::Vector3f* pos, ksys::act::BaseProcLink* attac
     pos->y = npc->_e30._10.m[1][3];
     pos->z = npc->_e30._10.m[2][3];
     return true;
+}
+
+// 0x71004dc3d4
+void NPCRoot::sub_71004DC3D4(ksys::act::BaseProcLink* link) {
+    for (s32 i = 0; i < 3; ++i) {
+        if (_90[i]._8.hasProc())
+            continue;
+        ksys::act::ActorConstDataAccess accessor;
+        if (!ksys::act::acquireActor(link, &accessor))
+            continue;
+        _90[i]._0 = true;
+        _90[i]._8 = *link;
+        _90[i]._18 = 10;
+        _90[i]._1c = 10;
+        _90[i]._20 = -1;
+        _90[i]._28.copy(accessor.getName());
+        return;
+    }
+}
+
+// 0x71004d92dc
+void NPCRoot::sub_71004D92DC() {
+    sead::FixedSafeString<128> barefoot;
+    sead::FixedSafeString<128> sand_boots;
+    sead::FixedSafeString<128> snow_boots;
+    barefoot.format("%s_Barefoot", mActor->getName().cstr());
+    sand_boots.format("%s_SandBoots", mActor->getName().cstr());
+    snow_boots.format("%s_SnowBoots", mActor->getName().cstr());
+
+    bool boot = false;
+    bool lower_141 = false;
+    bool lower_049 = false;
+    bool skin_leg = false;
+    if (ksys::gdt::getBoolByKey(barefoot, false)) {
+        skin_leg = true;
+    } else if (ksys::gdt::getBoolByKey(sand_boots, false)) {
+        lower_049 = true;
+    } else {
+        lower_141 = ksys::gdt::getBoolByKey(snow_boots, false);
+        boot = !lower_141;
+    }
+
+    auto* model = mActor->getModel();
+    if (!model)
+        return;
+
+    auto key = model->searchMaterial("Mt_Boot");
+    if (key.isValid())
+        act::setMaterialVisible(model, key, boot);
+    key = model->searchMaterial("Mt_Skin_Leg");
+    if (key.isValid())
+        act::setMaterialVisible(model, key, skin_leg);
+    key = model->searchMaterial("Mt_Lower_049");
+    if (key.isValid())
+        act::setMaterialVisible(model, key, lower_049);
+    key = model->searchMaterial("Mt_Lower_141");
+    if (key.isValid())
+        act::setMaterialVisible(model, key, lower_141);
 }
 
 }  // namespace uking::ai

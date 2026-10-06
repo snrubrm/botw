@@ -29,6 +29,8 @@ public:
     bool handleMessage_(const ksys::Message* message) override;
 
 protected:
+    // 0x71004e59d4: sends message 0x3800007 to the horse of _88 when it is closer than 2
+    void sub_71004E59D4();
     // 0x71004e3b10: with the horse ride info's actor of _88 acquired: locks _110, links this actor,
     // stores `value` and sends message 0x3800008 with _110 as its payload.
     void sub_71004E3B10(f32 value, bool onProcessingThread);

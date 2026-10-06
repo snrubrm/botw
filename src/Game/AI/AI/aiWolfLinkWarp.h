@@ -26,6 +26,7 @@ public:
     // their enum temporaries share the InlineParamPack's stack slot (by-value parameter -> lifetime
     // markers); the WolfLinkNormalRoot flag setters (`_1b8 |= 1 << Flag`) have the same shape.
     void setFlag(Flag flag) { _c0 |= 1 << flag; }
+    void clearFlag(Flag flag) { _c0 &= ~(1 << flag); }
 
     explicit WolfLinkWarp(const InitArg& arg);
     ~WolfLinkWarp() override;
@@ -41,6 +42,11 @@ public:
     void x();
 
 protected:
+    // 0x710060ece0: raycasts straight down (+-2.5) at _80 to find the warp height
+    void sub_710060ECE0();
+    // 0x710060ee14: takes the raycast result (hit position, flag 6 / 7) and releases the request
+    void sub_710060EE14();
+
     // static_param at offset 0x38
     const int* mNumCalcPerFrame_s{};
     // static_param at offset 0x40
