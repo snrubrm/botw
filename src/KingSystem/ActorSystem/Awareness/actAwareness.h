@@ -11,9 +11,15 @@
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Utils/Types.h"
 
+namespace ksys::phys {
+class RigidBody;
+}
+
 namespace ksys::act {
 
+class AITerror;
 class AwarenessInstance;
+class BaseProc;
 
 class Awareness {
     SEAD_SINGLETON_DISPOSER(Awareness)
@@ -39,6 +45,7 @@ public:
 
 private:
     friend class AwarenessInstance;
+    friend class AITerror;
 
     SEAD_ENUM(Flag, _0, Paused, _2, _3, EventActive, _5, _6)
 
@@ -121,6 +128,10 @@ private:
     // FIXME: rename
     struct Links {
         void calc();
+        // lane4 s46 (placeholder names, from the bodies): append an entry (the slot index is a fetch-add on `count`;
+        // false if the buffer is full). 0x7100d79574 copies the link, 0x7100d795d8 stores the body.
+        bool sub_7100D79574(const BaseProcLink& link);
+        bool sub_7100D795D8(phys::RigidBody* body);
 
         sead::Buffer<Link> buffer;
         sead::Atomic<int> count;
@@ -129,6 +140,13 @@ private:
     // FIXME: rename
     struct Links2 {
         void calc();
+        // lane4 s46 (placeholder names): append an entry (link, flag byte `a`, value `*value`, user `_18`); 0x7100d79640
+        // acquires `proc`, 0x7100d796c4 copies `link`, 0x7100d79744 stores a body in `_18` instead of a link.
+        bool sub_7100D79640(BaseProc* proc, u64 a, const u32& value);
+        bool sub_7100D796C4(const BaseProcLink& link, u64 a, const u32& value);
+        bool sub_7100D79744(phys::RigidBody* body, u64 a, const u32& value);
+        // 0x7100d797c8: clears the entry whose `_18` is `key`.
+        bool sub_7100D797C8(void* key);
 
         sead::Buffer<Link2> buffer;
         sead::Atomic<int> count;

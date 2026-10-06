@@ -104,6 +104,12 @@ void Unk_71024dca28::sub_7100D78444(AITerror* terror) {
     terror->sub_7100D78970();
 }
 
+void Unk_71024dca28::m6(Actor* actor) {
+    for (auto* terror = _8; terror; terror = terror->_a8)
+        terror->sub_7100D789E4();
+    m8()->m12(actor);
+}
+
 Unk_7100d78e50* sub_7100D78E30(const sead::ObjArray<Unk_7100d78e50>* array, s32 idx) {
     return array->at(idx);
 }

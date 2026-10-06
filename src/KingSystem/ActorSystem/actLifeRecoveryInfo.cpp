@@ -1,6 +1,7 @@
 #include "KingSystem/ActorSystem/actLifeRecoveryInfo.h"
 #include <algorithm>
 #include <math/seadMathCalcCommon.h>
+#include "KingSystem/Utils/Thread/Message.h"
 
 namespace ksys::act {
 
@@ -23,6 +24,12 @@ bool LifeRecoverInfo::init(const LifeRecoverParams* params) {
     const Flag recovered(1);
     mFlags &= ~(1 << int(recovered));
     return true;
+}
+
+// NON_MATCHING: init() inlined; same difference as init (the enabled byte is loaded after the enum temporary).
+bool LifeRecoverInfo::sub_7100D68E54(const ksys::Message* message) {
+    auto* params = static_cast<const LifeRecoverParams*>(message->getUserData());
+    return params && init(params);
 }
 
 bool LifeRecoverInfo::onApplyDamage(s32& damage) {

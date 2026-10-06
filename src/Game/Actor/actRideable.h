@@ -143,6 +143,15 @@ public:
         // 0x7100e787a0 / 0x7100e78e00: set bit 0x20 / 0x80 of _52.
         void sub_7100E787A0();
         void sub_7100E78E00();
+        // lane4 s46 (placeholder names, from the bodies). 0x7100e76bbc: clears the request state (_18 / _28 / _2c,
+        // _20 = -1, _24 = 1). 0x7100e7878c: sets _2d if it is clear.
+        void sub_7100E76BBC();
+        void sub_7100E7878C();
+        // 0x7100e76d6c / 0x7100e76dc4 / 0x7100e76e1c: the AS list's x_5 (slot 0, bank _2e) with Unk2::sub_71011632F8 /
+        // sub_710116323C / sub_7101163160 if x_4(0, 0) holds (0 / 0 / 1 otherwise).
+        f32 sub_7100E76D6C();
+        f32 sub_7100E76DC4();
+        f32 sub_7100E76E1C();
 
         /* 0x00 */ ksys::as::ASList* _0 = nullptr;
         /* 0x08 */ u8 _8 = 0;
@@ -155,7 +164,8 @@ public:
         /* 0x20 */ f32 _20 = -1.0f;
         /* 0x24 */ f32 _24 = 1.0f;
         /* 0x28 */ u32 _28 = 0;
-        /* 0x2c */ u16 _2c = 0;
+        /* 0x2c */ u8 _2c = 0;
+        /* 0x2d */ u8 _2d = 0;
         /* 0x2e */ s8 _2e = 1;
         /* 0x2f */ u8 _2f = 3;
         /* 0x30 */ sead::SafeString _30;
@@ -187,6 +197,8 @@ public:
     virtual ~RideableBase();
 
     bool getSomethingFromAnimalUnitSpeed();
+    // 0x7100e63374 (lane4 s46, placeholder name): _140 if _138 > 0, else _144 if _13c > 0, else 0.
+    u64 sub_7100E63374();
 
     // 0x7100e63224 (ForkAnimalASPlay::calc_): selects the next gear (`type` 1-5, else 0) unless
     // flag 4 of _8 is set. Both parameters are probably small by-value enum structs in the original.

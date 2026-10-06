@@ -61,6 +61,9 @@ public:
     // 0x7100d78814: adds the body to the world (at the actor's matrix, offset by _88 / _94 if
     // _b0) and links this after `prev` in `owner`'s list.
     bool sub_7100D78814(Unk_71024dca28* owner, AITerror* prev);
+    // 0x7100d789e4 (lane4 s46, placeholder name): moves the body to the actor's matrix (offset by _88 / _94, see
+    // sub_7100D78814) and reports it to the awareness manager's link lists when the entry values 1 / 2 are positive.
+    void sub_7100D789E4();
     // 0x7100d78960
     bool sub_7100D78960() const;
     // 0x7100d78970: unlinks from the owner's list and removes the body from the world.

@@ -1,5 +1,6 @@
 #include "KingSystem/ActorSystem/Awareness/actAwareness.h"
 #include <container/seadSafeArray.h>
+#include <math/seadMathCalcCommon.h>
 #include <cstring>
 #include <prim/seadScopedLock.h>
 #include <utility/aglParameter.h>
@@ -233,6 +234,74 @@ void Awareness::calc() {
 
 u32 Awareness::calcHash(const sead::SafeString& key) {
     return agl::utl::ParameterBase::calcHash(key);
+}
+
+bool Awareness::Links::sub_7100D79574(const BaseProcLink& link) {
+    const int idx = count++;
+    if (idx >= buffer.size())
+        return false;
+    auto& entry = buffer[idx];
+    entry.link = link;
+    entry._10 = nullptr;
+    return true;
+}
+
+bool Awareness::Links::sub_7100D795D8(phys::RigidBody* body) {
+    const int idx = count++;
+    if (idx >= buffer.size())
+        return false;
+    auto& entry = buffer[idx];
+    entry.link.reset();
+    entry._10 = body;
+    return true;
+}
+
+bool Awareness::Links2::sub_7100D79640(BaseProc* proc, u64 a, const u32& value) {
+    const int idx = count++;
+    if (idx >= buffer.size())
+        return false;
+    auto& entry = buffer[idx];
+    entry.link.acquire(proc, false);
+    entry._18 = nullptr;
+    entry._10 = a;
+    entry._14 = value;
+    return true;
+}
+
+bool Awareness::Links2::sub_7100D796C4(const BaseProcLink& link, u64 a, const u32& value) {
+    const int idx = count++;
+    if (idx >= buffer.size())
+        return false;
+    auto& entry = buffer[idx];
+    entry.link = link;
+    entry._18 = nullptr;
+    entry._10 = a;
+    entry._14 = value;
+    return true;
+}
+
+bool Awareness::Links2::sub_7100D79744(phys::RigidBody* body, u64 a, const u32& value) {
+    const int idx = count++;
+    if (idx >= buffer.size())
+        return false;
+    auto& entry = buffer[idx];
+    entry.link.reset();
+    entry._18 = body;
+    entry._10 = a;
+    entry._14 = value;
+    return true;
+}
+
+bool Awareness::Links2::sub_7100D797C8(void* key) {
+    const int n = sead::Mathi::min(buffer.size(), count.load());
+    for (int i = 0; i < n; ++i) {
+        if (buffer[i]._18 == key) {
+            buffer[i]._18 = nullptr;
+            buffer[i]._14 = 0;
+            return true;
+        }
+    }
+    return false;
 }
 
 void Awareness::Links2::calc() {

@@ -1,5 +1,6 @@
 #include "KingSystem/ActorSystem/Awareness/actAITerror.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/Awareness/actAwareness.h"
 #include "KingSystem/Physics/RigidBody/Shape/Sphere/physSphereRigidBody.h"
 #include "KingSystem/Physics/RigidBody/Shape/Sphere/physSphereShape.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
@@ -98,6 +99,35 @@ bool AITerror::sub_7100D78814(Unk_71024dca28* owner, AITerror* prev) {
     }
     _80 = owner;
     return true;
+}
+
+// NON_MATCHING: the `-1` argument temporary is in the stack slot at sp+0xc (the original: sp+8, stored after the `x1` load).
+void AITerror::sub_7100D789E4() {
+    auto* awareness = Awareness::instance();
+    if (!awareness || awareness->checkFlag(Awareness::Flag::Paused) ||
+        awareness->checkFlag(Awareness::Flag::EventActive))
+        return;
+    if (!_8 || !_8->isAddedToWorld())
+        return;
+
+    auto* actor = _10._8;
+    sead::Matrix34f mtx = actor->getMtx();
+    sead::Vector3f offset;
+    offset.setRotated(mtx, _88);
+    sead::Vector3f pos;
+    mtx.getTranslation(pos);
+    if (_b0.isOnBit(0))
+        actor->x_18(&pos);
+    pos += offset;
+    pos += _94;
+    mtx.setTranslation(pos);
+    _8->changePositionAndRotation(mtx, sead::Mathf::epsilon());
+
+    Unk_71024dc978* entry = &_10._18;
+    if (entry->m4(1) > 0)
+        awareness->mLinks.sub_7100D795D8(_8);
+    if (entry->m4(2) > 0)
+        awareness->mLinks2.sub_7100D79744(_8, 4, u32(-1));
 }
 
 bool AITerror::sub_7100D78960() const {

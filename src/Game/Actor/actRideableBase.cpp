@@ -66,4 +66,14 @@ void RideableBase::sub_7100E6314C(Rank rank, f32 value, u32 id) {
     }
 }
 
+// NON_MATCHING: the original computes the member address (`add x8, x0, #0x140`) and loads through it, with a 64-bit zero for
+// the third result; we fold the offset into the load and return a 32-bit zero.
+u64 RideableBase::sub_7100E63374() {
+    if (_138 > 0.0f)
+        return _140;
+    if (_13c > 0.0f)
+        return _144;
+    return 0;
+}
+
 }  // namespace uking::act

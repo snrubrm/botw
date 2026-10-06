@@ -25,6 +25,37 @@ int RideableBase::S1::sub_7100E76CEC() {
     return 0;
 }
 
+void RideableBase::S1::sub_7100E76BBC() {
+    _18 = 0;
+    _20 = -1.0f;
+    _24 = 1.0f;
+    _28 = 0;
+    _2c = 0;
+}
+
+void RideableBase::S1::sub_7100E7878C() {
+    if (!_2d)
+        _2d = 1;
+}
+
+f32 RideableBase::S1::sub_7100E76D6C() {
+    if (_0->x_4(0, 0))
+        return _0->x_5(0, _2e, &ksys::as::ASList::Unk2::sub_71011632F8);
+    return 0.0f;
+}
+
+f32 RideableBase::S1::sub_7100E76DC4() {
+    if (_0->x_4(0, 0))
+        return _0->x_5(0, _2e, &ksys::as::ASList::Unk2::sub_710116323C);
+    return 0.0f;
+}
+
+f32 RideableBase::S1::sub_7100E76E1C() {
+    if (_0->x_4(0, 0))
+        return _0->x_5(0, _2e, &ksys::as::ASList::Unk2::sub_7101163160);
+    return 1.0f;
+}
+
 void RideableBase::S1::sub_7100E787A0() {
     _52 |= 0x20;
 }
