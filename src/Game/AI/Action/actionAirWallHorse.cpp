@@ -1,4 +1,9 @@
 #include "Game/AI/Action/actionAirWallHorse.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/Physics/RigidBody/Shape/Box/physBoxRigidBody.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
 
 namespace uking::action {
 
@@ -10,8 +15,23 @@ bool AirWallHorse::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }
 
+// NON_MATCHING: the original builds the extents vector component by component (ldr / fadd / str each) before the
+// setExtents call; `getScale() * 2` and several equivalent spellings schedule the three loads first
 void AirWallHorse::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    auto* physics = mActor->getPhysics();
+    if (!physics)
+        return;
+    auto* set = physics->findBodyByName(*sub_71007A24E4());
+    if (!set)
+        return;
+    const int num_bodies = set->getRigidBodies().size();
+    for (int i = 0; i < num_bodies; ++i) {
+        if (auto* box = sead::DynamicCast<ksys::phys::BoxRigidBody>(set->getRigidBody(i)))
+            box->setExtents(mActor->getScale() * 2);
+    }
+    physics->setMtxAndScale(mActor->getMtx(), false, false, 1.0f);
+    physics->sub_7100FBA9BC();
+    physics->sub_7100FC012C(nullptr);
 }
 
 void AirWallHorse::leave_() {

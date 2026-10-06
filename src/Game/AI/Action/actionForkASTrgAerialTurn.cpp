@@ -42,6 +42,25 @@ void ForkASTrgAerialTurn::calc_() {
     sub_71001400E8();
 }
 
+// NON_MATCHING: scheduling of the angular-velocity loads in the dot product (same operations)
+void ForkASTrgAerialTurn::sub_7100140390(bool check_ang_vel) {
+    const f32 rate = std::max(_5c, 1.0f);
+    auto* actor = mActor;
+    sead::Vector3f dir;
+    f32 speed;
+    m32(&dir, &speed);
+    if (check_ang_vel) {
+        const sead::Vector3f vel = dir * speed;
+        if (vel.dot(mActor->getAngVelocity()) < 0.0f)
+            sub_7100738AA8(mActor, 0.99f);
+    }
+    if (rate > 5.0f)
+        speed *= 1.05f;
+    speed /= rate;
+    const sead::Vector3f ang_vel = dir * speed;
+    ksys::act::sub_7100EE5A14(actor, ang_vel);
+}
+
 // NON_MATCHING: identical instructions; the allocator swaps x8/x9 (the loaded query._10 lands in w9, the
 // vtable pointer in x8) around the `ldp x?, x20, [x19]` before the m32 call
 void ForkASTrgAerialTurn::sub_71001400E8() {
