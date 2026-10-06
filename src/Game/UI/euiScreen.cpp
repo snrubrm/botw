@@ -337,6 +337,78 @@ f32 Screen::getOpenFrameSize() const {
     return animator->GetFrameSize();
 }
 
+// 0x7100bea710
+void Screen::openStart_(s32 option) {
+    if (_107 & 0x10)
+        sub_7100BEE334(mLayout->GetPane(), mLayout);
+    switch (option) {
+    case 2:
+        mLayout->startAnimCloseImpl_(isPlayPartsInOut_(), true);
+        [[fallthrough]];
+    case 1:
+        mLayout->sub_7100BDDE7C(isPlayPartsInOut_(), 0, true);
+        break;
+    case 3:
+        mLayout->sub_7100BDDE7C(isPlayPartsInOut_(), 1, true);
+        break;
+    case 4:
+        mLayout->sub_7100BDDE7C(true, 2, true);
+        break;
+    }
+    if (_e8)
+        _e8->m3();
+    if (_f0) {
+        _f0->m2();
+        if (option == 1 || option == 2)
+            invokeSoundLink2Event_("open");
+    }
+    mState = 1;
+    _ff = 0;
+    _106 = 0;
+    doOpenStart_();
+}
+
+// 0x7100bea8c0
+void Screen::closeStart_(s32 option) {
+    if (_e8)
+        _e8->m4();
+    _ff = 0;
+    switch (option) {
+    case -4:
+        mLayout->startAnimCloseImpl_(isPlayPartsInOut_(), true);
+        break;
+    case -3:
+        mLayout->startAnimCloseImpl_(isPlayPartsInOut_(), false);
+        return;
+    case -2:
+        _ff = 1;
+        mLayout->startAnimCloseImpl_(isPlayPartsInOut_(), false);
+        break;
+    case -1:
+        mLayout->startAnimCloseImpl_(isPlayPartsInOut_(), false);
+        if (_f0)
+            invokeSoundLink2Event_("close");
+        break;
+    }
+    mState = 3;
+    unregisterController_();
+    doCloseStart_();
+}
+
+// 0x7100beaa34
+void Screen::closeEnd_() {
+    if (_f0)
+        _f0->m3();
+    if (_ff == 0)
+        mState = 0;
+    else if (_ff == 1)
+        _ff = 2;
+    _fd = 0;
+    doCloseEnd_();
+    if (_107 & 0x10)
+        sub_7100BEE4D4(mLayout->GetPane(), mLayout);
+}
+
 // 0x7100beaed8 (CSV Screen::x_1)
 void Screen::setDrawTargetMaybe(u8 target) {
     mDrawTarget = target;

@@ -55,6 +55,21 @@ class FontMgr;
 class ArcResourceMgr;
 class ConstantBuffer;
 
+// 0x7100bee334 / 0x7100bee4d4 (declared only; placeholder names): recursive walks over a pane tree (Screen::openStart_ /
+// closeEnd_ call them for the layout's root pane when Screen::_107 has bit 4 set).
+void sub_7100BEE334(nn::ui2d::Pane* pane, LayoutEx* layout);
+void sub_7100BEE4D4(nn::ui2d::Pane* pane, LayoutEx* layout);
+
+// Placeholder name: `Screen::_e8` (a state object notified by the open / close callbacks; only slots 3 / 4 are used so far).
+class ScreenUnkE8 {
+public:
+    virtual void m0();
+    virtual void m1();
+    virtual void m2();
+    virtual void m3();
+    virtual void m4();
+};
+
 // Placeholder name: the sound link user of a screen (`Screen::_f0`, created by createSoundLink2User_; the screen keeps a
 // pointer to its secondary base, so the slots below are those of the secondary vtable). Only slot 4 is used so far.
 class ScreenSoundLinkUser {
@@ -245,7 +260,7 @@ public:
     /* 0xc8 */ sead::SafeString _c8;
     /* 0xd8 */ BoxCursorNode* _d8 = nullptr;
     /* 0xe0 */ BoxCursorNode* mActiveCursorNode = nullptr;
-    /* 0xe8 */ u64 _e8 = 0;
+    /* 0xe8 */ ScreenUnkE8* _e8 = nullptr;
     /* 0xf0 */ ScreenSoundLinkUser* _f0 = nullptr;  // Sound-user interface pointer (the pointee is not fully resolved).
     /* 0xf8 */ f32 _f8 = sead::Mathf::pi() / 4;
     /* 0xfc */ u8 mDrawTarget = 0xff;
