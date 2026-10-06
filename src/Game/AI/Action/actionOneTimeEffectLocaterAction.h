@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
 
 namespace uking::action {
 
@@ -18,10 +19,7 @@ public:
 protected:
     void calc_() override;
     bool _1c = false;
-    void* _20{};
-    int _28 = 0;
-    void* _30{};
-    int _38 = 0;
+    Unk_71012419b4 _20;
 };
 
 }  // namespace uking::action
