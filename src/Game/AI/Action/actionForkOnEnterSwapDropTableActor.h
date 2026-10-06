@@ -18,6 +18,7 @@ public:
 
 protected:
     void calc_() override;
+    bool m32(sead::BufferedSafeString* name) override;
 
     // static_param at offset 0x78
     sead::SafeString mTableName_s{};

@@ -2,6 +2,7 @@
 #include <gsys/gsysModelAccessKey.h>
 #include <gsys/gsysModel.h>
 #include <gsys/gsysModelUnit.h>
+#include "Game/Actor/actRideable.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
@@ -98,6 +99,13 @@ void MoveByAnimeDriven::calc_() {
 
 const char* MoveByAnimeDriven::m32() {
     return mASKeyName_s.cstr();
+}
+
+void MoveByAnimeDriven::m33() {
+    auto* as_list = mActor->getASList();
+    auto* controller = mActor->getCharacterController();
+    if (as_list && controller)
+        act::sub_7100E7F318(as_list, controller, 1.0f);
 }
 
 }  // namespace uking::action

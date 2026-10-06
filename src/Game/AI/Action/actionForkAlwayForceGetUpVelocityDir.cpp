@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionForkAlwayForceGetUpVelocityDir.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -25,6 +26,18 @@ void ForkAlwayForceGetUpVelocityDir::loadParams_() {
 
 void ForkAlwayForceGetUpVelocityDir::calc_() {
     ForkAlwaysForceGetUp::calc_();
+}
+
+void ForkAlwayForceGetUpVelocityDir::m32(sead::Vector3f* dir) {
+    sead::Vector3f velocity_dir = mActor->getVelocity();
+    velocity_dir.y = 0;
+    velocity_dir.normalize();
+    if ((velocity_dir.z == 0 && velocity_dir.y == 0 && velocity_dir.x == 0) ||
+        velocity_dir.dot(sead::Vector3f::ey) > 0.9998477f) {
+        ForkAlwaysForceGetUp::m32(dir);
+    } else {
+        *dir = velocity_dir;
+    }
 }
 
 }  // namespace uking::action

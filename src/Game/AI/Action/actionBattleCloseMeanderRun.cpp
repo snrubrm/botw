@@ -28,6 +28,10 @@ void BattleCloseMeanderRun::calc_() {
     }
 }
 
+f32 BattleCloseMeanderRun::m35() {
+    return _fa ? _cc : *mParams.mSpeed_s;
+}
+
 void BattleCloseMeanderRun::m40() {
     playAS("Run", true, 0, 0, -1.0f);
 }

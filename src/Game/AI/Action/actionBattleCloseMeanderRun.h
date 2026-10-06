@@ -17,6 +17,7 @@ public:
 protected:
     void calc_() override;
 
+    f32 m35() override;
     virtual void m40();
 
     // static_param at offset 0xa8
@@ -25,6 +26,10 @@ protected:
     const float* mMeanderSpeed_s{};
     // static_param at offset 0xb8
     const float* mJumpUpSpeedReduceRatio_s{};
+    u8 _c0[0xc]{};
+    f32 _cc{};
+    u8 _d0[0x2a]{};
+    bool _fa{};
 };
 
 }  // namespace uking::action
