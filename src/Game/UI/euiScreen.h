@@ -5,6 +5,7 @@
 #include <heap/seadHeap.h>
 #include <hostio/seadHostIONode.h>
 #include <math/seadBoundBox.h>
+#include <math/seadMathCalcCommon.h>
 #include <nn/ui2d/DrawInfo.h>
 #include "KingSystem/Utils/Types.h"
 #include <prim/seadRuntimeTypeInfo.h>
@@ -87,6 +88,7 @@ static_assert(sizeof(DrawInfoEx) == 0x120);
 // stored at 0x20 has Node::getNodeClassType first); its own data follows (0x28 - 0x108).
 class Screen : public sead::IDisposer, public sead::hostio::Node {
 public:
+    Screen();
     ~Screen() override;
     SEAD_RTTI_BASE(Screen)
 
@@ -209,37 +211,38 @@ public:
     // 0x7100be9fa8 (the old / new button states are ButtonBase::State values)
     void buttonStateChangeCallback(AnimButton* button, ButtonBase::State old_state, ButtonBase::State new_state);
 
-    /* 0x28 */ ScreenMgr* mMgr;
-    /* 0x30 */ LayoutEx* mLayout;
-    /* 0x38 */ ButtonGroup* mButtonGroup;
+    /* 0x28 */ ScreenMgr* mMgr = nullptr;
+    /* 0x30 */ LayoutEx* mLayout = nullptr;
+    /* 0x38 */ ButtonGroup* mButtonGroup = nullptr;
     /* 0x40 */ ListNode mControls;  // the screen's controls (ControlBase::_8 nodes); updated by updateControl_
-    u8 _50[0x60 - 0x50];
-    /* 0x60 */ UIController* mUIController;
-    /* 0x68 */ DrawInfoEx* mDrawInfo;
-    /* 0x70 */ TagProcessor* mTagProcessor;
+    /* 0x50 */ ListNode _50;
+    /* 0x60 */ UIController* mUIController = nullptr;
+    /* 0x68 */ DrawInfoEx* mDrawInfo = nullptr;
+    /* 0x70 */ TagProcessor* mTagProcessor = nullptr;
     /* 0x78 */ ListNode mAnimators;  // the animators that are playing (Animator::_40 nodes)
     /* 0x88 */ sead::OffsetList<BoxCursorNode> mBoxCursorNodes;  // offset 8 (BoxCursorNode::mNode)
-    u8 _a0[0xb8 - 0xa0];
-    /* 0xb8 */ sead::Heap* mInitializeHeap;  // destroyed with the screen if it is owned (_107 bit 0)
-    /* 0xc0 */ s32 mId;
-    u8 _c4[0xd8 - 0xc4];
-    /* 0xd8 */ BoxCursorNode* _d8;
-    /* 0xe0 */ BoxCursorNode* mActiveCursorNode;
-    u8 _e8[8];
-    /* 0xf0 */ void* _f0;  // Sound-user interface pointer; pointee type remains unresolved.
-    u8 _f8[4];
-    /* 0xfc */ u8 mDrawTarget;
-    /* 0xfd */ s8 _fd;
-    /* 0xfe */ u8 mState;
-    /* 0xff */ u8 _ff;
-    /* 0x100 */ u8 _100;
-    /* 0x101 */ u8 _101;
-    /* 0x102 */ u8 _102;
-    /* 0x103 */ u8 _103;
-    /* 0x104 */ bool _104;  // read by AnimButton::Build / InactivateByBoxCursor (touch device?)
-    /* 0x105 */ u8 _105;
-    /* 0x106 */ u8 _106;
-    /* 0x107 */ u8 _107;  // bit 0: own initialize heap (setOwnInitializeHeap), bit 2: has a box cursor
+    /* 0xa0 */ ListNode _a0;
+    /* 0xb0 */ u64 _b0 = 0;
+    /* 0xb8 */ sead::Heap* mInitializeHeap = nullptr;  // destroyed with the screen if it is owned (_107 bit 0)
+    /* 0xc0 */ s32 mId = -1;
+    /* 0xc8 */ sead::SafeString _c8;
+    /* 0xd8 */ BoxCursorNode* _d8 = nullptr;
+    /* 0xe0 */ BoxCursorNode* mActiveCursorNode = nullptr;
+    /* 0xe8 */ u64 _e8 = 0;
+    /* 0xf0 */ void* _f0 = nullptr;  // Sound-user interface pointer; pointee type remains unresolved.
+    /* 0xf8 */ f32 _f8 = sead::Mathf::pi() / 4;
+    /* 0xfc */ u8 mDrawTarget = 0xff;
+    /* 0xfd */ s8 _fd = 0;
+    /* 0xfe */ u8 mState = 0;
+    /* 0xff */ u8 _ff = 0;
+    /* 0x100 */ u8 _100 = 0;
+    /* 0x101 */ u8 _101 = 0;
+    /* 0x102 */ u8 _102 = 0;
+    /* 0x103 */ u8 _103 = 0;
+    /* 0x104 */ bool _104 = false;  // read by AnimButton::Build / InactivateByBoxCursor (touch device?)
+    /* 0x105 */ u8 _105 = 0;
+    /* 0x106 */ u8 _106 = 1;
+    /* 0x107 */ u8 _107 = 3;  // bit 0: own initialize heap (setOwnInitializeHeap), bit 2: has a box cursor
 };
 KSYS_CHECK_SIZE_NX150(Screen, 0x108);
 

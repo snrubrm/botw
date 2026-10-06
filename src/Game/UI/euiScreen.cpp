@@ -11,6 +11,13 @@
 
 namespace eui {
 
+// NON_MATCHING: only the order of the zero stores differs (the original stores 0xb8 first and 0xb0 late; we
+// pair them).
+// 0x7100be8f80
+Screen::Screen() {
+    mBoxCursorNodes.initOffset(offsetof(BoxCursorNode, mNode));
+}
+
 // 0x7100beaf8c
 void Screen::x_2() {
     _105 = 1;
