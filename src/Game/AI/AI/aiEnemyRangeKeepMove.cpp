@@ -17,6 +17,22 @@ bool EnemyRangeKeepMove::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
 }
 
+// NON_MATCHING: the original selects the Data base pointer of the re-cast with branches (null / +8); we get csel
+// with the +8 computed up front (one extra mov per checker)
+// Restarts the two shared vibrate checkers if they are in use.
+void EnemyRangeKeepMove::sub_71003AB3FC() {
+    if (_f0._0) {
+        auto* checker = sead::DynamicCast<Unk_71025b0578>(*_f0._0);
+        if (checker && checker->mRefCount >= 1)
+            _f0.getData()->reset();
+    }
+    if (_f8._0) {
+        auto* checker = sead::DynamicCast<Unk_71025b7688>(*_f8._0);
+        if (checker && checker->mRefCount >= 1)
+            _f8.getData()->sub_710071F47C();
+    }
+}
+
 // NON_MATCHING: parameter-load and horizontal-distance arithmetic scheduling differ.
 void EnemyRangeKeepMove::enter_(ksys::act::ai::InlineParamPack* params) {
     _10d = false;
