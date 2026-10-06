@@ -23,6 +23,7 @@ protected:
     // 0x71002831e4 (declared only): out of line in the original.
     void sub_71002831E4();
     void calc_() override;
+    void m34(dmg::DamageManager* mgr, sead::Vector3f* pos, sead::Vector3f* dir) override;
 
     // static_param at offset 0x1c0
     const float* mResetChemicalTimer_s{};

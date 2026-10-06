@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionSwarmLevelFlyMove.h"
+#include "KingSystem/Utils/MathUtil.h"
 
 namespace uking::action {
 
@@ -33,6 +34,21 @@ void SwarmLevelFlyMove::loadParams_() {
 
 void SwarmLevelFlyMove::calc_() {
     LevelFlyMoveBase::calc_();
+}
+
+// NON_MATCHING: same instructions; the original schedules the 0.1f constant load before the multiply and stores `target`
+// to the stack after it (register naming differs)
+void SwarmLevelFlyMove::m35(ksys::VFRValue* speed, const sead::Vector3f& from,
+                            const sead::Vector3f& to, f32 limit) {
+    if (!speed)
+        return;
+
+    sead::Vector3f axis;
+    f32 angle;
+    ksys::util::sub_71011EEB08(&axis, &angle, from, to, sead::Vector3f::ey);
+    const f32 target = *mXZSpeed_s;
+    speed->chase(target, target * 0.1f);
+    speed->updateStats();
 }
 
 }  // namespace uking::action

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Game/Actor/actSwarm.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 #include "KingSystem/ActorSystem/actBaseProcHandle.h"
 
@@ -18,6 +19,12 @@ public:
 
 protected:
     void calc_() override;
+    // 0x7100284798 (declared only): calls the Swarm helpers 0x7100729d5c(*_48 (f32), swarm, null, null, null, false) and
+    // 0x710072a108(swarm, Vector3f::ey).
+    virtual void m32(act::Swarm* swarm);
+    // 0x7100284a40 (CSV swarmStuff, declared only): puts `unit` into a free slot of _78 (creating a dead-actor
+    // proc with AI tree params CreateDeadConditionType / DropTable "Swarm") or finishes it at once.
+    void swarmStuff(act::Swarm::Unit* unit, s32 deadConditionType);
 
     // static_param at offset 0x20
     const int* mIgnoreHitGroundTime_s{};

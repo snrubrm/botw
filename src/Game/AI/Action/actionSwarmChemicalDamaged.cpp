@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionSwarmChemicalDamaged.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/Damage/dmgDamageManager.h"
 
 namespace uking::action {
 
@@ -33,6 +36,20 @@ void SwarmChemicalDamaged::calc_() {
             sub_71002831E4();
     }
     SwarmDamaged::calc_();
+}
+
+void SwarmChemicalDamaged::m34(dmg::DamageManager* mgr, sead::Vector3f* pos, sead::Vector3f* dir) {
+    if (_1d8 == -1) {
+        SwarmDamaged::m34(mgr, pos, dir);
+        return;
+    }
+
+    auto* swarm = static_cast<act::Swarm*>(mActor);
+    if (swarm && swarm->_15f8[_1d8]._20)
+        swarm->_15f8[_1d8]._20->getPosition(pos);
+    else
+        mgr->getPosition(pos);
+    sub_71005E2318(dir, mActor, mgr);
 }
 
 }  // namespace uking::action

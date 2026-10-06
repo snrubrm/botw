@@ -1,6 +1,8 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <math/seadVector.h>
+#include "Game/Actor/actSwarm.h"
 
 namespace ksys::act {
 class Actor;
@@ -25,3 +27,7 @@ void sub_7100729EA8(uking::act::Swarm* swarm);
 void sub_7100729F34(uking::act::Swarm* swarm);
 // 0x710072abb4 (declared only; 208 B): BeeDamaged::leave_.
 void sub_710072ABB4(ksys::act::Actor* actor);
+
+// 0x710072a6dc (declared only; 156 B): the swarm unit nearest to `pos` among those without state bit 0 (null if none);
+// SwarmDamaged::m33.
+uking::act::Swarm::Unit* sub_710072A6DC(uking::act::Swarm* swarm, const sead::Vector3f& pos);

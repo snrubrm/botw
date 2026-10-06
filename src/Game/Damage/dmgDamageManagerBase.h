@@ -89,7 +89,8 @@ public:
     virtual void preDelete1();
     virtual s64 m25() { return 0; }
     virtual s64 m26() { return 0; }
-    virtual s32 getPosition() { return 0; }
+    // Slot 27: writes the damage position to `out` (SwarmDamaged::m34; DamageMgr::getPosition 0x71006d66fc).
+    virtual bool getPosition(sead::Vector3f* out) { return false; }
     // Slot 28 (CSV DamageMgrSword::getAttackPos: AttackInfo position; DamageMgr::m28).
     virtual bool getAttackPos(sead::Vector3f* out) { return false; }
 

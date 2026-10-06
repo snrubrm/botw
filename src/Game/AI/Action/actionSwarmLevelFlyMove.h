@@ -18,6 +18,8 @@ public:
 
 protected:
     void calc_() override;
+    void m35(ksys::VFRValue* speed, const sead::Vector3f& from, const sead::Vector3f& to,
+             f32 limit) override;
 
     // static_param at offset 0x138
     const int* mIgnoreSensorTime_s{};
