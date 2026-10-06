@@ -38,6 +38,37 @@ bool ScreenAppTool::sub_71009FD674() {
     return mStateMachine.getState()->getId() == (&sUnk_71025ec670)->getId();
 }
 
+// 0x7100a07cf4
+void ScreenDoCommand::sub_7100A07CF4() {
+    if (mState == 0 || mState == 3)
+        return;
+    _3664 = _365c;
+    Screen::close(-1);
+}
+
+// 0x71009dd7a8
+void ScreenAppHome::sub_71009DD7A8() {
+    const s32 saved = _3808;
+    sub_71009DCF18(12);
+    _3808 = saved;
+}
+
+// 0x71009dd7ec
+void ScreenAppHome::sub_71009DD7EC(bool a1) {
+    if (a1)
+        sub_71009DCF18(9);
+    else
+        sub_71009DCF18(8);
+}
+
+// 0x71009dd800
+void ScreenAppHome::sub_71009DD800(bool a1) {
+    if (a1)
+        sub_71009DCF18(10);
+    else
+        sub_71009DCF18(11);
+}
+
 // 0x71009ff43c
 void ScreenAppTool::m107(eui::AnimButton*) {
     _3610 = 1;

@@ -646,7 +646,12 @@ public:
     sead::PtrArray<Unk_Elem> _3648{};
     s32 _3658 = -1;
     s32 _365c = -1;
-    s64 _3660 = -1;
+    s32 _3660 = -1;
+    s32 _3664 = -1;
+
+    // 0x7100a07cf4 (placeholder name): closes the screen (remembering the command at 0x365c in 0x3664) unless it is closed
+    // or in state 3
+    void sub_7100A07CF4();
 
     // 0x7100a0768c (CSV ScreenDoCommand::setCommand)
     bool setCommand(s32 command);
@@ -2652,6 +2657,10 @@ public:
     // 0x71009de1c8 / 0x71009dcf18 (CSV unnamed; the second is declared only)
     void sub_71009DE1C8();
     void sub_71009DCF18(s32 a1);
+    // 0x71009dd7a8 / 0x71009dd7ec / 0x71009dd800 (placeholder names): switch the page (12 keeping _3808 / 8 or 9 / 10 or 11)
+    void sub_71009DD7A8();
+    void sub_71009DD7EC(bool a1);
+    void sub_71009DD800(bool a1);
 };
 
 // The state ScreenSaveTransferWindow changes to from many of its state callbacks (0x71025f2de0; placeholder name).
