@@ -20,6 +20,8 @@ protected:
     virtual bool m32();
 
     // 0x71002906cc / 0x71002907bc (placeholder names): take the actor's physics out of / back into the world.
+    // 0x7100290438 (lane5 s5): hides the actor (counterpart of sub_71002907BC / leave_).
+    void sub_7100290438();
     void sub_71002906CC();
     void sub_71002907BC();
 

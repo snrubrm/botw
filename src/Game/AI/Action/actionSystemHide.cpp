@@ -14,6 +14,8 @@
 
 // 0x7100ee54e8 (declared only; lane5 s5): placeholder name.
 void sub_7100EE54E8(ksys::act::Actor* actor);
+// 0x7100ee56c0 (declared only; lane5 s5): placeholder name.
+void sub_7100EE56C0(ksys::act::Actor* actor);
 
 namespace uking::action {
 
@@ -27,6 +29,18 @@ bool SystemHide::init_(sead::Heap* heap) {
 
 void SystemHide::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Action::enter_(params);
+}
+
+void SystemHide::sub_7100290438() {
+    sub_71002906CC();
+    sub_71007A36BC(mActor);
+    if (auto* chemical = mActor->getChemicalStuff()) {
+        chemical->sub_7100D90F60(true);
+        _3d = (chemical->_c & 0x40) != 0;
+        chemical->sub_7100D91098(false);
+        sub_71006F5940(chemical);
+    }
+    sub_7100EE56C0(mActor);
 }
 
 void SystemHide::leave_() {
