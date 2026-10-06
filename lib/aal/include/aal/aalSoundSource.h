@@ -33,6 +33,9 @@ class SoundSourceUnifierSource;
 /// ends with a zeroed 0x50-byte block at 0x1a0, right after the spatial setting.
 class SoundSource {
 public:
+    /// The information a sound is set up with. TODO: not decompiled yet.
+    struct SetupInfo;
+
     SoundSource();
     virtual ~SoundSource();
 

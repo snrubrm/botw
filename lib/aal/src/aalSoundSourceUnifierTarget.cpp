@@ -88,6 +88,18 @@ void SoundSourceUnifierTarget::setParamsFromSoundSourceFirst(SoundSource* sound_
     setParamsFromSoundSource(sound_source);
 }
 
+// NON_MATCHING: same code, but the original keeps the result in the lower half of an 8-byte stack slot (sp+8), here it is at
+// sp+12 (StartResult is probably wider or aligned differently in the original).
+// 0x7100b8f348
+StartResult SoundSourceUnifierTarget::startSound(const AssetInfo& asset, SoundSource::SetupInfo* setup) {
+    if (!mUnifier)
+        return StartResult::NoUnifier;
+
+    StartResult result = StartResult::Success;
+    mHandle = mUnifier->emit(asset, setup, &result);
+    return result;
+}
+
 // 0x7100b8f38c
 void SoundSourceUnifierTarget::stopSound(f32 fade_time) {
     mHandle.stop(fade_time, 0.0f);

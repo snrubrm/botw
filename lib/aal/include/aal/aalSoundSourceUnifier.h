@@ -8,6 +8,8 @@
 #include <prim/seadSafeString.h>
 #include <thread/seadCriticalSection.h>
 #include "aal/aalHandle.h"
+#include "aal/aalSoundSource.h"
+#include "aal/aalStartResult.h"
 #include "aal/aalUnifiablePosition.h"
 
 namespace sead {
@@ -16,7 +18,7 @@ class Heap;
 
 namespace aal {
 
-class SoundSource;
+class AssetInfo;
 class SoundSourceUnifierTarget;
 class SpeakerBalanceUnifier;
 
@@ -78,6 +80,7 @@ public:
     void setParamsFromSoundSource(SoundSource* sound_source);
     /// Sets up the unifier and the sound with the settings of the first sound source (then calls setParamsFromSoundSource).
     void setParamsFromSoundSourceFirst(SoundSource* sound_source);
+    StartResult startSound(const AssetInfo& asset, SoundSource::SetupInfo* setup);
     void stopSound(f32 fade_time);
     void addSource(SoundSourceUnifierSource* source);
     void removeSource(SoundSourceUnifierSource* source);
