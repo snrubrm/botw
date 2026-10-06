@@ -3,8 +3,23 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "Game/AI/aiUnk_71007377D4.h"
 #include "Game/AI/aiUnk_710073fa90.h"
+#include "KingSystem/Utils/MathUtil.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 
 namespace uking::action {
+
+namespace {
+/// inline-only in the original; name is a guess. The same sequence (the normalised velocity `_70` of
+/// the controller scaled by `-speed` and set again) appears in JumpTo::m42 and JumpTo::leave_.
+inline void applyReverseVelocity(ksys::phys::CharacterController* controller, f32 speed) {
+    sead::Vector3f dir;
+    dir.set(controller->get70());
+    dir.normalize();
+    dir *= -speed;
+    controller->sub_7100F5EE1C(dir);
+}
+}  // namespace
 
 JumpTo::JumpTo(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
@@ -15,11 +30,34 @@ bool JumpTo::init_(sead::Heap* heap) {
 }
 
 void JumpTo::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    mFlags.reset(Flag::Changeable);
+    f32 value = 0.0f;
+    if (auto* controller = mActor->getCharacterController())
+        value = -(controller->get70().length() * controller->get110());
+    _94 = value;
+    if (m35())
+        m32();
+    const auto& ang_velocity = mActor->getAngVelocity();
+    const f32 speed = sead::Vector2f(ang_velocity.x, ang_velocity.z).length();
+    _58.value = speed;
+    _58.prev_value = speed;
+    sub_710073FA90(&_64, mActor);
+    _98 = 0;
+    _88.set(mParams.mTargetPos_d->x - mActor->getMtx().m[0][3], 0.0f,
+            mParams.mTargetPos_d->z - mActor->getMtx().m[2][3]);
+    if (auto* controller = mActor->getCharacterController()) {
+        const sead::Vector3f up = getUpDir(controller->get70());
+        ksys::util::sub_71011EFA00(&_88, _88, up);
+    }
+    if (_88.x == 0.0f && _88.y == 0.0f && _88.z == 0.0f)
+        mActor->getMtx().getBase(_88, 2);
+    _88.normalize();
 }
 
 void JumpTo::leave_() {
-    ksys::act::ai::Action::leave_();
+    const f32 speed = _94;
+    if (auto* controller = mActor->getCharacterController())
+        applyReverseVelocity(controller, speed);
 }
 
 void JumpTo::loadParams_() {
@@ -32,8 +70,61 @@ void JumpTo::loadParams_() {
     getDynamicParam(&mParams.mTargetPos_d, "TargetPos");
 }
 
+// NON_MATCHING: sub_71001C72A8 is inlined here and keeps its known load-order difference (matrix Y vs
+// surface height); the original also keeps the water-depth result in a register (`cset`) used by two
+// separate branches, ours branches on the compare directly.
 void JumpTo::calc_() {
-    ksys::act::ai::Action::calc_();
+    switch (_98) {
+    case 0:
+        m40();
+        m39();
+        if (!isFinishedAS(0, 0) && m35()) {
+            if (!sub_71005DD780(mActor, 0x44, nullptr, 0, 0))
+                return;
+        } else {
+            if (m36())
+                m33();
+        }
+        m42();
+        _98 = 1;
+        break;
+    case 1:
+        if (isFinishedAS(0, 0) && m36())
+            m33();
+        m38();
+        m39();
+        if (!isBgGroundHit(mActor, false)) {
+            auto* controller = mActor->getCharacterController();
+            const bool in_water = sub_71001C72A8();
+            if (!in_water)
+                return;
+            f32 velocity_y;
+            if (controller) {
+                sead::Vector3f velocity;
+                controller->sub_7100F5F598(&velocity);
+                velocity_y = velocity.y;
+            } else {
+                velocity_y = mActor->getVelocity().y;
+            }
+            if (!(velocity_y < 0.0f))
+                return;
+        }
+        if (m37()) {
+            m34();
+            m43();
+        } else {
+            m43();
+            setFinished();
+        }
+        _98 = 2;
+        break;
+    case 2:
+        m40();
+        m41();
+        if (isFinishedAS(0, 0))
+            setFinished();
+        break;
+    }
 }
 
 bool JumpTo::m35() {
@@ -106,17 +197,11 @@ f32 JumpTo::sub_71001C72EC() {
     return sead::Mathf::clampMax(speed, *mParams.mMaxSpeed_s);
 }
 
-// NON_MATCHING: the original copies _70 to a stack slot (memcpy-style) before normalising; ours
-// keeps it in registers (register numbering and the operand order of the normalise multiplies differ).
 void JumpTo::m42() {
     const f32 jump_gravity = *mParams.mJumpGravity_s;
     if (jump_gravity < 0.0f) {
-        if (auto* controller = mActor->getCharacterController()) {
-            sead::Vector3f dir = controller->get70();
-            dir.normalize();
-            dir *= -jump_gravity;
-            controller->sub_7100F5EE1C(dir);
-        }
+        if (auto* controller = mActor->getCharacterController())
+            applyReverseVelocity(controller, jump_gravity);
     }
     _58.value = _58.prev_value = sub_71001C72EC();
     _58.updateStats();
