@@ -21,6 +21,9 @@ protected:
     virtual void m32(sead::Vector3f* dir);
     virtual void m33(const sead::Vector3f& pos, const sead::Vector3f* dir);
 
+    // 0x7100143c64 (declaration only; 808 B): computes the arrow's aim; false if there is no direction.
+    bool sub_7100143C64(sead::Vector3f* dir, sead::Vector3f* pos);
+
     // static_param at offset 0x20
     const int* mWeaponIdx_s{};
     // static_param at offset 0x28

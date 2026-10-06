@@ -4,6 +4,7 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "Game/Actor/actWeapon.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/Actor/actEnemy.h"
 
 namespace uking::action {
 
@@ -58,7 +59,16 @@ void ForkASTrgShootSkyArrow::sub_7100144CB4(sead::Vector3f* out) {
 }
 
 void ForkASTrgShootSkyArrow::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (sub_71005DD780(mActor, 0x47, nullptr, *mTargetBone_s, *mSeqBank_s)) {
+        sead::Vector3f pos;
+        sub_7100144CB4(&pos);
+        if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor))
+            enemy->sub_7100016494();
+        sub_71005D8210(mActor, *mWeaponIdx_s, pos, 0, 1.0f, nullptr, mTargetActor_d);
+        _58 = true;
+    } else if (!_58) {
+        sub_71005D787C(mActor, *mWeaponIdx_s, act::Unk_71002eda38(4));
+    }
 }
 
 }  // namespace uking::action
