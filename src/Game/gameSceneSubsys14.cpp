@@ -43,3 +43,7 @@ bool GameSceneSubsys14::sub_7100904F4C() const {
 bool GameSceneSubsys14::sub_7100904F68() const {
     return _16c >> 8 & 1;
 }
+
+Unk_7100903948::Unk_7100903948() = default;
+
+Unk_7100903948::~Unk_7100903948() = default;

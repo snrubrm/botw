@@ -2,6 +2,7 @@
 
 #include <basis/seadTypes.h>
 #include <heap/seadDisposer.h>
+#include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Utils/Thread/MessageTransceiverId.h"
 
 // Name from the CSV (GameSceneSubsys14::createInstance 0x7100903598, ctor 0x7100903620, init,
@@ -37,3 +38,19 @@ public:
     u8 _170[0x180 - 0x170];
     const ksys::MesTransceiverId* _180;
 };
+
+// Placeholder name (out-of-line ctor 0x7100903948 / dtor 0x7100903b38; embedded at GameSceneSubsys14 + 0x1040): 16
+// actor links with an id each (-1 = none).
+class Unk_7100903948 {
+public:
+    Unk_7100903948();
+    ~Unk_7100903948();
+
+    struct Slot {
+        s32 id = -1;
+        ksys::act::BaseProcLink link;
+    };
+
+    Slot slots[16];
+};
+KSYS_CHECK_SIZE_NX150(Unk_7100903948, 0x180);
