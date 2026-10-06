@@ -355,6 +355,13 @@ public:
     bool sub_71008737E4(u32 a, u32 b);
     // lane4 s46 (placeholder names): 0x710086d138: 0.5 if the armor effect flag `_2` bit 2 is set, else 1.
     f32 sub_710086D138();
+    // 0x710086cb30 (placeholder name): false while falling-blocking states hold; true during the "落下" (fall) action,
+    // else !x_44().
+    bool sub_710086CB30();
+    // 0x7100881078: `_cfc` bit 0 is set, or a raycast (sub_710072E928) from 0.5 above to 0.5 below `_1770` hits.
+    bool sub_7100881078();
+    // 0x7100881a90: updates `_20d4` (the water surface height: -10000 if there is none).
+    void sub_7100881A90();
     // 0x7100885820: sets the chemical's `_180` (3 with the armor effect flag 4, else min(_2014 + _2030, 2)).
     void sub_7100885820();
     // 0x71008744d4: the Root4 exists and its flag 1 is off.

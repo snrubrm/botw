@@ -7,6 +7,7 @@
 #include "Game/AI/aiUnk_710072BA90.h"
 #include "Game/Damage/dmgDamageManager.h"
 #include "Game/gameRoot4.h"
+#include "KingSystem/ActorSystem/actAiRoot.h"
 #include "Game/AI/aiUnk_7100736460.h"
 #include "Game/Actor/actHorseRideInfo.h"
 #include "Game/Actor/actMotorcycle.h"
@@ -1270,6 +1271,50 @@ bool Player::sub_71008737E4(u32 a, u32 b) {
             return true;
     }
     return false;
+}
+
+bool Player::sub_710086CB30() {
+    if (_c44.isOnBit(4))
+        return false;
+    if (auto* controller = getCharacterController()) {
+        if (controller->_116 & 0x10)
+            return false;
+    }
+    if (GameSceneSubsys14::instance()->sub_7100904F04())
+        return false;
+    if (_d11)
+        return false;
+    if (playerIsReloadingOrChargingOrShootingBow(this))
+        return false;
+    if (_c44.isOnBit(8) && !_d11)
+        return false;
+    if (getRootAi()->isCurrentAction("落下"))
+        return true;
+    return !x_44();
+}
+
+bool Player::sub_7100881078() {
+    if (_cfc.isOnBit(0))
+        return true;
+    sead::Vector3f from = _1770;
+    from.y += 0.5f;
+    sead::Vector3f to = _1770;
+    to.y -= 0.5f;
+    return sub_710072E928(from, to, nullptr, nullptr, nullptr, 0.0f);
+}
+
+void Player::sub_7100881A90() {
+    auto* controller = getCharacterController();
+    if (!controller)
+        return;
+    f32 height = -10000.0f;
+    if (m186() || x_2()) {
+        if (_68f)
+            height = _6f0;
+    } else if (controller->_116 & 0x404) {
+        height = _1770.y + controller->_210;
+    }
+    _20d4 = height;
 }
 
 void Player::sub_7100885820() {
