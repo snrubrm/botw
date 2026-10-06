@@ -36,7 +36,7 @@ bool PullOut::handleMessage_(const ksys::Message* message) {
         auto* proc = _70._38.mLink.getProc(nullptr, nullptr);
         auto* actor = sead::DynamicCast<ksys::act::Actor>(proc);
         if (auto* weapon = sead::DynamicCast<uking::act::Weapon>(actor)) {
-            sub_71005D8A30(mActor, weapon, false);
+            sub_71005D8A30(mActor, weapon, 0);
             if (auto* as_list = mActor->getASList())
                 as_list->goLimpFromHeadShotMaybe(0x2c, weapon->getProfile(), 0);
             sub_7100223B90();
