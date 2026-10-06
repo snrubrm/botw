@@ -1813,7 +1813,8 @@ public:
     bool isEnableControl() const override;
     ~ScreenPauseMenuMantan() override;
     SEAD_RTTI_OVERRIDE(ScreenPauseMenuMantan, ScreenEx)
-
+    void m99() override;
+    void m106(eui::AnimButton* button) override;
 };
 
 class ScreenPauseMenuEiketsu : public ScreenEx {
@@ -1824,6 +1825,8 @@ public:
     ScreenPauseMenuEiketsu();
     ~ScreenPauseMenuEiketsu() override;
     SEAD_RTTI_OVERRIDE(ScreenPauseMenuEiketsu, ScreenEx)
+    void m99() override;
+    void m106(eui::AnimButton* button) override;
 };
 
 class ScreenAppSystemWindow : public ScreenEx {
@@ -1837,6 +1840,7 @@ public:
     bool isEnableControl() const override;
     ~ScreenAppSystemWindow() override;
     SEAD_RTTI_OVERRIDE(ScreenAppSystemWindow, ScreenEx)
+    void m99() override;
 
     /* 0x3610 */ s32 _3610 = 10;
     s32 _3614;
@@ -2255,6 +2259,9 @@ public:
     ~ScreenAppHome() override;
     SEAD_RTTI_OVERRIDE(ScreenAppHome, ScreenEx)
 };
+
+// The state ScreenSaveTransferWindow changes to from many of its state callbacks (0x71025f2de0; placeholder name).
+extern const ksys::StateBase sUnk_71025f2de0;
 
 class ScreenSaveTransferWindow : public ScreenEx {
 public:

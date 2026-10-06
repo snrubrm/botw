@@ -269,4 +269,104 @@ s32 ScreenAppMap::getSlink2LocalPropertyNum_() const {
     return 2;
 }
 
+// 0x7100a438b8
+void ScreenSaveTransferWindow::m166() {
+    mStateMachine.changeState(&sUnk_71025f2de0);
+}
+
+// 0x7100a438c8
+void ScreenSaveTransferWindow::m167() {
+    mStateMachine.changeState(&sUnk_71025f2de0);
+}
+
+// 0x7100a438dc
+void ScreenSaveTransferWindow::m170() {
+    mStateMachine.changeState(&sUnk_71025f2de0);
+}
+
+// 0x7100a438ec
+void ScreenSaveTransferWindow::m171() {
+    mStateMachine.changeState(&sUnk_71025f2de0);
+}
+
+// 0x7100a43900
+void ScreenSaveTransferWindow::m174() {
+    mStateMachine.changeState(&sUnk_71025f2de0);
+}
+
+// 0x7100a43910
+void ScreenSaveTransferWindow::m175() {
+    mStateMachine.changeState(&sUnk_71025f2de0);
+}
+
+// 0x7100a44078
+void ScreenSaveTransferWindow::m195() {
+    mStateMachine.changeState(&sUnk_71025f2de0);
+}
+
+// 0x7100a44830
+void ScreenSaveTransferWindow::m226() {
+    mStateMachine.changeState(&sUnk_71025f2de0);
+}
+
+// 0x7100a44840
+void ScreenSaveTransferWindow::m227() {
+    mStateMachine.changeState(&sUnk_71025f2de0);
+}
+
+// 0x7100a44854
+void ScreenSaveTransferWindow::m230() {
+    mStateMachine.changeState(&sUnk_71025f2de0);
+}
+
+// 0x7100a44864
+void ScreenSaveTransferWindow::m231() {
+    mStateMachine.changeState(&sUnk_71025f2de0);
+}
+
+// 0x7100a4505c
+void ScreenSaveTransferWindow::m254() {
+    mStateMachine.changeState(&sUnk_71025f2de0);
+}
+
+// 0x7100a4506c
+void ScreenSaveTransferWindow::m255() {
+    mStateMachine.changeState(&sUnk_71025f2de0);
+}
+
+// 0x7100a44db8
+void ScreenSaveTransferWindow::m246() {
+    close(-1);
+}
+
+// 0x7100a44dc8
+void ScreenSaveTransferWindow::m247() {
+    close(-1);
+}
+
+// 0x71009fc91c
+void ScreenAppSystemWindow::m99() {
+    mButtonGroup->_38 |= 2;
+}
+
+// 0x7100a2c278
+void ScreenPauseMenuEiketsu::m99() {
+    mButtonGroup->_38 |= 2;
+}
+
+// 0x7100a2c29c
+void ScreenPauseMenuEiketsu::m106(eui::AnimButton*) {
+    mButtonGroup->_38 &= ~2;
+}
+
+// 0x7100a322e8
+void ScreenPauseMenuMantan::m99() {
+    mButtonGroup->_38 |= 2;
+}
+
+// 0x7100a322fc
+void ScreenPauseMenuMantan::m106(eui::AnimButton*) {
+    mButtonGroup->_38 &= ~2;
+}
+
 }  // namespace uking::ui

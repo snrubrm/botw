@@ -83,6 +83,43 @@ ksys::act::Actor* getPlayerActor(ksys::act::Actor* actor) {
     return nullptr;
 }
 
+// 0x7100aa8f94 (placeholder name): bit 29 of the player's state word at 0xc44
+bool sub_7100AA8F94() {
+    auto* info = ksys::act::PlayerInfo::instance();
+    if (!info)
+        return false;
+    auto* player = info->getPlayer();
+    return player && player->_c44.isOnBit(29);
+}
+
+// 0x7100a9c340 (placeholder name): bit 22 of the player's word at 0xcf0 is clear
+bool sub_7100A9C340() {
+    auto* info = ksys::act::PlayerInfo::instance();
+    if (!info)
+        return false;
+    auto* player = info->getPlayer();
+    return player && !player->_cf0.isOnBit(22);
+}
+
+// 0x7100a9b7bc (placeholder name): bit 22 of the word at 0xcf0 and bit 2 of the word at 0xcf8 are both clear
+bool sub_7100A9B7BC() {
+    auto* info = ksys::act::PlayerInfo::instance();
+    if (!info)
+        return false;
+    auto* player = info->getPlayer();
+    return player && !player->_cf0.isOnBit(22) && !player->_cf8.isOnBit(2);
+}
+
+// 0x7100aa379c (placeholder name): the two jump / action button ids 28 and 29 swap their icons when the
+// JumpButtonChange option is set
+s32 sub_7100AA379C(s32 button) {
+    if (button == 28)
+        return ksys::gdt::getFlag_JumpButtonChange(false) ? 8 : 7;
+    if (button == 29)
+        return ksys::gdt::getFlag_JumpButtonChange(false) ? 7 : 8;
+    return button;
+}
+
 // 0x7100aa8e5c / 0x7100aa8e9c (placeholder names): bit 21 / bit 22 of the Manager's flag word.
 bool sub_7100AA8E5C() {
     if (!uiManagerInitialised())

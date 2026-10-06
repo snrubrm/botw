@@ -5,10 +5,13 @@
 #include "Game/UI/uiManager.h"
 #include "Game/UI/uiPauseMenuDataMgr.h"
 #include "Game/UI/uiUtils.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/Resource/resGameResourceSystem.h"
 
 // UI wrapper functions around uking::ui::Manager (the 0x7100a94000 TU).
 namespace uking::ui {
+
+ksys::act::Actor* getPlayerActor(ksys::act::Actor* actor);
 
 void sub_7100945320(f32, f32);
 void sub_7100945344(f32, f32);
@@ -436,6 +439,13 @@ bool checkSomeFlagImpl() {
 // 0x7100a9f950
 void return0_2() {
     Manager::instance()->sub_7100A7FDAC();
+}
+
+// 0x7100a9b96c (placeholder name; getPlayerActor is out of line in the original)
+bool sub_7100A9B96C() {
+    if (auto* player = static_cast<ksys::act::PlayerBase*>(getPlayerActor(nullptr)))
+        return player->sub_710084CF24();
+    return false;
 }
 
 }  // namespace uking::ui
