@@ -17,6 +17,10 @@ public:
 
 protected:
     void calc_() override;
+
+    // 0x7100e51f94: false while the horse's rideable has flag 8 of its AS controller's _52 set.
+    bool sub_7100E51F94();
+
     s32 _1c = -1;
 
 };

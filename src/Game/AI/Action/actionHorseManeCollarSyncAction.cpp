@@ -6,6 +6,7 @@
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectHorse.h"
 
@@ -64,14 +65,45 @@ void HorseManeCollarSyncAction::enter_(ksys::act::ai::InlineParamPack* params) {
     }
 }
 
+bool HorseManeCollarSyncAction::sub_7100E51F94() {
+    if (auto* mane = sead::DynamicCast<act::HorseObject>(mActor)) {
+        if (auto* horse = sead::DynamicCast<ksys::act::Actor>(mane->_840.getProc(nullptr, nullptr))) {
+            if (auto* rideable = horse->m132())
+                return !(rideable->_18._52 & 8);
+        }
+    }
+    return true;
+}
+
 void HorseManeCollarSyncAction::leave_() {
     ksys::act::ai::Action::leave_();
 }
 
 void HorseManeCollarSyncAction::loadParams_() {}
 
+// NON_MATCHING: register allocation only (the original keeps the AS list in x0 and moves the bool to w8).
 void HorseManeCollarSyncAction::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (_1c >= 0) {
+        if (auto* mane = sead::DynamicCast<act::HorseObject>(mActor)) {
+            if (auto* horse =
+                    sead::DynamicCast<ksys::act::Actor>(mane->_840.getProc(nullptr, nullptr)))
+                mane->getASList()->sub_710115F158(horse->getASList(), 0, 0, 0, _1c);
+        }
+    }
+    if (auto* physics = mActor->getPhysics()) {
+        if (sub_7100E51F94()) {
+            const bool no_cloth = physics->sub_7100FBD390();
+            auto* as_list = mActor->getASList();
+            if (no_cloth) {
+                if (as_list->x_1(0, 0) != "PlayAtNoCloth")
+                    as_list->startAnimationMaybe(-1.0f, -1.0f, "PlayAtNoCloth", 0, 1, true);
+                return;
+            }
+            as_list->sub_710115B01C(0, 1, true);
+            return;
+        }
+    }
+    mActor->getASList()->sub_710115B01C(0, 1, true);
 }
 
 }  // namespace uking::action

@@ -17,6 +17,9 @@ public:
 protected:
     void calc_() override;
 
+    // 0x71000a21e8: whether the bullet's owner is a moving player (called by m39).
+    bool sub_71000A21E8();
+
     // static_param at offset 0x150
     const float* mSubAngMax_s{};
     // static_param at offset 0x158

@@ -151,6 +151,9 @@ public:
     // 0x7100fbd324 / 0x7100fbd3ec / 0x7100fbd410 (declared only; lane4 s31, HorseObject::m69): cloth set helpers
     // (flags 0x18000 of the set, flag 0x8000 and the wind vector of the ClothSet at +0xd8).
     void sub_7100FBD324(bool a1, bool a2);
+    // 0x7100fbd390 (lane3 s36; declared only): true if there is no body group array, or one of its groups has
+    // flag 4 (byte +0x18) set.
+    bool sub_7100FBD390() const;
     void sub_7100FBD3EC(bool on);
     void sub_7100FBD410(const sead::Vector3f* vec);
     // 0x7100fbdfa4 (CSV ActorPhysics::x_5): sets `handler` as the system group handler of every
