@@ -119,6 +119,8 @@ public:
     bool sub_7100948D40();
     // 0x71009485ec (placeholder name): copies the value picked by the state at 0xb3c into the three values at 0xb58
     void sub_71009485EC();
+    // 0x7100948db0 (placeholder name): whether the values at 0xb58 differ from the value picked by the state at 0xb3c
+    bool sub_7100948DB0();
     // 0x7100948f58 (placeholder name): a value picked by the manager's state at 0x64c38 (-1 for states 3 / > 4)
     s32 sub_7100948F58();
 
