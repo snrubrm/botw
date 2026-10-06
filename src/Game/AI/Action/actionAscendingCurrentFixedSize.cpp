@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionAscendingCurrentFixedSize.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -7,7 +8,11 @@ AscendingCurrentFixedSize::AscendingCurrentFixedSize(const InitArg& arg) : Ascen
 AscendingCurrentFixedSize::~AscendingCurrentFixedSize() = default;
 
 bool AscendingCurrentFixedSize::init_(sead::Heap* heap) {
-    return AscendingCurrent::init_(heap);
+    if (!AscendingCurrent::init_(heap))
+        return false;
+    if (*mDisableInDemo_s)
+        _28._2c = true;
+    return true;
 }
 
 void AscendingCurrentFixedSize::enter_(ksys::act::ai::InlineParamPack* params) {
@@ -27,6 +32,14 @@ void AscendingCurrentFixedSize::loadParams_() {
 
 void AscendingCurrentFixedSize::calc_() {
     AscendingCurrent::calc_();
+}
+
+void AscendingCurrentFixedSize::m33(sead::Vector3f* size) {
+    size->set(*mSize_s);
+}
+
+void AscendingCurrentFixedSize::m34(sead::Matrix34f* mtx) {
+    *mtx = mActor->getMtx();
 }
 
 }  // namespace uking::action

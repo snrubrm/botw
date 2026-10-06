@@ -18,6 +18,8 @@ public:
 
 protected:
     void calc_() override;
+    void m33(sead::Vector3f* size) override;
+    void m34(sead::Matrix34f* mtx) override;
 
     // static_param at offset 0x80
     const bool* mDisableInDemo_s{};
