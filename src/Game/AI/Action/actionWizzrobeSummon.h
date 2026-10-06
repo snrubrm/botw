@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Game/AI/Action/actionTurnIgnite.h"
+#include <math/seadMatrix.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -16,8 +17,14 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    void m32(ksys::act::BaseProcHandle* handle) override;
+    const sead::Matrix34f& m33() override;
+
 protected:
     void calc_() override;
+
+    // 0x71002beddc (declared only; 832 B): updates _f8 (the actor matrix moved to the summon position).
+    void sub_71002BEDDC();
 
     // static_param at offset 0xd0
     const int* mSummonBufferSize_s{};
@@ -27,6 +34,7 @@ protected:
     sead::SafeString mSummonBufferKey_s{};
     // aitree_variable at offset 0xf0
     int* mSummonCount_a{};
+    sead::Matrix34f _f8 = sead::Matrix34f::ident;
 };
 
 }  // namespace uking::action

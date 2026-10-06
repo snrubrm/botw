@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionTakeoffFromCeilLookTarget.h"
+#include "Game/AI/aiUnk_71007377D4.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Utils/MathUtil.h"
 
 namespace uking::action {
 
@@ -25,6 +28,12 @@ void TakeoffFromCeilLookTarget::loadParams_() {
 }
 
 void TakeoffFromCeilLookTarget::calc_() {
+    const sead::Vector3f pos = mActor->getMtx().getTranslation();
+    sead::Vector3f dir = *mTargetPos_d;
+    dir -= pos;
+    ksys::util::sub_71011EFA00(&dir, dir, getUpDir(mActor));
+    dir.normalize();
+    _74.set(dir);
     TakeoffFromCeilLook::calc_();
 }
 
