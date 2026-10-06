@@ -1,5 +1,6 @@
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/AS/asElement.h"
+#include "KingSystem/System/VFR.h"
 
 namespace ksys::as {
 
@@ -26,6 +27,38 @@ void ASList::Unk1::sub_7101164EB8() {
     }
     if (highest < 1.0f && first)
         first->_10 = 1.0f;
+}
+
+// NON_MATCHING: register allocation only (the address of `_8` is computed before the loop here, after it in the
+// original, which shifts the loop registers by one).
+bool ASList::Unk1::sub_7101164CA4(f32 delta) {
+    bool running = false;
+    if (_8._c < 1.0f) {
+        f32 weight = 1.0f;
+        if (_20.size() != 0) {
+            f32 sum = 0.0f;
+            f32 total = 0.0f;
+            for (auto& entry : _20) {
+                if (!entry._18 && sead::Mathf::equalsEpsilon(entry.sub_71011631D0(), 1.0f))
+                    continue;
+                sum += entry._10 * entry.sub_71011631D0();
+                total += entry._10;
+            }
+            if (total > 0.0f) {
+                weight = sum;
+                if (total > 1.0f)
+                    weight = sum / total;
+            }
+        }
+        f32 step = weight * VFR::instance()->getDeltaFrame();
+        _8.sub_71011598FC(step * delta);
+        running = _8._c < 1.0f;
+    }
+    if (!running && _4d && _30) {
+        _4d = false;
+        _30->sub_7100BFF4CC(_0, &_38);
+    }
+    return running;
 }
 
 void ASList::Unk1::sub_7101164B24() {

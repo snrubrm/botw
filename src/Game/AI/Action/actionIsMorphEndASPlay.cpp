@@ -34,7 +34,7 @@ bool IsMorphEndASPlay::isFinished() const {
     auto* as_list = mActor->getASList();
     if (!as_list)
         return false;
-    return as_list->mSlots[0]._14 >= 1.0f || ksys::act::ai::Action::isFinished() ||
+    return as_list->mSlots[0]._8._c >= 1.0f || ksys::act::ai::Action::isFinished() ||
            isFinishedAS(0, 0);
 }
 

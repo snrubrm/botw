@@ -45,6 +45,19 @@ private:
 };
 KSYS_CHECK_SIZE_NX150(Invoker2, 0x48);
 
+// Placeholder name: the result of GameSceneTaskMgr::submitRequest, a wrapper of the submitted task (a null task
+// counts as complete). Its constructor and destructor are out-of-line in the original (0x71007cb53c / 0x71007cb544).
+class GameSceneTaskHandle {
+public:
+    GameSceneTaskHandle();
+    ~GameSceneTaskHandle();
+
+    // 0x71007cb548
+    bool isComplete() const;
+
+    ksys::util::Task* mTask;
+};
+
 // Runs invokers on a task thread (CSV GameSceneTaskMgr; the name is the CSV's).
 class GameSceneTaskMgr {
 public:
@@ -54,6 +67,8 @@ public:
     void init(const sead::SafeString& thread_name, sead::Heap* heap, sead::CoreId core,
               s32 priority);
     bool invokeInvoker(void*);
+    // 0x71007cb780: copies the invoker and runs it on the thread (asynchronously)
+    GameSceneTaskHandle submitRequest(const Invoker2& invoker);
 
 private:
     ksys::util::GameTaskThread* mThread{};

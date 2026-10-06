@@ -193,6 +193,10 @@ public:
         // 0x7101164e64 (placeholder name): clears `_48`, then Unk2::sub_7101162C58 on every entry.
         void sub_7101164E64(BoneBlendState* state);
         void sub_7101164EB8();
+        // 0x7101164ca4 (placeholder name): advances the fade of the slot by `delta` scaled by the weighted average
+        // of the entries' weights (and the frame time); true while the fade is running. When it is finished the
+        // partial-bone object is released (`_4d`).
+        bool sub_7101164CA4(f32 delta);
 
         // 0x7101165008 (declaration only; lane4 s23): partial bone `key` of the slot, `mode` 3 (the root) or 0,
         // `a3` selects the variant of the two helpers 0x7100bff95c / 0x7100bff8e4.
@@ -217,12 +221,29 @@ public:
             u32 words[32];
         };
 
-        u8 _0[0x14];
-        f32 _14;
-        u8 _18[0x20 - 0x18];
+        // Placeholder name: the fade of the slot (`_c` is the progress: 1.0 when finished).
+        struct Fader {
+            // 0x71011598fc
+            void sub_71011598FC(f32 delta);
+
+            f32 _0;
+            f32 _4;
+            f32 _8;
+            f32 _c;
+            bool _10;
+            bool _11;
+            u8 _12[0x18 - 0x12];
+        };
+        static_assert(sizeof(Fader) == 0x18);
+
+        void* _0;
+        Fader _8;
         sead::Buffer<Unk2> _20;
         // Placeholder: the partial-bone object (the member at 8 is a halfword cleared by sub_7101164FF8).
         struct PartialBones {
+            // 0x7100bff4cc (declaration only): called with the slot's `_0` and its mask `_38`.
+            void sub_7100BFF4CC(void* a1, sead::Buffer<BitRow>* rows);
+
             u8 _0[8];
             u16 _8;
         };
@@ -236,10 +257,13 @@ public:
 
     // Placeholder: node of the chain at ASList::_148 (the next node is at 0x30).
     struct Unk6 {
-        u8 _0[0x11];
+        sead::Buffer<Element*> _0;
+        u8 _10[0x11 - 0x10];
         u8 _11;
         u8 _12;
-        u8 _13[0x30 - 0x13];
+        u8 _13[0x18 - 0x13];
+        sead::SafeString _18;
+        const res::AS* _28;
         Unk6* _30;
     };
 
@@ -365,6 +389,10 @@ public:
     void sub_710115C634(bool a1);
     // 0x710115e1d4 (placeholder name): the maximum of the two byte values (0x11 / 0x12) over the chain at `_148`.
     void sub_710115E1D4(s32* out_a, s32* out_b);
+    // 0x710115e13c (placeholder name): Element::m5 on the elements of every node of the chain `_148`.
+    void sub_710115E13C(sead::Heap* heap);
+    // 0x710115c6f0 (placeholder name): advances the fades of all slots; when none is running clears the flag of `_b0`.
+    void sub_710115C6F0();
     // 0x710115c8d8 (lane1 s41, placeholder name; `a1` is unused): applies the animation to the model, with the
     // flags 2 (`a2`) or 3 (and sets bit 2 of `_163`).
     void sub_710115C8D8(bool a1, bool a2);

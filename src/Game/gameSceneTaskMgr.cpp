@@ -56,4 +56,33 @@ bool GameSceneTaskMgr::invokeInvoker(void*) {
     return true;
 }
 
+GameSceneTaskHandle::GameSceneTaskHandle() {
+    mTask = nullptr;
+}
+
+GameSceneTaskHandle::~GameSceneTaskHandle() = default;
+
+bool GameSceneTaskHandle::isComplete() const {
+    if (!mTask)
+        return true;
+    return mTask->getStatus() == ksys::util::Task::Status::PostFinishCallback;
+}
+
+// NON_MATCHING: only the schedule differs (the original loads the TaskRequest vtable address and the SafeString
+// vtable / null char addresses before the store of the copied callable, and stores the SafeString pair with one stp).
+GameSceneTaskHandle GameSceneTaskMgr::submitRequest(const Invoker2& invoker) {
+    mInvoker.mCallable =
+        invoker.mCallable ? invoker.mCallable->copyTo(mInvoker.mStorage) : nullptr;
+
+    ksys::util::TaskRequest request(false);
+    request.mSynchronous = false;
+    request.mThread = mThread;
+    request.mDelegate = mDelegate;
+    mTask->submitRequest(request);
+
+    GameSceneTaskHandle handle;
+    handle.mTask = mTask;
+    return handle;
+}
+
 }  // namespace uking

@@ -10,6 +10,7 @@
 #include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Resource/Actor/resResourceAS.h"
+#include "KingSystem/Resource/Actor/resResourceASList.h"
 #include "KingSystem/Resource/Actor/resResourceASResource.h"
 
 
@@ -489,6 +490,56 @@ void ASList::sub_710115E1D4(s32* out_a, s32* out_b) {
         *out_a = sead::Mathi::max(*out_a, node->_11);
         *out_b = sead::Mathi::max(*out_b, node->_12);
     }
+}
+
+void ASList::Unk1::Fader::sub_71011598FC(f32 delta) {
+    if (_c >= 1.0f)
+        return;
+    _0 += _8 * delta;
+    f32 t = _0;
+    if (t >= 1.0f) {
+        _0 = 1.0f;
+        _4 = 1.0f;
+        _c = 1.0f;
+        return;
+    }
+    if (!_11) {
+        if (t < 0.5f) {
+            t *= 2.0f;
+            t = t * t * 0.5f;
+        } else {
+            t = (1.0f - t) * 2.0f;
+            t = t * t * -0.5f + 1.0f;
+        }
+    }
+    const f32 progress = 1.0f - (1.0f - t) / (1.0f - _4);
+    _10 = true;
+    _c = progress;
+    _4 = t;
+}
+
+// NON_MATCHING: the original loads `_d8`, `_8` and `node->_28` once per node, before the loop over the elements.
+void ASList::sub_710115E13C(sead::Heap* heap) {
+    for (Unk6* node = _148; node; node = node->_30) {
+        for (Element* element : node->_0)
+            element->m5(_d8, _8, node->_18, heap, node->_28);
+    }
+}
+
+// NON_MATCHING: the original ORs the results of the (bool) calls without normalising them (`orr w20, w20, w0`);
+// we emit `and w, w0, #1` first.
+void ASList::sub_710115C6F0() {
+    if (!_b0)
+        return;
+    bool running = false;
+    const s32 count = mSlots.size();
+    if (count >= 1) {
+        const f32 rate = *_d8->getParam()->getRes().mASList->getCommon().rate_all;
+        for (s32 i = 0; i < count; ++i)
+            running |= mSlots[i].sub_7101164CA4(rate);
+    }
+    if (!running && _b0)
+        _b0->_21 = false;
 }
 
 void ASList::sub_710115C9AC(int slot) {
