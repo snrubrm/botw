@@ -23,6 +23,9 @@ public:
     void changeToReactToSound();
     // 0x710042b60c (placeholder name)
     void changeToChase();
+    // 0x710042ad90 / 0x710042b54c (placeholder names)
+    void changeToFeignDeath();
+    void changeToWakeUp();
 
 protected:
     // map_unit_param at offset 0x38

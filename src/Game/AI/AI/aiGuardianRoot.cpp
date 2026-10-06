@@ -1,8 +1,17 @@
 #include "Game/AI/AI/aiGuardianRoot.h"
 #include "Game/AI/aiUnk_71024f15c0.h"
+#include "Game/Actor/actGuardian.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/Map/mapRail.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+
+// 0x710003955c (declared only; same declaration as in actionGuardianMoveTo.cpp): reads the actor's parameters.
+struct Unk_710003955c {
+    u8 _0[0x70];
+    s32 _70;
+};
+const Unk_710003955c* sub_710003955C(ksys::act::Actor* actor);
 
 namespace uking::ai {
 
@@ -16,6 +25,15 @@ bool GuardianRoot::init_(sead::Heap* heap) {
 
 void GuardianRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     GuardianAI::enter_(params);
+    _50.x();
+    auto* guardian = sub_710040DA6C();
+    if (guardian && guardian->_14c8.isOnBit(0) && sub_710003955C(guardian)->_70 != 2) {
+        changeToFeignDeath();
+        return;
+    }
+    changeChild("待機", nullptr);
+    sub_710040DDB0(0);
+    sub_710040DE48(false);
 }
 
 void GuardianRoot::leave_() {
@@ -49,6 +67,39 @@ void GuardianRoot::loadParams_() {
     GuardianAI::loadParams_();
     getMapUnitParam(&mIsSuspended_m, "IsSuspended");
     getAITreeVariable(&mForceSetDropPos_a, "ForceSetDropPos");
+}
+
+void GuardianRoot::changeToFeignDeath() {
+    auto* guardian = sub_710040DA6C();
+    if (guardian && sub_710003955C(guardian)->_70 == 1) {
+        if (auto* body = guardian->getMainBody()) {
+            body->setFixed(ksys::phys::Fixed(true), ksys::phys::PreserveVelocities(true));
+            body->enableGroundCollision(false);
+            body->enableWaterCollision(false);
+        }
+    }
+    sub_710040DDB0(12);
+    sub_710040DE48(false);
+    changeChild("仮死", nullptr);
+}
+
+void GuardianRoot::changeToWakeUp() {
+    if (auto* guardian = sub_710040DA6C()) {
+        if (sub_710003955C(guardian)->_70 == 1) {
+            if (auto* body = guardian->getMainBody()) {
+                body->setFixed(ksys::phys::Fixed(false), ksys::phys::PreserveVelocities(true));
+                body->enableGroundCollision(true);
+                body->enableWaterCollision(true);
+            }
+        }
+        _48 &= ~1u;
+        guardian->emitBasicSigOn();
+    } else {
+        _48 &= ~1u;
+    }
+    sub_710040DDB0(13);
+    sub_710040DE48(false);
+    changeChild("起動", nullptr);
 }
 
 // NON_MATCHING: register allocation (the original keeps the rail pointer in x20 from the call on and the string-temp
