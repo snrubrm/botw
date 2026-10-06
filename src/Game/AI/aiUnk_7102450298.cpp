@@ -8,6 +8,8 @@
 
 Unk_7102450298::Unk_7102450298(ksys::act::Actor* actor) : CarriedData(actor) {}
 
+Unk_7102450298::~Unk_7102450298() = default;
+
 bool Unk_7102450298::sub_71006F8AB4() const {
     if (!_30)
         return true;

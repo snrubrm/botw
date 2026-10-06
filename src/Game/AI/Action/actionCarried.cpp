@@ -15,7 +15,10 @@ namespace uking::action {
 
 Carried::Carried(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
-Carried::~Carried() = default;
+// The original calls the constraint helper's finalize() (0x71006f8a88) before the members are destroyed.
+Carried::~Carried() {
+    _110.finalize();
+}
 
 bool Carried::init_(sead::Heap* heap) {
     if (*mIsUseConstraint_s) {
