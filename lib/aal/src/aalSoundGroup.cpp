@@ -5,10 +5,12 @@
 
 namespace aal {
 
+// 0x7100b82590
 void SoundGroup::allowEmit(bool allow) {
     mEmitFlags.setDirect(allow ? 0xff : 0);
 }
 
+// 0x7100b8259c
 void SoundGroup::allowEmit(sead::BitFlag8 flags, bool allow) {
     if (allow)
         mEmitFlags.set(flags);
@@ -16,6 +18,7 @@ void SoundGroup::allowEmit(sead::BitFlag8 flags, bool allow) {
         mEmitFlags.reset(flags);
 }
 
+// 0x7100b825c0
 void SoundGroup::silence(bool silence, f32 fade_time) {
     if (fade_time >= 0.0f && mSilenceFader) {
         if (silence)
@@ -25,11 +28,13 @@ void SoundGroup::silence(bool silence, f32 fade_time) {
     }
 }
 
+// 0x7100b825ec
 void SoundGroup::setReleaseTime(f32 release_time) {
     if (release_time >= 0.0f)
         mReleaseTime = release_time;
 }
 
+// 0x7100b82848 .. 0x7100b82868: SoundGroup has no children
 bool SoundGroup::pushFrontChild_(Group* child) {
     return false;
 }
@@ -48,6 +53,7 @@ bool SoundGroup::insertAfterChild_(Group* child, Group* after) {
 
 void SoundGroup::removeChild_(Group* child) {}
 
+// 0x7100b82ae0 / 0x7100b82ae8
 bool SoundGroup::isSoundGroup() const {
     return true;
 }
@@ -56,11 +62,33 @@ bool SoundGroup::isGroupFolder() const {
     return false;
 }
 
+// 0x7100b825fc
+bool SoundGroup::addSound(SoundSource* sound_source) {
+    if (!sound_source)
+        return false;
+    if (!(sound_source->mSpatialSetting.isUnified() || sound_source->mState > 2 || sound_source->isLooped())) {
+        if (!mLimiter->limitRequestInterval(sound_source))
+            return false;
+    }
+    bool added;
+    {
+        sead::ScopedLock<sead::CriticalSection> lock(&mCS);
+        added = mLimiter->addToActiveSoundLimitList(sound_source);
+    }
+    if (!added) {
+        sead::ScopedLock<sead::CriticalSection> lock(&mCS);
+        mPlayingSoundSources.pushBack(sound_source);
+    }
+    return true;
+}
+
+// 0x7100b826bc
 void SoundGroup::addToPlayingSoundSources(SoundSource* sound_source) {
     if (sound_source)
         mPlayingSoundSources.pushBack(sound_source);
 }
 
+// 0x7100b8286c
 void SoundGroup::calcSilence_() {
     if (mSilenceFader) {
         mSilenceFader->calc();
@@ -68,11 +96,13 @@ void SoundGroup::calcSilence_() {
     }
 }
 
+// 0x7100b828b4
 void SoundGroup::calcActiveSoundLimit() {
     mLimiter->addToActiveSoundLimitList(&mPlayingSoundSources);
     mLimiter->calcActiveSoundLimit();
 }
 
+// 0x7100b828e0
 void SoundGroup::calcNumSounds() {
     for (SoundSource& sound_source : mPlayingSoundSources) {
         if (sound_source.mSpatialSetting.isUnified()) {
