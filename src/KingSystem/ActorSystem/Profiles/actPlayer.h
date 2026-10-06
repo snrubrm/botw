@@ -570,7 +570,8 @@ public:
     /* 0x17f0 */ u8 _17f0;  // cleared by PlayerDrown::enter_
     /* 0x17f1 */ bool _17f1;  // set by PlayerHorseGetOff::enter_
     /* 0x17f2 */ bool _17f2;  // cleared by PlayerAtnWait::enter_
-    /* 0x17f3 */ u8 _17f3[0x17f8 - 0x17f3];
+    /* 0x17f3 */ bool _17f3;  // tested by PlayerJump::calc_
+    /* 0x17f4 */ u8 _17f4[0x17f8 - 0x17f4];
     /* 0x17f8 */ s32 _17f8;  // state copied from _1cb0 (PlayerDisplayWait::enter_)
     /* 0x17fc */ u8 _17fc[0x1800 - 0x17fc];
     /* 0x1800 */ f32 _1800;  // copy of _1770.y (PlayerSuperJump::enter_)
