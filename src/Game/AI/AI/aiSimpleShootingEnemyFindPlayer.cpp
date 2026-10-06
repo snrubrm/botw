@@ -3,7 +3,10 @@
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/AI/aiUnk_71007377D4.h"
 #include "Game/Actor/actEnemy.h"
+#include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
+#include "KingSystem/ActorSystem/Profiles/actDynamicActor.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/System/physRayCastBodyQuery.h"
 
 namespace uking::ai {
 
@@ -73,6 +76,49 @@ bool SimpleShootingEnemyFindPlayer::m43() {
     if (!EnemyBaseFindPlayer::m43())
         return false;
     return m42(state);
+}
+
+// 0x710056fb20
+bool SimpleShootingEnemyFindPlayer::m37() {
+    auto* actor = mActor;
+    if (!actor)
+        return false;
+    sead::Vector3f pos;
+    actor->getMtx().getTranslation(pos);
+    const sead::Vector3f& target = sub_71005D98D8(actor);
+    const f32 dx = target.x - pos.x;
+    const f32 dz = target.z - pos.z;
+    if (!(std::sqrt(dx * dx + dz * dz) >= m34())) {
+        if (sub_710072F788(actor, pos, target, nullptr))
+            return true;
+        return sub_710056FC10(target);
+    }
+    return false;
+}
+
+// 0x710056fc10
+bool SimpleShootingEnemyFindPlayer::sub_710056FC10(const sead::Vector3f& target) {
+    auto* actor = sead::DynamicCast<ksys::act::DynamicActor>(mActor);
+    if (!actor)
+        return false;
+    const auto& awareness_pos = actor->getAwareness()->_2c8;
+    sead::Vector3f start;
+    start.x = awareness_pos.x;
+    start.y = awareness_pos.y;
+    start.z = awareness_pos.z;
+    const sead::Vector3f end = target;
+    ksys::phys::RayCastBodyQuery query(sub_710072E804(mActor, 0), ksys::phys::GroundHit::HitAll);
+    query.enableLayer(ksys::phys::ContactLayer::EntityGround);
+    query.enableLayer(ksys::phys::ContactLayer::EntityGroundRough);
+    query.enableLayer(ksys::phys::ContactLayer::EntityGroundObject);
+    query.enableLayer(ksys::phys::ContactLayer::EntityGroundSmooth);
+    query.enableLayer(ksys::phys::ContactLayer::EntityObject);
+    query.enableLayer(ksys::phys::ContactLayer::EntityTree);
+    query.setStartAndEnd(start, end);
+    query.setNormalCheckingMode(ksys::phys::RayCast::NormalCheckingMode::_0);
+    if (auto* link = sub_71005D9050(actor))
+        query.addIgnoredGroup(sub_7100738C18(link, 0));
+    return !query.worldRayCast(ksys::phys::ContactLayerType::Entity);
 }
 
 }  // namespace uking::ai
