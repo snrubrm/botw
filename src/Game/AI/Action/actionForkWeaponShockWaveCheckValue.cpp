@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionForkWeaponShockWaveCheckValue.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -30,6 +33,15 @@ void ForkWeaponShockWaveCheckValue::loadParams_() {
 
 void ForkWeaponShockWaveCheckValue::calc_() {
     ForkWeaponShockWave::calc_();
+}
+
+bool ForkWeaponShockWaveCheckValue::m32() {
+    ksys::as::ASList::Unk4 query;
+    if (sub_71005DD7B0(mActor, &query, *mTargetBone_s, *mSeqBank_s) ||
+        sub_71005DD74C(mActor, &query, *mTargetBone_s, *mSeqBank_s)) {
+        return query.name == mAtEventValue_s;
+    }
+    return false;
 }
 
 }  // namespace uking::action

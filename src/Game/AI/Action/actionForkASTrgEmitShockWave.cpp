@@ -2,6 +2,7 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "Game/Actor/actEnemy.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 
 namespace uking::action {
 
@@ -48,6 +49,33 @@ void ForkASTrgEmitShockWave::loadParams_() {
 
 void ForkASTrgEmitShockWave::calc_() {
     ksys::act::ai::Action::calc_();
+}
+
+bool ForkASTrgEmitShockWave::m32() {
+    if (*mEmitIntervalTime_s < 0) {
+        if (_90)
+            return false;
+    } else if (!(_a8.value <= sead::Mathf::epsilon())) {
+        return false;
+    }
+
+    if (!sub_71005DD7B0(mActor, nullptr, 0, 0) && !sub_71005DD74C(mActor, nullptr, 0, 0))
+        return false;
+
+    ksys::act::BaseProcLink* link = &_98;
+    if (!link->hasProc()) {
+        if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor))
+            link = &enemy->getActorPartsActor(mShockWavePartsKey_s);
+        else
+            link = &ksys::act::sUnk_71026505e0;
+    }
+    if (link->hasProc()) {
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::acquireActor(link, &accessor);
+        if (accessor.isStateSleep())
+            return true;
+    }
+    return false;
 }
 
 }  // namespace uking::action

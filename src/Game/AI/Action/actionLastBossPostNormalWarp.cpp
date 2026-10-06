@@ -1,6 +1,9 @@
 #include "Game/AI/Action/actionLastBossPostNormalWarp.h"
 #include "math/seadMathCalcCommon.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/Actor/actEnemy.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/Attention/actActorAttention.h"
 #include "KingSystem/ActorSystem/Attention/actAttClient.h"
@@ -84,6 +87,27 @@ bool LastBossPostNormalWarp::isFailed() const {
         }
     }
     return false;
+}
+
+void LastBossPostNormalWarp::m32() {
+    sub_71007A3540(mActor);
+    if (!*mIsPartsActorTgOn_d)
+        return;
+    auto* actor = mActor;
+    if (!sead::IsDerivedFrom<act::Enemy>(actor))
+        return;
+    auto* enemy = static_cast<act::Enemy*>(actor);
+    for (auto* part : enemy->_1128.mList) {
+        auto& link = part->mLink;
+        if (!link.hasProc())
+            continue;
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::acquireActor(&link, &accessor);
+        if (accessor.isStateCalc()) {
+            mActor->sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x8000030), nullptr, true);
+            mActor->sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x3000017), nullptr, true);
+        }
+    }
 }
 
 }  // namespace uking::action

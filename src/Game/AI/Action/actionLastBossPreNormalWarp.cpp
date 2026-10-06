@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionLastBossPreNormalWarp.h"
+#include "Game/Actor/actEnemy.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/Attention/actActorAttention.h"
 #include "KingSystem/ActorSystem/Attention/actAttClient.h"
@@ -47,6 +50,25 @@ void LastBossPreNormalWarp::m33() {
         client->disable();
     if (auto* client = mActor->getAttention()->getClientByName("AutoAim"))
         client->disable();
+}
+
+void LastBossPreNormalWarp::m32() {
+    sub_71007A36BC(mActor);
+    auto* actor = mActor;
+    if (!sead::IsDerivedFrom<act::Enemy>(actor))
+        return;
+    auto* enemy = static_cast<act::Enemy*>(actor);
+    for (auto* part : enemy->_1128.mList) {
+        auto& link = part->mLink;
+        if (!link.hasProc())
+            continue;
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::acquireActor(&link, &accessor);
+        if (accessor.isStateCalc()) {
+            mActor->sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x800002f), nullptr, true);
+            mActor->sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x3000018), nullptr, true);
+        }
+    }
 }
 
 }  // namespace uking::action

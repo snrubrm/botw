@@ -18,6 +18,7 @@ public:
 
 protected:
     void calc_() override;
+    bool m32() override;
 
     // static_param at offset 0x50
     sead::SafeString mAtEventValue_s{};
