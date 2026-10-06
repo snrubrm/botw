@@ -304,6 +304,30 @@ void ScreenSaveTransferWindow::m195() {
     mStateMachine.changeState(&sUnk_71025f2de0);
 }
 
+// 0x7100a44160
+void ScreenSaveTransferWindow::m199() {
+    if (_366c == 0x8b)
+        mStateMachine.changeState(&sUnk_71025f23c0);
+}
+
+// 0x7100a44278
+void ScreenSaveTransferWindow::m203() {
+    if (_366c == 0x8b)
+        mStateMachine.changeState(&sUnk_71025f2d80);
+}
+
+// 0x7100a44370
+void ScreenSaveTransferWindow::m207() {
+    if (_366c == 0x8b)
+        mStateMachine.changeState(&sUnk_71025f2480);
+}
+
+// 0x7100a44434
+void ScreenSaveTransferWindow::m211() {
+    if (_366c == 0x8b)
+        mStateMachine.changeState(&sUnk_71025f2d80);
+}
+
 // 0x7100a44830
 void ScreenSaveTransferWindow::m226() {
     mStateMachine.changeState(&sUnk_71025f2de0);
