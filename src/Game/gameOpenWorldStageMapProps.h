@@ -5,9 +5,11 @@
 namespace uking {
 
 // Name from the CSV (OpenWorldStageMapProps::getMapFileName 0x71007c602c, getMapSquareFromString 0x71007c6064,
-// getMapType 0x71007c61a0, getMapFileNameForPlayerPos 0x71007c5fb0). The class of these functions is unknown (they
-// sit between the OpenWorldStage virtuals and only use `this` for the map type string at 0x1a0); only what the
-// matched functions need is declared.
+// getMapType 0x71007c61a0, getMapFileNameForPlayerPos 0x71007c5fb0). These are the open world stage's overrides of
+// the ksys::map::MapProperties interface (getMapName / m4 / getMapType; the last one is byte identical to
+// StagePreActorCache's, 0x71007c5fb0 is its m2: it calls getMapName for the square of the player's position). The
+// OpenWorldStage class itself (Stage + IHandler + MapProperties, `_1a0` = map type string) does not exist yet, so the
+// three matched functions live in this placeholder; move them into OpenWorldStage when it is written.
 // TODO: layout and virtual functions unknown.
 class OpenWorldStageMapProps {
 public:
