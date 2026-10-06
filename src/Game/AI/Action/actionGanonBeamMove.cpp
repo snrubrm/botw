@@ -48,4 +48,18 @@ bool GanonBeamMove::m34(const AttackInfo* info) {
     return BeamMove::m34(info);
 }
 
+// NON_MATCHING: scheduling only (the original loads the three translation components first).
+// The direction to the target (_88 + PosOffset) scaled by the length of the current direction `_40`.
+void GanonBeamMove::m35(sead::Vector3f* dir) {
+    const sead::Vector3f pos = mActor->getMtx().getTranslation();
+    const auto& offset = *mPosOffset_m;
+    sead::Vector3f to_target(_88.x + offset.x - pos.x, _88.y + offset.y - pos.y,
+                             _88.z + offset.z - pos.z);
+    to_target.normalize();
+    const f32 length = _40.length();
+    dir->x = to_target.x * length;
+    dir->y = to_target.y * length;
+    dir->z = to_target.z * length;
+}
+
 }  // namespace uking::action

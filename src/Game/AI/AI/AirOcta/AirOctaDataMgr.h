@@ -20,6 +20,16 @@ public:
     void sub_71002FB1A8(u64 a1);
     void sub_71002FB340(f32 x, f32 z);
 
+    // Placeholder (lane3 s36): the object at +0x28 as returned by sub_71002FB32C (only two flag bytes are
+    // read: +0xb1 / +0xb2 = mgr +0xd9 / +0xda).
+    struct SubData {
+        u8 _0[0xb1];
+        bool _b1;
+        bool _b2;
+    };
+    // 0x71002fb32c (declared only): `this + 0x28` if mFlags bit 2 is set, else null.
+    SubData* sub_71002FB32C();
+
     struct MessageData {
         u32 unk_00;
         u64 unk_08;

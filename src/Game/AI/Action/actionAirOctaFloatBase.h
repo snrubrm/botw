@@ -28,6 +28,8 @@ protected:
     virtual void m33(sead::Vector3f* min, sead::Vector3f* max);
     virtual f32 m34();
     AirOctaDataMgr* sub_7100088DA8();
+    // 0x7100089328: a second out-of-line copy of the same DynamicCast (used by AirOctaFloat::m34).
+    AirOctaDataMgr* sub_7100089328();
     bool sub_7100088400();
     void sub_71000885B0();
     void sub_71000886B8();

@@ -81,4 +81,21 @@ void AirOctaFloat::calc_() {
     AirOctaFloatBase::calc_();
 }
 
+void AirOctaFloat::m33(sead::Vector3f* min, sead::Vector3f* max) {
+    min->set(-3.0f, -3.0f, -3.0f);
+    max->set(3.0f, 3.0f, 3.0f);
+}
+
+f32 AirOctaFloat::m34() {
+    if (auto* manager = sub_7100089328()) {
+        if (auto* data = manager->sub_71002FB32C()) {
+            if (data->_b2)
+                return *mAmplitude_s * 0.5f;
+            if (data->_b1)
+                return 0.0f;
+        }
+    }
+    return *mAmplitude_s;
+}
+
 }  // namespace uking::action

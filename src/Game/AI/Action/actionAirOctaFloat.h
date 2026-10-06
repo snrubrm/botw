@@ -20,6 +20,8 @@ public:
 
 protected:
     void calc_() override;
+    void m33(sead::Vector3f* min, sead::Vector3f* max) override;
+    f32 m34() override;
 
     Unk_7100d3d3a8 _1d0;
     void* _1f0 = nullptr;

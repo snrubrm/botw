@@ -1,6 +1,8 @@
 #include "Game/AI/Action/actionForkASTrgShootArrow.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/Actor/actEnemy.h"
 
 namespace uking::action {
 
@@ -39,6 +41,12 @@ void ForkASTrgShootArrow::calc_() {
 
 void ForkASTrgShootArrow::m32(sead::Vector3f* dir) {
     mActor->getMtx().getBase(*dir, 2);
+}
+
+void ForkASTrgShootArrow::m33(const sead::Vector3f& pos, const sead::Vector3f* dir) {
+    if (auto* enemy = sead::DynamicCast<uking::act::Enemy>(mActor))
+        enemy->sub_7100016494();
+    sub_71005D80FC(mActor, *mWeaponIdx_s, pos, 0, 1.0f, dir, nullptr);
 }
 
 }  // namespace uking::action

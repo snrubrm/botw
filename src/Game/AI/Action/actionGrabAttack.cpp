@@ -1,6 +1,7 @@
 #include "Game/AI/Action/actionGrabAttack.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorAtk.h"
 
 namespace uking::action {
 
@@ -37,6 +38,22 @@ void GrabAttack::calc_() {
 
 void GrabAttack::m32() {
     playAS(mASName_s.cstr(), false, 0, 0, -1.0f);
+}
+
+// Whether the grabbed actor (the connected calc child) hit this one.
+bool GrabAttack::m33() {
+    if (auto* actor = mActor) {
+        auto* child = sead::DynamicCast<ksys::act::Actor>(actor->getConnectedCalcChild());
+        if (child && hasAttackInfo(actor)) {
+            const s32 count = getNumAttackInfoMaybe(actor);
+            for (s32 i = 0; i < count; ++i) {
+                auto* info = getAttackInfo(actor, i);
+                if (info && info->_50.hasProcById(child))
+                    return true;
+            }
+        }
+    }
+    return false;
 }
 
 }  // namespace uking::action

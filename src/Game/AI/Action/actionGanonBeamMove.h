@@ -23,6 +23,7 @@ protected:
 
     bool m32(const AttackInfo* info) override;
     bool m34(const AttackInfo* info) override;
+    void m35(sead::Vector3f* dir) override;
 
     // map_unit_param at offset 0x70
     const int* mAttackPower_m{};

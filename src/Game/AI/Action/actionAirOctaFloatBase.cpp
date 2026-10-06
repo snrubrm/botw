@@ -52,6 +52,10 @@ AirOctaDataMgr* AirOctaFloatBase::sub_7100088DA8() {
     return sead::DynamicCast<AirOctaDataMgr>(*mAirOctaDataMgr_a);
 }
 
+AirOctaDataMgr* AirOctaFloatBase::sub_7100089328() {
+    return sead::DynamicCast<AirOctaDataMgr>(*mAirOctaDataMgr_a);
+}
+
 // NON_MATCHING: block layout of the `_44 >= 1.0f` branch and where &_1c0 is computed differ.
 bool AirOctaFloatBase::sub_7100088400() {
     auto* manager = sead::DynamicCast<AirOctaDataMgr>(*mAirOctaDataMgr_a);
