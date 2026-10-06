@@ -1,6 +1,10 @@
 #pragma once
 
+#include <math/seadMatrix.h>
+#include <math/seadVector.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/System/Timer.h"
+#include "KingSystem/System/VFRValue.h"
 
 namespace uking::action {
 
@@ -25,6 +29,9 @@ protected:
     const float* mInitSpeed_s{};
     // dynamic_param at offset 0x30
     sead::Vector3f* mTargetPos_d{};
+    ksys::Timer _38;
+    ksys::VFRValue _44;
+    sead::Matrix33f _50;
 };
 
 }  // namespace uking::action

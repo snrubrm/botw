@@ -1,6 +1,7 @@
 #pragma once
 
 #include <container/seadSafeArray.h>
+#include <math/seadMatrix.h>
 #include <math/seadVector.h>
 #include <mc/seadJobQueue.h>
 #include <prim/seadBitFlag.h>
@@ -169,6 +170,19 @@ public:
         // 0x710066c634: sub_710066C164(.., 0x8000054, .., flags = 1) + the same message to the
         // actors in _3b0.
         void sub_710066C634(ksys::act::BaseProcLink* target, int idx);
+
+        // 0x710066cdf8 (declared only; 668 B): binds / spawns the actor `idx` at the pose `mtx`.
+        struct SpawnArg {
+            u64 _0 = 0;
+            sead::Vector3f pos;
+            f32 _14 = 0;
+            bool _18 = false;
+            bool _19 = false;
+            bool _1a = false;
+            bool _1b = false;
+        };
+        void sub_710066CDF8(ksys::act::Actor* owner, const sead::Matrix34f& mtx, int idx,
+                            const SpawnArg& arg);
 
         // Message payload (sendMessage's void* argument); 0x710066c164 fills it.
         struct Payload {

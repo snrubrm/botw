@@ -1,6 +1,9 @@
 #pragma once
 
+#include <math/seadMatrix.h>
+#include <math/seadVector.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::action {
 
@@ -38,17 +41,18 @@ protected:
     // dynamic_param at offset 0x60
     sead::Vector3f* mAfterImage1Pos_d{};
     s32 _68 = 0;
-    f32 _6c = 0.0f;
-    s32 _70 = 0;
-    u8 _74[0x4]{};
-    s32 _78 = 0;
-    u8 _7c[0x4]{};
-    s32 _80 = 0;
-    s32 _84 = 0;
-    u8 _88[0x4]{};
-    s32 _8c = 0;
-    bool _90 = false;
-    u8 _91[0x37];
+    ksys::Timer _6c;
+    ksys::Timer _78;
+    ksys::Timer _84;
+    u8 _90 = 0;
+    sead::Vector3f _94;
+    sead::Matrix33f _a0;
+    u8 _c4[0x4];
+
+private:
+    // 0x710026b5d8 (placeholder name): spawns the bound actor `idx` of the SiteBoss at the pose `front`
+    // / `pos`, facing the target.
+    void sub_710026B5D8(int idx, const sead::Vector3f* front, const sead::Vector3f* pos, f32 value);
 };
 KSYS_CHECK_SIZE_NX150(SiteBossSwordMove, 0xc8);
 

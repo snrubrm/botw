@@ -1,6 +1,8 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include <math/seadMatrix.h>
+#include <math/seadVector.h>
 #include "KingSystem/System/VFRValue.h"
 
 namespace uking::action {
@@ -62,7 +64,7 @@ protected:
     // dynamic_param at offset 0xb8
     sead::Vector3f* mTargetPos_d{};
     ksys::VFRValue _c0;
-    u8 _cc[0xf0 - 0xcc];
+    sead::Matrix33f _cc;
 };
 KSYS_CHECK_SIZE_NX150(SiteBossSpearAttackBase, 0xf0);
 
