@@ -311,6 +311,35 @@ bool ASList::Unk2::sub_7101163940() {
     return _0->_920 >> 7;
 }
 
+bool ASList::sub_710115AD68(const sead::SafeString& name) {
+    sead::SafeString out_name;
+    bool a3 = false;
+    void* a4 = nullptr;
+    const Unk8* define = sub_710115AABC(name, &out_name, &a3, &a4, false);
+    return define && ((define->_10 >> 1) & 1);
+}
+
+void ASList::sub_710115D4A4(f32 t, sead::Matrix34f* out, bool a3) {
+    for (s32 i = 0; i < mSlots.size(); ++i) {
+        if (mSlots[i].sub_71011650FC(t, out, a3, &_14))
+            return;
+    }
+    out->makeIdentity();
+}
+
+void ASList::sub_710115CA28() {
+    if (_b0)
+        _b0->_21 = false;
+    if (!_8 || _18.isEmpty())
+        _14.reset();
+    else
+        _14 = _8->searchBone(_18);
+    const s32 count = mSlots.size();
+    for (s32 i = 0; i < count; ++i)
+        mSlots[i].sub_7101164E38(false);
+    _b0->sub_7100D68104(_8, nullptr, &_80, &_14);
+}
+
 bool ASList::sub_710115AA68(const sead::SafeString& name) {
     sead::SafeString out_name;
     bool a3 = false;

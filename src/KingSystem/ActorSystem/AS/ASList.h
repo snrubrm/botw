@@ -267,6 +267,14 @@ public:
         Unk6* _30;
     };
 
+    // Placeholder: 0x18-byte entry of the define table (`_138`) that sub_710115AABC returns (bit 1 of the byte at
+    // 0x10 is queried by sub_710115AD68).
+    struct Unk8 {
+        u8 _0[0x10];
+        u8 _10;
+        u8 _11[0x18 - 0x11];
+    };
+
     // Placeholder: 8-byte parameter value; depending on the parameter kind it holds a value or a
     // pointer (the destructor deletes some kinds).
     union Unk3 {
@@ -279,7 +287,7 @@ public:
 
     // 0x710115b070 / 0x710115b140 construct this transient request for 0x710115ae2c.
     struct AnimationRequest {
-        void* define;
+        Unk8* define;
         sead::SafeString name;
         s32 slot;
         s32 bank;
@@ -351,7 +359,7 @@ public:
     // 0x710115aabc: looks up the AS define `name` (res::ASList::findASDefine) and returns its entry
     // (null if none); outputs the define's name and two values. Return type and outputs are
     // placeholders.
-    void* sub_710115AABC(const sead::SafeString& name, sead::SafeString* out_name, bool* out_a3,
+    Unk8* sub_710115AABC(const sead::SafeString& name, sead::SafeString* out_name, bool* out_a3,
                          void** out_a4, bool a5);
     // 0x710115aa68: whether sub_710115AABC finds `name` (a5 = true).
     bool sub_710115AA68(const sead::SafeString& name);
