@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiAssassinBossFirstBattleMove.h"
+#include <random/seadGlobalRandom.h>
 #include "KingSystem/Map/mapObjectLink.h"
 #include "KingSystem/Map/mapObject.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
@@ -87,6 +88,15 @@ void AssassinBossFirstBattleMove::sub_7100316D50() {
         }
     }
     mActor->getHomePos(&_6c);
+}
+
+void AssassinBossFirstBattleMove::sub_710031704C() {
+    _60 = f32(_64 == _68 ? _64 : sead::GlobalRandom::instance()->getS32Range(_64, _68));
+    ksys::act::ai::InlineParamPack pack;
+    sead::Vector3f target;
+    sub_7100317578(&target);
+    pack.addVec3(target, "TargetPos", -1);
+    changeChild("直線接近不能", &pack);
 }
 
 }  // namespace uking::ai

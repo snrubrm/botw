@@ -20,8 +20,10 @@ public:
 
     void sub_7100316D50();
 protected:
-    // 0x710031704c: declaration-only movement transition.
+    // 0x710031704c: picks the next straight-line approach time and starts the "直線接近不能" child.
     void sub_710031704C();
+    // 0x7100317578 (declaration only, 328 B; placeholder name): the approach target position.
+    void sub_7100317578(sead::Vector3f* out);
 
     // static_param at offset 0x38
     const float* mDistXZ_s{};
