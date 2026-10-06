@@ -2,6 +2,36 @@
 #include <prim/seadScopedLock.h>
 #include "KingSystem/GameData/gdtManager.h"
 
+SEAD_SINGLETON_DISPOSER_IMPL(PlayerResetPosMgr)
+
+bool PlayerResetPosMgr::isNotResetting() const {
+    return mStatus == 0;
+}
+
+void PlayerResetPosMgr::addResetPos(const sead::Vector3f& position, f32 yaw) {
+    sead::ScopedLock<sead::SpinLock> lock(&mLock);
+    if (mNumResetPos < 64) {
+        mResetPositions[mNumResetPos].position = position;
+        mResetPositions[mNumResetPos].yaw = yaw;
+        ++mNumResetPos;
+    }
+}
+
+void PlayerResetPosMgr::setResetPos(const sead::Vector3f& position, f32 yaw,
+                                    ksys::act::Actor* actor) {
+    sead::ScopedLock<sead::SpinLock> lock(&mLock);
+    mActor = actor;
+    mHasResetPos = true;
+    mResetPos.position = position;
+    mResetPos.yaw = yaw;
+}
+
+void PlayerResetPosMgr::sub_71007A6620(ksys::act::Actor* actor) {
+    sead::ScopedLock<sead::SpinLock> lock(&mLock);
+    if (mActor == actor)
+        mHasResetPos = false;
+}
+
 void PlayerResetPosMgr::resetSmallKeyFlags() {
     auto* manager = ksys::gdt::Manager::instance();
     if (!manager)
@@ -20,8 +50,8 @@ void PlayerResetPosMgr::resetSmallKeyFlags() {
 void PlayerResetPosMgr::clearResetPos() {
     {
         sead::ScopedLock<sead::SpinLock> lock(&mLock);
-        if (!_428)
-            _430 = false;
+        if (!mActor)
+            mHasResetPos = false;
     }
-    _20 = 0;
+    mNumResetPos = 0;
 }
