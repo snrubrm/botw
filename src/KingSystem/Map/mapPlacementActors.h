@@ -130,6 +130,13 @@ public:
     void freeObjects();
     // 0x0000007101256f04
     void x_0(PlacementTree* tree);
+    // 0x0000007101256c78 (CSV allocObj; lane4 s45): the next unused object of the group, or null if it is full.
+    Object* allocObj(int group_idx);
+    // 0x0000007101256e14 (CSV findObjByHash; lane4 s45): binary search by hash id. Group 0 (the static objects) is
+    // searched in the index range [start, end], the other groups over all their objects.
+    Object* findObjByHash(const u32& hash, int group_idx, int start, int end);
+    // 0x0000007101256d58 (CSV findObjByHashInAllGroups): the same over the groups 0-9; writes the group of the result.
+    Object* findObjByHashInAllGroups(const u32& hash, int start, int end, int* out_group);
 
     void* _0;
     sead::SafeArray<Group, 10> mGroups;

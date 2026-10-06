@@ -29,6 +29,8 @@ public:
     ~PlacementTree();
 
     void resetPlacementObjPtrs();
+    // 0x71011ed9ec (CSV PlacementTree::calledForPlaceActor1; declared only; lane4 s45)
+    void calledForPlaceActor1(Object* obj);
     u32 x_1(const sead::Vector3f& pos, int level) const;
     int sub_71011ED960(f32 distance) const;
 

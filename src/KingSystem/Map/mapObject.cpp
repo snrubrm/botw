@@ -13,6 +13,9 @@
 
 namespace ksys::map {
 
+// 0x7100d38170 (CSV map::isFlagSet; declared only; lane4 s45): reads the game data flag of the object (revival flag?).
+bool isFlagSet(bool* value, bool a2, const Object* obj);
+
 // NON_MATCHING
 Object::Object() {
     mHardModeFlags.makeAllZero();
@@ -594,6 +597,19 @@ void Object::getUniqueName(const char** out) const {
 
 void Object::setTranslate(const sead::Vector3f& translate) {
     mTranslate = translate;
+}
+
+// NON_MATCHING: the else branch normalises the flag with `cmp / cset ne` and xors it with the raw shifted bit
+// (`eor w19, w9, w8, lsr #2`); ours folds the xor into `ubfx / cmp / cset ne`.
+bool Object::checkRevivalMaybe(bool x) const {
+    if (mProc) {
+        x = mFlags0.isOn(Flag0::_100) ^ mFlags.isOn(Flag::IsLinkTagNAndOrNOr);
+    } else {
+        bool value = false;
+        if (isFlagSet(&value, false, this))
+            x = value ^ mFlags.isOn(Flag::IsLinkTagNAndOrNOr);
+    }
+    return x;
 }
 
 }  // namespace ksys::map

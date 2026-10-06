@@ -74079,7 +74079,7 @@ Address,Quality,Size,Name
 0x0000007100d379b0,U,000072,LinkTag::dtorDelete
 0x0000007100d379f8,U,001656,LinkTag::init2
 0x0000007100d38070,U,000256,isLinkTagNAndOrNOr
-0x0000007100d38170,U,000308,map::isFlagSet
+0x0000007100d38170,U,000308,_ZN4ksys3map9isFlagSetEPbbPKNS0_6ObjectE
 0x0000007100d382a4,U,000056,LinkTag::finalizeInit
 0x0000007100d382dc,U,000188,LinkTag::prepareForPreDelete
 0x0000007100d38398,U,000092,LinkTag::isDonePreparingForPreDelete
@@ -74098,7 +74098,7 @@ Address,Quality,Size,Name
 0x0000007100d39420,U,000052,
 0x0000007100d39454,U,000588,isAreaOrLinkTagOrOtherTag
 0x0000007100d396a0,U,000584,LinkTag::isTriggered
-0x0000007100d398e8,U,000124,_ZNK4ksys3map6Object17checkRevivalMaybeEb
+0x0000007100d398e8,m,000124,_ZNK4ksys3map6Object17checkRevivalMaybeEb
 0x0000007100d39964,U,000492,map::getLinkTagRevivalGameDataFlagHash
 0x0000007100d39b50,U,000332,map::getLinkTagSaveFlagName
 0x0000007100d39c9c,U,000196,GameDataMgr::setS32ByIdxForLinkTag
@@ -93027,7 +93027,7 @@ Address,Quality,Size,Name
 0x00000071011ed828,O,000160,_ZN4ksys3map13PlacementTree21resetPlacementObjPtrsEv
 0x00000071011ed8c8,m,000152,_ZNK4ksys3map13PlacementTree3x_1ERKN4sead7Vector3IfEEi
 0x00000071011ed960,O,000140,_ZNK4ksys3map13PlacementTree14sub_71011ED960Ef
-0x00000071011ed9ec,U,000396,PlacementTree::calledForPlaceActor1
+0x00000071011ed9ec,U,000396,_ZN4ksys3map13PlacementTree20calledForPlaceActor1EPNS0_6ObjectE
 0x00000071011edb78,U,000448,PlacementTree::checkSpawnStuff_x
 0x00000071011edd38,U,000096,
 0x00000071011edd98,U,001824,PlacementTree::checkSpawnStuff
@@ -94697,13 +94697,13 @@ Address,Quality,Size,Name
 0x0000007101256714,m,000228,_ZN4ksys3act12ActorBindSet2m9EPNS0_8BaseProcE
 0x00000071012567f8,U,001008,PlacementObjs::ctor
 0x0000007101256be8,U,000144,PlacementObjs::dtor
-0x0000007101256c78,U,000076,PlacementObjs::allocObj
+0x0000007101256c78,O,000076,_ZN4ksys3map13PlacementObjs8allocObjEi
 0x0000007101256cc4,O,000148,_ZN4ksys3map13PlacementObjs11freeObjectsEv
-0x0000007101256d58,U,000188,PlacementObjs::findObjByHashInAllGroups
-0x0000007101256e14,U,000152,PlacementObjs::findObjByHash
+0x0000007101256d58,O,000188,_ZN4ksys3map13PlacementObjs24findObjByHashInAllGroupsERKjiiPi
+0x0000007101256e14,m,000152,_ZN4ksys3map13PlacementObjs13findObjByHashERKjiii
 0x0000007101256eac,O,000060,_ZN4ksys3map13PlacementObjs23allocGroupForDynamicMapEPNS0_12PlacementMapE
 0x0000007101256ee8,O,000028,_ZN4ksys3map13PlacementObjs10resetGroupEi
-0x0000007101256f04,U,000164,_ZN4ksys3map13PlacementObjs3x_0EPNS0_13PlacementTreeE
+0x0000007101256f04,O,000164,_ZN4ksys3map13PlacementObjs3x_0EPNS0_13PlacementTreeE
 0x0000007101256fa8,U,000104,
 0x0000007101257010,U,000004,nullsub_4725
 0x0000007101257014,U,000004,j__ZdlPv_1262
