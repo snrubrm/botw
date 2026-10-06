@@ -1,11 +1,16 @@
 #include "Game/AI/Action/actionElectricAttack.h"
+#include "Game/Actor/actEnemy.h"
+#include "KingSystem/ActorSystem/actActor.h"
 #include <algorithm>
 
 namespace uking::action {
 
 ElectricAttack::ElectricAttack(const InitArg& arg) : TimeredASPlay(arg) {}
 
-ElectricAttack::~ElectricAttack() = default;
+ElectricAttack::~ElectricAttack() {
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor))
+        enemy->sub_7100D3CFEC(sead::SafeString(mElectricActorKey_s.cstr()));
+}
 
 bool ElectricAttack::init_(sead::Heap* heap) {
     return TimeredASPlay::init_(heap) && sub_7100103040(heap);

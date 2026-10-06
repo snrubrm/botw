@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionAssassinBossIronBallAttack.h"
+#include "Game/Actor/actEnemy.h"
+#include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
@@ -6,7 +8,17 @@ namespace uking::action {
 AssassinBossIronBallAttack::AssassinBossIronBallAttack(const InitArg& arg)
     : ksys::act::ai::Action(arg) {}
 
-AssassinBossIronBallAttack::~AssassinBossIronBallAttack() = default;
+AssassinBossIronBallAttack::~AssassinBossIronBallAttack() {
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
+        sead::FixedSafeString<32> key;
+        for (s32 i = 0; i < *mIronBallNum_s; ++i) {
+            key.format("%s%d", mIronBallPartsName_s.cstr(), i);
+            enemy->sub_7100D3CFEC(key);
+        }
+    }
+    _40.freeBuffer();
+    _50.freeBuffer();
+}
 
 bool AssassinBossIronBallAttack::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);

@@ -2,6 +2,7 @@
 
 #include <container/seadBuffer.h>
 #include <math/seadVector.h>
+#include "Game/AI/aiUnk_7102357d20.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -28,8 +29,7 @@ protected:
     const int* mAttackType_s{};
     // static_param at offset 0x30
     sead::SafeString mIronBallPartsName_s{};
-    int _40 = 0;
-    void* _48{};
+    sead::Buffer<Unk_7102368740> _40;
     sead::Buffer<bool> _50;
     int _60 = 0;
 };

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <container/seadBuffer.h>
+#include "Game/AI/aiUnk_7102357d20.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -27,8 +28,7 @@ protected:
     const float* mLevel2AttackLifeRatio_s{};
     // static_param at offset 0x38
     sead::SafeString mIronBallPartsName_s{};
-    int _48 = 0;
-    void* _50{};
+    sead::Buffer<Unk_7102368740> _48;
     sead::Buffer<bool> _58;
     int _68 = 0;
 };

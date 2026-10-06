@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionElectricBlownOff.h"
+#include "Game/Actor/actEnemy.h"
+#include "KingSystem/ActorSystem/actActor.h"
 #include <math/seadMathCalcCommon.h>
 #include "Game/AI/aiUnk_710072BA90.h"
 #include "Game/Damage/dmgDamageManager.h"
@@ -7,7 +9,10 @@ namespace uking::action {
 
 ElectricBlownOff::ElectricBlownOff(const InitArg& arg) : BlownOff(arg) {}
 
-ElectricBlownOff::~ElectricBlownOff() = default;
+ElectricBlownOff::~ElectricBlownOff() {
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor))
+        enemy->sub_7100D3CFEC(sead::SafeString(mElectricActorKey_s.cstr()));
+}
 
 bool ElectricBlownOff::init_(sead::Heap* heap) {
     return BlownOff::init_(heap) && sub_7100103E00(heap);

@@ -1,11 +1,23 @@
 #include "Game/AI/Action/actionAssassinBossIronBallAppear.h"
+#include "Game/Actor/actEnemy.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
 AssassinBossIronBallAppear::AssassinBossIronBallAppear(const InitArg& arg)
     : ksys::act::ai::Action(arg) {}
 
-AssassinBossIronBallAppear::~AssassinBossIronBallAppear() = default;
+AssassinBossIronBallAppear::~AssassinBossIronBallAppear() {
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
+        sead::FixedSafeString<32> key;
+        for (s32 i = 0; i < *mIronBallNum_s; ++i) {
+            key.format("%s%d", mIronBallPartsName_s.cstr(), i);
+            enemy->sub_7100D3CFEC(key);
+        }
+    }
+    _60.freeBuffer();
+    _70.freeBuffer();
+}
 
 bool AssassinBossIronBallAppear::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
