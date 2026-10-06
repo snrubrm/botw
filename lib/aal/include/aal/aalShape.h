@@ -44,12 +44,12 @@ public:
     virtual void setShapeParam(const sead::Vector3f& vector, const sead::Vector3f& rotation,
                                bool keep_position);
     virtual void calcPosition(const sead::Vector3f& source, sead::Vector3f* out) const = 0;
-    virtual void setRadius(f32 radius) {}
-    virtual f32 getRadius() const { return 0.0f; }
-    virtual void setVector(const sead::Vector3f& vector) {}
-    virtual const sead::Vector3f& getVector() const { return sead::Vector3f::zero; }
-    virtual void setUp(const sead::Vector3f& up) {}
-    virtual const sead::Vector3f& getUp() const { return sead::Vector3f::ey; }
+    virtual void setRadius(f32 radius);
+    virtual f32 getRadius() const;
+    virtual void setVector(const sead::Vector3f& vector);
+    virtual const sead::Vector3f& getVector() const;
+    virtual void setUp(const sead::Vector3f& up);
+    virtual const sead::Vector3f& getUp() const;
     bool calcUnifiablePositions(const Listener& listener, sead::Vector3f* a,
                                 sead::Vector3f* b) override;
 

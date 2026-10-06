@@ -17,6 +17,7 @@ add_library(aal OBJECT
   include/aal/aalTimedFader.h
   src/aalHandle.cpp
   src/aalNamedObj.cpp
+  src/aalShape.cpp
   src/aalSoundParam.cpp
   src/aalSystem.cpp
   src/aalSoundSource.cpp

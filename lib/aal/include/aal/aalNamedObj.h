@@ -7,7 +7,7 @@ namespace aal {
 /// Base of the named aal objects (shapes, listeners, ...): a vtable and the name string.
 class NamedObj {
 public:
-    virtual ~NamedObj();
+    virtual ~NamedObj() = default;
     virtual void setObjName(const sead::SafeString& name);
 
     const sead::SafeString& getObjName() const { return mName; }
