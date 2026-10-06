@@ -29,7 +29,15 @@ struct CharacterControllerUnk20;
 struct CharacterControllerShapes;
 struct CharacterControllerUnk38;
 struct CharacterControllerUnk40;
-struct CharacterControllerUnk48;
+struct CharacterControllerUnk48 {
+    /* 0x00 */ u8 _0[0x50];
+    /* 0x50 */ u8 _50;
+    /* 0x51 */ u8 _51[0x8c - 0x51];
+    /* 0x8c */ u32 _8c;
+    /* 0x90 */ u8 _90[0x94 - 0x90];
+    /* 0x94 */ u32 _94;
+};
+
 struct CharacterControllerUnk50;
 
 // TODO: incomplete (0x2a8 bytes; ctor 0x7100f5d8b8)
@@ -307,7 +315,8 @@ public:
     u8 _21c[0x220 - 0x21c];
     f32 _220;
     s32 _224;  // index into _288 of the current body (_298)
-    u8 _228[0x240 - 0x228];
+    u8 _228[0x238 - 0x228];
+    u64 _238;
     sead::Vector3f _240;
     u8 _24c[0x250 - 0x24c];
     // Callbacks called with the controller by sub_7100F60604 (_250) and sub_7100F60500 (_258) (vtable

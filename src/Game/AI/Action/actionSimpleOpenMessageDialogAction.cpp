@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionSimpleOpenMessageDialogAction.h"
+#include "Game/UI/uiUI.h"
 
 namespace uking::action {
 
@@ -25,7 +26,23 @@ void SimpleOpenMessageDialogAction::loadParams_() {
 }
 
 void SimpleOpenMessageDialogAction::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (!ui::UI::instance()) {
+        setFailed();
+        mFlags.set(Flag::Changeable);
+    }
+    const bool was_opened = _40;
+    const bool is_open = ui::UI::instance()->sub_71010A5888();
+    if (was_opened) {
+        if (!is_open) {
+            setFinished();
+            mFlags.set(Flag::Changeable);
+        }
+    } else if (!is_open) {
+        ui::UI::instance()->messageDialogViewStyleStuff(sead::SafeString(mMstxt_d.cstr()),
+                                                        sead::SafeString(mLabel_d.cstr()), nullptr, 0.0f,
+                                                        0, false, false);
+        _40 = true;
+    }
 }
 
 }  // namespace uking::action

@@ -59,13 +59,6 @@ struct CharacterControllerUnk38 {
 };
 
 
-struct CharacterControllerUnk48 {
-    /* 0x00 */ u8 _0[0x50];
-    /* 0x50 */ u8 _50;
-    /* 0x51 */ u8 _51[0x94 - 0x51];
-    /* 0x94 */ u32 _94;
-};
-
 struct CharacterControllerUnk50 {
     /* 0x00 */ u8 _0[0x18];
     /* 0x18 */ f32 _18;

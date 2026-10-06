@@ -1,5 +1,8 @@
 #include "Game/AI/Action/actionPlayerSlide.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayer.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actCCAccessor.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "Game/gameUnk_710246d058.h"
 
 namespace uking::action {
@@ -13,7 +16,22 @@ void PlayerSlide::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void PlayerSlide::leave_() {
-    PlayerAction::leave_();
+    _60.fade();
+    if (auto* controller = mActor->getCharacterController()) {
+        controller->sub_7100F60E80(false);
+        controller->_48->_8c = 0;
+        if (!static_cast<ksys::act::Player*>(mActor)->isSurfingOnGround()) {
+            sead::Vector3f velocity;
+            controller->sub_7100F5F598(&velocity);
+            auto* player = static_cast<ksys::act::Player*>(mActor);
+            const f32 speed =
+                sead::Mathf::sqrt(velocity.x * velocity.x + velocity.z * velocity.z) / 30.0f;
+            player->_20bc.value = speed;
+            player->_20bc.prev_value = speed;
+            static_cast<ksys::act::Player*>(mActor)->_1c68 =
+                ksys::util::Unk_7101EC6BAC(sead::Mathf::atan2Idx(velocity.x, velocity.z));
+        }
+    }
 }
 
 bool PlayerSlide::isChangeable() const {

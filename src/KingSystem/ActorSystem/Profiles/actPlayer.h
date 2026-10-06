@@ -528,7 +528,10 @@ public:
     /* 0x1e18 */ f32 _1e18;
     /* 0x1e1c */ f32 _1e1c;
     /* 0x1e20 */ f32 _1e20;
-    /* 0x1e24 */ u8 _1e24[0x1e9c - 0x1e24];
+    /* 0x1e24 */ u8 _1e24[0x1e90 - 0x1e24];
+    /* 0x1e90 */ f32 _1e90;
+    /* 0x1e94 */ f32 _1e94;
+    /* 0x1e98 */ f32 _1e98;
     /* 0x1e9c */ f32 _1e9c;
     /* 0x1ea0 */ f32 _1ea0;
     /* 0x1ea4 */ f32 _1ea4;
@@ -587,7 +590,11 @@ public:
     /* 0x2104 */ f32 _2104;  // the blend frame of the last switchToAnimSequenceMaybe
     /* 0x2108 */ u8 _2108[0x211c - 0x2108];
     /* 0x211c */ f32 _211c;  // cleared by PlayerLand::enter_
-    /* 0x2120 */ u8 _2120[0x2158 - 0x2120];
+    /* 0x2120 */ u8 _2120[0x2124 - 0x2120];
+    /* 0x2124 */ f32 _2124;  // zeroed by PlayerMove::leave_
+    /* 0x2128 */ u8 _2128[0x212c - 0x2128];
+    /* 0x212c */ f32 _212c;  // zeroed by PlayerMove::leave_
+    /* 0x2130 */ u8 _2130[0x2158 - 0x2130];
     /* 0x2158 */ f32 _2158;  // copy of _1770.y (PlayerClimb::leave_)
     /* 0x215c */ u8 _215c[0x2184 - 0x215c];
     /* 0x2184 */ sead::Vector3f _2184;

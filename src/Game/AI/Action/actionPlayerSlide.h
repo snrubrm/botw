@@ -1,5 +1,6 @@
 #pragma once
 
+#include <xlink2/xlink2HandleELink.h>
 #include "Game/AI/Action/actionPlayerAction.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
@@ -35,9 +36,7 @@ protected:
     const float* mSlipSpeedDec_s{};
     // static_param at offset 0x58
     const float* mEffectContTime_s{};
-    u64 _60 = 0;
-    u32 _68 = 0;
-
+    xlink2::HandleELink _60;
 };
 KSYS_CHECK_SIZE_NX150(PlayerSlide, 0x70);
 
