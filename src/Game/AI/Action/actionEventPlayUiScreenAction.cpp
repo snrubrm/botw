@@ -17,7 +17,14 @@ void EventPlayUiScreenAction::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void EventPlayUiScreenAction::leave_() {
-    ksys::act::ai::Action::leave_();
+    const s32 index = _38;
+    auto* screen = sead::DynamicCast<ui::Screen>(eui::ScreenMgr::instance()->getScreen(index));
+    if (screen != _40) {
+        setFailed();
+        return;
+    }
+    if (_40)
+        _40->m76();
 }
 
 void EventPlayUiScreenAction::loadParams_() {

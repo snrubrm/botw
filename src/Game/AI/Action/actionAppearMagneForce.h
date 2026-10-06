@@ -54,6 +54,11 @@ protected:
     const float* mGyroUpDownSpeed_s{};
     // static_param at offset 0xa8
     const float* mGyroRotateSpeed_s{};
+    // 0xb0 - 0x260: not decompiled yet (the constructor is still W); _138 points to _d0.
+    u8 _b0[0xd0 - 0xb0];
+    u8 _d0[0x138 - 0xd0];
+    void* _138{};
+    u8 _140[0x260 - 0x140];
 };
 
 }  // namespace uking::action

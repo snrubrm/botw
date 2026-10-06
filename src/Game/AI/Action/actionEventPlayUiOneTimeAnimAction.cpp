@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionEventPlayUiOneTimeAnimAction.h"
+#include "Game/UI/uiScreens.h"
+#include "KingSystem/Event/evtManager.h"
 
 namespace uking::action {
 
@@ -16,7 +18,13 @@ void EventPlayUiOneTimeAnimAction::enter_(ksys::act::ai::InlineParamPack* params
 }
 
 void EventPlayUiOneTimeAnimAction::leave_() {
-    ksys::act::ai::Action::leave_();
+    auto* screen = sead::DynamicCast<ui::Screen>(eui::ScreenMgr::instance()->getScreen(_48));
+    if (screen != _50) {
+        setFailed();
+        return;
+    }
+    if (_50)
+        _50->m79();
 }
 
 void EventPlayUiOneTimeAnimAction::loadParams_() {
@@ -26,7 +34,20 @@ void EventPlayUiOneTimeAnimAction::loadParams_() {
 }
 
 void EventPlayUiOneTimeAnimAction::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (isFinished() || isFailed())
+        return;
+
+    auto* screen = sead::DynamicCast<ui::Screen>(eui::ScreenMgr::instance()->getScreen(_48));
+    if (screen != _50) {
+        setFailed();
+        return;
+    }
+
+    if (*mClipIndex_d >= 0) {
+        const f32 frame =
+            sead::Mathf::clampMin(ksys::evt::Manager::instance()->sub_7100DB1138(*mClipIndex_d), 0.0f);
+        _50->m78(frame);
+    }
 }
 
 }  // namespace uking::action

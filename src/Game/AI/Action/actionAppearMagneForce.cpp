@@ -7,7 +7,8 @@ AppearMagneForce::AppearMagneForce(const InitArg& arg) : ksys::act::ai::Action(a
 AppearMagneForce::~AppearMagneForce() = default;
 
 bool AppearMagneForce::init_(sead::Heap* heap) {
-    return ksys::act::ai::Action::init_(heap);
+    _138 = _d0;
+    return true;
 }
 
 void AppearMagneForce::enter_(ksys::act::ai::InlineParamPack* params) {
