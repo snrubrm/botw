@@ -1,18 +1,37 @@
 #include "Game/AI/Action/actionUnarmedAttack.h"
+#include "Game/AI/aiUnk_71007377D4.h"
 #include "Game/Damage/dmgDamageCallback.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectAttack.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
 namespace uking::action {
 
 // NON_MATCHING: store scheduling (the damage callback member's zero stores are ordered differently)
 UnarmedAttack::UnarmedAttack(const InitArg& arg) : ActionEx(arg) {}
 
+// NON_MATCHING: one store/fsub pair of the target direction is scheduled in the other order.
 void UnarmedAttack::enter_(ksys::act::ai::InlineParamPack* params) {
-    ActionEx::enter_(params);
+    playAS(mParams.mASName_s, false, 0, 0, -1.0f);
+    m34();
+    if (auto* controller = mActor->getCharacterController()) {
+        sead::Vector3f velocity;
+        velocity = mActor->getVelocity();
+        const f32 speed = velocity.normalize();
+        _98.value = speed;
+        _98.prev_value = speed;
+        sub_710072C1B4(controller, velocity);
+    }
+    _c8 = *mParams.mTargetPos_d;
+    const sead::Vector3f pos = mActor->getMtx().getTranslation();
+    _c8 = {_c8.x - pos.x, 0.0f, _c8.z - pos.z};
+    _c8.normalize();
+    _dc = 0;
+    if (*mParams.mIsIgnoreSmallHit_s)
+        setDamageCallbackTiming(mActor, 4, &_70);
 }
 
 void UnarmedAttack::leave_() {
