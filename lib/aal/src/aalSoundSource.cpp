@@ -1,4 +1,8 @@
 #include "aal/aalSoundSource.h"
+#include "aal/aalEmitter.h"
+#include "aal/aalGroup.h"
+#include "aal/aalSoundSourceUnifier.h"
+#include "aal/aalSystemAccessor.h"
 
 namespace aal {
 
@@ -108,6 +112,90 @@ bool SoundSource::setReleaseCurveType(FadeCurveType type) {
 // 0x7100b781c0
 bool SoundSource::isVirtualized() const {
     return mVirtualizedBy != 0;
+}
+
+// 0x7100b77ca0
+void SoundSource::kill() {
+    reset();
+}
+
+// 0x7100b777dc
+void SoundSource::stopForce() {
+    if (mUnifierSource) {
+        if (auto* unifier = SystemAccessor::getSoundSourceUnifier()) {
+            unifier->freeSource(mUnifierSource, -1.0f);
+            mUnifierSource = nullptr;
+        }
+    }
+    mPriority = 0.0f;
+    mPlayingStateController->stopForce();
+    if (mEmitter) {
+        if (_1e8 || _1e0)
+            mEmitter->removeSoundSource(this);
+        mEmitter = nullptr;
+    }
+    mState = 7;
+}
+
+// 0x7100b778b8
+void SoundSource::detachSoundGroup() {
+    if (mSoundGroup)
+        mSoundGroup->removeSound(this);
+    mSoundGroup = nullptr;
+}
+
+// 0x7100b78134
+bool SoundSource::prepare(bool prepare) {
+    if (mState <= 2) {
+        mPrepareFlags = prepare ? mPrepareFlags | 4 : mPrepareFlags & ~4;
+        return true;
+    }
+    return false;
+}
+
+// 0x7100b7816c
+void SoundSource::setInteriorNum(s32 interior_num) {
+    (void)mState;
+    mInteriorNum = interior_num;
+}
+
+// 0x7100b77334
+s32 SoundSource::getChannelNum(s32 track) const {
+    if (track >= 0 && track < mTrackNum)
+        return mChannelNum[track];
+    return 0;
+}
+
+// 0x7100b780e8
+bool SoundSource::setSpeakerBalanceSupplier(ISpeakerBalanceSupplier* supplier) {
+    if (mState > 2 || mSpeakerBalanceSupplier)
+        return false;
+    mSpeakerBalanceSupplier = supplier;
+    if (supplier)
+        aggregateAndClampParams_();
+    return true;
+}
+
+// 0x7100b7850c
+bool SoundSource::isAttachedSound() const {
+    return mPlayingStateController->mSoundController->mAttachState != 0;
+}
+
+// 0x7100b78334
+bool SoundSource::canVirtualize() const {
+    return mPlayingStateController->mVirtualizable != 0 && !mSpatialSetting.isUnified();
+}
+
+// 0x7100b783d4
+const SpatialCalculator::Result* SoundSource::getSpatialCalcResult(s32 index) const {
+    if (!mSpatialSetting.isUnified() && mSpatialCalculator && mSpatialCalculator->getResultNum() > index)
+        return mSpatialCalculator->getResult(index);
+    return nullptr;
+}
+
+// 0x7100b782f4
+const sead::SafeString& SoundSource::getSoundGroupName() const {
+    return mSoundGroup ? mSoundGroup->getObjName() : sead::SafeString::cEmptyString;
 }
 
 }  // namespace aal

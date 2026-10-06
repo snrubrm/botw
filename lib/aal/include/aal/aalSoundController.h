@@ -47,7 +47,10 @@ public:
     void setLpf(f32 lpf);
     bool isInnerPaused() const;
 
-    u8 _0[0x30];
+    u8 _0[8];
+    /// Non-zero if the sound is attached to another one (SoundSource::isAttachedSound).
+    u32 mAttachState;
+    u8 _c[0x30 - 0xc];
     const AssetInfo* mAssetInfo;
     u8 _38[0x40 - 0x38];
     nn::atk::SoundHandle* mSoundHandle;
@@ -60,11 +63,15 @@ public:
     /// (-1 if there is none).
     void setReleaseTime(f32 release_time);
     s32 getPlayingSamplePos() const;
+    /// 0x7100b9fdf4 / 0x7100ba0228 (declared only)
+    void stopForce();
+    void pause(bool pause, f32 fade_time);
 
     u8 _0[8];
     SoundController* mSoundController;
     u32 mState;
-    u8 _14[0x1c - 0x14];
+    u32 mVirtualizable;
+    u8 _18[0x1c - 0x18];
     f32 mReleaseTime;
     u8 _20[0x24 - 0x20];
     f32 mSamplePos;

@@ -4,9 +4,16 @@ namespace aal {
 
 // 0x7100b8fb00
 s32 SpatialCalculator::getResultNum() const {
-    if (mResults)
-        return mResultNum;
+    if (mResults.getBufferPtr())
+        return mResults.size();
     return 0;
+}
+
+// 0x7100b8fab8
+const SpatialCalculator::Result* SpatialCalculator::getResult(s32 index) const {
+    if (index >= 0 && mResults.isBufferReady() && index < mResults.size())
+        return mResults.get(index);
+    return nullptr;
 }
 
 // 0x7100b8fe28

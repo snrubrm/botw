@@ -33,6 +33,7 @@ public:
     void setRotatingStereoEnabled(bool enable);
     void setListenerDirectivityEnabled(bool enable);
     void setUserParam(u64 param);
+    bool isUnified() const { return mFlags & 2; }
 
 private:
     sead::Matrix34f mActorMatrix;

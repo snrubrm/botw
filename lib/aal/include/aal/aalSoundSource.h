@@ -16,8 +16,10 @@ namespace aal {
 
 class AssetInfo;
 class ISpeakerBalanceSupplier;
+class Emitter;
 class MarkerController;
 class SoundGroup;
+class SoundSourceUnifierSource;
 enum class VirtualizeMode;
 
 /// A playing sound (the object a Handle refers to).
@@ -35,8 +37,8 @@ public:
     /// in setInteriorNum (`ldr wzr`), which is how a volatile read that is discarded compiles.
     volatile s32 mState;
     u32 mId;
-    u8 _14;
-    u8 _15;
+    /// Bit 2 is set by prepare(true) (the sound is only prepared and starts with startPrepared()).
+    u16 mPrepareFlags;
     /// One bit per pause reason (Handle::pause uses all bits).
     sead::BitFlag8 mPauseFlags;
     /// Non-zero while the sound is virtualized.
@@ -51,25 +53,49 @@ public:
     /// The parameters the sound was set up with (Handle::getDefaultParamPtr) and the live ones.
     SoundParam mDefaultParam;
     SoundParam mParam;
-    u8 _b8[0xd4 - 0xb8];
+    u8 _b8[0xc8 - 0xb8];
+    u16 mInteriorNum;
+    /// Number of tracks that have a channel count, and the channel count of each track.
+    u16 mTrackNum;
+    u8 mChannelNum[8];
     /// Priority scale in [0, 1] (default 1; the constructor initialises 0xd4..0xe0 to 1).
     f32 mPriority;
     u8 _d8[0xe0 - 0xd8];
     /// Per-track volumes in 1/255 steps (getTrackVolume).
     u8 mTrackVolume[8];
     SoundGroup* mSoundGroup;
-    u8 _f0[0xf8 - 0xf0];
+    /// The emitter the sound was emitted from (nullptr once it is detached).
+    Emitter* mEmitter;
     /// The speaker balance supplier of the sound (SoundSource::setSpeakerBalanceSupplier).
     ISpeakerBalanceSupplier* mSpeakerBalanceSupplier;
     PlayingStateController* mPlayingStateController;
-    u8 _108[0x120 - 0x108];
+    u8 _108[0x110 - 0x108];
+    /// The speaker each channel of each track is sent to (SpeakerChannel values).
+    u8 mChannelSpeakerType[8][2];
     SpatialSetting mSpatialSetting;
     /// Allocated from the spatial calculator pool when the sound is positioned in space; nullptr if none.
     SpatialCalculator* mSpatialCalculator;
-    u8 _1a8[0x1b8 - 0x1a8];
+    u8 _1a8[0x1b0 - 0x1a8];
+    SoundSourceUnifierSource* mUnifierSource;
     MarkerController* mMarkerController;
+    u8 _1c0[0x1e0 - 0x1c0];
+    u64 _1e0;
+    u64 _1e8;
 
     // Non-virtual members, declared only (each is called through aal::Handle).
+    /// 0x7100b77ca0: same as reset()
+    void kill();
+    /// 0x7100b76a68
+    void reset();
+    void stopForce();
+    void detachSoundGroup();
+    bool prepare(bool prepare);
+    void setInteriorNum(s32 interior_num);
+    s32 getChannelNum(s32 track) const;
+    bool setSpeakerBalanceSupplier(ISpeakerBalanceSupplier* supplier);
+    bool isAttachedSound() const;
+    bool canVirtualize() const;
+    const SpatialCalculator::Result* getSpatialCalcResult(s32 index) const;
     bool setFadeInTime(f32 fade_in_time);
     bool setStartDelayTime(f32 delay_time);
     bool setReleaseCurveType(FadeCurveType type);
@@ -79,6 +105,7 @@ public:
     Handle getUnifiedSoundHandle() const;
     bool setVirtualizeMode(VirtualizeMode mode);
     void stop(f32 fade_time, f32 release_time);
+    void aggregateAndClampParams_();
     void pause(bool pause, f32 fade_time);
     void pause(sead::BitFlag8 mask, bool pause, f32 fade_time);
     void setTrackVolume(sead::BitFlag32 tracks, f32 volume);

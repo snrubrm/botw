@@ -2,6 +2,7 @@ project(aal CXX ASM)
 
 add_library(aal OBJECT
   include/aal/aalAssetInfo.h
+  include/aal/aalEmitter.h
   include/aal/aalFadeCurveType.h
   include/aal/aalFxDelayParamSetter.h
   include/aal/aalFxParamSetter.h
@@ -15,6 +16,7 @@ add_library(aal OBJECT
   include/aal/aalSoundController.h
   include/aal/aalSoundParam.h
   include/aal/aalSoundSource.h
+  include/aal/aalSoundSourceUnifier.h
   include/aal/aalSpatialCalculator.h
   include/aal/aalSpatialSetting.h
   include/aal/aalSystem.h

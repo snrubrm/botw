@@ -92,6 +92,8 @@ public:
     void calcActiveSoundLimit() override;
 
     void setReleaseTime(f32 release_time);
+    /// 0x7100b826f8 (declared only): removes the sound source from the playing sounds of the group.
+    void removeSound(SoundSource* sound_source);
 
 protected:
     bool pushFrontChild_(Group* child) override;
