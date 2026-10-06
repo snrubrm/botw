@@ -1,6 +1,7 @@
 #include "Game/AI/Action/actionForkFollowGround.h"
 #include <math/seadMathCalcCommon.h>
 #include "Game/AI/aiUnk_710073fa90.h"
+#include "Game/AI/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/System/VFR.h"

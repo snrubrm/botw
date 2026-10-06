@@ -6,6 +6,7 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/System/Timer.h"
+#include "KingSystem/Utils/MathUtil.h"
 
 namespace uking::action {
 
@@ -40,6 +41,24 @@ void ForkASTrgAerialTurn::calc_() {
     if (!(diff <= sead::Mathf::epsilon() && diff >= -sead::Mathf::epsilon()))
         sub_7100738488(mActor, ratio, -sead::Vector3f::ey);
     sub_71001400E8();
+}
+
+void ForkASTrgAerialTurn::m32(sead::Vector3f* axis, f32* angle) {
+    auto* actor = mActor;
+    const sead::Vector3f pos = actor->getMtx().getTranslation();
+    const sead::Vector3f up = getUpDir(actor);
+
+    sead::Vector3f to_target = *mTargetPos_d;
+    to_target -= pos;
+    ksys::util::sub_71011EFA00(&to_target, to_target, up);
+    to_target.normalize();
+
+    sead::Vector3f front;
+    actor->getMtx().getBase(front, 2);
+    ksys::util::sub_71011EFA00(&front, front, up);
+    front.normalize();
+
+    ksys::util::sub_71011EEB08(axis, angle, front, to_target, sead::Vector3f::ey);
 }
 
 // NON_MATCHING: scheduling of the angular-velocity loads in the dot product (same operations)
