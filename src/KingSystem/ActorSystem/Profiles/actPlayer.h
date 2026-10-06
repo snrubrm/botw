@@ -547,6 +547,9 @@ public:
     // Declaration only.
     void sub_710086B834();
     void sub_710086BCF8();
+    // 0x7100868220 (declared only; lane5 s5): rotates _1b18 around the y axis by `angle` minus the yaw of its z
+    // axis (called by PlayerRideJump::leave_ with the yaw of the horse).
+    void sub_7100868220(f32 angle);
     bool x_49();                                                        // 0x849424
     bool x_17();                                                        // 0x892bf0
     void x_16();                                                        // 0x892e18

@@ -3,6 +3,7 @@
 #include "KingSystem/System/Timer.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actCCAccessor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayer.h"
@@ -16,7 +17,19 @@ void PlayerRideJump::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void PlayerRideJump::leave_() {
-    PlayerAction::leave_();
+    static_cast<ksys::act::Player*>(mActor)->_c44.reset(2);
+    if (auto* cc = mActor->getCharacterController()) {
+        cc->disableContactLayer(ksys::phys::ContactLayer::EntityNPC);
+        cc->sub_7100F5F458(ksys::act::MotionType::_1);
+    }
+    ksys::act::ActorConstDataAccess accessor;
+    if (ksys::act::acquireActor(&ksys::act::PlayerInfo::instance()->getHorseLink(), &accessor)) {
+        const auto& mtx = accessor.getActorMtx();
+        sead::Vector3f dir;
+        mtx.getBase(dir, 2);
+        dir.normalize();
+        static_cast<ksys::act::Player*>(mActor)->sub_7100868220(sead::Mathf::atan2(dir.x, dir.z));
+    }
 }
 
 void PlayerRideJump::loadParams_() {
