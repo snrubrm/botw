@@ -1,5 +1,10 @@
 #include "Game/AI/Action/actionNpcTebaFly.h"
+#include <math/seadMatrix.h>
+#include "Game/AI/aiUnk_710073fa90.h"
 #include "Game/Actor/actNPC.h"
+#include "KingSystem/ActorSystem/actCCAccessor.h"
+#include "KingSystem/GameData/gdtSpecialFlags.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
@@ -17,8 +22,43 @@ bool NpcTebaFly::init_(sead::Heap* heap) {
     return true;
 }
 
+// NON_MATCHING: same instructions; the original stores x / y of `_88` as one `stp s0, s1` pair
 void NpcTebaFly::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    if (ksys::gdt::getBoolByKey("Wind_Relic_Rescued", false))
+        mActor->emitBasicSigOn();
+    else
+        mActor->emitBasicSigOff();
+
+    auto* controller = mActor->getCharacterController();
+    if (!controller) {
+        setFailed();
+        return;
+    }
+
+    controller->sub_7100F5F458(ksys::act::MotionType::Hover);
+    _88 = sub_710020827C();
+    _b0.value = _b0.prev_value = 0.0f;
+    _c0.value = _c0.prev_value = 0.0f;
+    sub_710073FA90(&_cc, mActor);
+    _a0 = -1.0f;
+    _a4 = -1.0f;
+    _a8 = -1.0f;
+    playAS("Teba_BattleFly", true, 0, 0, -1.0f);
+}
+
+sead::Vector3f NpcTebaFly::sub_710020827C() {
+    sead::Vector3f pos = sead::Vector3f::zero;
+    if (auto* obj = mActor->getMapObject()) {
+        if (auto* link_data = obj->getLinkData()) {
+            if (auto* object = link_data->sub_7100D4EFA4("RemainsWind")) {
+                ksys::act::ActorConstDataAccess accessor;
+                object->getActorWithAccessor(accessor);
+                if (accessor.hasProc())
+                    pos = accessor.getActorMtx().getTranslation();
+            }
+        }
+    }
+    return pos;
 }
 
 void NpcTebaFly::leave_() {

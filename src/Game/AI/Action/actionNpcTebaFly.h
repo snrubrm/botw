@@ -1,6 +1,8 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include <math/seadMatrix.h>
+#include "KingSystem/System/VFRValue.h"
 
 namespace uking::action {
 
@@ -21,6 +23,9 @@ protected:
     // 0x7100208d90 (placeholder name): finds the nearest linked "RemainsWind_Battery_A_01" actor that is in the calc
     // state (within 10000 units of the player) and writes its position to `out`.
     bool sub_7100208D90(sead::Vector3f* out);
+
+    // 0x710020827c (CSV: findRemainsWindActor): the position of the linked "RemainsWind" actor (zero if none).
+    sead::Vector3f sub_710020827C();
 
     // static_param at offset 0x20
     const int* mTurnEnableFrame_s{};
@@ -46,6 +51,18 @@ protected:
     const float* mTargetPosRatio_s{};
     // static_param at offset 0x78
     const float* mPlayerApproachCannonDist_s{};
+    void* _80{};
+    sead::Vector3f _88;
+    sead::Vector3f _94;
+    f32 _a0 = 0.0f;
+    f32 _a4 = 0.0f;
+    f32 _a8 = 0.0f;
+    bool _ac = false;
+    bool _ad = true;
+    ksys::VFRValue _b0;
+    f32 _bc = 0.0f;
+    ksys::VFRValue _c0;
+    sead::Matrix33f _cc;
 };
 
 }  // namespace uking::action
