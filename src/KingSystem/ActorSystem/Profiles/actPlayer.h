@@ -303,6 +303,9 @@ public:
     // copyable in the original; the same type as 0x710092dba4's result (ksys::util placeholder).
     using Unk1 = util::Unk_7101EC6BAC;
     Unk1 x_5();
+    // 0x7100867d68 (lane4 s48; placeholder name): the angle (radians) of the normalised third base vector of `_1b18`
+    // in the XZ plane (`atan2(x, z)`).
+    f32 sub_7100867D68();
     // 0x71008569b8 (lane4 s48; placeholder name): the angle index (atan2 of the XZ offset from `_1770`) towards the
     // previous position of the current lock-on target (towards the origin without a target).
     Unk1 sub_71008569B8();                                                         // 0x85ed1c

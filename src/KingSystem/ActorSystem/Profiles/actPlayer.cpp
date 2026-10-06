@@ -1021,6 +1021,13 @@ Player::Unk1 Player::sub_71008569B8() {
     return result;
 }
 
+f32 Player::sub_7100867D68() {
+    sead::Vector3f dir;
+    _1b18.getBase(dir, 2);
+    dir.normalize();
+    return sead::Mathf::atan2(dir.x, dir.z);
+}
+
 void Player::sub_7100857390() {
     Unk1 target = ::sub_710092DBA4();
     sub_7100857014(-1.0f, &target, -1, -1);
