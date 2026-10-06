@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiWillBallRoot.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actUnk_71006e45c4.h"
 
@@ -54,6 +56,20 @@ bool WillBallRoot::handleMessage_(const ksys::Message* message) {
         return true;
     }
     return _120.m2(*message);
+}
+
+// 0x71005f5cec
+void WillBallRoot::sub_71005F5CEC(s32 command, const sead::Vector3f& base_pos, s32 wait_time) {
+    _120.x();
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(&_80, &accessor);
+    accessor.getActorMtx();
+    ksys::act::ai::InlineParamPack params;
+    params.addActor(_80, "TargetActor", -1);
+    params.addVec3(base_pos, "BasePos", -1);
+    params.addInt(wait_time, "WaitTime", -1);
+    params.addInt(command, "Command", -1);
+    changeChild("念受信", &params);
 }
 
 }  // namespace uking::ai

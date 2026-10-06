@@ -19,6 +19,8 @@ public:
     bool handleMessage_(const ksys::Message* message) override;
 
 protected:
+    // 0x71005f5cec: the twin of PriestBossIronBallRoot::m43: starts the "念受信" child for the linked actor _80 (command, base position, wait time)
+    void sub_71005F5CEC(s32 command, const sead::Vector3f& base_pos, s32 wait_time);
     // static_param at offset 0x38
     const int* mMagneLightningTime_s{};
     // static_param at offset 0x40

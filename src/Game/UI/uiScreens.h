@@ -1666,7 +1666,10 @@ public:
     const char* getLayoutName_() const override;
     ScreenMainScreenMS();
     ~ScreenMainScreenMS() override;
-    /* 0x3610 */ void* _3610{};
+    // 0x7100a16fd8 / 0x7100a16ff4: play the animator _3610 forward / backwards (speed 1 / -1).
+    void sub_7100A16FD8();
+    void sub_7100A16FF4();
+    /* 0x3610 */ eui::Animator* _3610{};
     /* 0x3618 */ void* _3618{};
     /* 0x3620 */ void* _3620{};
     /* 0x3628 */ void* _3628{};

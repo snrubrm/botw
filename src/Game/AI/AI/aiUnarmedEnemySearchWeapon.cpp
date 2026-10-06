@@ -1,4 +1,8 @@
 #include "Game/AI/AI/aiUnarmedEnemySearchWeapon.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "Game/AI/aiUnk_7100724C64.h"
+#include "Game/AI/aiUnk_71007368A4.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/Actor/actEnemy.h"
 #include "Game/Actor/actWeapon.h"
@@ -82,6 +86,21 @@ void UnarmedEnemySearchWeapon::loadParams_() {
     getStaticParam(&mSearchAng_s, "SearchAng");
     getStaticParam(&mIsUseSight_s, "IsUseSight");
     getStaticParam(&mLineReachableWeaponDist_s, "LineReachableWeaponDist");
+}
+
+// 0x71003b8020
+bool UnarmedEnemySearchWeapon::sub_71003B8020(ksys::act::BaseProcLink& link) const {
+    auto* actor = mActor;
+    if (sub_7100739030(actor, link))
+        return true;
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(&link, &accessor);
+    sead::Vector3f pos;
+    accessor.getActorMtx().getTranslation(pos);
+    sead::Vector3f self;
+    actor->getMtx().getTranslation(self);
+    const f32 reach = getReachDistanceMaybe();
+    return (pos - self).squaredLength() < reach * reach;
 }
 
 }  // namespace uking::ai

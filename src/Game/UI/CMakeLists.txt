@@ -133,6 +133,7 @@ target_sources(uking PRIVATE
   uiScreenGameOverReadyGo.cpp
   uiScreenHardMode.cpp
   uiScreenHardModeSetup.cpp
+  uiScreenMainScreenMS.cpp
   uiScreenMiniGame.cpp
   uiScreenSmall2.cpp
   uiScreenLeafSlots.cpp

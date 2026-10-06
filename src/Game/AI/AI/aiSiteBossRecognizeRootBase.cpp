@@ -132,6 +132,18 @@ void SiteBossRecognizeRootBase::m39(sead::Vector3f* pos) {
         *pos = getPlayerPosition();
 }
 
+void SiteBossRecognizeRootBase::sub_7100478F78(sead::Vector3f* pos) {
+    auto* actor = mActor;
+    if (!actor)
+        return;
+
+    auto* link = sub_71005D9050(actor);
+    if (link && link->hasProc() && ksys::act::isPlayerProfile(link))
+        *pos = sub_71005D9330(actor);
+    else
+        *pos = getPlayerPosition();
+}
+
 void SiteBossRecognizeRootBase::siteBossStuff() {
     sead::DynamicCast<act::LastBoss>(mActor);
     ksys::act::ai::InlineParamPack params;

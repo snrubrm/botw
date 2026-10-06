@@ -27,6 +27,8 @@ public:
 
     void siteBossStuff();
     void sub_7100478B7C();
+    // 0x7100478f78: the non-virtual twin of m39 (same body; called by SiteBossRecognizeRoot).
+    void sub_7100478F78(sead::Vector3f* pos);
 
 protected:
     // static_param at offset 0x38

@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiSiteBossSwordAttackRoot.h"
+#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/Actor/actSiteBoss.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
@@ -144,6 +146,20 @@ void SiteBossSwordAttackRoot::sub_7100596DE4(const sead::Vector3f& pos) {
     pack.addBool(!(_108 & 0x10), "IsResetOldMoveIdx", -1);
     _108 |= 0x10;
     changeChild("落雷攻撃前移動", &pack);
+}
+
+// 0x7100595768
+void SiteBossSwordAttackRoot::sub_7100595768() {
+    sead::Vector3f pos;
+    if (auto* actor = mActor) {
+        auto* link = sub_71005D9050(actor);
+        if (link && link->hasProc() && ksys::act::isPlayerProfile(link))
+            pos = sub_71005D9330(actor);
+        else
+            pos = getPlayerPosition();
+    }
+    _108 |= 3;
+    sub_7100596A4C(pos, true);
 }
 
 }  // namespace uking::ai

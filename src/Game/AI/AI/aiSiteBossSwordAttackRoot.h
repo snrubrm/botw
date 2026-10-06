@@ -18,6 +18,8 @@ public:
     void loadParams_() override;
 
 protected:
+    // 0x7100595768: enter_ tail: the target position (the boss target when it is the player, else the player position), _108 |= 3, then sub_7100596A4C(pos, true)
+    void sub_7100595768();
     // 0x7100596de4: SiteBoss flags 0x80 -> 0x800 and _1558 bit 0x40000 cleared, then the "落雷攻撃前移動" child
     void sub_7100596DE4(const sead::Vector3f& pos);
     // 0x7100596b48: SiteBoss flags 0x80 -> 0x800, _108 |= 1, then changes to the "落雷攻撃" child

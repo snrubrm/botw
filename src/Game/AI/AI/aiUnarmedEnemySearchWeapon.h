@@ -28,6 +28,8 @@ public:
     void loadParams_() override;
 
 protected:
+    // 0x71003b8020: the twin of LandHumEnemyUnarmedBattle::sub_7100470ED4: whether `link` is reachable (sub_7100739030) or within the reach distance
+    bool sub_71003B8020(ksys::act::BaseProcLink& link) const;
     bool sub_71003B6888();
     void sub_71003B8780();
     /* 0x68 */ ksys::act::BaseProcLink _68;
