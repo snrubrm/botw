@@ -20,6 +20,8 @@ public:
 /// not modeled).
 class RollOffCurve {
 public:
+    /// The attenuation (0 - 1) at the given distance.
+    f32 interpolate(f32 distance) const;
     void setRefDistance(f32 distance);
     void setMaxDistance(f32 distance);
     void setRollOffFactor(f32 factor);
@@ -31,7 +33,9 @@ private:
     f32 mRefDistance;
     f32 mMaxDistance;
     f32 mRollOffFactor;
-    u8 _7c[0x84 - 0x7c];
+    f32 mVolumeScale;
+    bool mFlipped;
+    u8 _81[0x84 - 0x81];
     f32 mCullingStartDistance;
     /// The result of RollOffStrategy::calcCache_ for the current parameters.
     f32 mCache;

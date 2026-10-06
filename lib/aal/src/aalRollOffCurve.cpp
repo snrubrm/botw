@@ -1,6 +1,19 @@
 #include "aal/aalRollOffCurve.h"
+#include <cfloat>
+#include <math/seadMathCalcCommon.h>
 
 namespace aal {
+
+// 0x7100ba436c
+f32 RollOffCurve::interpolate(f32 distance) const {
+    if (!mStrategy)
+        return mVolumeScale;
+    const f32 max_distance = mMaxDistance == 0.0f ? FLT_MAX : mMaxDistance;
+    const f32 volume =
+        mStrategy->interpolate_(distance, mRefDistance, max_distance, mRollOffFactor, mCache);
+    const f32 result = mFlipped ? 1.0f - volume * (1.0f - mVolumeScale) : volume * mVolumeScale;
+    return sead::Mathf::clamp(result, 0.0f, 1.0f);
+}
 
 // 0x7100ba44ac
 void RollOffCurve::setRefDistance(f32 distance) {
