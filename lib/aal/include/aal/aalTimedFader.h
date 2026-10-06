@@ -37,6 +37,13 @@ static_assert(sizeof(TimedFader) == 0x28, "aal::TimedFader size mismatch");
 class SimpleTimedFader {
 public:
     void moveTo(f32 target, f32 time);
+    /// 0x7100b7cae8: converts a linear value to the curved domain of the fade curve type.
+    static f32 toCurvedValue(FadeCurveType type, f32 value);
+    f32 getValue() const { return mValue; }
+
+private:
+    u8 _0[8];
+    f32 mValue;
 };
 
 }  // namespace aal

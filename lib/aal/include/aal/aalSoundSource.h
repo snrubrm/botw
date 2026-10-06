@@ -11,6 +11,7 @@
 #include "aal/aalSoundParam.h"
 #include "aal/aalSpatialCalculator.h"
 #include "aal/aalSpatialSetting.h"
+#include "aal/aalTimedFader.h"
 
 namespace aal {
 
@@ -69,7 +70,8 @@ public:
     /// The speaker balance supplier of the sound (SoundSource::setSpeakerBalanceSupplier).
     ISpeakerBalanceSupplier* mSpeakerBalanceSupplier;
     PlayingStateController* mPlayingStateController;
-    u8 _108[0x110 - 0x108];
+    /// The fade in / out fader of the sound.
+    SimpleTimedFader* mFader;
     /// The speaker each channel of each track is sent to (SpeakerChannel values).
     u8 mChannelSpeakerType[8][2];
     SpatialSetting mSpatialSetting;
@@ -91,11 +93,14 @@ public:
     void detachSoundGroup();
     bool prepare(bool prepare);
     void setInteriorNum(s32 interior_num);
+    /// Inline-only helper of pause().
+    void pauseImpl_(bool pause, f32 fade_time);
     s32 getChannelNum(s32 track) const;
     bool setSpeakerBalanceSupplier(ISpeakerBalanceSupplier* supplier);
     bool isAttachedSound() const;
     bool canVirtualize() const;
     const SpatialCalculator::Result* getSpatialCalcResult(s32 index) const;
+    f32 getCurrentFadeInOutVolume() const;
     bool setFadeInTime(f32 fade_in_time);
     bool setStartDelayTime(f32 delay_time);
     bool setReleaseCurveType(FadeCurveType type);

@@ -199,4 +199,42 @@ const sead::SafeString& SoundSource::getSoundGroupName() const {
     return mSoundGroup ? mSoundGroup->getObjName() : sead::SafeString::cEmptyString;
 }
 
+// 0x7100b78a60
+f32 SoundSource::getCurrentFadeInOutVolume() const {
+    return SimpleTimedFader::toCurvedValue(mFadeCurveType, mFader->getValue());
+}
+
+// 0x7100b77850
+void SoundSource::setTrackVolume(sead::BitFlag32 tracks, f32 volume) {
+    if (volume >= 0.0f && volume <= 1.0f) {
+        const u8 value = volume * 255.0f;
+        for (s32 i = 0; i < 8; ++i) {
+            if (tracks.isOnBit(i))
+                mTrackVolume[i] = value;
+        }
+    }
+}
+
+inline void SoundSource::pauseImpl_(bool pause, f32 fade_time) {
+    if (mSpatialSetting.isUnified()) {
+        if (mUnifierSource)
+            mUnifierSource->pause(pause, fade_time);
+    } else {
+        mPlayingStateController->pause(pause, fade_time);
+    }
+}
+
+// 0x7100b77d78
+void SoundSource::pause(sead::BitFlag8 mask, bool pause, f32 fade_time) {
+    const u8 prev = mPauseFlags.getDirect();
+    mPauseFlags.setDirect(pause ? prev | mask.getDirect() : prev & ~mask.getDirect());
+    const u8 now = mPauseFlags.getDirect();
+    if (prev == 0) {
+        if (now != 0)
+            pauseImpl_(true, fade_time);
+    } else if (now == 0) {
+        pauseImpl_(false, fade_time);
+    }
+}
+
 }  // namespace aal
