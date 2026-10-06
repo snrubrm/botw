@@ -40,6 +40,9 @@ public:
     // 0x71009333a4 / 0x71009333c4 (placeholder names): store the 'Flash' animator / a counter value
     void set30(eui::Animator* animator);
     void set38(s32 value);
+    // 0x71009333ac (placeholder name): `if (_20) _20->StopAtMin()`; 0x71009333cc (declared only; 436 bytes)
+    void sub_71009333AC();
+    void sub_71009333CC();
 
     /* 0x08 */ eui::LayoutEx* _8{};
     /* 0x10 */ eui::TextBoxEx* _10{};
@@ -346,6 +349,9 @@ public:
 
     // 0x71009319c: copies the two strings into entry `index`.
     void sub_71009319C(Index index, const sead::SafeString& a, const sead::SafeString& b);
+    // 0x71009331e8 (172 bytes) / 0x7100933294 (92 bytes): declared only (placeholder names)
+    void sub_71009331E8(Index index);
+    void sub_7100933294();
 
     struct Entry {
         sead::SafeString a = sead::SafeString::cEmptyString;

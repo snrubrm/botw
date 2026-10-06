@@ -18,6 +18,79 @@ void ScreenMamoNum::m93(sead::Heap*) {
     _3678.sub_71009319C(1, "mc_CountDownMamo", "mc_CountDownMamoEnd");
 }
 
+// 0x7100a229c8
+void ScreenMamoNum::m94() {
+    if (isOpened() && sub_7100A98038(mId)) {
+        if (mState != 0 && mState != 3) {
+            const s32 count = ksys::gdt::getFlag_CurrentMamo(false);
+            _3614 = count;
+            _3610 = count;
+            sub_7100AA930C(mLayout, "T_Num_00", count, 0, 0);
+            close(-1);
+        }
+        return;
+    }
+    mStateMachine.run();
+}
+
+// 0x7100a22c20
+void ScreenMamoNum::m98() {
+    sub_7100AA930C(mLayout, "T_Num_00", _3610, 0, 0);
+    _3638.sub_71009333AC();
+}
+
+// 0x7100a22c80
+void ScreenMamoNum::m99() {
+    if (_3630 == 1) {
+        _3614 = ksys::gdt::getFlag_CurrentMamo(false);
+        mStateMachine.changeState(&sUnk_71025ef578);
+        return;
+    }
+    const ksys::StateBase* state = mStateMachine.getState();
+    if (!isSameStateId(*state, sUnk_71025ef518) && !isSameStateId(*state, sUnk_71025ef578))
+        mStateMachine.changeState(&sUnk_71025ef518);
+}
+
+// 0x7100a22d80
+void ScreenMamoNum::m155() {
+    const s32 count = ksys::gdt::getFlag_CurrentMamo(false);
+    const bool changed = _3610 != count;
+    _3614 = count;
+    if (changed)
+        mStateMachine.changeState(&sUnk_71025ef578);
+}
+
+// 0x7100a22dd0
+void ScreenMamoNum::m158() {
+    _3638.set38(_3614 - _3610);
+}
+
+// 0x7100a22dec
+void ScreenMamoNum::m159() {
+    if (sub_7100AA8F70())
+        return;
+    const s32 old_count = _3614;
+    if (getFlagInt(&_3614, ksys::gdt::flagname::CurrentMamo())) {
+        _3638.set38(_3614 - old_count);
+    }
+    _3638.sub_71009333CC();
+    const s32 step = sub_7100AA92AC(_3610, _3614);
+    _3610 += step;
+    sub_7100AA930C(mLayout, "T_Num_00", _3610, _3614, step);
+    if (_3610 == _3614) {
+        _3678.sub_7100933294();
+        if (_3630 == 1)
+            mStateMachine.changeState(&sUnk_71025ef5d8);
+        else
+            mStateMachine.changeState(&sUnk_71025ef518);
+    } else {
+        if (_3638._3c)
+            _3678.sub_71009331E8(0);
+        else
+            _3678.sub_71009331E8(1);
+    }
+}
+
 // 0x7100a22f28
 void ScreenMamoNum::m162() {
     _3618.init(5.0f);
@@ -33,7 +106,6 @@ void ScreenMamoNum::m163() {
 }
 
 // 0x7100a22a80
-// NON_MATCHING: the original calls StateBase::getId() through the vtable; clang devirtualizes the call on the static state object
 void ScreenMamoNum::sub_7100A22A80(s32 a1) {
     if (_3610 == 0)
         _3610 = ksys::gdt::getFlag_CurrentMamo(false);
@@ -48,16 +120,15 @@ void ScreenMamoNum::sub_7100A22A80(s32 a1) {
         return;
     }
     const ksys::StateBase* state = mStateMachine.getState();
-    if (state->getId() != sUnk_71025ef518.getId() && state->getId() != sUnk_71025ef578.getId())
+    if (!isSameStateId(*state, sUnk_71025ef518) && !isSameStateId(*state, sUnk_71025ef578))
         mStateMachine.changeState(&sUnk_71025ef518);
 }
 
 // 0x7100a22b98
-// NON_MATCHING: the original calls StateBase::getId() through the vtable; clang devirtualizes the call on the static state object
 bool ScreenMamoNum::sub_7100A22B98() {
     if (_3630 != 0)
         return false;
-    if (mStateMachine.getState()->getId() == sUnk_71025ef578.getId()) {
+    if (isSameStateId(*mStateMachine.getState(), sUnk_71025ef578)) {
         _3630 = 1;
         return false;
     }

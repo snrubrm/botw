@@ -12,17 +12,15 @@ void ScreenRupee::sub_7100A41558() {
 }
 
 // 0x7100a20dd0
-// NON_MATCHING: the original calls StateBase::getId() through the vtable; clang devirtualizes the call on the static state object
 bool ScreenMainShortCut::sub_7100A20DD0() {
-    if (mStateMachine.getState()->getId() == sUnk_71025ef170.getId())
+    if (isSameStateId(*mStateMachine.getState(), sUnk_71025ef170))
         return false;
-    return mStateMachine.getState()->getId() != sUnk_71025ef290.getId();
+    return !isSameStateId(*mStateMachine.getState(), sUnk_71025ef290);
 }
 
 // 0x71009fd674
-// NON_MATCHING: the original calls StateBase::getId() through the vtable; clang devirtualizes the call on the static state object
 bool ScreenAppTool::sub_71009FD674() {
-    return mStateMachine.getState()->getId() == sUnk_71025ec670.getId();
+    return isSameStateId(*mStateMachine.getState(), sUnk_71025ec670);
 }
 
 // 0x7100a31be0

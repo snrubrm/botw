@@ -32,11 +32,10 @@ void ScreenAkashNum::m163() {
 }
 
 // 0x71009cef28
-// NON_MATCHING: the original calls StateBase::getId() through the vtable; clang devirtualizes the call on the static state object
 bool ScreenAkashNum::sub_71009CEF28() {
     if (_3634 != 0)
         return false;
-    if (_3610 || mStateMachine.getState()->getId() == sUnk_71025dc090.getId()) {
+    if (_3610 || isSameStateId(*mStateMachine.getState(), sUnk_71025dc090)) {
         _3634 = 1;
         return false;
     }
@@ -45,11 +44,10 @@ bool ScreenAkashNum::sub_71009CEF28() {
 }
 
 // 0x71009cefbc
-// NON_MATCHING: the original calls StateBase::getId() through the vtable; clang devirtualizes the call on the static state object
 bool ScreenAkashNum::sub_71009CEFBC() {
     if (_3610)
         return true;
-    return mStateMachine.getState()->getId() == sUnk_71025dc090.getId();
+    return isSameStateId(*mStateMachine.getState(), sUnk_71025dc090);
 }
 
 // 0x71009ceee0

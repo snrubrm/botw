@@ -1088,10 +1088,17 @@ public:
     void sub_71009CF01C(s32);
 };
 
+// inline-only in the original; name is a guess. The number screens compare state ids through the vtable (a call on a
+// reference parameter is not devirtualized, a call on the static state object is).
+inline bool isSameStateId(const ksys::StateBase& a, const ksys::StateBase& b) {
+    return a.getId() == b.getId();
+}
+
 // State objects of ScreenMamoNum (StateTemplate<ScreenMamoNum>, 0x71025ef578 / 0x71025ef518).
 extern const ksys::StateBase sUnk_71025ef578;
 extern const ksys::StateBase sUnk_71025ef4b8;
 extern const ksys::StateBase sUnk_71025ef518;
+extern const ksys::StateBase sUnk_71025ef5d8;
 
 class ScreenMamoNum : public ScreenEx {
 public:
@@ -1102,6 +1109,9 @@ public:
     ~ScreenMamoNum() override;
     SEAD_RTTI_OVERRIDE(ScreenMamoNum, ScreenEx)
     void m93(sead::Heap* heap) override;
+    void m94() override;
+    void m98() override;
+    void m99() override;
     void m69() override;
     void m100() override;
 
@@ -2579,5 +2589,15 @@ public:
     /* 0x3658 */ sead::Buffer<u8*> _3658;
     /* 0x3668 */ sead::Buffer<u8*> _3668;
 };
+
+// Placeholder-named UI facade helpers (declared only unless noted; names after the original addresses).
+// 0x7100a98038 (defined in uiScreenFacade.cpp)
+bool sub_7100A98038(s32 excluded_id);
+// 0x7100aa8f70: `isActiveEventDemo000Or001Or002()` (a 4-byte jump in the original: its own function)
+bool sub_7100AA8F70();
+// 0x7100aa92ac: the step of the counter roll from `current` to `target` (signed, 1 / 20 / 50 / 500 / 1000 by distance)
+s32 sub_7100AA92AC(s32 current, s32 target);
+// 0x7100aa930c: sets the digits of the number text pane `pane_name` of `layout` (the roll randomises the low digits)
+void sub_7100AA930C(eui::LayoutEx* layout, const sead::SafeString& pane_name, s32 value, s32 prev, s32 delta);
 
 }  // namespace uking::ui

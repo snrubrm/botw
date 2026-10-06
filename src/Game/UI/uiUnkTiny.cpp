@@ -160,6 +160,12 @@ void Unk_7102474b58::sub_71009319C(Index index, const sead::SafeString& a, const
     entry.b = b;
 }
 
+// 0x71009333ac
+void Unk_7102474b78::sub_71009333AC() {
+    if (_20)
+        _20->StopAtMin();
+}
+
 // 0x7100959a84
 Unk_7102476a40::~Unk_7102476a40() { ; }
 

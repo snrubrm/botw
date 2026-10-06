@@ -60,11 +60,10 @@ void ScreenKologNum::sub_7100A0F098() {
 }
 
 // 0x7100a0efa4
-// NON_MATCHING: the original calls StateBase::getId() through the vtable; clang devirtualizes the call on the static state object
 bool ScreenKologNum::sub_7100A0EFA4() {
     if (_3634 != 0)
         return false;
-    if (_3610 || mStateMachine.getState()->getId() == sUnk_71025eed10.getId()) {
+    if (_3610 || isSameStateId(*mStateMachine.getState(), sUnk_71025eed10)) {
         _3634 = 1;
         return false;
     }
@@ -73,11 +72,10 @@ bool ScreenKologNum::sub_7100A0EFA4() {
 }
 
 // 0x7100a0f038
-// NON_MATCHING: the original calls StateBase::getId() through the vtable; clang devirtualizes the call on the static state object
 bool ScreenKologNum::sub_7100A0F038() {
     if (_3610)
         return true;
-    return mStateMachine.getState()->getId() == sUnk_71025eed10.getId();
+    return isSameStateId(*mStateMachine.getState(), sUnk_71025eed10);
 }
 
 // 0x7100a0f220
