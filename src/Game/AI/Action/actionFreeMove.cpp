@@ -13,8 +13,6 @@ bool FreeMove::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }
 
-// NON_MATCHING: the original passes the motion type through the stack (MotionType is probably a
-// SEAD_ENUM in the original; it is a plain enum class in actCCAccessor.h)
 void FreeMove::enter_(ksys::act::ai::InlineParamPack* params) {
     auto* controller = mActor->getCharacterController();
     if (!controller) {
@@ -22,8 +20,10 @@ void FreeMove::enter_(ksys::act::ai::InlineParamPack* params) {
         return;
     }
 
-    _a0 = controller->sub_7100F5F0E4();
-    if (controller->sub_7100F5F0E4() != ksys::act::MotionType::Hover)
+    const ksys::act::MotionType previous = controller->sub_7100F5F0E4();
+    _a0 = ksys::act::MotionType(int(previous));
+    const ksys::act::MotionType current = controller->sub_7100F5F0E4();
+    if (int(current) != int(ksys::act::MotionType::Hover))
         controller->sub_7100F5F458(ksys::act::MotionType::Hover);
 
     mActor->getMtx().getTranslation(_1c);
