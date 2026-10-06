@@ -25,6 +25,9 @@ public:
     void setBiquadValue(f32 value);
     void setAngleIdx(u32 index);
     void setSpread(f32 spread);
+    void setAngle(f32 angle);
+    void clampMinBusVolume();
+    void clampExceptVolume();
     void setDeviceVolume(DeviceType device, f32 volume);
     void setBusVolume(BusType bus, f32 volume);
 

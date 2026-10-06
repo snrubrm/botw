@@ -1,4 +1,5 @@
 #include "aal/aalSoundParam.h"
+#include <math/seadMathCalcCommon.h>
 #include <cstring>
 
 namespace aal {
@@ -92,6 +93,28 @@ void SoundParam::setDeviceVolume(DeviceType device, f32 volume) {
 // 0x7100b76380
 void SoundParam::setBusVolume(BusType bus, f32 volume) {
     mBusVolume[bus] = volume;
+}
+
+// 0x7100b763d8: NON_MATCHING (the original converts through a signed 64-bit register: fcvtzs x8)
+void SoundParam::setAngle(f32 angle) {
+    mAngleIdx = sead::Mathf::rad2idx(angle);
+}
+
+// 0x7100b764bc
+void SoundParam::clampMinBusVolume() {
+    for (f32& volume : mBusVolume)
+        volume = sead::Mathf::clampMin(volume, 0.0f);
+}
+
+// 0x7100b76400
+void SoundParam::clampExceptVolume() {
+    mPitch = sead::Mathf::clampMin(mPitch, 0.0f);
+    mLfe = sead::Mathf::clamp(mLfe, 0.0f, 2.0f);
+    if (mBiquadType < 0)
+        mBiquadType = 3;
+    mLpf = sead::Mathf::clamp(mLpf, 0.0f, 1.0f);
+    mBiquadValue = sead::Mathf::clamp(mBiquadValue, 0.0f, 1.0f);
+    mSpread = sead::Mathf::clamp(mSpread, -1.0f, 1.0f);
 }
 
 }  // namespace aal

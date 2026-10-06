@@ -3,6 +3,8 @@
 #include <basis/seadTypes.h>
 #include "aal/aalFadeCurveType.h"
 #include "aal/aalAssetInfo.h"
+#include "aal/aalDeviceType.h"
+#include "aal/aalTimedFader.h"
 
 namespace nn::atk {
 enum StreamRegionCallbackResult : int;
@@ -15,6 +17,7 @@ public:
     void SetPitch(f32 pitch);
     void SetLpfFreq(f32 lpf_freq);
     bool IsPause() const;
+    void StartPrepared();
 };
 }  // namespace detail
 
@@ -26,6 +29,8 @@ public:
 }  // namespace nn::atk
 
 namespace aal {
+
+enum class VirtualizeMode;
 
 /// Controls the nn::atk sound of a SoundSource. TODO: only the members SoundSource forwards to are declared.
 class SoundController {
@@ -47,12 +52,20 @@ public:
     void setLpf(f32 lpf);
     bool isInnerPaused() const;
 
+    /// 0x7100ba1d1c: static, the output line is a bit mask and bit 0 is the main (TV) output
+    static bool checkDeviceEnabledOnOutputLine(DeviceType device, u32 output_line);
+
     u8 _0[8];
-    /// Non-zero if the sound is attached to another one (SoundSource::isAttachedSound).
-    u32 mAttachState;
-    u8 _c[0x30 - 0xc];
-    const AssetInfo* mAssetInfo;
-    u8 _38[0x40 - 0x38];
+    /// 0 while the sound is not attached (SoundSource::isAttachedSound); release() sets 3.
+    u32 mState;
+    FadeCurveType mFadeCurveType;
+    u32 mStartSampleOffset;
+    u8 _14[4];
+    StreamRegionCallback mStreamRegionCallback;
+    void* mStreamRegionUserData;
+    u8 _28[8];
+    AssetInfo* mAssetInfo;
+    SimpleTimedFader* mFader;
     nn::atk::SoundHandle* mSoundHandle;
 };
 
@@ -66,11 +79,13 @@ public:
     /// 0x7100b9fdf4 / 0x7100ba0228 (declared only)
     void stopForce();
     void pause(bool pause, f32 fade_time);
+    void setVirtualizeMode(VirtualizeMode mode);
 
     u8 _0[8];
     SoundController* mSoundController;
     u32 mState;
-    u32 mVirtualizable;
+    /// Written by setVirtualizeMode; 0 means the sound can not be virtualized (SoundSource::canVirtualize).
+    VirtualizeMode mVirtualizeMode;
     u8 _18[0x1c - 0x18];
     f32 mReleaseTime;
     u8 _20[0x24 - 0x20];

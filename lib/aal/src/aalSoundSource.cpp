@@ -179,12 +179,12 @@ bool SoundSource::setSpeakerBalanceSupplier(ISpeakerBalanceSupplier* supplier) {
 
 // 0x7100b7850c
 bool SoundSource::isAttachedSound() const {
-    return mPlayingStateController->mSoundController->mAttachState != 0;
+    return mPlayingStateController->mSoundController->mState != 0;
 }
 
 // 0x7100b78334
 bool SoundSource::canVirtualize() const {
-    return mPlayingStateController->mVirtualizable != 0 && !mSpatialSetting.isUnified();
+    return static_cast<s32>(mPlayingStateController->mVirtualizeMode) != 0 && !mSpatialSetting.isUnified();
 }
 
 // 0x7100b783d4

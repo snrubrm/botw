@@ -38,4 +38,42 @@ bool SoundController::isInnerPaused() const {
     return false;
 }
 
+// 0x7100ba1d64
+void SoundController::startPrepared() {
+    if (mSoundHandle && mSoundHandle->m_pSound)
+        mSoundHandle->m_pSound->StartPrepared();
+}
+
+// 0x7100ba2058
+void SoundController::setFadeCurveType(FadeCurveType type) {
+    mFadeCurveType = type;
+}
+
+// 0x7100ba2060
+void SoundController::setStartSampleOffset(u32 offset) {
+    mStartSampleOffset = offset;
+}
+
+// 0x7100ba2068
+void SoundController::setStreamRegionCallback(StreamRegionCallback callback, void* user_data) {
+    mStreamRegionCallback = callback;
+    mStreamRegionUserData = user_data;
+}
+
+// 0x7100ba2070
+void SoundController::setIgnorePrefetch(bool ignore) {
+    if (mAssetInfo)
+        mAssetInfo->mFlags = ignore ? mAssetInfo->mFlags | 4 : mAssetInfo->mFlags & ~4;
+}
+
+// 0x7100ba228c
+bool SoundController::checkDeviceEnabledOnOutputLine(DeviceType device, u32 output_line) {
+    return output_line & 1;
+}
+
+// 0x7100b9fd24
+void PlayingStateController::setVirtualizeMode(VirtualizeMode mode) {
+    mVirtualizeMode = mode;
+}
+
 }  // namespace aal

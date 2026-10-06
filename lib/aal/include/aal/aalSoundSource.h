@@ -21,7 +21,6 @@ class Emitter;
 class MarkerController;
 class SoundGroup;
 class SoundSourceUnifierSource;
-enum class VirtualizeMode;
 
 /// A playing sound (the object a Handle refers to).
 /// TODO: incomplete. Only the members that are read through a Handle are declared; the rest of the
