@@ -9,8 +9,9 @@ RequestIntervalLimiter::RequestIntervalLimiter() {
     mRunning = false;
 }
 
+// The body keeps the vtable pointer store of the destructor (a destructor with an empty body does not store it).
 // 0x7100b83638 / 0x7100b8364c
-RequestIntervalLimiter::~RequestIntervalLimiter() {}
+RequestIntervalLimiter::~RequestIntervalLimiter() { ; }
 
 // 0x7100b83650
 void RequestIntervalLimiter::calc() {
