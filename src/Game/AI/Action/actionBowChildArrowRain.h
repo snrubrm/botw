@@ -15,6 +15,7 @@ public:
     void leave_() override;
     void loadParams_() override;
     bool isChangeable() const override;
+    bool handleMessage_(const ksys::Message* message) override;
 
 protected:
     void calc_() override;
@@ -76,7 +77,8 @@ protected:
     u8 _114[0x18];
     // Placeholder layout of the block at 0x12c (0x408 bytes, zero-initialised as a whole).
     struct Unk12c {
-        u8 _0[0x3cc];
+        u8 _0[0x3c0];
+        sead::Vector3f _3c0{0, 0, 0};
         sead::Vector3f _3cc{0, 0, 0};
         sead::Vector2f _3d8[6]{{0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}};
     };
