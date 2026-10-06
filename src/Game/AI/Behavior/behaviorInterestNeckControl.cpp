@@ -20,8 +20,6 @@ InterestNeckControl::InterestNeckControl(const InitArg& arg) : ksys::act::ai::Be
 
 InterestNeckControl::~InterestNeckControl() = default;
 
-// NON_MATCHING: the original stores the four -1.0f / 0 words as two 64-bit constants (integer-typed
-// fields?); ours uses two `stp w, w` pairs
 bool InterestNeckControl::m6(sead::Heap* heap) {
     auto* global = ksys::act::GlobalParameter::instance();
     _30 = global->getGlobalParam()->mNPCIgnorePlayerTime.ref();

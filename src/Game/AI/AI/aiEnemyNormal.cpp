@@ -1042,7 +1042,6 @@ bool EnemyNormal::sub_71003A31C0(Unk2* out) {
     return true;
 }
 
-// NON_MATCHING: the original updates out->_44 with branches (ours selects)
 bool EnemyNormal::m72(Unk2* out, Unk1* info) {
     auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
     if (!enemy)

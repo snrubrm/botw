@@ -14,7 +14,6 @@ bool CircleMove::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
 }
 
-// NON_MATCHING: Direct margin branches and vector stack placement differ from the original.
 void CircleMove::sub_710034E838() {
     sead::Vector3f target;
     sub_710034EEB0(&target);
@@ -73,7 +72,6 @@ void CircleMove::enter_(ksys::act::ai::InlineParamPack* params) {
     }
 }
 
-// NON_MATCHING: Virtual-table loads and shared margin branches differ from the original.
 void CircleMove::sub_710034E90C(bool keep_direction) {
     sead::Vector3f center;
     m34(&center);

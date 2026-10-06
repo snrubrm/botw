@@ -28,7 +28,6 @@ bool AnimalRangeKeepMoveWithLOS::init_(sead::Heap* heap) {
     return _a0 != nullptr;
 }
 
-// NON_MATCHING: State range branching and load scheduling differ.
 void AnimalRangeKeepMoveWithLOS::sub_7100309620() {
     if (!isFailed() && !isCurrentChild("パス検索")) {
         mFlags.reset(Flag::Changeable);

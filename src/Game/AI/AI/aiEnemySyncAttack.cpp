@@ -75,7 +75,6 @@ void EnemySyncAttack::sub_71003BEFB4() {
     body->changePositionAndRotation(mtx);
 }
 
-// NON_MATCHING: register allocation only (x8 / x9 and w8 / w9 swapped in the last add)
 void EnemySyncAttack::sub_71003BF444() {
     auto* actor = mActor;
     if (!actor || !actor->getModel())

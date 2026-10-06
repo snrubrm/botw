@@ -77,7 +77,6 @@ void LandHumEnemyFindPlayer::leave_() {
     dmg::DamageInfoMgr::instance()->get4f8().sub_71006720C8(mActor);
 }
 
-// NON_MATCHING: the original keeps &mParams.mThrowWeaponPer_s in a callee-saved register from the start
 void LandHumEnemyFindPlayer::loadParams_() {
     EnemyBaseFindPlayer::loadParams_();
     getStaticParam(&mParams.mExplosivesAvoidDist_s, "ExplosivesAvoidDist");

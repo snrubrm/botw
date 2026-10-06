@@ -113,8 +113,6 @@ void GanonBeastRoot::leave_() {
     }
 }
 
-// NON_MATCHING: the original keeps `this + 0x38` in an extra callee-saved register (known loadParams_ frame
-// difference)
 void GanonBeastRoot::loadParams_() {
     getStaticParam(&mGrudeInterval3_s, "GrudeInterval3");
     getStaticParam(&mGrudeInterval4_s, "GrudeInterval4");

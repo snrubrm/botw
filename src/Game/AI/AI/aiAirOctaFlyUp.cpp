@@ -104,7 +104,6 @@ void AirOctaFlyUp::leave_() {
         data_mgr->changeOctasYheightMaybe();
     }
 }
-// NON_MATCHING: addresses that variables are loaded from
 void AirOctaFlyUp::loadParams_() {
     getStaticParam(&mFlyUpDuration_s, "FlyUpDuration");
     getDynamicParam(&mTargetDistance_d, "TargetDistance");
