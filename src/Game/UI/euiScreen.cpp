@@ -337,6 +337,16 @@ f32 Screen::getOpenFrameSize() const {
     return animator->GetFrameSize();
 }
 
+// 0x7100beaed8 (CSV Screen::x_1)
+void Screen::setDrawTargetMaybe(u8 target) {
+    mDrawTarget = target;
+    mLayout->setDrawTargetAnim(mMgr->getTargetMgr()->getDrawTarget(target));
+    if (_f0)
+        _f0->setDrawTarget(getDrawTarget());
+    if (mMgr->getScreenTarget(mId) >= 0)
+        mMgr->activateScreen(mId);
+}
+
 // 0x7100be9dd4
 void Screen::sub_7100BE9DD4(f32 frame) {
     if (Animator* animator = mLayout->mOpenAnimator)

@@ -1,7 +1,9 @@
 #include "Game/AI/AI/aiSwarmEscapeDie.h"
 #include <math/seadMathCalcCommon.h>
 #include "KingSystem/Utils/MathUtil.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/System/CameraMgr.h"
 
 namespace uking::ai {
@@ -66,6 +68,59 @@ void SwarmEscapeDie::calc_() {
         direction.normalize();
         _64 = position + direction * *mEndDist_s;
     }
+}
+
+// 0x71005b1464
+// NON_MATCHING: the original loads the direction as x then (y, z) pairs and keeps the scaled components in other registers
+void SwarmEscapeDie::sub_71005B1464() {
+    sead::Vector3f direction;
+    ksys::sub_7100D8C7FC(&direction);
+    direction.y = 0;
+    direction.normalize();
+    sead::Vector3f camera_position;
+    ksys::sub_7100D8C6AC(&camera_position);
+    _64 = camera_position + direction * *mRiseDist_s;
+    _64.y += *mRiseHeight_s;
+
+    ksys::act::ai::InlineParamPack params;
+    params.addVec3(_64, "TargetPos", -1);
+    changeChild("上昇", &params);
+}
+
+// 0x71005b15f8
+// NON_MATCHING: the original loads the direction as x then (y, z) pairs and keeps the scaled components in other registers
+void SwarmEscapeDie::sub_71005B15F8() {
+    sead::Vector3f direction;
+    ksys::sub_7100D8C7FC(&direction);
+    direction.y = 0;
+    direction.normalize();
+    sead::Vector3f position;
+    if (sub_71005D8F28(mActor)) {
+        position = sub_71005D960C(mActor);
+    } else {
+        ksys::sub_7100D8C6AC(&position);
+        position.y += 1.0f;
+    }
+    _64 = position + direction * (*mRiseDist_s * 0.1f);
+
+    ksys::act::ai::InlineParamPack params;
+    params.addVec3(_64, "TargetPos", -1);
+    changeChild("集合", &params);
+}
+
+// 0x71005b19f8
+// NON_MATCHING: register allocation of the scaled direction (the original keeps it in w registers longer)
+void SwarmEscapeDie::sub_71005B19F8() {
+    auto* actor = mActor;
+    const sead::Vector3f position = actor->getMtx().getTranslation();
+    sead::Vector3f direction;
+    actor->getMtx().getBase(direction, 2);
+    direction.normalize();
+    _64 = position + direction * *mEndDist_s;
+
+    ksys::act::ai::InlineParamPack params;
+    params.addVec3(_64, "TargetPos", -1);
+    changeChild("逃走", &params);
 }
 
 }  // namespace uking::ai

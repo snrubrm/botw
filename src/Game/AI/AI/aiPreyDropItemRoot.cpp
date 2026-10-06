@@ -1,5 +1,8 @@
 #include "Game/AI/AI/aiPreyDropItemRoot.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actAiParam.h"
+#include "KingSystem/ActorSystem/actAiRoot.h"
+#include "KingSystem/ActorSystem/actDropData.h"
 #include "KingSystem/Map/mapObject.h"
 
 namespace uking::ai {
@@ -13,6 +16,15 @@ bool PreyDropItemRoot::init_(sead::Heap* heap) {
         return false;
     _22c = true;
     return true;
+}
+
+// NON_MATCHING: the two SafeString temporaries are built in a different order (the original stores the "CreateDamaged"
+// pair first and both vtable pointers come from one register)
+void PreyDropItemRoot::sub_71004FAE28() {
+    mActor->getRootAi()->getMapUnitParams().setString("CreateDamaged", "DropTable");
+    mActor->sub_71011D49C8();
+    if (auto* drop_data = sead::DynamicCast<ksys::act::DropData>(mActor->getDropData()))
+        drop_data->_c |= 0x200;
 }
 
 // NON_MATCHING: scheduling (the target stores _230 after loading the interval)

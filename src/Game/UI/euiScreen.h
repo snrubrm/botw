@@ -55,6 +55,17 @@ class FontMgr;
 class ArcResourceMgr;
 class ConstantBuffer;
 
+// Placeholder name: the sound link user of a screen (`Screen::_f0`, created by createSoundLink2User_; the screen keeps a
+// pointer to its secondary base, so the slots below are those of the secondary vtable). Only slot 4 is used so far.
+class ScreenSoundLinkUser {
+public:
+    virtual void m0();
+    virtual void m1();
+    virtual void m2();
+    virtual void m3();
+    virtual void setDrawTarget(s32 target);
+};
+
 // Per-screen draw information; the base contains the layout matrices.
 struct DrawInfoEx : public nn::ui2d::DrawInfo {
     NN_RUNTIME_TYPEINFO(nn::ui2d::DrawInfo)
@@ -175,6 +186,9 @@ public:
     s32 getViewerType() const;
     // 0x7100be9da4
     f32 getOpenFrameSize() const;
+    // 0x7100beaed8 (CSV Screen::x_1; name is a guess): sets the draw target index, updates the layout and the sound link
+    // user and re-activates the screen if it is active
+    void setDrawTargetMaybe(u8 target);
     // 0x7100be9dd4 (placeholder name): stops the layout's open animator at `frame`
     void sub_7100BE9DD4(f32 frame);
     // 0x7100be9880
@@ -232,7 +246,7 @@ public:
     /* 0xd8 */ BoxCursorNode* _d8 = nullptr;
     /* 0xe0 */ BoxCursorNode* mActiveCursorNode = nullptr;
     /* 0xe8 */ u64 _e8 = 0;
-    /* 0xf0 */ void* _f0 = nullptr;  // Sound-user interface pointer; pointee type remains unresolved.
+    /* 0xf0 */ ScreenSoundLinkUser* _f0 = nullptr;  // Sound-user interface pointer (the pointee is not fully resolved).
     /* 0xf8 */ f32 _f8 = sead::Mathf::pi() / 4;
     /* 0xfc */ u8 mDrawTarget = 0xff;
     /* 0xfd */ s8 _fd = 0;
@@ -277,6 +291,8 @@ public:
     MessageMgr* getMessageMgr() const { return mMessageMgr; }
     FontMgr* getFontMgr() const { return mFontMgr; }
     const void* getMultiFilterParameterData(const sead::SafeString& path) const;
+    // inline-only in the original; name is a guess (Screen::x_1 reads the draw target of a screen id: -1 if inactive)
+    s8 getScreenTarget(s32 id) const { return mScreenTargets[id]; }
     // inline-only in the original; name is a guess (the draw target byte is loaded before the target manager)
     u8 getTargetFlag(u8 target_index) { return mTargetFlags[mTargetMgr->getDrawTarget(target_index)]; }
     ScreenTargetMgr* getTargetMgr() const { return mTargetMgr; }
