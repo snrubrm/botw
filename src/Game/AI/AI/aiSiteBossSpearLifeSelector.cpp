@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiSiteBossSpearLifeSelector.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "Game/AI/aiUnk_71007368A4.h"
 #include "Game/Actor/actSiteBoss.h"
 
@@ -55,6 +57,33 @@ void SiteBossSpearLifeSelector::calc_() {
         else if (getCurrentChild()->isFailed())
             setFailed();
     }
+}
+
+// 0x710058ced4
+void SiteBossSpearLifeSelector::sub_710058CED4() {
+    if (auto* boss = sead::DynamicCast<act::SiteBoss>(mActor))
+        boss->_1558.reset(0x10000);
+    ksys::act::ai::InlineParamPack pack;
+    pack.addBool(false, "IsAttackPatternFixed", -1);
+    changeChild("パターン1", &pack);
+}
+
+// 0x710058cd94
+void SiteBossSpearLifeSelector::sub_710058CD94() {
+    if (auto* boss = sead::DynamicCast<act::SiteBoss>(mActor))
+        boss->_1558.reset(0x10000);
+    ksys::act::ai::InlineParamPack pack;
+    pack.addBool(false, "IsAttackPatternFixed", -1);
+    changeChild("パターン2", &pack);
+}
+
+// 0x710058cc54
+void SiteBossSpearLifeSelector::sub_710058CC54() {
+    if (auto* boss = sead::DynamicCast<act::SiteBoss>(mActor))
+        boss->_1558.reset(0x10000);
+    ksys::act::ai::InlineParamPack pack;
+    pack.addBool(false, "IsAttackPatternFixed", -1);
+    changeChild("パターン3", &pack);
 }
 
 }  // namespace uking::ai

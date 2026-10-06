@@ -18,6 +18,14 @@ public:
     void loadParams_() override;
 
 protected:
+    // 0x7100596de4: SiteBoss flags 0x80 -> 0x800 and _1558 bit 0x40000 cleared, then the "落雷攻撃前移動" child
+    void sub_7100596DE4(const sead::Vector3f& pos);
+    // 0x7100596b48: SiteBoss flags 0x80 -> 0x800, _108 |= 1, then changes to the "落雷攻撃" child
+    void sub_7100596B48(const sead::Vector3f& pos);
+    // 0x7100596268: sets SiteBoss flag 0x80, then changes to the "待機" child
+    void sub_7100596268(const sead::Vector3f& pos);
+    // 0x71005955d4: sets SiteBoss flag 0x80, updates _108 / _10c, then changes to the "遠距離攻撃" child
+    void sub_71005955D4(const sead::Vector3f& pos);
     // 0x7100596fa4: sets flag 0x20 of _108, then changes to the "退避" child
     void sub_7100596FA4(const sead::Vector3f& pos);
     // 0x7100596a4c: changes to the "盾突き" child

@@ -19,6 +19,12 @@ public:
     void loadParams_() override;
 
 protected:
+    // 0x710058cc54: clears _1558 bit 0x10000 of the boss, then changes to the "パターン3" child
+    void sub_710058CC54();
+    // 0x710058cd94: clears _1558 bit 0x10000 of the boss, then changes to the "パターン2" child
+    void sub_710058CD94();
+    // 0x710058ced4: clears _1558 bit 0x10000 of the boss, then changes to the "パターン1" child
+    void sub_710058CED4();
     void calc_() override;
     void sub_710058C948();
 

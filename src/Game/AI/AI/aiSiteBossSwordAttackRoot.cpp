@@ -1,5 +1,7 @@
 #include "Game/AI/AI/aiSiteBossSwordAttackRoot.h"
+#include "Game/Actor/actSiteBoss.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/ActorSystem/actAiRoot.h"
 #include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
@@ -86,6 +88,62 @@ void SiteBossSwordAttackRoot::sub_7100596FA4(const sead::Vector3f& pos) {
     pack.addVec3(pos, "TargetPos", -1);
     pack.addVec3(_fc, "OldTargetPos", -1);
     changeChild("退避", &pack);
+}
+
+// 0x71005955d4
+void SiteBossSwordAttackRoot::sub_71005955D4(const sead::Vector3f& pos) {
+    if (auto* boss = sead::DynamicCast<act::SiteBoss>(mActor))
+        boss->_14c8._30.set(0x80);
+    const bool counted = _108 & 0x80;
+    _108 &= ~0x220;
+    _108 |= 0x40;
+    if (counted)
+        ++_10c;
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(pos, "TargetPos", -1);
+    pack.addPointer(nullptr, "IgniteBaseProcHandle", ksys::AIDefParamType::BaseProcHandle, -1);
+    changeChild("遠距離攻撃", &pack);
+}
+
+// 0x7100596268
+void SiteBossSwordAttackRoot::sub_7100596268(const sead::Vector3f& pos) {
+    if (auto* boss = sead::DynamicCast<act::SiteBoss>(mActor))
+        boss->_14c8._30.set(0x80);
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(pos, "TargetPos", -1);
+    if (testRootAiFlag2(ksys::act::ai::RootAiFlag2::_1))
+        pack.addBool(false, "IsResetEndTime", -1);
+    else
+        pack.addBool(true, "IsResetEndTime", -1);
+    changeChild("待機", &pack);
+}
+
+// 0x7100596b48
+void SiteBossSwordAttackRoot::sub_7100596B48(const sead::Vector3f& pos) {
+    if (auto* boss = sead::DynamicCast<act::SiteBoss>(mActor)) {
+        boss->_14c8._30.reset(0x80);
+        boss->_14c8._30.set(0x800);
+    }
+    _108 |= 1;
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(pos, "TargetPos", -1);
+    changeChild("落雷攻撃", &pack);
+}
+
+// 0x7100596de4
+void SiteBossSwordAttackRoot::sub_7100596DE4(const sead::Vector3f& pos) {
+    if (auto* boss = sead::DynamicCast<act::SiteBoss>(mActor)) {
+        boss->_14c8._30.reset(0x80);
+        boss->_14c8._30.set(0x800);
+        boss->_1558.reset(0x40000);
+    }
+    _108 |= 1;
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(pos, "TargetPos", -1);
+    pack.addVec3(_fc, "OldTargetPos", -1);
+    pack.addBool(!(_108 & 0x10), "IsResetOldMoveIdx", -1);
+    _108 |= 0x10;
+    changeChild("落雷攻撃前移動", &pack);
 }
 
 }  // namespace uking::ai
