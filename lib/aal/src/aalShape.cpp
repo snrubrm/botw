@@ -163,11 +163,4 @@ ShapeCylinder* ShapeCylinder::create(const sead::SafeString& name, sead::Heap* h
     return shape;
 }
 
-// 0x7100b9cd38
-ShapeSegment* ShapeSegment::create(const sead::SafeString& name, sead::Heap* heap) {
-    auto* shape = new (heap, 8) ShapeSegment(name);
-    SystemAccessor::getShapeMgr()->addShape(shape);
-    return shape;
-}
-
 }  // namespace aal

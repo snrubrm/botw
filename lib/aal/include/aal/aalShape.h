@@ -103,7 +103,7 @@ protected:
     void drawShape_(sead::PrimitiveDrawer& drawer, const sead::Color4f& color,
                     f32 scale) const override;
 
-    sead::Vector3f mVector = sead::Vector3f::zero;
+    sead::Vector3f mVector = sead::Vector3f::ey;
 };
 static_assert(sizeof(ShapeSegment) == 0x100, "aal::ShapeSegment size mismatch");
 
@@ -155,7 +155,7 @@ protected:
     void drawShape_(sead::PrimitiveDrawer& drawer, const sead::Color4f& color,
                     f32 scale) const override;
 
-    sead::Vector3f mVector = sead::Vector3f::zero;
+    sead::Vector3f mVector = sead::Vector3f::ey;
     f32 mRadius = 1.0f;
 };
 static_assert(sizeof(ShapeCylinder) == 0x100, "aal::ShapeCylinder size mismatch");
@@ -184,7 +184,7 @@ protected:
     void drawShape_(sead::PrimitiveDrawer& drawer, const sead::Color4f& color,
                     f32 scale) const override;
 
-    sead::Vector3f mVector = sead::Vector3f::zero;
+    sead::Vector3f mVector = sead::Vector3f::ey;
     f32 mRadius = 1.0f;
 };
 static_assert(sizeof(ShapeCapsule) == 0x100, "aal::ShapeCapsule size mismatch");

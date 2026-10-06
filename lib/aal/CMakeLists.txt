@@ -74,6 +74,7 @@ add_library(aal OBJECT
   src/aalRollOffCurve.cpp
   src/aalShape.cpp
   src/aalShapeCube.cpp
+  src/aalShapeSegment.cpp
   src/aalShapeSphere.cpp
   src/aalSoundGroup.cpp
   src/aalSimpleTimedFader.cpp
