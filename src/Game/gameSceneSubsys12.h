@@ -61,6 +61,8 @@ public:
     void sub_7100665304();
     // 0x71006643ec: begins release of the active carried context and grabbed inventory items.
     void sub_71006643EC();
+    // 0x71006633e4 (CSV __auto0): per-frame update of the carried contexts.
+    void sub_71006633E4();
     // 0x7100664484: handles the carried-context state transition (declaration only).
     void sub_7100664484(s32 state, ActorContextStuff* context);
     // 0x7100664a64: removes a matching entry from the embedded carried context.

@@ -159,13 +159,14 @@ bool sub_7100EDC4A0() {
     return false;
 }
 
-using SSub_7100EDC4B8HandlerFn = void (*)();
+using SSub_7100EDC4B8HandlerFn = bool (*)();
 SSub_7100EDC4B8HandlerFn sSub_7100EDC4B8Handler;
 
-// 0x7100edc4b8
-void sub_7100EDC4B8() {
+// 0x7100edc4b8 (lane1 s39: returns bool: GameSceneSubsys12's update tests it)
+bool sub_7100EDC4B8() {
     if (sSub_7100EDC4B8Handler)
-        sSub_7100EDC4B8Handler();
+        return sSub_7100EDC4B8Handler();
+    return false;
 }
 
 using SSub_7100EDC4D0HandlerFn = void (*)();

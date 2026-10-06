@@ -2,6 +2,8 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "KingSystem/ActorSystem/actBaseProcMgr.h"
+#include "KingSystem/System/UIGlue.h"
 #include "KingSystem/System/Timer.h"
 #include "Game/UI/uiPauseMenuDataMgr.h"
 #include <prim/seadScopedLock.h>
@@ -324,4 +326,46 @@ void GameSceneSubsys12::sub_7100662EF0(ksys::act::Actor* actor) {
 
 s32 GameSceneSubsys12::sub_710066551C() const {
     return sUnk_710243bfc0;
+}
+
+// NON_MATCHING: every path except the context-loop early exit ends in an unused volatile load of _a78
+// (`ldr wzr, [this, #0xa78]`) in the original; the source of that load is unknown, the rest matches.
+void GameSceneSubsys12::sub_71006633E4() {
+    const bool mode_1 = ksys::act::BaseProcMgr::instance()->getMode() == ksys::act::BaseProcMgr::Mode(1);
+    _318.sub_710065DC14();
+    if (mode_1)
+        _318.x();
+    else
+        _318.x_0();
+
+    for (auto* context : _a80) {
+        if (context->sub_710065E638())
+            return;
+    }
+
+    if (_300.hasProc() && _310) {
+        if (_310->sub_710065DC14())
+            _a78.setBitOn(4);
+        else
+            _a78.setBitOff(4);
+        if (_a78.isBitOn(4))
+            return;
+
+        s32 count = 0;
+        {
+            sead::ScopedLock<sead::CriticalSection> lock(&_38);
+            if (_300.hasProc() && _310)
+                count = _310->sub_710065F044();
+        }
+        if (count > 0)
+            return;
+        if (ksys::ui::sub_7100EDC4B8())
+            return;
+
+        _a80.pushFront(_310);
+        _300.reset();
+        _310 = nullptr;
+    } else {
+        _a78.setBitOff(4);
+    }
 }

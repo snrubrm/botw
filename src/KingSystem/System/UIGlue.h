@@ -24,7 +24,7 @@ void sub_7100EDC458();
 void sub_7100EDC470();
 void sub_7100EDC488();
 bool sub_7100EDC4A0();
-void sub_7100EDC4B8();
+bool sub_7100EDC4B8();
 void sub_7100EDC4D0();
 void sub_7100EDC4E8();
 void sub_7100EDC500();

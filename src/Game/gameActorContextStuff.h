@@ -99,6 +99,9 @@ public:
     virtual ~ActorContextStuff();
     // 0x710065d8e4
     void sub_710065D8E4(sead::Heap* heap, bool a2);
+    // 0x710065dc14 (declaration only): per-frame processing of the five embedded entries; its result is
+    // used as the "busy" flag of the scene (bit 4 of GameSceneSubsys12::_a78).
+    bool sub_710065DC14();
     // 0x710065dacc: requests an asynchronous carried actor in the next handle slot.
     void sub_710065DACC(const char* name, sead::Heap* heap);
     // 0x710065e2b0: binds a matching entry to proc, or returns null.
