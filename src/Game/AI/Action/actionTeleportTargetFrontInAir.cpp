@@ -1,6 +1,10 @@
 #include "Game/AI/Action/actionTeleportTargetFrontInAir.h"
 #include "KingSystem/ActorSystem/LOD/actLodState.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actCCAccessor.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/Utils/MathUtil.h"
 
 namespace uking::action {
 
@@ -24,6 +28,17 @@ void TeleportTargetFrontInAir::enter_(ksys::act::ai::InlineParamPack* params) {
         _5c = 4;
         setFailed();
     }
+}
+
+void TeleportTargetFrontInAir::sub_7100296360() {
+    auto* controller = mActor->getCharacterController();
+    if (!controller)
+        return;
+    sead::Vector3f dir = sub_71005D9330(mActor) - mActor->getMtx().getTranslation();
+    dir.normalize();
+    sead::Matrix34f mtx;
+    ksys::util::sub_71011F00EC(&mtx, dir, sead::Vector3f::ey, sead::Vector3f::zero, false);
+    controller->sub_7100F5FC8C(mtx);
 }
 
 void TeleportTargetFrontInAir::leave_() {

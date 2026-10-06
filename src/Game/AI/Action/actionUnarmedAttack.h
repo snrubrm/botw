@@ -24,6 +24,9 @@ protected:
     virtual float m33();
     virtual void m34();
 
+    // 0x71002a51e0 (placeholder name): slows the velocity down by the stop ratio and applies it.
+    void sub_71002A51E0();
+
     struct Params {
         // static_param at offset 0x20
         const char* mASName_s{};

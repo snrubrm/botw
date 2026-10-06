@@ -85,7 +85,7 @@ void NPCAnchorWait::calc_() {
                     const ksys::act::MotionType type = controller->sub_7100F5F0E4();
                     if (type != ksys::act::MotionType::Hover) {
                         sead::Vector3f gravity = getGravity(mActor);
-                        gravity *= 0.29891199f;
+                        gravity *= 0.1f;
                         controller->sub_7100F5F6FC(gravity);
                     }
                 }

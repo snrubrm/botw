@@ -20,6 +20,9 @@ public:
 protected:
     void calc_() override;
 
+    // 0x7100296360 (placeholder name): turns the character controller towards the target position.
+    void sub_7100296360();
+
     // map_unit_param at offset 0x20
     const float* mTerritoryArea_m{};
     // static_param at offset 0x28

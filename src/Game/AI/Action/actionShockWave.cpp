@@ -1,7 +1,9 @@
 #include "Game/AI/Action/actionShockWave.h"
 #include "KingSystem/ActorSystem/LOD/actLodState.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/ActorSystem/Profiles/actBullet.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actAttackSensor.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
@@ -13,6 +15,26 @@ ShockWave::~ShockWave() = default;
 
 bool ShockWave::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
+}
+
+void ShockWave::sub_710024E1C8() {
+    if (*mIsReuseActor_m) {
+        auto* actor = mActor;
+        ksys::act::BaseProcLink* link;
+        if (auto* bullet = sead::DynamicCast<ksys::act::Bullet>(actor))
+            link = &bullet->_bd0._0;
+        else
+            link = &mActor->getCreateArgBaseProcLink();
+        if (link->hasProcInCalcState()) {
+            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::acquireActor(link, &accessor);
+            if (!accessor.isDeletedOrDeleting()) {
+                mActor->sleep(ksys::act::BaseProc::SleepWakeReason::_0);
+                return;
+            }
+        }
+    }
+    mActor->deleteLater(ksys::act::BaseProc::DeleteReason::_0);
 }
 
 void ShockWave::enter_(ksys::act::ai::InlineParamPack* params) {

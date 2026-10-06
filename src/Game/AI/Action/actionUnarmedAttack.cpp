@@ -34,6 +34,18 @@ void UnarmedAttack::enter_(ksys::act::ai::InlineParamPack* params) {
         setDamageCallbackTiming(mActor, 4, &_70);
 }
 
+void UnarmedAttack::sub_71002A51E0() {
+    if (sead::Mathf::equalsEpsilon(0.0f, *mParams.mRotSpeedStopRatio_s)) {
+        if (auto* controller = mActor->getCharacterController())
+            controller->sub_7100F5FB24(sead::Vector3f::zero);
+        return;
+    }
+    _a4 *= *mParams.mRotSpeedStopRatio_s;
+    _a4.updateStats();
+    if (auto* controller = mActor->getCharacterController())
+        controller->sub_7100F5FB24(_a4.value * 30.0f);
+}
+
 void UnarmedAttack::leave_() {
     if (auto* body = mActor->findPhysicsBodyByName(sub_71007A24BC()->cstr(), mParams.mAtRigidBodyName_s))
         sub_71007A2D34(body);

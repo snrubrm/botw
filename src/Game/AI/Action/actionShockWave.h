@@ -18,6 +18,10 @@ public:
 protected:
     void calc_() override;
 
+    // 0x710024e1c8 (placeholder name): deletes the actor, or puts it to sleep for reuse when the creator
+    // (bullet holder / create-arg parent) is still alive.
+    void sub_710024E1C8();
+
     // map_unit_param at offset 0x20
     const int* mAttackPower_m{};
     // map_unit_param at offset 0x28
