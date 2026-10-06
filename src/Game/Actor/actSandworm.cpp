@@ -1,5 +1,6 @@
 #include "Game/Actor/actSandworm.h"
 #include <basis/seadNew.h>
+#include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace uking::act {
@@ -25,6 +26,11 @@ void Sandworm::m56(sead::Vector3f* pos) {
         _1650->getCenterOfMassInWorld(pos);
     else
         x_18(pos);
+}
+
+void Sandworm::setNecklaceFlag(s32 index) {
+    if (index >= 1 && ksys::act::hasTag(this, 0x12ad8456))
+        Enemy::setNecklaceFlag(index + 1);
 }
 
 void Sandworm::m76(ksys::VFR::ScopedDeltaSetter* setter) {

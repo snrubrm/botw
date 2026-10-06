@@ -36,6 +36,9 @@ public:
     void sub_71002CDB48();
     // Declaration only.
     void sub_71002CDAE4(bool on);
+    // 0x71002ce2c8 (unnamed in the CSV; same shape as GiantEnemy::setNecklaceFlag, but another tag (hash 0x12ad8456, name
+    // unknown) and it passes index + 1).
+    void setNecklaceFlag(s32 index);
     void m56(sead::Vector3f* pos) override;
     void m63() override;
     void initMaybe() override;
