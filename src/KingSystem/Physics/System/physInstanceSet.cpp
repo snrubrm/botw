@@ -618,6 +618,32 @@ RigidBody* InstanceSet::sub_7100FC0580(RigidBodyFromShape* shape, sead::Heap* he
     return body;
 }
 
+bool InstanceSet::sub_7100FBAB68() const {
+    for (auto& set : mRigidBodySets) {
+        if (!set.hasNoRigidBodyWithFlag8(true))
+            return false;
+    }
+    for (auto& body : mList) {
+        if (body->isAddedToWorld())
+            return false;
+        if (body->isAddingBodyToWorld())
+            return false;
+    }
+    if (mCharacterController) {
+        if (mCharacterController->sub_7100F5E954())
+            return false;
+        if (mCharacterController->sub_7100F635B4())
+            return false;
+    }
+    if (mRagdollInstance) {
+        if (mRagdollInstance->isAddedToWorld())
+            return false;
+        if (mRagdollInstance->isAddingToWorld())
+            return false;
+    }
+    return true;
+}
+
 bool InstanceSet::sub_7100FBB374(RigidBody* body) const {
     for (auto& set : mRigidBodySets) {
         auto& bodies = set.getRigidBodies();
@@ -682,6 +708,16 @@ RigidBodySet* InstanceSet::findBodyByName(const sead::SafeString& name) const {
 }
 
 RigidBody* InstanceSet::findX(const sead::SafeString& a1, const sead::SafeString& a2) const {
+    const s32 idx = sub_7100FBB668(a1);
+    if (idx < 0)
+        return nullptr;
+    auto* set = mRigidBodySets[idx];
+    if (!set)
+        return nullptr;
+    return set->findBodyByHavokName(a2);
+}
+
+RigidBody* InstanceSet::sub_7100FBB918(const sead::SafeString& a1, const sead::SafeString& a2) const {
     const s32 idx = sub_7100FBB668(a1);
     if (idx < 0)
         return nullptr;

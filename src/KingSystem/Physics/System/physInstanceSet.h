@@ -121,6 +121,9 @@ public:
     bool sub_7100FBB4B4() const;
     // 0x7100fbbaa0: find `a2` in the rigid body set named `a1` (null if absent).
     RigidBody* findX(const sead::SafeString& a1, const sead::SafeString& a2) const;
+    // 0x7100fbb918 (lane4 s46): byte identical twin of findX (called by RigidBodySetParamAccessor::m1; a non-const
+    // findX overload would change the overload picked by the existing callers).
+    RigidBody* sub_7100FBB918(const sead::SafeString& a1, const sead::SafeString& a2) const;
     RigidBody* findRigidBody(const sead::SafeString& name) const;
     // 0x7100fbb7bc (CSV ActorPhysics::findBodyGroupByName): the rigid body set called `name`.
     RigidBodySet* findBodyGroupByName(const sead::SafeString& name);
@@ -208,6 +211,9 @@ public:
     BoxRigidBody* sub_7100FC0440(RigidBodyInstanceParam* param, sead::Heap* heap);
     CylinderWaterRigidBody* sub_7100FC04E0(RigidBodyInstanceParam* param, sead::Heap* heap);
     RigidBody* sub_7100FC0580(RigidBodyFromShape* shape, sead::Heap* heap);
+    // 0x7100fbab68 (lane4 s46; placeholder name): nothing of the set is in the world or being added (and no rigid body
+    // set has a body with flag 8).
+    bool sub_7100FBAB68() const;
     // 0x7100fbb374 (lane4 s46; placeholder name): `body` belongs to a rigid body set or to the listed bodies.
     bool sub_7100FBB374(RigidBody* body) const;
     // 0x7100fbb420 (lane4 s46; placeholder name): any rigid body set has an active entity body, any listed
