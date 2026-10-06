@@ -64,6 +64,9 @@ public:
     /// Get the current map name (e.g. RemainsWind, FinalTrial, ...)
     static const sead::SafeString& getCurrentMapName();
 
+    // 0x71007b0d88 (CSV GameScene::commonRun, declared only): shared body of the Run states.
+    void commonRun(bool a1, bool a2);
+
     void setFadeType(s32 type);
     bool hasStageBinder() const;
     void setStageBinder(StageBinder* binder);
@@ -109,6 +112,8 @@ private:
 };
 
 // Free functions of the GameScene TU (CSV names; the namespace is a guess).
+// 0x71007b8bec (declared only): creates the title stage binder.
+void createTitleStageBinder(bool a1, bool a2);
 bool sceneStartEventReady();
 void setSceneStartEventReady();
 void setSceneStartEventNotReady();

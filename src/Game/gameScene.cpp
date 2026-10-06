@@ -273,6 +273,12 @@ bool GameScene::StageTransitionReenter() {
     return false;
 }
 
+void GameScene::LunchTitleRun() {
+    if (sSceneStatics.newSaveState_2c == 10)
+        createTitleStageBinder(true, true);
+    commonRun(false, false);
+}
+
 void GameScene::NewSaveLeave() {
     sSceneStatics.newSaveState_2c = 0;
     sSceneStatics.newSaveState_5c = 0;
