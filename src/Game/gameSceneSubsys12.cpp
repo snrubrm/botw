@@ -98,6 +98,11 @@ bool GameSceneSubsys12::x() const {
     return _a78.isBitOn(0);
 }
 
+void GameSceneSubsys12::sub_710066323C(ksys::act::Actor* actor, ActorContextStuff* context) {
+    sead::ScopedLock<sead::CriticalSection> lock(&_38);
+    _310 = context;
+}
+
 Unk_710243be90* GameSceneSubsys12::sub_7100663278(ksys::act::BaseProc* proc) {
     sead::ScopedLock<sead::CriticalSection> lock(&_38);
     if (auto* entry = _318.sub_710065E2B0(proc))
