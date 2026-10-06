@@ -2562,6 +2562,7 @@ public:
     u8 _pad_3648[0x3668 - 0x3648];
     /* 0x3668 */ s32 _3668;
     s32 _366c;
+    /* 0x3670 */ const ksys::StateBase* _3670;
     virtual void m186();
     virtual void m187();
     virtual void m188();

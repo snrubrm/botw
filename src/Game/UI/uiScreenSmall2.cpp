@@ -624,6 +624,57 @@ void ScreenMainShortCut::m166() {
     m80(false);
 }
 
+// 0x7100a4357c
+void ScreenSaveTransferWindow::m154() {
+    _3670 = mStateMachine.getState();
+    _366c = -1;
+    s32 old_index = _3668;
+    _3668 = 1;
+    if (old_index == -1) {
+        sub_7100A428D0();
+        return;
+    }
+    _3618->StopAtMax();
+    _3620->PlayAuto(1.0f);
+    _3630->setFlag10(false);
+    _3638->setFlag10(false);
+    _3640->setFlag10(false);
+}
+
+// 0x7100a43924
+void ScreenSaveTransferWindow::m178() {
+    _3670 = mStateMachine.getState();
+    _366c = -1;
+    s32 old_index = _3668;
+    _3668 = 1;
+    if (old_index == -1) {
+        sub_7100A428D0();
+        return;
+    }
+    _3618->StopAtMax();
+    _3620->PlayAuto(1.0f);
+    _3630->setFlag10(false);
+    _3638->setFlag10(false);
+    _3640->setFlag10(false);
+}
+
+// 0x7100a43a10
+void ScreenSaveTransferWindow::m182() {
+    _3670 = mStateMachine.getState();
+    _366c = -1;
+    s32 old_index = _3668;
+    _3668 = 2;
+    if (old_index == -1) {
+        sub_7100A428D0();
+        return;
+    }
+    _3618->StopAtMax();
+    _3620->PlayAuto(1.0f);
+    _3630->setFlag10(false);
+    _3638->setFlag10(false);
+    _3640->setFlag10(false);
+}
+
 // 0x7100a43690
 void ScreenSaveTransferWindow::m158() {
     _366c = -1;
