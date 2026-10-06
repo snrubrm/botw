@@ -313,6 +313,23 @@ public:
 
 #undef GDT_GET_
 
+    // lane4 s46: by-handle getters of an array element that read buffer 1 (`getParam().get1()`) and fail
+    // while `_40000` is set. Inline-only in the original (HorseMgr::sub_7100E854EC reads the Horse_ActorName /
+    // Horse_Familiarity handles this way); the names are guesses.
+#define GDT_GET1_(NAME, T)                                                                         \
+    bool NAME##Buffer1(FlagHandle handle, T* value, s32 sub_idx) {                                 \
+        if (mBitFlags.isOn(BitFlag::_40000))                                                       \
+            return false;                                                                          \
+        return unwrapHandle<false>(handle, false, [&](u32 idx, TriggerParamRef& ref) {             \
+            return ref.get1().NAME(value, idx, sub_idx);                                           \
+        });                                                                                        \
+    }
+
+    GDT_GET1_(getF32, f32)
+    GDT_GET1_(getStr64, char const*)
+
+#undef GDT_GET1_
+
 #define GDT_SET_(NAME, TRAITS)                                                                     \
     /* Setters (by handle) */                                                                      \
     KSYS_ALWAYS_INLINE bool NAME(TRAITS::ArgType value, FlagHandle handle, bool debug,             \

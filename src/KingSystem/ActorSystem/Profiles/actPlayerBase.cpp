@@ -15,6 +15,7 @@
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/System/VFR.h"
 #include <cstring>
@@ -1368,3 +1369,62 @@ s32 sub_710084A570(ksys::act::BaseProc* proc) {
     ksys::act::ActorConstDataAccess accessor(proc);
     return sub_710084A5E0(accessor);
 }
+
+namespace ksys::act {
+
+s32 PlayerBase::sub_710084ACF0(f32 stamina) {
+    if (stamina < 0.0f)
+        stamina = PlayerInfo::instance()->getStaminaCurrentMax();
+    const f32 tired = getParam()->getRes().mGParamList->getPlayer()->mEnergyTiredValue.ref();
+    if (stamina > tired)
+        return 0;
+    return stamina > 0.0f ? 1 : 2;
+}
+
+// NON_MATCHING: the original adds the 0x18 value offset of the parameters to the selected address (`add #0x70` /
+// `add #0x50`, then a plain load) where we fold it into the load.
+f32 PlayerBase::getBombReloadTime() {
+    if (gdt::getFlag_IsGet_Obj_RemoteBombLv2(false))
+        return getParam()->getRes().mGParamList->getPlayer()->mBombReloadTime2.ref();
+    return getParam()->getRes().mGParamList->getPlayer()->mBombReloadTime1.ref();
+}
+
+void PlayerBase::sub_71008494C8() {
+    _d00 = _cfc.getDirect();
+    _cfc.setDirect(0);
+    _d04.set(0.0f, 0.0f, 0.0f);
+}
+
+bool PlayerBase::sub_710084CDD4() {
+    return (uking::RuneMgr::instance()->_90 & 0x10) != 0;
+}
+
+bool PlayerBase::sub_710084CDEC() {
+    return (uking::RuneMgr::instance()->_94 & 4) != 0;
+}
+
+bool PlayerBase::sub_710084CE04() {
+    return (uking::RuneMgr::instance()->_94 & 1) != 0;
+}
+
+bool PlayerBase::sub_710084CEF8() {
+    if (auto* chemical = getChemicalStuff())
+        return chemical->_180 == 3;
+    return false;
+}
+
+bool PlayerBase::sub_710084CF24() {
+    if (auto* chemical = getChemicalStuff()) {
+        if (chemical->sub_7100D914C0() > 0 || (chemical->_b8 & 0x10))
+            return true;
+    }
+    return false;
+}
+
+bool PlayerBase::sub_710084CF74() {
+    if (auto* chemical = getChemicalStuff())
+        return chemical->sub_7100D91508();
+    return false;
+}
+
+}  // namespace ksys::act

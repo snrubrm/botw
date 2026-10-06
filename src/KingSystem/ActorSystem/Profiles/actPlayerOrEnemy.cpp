@@ -146,6 +146,27 @@ bool PlayerOrEnemy::sub_7100007A1C(const sead::Vector3f& velocity, bool a2, bool
     return getWeapons()->dropAllWeapons(velocity, a2, a3, a4, a5);
 }
 
+bool PlayerOrEnemy::sub_7100007A78(const sead::Vector3f& target, const sead::Vector3f& pos, bool a3, bool a4,
+                                   void* a5, bool a6) {
+    return getWeapons()->dropAllWeaponsToTarget(target, pos, a3, a4, a5, a6);
+}
+
+bool PlayerOrEnemy::sub_7100007ADC(int idx, const sead::Vector3f& target, void* a2) {
+    return getWeapons()->dropWeaponM177(idx, target, a2);
+}
+
+f32 PlayerOrEnemy::sub_7100007B4C(int idx) {
+    if (auto* weapon = sead::DynamicCast<uking::act::Weapon>(getWeapons()->getEquippedWeapon(idx)))
+        return weapon->sub_71002ED434();
+    return 0.0f;
+}
+
+f32 PlayerOrEnemy::sub_7100007BF8(int idx) {
+    if (auto* weapon = sead::DynamicCast<uking::act::Weapon>(getWeapons()->getEquippedWeapon(idx)))
+        return weapon->sub_71002ED730(false);
+    return 0.0f;
+}
+
 bool PlayerOrEnemy::releaseWeapon(int idx) {
     return getWeapons()->dropWeaponM179(idx);
 }

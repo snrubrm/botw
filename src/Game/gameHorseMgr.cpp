@@ -32,6 +32,140 @@ static bool isValid(const HorseMgr::HorseData& data) {
            data.familiarity >= 0.0f && (data.collarType | data.footType) >= 0;
 }
 
+// 0x7100e83a08 (CSV x_8): the Horse_* flags of horse `index` through the regular getters.
+// NON_MATCHING: register allocation (this / result registers swapped) and the placement of the first `and`.
+bool HorseMgr::x_8(HorseData* data, s32 index) {
+    using ksys::gdt::Manager;
+    bool ok = Manager::instance()->getStr64(_1a4, &data->actorName, index);
+    ok &= Manager::instance()->getF32(_19c, &data->familiarity, index);
+    ok &= Manager::instance()->getParam().get().getStr64(&data->userName, "Horse_UserName", index);
+    ok &= Manager::instance()->getParam().get().getStr64(&data->reinsName, "Horse_ReinsName", index);
+    ok &= Manager::instance()->getParam().get().getStr64(&data->saddleName, "Horse_SaddleName", index);
+    ok &= Manager::instance()->getParam().get().getStr64(&data->maneName, "Horse_ManeName", index);
+    ok &= Manager::instance()->getParam().get().getStr64(&data->amiiboUidHash, "Horse_AmiiboUidHash", index);
+    ok &= Manager::instance()->getParam().get().getS32(&data->collarType, "Horse_CollarType", index);
+    ok &= Manager::instance()->getParam().get().getS32(&data->footType, "Horse_FootType", index);
+    ok &= Manager::instance()->getParam().get().getS32(&data->rideTimeSec, "Horse_RideTimeSec", index);
+    ok &= Manager::instance()->getParam().get().getBool(&data->familiarityChecked,
+                                                        "Horse_IsFamiliarityChecked", index);
+    return ok;
+}
+
+// 0x7100e854ec: the Horse_* flags of horse `index`; the first two are read through their handles (buffer 1, failing
+// while `_40000` is set), the others by name.
+// NON_MATCHING: the original lays out the handle unwrapping of the first two reads differently (the direct path first).
+bool HorseMgr::sub_7100E854EC(HorseData* data, s32 index) {
+    using ksys::gdt::Manager;
+    bool ok = Manager::instance()->getStr64Buffer1(_1a4, &data->actorName, index);
+    ok &= Manager::instance()->getF32Buffer1(_19c, &data->familiarity, index);
+    ok &= Manager::instance()->getParam().get1().getStr64(&data->userName, "Horse_UserName", index);
+    ok &= Manager::instance()->getParam().get1().getStr64(&data->reinsName, "Horse_ReinsName", index);
+    ok &= Manager::instance()->getParam().get1().getStr64(&data->saddleName, "Horse_SaddleName", index);
+    ok &= Manager::instance()->getParam().get1().getStr64(&data->maneName, "Horse_ManeName", index);
+    ok &= Manager::instance()->getParam().get1().getStr64(&data->amiiboUidHash, "Horse_AmiiboUidHash",
+                                                          index);
+    ok &= Manager::instance()->getParam().get1().getS32(&data->collarType, "Horse_CollarType", index);
+    ok &= Manager::instance()->getParam().get1().getS32(&data->footType, "Horse_FootType", index);
+    ok &= Manager::instance()->getParam().get1().getS32(&data->rideTimeSec, "Horse_RideTimeSec", index);
+    ok &= Manager::instance()->getParam().get1().getBool(&data->familiarityChecked,
+                                                         "Horse_IsFamiliarityChecked", index);
+    return ok;
+}
+
+// NON_MATCHING: only the operand order of the `and` on the flags differs (see isFlagOn).
+void HorseMgr::sub_7100E8533C(HorseData* data, s32 index) {
+    using ksys::gdt::Manager;
+    if (!isFlagOn(Flag::_0))
+        return;
+    Manager::instance()->setStr64(data->actorName, _1a4, index);
+    Manager::instance()->setF32(data->familiarity, _19c, index);
+    Manager::instance()->setStr64(data->userName, "Horse_UserName", index);
+    Manager::instance()->setStr64(data->reinsName, "Horse_ReinsName", index);
+    Manager::instance()->setStr64(data->saddleName, "Horse_SaddleName", index);
+    Manager::instance()->setStr64(data->maneName, "Horse_ManeName", index);
+    Manager::instance()->setStr64(data->amiiboUidHash, "Horse_AmiiboUidHash", index);
+    Manager::instance()->setS32(data->collarType, "Horse_CollarType", index);
+    Manager::instance()->setS32(data->footType, "Horse_FootType", index);
+    Manager::instance()->setS32(data->rideTimeSec, "Horse_RideTimeSec", index);
+    Manager::instance()->setBool(data->familiarityChecked, "Horse_IsFamiliarityChecked", index);
+}
+
+// 0x7100e89b20: the DeadHorse_* flags of dead horse `index` (no `this`).
+bool HorseMgr::sub_7100E89B20(HorseData* data, s32 index) {
+    using ksys::gdt::Manager;
+    bool ok = Manager::instance()->getParam().get1().getStr64(&data->actorName, "DeadHorse_ActorName", index);
+    ok &= Manager::instance()->getParam().get1().getF32(&data->familiarity, "DeadHorse_Familiarity", index);
+    ok &= Manager::instance()->getParam().get1().getS32(&data->collarType, "DeadHorse_CollarType", index);
+    ok &= Manager::instance()->getParam().get1().getS32(&data->footType, "DeadHorse_FootType", index);
+    ok &= Manager::instance()->getParam().get1().getStr64(&data->userName, "DeadHorse_UserName", index);
+    ok &= Manager::instance()->getParam().get1().getStr64(&data->reinsName, "DeadHorse_ReinsName", index);
+    ok &= Manager::instance()->getParam().get1().getStr64(&data->saddleName, "DeadHorse_SaddleName", index);
+    ok &= Manager::instance()->getParam().get1().getStr64(&data->maneName, "DeadHorse_ManeName", index);
+    ok &= Manager::instance()->getParam().get1().getStr64(&data->amiiboUidHash, "DeadHorse_AmiiboUidHash",
+                                                          index);
+    ok &= Manager::instance()->getParam().get1().getS32(&data->rideTimeSec, "DeadHorse_RideTimeSec", index);
+    ok &= Manager::instance()->getParam().get1().getS32(&data->deadCause, "DeadHorse_DeadCause", index);
+    return ok;
+}
+
+// NON_MATCHING: only the operand order of the `and` on the flags differs (see isFlagOn).
+void HorseMgr::sub_7100E88A08(HorseData* data, s32 index) {
+    using ksys::gdt::Manager;
+    if (!isFlagOn(Flag::_0))
+        return;
+    Manager::instance()->setStr64(data->actorName, "DeadHorse_ActorName", index);
+    Manager::instance()->setF32(data->familiarity, "DeadHorse_Familiarity", index);
+    Manager::instance()->setS32(data->collarType, "DeadHorse_CollarType", index);
+    Manager::instance()->setS32(data->footType, "DeadHorse_FootType", index);
+    Manager::instance()->setStr64(data->userName, "DeadHorse_UserName", index);
+    Manager::instance()->setStr64(data->reinsName, "DeadHorse_ReinsName", index);
+    Manager::instance()->setStr64(data->saddleName, "DeadHorse_SaddleName", index);
+    Manager::instance()->setStr64(data->maneName, "DeadHorse_ManeName", index);
+    Manager::instance()->setStr64(data->amiiboUidHash, "DeadHorse_AmiiboUidHash", index);
+    Manager::instance()->setS32(data->rideTimeSec, "DeadHorse_RideTimeSec", index);
+    Manager::instance()->setS32(data->deadCause, "DeadHorse_DeadCause", index);
+}
+
+// 0x7100e86340: picks the horse with the highest familiarity out of the five records (ties: the one with the highest
+// gear top charge count). The original compares the charge count of the best record with itself.
+// NON_MATCHING: the original indexes the best record with a clamped index (`index < 5 ? index : 0`, like
+// SafeArray::operator[]) which a HorseData* parameter cannot express; the loop registers differ because of it.
+bool HorseMgr::sub_7100E86340(HorseData* data, s32* index) {
+    s32 best = -1;
+    s32 best_charge = -1;
+    for (s32 i = 0; i != 5; ++i) {
+        const HorseData& d = data[i];
+        if (x_8(&data[i], i) && !sead::SafeString(d.actorName).isEmpty() &&
+            !sead::SafeString(d.userName).isEmpty() && !sead::SafeString(d.reinsName).isEmpty() &&
+            !sead::SafeString(d.saddleName).isEmpty() && !sead::SafeString(d.maneName).isEmpty() &&
+            d.familiarity >= 0.0f && d.familiarity <= 1.0f && d.collarType >= 0 && d.footType >= 0) {
+            if (best < 0) {
+                best = i;
+            } else {
+                const HorseData& b = data[best];
+                if (d.familiarity == b.familiarity) {
+                    if (best_charge < 0)
+                        best_charge = ksys::act::getHorseGearTopChargeNum(ksys::act::InfoData::instance(),
+                                                                         b.actorName);
+                    const s32 charge =
+                        ksys::act::getHorseGearTopChargeNum(ksys::act::InfoData::instance(), b.actorName);
+                    if (charge > best_charge) {
+                        best = i;
+                        best_charge = charge;
+                    }
+                } else if (d.familiarity > b.familiarity) {
+                    best = i;
+                    best_charge = -1;
+                }
+            }
+        }
+    }
+    if (best < 0)
+        return false;
+    *index = best;
+    return true;
+}
+
 // NON_MATCHING: the original lays out the loop blocks differently (the early exits of the validity checks come
 // after the success path) and has the flags first in the isOnBit `and`.
 s32 HorseMgr::getNumRegisteredHorses() {

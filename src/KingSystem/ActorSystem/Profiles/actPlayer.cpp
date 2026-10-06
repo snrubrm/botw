@@ -17,6 +17,7 @@
 #include "Game/UI/uiUtils.h"
 #include "Game/gameUnk_71024739d0.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/Attention/actAttentionSingleton.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
@@ -1188,6 +1189,150 @@ bool Player::m165(sead::BufferedSafeString* out) {
         return true;
     out->copy("Empty");
     return false;
+}
+
+}  // namespace ksys::act
+
+namespace ksys::act {
+
+// lane4 s46: unnamed Player helpers (placeholder names).
+bool Player::sub_7100849470() {
+    if (uking::ui::sub_7100A991C0())
+        return false;
+    return _17d0->playerCheckController(28);
+}
+
+void Player::sub_7100855824() {
+    mASList->sub_710115C1D0(0, 1, 0, 1);
+}
+
+void Player::sub_710085583C() {
+    mASList->sub_710115F158(mASList, 1, 1, 0, 1);
+    mASList->sub_710115F158(mASList, 0, 1, 0, 1);
+}
+
+void Player::sub_7100855A1C(f32 value) {
+    mASList->sub_710115F2EC(1, 0, 1.0f - value);
+    mASList->sub_710115F2EC(1, 1, value);
+}
+
+void Player::sub_7100855B98() {
+    mASList->sub_710115F158(mASList, 1, 0, 1, 0);
+}
+
+// NON_MATCHING: the original moves the float argument back into s0 before setting the slot register of the last call.
+void Player::sub_7100855CF0(f32 value) {
+    mASList->sub_710115F2EC(0, 0, 1.0f - value);
+    mASList->sub_710115F2EC(0, 1, value);
+}
+
+void Player::sub_7100855F80(const char* animation) {
+    mASList->startAnimationMaybe(-1.0f, -1.0f, animation, 3, 0, true);
+    if (!mASList->x_7(3, 2, &as::ASList::Unk2::sub_710002E82C)) {
+        mASList->sub_710115F2EC(3, 0, 1.0f);
+        mASList->sub_710115F2EC(3, 1, 0.0f);
+        mASList->sub_710115F4A0(false, 3, 1, &as::ASList::Unk2::sub_7100507A64);
+    }
+}
+
+void Player::sub_7100856210(const char* animation) {
+    mASList->startAnimationMaybe(-1.0f, -1.0f, animation, 3, 1, true);
+    if (!mASList->x_7(3, 2, &as::ASList::Unk2::sub_710002E82C)) {
+        mASList->sub_710115F2EC(3, 0, 0.0f);
+        mASList->sub_710115F2EC(3, 1, 1.0f);
+        mASList->sub_710115F4A0(false, 3, 0, &as::ASList::Unk2::sub_7100507A64);
+    }
+}
+
+void Player::sub_71008563F0(const char* animation) {
+    mASList->startAnimationMaybe(-1.0f, -1.0f, animation, 3, 2, true);
+    mASList->sub_710115F2EC(3, 0, 0.0f);
+    mASList->sub_710115F2EC(3, 1, 0.0f);
+    mASList->sub_710115F2EC(3, 2, 1.0f);
+    mASList->sub_710115F4A0(false, 3, 0, &as::ASList::Unk2::sub_7100507A64);
+    mASList->sub_710115F4A0(false, 3, 1, &as::ASList::Unk2::sub_7100507A64);
+}
+
+bool Player::sub_710086D168() {
+    if (getChemicalStuff())
+        return getChemicalStuff()->_10c > 0.0f;
+    return false;
+}
+
+bool Player::sub_71008737E4(u32 a, u32 b) {
+    if (!sub_71008921A8()) {
+        if (mASList->x(0x31, nullptr, a, b, &as::ASList::Unk2::sub_71011638DC, true))
+            return true;
+        if (mASList->x_4(a, b))
+            return true;
+    }
+    return false;
+}
+
+bool Player::sub_71008738BC() {
+    return getDamageMgr()->getField54() == 0x15;
+}
+
+bool Player::sub_71008738EC() {
+    return getDamageMgr()->getField54() == 0x11;
+}
+
+bool Player::sub_710087391C() {
+    return getDamageMgr()->getField54() == 0x14;
+}
+
+bool Player::sub_710087394C() {
+    switch (getDamageMgr()->getField54()) {
+    case 0:
+    case 16:
+    case 18:
+    case 19:
+    case 20:
+    case 32:
+    case 33:
+        return true;
+    default:
+        return false;
+    }
+}
+
+// NON_MATCHING: the original keeps the three string selections in separate blocks; we get a select between two of them.
+void Player::sub_710087B6A8() {
+    const char* name;
+    if (gdt::getFlag_Fire_Relic_YunboStopGo(false)) {
+        if (gdt::getFlag_Fire_Relic_NPC020_Follow(false))
+            name = "CallStay";
+        else
+            name = "CallComeon";
+    } else {
+        name = "HorseCall";
+    }
+    x_23(name, false, -1.0f);
+}
+
+bool Player::sub_710088D484() {
+    if (_17d0->controllerCheckPressedMaybe(9))
+        return true;
+    if (!(_209c > 0.05f))
+        return false;
+    if (!_17d0->playerCheckController(9))
+        return false;
+    if (_c44.isOnBit(12))
+        return false;
+    if (isRidingHorse())
+        return false;
+    return !_cfc.isOnBit(5);
+}
+
+bool Player::sub_710088D50C() {
+    if (!sub_7100848F40() && _17d0->controllerCheckPressedMaybe(9))
+        return true;
+    return _c40.isOnBit(1) && _20bc.value != 0.0f;
+}
+
+// NON_MATCHING: the original emits the `false` result block before the attention test (block layout only).
+bool Player::sub_7100894540() {
+    return sub_71008921A8() && m224() && !Attention::instance()->sub_7100D742E8(3);
 }
 
 }  // namespace ksys::act

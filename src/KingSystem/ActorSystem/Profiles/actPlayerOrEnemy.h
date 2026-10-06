@@ -85,6 +85,15 @@ public:
     bool sub_7100007A1C(const sead::Vector3f& velocity, bool a2, bool a3, void* a4, bool a5);
     // 0x7100007870 (CSV PlayerOrEnemy::dropWeapon): forwards to ActorWeapons::dropWeapon.
     bool dropWeapon(int idx, const sead::Vector3f& pos, bool a2, bool a3, void* a4, bool a5);
+    // lane4 s46 (placeholder names, unnamed in the CSV). 0x7100007a78 / 0x7100007adc: forward to
+    // ActorWeapons::dropAllWeaponsToTarget / dropWeaponM177.
+    bool sub_7100007A78(const sead::Vector3f& target, const sead::Vector3f& pos, bool a3, bool a4, void* a5,
+                        bool a6);
+    bool sub_7100007ADC(int idx, const sead::Vector3f& target, void* a2);
+    // 0x7100007b4c / 0x7100007bf8: Weapon::sub_71002ED434() / sub_71002ED730(false) of the weapon in slot `idx`
+    // if it is a uking::act::Weapon (0 otherwise).
+    f32 sub_7100007B4C(int idx);
+    f32 sub_7100007BF8(int idx);
     // 0x7100007b20 (CSV Player::releaseWeapon): forwards to ActorWeapons::dropWeaponM179.
     bool releaseWeapon(int idx);
     // 0x710000759c (declaration only): weapon-state prerequisite checked by isGuard().

@@ -68,7 +68,9 @@ public:
     };
     static_assert(sizeof(HorseData) == 0x48);
 
-    // 0x7100e854ec (declaration only): reads horse `index` (the Horse_* flags) into `data`.
+    // 0x7100e83a08 (CSV x_8): the same as sub_7100E854EC on buffer 0 (the regular getters, no `_40000` check).
+    bool x_8(HorseData* data, s32 index);
+    // 0x7100e854ec: reads horse `index` (the Horse_* flags) into `data` from buffer 1.
     bool sub_7100E854EC(HorseData* data, s32 index);
     // 0x7100e8533c (CSV HorseMgr::x; declaration only): writes `data` to the Horse_* flags of horse `index`.
     void sub_7100E8533C(HorseData* data, s32 index);

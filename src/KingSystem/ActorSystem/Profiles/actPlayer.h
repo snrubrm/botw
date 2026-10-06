@@ -337,6 +337,33 @@ public:
     // 0x71008494ac / 0x710087acc8 (lane4 s45, unnamed in the CSV): controller check 35 / returns _d10.
     bool sub_71008494AC();
     u8 sub_710087ACC8();
+    // lane4 s46 (placeholder names, from the bodies; unnamed in the CSV).
+    // 0x7100849470: false while ui::sub_7100A991C0() holds, else controller check 28.
+    bool sub_7100849470();
+    // 0x7100855824 .. 0x7100855f80, 0x7100856210, 0x71008563f0: AS list helpers (slot / bank pairs).
+    void sub_7100855824();
+    void sub_710085583C();
+    void sub_7100855A1C(f32 value);
+    void sub_7100855B98();
+    void sub_7100855CF0(f32 value);
+    void sub_7100855F80(const char* animation);
+    void sub_7100856210(const char* animation);
+    void sub_71008563F0(const char* animation);
+    // 0x710086d168: the chemical's _10c > 0.
+    bool sub_710086D168();
+    // 0x71008737e4: AS list x(0x31, ...) / x_4(a, b) unless sub_71008921A8().
+    bool sub_71008737E4(u32 a, u32 b);
+    // 0x71008738bc / 0x71008738ec / 0x710087391c / 0x710087394c: tests of the damage manager's getField54().
+    bool sub_71008738BC();
+    bool sub_71008738EC();
+    bool sub_710087391C();
+    bool sub_710087394C();
+    // 0x710087b6a8: x_23("HorseCall" / "CallComeon" / "CallStay", false, -1.0f) depending on two game data flags.
+    void sub_710087B6A8();
+    // 0x710088d484 / 0x710088d50c / 0x7100894540: controller / state tests.
+    bool sub_710088D484();
+    bool sub_710088D50C();
+    bool sub_7100894540();
     void updateResistHotVal();
     void updateResistColdVal();
     void updateStatusEffectAttackUp();

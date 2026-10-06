@@ -297,6 +297,22 @@ public:
     bool x_2();                              // 0x84bce8
     // 0x84b580 (CSV PlayerBase::x_2; lane4 s45): 0 unless _cf4 bit 15 is set; then 1 if `_d24` is 0, else 2 if m227().
     s32 sub_710084B580();
+    // lane4 s46 (placeholder names, from the bodies).
+    // 0x84acf0: 0 if `stamina` is above the Player.EnergyTiredValue parameter, else 2 if it is not positive, else 1 (a
+    // negative `stamina` is replaced by PlayerInfo::getStaminaCurrentMax()).
+    s32 sub_710084ACF0(f32 stamina);
+    // 0x84cf9c: Player.BombReloadTime2 if the remote bomb Lv2 flag is set, else Player.BombReloadTime1.
+    f32 getBombReloadTime();
+    // 0x8494c8: `_d00 = _cfc; _cfc = 0; _d04 = zero`.
+    void sub_71008494C8();
+    // RuneMgr flag reads (0x84cdd4: _90 bit 4, 0x84cdec: _94 bit 2, 0x84ce04: _94 bit 0).
+    bool sub_710084CDD4();
+    bool sub_710084CDEC();
+    bool sub_710084CE04();
+    // 0x84cef8 / 0x84cf24 / 0x84cf74: read the Chemical (getChemicalStuff()).
+    bool sub_710084CEF8();
+    bool sub_710084CF24();
+    bool sub_710084CF74();
     bool checkCanUseRuneCommon();            // 0x84c04c
     bool x_13();                             // 0x84c378
     // Called by RuneMgr::checkCanUseRune (CSV names Player::checkCanUse*, but the player is
@@ -356,7 +372,8 @@ public:
     /* 0xcfc */ sead::BitFlag32 _cfc;
 
 protected:
-    /* 0xd00 */ u8 _d00[0xd10 - 0xd00];
+    /* 0xd00 */ u32 _d00;
+    /* 0xd04 */ sead::Vector3f _d04;
 public:
     // Public: read by PlayerStepGuardJust::calc_.
     /* 0xd10 */ u8 _d10;
