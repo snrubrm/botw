@@ -48,6 +48,17 @@ bool isOneHitObliteratorActorName(const sead::SafeString& name) {
     return name == "Weapon_Sword_502";
 }
 
+// 0x7100a981b0 (placeholder name)
+bool sub_7100A981B0() {
+    auto* manager = eui::ScreenMgr::instance();
+    if (!manager)
+        return false;
+    auto* screen = sead::DynamicCast<ScreenMessageTips>(manager->getScreen(ScreenId::MessageTips));
+    if (!screen)
+        return false;
+    return screen->sub_71010A87F0(18);
+}
+
 // 0x7100a96614 (placeholder name): loads and opens the GameOver screen.
 bool sub_7100A96614() {
     bool opened = false;

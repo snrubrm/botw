@@ -630,6 +630,9 @@ public:
     ~ScreenMessageTips() override;
     SEAD_RTTI_OVERRIDE(ScreenMessageTips, Screen)
 
+    // 0x71010a87f0 (CSV unnamed, declared only): called by ui::sub_7100A981B0 with the tip type 18.
+    bool sub_71010A87F0(s32 type);
+
     /* 0x300 */ void* _300{};
     /* 0x308 */ void* _308{};
     /* 0x310 */ bool _310 = false;
