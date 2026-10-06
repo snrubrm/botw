@@ -26,6 +26,10 @@ protected:
     virtual void m34();
     virtual sead::SafeString m35();
 
+    // 0x7100204e40 (placeholder name): plays the wait AS that fits the key of ASList slot 59 (Sit / SitOnObject /
+    // Crouch / default).
+    void sub_7100204E40();
+
     // static_param at offset 0x38
     const int* mUpdateTargetPosInterval_s{};
     // static_param at offset 0x40

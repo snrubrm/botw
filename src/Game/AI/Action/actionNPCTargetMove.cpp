@@ -1,5 +1,6 @@
 #include "Game/AI/Action/actionNPCTargetMove.h"
 #include "Game/Actor/actNPC.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
@@ -15,6 +16,22 @@ NPCTargetMove::~NPCTargetMove() = default;
 
 // NON_MATCHING: the original compares the actor name with the literal in an inline loop without the
 // assureTermination calls / pointer-equality fast path of SafeString::isEqual (a different, unknown comparison).
+// NON_MATCHING: same compares and calls; the original materialises the four AS name addresses in separate blocks
+// after the compares (here the first two are hoisted above the loops)
+void NPCTargetMove::sub_7100204E40() {
+    sead::SafeString key(mActor->getASList()->sub_710115ECF4(59, 1));
+    const char* name;
+    if (key == "Sit")
+        name = "Rest";
+    else if (key == "SitOnObject")
+        name = "Act_SitChair_Wait";
+    else if (key == "Crouch")
+        name = "Act_Squat";
+    else
+        name = "Wait";
+    playAS(name, true, 0, 0, -1.0f);
+}
+
 bool NPCTargetMove::init_(sead::Heap* heap) {
     _90 = sead::DynamicCast<uking::act::NPC>(mActor);
     _98.change(0x4,
