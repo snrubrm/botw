@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionForkEmitExpandFieldWithCreate.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "Game/Actor/actUnk_7100d3cd74.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
@@ -7,7 +8,17 @@ namespace uking::action {
 ForkEmitExpandFieldWithCreate::ForkEmitExpandFieldWithCreate(const InitArg& arg)
     : ForkEmitExpandField(arg) {}
 
-ForkEmitExpandFieldWithCreate::~ForkEmitExpandFieldWithCreate() = default;
+ForkEmitExpandFieldWithCreate::~ForkEmitExpandFieldWithCreate() {
+    auto* parts = mActor->m101();
+    if (*mIsSetPartsLink_s && parts) {
+        parts->sub_7100D3CFEC(mPartsKey_s);
+    } else if (_a8.hasProc()) {
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::acquireActor(&_a8, &accessor);
+        if (accessor.isStateSleep())
+            accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+    }
+}
 
 bool ForkEmitExpandFieldWithCreate::init_(sead::Heap* heap) {
     return ForkEmitExpandField::init_(heap);
@@ -33,12 +44,9 @@ void ForkEmitExpandFieldWithCreate::calc_() {
     ForkEmitExpandField::calc_();
 }
 
-// NON_MATCHING: the original tests `parts != nullptr && *mIsSetPartsLink_s` with `cmp; ccmp` and returns `_a8` on the
-// fall-through path; ours branches on each operand and swaps the two blocks
 ksys::act::BaseProcLink& ForkEmitExpandFieldWithCreate::m32() {
     auto* parts = mActor->m101();
-    const bool is_set_parts_link = *mIsSetPartsLink_s;
-    if (parts && is_set_parts_link)
+    if (*mIsSetPartsLink_s && parts)
         return parts->getActorPartsActor(mPartsKey_s);
     return _a8;
 }

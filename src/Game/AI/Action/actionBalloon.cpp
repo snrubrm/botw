@@ -1,10 +1,18 @@
 #include "Game/AI/Action/actionBalloon.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 
 namespace uking::action {
 
 Balloon::Balloon(const InitArg& arg) : BalloonBase(arg) {}
 
-Balloon::~Balloon() = default;
+Balloon::~Balloon() {
+    if (_118.hasProc()) {
+        ksys::act::ActorConstDataAccess accessor;
+        if (ksys::act::acquireActor(&_118, &accessor))
+            accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+    }
+    _110 = nullptr;
+}
 
 bool Balloon::init_(sead::Heap* heap) {
     return BalloonBase::init_(heap);

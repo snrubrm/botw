@@ -7,7 +7,10 @@ namespace uking::action {
 
 LastBossNormalWarp::LastBossNormalWarp(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
-LastBossNormalWarp::~LastBossNormalWarp() = default;
+LastBossNormalWarp::~LastBossNormalWarp() {
+    if (auto* physics = mActor->getPhysics())
+        physics->sub_7100FBDFA4(physics->get178(0));
+}
 
 bool LastBossNormalWarp::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);

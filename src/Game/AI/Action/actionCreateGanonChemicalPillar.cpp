@@ -7,7 +7,11 @@ namespace uking::action {
 CreateGanonChemicalPillar::CreateGanonChemicalPillar(const InitArg& arg)
     : ksys::act::ai::Action(arg) {}
 
-CreateGanonChemicalPillar::~CreateGanonChemicalPillar() = default;
+CreateGanonChemicalPillar::~CreateGanonChemicalPillar() {
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(&_58, &accessor);
+    accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+}
 
 bool CreateGanonChemicalPillar::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);

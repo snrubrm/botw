@@ -1,10 +1,21 @@
 #include "Game/AI/Action/actionForkASTrgEmitShockWave.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "Game/Actor/actEnemy.h"
 
 namespace uking::action {
 
 ForkASTrgEmitShockWave::ForkASTrgEmitShockWave(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
-ForkASTrgEmitShockWave::~ForkASTrgEmitShockWave() = default;
+ForkASTrgEmitShockWave::~ForkASTrgEmitShockWave() {
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor))
+        enemy->sub_7100D3CFEC(mShockWavePartsKey_s);
+    if (_98.hasProc()) {
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::acquireActor(&_98, &accessor);
+        accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+    }
+}
 
 bool ForkASTrgEmitShockWave::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
