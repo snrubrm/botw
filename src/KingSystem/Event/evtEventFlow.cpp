@@ -171,6 +171,25 @@ bool EventFlowBase::x_4() const {
     return !(_340_bytes[4] & 0x10);
 }
 
+// NON_MATCHING: the original addresses the two guard variables as `_MergedGlobals + 0x18 / 0x20` (GlobalMerge of this
+// TU's statics: three other guards come first); the code is otherwise the same.
+// 0x7100db6900
+const char* getCurrentEventForReport() {
+    if (sUnk_7102601528) {
+        static sead::FixedSafeString<128> sStatus0;
+        sStatus0.format("[evt:%s<%s>]", sUnk_7102601528->mEventName.cstr(),
+                        sUnk_7102601528->mEntryPointName.cstr());
+        return sStatus0.cstr();
+    }
+    if (sUnk_7102601530) {
+        static sead::FixedSafeString<128> sStatus1;
+        sStatus1.format("[evt:%s<%s>]", sUnk_7102601530->mEventName.cstr(),
+                        sUnk_7102601530->mEntryPointName.cstr());
+        return sStatus1.cstr();
+    }
+    return "[evt ファイル不明]";
+}
+
 // 0x7100db8a34
 void EventFlowBase::printStatus(sead::BufferedSafeString* out) {
     if (_100->isPlaying())
