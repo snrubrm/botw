@@ -1,7 +1,24 @@
 #include "Game/UI/uiScreens.h"
+#include "KingSystem/GameData/gdtSpecialFlagNames.h"
+#include "Game/gameFlagUtils.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 
 namespace uking::ui {
+
+// 0x71009cf3f0
+void ScreenAkashNum::m162() {
+    _361c.init(5.0f);
+}
+
+// 0x71009cf400
+void ScreenAkashNum::m163() {
+    if (getFlagInt(&_3618, ksys::gdt::flagname::DungeonClearSealNum())) {
+        mStateMachine.changeState(&sUnk_71025dc090);
+    } else if (_361c.updateAndCheckEnded()) {
+        _3610 = 0;
+        close(-1);
+    }
+}
 
 // 0x71009cef28
 // NON_MATCHING: the original calls StateBase::getId() through the vtable; clang devirtualizes the call on the static state object

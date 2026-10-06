@@ -80,6 +80,7 @@ target_sources(uking PRIVATE
   uiPauseMenuDataMgr.h
   uiPouchFacade.cpp
   uiScreenCtors.cpp
+  uiScreenDLCNum.cpp
   uiScreenDtors.cpp
   uiScreenDtors2.cpp
   uiScreenDtors3.cpp
@@ -162,6 +163,8 @@ target_sources(uking PRIVATE
   uiPaneCasts.cpp
   uiTexSlots.cpp
   uiTexSlots.h
+  uiTimer.cpp
+  uiTimer.h
   uiUnkTiny.cpp
   uiUnkTiny.h
   uiUtils.cpp

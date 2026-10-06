@@ -1,7 +1,23 @@
 #include "Game/UI/uiScreens.h"
+#include "KingSystem/GameData/gdtSpecialFlagNames.h"
+#include "Game/gameFlagUtils.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 
 namespace uking::ui {
+
+// 0x7100a0f47c
+void ScreenKologNum::m162() {
+    _361c.init(5.0f);
+}
+
+// 0x7100a0f48c
+void ScreenKologNum::m163() {
+    if (getFlagInt(&_3618, ksys::gdt::flagname::KorokNutsNum())) {
+        mStateMachine.changeState(&sUnk_71025eed10);
+    } else if (_361c.updateAndCheckEnded()) {
+        close(-1);
+    }
+}
 
 // 0x7100a0ef5c
 void ScreenKologNum::sub_7100A0EF5C(s32 a1) {
@@ -63,17 +79,17 @@ void ScreenKologNum::m69() {
 void ScreenKologNum::m99() {
     if (_3634 == 1) {
         _3618 = ksys::gdt::getFlag_KorokNutsNum(false);
-        mStateMachine.changeState(&sUnk_71025eee10);
+        mStateMachine.changeState(&sUnk_71025eed10);
     } else if (_3634 == 2) {
-        mStateMachine.changeState(&sUnk_71025eee10);
+        mStateMachine.changeState(&sUnk_71025eed10);
     } else {
-        mStateMachine.changeState(&sUnk_71025eedb0);
+        mStateMachine.changeState(&sUnk_71025eecb0);
     }
 }
 
 // 0x7100a0f210
 void ScreenKologNum::m100() {
-    mStateMachine.changeState(&sUnk_71025eed50);
+    mStateMachine.changeState(&sUnk_71025eec50);
 }
 
 // 0x7100a0f29c
@@ -87,7 +103,7 @@ void ScreenKologNum::m155() {
     _3618 = count;
     if (_3634 != 0 || _3610) {
         if (_3614 != count)
-            mStateMachine.changeState(&sUnk_71025eee10);
+            mStateMachine.changeState(&sUnk_71025eed10);
     }
 }
 

@@ -1,7 +1,23 @@
 #include "Game/UI/uiScreens.h"
+#include "KingSystem/GameData/gdtSpecialFlagNames.h"
+#include "Game/gameFlagUtils.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 
 namespace uking::ui {
+
+// 0x7100a22f28
+void ScreenMamoNum::m162() {
+    _3618.init(5.0f);
+}
+
+// 0x7100a22f38
+void ScreenMamoNum::m163() {
+    if (getFlagInt(&_3614, ksys::gdt::flagname::CurrentMamo())) {
+        mStateMachine.changeState(&sUnk_71025ef578);
+    } else if (_3618.updateAndCheckEnded()) {
+        close(-1);
+    }
+}
 
 // 0x7100a22a80
 // NON_MATCHING: the original calls StateBase::getId() through the vtable; clang devirtualizes the call on the static state object

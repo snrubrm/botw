@@ -10,6 +10,7 @@
 #include "Game/UI/euiAnimator.h"
 #include "Game/UI/euiControlBase.h"
 #include "Game/UI/euiMessageString.h"
+#include "Game/UI/uiTimer.h"
 #include "Game/UI/euiScreen.h"
 #include "Game/UI/euiUIController.h"
 #include "Game/UI/uiButtonEventQueue.h"
@@ -921,6 +922,7 @@ public:
 };
 
 extern const ksys::StateBase sUnk_71025f1bf0;
+extern const ksys::StateBase sUnk_71025f1cb0;
 
 class ScreenRupee : public ScreenEx {
 public:
@@ -954,12 +956,7 @@ public:
     /* 0x3610 */ u8 _3610{};
     s32 _3614{};
     s32 _3618{};
-    s32 _361c{};
-    s32 _3620{};
-    s32 _3624{};
-    s32 _3628{};
-    f32 _362c = 1.0f;
-    u8 _3630{};
+    /* 0x361c */ UiTimer _361c;
     s32 _3634 = 4;
     Unk_7102474b78 _3638;
     Unk_7102474b58 _3678{this};
@@ -974,9 +971,8 @@ public:
 
 // State object of the number screens (CSV: unnamed data; a StateTemplate<ScreenKologNum>, 0x71025eed10).
 extern const ksys::StateBase sUnk_71025eed10;
-extern const ksys::StateBase sUnk_71025eed50;
-extern const ksys::StateBase sUnk_71025eedb0;
-extern const ksys::StateBase sUnk_71025eee10;
+extern const ksys::StateBase sUnk_71025eec50;
+extern const ksys::StateBase sUnk_71025eecb0;
 
 class ScreenKologNum : public ScreenEx {
 public:
@@ -1007,12 +1003,7 @@ public:
     /* 0x3610 */ u8 _3610{};
     s32 _3614{};
     s32 _3618{};
-    s32 _361c{};
-    s32 _3620{};
-    s32 _3624{};
-    s32 _3628{};
-    f32 _362c = 1.0f;
-    u8 _3630{};
+    /* 0x361c */ UiTimer _361c;
     /* 0x3634 */ s32 _3634 = -1;
     Unk_7102474b78 _3638;
 
@@ -1058,12 +1049,7 @@ public:
     /* 0x3610 */ u8 _3610{};
     s32 _3614{};
     s32 _3618{};
-    s32 _361c{};
-    s32 _3620{};
-    s32 _3624{};
-    s32 _3628{};
-    f32 _362c = 1.0f;
-    u8 _3630{};
+    /* 0x361c */ UiTimer _361c;
     /* 0x3634 */ s32 _3634 = -1;
     Unk_7102474b78 _3638;
 
@@ -1093,12 +1079,7 @@ public:
 
     /* 0x3610 */ s32 _3610{};
     s32 _3614{};
-    s32 _3618{};
-    s32 _361c{};
-    s32 _3620{};
-    s32 _3624{};
-    f32 _3628 = 1.0f;
-    u8 _362c{};
+    /* 0x3618 */ UiTimer _3618;
     s32 _3630 = -1;
     Unk_7102474b78 _3638;
     Unk_7102474b58 _3678{this};
@@ -1411,6 +1392,7 @@ public:
 };
 
 extern const ksys::StateBase sUnk_71025ecb40;
+extern const ksys::StateBase sUnk_71025ecc00;
 
 class ScreenDLCSinJuAkashiNum : public ScreenEx {
 public:
@@ -1437,16 +1419,14 @@ public:
     virtual void m164();
     virtual s32 m165();
 
+    // 0x7100a0488c: the number of the Hero Seal item (Goron / Zora / Rito / Gerudo) selected by `_3688`.
+    s32 sub_7100A0488C();
+
     /* 0x3610 */ u8 _3610{};
     s32 _3614{};
     s32 _3618{};
     s32 _361c{};
-    s32 _3620{};
-    s32 _3624{};
-    s32 _3628{};
-    s32 _362c{};
-    f32 _3630 = 1.0f;
-    u8 _3634{};
+    /* 0x3620 */ UiTimer _3620;
     /* 0x3638 */ s32 _3638 = -1;
     Unk_7102474b78 _3640;
     u64 _3680{};
