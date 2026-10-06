@@ -36,6 +36,17 @@ void MiniGolemSleep::calc_() {
 }
 
 void MiniGolemSleep::leave_() {
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor))
+        enemy->_e90 = 0;
+    if (auto* controller = mActor->getCharacterController())
+        controller->mFlags.reset(0xc00);
+    if (auto* controller = sead::DynamicCast<Unk_7102450410>(
+            *static_cast<Unk_71025afb58**>(mGolemChemicalController_a))) {
+        for (s32 i = 0; i < controller->_8.size(); ++i)
+            controller->_8[i].sub_71007086AC();
+    }
+    ksys::act::enableAllAttClients(mActor);
+    _68.x();
     SpecialEnemySleep::leave_();
 }
 
