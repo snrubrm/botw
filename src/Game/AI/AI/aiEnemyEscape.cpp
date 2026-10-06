@@ -12,8 +12,8 @@ EnemyEscape::EnemyEscape(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
 EnemyEscape::~EnemyEscape() = default;
 
-// NON_MATCHING: the float compares use `b.le` (ours) instead of `b.ls`, and the timer stores are three
-// `str` instead of `stp` + `str`; everything else (flow, stack frame, pack handling) matches
+// NON_MATCHING: only the timer stores (three `str` instead of `stp` + `str`) and the register of the -1.0f rate
+// differ (flow, stack frame, pack handling and the float compares match; `!(a <= b)` gives the original `b.hi`)
 void EnemyEscape::enter_(ksys::act::ai::InlineParamPack* params) {
     mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_2000000);
     mActor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_1000000);
@@ -39,7 +39,7 @@ void EnemyEscape::enter_(ksys::act::ai::InlineParamPack* params) {
             pack.addVec3(target, "TargetPos", -1);
             changeChild("逃走移動", &pack);
         }
-        if (_78.value > FLT_EPSILON) {
+        if (!(_78.value <= FLT_EPSILON)) {
             const sead::Vector3f& target = *mTargetPos_d;
             const f32 target_x = target.x;
             const f32 target_z = target.z;
@@ -49,6 +49,54 @@ void EnemyEscape::enter_(ksys::act::ai::InlineParamPack* params) {
                 return;
         }
         setFinished();
+    }
+}
+
+// NON_MATCHING: only the timer stores (three `str` instead of `stp` + `str`) and the register of the -1.0f rate
+// differ; the original loads the target (x, z) before the actor pointer, matched here with local copies
+void EnemyEscape::calc_() {
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed()) {
+        if (isCurrentChild("こける")) {
+            const sead::Vector3f target = *mTargetPos_d;
+            ksys::act::ai::InlineParamPack pack;
+            pack.addVec3(target, "TargetPos", -1);
+            changeChild("逃走移動", &pack);
+            return;
+        }
+        if (isCurrentChild("逃走移動") && getCurrentChild()->isFailed()) {
+            setFailed();
+            return;
+        }
+    }
+    if (isCurrentChild("逃走移動")) {
+        getCurrentChild()->setDynamicParam(*mTargetPos_d, "TargetPos");
+        _68.update();
+        if (!getCurrentChild()->isChangeable() || !(_68.value <= FLT_EPSILON) || _74) {
+            _78.update();
+            if (!(_78.value <= FLT_EPSILON)) {
+                const sead::Vector3f& target = *mTargetPos_d;
+                const f32 target_x = target.x;
+                const f32 target_z = target.z;
+                const f32 dx = target_x - mActor->getMtx().getTranslation().x;
+                const f32 dz = target_z - mActor->getMtx().getTranslation().z;
+                if (sead::Vector3f(dx, 0.0f, dz).length() <= *mEscapeDist_s || !_74)
+                    return;
+            }
+            setFinished();
+            _74 = false;
+            const s32 tumble_rand = *mTumbleRand_s;
+            const f32 tumble_time = *mTumbleTime_s - tumble_rand * 0.5f +
+                                    s32(tumble_rand * sead::GlobalRandom::instance()->getF32());
+            _68 = ksys::Timer(tumble_time, tumble_time);
+            const s32 escape_rand = *mEscapeRand_s;
+            const f32 escape_time = *mEscapeTime_s - escape_rand * 0.5f +
+                                    s32(escape_rand * sead::GlobalRandom::instance()->getF32());
+            _78 = ksys::Timer(escape_time, escape_time);
+        } else {
+            _74 = true;
+            changeChild("こける");
+        }
     }
 }
 
