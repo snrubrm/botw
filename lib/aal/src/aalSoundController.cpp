@@ -1,4 +1,5 @@
 #include "aal/aalSoundController.h"
+#include <basis/seadNew.h>
 #include "aal/aalSettings.h"
 #include "aal/aalSystemAccessor.h"
 
@@ -64,6 +65,16 @@ SoundController::~SoundController() {
     finalize();
 }
 
+// 0x7100ba14b0
+void SoundController::initialize(sead::Heap* heap) {
+    if (!mAssetInfo)
+        mAssetInfo = new (heap, 8) AssetInfo;
+    if (!mFader)
+        mFader = new (heap, 8) SimpleTimedFader(1.0f);
+    if (!mSoundHandle)
+        mSoundHandle = new (heap, 8) nn::atk::SoundHandle;
+}
+
 // 0x7100ba13e0
 void SoundController::finalize() {
     if (mAssetInfo) {
@@ -87,6 +98,18 @@ void SoundController::release(f32 fade_time) {
         mFader->moveTo(0.0f, fade_time);
         mState = 3;
     }
+}
+
+// 0x7100ba1f20
+void SoundController::reset() {
+    release(0.0f);
+    if (mAssetInfo)
+        *mAssetInfo = AssetInfo();
+    mFadeCurveType = static_cast<FadeCurveType>(0);
+    mStartSampleOffset = 0;
+    mStreamRegionCallback = nullptr;
+    mStreamRegionUserData = nullptr;
+    mChannelPriority = 127;
 }
 
 // 0x7100ba1e88

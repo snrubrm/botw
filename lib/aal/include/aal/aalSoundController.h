@@ -31,6 +31,8 @@ public:
 /// A handle to a playing sound (the original header's SoundHandle). TODO: partial.
 class SoundHandle {
 public:
+    SoundHandle() : m_pSound(nullptr) {}
+
     /// 0x71033c3b0 (declared only)
     void DetachSound();
 
