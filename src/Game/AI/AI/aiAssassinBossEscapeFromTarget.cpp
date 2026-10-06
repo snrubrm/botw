@@ -1,5 +1,6 @@
 #include "Game/AI/AI/aiAssassinBossEscapeFromTarget.h"
 #include <math/seadMathCalcCommon.h>
+#include <random/seadGlobalRandom.h>
 #include "Game/AI/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
@@ -102,6 +103,44 @@ void AssassinBossEscapeFromTarget::m37() {
         getCurrentChild()->setDynamicParam(*mTargetPos_d, "TargetPos");
     else
         SimpleEscapeFromTarget::m37();
+}
+
+// NON_MATCHING: register naming of pos.x / pos.z and the add order of the length; the original keeps the `dist < 23`
+// angle in its own block (cosf is called with the negated angle there, sinf with the angle), ours merges it with the
+// `dist > 40` case
+void AssassinBossEscapeFromTarget::m36(sead::Vector3f* dir) {
+    const sead::Vector3f pos = mActor->getMtx().getTranslation();
+    sead::Vector3f to_target(mTargetPos_d->x - pos.x, 0.0f, mTargetPos_d->z - pos.z);
+    to_target.normalize();
+
+    const f32 dz = _80.z - pos.z;
+    const f32 dx = _80.x - pos.x;
+    sead::Vector3f side(-dz, 0.0f, dx);
+    const f32 distance = side.normalize();
+
+    s32 sign = 1;
+    if (to_target.dot(side) > 0.0f) {
+        side = -side;
+        sign = -1;
+    }
+
+    f32 degrees;
+    if (distance > 50.0f) {
+        degrees = f32(sign) * 20.0f;
+    } else if (distance > 40.0f) {
+        degrees = f32(sign) * 10.0f;
+    } else if (distance < 23.0f) {
+        degrees = f32(sign) * 10.0f;
+    } else {
+        const f32 threshold = sead::GlobalRandom::instance()->getF32Range(23.0f, 40.0f);
+        degrees = f32((threshold >= distance ? -1 : 1) * sign) * 5.0f;
+    }
+
+    const f32 angle = sead::Mathf::deg2rad(degrees);
+    sead::Matrix34f rot;
+    rot.makeR({0.0f, angle, 0.0f});
+    *dir = side;
+    dir->rotate(rot);
 }
 
 void AssassinBossEscapeFromTarget::m38(sead::Vector3f* dir, s32 idx) {

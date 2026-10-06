@@ -21,7 +21,6 @@ public:
 
     bool m34() override;
     void m35(bool finished) override;
-    // 0x7100315788 (not decompiled)
     void m36(sead::Vector3f* dir) override;
     void m37() override;
     void m38(sead::Vector3f* dir, s32 idx) override;
