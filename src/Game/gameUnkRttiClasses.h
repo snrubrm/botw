@@ -147,3 +147,153 @@ public:
     virtual void m4() {}
     virtual void m5() {}
 };
+
+// vtable 0x71023d0d70 (11 slots)
+class Unk_71023d0d70 {
+    SEAD_RTTI_BASE(Unk_71023d0d70)
+public:
+    virtual ~Unk_71023d0d70();
+    virtual void m4();
+    virtual void m5();
+    virtual void m6();
+    virtual void m7();
+    virtual void m8();
+    virtual void m9();
+    virtual void m10();
+};
+
+// vtable 0x71023d0d08 (11 slots)
+class Unk_71023d0d08 : public Unk_71023d0d70 {
+    SEAD_RTTI_OVERRIDE(Unk_71023d0d08, Unk_71023d0d70)
+public:
+    ~Unk_71023d0d08() override;
+};
+
+// vtable 0x71023d0e08 (11 slots)
+class Unk_71023d0e08 : public Unk_71023d0d70 {
+    SEAD_RTTI_OVERRIDE(Unk_71023d0e08, Unk_71023d0d70)
+public:
+    ~Unk_71023d0e08() override;
+    void m4() override;
+    void m6() override;
+    void m7() override;
+    void m8() override;
+    void m10() override;
+};
+
+// vtable 0x710244e820 (14 slots)
+class Unk_710244e820 {
+    SEAD_RTTI_BASE(Unk_710244e820)
+public:
+    virtual ~Unk_710244e820();
+    virtual bool m4() { return true; }
+    virtual void m5() {}
+    virtual void m6();
+    virtual void m7();
+    virtual bool m8() { return false; }
+    virtual bool m9() { return false; }
+    virtual void m10() {}
+    virtual void m11() {}
+    virtual void m12() {}
+    virtual void m13() {}
+};
+
+// vtable 0x7102457a80 (6 slots)
+class Unk_7102457a80 {
+    SEAD_RTTI_BASE(Unk_7102457a80)
+public:
+    virtual ~Unk_7102457a80();
+    virtual void m4();
+    virtual void m5() {}
+};
+
+// vtable 0x7102457ac0 (6 slots)
+class Unk_7102457ac0 : public Unk_7102457a80 {
+    SEAD_RTTI_OVERRIDE(Unk_7102457ac0, Unk_7102457a80)
+public:
+    ~Unk_7102457ac0() override;
+    void m4() override;
+    void m5() override;
+};
+
+// vtable 0x7102499a68 (6 slots)
+class Unk_7102499a68 {
+    SEAD_RTTI_BASE(Unk_7102499a68)
+public:
+    virtual ~Unk_7102499a68();
+    virtual void m4();
+    virtual void m5() {}
+};
+
+// vtable 0x7102499968 (6 slots)
+class Unk_7102499968 : public Unk_7102499a68 {
+    SEAD_RTTI_OVERRIDE(Unk_7102499968, Unk_7102499a68)
+public:
+    ~Unk_7102499968() override;
+    void m4() override;
+    void m5() override;
+};
+
+// vtable 0x71024999a8 (6 slots)
+class Unk_71024999a8 : public Unk_7102499a68 {
+    SEAD_RTTI_OVERRIDE(Unk_71024999a8, Unk_7102499a68)
+public:
+    ~Unk_71024999a8() override;
+    void m4() override;
+    void m5() override;
+};
+
+// vtable 0x71024999e8 (6 slots)
+class Unk_71024999e8 : public Unk_7102499a68 {
+    SEAD_RTTI_OVERRIDE(Unk_71024999e8, Unk_7102499a68)
+public:
+    ~Unk_71024999e8() override;
+    void m4() override;
+    void m5() override;
+};
+
+// vtable 0x710249a1a0 (6 slots)
+class Unk_710249a1a0 {
+    SEAD_RTTI_BASE(Unk_710249a1a0)
+public:
+    virtual ~Unk_710249a1a0();
+    virtual void m4();
+    virtual void m5() {}
+};
+
+// vtable 0x710249a0a0 (6 slots)
+class Unk_710249a0a0 : public Unk_710249a1a0 {
+    SEAD_RTTI_OVERRIDE(Unk_710249a0a0, Unk_710249a1a0)
+public:
+    ~Unk_710249a0a0() override;
+    void m4() override;
+    void m5() override;
+};
+
+// vtable 0x710249a0e0 (6 slots)
+class Unk_710249a0e0 : public Unk_710249a1a0 {
+    SEAD_RTTI_OVERRIDE(Unk_710249a0e0, Unk_710249a1a0)
+public:
+    ~Unk_710249a0e0() override;
+    void m4() override;
+    void m5() override;
+};
+
+// vtable 0x710249a120 (6 slots)
+class Unk_710249a120 : public Unk_710249a1a0 {
+    SEAD_RTTI_OVERRIDE(Unk_710249a120, Unk_710249a1a0)
+public:
+    ~Unk_710249a120() override;
+    void m4() override;
+    void m5() override;
+};
+
+// vtable 0x710251d230 (7 slots)
+class Unk_710251d230 {
+    SEAD_RTTI_BASE(Unk_710251d230)
+public:
+    virtual ~Unk_710251d230();
+    virtual void m4();
+    virtual void m5();
+    virtual void m6();
+};
