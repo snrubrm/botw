@@ -1,6 +1,12 @@
 #include "Game/AI/AI/aiDomesticNormal.h"
 
+#include <math/seadMathCalcCommon.h>
 #include <random/seadGlobalRandom.h>
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 
@@ -22,6 +28,45 @@ void DomesticNormal::sub_71003653B0() {
     target.z += sead::GlobalRandom::instance()->getF32Range(-5.0f, 5.0f);
     pack.addVec3(target, "TargetPos", -1);
     changeChild("帰還", &pack);
+}
+
+// Whether the player runs towards the animal fast enough to stagger it; `angle` receives the signed angle (degrees)
+// between the animal's heading and the direction to the player.
+bool DomesticNormal::sub_710036550C(f32* angle) {
+    const s32 count = sub_71007A425C(mActor);
+    for (s32 i = 0; i < count; ++i) {
+        auto* entry = sub_71007A40D0(mActor, i);
+        if (!entry || !ksys::act::isPlayerProfile(&entry->_50))
+            continue;
+        ksys::act::ActorConstDataAccess accessor;
+        if (!ksys::act::acquireActor(&entry->_50, &accessor))
+            continue;
+        const f32 vx = accessor.getVelocity().x - mActor->getVelocity().x;
+        const f32 vz = accessor.getVelocity().z - mActor->getVelocity().z;
+        const f32 dx = accessor.getActorMtx()(0, 3) - mActor->getMtx()(0, 3);
+        const f32 dz = accessor.getActorMtx()(2, 3) - mActor->getMtx()(2, 3);
+        const f32 dot = vx * dx + vz * dz;
+        const f32 length_squared = dx * dx + dz * dz;
+        if (1.0f / std::sqrt(length_squared) * dot < -*mStaggerVelocityThreshold_s) {
+            sead::Vector3f front;
+            if (auto* controller = mActor->getCharacterController()) {
+                front.x = controller->get64().x;
+                front.z = controller->get64().z;
+            } else {
+                mActor->getMtx().getBase(front, 2);
+                front.y = 0.0f;
+                front.normalize();
+            }
+            sead::Vector2f dir(dx, dz);
+            dir.normalize();
+            const f32 cos = front.x * dir.x + front.z * dir.y;
+            const f32 degrees = sead::Mathf::rad2deg(std::acos(sead::Mathf::clamp(cos, -1.0f, 1.0f)));
+            const f32 sign = front.x * dir.y - front.z * dir.x >= 0.0f ? 1.0f : -1.0f;
+            *angle = sign * degrees;
+            return true;
+        }
+    }
+    return false;
 }
 
 void DomesticNormal::enter_(ksys::act::ai::InlineParamPack* params) {
