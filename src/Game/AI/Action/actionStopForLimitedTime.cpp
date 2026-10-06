@@ -2,6 +2,9 @@
 #include "math/seadMathCalcCommon.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/StaticCompound/physStaticCompoundMgr.h"
+#include "KingSystem/Physics/System/physSystem.h"
+#include "KingSystem/System/VFR.h"
 
 namespace uking::action {
 
@@ -34,8 +37,32 @@ void StopForLimitedTime::loadParams_() {
     getDynamicParam(&mDynStopPos_d, "DynStopPos");
 }
 
+// NON_MATCHING: store order of the identity + translation matrix (the original writes the diagonal first and the
+// translation afterwards) and cbnz vs tbnz on the chase result.
 void StopForLimitedTime::calc_() {
-    ksys::act::ai::Action::calc_();
+    auto* actor = mActor;
+    if (ksys::VFR::chase(&_58, *mDynStopTime_d)) {
+        mFlags.set(Flag::Changeable);
+        if (*mIsSetEndByTime_s)
+            setFinished();
+    }
+    sead::Matrix34f rot_mtx;
+    if (*mKeepActRotation_s)
+        rot_mtx = actor->getMtx();
+    else
+        actor->getHomeMtx(&rot_mtx);
+    sead::Matrix34f mtx;
+    mtx.makeT(*mDynStopPos_d);
+    if (auto* body = actor->getMainBody()) {
+        if (auto* mgr = ksys::phys::System::instance()->getStaticCompoundMgr()) {
+            if (*mEnableStaticCompoundRotate_s)
+                mtx = mgr->getTransformedMatrix(actor->getFieldBodyGroup(), mtx);
+        }
+        sead::Vector3f translation;
+        mtx.getTranslation(translation);
+        rot_mtx.setTranslation(translation);
+        body->changePositionAndRotation(rot_mtx, sead::Mathf::epsilon());
+    }
 }
 
 bool StopForLimitedTime::reenter_(ksys::act::ai::ActionBase* other, bool x) {

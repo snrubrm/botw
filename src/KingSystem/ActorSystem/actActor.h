@@ -600,6 +600,8 @@ public:
     sead::Atomic<bool>& get68f() { return _68f; }
     bool get690() const { return _690; }
     float get6f0() const { return _6f0; }
+    // lane5 s2 (NPCKnockBackMove::calc_ scales the knock-back speed by it); name is a guess.
+    float get830() const { return _830; }
     // 0x71011ce204 (lane4 s29; name is a guess, twin of get6f0).
     void set6f0(float value);
     // 0x71011cddcc (lane4 s30; placeholder name): the skip timer is 0 and the actor has neither `_1a0` nor a
