@@ -6,6 +6,13 @@
 #include "KingSystem/ActorSystem/actTag.h"
 #include "KingSystem/GameData/gdtManager.h"
 
+// NON_MATCHING: only the offset of the array from the guard variable (+0x10 in the original: the array is 16-byte
+// aligned there, ours is 8-byte aligned so it follows the guard at +8)
+const sead::SafeString& sub_710071300C(s32 idx) {
+    static const sead::SafeString sNames[] = {"", "Crouch", "Sit", "SitOnObject"};
+    return sNames[idx];
+}
+
 void sub_71007130BC(ksys::act::Actor* actor, bool on) {
     if (!actor)
         return;

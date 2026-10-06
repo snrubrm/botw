@@ -24,7 +24,15 @@ public:
     /* 0x12c */ u8 _12c[0x160 - 0x12c];
     /* 0x160 */ sead::SafeString _160;  // DynAS name (NPCReturnAnchor: fine weather)
     /* 0x170 */ sead::SafeString _170;  // DynAS name (NPCReturnAnchor: rain / snow / thunderstorm)
-    /* 0x180 */ u8 _180[0x248 - 0x180];
+    /* 0x180 */ u8 _180[0x1a0 - 0x180];
+    /* 0x1a0 */ s32 _1a0;  // NPCTravelBase::sub_71004DF7EC / NPCMove: meeting state values (selected by the weather / flags)
+    /* 0x1a4 */ s32 _1a4;
+    /* 0x1a8 */ s32 _1a8;
+    /* 0x1ac */ u8 _1ac[0x1b0 - 0x1ac];
+    /* 0x1b0 */ s32 _1b0;  // NPCTravelBase::sub_71004DF978: the values passed to the DynAS name lookup
+    /* 0x1b4 */ s32 _1b4;
+    /* 0x1b8 */ s32 _1b8;
+    /* 0x1bc */ u8 _1bc[0x248 - 0x1bc];
     /* 0x248 */ sead::SafeString _248;  // NPCAnchorWait::enter_ compares the current animation name with it (fine weather)
     /* 0x258 */ sead::SafeString _258;  // same, for a rain anchor
     /* 0x268 */ u8 _268[0x2f8 - 0x268];

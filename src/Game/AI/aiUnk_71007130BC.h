@@ -1,12 +1,17 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <prim/seadSafeString.h>
 
 namespace ksys::act {
 class Actor;
 }
 
 // NPC AI helpers (TU 0x7100711000-0x7100714800, lane2 s21; placeholder names = addresses).
+
+// 0x710071300c: the NPC stance name for `idx` ("" / "Crouch" / "Sit" / "SitOnObject"; a function-local static array,
+// no bounds check).
+const sead::SafeString& sub_710071300C(s32 idx);
 
 // 0x71007130bc: null-safe: `on` -> Actor::x_6() else setEnabledTalkAndLockOn(actor, false).
 void sub_71007130BC(ksys::act::Actor* actor, bool on);
