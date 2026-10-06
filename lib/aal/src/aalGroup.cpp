@@ -1,5 +1,6 @@
 #include "aal/aalGroup.h"
 #include "aal/aalGroupLimiter.h"
+#include "aal/aalSoundSource.h"
 #include "aal/aalTimedFader.h"
 
 namespace aal {
@@ -178,6 +179,41 @@ void Group::calcDuckingVolume_() {
         }
         mDuckingVolume = mDuckingVolume < mDuckingVolumeFloor ? mDuckingVolumeFloor : mDuckingVolume;
     }
+}
+
+// 0x7100b826bc
+void SoundGroup::addToPlayingSoundSources(SoundSource* sound_source) {
+    mPlayingSoundSources.pushFront(sound_source);
+}
+
+// 0x7100b8286c
+void SoundGroup::calcSilence_() {
+    if (mSilenceFader) {
+        mSilenceFader->calc();
+        mAggregatedParam->setVolume(mAggregatedParam->getVolume() * mSilenceFader->getValue());
+    }
+}
+
+// 0x7100b828b4
+void SoundGroup::calcActiveSoundLimit() {
+    mLimiter->addToActiveSoundLimitList(&mPlayingSoundSources);
+    mLimiter->calcActiveSoundLimit();
+}
+
+// 0x7100b828e0
+void SoundGroup::calcNumSounds() {
+    for (SoundSource& sound_source : mPlayingSoundSources) {
+        if (sound_source.mSpatialSetting.isUnified()) {
+            ++_15c;
+        } else if (sound_source.isVirtualized()) {
+            ++_158;
+        } else {
+            ++mDuckingCount;
+            for (s32 i = 0; i < sound_source.mTrackNum; ++i)
+                _154 += sound_source.getChannelNum(i);
+        }
+    }
+    Group::calcNumSounds();
 }
 
 }  // namespace aal

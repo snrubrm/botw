@@ -1,6 +1,7 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <container/seadOffsetList.h>
 
 namespace sead {
 class Heap;
@@ -33,6 +34,8 @@ public:
     void updateUpperActiveSoundLimitList();
     void updateUpperRequestSoundLimitList();
     void updateUsingRequestIntervalLimiter();
+    /// 0x7100b80354 (declared only)
+    void addToActiveSoundLimitList(sead::OffsetList<SoundSource>* sources);
 
 private:
     u8 _0[8];

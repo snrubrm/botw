@@ -17,6 +17,7 @@ public:
     static void copy(SoundParam* dst, const SoundParam& src);
 
     void setVolume(f32 volume);
+    f32 getVolume() const { return mVolume; }
     void setPitch(f32 pitch);
     void setLfe(f32 lfe);
     void setLpf(f32 lpf);

@@ -8,6 +8,7 @@
 #include <prim/seadRuntimeTypeInfo.h>
 
 #include "aal/aalNamedObj.h"
+#include "aal/aalSoundParam.h"
 
 namespace sead {
 class Heap;
@@ -83,7 +84,10 @@ protected:
     sead::TTreeNode<Group*> mTreeNode;
     u8 _80[0x90 - 0x80];
     GroupDucker* mDucker;
-    u8 _98[0x130 - 0x98];
+    u8 _98[0x120 - 0x98];
+    /// The parameters of the group (the volume is the aggregation of the group's own volume, the ducking...).
+    SoundParam* mAggregatedParam;
+    void* _128;
     /// The ducking volume: the product / minimum (by mDuckingMode) of the ducking volumes of the ducker and the
     /// parent, clamped to at least mDuckingVolumeFloor.
     f32 mDuckingVolume;
@@ -115,6 +119,7 @@ public:
     s32 getStartWaitSoundNum() const override;
 
     void setReleaseTime(f32 release_time);
+    void addToPlayingSoundSources(SoundSource* sound_source);
     f32 getReleaseTime() const { return mReleaseTime; }
     /// 0x7100b826f8 (declared only): removes the sound source from the playing sounds of the group.
     void removeSound(SoundSource* sound_source);
@@ -126,6 +131,7 @@ protected:
     bool insertAfterChild_(Group* child, Group* after) override;
     void removeChild_(Group* child) override;
     void calcSilence_() override;
+    void calcNumSounds() override;
 
     f32 mReleaseTime;
     /// One bit per emit permission (all set by default).
