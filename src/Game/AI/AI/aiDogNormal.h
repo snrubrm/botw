@@ -30,6 +30,8 @@ public:
     // 0x7100364050 / 0x7100364170 / 0x7100364280 (placeholder names): becomes friendly (flag 4); the current child is
     // none of the lead / flee states; turns to `pos + dir * 20`.
     void changeToFriendly();
+    // 0x7100364610 (declaration only, 648 B; placeholder name).
+    void sub_7100364610();
     bool sub_7100364170();
     void changeToTurn(const sead::Vector3f* pos, const sead::Vector3f* dir);
 

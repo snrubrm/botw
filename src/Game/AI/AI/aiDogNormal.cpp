@@ -50,6 +50,48 @@ void DogNormal::leave_() {
     DomesticNormal::leave_();
 }
 
+// NON_MATCHING: same flow, but the flag updates (enum stack round trips, `friendly` kept in a register and the
+// set / reset arms) are laid out differently
+void DogNormal::sub_7100364460() {
+    const sead::Vector3f pos = mActor->getMtx().getTranslation();
+    const f32 dx = _440.x - pos.x;
+    const f32 dz = _440.z - pos.z;
+    if (dx * dx + dz * dz > *mFoodFriendDist_s * *mFoodFriendDist_s)
+        return;
+
+    if (_464.isOnBit(Flag(Flag::_1))) {
+        bool friendly = false;
+        if (auto* object = mActor->getMapObject()) {
+            if (auto* link_data = object->getLinkData()) {
+                if (link_data->mLinksOther.links.size() >= 1) {
+                    if (auto* other = link_data->mLinksOther.links(0).other_obj) {
+                        if (auto* second = other->getLinkData()) {
+                            if (second->mLinksOther.links.size() >= 1) {
+                                if (auto* target = second->mLinksOther.links(0).other_obj)
+                                    friendly = !target->isRevivalGameDataFlagOn();
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        if (friendly)
+            _464.setBit(Flag(Flag::_0));
+        else
+            _464.resetBit(Flag(Flag::_0));
+        if (_464.isOnBit(Flag(Flag::_0))) {
+            const s32 next = s32(_460) + 1;
+            const f32 count = next < 0 ? 0.0f : sead::Mathf::min(f32(next), f32(*mNumFriendlyFoodForLeadTreasure_s));
+            _460 = s32(count);
+            if (s32(_460) < *mNumFriendlyFoodForLeadTreasure_s)
+                changeToFriendly();
+            else
+                sub_7100364610();
+        }
+    }
+    _45c = sead::Mathf::clamp(*mFoodFriendRate_s + _45c, 0.0f, 100.0f);
+}
+
 void DogNormal::changeToFriendly() {
     sub_7100500B50(false, false, false);
     ksys::act::ai::InlineParamPack pack;
