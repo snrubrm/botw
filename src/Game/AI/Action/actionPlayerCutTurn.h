@@ -20,6 +20,9 @@ public:
 protected:
     void calc_() override;
 
+    // 0x71007e299c (placeholder name): emits the "Kaitengiri_%d" effect.
+    void sub_71007E299C();
+
     // static_param at offset 0x20
     const int* mMaxChargeLvNSword_s{};
     // static_param at offset 0x28

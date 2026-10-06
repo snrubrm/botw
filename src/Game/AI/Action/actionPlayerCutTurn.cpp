@@ -13,6 +13,17 @@ void PlayerCutTurn::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
 }
 
+void PlayerCutTurn::sub_71007E299C() {
+    if (static_cast<ksys::act::Player*>(mActor)->_d24 != 0)
+        return;
+    sead::FixedSafeString<64> name;
+    if (static_cast<ksys::act::Player*>(mActor)->_17f1)
+        name.format("Kaitengiri_%d_L", static_cast<ksys::act::Player*>(mActor)->_1f90 + 1);
+    else
+        name.format("Kaitengiri_%d", static_cast<ksys::act::Player*>(mActor)->_1f90 + 1);
+    xlinkSearchAndEmit(mActor, name.cstr(), 0, &_68);
+}
+
 void PlayerCutTurn::leave_() {
     static_cast<ksys::act::Player*>(mActor)->_14c0 = false;
     if (_68.sub_7101241AD8(0))
