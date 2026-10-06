@@ -1003,6 +1003,17 @@ bool Player::canUseUrbosaFury() {
 }
 
 // NON_MATCHING: the original loads _c48 as a word (`ldr w8` + tbnz) after `mov w0, wzr`; we narrow it to a byte load
+// NON_MATCHING: the original keeps the range test as a branch (`b.lt` to a `mov w0, wzr` block); ours selects with csel
+s32 Player::sub_7100892F1C() {
+    if (_d24 != 0)
+        return 0;
+    const s64 value = _1f98;
+    const s64 magnitude = value < 0 ? -value : value;
+    if (magnitude >= 0xf8000001LL)
+        return value < 0 ? 2 : 1;
+    return 0;
+}
+
 bool Player::canUseMiphaGrace() {
     bool result = false;
     if (!_c48.isOnBit(0)) {

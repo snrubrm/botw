@@ -429,6 +429,9 @@ public:
     void sub_710086D5B8();
     bool sub_7100892724();
     s32 sub_7100892824();
+    // 0x7100892f1c (lane4 s48; placeholder name): 0 while `_d24` is set or if |_1f98| < 0xf8000001, else 1 / 2 by the sign of
+    // `_1f98`.
+    s32 sub_7100892F1C();
     s32 sub_71008923B0(int a1);
     // 0x7100857014 (declared only): turns the player towards the angle index `*target` (speed -1: 0.5; the
     // two limits default to 0x20000000 / 0x200000 for -1); true when the turn is finished.
@@ -627,7 +630,9 @@ public:
     /* 0x1f88 */ s32 _1f88;
     /* 0x1f8c */ s32 _1f8c;
     /* 0x1f90 */ s32 _1f90;  // cut-turn count (PlayerCutTurn effect name "Kaitengiri_%d")
-    /* 0x1f94 */ u8 _1f94[0x1fbc - 0x1f94];
+    /* 0x1f94 */ u8 _1f94[4];
+    /* 0x1f98 */ s64 _1f98;  // read by sub_7100892F1C (|_1f98| range test)
+    /* 0x1fa0 */ u8 _1fa0[0x1fbc - 0x1fa0];
     /* 0x1fbc */ f32 _1fbc;
     /* 0x1fc0 */ u8 _1fc0[0x1ffc - 0x1fc0];
     /* 0x1ffc */ s32 _1ffc;
