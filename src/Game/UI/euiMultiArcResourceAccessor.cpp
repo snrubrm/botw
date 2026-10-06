@@ -7,6 +7,10 @@
 
 namespace eui {
 
+MultiArcResourceAccessor::MultiArcResourceAccessor(const ArcResourceMgr* arc_resource_mgr,
+                                                   const FontMgr* font_mgr)
+    : mArcResourceMgr(arc_resource_mgr), mFontMgr(font_mgr) {}
+
 bool MultiArcResourceAccessor::LoadTexture(nn::ui2d::ResourceTextureInfo* texture,
                                          nn::gfx::Device* device, const char* name) {
     for (auto& archive : mArchives) {
