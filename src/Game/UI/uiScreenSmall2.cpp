@@ -717,4 +717,36 @@ void ScreenPauseMenuMantan::m107(eui::AnimButton* button) {
     close(-1);
 }
 
+// 0x7100a25638
+void ScreenMessageGet::m99() {
+    if (sub_7100A9760C()) {
+        sub_7100A9732C();
+        return;
+    }
+    if (sub_7100A97198()) {
+        sub_7100A96EB8();
+        return;
+    }
+    if (sub_7100A97DDC(0)) {
+        sub_7100A97860(0);
+        return;
+    }
+    if (sub_7100A97DDC(1)) {
+        sub_7100A97860(1);
+        return;
+    }
+    if (sub_7100A97DDC(2)) {
+        sub_7100A97860(2);
+        return;
+    }
+    if (sub_7100A97DDC(3)) {
+        sub_7100A97860(3);
+        return;
+    }
+    if (_3640) {
+        _3640->sub_7100BDDE7C(false, 0, true);
+        _3650 = 1;
+    }
+}
+
 }  // namespace uking::ui

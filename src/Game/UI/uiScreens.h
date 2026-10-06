@@ -2338,7 +2338,13 @@ public:
     SEAD_RTTI_OVERRIDE(ScreenMessageGet, ScreenEx)
     eui::TagProcessor* doCreateTagProcessor_(sead::Heap* heap) override;
 
-    u8 _pad_3610[0x3658 - 0x3610];
+    void m99() override;
+
+    u8 _pad_3610[0x3640 - 0x3610];
+    /* 0x3640 */ eui::LayoutEx* _3640;
+    u8 _pad_3648[0x3650 - 0x3648];
+    /* 0x3650 */ u8 _3650;
+    u8 _pad_3651[0x3658 - 0x3651];
     /* 0x3658 */ eui::ControlBase* _3658;
     u8 _pad_3660[0x3670 - 0x3660];
     Unk_710247adc8 _3670[2];
@@ -2780,5 +2786,14 @@ f32 sub_7100949D18(s32 count);
 
 // 0x7100aa8784 (declared only)
 void sub_7100AA8784();
+
+// 0x7100a9760c / 0x7100a9732c / 0x7100a97198 / 0x7100a96eb8 / 0x7100a97ddc / 0x7100a97860 (declared only): the
+// message-get facade (reward text pages)
+bool sub_7100A9760C();
+void sub_7100A9732C();
+bool sub_7100A97198();
+void sub_7100A96EB8();
+bool sub_7100A97DDC(s32 index);
+void sub_7100A97860(s32 index);
 
 }  // namespace uking::ui
