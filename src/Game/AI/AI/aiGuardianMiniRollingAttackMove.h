@@ -34,6 +34,9 @@ public:
 
 class GuardianMiniRollingAttackMove : public EnemyRangeKeepMove {
     SEAD_RTTI_OVERRIDE(GuardianMiniRollingAttackMove, EnemyRangeKeepMove)
+    friend class Unk_71023f92d8;
+    friend class Unk_71023f9310;
+
 public:
     explicit GuardianMiniRollingAttackMove(const InitArg& arg);
     ~GuardianMiniRollingAttackMove() override;

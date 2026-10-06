@@ -1,5 +1,8 @@
 #include "Game/AI/AI/aiLumberjackTree.h"
+#include "Game/AI/aiUnk_710072BA90.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/Damage/dmgDamageManager.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "Game/AI/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
@@ -7,6 +10,22 @@
 #include "KingSystem/XLink/xlinkXLink.h"
 
 namespace uking::ai {
+
+void Unk_7102403fe8::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) {
+    if (*a5 == -1)
+        return;
+    auto* damage_mgr = sub_710072BA90(_28->getActor());
+    sead::Vector3f position = sead::Vector3f::zero;
+    s32 type = -1;
+    bool flag = false;
+    if (damage_mgr) {
+        damage_mgr->m40(&type);
+        damage_mgr->getPosition(&position);
+        flag = damage_mgr->checkDamageFlags(4);
+    }
+    if (!sub_71007A4064(type) || (flag | (u32(*a5 - 29) < 3)))
+        *a1 = 0;
+}
 
 LumberjackTree::LumberjackTree(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 

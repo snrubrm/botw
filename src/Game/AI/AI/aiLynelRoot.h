@@ -1,9 +1,17 @@
 #pragma once
 
 #include "Game/AI/AI/aiEnemyRoot.h"
+#include "Game/Damage/dmgDamageCallback.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
+
+// Placeholder name (vtable address 0x7102406048; inherits DamageCallback's RTTI; `call` 0x710049b218, D0 0x710049b3f4):
+// one of the damage callbacks embedded in LynelRoot (offset not recovered yet).
+class Unk_7102406048 : public dmg::DamageCallback {
+public:
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) override;
+};
 
 class LynelRoot : public EnemyRoot {
     SEAD_RTTI_OVERRIDE(LynelRoot, EnemyRoot)

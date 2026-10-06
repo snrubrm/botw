@@ -12,6 +12,28 @@
 
 namespace uking::ai {
 
+// NON_MATCHING: the original compares the animation name with "PreSpin" without the two assureTermination virtual calls
+// (inline loop over `mStringTop`)
+void Unk_71023f9310::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) {
+    if (*_28->mAttackType_s != 1)
+        return;
+    if (!_28->isCurrentChild("回転予兆") && !_28->isCurrentChild("バックステップ") &&
+        !_28->isCurrentChild("回転後退") && !_28->isCurrentChild("回転待機"))
+        return;
+    if (_28 && _28->isCurrentChild("回転予兆")) {
+        if (auto* actor = _28->getActor()) {
+            if (auto* as_list = actor->getASList()) {
+                if (as_list->x_1(0, 0) != "PreSpin")
+                    return;
+            }
+        }
+    }
+    if (*a5 == 22) {
+        *a5 = 2;
+        _28->_358 = true;
+    }
+}
+
 GuardianMiniRollingAttackMove::GuardianMiniRollingAttackMove(const InitArg& arg)
     : EnemyRangeKeepMove(arg), _2a8() {}
 

@@ -113,6 +113,9 @@ void sub_71007A4440(ksys::act::Actor* actor, ksys::act::AttackSensor2Listener* l
 void sub_71007A44E4(ksys::act::Actor* actor, bool on);
 void sub_71007A458C(ksys::act::Actor* actor, bool on);
 
+// 0x71007a4064 (placeholder name; lane1 s42): whether the damage type is 2 or 3 (LumberjackTree's damage callback).
+bool sub_71007A4064(s32 type);
+
 // --- Unk_7102459df8 (Actor::m126) ---
 // 0x71007a40d0 (CSV PlayerOrEnemy::x_24)
 ksys::act::Unk_7102459df8::Unk_710079d5a0::Unk1* sub_71007A40D0(ksys::act::Actor* actor, int idx);
