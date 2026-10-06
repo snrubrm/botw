@@ -5,8 +5,71 @@
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actImpulseBaseProcLink.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Resource/Actor/resResourceDamageParam.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "KingSystem/ActorSystem/actPlayerInfo.h"
 
 namespace uking::dmg {
+
+// NON_MATCHING (also sub_71006D9B30): the original keeps a flag for "no speed limit scaling" (`w19`) across the accessor
+// destructor and applies the default 1.0 afterwards; ours materialises 1.0f in a register up front.
+f32 DamageManagerUnk220::sub_71006D9A24(ksys::act::Actor* actor) const {
+    f32 value = actor->m38();
+    f32 ratio;
+    if (!_27a) {
+        ratio = f32(mHits.size()) / f32(mHits.capacity());
+    } else {
+        if (auto* info = ksys::act::PlayerInfo::instance()) {
+            ksys::act::acc::PlayerBase accessor;
+            ksys::act::acquireActor(&info->getPlayerLink(), &accessor);
+            if (value > 0.0f)
+                ratio = _27c.length() / (value * (accessor.getStopTimerBlowSpeedLimit() * 30.0f));
+            else
+                ratio = 1.0f;
+        } else {
+            ratio = 1.0f;
+        }
+        ratio = sead::Mathf::min(ratio, 1.0f);
+    }
+    return sead::Mathf::max(ratio, 0.01f);
+}
+
+f32 DamageManagerUnk220::sub_71006D9B30(const ksys::act::ActorConstDataAccess& accessor_) const {
+    f32 value = accessor_.sub_7100D14114();
+    f32 ratio;
+    if (!_27a) {
+        ratio = f32(mHits.size()) / f32(mHits.capacity());
+    } else {
+        if (auto* info = ksys::act::PlayerInfo::instance()) {
+            ksys::act::acc::PlayerBase accessor;
+            ksys::act::acquireActor(&info->getPlayerLink(), &accessor);
+            if (value > 0.0f)
+                ratio = _27c.length() / (value * (accessor.getStopTimerBlowSpeedLimit() * 30.0f));
+            else
+                ratio = 1.0f;
+        } else {
+            ratio = 1.0f;
+        }
+        ratio = sead::Mathf::min(ratio, 1.0f);
+    }
+    return sead::Mathf::max(ratio, 0.01f);
+}
+
+f32 DamageManager::m13() {
+    if (_220)
+        return _220->sub_71006D9A24(mActor);
+    return 0.0f;
+}
+
+bool DamageManager::m14(sead::Vector3f* out) {
+    if (_220 && _220->_27a) {
+        *out = _220->_27c;
+        return true;
+    }
+    return false;
+}
 
 void DamageManager::preDelete1() {
     if (mStruct20_a) {
@@ -54,6 +117,68 @@ ksys::act::ActorAtk::Unk_710079e64c::Unk1* DamageManager::getAttackInfo_() {
         return nullptr;
     }
     return ::sub_71007A255C(mActor, index);
+}
+
+// Inline-only in the original (name is a guess; its body is repeated for the character controller and the rigid body path
+// of sub_71006D27BC): the first non-negative impulse threshold, or -1.
+static inline f32 getImpulseThreshold(const ksys::res::DamageParam* param) {
+    f32 threshold = param->mImpulseThresholdLv0.ref();
+    if (!(threshold >= 0.0f)) {
+        threshold = param->mImpulseThresholdLv1.ref();
+        if (!(threshold >= 0.0f)) {
+            threshold = param->mImpulseThresholdLv2.ref();
+            if (!(threshold >= 0.0f)) {
+                threshold = param->mImpulseThresholdLv3.ref();
+                if (!(threshold >= 0.0f)) {
+                    threshold = param->mImpulseThresholdLv4.ref();
+                    if (!(threshold >= 0.0f))
+                        threshold = -1.0f;
+                }
+            }
+        }
+    }
+    return threshold;
+}
+
+void DamageManager::sub_71006D27BC() {
+    auto* param = getActorDamageParam();
+    if (!param || param->mIsCommonCalcImpuleDamage.ref())
+        return;
+
+    if (auto* controller = mActor->getCharacterController())
+        controller->sub_7100F62C14(getImpulseThreshold(param) * _80);
+    else if (auto* body = mActor->getMainBody())
+        body->setMaxImpulse(getImpulseThreshold(param) * _80);
+}
+
+void DamageManager::sub_71006D81D8(f32 value) {
+    auto* param = getActorDamageParam();
+    if (param && !param->mIsCommonCalcImpuleDamage.ref()) {
+        _80 = value;
+        sub_71006D27BC();
+    }
+}
+
+s32 DamageManager::sub_71006D8130() {
+    switch (getDamageType()) {
+    case 2:
+    case 10:
+        if (_6c < 0)
+            return -1;
+        if (auto* info = ::sub_71007A255C(mActor, _6c))
+            return info->_f8;
+        return -1;
+    case 6:
+        if (!_216.isOn(0x100))
+            return -1;
+        if (_6c < 0)
+            return -1;
+        if (auto* info = ::sub_71007A255C(mActor, _6c))
+            return info->_f8;
+        return -1;
+    default:
+        return -1;
+    }
 }
 
 s32 DamageManager::getNumCallbacks() {

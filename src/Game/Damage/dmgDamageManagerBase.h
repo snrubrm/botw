@@ -81,7 +81,8 @@ public:
     virtual void addDamageCallback(s32 eventId, DamageCallback* callback);
     virtual void removeDamageCallback(DamageCallback* callback);
     virtual f32 m13() { return 0.0f; }
-    virtual bool m14() { return false; }
+    // Slot 14: writes the stasis blow direction (DamageMgr::m14) to `out`.
+    virtual bool m14(sead::Vector3f* out) { return false; }
     virtual bool applyDamage(s32& life);
     virtual bool m16() { return false; }
     virtual void m17() {}

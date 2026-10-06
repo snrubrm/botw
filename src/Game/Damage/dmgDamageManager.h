@@ -7,6 +7,11 @@
 #include "Game/Damage/dmgDamageManagerBase.h"
 #include "KingSystem/ActorSystem/actActorAtk.h"
 
+namespace ksys::act {
+class Actor;
+class ActorConstDataAccess;
+}  // namespace ksys::act
+
 namespace ksys::phys {
 class RigidBody;
 }
@@ -30,9 +35,16 @@ KSYS_CHECK_SIZE_NX150(DamageManagerHit, 0x4c);
 // Placeholder (the object at DamageManager::_220): starts with the ring buffer of the recent damage records (0x4c bytes
 // each; the accessors below read the most recent one).
 struct DamageManagerUnk220 {
+    // 0x71006d9a24 / 0x71006d9b30 (lane4 s48; placeholder names): the fraction of the recorded hits (`size / capacity`),
+    // or with `_27a` the stasis blow speed over the player's speed limit (clamped to 0.01 .. 1.0 in that case) for the
+    // `getter()` value of the actor (Actor::m38 / ActorConstDataAccess::sub_7100D14114).
+    f32 sub_71006D9A24(ksys::act::Actor* actor) const;
+    f32 sub_71006D9B30(const ksys::act::ActorConstDataAccess& accessor) const;
+
     /* 0x000 */ sead::RingBuffer<DamageManagerHit> mHits;
     /* 0x018 */ u8 _18[0x27a - 0x18];
     /* 0x27a */ bool _27a;
+    /* 0x27c */ sead::Vector3f _27c;
 };
 
 class DamageManager : public DamageManagerBase {
@@ -46,6 +58,9 @@ public:
     s32 getNumCallbacks() override;
     bool checkDamageFlags(s32 bit) override;
     bool m42() override;
+    // Slot 13 (CSV DamageMgr::m13): the stasis blow ratio of `_220` (0 without it).
+    f32 m13() override;
+    bool m14(sead::Vector3f* out) override;
     bool isSlowTime() override;
     bool m40(s32* out) override;
     bool m41() override;
@@ -73,6 +88,15 @@ public:
     // _5c: 2 / 6 via sub_71007A255C, 4 via the actor's +0x708 object), or null.
     ksys::phys::RigidBody* sub_71006D69F8();
 
+    // 0x71006d27bc / 0x71006d81d8 (lane4 s48; placeholder names): sets the maximum impulse of the main body / character
+    // controller to `_80` times the first non-negative impulse threshold of the actor's damage param (-1 if none),
+    // unless the param has IsCommonCalcImpuleDamage; the second one first stores `value` in `_80`.
+    void sub_71006D27BC();
+    void sub_71006D81D8(f32 value);
+    // 0x71006d8130 (lane4 s48; placeholder name): `_f8` of the attack info index `_6c` for damage kinds 2 / 10 / 6 (6 needs
+    // bit 8 of `_216`), -1 otherwise.
+    s32 sub_71006D8130();
+
     // 0x71006d8de8 (lane3 s36; declared only): the damage factor (1.0; 2.0 if the attacker's weapon is a
     // Pikohan / one-hit obliterator). Placeholder name.
     f32 sub_71006D8DE8();
@@ -93,7 +117,9 @@ public:
     s32 _6c;  // read by PreyRoot's damage callback (lane2 s42)
     s32 _70;  // current shield guard power (PlayerOrEnemy::m160)
     s32 _74;  // Horse::loadReduceAncientEnemyDamageInfo
-    u8 _78[0x88 - 0x78];
+    u8 _78[0x80 - 0x78];
+    f32 _80;  // multiplier of the impulse threshold (sub_71006D27BC)
+    u8 _84[0x88 - 0x84];
     s32 _88;  // attack info index of damage kind 6 (DamageManager::getAttackInfo_)
     s32 _8c;  // WeakPointRoot::m35
     u8 _90[0xcc - 0x90];
