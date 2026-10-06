@@ -1,6 +1,7 @@
 #include <limits>
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/AI/aiUnk_71007377D4.h"
+#include "Game/Damage/dmgDamageManager.h"
 #include "Game/gameUnk_71024739d0.h"
 #include "Game/Actor/actDragon.h"
 #include "Game/Actor/actEnemy.h"
@@ -568,6 +569,15 @@ void sub_71007390F8(ksys::act::AttackSensor* sensor) {
 void sub_7100739168(ksys::act::AttackSensor2* sensor) {
     if (sensor)
         sensor->_1c = 4;
+}
+
+const ksys::act::ActorAtk::Unk_710079e64c::Unk1* sub_7100739578(ksys::act::Actor* actor) {
+    auto* manager = sead::DynamicCast<uking::dmg::DamageManager>(actor->getDamageMgr());
+    if (manager && manager->_6c >= 0)
+        return sub_71007A255C(actor, manager->_6c);
+    if (!sub_71007A2604(actor))
+        return nullptr;
+    return sub_71007A255C(actor, 0);
 }
 
 void sub_7100739108(ksys::act::AttackSensor* sensor) {

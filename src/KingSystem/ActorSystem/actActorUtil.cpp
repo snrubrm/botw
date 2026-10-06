@@ -1133,6 +1133,24 @@ void sub_7100EEACE8(phys::RayCast* cast) {
     cast->enableLayer(phys::ContactLayer::EntityTree);
 }
 
+// 0x7100eeaf30 (lane1 s43): the layers of sub_7100EEAF80 without the player.
+void sub_7100EEAF30(phys::RayCast* cast) {
+    cast->enableLayer(phys::ContactLayer::EntityObject);
+    cast->enableLayer(phys::ContactLayer::EntityGround);
+    cast->enableLayer(phys::ContactLayer::EntityGroundObject);
+    cast->enableLayer(phys::ContactLayer::EntityNPC);
+    cast->enableLayer(phys::ContactLayer::EntityRagdoll);
+}
+
+void sub_7100EEAF80(phys::RayCast* cast) {
+    cast->enableLayer(phys::ContactLayer::EntityObject);
+    cast->enableLayer(phys::ContactLayer::EntityGround);
+    cast->enableLayer(phys::ContactLayer::EntityGroundObject);
+    cast->enableLayer(phys::ContactLayer::EntityNPC);
+    cast->enableLayer(phys::ContactLayer::EntityRagdoll);
+    cast->enableLayer(phys::ContactLayer::EntityPlayer);
+}
+
 void sub_7100EEAF28(phys::RayCast* cast) {
     cast->enableLayer(phys::ContactLayer::EntityWater);
 }

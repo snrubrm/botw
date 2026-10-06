@@ -4,6 +4,7 @@
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
+#include "Game/Damage/dmgDamageManager.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectEnemyShown.h"
 
 // Accessor-based wrappers in the TU 0x71006de3d8-0x71006df0f8 (lane4 s44; placeholder names, the CSV has none): they cast
@@ -78,4 +79,13 @@ bool sub_71006DF068(const ksys::act::ActorConstDataAccess& accessor) {
 bool sub_71006DF0F8(const ksys::act::ActorConstDataAccess& accessor) {
     auto* actor = getDynamicActor(accessor);
     return actor ? (actor->_a68 >> 3 & 1) : false;
+}
+
+bool sub_71006D28AC(ksys::act::Actor* actor) {
+    if (actor->getAtk())
+        return true;
+    auto* param = actor->getParam();
+    if (!param->getRes().mDamageParam)
+        return false;
+    return !param->isDummyParam(ksys::res::ActorLink::User::DamageParam);
 }

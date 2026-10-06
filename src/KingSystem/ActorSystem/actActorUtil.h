@@ -318,6 +318,8 @@ void sub_7100EEAECC(phys::RayCast* cast);
 // 0, 8, 2, 4, 5 and 3 on `cast`; sub_7100EEAFDC sets the cast up as a downward line from `pos` (through the global
 // gravity direction; no-op without the global object), `steps` * a constant plus 0.1 long.
 void sub_7100EEAF80(phys::RayCast* cast);
+// 0x7100eeaf30 (lane1 s43): the same without the player layer.
+void sub_7100EEAF30(phys::RayCast* cast);
 void sub_7100EEAFDC(phys::RayCast* cast, const sead::Vector3f& pos, s32 steps);
 // 0x7100ee686c (CSV name): bool map unit parameter `name`, or `default_value` if it has none.
 bool actorAIGetBool(Actor* actor, const sead::SafeString& name, bool default_value);

@@ -341,6 +341,13 @@ ksys::act::AttackSensor* getActorAttackSensor(Actor* actor) {
     return atk->_40;
 }
 
+ksys::act::AttackSensor2* sub_71007A2844(Actor* actor) {
+    auto* atk = sead::DynamicCast<ActorAtk>(actor->getAtk());
+    if (!atk)
+        return nullptr;
+    return atk->_70;
+}
+
 void sub_71007A44E4(Actor* actor, bool on) {
     auto* atk = sead::DynamicCast<ActorAtk>(actor->getAtk());
     if (!atk)

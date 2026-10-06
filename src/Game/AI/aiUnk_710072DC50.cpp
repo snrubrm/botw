@@ -1,4 +1,5 @@
 #include "Game/AI/aiUnk_71007377D4.h"
+#include <math/seadMathCalcCommon.h>
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
@@ -27,4 +28,8 @@ ksys::act::Actor* sub_710072BB4C() {
     if (auto* info = ksys::act::PlayerInfo::instance())
         return info->getPlayer_();
     return nullptr;
+}
+
+f32 sub_710072D068(const sead::Vector3f* gravity, f32 height) {
+    return sead::Mathf::sqrt(2.0f * gravity->length() * height);
 }
