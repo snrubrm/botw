@@ -18,7 +18,7 @@ public:
 
 protected:
     void calc_() override;
-    s32 _1c = 0;
+    f32 _1c = 0;  // frame counter (float in the original)
     sead::FixedSafeString<32> _20;
 };
 KSYS_CHECK_SIZE_NX150(NPCEventWait, 0x58);
