@@ -624,6 +624,16 @@ void ScreenMainShortCut::m166() {
     m80(false);
 }
 
+// 0x7100a43294
+void ScreenSaveTransferWindow::m106(eui::AnimButton* button) {
+    const s32 tag = button->mTag;
+    if (u32(tag - 0x8b) <= 2)
+        _366c = tag;
+    _3630->setFlag10(false);
+    _3638->setFlag10(false);
+    _3640->setFlag10(false);
+}
+
 // 0x7100a4357c
 void ScreenSaveTransferWindow::m154() {
     _3670 = mStateMachine.getState();

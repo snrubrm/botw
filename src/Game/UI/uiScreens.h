@@ -2514,6 +2514,7 @@ extern const ksys::StateBase sUnk_71025f2d80;
 class ScreenSaveTransferWindow : public ScreenEx {
 public:
     void m98() override;
+    void m106(eui::AnimButton* button) override;
     bool isEnableControl() const override;
     const char* getLayoutName_() const override;
     ~ScreenSaveTransferWindow() override;
