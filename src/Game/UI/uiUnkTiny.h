@@ -462,6 +462,10 @@ public:
     bool sub_7100933E50() const;
     void sub_7100933FB8(u32 index, UiSlotTarget* target);
 
+    // 0x7100933fe0 (declared only; 35 callers) / 0x7100934308 (32 callers): adds a string record (id, text, value)
+    void sub_7100933FE0(const UiStringEntry& entry);
+    void sub_7100934308(s32 id, const sead::SafeString& text, s32 value);
+
     /* 0x8 */ s32 _8 = 0;
     /* 0x10 */ sead::FixedSafeString<256> _10;
     /* 0x128 */ u8 _128 = 0;

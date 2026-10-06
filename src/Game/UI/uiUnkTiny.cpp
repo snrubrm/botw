@@ -214,6 +214,15 @@ void Unk_7102474bc8::sub_7100933FB8(u32 index, UiSlotTarget* target) {
 }
 
 // 0x7100933938
+// 0x7100934308
+void Unk_7102474bc8::sub_7100934308(s32 id, const sead::SafeString& text, s32 value) {
+    UiStringEntry entry;
+    entry._0 = id;
+    entry._8.copy(text);
+    entry._120 = value;
+    sub_7100933FE0(entry);
+}
+
 Unk_7102474bc8::~Unk_7102474bc8() {
     _130.freeBuffer();
     _140.freeBuffer();
