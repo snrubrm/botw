@@ -138,10 +138,14 @@ bool SoundGroup::isGroupFolder() const {
 // 0x7100b7fbc4
 void Group::calcNumSounds() {
     if (Group* parent = getParent()) {
-        parent->mDuckingCount += mDuckingCount;
-        parent->_154 += _154;
-        parent->_158 += _158;
-        parent->_15c += _15c;
+        const s32 n0 = mDuckingCount;
+        const s32 n1 = _154;
+        const s32 n2 = _158;
+        const s32 n3 = _15c;
+        parent->mDuckingCount += n0;
+        parent->_154 += n1;
+        parent->_158 += n2;
+        parent->_15c += n3;
     }
 }
 
@@ -164,13 +168,13 @@ void Group::pushDescendantGroupArrayChild_(sead::PtrArray<Group>* groups) {
 void Group::calcDuckingVolume_() {
     if (mNumSounds != 0) {
         if (Group* parent = getParent()) {
+            const f32 parent_volume = parent->mDuckingVolume;
             if (mDuckingMode == 1)
-                mDuckingVolume = mDuckingVolume < parent->mDuckingVolume ? mDuckingVolume : parent->mDuckingVolume;
+                mDuckingVolume = mDuckingVolume < parent_volume ? mDuckingVolume : parent_volume;
             else if (mDuckingMode == 0)
-                mDuckingVolume = parent->mDuckingVolume * mDuckingVolume;
+                mDuckingVolume = parent_volume * mDuckingVolume;
         }
-        if (mDuckingVolume < mDuckingVolumeFloor)
-            mDuckingVolume = mDuckingVolumeFloor;
+        mDuckingVolume = mDuckingVolume < mDuckingVolumeFloor ? mDuckingVolumeFloor : mDuckingVolume;
     }
 }
 
