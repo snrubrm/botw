@@ -1,6 +1,9 @@
 #include "Game/AI/Action/actionTakeHitImpactForce.h"
 #include "Game/Damage/dmgDamageManager.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/AI/aiUnk_71007368A4.h"
+#include "Game/AI/aiUnk_710072BA90.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "Game/AI/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
@@ -10,8 +13,36 @@ namespace uking::action {
 // NON_MATCHING: regalloc (keeps &_68 in x20 across the memset)
 TakeHitImpactForce::TakeHitImpactForce(const InitArg& arg) : ActionEx(arg) {}
 
+// NON_MATCHING: stack layout matches (velocity, dir, out declared in this order); the original materialises the
+// `Vector3f::zero` / `ez` copies per path (after the manager test, not hoisted to the top) and loads the velocity
+// components in a different order.
 void TakeHitImpactForce::enter_(ksys::act::ai::InlineParamPack* params) {
-    ActionEx::enter_(params);
+    sead::Vector3f velocity;
+    sead::Vector3f dir = sead::Vector3f::ez;
+    sead::Vector3f out = sead::Vector3f::zero;
+    auto* manager = sub_710072BA90(mActor);
+    ksys::act::Actor* actor;
+    if (manager) {
+        if (m36() && manager->isSlowTime())
+            return;
+        m32(&dir, mActor, manager);
+        actor = mActor;
+    } else {
+        actor = mActor;
+        dir = -actor->getMtx().getBase(2);
+    }
+    sub_71005E22D4(&out, actor, dir, sub_71001C9444());
+    _68.value = out;
+    _68.prev_value = out;
+    if (!mActor->getCharacterController()) {
+        const f32 force = sub_71001C9444();
+        if (auto* body = mActor->getMainBody()) {
+            const f32 y = force * dir.y;
+            velocity.set(force * dir.x, y < 0.0f ? -y : y, force * dir.z);
+            velocity *= 30.0f;
+            body->setLinearVelocity(velocity);
+        }
+    }
 }
 
 void TakeHitImpactForce::loadParams_() {
@@ -63,6 +94,35 @@ void TakeHitImpactForce::m35() {
         const f32 len = dir.normalize();
         sub_710073770C(controller, len, dir);
     }
+}
+
+f32 TakeHitImpactForce::sub_71001C9444() {
+    auto* manager = sub_710072BA90(mActor);
+    if (!manager)
+        return *mParams.mHitImpactForceSmallSwordS_s;
+
+    const float* const* force;
+    switch (manager->getField50()) {
+    case 2:
+        if (sub_7100736B68(manager->getField54()))
+            force = &mParams.mHitImpactForceSpearL_s;
+        else
+            force = &mParams.mHitImpactForceSpearS_s;
+        break;
+    case 1:
+        if (sub_7100736B68(manager->getField54()))
+            force = &mParams.mHitImpactForceLargeSwordL_s;
+        else
+            force = &mParams.mHitImpactForceLargeSwordS_s;
+        break;
+    default:
+        if (sub_7100736B68(manager->getField54()))
+            force = &mParams.mHitImpactForceSmallSwordL_s;
+        else
+            force = &mParams.mHitImpactForceSmallSwordS_s;
+        break;
+    }
+    return **force * manager->sub_71006D8DE8();
 }
 
 }  // namespace uking::action
