@@ -1,5 +1,7 @@
 #pragma once
 
+#include <container/seadSafeArray.h>
+#include <math/seadVector.h>
 #include <prim/seadSafeString.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
@@ -18,8 +20,12 @@ public:
     void loadParams_() override;
 
 protected:
+    // 0x710025f148 (declared only): resets entry `idx`, copies the bind node name and sends 0x58 to `link`.
+    void sub_710025F148(ksys::act::BaseProcLink* link, s32 idx);
     // 0x710025f368 (declared only): out of line in the original.
     void sub_710025F368();
+    // 0x710025f958 (declared only): sets up entry `idx` and sends 0x3a to `link`.
+    void sub_710025F958(ksys::act::BaseProcLink* link, const sead::Vector3f& pos, s32 idx, f32 scale);
     void calc_() override;
 
     // static_param at offset 0x20
@@ -43,19 +49,15 @@ protected:
     bool _80 = false;
     u8 _81[0x7];
     struct Entry {
-        ksys::act::BaseProcLink _0;
-        s32 _10 = 0;
-        sead::FixedSafeString<32> _18;
-        u8 _50[0x18];
+        sead::Vector3f _0;
+        sead::Vector3f _c;
+        ksys::act::BaseProcLink _18;
+        f32 _28 = 0;
+        sead::FixedSafeString<32> _30;
     };
-    // Placeholder name (0x25ee64 is its out-of-line destructor, called by D1 / D0): a 0x18-byte header and the 21
-    // entries.
-    struct Entries {
-        ~Entries();
-        u8 _0[0x18];
-        Entry _18[21];
-    };
-    Entries _88;
+    // 0x25ee64 is the out-of-line destructor of this array type (called by D1 / D0).
+    sead::SafeArray<Entry, 21> _88;
+    u8 _910[0x18];
 };
 KSYS_CHECK_SIZE_NX150(SiteBossLswordThrowFireBall, 0x928);
 
