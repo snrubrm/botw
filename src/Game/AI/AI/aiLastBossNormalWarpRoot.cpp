@@ -1,6 +1,15 @@
 #include "Game/AI/AI/aiLastBossNormalWarpRoot.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/Actor/actEnemy.h"
 #include "Game/Actor/actSiteBoss.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
+
+// 0x71002c67e8 / 0x71002c65c8 (declaration only; the first argument of the former is 0 here).
+void sub_71002C67E8(f32 a1, ksys::act::Actor* actor, bool a3);
+void sub_71002C65C8(ksys::act::Actor* actor, bool a1, bool a2);
 
 namespace uking::ai {
 
@@ -27,7 +36,24 @@ bool LastBossNormalWarpRoot::isChangeable() const {
 }
 
 void LastBossNormalWarpRoot::leave_() {
-    ksys::act::ai::Ai::leave_();
+    if (*mIsReturnHome_d && !*mIsKeepDisableDraw_s) {
+        sub_71002C67E8(0.0f, mActor, *mIsPartsWarpEffectSync_d);
+        sub_71002C65C8(mActor, false, *mIsPartsWarpEffectSync_d);
+        m38();
+        return;
+    }
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
+        for (auto* part : enemy->_1128.mList) {
+            if (!part->mLink.hasProc())
+                continue;
+            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::acquireActor(&part->mLink, &accessor);
+        }
+    }
+    if (auto* boss = sead::DynamicCast<act::SiteBoss>(mActor)) {
+        boss->_1518 = 0;
+        boss->sub_71002D39D8();
+    }
 }
 
 void LastBossNormalWarpRoot::loadParams_() {
@@ -84,6 +110,28 @@ void LastBossNormalWarpRoot::m37() {
     pack.addBool(*mIsPartsActorTgOn_d, "IsPartsActorTgOn", -1);
     pack.addBool(*mIsPartsWarpEffectSync_d, "IsPartsWarpEffectSync", -1);
     changeChild("ワープ後行動", &pack);
+}
+
+void LastBossNormalWarpRoot::m38() {
+    sub_71007A3540(mActor);
+    if (*mIsPartsActorTgOn_d) {
+        if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
+            for (auto* part : enemy->_1128.mList) {
+                if (!part->mLink.hasProc())
+                    continue;
+                ksys::act::ActorConstDataAccess accessor;
+                ksys::act::acquireActor(&part->mLink, &accessor);
+                if (accessor.isStateCalc()) {
+                    mActor->sendMessage(*accessor.getMessageTransceiverId(),
+                                        ksys::MessageType(0x8000030), nullptr, true);
+                    if (auto* boss = sead::DynamicCast<act::SiteBoss>(mActor))
+                        boss->_1518 = 0;
+                }
+            }
+        }
+    }
+    if (auto* boss = sead::DynamicCast<act::SiteBoss>(mActor))
+        boss->sub_71002D39D8();
 }
 
 }  // namespace uking::ai

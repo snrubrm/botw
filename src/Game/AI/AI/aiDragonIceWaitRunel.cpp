@@ -11,10 +11,13 @@ bool DragonIceWaitRunel::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
 }
 
-// NON_MATCHING: the compiler selects the child name directly instead of branching.
 void DragonIceWaitRunel::enter_(ksys::act::ai::InlineParamPack* params) {
-    if (auto* dragon = sead::DynamicCast<act::Dragon>(mActor))
-        changeChild(dragon->sub_710000FE10() ? "怨念待機" : "正常待機", nullptr);
+    if (auto* dragon = sead::DynamicCast<act::Dragon>(mActor)) {
+        if (dragon->sub_710000FE10())
+            changeChild("怨念待機", nullptr);
+        else
+            changeChild("正常待機", nullptr);
+    }
     mFlags.set(Flag::Changeable);
 }
 

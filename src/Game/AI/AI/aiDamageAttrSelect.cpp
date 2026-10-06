@@ -20,7 +20,6 @@ bool DamageAttrSelect::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
 }
 
-// NON_MATCHING: branch layout of the "case 0" comparison
 void DamageAttrSelect::enter_(ksys::act::ai::InlineParamPack* params) {
     bool match = false;
     if (auto* damage_mgr = mActor->getDamageMgr()) {
@@ -37,7 +36,10 @@ void DamageAttrSelect::enter_(ksys::act::ai::InlineParamPack* params) {
             break;
         }
     }
-    changeChild(match ? "該当" : "非該当", params);
+    if (match)
+        changeChild("該当", params);
+    else
+        changeChild("非該当", params);
 }
 
 void DamageAttrSelect::calc_() {}

@@ -75,6 +75,8 @@ public:
     void sub_71002D1B18(bool on);
     void sub_71002D38EC(const sead::SafeString& name);
     void sub_71002D3944();
+    // 0x71002d39d8 (declaration only; LastBossNormalWarpRoot::m38).
+    void sub_71002D39D8();
     // Declaration only.
     void sub_71002D28BC();
     // Declaration only: SiteBossBowBlowOff::leave_ passes false.

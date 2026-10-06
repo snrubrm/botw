@@ -1,6 +1,14 @@
 #include "Game/AI/AI/aiGanonBattleOnFloorRoot.h"
 #include "Game/Actor/actLastBoss.h"
+#include <math/seadMathCalcCommon.h>
+#include <random/seadGlobalRandom.h>
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
+
+// 0x71002d2a80 (declaration only; the source namespace is unknown): the player is neither dead nor in the state
+// checked by 0x6debec(.., 8).
+bool sub_71002D2A80();
 
 namespace uking::ai {
 
@@ -14,7 +22,39 @@ bool GanonBattleOnFloorRoot::init_(sead::Heap* heap) {
     return true;
 }
 
-// NON_MATCHING: boolean argument branch scheduling differs.
+void GanonBattleOnFloorRoot::sub_71003E1EE0(bool no_wait) {
+    if (!sub_71002D2A80()) {
+        ksys::act::ai::InlineParamPack pack;
+        pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+        changeChild("待機", &pack);
+        return;
+    }
+    if (!_5c) {
+        const f32 dx = mActor->getMtx().getTranslation().x - mTargetPos_d->x;
+        const f32 dz = mActor->getMtx().getTranslation().z - mTargetPos_d->z;
+        const f32 dist2 = dx * dx + dz * dz;
+        const f32 range2 = *mFarAttackDist_s * *mFarAttackDist_s;
+        bool far_attack;
+        if (!(dist2 >= range2) && dist2 >= range2 * 0.5f)
+            far_attack = sead::GlobalRandom::instance()->getU32(100) < 50;
+        else
+            far_attack = dist2 >= range2;
+        if (far_attack) {
+            _5c = true;
+            ksys::act::ai::InlineParamPack pack;
+            pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+            changeChild("遠距離攻撃", &pack);
+            return;
+        }
+    }
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+    pack.addBool(no_wait, "IsCounter", -1);
+    pack.addBool(_5c, "IsPrevBeam", -1);
+    changeChild("近接攻撃", &pack);
+    _5c = false;
+}
+
 void GanonBattleOnFloorRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     _50.previous_value = _50.value;
     _50.rate = -1.0f;
@@ -24,7 +64,10 @@ void GanonBattleOnFloorRoot::enter_(ksys::act::ai::InlineParamPack* params) {
         boss->_14e8.resetBit(13);
         return;
     }
-    sub_71003E1EE0(testRootAiFlag2(ksys::act::ai::RootAiFlag2::_0) || *mIsNoWait_d);
+    if (testRootAiFlag2(ksys::act::ai::RootAiFlag2::_0) || *mIsNoWait_d)
+        sub_71003E1EE0(true);
+    else
+        sub_71003E1EE0(false);
 }
 
 void GanonBattleOnFloorRoot::calc_() {
