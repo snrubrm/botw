@@ -4,6 +4,8 @@
 #include <gsys/gsysModelAccessKey.h>
 #include <math/seadVector.h>
 #include <prim/seadSafeString.h>
+#include <xlink2/xlink2HandleELink.h>
+#include <xlink2/xlink2HandleSLink.h>
 #include "KingSystem/Utils/Types.h"
 
 namespace ksys::act {
@@ -39,13 +41,12 @@ public:
     void* _0 = nullptr;
     sead::SafeString _8;
     sead::SafeString _18;
-    void* _28 = nullptr;
-    sead::Buffer<void*> _30;
-    sead::Buffer<void*> _40;
-    sead::Buffer<void*> _50;
-    sead::Buffer<void*> _60;
-    u32 _70 = 0;
-    u32 _74;
+    // Five emitted links (event pointer + create id each): three ELinks and two SLinks.
+    xlink2::HandleELink _28;
+    xlink2::HandleELink _38;
+    xlink2::HandleELink _48;
+    xlink2::HandleSLink _58;
+    xlink2::HandleSLink _68;
     sead::Vector3f _78 = sead::Vector3f::zero;
     u32 _84 = 0;
     sead::Vector3f _88 = sead::Vector3f::zero;

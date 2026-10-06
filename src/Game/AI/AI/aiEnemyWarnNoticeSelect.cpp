@@ -6,6 +6,8 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
@@ -15,6 +17,99 @@ EnemyWarnNoticeSelect::~EnemyWarnNoticeSelect() = default;
 
 bool EnemyWarnNoticeSelect::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
+}
+
+void EnemyWarnNoticeSelect::sub_71003C4CB4(bool a1) {
+    _134 = 0;
+    if (ksys::act::isPlayerProfile(mTargetActor_d)) {
+        if ((mActor->m94() | 1) == 3 || a1 || _138) {
+            mActor->m93(4, 0.0f);
+            f32 duration = 20.0f;
+            if (auto* manager = aoc::HardModeManager::instance()) {
+                if (manager->checkFlag(aoc::HardModeManager::Flag::EnableHardMode) &&
+                    manager->isHardModeChangeOn(
+                        aoc::HardModeManager::HardModeChange::EnableShorterEnemyNotice)) {
+                    manager->modifyEnemyNoticeDuration(&duration);
+                }
+            }
+            _130 = duration;
+        }
+    }
+    mActor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_1000000);
+    ksys::act::ai::InlineParamPack pack;
+    pack.addActor(*mTargetActor_d, "TargetActor", -1);
+    sead::Vector3f pos;
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(mTargetActor_d, &accessor);
+    accessor.getActorMtx().getTranslation(pos);
+    pack.addVec3(pos, "TargetPos", -1);
+    changeChild("発見", &pack);
+}
+
+void EnemyWarnNoticeSelect::sub_71003C56A8() {
+    const bool is_player = ksys::act::isPlayerProfile(mTargetActor_d);
+    const int level = sub_71003C4EA4();
+    const bool noticed = level != 0;
+    f32 duration;
+    if (isCurrentChild("発見")) {
+        if (!(_130 <= 0.0f)) {
+            ksys::Timer::update(&_130, -1.0f);
+            if (_130 <= 0.0f) {
+                mActor->m94();
+                mActor->m93(0, 0.0f);
+            }
+        }
+    } else {
+        if (!_139 && noticed) {
+            ++_134;
+            duration = sead::Mathf::min(f32(*mWarnBlinkTime_s), _130);
+            if (auto* manager = aoc::HardModeManager::instance()) {
+                if (manager->checkFlag(aoc::HardModeManager::Flag::EnableHardMode) &&
+                    manager->isHardModeChangeOn(
+                        aoc::HardModeManager::HardModeChange::EnableShorterEnemyNotice)) {
+                    manager->modifyEnemyNoticeDuration(&duration);
+                }
+            }
+            _130 = duration;
+            _139 = noticed;
+        }
+        if (is_player) {
+            if (_130 < f32(*mWarnBlinkTime_s))
+                mActor->m93(3, sead::Mathf::clamp((f32(*mWarnBlinkTime_s) - _130) /
+                                                      f32(*mWarnBlinkTime_s),
+                                                  0.0f, 1.0f));
+        }
+    }
+    if (!is_player) {
+        mActor->m94();
+        mActor->m93(0, 0.0f);
+    }
+}
+
+void EnemyWarnNoticeSelect::sub_71003C5028() {
+    _a0.reset();
+    ksys::act::ai::InlineParamPack pack;
+    pack.addActor(*mTargetActor_d, "TargetActor", -1);
+    sead::Vector3f pos;
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(mTargetActor_d, &accessor);
+    accessor.getActorMtx().getTranslation(pos);
+    pack.addVec3(pos, "TargetPos", -1);
+    changeChild("警戒", &pack);
+}
+
+void EnemyWarnNoticeSelect::sub_71003C5B04(sead::Vector3f* position) {
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(mTargetActor_d, &accessor);
+    accessor.getActorMtx().getTranslation(*position);
+}
+
+bool EnemyWarnNoticeSelect::sub_71003C5418(s32 condition) {
+    if (condition == 2)
+        return true;
+    if (_138)
+        return true;
+    return *mForceNotice_d;
 }
 
 // NON_MATCHING: Initial flag stores and enum temporaries differ; the compiler removes the range minimum.

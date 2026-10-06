@@ -45,7 +45,7 @@ class AttClient;
 // known.
 struct AttCheck_Unk1 {
     /* 0x00 */ sead::Matrix34f _0;
-    /* 0x30 */ u32 _30;
+    /* 0x30 */ f32 _30;  // (a radius for Ride checks, EnemySearchHorse)
     /* 0x34 */ bool _34;
     /* 0x35 */ bool _35;
     /* 0x36 */ bool _36;

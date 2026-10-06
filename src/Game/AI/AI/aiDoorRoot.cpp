@@ -5,6 +5,7 @@
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/GameData/gdtSpecialFlags.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
 
 namespace uking::ai {
@@ -17,6 +18,27 @@ bool DoorRoot::init_(sead::Heap* heap) {
     *mIsOpenDoor_a = false;
     *mIsOpenToInside_a = false;
     return true;
+}
+
+void DoorRoot::sub_7100366B9C(const ksys::act::BaseProcLink& link, const sead::SafeString& as_name) {
+    _a8.x();
+    auto* actor = mActor;
+    actor->getPhysics()->sub_7100FC01B0();
+    ksys::act::disableAttClient(actor, "Open");
+    *mIsOpenDoor_a = true;
+    ksys::act::ai::InlineParamPack pack;
+    pack.addActor(link, "DynOwner", -1);
+    pack.addString(as_name, "DynASKey", -1);
+    changeChild("Open", &pack);
+}
+
+void DoorRoot::sub_7100366ED0(const ksys::act::BaseProcLink& link, const sead::SafeString& as_name) {
+    mActor->getPhysics()->sub_7100FC01B0();
+    *mIsOpenDoor_a = false;
+    ksys::act::ai::InlineParamPack pack;
+    pack.addActor(link, "DynOwner", -1);
+    pack.addString(as_name, "DynASKey", -1);
+    changeChild("Close", &pack);
 }
 
 void DoorRoot::enter_(ksys::act::ai::InlineParamPack* params) {

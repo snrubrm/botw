@@ -2,6 +2,7 @@
 #include "Game/Actor/actWolfLink.h"
 #include <random/seadGlobalRandom.h>
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
@@ -17,6 +18,26 @@ bool AnimalRangeKeepMoveWithLOS::init_(sead::Heap* heap) {
 }
 
 // NON_MATCHING: State range branching and load scheduling differ.
+void AnimalRangeKeepMoveWithLOS::sub_7100309620() {
+    if (!isFailed() && !isCurrentChild("パス検索")) {
+        mFlags.reset(Flag::Changeable);
+        _78 = _7c == _80 ? _7c : sead::GlobalRandom::instance()->getS32Range(_7c, _80);
+        ksys::act::ai::InlineParamPack pack;
+        pack.addVec3(_90, "TargetPos", -1);
+        changeChild("パス検索", &pack);
+    }
+}
+
+void AnimalRangeKeepMoveWithLOS::sub_7100309768() {
+    if (!isFailed() && !isCurrentChild("接近")) {
+        mFlags.reset(Flag::Changeable);
+        _78 = _7c == _80 ? _7c : sead::GlobalRandom::instance()->getS32Range(_7c, _80);
+        ksys::act::ai::InlineParamPack pack;
+        pack.addVec3(_90, "TargetPos", -1);
+        changeChild("接近", &pack);
+    }
+}
+
 void AnimalRangeKeepMoveWithLOS::enter_(ksys::act::ai::InlineParamPack*) {
     _7c = _80 = *mNoPathTimer_s;
     _78 = f32(_7c);
