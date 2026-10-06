@@ -1420,6 +1420,12 @@ public:
 // State of ScreenPauseMenu's state callbacks (0x71025f0cf0; placeholder name).
 extern const ksys::StateBase sUnk_71025f0cf0;
 
+// Placeholder for the object ScreenPauseMenu keeps at 0x3b90.
+struct ScreenPauseMenuUnk3b90 {
+    // 0x71009b9f94 (CSV unnamed; declared only)
+    void sub_71009B9F94(bool a1);
+};
+
 class ScreenPauseMenu : public ScreenEx {
 public:
     s32 m72() override;
@@ -1435,9 +1441,19 @@ public:
     void m107(eui::AnimButton* button) override;
     // 0x7100a392d8 (CSV unnamed, 396 bytes; declared only)
     void sub_7100A392D8();
+    // 0x7100a38028 (CSV unnamed, 296 bytes; declared only)
+    void sub_7100A38028();
     u8 _pad_3610[0x3618 - 0x3610];
     /* 0x3618 */ s32 _3618;
-    u8 _pad_361c[0x3bb4 - 0x361c];
+    u8 _pad_361c[0x3674 - 0x361c];
+    /* 0x3674 */ s32 _3674;
+    u8 _pad_3678[0x3b84 - 0x3678];
+    /* 0x3b84 */ s32 _3b84;
+    u8 _pad_3b88[0x3b90 - 0x3b88];
+    /* 0x3b90 */ ScreenPauseMenuUnk3b90* _3b90;
+    u8 _pad_3b98[0x3ba4 - 0x3b98];
+    /* 0x3ba4 */ u8 _3ba4;
+    u8 _pad_3ba5[0x3bb4 - 0x3ba5];
     /* 0x3bb4 */ s32 _3bb4;
 
     // own virtual slots (state callbacks; groups of four: void, void, void, s32 -- the types are guesses from the trivial ones)

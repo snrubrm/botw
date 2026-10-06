@@ -491,6 +491,22 @@ void ScreenPauseMenu::m171() {
     }
 }
 
+// 0x7100a3e0f4
+void ScreenPauseMenu::m182() {
+    if (_3674)
+        sub_7100A38028();
+    moveBoxCursorByTag_(_3b84);
+    if (_3b90)
+        _3b90->sub_71009B9F94(true);
+    _3ba4 = 0;
+}
+
+// 0x7100a3e2c0
+void ScreenPauseMenu::m184() {
+    if (_3b90)
+        _3b90->sub_71009B9F94(false);
+}
+
 // 0x7100a3d80c
 void ScreenPauseMenu::m164() {
     mButtonGroup->_38 |= 2;
