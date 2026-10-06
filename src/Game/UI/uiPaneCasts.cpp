@@ -1,3 +1,4 @@
+#include "Game/UI/euiPartsEx.h"
 #include "Game/UI/euiTextBoxEx.h"
 
 // A separate translation unit: the original's out-of-line DynamicCast has the runtime type info
@@ -7,6 +8,11 @@ namespace eui {
 // 0x7100933580
 TextBoxEx* sub_7100933580(nn::ui2d::Pane* pane) {
     return nn::font::DynamicCast<TextBoxEx>(pane);
+}
+
+// 0x7100945088
+PartsEx* sub_7100945088(nn::ui2d::Pane* pane) {
+    return nn::font::DynamicCast<PartsEx>(pane);
 }
 
 }  // namespace eui
