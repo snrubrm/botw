@@ -758,6 +758,75 @@ f32 Player::getStatusEffectClimbingSpeed(s32 level) {
     return info.val._f32;
 }
 
+f32 Player::getStatusEffectSwimingAnimRate(s32 level) {
+    eco::StatusEffectInfo info;
+    eco::Ecosystem::instance()->getStatusEffectInfo(eco::StatusEffect_SwimingAnimRate, level, &info);
+    return info.val._f32;
+}
+
+s32 Player::getStatusEffectDefenseUp(s32 level) {
+    eco::StatusEffectInfo info;
+    eco::Ecosystem::instance()->getStatusEffectInfo(eco::StatusEffect_DefenseUp, level, &info);
+    return static_cast<s32>(info.val._f32);
+}
+
+f32 Player::getStatusEffectQuietness(s32 level) {
+    eco::StatusEffectInfo info;
+    eco::Ecosystem::instance()->getStatusEffectInfo(eco::StatusEffect_Quietness, level, &info);
+    return info.val._f32;
+}
+
+f32 Player::getStatusEffectDesertMovingSpeed(s32 level) {
+    eco::StatusEffectInfo info;
+    eco::Ecosystem::instance()->getStatusEffectInfo(eco::StatusEffect_DesertMovingSpeed, level, &info);
+    return info.val._f32;
+}
+
+f32 Player::getStatusEffectSnowMovingSpeed(s32 level) {
+    eco::StatusEffectInfo info;
+    eco::Ecosystem::instance()->getStatusEffectInfo(eco::StatusEffect_SnowMovingSpeed, level, &info);
+    return info.val._f32;
+}
+
+f32 Player::getStatusEffectThrowingPower(s32 level) {
+    eco::StatusEffectInfo info;
+    eco::Ecosystem::instance()->getStatusEffectInfo(eco::StatusEffect_ThrowingPower, level, &info);
+    return info.val._f32;
+}
+
+f32 Player::getStatusEffectReduceAncientEnemyDamage(s32 level) {
+    eco::StatusEffectInfo info;
+    eco::Ecosystem::instance()->getStatusEffectInfo(eco::StatusEffect_ReduceAncientEnemyDamge, level, &info);
+    return info.val._f32;
+}
+
+// NON_MATCHING: the singleton load is scheduled before the status-level member read.
+void Player::updateStatusEffectMasterSwordAttackUp() {
+    eco::StatusEffectInfo info;
+    eco::Ecosystem::instance()->getStatusEffectInfo(eco::StatusEffect_MaterSwordAttackUp, _2048, &info);
+    _2090 = info.val._f32;
+}
+
+bool Player::sub_71008840C4() {
+    return _c40.isOffBit(18);
+}
+
+bool Player::sub_71008840D4() {
+    return _c50.isOnBit(3);
+}
+
+f32 Player::sub_71008902A8() {
+    return 0.3f;
+}
+
+f32 Player::sub_7100885818() {
+    return 1.0f;
+}
+
+void Player::sub_7100887B68() {
+    x_23("GrabWait", false, -1.0f);
+}
+
 // NON_MATCHING: the singleton load is scheduled before the status-level member reads, whose load
 // order also differs from the original.
 void Player::updateResistHotVal() {

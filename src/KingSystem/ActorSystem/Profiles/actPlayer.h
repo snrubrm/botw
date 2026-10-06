@@ -310,6 +310,25 @@ public:
     f32 getStatusEffectMovingSpeed(s32 level);
     f32 getStatusEffectSwimingSpeed(s32 level);
     f32 getStatusEffectClimbingSpeed(s32 level);
+    f32 getStatusEffectSwimingAnimRate(s32 level);
+    s32 getStatusEffectDefenseUp(s32 level);
+    f32 getStatusEffectQuietness(s32 level);
+    f32 getStatusEffectDesertMovingSpeed(s32 level);
+    f32 getStatusEffectSnowMovingSpeed(s32 level);
+    f32 getStatusEffectThrowingPower(s32 level);
+    f32 getStatusEffectReduceAncientEnemyDamage(s32 level);
+    // 0x710088566c (lane4 s45): _2090 = the MaterSwordAttackUp status effect value of level _2048.
+    void updateStatusEffectMasterSwordAttackUp();
+    // 0x71008840c4 (lane4 s45, unnamed in the CSV): _c40 bit 18 is clear.
+    bool sub_71008840C4();
+    // 0x71008840d4 (lane4 s45, unnamed in the CSV): _c50 bit 3 is set.
+    bool sub_71008840D4();
+    // 0x71008902a8 (lane4 s45, unnamed in the CSV): the constant 0.3.
+    f32 sub_71008902A8();
+    // 0x7100885818 (lane4 s45, unnamed in the CSV): the constant 1.0.
+    f32 sub_7100885818();
+    // 0x7100887b68 (lane4 s45, unnamed in the CSV): starts the animation sequence "GrabWait".
+    void sub_7100887B68();
     void updateResistHotVal();
     void updateResistColdVal();
     void updateStatusEffectAttackUp();
@@ -564,7 +583,8 @@ public:
     /* 0x203c */ u8 _203c[0x2040 - 0x203c];
     /* 0x2040 */ s32 _2040;
     /* 0x2044 */ s32 _2044;  // armor charge-attack status index, passed to Ecosystem
-    /* 0x2048 */ u8 _2048[0x2074 - 0x2048];
+    /* 0x2048 */ s32 _2048;  // MaterSwordAttackUp status effect level (updateStatusEffectMasterSwordAttackUp)
+    /* 0x204c */ u8 _204c[0x2074 - 0x204c];
     /* 0x2074 */ f32 _2074;
     /* 0x2078 */ u8 _2078[0x207e - 0x2078];
     /* 0x207e */ bool _207e;
