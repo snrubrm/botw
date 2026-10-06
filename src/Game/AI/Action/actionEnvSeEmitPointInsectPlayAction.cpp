@@ -14,8 +14,13 @@ ksys::util::InitTimeInfo sInitTimeInfo;
 EnvSeEmitPointInsectPlayAction::EnvSeEmitPointInsectPlayAction(const InitArg& arg)
     : ksys::act::ai::Action(arg) {}
 
-// TODO: the original fades the xlink2 handle (inline Handle code lib/xlink2 lacks) before deleting it
-EnvSeEmitPointInsectPlayAction::~EnvSeEmitPointInsectPlayAction() = default;
+EnvSeEmitPointInsectPlayAction::~EnvSeEmitPointInsectPlayAction() {
+    if (_28) {
+        xlink::fade(*_28, -1);
+        delete _28;
+        _28 = nullptr;
+    }
+}
 
 bool EnvSeEmitPointInsectPlayAction::init_(sead::Heap* heap) {
     _28 = new (heap) xlink2::HandleSLink;

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
 
 namespace uking::action {
 
@@ -40,12 +41,7 @@ protected:
     sead::SafeString mXLinkKey_m{};
     f32 _78 = 0.0f;
     f32 _7c = 1.0f;
-    u64 _80 = 0;
-    s32 _88 = 0;
-    u8 _8c[0x4];
-    u64 _90 = 0;
-    s32 _98 = 0;
-    u8 _9c[0x4];
+    Unk_71012419b4 _80;
 };
 KSYS_CHECK_SIZE_NX150(ExpandChemicalField, 0xa0);
 
