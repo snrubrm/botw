@@ -135,6 +135,8 @@ public:
         void sub_710066CC64(int idx);
         // 0x710066c074: number of bound actors that are in the calc state.
         s32 sub_710066C074();
+        // 0x710066d9b8 (declaration only; 124 B): if the message of bound actor `idx` is still pending, sends it and returns true.
+        bool sub_710066D9B8(s32 idx);
         // 0x710066dabc (declaration only).
         void sub_710066DABC(ksys::act::BaseProc* proc, s32 idx);
         void sub_710066D708(s32 idx);

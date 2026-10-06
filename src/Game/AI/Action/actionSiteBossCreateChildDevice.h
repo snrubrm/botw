@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::action {
 
@@ -16,6 +17,8 @@ public:
     void loadParams_() override;
 
 protected:
+    // 0x71002583a4 (declared only; 1072 B): out of line in the original, called by enter_.
+    void sub_71002583A4();
     void calc_() override;
     virtual int m32();
 
@@ -31,9 +34,7 @@ protected:
     bool _41 = false;
     bool _42 = false;
     int _44 = 0;
-    float _48 = 0.0f;
-    int _4c = 0;
-    int _50 = 0;
+    ksys::Timer _48;
 };
 
 }  // namespace uking::action
