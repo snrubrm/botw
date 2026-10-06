@@ -2,6 +2,7 @@
 #include "Game/gameSceneStateMachine.h"
 #include "Game/gamePlayerResetPosMgr.h"
 #include "Game/gameStageInfo.h"
+#include "KingSystem/ActorSystem/actActorSystem.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/System/StageInfo.h"
 
@@ -134,6 +135,17 @@ bool GameScene::getIsFirstLaunch() {
 
 bool GameScene::m0(const sead::SafeString& name) {
     return m1(name, false);
+}
+
+void GameScene::sub_71007B4B50() {
+    _8ca = true;
+    _6e9 = true;
+    _2a8 = nullptr;
+    _279 |= 1;
+    PlayerResetPosMgr::instance()->resetSmallKeyFlags();
+    PlayerResetPosMgr::instance()->clearResetPos();
+    if (auto* actor_system = ksys::act::ActorSystem::instance())
+        actor_system->set104(false);
 }
 
 bool GameScene::m1(const sead::SafeString& name, bool flag) {

@@ -175,6 +175,11 @@ public:
 
 #undef PROXY_RESET_IMPL_
 
+        // inline in the original (lane1 s42, PlayerResetPosMgr::resetSmallKeyFlags)
+        bool getS32ArraySize(s32* size, const sead::SafeString& name) const {
+            return getBuffer()->getS32ArraySize(size, name);
+        }
+
     private:
         friend class TriggerParamRef;
         Proxy(const TriggerParamRef& ref, bool param1) : mUseParam1(param1), mRef(ref) {}

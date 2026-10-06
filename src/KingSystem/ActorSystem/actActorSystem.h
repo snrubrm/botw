@@ -38,6 +38,9 @@ public:
     // inline-only in the original; name is a guess (Swarm::m81, Guardian::m81).
     uking::Unk_710243c7c8* getStasisMessageSender() const { return _c8; }
 
+    // inline-only in the original; name is a guess (GameScene::sub_71007B4B50 clears it).
+    void set104(bool value) { _104 = value; }
+
     bool callAutoPlacementMgrPreCalcFn(void* userdata);
     void allocEmergencyHeap(sead::Heap* heap);
 

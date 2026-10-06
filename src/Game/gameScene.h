@@ -90,7 +90,7 @@ public:
     static bool getIsFirstLaunch();
     // 0x71007b7d78: `sInstance->sub_71007B4B50()`.
     static void sub_71007B7D78();
-    // 0x71007b4b50 (declaration only).
+    // 0x71007b4b50: resets the small keys / reset position, clears the scene binder.
     void sub_71007B4B50();
     // 0x71007b4bb0 / 0x71007b4bbc (placeholder names from the free-function thunks 0x71007b7e14 / 0x71007b7e24).
     void setNeedStageGenFinalStepInPreCalc();
