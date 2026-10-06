@@ -24,14 +24,13 @@ void NPCHorseReceptionResurrect::leave_() {
 
 void NPCHorseReceptionResurrect::loadParams_() {}
 
-// NON_MATCHING: scheduling (the original stores selected = false after loading the gdt::Manager instance and the
-// SafeString vtable)
 void NPCHorseReceptionResurrect::calc_() {
     sub_7100738488(mActor, 0.0f, -sead::Vector3f::ey);
     sub_7100738AA8(mActor, 0.0f);
     if (_1c) {
+        auto* gdm = ksys::gdt::Manager::instance();
         bool selected = false;
-        const bool success = ksys::gdt::Manager::instance()->getParamBypassPerm().get().getBool(&selected, "Horse_IsSelected");
+        const bool success = gdm->getParamBypassPerm().get().getBool(&selected, "Horse_IsSelected");
         if (selected && success)
             setFinished();
         if (!ui::sub_7100A98FA8())
