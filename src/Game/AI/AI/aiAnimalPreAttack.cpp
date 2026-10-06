@@ -2,6 +2,7 @@
 #include <random/seadGlobalRandom.h>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
@@ -28,6 +29,56 @@ void AnimalPreAttack::enter_(ksys::act::ai::InlineParamPack* params) {
         pack.addVec3(*mTargetPos_d, "TargetPos", -1);
         changeChild("対象を向く", &pack);
     }
+}
+
+// NON_MATCHING: a single instruction: the first read of `_58` after the first isCurrentChild is `ldr s0, [x19, #0x58]` in
+// the original and `ldr s0, [x20]` (the hoisted &_58) here; flow, compares and calls match
+// Child names: 対象を向く (face the target), 距離を取る (keep distance).
+void AnimalPreAttack::calc_() {
+    if (isFinished() || isFailed())
+        return;
+    ksys::Timer::update(&_58, -1.0f);
+    if (isCurrentChild("対象を向く") && _58 <= 0.0f)
+        setFinished();
+    const s32 distance = s32((mActor->getMtx().getTranslation() - *mTargetPos_d).length());
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed()) {
+        if (!(f32(distance) <= *mKeepDistCheckLength_s) || sub_7100307B44()) {
+            if (!isCurrentChild("対象を向く")) {
+                ksys::act::ai::InlineParamPack pack;
+                pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+                changeChild("対象を向く", &pack);
+                return;
+            }
+        } else {
+            if (_58 <= 0.0f) {
+                setFinished();
+                return;
+            }
+            ksys::act::ai::InlineParamPack pack;
+            pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+            changeChild("距離を取る", &pack);
+            return;
+        }
+        setFinished();
+        return;
+    }
+    if (child->isChangeable()) {
+        if (isCurrentChild("距離を取る") && f32(distance) >= *mKeepDistCheckLength_s + 1.0f) {
+            ksys::act::ai::InlineParamPack pack;
+            pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+            changeChild("対象を向く", &pack);
+            return;
+        }
+        if (isCurrentChild("対象を向く") && f32(distance) <= *mKeepDistCheckLength_s - 1.0f &&
+            !sub_7100307B44()) {
+            ksys::act::ai::InlineParamPack pack;
+            pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+            changeChild("距離を取る", &pack);
+            return;
+        }
+    }
+    getCurrentChild()->setDynamicParam(*mTargetPos_d, "TargetPos");
 }
 
 void AnimalPreAttack::leave_() {
