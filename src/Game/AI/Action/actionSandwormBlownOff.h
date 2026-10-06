@@ -19,6 +19,10 @@ public:
 protected:
     void calc_() override;
 
+    // 0x710023f15c (placeholder name): whether both points have clear space around them (checked with
+    // short rays between the points and downwards).
+    bool sub_710023F15C(const sead::Vector3f& a, const sead::Vector3f& b, const sead::Vector3f& c);
+
     // static_param at offset 0x20
     const int* mLimitDamage_s{};
     // static_param at offset 0x28

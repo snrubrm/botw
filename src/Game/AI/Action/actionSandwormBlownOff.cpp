@@ -1,5 +1,6 @@
 #include "Game/AI/Action/actionSandwormBlownOff.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "Game/AI/aiUnk_71007377D4.h"
 #include "Game/Actor/actSandworm.h"
 
 namespace uking::action {
@@ -10,6 +11,23 @@ SandwormBlownOff::~SandwormBlownOff() = default;
 
 bool SandwormBlownOff::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
+}
+
+bool SandwormBlownOff::sub_710023F15C(const sead::Vector3f& a, const sead::Vector3f& b,
+                                      const sead::Vector3f& c) {
+    if (sub_710072E928(a, b, nullptr, nullptr, nullptr, 0.5f))
+        return false;
+    {
+        sead::Vector3f below = b;
+        below.y -= 6.0f;
+        if (sub_710072E928(b, below, nullptr, nullptr, nullptr, 0.5f))
+            return false;
+    }
+    if (sub_710072E928(b, c, nullptr, nullptr, nullptr, 0.5f))
+        return false;
+    sead::Vector3f below = c;
+    below.y -= 6.0f;
+    return !sub_710072E928(c, below, nullptr, nullptr, nullptr, 0.5f);
 }
 
 void SandwormBlownOff::enter_(ksys::act::ai::InlineParamPack* params) {
