@@ -19,6 +19,8 @@ public:
 protected:
     // 0x710023c72c (declared only): out of line in the original.
     void sub_710023C72C();
+    // 0x710023cb94 (declared only; 948 B): called by calc_ once the ball is DivDist away from where it started.
+    void sub_710023CB94();
     void calc_() override;
 
     // static_param at offset 0x1b8

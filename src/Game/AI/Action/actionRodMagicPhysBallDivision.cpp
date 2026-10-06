@@ -53,7 +53,7 @@ void RodMagicPhysBallDivision::calc_() {
         if (bullet->_cf4 & 8) {
             const sead::Vector3f pos = mActor->getMtx().getTranslation();
             if ((_210 - pos).length() >= *mDivDist_s)
-                sub_710023C72C();
+                sub_710023CB94();
         }
     }
     RodMagicPhysBall::calc_();
