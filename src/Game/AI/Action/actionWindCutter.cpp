@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionWindCutter.h"
+#include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/Profiles/actBullet.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "math/seadMathCalcCommon.h"
@@ -13,8 +14,21 @@ bool WindCutter::init_(sead::Heap* heap) {
     return ChemicalAttack::init_(heap);
 }
 
+// NON_MATCHING: operand order of two commutative fmuls (level * ScaleMult and scale.z * mult).
 void WindCutter::enter_(ksys::act::ai::InlineParamPack* params) {
+    const bool is_level_one_scale_one = *mIsLevelOneScaleOne_s;
+    const int level = *mAttackLevel_m;
+    auto* actor = mActor;
+    if (!is_level_one_scale_one || level >= 2) {
+        const f32 mult = f32(*mLevelBaseScaleAdd_s) + f32(level > 0 ? level : 0) * *mLevelScaleMult_s;
+        sead::Vector3f scale = actor->getScale();
+        scale *= mult;
+        actor->setScale(scale);
+    }
     ChemicalAttack::enter_(params);
+    if (auto* bullet = sead::DynamicCast<ksys::act::Bullet>(actor))
+        bullet->_cf4 |= 1;
+    _c0 = true;
 }
 
 void WindCutter::leave_() {
