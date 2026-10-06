@@ -58,6 +58,13 @@ public:
 };
 
 // TODO
+// CSV EventSysActors (Manager + 0x1d378's object; declared only).
+class EventSysActors {
+public:
+    // 0x7100dc7c84 (CSV EventSysActors::finishedLoading)
+    bool finishedLoading();
+};
+
 class Manager {
     SEAD_SINGLETON_DISPOSER(Manager)
     Manager();
@@ -119,6 +126,10 @@ public:
     void* sub_7100DB137C() const;
     // 0x7100db2804 / 0x7100db2884 (CSV EventMgr::__auto0 / __auto13; placeholder names)
     bool sub_7100DB2804(bool a1);
+    // 0x7100db26d0 (CSV EventMgr::finishedLoadingResidentData)
+    bool finishedLoadingResidentData();
+    // 0x7100db2744 (CSV EventMgr::eventResidentMgrFinished)
+    bool eventResidentMgrFinished();
     void sub_7100DB2884();
 
     // 0x7100db19dc (CSV EventMgr::__auto4, placeholder name; lane4 s23): `_1d2c0 != nullptr ||
@@ -198,6 +209,8 @@ public:
         u8 _1d2f4_bytes[4];
     };
     /* 0x1d2f8 */ s32 _1d2f8;
+    u8 pad_1d2fc[0x1d378 - 0x1d2fc];
+    /* 0x1d378 */ EventSysActors* _1d378;
 };
 
 }  // namespace ksys::evt

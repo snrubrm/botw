@@ -76048,9 +76048,9 @@ Address,Quality,Size,Name
 0x0000007100db2480,U,000064,
 0x0000007100db24c0,O,000020,_ZN4ksys3evt7Manager18initBeforeStageGenEv
 0x0000007100db24d4,U,000508,EventMgr::loadResidentEvents
-0x0000007100db26d0,U,000092,EventMgr::finishedLoadingResidentData
+0x0000007100db26d0,O,000092,_ZN4ksys3evt7Manager27finishedLoadingResidentDataEv
 0x0000007100db272c,O,000024,_ZN4ksys3evt7Manager12setFlags1000Ev
-0x0000007100db2744,U,000192,EventMgr::eventResidentMgrFinished
+0x0000007100db2744,m,000192,_ZN4ksys3evt7Manager24eventResidentMgrFinishedEv
 0x0000007100db2804,O,000128,_ZN4ksys3evt7Manager14sub_7100DB2804Eb
 0x0000007100db2884,O,000064,_ZN4ksys3evt7Manager14sub_7100DB2884Ev
 0x0000007100db28c4,O,000076,_ZNK4ksys3evt7Manager14getActiveEventEv
@@ -76335,7 +76335,7 @@ Address,Quality,Size,Name
 0x0000007100dc782c,U,000308,
 0x0000007100dc7960,U,000600,EventSysActors::loadEventSystemActors
 0x0000007100dc7bb8,U,000204,EventSysActors::ActorHandle::ready
-0x0000007100dc7c84,U,000512,EventSysActors::finishedLoading
+0x0000007100dc7c84,U,000512,_ZN4ksys3evt14EventSysActors14finishedLoadingEv
 0x0000007100dc7e84,U,000212,
 0x0000007100dc7f58,U,000532,
 0x0000007100dc816c,U,000544,

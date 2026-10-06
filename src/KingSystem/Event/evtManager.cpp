@@ -120,6 +120,31 @@ void* Manager::sub_7100DB137C() const {
 }
 
 // 0x7100db2804
+bool Manager::finishedLoadingResidentData() {
+    const bool finished = _1d378->finishedLoading();
+    mEventFlowMgr->calc(true);
+    const bool ready = mEventFlowMgr->areAllEventFlowsReady();
+    return finished & ready;
+}
+
+// NON_MATCHING: only the loop bound of the pair scan differs (`cmp x8, #0x20; b.lt` on the already incremented
+// counter in the original, `cmp x8, #0x1f; b.le` here)
+bool Manager::eventResidentMgrFinished() {
+    bool done = true;
+    for (auto* context : mContexts) {
+        if (context)
+            done &= context->sub_7100DBA3AC(false);
+    }
+    done &= mEventFlowMgr->loadEventResourceForAllEventFlows(false);
+    if (!done)
+        return false;
+    for (s32 i = 0; i < 32; i += 2) {
+        if (mContexts[i] || mContexts[i + 1])
+            return false;
+    }
+    return mEventFlowMgr->sub_7100DBF50C();
+}
+
 bool Manager::sub_7100DB2804(bool a1) {
     bool result = true;
     for (auto* context : mContexts) {
