@@ -5,6 +5,7 @@
 #include "Game/AI/Action/actionSiteBossLswordAtk.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 #include "KingSystem/System/Timer.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
 
 namespace uking::action {
 
@@ -73,10 +74,7 @@ protected:
     u64 _1a0 = 0;
     sead::Buffer<bool> _1a8;
     sead::Buffer<sead::Vector3f> _1b8;
-    u64 _1c8 = 0;
-    u64 _1d0 = 0;
-    u64 _1d8 = 0;
-    u64 _1e0 = 0;
+    Unk_71012419b4 _1c8;
 };
 KSYS_CHECK_SIZE_NX150(SiteBossLswordAtkWithChemical, 0x1e8);
 

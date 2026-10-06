@@ -53,23 +53,29 @@ const sead::SafeString& PlayASForDemo::m34() {
     return mASName_d;
 }
 
-// NON_MATCHING: the original keeps the morphing frame / -1 choice as branches (`ldr s0; fcmp; b.ge; fmov s0, #-1`),
-// ours selects with a register move
+// The seq bank is only used with an explicit target index.
+int PlayASForDemo::sub_710021BA28() {
+    return *mTargetIndex_d == -1 ? 0 : *mSeqBank_d;
+}
+
+int PlayASForDemo::sub_710021BDC4() {
+    return *mTargetIndex_d == -1 ? 0 : *mTargetIndex_d;
+}
+
+f32 PlayASForDemo::sub_710021BDD8() {
+    if (*mTargetIndex_d == -1 && *mMorphingFrame_d >= 0.0f)
+        return *mMorphingFrame_d;
+    return -1.0f;
+}
+
 void PlayASForDemo::m36() {
     if (*mTargetIndex_d == -1) {
-        auto* as_list = mActor->getASList();
-        if (!as_list)
-            return;
-        const sead::SafeString& name = m34();
-        _a4 = as_list->sub_710115BC28(name, (*mTargetIndex_d != -1 || *mMorphingFrame_d < 0.0f) ?
-                                                -1.0f : *mMorphingFrame_d);
-        return;
+        if (auto* as_list = mActor->getASList())
+            _a4 = as_list->sub_710115BC28(m34(), sub_710021BDD8());
+    } else {
+        playAS(m34().cstr(), *mIsIgnoreSame_d, sub_710021BDC4(), sub_710021BA28(), -1.0f);
+        _a4 = sub_710021BDC4();
     }
-
-    const sead::SafeString& name = m34();
-    playAS(name.cstr(), *mIsIgnoreSame_d, *mTargetIndex_d == -1 ? 0 : *mTargetIndex_d,
-           *mTargetIndex_d == -1 ? 0 : *mSeqBank_d, -1.0f);
-    _a4 = *mTargetIndex_d == -1 ? 0 : *mTargetIndex_d;
 }
 
 }  // namespace uking::action

@@ -6,6 +6,8 @@
 
 namespace uking::action {
 
+// NON_MATCHING: the original zero-fills the 0x20 bytes of `_1c8` with plain stores; the user-provided Handle
+// constructors of Unk_71012419b4 initialise the two handles field by field.
 SiteBossLswordAtkWithChemical::SiteBossLswordAtkWithChemical(const InitArg& arg)
     : SiteBossLswordAtk(arg) {}
 
@@ -86,6 +88,31 @@ f32 SiteBossLswordAtkWithChemical::m38() {
 
 int SiteBossLswordAtkWithChemical::m39() {
     return 2;
+}
+
+}  // namespace uking::action
+
+namespace uking::action {
+
+// Sleeps the emitted parts actors and fades the held xlink event.
+void SiteBossLswordAtkWithChemical::sub_710025B7CC() {
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
+        if (*mEmitNum_s >= 1) {
+            for (s32 i = 0; i < *mEmitNum_s * 2; ++i) {
+                const sead::FormatFixedSafeString<32> name("%s%d", mEmitPartsName_s.cstr(), i);
+                if (enemy->getActorPartsActor(name).hasProc()) {
+                    ksys::act::ActorConstDataAccess accessor;
+                    ksys::act::acquireActor(&enemy->getActorPartsActor(name), &accessor);
+                    if (accessor.isStateCalc())
+                        accessor.sleep(ksys::act::BaseProc::SleepWakeReason::_0);
+                }
+            }
+        }
+    }
+    if (!mCallSEKeyAtAtOn_s.isEmpty() && _18a) {
+        if (_1c8.sub_7101241AD8(1))
+            _1c8.fadeXLink();
+    }
 }
 
 }  // namespace uking::action

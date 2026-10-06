@@ -25,6 +25,12 @@ protected:
     // 0x710021be00 (declared only): plays the AS (playAS or the ASList at 0x710115bc28).
     virtual void m36();
 
+    // Out-of-line copies of inline helpers (names are placeholders): 0x710021ba28 / 0x710021bdc4 /
+    // 0x710021bdd8.
+    int sub_710021BA28();
+    int sub_710021BDC4();
+    f32 sub_710021BDD8();
+
     // static_param at offset 0x20
     const int* mAnimeDrivenSettings_s{};
     // dynamic_param at offset 0x28
