@@ -26,8 +26,7 @@ protected:
     // static_param at offset 0x40
     sead::SafeString mSlot2StartNode_s{};
     gsys::BoneAccessKeyEx _50;
-    gsys::BoneAccessKeyEx _88;
-    gsys::BoneAccessKeyEx _c0;
+    gsys::BoneAccessKeyEx _88[2];
 };
 KSYS_CHECK_SIZE_NX150(ForkSeparateThreeASPart, 0xf8);
 

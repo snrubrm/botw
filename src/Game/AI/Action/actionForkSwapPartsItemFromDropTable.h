@@ -30,11 +30,7 @@ protected:
     sead::SafeString mPartsKey3_s{};
     // static_param at offset 0x70
     sead::SafeString mPartsKey4_s{};
-    ksys::act::BaseProcHandle _80;
-    ksys::act::BaseProcHandle _90;
-    ksys::act::BaseProcHandle _a0;
-    ksys::act::BaseProcHandle _b0;
-    ksys::act::BaseProcHandle _c0;
+    ksys::act::BaseProcHandle _80[5];
 };
 KSYS_CHECK_SIZE_NX150(ForkSwapPartsItemFromDropTable, 0xd0);
 

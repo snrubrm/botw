@@ -11,15 +11,15 @@ ForkSeparateThreeASPart::ForkSeparateThreeASPart(const InitArg& arg) : ksys::act
 ForkSeparateThreeASPart::~ForkSeparateThreeASPart() = default;
 
 bool ForkSeparateThreeASPart::init_(sead::Heap* heap) {
-    _88.getKey().bone_index = -1;
-    _88.getKey().model_unit_index = -1;
-    _c0.getKey().bone_index = -1;
-    _c0.getKey().model_unit_index = -1;
+    _88[0].getKey().bone_index = -1;
+    _88[0].getKey().model_unit_index = -1;
+    _88[1].getKey().bone_index = -1;
+    _88[1].getKey().model_unit_index = -1;
     _50.getKey().reset();
     if (auto* model = mActor->getModel()) {
         _50.search(model, mRootNode_s);
-        _88.search(model, mSlot1StartNode_s);
-        _c0.search(model, mSlot2StartNode_s);
+        _88[0].search(model, mSlot1StartNode_s);
+        _88[1].search(model, mSlot2StartNode_s);
     }
     return true;
 }

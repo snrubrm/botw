@@ -20,9 +20,8 @@ void CreateActorInAreaBasic::enter_(ksys::act::ai::InlineParamPack* params) {
     _b4 = ksys::Timer(*mCreateContinueTime_s, *mCreateContinueTime_s);
     _c0 = ksys::Timer(*mAfterWaitTime_s, *mAfterWaitTime_s);
     auto* actor = mActor;
-    _78.deleteProc();
-    _88.deleteProc();
-    _98.deleteProc();
+    for (auto& handle : _78)
+        handle.deleteProc();
     _dc = 0.0f;
     const f32 count = static_cast<f32>(*mCreateBasePosNum_s + 1);
     const f32 interval = (*mCreateContinueTime_s + 2.0f) / count;
@@ -34,9 +33,8 @@ void CreateActorInAreaBasic::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void CreateActorInAreaBasic::leave_() {
     auto* actor = mActor;
-    _78.deleteProc();
-    _88.deleteProc();
-    _98.deleteProc();
+    for (auto& handle : _78)
+        handle.deleteProc();
     if (auto* lod = actor->getLodState())
         lod->mFlags10.reset(0x40);
 }

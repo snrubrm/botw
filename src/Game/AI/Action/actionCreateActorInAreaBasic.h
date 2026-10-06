@@ -43,9 +43,7 @@ protected:
     const sead::Vector3f* mCreateRandArea_s{};
     // static_param at offset 0x70
     const sead::Vector3f* mProhibitedCreateArea_s{};
-    ksys::act::BaseProcHandle _78;
-    ksys::act::BaseProcHandle _88;
-    ksys::act::BaseProcHandle _98;
+    ksys::act::BaseProcHandle _78[3];
     ksys::Timer _a8;
     ksys::Timer _b4;
     ksys::Timer _c0;
