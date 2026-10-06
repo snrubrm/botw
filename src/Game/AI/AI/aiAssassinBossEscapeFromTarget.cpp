@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiAssassinBossEscapeFromTarget.h"
+#include <math/seadMathCalcCommon.h>
 #include "Game/AI/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
@@ -101,6 +102,28 @@ void AssassinBossEscapeFromTarget::m37() {
         getCurrentChild()->setDynamicParam(*mTargetPos_d, "TargetPos");
     else
         SimpleEscapeFromTarget::m37();
+}
+
+void AssassinBossEscapeFromTarget::m38(sead::Vector3f* dir, s32 idx) {
+    sead::Vector3f pos;
+    mActor->getMtx().getTranslation(pos);
+    const sead::Vector3f target = *dir;
+    sead::Vector3f hit;
+    if (sub_710072FD0C(mActor, pos, target, &hit, -1, *mParams.mCheckDist_s, -1.0f, -1.0f, -1.0f))
+        return;
+
+    sead::Vector3f to_anchor = _80;
+    to_anchor -= pos;
+    to_anchor.normalize();
+    s32 sign = dir->dot(to_anchor) > 0.0f ? 1 : -1;
+    if (sead::Vector2f(_80.x - hit.x, _80.z - hit.z).squaredLength() >
+        sead::Vector2f(_80.x - pos.x, _80.z - pos.z).squaredLength()) {
+        sign = -sign;
+    }
+    const f32 angle = sead::Mathf::deg2rad(f32(sign * idx) * 10.0f);
+    sead::Matrix34f rot;
+    rot.makeR({0.0f, angle, 0.0f});
+    dir->rotate(rot);
 }
 
 bool AssassinBossEscapeFromTarget::m39(const sead::Vector3f& dir) {
