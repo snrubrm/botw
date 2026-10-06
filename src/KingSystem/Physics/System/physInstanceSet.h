@@ -267,7 +267,6 @@ public:
     // the motion type related flags of every body (and the controller); forward `type` to every set / listed body;
     // whether `body` is a linked sensor body or a link-matrix entry key; whether `key` is an entry key; the listed
     // body entry `idx` (null if out of range).
-    void sub_7100FBA0F4();
     void sub_7100FBD434(u8 type);
     bool sub_7100FBDE90(RigidBody* body) const;
     bool sub_7100FBDF08(const void* key) const;
