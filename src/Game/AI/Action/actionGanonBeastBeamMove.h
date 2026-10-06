@@ -8,9 +8,9 @@
 // vtable 0x7102392778 (GanonBeastBeamMove::_50..): sends message 0x800005d (a matrix; the payload is
 // Unk_7102450a38_Payload, named after its listener). Its D0 / m2 are at 0x710017631c / 0x7100176320.
 // Constructed without a transceiver (GanonBeastBeamMove::init_ sets _8).
-class Unk_7102392768 : public Unk_7102357d20 {
+class Unk_7102392778 : public Unk_7102357d20 {
 public:
-    Unk_7102392768() : Unk_7102357d20(0x800005d) {}
+    Unk_7102392778() : Unk_7102357d20(0x800005d) {}
     void* m2() override { return &_18; }
 
     Unk_7102450a38_Payload _18;
@@ -32,7 +32,7 @@ public:
 protected:
     void calc_() override;
 
-    Unk_7102392768 _50[6];
+    Unk_7102392778 _50[6];
     // static_param at offset 0x230
     const int* mRestDistTime_s{};
     // static_param at offset 0x238

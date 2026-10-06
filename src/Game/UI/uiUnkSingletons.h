@@ -207,7 +207,7 @@ public:
     void* sub_71009648A8();
     bool sub_7100964A0C(s32 a1);
     void sub_7100963CE8(ksys::act::Actor* actor);
-    void sub_71009661DC(const void* a1, s32* out);
+    bool sub_71009661DC(const void* a1, s32* out);
     void sub_7100963C8C(const UiSubsys1PinArg* arg);
     // 0x7100961e48 (CSV uiSubsys1::__auto0; declared only): called by GameSceneSubsys13::setGameOverPosition.
     void sub_7100961E48(const sead::Vector3f* pos);
