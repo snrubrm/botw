@@ -6,6 +6,7 @@ namespace eui {
 
 // The controller wrapper of a screen (Screen::mUIController, 0x218 bytes; constructor 0x7100becd40).
 class UIController : public sead::MaskControllerWrapper {
+    SEAD_RTTI_OVERRIDE(UIController, sead::MaskControllerWrapper)
 public:
     // Spelled out like SEAD_RTTI_OVERRIDE(UIController, sead::MaskControllerWrapper) except that
     // checkDerivedRuntimeTypeInfoStatic (0x7100bece30) is declared only: its inlined parent chain refers to the
