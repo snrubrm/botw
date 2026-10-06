@@ -29,6 +29,8 @@ namespace ksys::phys {
 
 class CharacterController;
 class CharacterFormSet;
+class ClothResource;
+class ModelBoneAccessor;
 class ClothSet;
 class CollisionInfo;
 class ContactPointInfo;
@@ -46,6 +48,21 @@ class SphereParam;
 class SphereRigidBody;
 class SystemGroupHandler;
 class UserTag;
+// Placeholder (vtable 0x7102519a10: the object Actor::initPhysics builds on its stack and passes to the physics
+// initialisation): two virtual getters, the cloth / support bone file name overrides, then the destructor.
+// Placeholder (declaration only; the constructor is 0x7101226aa8, 0x58 bytes): the runtime support bone object
+// InstanceSet::_e8 owns (name is a guess; deleted through its virtual destructor).
+class SupportBoneInstanceMaybe : public sead::hostio::Node {
+public:
+    virtual ~SupportBoneInstanceMaybe();
+};
+
+class Unk_7102519a10 {
+public:
+    virtual const sead::SafeString& getClothFileName() = 0;
+    virtual const sead::SafeString& getSupportBoneFileName() = 0;
+    virtual ~Unk_7102519a10();
+};
 
 class InstanceSet : public sead::hostio::Node {
 public:
@@ -55,6 +72,7 @@ public:
         _8 = 1 << 3,
         DisableDraw = 1 << 2,
         _10 = 1 << 4,
+        _40 = 1 << 6,
         _800 = 1 << 11,
         _40000 = 1 << 18,
         _8000 = 1 << 15,
@@ -179,6 +197,20 @@ public:
     // 0x7100fbe808 (lane4 s48; placeholder name; called by the ragdoll part of init): creates the RagdollInstance and
     // loads "Physics/Ragdoll/<ragdoll_setup_file_path>" (false without a ragdoll param or file name).
     bool sub_7100FBE808(sead::Heap* heap, res::Handle* pack_handle);
+    // 0x7100fbf368 (lane4 s48; placeholder name; called by the cloth part of init): creates the handle and loads
+    // "Physics/Cloth/<name>" (`name`: the override's cloth file name, else the cloth set param's), then checks the
+    // cloth type and sets flag Cloth1.
+    bool sub_7100FBF368(sead::Heap* heap, Unk_7102519a10* arg, res::Handle* pack_handle);
+    // 0x7100fbf87c (lane4 s48; placeholder name; called by the support bone part of init): releases `_e8` and the
+    // handle, loads "Physics/SupportBone/<name>" (the override's name, else the support bone param's) and releases
+    // everything again if there is no name or the load fails.
+    bool sub_7100FBF87C(sead::Heap* heap, Unk_7102519a10* arg, res::Handle* pack_handle);
+    // 0x7100fb8f10 (lane4 s48; placeholder name; called by init): deletes the ragdoll objects and the model bone
+    // accessor (flag 0x40), then calls sub_7100FBE808 and deletes the ragdoll objects again if it fails.
+    void sub_7100FB8F10(sead::Heap* heap, res::Handle* pack_handle);
+    // 0x7100fbf158 (CSV ActorPhysics::initContactInfo; lane4 s48): creates the contact point infos / collision infos
+    // of the contact info param (false without one).
+    bool initContactInfo(sead::Heap* heap);
     // 0x7100fbe7f0: CharacterControllerParam::findFormIdx(name) of the param data's character
     // controller param (`_18->_58`), or -1. Placeholder name (declaration only).
     s32 sub_7100FBE7F0(const sead::SafeString& name) const;
@@ -246,6 +278,22 @@ public:
     gsys::BoneAccessKey sub_7100FBDF54(const void* key) const;
 
 private:
+    // inline-only in the original; name is a guess (evidence: the same sequence is inlined in 0x7100fb7f2c and twice in
+    // 0x7100fb8f10): deletes the ragdoll controllers (_98), the ragdoll instance and its resource handle.
+    void deleteRagdoll_() {
+        for (s32 i = 0, n = _98.size(); i < n; ++i)
+            delete _98[i];
+        _98.freeBuffer();
+        if (mRagdollInstance) {
+            delete mRagdollInstance;
+            mRagdollInstance = nullptr;
+        }
+        if (mRagdollResHandle) {
+            delete mRagdollResHandle;
+            mRagdollResHandle = nullptr;
+        }
+    }
+
     struct Unk1 {
         /* 0x00 */ u8 _0[0x30];
         /* 0x30 */ gsys::BoneAccessKey _30;
@@ -281,12 +329,12 @@ private:
     res::RagdollConfigList* mRagdollConfigList;
 
     res::Handle* mClothResHandle{};
-    sead::DirectResource* mClothRes{};
+    ClothResource* mClothRes{};
     ClothSet* mClothSet;
 
     res::Handle* mSupportBoneResHandle{};
-    void* _e8{};
-    void* _f0{};
+    SupportBoneInstanceMaybe* _e8{};
+    ModelBoneAccessor* _f0{};  // owned while flag _40 is set
 
     NavMeshCharacter* mNavMeshCharacter;
     // The listed bodies: 0xb0-byte entries (only the 0x98 entry is known).

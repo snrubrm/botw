@@ -3,7 +3,9 @@
 #include <resource/seadArchiveRes.h>
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Physics/Cloth/physClothSet.h"
+#include "KingSystem/Physics/Cloth/physClothParam.h"
 #include "KingSystem/Physics/Ragdoll/physRagdollController.h"
+#include "KingSystem/Physics/Rig/physModelBoneAccessor.h"
 #include "KingSystem/Physics/Ragdoll/physRagdollParam.h"
 #include "KingSystem/Physics/Ragdoll/physRagdollInstance.h"
 #include "KingSystem/Physics/Ragdoll/physRagdollRigidBody.h"
@@ -17,6 +19,8 @@
 #include "KingSystem/Physics/RigidBody/physRigidBodySetParam.h"
 #include "KingSystem/Physics/System/physCharacterControllerParam.h"
 #include "KingSystem/Physics/System/physCollisionInfo.h"
+#include "KingSystem/Physics/System/physContactInfoParam.h"
+#include "KingSystem/Physics/System/physContactMgr.h"
 #include "KingSystem/Physics/System/physContactPointInfo.h"
 #include "KingSystem/Physics/System/physGroupFilter.h"
 #include "KingSystem/Physics/System/physParamSet.h"
@@ -25,6 +29,7 @@
 #include "KingSystem/Physics/Cloth/physClothResource.h"
 #include "KingSystem/Physics/Ragdoll/physRagdollResource.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodyResource.h"
+#include "KingSystem/Physics/SupportBone/physSupportBoneParam.h"
 #include "KingSystem/Physics/SupportBone/physSupportBoneResource.h"
 #include "KingSystem/Resource/Actor/resResourceRagdollConfigList.h"
 #include "KingSystem/Resource/resHandle.h"
@@ -100,6 +105,126 @@ bool InstanceSet::sub_7100FBE808(sead::Heap* heap, res::Handle* pack_handle) {
     const sead::SafeString& file = ragdoll->ragdoll_setup_file_path.ref();
     sead::FormatFixedSafeString<128> path("Physics/Ragdoll/%s", file.cstr());
     loadFromRomOrActorPack<RagdollResource>(mRagdollResHandle, path, pack_handle, mName, true);
+    return true;
+}
+
+bool InstanceSet::sub_7100FBF368(sead::Heap* heap, Unk_7102519a10* arg, res::Handle* pack_handle) {
+    auto* cloth_set = mParamSet->cloth_set;
+    if (!arg && !cloth_set)
+        return false;
+
+    const sead::SafeString name = arg ? arg->getClothFileName() : cloth_set->cloth_setup_file_path.ref();
+    if (name.isEmpty())
+        return false;
+
+    mClothResHandle = new (heap) res::Handle;
+    sead::FormatFixedSafeString<128> path("Physics/Cloth/%s", name.cstr());
+    mClothRes = loadFromRomOrActorPack<ClothResource>(mClothResHandle, path, pack_handle, mName, true);
+    if (!mClothRes)
+        return false;
+    if (mClothRes->sub_710121CEA0() != 1)
+        return false;
+
+    mClothRes->getPath().copy(path);
+    mFlags.reset(Flag::Cloth1);
+    mFlags.reset(Flag::Cloth2);
+    mFlags.set(Flag::Cloth1);
+    return true;
+}
+
+bool InstanceSet::sub_7100FBF87C(sead::Heap* heap, Unk_7102519a10* arg, res::Handle* pack_handle) {
+    if (_e8) {
+        delete _e8;
+        _e8 = nullptr;
+    }
+    if (mSupportBoneResHandle) {
+        delete mSupportBoneResHandle;
+        mSupportBoneResHandle = nullptr;
+    }
+
+    auto* support_bone = mParamSet->support_bone;
+    if (!arg && !support_bone)
+        return false;
+
+    const sead::SafeString& name =
+        arg ? arg->getSupportBoneFileName() : support_bone->support_bone_setup_file_path.ref();
+    if (name.isEmpty()) {
+        if (_e8) {
+            delete _e8;
+            _e8 = nullptr;
+        }
+        if (mSupportBoneResHandle) {
+            delete mSupportBoneResHandle;
+            mSupportBoneResHandle = nullptr;
+        }
+        return false;
+    }
+
+    mSupportBoneResHandle = new (heap) res::Handle;
+    sead::FormatFixedSafeString<128> path("Physics/SupportBone/%s", name.cstr());
+    if (loadFromRomOrActorPack<SupportBoneResource>(mSupportBoneResHandle, path, pack_handle, mName,
+                                                    true))
+        return true;
+
+    if (_e8) {
+        delete _e8;
+        _e8 = nullptr;
+    }
+    if (mSupportBoneResHandle) {
+        delete mSupportBoneResHandle;
+        mSupportBoneResHandle = nullptr;
+    }
+    return false;
+}
+
+void InstanceSet::sub_7100FB8F10(sead::Heap* heap, res::Handle* pack_handle) {
+    if (mRagdollInstance)
+        deleteRagdoll_();
+    if (_f0 && mFlags.isOn(Flag::_40)) {
+        delete _f0;
+        _f0 = nullptr;
+        mFlags.reset(Flag::_40);
+    }
+    if (!sub_7100FBE808(heap, pack_handle))
+        deleteRagdoll_();
+}
+
+// NON_MATCHING: scheduling only: the original loads the param's `num` field before it builds the name / type
+// temporaries and interleaves the temporaries' stores differently
+// (discarded call in the original: `mName.cstr()` after initLayerMasks)
+bool InstanceSet::initContactInfo(sead::Heap* heap) {
+    auto* param = mParamSet->contact_info;
+    if (!param)
+        return false;
+
+    auto* contact_mgr = System::instance()->getContactMgr();
+    const s32 num_contact_point_info = param->contact_point_info_num.ref();
+    if (num_contact_point_info > 0) {
+        mContactPointInfo.allocBuffer(num_contact_point_info, heap);
+        for (s32 i = 0; i < num_contact_point_info; ++i) {
+            auto& info_param = param->contact_point_info[i];
+            const sead::SafeString name = info_param.name.ref();
+            const sead::SafeString type = info_param.type.ref();
+            auto* info = ContactPointInfo::make(heap, info_param.num.ref(), name, 0, 0, 0);
+            contact_mgr->initLayerMasks(info, type);
+            mName.cstr();
+            mContactPointInfo.pushBack(info);
+        }
+    }
+
+    const s32 num_collision_info = param->collision_info_num.ref();
+    if (num_collision_info > 0) {
+        mCollisionInfo.allocBuffer(num_collision_info, heap);
+        for (s32 i = 0; i < num_collision_info; ++i) {
+            auto& info_param = param->collision_info[i];
+            const sead::SafeString name = info_param.name.ref();
+            const sead::SafeString type = info_param.type.ref();
+            auto* info = CollisionInfo::make(heap, name);
+            contact_mgr->initLayerMasks(info, type);
+            mName.cstr();
+            mCollisionInfo.pushBack(info);
+        }
+    }
     return true;
 }
 

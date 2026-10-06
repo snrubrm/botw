@@ -14,6 +14,12 @@ public:
 
     void doCreate_(u8* buffer, u32 bufferSize, sead::Heap* heap) override;
 
+    // 0x710121cea0 (lane4 s48; placeholder name): 1 if bit 0 of `_48` is set, 2 for bit 2, 3 for bit 3, 4 for bit 4,
+    // 5 for bit 5, else 0.
+    s32 sub_710121CEA0() const;
+    // The file path ("Physics/Cloth/<name>") InstanceSet::sub_7100FBF368 copies into the resource (`_50`).
+    sead::BufferedSafeString& getPath() { return _50; }
+
 private:
     // TODO: rename
     struct Unk2 {
