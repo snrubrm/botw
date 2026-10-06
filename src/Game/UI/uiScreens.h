@@ -1260,6 +1260,11 @@ extern const ksys::StateBase sUnk_71025ef170;
 extern const ksys::StateBase sUnk_71025ef1d0;
 extern const ksys::StateBase sUnk_71025ef290;
 extern const ksys::StateBase sUnk_71025ec670;
+extern const ksys::StateBase sUnk_71025ec5b0;
+extern const ksys::StateBase sUnk_71025ec610;
+// Flag bytes next to the states of ScreenAppTool (0x71025ec548 / 0x71025ec549; written by other screens at run time).
+extern bool sUnk_71025ec548;
+extern bool sUnk_71025ec549;
 
 struct ScreenAppPictureBookUnk;
 
@@ -1579,6 +1584,14 @@ public:
     const char* getLayoutName_() const override;
     ~ScreenAppTool() override;
     SEAD_RTTI_OVERRIDE(ScreenAppTool, ScreenEx)
+    void m107(eui::AnimButton*) override;
+
+    // Members used by the state callbacks (the constructor 0x71009fcd64 is not decompiled).
+    /* 0x3610 */ u8 _3610;
+    u8 _pad_3611[0x3620 - 0x3611];
+    /* 0x3620 */ eui::Animator* _3620;
+    u8 _pad_3628[0x3744 - 0x3628];
+    /* 0x3744 */ u8 _3744;
 
     // own virtual slots (state callbacks; groups of four: void, void, void, s32 -- the types are guesses from the trivial ones)
     virtual void m154();
@@ -2423,8 +2436,12 @@ public:
     bool isEnableControl() const override;
     ~ScreenTitle() override;
     SEAD_RTTI_OVERRIDE(ScreenTitle, ScreenEx)
+    // 0x7100a69aec / 0x7100a69b6c (placeholder names): restart the animator at 0x3610 and forget the two selections /
+    // whether it is at its end
+    void sub_7100A69AEC();
+    bool sub_7100A69B6C();
 
-    /* 0x3610 */ u64 _3610;  // zeroed in the constructor body
+    /* 0x3610 */ eui::Animator* _3610;  // zeroed in the constructor body
     u64 _3618;
     u64 _3620;
     u64 _3628;

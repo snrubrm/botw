@@ -177,6 +177,8 @@ public:
 
     u8 _0[0x2c];
     /* 0x2c */ s32 _2c;
+    u8 _30[0x36 - 0x30];
+    /* 0x36 */ u8 _36;
 
 private:
     static Unk_71025d69f0* sInstance;

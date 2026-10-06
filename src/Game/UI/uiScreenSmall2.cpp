@@ -38,6 +38,39 @@ bool ScreenAppTool::sub_71009FD674() {
     return mStateMachine.getState()->getId() == (&sUnk_71025ec670)->getId();
 }
 
+// 0x71009ff43c
+void ScreenAppTool::m107(eui::AnimButton*) {
+    _3610 = 1;
+}
+
+// 0x71009ff6a8
+void ScreenAppTool::m155() {
+    if (sUnk_71025ec548)
+        mStateMachine.changeState(&sUnk_71025ec610);
+}
+
+// 0x71009ffd30
+void ScreenAppTool::m163() {
+    if (_3744 == 1 && _3620 && _3620->mFrame == static_cast<f32>(_3620->GetFrameSize())) {
+        _3744 = 3;
+        mStateMachine.changeState(&sUnk_71025ec670);
+    }
+}
+
+// 0x71009ffdb0
+void ScreenAppTool::m166() {
+    if (!Unk_71025d69f0::instance()->_36)
+        _3610 = 1;
+}
+
+// 0x71009ffdd4
+void ScreenAppTool::m167() {
+    if (Unk_71025d69f0::instance()->_36 && sUnk_71025ec549) {
+        _3610 = 1;
+        mStateMachine.changeState(&sUnk_71025ec5b0);
+    }
+}
+
 // 0x7100a31be0
 void ScreenPauseMenuInfo::sub_7100A31BE0() {
     if (_3904 == 1)
@@ -479,6 +512,18 @@ void ScreenHardModeTextDLC::m98() {
 // 0x7100a322bc
 void ScreenPauseMenuMantan::m98() {
     setReservedBoxCursorNode(findBoxCursorNodeByTag(137));
+}
+
+// 0x7100a69aec
+void ScreenTitle::sub_7100A69AEC() {
+    _3610->PlayAuto(1.0f);
+    _363c = -1;
+    _3680 = -1;
+}
+
+// 0x7100a69b6c
+bool ScreenTitle::sub_7100A69B6C() {
+    return _3610->mFrame == static_cast<f32>(_3610->GetFrameSize());
 }
 
 // 0x7100a1fa64
