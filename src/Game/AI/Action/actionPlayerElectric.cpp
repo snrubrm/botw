@@ -20,13 +20,13 @@ void PlayerElectric::loadParams_() {
     getStaticParam(&mJumpHeight_s, "JumpHeight");
 }
 
-// NON_MATCHING: the original calls `_2550.m13(4)` through the vtable (ours devirtualises the member object) and
-// reloads `mActor` separately in both arms after stillAlive() (ours hoists the load).
+// NON_MATCHING: the original reloads `mActor` separately in both arms after stillAlive() (ours hoists the load).
 void PlayerElectric::calc_() {
     auto* player = static_cast<ksys::act::Player*>(mActor);
     if (player->_17f0) {
         if (player->isSurfingOnGround())
-            static_cast<ksys::act::Player*>(mActor)->_2550.m13(4);
+            // called through a pointer in the original (not devirtualised)
+            (&static_cast<ksys::act::Player*>(mActor)->_2550)->m13(4);
     } else {
         player->_20bc.value = 0;
         player->_20bc.prev_value = 0;

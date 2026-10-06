@@ -23,8 +23,8 @@ protected:
     virtual void m32(ksys::act::Actor* actor, const sead::Vector3f& vel,
                      const sead::Vector3f& ang_vel);
 
-    // 0x71002974ec (CSV name; not decompiled: needs a ContactPointInfo::Iterator end test that
-    // the header lacks)
+    // 0x71002974ec (CSV name): the thrown actor has touched something (contact points, landed, ground hit ...);
+    // false while it has the tag "StalfosParts" (0x72d6e7a4).
     bool thrownStalfosPartsStuff() const;
 
     struct Params {

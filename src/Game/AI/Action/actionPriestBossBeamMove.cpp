@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionPriestBossBeamMove.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace uking::action {
 
@@ -30,6 +33,28 @@ void PriestBossBeamMove::loadParams_() {
 
 void PriestBossBeamMove::calc_() {
     ksys::act::ai::Action::calc_();
+}
+
+bool PriestBossBeamMove::isFinished() const {
+    auto* actor = mActor;
+    if (hasAttackInfo(actor)) {
+        auto* info = getAttackInfo(actor, 0);
+        if (info && (info->_18 & 0xb))
+            return ksys::act::ai::Action::isFinished();
+    }
+    if (_d0)
+        return ksys::act::ai::Action::isFinished();
+
+    if (!_d3 || !ksys::act::ai::Action::isFinished())
+        return false;
+    if (_d4)
+        return true;
+    sead::Matrix34f mtx;
+    _b8->getTransform(&mtx);
+    _c8->setTransform(mtx);
+    _c8->setLinearVelocity(sead::Vector3f::zero);
+    _d4 = true;
+    return true;
 }
 
 }  // namespace uking::action

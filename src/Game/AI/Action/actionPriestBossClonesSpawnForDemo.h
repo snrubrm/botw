@@ -20,6 +20,10 @@ public:
 protected:
     // 0x7100066884 (declared only): out of line in the original.
     bool sub_7100066884();
+    // 0x7100066ce4: stores the delay in _54; for a positive delay runs sub_71000668A0(0) and sets Actor flag2 _20.
+    void sub_7100066CE4(int delay);
+    // 0x71000668a0 (declared only; 724 B)
+    void sub_71000668A0(f32 t);
     void calc_() override;
 
     // 0x71000664e4 (placeholder name): the meta AI unit (null if it is not a Unk_7102450fa8).
@@ -38,7 +42,7 @@ protected:
     // aitree_variable at offset 0x48
     void* mPriestBossMetaAIUnit_a{};
     int _50 = -1;
-    f32 _54 = 0;
+    int _54 = 0;
     f32 _58 = 0;
     f32 _5c = 0;
     sead::Vector3f _60 = sead::Vector3f::zero;

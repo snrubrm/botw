@@ -56,4 +56,12 @@ bool PriestBossClonesSpawnForDemo::sub_7100066884() {
     return _5c >= f32(*mDurationFrame_d);
 }
 
+void PriestBossClonesSpawnForDemo::sub_7100066CE4(int delay) {
+    _54 = delay;
+    if (delay >= 1) {
+        sub_71000668A0(0.0f);
+        mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_20);
+    }
+}
+
 }  // namespace uking::action

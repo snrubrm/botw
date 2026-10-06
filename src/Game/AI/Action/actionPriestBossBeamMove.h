@@ -3,6 +3,10 @@
 #include <math/seadVector.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
 
+namespace ksys::phys {
+class RigidBody;
+}
+
 namespace uking::action {
 
 class PriestBossBeamMove : public ksys::act::ai::Action {
@@ -15,6 +19,7 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+    bool isFinished() const override;
 
 protected:
     void calc_() override;
@@ -39,8 +44,15 @@ protected:
     u8 _70[0x30];
     sead::Vector3f _a0 = sead::Vector3f::zero;
     f32 _ac = 0.5f;
-    u8 _b0[0x10]{};
-    u8 _c0[0x15]{};
+    u64 _b0{};
+    ksys::phys::RigidBody* _b8{};  // the beam body (its transform is copied to _c8)
+    u64 _c0{};
+    ksys::phys::RigidBody* _c8{};
+    bool _d0{};
+    bool _d1{};
+    bool _d2{};
+    bool _d3{};
+    mutable bool _d4{};
     u8 _d5[0x3];
 };
 

@@ -1,6 +1,11 @@
 #include "Game/AI/Action/actionThrown.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/AI/aiUnk_71007368A4.h"
+#include "Game/AI/aiUnk_710072BA90.h"
 #include "Game/AI/aiUnk_71007377D4.h"
+#include "Game/Damage/dmgDamageManager.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/Physics/System/physContactPointInfo.h"
 #include "Game/Damage/dmgDamageCallback.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
@@ -108,6 +113,33 @@ void Thrown::m32(ksys::act::Actor* actor, const sead::Vector3f& vel,
     }
     ksys::act::sub_7100EE5980(actor, vel);
     ksys::act::sub_7100EE5A14(actor, ang_vel);
+}
+
+bool Thrown::thrownStalfosPartsStuff() const {
+    auto* actor = mActor;
+    if (_a4 || !_a5) {
+        if (ksys::act::hasTag(actor, 0x72d6e7a4u))  // StalfosParts
+            return false;
+    }
+
+    ksys::phys::ContactPointInfo* info = nullptr;
+    if (auto* controller = actor->getCharacterController()) {
+        info = controller->sub_7100F635E4();
+    } else if (auto* body = actor->getMainBody()) {
+        info = body->getContactPointInfo();
+    }
+    if (info && info->getNumContactPoints() != 0 && !info->begin().isEnd())
+        return true;
+
+    if (auto* manager = sub_710072BA90(actor)) {
+        if (sub_7100736BBC(manager->getField54()))
+            return true;
+    }
+    if (isLandedMaybe(actor, false))
+        return true;
+    if (isBgGroundHit(actor, false))
+        return true;
+    return sub_71007A4178(actor, false);
 }
 
 bool Thrown::isFinished() const {

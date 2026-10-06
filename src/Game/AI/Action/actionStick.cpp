@@ -31,7 +31,8 @@ void Stick::loadParams_() {
     getDynamicParam(&mStickBodyName_d, "StickBodyName");
 }
 
-// NON_MATCHING: the original makes a real vtable call for the bind's m10 (ours devirtualises the empty ActorBind::m10).
+// NON_MATCHING: the m10 call now matches; ours keeps the result in w21 across the accessor destructor (extra callee-saved
+// register) while the original returns `true` right after the destructor call in the branch.
 bool Stick::sub_710027D3AC() {
     if (!mStickActor_d)
         return false;
@@ -50,7 +51,8 @@ bool Stick::sub_710027D3AC() {
     if (accessor.isStateCalc()) {
         _48._58 = parent_link;
         _48._8.acquire(nullptr, false);
-        _48.m10(&_48._8);
+        // called through a pointer in the original (not devirtualised)
+        (&_48)->m10(&_48._8);
         return true;
     }
     return false;

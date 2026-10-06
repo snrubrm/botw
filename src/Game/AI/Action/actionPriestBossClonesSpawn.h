@@ -20,6 +20,10 @@ public:
 protected:
     // 0x71002218d8 (declared only): out of line in the original.
     void sub_71002218D8();
+    // 0x7100221b68 (declared only; 312 B): walks the AI tree like getDynamicParamImpl and calls the ParamPack setter
+    // (here setString(value, key)) on every level that has the parameter.
+    bool sub_7100221B68(const sead::SafeString& value, const sead::SafeString& key,
+                        bool (ksys::act::ai::ParamPack::*setter)(const sead::SafeString&, const sead::SafeString&) const);
     void calc_() override;
     int m32() override;
 
