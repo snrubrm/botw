@@ -49,7 +49,9 @@ public:
     // 0x71009686bc: clears _80, `_84 = value * 2`
     void sub_71009686BC(s32 value);
 
-    u8 _0[0x74];
+    u8 _0[0x29];
+    /* 0x29 */ u8 _29;
+    u8 _2a[0x74 - 0x2a];
     /* 0x74 */ s32 _74;
     u8 _78[0x80 - 0x78];
     /* 0x80 */ s32 _80;
@@ -256,6 +258,8 @@ public:
     void sub_710096372C(const void* a1);
     void* sub_71009648A8();
     bool sub_7100964A0C(s32 a1);
+    // 0x7100964b24 (placeholder name): the number of entries of the table at 0x610 whose flag (bit 4 of the byte at 0x3c) is clear
+    s32 sub_7100964B24();
     void sub_7100963CE8(ksys::act::Actor* actor);
     bool sub_71009661DC(const void* a1, s32* out);
     void sub_7100963C8C(const UiSubsys1PinArg* arg);

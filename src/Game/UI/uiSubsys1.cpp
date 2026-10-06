@@ -438,6 +438,16 @@ void* UiSubsys1::sub_71009648A8() {
     return nullptr;
 }
 
+// 0x7100964b24
+// NON_MATCHING: identical except that the original loads the flag word of each entry with a 32-bit `ldr` where ours (the
+// entry's `_3c` is a byte, as in sub_71009645A0 which matches with `ldrb`) loads a byte
+s32 UiSubsys1::sub_7100964B24() {
+    s32 flagged = 0;
+    for (s32 i = 0; i < _610.size(); ++i)
+        flagged += (_610(i)->_3c & 0x10) ? 1 : 0;
+    return _610.size() - flagged;
+}
+
 // 0x7100964a0c
 // NON_MATCHING: same checks and the same range / null logic, but the original has a single `mov w0, wzr` exit block
 // (the three failure branches share it) where every source form gives separate exit blocks.

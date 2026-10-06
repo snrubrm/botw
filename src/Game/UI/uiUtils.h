@@ -206,6 +206,9 @@ bool sub_7100A79EC4();
 void sub_7100A82DB8(s32 a);
 void sub_7100A82DD0(s32 a);
 
+// 0x71009674e8 (placeholder name): the byte at 0x29 of the 0x71025d6ac0 object.
+u8 sub_71009674E8();
+
 // 0x7100aa9728 (placeholder name): sets the UI manager's byte at 0x652e8 (called by the ScreenBootUp ctor).
 void sub_7100AA9728();
 
