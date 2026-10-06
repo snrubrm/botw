@@ -1,18 +1,43 @@
 #include "Game/AI/AI/aiLandHumEnemyUnarmedBattle.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/AI/aiUnk_7100724C64.h"
+#include "Game/Actor/actEnemy.h"
+#include "Game/Actor/actWeapon.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
 
 namespace uking::ai {
 
+// NON_MATCHING: scheduling / register allocation of the inlined FixedObjList setup stores (same as
+// UnarmedEnemyNoiseTarget's ctor)
 LandHumEnemyUnarmedBattle::LandHumEnemyUnarmedBattle(const InitArg& arg)
     : UnarmedEnemySearch(arg) {}
 
 LandHumEnemyUnarmedBattle::~LandHumEnemyUnarmedBattle() = default;
 
 void LandHumEnemyUnarmedBattle::enter_(ksys::act::ai::InlineParamPack* params) {
+    _150.clear();
+    _148 = -1;
+    _798 = sub_7100726E54(mActor);
+    _799 = true;
     UnarmedEnemySearch::enter_(params);
 }
 
 void LandHumEnemyUnarmedBattle::leave_() {
     UnarmedEnemySearch::leave_();
+    sub_71005DB3EC(mActor);
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
+        enemy->sub_7100019C58(sub_71005D83E8(enemy, *mParams.mEquipItemSearchIdx_s));
+        enemy->sub_7100019D38(_118);
+        enemy->sub_7100019D38(_108);
+    }
+    if (_118.hasProc()) {
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::acquireActor(&_118, &accessor);
+        sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x80000c3), mActor);
+    }
+    _150.clear();
 }
 
 void LandHumEnemyUnarmedBattle::loadParams_() {
