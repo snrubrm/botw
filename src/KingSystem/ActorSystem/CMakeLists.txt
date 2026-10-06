@@ -82,6 +82,7 @@ target_sources(uking PRIVATE
     Profiles/actPlayerSlotTargets.cpp
     Profiles/actPlayerBowUtil.cpp
     Profiles/actPlayerOutOfLine.cpp
+    Profiles/actPlayerAnim.cpp
     Profiles/actPlayer.h
     Profiles/actPlayerArmors.cpp
     Profiles/actPlayerBase.cpp

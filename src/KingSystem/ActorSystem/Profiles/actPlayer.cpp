@@ -26,6 +26,7 @@
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectPlayer.h"
+#include "KingSystem/Event/evtEventSystem.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "KingSystem/System/StageInfo.h"
 #include "Game/gameHeroSoul.h"
@@ -944,6 +945,7 @@ bool Player::isEquipedDyedArmor() {
     return m278(0) > 0 || m278(1) >= 1 || m278(2) > 0;
 }
 
+
 f32 Player::getArmorChargeAttackAddLevel() {
     return sub_7100885630(_2044);
 }
@@ -980,6 +982,13 @@ void Player::x_0(const char* animation) {
     mASList->startAnimationMaybe(-1.0f, -1.0f, animation, 4, 0, true);
     mASList->sub_710115F2EC(4, 0, 1.0f);
 }
+
+
+
+
+
+
+
 
 void Player::x_19(f32) {
     if (!mASList->x_7(0, 1, &as::ASList::Unk2::sub_710002E82C))

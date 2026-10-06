@@ -281,6 +281,8 @@ public:
     void switchToAnimSequenceMaybe(const char* name, bool a2, f32 a3);  // 0x855608
     void x_23(const char* name, bool a2, f32 a3);                       // 0x85588c
     void x_18(bool a1);                                                 // 0x855a6c
+    // 0x7100855af8 (unnamed): the same ASList setup for slot 3 (called by x_18).
+    void sub_7100855AF8();
     // 0x7100855bb4 (declared only; PlayerKokkoGlide::enter_ with "ParashawlGlide").
     void sub_7100855BB4(const char* name, bool a2, f32 a3);
     // All 33 callers pass -1.0f in s0, which x_19 does not use.
@@ -582,7 +584,8 @@ public:
     /* 0x20f0 */ f32 _20f0;
     /* 0x20f4 */ u8 _20f4[0x2100 - 0x20f4];
     /* 0x2100 */ f32 _2100;  // PlayerLadderUpEnd::enter_
-    /* 0x2104 */ u8 _2104[0x211c - 0x2104];
+    /* 0x2104 */ f32 _2104;  // the blend frame of the last switchToAnimSequenceMaybe
+    /* 0x2108 */ u8 _2108[0x211c - 0x2108];
     /* 0x211c */ f32 _211c;  // cleared by PlayerLand::enter_
     /* 0x2120 */ u8 _2120[0x2158 - 0x2120];
     /* 0x2158 */ f32 _2158;  // copy of _1770.y (PlayerClimb::leave_)
@@ -620,7 +623,13 @@ public:
     /* 0x2c78 */ BaseProcLink _2c78;  // set up and woken by PlayerSuperJumpCharge::calc_
     /* 0x2c88 */ BaseProcLink _2c88;  // isZoraHeroActive
     /* 0x2c98 */ BaseProcLink _2c98;
-    /* 0x2ca8 */ u8 _2ca8[0x2d64 - 0x2ca8];
+    /* 0x2ca8 */ u8 _2ca8[0x2d30 - 0x2ca8];
+    /* 0x2d30 */ bool _2d30;  // look-at target active (sub_7100859EDC / sub_7100859FC0)
+    /* 0x2d34 */ s32 _2d34;   // look-at mode
+    /* 0x2d38 */ sead::Vector3f _2d38;
+    /* 0x2d44 */ u8 _2d44[0x2d48 - 0x2d44];
+    /* 0x2d48 */ BaseProcLink _2d48;
+    /* 0x2d58 */ sead::Vector3f _2d58;
     /* 0x2d64 */ bool _2d64;  // set by PlayerTurnAndLookToObjectNow::leave_
     /* 0x2d65 */ u8 _2d65[0x2ec0 - 0x2d65];
 };
