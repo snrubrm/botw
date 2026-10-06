@@ -1,5 +1,6 @@
 #include "Game/AI/Action/actionEventPlayUiStaffRoll.h"
 #include "Game/UI/uiScreens.h"
+#include "KingSystem/Event/evtManager.h"
 
 namespace uking::action {
 
@@ -30,7 +31,23 @@ void EventPlayUiStaffRoll::loadParams_() {
 }
 
 void EventPlayUiStaffRoll::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (isFinished() || isFailed())
+        return;
+
+    auto* screen = sead::DynamicCast<ui::Screen>(
+        eui::ScreenMgr::instance()->getScreen(ui::ScreenId::StaffRoll));
+    if (!screen) {
+        setFailed();
+        return;
+    }
+
+    if (*mClipIndex_d >= 0) {
+        const f32 progress =
+            sead::Mathf::clampMin(ksys::evt::Manager::instance()->sub_7100DB1138(*mClipIndex_d), 0.0f);
+        screen->m74(progress);
+    } else if (screen->isOpened()) {
+        setFinished();
+    }
 }
 
 }  // namespace uking::action

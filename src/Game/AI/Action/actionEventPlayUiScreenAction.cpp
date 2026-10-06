@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionEventPlayUiScreenAction.h"
+#include "Game/UI/uiScreens.h"
+#include "KingSystem/Event/evtManager.h"
 
 namespace uking::action {
 
@@ -24,7 +26,23 @@ void EventPlayUiScreenAction::loadParams_() {
 }
 
 void EventPlayUiScreenAction::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (isFinished() || isFailed())
+        return;
+
+    const s32 index = _38;
+    auto* screen = sead::DynamicCast<ui::Screen>(eui::ScreenMgr::instance()->getScreen(index));
+    if (screen != _40) {
+        setFailed();
+        return;
+    }
+
+    if (*mClipIndex_d >= 0) {
+        const f32 progress =
+            sead::Mathf::clampMin(ksys::evt::Manager::instance()->sub_7100DB1138(*mClipIndex_d), 0.0f);
+        _40->m74(progress);
+    } else if (_40->isOpened()) {
+        setFinished();
+    }
 }
 
 }  // namespace uking::action
