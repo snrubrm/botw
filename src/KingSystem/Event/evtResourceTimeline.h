@@ -36,6 +36,8 @@ public:
     bool buildTimeline(evfl::TimelineObj* obj, int idx, sead::Heap* heap);
 
 private:
+    friend class EventResource;
+
     struct Res {
         res::Handle handle;
         const evfl::ResEventFlowFile* res_event_flow_file;

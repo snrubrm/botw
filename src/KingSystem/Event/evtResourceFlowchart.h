@@ -34,6 +34,8 @@ public:
     bool isResourceLoaded(const sead::SafeString& path_substring) const;
 
 private:
+    friend class EventResource;
+
     struct Res {
         res::Handle handle;
         const evfl::ResEventFlowFile* res_event_flow_file;

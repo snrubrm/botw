@@ -7,6 +7,7 @@
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Event/evtDemoInfo.h"
 #include "KingSystem/Resource/resHandle.h"
+#include "KingSystem/Resource/resTempResourceLoader.h"
 
 namespace sead {
 class Heap;
@@ -16,6 +17,8 @@ namespace ksys::evt {
 
 class EventFlowBase;
 class ActorBindings;
+class ResourceFlowchart;
+class ResourceTimeline;
 
 // Event xlink information (CSV EventXlinkInfo; vtable-less helper at EventResource + 0x1b8)
 class EventXlinkInfo {
@@ -45,8 +48,10 @@ class EventResource {
 public:
     // 0x7100dc2360 (CSV EventResource::ctor; not decompiled)
     explicit EventResource(sead::Heap* heap);
-    // 0x7100dc28dc (CSV EventResource::initTimeline): `flow_data` is the EventFlowBase's data at +0x10.
-    void initTimeline(void* flow_data);
+    // 0x7100dc28dc (CSV EventResource::initTimeline): `event_name` is the EventFlowBase's mEventName.
+    void initTimeline(const sead::SafeString& event_name);
+    // 0x7100dc29e8 (CSV EventResource::loadEventPack; not decompiled)
+    void loadEventPack();
     // 0x7100dc2b7c (CSV EventResource::initFlowchart)
     void initFlowchart(void* flow_data, void* flowchart_data);
     // 0x7100dc34f8 (CSV EventResource::load; not decompiled)
@@ -64,17 +69,20 @@ public:
     void formatInitStatus(sead::BufferedSafeString* out);
 
     virtual ~EventResource();
-    u8 _8[0x10];
+    /* 0x08 */ ResourceFlowchart* mFlowchart;
+    /* 0x10 */ ResourceTimeline* mTimeline;
     /* 0x18 */ ActorBindings* mActorBindings;
     /* 0x20 */ DemoInfo mDemoInfo;
     u8 _pad_after_demo[0x148 - 0x20 - sizeof(DemoInfo)];
     /* 0x148 */ CameraSystem* _148;
-    u8 _150[8];
+    /* 0x150 */ sead::Heap* mHeap;
     /* 0x158 */ res::Handle _158;
     u8 _1a8[8];
     /* 0x1b0 */ void* _1b0;
     /* 0x1b8 */ EventXlinkInfo* _1b8;
-    u8 _1c0[0x1d3 - 0x1c0];
+    u8 _1c0[8];
+    /* 0x1c8 */ res::TempResourceLoader* mTempResourceLoader;
+    u8 _1d0[0x1d3 - 0x1d0];
     /* 0x1d3 */ bool _1d3;
     u8 _1d4[0x1e0 - 0x1d4];
     union {

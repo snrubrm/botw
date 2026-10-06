@@ -1,8 +1,46 @@
 #include "KingSystem/Event/evtEventResource.h"
 #include <heap/seadHeap.h>
+#include "KingSystem/Event/evtResourceFlowchart.h"
+#include "KingSystem/Event/evtResourceTimeline.h"
 #include "KingSystem/Resource/resLoadRequest.h"
+#include "KingSystem/Resource/resResourceMgrTask.h"
+#include "KingSystem/Resource/resTempResourceLoader.h"
 
 namespace ksys::evt {
+
+void EventResource::initTimeline(const sead::SafeString& event_name) {
+    mTimeline = new (mHeap, 8) ResourceTimeline;
+    mTimeline->mName.copy(event_name);
+    loadEventPack();
+}
+
+void EventResource::loadEventPack() {
+    sead::FixedSafeString<64> path;
+    if (mFlowchart)
+        path.format("Event/%s.beventpack", mFlowchart->mName.cstr());
+    else if (mTimeline)
+        path.format("Event/%s.beventpack", mTimeline->mName.cstr());
+    else
+        return;
+
+    if (!res::ResourceMgrTask::instance()->getResourceSize(path, nullptr))
+        return;
+
+    res::TempResourceLoader::LoadArg arg;
+    arg.retry_on_failure = true;
+    arg.use_handle = true;
+    arg.load_req.mRequester = "EventResource";
+    arg.load_req._28 = false;
+    arg.load_req.mPath = path;
+    arg.load_req.mLoadDataAlignment = 0x100;
+    arg.load_req._26 = false;
+
+    res::TempResourceLoader::InitArg init_arg{};
+    mTempResourceLoader = new (mHeap, 8) res::TempResourceLoader;
+    res::ResourceMgrTask::instance()->initTempResourceLoader(mTempResourceLoader, init_arg);
+    mTempResourceLoader->requestLoad(arg);
+    _1e0 |= 0x4000;
+}
 
 // 0x7100dc3368
 bool EventResource::areCameraAndModelAndXlinkReady() {

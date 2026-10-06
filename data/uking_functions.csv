@@ -76265,8 +76265,8 @@ Address,Quality,Size,Name
 0x0000007100dc24ac,U,000232,EventResource::dtor
 0x0000007100dc2594,U,000036,EventResource::dtorDelete
 0x0000007100dc25b8,U,000804,EventResource::loadCommon_DemoAndModel
-0x0000007100dc28dc,U,000268,_ZN4ksys3evt13EventResource12initTimelineEPv
-0x0000007100dc29e8,U,000404,EventResource::loadEventPack
+0x0000007100dc28dc,O,000268,_ZN4ksys3evt13EventResource12initTimelineERKN4sead14SafeStringBaseIcEE
+0x0000007100dc29e8,O,000404,_ZN4ksys3evt13EventResource13loadEventPackEv
 0x0000007100dc2b7c,U,000468,EventResource::initFlowchart
 0x0000007100dc2d50,U,000356,EventResource::loadEventResources
 0x0000007100dc2eb4,U,001204,EventResource::finishLoad

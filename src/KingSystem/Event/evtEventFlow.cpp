@@ -325,7 +325,7 @@ void* EventFlowTimeline::m7() {
 
 // 0x7100dbc90c
 void EventFlowTimeline::m15() {
-    _108->initTimeline(&mEventName);
+    _108->initTimeline(mEventName);
 }
 
 // 0x7100dbd3ac
