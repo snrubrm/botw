@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiSiteBossShootArrowRoot.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "Game/Actor/actSiteBoss.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
@@ -89,6 +90,14 @@ void SiteBossShootArrowRoot::loadParams_() {
     getDynamicParam(&mIsAttackPatternFixed_d, "IsAttackPatternFixed");
     getDynamicParam(&mIsCancelAttack_d, "IsCancelAttack");
     getDynamicParam(&mTargetPos_d, "TargetPos");
+}
+
+// 0x71005857ec
+void SiteBossShootArrowRoot::sub_71005857EC(bool reset_end_time) {
+    ksys::act::ai::InlineParamPack pack;
+    pack.addBool(reset_end_time, "IsResetEndTime", -1);
+    pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+    changeChild("待機", &pack);
 }
 
 }  // namespace uking::ai

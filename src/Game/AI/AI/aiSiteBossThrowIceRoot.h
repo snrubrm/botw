@@ -16,6 +16,8 @@ public:
     void loadParams_() override;
 
 protected:
+    // 0x7100599ef4: changes to the "弾発射" child
+    void sub_7100599EF4(const sead::Vector3f& pos);
     // static_param at offset 0x38
     const int* mIgnitionNum_s{};
     // static_param at offset 0x40

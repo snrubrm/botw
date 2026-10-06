@@ -18,6 +18,10 @@ public:
     void loadParams_() override;
 
 protected:
+    // 0x7100596fa4: sets flag 0x20 of _108, then changes to the "退避" child
+    void sub_7100596FA4(const sead::Vector3f& pos);
+    // 0x7100596a4c: changes to the "盾突き" child
+    void sub_7100596A4C(const sead::Vector3f& pos, bool attack_pattern_fixed);
     // static_param at offset 0x38
     const int* mCloseAttackRate_s{};
     // static_param at offset 0x40
@@ -62,8 +66,7 @@ protected:
     bool* mIsCancelAttack_d{};
     u32 _f8 = 0;
     sead::Vector3f _fc = sead::Vector3f::zero;
-    bool _108 = false;
-    bool _109 = false;
+    u16 _108 = 0;
     u32 _10c = 0;
 };
 KSYS_CHECK_SIZE_NX150(SiteBossSwordAttackRoot, 0x110);

@@ -51,4 +51,12 @@ void SiteBossLswordTornadoRoot::sub_710057DD54() {
     changeChild("移動", &params);
 }
 
+// 0x710057e4f0
+void SiteBossLswordTornadoRoot::sub_710057E4F0() {
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+    pack.addBool(false, "IsResetEndTime", -1);
+    changeChild("待機", &pack);
+}
+
 }  // namespace uking::ai

@@ -23,6 +23,15 @@ public:
     bool m46() override;
 
 protected:
+    // Unnamed in the binary (0x710056aa30 / 0x710056ab10): change to the "隠れる" / "隠れられない" child with the
+    // target position (all four are called by calc_).
+    void sub_710056AA30();
+    void sub_710056AB10();
+    // 0x710056abf0
+    bool sub_710056ABF0();
+    // 0x710056ad84: changes to the "危険回避" child with the position of _180.
+    void sub_710056AD84();
+
     struct Params {
         // static_param at offset 0x150
         const int* mReHideTime_s{};

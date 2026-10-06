@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiSiteBossSwordAttackRoot.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
@@ -68,6 +69,23 @@ bool SiteBossSwordAttackRoot::isChangeable() const {
     if (getCurrentChild()->isChangeable())
         return true;
     return ksys::act::ai::Ai::isChangeable();
+}
+
+// 0x7100596a4c
+void SiteBossSwordAttackRoot::sub_7100596A4C(const sead::Vector3f& pos, bool attack_pattern_fixed) {
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(pos, "TargetPos", -1);
+    pack.addBool(attack_pattern_fixed, "IsAttackPatternFixed", -1);
+    changeChild("盾突き", &pack);
+}
+
+// 0x7100596fa4
+void SiteBossSwordAttackRoot::sub_7100596FA4(const sead::Vector3f& pos) {
+    _108 |= 0x20;
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(pos, "TargetPos", -1);
+    pack.addVec3(_fc, "OldTargetPos", -1);
+    changeChild("退避", &pack);
 }
 
 }  // namespace uking::ai

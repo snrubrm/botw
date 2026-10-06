@@ -28,6 +28,18 @@ public:
     void sub_710061223C();
     void sub_7100612434();
     void sub_710061288C();
+    // Unnamed in the binary: disable / enable the player contact layer of the character controller, then change
+    // to a child with the target position.
+    // 0x71006129E8: disable, then "プレイヤ水中"
+    void sub_71006129E8(const sead::Vector3f& pos);
+    // 0x7100612AD4: enable, then "プレイヤ上空"
+    void sub_7100612AD4(const sead::Vector3f& pos);
+    // 0x7100612BC0: disable, then "エリア外移動"
+    void sub_7100612BC0(const sead::Vector3f& pos);
+    // 0x7100612CAC: disable, then "エリア外待機"
+    void sub_7100612CAC(const sead::Vector3f& pos);
+    // 0x7100612D98: enable, then "水中ワープ"
+    void sub_7100612D98(const sead::Vector3f& pos);
 
 protected:
     sead::SafeArray<Unk1, 5> _38;

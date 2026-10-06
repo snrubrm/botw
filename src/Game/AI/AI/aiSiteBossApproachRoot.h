@@ -27,6 +27,10 @@ public:
     virtual bool m34();
 
 protected:
+    // 0x7100570ca4: "TargetPos" / "MoveDstPos" (_230), then the "遠距離攻撃移動" child
+    void sub_7100570CA4();
+    // 0x71005702d4: "TargetPos" / "MoveDstPos", then the "移動" child
+    void sub_71005702D4(const sead::Vector3f& dst);
     // static_param at offset 0x38
     const float* mCheckWallDist_s{};
     // static_param at offset 0x40

@@ -36,4 +36,12 @@ void SiteBossThrowIceRoot::loadParams_() {
     getDynamicParam(&mTargetActor_d, "TargetActor");
 }
 
+// 0x7100599ef4
+void SiteBossThrowIceRoot::sub_7100599EF4(const sead::Vector3f& pos) {
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(pos, "TargetPos", -1);
+    pack.addActor(*mTargetActor_d, "TargetActor", -1);
+    changeChild("弾発射", &pack);
+}
+
 }  // namespace uking::ai

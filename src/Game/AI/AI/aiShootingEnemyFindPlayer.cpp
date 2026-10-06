@@ -1,5 +1,8 @@
 #include "Game/AI/AI/aiShootingEnemyFindPlayer.h"
 #include "Game/Actor/actWeapon.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/AI/aiUnk_71007368A4.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerOrEnemy.h"
 #include "KingSystem/ActorSystem/actActorWeapons.h"
 
@@ -31,6 +34,47 @@ void ShootingEnemyFindPlayer::loadParams_() {
     getStaticParam(&mParams.mExplosivesAvoidAng_s, "ExplosivesAvoidAng");
     getStaticParam(&mParams.mHideStartDistMin_s, "HideStartDistMin");
     getStaticParam(&mParams.mHideStartDistMax_s, "HideStartDistMax");
+}
+
+// 0x710056aa30
+void ShootingEnemyFindPlayer::sub_710056AA30() {
+    ksys::act::ai::InlineParamPack pack;
+    const sead::Vector3f pos = sub_71005D9330(mActor);
+    pack.addVec3(pos, "TargetPos", -1);
+    changeChild("隠れる", &pack);
+}
+
+// 0x710056ab10
+void ShootingEnemyFindPlayer::sub_710056AB10() {
+    ksys::act::ai::InlineParamPack pack;
+    const sead::Vector3f pos = sub_71005D9330(mActor);
+    pack.addVec3(pos, "TargetPos", -1);
+    changeChild("隠れられない", &pack);
+}
+
+// NON_MATCHING: instruction scheduling only (the third static-param load is hoisted above the fadd)
+// 0x710056abf0
+bool ShootingEnemyFindPlayer::sub_710056ABF0() {
+    if (isCurrentChild("危険回避"))
+        return false;
+    _180.reset();
+    auto& link = sub_71005DE7F4(mActor, *mParams.mExplosivesAvoidDist_s + 5.0f,
+                                *mParams.mExplosivesAvoidSpeed_s, *mParams.mExplosivesAvoidAng_s, true);
+    if (!link.hasProc())
+        return false;
+    _180 = link;
+    sub_710056AD84();
+    return true;
+}
+
+// 0x710056ad84
+void ShootingEnemyFindPlayer::sub_710056AD84() {
+    if (!_180.hasProc())
+        return;
+    ksys::act::ai::InlineParamPack pack;
+    const sead::Vector3f pos = sub_7100736A24(&_180);
+    pack.addVec3(pos, "TargetPos", -1);
+    changeChild("危険回避", &pack);
 }
 
 bool ShootingEnemyFindPlayer::m45() {

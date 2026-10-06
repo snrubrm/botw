@@ -24,6 +24,8 @@ public:
     void sub_710057A348(const sead::Vector3f& pos, bool a2);
 
 protected:
+    // 0x710057a810: changes to the "待機" child
+    void sub_710057A810(const sead::Vector3f& pos);
     // static_param at offset 0x38
     const int* mHighSlashRate_s{};
     // static_param at offset 0x40

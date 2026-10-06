@@ -110,4 +110,12 @@ void SiteBossLswordAttackRoot::sub_710057A348(const sead::Vector3f& pos, bool a2
     changeChild("攻撃前待機", &params);
 }
 
+// 0x710057a810
+void SiteBossLswordAttackRoot::sub_710057A810(const sead::Vector3f& pos) {
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(pos, "TargetPos", -1);
+    pack.addBool(false, "IsResetEndTime", -1);
+    changeChild("待機", &pack);
+}
+
 }  // namespace uking::ai

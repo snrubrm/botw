@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiSiteBossApproachRoot.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "Game/Actor/actSiteBoss.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/System/physRayCastForRequest.h"
@@ -56,6 +57,22 @@ bool SiteBossApproachRoot::m34() {
         return false;
     bool side = false;
     return sub_71002D2B5C(&side, mActor, _1f8, 0.34906584f, 1.2f);
+}
+
+// 0x71005702d4
+void SiteBossApproachRoot::sub_71005702D4(const sead::Vector3f& dst) {
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+    pack.addVec3(dst, "MoveDstPos", -1);
+    changeChild("移動", &pack);
+}
+
+// 0x7100570ca4
+void SiteBossApproachRoot::sub_7100570CA4() {
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+    pack.addVec3(_230, "MoveDstPos", -1);
+    changeChild("遠距離攻撃移動", &pack);
 }
 
 }  // namespace uking::ai

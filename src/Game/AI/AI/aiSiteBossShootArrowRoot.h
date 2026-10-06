@@ -23,6 +23,8 @@ public:
     void loadParams_() override;
 
 protected:
+    // 0x71005857ec: changes to the "待機" child
+    void sub_71005857EC(bool reset_end_time);
     // 0x7100584940 (not decompiled)
     void sub_7100584940(bool a1);
 

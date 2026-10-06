@@ -87,4 +87,49 @@ void ZoraHeroRelicBattleNormal::sub_710061288C() {
     changeChild("待機", &params);
 }
 
+// 0x71006129e8
+void ZoraHeroRelicBattleNormal::sub_71006129E8(const sead::Vector3f& pos) {
+    if (auto* controller = mActor->getCharacterController())
+        controller->disableContactLayer(ksys::phys::ContactLayer::EntityPlayer);
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(pos, "TargetPos", -1);
+    changeChild("プレイヤ水中", &pack);
+}
+
+// 0x7100612ad4
+void ZoraHeroRelicBattleNormal::sub_7100612AD4(const sead::Vector3f& pos) {
+    if (auto* controller = mActor->getCharacterController())
+        controller->enableContactLayer(ksys::phys::ContactLayer::EntityPlayer);
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(pos, "TargetPos", -1);
+    changeChild("プレイヤ上空", &pack);
+}
+
+// 0x7100612bc0
+void ZoraHeroRelicBattleNormal::sub_7100612BC0(const sead::Vector3f& pos) {
+    if (auto* controller = mActor->getCharacterController())
+        controller->disableContactLayer(ksys::phys::ContactLayer::EntityPlayer);
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(pos, "TargetPos", -1);
+    changeChild("エリア外移動", &pack);
+}
+
+// 0x7100612cac
+void ZoraHeroRelicBattleNormal::sub_7100612CAC(const sead::Vector3f& pos) {
+    if (auto* controller = mActor->getCharacterController())
+        controller->disableContactLayer(ksys::phys::ContactLayer::EntityPlayer);
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(pos, "TargetPos", -1);
+    changeChild("エリア外待機", &pack);
+}
+
+// 0x7100612d98
+void ZoraHeroRelicBattleNormal::sub_7100612D98(const sead::Vector3f& pos) {
+    if (auto* controller = mActor->getCharacterController())
+        controller->enableContactLayer(ksys::phys::ContactLayer::EntityPlayer);
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(pos, "TargetPos", -1);
+    changeChild("水中ワープ", &pack);
+}
+
 }  // namespace uking::ai
