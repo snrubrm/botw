@@ -35,6 +35,8 @@ public:
     void sub_71004D8C5C();
 
 protected:
+    // 0x71004dc100: last attacker (link and position) when the damage was a light hit
+    bool sub_71004DC100(sead::Vector3f* pos, ksys::act::BaseProcLink* attacker);
     // 0x71004dc204: whether the player wears the Black / Stalfos / PhantomGanon armor series
     bool sub_71004DC204();
     struct Unk1 {

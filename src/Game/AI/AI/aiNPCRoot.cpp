@@ -5,6 +5,7 @@
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "Game/Actor/actNPC.h"
+#include "Game/Damage/dmgDamageManagerBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
 #include "KingSystem/Utils/Thread/Message.h"
@@ -73,6 +74,30 @@ bool NPCRoot::sub_71004DC204() {
     sead::FixedSafeString<32> series;
     accessor.getArmorSeriesType(&series);
     return series == "Black" || series == "Stalfos" || series == "PhantomGanon";
+}
+
+// 0x71004dc100
+bool NPCRoot::sub_71004DC100(sead::Vector3f* pos, ksys::act::BaseProcLink* attacker) {
+    auto* mgr = sead::DynamicCast<dmg::DamageManagerBase>(mActor->getDamageMgr());
+    if (!mgr)
+        return false;
+    switch (mgr->getField50()) {
+    case 0:
+    case 1:
+    case 2:
+    case 3:
+        break;
+    default:
+        return false;
+    }
+    *attacker = *mgr->getAttacker();
+    auto* npc = _68;
+    if (!npc)
+        return false;
+    pos->x = npc->_e30._10.m[0][3];
+    pos->y = npc->_e30._10.m[1][3];
+    pos->z = npc->_e30._10.m[2][3];
+    return true;
 }
 
 }  // namespace uking::ai
