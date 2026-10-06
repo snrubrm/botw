@@ -4,6 +4,7 @@
 #include <prim/seadBitFlag.h>
 #include <prim/seadSafeString.h>
 #include "KingSystem/ActorSystem/actBaseProc.h"
+#include "KingSystem/ActorSystem/actBaseProcHandle.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Utils/Types.h"
 
@@ -94,6 +95,14 @@ public:
     // 0x7100e308e4 (CSV x_33): `_136` bit 3 is set or "BeamPowerUp" is active.
     bool hasBeamPowerUpEffect();
 
+    // 0x7100e2f3c0 (CSV x_23): the head armor's mantle type (0 without a head armor).
+    s32 getHeadMantleType();
+    // 0x7100e2ed08 (CSV x_25): none of the six parts is being created (and none has failed).
+    bool hasNoPartBeingCreated();
+    // 0x7100e2d804 (CSV x_26): wakes up the parts 3-5; 0x7100e2d890 (CSV x_27): puts part 5 to sleep.
+    void wakeUpExtraParts();
+    void sleepLastPart();
+
     // Inline in the original (uking::act::Armor::m148).
     bool get133() const { return _133; }
 
@@ -103,7 +112,8 @@ public:
 private:
     u8 _0[0x10];
     sead::SafeArray<BaseProcLink, 6> _10;
-    u8 _70[0x133 - 0x70];
+    sead::SafeArray<BaseProcHandle, 6> _70;
+    u8 _d0[0x133 - 0xd0];
     u8 _133;  // read by uking::act::Armor::m148 (the head armor then uses weight 0)
     sead::BitFlag16 _134;
     u8 _136;

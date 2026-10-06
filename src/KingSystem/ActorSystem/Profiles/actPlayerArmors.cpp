@@ -330,4 +330,45 @@ bool PlayerArmors::hasBeamPowerUpEffect() {
     return false;
 }
 
+s32 PlayerArmors::getHeadMantleType() {
+    s32 result = 0;
+    if (_10(0).hasProc()) {
+        acc::Armor accessor;
+        acquireActor(&_10(0), &accessor);
+        result = accessor.getArmorHeadMantleType();
+    }
+    return result;
+}
+
+bool PlayerArmors::hasNoPartBeingCreated() {
+    for (auto& handle : _70) {
+        if (handle.isAllocatedOrFailed())
+            return false;
+    }
+    return true;
+}
+
+void PlayerArmors::wakeUpExtraParts() {
+    ActorConstDataAccess accessor;
+    for (s32 i = 3; i < 6; ++i) {
+        if (acquireActor(&_10(i), &accessor))
+            accessor.wakeUp(BaseProc::SleepWakeReason::_0);
+    }
+}
+
+void PlayerArmors::sleepLastPart() {
+    ActorConstDataAccess accessor;
+    if (acquireActor(&_10(5), &accessor))
+        accessor.sleep(BaseProc::SleepWakeReason::_0);
+}
+
+s32 PlayerArmors::sub_7100E2ED78(s32 idx) {
+    if (idx <= 2 && _10[idx].hasProc()) {
+        acc::Armor accessor;
+        acquireActor(&_10[idx], &accessor);
+        return accessor.sub_7100E2CE80();
+    }
+    return -1;
+}
+
 }  // namespace ksys::act
