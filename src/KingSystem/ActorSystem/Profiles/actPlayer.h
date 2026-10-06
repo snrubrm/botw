@@ -302,7 +302,10 @@ public:
     // A 4-byte angle index (sead::Mathf::atan2Idx result) returned through x8, so not trivially
     // copyable in the original; the same type as 0x710092dba4's result (ksys::util placeholder).
     using Unk1 = util::Unk_7101EC6BAC;
-    Unk1 x_5();                                                         // 0x85ed1c
+    Unk1 x_5();
+    // 0x71008569b8 (lane4 s48; placeholder name): the angle index (atan2 of the XZ offset from `_1770`) towards the
+    // previous position of the current lock-on target (towards the origin without a target).
+    Unk1 sub_71008569B8();                                                         // 0x85ed1c
     // 0x8679fc: takes an angle index (the stack temporary is at sp+8: a struct in the original).
     void x_53(const Unk1& angle);
     // 0x7100877bd8: stores the anim-driven speed (ASList::sub_710115D2D4) in _20bc / _20c0 and its

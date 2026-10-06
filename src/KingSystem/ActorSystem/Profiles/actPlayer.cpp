@@ -1004,6 +1004,23 @@ bool Player::canUseUrbosaFury() {
 }
 
 // NON_MATCHING: the original loads _c48 as a word (`ldr w8` + tbnz) after `mov w0, wzr`; we narrow it to a byte load
+// NON_MATCHING: the original converts the angle with `fcvtzs x8, s0` (a 64-bit signed conversion stored as 32 bits; rad2idx
+// gives `fcvtzu w8`) and assigns x / z to the other float registers
+Player::Unk1 Player::sub_71008569B8() {
+    Unk1 result(0);
+    f32 x = sead::Vector3f::zero.x;
+    f32 z = sead::Vector3f::zero.z;
+    if (!Attention::instance()->sub_7100D742E8(1)) {
+        ActorConstDataAccess accessor;
+        Attention::instance()->x_0(1, 0, &accessor);
+        const auto& pos = accessor.getPreviousPos2();
+        x = pos.x;
+        z = pos.z;
+    }
+    result.value = sead::Mathf::rad2idx(sead::Mathf::atan2(x - _1770.x, z - _1770.z));
+    return result;
+}
+
 void Player::sub_7100857390() {
     Unk1 target = ::sub_710092DBA4();
     sub_7100857014(-1.0f, &target, -1, -1);
