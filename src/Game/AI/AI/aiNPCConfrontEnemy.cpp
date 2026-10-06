@@ -1,12 +1,15 @@
 #include "Game/AI/AI/aiNPCConfrontEnemy.h"
+#include "Game/AI/aiUnk_71007130BC.h"
+#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/LOD/actLodState.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
-// NON_MATCHING: the original issues the 60 zero stores of `_98` (descending: 0xd0, 0x98, 0xc0, 0xb0, 0xa0) after the
-// memset of the parameters; ours hoists them above it (same instructions otherwise)
 NPCConfrontEnemy::NPCConfrontEnemy(const InitArg& arg) : ksys::act::ai::Ai(arg), _98(), _e8() {}
 
 NPCConfrontEnemy::~NPCConfrontEnemy() = default;
@@ -36,6 +39,45 @@ void NPCConfrontEnemy::loadParams_() {
     getDynamicParam(&mTargetPos_d, "TargetPos");
     getDynamicParam(&mTargetVel_d, "TargetVel");
     getMapUnitParam(&mTerritoryArea_m, "TerritoryArea");
+}
+
+// 0x71004c83dc
+bool NPCConfrontEnemy::sub_71004C83DC() {
+    for (s32 i = 0; i < 10; ++i) {
+        if (!_e8[i].hasProc())
+            continue;
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::acquireActor(&_e8[i], &accessor);
+        const sead::Vector3f other_pos = accessor.getActorMtx().getTranslation();
+    const sead::Vector3f diff = mActor->getMtx().getTranslation() - other_pos;
+        const f32 distance = diff.length();
+        if (distance < *mReleaseDistance_s)
+            return false;
+    }
+    return true;
+}
+
+// 0x71004c82d0
+void NPCConfrontEnemy::sub_71004C82D0() {
+    mActor->x_6();
+    _98[0] = ksys::Timer(5.0f, 5.0f);
+    ksys::act::ai::InlineParamPack pack;
+    pack.addBool(false, "TerrorOccurring", -1);
+    pack.addVec3(getPlayerPosition(), "TargetPos", -1);
+    changeChild("お礼", &pack);
+}
+
+// 0x71004c8ddc
+void NPCConfrontEnemy::sub_71004C8DDC(const sead::Vector3f& pos) {
+    _98[1] = ksys::Timer(600.0f, 600.0f);
+    sub_71005D76E0(mActor, true);
+    ksys::act::setEnabledTalkAndLockOn(mActor, false);
+    _88->_1048 = 2;
+    sub_7100713564(mActor, 2);
+    _88->_1038 = 0;
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(pos, "TargetPos", -1);
+    changeChild("気絶前振り向き", &pack);
 }
 
 }  // namespace uking::ai

@@ -23,6 +23,8 @@ public:
     void loadParams_() override;
 
 protected:
+    // 0x71004deba0: false if any linked actor is closer than ReleaseDistance
+    bool sub_71004DEBA0();
     // 0x71004df1d0: starts the "立ち上がる" child (timer _90[4] = StandingTime * 30)
     void sub_71004DF1D0();
     // 0x71004df0b0: starts the "気絶前振り向き" child (timer _90[5] = 600)

@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiNPCRunaway.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "Game/AI/aiUnk_71007130BC.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
@@ -112,6 +114,22 @@ void NPCRunaway::sub_71004DF1D0() {
     sub_71005D7644(mActor, false);
     _90[4] = ksys::Timer(*mStandingTime_s * 30.0f, *mStandingTime_s * 30.0f);
     changeChild("立ち上がる", nullptr);
+}
+
+// 0x71004deba0
+bool NPCRunaway::sub_71004DEBA0() {
+    for (s32 i = 0; i < 10; ++i) {
+        if (!_e8[i].hasProc())
+            continue;
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::acquireActor(&_e8[i], &accessor);
+        const sead::Vector3f other_pos = accessor.getActorMtx().getTranslation();
+        const sead::Vector3f diff = mActor->getMtx().getTranslation() - other_pos;
+        const f32 distance = diff.length();
+        if (distance < *mReleaseDistance_s)
+            return false;
+    }
+    return true;
 }
 
 }  // namespace uking::ai
