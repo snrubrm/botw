@@ -1,11 +1,12 @@
 #include "Game/AI/Action/actionMoonMove.h"
+#include "Game/AI/aiXlinkHandle.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Graphics/gfxUnk_710260af28.h"
 
 namespace uking::action {
 
-MoonMove::MoonMove(const InitArg& arg) : ksys::act::ai::Action(arg) {}
+MoonMove::MoonMove(const InitArg& arg) : ksys::act::ai::Action(arg), _20() {}
 
 MoonMove::~MoonMove() = default;
 
@@ -25,7 +26,8 @@ void MoonMove::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void MoonMove::leave_() {
-    ksys::act::ai::Action::leave_();
+    xlink::kill(_20.mELink);
+    xlink::fade(_20.mSLink, -1);
 }
 
 void MoonMove::loadParams_() {}
