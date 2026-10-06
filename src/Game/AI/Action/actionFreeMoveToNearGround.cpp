@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionFreeMoveToNearGround.h"
+#include <random/seadGlobalRandom.h>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
@@ -70,6 +71,20 @@ void FreeMoveToNearGround::m37(f32 speed, ksys::phys::CharacterController* contr
             controller->sub_7100F5E7F0(_34.value * _ec.value);
         }
     }
+}
+
+bool FreeMoveToNearGround::m32(ksys::phys::CharacterController* controller) {
+    if (!controller)
+        return false;
+
+    auto* actor = mActor;
+    _28 = *mTargetPos_d - actor->getMtx().getTranslation();
+    const f32 distance = _28.normalize();
+    if (distance <= *mFinishRadius_s)
+        _28 = controller->get64();
+    _f8 = *mParams.mSpeed_s * sead::GlobalRandom::instance()->getF32Range(0.7f, 1.3f);
+    sub_710016B114(controller->sub_7100F5EF00());
+    return true;
 }
 
 }  // namespace uking::action
