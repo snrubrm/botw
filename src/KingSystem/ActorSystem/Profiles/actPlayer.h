@@ -351,7 +351,6 @@ public:
     void sub_7100855A1C(f32 value);
     void sub_7100855B98();
     void sub_7100855CF0(f32 value);
-    void sub_7100855F80(const char* animation);
     void sub_7100856210(const char* animation);
     void sub_71008563F0(const char* animation);
     // 0x710086d168: the chemical's _10c > 0.

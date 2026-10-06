@@ -11,16 +11,6 @@
 
 namespace uking::action {
 
-namespace {
-// inline-only in the original (name is a guess): scales `vec` to the length `length` (like
-// Vector3f::normalize(), which scales to 1)
-inline void setLength(sead::Vector3f* vec, f32 length) {
-    const f32 current = vec->length();
-    if (current > 0.0f)
-        *vec *= length / current;
-}
-}  // namespace
-
 Shock::Shock(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
 // NON_MATCHING: same instructions except the order of the three stores of `drop_velocity` (the
@@ -53,7 +43,9 @@ void Shock::enter_(ksys::act::ai::InlineParamPack* params) {
             sead::Vector3f front;
             mActor->getMtx().getBase(front, 2);
             drop_velocity = sead::Vector3f(-front.x, 0, -front.z);
-            setLength(&drop_velocity, *mWeaponDropSpeedXZ_s);
+            const f32 length = drop_velocity.length();
+            if (length > 0.0f)
+                drop_velocity *= *mWeaponDropSpeedXZ_s / length;
         } else {
             drop_velocity.x = 0;
             drop_velocity.z = 0;

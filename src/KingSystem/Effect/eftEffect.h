@@ -23,6 +23,8 @@ public:
     void setFlags(u32 mask) { mFlags |= mask; }
     void clearFlags(u32 mask) { mFlags &= ~mask; }
     bool hasFlags(u32 mask) const { return (mFlags & mask) != 0; }
+    // Read by UKingEmitEffectLoopAction::calc_ (compared with 2); name unknown.
+    s32 get193e0() const { return _193e0; }
 
 private:
     u8 _38[0x192f4 - 0x38];
