@@ -14,10 +14,11 @@ struct Unk_SandwormTackleTarget;
 // at 0xc0.
 struct Unk_SandwormTackleMoveList {
     explicit Unk_SandwormTackleMoveList(ksys::act::Actor* actor) : mActor(actor) {}
-    ~Unk_SandwormTackleMoveList();
 
     bool sub_71F6DC(sead::Heap* heap);
+    void sub_71F858();  // deletes all targets (called from the owners' destructors)
     void sub_71FEFC();
+    bool sub_71FF70(const ksys::MessageAck* ack);
 
     ksys::act::Actor* mActor;
     sead::FixedPtrArray<Unk_SandwormTackleTarget, 2> mTargets;
@@ -34,6 +35,7 @@ public:
     void leave_() override;
     void loadParams_() override;
     bool isFailed() const override;
+    bool handleAck_(const ksys::MessageAck* ack) override;
 
 protected:
     void calc_() override;

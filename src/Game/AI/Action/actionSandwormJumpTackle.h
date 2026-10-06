@@ -1,7 +1,11 @@
 #pragma once
 
+#include <gsys/gsysModelAccessKey.h>
 #include "Game/AI/Action/actionJumpTackle.h"
+#include "Game/AI/Action/actionSandwormTackleMove.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
+
+#include "KingSystem/XLink/xlinkActorUtil.h"
 
 namespace uking::action {
 
@@ -30,6 +34,15 @@ protected:
     sead::SafeString mAtkColName_s{};
     // dynamic_param at offset 0xb8
     ksys::act::BaseProcLink* mTargetActor_d{};
+    Unk_SandwormTackleMoveList _c0{mActor};
+    sead::Vector3f _e8{0, 0, 0};
+    bool _f4 = false;
+    f32 _f8 = 0.0f;
+    bool _fc = false;
+    gsys::BoneAccessKeyEx _100;
+    Unk_71012419b4 _138;
 };
+
+KSYS_CHECK_SIZE_NX150(SandwormJumpTackle, 0x158);
 
 }  // namespace uking::action

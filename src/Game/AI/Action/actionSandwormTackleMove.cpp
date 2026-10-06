@@ -5,7 +5,9 @@ namespace uking::action {
 
 SandwormTackleMove::SandwormTackleMove(const InitArg& arg) : AtkTackleMove(arg) {}
 
-SandwormTackleMove::~SandwormTackleMove() = default;
+SandwormTackleMove::~SandwormTackleMove() {
+    _130.sub_71F858();
+}
 
 bool SandwormTackleMove::init_(sead::Heap* heap) {
     if (!AtkTackleMove::init_(heap))
@@ -33,6 +35,10 @@ void SandwormTackleMove::loadParams_() {
 
 void SandwormTackleMove::calc_() {
     AtkTackleMove::calc_();
+}
+
+bool SandwormTackleMove::handleAck_(const ksys::MessageAck* ack) {
+    return _130.sub_71FF70(ack);
 }
 
 bool SandwormTackleMove::isFailed() const {

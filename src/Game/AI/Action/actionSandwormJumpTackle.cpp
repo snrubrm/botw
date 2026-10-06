@@ -1,4 +1,8 @@
 #include "Game/AI/Action/actionSandwormJumpTackle.h"
+#include "Game/AI/aiUnk_7102451120.h"
+#include "Game/AI/aiUnk_71007377D4.h"
+#include "KingSystem/ActorSystem/LOD/actLodState.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actCCAccessor.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
@@ -13,10 +17,14 @@ namespace uking::action {
 
 SandwormJumpTackle::SandwormJumpTackle(const InitArg& arg) : JumpTackle(arg) {}
 
-SandwormJumpTackle::~SandwormJumpTackle() = default;
+SandwormJumpTackle::~SandwormJumpTackle() {
+    _c0.sub_71F858();
+}
 
 bool SandwormJumpTackle::init_(sead::Heap* heap) {
-    return JumpTackle::init_(heap);
+    if (!JumpTackle::init_(heap))
+        return false;
+    return _c0.sub_71F6DC(heap);
 }
 
 void SandwormJumpTackle::enter_(ksys::act::ai::InlineParamPack* params) {
@@ -24,7 +32,24 @@ void SandwormJumpTackle::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void SandwormJumpTackle::leave_() {
+    auto* actor = mActor;
+    _100.getKey().reset();
     JumpTackle::leave_();
+    if (auto* lod = actor->getLodState())
+        lod->mFlags26.set(1);
+    _c0.sub_71FEFC();
+    if (auto* controller = actor->getCharacterController()) {
+        controller->sub_7100F5EE1C(_e8);
+        sead::Vector3f velocity;
+        controller->sub_7100F5F598(&velocity);
+        if (velocity.y > 0.0f)
+            sub_71007377D4(controller, 0.1f);
+    }
+    sub_71007A397C(actor);
+    sub_71007A44E4(actor, false);
+    sub_71007208EC(actor);
+    if (_138.sub_7101241B6C())
+        _138.fadeXLink();
 }
 
 void SandwormJumpTackle::loadParams_() {
