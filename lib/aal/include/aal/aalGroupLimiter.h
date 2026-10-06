@@ -2,6 +2,7 @@
 
 #include <basis/seadTypes.h>
 #include <container/seadOffsetList.h>
+#include <hostio/seadHostIONode.h>
 
 namespace sead {
 class Heap;
@@ -21,6 +22,7 @@ class RequestSoundLimiter;
 /// TODO: partial; the object has a vtable at +0.
 class GroupLimiter {
 public:
+    GroupLimiter();
     virtual ~GroupLimiter();
 
     void initialize(Group* group, sead::Heap* heap);
@@ -55,12 +57,24 @@ private:
     sead::OffsetList<SoundSource>* mUpperActiveSoundLimitList;
     sead::OffsetList<SoundSource>* mUpperRequestSoundLimitList;
     RequestIntervalLimiter* mRequestIntervalLimiterForLimit;
+    u8 _58[0x88 - 0x58];
 };
+static_assert(sizeof(GroupLimiter) == 0x88, "aal::GroupLimiter size mismatch");
 
-/// Ducks the volume of a group while other groups play. TODO: only calc is declared (0x7100b82ba0).
-class GroupDucker {
+class IDuckingSource;
+
+/// Ducks the volume of a group while other groups play. TODO: incomplete.
+class GroupDucker : public sead::hostio::Node {
 public:
+    explicit GroupDucker(IDuckingSource* source);
+    virtual ~GroupDucker();
+
+    void finalize();
     void calc();
+
+private:
+    u8 _8[0x48 - 0x8];
 };
+static_assert(sizeof(GroupDucker) == 0x48, "aal::GroupDucker size mismatch");
 
 }  // namespace aal

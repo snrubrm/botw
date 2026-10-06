@@ -3,48 +3,51 @@
 
 namespace aal {
 
+// 0x7100bb6534
+GroupFolder::GroupFolder() = default;
+
 // 0x7100bb6534: GroupFolder::GroupFolder is not decompiled yet (needs the Group constructor)
 
 // 0x7100bb6574
 void GroupFolder::stopAllSound(f32 fade_time) {
-    for (auto* node = mTreeNode.child(); node; node = node->next())
+    for (auto* node = treeNode().child(); node; node = node->next())
         node->value()->stopAllSound(fade_time);
 }
 
 // 0x7100bb65bc
 void GroupFolder::pauseAllSound(bool pause, f32 fade_time) {
-    for (auto* node = mTreeNode.child(); node; node = node->next())
+    for (auto* node = treeNode().child(); node; node = node->next())
         node->value()->pauseAllSound(pause, fade_time);
 }
 
 // 0x7100bb660c
 void GroupFolder::pauseAllSound(sead::BitFlag8 flags, bool pause, f32 fade_time) {
-    for (auto* node = mTreeNode.child(); node; node = node->next())
+    for (auto* node = treeNode().child(); node; node = node->next())
         node->value()->pauseAllSound(flags, pause, fade_time);
 }
 
 // 0x7100bb666c
 void GroupFolder::allowEmit(bool allow) {
-    for (auto* node = mTreeNode.child(); node; node = node->next())
+    for (auto* node = treeNode().child(); node; node = node->next())
         node->value()->allowEmit(allow);
 }
 
 // 0x7100bb66ac
 void GroupFolder::allowEmit(sead::BitFlag8 flags, bool allow) {
-    for (auto* node = mTreeNode.child(); node; node = node->next())
+    for (auto* node = treeNode().child(); node; node = node->next())
         node->value()->allowEmit(flags, allow);
 }
 
 // 0x7100bb66fc
 void GroupFolder::silence(bool silence, f32 fade_time) {
-    for (auto* node = mTreeNode.child(); node; node = node->next())
+    for (auto* node = treeNode().child(); node; node = node->next())
         node->value()->silence(silence, fade_time);
 }
 
 // 0x7100bb674c
 s32 GroupFolder::getStartWaitSoundNum() const {
     s32 num = 0;
-    for (auto* node = mTreeNode.child(); node; node = node->next())
+    for (auto* node = treeNode().child(); node; node = node->next())
         num += node->value()->getStartWaitSoundNum();
     return num;
 }
@@ -53,7 +56,7 @@ s32 GroupFolder::getStartWaitSoundNum() const {
 bool GroupFolder::pushFrontChild_(Group* child) {
     if (!child)
         return false;
-    auto* first = mTreeNode.child();
+    auto* first = treeNode().child();
     if (!first) {
         pushBackChild_(child);
         return true;
@@ -62,9 +65,9 @@ bool GroupFolder::pushFrontChild_(Group* child) {
     if (!first_group || first_group == child)
         return false;
     if (first_group->getObjName() == GroupMgr::getDummyGroupName())
-        first_group->mTreeNode.insertAfterSelf(&child->mTreeNode);
+        first_group->treeNode().insertAfterSelf(&child->treeNode());
     else
-        mTreeNode.pushFrontChild(&child->mTreeNode);
+        treeNode().pushFrontChild(&child->treeNode());
     return true;
 }
 
@@ -72,7 +75,7 @@ bool GroupFolder::pushFrontChild_(Group* child) {
 bool GroupFolder::pushBackChild_(Group* child) {
     if (!child)
         return false;
-    mTreeNode.pushBackChild(&child->mTreeNode);
+    treeNode().pushBackChild(&child->treeNode());
     return true;
 }
 
@@ -81,9 +84,9 @@ bool GroupFolder::insertBeforeChild_(Group* child, Group* before) {
     if (!child || !before)
         return false;
     if (before->getObjName() == GroupMgr::getDummyGroupName())
-        before->mTreeNode.insertAfterSelf(&child->mTreeNode);
+        before->treeNode().insertAfterSelf(&child->treeNode());
     else
-        before->mTreeNode.insertBeforeSelf(&child->mTreeNode);
+        before->treeNode().insertBeforeSelf(&child->treeNode());
     return true;
 }
 
@@ -91,7 +94,7 @@ bool GroupFolder::insertBeforeChild_(Group* child, Group* before) {
 bool GroupFolder::insertAfterChild_(Group* child, Group* after) {
     if (!child || !after)
         return false;
-    after->mTreeNode.insertAfterSelf(&child->mTreeNode);
+    after->treeNode().insertAfterSelf(&child->treeNode());
     return true;
 }
 
@@ -99,13 +102,13 @@ bool GroupFolder::insertAfterChild_(Group* child, Group* after) {
 void GroupFolder::removeChild_(Group* child) {
     if (!child)
         return;
-    auto* grandchild = child->mTreeNode.child();
+    auto* grandchild = child->treeNode().child();
     while (grandchild) {
         auto* next = grandchild->next();
-        mTreeNode.pushBackChild(grandchild);
+        treeNode().pushBackChild(grandchild);
         grandchild = next;
     }
-    child->mTreeNode.detachAll();
+    child->treeNode().detachAll();
 }
 
 // 0x7100bb6bc8

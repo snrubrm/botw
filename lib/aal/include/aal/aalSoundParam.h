@@ -15,6 +15,12 @@ public:
 
     void reset();
     static void copy(SoundParam* dst, const SoundParam& src);
+    /// Whether the parameters are the initial parameters (0x7100b76758, declared only).
+    static bool isInitial(const SoundParam& param);
+    /// Aggregates `src` into `dst` (0x7100b764ec, declared only).
+    static void aggregate(SoundParam* dst, const SoundParam& src);
+    /// Aggregates `src1` and `src2` into `dst` (0x7100b7660c, declared only).
+    static void aggregate(SoundParam* dst, const SoundParam& src1, const SoundParam& src2);
 
     void setVolume(f32 volume);
     f32 getVolume() const { return mVolume; }

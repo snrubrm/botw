@@ -10,6 +10,7 @@ class NamedObj {
 public:
     NamedObj() = default;
     explicit NamedObj(const sead::SafeString& name) : mName("") { mName = name; }
+    explicit NamedObj(const char* name) : mName(name) {}
     virtual ~NamedObj() = default;
     virtual void setObjName(const sead::SafeString& name);
 
@@ -24,7 +25,7 @@ static_assert(sizeof(NamedObj) == 0x18, "aal::NamedObj size mismatch");
 template <s32 N>
 class FixedNamedObj : public NamedObj {
 public:
-    FixedNamedObj() = default;
+    FixedNamedObj() : NamedObj("") {}
     ~FixedNamedObj() override = default;
 
     void setObjName(const sead::SafeString& name) override;

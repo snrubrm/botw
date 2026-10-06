@@ -1,9 +1,46 @@
+#include <basis/seadNew.h>
 #include "aal/aalGroup.h"
 #include "aal/aalGroupLimiter.h"
 #include "aal/aalSoundSource.h"
 #include "aal/aalTimedFader.h"
 
 namespace aal {
+
+namespace {
+/// The offset of the list node of SoundSource that is used for the playing sounds of a group.
+constexpr s32 cSoundSourceListNodeOffset = 0x1d0;
+}  // namespace
+
+// 0x7100b81f60
+SoundGroup::SoundGroup() : mReleaseTime(0.0f), mEmitFlags(0xff), mSilenceFader(nullptr) {
+    mPlayingSoundSources.initOffset(cSoundSourceListNodeOffset);
+}
+
+// 0x7100b81fd4 (D1) / 0x7100b820b4 (D0), and their thunks for the second base
+SoundGroup::~SoundGroup() {
+    finalize();
+}
+
+// 0x7100b821a4
+void SoundGroup::initialize(const sead::SafeString& name, sead::Heap* heap) {
+    if (mInitialized)
+        return;
+    mSilenceFader = new (heap) SimpleTimedFader(1.0f);
+    if (mSilenceFader)
+        mSilenceFader->moveTo(1.0f, 0.0f);
+    Group::initialize(name, heap);
+}
+
+// 0x7100b82228
+void SoundGroup::finalize() {
+    if (!mInitialized)
+        return;
+    if (mSilenceFader) {
+        delete mSilenceFader;
+        mSilenceFader = nullptr;
+    }
+    Group::finalize();
+}
 
 // 0x7100b82590
 void SoundGroup::allowEmit(bool allow) {
