@@ -1,10 +1,31 @@
 #include "Game/AI/Action/actionStalEnemyBlownOff.h"
+#include <math/seadMathCalcCommon.h>
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actCCAccessor.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/System/VFR.h"
+
+bool sub_71006F562C(ksys::phys::CharacterController* controller);
 
 namespace uking::action {
 
 StalEnemyBlownOff::StalEnemyBlownOff(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
 StalEnemyBlownOff::~StalEnemyBlownOff() = default;
+
+void StalEnemyBlownOff::sub_71002749B4() {
+    auto* controller = mActor->getCharacterController();
+    if (!controller || sub_71006F562C(controller))
+        return;
+    const f32 current = controller->get110();
+    const f32 delta = ksys::VFR::instance()->getDeltaFrame();
+    f32 step;
+    if (_16e)
+        step = delta * 0.15f;
+    else
+        step = delta * 0.03;
+    controller->sub_7100F5EEB8(sead::Mathf::clamp(current + step, 0.0f, 1.0f));
+}
 
 void StalEnemyBlownOff::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Action::enter_(params);

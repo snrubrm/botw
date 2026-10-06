@@ -66,6 +66,12 @@ protected:
     const sead::Vector3f* mHeadShotAddVec_s{};
     // static_param at offset 0x128
     const sead::Vector3f* mHeadRotateOffset_s{};
+    // Not decompiled yet (see the ctor at 0x71002734c8): 0x130-0x154 are zeroed together with the static params.
+    u8 _130[0x16e - 0x130];
+    bool _16e = false;
+
+    // 0x71002749b4 (placeholder name): raises the character controller's `_110` by the frame time.
+    void sub_71002749B4();
 };
 
 }  // namespace uking::action
