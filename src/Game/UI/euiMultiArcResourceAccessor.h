@@ -20,6 +20,7 @@ class MultiArcResourceAccessor : public nn::ui2d::ResourceAccessor {
 public:
     NN_RUNTIME_TYPEINFO(nn::ui2d::ResourceAccessor)
 
+    MultiArcResourceAccessor(const ArcResourceMgr* arc_resource_mgr, const FontMgr* font_mgr);
     ~MultiArcResourceAccessor() override;
 
     struct ArchiveLink {
@@ -32,6 +33,16 @@ public:
 
     // 0x7100be022c: archive animation lookup; writes the byte size when requested.
     const void* sub_7100BE022C(const char* layout_name, const char* animation_name, u32* size);
+
+    // Declared only (0x7100be06b4 / 0x7100be0738 / 0x7100be07c0 / 0x7100be03f4 / 0x7100be050c / 0x7100be0540).
+    void RegisterTextureViewToDescriptorPool(TextureViewDescriptorCallback callback,
+                                             void* user_data) override;
+    void UnregisterTextureViewFromDescriptorPool(TextureViewDescriptorCallback callback,
+                                                 void* user_data) override;
+    void Finalize(nn::gfx::Device* device) override;
+    void* GetResource(size_t* size, u32 type, const char* name) override;
+    nn::font::Font* AcquireFont(nn::gfx::Device* device, const char* name) override;
+    nn::ui2d::TextureInfo* AcquireTexture(nn::gfx::Device* device, const char* name) override;
 
     bool isArchiveAttached(void* data);
     void attachArchive(void* data, nn::gfx::ResTextureFile* textures);
@@ -47,6 +58,9 @@ public:
     using ArchiveList = nn::util::IntrusiveList<
         ArchiveLink, nn::util::IntrusiveListMemberNodeTraits<ArchiveLink, &ArchiveLink::node>>;
     /* 0x28 */ ArchiveList mArchives;
+    // The list of the texture links (0x38; the element type, a ResourceTextureInfo holder, is not modelled).
+    u8 _38[0x10];
 };
+static_assert(sizeof(MultiArcResourceAccessor) == 0x48);
 
 }  // namespace eui

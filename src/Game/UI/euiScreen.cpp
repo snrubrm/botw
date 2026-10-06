@@ -1,6 +1,8 @@
 #include <controller/seadControllerMgr.h>
 #include <nn/ui2d/Pane.h>
 #include "Game/UI/euiAnimator.h"
+#include "Game/UI/euiArcResourceMgr.h"
+#include "Game/UI/euiMultiArcResourceAccessor.h"
 #include "Game/UI/euiBoxCursor.h"
 #include "Game/UI/euiLayoutEx.h"
 #include "Game/UI/euiScreen.h"
@@ -113,6 +115,18 @@ void Screen::countEffectLinkPane_(nn::ui2d::Pane* pane, u32* count) {
 
 // 0x7100be97fc
 void Screen::adjstBoxCursor(sead::BoundBox2<f32>*, const BoxCursorNode*) const {}
+
+// 0x7100beac34
+nn::ui2d::ResourceAccessor* Screen::doCreateResourceAccessor_(sead::Heap* heap) {
+    auto* arc_resource_mgr = mMgr->getArcResourceMgr();
+    auto* accessor =
+        new (heap, 8) MultiArcResourceAccessor(arc_resource_mgr, mMgr->getFontMgr());
+    if (auto* archive = arc_resource_mgr->findArcResource(getArchiveName_())) {
+        accessor->attachArchive(archive->mData, archive->mTextureResource);
+        return accessor;
+    }
+    return nullptr;
+}
 
 // 0x7100beaab4
 void Screen::draw(const DrawInfoEx::RenderBufferInfo* info) {

@@ -52,6 +52,7 @@ class ScreenMgr;
 class ScreenTargetMgr;
 class MessageMgr;
 class FontMgr;
+class ArcResourceMgr;
 class ConstantBuffer;
 
 // Per-screen draw information; the base contains the layout matrices.
@@ -269,6 +270,7 @@ public:
 
     Screen* getScreen(s32 id) { return mScreens[id]; }
     f32 getAnimationStep() const { return mAnimationStep; }
+    ArcResourceMgr* getArcResourceMgr() const { return mArcResourceMgr; }
     BoxCursorMgr* getBoxCursorMgr() const { return mBoxCursorMgr; }
     MessageMgr* getMessageMgr() const { return mMessageMgr; }
     FontMgr* getFontMgr() const { return mFontMgr; }
@@ -294,7 +296,8 @@ private:
     sead::Buffer<Screen*> mScreens;
     /* 0x38 */ sead::Buffer<s8> mScreenTargets;  // draw target of each screen (-1: inactive)
     /* 0x48 */ ScreenTargetMgr* mTargetMgr;
-    u8 _50[0xb18 - 0x50];  // 0x50: nn::ui2d::GraphicsResource, 0xb08: unknown object, SharcArchive at 0xb28
+    u8 _50[0xb10 - 0x50];  // 0x50: nn::ui2d::GraphicsResource, 0xb08: unknown object, SharcArchive at 0xb28
+    /* 0xb10 */ ArcResourceMgr* mArcResourceMgr;
     /* 0xb18 */ BoxCursorMgr* mBoxCursorMgr;
     /* 0xb20 */ f32 mAnimationStep;
     u8 _b24[4];
