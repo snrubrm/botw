@@ -49,6 +49,26 @@ void SwimMoveBase::loadParams_() {
     getDynamicParam(&mParams.mTargetPos_d, "TargetPos");
 }
 
+// NON_MATCHING: identical code; the address computation of _98 is hoisted differently in the
+// original (parameter meanings are guesses).
+void SwimMoveBase::m32(f32 a, f32 b, f32 c, f32 d, f32 e) {
+    if (b * 2.5f < a) {
+        const f32 target = c * 0.5f;
+        _98.chase(target, c * 0.05f);
+        _98.setToMin(e);
+    } else if (e < d) {
+        _98.chase(0.0f, c * 0.1f);
+    } else if (c + c + d > e) {
+        const f32 target = c * 0.5f;
+        _98.chase(target, c * 0.1f);
+        _98.setToMin(e);
+    } else {
+        _98.chase(c, c * 0.1f);
+        _98.setToMin(e);
+    }
+    _98.updateStats();
+}
+
 void SwimMoveBase::calc_() {
     WaterFloatBase::calc_();
 }

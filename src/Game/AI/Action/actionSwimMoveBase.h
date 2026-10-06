@@ -24,6 +24,8 @@ public:
 
 protected:
     void calc_() override;
+    // Parameter names are guesses (the original is a speed-limiting helper using _98).
+    virtual void m32(f32 a, f32 b, f32 c, f32 d, f32 e);
 
     struct Params {
         // static_param at offset 0x60
