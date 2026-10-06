@@ -73,6 +73,8 @@ public:
     // 0x71002d20b8 (CSV SiteBoss::x_3; declared only; lane1 s25): called with no arguments by
     // LastBossBeamAttackRoot::enter_.
     void sub_71002D20B8();
+    // 0x71002d1fd4 (declared only; placeholder name, 228 B): fades the xlink event of the handle at +0x2348.
+    void sub_71002D1FD4();
     void x_5(bool on);
     void x_6(bool on);
     bool sub_71002D33D0(f32 value) const;
@@ -90,6 +92,8 @@ public:
     // x_2 / sub_71002D3498 take the DynamicCast<Enemy> result of their callers.
     static void x_2(Enemy* boss, ksys::act::Actor* sender);
     static void sub_71002D3498(Enemy* boss, ksys::act::Actor* sender);
+    // 0x71002d355c (declared only; placeholder name, 200 B): works on the part `part` of `boss` (null-checked).
+    static void sub_71002D355C(Enemy* boss, ksys::act::Actor* sender, const sead::SafeString& part);
     static void sub_71002D3624(SiteBoss* boss, const sead::SafeString& part);
     static bool sub_71002D3804(ksys::act::Actor* actor, const sead::SafeString& part);
 
@@ -138,6 +142,8 @@ public:
         void sub_710066C70C(ksys::act::BaseProcLink* target, int idx, bool flag,
                             ksys::map::Rail* rail);  // 0x8000055
         void sub_710066CBD4(int idx);                // 0x800005c, no target
+        // 0x710066cd7c (declared only): stores `value` at +0x94 and deletes every bound actor (`_1e0`).
+        void sub_710066CD7C(u32 value);
         // 0x710066cc64: deletes bound actor `idx`.
         void sub_710066CC64(int idx);
         // 0x710066cbf8: puts bound actor `idx` to sleep (index >= 20 is treated as 0).

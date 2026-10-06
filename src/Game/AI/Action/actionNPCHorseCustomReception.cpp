@@ -1,6 +1,9 @@
 #include "Game/AI/Action/actionNPCHorseCustomReception.h"
 #include "Game/AI/aiUnk_71007377D4.h"
+#include "Game/Actor/actNPC.h"
 #include "Game/UI/uiUtils.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 
 namespace uking::action {
@@ -14,7 +17,30 @@ bool NPCHorseCustomReception::init_(sead::Heap* heap) {
 }
 
 void NPCHorseCustomReception::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    ksys::gdt::setFlag_Shop_IsDecide(false, false);
+    if (ui::sub_7100A990BC()) {
+        ui::sub_7100A9826C();
+        return;
+    }
+    _2c = 0;
+    if (*mCustomItemType_d == 0) {
+        if (auto* npc = sead::DynamicCast<act::NPC>(mActor)) {
+            _28 = npc->_f88.giveItem(mActor->getParam()->getRes().mShopData, mActor->getName(),
+                                     "Normal", false);
+            if (_28)
+                ui::sub_7100A99060(&npc->_f88);
+        }
+    } else {
+        _28 = true;
+        switch (*mCustomItemType_d) {
+        case 1:
+            ui::sub_7100A99084();
+            break;
+        case 2:
+            ui::sub_7100A990A0();
+            break;
+        }
+    }
 }
 
 void NPCHorseCustomReception::loadParams_() {

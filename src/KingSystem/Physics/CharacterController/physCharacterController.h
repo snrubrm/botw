@@ -197,6 +197,8 @@ public:
     void sub_7100F5FC8C(const sead::Matrix34f& mtx);
     // 0x7100f5fdf0: sets the angular velocity that turns the body towards `dir`.
     void sub_7100F5FDF0(const sead::Vector3f& dir);
+    // 0x7100f60e98 (declared only; RailMoveBase::calc_).
+    void sub_7100F60E98();
     bool sub_7100F5F344(int idx, bool force);
     bool sub_7100F62E74(f32* out, int idx) const;
     bool sub_7100F62EFC(sead::Vector3f* out, int idx) const;

@@ -22,6 +22,9 @@ public:
     // 0x71007b2724 (CSV Player::getWeapon; lane4 s45, name is a guess): the Weapon actor linked in slot `idx` (the
     // weapons object comes from the virtual getWeapons()).
     uking::act::Weapon* getWeaponActor(s32 idx);
+    // 0x7100007844 (declared only; unnamed in the CSV; placeholder name): ActorWeapons::resetWeaponBaseProcLink(idx) on the
+    // virtual getWeapons().
+    void sub_7100007844(s32 idx);
 
 protected:
     InitResult init_() override;

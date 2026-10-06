@@ -1,5 +1,7 @@
 #include "Game/AI/Action/actionPlayerStainCarryWait.h"
 #include "Game/UI/uiPauseMenuDataMgr.h"
+#include "Game/gameSceneSubsys12.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Utils/Thread/Message.h"
@@ -29,8 +31,25 @@ bool PlayerStainCarryWait::handleMessage_(const ksys::Message* message) {
     return false;
 }
 
+// NON_MATCHING: the original reloads mActor from [this + 8] at every use; ours forms `this + 8` once (pre-indexed load,
+// one more callee-saved register)
 void PlayerStainCarryWait::calc_() {
-    PlayerAction::calc_();
+    if (auto* scene = GameSceneSubsys12::instance()) {
+        if (scene->sub_71006652C8()) {
+            if (mActor->getASList()->x_1(1, 1) != "GrabPouchUpper") {
+                mActor->getASList()->goLimpFromHeadShotMaybe(0x31, "Pouch", 0);
+                static_cast<ksys::act::Player*>(mActor)->x_23("GrabPouchUpper", false, -1.0f);
+            }
+            if (_1d) {
+                static_cast<ksys::act::Player*>(mActor)->sub_7100855F80("FaceDemo046_0GrabPouchUpper");
+                _1d = false;
+            }
+        } else {
+            static_cast<ksys::act::Player*>(mActor)->x_18(true);
+        }
+    }
+    static_cast<ksys::act::Player*>(mActor)->actionCommon();
+    setFinished();
 }
 
 bool PlayerStainCarryWait::isChangeable() const {

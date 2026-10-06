@@ -284,6 +284,11 @@ public:
     void switchToAnimSequenceMaybe(const char* name, bool a2, f32 a3);  // 0x855608
     void x_23(const char* name, bool a2, f32 a3);                       // 0x85588c
     void x_18(bool a1);                                                 // 0x855a6c
+    // 0x7100855f80 (declared only; placeholder name, 188 B): starts the animation `name` (startAnimationMaybe) on slot 3
+    // and waits for it (ASList::x_7).
+    void sub_7100855F80(const char* name);
+    // 0x7100889ecc (CSV Player::x_10; declared only, 380 B): PlayerEquipHaveMasterSword::enter_ passes true.
+    void x_10(bool on);
     // 0x7100855af8 (unnamed): the same ASList setup for slot 3 (called by x_18).
     void sub_7100855AF8();
     // 0x7100855bb4 (declared only; PlayerKokkoGlide::enter_ with "ParashawlGlide").
@@ -394,6 +399,8 @@ public:
     // Declared only (placeholder member functions of the player; all take the player as `this`):
     void sub_710086800C(f32 a1);       // 0x710086800c
     void sub_71008824AC(bool a1);      // 0x71008824ac
+    // 0x710086a554 (CSV Player::x_4; declared only, 1344 B): called by PlayerBow::calc_ unless _1f88 == 5.
+    void x_4();
     void sub_71008893B8(bool a1);      // 0x71008893b8
     void sub_71008931C4();             // 0x71008931c4
     void sub_71008B5B8();              // 0x71008b5b8
@@ -493,6 +500,8 @@ public:
     // 0x87f360: sub_710072E928(start, end, hit_pos, hit_normal, nullptr, 0).
     bool sub_710087F360(const sead::Vector3f& start, const sead::Vector3f& end,
                         sead::Vector3f* hit_pos, sead::Vector3f* hit_normal);
+    // 0x710087f29c (declared only; placeholder name, 196 B): sets _1c84 from the direction to the object at _1870->_c8.
+    void sub_710087F29C();
     // 0x87f43c: ground and water layers.
     bool sub_710087F43C(const sead::Vector3f& start, const sead::Vector3f& end,
                         sead::Vector3f* hit_pos, sead::Vector3f* hit_normal);
