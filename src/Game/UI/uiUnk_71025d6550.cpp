@@ -1,5 +1,7 @@
 #include <prim/seadMemUtil.h>
 #include "Game/UI/uiManager.h"
+#include "Game/UI/uiUtils.h"
+#include "Game/gameGearMgr.h"
 #include "Game/UI/uiUnkSingletons.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 
@@ -199,6 +201,50 @@ void Unk_71025d6550::sub_710094852C() {
         }
     }
     _b38 = 10;
+}
+
+// 0x71009486f0
+void Unk_71025d6550::sub_71009486F0() {
+    for (s32 row = 0; row < 3; ++row) {
+        for (s32 i = 0; i < 10; ++i) {
+            auto& entry = _e8[row][i];
+            if (static_cast<u32>(entry._8 - 2) <= 2 && entry._28 != -1)
+                entry._c = entry._3c;
+        }
+    }
+}
+
+// 0x7100948914
+// NON_MATCHING: same state machine; the original merges the four `sub_710066990C(true / false)` calls into two shared tails
+// (the true / false paths of the three states jump into them) and reloads the manager only once in state 1; ours keeps
+// separate copies
+void Unk_71025d6550::sub_7100948914() {
+    if (!sub_7100A9BAEC(27))
+        return;
+    switch (_d60) {
+    case 0:
+        if (_d64 == 1) {
+            GearMgr::instance()->sub_710066990C(true);
+            _d60 = 2;
+        }
+        break;
+    case 1:
+        GearMgr::instance()->sub_7100669B38();
+        if (_d64 != 0) {
+            GearMgr::instance()->sub_710066990C(true);
+            _d60 = 2;
+        } else {
+            GearMgr::instance()->sub_710066990C(false);
+            _d60 = 0;
+        }
+        break;
+    case 2:
+        if (_d64 == 0) {
+            GearMgr::instance()->sub_710066990C(false);
+            _d60 = 0;
+        }
+        break;
+    }
 }
 
 }  // namespace uking::ui

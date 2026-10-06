@@ -102,9 +102,11 @@ struct UiSubsys1PinArg {
 struct Unk_71025d6550Entry {
     u8 _0[8];
     /* 0x08 */ s32 _8;
-    u8 _c[0x28 - 0xc];
+    /* 0x0c */ sead::Vector3f _c;
+    u8 _18[0x28 - 0x18];
     /* 0x28 */ s32 _28;
-    u8 _2c[0x48 - 0x2c];
+    u8 _2c[0x3c - 0x2c];
+    /* 0x3c */ sead::Vector3f _3c;
     /* 0x48 */ bool _48;
     u8 _49[0x50 - 0x49];
     /* 0x50 */ void* _50;
@@ -120,6 +122,10 @@ public:
     bool sub_7100948D40();
     // 0x71009485ec (placeholder name): copies the value picked by the state at 0xb3c into the three values at 0xb58
     void sub_71009485EC();
+    // 0x71009486f0 (placeholder name): for every entry in state 2..4 with a target, copies the position at 0x3c to 0xc
+    void sub_71009486F0();
+    // 0x7100948914 (placeholder name): follows the state at 0xd64 with the gear manager's flag (while screen state 27 is active)
+    void sub_7100948914();
     // 0x710094852c (placeholder name): `_b38` = the index of the first entry of the first row whose pointer at 0x50 is null (10 if none)
     void sub_710094852C();
     // 0x7100948db0 (placeholder name): whether the values at 0xb58 differ from the value picked by the state at 0xb3c
