@@ -1,6 +1,7 @@
 #include "Game/UI/uiScreens.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "Game/UI/uiUnkSingletons.h"
+#include "Game/UI/uiUtils.h"
 
 // Trivial state-callback slots (154 and up) of the leaf screens that declare their own virtuals.
 namespace uking::ui {
@@ -32,6 +33,24 @@ void ScreenAppMap::demoEnter() {
 void ScreenAppMap::demoLeave() {
     UiSubsys1::instance()->sub_7100968844();
     _3ad1 = 1;
+}
+
+// 0x71009eaf40 (CSV ScreenAppMap::m83)
+void ScreenAppMap::m83() {
+    sub_71009EACC0(0);
+    mStateMachine.changeState(&sUnk_71025df180);
+    if (_3638) {
+        if (wm::isFindDungeonActivated())
+            _3638->StopAtMin();
+        else
+            _3638->StopAtMax();
+    }
+    if (_3c88) {
+        if (wm::sub_7100A9D800())
+            _3c88->StopAtMax();
+        else
+            _3c88->StopAtMin();
+    }
 }
 
 // 0x71009eb49c (CSV ScreenAppMap::mainEnter)

@@ -1332,6 +1332,7 @@ public:
 };
 
 // The state ScreenAppMap::mainRun changes to (0x71025df1e0; placeholder name).
+extern const ksys::StateBase sUnk_71025df180;
 extern const ksys::StateBase sUnk_71025df1e0;
 
 // Placeholder for the object ScreenAppMap keeps at 0x3c98 (its state at 0x104 decides which animators play).
@@ -1353,6 +1354,7 @@ struct ScreenAppMapWidget {
 class ScreenAppMap : public ScreenEx {
 public:
     void m92(sead::Heap*) override;
+    void m83() override;
     void m100() override;
     bool isEnableControl() const override;
     const char* getLayoutName_() const override;
@@ -1382,6 +1384,8 @@ public:
     bool sub_71009EF5A8(s32);
     // 0x71009e9f48 / 0x71009eb52c / 0x71009eb72c (CSV unnamed; declared only)
     bool sub_71009E9F48();
+    // 0x71009eacc0 (CSV unnamed, 640 bytes; declared only)
+    void sub_71009EACC0(s32 a1);
     void sub_71009EB52C();
     void sub_71009EB72C();
     bool sub_71009E9F10();
@@ -1399,13 +1403,17 @@ public:
     virtual s32 demoReenter();
 
     /* 0x3610 */ ScreenAppMapWidget* _3610;
-    u8 _3618[0x3ad1 - 0x3618];
+    u8 _3618[0x3638 - 0x3618];
+    /* 0x3638 */ eui::Animator* _3638;
+    u8 _3640[0x3ad1 - 0x3640];
     /* 0x3ad1 */ u8 _3ad1;
     /* 0x3ad2 */ u8 _3ad2;  // written by sub_71009EF4EC / sub_71009EF51C
     u8 _3ad3[0x3c00 - 0x3ad3];
     /* 0x3c00 */ eui::Animator* _3c00;
     /* 0x3c08 */ eui::Animator* _3c08;
-    u8 _3c10[0x3c98 - 0x3c10];
+    u8 _3c10[0x3c88 - 0x3c10];
+    /* 0x3c88 */ eui::Animator* _3c88;
+    u8 _3c90[0x3c98 - 0x3c90];
     /* 0x3c98 */ ScreenAppMapUnk3c98* _3c98;
 };
 

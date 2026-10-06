@@ -305,3 +305,11 @@ bool isPauseMenuScreenNotClosed();
 void uiManagerUpdateIsDungeon();
 
 }  // namespace uking::ui
+
+namespace wm {
+// 0x7100a9d918 (uiWorldFacade.cpp)
+bool isFindDungeonActivated();
+// 0x7100a9d800 (CSV unnamed; declared only)
+s32 sub_7100A9D800();
+}  // namespace wm
+
