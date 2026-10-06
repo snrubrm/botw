@@ -53,4 +53,32 @@ bool ScreenKologNum::sub_7100A0F038() {
     return mStateMachine.getState()->getId() == sUnk_71025eed10.getId();
 }
 
+// 0x7100a0f220
+void ScreenKologNum::m69() {
+    _3614 = 0;
+    _3634 = -1;
+}
+
+// 0x7100a0f1ac
+void ScreenKologNum::m99() {
+    if (_3634 == 1) {
+        _3618 = ksys::gdt::getFlag_KorokNutsNum(false);
+        mStateMachine.changeState(&sUnk_71025eee10);
+    } else if (_3634 == 2) {
+        mStateMachine.changeState(&sUnk_71025eee10);
+    } else {
+        mStateMachine.changeState(&sUnk_71025eedb0);
+    }
+}
+
+// 0x7100a0f210
+void ScreenKologNum::m100() {
+    mStateMachine.changeState(&sUnk_71025eed50);
+}
+
+// 0x7100a0f29c
+void ScreenKologNum::m156() {
+    _3610 = false;
+}
+
 }  // namespace uking::ui

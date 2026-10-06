@@ -348,4 +348,59 @@ s32 UiSubsys1::get7c4(s32 index) const {
     return _7c4[index];
 }
 
+// 0x7100966de0
+void UiSubsys1::set3888(s32 value) {
+    _3888 = value;
+}
+
+// 0x7100966e8c
+s32 UiSubsys1::get38a4() const {
+    return _38a4;
+}
+
+// 0x71009674fc
+u8 UiSubsys1::get29() const {
+    return _29;
+}
+
+// 0x7100967514
+s32 UiSubsys1::get38e0() const {
+    return _38e0;
+}
+
+// 0x710096751c
+void UiSubsys1::set38e0(s32 value) {
+    _38e0 = value;
+}
+
+// 0x710096753c
+s32 UiSubsys1::get38e8() const {
+    return _38e8;
+}
+
+// 0x7100967544
+void UiSubsys1::set38e8(s32 value) {
+    _38e8 = value;
+}
+
+// 0x710096757c
+s32 UiSubsys1::get38f4() const {
+    return _38f4;
+}
+
+// 0x7100967584
+void UiSubsys1::set38f4(s32 value) {
+    _38f4 = value;
+}
+
+// 0x7100967594
+s32 UiSubsys1::get38fc() const {
+    return _38fc;
+}
+
+// 0x710096876c
+void UiSubsys1::set3820(s32 value) {
+    _3820 = value;
+}
+
 }  // namespace uking::ui

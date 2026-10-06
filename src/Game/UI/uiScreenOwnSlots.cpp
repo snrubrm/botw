@@ -369,4 +369,47 @@ void ScreenPauseMenuMantan::m106(eui::AnimButton*) {
     mButtonGroup->_38 &= ~2;
 }
 
+// 0x7100a04c98
+void ScreenDLCSinJuAkashiNum::m156() {
+    _3610 = false;
+}
+
+// 0x7100a418d8
+void ScreenRupee::m156() {
+    _3610 = false;
+}
+
+// 0x7100a22d64
+void ScreenMamoNum::m69() {
+    _3610 = 0;
+    _3630 = -1;
+}
+
+// 0x7100a22d54
+void ScreenMamoNum::m100() {
+    mStateMachine.changeState(&sUnk_71025ef4b8);
+}
+
+// 0x7100a4185c
+void ScreenRupee::m69() {
+    _3634 = 4;
+    _3614 = 0;
+}
+
+// 0x7100a4184c
+void ScreenRupee::m100() {
+    mStateMachine.changeState(&sUnk_71025f1bf0);
+}
+
+// 0x7100a04c20
+void ScreenDLCSinJuAkashiNum::m69() {
+    _3614 = 0;
+    _3638 = -1;
+}
+
+// 0x7100a04c10
+void ScreenDLCSinJuAkashiNum::m100() {
+    mStateMachine.changeState(&sUnk_71025ecb40);
+}
+
 }  // namespace uking::ui

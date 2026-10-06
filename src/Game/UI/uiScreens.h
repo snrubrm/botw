@@ -913,6 +913,8 @@ public:
     bool sub_7100A0A914();
 };
 
+extern const ksys::StateBase sUnk_71025f1bf0;
+
 class ScreenRupee : public ScreenEx {
 public:
     ScreenRupee();
@@ -921,6 +923,8 @@ public:
     void m71() override;
     ~ScreenRupee() override;
     SEAD_RTTI_OVERRIDE(ScreenRupee, ScreenEx)
+    void m69() override;
+    void m100() override;
 
     // own virtual slots (state callbacks; groups of four: void, void, void, s32 -- the types are guesses from the trivial ones)
     virtual void m154();
@@ -963,6 +967,9 @@ public:
 
 // State object of the number screens (CSV: unnamed data; a StateTemplate<ScreenKologNum>, 0x71025eed10).
 extern const ksys::StateBase sUnk_71025eed10;
+extern const ksys::StateBase sUnk_71025eed50;
+extern const ksys::StateBase sUnk_71025eedb0;
+extern const ksys::StateBase sUnk_71025eee10;
 
 class ScreenKologNum : public ScreenEx {
 public:
@@ -972,6 +979,9 @@ public:
     void m71() override;
     ~ScreenKologNum() override;
     SEAD_RTTI_OVERRIDE(ScreenKologNum, ScreenEx)
+    void m69() override;
+    void m99() override;
+    void m100() override;
 
     // own virtual slots (state callbacks; groups of four: void, void, void, s32 -- the types are guesses from the trivial ones)
     virtual void m154();
@@ -1009,6 +1019,8 @@ public:
 
 // State object of ScreenAkashNum (a StateTemplate<ScreenAkashNum>, 0x71025dc090).
 extern const ksys::StateBase sUnk_71025dc090;
+extern const ksys::StateBase sUnk_71025dc030;
+extern const ksys::StateBase sUnk_71025dbfd0;
 
 class ScreenAkashNum : public ScreenEx {
 public:
@@ -1018,6 +1030,9 @@ public:
     void m71() override;
     ~ScreenAkashNum() override;
     SEAD_RTTI_OVERRIDE(ScreenAkashNum, ScreenEx)
+    void m99() override;
+    void m100() override;
+    void m69() override;
 
     // own virtual slots (state callbacks; groups of four: void, void, void, s32 -- the types are guesses from the trivial ones)
     virtual void m154();
@@ -1055,6 +1070,7 @@ public:
 
 // State objects of ScreenMamoNum (StateTemplate<ScreenMamoNum>, 0x71025ef578 / 0x71025ef518).
 extern const ksys::StateBase sUnk_71025ef578;
+extern const ksys::StateBase sUnk_71025ef4b8;
 extern const ksys::StateBase sUnk_71025ef518;
 
 class ScreenMamoNum : public ScreenEx {
@@ -1065,6 +1081,8 @@ public:
     void m71() override;
     ~ScreenMamoNum() override;
     SEAD_RTTI_OVERRIDE(ScreenMamoNum, ScreenEx)
+    void m69() override;
+    void m100() override;
 
     /* 0x3610 */ s32 _3610{};
     s32 _3614{};
@@ -1385,6 +1403,8 @@ public:
     void sub_71009F8510(s32);
 };
 
+extern const ksys::StateBase sUnk_71025ecb40;
+
 class ScreenDLCSinJuAkashiNum : public ScreenEx {
 public:
     ScreenDLCSinJuAkashiNum();
@@ -1393,6 +1413,8 @@ public:
     void m71() override;
     ~ScreenDLCSinJuAkashiNum() override;
     SEAD_RTTI_OVERRIDE(ScreenDLCSinJuAkashiNum, ScreenEx)
+    void m69() override;
+    void m100() override;
 
     // own virtual slots (state callbacks; groups of four: void, void, void, s32 -- the types are guesses from the trivial ones)
     virtual void m154();

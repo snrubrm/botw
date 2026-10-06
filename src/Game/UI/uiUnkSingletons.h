@@ -229,6 +229,18 @@ public:
     void set38e4(s32 value);
     s32 get38f8() const;
     s32 get3900() const;
+    // 0x7100966de0 / 0x7100966e8c / 0x71009674fc / 0x7100967514 - 0x7100967594 / 0x710096876c (placeholder names)
+    void set3888(s32 value);
+    s32 get38a4() const;
+    u8 get29() const;
+    s32 get38e0() const;
+    void set38e0(s32 value);
+    s32 get38e8() const;
+    void set38e8(s32 value);
+    s32 get38f4() const;
+    void set38f4(s32 value);
+    s32 get38fc() const;
+    void set3820(s32 value);
     void set3904(bool value);
     bool return0A() const;
     bool return0B() const;
@@ -261,7 +273,9 @@ public:
 private:
     static UiSubsys1* sInstance;
 
-    u8 _0[0x128];
+    u8 _0[0x29];
+    /* 0x29 */ u8 _29;
+    u8 _2a[0x128 - 0x2a];
     /* 0x128 */ s32 _128;
     /* 0x12c */ u8 _12c;
     u8 _12d[0x280 - 0x12d];
@@ -301,7 +315,10 @@ private:
     u8 _3862[0x3884 - 0x3862];
     /* 0x3884 */ bool _3884;
     /* 0x3885 */ bool _3885;
-    u8 _3886[0x38a8 - 0x3886];
+    u8 _3886[0x3888 - 0x3886];
+    /* 0x3888 */ s32 _3888;
+    u8 _388c[0x38a4 - 0x388c];
+    /* 0x38a4 */ s32 _38a4;
     /* 0x38a8 */ s32 _38a8;
     /* 0x38ac */ u8 _38ac;
     u8 _38ad[0x38b8 - 0x38ad];
@@ -313,9 +330,10 @@ private:
     /* 0x38e0 */ s32 _38e0;
     /* 0x38e4 */ s32 _38e4;
     /* 0x38e8 */ s32 _38e8;
-    u8 _38ec[0x38f8 - 0x38ec];
+    u8 _38ec[0x38f4 - 0x38ec];
+    /* 0x38f4 */ s32 _38f4;
     /* 0x38f8 */ s32 _38f8;
-    u8 _38fc[0x3900 - 0x38fc];
+    /* 0x38fc */ s32 _38fc;
     /* 0x3900 */ s32 _3900;
     /* 0x3904 */ bool _3904;
     u8 _3905[0x3920 - 0x3905];

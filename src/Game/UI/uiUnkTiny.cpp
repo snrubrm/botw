@@ -179,4 +179,98 @@ Unk_7102509148::Unk_7102509148() = default;
 // 0x71010a7bf8
 Unk_7102509148::~Unk_7102509148() = default;
 
+// Unk_7102475368 accessors (placeholder names after the offsets)
+// 0x7100950244
+u8* Unk_7102475368::get10() {
+    return _10;
+}
+
+// 0x710095024c
+void Unk_7102475368::set18(const Pair& value) {
+    _18.a = value.a;
+    _18.b = value.b;
+}
+
+// 0x7100950260
+Unk_7102475368::Pair* Unk_7102475368::get18() {
+    return &_18;
+}
+
+// 0x7100950268
+void Unk_7102475368::set20(const Pair& value) {
+    _20.a = value.a;
+    _20.b = value.b;
+}
+
+// 0x710095027c
+Unk_7102475368::Pair* Unk_7102475368::get20() {
+    return &_20;
+}
+
+// 0x7100950284
+void Unk_7102475368::set28(f32 value) {
+    _28 = value;
+}
+
+// 0x710095028c
+f32 Unk_7102475368::get28() const {
+    return _28;
+}
+
+// 0x7100950294
+void Unk_7102475368::set2c(f32 value) {
+    _2c = value;
+}
+
+// 0x710095029c
+f32 Unk_7102475368::get2c() const {
+    return _2c;
+}
+
+// 0x71009502a4
+u8* Unk_7102475368::get30() {
+    return _30;
+}
+
+// 0x71009502ac
+void Unk_7102475368::set38(f32 value) {
+    _38 = value;
+}
+
+// 0x71009502b4
+f32 Unk_7102475368::get38() const {
+    return _38;
+}
+
+// 0x71009502bc
+void Unk_7102475368::set3c(f32 value) {
+    _3c = value;
+}
+
+// 0x71009502c4
+f32 Unk_7102475368::get3c() const {
+    return _3c;
+}
+
+// 0x71009502cc
+void Unk_7102475368::set40(const Pair& value) {
+    _40.a = value.a;
+    _40.b = value.b;
+}
+
+// 0x71009502e0
+Unk_7102475368::Pair* Unk_7102475368::get40() {
+    return &_40;
+}
+
+// 0x71009502e8
+s32 Unk_7102475368::get48() const {
+    return _48;
+}
+
+// 0x71009502f0
+u8* Unk_7102475368::get60() {
+    return _60;
+}
+
 }  // namespace uking::ui
