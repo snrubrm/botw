@@ -354,6 +354,8 @@ public:
     // 0x710085ecf4 (declaration only; placeholder name): `if (auto* cc = getCharacterController())
     // cc->sub_7100F5EECC(<constant>)`; called by PlayerAction::enter_ outside events.
     void sub_710085ECF4();
+    // 0x71008911f0 (declared only; 2.4 KB; PlayerBeetleSubject::enter_).
+    void sub_71008911F0();
     bool sub_7100857014(f32 speed, Unk1* target, int limit_a, int limit_b);
     // 0x710086843c: forwards to sub_7100857014 (out of line in another TU in the original; ~7 Player actions).
     bool sub_710086843C(f32 speed, Unk1* target, int limit_a, int limit_b);

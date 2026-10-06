@@ -20,6 +20,9 @@ public:
 
 protected:
     void calc_() override;
+    // 0x71007e95e0 / 0x71007e974c (declared only): resolve the referenced actor (UniqName) and write its matrix.
+    void sub_71007E95E0();
+    void sub_71007E974C(sead::Matrix34f* out);
     virtual void m33();
     virtual bool m34();
     virtual bool m35();

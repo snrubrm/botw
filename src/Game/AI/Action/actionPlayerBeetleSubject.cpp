@@ -9,6 +9,17 @@ PlayerBeetleSubject::PlayerBeetleSubject(const InitArg& arg) : PlayerAction(arg)
 
 void PlayerBeetleSubject::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
+    static_cast<ksys::act::Player*>(mActor)->_cf0.setBit(20);
+    static_cast<ksys::act::Player*>(mActor)->_cec.setBit(0);
+    static_cast<ksys::act::Player*>(mActor)->_cec.setBit(28);
+    static_cast<ksys::act::Player*>(mActor)->_cec.setBit(27);
+    static_cast<ksys::act::Player*>(mActor)->_cf0.setBit(2);
+    auto* player = static_cast<ksys::act::Player*>(mActor);
+    player->_20bc.value = 0;
+    player->_20bc.prev_value = 0;
+    static_cast<ksys::act::Player*>(mActor)->x_23("HookshotWait", false, -1.0f);
+    static_cast<ksys::act::Player*>(mActor)->sub_71008911F0();
+    static_cast<ksys::act::Player*>(mActor)->_17f0 = false;
 }
 
 void PlayerBeetleSubject::leave_() {
