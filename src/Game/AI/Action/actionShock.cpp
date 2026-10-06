@@ -11,11 +11,21 @@
 
 namespace uking::action {
 
+namespace {
+// inline-only in the original (name is a guess): scales `vec` to the length `length` (like
+// Vector3f::normalize(), which scales to 1)
+inline void setLength(sead::Vector3f* vec, f32 length) {
+    const f32 current = vec->length();
+    if (current > 0.0f)
+        *vec *= length / current;
+}
+}  // namespace
+
 Shock::Shock(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
-// NON_MATCHING: the original scales the XZ drop velocity with sead's normalize() body where the 1.0f
-// is replaced by the speed (`fdiv s0, speed, len` and element-wise x/y/z multiplies) and only writes
-// x/z in the "no drop speed" arm; ours uses `*= speed / len` (ldp/stp pairs, address of y in a register)
+// NON_MATCHING: same instructions except the order of the three stores of `drop_velocity` (the
+// original stores x, z, then y = 0 after the length computation) and `fadd z*z, x*x + y*y` (the
+// original's operand order is flipped)
 void Shock::enter_(ksys::act::ai::InlineParamPack* params) {
     auto* controller = mActor->getCharacterController();
     if (!controller)
@@ -40,11 +50,10 @@ void Shock::enter_(ksys::act::ai::InlineParamPack* params) {
         sead::Vector3f drop_velocity;
         if (!(*mWeaponDropSpeedXZ_s <= sead::Mathf::epsilon() &&
               *mWeaponDropSpeedXZ_s >= -sead::Mathf::epsilon())) {
-            const sead::Vector3f front = mActor->getMtx().getBase(2);
-            drop_velocity.set(-front.x, 0, -front.z);
-            const f32 length = drop_velocity.length();
-            if (length > 0.0f)
-                drop_velocity *= *mWeaponDropSpeedXZ_s / length;
+            sead::Vector3f front;
+            mActor->getMtx().getBase(front, 2);
+            drop_velocity = sead::Vector3f(-front.x, 0, -front.z);
+            setLength(&drop_velocity, *mWeaponDropSpeedXZ_s);
         } else {
             drop_velocity.x = 0;
             drop_velocity.z = 0;
@@ -54,8 +63,8 @@ void Shock::enter_(ksys::act::ai::InlineParamPack* params) {
     }
 
     playAS(mASName_s.cstr(), false, *mASSlot_s, 0, -1.0f);
-    mFlags.set(Flag::Changeable);
     _68.reset(f32(*mKnockBackTime_s));
+    mFlags.set(Flag::Changeable);
 }
 
 void Shock::leave_() {
