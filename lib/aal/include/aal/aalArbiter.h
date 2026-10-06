@@ -23,6 +23,9 @@ public:
     /// Unregisters the sound source (its id is reset).
     void freeSoundSource(SoundSource* sound_source);
     void detachGroupFromSoundSourceAll();
+    /// Stops all the sound sources immediately.
+    void stopAllSound();
+    void execOnDestroyWaveAsset(u64 a, u64 b, bool c, bool d);
     void appendToActiveEmitterList(Emitter* emitter);
     void removeFromActiveEmitterList(Emitter* emitter);
 
@@ -34,6 +37,8 @@ private:
     u8 _68[0x78 - 0x68];
     sead::CriticalSection mEmitterCS;
     sead::CriticalSection mSoundSourceCS;
+    /// Taken around the calls into the sound sources.
+    sead::CriticalSection mSoundSourceCallCS;
 };
 
 }  // namespace aal

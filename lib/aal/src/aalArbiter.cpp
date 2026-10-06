@@ -27,6 +27,24 @@ void Arbiter::detachGroupFromSoundSourceAll() {
         sound_source.detachSoundGroup();
 }
 
+// 0x7100b9e8f8
+void Arbiter::stopAllSound() {
+    sead::ScopedLock<sead::CriticalSection> lock(&mSoundSourceCS);
+    for (SoundSource& sound_source : mSoundSources.robustRange()) {
+        sead::ScopedLock<sead::CriticalSection> call_lock(&mSoundSourceCallCS);
+        sound_source.stop(-1.0f, 0.0f);
+    }
+}
+
+// 0x7100b9e99c
+void Arbiter::execOnDestroyWaveAsset(u64 a, u64 b, bool c, bool d) {
+    sead::ScopedLock<sead::CriticalSection> lock(&mSoundSourceCS);
+    for (SoundSource& sound_source : mSoundSources.robustRange()) {
+        sead::ScopedLock<sead::CriticalSection> call_lock(&mSoundSourceCallCS);
+        sound_source.execOnDestroyWaveAsset(a, b, c, d);
+    }
+}
+
 // 0x7100b9eacc
 void Arbiter::dumpActiveSoundSource() const {}
 
