@@ -1,8 +1,10 @@
 #include "Game/Actor/actHorseBase.h"
 #include "KingSystem/ActorSystem/LOD/actLodState.h"
 #include <math/seadMathCalcCommon.h>
+#include <prim/seadScopedLock.h>
 #include "Game/Actor/actHorseObject.h"
 #include "Game/Actor/actRideable.h"
+#include "Game/gameHorseMgr.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/GameData/gdtManager.h"
@@ -391,6 +393,96 @@ bool HorseBase::sub_7100E6C0E0(bool on) {
     if (auto* lod = getLodState())
         lod->mFlags10.changeBit(6, lod_flag);
     return lod_flag;
+}
+
+// inline-only in the original; name is a guess (same helper as in acc::Weapon / acc::Armor).
+static ksys::act::BaseProc* getProcIfActor(ksys::act::BaseProc* proc) {
+    if (proc && sead::IsDerivedFrom<ksys::act::Actor>(proc))
+        return proc;
+    return nullptr;
+}
+
+static inline HorseBase* getHorseBase(const ksys::act::ActorConstDataAccess& accessor) {
+    auto* actor = static_cast<ksys::act::Actor*>(getProcIfActor(accessor.getProc()));
+    return sead::DynamicCast<HorseBase>(actor);
+}
+
+bool sub_7100E6DC50(const ksys::act::ActorConstDataAccess& accessor) {
+    auto* actor = static_cast<ksys::act::Actor*>(getProcIfActor(accessor.getProc()));
+    return sead::IsDerivedFrom<HorseBase>(actor);
+}
+
+void* sub_7100E6DD40(const ksys::act::ActorConstDataAccess& accessor) {
+    auto* horse = getHorseBase(accessor);
+    return horse ? horse->_b48 : nullptr;
+}
+
+f32 sub_7100E6DE34(const ksys::act::ActorConstDataAccess& accessor) {
+    auto* horse = getHorseBase(accessor);
+    return horse ? horse->_b10->m31() : 0.0f;
+}
+
+s32 sub_7100E6DF38(const ksys::act::ActorConstDataAccess& accessor) {
+    auto* horse = getHorseBase(accessor);
+    return horse ? horse->_b78 : 0;
+}
+
+HorseBase::Nature sub_7100E6E02C(const ksys::act::ActorConstDataAccess& accessor) {
+    auto* horse = getHorseBase(accessor);
+    return horse ? horse->sub_7100E68298() : HorseBase::Nature(0);
+}
+
+void sub_7100E6E98C(const ksys::act::ActorConstDataAccess& accessor, bool on) {
+    if (auto* horse = getHorseBase(accessor)) {
+        if (on)
+            horse->_b70.setBitOn(1);
+        else
+            horse->_b70.setBitOff(1);
+    }
+}
+
+void sub_7100E6EBA4(const ksys::act::ActorConstDataAccess& accessor, bool on) {
+    if (auto* horse = getHorseBase(accessor)) {
+        if (on)
+            horse->_b70.setBitOn(3);
+        else
+            horse->_b70.setBitOff(3);
+    }
+}
+
+bool sub_7100E6EAAC(const ksys::act::ActorConstDataAccess& accessor) {
+    auto* horse = getHorseBase(accessor);
+    return horse ? horse->_b70.isBitOn(2) : false;
+}
+
+bool sub_7100E6ED04(const ksys::act::ActorConstDataAccess& accessor) {
+    auto* horse = getHorseBase(accessor);
+    return horse ? horse->_b70.isBitOn(0) : false;
+}
+
+bool sub_7100E6F010(const ksys::act::ActorConstDataAccess& accessor) {
+    auto* horse = getHorseBase(accessor);
+    return horse ? horse->_b70.isBitOn(10) : false;
+}
+
+// NON_MATCHING: the original selects `horse + 0xc00` / the empty string directly on the RTTI result (one csel); ours
+// keeps the null test of the cast result (see acc::WeaponBase::getBindInfo)
+const sead::SafeString& sub_7100E6EDFC(const ksys::act::ActorConstDataAccess& accessor) {
+    auto* horse = getHorseBase(accessor);
+    return horse ? horse->_c00 : sead::SafeString::cEmptyString;
+}
+
+const sead::SafeString& sub_7100E6EF00(const ksys::act::ActorConstDataAccess& accessor) {
+    auto* horse = getHorseBase(accessor);
+    if (!horse)
+        return sead::SafeString::cEmptyString;
+    auto lock = sead::makeScopedLock(horse->_890);
+    return horse->_8d0._40;
+}
+
+s32 sub_7100E6ECC4(const ksys::act::ActorConstDataAccess& accessor) {
+    const auto* unit = accessor.getGParamList()->getHorseUnit();
+    return unit ? unit->mRiddenAnimalType.ref() : 1;
 }
 
 }  // namespace uking::act
