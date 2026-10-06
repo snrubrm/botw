@@ -1,9 +1,56 @@
 #include "Game/UI/euiButton.h"
+#include "Game/UI/euiLayoutEx.h"
+#include <nn/ui2d/Pane.h>
 
 namespace eui {
 
 // 0x7100bd7b74
 ButtonGroup::ButtonGroup() = default;
+
+namespace {
+// Inline-only in the original (the same bounded 64 character comparison repeats in the four searches below).
+inline bool IsNameEqual(const char* a, const char* b) {
+    for (s32 i = 0; i < 64; ++i) {
+        if (a[i] != b[i])
+            return false;
+        if (a[i] == '\0')
+            return true;
+    }
+    return true;
+}
+}  // namespace
+
+// 0x7100bd81d0
+ControlBase* ButtonGroup::FindControlByName(const char* name) {
+    for (ListNode* node = mButtons.next; node != &mButtons; node = node->next) {
+        auto* control = ControlBase::fromNode(node);
+        if (IsNameEqual(name, control->mName))
+            return control;
+    }
+    return nullptr;
+}
+
+// 0x7100bd822c
+ButtonBase* ButtonGroup::FindButton(const char* name, const char* layout_name) {
+    for (ListNode* node = mButtons.next; node != &mButtons; node = node->next) {
+        auto* button = static_cast<ButtonBase*>(ControlBase::fromNode(node));
+        LayoutEx* layout = (button->mFlags & 0x2000) ? button->mLayout->_88 : button->mLayout;
+        if (IsNameEqual(name, button->mName) && layout && IsNameEqual(layout_name, layout->mPane->GetName()))
+            return button;
+    }
+    return nullptr;
+}
+
+// 0x7100bd82c8
+ButtonBase* ButtonGroup::FindButton(const char* name, LayoutEx* layout) {
+    for (ListNode* node = mButtons.next; node != &mButtons; node = node->next) {
+        auto* button = static_cast<ButtonBase*>(ControlBase::fromNode(node));
+        LayoutEx* button_layout = (button->mFlags & 0x2000) ? button->mLayout->_88 : button->mLayout;
+        if (IsNameEqual(name, button->mName) && button_layout == layout)
+            return button;
+    }
+    return nullptr;
+}
 
 // 0x7100bd8378
 bool ButtonGroup::IsExistExcludingDown() const {

@@ -37,6 +37,7 @@ public:
     NN_RUNTIME_TYPEINFO(nn::ui2d::Layout)
 
     using nn::ui2d::Layout::mName;
+    using nn::ui2d::Layout::mPane;
 
     // 0x7100bdd16c (not decompiled)
     explicit LayoutEx(Screen* screen);

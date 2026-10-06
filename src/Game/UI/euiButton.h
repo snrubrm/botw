@@ -126,6 +126,12 @@ public:
     // 0x7100bd817c / 0x7100bd8338 / 0x7100bd8118
     ButtonBase* FindDownButton();
     ButtonBase* FindButtonByTag(s32 tag);
+    // 0x7100bd81d0 (CSV unnamed; placeholder name): the control whose name equals `name` (up to 64 characters).
+    ControlBase* FindControlByName(const char* name);
+    // 0x7100bd822c / 0x7100bd82c8 (CSV unnamed; placeholder names): the button called `name` whose layout (the parent
+    // layout for flag 0x2000) has the root pane name `layout_name` / is `layout`.
+    ButtonBase* FindButton(const char* name, const char* layout_name);
+    ButtonBase* FindButton(const char* name, LayoutEx* layout);
     void SetTouchDevice(bool touch);
 
     /* 0x08 */ ListNode mButtons;
