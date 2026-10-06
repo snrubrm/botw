@@ -29,7 +29,21 @@ void PlayerTwiceJump::loadParams_() {
 }
 
 void PlayerTwiceJump::calc_() {
+    static_cast<ksys::act::Player*>(mActor)->sub_7100881418();
     PlayerFall::calc_();
+    if (static_cast<ksys::act::Player*>(mActor)->m179()) {
+        static_cast<ksys::act::Player*>(mActor)->sub_71008824AC(false);
+        auto* p = static_cast<ksys::act::Player*>(mActor);
+        if (p->_d30 == p->getEquipmentTypeName(0)) {
+            if (!p->_c40.isOnBit(3)) {
+                setFinished();
+                return;
+            }
+        }
+        if (ksys::act::playerIsReloadingOrChargingOrShootingBow(static_cast<ksys::act::Player*>(mActor)))
+            static_cast<ksys::act::Player*>(mActor)->x_37();
+    }
+    static_cast<ksys::act::Player*>(mActor)->actionCommon();
 }
 
 bool PlayerTwiceJump::isChangeable() const {

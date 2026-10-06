@@ -1,4 +1,9 @@
 #include "Game/AI/Action/actionSiteBossLswordFireBall.h"
+#include <math/seadMathCalcCommon.h>
+#include "Game/Actor/actSiteBoss.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 
 namespace uking::action {
 
@@ -35,7 +40,29 @@ void SiteBossLswordFireBall::loadParams_() {
 }
 
 void SiteBossLswordFireBall::calc_() {
-    ksys::act::ai::Action::calc_();
+    _64.update();
+    if (mActor->getASList()->x(0x37, nullptr, 0, 0, &ksys::as::ASList::Unk2::sub_71011637EC, true)) {
+        _60 = true;
+        sub_710025D85C();
+    }
+    if (_64.value <= sead::Mathf::epsilon()) {
+        if (!_60)
+            sub_710025D85C();
+        setFinished();
+    }
+    if (*mIsShowChildDevice_s) {
+        if (auto* boss = sead::DynamicCast<act::SiteBoss>(mActor)) {
+            auto& child_devices = boss->_1560;
+            for (s32 i = 0; i < 20; ++i) {
+                ksys::act::ActorConstDataAccess accessor;
+                ksys::act::acquireActor(&child_devices._1e0[i], &accessor);
+                if (!accessor.isStateCalc()) {
+                    child_devices.sub_710066D708(i);
+                    break;
+                }
+            }
+        }
+    }
 }
 
 }  // namespace uking::action

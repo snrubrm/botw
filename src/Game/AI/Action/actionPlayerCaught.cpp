@@ -2,9 +2,15 @@
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
 
 namespace uking::action {
+
+// 0x7100eeb19c (declared only; 416 B): finds the contact point of `body` in its contact list (a3: its position, a4:
+// its normal-like vector; the null pointers are optional outputs).
+bool sub_7100EEB19C(ksys::phys::RigidBody* body, sead::Vector3f* a2, sead::Vector3f* a3,
+                    sead::Vector3f* a4, void* a5, void* a6, void* a7);
 
 PlayerCaught::PlayerCaught(const InitArg& arg) : PlayerAction(arg) {}
 
@@ -35,7 +41,28 @@ void PlayerCaught::leave_() {
 }
 
 void PlayerCaught::calc_() {
-    PlayerAction::calc_();
+    auto* actor = mActor;
+    if (actor->getConnectedCalcParent()) {
+        if (auto* parent = sead::DynamicCast<ksys::act::Actor>(actor->getConnectedCalcParent())) {
+            if (parent->getActorFlags2().isOn(ksys::act::Actor::ActorFlag2::_40))
+                actor->resetConnectedCalcParent(false);
+        }
+    } else {
+        setFinished();
+    }
+    if (auto* controller = actor->getCharacterController()) {
+        sead::Vector3f contact;
+        if (sub_7100EEB19C(controller->sub_7100F61A34(), &contact, nullptr, nullptr, nullptr, nullptr,
+                           nullptr)) {
+            const sead::Vector3f position = actor->getMtx().getTranslation();
+            sead::Vector3f center;
+            controller->sub_7100F5F6E0(&center);
+            if ((position - center).length() > 3.0f) {
+                mActor->resetConnectedCalcParent(false);
+                setFailed();
+            }
+        }
+    }
 }
 
 bool PlayerCaught::isChangeable() const {

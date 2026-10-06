@@ -22,7 +22,7 @@ bool SoundTrigger::init_(sead::Heap* heap) {
 }
 
 void SoundTrigger::enter_(ksys::act::ai::InlineParamPack* params) {
-    getDynamicParam(&mSoundDelay_d, "SoundDelay");
+    getDynamicParam_2(&mSoundDelay_d, "SoundDelay");
     getDynamicParam(&mSound_d, "Sound");
     getDynamicParam(&mSLinkInst_d, "SLinkInst");
     _48 = *mSoundDelay_d;

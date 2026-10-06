@@ -3,6 +3,7 @@
 #include "Game/AI/Action/actionChemicalPhysBall.h"
 #include "Game/AI/aiUnk_710244ECF0.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
 
 namespace uking::action {
 
@@ -32,11 +33,7 @@ protected:
     /* 0xe8 */ Unk_710244ecf0 _e8;
     /* 0x160 */ bool _160 = false;
     bool _161 = false;
-    struct Entry {
-        void* _0 = nullptr;
-        s32 _8 = 0;
-    };
-    /* 0x168 */ Entry _168[4];
+    /* 0x168 */ Unk_71012419b4 _168[2];
     /* 0x1a8 */ struct Unk1a8 {
         sead::Vector3f _0{0, 0, 0};
         bool _c = false;
@@ -44,6 +41,10 @@ protected:
     } _1a8{};
     // 0x710023b234 (declared only): out of line in the original.
     bool sub_710023B234(Unk1a8* out);
+    // 0x710023b458 (declared only; 860 B): returns whether the ball is finished; the out flag is set when ... (guess).
+    bool sub_710023B458(bool* out);
+    // 0x710023b7b4 (declared only; 1492 B).
+    void sub_710023B7B4();
 };
 
 }  // namespace uking::action

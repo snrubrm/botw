@@ -405,6 +405,9 @@ public:
     // Declared only (placeholder member functions of the player; all take the player as `this`):
     void sub_710086800C(f32 a1);       // 0x710086800c
     void sub_71008824AC(bool a1);      // 0x71008824ac
+    // 0x7100881418 (declared only, lane5 s6; 356 B): character-controller / ASList (x_1 name) check run first by
+    // PlayerTwiceJump::calc_.
+    void sub_7100881418();
     // 0x710086a554 (CSV Player::x_4; declared only, 1344 B): called by PlayerBow::calc_ unless _1f88 == 5.
     void x_4();
     void sub_71008893B8(bool a1);      // 0x71008893b8

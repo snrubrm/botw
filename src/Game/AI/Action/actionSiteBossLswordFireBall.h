@@ -19,6 +19,9 @@ public:
 protected:
     void calc_() override;
 
+    // 0x710025d85c (declared only; 532 B): spawns the fire ball.
+    void sub_710025D85C();
+
     // static_param at offset 0x20
     const float* mAppearInterval_s{};
     // static_param at offset 0x28

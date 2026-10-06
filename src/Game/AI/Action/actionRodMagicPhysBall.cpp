@@ -2,6 +2,7 @@
 #include "KingSystem/ActorSystem/Profiles/actBullet.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 
 namespace uking::action {
 
@@ -31,8 +32,28 @@ void RodMagicPhysBall::loadParams_() {
     getStaticParam(&mBgCheckHeight_s, "BgCheckHeight");
 }
 
+// NON_MATCHING: the original loads the argument of `_e8.sub_7100D3C5E0(mActor)` as `ldr x1, [x19, #0x8]`; ours reuses
+// the `&mActor` register (`ldr x1, [x20]`) of the neighbouring mActor loads. Nothing else differs.
 void RodMagicPhysBall::calc_() {
+    bool flag = false;
+    if (sub_710023B458(&flag)) {
+        if (flag && *mChemicalType_s == 0)
+            xlinkSearchAndEmit(mActor, "Explode", 2, &_168[0]);
+        mActor->deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+    }
+    if (mActor->get68f().load() || _d8.hasProc())
+        sub_710023B7B4();
     ChemicalPhysBall::calc_();
+    if (_160) {
+        auto* actor = _e8.sub_7100D3C5E0(mActor);
+        if (!actor || actor->getState() != ksys::act::BaseProc::State::Calc)
+            mActor->deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+    } else if (*mChemicalType_s == 0) {
+        const bool hit = isBgGroundHit(mActor, false) || isLandedMaybe(mActor, false);
+        if (hit && !_161)
+            xlinkSearchAndEmit(mActor, "Rebound", 2, &_168[1]);
+        _161 = hit;
+    }
 }
 
 bool RodMagicPhysBall::m33() {
