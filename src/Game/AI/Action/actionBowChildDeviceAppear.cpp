@@ -39,8 +39,8 @@ void BowChildDeviceAppear::loadParams_() {
     getStaticParam(&mEndTime_s, "EndTime");
 }
 
-// NON_MATCHING: identical code except that the original loads the third component of the x axis (+0x3b8) as an int
-// (`ldr w; fmov; str w`), we load it as a float (`ldr s; str s`).
+// NON_MATCHING: identical code (the out-param `getBase(dir, 0)` reproduces the integer component loads); only the
+// numbering of the fp registers (s8-s10) differs.
 void BowChildDeviceAppear::calc_() {
     if (_30) {
         _34.update();
@@ -51,7 +51,8 @@ void BowChildDeviceAppear::calc_() {
 
     _34.reset(*mEndTime_s);
     if (auto* body = mActor->getMainBody()) {
-        sead::Vector3f dir = mActor->getMtx().getBase(0);
+        sead::Vector3f dir;
+        mActor->getMtx().getBase(dir, 0);
         dir.normalize();
         dir *= *mInitSpeed_s;
         body->setLinearVelocity(dir, sead::Mathf::epsilon());

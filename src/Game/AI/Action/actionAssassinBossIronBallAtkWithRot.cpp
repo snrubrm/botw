@@ -59,12 +59,14 @@ void AssassinBossIronBallAtkWithRot::m32(sead::Vector3f* angle) {
     *angle = *mAddAngle_s * f32(_f8);
 }
 
-// NON_MATCHING: the original loads the whole object translation before storing it
 void AssassinBossIronBallAtkWithRot::m33(sead::Vector3f* pos) {
-    if (auto* obj = ksys::act::findLinkReferenceObj(mActor, mCentralAnchorName_s, sead::SafeString::cEmptyString, nullptr))
-        *pos = obj->getTranslate();
-    else
+    if (auto* obj = ksys::act::findLinkReferenceObj(mActor, mCentralAnchorName_s,
+                                                    sead::SafeString::cEmptyString, nullptr)) {
+        const sead::Vector3f translate = obj->getTranslate();
+        *pos = translate;
+    } else {
         mActor->getMtx().getTranslation(*pos);
+    }
 }
 
 }  // namespace uking::action

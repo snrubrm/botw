@@ -29,13 +29,14 @@ void BackStepBase::calc_() {
     BackStepToTarget::calc_();
 }
 
-// NON_MATCHING: the original loads the translation into integer registers (copied to `target` after the
-// normalize); ours loads x / z as floats
+// NON_MATCHING: only the scheduling of one fmov / fsub pair differs (the integer translation loads match with the
+// out-param getTranslation)
 void BackStepBase::m41(f32* a, sead::Vector3f* b) {
     f32 time = 0.0f;
     const f32 gravity = *mJumpGravity_s / 900.0f;
     sead::Vector3f velocity;
-    const sead::Vector3f pos = mActor->getMtx().getTranslation();
+    sead::Vector3f pos;
+    mActor->getMtx().getTranslation(pos);
     sead::Vector3f away = {pos.x - mTargetPos_d->x, 0.0f, pos.z - mTargetPos_d->z};
     away.normalize();
     sead::Vector3f target = pos;
