@@ -16,27 +16,23 @@ bool ForkClothOnOffASPlay::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }
 
-// NON_MATCHING: same logic; the original computes the `cloth_set && cloth_set->_60 < 1.0f` test as a bool (`cset`) that is
-// tested together with the LodState flag (`ldr x; tbz #1`, AS branch first), we branch on the compare directly and load the
-// flag byte.
+// NON_MATCHING: same logic and (after tail merging) the same single playAS tail; the original lays the AS branch out first
+// (the cloth-off test is a `cset` bool that feeds `tbnz`, then the LodState flag word is loaded as 64 bits), we put the
+// cloth-off branch first and test the compare / flag byte directly.
 void ForkClothOnOffASPlay::enter_(ksys::act::ai::InlineParamPack* params) {
     auto* lod = mActor->getLodState();
     if (lod) {
         auto* physics = mActor->getPhysics();
         if (physics) {
-            const char* name;
             auto* cloth_set = physics->getClothSet();
-            bool cloth_off = false;
-            if (cloth_set)
-                cloth_off = cloth_set->_60 < 1.0f;
+            const bool cloth_off = cloth_set && cloth_set->_60 < 1.0f;
             if (!cloth_off && lod->mFlags8.isOn(2)) {
                 lod->mFlags10.set(2);
-                name = mASName_s.cstr();
+                playAS(mASName_s.cstr(), *mIsIgnoreSame_s, *mTargetBone_s, *mSeqBank_s, -1.0f);
             } else {
                 physics->getFlags().set(ksys::phys::InstanceSet::Flag::_20000);
-                name = mClothOffASName_s.cstr();
+                playAS(mClothOffASName_s.cstr(), *mIsIgnoreSame_s, *mTargetBone_s, *mSeqBank_s, -1.0f);
             }
-            playAS(name, *mIsIgnoreSame_s, *mTargetBone_s, *mSeqBank_s, -1.0f);
         }
     }
 
