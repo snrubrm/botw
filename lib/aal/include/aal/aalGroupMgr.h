@@ -14,6 +14,8 @@ public:
     Group* findGroup(const sead::SafeString& name) const;
     /// Same as findGroup, but only returns the group if it is a GroupFolder.
     GroupFolder* findGroupFolder(const sead::SafeString& name) const;
+    /// 0x7100b8148c: the name of the placeholder group (a child that is inserted after is not moved).
+    static const sead::SafeString& getDummyGroupName();
 };
 
 }  // namespace aal

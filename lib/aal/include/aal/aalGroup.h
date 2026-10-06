@@ -8,6 +8,10 @@
 
 #include "aal/aalNamedObj.h"
 
+namespace sead {
+class Heap;
+}
+
 namespace aal {
 
 class GroupDucker;
@@ -17,11 +21,13 @@ class SoundSource;
 
 /// A node of the sound group tree (see GroupMgr): either a SoundGroup (a leaf that owns playing sounds)
 /// or a GroupFolder (which forwards the operations to its children).
-/// TODO: incomplete. Only the virtual functions up to `silence` are declared in vtable order (the other virtuals
-/// below are in an unverified order); the second base at +0x50 (it holds the tree node) and most members are not
-/// modeled yet.
+/// TODO: incomplete. The virtual functions are declared in vtable order (verified against the vtable); the
+/// primary base is really a FixedNamedObj<32>, the second base at +0x50 (it holds the tree node) and most
+/// members are not modeled yet.
 class Group : public NamedObj {
     SEAD_RTTI_BASE(Group)
+    friend class GroupFolder;
+
 public:
     /// Stops all the sounds of the group (and of its descendants) with the given fade out time (negative: the
     /// default release time).
@@ -33,14 +39,18 @@ public:
     virtual void allowEmit(sead::BitFlag8 flags, bool allow) = 0;
     virtual void silence(bool silence, f32 fade_time) = 0;
 
-    // The vtable positions of the following virtuals are not verified.
+    virtual void calcActiveSoundLimit();
+    virtual void calcRequestSoundLimit();
+    virtual s32 calcNumSounds();
     virtual bool isSoundGroup() const = 0;
     virtual bool isGroupFolder() const = 0;
+    virtual s32 getStartWaitSoundNum() const = 0;
+    // These three are also the virtuals of the second base (a thunk of each is in its vtable).
     virtual bool isOnDucking() const;
     virtual const sead::SafeString& getDuckingSourceName() const;
     virtual void invalidateORNode();
-    virtual void calcActiveSoundLimit();
-    virtual void calcRequestSoundLimit();
+    virtual void initialize(const sead::SafeString& name, sead::Heap* heap);
+    virtual void finalize();
 
     /// The number of ancestors of the group.
     s32 calcTreeDepth() const;
@@ -48,6 +58,7 @@ public:
     void setDuckingVolumeFloor(f32 floor);
 
 protected:
+    // The vtable order of the following virtuals is verified from the vtable (0x7100b7f... 0x24c3cd0).
     virtual bool pushFrontChild_(Group* child) = 0;
     virtual bool pushBackChild_(Group* child) = 0;
     virtual bool insertBeforeChild_(Group* child, Group* before) = 0;
@@ -90,6 +101,7 @@ public:
     bool isSoundGroup() const override;
     bool isGroupFolder() const override;
     void calcActiveSoundLimit() override;
+    s32 getStartWaitSoundNum() const override;
 
     void setReleaseTime(f32 release_time);
     f32 getReleaseTime() const { return mReleaseTime; }
@@ -111,9 +123,26 @@ protected:
     sead::OffsetList<SoundSource> mPlayingSoundSources;
 };
 
-/// A group that only contains other groups.
+/// A group that only contains other groups: forwards the operations to its children.
 class GroupFolder : public Group {
     SEAD_RTTI_OVERRIDE(GroupFolder, Group)
+public:
+    void stopAllSound(f32 fade_time) override;
+    void pauseAllSound(bool pause, f32 fade_time) override;
+    void pauseAllSound(sead::BitFlag8 flags, bool pause, f32 fade_time) override;
+    void allowEmit(bool allow) override;
+    void allowEmit(sead::BitFlag8 flags, bool allow) override;
+    void silence(bool silence, f32 fade_time) override;
+    bool isSoundGroup() const override;
+    bool isGroupFolder() const override;
+    s32 getStartWaitSoundNum() const override;
+
+protected:
+    bool pushFrontChild_(Group* child) override;
+    bool pushBackChild_(Group* child) override;
+    bool insertBeforeChild_(Group* child, Group* before) override;
+    bool insertAfterChild_(Group* child, Group* after) override;
+    void removeChild_(Group* child) override;
 };
 
 }  // namespace aal

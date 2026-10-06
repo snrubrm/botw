@@ -28,6 +28,7 @@ add_library(aal OBJECT
   src/aalFxDelayParamSetter.cpp
   src/aalFxParamSetter.cpp
   src/aalGroup.cpp
+  src/aalGroupFolder.cpp
   src/aalGroupLimiter.cpp
   src/aalSpatialCalculator.cpp
   src/aalHandle.cpp
