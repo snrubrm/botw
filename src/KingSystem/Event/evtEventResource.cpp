@@ -8,6 +8,15 @@
 
 namespace ksys::evt {
 
+void EventResource::initFlowchart(const sead::SafeString& event_name,
+                                  const sead::SafeString& entry_point) {
+    auto* flowchart = new (mHeap, 8) ResourceFlowchart;
+    mFlowchart = flowchart;
+    flowchart->mName.copy(event_name);
+    flowchart->mEntryPoint.copy(entry_point);
+    loadEventPack();
+}
+
 void EventResource::initTimeline(const sead::SafeString& event_name) {
     mTimeline = new (mHeap, 8) ResourceTimeline;
     mTimeline->mName.copy(event_name);
@@ -40,6 +49,46 @@ void EventResource::loadEventPack() {
     res::ResourceMgrTask::instance()->initTempResourceLoader(mTempResourceLoader, init_arg);
     mTempResourceLoader->requestLoad(arg);
     _1e0 |= 0x4000;
+}
+
+bool EventResource::processResourceLoad(bool a1) {
+    _1d0 = 0;
+    _1e0 = a1 ? (_1e0 | 0x20000) : (_1e0 & ~0x20000u);
+
+    if (_1e0 & 0x11000) {
+        if (mTempResourceLoader) {
+            delete mTempResourceLoader;
+            mTempResourceLoader = nullptr;
+        }
+        return true;
+    }
+
+    if (!(_1e0 & 0x2000)) {
+        bool wait = false;
+        if (_1e0 & 0x4000) {
+            if (mTempResourceLoader->getResourceForLoadRequest(nullptr)) {
+                _1d8 = mTempResourceLoader->getHandle();
+            } else if (mTempResourceLoader->isLoading() && !(_1e0 & 0x10000)) {
+                wait = true;
+            } else {
+                if (mTempResourceLoader)
+                    delete mTempResourceLoader;
+                mTempResourceLoader = nullptr;
+                _1e0 |= 0x1000;
+            }
+        }
+        if (!wait) {
+            if (_1e0 & 0x1000)
+                return true;
+            loadEventResources(a1);
+            _1e0 |= 0x2000;
+        }
+        _1d0 |= 0x200;
+    }
+
+    if ((_1e0 & 0x2000) && finishLoad(false))
+        return true;
+    return false;
 }
 
 // 0x7100dc3368

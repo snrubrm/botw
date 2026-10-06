@@ -256,7 +256,7 @@ void EventFlowFlowchart::m17() {}
 
 // 0x7100dbaca8 (CSV evt::EventFlowFlowchart::init2)
 void EventFlowFlowchart::m15() {
-    _108->initFlowchart(&mEventName, &mEntryPointName);
+    _108->initFlowchart(mEventName, mEntryPointName);
 }
 
 // 0x7100dbb258 (CSV evt::EventFlowFlowchart::calc)

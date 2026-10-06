@@ -53,11 +53,15 @@ public:
     // 0x7100dc29e8 (CSV EventResource::loadEventPack; not decompiled)
     void loadEventPack();
     // 0x7100dc2b7c (CSV EventResource::initFlowchart)
-    void initFlowchart(void* flow_data, void* flowchart_data);
+    void initFlowchart(const sead::SafeString& event_name, const sead::SafeString& entry_point);
     // 0x7100dc34f8 (CSV EventResource::load; not decompiled)
     bool load(bool a1);
     // 0x7100dc3698 (CSV unnamed): called by EventFlowBase::exitEventMaybe / x with the flow's resource.
     void sub_7100DC3698();
+
+    // 0x7100dc2d50 / 0x7100dc2eb4 (CSV EventResource::loadEventResources / finishLoad; not decompiled)
+    void loadEventResources(bool a1);
+    bool finishLoad(bool a1);
 
     // 0x7100dc3368 / 0x7100dc33d4 / 0x7100dc421c (CSV EventResource::areCameraAndModelAndXlinkReady /
     // processResourceLoad / EventAddExtraModelRes_stuff; not decompiled)
@@ -82,9 +86,11 @@ public:
     /* 0x1b8 */ EventXlinkInfo* _1b8;
     u8 _1c0[8];
     /* 0x1c8 */ res::TempResourceLoader* mTempResourceLoader;
-    u8 _1d0[0x1d3 - 0x1d0];
+    /* 0x1d0 */ u16 _1d0;
+    u8 _1d2;
     /* 0x1d3 */ bool _1d3;
-    u8 _1d4[0x1e0 - 0x1d4];
+    u8 _1d4[4];
+    /* 0x1d8 */ res::Handle* _1d8;
     union {
         /* 0x1e0 */ u32 _1e0;
         u8 _1e0_bytes[4];

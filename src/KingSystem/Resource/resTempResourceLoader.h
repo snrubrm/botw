@@ -43,6 +43,7 @@ public:
     sead::DirectResource* getResource() const;
     Handle::Status getHandleStatus() const;
     sead::FileDevice* getHandleFileDevice() const;
+    Handle* getHandle() { return &mHandle; }
     u32 getWorkHeapSize() const;
 
 private:
