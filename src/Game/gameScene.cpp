@@ -31,6 +31,10 @@ static sead::FixedSafeString<0xff> sSceneChangeEventFlowEntryPoint;
 // 0x71025cb0eb (not a TU-local: the original addresses it through the GOT)
 bool sForceEnableGlidingSurfingRupee;
 
+// 0x71025cb0e8 (also addressed through the GOT; unnamed). Set by setIsRestartStageFromGameOver (the
+// restart-from-game-over request), cleared by genStage / resetStage and read by PlayerInfo::updateLifeAfterGameOver.
+bool sIsRestartStageFromGameOver;
+
 bool GameScene::sIsOpenWorldDemo{};
 GameScene* GameScene::sInstance;
 bool GameScene::sIsInitialisingStage;

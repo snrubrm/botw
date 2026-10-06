@@ -1,8 +1,9 @@
 #include "Game/AI/Action/actionRestartStageFromGameOver.h"
 #include "Game/UI/uiUtils.h"
-
-// 0x71007af558: source namespace unknown; only the bool interface is established.
-bool sub_71007AF558();
+#include "Game/gameSaveSystem.h"
+#include "Game/gameScene.h"
+#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "KingSystem/GameData/gdtManager.h"
 
 namespace uking::action {
 
@@ -17,6 +18,17 @@ bool RestartStageFromGameOver::init_(sead::Heap* heap) {
 
 void RestartStageFromGameOver::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Action::enter_(params);
+    if (auto* save_system = SaveSystem::instance())
+        save_system->_1a50 |= 0x40;
+    if (auto* gdm = ksys::gdt::Manager::instance())
+        gdm->onRestartStageFromGameOverMaybe();
+    setIsRestartStageFromGameOver();
+    if (sIsRestartStageFromGameOver) {
+        if (auto* player_info = ksys::act::PlayerInfo::instance()) {
+            player_info->updateLifeAfterGameOver();
+            GameScene::sub_71007AEF94();
+        }
+    }
 }
 
 void RestartStageFromGameOver::leave_() {

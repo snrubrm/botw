@@ -207,8 +207,18 @@ bool sub_71007B7E6C();
 void recoverLifeAndStamina();
 // 0x71007a8818 (CSV name): sets the byte at 0x71025cb0eb.
 void setForceEnableGlidingSurfingRupee(bool value);
+// 0x71025cb0e8 (see gameScene.cpp).
+extern bool sIsRestartStageFromGameOver;
 
 }  // namespace uking
+
+// 0x71007af558 (global namespace, declared only): `sForceEnableGlidingSurfingRupee && !(byte at +0x81a of the
+// singleton at 0x71025d14b8)`; that singleton is sead::GameConfig (its createInstance is 0x8bba94), whose members
+// lib/sead does not declare (placeholder name).
+bool sub_71007AF558();
+// 0x71007af58c (CSV name; declared only, needs the sead::GameConfig byte too): sets the restart-from-game-over flag (0x71025cb0e8) and restores life / stamina when the
+// gliding / surfing rupee is force enabled.
+void setIsRestartStageFromGameOver();
 
 // 0x71007b7da4 (CSV name; global namespace: E3Mgr declares it that way): `sInstance2->sub_71007B0D3C()`.
 bool isStageSelectState();

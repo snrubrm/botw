@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionTerrainCalcCenter.h"
+#include "Game/gameStageStateMaybe.h"
 #include "KingSystem/Terrain/teraSystem.h"
 
 void setInitBeforeStageGenDone(bool done);
@@ -18,7 +19,10 @@ bool TerrainCalcCenter::init_(sead::Heap* heap) {
 }
 
 void TerrainCalcCenter::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    if (!StageStateMaybe::sInstance || StageStateMaybe::sInstance->_38 != 1) {
+        setInitBeforeStageGenDone(false);
+        _40 |= 1;
+    }
 }
 
 void TerrainCalcCenter::leave_() {
