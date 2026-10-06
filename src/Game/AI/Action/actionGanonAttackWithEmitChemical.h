@@ -1,5 +1,6 @@
 #pragma once
 
+#include <math/seadMatrix.h>
 #include "Game/AI/Action/actionGanonWeaponNearAttack.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
@@ -62,11 +63,16 @@ protected:
     const sead::Vector3f* mEmitActorSpeed_s{};
     // static_param at offset 0x160
     const sead::Vector3f* mEmitBoneRotateOffset_s{};
-    u64 _168 = 0;
-    u64 _170 = 0;
-    u16 _178 = 0;
+    f32 _168 = 0.0f;
+    f32 _16c = 0.0f;
+    f32 _170 = 0.0f;
+    f32 _174 = 0.0f;
+    bool _178 = false;
+    bool _179 = false;
     bool _17a = false;
-    u8 _17b[0x35];
+    u8 _17b;
+    sead::Matrix34f _17c;
+    u8 _1ac[4];
     u64 _1b0 = 0;
     u64 _1b8 = 0;
     u64 _1c0 = 0;

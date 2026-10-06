@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionDemoMotorcyclePutMaterials.h"
+#include "Game/Actor/actMotorcycle.h"
 
 namespace uking::action {
 
@@ -16,7 +17,10 @@ void DemoMotorcyclePutMaterials::enter_(ksys::act::ai::InlineParamPack* params) 
 }
 
 void DemoMotorcyclePutMaterials::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (auto* motorcycle = sead::DynamicCast<act::Motorcycle>(mActor)) {
+        if (motorcycle->_bc8.getMotorcycleEnergy() > 0.0f)
+            motorcycle->_bc8._19e = false;
+    }
 }
 
 void DemoMotorcyclePutMaterials::loadParams_() {

@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionChemicalward.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actBoneHandle.h"
 
 namespace uking::action {
 
@@ -16,6 +18,8 @@ void Chemicalward::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void Chemicalward::leave_() {
     ActionWithPosAngReduce::leave_();
+    _90._68 = sead::Matrix34f::ident;
+    mActor->sub_71011DA868(&_90);
 }
 
 void Chemicalward::loadParams_() {

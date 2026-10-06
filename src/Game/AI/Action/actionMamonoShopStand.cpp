@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionMamonoShopStand.h"
+#include <gsys/gsysModel.h>
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -7,7 +9,8 @@ MamonoShopStand::MamonoShopStand(const InitArg& arg) : ksys::act::ai::Action(arg
 MamonoShopStand::~MamonoShopStand() = default;
 
 bool MamonoShopStand::init_(sead::Heap* heap) {
-    return ksys::act::ai::Action::init_(heap);
+    mActor->getModel()->getBounding(&_1c);
+    return true;
 }
 
 void MamonoShopStand::enter_(ksys::act::ai::InlineParamPack* params) {
