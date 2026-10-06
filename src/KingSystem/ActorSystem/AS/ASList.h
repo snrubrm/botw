@@ -179,7 +179,7 @@ public:
         void sub_7101165008(const gsys::BoneAccessKey& key, int mode, bool a3);
         // 0x7101164e38 (declaration only): sets (true) / resets (false) the flag at 0x4d (or calls 0x7100bff4cc).
         void sub_7101164E38(bool a1);
-        // 0x7101164ff8 (declaration only): the slot's partial bone setup.
+        // 0x7101164ff8: clears the halfword at 8 of the slot's partial-bone object `_30` (if any).
         void sub_7101164FF8();
 
         // 0x71011650b8: bit `bit` of row `row` of the partial-bone mask (true if there is no mask).
@@ -201,7 +201,12 @@ public:
         f32 _14;
         u8 _18[0x20 - 0x18];
         sead::Buffer<Unk2> _20;
-        void* _30;
+        // Placeholder: the partial-bone object (the member at 8 is a halfword cleared by sub_7101164FF8).
+        struct PartialBones {
+            u8 _0[8];
+            u16 _8;
+        };
+        PartialBones* _30;
         sead::Buffer<BitRow> _38;
         f32 _48;
         u8 _4c;
@@ -312,6 +317,8 @@ public:
     // 0x710115c1d0 (lane1 s41, placeholder name): Unk2::sub_7101162E88 on the entry (slot, bank) with the entry
     // (other_slot, other_bank) (the flag tells whether the other entry is not before this one).
     void sub_710115C1D0(int slot, int other_slot, int bank, int other_bank);
+    // 0x710115c92c (placeholder name): `_10 = 0`.
+    void sub_710115C92C();
     // 0x710115c8d8 (lane1 s41, placeholder name; `a1` is unused): applies the animation to the model, with the
     // flags 2 (`a2`) or 3 (and sets bit 2 of `_163`).
     void sub_710115C8D8(bool a1, bool a2);
@@ -375,7 +382,8 @@ public:
     // vtable 0x710250ff98 (6 virtual functions, the destructor 0x7101159ca0 last) — not modelled
     /* 0x000 */ u8 _0[0x8];
     /* 0x008 */ gsys::Model* _8;
-    /* 0x010 */ u8 _10[0x13 - 0x10];
+    /* 0x010 */ u16 _10;  // cleared by sub_710115C92C
+    /* 0x012 */ u8 _12;
     /* 0x013 */ u8 _13;  // push depth of the bone name (sub_710115CE44 / sub_710115D0AC)
     /* 0x014 */ gsys::BoneAccessKey _14;  // bone named _18 (sub_710115BAF8)
     /* 0x018 */ sead::FixedSafeString<20> _18;
@@ -451,6 +459,11 @@ struct BoneBlendState {
 // context's event ring; copies its name / values into `query` (if given).
 bool sub_7101259C78(Context* ctx, ASList::Unk4* query, int type, u16 mask, ASList::Unk2* entry);
 bool sub_7101259D04(Context* ctx, ASList::EventQueryResults* query, u32 type, u16 mask);
+
+// 0x710125e644 / 0x710125e650 (placeholder names; out-of-line copies in the BoneBlender TU, called by the blend weight
+// code of the slot entries): the constants 1 / 0.99 and 1 / 0.01.
+f32 sub_710125E644();
+f32 sub_710125E650();
 
 // 0x7102620bb0 (GOT 0x25a15c8): the ASList that Actor::mASList is compared with before use (Actor::m120 /
 // m121, job0_2, job2_1, ...): a placeholder / null list. Name is a guess.

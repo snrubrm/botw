@@ -41,4 +41,12 @@ f32 BoneBlender::m39(s32* first, s32* second, Context* ctx, const res::ASResourc
     return 0.01f;
 }
 
+f32 sub_710125E644() {
+    return 1.0f / 0.99f;
+}
+
+f32 sub_710125E650() {
+    return 1.0f / 0.01f;
+}
+
 }  // namespace ksys::as

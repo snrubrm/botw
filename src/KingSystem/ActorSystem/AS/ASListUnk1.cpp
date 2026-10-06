@@ -111,4 +111,9 @@ void ASList::Unk1::sub_7101164F3C(sead::Vector3f* a1, sead::Vector3f* a2,
         entry.sub_7101162DE4(a1, a2, key);
 }
 
+void ASList::Unk1::sub_7101164FF8() {
+    if (_30)
+        _30->_8 = 0;
+}
+
 }  // namespace ksys::as

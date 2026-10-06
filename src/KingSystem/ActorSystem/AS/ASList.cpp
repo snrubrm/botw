@@ -452,6 +452,10 @@ void ASList::sub_710115C8D8(bool a1, bool a2) {
     }
 }
 
+void ASList::sub_710115C92C() {
+    _10 = 0;
+}
+
 void ASList::sub_710115C9AC(int slot) {
     mSlots[slot].sub_7101164900(_d8->getParam()->getRes().mModelList, slot, _d8);
 }
