@@ -10,6 +10,11 @@
 #include "Game/AI/aiUnk_71007302CC.h"
 #include "Game/AI/aiUnk_710073033C.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/Resource/Actor/resResourceGParamList.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectEnemyLevel.h"
 
 namespace uking::ai {
 
@@ -32,6 +37,71 @@ bool EnemySearchShieldItemFindPlayer::sub_71003BADD8() {
         }
     }
     return result;
+}
+
+// NON_MATCHING: same work; the original keeps the loop header (awareness query) at the bottom of the loop
+// (entered with a branch) and schedules the direction / front-vector loads differently.
+ksys::act::BaseProcLink* EnemySearchShieldItemFindPlayer::sub_71003BB3A4() {
+    auto* awareness = mActor->getAwareness();
+    if (!awareness)
+        return &ksys::act::getDummyBaseProcLink();
+
+    Unk_71024516c8 filter;
+    filter._28 = mActor;
+    filter._30 = *mParams.mCanGrabHeavy_s;
+    ksys::act::BaseProcLink* result;
+    while (true) {
+        auto* entry = ksys::act::sub_7100D7EEE8(&awareness->_8, &filter);
+        if (!entry) {
+            result = &ksys::act::getDummyBaseProcLink();
+            break;
+        }
+        if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
+            const auto* level = enemy->getParam()->getRes().mGParamList->getEnemyLevel();
+            if (level && level->mIsAvoidDanger.ref() &&
+                ksys::act::hasTag(&entry->_0.mLink, 0xf3a5f416))
+                continue;
+        }
+        if (entry->_a8 > *mParams.mSearchObjectDist_s)
+            continue;
+
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::acquireActor(&entry->_0.mLink, &accessor);
+        if (accessor.sub_7100D10E6C(30))
+            continue;
+        if (!accessor.isAttClientEnabled("Grab") || accessor.sub_7100D12E64())
+            continue;
+
+        sead::Vector3f target;
+        accessor.getActorMtx().getTranslation(target);
+        sead::Vector3f direction = target - mActor->getMtx().getTranslation();
+        direction.y = 0.0f;
+        const sead::Vector3f front = mActor->getMtx().getBase(2);
+        direction.normalize();
+        if (front.dot(direction) < sead::Mathf::cos(*mParams.mItemChasealeRot_s))
+            continue;
+        const sead::Vector3f position = mActor->getMtx().getTranslation();
+        if (!sub_710072F7D0(mActor, position, target, nullptr, -1))
+            continue;
+        if (*mParams.mItemChaseableSpd_s < entry->_94.length())
+            continue;
+
+        result = &entry->_0.mLink;
+        break;
+    }
+    return result;
+}
+
+// 0x71003ba99c
+bool EnemySearchShieldItemFindPlayer::sub_71003BA99C() {
+    auto* link = sub_71003BB3A4();
+    if (!link->hasProc())
+        return false;
+    _230 = *link;
+    ksys::act::ai::InlineParamPack pack;
+    pack.addActor(_230, "TargetActor", -1);
+    changeChild("アイテム発見", &pack);
+    return true;
 }
 
 void EnemySearchShieldItemFindPlayer::sub_71003BAC8C() {

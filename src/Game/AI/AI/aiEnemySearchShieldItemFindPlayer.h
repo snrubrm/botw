@@ -18,6 +18,9 @@ public:
 
 protected:
     bool sub_71003BA99C();
+    // 0x71003bb3a4 (declaration only, 872 B): looks up a discoverable item in the actor's awareness and
+    // returns its link (placeholder name).
+    ksys::act::BaseProcLink* sub_71003BB3A4();
     bool sub_71003BAA9C(ksys::act::BaseProcLink* link);
     bool sub_71003BADD8();
     void sub_71003BAC8C();
