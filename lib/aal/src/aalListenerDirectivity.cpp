@@ -4,6 +4,9 @@
 
 namespace aal {
 
+// 0x7100b84a98 (D1) / 0x7100b84a9c (D0)
+ListenerDirectivity::~ListenerDirectivity() = default;
+
 // NON_MATCHING: the original does not merge the constant stores of the rate/distance fields
 // 0x7100b84a24
 ListenerDirectivity::ListenerDirectivity() {

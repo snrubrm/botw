@@ -23,7 +23,7 @@ public:
     };
 
     ListenerDirectivity();
-    virtual ~ListenerDirectivity() = default;
+    virtual ~ListenerDirectivity();
 
     void setParams(const Settings& settings);
     /// `position` is in world space; the cone position is subtracted.
