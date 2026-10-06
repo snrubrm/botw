@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionSiteBossCreateIceSplinter.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -24,6 +26,14 @@ void SiteBossCreateIceSplinter::leave_() {
 void SiteBossCreateIceSplinter::loadParams_() {
     getStaticParam(&mASName_s, "ASName");
     getDynamicParam(&mIgnitionNum_d, "IgnitionNum");
+}
+
+bool SiteBossCreateIceSplinter::isFinished() const {
+    if (mActor->getASList()->x(0x47, nullptr, 0, 0, &ksys::as::ASList::Unk2::sub_71011637EC, true) ||
+        ksys::act::ai::ActionBase::isFinished()) {
+        return true;
+    }
+    return isFinishedAS(0, 0);
 }
 
 void SiteBossCreateIceSplinter::calc_() {

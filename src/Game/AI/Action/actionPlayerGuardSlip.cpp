@@ -10,8 +10,8 @@ PlayerGuardSlip::PlayerGuardSlip(const InitArg& arg) : PlayerAction(arg) {
     std::memset(&mBaseInitSpeedNSword_s, 0, 0x80);
 }
 
-// NON_MATCHING: clang sinks the per-weapon parameter loads below the switch (the original keeps them in
-// the four arms and compares the weapon type in the order 0, 1, 2)
+// NON_MATCHING: clang sinks the per-weapon parameter loads (the limit pointer and its float) below the switch; the
+// original keeps them in the four arms. The case order (2, 1, 0) reproduces the original compare chain (0, 1, 2).
 void PlayerGuardSlip::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
     static_cast<ksys::act::Player*>(mActor)->_cec.set(0x8000000);
@@ -31,20 +31,20 @@ void PlayerGuardSlip::enter_(ksys::act::ai::InlineParamPack* params) {
         f32 limit;
         const f32* const* dec;
         switch (manager->getField50()) {
-        case 0:
-            value = *mBaseInitSpeedNSword_s + f32(count) * *mAddSpeedNSword_s;
-            limit = *mMaxSpeedNSword_s;
-            dec = &mDecSpeedNSword_s;
+        case 2:
+            value = *mBaseInitSpeedSpear_s + f32(count) * *mAddSpeedSpear_s;
+            limit = *mMaxSpeedSpear_s;
+            dec = &mDecSpeedSpear_s;
             break;
         case 1:
             value = *mBaseInitSpeedLSword_s + f32(count) * *mAddSpeedLSword_s;
             limit = *mMaxSpeedLSword_s;
             dec = &mDecSpeedLSword_s;
             break;
-        case 2:
-            value = *mBaseInitSpeedSpear_s + f32(count) * *mAddSpeedSpear_s;
-            limit = *mMaxSpeedSpear_s;
-            dec = &mDecSpeedSpear_s;
+        case 0:
+            value = *mBaseInitSpeedNSword_s + f32(count) * *mAddSpeedNSword_s;
+            limit = *mMaxSpeedNSword_s;
+            dec = &mDecSpeedNSword_s;
             break;
         default:
             value = *mBaseInitSpeedOther_s + f32(count) * *mAddSpeedOther_s;

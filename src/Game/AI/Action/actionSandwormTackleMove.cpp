@@ -3,6 +3,8 @@
 
 namespace uking::action {
 
+// NON_MATCHING: scheduling only: the original stores the zeroed PtrArray (stp xzr, xzr, [x19, #0x138]) before `_130.mActor`
+// and computes the buffer address (x2) after the loads.
 SandwormTackleMove::SandwormTackleMove(const InitArg& arg) : AtkTackleMove(arg) {}
 
 SandwormTackleMove::~SandwormTackleMove() {

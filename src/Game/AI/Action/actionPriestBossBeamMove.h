@@ -1,5 +1,6 @@
 #pragma once
 
+#include <math/seadVector.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -32,6 +33,15 @@ protected:
     const int* mAttackPowerForPlayer_m{};
     // map_unit_param at offset 0x50
     const sead::Vector3f* mPosOffset_m{};
+    // The members below are only known from the constructor (layout guess: sizes of the zeroed / initialised runs).
+    u8 _58[0xc];
+    sead::Vector3f _64 = sead::Vector3f::ez;
+    u8 _70[0x30];
+    sead::Vector3f _a0 = sead::Vector3f::zero;
+    f32 _ac = 0.5f;
+    u8 _b0[0x10]{};
+    u8 _c0[0x15]{};
+    u8 _d5[0x3];
 };
 
 }  // namespace uking::action
