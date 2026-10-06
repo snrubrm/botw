@@ -429,6 +429,15 @@ public:
     void sub_710086D5B8();
     bool sub_7100892724();
     s32 sub_7100892824();
+    // 0x7100869258 (lane4 s48; placeholder name, `this` unused): the Euler angle indices (pitch / yaw / roll as
+    // atan2Idx values) of a rotation matrix; the yaw / roll of the gimbal lock case (pitch +-90 degrees) are
+    // derived from the first column / roll 0.
+    void sub_7100869258(const sead::Matrix33f& mtx, u32* out);
+    // 0x71008928cc (lane4 s48; placeholder names): x_18(true), then (if bit 0 of `_cec` is set) sub_710089290C (396 B,
+    // declared only) else sub_7100892A98 (344 B, declared only).
+    void sub_71008928CC();
+    void sub_710089290C();
+    void sub_7100892A98();
     // 0x7100892f1c (lane4 s48; placeholder name): 0 while `_d24` is set or if |_1f98| < 0xf8000001, else 1 / 2 by the sign of
     // `_1f98`.
     s32 sub_7100892F1C();
@@ -444,6 +453,8 @@ public:
     // 0x71008911f0 (declared only; 2.4 KB; PlayerBeetleSubject::enter_).
     void sub_71008911F0();
     bool sub_7100857014(f32 speed, Unk1* target, int limit_a, int limit_b);
+    // 0x7100857390 (lane4 s48; placeholder name): sub_7100857014(-1.0f, &<sub_710092DBA4()>, -1, -1).
+    void sub_7100857390();
     // 0x710086843c: forwards to sub_7100857014 (out of line in another TU in the original; ~7 Player actions).
     bool sub_710086843C(f32 speed, Unk1* target, int limit_a, int limit_b);
     // 0x7100859edc (declared only): sets the look-at / turn target state (_2d30 = a1, _2d34 = mode, _2d48 =

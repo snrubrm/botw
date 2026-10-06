@@ -1,3 +1,4 @@
+#include "Game/Actor/actCameraUtil.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 #include <algorithm>
 #include <gsys/gsysModel.h>
@@ -1003,6 +1004,34 @@ bool Player::canUseUrbosaFury() {
 }
 
 // NON_MATCHING: the original loads _c48 as a word (`ldr w8` + tbnz) after `mov w0, wzr`; we narrow it to a byte load
+void Player::sub_7100857390() {
+    Unk1 target = ::sub_710092DBA4();
+    sub_7100857014(-1.0f, &target, -1, -1);
+}
+
+// NON_MATCHING: ours merges the two paths ending in an atan2Idx call into one block with a computed output index
+// (`str w0, [x19, x21, lsl #2]`); the original keeps both tails
+void Player::sub_7100869258(const sead::Matrix33f& mtx, u32* out) {
+    const f32 len = sead::Mathf::sqrt(mtx(0, 2) * mtx(0, 2) + mtx(2, 2) * mtx(2, 2));
+    const u32 pitch = sead::MathCalcCommon<f32>::atan2Idx(-mtx(1, 2), len);
+    out[0] = pitch;
+    if ((pitch | 0x80000000) == 0xc0000000) {
+        out[2] = 0;
+        out[1] = sead::MathCalcCommon<f32>::atan2Idx(-mtx(2, 0), mtx(0, 0));
+    } else {
+        out[1] = sead::MathCalcCommon<f32>::atan2Idx(mtx(0, 2), mtx(2, 2));
+        out[2] = sead::MathCalcCommon<f32>::atan2Idx(mtx(1, 0), mtx(1, 1));
+    }
+}
+
+void Player::sub_71008928CC() {
+    x_18(true);
+    if (_cec.isOnBit(0))
+        sub_710089290C();
+    else
+        sub_7100892A98();
+}
+
 // NON_MATCHING: the original keeps the range test as a branch (`b.lt` to a `mov w0, wzr` block); ours selects with csel
 s32 Player::sub_7100892F1C() {
     if (_d24 != 0)
