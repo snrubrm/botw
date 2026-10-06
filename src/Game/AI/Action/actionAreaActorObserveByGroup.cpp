@@ -1,5 +1,6 @@
 #include "Game/AI/Action/actionAreaActorObserveByGroup.h"
 #include "Game/Actor/actRideable.h"
+#include "KingSystem/ActorSystem/Profiles/actBullet.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actTag.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
@@ -54,6 +55,12 @@ bool AreaActorObserveByGroup::sub_710009E7D0(const ksys::act::ActorConstDataAcce
     default:
         return false;
     }
+}
+
+bool AreaActorObserveByGroup::sub_710009E848(const ksys::act::ActorConstDataAccess& accessor) {
+    ksys::act::acc::Bullet bullet;
+    bullet.acquireActor(accessor);
+    return !bullet.isHold() && bullet.isFittingOrShootingArrow();
 }
 
 void AreaActorObserveByGroup::m32() {

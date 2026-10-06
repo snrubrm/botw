@@ -32,6 +32,16 @@ void DamageTurnByWeakPoint::loadParams_() {
     getStaticParam(&mASName_s, "ASName");
 }
 
+// NON_MATCHING: the original loads the actor's translation before it copies _48 to the stack (load order only)
+void DamageTurnByWeakPoint::sub_71000E6400() {
+    sead::Vector3f dir = _48;
+    dir -= mActor->getMtx().getTranslation();
+    dir.normalize();
+    sub_710073FA94(&_54, mActor);
+    sub_71007407F0(&_54, dir, sead::Vector3f::ey, true, *mTurnSpeed_s);
+    sub_7100740F1C(_54, mActor);
+}
+
 void DamageTurnByWeakPoint::calc_() {
     if (sub_71005DD798(mActor, 41, nullptr, 0, 0))
         sub_71000E6400();

@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionDropCreateForReplace.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actDropData.h"
+#include "KingSystem/ActorSystem/actDropMgr.h"
 
 namespace uking::action {
 
@@ -21,7 +24,15 @@ void DropCreateForReplace::leave_() {
 void DropCreateForReplace::loadParams_() {}
 
 void DropCreateForReplace::calc_() {
-    ksys::act::ai::Action::calc_();
+    auto* drop = static_cast<ksys::act::DropData*>(mActor->getDropData());
+    if (drop && isFinishedAS(0, 0) && !mActor->isDeleteRequested() && drop->_8 != 2 &&
+        drop->_8 != 1) {
+        if (auto* mgr = ksys::act::DropMgr::instance()) {
+            if (mgr->sub_7100D2C024(mActor))
+                mActor->m135()->_4 = 0;
+        }
+        drop->_8 = 1;
+    }
 }
 
 }  // namespace uking::action

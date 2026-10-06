@@ -33,6 +33,15 @@ void HornUseBase::loadParams_() {
 
 void HornUseBase::calc_() {
     TimeredASPlay::calc_();
+    sub_71005D787C(mActor, *mWeaponIdx_s, act::Unk_71002eda38(1));
+    _74 = false;
+    if (_70 >= 0.0f) {
+        ksys::Timer::update(&_70, -1.0f);
+        if (_70 <= 0.0f) {
+            mActor->emitBasicSigOn();
+            _74 = true;
+        }
+    }
 }
 
 bool HornUseBase::hasPreDeleteCb() {

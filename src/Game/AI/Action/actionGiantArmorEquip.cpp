@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionGiantArmorEquip.h"
+#include "Game/Actor/actGiantArmor.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -29,5 +31,11 @@ void GiantArmorEquip::calc_() {
 }
 
 void GiantArmorEquip::m32() {}
+
+ksys::act::Actor* GiantArmorEquip::m33() {
+    if (auto* armor = sead::DynamicCast<act::GiantArmor>(mActor))
+        return sead::DynamicCast<ksys::act::Actor>(armor->_be8.getProc(nullptr, nullptr));
+    return nullptr;
+}
 
 }  // namespace uking::action

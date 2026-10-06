@@ -5,6 +5,10 @@
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "container/seadRingBuffer.h"
 
+namespace uking::action {
+class DemoApplyDamageForPlayer;
+}
+
 namespace ksys::act {
 
 class Actor;
@@ -67,6 +71,9 @@ public:
     const sead::Vector3f& getPlayerM265() const;
 
 private:
+    // Reads mPlayerActor inline (the original does not call getPlayerUnchecked()).
+    friend class uking::action::DemoApplyDamageForPlayer;
+
     // These are probably debug stuff that were removed
     class Info1 : public PlayerInfoBase {
     public:

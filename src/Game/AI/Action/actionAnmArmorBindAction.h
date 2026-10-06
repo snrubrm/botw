@@ -19,6 +19,7 @@ public:
 
 protected:
     void calc_() override;
+    void syncAnimFrame();
 };
 
 }  // namespace uking::action

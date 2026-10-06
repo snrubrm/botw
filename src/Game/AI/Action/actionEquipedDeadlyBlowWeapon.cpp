@@ -38,6 +38,18 @@ bool EquipedDeadlyBlowWeapon::handleMessage_(const ksys::Message* message) {
 
 void EquipedDeadlyBlowWeapon::calc_() {
     EquipedAction::calc_();
+    auto* weapon = sead::DynamicCast<uking::act::Weapon>(mActor);
+    if (weapon && weapon->isParentPlayer() && weapon->_c4c &&
+        (weapon->_c20._0 == 0 || weapon->_c20._0 == 2)) {
+        if (!weapon->m214()) {
+            if (auto* charge = weapon->_d38) {
+                if (!(charge->_18 & 1))
+                    charge->sub_71002EF850();
+            }
+        }
+        if (auto* charge = weapon->_d38)
+            charge->_18 |= 4;
+    }
 }
 
 }  // namespace uking::action

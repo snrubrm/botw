@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionBindOff.h"
+#include "Game/AI/Action/actionEventBind.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -11,7 +13,13 @@ bool BindOff::init_(sead::Heap* heap) {
 }
 
 void BindOff::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    auto* unit = sead::DynamicCast<ActorLinkForEventBindMaybe>(
+        *static_cast<Unk_71025afb58**>(mEventBindUnit_a));
+    if (unit && unit->_8) {
+        mActor->sub_71011DA834(unit->_8);
+        unit->_8 = nullptr;
+    }
+    setFinished();
 }
 
 void BindOff::leave_() {

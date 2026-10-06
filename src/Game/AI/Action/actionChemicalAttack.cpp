@@ -1,5 +1,6 @@
 #include "Game/AI/Action/actionChemicalAttack.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/System/VFR.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actAttackSensor.h"
@@ -81,7 +82,15 @@ void ChemicalAttack::loadParams_() {
 }
 
 void ChemicalAttack::calc_() {
-    ksys::act::ai::Action::calc_();
+    auto* actor = mActor;
+    if (m33()) {
+        actor->deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+    } else {
+        ksys::VFR::lerp(&actor->mScale.x, _7c, _78, _78 * _7c, _78 * _7c * 0.1f);
+        actor->mScale.y = actor->mScale.x;
+        actor->mScale.z = actor->mScale.x;
+    }
+    m32();
 }
 
 void ChemicalAttack::m32() {

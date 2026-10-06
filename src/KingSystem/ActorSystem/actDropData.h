@@ -5,6 +5,7 @@
 #include <math/seadVector.h>
 #include <prim/seadRuntimeTypeInfo.h>
 #include <prim/seadSafeString.h>
+#include <thread/seadAtomic.h>
 #include "KingSystem/Utils/Types.h"
 
 namespace uking::dmg {
@@ -70,7 +71,7 @@ public:
     /// MapConstActive::m148 with the actor's damage manager (slot 127) and `false`.
     void sub_71006DA914(uking::dmg::DamageManagerBase* damage_mgr, bool a2);
 
-    /* 0x008 */ u32 _8 = 0;
+    /* 0x008 */ sead::Atomic<u32> _8 = 0;
     /* 0x00c */ u16 _c = 0;  // flags
     /* 0x00e */ u16 _e = 0;
     /* 0x010 */ Unk1 _10[7][16];
