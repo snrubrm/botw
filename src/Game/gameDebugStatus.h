@@ -16,13 +16,7 @@ public:
     // 0x71010bcef8: copies `status` into the status text.
     void setStatus(const sead::SafeString& status);
     // 0x71010bcfdc
-    void clear() {
-        mTimerMs = 0;
-        mTimerRunning = false;
-        _4 = 0;
-        _8 = 0;
-        mStatus.clear();
-    }
+    void clear();
     // 0x71010bd000 / 0x71010bd02c
     void startTimer();
     void stopTimer();
