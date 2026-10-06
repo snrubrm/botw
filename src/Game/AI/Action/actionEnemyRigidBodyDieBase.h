@@ -17,6 +17,8 @@ public:
 
 protected:
     void calc_() override;
+    // The actor's velocity / angular velocity per second (they are kept per frame).
+    virtual void m32(sead::Vector3f* velocity, sead::Vector3f* angular_velocity);
 
     // aitree_variable at offset 0x20
     sead::Vector3f* mForceSetDropPos_a{};

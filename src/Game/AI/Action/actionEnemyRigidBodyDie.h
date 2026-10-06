@@ -18,6 +18,8 @@ public:
 
 protected:
     void calc_() override;
+    // 0x710010a794 (declared only)
+    void m32(sead::Vector3f* velocity, sead::Vector3f* angular_velocity) override;
 
     // static_param at offset 0x28
     const float* mSpeed_s{};
