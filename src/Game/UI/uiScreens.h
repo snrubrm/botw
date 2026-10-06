@@ -1444,6 +1444,8 @@ public:
 
 extern const ksys::StateBase sUnk_71025ecb40;
 extern const ksys::StateBase sUnk_71025ecc00;
+extern const ksys::StateBase sUnk_71025ecba0;
+extern const ksys::StateBase sUnk_71025ecc60;
 
 class ScreenDLCSinJuAkashiNum : public ScreenEx {
 public:
@@ -1454,6 +1456,9 @@ public:
     ~ScreenDLCSinJuAkashiNum() override;
     SEAD_RTTI_OVERRIDE(ScreenDLCSinJuAkashiNum, ScreenEx)
     void m93(sead::Heap* heap) override;
+    void m94() override;
+    void m98() override;
+    void m99() override;
     void m69() override;
     void m100() override;
 
@@ -1482,7 +1487,7 @@ public:
     /* 0x3638 */ s32 _3638 = -1;
     Unk_7102474b78 _3640;
     /* 0x3680 */ eui::Animator* _3680{};
-    /* 0x3688 */ s32 _3688{};
+    /* 0x3688 */ u32 _3688{};
 };
 
 // ScreenHardMode: only the trivial virtual slots of the 154-245 block (the per-state callbacks, four

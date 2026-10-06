@@ -39,6 +39,100 @@ void ScreenDLCSinJuAkashiNum::m93(sead::Heap*) {
         _3680->Stop(0.0f);
 }
 
+// 0x7100a04784
+void ScreenDLCSinJuAkashiNum::m94() {
+    if (isOpened() && sub_7100A98038(mId)) {
+        if (mState != 0 && mState != 3) {
+            const s32 count = sub_7100A0488C();
+            _361c = count;
+            _3614 = count;
+            sub_7100AA930C(mLayout, "T_Num_00", count, 0, 0);
+            close(-1);
+        }
+        return;
+    }
+    mStateMachine.run();
+}
+
+// 0x7100a04b34
+void ScreenDLCSinJuAkashiNum::m98() {
+    sub_7100AA930C(mLayout, "T_Num_00", _3614, 0, 0);
+    _3640.sub_71009333AC();
+    _3680->Stop(static_cast<f32>(_3688));
+}
+
+// 0x7100a04bac
+void ScreenDLCSinJuAkashiNum::m99() {
+    if (_3638 == 1) {
+        _361c = sub_7100A0488C();
+        mStateMachine.changeState(&sUnk_71025ecc00);
+    } else if (_3638 == 2) {
+        mStateMachine.changeState(&sUnk_71025ecc00);
+    } else {
+        mStateMachine.changeState(&sUnk_71025ecba0);
+    }
+}
+
+// 0x7100a04c3c
+void ScreenDLCSinJuAkashiNum::m155() {
+    const s32 count = sub_7100A0488C();
+    _361c = count;
+    if (_3638 != 0 || _3610) {
+        if (_3614 != count)
+            mStateMachine.changeState(&sUnk_71025ecc00);
+    }
+}
+
+// 0x7100a04ca4
+void ScreenDLCSinJuAkashiNum::m158() {
+    const s32 delta = _361c - _3614;
+    if (delta != 0) {
+        if (sead::Mathi::abs(delta) >= 2) {
+            _3640.set38(delta);
+        } else if (_3640._30) {
+            _3640._30->PlayAuto(1.0f);
+        }
+        if (delta >= 1)
+            invokeSoundLink2Event_("mc_CountUpAkashi");
+        else
+            invokeSoundLink2Event_("mc_CountDownAkashi");
+    }
+    _3618 = sub_7100A0488C();
+}
+
+// 0x7100a04d48
+// NON_MATCHING: the original tests `_3638 == 2` before `_3638 == 1` and lays the two state arms out the other way round
+void ScreenDLCSinJuAkashiNum::m159() {
+    if (_3638 != 2) {
+        const s32 old_count = _361c;
+        const s32 count = sub_7100A0488C();
+        if (_3618 != count) {
+            _361c = count;
+            _3640.set38(count - old_count);
+        }
+        _3618 = count;
+    }
+    if (_291 & 2)
+        return;
+    _3640.sub_71009333CC();
+    const s32 step = sub_7100AA92AC(_3614, _361c);
+    _3614 += step;
+    sub_7100AA930C(mLayout, "T_Num_00", _3614, _361c, step);
+    if (_3614 == _361c) {
+        switch (_3638) {
+        case 2:
+            _3638 = 1;
+            [[fallthrough]];
+        case 1:
+            mStateMachine.changeState(&sUnk_71025ecc60);
+            break;
+        default:
+            mStateMachine.changeState(&sUnk_71025ecba0);
+            break;
+        }
+    }
+}
+
 // 0x7100a04e5c
 void ScreenDLCSinJuAkashiNum::m162() {
     _3620.init(5.0f);
