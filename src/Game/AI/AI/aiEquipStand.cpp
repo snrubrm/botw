@@ -1,6 +1,9 @@
 #include "Game/AI/AI/aiEquipStand.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "Game/AI/aiUnk_71005E0420.h"
+#include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/Utils/Thread/Message.h"
 
 // The original helper's source namespace is unknown.
 bool sub_7100700A78(s32 slot);
@@ -50,6 +53,33 @@ void EquipStand::loadParams_() {
     getStaticParam(&mTakeOutAttKey_s, "TakeOutAttKey");
     getMapUnitParam(&mEquipStandSlot_m, "EquipStandSlot");
     getAITreeVariable(&mEquipDisplayChild_a, "EquipDisplayChild");
+}
+
+// NON_MATCHING: only the address of mDisplayAttKey_s is computed one instruction earlier in the original.
+bool EquipStand::handleMessage_(const ksys::Message* message) {
+    auto* actor = mActor;
+    if (!isCurrentChild("待機")) {
+        if (isCurrentChild("飾り待機") && message->getType() == 0x1800020) {
+            if (!sub_7100700A78(*mEquipStandSlot_m)) {
+                _b0.mLink.reset();
+                _a8 = false;
+                _38.x();
+                actor = mActor;
+                ksys::act::disableAttClient(actor, mTakeOutAttKey_s);
+                ksys::act::disableAttClient(actor, mDisplayAttKey_s);
+                changeChild("飾りゲット");
+                return true;
+            }
+            auto* other = sead::DynamicCast<ksys::act::Actor>(_b0.mLink.getProc(nullptr, nullptr));
+            if (sead::IsDerivedFrom<ksys::act::Actor>(other))
+                return handleItemPickedMessageMaybe(*message, &_38, actor, other);
+        }
+    } else if (message->getType() == 0x180001d || message->getType() == 0x180001e ||
+               message->getType() == 0x180001f) {
+        _a8 = true;
+        return true;
+    }
+    return false;
 }
 
 }  // namespace uking::ai
