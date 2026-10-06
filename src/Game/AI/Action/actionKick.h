@@ -19,6 +19,10 @@ public:
     void loadParams_() override;
 
 protected:
+    // 0x71001c8818 (placeholder name): turns towards the kicked actor.
+    void sub_71001C8818();
+    // 0x71001c8a10 (placeholder name): applies the kick impulse to the target.
+    void sub_71001C8A10();
     void calc_() override;
 
     // static_param at offset 0x20
