@@ -25,6 +25,7 @@ add_library(aal OBJECT
   include/aal/aalSystem.h
   include/aal/aalSystemAccessor.h
   include/aal/aalTimedFader.h
+  src/aalEmitter.cpp
   src/aalFxDelayParamSetter.cpp
   src/aalFxParamSetter.cpp
   src/aalGroup.cpp
