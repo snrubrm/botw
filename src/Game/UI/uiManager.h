@@ -111,7 +111,17 @@ public:
     /* 0x649ec */ sead::BitFlag8 _649ec;
     u8 _649ed[0x649f0 - 0x649ed];
     /* 0x649f0 */ sead::Controller* _649f0;  // the controller the screens' UIControllers are registered with
-    u8 _649f8[0x64b0c - 0x649f8];
+    // Pad repeat settings applied to every screen's UIController (Manager::sub_7100A702E8).
+    struct PadRepeat {
+        u32 mask;
+        u32 _4;
+        u32 _8;
+        u8 delay_frame;
+        u8 pulse_frame;
+        u8 _e[2];
+    };
+    /* 0x649f8 */ PadRepeat _649f8[6];
+    u8 _64a58[0x64b0c - 0x64a58];
     /* 0x64b0c */ u32 _64b0c;
     /* 0x64b10 */ u32 _64b10;
     u8 _64b14[0x64c24 - 0x64b14];

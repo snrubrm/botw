@@ -3,6 +3,8 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
 #include "KingSystem/Utils/Thread/Message.h"
 
@@ -50,6 +52,23 @@ void TreasureBoxRoot::enter_init() {
     _79 = true;
     sub_71005DD1CC(actor, true, 0.0f, 1.0f);
     changeChild("地上", nullptr);
+}
+
+void TreasureBoxRoot::sub_71005CEA88() {
+    auto* actor = mActor;
+    ksys::act::disableAllAttClients(actor);
+    if (actor->getPhysics()) {
+        if (auto* set = actor->getRigidBodyByName("Body")) {
+            for (int i = 0, n = set->getRigidBodies().size(); i < n; ++i)
+                set->getRigidBody(i)->changeMotionType(ksys::phys::MotionType::Keyframed);
+        }
+    }
+    _78 = false;
+    _79 = false;
+    _7a = sub_71005DD1CC(actor, false, 1.0f, 1.0f);
+    if (!_7a)
+        mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_20);
+    changeChild("地中", nullptr);
 }
 
 void TreasureBoxRoot::leave_() {

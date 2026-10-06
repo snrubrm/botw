@@ -3,6 +3,8 @@
 #include <basis/seadTypes.h>
 #include <evfl/EvflAllocator.h>
 #include <prim/seadSafeString.h>
+#include "KingSystem/ActorSystem/actBaseProcHandle.h"
+#include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Event/evtDemoInfo.h"
 
 namespace sead {
@@ -22,6 +24,11 @@ public:
     void x_0();
     // 0x7100dc9208 (CSV EventXlinkInfo::finishLoad; not decompiled)
     bool finishLoad(bool a1);
+
+    // Only the members used by x_0 / x_1 are known; the extent is not recovered.
+    u8 _0[8];
+    /* 0x08 */ act::BaseProcHandle _8;
+    /* 0x18 */ act::BaseProcLink _18;
 };
 
 // The event camera data of a resource (CSV CameraSystem; at EventResource + 0x148; ctor 0x7100da3b8c, init

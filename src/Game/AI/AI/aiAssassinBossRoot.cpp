@@ -172,4 +172,22 @@ void AssassinBossRoot::m47() {
     m38();
 }
 
+// Keeps the actor's life above zero: damage that would be lethal is reduced to life - 1.
+void Unk_71023d7c78::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) {
+    if (*a1 < 1)
+        return;
+
+    auto* damage_manager = sead::DynamicCast<dmg::DamageManagerBase>(mDamageManager);
+    if (!damage_manager || damage_manager->checkDamageFlags(1))
+        return;
+
+    const s32 damage = *a1;
+    const s32* life = damage_manager->mActor->getLife();
+    if (damage < (life ? *life : 1))
+        return;
+
+    life = damage_manager->mActor->getLife();
+    *a1 = life ? *life - 1 : 0;
+}
+
 }  // namespace uking::ai

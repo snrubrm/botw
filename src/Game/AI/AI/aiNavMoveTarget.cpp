@@ -1,7 +1,9 @@
 #include "Game/AI/AI/aiNavMoveTarget.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/AI/aiUnk_71007320F0.h"
 #include "Game/AI/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/Physics/System/physHavokAI.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
 
@@ -55,6 +57,26 @@ void NavMoveTarget::enter_(ksys::act::ai::InlineParamPack* params) {
         }
     }
     sub_71004B7E90();
+}
+
+void NavMoveTarget::sub_71004B7E90() {
+    sub_71004B7C68();
+    const sead::Vector3f pos = *m34();
+    ksys::act::ai::InlineParamPack params;
+    params.addVec3(pos, "TargetPos", -1);
+    changeChild("見まわす", &params);
+}
+
+// NON_MATCHING: the original loads the three translation floats and the three target floats before the
+// first subtraction; we interleave one subtraction after the translation loads.
+bool NavMoveTarget::sub_71004B9388() {
+    const sead::Vector3f& target = *m34();
+    sead::Vector3f diff = target - mActor->getMtx().getTranslation();
+    if (isCurrentChild("直進"))
+        diff.y = 0;
+    const f32 dist = diff.length();
+    return dist <= *mParams.mReachTargetArea_s + sub_71007320F0(mActor, *mParams.mWeaponIdx_s) ||
+           _368->_8 == 3;
 }
 
 void NavMoveTarget::leave_() {

@@ -1,5 +1,6 @@
 #include "Game/AI/AI/aiTargetBeatGetDrop.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 ksys::act::BaseProcLink* sub_71005E0F68(ksys::act::Actor* actor);
 
@@ -38,6 +39,17 @@ void TargetBeatGetDrop::calc_() {
     } else {
         child->isChangeable();
     }
+}
+
+// NON_MATCHING: the original computes &_40 before &_50 for `_40 = _50` (pre-C++17 operand order of an
+// overloaded operator=); we compute the right-hand side first.
+void TargetBeatGetDrop::sub_71005BCF48() {
+    _40 = _50;
+    _50.reset();
+    ksys::act::ai::InlineParamPack params;
+    params.addActor(_40, "TargetBait", -1);
+    params.addBool(false, "IsNotice", -1);
+    changeChild("ドロップ取得", &params);
 }
 
 void TargetBeatGetDrop::leave_() {

@@ -61,6 +61,36 @@ void WeaponSelector::calc_() {
     }
 }
 
+void WeaponSelector::sub_71005F13D4(ksys::act::ai::InlineParamPack* params) {
+    auto* actor = mActor;
+    const bool has_shield = sub_71005DB904(actor, sub_71005DB96C(actor));
+    const s32 type = sub_71005DBB60(mActor, 0);
+    if (has_shield) {
+        if (type == 0)
+            changeChild("剣盾装備", params);
+        else
+            changeChild("盾装備", params);
+        return;
+    }
+    switch (type) {
+    case 0:
+        changeChild("剣装備", params);
+        break;
+    case 1:
+        changeChild("大剣装備", params);
+        break;
+    case 2:
+        changeChild("槍装備", params);
+        break;
+    case 3:
+        changeChild("弓装備", params);
+        break;
+    default:
+        changeChild("素手", params);
+        break;
+    }
+}
+
 void WeaponSelector::leave_() {
     ksys::act::ai::Ai::leave_();
 }

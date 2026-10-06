@@ -158,6 +158,21 @@ void SimpleWildlifeRoot::m39() {
     _c4 = ksys::Timer(*mInvalidEscapeTimerVal_s, *mInvalidEscapeTimerVal_s);
 }
 
+bool SimpleWildlifeRoot::sub_710034342C() {
+    if (!(_c4.value <= sead::Mathf::epsilon()))
+        return false;
+
+    if (m36()) {
+        _dc = _e0 == _e4 ? _e0 : sead::GlobalRandom::instance()->getS32Range(_e0, _e4);
+        mActor->getLodState()->mFlags10.set(0x40);
+        mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_2000);
+        mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_8000);
+    }
+    mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_8000000);
+    _c4 = ksys::Timer(*mInvalidEscapeTimerVal_s, *mInvalidEscapeTimerVal_s);
+    return true;
+}
+
 void SimpleWildlifeRoot::sub_7100343510() {
     if (m36()) {
         _dc = _e0 == _e4 ? _e0 : sead::GlobalRandom::instance()->getS32Range(_e0, _e4);

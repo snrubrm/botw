@@ -67,6 +67,18 @@ void WaitNearTarget::calc_() {
     }
 }
 
+f32 WaitNearTarget::sub_71005E9138() {
+    const auto& pos = mActor->getMtx().getTranslation();
+    const sead::Vector2f diff(pos.x - mTargetPos_d->x, pos.z - mTargetPos_d->z);
+    return diff.length();
+}
+
+void WaitNearTarget::sub_71005E917C() {
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+    changeChild("待機", &pack);
+}
+
 void WaitNearTarget::leave_() {
     ksys::act::ai::Ai::leave_();
 }

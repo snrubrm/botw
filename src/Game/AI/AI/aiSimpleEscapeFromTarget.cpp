@@ -121,6 +121,13 @@ bool SimpleEscapeFromTarget::m39(const sead::Vector3f& dir) {
     return sub_710072F99C(actor, position, target, nullptr, -1, -1.0f, -1.0f);
 }
 
+bool SimpleEscapeFromTarget::sub_710056D24C() {
+    const sead::Vector2f target(mTargetPos_d->x, mTargetPos_d->z);
+    const auto& mtx = mActor->getMtx();
+    const sead::Vector2f pos(mtx.m[0][3], mtx.m[2][3]);
+    return (target - pos).squaredLength() > *mSpaceDist_s * *mSpaceDist_s;
+}
+
 bool SimpleEscapeFromTarget::sub_710056D354(sead::Vector3f* out) {
     sead::Vector3f dir;
     m36(&dir);

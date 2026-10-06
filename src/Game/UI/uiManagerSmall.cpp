@@ -1,4 +1,5 @@
 #include "Game/UI/uiManager.h"
+#include "Game/UI/euiUIController.h"
 #include "Game/UI/uiUtils.h"
 
 namespace uking::ui {
@@ -23,6 +24,14 @@ void sub_7100945344(f32 value, f32 max) {
     manager->_5c = value;
     manager->_60 = max;
     manager->_64 = 2000.0f;
+}
+
+// 0x7100a702e8 (CSV uiManager::x_1)
+void Manager::sub_7100A702E8(eui::UIController* controller) {
+    if (!controller)
+        return;
+    for (const auto& repeat : _649f8)
+        controller->setPadRepeat(repeat.mask, repeat.delay_frame, repeat.pulse_frame);
 }
 
 // 0x7100a7f918

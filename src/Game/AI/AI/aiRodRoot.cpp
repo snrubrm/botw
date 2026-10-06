@@ -62,4 +62,24 @@ void RodRoot::calc_() {
     sub_7100553CF0();
 }
 
+// NON_MATCHING: the original reloads handle->mUnit through the array base (ldr [x22, #0x130]) while we
+// reuse the element pointer already computed for the call (one register differs).
+void RodRoot::sub_7100553CF0() {
+    if (_118._8.hasProcCreationFailed() || !_118._8.isAllocatedOrFailed()) {
+        if (_118._8.hasProcCreationFailed())
+            _118._8.deleteProcIfFailed();
+        sub_71005535F8();
+    }
+    for (s32 i = 0; i < _114; ++i) {
+        if (i <= 7) {
+            auto& handle = _118._18[i];
+            if (handle.hasProcCreationFailed() || !handle.isAllocatedOrFailed()) {
+                if (handle.hasProcCreationFailed())
+                    handle.deleteProcIfFailed();
+                sub_7100553E5C(i);
+            }
+        }
+    }
+}
+
 }  // namespace uking::ai

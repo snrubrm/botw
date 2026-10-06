@@ -172,4 +172,11 @@ ksys::act::Unk_7100d78e50* PreyNormal::m43(s32 idx, bool skip_own_target) {
     return ksys::act::sub_7100D7EEE8(&_d8->_260[idx]->_8, &filter);
 }
 
+void PreyNormal::sub_7100500B50(bool a, bool b, bool c) {
+    using Flag = ksys::act::Actor::ActorFlag2;
+    mActor->getActorFlags2().change(Flag::_8000000, a);
+    mActor->getActorFlags2().change(Flag::_2000000, b);
+    mActor->getActorFlags2().change(Flag::_1000000, c);
+}
+
 }  // namespace uking::ai

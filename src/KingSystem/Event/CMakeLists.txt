@@ -31,6 +31,7 @@ target_sources(uking PRIVATE
   evtEventMgrStruct1.h
   evtEventResource.cpp
   evtEventResource.h
+  evtEventXlinkInfo.cpp
   evtInfoData.cpp
   evtInfoData.h
   evtManager.cpp
