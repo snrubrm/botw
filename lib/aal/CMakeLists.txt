@@ -36,6 +36,7 @@ add_library(aal OBJECT
   src/aalISpeakerBalanceSupplier.cpp
   src/aalNamedObj.cpp
   src/aalShape.cpp
+  src/aalSoundGroup.cpp
   src/aalSimpleTimedFader.cpp
   src/aalPlayingStateController.cpp
   src/aalSoundController.cpp
