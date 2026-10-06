@@ -2402,6 +2402,7 @@ public:
     ~ScreenShopBtnList15() override;
     SEAD_RTTI_OVERRIDE(ScreenShopBtnList15, ScreenEx)
     void m100() override;
+    void m106(eui::AnimButton* button) override;
     void m107(eui::AnimButton* button) override;
 
     UiTexSlots _3610;

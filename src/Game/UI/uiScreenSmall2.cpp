@@ -502,6 +502,11 @@ inline void clearDecideWindowAlpha(eui::AnimButton* button) {
 }
 }  // namespace
 
+// 0x7100a4b468
+void ScreenShopBtnList15::m106(eui::AnimButton*) {
+    UiShopMgr::instance()->sub_71009843AC(nullptr);
+}
+
 // 0x7100a4b47c
 void ScreenShopBtnList15::m107(eui::AnimButton* button) {
     clearDecideWindowAlpha(button);

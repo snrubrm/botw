@@ -43,6 +43,8 @@ public:
     void sub_710098411C(s32 value);
     bool sub_7100982A44(s32 state, NpcShopData* shop_data);
     bool sub_7100982A60(s32 state, s32 value);
+    // 0x71009843ac (1.5 KB, declared only): `out` receives a bool
+    void sub_71009843AC(bool* out);
     void sub_7100984988();
     void sub_7100984BE8();
     void sub_7100984CA0(const sead::SafeString& name);
