@@ -1,4 +1,11 @@
 #include "Game/AI/AI/aiNPCMove.h"
+#include "Game/AI/aiUnk_71007130BC.h"
+#include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "Game/Actor/actNPC.h"
+#include "Game/AI/aiUnk_71006F5B14.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
@@ -80,6 +87,83 @@ bool NPCMove::handleAck_(const ksys::MessageAck* ack) {
         return false;
     _65 = true;
     return true;
+}
+
+// 0x71004d11f4
+void NPCMove::sub_71004D11F4() {
+    const sead::SafeString name = "Standing";
+    auto* cc = mActor->getCharacterController();
+    auto* physics = mActor->getPhysics();
+    if (cc && physics) {
+        const s32 idx = physics->sub_7100FBE7F0(name);
+        if (idx >= 0)
+            cc->sub_7100F5F270(idx);
+    }
+    sub_71005D7518(mActor, false);
+    if (_2a8->_fe8 & 0x200000) {
+        sub_71006F5584(mActor);
+        changeChild("ベッドから起きる", nullptr);
+    } else {
+        changeChild("起きる", nullptr);
+    }
+}
+
+// 0x71004d44b0
+// NON_MATCHING: only the operand order / condition of the last csel (state select) differs
+void NPCMove::sub_71004D44B0(bool a1, bool a2) {
+    sub_71005D7518(mActor, true);
+    _2a8->_fe8 &= ~0x100;
+    _2a8->_1050 = true;
+    auto* awareness = mActor->getAwareness();
+    if (awareness)
+        awareness->sub_7100D7E9BC(2);
+    const s32* state;
+    if (sead::SafeString(getName()) == "Meeting") {
+        state = &_f4;
+    } else {
+        state = a1 ? &_e8 : &_ec;
+        if (a2)
+            state = &_f0;
+    }
+    const s32 value = *state;
+    switch (value) {
+    case 1:
+        _2a8->_1050 = false;
+        break;
+    case 2:
+        _2a8->_fe8 &= ~0x80;
+        _2a8->_1050 = false;
+        if (awareness)
+            awareness->sub_7100D7EAE4(2);
+        break;
+    case 5:
+        _2a8->_fe8 &= ~0x80;
+        if (awareness)
+            awareness->sub_7100D7EAE4(2);
+        break;
+    case 6:
+        _2a8->_1050 = false;
+        [[fallthrough]];
+    case 3:
+        _2a8->_fe8 |= 0x100;
+        break;
+    default:
+        break;
+    }
+    _2a8->_1070 = value;
+}
+
+// 0x71004d4ca4
+// NON_MATCHING: the original keeps a SafeString copy of the selected AS name on the stack (vtable + string pointer
+// stores before the param pack) and selects the _120 entry with a csel of two addresses
+void NPCMove::sub_71004D4CA4() {
+    _66 = true;
+    sub_71004D44B0(true, false);
+    const sead::SafeString as_name = (wm::callIsRainingOrSnowingOrThunderStorm(true) && _60) ? _120[20] : _120[19];
+    ksys::act::ai::InlineParamPack pack;
+    pack.addString(as_name, "WaitASName", -1);
+    pack.addVec3(_28c, "BasisPos", -1);
+    changeChild("うろつく", &pack);
 }
 
 }  // namespace uking::ai

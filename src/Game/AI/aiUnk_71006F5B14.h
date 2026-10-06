@@ -38,6 +38,9 @@ void sub_71006F5D3C(Unk_71006F5DB0 element, ksys::act::Actor* actor);
 bool sub_71006F61F0(ksys::act::Actor* actor);
 // 0x71006f6144 (declared only).
 void sub_71006F6144(ksys::act::Actor* actor);
+// 0x71006f5584 (lane2 s42): makes the actor's character controller enter hover mode (sets motion type Hover
+// unless it already is); the twin of sub_71006F55D8.
+void sub_71006F5584(ksys::act::Actor* actor);
 // 0x71006f55d8 (lane2 s21): makes the actor's character controller leave hover mode (sets motion type _1
 // unless it already is).
 void sub_71006F55D8(ksys::act::Actor* actor);

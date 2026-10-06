@@ -26,6 +26,12 @@ public:
     void changeToTurnAround(const sead::Vector3f& rot);
 
 protected:
+    // 0x71004d4ca4: shelter from the rain: starts the "うろつく" child with the wait AS name (_120[19] / _120[20]) and the base position _28c
+    void sub_71004D4CA4();
+    // 0x71004d44b0: starts the "meeting" state: sets the NPC flags and updates them from the selected state value (_e8 / _ec / _f0 / _f4)
+    void sub_71004D44B0(bool a1, bool a2);
+    // 0x71004d11f4: stands up: "Standing" physics preset, then "ベッドから起きる" (hover motion) or "起きる"
+    void sub_71004D11F4();
     // static_param at offset 0x38
     const float* mTerritoryRange_s{};
     // static_param at offset 0x40
@@ -48,8 +54,10 @@ protected:
     f32 _7c = 0;
     f32 _80 = -1.0f;
     sead::SafeString _88[6]{};
-    u64 _e8 = 0;
-    u64 _f0 = 0;
+    s32 _e8 = 0;
+    s32 _ec = 0;
+    s32 _f0 = 0;
+    s32 _f4 = 0;
     u64 _f8 = 0;
     u64 _100 = 0;
     u64 _108 = 0;
@@ -58,7 +66,9 @@ protected:
     s32 _118 = -1;
     s32 _11c = 5;
     sead::SafeString _120[22]{};
-    u8 _280[0x2a8 - 0x280];
+    sead::Vector3f _280;
+    sead::Vector3f _28c;
+    u8 _298[0x2a8 - 0x298];
     act::NPC* _2a8 = nullptr;
     ksys::act::BaseProcLink _2b0;
     Unk_710240bc48 _2c0{mActor, 0x8000009};

@@ -4,6 +4,17 @@
 #include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
+void sub_71006F5584(ksys::act::Actor* actor) {
+    if (!actor)
+        return;
+    if (auto* controller = actor->getCharacterController()) {
+        const ksys::act::MotionType type = ksys::act::MotionType::Hover;
+        const ksys::act::MotionType current = controller->sub_7100F5F0E4();
+        if (int(current) != int(type))
+            controller->sub_7100F5F458(type);
+    }
+}
+
 void sub_71006F55D8(ksys::act::Actor* actor) {
     if (!actor)
         return;
