@@ -135,10 +135,6 @@ inline bool ActionBase::testRootAiFlag(RootAiFlag flag) const {
     return mActor->getRootAi()->_16c.isOnBit(int(flag));
 }
 
-inline bool ActionBase::testRootAiFlag2Inline(RootAiFlag2 flag) const {
-    return mActor->getRootAi()->_16e.isOnBit(int(flag));
-}
-
 const char* getDefaultAiName(s32 root_idx);
 const char* getDefaultActionName(s32 idx);
 

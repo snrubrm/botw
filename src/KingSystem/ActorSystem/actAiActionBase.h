@@ -212,9 +212,6 @@ protected:
     void setRootAiFlag(RootAiFlag flag) const;
     void resetRootAiFlag(RootAiFlag flag) const;
     bool testRootAiFlag2(RootAiFlag2 flag) const;
-    // Inline-only in the original (name is a guess): same test as testRootAiFlag2, inlined by GuardNearTarget::enter_
-    // (testRootAiFlag2 itself is an out-of-line call everywhere else). Defined in actAiRoot.h.
-    bool testRootAiFlag2Inline(RootAiFlag2 flag) const;
     // inline-only in the original; name is a guess (no out-of-line copy; used by FirstSelect::enter_):
     // reads RootAi::_16c, which is private to ActionBase's friends.
     bool testRootAiFlag(RootAiFlag flag) const;

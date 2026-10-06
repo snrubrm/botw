@@ -15,9 +15,11 @@ bool GuardNearTarget::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
 }
 
+// NON_MATCHING: the original inlines the RootAi flag-2 test here (testRootAiFlag2 is an out-of-line call
+// everywhere else); an extra inline-only accessor reproduced it but was rejected as invented.
 void GuardNearTarget::enter_(ksys::act::ai::InlineParamPack* params) {
     const float distance = sub_710044C9E8();
-    if (testRootAiFlag2Inline(ksys::act::ai::RootAiFlag2::_1)) {
+    if (testRootAiFlag2(ksys::act::ai::RootAiFlag2::_1)) {
         changeToGuardWait();
     } else if (m34(distance)) {
         changeToStartGuard();

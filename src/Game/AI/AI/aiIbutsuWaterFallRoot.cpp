@@ -167,10 +167,4 @@ void IbutsuWaterFallRoot::sub_710044584C() {
     setShape(_78, _50);
 }
 
-void IbutsuWaterFallRoot::sub_7100445AA0() {
-    _58.fade();
-    _68.fade();
-    _78.fade();
-}
-
 }  // namespace uking::ai
