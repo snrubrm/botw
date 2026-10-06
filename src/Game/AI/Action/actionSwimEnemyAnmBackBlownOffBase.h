@@ -11,7 +11,14 @@ public:
     ~SwimEnemyAnmBackBlownOffBase() override;
 
     bool init_(sead::Heap* heap) override;
-    bool isFinished() const override;
+    // NON_MATCHING: matches (as the in-class definition emitted for the derived class's vtable, where
+    // the two helpers are not inlined) only if actionSwimEnemyAnmBackBlownOff.cpp is linked before
+    // actionSwimEnemyAnmBackBlownOffBase.cpp (CMake source order); the Base TU's inlined copy wins now.
+    bool isFinished() const override {
+        if (_68)
+            return false;
+        return sub_7100289410() || sub_7100289460();
+    }
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;

@@ -1,7 +1,12 @@
 #include "Game/AI/Action/actionWindmill_Wing.h"
 #include <math/seadMathCalcCommon.h>
 #include <random/seadGlobalRandom.h>
+#include <cmath>
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/System/VFR.h"
 #include "KingSystem/World/worldManager.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
 
 namespace uking::action {
 
@@ -64,6 +69,21 @@ void Windmill_Wing::calc_() {
     m32(false);
     if (*mIsTurnToWindDir_s)
         m34(0.0f);
+}
+
+void Windmill_Wing::m32(bool a1) {
+    auto* manager = ksys::world::Manager::instance();
+    if (!manager)
+        return;
+    manager->getWindSpeed();
+    const f32 speed = sub_71002BDA28();
+    if (a1)
+        _5c = speed;
+    else
+        ksys::VFR::lerp(&_5c, speed, 0.005f);
+    if (auto* as_list = mActor->getASList())
+        as_list->x_3(0, 0, &ksys::as::ASList::Unk2::sub_7101163100, _5c);
+    sub_71012412E4(mActor, 3, _5c, false);
 }
 
 void Windmill_Wing::m33() {
