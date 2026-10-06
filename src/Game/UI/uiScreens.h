@@ -1895,6 +1895,7 @@ public:
 
 class ScreenShopBtnList15 : public ScreenEx {
 public:
+    ScreenShopBtnList15();
     bool isEnableControl() const override;
     const char* getLayoutName_() const override;
     ~ScreenShopBtnList15() override;
@@ -2261,11 +2262,15 @@ public:
 
 class ScreenFadeStatus : public ScreenEx {
 public:
+    ScreenFadeStatus();
     bool isPlayPartsInOut_() const override;
     ~ScreenFadeStatus() override;
     SEAD_RTTI_OVERRIDE(ScreenFadeStatus, ScreenEx)
 
-    u8 _pad_3610[0x3658 - 0x3610];
+    /* 0x3610 */ u64 _3610 = 0;
+    /* 0x3618 */ u64 _3618 = 0;
+    /* 0x3620 */ sead::FixedPtrArray<u8*, 4> _3620;
+    /* 0x3650 */ u64 _3650 = 0;
     /* 0x3658 */ sead::Buffer<u8*> _3658;
     /* 0x3668 */ sead::Buffer<u8*> _3668;
 };

@@ -119,7 +119,9 @@ public:
     // FIXME: Incomplete. Call isSlowTimeMaybe
     virtual bool isSlowTime();
 
-    virtual s32 m40() { return 0; }
+    // Signature from the AssassinBossRoot damage callbacks (lane2): takes an out value; DamageMgr::m40 writes -1 first
+    // and returns whether it found a value.
+    virtual bool m40(s32* out) { return false; }
     virtual s32 m41() { return 0; }
     virtual s32 m42() { return 0; }
     virtual void m43() {}

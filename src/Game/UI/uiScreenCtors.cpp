@@ -4,6 +4,13 @@
 
 namespace uking::ui {
 
+// 0x7100a4ad38
+ScreenShopBtnList15::ScreenShopBtnList15() : ScreenEx() {}
+
+// 0x7100a09850
+ScreenFadeStatus::ScreenFadeStatus() : ScreenEx() {}
+
+
 ScreenReadyGo::ScreenReadyGo() : ScreenEx() {}
 
 // 0x7100a40da0

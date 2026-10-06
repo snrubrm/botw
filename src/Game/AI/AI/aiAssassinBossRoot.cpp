@@ -1,5 +1,8 @@
 #include "Game/AI/AI/aiAssassinBossRoot.h"
+#include <cmath>
+#include <math/seadMathCalcCommon.h>
 #include <prim/seadSafeString.h>
+#include "Game/AI/aiUnk_71007368A4.h"
 #include "Game/Actor/actEnemy.h"
 #include "Game/Damage/dmgDamageManagerBase.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
@@ -170,6 +173,41 @@ bool AssassinBossRoot::m45() {
 
 void AssassinBossRoot::m47() {
     m38();
+}
+
+// NON_MATCHING: same instructions, but the original loads the matrix terms (0x3a0 / 0x3b0) before the attack
+// direction and the third one between the multiplies.
+void Unk_71023d7c08::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) {
+    if (*a1 < 1)
+        return;
+
+    auto* damage_manager = sead::DynamicCast<dmg::DamageManagerBase>(mDamageManager);
+    s32 field_40 = -1;
+    if (!damage_manager)
+        return;
+
+    if (sub_71007368A4(damage_manager->getAttacker())) {
+        *a5 = -1;
+        return;
+    }
+    if (damage_manager->checkDamageFlags(1))
+        return;
+
+    damage_manager->m40(&field_40);
+    auto* actor = damage_manager->mActor;
+    if (!actor->getASList()->x(14, nullptr, 0, 0, &ksys::as::ASList::Unk2::sub_71011638DC, true))
+        return;
+
+    sead::Vector3f dir;
+    damage_manager->getAttackPos(&dir);
+    const auto& mtx = actor->getMtx();
+    if (!(mtx.m[0][2] * -dir.x + mtx.m[1][2] * -dir.y + mtx.m[2][2] * -dir.z >=
+          std::cos(sead::Mathf::pi() / 2)))
+        return;
+
+    *a1 = 0;
+    *a5 = 12;
+    _24 = true;
 }
 
 // Keeps the actor's life above zero: damage that would be lethal is reduced to life - 1.

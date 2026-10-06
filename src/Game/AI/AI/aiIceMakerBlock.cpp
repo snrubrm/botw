@@ -1,7 +1,11 @@
 #include "Game/AI/AI/aiIceMakerBlock.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/gameSceneSubsys14.h"
+#include "Game/Damage/dmgDamageManager.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actTag.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
@@ -107,6 +111,20 @@ void IceMakerBlock::loadParams_() {
     getStaticParam(&mParams.mSubRigidStartOffset_s, "SubRigidStartOffset");
     getStaticParam(&mParams.mSubRigidEndOffset_s, "SubRigidEndOffset");
     getStaticParam(&mParams.mSubRigidExOffset_s, "SubRigidExOffset");
+}
+
+void Unk_71023fd228::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) {
+    if (*a5 != 1)
+        return;
+
+    auto* damage_manager = sead::DynamicCast<dmg::DamageManager>(mDamageManager);
+    ksys::act::ActorConstDataAccess accessor;
+    if (damage_manager && ksys::act::acquireActor(damage_manager->m37(), &accessor) &&
+        (accessor.hasTag(ksys::act::tags::CanBreakIceMakerBlock) ||
+         accessor.hasTag(ksys::act::tags::AncientWeapon))) {
+        *a1 = 1;
+        *a5 = 34;
+    }
 }
 
 }  // namespace uking::ai

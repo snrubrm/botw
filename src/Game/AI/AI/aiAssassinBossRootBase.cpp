@@ -5,6 +5,8 @@
 #include "Game/Actor/actEnemy.h"
 #include "Game/Damage/dmgDamageManager.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actLifeRecoveryInfo.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
@@ -54,6 +56,22 @@ void Unk_71023d7e40::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) {
 
     if (life - *a1 <= _24)
         *a1 = sead::Mathi::max(life - 1 - _24, 0);
+}
+
+void Unk_71023d7e78::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) {
+    if (*a1 < 1)
+        return;
+
+    auto* damage_manager = sead::DynamicCast<dmg::DamageManager>(mDamageManager);
+    if (!damage_manager)
+        return;
+
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(damage_manager->m37(), &accessor);
+    if (accessor.getName() == "AssassinRockBall") {
+        *a1 = _24;
+        *a5 = 22;
+    }
 }
 
 AssassinBossRootBase::AssassinBossRootBase(const InitArg& arg) : EnemyRoot(arg) {}
