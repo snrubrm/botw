@@ -1,5 +1,7 @@
 #include "Game/AI/Query/queryIsIgnitionByArrowFire.h"
 #include <evfl/Query.h>
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actChemical.h"
 
 namespace uking::query {
 
@@ -7,9 +9,12 @@ IsIgnitionByArrowFire::IsIgnitionByArrowFire(const InitArg& arg) : ksys::act::ai
 
 IsIgnitionByArrowFire::~IsIgnitionByArrowFire() = default;
 
-// FIXME: implement
 int IsIgnitionByArrowFire::doQuery() {
-    return -1;
+    if (auto* chemical = mActor->getChemicalStuff()) {
+        if (chemical->_c & 0x400000)
+            return 1;
+    }
+    return 0;
 }
 
 void IsIgnitionByArrowFire::loadParams(const evfl::QueryArg& arg) {}
