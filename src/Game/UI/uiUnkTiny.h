@@ -82,6 +82,14 @@ public:
     void playAnimator910();
     bool isAnimator910Playing() const;
     void stopAnimator910(f32 frame);
+    // 0x7100934b94 (declared only): attaches the gauge to `layout`
+    void sub_7100934B94(eui::LayoutEx* layout, bool flag);
+    // inline-only in the original; name is a guess (three screens store the byte right after the setup)
+    void set95c(bool on) { _95c = on; }
+    // inline-only in the original; name is a guess (MainScreenMS / HeartIchigekiDLC m100 copy `_948` into `_944`)
+    f32 get948() const { return _948; }
+    // 0x710093515c (declared only; 9 callers): advances the gauge by the screen's animation step
+    void sub_710093515C(f32 step);
 
 private:
     /* 0x8 */ u64 _8{};

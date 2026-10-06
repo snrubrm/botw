@@ -35,7 +35,11 @@ public:
     /* 0x61 */ u8 _61;  // bit 1: ?, bits 1 / 2 are rewritten by sub_710094BE14
     u8 _62;
     /* 0x63 */ u8 _63;  // four flags (bits 0 / 1 and 2 / 3: two pairs, see sub_710094B844)
-    u8 _64[0x78 - 0x64];
+    u8 _64[0x68 - 0x64];
+    /* 0x68 */ s32 _68;
+    u8 _6c[0x70 - 0x6c];
+    /* 0x70 */ u16 _70;
+    u8 _72[0x78 - 0x72];
 
 private:
     static Unk_71025d6578* sInstance;

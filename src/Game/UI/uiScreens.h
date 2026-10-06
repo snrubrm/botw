@@ -1705,7 +1705,9 @@ public:
     bool isPlayPartsInOut_() const override;
     ScreenWolfLinkHeartGauge();
     ~ScreenWolfLinkHeartGauge() override;
-    void* _3610{};
+    void m93(sead::Heap* heap) override;
+    void m94() override;
+    Unk_7102474be8* _3610{};
     SEAD_RTTI_OVERRIDE(ScreenWolfLinkHeartGauge, ScreenEx)
 };
 
@@ -1824,10 +1826,12 @@ public:
     // 0x7100a16fd8 / 0x7100a16ff4: play the animator _3610 forward / backwards (speed 1 / -1).
     void sub_7100A16FD8();
     void sub_7100A16FF4();
+    void m93(sead::Heap* heap) override;
+    void m100() override;
     /* 0x3610 */ eui::Animator* _3610{};
-    /* 0x3618 */ void* _3618{};
-    /* 0x3620 */ void* _3620{};
-    /* 0x3628 */ void* _3628{};
+    /* 0x3618 */ eui::Animator* _3618{};
+    /* 0x3620 */ Unk_7102474be8* _3620{};
+    /* 0x3628 */ nn::ui2d::Pane* _3628{};
     /* 0x3630 */ u8 _3630{};
     SEAD_RTTI_OVERRIDE(ScreenMainScreenMS, ScreenEx)
 };
@@ -1837,9 +1841,13 @@ public:
     const char* getLayoutName_() const override;
     ScreenMainScreenHeartIchigekiDLC();
     ~ScreenMainScreenHeartIchigekiDLC() override;
-    /* 0x3610 */ void* _3610{};
-    /* 0x3618 */ void* _3618{};
-    /* 0x3620 */ void* _3620{};
+    void m93(sead::Heap* heap) override;
+    void m100() override;
+    // 0x7100a168f0 (declared only)
+    void sub_7100A168F0();
+    /* 0x3610 */ eui::Animator* _3610{};
+    /* 0x3618 */ Unk_7102474be8* _3618{};
+    /* 0x3620 */ nn::ui2d::Pane* _3620{};
     /* 0x3628 */ u8 _3628{};
     SEAD_RTTI_OVERRIDE(ScreenMainScreenHeartIchigekiDLC, ScreenEx)
 };
@@ -2718,5 +2726,8 @@ s32 sub_7100A64304();
 
 // 0x7100aa1cb8 (declared only): sets the alpha byte of a material's color
 void sub_7100AA1CB8(nn::ui2d::Material* material, u8 alpha);
+
+// 0x7100949d18 (declared only): the heart gauge value of `count` quarter hearts
+f32 sub_7100949D18(s32 count);
 
 }  // namespace uking::ui

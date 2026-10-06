@@ -3,6 +3,8 @@
 #include "Game/UI/euiButton.h"
 #include "Game/UI/euiLayoutEx.h"
 #include "Game/UI/uiScreens.h"
+#include "Game/UI/uiUnkSingletons.h"
+#include "Game/UI/uiUnkTiny.h"
 #include "Game/UI/uiShopMgr.h"
 #include "Game/UI/uiUtils.h"
 
@@ -469,6 +471,75 @@ void ScreenShopBtnList20::m107(eui::AnimButton* button) {
 void ScreenPauseMenu::m107(eui::AnimButton* button) {
     if (u32(button->mTag - 9) <= 0x3b && _3618 == 15)
         clearDecideWindowAlpha(button);
+}
+
+// 0x7100a6bc80
+void ScreenWolfLinkHeartGauge::m93(sead::Heap* heap) {
+    eui::LayoutEx* layout = sub_7100BEAFB0("Pa_HeartGauge_00");
+    if (!layout)
+        return;
+    _3610 = new (heap, 8) Unk_7102474be8;
+    if (_3610) {
+        _3610->sub_7100934B94(layout, true);
+        _3610->set95c(true);
+    }
+}
+
+// 0x7100a16d24
+void ScreenMainScreenMS::m93(sead::Heap* heap) {
+    _3610 = mLayout->createAnimatorAuto("BlurIn", true);
+    _3618 = mLayout->createAnimatorAuto("CenterHeart", true);
+    eui::LayoutEx* layout = sub_7100BEAFB0("Pa_HeartGauge_00");
+    if (!layout)
+        return;
+    _3620 = new (heap, 8) Unk_7102474be8;
+    if (_3620) {
+        _3620->sub_7100934B94(layout, true);
+        _3620->set95c(true);
+        _3620->set958(0.0f);
+    }
+    _3628 = findPane_("Pa_HeartGauge_00");
+}
+
+// 0x7100a16828
+void ScreenMainScreenHeartIchigekiDLC::m93(sead::Heap* heap) {
+    _3610 = mLayout->createAnimatorAuto("CenterHeart", true);
+    eui::LayoutEx* layout = sub_7100BEAFB0("Pa_HeartGauge_00");
+    if (!layout)
+        return;
+    _3618 = new (heap, 8) Unk_7102474be8;
+    if (_3618) {
+        _3618->sub_7100934B94(layout, false);
+        _3618->set95c(true);
+        _3618->set958(0.0f);
+    }
+    _3620 = findPane_("Pa_HeartGauge_00");
+    sub_7100A168F0();
+}
+
+// 0x7100a17010
+void ScreenMainScreenMS::m100() {
+    _3620->set944(_3620->get948());
+    _3620->sub_710093515C(getAnimationStep_());
+}
+
+// 0x7100a16aec
+void ScreenMainScreenHeartIchigekiDLC::m100() {
+    _3618->set944(_3618->get948());
+    _3618->sub_710093515C(getAnimationStep_());
+}
+
+// 0x7100a6bcf8
+void ScreenWolfLinkHeartGauge::m94() {
+    if (!_3610)
+        return;
+    auto* info = Unk_71025d6578::instance();
+    _3610->set948(sub_7100949D18(info->_68));
+    if (info->_70 & 6)
+        _3610->playAnimator918();
+    if ((info->_70 & 1) && !_3610->isAnimator8e0Playing())
+        _3610->playAnimator8e0();
+    _3610->sub_710093515C(getAnimationStep_());
 }
 
 }  // namespace uking::ui
