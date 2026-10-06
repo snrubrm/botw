@@ -12,7 +12,21 @@ Stun::Stun(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 Stun::~Stun() = default;
 
 void Stun::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    playAS("Stun", true, 0, 0, -1.0f);
+    _40 = ksys::Timer(f32(*mTime_s), f32(*mTime_s));
+    if (!sub_7100281144()) {
+        sead::Vector3f direction = mActor->getVelocity();
+        if (auto* controller = mActor->getCharacterController()) {
+            const f32 speed = direction.normalize();
+            _4c.value = speed;
+            _4c.prev_value = speed;
+            sub_710072C1B4(controller, direction);
+        }
+        _58.value = mActor->getAngVelocity();
+        _58.prev_value = mActor->getAngVelocity();
+    }
+    _7c = 0;
+    mFlags.set(Flag::Changeable);
 }
 
 void Stun::leave_() {
