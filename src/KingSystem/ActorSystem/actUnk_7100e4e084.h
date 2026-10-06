@@ -37,6 +37,10 @@ public:
     void sub_7100E50450(Actor* carrier);
     void sub_7100E4FCE8(f32 a, const sead::Matrix34f* mtx);
     f32 sub_7100E4EDB8();
+    // Declared only (CarriedData::x_6 / x_8 / x_12, lane1 s43): 0x7100e504c0 (when `_1d0` has a bit set, stores
+    // `&_1c8` into the contact point info's `+0x58` and sets bit 2 of `_1d8`) and its undo 0x7100e5052c.
+    void sub_7100E504C0();
+    void sub_7100E5052C();
 
     /* 0x000 */ Actor* mActor;
     /* 0x008 */ sead::CriticalSection _8;
@@ -60,7 +64,12 @@ public:
     /* 0x1c0 */ f32 _1c0 = -1.0;
     // object with vtable 0x71024e8790 (invoke 0x7100e50590, clone, isNoDummy) and two bytes at
     // +0x8 / +0x10
-    /* 0x1c8 */ u8 _1c8[0x1e0 - 0x1c8];
+    /* 0x1c4 */ u8 _1c4[0x1c8 - 0x1c4];  // padding (the object below is 8-aligned)
+    /* 0x1c8 */ u8 _1c8[0x1d0 - 0x1c8];
+    /* 0x1d0 */ u8 _1d0;  // flags (CarriedData tests bit 0 and counts the set bits)
+    /* 0x1d1 */ u8 _1d1[0x1d8 - 0x1d1];
+    /* 0x1d8 */ u8 _1d8;  // flags (bit 2: the contact point info points at `_1c8`)
+    /* 0x1d9 */ u8 _1d9[0x1e0 - 0x1d9];
 };
 KSYS_CHECK_SIZE_NX150(Unk_7100e4e084, 0x1e0);
 

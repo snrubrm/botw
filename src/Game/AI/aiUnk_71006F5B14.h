@@ -29,6 +29,12 @@ void sub_71006F5940(ksys::act::Chemical* chemical);
 // 0x71006f5a80 (declaration only): `if (chemical) chemical->sub_7100D8F124(world::Manager::instance()->getElementHolderMaybe())`.
 void sub_71006F5A80(ksys::act::Chemical* chemical);
 bool sub_71006F594C(Unk_71006F5DB0 element, ksys::act::Chemical* chemical);
+// 0x71006f5934: bit 1 of the chemical's `_8` flags.
+bool sub_71006F5934(ksys::act::Chemical* chemical);
+// 0x71006f5ac4: resets the chemical's burning / frozen state for `element` (inlined into sub_71006F5B14).
+void sub_71006F5AC4(Unk_71006F5DB0 element, ksys::act::Chemical* chemical);
+// 0x71006f5bbc: the twin that re-applies the state (inlined into sub_71006F5C50).
+void sub_71006F5BBC(Unk_71006F5DB0 element, ksys::act::Chemical* chemical);
 // 0x71006f59c4 (declared only).
 bool sub_71006F59C4(ksys::act::Actor* actor, int a2);
 // 0x71006f5d3c (declared only): starts the head-shot limp animation of `element` (actor's ASList).
