@@ -1,6 +1,22 @@
 #include "aal/aalSpatialCalculator.h"
+#include <cstring>
 
 namespace aal {
+
+// NON_MATCHING: same stores, but the original issues them in a different order (it stores flags, matrix, velocity,
+// _10, _2a, user_param, then the zeroed float/shape block).
+// 0x7100b8f4ec
+void SpatialCalculator::Setting::initialize() {
+    flags = 0xd;
+    actor_matrix = nullptr;
+    velocity = nullptr;
+    _10 = nullptr;
+    _2a = 0xffff;
+    user_param = 0;
+    doppler_factor = 0.0f;
+    sound_source_size = 0.0f;
+    shape = nullptr;
+}
 
 // 0x7100b8fb00
 s32 SpatialCalculator::getResultNum() const {
@@ -33,6 +49,11 @@ void SpatialCalculator::endReferred() {
 // 0x7100b8fe4c
 bool SpatialCalculator::isReferred() const {
     return mReferredCount != 0;
+}
+
+// 0x7100b8fe5c
+bool SpatialCalculator::hasSetting(const Setting& setting) const {
+    return std::memcmp(&mSetting, &setting, sizeof(Setting)) == 0;
 }
 
 }  // namespace aal

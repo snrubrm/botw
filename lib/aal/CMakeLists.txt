@@ -50,6 +50,8 @@ add_library(aal OBJECT
   include/aal/aalSoundSource.h
   include/aal/aalSoundSourceUnifier.h
   include/aal/aalSpatialCalculator.h
+  include/aal/aalSpatialCalculatorFactory.h
+  include/aal/aalSpatialCalculatorPool.h
   include/aal/aalSpeakerBalanceUnifierArea.h
   include/aal/aalSpeakerBalanceUnifierMgr.h
   include/aal/aalSpatialPlayingParamPool.h
@@ -79,6 +81,8 @@ add_library(aal OBJECT
   src/aalGroupReader.cpp
   src/aalGroupMgr.cpp
   src/aalSpatialCalculator.cpp
+  src/aalSpatialCalculatorFactory.cpp
+  src/aalSpatialCalculatorPool.cpp
   src/aalHandle.cpp
   src/aalInterior.cpp
   src/aalListener.cpp
