@@ -1,6 +1,7 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <container/seadRingBuffer.h>
 #include <math/seadMatrix.h>
 #include <math/seadVector.h>
 #include <container/seadSafeArray.h>
@@ -351,6 +352,10 @@ KSYS_CHECK_SIZE_NX150(Unk_7100928644, 0x18);
 class Camera : public ksys::act::Actor, public Unk_7102459cc0 {
     SEAD_RTTI_OVERRIDE(Camera, ksys::act::Actor)
 public:
+    struct Unk13d8Entry {
+        u8 _0[0xc];
+    };
+
     // 0x7100795e08: copies `src` to `dst` and adjusts dst._24 (in place when they are the same).
     void sub_7100795E08(const Unk_71009214b8& src, Unk_71009214b8* dst);
     explicit Camera(const CreateArg& arg);
@@ -380,6 +385,22 @@ public:
     /* 164 */ virtual void m164();
     /* 165 */ virtual void* m165();
     /* 166 */ virtual void m166(ksys::act::BaseProc* proc);
+
+    // 0x7100796174 (CSV m18) / 0x7100796200 (CSV m19) / 0x71007963f8 (CSV m7).
+    bool prepareInit_(sead::Heap* heap, PrepareArg& arg) override;
+    void onPreDeleteStart_(PrepareArg& arg) override;
+    PreDeletePrepareResult prepareForPreDelete_() override;
+    // 0x7100799cd4 (CSV m82): returns 1.
+    int getCalcTiming() override;
+    // 0x7100799a54 (CSV m73): `if (!sub_7100922428()) sub_710079691C()`.
+    void m73() override;
+    // 0x7100799a88 (CSV m75): if `_860._804` has bit 0 set nothing happens; otherwise sets `_1421` when
+    // sub_7100922428() or calls sub_71007970E0().
+    void m75() override;
+    // 0x71007970e0 / 0x7100793f8c / 0x710079691c: declared only (called by m164 / m75 / m73).
+    void sub_71007970E0();
+    void sub_7100793F8C();
+    void sub_710079691C();
 
     // 0x71007953c8: moves _860._0._28 towards 0 (unless sub_7100922078()).
     void sub_71007953C8();
@@ -431,10 +452,8 @@ public:
     /* 0x13a0 */ u32 _13a0 = 0;
     /* 0x13a4 */ Unk_7100928644 _13a4;
     /* 0x13bc */ u32 _13bc[6]{};
-    /* 0x13d8 */ void* _13d8 = nullptr;
-    /* 0x13e0 */ void* _13e0 = nullptr;
-    /* 0x13e8 */ u32 _13e8 = 0;
-    /* 0x13ec */ u32 _13ec;  // not initialised by the ctor
+    // 0x7100796174 (prepareInit_) allocates it (sub_7100922080() entries); 0x7100796200 frees it.
+    /* 0x13d8 */ sead::RingBuffer<Unk13d8Entry> _13d8;
     /* 0x13f0 */ u32 _13f0 = 0;
     /* 0x13f4 */ f32 _13f4 = 1.0;
     /* 0x13f8 */ u32 _13f8 = 0;
@@ -442,7 +461,9 @@ public:
     /* 0x13fd */ u8 _13fd = 0;
     /* 0x13fe */ u8 _13fe = 0;
     /* 0x1400 */ sead::Delegate<Camera> _1400;
-    /* 0x1420 */ u16 _1420 = 0;
+    // m163 waits for the worker task 1 when set, m164 / m75 use _1421.
+    /* 0x1420 */ u8 _1420 = 0;
+    /* 0x1421 */ u8 _1421 = 0;
 };
 KSYS_CHECK_SIZE_NX150(Camera, 0x1428);
 

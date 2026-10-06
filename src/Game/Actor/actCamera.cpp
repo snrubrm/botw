@@ -2,8 +2,11 @@
 #include "Game/Actor/actCameraUtil.h"
 #include <cmath>
 #include <math/seadMathCalcCommon.h>
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actAiActionBase.h"
+#include "KingSystem/Framework/frmWorkerSupportThreadMgr.h"
 #include "KingSystem/System/VFR.h"
+#include "KingSystem/ksys.h"
 
 Unk_7102459708::Unk_7102459708(ksys::act::ai::ActionBase* owner) : mOwner(owner) {}
 
@@ -101,6 +104,64 @@ void Camera::sub_7100793D88() {
 
 void Camera::m162() {
     _860._804.sub_710079AE20(1);
+}
+
+bool Camera::prepareInit_(sead::Heap* heap, PrepareArg& arg) {
+    if (sub_7100922080() >= 1)
+        _13d8.allocBuffer(sub_7100922080(), heap, 8);
+    return true;
+}
+
+void Camera::onPreDeleteStart_(PrepareArg& arg) {
+    _13d8.freeBuffer();
+}
+
+Camera::PreDeletePrepareResult Camera::prepareForPreDelete_() {
+    _13fe = 1;
+    if (auto* root = Root6::getInstance())
+        root->sub_7100928854(this);
+    ksys::sub_7100F40428(nullptr);
+    if (_850.hasProc()) {
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::acquireActor(&_850, &accessor);
+        accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+    }
+    return Actor::prepareForPreDelete_();
+}
+
+int Camera::getCalcTiming() {
+    return 1;
+}
+
+void Camera::m73() {
+    if (sub_7100922428())
+        return;
+    sub_710079691C();
+}
+
+void Camera::m75() {
+    if (_860._804.sub_710079ADC8(1))
+        return;
+    if (sub_7100922428())
+        _1421 = 1;
+    else
+        sub_71007970E0();
+}
+
+void Camera::m163() {
+    if (_1420) {
+        ksys::frm::WorkerSupportThreadMgr::instance()->waitForTask(1);
+        _1420 = 0;
+    }
+}
+
+void Camera::m164() {
+    if (_1421) {
+        sub_71007970E0();
+        _1421 = 0;
+        return;
+    }
+    sub_7100793F8C();
 }
 
 void* Camera::m165() {

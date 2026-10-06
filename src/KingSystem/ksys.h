@@ -26,4 +26,7 @@ void preInitializeApp(const InitParams& params);
 // 0x0000007100f40370
 void setPlayerLink(act::PlayerLink* link);
 
+// 0x0000007100f40428: stores `camera` (a Camera actor pointer or null) in the camera-using singletons.
+void sub_7100F40428(void* camera);
+
 }  // namespace ksys
