@@ -59396,7 +59396,7 @@ Address,Quality,Size,Name
 0x0000007100a0e7c8,O,000052,_ZNK5uking2ui12ScreenKeyNum14getLayoutName_Ev
 0x0000007100a0e7fc,U,000116,
 0x0000007100a0e870,O,000052,_ZN5uking2ui12ScreenKeyNum3m93EPN4sead4HeapE
-0x0000007100a0e8a4,U,000128,
+0x0000007100a0e8a4,O,000128,_ZN5uking2ui12ScreenKeyNum3m84Ev
 0x0000007100a0e924,U,000296,
 0x0000007100a0ea4c,O,000132,_ZNK5uking2ui12ScreenKeyNum27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE
 0x0000007100a0ead0,O,000092,_ZNK5uking2ui12ScreenKeyNum18getRuntimeTypeInfoEv

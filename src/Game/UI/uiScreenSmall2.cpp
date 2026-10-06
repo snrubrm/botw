@@ -9,6 +9,9 @@
 #include "Game/UI/uiUnkTiny.h"
 #include "Game/UI/uiShopMgr.h"
 #include "Game/UI/uiUtils.h"
+#include "Game/gameScene.h"
+#include "KingSystem/GameData/gdtSpecialFlags.h"
+#include "KingSystem/System/StageInfo.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 
 namespace uking::ui {
@@ -197,6 +200,12 @@ void ScreenChangeController::m94() {
 // 0x7100a041b4
 void ScreenDemoStart::m93(sead::Heap*) {
     _3610 = mLayout->createAnimatorAuto("Decide", false);
+}
+
+// 0x7100a0e8a4
+void ScreenKeyNum::m84() {
+    _3610 = ksys::StageInfo::sIsDungeon ? ksys::gdt::getSmallKeyNum(GameScene::getCurrentMapName(), false) : 0;
+    sub_7100AA930C(mLayout, "T_KeyNum_00", _3610, 0, 0);
 }
 
 // 0x7100a0e870

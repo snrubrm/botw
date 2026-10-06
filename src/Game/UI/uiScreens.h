@@ -1783,6 +1783,7 @@ public:
     const char* getLayoutName_() const override;
     ScreenKeyNum();
     ~ScreenKeyNum() override;
+    void m84() override;
     void m93(sead::Heap* heap) override;
     /* 0x3610 */ u32 _3610{};
     u8 _pad_3614[0x3618 - 0x3614];
