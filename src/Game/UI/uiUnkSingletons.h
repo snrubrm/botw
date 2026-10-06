@@ -100,7 +100,13 @@ struct UiSubsys1PinArg {
 
 // Placeholder (0x58 bytes): the elements of the 3 x 10 table at 0xe8 of Unk_71025d6550.
 struct Unk_71025d6550Entry {
-    u8 _0[0x58];
+    u8 _0[8];
+    /* 0x08 */ s32 _8;
+    u8 _c[0x28 - 0xc];
+    /* 0x28 */ s32 _28;
+    u8 _2c[0x48 - 0x2c];
+    /* 0x48 */ bool _48;
+    u8 _49[0x58 - 0x49];
 };
 
 class Unk_71025d6550 {
@@ -109,6 +115,10 @@ public:
 
     // 0x7100948eb4 (placeholder name): element `j` of row `i` of the table at 0xe8 (an out of range index selects 0)
     Unk_71025d6550Entry* sub_7100948EB4(s32 i, s32 j);
+    // 0x7100948d40 (placeholder name): whether the used entries of the first row are all in state 2..4 with a target and a flag
+    bool sub_7100948D40();
+    // 0x71009485ec (placeholder name): copies the value picked by the state at 0xb3c into the three values at 0xb58
+    void sub_71009485EC();
     // 0x7100948f58 (placeholder name): a value picked by the manager's state at 0x64c38 (-1 for states 3 / > 4)
     s32 sub_7100948F58();
 
@@ -123,11 +133,11 @@ public:
     /* 0x80 */ sead::Vector3f _80;
     u8 _8c[0xe8 - 0x8c];
     /* 0xe8 */ sead::SafeArray<sead::SafeArray<Unk_71025d6550Entry, 10>, 3> _e8;
-    u8 _b38[0xb3c - 0xb38];
+    /* 0xb38 */ s32 _b38;  // number of used entries of the first row
     /* 0xb3c */ u32 _b3c;
     u8 _b40[0xb54 - 0xb40];
     /* 0xb54 */ s32 _b54;
-    u8 _b58[0xb64 - 0xb58];
+    /* 0xb58 */ sead::SafeArray<s32, 3> _b58;
     /* 0xb64 */ s32 _b64;
     /* 0xb68 */ f32 _b68;
     /* 0xb6c */ s32 _b6c;

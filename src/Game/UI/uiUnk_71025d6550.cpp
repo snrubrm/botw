@@ -125,4 +125,37 @@ s32 Unk_71025d6550::sub_7100948F58() {
     }
 }
 
+// 0x7100948d40
+bool Unk_71025d6550::sub_7100948D40() {
+    for (s32 i = 0; i < _b38; ++i) {
+        const auto& entry = _e8[0][i];
+        if (static_cast<u32>(entry._8 - 2) > 2 || entry._28 == -1 || !entry._48)
+            return false;
+    }
+    return true;
+}
+
+// 0x71009485ec
+void Unk_71025d6550::sub_71009485EC() {
+    switch (_b3c) {
+    case 0:
+        _b58[0] = _b64;
+        break;
+    case 1:
+        _b58[0] = _b6c;
+        break;
+    case 2:
+        _b58[0] = _b74;
+        break;
+    case 3:
+        _b58[0] = _d54[0];
+        _b58[1] = _d54[1];
+        _b58[2] = _d54[2];
+        break;
+    case 4:
+        _b58[0] = _d64;
+        break;
+    }
+}
+
 }  // namespace uking::ui
