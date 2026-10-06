@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionTumble.h"
+#include "Game/Damage/dmgDamageCallback.h"
 
 namespace uking::action {
 
@@ -11,7 +12,7 @@ void Tumble::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void Tumble::leave_() {
-    ksys::act::ai::Action::leave_();
+    sub_71005DA114(mActor, &_68);
 }
 
 void Tumble::loadParams_() {}
