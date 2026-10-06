@@ -1,19 +1,43 @@
 #include "Game/gameSceneSubsys12.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/System/Timer.h"
 #include "Game/UI/uiPauseMenuDataMgr.h"
 #include <prim/seadScopedLock.h>
 #include <math/seadMathCalcCommon.h>
+#include <random/seadGlobalRandom.h>
 
-// Initialized writable parameters present in the original scene TU. Names are address placeholders;
-// no larger parameter-object layout is assumed from the compiler's merged static block.
-static f32 sUnk_710243bfec = 0.73f;
-static f32 sUnk_710243bff0 = 1.25f;
-static f32 sUnk_710243c00c = 1.0f;
-static f32 sUnk_710243c010 = 0.0f;
-static f32 sUnk_710243c014 = 0.15f;
-static f32 sUnk_710243c018 = 0.3f;
+// Scene parameters (initialized data at 0x710243bfb8..0x710243c018): nothing in the binary writes
+// them, yet the loads are not folded (hidden visibility, as in actCameraUtil.cpp).
+KSYS_VISIBILITY_HIDDEN bool sUnk_710243bfb8 = true;
+KSYS_VISIBILITY_HIDDEN bool sUnk_710243bfbc = true;
+KSYS_VISIBILITY_HIDDEN s32 sUnk_710243bfc0 = 1;
+// Initialized parameter block at 0x710243bfd0..0x710243c020 (20 floats; its address is the base of all
+// the loads below).
+struct SceneParams {
+    f32 _0 = 2.0f;
+    f32 _4 = 0.1f;
+    f32 _8 = 7.0f;
+    f32 _c = 1.0f;
+    f32 _10 = 1.3f;
+    f32 _14 = 7.0f;
+    f32 _18 = 0.2f;
+    f32 _1c = 0.73f;
+    f32 _20 = 1.25f;
+    f32 _24 = 1.4f;
+    f32 _28 = 2.8f;
+    f32 _2c = 0.3f;
+    f32 _30 = 0.5f;
+    f32 _34 = 0.2f;
+    f32 _38 = 0.6f;
+    f32 _3c = 1.0f;
+    f32 _40 = 0.0f;
+    f32 _44 = 0.15f;
+    f32 _48 = 0.3f;
+    f32 _4c = 0.0f;
+};
+KSYS_VISIBILITY_HIDDEN SceneParams sUnk_710243bfd0;
 
 void GameSceneSubsys12::init(sead::Heap* heap) {
     _318.sub_710065D8E4(heap, true);
@@ -144,23 +168,24 @@ void GameSceneSubsys12::sub_7100664CC0(sead::Vector3f* out, s32 count, s32 index
     }
 }
 
-// NON_MATCHING: scene parameter statics are folded; original loads them from its merged static block.
+// NON_MATCHING: the original loads _d0 later (scheduling) and moves x1 before the float argument.
 f32 GameSceneSubsys12::sub_7100664B3C(ActorContextStuff* context, f32 scale) {
     if (_300.hasProc() && _310 == context && _a78.isBitOn(0)) {
         const f32 doubled_scale = scale + scale;
-        const f32 limited_scale = sead::Mathf::min(sUnk_710243bfec, doubled_scale * sUnk_710243bff0);
+        const f32 limited_scale = sead::Mathf::min(sUnk_710243bfd0._1c, doubled_scale * sUnk_710243bfd0._20);
         return _d0 * (limited_scale / doubled_scale - 1.0f) + 1.0f;
     }
     return 1.0f;
 }
 
-// NON_MATCHING: integer clamp, folded scene parameters and store scheduling differ.
+// NON_MATCHING: the original clamp contains an int-float-int round trip.
 void GameSceneSubsys12::sub_7100664C30(sead::Vector3f* out, s32 count, s32 index) {
     if (out) {
         const s32 row = sead::Mathi::clamp(count - 1, 0, 4);
-        out->x = sUnk_710243c00c * _a98[row][index].x - sUnk_710243c010;
-        out->y = sUnk_710243c00c * _a98[row][index].y - sUnk_710243c014;
-        out->z = sUnk_710243c00c * _a98[row][index].z - sUnk_710243c018;
+        const sead::Vector3f v = _a98[row][index];
+        out->set(sUnk_710243bfd0._3c * v.x - sUnk_710243bfd0._40,
+                 sUnk_710243bfd0._3c * v.y - sUnk_710243bfd0._44,
+                 sUnk_710243bfd0._3c * v.z - sUnk_710243bfd0._48);
     }
 }
 
@@ -236,4 +261,25 @@ void GameSceneSubsys12::sub_71006643EC() {
             pause->unholdGrabbedItems();
     }
     _318.sub_710065E4BC(true);
+}
+
+// 0x7100662ef0
+void GameSceneSubsys12::sub_7100662EF0(ksys::act::Actor* actor) {
+    if (!_300.hasProcById(actor))
+        return;
+
+    ksys::act::acc::PlayerBase player;
+    player.getPlayerFromPlayerInfo();
+    ksys::act::ActorConstDataAccess child;
+    player.acquireConnectedCalcChild(&child);
+    if (!child.hasProc(actor) && sUnk_710243bfbc && player.hasProc()) {
+        mTransceiver.sendMessage(*player.getMessageTransceiverId(), ksys::MessageType(0x8000016),
+                                 actor, true);
+        mTransceiver.sendMessage(*actor->getMesTransceiverId(), ksys::MessageType(0x1800004),
+                                 nullptr, true);
+    }
+}
+
+s32 GameSceneSubsys12::sub_710066551C() const {
+    return sUnk_710243bfc0;
 }

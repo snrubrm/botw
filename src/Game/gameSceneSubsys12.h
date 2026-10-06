@@ -1,11 +1,14 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <heap/seadDisposer.h>
 #include <thread/seadAtomic.h>
 #include <thread/seadCriticalSection.h>
 #include <math/seadMatrix.h>
 #include <math/seadVector.h>
 #include "Game/gameActorContextStuff.h"
+#include "Game/gameUnk_710243c330.h"
+#include "KingSystem/Utils/Thread/ActorMessageTransceiver.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Utils/Types.h"
 
@@ -13,9 +16,16 @@
 // users, e.g. Carried::calc_, CarryBox, DemoCookPotCook, Player::m76): the scene subsystem that handles carried
 // items. A sead singleton (disposer at+0x18, size0xc00); carried contexts, transform arrays,
 // locking and flags are recovered below. The singleton/base interfaces and remaining layout are incomplete.
-class GameSceneSubsys12 {
+// The vtable (0x710243bf58) has the same three bases as AmiiboMgr / IceBlockMgr / RuneMgr.
+class GameSceneSubsys12 : public ksys::ActorMessageTransceiver::IHandler,
+                          public uking::Unk_710243c330 {
+    SEAD_SINGLETON_DISPOSER(GameSceneSubsys12)
+    GameSceneSubsys12();
+    ~GameSceneSubsys12() override;
+
 public:
-    static GameSceneSubsys12* instance() { return sInstance; }
+    // 0x7100665528
+    int handleMessage(const ksys::Message& message) override;
 
     // 0x7100662aec / 0x7100662b4c
     void init(sead::Heap* heap);
@@ -67,29 +77,39 @@ public:
     // 0x710066551c: configured delay before restoring carried bodies' contact layer.
     s32 sub_710066551C() const;
 
-    u8 _0[0x38];
-    sead::CriticalSection _38;
-    u8 _78[0xd0 - 0x78];
-    f32 _d0;
-    s32 _d4;
+    /* 0x38 */ sead::CriticalSection _38;
+    /* 0x78 */ ksys::ActorMessageTransceiver mTransceiver{*this};
+    f32 _d0 = 0.0f;
+    s32 _d4 = 0;
     sead::Matrix34f _d8;
     sead::Matrix34f _108;
     sead::Matrix34f _138;
     // ctor62478 initializes five matrices; cooking664f8c writes index stride0x30.
     sead::SafeArray<sead::Matrix34f, 5> _168;
-    u8 _258[0x270 - 0x258];
-    f32 _270;
-    u8 _274[0x300 - 0x274];
+    u8 _258[0x260 - 0x258];
+    sead::Vector2f _260{0.1f, 1.0f};
+    sead::Vector2f _268{0.1f, 0.32f};
+    f32 _270 = 0.0f;
+    u32 _274 = 0;
+    u32 _278 = 0;
+    f32 _27c;
+    struct Unk280 {
+        u64 _0 = 0;
+        u32 _8 = 0;
+    };
+    sead::SafeArray<Unk280, 6> _280;
+    sead::Vector3f _2e0 = sead::Vector3f::ey;
+    u32 _2ec = 0;
+    sead::Vector3f _2f0 = sead::Vector3f::ez;
+    u8 _2fc[4];
     ksys::act::BaseProcLink _300;
-    ActorContextStuff* _310;
-    ActorContextStuff _318;
-    /* 0xa78 */ sead::Atomic<u32> _a78;
-    u8 _a7c[0xa98 - 0xa7c];
+    ActorContextStuff* _310 = nullptr;
+    ActorContextStuff _318{nullptr};
+    /* 0xa78 */ sead::Atomic<u32> _a78{0};
+    u8 _a7c[4];
+    /* 0xa80 */ sead::TList<ActorContextStuff*> _a80;
     // 664c30/664cc0 read five sets of five Vector3f offsets, stride0x3c.
     sead::SafeArray<sead::SafeArray<sead::Vector3f, 5>, 5> _a98;
     sead::SafeArray<sead::Vector3f, 5> _bc4;
-
-    // 0x71025c5a00
-    static GameSceneSubsys12* sInstance;
 };
 static_assert(sizeof(GameSceneSubsys12) == 0xc00);
