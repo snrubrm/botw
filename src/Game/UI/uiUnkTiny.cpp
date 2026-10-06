@@ -231,6 +231,19 @@ Unk_7102474bc8::~Unk_7102474bc8() {
 // 0x7100937d9c
 Unk_7102474dd0::~Unk_7102474dd0() = default;
 
+// 0x7100937e9c
+void Unk_7102474dd0::m2(const sead::Vector2f& a, const sead::Vector2f& b) {
+    _20 = _18;
+    const sead::Vector2f pos = a + b + _20;
+    _20 = pos;
+    if (Unk_PaneTransform* pane = _10) {
+        pane->_30.x = pos.x;
+        pane->_30.y = pos.y;
+        pane->_38 = 0;
+        pane->_58 |= 0x10;
+    }
+}
+
 // 0x71010a7bcc
 Unk_7102509148::Unk_7102509148() = default;
 

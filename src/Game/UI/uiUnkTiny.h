@@ -4,6 +4,7 @@
 #include <container/seadBuffer.h>
 #include <container/seadPtrArray.h>
 #include <container/seadSafeArray.h>
+#include <math/seadVector.h>
 #include <prim/seadEnum.h>
 #include <prim/seadSafeString.h>
 
@@ -482,14 +483,39 @@ public:
     /* 0x150 */ u16 _150 = 0;
 };
 
-// Member of several screens (0x28 bytes, e.g. ScreenAppHome 0x38a0 ... 0x3918): virtual destructor and one more
-// virtual function (0x7100937e9c, not decompiled).
+// Placeholder for the pane-like object Unk_7102474dd0 positions (a translation at 0x30 and a dirty bit in the byte at 0x58).
+struct Unk_PaneTransform {
+    u8 _0[0x30];
+    sead::Vector2f _30;
+    f32 _38;
+    u8 _3c[0x58 - 0x3c];
+    u8 _58;
+};
+
+// Member of several screens (0x28 bytes, e.g. ScreenAppHome 0x38a0 ... 0x3918): a position (`_18` + the offsets
+// passed to m2) applied to one object.
 class Unk_7102474dd0 {
 public:
     virtual ~Unk_7102474dd0();
-    virtual void m2();
+    // 0x7100937e9c
+    virtual void m2(const sead::Vector2f& a, const sead::Vector2f& b);
 
-    u8 _8[0x20];
+    u8 _8[8];
+    Unk_PaneTransform* _10;
+    sead::Vector2f _18;
+    sead::Vector2f _20;
+};
+static_assert(sizeof(Unk_7102474dd0) == 0x28);
+
+// vtable 0x7102493bd0: the same position applied to a list of objects (the PauseMenu screen's own member).
+class Unk_7102493bd0 : public Unk_7102474dd0 {
+public:
+    ~Unk_7102493bd0() override;
+    // 0x7100a3eca4
+    void m2(const sead::Vector2f& a, const sead::Vector2f& b) override;
+
+    sead::Buffer<Unk_PaneTransform*> _28;
+    s32 _38;
 };
 
 // Element of ScreenOptionWindow::_3698 (owned by the screen; `delete` destroys the member at 0x70).
