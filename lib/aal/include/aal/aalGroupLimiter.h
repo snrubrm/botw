@@ -11,14 +11,7 @@ namespace aal {
 
 class Group;
 class SoundSource;
-
-/// Limits how often a sound can be requested in a group. TODO: only the members GroupLimiter calls are declared
-/// (0x7100b83650 / 0x7100b836c4).
-class RequestIntervalLimiter {
-public:
-    void calc();
-    bool limit(SoundSource* source);
-};
+class RequestIntervalLimiter;
 
 class ActiveSoundLimiter;
 class RequestSoundLimiter;

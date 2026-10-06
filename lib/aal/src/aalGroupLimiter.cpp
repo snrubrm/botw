@@ -1,6 +1,7 @@
 #include "aal/aalGroupLimiter.h"
 #include "aal/aalGroup.h"
 #include "aal/aalGroupMgr.h"
+#include "aal/aalRequestIntervalLimiter.h"
 #include "aal/aalSystemAccessor.h"
 
 namespace aal {

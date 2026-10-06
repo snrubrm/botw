@@ -15,6 +15,7 @@ add_library(aal OBJECT
   include/aal/aalISpeakerBalanceSupplier.h
   include/aal/aalIUnifiable.h
   include/aal/aalNamedObj.h
+  include/aal/aalRequestIntervalLimiter.h
   include/aal/aalSettings.h
   include/aal/aalShape.h
   include/aal/aalSoundController.h
@@ -23,6 +24,7 @@ add_library(aal OBJECT
   include/aal/aalSoundSourceUnifier.h
   include/aal/aalSpatialCalculator.h
   include/aal/aalSpatialSetting.h
+  include/aal/aalStopWatch.h
   include/aal/aalSystem.h
   include/aal/aalSystemAccessor.h
   include/aal/aalTimedFader.h
@@ -38,9 +40,11 @@ add_library(aal OBJECT
   src/aalHandle.cpp
   src/aalISpeakerBalanceSupplier.cpp
   src/aalNamedObj.cpp
+  src/aalRequestIntervalLimiter.cpp
   src/aalShape.cpp
   src/aalSoundGroup.cpp
   src/aalSimpleTimedFader.cpp
+  src/aalStopWatch.cpp
   src/aalPlayingStateController.cpp
   src/aalSoundController.cpp
   src/aalSoundParam.cpp
