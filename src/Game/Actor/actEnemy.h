@@ -363,7 +363,7 @@ public:
     /* 0xf40 */ s32 _f40 = 0;
     /* 0xf44 */ s32 _f44 = -1;
     /* 0xf48 */ f32 _f48 = 0;
-    /* 0xf4c */ u32 _f4c = 0;
+    /* 0xf4c */ f32 _f4c = 0;  // compared with the global ForceTired / ForceTiredNoSight / ForceWarpReturn LOD counts
     /* 0xf50 */ f32 _f50 = -1.0;
     /* 0xf54 */ sead::BitFlag16 _f54;
     /* 0xf58 */ Actor* _f58 = this;

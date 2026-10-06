@@ -1,5 +1,7 @@
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/Attention/actActorAttention.h"
+#include "KingSystem/ActorSystem/actGlobalParameter.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectGlobal.h"
 #include "KingSystem/ActorSystem/Attention/actAttClient.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include <cmath>
@@ -240,6 +242,47 @@ bool setDamageCallbackTiming(ksys::act::Actor* actor, s32 timing,
         return false;
     mgr->addDamageCallback(timing, callback);
     return true;
+}
+
+// 0x71005e1fa8 / 0x71005e2068 / 0x71005e2128 (lane1 s43): the Enemy's `_f4c` reached the GlobalParameter's ForceTired /
+// ForceTiredNoSight / ForceWarpReturn LOD count.
+bool sub_71005E1FA8(ksys::act::Actor* actor) {
+    auto* global = ksys::act::GlobalParameter::instance();
+    if (!global)
+        return false;
+    auto* param = global->getGlobalParam();
+    if (!param)
+        return false;
+    f32 value = 0.0f;
+    if (auto* enemy = sead::DynamicCast<Enemy>(actor))
+        value = enemy->_f4c;
+    return value >= f32(param->mEnemyForceTiredLODCount.ref());
+}
+
+bool sub_71005E2068(ksys::act::Actor* actor) {
+    auto* global = ksys::act::GlobalParameter::instance();
+    if (!global)
+        return false;
+    auto* param = global->getGlobalParam();
+    if (!param)
+        return false;
+    f32 value = 0.0f;
+    if (auto* enemy = sead::DynamicCast<Enemy>(actor))
+        value = enemy->_f4c;
+    return value >= f32(param->mEnemyForceTiredNoSightLODCount.ref());
+}
+
+bool sub_71005E2128(ksys::act::Actor* actor) {
+    auto* global = ksys::act::GlobalParameter::instance();
+    if (!global)
+        return false;
+    auto* param = global->getGlobalParam();
+    if (!param)
+        return false;
+    f32 value = 0.0f;
+    if (auto* enemy = sead::DynamicCast<Enemy>(actor))
+        value = enemy->_f4c;
+    return value >= f32(param->mEnemyForceWarpReturnLODCount.ref());
 }
 
 // NON_MATCHING: same loop; the original keeps its three `return false` exits as separate blocks and numbers the loop
