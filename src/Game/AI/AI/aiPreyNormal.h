@@ -100,6 +100,10 @@ public:
     void sub_7100500B50(bool, bool, bool);
 
 protected:
+    // 0x71004ff740: whether the target (the player) is far enough (relative to its speed x 45) but inside ChangeBattleStateRadius of _e0 and m39(_e0) does not hold
+    bool sub_71004FF740();
+    // 0x71004ff8a0: whether the current target (a prey / swarm animal or an NPC that is not sub_7100022FD0) is within AllowRoarRadius of _e0 (needs _100 >= 1 / 2 hits)
+    bool sub_71004FF8A0();
     // 0x71004fe594: "ふり向き" (turn around) with the target position
     bool sub_71004FE594();
     // 0x7100500cd8: escape state "ダメージ逃走" (when the escape state is enabled; otherwise sub_71004FCA60)

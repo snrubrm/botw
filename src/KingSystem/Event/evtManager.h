@@ -121,6 +121,8 @@ public:
     f32 sub_7100DB1138(int idx) const;
     void sub_7100DB1158(int idx);
     f32 sub_7100DB1174(int idx) const;
+    // 0x7100db1184: the name of the active event (an empty string without one)
+    const char* sub_7100DB1184() const;
 
     // 0x7100db20d0 / 0x7100db137c (CSV EventMgr::__auto11 / __auto8; placeholder names): the active flow's
     // type is 1 (timeline) / the `_1b8` member of the active flow's resource

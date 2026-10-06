@@ -330,6 +330,53 @@ bool PreyNormal::sub_71004FE594() {
     return true;
 }
 
+// 0x71004ff8a0
+// NON_MATCHING: register allocation of the first compare only (the original loads _100 into w8 and the required hit
+// count into w9)
+bool PreyNormal::sub_71004FF8A0() {
+    const s32 required = *mIsPositiveAttacker_s ? 2 : 1;
+    if (required < s32(_100))
+        return false;
+    auto* link = _d0 ? &_d0->_c48._8 : &ksys::act::sUnk_71026505e0;
+    const bool is_prey = ksys::act::isPreyOrSwarm(link);
+    const bool is_npc = ksys::act::isNPCProfile(link);
+    if (!is_prey && !is_npc)
+        return false;
+    if (is_npc) {
+        ksys::act::ActorConstDataAccess accessor;
+        if (!ksys::act::acquireActor(link, &accessor) || accessor.sub_7100022FD0())
+            return false;
+    }
+    return (mActor->getMtx().getTranslation() - _e0).length() <= *mAllowRoarRadius_s;
+}
+
+// 0x71004ff740
+// NON_MATCHING: block layout / the two distance compares are one conditional-compare chain in the original (the radius
+// is loaded before the compares) and every exit is a separate `mov w0, wzr` / `orr w0, wzr, #1`
+bool PreyNormal::sub_71004FF740() {
+    if (!(_d0 ? _d0->_c48._8 : ksys::act::sUnk_71026505e0).hasProc())
+        return false;
+    const f32 x = mActor->getMtx().m[0][3];
+    const f32 z = mActor->getMtx().m[2][3];
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(_d0 ? &_d0->_c48._8 : &ksys::act::sUnk_71026505e0, &accessor);
+    const f32 distance = std::sqrt((_e0.x - x) * (_e0.x - x) + (_e0.z - z) * (_e0.z - z));
+    f32 threshold;
+    if (*mIsPositiveAttacker_s) {
+        threshold = 0.0f;
+    } else {
+        const sead::Vector3f& velocity = accessor.getVelocity();
+        threshold = std::sqrt(velocity.x * velocity.x + velocity.z * velocity.z) * 45.0f;
+    }
+    if (ksys::act::isPlayerProfile(accessor) && !accessor.sub_7100D12E64()) {
+        if (distance >= threshold && distance < *mChangeBattleStateRadius_s) {
+            if (!m39(_e0))
+                return true;
+        }
+    }
+    return false;
+}
+
 }  // namespace uking::ai
 
 using ksys::act::Unk_71024dc858;

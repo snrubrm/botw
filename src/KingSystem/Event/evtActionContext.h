@@ -35,6 +35,8 @@ public:
     void statusStuff_2();
     // 0x7100da5680 (CSV x_1)
     void x_1();
+    // 0x7100da572c (CSV unnamed; the missing x_2): the same body as x_1
+    void x_2();
     // 0x7100da5360 (CSV x_3): declaration only (called with the actor's BaseProcLink)
     void x_3(act::BaseProcLink* link);
     // 0x7100da53e4 (CSV unnamed; placeholder name): like x_3 with status 1 / message 0x800008

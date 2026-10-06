@@ -233,6 +233,11 @@ void EventFlowBase::acquireEventFlow() {
     _340 |= 2;
 }
 
+// 0x7100db8a14
+const char* EventFlowBase::sub_7100DB8A14() {
+    return _100->m7();
+}
+
 // 0x7100db8a24
 bool EventFlowBase::isPlaying() {
     return _100->isPlaying();

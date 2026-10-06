@@ -36,4 +36,9 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(ResidentEvent, 0x1d0);
 
+struct CallArg;
+// 0x7100701aa8 (declared here: the free function of ResidentEvent's TU; called by NPCClerkRoot): calls the
+// event manager's callEvent(arg) when the manager exists.
+bool sub_7100701AA8(const CallArg& arg);
+
 }  // namespace ksys::evt

@@ -7,6 +7,22 @@
 
 namespace ksys::evt {
 
+bool EventSpeaker::getPreviousPos(sead::Vector3f* out) const {
+    if (!mLink.hasProc())
+        return false;
+    if (out)
+        *out = mPreviousPos;
+    return true;
+}
+
+bool EventSpeaker::getPos(sead::Vector3f* out) const {
+    if (!mLink.hasProc())
+        return false;
+    if (out)
+        *out = mPos;
+    return true;
+}
+
 bool EventSpeaker::setSpeaker(act::Actor* actor) {
     {
         auto lock = sead::makeScopedLock(mCS);

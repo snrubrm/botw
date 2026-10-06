@@ -1,5 +1,6 @@
 #include "KingSystem/Event/evtResidentEvent.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Event/evtBaseProcLinkForEvent.h"
 #include "KingSystem/Event/evtManager.h"
 
 namespace ksys::evt {
@@ -71,6 +72,12 @@ bool ResidentEvent::loadEvent() {
     mEventFlow = flow_mgr->loadSimple(mLink.mMetadata.getEventName().cstr(),
                                       mLink.mMetadata.getEntryPointName().cstr());
     return mEventFlow != nullptr;
+}
+
+bool sub_7100701AA8(const CallArg& arg) {
+    if (auto* manager = Manager::instance())
+        return manager->callEvent(arg);
+    return false;
 }
 
 }  // namespace ksys::evt

@@ -195,6 +195,12 @@ f32 Manager::sub_7100DB1174(int idx) const {
     return _1d2d0->sub_7101273448(idx);
 }
 
+const char* Manager::sub_7100DB1184() const {
+    if (!_1d2b8)
+        return &sead::SafeString::cNullChar;
+    return _1d2b8->getEventName().cstr();
+}
+
 bool Manager::sub_7100DB0CA0(const Metadata& metadata, act::Actor* actor) {
     return false;
 }

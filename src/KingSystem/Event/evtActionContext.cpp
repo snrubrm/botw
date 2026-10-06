@@ -57,6 +57,22 @@ void ActionContext::statusStuff_2() {
     mStatus = status == 3 ? 7 : (status == 4 ? 8 : 0);
 }
 
+// 0x7100da572c
+void ActionContext::x_2() {
+    switch (mStatus) {
+    case 1:
+        mStatus = 7;
+        break;
+    case 2:
+        mStatus = 8;
+        break;
+    default:
+        mStatus = 0;
+        _af4 = 0;
+        break;
+    }
+}
+
 // 0x7100da5680
 void ActionContext::x_1() {
     switch (mStatus) {

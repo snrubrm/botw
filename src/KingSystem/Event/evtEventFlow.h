@@ -144,6 +144,8 @@ public:
     void setFlag4();
     // 0x7100db8b68 (CSV evt::EventFlowBase::exitEventMaybe)
     void exitEventMaybe();
+    // 0x7100db8a14 (placeholder name): the handle's slot 7 (a status text; EventFlowMovie::printStatus formats it)
+    const char* sub_7100DB8A14();
     // 0x7100db8a24 (CSV evt::EventFlowBase::isPlaying)
     bool isPlaying();
     // 0x7100db6cfc (CSV unnamed; called by Context::updateEventsStatus): forwards to the handle's slot 6

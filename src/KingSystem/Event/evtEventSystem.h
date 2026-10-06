@@ -15,6 +15,10 @@ class EventSpeaker {
 public:
     // 0x7100e497fc (CSV evt::S3::setSpeaker): replaces the speaker link; false if `actor` could not be linked.
     bool setSpeaker(act::Actor* actor);
+    // 0x7100e498f0 / 0x7100e49944 (placeholder names): copy the previous / current position of the speaker actor
+    // (false without a linked actor).
+    bool getPreviousPos(sead::Vector3f* out) const;
+    bool getPos(sead::Vector3f* out) const;
 
     u8 _0[8];
     /* 0x08 */ act::BaseProcLink mLink;
