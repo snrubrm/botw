@@ -1,10 +1,33 @@
 #include "Game/AI/Action/actionStalPartCatch.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/Ragdoll/physRagdollInstance.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
 
 namespace uking::action {
 
 StalPartCatch::StalPartCatch(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
 StalPartCatch::~StalPartCatch() = default;
+
+void StalPartCatch::sub_7100278AC0(bool none) {
+    auto* physics = mActor->getPhysics();
+    if (!physics)
+        return;
+    auto* ragdoll = physics->getRagdollInstance();
+    if (!ragdoll)
+        return;
+    if (none) {
+        ragdoll->setContactNone();
+        return;
+    }
+    ragdoll->setContactAll();
+    ragdoll->disableContactLayer(ksys::phys::ContactLayer::EntityGround);
+    ragdoll->disableContactLayer(ksys::phys::ContactLayer::EntityGroundSmooth);
+    ragdoll->disableContactLayer(ksys::phys::ContactLayer::EntityGroundRough);
+    ragdoll->disableContactLayer(ksys::phys::ContactLayer::EntityGroundObject);
+    ragdoll->disableContactLayer(ksys::phys::ContactLayer::EntityTree);
+    ragdoll->disableContactLayer(ksys::phys::ContactLayer::EntityObject);
+}
 
 bool StalPartCatch::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);

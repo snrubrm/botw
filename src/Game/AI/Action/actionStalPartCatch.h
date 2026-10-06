@@ -19,6 +19,10 @@ public:
 protected:
     void calc_() override;
 
+    // 0x7100278ac0 (placeholder name): switches the ragdoll's contacts off (`none`) or to "everything but the
+    // ground, trees and objects".
+    void sub_7100278AC0(bool none);
+
     // static_param at offset 0x20
     const int* mPartIndex_s{};
     // static_param at offset 0x28
