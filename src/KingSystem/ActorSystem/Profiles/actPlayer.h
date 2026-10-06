@@ -703,7 +703,8 @@ public:
     /* 0x20d8 */ u8 _20d8[0x20f0 - 0x20d8];
     /* 0x20f0 */ f32 _20f0;
     /* 0x20f4 */ f32 _20f4;
-    /* 0x20f8 */ u8 _20f8[0x2100 - 0x20f8];
+    /* 0x20f8 */ f32 _20f8;  // cleared by PlayerGrabThrow::sub_71007F00D0
+    /* 0x20fc */ u8 _20fc[0x2100 - 0x20fc];
     /* 0x2100 */ f32 _2100;  // PlayerLadderUpEnd::enter_
     /* 0x2104 */ f32 _2104;  // the blend frame of the last switchToAnimSequenceMaybe
     /* 0x2108 */ u8 _2108[0x211c - 0x2108];
