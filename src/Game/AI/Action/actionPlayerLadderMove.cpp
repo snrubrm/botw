@@ -1,6 +1,8 @@
 #include "Game/AI/Action/actionPlayerLadderMove.h"
 #include "Game/AI/aiUnk_7101e7c5d0.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayer.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -35,6 +37,14 @@ void PlayerLadderMove::loadParams_() {
 
 void PlayerLadderMove::calc_() {
     PlayerAction::calc_();
+}
+
+bool PlayerLadderMove::isFinished() const {
+    if (mActor->getASList()->x_1(0, 0) == "LadderWait")
+        return true;
+    if (mActor->getASList()->x_1(0, 0) == "LadderUp")
+        return mActor->getASList()->x_4(0, 0);
+    return false;
 }
 
 bool PlayerLadderMove::isChangeable() const {
