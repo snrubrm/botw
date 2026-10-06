@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionSiteBossDie.h"
+#include "Game/Actor/actSiteBoss.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
@@ -18,7 +19,11 @@ void SiteBossDie::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void SiteBossDie::leave_() {
-    ksys::act::ai::Action::leave_();
+    _30.fade();
+    if (auto* boss = sead::DynamicCast<act::SiteBoss>(mActor)) {
+        boss->_2390.sub_71007224D4();
+        boss->_2390._8 = false;
+    }
 }
 
 void SiteBossDie::loadParams_() {

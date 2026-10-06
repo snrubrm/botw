@@ -35,6 +35,18 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(Unk_71023d04f8, 0x38);
 
+// Placeholder name (ctor 0x7100722420(this + 0x2390, boss), dtor 0x71007224cc; size 0x258): SiteBoss::_2390. Wraps a
+// Unk_71025b2aa8Data at +0x240. TODO: incomplete (not modelled).
+struct Unk_7100722420 {
+    // 0x71007224d4 (declared only; lane5 s5): forwards to the Unk_71025b2aa8Data at +0x240 (sub_7100721EFC).
+    void sub_71007224D4();
+
+    u64 _0;  // vtable pointer
+    /* 0x08 */ bool _8;  // cleared by SiteBossDie::leave_
+    u8 _9[0x258 - 9];
+};
+KSYS_CHECK_SIZE_NX150(Unk_7100722420, 0x258);
+
 // Name from the CSV (SiteBoss::*): the four blight Ganons. vtable 0x71023cfef0 (181 slots, no new
 // virtuals), RTTI static 0x71025b0a10 (parent: Enemy). Factory 0x71002cf134 (CSV SiteBoss::construct,
 // which inlines the ctor): new(0x2988).
@@ -231,7 +243,7 @@ public:
     /* 0x2384 */ u32 _2384 = 0;
     /* 0x2388 */ u32 _2388 = 0;
     // object with ctor 0x7100722420(this + 0x2390, this) and dtor 0x71007224cc
-    /* 0x2390 */ u8 _2390[0x25e8 - 0x2390];
+    /* 0x2390 */ Unk_7100722420 _2390;
     /* 0x25e8 */ ksys::evt::ResidentEvent _25e8;
     /* 0x27b8 */ ksys::evt::ResidentEvent _27b8;
 };
