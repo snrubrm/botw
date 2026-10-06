@@ -1,6 +1,8 @@
 #pragma once
 
 #include <prim/seadRuntimeTypeInfo.h>
+#include "KingSystem/Utils/Thread/Task.h"
+#include "KingSystem/Utils/Thread/TaskData.h"
 
 // Placeholder classes (lane4 s47) for vtables of the original that have no name: every class here has only trivial
 // virtual functions (the destructor is empty, the other slots are constant results). The name is the address of
@@ -296,4 +298,18 @@ public:
     virtual void m4();
     virtual void m5();
     virtual void m6();
+};
+
+// vtable 0x71024f9bb8 (4 slots): derives from ksys::util::TaskRequest.
+class Unk_71024f9bb8 : public ksys::util::TaskRequest {
+    SEAD_RTTI_OVERRIDE(Unk_71024f9bb8, ksys::util::TaskRequest)
+public:
+    ~Unk_71024f9bb8() override;
+};
+
+// vtable 0x71024f9e28 (4 slots): derives from ksys::util::TaskData.
+class Unk_71024f9e28 : public ksys::util::TaskData {
+    SEAD_RTTI_OVERRIDE(Unk_71024f9e28, ksys::util::TaskData)
+public:
+    ~Unk_71024f9e28() override;
 };
