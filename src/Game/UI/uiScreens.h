@@ -2490,6 +2490,7 @@ public:
 
 // The state ScreenSaveTransferWindow changes to from many of its state callbacks (0x71025f2de0; placeholder name).
 extern const ksys::StateBase sUnk_71025f2de0;
+extern const ksys::StateBase sUnk_71025f1fa0;
 extern const ksys::StateBase sUnk_71025f2000;
 extern const ksys::StateBase sUnk_71025f2240;
 extern const ksys::StateBase sUnk_71025f23c0;
