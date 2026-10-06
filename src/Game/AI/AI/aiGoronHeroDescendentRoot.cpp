@@ -5,6 +5,7 @@
 #include "Game/UI/uiUnkSingletons.h"
 #include "KingSystem/GameData/gdtSpecialFlags.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/Utils/MathUtil.h"
@@ -136,6 +137,16 @@ void GoronHeroDescendentRoot::changeToWaitForPlayerApproach() {
     pack.addBool(false, "TerrorOccurring", -1);
     pack.addVec3(mActor->getMtx().getTranslation(), "TargetPos", -1);
     changeChild("プレイヤー接近待機", &pack);
+}
+
+void GoronHeroDescendentRoot::sub_7100407988() {
+    _160._18.y(mActor);
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::findLinkedActor(&accessor, mActor, "RegistedActorMessageBroadCastTag");
+    if (accessor.hasProc() && accessor.isStateCalc()) {
+        _200._38 = true;
+        _160.sub_710070DD78(accessor, true);
+    }
 }
 
 }  // namespace uking::ai

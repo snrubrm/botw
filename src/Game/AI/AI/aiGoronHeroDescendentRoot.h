@@ -41,6 +41,9 @@ public:
     // 0x71004091ac (placeholder name): the point of the actor's rail (first one) closest to the actor's position;
     // false without rail points
     bool sub_71004091AC(sead::Vector3f* out);
+    // 0x7100407988 (placeholder name): sets the message sender's payload link to the actor and, if the actor linked by
+    // the "RegistedActorMessageBroadCastTag" link is running, sends it the message (and remembers that in `_200`).
+    void sub_7100407988();
 
 protected:
     // static_param at offset 0x38
