@@ -2491,8 +2491,10 @@ public:
 // The state ScreenSaveTransferWindow changes to from many of its state callbacks (0x71025f2de0; placeholder name).
 extern const ksys::StateBase sUnk_71025f2de0;
 extern const ksys::StateBase sUnk_71025f2000;
+extern const ksys::StateBase sUnk_71025f2240;
 extern const ksys::StateBase sUnk_71025f23c0;
 extern const ksys::StateBase sUnk_71025f2480;
+extern const ksys::StateBase sUnk_71025f2d20;
 extern const ksys::StateBase sUnk_71025f2d80;
 
 class ScreenSaveTransferWindow : public ScreenEx {
@@ -2536,7 +2538,15 @@ public:
     virtual void m184();
     virtual s32 m185();
 
-    u8 _pad_3610[0x366c - 0x3610];
+    /* 0x3610 */ eui::Animator* _3610;
+    /* 0x3618 */ eui::Animator* _3618;
+    /* 0x3620 */ eui::Animator* _3620;
+    u8 _pad_3628[0x3630 - 0x3628];
+    /* 0x3630 */ eui::AnimButton* _3630;
+    /* 0x3638 */ eui::AnimButton* _3638;
+    /* 0x3640 */ eui::AnimButton* _3640;
+    u8 _pad_3648[0x3668 - 0x3648];
+    /* 0x3668 */ s32 _3668;
     s32 _366c;
     virtual void m186();
     virtual void m187();
@@ -2671,6 +2681,8 @@ public:
     virtual void m316();
     virtual s32 m317();
 
+    // 0x7100a428d0 (CSV unnamed, 2.5 KB; declared only): the first-time setup of the animators
+    void sub_7100A428D0();
 };
 
 class ScreenOptionWindow : public ScreenEx {

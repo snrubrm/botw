@@ -586,6 +586,38 @@ void ScreenMainShortCut::m166() {
     m80(false);
 }
 
+// 0x7100a43690
+void ScreenSaveTransferWindow::m158() {
+    _366c = -1;
+    s32 old_index = _3668;
+    _3668 = 1;
+    if (old_index == -1) {
+        sub_7100A428D0();
+        return;
+    }
+    _3618->StopAtMax();
+    _3620->PlayAuto(1.0f);
+    _3630->setFlag10(false);
+    _3638->setFlag10(false);
+    _3640->setFlag10(false);
+}
+
+// 0x7100a44394
+void ScreenSaveTransferWindow::m210() {
+    _366c = -1;
+    s32 old_index = _3668;
+    _3668 = 0;
+    if (old_index == -1) {
+        sub_7100A428D0();
+        return;
+    }
+    _3618->StopAtMax();
+    _3620->PlayAuto(1.0f);
+    _3630->setFlag10(false);
+    _3638->setFlag10(false);
+    _3640->setFlag10(false);
+}
+
 // 0x7100a43734
 void ScreenSaveTransferWindow::m159() {
     switch (_366c) {

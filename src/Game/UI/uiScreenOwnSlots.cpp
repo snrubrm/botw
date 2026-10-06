@@ -304,6 +304,18 @@ void ScreenSaveTransferWindow::m195() {
     mStateMachine.changeState(&sUnk_71025f2de0);
 }
 
+// 0x7100a439d4
+void ScreenSaveTransferWindow::m179() {
+    switch (_366c) {
+    case 0x8d:
+        mStateMachine.changeState(&sUnk_71025f2240);
+        break;
+    case 0x8c:
+        mStateMachine.changeState(&sUnk_71025f2d20);
+        break;
+    }
+}
+
 // 0x7100a44160
 void ScreenSaveTransferWindow::m199() {
     if (_366c == 0x8b)
