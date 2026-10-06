@@ -2,6 +2,7 @@
 
 #include <math/seadMatrix.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/System/Timer.h"
 #include "KingSystem/ActorSystem/actCCAccessor.h"
 #include "KingSystem/System/VFRValue.h"
 
@@ -27,6 +28,7 @@ protected:
     // 0x7100134380 (declared only).
     bool sub_7100134380();
     bool sub_710013443C();
+    bool sub_7100134774(const sead::Vector3f& dir);
 
     struct Params {
         // static_param at offset 0x20
@@ -48,7 +50,7 @@ protected:
     };
     Params mParams;
     ksys::VFRValue _60;
-    sead::Vector3f _6c{0, 0, 0};
+    ksys::Timer _6c{0.0f, 0.0f, 0.0f};
     sead::Vector3f _78{0, 0, 0};
     sead::Matrix33f _84;
     ksys::VFRValue _a8;
