@@ -101,6 +101,15 @@ inline sead::Vector3f getUpDir(ksys::act::Actor* actor) {
 }
 void sub_710072C1B4(ksys::phys::CharacterController* controller, const sead::Vector3f& up);
 
+/// 0x710072cd88 (declaration only; signature inferred from JumpTo::sub_71001C72EC and
+/// JumpToTargetFromWater::m42, name is a placeholder): ballistic jump solver. Given the jump height
+/// `height`, the start, the target and the gravity it writes the launch speed to `speed` and returns
+/// whether a solution exists.
+bool sub_710072CD88(f32 height, f32* speed, f32* time, const sead::Vector3f* start,
+                    const sead::Vector3f* target, const sead::Vector3f* gravity);
+/// 0x710072d068 (declaration only, placeholder name): sqrt(2 * |gravity| * height).
+f32 sub_710072D068(const sead::Vector3f* gravity, f32 height);
+
 /// 0x71000891c8 (the one out-of-line copy of an inline function of the original; it sits in the
 /// AirOctaFloatBase TU, ~35 callers): the actor's forward direction (matrix Z axis) with the
 /// component along its up direction removed, normalised. Placeholder name.

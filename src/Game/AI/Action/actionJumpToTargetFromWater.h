@@ -22,6 +22,8 @@ protected:
     void m32() override;
     void m33() override;
     void m34() override;
+    void m40() override;
+    void m42() override;
     void m43() override;
 
     // static_param at offset 0xa0
