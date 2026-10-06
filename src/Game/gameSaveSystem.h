@@ -22,6 +22,8 @@ public:
     bool isFinishedSavingMaybe() const;
     // 0x71009167f8 (CSV SaveSystem::requestAutoSaveForGameClear; declaration only)
     void requestAutoSaveForGameClear(const sead::SafeString& game_clear_flag);
+    // 0x71009146f8 (CSV SaveSystem::setRetryData; declaration only)
+    bool setRetryData();
 
     u8 _28[0x1a50 - 0x28];
     // bit 2 (4): auto saving paused (cleared by DisableAutoSavePausing); bit 11 (0x800) is tested by calc
