@@ -77,6 +77,15 @@ public:
     void sub_7100664C30(sead::Vector3f* out, s32 count, s32 index);
     // 0x7100664cc0: unscaled carried-item placement offset.
     void sub_7100664CC0(sead::Vector3f* out, s32 count, s32 index);
+    // 0x7100665408 / 0x7100665484 / 0x71006654f0 (placeholder names; the callers pass null): a random
+    // scene parameter, depending on bit 3 of `_a78`; a fixed one (0x34 or 0x38 of the scene parameters).
+    f32 sub_7100665408(Unk_710243be90* entry) const;
+    f32 sub_7100665484(Unk_710243be90* entry) const;
+    f32 sub_71006654F0(Unk_710243be90* entry) const;
+    // 0x7100662af8 (placeholder name): queues the named carried actor in the embedded context.
+    void sub_7100662AF8(const char* name, sead::Heap* heap);
+    // 0x71006649c4 (placeholder name): removes the link's carried entry (and its grabbed inventory item).
+    bool sub_71006649C4(ksys::act::BaseProcLink* link);
     // 0x7100665360: releases the carried actor and resets carry flags (declaration only).
     void sub_7100665360();
     // 0x710066551c: configured delay before restoring carried bodies' contact layer.

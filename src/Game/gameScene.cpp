@@ -1,5 +1,7 @@
 #include "Game/gameScene.h"
 #include "Game/gameSceneStateMachine.h"
+#include "Game/gamePlayerResetPosMgr.h"
+#include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/System/StageInfo.h"
 
 namespace uking {
@@ -9,6 +11,9 @@ namespace uking {
 static bool sSceneStartEventReady;
 static bool sIsTransitionFromFarActorDone;
 static bool sIsStageUnloaded;
+
+// 0x71025cb0eb (not a TU-local: the original addresses it through the GOT)
+bool sForceEnableGlidingSurfingRupee;
 
 bool GameScene::sIsOpenWorldDemo{};
 GameScene* GameScene::sInstance;
@@ -205,6 +210,10 @@ void gameSceneSetFlag(bool value) {
     GameScene::sFlag = value;
 }
 
+void setForceEnableGlidingSurfingRupee(bool value) {
+    sForceEnableGlidingSurfingRupee = value;
+}
+
 bool gameSceneGetFlag() {
     return GameScene::sFlag;
 }
@@ -251,6 +260,33 @@ bool GameScene::StageSelectReenter() {
 
 void GameScene::setFadeType(s32 type) {
     _93c = type;
+}
+
+void GameScene::setNeedStageGenFinalStepInPreCalc() {
+    _8cb = true;
+}
+
+bool GameScene::isNotNeedStageGenFinalStepInPreCalc() const {
+    return !_8cb;
+}
+
+void GameScene::sub_71007B4BCC() {
+    _944.setBitOn(0);
+}
+
+void GameScene::sub_71007B4BE4() {
+    _944.setBitOff(0);
+    _950.setSignal();
+}
+
+bool GameScene::sub_71007B4C00() const {
+    return _948.isBitOn(1);
+}
+
+// NON_MATCHING: the original calls StateBase::getId() through the vtable on the global state; clang devirtualizes the
+// call on the static state object (same as the UI screens' state comparisons).
+bool GameScene::sub_71007B0D3C() const {
+    return _1d0.getState()->getId() == sUnk_71025cb350.getId();
 }
 
 bool GameScene::hasStageBinder() const {

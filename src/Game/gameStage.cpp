@@ -1,5 +1,6 @@
 #include "Game/gameStage.h"
 #include "Game/gameScene.h"
+#include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/World/worldManager.h"
 #include "KingSystem/World/worldEnvMgr.h"
 
@@ -8,6 +9,54 @@ namespace uking {
 // (defined in a different file than GameScene::m1: its caller does not inline it in the original)
 void GameScene::sub_71007B7D78() {
     sInstance2->sub_71007B4B50();
+}
+
+// Thunks to members of the GameScene instances (in this file because the originals do not inline the members).
+bool gameSceneHasStageBinder() {
+    return GameScene::sInstance2->hasStageBinder();
+}
+
+void gameSceneSetNeedStageGenFinalStepInPreCalc() {
+    GameScene::sInstance2->setNeedStageGenFinalStepInPreCalc();
+}
+
+bool gameSceneIsNotNeedStageGenFinalStepInPreCalc() {
+    return GameScene::sInstance2->isNotNeedStageGenFinalStepInPreCalc();
+}
+
+// NON_MATCHING: the original loads the instance first and widens the argument with `and x1, x0, #0xffffffff`
+// (a u32 or an enum parameter gives the same code as s32 here).
+void gameSceneSetFadeType(s32 type) {
+    GameScene::sInstance2->setFadeType(type);
+}
+
+void sub_71007B7E4C() {
+    GameScene::sInstance2->sub_71007B4BCC();
+}
+
+void sub_71007B7E5C() {
+    GameScene::sInstance2->sub_71007B4BE4();
+}
+
+bool sub_71007B7E6C() {
+    return GameScene::sInstance2->sub_71007B4C00();
+}
+
+void GameScene::sub_71007B8DB4() {
+    sInstance3->_8c9 = true;
+}
+
+bool GameScene::hasLoadingScreenStarted() {
+    if (sInstance3)
+        return sInstance3->_6e6;
+    return false;
+}
+
+void recoverLifeAndStamina() {
+    ksys::act::PlayerInfo::instance()->setLifeForPlayerActor(
+        ksys::act::PlayerInfo::instance()->getMaxLifeFromPlayerActor());
+    ksys::act::PlayerInfo::instance()->setStaminaCurrentMax(
+        ksys::act::PlayerInfo::instance()->getMaxStaminaFromPlayerActor());
 }
 
 // 0x71025cc6a8 (.bss; the type is unknown: a string object that TitleStageArg::m8 hands out; its initialiser is
@@ -163,3 +212,8 @@ void ViewerStage::initForStageGen() {
 }
 
 }  // namespace uking
+
+// 0x71007b7da4 (CSV name; global namespace: E3Mgr declares it that way)
+bool isStageSelectState() {
+    return uking::GameScene::sInstance2->sub_71007B0D3C();
+}

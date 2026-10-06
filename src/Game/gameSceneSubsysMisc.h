@@ -57,13 +57,21 @@ public:
     void init();
     // 0x71009059d4: _d8[_148]
     bool sub_71009059D4() const;
-    // 0x7100905b34: declaration only, query the selected bank flag.
+    // 0x7100905b34: _fc[_148]
     bool sub_7100905B34() const;
+    // 0x7100905bec (placeholder name): true unless the selected `_d8` flag and `_32f` are set and `_138 > 3.5`.
+    bool sub_7100905BEC() const;
+    // 0x7100905b4c (placeholder name): `_331` and `pos` is within `_f4[_148]` of the selected position.
+    bool sub_7100905B4C(const sead::Vector3f& pos) const;
+    // 0x7100905d44 (placeholder name): the actor's id is `_140`.
+    bool sub_7100905D44(ksys::act::Actor* actor) const;
+    // 0x7100905ca8 (placeholder name): sets the selected position and its radius.
+    void sub_7100905CA8(const sead::Vector3f& pos, f32 radius);
     // 0x71009059ec: acquires the actor of the link at +0xa8 into `accessor` (if given).
     void sub_71009059EC(ksys::act::ActorConstDataAccess* accessor);
     // 0x7100905c70: _fc[_144] = true
     void sub_7100905C70();
-    // 0x7100905c8c: declaration only, current selected bank force-off flag.
+    // 0x7100905c8c: _fe[_144] = true
     void sub_7100905C8C();
     // Small accessors (placeholder names after the offsets they use; addresses in the comments).
     void sub_7100905B1C();  // _331 = true
@@ -97,9 +105,9 @@ public:
     sead::SafeArray<bool, 2> _d8;
     u8 _da[0xdc - 0xda];
     sead::SafeArray<sead::Vector3f, 2> _dc;
-    u8 _f4[0xfc - 0xf4];
+    sead::SafeArray<f32, 2> _f4;
     sead::SafeArray<bool, 2> _fc;
-    u8 _fe[0x100 - 0xfe];
+    sead::SafeArray<bool, 2> _fe;
     sead::Vector3f _100;
     u8 _10c[0x124 - 0x10c];
     s32 _124;
@@ -107,7 +115,8 @@ public:
     u8 _12c[0x130 - 0x12c];
     f32 _130;
     f32 _134;
-    u8 _138[0x140 - 0x138];
+    f32 _138;
+    u8 _13c[0x140 - 0x13c];
     s32 _140;
     s32 _144;
     s32 _148;

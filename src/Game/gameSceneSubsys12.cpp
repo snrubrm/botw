@@ -41,6 +41,13 @@ struct SceneParams {
 };
 KSYS_VISIBILITY_HIDDEN SceneParams sUnk_710243bfd0;
 
+// Zero-initialised pair at 0x71025c5a08 (nothing in the binary writes it; hidden visibility keeps the loads).
+struct SceneRange {
+    f32 _0;
+    f32 _4;
+};
+KSYS_VISIBILITY_HIDDEN SceneRange sUnk_71025c5a08;
+
 SEAD_SINGLETON_DISPOSER_IMPL(GameSceneSubsys12)
 
 // NON_MATCHING: the original merges the two (0.1, 1.0) / (0.1, 0.32) pairs into 64-bit stores, loads
@@ -190,6 +197,45 @@ bool GameSceneSubsys12::sub_7100664A64(ksys::act::BaseProcLink* link, bool immed
     if (!_a78.isBitOn(0))
         return _318.sub_710065F258(link, immediately);
     return false;
+}
+
+f32 GameSceneSubsys12::sub_7100665408(Unk_710243be90* entry) const {
+    const bool flag = _a78 & 8;
+    const f32 min = flag ? sUnk_710243bfd0._24 : sUnk_71025c5a08._0;
+    const f32 max = flag ? sUnk_710243bfd0._28 : sUnk_71025c5a08._4;
+    return sead::GlobalRandom::instance()->getF32Range(min, max);
+}
+
+f32 GameSceneSubsys12::sub_7100665484(Unk_710243be90* entry) const {
+    if (!(_a78 & 8))
+        return sUnk_710243bfd0._30;
+    const f32 min = sUnk_710243bfd0._2c;
+    const f32 max = sUnk_710243bfd0._30;
+    return sead::GlobalRandom::instance()->getF32Range(min, max);
+}
+
+f32 GameSceneSubsys12::sub_71006654F0(Unk_710243be90* entry) const {
+    if (entry && (entry->_28 & 0x100))
+        return sUnk_710243bfd0._38;
+    return sUnk_710243bfd0._34;
+}
+
+void GameSceneSubsys12::sub_7100662AF8(const char* name, sead::Heap* heap) {
+    sead::ScopedLock<sead::CriticalSection> lock(&_38);
+    if (!(_a78 & 1))
+        _318.sub_710065DACC(name, heap);
+}
+
+bool GameSceneSubsys12::sub_71006649C4(ksys::act::BaseProcLink* link) {
+    bool removed = false;
+    sead::ScopedLock<sead::CriticalSection> lock(&_38);
+    if (!(_a78 & 1) && _300.hasProc() && _310 && _310->sub_710065F258(link, true)) {
+        if (auto* mgr = uking::ui::PauseMenuDataMgr::instance())
+            mgr->removeGrabbedItem(link);
+        _318.sub_710065F258(link, false);
+        removed = true;
+    }
+    return removed;
 }
 
 void GameSceneSubsys12::sub_7100665360() {

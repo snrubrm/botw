@@ -1,4 +1,5 @@
 #include "Game/gameSceneSubsysMisc.h"
+#include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 
 SEAD_SINGLETON_DISPOSER_IMPL(GameSceneSubsys4)
@@ -16,6 +17,37 @@ bool GameSceneSubsys5::sub_71009059D4() const {
 void GameSceneSubsys5::sub_71009059EC(ksys::act::ActorConstDataAccess* accessor) {
     if (accessor)
         ksys::act::acquireActor(&_a8, accessor);
+}
+
+bool GameSceneSubsys5::sub_7100905B34() const {
+    return _fc[_148];
+}
+
+bool GameSceneSubsys5::sub_7100905BEC() const {
+    if (!_d8[_148])
+        return true;
+    if (!_32f)
+        return true;
+    return _138 > 3.5f;
+}
+
+bool GameSceneSubsys5::sub_7100905B4C(const sead::Vector3f& pos) const {
+    if (!_331)
+        return false;
+    return (_dc[_148] - pos).length() <= _f4[_148];
+}
+
+bool GameSceneSubsys5::sub_7100905D44(ksys::act::Actor* actor) const {
+    return actor->getId() == _140;
+}
+
+void GameSceneSubsys5::sub_7100905CA8(const sead::Vector3f& pos, f32 radius) {
+    _dc[_144] = pos;
+    _f4[_144] = radius;
+}
+
+void GameSceneSubsys5::sub_7100905C8C() {
+    _fe[_144] = true;
 }
 
 void GameSceneSubsys5::sub_7100905C70() {
