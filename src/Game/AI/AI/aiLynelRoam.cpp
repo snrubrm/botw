@@ -2,6 +2,8 @@
 #include <random/seadGlobalRandom.h>
 #include "Game/AI/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Utils/MathUtil.h"
 
 namespace uking::ai {
 
@@ -11,6 +13,49 @@ LynelRoam::~LynelRoam() = default;
 
 bool LynelRoam::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
+}
+
+bool LynelRoam::sub_7100498398(sead::Vector3f* out) {
+    const f32 x = mActor->getMtx().m[0][3];
+    const f32 z = mActor->getMtx().m[2][3];
+    sead::Vector3f direction;
+    sub_71000891C8(&direction, mActor);
+    const f32 angle = sead::GlobalRandom::instance()->getF32() * (2.0f * sead::Mathf::pi() / 3);
+    sead::Vector3f ray = direction;
+    ksys::util::sub_71011EF010(&ray, angle);
+    sead::Vector3f hit;
+    for (int i = 0; i < 3; ++i) {
+        if (sub_710072FD28(mActor, ray, &hit, -1, *mTargetDistMax_s, -1.0f, -1.0f, -1.0f)) {
+            *out = hit;
+            return true;
+        }
+        if (sead::Vector2f(hit.x - x, hit.z - z).squaredLength() >=
+            *mTargetDistMin_s * *mTargetDistMin_s) {
+            *out = hit;
+            return true;
+        }
+        ksys::util::sub_71011EF010(&ray, 2.0f * sead::Mathf::pi() / 3);
+    }
+    return false;
+}
+
+// NON_MATCHING: scheduling of the random-number conversions and constants (the original converts the first
+// draw before the third getU32 call) and stack slots of the ray / hit.
+bool LynelRoam::sub_710049951C(sead::Vector3f* out, const sead::Vector3f& direction) {
+    auto* random = sead::GlobalRandom::instance();
+    const f32 randoms[3] = {random->getF32(), random->getF32(), random->getF32()};
+    const f32 offsets[3] = {0.0f, 0.7853982f, -0.7853982f};
+    sead::Vector3f hit;
+    for (int i = 0; i < 3; ++i) {
+        sead::Vector3f ray = direction;
+        ksys::util::sub_71011EF010(&ray, randoms[i] * 0.34906584f - 0.17453292f + offsets[i]);
+        if (sub_710072FD28(mActor, ray, &hit, -1, *mTargetDistMax_s,
+                           *mTargetDistMax_s - *mTargetDistMin_s, -1.0f, -1.0f)) {
+            *out = hit;
+            return true;
+        }
+    }
+    return false;
 }
 
 // NON_MATCHING: timer load scheduling and vector stack placement differ.

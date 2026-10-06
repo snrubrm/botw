@@ -46,8 +46,9 @@ public:
     // x/x_3/x_5/x_7 helpers below live at 0x71011612e8-0x7101163b24).
     struct Unk2 {
         ~Unk2();
-        // 0x7100507a64 (declaration only): sets the byte flag at 0x44.
-        void sub_7100507A64(bool value);
+        // 0x7100507a64: sets the byte flag at 0x44 (its only out-of-line copy is emitted in
+        // aiPriestBossActorEnemyRoot.cpp, which takes its address).
+        void sub_7100507A64(bool value) { _44[0] = value; }
         struct InitArg;
         bool sub_71011617A8(const InitArg& arg, sead::Heap* heap);
         // 0x7101163998 (declaration only): modifies the actual SDK blend-weight callback argument.
