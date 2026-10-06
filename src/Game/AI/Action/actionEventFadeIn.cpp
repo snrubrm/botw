@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionEventFadeIn.h"
+#include "Game/UI/uiScreens.h"
 
 namespace uking::action {
 
@@ -21,7 +22,23 @@ void EventFadeIn::loadParams_() {
 }
 
 void EventFadeIn::calc_() {
-    EventFade::calc_();
+    if (isFinished() || isFailed())
+        return;
+
+    ui::Screen* screen;
+    if (_40)
+        screen = sead::DynamicCast<ui::Fade>(
+            eui::ScreenMgr::instance()->getScreen(ui::ScreenId::Fade));
+    else
+        screen = sub_7100119888();
+
+    if (screen->isClosed()) {
+        setFinished();
+        mFlags.set(Flag::Changeable);
+    } else if (!screen->isClosedOrClosing()) {
+        setFailed();
+        mFlags.set(Flag::Changeable);
+    }
 }
 
 }  // namespace uking::action

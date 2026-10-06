@@ -36,7 +36,6 @@ void ForkAlwaysRotDownGr::loadParams_() {
     getStaticParam(&mGroundRotAngle_s, "GroundRotAngle");
 }
 
-// NON_MATCHING: scheduling of the rotated-vector multiplies (same operations)
 void ForkAlwaysRotDownGr::calc_() {
     auto* controller = mActor->getCharacterController();
     if (!controller)
@@ -54,8 +53,8 @@ void ForkAlwaysRotDownGr::calc_() {
 
     _28.lerp(*mGroundRotAngle_s, 0.06f);
     _28.setToMin(*mGroundRotAngle_s);
-    sead::Vector3f dir;
-    dir.setRotated(mActor->getMtx(), _34);
+    sead::Vector3f dir = _34;
+    dir.rotate(mActor->getMtx());
     _28.updateStats();
     ksys::act::sub_7100EE5A14(mActor, dir * _28.value);
 }

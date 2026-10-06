@@ -1,4 +1,8 @@
 #include "Game/AI/Action/actionHorseDie.h"
+#include "Game/Actor/actHorseBase.h"
+#include "KingSystem/ActorSystem/actChemical.h"
+#include "Game/AI/aiUnk_71006F5B14.h"
+#include "Game/AI/aiUnk_710072BA90.h"
 #include "Game/Actor/actHorse.h"
 #include "Game/Actor/actRideable.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
@@ -17,8 +21,27 @@ bool HorseDie::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }
 
+// NON_MATCHING: the original computes &mASName_s before &rideable->_18 (two add instructions swapped)
 void HorseDie::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    sub_710072BB28(mActor);
+    if (auto* options = mActor->getHorseOptionsMaybe()) {
+        options->Unk_7100e8b2b8::_8 = 0x200;
+        options->_18.sub_7100E76E74(mASName_s, false);
+    }
+    if (auto* chemical = mActor->getChemicalStuff()) {
+        chemical->sub_7100D8EEE0();
+        if (!sead::DynamicCast<act::HorseBase>(mActor))
+            sub_71006F5940(chemical);
+    }
+    if (auto* horse = sead::DynamicCast<act::HorseBase>(mActor)) {
+        horse->_a98._58 |= 1 << int(act::ExtendedEntity::Flag(act::ExtendedEntity::Flag::_3));
+        horse->_a98._2c = 1.0f;
+        horse->_a98._58 |= 1 << int(act::ExtendedEntity::Flag(act::ExtendedEntity::Flag::_4));
+    }
+    _40 = 0;
+    _44 = -1;
+    _48 = 0;
+    _4c = true;
 }
 
 // NON_MATCHING: only the two SEAD_ENUM stack temporaries are in swapped slots (+8 / +0xc)

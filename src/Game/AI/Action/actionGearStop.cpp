@@ -31,19 +31,17 @@ void GearStop::loadParams_() {
     getMapUnitParam(&mRotateDamp_m, "RotateDamp");
 }
 
-// NON_MATCHING: the original keeps `dir` in memory (stores after getBase / normalize / negate) and negates it in a branch;
-// ours keeps it in registers and uses selects
 void GearStop::calc_() {
     auto* actor = mActor;
     _30 *= *mRotateDamp_m;
     _30.updateStats();
     if (auto* body = actor->getMainBody()) {
-        sead::Vector3f dir;
-        actor->getMtx().getBase(dir, 2);
+        sead::Vector3f dir = actor->getMtx().getBase(2);
         dir.normalize();
         if (*mDgnRotDir_m == 0)
             dir = -dir;
-        body->setAngularVelocity(dir * _30.value, sead::Mathf::epsilon());
+        dir *= _30.value;
+        body->setAngularVelocity(dir, sead::Mathf::epsilon());
     }
 }
 

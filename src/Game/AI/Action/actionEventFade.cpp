@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionEventFade.h"
+#include "Game/UI/uiScreens.h"
 
 namespace uking::action {
 
@@ -26,6 +27,13 @@ void EventFade::loadParams_() {
 
 void EventFade::calc_() {
     ksys::act::ai::Action::calc_();
+}
+
+ui::Screen* EventFade::sub_7100119888() {
+    ui::ScreenFadeDemo* screen = nullptr;
+    if (auto* mgr = eui::ScreenMgr::instance())
+        screen = sead::DynamicCast<ui::ScreenFadeDemo>(mgr->getScreen(ui::ScreenId::FadeDemo));
+    return screen;
 }
 
 }  // namespace uking::action

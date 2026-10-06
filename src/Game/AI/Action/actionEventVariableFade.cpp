@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionEventVariableFade.h"
+#include "Game/UI/uiScreens.h"
+#include "KingSystem/Event/evtManager.h"
 
 namespace uking::action {
 
@@ -15,7 +17,11 @@ void EventVariableFade::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void EventVariableFade::leave_() {
-    ksys::act::ai::Action::leave_();
+    ksys::evt::Manager::instance()->sub_7100DB1158(*mClipIndex_d);
+    if (ksys::evt::Manager::instance()) {
+        if (auto* screen = sub_7100127B30())
+            screen->m76();
+    }
 }
 
 void EventVariableFade::loadParams_() {
@@ -26,7 +32,22 @@ void EventVariableFade::loadParams_() {
 }
 
 void EventVariableFade::calc_() {
-    ksys::act::ai::Action::calc_();
+    auto* manager = ksys::evt::Manager::instance();
+    if (manager && sub_7100127B30()) {
+        const int idx = *mClipIndex_d;
+        if (idx >= 0)
+            manager->sub_7100DB1138(idx);
+    } else {
+        setFailed();
+        mFlags.set(Flag::Changeable);
+    }
+}
+
+ui::ScreenFadeDemo* EventVariableFade::sub_7100127B30() {
+    auto* mgr = eui::ScreenMgr::instance();
+    if (!mgr)
+        return nullptr;
+    return sead::DynamicCast<ui::ScreenFadeDemo>(mgr->getScreen(ui::ScreenId::FadeDemo));
 }
 
 }  // namespace uking::action

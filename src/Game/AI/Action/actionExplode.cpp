@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionExplode.h"
+#include "KingSystem/System/VFR.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/Physics/RigidBody/Shape/Sphere/physSphereRigidBody.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
@@ -47,8 +49,27 @@ void Explode::loadParams_() {
     getStaticParam(&mIsVanish_s, "IsVanish");
 }
 
+// NON_MATCHING: the original loads mActor through the pre-indexed _68 pointer (`ldur x20, [x8, #-0x60]`), ours with `ldr x20, [x19, #8]`
 void Explode::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (!_58) {
+        setFailed();
+        return;
+    }
+
+    if (_68.value <= sead::Mathf::epsilon()) {
+        auto* actor = mActor;
+        sub_71007A2D34(_58);
+        if (actor->getConnectedCalcParent())
+            actor->resetConnectedCalcParent(false);
+        if (*mIsDelete_s)
+            callDeleteAndCreateDropAndEmit(actor, 0);
+        setFinished();
+        return;
+    }
+
+    _68.update();
+    ksys::VFR::chase(&_78, _74, _7c);
+    _58->setRadius(_78);
 }
 
 ksys::phys::SphereRigidBody* Explode::m32() {

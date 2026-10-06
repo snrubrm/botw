@@ -152,6 +152,13 @@ public:
         return sead::Mathf::chase(value, target, delta);
     }
 
+    // inline-only in the original; name is a guess. Same as VFRValue::chase on a plain float (Explode::calc_: the target
+    // is read by reference after the delta, the step is the left operand of the multiplication).
+    static inline bool chase(f32* value, const f32& target, f32 step) {
+        const auto delta = step * instance()->getDeltaFrame();
+        return sead::Mathf::chase(value, target, delta);
+    }
+
     template <typename VectorT>
     static inline bool chaseVec(VectorT* value, const VectorT& target, f32 t) {
         const auto delta = instance()->getDeltaFrame() * t;
