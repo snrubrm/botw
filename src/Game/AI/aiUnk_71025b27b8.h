@@ -16,5 +16,7 @@ class Unk_71025b27c8 : public Unk_71025afb58 {
 class Unk_71025b27b8 : public Unk_71025b27c8 {
     SEAD_RTTI_OVERRIDE(Unk_71025b27b8, Unk_71025b27c8)
 public:
+    ~Unk_71025b27b8() override;  // out of line (lane4 s47): the key function that emits the vtable 0x710238b118
+
     /* 0x08 */ f32 _8;
 };

@@ -19,6 +19,7 @@ class Unk_71025c89e8 : public Unk_71025afb58 {
     SEAD_RTTI_OVERRIDE(Unk_71025c89e8, Unk_71025afb58)
 public:
     Unk_71025c89e8() = default;
+    ~Unk_71025c89e8() override;  // out of line (lane4 s47): the key function that emits the vtable 0x7102450c18
 };
 
 // Placeholder name (0x710070f974, no name known): a 0x18-byte state struct embedded at the end of

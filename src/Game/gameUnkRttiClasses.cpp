@@ -1,4 +1,15 @@
 #include "Game/gameUnkRttiClasses.h"
+#include "Game/AI/aiUnk_71025b27b8.h"
+#include "Game/AI/aiUnk_71025b2aa8.h"
+#include "Game/AI/aiUnk_71025b2d88.h"
+#include "Game/AI/aiUnk_710070F974.h"
+
+// Existing placeholder AI tree variable classes whose vtables had no key function so far (the original keeps one
+// out-of-line empty destructor per class).
+Unk_71025b2aa8::~Unk_71025b2aa8() = default;
+Unk_71025b2d88::~Unk_71025b2d88() = default;
+Unk_71025b27b8::~Unk_71025b27b8() = default;
+Unk_71025c89e8::~Unk_71025c89e8() = default;
 
 Unk_71023f3710::~Unk_71023f3710() = default;
 

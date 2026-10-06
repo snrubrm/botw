@@ -54,6 +54,8 @@ struct Unk_71025b2aa8Data {
 class Unk_71025b2aa8 : public Unk_71025b2ab8, public Unk_71025b2aa8Data {
     SEAD_RTTI_OVERRIDE(Unk_71025b2aa8, Unk_71025b2ab8)
 public:
+    ~Unk_71025b2aa8() override;  // out of line (lane4 s47): the key function that emits the vtable 0x7102388020
+
     using Data = Unk_71025b2aa8Data;
 
     /* 0x20 */ s32 mRefCount = 0;  // reference count (the behaviors' holders release it)
