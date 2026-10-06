@@ -97,12 +97,15 @@ static_assert(sizeof(SoundSourceUnifierTarget) == 0x98, "aal::SoundSourceUnifier
 /// TODO: incomplete (initialize, allocSource, freeSource and calc are declared only).
 class SoundSourceUnifier : public sead::hostio::Node {
 public:
-    struct InitializeArg;
+    struct InitializeArg {
+        /// The maximum number of sound sources and of unified sounds.
+        s32 source_num;
+        s32 target_num;
+    };
 
     SoundSourceUnifier();
     ~SoundSourceUnifier();
 
-    /// 0x7100b8eb1c (declared only)
     void initialize(const InitializeArg& arg, sead::Heap* heap);
     void finalize();
     /// 0x7100b8e604 (declared only)

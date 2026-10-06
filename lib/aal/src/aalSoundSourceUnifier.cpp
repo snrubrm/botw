@@ -12,6 +12,16 @@ SoundSourceUnifier::~SoundSourceUnifier() {
     finalize();
 }
 
+// 0x7100b8eb1c
+void SoundSourceUnifier::initialize(const InitializeArg& arg, sead::Heap* heap) {
+    if (mInitialized)
+        return;
+
+    mSources.tryAllocBuffer(arg.source_num, heap, 8);
+    mTargets.tryAllocBuffer(arg.target_num, heap, 8);
+    mInitialized = true;
+}
+
 // 0x7100b8e4c4
 void SoundSourceUnifier::finalize() {
     if (mInitialized) {
