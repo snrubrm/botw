@@ -63,6 +63,9 @@ public:
     // 0x7100d91360: `_1c8->_1a`, or byte 0x182 while _c0 is 2, else 0.
     u8 sub_7100D91360() const;
     sead::Vector3f sub_7100D9155C() const;
+    // 0x7100d9472c (CSV: gsys::ModelSceneBuffer::isDeferredShadingEnabled, a mislabeled ICF body; AI code calls it on
+    // getChemicalStuff()): `_60->byte 0x198 && _60->_1b0 == this`. Declared only.
+    bool sub_7100D9472C() const;
     bool sub_7100D915A8() const;
     void sub_7100D91614(const Chemical& other);
     f32 sub_7100D91958() const;
