@@ -2,6 +2,11 @@
 #include <math/seadMathCalcCommon.h>
 #include <random/seadGlobalRandom.h>
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/AI/aiUnk_71007377D4.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/Resource/Actor/resResourceGParamList.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectEnemyLevel.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
 
@@ -10,6 +15,36 @@ namespace uking::ai {
 EnemyPursuingAttackCheck::EnemyPursuingAttackCheck(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
 EnemyPursuingAttackCheck::~EnemyPursuingAttackCheck() = default;
+
+// NON_MATCHING: only the y term of the final dot product: the original multiplies forward.y by a loaded -0.0f
+// constant (`fmul s0, s8, s0`), ours negates the product (`fnmul`); everything else matches
+// Whether a pursuing (follow up) attack from behind is possible: the actor is in front of the target direction, the
+// target is within `AttackAng` and `PursuingAttackStartAng` of the forward vector.
+bool EnemyPursuingAttackCheck::sub_71003A90D8() {
+    auto* actor = mActor;
+    if (!actor)
+        return false;
+    const auto* level = actor->getParam()->getRes().mGParamList->getEnemyLevel();
+    if (!level || !*level->mIsBackSwiftAttack)
+        return false;
+    if (!(_58.value <= sead::Mathf::epsilon()))
+        return false;
+    if (!sub_710072E1B4(actor, false))
+        return false;
+    if (!sub_710072DDB8(sub_71005D9330(mActor), mActor->getMtx(), *mAttackAng_s))
+        return false;
+
+    const sead::Matrix34f& mtx = sub_71005D96A8(actor);
+    sead::Vector3f forward;
+    mtx.getBase(forward, 2);
+    forward.y = 0.0f;
+    forward.normalize();
+    sead::Vector3f to_target = sub_71005D9330(actor);
+    to_target -= actor->getMtx().getTranslation();
+    to_target.y = 0.0f;
+    to_target.normalize();
+    return forward.dot(-to_target) <= sead::Mathf::cos(*mPursuingAttackStartAng_s);
+}
 
 void EnemyPursuingAttackCheck::enter_(ksys::act::ai::InlineParamPack* params) {
     _58.reset(0.0f);

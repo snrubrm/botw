@@ -18,7 +18,7 @@ public:
     void calc_() override;
     void leave_() override;
     void loadParams_() override;
-    // 0x71003a90d8 (placeholder name; declared only)
+    // 0x71003a90d8 (placeholder name)
     bool sub_71003A90D8();
     // 0x71003a92ac (placeholder name)
     void changeToFollowUpAttack();
