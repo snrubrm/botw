@@ -8,11 +8,14 @@ add_library(aal OBJECT
   include/aal/aalIUnifiable.h
   include/aal/aalNamedObj.h
   include/aal/aalShape.h
+  include/aal/aalSoundParam.h
   include/aal/aalSoundSource.h
   include/aal/aalSpatialCalculator.h
   include/aal/aalSpatialSetting.h
   include/aal/aalSystemAccessor.h
   include/aal/aalTimedFader.h
+  src/aalHandle.cpp
+  src/aalSoundSource.cpp
   src/dummy.cpp
 )
 
