@@ -12,7 +12,9 @@ namespace uking {
 // The per-slot save data (0x308 bytes; only the flag at +0x300 is known: tested by AlbumInfo's copy helpers).
 struct SaveSlot {
     s32 mAlbumIndices[0x30];  // the picture indices of the slot's album (copied by AlbumInfo)
-    u8 _c0[0x300 - 0xc0];
+    u8 _c0[0x2f8 - 0xc0];
+    /* 0x2f8 */ s32 _2f8;  // set from the UI manager when saving (initA / init1)
+    u8 _2fc[4];
     bool _300;
     u8 _301;
     /* 0x302 */ u8 _302;  // read by the UI save-slot scan (lane2 s46)
@@ -21,6 +23,22 @@ struct SaveSlot {
     u8 _305[3];
 };
 KSYS_CHECK_SIZE_NX150(SaveSlot, 0x308);
+
+// Placeholders (unknown classes: the objects at SaveSystem + 0x1a00 / + 0x1a08).
+class SaveFlagCache {
+public:
+    // 0x710090cdf4 (CSV AlbumInfo::x; declared only)
+    void sub_710090CDF4();
+};
+
+class SaveFlagCacheOwner {
+public:
+    virtual void m0();
+    virtual void m1();
+    virtual void m2();
+    virtual void m3();
+    virtual void m4();
+};
 
 // Placeholder declaration (name from the CSV: SaveSystem::createInstance 0x710090ee60, ctor
 // 0x710090eee8, calc 0x7100910e5c, init, invokedAutoSave, isFinishedSavingMaybe, ...; instance
@@ -95,6 +113,24 @@ public:
     // frozen, else 0.
     s32 sub_7100910D04() const;
 
+    // 0x7100915838 (CSV __auto0): when the save state is idle: clears the flag at +0x300 of every slot whose flag at
+    // +0x301 is set; true when it ran.
+    bool sub_7100915838();
+    // 0x7100911bb8 (CSV initA) / 0x710091171c (CSV init1): the save state start steps that record the UI manager field
+    // in the slot and start the save (state 11 / 2).
+    void sub_7100911BB8();
+    // 0x7100912464 (CSV init27): when the tracker block save file exists, writes it (state 40), else resets the
+    // callbacks and flags.
+    void sub_7100912464();
+    // 0x7100912a50 (CSV init20): flushes the flag cache, records the auto save flags and goes to state 37.
+    void sub_7100912A50();
+    // 0x7100912ea4 (CSV clearAllCbsAndResetFlagsToInitial; declared only)
+    void sub_7100912EA4(bool a);
+    void sub_710091171C();
+    // 0x7100912be0 (CSV x_1): true when saving is not possible right now (the demo was not played, saving is
+    // prohibited, auto saving is paused, ...) or the map type is empty.
+    bool sub_7100912BE0(bool check_ui);
+
     u8 _28[0x30 - 0x28];
     s32 _30;
     u32 _34;
@@ -105,7 +141,17 @@ public:
     u32 _3c;
     sead::SafeArray<SaveSlot, 8> _40;
     AlbumInfo _1880;
-    u8 _1a00[0x1a28 - 0x1a00];
+    // 0x1a00 / 0x1a08: objects of unknown type (0x1a00 is passed to the album cache flush 0x90cdf4; 0x1a08 has a virtual
+    // function called by init20)
+    SaveFlagCache* _1a00;
+    SaveFlagCacheOwner* _1a08;
+    // The track block save file number
+    s32 _1a10;
+    u8 _1a14[4];
+    // The buffer written by SaveMgr::x for the tracker file
+    void* _1a18;
+    u8 _1a20[4];
+    f32 _1a24;
     f32 _1a28;
     u8 _1a2c[0x1a34 - 0x1a2c];
     // bool / s32 flag indices (with the flag handle prefix in the top byte) set by requestAutoSaveForGameClear

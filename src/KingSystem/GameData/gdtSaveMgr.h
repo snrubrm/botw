@@ -61,6 +61,13 @@ public:
     bool x_6(u32 idx);
     bool auto6(s32 idx);
     bool x_0(s32 idx);
+    // 0x7100e089f0 (CSV x_5; declared only): writes `value` at the saved position _103c of the buffer when it is set.
+    void x_5(u32 value);
+    // 0x7100e0402c (CSV trackerFileExistsStuff): whether `path` exists on the file device named by the save mount
+    // string at +0x80.
+    bool sub_7100E0402C(const sead::SafeString& path);
+    // 0x7100e04968 (CSV x; declared only): writes `size` bytes of `buffer` to the save file `path`.
+    bool x(const sead::SafeString& path, void* buffer, u32 size);
     void auto4();
 
     // Placeholder (type unknown): the object at +0x1020; EventAutoSaveAction calls its first virtual
@@ -95,7 +102,9 @@ private:
     u32 _38;
     u32 _3c;
     u32 _40;
-    u8 _44[0xf8 - 0x44];
+    u8 _44[0x80 - 0x44];
+    sead::SafeString _80;
+    u8 _90[0xf8 - 0x90];
     bool _f8;
     u8 _f9[0x140 - 0xf9];
     u16 _140;

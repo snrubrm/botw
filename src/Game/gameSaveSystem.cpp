@@ -2,6 +2,7 @@
 #include "Game/DLC/aocHardModeManager.h"
 #include "Game/E3Mgr.h"
 #include "Game/gameRoot38.h"
+#include "Game/UI/uiUtils.h"
 #include "Game/gameScene.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "KingSystem/GameData/gdtSpecialFlagNames.h"
@@ -9,6 +10,16 @@
 #include "KingSystem/GameData/gdtManager.h"
 #include "KingSystem/GameData/gdtSaveMgr.h"
 #include "KingSystem/GameData/gdtTriggerParam.h"
+#include "KingSystem/System/PlayReportMgr.h"
+
+// 0xa9bd38 (CSV isSelectedRuneEqualToItemType; lane2 UI code, declared only)
+bool isSelectedRuneEqualToItemType(s32 type, void* arg);
+
+namespace uking::ui {
+// 0x7100a9e228 / 0x7100a9e260 (lane2 UI code, declared only)
+s32 sub_7100A9E228();
+s32 getSomeUiManagerField();
+}  // namespace uking::ui
 
 namespace uking {
 
@@ -142,6 +153,139 @@ bool SaveSystem::sub_7100915A00() {
         return false;
     SaveSlot* slot = sub_7100914DC8(0, true);
     return slot->_300 && slot->_304;
+}
+
+bool SaveSystem::sub_7100915838() {
+    if (_3c != 0)
+        return false;
+
+    for (auto& slot : _40) {
+        if (slot._300 && slot._301)
+            slot._300 = false;
+    }
+    return true;
+}
+
+bool SaveSystem::sub_7100912BE0(bool check_ui) {
+    if (!ksys::gdt::getFlag_IsPlayed_Demo102_0() || ksys::gdt::isSaveProhibited())
+        return true;
+    if (_1a42)
+        return true;
+    if (_1a50 & 0x1008)
+        return true;
+
+    if (check_ui) {
+        if (isSelectedRuneEqualToItemType(3, nullptr))
+            return true;
+        if (ui::return0())
+            return true;
+    }
+
+    return GameScene::getCurrentMapType().isEmpty();
+}
+
+void SaveSystem::sub_7100911BB8() {
+    auto* save_mgr = ksys::SaveMgr::instance();
+    if (!save_mgr)
+        return;
+
+    auto* gdt_mgr = ksys::gdt::Manager::instance();
+    if (gdt_mgr && gdt_mgr->mBitFlags.isOn(ksys::gdt::Manager::BitFlag::_2))
+        return;
+
+    if (ui::sub_7100A9E228() == 7 || ui::sub_7100A9E228() == 0) {
+        const s32 field = ui::getSomeUiManagerField();
+        _40[_30]._2f8 = field;
+        save_mgr->x_5(field);
+    } else if (ui::sub_7100A9E228() != -1) {
+        return;
+    }
+
+    save_mgr->x_0(_30);
+    _3c = 11;
+}
+
+void SaveSystem::sub_710091171C() {
+    auto* save_mgr = ksys::SaveMgr::instance();
+    if (!save_mgr)
+        return;
+
+    auto* gdt_mgr = ksys::gdt::Manager::instance();
+    if (!gdt_mgr || gdt_mgr->mBitFlags.isOn(ksys::gdt::Manager::BitFlag::_2))
+        return;
+
+    if (ui::sub_7100A9E228() == 7 || ui::sub_7100A9E228() == 0) {
+        if (!(_1a50 & 0x180)) {
+            _40[_30]._2f8 = ui::getSomeUiManagerField();
+            save_mgr->x_5(ui::getSomeUiManagerField());
+        }
+    } else if (ui::sub_7100A9E228() != -1) {
+        return;
+    }
+
+    if (!(_1a50 & 0x80)) {
+        if (_1a50 & 0x100)
+            save_mgr->auto6(0);
+        else
+            save_mgr->x_0(_30);
+    }
+    _3c = 2;
+}
+
+void SaveSystem::sub_7100912464() {
+    auto* save_mgr = ksys::SaveMgr::instance();
+    if (!save_mgr || save_mgr->get38() != 0)
+        return;
+
+    sead::FormatFixedSafeString<32> path("tracker/trackblock%02d.sav", _1a10);
+    if (aoc::HardModeManager::instance() &&
+        aoc::HardModeManager::instance()->checkFlag(aoc::HardModeManager::Flag::EnableHardMode)) {
+        path.format("tracker/trackblock_hard%02d.sav", _1a10);
+    }
+
+    if (save_mgr->sub_7100E0402C(path)) {
+        if (auto* report_mgr = ksys::PlayReportMgr::instance()) {
+            if (report_mgr->getPlayerTrackReporter()) {
+                save_mgr->x(path, _1a18, 0xe480);
+                _3c = 40;
+                return;
+            }
+        }
+    }
+
+    const s32 slot = _30;
+    sub_7100912EA4(true);
+    _3c = 0;
+    _30 = slot;
+}
+
+void SaveSystem::sub_7100912A50() {
+    auto* save_mgr = ksys::SaveMgr::instance();
+    if (!save_mgr)
+        return;
+    auto* gdt_mgr = ksys::gdt::Manager::instance();
+    if (!gdt_mgr)
+        return;
+    if (save_mgr->get38() != 0 || gdt_mgr->mBitFlags.isOn(ksys::gdt::Manager::BitFlag::_40000))
+        return;
+
+    if (_1a00)
+        _1a00->sub_710090CDF4();
+
+    if (!(_1a50 & 0x4000)) {
+        gdt_mgr->setBool(true, ksys::gdt::FlagHandle(_1a34));
+        gdt_mgr->setS32(1, ksys::gdt::FlagHandle(_1a38));
+    } else {
+        ksys::gdt::setFlag_IsSaveByAuto(true, false);
+    }
+
+    _1a50 |= 0x200;
+    if (_1a08) {
+        _1a08->m4();
+        _1a00 = nullptr;
+        _1a08 = nullptr;
+    }
+    _3c = 37;
 }
 
 void SaveSystem::sub_7100910C94(f32 value) {

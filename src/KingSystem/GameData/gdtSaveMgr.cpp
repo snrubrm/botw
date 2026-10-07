@@ -1,11 +1,30 @@
 #include "KingSystem/GameData/gdtSaveMgr.h"
 #include <cstring>
+#include <filedevice/seadFileDeviceMgr.h>
 #include <thread/seadDelegateThread.h>
 #include "KingSystem/GameData/gdtManager.h"
 
 namespace ksys {
 
 SEAD_SINGLETON_DISPOSER_IMPL(SaveMgr)
+
+bool SaveMgr::sub_7100E0402C(const sead::SafeString& path) {
+    auto* device_mgr = sead::FileDeviceMgr::instance();
+    if (!device_mgr)
+        return false;
+
+    sead::FileDevice* device;
+    {
+        const sead::SafeString mount(_80.cstr());
+        device = device_mgr->findDevice(mount);
+    }
+    if (!device)
+        return false;
+
+    bool exists = false;
+    device->tryIsExistFile(&exists, path);
+    return exists;
+}
 
 void SaveMgr::auto3() {
     _140 &= ~0x100;
