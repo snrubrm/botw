@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiPriestBossPhaseThird.h"
+#include "Game/DLC/aocHardModeManager.h"
+#include "KingSystem/ActorSystem/actLifeRecoveryInfo.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "Game/AI/aiUnk_7102450fa8.h"
 #include "KingSystem/ActorSystem/actActor.h"
@@ -54,6 +56,29 @@ bool PriestBossPhaseThird::m37(f32* x) {
         return true;
     }
     return false;
+}
+
+// NON_MATCHING: the same natural locals occupy different stack slots, including the enum checks
+// and life recovery parameters. No stack layout steering is used.
+void PriestBossPhaseThird::m35() {
+    auto* hard_mode = aoc::HardModeManager::instance();
+    if (!hard_mode || !hard_mode->checkFlag(aoc::HardModeManager::Flag::EnableHardMode) ||
+        !hard_mode->isHardModeChangeOn(aoc::HardModeManager::HardModeChange::EnableLifeRegen))
+        return;
+    ksys::act::BaseProcLink link;
+    ksys::act::ActorConstDataAccess accessor;
+    if (sub_7100525B18(1, &accessor)) {
+        accessor.linkAcquire(&link);
+        if (link.hasProc()) {
+            auto* actor = sead::DynamicCast<ksys::act::Actor>(link.getProc(nullptr, nullptr));
+            actor->getLifeRecoverInfo();
+            ksys::act::LifeRecoverParams params;
+            ksys::act::getLifeRecoverParams(&params, actor);
+            params._4 = *mPercentLifeTransition_s * *mMetaAIMaxLife_a;
+            _88.sub_710070E254(params);
+            _88.sub_710070DC38(actor, true);
+        }
+    }
 }
 
 }  // namespace uking::ai

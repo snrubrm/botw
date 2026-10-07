@@ -18,6 +18,7 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    void m35() override;
     bool m36() override { return PriestBossPhase::m36(); }
     bool m37(f32* x) override;
     Flag m38() override { return Flag::_2; }

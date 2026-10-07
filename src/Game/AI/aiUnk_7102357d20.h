@@ -1,5 +1,7 @@
 #pragma once
 
+namespace ksys::act { struct LifeRecoverParams; }
+
 #include <basis/seadTypes.h>
 #include <prim/seadScopedLock.h>
 #include <thread/seadCriticalSection.h>
@@ -617,6 +619,7 @@ public:
 class Unk_7102415900 : public Unk_7102357d20 {
 public:
     using Unk_7102357d20::Unk_7102357d20;
+    void sub_710070E254(const ksys::act::LifeRecoverParams& params);
     void* m2() override { return &_18; }
 
     Unk_7102415900_Payload _18;
