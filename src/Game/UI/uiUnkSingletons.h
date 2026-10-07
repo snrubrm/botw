@@ -231,6 +231,8 @@ class Unk_71025d69f0 {
 public:
     virtual ~Unk_71025d69f0();
 
+    void sub_710094D8CC();
+    void sub_710094D8DC();
     void sub_710094E0A0();
     bool sub_710094E920();
     void sub_710094D9F4(s32 a1, s32 a2, s32 a3, s32 a4);

@@ -4,6 +4,10 @@
 #include <heap/seadDisposer.h>
 #include "KingSystem/Utils/Types.h"
 
+namespace ksys {
+class SeadController;
+}
+
 namespace uking::ui {
 
 // Placeholder singleton (lane2 s47; instance pointer 0x710261eae8, createInstance 0x710109e224, size 0x38, vtable
@@ -20,6 +24,9 @@ public:
     void sub_710109E2CC();
     // 0x710109e350 (placeholder name): `enable` for the first target; records the change in the flag word
     void sub_710109E350(bool enable);
+
+    void sub_710109E3F8(ksys::SeadController* controller);
+    void sub_710109E5C0(ksys::SeadController* controller);
 
     /* 0x28 */ bool _28 = true;
     /* 0x2c */ u32 _2c = 0;

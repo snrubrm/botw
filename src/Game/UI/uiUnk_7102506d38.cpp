@@ -40,4 +40,9 @@ void Unk_7102506d38::sub_710109E350(bool enable) {
     }
 }
 
+void Unk_7102506d38::sub_710109E5C0(ksys::SeadController* controller) {
+    if (_28)
+        sub_710109E3F8(controller);
+}
+
 }  // namespace uking::ui
