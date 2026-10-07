@@ -76090,8 +76090,8 @@ Address,Quality,Size,Name
 0x0000007100db627c,O,000012,_ZN4ksys3evt13EventFlowBase15getBaseProcLinkEv
 0x0000007100db6288,O,000012,_ZNK4ksys3evt13EventFlowBase14byte3FlagIsSetEv
 0x0000007100db6294,U,000964,evt::EventFlowBase::initNoPauseActors
-0x0000007100db6658,U,000324,evt::EventFlowBase::dtor
-0x0000007100db679c,U,000036,evt::EventFlowBase::dtorDelete
+0x0000007100db6658,W,000324,_ZN4ksys3evt13EventFlowBaseD2Ev
+0x0000007100db679c,W,000036,_ZN4ksys3evt13EventFlowBaseD0Ev
 0x0000007100db67c0,O,000044,_ZNK4ksys3evt13EventFlowBase29isEventTypeNotMovieWithNoPathEv
 0x0000007100db67ec,O,000276,_ZN4ksys3evt13EventFlowBase18initEventAndReportEb
 0x0000007100db6900,m,000464,_ZN4ksys3evt24getCurrentEventForReportEv
@@ -76151,8 +76151,8 @@ Address,Quality,Size,Name
 0x0000007100dba42c,U,002048,evt::makeEventFlow
 0x0000007100dbac2c,U,000124,evt::makeEventFlowByName
 0x0000007100dbaca8,O,000020,_ZN4ksys3evt18EventFlowFlowchart3m15Ev
-0x0000007100dbacbc,W,000056,_ZN4ksys3evt18EventFlowFlowchartD1Ev
-0x0000007100dbacf4,W,000064,_ZN4ksys3evt18EventFlowFlowchartD0Ev
+0x0000007100dbacbc,O,000056,_ZN4ksys3evt18EventFlowFlowchartD1Ev
+0x0000007100dbacf4,O,000064,_ZN4ksys3evt18EventFlowFlowchartD0Ev
 0x0000007100dbad34,U,000148,evt::EventFlowFlowchart::init
 0x0000007100dbadc8,U,000316,
 0x0000007100dbaf04,U,000004,nullsub_3839
