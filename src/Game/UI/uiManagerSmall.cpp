@@ -110,6 +110,14 @@ bool Manager::sub_7100A7F918() const {
     return _651f8 > 0;
 }
 
+f32 Unk_71025d6ac0::sub_7100968558() const {
+    return 0.01f;
+}
+
+bool Unk_71025d6ac0::sub_71009686E8() const {
+    return false;
+}
+
 // 0x71009686a0
 bool Unk_71025d6ac0::sub_71009685AC(s32 value) const {
     return _74 == value;

@@ -48,7 +48,9 @@ class Unk_71025d6ac0 {
 public:
     static Unk_71025d6ac0* instance() { return sInstance; }
 
+    f32 sub_7100968558() const;
     bool sub_71009685AC(s32 value) const;
+    bool sub_71009686E8() const;
 
     // 0x71009686a0: `_74 = value`, clears _80
     void sub_71009686A0(s32 value);
