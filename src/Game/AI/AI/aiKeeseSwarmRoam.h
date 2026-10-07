@@ -24,7 +24,8 @@ public:
 protected:
     // Declaration only; the original method name and void return are inferred.
     void sub_7100454C9C(f32 angle);
-    // 0x7100455054 (declaration only; placeholder name): the height offset of the swarm at `angle` (called by m38).
+    // 0x7100455054 (placeholder name): the height offset of the swarm at `angle` (called by m38): periodic linear
+    // interpolation of the ten samples of _68 over a full turn.
     f32 sub_7100455054(f32 angle);
 
     // dynamic_param at offset 0x60
