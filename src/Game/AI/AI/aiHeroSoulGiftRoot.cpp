@@ -77,6 +77,17 @@ bool HeroSoulGiftRoot::m34(sead::Matrix34f* mtx) {
     return true;
 }
 
+// NON_MATCHING: matrix composition uses the canonical vectorized library path.
+bool HeroSoulGiftRoot::m35(sead::Matrix34f* mtx) {
+    sead::Matrix34f base;
+    if (!m34(&base))
+        return false;
+    sead::Matrix34f offset;
+    offset.makeRT(*mRotOffset_s, *mPosOffset_s);
+    mtx->setMul(base, offset);
+    return true;
+}
+
 void HeroSoulGiftRoot::calc_() {
     {
         sead::Matrix34f mtx;
