@@ -21,6 +21,21 @@ Unk_710260f218* sub_7100FFDA7C() {
     return sead::DynamicCast<Unk_710260f218>(controller);
 }
 
+void Unk_710260f218::sub_7100FFC7F4() {
+    if (auto* bgm = sead::DynamicCast<Unk_710260f228>(_8.sub_7100FF7C74(21)))
+        bgm->sub_71010267A8(Unk_71010267A8{1});
+}
+
+void Unk_710260f218::sub_7100FFC894() {
+    if (auto* bgm = sead::DynamicCast<Unk_710260f228>(_8.sub_7100FF7C74(21)))
+        bgm->sub_71010267A8(Unk_71010267A8{2});
+}
+
+void Unk_710260f218::sub_7100FFC934() {
+    if (auto* bgm = sead::DynamicCast<Unk_710260f228>(_8.sub_7100FF7C74(21)))
+        bgm->sub_71010267A8(Unk_71010267A8{3});
+}
+
 void Unk_710260f130::sub_7100FFA1E0(bool value) {
     if (!_92)
         return;

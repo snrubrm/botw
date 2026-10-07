@@ -20,7 +20,28 @@ public:
     void sub_7101007904(f32 fade_sec, const sead::SafeString& name);
 };
 
-class Bgm;
+// CSV Bgm RTTI root (typeInfo 0x71025ce360). The remaining interface and layout are not modeled.
+class Bgm {
+public:
+    virtual ~Bgm();
+    SEAD_RTTI_BASE(Bgm)
+};
+
+// Intermediate BGM RTTI typeInfo 0x71025ce380, derived from Bgm.
+class Unk_71025ce380 : public Bgm {
+    SEAD_RTTI_OVERRIDE(Unk_71025ce380, Bgm)
+};
+
+// Four-byte practice-state argument, passed by reference to sub_71010267A8.
+struct Unk_71010267A8 {
+    s32 value;
+};
+// GuardianMini practice BGM RTTI typeInfo 0x710260f228.
+class Unk_710260f228 : public Unk_71025ce380 {
+    SEAD_RTTI_OVERRIDE(Unk_710260f228, Unk_71025ce380)
+public:
+    void sub_71010267A8(const Unk_71010267A8& state);
+};
 
 // Placeholder name (ctor 0x71010073f4, constructed by the BgmMgr's init 0xff7f14): a list of BGM objects (their list node
 // is at +0x190) guarded by a critical section.
@@ -58,6 +79,7 @@ struct Unk_7100FF7BE0 {
 class Unk_7100ff7444 {
 public:
     void sub_7100FF7BE0(Unk_7100FF7BE0 state);
+    Bgm* sub_7100FF7C74(s32 kind);
     u8 _0[0x88];
 };
 
@@ -74,13 +96,14 @@ public:
 Unk_710260f130* sub_7100FFD9D0();
 
 // RTTI typeInfo 0x710260f218; the GuardianMini practice BGM controller.
-// Its remaining layout and the three practice-state method bodies are not modeled yet.
+// Its remaining layout is not modeled yet.
 class Unk_710260f218 : public Unk_71024fca78 {
     SEAD_RTTI_OVERRIDE(Unk_710260f218, Unk_71024fca78)
 public:
     void sub_7100FFC7F4();
     void sub_7100FFC894();
     void sub_7100FFC934();
+    Unk_7100ff7444 _8;
 };
 Unk_710260f218* sub_7100FFDA7C();
 
