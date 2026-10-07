@@ -43,8 +43,8 @@ protected:
     /* 0x438 */ u8 _438;  // bit 0: changeable, bit 3: set from `_450`
     u8 _439[0x440 - 0x439];
     /* 0x440 */ ksys::act::BaseProcHandle _440;
-    /* 0x450 */ bool _450;
-    bool _451;
+    /* 0x450 */ bool _450 = false;
+    bool _451 = false;
 };
 
 }  // namespace uking::ai

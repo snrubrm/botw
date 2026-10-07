@@ -5,7 +5,7 @@
 
 namespace uking::ai {
 
-EnemyFortressWait::EnemyFortressWait(const InitArg& arg) : EnemyWaitViewItem(arg) {}
+EnemyFortressWait::EnemyFortressWait(const InitArg& arg) : EnemyWaitViewItem(arg), _70(arg, this) {}
 
 EnemyFortressWait::~EnemyFortressWait() = default;
 

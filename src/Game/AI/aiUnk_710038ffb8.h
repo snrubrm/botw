@@ -1,6 +1,7 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include "KingSystem/ActorSystem/actAiAi.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Utils/Thread/Message.h"
 #include "KingSystem/Utils/Types.h"
@@ -14,6 +15,11 @@ class Heap;
 // Only the members that those two classes call are declared (all declaration only).
 class Unk_710038ffb8 {
 public:
+    // 0x710038ffb8 (1136 B, declared only): the owner AI and the init arg of the owner are stored in the object.
+    Unk_710038ffb8(const ksys::act::ai::ActionBase::InitArg& arg, ksys::act::ai::Ai* owner);
+    // 0x7100390428 (540 B, declared only): resets the BaseProcLinks of the message senders / listeners.
+    virtual ~Unk_710038ffb8();
+
     // 0x7100390930: called by init_ (352 B).
     bool sub_7100390930(sead::Heap* heap);
     // 0x7100390a90: called by enter_.
@@ -34,7 +40,7 @@ public:
     ksys::act::BaseProcLink& getTargetLink() { return _3a0; }
 
 private:
-    void* _0[0x3a0 / sizeof(void*)];
+    void* _8[(0x3a0 - 0x8) / sizeof(void*)];
     /* 0x3a0 */ ksys::act::BaseProcLink _3a0;
     void* _3b0[(0x3c8 - 0x3b0) / sizeof(void*)];
 };

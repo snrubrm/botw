@@ -3,7 +3,7 @@
 namespace uking::ai {
 
 EnemyFortressWatchKeepingWait::EnemyFortressWatchKeepingWait(const InitArg& arg)
-    : EnemyWatchKeepingWait(arg) {}
+    : EnemyWatchKeepingWait(arg), _80(arg, this) {}
 
 EnemyFortressWatchKeepingWait::~EnemyFortressWatchKeepingWait() = default;
 
