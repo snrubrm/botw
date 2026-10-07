@@ -27,6 +27,8 @@ public:
         void sub_71007086AC();
         void sub_71007089BC();
         void sub_7100708A0C();
+        void sub_71007086F4();
+        void sub_7100708BC4(Unk_71012419b4* handle, const char* name);
         void sub_71007088C0();
         // Declaration only: per-part chemical controller update called by GolemRootBase.
         void sub_71007083DC();

@@ -3,6 +3,8 @@
 #include "Game/AI/aiUnk_7102357d20.h"
 #include "Game/AI/aiUnk_7102450410.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actReaction.h"
+#include "KingSystem/XLink/xlinkXLink.h"
 #include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/ActorSystem/actActorChemicals.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
@@ -922,4 +924,37 @@ Unk_7102450410::Entry* Unk_7102450410::sub_7100708D6C(const sead::SafeString& na
             return &entry;
     }
     return nullptr;
+}
+
+void Unk_7102450410::Entry::sub_7100708BC4(Unk_71012419b4* handle, const char* name) {
+    sub_7101240FE8(mActor);
+    auto* effect_actor = mActor;
+    if ((sub_7101240FE8(effect_actor) | 2) != 2)
+        effect_actor = ksys::act::Reaction::instance()->_38;
+    auto* sound_actor = mActor;
+    if (u32(sub_7101240FE8(sound_actor) - 1) >= 2)
+        sound_actor = ksys::act::Reaction::instance()->_38;
+    if (effect_actor) {
+        if (auto* user = effect_actor->getXLink()->_48)
+            user->searchAndEmit(name, &handle->mELink);
+    }
+    if (sound_actor) {
+        if (auto* user = sound_actor->getXLink()->_50) {
+            handle->mSLink.fadeIfLoopSound();
+            user->searchAndEmit(name, &handle->mSLink);
+        }
+    }
+}
+
+// NON_MATCHING: the selected event-name literals are loaded in a different order.
+void Unk_7102450410::Entry::sub_71007086F4() {
+    if (!_60)
+        return;
+    _68.mELink.fadeIfLoopEffect();
+    _68.mSLink.fadeIfLoopSound();
+    const char* name = _a8 == 1 ? "ChemicalOff_ArmR" :
+                       _a8 == 2 ? "ChemicalOff_ArmL" : "ChemicalOff_Body";
+    sub_7100708BC4(&_88, name);
+    xlinkEventOn(mActor, _a8 == 2 ? 28 : _a8 == 1 ? 27 : 26, 0, false);
+    _60 = false;
 }
