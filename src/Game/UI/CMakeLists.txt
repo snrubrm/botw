@@ -46,6 +46,7 @@ target_sources(uking PRIVATE
   euiDynamicCaptureUseWindowEx.cpp
   euiMassDrawPane.cpp
   euiWindowEx.cpp
+  euiMultiFilterWindowEx.cpp
   euiCapturePane.cpp
   euiRootPane.cpp
   euiScissorPane.cpp

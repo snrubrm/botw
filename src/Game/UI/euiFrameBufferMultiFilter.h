@@ -1,5 +1,6 @@
 #pragma once
 
+#include <nn/ui2d/Pane.h>
 #include <common/aglRenderBuffer.h>
 #include <common/aglRenderTarget.h>
 #include <utility/aglMultiFilter.h>
@@ -7,10 +8,13 @@
 
 namespace eui {
 
+class LayoutEx;
+
 class FrameBufferMultiFilter {
 public:
     FrameBufferMultiFilter();
     virtual ~FrameBufferMultiFilter();
+    void initialize(sead::Heap* heap, const nn::ui2d::Pane& pane, LayoutEx* layout);
     void freeResultTexture(const agl::TextureData* texture);
 
 private:
