@@ -16,6 +16,7 @@ class TriggerParam;
 }  // namespace ksys::gdt
 
 namespace uking {
+class SaveSystem;
 class StartupSaveCheckStage;
 }
 
@@ -71,6 +72,7 @@ public:
     Unk1020* get1020() const { return _1020; }
 
 private:
+    friend class uking::SaveSystem;
     friend class uking::StartupSaveCheckStage;
 
     struct Unk2 {
@@ -112,7 +114,8 @@ private:
     u32 _e48;
     u8 _e4c[0xf80 - 0xe4c];
     void* _f80;
-    u8 _f88[0xf98 - 0xf88];
+    u8 _f88[0xf94 - 0xf88];
+    s32 _f94;
     gdt::TriggerParam* _f98;
     u8 _fa0[0x1020 - 0xfa0];
     Unk1020* _1020;

@@ -22,6 +22,10 @@ class Framework;
 class MethodTreeMgr;
 }  // namespace sead
 
+namespace uking {
+class SaveSystem;
+}
+
 namespace ksys {
 class SaveMgr;
 }  // namespace ksys
@@ -547,6 +551,7 @@ public:
 
 private:
     friend class ksys::SaveMgr;
+    friend class uking::SaveSystem;
 
     enum class BitFlag {
         _1 = 0x1,
@@ -573,6 +578,9 @@ private:
     };
 
     enum class ResetFlag {
+        _2 = 0x2,
+        _4 = 0x4,
+        _8 = 0x8,
         AnimalMaster = 0x10,
     };
 

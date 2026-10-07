@@ -871,6 +871,67 @@ bool ResourceMgrTask::returnTrue1() {
     return true;
 }
 
+void ResourceMgrTask::x_4() {
+    mResourceControlThread->getTaskQueue()->waitForLaneToEmpty(u8(LaneId::_5));
+    mResourceControlThread->getTaskQueue()->waitForLaneToEmpty(u8(LaneId::_4));
+    mResourceControlThread->getTaskQueue()->waitForLaneToEmpty(u8(LaneId::_3));
+
+    MemoryTaskRequest req;
+    req.mLaneId = u8(LaneId::_9);
+    req.mHasHandle = true;
+    req.mSynchronous = true;
+    req.mThread = mResourceMemoryThread;
+    req.mDelegate = &mClearAllCachesFn;
+    req.mName = "ClearAllCaches";
+    req.mData_8 = false;
+    req.mData_c = -1;
+
+    util::TaskMgrRequest task_mgr_request;
+    task_mgr_request.request = &req;
+    mResourceMemoryTaskMgr->submitRequest(task_mgr_request);
+    mTexHandleMgr->clearAllCache();
+}
+
+void ResourceMgrTask::x_5() {
+    mResourceControlThread->getTaskQueue()->waitForLaneToEmpty(u8(LaneId::_5));
+    mResourceControlThread->getTaskQueue()->waitForLaneToEmpty(u8(LaneId::_4));
+    mResourceControlThread->getTaskQueue()->waitForLaneToEmpty(u8(LaneId::_3));
+
+    MemoryTaskRequest req;
+    req.mLaneId = u8(LaneId::_9);
+    req.mHasHandle = true;
+    req.mSynchronous = true;
+    req.mThread = mResourceMemoryThread;
+    req.mDelegate = &mClearAllCachesFn;
+    req.mName = "ClearAllCaches";
+    req.mData_8 = false;
+    req.mData_c = -1;
+
+    util::TaskMgrRequest task_mgr_request;
+    task_mgr_request.request = &req;
+    mResourceMemoryTaskMgr->submitRequest(task_mgr_request);
+}
+
+void ResourceMgrTask::x_6() {
+    mResourceControlThread->getTaskQueue()->waitForLaneToEmpty(u8(LaneId::_5));
+    mResourceControlThread->getTaskQueue()->waitForLaneToEmpty(u8(LaneId::_4));
+    mResourceControlThread->getTaskQueue()->waitForLaneToEmpty(u8(LaneId::_3));
+
+    MemoryTaskRequest req;
+    req.mLaneId = u8(LaneId::_9);
+    req.mHasHandle = true;
+    req.mSynchronous = false;
+    req.mThread = mResourceMemoryThread;
+    req.mDelegate = &mClearAllCachesFn;
+    req.mName = "ClearAllCaches";
+    req.mData_8 = false;
+    req.mData_c = -1;
+
+    util::TaskMgrRequest task_mgr_request;
+    task_mgr_request.request = &req;
+    mResourceMemoryTaskMgr->submitRequest(task_mgr_request);
+}
+
 void ResourceMgrTask::clearCacheWithFileExtension(const sead::SafeString& extension) {
     stubbedLogFunction();
     const s32 idx = getCacheIdx(extension);

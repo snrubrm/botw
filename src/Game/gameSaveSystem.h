@@ -2,6 +2,7 @@
 
 #include <basis/seadTypes.h>
 #include <heap/seadDisposer.h>
+#include <container/seadSafeArray.h>
 #include <prim/seadSafeString.h>
 
 namespace uking {
@@ -48,10 +49,20 @@ public:
 
     u8 _28[0x30 - 0x28];
     s32 _30;
-    u8 _34[0x3c - 0x34];
+    u32 _34;
+    // bit 2 (4): see isFirstLaunch
+    u8 _38;
+    u8 _39[0x3c - 0x39];
     // The save state (read by GameScene::sub_71007B1C64, isFinishedSavingMaybe).
     u32 _3c;
-    u8 _40[0x1a50 - 0x40];
+    sead::SafeArray<Slot, 8> _40;
+    u8 _1880[0x1a28 - 0x1880];
+    f32 _1a28;
+    u8 _1a2c[0x1a34 - 0x1a2c];
+    // bool / s32 flag indices (with the flag handle prefix in the top byte) set by requestAutoSaveForGameClear
+    u32 _1a34;
+    u32 _1a38;
+    u8 _1a3c[0x1a50 - 0x1a3c];
     // bit 2 (4): auto saving paused (cleared by DisableAutoSavePausing); bit 11 (0x800) is tested by calc
     u16 _1a50;
 };

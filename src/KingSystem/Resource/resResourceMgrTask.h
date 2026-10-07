@@ -229,6 +229,11 @@ public:
     void auto12();
     void repairAllHandlesForSync();
     bool x_2();
+    // 0x710120b754 / 0x710120b864 / 0x710120b964 (placeholder names): synchronous / synchronous / asynchronous
+    // "ClearAllCaches" request without an arena; x_4 also clears the texture handle cache.
+    void x_4();
+    void x_5();
+    void x_6();
 
     void requestCalc();
     void waitForCalc();
