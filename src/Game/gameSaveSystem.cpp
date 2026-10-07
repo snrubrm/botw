@@ -9,7 +9,10 @@
 #include "KingSystem/GameData/gdtSpecialFlags.h"
 #include "KingSystem/GameData/gdtManager.h"
 #include "KingSystem/GameData/gdtSaveMgr.h"
+#include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/GameData/gdtTriggerParam.h"
+#include "KingSystem/Map/mapObject.h"
+#include "KingSystem/System/VFR.h"
 #include "KingSystem/System/PlayReportMgr.h"
 
 // 0xa9bd38 (CSV isSelectedRuneEqualToItemType; lane2 UI code, declared only)
@@ -23,6 +26,8 @@ s32 getSomeUiManagerField();
 void* sub_7100A9E244();
 // 0x7100b61f4 (CSV showLoadSaveIcon_0; declared only)
 void showLoadSaveIcon_0(bool show);
+// 0x7100a9e27c (declared only)
+void sub_7100A9E27C();
 }  // namespace uking::ui
 
 namespace uking {
@@ -234,6 +239,75 @@ void SaveSystem::sub_710091171C() {
             save_mgr->x_0(_30);
     }
     _3c = 2;
+}
+
+bool SaveSystem::setRetryData() {
+    if (!ksys::SaveMgr::instance())
+        return false;
+
+    auto* gdt_mgr = ksys::gdt::Manager::instance();
+    if (!gdt_mgr)
+        return false;
+
+    s32 current_hart = 0;
+    gdt_mgr->getParam().get().getS32(&current_hart, "CurrentHart");
+    if (current_hart == 0)
+        return false;
+
+    const sead::Vector3f pos{-255.616898f, 130.3125f, 394.561890f};
+    ksys::gdt::setFlag_Last_Ridden_Horse_Pos(pos, false);
+    ksys::gdt::setFlag_PlayerSavePos(pos, false);
+    gdt_mgr->allocRetryBuffer(ui::getHeap());
+    _38 &= ~2;
+    _1a50 |= 0x22;
+    return true;
+}
+
+// NON_MATCHING: scheduling (the original stores the zero of `hash_id` after loading the SafeString vtable)
+bool SaveSystem::triggerAutoSaveFromArea(ksys::act::Actor* actor) {
+    if (actor && actor->getMapObject()) {
+        u32 hash_id = 0;
+        actor->getMapObject()->getMubinIter().tryGetParamUIntByKey(&hash_id, "HashId");
+        if (_1a30 == hash_id && !(_1a24 <= 0.0f))
+            return false;
+        _1a30 = hash_id;
+    }
+
+    _1a24 = f32(ksys::VFR::instance()->getFrameRate() * 60);
+    return sub_71009109EC(false, true);
+}
+
+void SaveSystem::callback() {
+    switch (_3c) {
+    case 14:
+    case 15:
+    case 20:
+    case 21:
+    case 28:
+    case 29:
+        return;
+    case 2:
+    case 11:
+        _1a43 = _3c == 11;
+        _3c = 28;
+        return;
+    case 13:
+        ui::sub_7100A9E27C();
+        ui::showLoadSaveIcon_0(false);
+        break;
+    default:
+        break;
+    }
+
+    if (_3c != 2 && _3c != 11) {
+        _1a44 = false;
+        _3c = 0;
+        if (auto* save_mgr = ksys::SaveMgr::instance())
+            save_mgr->auto3();
+        if (auto* gdt_mgr = ksys::gdt::Manager::instance())
+            gdt_mgr->mBitFlags.reset(ksys::gdt::Manager::BitFlag::_100000);
+        _1a50 &= ~0x4180;
+    }
 }
 
 void SaveSystem::sub_7100911524() {

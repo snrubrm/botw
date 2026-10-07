@@ -7,6 +7,10 @@
 #include "Game/gameAlbumInfo.h"
 #include "KingSystem/Utils/Types.h"
 
+namespace ksys::act {
+class Actor;
+}
+
 namespace uking {
 
 // The per-slot save data (0x308 bytes; only the flag at +0x300 is known: tested by AlbumInfo's copy helpers).
@@ -122,6 +126,13 @@ public:
     // 0x7100912464 (CSV init27): when the tracker block save file exists, writes it (state 40), else resets the
     // callbacks and flags.
     void sub_7100912464();
+    // 0x710090fa84 (CSV callback): the save finished / was cancelled callback: resets the state unless it is 2 or 11.
+    void callback();
+    // 0x710091453c (CSV triggerAutoSaveFromArea): an auto save requested by the area actor `actor` (not again for
+    // the same map object while the cool down _1a24 runs).
+    bool triggerAutoSaveFromArea(ksys::act::Actor* actor);
+    // 0x71009109ec (CSV invokedAutoSave; declared only)
+    bool sub_71009109EC(bool a, bool b);
     // 0x7100911524 (CSV init2) / 0x7100911620 (CSV initC): the steps that save the slot caption image (state 4 / 13).
     void sub_7100911524();
     void sub_7100911620();
@@ -156,13 +167,17 @@ public:
     u8 _1a20[4];
     f32 _1a24;
     f32 _1a28;
-    u8 _1a2c[0x1a34 - 0x1a2c];
+    u8 _1a2c[0x1a30 - 0x1a2c];
+    // The HashId of the map object of the last auto save area
+    u32 _1a30;
     // bool / s32 flag indices (with the flag handle prefix in the top byte) set by requestAutoSaveForGameClear
     u32 _1a34;
     u32 _1a38;
     u8 _1a3c[0x1a42 - 0x1a3c];
     bool _1a42;
-    u8 _1a43[0x1a50 - 0x1a43];
+    bool _1a43;
+    bool _1a44;
+    u8 _1a45[0x1a50 - 0x1a45];
     // bit 2 (4): auto saving paused (cleared by DisableAutoSavePausing); bit 11 (0x800) is tested by calc
     u16 _1a50;
     u8 _1a52[0x1ef8 - 0x1a52];
