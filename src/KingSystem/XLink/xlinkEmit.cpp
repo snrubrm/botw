@@ -1,5 +1,7 @@
 #include <xlink2/xlink2UserInstanceELink.h>
 #include <xlink2/xlink2UserInstanceSLink.h>
+#include <xlink2/xlink2AssetExecutorSLink.h>
+#include <aal/aalSoundSource.h>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
@@ -53,6 +55,51 @@ void sub_710105DDB8(act::Actor* actor, const char* name, xlink2::HandleSLink* ha
                 user_instance->searchAndEmit(name, handle);
         }
     }
+}
+
+void sub_710105DDDC(act::Actor* actor, const char* name, xlink2::HandleSLink* handle,
+                    const sead::Vector3f& position) {
+    if (!handle)
+        return;
+    if (auto* xlink = actor->getXLink()) {
+        if (!xlink->_cc.isOn(0x100)) {
+            if (auto* user_instance = xlink->_50)
+                user_instance->searchAndEmit(name, handle);
+        }
+    }
+    handle->setPosition(position);
+}
+
+void sub_710105DF88(act::Actor* actor, const char* name, bool a, bool b) {
+    if (auto* xlink = actor->getXLink())
+        xlink->sub_7101232FB4(name, a, true, b);
+}
+
+bool sub_710105E000(act::Actor* actor, u32 idx, f32 value) {
+    if (auto* xlink = actor->getXLink()) {
+        if (auto* user_instance = xlink->_50) {
+            user_instance->setPropertyValue(idx, value);
+            return true;
+        }
+    }
+    return false;
+}
+
+void sub_710105E060(xlink2::HandleSLink* handle, const sead::Matrix34f& matrix) {
+    if (handle)
+        handle->setMatrix(matrix);
+}
+
+f32 sub_710105E0AC(xlink2::HandleSLink& handle) {
+    f32 time = -1.0f;
+    if (handle.isActive()) {
+        auto* event = static_cast<xlink2::EventSLink*>(handle.getEvent());
+        if (auto* executor = event->getAliveAssetExecutor()) {
+            if (auto* source = executor->getHandle()->getSoundSource())
+                time = source->mPlayingTime;
+        }
+    }
+    return time;
 }
 
 void sub_710105DF6C(act::Actor* actor, const char* name, bool a, bool b) {
