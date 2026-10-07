@@ -21,6 +21,13 @@ void Ai::changeAS(const char* as_name, bool b, int x, int y) {
     list->startAnimationMaybe(-1.0f, -1.0f, as_name, x, y, true);
 }
 
+bool Ai::checkAS(int x, int y) {
+    auto* list = mActor->getASList();
+    if (!list)
+        return true;
+    return list->x_4(x, y);
+}
+
 inline res::AIProgram* ActionBase::getAIProg() const {
     return mActor->getParam()->getRes().mAIProgram;
 }
