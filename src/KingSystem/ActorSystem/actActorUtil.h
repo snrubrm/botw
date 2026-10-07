@@ -42,6 +42,10 @@ class BaseProcLink;
 void sub_7100EE9B68(Actor* actor, VFR::ScopedDeltaSetter* setter);
 // 0x7100ee66c4 (declared only; used by res::AttCheckCharacterOn::check)
 bool sub_7100EE66C4(Actor* actor, bool a2);
+// 0x7100ee3fa8 (declared only; used by res::AttCheckLine::check): a sphere cast between the actor of `link` and the
+// actor of `accessor` (line of sight when `as_line_of_sight`).
+bool sub_7100EE3FA8(const ActorConstDataAccess& link, const ActorConstDataAccess& accessor,
+                    bool as_line_of_sight, f32 radius);
 
 enum class ArrowType {
     /// Wooden arrows.

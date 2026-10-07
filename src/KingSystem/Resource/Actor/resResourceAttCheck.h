@@ -66,13 +66,17 @@ public:
     virtual ~AttCheck() = default;
 
     // FIXME: signatures and names
-    virtual void m4();
+    // Slot 4 (res::AttClient::checkM4 calls it for every check with the matrix of that check).
+    virtual void m4(act::Actor* actor, sead::Matrix34f* mtx);
     // Slot 5 (res::AttClient::check calls it for every check with the client's matrix `i`).
     virtual bool check(act::Actor* actor, const act::ActorConstDataAccess& accessor,
                        const sead::Matrix34f* mtx, const sead::Vector3f& pos,
                        const AttCheck_Unk1* arg, bool a6, bool a7);
-    virtual float m6();
-    virtual void m7() {}
+    // Slot 6 (res::AttClient::checkM6: the maximum over the checks; `accessor` is a default-constructed one and `scale`
+    // is the actor's scale).
+    virtual float m6(const act::ActorConstDataAccess& accessor, const sead::Vector3f& scale);
+    // Slot 7.
+    virtual void m7(act::Actor* actor, const act::ActorConstDataAccess& accessor, bool a3) {}
 
     virtual bool parse(const CreateArg& arg);
 
@@ -118,17 +122,26 @@ class AttCheckArea : public AttCheck {
 public:
     using AttCheck::AttCheck;
 
-    void m4() override;
+    void m4(act::Actor* actor, sead::Matrix34f* mtx) override;
     bool check(act::Actor* actor, const act::ActorConstDataAccess& accessor,
                const sead::Matrix34f* mtx, const sead::Vector3f& pos, const AttCheck_Unk1* arg,
                bool a6, bool a7) override;
-    float m6() override;
-    void m7() override;
+    float m6(const act::ActorConstDataAccess& accessor, const sead::Vector3f& scale) override;
+    void m7(act::Actor* actor, const act::ActorConstDataAccess& accessor, bool a3) override;
     bool parse(const CreateArg& arg) override;
 
-    virtual bool m9() { return true; }
-    virtual float m10() { return 0; }
-    virtual void m11() {}
+    // Slot 9: the area test of `check`: `local_pos` is `pos` in the area's matrix.
+    virtual bool m9(const act::ActorConstDataAccess& link, const sead::Vector3f& local_pos,
+                    const sead::Vector3f& pos, const AttCheck_Unk1* arg, bool a6, bool a7) {
+        return true;
+    }
+    // Slot 10 (called by m6).
+    virtual float m10(const act::ActorConstDataAccess& accessor, const sead::Vector3f& scale) {
+        return 0;
+    }
+    // Slot 11 (called by m7).
+    virtual void m11(const act::ActorConstDataAccess& link, const sead::Matrix34f& mtx,
+                     const sead::Vector3f& scale, bool a4) {}
 
 protected:
     AttPos mAttPos;
@@ -141,9 +154,11 @@ public:
     using AttCheckArea::AttCheckArea;
 
     bool parse(const CreateArg& arg) override;
-    bool m9() override;
-    float m10() override;
-    void m11() override;
+    bool m9(const act::ActorConstDataAccess& link, const sead::Vector3f& local_pos,
+            const sead::Vector3f& pos, const AttCheck_Unk1* arg, bool a6, bool a7) override;
+    float m10(const act::ActorConstDataAccess& accessor, const sead::Vector3f& scale) override;
+    void m11(const act::ActorConstDataAccess& link, const sead::Matrix34f& mtx,
+             const sead::Vector3f& scale, bool a4) override;
 
 private:
     agl::utl::Parameter<bool> mForceEditModelArea;
@@ -159,9 +174,11 @@ public:
     using AttCheckArea::AttCheckArea;
 
     bool parse(const CreateArg& arg) override;
-    bool m9() override;
-    float m10() override;
-    void m11() override;
+    bool m9(const act::ActorConstDataAccess& link, const sead::Vector3f& local_pos,
+            const sead::Vector3f& pos, const AttCheck_Unk1* arg, bool a6, bool a7) override;
+    float m10(const act::ActorConstDataAccess& accessor, const sead::Vector3f& scale) override;
+    void m11(const act::ActorConstDataAccess& link, const sead::Matrix34f& mtx,
+             const sead::Vector3f& scale, bool a4) override;
 
 private:
     agl::utl::Parameter<bool> mAngleCheckIgnoreLockOn;
@@ -185,8 +202,9 @@ public:
     using AttCheckArea::AttCheckArea;
 
     bool parse(const CreateArg& arg) override;
-    bool m9() override;
-    float m10() override;
+    bool m9(const act::ActorConstDataAccess& link, const sead::Vector3f& local_pos,
+            const sead::Vector3f& pos, const AttCheck_Unk1* arg, bool a6, bool a7) override;
+    float m10(const act::ActorConstDataAccess& accessor, const sead::Vector3f& scale) override;
 
 private:
     agl::utl::Parameter<bool> mAngleCheckIgnoreLockOn;
@@ -212,9 +230,11 @@ public:
     explicit AttCheckAreaBox(AttCheckType type) : AttCheckArea(type) {}
 
     bool parse(const CreateArg& arg) override;
-    bool m9() override;
-    float m10() override;
-    void m11() override;
+    bool m9(const act::ActorConstDataAccess& link, const sead::Vector3f& local_pos,
+            const sead::Vector3f& pos, const AttCheck_Unk1* arg, bool a6, bool a7) override;
+    float m10(const act::ActorConstDataAccess& accessor, const sead::Vector3f& scale) override;
+    void m11(const act::ActorConstDataAccess& link, const sead::Matrix34f& mtx,
+             const sead::Vector3f& scale, bool a4) override;
 
 private:
     agl::utl::Parameter<bool> mForceEditModelArea;
@@ -232,12 +252,12 @@ class AttCheckEachOtherArea : public AttCheck {
 public:
     explicit AttCheckEachOtherArea(AttCheckType type);
 
-    void m4() override;
+    void m4(act::Actor* actor, sead::Matrix34f* mtx) override;
     bool check(act::Actor* actor, const act::ActorConstDataAccess& accessor,
                const sead::Matrix34f* mtx, const sead::Vector3f& pos, const AttCheck_Unk1* arg,
                bool a6, bool a7) override;
-    float m6() override;
-    void m7() override;
+    float m6(const act::ActorConstDataAccess& accessor, const sead::Vector3f& scale) override;
+    void m7(act::Actor* actor, const act::ActorConstDataAccess& accessor, bool a3) override;
     bool parse(const CreateArg& arg) override;
 
 private:
@@ -261,7 +281,7 @@ class AttCheckAngle : public AttCheck {
 public:
     using AttCheck::AttCheck;
 
-    void m4() override;
+    void m4(act::Actor* actor, sead::Matrix34f* mtx) override;
     bool check(act::Actor* actor, const act::ActorConstDataAccess& accessor,
                const sead::Matrix34f* mtx, const sead::Vector3f& pos, const AttCheck_Unk1* arg,
                bool a6, bool a7) override;

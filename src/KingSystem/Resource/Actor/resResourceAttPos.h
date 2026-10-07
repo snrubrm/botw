@@ -31,7 +31,7 @@ struct AttPos {
     void x(sead::Matrix34f* mtx) const;
     // 0x71010954b8 / 0x7101095728 (CSV AttPos::x_1 / x_2): the attention position matrix of an actor (through its
     // data accessor / directly): the bone (or actor) matrix with `x` applied, then the scaled offset and rotation.
-    void x_1(sead::Matrix34f* mtx, act::ActorConstDataAccess& accessor) const;
+    void x_1(sead::Matrix34f* mtx, const act::ActorConstDataAccess& accessor) const;
     void x_2(sead::Matrix34f* mtx, act::Actor* actor) const;
 
     agl::utl::Parameter<sead::SafeString> node;

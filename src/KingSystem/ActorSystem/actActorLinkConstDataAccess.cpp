@@ -47,7 +47,7 @@ const MesTransceiverId* ActorLinkConstDataAccess::getMessageTransceiverId() cons
     return actor->getMesTransceiverId();
 }
 
-const sead::Matrix34f& ActorLinkConstDataAccess::getActorMtx() {
+const sead::Matrix34f& ActorLinkConstDataAccess::getActorMtx() const {
     const Actor* actor = getActor();
     if (actor)
         return actor->getMtx();

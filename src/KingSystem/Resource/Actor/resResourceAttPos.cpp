@@ -63,7 +63,7 @@ void AttPos::edit(sead::Matrix34f* mtx, act::Actor* actor, const gsys::BoneAcces
 
 // NON_MATCHING: the original tests the node name with an inlined `cstr()` + length loop + empty-string fallback
 // instead of `isEmpty()`, and schedules the rotation matrix differently
-void AttPos::x_1(sead::Matrix34f* mtx, act::ActorConstDataAccess& accessor) const {
+void AttPos::x_1(sead::Matrix34f* mtx, const act::ActorConstDataAccess& accessor) const {
     const f32 scale = accessor.getField418().x;
     const sead::Vector3f translation = offset.ref() * scale;
     sead::Matrix34f local;

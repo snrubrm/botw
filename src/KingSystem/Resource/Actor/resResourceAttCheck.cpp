@@ -5,19 +5,20 @@
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/Physics/System/physRayCastBodyQuery.h"
+#include "KingSystem/System/CameraMgr.h"
 #include "KingSystem/ActorSystem/actUnk_7100e4e084.h"
 #include "KingSystem/GameData/gdtManagerInline.h"
 
 namespace ksys::res {
 
-void AttCheck::m4() {}
+void AttCheck::m4(act::Actor*, sead::Matrix34f*) {}
 
 bool AttCheck::check(act::Actor*, const act::ActorConstDataAccess&, const sead::Matrix34f*,
                      const sead::Vector3f&, const AttCheck_Unk1*, bool, bool) {
     return true;
 }
 
-float AttCheck::m6() {
+float AttCheck::m6(const act::ActorConstDataAccess&, const sead::Vector3f&) {
     return -1.0;
 }
 
@@ -31,6 +32,58 @@ bool AttCheckArea::parse(const CreateArg& arg) {
     mAttPos.init(&mObj);
     mFromPlayer.init(false, "FromPlayer", "目標側基準", "", &mObj);
     return true;
+}
+
+void AttCheckArea::m4(act::Actor* actor, sead::Matrix34f* mtx) {
+    if (!mFromPlayer.ref())
+        mAttPos.x_2(mtx, actor);
+}
+
+// NON_MATCHING: register allocation only (the nine products of the local position are the same, the matrix elements
+// sit in other s registers)
+bool AttCheckArea::check(act::Actor* actor, const act::ActorConstDataAccess& accessor,
+                         const sead::Matrix34f* mtx, const sead::Vector3f& pos,
+                         const AttCheck_Unk1* arg, bool a6, bool a7) {
+    if (arg && arg->_36)
+        return true;
+
+    sead::Matrix34f area_mtx;
+    const sead::Vector3f* prev_pos;
+    if (mFromPlayer.ref()) {
+        if (arg)
+            area_mtx = arg->_0;
+        else
+            mAttPos.x_1(&area_mtx, accessor);
+        prev_pos = &actor->getPreviousPos();
+    } else {
+        area_mtx = *mtx;
+        prev_pos = &accessor.getPreviousPos();
+    }
+
+    sead::Vector3f local;
+    area_mtx.getTranslation(local);
+    const sead::Vector3f diff = *prev_pos - local;
+    local.set(diff.x * area_mtx.m[0][0] + diff.y * area_mtx.m[1][0] + diff.z * area_mtx.m[2][0],
+              diff.x * area_mtx.m[0][1] + diff.y * area_mtx.m[1][1] + diff.z * area_mtx.m[2][1],
+              diff.x * area_mtx.m[0][2] + diff.y * area_mtx.m[1][2] + diff.z * area_mtx.m[2][2]);
+
+    act::ActorConstDataAccess link(actor);
+    return m9(link, local, pos, arg, a6, a7);
+}
+
+float AttCheckArea::m6(const act::ActorConstDataAccess& accessor, const sead::Vector3f& scale) {
+    return mAttPos.offset.ref().length() + m10(accessor, scale);
+}
+
+void AttCheckArea::m7(act::Actor* actor, const act::ActorConstDataAccess& accessor, bool a3) {
+    sead::Matrix34f mtx;
+    if (mFromPlayer.ref())
+        mAttPos.x_1(&mtx, accessor);
+    else
+        mAttPos.x_2(&mtx, actor);
+
+    act::ActorConstDataAccess link(actor);
+    m11(link, mtx, actor->getScale(), a3);
 }
 
 bool AttCheckAreaSphere::parse(const CreateArg& arg) {
@@ -119,6 +172,24 @@ bool AttCheckEachOtherArea::parse(const CreateArg& arg) {
     mOffsetBottom.init(0.0, "OffsetBottom", "(アテンションを出される側の範囲オフセット)下辺",
                        "Min=-100,Max=100", &mObj);
     return AttCheck::parse(arg);
+}
+
+bool AttCheckLine::check(act::Actor* actor, const act::ActorConstDataAccess& accessor,
+                         const sead::Matrix34f*, const sead::Vector3f&, const AttCheck_Unk1*, bool,
+                         bool a7) {
+    if (a7 && mClient && mClient->getActionCode() == act::AttActionCode::None)
+        return true;
+
+    act::ActorConstDataAccess link(actor);
+    return act::sub_7100EE3FA8(link, accessor, mAsLineOfSight.ref(), mRadius.ref());
+}
+
+bool AttCheckScreen::check(act::Actor* actor, const act::ActorConstDataAccess&,
+                           const sead::Matrix34f*, const sead::Vector3f&, const AttCheck_Unk1* arg,
+                           bool, bool a7) {
+    if ((arg && arg->_35) || a7)
+        return true;
+    return sub_7100D8C4F8(actor->getPreviousPos());
 }
 
 bool AttCheckWeight::check(act::Actor*, const act::ActorConstDataAccess&, const sead::Matrix34f*,
@@ -226,6 +297,42 @@ bool AttCheckUnderWater::check(act::Actor* actor, const act::ActorConstDataAcces
                                const sead::Matrix34f*, const sead::Vector3f&,
                                const AttCheck_Unk1*, bool, bool) {
     return actor && actor->get6f4() <= 0.99f;
+}
+
+void AttCheckAngle::m4(act::Actor* actor, sead::Matrix34f* mtx) {
+    mAttPos.x_2(mtx, actor);
+}
+
+// NON_MATCHING: register allocation / scheduling (the original keeps the direction in s8 / s9 the other way round, spills
+// nothing and branches to a shared `return false` in the final comparisons instead of merging them into a `cset`)
+bool AttCheckAngle::check(act::Actor* actor, const act::ActorConstDataAccess& accessor,
+                          const sead::Matrix34f* mtx, const sead::Vector3f&, const AttCheck_Unk1*,
+                          bool, bool) {
+    const sead::Vector3f& actor_pos = actor->getPreviousPos();
+    sead::Vector3f dir = accessor.getPreviousPos() - actor_pos;
+    dir.y = 0.0f;
+    if (dir.normalize() != 0.0f) {
+        sead::Vector3f right(-mtx->m[2][0], 0.0f, mtx->m[0][0]);
+        if (right.normalize() != 0.0f) {
+            sead::Vector3f front;
+            accessor.getActorMtx().getBase(front, 2);
+            front.y = 0.0f;
+            if (front.normalize() != 0.0f) {
+                const f32 dot_dir_right = dir.dot(right);
+                const f32 dot_right_front = right.dot(front);
+                const f32 cos_angle = sead::Mathf::cos(mAngle.ref());
+                if (dot_dir_right > 0.0f) {
+                    if (!(dot_right_front <= -cos_angle))
+                        return false;
+                    return true;
+                }
+                if (!(cos_angle <= dot_right_front))
+                    return false;
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
 bool AttCheckAngle::parse(const CreateArg& arg) {

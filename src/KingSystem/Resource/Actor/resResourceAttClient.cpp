@@ -204,6 +204,26 @@ int AttClient::check(act::Actor* actor, const act::ActorConstDataAccess& accesso
     return -1;
 }
 
+void AttClient::checkM4(act::Actor* actor, sead::Buffer<sead::Matrix34f>& mtxs) const {
+    const int num = mChecks.size();
+    if (num > 0 && (!mtxs.getBufferPtr() || mtxs.size() < num))
+        return;
+
+    int i = 0;
+    for (auto* att_check : mChecks) {
+        att_check->m4(actor, &mtxs[i]);
+        ++i;
+    }
+}
+
+float AttClient::checkM6(const act::ActorConstDataAccess& accessor,
+                         const sead::Vector3f& scale) const {
+    f32 max = -1.0f;
+    for (auto* att_check : mChecks)
+        max = sead::Mathf::max(max, att_check->m6(accessor, scale));
+    return max;
+}
+
 int AttClient::getNumChecks() const {
     return mChecks.size();
 }
