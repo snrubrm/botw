@@ -32,6 +32,10 @@ public:
     void loadParams_() override;
     bool reenter_(ksys::act::ai::ActionBase* other, bool x) override;
 
+    // 0x710036f80c (placeholder name): enables the attack sensor with the BodyHit parameters and the attack bodies
+    // of the actor's physics (`sub_71007A2B64` on those that are in / entering the world on the enemy attack layer).
+    void sub_710036F80C();
+
     f32 m34() override;
     void m37() override;
     void m38() override;

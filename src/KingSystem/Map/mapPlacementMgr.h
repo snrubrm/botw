@@ -63,6 +63,8 @@ struct Unk_71012497f8Entry {
     bool _80;
 };
 class Placement18;
+class Rail;
+class RailConnectablePoint;
 class PlacementActors;
 class PlacementMapMgr;
 class PlacementTree;
@@ -128,6 +130,11 @@ public:
     // 0x71011e9db0 (CSV __auto8; placeholder name): unless flag 2 is set: PlacementActors::x_7 and the clustered
     // renderer's 0x1244598 step (not while flag 0x40 / `_690` bit 6 is set).
     void sub_71011E9DB0();
+    // 0x71011ea44c / 0x71011ea454 (CSV __auto13 / __auto7; placeholder names, declaration only; lane1 s47): forward
+    // to the rail manager at +0x208: the connectable rail point near `pos` (the cell `x` / `z`) / the rail named
+    // `name` near `pos`.
+    RailConnectablePoint* sub_71011EA44C(const sead::Vector3f* pos, s32 x, s32 z);
+    Rail* sub_71011EA454(const sead::SafeString& name, const sead::Vector3f* pos);
     // 0x71011e63fc (CSV x_0; placeholder name): the map cell of `pos` (1000 x 1000 cells, origin -5000 / -4000) and the
     // position inside the cell.
     struct CellPos {

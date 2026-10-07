@@ -1,6 +1,7 @@
 #include "Game/AI/AI/aiDragonRootBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/Map/mapPlacementMgr.h"
 #include "KingSystem/Map/mapRail.h"
 #include "KingSystem/System/VFR.h"
 
@@ -133,6 +134,31 @@ void DragonRootBase::leave_() {
 }
 
 void DragonRootBase::loadParams_() {}
+
+// NON_MATCHING: the original converts `search_size` to ints before the name test (and keeps the prologue `add x29`
+// right after the spills); the rest is identical
+void DragonRootBase::sub_7100357150(f32 progress, const sead::SafeString& rail_name,
+                                    const sead::Vector2f& search_size) {
+    sead::Vector3f pos = mActor->getMtx().getTranslation();
+    ksys::map::Rail* rail;
+    if (rail_name.isEmpty()) {
+        auto* point = ksys::map::PlacementMgr::instance()->sub_71011EA44C(
+            &pos, static_cast<s32>(search_size.x), static_cast<s32>(search_size.y));
+        if (!point)
+            return;
+        rail = point->getJunctionRail();
+    } else {
+        rail = ksys::map::PlacementMgr::instance()->sub_71011EA454(rail_name, &pos);
+    }
+    if (!rail)
+        return;
+    if (progress < 0) {
+        pos = mActor->getMtx().getTranslation();
+        progress = sub_7100EEF7AC(rail, pos, false, 0.2f, -0.0f);
+    }
+    _38.sub_7100EEBAE0(rail, std::max(progress, 0.0f));
+    _38.sub_7100EEBE9C(1);
+}
 
 bool DragonRootBase::sub_7100357314(f32 progress) {
     const ksys::map::Rail* rail = _38._8.rail;

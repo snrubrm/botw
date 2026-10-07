@@ -37,6 +37,10 @@ public:
     void sub_7100356CFC();
     void changeToMove();
     void sub_7100356F30();
+    // 0x7100357150 (placeholder name): puts the follower on the rail `rail_name` (the junction rail of the connectable
+    // point in `search_size` cells when the name is empty) at the actor's position (or at `progress` if >= 0).
+    void sub_7100357150(f32 progress, const sead::SafeString& rail_name,
+                        const sead::Vector2f& search_size);
     bool sub_7100357314(f32 progress);
     // 0x7100357268 (placeholder name): the follower is within `offset` points of the end of the rail and the
     // rail has no junction at its end.

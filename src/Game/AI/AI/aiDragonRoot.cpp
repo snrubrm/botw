@@ -1,6 +1,11 @@
 #include "Game/AI/AI/aiDragonRoot.h"
 #include "Game/Actor/actDragon.h"
+#include "Game/AI/aiUnk_71007377D4.h"
 #include "Game/Damage/dmgDamageManager.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/ActorSystem/actAttackSensor.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Utils/Thread/Message.h"
@@ -118,6 +123,25 @@ bool DragonRoot::reenter_(ksys::act::ai::ActionBase* other, bool x) {
     mActor->getActorFlags2().change(ksys::act::Actor::ActorFlag2::_20, !root->_24c.isOn(8));
     mActor->clearFadeInCreate();
     return true;
+}
+
+// NON_MATCHING: only the order of the first four instructions differs (`mov x19, x0` / `ldr x0` / the two `orr`
+// constants)
+void DragonRoot::sub_710036F80C() {
+    sub_71007A44E4(mActor, true);
+    getActorAttackSensor(mActor)->activateAttackSensor(0x2000, 0x800c, *mBodyHitDamage_s,
+                                                       *mBodyHitPower_s, 1.0f, *mBodyHitImpact_s,
+                                                       *mBodyHitShieldDamage_s, -1, false, 1, -1);
+    if (auto* set = mActor->getPhysics()->findBodyByName(*sub_71007A24BC())) {
+        const s32 count = set->getRigidBodies().size();
+        for (s32 i = 0; i < count; ++i) {
+            auto* body = set->getRigidBodies()[i];
+            if ((body->isAddedToWorld() || body->isAddingBodyToWorld()) && body &&
+                body->getContactLayer() == ksys::phys::ContactLayer::SensorAttackEnemy) {
+                sub_71007A2B64(body, nullptr);
+            }
+        }
+    }
 }
 
 void DragonRoot::leave_() {
