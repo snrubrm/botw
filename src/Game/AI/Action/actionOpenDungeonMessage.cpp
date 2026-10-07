@@ -12,7 +12,21 @@ bool OpenDungeonMessage::init_(sead::Heap* heap) {
 }
 
 void OpenDungeonMessage::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    auto* ui = ui::UI::instance();
+    if (!ui) {
+        setFailed();
+        return;
+    }
+    const s32 separator = mMessageId_d.rfindIndex(":");
+    if (separator >= 1) {
+        sead::FixedSafeString<256> message_set;
+        message_set.copy(mMessageId_d, separator);
+        const sead::SafeString label(mMessageId_d.cstr() + (separator + 1));
+        ui->sub_71010A7774(message_set, label, sead::SafeString::cEmptyString,
+                         sead::SafeString::cEmptyString, false);
+    } else {
+        setFailed();
+    }
 }
 
 void OpenDungeonMessage::leave_() {
