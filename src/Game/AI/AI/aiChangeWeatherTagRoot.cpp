@@ -20,7 +20,12 @@ void ChangeWeatherTagRoot::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void ChangeWeatherTagRoot::leave_() {
-    ksys::act::ai::Ai::leave_();
+    if (_98) {
+        if (auto* bgm = getRemainsElecBattleBgmMaybe()) {
+            bgm->_1e8 = false;
+            _98 = false;
+        }
+    }
 }
 
 void ChangeWeatherTagRoot::loadParams_() {

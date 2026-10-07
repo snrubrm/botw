@@ -302,6 +302,7 @@ public:
     void sub_71011C8B04(const sead::Matrix34f& mtx);
 
     const sead::Matrix34f& getMtx() const { return mMtx; }
+    u32 getHashId() const { return mHashId; }
     const sead::Vector3f& getVelocity() const { return mVelocity; }
     const sead::Vector3f& getAngVelocity() const { return mAngVelocity; }
     const sead::Vector3f& getScale() const { return mScale; }

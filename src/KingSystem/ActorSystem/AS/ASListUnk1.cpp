@@ -233,6 +233,17 @@ void ASList::Unk1::sub_7101164E64(BoneBlendState* state) {
         entry.sub_7101162C58(_30, state);
 }
 
+void ASList::Unk1::sub_7101164E38(bool a1) {
+    if (!_30)
+        return;
+    if (a1) {
+        _4d = true;
+        return;
+    }
+    _4d = false;
+    _30->sub_7100BFF4CC(_0, &_38);
+}
+
 void ASList::Unk1::sub_7101164FF8() {
     if (_30)
         _30->_8 = 0;

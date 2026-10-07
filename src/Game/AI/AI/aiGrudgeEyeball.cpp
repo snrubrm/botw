@@ -1,4 +1,7 @@
 #include "Game/AI/AI/aiGrudgeEyeball.h"
+#include "Game/Damage/dmgDamageManager.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Sound/sndMgr.h"
 
 namespace uking::ai {
 
@@ -16,11 +19,38 @@ bool GrudgeEyeball::init_(sead::Heap* heap) {
 }
 
 void GrudgeEyeball::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (*mEyeballFirstState_m == 0) {
+        if (auto* damage_mgr = mActor->getDamageMgr()) {
+            if (auto* manager = sead::DynamicCast<uking::dmg::DamageManager>(damage_mgr)) {
+                manager->removeDamageCallback(&_40);
+                _70 = false;
+            }
+        }
+        changeChild("開けて待機", nullptr);
+    } else {
+        if (!_70) {
+            if (auto* damage_mgr = mActor->getDamageMgr()) {
+                if (auto* manager = sead::DynamicCast<uking::dmg::DamageManager>(damage_mgr)) {
+                    manager->addDamageCallback(4, &_40);
+                    _70 = true;
+                }
+            }
+        }
+        changeChild("閉じて待機", nullptr);
+    }
+    if (auto* sound = ksys::snd::SoundMgr::instance()->_38->_48)
+        sound->sub_7101035B50(mActor);
 }
 
 void GrudgeEyeball::leave_() {
-    ksys::act::ai::Ai::leave_();
+    if (auto* damage_mgr = mActor->getDamageMgr()) {
+        if (auto* manager = sead::DynamicCast<uking::dmg::DamageManager>(damage_mgr)) {
+            manager->removeDamageCallback(&_40);
+            _70 = false;
+        }
+    }
+    if (auto* sound = ksys::snd::SoundMgr::instance()->_38->_48)
+        sound->sub_7101035C50(mActor->getId(), mActor->getHashId());
 }
 
 void GrudgeEyeball::loadParams_() {

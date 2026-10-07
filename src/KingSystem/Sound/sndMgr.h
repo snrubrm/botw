@@ -111,6 +111,16 @@ public:
     void sub_7101029C98(uking::act::EnvSeEmitPoint* point);
 };
 
+// Placeholder name (SoundMgr::_38::_48; lane1 s47): a registry of actors (list at +0x1aa8, guarded by the CriticalSection
+// at +0x1d58) used by the GrudgeEyeball AI.
+class Unk_SoundMgr38_48 {
+public:
+    // 0x7101035b50 (declared only): adds `actor` to the list (if it has room).
+    void sub_7101035B50(ksys::act::Actor* actor);
+    // 0x7101035c50 (declared only): removes the entry of the actor with id `id` / hash id `hash_id`.
+    void sub_7101035C50(u32 id, u32 hash_id);
+};
+
 // Placeholder name (SoundMgr::_38).
 struct Unk_SoundMgr38 {
     // 0x710102c104: returns `_28`.
@@ -120,6 +130,8 @@ struct Unk_SoundMgr38 {
     /* 0x20 */ Unk_SoundMgr38_20* _20;
     /* 0x28 */ Unk_SoundMgr38_28* _28;
     /* 0x30 */ SpeakerBalanceUnifierMgr* _30;
+    u8 _38[0x48 - 0x38];
+    /* 0x48 */ Unk_SoundMgr38_48* _48;
 };
 
 // Name from the CSV (snd::DuckingMgr::startDucking 0x7101042078; ctor 0x710103e404, init 0x710103e58c).

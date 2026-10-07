@@ -1,6 +1,7 @@
 #include "KingSystem/ActorSystem/AS/asElement.h"
 #include "KingSystem/Resource/Actor/resResourceASResource.h"
 #include "KingSystem/Resource/Actor/resResourceASResourceExtension.h"
+#include "KingSystem/System/SystemTimers.h"
 
 namespace ksys::as {
 
@@ -8,6 +9,28 @@ AnmAsset::AnmAsset(const CreateArg&, s32 value, const res::ASResource* resource)
     : _8(false), _9(false), _a(value), _c(0.0f) {
     if (resource)
         _a = resource->getIndex();
+}
+
+f32 AnmAsset::sub_7101315930(Context* ctx, const res::ASResource* resource) {
+    ElementParams* params =
+        ctx->sub_7101258D4C(ctx->sub_7101258CD4(sub_71011653E8(resource)), false);
+    if (resource) {
+        auto* parser = sead::DynamicCast<const res::ASFrameCtrlParser>(
+            resource->getExtensions().getParser(res::ASParamParser::Type::FrameCtrl));
+        if (parser) {
+            if (auto* timers = SystemTimers::instance()) {
+                if (parser->getUseGlobalFrame()) {
+                    params->sub_7101302A1C(f32(u32(timers->mFrameCounterB2) % u32(s32(params->_14))) +
+                                           timers->mVfrTimer2);
+                }
+            }
+        }
+    }
+
+    f32 position = params->_4 < params->_10 ? params->_10 : params->_4;
+    if (params->_0 & 4)
+        position = m4() - position;
+    return position;
 }
 
 f32 AnmAsset::m4() {
