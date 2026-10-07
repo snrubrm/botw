@@ -18,6 +18,7 @@ public:
     void loadParams_() override;
 
     void sub_7100371E4C();
+    bool sub_7100372E30(sead::Vector3f* target, const sead::Vector3f* front);
 protected:
     // static_param at offset 0x38
     const float* mSpeed_s{};
@@ -27,14 +28,14 @@ protected:
     sead::Vector3f* mTargetVec_d{};
     // dynamic_param at offset 0x50
     sead::Vector3f* mTargetPos_d{};
-    u32 _58{};
-    u32 _5c{};
-    u32 _60 = 0;
+    f32 _58 = 0;
+    f32 _5c = 0;
+    f32 _60 = 0;
     sead::Vector3f _64 = sead::Vector3f::ex;
     f32 _70 = 0.0f;
     f32 _74 = -1.0f;
     sead::Vector3f _78 = sead::Vector3f::zero;
-    u32 _84 = 0;
+    f32 _84 = 0;
 };
 
 }  // namespace uking::ai

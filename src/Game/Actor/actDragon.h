@@ -53,6 +53,8 @@ public:
     // Placeholder names (non-virtual functions called by the Dragon AI).
     bool sub_710000FDFC() const;
     bool sub_710000FE10();
+    // 0x710000c630 (CSV name): magnitude of the velocity at +0x1e1c; declaration only.
+    f32 x_0() const;
     void sub_710000E500(const sead::SafeString& name);
     // 0x710000c440: the dragon's map object: Actor::mMapObject when _1f70 bit 28 is set, otherwise a lookup
     // by dragon kind (_1e0c) (declared only; DragonFireRoot::sub_71003687B4).

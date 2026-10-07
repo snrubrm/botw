@@ -1,5 +1,8 @@
 #include "Game/AI/AI/aiDragonReturn.h"
 #include "Game/Actor/actDragon.h"
+#include "Game/AI/aiUnk_71007377D4.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/System/VFR.h"
 
 namespace uking::ai {
 
@@ -22,6 +25,21 @@ void DragonReturn::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void DragonReturn::leave_() {
     _a0.fadeXLink();
+}
+
+void DragonReturn::sub_710036D5BC() {
+    auto* dragon = sead::DynamicCast<act::Dragon>(mActor);
+    if (!dragon || !dragon->getCharacterController())
+        return;
+    _80 = 0;
+    const f32 speed = dragon->x_0();
+    _84 = speed * (1.0f / ksys::VFR::instance()->getDeltaFrame());
+    sead::Vector3f front;
+    sub_7100010168(dragon, &front);
+    ksys::act::ai::InlineParamPack params;
+    params.addVec3(dragon->getMtx().getTranslation(), "TargetPos", -1);
+    params.addVec3(-front, "FrontDir", -1);
+    changeChild("移動", &params);
 }
 
 void DragonReturn::loadParams_() {

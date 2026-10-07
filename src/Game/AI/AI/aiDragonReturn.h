@@ -36,7 +36,8 @@ protected:
     const float* mReturnStartFrame_s{};
     bool _70 = false;
     sead::Vector3f _74 = sead::Vector3f::ez;
-    u64 _80 = 0;
+    f32 _80 = 0;
+    f32 _84 = 0;
     sead::Vector3f _88 = sead::Vector3f::ex;
     f32 _94 = 0;
     f32 _98 = -1.0f;
