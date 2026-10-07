@@ -25,6 +25,7 @@ public:
     void setVolume(f32 volume);
     f32 getVolume() const { return mVolume; }
     f32 getSpread() const { return mSpread; }
+    f32 getDeviceVolume(DeviceType device) const { return mDeviceVolume[device]; }
     f32 getBusVolume(BusType bus) const { return mBusVolume[bus]; }
     f32 getPitch() const { return mPitch; }
     f32 getLpf() const { return mLpf; }

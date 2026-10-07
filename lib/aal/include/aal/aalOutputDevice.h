@@ -39,6 +39,7 @@ public:
     void setInteriorSize(f32 size);
     s32 getNumOfInteriorMax() const;
     InteriorSet* getCurrentInteriorSet() const { return mCurrentInterior; }
+    f32 get_20() const { return _20; }
 
 protected:
     InteriorSet* mCurrentInterior = nullptr;

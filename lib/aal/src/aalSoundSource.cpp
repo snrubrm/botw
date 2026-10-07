@@ -1,6 +1,7 @@
 #include "aal/aalSoundSource.h"
 #include "aal/aalSpatialPlayingParamPool.h"
 #include <cfloat>
+#include <cstring>
 #include <math/seadMathCalcCommon.h>
 #include "aal/aalEmitter.h"
 #include "aal/aalArbiter.h"
@@ -11,10 +12,13 @@
 #include "aal/aalSoundController.h"
 #include "aal/aalMarkerController.h"
 #include "aal/aalSoundSourceUnifier.h"
+#include "aal/aalOutputDevice.h"
 #include "aal/aalSettings.h"
 #include "aal/aalSystemAccessor.h"
 
 namespace aal {
+
+sead::SafeArray<SpeakerChannelVolume, 1> SoundSource::sSpeakerBalance[2];
 
 // 0x7100b76808
 SoundSource::SoundSource()
@@ -319,6 +323,47 @@ void SoundSource::calcPlaying_() {
     else if (mSpeakerBalanceSupplier)
         priority *= mSpeakerBalanceSupplier->getPriorityReduction();
     controller->setChannelPriority(priority);
+}
+
+// NON_MATCHING: same code; the two stack slots of the DeviceType temporaries are swapped.
+// 0x7100b78860
+void SoundSource::updateMixBalance_(s32 track, f32 volume) {
+    std::memset(sSpeakerBalance, 0, sizeof(sSpeakerBalance));
+
+    const s32 channel_num = getChannelNum(track);
+    if (mSpeakerBalanceSupplier) {
+        f32 spread;
+        if (OutputDevice* device = SystemAccessor::getSettings()->getOutputDevice(DeviceType(0))) {
+            f32 device_volume = mAggregatedParam->getDeviceVolume(DeviceType(0));
+            if (device_volume < 0.0f)
+                device_volume = 1.0f;
+            spread = device->get_20() * device_volume;
+        } else {
+            spread = 0.0f;
+        }
+        for (u32 channel = 0; channel < channel_num; ++channel)
+            mSpeakerBalanceSupplier->calcSpeakerBalance(&sSpeakerBalance[channel].mBuffer[0], DeviceType(0), track,
+                                                        channel, spread);
+    } else if (mSpatialPlayingParam) {
+        updateMixBalancePositional_(sSpeakerBalance, track, channel_num);
+    } else {
+        updateMixBalanceUnpositional_(sSpeakerBalance, track, channel_num);
+    }
+
+    const u32 output_line = mPlayingStateController->mSoundController->setOutputLine(sSpeakerBalance, channel_num);
+
+    f32 track_volume = 0.0f;
+    if (u32(track) <= 7)
+        track_volume = mTrackVolume[track] * (1.0f / 255);
+    if (channel_num > 0) {
+        const f32 total_volume = track_volume * volume;
+        for (s32 channel = 0; channel < channel_num; ++channel) {
+            SoundController* controller = mPlayingStateController->mSoundController;
+            if (SoundController::checkDeviceEnabledOnOutputLine(DeviceType(0), output_line))
+                controller->setSpeakerBalance(sSpeakerBalance[channel].mBuffer[0], DeviceType(0), channel,
+                                              BusType(0), 1u << track, total_volume);
+        }
+    }
 }
 
 // NON_MATCHING: the original selects the smaller listener value with an unordered "not less" compare (`fcsel pl`), here

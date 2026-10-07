@@ -1,10 +1,12 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <container/seadSafeArray.h>
 #include <thread/seadCriticalSection.h>
 #include "aal/aalFadeCurveType.h"
 #include "aal/aalAssetInfo.h"
 #include "aal/aalDeviceType.h"
+#include "aal/aalSpeakerChannelVolume.h"
 #include "aal/aalTimedFader.h"
 #include "aal/aalVirtualizeMode.h"
 
@@ -65,6 +67,12 @@ public:
     void setBusVolume(BusType bus, f32 volume);
     /// 0x7100ba213c (declared only)
     void setBiquadFilter(s32 type, f32 value);
+    /// 0x7100ba2204 (declared only): sets the speaker balance of the channels (one SpeakerChannelVolume of each device
+    /// per channel) and returns the output line (a bit mask of the devices that the sound is output to).
+    u32 setOutputLine(const sead::SafeArray<SpeakerChannelVolume, 1>* volumes, s32 channel_num);
+    /// 0x7100ba2294 (declared only): `output_mask` has a bit for each track.
+    void setSpeakerBalance(const SpeakerChannelVolume& volume, DeviceType device, s32 channel, BusType bus,
+                           u32 output_mask, f32 volume_scale);
     /// 0x7100ba23f8: the priority (0 - 1) of the sound for the voice allocation of the sound library.
     void setChannelPriority(f32 priority);
     bool isInnerPaused() const;

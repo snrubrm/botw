@@ -149,8 +149,13 @@ public:
     void updateBiquadFilter_();
     /// 0x7100b7859c (declared only)
     void updateBusVolume_();
-    /// 0x7100b78860 (declared only): the speaker balance of the track.
+    /// 0x7100b78860: calculates the speaker balance of the channels of the track (in sSpeakerBalance) and sets it.
     void updateMixBalance_(s32 track, f32 volume);
+    /// 0x7100b78a70 / 0x7100b78e1c (declared only): the speaker balance from the position of the sound (for each
+    /// listener) / without a position.
+    void updateMixBalancePositional_(sead::SafeArray<SpeakerChannelVolume, 1>* volumes, s32 track, s32 channel_num);
+    void updateMixBalanceUnpositional_(sead::SafeArray<SpeakerChannelVolume, 1>* volumes, s32 track,
+                                       s32 channel_num);
     /// 0x7100b78478
     void execOnFinalizeEmitter();
     /// 0x7100b770e4: allocates the spatial calculator (and the unifier source); stops the sound if that fails.
@@ -202,6 +207,11 @@ public:
     u32 getPlaySamplePosition() const;
     const char* getAssetName() const;
     const sead::SafeString& getSoundGroupName() const;
+
+private:
+    /// The speaker balance of the channels of the track that updateMixBalance_ calculates (0x71025fb4a0; a variable in
+    /// the original: it is shared by all sound sources).
+    static sead::SafeArray<SpeakerChannelVolume, 1> sSpeakerBalance[2];
 };
 static_assert(offsetof(SoundSource, mState) == 0xc, "aal::SoundSource layout mismatch");
 static_assert(offsetof(SoundSource, mId) == 0x10, "aal::SoundSource layout mismatch");
