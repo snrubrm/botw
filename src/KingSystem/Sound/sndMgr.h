@@ -15,6 +15,7 @@
 #include <aal/aalGroupLimiter.h>
 #include <aal/aalListener.h>
 #include <aal/aalListenerPoser.h>
+#include <container/seadFreeList.h>
 #include <aal/aalTimedFader.h>
 #include <aal/aalAssetInfo.h>
 #include <xlink2/xlink2HandleSLink.h>
@@ -431,6 +432,7 @@ public:
     virtual ~Unk_SoundMgra8();
     void sub_710104B404(sead::Heap* heap);
     void sub_710104B408();
+    Unk_SoundInstance* sub_710104B480(s32 id);
     // 0x710104b554 (CSV nullsub_4415): releases `instance`.
     void sub_710104B554(Unk_SoundInstance* instance);
     // 0x710104b558 (132 B): the volume the sound instance list gives `actor` (the first non-negative value of the
@@ -451,7 +453,9 @@ public:
     /* 0x49 */ bool _49;
     u8 _4a[0x50 - 0x4a];
     /* 0x50 */ sead::PtrArray<Unk_SoundInstance> _50;
-    u8 _60[0x4a70 - 0x60];
+    /* 0x60 */ sead::FreeList mFreeList;
+    /* 0x70 */ u8 mPoolStorage[16 * sizeof(Unk_SoundInstance)];
+    /* 0x49f0 */ Unk_SoundInstance* mPointerStorage[16];
     /* 0x4a70 */ u16 _4a70;
     /* 0x4a72 */ u16 _4a72;
 };
