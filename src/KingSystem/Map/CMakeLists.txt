@@ -9,6 +9,8 @@ target_sources(uking PRIVATE
   mapDebug.cpp
   mapDebug.h
   mapLazyTraverseList.cpp
+  mapLinkTag.cpp
+  mapLinkTag.h
   mapLazyTraverseList.h
   mapMapProperties.cpp
   mapMapProperties.h

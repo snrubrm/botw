@@ -1,0 +1,94 @@
+#pragma once
+
+#include <prim/seadRuntimeTypeInfo.h>
+#include <thread/seadAtomic.h>
+#include "KingSystem/ActorSystem/actBaseProc.h"
+#include "KingSystem/ActorSystem/actBaseProcJobHandler.h"
+#include "KingSystem/Map/mapMubinIter.h"
+#include "KingSystem/Utils/Types.h"
+
+namespace ksys::map {
+
+class Object;
+struct ObjectLink;
+
+// 0x7100d38170 (declaration only): reads the game data flag of `obj`'s revival / signal into `out`; false if it has none.
+bool isFlagSet(bool* out, bool a, const Object* obj);
+
+// The BaseProc of a placed link tag (CSV LinkTag::*; the class name is the CSV's). It follows the links that point
+// to its map object (a bit per link in `_1d0`) and drives the placed object's link signals. Only the small virtual
+// overrides are decompiled so far.
+// TODO: incomplete
+class LinkTag : public act::BaseProc {
+    SEAD_RTTI_OVERRIDE(LinkTag, act::BaseProc)
+public:
+    // 0x7100d3778c (CSV LinkTag::construct)
+    static LinkTag* construct(const CreateArg& arg, sead::Heap* heap);
+
+    explicit LinkTag(const CreateArg& arg);
+    ~LinkTag() override;
+
+    // 0x7100d379f8 (CSV init2; declaration only)
+    InitResult init_() override;
+    // 0x7100d382a4
+    void finalizeInit_(InitContext* context) override;
+    // 0x7100d38398 (CSV isDonePreparingForPreDelete)
+    PreDeletePrepareResult prepareForPreDelete_() override;
+    // 0x7100d382dc (CSV prepareForPreDelete)
+    bool startPreparingForPreDelete_() override;
+    // 0x7100d38d7c
+    void onEnterCalc_() override;
+    // 0x7100d38fc0
+    IsSpecialJobTypeResult isSpecialJobType_(act::JobType type) override;
+    // 0x7100d38fc8
+    bool canWakeUp_() override;
+    // 0x7100d38f3c
+    void queueExtraJobPush_(act::JobType type, int idx) override;
+    // 0x7100d38ef0
+    bool hasJobType_(act::JobType type) override;
+    // 0x7100d3905c
+    bool shouldSkipJobPush_(act::JobType type) override;
+    // 0x7100d3909c (CSV prePushJob2)
+    void onJobPush2_(act::JobType type) override;
+
+    // 0x7100d37858: the calc job (job type 3).
+    void calc();
+
+private:
+    // 0x7100d383f4 / 0x7100d38534 / 0x7100d38820 (CSV calcCount / calcPulse / calcOther; declaration only): `frame_changed`
+    // is whether the frame counter changed since the last calc.
+    void calcCount(bool frame_changed);
+    void calcPulse(bool frame_changed);
+    void calcOther(bool frame_changed);
+    // 0x7100d396a0 (CSV isTriggered; declaration only): whether the link `idx` (`link`) of the links to self is on.
+    bool isTriggered(const ObjectLink* link, u32 idx);
+    // inline-only in the original; name is a guess: the end of queueExtraJobPush_ and onEnterCalc_ (queues the calc job
+    // for the current extra job array unless the proc is deleted).
+    void queueCalcJob_();
+public:
+
+private:
+    friend class act::BaseProcJobHandlerT<LinkTag>;
+
+    /* 0x180 */ act::BaseProcJobHandlerT<LinkTag> mJob{this, &LinkTag::calc};
+    // One bit per link of the object's links to self (at most 96).
+    /* 0x1d0 */ u32 _1d0[3] = {};
+    /* 0x1dc */ s8 _1dc = 0;
+    /* 0x1dd */ s8 _1dd = -1;
+    /* 0x1de */ u8 _1de = 0;
+    /* 0x1df */ s8 _1df = -1;
+    // Bit 0: calc done; bit 3: ...; bit 4: ...; bit 15: link data prepared (woken up).
+    /* 0x1e0 */ u16 _1e0 = 0;
+    /* 0x1e2 */ u8 _1e2 = 0;
+    // The frame counter at the last calc.
+    /* 0x1e4 */ u32 _1e4 = 0;
+    /* 0x1e8 */ s32 _1e8 = 0;
+    // One bit per extra job array parity: set while the calc job is queued.
+    /* 0x1ec */ sead::Atomic<u32> _1ec = 0;
+    /* 0x1f0 */ s32 _1f0 = 0;
+    /* 0x1f8 */ MubinIter _1f8;
+    /* 0x208 */ Object* mObj = nullptr;
+};
+KSYS_CHECK_SIZE_NX150(LinkTag, 0x210);
+
+}  // namespace ksys::map

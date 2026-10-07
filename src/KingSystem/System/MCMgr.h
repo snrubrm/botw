@@ -47,8 +47,13 @@ public:
     // worker request 6.
     void requestInvoker4OrSound();
 
+    // Compared with the s8 at +0x1dd of the map LinkTags (map::LinkTag::onJobPush2_); meaning unknown.
+    s32 get1be4() const { return _1be4; }
+
 private:
-    u8 _28[0x1bf0 - 0x28];
+    u8 _28[0x1be4 - 0x28];
+    s32 _1be4;
+    u8 _1be8[0x1bf0 - 0x1be8];
     sead::Delegate1R<MCMgr, void*, bool> mInvoker2{this, &MCMgr::invoked2};
     sead::Delegate1R<MCMgr, void*, bool> mInvoker3{this, &MCMgr::invoked3};
     sead::Delegate1R<MCMgr, void*, bool> mInvoker4{this, &MCMgr::invoked4};

@@ -123,6 +123,8 @@ public:
     bool x_0();
     // 0x7100d4f908 / 0x7100d4f928: mGenGroup's atomic counter at +8.
     void incrementGenGroupNumPrepareDelete();
+    // 0x7100d4f824 (CSV PlacementLinkData::x_9; declaration only): called by LinkTag::canWakeUp_ after x_8.
+    void sub_7100D4F824();
     // Declaration only: 0x7100d4f884, called by Actor::unlinkPlacementObj.
     void sub_7100D4F884();
     void decrementGenGroupNumPrepareDelete();

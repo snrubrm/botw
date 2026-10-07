@@ -226,6 +226,8 @@ public:
     // Used by MCMgr::processAllBaseProcMgrJobsType3 (names follow the members).
     void setEnableExtraJobPush(bool enabled) { mEnableExtraJobPush = enabled; }
     bool isPushActorJobType3InsteadOf6() const { return mPushActorJobType3InsteadOf6; }
+    // Used by map::LinkTag (the parity of the extra job array that is being filled).
+    s8 getCurrentExtraJobArrayIdx() const { return mCurrentExtraJobArrayIdx; }
 
     static u32 sConstant0;
     static u32 sConstant1;
