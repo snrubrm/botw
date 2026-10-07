@@ -102,6 +102,41 @@ f32 sub_710105E0AC(xlink2::HandleSLink& handle) {
     return time;
 }
 
+void sub_710105E214(xlink2::HandleSLink* handle, bool enabled) {
+    if (!handle)
+        return;
+    sead::FixedPtrArray<aal::Handle, 8> handles;
+    auto* event = static_cast<xlink2::EventSLink*>(handle->getEvent());
+    if (!event || event->getCreateId() != handle->getCreateId())
+        return;
+    const u32 count = event->getSoundHandle(&handles);
+    for (u32 i = 0; i < count; ++i) {
+        auto* source = handles[i]->getSoundSource();
+        if (!source)
+            return;
+        auto& setting = source->mSpatialSetting;
+        setting.setUserParam((setting.getCalculatorSetting().user_param & ~u64(7)) |
+                             (enabled ? 3 : 1));
+    }
+}
+
+void sub_710105E2E8(xlink2::HandleSLink* handle) {
+    if (!handle)
+        return;
+    sead::FixedPtrArray<aal::Handle, 8> handles;
+    auto* event = static_cast<xlink2::EventSLink*>(handle->getEvent());
+    if (!event || event->getCreateId() != handle->getCreateId())
+        return;
+    const u32 count = event->getSoundHandle(&handles);
+    for (u32 i = 0; i < count; ++i) {
+        auto* source = handles[i]->getSoundSource();
+        if (!source)
+            return;
+        auto& setting = source->mSpatialSetting;
+        setting.setUserParam((setting.getCalculatorSetting().user_param & ~u64(7)) | 4);
+    }
+}
+
 void sub_710105DF6C(act::Actor* actor, const char* name, bool a, bool b) {
     if (auto* xlink = actor->getXLink())
         xlink->sub_7101232FB4(name, a, false, b);

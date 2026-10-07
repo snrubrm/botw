@@ -74,6 +74,8 @@ void sub_710105DF88(act::Actor* actor, const char* name, bool a, bool b);
 bool sub_710105E000(act::Actor* actor, u32 idx, f32 value);
 void sub_710105E060(xlink2::HandleSLink* handle, const sead::Matrix34f& matrix);
 f32 sub_710105E0AC(xlink2::HandleSLink& handle);
+void sub_710105E214(xlink2::HandleSLink* handle, bool enabled);
+void sub_710105E2E8(xlink2::HandleSLink* handle);
 /// 0x710105e030 (declaration only; lane2 s21): sets property `idx` of the actor's SLink user instance (XLink::_50);
 /// false if the actor has none.
 bool sub_710105E030(act::Actor* actor, u32 idx, s32 value);
