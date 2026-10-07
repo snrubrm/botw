@@ -35,6 +35,24 @@ class BaseProc;
 // "PriestBossMetaAIUnit" AI tree variable. Created by PriestBossMetaAIRoot::init_ (create 0x7100718360,
 // ctor 0x7100717eec, init 0x71007183a4); its functions live at 0x7100717000-0x710071c000.
 // Placeholder name = vtable address. Only the members used by its users are declared.
+// Placeholder (lane4 s50; vtable unknown): the object at Unk_7102450fa8::_88. Only what the wrappers use is declared:
+// virtual slots 6 / 7 and the fields `_ac` / `_b8` (an array of pointers to s16 values, indexed by phase - 2).
+struct Unk_PriestBossObject {
+    virtual void m0();
+    virtual void m1();
+    virtual void m2();
+    virtual void m3();
+    virtual void m4();
+    virtual void m5();
+    virtual s32 m6(s32 idx);
+    virtual void m7(sead::Vector3f* out, s32 idx);
+
+    u8 _8[0xac - 0x8];
+    /* 0xac */ s32 _ac;
+    u8 _b0[0xb8 - 0xb0];
+    /* 0xb8 */ s16** _b8;
+};
+
 class Unk_7102450fa8 : public Unk_71025afb58 {
     SEAD_RTTI_OVERRIDE(Unk_7102450fa8, Unk_71025afb58)
 public:
@@ -114,7 +132,9 @@ public:
     /* 0x078 */ sead::BitFlag32 _78;
     /* 0x07c */ u8 _7c[0x80 - 0x7c];
     /* 0x080 */ u32 _80;  // bit mask indexed by Phase-like ints 3..10 (sub_7100719978)
-    /* 0x084 */ u8 _84[0xa0 - 0x84];
+    /* 0x084 */ u8 _84[0x88 - 0x84];
+    /* 0x088 */ Unk_PriestBossObject* _88;
+    /* 0x090 */ u8 _90[0xa0 - 0x90];
     /* 0x0a0 */ u8 _a0[0x1a0 - 0xa0];  // sead::FixedObjArray<?, 9> (0x10-byte nodes) at 0xa0
     /* 0x1a0 */ ksys::MesTransceiverId _1a0;  // set from Unk3::_10 by sub_710071964C
     /* 0x1b8 */ Unk_71024509a8 _1b8;

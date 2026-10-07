@@ -7,6 +7,27 @@ const sead::SafeArray<const char*, 3> sUnk_7102450f80 = {
     {"Priest_Boss_FireArrow", "Priest_Boss_IceArrow", "Priest_Boss_ElectricArrow"}};
 const char* const sUnk_7102450f98 = "Grave";
 
+s32 Unk_7102450fa8::sub_7100719FCC() const {
+    return _88 ? _88->_ac : -1;
+}
+
+// NON_MATCHING: the original calls m6 non-tail and round-trips the result through the stack (the return type is likely a
+// SEAD_ENUM-style wrapper)
+s32 Unk_7102450fa8::sub_7100719FE4(s32 idx) {
+    return _88 ? _88->m6(idx) : 3;
+}
+
+bool Unk_7102450fa8::sub_710071A020(sead::Vector3f* out, s32 idx) {
+    if (!_88)
+        return false;
+    _88->m7(out, idx);
+    return true;
+}
+
+s32 Unk_7102450fa8::sub_710071A048(s32 idx) {
+    return _88 ? *_88->_b8[idx - 2] : -1;
+}
+
 bool Unk_7102450fa8::sub_7100719978(s32 idx) const {
     if (idx == 2 || u32(idx - 2) > 8)
         return false;
