@@ -9,8 +9,21 @@ SiteBossSwordRoot::SiteBossSwordRoot(const InitArg& arg) : SiteBossRoot(arg) {}
 
 SiteBossSwordRoot::~SiteBossSwordRoot() = default;
 
+// NON_MATCHING: configuration subobject address is computed before the floating-point constant load.
 bool SiteBossSwordRoot::init_(sead::Heap* heap) {
-    return SiteBossRoot::init_(heap);
+    if (!SiteBossRoot::init_(heap))
+        return false;
+    if (auto* boss = sead::DynamicCast<act::SiteBoss>(mActor)) {
+        if (ksys::act::hasTag(mActor, ksys::act::tags::EnemySiteBoss_R))
+            boss->_1534 = 10;
+        else
+            boss->_1534 = *mIsRemainBoss_s ? 2 : 6;
+        boss->_1560._99 = (boss->_1534 & 0xc) == 4;
+        const s32 add_power = *mAddAttackPower_s;
+        const s32 power = 24 + add_power * getNumberOfClearedRemains();
+        boss->_2390.sub_71007224DC(2, power, s32(power * 0.8f));
+    }
+    return true;
 }
 
 void SiteBossSwordRoot::enter_(ksys::act::ai::InlineParamPack* params) {
