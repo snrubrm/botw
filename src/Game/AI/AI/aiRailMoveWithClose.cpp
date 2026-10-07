@@ -1,6 +1,7 @@
 #include "Game/AI/AI/aiRailMoveWithClose.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/Physics/System/physHavokAI.h"
 
 namespace uking::ai {
 
@@ -14,6 +15,28 @@ bool RailMoveWithClose::init_(sead::Heap* heap) {
 
 void RailMoveWithClose::enter_(ksys::act::ai::InlineParamPack* params) {
     RailMove::enter_(params);
+}
+
+void RailMoveWithClose::calc_() {
+    RailMove::calc_();
+    if (getCurrentChild()->isFinishedOrFailed() && isCurrentChild("レールに向かう")) {
+        if (!getCurrentChild()->isFinished()) {
+            sead::Vector3f pos;
+            mActor->getMtx().getTranslation(pos);
+            auto* loader = ksys::phys::HavokAI::instance()->_48;
+            if (!loader || loader->sub_7100F8ADC4(&pos)) {
+                setFailed();
+            } else {
+                f32 progress = 0;
+                sead::Vector3f rail_pos = pos;
+                if (sub_710032C984(&progress, &rail_pos, pos))
+                    sub_710032BCAC(progress);
+                sub_7100537354(rail_pos, pos);
+            }
+        } else {
+            sub_710032C088();
+        }
+    }
 }
 
 void RailMoveWithClose::leave_() {
