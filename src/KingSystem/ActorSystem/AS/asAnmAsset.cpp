@@ -11,6 +11,10 @@ AnmAsset::AnmAsset(const CreateArg&, s32 value, const res::ASResource* resource)
         _a = resource->getIndex();
 }
 
+bool AnmAsset::sub_7101315430(const res::ASResource* resource) {
+    return _8;
+}
+
 f32 AnmAsset::sub_7101315930(Context* ctx, const res::ASResource* resource) {
     ElementParams* params =
         ctx->sub_7101258D4C(ctx->sub_7101258CD4(sub_71011653E8(resource)), false);

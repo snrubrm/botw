@@ -870,6 +870,8 @@ public:
              f32 to) override;
     // 0x7101315328: computes playback position and start/end frames.
     void sub_7101315328(f32* position, f32* start, f32* end, const res::ASResource* resource);
+    // 0x7101315430 (lane1 s47, placeholder name): returns `_8` (the loop flag; the resource is not used).
+    bool sub_7101315430(const res::ASResource* resource);
     // 0x710131586c: stores original loop mode and applies the resource override.
     void sub_710131586C(bool loop, const res::ASResource* resource);
     // 0x7101315930 (declaration only): obtains the current animation frame.
