@@ -9,7 +9,6 @@ namespace uking::ai {
 
 BokoblinArrowBattle::BokoblinArrowBattle(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
-BokoblinArrowBattle::~BokoblinArrowBattle() = default;
 
 void BokoblinArrowBattle::enter_(ksys::act::ai::InlineParamPack* params) {
     if (*mParams.mIsUpdateNoticeState_s) {

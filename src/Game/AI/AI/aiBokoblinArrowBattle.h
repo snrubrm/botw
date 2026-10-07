@@ -10,7 +10,7 @@ class BokoblinArrowBattle : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(BokoblinArrowBattle, ksys::act::ai::Ai)
 public:
     explicit BokoblinArrowBattle(const InitArg& arg);
-    ~BokoblinArrowBattle() override;
+    ~BokoblinArrowBattle() override = default;
     bool isChangeable() const override;
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;
