@@ -187,7 +187,7 @@ void ASList::Unk1::sub_7101164F3C(sead::Vector3f* a1, sead::Vector3f* a2,
 }
 
 // NON_MATCHING: the selected key lives at sp + 0xc here, at sp + 8 in the original (an 8-byte object in the original).
-void ASList::Unk1::sub_7101164B5C(const gsys::BoneAccessKey* key, void* a2, void* a3) {
+void ASList::Unk1::sub_7101164B5C(const gsys::BoneAccessKey* key, sead::Vector3f* a2, sead::Vector3f* a3) {
     gsys::BoneAccessKey selected;
     if (key->isValid()) {
         if (!_30 || (sub_71011650B8(key->model_unit_index, key->bone_index) && !_4d))

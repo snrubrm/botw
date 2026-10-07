@@ -11,6 +11,98 @@ bool sub_7100E9CF8C();
 
 namespace ksys::as {
 
+// NON_MATCHING: selection among the named element members and playback initialization differ.
+void ASList::Unk2::sub_7101162454(const gsys::BoneAccessKey* key,
+                                sead::Vector3f* translation, sead::Vector3f* rotation) {
+    const u16 flags = mFlags;
+    mFlags &= ~8;
+    if (!(flags & 2))
+        return;
+    _88 = nullptr;
+    _90 = nullptr;
+    sub_7101161D74();
+    _0->sub_7101258C1C();
+    s32 first = 0;
+    if (_48) {
+        if (_18 == _48->_18) {
+            mFlags = _48->mFlags;
+            if (_48->_88) {
+                _28 = _20;
+                _20 = _18;
+                _34 = _30;
+                _30 = 0.0f;
+                _43 = (_43 << 1) | 1;
+                _84 = _48->_84;
+                _80 = _48->_80;
+                _0->sub_7101258C80();
+                _0->sub_710125A924(*_48->_0);
+                _38 = _84 - _80;
+                if (_38 <= 0.0f)
+                    _38 = 0.0f;
+                _3c = 1.0f / _84;
+                _30 = 1.0f - _3c * _38;
+            }
+            _0->sub_710125A67C(*_48->_0, false);
+            if (_0->sub_7101259990(false))
+                sub_7101161EE0(-1.0f, _18, false);
+            first = 1;
+        } else {
+            _48 = nullptr;
+        }
+    }
+    if (first == 0)
+        _0->sub_7101258F4C(0, 0);
+    State state;
+    state._0 = _0->_f0 >= 0.0f ? 0.0f : _0->sub_710125A9A8();
+    state.weight = 1.0f;
+    state._8 = 0.0f;
+    state._c = sead::Vector3f::zero;
+    state._18 = sead::Vector3f::zero;
+    state._24 = *key;
+    state._28 = this;
+    state._30 = -1.0f;
+    state._34 = true;
+    if (_48)
+        _0->sub_7101258C48();
+    state._34 = _48 == nullptr;
+    const s32 count = _44[1] ? 1 : 3;
+    for (s32 i = first; i < count; ++i) {
+        Element* element = i == 0 ? _18 : i == 1 ? _20 : _28;
+        if (!element)
+            break;
+        state.weight = 1.0f;
+        Context* context = _0;
+        const auto* resource = context->sub_7101258CC0();
+        element->m12(context, &state, resource);
+        context = _0;
+        resource = context->sub_7101258CC0();
+        element->m13(context, &state, resource);
+        state.weight = 1.0f;
+        state._8 = 0.0f;
+        state._c = sead::Vector3f::zero;
+        state._18 = sead::Vector3f::zero;
+        context = _0;
+        resource = context->sub_7101258CC0();
+        if (element->m10(context, &state, resource) && _0->_f4 == _0->_f5)
+            mFlags |= 1;
+        _0->sub_7101258C48();
+        _0->_ec = 0;
+    }
+    _0->sub_7101258C1C();
+    const f32 delta = state._0;
+    if (_88)
+        sub_71011627C4(&state);
+    sub_7101162940(translation, rotation, &state, true, delta);
+    if (_18 && _0->sub_7101259990(false))
+        sub_7101161EE0(-1.0f, _18, false);
+    if (!_48) {
+        _0->sub_7101259BD8();
+        _0->sub_710125A630();
+    }
+    if (_0->mFlags & 0x40)
+        sub_7101161FDC();
+}
+
 // NON_MATCHING: selection among the three named element members and vector accumulation differ.
 void ASList::Unk2::sub_7101162940(sead::Vector3f* translation, sead::Vector3f* rotation,
                                 MotionState* state, bool events_enabled, f32 delta) {

@@ -93,8 +93,8 @@ public:
         // 0x71011636cc (placeholder name): the element's m32 (with the flag: with a temporary ElementParams and the
         // 0x200 context flag) or m33 for the bone `key`; false without an element.
         bool sub_71011636CC(f32 value, void* a2, bool full, gsys::BoneAccessKey* key);
-        // 0x7101162454 (declaration only): the per-entry update (880 B).
-        void sub_7101162454(const gsys::BoneAccessKey* key, void* a2, void* a3);
+        // 0x7101162454: update playback and motion for this entry.
+        void sub_7101162454(const gsys::BoneAccessKey* key, sead::Vector3f* a2, sead::Vector3f* a3);
         void sub_7101161FDC();
         void sub_7101162318();
         void sub_7101161D74();
@@ -204,7 +204,7 @@ public:
         void sub_7101164B24();
         // 0x7101164b5c (placeholder name): Unk2::sub_7101162454 on every entry, with the bone `key` if it is
         // valid and selected by the partial-bone mask (an invalid key otherwise).
-        void sub_7101164B5C(const gsys::BoneAccessKey* key, void* a2, void* a3);
+        void sub_7101164B5C(const gsys::BoneAccessKey* key, sead::Vector3f* a2, sead::Vector3f* a3);
         // 0x71011650fc (placeholder name): the weighted blend of the bone `key`'s matrices of all entries with a
         // weight of at least 0.001 into `out` (identity first); false if the key is not selected / no entry applies.
         bool sub_71011650FC(f32 value, sead::Matrix34f* out, bool full, gsys::BoneAccessKey* key);
@@ -516,9 +516,9 @@ public:
     /* 0x163 */ u8 _163;
 };
 
-// Separate motion record passed to m14. Source names for the record and accumulated weight at offset 8 are inferred.
-// Repeated producers (0x7101162de4 / 0x7101161824) supply this same index/weight/bone request.
-struct MotionState {
+// Common playback request passed to the update virtuals and motion blending.
+// Producers 0x7101162454, 0x7101162de4 and 0x7101161824 share the weight/bone fields.
+struct State {
     f32 _0;
     f32 weight;
     f32 _8;
@@ -529,7 +529,7 @@ struct MotionState {
     f32 _30;
     bool _34;
 };
-static_assert(sizeof(MotionState) == 0x38);
+static_assert(sizeof(State) == 0x38);
 
 // Separate m15 bone-blend record with a fixed queue of 64 skeletal-animation requests.
 struct BoneBlendState {

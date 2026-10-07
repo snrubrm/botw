@@ -43,7 +43,8 @@ struct ElementList {
 
 class ASList;
 struct BoneBlendState;
-struct MotionState;
+struct State;
+using MotionState = State;
 
 // Placeholder: per-element state block (a Frame entry; returned by Element::m25): flags in `_0`
 // (bit 1 = running?), a range [_4, _8] and more floats.
@@ -293,15 +294,6 @@ public:
     /* 0xd40 */ sead::SafeArray<PendingValue, 3> mPendingValues{};
 };
 
-
-// Placeholder: the state passed down the tree by the update virtuals (m10, ...): `weight` is scaled by the
-// blenders on their way down.
-struct State {
-    f32 _0;
-    f32 weight;
-    u8 _8[0x30 - 0x8];
-    f32 _30;
-};
 
 // Three event flags, separate from the playback State. Callers 0x71011634c0,
 // 0x7101161824 and 0x7101162940 construct three bytes for m11/m14/m37.
