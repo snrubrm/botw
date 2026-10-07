@@ -325,6 +325,14 @@ public:
     void m249(sead::Matrix34f* matrix, ksys::act::Actor* actor) override;
     bool m250(ksys::act::Actor* actor) override;
     bool m239() override;
+    void m240(sead::Vector3f* out) override;
+    void m241(sead::Vector3f* out) override;
+    void m242(sead::Vector3f* out) override;
+    void m243(sead::Vector3f* out) override;
+    void m245(sead::Vector3f* out) override;
+    void m246(sead::Vector3f* out) override;
+    void m247(sead::Vector3f* out) override;
+    void m248(sead::Vector3f* out) override;
     void invokedEmitBlinkEffect();
     bool m197(sead::SafeString* out) override;
     void updateMtxFromPhysics() override;

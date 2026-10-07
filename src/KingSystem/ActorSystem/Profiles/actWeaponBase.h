@@ -179,15 +179,19 @@ public:
     virtual bool m237(Actor* actor);
     virtual bool m238(Actor* actor);
     virtual bool m239() { return false; }
-    virtual void m240() {}
-    virtual void m241() {}
-    virtual void m242() {}
-    virtual void m243() {}
+    // lane4 s51: m240 - m243 write an offset (Weapon: the one of the equipped weapon of a player parent through
+    // acc::WeaponBase::m169 - m172).
+    virtual void m240(sead::Vector3f* out) {}
+    virtual void m241(sead::Vector3f* out) {}
+    virtual void m242(sead::Vector3f* out) {}
+    virtual void m243(sead::Vector3f* out) {}
     virtual void m244() {}
-    virtual void m245() {}
-    virtual void m246() {}
-    virtual void m247() {}
-    virtual void m248() {}
+    // lane4 s51: Weapon writes the SquatPlayerHold{Trans,Rot}AddOffset of its weapon type (m245: Trans, m246: Rot).
+    virtual void m245(sead::Vector3f* out) {}
+    virtual void m246(sead::Vector3f* out) {}
+    // lane4 s51: Weapon writes an offset of the parent player's armor (acc::Armor::sub_7100E2CD1C / sub_7100E2CBB8).
+    virtual void m247(sead::Vector3f* out) {}
+    virtual void m248(sead::Vector3f* out) {}
     virtual void m249(sead::Matrix34f* matrix, Actor* actor) {}
     virtual bool m250(Actor* actor);
 

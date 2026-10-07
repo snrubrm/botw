@@ -1,4 +1,5 @@
 #include "Game/Actor/actWeapon.h"
+#include "Game/Actor/actArmorBase.h"
 #include "Game/Actor/actNPC.h"
 #include <algorithm>
 #include <prim/seadScopedLock.h>
@@ -28,6 +29,9 @@
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodyAccessor.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectLargeSword.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectSmallSword.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectSpear.h"
 #include "KingSystem/Resource/Actor/resResourceActorLink.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectGlobal.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectAttack.h"
@@ -290,6 +294,122 @@ bool Weapon::m153() {
     if (!weapons || _9f0 < 0 || _9f0 > 5)
         return false;
     return weapons->mWeapons[_9f0]._10;
+}
+
+void Weapon::m240(sead::Vector3f* out) {
+    if (isParentPlayer() || ksys::act::sub_7100EFD8E4(getParentActor())) {
+        if (auto* parent = sead::DynamicCast<ksys::act::PlayerOrEnemy>(getParentActor())) {
+            ksys::act::acc::WeaponBase accessor;
+            auto* link = &parent->getWeapons()->mWeapons[0].link;
+            if (link->hasProc())
+                ksys::act::acquireActor(link, &accessor);
+            accessor.m169(out);
+            return;
+        }
+    }
+    *out = sead::Vector3f::zero;
+}
+
+void Weapon::m241(sead::Vector3f* out) {
+    if (isParentPlayer() || ksys::act::sub_7100EFD8E4(getParentActor())) {
+        if (auto* parent = sead::DynamicCast<ksys::act::PlayerOrEnemy>(getParentActor())) {
+            ksys::act::acc::WeaponBase accessor;
+            auto* link = &parent->getWeapons()->mWeapons[0].link;
+            if (link->hasProc())
+                ksys::act::acquireActor(link, &accessor);
+            accessor.m170(out);
+            return;
+        }
+    }
+    *out = sead::Vector3f::zero;
+}
+
+void Weapon::m242(sead::Vector3f* out) {
+    if (isParentPlayer() || ksys::act::sub_7100EFD8E4(getParentActor())) {
+        if (auto* parent = sead::DynamicCast<ksys::act::PlayerOrEnemy>(getParentActor())) {
+            ksys::act::acc::WeaponBase accessor;
+            auto* link = &parent->getWeapons()->mWeapons[0].link;
+            if (link->hasProc())
+                ksys::act::acquireActor(link, &accessor);
+            accessor.m171(out);
+            return;
+        }
+    }
+    *out = sead::Vector3f::zero;
+}
+
+void Weapon::m243(sead::Vector3f* out) {
+    if (isParentPlayer() || ksys::act::sub_7100EFD8E4(getParentActor())) {
+        if (auto* parent = sead::DynamicCast<ksys::act::PlayerOrEnemy>(getParentActor())) {
+            ksys::act::acc::WeaponBase accessor;
+            auto* link = &parent->getWeapons()->mWeapons[0].link;
+            if (link->hasProc())
+                ksys::act::acquireActor(link, &accessor);
+            accessor.m172(out);
+            return;
+        }
+    }
+    *out = sead::Vector3f::zero;
+}
+
+void Weapon::m245(sead::Vector3f* out) {
+    if (!m156()) {
+        *out = sead::Vector3f::zero;
+    } else if (m231()) {
+        *out = getParam()->getRes().mGParamList->getSmallSword()->mSquatPlayerHoldTransAddOffset.ref();
+    } else if (m232()) {
+        *out = getParam()->getRes().mGParamList->getLargeSword()->mSquatPlayerHoldTransAddOffset.ref();
+    } else if (m233()) {
+        *out = getParam()->getRes().mGParamList->getSpear()->mSquatPlayerHoldTransAddOffset.ref();
+    } else if (isWeaponType4()) {
+        *out = getParam()->getRes().mGParamList->getShield()->mSquatPlayerHoldTransAddOffset.ref();
+    } else if (isWeaponType3()) {
+        *out = getParam()->getRes().mGParamList->getBow()->mSquatPlayerHoldTransAddOffset.ref();
+    } else {
+        *out = sead::Vector3f::zero;
+    }
+}
+
+void Weapon::m246(sead::Vector3f* out) {
+    if (!m156()) {
+        *out = sead::Vector3f::zero;
+    } else if (m231()) {
+        *out = getParam()->getRes().mGParamList->getSmallSword()->mSquatPlayerHoldRotAddOffset.ref();
+    } else if (m232()) {
+        *out = getParam()->getRes().mGParamList->getLargeSword()->mSquatPlayerHoldRotAddOffset.ref();
+    } else if (m233()) {
+        *out = getParam()->getRes().mGParamList->getSpear()->mSquatPlayerHoldRotAddOffset.ref();
+    } else if (isWeaponType4()) {
+        *out = getParam()->getRes().mGParamList->getShield()->mSquatPlayerHoldRotAddOffset.ref();
+    } else if (isWeaponType3()) {
+        *out = getParam()->getRes().mGParamList->getBow()->mSquatPlayerHoldRotAddOffset.ref();
+    } else {
+        *out = sead::Vector3f::zero;
+    }
+}
+
+void Weapon::m247(sead::Vector3f* out) {
+    if (auto* player = sead::DynamicCast<ksys::act::PlayerBase>(getParentActor())) {
+        ksys::act::acc::Armor accessor;
+        player->m277(&accessor, 1);
+        if (accessor.hasProc()) {
+            accessor.sub_7100E2CD1C(out);
+            return;
+        }
+    }
+    *out = sead::Vector3f::zero;
+}
+
+void Weapon::m248(sead::Vector3f* out) {
+    if (auto* player = sead::DynamicCast<ksys::act::PlayerBase>(getParentActor())) {
+        ksys::act::acc::Armor accessor;
+        player->m277(&accessor, 1);
+        if (accessor.hasProc()) {
+            accessor.sub_7100E2CBB8(out);
+            return;
+        }
+    }
+    *out = sead::Vector3f::zero;
 }
 
 bool Weapon::m216() {

@@ -141,6 +141,32 @@ void Attention::sub_7100D74D78(AttClient* client) {
     }
 }
 
+// NON_MATCHING: the original checks the index with an unsigned and a signed compare (`cmp; ccmp ... hi; b.le`)
+bool Attention::sub_7100D7430C(s32 list, s32 index, BaseProcLink* out) {
+    if (index >= 0 && index < mLists[list].mCount) {
+        if (auto* client = mLists[list].mEntries[index]) {
+            if (auto* actor = client->getActor()) {
+                out->acquire(actor, false);
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+// NON_MATCHING: same index check as sub_7100D7430C
+bool Attention::x_0(s32 list, s32 index, ActorLinkConstDataAccess* out) {
+    if (index >= 0 && out && index < mLists[list].mCount) {
+        if (auto* client = mLists[list].mEntries[index]) {
+            if (auto* actor = client->getActor()) {
+                out->acquire(actor);
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 void Attention::sub_7100D74FEC(AttClient* client) {
     if (const s32 idx = _a28.indexOf(client); idx != -1)
         _a28.erase(idx);
