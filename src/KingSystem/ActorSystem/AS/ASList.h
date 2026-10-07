@@ -27,14 +27,27 @@ namespace ksys::as {
 class ASList {
 public:
     struct Unk1;
-    // Placeholder: the object at ASList::_b0 (0x21: a flag byte cleared by PauseMenuPlayerRoot::handleMessage_).
+    // Bone transform snapshot at ASList::_b0 (vtable 0x71024dc608, size 0x28).
     struct Unk5 {
-        // 0x7100d68104 (declaration only; placeholder name): called with (_8, nullptr, &_80, &_14) by
-        // ASList::sub_710115C634.
-        void sub_7100D68104(gsys::Model* model, void* a2, const sead::Matrix34f* matrix, const gsys::BoneAccessKey* key);
-        u8 _0[0x21];
-        bool _21;
+        Unk5();
+        virtual ~Unk5();
+        struct Bone {
+            sead::Vector3f translation;
+            sead::Quatf rotation;
+            sead::Vector3f scale;
+        };
+        static_assert(sizeof(Bone) == 0x28);
+        void sub_7100D68104(gsys::Model* model, void* a2, const sead::Matrix34f* matrix,
+                          const gsys::BoneAccessKey* key);
+        void sub_7100D68464(sead::Matrix34f* matrix, const gsys::BoneAccessKey* key);
+        void sub_7100D68544(const sead::Matrix34f* matrix, const gsys::BoneAccessKey* key);
+
+        sead::Buffer<sead::Buffer<Bone>> mBones;
+        void* _18 = nullptr;
+        bool _20 = true;
+        bool _21 = false;
     };
+    static_assert(sizeof(Unk5) == 0x28);
     // Placeholder: event query filled by the handlers passed to x() (0x7101259c78 copies a 0x20-byte AS
     // event entry: the name, then two 32-bit values). Callers pass nullptr when they only test for the event.
     struct Unk4 {
