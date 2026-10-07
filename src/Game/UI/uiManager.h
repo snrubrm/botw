@@ -1,5 +1,7 @@
 #pragma once
 
+#include "KingSystem/Resource/resHandle.h"
+
 #include <container/seadSafeArray.h>
 #include <heap/seadDisposer.h>
 #include <prim/seadBitFlag.h>
@@ -65,6 +67,8 @@ public:
     void sub_7100A7DA38();
     void sub_7100A7C71C();
     void sub_7100A7F0D0();
+    bool checkLoadResource(ksys::res::Handle* handle, const sead::SafeString& path);
+    bool parseLocations();
     bool sub_7100A7F2EC(f32 radius, sead::SafeString* out_name, const sead::Vector3f* pos);
     void sub_7100A7F468(const void* a1, void* a2);
     void sub_7100A7C8D4();
@@ -158,7 +162,9 @@ public:
     /* 0x64b10 */ u32 _64b10;
     /* 0x64b14 */ u8 _64b14;
     /* 0x64b15 */ u8 _64b15;
-    u8 _64b16[0x64c24 - 0x64b16];
+    u8 _64b16[0x64b80 - 0x64b16];
+    /* 0x64b80 */ ksys::res::Handle mLocationResource;
+    u8 _64bd0[0x64c24 - 0x64bd0];
     /* 0x64c24 */ s32 _64c24;
     /* 0x64c28 */ s32 _64c28;
     /* 0x64c2c */ s32 _64c2c;

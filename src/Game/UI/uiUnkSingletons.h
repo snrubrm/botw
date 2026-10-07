@@ -48,6 +48,8 @@ class Unk_71025d6ac0 {
 public:
     static Unk_71025d6ac0* instance() { return sInstance; }
 
+    bool sub_71009685AC(s32 value) const;
+
     // 0x71009686a0: `_74 = value`, clears _80
     void sub_71009686A0(s32 value);
     // 0x71009686bc: clears _80, `_84 = value * 2`
@@ -278,12 +280,14 @@ struct UiSubsys1Marker {
     /* 0x44 */ s32 _44;
 };
 
-// Element of UiSubsys1's table at 0x658 (placeholder; bit 4 of the byte at 0x3c is tested).
+// Element of UiSubsys1's table at 0x658 (placeholder; flags at 0x3c).
 struct UiSubsys1Entry {
+    // 0x7100951388: sets flag 8, then forwards to the virtual control update.
+    void sub_7100951388(bool enabled);
     u8 _0[0x28];
     /* 0x28 */ sead::Vector3f _28;  // map pin position (CopyMapPinPosition::oneShot_)
     u8 _34[0x3c - 0x34];
-    /* 0x3c */ u8 _3c;
+    /* 0x3c */ u32 _3c;
 };
 
 class UiSubsys1 {

@@ -9,6 +9,7 @@
 
 namespace ksys::act {
 class Actor;
+class PlayerArmors;
 }
 
 namespace uking::ui {
@@ -26,11 +27,16 @@ public:
 
     // 0x710090ab60
     ksys::act::Actor* getActor() const;
+    ksys::act::PlayerArmors* getArmors() const { return mArmors; }
+    void sub_7100906F08(ksys::act::Actor* actor);
+    bool sub_710090AB4C() const;
 
 private:
     /* 0x38 */ ksys::act::BaseProcLink mActorLink;
     /* 0x48 */ ksys::act::Actor* mActor;
-    u8 _50[0x1f8 - 0x50];
+    u8 _50[0x90 - 0x50];
+    /* 0x90 */ ksys::act::PlayerArmors* mArmors;
+    u8 _98[0x1f8 - 0x98];
 };
 KSYS_CHECK_SIZE_NX150(OnUiActorMgr, 0x1f8);
 

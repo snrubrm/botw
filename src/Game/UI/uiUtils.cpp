@@ -1,4 +1,5 @@
 #include "Game/UI/uiUtils.h"
+#include "Game/UI/uiUnkSingletons.h"
 #include "Game/UI/euiLayoutEx.h"
 #include <nn/ui2d/Pane.h>
 #include "Game/UI/euiAnimator.h"
@@ -32,6 +33,21 @@ bool isOneHitObliteratorActor(ksys::act::Actor* actor, bool require_active);
 s32 getWeaponTypeId(const sead::SafeString& profile);
 
 namespace uking::ui {
+
+// Original global at 0x710249a788, read and reset by sub_7100A64304.
+s32 sUnk_710249a788 = 13;
+
+// 0x7100a64304
+s32 sub_7100A64304() {
+    const s32 result = sUnk_710249a788;
+    sUnk_710249a788 = 13;
+    return result;
+}
+
+// 0x7100949d18
+f32 sub_7100949D18(s32 count) {
+    return f32(count) * 0.25f;
+}
 
 static const char* const sUnk_710250A4B8[] = {
     "GamePadBG_00",
@@ -577,6 +593,10 @@ void addItemForDebug(const sead::SafeString& name, int value) {
         pouch->addNonDefaultItem(name, value, nullptr);
     }
     ksys::gdt::Manager::instance()->onChangedByDebug();
+}
+
+bool sub_7100A9F458() {
+    return Unk_71025d6ac0::instance()->sub_71009685AC(0);
 }
 
 }  // namespace uking::ui

@@ -1430,6 +1430,23 @@ struct ScreenAppMapUnk3c98 {
     /* 0x104 */ s32 _104;
 };
 
+// The AppMap animation controller at +0x3c90; only its animation state is recovered.
+struct ScreenAppMapUnk3c90 {
+    void sub_71009C1474(f32 speed, s32 type);
+    void sub_71009C1530(s32 state);
+    bool sub_71009C1814(s32 type) const;
+
+    u8 _0[0x130];
+    /* 0x130 */ s32 _130;
+    /* 0x134 */ bool _134;
+    u8 _135[3];
+    /* 0x138 */ eui::Animator* _138;
+    /* 0x140 */ eui::Animator* _140;
+    /* 0x148 */ eui::Animator* _148;
+    u8 _150[8];
+    /* 0x158 */ eui::Animator* _158;
+};
+
 // Placeholder for the map widget the AppMap screen owns (byte 0xb33a is set by ScreenAppMap::mainEnter).
 struct ScreenAppMapWidget {
     // 0x71009a9438 (CSV unnamed): the timer at 0xb290 is done or the flag at 0xb1db is set
@@ -1534,12 +1551,16 @@ public:
     u8 _3640[0x3ad1 - 0x3640];
     /* 0x3ad1 */ u8 _3ad1;
     /* 0x3ad2 */ u8 _3ad2;  // written by sub_71009EF4EC / sub_71009EF51C
-    u8 _3ad3[0x3c00 - 0x3ad3];
+    u8 _3ad3;
+    /* 0x3ad4 */ f32 _3ad4;
+    /* 0x3ad8 */ f32 _3ad8;
+    /* 0x3adc */ f32 _3adc;
+    u8 _3ae0[0x3c00 - 0x3ae0];
     /* 0x3c00 */ eui::Animator* _3c00;
     /* 0x3c08 */ eui::Animator* _3c08;
     u8 _3c10[0x3c88 - 0x3c10];
     /* 0x3c88 */ eui::Animator* _3c88;
-    u8 _3c90[0x3c98 - 0x3c90];
+    /* 0x3c90 */ ScreenAppMapUnk3c90* _3c90;
     /* 0x3c98 */ ScreenAppMapUnk3c98* _3c98;
 };
 

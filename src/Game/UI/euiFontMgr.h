@@ -22,7 +22,10 @@ using Font = nn::font::Font;
 class FontMgr;
 
 class ScalableFontMgr {
+    SEAD_SINGLETON_DISPOSER(ScalableFontMgr)
 public:
+    ScalableFontMgr();
+    virtual ~ScalableFontMgr();
     struct FontInfo;
     struct InitializeArg {
         InitializeArg();
@@ -65,15 +68,16 @@ public:
     bool sub_7100BE57A4(const u16* string, u32 length, const nn::font::ScalableFont* font,
                         const FontMgr* font_mgr);
 
-    // Unknown base and prefix; these fields are consumed by the scalable text
-    // pane and the cache update. No constructor or full manager extent is claimed.
-    u8 _0[0x30];
+    /* 0x28 */ nn::font::TextureCache* mTextureCache = nullptr;
     /* 0x30 */ sead::Buffer<FontEntry> mFonts;
-    u8 _40[0x88 - 0x40];
-    /* 0x88 */ u32 mCacheGeneration;
-    /* 0x8c */ u8 _8c;
-    /* 0x8d */ bool mCacheUpdatePending;
+    /* 0x40 */ sead::CriticalSection mCriticalSection;
+    /* 0x80 */ UpdateTextureCacheThread* mUpdateThread = nullptr;
+    /* 0x88 */ u32 mCacheGeneration = 0;
+    /* 0x8c */ u8 _8c = 0;
+    /* 0x8d */ bool mCacheUpdatePending = false;
+    /* 0x8e */ bool mCacheResetPending = false;
 };
+KSYS_CHECK_SIZE_NX150(ScalableFontMgr, 0x90);
 
 // The font manager singleton (CSV: eui::FontMgr::*, object size 0x60 per createInstance 0x7100be332c): the fixed fonts
 // come from a font archive (one font per file, in the archive's file order), the others from the ScalableFontMgr.

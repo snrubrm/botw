@@ -263,6 +263,7 @@ public:
     ~EventFlowMovie() override;
     SEAD_RTTI_OVERRIDE(EventFlowMovie, EventFlowBase)
 
+    f32 getFrameCount() const override;
     s32 getEventFlowType() const override;
     void printStatus(sead::BufferedSafeString* out) override;
     void m11() override;
@@ -272,6 +273,8 @@ public:
 
     u8 _620[0x628 - 0x620];
     /* 0x628 */ const char* mMoviePath;
+    u8 _630[0x728 - 0x630];
+    /* 0x728 */ f32 mFrameCount;
 };
 
 }  // namespace ksys::evt

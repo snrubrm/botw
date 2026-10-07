@@ -6,6 +6,11 @@
 // Small leaf screen methods (named after their CSV address).
 namespace uking::ui {
 
+// 0x7100a34a04
+void ScreenPauseMenu::sub_7100A34A04() {
+    _3bb4 = 1;
+}
+
 bool sub_7100AA8DD4();
 
 struct CommandInfo {

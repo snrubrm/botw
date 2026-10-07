@@ -2,6 +2,16 @@
 
 namespace eui {
 
+SEAD_SINGLETON_DISPOSER_IMPL(ScalableFontMgr)
+
+ScalableFontMgr::ScalableFontMgr() = default;
+
+ScalableFontMgr::~ScalableFontMgr() {
+    mUpdateThread->quit(false);
+    mUpdateThread->waitDone();
+    delete mUpdateThread;
+}
+
 // 0x7100be5684
 Font* ScalableFontMgr::getFont(const sead::SafeString& name) {
     for (auto& entry : mFonts) {

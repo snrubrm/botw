@@ -7,6 +7,19 @@
 
 namespace uking::ui {
 
+// 0x7100a7fe9c
+void Manager::sub_7100A7FE9C() {
+    _65387 = 0;
+}
+
+// 0x7100a7f0d0
+// NON_MATCHING: the original omits the unused this argument of checkLoadResource.
+void Manager::sub_7100A7F0D0() {
+    mLocationResource.unload();
+    if (checkLoadResource(&mLocationResource, "Map/MainField/Location.mubin"))
+        parseLocations();
+}
+
 // UI heap storage; the name is a placeholder.
 sead::Heap* sUnk_71025f59d0;
 
@@ -98,6 +111,10 @@ bool Manager::sub_7100A7F918() const {
 }
 
 // 0x71009686a0
+bool Unk_71025d6ac0::sub_71009685AC(s32 value) const {
+    return _74 == value;
+}
+
 void Unk_71025d6ac0::sub_71009686A0(s32 value) {
     _74 = value;
     _80 = 0;

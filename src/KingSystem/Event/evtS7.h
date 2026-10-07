@@ -7,6 +7,7 @@
 
 namespace ksys::evt {
 
+
 class S7;
 
 // Placeholder name: the RTTI base class of S5 (the object at EventFlowActorInfo + 0x200 is cast to S5 by S7).
@@ -132,7 +133,19 @@ public:
 private:
     /* 0x1c */ s32 _1c;
     /* 0x20 */ s32 mState;  // 3: playing
-    u8 _24[0x70 - 0x24];
+    /* 0x24 */ s32 _24;
+    /* 0x28 */ s32 _28;
+    /* 0x2c */ s32 _2c;
+    /* 0x30 */ u64 _30;
+    /* 0x38 */ s32 _38;
+    /* 0x3c */ s32 _3c;
+    /* 0x40 */ bool _40;
+    u8 _41[7];
+    /* 0x48 */ s32 _48;
+    u8 _4c[0x64 - 0x4c];
+    /* 0x64 */ s32 _64;
+    /* 0x68 */ s32 _68;
+    u8 _6c[4];
     /* 0x70 */ sead::FixedSafeString<0x180> mStatus;
     u8 _208[0x218 - 0x208];
     /* 0x218 */ sead::FixedSafeString<0x80> _218;

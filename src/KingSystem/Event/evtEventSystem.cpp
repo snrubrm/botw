@@ -11,6 +11,10 @@
 #include "Game/UI/uiUtils.h"
 #include "KingSystem/Event/evtManager.h"
 
+namespace uking::ui {
+void sub_7100A941DC();
+}
+
 namespace ksys::evt {
 
 SEAD_SINGLETON_DISPOSER_IMPL(EventSystem)
@@ -30,6 +34,14 @@ EventSystem::~EventSystem() = default;
 
 int EventSystem::handleMessage(const Message& message) {
     return 1;
+}
+
+// 0x71008aa970
+void EventSystem::x() {
+    _30 = 0;
+    mSpeaker.updateActorPosition();
+    x_4();
+    uking::ui::sub_7100A941DC();
 }
 
 // 0x71008ac148

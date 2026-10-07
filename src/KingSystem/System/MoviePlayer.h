@@ -12,7 +12,8 @@ public:
     static MoviePlayer* instance() { return sInstance; }
     static MoviePlayer* sInstance;
 
-    u8 _0[0x3dc];
+    u8 _0[0x3d8];
+    /* 0x3d8 */ s32 mFrameCount;
     /* 0x3dc */ bool _3dc;  // set while a movie event is being played (S7Movie::x)
 };
 

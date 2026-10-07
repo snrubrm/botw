@@ -1,6 +1,14 @@
 #include "KingSystem/Event/evtEventFlow.h"
+#include "KingSystem/System/MoviePlayer.h"
 
 namespace ksys::evt {
+
+// 0x7100dbc51c
+f32 EventFlowMovie::getFrameCount() const {
+    if (mMoviePath[0] == sead::SafeString::cNullChar)
+        return mFrameCount;
+    return MoviePlayer::instance()->mFrameCount;
+}
 
 // 0x7100dbc6ec (CSV evt::EventFlowMovie::getEventFlowType): 3 = movie without a path
 s32 EventFlowMovie::getEventFlowType() const {
