@@ -116,11 +116,11 @@ void Unk_7102474c28::sub_7100936A28(s32 value) {
     }
 }
 
-// NON_MATCHING: the virtual stop target and clamp arithmetic are scheduled differently.
+// NON_MATCHING: the natural integer increment and virtual stop target/clamp scheduling differ.
 void Unk_7102474c28::sub_7100936A7C(s32 value) {
     if (mScrollAnimator) {
         if (mPageValue >= 1)
-            value += 1.0f;
+            ++value;
         mScrollAnimator->Stop(sead::Mathi::clamp(value, 0, 20) * mScrollStep);
     }
 }

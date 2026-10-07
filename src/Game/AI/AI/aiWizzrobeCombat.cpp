@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiWizzrobeCombat.h"
+#include "Game/Damage/dmgInfoManager.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "Game/Actor/actEnemy.h"
@@ -30,7 +31,11 @@ void WizzrobeCombat::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void WizzrobeCombat::leave_() {
-    ksys::act::ai::Ai::leave_();
+    if (_59c) {
+        auto& status = dmg::DamageInfoMgr::instance()->get790();
+        if (status.sub_7100672B1C(mActor))
+            status.sub_7100672888(mActor);
+    }
 }
 
 void WizzrobeCombat::loadParams_() {

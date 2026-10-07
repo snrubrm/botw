@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiWizzrobeWeatherMagic.h"
+#include "Game/Damage/dmgInfoManager.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 
@@ -21,7 +22,8 @@ void WizzrobeWeatherMagic::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void WizzrobeWeatherMagic::leave_() {
-    ksys::act::ai::Ai::leave_();
+    if (!dmg::DamageInfoMgr::instance()->get790().sub_7100672B00(mActor) && _78)
+        _78->_c = 2;
 }
 
 void WizzrobeWeatherMagic::loadParams_() {

@@ -49,7 +49,8 @@ protected:
     bool* mIsWizzrobeInBattleAreaFlag_a{};
     ksys::act::BaseProcHandle _98;
     // The rest (0xa8 - 0x5a0: FixedSafeString<64> + SafeString arrays) is not recovered yet.
-    u8 _a8[0x59d - 0xa8];
+    u8 _a8[0x59c - 0xa8];
+    bool _59c;
     bool _59d;
     u8 _59e[0x5a0 - 0x59e];
 };
