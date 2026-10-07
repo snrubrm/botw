@@ -126,12 +126,15 @@ private:
                          DebuggerResult* debugger_result);
     /// 0x7100b8fe80
     void calcListenerDistanceAndDirectivity_(Result* result, const Listener& listener);
+    /// 0x7100b8ffd0: applies the distance attenuation to the volume; returns whether the sound is audible.
+    virtual bool calcDistReduction_(Result* result, const Listener& listener, s32 index,
+                                    DebuggerResult* debugger_result);
     /// 0x7100b9033c
-    void calcAngle_(Result* result, const Listener& listener, bool unified);
+    virtual void calcAngle_(Result* result, const Listener& listener, bool force);
     /// 0x7100b9041c
-    void calcAngleWithSoundSourceSize_(Result* result, const Listener& listener, bool unified);
+    void calcAngleWithSoundSourceSize_(Result* result, const Listener& listener, bool force);
     /// 0x7100b9071c
-    void calcDoppler_(Result* result, const Listener& listener);
+    virtual void calcDoppler_(Result* result, const Listener& listener);
 
     friend class Shape;
     friend class SoundSourceUnifierSource;

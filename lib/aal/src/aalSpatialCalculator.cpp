@@ -147,6 +147,57 @@ bool SpatialCalculator::calc(bool force) {
     return result;
 }
 
+// NON_MATCHING: same calls; the original sets up the matrix argument (result->_2c) before the destination
+// of calcLocalMatrixForAngle in the case without the separate angle position.
+// 0x7100b8fc8c
+bool SpatialCalculator::calcByListener_(Result* result, const Listener& listener, s32 index, bool force,
+                                        DebuggerResult* debugger_result) {
+    if (!result)
+        return false;
+
+    if (mSetting.actor_matrix)
+        result->_2c = *mSetting.actor_matrix;
+
+    if (mSetting.shape) {
+        sead::Vector3f position;
+        mSetting.shape->calcPositionByListener(listener, &position);
+        result->_2c.m[0][3] = position.x;
+        result->_2c.m[1][3] = position.y;
+        result->_2c.m[2][3] = position.z;
+    }
+
+    if (mSetting.flags & 2) {
+        // A unified sound source is calculated by the unifier.
+        if (debugger_result)
+            debugger_result->code = 0x10003;
+        return true;
+    }
+
+    calcListenerDistanceAndDirectivity_(result, listener);
+
+    if (!calcDistReduction_(result, listener, index, debugger_result))
+        return false;
+
+    if (mSetting.shape && mSetting.shape->mFlags.isOnBit(Shape::SeparateAnglePosition)) {
+        // The angle is calculated with another position than the distance.
+        sead::Vector3f position;
+        mSetting.shape->calcPositionForAngle(listener, &position);
+        sead::Matrix34f matrix;
+        if (mSetting.actor_matrix)
+            matrix = *mSetting.actor_matrix;
+        matrix.m[0][3] = position.x;
+        matrix.m[1][3] = position.y;
+        matrix.m[2][3] = position.z;
+        listener.calcLocalMatrixForAngle(&result->_5c, matrix);
+    } else {
+        listener.calcLocalMatrixForAngle(&result->_5c, result->_2c);
+    }
+
+    calcAngle_(result, listener, force);
+    calcDoppler_(result, listener);
+    return true;
+}
+
 // NON_MATCHING: same calculation; the registers of the position are numbered differently.
 // 0x7100b8fe80
 void SpatialCalculator::calcListenerDistanceAndDirectivity_(Result* result, const Listener& listener) {
