@@ -23,6 +23,11 @@ void sub_7100D2D424(uking::dmg::DamageManagerBase* manager);
 
 namespace ksys::act {
 
+Unk_71006dc134::Unk_71006dc134(const sead::Vector3f& a1, const sead::Vector3f& a2,
+                             ActorAtk::Unk_710079e64c::Unk1* info, bool a4, bool a5)
+    : _0(a1), _c(a2), _18(info), _20(a4), _21(a5) {}
+
+
 void DynamicActor::m158() {
     if (auto* manager = mDamageMgr) {
         sub_7100D2D424(manager);

@@ -1,4 +1,5 @@
 #include "KingSystem/ActorSystem/actUnk_71006ecc78.h"
+#include "Game/AI/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actBoneControl.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
@@ -8,6 +9,26 @@
 #include "KingSystem/Physics/physDefines.h"
 
 namespace ksys::act {
+
+// NON_MATCHING: temporary matrix and vector storage is allocated differently; the physics calls and values agree.
+void Unk_71006ecc78::sub_71006EDE54(sead::Matrix34f* out, const sead::SafeString& name) {
+    const s32 index = mActor->getRagdollInstance()->getBoneIndexByName(name);
+    if (index < 0)
+        return;
+    sead::Vector3f normal = sead::Vector3f::ey;
+    sead::Matrix34f transform;
+    mActor->getRagdollInstance()->getRigidBodies_()[index]->getTransform(&transform);
+    const sead::Vector3f from = transform.getTranslation();
+    sead::Vector3f to = from;
+    to.y -= 15.0f;
+    sead::Vector3f hit;
+    if (!sub_710072E928(from, to, &hit, &normal, nullptr, 0.0f))
+        normal = sead::Vector3f::ey;
+    if (auto* ragdoll = mActor->getRagdollInstance()) {
+        if (ragdoll->getRigidBodies_()[index])
+            *out = ragdoll->getTransformWithCustomYAxis(index, normal);
+    }
+}
 
 bool Unk_71006ecc78::sub_71006EE07C(sead::Matrix34f* out, const gsys::BoneAccessKey& key,
                                  const sead::Vector3f& offset) {

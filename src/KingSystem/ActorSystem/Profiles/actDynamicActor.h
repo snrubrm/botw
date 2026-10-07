@@ -21,6 +21,8 @@ class Unk_7102459df8;
 // Placeholder name (ctor 0x71006dc134, inlined into DynamicActor::m36 0x71006dc16c): the argument
 // m36 passes (by pointer) to the sead::IDelegate1 at _a70 (e.g. PriestBossIronBallRoot::_248).
 struct Unk_71006dc134 {
+    Unk_71006dc134(const sead::Vector3f& a1, const sead::Vector3f& a2,
+                  ActorAtk::Unk_710079e64c::Unk1* info, bool a4, bool a5);
     sead::Vector3f _0;
     sead::Vector3f _c;
     ActorAtk::Unk_710079e64c::Unk1* _18;
