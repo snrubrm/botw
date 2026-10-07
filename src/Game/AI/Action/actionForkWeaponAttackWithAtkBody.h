@@ -18,6 +18,7 @@ public:
 
 protected:
     void calc_() override;
+    void m32(int weapon_idx, const sead::SafeString& name, bool x, f32 y) override;
     void m33() override;
 
     // static_param at offset 0x78
