@@ -60,6 +60,7 @@ target_sources(uking PRIVATE
   euiScreenSoundLink.cpp
   euiDrawInfoEx.cpp
   euiConstantBuffer.cpp
+  euiFrameBufferMultiFilter.cpp
   euiDynamicCapturePane.cpp
   euiUIController.cpp
   euiScreenMgr.cpp
