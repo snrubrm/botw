@@ -1,4 +1,5 @@
 #include "KingSystem/Map/mapPlacementMgr.h"
+#include "KingSystem/Map/mapPlacement18.h"
 #include <thread/seadThreadUtil.h>
 #include <time/seadTickTime.h>
 #include "KingSystem/ActorSystem/actActor.h"
@@ -455,6 +456,14 @@ void PlacementMgr::updateTimeDivisionFlags(bool on) {
             mFlags.set(MgrFlag::_1);
     }
     mFlags.change(MgrFlag::_4000, on);
+}
+
+RailConnectablePoint* PlacementMgr::sub_71011EA44C(const sead::Vector3f* pos, s32 x, s32 z) {
+    return mPlacement18->sub_7100D488A0(pos, x, z);
+}
+
+Rail* PlacementMgr::sub_71011EA454(const sead::SafeString& name, const sead::Vector3f* pos) {
+    return mPlacement18->sub_7100D48DE0(name, pos);
 }
 
 }  // namespace ksys::map
