@@ -53,12 +53,16 @@ protected:
     // FIXME: fields not decompiled yet (written by calc_)
     u8 _130[0x16c - 0x130];
     f32 _16c = 1.0f;
-    u64 _170 = 0;
+    f32 _170 = 0;
+    f32 _174 = 0;
     u64 _178 = 0;
     bool _180 = false;
 
     // 0x710023a4c8 (declaration only)
     void sub_710023A4C8();
+    // 0x7100239f8c (placeholder name): starts the "HorseRideonMove" AS once and turns towards the target (the rotation
+    // speed depends on the distance `_170` against `_174`).
+    void sub_7100239F8C(ksys::phys::CharacterController* controller, ksys::act::ActorLinkConstDataAccess* accessor);
     // 0x710023a6b0 (placeholder name): turns the actor so that it faces the direction of the horse accessor.
     void sub_710023A6B0(f32 rate, ksys::phys::CharacterController* controller,
                         ksys::act::ActorLinkConstDataAccess* accessor);
