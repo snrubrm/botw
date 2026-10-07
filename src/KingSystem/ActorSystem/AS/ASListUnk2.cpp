@@ -9,6 +9,22 @@ bool sub_7100E9CF8C();
 
 namespace ksys::as {
 
+// (in this file because the original does not inline it into the ASList functions)
+void ASList::Unk2::sub_7101162E88(Unk2* other, bool a1) {
+    if (!other || _18 != other->_18)
+        return;
+    mFlags = other->mFlags;
+    _0->sub_710125A67C(*other->_0, false);
+    if (_0->sub_7101259990(false))
+        sub_7101161EE0(-1.0f, _18, false);
+    if (a1)
+        other->_48 = this;
+    else
+        _48 = other;
+    if (Element::sub_71011654D8())
+        _0->mFlags |= 0x40;
+}
+
 bool ASList::Unk2::sub_710116392C() {
     return (_41 & 4) && sub_7100E9CF8C();
 }

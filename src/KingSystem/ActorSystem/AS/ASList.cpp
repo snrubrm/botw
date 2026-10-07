@@ -291,21 +291,6 @@ void ASList::Unk2::sub_71011623DC(Unk2* other) {
     }
 }
 
-void ASList::Unk2::sub_7101162E88(Unk2* other, bool a1) {
-    if (!other || _18 != other->_18)
-        return;
-    mFlags = other->mFlags;
-    _0->sub_710125A67C(*other->_0, false);
-    if (_0->sub_7101259990(false))
-        sub_7101161EE0(-1.0f, _18, false);
-    if (a1)
-        other->_48 = this;
-    else
-        _48 = other;
-    if (Element::sub_71011654D8())
-        _0->mFlags |= 0x40;
-}
-
 // NON_MATCHING: compiler converts bit 7 to bool with a signed byte load and comparison.
 bool ASList::Unk2::sub_7101163940() {
     return _0->_920 >> 7;
@@ -338,6 +323,38 @@ void ASList::sub_710115CA28() {
     for (s32 i = 0; i < count; ++i)
         mSlots[i].sub_7101164E38(false);
     _b0->sub_7100D68104(_8, nullptr, &_80, &_14);
+}
+
+void ASList::sub_710115C278(int slot) {
+    Unk2* first = getEntry(slot, 0);
+    const sead::SafeString* name = first ? first->sub_7101161CD8() : &sead::SafeString::cEmptyString;
+    if (name->isEmpty())
+        return;
+
+    AnimationRequest request;
+    request.define = sub_710115AABC(*name, &request.name, &request.lookupFlag, &request.resource, false);
+    request.slot = 0;
+    request.bank = 0;
+    request.value = -1.0f;
+    request.value2 = -1.0f;
+    request.force = false;
+    if (!request.define)
+        return;
+    if ((request.define->_10 & 3) == 2)
+        return;
+
+    const s32 count = mSlots.size();
+    for (s32 i = 0; i < count; ++i) {
+        if (i == slot)
+            continue;
+        auto& other = mSlots[i];
+        if (!other.sub_71011653C4() && !other.sub_71011653B4())
+            continue;
+        request.slot = i;
+        sub_710115AE2C(request);
+        if (auto* entry = getEntry(i, 0))
+            entry->sub_7101162E88(getEntry(slot, 0), i < slot);
+    }
 }
 
 bool ASList::sub_710115AA68(const sead::SafeString& name) {
