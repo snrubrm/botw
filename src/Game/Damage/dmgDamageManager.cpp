@@ -391,6 +391,76 @@ bool DamageManager::getPosition(sead::Vector3f* out) {
     return true;
 }
 
+bool DamageManager::m31(sead::Vector3f* out) {
+    s32 index;
+    switch (getDamageType()) {
+    case 1:
+        if (_c0.x * _c0.x + _c0.y * _c0.y + _c0.z * _c0.z > 0.0f) {
+            *out = _c0;
+            return true;
+        }
+        {
+            const auto& mtx = mActor->getMtx();
+            const sead::Vector3f z_axis(-mtx(0, 2), -mtx(1, 2), -mtx(2, 2));
+            out->x = z_axis.x;
+            out->y = z_axis.y;
+            out->z = z_axis.z;
+            return true;
+        }
+    case 2:
+    case 10:
+        index = _6c;
+        if (index < 0)
+            return false;
+        break;
+    case 3: {
+        if (::hasAttackInfo(mActor)) {
+            auto* info = ::getAttackInfo(mActor, 0);
+            if (!info)
+                return false;
+            *out = info->_c;
+            out->normalize();
+            return true;
+        }
+        if (!(_218 & 0x30))
+            return false;
+        const auto& velocity = mActor->getVelocity();
+        out->set(-velocity.x, -velocity.y, -velocity.z);
+        out->normalize();
+        return true;
+    }
+    case 4:
+    case 11: {
+        auto* impulse = mActor->getImpulseBaseProcLink();
+        const sead::Vector3f* direction;
+        if (!impulse)
+            direction = &sead::Vector3f::ez;
+        else
+            direction = &impulse->_10._10;
+        *out = *direction;
+        return true;
+    }
+    case 6:
+        if (!_216.isOn(0x100))
+            return false;
+        index = _88;
+        if (index < 0)
+            return false;
+        break;
+    case 9:
+        *out = _a8;
+        return true;
+    default:
+        return false;
+    }
+
+    auto* info = ::sub_71007A255C(mActor, index);
+    if (!info)
+        return false;
+    *out = info->_94;
+    return true;
+}
+
 bool DamageManager::getAttackPos(sead::Vector3f* out) {
     s32 index;
     switch (getDamageType()) {

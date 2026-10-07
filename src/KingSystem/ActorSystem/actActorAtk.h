@@ -115,9 +115,7 @@ public:
             /* 0x88 */ u32 _88 = 0;
             /* 0x8c */ u32 _8c = 0;
             /* 0x90 */ u32 _90 = 0;
-            /* 0x94 */ u32 _94 = 0;
-            /* 0x98 */ u32 _98 = 0;
-            /* 0x9c */ f32 _9c = 1.0;
+            /* 0x94 */ sead::Vector3f _94{0, 0, 1};  // a direction (DamageManager::m31)
             /* 0xa0 */ sead::Vector3f _a0{0, 0, 0};  // read as floats by AmbushableWeaponShoot::sub_7100300908
             /* 0xac */ u32 _ac = 0;
             /* 0xb0 */ void* _b0 = nullptr;

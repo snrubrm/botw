@@ -110,7 +110,8 @@ public:
     // 0x71006e029c (DamageMgrBase::m30): writes a direction to `out` (callers test the result).
     virtual bool m30(sead::Vector3f* out);
 
-    virtual s32 m31() { return 0; }
+    // lane4 s51: takes an out direction (DamageManager::m31; the base returns false).
+    virtual bool m31(sead::Vector3f* out) { return false; }
     // Signature from IceSplinterRoot::m43 (lane2): takes an out vector (a direction), result is tested.
     virtual bool m32(sead::Vector3f* out) { return false; }
     virtual ksys::phys::MaterialMask* m33() { return nullptr; }
