@@ -243,15 +243,12 @@ bool PreyRoot::sub_7100504EBC(u32 mask) const {
     return _188->_e84.isOn(mask);
 }
 
-// NON_MATCHING: the original writes _1fc and _200 with a single 64-bit store (as if they were one struct
-// assigned from a temporary); the ctor initialises them separately
 void PreyRoot::sub_7100504BF0() {
+    _205 = false;
     _1fc = std::numeric_limits<f32>::quiet_NaN();
     _200 = 0;
-    _205 = false;
 }
 
-// NON_MATCHING: same 64-bit store of _1fc / _200 as sub_7100504BF0 (inlined here)
 void PreyRoot::sub_71005044C8() {
     sub_7100504BF0();
     sead::Vector3f pos;

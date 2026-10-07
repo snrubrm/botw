@@ -66,10 +66,10 @@ bool SimpleShootingEnemyFindPlayer::m36(bool b) {
     return m35();
 }
 
-// NON_MATCHING: same instructions and registers (`(x | 1) != 3`, `x != 5`, and), but the original computes the `x != 5`
-// flag first; ours schedules the `(x | 1)` compare first (the base class tests `(x & ~1) != 2`)
+// NON_MATCHING: same instructions and registers, but the original computes the `x != 5` flag first;
+// both `&&` orders schedule the `(x | 1)` compare first here (the base class tests `(x & ~1) != 2`)
 bool SimpleShootingEnemyFindPlayer::m42(s32 x) {
-    return (x | 1) != 3 && x != 5;
+    return x != 5 && (x | 1) != 3;
 }
 
 bool SimpleShootingEnemyFindPlayer::m43() {

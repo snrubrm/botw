@@ -23,7 +23,8 @@ private:
 };
 KSYS_CHECK_SIZE_NX150(Unk_71023f52d0, 0x10);
 
-// NON_MATCHING: the pointer equality compares its operands in the opposite order.
+// NON_MATCHING: the pointer equality compares its operands in the opposite order (both source orders
+// produce the same code).
 bool Unk_71023f52d0::invoke(ksys::phys::RigidBody*, ksys::phys::RigidBody* other) {
     return other == mEntry->_c8;
 }

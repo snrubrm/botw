@@ -173,7 +173,8 @@ bool SiteBossRecognizeRootBase::m35() {
 }
 
 // NON_MATCHING: sUnk_71025ba278 is reached through the GOT here (the original addresses it directly:
-// a TU-local object that is never written, yet not folded); getU32 argument order as in enter_
+// a TU-local object that is never written, yet not folded — tried TU-local static, which folds to a
+// constant); getU32 argument order as in enter_
 void SiteBossRecognizeRootBase::m40() {
     if (sUnk_71025ba278) {
         _64 = 0;
