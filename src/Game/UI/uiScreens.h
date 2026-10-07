@@ -342,7 +342,7 @@ class Unk_7102474e38 {
 public:
     SEAD_RTTI_BASE(Unk_7102474e38)
     virtual ~Unk_7102474e38();
-    virtual void m4();
+    virtual void m4(sead::Heap*);
     virtual void m5();
     virtual void m6();
     virtual void m7();
@@ -363,6 +363,7 @@ public:
     virtual void m22(eui::AnimButton* button);
 
     ScreenEx* sub_7100939C5C() const;
+    bool sub_7100939CA0() const;
     void sub_7100939EF8(eui::AnimButton* button);
     void sub_7100939F04(eui::AnimButton* button);
     void sub_7100939F10(eui::AnimButton* button);
@@ -376,7 +377,7 @@ public:
     Unk_7102474e38();
 
     /* 0x08 */ u64 _8{};
-    /* 0x10 */ u64 _10{};
+    /* 0x10 */ eui::AnimButton* _10{};
     /* 0x18 */ u64 _18{};
     /* 0x20 */ ScreenAppPictureBookUnk* _20{};
     /* 0x28 */ u64 _28{};

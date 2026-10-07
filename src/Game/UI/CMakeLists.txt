@@ -153,6 +153,7 @@ target_sources(uking PRIVATE
   uiScreenEx.cpp
   uiScreenButtonHelper.cpp
   uiArchiveHandle.cpp
+  uiShortcutIconButton.cpp
   uiScreenButtonUnit.cpp
   uiScreenSlots.cpp
   uiScreenStates.cpp
