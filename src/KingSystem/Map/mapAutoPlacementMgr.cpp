@@ -37,6 +37,40 @@ bool AutoPlacementMgr::auto9() {
     return _171e48 > 0;
 }
 
+bool AutoPlacementInfo::x(const sead::Vector3f& pos, bool a2, u32 type_mask, const void* a4) {
+    const int px = int(pos.x) + 5000;
+    int cx = px / 1000;
+    if (cx > 9)
+        cx = 9;
+    if (px < -999)
+        cx = 0;
+
+    const int pz = int(pos.z) + 4000;
+    int cz = pz / 1000;
+    if (cz > 7)
+        cz = 7;
+    if (pz < -999)
+        cz = 0;
+
+    if (x_0(1.0f, cx, cz, pos, a2, type_mask, nullptr, a4) != -1)
+        return true;
+    if (x_0(1.0f, cx - 1, cz - 1, pos, a2, type_mask, nullptr, a4) != -1)
+        return true;
+    if (x_0(1.0f, cx, cz - 1, pos, a2, type_mask, nullptr, a4) != -1)
+        return true;
+    if (x_0(1.0f, cx + 1, cz - 1, pos, a2, type_mask, nullptr, a4) != -1)
+        return true;
+    if (x_0(1.0f, cx - 1, cz, pos, a2, type_mask, nullptr, a4) != -1)
+        return true;
+    if (x_0(1.0f, cx + 1, cz, pos, a2, type_mask, nullptr, a4) != -1)
+        return true;
+    if (x_0(1.0f, cx - 1, cz + 1, pos, a2, type_mask, nullptr, a4) != -1)
+        return true;
+    if (x_0(1.0f, cx, cz + 1, pos, a2, type_mask, nullptr, a4) != -1)
+        return true;
+    return x_0(1.0f, cx + 1, cz + 1, pos, a2, type_mask, nullptr, a4) != -1;
+}
+
 int AutoPlacementMgr::sub_7100659158(int idx, bool near_flow) {
     auto* mgr = AutoPlacementFlowMgr::instance();
     return (near_flow ? mgr->getResource2(idx) : mgr->getResource1(idx))->placement_type;

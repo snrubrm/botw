@@ -24,6 +24,10 @@ public:
     // 0x7100e8ce54 (declared only; 720 bytes): `a4` is the optional extra buffer (the mgr passes its member at
     // 0x189df8 for placement type 0).
     bool x(const sead::Vector3f& pos, bool a2, u32 type_mask, const void* a4);
+    // 0x7100e8d124 (CSV x_0; declaration only; placeholder parameter names): looks at one grid cell; -1 if there is
+    // no match.
+    int x_0(f32 scale, int cell_x, int cell_z, const sead::Vector3f& pos, bool a2, u32 type_mask, const void* a7,
+            const void* a4);
 
     u8 _0[0x189db0 - 0x171ef0];
 };
