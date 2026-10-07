@@ -104,9 +104,8 @@ public:
     f32 _3c = 1.0f;
     f32 _40 = 1.0f;
     f32 _44 = 0.0f;
-    f32 _48 = 1.0f;
-    f32 _4c = 1.0f;
-    f32 _50 = 1.0f;
+    // 2026-10-07: original x_11 passes +0x48 to RigidBody::setInertiaLocal as a vector.
+    sead::Vector3f _48{1.0f, 1.0f, 1.0f};
     bool _54 = false;
 };
 KSYS_CHECK_SIZE_NX150(Unk_7102450298, 0x58);

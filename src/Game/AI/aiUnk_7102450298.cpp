@@ -1,4 +1,7 @@
 #include "Game/AI/aiUnk_7102450058.h"
+#include <cmath>
+#include "KingSystem/ActorSystem/actChemical.h"
+#include "KingSystem/Chemical/chmSystemConfig.h"
 #include "Game/AI/aiUnk_71007368A4.h"
 #include "Game/AI/aiUnk_71007377D4.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
@@ -14,6 +17,30 @@ bool Unk_7102450298::sub_71006F8AB4() const {
     if (!_30)
         return true;
     return !(_30->_50 & 1);
+}
+
+// NON_MATCHING: the inertia-vector address is formed after setMass rather than retained across the call.
+void Unk_7102450298::x_11() {
+    const f32 mass = mActor && mActor->getScale().x != 1.0f ?
+                         std::pow(mActor->getScale().x, 3) * _38 : _38;
+    _3c = mass;
+    auto* body = mActor->getMainBody();
+    auto* controller = mActor->getCharacterController();
+    const f32 clamped_mass = sead::Mathf::max(mass, 0.01f);
+    if (controller) {
+        controller->sub_7100F60368(clamped_mass);
+    } else if (body) {
+        body->setMass(clamped_mass);
+        body->setInertiaLocal(_48);
+    }
+    if (auto* chemical = mActor->getChemicalStuff()) {
+        if (chemical->mMaterial->attribute.ref() & 0x80040) {
+            body = mActor->getMainBody();
+            auto* controller = mActor->getCharacterController();
+            if (body && !controller)
+                body->resetInertiaAndCenterOfMass();
+        }
+    }
 }
 
 void Unk_7102450298::x_10() {
