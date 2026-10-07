@@ -8,6 +8,10 @@
 #include "KingSystem/Chemical/chmSystemConfig.h"
 #include "KingSystem/Utils/Types.h"
 
+namespace ksys::chm {
+class IShape;
+}
+
 namespace ksys::act {
 
 class Unk_71024e6560;
@@ -126,7 +130,9 @@ public:
     /* 0x010 */ int _10 = 0;
     /* 0x018 */ Unk_71024e6560* _18 = nullptr;  // owner (polymorphic; vtable slots 4, 5, 22, 23, 26, 32)
     /* 0x020 */ const chm::SystemConfig::Material* mMaterial = nullptr;
-    /* 0x028 */ u8 _28[0x34 - 0x28];
+    // 2026-10-07: D8EABC receives IRoot::getShape from element setup E3AA34.
+    /* 0x028 */ const chm::IShape* mShape;
+    /* 0x030 */ u8 _30[0x34 - 0x30];
     /* 0x034 */ f32 _34;
     /* 0x038 */ u8 _38[0x40 - 0x38];
     /* 0x040 */ f32 _40;

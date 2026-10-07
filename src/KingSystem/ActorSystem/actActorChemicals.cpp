@@ -96,7 +96,7 @@ f32 Unk_71024e6428::m30(const void* a1) {
 }
 
 bool Unk_71024e6428::m31() {
-    return !_18->m22(_288);
+    return !_18->isRigidAttribute16Set(_288);
 }
 
 bool Unk_71024e6428::m33() {
@@ -113,7 +113,7 @@ bool Unk_71024e6428::m33() {
 bool Unk_71024e6428::m36() {
     if ((_30 & 0x10000) || !(_3c & 0x1))
         return true;
-    if (!_18->m15(_288) && !(_3c & 0x100000))
+    if (!_18->isRigidAttribute6Or14Set(_288) && !(_3c & 0x100000))
         return true;
     return _30 & 0x8000;
 }

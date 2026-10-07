@@ -166,7 +166,7 @@ void Arrow::enter_(ksys::act::ai::InlineParamPack* params) {
         bool trigger = false;
         if (auto* chemicals = mActor->getChemicalContainer()) {
             if (auto* element = chemicals->sub_7100E37FA8(0))
-                trigger = element->_18->m15(element->_288);
+                trigger = element->_18->isRigidAttribute6Or14Set(element->_288);
         }
         if (trigger || (chemical->mMaterial->attribute.ref() & 0x8000) ||
             ((chemical->mMaterial->attribute.ref() & 0x108) == 0x108 && !(chemical->_be & 4)) ||
@@ -185,7 +185,7 @@ void Arrow::sub_7100463F68() {
     bool handled = false;
     if (auto* chemicals = mActor->getChemicalContainer()) {
         if (auto* element = chemicals->sub_7100E37FA8(0)) {
-            if (element->_18->m15(element->_288)) {
+            if (element->_18->isRigidAttribute6Or14Set(element->_288)) {
                 if (auto* chem = mActor->sub_71011D8A44(0))
                     chem->sub_7100D8EEE0();
                 handled = true;

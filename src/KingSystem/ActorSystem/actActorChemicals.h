@@ -10,6 +10,7 @@
 #include <prim/seadScopedLock.h>
 #include <thread/seadCriticalSection.h>
 #include "KingSystem/ActorSystem/actChemical.h"
+#include "KingSystem/Chemical/chmRoot.h"
 #include "KingSystem/Utils/Types.h"
 
 namespace ksys::phys {
@@ -114,7 +115,8 @@ public:
 
     /* 0x008 */ Actor* mActor;
     /* 0x010 */ u8 _10[0x18 - 0x10];
-    /* 0x018 */ Unk_71024e6560* _18;
+    // 2026-10-07: setup E37224 passes Root's IRoot base to E39E8C; E3AA34 calls getShape.
+    /* 0x018 */ const chm::IRoot* _18;
     /* 0x020 */ u8 _20[0x30 - 0x20];
     /* 0x030 */ u32 _30;  // flags (bit 9 set by ChemicalWeaponRoot::m44)
     /* 0x034 */ u8 _34[0x3c - 0x34];

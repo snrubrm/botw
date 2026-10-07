@@ -9,6 +9,13 @@
 #include "KingSystem/Chemical/chmSystemConfig.h"
 #include "KingSystem/World/worldManager.h"
 
+// NON_MATCHING: the virtual getter is not tail-called and the empty fallback is duplicated.
+const sead::SafeString& sub_71006F5D8C(ksys::act::Chemical* chemical) {
+    if (!chemical || !chemical->mShape)
+        return sead::SafeString::cEmptyString;
+    return chemical->mShape->getName();
+}
+
 bool sub_71006F594C(Unk_71006F5DB0 element, ksys::act::Chemical* chemical) {
     if (!chemical || !(chemical->_8 & 2))
         return false;
