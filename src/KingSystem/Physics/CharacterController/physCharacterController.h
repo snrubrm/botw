@@ -5,6 +5,9 @@
 #include <math/seadVector.h>
 #include <prim/seadBitFlag.h>
 #include <prim/seadDelegate.h>
+#include "Havok/Physics2012/Utilities/CharacterControl/StateMachine/InAir/hkpCharacterStateInAir.h"
+#include "Havok/Physics2012/Utilities/CharacterControl/StateMachine/OnGround/hkpCharacterStateOnGround.h"
+#include "Havok/Physics2012/Utilities/CharacterControl/StateMachine/hkpCharacterContext.h"
 #include "KingSystem/Physics/physDefines.h"
 #include "KingSystem/Utils/Types.h"
 
@@ -30,16 +33,34 @@ struct CharacterControllerUnk20;
 struct CharacterControllerShapes;
 struct CharacterControllerUnk38;
 struct CharacterControllerUnk40;
-struct CharacterControllerUnk48 {
+// The object at +0x48: a ksys character state derived from hkpCharacterStateOnGround
+// (its constructor 0x7100f67b54 calls hkpCharacterStateOnGround's; the controller init
+// allocates 0xc0 bytes for it and registers it in the hkpCharacterStateManager at +0x18).
+struct CharacterControllerUnk48 : public hkpCharacterStateOnGround {
     // 0x7100f68f38 (declaration only): the address of the field at 0x5c.
     f32* sub_7100F68F38();
 
-    /* 0x00 */ u8 _0[0x50];
+    // The base's tail padding (data size 0x1c) is reused by this derived class.
+    /* 0x1c */ u8 _1c[0x50 - 0x1c];
     /* 0x50 */ u8 _50;
-    /* 0x51 */ u8 _51[0x8c - 0x51];
+    /* 0x51 */ u8 _51[0x54 - 0x51];
+    /* 0x54 */ u32 _54;
+    /* 0x58 */ u8 _58[0x8c - 0x58];
     /* 0x8c */ u32 _8c;
     /* 0x90 */ u8 _90[0x94 - 0x90];
     /* 0x94 */ u32 _94;
+};
+
+// The object at +0x50: a ksys character state derived from hkpCharacterStateInAir
+// (its constructor 0x7100f67670 calls hkpCharacterStateInAir's; 0x40 bytes);
+// defined in physCharacterController.cpp.
+struct CharacterControllerUnk50;
+
+// The object at +0x58: a minimal ksys character state (0x10 bytes; constructor 0x7100f67aa0)
+// with a single float at 0xc (the character's speed is stored there).
+struct CharacterControllerUnk58 {
+    /* 0x00 */ u8 _0[0xc];
+    /* 0x0c */ f32 _c;
 };
 
 struct CharacterControllerUnk50;
@@ -66,6 +87,9 @@ public:
     void sub_7100F62BC0(bool fixed);
 
     act::MotionType sub_7100F5F0E4() const;
+    // 0x7100f5f0a4 (unnamed in the CSV): the character context is in state 0 and the
+    // ground state's +0x54 is 1.
+    bool sub_7100F5F0A4() const;
     // 0x7100f5f14c (declared only; lane1 s21; ~35 callers across lanes): a ground / contact test
     // (reads the controller's sub-objects at +0x10 / +0x20 / +0x28 / +0x40).
     bool sub_7100F5F14C() const;
@@ -300,13 +324,14 @@ public:
     CharacterControllerUnk10* _10;
     u8 _18[0x20 - 0x18];
     CharacterControllerUnk20* _20;
-    u8 _28[0x30 - 0x28];
+    // The character context (a ksys-derived hkpCharacterContext, constructor 0x71012a6634).
+    hkpCharacterContext* _28;
     CharacterControllerShapes* _30;
     CharacterControllerUnk38* _38;
     CharacterControllerUnk40* _40;
     CharacterControllerUnk48* _48;
     CharacterControllerUnk50* _50;
-    u8 _58[0x60 - 0x58];
+    CharacterControllerUnk58* _58;
     f32 _60;
     sead::Vector3f _64;
     sead::Vector3f _70;

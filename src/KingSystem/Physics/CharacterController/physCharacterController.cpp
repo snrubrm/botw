@@ -9,11 +9,12 @@ namespace ksys::phys {
 
 class Shape;
 
-// Placeholder: object at CharacterController::_10 (only the field written by sub_7100F5EDE8).
+// Placeholder: object at CharacterController::_10 (only the fields used by the accessors).
 struct CharacterControllerUnk10 {
     /* 0x00 */ u8 _0[0x30];
     /* 0x30 */ hkVector4f _30;
-    /* 0x40 */ u8 _40[8];
+    /* 0x40 */ u8 _40[4];
+    /* 0x44 */ f32 _44;
     /* 0x48 */ f32 _48;
     /* 0x4c */ u8 _4c[0x70 - 0x4c];
     /* 0x70 */ f32 _70;
@@ -65,8 +66,7 @@ struct CharacterControllerUnk38 {
 };
 
 
-struct CharacterControllerUnk50 {
-    /* 0x00 */ u8 _0[0x18];
+struct CharacterControllerUnk50 : public hkpCharacterStateInAir {
     /* 0x18 */ f32 _18;
     /* 0x1c */ u8 _1c[0x38 - 0x1c];
     /* 0x38 */ u32 _38;
@@ -204,6 +204,67 @@ f32 CharacterController::sub_7100F5F058() const {
 
 void CharacterController::sub_7100F5F060(const sead::Vector3f& value) {
     _ec = value;
+}
+
+act::MotionType CharacterController::sub_7100F5F0E4() const {
+    return act::MotionType(_28->sub_710167785C());
+}
+
+bool CharacterController::sub_7100F5F0A4() const {
+    if (_28->sub_710167785C() != 0)
+        return false;
+    return _48->_54 == 1;
+}
+
+bool CharacterController::sub_7100F5F14C() const {
+    // NON_MATCHING: regalloc/branch folding only — the original branches (b.pl) to the shared
+    // return-false block and returns a constant 1; clang 4 folds the final compare into a cset.
+    if (_28->sub_710167785C() == 3 || _28->sub_710167785C() == 2) {
+        if (_20->_40 == 0)
+            return false;
+        if (_40->_68 != 0) {
+            const hkVector4f& normal = _20->_50;
+            const f32 dot = normal.getX().val() * sead::Vector3f::ey.x +
+                            normal.getY().val() * sead::Vector3f::ey.y +
+                            normal.getZ().val() * sead::Vector3f::ey.z;
+            const f32 slope = _10->_44;
+            if (!(dot < std::sqrt(1.0f - slope * slope)))
+                return false;
+            return true;
+        }
+        return false;
+    }
+    return _28->sub_710167785C() == 0 && _40->_68 != 0;
+}
+
+void CharacterController::sub_7100F5F5A0() {
+    // NON_MATCHING: regalloc/branch folding only — the original keeps a branch + separate
+    // store per flag bit (set if the state matches, cleared otherwise); clang 4 folds our
+    // if/else arms into csel.
+    if (_114 & 0x3c0)
+        return;
+    const act::MotionType type = act::MotionType(_28->sub_710167785C());
+    const u32 state = int(type);
+    if (state >= 4) {
+        _114 &= ~0x3c0;
+        return;
+    }
+    if ((state & 0xf) == 0)
+        _114 |= 0x40;
+    else
+        _114 &= ~0x40;
+    if ((state & 0xf) == 1)
+        _114 |= 0x80;
+    else
+        _114 &= ~0x80;
+    if ((state & 0xf) == 2)
+        _114 |= 0x100;
+    else
+        _114 &= ~0x100;
+    if ((state & 0xf) == 3)
+        _114 |= 0x200;
+    else
+        _114 &= ~0x200;
 }
 
 bool CharacterController::sub_7100F5F128() const {
