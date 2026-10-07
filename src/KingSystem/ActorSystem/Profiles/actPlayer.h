@@ -639,7 +639,10 @@ public:
     /* 0x1d6c */ f32 _1d6c;  // set to 1 by x_40 / x_16
     // Reset with Timer(0, 0) by PlayerCutAfterJust::leave_.
     /* 0x1d70 */ ksys::Timer _1d70;
-    /* 0x1d7c */ u8 _1d7c[0x1dd0 - 0x1d7c];
+    /* 0x1d7c */ f32 _1d7c;  // the BowSlowInvalidTime parameter (m229)
+    /* 0x1d80 */ f32 _1d80;
+    /* 0x1d84 */ f32 _1d84;
+    /* 0x1d88 */ u8 _1d88[0x1dd0 - 0x1d88];
     /* 0x1dd0 */ ksys::Timer _1dd0;  // set by PlayerFall::enter_
     /* 0x1ddc */ u8 _1ddc[0x1de8 - 0x1ddc];
     // Reset with Timer(5, 5) by PlayerCutTurnLSword::leave_.
@@ -721,7 +724,9 @@ public:
     /* 0x20cc */ u8 _20cc[0x20d0 - 0x20cc];
     /* 0x20d0 */ f32 _20d0;
     /* 0x20d4 */ f32 _20d4;  // water surface height (PlayerSwimJump)
-    /* 0x20d8 */ u8 _20d8[0x20f0 - 0x20d8];
+    /* 0x20d8 */ u8 _20d8[0x20ec - 0x20d8];
+    /* 0x20ec */ f32 _20ec;  // set to 1 by m229
+
     /* 0x20f0 */ f32 _20f0;
     /* 0x20f4 */ f32 _20f4;
     /* 0x20f8 */ f32 _20f8;  // cleared by PlayerGrabThrow::sub_71007F00D0

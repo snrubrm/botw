@@ -1,4 +1,8 @@
 #include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/Resource/Actor/resResourceGParamList.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectPlayer.h"
+#include "KingSystem/System/VFR.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 #include <math/seadMathCalcCommon.h>
 #include <prim/seadRuntimeTypeInfo.h>
@@ -9,6 +13,9 @@
 #include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
 #include "KingSystem/Sound/sndUnk_7102502138.h"
+
+// Declaration only (CSV name; original namespace unknown).
+bool fadeSlowEffect();
 
 namespace ksys::act {
 
@@ -75,6 +82,24 @@ bool Player::sub_7100892724() {
         }
     }
     return result;
+}
+
+void Player::m229() {
+    if (_c40.isOnBit(13)) {
+        const f32 value = mActorParam->getRes().mGParamList->getPlayer()->mBowSlowInvalidTime.ref();
+        _1d7c = value;
+        _1d80 = value;
+        _1d84 = -1.0f;
+    }
+    if (_c40.isOnBit(14))
+        sub_710084AA0C();
+    _c40.reset(0xe000);
+    _1d70 = Timer(0.0f, 0.0f);
+    VFR::instance()->resetTimeMultiplier(0);
+    VFR::instance()->resetTimeMultiplier(1);
+    VFR::instance()->resetTimeMultiplier(2);
+    fadeSlowEffect();
+    _20ec = 1.0f;
 }
 
 }  // namespace ksys::act
