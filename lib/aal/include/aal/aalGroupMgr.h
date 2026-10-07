@@ -12,8 +12,17 @@ class Heap;
 }
 
 namespace aal {
-
 class Group;
+}
+
+namespace ksys::snd {
+void sub_710105E534(sead::PtrArray<aal::Group>* groups, aal::Group* excluded, aal::Group* root);
+void sub_710105E5CC(sead::PtrArray<aal::Group>* groups,
+                  const sead::PtrArray<aal::Group>* excluded, aal::Group* root);
+}
+
+namespace aal {
+
 class GroupFolder;
 class SoundGroup;
 
@@ -46,6 +55,11 @@ struct GroupHashEntry {
 /// Owns the sound group tree and finds groups by name.
 /// TODO: incomplete.
 class GroupMgr : public sead::hostio::Node {
+    // These sound wrappers use the root at +0x10 when their explicit root is null.
+    friend void ksys::snd::sub_710105E534(sead::PtrArray<Group>*, Group*, Group*);
+    friend void ksys::snd::sub_710105E5CC(sead::PtrArray<Group>*,
+                                      const sead::PtrArray<Group>*, Group*);
+
 public:
     GroupMgr();
     virtual ~GroupMgr();
