@@ -39,6 +39,7 @@ protected:
     // 0x710033bdb4 (declaration only): changes the child to `name` (resets the shot state).
     void sub_710033BDB4(const sead::SafeString& name);
     // 0x710033c888 (declaration only).
+    s32 sub_710033C684();
     bool sub_710033C888();
 
     /* 0x38 */ bool _38 = false;

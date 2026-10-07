@@ -1,5 +1,6 @@
 #include "Game/AI/AI/aiBowShoot.h"
 #include "Game/Actor/actWeapon.h"
+#include "Game/UI/uiUtils.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
@@ -104,6 +105,48 @@ void BowShoot::sub_710033BB98() {
             sub_710033AA88(time);
         }
     } while (_18c < _190 && ++shot < _190);
+}
+
+s32 BowShoot::sub_710033C684() {
+    auto* weapon = sead::DynamicCast<act::Weapon>(mActor);
+    if (!weapon || weapon->bowHasArrowName())
+        return 0;
+    sead::FixedSafeString<64> name;
+    if (weapon->bowGetArrowName(&name))
+        return uking::ui::getPorchNum(name);
+    return 0;
+}
+
+// NON_MATCHING: the natural string comparison and weapon checks differ in instruction scheduling.
+bool BowShoot::sub_710033A350() {
+    if (!_38) {
+        _38 = true;
+        return false;
+    }
+    auto* weapon = sead::DynamicCast<act::Weapon>(mActor);
+    if (!weapon || (!weapon->isParentPlayer() &&
+                    !weapon->getActorFlags2().isOn(ksys::act::Actor::ActorFlag2::_200)))
+        return false;
+    if (isCurrentChild("発射"))
+        return false;
+    auto* child = sead::DynamicCast<ksys::act::Actor>(weapon->getConnectedCalcChild());
+    auto* current_weapon = sead::DynamicCast<act::Weapon>(mActor);
+    if (!current_weapon || current_weapon->bowIsUsedByPlayerAndHasArrowName() ||
+        sub_710033C684() > 0) {
+        sead::FixedSafeString<32> arrow_name;
+        weapon->bowGetArrowName(&arrow_name);
+        sead::SafeString child_name;
+        if (child)
+            child_name = child->getName();
+        else if (_39)
+            return false;
+        return child_name != arrow_name;
+    }
+    if (child) {
+        weapon->resetConnectedCalcChild(false);
+        child->deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+    }
+    return false;
 }
 
 }  // namespace uking::ai

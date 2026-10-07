@@ -42,6 +42,8 @@ class NpcShopData;
 
 namespace uking::ui {
 
+int getPorchNum(const sead::SafeString& name);
+
 // 0x7100a94bac: refreshes the pause menu information after a preview animation event.
 void sub_7100A94BAC();
 

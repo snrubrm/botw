@@ -246,6 +246,7 @@ public:
     s32 getAttackPower();
     bool isThrowingBreakWeapon();
     bool bowHasArrowName();
+    bool bowIsUsedByPlayerAndHasArrowName();
     // Bow modifier helpers (placeholder names, lane4 s45). The bow param's IsLeadShot / LeadShotNum /
     // IsRapidFire / RapidFireNum, overridden by the AddSpreadFire / AddZoomRapid modifiers.
     bool sub_71002EA0D4();
