@@ -122,6 +122,10 @@ public:
     f32 get948() const { return _948; }
     // 0x710093515c (declared only; 9 callers): advances the gauge by the screen's animation step
     void sub_710093515C(f32 step);
+    // 0x7100935180 (declared only): integrates _944 toward _93c with sound triggers
+    void sub_7100935180(f32 step);
+    // 0x7100935384 (declared only): post-step gauge/animation update
+    void sub_7100935384();
 
 private:
     friend class Unk_7102474c08;
@@ -138,12 +142,12 @@ private:
     /* 0x934 */ f32 _934 = 30.0f;
     /* 0x938 */ s32 _938 = 30;
     /* 0x93c */ f32 _93c = 30.0f;
-    /* 0x940 */ s32 _940 = 0;
+    /* 0x940 */ u32 _940 = 0;
     /* 0x944 */ f32 _944 = 30.0f;
     /* 0x948 */ f32 _948 = 30.0f;
     /* 0x94c */ f32 _94c = 0.1f;
     /* 0x950 */ f32 _950 = 0.2f;
-    /* 0x954 */ s32 _954 = 0;
+    /* 0x954 */ f32 _954 = 0.0f;
     /* 0x958 */ f32 _958 = 15.0f;
     /* 0x95c */ u8 _95c = 1;
     /* 0x95d */ u8 _95d = 0;

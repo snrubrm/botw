@@ -965,6 +965,91 @@ void Unk_7102474be8::set940(s32 value) {
     _940 = value;
 }
 
+// 0x710093515c
+void Unk_7102474be8::sub_710093515C(f32 step) {
+    sub_7100935180(step);
+    sub_7100935384();
+}
+
+// NON_MATCHING: the _954 decay block keeps its bool/select formation (straight-line csets with pl
+// selects on v954 >= 0, hoisted zero) while ours reorders and fuses the selects with lt/tbz; the _950 load,
+// the block-6 reload order, the else-if flag reuse (b.le) and the mode stack slot (-0x8) also differ.
+// The _964 dispatch (nested != 1 / == 0 with the case-1 block out of line), all sound calls, the _944
+// integrate/clamp/return logic and the tail match.
+// 0x7100935180
+void Unk_7102474be8::sub_7100935180(f32 step) {
+    if (_948 != _93c) {
+        if (_944 == _93c)
+            _954 = _958;
+        _93c = _948;
+    }
+    const s32 mode = _95f;
+    if (_93c != _944 && _95c) {
+        const f32 v954 = _954;
+        if (0.0f < v954) {
+            f32 dec;
+            bool c1, c2;
+            if (v954 >= 0.0f) {
+                dec = v954 - step;
+                c1 = dec <= 0.0f;
+                c2 = v954 < dec;
+            } else {
+                dec = v954 + step;
+                c1 = 0.0f <= dec;
+                c2 = dec < v954;
+            }
+            _954 = dec;
+            if (c1 || c2)
+                _954 = 0.0f;
+            return;
+        }
+        f32 diff = _944 - _93c;
+        diff = diff > 0.0f ? diff : -diff;
+        const f32 scaled = diff * _950;
+        const f32 m = _94c > scaled ? _94c : scaled;
+        if (_944 < _93c) {
+            if (_964 != 1) {
+                if (_964 == 0) {
+                    if (_944 < _93c - _940) {
+                        _964 = 1;
+                        ksys::snd::SoundMgr::instance()->mUiSoundMgr->sub_710105D5AC(&mode);
+                    } else {
+                        _964 = 2;
+                        ksys::snd::SoundMgr::instance()->mUiSoundMgr->sub_710105D7B0(&mode);
+                    }
+                }
+            } else {
+                if (_944 >= _93c - _940) {
+                    _964 = 2;
+                    ksys::snd::SoundMgr::instance()->mUiSoundMgr->sub_710105D7B0(&mode);
+                }
+            }
+        }
+        const f32 step_scaled = m * step;
+        if (_944 < _93c) {
+            const f32 v = step_scaled + _944;
+            const bool over = v >= _93c;
+            const bool under = v < _944;
+            const bool clamp = over || under;
+            _944 = clamp ? _93c : v;
+            if (!clamp)
+                return;
+        } else if (_93c < _944) {
+            const f32 v = _944 - step_scaled;
+            const bool under = v <= _93c;
+            const bool over = _944 < v;
+            const bool clamp = under || over;
+            _944 = clamp ? _93c : v;
+            if (!clamp)
+                return;
+        }
+    }
+    if (_964 != 0) {
+        ksys::snd::SoundMgr::instance()->mUiSoundMgr->sub_710105D844(&mode);
+        _964 = 0;
+    }
+}
+
 // 0x71009358c4
 void Unk_7102474be8::set944(f32 value) {
     _944 = value;
