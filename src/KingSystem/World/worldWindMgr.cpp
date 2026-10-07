@@ -82,4 +82,28 @@ f32 WindMgr::sub_71010EEC04() {
     return manager ? manager->getWindSpeed(position) : 0.0f;
 }
 
+// NON_MATCHING: flag branches share fallback paths and the blend math is scheduled differently.
+f32 WindMgr::sub_71010EECF8(const sead::Vector3f* position, f32 value) {
+    sead::Vector3f wind;
+    if (_28 & 8)
+        wind = _34;
+    else
+        sub_71010EEA98(&wind, position);
+    sead::Vector2f direction(wind.x, wind.z);
+    direction.normalize();
+    auto* manager = Manager::instance();
+    f32 speed;
+    if ((!manager || manager->mManualWindTimer == 0) && !(_28 & 0x20) && (_28 & 8))
+        speed = _2c * _80;
+    else if (_28 & 6)
+        speed = _4c;
+    else
+        speed = manager ? manager->getWindSpeed(*position) : 0.0f;
+    const f32 strength = _20->sub_71012FF01C(position, &direction, speed / 15.0f, value);
+    const f32 excess = speed - 15.0f;
+    // The original upper-bound comparison selects 1 even when excess is NaN.
+    const f32 blend = excess < 0.0f ? 0.0f : excess <= 1.0f ? excess : 1.0f;
+    return speed * ((strength + (1.0f - strength) * blend) * 0.3f + 0.7f);
+}
+
 }  // namespace ksys::world

@@ -12,6 +12,8 @@ namespace ksys::world {
 struct Unk_710251F868 {
     f32 sub_71012FF2B0(f32 strength);
     f32 sub_71012FF268(f32 strength);
+    f32 sub_71012FF01C(const sead::Vector3f* position, const sead::Vector2f* direction,
+                        f32 strength, f32 value) const;
     u8 _0[8];
     f32 _8;
     u8 _c[0x1b8 - 0xc];
