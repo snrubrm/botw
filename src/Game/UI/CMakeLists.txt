@@ -1,4 +1,6 @@
 target_sources(uking PRIVATE
+  uiStateMachineWrapper.cpp
+  uiStateMachineWrapper.h
   euiAnimButton.cpp
   euiAlignPane.cpp
   euiAnimator.cpp

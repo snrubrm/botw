@@ -7,6 +7,8 @@ namespace uking {
 class StateMachineWrapper;
 }
 
+namespace uking::ui { class Unk_7102474a70; }
+
 namespace ksys {
 
 // CSV name. Vtable 0x710250bd00 (no RTTI). Static state descriptors are global objects whose names
@@ -111,6 +113,7 @@ public:
 
 private:
     friend class ::uking::StateMachineWrapper;
+    friend class ::uking::ui::Unk_7102474a70;
 
     Unk1* _0;
     const StateBase* mNextState = nullptr;
