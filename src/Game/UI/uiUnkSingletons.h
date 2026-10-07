@@ -54,6 +54,9 @@ public:
     void sub_71009686A0(s32 value);
     // 0x71009686bc: clears _80, `_84 = value * 2`
     void sub_71009686BC(s32 value);
+    void sub_71009686AC();
+    void sub_71009686C8();
+    bool sub_71009686D8() const;
 
     u8 _0[0x29];
     /* 0x29 */ bool _29;

@@ -126,6 +126,19 @@ void Unk_71025d6ac0::sub_71009686BC(s32 value) {
     _84 = value * 2;
 }
 
+void Unk_71025d6ac0::sub_71009686AC() {
+    _74 = 1;
+    _80 = 0;
+}
+
+void Unk_71025d6ac0::sub_71009686C8() {
+    ++_80;
+}
+
+bool Unk_71025d6ac0::sub_71009686D8() const {
+    return _80 == _84;
+}
+
 // 0x7100a7fd64
 // NON_MATCHING: the original reloads the count after the pointer store (it assumes the store may alias the count: no
 // type-based aliasing between them), ours (also as sead::PtrArray::pushBack) increments it from the value already loaded.
