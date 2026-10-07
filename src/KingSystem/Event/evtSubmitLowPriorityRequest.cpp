@@ -2,9 +2,10 @@
 
 namespace ksys::evt {
 
-void submitLowPriorityRequest(const util::LowPrioThreadMgr::Request& request) {
+bool submitLowPriorityRequest(const util::LowPrioThreadMgr::Request& request) {
     if (auto* mgr = util::LowPrioThreadMgr::instance())
-        mgr->submitRequest(request);
+        return mgr->submitRequest(request);
+    return false;
 }
 
 }  // namespace ksys::evt

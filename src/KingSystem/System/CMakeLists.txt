@@ -37,6 +37,8 @@ target_sources(uking PRIVATE
     MessageCapture.h
     NXArgs.cpp
     NXArgs.h
+    PosTrackerUploader.cpp
+    PosTrackerUploader.h
     OcclusionQueryCylinder.cpp
     OcclusionQueryCylinder.h
     OverlayArena.cpp

@@ -69,8 +69,8 @@ public:
     /* 0x2c8 */ LoadFn _2c8;
 };
 
-// 0x7100dcb270 (CSV submitLowPriorityRequest): submits `request` to the LowPrioThreadMgr (if there is one).
-void submitLowPriorityRequest(const util::LowPrioThreadMgr::Request& request);
+// 0x7100dcb270 (CSV submitLowPriorityRequest): submits `request` to the LowPrioThreadMgr (false if there is none).
+bool submitLowPriorityRequest(const util::LowPrioThreadMgr::Request& request);
 
 // CSV EventBgmInfo (size 0x70; ctor 0x7100dc6e20, init 0x7100dc7180, finishLoad 0x7100dc7450; declared only).
 // EventResource::_1c0.
