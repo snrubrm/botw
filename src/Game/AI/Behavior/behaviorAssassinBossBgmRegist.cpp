@@ -1,4 +1,5 @@
 #include "Game/AI/Behavior/behaviorAssassinBossBgmRegist.h"
+#include "Game/AI/aiUnk_7100FFDFDC.h"
 
 namespace uking::behavior {
 
@@ -11,6 +12,11 @@ bool AssassinBossBgmRegist::m6(sead::Heap* heap) {
 }
 
 void AssassinBossBgmRegist::m7() {}
+
+void AssassinBossBgmRegist::m8() {
+    if (auto* bgm = sub_7100FFDFDC())
+        bgm->sub_7100FF61BC();
+}
 
 void AssassinBossBgmRegist::m9() {}
 

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Game/AI/aiUnk_7100FFDFDC.h"
 #include "KingSystem/ActorSystem/actAiBehavior.h"
 
 namespace uking::behavior {
@@ -16,7 +17,7 @@ public:
     void loadParams() override;
 
     /* 0x28 */ const float* mLPF_s{};
-    /* 0x30 */ void* _30 = nullptr;
+    /* 0x30 */ Unk_7100ffe5ec* _30 = nullptr;
 };
 KSYS_CHECK_SIZE_NX150(CurseGanonBGMApplyLPF, 0x38);
 

@@ -1,4 +1,6 @@
 #include "Game/AI/Behavior/behaviorEnemyGanonBgmStop.h"
+#include "Game/AI/aiUnk_7100FFDFDC.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::behavior {
 
@@ -14,6 +16,15 @@ void EnemyGanonBgmStop::m9() {}
 
 void EnemyGanonBgmStop::loadParams() {
 
+}
+
+void EnemyGanonBgmStop::m7() {
+    auto* life = mActor->getLife();
+    if (life && *life == 0 && !_28) {
+        _28 = true;
+        if (auto* bgm = sub_7100FFE6EC())
+            bgm->sub_7101010C58(1.0f);
+    }
 }
 
 void EnemyGanonBgmStop::m8() {

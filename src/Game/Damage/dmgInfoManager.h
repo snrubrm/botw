@@ -60,6 +60,9 @@ public:
         // 0x710065d5d4 (BossBgm::m9, sub_7100720A70) / 0x710065d428
         void sub_710065D5D4(ksys::act::Actor* actor);
         void sub_710065D428(ksys::act::Actor* actor, const s32& value);
+        // 0x710065d674 (lane4 s50; BossBgmDamaged::m7): stores the arguments in the slot of `actor`'s entry (slots at
+        // +0x18 / +0x40 / +0x68 / +0x90, stride 0x28; `a` at +0x1c, the bools at +0x24 / +0x25, `d` at +0x14).
+        void sub_710065D674(ksys::act::Actor* actor, s32 a, bool b, bool c, s32 d);
         u8 _0[0xa8];
     };
     Unk28& get28() { return _28; }

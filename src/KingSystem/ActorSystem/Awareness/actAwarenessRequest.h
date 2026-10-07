@@ -19,6 +19,7 @@ public:
     virtual ~Unk_71023e2708() { ; }
 
     /* 0x08 */ f32 _8 = 0;
+    /* 0x0c */ f32 _c = 0;
 };
 
 // Request of the sensor `_260[0]` (vtable 0x71023e26d8; 0x50 bytes). `_c` is the interest level (output of the sensor's
@@ -32,7 +33,6 @@ public:
     // destructor inlined): written as `{ ; }` like upstream's GameDataFlagSelector::~GameDataFlagSelector() (96101229).
     ~Unk_71023e26d8() override { ; }
 
-    /* 0x0c */ f32 _c = 0;
     /* 0x10 */ u64 _10 = 0;
     /* 0x18 */ f32 _18 = 0;
     /* 0x1c */ f32 _1c = 0;
@@ -58,9 +58,9 @@ public:
     // destructor inlined): written as `{ ; }` like upstream's GameDataFlagSelector::~GameDataFlagSelector() (96101229).
     ~Unk_71023e2750() override { ; }
 
-    /* 0x0c */ f32 _c = 0;
     /* 0x10 */ u64 _10 = 0;
-    /* 0x18 */ u64 _18 = 0;
+    /* 0x18 */ f32 _18 = 0;  // AwnHearingParamChange: warn ratio
+    /* 0x1c */ f32 _1c = 0;  // AwnHearingParamChange: notice ratio
 };
 KSYS_CHECK_SIZE_NX150(Unk_71023e2750, 0x20);
 

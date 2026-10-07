@@ -14,7 +14,7 @@ public:
     void m9() override;
     void loadParams() override;
     bool m6(sead::Heap* heap) override;  // not decompiled yet (0x710061d0c8)
-    ~CreateBgm() override;  // not decompiled yet
+    ~CreateBgm() override;
 
     /* 0x28 */ sead::SafeString mBgmName_s{};
     /* 0x38 */ u32 _38 = 41;

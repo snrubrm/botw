@@ -1,4 +1,5 @@
 #include "Game/AI/Behavior/behaviorCurseGanonBGMApplyLPF.h"
+#include "Game/AI/aiUnk_7100FFDFDC.h"
 
 namespace uking::behavior {
 
@@ -12,6 +13,14 @@ bool CurseGanonBGMApplyLPF::m6(sead::Heap* heap) {
 
 void CurseGanonBGMApplyLPF::loadParams() {
     getStaticParam(&mLPF_s, "LPF");
+}
+
+void CurseGanonBGMApplyLPF::m7() {
+    if (_30)
+        return;
+    _30 = sub_7100FFE5EC();
+    if (_30)
+        _30->sub_7101000838(*mLPF_s);
 }
 
 void CurseGanonBGMApplyLPF::m8() {

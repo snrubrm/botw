@@ -15,7 +15,7 @@ public:
     void loadParams() override;
     void m11() override {}
     virtual bool m14() { return false; }
-    void m7() override;  // not decompiled yet (0x710061aaa0)
+    void m7() override;
 
     /* 0x28 */ const int* mDieType_s{};
 };

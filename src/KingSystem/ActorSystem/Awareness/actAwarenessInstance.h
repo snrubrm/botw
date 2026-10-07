@@ -296,6 +296,8 @@ public:
     }
     // 0x7100d7e74c (lane4 s23): sets the interest level of the sensor `_260[0]` (a request with `_c` = level, m4 then m6).
     bool sub_7100D7E74C(f32 level);
+    // 0x7100d7e6f4: passes `request` to the m6 of the sensor `_260[idx]`; on success recomputes the interest level.
+    bool sub_7100D7E6F4(Unk_71023e2708* request, int idx);
     void sub_7100D7EAE4(int idx);
     // 0x7100d7e964: whether a sensor is active (else whether the instance is registered).
     bool sub_7100D7E964() const;

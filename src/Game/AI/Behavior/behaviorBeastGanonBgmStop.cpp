@@ -1,4 +1,5 @@
 #include "Game/AI/Behavior/behaviorBeastGanonBgmStop.h"
+#include "Game/AI/aiUnk_7100FFDFDC.h"
 
 namespace uking::behavior {
 
@@ -11,6 +12,11 @@ bool BeastGanonBgmStop::m6(sead::Heap* heap) {
 }
 
 void BeastGanonBgmStop::m7() {}
+
+void BeastGanonBgmStop::m8() {
+    if (auto* bgm = sub_7100FFE468())
+        bgm->sub_71010101EC(0.0f);
+}
 
 void BeastGanonBgmStop::m9() {}
 

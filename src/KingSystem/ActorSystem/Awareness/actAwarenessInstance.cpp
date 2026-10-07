@@ -54,6 +54,16 @@ bool AwarenessInstance::sub_7100D7E74C(f32 level) {
     return _260[0]->m6(&request);
 }
 
+bool AwarenessInstance::sub_7100D7E6F4(Unk_71023e2708* request, int idx) {
+    if (auto* sensor = _260[idx]) {
+        if (!sensor->m6(request))
+            return false;
+        sub_7100D7C494();
+        return true;
+    }
+    return false;
+}
+
 void AwarenessInstance::sub_7100D7EBE0(f32 value) {
     for (auto* sensor : _260) {
         if (sensor)
