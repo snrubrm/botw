@@ -9,6 +9,18 @@
 
 namespace ksys::act {
 
+bool Unk_71006ecc78::sub_71006EE07C(sead::Matrix34f* out, const gsys::BoneAccessKey& key,
+                                 const sead::Vector3f& offset) {
+    auto* ragdoll = mActor->getRagdollInstance();
+    if (!ragdoll)
+        return false;
+    const s32 index = ragdoll->getBoneIndexByModelKey(key);
+    if (index < 0 || !ragdoll->getRigidBodies_()[index])
+        return false;
+    *out = ragdoll->getTransformWithCustomYAxis(index, offset);
+    return true;
+}
+
 void Unk_71006ecc78::sub_71006EE1F8(const sead::SafeString& name) {
     const s32 index = mActor->getRagdollInstance()->getBoneIndexByName(name);
     if (index < 0)
