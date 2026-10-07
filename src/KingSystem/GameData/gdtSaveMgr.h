@@ -6,6 +6,7 @@
 #include <mc/seadCoreInfo.h>
 #include <prim/seadSafeString.h>
 #include "KingSystem/Utils/Types.h"
+#include "KingSystem/Resource/resResourceGameSaveData.h"
 
 namespace sead {
 class DelegateThread;
@@ -50,6 +51,8 @@ public:
 
     void init(const InitArg& arg);
     void loadGameSaveData();
+    void loadFlagValuesFromTriggerParam(gdt::TriggerParam* buffer);
+    void invokedLoadFlagValueFromTriggerParam(res::GameSaveData::Flag& flag);
 
     void auto3();
     bool someCheck() const;
@@ -85,19 +88,8 @@ private:
     friend class uking::SaveSystem;
     friend class uking::StartupSaveCheckStage;
 
-    struct Unk2 {
-        u32 _0;
-        s32 _4;
-    };
-
     struct Unk3 {
         u8 _0[1];
-    };
-
-    struct Unk {
-        u8 _0[0x20];
-        Unk2* _20;
-        u32 _28;
     };
 
     u8 _28[0x30 - 0x28];
@@ -115,7 +107,7 @@ private:
     s32 _148;
     u8 _14c[0x80];
     u8 _1cc[0xe00 - 0x1cc];
-    Unk* _e00;
+    res::GameSaveData* _e00;
     u8* _e08;
     u32 _e10;
     u32 _e14;

@@ -26,12 +26,24 @@ bool SaveMgr::sub_7100E0402C(const sead::SafeString& path) {
     return exists;
 }
 
+void SaveMgr::loadFlagValuesFromTriggerParam(gdt::TriggerParam* buffer) {
+    _f98 = buffer;
+    const s32 count = _e00->getFiles().size();
+    for (s32 i = 0; i < count; ++i) {
+        auto* file = _e00->getFiles()[i];
+        const sead::Delegate1<SaveMgr, res::GameSaveData::Flag&> delegate(
+            this, &SaveMgr::invokedLoadFlagValueFromTriggerParam);
+        file->forEachFlag(delegate);
+    }
+    _f98 = nullptr;
+}
+
 void SaveMgr::auto3() {
     _140 &= ~0x100;
 }
 
 bool SaveMgr::someCheck() const {
-    return _e40 >= _e00->_28;
+    return _e40 >= _e00->getFiles().size();
 }
 
 bool SaveMgr::auto0() {
@@ -48,7 +60,7 @@ bool SaveMgr::auto6(s32 idx) {
         return false;
 
     _38 = 2;
-    if (idx < 0 || idx >= _e00->_20->_4)
+    if (idx < 0 || idx >= _e00->mSaveInfo->directory_num)
         idx = 0;
     _148 = idx;
 
@@ -82,7 +94,7 @@ void SaveMgr::auto4() {
 }
 
 void SaveMgr::auto5() {
-    const u32 count = _e00->_28;
+    const u32 count = _e00->getFiles().size();
     if (_e40 != count) {
         if (x_6(_e40)) {
             ++_e40;

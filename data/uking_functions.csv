@@ -77325,7 +77325,7 @@ Address,Quality,Size,Name
 0x0000007100e089d8,O,000024,_ZNK4ksys7SaveMgr9someCheckEv
 0x0000007100e089f0,O,000024,_ZN4ksys7SaveMgr3x_5Ej
 0x0000007100e08a08,U,000004,nullsub_3866
-0x0000007100e08a0c,U,001052,SaveMgr::invokedLoadFlagValueFromTriggerParam
+0x0000007100e08a0c,U,001052,_ZN4ksys7SaveMgr36invokedLoadFlagValueFromTriggerParamERNS_3res12GameSaveData4FlagE
 0x0000007100e08e28,U,000324,
 0x0000007100e08f6c,U,000492,
 0x0000007100e09158,U,000656,
@@ -77374,7 +77374,7 @@ Address,Quality,Size,Name
 0x0000007100e0e820,U,000452,SaveMgr::registerGameSavedataFactoryAndLoad
 0x0000007100e0e9e4,U,002432,SaveMgr::loadSavedataformat
 0x0000007100e0f364,U,000288,SaveMgr::unloadResources
-0x0000007100e0f484,U,000176,SaveMgr::loadFlagValuesFromTriggerParam
+0x0000007100e0f484,O,000176,_ZN4ksys7SaveMgr30loadFlagValuesFromTriggerParamEPNS_3gdt12TriggerParamE
 0x0000007100e0f534,O,000068,_ZN4ksys7SaveMgr5auto0Ev
 0x0000007100e0f578,U,000072,
 0x0000007100e0f5c0,U,000004,j__ZdlPv_905

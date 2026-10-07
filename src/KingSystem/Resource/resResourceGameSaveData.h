@@ -99,6 +99,8 @@ public:
     const sead::PtrArray<File>& getFiles() const { return mFiles; }
 
 private:
+    friend class ksys::SaveMgr;
+
     void doCreate_(u8* buffer, u32 size, sead::Heap* heap) override;
 
     SaveInfo* mSaveInfo = nullptr;
