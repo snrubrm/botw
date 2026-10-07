@@ -50,6 +50,8 @@ public:
     PlacementMap* getMap(int idx);
     // 0x0000007100d47270
     bool isHkscResStatus3(const sead::Vector3f& pos, bool x);
+    // 0x7100d46ef8 (CSV updateHkscLoadStatusesMaybe; declaration only)
+    void updateHkscLoadStatusesMaybe();
 
 private:
     friend class res::CompactionMgr;

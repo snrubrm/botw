@@ -11,6 +11,10 @@
 
 class hkpWorld;
 
+namespace sead {
+class Thread;
+}
+
 namespace ksys::phys {
 
 class CollisionInfo;
@@ -66,6 +70,9 @@ public:
     void setPauseState(bool paused);
     // 0x7101214aac: ContactMgr::initContactPointPool(heap, indoor stage flag at +0x268).
     void initBeforeStageGen(sead::Heap* heap);
+    // 0x71012157b4 (CSV PhysicsMemSys::__auto0; declaration only; placeholder name): called by the placement managers
+    // after they asked their worker thread to quit.
+    void sub_71012157B4(sead::Thread* thread, bool a);
     // 0x7101214b04: StaticCompoundMgr::resetExtraTransformsAndApply() if there is one.
     void waitForResourceCreation();
     // 0x7101216c58

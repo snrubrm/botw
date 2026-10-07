@@ -2,7 +2,10 @@
 #include <prim/seadScopedLock.h>
 #include "Game/AI/aiUnk_7100736460.h"
 #include "Game/gameStatisticsMgr.h"
+#include <thread/seadDelegateThread.h>
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorSystem.h"
+#include "KingSystem/Physics/System/physSystem.h"
 #include "KingSystem/Map/mapAutoPlacementFlowMgr.h"
 
 namespace ksys::map {
@@ -69,6 +72,17 @@ bool AutoPlacementInfo::x(const sead::Vector3f& pos, bool a2, u32 type_mask, con
     if (x_0(1.0f, cx, cz + 1, pos, a2, type_mask, nullptr, a4) != -1)
         return true;
     return x_0(1.0f, cx + 1, cz + 1, pos, a2, type_mask, nullptr, a4) != -1;
+}
+
+void AutoPlacementMgr::stopThread() {
+    _50.load();
+    if (mThread) {
+        mThread->quitAndDestroySingleThread(false);
+        phys::System::instance()->sub_71012157B4(mThread, false);
+        delete mThread;
+        mThread = nullptr;
+    }
+    act::ActorSystem::instance()->clearAutoPlacementMgrDelegates();
 }
 
 int AutoPlacementMgr::sub_7100659158(int idx, bool near_flow) {

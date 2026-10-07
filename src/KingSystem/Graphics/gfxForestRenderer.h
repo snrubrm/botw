@@ -4,6 +4,10 @@
 #include <math/seadVector.h>
 #include <thread/seadCriticalSection.h>
 
+namespace ksys::map {
+class PlacementMgr;
+}
+
 namespace ksys::gfx {
 
 // TODO: incomplete
@@ -14,6 +18,8 @@ public:
     s32 x_7(const sead::Vector3f& vec);
     // 0x7100f06798 (CSV x_8; declaration only)
     void x_8(s32 idx, bool a, bool b);
+    // 0x7100f06904 (declaration only; placeholder name)
+    void sub_710F06904(map::PlacementMgr* mgr, bool a);
     bool x_9();
 
     sead::CriticalSection mCS;

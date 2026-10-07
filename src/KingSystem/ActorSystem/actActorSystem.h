@@ -60,6 +60,12 @@ public:
 
     bool isPlacementMgrDynamicHeapOom() const;
     void submitReqCallAutoPlacementMgrFn();
+    // Used by AutoPlacementMgr::stopThread (stores in this order).
+    void clearAutoPlacementMgrDelegates() {
+        _280 = nullptr;
+        _298 = nullptr;
+        _290 = nullptr;
+    }
 
 private:
     DebugMessage mDebugMessage{"アクタ"};

@@ -11,6 +11,10 @@
 
 #include "KingSystem/Utils/Types.h"
 
+namespace sead {
+class DelegateThread;
+}
+
 namespace ksys::act {
 class Actor;
 }  // namespace ksys::act
@@ -41,6 +45,8 @@ public:
     bool sub_7100659E40(act::Actor* actor, const sead::SafeString& actor_name, int count,
                         u32 is_box);
     void sub_7100659F94(act::Actor* actor);
+    // 0x7100655568 (CSV stopThread)
+    void stopThread();
     // 0x7100659158 (CSV __auto10; placeholder name): placement type of the flow `idx` (near flows with `near_flow`).
     int sub_7100659158(int idx, bool near_flow);
     // 0x71006591bc (CSV __auto4; placeholder name): whether the placement type of the flow `idx` is active.
@@ -84,9 +90,11 @@ public:
     };
     KSYS_CHECK_SIZE_NX150(Unk1, 0x8b68);
 
-    sead::DelegateR<AutoPlacementMgr, bool> mDelegate;
+    /* 0x28 */ sead::DelegateThread* mThread;
+    /* 0x30 */ sead::DelegateR<AutoPlacementMgr, bool> mDelegate;
+    /* 0x50 */ sead::Atomic<s32> _50;
     // TODO
-    u8 _48[0x5b0d8 - 0x48];
+    u8 _54[0x5b0d8 - 0x54];
     sead::CriticalSection mCS;
     sead::SafeArray<Unk1, 32> _5b118;
     u8 _171e18[0x171e46 - 0x171e18];

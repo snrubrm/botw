@@ -29,6 +29,14 @@ class MassRenderer {
 public:
     // 0x71011e3d6c (804 B): updates the object's entry after its render flag changed.
     void x_2(PlacementMgr* mgr, Object* obj);
+    // 0x71011e4090 / 0x71011e1ffc / 0x71011e264c (CSV unnamed / MassRenderer::setup / MassRenderer::update; declaration
+    // only; placeholder names and parameters).
+    void sub_71011E4090(PlacementMgr* mgr, bool a);
+    void sub_71011E1FFC(const void* traverse_results, const sead::Vector3f* camera_pos, f32 distance);
+    void sub_71011E264C(PlacementMgr* mgr);
+
+    u8 _0[0x78];
+    /* 0x78 */ u32 _78;
 };
 
 // Placeholder name (callback argument of the ClusteredRenderer query 0x71012497f8): a stack copy of
@@ -84,6 +92,29 @@ public:
     void sub_71011E9C28(Object* obj, bool enabled);
     // 0x71011eb46c (CSV __auto19; placeholder name): PlacementActors::sub_7100D52CA4(obj).
     void sub_71011EB46C(Object* obj);
+    // 0x71011e4da8 (CSV invoked2): runs invoked2_ (0x71011ea4c8, declaration only) and returns true.
+    bool invoked2(void* arg);
+    void invoked2_();
+    // 0x71011e54e8 (CSV initBeforeStageGenB)
+    void initBeforeStageGenB();
+    // 0x71011e5734 / 0x71011e5678 (CSV stopThread / stopThreads)
+    void stopThread();
+    void stopThreads();
+    // 0x71011e9db0 (CSV __auto8; placeholder name): unless flag 2 is set: PlacementActors::x_7 and the clustered
+    // renderer's 0x1244598 step (not while flag 0x40 / `_690` bit 6 is set).
+    void sub_71011E9DB0();
+    // 0x71011e63fc (CSV x_0; placeholder name): the map cell of `pos` (1000 x 1000 cells, origin -5000 / -4000) and the
+    // position inside the cell.
+    struct CellPos {
+        s32 col;
+        s32 row;
+        f32 x;
+        f32 z;
+    };
+    void sub_71011E63FC(const sead::Vector3f* pos, CellPos* out);
+    // 0x71011eb2ac / 0x71011eb460 (CSV x_8 / x_7; placeholder names): forward to the mass / forest renderers.
+    void sub_71011EB2AC();
+    u32 sub_71011EB460() const;
     void stubbed();
     void insertTraverseResultPreActor(act::Actor* actor);
     void setFlag8Enabled(bool enabled);
@@ -106,6 +137,7 @@ public:
         _1 = 0x1,
         _2 = 0x2,
         _20 = 0x20,
+        _40 = 0x40,
         _4000 = 0x4000,
         _20000 = 0x20000,
         _40000 = 0x40000,
@@ -194,7 +226,8 @@ public:
     bool _689 = false;
     bool _68a = false;
     u32 _68c;
-    u32 _690;
+    u8 _690;  // bit 6 is tested by sub_71011E9DB0
+    u8 _691[3];
     u32 mMessage = 0;
     u32 mJobType = 0;
     TraverseResults mTraverseResults[2];

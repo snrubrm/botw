@@ -151,6 +151,8 @@ public:
     Object* getStaticObj_2(s32 idx) const;
     bool sub_7100D524B4() const;
     void x_9();
+    // 0x7100d580dc (CSV x_7; declaration only): walks the list at 0x2a8060 under the mutex at 0x2a8078.
+    void x_7();
     // 0x7100d52ca4 (declared; unnamed in the CSV): adds `obj` to the first free slot of `_f8` (the list x_9 handles).
     void sub_7100D52CA4(Object* obj);
     // 0x0000007100d53788 (CSV name; declared only): spawns the actor of `obj` for the generation group `other`

@@ -8,6 +8,7 @@
 #include "KingSystem/Graphics/gfxForestRenderer.h"
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Map/mapStagePreActorCache.h"
+#include "KingSystem/Physics/System/physSystem.h"
 #include "KingSystem/Map/mapPlacementActors.h"
 #include "KingSystem/Map/mapPlacementTree.h"
 #include "KingSystem/System/VFR.h"
@@ -193,6 +194,64 @@ void PlacementMgr::sub_71011E9C28(Object* obj, bool enabled) {
 
 void PlacementMgr::sub_71011EB46C(Object* obj) {
     mPlacementActors->sub_7100D52CA4(obj);
+}
+
+bool PlacementMgr::invoked2(void* arg) {
+    invoked2_();
+    return true;
+}
+
+void PlacementMgr::initBeforeStageGenB() {
+    mPlacementMapMgr->updateHkscLoadStatusesMaybe();
+    mMassRenderer->sub_71011E1FFC(&mTraverseResults[1 - mTraverseResultIdx], &mCameraPos, 1000.0f);
+    mMassRenderer->sub_71011E264C(this);
+}
+
+void PlacementMgr::sub_71011E63FC(const sead::Vector3f* pos, CellPos* out) {
+    const f32 x = pos->x + 5000.0f;
+    const f32 z = pos->z + 4000.0f;
+    out->col = s32(x / 1000.0f);
+    out->row = s32(z / 1000.0f);
+    out->x = x - f32(out->col * 1000);
+    out->z = z - f32(out->row * 1000);
+}
+
+void PlacementMgr::stopThread() {
+    if (mThread) {
+        mThread->quitAndDestroySingleThread(false);
+        phys::System::instance()->sub_71012157B4(mThread, false);
+        delete mThread;
+        mThread = nullptr;
+    }
+    if (mClusteredRenderer)
+        mClusteredRenderer->sub_7101243B70();
+}
+
+void PlacementMgr::stopThreads() {
+    if (mThread) {
+        mFlags.set(MgrFlag::_2);
+        _278 = 0;
+    }
+    stopThread();
+}
+
+void PlacementMgr::sub_71011E9DB0() {
+    if (mFlags.isOn(MgrFlag::_2))
+        return;
+    mPlacementActors->x_7();
+    if (mClusteredRenderer && !mFlags.isOn(MgrFlag::_40) && !(_690 & 0x40))
+        mClusteredRenderer->sub_7101244598();
+}
+
+void PlacementMgr::sub_71011EB2AC() {
+    if (mMassRenderer)
+        mMassRenderer->sub_71011E4090(this, true);
+    if (auto* fr = StagePreActorCache::instance()->getForestRenderer())
+        fr->sub_710F06904(this, true);
+}
+
+u32 PlacementMgr::sub_71011EB460() const {
+    return mMassRenderer->_78;
 }
 
 void PlacementMgr::stubbed() {}
