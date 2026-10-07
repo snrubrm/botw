@@ -171,8 +171,8 @@ void DragonFireRoot::sub_710036899C(sead::Vector3f* pos, sead::Vector3f* view_po
 
 // NON_MATCHING: only the order of the two flag tests (the original tests `effect` first, then `!success`; ours
 // branches on `success` first)
-void DragonFireRoot::m45() {
-    DragonRoot::m45();
+void DragonFireRoot::m45(ksys::act::Actor* actor) {
+    DragonRoot::m45(actor);
     const bool effect = ksys::gdt::getFlag_BalladOfHeroRito_DragonEffect(false);
     const bool success = ksys::gdt::getFlag_BalladOfHeroRito_DragonSuccess(false);
     if (!(effect && !success) || !_24c.isOn(8) || !isNear(mActor))

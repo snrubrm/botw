@@ -215,6 +215,16 @@ void DragonRoot::m43() {
 
 void DragonRoot::m44(const sead::Vector3f& pos) {}
 
+// NON_MATCHING: the flag at bit 8 is tested before the BaseProcHandle pointer.
+void DragonRoot::m45(ksys::act::Actor* actor) {
+    auto* dragon = sead::DynamicCast<act::Dragon>(mActor);
+    if (!dragon || _24c.isOnBit(5) || _250.getUnit() || _24c.isOnBit(8) || _250.hasFailed())
+        return;
+    dragon->_1f70.setBit(29);
+    _230 = 0.0f;
+    spawnDrop(dragon, actor, sead::Vector3f::zero, sead::Vector3f::zero);
+}
+
 bool DragonRoot::m47() {
     auto* dragon = sead::DynamicCast<act::Dragon>(mActor);
     if (!dragon)

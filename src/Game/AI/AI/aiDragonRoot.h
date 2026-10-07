@@ -9,6 +9,8 @@
 #include "KingSystem/ActorSystem/actBaseProcHandle.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 
+namespace uking::act { class Dragon; }
+
 namespace uking::ai {
 
 // vtable 0x71023e3a40: damage callback (functions in the DragonRoot TU); placeholder name.
@@ -44,7 +46,10 @@ public:
     virtual void m42();
     virtual void m43();
     virtual void m44(const sead::Vector3f& pos);
-    virtual void m45();
+    virtual void m45(ksys::act::Actor* actor);
+    // Original drop helper at 0x7100370740; body remains declared only.
+    void spawnDrop(act::Dragon* dragon, ksys::act::Actor* actor,
+                   const sead::Vector3f& pos, const sead::Vector3f& velocity);
     virtual bool m46();
     virtual bool m47();
 

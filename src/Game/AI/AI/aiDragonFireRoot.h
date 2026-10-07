@@ -20,7 +20,7 @@ public:
     void m42() override;
     void m44(const sead::Vector3f& pos) override;
 
-    void m45() override;
+    void m45(ksys::act::Actor* actor) override;
     bool m47() override;
 
     // 0x7100367e70: registers with the DragonChallengeMgr (called from init_).
