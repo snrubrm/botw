@@ -5,6 +5,7 @@
 #include <prim/seadBitFlag.h>
 #include <prim/seadSafeString.h>
 #include "Game/AI/aiUnk_71025afb58.h"
+#include "Game/AI/aiUnk_71006F5B14.h"
 #include "KingSystem/Utils/Types.h"
 
 namespace ksys::act { class Actor; }
@@ -19,10 +20,11 @@ public:
     // 0xb8-byte entries (one per controlled part).
     struct Entry {
         ~Entry();
-        // Declaration only; original source name and void return are inferred.
+        // Original source name is inferred.
         void sub_7100708B64();
-        // 0x71007086ac (ForkOnLeaveGolemChemReset::leave_, ForkASTrgGolemChemicalReset::calc_); declaration only.
+        // 0x71007086ac (ForkOnLeaveGolemChemReset::leave_, ForkASTrgGolemChemicalReset::calc_).
         void sub_71007086AC();
+        void sub_71007089BC();
         // Declaration only: per-part chemical controller update called by GolemRootBase.
         void sub_71007083DC();
 
@@ -30,10 +32,19 @@ public:
 
         // Actor and animation coordinates used by the part-animation dispatcher.
         ksys::act::Actor* mActor;
-        u8 _8[0x28 - 0x8];
+        ksys::act::Chemical* mChemical;
+        f32 _10;
+        f32 _14;
+        f32 _18;
+        f32 _1c;
+        Unk_71006F5DB0 mElement;
+        u8 _24[4];
         s32 mASSlot;
         s32 mASBank;
-        u8 _30[0xa8 - 0x30];
+        sead::SafeString _30;
+        u8 _40[0x10];
+        sead::SafeString _50;
+        u8 _60[0xa8 - 0x60];
         s32 _a8;
         u8 _ac[4];
         s32 _b0;  // GolemChemicalResetSelect::enter_ tests entry 0 for 4

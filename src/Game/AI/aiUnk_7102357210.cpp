@@ -845,3 +845,40 @@ void Unk_7102450410::Entry::sub_7100708A44(const sead::SafeString& name) {
     if (current != name)
         list->startAnimationMaybe(-1.0f, -1.0f, name, mASSlot, mASBank, true);
 }
+
+void Unk_7102450410::Entry::sub_71007086AC() {
+    sub_71006F5BBC(mElement, mChemical);
+    _10 = 0;
+    _14 = 0;
+    _18 = -1.0f;
+    sub_7100708A44(_30);
+    _b0 = 2;
+}
+
+void Unk_7102450410::Entry::sub_71007089BC() {
+    sub_71006F5A80(mChemical);
+    sub_71006F5BBC(mElement, mChemical);
+    _10 = 0;
+    _14 = 0;
+    _18 = -1.0f;
+    sub_7100708A44(_30);
+    _b0 = 2;
+}
+
+// NON_MATCHING: float counter stores and state assignment are scheduled differently.
+void Unk_7102450410::Entry::sub_7100708B64() {
+    sub_7100708A44(_50);
+    f32 value;
+    if (!_b5) {
+        sub_71006F5AC4(mElement, mChemical);
+        value = _1c;
+        _b0 = 3;
+    } else {
+        sub_71006F5BBC(mElement, mChemical);
+        value = 0;
+        _b0 = 2;
+    }
+    _10 = value;
+    _14 = value;
+    _18 = -1.0f;
+}
