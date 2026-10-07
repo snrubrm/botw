@@ -25,6 +25,8 @@ public:
     bool sub_71010D0734() const;
     bool sub_71010D07A4() const;
     void sub_71010D1394();
+    bool sub_71010D0F64(s32 hour_offset) const;
+    void sub_71010D1348(bool value) const;
 
     struct Identifier {
         u32 hash{};
@@ -37,7 +39,9 @@ public:
     s32 _2c;
     Identifier mIdentifier;
     sead::Vector3f _48;
-    u8 _54[0x60 - 0x54];
+    s32 mStartHour;
+    s32 mEndHour;
+    u8 _5c[4];
     f32 _60;
     u8 _64[4];
     const char* _68;

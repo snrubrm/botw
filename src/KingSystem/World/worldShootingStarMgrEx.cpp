@@ -7,8 +7,27 @@
 #include "KingSystem/ActorSystem/actInstParamPack.h"
 #include "KingSystem/GameData/gdtManagerInline.h"
 #include "KingSystem/System/CameraMgr.h"
+#include "KingSystem/World/worldManager.h"
 
 namespace ksys::world {
+
+bool ShootingStarAnchor::sub_71010D0F64(s32 hour_offset) const {
+    const s32 hour = Manager::instance()->getTimeMgr()->getHour();
+    const s32 start = mStartHour % 24;
+    const s32 end = (mEndHour + hour_offset) % 24;
+    if (start == end)
+        return hour == start;
+    if (start < end)
+        return start <= hour && hour < end;
+    return (start <= hour && hour < 24) || (hour >= 0 && hour < end);
+}
+
+void ShootingStarAnchor::sub_71010D1348(bool value) const {
+    if (auto* manager = gdt::Manager::instance())
+        manager->setBool(value, _68);
+}
+
+
 
 ShootingStarAnchor::~ShootingStarAnchor() = default;
 
