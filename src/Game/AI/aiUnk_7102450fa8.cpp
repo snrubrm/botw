@@ -1,4 +1,5 @@
 #include "Game/AI/aiUnk_7102450fa8.h"
+#include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 
 sead::Vector3f sUnk_71025c8cf8(0, 0, 900);
@@ -72,4 +73,9 @@ bool Unk_7102450fa8::sub_710071A22C() {
 
 bool Unk_7102450fa8::sub_710071A2D0() {
     return _35c.value <= sead::Mathf::epsilon();
+}
+
+void Unk_7102450fa8::sub_71007190CC(const ksys::MesTransceiverId& dest) {
+    if (auto* actor = sead::DynamicCast<ksys::act::Actor>(_18.getProc(nullptr)))
+        actor->sendMessage(dest, ksys::MessageType(0x80000d9), this, true);
 }

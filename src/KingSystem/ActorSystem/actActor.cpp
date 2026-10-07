@@ -264,6 +264,16 @@ void Actor::setMatrix(const sead::Matrix34f& mtx, const sead::Vector3f* scale) {
         mScale = *scale;
 }
 
+// 0x71011c8b04: sets the home matrix from a world matrix.
+void Actor::sub_71011C8B04(const sead::Matrix34f& mtx) {
+    if (mFieldBodyGroup) {
+        mHomeMtx = phys::System::instance()->getStaticCompoundMgr()->getInvTransformedMatrix(
+            mFieldBodyGroup, mtx);
+    } else {
+        mHomeMtx = mtx;
+    }
+}
+
 // NON_MATCHING: the original hoists &mMtx (add x2, x19, #0x398) above the getInvTransformedMatrix branch and
 // reuses it in the else branch
 void Actor::sub_71011C7020(const sead::Vector3f* pos, const sead::Matrix33f* rot,

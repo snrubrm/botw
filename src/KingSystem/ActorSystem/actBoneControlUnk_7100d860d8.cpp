@@ -487,6 +487,20 @@ SUM_FIELD(sub_7100D8A64C, _130)
 
 #undef SUM_FIELD
 
+f32 Unk_7100d860d8::sub_7100D8A6DC() const {
+    f32 sum = 0;
+    for (s32 i = 0; i < _18.size(); ++i)
+        sum += _18[i]._134;
+    return sum;
+}
+
+f32 Unk_7100d860d8::sub_7100D8A76C() const {
+    f32 sum = 0;
+    for (s32 i = 0; i < _18.size(); ++i)
+        sum += _18[i]._138;
+    return sum;
+}
+
 f32 Unk_7100d860d8::sub_7100D8A7FC(const s32& idx) const {
     if (idx < 0 || idx >= _18.size())
         return 0;

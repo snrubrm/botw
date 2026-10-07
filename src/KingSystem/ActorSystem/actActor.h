@@ -298,7 +298,7 @@ public:
     // 0x71011ca00c: Hylian-info integer query (declaration only).
     s32 sub_71011CA00C() const;
 
-    // 0x71011c8b04: updates the actor transform (declaration only).
+    // 0x71011c8b04: sets the home matrix from the world matrix `mtx` (through the field body group, if any).
     void sub_71011C8B04(const sead::Matrix34f& mtx);
 
     const sead::Matrix34f& getMtx() const { return mMtx; }
