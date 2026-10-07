@@ -48001,7 +48001,7 @@ Address,Quality,Size,Name
 0x00000071007736f0,O,000372,_ZN5uking6action10CameraKeep33checkDerivedRuntimeTypeInfoStaticEPKN4sead15RuntimeTypeInfo9InterfaceE
 0x0000007100773864,O,000060,_ZN5uking6action12CameraLockOnC1ERKN4ksys3act2ai10ActionBase7InitArgE
 0x00000071007738a0,U,000336,uking::action::CameraLockOn::m51
-0x00000071007739f0,U,000156,uking::action::CameraLockOn::m56
+0x00000071007739f0,O,000156,_ZN5uking6action12CameraLockOn3m56Eb
 0x0000007100773a8c,O,000004,_ZN5uking6action12CameraLockOn3m44Ev
 0x0000007100773a90,O,000004,_ZN5uking6action12CameraLockOn3m45Ev
 0x0000007100773a94,O,000024,_ZN5uking6action12CameraLockOn3m58Ev
@@ -48069,7 +48069,7 @@ Address,Quality,Size,Name
 0x0000007100776670,U,000008,uking::action::CameraMagneCatch::m48
 0x0000007100776678,U,000008,uking::action::CameraMagneCatch::m49
 0x0000007100776680,U,000008,uking::action::CameraMagneCatch::m50
-0x0000007100776688,O,000004,_ZN5uking6action16CameraLockOnBase3m56Ev
+0x0000007100776688,O,000004,_ZN5uking6action16CameraLockOnBase3m56Eb
 0x000000710077668c,O,000004,_ZN5uking6action16CameraLockOnBase3m57Ev
 0x0000007100776690,O,000008,_ZN5uking6action16CameraLockOnBase3m58Ev
 0x0000007100776698,M,000024,_ZThn32_N5uking6action16CameraMagneCatchD1Ev

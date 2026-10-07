@@ -41,7 +41,7 @@ protected:
     virtual void m53() {}
     virtual void m54() {}
     virtual bool m55() { return false; }
-    virtual void m56() {}
+    virtual void m56(bool x) {}
     virtual void m57() {}
     virtual bool m58() { return false; }
     virtual int m59() { return -1; }
