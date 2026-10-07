@@ -4,7 +4,7 @@
 #include <xlink2/xlink2UserInstance.h>
 #include <xlink2/xlink2UserInstanceSLink.h>
 #include "Game/UI/uiUtils.h"
-#include "Game/gameUnk_7102614cb0.h"
+#include "KingSystem/Sound/sndMgr.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Event/evtEventFlow.h"
 #include "KingSystem/Event/evtEventResource.h"
@@ -61,7 +61,7 @@ bool SoundTrigger::sub_7100E16614() {
             }
         }
     }
-    if (auto* user = Unk_7102614cb0::instance()->_28) {
+    if (auto* user = ksys::snd::Unk_710104e5b4::instance()->_28) {
         xlink2::Locator locator;
         if (user->searchAsset(&locator, mSound_d.cstr())) {
             user->emit(locator, &_50);

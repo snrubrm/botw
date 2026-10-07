@@ -1,7 +1,7 @@
 #include "Game/AI/Action/actionSoundTriggerFadeAction.h"
 #include <xlink2/xlink2HandleSLink.h>
 #include <xlink2/xlink2UserInstance.h>
-#include "Game/gameUnk_7102614cb0.h"
+#include "KingSystem/Sound/sndMgr.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Event/evtEventResource.h"
 #include "KingSystem/Event/evtManager.h"
@@ -30,7 +30,7 @@ bool SoundTriggerFadeAction::oneShot_() {
                 return true;
         }
     }
-    if (auto* user = Unk_7102614cb0::instance()->_28)
+    if (auto* user = ksys::snd::Unk_710104e5b4::instance()->_28)
         return sub_7100E16B70(user);
     return false;
 }

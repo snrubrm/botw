@@ -15,7 +15,7 @@ void Unk_SoundMgr48::sub_7101055B44() {
 }
 
 void Unk_710104e5b4::sub_710104F86C() {
-    if (evt::Manager::instance()->hasActiveEvent() && !(_2a0 & 4))
+    if (evt::Manager::instance()->hasActiveEvent() && !_2a0.isOn(4))
         SoundMgr::instance()->mDuckingMgr->sub_7101042024(0x10);
 }
 
@@ -24,12 +24,22 @@ void Unk_710104e5b4::sub_710104F8C4(bool suspend) {
 }
 
 void Unk_710104e5b4::sub_710104F8E0() {
-    if (!(_2a0 & 4))
+    if (!_2a0.isOn(4))
         SoundMgr::instance()->mDuckingMgr->sub_7101042024(0xf);
 }
 
 void Unk_710104e5b4::sub_710104F904() {
     SoundMgr::instance()->mDuckingMgr->sub_7101042D6C(0xf, false);
+}
+
+void Unk_710104e5b4::sub_710104F920(bool on) {
+    if (on) {
+        SoundMgr::instance()->mDuckingMgr->sub_7101042D6C(0x10, false);
+        SoundMgr::instance()->mDuckingMgr->sub_7101042D6C(0xf, false);
+        _2a0.set(4);
+    } else {
+        _2a0.reset(4);
+    }
 }
 
 void Unk_710103b704::sub_710103D418() {

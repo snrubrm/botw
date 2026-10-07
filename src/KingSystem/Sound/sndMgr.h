@@ -3,6 +3,7 @@
 #include <basis/seadTypes.h>
 #include <heap/seadDisposer.h>
 #include <math/seadVector.h>
+#include <prim/seadBitFlag.h>
 #include <prim/seadSafeString.h>
 #include <container/seadPtrArray.h>
 #include <aal/aalHandle.h>
@@ -144,6 +145,10 @@ public:
 // is allowed"). Used by the message-dialog / talk actions (NPCTalk, OpenMessageDialog*, SimpleUniqueTalk).
 class Unk_710104e5b4 {
 public:
+    // The singleton (instance pointer 0x7102614cb0, size 0x2a8, disposer at +8; SoundMgr::_90 points to it as well;
+    // it was a separate placeholder `Unk_7102614cb0` before). Defined by the symbol map only.
+    static Unk_710104e5b4* instance() { return sInstance; }
+
     // 0x710104f86c: starts the dialogue ducker (SoundMgr::_80 ducker 0x10) while an event is active.
     void sub_710104F86C();
     // 0x710104f8c4: `suspend` the dialogue ducker (SoundMgr::_80 ducker 0x10).
@@ -152,13 +157,21 @@ public:
     void sub_710104F8E0();
     // 0x710104f904: stops the ducker 0xf without suspending it.
     void sub_710104F904();
+    // 0x710104f920: with `on`: stops the duckers 0x10 and 0xf and disables ducking (sets bit 2 of `_2a0`); else clears it.
+    void sub_710104F920(bool on);
     // 0x710104fd38 (not done; copies a 12-byte value (4 bytes at +8 first) to `_278`; sead::Vector3f's operator=
     // copies element-wise).
 
-    u8 _0[0x278];
+    u8 _0[0x28];
+    // The SLink user instance the sound triggers (SoundTrigger / SoundTriggerFadeAction) fall back to.
+    /* 0x28 */ xlink2::UserInstanceSLink* _28;
+    u8 _30[0x278 - 0x30];
     /* 0x278 */ sead::Vector3f _278;
     u8 _284[0x2a0 - 0x284];
-    /* 0x2a0 */ u8 _2a0;
+    /* 0x2a0 */ sead::BitFlag8 _2a0;
+
+private:
+    static Unk_710104e5b4* sInstance;
 };
 
 enum class AudioChannelType {
