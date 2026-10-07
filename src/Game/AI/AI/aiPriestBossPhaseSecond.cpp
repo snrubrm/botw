@@ -7,7 +7,9 @@ namespace uking::ai {
 
 PriestBossPhaseSecond::PriestBossPhaseSecond(const InitArg& arg) : PriestBossPhase(arg) {}
 
-PriestBossPhaseSecond::~PriestBossPhaseSecond() = default;
+PriestBossPhaseSecond::~PriestBossPhaseSecond() {
+    mRecords.freeBuffer();
+}
 
 bool PriestBossPhaseSecond::init_(sead::Heap* heap) {
     return PriestBossPhase::init_(heap);

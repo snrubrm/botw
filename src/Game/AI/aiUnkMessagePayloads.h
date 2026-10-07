@@ -146,7 +146,7 @@ struct Unk_7102409958_Payload {
 
 // Message 0x80000db (sender unknown; placeholder name = listener vtable)
 struct Unk_71024508e8_Payload {
-    u32 _0;
+    u32 _0 = 0;  // PriestBossPhaseSecond construction initializes this payload word.
     ksys::act::BaseProcLink mLink;
     sead::JobQueueLock mLock;
 };

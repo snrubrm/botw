@@ -1,6 +1,9 @@
 #pragma once
 
+#include <container/seadObjArray.h>
 #include "Game/AI/AI/aiPriestBossPhase.h"
+#include "Game/AI/aiPriestBossPhaseMembers.h"
+#include "Game/AI/aiUnk_7102357210.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
@@ -66,6 +69,27 @@ protected:
     const float* mLineFormFallInterval_s{};
     // map_unit_param at offset 0x120
     const int* mPriestBossStartPhase_m{};
+    /* 0x128 */ s32 _128 = 0;
+    /* 0x12c */ f32 _12c = 0.0f;
+    /* 0x130 */ s32 _130 = 0;
+    /* 0x134 */ sead::SafeArray<u32, 9> _134;
+    /* 0x158 */ Unk_7102451070 _158;
+    /* 0x488 */ Unk_7102451050 _488;
+    struct PhaseRecord {
+        s32 id;
+        f32 value;
+        void* data;
+    };
+    /* 0x690 */ sead::ObjArray<PhaseRecord> mRecords;
+    /* 0x6b0 */ s32 _6b0 = 0;
+    /* 0x6b8 */ void* _6b8 = nullptr;
+    /* 0x6c0 */ Unk_7102450e00 _6c0;
+    u8 _8a0[0x958 - 0x8a0];
+    /* 0x958 */ Unk_7102450ed8 _958;
+    /* 0xb58 */ Unk_71024508e8 _b58;
+    /* 0xbb0 */ u32 _bb0 = 0;
 };
+
+KSYS_CHECK_SIZE_NX150(PriestBossPhaseSecond, 0xbb8);
 
 }  // namespace uking::ai
