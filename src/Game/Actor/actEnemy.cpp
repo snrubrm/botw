@@ -450,6 +450,14 @@ ksys::act::LifeRecoverInfo* Enemy::getLifeRecoverInfo() {
     return nullptr;
 }
 
+void Enemy::m114() {
+    if (_1148._20) {
+        _1148._20->m9();
+        if (_1148._28)
+            _1148._28->dispatch();
+    }
+}
+
 }  // namespace uking::act
 
 namespace uking::act {

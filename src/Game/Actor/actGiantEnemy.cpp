@@ -174,4 +174,8 @@ void GiantEnemy::Unk1::sub_710002A828(ksys::act::Unk117* arg) {
     }
 }
 
+void GiantEnemy::m79() {
+    _1570.dispatch();
+}
+
 }  // namespace uking::act
