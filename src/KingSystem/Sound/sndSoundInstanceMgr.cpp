@@ -1,10 +1,18 @@
 #include "KingSystem/Sound/sndMgr.h"
+#include "KingSystem/Utils/InitTimeInfo.h"
 #include <prim/seadScopedLock.h>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/XLink/xlinkXLink.h"
 #include <new>
 
 namespace ksys::snd {
+
+// Original initializer 0x710104B27C writes constants before its timing fields.
+struct Unk_7102614c90 {
+    util::InitConstants mConstants;
+    util::InitTimeInfo mInitTimeInfo;
+};
+static Unk_7102614c90 sSoundInstanceInitData;
 
 Unk_SoundMgra8::Unk_SoundMgra8() {
     _49 = false;
