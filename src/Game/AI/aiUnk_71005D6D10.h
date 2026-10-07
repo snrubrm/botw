@@ -413,3 +413,6 @@ void sub_71005E2540(ksys::phys::CharacterController* controller, ksys::act::Acto
 bool sub_71005E2684(ksys::act::Actor* actor, const sead::SafeString& body_name,
                    const sead::SafeString& event_name, sead::Vector3f* position,
                    sead::Vector3f* normal);
+
+// Updates the character controller velocity from the actor contact points.
+void sub_71005E1D00(ksys::act::Actor* actor);

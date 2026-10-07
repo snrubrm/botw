@@ -1,5 +1,8 @@
 #include "Game/AI/AI/aiStalGiantEnemyRoot.h"
 #include "Game/AI/aiUnk_7100724C64.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "KingSystem/Terrain/teraSystem.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "Game/Actor/actEnemy.h"
 #include "Game/Actor/actGiantEnemy.h"
 #include "Game/Damage/dmgDamageManagerBase.h"
@@ -32,6 +35,22 @@ void StalGiantEnemyRoot::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void StalGiantEnemyRoot::leave_() {
     StalEnemyRoot::leave_();
+}
+
+void StalGiantEnemyRoot::calc_() {
+    StalEnemyRoot::calc_();
+    sub_71005E1D00(mActor);
+    if (sub_71005DD798(mActor, 19, nullptr, 0, 0))
+        return;
+    auto* terrain = ksys::tera::Terrain::instance();
+    if (!terrain)
+        return;
+    f32 radius = 1.0f;
+    if (auto* controller = mActor->getCharacterController())
+        controller->sub_7100F62E74(&radius, 0);
+    auto* grass = terrain->sub_710114DE4C();
+    const sead::Vector3f pos = mActor->getMtx().getTranslation();
+    grass->sub_710115101C(&pos, radius);
 }
 
 void StalGiantEnemyRoot::loadParams_() {
