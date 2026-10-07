@@ -44,7 +44,8 @@ private:
         u8 _11[2];
         /// Bit 2: the asset is looped.
         u8 flags;
-        u8 _14[8];
+        u8 _14[4];
+        u32 sample_rate;
         s32 loop_start;
         s32 loop_end;
         u8 _24[4];

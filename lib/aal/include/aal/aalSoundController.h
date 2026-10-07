@@ -110,7 +110,8 @@ public:
     void stopForce();
     void preCalc();
     void calc();
-    void virtualize();
+    /// Returns whether the sound is virtualized (or stopped).
+    bool virtualize();
     void unvirtualize();
     /// 0x7100ba028c (declared only): returns whether the wave asset was in use by this sound.
     bool execOnDestroyWaveAsset(u64 a, u64 b, bool c, bool d);
@@ -132,7 +133,8 @@ public:
     f32 mSamplePos = 0.0f;
 
 private:
-    void restart_(u32 sample_pos, f32 param);
+    /// Restarts a virtualized sound at the sample position; returns whether the sound plays again.
+    bool restart_(u32 sample_pos, f32 fade_time);
     void updateVirtualPlayingPos_();
 
     sead::CriticalSection mCS;

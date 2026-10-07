@@ -54,6 +54,10 @@ public:
     bool getStreamFilePath(sead::BufferedSafeStringBase<char>* path) const;
     bool getTrackParam(StreamTrack* track, s32 index) const;
     bool getLoopInfo(LoopInfo* info) const;
+    /// The sample rate of the audio data (0 if the asset has no description).
+    f32 getSampleRate() const {
+        return mReader.mData ? static_cast<f32>(mReader.getAssetBlock_()->sample_rate) : 0.0f;
+    }
     bool getMarkerInfo(MarkerInfo* info) const;
     /// Adds the offset to the position and keeps the result inside of the loop of the asset (if it is looped).
     s32 addOffsetToPosition(s32 position, s32 offset, s32 wrap) const;

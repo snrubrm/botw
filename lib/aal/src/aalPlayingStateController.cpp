@@ -1,5 +1,7 @@
 #include "aal/aalAssetInfo.h"
+#include "aal/aalSettings.h"
 #include "aal/aalSoundController.h"
+#include "aal/aalSystemAccessor.h"
 
 namespace aal {
 
@@ -89,6 +91,123 @@ void PlayingStateController::stopWithRelease() {
     mSamplePos = 0.0f;
     mPaused = false;
     mCS.unlock();
+}
+
+// 0x7100b9fe58
+bool PlayingStateController::restart_(u32 sample_pos, f32 fade_time) {
+    if (!mSoundController)
+        return false;
+
+    mCS.lock();
+    if (mState != 4) {
+        mCS.unlock();
+        return false;
+    }
+
+    mSoundController->setStartSampleOffset(sample_pos);
+    const bool started = mSoundController->start(fade_time, false);
+    if (started) {
+        mState = 1;
+        // The sound was paused while it was virtualized.
+        if (mPaused && mSoundController) {
+            mSoundController->pause(true, 0.0f);
+            mPaused = true;
+        }
+    } else {
+        mCS.lock();
+        if (mSoundController)
+            mSoundController->release(0.0f);
+        mState = 0;
+        mSamplePos = 0.0f;
+        mPaused = false;
+        mCS.unlock();
+    }
+    mCS.unlock();
+    return started;
+}
+
+// 0x7100b9ffb0
+void PlayingStateController::updateVirtualPlayingPos_() {
+    if (mState != 3 || static_cast<s32>(mVirtualizeMode) != 4 || !mSoundController || mPaused)
+        return;
+
+    const AssetInfo* asset = mSoundController->mAssetInfo;
+    if (!asset)
+        return;
+
+    AssetInfo::LoopInfo loop_info;
+    if (!asset->getLoopInfo(&loop_info))
+        return;
+
+    mSamplePos += SystemAccessor::getSettings()->mCalcTimeStep * asset->getSampleRate();
+
+    const f32 end = static_cast<f32>(static_cast<u32>(loop_info.loop_end));
+    if (!(mSamplePos >= end))
+        return;
+
+    if (loop_info.is_looped) {
+        const f32 length = static_cast<f32>(static_cast<u32>(loop_info.loop_end - loop_info.loop_start));
+        do {
+            mSamplePos -= length;
+        } while (mSamplePos >= end);
+        return;
+    }
+
+    // The virtual sound reached the end.
+    mCS.lock();
+    if (mSoundController)
+        mSoundController->release(0.0f);
+    mState = 0;
+    mSamplePos = 0.0f;
+    mPaused = false;
+    mCS.unlock();
+}
+
+// NON_MATCHING: the original reads the state a second time after the first comparison (here it is one load) and, like
+// stopWithRelease, stores the new state in separate branches (here a select).
+// 0x7100ba00b8
+bool PlayingStateController::virtualize() {
+    mCS.lock();
+    if (mState == 4) {
+        mState = 3;
+        mCS.unlock();
+        return true;
+    }
+    const s32 state = mState;
+    mCS.unlock();
+
+    if (state != 1)
+        return false;
+
+    const s32 mode = static_cast<s32>(mVirtualizeMode);
+    if (mode == 0)
+        return false;
+
+    if (mode == 1) {
+        stopWithRelease();
+        return true;
+    }
+
+    if (mSoundController) {
+        if (mode == 2) {
+            mSoundController->release(mReleaseTime);
+            mSamplePos = 0.0f;
+        } else {
+            const s32 position = mSoundController->getPlayingSamplePos();
+            if (position >= 0) {
+                mSoundController->release(mReleaseTime);
+                mSamplePos = static_cast<f32>(position);
+            } else {
+                mSamplePos = 0.0f;
+            }
+        }
+    }
+
+    mCS.lock();
+    if (mState == 1)
+        mState = 3;
+    mCS.unlock();
+    return true;
 }
 
 // 0x7100b9fdf4
