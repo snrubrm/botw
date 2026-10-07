@@ -258,6 +258,8 @@ public:
 
         // Placeholder name: the fade of the slot (`_c` is the progress: 1.0 when finished).
         struct Fader {
+            Fader();
+            void sub_7101159894();
             void sub_710115989C(f32 duration);
 
             // 0x71011598fc
@@ -336,6 +338,9 @@ public:
     void startAnimationMaybe(f32 a2, f32 a3, const sead::SafeString& animation, int a5, int a6,
                              bool a7);
     bool goLimpFromHeadShotMaybe(u32 a1, const sead::SafeString& a2, u32 a3);  // x_8
+    // 1160A70 fills parallel resource/element buffers; swordBlurStuff consumes its signed count.
+    s32 sub_7101160A70(sead::Buffer<const res::AS*>* resources,
+                      sead::Buffer<Element*>* elements, s32 type);
     void sub_7101160F10(gsys::ModelAnimation* animation, gsys::ModelNW* unit, s32 index,
                       nn::g3d::ICalculateBlendWeightCallback::CallbackArg& arg);
     // All 141 callers pass a fourth argument in w4 (129 x 0, 12 x 1) that is unused here; its type (bool or

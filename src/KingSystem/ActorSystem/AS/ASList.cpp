@@ -783,6 +783,13 @@ void ASList::sub_710115E1D4(s32* out_a, s32* out_b) {
     }
 }
 
+ASList::Unk1::Fader::Fader()
+    : _0(1.0f), _4(1.0f), _8(0.0f), _c(1.0f), _10(false), _11(false) {}
+
+void ASList::Unk1::Fader::sub_7101159894() {
+    _10 = false;
+}
+
 // NON_MATCHING: redundant negative-duration stores are folded into the final progress stores.
 void ASList::Unk1::Fader::sub_710115989C(f32 duration) {
     if (duration < 0.0f) {
