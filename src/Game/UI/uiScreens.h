@@ -1329,6 +1329,26 @@ extern bool sUnk_71025ec549;
 
 struct ScreenAppPictureBookUnk;
 
+// The shortcut producerA20E5C and icon caller936EEC share this actual record.
+struct ShortcutIconInfo {
+    bool mEquipOnly = false;
+    sead::FixedSafeString<128> mName;
+    bool mEquipped = false;
+    s32 mBreakState = -1;
+    f32 mBreakFrame = 0;
+    s32 mBowCount = -1;
+    f32 mTextureFrame = -1;
+    s32 mCategory = -1;
+    s32 mValue = 0;
+    s32 mNumber = 0;
+    bool mPlayBombLoop = false;
+    f32 mBombFrame = 0;
+    u32 mIconCategory = 0;
+    s32 mEffect = 2;
+    eui::LayoutEx* mEffectLayout = nullptr;
+};
+static_assert(sizeof(ShortcutIconInfo) == 0xd8);
+
 class ScreenMainShortCut : public ScreenEx {
 public:
     void m96() override;
@@ -1377,6 +1397,7 @@ public:
     virtual s32 m169();
 
     bool sub_7100A20DD0();
+    bool sub_7100A20E5C(u32 index, ShortcutIconInfo* info);
     // 0x7100a1fa64 / 0x7100a1fabc / 0x7100a1fa74 / 0x7100a21908 (placeholder names): set the 0x38c8 value (and clear / set
     // the byte at 0x38cc); whether the animator at 0x37a0 is at its end / at its start
     void sub_7100A1FA64(s32 value);

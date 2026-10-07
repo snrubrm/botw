@@ -38,6 +38,7 @@ public:
 
     // 0x7100a813e0
     void unload(s32 index);
+    void sub_7100A81B1C(const sead::SafeString& path, s32 index);
 
     // 0x7100a819fc / 0x7100a81a30 / 0x7100a81a7c (placeholder names): store the material of entry `index` (and its texture
     // map index) and optionally attach the default texture info of the first texture map / re-apply it

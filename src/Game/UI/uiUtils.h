@@ -209,6 +209,8 @@ bool sub_7100A9B1BC();
 
 // 0x7100aa9808 (placeholder name): hides `pane` if it is visible and reports it to the manager.
 void sub_7100AA9808(nn::ui2d::Pane* pane);
+void sub_7100AA9838();
+void sub_7100AA9848();
 // 0x7100aa94c4 (placeholder name): shows / hides the root pane of the (built) layout; returns whether it changed.
 bool sub_7100AA94C4(eui::LayoutEx* layout, bool visible);
 
