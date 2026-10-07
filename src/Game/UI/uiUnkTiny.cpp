@@ -143,6 +143,33 @@ void Unk_7102477488::sub_7100988154(bool checked) {
 Unk_7102477488::~Unk_7102477488() = default;
 
 // 0x7100988ee8
+Unk_71024774c8::Unk_71024774c8() = default;
+
+void Unk_71024774c8::sub_7100988EF0(eui::LayoutEx* layout) {
+    if (layout) {
+        mLayout = layout;
+        mTexturePatternAnimator = layout->createAnimatorAuto("TexPattern", false);
+    }
+}
+
+// NON_MATCHING: the final Animator virtual call has different register allocation and scheduling.
+void Unk_71024774c8::sub_7100988F30(f32 frame) {
+    if (mTexturePatternAnimator) {
+        if (frame < 0.0f) {
+            sub_7100988FE8();
+            return;
+        }
+        if (mLayout->_91 == 3 || mLayout->_91 == 0 || !mLayout->_70 || !mLayout->_70->mEnabled)
+            mLayout->sub_7100BDDE7C(false, 1, true);
+        mTexturePatternAnimator->Stop(frame);
+    }
+}
+
+void Unk_71024774c8::sub_7100988FE8() {
+    if (mLayout && (mLayout->_91 == 1 || mLayout->_91 == 2))
+        mLayout->startAnimCloseImpl_(false, true);
+}
+
 Unk_71024774c8::~Unk_71024774c8() = default;
 
 // 0x7100989a78

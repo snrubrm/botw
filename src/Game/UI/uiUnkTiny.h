@@ -246,8 +246,16 @@ static_assert(sizeof(Unk_7102477488) == 0x18);
 
 class Unk_71024774c8 {
 public:
+    Unk_71024774c8();
     virtual ~Unk_71024774c8();
+    void sub_7100988EF0(eui::LayoutEx* layout);
+    void sub_7100988F30(f32 frame);
+    void sub_7100988FE8();
+
+    eui::LayoutEx* mLayout = nullptr;
+    eui::Animator* mTexturePatternAnimator = nullptr;
 };
+static_assert(sizeof(Unk_71024774c8) == 0x18);
 
 class Unk_7102477508 {
 public:
@@ -393,6 +401,7 @@ public:
 
 class Unk_71024774a8 {
 public:
+    Unk_71024774a8();
     virtual ~Unk_71024774a8();
     void sub_71009884A8(eui::LayoutEx* layout);
     void sub_71009884B0();
