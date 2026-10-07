@@ -1,5 +1,6 @@
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include <gsys/gsysModelUnit.h>
+#include <gsys/gsysModel.h>
 #include "KingSystem/ActorSystem/AS/asElement.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/Resource/Actor/resResourceASList.h"
@@ -9,6 +10,68 @@
 bool sub_7100E9CF8C();
 
 namespace ksys::as {
+
+// NON_MATCHING: selection among the three named element members and vector accumulation differ.
+void ASList::Unk2::sub_7101162940(sead::Vector3f* translation, sead::Vector3f* rotation,
+                                MotionState* state, bool events_enabled, f32 delta) {
+    _0->sub_7101258C1C();
+    EventState events{false, false, false};
+    sead::Vector3f motion = sead::Vector3f::zero;
+    if (events_enabled)
+        events._1 = _0->_f0 < 0.0f;
+    f32 total_weight = 0.0f;
+    sead::Vector3f angular = sead::Vector3f::zero;
+    const s32 count = _44[1] ? 1 : 3;
+    for (s32 i = 0; i < count; ++i) {
+        Element* element = i == 0 ? _18 : i == 1 ? _20 : _28;
+        if (!element)
+            break;
+        state->weight = 1.0f;
+        state->_8 = 0.0f;
+        state->_c = sead::Vector3f::zero;
+        state->_18 = sead::Vector3f::zero;
+        Context* context = _0;
+        const auto* resource = context->sub_7101258CC0();
+        element->sub_71011654E0(context, state, &events, resource);
+        if (events_enabled && _0->_f4 == _0->_f5 &&
+            sub_7101259C78(_0, nullptr, 0x3a, 1, this))
+            mFlags |= 1;
+        _0->sub_7101258C48();
+        f32 weight = 1.0f;
+        if (i >= 1) {
+            weight = 1.0f - _30;
+            if (i != 1)
+                weight *= 1.0f - _34;
+        }
+        if (i < 2)
+            weight *= i == 0 ? _30 : _34;
+        if (weight > 0.0f) {
+            total_weight += weight;
+            sub_7101165950(weight / total_weight, &motion, &motion, &state->_c);
+            f32 angular_weight = 1.0f;
+            if (i >= 1) {
+                angular_weight = 0.0f;
+                if (_43 & 1) {
+                    angular_weight = 1.0f - _30;
+                    if (i >= 2) {
+                        angular_weight = (_43 & 2) ? angular_weight * (1.0f - _34) : 0.0f;
+                    }
+                }
+            }
+            if (i < 2 && (_43 & (1 << i)))
+                angular_weight *= i == 0 ? _30 : _34;
+            angular += state->_18 * angular_weight;
+        }
+        state->_0 = delta;
+    }
+    _0->sub_7101258C1C();
+    if (state->_24.isValid()) {
+        *translation += motion * (_10 * _0->sub_7101258E2C()->getScale().x);
+        *rotation += angular * _10;
+    }
+}
+
+
 
 // Original byte 0x7102620f39, set by S7EventFlow delete/restore to suspend partial motion.
 bool sUnk_7102620F39;
