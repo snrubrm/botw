@@ -4,6 +4,7 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actChemical.h"
+#include "KingSystem/ActorSystem/Profiles/actDynamicActor.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerOrEnemy.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actImpulseBaseProcLink.h"
@@ -369,6 +370,13 @@ s32 DamageManager::sub_71006D8340() const {
 
 s32 DamageManager::sub_71006D837C() const {
     return _220->mHits.back()._10;
+}
+
+bool DamageManager::m56() {
+    auto* actor = sead::DynamicCast<ksys::act::DynamicActor>(mActor);
+    if (actor && !actor->getActorFlags2().isOn(ksys::act::Actor::ActorFlag2::_40) && actor->m151(3))
+        return actor->m154();
+    return false;
 }
 
 }  // namespace uking::dmg

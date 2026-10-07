@@ -15,6 +15,7 @@
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actTag.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
 #include "Game/gameRoot38.h"
 
 // Source ownership is unknown; declaration only.
@@ -123,6 +124,24 @@ bool DynamicActor::initField868(sead::Heap* heap) {
 
 // NON_MATCHING: most member types are still unknown (placeholders)
 DynamicActor::~DynamicActor() = default;
+
+void DynamicActor::calcMaybe() {
+    if (auto* unk = m159())
+        unk->sub_71006DFA04(checkFlag(ActorFlag::_25));
+    sub_71006DD21C();
+    if (_a58)
+        _a58->m6(false);
+    if (mFieldBodyGroup) {
+        if (auto* body = getMainBody()) {
+            if (body->getMotionType() == phys::MotionType::Keyframed && !hasTag(this, 0x7dd56981)) {
+                sead::Matrix34f mtx;
+                getHomeMtx(&mtx);
+                if (mPhysics && !mPhysics->sub_7100FBDF08(body))
+                    body->changePositionAndRotation(mtx);
+            }
+        }
+    }
+}
 
 bool DynamicActor::startPreparingForPreDelete_() {
     if (!Actor::startPreparingForPreDelete_())

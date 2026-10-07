@@ -82,7 +82,8 @@ public:
     virtual s32 m53() { return 0; }
     virtual void m54();
     virtual void m55();
-    virtual void m56();
+    // Slot 56 (lane4 s50): returns bool (the result of DynamicActor::m154).
+    virtual bool m56();
 
     // 0x71006d69f8 (not decompiled): the rigid body hit by the current damage (by damage kind
     // _5c: 2 / 6 via sub_71007A255C, 4 via the actor's +0x708 object), or null.

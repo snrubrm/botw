@@ -37,6 +37,7 @@ struct Unk_DynamicActorA58 {
     virtual void m3();
     virtual void m4();
     virtual bool m5();
+    virtual void m6(bool a1);
 };
 
 // TODO: incomplete. Factory size 0xb90 (DynamicActor::construct); the vtable has 163 slots.
@@ -107,6 +108,8 @@ public:
 
     // 0x71006dd92c: forwards to the object at _868 (a different routine for true / false).
     void sub_71006DD92C(bool enable);
+    // 0x71006dd21c (CSV DynamicActor::m69_xxx, 796 B; declaration only, lane4 s50): called by calcMaybe.
+    void sub_71006DD21C();
     // 0x71006dc81c / 0x71006dc864: release the owned actor attack / ragdoll handlers.
     void sub_71006DC81C();
     void sub_71006DC864();
