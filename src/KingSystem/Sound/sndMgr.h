@@ -385,17 +385,17 @@ struct Unk_SoundInstance {
     ~Unk_SoundInstance();
     bool sub_710104ACB4();
     void sub_710104ABE8();
-    // Declared only (placeholder names; the callers are the Unk_SoundMgra8 list queries):
+    // Placeholder names; the callers are the Unk_SoundMgra8 list queries:
     bool sub_710104AFBC(int a);    // 0x710104afbc
     bool sub_710104AFC0(void* a);  // 0x710104afc0
     bool sub_710104B1D8(void* a);  // 0x710104b1d8
     bool sub_710104ADB8(int a);    // 0x710104adb8
-    // 0x710104ac00 (declared only): the volume this instance gives `actor` (negative: none).
+    // 0x710104ac00: the volume this instance gives `actor` (negative: none).
     f32 sub_710104AC00(ksys::act::Actor* actor);
 
-    // 0x710104A9A0 initializes two pools of 32 signed identifiers.
-    sead::FixedObjArray<s32, 32> _0;
-    sead::FixedObjArray<s32, 32> _220;
+    // 0x710104A9A0 initializes two pools; 0x710104AC00 compares map hashes and actor IDs.
+    sead::FixedObjArray<u32, 32> _0;
+    sead::FixedObjArray<u32, 32> _220;
     /* 0x440 */ f32 _440 = 0.0f;
     /* 0x448 */ sead::CriticalSection mCS;
     /* 0x488 */ s32 _488 = 0;

@@ -6,6 +6,7 @@
 #include <aal/aalGroup.h>
 #include <aal/aalGroupMgr.h>
 #include <aal/aalAssetInfo.h>
+#include <devenv/seadEnvUtil.h>
 #include "KingSystem/Event/evtManager.h"
 
 namespace ksys::snd {
@@ -46,25 +47,23 @@ s32 sub_710105E75C(const aal::AssetInfo::LoopInfo* loop, s32 position, s32 offse
     return result;
 }
 
-Unk_SoundInstance::Unk_SoundInstance(s32 id) : _48c(id) {}
-
-Unk_SoundInstance::~Unk_SoundInstance() = default;
-
-bool Unk_SoundInstance::sub_710104ACB4() {
-    if (!_490)
-        return false;
-    if (_440 >= 0.0f) {
-        if (!_0.isEmpty())
-            return true;
-        return !_220.isEmpty();
-    }
-    return false;
-}
-
-void Unk_SoundInstance::sub_710104ABE8() {
-    if (!_491) {
-        _491 = true;
-        _488 = 0;
+const char* sub_710105E898(sead::RegionLanguageID language, bool* flag) {
+    if (flag)
+        *flag = false;
+    switch (language.value()) {
+    case sead::RegionLanguageID::USfr:
+        if (flag)
+            *flag = true;
+        return sead::RegionLanguageID::text(sead::RegionLanguageID::EUfr);
+    case sead::RegionLanguageID::EUen:
+    case sead::RegionLanguageID::EUnl:
+        return sead::RegionLanguageID::text(sead::RegionLanguageID::USen);
+    case sead::RegionLanguageID::KRko:
+    case sead::RegionLanguageID::CNzh:
+    case sead::RegionLanguageID::TWzh:
+        return sead::RegionLanguageID::text(sead::RegionLanguageID::JPja);
+    default:
+        return language.text();
     }
 }
 
