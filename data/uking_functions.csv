@@ -19928,7 +19928,7 @@ Address,Quality,Size,Name
 0x00000071002edca8,O,000064,_Z21actorCheckIsGuardJustPN4ksys3act5ActorE
 0x00000071002edce8,U,000900,
 0x00000071002ee06c,U,000264,
-0x00000071002ee174,U,000124,_ZN5uking3act6Weapon32bowIsUsedByPlayerAndHasArrowNameEv
+0x00000071002ee174,O,000124,_ZN5uking3act6Weapon32bowIsUsedByPlayerAndHasArrowNameEv
 0x00000071002ee1f0,m,000452,_ZN5uking3act6Weapon15bowGetArrowNameEPN4sead22BufferedSafeStringBaseIcEE
 0x00000071002ee3b4,m,000184,_ZN5uking3act6Weapon4m222Ev
 0x00000071002ee46c,U,000008,

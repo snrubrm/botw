@@ -467,6 +467,13 @@ bool Weapon::bowHasArrowName() {
     return param && !param->mArrowName.ref().isEmpty();
 }
 
+bool Weapon::bowIsUsedByPlayerAndHasArrowName() {
+    if (!isParentPlayer())
+        return true;
+    const auto* param = getParam()->getRes().mGParamList->getBow();
+    return param && !param->mArrowName.ref().isEmpty();
+}
+
 // 0x71002ea0d4: IsLeadShot, or a positive AddSpreadFire modifier value.
 bool Weapon::sub_71002EA0D4() {
     if (getParam()->getRes().mGParamList->getBow()->mIsLeadShot.ref())
