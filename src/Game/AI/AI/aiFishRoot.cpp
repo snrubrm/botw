@@ -12,7 +12,17 @@ namespace uking::ai {
 
 FishRoot::FishRoot(const InitArg& arg) : SimpleWildlifeRoot(arg) {}
 
-FishRoot::~FishRoot() = default;
+// NON_MATCHING: regalloc of the element destructor loop (we hoist the element address `end - 0xe8` into x21 for the two
+// calls; the original recomputes it in each branch).
+FishRoot::~FishRoot() {
+    _1d0.freeBuffer();
+    if (_1b8)
+        _1b8->release();
+    _1b8 = nullptr;
+    if (_1c0)
+        _1c0->release();
+    _1c0 = nullptr;
+}
 
 // NON_MATCHING: the original moves `start` into x1 after negating the height (scheduling only).
 bool FishRoot::sub_71003CE608(const sead::Vector3f& start) {

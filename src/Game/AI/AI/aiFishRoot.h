@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Game/AI/AI/aiSimpleWildlifeRoot.h"
+#include <container/seadBuffer.h>
+#include <gsys/gsysModelAccessKey.h>
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
@@ -9,6 +11,19 @@ class RayCastForRequest;
 }
 
 namespace uking::ai {
+
+// Placeholder name: the 0xe8-byte element of FishRoot::_1d0 (a bone key and data that is not recovered yet); its
+// destructor removes the bone key first.
+struct FishRootBoneEntry {
+    ~FishRootBoneEntry() {
+        if (_0.isValid())
+            _0.remove();
+    }
+
+    gsys::BoneAccessKeyEx _0;
+    u8 _38[0xe8 - 0x38];
+};
+KSYS_CHECK_SIZE_NX150(FishRootBoneEntry, 0xe8);
 
 class FishRoot : public SimpleWildlifeRoot {
     SEAD_RTTI_OVERRIDE(FishRoot, SimpleWildlifeRoot)
@@ -76,6 +91,10 @@ protected:
     u8 _1b4[0x1b8 - 0x1b4];
     ksys::phys::RayCastForRequest* _1b8{};
     ksys::phys::RayCastForRequest* _1c0{};
+    u8 _1c8[0x1d0 - 0x1c8];
+    sead::Buffer<FishRootBoneEntry> _1d0;
+    // 0x1e0: a 0x20-byte polymorphic object that points back at the buffer (not recovered)
+    u8 _1e0[0x200 - 0x1e0];
 };
 
 }  // namespace uking::ai

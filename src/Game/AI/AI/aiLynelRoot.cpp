@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiLynelRoot.h"
+#include "Game/AI/aiUnk_PartsActorDelete.h"
 #include "Game/Damage/dmgDamageManagerBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
@@ -17,7 +18,17 @@ void Unk_7102406048::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, dmg::Dama
 
 LynelRoot::LynelRoot(const InitArg& arg) : EnemyRoot(arg) {}
 
-LynelRoot::~LynelRoot() = default;
+LynelRoot::~LynelRoot() {
+    if (auto* parts = mActor->m101()) {
+        if (!mBreathActorName_s.isEmpty()) {
+            deleteActorParts(parts, mBreathPartsKey0_s);
+            deleteActorParts(parts, mBreathPartsKey1_s);
+            deleteActorParts(parts, mBreathPartsKey2_s);
+        }
+        if (!mRoarFlameActorName_s.isEmpty())
+            deleteActorParts(parts, mRoarFlamePartsKey_s);
+    }
+}
 
 bool LynelRoot::init_(sead::Heap* heap) {
     return EnemyRoot::init_(heap);
