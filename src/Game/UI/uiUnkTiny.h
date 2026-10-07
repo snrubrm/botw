@@ -14,6 +14,7 @@
 namespace eui {
 class UniteButton;
 class Animator;
+class LayoutEx;
 }
 
 namespace eui {
@@ -235,8 +236,19 @@ static_assert(sizeof(Unk_7102477468) == 0x18);
 
 class Unk_7102477488 {
 public:
+    Unk_7102477488();
     virtual ~Unk_7102477488();
+    void sub_71009880AC(eui::UniteButton* button);
+    void sub_71009880E8(u32 frame);
+    eui::UniteButton* sub_7100988104() const;
+    eui::LayoutEx* sub_710098810C() const;
+    void sub_7100988138(bool on);
+    void sub_7100988154(bool checked);
+
+    eui::UniteButton* mButton = nullptr;
+    eui::Animator* mPatternAnimator = nullptr;
 };
+static_assert(sizeof(Unk_7102477488) == 0x18);
 
 class Unk_71024774c8 {
 public:

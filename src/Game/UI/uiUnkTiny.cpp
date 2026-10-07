@@ -110,6 +110,36 @@ bool Unk_7102477468::sub_710098807C() const {
 Unk_7102477468::~Unk_7102477468() = default;
 
 // 0x71009880a4
+Unk_7102477488::Unk_7102477488() = default;
+
+void Unk_7102477488::sub_71009880AC(eui::UniteButton* button) {
+    if (button) {
+        mButton = button;
+        mPatternAnimator = button->mLayout->createAnimatorAuto("Pattern", false);
+    }
+}
+
+void Unk_7102477488::sub_71009880E8(u32 frame) {
+    if (mPatternAnimator)
+        mPatternAnimator->Stop(frame);
+}
+
+eui::UniteButton* Unk_7102477488::sub_7100988104() const { return mButton; }
+
+eui::LayoutEx* Unk_7102477488::sub_710098810C() const {
+    return mButton ? mButton->mLayout : nullptr;
+}
+
+void Unk_7102477488::sub_7100988138(bool on) {
+    if (mButton)
+        mButton->setFlag10(on);
+}
+
+void Unk_7102477488::sub_7100988154(bool checked) {
+    if (mButton)
+        mButton->ForceSetChecked(checked);
+}
+
 Unk_7102477488::~Unk_7102477488() = default;
 
 // 0x7100988ee8
