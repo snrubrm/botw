@@ -2,18 +2,35 @@
 #include "KingSystem/ActorSystem/actBaseProcMgr.h"
 #include "KingSystem/Effect/eftEffect.h"
 #include "KingSystem/Framework/frmWorkerSupportThreadMgr.h"
+#include "Game/gameScene.h"
 #include "KingSystem/Sound/sndMgr.h"
+#include "KingSystem/Utils/InitTimeInfo.h"
 
 // 0x7100f3ed50 (declared only; 48 B): placeholder name, global namespace.
 void sub_710F3ED50();
 
 namespace ksys {
 
+// The TU's static initialiser is 0x7100dcd420 (`_GLOBAL__sub_I_MCMgr.cpp`).
+static util::InitConstants sInitConstants;
+static util::InitTimeInfo sInitTimeInfo;
+
 SEAD_SINGLETON_DISPOSER_IMPL(MCMgr)
 
 bool MCMgr::invoked2(void* arg) {
     sub_710F3ED50();
     return true;
+}
+
+void MCMgr::sub_7100DCBC84() {
+    if (getSceneStatus() == 2)
+        sub_710F3ED50();
+    else
+        frm::WorkerSupportThreadMgr::instance()->submitRequest(3, &mInvoker2);
+}
+
+void MCMgr::calcMessageDispatcher() {
+    CalcMessageDispatcher();
 }
 
 bool MCMgr::invoked3(void* arg) {

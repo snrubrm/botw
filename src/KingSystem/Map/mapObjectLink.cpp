@@ -3,6 +3,7 @@
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Map/mapObjectGenGroup.h"
+#include "KingSystem/Map/mapPlacementActors.h"
 #include "KingSystem/Map/mapPlacementMgr.h"
 #include "KingSystem/Terrain/teraSystem.h"
 #include "KingSystem/Map/mapRail.h"
@@ -451,6 +452,17 @@ bool ObjectLinkData::checkContainsObjWithName(const sead::SafeString& name, cons
     if (mGenGroup)
         return mGenGroup->checkContainsObjWithName(name, mode);
     return false;
+}
+
+Object* ObjectLinkData::sub_7100D4EFA4(const sead::SafeString& name) {
+    for (auto*& object : mObjects) {
+        if (!object)
+            continue;
+        auto& data = PlacementMgr::instance()->mPlacementActors->mActorData[object->getActorDataIdx()];
+        if (name == data.mActorName)
+            return object;
+    }
+    return nullptr;
 }
 
 bool ObjectLinkData::sub_7100D4EF30(const act::ActorConstDataAccess& accessor) {

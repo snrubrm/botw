@@ -8,6 +8,9 @@
 
 namespace ksys {
 
+// 0x7100f3d8c4 (CSV CalcMessageDispatcher; declaration only)
+void CalcMessageDispatcher();
+
 // Placeholder name and namespace (CSV: MCMgr::createInstance 0x7100dcb390, ctor 0x7100dcb418, init 0x7100dcb5f0, dtor
 // 0x7100dcb924; instance pointer at 0x7102590f10 (GOT 0x2590f10); size 0x1c50, singleton disposer at +8). The
 // per-frame coordinator that submits the actor / effect / sound updates to the worker support threads (it owns 18
@@ -26,6 +29,12 @@ public:
     // 0x7100dcb8fc (CSV invoked4): the sound manager's calc2.
     bool invoked4(void* arg);
 
+    // 0x7100dcbc84 (unnamed in the CSV; placeholder name): runs invoked2 directly while the scene status is 2, else
+    // submits it as worker request 3.
+    void sub_7100DCBC84();
+    // 0x7100dcb5ec (CSV calcMessageDispatcher): forwards to ksys::CalcMessageDispatcher (0x7100f3d8c4).
+    void calcMessageDispatcher();
+
     // 0x7100dcd4ac (CSV processAllBaseProcMgrJobsType3): runs the extra jobs of type 3 of the BaseProcMgr until it has
     // no more.
     void processAllBaseProcMgrJobsType3();
@@ -39,7 +48,8 @@ public:
     void requestInvoker4OrSound();
 
 private:
-    u8 _28[0x1c10 - 0x28];
+    u8 _28[0x1bf0 - 0x28];
+    sead::Delegate1R<MCMgr, void*, bool> mInvoker2{this, &MCMgr::invoked2};
     sead::Delegate1R<MCMgr, void*, bool> mInvoker3{this, &MCMgr::invoked3};
     sead::Delegate1R<MCMgr, void*, bool> mInvoker4{this, &MCMgr::invoked4};
 };
