@@ -18,6 +18,16 @@
 
 namespace uking::ui {
 
+bool ScreenAppAlbum::sub_71009D3DA0() const {
+    return _3630 && _3630->mFrame != 0.0f;
+}
+
+bool ScreenAppAlbum::sub_71009D3DC0() const {
+    // called through a pointer in the original (not devirtualised)
+    return mStateMachine.getState()->getId() == (&sUnk_71025dc3c0)->getId();
+}
+
+
 // 0x7100a41558
 void ScreenRupee::sub_7100A41558() {
     _3610 = true;

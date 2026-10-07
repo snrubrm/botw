@@ -2806,6 +2806,12 @@ public:
     virtual void m176();
     virtual s32 m177();
 
+
+    bool sub_71009D3DA0() const;
+    bool sub_71009D3DC0() const;
+    u8 _3610[0x3630 - 0x3610];
+    /* 0x3630 */ eui::Animator* _3630;
+
 };
 
 class ScreenAppMapDungeon : public ScreenEx {
@@ -2865,6 +2871,8 @@ public:
     void sub_71009DD7EC(bool a1);
     void sub_71009DD800(bool a1);
 };
+
+extern const ksys::StateBase sUnk_71025dc3c0;
 
 // The state ScreenSaveTransferWindow changes to from many of its state callbacks (0x71025f2de0; placeholder name).
 extern const ksys::StateBase sUnk_71025f2de0;
