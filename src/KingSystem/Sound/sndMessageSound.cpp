@@ -6,6 +6,13 @@
 
 namespace ksys::snd {
 
+Unk_710105fe78::~Unk_710105fe78() {
+    if (_8) {
+        _8->freeBuffer();
+        delete _8;
+    }
+}
+
 Unk_SoundMgr48::Unk_SoundMgr48() = default;
 
 Unk_SoundMgr48::~Unk_SoundMgr48() {

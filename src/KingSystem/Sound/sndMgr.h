@@ -33,6 +33,10 @@ class HandleSLink;
 class UserInstanceSLink;
 }
 
+namespace ksys::res {
+class Handle;
+}
+
 namespace ksys::act {
 class Actor;
 class ActorCreator;
@@ -252,7 +256,15 @@ class Unk_710105fe78 {
 public:
     Unk_710105fe78();
     virtual ~Unk_710105fe78();
-    u8 _8[0xb8 - 8];
+    // Lookup 0x7101060C04 proves the hash/handle pair and sixteen-byte stride.
+    struct Entry {
+        u32 mHash;
+        res::Handle* mHandle;
+    };
+    static_assert(sizeof(Entry) == 0x10);
+    /* 0x08 */ sead::Buffer<Entry>* _8;
+    /* 0x10 */ s32 _10;
+    u8 _14[0xb8 - 0x14];
 };
 KSYS_CHECK_SIZE_NX150(Unk_710105fe78, 0xb8);
 
