@@ -246,6 +246,7 @@ public:
 
 private:
     friend class SkyMgr;  // SkyMgr::sub_71010E4FFC reads mTimer directly (0x71010e5068).
+    friend class WindMgr;  // Wind speed selectors read the existing manual wind timer directly.
     friend class TempMgr;
     friend class WeatherMgr;
 

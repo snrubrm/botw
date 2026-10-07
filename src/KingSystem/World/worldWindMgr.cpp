@@ -1,5 +1,7 @@
 #include "KingSystem/World/worldWindMgr.h"
 #include "KingSystem/World/worldManager.h"
+#include <layer/aglRenderer.h>
+#include <layer/aglLayer.h>
 
 namespace ksys::world {
 
@@ -59,6 +61,25 @@ f32 WindMgr::sub_71010EECE8(const sead::Vector3f* position, f32 value) {
     if (_28 & 0x10)
         return sub_71010EECF8(position, value);
     return sub_71010EEC04();
+}
+
+// NON_MATCHING: the flag conditions fold into one comparison and share the fallback branch.
+f32 WindMgr::sub_71010EEC04() {
+    sead::Vector3f position(0.0f, 0.0f, 0.0f);
+    if (auto* renderer = agl::lyr::Renderer::instance()) {
+        if (auto* layer = renderer->mLayers[1]) {
+            if (auto* camera = layer->sub_7100B60CE0())
+                camera->getWorldPosByMatrix(&position);
+        }
+    }
+    auto* manager = Manager::instance();
+    if ((!manager || manager->mManualWindTimer == 0) && !(_28 & 0x20)) {
+        if (_28 & 8)
+            return _2c * _80;
+    }
+    if (_28 & 6)
+        return _4c;
+    return manager ? manager->getWindSpeed(position) : 0.0f;
 }
 
 }  // namespace ksys::world
