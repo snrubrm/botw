@@ -354,6 +354,28 @@ bool PlacementMgr::sub_71011EB450(const void* p) {
 }
 
 
+bool PlacementMgr::sub_71011EBFBC(Object* obj) {
+    for (s32 i = 0; i < mNumEventObjs; ++i) {
+        if (mEventObjs[i] == obj)
+            return false;
+    }
+    obj->setFlags0(Object::Flag0::_20000);
+    mEventObjs[mNumEventObjs++] = obj;
+    return true;
+}
+
+void PlacementMgr::sub_71011EC01C(Object* obj) {
+    for (s32 i = 0; i < mNumEventObjs; ++i) {
+        if (mEventObjs[i] == obj) {
+            obj->resetFlags0(Object::Flag0::_20000);
+            for (s32 j = i; j < mNumEventObjs - 1; ++j)
+                mEventObjs[j] = mEventObjs[j + 1];
+            --mNumEventObjs;
+            return;
+        }
+    }
+}
+
 void PlacementMgr::sub_71011EB2AC() {
     if (mMassRenderer)
         mMassRenderer->sub_71011E4090(this, true);

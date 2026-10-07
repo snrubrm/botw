@@ -98,7 +98,7 @@ private:
     bool clearStaticCompoundActorId(int id);
     bool x_1(int id, float x, float z);
     bool staticCompoundStuff(int sc_id, bool cleanup);
-    int doSomethingStaticCompound(int hksc_idx);
+    bool doSomethingStaticCompound(int hksc_idx);
     bool isDynamicLoaded(const sead::Vector3f& pos);
     void setStaticCompoundInstanceEnabled(Object* obj, bool enabled);
     void x_9();

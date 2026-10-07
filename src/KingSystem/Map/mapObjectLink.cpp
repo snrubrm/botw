@@ -356,6 +356,15 @@ bool ObjectLinkData::x_0() {
     return true;
 }
 
+void ObjectLinkData::sub_7100D4F824() {
+    if (!tera::checkTeraSystemStatus()) {
+        auto* thread = sead::ThreadMgr::instance()->getCurrentThread();
+        thread->getPriority();
+    }
+    if (mGenGroup)
+        mGenGroup->_4.increment();
+}
+
 void ObjectLinkData::sub_7100D4F884() {
     if (!tera::checkTeraSystemStatus()) {
         auto* thread = sead::ThreadMgr::instance()->getCurrentThread();

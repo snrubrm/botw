@@ -11,6 +11,9 @@
 #include <container/seadBuffer.h>
 #include <prim/seadEnum.h>
 #include <aal/aalGroupLimiter.h>
+#include <aal/aalListener.h>
+#include <aal/aalListenerPoser.h>
+#include <aal/aalTimedFader.h>
 
 namespace aal {
 class Shape;
@@ -228,11 +231,14 @@ enum class AudioChannelType {
 };
 
 // Name from the CSV (snd::ListenerPoser::ctor 0x71010549d8, init 0x7101054b30): size 0xe0, created
-// in SoundMgr's init (CSV Sound::init) and stored in SoundMgr::_58. Probably derived from
-// aal::ListenerPoser (not in the repo).
+// in SoundMgr's init (CSV Sound::init) and stored in SoundMgr::_58. It owns an aal::Listener and the aal::ListenerPoser
+// that positions it (named "snd::ListenerPoser"; the listener is the default listener).
 // TODO: incomplete.
 class ListenerPoser {
 public:
+    // 0x71010549d8
+    ListenerPoser();
+    // 0x7101054a88 (D1) / 0x7101054adc (D0)
     virtual ~ListenerPoser();
 
     // 0x7101055538 (CSV unnamed): if `_70` is clear, sets it and stores `value` in `_74`.
@@ -246,6 +252,7 @@ public:
     u32 _80;  // set to 1 / 0 by uking::action::CameraAction enter_ / leave_
     u8 _84[0xe0 - 0x84];
 };
+static_assert(sizeof(ListenerPoser) == 0xe0);
 
 // Placeholder name (SoundMgr::_60): `_28` is the address of the xlink2 SLink resource list the UI screens
 // (uking::ui::ScreenBase::getSlink2ResourceList_) hand to their sound link users.

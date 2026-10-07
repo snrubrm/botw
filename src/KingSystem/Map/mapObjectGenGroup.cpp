@@ -2,6 +2,7 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actDebug.h"
 #include "KingSystem/Map/mapObject.h"
+#include "KingSystem/Map/mapObjectLink.h"
 #include "KingSystem/Map/mapPlacementActors.h"
 #include "KingSystem/Map/mapPlacementMgr.h"
 #include "KingSystem/System/SystemTimers.h"
@@ -179,7 +180,31 @@ void GenGroup::sub_7100D51250(bool a1, u32 a2) {
     }
 }
 
-// NON_MATCHING: same code, different register allocation (x10 / x11 swapped)
+void GenGroup::sub_7100D51D78(Object* except) {
+    auto* mgr = PlacementMgr::instance();
+    if (!mgr)
+        return;
+    auto* actors = mgr->mPlacementActors;
+    if (!actors)
+        return;
+
+    for (auto& obj : mObjects) {
+        if (&obj == except)
+            continue;
+        if (!actors->mActorData[obj.getActorDataIdx()].mFlags.isOnBit(ActorData::Flag::OnLowTree))
+            continue;
+
+        if (obj.getId() == mgr->_1e4) {
+            if (auto* link_data = obj.getLinkData())
+                link_data->field_57 = true;
+        } else {
+            mgr->sub_71011E9C28(&obj, false);
+            mgr->disableObjStaticCompound(&obj);
+            obj.mFlags0.set(Object::Flag0(0x100400));
+        }
+    }
+}
+
 // NON_MATCHING: same loop; the original computes the end pointer and the odd-count test before it branches on `on`.
 void GenGroup::sub_7100D513F4(const u32* bit, bool on) {
     for (auto& obj : mObjects) {
@@ -190,6 +215,7 @@ void GenGroup::sub_7100D513F4(const u32* bit, bool on) {
     }
 }
 
+// NON_MATCHING: same code, different register allocation (x10 / x11 swapped)
 bool GenGroup::sub_7100D51330(const u32* a1) {
     for (auto& obj : mObjects) {
         if (obj.getActorData().mFlags.isOnBit(ActorData::Flag(*a1)))

@@ -3,8 +3,11 @@ target_sources(uking PRIVATE
   sndBgmMgr.h
   sndDuckingMgr.cpp
   sndInfoData.cpp
+  sndListenerPoser.cpp
   sndInfoData.h
   sndMusicDefinition.cpp
+  sndOcclusionMgr.cpp
+  sndOcclusionMgr.h
   sndMusicDefinition.h
   sndMusicInfo.cpp
   sndMusicInfo.h

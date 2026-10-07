@@ -259,14 +259,14 @@ void PlacementMap::setStaticCompoundInstanceEnabled(Object* obj, bool enabled) {
 }
 
 // Should this be renamed to what x_3() and/or x_4() does
-int PlacementMap::doSomethingStaticCompound(int hksc_idx) {
+bool PlacementMap::doSomethingStaticCompound(int hksc_idx) {
     auto* resource = mRes[hksc_idx].mRes.getResource();
     if (auto* sc = sead::DynamicCast<phys::StaticCompound>(resource)) {
         if (!sc->isAnyRigidBodyAddedToWorld() && !sc->isAnyRigidBodyAddedOrBeingAddedToWorld()) {
             sc->addToWorld();
         }
     }
-    return 1;
+    return true;
 }
 bool PlacementMap::loadStaticCompound(int hksc_idx, bool auto_gen_mu, bool req_arg_8) {
     sead::FixedSafeString<0x100> path;

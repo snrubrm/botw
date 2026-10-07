@@ -51,9 +51,9 @@ public:
     // 0x0000007100d47270
     bool isHkscResStatus3(const sead::Vector3f& pos, bool x);
     s32 getNumMaps() const { return mMaps.size(); }
-    // 0x7100d474f4 (CSV postPlaceActorsRouteStuff; declaration only)
+    // 0x7100d474f4 (CSV postPlaceActorsRouteStuff): passes every route of every map to 0x71011190c8 (declaration only).
     void postPlaceActorsRouteStuff(void* tera_system);
-    // 0x7100d46ef8 (CSV updateHkscLoadStatusesMaybe; declaration only)
+    // 0x7100d46ef8 (CSV updateHkscLoadStatusesMaybe)
     void updateHkscLoadStatusesMaybe();
 
 private:

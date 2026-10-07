@@ -43,6 +43,10 @@ public:
     void sub_7100D510D0();
     u8 sub_7100D510FC();
     void sub_7100D51250(bool a1, u32 a2);
+    // 0x7100d51d78 (placeholder name): for every object except `except` whose actor data has the OnLowTree flag, either marks
+    // its link data (same id as the placement manager's `_1e4`) or removes the object from the renderers and static
+    // compounds and flags it.
+    void sub_7100D51D78(Object* except);
     // 0x7100d513f4 (placeholder name): sets (`on`) or clears the hard mode flag bit `*bit` of every object.
     void sub_7100D513F4(const u32* bit, bool on);
     bool sub_7100D51330(const u32* a1);

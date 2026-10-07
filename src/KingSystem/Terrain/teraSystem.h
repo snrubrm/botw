@@ -40,4 +40,8 @@ class Water {
 
 bool checkTeraSystemStatus();
 
+// 0x71011190c8 (declaration only; placeholder name and signature): called by map::PlacementMapMgr::postPlaceActorsRouteStuff with
+// the tera system and every route of every map.
+void sub_71011190C8(void* tera_system, void* route);
+
 }  // namespace ksys::tera

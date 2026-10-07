@@ -162,6 +162,10 @@ public:
     void sub_71011EB428(const sead::Vector3f* pos, f32 radius, bool x,
                         sead::IDelegate1R<Unk_71012497f8Entry*, bool>* callback);
     bool sub_71011EB450(const void* p);
+    // 0x71011ebfbc (placeholder name; called by evt::ActorBase::m4): registers `obj` (false if it already is).
+    bool sub_71011EBFBC(Object* obj);
+    // 0x71011ec01c (placeholder name; called by evt::ActorBase::m5): unregisters `obj`.
+    void sub_71011EC01C(Object* obj);
 
     void threadFn(sead::Thread* thread, sead::MessageQueue::Element msg);
     // 0x00000071011eb4dc
@@ -200,7 +204,10 @@ public:
     u32 _2c = 0;
     u32 _30 = 0;
 
-    u8 TEMP[0x108];
+    u8 TEMP[4];
+    // The objects registered by the event system (they get Flag0::_20000: no job push); count at 0x138.
+    Object* mEventObjs[32];
+    s32 mNumEventObjs;
     sead::Delegate2<PlacementMgr, sead::Thread*, sead::MessageQueue::Element> mThreadParams;
     sead::DelegateThread* mThread;
     int mTraverseResultIdx;
