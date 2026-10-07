@@ -1,6 +1,7 @@
 #include "Game/AI/AI/aiGanonNormalRoot.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/Actor/actEnemy.h"
+#include "Game/Actor/actWeapon.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorCreator.h"
 #include "KingSystem/ActorSystem/actActorHeapUtil.h"
@@ -88,6 +89,25 @@ bool GanonNormalRoot::sub_71003ED9B0() {
     mActor->getHomePos(&home_pos);
     sub_71005D8DE8(mActor, entry->_0.mLink, &entry->_58, nullptr);
     return true;
+}
+
+void GanonNormalRoot::sub_71003ED718(int idx) {
+    auto& link = _78[idx];
+    if (link.hasProc())
+        return;
+    auto& handle = _38[idx];
+    if (handle.isAllocatedOrFailed() && handle.isProcReady()) {
+        auto* actor = sead::DynamicCast<ksys::act::Actor>(handle.getProc());
+        link.acquire(actor, false);
+    }
+    if (sead::DynamicCast<ksys::act::Actor>(link.getProc(nullptr, nullptr))) {
+        auto* actor = sead::DynamicCast<ksys::act::Actor>(link.getProc(nullptr, nullptr));
+        auto* weapon = sead::DynamicCast<act::Weapon>(actor);
+        if (handle.isProcReady())
+            handle.releaseAndWakeProc();
+        if (sub_71005D8A30(mActor, weapon, idx))
+            sub_71005DB5C0(mActor, idx);
+    }
 }
 
 }  // namespace uking::ai
