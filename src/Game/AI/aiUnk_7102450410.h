@@ -3,8 +3,11 @@
 #include <basis/seadTypes.h>
 #include <container/seadBuffer.h>
 #include <prim/seadBitFlag.h>
+#include <prim/seadSafeString.h>
 #include "Game/AI/aiUnk_71025afb58.h"
 #include "KingSystem/Utils/Types.h"
+
+namespace ksys::act { class Actor; }
 
 // Golem chemical controller (vtable 0x7102450410, RTTI typeInfo static 0x71025b29f8): embedded in
 // GolemRootBase (_2f0) and shared with the golem AIs through the GolemChemicalController AI tree
@@ -23,7 +26,16 @@ public:
         // Declaration only: per-part chemical controller update called by GolemRootBase.
         void sub_71007083DC();
 
-        u8 _0[0xb0];
+        void sub_7100708A44(const sead::SafeString& name);
+
+        // Actor and animation coordinates used by the part-animation dispatcher.
+        ksys::act::Actor* mActor;
+        u8 _8[0x28 - 0x8];
+        s32 mASSlot;
+        s32 mASBank;
+        u8 _30[0xa8 - 0x30];
+        s32 _a8;
+        u8 _ac[4];
         s32 _b0;  // GolemChemicalResetSelect::enter_ tests entry 0 for 4
         sead::BitFlag8 _b4;  // bit 0 tested by sub_71007090F4
         bool _b5;

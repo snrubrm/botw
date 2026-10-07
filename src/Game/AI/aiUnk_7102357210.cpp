@@ -3,6 +3,7 @@
 #include "Game/AI/aiUnk_7102357d20.h"
 #include "Game/AI/aiUnk_7102450410.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
@@ -834,4 +835,13 @@ bool sub_71007090F4(const Unk_7102450410* controller) {
             return true;
     }
     return false;
+}
+
+void Unk_7102450410::Entry::sub_7100708A44(const sead::SafeString& name) {
+    auto* list = mActor->getASList();
+    if (!list || name.isEmpty())
+        return;
+    const auto& current = list->x_1(mASSlot, mASBank);
+    if (current != name)
+        list->startAnimationMaybe(-1.0f, -1.0f, name, mASSlot, mASBank, true);
 }
