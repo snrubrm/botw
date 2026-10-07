@@ -60,20 +60,20 @@ void CarriedData::x_16() {
 
 void CarriedData::x_6() {
     if (auto* data = mActor->m100()) {
-        if (sead::BitFlagUtil::countOnBit(data->_1d0) >= 1)
+        if (sead::BitFlagUtil::countOnBit(data->_1c8._8) >= 1)
             data->sub_7100E504C0();
     }
 }
 
 void CarriedData::x_8() {
     auto* data = mActor->m100();
-    if (!data || !(data->_1d8 & 4))
+    if (!data || !(data->_1c8._10 & 4))
         return;
-    u8 flags = data->_1d0;
+    u8 flags = data->_1c8._8;
     if (flags & 1) {
         if ((_2c & 1) || data->_100 == 2) {
             flags &= ~1;
-            data->_1d0 = flags;
+            data->_1c8._8 = flags;
         }
     }
     if (sead::BitFlagUtil::countOnBit(flags) <= 0)
@@ -82,7 +82,7 @@ void CarriedData::x_8() {
 
 void CarriedData::x_12() {
     if (auto* data = mActor->m100()) {
-        if (data->_1d8 & 4)
+        if (data->_1c8._10 & 4)
             data->sub_7100E5052C();
     }
 }

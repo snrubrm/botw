@@ -34,13 +34,17 @@ public:
     bool sub_7100E502B8() const;
     void sub_7100E502EC(BaseProc* proc);
     bool sub_7100E50334(ActorConstDataAccess* accessor);
+    // 0x7100e4ff1c (placeholder name).
+    void sub_7100E4FF1C(sead::Vector3f* out, const sead::Matrix34f& mtx) const;
+    // 0x7100e50390 (placeholder name).
+    bool sub_7100E50390(Actor* actor);
     // Declared only (Carried::enter_): 0x7100e50450 (sets the carrier on the actor's `+0x6a8` object),
     // 0x7100e4fce8 (rotates `_80` towards the matrix), 0x7100e4edb8.
     void sub_7100E50450(Actor* carrier);
     void sub_7100E4FCE8(f32 a, const sead::Matrix34f* mtx);
     f32 sub_7100E4EDB8();
-    // Declared only (CarriedData::x_6 / x_8 / x_12, lane1 s43): 0x7100e504c0 (when `_1d0` has a bit set, stores
-    // `&_1c8` into the contact point info's `+0x58` and sets bit 2 of `_1d8`) and its undo 0x7100e5052c.
+    // Declared only (CarriedData::x_6 / x_8 / x_12, lane1 s43): 0x7100e504c0 (when `_1c8._8` has a bit set, stores
+    // `&_1c8` into the contact point info's `+0x58` and sets bit 2 of `_1c8._10`) and its undo 0x7100e5052c.
     void sub_7100E504C0();
     // 0x7100e4f1d0 (lane4 s49; declared only, 1.4 KB): CarriedData::x_16 passes its `_14` / `_18`.
     bool sub_7100E4F1D0(f32 a, f32 b);
@@ -69,17 +73,18 @@ public:
     // object with vtable 0x71024e8790 (invoke 0x7100e50590, clone, isNoDummy) and two bytes at
     // +0x8 / +0x10
     /* 0x1c4 */ u8 _1c4[0x1c8 - 0x1c4];  // padding (the object below is 8-aligned)
-    // Contact callback (vtable 0x71024e8790; invoke 0x7100e50590 is only declared).
+    // Contact callback (vtable 0x71024e8790; invoke 0x7100e50590): disables the contacts with bodies that are on the ground
+    // (MovingTrolley ground hit, bit 1 of `_8`) or dynamic (motion type 0, bit 0 of `_8`).
     class ContactCallback : public phys::ContactPointInfo::ContactCallback {
     public:
-        bool invoke(phys::ContactPointInfo::ShouldDisableContact* a1,
-                    const phys::ContactPointInfo::Event& a2) override;
+        bool invoke(phys::ContactPointInfo::ShouldDisableContact* disable,
+                    const phys::ContactPointInfo::Event& event) override;
+
+        /* 0x08 */ u8 _8;  // flags (CarriedData tests bit 0 and counts the set bits)
+        /* 0x09 */ u8 _9[0x10 - 0x9];
+        /* 0x10 */ u8 _10;  // flags (bit 2: the contact point info points at `_1c8`; bit 0: the chemical carrier is set)
     };
     /* 0x1c8 */ ContactCallback _1c8;
-    /* 0x1d0 */ u8 _1d0;  // flags (CarriedData tests bit 0 and counts the set bits)
-    /* 0x1d1 */ u8 _1d1[0x1d8 - 0x1d1];
-    /* 0x1d8 */ u8 _1d8;  // flags (bit 2: the contact point info points at `_1c8`)
-    /* 0x1d9 */ u8 _1d9[0x1e0 - 0x1d9];
 };
 KSYS_CHECK_SIZE_NX150(Unk_7100e4e084, 0x1e0);
 

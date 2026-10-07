@@ -1,6 +1,7 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <container/seadPtrArray.h>
 #include <container/seadSafeArray.h>
 #include <heap/seadDisposer.h>
 #include <prim/seadBitFlag.h>
@@ -115,7 +116,15 @@ public:
 
     /* 0x028 */ u8 _28[0x7a8 - 0x28];
     /* 0x7a8 */ sead::SafeArray<TargetList, 8> mLists;
-    /* 0xa28 */ u8 _a28[0xc18 - 0xa28];
+    // Six more target lists after mLists (0x50 bytes each: a fixed pointer array of 8 clients); sub_7100D74FEC removes a
+    // client from the first three, sub_7100D750E0 from the last three.
+    /* 0xa28 */ sead::FixedPtrArray<AttClient, 8> _a28;
+    /* 0xa78 */ sead::FixedPtrArray<AttClient, 8> _a78;
+    /* 0xac8 */ sead::FixedPtrArray<AttClient, 8> _ac8;
+    /* 0xb18 */ sead::FixedPtrArray<AttClient, 8> _b18;
+    /* 0xb68 */ sead::FixedPtrArray<AttClient, 8> _b68;
+    /* 0xbb8 */ sead::FixedPtrArray<AttClient, 8> _bb8;
+    /* 0xc08 */ u8 _c08[0xc18 - 0xc08];
     /* 0xc18 */ void* _c18;  // set by setController (RootTask::calc)
     /* 0xc20 */ PlayerLink* _c20;
     /* 0xc28 */ void* _c28;  // set by setSomeFn

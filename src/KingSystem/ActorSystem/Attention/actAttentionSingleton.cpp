@@ -141,6 +141,24 @@ void Attention::sub_7100D74D78(AttClient* client) {
     }
 }
 
+void Attention::sub_7100D74FEC(AttClient* client) {
+    if (const s32 idx = _a28.indexOf(client); idx != -1)
+        _a28.erase(idx);
+    if (const s32 idx = _a78.indexOf(client); idx != -1)
+        _a78.erase(idx);
+    if (const s32 idx = _ac8.indexOf(client); idx != -1)
+        _ac8.erase(idx);
+}
+
+void Attention::sub_7100D750E0(AttClient* client) {
+    if (const s32 idx = _b18.indexOf(client); idx != -1)
+        _b18.erase(idx);
+    if (const s32 idx = _b68.indexOf(client); idx != -1)
+        _b68.erase(idx);
+    if (const s32 idx = _bb8.indexOf(client); idx != -1)
+        _bb8.erase(idx);
+}
+
 s32 Attention::getTargetCount(s32 list) const {
     return mLists[list].mCount;
 }
