@@ -79,11 +79,12 @@ public:
 
 // Placeholder name (SoundMgr::_38).
 struct Unk_SoundMgr38 {
-    // 0x710102c104 (declared only; 8 B): returns `_28`.
+    // 0x710102c104: returns `_28`.
     Unk_SoundMgr38_28* sub_710102C104() const;
 
-    u8 _0[0x30];
-    SpeakerBalanceUnifierMgr* _30;
+    u8 _0[0x28];
+    /* 0x28 */ Unk_SoundMgr38_28* _28;
+    /* 0x30 */ SpeakerBalanceUnifierMgr* _30;
 };
 
 // Name from the CSV (snd::DuckingMgr::startDucking 0x7101042078; ctor 0x710103e404, init 0x710103e58c).
