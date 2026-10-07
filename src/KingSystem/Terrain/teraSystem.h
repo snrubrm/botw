@@ -1,6 +1,8 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <math/seadVector.h>
+#include "KingSystem/Utils/Types.h"
 
 namespace sead {
 class Heap;
@@ -17,10 +19,63 @@ class ApertureMapsCollector {
     void releaseImage();
 };
 class Core {
-    class Grass;
+public:
+    class Grass {
+    public:
+        void sub_7101150990(bool enabled);
+        void sub_7101150A7C(const sead::Vector3f* pos, f32 radius, f32 value);
+    };
     class Model;
     class Tree;
+
+    u8 _0[0xf0];
+    void* _f0;
+    void* _f8;
+    u8 _100[0x38];
+    Grass* _138;
+    void* _140;
+    u8 _148[0x20];
+    u8 _168[0x214];
+    u8 _37c;
 };
+
+// Terrain is the CSV name of the singleton at 0x7102620698.
+// The bases and the remaining members are not modeled yet.
+class Terrain {
+public:
+    static Terrain* sInstance;
+    static Terrain* instance() { return sInstance; }
+
+    bool isGrassEnabled() const { return (_a58 & 2) != 0; }
+    Core::Grass* sub_710114DE4C();
+    Core::Grass* sub_710114DE58();
+    void* sub_710114DE64();
+    void* sub_710114DE70();
+    void sub_710114DE7C(bool value);
+    bool sub_710114DE9C();
+    void* sub_710114DEE0();
+    bool sub_710114DD40();
+    f64 sub_710114D9E8();
+    void* sub_710114DED4();
+    void* sub_710114D8D0();
+    struct Unk_710114D8E4 {
+        u8 _0[0x10];
+        sead::Vector2f _10;
+        f32 _18;
+    };
+    sead::Vector2f sub_710114D8E4(const Unk_710114D8E4* params);
+    f32 sub_710114D8F8(const Unk_710114D8E4* params);
+
+    u8 _0[0x360];
+    Core* _360;
+    u8 _368[0x60];
+    f32 _3c8;
+    u8 _3cc[0x67c];
+    f64 _a48;
+    void* _a50;
+    u32 _a58;
+};
+KSYS_CHECK_SIZE_NX150(Terrain, 0xa60);
 class ImageResourceMgr {
     void procUnloadResidualRequest();
 };
