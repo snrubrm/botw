@@ -427,6 +427,10 @@ static_assert(sizeof(Unk_SoundInstance) == 0x498);
 // Placeholder name (SoundMgr::_a8): the manager of the sound instances the AreaTagAction family hold at +0xa0.
 class Unk_SoundMgra8 {
 public:
+    Unk_SoundMgra8();
+    virtual ~Unk_SoundMgra8();
+    void sub_710104B404(sead::Heap* heap);
+    void sub_710104B408();
     // 0x710104b554 (CSV nullsub_4415): releases `instance`.
     void sub_710104B554(Unk_SoundInstance* instance);
     // 0x710104b558 (132 B): the volume the sound instance list gives `actor` (the first non-negative value of the
@@ -442,7 +446,6 @@ public:
     // 0x710104b7d0: increments (under the critical section) and returns the counter at +0x4a70.
     int sub_710104B7D0();
 
-    u8 _0[8];
     /* 0x8 */ sead::CriticalSection mCS;
     /* 0x48 */ bool _48;
     /* 0x49 */ bool _49;
@@ -450,7 +453,9 @@ public:
     /* 0x50 */ sead::PtrArray<Unk_SoundInstance> _50;
     u8 _60[0x4a70 - 0x60];
     /* 0x4a70 */ u16 _4a70;
+    /* 0x4a72 */ u16 _4a72;
 };
+KSYS_CHECK_SIZE_NX150(Unk_SoundMgra8, 0x4a78);
 
 // 2026-10-07: constructor 0x710105a6f0 and node-offset setup 0x710105a718 identify
 // the SoundMgr +0xa0 proxy list manager. Bodies remain owned by the sound subsystem.
