@@ -61,9 +61,20 @@ public:
     // 0x7101037f7c: stores `value` in the byte at +0x39c.
     void sub_7101037F7C(bool value);
 
-    u8 _0[0x398];
+    u8 _0[0x328];
+    /* 0x328 */ bool _328;
+    /* 0x32c */ sead::Vector3f mBoxMin;
+    /* 0x338 */ sead::Vector3f mBoxMax;
+    /* 0x344 */ u8 _344;
+    u8 _345[0x398 - 0x345];
     /* 0x398 */ f32 _398;
     /* 0x39c */ bool _39c;
+    u8 _39d[0x3c0 - 0x39d];
+    /* 0x3c0 */ void* _3c0;
+    /* 0x3c8 */ void* _3c8;
+    u8 _3d0[0x3d8 - 0x3d0];
+    /* 0x3d8 */ sead::Vector3f mBoxCenter;
+    /* 0x3e4 */ sead::Vector3f mBoxSize;
 };
 
 // Placeholder name (SoundMgr::_38).
