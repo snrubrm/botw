@@ -6,6 +6,8 @@
 #include "KingSystem/ActorSystem/actClusteredRenderer.h"
 #include "KingSystem/ActorSystem/actInfoData.h"
 #include "KingSystem/ActorSystem/actInstParamPack.h"
+#include "Game/gameScene.h"
+#include "Game/gameVillagerMgr.h"
 #include "KingSystem/Graphics/gfxForestRenderer.h"
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Map/mapStagePreActorCache.h"
@@ -353,6 +355,13 @@ bool PlacementMgr::sub_71011EB450(const void* p) {
     return false;
 }
 
+
+void PlacementMgr::sub_71011E6E8C() {
+    if (mThreadStarted && !mFlags.isOn(MgrFlag::_2) && mFlags.isOn(MgrFlag::_2000000) && !mFlags.isOn(MgrFlag::_100) &&
+        getSceneStatus() == 0) {
+        mVillagerMgr->sub_7100D5EB2C();
+    }
+}
 
 bool PlacementMgr::sub_71011EBFBC(Object* obj) {
     for (s32 i = 0; i < mNumEventObjs; ++i) {

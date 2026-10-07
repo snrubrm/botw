@@ -74669,7 +74669,7 @@ Address,Quality,Size,Name
 0x0000007100d5e6fc,U,000120,VillagerMgr::dtor
 0x0000007100d5e774,U,000128,VillagerMgr::dtorDelete
 0x0000007100d5e7f4,U,000824,VillagerMgr::init
-0x0000007100d5eb2c,U,000516,
+0x0000007100d5eb2c,U,000516,_ZN5uking11VillagerMgr14sub_7100D5EB2CEv
 0x0000007100d5ed30,U,000704,VillagerMgr::x
 0x0000007100d5eff0,U,000964,VillagerMgr::x_0
 0x0000007100d5f3b4,U,000340,VillagerMgr::x_1
@@ -92947,7 +92947,7 @@ Address,Quality,Size,Name
 0x00000071011e6c60,O,000268,_ZN4ksys3map12PlacementMgr14sub_71011E6C60Ev
 0x00000071011e6d6c,O,000248,_ZN4ksys3map12PlacementMgr14printDebugInfoEv
 0x00000071011e6e64,O,000040,_ZN4ksys3map12PlacementMgr21isStaticCompoundReadyERKN4sead7Vector3IfEEb
-0x00000071011e6e8c,U,000084,
+0x00000071011e6e8c,O,000084,_ZN4ksys3map12PlacementMgr14sub_71011E6E8CEv
 0x00000071011e6ee0,O,000204,_ZN4ksys3map12PlacementMgr14sub_71011E6EE0Ev
 0x00000071011e6fac,O,000016,_ZN4ksys3map12PlacementMgr16incrementCounterEv
 0x00000071011e6fbc,O,000172,_ZN4ksys3map12PlacementMgr1xEv

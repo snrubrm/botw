@@ -162,6 +162,9 @@ public:
     void sub_71011EB428(const sead::Vector3f* pos, f32 radius, bool x,
                         sead::IDelegate1R<Unk_71012497f8Entry*, bool>* callback);
     bool sub_71011EB450(const void* p);
+    // 0x71011e6e8c (placeholder name): once the placement thread runs, tells the villager manager (while the scene status is 0
+    // and the manager flags `_2000000` (only) are set).
+    void sub_71011E6E8C();
     // 0x71011ebfbc (placeholder name; called by evt::ActorBase::m4): registers `obj` (false if it already is).
     bool sub_71011EBFBC(Object* obj);
     // 0x71011ec01c (placeholder name; called by evt::ActorBase::m5): unregisters `obj`.
