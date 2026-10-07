@@ -1,4 +1,5 @@
 target_sources(uking PRIVATE
+  sndBgmList.cpp
   sndBgmMgr.h
   sndDuckingMgr.cpp
   sndInfoData.cpp

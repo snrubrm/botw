@@ -1,4 +1,5 @@
 #include "KingSystem/Map/mapObjectLink.h"
+#include "KingSystem/Map/mapLinkTag.h"
 #include <container/seadBuffer.h>
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/Map/mapObject.h"
@@ -473,6 +474,17 @@ bool ObjectLinkData::sub_7100D4EF30(const act::ActorConstDataAccess& accessor) {
         }
     }
     return false;
+}
+
+bool ObjectLinkData::sub_7100D4F0F0(sead::Matrix34f* mtx) {
+    auto* link = mLinksToSelf.findLinkWithType(MapLinkDefType::MtxCopyCreate);
+    if (!link)
+        return false;
+    auto* proc = link->other_obj ? link->other_obj->tryGetProc(false) : nullptr;
+    auto* tag = sead::DynamicCast<LinkTag>(proc);
+    if (!tag)
+        return false;
+    return tag->sub_7100D39D60(mtx);
 }
 
 bool ObjectLinkData::sub_7100D4F6A4(act::ActorLinkConstDataAccess& accessor, MapLinkDefType type) {

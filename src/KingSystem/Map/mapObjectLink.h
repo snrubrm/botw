@@ -2,6 +2,7 @@
 
 #include <basis/seadTypes.h>
 #include <container/seadBuffer.h>
+#include <math/seadMatrix.h>
 #include "KingSystem/Map/mapMubinIter.h"
 #include "KingSystem/Utils/Types.h"
 
@@ -123,6 +124,9 @@ public:
     bool x_0();
     // 0x7100d4f908 / 0x7100d4f928: mGenGroup's atomic counter at +8.
     void incrementGenGroupNumPrepareDelete();
+    // 0x7100d4f0f0 (placeholder name): the matrix of the actor of the LinkTag that the MtxCopyCreate link of the links to self
+    // refers to (LinkTag::sub_7100D39D60); false if there is none.
+    bool sub_7100D4F0F0(sead::Matrix34f* mtx);
     // 0x7100d4f824 (CSV PlacementLinkData::x_9; declaration only): called by LinkTag::canWakeUp_ after x_8.
     void sub_7100D4F824();
     // Declaration only: 0x7100d4f884, called by Actor::unlinkPlacementObj.

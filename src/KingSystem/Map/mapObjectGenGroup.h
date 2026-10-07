@@ -43,6 +43,8 @@ public:
     void sub_7100D510D0();
     u8 sub_7100D510FC();
     void sub_7100D51250(bool a1, u32 a2);
+    // 0x7100d513f4 (placeholder name): sets (`on`) or clears the hard mode flag bit `*bit` of every object.
+    void sub_7100D513F4(const u32* bit, bool on);
     bool sub_7100D51330(const u32* a1);
     bool checkContainsObjWithName(const sead::SafeString& name, const u32* mode);
 

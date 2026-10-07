@@ -531,6 +531,12 @@ void Object::spawnGenGroupActorsIfNeeded(Object* obj) {
         mLinkData->sub_7100D4FB78(obj);
 }
 
+void Object::sub_7100D4AF3C(f32 dist) {
+    mTraverseDist = dist;
+    if (mTraverseDistInt > dist)
+        mTraverseDistInt = dist;
+}
+
 void Object::setFieldATrue() {
     if (mActorFlags8.isOn(ActorFlag8::MapPassive) || mActorFlags8.isOn(ActorFlag8::_8)) {
         mActorFlags8.reset(ActorFlag8::MapPassive);

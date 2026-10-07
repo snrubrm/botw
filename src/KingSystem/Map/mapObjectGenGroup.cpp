@@ -180,6 +180,16 @@ void GenGroup::sub_7100D51250(bool a1, u32 a2) {
 }
 
 // NON_MATCHING: same code, different register allocation (x10 / x11 swapped)
+// NON_MATCHING: same loop; the original computes the end pointer and the odd-count test before it branches on `on`.
+void GenGroup::sub_7100D513F4(const u32* bit, bool on) {
+    for (auto& obj : mObjects) {
+        if (on)
+            obj.mHardModeFlags.set(Object::HardModeFlag(1 << *bit));
+        else
+            obj.mHardModeFlags.reset(Object::HardModeFlag(1 << *bit));
+    }
+}
+
 bool GenGroup::sub_7100D51330(const u32* a1) {
     for (auto& obj : mObjects) {
         if (obj.getActorData().mFlags.isOnBit(ActorData::Flag(*a1)))

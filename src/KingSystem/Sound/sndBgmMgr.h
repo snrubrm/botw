@@ -1,7 +1,9 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <container/seadOffsetList.h>
 #include <prim/seadSafeString.h>
+#include <thread/seadCriticalSection.h>
 
 namespace ksys::snd {
 
@@ -13,6 +15,22 @@ public:
     void sub_71010078A0(const sead::SafeString& name);
     // 0x7101007904 (92 B): stops the BGM `name` with a fade of `fade_sec` seconds.
     void sub_7101007904(f32 fade_sec, const sead::SafeString& name);
+};
+
+class Bgm;
+
+// Placeholder name (ctor 0x71010073f4, constructed by the BgmMgr's init 0xff7f14): a list of BGM objects (their list node
+// is at +0x190) guarded by a critical section.
+class Unk_71010073f4 {
+public:
+    // 0x71010073f4
+    Unk_71010073f4();
+    // 0x7101007440 (D1) / 0x7101007454 (D0)
+    virtual ~Unk_71010073f4();
+
+private:
+    sead::OffsetList<Bgm> mList;
+    sead::CriticalSection mCS;
 };
 
 // Placeholder name (SoundMgr::_30): the BGM side of the sound manager.

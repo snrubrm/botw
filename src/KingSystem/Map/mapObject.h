@@ -29,6 +29,7 @@ class LinkTag;
 
 class Object {
     friend class PlacementActors;
+    friend class GenGroup;
 
 public:
     // TODO: rename
@@ -129,6 +130,8 @@ public:
     void setRevivalFlagValueIf(ActorData::Flag bit, bool value);
     void setRevivalFlagValue(bool value);
     void setFieldATrue();
+    // 0x7100d4af3c (placeholder name): sets the traverse distance; the integer copy is lowered to it if it is above.
+    void sub_7100D4AF3C(f32 dist);
 
     sead::Vector3f getScale() const;
     sead::Vector3f getRotate() const;
@@ -247,7 +250,7 @@ private:
     u32 mHashId = 0;
     sead::Vector3f mTranslate;
     f32 mTraverseDist = 0.0;
-    u16 mTraverseDistInt = 0;
+    s16 mTraverseDistInt = 0;
     sead::TypedBitFlag<HardModeFlag, u8> mHardModeFlags;
 };
 KSYS_CHECK_SIZE_NX150(Object, 0x70);
