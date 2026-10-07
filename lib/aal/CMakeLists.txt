@@ -22,6 +22,7 @@ add_library(aal OBJECT
   include/aal/aalCone.h
   include/aal/aalCurveReader.h
   include/aal/aalResourceHeader.h
+  include/aal/aalDebugDrawUtil.h
   include/aal/aalDebuggerResult.h
   include/aal/aalDecibel.h
   include/aal/aalMemoryPool.h
@@ -92,6 +93,7 @@ add_library(aal OBJECT
   src/aalAssetInfo.cpp
   src/aalAudioMetaReader.cpp
   src/aalCone.cpp
+  src/aalDebugDrawUtil.cpp
   src/aalDebuggerResult.cpp
   src/aalDecibel.cpp
   src/aalCustomCurve.cpp
