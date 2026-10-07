@@ -1,4 +1,5 @@
 #include "KingSystem/World/worldWindMgr.h"
+#include "KingSystem/World/worldManager.h"
 
 namespace ksys::world {
 
@@ -40,6 +41,24 @@ f32 WindMgr::x_0() {
 // NON_MATCHING: the inlined strength calculation has the same differences as sub_71010EEF04.
 f32 WindMgr::x_1() {
     return _20->sub_71012FF268(sub_71010EEF04());
+}
+
+// NON_MATCHING: vector component copies and normalization scheduling differ slightly.
+void WindMgr::sub_71010EEA98(sead::Vector3f* out, const sead::Vector3f* position) {
+    if (_28 & 6) {
+        *out = _40;
+        out->normalize();
+        return;
+    }
+    if (auto* manager = Manager::instance())
+        *out = position ? manager->getWindDirection(*position) : manager->getWindDirection();
+    out->normalize();
+}
+
+f32 WindMgr::sub_71010EECE8(const sead::Vector3f* position, f32 value) {
+    if (_28 & 0x10)
+        return sub_71010EECF8(position, value);
+    return sub_71010EEC04();
 }
 
 }  // namespace ksys::world

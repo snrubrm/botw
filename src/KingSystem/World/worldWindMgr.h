@@ -28,6 +28,9 @@ public:
 
     void sub_71010EEBE4(sead::Vector3f* out, const sead::Vector3f* position);
     void sub_71010EEA98(sead::Vector3f* out, const sead::Vector3f* position);
+    f32 sub_71010EECE8(const sead::Vector3f* position, f32 value);
+    f32 sub_71010EECF8(const sead::Vector3f* position, f32 value);
+    f32 sub_71010EEC04();
     nn::gfx::ResTextureData* sub_71010EEEE8();
     f32 sub_71010EEF48() const;
     f32 sub_71010EEF04() const;
@@ -38,7 +41,8 @@ public:
     u8 _28;
     u8 _29[0x34 - 0x29];
     sead::Vector3f _34;
-    u8 _40[0x68 - 0x40];
+    sead::Vector3f _40;
+    u8 _4c[0x68 - 0x4c];
     f32 _68;
     u8 _6c[0x80 - 0x6c];
     f32 _80;
