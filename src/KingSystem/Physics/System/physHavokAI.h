@@ -40,6 +40,10 @@ public:
 // HavokAI::_48). The navmesh tile loader: tiles are requested by world position (x, z).
 class NavMeshLoadMgr {
 public:
+    NavMeshLoadMgr();
+    virtual ~NavMeshLoadMgr();
+    // 0x7100f898e4: releases the loaded Havok tile resources (declared only).
+    void sub_7100F898E4();
     // Placeholder: a resource handle with the tile it was requested for.
     struct TileHandle : public res::Handle {
         /* 0x50 */ s32 _50;
@@ -62,21 +66,18 @@ public:
     // 0x7100f8a670 (CSV NavMeshLoadMgr::x_3; declared only): called with the same handle twice.
     void x_3(TileHandle* a, TileHandle* b);
 
-    /* 0x000 */ u8 _0[8];
     /* 0x008 */ u32 _8;
     // 0x7100f8a3b8 (CSV NavMeshLoadMgr::a; declared only): requests the tile of the handle.
     void a(TileHandle* handle);
     /* 0x010 */ Unk10* _10;
-    /* 0x018 */ u8 _18[0x130 - 0x18];
+    /* 0x018 */ sead::FixedSafeString<256> _18;
     /* 0x130 */ sead::CriticalSection _130;
-    /* 0x170 */ s32 _170;  // origin of the tile grid (x / z)
-    /* 0x174 */ s32 _174;
-    /* 0x178 */ s32 _178;  // tile size (x / z)
-    /* 0x17c */ s32 _17c;
-    /* 0x180 */ s32 _180;  // tile counts (x / z)
-    /* 0x184 */ s32 _184;
-    /* 0x188 */ s32 _188;  // the current tile (x / z)
-    /* 0x18c */ s32 _18c;
+    // 2026-10-07: ctor 0x7100f89800 loads Vector2i::zero for the first three pairs;
+    // zero constant 0x7101e9fee8 was recovered by libwork (sead 258c4224).
+    /* 0x170 */ sead::Vector2i _170;  // origin (x / z)
+    /* 0x178 */ sead::Vector2i _178;  // tile size (x / z)
+    /* 0x180 */ sead::Vector2i _180;  // tile counts (x / z)
+    /* 0x188 */ sead::Vector2i _188;  // current tile (x / z)
     /* 0x190 */ bool _190;  // disabled
 };
 

@@ -3,6 +3,11 @@
 #include <basis/seadTypes.h>
 #include <math/seadVector.h>
 #include <prim/seadDelegate.h>
+#include <prim/seadBitFlag.h>
+
+namespace gsys {
+class Model;
+}
 
 namespace ksys::map {
 struct Unk_71012497f8Entry;
@@ -28,7 +33,15 @@ public:
     void sub_71012497F8(const sead::Vector3f* pos, f32 radius, bool x,
                         sead::IDelegate1R<map::Unk_71012497f8Entry*, bool>* callback);
 
-    u8 _0[0xc9c];
+    // 2026-10-07: requestDraw at 0x7101247448 reads this model and these counters.
+    u8 _0[0x108];
+    gsys::Model* _108;
+    u8 _110[0xc38 - 0x110];
+    u32 _c38;
+    u32 _c3c;
+    u8 _c40[4];
+    s32 _c44;
+    u8 _c48[0xc9c - 0xc48];
     u32 _c9c;
 };
 

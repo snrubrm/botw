@@ -113,3 +113,20 @@ void Unk_71012419b4::fadeXLink() {
     mELink.fade();
     mSLink.fade();
 }
+
+bool Unk_71012419b4::sub_7101241AD8(int kind) {
+    switch (kind) {
+    case 0:
+        return mELink.isActive();
+    case 1:
+        return mSLink.isActive();
+    case 2:
+        return mELink.isActive() && mSLink.isActive();
+    default:
+        return false;
+    }
+}
+
+bool Unk_71012419b4::sub_7101241B6C() const {
+    return mELink.isActive() || mSLink.isActive();
+}

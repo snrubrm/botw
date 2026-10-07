@@ -1,5 +1,7 @@
 #include "Game/Actor/actUnk_710244eb00.h"
 #include <basis/seadNew.h>
+#include <gsys/gsysModel.h>
+#include <gsys/gsysModelUnit.h>
 #include "KingSystem/ActorSystem/Awareness/actAITerror.h"
 #include "KingSystem/ActorSystem/actGlobalParameter.h"
 #include "KingSystem/ActorSystem/actActor.h"
@@ -70,6 +72,42 @@ void Unk_710244eb00::sub_71006E1FD0() {
         if (param)
             _10->x(2, 0x10, param->mSpeedTerrorLevelHuge.ref());
     }
+}
+
+// NON_MATCHING: inline terror-level updates schedule their small enum temporaries before the tuning loads.
+void Unk_710244eb00::m3() {
+    if (!_10)
+        return;
+    _18 = 0;
+    const auto* global = ksys::act::GlobalParameter::instance();
+    const auto* param = global ? global->getGlobalParam() : nullptr;
+    f32 radius = 1.0f;
+    if (auto* model = _8->getModel()) {
+        if (auto* unit = model->getUnits().unsafeAt(0)->mModelUnit)
+            radius = _8->getScale().x * unit->getBoundSphere()->getRadius();
+    }
+    if (param) {
+        // 2026-10-07: original b.ge selects the huge level; an unordered radius takes the small branch.
+        if (radius >= param->mSpeedTerrorLevelCheckRadius.ref())
+            sub_71006E1FD0();
+        else
+            sub_71006E2024();
+    }
+    _10->setRadius(radius + (param ? param->mTerrorRadiusOffset.ref() : 0.0f));
+    _10->_b0.set(1);
+}
+
+void Unk_710244eb00::sub_71006E2440(bool value) {
+    if (!_10)
+        return;
+    const auto* global = ksys::act::GlobalParameter::instance();
+    const auto* param = global ? global->getGlobalParam() : nullptr;
+    f32 radius = 1.0f;
+    if (auto* model = _8->getModel()) {
+        if (auto* unit = model->getUnits().unsafeAt(0)->mModelUnit)
+            radius = _8->getScale().x * unit->getBoundSphere()->getRadius();
+    }
+    _10->setRadius(radius + (param && value ? param->mTerrorRadiusOffset.ref() : 0.0f));
 }
 
 }  // namespace uking::act
