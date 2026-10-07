@@ -27,6 +27,8 @@ public:
 
     virtual s32 m45();
 
+    // 0x710042cd84 (placeholder name): emits the aim effect `mAimEffectName_s` (the old ELink is killed first).
+    void startAimEffect();
     // 0x710042cfa4 (placeholder name; declared only): updates the aim guide beam towards `target`.
     void sub_710042CFA4(const sead::Vector3f& target);
 

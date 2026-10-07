@@ -17,6 +17,27 @@ bool MiniBeamAttack::init_(sead::Heap* heap) {
 
 void MiniBeamAttack::enter_(ksys::act::ai::InlineParamPack* params) {
     BreathAttackEnemyBattle::enter_(params);
+    if (isCurrentChild("戦闘準備")) {
+        if (*mIsValidGuide_s) {
+            const s32 fluctuation_time = m45();
+            // The original evaluates the Enemy cast of the actor and drops the result (discarded call: logged).
+            sead::DynamicCast<act::Enemy>(mActor);
+            _100.init(mActor, "Target", "Laser", "", "BeamSightSearch", "BeamSightLocking",
+                      "BeamSightLocked", *mFluctuationRange_s, *mFluctuationSpan_s,
+                      f32(fluctuation_time), *mTargetOffsetY_s, sub_71005D9330(mActor), mNodeName_s,
+                      sead::Vector3f::zero);
+        }
+        startAimEffect();
+    }
+    if (*mIsIgnoreSmallHit_s)
+        setDamageCallbackTiming(mActor, 4, &_1f8);
+}
+
+void MiniBeamAttack::startAimEffect() {
+    if (mAimEffectName_s.isEmpty())
+        return;
+    _230.mELink.kill();
+    xlinkSearchAndEmit(mActor, mAimEffectName_s.cstr(), 2, &_230);
 }
 
 void MiniBeamAttack::calc_() {
