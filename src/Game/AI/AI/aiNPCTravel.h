@@ -4,6 +4,7 @@
 #include <thread/seadCriticalSection.h>
 #include "Game/AI/AI/aiNPCTravelBase.h"
 #include "Game/AI/aiLockedProcLink.h"
+#include "Game/AI/aiUnk_71024f1658.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Utils/Thread/MessageTransceiverId.h"
@@ -53,8 +54,10 @@ protected:
     u8 _1a8[0x10];
     u64 _1b8 = 0;
     u64 _1c0 = 0;
-    u8 _1c8[0x30];
-    u8 _1f8[0x7b8];  // a large embedded object (ctor 0x7100eec734); NPC::_840 points to it
+    /* 0x1c8 */ u64 _1c8 = 0;
+    /* 0x1d0 */ sead::SafeString _1d0;
+    u8 _1e0[0x1f8 - 0x1e0];
+    /* 0x1f8 */ Unk_71024f1658 _1f8;
     bool _9b0 = false;
 };
 
