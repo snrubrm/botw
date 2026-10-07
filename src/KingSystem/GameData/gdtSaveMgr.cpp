@@ -522,6 +522,19 @@ bool SaveMgr::enableGdtMgrChangeOnlyMode(s32 x) {
     return true;
 }
 
+void SaveMgr::x_7() {
+    _f98 = gdt::Manager::instance()->mFlagBuffer;
+    x_8(_f98->mCopiedBoolFlags);
+    x_11(_f98->mCopiedS32Flags);
+    x_12(_f98->mCopiedF32Flags);
+    x_13(_f98->mCopiedStringFlags);
+    x_14(_f98->mCopiedString64Flags);
+    x_15(_f98->mCopiedString256Flags);
+    x_16(_f98->mCopiedVector2fFlags);
+    x_17(_f98->mCopiedVector3fFlags);
+    sub_7100E07E3C(_f98->mCopiedVector4fFlags);
+}
+
 // NON_MATCHING: redundant bounds checks and loop index scheduling differ.
 void SaveMgr::someCheck_0(gdt::FlagT<bool>* flag) {
     if (!flag)

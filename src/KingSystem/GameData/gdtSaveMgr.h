@@ -6,6 +6,7 @@
 #include <mc/seadCoreInfo.h>
 #include <prim/seadSafeString.h>
 #include "KingSystem/Utils/Types.h"
+#include "KingSystem/GameData/gdtTriggerParam.h"
 #include "KingSystem/Resource/resResourceGameSaveData.h"
 #include "KingSystem/Resource/resHandle.h"
 #include <container/seadSafeArray.h>
@@ -87,6 +88,16 @@ public:
     bool x_1(s32 index, const sead::SafeString& path, bool a, bool byte_swap);
     bool sub_7100E041D0(s32 index, const sead::SafeString& file_name);
     bool sub_7100E04810(s32 index, const sead::SafeString& file_name);
+    void x_7();
+    void x_8(const sead::ObjArray<gdt::TriggerParam::FlagCopyRecord>& records);
+    void x_11(const sead::ObjArray<gdt::TriggerParam::FlagCopyRecord>& records);
+    void x_12(const sead::ObjArray<gdt::TriggerParam::FlagCopyRecord>& records);
+    void x_13(const sead::ObjArray<gdt::TriggerParam::FlagCopyRecord>& records);
+    void x_14(const sead::ObjArray<gdt::TriggerParam::FlagCopyRecord>& records);
+    void x_15(const sead::ObjArray<gdt::TriggerParam::FlagCopyRecord>& records);
+    void x_16(const sead::ObjArray<gdt::TriggerParam::FlagCopyRecord>& records);
+    void x_17(const sead::ObjArray<gdt::TriggerParam::FlagCopyRecord>& records);
+    void sub_7100E07E3C(const sead::ObjArray<gdt::TriggerParam::FlagCopyRecord>& records);
     void someCheck_0(gdt::FlagT<bool>* flag);
     void someStuff(gdt::FlagT<s32>* flag);
     void auto4();

@@ -14,6 +14,10 @@
 #include "KingSystem/System/CoreInfo.h"
 #include "KingSystem/Utils/Types.h"
 
+namespace ksys {
+class SaveMgr;
+}
+
 namespace ksys::res {
 class GameData;
 }
@@ -461,6 +465,7 @@ public:
 
 private:
     friend class Manager;
+    friend class ksys::SaveMgr;
 
     enum class BitFlag : u8 {
         _1 = 1,
