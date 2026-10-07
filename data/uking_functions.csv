@@ -75969,7 +75969,7 @@ Address,Quality,Size,Name
 0x0000007100dac7b4,U,001492,EventPatroller::requestAndLoadOrder
 0x0000007100dacd88,U,000996,eventPatrolStuff
 0x0000007100dad16c,U,002916,EventPatroller::generateReportAndPostProcess
-0x0000007100dadcd0,U,002504,
+0x0000007100dadcd0,U,002504,_ZN4ksys3evt14sub_7100DADCD0EPNS0_11EventDebugBE
 0x0000007100dae698,U,000044,
 0x0000007100dae6c4,U,000772,EventPatroller::frameCameraAndRendererStuff
 0x0000007100dae9c8,U,000004,nullsub_3833
@@ -75995,7 +75995,7 @@ Address,Quality,Size,Name
 0x0000007100daf36c,U,000108,
 0x0000007100daf3d8,U,000140,EventMgr::createInstance
 0x0000007100daf464,U,000936,EventMgr::ctor
-0x0000007100daf80c,U,000076,EventMgr::patrolPreCalc
+0x0000007100daf80c,O,000076,_ZN4ksys3evt7Manager13patrolPreCalcEv
 0x0000007100daf858,U,001632,EventMgr::calc
 0x0000007100dafeb8,U,001556,EventMgr::processPendingEvents
 0x0000007100db04cc,U,000008,EventMgr::__auto12
@@ -76037,8 +76037,8 @@ Address,Quality,Size,Name
 0x0000007100db1c84,U,000140,
 0x0000007100db1d10,U,000564,EventMgr::init
 0x0000007100db1f44,U,000396,EventMgr::checkActiveContextEventName
-0x0000007100db20d0,W,000112,EventMgr::__auto11
-0x0000007100db2140,U,000236,EventMgr::__auto3
+0x0000007100db20d0,O,000112,_ZNK4ksys3evt7Manager14sub_7100DB20D0Ev
+0x0000007100db2140,O,000236,_ZN4ksys3evt7Manager14sub_7100DB2140EPNS_3act8BaseProcE
 0x0000007100db222c,O,000076,_ZN4ksys3evt7Manager14sub_7100DB222CEv
 0x0000007100db2278,O,000048,_ZNK4ksys3evt7Manager30getBaseProcLinkFromActiveEventERKN4sead14SafeStringBaseIcEES6_
 0x0000007100db22a8,O,000152,_ZNK4ksys3evt7Manager14sub_7100DB22A8Ev
@@ -76055,11 +76055,11 @@ Address,Quality,Size,Name
 0x0000007100db2884,O,000064,_ZN4ksys3evt7Manager14sub_7100DB2884Ev
 0x0000007100db28c4,O,000076,_ZNK4ksys3evt7Manager14getActiveEventEv
 0x0000007100db2910,m,000396,_ZNK4ksys3evt7Manager24isActiveEventNameEqualToERKN4sead14SafeStringBaseIcEES6_
-0x0000007100db2a9c,U,000128,EventMgr::x_3
+0x0000007100db2a9c,O,000128,_ZNK4ksys3evt7Manager14sub_7100DB2A9CERKNS0_20BaseProcLinkForEventE
 0x0000007100db2b1c,U,002484,_ZN4ksys3evt7Manager45someWeirdHardcodedCheck_KorokOrGanonOrBowlingEPNS_3act5ActorE
 0x0000007100db34d0,U,000640,EventMgr::loadSceneChangeEventFlow
-0x0000007100db3750,U,000112,EventMgr::__auto16
-0x0000007100db37c0,U,000128,EventMgr::setActorBeingDeletedOnContexts
+0x0000007100db3750,m,000112,_ZN4ksys3evt7Manager14sub_7100DB3750Ev
+0x0000007100db37c0,O,000128,_ZN4ksys3evt7Manager30setActorBeingDeletedOnContextsEPNS_3act8BaseProcE
 0x0000007100db3840,U,000004,j__ZdlPv_885
 0x0000007100db3844,U,000408,sinitEvent
 0x0000007100db39dc,O,000408,_ZN4ksys3evt8MetadataC1Ev
@@ -76110,7 +76110,7 @@ Address,Quality,Size,Name
 0x0000007100db7640,U,000584,evt::EventFlowBase::play
 0x0000007100db7888,O,000016,_ZN4ksys3evt13EventFlowBase8setFlag4Ev
 0x0000007100db7898,U,000388,evt::EventFlowBase::x_6
-0x0000007100db7a1c,U,003604,_ZN4ksys3evt13EventFlowBase3x_8Ev
+0x0000007100db7a1c,U,003604,_ZN4ksys3evt13EventFlowBase3x_8EPNS_3act8BaseProcE
 0x0000007100db8830,U,000356,
 0x0000007100db8994,O,000128,_ZN4ksys3evt13EventFlowBase3x_5EPS1_
 0x0000007100db8a14,O,000016,_ZN4ksys3evt13EventFlowBase14sub_7100DB8A14Ev
@@ -76143,7 +76143,7 @@ Address,Quality,Size,Name
 0x0000007100db9e64,O,000184,_ZN4ksys3evt7Context14getActorByNameERKN4sead14SafeStringBaseIcEES6_
 0x0000007100db9f1c,U,000856,evt::Context::callDemoFromEventFlow
 0x0000007100dba274,O,000056,_ZN4ksys3evt7Context14sub_7100DBA274Ev
-0x0000007100dba2ac,O,000056,_ZN4ksys3evt7Context14sub_7100DBA2ACEv
+0x0000007100dba2ac,O,000056,_ZN4ksys3evt7Context14sub_7100DBA2ACEPNS_3act8BaseProcE
 0x0000007100dba2e4,O,000048,_ZN4ksys3evt7Context23setNoDeleteCurrentActorEb
 0x0000007100dba314,O,000076,_ZNK4ksys3evt7Context12getEventNameEv
 0x0000007100dba360,O,000076,_ZNK4ksys3evt7Context17getEntryPointNameEv
@@ -95168,7 +95168,7 @@ Address,Quality,Size,Name
 0x00000071012770b8,O,000008,_ZNK4ksys3res12EntryFactoryINS0_13EventTimelineEE20getLoadDataAlignmentEv
 0x00000071012770c0,U,000004,nullsub_4753
 0x00000071012770c4,U,000144,EventMgrDebug::ctor
-0x0000007101277154,U,006872,evt::initDebugStuff
+0x0000007101277154,U,006872,_ZN4ksys3evt14sub_7101277154EPNS0_11EventDebugAE
 0x0000007101278c2c,U,001164,
 0x00000071012790b8,U,000004,j__ZdlPv_1275
 0x00000071012790bc,U,000364,

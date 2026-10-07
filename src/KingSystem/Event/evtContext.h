@@ -28,8 +28,8 @@ public:
     sead::SafeString getEntryPointName() const;
     // 0x7100dba274 (CSV unnamed): sets flag bit 0x1000000000 on every flow
     void sub_7100DBA274();
-    // 0x7100dba2ac (CSV unnamed): forwards to EventFlowBase::x_8 of the current flow
-    void sub_7100DBA2AC();
+    // 0x7100dba2ac (CSV unnamed): forwards `proc` to EventFlowBase::x_8 of the current flow
+    bool sub_7100DBA2AC(act::BaseProc* proc);
     // 0x7100dba3ac (CSV unnamed): ANDs EventFlowBase::sub_7100DB8BB8(a1) over all flows
     bool sub_7100DBA3AC(bool a1);
     // 0x7100db9e38 (CSV evt::Context::getActorByPointer)

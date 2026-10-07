@@ -127,6 +127,65 @@ EventXlinkInfo* Manager::sub_7100DB137C() const {
     return resource->_1b8;
 }
 
+// 0x7100db20d0
+bool Manager::sub_7100DB20D0() const {
+    if (_1d2b8) {
+        if (auto* flow = _1d2b8->getCurrentFlow()) {
+            if (flow->getEventFlowType() == 1)
+                return true;
+        }
+    }
+    return false;
+}
+
+// 0x7100db2a9c
+bool Manager::sub_7100DB2A9C(const BaseProcLinkForEvent& link) const {
+    return isActiveEventNameEqualTo(link.mMetadata.getEventName().cstr(),
+                                    link.mMetadata.getEntryPointName().cstr());
+}
+
+// NON_MATCHING: the original computes &mEventFlowMgr (0x1d2e0) and &_1d3e0 once up front and reloads the manager through
+// the address in each branch; ours recomputes the offsets per branch.
+// 0x7100db3750
+void Manager::sub_7100DB3750() {
+    if (_1d3e0) {
+        mEventFlowMgr->unload(_1d3e0);
+        _1d3e0 = nullptr;
+    }
+    if (_1d3e8) {
+        mEventFlowMgr->unload(_1d3e8);
+        _1d3e8 = nullptr;
+    }
+}
+
+// 0x7100db37c0
+void Manager::setActorBeingDeletedOnContexts(act::BaseProc* proc) {
+    for (s32 i = 0; i < 32; ++i) {
+        auto* context = mContexts[i];
+        if (context && _1d2b8 != context && context->mLink.hasProcById(proc))
+            context->setActorBeingDeleted();
+    }
+}
+
+// 0x7100daf80c
+void Manager::patrolPreCalc() {
+    if (_1d110)
+        sub_7101277154(_1d110);
+    if (_1d120)
+        sub_7100DADCD0(_1d120);
+}
+
+// 0x7100db2140
+bool Manager::sub_7100DB2140(act::BaseProc* proc) {
+    if (!_1d2b8)
+        return false;
+    if (auto* flow = _1d2b8->getCurrentFlow()) {
+        if (flow->mEntryPointName == "RollResult_Npc_Bowling_StepStart")
+            return false;
+    }
+    return _1d2b8->sub_7100DBA2AC(proc);
+}
+
 // 0x7100db2804
 bool Manager::finishedLoadingResidentData() {
     const bool finished = _1d378->finishedLoading();

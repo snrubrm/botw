@@ -25,11 +25,19 @@ namespace ksys::evt {
 class ActorFactory;
 class BaseProcLinkForEvent;
 class Context;
+class EventFlow;
 class EventFlowBase;
+class EventDebugA;
+class EventDebugB;
 class EventXlinkInfo;
 class EventMgrStruct1;
 struct CallArg;
 class Metadata;
+
+// 0x7101277154 (CSV evt::initDebugStuff; placeholder name and parameter type: the object at Manager + 0x1d110)
+void sub_7101277154(EventDebugA* debug);
+// 0x7100dadcd0 (CSV unnamed; placeholder name and parameter type: the object at Manager + 0x1d120)
+void sub_7100DADCD0(EventDebugB* debug);
 
 // The object at evt::Manager + 0x1d108 (placeholder class; only slot 21 is known: whether an event may start in the air).
 class StartableAirChecker {
@@ -163,6 +171,20 @@ public:
     // 0x7100db06ec (CSV EventMgr::isEventStartableAir_0; placeholder name): the "is_startable_air" key of the event's
     // info entry (false if there is none or the check is skipped)
     bool sub_7100DB06EC(const BaseProcLinkForEvent& link);
+    // 0x7100db2a9c (CSV EventMgr::x_3; placeholder name; called by PlayerDead::calc_): whether the active event is
+    // the one of the link's metadata
+    bool sub_7100DB2A9C(const BaseProcLinkForEvent& link) const;
+    // 0x7100daf80c (CSV EventMgr::patrolPreCalc): runs the debug objects at 0x1d110 / 0x1d120
+    void patrolPreCalc();
+    // 0x7100db2140 (CSV EventMgr::__auto3; placeholder name; called by Actor::onEnterCalc_): false without an active
+    // event or while its flow's entry point is the bowling "RollResult_Npc_Bowling_StepStart", else the active
+    // context's sub_7100DBA2AC(proc)
+    bool sub_7100DB2140(act::BaseProc* proc);
+    // 0x7100db3750 (CSV EventMgr::__auto16; placeholder name): unloads the two flows at 0x1d3e0 / 0x1d3e8
+    void sub_7100DB3750();
+    // 0x7100db37c0 (CSV EventMgr::setActorBeingDeletedOnContexts): for every context except the active one
+    // that has `proc` as an event actor
+    void setActorBeingDeletedOnContexts(act::BaseProc* proc);
     // 0x7100db235c (CSV EventMgr::getEventEntryPointName): copies the active context's string at 0xb8 to `out`
     bool getEventEntryPointName(sead::BufferedSafeString* out) const;
     // 0x7100db11d4 (CSV EventMgr::getStarterActor): the actor behind getBaseProcLinkForActorOrActiveLink(proc)
@@ -186,7 +208,10 @@ public:
 private:
     u8 pad_90[0x1d108 - 0x90];
     /* 0x1d108 */ StartableAirChecker* _1d108;
-    u8 pad_1d110[0x1d170 - 0x1d110];
+    /* 0x1d110 */ EventDebugA* _1d110;
+    u8 pad_1d118[0x1d120 - 0x1d118];
+    /* 0x1d120 */ EventDebugB* _1d120;
+    u8 pad_1d128[0x1d170 - 0x1d128];
     /* 0x1d170 */ s32 mAliveEventFlowCount;
     u8 pad_1d174[0x1d180 - 0x1d174];
     sead::Heap* mEventHeap;
@@ -216,6 +241,9 @@ public:
     /* 0x1d2f8 */ s32 _1d2f8;
     u8 pad_1d2fc[0x1d378 - 0x1d2fc];
     /* 0x1d378 */ EventSysActors* _1d378;
+    u8 pad_1d380[0x1d3e0 - 0x1d380];
+    /* 0x1d3e0 */ EventFlow* _1d3e0;
+    /* 0x1d3e8 */ EventFlow* _1d3e8;
 };
 
 }  // namespace ksys::evt

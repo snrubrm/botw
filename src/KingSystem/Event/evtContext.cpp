@@ -55,8 +55,8 @@ sead::SafeString Context::getEntryPointName() const {
 }
 
 // 0x7100dba2ac
-void Context::sub_7100DBA2AC() {
-    getCurrentFlow()->x_8();
+bool Context::sub_7100DBA2AC(act::BaseProc* proc) {
+    return getCurrentFlow()->x_8(proc);
 }
 
 // 0x7100dba3ac

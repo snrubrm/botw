@@ -176,8 +176,9 @@ public:
     bool x_4() const;
     // 0x7100db6c94 (CSV evt::EventFlowBase::x_1): 0 = not ready, 1 = loaded, 2 = loaded without extra model resources
     s32 x_1();
-    // 0x7100db7a1c (CSV evt::EventFlowBase::x_8, 3.6 KB; not decompiled): return type unknown
-    void x_8();
+    // 0x7100db7a1c (CSV evt::EventFlowBase::x_8, 3.6 KB; not decompiled): the (bool) result is returned unchanged by
+    // Context::sub_7100DBA2AC; the argument is an actor (`ldrb [x19, #0x519]`, getActorByPointer)
+    bool x_8(act::BaseProc* proc);
     // 0x7100db8bb8 (CSV unnamed; not decompiled)
     bool sub_7100DB8BB8(bool a1);
 
