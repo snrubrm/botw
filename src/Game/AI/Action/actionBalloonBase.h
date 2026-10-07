@@ -33,6 +33,8 @@ protected:
     // inline in the original (emitted out of line in this TU); signature is a guess
     virtual void m35(ksys::phys::RigidBody* a, ksys::phys::RigidBody* b, ksys::act::RopeBase* rope) {}
 
+    void sub_71000B782C(f32 value);
+
     // Placeholder names (out-of-line copies of helpers that leave_ / calc_ inline).
     // 0x71000b8054: cuts the rope hung from the balloon, tells the hung actor it is released and clears
     // the hung actor id.

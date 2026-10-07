@@ -162,4 +162,8 @@ bool BalloonBase::sub_71000B89DC() const {
     return mActor->getMtx().m[1][3] >= limit;
 }
 
+void BalloonBase::sub_71000B782C(f32 value) {
+    _a4 = value;
+}
+
 }  // namespace uking::action

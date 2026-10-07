@@ -34,4 +34,12 @@ void FollowChallenge::calc_() {
         _4b9 = false;
 }
 
+void FollowChallenge::sub_710004E108() {
+    _4bc = -*mGimmickTimeLimit_m;
+}
+
+bool FollowChallenge::sub_710004FA3C() {
+    return _4ba;
+}
+
 }  // namespace uking::action
