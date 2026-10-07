@@ -923,6 +923,8 @@ public:
     };
 
     // 0x710125c568
+    SkeltalAsset(const CreateArg& arg, s32 value);
+    // 0x710125c384 (declaration only)
     SkeltalAsset(const CreateArg& arg, s32 value, const res::ASResource* resource);
     static Element* make(const CreateArg& arg, s32 value, const res::ASResource* resource);
     ~SkeltalAsset() override;

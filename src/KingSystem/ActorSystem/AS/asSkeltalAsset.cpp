@@ -18,7 +18,7 @@ bool SkeltalAsset::m9(Context* ctx, PlayState* state, const res::ASResource* res
 }
 
 // NON_MATCHING: the original stores the two halfwords of the default key (0x12 then 0x10) in the other order.
-SkeltalAsset::SkeltalAsset(const CreateArg& arg, s32 value, const res::ASResource*)
+SkeltalAsset::SkeltalAsset(const CreateArg& arg, s32 value)
     : AnmAsset(arg, value, nullptr), _18(nullptr) {}
 
 SkeltalAsset::~SkeltalAsset() {}
