@@ -47,6 +47,21 @@ void ASList::sub_7101160ED4() {
     }
 }
 
+void ASList::sub_710115C53C() {
+    _68 = sead::Vector3f::zero;
+    _74 = sead::Vector3f::zero;
+    if (_8) {
+        if (auto* animation = _8->getAnimation()) {
+            animation->sub_7100BFDBF4(false);
+            animation->mASList = nullptr;
+        }
+    }
+    const s32 count = mSlots.size();
+    for (s32 i = 0; i < count; ++i)
+        mSlots[i].sub_7101164B5C(&_14, &_68, &_74);
+    _163 |= 1;
+}
+
 bool ASList::sub_7101160F88(const sead::SafeString& name,
                            gsys::AnimationAccessKey<gsys::SkeletalAnmType>* key) {
     sead::SafeString resolved_name;
