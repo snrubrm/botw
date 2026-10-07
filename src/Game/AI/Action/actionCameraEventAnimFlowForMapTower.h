@@ -11,6 +11,7 @@ public:
     explicit CameraEventAnimFlowForMapTower(const InitArg& arg);
 
 protected:
+    void m50(sead::BufferedSafeString* out) override;
 };
 
 }  // namespace uking::action
