@@ -279,6 +279,52 @@ void ScreenRupee::sub_7100A414A0() {
     close(-1);
 }
 
+// 0x7100a410d8
+void ScreenRupee::sub_7100A410D8(s32 a1) {
+    _36d0.lock();
+    const s32 mode = _3634;
+    if (a1 != 0) {
+        if (mode != 0) {
+            s32 cur = mode;
+            if (mode == 4) {
+                _3614 = ksys::gdt::getFlag_CurrentRupee(false);
+                cur = _3634;
+            }
+            if (cur >= a1) {
+                // called through a pointer in the original (not devirtualised)
+                const s32 state_id = mStateMachine.getState()->getId();
+                if (state_id == (&sUnk_71025f1d10)->getId()) {
+                    const s32 w = _3634;
+                    if (w == 2) {
+                        mStateMachine.changeState(&sUnk_71025f1c50);
+                    } else if (w == 3) {
+                        if (a1 == 3) {
+                            _361c.init(5.0f);
+                        } else {
+                            mStateMachine.changeState(&sUnk_71025f1c50);
+                        }
+                    }
+                }
+                _3634 = a1;
+            }
+            if (isOpened())
+                sub_7100A41264(_3634);
+            else
+                open(1);
+        }
+    } else if (mode != 0) {
+        if (mode == 4) {
+            open(1);
+        } else {
+            mStateMachine.startState(&sUnk_71025f1bf0);
+            open(2);
+        }
+        _3634 = 0;
+        _3614 = ksys::gdt::getFlag_CurrentTotalGetRupeeInMiniGame(false);
+    }
+    _36d0.unlock();
+}
+
 // 0x7100a41264
 void ScreenRupee::sub_7100A41264(s32 mode) {
     sead::ScopedLock<sead::CriticalSection> lock(&_36d0);
