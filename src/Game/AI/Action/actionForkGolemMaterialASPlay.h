@@ -2,6 +2,8 @@
 
 #include "KingSystem/ActorSystem/actAiAction.h"
 
+class Unk_71025afb58;
+
 namespace uking::action {
 
 class ForkGolemMaterialASPlay : public ksys::act::ai::Action {
@@ -23,7 +25,7 @@ protected:
     // static_param at offset 0x28
     sead::SafeString mASName_s{};
     // aitree_variable at offset 0x38
-    void* mGolemChemicalController_a{};
+    Unk_71025afb58** mGolemChemicalController_a{};
 };
 
 }  // namespace uking::action
