@@ -81,6 +81,8 @@ public:
     // 0x7100e04968 (CSV x; declared only): writes `size` bytes of `buffer` to the save file `path`.
     bool x(const sead::SafeString& path, void* buffer, u32 size);
     bool x_1(s32 index, const sead::SafeString& path, bool a, bool byte_swap);
+    bool sub_7100E041D0(s32 index, const sead::SafeString& file_name);
+    bool sub_7100E04810(s32 index, const sead::SafeString& file_name);
     void auto4();
 
     // Placeholder (type unknown): the object at +0x1020; EventAutoSaveAction calls its first virtual
@@ -113,7 +115,7 @@ private:
     u16 _142;
     u8 _144[4];
     s32 _148;
-    u8 _14c[0x80];
+    s32 _14c[32];
     u8 _1cc[0x328 - 0x1cc];
     res::Handle mSaveDataArcHandle;
     sead::SafeArray<res::Handle, 32> mSaveDataHandles;

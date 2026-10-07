@@ -295,6 +295,59 @@ u32 SaveMgr::sub_7100E0F578() const {
 }
 
 // NON_MATCHING: size and buffer argument copies and stores are scheduled differently.
+// NON_MATCHING: the library string comparison expands the byte loop.
+bool SaveMgr::sub_7100E041D0(s32 index, const sead::SafeString& file_name) {
+    if (_38 != 0)
+        return false;
+
+    const s32 count = _e00->getFiles().size();
+    for (s32 i = 0; i < count; ++i) {
+        if (_e00->getFiles().unsafeAt(i)->info->name != file_name)
+            continue;
+
+        _14c[0] = i;
+        if (_38 != 0)
+            return false;
+        _38 = 2;
+        if (index < 0 || index >= _e00->mSaveInfo->directory_num)
+            index = 0;
+        _148 = index;
+        auto* manager = gdt::Manager::instance();
+        if (!manager)
+            return false;
+        _30->sendMessage(2, sead::MessageQueue::BlockType::NonBlocking);
+        return true;
+    }
+    return false;
+}
+
+// NON_MATCHING: the library string comparison expands the byte loop.
+bool SaveMgr::sub_7100E04810(s32 index, const sead::SafeString& file_name) {
+    if (_38 != 0)
+        return false;
+
+    const s32 count = _e00->getFiles().size();
+    for (s32 i = 0; i < count; ++i) {
+        if (_e00->getFiles().unsafeAt(i)->info->name != file_name)
+            continue;
+
+        _14c[0] = i;
+        if (_38 != 0)
+            return false;
+        _38 = 1;
+        _148 = index;
+        auto* manager = gdt::Manager::instance();
+        if (!manager)
+            return false;
+        manager->mBitFlags.set(gdt::Manager::BitFlag::_1);
+        manager->mParam.setChangeOnlyOnce(true);
+        manager->mParamBypassPerm.setChangeOnlyOnce(true);
+        _30->sendMessage(1, sead::MessageQueue::BlockType::NonBlocking);
+        return true;
+    }
+    return false;
+}
+
 bool SaveMgr::x(const sead::SafeString& path, void* buffer, u32 size) {
     if (_38 != 0)
         return false;
