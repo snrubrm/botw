@@ -12,4 +12,9 @@ void Unk_7102502138::Unk68::sub_710104D620(bool flag) {
     _56c |= 8;
 }
 
+void Unk_7102502138::Unk68::sub_710104D834(bool flag) {
+    _1fc = flag;
+    _56c |= 8;
+}
+
 }  // namespace ksys::snd

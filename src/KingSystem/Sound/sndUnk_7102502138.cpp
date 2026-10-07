@@ -80,12 +80,40 @@ void Unk_7102502138::sub_710103B430(bool flag) {
     _68->sub_710104D620(flag);
 }
 
-void Unk_7102502138::sub_710103B414() {
-    _68->sub_710104D068();
+void Unk_7102502138::sub_710103B414(const sead::SafeString& name) {
+    _68->sub_710104D068(name);
 }
 
-void Unk_7102502138::sub_710103B428() {
-    _68->sub_710104D3B0();
+void Unk_7102502138::sub_710103B428(const sead::SafeString& name, xlink::XLink* xlink) {
+    _68->sub_710104D3B0(name, xlink);
+}
+
+void Unk_7102502138::sub_710103B43C(const sead::SafeString& name) {
+    _68->sub_710104D638(name);
+}
+
+void Unk_7102502138::sub_710103B444(bool flag) {
+    _68->sub_710104D834(flag);
+}
+
+void Unk_7102502138::sub_710103B450(const sead::SafeString& name) {
+    _68->sub_710104D84C(name);
+}
+
+void Unk_7102502138::sub_710103B458(const sead::SafeString& name) {
+    _68->sub_710104D9E8(name);
+}
+
+void Unk_7102502138::sub_710103B460(const sead::SafeString& name) {
+    _68->sub_710104DB84(name);
+}
+
+void Unk_7102502138::sub_710103B468(bool flag) {
+    _68->sub_710104DD20(flag);
+}
+
+void Unk_7102502138::sub_710103B47C(bool flag) {
+    _68->sub_710104DD88(flag);
 }
 
 }  // namespace ksys::snd

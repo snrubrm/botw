@@ -3,8 +3,13 @@
 #include <basis/seadTypes.h>
 #include <container/seadObjList.h>
 #include <heap/seadDisposer.h>
+#include <prim/seadSafeString.h>
 #include <thread/seadCriticalSection.h>
 #include "KingSystem/Utils/Types.h"
+
+namespace ksys::xlink {
+class XLink;
+}
 
 namespace ksys::snd {
 
@@ -26,8 +31,16 @@ public:
     // Player::sub_710088A854.
     void sub_710103B430(bool flag);
     // 0x710103b414 / 0x710103b428 (declared only): forward to the sub-object at +0x68 (0x710104d068 / 0x710104d3b0).
-    void sub_710103B414();
-    void sub_710103B428();
+    void sub_710103B414(const sead::SafeString& name);
+    void sub_710103B428(const sead::SafeString& name, xlink::XLink* xlink);
+
+    void sub_710103B43C(const sead::SafeString& name);
+    void sub_710103B444(bool flag);
+    void sub_710103B450(const sead::SafeString& name);
+    void sub_710103B458(const sead::SafeString& name);
+    void sub_710103B460(const sead::SafeString& name);
+    void sub_710103B468(bool flag);
+    void sub_710103B47C(bool flag);
 
     // 0x710103b1d4 (CSV Sound::init part): creates the sub-object (once).
     void init(sead::Heap* heap);
@@ -56,14 +69,24 @@ public:
         // 0x710104d620: `_bc = flag` and bit 3 of the dirty flags `_56c`.
         void sub_710104D620(bool flag);
         // 0x710104d068 / 0x710104d3b0 (declared only).
-        void sub_710104D068();
-        void sub_710104D3B0();
+        void sub_710104D068(const sead::SafeString& name);
+        void sub_710104D3B0(const sead::SafeString& name, xlink::XLink* xlink);
+
+        void sub_710104D638(const sead::SafeString& name);
+        void sub_710104D834(bool flag);
+        void sub_710104D84C(const sead::SafeString& name);
+        void sub_710104D9E8(const sead::SafeString& name);
+        void sub_710104DB84(const sead::SafeString& name);
+        void sub_710104DD20(bool flag);
+        void sub_710104DD88(bool flag);
 
         u8 _8[0xbc - 0x8];
         /* 0xbc */ bool _bc;
         u8 _bd[0x15c - 0xbd];
         /* 0x15c */ bool _15c;
-        u8 _15d[0x56c - 0x15d];
+        u8 _15d[0x1fc - 0x15d];
+        /* 0x1fc */ bool _1fc;
+        u8 _1fd[0x56c - 0x1fd];
         /* 0x56c */ u16 _56c;
         u8 _56e[0x578 - 0x56e];
     };
