@@ -1,6 +1,8 @@
 #include "Game/AI/Action/actionPlayerSwimDash.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayer.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "Game/gameUnk_710246d058.h"
 
 namespace uking::action {
 
@@ -37,8 +39,39 @@ void PlayerSwimDash::loadParams_() {
     getStaticParam(&mEnergyDash_s, "EnergyDash");
 }
 
+// NON_MATCHING: original velocity copying retains redundant component stores.
 void PlayerSwimDash::calc_() {
-    PlayerAction::calc_();
+    static_cast<ksys::act::Player*>(mActor)->sub_710085C55C();
+    if (auto* controller = mActor->getCharacterController()) {
+        sead::Vector3f velocity;
+        controller->sub_7100F5F598(&velocity);
+        if (velocity.y > 0.0f) {
+            velocity.y = 0.0f;
+            controller->sub_7100F5F6FC(velocity);
+        }
+    }
+    static_cast<ksys::act::Player*>(mActor)->sub_7100877BD8();
+    static_cast<ksys::act::Player*>(mActor)->actionCommon();
+    if (mActor->getASList()->x_4(0, 0)) {
+        setFinished();
+    } else {
+        if (mActor->getASList()->x(0, nullptr, 0, 0,
+                                 &ksys::as::ASList::Unk2::sub_71011638DC, true) &&
+            static_cast<ksys::act::Player*>(mActor)->_17d0->controllerCheckPressedMaybe(2) &&
+            !static_cast<ksys::act::Player*>(mActor)->x_44()) {
+            static_cast<ksys::act::Player*>(mActor)->_17f0 = 1;
+        }
+        if (mActor->getASList()->x(0, nullptr, 0, 0,
+                                 &ksys::as::ASList::Unk2::sub_71011638DC, true) &&
+            static_cast<ksys::act::Player*>(mActor)->_17d0->controllerCheckPressedMaybe(0x24) &&
+            !static_cast<ksys::act::Player*>(mActor)->x_44()) {
+            static_cast<ksys::act::Player*>(mActor)->_17f1 = true;
+        }
+        if (mActor->getASList()->x(2, nullptr, 0, 0,
+                                 &ksys::as::ASList::Unk2::sub_710116383C, true)) {
+            _1c = true;
+        }
+    }
 }
 
 bool PlayerSwimDash::isChangeable() const {
