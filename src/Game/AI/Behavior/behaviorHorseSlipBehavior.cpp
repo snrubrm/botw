@@ -1,4 +1,9 @@
 #include "Game/AI/Behavior/behaviorHorseSlipBehavior.h"
+#include "Game/Actor/actHorseStrings.h"
+#include "Game/Actor/actRideable.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
 namespace uking::behavior {
 
@@ -8,6 +13,15 @@ HorseSlipBehavior::~HorseSlipBehavior() = default;
 
 bool HorseSlipBehavior::m6(sead::Heap* heap) {
     return true;
+}
+
+void HorseSlipBehavior::m9() {
+    if (auto* controller = mActor->getCharacterController())
+        controller->sub_7100F5E754(false);
+    if (mActor->getASList()->x_1(0, 0) == act::sUnk_7102603270) {
+        if (auto* rideable = mActor->getHorseOptionsMaybe())
+            rideable->_18.sub_7100E76E74(act::sUnk_7102603280, false);
+    }
 }
 
 void HorseSlipBehavior::loadParams() {

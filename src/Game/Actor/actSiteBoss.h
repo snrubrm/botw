@@ -47,6 +47,8 @@ struct Unk_7100722420 {
     ~Unk_7100722420();
     // 0x71007224d4 (declared only; lane5 s5): forwards to the Unk_71025b2aa8Data at +0x240 (sub_7100721EFC).
     void sub_71007224D4();
+    // 2026-10-07: original 0x71007224dc receives three signed configuration values.
+    void sub_71007224DC(s32 a1, s32 a2, s32 a3);
 
     // 2026-10-07: ctor 0x7100722420 stores its Actor* argument here, not a vtable.
     ksys::act::Actor* _0;
@@ -221,7 +223,10 @@ public:
         /* 0x000 */ ksys::act::Actor* mOwner;
         /* 0x008 */ u8 _8[0x94 - 0x8];
         /* 0x094 */ u32 _94;
-        /* 0x098 */ u8 _98[4];
+        /* 0x098 */ u8 _98;
+        // 2026-10-07: SiteBossSwordRoot::init_ 0x710059881c sets this from _1534 bits 2/3.
+        /* 0x099 */ bool _99;
+        /* 0x09a */ u8 _9a[2];
         /* 0x09c */ u32 _9c;  // bit idx: bound actor idx (cleared by SiteBossChemicalProjectile)
         /* 0x0a0 */ sead::SafeArray<ksys::act::BaseProcHandle, 20> _a0;
         /* 0x1e0 */ sead::SafeArray<ksys::act::BaseProcLink, 20> _1e0;
