@@ -33,6 +33,10 @@ void Unk_SoundMgr38_20::sub_7101029970() {
     }
 }
 
+void Unk_SoundMgr38_20::sub_7101029B94() { _78 = true; }
+void Unk_SoundMgr38_20::sub_7101029BA0() { _78 = false; }
+void Unk_SoundMgr38_20::sub_7101029BA8() { _78 = false; }
+
 bool Unk_SoundMgr38_20::sub_7101029BB0(uking::act::EnvSeEmitPoint* point) {
     if (!point)
         return false;

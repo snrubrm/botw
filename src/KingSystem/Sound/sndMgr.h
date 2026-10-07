@@ -152,6 +152,9 @@ public:
     void sub_7101029970();
     void sub_71010299AC();
     void sub_7101029AA0();
+    void sub_7101029B94();
+    void sub_7101029BA0();
+    void sub_7101029BA8();
     // 0x7101029bb0 (declared only; lane1 s47): registers `point` in the list of its kind (the kind is picked by the
     // actor's name); false if the name matches no kind.
     bool sub_7101029BB0(uking::act::EnvSeEmitPoint* point);
