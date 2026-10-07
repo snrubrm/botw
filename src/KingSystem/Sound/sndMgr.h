@@ -472,6 +472,7 @@ struct SoundMgr {
     bool sub_71011FC2DC();
 
 public:
+    aal::Listener* sub_71011FC2D0();
     // 0x71011fc288 (declared only; lane2 s46): called by ScreenFadeDemo's slot 101 (nothing happens while the byte at 0xf8 is set)
     void sub_71011FC288();
     // 0x71011fc0c0 / 0x71011fc17c (CSV Sound::__auto4 / __auto5; declared only): `kind` 0..5, `bit` the bit set in the byte at 0xf8

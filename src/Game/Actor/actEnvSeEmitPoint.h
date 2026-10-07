@@ -15,9 +15,15 @@ public:
 
     static ksys::act::BaseProc* construct(const CreateArg& arg, sead::Heap* heap);
 
+    // 2026-10-07: sound manager passes the actor directly to these three original methods.
+    void sub_7101029620(bool enabled);
+    void sub_7101029658();
+    void sub_71010296B0();
+
     /* 0x83c */ s32 _83c = -1;
-    /* 0x840 */ u32 _840 = 0;
-    /* 0x844 */ u16 _844 = 0;
+    /* 0x840 */ f32 _840 = 0;
+    /* 0x844 */ bool _844 = false;
+    /* 0x845 */ bool _845 = false;
     /* 0x848 */ f32 _848 = 0;
     /* 0x84c */ u8 _84c = 0;
     /* 0x84d */ u8 _84d = 0;
