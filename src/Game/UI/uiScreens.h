@@ -830,12 +830,21 @@ public:
     bool sub_71010AE9E8(ksys::act::Actor* actor);
 
     // One message entry (0xd0 bytes, linked through +0; the last of the four has a null link).
+    // The entries are plain buffers: ScreenMessage3D's D1 destroys only the CriticalSection, so they
+    // must have a trivial destructor (in particular they do NOT contain the +0x38 proc link below).
     struct Item {
         Item* mNext;
         u8 _8[0xd0 - 8];
     };
 
-    /* 0x300 */ sead::PtrArrayImpl _300;
+    // One entry referenced by _300/_660. Not owned by the screen (never destroyed/freed by it):
+    // +0x38 is an embedded proc link (hasProc/hasProcById/reset callers in the subs).
+    struct Entry {
+        u8 _0[0x38];
+        ksys::act::BaseProcLink m38;
+    };
+
+    /* 0x300 */ sead::PtrArray<Entry> _300;
     /* 0x310 */ Item* _310;
     /* 0x318 */ Item* _318;
     /* 0x320 */ Item _320[4];
