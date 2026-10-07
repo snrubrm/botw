@@ -236,6 +236,8 @@ void ListenerPoser::sub_7101055538(s32 value) {
     }
 }
 
+aal::Listener* SoundMgr::sub_71011FC2D0() { return _58->mListener; }
+
 bool SoundMgr::sub_71011FC2DC() { return mSLinkUserCreateHeap->getFreeSize() > 0x4000; }
 
 f32 SoundMgr::sub_71011FC310() { return 0.841f; }
