@@ -1,5 +1,8 @@
 #include "Game/AI/Action/actionFireWood.h"
 #include "Game/Damage/dmgDamageManagerBase.h"
+#include "Game/Damage/dmgDamageManager.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/Resource/Actor/resResourceDamageParam.h"
 #include "Game/gameUnk_71008ba8d8.h"
 #include "KingSystem/Utils/Thread/Message.h"
 #include "KingSystem/ActorSystem/actActor.h"
@@ -71,6 +74,27 @@ void FireWood::m32(bool burning) {
                 body->addToWorld();
         }
     }
+}
+
+// NON_MATCHING: clang merges the false-return branches and forms the final damage comparison as a boolean.
+bool FireWood::m33() {
+    if (mActor->isDelete())
+        return false;
+    if (mActor->isDeleteRequested())
+        return false;
+    const auto* param = mActor->getParam();
+    if (!param || !param->getRes().mDamageParam || !param->getRes().mDamageParam->mBreakable.ref())
+        return true;
+    if (const auto* life = mActor->getLife(); life && *life < 1)
+        return false;
+    auto* damage = sead::DynamicCast<dmg::DamageManager>(mActor->getDamageMgr());
+    if (!damage)
+        return true;
+    if (damage->_216.isOn(2))
+        return false;
+    if (s32(damage->getDamage()) > 0)
+        return false;
+    return true;
 }
 
 bool FireWood::handleMessage_(const ksys::Message* message) {
