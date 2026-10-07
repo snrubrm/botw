@@ -1,6 +1,7 @@
 #pragma once
 
 #include <container/seadOffsetList.h>
+#include <heap/seadDisposer.h>
 #include <container/seadPtrArray.h>
 #include <math/seadVector.h>
 #include <container/seadSafeArray.h>
@@ -61,33 +62,46 @@ private:
     static Unk_71025d6ac0* sInstance;
 };
 
-// Instance pointer 0x71025d6578 (createInstance 0x7100949bbc, size 0x78, polymorphic with a
-// singleton disposer at 0x8). `_3c` is a state (initialised to 13), `_40` is initialised to 7.
+// Instance pointer 0x71025d6578 (createInstance 0x7100949bbc, size 0x78; lane2 s47: the class of the vtable 0x7102475278,
+// whose destructors are trivial, with a singleton disposer at 0x8; the old placeholder `Unk_7102475278` was this class).
+// `_3c` is a state (initialised to 13), `_40` is initialised to 7.
+// createInstance (the constructor is inlined) is m: only the order of the inlined zero stores differs (the original stores
+// `_4a` / `_4c..` early and `_68` / `_70` late).
 class Unk_71025d6578 {
+    SEAD_SINGLETON_DISPOSER(Unk_71025d6578)
+    Unk_71025d6578() = default;
+
 public:
-    static Unk_71025d6578* instance() { return sInstance; }
+    virtual ~Unk_71025d6578();
 
     void sub_710094B844(bool a1, bool a2, bool a3);
     void sub_710094B8A4(bool a1);
     void sub_710094BE14();
 
-    u8 _0[0x3c];
-    /* 0x3c */ s32 _3c;
-    u8 _40[0x49 - 0x40];
-    /* 0x49 */ u8 _49;
-    u8 _4a[0x61 - 0x4a];
-    /* 0x61 */ u8 _61;  // bit 1: ?, bits 1 / 2 are rewritten by sub_710094BE14
-    u8 _62;
-    /* 0x63 */ u8 _63;  // four flags (bits 0 / 1 and 2 / 3: two pairs, see sub_710094B844)
-    u8 _64[0x68 - 0x64];
-    /* 0x68 */ s32 _68;
-    u8 _6c[0x70 - 0x6c];
-    /* 0x70 */ u16 _70;
-    u8 _72[0x78 - 0x72];
-
-private:
-    static Unk_71025d6578* sInstance;
+    /* 0x28 */ void* _28 = nullptr;
+    /* 0x30 */ void** _30 = nullptr;
+    /* 0x38 */ u16 _38 = 0;
+    /* 0x3a */ u8 _3a = 0;
+    /* 0x3c */ s32 _3c = 13;
+    /* 0x40 */ s32 _40 = 7;
+    /* 0x44 */ s32 _44 = 0;
+    /* 0x48 */ u8 _48 = 0;
+    /* 0x49 */ u8 _49 = 0;
+    /* 0x4a */ u8 _4a = 0;
+    u8 _4b;
+    u8 _4c[0x61 - 0x4c]{};
+    /* 0x61 */ u8 _61 = 0;  // bit 1: ?, bits 1 / 2 are rewritten by sub_710094BE14
+    u8 _62 = 0;
+    /* 0x63 */ u8 _63 = 0;  // four flags (bits 0 / 1 and 2 / 3: two pairs, see sub_710094B844)
+    /* 0x64 */ u16 _64 = 0;
+    u8 _66[2];
+    /* 0x68 */ s32 _68 = 0;
+    /* 0x6c */ s32 _6c = 0;
+    /* 0x70 */ u16 _70 = 0;
+    u16 _72 = 0;
+    u8 _74[4];
 };
+KSYS_CHECK_SIZE_NX150(Unk_71025d6578, 0x78);
 
 // Instance pointer 0x71025d6550 (a large map / compass related UI object; `_b64`, `_b6c`, `_b74`
 // are states).

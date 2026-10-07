@@ -2,6 +2,11 @@
 
 namespace uking::ui {
 
+SEAD_SINGLETON_DISPOSER_IMPL(Unk_71025d6578)
+
+// D1 0x7100949ce0, D0 0x7100949ce4
+Unk_71025d6578::~Unk_71025d6578() = default;
+
 // NON_MATCHING: same flag updates; the original selects the first result into w8 (the register of the loaded byte)
 // where clang uses another register, and swaps the csel operands of the second flag
 // 0x710094b844: sets the flag pair (bits 2 / 3 if `a3`, else bits 0 / 1)
