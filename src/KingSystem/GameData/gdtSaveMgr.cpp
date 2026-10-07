@@ -803,6 +803,168 @@ void SaveMgr::x_15(const sead::ObjArray<gdt::TriggerParam::FlagCopyRecord>& reco
     }
 }
 
+// NON_MATCHING: reverse search and shared scalar/array component-write branches differ.
+void SaveMgr::x_16(const sead::ObjArray<gdt::TriggerParam::FlagCopyRecord>& records) {
+    for (const auto& record : records) {
+        s32 file_index = _e00->getFiles().size();
+        s32 flag_index = -1;
+        while (file_index > 0) {
+            --file_index;
+            flag_index = _e00->getFiles()[file_index]->findFlagIndex(record.name_hash);
+            if (flag_index >= 0)
+                break;
+        }
+        if (flag_index < 0)
+            continue;
+        const auto& entry = _e00->getFiles().unsafeAt(file_index)->flags[flag_index];
+        if (entry.kv.value < 0)
+            continue;
+        u32 offset = entry._8;
+        const s16 sub_index = record.sub_index;
+        const gdt::FlagT<sead::Vector2f>* flag;
+        if (sub_index < 0) {
+            flag = _f98->getVec2fFlag(entry.kv.value);
+        } else {
+            flag = _f98->getVec2fFlag(entry.kv.value, sub_index);
+            offset += sub_index * 16;
+        }
+        if (!flag)
+            continue;
+        if (offset + 4 >= _e10)
+            continue;
+        const u32 hash_x = flag->getHash();
+        std::memcpy(_e08 + offset, &hash_x, sizeof(hash_x));
+        if (offset + 8 >= _e10)
+            continue;
+        const f32 value_x = flag->getValueRef().x;
+        std::memcpy(_e08 + (offset + 4), &value_x, sizeof(value_x));
+        if (offset + 12 >= _e10)
+            continue;
+        const u32 hash_y = flag->getHash();
+        std::memcpy(_e08 + (offset + 8), &hash_y, sizeof(hash_y));
+        if (offset + 16 >= _e10)
+            continue;
+        const f32 value_y = flag->getValueRef().y;
+        std::memcpy(_e08 + (offset + 12), &value_y, sizeof(value_y));
+    }
+}
+
+// NON_MATCHING: reverse search and shared scalar/array component-write branches differ.
+void SaveMgr::x_17(const sead::ObjArray<gdt::TriggerParam::FlagCopyRecord>& records) {
+    for (const auto& record : records) {
+        s32 file_index = _e00->getFiles().size();
+        s32 flag_index = -1;
+        while (file_index > 0) {
+            --file_index;
+            flag_index = _e00->getFiles()[file_index]->findFlagIndex(record.name_hash);
+            if (flag_index >= 0)
+                break;
+        }
+        if (flag_index < 0)
+            continue;
+        const auto& entry = _e00->getFiles().unsafeAt(file_index)->flags[flag_index];
+        if (entry.kv.value < 0)
+            continue;
+        u32 offset = entry._8;
+        const s16 sub_index = record.sub_index;
+        const gdt::FlagT<sead::Vector3f>* flag;
+        if (sub_index < 0) {
+            flag = _f98->getVec3fFlag(entry.kv.value);
+        } else {
+            flag = _f98->getVec3fFlag(entry.kv.value, sub_index);
+            offset += sub_index * 24;
+        }
+        if (!flag)
+            continue;
+        if (offset + 4 >= _e10)
+            continue;
+        const u32 hash_x = flag->getHash();
+        std::memcpy(_e08 + offset, &hash_x, sizeof(hash_x));
+        if (offset + 8 >= _e10)
+            continue;
+        const f32 value_x = flag->getValueRef().x;
+        std::memcpy(_e08 + (offset + 4), &value_x, sizeof(value_x));
+        if (offset + 12 >= _e10)
+            continue;
+        const u32 hash_y = flag->getHash();
+        std::memcpy(_e08 + (offset + 8), &hash_y, sizeof(hash_y));
+        if (offset + 16 >= _e10)
+            continue;
+        const f32 value_y = flag->getValueRef().y;
+        std::memcpy(_e08 + (offset + 12), &value_y, sizeof(value_y));
+        if (offset + 20 >= _e10)
+            continue;
+        const u32 hash_z = flag->getHash();
+        std::memcpy(_e08 + (offset + 16), &hash_z, sizeof(hash_z));
+        if (offset + 24 >= _e10)
+            continue;
+        const f32 value_z = flag->getValueRef().z;
+        std::memcpy(_e08 + (offset + 20), &value_z, sizeof(value_z));
+    }
+}
+
+// NON_MATCHING: reverse search and shared scalar/array component-write branches differ.
+void SaveMgr::sub_7100E07E3C(const sead::ObjArray<gdt::TriggerParam::FlagCopyRecord>& records) {
+    for (const auto& record : records) {
+        s32 file_index = _e00->getFiles().size();
+        s32 flag_index = -1;
+        while (file_index > 0) {
+            --file_index;
+            flag_index = _e00->getFiles()[file_index]->findFlagIndex(record.name_hash);
+            if (flag_index >= 0)
+                break;
+        }
+        if (flag_index < 0)
+            continue;
+        const auto& entry = _e00->getFiles().unsafeAt(file_index)->flags[flag_index];
+        if (entry.kv.value < 0)
+            continue;
+        u32 offset = entry._8;
+        const s16 sub_index = record.sub_index;
+        const gdt::FlagT<sead::Vector4f>* flag;
+        if (sub_index < 0) {
+            flag = _f98->getVec4fFlag(entry.kv.value);
+        } else {
+            flag = _f98->getVec4fFlag(entry.kv.value, sub_index);
+            offset += sub_index * 32;
+        }
+        if (!flag)
+            continue;
+        if (offset + 4 >= _e10)
+            continue;
+        const u32 hash_x = flag->getHash();
+        std::memcpy(_e08 + offset, &hash_x, sizeof(hash_x));
+        if (offset + 8 >= _e10)
+            continue;
+        const f32 value_x = flag->getValueRef().x;
+        std::memcpy(_e08 + (offset + 4), &value_x, sizeof(value_x));
+        if (offset + 12 >= _e10)
+            continue;
+        const u32 hash_y = flag->getHash();
+        std::memcpy(_e08 + (offset + 8), &hash_y, sizeof(hash_y));
+        if (offset + 16 >= _e10)
+            continue;
+        const f32 value_y = flag->getValueRef().y;
+        std::memcpy(_e08 + (offset + 12), &value_y, sizeof(value_y));
+        if (offset + 20 >= _e10)
+            continue;
+        const u32 hash_z = flag->getHash();
+        std::memcpy(_e08 + (offset + 16), &hash_z, sizeof(hash_z));
+        if (offset + 24 >= _e10)
+            continue;
+        const f32 value_z = flag->getValueRef().z;
+        std::memcpy(_e08 + (offset + 20), &value_z, sizeof(value_z));
+        if (offset + 28 >= _e10)
+            continue;
+        const u32 hash_w = flag->getHash();
+        std::memcpy(_e08 + (offset + 24), &hash_w, sizeof(hash_w));
+        if (offset + 32 >= _e10)
+            continue;
+        const f32 value_w = flag->getValueRef().w;
+        std::memcpy(_e08 + (offset + 28), &value_w, sizeof(value_w));
+    }
+}
+
 void SaveMgr::x_7() {
     _f98 = gdt::Manager::instance()->mFlagBuffer;
     x_8(_f98->mCopiedBoolFlags);
