@@ -817,6 +817,7 @@ public:
 // Only the nominal types are recovered; owned members and construction remain undeclared.
 class ScreenMessage3D : public Screen {
 public:
+    ScreenMessage3D();
     ~ScreenMessage3D() override;
     SEAD_RTTI_OVERRIDE(ScreenMessage3D, Screen)
     bool isEnableControl() const override;
@@ -828,7 +829,20 @@ public:
     // 0x71010ae9e8 (CSV unnamed, declared only): called by UI::sub_71010A5B0C with the actor.
     bool sub_71010AE9E8(ksys::act::Actor* actor);
 
-    u8 _2fc[0x698 - 0x2fc];
+    // One message entry (0xd0 bytes, linked through +0; the last of the four has a null link).
+    struct Item {
+        Item* mNext;
+        u8 _8[0xd0 - 8];
+    };
+
+    /* 0x300 */ sead::PtrArrayImpl _300;
+    /* 0x310 */ Item* _310;
+    /* 0x318 */ Item* _318;
+    /* 0x320 */ Item _320[4];
+    /* 0x660 */ void* _660[4];
+    /* 0x680 */ eui::MessageString _680;
+    /* 0x690 */ u32 _690;
+    u8 _694[0x698 - 0x694];
     /* 0x698 */ sead::CriticalSection _698;
 };
 
