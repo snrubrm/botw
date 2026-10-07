@@ -7,6 +7,7 @@
 
 namespace ksys::act {
 class Actor;
+class Chemical;
 }
 
 // Name from the CSV; partial declaration of ChemicalMgr's carried chemical-element pool.
@@ -42,6 +43,8 @@ public:
 
     void initBeforeStageGen();
     void unload2();
+    // Original 0x71010cbdcc: enqueue a unique chemical pair and event type under the pool lock.
+    void sub_71010CBDCC(act::Chemical* first, act::Chemical* second, s32 type);
     bool x_4() const;
     void x_5(ksys::act::Actor* actor);
     void x_7(ksys::act::Actor* actor);
