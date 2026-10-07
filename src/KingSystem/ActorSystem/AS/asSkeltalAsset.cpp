@@ -3,6 +3,7 @@
 #include "KingSystem/Resource/Actor/resResourceASResource.h"
 #include "KingSystem/System/Patrol.h"
 #include <nn/g3d/ResSkeletalAnim.h>
+#include <gsys/gsysModelUnit.h>
 
 namespace ksys::as {
 
@@ -12,6 +13,28 @@ SkeltalAsset::Unk18::~Unk18() {
         _24 = false;
         _28 = nullptr;
     }
+}
+
+// NON_MATCHING: key validity checks and canonical resource access differ in scheduling.
+const nn::g3d::ResBoneAnim* SkeltalAsset::sub_710125D3FC(Context* ctx,
+                                                     const gsys::BoneAccessKey* key) {
+    if (!key->isValid())
+        return nullptr;
+    auto* model = ctx->sub_7101258E2C();
+    if (!model || !mKey.isValid())
+        return nullptr;
+    auto* current_model = ctx->sub_7101258E2C();
+    if (!current_model)
+        return nullptr;
+    auto* animation = current_model->getAnimation();
+    if (!animation)
+        return nullptr;
+    const auto& entry = animation->mSkeletalResources[mKey.index];
+    const auto* resource = static_cast<const nn::g3d::ResSkeletalAnim*>(entry.resource->resource);
+    if (!resource || resource->GetRotateMode() != 0x1000)
+        return nullptr;
+    const auto name = model->getUnits()[key->model_unit_index]->mModelUnit->getBoneName(key->bone_index);
+    return sub_710115D55C(resource, name);
 }
 
 void SkeltalAsset::Unk18::sub_710125B118() {

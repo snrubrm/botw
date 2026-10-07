@@ -1,5 +1,6 @@
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include <limits>
+#include <nn/g3d/ResSkeletalAnim.h>
 #include <prim/seadBitFlag.h>
 #include <gsys/gsysModelNW.h>
 #include <gsys/gsysModelAnimation.h>
@@ -16,6 +17,17 @@
 
 
 namespace ksys::as {
+
+// NON_MATCHING: the canonical SDK array accessor and name comparison schedule differently.
+const nn::g3d::ResBoneAnim* sub_710115D55C(const nn::g3d::ResSkeletalAnim* resource,
+                                         const sead::SafeString& name) {
+    for (s32 i = 0, count = resource->GetBoneAnimCount(); i < count; ++i) {
+        const auto* bone = resource->GetBoneAnim(i);
+        if (name == sead::SafeString(bone->GetName()))
+            return bone;
+    }
+    return nullptr;
+}
 
 // NON_MATCHING: request initialization and the single-slot partial setup branch differ in scheduling.
 s32 ASList::sub_710115BC28(const sead::SafeString& name, f32 value) {

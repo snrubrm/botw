@@ -25,6 +25,9 @@ struct State;
 }  // namespace ksys::as
 
 namespace ksys::as {
+const nn::g3d::ResBoneAnim* sub_710115D55C(const nn::g3d::ResSkeletalAnim* resource,
+                                         const sead::SafeString& name);
+
 class ASList {
 public:
     struct Unk1;

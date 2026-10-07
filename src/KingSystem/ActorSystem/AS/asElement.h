@@ -12,6 +12,11 @@
 #include "KingSystem/Utils/Types.h"
 #include "KingSystem/GameData/gdtFlagHandle.h"
 
+namespace nn::g3d {
+class ResBoneAnim;
+class ResSkeletalAnim;
+}
+
 namespace ksys::res {
 class AS;
 class ASResource;
@@ -960,6 +965,7 @@ public:
     void m12(Context* ctx, State* state, const res::ASResource* resource) override;
     void m14(Context* ctx, void* state, EventState* events, const res::ASResource* resource) override;
     void sub_710125CB88(Context* ctx, MotionState* state, const res::ASResource* resource);
+    const nn::g3d::ResBoneAnim* sub_710125D3FC(Context* ctx, const gsys::BoneAccessKey* key);
     void m15(Context* ctx, BoneBlendState* state, const res::ASResource* resource) override;
     f32 m18(Context* ctx, bool a2, f32 a3, f32 a4, const res::ASResource* resource) override;
     void m28(f32* a1, Context* ctx, const res::ASResource* resource) override;
