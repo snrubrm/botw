@@ -1,5 +1,6 @@
 #include "KingSystem/ActorSystem/Profiles/actBullet.h"
 #include <basis/seadNew.h>
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actTag.h"
@@ -8,6 +9,19 @@
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace ksys::act {
+
+bool Bullet::m52(sead::Vector3f* out, Chemical* chemical) {
+    if (_cf4 & 0x200) {
+        ActorConstDataAccess accessor;
+        acquireActor(&_ba0, &accessor);
+        const auto& mtx = accessor.getActorMtx();
+        out->x = mtx(0, 3);
+        out->y = mtx(1, 3);
+        out->z = mtx(2, 3);
+        return true;
+    }
+    return Actor::m52(out, chemical);
+}
 
 Bullet::Bullet(const CreateArg& arg) : DynamicActor(arg) {
     for (auto& v : _cc4)

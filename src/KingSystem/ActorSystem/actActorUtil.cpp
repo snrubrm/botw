@@ -24,6 +24,7 @@
 #include "KingSystem/ActorSystem/actTag.h"
 #include "KingSystem/Ecosystem/ecoSystem.h"
 #include "KingSystem/GameData/gdtManager.h"
+#include "KingSystem/Event/evtUnk_7100dc816c.h"
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Map/mapObjectLink.h"
 #include "KingSystem/Map/mapPlacementMgr.h"
@@ -84,6 +85,25 @@ void findLinkedActor(ActorLinkConstDataAccess* accessor, Actor* actor,
     accessor->acquire(nullptr);
 }
 
+
+// NON_MATCHING: the original materialises `-1` before the null result in the no-actor path
+map::Object* findLinkReferenceObj(Actor* actor, const sead::SafeString& unit_config_name,
+                                  const sead::SafeString& a3, int* idx) {
+    if (actor) {
+        ActorConstDataAccess accessor{actor};
+        return acc::findLinkReferenceObj(accessor, unit_config_name, a3, idx);
+    }
+    if (idx)
+        *idx = -1;
+    return nullptr;
+}
+
+map::Object* findLinkReferenceObj(BaseProcLink* link, const sead::SafeString& unit_config_name,
+                                  const sead::SafeString& a3, int* idx) {
+    ActorConstDataAccess accessor;
+    acquireActor(link, &accessor);
+    return acc::findLinkReferenceObj(accessor, unit_config_name, a3, idx);
+}
 
 namespace {
 
@@ -1291,3 +1311,15 @@ void sub_7100EE9B68(Actor* actor, VFR::ScopedDeltaSetter* setter) {
 }
 
 }  // namespace ksys::act
+
+// 0x7100ee5240 (unnamed in the CSV, global namespace; also declared by actionForceSetPlayerRestartPosAngle.cpp): the
+// map object referenced by the link of the event's actor.
+ksys::map::Object* sub_7100EE5240(ksys::act::Actor* actor, const sead::SafeString& anchor,
+                                  const sead::SafeString& unique) {
+    auto& link = ksys::evt::sub_7100DC85D4(actor);
+    if (!link.hasProc())
+        return nullptr;
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(&link, &accessor);
+    return ksys::act::acc::findLinkReferenceObj(accessor, anchor, unique, nullptr);
+}

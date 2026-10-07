@@ -2,7 +2,9 @@
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actChemical.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
 
@@ -20,6 +22,30 @@ void forwardX17ToParts(ksys::act::Actor* actor, ksys::act::Unk117* arg) {
     }
 }
 }  // namespace
+
+// NON_MATCHING: the original loads the vtable pointer separately in each branch (ours hoists the common load)
+void SiteBoss::sub_71002CFD04(bool on) {
+    if (auto* x = _1250) {
+        if (auto* y = x->_18) {
+            if (on)
+                y->m0();
+            else
+                y->m1();
+        }
+    }
+}
+
+void SiteBoss::initMaybe() {
+    sub_71002CFD04(false);
+    if (auto* body = findPhysicsBodyByName(sub_71007A250C()->cstr(), "BgSensor")) {
+        if (!body->isAddedToWorld()) {
+            body->addToWorld();
+            body->setContactAll();
+            body->setFlag1000000();
+        }
+    }
+    Enemy::initMaybe();
+}
 
 void SiteBoss::sub_71002D223C() {
     if (_1558.isOnBit(4))

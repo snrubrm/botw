@@ -16,7 +16,18 @@ ksys::act::BaseProc* Sandworm::construct(const CreateArg& arg, sead::Heap* heap)
     return new (heap, std::nothrow) Sandworm(arg);
 }
 
-// NON_MATCHING: the original tests 0x3000004 before 0x3000003 (ours is sorted ascending by the switch lowering)
+// NON_MATCHING: the original loads the vtable pointer separately in each branch (ours hoists the common load)
+void Sandworm::sub_71002CDAE4(bool on) {
+    if (auto* x = _1250) {
+        if (auto* y = x->_18) {
+            if (on)
+                y->m0();
+            else
+                y->m1();
+        }
+    }
+}
+
 bool Sandworm::m81(const ksys::Message& message) {
     const auto& type = message.getType();
     if (type == 0x3000004) {

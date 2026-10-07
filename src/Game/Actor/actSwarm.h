@@ -19,7 +19,19 @@ class Swarm : public Enemy {
 public:
     // One member of the swarm (placeholder; the AI patterns write _60 / _68).
     struct Unit {
-        u8 _0[0x8];
+        // Virtual slots 0-8 (the destructors and RTTI first; names unknown, declared only) up to slot 9 (0x48), called by
+        // Swarm::startPreparingForPreDelete_ (lane4 s50).
+        virtual void m0();
+        virtual void m1();
+        virtual void m2();
+        virtual void m3();
+        virtual void m4();
+        virtual void m5();
+        virtual void m6();
+        virtual void m7();
+        virtual void m8();
+        virtual bool m9();
+
         /* 0x08 */ sead::Matrix34f _8;  // unit pose (SwarmFlyAttack reads the translation)
         u8 _38[0x5c - 0x38];
         /* 0x5c */ f32 _5c;  // random 0.1-0.2 set by BeeSwarmNormal::enter_

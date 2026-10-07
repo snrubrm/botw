@@ -27,6 +27,18 @@ class NavMeshCharacter;
 
 namespace uking::act {
 
+// Placeholders (lane4 s50): the object at Enemy::_1250 (used by Sandworm / SiteBoss / LastBoss) holds at +0x18 a polymorphic
+// object whose first two virtuals switch something on / off (SiteBoss::sub_71002CFD04, Sandworm::sub_71002CDAE4, the
+// initMaybe overrides). Names are guesses; declared only.
+struct Unk_Enemy1250Sub {
+    virtual void m0();
+    virtual void m1();
+};
+struct Unk_Enemy1250 {
+    u8 _0[0x18];
+    Unk_Enemy1250Sub* _18;
+};
+
 // Placeholder name (ctor 0x710070ef50, dtor 0x710070efa8 - empty, out of line).
 // Embedded in Unk_7100013308 at 0x80.
 class Unk_710070ef50 {
@@ -383,7 +395,7 @@ public:
     /* 0x1245 */ u8 _1245 = 0;
     /* 0x1246 */ u8 _1246[0x1248 - 0x1246];
     /* 0x1248 */ u8 _1248 = 0;
-    /* 0x1250 */ void* _1250 = nullptr;
+    /* 0x1250 */ Unk_Enemy1250* _1250 = nullptr;
     /* 0x1258 */ Unk_7102357a08 _1258;
     /* 0x1290 */ Unk_7102357a38 _1290;
     /* 0x12d0 */ Unk_12d0* _12d0 = nullptr;

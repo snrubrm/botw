@@ -3,7 +3,9 @@
 #include "Game/Actor/actSiteBoss.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace uking::act {
 
@@ -19,6 +21,21 @@ void forwardX17ToParts(ksys::act::Actor* actor, ksys::act::Unk117* arg) {
     }
 }
 }  // namespace
+
+void LastBoss::initMaybe() {
+    if (auto* x = _1250) {
+        if (auto* y = x->_18)
+            y->m0();
+    }
+    if (auto* body = findPhysicsBodyByName(sub_71007A250C()->cstr(), "BgSensor")) {
+        if (!body->isAddedToWorld()) {
+            body->addToWorld();
+            body->setContactAll();
+            body->setFlag1000000();
+        }
+    }
+    Enemy::initMaybe();
+}
 
 void LastBoss::sub_71002C5A14() {
     if (_1548.mEventFlow)

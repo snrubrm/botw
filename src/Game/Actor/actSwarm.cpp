@@ -9,6 +9,17 @@ namespace uking::act {
 
 Swarm::Swarm(const CreateArg& arg) : Enemy(arg) {}
 
+bool Swarm::startPreparingForPreDelete_() {
+    bool ready = true;
+    for (s32 i = 0; i < _14c8.size(); ++i) {
+        if (auto* unit = _14c8[i])
+            ready &= unit->m9();
+    }
+    if (!ready)
+        return false;
+    return Enemy::startPreparingForPreDelete_();
+}
+
 // NON_MATCHING: member types incomplete
 Swarm::~Swarm() = default;
 

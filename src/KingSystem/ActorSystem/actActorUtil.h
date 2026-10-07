@@ -230,6 +230,18 @@ bool isInSatoriMountainArea(const sead::Vector3f& pos);
 map::Object* findLinkReferenceObj(Actor* actor, const sead::SafeString& unit_config_name,
                                   const sead::SafeString& a3, int* idx);
 
+// 0x7100ee25f0 (lane4 s50): same, for the actor of a BaseProcLink.
+map::Object* findLinkReferenceObj(BaseProcLink* link, const sead::SafeString& unit_config_name,
+                                  const sead::SafeString& a3, int* idx);
+
+namespace acc {
+// 0x7100ee2348 (CSV act::acc::findLinkReferenceObj, 680 B; declaration only, lane4 s50): the accessor version of the
+// two functions above.
+map::Object* findLinkReferenceObj(ActorConstDataAccess& accessor,
+                                  const sead::SafeString& unit_config_name,
+                                  const sead::SafeString& a3, int* idx);
+}  // namespace acc
+
 // 0x7100ee2260 (CSV findLinkedActor): acquires the actor that `actor`'s placement
 // link `link_name` points to into `accessor` (an empty accessor if there is none).
 void findLinkedActor(ActorLinkConstDataAccess* accessor, Actor* actor,

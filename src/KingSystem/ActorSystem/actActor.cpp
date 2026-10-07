@@ -1118,6 +1118,20 @@ bool Actor::m57() {
     return mActorFlags2.isOn(ActorFlag2::_40);
 }
 
+bool Actor::m52(sead::Vector3f* out, Chemical* chemical) {
+    if (getChemicalStuff() != chemical) {
+        const auto& pos = chemical->_18->m5();
+        out->x = pos.x;
+        out->y = pos.y;
+        out->z = pos.z;
+    } else {
+        out->x = mMtx(0, 3);
+        out->y = mMtx(1, 3);
+        out->z = mMtx(2, 3);
+    }
+    return true;
+}
+
 void Actor::nullsub_4648() {}
 
 void Actor::sub_71011C88C0(const sead::Matrix34f& mtx) {

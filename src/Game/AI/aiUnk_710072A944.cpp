@@ -15,6 +15,16 @@ void sub_710072A944(uking::act::Swarm* swarm, f32 min, f32 max) {
     }
 }
 
+void sub_7100729EA8(uking::act::Swarm* swarm) {
+    for (s32 i = 0, n = swarm->_15e8.size(); i < n; ++i) {
+        const auto& body = swarm->_15e8[i];
+        if (auto* unit = body._18)
+            sub_71007A2B64(body._20, &unit->_8);
+        else
+            sub_71007A2B64(body._20, &swarm->getMtx());
+    }
+}
+
 void sub_7100729F34(uking::act::Swarm* swarm) {
     for (s32 i = 0, n = swarm->_15e8.size(); i < n; ++i)
         sub_71007A2D34(swarm->_15e8[i]._20);
