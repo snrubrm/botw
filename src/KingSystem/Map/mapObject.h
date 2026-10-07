@@ -28,6 +28,8 @@ struct ObjectLinkArray;
 class LinkTag;
 
 class Object {
+    friend class PlacementActors;
+
 public:
     // TODO: rename
     enum class Flag0 : u32 {

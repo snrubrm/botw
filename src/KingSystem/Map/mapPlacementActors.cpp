@@ -1,7 +1,9 @@
 #include "KingSystem/Map/mapPlacementActors.h"
 #include <prim/seadMemUtil.h>
 #include <time/seadTickTime.h>
+#include "KingSystem/ActorSystem/actInfoData.h"
 #include "KingSystem/Map/mapObject.h"
+#include "KingSystem/Map/mapObjectLink.h"
 #include "KingSystem/Map/mapPlacementMgr.h"
 #include "KingSystem/Map/mapPlacementTree.h"
 
@@ -74,6 +76,29 @@ void PlacementActors::x_9() {
         slot = nullptr;
     }
     mMutex.unlock();
+}
+
+void PlacementActors::placeObject(Object* obj) {
+    if (obj->mProc || obj->mFlags0.isOn(Object::Flag0::_4))
+        obj->spawnGenGroupActorsIfNeeded(nullptr);
+
+    if (obj->shouldSkipSpawn()) {
+        PlacementMgr::instance()->disableObjStaticCompound(obj);
+        PlacementMgr::instance()->sub_71011E9C28(obj, false);
+    }
+
+    if (obj->mActorFlags8.isOn(ActorFlag8::CanGetPouch) && obj->getForSaleLink())
+        obj->mActorFlags8.reset(ActorFlag8::CanGetPouch);
+
+    if (obj->mLinkData && (obj->mLinkData->findLinkWithType(MapLinkDefType::BasicSig) ||
+                           obj->mLinkData->findLinkWithType(MapLinkDefType::BasicSigOnOnly))) {
+        obj->setFieldATrue();
+    }
+
+    if (act::InfoData::instance()->hasTag(obj->getUnitConfigName(), 0xD53A8775) && obj->mLinkData &&
+        obj->mLinkData->mLinksToSelf.findLinkWithType(MapLinkDefType::BasicSig)) {
+        obj->mFlags.set(Object::Flag::IsTurnActorBowChargeAndHasBasicSigLink);
+    }
 }
 
 // NON_MATCHING: only the loop bound (`cmp x9, #0x80; b.lt` in the original, `cmp x9, #0x7f; b.le` here: clang canonicalises

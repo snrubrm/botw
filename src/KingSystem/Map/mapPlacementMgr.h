@@ -35,22 +35,25 @@ public:
     void sub_71011E4090(PlacementMgr* mgr, bool a);
     void sub_71011E1FFC(const void* traverse_results, const sead::Vector3f* camera_pos, f32 distance);
     void sub_71011E264C(PlacementMgr* mgr);
-    // 0x71011e41f4 (declaration only)
-    void sub_71011E41F4();
+    // 0x71011e41f4: whether `p` is one of the three pointers at 0xc8 / 0x138 / 0x1a8 (the draw arrays; the type of `p`
+    // is unknown, it is only compared).
+    bool sub_71011E41F4(const void* p) const;
 
     // 0x71011eb32c (PlacementMgr forwards to this inline test): whether bit `idx` of the bit buffer of the active slot
     // is set.
-    bool isBitSet(u32 idx) const { return (_100[_78].bits[idx >> 5] & (1u << (idx & 0x1f))) != 0; }
+    bool isBitSet(u32 idx) const { return (_90[1 + _78].bits[idx >> 5] & (1u << (idx & 0x1f))) != 0; }
 
     struct Slot {
         sead::Buffer<u32> bits;
-        u8 _10[0x70 - 0x10];
+        u8 _10[0x38 - 0x10];
+        /* 0x38 */ void* _38;
+        u8 _40[0x70 - 0x40];
     };
 
     u8 _0[0x78];
     /* 0x78 */ s32 _78;
-    u8 _7c[0x100 - 0x7c];
-    /* 0x100 */ Slot _100[2];
+    u8 _7c[0x90 - 0x7c];
+    /* 0x90 */ Slot _90[3];
 };
 
 // Placeholder name (callback argument of the ClusteredRenderer query 0x71012497f8): a stack copy of
@@ -158,7 +161,7 @@ public:
                         sead::IDelegate1R<Unk_71012497f8Entry*, bool>* callback);
     void sub_71011EB428(const sead::Vector3f* pos, f32 radius, bool x,
                         sead::IDelegate1R<Unk_71012497f8Entry*, bool>* callback);
-    void sub_71011EB450();
+    bool sub_71011EB450(const void* p);
 
     void threadFn(sead::Thread* thread, sead::MessageQueue::Element msg);
     // 0x00000071011eb4dc

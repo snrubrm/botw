@@ -9,9 +9,10 @@ namespace ksys::eft {
 // pointer 0x7102621598, size 0x2a750, singleton disposer at +0x18). The namespace is a guess. Only
 // the flags word used by game code is declared, at its original offset.
 class Effect {
-    u8 _0[0x18];
+    u8 _8[0x10];
     SEAD_SINGLETON_DISPOSER(Effect)
     Effect();
+    virtual ~Effect();
 
 public:
     // Bits of mFlags. Bit 12 is exposed to xlink as global property 0x28 (XLink::calc); WaterSurfaceBase

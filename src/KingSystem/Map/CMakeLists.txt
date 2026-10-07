@@ -29,6 +29,7 @@ target_sources(uking PRIVATE
   mapPlacementMap.h
   mapPlacementMapMgr.cpp
   mapPlacementMapMgr.h
+  mapMassRenderer.cpp
   mapPlacementMgr.cpp
   mapPlacementObjs.cpp
   mapPlacementMgr.h

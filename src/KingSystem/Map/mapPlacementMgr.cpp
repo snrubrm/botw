@@ -347,10 +347,12 @@ void PlacementMgr::sub_71011EB428(const sead::Vector3f* pos, f32 radius, bool x,
         mClusteredRenderer->sub_71012497F8(pos, radius, x, callback);
 }
 
-void PlacementMgr::sub_71011EB450() {
+bool PlacementMgr::sub_71011EB450(const void* p) {
     if (mMassRenderer)
-        mMassRenderer->sub_71011E41F4();
+        return mMassRenderer->sub_71011E41F4(p);
+    return false;
 }
+
 
 void PlacementMgr::sub_71011EB2AC() {
     if (mMassRenderer)
