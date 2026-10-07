@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionGiantPunchAttack.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 
 namespace uking::action {
 
@@ -31,6 +32,11 @@ void GiantPunchAttack::loadParams_() {
 void GiantPunchAttack::calc_() {
     PunchAttack::calc_();
     m32();
+}
+
+void GiantPunchAttack::m32() {
+    if (!_e0 && sub_71005DD7B0(mActor, nullptr, 0, 0))
+        _e0 = sub_71005E2684(mActor, mCoBodyName_s, "AttackHit", nullptr, nullptr);
 }
 
 }  // namespace uking::action

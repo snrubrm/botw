@@ -408,3 +408,8 @@ struct Unk_71005e1be8 {
 // factor `acc_ratio` per frame; reads the actor's velocity at +0x400).
 void sub_71005E2540(ksys::phys::CharacterController* controller, ksys::act::Actor* actor,
                     const sead::Vector3f& target_velocity, f32 acc_ratio);
+
+// 0x71005e2684: resolve the named physics body, emit the xlink event, and optionally output contact vectors.
+bool sub_71005E2684(ksys::act::Actor* actor, const sead::SafeString& body_name,
+                   const sead::SafeString& event_name, sead::Vector3f* position,
+                   sead::Vector3f* normal);
