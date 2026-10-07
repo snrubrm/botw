@@ -93,6 +93,25 @@ ActorBase* EventActorSet::getActorByPointer(act::BaseProc* proc) const {
     return nullptr;
 }
 
+Actor* EventActorSet::sub_7100DA2A28(const sead::SafeString& name, const sead::SafeString& entry) {
+    for (s32 i = 0; i < mActors.size(); ++i) {
+        auto* actor = mActors.at(i);
+        if (actor->mName == name && actor->mSubName == entry)
+            return actor;
+    }
+    return nullptr;
+}
+
+ActorBase* EventActorSet::getActorByName(const sead::SafeString& name,
+                                         const sead::SafeString& entry) const {
+    for (s32 i = 0; i < mActors.size(); ++i) {
+        auto* actor = mActors.at(i);
+        if (actor->mName == name && actor->mSubName == entry)
+            return actor;
+    }
+    return nullptr;
+}
+
 // 0x7100da2e84
 ActorBase* EventActorSet::sub_7100DA2E84(act::BaseProc* proc) {
     for (s32 i = 0; i < mActors.size(); ++i) {

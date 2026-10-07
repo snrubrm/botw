@@ -22,6 +22,8 @@ target_sources(uking PRIVATE
   evtEvent.cpp
   evtEvent.h
   evtEventActorSet.cpp
+  evtEventFlowBindHelpers.cpp
+  evtEventFlowBinder.cpp
   evtEventFlow.cpp
   evtEventFlowFlowchart.cpp
   evtEventFlow.h

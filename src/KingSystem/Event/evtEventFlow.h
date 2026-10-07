@@ -35,6 +35,7 @@ public:
     ActorBase* getActorByPointer(act::BaseProc* proc) const;
     // 0x7100da2c94 (CSV evt::S6::getActorByName; not decompiled)
     ActorBase* getActorByName(const sead::SafeString& name, const sead::SafeString& entry) const;
+    Actor* sub_7100DA2A28(const sead::SafeString& name, const sead::SafeString& entry);
     // 0x7100da2e84 (CSV unnamed): same body as getActorByPointer (non-const copy; placeholder name)
     ActorBase* sub_7100DA2E84(act::BaseProc* proc);
     // 0x7100da23c4 (CSV evt::S6::ctor)
@@ -220,6 +221,7 @@ public:
 
 class EventFlowFlowchart : public EventFlowBase {
 public:
+    void m11() override;
     ~EventFlowFlowchart() override;
     SEAD_RTTI_OVERRIDE(EventFlowFlowchart, EventFlowBase)
 

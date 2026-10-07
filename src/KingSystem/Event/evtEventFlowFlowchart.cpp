@@ -1,10 +1,23 @@
 #include "KingSystem/Event/evtEventFlow.h"
+#include "KingSystem/Event/evtEventFlowBinder.h"
+#include "KingSystem/Event/evtResourceFlowchart.h"
 #include "KingSystem/Event/evtEventResource.h"
 #include "KingSystem/System/VFR.h"
 
 namespace ksys::evt {
 
 EventFlowFlowchart::~EventFlowFlowchart() = default;
+
+void EventFlowFlowchart::m11() {
+    _108->mFlowchart->buildFlowchart(&mContext, mHeap);
+    auto* actors = _110;
+    EventActorBinder actor_binder(actors);
+    bindActors(mContext, actor_binder);
+    EventActionBinder action_binder(actors);
+    bindActorActions(mContext, action_binder);
+    EventQueryBinder query_binder(actors);
+    bindActorQueries(mContext, query_binder);
+}
 
 // 0x7100dbb414
 f32 EventFlowFlowchart::getFrameCount() const {
