@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionSwarmChemicalDamaged.h"
+#include "Game/AI/aiUnk_710072BA90.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/Actor/actUnk_71025ae680.h"
@@ -19,6 +20,35 @@ bool SwarmChemicalDamaged::init_(sead::Heap* heap) {
 void SwarmChemicalDamaged::enter_(ksys::act::ai::InlineParamPack* params) {
     sub_7100283004(params);
     SwarmDamaged::enter_(params);
+}
+
+void SwarmChemicalDamaged::sub_7100283004(ksys::act::ai::InlineParamPack* params) {
+    auto* actor = mActor;
+    _1d4 = -1;
+    _1d8 = -1;
+    _1d0 = false;
+
+    auto* manager = sub_710072BA90(actor);
+    auto* unit = sead::DynamicCast<act::Unk_710244ff68>(static_cast<ksys::act::DynamicActor*>(actor)->m159());
+    if (manager && unit) {
+        if (manager->getField54() == 0x12) {
+            _1d4 = 2;
+            _1d8 = unit->_20;
+        } else if (manager->getField54() == 3) {
+            _1d4 = 3;
+            _1d8 = unit->_1c;
+        } else if (manager->getField54() == 4) {
+            _1d4 = 4;
+            _1d8 = unit->_24;
+        }
+    }
+    if (_1d4 != -1)
+        _1d0 = true;
+
+    if (*mResetChemicalTimer_s > 0.0f)
+        _1e0.mTimer.reset(*mResetChemicalTimer_s);
+    else
+        sub_71002831E4();
 }
 
 void SwarmChemicalDamaged::leave_() {

@@ -118,7 +118,7 @@ KSYS_CHECK_SIZE_NX150(AutoPlacementMgr, 0x189E38);
 // StatisticsMgr value of the statistics pointer `*stats` at `pos`, 0 if the query fails.
 f32 sub_7100659298(const sead::Vector3f& pos, void* const* stats);
 
-// 0x710065622c (placeholder name and signature; called by AutoPlacementMgr 0x71006 4de34): the cell (50 x 40 cells of 200 units, the
+// 0x710065622c (placeholder name and signature; called by AutoPlacementMgr at 0x710064de34): the cell (50 x 40 cells of 200 units, the
 // origin at (-5000, -4000)) of `pos`, clamped to the grid.
 void sub_710065622C(s32* col, s32* row, const sead::Vector3f* pos);
 

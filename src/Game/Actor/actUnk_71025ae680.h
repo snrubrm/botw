@@ -109,7 +109,8 @@ KSYS_CHECK_SIZE_NX150(Unk_71008502cc, 0x150);
 class Unk_710244ff68 : public Unk_71025ae680 {
     SEAD_RTTI_OVERRIDE(Unk_710244ff68, Unk_71025ae680)
 public:
-    /* 0x20 */ u8 _20[0x28 - 0x20];
+    /* 0x20 */ s32 _20;  // SwarmChemicalDamaged::sub_7100283004 (placeholder names)
+    /* 0x24 */ s32 _24;
     /* 0x28 */ u8 _28;  // flags (BeeSwarmRoot::enter_ sets bit 0)
     /* 0x29 */ u8 _29[0x68 - 0x29];
 };

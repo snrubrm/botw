@@ -16,7 +16,7 @@ bool PriestBossClonesSpawn::init_(sead::Heap* heap) {
 
 void PriestBossClonesSpawn::enter_(ksys::act::ai::InlineParamPack* params) {
     if (mASNameForAITree_s != "default")
-        sub_7100221B68(mASNameForAITree_s, "ASName", &ksys::act::ai::ParamPack::setString);
+        setDynamicParamImpl(mASNameForAITree_s, "ASName", &ksys::act::ai::ParamPack::setString);
     PriestBossClonesSpawnForDemo::enter_(params);
     const bool no_delay = *mDelayFrame_d == 0;
     _d9 = no_delay;
