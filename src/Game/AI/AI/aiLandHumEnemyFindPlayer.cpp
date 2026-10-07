@@ -1,9 +1,17 @@
 #include "Game/AI/AI/aiLandHumEnemyFindPlayer.h"
+#include <cmath>
+#include <random/seadGlobalRandom.h>
+#include "Game/Actor/actEnemy.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/Resource/Actor/resResourceGParamList.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectGeneral.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectEnemyLevel.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "Game/Damage/dmgInfoManager.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/AI/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 
@@ -261,6 +269,36 @@ bool LandHumEnemyFindPlayer::m52() {
         return true;
     }
     return false;
+}
+
+// NON_MATCHING: target and parameter captures, vector stores, and bool return scheduling differ.
+bool LandHumEnemyFindPlayer::sub_7100462A28() {
+    if (s32(sead::GlobalRandom::instance()->getU32(100)) > *mParams.mThrowWeaponPer_s)
+        return false;
+    auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
+    auto* target = sub_71005D9050(mActor);
+    if (!enemy)
+        return false;
+    auto* params = enemy->getParam()->getRes().mGParamList;
+    const auto* level = params->getEnemyLevel();
+    if (!level || !*level->mIsThrowWeapon)
+        return false;
+    const s32* life = enemy->getLife();
+    const s32 current_life = life ? *life : 1;
+    if (!target || *params->getGeneral()->mLife < current_life || !target->hasProc())
+        return false;
+    const auto& target_pos = sub_71005D9330(enemy);
+    const auto& matrix = enemy->getMtx();
+    const f32 x = matrix(0, 3) - target_pos.x;
+    const f32 z = matrix(2, 3) - target_pos.z;
+    if (!(std::sqrt(x * x + z * z) <= *mParams.mThrowWeaponDist_s))
+        return false;
+    const s32 weapon = sub_71005DBB60(enemy, *mWeaponIdx_s);
+    if (weapon == -1 || weapon == 4)
+        return false;
+    const sead::Vector3f direction = matrix.getBase(2);
+    const sead::Vector3f position = matrix.getTranslation();
+    return sub_710072DCFC(sub_71005D9330(enemy), position, direction, 1.0471976f);
 }
 
 }  // namespace uking::ai
