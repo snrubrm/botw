@@ -36,6 +36,14 @@ void Unk_7102459dd8::sub_710079C408() {
     _18 = sub_ease(_14);
 }
 
+void Unk_7102459dd8::sub_710079C57C(const Unk_7102459dd8& other) {
+    _8 = other._8;
+    _c = other._c;
+    _10 = other._10;
+    _14 = other._14;
+    _18 = other._18;
+}
+
 void Unk_7102459dd8::sub_710079C510(f32 t) {
     _14 = sead::Mathf::clamp(t, 0.0f, 1.0f);
     _18 = sub_ease(_14);

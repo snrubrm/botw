@@ -1,6 +1,7 @@
 #pragma once
 
 #include <math/seadVector.h>
+#include <prim/seadBitFlag.h>
 #include "Game/AI/Action/actionCameraAction.h"
 #include "Game/Actor/actCamera.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
@@ -18,6 +19,27 @@ protected:
     void m33() override;
     void m34() override;
     void m36() override;
+
+    // 0x710075165c: runs the update of the current mode (_2bb), then restarts the eased progress.
+    void sub_710075165C();
+    // 0x7100753aa0 / 0x7100753ea4 / 0x7100754194 / 0x7100754a0c / 0x7100754680 (declared only): the per-mode
+    // updates for _2bb 0 / 1 / 2 / (3 or more) / 4.
+    void sub_7100753AA0();
+    void sub_7100753EA4();
+    void sub_7100754194();
+    void sub_7100754A0C();
+    void sub_7100754680();
+    // 0x7100752fa4: the blend factor of the stick input `value` (clamped to [-1, 1]).
+    f32 sub_7100752FA4(f32 value);
+    // 0x7100753084 / 0x7100751710: maps `value` through the lat curve with the widths (and back through the
+    // plain curve between _f4 and _f8) and the other way round.
+    f32 sub_7100753084(f32 value);
+    // 0x71007517e8 / 0x7100752eb8 / 0x710075315c: the same for the offset Y and radius parameters.
+    f32 sub_71007517E8(f32 value);
+    f32 sub_7100752EB8(f32 value);
+    f32 sub_710075315C(f32 value);
+    // 0x7100751710: the angle fraction through the two curves given by the lat limits / widths / weights.
+    f32 sub_7100751710(f32 value);
 
     act::Unk_7102459dd8 _50;
     act::Unk_7102459dd8 _70;
@@ -144,7 +166,11 @@ protected:
     const int* mControlMode_s{};
     // static_param at offset 0x298
     const bool* mKeepManual_s{};
-    u8 _2a0[0x2ba - 0x2a0]{};
+    u8 _2a0[0x2a4 - 0x2a0]{};
+    f32 _2a4 = 0;
+    u8 _2a8[0x2b8 - 0x2a8]{};
+    sead::BitFlag8 _2b8;
+    u8 _2b9 = 0;
     u8 _2ba = 2;
     u8 _2bb = 5;
     u8 _2bc = 5;

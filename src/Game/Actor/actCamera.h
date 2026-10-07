@@ -43,6 +43,8 @@ public:
     void sub_710079C408();
     // 0x710079c510: _14 = clamp(t, 0, 1).
     void sub_710079C510(f32 t);
+    // 0x710079c57c: copies the five values (not the vtable pointer).
+    void sub_710079C57C(const Unk_7102459dd8& other);
 
     /* 0x08 */ f32 _8 = 0;
     /* 0x0c */ f32 _c = 1.0;
