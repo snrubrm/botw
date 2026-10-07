@@ -46,6 +46,13 @@ void sub_71007214A0(Unk_71007214A0* callbacks, ksys::act::Actor* actor,
                    const sead::SafeString& dynamic_name, const sead::SafeString& body_name,
                    const sead::SafeString& extra_name, f32 max_mass);
 
+// 0x71005dda44 (defined in aiUnk_71005D6D10.cpp; declared here by lane1 s47): enables the "..." attention client of the actor.
+void sub_71005DDA44(ksys::act::Actor* actor);
+
+// 0x7100721670 (lane1 s47; the first argument is unused): makes the rigid body `name` of the actor's "Body" set a
+// gravity-free, impulse-free, ground-collision-free body that only contacts the player layer.
+void sub_7100721670(void* unused, ksys::act::Actor* actor, const sead::SafeString& name);
+
 // Free helpers in the same TU.
 // 0x7100720140: sets Enemy::_e90 = 1 if the actor is an Enemy.
 void sub_7100720140(ksys::act::Actor* actor);

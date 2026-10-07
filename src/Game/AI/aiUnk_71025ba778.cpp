@@ -1,6 +1,14 @@
 #include "Game/AI/aiUnk_71025ba778.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
+void Unk_71025ba778::sub_710070F350(ksys::act::Actor* actor) {
+    if (!actor)
+        return;
+    if (!_100._8)
+        actor->boneHandleStuff(&_18, false);
+    _8 |= 1;
+}
+
 void Unk_71025ba778::sub_710070F79C(ksys::act::Actor* actor) {
     if (!actor)
         return;

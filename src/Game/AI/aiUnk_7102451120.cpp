@@ -7,6 +7,7 @@
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 
 void sub_7100720140(ksys::act::Actor* actor) {
@@ -79,6 +80,25 @@ void sub_7100720454(ksys::act::Actor* actor) {
             body->enableContactLayer(ksys::phys::ContactLayer::EntityPlayer);
         }
     }
+}
+
+void sub_7100721670(void* unused, ksys::act::Actor* actor, const sead::SafeString& name) {
+    auto* set = actor->getRigidBodyByName(sub_71007A24E4()->cstr());
+    if (!set)
+        return;
+    auto* body = set->findBodyByHavokName(name);
+    if (!body)
+        return;
+    if (auto* instances = actor->getPhysics())
+        instances->sub_7100FBD94C(body, true);
+    body->changeMotionType(ksys::phys::MotionType::Dynamic);
+    body->setGravityFactor(0.0f);
+    body->enableGroundCollision(false);
+    body->setColImpulseScale(0.0f);
+    body->setEntityMotionFlag100(true);
+    body->setFlag200();
+    body->setContactAll();
+    body->disableContactLayer(ksys::phys::ContactLayer::EntityPlayer);
 }
 
 void sub_7100720A70(ksys::act::Actor* actor) {

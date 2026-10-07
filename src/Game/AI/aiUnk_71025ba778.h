@@ -44,6 +44,9 @@ public:
     // Inline in the original (the owner's destructor inlines it; the out-of-line copies sit after LynelRoot's).
     ~Unk_71025ba778() override = default;
 
+    // 0x710070f350 (lane1 s47): LynelRoot::enter_ calls it: attaches the bone handle `_18` to the actor (unless `_100` is
+    // attached) and sets bit 0 of `_8`.
+    void sub_710070F350(ksys::act::Actor* actor);
     // 0x710070f79c: (LynelBodyFitToGroundNormal::m8) attaches the "Man_Spine_1" bone handle to the actor
     // if needed and sets bit 1 of `_8`.
     void sub_710070F79C(ksys::act::Actor* actor);

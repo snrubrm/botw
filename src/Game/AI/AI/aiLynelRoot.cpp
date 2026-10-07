@@ -1,4 +1,10 @@
 #include "Game/AI/AI/aiLynelRoot.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/AI/aiUnk_7102451120.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actAiRoot.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "Game/AI/aiUnk_PartsActorDelete.h"
 #include "Game/Damage/dmgDamageManagerBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
@@ -34,7 +40,35 @@ bool LynelRoot::init_(sead::Heap* heap) {
     return EnemyRoot::init_(heap);
 }
 
+// NON_MATCHING: the original reloads `mActor` at the top of each iteration of the weapon loop and once more after it;
+// we load it once at the end of the loop body (loop rotation + load merging)
 void LynelRoot::enter_(ksys::act::ai::InlineParamPack* params) {
+    _2c8.sub_710070F350(mActor);
+    sub_71005DDA44(mActor);
+    ksys::act::disableAttClient(mActor, "HornAttackRide");
+    ksys::act::disableAttClient(mActor, "Ride");
+    if (mActor->getRootAi()->getI() != 5 && *mIsNearCreate_m)
+        mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_2000000);
+
+    const s32 count = sub_71005D7854(mActor);
+    for (s32 i = 0; i < count; ++i)
+        sub_71005DB6D0(mActor, i);
+
+    {
+        if (auto* controller = mActor->getCharacterController()) {
+            if (auto* as_list = mActor->getASList()) {
+                sead::Vector3f velocity;
+                if (!controller->sub_7100F5F234(&velocity))
+                    velocity = sead::Vector3f::ey;
+                as_list->sub_710115F024(velocity, 0);
+            }
+        }
+    }
+    if (auto* body = mActor->getMainBody())
+        body->clearEntityMotionFlag10(false);
+    if (auto* controller = mActor->getCharacterController())
+        controller->sub_7100F631B8(true);
+    sub_7100721670(&_4a0, mActor, "BodyFrontLeg");
     EnemyRoot::enter_(params);
 }
 
