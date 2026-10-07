@@ -4,6 +4,8 @@
 #include <heap/seadDisposer.h>
 #include <container/seadSafeArray.h>
 #include <prim/seadSafeString.h>
+#include "Game/gameAlbumInfo.h"
+#include "KingSystem/Utils/Types.h"
 
 namespace uking {
 
@@ -55,8 +57,9 @@ public:
     u8 _39[0x3c - 0x39];
     // The save state (read by GameScene::sub_71007B1C64, isFinishedSavingMaybe).
     u32 _3c;
-    sead::SafeArray<Slot, 8> _40;
-    u8 _1880[0x1a28 - 0x1880];
+    sead::SafeArray<SaveSlot, 8> _40;
+    AlbumInfo _1880;
+    u8 _1a00[0x1a28 - 0x1a00];
     f32 _1a28;
     u8 _1a2c[0x1a34 - 0x1a2c];
     // bool / s32 flag indices (with the flag handle prefix in the top byte) set by requestAutoSaveForGameClear

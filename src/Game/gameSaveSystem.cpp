@@ -35,6 +35,10 @@ bool SaveSystem::isFirstLaunch() const {
     return !(_38 & 4);
 }
 
+s32 SaveSystem::sub_7100915F58(s32 idx) {
+    return _1880.sub_710090C954(idx);
+}
+
 void SaveSystem::noop() {}
 
 void SaveSystem::newDayCallback() {
@@ -90,7 +94,7 @@ bool SaveSystem::sub_7100914D48() {
     return true;
 }
 
-SaveSystem::Slot* SaveSystem::sub_7100914DA0(s32 slot) {
+SaveSlot* SaveSystem::sub_7100914DA0(s32 slot) {
     return &_40[(_38 & 1) ? slot : 0];
 }
 
