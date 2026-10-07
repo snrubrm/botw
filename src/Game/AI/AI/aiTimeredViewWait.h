@@ -9,7 +9,7 @@ class TimeredViewWait : public ViewWait {
     SEAD_RTTI_OVERRIDE(TimeredViewWait, ViewWait)
 public:
     explicit TimeredViewWait(const InitArg& arg);
-    ~TimeredViewWait() override;
+    ~TimeredViewWait() override = default;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;

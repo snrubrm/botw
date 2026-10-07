@@ -5,8 +5,6 @@ namespace uking::ai {
 
 TimeredViewWait::TimeredViewWait(const InitArg& arg) : ViewWait(arg) {}
 
-TimeredViewWait::~TimeredViewWait() = default;
-
 bool TimeredViewWait::init_(sead::Heap* heap) {
     return ViewWait::init_(heap);
 }

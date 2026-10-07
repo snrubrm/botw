@@ -31,7 +31,7 @@ class SimpleWildlifeRoot : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(SimpleWildlifeRoot, ksys::act::ai::Ai)
 public:
     explicit SimpleWildlifeRoot(const InitArg& arg);
-    ~SimpleWildlifeRoot() override;
+    ~SimpleWildlifeRoot() override = default;
 
     void m9() override;
     bool init_(sead::Heap* heap) override;

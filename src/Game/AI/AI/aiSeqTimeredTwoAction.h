@@ -9,7 +9,7 @@ class SeqTimeredTwoAction : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(SeqTimeredTwoAction, ksys::act::ai::Ai)
 public:
     explicit SeqTimeredTwoAction(const InitArg& arg);
-    ~SeqTimeredTwoAction() override;
+    ~SeqTimeredTwoAction() override = default;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
