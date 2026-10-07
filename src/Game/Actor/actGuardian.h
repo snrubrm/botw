@@ -92,6 +92,12 @@ public:
     bool m81(const ksys::Message& message) override;
     void updateMtxFromPhysics() override;
 
+    // lane1 s47 (declaration only; placeholder names): 0x710003b2a8: `sub_710003B098() >= 0`. 0x710003b3fc: sets
+    // bits 3 and 9 of _14c8 and calls a method of `_15b0` (when set).
+    bool sub_710003B2A8() const;
+    void sub_710003B3FC();
+    // 0x710003b554 (lane1 s47, declaration only; placeholder name): returns a static flag (`sFlag & 1`).
+    bool sub_710003B554() const;
     // 0x7100034514: sets or clears bit 4 of _14c8.
     void sub_7100034514(bool on);
     // 0x7100035a90: switches the state _14d8 (no-op if equal; state 5 sends message 0x800000d to the
@@ -144,7 +150,9 @@ public:
     // +0x30 out.
     struct Unk15a8 {
         /* 0x00 */ sead::Vector3f _0;
-        /* 0x0c */ u8 _c[0x30 - 0xc];
+        /* 0x0c */ sead::Vector3f _c;
+        /* 0x18 */ sead::Vector3f _18;
+        /* 0x24 */ u8 _24[0x30 - 0x24];
         /* 0x30 */ sead::Vector3f _30;
         /* 0x3c */ sead::Vector3f _3c;
     };

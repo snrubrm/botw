@@ -38,6 +38,11 @@ public:
 
     // 0x710040fc24 (2.8 KB, not decompiled): called by Unk_71023f6f80::m5.
     void sub_710040FC24();
+    // 0x710040f7c0 (placeholder name): the pack passes the Guardian's `_15a8->_18` as `TargetPos` to the child
+    // (aiming preparation / aiming).
+    void sub_710040F7C0(bool prepare);
+    // 0x710040f8b8 (CSV guardianBeamAttackGoToChargeState): the same for the charge state.
+    void sub_710040F8B8();
     // 0x7100410730 (placeholder name): (radius, length) of the light: casts a ray from `start` along `dir` over
     // LightLength and shortens the length to the hit distance (+ LightLengthOffset)
     sead::Vector2f sub_7100410730(const sead::Vector3f& dir, const sead::Vector3f& start);
