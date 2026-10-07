@@ -33,6 +33,20 @@ SiteBoss::Unk_71002cf2ac::~Unk_71002cf2ac() {
     sub_710066BC04();
 }
 
+void SiteBoss::Unk_71002cf2ac::sub_710066DABC(ksys::act::BaseProc* proc, s32 idx) {
+    if (proc && !_320[idx].hasProc()) {
+        _320[idx].acquire(proc, false);
+        return;
+    }
+    auto& link = _320[idx];
+    if (link.hasProc()) {
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::acquireActor(&link, &accessor);
+        accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+        link.acquire(proc, false);
+    }
+}
+
 void SiteBoss::Unk_71002cf2ac::sub_710066C13C(ksys::act::BaseProcLink* target, int idx) {
     sub_710066C164(mOwner, target, ksys::MessageType(0x800004d), idx, 0, nullptr);
 }
