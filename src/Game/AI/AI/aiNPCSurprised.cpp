@@ -1,6 +1,10 @@
 #include "Game/AI/AI/aiNPCSurprised.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actTag.h"
+#include "Game/AI/aiUnk_7100711020.h"
 
 namespace uking::ai {
 
@@ -13,7 +17,18 @@ bool NPCSurprised::init_(sead::Heap* heap) {
 }
 
 void NPCSurprised::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    ksys::act::ActorConstDataAccess accessor;
+    if (ksys::act::acquireActor(mTerrorEmitter_d, &accessor)) {
+        if (accessor.hasTag(ksys::act::tags::Explosive))
+            sub_7100712388(mActor, accessor, "TerrorExplosion");
+        else if (accessor.getName() == "Explode")
+            sub_7100712388(mActor, accessor, "TerrorLightning");
+        else if (*mTerrorLayer_d & 0x10)
+            sub_7100712388(mActor, accessor, "TerrorImpulse");
+    }
+    sub_71005D7518(mActor, false);
+    ksys::act::setEnabledTalkAndLockOn(mActor, false);
+    changeChild("驚く");
 }
 
 void NPCSurprised::calc_() {

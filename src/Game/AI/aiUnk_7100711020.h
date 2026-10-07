@@ -15,6 +15,8 @@ class Heap;
 
 namespace ksys::act {
 class Actor;
+class BaseProc;
+class ActorConstDataAccess;
 }
 
 // Unnamed helper (no vtable; placeholder name = constructor address) embedded in CreationNestOnTree
@@ -51,3 +53,7 @@ public:
     ksys::Timer _118;
 };
 KSYS_CHECK_SIZE_NX150(Unk_7100711020, 0x128);
+
+// 0x7100712388: the actor message-text helper following this controller family.
+bool sub_7100712388(ksys::act::BaseProc* proc, const ksys::act::ActorConstDataAccess& accessor,
+                    const sead::SafeString& key);
