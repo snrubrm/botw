@@ -57,7 +57,8 @@ public:
     // 0x7100f8aca4 (CSV NavMeshLoadMgr::x_1; declared only): whether the tile of `pos` is covered (false when the manager is
     // disabled or has no tiles).
     bool x_1(const sead::Vector3f* pos);
-    // Completed lane4 support eb59f029: returns the normalized tile-resource query result.
+    // 2026-10-07: HavokAI::init constructs this manager at +0x48; the query
+    // returns a normalized boolean after checking the requested tile resource.
     bool sub_7100F8ADC4(const sead::Vector3f* pos);
     // 0x7100f8aba0: position is within one tile of the currently selected tile.
     bool x_0(const sead::Vector3f* pos);
