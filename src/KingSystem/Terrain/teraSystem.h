@@ -31,6 +31,25 @@ class Core {
 public:
     class Grass {
     public:
+        struct Unk_7101150c24 {
+            u32 _0;
+            const sead::Vector3f* mPosition;
+            f32 _10;
+            f32 _14;
+            bool _18;
+            bool _19;
+            bool _1a;
+            bool _1b;
+            bool _1c;
+        };
+        static_assert(sizeof(Unk_7101150c24) == 0x20);
+        u32 sub_7101150C24(const Unk_7101150c24* arg);
+        bool sub_7101150F08(const sead::Vector3f* pos, f32 a, f32 b);
+        bool sub_7101150F48(const sead::Vector3f* pos, f32 a, f32 b);
+        bool sub_7101150F88(const sead::Vector3f* pos, f32 a, f32 b, bool flag);
+        bool sub_7101150FD4(const sead::Vector3f* pos, f32 a, f32 b);
+        bool sub_710115101C(const sead::Vector3f* pos, f32 radius);
+
         void sub_7101150990(bool enabled);
         void sub_7101150A7C(const sead::Vector3f* pos, f32 radius, f32 value);
 

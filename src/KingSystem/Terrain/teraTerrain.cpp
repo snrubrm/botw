@@ -67,4 +67,31 @@ sead::Vector2f Terrain::sub_710114D8E4(const Unk_710114D8E4* params) {
 }
 f32 Terrain::sub_710114D8F8(const Unk_710114D8E4* params) { return params->_18 * _3c8; }
 
+bool Core::Grass::sub_7101150F08(const sead::Vector3f* pos, f32 a, f32 b) {
+    const Unk_7101150c24 arg{4, pos, a, b, true, false, false, false, false};
+    return (sub_7101150C24(&arg) & 1) != 0;
+}
+
+// NON_MATCHING: the compiler stores the trailing flag after the preceding flags.
+bool Core::Grass::sub_7101150F48(const sead::Vector3f* pos, f32 a, f32 b) {
+    const Unk_7101150c24 arg{1, pos, a, b, true, true, false, false, false};
+    return (sub_7101150C24(&arg) & 1) != 0;
+}
+
+// NON_MATCHING: the compiler separates adjacent flag stores and schedules argument stores differently.
+bool Core::Grass::sub_7101150F88(const sead::Vector3f* pos, f32 a, f32 b, bool flag) {
+    const Unk_7101150c24 arg{2, pos, a, b, true, false, false, false, flag};
+    return (sub_7101150C24(&arg) & 1) != 0;
+}
+
+bool Core::Grass::sub_7101150FD4(const sead::Vector3f* pos, f32 a, f32 b) {
+    const Unk_7101150c24 arg{8, pos, a, b, true, true, true, false, true};
+    return (sub_7101150C24(&arg) & 1) != 0;
+}
+
+bool Core::Grass::sub_710115101C(const sead::Vector3f* pos, f32 radius) {
+    const Unk_7101150c24 arg{1, pos, radius, 10.0f, false, false, true, false, true};
+    return (sub_7101150C24(&arg) & 1) != 0;
+}
+
 }  // namespace ksys::tera
