@@ -70,6 +70,10 @@ int DamageInfoMgr::getShieldRideHitBaseDamage() {
     return global->getGlobalParam()->mShieldRideHitBaseDamage.ref();
 }
 
+int DamageInfoMgr::sub_7100674804() {
+    return 10;
+}
+
 f32 DamageInfoMgr::getCriticalAttackRatio() {
     auto* global = ksys::act::GlobalParameter::instance();
     if (!global || !global->getGlobalParam())

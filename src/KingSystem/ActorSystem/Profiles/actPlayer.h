@@ -10,6 +10,7 @@
 #include "KingSystem/ActorSystem/actUnk_71024ef4e8.h"
 #include "KingSystem/ActorSystem/Awareness/actAITerror.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerArmors.h"
+#include "KingSystem/ActorSystem/actBoneHandle.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/Physics/physDefines.h"
 #include "KingSystem/System/Timer.h"
@@ -783,7 +784,10 @@ public:
     /* 0x2d48 */ BaseProcLink _2d48;
     /* 0x2d58 */ sead::Vector3f _2d58;
     /* 0x2d64 */ bool _2d64;  // set by PlayerTurnAndLookToObjectNow::leave_
-    /* 0x2d65 */ u8 _2d65[0x2ec0 - 0x2d65];
+    /* 0x2d65 */ u8 _2d65[0x2d68 - 0x2d65];
+    /* 0x2d68 */ BoneHandle _2d68;  // removed from the actor's bone handle list in prepareForPreDelete_
+    /* 0x2e10 */ BoneHandle _2e10;
+    /* 0x2eb8 */ u8 _2eb8[0x2ec0 - 0x2eb8];
 };
 KSYS_CHECK_SIZE_NX150(Player, 0x2ec0);
 

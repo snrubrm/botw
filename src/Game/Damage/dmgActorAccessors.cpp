@@ -61,6 +61,17 @@ bool sub_71006DE574(const ksys::act::ActorConstDataAccess& accessor) {
     return actor->getParam()->getRes().mGParamList->getEnemyShown()->mIsNoise.ref();
 }
 
+// 0x71006de628: DamageManagerBase::sub_71006E11F4(type) of the accessor's actor (false without a damage manager).
+bool sub_71006DE628(const ksys::act::ActorConstDataAccess& accessor, s32 type) {
+    auto* actor = getActorOfAccessor(accessor);
+    if (!actor)
+        return false;
+    auto* manager = sead::DynamicCast<uking::dmg::DamageManagerBase>(actor->getDamageMgr());
+    if (!manager)
+        return false;
+    return manager->sub_71006E11F4(type);
+}
+
 // 0x71006deb48 / 0x71006debec: DynamicActor::m151 / m152.
 bool sub_71006DEB48(const ksys::act::ActorConstDataAccess& accessor, int bit) {
     auto* actor = getDynamicActor(accessor);

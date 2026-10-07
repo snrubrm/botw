@@ -88,6 +88,14 @@ BaseProc* Player::construct(const CreateArg& arg, sead::Heap* heap) {
 // NON_MATCHING: members are not declared yet
 Player::~Player() = default;
 
+Player::PreDeletePrepareResult Player::prepareForPreDelete_() {
+    sub_71011DA868(&_2d68);
+    sub_71011DA868(&_2e10);
+    Actor::prepareForPreDelete_();
+    _23e0.sub_7100E2D70C();
+    return PreDeletePrepareResult::Done;
+}
+
 void Player::updateChampionAbilitiesAndMasterSwordRecoverFlags() {
     if (isPlayingBeastGanonDeadEventFlow())
         return;

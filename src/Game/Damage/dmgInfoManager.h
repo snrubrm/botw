@@ -44,6 +44,8 @@ public:
     static bool sub_710067479C();
     static int getShieldRideBaseFrame();
     static int getShieldRideHitBaseDamage();
+    // 0x7100674804 (CSV get10): returns the constant 10 (the interval of the shield ride hits; placeholder name).
+    static int sub_7100674804();
     static f32 getCriticalAttackRatio();
 
     bool isTrueFormMasterSword() const;

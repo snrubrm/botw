@@ -4,6 +4,11 @@ target_sources(uking PRIVATE
     dmgDamageManagerBase.h
     dmgDamageManagerBase.cpp
     dmgDamageMgrNPC.h
+    dmgDamageMgrBow.cpp
+    dmgDamageMgrShield.cpp
+    dmgDamageMgrSword.cpp
+    dmgDamageMgrWeapon.cpp
+    dmgDamageMgrWeapon.h
     dmgDamageMgrPlayer.h
     dmgClothStiffnessMgr.cpp
     dmgClothStiffnessMgr.h

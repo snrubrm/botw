@@ -178,12 +178,14 @@ public:
     inline void tryBuffDamage(s32& damage);
     inline void tryApplyDamageRecovery(s32& damage);
 
-private:
+protected:
     s32 mField_40 = 0;
     s32 mDamage = 0;
     s32 mField_48 = 0;
-    s32 mMinDmg = 0;
-    s32 mField_50 = -1;
+    // u32: DamageMgrSword::m22 passes the addresses of mMinDmg / mField_50 as the `u32*` arguments of
+    // callDamageCallbacks.
+    u32 mMinDmg = 0;
+    u32 mField_50 = -1;
     s32 mField_54 = -1;
     u32 mFlags2 = 0;
     s32 mDamageType = 0;
