@@ -67,6 +67,18 @@ void Unk_7102474e38::sub_7100939F4C(eui::AnimButton* button) {
 }
 
 // The eight original default button notifications are empty.
+void Unk_7102474e38::m4(sead::Heap*) {}
+void Unk_7102474e38::m5() {}
+void Unk_7102474e38::m6() {}
+void Unk_7102474e38::m7() {}
+void Unk_7102474e38::m8() {}
+void Unk_7102474e38::m9() {}
+void Unk_7102474e38::m10() {}
+void Unk_7102474e38::m11() {}
+void Unk_7102474e38::m12() {}
+void Unk_7102474e38::m13() {}
+void Unk_7102474e38::m14() {}
+
 void Unk_7102474e38::m15(eui::AnimButton*) {}
 void Unk_7102474e38::m16(eui::AnimButton*) {}
 void Unk_7102474e38::m17(eui::AnimButton*) {}
