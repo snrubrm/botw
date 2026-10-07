@@ -2827,6 +2827,10 @@ public:
     void sub_71009DCF18(s32 a1);
     // 0x71009dd7a8 / 0x71009dd7ec / 0x71009dd800 (placeholder names): switch the page (12 keeping _3808 / 8 or 9 / 10 or 11)
     void sub_71009DD7A8();
+    void sub_71009DD7D4();
+    void sub_71009DD7DC();
+    void sub_71009DD7E4();
+    void sub_71009DD814();
     void sub_71009DD7EC(bool a1);
     void sub_71009DD800(bool a1);
 };

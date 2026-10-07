@@ -161,4 +161,19 @@ void EventActorSet::x_2() {
         entries[i].action->x_0(entries[i].slot);
 }
 
+bool EventActorSet::sub_7100DA3698() {
+    for (s32 actor_index = 0; actor_index < mActors.size(); ++actor_index) {
+        Actor* actor = mActors(actor_index);
+        for (s32 i = 0; i < actor->mActions.size(); ++i) {
+            ActionBase* action = actor->mActions[i];
+            for (s32 slot_index = 0; slot_index < 32; ++slot_index) {
+                auto& slot = action->mSlots[slot_index];
+                if (slot.context && slot.context->mStatus != 0 && slot.context->mStatus < 5)
+                    return false;
+            }
+        }
+    }
+    return true;
+}
+
 }  // namespace ksys::evt

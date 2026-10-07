@@ -308,4 +308,8 @@ void EventFlowMovie::m16() {}
 // 0x7100dbc71c
 void EventFlowMovie::m17() {}
 
+bool EventFlowBase::sub_7100DB8AB4() {
+    return _110->sub_7100DA3698();
+}
+
 }  // namespace ksys::evt

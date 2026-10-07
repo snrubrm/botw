@@ -1219,4 +1219,9 @@ bool ScreenMainScreen3D::sub_7100A11D34(s32 id) {
     return false;
 }
 
+void ScreenAppHome::sub_71009DD7D4() { sub_71009DCF18(6); }
+void ScreenAppHome::sub_71009DD7DC() { sub_71009DCF18(5); }
+void ScreenAppHome::sub_71009DD7E4() { sub_71009DCF18(7); }
+void ScreenAppHome::sub_71009DD814() { sub_71009DCF18(0); }
+
 }  // namespace uking::ui

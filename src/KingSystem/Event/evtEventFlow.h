@@ -48,6 +48,7 @@ public:
     void x_2();
     // 0x7100da3624 (CSV evt::S6::x_4): whether every actor's x_0 is true
     bool x_4();
+    bool sub_7100DA3698();
     // 0x7100da288c / 0x7100da3878 (CSV evt::S6::x_1 / x_0)
     void x_1();
     void x_0();
@@ -140,6 +141,7 @@ public:
 
     // 0x7100db627c (CSV evt::EventFlowBase::getBaseProcLink)
     BaseProcLinkForEvent* getBaseProcLink();
+    bool sub_7100DB8AB4();
     // 0x7100db6288 (CSV evt::EventFlowBase::byte3FlagIsSet)
     bool byte3FlagIsSet() const;
     // 0x7100db8b84 (CSV evt::EventFlowBase::x): sets / clears the flag bits 0x80 + 0x20 and notifies the resource.
