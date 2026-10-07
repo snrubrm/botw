@@ -202,7 +202,7 @@ bool Unk_SoundMgra8::sub_710104B5DC(u32 idx) const {
     return _4a70 > idx;
 }
 
-bool Unk_SoundMgra8::sub_710104B68C(void* a, int b) {
+bool Unk_SoundMgra8::sub_710104B68C(act::Actor* a, int b) {
     for (auto it = _50.begin(); it != _50.end(); ++it) {
         if (it->sub_710104B1D8(a))
             return it->sub_710104ADB8(b);
@@ -218,7 +218,7 @@ bool Unk_SoundMgra8::sub_710104B708(int a) {
     return false;
 }
 
-bool Unk_SoundMgra8::sub_710104B76C(void* a) {
+bool Unk_SoundMgra8::sub_710104B76C(act::Actor* a) {
     for (auto it = _50.begin(); it != _50.end(); ++it) {
         if (it->sub_710104AFC0(a))
             return true;
