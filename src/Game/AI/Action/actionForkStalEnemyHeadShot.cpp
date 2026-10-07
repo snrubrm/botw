@@ -1,5 +1,7 @@
 #include "Game/AI/Action/actionForkStalEnemyHeadShot.h"
 #include "Game/AI/aiUnk_71007377D4.h"
+#include "Game/AI/aiUnk_710072BA90.h"
+#include "Game/Damage/dmgDamageManager.h"
 #include "Game/AI/aiUnk_7100724C64.h"
 
 namespace uking::action {
@@ -13,7 +15,14 @@ bool ForkStalEnemyHeadShot::init_(sead::Heap* heap) {
 }
 
 void ForkStalEnemyHeadShot::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    mFlags.set(Flag::Changeable);
+    auto* damage = sub_710072BA90(mActor);
+    if (!damage || damage->getField50() != 3 || !damage->checkDamageFlags(0))
+        return;
+    sub_7100164F64();
+    auto* actor = mActor;
+    if (!sub_71007271D4(actor))
+        sub_7100728C40(actor, sead::Vector3f::zero);
 }
 
 void ForkStalEnemyHeadShot::leave_() {

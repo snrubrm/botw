@@ -1,5 +1,7 @@
 #pragma once
 
+#include <math/seadVector.h>
+
 namespace ksys::act {
 class Actor;
 }
@@ -20,3 +22,6 @@ void sub_710072BB28(ksys::act::Actor* actor);
 // 0x7100728b38 (declaration only; unnamed in the CSV): reads an AI tree variable of the actor's root AI and acts on
 // it (StalEnemyDie::enter_ calls it before sub_710072BB28).
 void sub_7100728B38(ksys::act::Actor* actor);
+
+// 0x7100728c40: forwards the real vector argument to actor motion/weapon helpers.
+void sub_7100728C40(ksys::act::Actor* actor, const sead::Vector3f& vector);
