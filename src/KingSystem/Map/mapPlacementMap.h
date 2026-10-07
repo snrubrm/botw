@@ -71,6 +71,8 @@ public:
 private:
     friend class PlacementMgr;
     friend class PlacementMapMgr;
+    // 0x71011dd3d8 (CSV ActorCreator::c; placeholder name)
+    friend phys::StaticCompoundRigidBodyGroup* sub_71011DD3D8(Object* obj);
 
     bool loadStaticMap_(bool load);
     void doLoadStaticMap_(bool load);

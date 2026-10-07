@@ -11,8 +11,8 @@ map::Object* findLinkReferenceObj(BaseProcLink* link, const sead::SafeString& un
                                   const sead::SafeString& a3, int* idx);
 }  // namespace ksys::act
 
-// 0x7100ee7168 (declared only): writes the map object's transform (rotation and translation).
-void sub_7100EE7168(const ksys::map::Object* obj, sead::Matrix34f* out);
+// 0x7100ee7168: writes the map object's transform (rotation and translation).
+bool sub_7100EE7168(const ksys::map::Object* obj, sead::Matrix34f* out);
 
 namespace uking::action {
 

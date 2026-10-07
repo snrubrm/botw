@@ -20,7 +20,9 @@ target_sources(uking PRIVATE
   mapObject.h
   mapObjectGenGroup.cpp
   mapObjectGenGroup.h
+  mapObjectBodyGroup.cpp
   mapObjectLink.cpp
+  mapObjectTransform.cpp
   mapObjectLink.h
   mapPlacement18.h
   mapPlacement18.cpp
