@@ -1,6 +1,7 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <container/seadBuffer.h>
 #include <math/seadMatrix.h>
 #include <prim/seadBitFlag.h>
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
@@ -53,7 +54,7 @@ public:
     // 0x7100eb57f0: stores `mtx` into _e0 / _188 (resets the scale at _1b8 to 1) and updates the flags at _110.
     void sub_7100EB57F0(const sead::Matrix34f& mtx);
 
-    // 0x7100eb2394 / 0x7100eb4814 / 0x7100eb4928 (declared only; 180 / 276 / 1892 bytes).
+    // 0x7100eb2394: applies the buoyancy scale, the centre of mass and the masses to the bodies. 0x7100eb4814 / 0x7100eb4928 (declared only; 276 / 1892 bytes).
     void sub_7100EB2394();
     void sub_7100EB4814(int type, int a2, f32 f);
     void sub_7100EB4928(int type, int a2, const sead::Vector3f& a, const sead::Vector3f& b, bool flag,
@@ -87,8 +88,12 @@ public:
     u8 _28[0x38 - 0x28];
     /* 0x038 */ phys::Constraint* _38;
     u8 _40[0x48 - 0x40];
-    /* 0x048 */ u32 _48;
-    u8 _4c[0xb0 - 0x4c];
+    /* 0x048 */ f32 _48;  // water buoyancy scale (also copied to _144)
+    /* 0x04c */ sead::Vector3f _4c;  // centre of mass in local space
+    u8 _58[4];
+    /* 0x05c */ f32 _5c;  // mass
+    /* 0x060 */ sead::Buffer<f32> _60;  // the mass of each ragdoll body
+    u8 _70[0xb0 - 0x70];
     /* 0x0b0 */ AttachInfo* mAttachInfo;
     u8 _b8[8];
     /* 0x0c0 */ Unk_71024ef620* _c0;
@@ -100,7 +105,7 @@ public:
     u8 _12c[4];
     /* 0x130 */ u32 _130;
     u8 _134[0x144 - 0x134];
-    /* 0x144 */ u32 _144;
+    /* 0x144 */ f32 _144;
     /* 0x148 */ u64 _148;
     /* 0x150 */ u32 _150;
     u8 _154[0x188 - 0x154];

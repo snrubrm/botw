@@ -66,6 +66,14 @@ void Unk_71024ef4e8::sub_7100EB5308(bool a, int b, f32 f) {
     _144 = _48;
 }
 
+void Unk_71024ef4e8::sub_7100EB2394() {
+    _20->setWaterBuoyancyScale(_48);
+    _20->setCenterOfMassInLocal(_4c);
+    _20->setMass(_5c);
+    for (int i = 0; i < _18->getRigidBodies_().size(); ++i)
+        _18->getRigidBodies_()[i]->setMass(_60[i]);
+}
+
 void Unk_71024ef4e8::sub_7100EB5550() {
     _110.set(0x4);
 }
