@@ -1,0 +1,43 @@
+#include "KingSystem/Sound/sndMgr.h"
+
+namespace ksys::snd {
+
+extern const f32 sUnk_7102502518[2];
+
+void Unk_710104e5b4::sub_710104FD38(const xlink2::HandleSLink& handle) {
+    _278 = handle;
+}
+
+// NON_MATCHING: state branches, clamp scheduling and mapped data access differ.
+void Unk_710104e5b4::sub_710104EA7C() {
+    if (_250 == 3) {
+        _258.calc();
+        _278.setVolumeScale(_258.getValue() <= 0.0f ? 0.0f : _258.getValue());
+        if (_258.getValue() == _258.getTarget())
+            _250 = 0;
+    } else if (_250 == 2) {
+        _270 += sub_710105E3A4();
+        if (sUnk_7102502518[0] <= _270) {
+            _270 = sUnk_7102502518[0];
+            _258.moveTo(1.0f, sUnk_7102502518[1]);
+            _250 = 3;
+        }
+    } else if (_250 == 1) {
+        _258.calc();
+        _278.setVolumeScale(_258.getValue() <= 0.0f ? 0.0f : _258.getValue());
+        if (_258.getValue() == _258.getTarget()) {
+            _250 = 2;
+            _270 = 0.0f;
+        }
+    }
+}
+
+extern const f32 sUnk_7102502500[2];
+
+// NON_MATCHING: the original local data pair is accessed through the mapped external symbol.
+void Unk_710104e5b4::sub_710104FD4C() {
+    _250 = 1;
+    _258.moveTo(sUnk_7102502500[0], sUnk_7102502500[1]);
+}
+
+}  // namespace ksys::snd

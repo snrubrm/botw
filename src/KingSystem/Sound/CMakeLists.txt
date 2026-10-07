@@ -19,6 +19,7 @@ target_sources(uking PRIVATE
   sndMgr.h
   sndSoundMgr38.cpp
   sndSoundInstance.cpp
+  sndDialogue.cpp
   sndSoundInstanceMgr.cpp
   sndSoundInstanceForwarders.cpp
   sndSoundProxyMgr.cpp
