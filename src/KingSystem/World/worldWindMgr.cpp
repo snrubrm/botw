@@ -21,4 +21,25 @@ f32 WindMgr::sub_71010EEF48() const {
     return _20->_8;
 }
 
+// NON_MATCHING: the constant load, multiplication schedule and upper clamp differ.
+f32 WindMgr::sub_71010EEF04() const {
+    // The original constant at 0x710250d250 is 12.0f.
+    const f32 strength = _80 * ((_68 / 12.0f) * 15.0f);
+    if (strength < 0.0f)
+        return 0.0f;
+    if (strength > 1.0f)
+        return 1.0f;
+    return strength;
+}
+
+// NON_MATCHING: the inlined strength calculation has the same differences as sub_71010EEF04.
+void WindMgr::x_0() {
+    _20->sub_71012FF2B0(sub_71010EEF04());
+}
+
+// NON_MATCHING: the inlined strength calculation has the same differences as sub_71010EEF04.
+void WindMgr::x_1() {
+    _20->sub_71012FF268(sub_71010EEF04());
+}
+
 }  // namespace ksys::world

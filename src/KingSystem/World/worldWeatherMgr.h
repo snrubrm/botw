@@ -105,3 +105,7 @@ KSYS_CHECK_SIZE_NX150(WeatherMgr, 0x398);
 bool isGetPlayerStole2();
 
 }  // namespace ksys::world
+
+namespace wm {
+ksys::world::WeatherMgr* getWeatherMgr();
+}

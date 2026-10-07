@@ -213,3 +213,14 @@ bool isGetPlayerStole2() {
 }
 
 }  // namespace ksys::world
+
+namespace wm {
+
+ksys::world::WeatherMgr* getWeatherMgr() {
+    const auto* manager = ksys::world::Manager::instance();
+    if (!manager)
+        return nullptr;
+    return manager->getWeatherMgr();
+}
+
+}  // namespace wm
