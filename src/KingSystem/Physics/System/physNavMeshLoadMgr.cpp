@@ -35,7 +35,7 @@ void NavMeshLoadMgr::sub_7100F8B334(const sead::Vector3f* pos) {
 
     const s32 x = sead::Mathi::clamp((s32(pos->x) - _170.x) / _178.x, 0, _180.x - 1);
     const s32 z = sead::Mathi::clamp((s32(pos->z) - _170.y) / _178.y, 0, _180.y - 1);
-    TileHandle* handle = _8 > 9 ? &_10->_360 : nullptr;
+    TileHandle* handle = _8 > 9 ? &_10[9] : nullptr;
     if (handle->requestedLoad()) {
         if (x != handle->_50 || z != handle->_54)
             return;
@@ -66,6 +66,26 @@ bool NavMeshLoadMgr::x_1(const sead::Vector3f* pos) {
     return dx < 3 && dz < 3;
 }
 
+// NON_MATCHING: coordinate conversion scheduling and saved values differ.
+bool NavMeshLoadMgr::sub_7100F8ADC4(const sead::Vector3f* pos) {
+    if (_190 || !_10)
+        return false;
+    if ((_178.x | _178.y) != 0) {
+        const s32 x = sead::Mathi::clamp((s32(pos->x) - _170.x) / _178.x, 0, _180.x - 1);
+        const s32 z = sead::Mathi::clamp((s32(pos->z) - _170.y) / _178.y, 0, _180.y - 1);
+        auto lock = sead::makeScopedLock(_130);
+        u32 count = _8;
+        for (auto* handle = _10; count != 0; --count, ++handle) {
+            if (handle->requestedLoad() && handle->_50 == x && handle->_54 == z)
+                return handle->sub_7100F8AF0C();
+        }
+        return false;
+    }
+    auto lock = sead::makeScopedLock(_130);
+    TileHandle* handle = _8 ? &_10[0] : nullptr;
+    return handle->sub_7100F8AF0C();
+}
+
 void NavMeshLoadMgr::x_2() {
     if (_190)
         return;
@@ -76,7 +96,7 @@ void NavMeshLoadMgr::x_2() {
     if ((_180.x | _180.y) == 0)
         return;
 
-    TileHandle* handle = _8 > 9 ? &_10->_360 : nullptr;
+    TileHandle* handle = _8 > 9 ? &_10[9] : nullptr;
     if (handle->requestedLoad())
         x_3(handle, handle);
 }

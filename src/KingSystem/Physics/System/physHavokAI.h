@@ -44,16 +44,16 @@ public:
     virtual ~NavMeshLoadMgr();
     // 0x7100f898e4: releases the loaded Havok tile resources (declared only).
     void sub_7100F898E4();
-    // Placeholder: a resource handle with the tile it was requested for.
+    // 2026-10-07: createResources constructs ten resource handles at 0x60-byte
+    // intervals; sub_7100F8ADC4 walks the same array and sub_7100F8AF0C checks status58.
     struct TileHandle : public res::Handle {
         /* 0x50 */ s32 _50;
         /* 0x54 */ s32 _54;
+        /* 0x58 */ u8 _58;
+        /* 0x59 */ u8 _59[7];
+        bool sub_7100F8AF0C();
     };
-    // Placeholder: the object at `_10` holds the tile handle at +0x360 (used while `_8` > 9).
-    struct Unk10 {
-        u8 _0[0x360];
-        /* 0x360 */ TileHandle _360;
-    };
+    KSYS_CHECK_SIZE_NX150(TileHandle, 0x60);
     // 0x7100f8aca4 (CSV NavMeshLoadMgr::x_1; declared only): whether the tile of `pos` is covered (false when the manager is
     // disabled or has no tiles).
     bool x_1(const sead::Vector3f* pos);
@@ -71,7 +71,7 @@ public:
     /* 0x008 */ u32 _8;
     // 0x7100f8a3b8 (CSV NavMeshLoadMgr::a; declared only): requests the tile of the handle.
     void a(TileHandle* handle);
-    /* 0x010 */ Unk10* _10;
+    /* 0x010 */ TileHandle* _10;
     /* 0x018 */ sead::FixedSafeString<256> _18;
     /* 0x130 */ sead::CriticalSection _130;
     // 2026-10-07: ctor 0x7100f89800 loads Vector2i::zero for the first three pairs;
