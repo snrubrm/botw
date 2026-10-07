@@ -76,7 +76,9 @@ public:
     /* 0x15e0 */ u8 _15e0[0x1608 - 0x15e0];  // object with vtable (GOT 0x7102584a68)
     // 2026-10-07: preDelete2_ destroys the link in each 0x28-byte array entry.
     struct Entry1608 {
-        u8 _0[0x10];
+        // 2026-10-07: sub_71002F420C searches this unsigned actor id.
+        u8 _0[0xc];
+        u32 mActorId;
         ksys::act::BaseProcLink _10;
         u8 _20[8];
     };

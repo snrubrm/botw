@@ -2,6 +2,7 @@
 #include "Game/UI/uiUtils.h"
 #include "Game/gameWolfLinkMgr.h"
 #include "KingSystem/ActorSystem/actBoneControl.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/Utils/Thread/Message.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectWolfLink.h"
 
@@ -25,6 +26,19 @@ bool WolfLink::startPreparingForPreDelete_() {
     if (auto* manager = WolfLinkMgr::instance())
         manager->sub_7100682F80(this, true);
     return true;
+}
+
+// NON_MATCHING: comparator materialization and the final search result branch differ.
+bool WolfLink::sub_71002F420C() {
+    if (!_c48._8.hasProc())
+        return false;
+    ksys::act::ActorConstDataAccess accessor;
+    if (!ksys::act::acquireActor(&_c48._8, &accessor))
+        return false;
+    const u32 id = accessor.getId();
+    return _1608.binarySearch(id, +[](const Entry1608& entry, const u32& id) -> s32 {
+        return (entry.mActorId > id) - (entry.mActorId < id);
+    }) != -1;
 }
 
 void WolfLink::sub_71002F493C() {
