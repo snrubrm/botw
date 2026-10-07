@@ -220,11 +220,6 @@ public:
     virtual ~Unk_7102476b60();
 };
 
-class Unk_7102476d68 {
-public:
-    virtual ~Unk_7102476d68();
-};
-
 class Unk_7102477468 {
 public:
     virtual ~Unk_7102477468();

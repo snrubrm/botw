@@ -4,6 +4,12 @@
 
 namespace uking::ui {
 
+SEAD_SINGLETON_DISPOSER_IMPL(UI)
+
+// D1 0x71010a5814, D0 0x71010a5828
+// The body keeps the vtable store of the original (as in upstream's GameDataFlagSelector::~GameDataFlagSelector() { ; }).
+UI::~UI() { ; }
+
 void UI::x_0(bool flag) {
     auto* screen = sead::DynamicCast<ScreenMessage3D>(
         eui::ScreenMgr::instance()->getScreen(ScreenId::Message3D));

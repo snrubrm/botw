@@ -1,6 +1,7 @@
 #pragma once
 
 #include <heap/seadDisposer.h>
+#include <hostio/seadHostIONode.h>
 #include <prim/seadSafeString.h>
 
 namespace ksys::act {
@@ -18,11 +19,13 @@ ScreenMessageDialog* getSomeMessageSpStuff();
 // The UI singleton (CSV: UI::createInstance 0x71010a5714, size 0xb0; sInstance 0x710261ebc0).
 // The layout is incomplete (only the methods that callers need are declared) and the namespace is
 // a guess (neighbouring ui:: functions live in uking::ui).
-class UI {
+class UI : public sead::hostio::Node {
     SEAD_SINGLETON_DISPOSER(UI)
     UI() = default;
 
 public:
+    virtual ~UI();
+
     // 0x71010a5a54: source owner and nonconst spelling inferred from mutable UI callers.
     bool sub_71010A5A54();
     // 0x71010a6e48: source owner inferred from the passed UI receiver.
@@ -85,20 +88,20 @@ public:
     // 0x71010a7168 (CSV UI::getTradeItemNum).
     s32 getTradeItemNum();
 
-    // The layout is mostly unmodelled (size 0xb0; the original has a vtable at 0 and the singleton disposer at 8).
-    u8 _20[0x28 - 0x20];
-    /* 0x28 */ u8 _28;
-    /* 0x29 */ bool mChoiceMode;
+    // The layout is mostly unmodelled (size 0xb0; the vtable is at 0 and the singleton disposer at 8).
+    /* 0x28 */ u8 _28 = 1;
+    /* 0x29 */ bool mChoiceMode = false;
     u8 _2a[0x30 - 0x2a];
-    /* 0x30 */ ksys::act::Actor* _30;
-    u8 _38[0x40 - 0x38];
+    /* 0x30 */ ksys::act::Actor* _30 = nullptr;
+    /* 0x38 */ void* _38 = nullptr;
     // The name of the actor of the current message (the actor info tags are looked up with it).
     /* 0x40 */ sead::FixedSafeString<64> _40;
-    /* 0x98 */ s32 _98;
-    /* 0x9c */ s32 _9c;
-    /* 0xa0 */ s32 mStockNum;
-    /* 0xa4 */ s32 _a4;
-    u8 _a8[0xb0 - 0xa8];
+    /* 0x98 */ s32 _98 = -1;
+    /* 0x9c */ s32 _9c = -1;
+    /* 0xa0 */ s32 mStockNum = -1;
+    /* 0xa4 */ s32 _a4 = 0;
+    /* 0xa8 */ f32 _a8 = 10.0f;
+    u8 _ac[4];
 };
 static_assert(sizeof(UI) == 0xb0);
 
