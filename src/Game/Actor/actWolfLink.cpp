@@ -1,5 +1,6 @@
 #include "Game/Actor/actWolfLink.h"
 #include "Game/UI/uiUtils.h"
+#include "Game/gameWolfLinkMgr.h"
 #include "KingSystem/ActorSystem/actBoneControl.h"
 #include "KingSystem/Utils/Thread/Message.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectWolfLink.h"
@@ -7,6 +8,24 @@
 namespace uking::act {
 
 WolfLink::~WolfLink() = default;
+
+void WolfLink::preDelete2_(const PreDeleteArg& arg) {
+    Enemy::preDelete2_(arg);
+    _1608.freeBuffer();
+}
+
+bool WolfLink::startPreparingForPreDelete_() {
+    if (!Enemy::startPreparingForPreDelete_())
+        return false;
+    if (_c48._8.hasProc()) {
+        _1638.sub_710070DCC0(&_c48._8, false);
+        _c48._8.reset();
+        _c48._7c = 0;
+    }
+    if (auto* manager = WolfLinkMgr::instance())
+        manager->sub_7100682F80(this, true);
+    return true;
+}
 
 void WolfLink::sub_71002F493C() {
     if (_c48._8.hasProc()) {

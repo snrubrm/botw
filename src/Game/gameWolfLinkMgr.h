@@ -6,6 +6,10 @@
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Utils/Thread/MessageTransceiverId.h"
 
+namespace ksys::act {
+class Actor;
+}
+
 namespace uking {
 
 // Placeholder declaration (names from the CSV: WolfLinkMgr::createInstance 0x71006828a8, init_ 0x7100682b94,
@@ -18,6 +22,8 @@ class WolfLinkMgr {
     virtual ~WolfLinkMgr();
 
 public:
+    // 2026-10-07: original WolfLink pre-delete call passes this actor and true.
+    bool sub_7100682F80(ksys::act::Actor* actor, bool deleting);
     // 0x7100682ce8 (declared only; WolfLinkAmiiboRegister::enter_): registers the amiibo Wolf Link at `pos`.
     void sub_7100682CE8(const sead::Vector3f* pos, u8 flags);
     // 0x7100683088 (declared only; WolfLinkEvent::enter_ with 1).

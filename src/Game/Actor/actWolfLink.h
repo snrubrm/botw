@@ -74,8 +74,13 @@ public:
     /* 0x14f8 */ sead::SafeArray<ksys::Timer, 19> _14f8;  // zero-initialised (memset)
     /* 0x15dc */ u32 _15dc;
     /* 0x15e0 */ u8 _15e0[0x1608 - 0x15e0];  // object with vtable (GOT 0x7102584a68)
-    /* 0x1608 */ u8 _1608[0x1618 - 0x1608];  // buffer (count, pointer) of 0x28-byte entries
-                                             // with a BaseProcLink at +0x10; freed in preDelete2_
+    // 2026-10-07: preDelete2_ destroys the link in each 0x28-byte array entry.
+    struct Entry1608 {
+        u8 _0[0x10];
+        ksys::act::BaseProcLink _10;
+        u8 _20[8];
+    };
+    /* 0x1608 */ sead::Buffer<Entry1608> _1608;
     /* 0x1618 */ u32 _1618;
     /* 0x1620 */ Unk_71023d2f68 _1620{this, 0x80000af};
     /* 0x1638 */ Unk_71023d2f90 _1638{this, 0x80000b0};
