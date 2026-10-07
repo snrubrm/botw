@@ -2,6 +2,7 @@
 #include <gsys/gsysCameraAnimation.h>
 #include <gsys/gsysModelResource.h>
 #include <nn/g3d/ResFile.h>
+#include "KingSystem/Resource/resSystem.h"
 
 namespace ksys::res {
 
@@ -17,6 +18,27 @@ bool Unk_71024F9898::needsParse() const {
 }
 
 bool Unk_71024F9898::m2_() {
+    return _40 != nullptr;
+}
+
+bool Unk_71024F9898::parse_(u8* data, size_t size, sead::Heap* heap) {
+    _38 = gsys::ModelResource::create_(gsys::ModelResource::CreateArg(data + mAllocSize), heap);
+    auto* file = _38->getResFile();
+    for (s32 i = 0; i < file->mExternalFileCount; ++i) {
+        const char* name = file->mEmbeddedFilesDictOffset ?
+            file->mEmbeddedFilesDictOffset->GetKey(i).data() : nullptr;
+        if (sead::SafeString(name).findIndex("rtcamera") != -1) {
+            _48 = file->mEmbeddedFilesOffset[i].data;
+            stubbedLogFunction();
+            stubbedLogFunction();
+            stubbedLogFunction();
+            stubbedLogFunction();
+            break;
+        }
+    }
+    if (_48)
+        return true;
+    _40 = gsys::CameraAnimation::create(_38, sead::SafeString(sead::SafeString::cEmptyString), heap);
     return _40 != nullptr;
 }
 
