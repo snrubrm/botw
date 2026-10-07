@@ -56,6 +56,8 @@ add_library(aal OBJECT
   include/aal/aalSettings.h
   include/aal/aalShape.h
   include/aal/aalShapeMgr.h
+  include/aal/aalShapeSetupper.h
+  include/aal/aalShapeTemplate.h
   include/aal/aalSoundController.h
   include/aal/aalSoundParam.h
   include/aal/aalSoundSource.h
@@ -125,6 +127,8 @@ add_library(aal OBJECT
   src/aalShape.cpp
   src/aalShapeCapsule.cpp
   src/aalShapeMgr.cpp
+  src/aalShapeSetupper.cpp
+  src/aalShapeTemplate.cpp
   src/aalShapeCylinder.cpp
   src/aalShapeCube.cpp
   src/aalShapeSegment.cpp
