@@ -76,6 +76,14 @@ public:
     // 0x71011fdc20 (declared only; 512 bytes): sums the heap sizes of the cached units and adjusts the heap size.
     void sub_71011FDC20(const HeapSizeArg& arg);
 
+    // 0x71011fd4b8 (declared only; 212 bytes): unlinks `unit` (if given) from the arena's unit lists and destroys the
+    // dual heap `*heap` (adding its allocatable size to _b0).
+    void sub_71011FD4B8(util::DualHeap** heap, res::ResourceUnit* unit);
+
+    // 0x71011fd868 (CSV OverlayArenaSystem::Struct1::defragMemoryStuff; declared only; 920 bytes): defragments the
+    // arena through the temporary buffer `buffer` (`size` bytes); `out` is the progress counter (ResourceMgrTask::_4cc).
+    void sub_71011FD868(void* buffer, size_t size, s32* out);
+
     // 0x71011fd3d0: clears the cached units of mUnits2 one by one (_b0 is set by the clearing) until `_b0 >= size`;
     // false when the list ran out first.
     bool sub_71011FD3D0(u32 size);

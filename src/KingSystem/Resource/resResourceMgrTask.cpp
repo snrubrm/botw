@@ -656,6 +656,54 @@ bool ResourceMgrTask::doClearCaches(void* userdata) {
     return true;
 }
 
+void ResourceMgrTask::sub_710120B118(util::DualHeap** heap, ResourceUnit* unit,
+                                     OverlayArena* arena) {
+    if (arena && *heap && arena->getHeap()->isInclude(*heap)) {
+        arena->sub_71011FD4B8(heap, unit);
+        *heap = nullptr;
+    }
+}
+
+bool ResourceMgrTask::defragAllMemoryMgr(void* userdata) {
+    sead::TickTime start;
+    stubbedLogFunction();
+
+    constexpr size_t buffer_size = 0x1e00000;
+    auto* tex_arena = mTexHandleMgr->getArchiveWork()->getArena();
+    auto* buffer = new (tex_arena->getHeap(), -8, std::nothrow) u8[buffer_size];
+    if (!buffer)
+        mTexHandleMgr->getArchiveWork()->getArena()->destroy();
+
+    {
+        auto lock = sead::makeScopedLock(mArenasCS);
+        _4c8 = 0;
+        for (auto& arena : mArenas) {
+            if (!arena.isFlag1Set())
+                _4c8 += arena.getNumUnits();
+        }
+    }
+
+    for (auto& arena : mArenas) {
+        if (arena.isFlag1Set())
+            stubbedLogFunction();
+        else
+            arena.sub_71011FD868(buffer, buffer_size, &_4cc);
+    }
+
+    {
+        sead::ScopedCurrentHeapSetter setter(mTexHandleMgr->getArchiveWork()->getArena()->getHeap());
+        delete[] buffer;
+    }
+
+    stubbedLogFunction();
+    mMovableMemoryThread->getTaskQueue()->unblockTasks(u8(LaneId::_6));
+    mMovableMemoryThread->getTaskQueue()->unblockTasks(u8(LaneId::_3));
+    mMovableMemoryThread->getTaskQueue()->unblockTasks(u8(LaneId::_2));
+    mMovableMemoryThread->getTaskQueue()->unblockTasks(u8(LaneId::_1));
+    mMovableMemoryThread->getTaskQueue()->unblockTasks(u8(LaneId::_0));
+    return true;
+}
+
 bool ResourceMgrTask::calcOverlayArenaHeapSize(void* userdata) {
     auto lock = sead::makeScopedLock(mCritSection4);
     auto arenas_lock = sead::makeScopedLock(mArenasCS);

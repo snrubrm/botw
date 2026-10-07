@@ -122,6 +122,9 @@ public:
     OverlayArena* getTexHandleMgrArena() const;
 
     void requestDefragAllMemoryMgr();
+    // 0x7101206370 (CSV defragMemory_readResDataInLargeBuf; placeholder name): the memory task behind
+    // requestDefragAllMemoryMgr.
+    bool defragAllMemoryMgr(void* userdata);
     bool isDefragDone() const;
     f32 getDefragProgress() const;
 
@@ -200,6 +203,9 @@ public:
     };
     KSYS_CHECK_SIZE_NX150(MakeHeapArg, 0x38);
     sead::Heap* makeHeapForUnit(const MakeHeapArg& arg);
+    // 0x710120b118 (CSV res::ResourceMgrTask::__auto4; placeholder name): destroys `*heap` through `arena` if the
+    // arena's heap contains it.
+    void sub_710120B118(util::DualHeap** heap, ResourceUnit* unit, OverlayArena* arena);
 
     struct GetUnitArg {
         const ResourceUnit::InitArg* unit_init_arg;
