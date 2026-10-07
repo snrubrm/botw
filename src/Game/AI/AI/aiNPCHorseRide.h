@@ -34,7 +34,8 @@ protected:
     const int* mGearResetPathNum_s{};
     // static_param at offset 0xf0
     const float* mPlayerNearDistance_s{};
-    u8 _f8[8];
+    u8 _f8[7]{};
+    u8 _ff;
     s32 _100 = 0;
     s32 _104 = 0;
     u32 _108 = 0;
