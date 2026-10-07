@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiPriestBossPhaseSecond.h"
+#include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "Game/AI/aiUnk_7102450fa8.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
@@ -54,6 +55,14 @@ void PriestBossPhaseSecond::m39() {
         if (sub_7100525B18(i, &accessor))
             accessor.sleep(ksys::act::BaseProc::SleepWakeReason::_0);
     }
+}
+
+// NON_MATCHING: the original flag-index wrapper emits temporary index stores.
+void PriestBossPhaseSecond::m41() {
+    _158._10 = getPlayerPosition();
+    _158._328.setBit(0);
+    _158.sub_710071CE44();
+    _488.sub_710071C034();
 }
 
 void PriestBossPhaseSecond::m40() {

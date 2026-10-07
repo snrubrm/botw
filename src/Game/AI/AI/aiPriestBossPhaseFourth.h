@@ -15,6 +15,7 @@ public:
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
+    void calc_() override;
     void loadParams_() override;
     bool handleMessage_(const ksys::Message* message) override;
 
@@ -24,6 +25,8 @@ public:
     bool m37(f32* x) override;
     Flag m38() override { return Flag::_3; }
     void m39() override {}
+
+    void sub_710052A63C();
 
 protected:
     // static_param at offset 0x80

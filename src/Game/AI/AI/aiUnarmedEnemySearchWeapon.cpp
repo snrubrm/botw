@@ -106,9 +106,6 @@ bool UnarmedEnemySearchWeapon::sub_71003B8020(ksys::act::BaseProcLink& link) con
     return (pos - self).squaredLength() < reach * reach;
 }
 
-// NON_MATCHING: only instruction order differs (the fcsel of the distance is emitted before the csel of the link, two
-// loop-invariant subs are swapped)
-// 0x71003b8e70
 // NON_MATCHING: the final link assignment is emitted as a call instead of a tail call.
 void UnarmedEnemySearchWeapon::sub_71003B8780() {
     auto* target = sub_71003B8E70();
@@ -121,6 +118,9 @@ void UnarmedEnemySearchWeapon::sub_71003B8780() {
     }
 }
 
+// NON_MATCHING: only instruction order differs (the fcsel of the distance is emitted before the csel of the link, two
+// loop-invariant subs are swapped)
+// 0x71003b8e70
 ksys::act::BaseProcLink* UnarmedEnemySearchWeapon::sub_71003B8E70() {
     ksys::act::BaseProcLink* nearest = nullptr;
     if (auto* nav = mActor->m45()) {

@@ -25,6 +25,7 @@ public:
     Flag m38() override { return Flag::_1; }
     void m39() override;
     void m40() override;
+    virtual void m41();
 
 protected:
     // static_param at offset 0x80
