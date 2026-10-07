@@ -5,6 +5,15 @@
 
 namespace ksys::act {
 
+void Chemical::sub_7100D8F0FC() {
+    sub_7100D8EEE0();
+    for (auto& byte : _c8)
+        byte = 0;
+    _d0 = 0.0f;
+    _d4 = 0;
+}
+
+
 void Chemical::sub_7100D93B84() {
     _1b4 = 0.0f;
     _1b8 = 0.0f;
