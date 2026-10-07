@@ -1,5 +1,6 @@
 #pragma once
 
+#include <container/seadBuffer.h>
 #include <container/seadObjArray.h>
 #include <heap/seadDisposer.h>
 #include <heap/seadExpHeap.h>
@@ -34,9 +35,22 @@ public:
     void sub_71011E4090(PlacementMgr* mgr, bool a);
     void sub_71011E1FFC(const void* traverse_results, const sead::Vector3f* camera_pos, f32 distance);
     void sub_71011E264C(PlacementMgr* mgr);
+    // 0x71011e41f4 (declaration only)
+    void sub_71011E41F4();
+
+    // 0x71011eb32c (PlacementMgr forwards to this inline test): whether bit `idx` of the bit buffer of the active slot
+    // is set.
+    bool isBitSet(u32 idx) const { return (_100[_78].bits[idx >> 5] & (1u << (idx & 0x1f))) != 0; }
+
+    struct Slot {
+        sead::Buffer<u32> bits;
+        u8 _10[0x70 - 0x10];
+    };
 
     u8 _0[0x78];
-    /* 0x78 */ u32 _78;
+    /* 0x78 */ s32 _78;
+    u8 _7c[0x100 - 0x7c];
+    /* 0x100 */ Slot _100[2];
 };
 
 // Placeholder name (callback argument of the ClusteredRenderer query 0x71012497f8): a stack copy of
@@ -134,6 +148,15 @@ public:
     // every cluster within `radius` of `pos`.
     void sub_71011EB40C(const sead::Vector3f* pos, f32 radius, sead::IDelegate1R<Unk_71012497f8Entry*, bool>* callback);
     void updateTimeDivisionFlags(bool on);
+    // 0x71011eb37c / 0x71011eb3f8 / 0x71011eb428 / 0x71011eb450 (placeholder names): forwarders to the clustered / mass
+    // renderers.
+    bool sub_71011EB37C() const;
+    bool sub_71011EB32C(u32 idx) const;
+    void sub_71011EB3F8(const sead::Vector3f* pos, f32 radius, bool x,
+                        sead::IDelegate1R<Unk_71012497f8Entry*, bool>* callback);
+    void sub_71011EB428(const sead::Vector3f* pos, f32 radius, bool x,
+                        sead::IDelegate1R<Unk_71012497f8Entry*, bool>* callback);
+    void sub_71011EB450();
 
     void threadFn(sead::Thread* thread, sead::MessageQueue::Element msg);
     // 0x00000071011eb4dc

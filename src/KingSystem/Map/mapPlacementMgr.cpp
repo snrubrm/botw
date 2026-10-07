@@ -298,6 +298,36 @@ void PlacementMgr::sub_71011E9DB0() {
         mClusteredRenderer->sub_7101244598();
 }
 
+// NON_MATCHING: only the schedule of the bit mask (the original computes `1 << (idx & 31)` after the load).
+bool PlacementMgr::sub_71011EB32C(u32 idx) const {
+    if (mMassRenderer)
+        return mMassRenderer->isBitSet(idx);
+    return false;
+}
+
+bool PlacementMgr::sub_71011EB37C() const {
+    if (mClusteredRenderer)
+        return (mClusteredRenderer->_c9c & 0xc) != 8;
+    return true;
+}
+
+void PlacementMgr::sub_71011EB3F8(const sead::Vector3f* pos, f32 radius, bool x,
+                                  sead::IDelegate1R<Unk_71012497f8Entry*, bool>* callback) {
+    if (mClusteredRenderer)
+        mClusteredRenderer->sub_710124929C(pos, radius, x, callback);
+}
+
+void PlacementMgr::sub_71011EB428(const sead::Vector3f* pos, f32 radius, bool x,
+                                  sead::IDelegate1R<Unk_71012497f8Entry*, bool>* callback) {
+    if (mClusteredRenderer)
+        mClusteredRenderer->sub_71012497F8(pos, radius, x, callback);
+}
+
+void PlacementMgr::sub_71011EB450() {
+    if (mMassRenderer)
+        mMassRenderer->sub_71011E41F4();
+}
+
 void PlacementMgr::sub_71011EB2AC() {
     if (mMassRenderer)
         mMassRenderer->sub_71011E4090(this, true);

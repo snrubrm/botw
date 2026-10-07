@@ -58,6 +58,8 @@ int PlacementActors::getNumGroups() const {
     return mObjs->mGroups.size();
 }
 
+void PlacementActors::sub_7100D52C0C() {}
+
 void PlacementActors::x_9() {
     mMutex.lock();
     for (auto*& slot : _f8) {
