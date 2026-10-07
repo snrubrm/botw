@@ -478,7 +478,6 @@ struct SoundMgr {
     f32 sub_71011FC31C();
     f32 sub_71011FC310();
     bool sub_71011FC2DC();
-    aal::Listener* sub_71011FC2D0();
 
 public:
     aal::Listener* sub_71011FC2D0();
