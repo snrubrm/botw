@@ -478,7 +478,10 @@ public:
 // vtable 0x7102450678 (message 0x8000044; the user data is a BaseProcLink)
 class Unk_7102450678 : public Unk_7102357210 {
 public:
-    ~Unk_7102450678() override;
+    // Inline in the original: the owners' destructors inline it (store of the listener base vtable +
+    // BaseProcLink reset), and its own D1 is a separate function. Written like upstream's
+    // GameDataFlagSelector::~GameDataFlagSelector() { ; } (commit 96101229).
+    ~Unk_7102450678() override { ; }
     bool m2(const ksys::Message& message) override;
     void m3() override {}
 };
@@ -495,7 +498,10 @@ public:
 // vtable 0x7102450738 (message 0x8000047)
 class Unk_7102450738 : public Unk_7102357210 {
 public:
-    ~Unk_7102450738() override;
+    // Inline in the original: the owners' destructors inline it (store of the listener base vtable +
+    // BaseProcLink reset), and its own D1 is a separate function. Written like upstream's
+    // GameDataFlagSelector::~GameDataFlagSelector() { ; } (commit 96101229).
+    ~Unk_7102450738() override { ; }
     bool m2(const ksys::Message& message) override;
     void m3() override;
 

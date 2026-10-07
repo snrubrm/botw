@@ -9,7 +9,6 @@ namespace uking::ai {
 AssassinMiddleAzitoRootAccept::AssassinMiddleAzitoRootAccept(const InitArg& arg)
     : AssassinMiddleRoot(arg) {}
 
-// NON_MATCHING: the original inlines the listener _360's destructor (see AssassinMiddleAzitoRoot)
 AssassinMiddleAzitoRootAccept::~AssassinMiddleAzitoRootAccept() = default;
 
 bool AssassinMiddleAzitoRootAccept::init_(sead::Heap* heap) {

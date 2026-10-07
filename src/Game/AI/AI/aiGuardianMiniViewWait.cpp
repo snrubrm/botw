@@ -8,7 +8,9 @@ namespace uking::ai {
 
 GuardianMiniViewWait::GuardianMiniViewWait(const InitArg& arg) : ViewWait(arg) {}
 
-GuardianMiniViewWait::~GuardianMiniViewWait() = default;
+// The original keeps the vtable store, which a defaulted destructor drops; written as upstream's
+// GameDataFlagSelector::~GameDataFlagSelector() { ; } (commit 96101229).
+GuardianMiniViewWait::~GuardianMiniViewWait() { ; }
 
 void GuardianMiniViewWait::enter_(ksys::act::ai::InlineParamPack* params) {
     ViewWait::enter_(params);

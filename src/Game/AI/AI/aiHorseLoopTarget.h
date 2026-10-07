@@ -14,7 +14,9 @@ class HorseLoopTarget : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(HorseLoopTarget, ksys::act::ai::Ai)
 public:
     explicit HorseLoopTarget(const InitArg& arg);
-    ~HorseLoopTarget() override;
+    // Inline in the original: HorseLoopTargetAndWaitAI's destructor inlines it, and its own D1 (which the
+    // SafeString member keeps from being aliased to Ai's) is a separate function.
+    ~HorseLoopTarget() override = default;
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void calc_() override;

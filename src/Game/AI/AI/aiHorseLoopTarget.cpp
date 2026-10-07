@@ -9,8 +9,6 @@ namespace uking::ai {
 
 HorseLoopTarget::HorseLoopTarget(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
-HorseLoopTarget::~HorseLoopTarget() = default;
-
 void HorseLoopTarget::enter_(ksys::act::ai::InlineParamPack* params) {
     _50.clear();
     _160 = 0;
