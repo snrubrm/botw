@@ -242,6 +242,24 @@ bool OverlayArena::sub_71011FD3D0(u32 size) {
     return false;
 }
 
+// NON_MATCHING: DualHeap final causes devirtualization of the inherited heap destruction call.
+void OverlayArena::sub_71011FD4B8(util::DualHeap** heap, res::ResourceUnit* unit) {
+    if (!mHeap)
+        return;
+
+    auto lock = sead::makeScopedLock(mCS);
+    if (unit) {
+        if (mUnits.isNodeLinked(unit))
+            mUnits.erase(unit);
+        if (mUnits2.isNodeLinked(unit))
+            mUnits2.erase(unit);
+    }
+    if (res::returnFalse())
+        res::stubbedLogFunction();
+    _b0 = (*heap)->destroyAndGetAllocatableSize(res::getDefaultAlignment());
+    *heap = nullptr;
+}
+
 void OverlayArena::sub_71011FD7C8(res::ResourceUnit* unit) {
     if (!mUnits.isNodeLinked(unit))
         return;

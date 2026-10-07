@@ -29,8 +29,8 @@ private:
     sead::Delegate1R<OverlayArenaSystemS2, void*, bool> mDelegate{
         this, &OverlayArenaSystemS2::sub_71012BBA50};
     u32 _28 = 1;
-    void* _30 = nullptr;
-    void* _38 = nullptr;
+    OverlayArenaSystemS1* _30 = nullptr;
+    SystemPauseMgr* _38 = nullptr;
 };
 KSYS_CHECK_SIZE_NX150(OverlayArenaSystemS2, 0x40);
 

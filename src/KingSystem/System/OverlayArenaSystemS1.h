@@ -6,7 +6,7 @@ namespace ksys {
 
 // FIXME: incomplete
 // Unknown struct seen in OverlayArenaSystem.
-class OverlayArenaSystemS1 final {
+class OverlayArenaSystemS1 {
 public:
     OverlayArenaSystemS1();
     virtual ~OverlayArenaSystemS1();
