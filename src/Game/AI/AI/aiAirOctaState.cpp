@@ -8,6 +8,9 @@
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "KingSystem/System/VFR.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/Utils/Thread/Message.h"
 #include <random/seadGlobalRandom.h>
 
@@ -88,6 +91,22 @@ void AirOctaState::sub_71002FEDD0() {
 
 // NON_MATCHING: register allocation only (case 8: the original keeps the bit pattern in s1 and -1.0f in s0 for the
 // `getF32()` subtraction and reloads `_278` into w9 / w8 the other way round).
+void AirOctaState::sub_71002FD7D8() {
+    if (!_278.isOnBit(5))
+        return;
+    ksys::act::acc::PlayerBase player;
+    player.getPlayerFromPlayerInfo();
+    const sead::Vector3f position = player.getPreviousPos();
+    sub_71005DB068(mActor, position);
+    if (_278.isOnBit(6)) {
+        _204.y += ksys::VFR::instance()->getDeltaTime();
+        if (_204.y > 5.0f) {
+            _278.reset(0x60);
+            sub_71005DB3EC(mActor);
+        }
+    }
+}
+
 bool AirOctaState::handleMessage_(const ksys::Message* message) {
     if (message->getType() != 0x80000c8)
         return EnemyRoot::handleMessage_(message);

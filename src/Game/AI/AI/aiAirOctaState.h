@@ -45,6 +45,9 @@ protected:
         };
     };
 
+    // 0x71002fd7d8 (placeholder name): while the flag 0x20 is set the actor follows the player's previous position; with
+    // the flag 0x40 the elapsed time is accumulated in `_204.y` and the follow ends after 5 s.
+    void sub_71002FD7D8();
     // 0x71002fe490 (placeholder name): message kind 6: adds `payload->value` to the height offset of the octas.
     void sub_71002FE490(const Payload* payload);
     // 0x71002fe55c (placeholder name): message kind 11: changes to "オクタの数が減った" while waiting.
