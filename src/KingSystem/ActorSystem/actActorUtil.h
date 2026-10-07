@@ -354,3 +354,6 @@ s32 actorAIGetInt(Actor* actor, const sead::SafeString& name, s32 default_value)
 // 0x7100ee2800 (lane4 s50, global namespace; placeholder name): acquires the actor of the ForSale link of the actor's
 // map object (an empty accessor if there is none).
 bool sub_7100EE2800(ksys::act::ActorLinkConstDataAccess* accessor, ksys::act::Actor* actor);
+
+// 2026-10-07: original returns the first rigid body in the actor chemical elements.
+ksys::phys::RigidBody* sub_7100EE5FE4(ksys::act::Actor* actor);

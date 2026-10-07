@@ -11,6 +11,7 @@
 #include <random/seadGlobalRandom.h>
 #include "KingSystem/ActorSystem/Profiles/actRopeBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorChemicals.h"
 #include "KingSystem/ActorSystem/actDropMgr.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
@@ -1360,4 +1361,22 @@ bool sub_7100EE2800(ksys::act::ActorLinkConstDataAccess* accessor, ksys::act::Ac
         }
     }
     return accessor->acquire(nullptr);
+}
+
+// NON_MATCHING: the direct first-body return simplifies the original search loop and final indexed selection.
+ksys::phys::RigidBody* sub_7100EE5FE4(ksys::act::Actor* actor) {
+    if (!actor)
+        return nullptr;
+    auto* chemicals = actor->getChemicalContainer();
+    if (!chemicals)
+        return nullptr;
+    s32 count = chemicals->_58.size() + chemicals->_80;
+    for (s32 i = 0; i < count; ++i) {
+        auto* element = chemicals->sub_7100E3718C(i);
+        if (!element)
+            return nullptr;
+        if (element->_278.size() > 0)
+            return element->_278[0].body;
+    }
+    return nullptr;
 }
