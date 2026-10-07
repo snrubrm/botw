@@ -1,6 +1,7 @@
 #pragma once
 
 #include <heap/seadHeap.h>
+#include <math/seadBoundBox.h>
 #include "Game/gameDebugStatus.h"
 #include "Game/gameStageBinder.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
@@ -18,6 +19,11 @@ void sub_71010D6094(EnvMgr* mgr);
 namespace uking {
 
 extern bool sIsTitleStageActive;
+
+// OpenWorldStage initialization and both teardown paths maintain the TeraWaterDisable region.
+// Other readers use the same XZ bounds and maximum height; storage remains in the original data.
+extern sead::BoundBox2f sTeraWaterDisableBounds;
+extern f32 sTeraWaterDisableHeight;
 
 // State of the startup save check (0x18 bytes, vtable 0x710245c470: a sead::hostio node).
 struct StartupSaveCheckState {
