@@ -17,6 +17,10 @@ class Pane;
 class Material;
 }
 
+namespace sead {
+class Heap;
+}
+
 namespace eui {
 class UniteButton;
 class Animator;
@@ -25,6 +29,8 @@ class TextBoxEx;
 }  // namespace eui
 
 namespace uking::ui {
+
+class Screen;
 
 class Unk_7102474b38 {
 public:
@@ -557,6 +563,25 @@ struct Unk_Elem;
 
 class Unk_7102474dd0;
 
+// Setup record for Unk_7102474df8::sub_7100937FA4 (0x1c bytes; built on the stack by the owning screens).
+struct Unk_7102474df8_Params {
+    s32 direction = 1;        // → _34
+    f32 spacing = 50.0f;      // → _38
+    sead::Vector2f corner1;   // → _3c
+    sead::Vector2f corner2;   // → _44
+    s32 count = 0;            // → _4c
+};
+
+// Scroll smoothing parameters (0xc bytes; the first 8 bytes are copied whole by 0x7100937FA4).
+struct Unk_7102474df8_Speeds {
+    struct Pair {
+        f32 factor = 0.28f;  // → _50: scaled by the step in the update
+        f32 max = 300.0f;    // → _54: clamps the per-frame scroll delta
+    };
+    Pair pair;
+    f32 threshold = 0.1f;  // → _58: dead zone for the scroll delta
+};
+
 // Scroll-list controller (member of several screens, e.g. ScreenSousaGuide at 0x3610). The setup function
 // 0x7100937fa4 fills it from a parameter record; 0x7100938408 registers Unk_7102474dd0 entries with it.
 class Unk_7102474df8 {
@@ -565,10 +590,17 @@ public:
     Unk_7102474df8();
     virtual ~Unk_7102474df8();
 
+    // 0x7100937fa4: copy the setup record and speeds, allocate the entry list, center _20 on the corners
+    void sub_7100937FA4(sead::Heap* heap, Screen* screen, const Unk_7102474df8_Params* params,
+                        const Unk_7102474df8_Speeds* speeds);
+    // 0x7100938090 (declared only): advance _2c toward _30 and reposition every entry
+    void sub_7100938090(f32 step);
+    // 0x71009382b8 (declared only): direction helper using _5c/_60/_64/_68
+    bool sub_71009382B8(f32 step);
     // 0x7100938408: assign the entry its offset from _34 (direction) and _38 (spacing) and push it into _10
     void sub_7100938408(Unk_7102474dd0* entry);
 
-    /* 0x08 */ void* _8 = nullptr;
+    /* 0x08 */ Screen* _8 = nullptr;
     /* 0x10 */ sead::PtrArray<Unk_7102474dd0> _10;
     /* 0x20 */ sead::Vector2f _20 = sead::Vector2f::zero;
     /* 0x28 */ f32 _28 = 0.0f;
@@ -579,9 +611,7 @@ public:
     /* 0x3c */ sead::Vector2f _3c = {0, 0};
     /* 0x44 */ sead::Vector2f _44 = {0, 0};
     /* 0x4c */ s32 _4c = 0;
-    /* 0x50 */ f32 _50 = 0.28f;
-    /* 0x54 */ f32 _54 = 300.0f;
-    /* 0x58 */ f32 _58 = 0.1f;
+    /* 0x50 */ Unk_7102474df8_Speeds _50;
     /* 0x5c */ sead::Vector2f _5c = sead::Vector2f::zero;
     /* 0x64 */ f32 _64 = 0.0f;
     /* 0x68 */ s32 _68 = 3;
@@ -591,6 +621,8 @@ public:
     /* 0x80 */ u8 _80 = 0;
 };
 static_assert(sizeof(Unk_7102474df8) == 0x88);
+static_assert(sizeof(Unk_7102474df8_Params) == 0x1c);
+static_assert(sizeof(Unk_7102474df8_Speeds) == 0xc);
 
 // Element type of Unk_7102474bc8::_140: an inline empty destructor, so `delete[]` keeps the array cookie.
 struct Unk_Elem2 {

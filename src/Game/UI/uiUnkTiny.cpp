@@ -10,6 +10,11 @@
 // The "{ ; }" destructors keep the original's vtable store (upstream GameDataFlagSelector::~GameDataFlagSelector() { ; },
 // commit 96101229; the original D1 is `str vptr; ret`).
 namespace uking::ui {
+namespace {
+// Scroll tuning constants for Unk_7102474df8::sub_71009382B8 (original pool at 0x7102474e20,
+// shared with 0x7100937c74): initial velocity, decay, spring, clamp, range.
+float sScrollConsts[] = {0.6f, 0.35f, 50.0f, 100.0f, 100.0f};
+}
 
 // 0x7100934a6c
 UiStringEntry::UiStringEntry() {}
@@ -664,6 +669,48 @@ Unk_710249d300::~Unk_710249d300() { ; }
 // 0x7100937eec
 Unk_7102474df8::Unk_7102474df8() = default;
 
+// NON_MATCHING: the original loads the Vector2f::zero pair before the switch (hoisted, shared default)
+// and keeps the center pair in FP registers across the switch (single mov per case, stp s1, s0); we sink the
+// zero load into the default path and materialize the pair in integer registers (fmov w, stp w8, w9).
+// Same integerization family as Unk_7102474df8::sub_7100938408 below. Everything else matches.
+// 0x7100937fa4
+void Unk_7102474df8::sub_7100937FA4(sead::Heap* heap, Screen* screen,
+                                   const Unk_7102474df8_Params* params,
+                                   const Unk_7102474df8_Speeds* speeds) {
+    _34 = params->direction;
+    _38 = params->spacing;
+    _3c.x = params->corner1.x;
+    _3c.y = params->corner1.y;
+    _44.x = params->corner2.x;
+    _44.y = params->corner2.y;
+    const s32 count = params->count;
+    _4c = count;
+    _50.threshold = speeds->threshold;
+    _50.pair = speeds->pair;
+    if (count < 1)
+        return;
+    _8 = screen;
+    _10.allocBuffer(count, heap, 8);
+    sead::Vector2f center = sead::Vector2f::zero;
+    const f32 x = (_3c.x + _44.x) * 0.5f;
+    const f32 y = (_3c.y + _44.y) * 0.5f;
+    switch (_34) {
+    case 0:
+        center.set(x, _3c.y);
+        break;
+    case 1:
+        center.set(x, _44.y);
+        break;
+    case 2:
+        center.set(_44.x, y);
+        break;
+    case 3:
+        center.set(_3c.x, y);
+        break;
+    }
+    _20 = center;
+}
+
 // NON_MATCHING: the original keeps the Vector2f::zero pair in FP registers across the switch (ldp/stp s2, s1,
 // fneg) and loads it before the switch; we sink the load into the default path and materialize the pair in
 // integer registers (stp w8, w9, eor). Everything after the store matches.
@@ -700,6 +747,57 @@ void Unk_7102474df8::sub_7100938408(Unk_7102474dd0* entry) {
 // 0x7100937f5c
 Unk_7102474df8::~Unk_7102474df8() {
     _10.freeBuffer();
+}
+
+// 0x71009382b8
+bool Unk_7102474df8::sub_71009382B8(f32 step) {
+    bool neg = false;
+    bool useX = false;
+    f32 target;
+    f32 value;
+    f32* axis;
+    switch (_68) {
+    case 0:
+        neg = true;
+        [[fallthrough]];
+    case 1:
+        target = neg ? -_64 : _64;
+        axis = &_5c.y;
+        value = *axis;
+        break;
+    case 3:
+        neg = true;
+        [[fallthrough]];
+    case 2:
+        target = neg ? -_64 : _64;
+        axis = &_5c.x;
+        useX = true;
+        value = *axis;
+        break;
+    default:
+        target = 0.0f;
+        value = 0.0f;
+        break;
+    }
+    target -= value * sScrollConsts[2];
+    const f32 v = value + target * step;
+    if (sScrollConsts[3] < (neg ? -v : v))
+        target = (neg ? -sScrollConsts[3] : sScrollConsts[3]) - value;
+    f32* slot = useX ? &_5c.x : &_5c.y;
+    *slot = target + *slot;
+    if (0.0f < step)
+        step = 1.0f / step;
+    else
+        step = 1.0f;
+    step *= sScrollConsts[1];
+    if (step < 0.0f)
+        step = 0.0f;
+    if (1.0f < step)
+        step = 1.0f;
+    _64 *= step;
+    if (_5c.x == sead::Vector2f::zero.x)
+        return _5c.y == sead::Vector2f::zero.y;
+    return false;
 }
 
 // 0x71009338a0
