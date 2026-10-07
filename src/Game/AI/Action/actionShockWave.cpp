@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionShockWave.h"
+#include "KingSystem/Terrain/teraSystem.h"
 #include "KingSystem/ActorSystem/LOD/actLodState.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/Profiles/actBullet.h"
@@ -84,8 +85,23 @@ void ShockWave::loadParams_() {
     getMapUnitParam(&mIsReuseActor_m, "IsReuseActor");
 }
 
+// NON_MATCHING: the original pairs stores of the copied actor position; ours copies each component separately.
 void ShockWave::calc_() {
-    ksys::act::ai::Action::calc_();
+    auto* actor = mActor;
+    if (actor->getScale().x >= _4c) {
+        sub_710024E1C8();
+    } else {
+        const f32 scale = actor->getScale().x + _48;
+        actor->setScale(sead::Vector3f::ones * (scale > _4c ? _4c : scale));
+    }
+    if (auto* terrain = ksys::tera::Terrain::instance()) {
+        if (terrain->isGrassEnabled()) {
+            auto* grass = terrain->sub_710114DE4C();
+            sead::Vector3f pos;
+            actor->getMtx().getTranslation(pos);
+            grass->sub_7101150A7C(&pos, actor->getScale().x, 0.0f);
+        }
+    }
 }
 
 }  // namespace uking::action
