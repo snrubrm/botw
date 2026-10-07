@@ -6,6 +6,7 @@
 #include <prim/seadBitFlag.h>
 #include <prim/seadSafeString.h>
 #include <container/seadPtrArray.h>
+#include <container/seadOffsetList.h>
 #include <aal/aalHandle.h>
 #include <thread/seadCriticalSection.h>
 #include <container/seadBuffer.h>
@@ -120,17 +121,32 @@ public:
     /* 0x3e4 */ sead::Vector3f mBoxSize;
 };
 
-// Placeholder name (SoundMgr::_38::_20; CSV: snd::EnvSePointMgr, ctor 0x7101029fe0, init 0x710102a28c): the manager of the
+// Placeholder name (SoundMgr::_38::_20; ctor 0x7101029864, init 0x7101029958): the registry of the
 // environment sound emit points (uking::act::EnvSeEmitPoint actors). Its two lists (0x18 bytes per entry, guarded by
 // the CriticalSection at +0x38) are indexed by the `_83c` kind of the emit point (0 or 1).
 class Unk_SoundMgr38_20 {
 public:
+    Unk_SoundMgr38_20();
+    virtual ~Unk_SoundMgr38_20();
+    void sub_7101029958(sead::Heap* heap);
+    void sub_7101029970();
+    void sub_71010299AC();
+    void sub_7101029AA0();
     // 0x7101029bb0 (declared only; lane1 s47): registers `point` in the list of its kind (the kind is picked by the
     // actor's name); false if the name matches no kind.
     bool sub_7101029BB0(uking::act::EnvSeEmitPoint* point);
     // 0x7101029c98 (declared only; lane1 s47): removes `point` from the list of its kind.
     void sub_7101029C98(uking::act::EnvSeEmitPoint* point);
+
+    /* 0x08 */ sead::OffsetList<uking::act::EnvSeEmitPoint> _8[2];
+    /* 0x38 */ sead::CriticalSection mCS;
+    bool _78 = false;
+    bool _79 = false;
+    bool _7a[2] = {};
+    f32 _7c = 400.0f;
+    f32 _80 = 600.0f;
 };
+KSYS_CHECK_SIZE_NX150(Unk_SoundMgr38_20, 0x88);
 
 // Placeholder name (SoundMgr::_38::_48; lane1 s47): a registry of actors (list at +0x1aa8, guarded by the CriticalSection
 // at +0x1d58) used by the GrudgeEyeball AI.

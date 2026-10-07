@@ -1,10 +1,66 @@
 #include "KingSystem/Sound/sndMgr.h"
 #include "KingSystem/Utils/InitTimeInfo.h"
+#include "Game/Actor/actEnvSeEmitPoint.h"
+#include <prim/seadScopedLock.h>
+
+// Address placeholder for the original kind-name text lookup; its enum type is not recovered.
+const char* sub_7101029E34(u32 kind);
 
 namespace ksys::snd {
 
 // The TU's static initialiser is 0x710103ae20 (`_GLOBAL__sub_I_sndSoundMgr38.cpp`).
 static util::InitTimeInfoEx sInitTimeInfo;
+
+// NON_MATCHING: the compiler combines the adjacent flag and float initialization stores.
+Unk_SoundMgr38_20::Unk_SoundMgr38_20() = default;
+
+Unk_SoundMgr38_20::~Unk_SoundMgr38_20() {
+    _8[0].clear();
+    _8[1].clear();
+}
+
+void Unk_SoundMgr38_20::sub_7101029958(sead::Heap* heap) {
+    _7a[0] = false;
+    _7a[1] = false;
+    _8[0].initOffset(0x850);
+    _8[1].initOffset(0x850);
+}
+
+void Unk_SoundMgr38_20::sub_7101029970() {
+    if (_78) {
+        sub_71010299AC();
+        sub_7101029AA0();
+    }
+}
+
+bool Unk_SoundMgr38_20::sub_7101029BB0(uking::act::EnvSeEmitPoint* point) {
+    if (!point)
+        return false;
+    u32 kind = 0;
+    if (point->getName().findIndex(sub_7101029E34(0)) == -1) {
+        kind = 1;
+        if (point->getName().findIndex(sub_7101029E34(1)) == -1)
+            return false;
+    }
+    point->_83c = kind;
+    point->_84d = _7a[kind];
+    auto lock = sead::makeScopedLock(mCS);
+    _8[kind].pushBack(point);
+    return true;
+}
+
+void Unk_SoundMgr38_20::sub_7101029C98(uking::act::EnvSeEmitPoint* point) {
+    if (!point)
+        return;
+    const s32 kind = point->_83c;
+    if (kind < 0 || kind >= 2)
+        return;
+    auto lock = sead::makeScopedLock(mCS);
+    if (_8[kind].indexOf(point) >= 0) {
+        point->_84d = 0;
+        _8[kind].erase(point);
+    }
+}
 
 Unk_SoundMgr38_28* Unk_SoundMgr38::sub_710102C104() const {
     return _28;
