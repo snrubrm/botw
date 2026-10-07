@@ -7,6 +7,7 @@
 #include "Game/AI/aiUnk_71025afb58.h"
 #include "Game/AI/aiUnk_71006F5B14.h"
 #include "KingSystem/Utils/Types.h"
+#include "KingSystem/System/Timer.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
 
 namespace ksys::act { class Actor; }
@@ -30,7 +31,7 @@ public:
         void sub_71007086F4();
         void sub_7100708BC4(Unk_71012419b4* handle, const char* name);
         void sub_71007088C0();
-        // Declaration only: per-part chemical controller update called by GolemRootBase.
+        // Per-part chemical controller update called by GolemRootBase.
         void sub_71007083DC();
 
         void sub_7100708A44(const sead::SafeString& name);
@@ -38,16 +39,14 @@ public:
         // Actor and animation coordinates used by the part-animation dispatcher.
         ksys::act::Actor* mActor;
         ksys::act::Chemical* mChemical;
-        f32 _10;
-        f32 _14;
-        f32 _18;
+        ksys::Timer mTimer;
         f32 _1c;
         Unk_71006F5DB0 mElement;
         u8 _24[4];
         s32 mASSlot;
         s32 mASBank;
         sead::SafeString _30;
-        u8 _40[0x10];
+        sead::SafeString _40;
         sead::SafeString _50;
         bool _60;
         u8 _61[7];

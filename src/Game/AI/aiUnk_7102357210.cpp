@@ -1,5 +1,6 @@
 #include "Game/AI/aiUnk_7102357210.h"
 #include <prim/seadScopedLock.h>
+#include <limits>
 #include "Game/AI/aiUnk_7102357d20.h"
 #include "Game/AI/aiUnk_7102450410.h"
 #include "KingSystem/ActorSystem/actActor.h"
@@ -852,9 +853,7 @@ void Unk_7102450410::Entry::sub_7100708A44(const sead::SafeString& name) {
 
 void Unk_7102450410::Entry::sub_71007086AC() {
     sub_71006F5BBC(mElement, mChemical);
-    _10 = 0;
-    _14 = 0;
-    _18 = -1.0f;
+    mTimer.reset(0.0f);
     sub_7100708A44(_30);
     _b0 = 2;
 }
@@ -862,9 +861,7 @@ void Unk_7102450410::Entry::sub_71007086AC() {
 void Unk_7102450410::Entry::sub_71007089BC() {
     sub_71006F5A80(mChemical);
     sub_71006F5BBC(mElement, mChemical);
-    _10 = 0;
-    _14 = 0;
-    _18 = -1.0f;
+    mTimer.reset(0.0f);
     sub_7100708A44(_30);
     _b0 = 2;
 }
@@ -882,9 +879,7 @@ void Unk_7102450410::Entry::sub_7100708B64() {
         value = 0;
         _b0 = 2;
     }
-    _10 = value;
-    _14 = value;
-    _18 = -1.0f;
+    mTimer.reset(value);
 }
 
 Unk_7102450410::Entry* Unk_7102450410::sub_7100708E90(ksys::act::Chemical* chemical) {
@@ -957,4 +952,73 @@ void Unk_7102450410::Entry::sub_71007086F4() {
     sub_7100708BC4(&_88, name);
     xlinkEventOn(mActor, _a8 == 2 ? 28 : _a8 == 1 ? 27 : 26, 0, false);
     _60 = false;
+}
+
+static const char* const sGolemFireEventNames[] = {"Fire_Body", "Fire_ArmR", "Fire_ArmL"};
+static const char* const sGolemIceEventNames[] = {"Ice_Body", "Ice_ArmR", "Ice_ArmL"};
+static const char* const sGolemElectricEventNames[] = {"Electric_Body", "Electric_ArmR", "Electric_ArmL"};
+
+// NON_MATCHING: state and element branches fold differently, and the reset helper is inlined.
+void Unk_7102450410::Entry::sub_71007083DC() {
+    _b4.makeAllZero();
+    if (!mChemical || !(mChemical->_8 & 2))
+        return;
+    switch (_b0) {
+    case 0:
+        _b0 = 2;
+        break;
+    case 1:
+        _b0 = 3;
+        break;
+    case 2:
+        if ((mElement == Unk_71006F5DB0::Fire &&
+             ((mChemical->_b9[0] & 2) || (mChemical->_c0 != 2 && mChemical->_c1 != 2))) ||
+            (mElement == Unk_71006F5DB0::Ice &&
+             ((mChemical->_b8 & 4) || (mChemical->_d0 > 0.0f && mChemical->_d4 == 1)))) {
+            _b4 = 1;
+            sub_71006F5AC4(mElement, mChemical);
+            mTimer.reset(_1c);
+            sub_7100708A44(_40);
+            _b0 = 3;
+        }
+        break;
+    default:
+        mTimer.update();
+        if (mElement == Unk_71006F5DB0::Fire) {
+            if ((mChemical->_b9[0] & 2) ||
+                (_b0 == 2 && mChemical->_c0 != 2 && mChemical->_c1 != 2))
+                mTimer.reset(_1c);
+            if (mChemical->_c0 == 2 || (mChemical->_b8 & 8))
+                sub_71007086AC();
+            else
+                _b0 = mTimer.value <= std::numeric_limits<f32>::epsilon() ? 4 : 3;
+        } else if (mElement == Unk_71006F5DB0::Ice) {
+            if ((mChemical->_b8 & 4) || (mChemical->_d0 > 0.0f && mChemical->_d4 == 1))
+                mTimer.reset(_1c);
+            if ((mChemical->_bf & 2) && !(mChemical->_b8 & 4) && (mChemical->_b9[0] & 2))
+                sub_71007086AC();
+            else
+                _b0 = mTimer.value <= std::numeric_limits<f32>::epsilon() ? 4 : 3;
+        } else {
+            _b0 = mTimer.value <= std::numeric_limits<f32>::epsilon() ? 4 : 3;
+        }
+        break;
+    }
+    if (!sub_71006F594C(mElement, mChemical)) {
+        sub_71007086F4();
+    } else if (!_60 && u32(_a8) < 3) {
+        const char* name = nullptr;
+        if (mElement == Unk_71006F5DB0::Fire)
+            name = sGolemFireEventNames[_a8];
+        else if (mElement == Unk_71006F5DB0::Ice)
+            name = sGolemIceEventNames[_a8];
+        else if (mElement == Unk_71006F5DB0::Electric)
+            name = sGolemElectricEventNames[_a8];
+        if (name) {
+            sub_7100708BC4(&_68, name);
+            xlinkEventOn(mActor, _a8 == 2 ? 28 : _a8 == 1 ? 27 : 26, 1, false);
+            _60 = true;
+        }
+    }
+    sub_71007088C0();
 }
