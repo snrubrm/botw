@@ -2,6 +2,10 @@
 
 #include <prim/seadSafeString.h>
 
+namespace ksys::act {
+class Actor;
+}
+
 namespace uking {
 
 // Name from the CSV (OpenWorldStageMapProps::getMapFileName 0x71007c602c, getMapSquareFromString 0x71007c6064,
@@ -13,15 +17,19 @@ namespace uking {
 // TODO: layout and virtual functions unknown.
 class OpenWorldStageMapProps {
 public:
-    // "A-1/A-1": the map file name of the map square (column `col` -> letter, row `row` -> number).
-    bool getMapFileName(sead::BufferedSafeString* out, int col, int row);
     // Parses a square name like "C-4" (name[0] - 'A', name[2] - '1').
-    void getMapSquareFromString(int* col, int* row, const sead::SafeString& name);
+    virtual void getMapSquareFromString(int* col, int* row, const sead::SafeString& name);
     // Copies the map type string.
-    void getMapType(sead::BufferedSafeString* out);
+    virtual void getMapType(sead::BufferedSafeString* out);
+    // 0x71007c5fb0: calls getMapFileName for the square of the player actor's position.
+    virtual bool getMapFileNameForPlayerPos(sead::BufferedSafeString* out);
+    // "A-1/A-1": the map file name of the map square (column `col` -> letter, row `row` -> number).
+    virtual bool getMapFileName(sead::BufferedSafeString* out, int col, int row);
 
 private:
-    u8 _0[0x1a0];
+    u8 _8[0xe0 - 0x8];
+    /* 0xe0 */ ksys::act::Actor* _e0;
+    u8 _e8[0x1a0 - 0xe8];
     sead::SafeString _1a0;
 };
 
