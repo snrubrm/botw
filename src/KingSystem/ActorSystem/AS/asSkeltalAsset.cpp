@@ -1,6 +1,8 @@
 #include "KingSystem/ActorSystem/AS/asElement.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/Resource/Actor/resResourceASResource.h"
+#include "KingSystem/System/Patrol.h"
+#include <nn/g3d/ResSkeletalAnim.h>
 
 namespace ksys::as {
 
@@ -46,6 +48,39 @@ SkeltalAsset::SkeltalAsset(const CreateArg& arg, s32 value)
     : AnmAsset(arg, value, nullptr), _18(nullptr) {}
 
 SkeltalAsset::~SkeltalAsset() {}
+
+// NON_MATCHING: key initialization order and typed key checks differ in scheduling.
+SkeltalAsset::SkeltalAsset(const CreateArg& arg, s32 value, const res::ASResource* resource)
+    : AnmAsset(arg, value, resource), _18(nullptr) {
+    if (arg._28)
+        return;
+    const auto* asset = sead::DynamicCast<const res::ASSkeltalAssetResource>(resource);
+    if (arg.model) {
+        if (auto* animation = arg.model->getAnimation()) {
+            if (animation->mSkeletalAnms.size() != 0) {
+                mKey = animation->searchSkeletalKey(asset->getFileName());
+                if (!mKey.isValid()) {
+                    if (auto* patrol = Patrol::instance()) {
+                        if (patrol->mField0)
+                            asset->getFileName().findIndex("Demo");
+                    }
+                    return;
+                }
+                if (animation->mSkeletalResources[mKey.index].count != 0) {
+                    _c = static_cast<const nn::g3d::ResSkeletalAnim*>(
+                             animation->mSkeletalResources[mKey.index].resource->resource)
+                             ->GetFrameCount();
+                    sub_710131586C(static_cast<const nn::g3d::ResSkeletalAnim*>(
+                                      animation->mSkeletalResources[mKey.index].resource->resource)
+                                      ->IsLooped(),
+                                  resource);
+                    return;
+                }
+            }
+        }
+    }
+    mKey = {};
+}
 
 // NON_MATCHING: the filename address is computed after the virtual duration call.
 void SkeltalAsset::m14(Context* ctx, void* state, EventState*, const res::ASResource* resource) {

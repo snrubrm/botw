@@ -338,6 +338,8 @@ public:
         act::Actor* actor;
         // Partial skeletal animation source tree, consumed by SkeltalAsset::m8.
         Unk_710125af7c* partialSkeletalSources;
+        // Read by the resource-taking SkeltalAsset constructor at 0x710125c384.
+        bool _28;
     };
 
     struct InitArg {
