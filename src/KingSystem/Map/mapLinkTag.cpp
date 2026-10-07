@@ -55,6 +55,64 @@ LinkTag::~LinkTag() {
         _1ec.load();
 }
 
+// NON_MATCHING: the whole name chain and the parameter reads match; the differences are the position of the `bool` store before
+// the NoChangeSignal read, the SaveFlagOnOffType case blocks (the original loads / ors `_1e0` in each case; ours selects the mask
+// first) and the end (the original stores `_1e0 | 0x10` and later `_1e0 | 0x30`, ours one store with the final value).
+act::BaseProc::InitResult LinkTag::init_() {
+    if (mName == "LinkTagOr")
+        _1dc = 1;
+    else if (mName == "LinkTagNOr")
+        _1dc = 3;
+    else if (mName == "LinkTagNAnd")
+        _1dc = 2;
+    else if (mName == "LinkTagXOr")
+        _1dc = 4;
+    else if (mName == sead::SafeString("LinkTagAnd"))
+        _1dc = 0;
+    else if (mName == sead::SafeString("LinkTagCount"))
+        _1dc = 5;
+    else if (mName == sead::SafeString("LinkTagPulse"))
+        _1dc = 6;
+    else if (mName == sead::SafeString("LinkTagNone"))
+        _1dc = 7;
+
+    if (mName == "LinkTagNAnd" || mName == "LinkTagNOr")
+        _1e0 |= 4;
+
+    bool no_change_signal = false;
+    if (_1f8.tryGetParamBoolByKey(&no_change_signal, "NoChangeSignal") && no_change_signal)
+        _1e0 |= 0x40;
+
+    s32 save_flag_on_off_type = 0;
+    if (_1f8.tryGetParamIntByKey(&save_flag_on_off_type, "SaveFlagOnOffType")) {
+        switch (save_flag_on_off_type) {
+        case 1:
+            _1e0 |= 0x100;
+            break;
+        case 2:
+            _1e0 |= 0x200;
+            break;
+        }
+    }
+
+    bool flag_value = false;
+    isFlagSet(&flag_value, false, mObj);
+    const bool is_set = flag_value;
+    updateIsFlagSetFlag(is_set, true, true);
+    if (is_set) {
+        _1e0 |= 0x10;
+        _1d0 = ~u64(0);
+        _1e0 |= 0x20;
+        _1d8 = ~0u;
+    } else {
+        _1e0 &= ~0x10;
+        _1e0 &= ~0x20;
+        _1d8 = 0;
+        _1d0 = 0;
+    }
+    return InitResult::Ok;
+}
+
 void LinkTag::calc() {
     if (mState == State::Delete)
         return;

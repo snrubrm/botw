@@ -98,8 +98,9 @@ private:
     friend class act::BaseProcJobHandlerT<LinkTag>;
 
     /* 0x180 */ act::BaseProcJobHandlerT<LinkTag> mJob{this, &LinkTag::calc};
-    // One bit per link of the object's links to self (at most 96).
-    /* 0x1d0 */ u32 _1d0[3] = {};
+    // One bit per link of the object's links to self (at most 96; the original stores them as a u64 and a u32).
+    /* 0x1d0 */ u64 _1d0 = 0;
+    /* 0x1d8 */ u32 _1d8 = 0;
     /* 0x1dc */ s8 _1dc = 0;
     /* 0x1dd */ s8 _1dd = -1;
     /* 0x1de */ u8 _1de = 0;
