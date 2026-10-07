@@ -73,6 +73,9 @@ public:
     // Slots 33 / 34 (CSV DamageMgr::m33 / m34): the material masks of the attack info (`_20` / `_38`) or null.
     ksys::phys::MaterialMask* m33() override;
     ksys::phys::MaterialMask* tgSensorMaterialOnHitMaybe() override;
+    // Slot 28 (CSV DamageMgr::m28): a direction depending on the damage kind (the attack info's `_c`, `_c0`, `_cc`, `_9c`, the
+    // impulse data, the actor's velocity or z axis); false for the others.
+    bool getAttackPos(sead::Vector3f* out) override;
     // Slot 35 (CSV DamageMgr::m35): the matrix of the attacker of the damage kind (the attack info's link actor, the attack
     // info's matrix, or the actor's impulse data); false (identity) otherwise.
     bool m35(sead::Matrix34f* out) override;
@@ -131,7 +134,10 @@ public:
     u8 _84[0x88 - 0x84];
     s32 _88;  // attack info index of damage kind 6 (DamageManager::getAttackInfo_)
     s32 _8c;  // WeakPointRoot::m35
-    u8 _90[0xcc - 0x90];
+    u8 _90[0x9c - 0x90];
+    sead::Vector3f _9c;  // direction of damage kind 9 (getAttackPos)
+    u8 _a8[0xc0 - 0xa8];
+    sead::Vector3f _c0;  // direction of damage kind 1 (getAttackPos)
     sead::Vector3f _cc;  // direction used by damage kind 7 (m29 / m30)
     u8 _d8[0x210 - 0xd8];
     // 0x210-0x22c: zeroed by the ctor (0x210 and 0x214 with one 8-byte store).
