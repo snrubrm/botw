@@ -35,7 +35,7 @@ public:
     static ModelResource* create_(const CreateArg& arg, sead::Heap* heap);
     static void sub_7100C0B764(ModelResource* resource);
 
-    // Name is a reconstruction guess. Resource creation c0b8ec stores +38;
+    // inline-only in the original; name is a guess. Resource creation c0b8ec stores +38;
     // model creation bf66b0 and getResFileSize c0c264 independently read it.
     nn::g3d::ResFile* getResFile() const { return mResFile; }
 
