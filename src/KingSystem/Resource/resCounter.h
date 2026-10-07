@@ -50,7 +50,10 @@ public:
     ~Counter() override = default;
 
 private:
-    bool doSetData_(const Data& data) override;
+    bool doSetData_(const Data& data) override {
+        mData = data.mData;
+        return true;
+    }
 
     void* mData = nullptr;
 };
