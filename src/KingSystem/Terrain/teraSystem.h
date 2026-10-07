@@ -3,6 +3,7 @@
 #include <basis/seadTypes.h>
 #include <container/seadBuffer.h>
 #include <math/seadVector.h>
+#include <math/seadMatrix.h>
 #include <thread/seadAtomic.h>
 #include "KingSystem/Utils/Types.h"
 
@@ -83,6 +84,8 @@ public:
     static Terrain* instance() { return sInstance; }
 
     void setPauseState(bool paused);
+    void sub_710114D804(bool enabled, const sead::Matrix44f* projection,
+                      const sead::Matrix34f* view);
     s32 sub_710114DD84(s32 index);
     void sub_710114DDF8(u32 index, const sead::Vector3f* position, bool update);
     void sub_710114DDA4(const Core::Unk_71013010d4* states, u32 count);
@@ -110,7 +113,10 @@ public:
     Core* _360;
     u8 _368[0x60];
     f32 _3c8;
-    u8 _3cc[0x67c];
+    u8 _3cc[0x680 - 0x3cc];
+    sead::Matrix44f mProjectionMatrix;
+    sead::Matrix34f mViewMatrix;
+    u8 _6f0[0xa48 - 0x6f0];
     f64 _a48;
     void* _a50;
     u32 _a58;

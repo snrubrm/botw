@@ -4,6 +4,18 @@ namespace ksys::tera {
 
 Terrain* Terrain::sInstance;
 
+// NON_MATCHING: the SDK Matrix44 assignment copies scalar elements; the original copies rows.
+// The flag selection also has different temporary allocation.
+void Terrain::sub_710114D804(bool enabled, const sead::Matrix44f* projection,
+                           const sead::Matrix34f* view) {
+    if (enabled)
+        _a58 |= 0x1000;
+    else
+        _a58 &= ~0x1000;
+    mProjectionMatrix = *projection;
+    mViewMatrix = *view;
+}
+
 void Terrain::sub_710114DDF8(u32 index, const sead::Vector3f* position, bool update) {
     _360->sub_7101300B4C(index, position, update);
 }
