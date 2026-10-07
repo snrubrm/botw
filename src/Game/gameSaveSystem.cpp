@@ -12,6 +12,11 @@
 
 namespace uking {
 
+SEAD_SINGLETON_DISPOSER_IMPL(SaveSystem)
+
+// 0x71025d1d18: the all-zero slot returned for a slot that does not exist.
+static SaveSlot sUnk_71025D1D18;
+
 bool SaveSystem::isFinishedSavingMaybe() const {
     auto* mgr = ksys::SaveMgr::instance();
     return mgr && mgr->get38() == 0 && _3c == 0;
@@ -121,6 +126,22 @@ void SaveSystem::sub_71009157E4() {
 
 SaveSlot* SaveSystem::sub_7100914DA0(s32 slot) {
     return &_40[(_38 & 1) ? slot : 0];
+}
+
+SaveSlot* SaveSystem::sub_7100914DC8(s32 index, bool a) {
+    if (0 <= index && index < 8) {
+        const s32 slot = sub_7100914E20(index, a);
+        if (slot >= 0)
+            return &_40[slot];
+    }
+    return &sUnk_71025D1D18;
+}
+
+bool SaveSystem::sub_7100915A00() {
+    if (!(_38 & 0x10))
+        return false;
+    SaveSlot* slot = sub_7100914DC8(0, true);
+    return slot->_300 && slot->_304;
 }
 
 void SaveSystem::sub_7100910C94(f32 value) {

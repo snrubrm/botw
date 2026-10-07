@@ -73,7 +73,7 @@ void TempResourceLoader::requestLoad(LoadArg& arg) {
         stubbedLogFunction();
 }
 
-sead::DirectResource* TempResourceLoader::getResourceForLoadRequest(Context* context) {
+sead::Resource* TempResourceLoader::getResourceForLoadRequest(Context* context) {
     if (!mLoadArg.use_handle || !mHandle.requestedLoad() || mHandle.hasParsedResource() ||
         !mHandle.isReadyOrNeedsParse()) {
         return nullptr;
@@ -115,7 +115,7 @@ sead::DirectResource* TempResourceLoader::getResourceForLoadRequest(Context* con
     return mHandle.getResource();
 }
 
-sead::DirectResource* TempResourceLoader::load(TempResourceLoader::LoadArg& arg) {
+sead::Resource* TempResourceLoader::load(TempResourceLoader::LoadArg& arg) {
     updateFlagsBeforeLoadingStarts();
 
     const auto* current_thread = sead::ThreadMgr::instance()->getCurrentThread();
@@ -197,7 +197,7 @@ sead::DirectResource* TempResourceLoader::load(TempResourceLoader::LoadArg& arg)
     return mHandle.getResource();
 }
 
-sead::DirectResource* TempResourceLoader::getResource() const {
+sead::Resource* TempResourceLoader::getResource() const {
     if (mHandle.getResource())
         return mHandle.getResource();
     return mResource;

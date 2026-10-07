@@ -16,7 +16,9 @@ struct SaveSlot {
     bool _300;
     u8 _301;
     /* 0x302 */ u8 _302;  // read by the UI save-slot scan (lane2 s46)
-    u8 _303[5];
+    u8 _303;
+    /* 0x304 */ bool _304;
+    u8 _305[3];
 };
 KSYS_CHECK_SIZE_NX150(SaveSlot, 0x308);
 
@@ -51,7 +53,14 @@ public:
     bool sub_7100914504() const;
     // 0x71009154a8 / 0x7100914dc8 (declared only; lane2 s46): the number of slots / the slot `index`.
     s32 sub_71009154A8(s32 a);
+    // The slot `index` after sub_7100914E20 (the default slot when there is no such slot).
     SaveSlot* sub_7100914DC8(s32 index, bool a);
+    // 0x7100914e20 (1672 bytes, declared only): maps the slot number to the index into _40 (sorting the used
+    // slots by the 64-bit time stamp at +0x2f0); negative when there is no such slot.
+    s32 sub_7100914E20(s32 index, bool a);
+    // 0x7100915a00: when bit 4 of _38 is set, the flag at +0x304 of the first slot (the default slot when
+    // there is none) if its +0x300 flag is set.
+    bool sub_7100915A00();
     // 0x7100915f58 (CSV SaveSystem::__auto5): the album picture index flag `idx` (AlbumInfo at +0x1880).
     s32 sub_7100915F58(s32 idx);
     // 0x71009157d4 (CSV SaveSystem::isFirstLaunch): true while bit 2 of _38 is clear.
@@ -107,6 +116,8 @@ public:
     u8 _1a43[0x1a50 - 0x1a43];
     // bit 2 (4): auto saving paused (cleared by DisableAutoSavePausing); bit 11 (0x800) is tested by calc
     u16 _1a50;
+    u8 _1a52[0x1ef8 - 0x1a52];
 };
+KSYS_CHECK_SIZE_NX150(SaveSystem, 0x1ef8);
 
 }  // namespace uking

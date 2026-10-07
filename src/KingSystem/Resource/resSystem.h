@@ -26,6 +26,13 @@ bool returnFalse2(const sead::SafeString&);
 
 bool returnFalse3(const sead::SafeString& path);
 
+// 0x71012132ac: in release builds, the only thing this function does is return 0.
+bool returnFalse4();
+
+// 0x71012132c8: in release builds, this function does nothing (called with the path of a loaded
+// resource and whether it was loaded with decompression).
+void sub_71012132C8(const sead::SafeString& path, bool decompressed);
+
 s32 getDefaultAlignment();
 
 // In release builds, this function does nothing.

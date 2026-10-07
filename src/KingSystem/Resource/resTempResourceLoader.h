@@ -10,6 +10,7 @@
 
 namespace sead {
 class DirectResource;
+class Resource;
 }
 
 namespace ksys::res {
@@ -38,9 +39,9 @@ public:
     bool isSuccess() const;
     bool checkLoadStatus() const;
     void requestLoad(LoadArg& arg);
-    sead::DirectResource* getResourceForLoadRequest(Context* context);
-    sead::DirectResource* load(LoadArg& arg);
-    sead::DirectResource* getResource() const;
+    sead::Resource* getResourceForLoadRequest(Context* context);
+    sead::Resource* load(LoadArg& arg);
+    sead::Resource* getResource() const;
     Handle::Status getHandleStatus() const;
     sead::FileDevice* getHandleFileDevice() const;
     Handle* getHandle() { return &mHandle; }
@@ -77,7 +78,7 @@ private:
     }
 
     sead::TypedBitFlag<Flag> mFlags;
-    sead::DirectResource* mResource{};
+    sead::Resource* mResource{};
     ArchiveWork* mWork{};
     Handle mHandle;
     LoadArg mLoadArg;

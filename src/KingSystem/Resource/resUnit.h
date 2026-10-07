@@ -219,7 +219,7 @@ private:
     OverlayArena* mArena1 = nullptr;
     OverlayArena* mArena2 = nullptr;
     OverlayArena* mLoadReqArena = nullptr;
-    sead::DirectResource* mResource = nullptr;
+    sead::Resource* mResource = nullptr;
     Handle mArchiveResHandle;
     sead::ArchiveRes* mArchiveRes = nullptr;
     void* mLoadReqField68 = nullptr;

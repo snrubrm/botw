@@ -87,7 +87,7 @@ void Handle::requestUnload() {
         ResourceMgrTask::instance()->requestUnload(this);
 }
 
-sead::DirectResource* Handle::getResource() const {
+sead::Resource* Handle::getResource() const {
     if (!isSuccess())
         return nullptr;
     return mUnit->mResource;
@@ -106,7 +106,7 @@ bool Handle::isSuccess() const {
     return true;
 }
 
-sead::DirectResource* Handle::getResourceUnchecked() const {
+sead::Resource* Handle::getResourceUnchecked() const {
     return mUnit->mResource;
 }
 
@@ -129,7 +129,7 @@ inline bool Handle::checkPathChange_(const sead::SafeString& path) {
     return false;
 }
 
-sead::DirectResource* Handle::load(const sead::SafeString& path, const ILoadRequest* request,
+sead::Resource* Handle::load(const sead::SafeString& path, const ILoadRequest* request,
                                    Handle::Status* out_status) {
     if (checkPathChange_(path)) {
         mFlags.reset(Flag::AllStatusFlags);

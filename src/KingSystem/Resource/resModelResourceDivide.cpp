@@ -18,7 +18,7 @@ void ModelResourceDivide::init(sead::Heap* heap) {
     load_request.mRequester = "ModelResourceDivide";
     load_request.mLoadCompressed = true;
     mHandle.load("System/Resource/ModelDivideTable.byml", &load_request);
-    sead::DirectResource* table = mHandle.getResource();
+    auto* table = mHandle.getResource();
     auto* cast_table = sead::DynamicCast<sead::DirectResource>(table);
     mIter = new (heap) al::ByamlIter(cast_table->getRawData());
 }

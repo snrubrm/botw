@@ -25,6 +25,7 @@
 #include "KingSystem/World/worldWindMgr.h"
 
 namespace sead {
+class Resource;
 class WorkerMgr;
 }
 
@@ -261,7 +262,7 @@ private:
 
     WorldInfo mWorldInfo;
     DungeonEnv mDungeonEnv;
-    sead::DirectResource* mInfoRes{};
+    sead::Resource* mInfoRes{};
 
     sead::PtrArray<Job> mMgrs;
     agl::utl::AtomicPtrArray<void*> mAtomicPtrArray;

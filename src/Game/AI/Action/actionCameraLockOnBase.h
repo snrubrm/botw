@@ -43,7 +43,7 @@ protected:
     virtual bool m55() { return false; }
     virtual void m56() {}
     virtual void m57() {}
-    virtual int m58() { return 0; }
+    virtual bool m58() { return false; }
     virtual int m59() { return -1; }
     virtual bool m60(int idx) { return false; }
 

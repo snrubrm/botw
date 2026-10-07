@@ -49,6 +49,12 @@ bool returnFalse3(const sead::SafeString&) {
     return false;
 }
 
+bool returnFalse4() {
+    return false;
+}
+
+void sub_71012132C8(const sead::SafeString&, bool) {}
+
 s32 getDefaultAlignment() {
     return 8;
 }

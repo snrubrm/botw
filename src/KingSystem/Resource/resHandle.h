@@ -9,6 +9,7 @@
 
 namespace sead {
 class DirectResource;
+class Resource;
 }
 
 namespace ksys::res {
@@ -53,11 +54,11 @@ public:
 
     Status getStatus() const;
 
-    sead::DirectResource* getResource() const;
+    sead::Resource* getResource() const;
     bool isSuccess() const;
-    sead::DirectResource* getResourceUnchecked() const;
+    sead::Resource* getResourceUnchecked() const;
 
-    sead::DirectResource* load(const sead::SafeString& path, const ILoadRequest* request,
+    sead::Resource* load(const sead::SafeString& path, const ILoadRequest* request,
                                Status* out_status = nullptr);
     bool requestedLoad() const;
     bool requestLoad(const sead::SafeString& path, const ILoadRequest* request,

@@ -1,5 +1,8 @@
 #include "KingSystem/Resource/resUnit.h"
 #include <filedevice/seadArchiveFileDevice.h>
+#include <filedevice/seadFileDeviceMgr.h>
+#include <resource/seadParallelSZSDecompressor.h>
+#include <filedevice/seadPath.h>
 #include <resource/seadArchiveRes.h>
 #include <resource/seadResourceMgr.h>
 #include <thread/seadThread.h>
@@ -9,6 +12,7 @@
 #include "KingSystem/Resource/resControlTask.h"
 #include "KingSystem/Resource/resEntryFactory.h"
 #include "KingSystem/Resource/resLoadRequest.h"
+#include "KingSystem/Resource/resOffsetReadFileDevice.h"
 #include "KingSystem/Resource/resResource.h"
 #include "KingSystem/Resource/resResourceMgrTask.h"
 #include "KingSystem/Resource/resSystem.h"
@@ -831,6 +835,109 @@ u32 ResourceUnit::determineHeapSize(const sead::SafeString& path, bool flag4, bo
         stubbedLogFunction();
     }
     return 0;
+}
+
+// NON_MATCHING: register allocation (the original computes &mLoadArg into x20 before the first branch)
+void ResourceUnit::doLoad() {
+    if (mFlags.isOff(Flag::_4)) {
+        if (mLoadArg.device == sead::FileDeviceMgr::instance()->getMainFileDevice() ||
+            mLoadArg.device == ResourceMgrTask::instance()->getOffsetReadFileDevice()) {
+            mResource = sead::DynamicCast<sead::Resource>(
+                sead::ResourceMgr::instance()->tryLoadWithoutDecomp(mLoadArg));
+            sub_71012132C8(mPath, false);
+            if (returnFalse4())
+                stubbedLogFunction();
+        } else {
+            mResource = sead::DynamicCast<sead::Resource>(
+                sead::ResourceMgr::instance()->tryLoadWithoutDecomp(mLoadArg));
+        }
+    } else {
+        auto* decompressor = ResourceMgrTask::instance()->getSzsDecompressor();
+        if (mLoadArg.device == sead::FileDeviceMgr::instance()->getMainFileDevice() ||
+            mLoadArg.device == ResourceMgrTask::instance()->getOffsetReadFileDevice()) {
+            mResource = sead::DynamicCast<sead::Resource>(sead::ResourceMgr::instance()->tryLoad(
+                mLoadArg, sead::SafeString::cEmptyString, decompressor));
+            sub_71012132C8(mPath, true);
+            if (returnFalse4())
+                stubbedLogFunction();
+        } else {
+            mResource = sead::DynamicCast<sead::Resource>(sead::ResourceMgr::instance()->tryLoad(
+                mLoadArg, sead::SafeString::cEmptyString, decompressor));
+        }
+        ResourceMgrTask::instance()->unlockSzsDecompressorCS();
+    }
+
+    if (mResource)
+        return;
+
+    bool exists = false;
+    sead::FixedSafeString<256> path_no_drive;
+    sead::Path::getPathExceptDrive(&path_no_drive, mLoadArg.path);
+    mLoadArg.device->tryIsExistFile(&exists, path_no_drive);
+    if (!exists) {
+        sead::IsDerivedFrom<sead::ArchiveFileDevice>(mLoadArg.device);
+        stubbedLogFunction();
+        mStatusFlags.set(StatusFlag::FailedMaybe);
+        return;
+    }
+
+    u32 file_size = 0;
+    if (mFlags.isOff(Flag::_4)) {
+        if (!mLoadArg.device->tryGetFileSize(&file_size, mLoadArg.path))
+            return;
+    } else {
+        if (!ResourceMgrTask::instance()->getUncompressedSize(&file_size, mLoadArg.path,
+                                                              mLoadArg.device))
+            return;
+    }
+
+    if (file_size == 0) {
+        stubbedLogFunction();
+        mStatusFlags.set(StatusFlag::FileSizeIsZero);
+        return;
+    }
+
+    if (mAllocSize != 0 && mAllocSize < file_size) {
+        stubbedLogFunction();
+        sead::FormatFixedSafeString<256> message(
+            "↓↓↓\nファイルパス               : %s\nResourceBinder::allocSize  : %u\n実際の展開後バイナリサイズ : %u\n↑↑↑\n",
+            mLoadArg.path.cstr(), mAllocSize, file_size);
+        mStatusFlags.set(StatusFlag::FileSizeExceedsAllocSize);
+        return;
+    }
+
+    const size_t max_size = mLoadArg.load_data_heap->getMaxAllocatableSize(8);
+    if (max_size < file_size) {
+        stubbedLogFunction();
+        sead::FormatFixedSafeString<512> message(
+            "↓↓↓\nファイルパス               : %s\nMaxAllocatableSize         : %d\n実際の展開後バイナリサイズ : %u\n↑↑↑\n",
+            mLoadArg.path.cstr(), max_size, file_size);
+        mStatusFlags.set(StatusFlag::FileOrResInstanceTooLargeForHeap);
+        return;
+    }
+
+    if (auto* factory = sead::DynamicCast<EntryFactoryBase>(mLoadArg.factory)) {
+        if (mLoadArg.instance_heap->getMaxAllocatableSize(8) < factory->getResourceSize()) {
+            mStatusFlags.set(StatusFlag::FileOrResInstanceTooLargeForHeap);
+            return;
+        }
+    }
+
+    if (mStatusFlags.isOn(StatusFlag::LoadFromArchive)) {
+        stubbedLogFunction();
+        return;
+    }
+
+    if (mLoadArg.device->getLastRawError() > 0) {
+        stubbedLogFunction();
+        doRetryLoad();
+    }
+
+    if (mResource)
+        return;
+
+    stubbedLogFunction();
+    mStatusFlags.set(StatusFlag::LoadFailed);
 }
 
 }  // namespace ksys::res
