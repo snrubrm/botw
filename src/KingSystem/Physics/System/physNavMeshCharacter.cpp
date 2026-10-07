@@ -25,10 +25,27 @@ void NavMeshCharacter::sub_7100F75F8C(const sead::Vector3f& target) {
     if (target.isNan())
         return;
 
-    _d4.x = target.x;
-    _d4.y = target.y;
-    _d4.z = target.z;
+    _d4[0].x = target.x;
+    _d4[0].y = target.y;
+    _d4[0].z = target.z;
     _1da = 1;
+    if (!(_220.fetchOr(0x1000) & 0x1000))
+        _290 = sUnk_710260ddd8.fetchAdd(1);
+}
+
+void NavMeshCharacter::sub_7100394884(sead::ObjList<sead::Vector3f>::iterator begin,
+                                      sead::ObjList<sead::Vector3f>::iterator end) {
+    auto lock = sead::makeScopedLock(_1e0);
+    s32 count = 0;
+    for (auto it = begin; count < 16 && it != end; ++it) {
+        if (it->isNan())
+            return;
+        _d4[count].x = it->x;
+        _d4[count].y = it->y;
+        _d4[count].z = it->z;
+        ++count;
+    }
+    _1da = count;
     if (!(_220.fetchOr(0x1000) & 0x1000))
         _290 = sUnk_710260ddd8.fetchAdd(1);
 }

@@ -211,8 +211,7 @@ public:
     /* 0x068 */ sead::CriticalSection _68;
     /* 0x0a8 */ sead::SafeArray<u32, 10> _a8;  // BaseProc ids (up to 10 entries, count in _d0)
     /* 0x0d0 */ sead::Atomic<s32> _d0 = 0;
-    /* 0x0d4 */ sead::Vector3f _d4;
-    /* 0x0e0 */ u8 _e0[0x194 - 0xe0];
+    /* 0x0d4 */ sead::Vector3f _d4[16];  // path points (the first one is the target of sub_7100F75F8C)
     /* 0x194 */ sead::Vector3f _194;
     /* 0x1a0 */ sead::Vector3f _1a0;
     /* 0x1ac */ sead::Vector3f _1ac;
