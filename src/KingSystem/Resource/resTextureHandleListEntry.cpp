@@ -24,4 +24,8 @@ void TextureHandleList::Entry::sub_71012BD4E0() {
     }
 }
 
+void* TextureHandleList::Entry::sub_71012BD4D8() const {
+    return _10;
+}
+
 }  // namespace ksys::res

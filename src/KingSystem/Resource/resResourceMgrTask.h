@@ -338,6 +338,7 @@ private:
     };
 
     friend bool isCompactionStopped();
+    friend sead::TaskBase* sead::TTaskFactory<ResourceMgrTask>(const sead::TaskConstructArg&);
 
     explicit ResourceMgrTask(const sead::TaskConstructArg& arg);
     ~ResourceMgrTask();

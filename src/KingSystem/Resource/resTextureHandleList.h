@@ -20,9 +20,10 @@ public:
     public:
         static constexpr size_t getListNodeOffset() { return 0xa0; }
 
-        // 0x71012bd52c (declared only): whether the list node is linked.
+        // 0x71012bd52c whether the list node is linked.
         bool isLinked() const;
-        // 0x71012bd4e0 (declared only): releases the entry (if flag byte +8 is set).
+        void* sub_71012BD4D8() const;
+        // 0x71012bd4e0 releases the entry (if flag byte +8 is set).
         void sub_71012BD4E0();
 
         class Unk18 {
@@ -48,7 +49,7 @@ public:
     // 0x71012bd6bc: releases and unlinks every entry under the lock.
     void sub_71012BD6BC();
 
-    // 0x71012bd5dc (declared only; other TU): stores the instance pointer.
+    // 0x71012bd5dc stores the instance pointer.
     static void setInstance(TextureHandleList* list);
     static TextureHandleList* sInstance;
 

@@ -12,3 +12,9 @@ const sead::RuntimeTypeInfo::Interface* ResourceMgrTask::getRuntimeTypeInfo() co
 }
 
 }  // namespace ksys::res
+
+namespace sead {
+
+template TaskBase* TTaskFactory<ksys::res::ResourceMgrTask>(const TaskConstructArg&);
+
+}  // namespace sead
