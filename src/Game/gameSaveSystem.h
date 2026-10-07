@@ -6,6 +6,7 @@
 #include <prim/seadSafeString.h>
 #include "Game/gameAlbumInfo.h"
 #include "KingSystem/Utils/Types.h"
+#include "KingSystem/GameData/gdtManager.h"
 
 namespace ksys::act {
 class Actor;
@@ -147,6 +148,8 @@ public:
     void sub_7100912A50();
     // 0x7100912ea4 (CSV clearAllCbsAndResetFlagsToInitial; declared only)
     void sub_7100912EA4(bool a);
+    void gdmResetCallback(ksys::gdt::Manager::ResetEvent* event);
+    void gdmResetCallback2(ksys::gdt::Manager::ResetEvent* event);
     void sub_710091171C();
     // 0x7100912be0 (CSV x_1): true when saving is not possible right now (the demo was not played, saving is
     // prohibited, auto saving is paused, ...) or the map type is empty.
@@ -187,7 +190,10 @@ public:
     u8 _1a45[0x1a50 - 0x1a45];
     // bit 2 (4): auto saving paused (cleared by DisableAutoSavePausing); bit 11 (0x800) is tested by calc
     u16 _1a50;
-    u8 _1a52[0x1ef8 - 0x1a52];
+    u8 _1a52[0x1d68 - 0x1a52];
+    ksys::gdt::Manager::ResetSignal::Slot _1d68;
+    ksys::gdt::Manager::ResetSignal::Slot _1dd8;
+    u8 _1e48[0x1ef8 - 0x1e48];
 };
 KSYS_CHECK_SIZE_NX150(SaveSystem, 0x1ef8);
 

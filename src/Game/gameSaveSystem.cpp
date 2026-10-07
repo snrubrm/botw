@@ -28,11 +28,38 @@ void* sub_7100A9E244();
 void showLoadSaveIcon_0(bool show);
 // 0x7100a9e27c (declared only)
 void sub_7100A9E27C();
+
 }  // namespace uking::ui
 
 namespace uking {
 
 SEAD_SINGLETON_DISPOSER_IMPL(SaveSystem)
+
+void SaveSystem::gdmResetCallback2(ksys::gdt::Manager::ResetEvent* event) {
+    if (_3c == 35 || _3c == 36)
+        return;
+    _3c = 35;
+    if (ksys::gdt::Manager::instance())
+        _1dd8.release();
+}
+
+void SaveSystem::sub_7100912EA4(bool a) {
+    auto* manager = ksys::gdt::Manager::instance();
+    if (manager) {
+        _1d68.release();
+        manager->mResetSignal.connect(_1d68);
+        _1dd8.release();
+        manager->mResetSignal.connect(_1dd8);
+        manager->requestResetAllFlagsToInitial();
+        _1a50 &= ~1;
+    }
+    if (a) {
+        if (_30 != 8)
+            _1880.sub_710090CD84(&_40[_30], false);
+        _30 = 8;
+    }
+}
+
 
 // 0x71025d1d18: the all-zero slot returned for a slot that does not exist.
 static SaveSlot sUnk_71025D1D18;
