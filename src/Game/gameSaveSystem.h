@@ -37,11 +37,38 @@ public:
     void sub_710090CDA8();
     void sub_710090CDF4();
 
-    struct Entry0;
-    struct Entry1;
-    struct Entry2;
-    struct Entry3;
-    struct Entry4;
+    struct Entry0 {
+        ksys::gdt::FlagHandle handle;
+        bool value;
+    };
+    struct Entry1 {
+        ksys::gdt::FlagHandle handle;
+        s32 value;
+    };
+    struct ArrayS32Entry {
+        s32 index;
+        s32 value;
+    };
+    struct ArrayStr64Entry {
+        s32 index;
+        sead::FixedSafeString<64> value;
+    };
+    struct ArrayStr256Entry {
+        s32 index;
+        sead::FixedSafeString<256> value;
+    };
+    struct Entry2 {
+        ksys::gdt::FlagHandle handle;
+        sead::Buffer<ArrayS32Entry> values;
+    };
+    struct Entry3 {
+        ksys::gdt::FlagHandle handle;
+        sead::Buffer<ArrayStr64Entry> values;
+    };
+    struct Entry4 {
+        ksys::gdt::FlagHandle handle;
+        sead::Buffer<ArrayStr256Entry> values;
+    };
     bool _0 = false;
     sead::Buffer<Entry0> _8;
     sead::Buffer<Entry1> _18;
@@ -50,6 +77,13 @@ public:
     sead::Buffer<Entry4> _48;
 };
 KSYS_CHECK_SIZE_NX150(SaveFlagCache, 0x58);
+KSYS_CHECK_SIZE_NX150(SaveFlagCache::Entry0, 8);
+KSYS_CHECK_SIZE_NX150(SaveFlagCache::Entry1, 8);
+KSYS_CHECK_SIZE_NX150(SaveFlagCache::Entry2, 0x18);
+KSYS_CHECK_SIZE_NX150(SaveFlagCache::Entry3, 0x18);
+KSYS_CHECK_SIZE_NX150(SaveFlagCache::Entry4, 0x18);
+KSYS_CHECK_SIZE_NX150(SaveFlagCache::ArrayStr64Entry, 0x60);
+KSYS_CHECK_SIZE_NX150(SaveFlagCache::ArrayStr256Entry, 0x120);
 
 // Placeholder declaration (name from the CSV: SaveSystem::createInstance 0x710090ee60, ctor
 // 0x710090eee8, calc 0x7100910e5c, init, invokedAutoSave, isFinishedSavingMaybe, ...; instance

@@ -17,4 +17,25 @@ void SaveFlagCache::sub_710090CDA8() {
     sub_71008FD634(&_48);
 }
 
+void SaveFlagCache::sub_710090CDF4() {
+    if (!_0)
+        return;
+    auto* manager = ksys::gdt::Manager::instance();
+    if (!manager)
+        return;
+    for (const auto& entry : _8)
+        manager->setBool(entry.value, entry.handle);
+    for (const auto& entry : _18)
+        manager->setS32(entry.value, entry.handle);
+    for (const auto& entry : _28)
+        for (const auto& value : entry.values)
+            manager->setS32(value.value, entry.handle, value.index);
+    for (const auto& entry : _38)
+        for (const auto& value : entry.values)
+            manager->setStr64(value.value.cstr(), entry.handle, value.index);
+    for (const auto& entry : _48)
+        for (const auto& value : entry.values)
+            manager->setStr256(value.value.cstr(), entry.handle, value.index);
+}
+
 }  // namespace uking
