@@ -5,6 +5,7 @@
 #include <heap/seadExpHeap.h>
 #include <math/seadMatrix.h>
 #include <math/seadVector.h>
+#include <mc/seadJobQueue.h>
 #include <prim/seadRuntimeTypeInfo.h>
 
 #include "Game/Damage/dmgInfoManager.h"
@@ -47,8 +48,10 @@ public:
 
     sead::Buffer<DamageCallback*> mCallbacks{};
 
-    // Callback status flags?
-    s32 mField_30 = 0;
+    // Lock word guarding mStruct20_a (ForkStalEnemyForceDamage::calc_ does
+    // mField_30.lock() / .unlock() around mStruct20_a->combineMaybe(); the inline
+    // JobQueueLock sequences match the original exactly).
+    sead::JobQueueLock mField_30;
     s8 mField_34 = 0;
 };
 
