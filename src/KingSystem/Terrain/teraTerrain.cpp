@@ -12,8 +12,7 @@ void Terrain::sub_710114D8C8(sead::Heap* heap) {
     _360->sub_71013009C4(heap);
 }
 
-// NON_MATCHING: the SDK Matrix44 assignment copies scalar elements; the original copies rows.
-// The flag selection also has different temporary allocation.
+// NON_MATCHING: the flag selection has different temporary allocation.
 void Terrain::sub_710114D804(bool enabled, const sead::Matrix44f* projection,
                            const sead::Matrix34f* view) {
     if (enabled)

@@ -252,7 +252,7 @@ public:
     /* 0x08 */ sead::Buffer<Ducker> mDuckers;
 };
 
-// Actual sound-owned B8 allocation in 0x710105590C; its internal interfaces remain unresolved.
+// Actual sound-owned B8 allocation in 0x710105590C and embedded stream-path callback.
 class Unk_710105fe78 {
 public:
     Unk_710105fe78();
@@ -263,9 +263,16 @@ public:
         res::Handle* mHandle;
     };
     static_assert(sizeof(Entry) == 0x10);
-    /* 0x08 */ sead::Buffer<Entry>* _8;
-    /* 0x10 */ s32 _10;
-    u8 _14[0xb8 - 0x14];
+    class Callback : public aal::Unk_7100BA1AEC {
+    public:
+        bool sub_7100BA1AEC(sead::BufferedSafeStringBase<char>* path, aal::AssetInfo* info) override;
+        sead::FixedSafeString<128> mString;
+    };
+    static_assert(sizeof(Callback) == 0xa0);
+    /* 0x08 */ sead::Buffer<Entry>* _8 = nullptr;
+    /* 0x10 */ s32 _10 = 0;
+    u8 _14[4];
+    /* 0x18 */ Callback mCallback;
 };
 KSYS_CHECK_SIZE_NX150(Unk_710105fe78, 0xb8);
 
