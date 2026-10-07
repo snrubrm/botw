@@ -3,6 +3,7 @@
 #include <heap/seadDisposer.h>
 #include <hostio/seadHostIONode.h>
 #include <prim/seadSafeString.h>
+#include <prim/seadBitFlag.h>
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Utils/Thread/MessageTransceiverRxOnly.h"
 #include "KingSystem/Utils/Thread/MessageTransceiverTxOnly.h"
@@ -15,6 +16,10 @@ class PlayerArmors;
 
 namespace uking::act {
 class PauseMenuPlayer;
+}
+
+namespace uking::ai {
+class PauseMenuPlayerRoot;
 }
 
 namespace uking::ui {
@@ -35,9 +40,11 @@ public:
     ksys::act::PlayerArmors* getArmors() const { return mArmors; }
     void sub_7100906F08(ksys::act::Actor* actor);
     bool sub_710090AB4C() const;
+    void sub_7100907A30();
 
 private:
     friend class uking::act::PauseMenuPlayer;
+    friend class uking::ai::PauseMenuPlayerRoot;
 
     /* 0x38 */ ksys::act::BaseProcLink mActorLink;
     /* 0x48 */ ksys::act::Actor* mActor;
@@ -45,7 +52,9 @@ private:
     /* 0x90 */ ksys::act::PlayerArmors* mArmors;
     u8 _98[0xb0 - 0x98];
     /* 0xb0 */ sead::FixedSafeString<64> _b0;
-    u8 _108[0x1f8 - 0x108];
+    u8 _108[0x1f4 - 0x108];
+    /* 0x1f4 */ sead::BitFlag8 _1f4;
+    u8 _1f5[3];
 };
 KSYS_CHECK_SIZE_NX150(OnUiActorMgr, 0x1f8);
 

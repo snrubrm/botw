@@ -3,6 +3,10 @@
 #include "KingSystem/ActorSystem/actAiAi.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 
+namespace uking::act {
+class Rope;
+}
+
 namespace uking::ai {
 
 class RopeRoot : public ksys::act::ai::Ai {
@@ -14,6 +18,7 @@ public:
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
+    void calc_() override;
     void loadParams_() override;
 
 protected:
@@ -22,8 +27,7 @@ protected:
     // map_unit_param at offset 0x40
     const bool* mRopeAlwaysUpdateRigidParam_m{};
     ksys::act::BaseProcLink _48;
-    // DynamicCast of mActor to the rope actor class (RTTI used by CSV Rope::m3; not in the repo yet)
-    ksys::act::Actor* _58{};
+    uking::act::Rope* _58{};
 };
 
 }  // namespace uking::ai

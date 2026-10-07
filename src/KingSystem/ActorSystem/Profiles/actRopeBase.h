@@ -7,6 +7,10 @@
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Physics/physDefines.h"
 
+namespace uking::ai {
+class RopeRoot;
+}
+
 namespace ksys::phys {
 class RigidBody;
 }  // namespace ksys::phys
@@ -43,6 +47,7 @@ public:
     virtual void m150();
 
     friend class acc::RopeBase;
+    friend class uking::ai::RopeRoot;
 
 protected:
     // TODO
@@ -57,11 +62,17 @@ protected:
     s32 _930;
     u8 _934[4];
     f32 _938;  // length of one rope segment (lane1 s41)
-    u8 _93c[0x956 - 0x93c];
+    u8 _93c[0x955 - 0x93c];
+    // 2026-10-07: ECAA68 clears this flag; ED4A80 sets it together with _956 after detachment.
+    bool _955;
     u8 _956;
     u8 _957[0x95a - 0x957];
     bool _95a;
-    u8 _95b[0x971 - 0x95b];
+    u8 _95b[0x96c - 0x95b];
+    // 2026-10-07: ED1B00/ED1D78/ED33F0 write states 1/2/3; ED5010 switches on the state.
+    s32 _96c;
+    // ED4E50 clears this flag and sets it when a rigid body is detached.
+    bool _970;
     bool _971;
     u8 _972[0x974 - 0x972];
     s32 _974;

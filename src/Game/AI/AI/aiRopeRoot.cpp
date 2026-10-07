@@ -21,6 +21,29 @@ void RopeRoot::leave_() {
     ksys::act::ai::Ai::leave_();
 }
 
+void RopeRoot::calc_() {
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed() || !_48.hasProc()) {
+        changeChild("通常", nullptr);
+        return;
+    }
+    if (!child->isChangeable())
+        return;
+    if (isCurrentChild("通常")) {
+        if (_58->_955 && _58->_96c != 2)
+            changeChild("切断", nullptr);
+        else if (_58->_970)
+            changeChild("燃え尽き", nullptr);
+    } else if (isCurrentChild("切断")) {
+        changeChild("通常", nullptr);
+    } else if (isCurrentChild("燃え尽き")) {
+        if (_58->_970)
+            changeChild("燃え尽き", nullptr);
+        else
+            changeChild("通常", nullptr);
+    }
+}
+
 void RopeRoot::loadParams_() {
     getMapUnitParam(&mRopeFlag_m, "RopeFlag");
     getMapUnitParam(&mRopeAlwaysUpdateRigidParam_m, "RopeAlwaysUpdateRigidParam");

@@ -17,7 +17,7 @@ namespace uking::act {
 
 PauseMenuPlayer::PauseMenuPlayer(const CreateArg& arg) : PlayerOrEnemy(arg) {
     _c34 = false;
-    _c35[0] = 1;
+    _c35 = true;
     _1c0 = 13;
 }
 
@@ -95,7 +95,7 @@ void PauseMenuPlayer::m114() {
 }
 
 void PauseMenuPlayer::finalizeInit_(InitContext* context) {
-    if (_c35[0])
+    if (_c35)
         mASList->x_2(66, 33, true, false);
     else
         mASList->x_2(66, 33, false, false);

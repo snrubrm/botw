@@ -1,6 +1,8 @@
 #include "Game/AI/AI/aiPauseMenuPlayerRoot.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "Game/Actor/actPauseMenuPlayer.h"
+#include "Game/UI/uiOnUiActorMgr.h"
+#include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Utils/Thread/Message.h"
 
@@ -15,7 +17,20 @@ bool PauseMenuPlayerRoot::init_(sead::Heap* heap) {
 }
 
 void PauseMenuPlayerRoot::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _38 = false;
+    _39 = false;
+    mActor->getASList()->goLimpFromHeadShotMaybe(0x3e, "EatFood", 0);
+    if (ui::OnUiActorMgr::instance()) {
+        mActor->getASList()->x_2(66, 5, ui::OnUiActorMgr::instance()->_1f4.isOnBit(3), false);
+        ui::OnUiActorMgr::instance()->sub_7100907A30();
+    }
+    const f32 value = mActor->getChemicalStuff() ? mActor->getChemicalStuff()->sub_7100D91958() : 0.0f;
+    mActor->getASList()->x_6(24, 0, value);
+    auto* actor = sead::DynamicCast<uking::act::PauseMenuPlayer>(mActor);
+    if (actor)
+        actor->getASList()->x_2(66, 33, actor->_c35, false);
+    if (!isCurrentChild("通常待機"))
+        changeChild("通常待機", nullptr);
 }
 
 void PauseMenuPlayerRoot::leave_() {

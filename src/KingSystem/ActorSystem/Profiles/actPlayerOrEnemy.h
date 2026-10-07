@@ -112,7 +112,13 @@ protected:
     /* 0xb90 */ ActorWeapons mWeapons{this};
     /* 0xc30 */ f32 _c30 = 100.0;
     /* 0xc34 */ bool _c34;  // not initialised by the ctor (lane2 s47: a byte flag, read by PauseMenuPlayerRoot::calc_)
-    u8 _c35[3];              // Enemy members start at 0xc38
+public:
+    // 2026-10-07: OnUiActorMgr 907190 writes the inverse player flag; 907738/907C10 clear/set it.
+    // PauseMenuPlayerRoot 4F548C and actor helpers 6E9C24/6E9E34 pass it to ASList.
+    bool _c35;
+
+protected:
+    u8 _c36[2];  // Enemy members start at 0xc38
 
 public:
     // name is a guess
