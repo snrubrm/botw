@@ -2,6 +2,9 @@
 #include "Game/AI/aiUnk_710072BA90.h"
 #include "Game/Damage/dmgDamageManager.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/ActorSystem/actActorAtk.h"
+#include "KingSystem/World/worldElementSpark.h"
 #include "KingSystem/Physics/physMaterialMask.h"
 
 namespace uking::action {
@@ -41,8 +44,26 @@ void Flint::loadParams_() {
     getStaticParam(&mParams.mSetDelete_s, "SetDelete");
 }
 
+// NON_MATCHING: the zero-vector copy uses different load grouping and register allocation.
 void Flint::calc_() {
-    ksys::act::ai::Action::calc_();
+    auto* actor = mActor;
+    if (!sub_71007A2604(actor))
+        return;
+    const s32 count = sub_71007A26AC(actor);
+    for (s32 i = 0; i < count; ++i) {
+        auto* info = sub_71007A255C(actor, i);
+        if (!info || info->_20.getMaterial() != ksys::phys::Material::Metal)
+            continue;
+        ElementSparkCreateArg arg;
+        arg.actor = nullptr;
+        arg.position = sead::Vector3f::zero;
+        arg.radius = 1.0f;
+        arg.life = 15.0f;
+        arg.position = info->_0;
+        arg.radius = *mParams.mRadius_s;
+        arg.life = *mParams.mLife_s;
+        ksys::world::sub_71010C30E8(&arg);
+    }
 }
 
 }  // namespace uking::action
