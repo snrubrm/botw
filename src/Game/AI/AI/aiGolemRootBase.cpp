@@ -3,6 +3,7 @@
 #include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/ActorSystem/actReaction.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
 
@@ -104,6 +105,15 @@ void GolemRootBase::leave_() {
         }
     }
     EnemyRoot::leave_();
+}
+
+void GolemRootBase::calc_() {
+    if (!mActor->isSpecialJobTypesMaskOverride0())
+        sub_7100402194();
+    for (int i = 0; i < _2f0._8.size(); ++i)
+        _2f0._8[i].sub_71007083DC();
+    EnemyRoot::calc_();
+    ksys::act::Reaction::instance()->sub_7100EC29D0(mActor);
 }
 
 void GolemRootBase::loadParams_() {

@@ -20,6 +20,8 @@ public:
         void sub_7100708B64();
         // 0x71007086ac (ForkOnLeaveGolemChemReset::leave_, ForkASTrgGolemChemicalReset::calc_); declaration only.
         void sub_71007086AC();
+        // Declaration only: per-part chemical controller update called by GolemRootBase.
+        void sub_71007083DC();
 
         u8 _0[0xb0];
         s32 _b0;  // GolemChemicalResetSelect::enter_ tests entry 0 for 4
