@@ -1,6 +1,7 @@
 #pragma once
 
 #include <prim/seadSafeString.h>
+#include <container/seadSafeArray.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 
@@ -39,20 +40,19 @@ protected:
     bool _61 = false;
     bool _62 = false;
     s32 _64 = 0;
+    // Matches the shared projectile payload consumed by SiteBossChemicalProjectile.
     struct Entry {
-        ksys::act::BaseProcLink _0;
-        s32 _10 = 0;
-        sead::FixedSafeString<32> _18;
-        u8 _50[0x18];
+        sead::Vector3f _0;
+        sead::Vector3f _c;
+        ksys::act::BaseProcLink _18;
+        f32 _28 = 0;
+        sead::FixedSafeString<32> mNodeName;
     };
-    // Placeholder name (0x2631cc is its out-of-line ctor): a 0x18-byte header, one entry and an array of 8 entries.
-    struct Entries {
-        Entries();
-        u8 _0[0x18];
-        Entry _18;
-        Entry _80[8];
-    };
+    static_assert(sizeof(Entry) == 0x68);
+    using Entries = sead::SafeArray<Entry, 9>;
     Entries _68;
 };
+
+KSYS_CHECK_SIZE_NX150(SiteBossShootIceSplinter, 0x410);
 
 }  // namespace uking::action

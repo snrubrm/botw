@@ -2,12 +2,9 @@
 #include "Game/Actor/actSiteBoss.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 
 namespace uking::action {
-
-// NON_MATCHING: the original hoists the cNullChar load above the first entry (as for a plain Entry[9]), which
-// would make the destructor mismatch instead.
-SiteBossShootIceSplinter::Entries::Entries() = default;
 
 SiteBossShootIceSplinter::SiteBossShootIceSplinter(const InitArg& arg)
     : ksys::act::ai::Action(arg) {}
@@ -43,6 +40,26 @@ void SiteBossShootIceSplinter::loadParams_() {
     getStaticParam(&mBindNodeName_s, "BindNodeName");
     getDynamicParam(&mTargetPos_d, "TargetPos");
     getDynamicParam(&mTargetActor_d, "TargetActor");
+}
+
+// NON_MATCHING: Position stores and message-type construction are scheduled differently.
+void SiteBossShootIceSplinter::sub_710026354C(int idx) {
+    const auto target = *mTargetPos_d;
+    if (auto* boss = sead::DynamicCast<act::SiteBoss>(mActor)) {
+        auto& link = boss->_1560._1e0[idx];
+        if (!link.hasProc())
+            return;
+        auto& entry = _68[idx];
+        entry._0 = target;
+        entry._0.y += 1.0f;
+        entry._18 = *mTargetActor_d;
+        entry._28 = *mInitVelocity_s;
+        entry.mNodeName.clear();
+        ksys::act::ActorConstDataAccess actor;
+        ksys::act::acquireActor(&link, &actor);
+        mActor->sendMessage(*actor.getMessageTransceiverId(), ksys::MessageType(0x800003a),
+                            &entry, true);
+    }
 }
 
 void SiteBossShootIceSplinter::calc_() {
