@@ -1,5 +1,6 @@
 #include "KingSystem/World/worldShootingStarMgrEx.h"
 #include <cmath>
+#include <math/seadQuat.h>
 #include <gfx/seadCamera.h>
 #include <random/seadGlobalRandom.h>
 #include "KingSystem/ActorSystem/actActorCreator.h"
@@ -10,6 +11,38 @@
 #include "KingSystem/World/worldManager.h"
 
 namespace ksys::world {
+
+// NON_MATCHING: quaternion/vector temporaries and component-copy scheduling differ.
+void ShootingStarAnchor::sub_71010D0814(act::InstParamPack* pack, sead::Vector3f* out_position) {
+    if (!pack)
+        return;
+    auto* camera = CameraMgr::instance()->getLookAtCamera();
+    if (!camera)
+        return;
+    sead::Vector3f position = sead::Vector3f::zero;
+    bool started = false;
+    if (gdt::Manager::instance())
+        gdt::getBoolByNameNoBool2(gdt::Manager::instance(), &started, _68);
+    if (started) {
+        position = _48;
+    } else {
+        sead::Vector3f direction(_48.x - camera->getPos().x, 0.0f,
+                                _48.z - camera->getPos().z);
+        direction.normalize();
+        sead::Quatf rotation;
+        rotation.makeVectorRotation(sead::Vector3f(1.0f, 0.0f, 0.0f), direction);
+        sead::Vector3f offset(0.0f, 0.0f, 1.0f);
+        offset.rotate(rotation);
+        const f32 distance = sead::GlobalRandom::instance()->getF32Range(-500.0f, 500.0f);
+        position = camera->getPos() + sead::Vector3f(0.0f, 500.0f, 0.0f) + offset * distance;
+    }
+    act::ActorCreator::addAITreeParam(*pack, mIdentifier.name, "CollaboShootingStarId");
+    pack->getBuffer().addPosition(position);
+    if (out_position)
+        *out_position = position;
+}
+
+
 
 bool ShootingStarAnchor::sub_71010D0F64(s32 hour_offset) const {
     const s32 hour = Manager::instance()->getTimeMgr()->getHour();

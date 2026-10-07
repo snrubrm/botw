@@ -33,7 +33,7 @@ public:
         sead::SafeString name;
     };
 
-    void sub_71010D0814(act::InstParamPack* pack, const sead::Vector3f* position);
+    void sub_71010D0814(act::InstParamPack* pack, sead::Vector3f* out_position);
 
     u8 _8[0x2c - 0x8];
     s32 _2c;
