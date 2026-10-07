@@ -1205,3 +1205,18 @@ bool ScreenAppMap::sub_71009E9F10() {
 }
 
 }  // namespace uking::ui
+
+namespace uking::ui {
+
+// NON_MATCHING: the recovered intrusive-list loop folds the node-to-entry offset; the original retains it.
+bool ScreenMainScreen3D::sub_7100A11D34(s32 id) {
+    if (!(_292 & 2))
+        return false;
+    for (const auto& entry : mEntries) {
+        if (entry.mId == id)
+            return true;
+    }
+    return false;
+}
+
+}  // namespace uking::ui

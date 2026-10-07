@@ -687,6 +687,13 @@ struct ScreenMainScreen3DSub {
     void sub_710094745C();
 };
 
+// Intrusive list entry tested by ScreenMainScreen3D::sub_7100A11D34.
+struct ScreenMainScreen3DEntry {
+    u8 _0[0x3c];
+    /* 0x3c */ s32 mId;
+    /* 0x40 */ nn::util::IntrusiveListNode mNode;
+};
+
 class ScreenMainScreen3D : public ScreenEx {
 public:
     const char* getLayoutName_() const override;
@@ -698,7 +705,11 @@ public:
     ~ScreenMainScreen3D() override;
     SEAD_RTTI_OVERRIDE(ScreenMainScreen3D, ScreenEx)
 
-    u8 _pad_3610[0x3f34 - 0x3610];
+    u8 _pad_3610[0x3b70 - 0x3610];
+    using EntryList = nn::util::IntrusiveList<ScreenMainScreen3DEntry,
+        nn::util::IntrusiveListMemberNodeTraits<ScreenMainScreen3DEntry, &ScreenMainScreen3DEntry::mNode>>;
+    /* 0x3b70 */ EntryList mEntries;
+    u8 _pad_3b80[0x3f34 - 0x3b80];
     /* 0x3f34 */ s32 _3f34;
     /* 0x3f38 */ u8 _3f38;
     u8 _pad_3f39[0x4010 - 0x3f39];
