@@ -48,6 +48,8 @@ public:
     virtual ~UiSoundMgr();
     // 0x710105d23c: requests its GetItemSound actor outside the TitleMenu map.
     void sub_710105D23C(sead::Heap* heap, act::ActorCreator* creator);
+    void sub_710105D308();
+    void sub_710105D9F8(aal::SoundSource* source);
     // 0x710105d330: emits the SLink sound `label` through the user instance at +0x20; the handle is copied to
     // `handle` if given. Returns whether the emitted event is alive.
     bool playSound(const sead::SafeString& label, xlink2::HandleSLink* handle);
@@ -61,7 +63,7 @@ public:
     /* 0x38 */ xlink2::HandleSLink _38;
     /* 0x48 */ aal::Handle _48;
     /* 0x58 */ aal::TimedFader _58{1.0f, aal::FadeCurveType::Square, 1.0f};
-    /* 0x80 */ bool _80 = false;
+    /* 0x80 */ u8 _80 = 0;
     /* 0x84 */ u32 _84 = 0;
     /* 0x88 */ DebugMessage _88;
     void* _118 = nullptr;

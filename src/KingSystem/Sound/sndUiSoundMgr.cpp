@@ -23,6 +23,17 @@ void UiSoundMgr::sub_710105D23C(sead::Heap* heap, act::ActorCreator* creator) {
         creator->requestCreateActor("GetItemSound", heap, &_8, nullptr, nullptr, 1);
 }
 
+void UiSoundMgr::sub_710105D308() {
+    _8.deleteProc();
+    _18 = nullptr;
+}
+
+void UiSoundMgr::sub_710105D9F8(aal::SoundSource* source) {
+    _48.attachSoundSource(source);
+    _58.moveTo(0.0f, 0.2f);
+    _80 |= 0x10;
+}
+
 bool UiSoundMgr::playSound(const sead::SafeString& label, xlink2::HandleSLink* handle) {
     if (_20) {
         xlink2::HandleSLink h = _20->searchAndEmit(label.cstr());
