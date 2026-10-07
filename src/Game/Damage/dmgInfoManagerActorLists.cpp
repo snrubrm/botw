@@ -4,10 +4,41 @@
 
 namespace uking::dmg {
 
+bool DamageInfoMgr::Unk790::sub_7100672B00(ksys::act::Actor* actor) const {
+    return mStatus == 2 && mLink.hasProcById(actor);
+}
+
+bool DamageInfoMgr::Unk790::sub_7100672B1C(ksys::act::Actor* actor) const {
+    return mStatus == 1 && mLink.hasProcById(actor);
+}
+
 DamageInfoMgr::Unk28::Unk28() = default;
 DamageInfoMgr::Unk28::~Unk28() = default;
 
-// NON_MATCHING: the native-array removal loop is unrolled instead of the original counted pointer loop.
+// NON_MATCHING: the native entry array lacks the original insertion bounds fallback and uses a different loop branch.
+void DamageInfoMgr::Unk28::sub_710065CE14(ksys::act::Actor* actor) {
+    sead::ScopedLock<sead::JobQueueLock> lock(&mLock);
+    s32 free_index = -1;
+    for (s32 i = 0; i < 32; ++i) {
+        auto& entry = mEntries[i];
+        if (entry.mLink.hasProcById(actor)) {
+            entry.mRemove = false;
+            return;
+        }
+        if (free_index < 0 && !entry.mLink.hasProc())
+            free_index = i;
+    }
+    if (free_index >= 0) {
+        auto& entry = mEntries[free_index];
+        entry.mLink.reset();
+        entry.mCountdown = 0.0f;
+        entry.mRank = -1;
+        entry.mRemove = false;
+        entry.mLink.acquire(actor, false);
+    }
+}
+
+// NON_MATCHING: the removal loop is unrolled instead of the original counted pointer loop.
 void DamageInfoMgr::Unk28::sub_710065CF08(ksys::act::Actor* actor) {
     sead::ScopedLock<sead::JobQueueLock> lock(&mLock);
     for (auto& entry : mEntries) {

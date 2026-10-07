@@ -79,6 +79,20 @@ public:
         bool _422 = false;
         bool _423 = false;
     };
+    // 2026-10-07: original constructor 0x71006737f4 initializes the prefix at +0x790;
+    // its next independent member starts at +0x868. Remaining nested lifetime is unresolved.
+    struct Unk790 {
+        bool sub_7100672B00(ksys::act::Actor* actor) const;
+        bool sub_7100672B1C(ksys::act::Actor* actor) const;
+        void sub_7100672888(ksys::act::Actor* actor);
+        s32 mStatus;
+        s32 _4;
+        ksys::act::BaseProcLink mLink;
+        u8 _18[0xd8 - 0x18];
+    };
+    KSYS_CHECK_SIZE_NX150(Unk790, 0xd8);
+    Unk790& get790() { return _790; }
+
     struct Unk450 {
         // 0x710065d5d4 (BossBgm::m9, sub_7100720A70) / 0x710065d428
         void sub_710065D5D4(ksys::act::Actor* actor);
@@ -142,7 +156,9 @@ private:
     /* 0x04f8 */ Unk_7100671794 _4f8;
     /* 0x05d0 */ ksys::res::Handle mReactionTable;
     /* 0x0620 */ sead::Buffer<DamageItem> mDamagesArray;
-    /* 0x0630 */ u8 TEMP_630[0xd00 - 0x630];
+    /* 0x0630 */ u8 TEMP_630[0x790 - 0x630];
+    /* 0x0790 */ Unk790 _790;
+    /* 0x0868 */ u8 TEMP_868[0xd00 - 0x868];
     /* 0x0d00 */ sead::ReadWriteLock mLock;
     /* 0x0db8 */ u8 TEMP_db8[0xe98 - 0xdb8];
     /* 0x0e98 */ ClothStiffnessMgr mClothStiffnessMgr;
