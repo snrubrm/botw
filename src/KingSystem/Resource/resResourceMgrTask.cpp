@@ -769,6 +769,24 @@ void ResourceMgrTask::addSExtensionPrefix(sead::StringBuilder& builder) const {
     builder.copyAtWithTerminate(ext_idx + 1, extension.cstr(), extension.getLength());
 }
 
+// NON_MATCHING: the backwards extension search has a different loop shape.
+void ResourceMgrTask::removeSExtensionPrefix(sead::StringBuilder& builder) {
+    const s32 length = builder.getLength();
+    s32 ext_idx = length;
+    for (; ext_idx > 0; --ext_idx) {
+        if (builder.cstr()[ext_idx - 1] == '.')
+            break;
+    }
+    if (ext_idx == 0)
+        return;
+
+    sead::FixedStringBuilder<16> extension;
+    extension.append(&sead::SafeString(&builder[ext_idx]).at(1), -1);
+    const sead::SafeString extension_str = extension.cstr();
+    if (mExtensions2.binarySearch(&extension_str) != -1)
+        builder.copyAtWithTerminate(ext_idx, extension.cstr(), extension.getLength());
+}
+
 bool ResourceMgrTask::dropSFromExtensionIfNeeded(const sead::SafeString& path,
                                                  sead::BufferedSafeString& new_path, s32 dot_idx,
                                                  const sead::SafeString& extension) const {

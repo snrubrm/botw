@@ -154,6 +154,7 @@ public:
     Handle::Status requestLoad(Handle* handle, const sead::SafeString& path,
                                const ILoadRequest& request);
     void addSExtensionPrefix(sead::StringBuilder& builder) const;
+    void removeSExtensionPrefix(sead::StringBuilder& builder);
     Handle::Status requestLoadForSync(Handle* handle, const sead::SafeString& path,
                                       const ILoadRequest& request);
     void requestUnload(Handle* handle);
