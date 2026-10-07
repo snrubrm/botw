@@ -245,8 +245,10 @@ void ASList::Unk1::sub_7101164E38(bool a1) {
 }
 
 void ASList::Unk1::sub_7101164FF8() {
+    // This halfword is the registered key count also incremented by the two
+    // library registration methods at 0x7100bff8e4 and 0x7100bff95c.
     if (_30)
-        _30->_8 = 0;
+        _30->mCount = 0;
 }
 
 }  // namespace ksys::as

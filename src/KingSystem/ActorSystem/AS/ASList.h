@@ -2,6 +2,7 @@
 #include <container/seadBuffer.h>
 #include <gsys/gsysModelAccessKey.h>
 #include <gsys/gsysModel.h>
+#include <gsys/gsysPartialSkeletalAnm.h>
 #include <container/seadSafeArray.h>
 #include <nn/g3d/ICalculateBlendWeightCallback.h>
 #include "KingSystem/ActorSystem/AS/asElement.h"
@@ -233,9 +234,7 @@ public:
         bool sub_71011653B4() const;
         bool sub_71011653C4() const;
 
-        struct BitRow {
-            u32 words[32];
-        };
+        using BitRow = gsys::PartialSkeletalAnmBase::BoneMask;
 
         // Placeholder name: the fade of the slot (`_c` is the progress: 1.0 when finished).
         struct Fader {
@@ -254,17 +253,12 @@ public:
         };
         static_assert(sizeof(Fader) == 0x18);
 
-        void* _0;
+        gsys::Model* _0;
         Fader _8;
         sead::Buffer<Unk2> _20;
-        // Placeholder: the partial-bone object (the member at 8 is a halfword cleared by sub_7101164FF8).
-        struct PartialBones {
-            // 0x7100bff4cc (declaration only): called with the slot's `_0` and its mask `_38`.
-            void sub_7100BFF4CC(void* a1, sead::Buffer<BitRow>* rows);
-
-            u8 _0[8];
-            u16 _8;
-        };
+        // 0x7100bff4cc reads the Model unit array and 0x80-byte masks passed by
+        // sub_7101164CA4 and sub_7101164E38; the canonical library type owns this API.
+        using PartialBones = gsys::PartialSkeletalAnmBase;
         PartialBones* _30;
         sead::Buffer<BitRow> _38;
         f32 _48;

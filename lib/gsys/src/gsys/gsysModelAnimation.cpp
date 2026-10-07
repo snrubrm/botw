@@ -2,6 +2,10 @@
 
 namespace gsys {
 
+void ModelAnimation::sub_7100BFD598(s32 slot) {
+    setSkeletalAnmByKey(slot, AnimationAccessKey<SkeletalAnmType>{}, nullptr);
+}
+
 void ModelAnimation::sub_7100BFDBF4(bool enabled) {
     mSelfReferenceMaybe = enabled ? this : nullptr;
 }

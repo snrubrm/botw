@@ -3,6 +3,14 @@
 #include <nn/g3d/SkeletonObj.h>
 
 namespace gsys {
+ModelNW::CreateArg::CreateArg() : model(nullptr), buffer_num(1), _c(-1), _10(nullptr), _18(true), _19(true) {}
+bool ModelNW::initialize(nn::g3d::ResModel* model, s32 buffer_num, sead::Heap* heap) {
+    CreateArg arg;
+    arg.model = model;
+    arg.buffer_num = buffer_num;
+    return initialize(arg, heap);
+}
+
 
 void ModelNW::calcBounding() {
     if ((_200 & 2) && _50 == &_40)

@@ -3,6 +3,11 @@
 #include <basis/seadTypes.h>
 #include <prim/seadSafeString.h>
 #include <container/seadBuffer.h>
+#include <gsys/gsysG3dResAnimationEx.h>
+
+namespace nn::g3d {
+class ResSkeletalAnim;
+}
 
 namespace ksys::as {
 class ASList;
@@ -51,6 +56,27 @@ public:
         AnimationAccessKey<MaterialAnmType> getKey() const { return key; }
     };
 
+    // initializeSkeletalAnm_ (bfa6e0) allocates 0xa8-byte slots at +0x40/+0x48.
+    struct SkeletalAnm {
+        AnimationAccessKey<SkeletalAnmType> key;
+        u8 _4[0xa8 - 4];
+    };
+
+    // initializeSkeletalAnm_ allocates 0x28-byte resource records at +0x60/+0x68.
+    // ModelResource creates actual G3dResAnimationEx records; SkeltalAsset and
+    // the initializer both read their generic resource indirection
+    // at +0 and its per-model binding count at +8.
+    struct SkeletalResource {
+        const G3dResAnimationEx* resource;
+        s32 count;
+        u8 _c[0x28 - 0xc];
+    };
+
+    static_assert(sizeof(SkeletalAnm) == 0xa8);
+    static_assert(sizeof(SkeletalResource) == 0x28);
+
+    AnimationAccessKey<SkeletalAnmType> searchSkeletalKey(const sead::SafeString& name) const;
+
     /// 0x7100bfdc04 / 0x7100bfa52c (declared only): releases the animation set / frees the object.
     void finalize();
     // 0x7100bfdbf4: enables the self-reference at +0x38.
@@ -88,9 +114,14 @@ public:
 private:
     u8 _8[0x38 - 8];
     ModelAnimation* mSelfReferenceMaybe;
-    u8 _40[0x50 - 0x40];
+public:
+    sead::Buffer<SkeletalAnm> mSkeletalAnms;
+private:
     sead::Buffer<MaterialAnm> mMaterialAnms;
-    u8 _60[0x80 - 0x60];
+public:
+    sead::Buffer<SkeletalResource> mSkeletalResources;
+private:
+    u8 _70[0x80 - 0x70];
     u16 mMaterialAnmEnd[8];
 public:
     // ASList::sub_7101160ED4 stores its owner at +0x90 after enabling the animation.

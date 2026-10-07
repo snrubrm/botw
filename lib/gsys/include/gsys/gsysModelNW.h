@@ -29,6 +29,19 @@ class ModelNW : public ModelUnit,
     SEAD_RTTI_OVERRIDE(ModelNW, ModelUnit)
 
 public:
+    // Constructor c030bc and initialize wrapper c03308 prove this 0x20-byte argument.
+    struct CreateArg {
+        CreateArg();
+        nn::g3d::ResModel* model;
+        s32 buffer_num;
+        s32 _c;
+        void* _10;
+        bool _18;
+        bool _19;
+    };
+    bool initialize(nn::g3d::ResModel* model, s32 buffer_num, sead::Heap* heap);
+    bool initialize(const CreateArg& arg, sead::Heap* heap);
+
     struct BoneCallbackArg;
 
     static s32 getSubMeshRangeNum(s32 type, s32 count);

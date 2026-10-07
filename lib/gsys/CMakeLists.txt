@@ -15,6 +15,8 @@ add_library(gsys OBJECT
   include/gsys/gsysModelSceneComponent.h
   include/gsys/gsysModelSceneEnv.h
   include/gsys/gsysModelSceneConfig.h
+  include/gsys/gsysG3dResAnimationEx.h
+  include/gsys/gsysPartialSkeletalAnm.h
   include/gsys/gsysModelUnit.h
   include/gsys/gsysModelUnitDrawArray.h
   include/gsys/gsysOfxLensFlareRig.h
@@ -29,6 +31,8 @@ add_library(gsys OBJECT
   src/gsys/gsysModelAnimation.cpp
   src/gsys/gsysModelAutoAnimation.cpp
   src/gsys/gsysModelNW.cpp
+  src/gsys/gsysG3dResAnimationEx.cpp
+  src/gsys/gsysPartialSkeletalAnm.cpp
   src/gsys/gsysModelUnit.cpp
   src/gsys/gsysModelSceneConfig.cpp
   src/gsys/gsysParticleConfig.cpp
