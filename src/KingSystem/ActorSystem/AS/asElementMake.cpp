@@ -1,6 +1,12 @@
 #include "KingSystem/ActorSystem/AS/asElement.h"
+#include "KingSystem/ActorSystem/AS/asDungeonClearSelector.h"
 
 namespace ksys::as {
+
+Element* DungeonClearSelector::make(const CreateArg& arg, s32 value, const res::ASResource* resource) {
+    return new (arg.heap, 8) DungeonClearSelector(arg, value, resource);
+}
+
 
 // The factory functions of the elements (one per class; the constructors live in the classes' own files, so they
 // are not inlined here).

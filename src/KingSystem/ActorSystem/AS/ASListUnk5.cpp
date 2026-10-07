@@ -11,6 +11,27 @@ ASList::Unk5::~Unk5() {
     mBones.freeBuffer();
 }
 
+bool ASList::Unk5::sub_7100D68270(gsys::Model* model, const sead::Buffer<Unk1>* slots,
+                                sead::Heap* heap) {
+    if (!slots->size() || !model->getUnits().size())
+        return true;
+    const s32 num_units = model->getUnits().size();
+    if (!mBones.tryAllocBuffer(num_units, heap))
+        return false;
+    for (s32 i = 0; i < num_units; ++i) {
+        const s32 num_bones = model->getUnits().unsafeAt(i)->mModelUnit->getBoneNum();
+        if (!mBones[i].tryAllocBuffer(num_bones, heap))
+            return false;
+        for (Bone& bone : mBones[i]) {
+            bone.translation.set(0.0f, 0.0f, 0.0f);
+            bone.rotation.set(1.0f, 0.0f, 0.0f, 0.0f);
+            bone.scale.set(1.0f, 1.0f, 1.0f);
+        }
+    }
+    _18 = slots;
+    return true;
+}
+
 void ASList::Unk5::sub_7100D68104(gsys::Model* model, void*, const sead::Matrix34f* matrix,
                                 const gsys::BoneAccessKey* key) {
     if (!model)

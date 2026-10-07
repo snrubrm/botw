@@ -41,9 +41,10 @@ public:
                           const gsys::BoneAccessKey* key);
         void sub_7100D68464(sead::Matrix34f* matrix, const gsys::BoneAccessKey* key);
         void sub_7100D68544(const sead::Matrix34f* matrix, const gsys::BoneAccessKey* key);
+        bool sub_7100D68270(gsys::Model* model, const sead::Buffer<Unk1>* slots, sead::Heap* heap);
 
         sead::Buffer<sead::Buffer<Bone>> mBones;
-        void* _18 = nullptr;
+        const sead::Buffer<Unk1>* _18 = nullptr;
         bool _20 = true;
         bool _21 = false;
     };
@@ -408,6 +409,7 @@ public:
     void sub_710115C1D0(int slot, int other_slot, int bank, int other_bank);
     // 0x710115c92c (placeholder name): `_10 = 0`.
     void sub_710115C92C();
+    void sub_710115C7A8(bool enable_partial);
     // 0x710115c934 (placeholder name): if the bone `_14` is valid, saves its local matrix in `_80` and resets its
     // local rotation / translation to the identity.
     void sub_710115C934();
@@ -489,7 +491,8 @@ public:
     // vtable 0x710250ff98 (6 virtual functions, the destructor 0x7101159ca0 last) — not modelled
     /* 0x000 */ u8 _0[0x8];
     /* 0x008 */ gsys::Model* _8;
-    /* 0x010 */ u16 _10;  // cleared by sub_710115C92C
+    /* 0x010 */ s8 _10;  // previous skeletal slot count
+    /* 0x011 */ s8 _11;  // previous material slot count
     /* 0x012 */ u8 _12;
     /* 0x013 */ u8 _13;  // push depth of the bone name (sub_710115CE44 / sub_710115D0AC)
     /* 0x014 */ gsys::BoneAccessKey _14;  // bone named _18 (sub_710115BAF8)
@@ -538,6 +541,7 @@ struct BoneBlendState {
                       Context::Record* record, bool partial, f32 frame);
     void sub_7101257920(const res::ASSetting::BoneParams* params);
     void sub_710125792C();
+    s32 sub_7101257934(gsys::Model* model, ASList* list);
 
     s32 _0;
     f32 weight;

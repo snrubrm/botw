@@ -2,6 +2,7 @@
 #include <limits>
 #include <prim/seadBitFlag.h>
 #include <gsys/gsysModelNW.h>
+#include <gsys/gsysModelAnimation.h>
 #include "KingSystem/ActorSystem/AS/asElement.h"
 #include "KingSystem/Resource/Actor/resResourceModelList.h"
 #include "KingSystem/ActorSystem/LOD/actLodState.h"
@@ -15,6 +16,37 @@
 
 
 namespace ksys::as {
+
+// NON_MATCHING: the bool argument is masked before the blend-state constructor instead of at its store.
+void ASList::sub_710115C7A8(bool enable_partial) {
+    if (!_8)
+        return;
+    BoneBlendState state;
+    state._1c = enable_partial;
+    const s32 count = mSlots.size();
+    for (s32 i = 0; i < count; ++i)
+        mSlots[i].sub_7101164E64(&state);
+    const s32 num_skeletal = state.sub_7101257934(_8, this);
+    auto* animation = _8->getAnimation();
+    if (!animation)
+        return;
+    for (s32 i = num_skeletal; i < _10; ++i)
+        animation->sub_7100BFD598(i);
+    _10 = num_skeletal;
+    for (s32 i = state._0; i < _11; ++i)
+        animation->sub_7100BFDD10(i);
+    _11 = state._0;
+}
+
+void ASList::sub_7101160ED4() {
+    if (_8) {
+        if (auto* animation = _8->getAnimation()) {
+            animation->sub_7100BFDBF4(true);
+            animation->mASList = this;
+        }
+    }
+}
+
 
 // NON_MATCHING: the bank loop checks for count > 0 rather than count >= 1.
 s32 ASList::sub_710115BED4(bool first_only) {
@@ -568,6 +600,7 @@ void ASList::sub_710115C8D8(bool a1, bool a2) {
 
 void ASList::sub_710115C92C() {
     _10 = 0;
+    _11 = 0;
 }
 
 void ASList::sub_710115C634(bool a1) {
