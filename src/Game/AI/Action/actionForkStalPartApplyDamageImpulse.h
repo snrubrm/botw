@@ -21,6 +21,7 @@ public:
 
 protected:
     void calc_() override;
+    void sub_7100165930();
 
     // static_param at offset 0x30
     const float* mMaxAddSpeed_s{};

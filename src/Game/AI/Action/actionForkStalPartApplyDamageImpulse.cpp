@@ -46,8 +46,25 @@ void ForkStalPartApplyDamageImpulse::loadParams_() {
     getStaticParam(&mIsViewHitDir_s, "IsViewHitDir");
 }
 
+// NON_MATCHING: the original loads the matrix translation components before the _ac
+// components in the two direction subtractions below (the s8/s9 assignment cascades from that
+// order); this version is otherwise instruction-identical.
 void ForkStalPartApplyDamageImpulse::calc_() {
     Fork::calc_();
+    sub_7100165930();
+    if (!_a8)
+        return;
+    sub_710073FA94(&_c4, mActor);
+    _b8.lerp(*mRotSpd_s, *mRotAccRatio_s, (*mRotSpd_s) * (*mRotAccMaxSpeedRatio_s));
+    _b8.updateStats();
+    sead::Vector3f dir;
+    dir.x = _ac.x - mActor->getMtx().m[0][3];
+    dir.y = 0.0f;
+    dir.z = _ac.z - mActor->getMtx().m[2][3];
+    dir.normalize();
+    sub_710074006C(&_c4, dir, sead::Vector3f::ey, false, *mBaseRotRatio_s, _b8.value,
+                   _b8.value / 10.0f);
+    sub_7100740F1C(_c4, mActor);
 }
 
 }  // namespace uking::action
