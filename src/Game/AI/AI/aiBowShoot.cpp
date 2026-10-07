@@ -1,6 +1,9 @@
 #include "Game/AI/AI/aiBowShoot.h"
 #include "Game/Actor/actWeapon.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/Resource/Actor/resResourceGParamList.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectBow.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/Utils/Thread/Message.h"
 
@@ -79,6 +82,28 @@ bool BowShoot::isChangeable() const {
 
 void BowShoot::leave_() {
     sub_710033BB98();
+}
+
+void BowShoot::sub_710033BB98() {
+    const s32* life = mActor->getLife();
+    if (!life || *life > 0 || !isCurrentChild("発射") || _190 < 1)
+        return;
+    s32 shot = 0;
+    do {
+        if (auto* weapon = sead::DynamicCast<act::Weapon>(mActor);
+            weapon && weapon->sub_71002EA0D4()) {
+            f32 time = _180.value;
+            if (shot != 0)
+                time += f32(*mActor->getParam()->getRes().mGParamList->getBow()->mLeadShotInterval * shot);
+            sub_710033B16C(time);
+        } else if (auto* weapon = sead::DynamicCast<act::Weapon>(mActor);
+                   weapon && weapon->sub_71002EA16C()) {
+            f32 time = _180.value;
+            if (shot != 0)
+                time += f32(*mActor->getParam()->getRes().mGParamList->getBow()->mRapidFireInterval * shot);
+            sub_710033AA88(time);
+        }
+    } while (_18c < _190 && ++shot < _190);
 }
 
 }  // namespace uking::ai
