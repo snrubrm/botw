@@ -23,6 +23,8 @@ public:
     bool testFlag(int flag) const;
     // 0x710090c300 (CSV Root38::hasAnyFlag; declared only): whether any bit of the global flag word is set.
     bool hasAnyFlag() const;
+    // 0x71090c4e0 (declared only; CSV Root38::doNotFreezeScene).
+    bool doNotFreezeScene() const;
 };
 
 }  // namespace uking

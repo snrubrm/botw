@@ -9,14 +9,16 @@
 
 namespace uking {
 
-// Placeholder name (lane2 s46): the 0x308-byte save slot data of SaveSystem (only two flag bytes are read).
-struct SaveSlotData {
-    u8 _0[0x300];
-    /* 0x300 */ u8 _300;
+// The per-slot save data (0x308 bytes; only the flag at +0x300 is known: tested by AlbumInfo's copy helpers).
+struct SaveSlot {
+    s32 mAlbumIndices[0x30];  // the picture indices of the slot's album (copied by AlbumInfo)
+    u8 _c0[0x300 - 0xc0];
+    bool _300;
     u8 _301;
-    /* 0x302 */ u8 _302;
-    u8 _303[0x308 - 0x303];
+    /* 0x302 */ u8 _302;  // read by the UI save-slot scan (lane2 s46)
+    u8 _303[5];
 };
+KSYS_CHECK_SIZE_NX150(SaveSlot, 0x308);
 
 // Placeholder declaration (name from the CSV: SaveSystem::createInstance 0x710090ee60, ctor
 // 0x710090eee8, calc 0x7100910e5c, init, invokedAutoSave, isFinishedSavingMaybe, ...; instance
@@ -43,11 +45,46 @@ public:
     // 0x71009145f8 (CSV SaveSystem::loadOptionsStart; declaration only; 256 bytes)
     void sub_71009145F8();
 
-    // 0x7100914ce4 (CSV __auto3), 0x71009154a8, 0x7100914dc8 (declared only; lane2 s46): the SaveMgr is idle and no save
-    // is pending / the number of slots / the slot `index`.
+    // 0x7100914ce4 / 0x7100914504 (CSV SaveSystem::__auto3 / __auto4; the same test as isFinishedSavingMaybe,
+    // separate copies called by the UI).
     bool sub_7100914CE4() const;
+    bool sub_7100914504() const;
+    // 0x71009154a8 / 0x7100914dc8 (declared only; lane2 s46): the number of slots / the slot `index`.
     s32 sub_71009154A8(s32 a);
-    SaveSlotData* sub_7100914DC8(s32 index, bool a);
+    SaveSlot* sub_7100914DC8(s32 index, bool a);
+    // 0x7100915f58 (CSV SaveSystem::__auto5): the album picture index flag `idx` (AlbumInfo at +0x1880).
+    s32 sub_7100915F58(s32 idx);
+    // 0x71009157d4 (CSV SaveSystem::isFirstLaunch): true while bit 2 of _38 is clear.
+    bool isFirstLaunch() const;
+    // 0x71009167f4 (CSV SaveSystem::noop)
+    void noop();
+    // 0x710090fd08 / 0x7100914d1c / 0x71009167c8: request a reset of the game data flags (the first sets
+    // BitFlag 8 and ResetFlag 8, the others BitFlag 8 and ResetFlag 2 / 4).
+    void newDayCallback();
+    void setGameDataMgrResetFlag2();
+    void setGdmFlagsBeforeStageGen();
+    // 0x7100910cd0 / 0x7100910c94 (CSV SaveSystem::invoked3 / invoked8): whether the save state is one of
+    // the "busy" states; invoked8 additionally records `value` (and _1a50 bit 3) when it is not.
+    bool sub_7100910CD0() const;
+    void sub_7100910C94(f32 value);
+    // 0x7100915914 (CSV SaveSystem::x_3): requests a manual save of `slot` (state 30) when saving is possible.
+    bool x_3(s32 slot);
+    // 0x7100912b18: hashes the track block file number flag name (hard mode variant) into the game data
+    // manager and goes to state 38.
+    void calculateTrackBlockSaveNumberFlagHash();
+    // 0x7100914d48 (CSV SaveSystem::__auto1): starts the state 6 (when the save and game data managers exist).
+    bool sub_7100914D48();
+    // 0x7100914da0 (CSV SaveSystem::__auto2): the per-slot data (slot 0 unless bit 0 of _38 is set).
+    SaveSlot* sub_7100914DA0(s32 slot);
+    // 0x710091410c: true when the E3 demo mode is off and the state _30 is 8.
+    bool sub_710091410C() const;
+    // 0x7100913160: like sub_7100914D48 but goes to state 22.
+    bool sub_7100913160();
+    // 0x71009157e4: finishes the album processing of the current slot and sets _30 to 8.
+    void sub_71009157E4();
+    // 0x7100910d04 (CSV SaveSystem::invoked6): 2 while the scene is paused (Root38 flag 6), 1 while it is not
+    // frozen, else 0.
+    s32 sub_7100910D04() const;
 
     u8 _28[0x30 - 0x28];
     s32 _30;

@@ -42,11 +42,6 @@ void AttClient::sub_7100D72178() {
     if (Attention::instance()) {
         if (auto* actor = mActor) {
             _48 = actor->getScale();
-            mClient->client->checkM4(actor, &_38);
-        }
-    }
-}
-
             mClient->client->checkM4(actor, _38);
         }
     }
