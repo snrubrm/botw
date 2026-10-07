@@ -8,8 +8,7 @@ class Flint;
 }
 
 // vtable 0x71023820a8 (Flint damage callback; no RTTI of its own, its D2 slot is DamageCallback's; D0 at
-// 0x710012f760, `call` at 0x710012f2b8). Placeholder name. `call` and D0 are not defined yet: `call` is
-// -O0-style code that reads an object returned by DamageManagerBase::m33 (declared as s64).
+// 0x710012f760, `call` at 0x710012f2b8). Placeholder name. `call` is the key function (out of line).
 class Unk_71023820a8 : public uking::dmg::DamageCallback {
 public:
     explicit Unk_71023820a8(uking::action::Flint* owner) : mOwner(owner) {}
@@ -42,6 +41,8 @@ protected:
         // static_param at offset 0x30
         const bool* mSetDelete_s{};
     };
+    friend class ::Unk_71023820a8;
+
     Params mParams;
     Unk_71023820a8 _38{this};
 };
