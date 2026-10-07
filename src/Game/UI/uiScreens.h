@@ -1432,7 +1432,7 @@ struct ScreenAppMapUnk3c98 {
 
 // Placeholder for the map widget the AppMap screen owns (byte 0xb33a is set by ScreenAppMap::mainEnter).
 struct ScreenAppMapWidget {
-    // 0x71009a9438 (CSV unnamed; declared only)
+    // 0x71009a9438 (CSV unnamed): the timer at 0xb290 is done or the flag at 0xb1db is set
     bool sub_71009A9438();
     // Small accessors of the widget (lane2 s46; placeholder names, the field meanings are not known)
     void sub_71009A995C();
@@ -1451,7 +1451,9 @@ struct ScreenAppMapWidget {
 
     u8 _0[0xb1db];
     /* 0xb1db */ u8 _b1db;
-    u8 _b1dc[0xb33a - 0xb1dc];
+    u8 _b1dc[0xb290 - 0xb1dc];
+    /* 0xb290 */ UiTimer _b290;
+    u8 _b2a8[0xb33a - 0xb2a8];
     /* 0xb33a */ u8 _b33a;
     u8 _b33b[0xb34c - 0xb33b];
     /* 0xb34c */ u8 _b34c;

@@ -7,6 +7,12 @@ namespace uking::ui {
 
 bool sub_7100A9C110(s32 value);
 
+// 0x710096023c
+void UiSubsys1::sub_710096023C() {
+    _6f0.setToEnd();
+    _6ec = false;
+}
+
 // 0x710096310c: the marker nearest to `pos` (in the XZ plane, within `radius`); writes its index to `out_index`
 bool UiSubsys1::sub_710096310C(s32* out_index, const sead::Vector3f* pos, f32 radius) {
     bool found = false;

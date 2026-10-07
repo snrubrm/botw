@@ -4,6 +4,11 @@ namespace uking::ui {
 
 // The accessors below read the widget's zoom / cursor state (offsets 0xb4a0-0xb4ff).
 
+// 0x71009a9438
+bool ScreenAppMapWidget::sub_71009A9438() {
+    return _b290.isDone() || _b1db;
+}
+
 // 0x71009a995c
 void ScreenAppMapWidget::sub_71009A995C() {
     _b34c = 1;

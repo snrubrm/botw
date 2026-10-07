@@ -291,6 +291,8 @@ public:
     static UiSubsys1* instance() { return sInstance; }
 
     bool sub_7100960DF8();
+    // 0x710096023c (CSV uiSubsys1::__auto3; placeholder name): ends the timer at 0x6f0 and clears the flag at 0x6ec
+    void sub_710096023C();
     // 0x71009512f8 / 0x7100951338 (CSV uiSubsys1::__auto41 / __auto42; placeholder names)
     UiSubsys1ListEntry* findListEntry(void* key);
     bool freeListEntry(UiSubsys1ListEntry* entry);
@@ -457,7 +459,10 @@ private:
     /* 0x658 */ sead::PtrArray<UiSubsys1Entry> _658;
     u8 _668[0x6e4 - 0x668];
     /* 0x6e4 */ s32 _6e4;
-    u8 _6e8[0x7c4 - 0x6e8];
+    u8 _6e8[0x6ec - 0x6e8];
+    /* 0x6ec */ bool _6ec;
+    /* 0x6f0 */ UiTimer _6f0;
+    u8 _708[0x7c4 - 0x708];
     /* 0x7c4 */ sead::SafeArray<s32, 15> _7c4;
     u8 _800[0x848 - 0x800];
     /* 0x848 */ s32 _848;
