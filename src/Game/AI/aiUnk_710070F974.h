@@ -30,9 +30,9 @@ public:
     const f32* mRotBoostScaleGearTop_s = nullptr;
     const f32* mMoveStraightAngle_s = nullptr;
     const f32* mFrontCheckStartOffset_s = nullptr;
+    const f32* mFrontCheckDist_s = nullptr;
     const f32* mSideCheckAngle_s = nullptr;
     const f32* mFrontCheckNavRadius_s = nullptr;
-    const f32* mFrontCheckDist_s = nullptr;
 };
 static_assert(sizeof(Unk_71025c89e8) == 0x50);
 
