@@ -62,14 +62,11 @@ bool SkeltalAsset::m10(Context* ctx, State* state, const res::ASResource* resour
     return result;
 }
 
-// NON_MATCHING: only the csel polarity of the null fallback (`csel x8, ones, vec, eq` in the original, `ne` here)
 void SkeltalAsset::m34(void* a1, Context* ctx, void* a3, const res::ASResource* resource) {
     ctx->sub_7101258CD4(sub_71011653E8(resource));
     auto* out = static_cast<sead::Vector3f*>(a1);
     const sead::Vector3f* vec = _18 ? _18->_28 : nullptr;
-    if (!vec)
-        vec = &sead::Vector3f::ones;
-    *out += *vec * static_cast<State*>(a3)->weight;
+    *out += (vec == nullptr ? sead::Vector3f::ones : *vec) * static_cast<State*>(a3)->weight;
 }
 
 f32 SkeltalAsset::m18(Context* ctx, bool a2, f32 a3, f32 a4, const res::ASResource* resource) {

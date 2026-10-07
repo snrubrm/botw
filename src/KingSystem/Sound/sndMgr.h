@@ -29,6 +29,10 @@ namespace ksys::act {
 class Actor;
 }
 
+namespace uking::act {
+class EnvSeEmitPoint;
+}
+
 namespace ksys::snd {
 
 struct Unk_SoundMgr30;
@@ -95,12 +99,25 @@ public:
     /* 0x3e4 */ sead::Vector3f mBoxSize;
 };
 
+// Placeholder name (SoundMgr::_38::_20; CSV: snd::EnvSePointMgr, ctor 0x7101029fe0, init 0x710102a28c): the manager of the
+// environment sound emit points (uking::act::EnvSeEmitPoint actors). Its two lists (0x18 bytes per entry, guarded by
+// the CriticalSection at +0x38) are indexed by the `_83c` kind of the emit point (0 or 1).
+class Unk_SoundMgr38_20 {
+public:
+    // 0x7101029bb0 (declared only; lane1 s47): registers `point` in the list of its kind (the kind is picked by the
+    // actor's name); false if the name matches no kind.
+    bool sub_7101029BB0(uking::act::EnvSeEmitPoint* point);
+    // 0x7101029c98 (declared only; lane1 s47): removes `point` from the list of its kind.
+    void sub_7101029C98(uking::act::EnvSeEmitPoint* point);
+};
+
 // Placeholder name (SoundMgr::_38).
 struct Unk_SoundMgr38 {
     // 0x710102c104: returns `_28`.
     Unk_SoundMgr38_28* sub_710102C104() const;
 
-    u8 _0[0x28];
+    u8 _0[0x20];
+    /* 0x20 */ Unk_SoundMgr38_20* _20;
     /* 0x28 */ Unk_SoundMgr38_28* _28;
     /* 0x30 */ SpeakerBalanceUnifierMgr* _30;
 };

@@ -14,7 +14,9 @@ bool EnemyTargetGearSelect::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
 }
 
-// NON_MATCHING: the signed threshold comparison has reversed operands and branch polarity.
+// NON_MATCHING: the signed threshold comparison has reversed operands and branch polarity. (`*mGearThreashold_s > gear`
+// fixes that, but then the volatile load of `gear` happens after the threshold load; the original loads `gear` first:
+// only a single-use local `const int g = gear;` reproduces it, which is not applied.)
 void EnemyTargetGearSelect::enter_(ksys::act::ai::InlineParamPack* params) {
     u64 value = 0;
     if (auto* link = sub_71005D9050(mActor)) {

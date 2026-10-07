@@ -10,12 +10,11 @@
 
 namespace uking::ai {
 
-// NON_MATCHING: only the select polarity (`csel x21, x24, x8, eq` in the original, `csel x21, x8, x24, ne` here).
 bool DemoRootAI::sub_7100D62394(DemoAiRequest* request) {
     const s32 idx = getChildIdx("Demo_Idling");
     if (idx != 0xffff) {
         ksys::act::ai::InlineParamPack local;
-        auto* pack = request ? &request->mParams : &local;
+        auto* pack = request == nullptr ? &local : &request->mParams;
         pack->addBool(false, "DisablePhysics", -1);
         changeChild(idx, pack);
     }

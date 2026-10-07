@@ -784,11 +784,10 @@ bool ASList::sub_710115F024(const sead::Vector3f& value, int a2) {
     return true;
 }
 
-// NON_MATCHING: equivalent final conditional-select polarity and operands differ.
 const sead::Vector3f& ASList::sub_710115F078() {
     const s8 index = _f0[0x15];
     const sead::Vector3f* normal = index >= 0 ? _e0[index]._vec3_ptr : nullptr;
-    return normal ? *normal : sead::Vector3f::ey;
+    return normal == nullptr ? sead::Vector3f::ey : *normal;
 }
 
 void ASList::sub_710115F5C0(f32 value, int slot, int bank) {
