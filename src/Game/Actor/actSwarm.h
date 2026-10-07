@@ -8,6 +8,10 @@ namespace ksys::phys {
 class RigidBody;
 }
 
+namespace gsys {
+class Model;
+}
+
 namespace uking::act {
 
 // Name from the CSV (Swarm::*): swarms of small enemies (bees, ...). vtable 0x71023d0530 (181 slots, no
@@ -37,7 +41,7 @@ public:
         /* 0x5c */ f32 _5c;  // random 0.1-0.2 set by BeeSwarmNormal::enter_
         /* 0x60 */ sead::Vector3f _60;
         /* 0x6c */ sead::Vector3f _6c;
-        /* 0x78 */ void* _78;  // returned by vtable slot 40 for unit `idx`
+        /* 0x78 */ gsys::Model* _78;  // effect model (m63 plays it for every unit)
         u8 _80[0xb8 - 0x80];
         /* 0xb8 */ u16 _b8;  // state flags (bit 1: active; bits 1-3 are rewritten by the two functions below)
         /* 0xbc */ s32 _bc;

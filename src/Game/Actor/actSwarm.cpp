@@ -19,6 +19,26 @@ bool Swarm::m39() {
     return _14c8.getSize();
 }
 
+void Swarm::m63() {
+    Enemy::m63();
+    if (_14d8)
+        _14d8->sub_710115A9C0();
+    if (_14e0)
+        _14e0->sub_710115A9C0();
+    if (_14e8)
+        _14e8->sub_710115A9C0();
+    if (_14f0)
+        _14f0->sub_710115A9C0();
+    // NON_MATCHING: loop entry only: the original tests size <= 0 (cmp w8,#0; b.le); every natural
+    // loop form (for/while/do-while, <=, hoisted bound, s64/u32 index) compiles to cmp w8,#1; b.lt
+    // (probed with the project toolchain)
+    for (s32 i = 0; i < _14c8.size(); ++i) {
+        Unit* unit = _14c8[i];
+        if (unit && unit->_78)
+            unit->_78->x(true, 0);
+    }
+}
+
 void* Swarm::m40(s32 idx) {
     Unit* unit = _14c8[idx];
     if (!unit)
