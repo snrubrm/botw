@@ -436,3 +436,6 @@ public:
 KSYS_CHECK_SIZE_NX150(Enemy, 0x14c8);
 
 }  // namespace uking::act
+
+// 2026-10-07: original2D36C8 acquires the named Enemy part and requests its sleep.
+void sub_71002D36C8(uking::act::Enemy* enemy, const sead::SafeString& name);

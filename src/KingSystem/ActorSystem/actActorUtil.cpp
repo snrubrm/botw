@@ -53,6 +53,24 @@ bool checkIsGetSameGroupActorName(const sead::SafeString& actor_name, bool mode)
     return checkIsGet(has_group ? group_name : actor_name, mode);
 }
 
+// 2026-10-07: original callback storage at2606B10 is written by EE427C and read by both dispatchers.
+GetDemoHandler sGetDemoHandler = nullptr;
+
+void setGetDemoHandler(GetDemoHandler handler) {
+    sGetDemoHandler = handler;
+}
+
+void callGetDemoHandler(ksys::act::Actor* actor, const sead::SafeString& name) {
+    if (sGetDemoHandler)
+        sGetDemoHandler(actor, actor, name);
+}
+
+void callGetDemoHandler2(ksys::act::Actor* actor, ksys::act::Actor* item,
+                         const sead::SafeString& name) {
+    if (sGetDemoHandler)
+        sGetDemoHandler(actor, item, name);
+}
+
 namespace ksys::act {
 
 void getPlacementNameAndUniqueName(Actor* actor, sead::BufferedSafeString* name,

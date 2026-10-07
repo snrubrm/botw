@@ -5,6 +5,19 @@ namespace uking::act {
 
 RideableBase::S1::S1() = default;
 
+// NON_MATCHING: bank-count checks are reordered and SafeString assignment is devirtualized.
+void RideableBase::S1::sub_7100E747E8(ksys::as::ASList* list) {
+    _0 = list;
+    if (list->mSlots.size() < 1 || list->mSlots[0]._20.size() < 3 ||
+        list->mSlots.size() == 1 || list->mSlots[1]._20.size() != 3)
+        _52 &= ~0x40;
+    else
+        _52 |= 0x40;
+    _58 = sead::SafeString::cEmptyString;
+    _68 = sead::SafeString::cEmptyString;
+    _78 = sead::SafeString::cEmptyString;
+}
+
 void RideableBase::S1::sub_7100E770C4(bool force) {
     if ((_52 & 0x400) && !force)
         return;

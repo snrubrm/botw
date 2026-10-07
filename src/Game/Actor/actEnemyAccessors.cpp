@@ -39,3 +39,11 @@ bool sub_710001AAA8(const ksys::act::ActorConstDataAccess& accessor, const sead:
     auto* enemy = getEnemy(accessor);
     return enemy ? enemy->_1128.getActorPartsActor(name).hasProc() : false;
 }
+
+void sub_71002D36C8(uking::act::Enemy* enemy, const sead::SafeString& name) {
+    if (!enemy || !enemy->_1128.getActorPartsActor(name).hasProc())
+        return;
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(&enemy->_1128.getActorPartsActor(name), &accessor);
+    accessor.sleep(ksys::act::BaseProc::SleepWakeReason::_0);
+}
