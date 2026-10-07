@@ -46,6 +46,28 @@ s32 sub_710105E75C(const aal::AssetInfo::LoopInfo* loop, s32 position, s32 offse
     return result;
 }
 
+Unk_SoundInstance::Unk_SoundInstance(s32 id) : _48c(id) {}
+
+Unk_SoundInstance::~Unk_SoundInstance() = default;
+
+bool Unk_SoundInstance::sub_710104ACB4() {
+    if (!_490)
+        return false;
+    if (_440 >= 0.0f) {
+        if (!_0.isEmpty())
+            return true;
+        return !_220.isEmpty();
+    }
+    return false;
+}
+
+void Unk_SoundInstance::sub_710104ABE8() {
+    if (!_491) {
+        _491 = true;
+        _488 = 0;
+    }
+}
+
 void SoundMgr::sub_71011FC29C() {
     mDuckingMgr->sub_7101042024(0x23);
     _238 |= 2;

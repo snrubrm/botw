@@ -7,6 +7,7 @@
 #include <prim/seadSafeString.h>
 #include <container/seadPtrArray.h>
 #include <container/seadOffsetList.h>
+#include <container/seadObjArray.h>
 #include <aal/aalHandle.h>
 #include <thread/seadCriticalSection.h>
 #include <container/seadBuffer.h>
@@ -380,8 +381,10 @@ struct Unk_SoundMgr60 {
 // Placeholder name: the sound instances the AreaTagAction family (Shielding / Occlusion / Reverb) get from
 // SoundMgr::_a8.
 struct Unk_SoundInstance {
-    // 0x710104acb4 (declared only; 68 B).
+    explicit Unk_SoundInstance(s32 id);
+    ~Unk_SoundInstance();
     bool sub_710104ACB4();
+    void sub_710104ABE8();
     // Declared only (placeholder names; the callers are the Unk_SoundMgra8 list queries):
     bool sub_710104AFBC(int a);    // 0x710104afbc
     bool sub_710104AFC0(void* a);  // 0x710104afc0
@@ -390,12 +393,18 @@ struct Unk_SoundInstance {
     // 0x710104ac00 (declared only): the volume this instance gives `actor` (negative: none).
     f32 sub_710104AC00(ksys::act::Actor* actor);
 
-    u8 _0[0x440];
-    /* 0x440 */ f32 _440;
-    u8 _444[0x490 - 0x444];
-    /* 0x490 */ bool _490;
-    /* 0x491 */ bool _491;
+    // 0x710104A9A0 initializes two pools of 32 signed identifiers.
+    sead::FixedObjArray<s32, 32> _0;
+    sead::FixedObjArray<s32, 32> _220;
+    /* 0x440 */ f32 _440 = 0.0f;
+    /* 0x448 */ sead::CriticalSection mCS;
+    /* 0x488 */ s32 _488 = 0;
+    /* 0x48c */ s32 _48c;
+    /* 0x490 */ bool _490 = false;
+    /* 0x491 */ bool _491 = false;
+    /* 0x494 */ s32 _494 = 0;
 };
+static_assert(sizeof(Unk_SoundInstance) == 0x498);
 
 // Placeholder name (SoundMgr::_a8): the manager of the sound instances the AreaTagAction family hold at +0xa0.
 class Unk_SoundMgra8 {
