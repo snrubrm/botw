@@ -171,6 +171,10 @@ public:
     // 0x7100db06ec (CSV EventMgr::isEventStartableAir_0; placeholder name): the "is_startable_air" key of the event's
     // info entry (false if there is none or the check is skipped)
     bool sub_7100DB06EC(const BaseProcLinkForEvent& link);
+    // 0x7100db1f44 (CSV EventMgr::checkActiveContextEventName): like isActiveEventNameEqualTo, but the active context
+    // is re-read for the second comparison
+    bool checkActiveContextEventName(const sead::SafeString& event_name,
+                                     const sead::SafeString& entry_point) const;
     // 0x7100db2a9c (CSV EventMgr::x_3; placeholder name; called by PlayerDead::calc_): whether the active event is
     // the one of the link's metadata
     bool sub_7100DB2A9C(const BaseProcLinkForEvent& link) const;

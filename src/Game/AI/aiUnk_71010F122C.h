@@ -32,6 +32,8 @@ public:
     void sub_71010F1364(const sead::Vector3f* direction);
     // 0x71010f15c8 (declared only): sets the box body's transform (a BoxRigidBody only).
     void sub_71010F15C8(const sead::Matrix34f* mtx);
+    // 0x71010f1314: true without a body, else whether the body is no longer in the world (WindBoxPlace::updateForPreDelete)
+    bool sub_71010F1314();
     // 0x71010f1664 (declared only): sets the box body's extents (a BoxRigidBody only).
     void sub_71010F1664(const sead::Vector3f* extents);
     // 0x71010f16fc (declared only; 256 B): adds the body to the world and creates the wind element.

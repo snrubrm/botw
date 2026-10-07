@@ -138,6 +138,16 @@ bool Manager::sub_7100DB20D0() const {
     return false;
 }
 
+// NON_MATCHING: the original loads the context string's pointer between the two assureTermination calls (as in
+// isActiveEventNameEqualTo); ours loads it after them and keeps the context in an extra register.
+// 0x7100db1f44
+bool Manager::checkActiveContextEventName(const sead::SafeString& event_name,
+                                          const sead::SafeString& entry_point) const {
+    if (!_1d2b8)
+        return false;
+    return _1d2b8->_60 == event_name && _1d2b8->_b8 == entry_point;
+}
+
 // 0x7100db2a9c
 bool Manager::sub_7100DB2A9C(const BaseProcLinkForEvent& link) const {
     return isActiveEventNameEqualTo(link.mMetadata.getEventName().cstr(),
