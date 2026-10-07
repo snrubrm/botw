@@ -14,6 +14,10 @@ public:
     BfRes();
     ~BfRes() override;
     s32 getLoadDataAlignment() const override;
+    bool needsParse() const override;
+    bool m2_() override;
+    void doCreate_(u8* buffer, u32 buffer_size, sead::Heap* heap) override;
+    void onDestroy_() override;
 
     // 0x71011ffecc (declared only)
     void sub_71011FFECC();
