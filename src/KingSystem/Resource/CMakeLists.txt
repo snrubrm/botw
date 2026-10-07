@@ -132,6 +132,9 @@ target_sources(uking PRIVATE
   resUnk_71024F9898Rtti.cpp
   resUnk_71024F9D48.cpp
   resUnk_71024F9D48.h
+  resUnk_710251A740.cpp
+  resUnk_710251A740.h
+  resUnk_710251A740Rtti.cpp
   resUnk_710251A700.cpp
   resUnk_710251A700.h
   resTextureHandleList.cpp
