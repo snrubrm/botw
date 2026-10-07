@@ -1,7 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiBehavior.h"
-#include "KingSystem/System/Timer.h"
+#include "KingSystem/ActorSystem/actUnk_7100d3bc4c.h"
 
 namespace uking::behavior {
 
@@ -14,10 +14,10 @@ public:
     void m8() override;
     void m9() override;
     void loadParams() override;
-    void m7() override;  // not decompiled yet (0x7100639e4c)
+    void m7() override;
 
-    /* 0x28 */ ksys::act::Actor* _28{mActor};
-    /* 0x30 */ ksys::Timer _30;
+    // 2026-10-07: m7 passes the complete actor/LOD timer object at28 to D3BCE4.
+    /* 0x28 */ ksys::act::Unk_7100d3bce4 _28{mActor};
 };
 KSYS_CHECK_SIZE_NX150(SetEnableResetToInitialState, 0x40);
 
