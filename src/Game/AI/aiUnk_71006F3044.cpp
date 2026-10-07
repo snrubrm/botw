@@ -1,6 +1,7 @@
 #include "Game/AI/aiUnk_71006F3044.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "Game/Actor/actUnk_7100d3cd74.h"
+#include "Game/Actor/actBeamBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
 Unk_71006f3044::Unk_71006f3044(ksys::act::Actor* actor)
@@ -40,4 +41,16 @@ void Unk_71006f3044::sub_71006F3A70(bool on) {
         _88.sub_710070DE10(*accessor.getMessageTransceiverId(), true);
     else
         _88.sub_710070DBB0(*accessor.getMessageTransceiverId(), true);
+}
+
+void Unk_71006f3044::sub_71006F3B84() {
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(&sub_71006F3934(), &accessor);
+    uking::act::sub_7100003C34(accessor);
+}
+
+void Unk_71006f3044::sub_71006F3BC4(const sead::Vector3f* dir) {
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(&sub_71006F3934(), &accessor);
+    sub_71002C7D1C(accessor, *dir);
 }

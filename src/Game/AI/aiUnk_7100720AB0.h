@@ -20,7 +20,7 @@ public:
     // 0x7100720af0: out of line, empty.
     ~Unk_7100720ab0();
 
-    // 0x7100720af4 (declared only): _8 = a value of the actor's param list (index 8, +0x70); _10 = 0.
+    // 0x7100720af4: _8 = the actor's Attack GParam Impulse; _10 = 0.
     void sub_7100720AF4();
     // 0x7100720b28 / 0x7100720fd0 (declared only)
     void sub_7100720B28();

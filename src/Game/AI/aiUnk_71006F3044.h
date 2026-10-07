@@ -32,10 +32,10 @@ public:
     // 0x71006f3a70: moves the beam actor to the owner's position (unless it is already calculating) and
     // registers (true) / unregisters (false) it with the `_88` sender.
     void sub_71006F3A70(bool on);
-    // 0x71006f3b84 / 0x71006f38a4 (declared only): act on the beam actor (the second one returns whether the
+    // 0x71006f3b84 / 0x71006f38a4 (the second is declared only): act on the beam actor (the second one returns whether the
     // beam is registered).
     void sub_71006F3B84();
-    // 0x71006f3bc4 (declared only; lane3 s20): looks up the beam actor via sub_71006F3934 and passes `dir`
+    // 0x71006f3bc4: looks up the beam actor via sub_71006F3934 and passes `dir`
     // to it.
     void sub_71006F3BC4(const sead::Vector3f* dir);
     bool sub_71006F38A4(ksys::act::Actor* actor);
