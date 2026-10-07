@@ -73,8 +73,9 @@ public:
     virtual uking::act::OptionalWeapon* m162();
     virtual uking::act::OptionalWeapon* m163();
     virtual const sead::SafeString& m164();
-    virtual void m165();
-    virtual void m166();
+    // BowShoot::sub_710033BDB4 passes output vectors to slots 165/166 for RotOffset/TransOffset.
+    virtual void m165(sead::Vector3f* out);
+    virtual void m166(sead::Vector3f* out);
     virtual void m167(sead::Vector3f* out);
     virtual void m168(sead::Vector3f* out);
     // 0x7100ef57dc: the shield-affect rotation offset of the weapon type (SmallSword / LargeSword / Spear, the grab

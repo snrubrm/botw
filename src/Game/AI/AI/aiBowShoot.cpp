@@ -1,6 +1,7 @@
 #include "Game/AI/AI/aiBowShoot.h"
 #include "Game/Actor/actWeapon.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/Utils/Thread/Message.h"
 
 namespace uking::ui {
@@ -8,6 +9,20 @@ void sub_7100A94AA8(bool value);
 }
 
 namespace uking::ai {
+
+void BowShoot::sub_710033BDB4(const sead::SafeString& name) {
+    if (auto* weapon = sead::DynamicCast<act::Weapon>(mActor)) {
+        ksys::act::ai::InlineParamPack params;
+        params.addString(weapon->m164(), "NodeName", -1);
+        sead::Vector3f rotation;
+        weapon->m165(&rotation);
+        params.addVec3(rotation, "RotOffset", -1);
+        sead::Vector3f translation;
+        weapon->m166(&translation);
+        params.addVec3(translation, "TransOffset", -1);
+        changeChild(name.cstr(), &params);
+    }
+}
 
 bool BowShoot::sub_710033C888() {
     for (s32 i = 0; i < 20; ++i) {

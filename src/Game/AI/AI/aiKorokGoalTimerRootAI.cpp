@@ -2,6 +2,7 @@
 
 namespace uking::ai {
 
+// NON_MATCHING: the initial word and byte flag stores are scheduled in a different order.
 KorokGoalTimerRootAI::KorokGoalTimerRootAI(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
 KorokGoalTimerRootAI::~KorokGoalTimerRootAI() = default;

@@ -12,6 +12,9 @@
 #include "KingSystem/System/Timer.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
+#include "KingSystem/ActorSystem/Attention/actAttentionSingleton.h"
+#include "Game/AI/aiUnk_7100D8C538.h"
+#include <limits>
 
 namespace uking::ai {
 
@@ -31,6 +34,26 @@ bool EnemyBattle::m39() {
     if (!m40())
         return false;
     return sub_7100382558();
+}
+
+bool EnemyBattle::m40() {
+    auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
+    if (!enemy || !(enemy->_e68.value <= std::numeric_limits<f32>::epsilon()))
+        return false;
+    sead::Vector3f target;
+    // The original uses a signed comparison of the nearest-enemy count at DamageInfoMgr +0x5c0.
+    if (dmg::DamageInfoMgr::instance() &&
+        static_cast<s32>(dmg::DamageInfoMgr::instance()->get4f8()._c8) > 1 &&
+        ksys::act::Attention::instance() &&
+        !ksys::act::Attention::instance()->sub_7100D74114()) {
+        mActor->getMtx().getTranslation(target);
+        const f32 radius = *mDisplayCheckRadius_s;
+        target.y += radius;
+        if (!visibilityCheckMaybe(target, radius))
+            return false;
+    }
+    m36(&target);
+    return sub_710072DDB8(target, mActor->getMtx(), *mAttackAngle_s);
 }
 
 bool EnemyBattle::sub_7100382558() {
