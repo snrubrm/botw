@@ -236,7 +236,7 @@ public:
     WeatherType sub_71010F3374() const;
     // 0x71010f3308 (placeholder name): maps `_798` (0 / 1 / 2) to 7 / 0 / 5 (0 otherwise).
     u8 sub_71010F3308() const;
-    static bool sub_71010F3A94();
+    bool sub_71010F3A94();
     // 0x71010f7960 (CSV WorldMgr::getChemicalMgrFieldAE8): same body as getElementHolderMaybe.
     void* getChemicalMgrFieldAE8() const;
 

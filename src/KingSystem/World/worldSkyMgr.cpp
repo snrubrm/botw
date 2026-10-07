@@ -11,6 +11,25 @@
 
 namespace ksys::world {
 
+// NON_MATCHING: the rotated direction uses a different floating-point expression order.
+void SkyMgr::sub_71010E2908() {
+    Manager* manager = Manager::instance();
+    const sead::Vector3f axis = _3f14;
+    f32 time = manager->getTimeMgr()->getTimeForSkyEnv();
+    if (time < 60.0f)
+        time += 360.0f;
+    sead::Quatf rotation;
+    rotation.setAxisRadian(axis, (time - 330.0f) / 75.0f * sead::Mathf::pi() * -1.0f);
+    if (manager->mDirectionalLightTimer) {
+        _3ed8 = manager->mDirectionalLightVecA;
+    } else {
+        sead::Matrix33f matrix;
+        matrix.fromQuat(rotation);
+        _3ed8.setRotated(matrix, sead::Vector3f(-1.0f, 0.0f, 0.0f));
+    }
+}
+
+
 SkyMgr::SkyMgr() {
     _20._18 = {0, 0, 0};
     _20._24 = {0, 0, 0};
