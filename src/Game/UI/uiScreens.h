@@ -335,6 +335,9 @@ public:
 // Class of the per-button units of a ScreenEx (elements of ScreenEx::mButtonUnits, one per eui::AnimButton; vtable
 // 0x7102474e38 with 23 slots and sead RTTI, base of many of the UI helper classes; only the button notification slots
 // 15-22 are known). The sub_ functions are out-of-line forwarders to the slots (0x7100939ef8 - 0x7100939f4c).
+class ScreenEx;
+struct ScreenAppPictureBookUnk;
+
 class Unk_7102474e38 {
 public:
     SEAD_RTTI_BASE(Unk_7102474e38)
@@ -359,6 +362,7 @@ public:
     virtual void m21(eui::AnimButton* button);
     virtual void m22(eui::AnimButton* button);
 
+    ScreenEx* sub_7100939C5C() const;
     void sub_7100939EF8(eui::AnimButton* button);
     void sub_7100939F04(eui::AnimButton* button);
     void sub_7100939F10(eui::AnimButton* button);
@@ -374,7 +378,7 @@ public:
     /* 0x08 */ u64 _8{};
     /* 0x10 */ u64 _10{};
     /* 0x18 */ u64 _18{};
-    /* 0x20 */ u64 _20{};
+    /* 0x20 */ ScreenAppPictureBookUnk* _20{};
     /* 0x28 */ u64 _28{};
     /* 0x30 */ s32 _30{};
     /* 0x34 */ sead::Vector2f _34 = sead::Vector2f::zero;
@@ -1794,7 +1798,9 @@ struct ScreenAppPictureBookUnk {
     // 0x710093fe74: the `_38d` flag of entry `index` (true for an invalid index)
     bool sub_710093FE74(s32 index) const;
 
-    /* 0x000 */ u8 _0[0x290];
+    /* 0x000 */ u8 _0[0x60];
+    /* 0x060 */ ScreenEx* mScreen;
+    u8 _68[0x290 - 0x68];
     /* 0x290 */ ScreenAppPictureBookEntry** _290;
     /* 0x298 */ u8 _298[0x2a8 - 0x298];
     /* 0x2a8 */ s32 _2a8;

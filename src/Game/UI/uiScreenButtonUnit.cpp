@@ -6,6 +6,11 @@ namespace uking::ui {
 // 0x7100939c18
 Unk_7102474e38::Unk_7102474e38() {}
 
+// 0x7100939c5c
+ScreenEx* Unk_7102474e38::sub_7100939C5C() const {
+    return _20->mScreen;
+}
+
 // 0x7100939ef8
 void Unk_7102474e38::sub_7100939EF8(eui::AnimButton* button) {
     m15(button);
