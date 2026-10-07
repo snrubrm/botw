@@ -19,8 +19,8 @@ public:
     // Placeholder: the impulse data (types from the ctor stores and the readers:
     // ExceededImpulseCheck::calc_ compares _8 / _c with 0).
     struct Unk1 {
-        /* 0x00 */ f32 _0 = 0;
-        /* 0x04 */ f32 _4 = 0;
+        // 2026-10-07: the impulse update stores its first rigid body here; damage queries return it.
+        /* 0x00 */ phys::RigidBody* mBody = nullptr;
         /* 0x08 */ f32 _8 = 0;
         /* 0x0c */ f32 _c = 0;
         /* 0x10 */ sead::Vector3f _10 = sead::Vector3f::ez;

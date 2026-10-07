@@ -17,6 +17,29 @@
 
 namespace uking::dmg {
 
+ksys::phys::RigidBody* DamageManager::sub_71006D69F8() {
+    switch (getDamageType()) {
+    case 2:
+        if (_6c >= 0) {
+            if (auto* info = ::sub_71007A255C(mActor, _6c))
+                return info->_c0;
+        }
+        return nullptr;
+    case 4:
+        if (auto* impulse = mActor->getImpulseBaseProcLink())
+            return impulse->_10.mBody;
+        return nullptr;
+    case 6:
+        if (_216.isOn(0x100) && _88 >= 0) {
+            if (auto* info = ::sub_71007A255C(mActor, _88))
+                return info->_c0;
+        }
+        return nullptr;
+    default:
+        return nullptr;
+    }
+}
+
 // NON_MATCHING: the original duplicates accessor cleanup in its true / false return paths.
 bool DamageManager::m51(const ksys::act::BaseProcLink* link) {
     const auto* param = getActorDamageParam();
