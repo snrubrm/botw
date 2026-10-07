@@ -1,6 +1,7 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <math/seadVector.h>
 
 namespace sead {
 class Heap;
@@ -36,6 +37,13 @@ public:
 
     // 0x6e2420: removes the terror from the actor's AITerror list (Actor::_548).
     void sub_71006E2420();
+    // lane1 s47 (declaration only, placeholder names): 0x6e24b0 sets the offset of the terror (a position),
+    // 0x6e2440 a mode flag, 0x6e24d4 returns a scale (the terror's radius), 0x6e2024 / 0x6e1fd0 the tagged / untagged update.
+    void sub_71006E24B0(const sead::Vector3f& offset);
+    void sub_71006E2440(bool value);
+    f32 sub_71006E24D4();
+    void sub_71006E2024();
+    void sub_71006E1FD0();
 
     u8 _8[0x20 - 0x8];
 };

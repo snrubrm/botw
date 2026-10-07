@@ -46,6 +46,13 @@ public:
     // 0x71004855dc (declared only; the CSV name agl::eft::Star::updateUBO is wrong): called by the damage callback
     // `_68` with the damage manager's position.
     void sub_71004855DC(const sead::Vector3f& position);
+    // 0x71004860dc (placeholder name): marks the tree as falling: re-registers the damage callback `_68`, sets the
+    // XLink flag 0x2000 and changes to "丸太化".
+    void sub_71004860DC();
+    // 0x7100486000 (placeholder name): updates the terror `_f8` for a tree that is lying (`standing` = false) or about to
+    // fall (true); 0x7100486258 is declared only (not decompiled).
+    void sub_7100486000(bool standing);
+    void sub_7100486258();
 
 protected:
     Unk_7102403e48 _38{this};
@@ -78,12 +85,13 @@ protected:
     /* 0x100 */ ksys::act::AITerror _100{mActor};
     /* 0x1b8 */ ksys::act::AITerror _1b8{mActor};
     // Initial values from the constructor; the meaning of these members is not recovered.
-    s32 _270 = 0;
+    f32 _270 = 0;  // the height of the main body
     sead::Vector3f _274 = sead::Vector3f::zero;
     sead::Vector3f _280 = sead::Vector3f::ey;
-    s32 _28c = 0;
+    f32 _28c = 0;
     s32 _290 = 0;
-    u16 _294 = 0;
+    bool _294 = false;
+    u8 _295 = 0;
     u8 _296 = 0;
     void* _298 = nullptr;
     s32 _2a0 = 0;

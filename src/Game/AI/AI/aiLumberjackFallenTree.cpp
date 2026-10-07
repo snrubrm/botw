@@ -2,6 +2,11 @@
 #include "Game/AI/aiUnk_710072BA90.h"
 #include "Game/Damage/dmgDamageManager.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/XLink/xlinkXLink.h"
+#include "KingSystem/ActorSystem/Profiles/actWeaponBase.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include <math/seadBoundBox.h>
 
 namespace uking::ai {
 
@@ -45,8 +50,64 @@ bool LumberjackFallenTree::init_(sead::Heap* heap) {
     return ok & (_100.sub_7100D78564(heap) & _1b8.sub_7100D78564(heap));
 }
 
+// NON_MATCHING: only the final `_274 = *mForceSetDropPos_a` differs: the original copies the vector with the z store
+// first and one 8 byte store for x / y (a struct copy of `&_274`), ours copies x, y, z one by one
 void LumberjackFallenTree::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _280 = sead::Vector3f::ey;
+    auto* actor = mActor;
+    if (auto* body = actor->getMainBody()) {
+        sead::BoundBox3f aabb;
+        body->getAabbInLocal(&aabb);
+        const f32 height = aabb.getHalfSizeY() + aabb.getHalfSizeY();
+        const f32 check_height = height * static_cast<f32>(static_cast<u8>(*mIsCheckHeight_s));
+        _270 = height;
+        _28c = check_height;
+    }
+    _100.x(1, 0, *mNoiseLevel_s);
+    _100._88 = sead::Vector3f(0, _270, 0);
+    _1b8.x(1, 0, *mNoiseLevel_s);
+
+    auto* weapon = sead::DynamicCast<ksys::act::WeaponBase>(actor);
+    if (weapon && weapon->m185()) {
+        sub_7100486000(false);
+        sub_71004860DC();
+    } else if (actor->getMapObject()) {
+        sub_7100486000(false);
+        sub_71004860DC();
+    } else {
+        sub_7100486000(true);
+        sub_7100486258();
+    }
+    _274 = *mForceSetDropPos_a;
+}
+
+// NON_MATCHING: the order of the loads of the offset / direction vectors (the original loads the offset pointer first
+// and the direction's z after the first product)
+void LumberjackFallenTree::sub_7100486000(bool standing) {
+    if (!_f8)
+        return;
+    auto* actor = mActor;
+    bool flag;
+    if (standing) {
+        _f8->sub_71006E2440(false);
+        const f32 scale = _f8->sub_71006E24D4();
+        const auto& offset = *mTerrorOffsetPos4Falling_s;
+        const auto& direction = *mMoveDirection_a;
+        const sead::Vector3f position(direction.x * (scale + offset.x), offset.y,
+                                      direction.z * (scale + offset.z));
+        _f8->sub_71006E24B0(position);
+        _290 = 0;
+        flag = true;
+    } else {
+        _f8->sub_71006E24B0(sead::Vector3f::zero);
+        _f8->sub_71006E2440(true);
+        flag = false;
+    }
+    _295 = flag;
+    if (ksys::act::hasTag(actor, 0x80e91296))
+        _f8->sub_71006E2024();
+    else
+        _f8->sub_71006E1FD0();
 }
 
 bool LumberjackFallenTree::hasUpdateForPreDeleteCb() {
@@ -58,6 +119,23 @@ bool LumberjackFallenTree::updateForPreDelete() {
     if (_f8)
         ok = _f8->m5() & (_100.sub_7100D786D8() & _1b8.sub_7100D786D8());
     return ok;
+}
+
+void LumberjackFallenTree::sub_71004860DC() {
+    _294 = true;
+    if (auto* damage_mgr = mActor->getDamageMgr()) {
+        if (auto* manager = sead::DynamicCast<uking::dmg::DamageManager>(damage_mgr)) {
+            manager->removeDamageCallback(&_38);
+            manager->removeDamageCallback(&_68);
+        }
+    }
+    if (auto* damage_mgr = mActor->getDamageMgr()) {
+        if (auto* manager = sead::DynamicCast<uking::dmg::DamageManager>(damage_mgr))
+            manager->addDamageCallback(4, &_68);
+    }
+    if (auto* xlink = mActor->getXLink())
+        xlink->_cc.set(0x2000);
+    changeChild("丸太化");
 }
 
 void LumberjackFallenTree::leave_() {
