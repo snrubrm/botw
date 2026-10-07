@@ -43,16 +43,16 @@ public:
     void resetBaseProcLinkForActor(BaseProc* proc);
     void sleep(BaseProc::SleepWakeReason reason);
     void wakeUp(BaseProc::SleepWakeReason reason);
-    // 0x7100efcc20 (declaration only): requests deletion of the six linked weapons with `reason`.
+    // 0x7100efcc20: requests deletion of the six linked weapons with `reason`.
     void sub_7100EFCC20(BaseProc::DeleteReason reason);
-    // 0x7100efcd98 (declaration only): forwards the owner to the six non-exempt linked weapons.
+    // 0x7100efcd98: forwards the owner to the six non-exempt linked weapons.
     void sub_7100EFCD98(Actor* owner);
     // 0x7100efc2bc (CSV ActorWeapons::dropWeapon): drops the weapon in slot `idx` (WeaponBase::m175) and
     // forgets it.
     bool dropWeapon(int idx, const sead::Vector3f& pos, bool a2, bool a3, void* a4, bool a5);
     // 0x7100efd344 (CSV ActorWeapons::x): calls WeaponBase::m215 on every weapon actor.
     void x();
-    // 0x7100efcf10 (declared only): called by PlayerOrEnemy::m51.
+    // 0x7100efcf10: calls Actor::m51 of every weapon; called by PlayerOrEnemy::m51.
     void sub_7100EFCF10(bool on);
     // 0x7100efbfb8 (CSV ActorStruct3::resetWeaponBaseProcLink; declared only): resets the BaseProcLink of the weapon in
     // slot `idx`.

@@ -84,6 +84,33 @@ void sub_7100EFA810(ActorConstDataAccess* accessor) {
         weapon->m215();
 }
 
+void ActorWeapons::sub_7100EFCC20(BaseProc::DeleteReason reason) {
+    for (auto& weapon : mWeapons) {
+        ActorConstDataAccess accessor;
+        acquireActor(&weapon.link, &accessor);
+        if (!accessor.sub_7100D14250())
+            accessor.deleteLater(reason);
+    }
+}
+
+// NON_MATCHING: the original keeps the loop index and recomputes the link address each iteration (smaddl); ours
+// strength-reduces the address
+void ActorWeapons::sub_7100EFCF10(bool on) {
+    for (int i = 0; i < 6; ++i) {
+        if (auto* weapon = sead::DynamicCast<WeaponBase>(mWeapons[i].link.getProc(nullptr, nullptr)))
+            weapon->m51(on);
+    }
+}
+
+void ActorWeapons::sub_7100EFCD98(Actor* owner) {
+    for (auto& weapon : mWeapons) {
+        acc::WeaponBase accessor;
+        acquireActor(&weapon.link, &accessor);
+        if (!accessor.sub_7100D14250())
+            accessor.m228(owner);
+    }
+}
+
 void ActorWeapons::x() {
     for (auto& weapon : mWeapons) {
         ActorConstDataAccess accessor;
