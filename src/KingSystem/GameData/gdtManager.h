@@ -22,6 +22,10 @@ class Framework;
 class MethodTreeMgr;
 }  // namespace sead
 
+namespace uking::action {
+class EventOffWaitRevivalAction;
+}
+
 namespace uking {
 class SaveSystem;
 }
@@ -566,6 +570,7 @@ public:
     }
 
 private:
+    friend class uking::action::EventOffWaitRevivalAction;
     friend class ksys::SaveMgr;
     friend class uking::SaveSystem;
 
