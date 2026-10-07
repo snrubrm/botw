@@ -16,6 +16,7 @@ add_library(aal OBJECT
   include/aal/aalCurve.h
   include/aal/aalCustomCurve.h
   include/aal/aalUnitDistanceCurve.h
+  include/aal/aalWorkerThread.h
   include/aal/aalDistanceParamTarget.h
   include/aal/aalAttenuationReader.h
   include/aal/aalCone.h
@@ -90,6 +91,7 @@ add_library(aal OBJECT
   src/aalDecibel.cpp
   src/aalCustomCurve.cpp
   src/aalUnitDistanceCurve.cpp
+  src/aalWorkerThread.cpp
   src/aalConeFactory.cpp
   src/aalCurveReader.cpp
   src/aalArbiter.cpp
