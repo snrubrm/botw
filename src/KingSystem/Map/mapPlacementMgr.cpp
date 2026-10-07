@@ -8,6 +8,7 @@
 #include "KingSystem/ActorSystem/actInfoData.h"
 #include "KingSystem/ActorSystem/actInstParamPack.h"
 #include "Game/gameScene.h"
+#include "Game/gameStage.h"
 #include "Game/gameVillagerMgr.h"
 #include "KingSystem/Graphics/gfxForestRenderer.h"
 #include "KingSystem/Map/mapObject.h"
@@ -18,8 +19,23 @@
 #include "KingSystem/Map/mapPlacementAreaMgr.h"
 #include "KingSystem/Map/mapPlacementTree.h"
 #include "KingSystem/System/VFR.h"
+#include "KingSystem/Terrain/teraSystem.h"
 
 namespace ksys::map {
+
+// NON_MATCHING: the coordinate stores and region-test branches differ.
+s32 sub_7100EDB6E0(bool* out_below, f32* out_height, tera::System* system,
+                   const sead::Vector3f* pos) {
+    const sead::Vector2f xz(pos->x, pos->z);
+    if (!(pos->y <= uking::sTeraWaterDisableHeight) || !uking::sTeraWaterDisableBounds.isInside(xz)) {
+        const s32 result = tera::sub_710110B4A4(out_height, &xz, system);
+        if (result != -1 && result != 0)
+            *out_below = pos->y < *out_height;
+        return result;
+    }
+    *out_below = false;
+    return 2;
+}
 
 SEAD_SINGLETON_DISPOSER_IMPL(PlacementMgr)
 
