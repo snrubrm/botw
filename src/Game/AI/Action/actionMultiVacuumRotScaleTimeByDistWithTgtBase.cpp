@@ -1,10 +1,11 @@
 #include "Game/AI/Action/actionMultiVacuumRotScaleTimeByDistWithTgtBase.h"
+#include "Game/Actor/actEnemy.h"
 
 namespace uking::action {
 
 MultiVacuumRotScaleTimeByDistWithTgtBase::MultiVacuumRotScaleTimeByDistWithTgtBase(
     const InitArg& arg)
-    : ksys::act::ai::Action(arg) {}
+    : ksys::act::ai::Action(arg), _b8(sead::DynamicCast<uking::act::Enemy>(mActor)) {}
 
 MultiVacuumRotScaleTimeByDistWithTgtBase::~MultiVacuumRotScaleTimeByDistWithTgtBase() = default;
 

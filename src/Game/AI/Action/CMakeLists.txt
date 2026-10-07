@@ -3133,6 +3133,7 @@ target_sources(uking PRIVATE
   actionSandwormTackleMove.cpp
   actionSandwormTackleMove.h
   actionSandwormTackleMoveList.cpp
+  actionSandwormTackleTarget.cpp
   actionSceneBgmCtrlAction.cpp
   actionSceneBgmCtrlAction.h
   actionSceneSoundCtrlAction.cpp

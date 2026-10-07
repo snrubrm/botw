@@ -3,23 +3,43 @@
 #include "Game/AI/Action/actionAtkTackleMove.h"
 #include <container/seadPtrArray.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "Game/AI/aiUnk_7102357d20.h"
 #include <gsys/gsysModelAccessKey.h>
+
+namespace uking::act {
+class Enemy;
+}
 
 namespace uking::action {
 
-// Placeholder name (target of a tackle: an actor handle at 0x38 and a counter at 0x58; the destructor 0x71073e3bc is
-// declared only).
-struct Unk_SandwormTackleTarget {
-    ~Unk_SandwormTackleTarget();
-    // 0x710073e5e0 (declared only; 168 B): whether `ack` answers this target's message.
-    bool sub_710073E5E0(const ksys::MessageAck* ack);
-
-    u8 _0[0x38];
-    ksys::act::BaseProcLink _38;
-    u8 _48[0x58 - 0x48];
-    s32 _58;
-    u8 _5c[4];
+// Message 0x5800000 sender, vtable 0x71024512c0. Its payload is shared with the recovered listener.
+class Unk_71024512c0 : public Unk_7102357d20 {
+public:
+    explicit Unk_71024512c0(ksys::act::Actor* actor) : Unk_7102357d20(actor, 0x5800000) {
+        sead::ScopedLock<sead::JobQueueLock> lock(&_18.mLock);
+        _18.mLink.acquire(actor, false);
+    }
+    ~Unk_71024512c0() override;
+    void* m2() override;
+    Unk_71024512c0_Payload _18;
 };
+KSYS_CHECK_SIZE_NX150(Unk_71024512c0, 0x30);
+
+// Enemy RTTI guard in 0x710071f6dc precedes the size-0x60 allocation and constructor.
+struct Unk_SandwormTackleTarget {
+    explicit Unk_SandwormTackleTarget(uking::act::Enemy* actor);
+    ~Unk_SandwormTackleTarget();
+    bool sub_710073E5E0(const ksys::MessageAck* ack);
+    bool sub_710073E45C(sead::Heap* heap, const sead::SafeString& name);
+    void sub_710073E580(ksys::act::BaseProcLink* link);
+
+    uking::act::Enemy* mActor;
+    Unk_71024512c0 _8;
+    ksys::act::BaseProcLink _38;
+    sead::SafeString _48;
+    s32 _58 = 0;
+};
+KSYS_CHECK_SIZE_NX150(Unk_SandwormTackleTarget, 0x60);
 
 // Actor plus a two-element list of targets (names are guesses). The member functions are
 // declared only (0x71f6dc, 0x71f858, 0x71fefc, 0x71ff70); SandwormJumpTackle has the same object
