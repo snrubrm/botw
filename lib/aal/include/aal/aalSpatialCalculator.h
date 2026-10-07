@@ -165,6 +165,10 @@ private:
     sead::CriticalSection mCS;
     DebuggerResult mDebuggerResult;
     u8 _d4[4];
+
+    /// Results whose volume is not larger than this are inaudible (2^-15; a variable in the original: its place is
+    /// next to the vtable, in the writable data).
+    static f32 sMinVolume;
 };
 static_assert(sizeof(SpatialCalculator) == 0xd8);
 

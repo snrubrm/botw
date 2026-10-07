@@ -3,36 +3,69 @@
 #include <cstring>
 #include <new>
 #include <prim/seadScopedLock.h>
+#include "aal/aalAttenuationCulling.h"
 #include "aal/aalAttenuationDirectivity.h"
 #include "aal/aalAttenuationMgr.h"
 #include "aal/aalAttenuator.h"
 #include "aal/aalCone.h"
 #include "aal/aalListener.h"
 #include "aal/aalListenerMgr.h"
+#include "aal/aalMeter.h"
 #include "aal/aalSettings.h"
 #include "aal/aalSystemAccessor.h"
 #include "aal/aalShape.h"
 
 namespace aal {
 
-// NON_MATCHING: same stores, but the original issues them in a different order (it stores flags, matrix, velocity,
-// attenuator, listener_mask, user_param, then the zeroed float/shape block).
 // 0x7100b8f4ec
 void SpatialCalculator::Setting::initialize() {
-    flags = 0xd;
     actor_matrix = nullptr;
     velocity = nullptr;
-    attenuator = nullptr;
-    listener_mask = 0xffff;
-    user_param = 0;
+    flags = 0xd;
     doppler_factor = 0.0f;
     sound_source_size = 0.0f;
     shape = nullptr;
+    attenuator = nullptr;
+    listener_mask = 0xffff;
+    user_param = 0;
 }
 
 // 0x7100b8f5a0 (D2) / 0x7100b8f684 (D0)
 SpatialCalculator::~SpatialCalculator() {
     finalize();
+}
+
+f32 SpatialCalculator::sMinVolume = 1.0f / 32768;
+
+// NON_MATCHING: same stores; the original orders the stores of the zeroed members differently (the members that the
+// constructor zeroes are written between the stores of the inlined Setting::initialize).
+// 0x7100b8f510
+SpatialCalculator::SpatialCalculator()
+    : mInitialized(false), mCone(nullptr), mLastResult(0), mReferredCount(0), mPoolIndex(0), mDirtyCounter(nullptr),
+      mLastDirtyCounter(0), mResultNum(0), mResults(nullptr) {
+    mDebuggerResult = DebuggerResult::cNone;
+    reset();
+}
+
+// 0x7100b8f9a8
+void SpatialCalculator::reset() {
+    sead::ScopedLock<sead::CriticalSection> lock(&mCS);
+
+    if (mSetting.shape)
+        mSetting.shape->detachSpatialCalculator_(this);
+    mSetting.initialize();
+    if (mCone) {
+        ConeFactory::instance()->destroy(mCone);
+        mCone = nullptr;
+    }
+    mLastDirtyCounter = -1;
+    mLastResult = 0;
+    if (Result* results = mResults) {
+        const u32 n = mResultNum;
+        for (u32 i = 0; i < n; ++i)
+            new (&results[i]) Result();
+    }
+    mDebuggerResult = DebuggerResult::cNone;
 }
 
 // 0x7100b8f61c
@@ -224,6 +257,98 @@ void SpatialCalculator::calcListenerDistanceAndDirectivity_(Result* result, cons
             distance_rate = listener.mDirectivity.calcDistRate(position);
     }
     result->_90 = distance_rate;
+}
+
+// 0x7100b8ffd0
+bool SpatialCalculator::calcDistReduction_(Result* result, const Listener& listener, s32,
+                                           DebuggerResult* debugger_result) {
+    if (!result)
+        return false;
+
+    if (!mSetting.attenuator)
+        return true;
+
+    const f32 distance = Meter::toMeter(result->_8c) * result->_90;
+
+    Curve* curve = mSetting.attenuator->getCurve(DistanceParamTarget(DistanceParamTarget::Volume));
+    AttenuationCulling* culling = mSetting.attenuator->getAttenuationCulling();
+    f32 culling_gain = 1.0f;
+    bool priority_down = false;
+    if (culling) {
+        culling_gain = culling->calcCullingGain(distance, curve);
+        priority_down = culling->isPriorityDownEnabled();
+    } else if (curve) {
+        culling_gain = AttenuationCulling::calcCullingGainByCurve(distance, curve);
+    }
+    if (culling_gain == 0.0f) {
+        result->volume = 0.0f;
+        result->_8 = 0.0f;
+        result->priority_factor = 0.0f;
+        result->_10 = 0.0f;
+        result->spread = 0.0f;
+        if (debugger_result)
+            debugger_result->code = 0x10000;
+        return false;
+    }
+
+    curve = mSetting.attenuator->getCurve(DistanceParamTarget(DistanceParamTarget::PriorityFactor));
+    if (curve) {
+        f32 priority_factor = curve->interpolate(distance);
+        if (priority_down)
+            priority_factor = culling_gain * priority_factor;
+        result->priority_factor = priority_factor;
+        if (priority_factor == 0.0f) {
+            result->volume = 0.0f;
+            result->_8 = 0.0f;
+            result->priority_factor = 0.0f;
+            result->_10 = 0.0f;
+            result->spread = 0.0f;
+            if (debugger_result)
+                debugger_result->code = 0x10002;
+            return false;
+        }
+    } else {
+        result->priority_factor = 1.0f;
+    }
+
+    curve = mSetting.attenuator->getCurve(DistanceParamTarget(DistanceParamTarget::Volume));
+    f32 volume = curve ? curve->interpolate(distance) : 1.0f;
+    result->volume = volume;
+
+    AttenuationDirectivity* directivity = mSetting.attenuator->getAttenuationDirectivity();
+    if (directivity && mCone) {
+        sead::Vector3f listener_position;
+        listener.mMatrix.getTranslation(listener_position);
+        mCone->setActorMatrix(result->_2c);
+        result->_94 = mCone->calcRate(listener_position);
+        result->volume = directivity->calcConeReduction(result->_94) * result->volume;
+    }
+
+    result->volume = culling_gain * result->volume;
+    if (sead::Mathf::abs(result->volume) <= sMinVolume) {
+        result->volume = 0.0f;
+        result->_8 = 0.0f;
+        result->priority_factor = 0.0f;
+        result->_10 = 0.0f;
+        result->spread = 0.0f;
+        if (debugger_result)
+            debugger_result->code = 0x10001;
+        return false;
+    }
+
+    result->_10 = 0.0f;
+    curve = mSetting.attenuator->getCurve(DistanceParamTarget(DistanceParamTarget::Filter));
+    if (curve)
+        result->_10 += curve->interpolate(distance);
+    if (directivity && mCone)
+        result->_10 += directivity->calcConeFilter(result->_94);
+    result->_10 = sead::Mathf::clamp(result->_10, 0.0f, 1.0f);
+
+    curve = mSetting.attenuator->getCurve(DistanceParamTarget(DistanceParamTarget::Unk1));
+    result->_8 = curve ? curve->interpolate(distance) : 0.0f;
+    curve = mSetting.attenuator->getCurve(DistanceParamTarget(DistanceParamTarget::Spread));
+    result->spread = curve ? curve->interpolate(distance) : 0.0f;
+    return true;
 }
 
 // NON_MATCHING: in the original the case without the angle calculation stores its own zero angle (merged with the
