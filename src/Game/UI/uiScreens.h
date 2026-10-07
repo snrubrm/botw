@@ -2933,6 +2933,7 @@ public:
 
 class ScreenPickUp : public ScreenEx {
 public:
+    ScreenPickUp();
     ~ScreenPickUp() override;
     SEAD_RTTI_OVERRIDE(ScreenPickUp, ScreenEx)
 
@@ -2941,6 +2942,20 @@ public:
     void setItemAndOpen(const sead::SafeString& item, bool show);
     // 0x7100a3f450 (CSV unnamed; not decompiled)
     void sub_7100A3F450(const sead::SafeString& item, f32 time);
+
+    // One pickup-item slot (0xe8 bytes; the D1 at 0x7100a3f450 walks the list, checks the busy bit at +0xe5
+    // and calls UiTimer::init on the slot). Only the link matters here.
+    struct Slot {
+        Slot* mNext;
+        u8 _8[0xe8 - 8];
+    };
+
+    /* 0x3610 */ sead::CriticalSection _3610;
+    /* 0x3650 */ sead::PtrArrayImpl _3650;
+    /* 0x3660 */ Slot* _3660;
+    /* 0x3668 */ Slot* _3668;
+    /* 0x3670 */ Slot _3670[7];
+    /* 0x3cc8 */ void* _3cc8[7];
 };
 
 class ScreenAppHome : public ScreenEx {

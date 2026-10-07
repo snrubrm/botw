@@ -179,6 +179,22 @@ ScreenTitle::ScreenTitle() : ScreenEx() {
     _3610 = 0;
 }
 
+// 0x7100a3ef2c
+// NON_MATCHING: store/scheduling order only (original zeroes mPtrs first and keeps the s0-s4 link
+// order with x2 set before the last two links; ours sinks the mPtrs zero and delays x2).
+ScreenPickUp::ScreenPickUp() : ScreenEx() {
+    _3660 = &_3670[0];
+    _3668 = &_3670[0];
+    _3670[0].mNext = &_3670[1];
+    _3670[1].mNext = &_3670[2];
+    _3670[2].mNext = &_3670[3];
+    _3670[3].mNext = &_3670[4];
+    _3670[4].mNext = &_3670[5];
+    _3670[5].mNext = &_3670[6];
+    _3670[6].mNext = nullptr;
+    _3650.setBuffer(7, _3cc8);
+}
+
 
 
 }  // namespace uking::ui

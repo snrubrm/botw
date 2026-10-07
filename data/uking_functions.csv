@@ -60185,7 +60185,7 @@ Address,Quality,Size,Name
 0x0000007100a3ef04,O,000028,_ZNK4ksys13StateTemplateIN5uking2ui21ScreenPauseMenuRecipeEE5exec4EPvS5_
 0x0000007100a3ef20,O,000008,_ZNK4ksys13StateTemplateIN5uking2ui21ScreenPauseMenuRecipeEE7return0EPvS5_
 0x0000007100a3ef28,O,000004,_ZNK4ksys13StateTemplateIN5uking2ui21ScreenPauseMenuRecipeEE4nullEPvS5_
-0x0000007100a3ef2c,U,000200,ScreenPickUp::ctor
+0x0000007100a3ef2c,m,000200,_ZN5uking2ui12ScreenPickUpC1Ev
 0x0000007100a3eff4,U,000164,
 0x0000007100a3f098,U,000168,
 0x0000007100a3f140,U,000168,
