@@ -193,4 +193,8 @@ const f32 sUnk_7101EC6BA4 = 360.0f / 4294967296.0f;
 const f32 sUnk_7101EC6BA8 = 2 * sead::numbers::pi / 4294967296.0f;
 const Unk_7101EC6BAC sUnk_7101EC6BAC{0};
 
+s32 sub_71011EE4B8(Unk_7101EC6BAC angle) {
+    return angle.value;
+}
+
 }  // namespace ksys::util
