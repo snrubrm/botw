@@ -34,6 +34,10 @@ public:
     static s32 getSubMeshRangeNum(s32 type, s32 count);
     agl::lght::LocalLightMapObj* getReferenceLocalLightMapObj() const;
 
+    void calcBounding() override;
+    static void BoneVisibilityCallback(nn::g3d::ModelObj*, int);
+    static void MaterialVisibilityCallback(nn::g3d::ModelObj*, int);
+
     using BoneCallback = sead::IDelegate1<BoneCallbackArg*>;
     using BoneCallbackStorage = sead::AnyDelegate1<BoneCallbackArg*>;
 

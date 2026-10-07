@@ -180,6 +180,8 @@ public:
 
     virtual void check(BoolType) const;
     virtual void calcBounding();
+    // Original c3e484: gathers visible shape render units; callback callers discard no result.
+    void gatherVisibleModelRenderUnit();
     virtual void bind(const ModelScene* scene);
     virtual void bindResource();
     virtual void syncResource();
@@ -244,8 +246,8 @@ protected:
     ModelUnitDrawArray* mDrawArray;
     void* _30;
     void* _38;
-    sead::Vector3f _40;
-    u32 _4c;
+    // Local sphere used when _50 == this +0x40 (c05718); c06440 writes center/radius through _50.
+    sead::BoundSphere3f _40;
     sead::BoundSphere3f* _50;
     /// The per-shape / per-view render option records (0xc bytes each; `flags` holds one bit per RenderViewOption).
     struct ViewOption {

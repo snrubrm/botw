@@ -4,6 +4,24 @@
 
 namespace gsys {
 
+void ModelNW::calcBounding() {
+    if ((_200 & 2) && _50 == &_40)
+        calcBounding_();
+}
+
+void ModelNW::BoneVisibilityCallback(nn::g3d::ModelObj* obj, int) {
+    auto* model = static_cast<ModelNW*>(obj->GetUserPtr());
+    model->gatherVisibleModelRenderUnit();
+    model->_200 |= 2;
+}
+
+void ModelNW::MaterialVisibilityCallback(nn::g3d::ModelObj* obj, int) {
+    auto* model = static_cast<ModelNW*>(obj->GetUserPtr());
+    model->gatherVisibleModelRenderUnit();
+    model->_200 |= 2;
+}
+
+
 s32 ModelNW::getSubMeshRangeNum(s32 type, s32 count) {
     return type > 1 ? count + 1 : (count + 1) / 2 + 1;
 }
