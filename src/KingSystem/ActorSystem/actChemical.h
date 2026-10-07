@@ -27,6 +27,12 @@ struct Unk_ChemicalData {
     /* 0x7c */ f32 _7c;
 };
 
+// Placeholder (lane4 s50): the sub-object Chemical::_1c8 points to (sub_7100D91360 reads its byte 0x1a).
+struct Unk_Chemical1c8 {
+    /* 0x00 */ u8 _0[0x1a];
+    /* 0x1a */ u8 _1a;
+};
+
 // The object returned by Actor::getChemicalStuff() (Actor vtable slot 97): the chemistry state of
 // one actor element. Name from the existing forward declaration in actActor.h (placeholder).
 // ctor 0x7100d8e5ec, D1 0x7100d8e7c4, D0 0x7100d8e9b8, vtable 0x71024dd1e8 (getNodeClassType, D1,
@@ -158,7 +164,7 @@ public:
     /* 0x1b8 */ f32 _1b8;
     /* 0x1bc */ f32 _1bc;
     /* 0x1c0 */ u8 _1c0[0x1c8 - 0x1c0];
-    /* 0x1c8 */ void* _1c8;
+    /* 0x1c8 */ Unk_Chemical1c8* _1c8;
     /* 0x1d0 */ void* _1d0;
     /* 0x1d8 */ u8 _1d8[0x1e8 - 0x1d8];
     /* 0x1e8 */ void* _1e8;

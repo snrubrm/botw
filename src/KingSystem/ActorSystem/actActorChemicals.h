@@ -25,7 +25,7 @@ public:
     virtual ~Unk_71024e6560();
 
     // Element override 0x7100e3e328: the transform of the first rigid body.
-    virtual void m4(sead::Matrix34f* out) {}
+    virtual void m4(sead::Matrix34f* out, Chemical* chemical) {}
     // Element overrides return the vectors at +0x2a4 / +0x2b0.
     virtual const sead::Vector3f& m5() const { return sead::Vector3f::zero; }
     virtual const sead::Vector3f& m6() const { return sead::Vector3f::zero; }

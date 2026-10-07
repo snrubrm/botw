@@ -1,4 +1,6 @@
 #include "Game/AI/Behavior/behaviorSubAS.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::behavior {
 
@@ -22,6 +24,19 @@ void SubAS::loadParams() {
     getStaticParam(&mIsIgnoreSame_s, "IsIgnoreSame");
     getStaticParam(&mEnterASName_s, "EnterASName");
     getStaticParam(&mLeaveASName_s, "LeaveASName");
+}
+
+void SubAS::sub_7100643440(const sead::SafeString& name) {
+    if (name.isEmpty())
+        return;
+    auto* list = mActor->getASList();
+    if (!list)
+        return;
+    if (*mIsIgnoreSame_s) {
+        if (list->x_1(*mTargetIdx_s, *mSeqBankIdx_s) == name)
+            return;
+    }
+    list->startAnimationMaybe(-1.0f, -1.0f, name, *mTargetIdx_s, *mSeqBankIdx_s, true);
 }
 
 void SubAS::m8() {

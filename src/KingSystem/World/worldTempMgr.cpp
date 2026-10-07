@@ -41,8 +41,11 @@ void TempMgr::reset() {
     _88 = 1.0;
 }
 
-// NON_MATCHING: the original stores the vtable pointers before calling ~Job
-TempMgr::~TempMgr() = default;
+// `{ ; }` like upstream's GameDataFlagSelector::~GameDataFlagSelector() (96101229): the original stores the vtable
+// pointers (two bases) before tail calling ~Job, which a defaulted destructor drops.
+TempMgr::~TempMgr() {
+    ;
+}
 
 void TempMgr::init_(sead::Heap* heap) {}
 

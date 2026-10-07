@@ -215,8 +215,22 @@ void Chemical::sub_7100D91390(f32 value) {
     _184 = value;
 }
 
+// NON_MATCHING: the original forms the addresses (`add x8, x0, #0x182`, pre-indexed `ldrb [x8, #0x1a]!`) before the loads
+u8 Chemical::sub_7100D91360() const {
+    if (_1c8)
+        return _1c8->_1a;
+    if (_c0 == 2)
+        return _182;
+    return 0;
+}
+
 bool Chemical::sub_7100D913A8() const {
     return !(mMaterial->attribute.ref() & 0x2000);
+}
+
+void Chemical::sub_7100D9153C(sead::Matrix34f* out) {
+    if (_18)
+        _18->m4(out, this);
 }
 
 bool Chemical::sub_7100D91508() const {

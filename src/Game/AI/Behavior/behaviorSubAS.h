@@ -15,7 +15,7 @@ public:
     void m8() override;
     void m9() override;
     void loadParams() override;
-    // Original out-of-line update helper; declaration only.
+    // Original out-of-line update helper.
     void sub_7100643440(const sead::SafeString& name);
 
     /* 0x28 */ const int* mSeqBankIdx_s{};

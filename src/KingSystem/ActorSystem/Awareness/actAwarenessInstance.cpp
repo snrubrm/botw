@@ -124,12 +124,6 @@ Unk_7100d78e50* sub_7100D7EEE8(sead::ObjArray<Unk_7100d78e50>* array, Unk_71024d
     return nullptr;
 }
 
-// NON_MATCHING: sub_7100D7EA7C is inlined here (the original calls it)
-Unk_71024dccf8::~Unk_71024dccf8() {
-    if (_20)
-        _20->sub_7100D7EA7C(this);
-}
-
 bool AwarenessInstance::sub_7100D7E964() const {
     for (auto* s : _260) {
         if (s && s->_50)
