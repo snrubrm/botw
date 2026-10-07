@@ -37,6 +37,18 @@ public:
     static_assert(sizeof(Unk_71013010d4) == 2);
     void sub_71013010D4(const Unk_71013010d4& state, s32 index);
 
+    // Setter 0x7101300b4c and cleanup 0x710130063c prove the position and record stride.
+    // The remainder includes an unrecovered uniform block; no record lifetime is implemented.
+    struct Unk_7101300b4c {
+        u8 _0[8];
+        sead::Vector3f mPosition;
+        u8 _14[0x1a0 - 0x14];
+    };
+    static_assert(sizeof(Unk_7101300b4c) == 0x1a0);
+    void sub_7101300B4C(u32 index, const sead::Vector3f* position, bool update);
+    void sub_7101300BF0();
+    bool sub_7101300D50(u32 index, bool a, bool b);
+
     class Model;
     class Tree;
 
@@ -48,7 +60,7 @@ public:
     void* _140;
     // Getter 0x710114dd84 and setter 0x71013010d4 share this two-byte record buffer.
     sead::Buffer<Unk_71013010d4> mStates;
-    u8 _158[0x10];
+    sead::Buffer<Unk_7101300b4c> mPositions;
     u8 _168[0x214];
     u8 _37c;
 };
@@ -62,6 +74,7 @@ public:
 
     void setPauseState(bool paused);
     s32 sub_710114DD84(s32 index);
+    void sub_710114DDF8(u32 index, const sead::Vector3f* position, bool update);
     void sub_710114DDA4(const Core::Unk_71013010d4* states, u32 count);
     bool isGrassEnabled() const { return (_a58 & 2) != 0; }
     Core::Grass* sub_710114DE4C();
