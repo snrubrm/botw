@@ -13,6 +13,10 @@ class Actor;
 class PlayerArmors;
 }
 
+namespace uking::act {
+class PauseMenuPlayer;
+}
+
 namespace uking::ui {
 
 // Original vtable 0x2473660: Node at 0, receive handler at 8, acknowledgement handler at 0x10.
@@ -39,7 +43,9 @@ private:
     /* 0x48 */ ksys::act::Actor* mActor;
     u8 _50[0x90 - 0x50];
     /* 0x90 */ ksys::act::PlayerArmors* mArmors;
-    u8 _98[0x1f8 - 0x98];
+    u8 _98[0xb0 - 0x98];
+    /* 0xb0 */ sead::FixedSafeString<64> _b0;
+    u8 _108[0x1f8 - 0x108];
 };
 KSYS_CHECK_SIZE_NX150(OnUiActorMgr, 0x1f8);
 
