@@ -40,13 +40,17 @@ struct SpatialCalcResult {
     f32 _90;
     f32 _94;
 
-    SpatialCalcResult() :
-        is_valid(false), volume(1.0f), _8(0.0f), _c(1.0f), _10(0.0f), spread(0.0f), priority_factor(1.0f), dist_2d{0.0f, 0.0f}, angle_idx{0, 0} {
-        _2c = sead::Matrix34f::ident;
-        _5c = sead::Matrix34f::ident;
+    SpatialCalcResult()
+        : is_valid(false), volume(1.0f), _8(0.0f), _c(1.0f), _10(0.0f), spread(0.0f), priority_factor(1.0f) {
+        _2c = sead::Matrix34f::zero;
+        _5c = sead::Matrix34f::zero;
         _8c = 0.0f;
         _90 = 1.0f;
         _94 = 0.0f;
+        dist_2d[0] = 0.0f;
+        dist_2d[1] = 0.0f;
+        angle_idx[0] = 0;
+        angle_idx[1] = 0;
     }
 };
 static_assert(sizeof(SpatialCalcResult) == 0x98);

@@ -123,9 +123,9 @@ bool SpatialCalculator::calc(bool force) {
                 s32 audible = 0;
                 u64 index = 0;
                 for (const Listener& listener : SystemAccessor::getListenerMgr()->mListeners) {
-                    if (index < static_cast<u32>(mResultNum)) {
+                    if (static_cast<u32>(mResultNum) > index) {
                         if (Result* r = &mResults[index]) {
-                            if (mSetting.listener_mask & (1 << index)) {
+                            if (static_cast<u16>(mSetting.listener_mask & (1 << index))) {
                                 r->is_valid = true;
                                 if (calcByListener_(r, listener, index, force, &mDebuggerResult))
                                     audible = 1;
