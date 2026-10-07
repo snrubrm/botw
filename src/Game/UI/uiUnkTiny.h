@@ -7,6 +7,7 @@
 #include <math/seadVector.h>
 #include <prim/seadEnum.h>
 #include <prim/seadSafeString.h>
+#include "Game/UI/uiTimer.h"
 
 // Small screen members and controllers named after their original vtable.
 // Several retain only their recovered destructor pair; recovered layouts and helpers are below.
@@ -108,7 +109,8 @@ public:
     void sub_710093515C(f32 step);
 
 private:
-    /* 0x8 */ u64 _8{};
+    friend class Unk_7102474c08;
+    /* 0x8 */ eui::LayoutEx* _8{};
     u8 _10[0x8e0 - 0x10];
     /* 0x8e0 */ eui::Animator* _8e0{};
     u8 _8e8[0x910 - 0x8e8]{};
@@ -136,14 +138,26 @@ private:
     /* 0x964 */ s32 _964 = 0;
 };
 
+class Unk_71025d6578;
+
 class Unk_7102474c08 {
 public:
+    Unk_7102474c08();
     virtual ~Unk_7102474c08();
+    void sub_71009367C4(bool first);
+    void sub_7100936830(bool first);
+    bool sub_71009368A4() const;
+    bool sub_71009368C8() const;
+    void sub_71009368EC(f32 step);
     void sub_710093694C();
     f32 sub_710093695C() const;
 
 private:
-    Unk_7102474be8* mGauge;
+    Unk_7102474be8* mGauge = nullptr;
+    Unk_71025d6578* _10 = nullptr;
+    bool _18 = false;
+    u8 _19 = 0;
+    UiTimer _1c;
 };
 
 class Unk_7102474c28 {
