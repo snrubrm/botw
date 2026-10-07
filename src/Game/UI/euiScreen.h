@@ -241,6 +241,7 @@ public:
     // 0x7100beaf98 / 0x7100beb608 / 0x7100beb624 / 0x7100beb690 (non-virtual helpers; names from the CSV)
     nn::ui2d::Pane* findPane_(const char* name);
     LayoutEx* sub_7100BEAFB0(const char* name);
+    void sub_7100BEB70C();
     void x_2();
     ControlBase* findControlWithParentLayout_(const char* name, const LayoutEx* layout);
     ControlBase* findControlWithLayout_(const char* name, const LayoutEx* layout);

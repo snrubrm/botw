@@ -582,4 +582,6 @@ void Screen::moveBoxCursorByButton_(const AnimButton* button) {
     }
 }
 
+void Screen::sub_7100BEB70C() { _106 = 0; }
+
 }  // namespace eui
