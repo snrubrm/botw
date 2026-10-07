@@ -1,7 +1,10 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <math/seadMatrix.h>
+#include <math/seadVector.h>
 #include <prim/seadRuntimeTypeInfo.h>
+#include <prim/seadSafeString.h>
 #include "Game/AI/aiUnk_71025afb58.h"
 #include "KingSystem/ActorSystem/actBoneHandle.h"
 
@@ -20,7 +23,15 @@ public:
     bool m3(gsys::Model* model, bool sorted) override;
     const gsys::BoneAccessKey* m4() override;
 
-    u8 _20[0xe8 - 0x20];
+    // The constructor is inline in the original (LynelRoot's constructor inlines it).
+    /* 0x20 */ gsys::BoneAccessKeyEx _20;
+    /* 0x58 */ sead::SafeString _58;
+    /* 0x68 */ s32 _68 = 0;
+    /* 0x70 */ void* _70 = nullptr;  // owned object (deleted by the destructor)
+    /* 0x78 */ sead::Matrix34f _78 = sead::Matrix34f::ident;
+    /* 0xa8 */ sead::Matrix34f _a8 = sead::Matrix34f::ident;
+    /* 0xd8 */ sead::Vector3f _d8{0.0f, 1.0f, 0.0f};
+    u8 _e4[0xe8 - 0xe4];
 };
 KSYS_CHECK_SIZE_NX150(Unk_7100710078, 0xe8);
 
@@ -42,13 +53,14 @@ public:
     // (`_18`, `_100`) that the flags `_8` bit 0 / 1 say are attached.
     void sub_710070F398(ksys::act::Actor* actor);
 
-    /* 0x08 */ u8 _8;  // flags; bit 1: body fitting to the ground normal enabled
+    /* 0x08 */ u8 _8 = 0;  // flags; bit 1: body fitting to the ground normal enabled
     /* 0x09 */ u8 _9[0xc - 0x9];
-    /* 0x0c */ f32 _c;  // set to 1 / 0 by LynelStandBody::m8 / m9
-    u8 _10[0x18 - 0x10];
+    /* 0x0c */ f32 _c = 0.0f;  // set to 1 / 0 by LynelStandBody::m8 / m9
+    /* 0x10 */ f32 _10 = 0.14f;
+    u8 _14[0x18 - 0x14];
     /* 0x18 */ Unk_7100710078 _18;
     /* 0x100 */ ksys::act::BoneHandle _100;  // "Man_Spine_1"
-    /* 0x1a8 */ f32 _1a8;  // the CorrectAngleMax of LynelBodyFitToGroundNormal
+    /* 0x1a8 */ f32 _1a8 = 3.14159265f;  // the CorrectAngleMax of LynelBodyFitToGroundNormal
     u8 _1ac[0x1b0 - 0x1ac];
 };
 KSYS_CHECK_SIZE_NX150(Unk_71025ba778, 0x1b0);
