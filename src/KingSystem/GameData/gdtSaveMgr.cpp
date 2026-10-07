@@ -254,6 +254,12 @@ void SaveMgr::invokedLoadFlagValueFromTriggerParam(res::GameSaveData::Flag& flag
     }
 }
 
+void SaveMgr::unloadResources() {
+    for (s32 i = 0; i < mSaveDataHandles.size(); ++i)
+        mSaveDataHandles[i].requestUnload();
+    mSaveDataArcHandle.requestUnload();
+}
+
 void SaveMgr::auto3() {
     _140 &= ~0x100;
 }

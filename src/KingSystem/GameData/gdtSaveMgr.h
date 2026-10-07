@@ -7,6 +7,8 @@
 #include <prim/seadSafeString.h>
 #include "KingSystem/Utils/Types.h"
 #include "KingSystem/Resource/resResourceGameSaveData.h"
+#include "KingSystem/Resource/resHandle.h"
+#include <container/seadSafeArray.h>
 
 namespace sead {
 class DelegateThread;
@@ -51,6 +53,7 @@ public:
 
     void init(const InitArg& arg);
     void loadGameSaveData();
+    void unloadResources();
     void loadFlagValuesFromTriggerParam(gdt::TriggerParam* buffer);
     void invokedLoadFlagValueFromTriggerParam(res::GameSaveData::Flag& flag);
 
@@ -106,7 +109,10 @@ private:
     u8 _142[0x148 - 0x142];
     s32 _148;
     u8 _14c[0x80];
-    u8 _1cc[0xe00 - 0x1cc];
+    u8 _1cc[0x328 - 0x1cc];
+    res::Handle mSaveDataArcHandle;
+    sead::SafeArray<res::Handle, 32> mSaveDataHandles;
+    u8 _d78[0xe00 - 0xd78];
     res::GameSaveData* _e00;
     u8* _e08;
     u32 _e10;

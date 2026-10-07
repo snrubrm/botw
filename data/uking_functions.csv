@@ -77373,7 +77373,7 @@ Address,Quality,Size,Name
 0x0000007100e0e5e8,U,000568,
 0x0000007100e0e820,U,000452,SaveMgr::registerGameSavedataFactoryAndLoad
 0x0000007100e0e9e4,U,002432,SaveMgr::loadSavedataformat
-0x0000007100e0f364,U,000288,SaveMgr::unloadResources
+0x0000007100e0f364,O,000288,_ZN4ksys7SaveMgr15unloadResourcesEv
 0x0000007100e0f484,O,000176,_ZN4ksys7SaveMgr30loadFlagValuesFromTriggerParamEPNS_3gdt12TriggerParamE
 0x0000007100e0f534,O,000068,_ZN4ksys7SaveMgr5auto0Ev
 0x0000007100e0f578,U,000072,
