@@ -16,6 +16,7 @@ public:
 protected:
     void calc_() override;
     virtual bool m32();
+    bool sub_710016A388(sead::Vector3f* position);
 
     // static_param at offset 0x20
     const int* mWeaponIdx_s{};
