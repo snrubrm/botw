@@ -1,4 +1,5 @@
 #include "aal/aalSpatialCalculator.h"
+#include <cmath>
 #include <cstring>
 #include <new>
 #include <prim/seadScopedLock.h>
@@ -8,6 +9,7 @@
 #include "aal/aalCone.h"
 #include "aal/aalListener.h"
 #include "aal/aalListenerMgr.h"
+#include "aal/aalSettings.h"
 #include "aal/aalSystemAccessor.h"
 #include "aal/aalShape.h"
 
@@ -143,6 +145,131 @@ bool SpatialCalculator::calc(bool force) {
         }
     }
     return result;
+}
+
+// NON_MATCHING: same calculation; the registers of the position are numbered differently.
+// 0x7100b8fe80
+void SpatialCalculator::calcListenerDistanceAndDirectivity_(Result* result, const Listener& listener) {
+    sead::Vector3f position;
+    result->_2c.getTranslation(position);
+
+    if (mSetting.sound_source_size > 0.0f && mSetting.flags & 4) {
+        // The sound source is a sphere: the nearest point of the sphere (towards the listener) is the position.
+        sead::Vector3f listener_position;
+        listener.mMatrix.getTranslation(listener_position);
+        sead::Vector3f diff = listener_position - position;
+        f32 distance = std::sqrt(diff.x * diff.x + diff.y * diff.y + diff.z * diff.z);
+        if (distance <= mSetting.sound_source_size)
+            position = listener_position;
+        else
+            position += diff * (mSetting.sound_source_size / distance);
+    }
+
+    result->_8c = listener.calcLocalDistance(position);
+
+    f32 distance_rate = 1.0f;
+    if (mSetting.attenuator) {
+        if (mSetting.flags & 0x20 || mSetting.attenuator->isListenerDirectivityEnabled())
+            distance_rate = listener.mDirectivity.calcDistRate(position);
+    }
+    result->_90 = distance_rate;
+}
+
+// NON_MATCHING: in the original the case without the angle calculation stores its own zero angle (merged with the
+// second distance) instead of jumping to the stores at the end.
+// 0x7100b9033c
+void SpatialCalculator::calcAngle_(Result* result, const Listener& listener, bool unified) {
+    if (!result)
+        return;
+
+    if (mSetting.sound_source_size > 0.0f) {
+        calcAngleWithSoundSourceSize_(result, listener, unified);
+        return;
+    }
+
+    s32 angle_idx;
+    if (mSetting.flags & 1) {
+        f32 x = result->_5c.m[0][3];
+        f32 z = result->_5c.m[2][3];
+        f32 distance = std::sqrt(x * x + z * z);
+        result->dist_2d[0] = distance;
+        if (listener.mIs2D) {
+            distance *= listener._ec;
+            result->dist_2d[0] = distance;
+        }
+        if (distance == 0.0f)
+            angle_idx = 0;
+        else
+            angle_idx = sead::MathCalcCommon<f32>::atan2Idx(-x, z) ^ 0x80000000;
+    } else {
+        result->dist_2d[0] = -1.0f;
+        angle_idx = 0;
+    }
+    result->dist_2d[1] = result->dist_2d[0];
+    result->angle_idx[0] = angle_idx;
+    result->angle_idx[1] = angle_idx;
+}
+
+// NON_MATCHING: the original clamps the speed of the sound source before it asks the settings for the pitch limits
+// (here the clamp moves into the branch that uses it) and orders the loads and multiplications a bit differently.
+// 0x7100b9071c
+void SpatialCalculator::calcDoppler_(Result* result, const Listener& listener) {
+    if (!result)
+        return;
+
+    if (mSetting.doppler_factor <= 0.0f || result->_8c == 0.0f) {
+        result->_c = 1.0f;
+        return;
+    }
+
+    if (!mSetting.velocity)
+        return;
+    Settings* settings = SystemAccessor::getSettings();
+    if (!settings)
+        return;
+    if (settings->mDopplerMode == 2)
+        return;
+    if (settings->mDopplerMode == 1) {
+        result->_c = 1.0f;
+        return;
+    }
+
+    // The speed of the listener and of the sound source along the line between them.
+    f32 listener_speed = (listener._19c.x * -result->_5c.m[0][3] - listener._19c.y * result->_5c.m[1][3] -
+                          listener._19c.z * result->_5c.m[2][3]) /
+                         result->_8c;
+    f32 source_speed = (mSetting.velocity->x * -result->_5c.m[0][3] - mSetting.velocity->y * result->_5c.m[1][3] -
+                        mSetting.velocity->z * result->_5c.m[2][3]) /
+                       result->_8c;
+
+    f32 pitch;
+    if (listener_speed == 0.0f && source_speed == 0.0f) {
+        pitch = 1.0f;
+    } else {
+        f32 sound_speed = settings->mSoundDistancePerFrame;
+        f32 limit = sound_speed / mSetting.doppler_factor;
+        f32 source = source_speed < limit ? source_speed : limit;
+        f32 listener_v = listener_speed < limit ? listener_speed : limit;
+        f32 listener_term = mSetting.doppler_factor * listener_v;
+        f32 pitch_min = settings->getDopplerPitchMin();
+        f32 pitch_max = settings->getDopplerPitchMax();
+        pitch = pitch_min;
+        if (listener_term < sound_speed) {
+            f32 source_term = mSetting.doppler_factor * source;
+            if (source_term >= sound_speed) {
+                pitch = pitch_max;
+            } else {
+                f32 rate = (sound_speed - listener_term) / (sound_speed - source_term);
+                if (rate >= pitch_min) {
+                    if (rate > pitch_max)
+                        pitch = pitch_max;
+                    else
+                        pitch = rate;
+                }
+            }
+        }
+    }
+    result->_c = pitch;
 }
 
 // 0x7100b8f930

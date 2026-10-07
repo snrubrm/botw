@@ -47,6 +47,7 @@ public:
     Curve* getCurve(DistanceParamTarget target) const { return mCurves[target]; }
     AttenuationDirectivity* getAttenuationDirectivity() const { return mDirectivity; }
     AttenuationCulling* getAttenuationCulling() const { return mCulling; }
+    bool isListenerDirectivityEnabled() const { return mListenerDirectivityEnabled; }
 
     /// The node in the list of the attenuators of the AttenuationMgr.
     sead::ListNode mListNode;

@@ -13,6 +13,7 @@ class ListenerPoser;
 /// A listener of the sounds (the position and orientation sounds are heard from). TODO: incomplete.
 class Listener : public FixedNamedObj<32>, public sead::hostio::Node {
     friend class Shape;
+    friend class SpatialCalculator;
 
 public:
     Listener();

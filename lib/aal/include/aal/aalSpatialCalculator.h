@@ -28,15 +28,21 @@ struct SpatialCalcResult {
     /// The volume of the sound for the listener.
     f32 volume;
     f32 _8;
+    /// The doppler pitch.
     f32 _c;
     f32 _10;
     f32 spread;
     f32 priority_factor;
+    /// The distance on the horizontal plane (in the listener space), for the two speakers.
     f32 dist_2d[2];
     s32 angle_idx[2];
+    /// The matrix of the actor (the position is calculated in the space of the shape if there is one).
     sead::Matrix34f _2c;
+    /// The matrix of the sound source in the space of the listener (with the basis of the angle calculation).
     sead::Matrix34f _5c;
+    /// The distance to the listener.
     f32 _8c;
+    /// The distance rate of the listener directivity.
     f32 _90;
     f32 _94;
 
@@ -118,6 +124,14 @@ private:
     /// 0x7100b8fc8c: calculates the result for one listener; returns whether the sound is audible for it.
     bool calcByListener_(Result* result, const Listener& listener, s32 index, bool force,
                          DebuggerResult* debugger_result);
+    /// 0x7100b8fe80
+    void calcListenerDistanceAndDirectivity_(Result* result, const Listener& listener);
+    /// 0x7100b9033c
+    void calcAngle_(Result* result, const Listener& listener, bool unified);
+    /// 0x7100b9041c
+    void calcAngleWithSoundSourceSize_(Result* result, const Listener& listener, bool unified);
+    /// 0x7100b9071c
+    void calcDoppler_(Result* result, const Listener& listener);
 
     friend class Shape;
     friend class SoundSourceUnifierSource;
