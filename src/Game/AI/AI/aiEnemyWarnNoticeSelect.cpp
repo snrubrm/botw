@@ -1,5 +1,8 @@
 #include "Game/AI/AI/aiEnemyWarnNoticeSelect.h"
 #include <algorithm>
+#include <cmath>
+#include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
+#include "KingSystem/ActorSystem/Awareness/actAwarenessRequest.h"
 #include <random/seadGlobalRandom.h>
 #include "Game/DLC/aocHardModeManager.h"
 #include "Game/AI/aiAwarenessFilters.h"
@@ -10,6 +13,61 @@
 #include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
+
+// NON_MATCHING: awareness request initialization and penalty scheduling differ slightly.
+bool EnemyWarnNoticeSelect::sub_71003C544C() {
+    if (_ac.value <= 0.0f) {
+        ksys::Timer::update(&_130, 1.0f);
+        f32 limit = f32(*mWarnNoticeTime_s + *mWarnNoticeTimeRnd_s);
+        if (_130 > limit) {
+            if (auto* manager = aoc::HardModeManager::instance()) {
+                if (manager->checkFlag(aoc::HardModeManager::Flag::EnableHardMode) &&
+                    manager->isHardModeChangeOn(
+                        aoc::HardModeManager::HardModeChange::EnableShorterEnemyNotice))
+                    manager->modifyEnemyNoticeDuration(&limit);
+            }
+            _130 = limit;
+        }
+    } else {
+        f32 rate = 1.0f;
+        if (auto* awareness = mActor->getAwareness()) {
+            Unk_71023e26d8 request;
+            if (auto* sensor = awareness->_260[0])
+                sensor->m4(&request);
+            const auto position = mActor->getMtx().getTranslation();
+            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::acquireActor(mTargetActor_d, &accessor);
+            const auto target = accessor.getActorMtx().getTranslation();
+            const f32 x = target.x - position.x;
+            const f32 z = target.z - position.z;
+            const f32 distance = std::sqrt(x * x + z * z);
+            f32 proximity = 0.0f;
+            if (distance > 0.0f) {
+                const f32 ratio = (request._20 - distance) / request._20;
+                proximity = sead::Mathf::clamp(ratio, 0.0f, 1.0f);
+            }
+            rate = proximity * (*mMaxCountUp_s - 1.0f) + 1.0f;
+        }
+        f32 penalty = 0.0f;
+        if (!(*mPenalty_s < 0.0f)) {
+            const s32 count = s32(_134);
+            const s32 excess = count - *mNoPenaltyNum_s;
+            if (excess > 0) {
+                const s32 stair = *mPenaltyStair2Num_s;
+                if (stair < 0 || count <= stair)
+                    penalty = *mPenalty_s * f32(excess);
+                else {
+                    const f32 stair_excess = f32(count + 1 - stair);
+                    penalty = f32(stair - excess) + stair_excess * *mPenalty_s * stair_excess;
+                }
+            }
+        }
+        ksys::Timer::update(&_130, -(rate + penalty));
+    }
+    return _130 <= 0.0f;
+}
+
+
 
 EnemyWarnNoticeSelect::EnemyWarnNoticeSelect(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
