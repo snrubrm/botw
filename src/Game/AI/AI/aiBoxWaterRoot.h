@@ -39,20 +39,24 @@ protected:
     aal::ShapeCube* _50{};
     aal::ShapeCube* _58{};
     xlink2::HandleSLink _60{};
-    // map_unit_param at offset 0x70
-    const int* mWaterMaterial_m{};
-    // map_unit_param at offset 0x78
-    const float* mFlowSpeedFactor_m{};
-    // map_unit_param at offset 0x80
-    const float* mWaterfallRadius_m{};
-    // map_unit_param at offset 0x88
-    const float* mWaterfallLength_m{};
-    // map_unit_param at offset 0x90
-    const float* mWaterfallThickness_m{};
-    // map_unit_param at offset 0x98
-    const float* mWaterfallAngle_m{};
-    // map_unit_param at offset 0xa0
-    const int* mSoundInDoorType_m{};
+    // Constructor store order: nested in a struct (as AnimalRoam).
+    struct Params {
+        // map_unit_param at offset 0x70
+        const int* mWaterMaterial_m{};
+        // map_unit_param at offset 0x78
+        const float* mFlowSpeedFactor_m{};
+        // map_unit_param at offset 0x80
+        const float* mWaterfallRadius_m{};
+        // map_unit_param at offset 0x88
+        const float* mWaterfallLength_m{};
+        // map_unit_param at offset 0x90
+        const float* mWaterfallThickness_m{};
+        // map_unit_param at offset 0x98
+        const float* mWaterfallAngle_m{};
+        // map_unit_param at offset 0xa0
+        const int* mSoundInDoorType_m{};
+    };
+    Params mParams;
 };
 
 }  // namespace uking::ai
