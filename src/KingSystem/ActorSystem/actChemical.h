@@ -25,9 +25,19 @@ struct Unk_ChemicalWatch {
     /* 0x85 */ u8 _85;
 };
 
-// Placeholder (lane1 s22): the object Chemical::_90 points to; only these two fields are read (ChmCheck).
+// Declaration only: chemical holder with vtable 0x71024dd1c8 (ctor 0x7100d8cbec).
+// 2026-10-07: sub_7100D8D1E0 returns its owner's position reference, or Vector3f::zero;
+// its complete layout and separate owner interface are not recovered yet.
+class Unk_71024dd1c8 {
+public:
+    const sead::Vector3f& sub_7100D8D1E0() const;
+};
+
+// Placeholder (lane1 s22): the object Chemical::_90 points to; fields read by ChmCheck / ViewWaitRiskAvoid.
 struct Unk_ChemicalData {
-    /* 0x00 */ u8 _0[0x12];
+    // 2026-10-07: ViewWaitRiskAvoid::m43 loads this pointer before 0x7100d8d1e0.
+    /* 0x00 */ Unk_71024dd1c8* _0;
+    /* 0x08 */ u8 _8[0x12 - 0x8];
     /* 0x12 */ u8 _12;
     /* 0x13 */ u8 _13[0x7c - 0x13];
     /* 0x7c */ f32 _7c;

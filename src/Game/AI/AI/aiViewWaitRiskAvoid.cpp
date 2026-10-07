@@ -3,6 +3,9 @@
 #include <math/seadVector.h>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/ActorSystem/actChemical.h"
+#include "KingSystem/Resource/Actor/resResourceDamageParam.h"
 
 namespace uking::ai {
 
@@ -76,6 +79,21 @@ bool ViewWaitRiskAvoid::sub_71005E6B84(const sead::Vector3f& target) {
     sead::Vector3f cross;
     cross.setCross(front, dir);
     return std::atan2(cross.length(), dir.dot(front)) < *mFrontAngle_s;
+}
+
+bool ViewWaitRiskAvoid::m43(sead::Vector3f* out) {
+    auto* actor = mActor;
+    auto* chemical = actor->getChemicalStuff();
+    if (!chemical)
+        return false;
+    const auto* damage_param = actor->getParam()->getRes().mDamageParam;
+    if (!damage_param || !damage_param->mBurnable.ref())
+        return false;
+    auto* holder = chemical->_90->_0;
+    if (!holder)
+        return false;
+    *out = holder->sub_7100D8D1E0();
+    return true;
 }
 
 }  // namespace uking::ai

@@ -24,7 +24,7 @@ public:
     virtual void m40();
     virtual void m41();
     virtual bool m42();
-    virtual void m43();
+    virtual bool m43(sead::Vector3f* out);
 
 protected:
     // 0x71005e6b84: the angle between the direction to `target` and the front (both flattened) is below FrontAngle
