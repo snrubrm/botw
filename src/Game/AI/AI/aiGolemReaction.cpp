@@ -7,8 +7,52 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorAtk.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include <prim/seadDelegate.h>
 
 namespace uking::ai {
+
+// Placeholder name for the original 16-byte callback constructed by the arm-contact query.
+// Its vtable has invoke, clone and isNoDummy slots of the IDelegate2R interface.
+class Unk_71023f52d0 : public sead::IDelegate2R<ksys::phys::RigidBody*, ksys::phys::RigidBody*, bool> {
+public:
+    explicit Unk_71023f52d0(ksys::act::ActorAtk::Unk_710079e64c::Unk1* entry) : mEntry(entry) {}
+    bool invoke(ksys::phys::RigidBody*, ksys::phys::RigidBody* other) override;
+private:
+    ksys::act::ActorAtk::Unk_710079e64c::Unk1* mEntry;
+};
+KSYS_CHECK_SIZE_NX150(Unk_71023f52d0, 0x10);
+
+// NON_MATCHING: the pointer equality compares its operands in the opposite order.
+bool Unk_71023f52d0::invoke(ksys::phys::RigidBody*, ksys::phys::RigidBody* other) {
+    return other == mEntry->_c8;
+}
+
+// NON_MATCHING: the recovered callback vtable is loaded through the GOT rather than addressed directly.
+void GolemReaction::sub_71003FF3F8(bool* right, bool* left) {
+    if (!right || !left)
+        return;
+    auto* actor = mActor;
+    const s32 count = sub_71007A26AC(actor);
+    for (s32 i = 0; i < count; ++i) {
+        auto* entry = sub_71007A255C(actor, i);
+        if (!entry || !(entry->_50 & 0x10))
+            continue;
+        Unk_71023f52d0 filter(entry);
+        auto* right_body = mActor->findPhysicsBodyByName(ksys::act::getStr_Tgt().cstr(),
+                                                       mRightArmTgtBodyName_s.cstr());
+        if (right_body && ksys::act::sub_7100EEB078(right_body, nullptr, &filter)) {
+            *right = true;
+            return;
+        }
+        auto* left_body = mActor->findPhysicsBodyByName(ksys::act::getStr_Tgt().cstr(),
+                                                      mLeftArmTgtBodyName_s.cstr());
+        if (left_body && ksys::act::sub_7100EEB078(left_body, nullptr, &filter)) {
+            *left = true;
+            return;
+        }
+    }
+}
 
 GolemReaction::GolemReaction(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 

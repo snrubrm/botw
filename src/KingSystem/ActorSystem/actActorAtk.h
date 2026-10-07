@@ -122,8 +122,8 @@ public:
             /* 0xb8 */ s32 _b8 = 1;
             /* 0xbc */ s32 _bc = -1;
             /* 0xc0 */ phys::RigidBody* _c0 = nullptr;
-            /* 0xc8 */ u32 _c8 = 0;
-            /* 0xcc */ u32 _cc = 0;
+            // Contact producer 7A1904 stores the second RigidBody from the contact pair here.
+            /* 0xc8 */ phys::RigidBody* _c8 = nullptr;
             /* 0xd0 */ u32 _d0 = 53;  // ContactLayer SensorNoHit?
             /* 0xd8 */ BaseProcLink _d8;
             /* 0xe8 */ BaseProcLink _e8;
