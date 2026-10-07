@@ -21,7 +21,7 @@ class TagProcessor : public nn::font::TagProcessorBase<u16> {
 public:
     TagProcessor(MessageMgr* message_mgr, FontMgr* font_mgr);
     ~TagProcessor() override = default;
-    const nn::font::detail::RuntimeTypeInfo* GetRuntimeTypeInfo() const override;
+    NN_RUNTIME_TYPEINFO(nn::font::TagProcessorBase<u16>)
     Operation Process(u32 code, nn::font::PrintContext<u16>* context) override;
     Operation CalculateRect(nn::font::Rectangle* rect, nn::font::PrintContext<u16>* context,
                             u32 code) override;
