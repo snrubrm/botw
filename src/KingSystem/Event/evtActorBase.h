@@ -34,7 +34,7 @@ public:
     // 0x7100daaa10 (CSV evt::ActorBase::m6): state 0x15 -> 0x16, returns true
     virtual bool m6();
     virtual void m7(bool a1, bool a2) = 0;
-    virtual void m8() = 0;
+    virtual void m8();
     // 0x7100dab5f8 (CSV evt::ActorBase::play)
     virtual void play();
     virtual void m10() = 0;
@@ -45,6 +45,9 @@ public:
     ActionBase* getActionByName(const evfl::ResAction* res) const;
     // 0x7100da9c90 (CSV unnamed; placeholder name; declared only: the original searches `res` in two loops)
     Query* getQueryByRes(const evfl::ResQuery* res) const;
+
+    // 0x7100dab470: applies the event actor state to the linked actor.
+    void sub_7100DAB470();
 
     /* 0x008 */ act::BaseProcLink mLink;
     /* 0x018 */ act::BaseProcHandle mHandle;

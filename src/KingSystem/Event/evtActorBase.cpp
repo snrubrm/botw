@@ -24,6 +24,11 @@ bool ActorBase::m6() {
     return true;
 }
 
+void ActorBase::m8() {
+    mFlags |= 1;
+    sub_7100DAB470();
+}
+
 // 0x7100dab5f8
 void ActorBase::play() {
     if (!(mFlags & 1))
