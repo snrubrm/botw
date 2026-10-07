@@ -326,7 +326,6 @@ void SoundSource::calcPlaying_() {
     controller->setChannelPriority(priority);
 }
 
-// NON_MATCHING: same code; the two stack slots of the DeviceType temporaries are swapped.
 // 0x7100b78860
 void SoundSource::updateMixBalance_(s32 track, f32 volume) {
     std::memset(sSpeakerBalance, 0, sizeof(sSpeakerBalance));
@@ -334,7 +333,8 @@ void SoundSource::updateMixBalance_(s32 track, f32 volume) {
     const s32 channel_num = getChannelNum(track);
     if (mSpeakerBalanceSupplier) {
         f32 spread;
-        if (OutputDevice* device = SystemAccessor::getSettings()->getOutputDevice(DeviceType(0))) {
+        Settings* settings = SystemAccessor::getSettings();
+        if (OutputDevice* device = settings->getOutputDevice(DeviceType(0))) {
             f32 device_volume = mAggregatedParam->getDeviceVolume(DeviceType(0));
             if (device_volume < 0.0f)
                 device_volume = 1.0f;
