@@ -31,7 +31,7 @@ public:
     void m76(ksys::VFR::ScopedDeltaSetter* setter) override;
     void onPlacementObjReset() override;
 
-    /* 0xb90 */ void* _b90 = nullptr;
+    /* 0xb90 */ ksys::map::Object* _b90 = nullptr;
 };
 KSYS_CHECK_SIZE_NX150(MapDynamicPassive, 0xb98);
 

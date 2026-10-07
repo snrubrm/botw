@@ -8,6 +8,9 @@
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
 #include "KingSystem/XLink/xlinkXLink.h"
+#include "KingSystem/Map/mapObject.h"
+#include "Game/Actor/actMapDynamicPassive.h"
+#include "KingSystem/Map/mapPlacementMgr.h"
 
 namespace uking::ai {
 
@@ -75,6 +78,23 @@ void LumberjackTree::loadParams_() {
     getAITreeVariable(&mLumberjackType_a, "LumberjackType");
     getAITreeVariable(&mForceSetDropPos_a, "ForceSetDropPos");
     getAITreeVariable(&mMoveDirection_a, "MoveDirection");
+}
+
+void LumberjackTree::onPreDelete() {
+    if (_240 != 2)
+        return;
+    auto* actor = sead::DynamicCast<act::MapDynamicPassive>(mActor);
+    if (!actor)
+        return;
+    auto* object = actor->_b90;
+    if (!object)
+        return;
+    ksys::map::PlacementMgr::instance()->sub_71011E9C28(object, true);
+    ksys::map::PlacementMgr::instance()->enableObjStaticCompound(object);
+    using Flag = ksys::map::Object::Flag0;
+    object->resetFlags0(Flag::_D00400);
+    if (!object->getFlags0().isAnyOn({Flag::ActorCreated, Flag::_80000000}) && !object->getProc())
+        object->unlinkProc(true);
 }
 
 }  // namespace uking::ai

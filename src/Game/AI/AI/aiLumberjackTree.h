@@ -23,6 +23,7 @@ public:
     ~LumberjackTree() override;
 
     bool hasPreDeleteCb() override;
+    void onPreDelete() override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
@@ -36,7 +37,9 @@ protected:
     // FIXME: remove this
     u8 pad_0x38[0x8];
     Unk_7102403fe8 _40{this};
-    u8 pad_0x70[0x250 - 0x70];
+    u8 pad_0x70[0x240 - 0x70];
+    u8 _240 = 0xff;  // Original constructor sentinel; enter_ assigns tree kinds 0, 1 and 2.
+    u8 _241[0x250 - 0x241];
     // static_param at offset 0x250
     const float* mFallInterval_s{};
     // static_param at offset 0x258
