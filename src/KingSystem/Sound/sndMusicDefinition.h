@@ -14,6 +14,13 @@ class MusicDefinition : public sead::DirectResource, public agl::utl::IParameter
     SEAD_RTTI_OVERRIDE(MusicDefinition, sead::DirectResource)
 
 public:
+    static constexpr u32 cLoadDataAlignment = 4;
+
+    MusicDefinition();
+
+    // 0x710101449c (CSV registerBmscdefEntryFactory)
+    static void registerFactory(sead::Heap* heap);
+
     struct MusicDefine {
         agl::utl::Parameter<sead::SafeString> name;
         agl::utl::Parameter<sead::SafeString> category;

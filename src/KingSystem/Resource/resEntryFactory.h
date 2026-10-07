@@ -10,8 +10,25 @@
 namespace ksys::res {
 
 class EntryFactoryBase : public sead::DirectResourceFactoryBase {
-    SEAD_RTTI_OVERRIDE(EntryFactoryBase, sead::DirectResourceFactoryBase)
+    // SEAD_RTTI_OVERRIDE(EntryFactoryBase, sead::DirectResourceFactoryBase) with an out-of-line checkDerivedRuntimeTypeInfoStatic
+    // (0x710089f678): the original's EntryFactory<T> classes call it instead of inlining it.
 public:
+    static const sead::RuntimeTypeInfo::Interface* getRuntimeTypeInfoStatic() {
+        static const sead::RuntimeTypeInfo::Derive<sead::DirectResourceFactoryBase> typeInfo;
+        return &typeInfo;
+    }
+
+    static bool checkDerivedRuntimeTypeInfoStatic(const sead::RuntimeTypeInfo::Interface* typeInfo);
+
+    bool checkDerivedRuntimeTypeInfo(const sead::RuntimeTypeInfo::Interface* typeInfo) const override {
+        return checkDerivedRuntimeTypeInfoStatic(typeInfo);
+    }
+
+    const sead::RuntimeTypeInfo::Interface* getRuntimeTypeInfo() const override {
+        return getRuntimeTypeInfoStatic();
+    }
+
+
     explicit EntryFactoryBase(f32 size_multiplier = 1.0, u32 size_constant = 0)
         : mSizeMultiplier(size_multiplier), mSizeConstant(size_constant) {}
     ~EntryFactoryBase() override { ; }

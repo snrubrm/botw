@@ -1,8 +1,23 @@
 #include "KingSystem/Sound/sndMusicDefinition.h"
+#include "KingSystem/Resource/resEntryFactory.h"
+#include "KingSystem/Resource/resSystem.h"
 
 namespace ksys::snd {
 
 static sead::SafeString str_EventBgm = "EventBgm";
+
+MusicDefinition::MusicDefinition() : agl::utl::IParameterIO(".bmscdef", 0) {}
+
+void MusicDefinition::registerFactory(sead::Heap* heap) {
+    auto* rm = sead::ResourceMgr::instance();
+    if (!rm)
+        return;
+
+    if (rm->getDefaultFactory() != rm->findFactory("bmscdef"))
+        return;
+
+    res::registerEntryFactory(new (heap) res::EntryFactory<MusicDefinition>, "bmscdef");
+}
 
 void MusicDefinition::doCreate_(u8* data, u32 file_size, sead::Heap* heap) {
     auto archive = agl::utl::ResParameterArchive(data);
