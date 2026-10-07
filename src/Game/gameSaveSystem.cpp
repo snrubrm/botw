@@ -19,6 +19,10 @@ namespace uking::ui {
 // 0x7100a9e228 / 0x7100a9e260 (lane2 UI code, declared only)
 s32 sub_7100A9E228();
 s32 getSomeUiManagerField();
+// 0x7100a9e244 (declared only)
+void* sub_7100A9E244();
+// 0x7100b61f4 (CSV showLoadSaveIcon_0; declared only)
+void showLoadSaveIcon_0(bool show);
 }  // namespace uking::ui
 
 namespace uking {
@@ -230,6 +234,49 @@ void SaveSystem::sub_710091171C() {
             save_mgr->x_0(_30);
     }
     _3c = 2;
+}
+
+void SaveSystem::sub_7100911524() {
+    u32 state;
+    if (ui::sub_7100A9E228() == 7 || ui::sub_7100A9E228() == 0) {
+        sead::FormatFixedSafeString<32> path("%d/caption.jpg", _30);
+        if (auto* save_mgr = ksys::SaveMgr::instance()) {
+            void* data = ui::sub_7100A9E244();
+            const s32 field = ui::getSomeUiManagerField();
+            if (!(_1a50 & 0x180))
+                _40[_30]._2f8 = field;
+            if (!(_1a50 & 0x180))
+                save_mgr->sub_7100E044A8(path, data, field, 0x2800);
+        }
+        state = 4;
+    } else if (ui::sub_7100A9E228() == -1) {
+        if (auto* gdt_mgr = ksys::gdt::Manager::instance())
+            gdt_mgr->mBitFlags.reset(ksys::gdt::Manager::BitFlag::_100000);
+        state = 0;
+    } else {
+        return;
+    }
+    _3c = state;
+}
+
+void SaveSystem::sub_7100911620() {
+    if (ui::sub_7100A9E228() == 7 || ui::sub_7100A9E228() == 0) {
+        sead::FormatFixedSafeString<32> path("%d/caption.jpg", _30);
+        if (auto* save_mgr = ksys::SaveMgr::instance()) {
+            void* data = ui::sub_7100A9E244();
+            const s32 field = ui::getSomeUiManagerField();
+            if (!(_1a50 & 0x180))
+                _40[_30]._2f8 = field;
+            if (!(_1a50 & 0x180))
+                save_mgr->sub_7100E044A8(path, data, field, 0x2800);
+        }
+        _3c = 13;
+    } else if (ui::sub_7100A9E228() == -1) {
+        ui::showLoadSaveIcon_0(false);
+        _3c = 0;
+        if (auto* gdt_mgr = ksys::gdt::Manager::instance())
+            gdt_mgr->mBitFlags.reset(ksys::gdt::Manager::BitFlag::_100000);
+    }
 }
 
 void SaveSystem::sub_7100912464() {

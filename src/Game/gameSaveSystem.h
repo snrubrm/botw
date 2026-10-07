@@ -122,6 +122,9 @@ public:
     // 0x7100912464 (CSV init27): when the tracker block save file exists, writes it (state 40), else resets the
     // callbacks and flags.
     void sub_7100912464();
+    // 0x7100911524 (CSV init2) / 0x7100911620 (CSV initC): the steps that save the slot caption image (state 4 / 13).
+    void sub_7100911524();
+    void sub_7100911620();
     // 0x7100912a50 (CSV init20): flushes the flag cache, records the auto save flags and goes to state 37.
     void sub_7100912A50();
     // 0x7100912ea4 (CSV clearAllCbsAndResetFlagsToInitial; declared only)
