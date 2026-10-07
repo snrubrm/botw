@@ -900,6 +900,10 @@ public:
     bool isEnableControl() const override;
     // 0x710109ff58
     const char* getLayoutName_() const override;
+    void sub_710109EE10(s32 error_code);
+
+    u8 _2fc[0x310 - 0x2fc];
+    /* 0x310 */ s32 mErrorCode;
 };
 
 // Only the nominal type and the three state words checked by UI::sub_71010A5CFC / sub_71010A5DB0 / sub_71010A5E64

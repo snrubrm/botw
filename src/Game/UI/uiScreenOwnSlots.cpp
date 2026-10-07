@@ -614,3 +614,12 @@ void ScreenAppHome::sub_71009DE1C8() {
 }
 
 }  // namespace uking::ui
+
+namespace uking::ui {
+
+void ScreenErrorViewer::sub_710109EE10(s32 error_code) {
+    if (u32(error_code) - 1000000 < 9000000)
+        mErrorCode = error_code;
+}
+
+}  // namespace uking::ui
