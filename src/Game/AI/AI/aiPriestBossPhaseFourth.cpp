@@ -17,6 +17,10 @@ void PriestBossPhaseFourth::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void PriestBossPhaseFourth::leave_() {
     PriestBossPhase::leave_();
+    auto* unit = sub_7100525A88();
+    unit->_98 = 0;
+    unit->_198 = 0;
+    sub_7100525A88()->sub_7100719ED0();
 }
 
 void PriestBossPhaseFourth::loadParams_() {

@@ -104,6 +104,8 @@ public:
     // 0x7100719fcc (CSV name was a bogus nn::nex symbol): `_88 ? _88->_ac : -1`.
     s32 sub_7100719FCC() const;
     void sub_710071918C();
+    // Original 0x7100719ed0: clears the linked actor pool under its lock (declared only).
+    void sub_7100719ED0();
     void sub_7100719D5C(ksys::act::Actor* actor);
     // 0x7100719b88 (468 B, declared only; PriestBossActorNormalMode::m40)
     bool sub_7100719B88(ksys::act::Actor* actor);
@@ -136,8 +138,12 @@ public:
     /* 0x080 */ u32 _80;  // bit mask indexed by Phase-like ints 3..10 (sub_7100719978)
     /* 0x084 */ u8 _84[0x88 - 0x84];
     /* 0x088 */ Unk_PriestBossObject* _88;
-    /* 0x090 */ u8 _90[0xa0 - 0x90];
-    /* 0x0a0 */ u8 _a0[0x1a0 - 0xa0];  // sead::FixedObjArray<?, 9> (0x10-byte nodes) at 0xa0
+    /* 0x090 */ u8 _90[0x98 - 0x90];
+    /* 0x098 */ u32 _98;
+    /* 0x09c */ u32 _9c;
+    /* 0x0a0 */ u8 _a0[0x198 - 0xa0];  // sead::FixedObjArray<?, 9> (0x10-byte nodes) at 0xa0
+    /* 0x198 */ u32 _198;
+    /* 0x19c */ u8 _19c[4];
     /* 0x1a0 */ ksys::MesTransceiverId _1a0;  // set from Unk3::_10 by sub_710071964C
     /* 0x1b8 */ Unk_71024509a8 _1b8;
     /* 0x200 */ u8 _200[0x208 - 0x200];
