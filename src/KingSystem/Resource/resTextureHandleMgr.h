@@ -2,11 +2,13 @@
 
 #include <basis/seadTypes.h>
 #include <prim/seadBitFlag.h>
+#include <prim/seadDelegate.h>
 #include <time/seadTickTime.h>
 
 namespace ksys::util {
 class Task;
 class TaskThread;
+class TaskMgr;
 }  // namespace ksys::util
 
 namespace ksys::res {
@@ -54,11 +56,14 @@ private:
     sead::BitFlag8 mFlags2;
     u8 _a[0x30 - 0xa];
     util::Task* _30;
-    u8 _38[0x50 - 0x38];
+    u8 _38[0x48 - 0x38];
+    util::TaskMgr* _48;
     util::TaskThread* _50;
     u8 _58[0xa0 - 0x58];
     sead::TickTime mTickTime;
-    u8 _a8[0x768 - 0xa8];
+    u8 _a8[0x158 - 0xa8];
+    sead::Delegate1R<TextureHandleMgr, void*, bool> _158{nullptr, nullptr};
+    u8 _178[0x768 - 0x178];
     ArchiveWork* mArchiveWork;
 };
 

@@ -1,7 +1,11 @@
 #include "KingSystem/Resource/resTextureHandleMgr.h"
+#include "Game/gameUnkRttiClasses.h"
+#include "KingSystem/Utils/Thread/TaskMgr.h"
 #include "KingSystem/Resource/resSystem.h"
 #include "KingSystem/Utils/Thread/Task.h"
 #include "KingSystem/Utils/Thread/TaskThread.h"
+
+Unk_71024f9bb8::~Unk_71024f9bb8() = default;
 
 namespace ksys::res {
 
@@ -72,6 +76,19 @@ bool TextureHandleMgr::sub_7100FE6120() const {
 
 ArchiveWork* TextureHandleMgr::getArchiveWork() const {
     return mArchiveWork;
+}
+
+void TextureHandleMgr::clearAllCache() {
+    Unk_71024f9bb8 request;
+    request.mHasHandle = false;
+    request.mSynchronous = false;
+    request.mLaneId = 7;
+    request.mThread = _50;
+    request.mDelegate = &_158;
+    request.mName = "Texture::ClearAllCache";
+    util::TaskMgrRequest manager_request;
+    manager_request.request = &request;
+    _48->submitRequest(manager_request);
 }
 
 }  // namespace ksys::res

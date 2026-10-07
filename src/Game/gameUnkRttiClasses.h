@@ -305,7 +305,24 @@ class Unk_71024f9bb8 : public ksys::util::TaskRequest {
     SEAD_RTTI_OVERRIDE(Unk_71024f9bb8, ksys::util::TaskRequest)
 public:
     ~Unk_71024f9bb8() override;
+
+    // TextureHandleMgr::clearAllCache (0x7100fe5fcc) and invalidateUser (0x7100fe5b44)
+    // initialize this 0xc8-byte request, including three additional SafeStrings.
+    u32 _50 = 0x01000001;
+    bool _54 = false;
+    void* _58 = nullptr;
+    void* _60 = nullptr;
+    void* _68 = nullptr;
+    sead::SafeString _70;
+    u32 _80 = 0;
+    sead::SafeString _88;
+    u32 _98 = 0;
+    void* _a0 = nullptr;
+    void* _a8 = nullptr;
+    void* _b0 = nullptr;
+    sead::SafeString _b8;
 };
+KSYS_CHECK_SIZE_NX150(Unk_71024f9bb8, 0xc8);
 
 // vtable 0x71024f9e28 (4 slots): derives from ksys::util::TaskData.
 class Unk_71024f9e28 : public ksys::util::TaskData {
