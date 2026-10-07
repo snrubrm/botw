@@ -44,6 +44,9 @@ f32 Unk_7102459708::sub_7100791E44(f32 t) const {
 
 namespace uking::act {
 
+Unk_7100928644::Unk_7100928644() : _0(0), _4(0), _8(0), _c(0), _10(0), _14(0) {}
+
+
 bool sub_710079BE9C(int idx) {
     return idx < 1;
 }
