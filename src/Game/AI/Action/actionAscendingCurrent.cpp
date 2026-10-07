@@ -123,6 +123,10 @@ bool AscendingCurrent::hasUpdateForPreDeleteCb() {
     return true;
 }
 
+bool AscendingCurrent::updateForPreDelete() {
+    return _28.sub_71010F1314();
+}
+
 void AscendingCurrent::m32() {
     _28.sub_71010F16FC();
 }
