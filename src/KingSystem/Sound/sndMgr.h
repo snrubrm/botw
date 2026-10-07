@@ -410,6 +410,7 @@ struct Unk_SoundInstance {
     // Placeholder names; the callers are the Unk_SoundMgra8 list queries:
     bool sub_710104AFBC(int a);    // 0x710104afbc
     bool sub_710104AFC0(act::Actor* a);  // 0x710104afc0
+    bool sub_710104B10C(act::Actor* a);
     bool sub_710104B1D8(act::Actor* a);  // 0x710104b1d8
     bool sub_710104ADB8(int a);
     bool sub_710104ACF8(map::Object* object);
@@ -446,6 +447,7 @@ public:
     // 0x710104b5dc: `idx` is below the count at +0x4a70.
     bool sub_710104B5DC(u32 idx) const;
     // 0x710104b68c: the first instance for which sub_710104B1D8(a) holds, passed on to sub_710104ADB8(b); false if none.
+    bool sub_710104B5F0(act::Actor* actor);
     bool sub_710104B68C(act::Actor* a, int b);
     // 0x710104b708 / 0x710104b76c: whether any instance answers sub_710104AFBC(a) / sub_710104AFC0(a).
     bool sub_710104B708(int a);

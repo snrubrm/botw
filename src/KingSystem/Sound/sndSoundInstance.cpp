@@ -1,6 +1,7 @@
 #include "KingSystem/Sound/sndMgr.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Map/mapObject.h"
+#include "KingSystem/XLink/xlinkXLink.h"
 #include <prim/seadScopedLock.h>
 
 namespace ksys::snd {
@@ -49,6 +50,31 @@ bool Unk_SoundInstance::sub_710104ACF8(map::Object* object) {
     if (auto* manager = SoundMgr::instance()->_a8)
         _494 = manager->sub_710104B7D0();
     return true;
+}
+
+// NON_MATCHING: actor ID and pool-pointer loads use swapped registers.
+bool Unk_SoundInstance::sub_710104B10C(act::Actor* actor) {
+    if (!actor || actor->getXLink()->_bc >= u32(_494))
+        return false;
+    auto* object = actor->getMapObject();
+    if (!object) {
+        for (auto id : _220) {
+            if (id == actor->getId()) {
+                auto lock = sead::makeScopedLock(mCS);
+                ++_488;
+                return true;
+            }
+        }
+    } else if (object->getHashId() != 0xffffffff) {
+        for (auto id : _0) {
+            if (id == object->getHashId()) {
+                auto lock = sead::makeScopedLock(mCS);
+                ++_488;
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
 // NON_MATCHING: the actor ID and pool-pointer loads use swapped registers.

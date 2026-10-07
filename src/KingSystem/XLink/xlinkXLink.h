@@ -66,7 +66,9 @@ public:
     /* 0x73 */ u8 _73;
     /* 0x74 */ u8 _74[0xa0 - 0x74];
     /* 0xa0 */ Unk_710123830c* _a0;
-    /* 0xa8 */ u8 _a8[0xcc - 0xa8];
+    /* 0xa8 */ u8 _a8[0xbc - 0xa8];
+    /* 0xbc */ u32 _bc;
+    /* 0xc0 */ u8 _c0[0xcc - 0xc0];
     // Flags (ctor 0x710122fce0 sets 0x800c0000, then 0x200 / 0x10000 / 0x4000000 depending on the
     // actor; AI code sets 0x200 (IbutsuWaterFallRoot::enter_) and clears 0x80000
     // (AppearFromTargetFrontAfterChase::m37) directly).

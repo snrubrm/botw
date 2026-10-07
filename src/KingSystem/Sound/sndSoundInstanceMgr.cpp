@@ -1,5 +1,7 @@
 #include "KingSystem/Sound/sndMgr.h"
 #include <prim/seadScopedLock.h>
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/XLink/xlinkXLink.h"
 #include <new>
 
 namespace ksys::snd {
@@ -24,6 +26,22 @@ Unk_SoundInstance* Unk_SoundMgra8::sub_710104B480(s32 id) {
     auto* instance = new (mFreeList.alloc()) Unk_SoundInstance(id);
     _50.pushBack(instance);
     return instance;
+}
+
+bool Unk_SoundMgra8::sub_710104B5F0(act::Actor* actor) {
+    if (actor) {
+        auto* xlink = actor->getXLink();
+        for (auto it = _50.begin(); it != _50.end(); ++it) {
+            if (it->sub_710104B10C(actor)) {
+                if (xlink)
+                    xlink->_bc = _4a70;
+                return true;
+            }
+        }
+        if (xlink)
+            xlink->_bc = _4a70;
+    }
+    return false;
 }
 
 Unk_SoundMgra8::~Unk_SoundMgra8() = default;
