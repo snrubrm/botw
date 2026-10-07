@@ -5,6 +5,9 @@
 
 namespace uking::ui {
 
+// 0x71025d6ab0: bypass for the sensor availability check.
+bool sUnk_71025d6ab0 = false;
+
 bool sub_7100A9C110(s32 value);
 
 // 0x710096023c
@@ -669,6 +672,19 @@ bool UiSubsys1::sub_7100968D04() {
 // 0x7100962634
 void UiSubsys1::updateCompletionCount() {
     sub_7100962638();
+}
+
+}  // namespace uking::ui
+
+namespace uking::ui {
+
+// NON_MATCHING: the original accesses the bypass flag directly; this declaration uses the GOT.
+bool UiSubsys1::sub_7100968BD8() {
+    if (sUnk_71025d6ab0)
+        return true;
+    if (ksys::gdt::getFlag_IsGet_Obj_SheikSensor())
+        return false;
+    return sead::BitFlagUtil::countOnBit(_120) == 2;
 }
 
 }  // namespace uking::ui

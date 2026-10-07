@@ -300,7 +300,7 @@ public:
     // 0x71009512f8 / 0x7100951338 (CSV uiSubsys1::__auto41 / __auto42; placeholder names)
     UiSubsys1ListEntry* findListEntry(void* key);
     bool freeListEntry(UiSubsys1ListEntry* entry);
-    // 0x7100963704 / 0x7100968af8 / 0x7100968bd8 (placeholder names; the last is declared only)
+    // 0x7100963704 / 0x7100968af8 / 0x7100968bd8 (placeholder names)
     void set128(s32 value);
     void sub_7100968AF8(s32 index);
     bool sub_7100968BD8();
@@ -445,7 +445,9 @@ private:
     /* 0x29 */ u8 _29;
     u8 _2a[0x88 - 0x2a];
     /* 0x88 */ u8 _88;
-    u8 _89[0x128 - 0x89];
+    u8 _89[0x120 - 0x89];
+    /* 0x120 */ u16 _120;
+    u8 _122[0x128 - 0x122];
     /* 0x128 */ s32 _128;
     /* 0x12c */ u8 _12c;
     u8 _12d[0x280 - 0x12d];

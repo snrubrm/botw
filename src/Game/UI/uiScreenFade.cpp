@@ -315,3 +315,12 @@ void Fade::clearSomeTipsField() {
 }
 
 }  // namespace uking::ui
+
+namespace uking::ui {
+
+void ScreenFadeDemo::sub_71010A01F8(s32 value) {
+    _350 = value;
+    sub_71010A0200();
+}
+
+}  // namespace uking::ui
