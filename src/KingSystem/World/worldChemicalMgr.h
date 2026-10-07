@@ -1,6 +1,7 @@
 #pragma once
 
 #include <container/seadPtrArray.h>
+#include <container/seadObjList.h>
 #include <thread/seadCriticalSection.h>
 #include "KingSystem/Utils/Types.h"
 #include "KingSystem/World/worldJob.h"
@@ -50,13 +51,25 @@ public:
     void sub_71010CB5C0();
     // Original 0x71010cbdcc: enqueue a unique chemical pair and event type under the pool lock.
     void sub_71010CBDCC(act::Chemical* first, act::Chemical* second, s32 type);
+    void sub_71010CBEAC(act::Chemical* chemical);
     bool x_4() const;
     void x_5(ksys::act::Actor* actor);
     void x_7(ksys::act::Actor* actor);
     Unk_710250c698* x_8();
     bool x_9(Unk_710250c698* entry);
 
-    u8 _20[0xae8 - 0x20];
+    // Constructor 10CA1C0 sets up 64 records at stride28; remove10CBEAC confirms both pointers.
+    struct ChemicalPair {
+        act::Chemical* first;
+        act::Chemical* second;
+        u8 type;
+    };
+    static_assert(sizeof(ChemicalPair) == 0x18);
+    u8 _20[8];
+    sead::CriticalSection mChemicalPairLock;
+    sead::CriticalSection _68;
+    u8 _a8[0x10];
+    sead::FixedObjList<ChemicalPair, 64> mChemicalPairs;
     void* _ae8;  // chemical element holder (type incomplete), read by Manager::getElementHolderMaybe.
     u8 _af0[0xb10 - 0xaf0];
     u8 _b10;

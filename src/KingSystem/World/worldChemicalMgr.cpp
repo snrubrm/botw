@@ -39,4 +39,32 @@ bool ChemicalMgr::x_9(Unk_710250c698* entry) {
     return true;
 }
 
+// NON_MATCHING: aggregate initialization clears the type byte separately.
+void ChemicalMgr::sub_71010CBDCC(act::Chemical* first, act::Chemical* second, s32 type) {
+    sead::ScopedLock<sead::CriticalSection> lock(&mChemicalPairLock);
+    if (mChemicalPairs.isFull())
+        return;
+    // Original pair types are stored and compared as bytes, including the input truncation.
+    const u8 pair_type = type;
+    for (const auto& pair : mChemicalPairs) {
+        if (pair.first == first && pair.second == second && pair.type == pair_type)
+            return;
+    }
+    auto* pair = mChemicalPairs.emplaceBack();
+    pair->type = pair_type;
+    pair->first = first;
+    pair->second = second;
+}
+
+// NON_MATCHING: iterator advancement uses the entry pointer rather than the node pointer.
+void ChemicalMgr::sub_71010CBEAC(act::Chemical* chemical) {
+    sead::ScopedLock<sead::CriticalSection> lock(&mChemicalPairLock);
+    for (auto it = mChemicalPairs.begin(); it != mChemicalPairs.end();) {
+        auto* pair = &*it;
+        ++it;
+        if (pair->first == chemical || pair->second == chemical)
+            mChemicalPairs.erase(pair);
+    }
+}
+
 }  // namespace ksys::world
