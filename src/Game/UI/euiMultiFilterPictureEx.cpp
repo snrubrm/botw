@@ -2,6 +2,7 @@
 #include <nn/ui2d/BuildTypes.h>
 #include "Game/UI/euiFrameBufferMultiFilter.h"
 #include "Game/UI/euiLayoutEx.h"
+#include "Game/UI/euiScreen.h"
 
 namespace eui {
 MultiFilterPictureEx::MultiFilterPictureEx(const nn::ui2d::ResPicture* resource,
@@ -27,4 +28,19 @@ MultiFilterPictureEx::~MultiFilterPictureEx() {
         mFilter = nullptr;
     }
 }
+void MultiFilterPictureEx::DrawSelf(nn::ui2d::DrawInfo& draw_info,
+                                      nn::gfx::CommandBuffer& command_buffer) {
+    auto& info = static_cast<DrawInfoEx&>(draw_info);
+    if (info._100)
+        return;
+    const auto* texture = mFilter->captureAndFilter(*this, info);
+    if (texture) {
+        mFilter->applyTextureDataToPictureMaterial(this, &mTextureInfo, texture, info);
+        Picture::DrawSelf(draw_info, command_buffer);
+        mFilter->freeResultTexture(texture);
+    } else {
+        Picture::DrawSelf(draw_info, command_buffer);
+    }
+}
+
 }  // namespace eui
