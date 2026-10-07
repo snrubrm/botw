@@ -99,6 +99,9 @@ class Water {
 
 // CreateTeraSystem passes the System created at 0x71011113d4 to PlacementMgr.
 u32 sub_710110B4A4(f32* out_height, const sead::Vector2f* xz, System* system);
+// Returns query status 0/1/2; the final argument preserves a full integer flag.
+u32 sub_71011094A0(f32* out_height, const sead::Vector2f* xz, System* system, s32 index,
+                    s32 flag);
 
 bool checkTeraSystemStatus();
 
