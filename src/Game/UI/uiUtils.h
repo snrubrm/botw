@@ -41,6 +41,8 @@ class NpcShopData;
 
 namespace uking::ui {
 
+// 0x71010ad714 (placeholder name): the layout name of screen `index` (the table also used by getScreenIdxByName).
+const char* sub_71010AD714(u32 index);
 // 0x71010ad724: source namespace inferred from the screen-name lookup's UI consumers.
 s32 getScreenIdxByName(const char* name);
 bool getRuntimeTipFlag(s32 index);

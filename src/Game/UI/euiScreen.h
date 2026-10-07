@@ -280,15 +280,17 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(Screen, 0x108);
 
-// Unknown object at ScreenMgr + 0x48; slot 5 maps a screen's draw target index to a DrawTarget.
+// The screen factory object at ScreenMgr + 0x48 (CSV uking::ui::ScreenFactory, vtable 0x710249ce60: D1, D0, create, getName,
+// getCount, getDrawTarget); slot 5 maps a screen's draw target index to a DrawTarget.
 class ScreenTargetMgr {
 public:
-    virtual void m0();
-    virtual void m1();
+    virtual ~ScreenTargetMgr() = default;
+    // 0x7100a81f34 (CSV create; not decompiled)
     virtual void m2();
     // 0x18: the name of screen `id` (the name of the screen's frame heap, see uking::ui::createAndLoadScreen)
     virtual const char* m3(s32 id);
-    virtual void m4();
+    // The number of screens
+    virtual s32 m4();
     virtual DrawTarget getDrawTarget(u8 index) const;
 };
 

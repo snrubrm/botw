@@ -98,6 +98,8 @@ target_sources(uking PRIVATE
   uiScreenKologNum.cpp
   uiScreenMamoNum.cpp
   uiScreenConstSlots.cpp
+  uiScreenFactory.cpp
+  uiScreenFactory.h
   uiScreenNames.cpp
   names/uiScreenName_MainScreen3D.cpp
   names/uiScreenName_WolfLinkHeartGauge.cpp

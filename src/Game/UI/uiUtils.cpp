@@ -135,6 +135,11 @@ static const char* const sUnk_710250A4B8[] = {
     "ErrorViewerDRC_00",
 };
 
+// 0x71010ad714
+const char* sub_71010AD714(u32 index) {
+    return sUnk_710250A4B8[index];
+}
+
 s32 getScreenIdxByName(const char* name) {
     for (s32 i = 0; i < 99; ++i) {
         if (sead::SafeString(sUnk_710250A4B8[i]) == name)

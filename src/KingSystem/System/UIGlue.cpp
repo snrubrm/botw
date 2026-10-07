@@ -7,6 +7,16 @@
 // `a<N>` arguments) are used where the function is not named yet; only the number of arguments is known.
 namespace ksys::ui {
 
+using SSub_7100EDC2E4HandlerFn = bool (*)(bool);
+SSub_7100EDC2E4HandlerFn sSub_7100EDC2E4Handler;
+
+// 0x7100edc2e4
+bool sub_7100EDC2E4(bool a1) {
+    if (sSub_7100EDC2E4Handler)
+        return sSub_7100EDC2E4Handler(a1);
+    return false;
+}
+
 using SInitRupeeCounterHandlerFn = void (*)();
 SInitRupeeCounterHandlerFn sInitRupeeCounterHandler;
 
