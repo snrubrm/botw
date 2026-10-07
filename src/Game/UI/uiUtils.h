@@ -3,6 +3,7 @@
 #include <math/seadVector.h>
 #include <prim/seadSafeString.h>
 #include "Game/Actor/actWeapon.h"
+#include "Game/Cooking/cookManager.h"
 
 namespace eui {
 class LayoutEx;
@@ -74,6 +75,31 @@ struct WeaponStats {
     /// Bow modifier value ("add value") or 0 for weapons that are not bows.
     int bow_add_value{};
 };
+
+// Output records written by the armor and cooking information helpers.
+struct ArmorInfo {
+    s32 defence = 0;
+    s32 effect = -1;
+    s32 effect_level = 0;
+    s32 star_num = 0;
+    s32 ancient_effect = -1;
+};
+struct CookingInfo {
+    CookEffectId effect = CookEffectId::None;
+    s32 level = 0;
+    s32 healthRecover = 0;
+    s32 _c = 0;
+    s32 _10 = 0;
+    f32 duration = 0;
+    s32 _18 = 0;
+};
+void getArmorInfoMaybe(const sead::SafeString& name, ArmorInfo* out);
+void cookingStuff_0(const sead::SafeString& name, CookingInfo* out);
+CookEffectId sub_7100AA42AC(const PouchItem& item);
+bool sub_7100AA4A4C(CookEffectId effect, f32* out);
+bool sub_7100AA4ACC(s32 effect, f32* out);
+bool sub_7100AA7290(const act::WeaponModifierInfo& modifier, bool is_bow, f32* out);
+s32 sub_7100AA6E4C(const PouchItem& item);
 
 bool isMasterSwordItem(const PouchItem& item);
 // 0x7100aa6f90 (uiManagerFacade.cpp; declaration added by lane4 s45 for CheckMasterSwordState): 1 without a value; with

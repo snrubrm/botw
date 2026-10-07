@@ -1596,11 +1596,13 @@ struct ScreenPauseMenuUnk3b90 {
 
 // Repeated 0x90-byte button records used by PauseMenu's three page controllers.
 // The original record's class name is unknown.
+class PouchItem;
 struct ScreenButton_7100989968 {
     ScreenButton_7100989968();
     virtual ~ScreenButton_7100989968();
     void sub_710098923C();
     void sub_71009892B0();
+    void sub_710098931C(const PouchItem* item);
     void sub_71009896D8();
     void sub_710098975C(s32 count);
     void sub_7100989888(bool enabled, bool play);

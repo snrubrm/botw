@@ -34,6 +34,11 @@ s32 getWeaponTypeId(const sead::SafeString& profile);
 
 namespace uking::ui {
 
+CookEffectId sub_7100AA42AC(const PouchItem& item) {
+    return item.getCookData().getEffect();
+}
+
+
 // Original global at 0x710249a788, read and reset by sub_7100A64304.
 s32 sUnk_710249a788 = 13;
 
