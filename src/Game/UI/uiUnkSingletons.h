@@ -217,24 +217,32 @@ private:
     static Unk_71025d6550* sInstance;
 };
 
-// Instance pointer 0x71025d69f0 (`_2c` is a state set by the facade functions).
+// Singleton at 0x71025d69f0 (createInstance 0x710094d7b4, size 0x48, vtable 0x7102475348 with D1 / D0 0x710094d8c4 /
+// 0x710094d8c8, disposer vtable 0x7102475328; `_2c` is a state set by the facade functions).
 class Unk_71025d69f0 {
+    SEAD_SINGLETON_DISPOSER(Unk_71025d69f0)
+    Unk_71025d69f0() = default;
+
 public:
-    static Unk_71025d69f0* instance() { return sInstance; }
+    virtual ~Unk_71025d69f0();
 
     void sub_710094E0A0();
     bool sub_710094E920();
     void sub_710094D9F4(s32 a1, s32 a2, s32 a3, s32 a4);
     void sub_710094DCC4(s32 a1, s32 a2);
 
-    u8 _0[0x2c];
-    /* 0x2c */ s32 _2c;
-    u8 _30[0x36 - 0x30];
-    /* 0x36 */ u8 _36;
-
-private:
-    static Unk_71025d69f0* sInstance;
+    /* 0x28 */ s32 _28 = 1;
+    /* 0x2c */ s32 _2c = 4;
+    /* 0x30 */ s32 _30 = 4;
+    /* 0x34 */ u8 _34 = 0;
+    /* 0x35 */ u8 _35 = 1;
+    /* 0x36 */ u8 _36 = 0;
+    u8 _37 = 0;
+    /* 0x38 */ u8 _38 = 0;
+    /* 0x3c */ s32 _3c = 0;
+    /* 0x40 */ void* _40 = nullptr;
 };
+KSYS_CHECK_SIZE_NX150(Unk_71025d69f0, 0x48);
 
 // Element of UiSubsys1's list at 0x280 (placeholder: the first word is compared with a key, the list node is at +8; erased
 // entries are chained through the first word on a free list at 0x298).

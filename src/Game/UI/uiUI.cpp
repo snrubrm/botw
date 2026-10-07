@@ -1,5 +1,6 @@
 #include "Game/UI/uiUI.h"
 #include "Game/UI/uiScreens.h"
+#include "KingSystem/GameData/gdtManagerInline.h"
 #include "KingSystem/Sound/sndMgr.h"
 
 namespace uking::ui {
@@ -15,6 +16,11 @@ void UI::x_0(bool flag) {
         eui::ScreenMgr::instance()->getScreen(ScreenId::Message3D));
     if (screen)
         screen->sub_71010AE7C0(flag);
+}
+
+// 0x71010a582c
+void UI::init() {
+    ksys::gdt::getBoolByName(ksys::gdt::Manager::instance(), &mBalloonTextOn, "BalloonTextOnOff");
 }
 
 // 0x71010a6e48

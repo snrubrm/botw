@@ -139,11 +139,6 @@ public:
     virtual ~Unk_7102475158();
 };
 
-class Unk_7102475348 {
-public:
-    virtual ~Unk_7102475348();
-};
-
 // A small parameter block (size >= 0x68; placeholder layout and accessor names after the offsets: the CSV rows
 // 0x7100950244 - 0x71009502f0 are its non-virtual getters / setters).
 class Unk_7102475368 {

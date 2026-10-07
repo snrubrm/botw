@@ -26,6 +26,9 @@ class UI : public sead::hostio::Node {
 public:
     virtual ~UI();
 
+    // 0x71010a582c (CSV UI::init): reads the BalloonTextOnOff flag.
+    void init();
+
     // 0x71010a5a54: source owner and nonconst spelling inferred from mutable UI callers.
     bool sub_71010A5A54();
     // 0x71010a6e48: source owner inferred from the passed UI receiver.
@@ -89,7 +92,7 @@ public:
     s32 getTradeItemNum();
 
     // The layout is mostly unmodelled (size 0xb0; the vtable is at 0 and the singleton disposer at 8).
-    /* 0x28 */ u8 _28 = 1;
+    /* 0x28 */ bool mBalloonTextOn = true;  // gdt flag BalloonTextOnOff (read by init)
     /* 0x29 */ bool mChoiceMode = false;
     u8 _2a[0x30 - 0x2a];
     /* 0x30 */ ksys::act::Actor* _30 = nullptr;

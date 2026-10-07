@@ -162,6 +162,8 @@ target_sources(uking PRIVATE
   uiUI.h
   uiUnkSingletons.h
   uiUnk_71025d69f0.cpp
+  uiUnk_7102506d38.cpp
+  uiUnk_7102506d38.h
   uiUnk_71025d6550.cpp
   uiUnk_71025d6560.cpp
   uiUnk_71025d6560.h
