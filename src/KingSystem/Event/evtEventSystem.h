@@ -84,17 +84,11 @@ public:
     /* 0x58 */ Unk_710246c4d8 _58;
     /* 0x68 */ ActorMessageTransceiver mTransceiver{*this};
     /* 0xc0 */ EventSpeaker mSpeaker;
-    // 0x130 - 0x146 are cleared as one block by the constructor.
-    union {
-        /* 0x130 */ u8 _130[0x16];
-        struct {
-            ksys::MessageTransceiverTxOnly* mTxTransceiver;
-            s32 _138;
-            s32 _13c;
-            s32 _140;
-            u16 _144;
-        } _130_fields;
-    };
+    /* 0x130 */ ksys::MessageTransceiverTxOnly* mTxTransceiver = nullptr;
+    /* 0x138 */ s32 _138 = 0;
+    /* 0x13c */ s32 _13c = 0;
+    /* 0x140 */ s32 _140 = 0;
+    /* 0x144 */ u16 _144 = 0;
 };
 KSYS_CHECK_SIZE_NX150(EventSystem, 0x148);
 

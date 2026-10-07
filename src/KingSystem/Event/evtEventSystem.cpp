@@ -18,8 +18,6 @@ SEAD_SINGLETON_DISPOSER_IMPL(EventSystem)
 // before the vtable's, and stores the first three members (0x30 / 0x32 / 0x34) before the vptrs; ours schedules the
 // vtable address first.
 EventSystem::EventSystem() {
-    for (auto& value : _130)
-        value = 0;
     for (auto& flag : _3c)
         flag = true;
     _50 = 0;
@@ -46,12 +44,12 @@ bool EventSystem::sub_71008AC118() const {
 // `ldrsb; tbnz #0x1f`; a bool bitfield view gives the same)
 // 0x71008ac078
 void EventSystem::x_2(s32 value) {
-    _130_fields._140 = value;
+    _140 = value;
     uking::Root38::instance()->setFlag(3, value != 0);
-    if (_130_fields._140)
-        _130_fields._13c = 0;
+    if (_140)
+        _13c = 0;
     if (!(Manager::instance()->_1d2f4_bytes[0] & 0x80))
-        uking::ui::showLoadSaveIcon(_130_fields._140 ? getSceneStatus() != 4 : false);
+        uking::ui::showLoadSaveIcon(_140 ? getSceneStatus() != 4 : false);
 }
 
 // 0x71008ac100
