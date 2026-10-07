@@ -109,4 +109,11 @@ f32 Unk_SoundMgra8::sub_710104B558(ksys::act::Actor* actor) {
     return volume;
 }
 
+void ListenerPoser::sub_7101055538(s32 value) {
+    if (!_70) {
+        _70 = true;
+        _74 = value;
+    }
+}
+
 }  // namespace ksys::snd

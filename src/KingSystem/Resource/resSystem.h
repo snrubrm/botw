@@ -45,6 +45,13 @@ void stubbedBool(bool);
 
 void setResourceMgrPack(Handle* pack);
 
+// 0x7101213144 (CSV isResourceMgrOom) / 0x71012131a4 / 0x71012131b4 / 0x71012131c4 (CSV res::clearAllCaches{,2,3};
+// placeholder names): forward to ResourceMgrTask::isOutOfMemory / x_4 / x_5 / x_6.
+bool isResourceMgrOom();
+void clearAllCaches();
+void clearAllCaches2();
+void clearAllCaches3();
+
 bool isCompactionStopped();
 void callResourceMgrTaskMethodOO();
 void setCompactionStopped(bool stopped);

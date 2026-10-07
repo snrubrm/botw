@@ -56,4 +56,10 @@ inline bool Resource::parse_(u8*, size_t, sead::Heap*) {
     return true;
 }
 
+// 0x71012012ec / 0x71012013b4 / 0x71012013c4 (CSV res::{get,set,clear}ResLoadArgAllocSize; placeholder names):
+// accessors of a file-local size_t.
+size_t getResLoadArgAllocSize();
+void setResLoadArgAllocSize(size_t size);
+void clearResLoadArgAllocSize();
+
 }  // namespace ksys::res

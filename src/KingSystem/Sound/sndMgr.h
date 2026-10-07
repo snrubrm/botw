@@ -203,7 +203,14 @@ class ListenerPoser {
 public:
     virtual ~ListenerPoser();
 
-    u8 _8[0x80 - 0x8];
+    // 0x7101055538 (CSV unnamed): if `_70` is clear, sets it and stores `value` in `_74`.
+    void sub_7101055538(s32 value);
+
+    u8 _8[0x70 - 0x8];
+    /* 0x70 */ bool _70;
+    /* 0x74 */ s32 _74;
+    /* 0x78 */ s32 _78;  // mode: 0 Normal, 5 Gyro, 6 EvtBack (ListenerSetModeAction)
+    u8 _7c[0x80 - 0x7c];
     u32 _80;  // set to 1 / 0 by uking::action::CameraAction enter_ / leave_
     u8 _84[0xe0 - 0x84];
 };

@@ -4,6 +4,22 @@
 
 namespace ksys::res {
 
+bool isResourceMgrOom() {
+    return ResourceMgrTask::instance()->isOutOfMemory();
+}
+
+void clearAllCaches() {
+    ResourceMgrTask::instance()->x_4();
+}
+
+void clearAllCaches2() {
+    ResourceMgrTask::instance()->x_5();
+}
+
+void clearAllCaches3() {
+    ResourceMgrTask::instance()->x_6();
+}
+
 bool isCompactionStopped() {
     auto* task = ResourceMgrTask::instance();
     return task->isCompactionStopped() || task->_9c0d3c != 0 || task->_9c0d40 != 0;

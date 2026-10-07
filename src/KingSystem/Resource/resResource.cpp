@@ -37,4 +37,18 @@ bool Resource::m7() {
     return m7_();
 }
 
+size_t sResLoadArgAllocSize;
+
+size_t getResLoadArgAllocSize() {
+    return sResLoadArgAllocSize;
+}
+
+void setResLoadArgAllocSize(size_t size) {
+    sResLoadArgAllocSize = size;
+}
+
+void clearResLoadArgAllocSize() {
+    sResLoadArgAllocSize = 0;
+}
+
 }  // namespace ksys::res

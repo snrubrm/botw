@@ -1,11 +1,13 @@
 #include "KingSystem/ksys.h"
 #include <heap/seadHeapMgr.h>
 #include <thread/seadThread.h>
+#include "Game/DLC/aocManager.h"
 #include "KingSystem/ActorSystem/actBaseProcCreateTaskSelector.h"
 #include "KingSystem/ActorSystem/actBaseProcInitializer.h"
 #include "KingSystem/ActorSystem/actBaseProcMgr.h"
 #include "KingSystem/System/BasicProfiler.h"
 #include "KingSystem/System/HavokWorkerMgr.h"
+#include "KingSystem/System/StarterPackMgr.h"
 #include "KingSystem/System/UI/LayoutResourceMgr.h"
 
 namespace ksys {
@@ -46,6 +48,19 @@ void preInitializeApp(const InitParams& params) {
     }
 
     // TODO - other parts
+}
+
+// NON_MATCHING: the original negates the parseVersion() result with mvn + and before the shared
+// return (we use eor and mask after the merge)
+bool checkPreInitializeResourcesStillLoading() {
+    if (StarterPackMgr::instance()->bootupGraphicsPackReady() &&
+        StarterPackMgr::instance()->bootupPacksReady() &&
+        ui::LayoutResourceMgr::instance()->checkLangFontReady() &&
+        ui::LayoutResourceMgr::instance()->checkExtraLangFontsReady() &&
+        ui::LayoutResourceMgr::instance()->checkVersionReady()) {
+        return !uking::aoc::Manager::instance()->parseVersion();
+    }
+    return true;
 }
 
 }  // namespace ksys

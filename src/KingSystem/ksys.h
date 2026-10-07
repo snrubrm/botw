@@ -23,6 +23,10 @@ void initBaseProcMgr(sead::Heap* heap);
 // 0x0000007100f3a8d8
 void preInitializeApp(const InitParams& params);
 
+// 0x0000007100f3b1bc: true while the starter packs, the layout fonts / version or the DLC version
+// parsing are not ready yet.
+bool checkPreInitializeResourcesStillLoading();
+
 // 0x0000007100f40370
 void setPlayerLink(act::PlayerLink* link);
 

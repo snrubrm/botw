@@ -113,4 +113,9 @@ bool SaveMgr::enableGdtMgrChangeOnlyMode(s32 x) {
     return true;
 }
 
+void SaveMgr::x_5(u32 value) {
+    if (_103c >= 1)
+        *reinterpret_cast<u32*>(&_e08[_103c]) = value;
+}
+
 }  // namespace ksys

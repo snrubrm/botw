@@ -11,6 +11,7 @@ public:
     ~ListenerSetModeAction() override;
 
     bool init_(sead::Heap* heap) override;
+    bool oneShot_() override;
     void loadParams_() override;
 
 protected:
