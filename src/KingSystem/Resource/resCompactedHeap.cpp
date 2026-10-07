@@ -5,6 +5,16 @@ namespace ksys::res {
 
 CompactedHeap::~CompactedHeap() = default;
 
+void CompactedHeap::Unk3::setPointer(void* const& ptr) {
+    for (auto& entry : _0)
+        entry.setPointer(ptr);
+}
+
+void CompactedHeap::Unk1::setPointer(void* const& ptr) {
+    for (auto& entry : _0)
+        entry.setPointer(ptr);
+}
+
 CompactedHeap* CompactedHeap::create(const sead::SafeString& name, void* buffer,
                                      size_t buffer_size, u32 x) {
     return new (buffer) CompactedHeap(name, buffer, buffer_size, x);
