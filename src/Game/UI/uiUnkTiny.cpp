@@ -2,6 +2,7 @@
 #include "Game/UI/euiAnimator.h"
 #include "Game/UI/euiButton.h"
 #include "Game/UI/euiLayoutEx.h"
+#include "Game/UI/uiUtils.h"
 
 // The "{ ; }" destructors keep the original's vtable store (upstream GameDataFlagSelector::~GameDataFlagSelector() { ; },
 // commit 96101229; the original D1 is `str vptr; ret`).
@@ -173,6 +174,65 @@ void Unk_71024774c8::sub_7100988FE8() {
 Unk_71024774c8::~Unk_71024774c8() = default;
 
 // 0x7100989a78
+Unk_7102477508::Unk_7102477508() = default;
+
+void Unk_7102477508::sub_7100989A80(eui::LayoutEx* layout) {
+    if (layout) {
+        mLayout = layout;
+        mCategoryAnimator = layout->createAnimatorAuto("Category", false);
+        mHeartMarkOffAnimator = mLayout->createAnimatorAuto("HeartMarkOff", true);
+        mNumberAnimator = mLayout->createAnimatorAuto("Number", true);
+    }
+}
+
+// NON_MATCHING: the heart-mark branch canonicalizes value > 0 to a compare against 1.
+void Unk_7102477508::sub_7100989AF0(s32 category, s32 value, s32 number) {
+    if (mLayout) {
+        if (category == -1) {
+            mLayout->startAnimCloseImpl_(false, true);
+            return;
+        }
+        mLayout->sub_7100BDDE7C(false, 1, true);
+        if (mCategoryAnimator)
+            mCategoryAnimator->Stop(category);
+    }
+    if (u32(category) <= 3) {
+        sub_7100989C0C(value);
+        if (mNumberAnimator) {
+            if (number <= 1) {
+                mNumberAnimator->StopAtMin();
+            } else {
+                f32 frame;
+                switch (number) {
+                case 2: frame = 1.0f; break;
+                case 3: frame = 2.0f; break;
+                case 5: frame = 3.0f; break;
+                default: frame = 0.0f; break;
+                }
+                mNumberAnimator->Stop(frame);
+            }
+        }
+    } else if (category == 4 || category == 5) {
+        if (mHeartMarkOffAnimator) {
+            if (value > 0)
+                mHeartMarkOffAnimator->StopAtMin();
+            else
+                mHeartMarkOffAnimator->StopAtMax();
+        }
+    }
+}
+
+void Unk_7102477508::sub_7100989C0C(s32 value) {
+    if (mLayout) {
+        sead::FixedSafeString<32> text;
+        text.format("%d", value);
+        sead::FixedSafeString<32> special;
+        if (formatSpecialAttackPower(value, &special))
+            text = special;
+        setWidgetString(mLayout, "T_Num_00", text);
+    }
+}
+
 Unk_7102477508::~Unk_7102477508() = default;
 
 // 0x71009a4d24

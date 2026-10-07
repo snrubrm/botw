@@ -8,8 +8,8 @@
 #include <prim/seadEnum.h>
 #include <prim/seadSafeString.h>
 
-// Placeholder classes whose only member is a virtual destructor (vtable = [D1, D0], D1 empty): the
-// original keeps them as members / locals of the screens. Named after their vtable (symbol start).
+// Small screen members and controllers named after their original vtable.
+// Several retain only their recovered destructor pair; recovered layouts and helpers are below.
 
 namespace eui {
 class UniteButton;
@@ -259,8 +259,18 @@ static_assert(sizeof(Unk_71024774c8) == 0x18);
 
 class Unk_7102477508 {
 public:
+    Unk_7102477508();
     virtual ~Unk_7102477508();
+    void sub_7100989A80(eui::LayoutEx* layout);
+    void sub_7100989AF0(s32 category, s32 value, s32 number);
+    void sub_7100989C0C(s32 value);
+
+    eui::LayoutEx* mLayout = nullptr;
+    eui::Animator* mCategoryAnimator = nullptr;
+    eui::Animator* mHeartMarkOffAnimator = nullptr;
+    eui::Animator* mNumberAnimator = nullptr;
 };
+static_assert(sizeof(Unk_7102477508) == 0x28);
 
 class Unk_7102479bb0 {
 public:
