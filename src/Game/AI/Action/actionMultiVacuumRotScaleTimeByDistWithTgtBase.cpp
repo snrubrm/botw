@@ -8,6 +8,10 @@ MultiVacuumRotScaleTimeByDistWithTgtBase::MultiVacuumRotScaleTimeByDistWithTgtBa
 
 MultiVacuumRotScaleTimeByDistWithTgtBase::~MultiVacuumRotScaleTimeByDistWithTgtBase() = default;
 
+bool MultiVacuumRotScaleTimeByDistWithTgtBase::handleAck_(const ksys::MessageAck* ack) {
+    return _b8.sub_710073E5E0(ack);
+}
+
 bool MultiVacuumRotScaleTimeByDistWithTgtBase::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }

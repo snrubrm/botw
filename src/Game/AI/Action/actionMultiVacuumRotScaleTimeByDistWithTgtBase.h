@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "Game/AI/Action/actionSandwormTackleMove.h"
 
 namespace uking::action {
 
@@ -11,6 +12,7 @@ public:
     ~MultiVacuumRotScaleTimeByDistWithTgtBase() override;
 
     bool init_(sead::Heap* heap) override;
+    bool handleAck_(const ksys::MessageAck* ack) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
@@ -50,7 +52,8 @@ protected:
     sead::SafeString mEndAS_s{};
     // static_param at offset 0xb0
     const sead::Vector3f* mVacuumPosOffset_s{};
-    u8 _b8[0x1b8 - 0xb8];
+    Unk_SandwormTackleTarget _b8;
+    u8 _118[0x1b8 - 0x118];
     int _1b8 = 0;
     u8 _1bc[0x1c0 - 0x1bc];
 };
