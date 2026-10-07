@@ -1,14 +1,48 @@
 #pragma once
 
+#include <container/seadOffsetList.h>
+#include <heap/seadHeap.h>
+#include <thread/seadCriticalSection.h>
+#include "KingSystem/Utils/Types.h"
+
 namespace ksys::res {
 
-// TODO: very incomplete
+// TODO: very incomplete (vtable 0x71251aad8; the size is unknown)
 class TextureHandleList {
 public:
+    // 0x71012bd610 (CSV TextureHandleList::ctor)
+    explicit TextureHandleList(sead::Heap* heap);
     virtual ~TextureHandleList();
 
-    // 0x71012bd6bc (declared only): clears the list under its lock.
+    // Placeholder: the elements of the list (the list node is at +0xa0; its functions live in the TU
+    // before TextureHandleList's).
+    class Entry {
+    public:
+        static constexpr size_t getListNodeOffset() { return 0xa0; }
+
+        // 0x71012bd52c (declared only): whether the list node is linked.
+        bool isLinked() const;
+        // 0x71012bd4e0 (declared only): releases the entry (if flag byte +8 is set).
+        void sub_71012BD4E0();
+
+        u8 _0[0xa0];
+        sead::ListNode mListNode;
+    };
+
+    // 0x71012bd69c (CSV unnamed): sets the list node offset and registers the list as the instance.
+    bool init();
+    // 0x71012bd73c / 0x71012bd790: add / remove an entry under the lock.
+    void add(Entry* entry);
+    void remove(Entry* entry);
+    // 0x71012bd6bc: releases and unlinks every entry under the lock.
     void sub_71012BD6BC();
+
+    // 0x71012bd5dc (declared only; other TU): stores the instance pointer.
+    static void setInstance(TextureHandleList* list);
+
+private:
+    sead::CriticalSection mCS;
+    sead::OffsetList<Entry> mList;
 };
 
 }  // namespace ksys::res
