@@ -1,6 +1,7 @@
 #include "Game/AI/AI/aiGuardianMiniRoot.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
 namespace uking::ai {
 
@@ -18,6 +19,21 @@ void GuardianMiniRoot::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void GuardianMiniRoot::leave_() {
     EnemyRoot::leave_();
+    mActor->sub_71011DA868(&_288);
+    stopXLinks();
+    if (auto* controller = mActor->getCharacterController())
+        controller->sub_7100F62DD0(1.0f);
+}
+
+// NON_MATCHING: loop strength reduction only: the original keeps `this + 0x330` / `this + 0x393` as two induction
+// pointers (x24 / x26, `this` is dead after them); ours keeps `this` and a scaled offset (one extra register).
+void GuardianMiniRoot::stopXLinks() {
+    s32 i = 0;
+    for (auto& handles : _330) {
+        handles.mELink.kill();
+        handles.mSLink.fade();
+        _393[i++] = false;
+    }
 }
 
 void GuardianMiniRoot::loadParams_() {

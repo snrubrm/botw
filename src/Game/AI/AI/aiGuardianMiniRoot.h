@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Game/AI/AI/aiEnemyRoot.h"
+#include "KingSystem/ActorSystem/actBoneHandle.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
@@ -32,6 +34,17 @@ protected:
     bool* mIsTransformedGuardianMini_a{};
     // aitree_variable at offset 0x200
     int* mGuardianMiniChanceTimeState_a{};
+    // The members from 0x208 to 0x288 are not modelled yet (see the constructor 0x7100426060).
+    u8 _208[0x288 - 0x208];
+    ksys::act::BoneHandle _288;
+    // Three pairs (ELink, SLink) of xlink handles (the six {pointer, id} pairs initialised by the constructor).
+    Unk_71012419b4 _330[3];
+    u8 _390[3];
+    bool _393[3];
+    u8 _396[0x3c0 - 0x396];
+
+    // 0x71004262d4 (placeholder name): kills the ELink and fades the SLink event of the three handle pairs.
+    void stopXLinks();
 };
 
 }  // namespace uking::ai
