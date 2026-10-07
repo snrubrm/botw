@@ -15,7 +15,7 @@ class AttenuationDirectivityReader;
 class AttenuationDirectivity : public FixedNamedObj<32>, public sead::hostio::Node {
 public:
     explicit AttenuationDirectivity(const sead::SafeString& name);
-    ~AttenuationDirectivity() override = default;
+    ~AttenuationDirectivity() override;
 
     /// The volume factor for `rate` (0: inside of the inner cone, 1: outside of the outer cone).
     f32 calcConeReduction(f32 rate) const;

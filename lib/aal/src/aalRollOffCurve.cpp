@@ -9,6 +9,8 @@
 
 namespace aal {
 
+RollOffCurve::~RollOffCurve() = default;
+
 // 0x7100ba4130
 RollOffCurve::RollOffCurve(const sead::SafeString& name) : Curve(name) {}
 

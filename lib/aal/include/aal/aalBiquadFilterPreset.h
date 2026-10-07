@@ -15,7 +15,7 @@ public:
     /// Provides the coefficients of a filter by looking up a table with the filter value in [0, 1].
     class BiquadFilterCallback : public nn::atk::IBiquadFilterCallback {
     public:
-        ~BiquadFilterCallback() override = default;
+        ~BiquadFilterCallback() override;
 
         void GetCoefficients(nn::atk::BiquadFilterCoefficients* coefficients, int type,
                              f32 value) const override;

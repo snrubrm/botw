@@ -25,7 +25,7 @@ static_assert(sizeof(ShapeParam) == 0x30, "aal::ShapeParam size mismatch");
 class ShapeTemplate : public FixedNamedObj<32> {
 public:
     ShapeTemplate();
-    ~ShapeTemplate() override = default;
+    ~ShapeTemplate() override;
 
     void initialize(const sead::SafeString& name, const ShapeParam& param);
 

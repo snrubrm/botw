@@ -7,6 +7,8 @@
 
 namespace aal {
 
+UnitDistanceCurve::~UnitDistanceCurve() = default;
+
 // 0x7100ba5bac
 UnitDistanceCurve::UnitDistanceCurve(const sead::SafeString& name) : Curve(name) {
     calcCullingDistance_();

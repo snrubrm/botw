@@ -2,6 +2,8 @@
 
 namespace aal {
 
+ShapeTemplate::~ShapeTemplate() = default;
+
 // 0x7100b9dde0
 ShapeTemplate::ShapeTemplate() = default;
 

@@ -16,7 +16,7 @@ class Curve;
 class AttenuationCulling : public FixedNamedObj<32>, public sead::hostio::Node {
 public:
     explicit AttenuationCulling(const sead::SafeString& name);
-    ~AttenuationCulling() override = default;
+    ~AttenuationCulling() override;
 
     /// The gain (0 - 1) at `distance` for the culling distance and mergin. The result is squared.
     static f32 calcCullingGain(f32 distance, f32 culling_distance, f32 culling_mergin);

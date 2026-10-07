@@ -21,7 +21,7 @@ public:
     SEAD_ENUM(CurveType, Log, Linear)
 
     explicit UnitDistanceCurve(const sead::SafeString& name);
-    ~UnitDistanceCurve() override = default;
+    ~UnitDistanceCurve() override;
 
     f32 interpolate(f32 distance) const override;
     f32 getCullingStartDistance() const override { return mCullingStartDistance; }

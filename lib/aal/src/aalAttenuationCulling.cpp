@@ -4,6 +4,8 @@
 
 namespace aal {
 
+AttenuationCulling::~AttenuationCulling() = default;
+
 // 0x7100bb7c00
 AttenuationCulling::AttenuationCulling(const sead::SafeString& name)  {
     setObjName(name);

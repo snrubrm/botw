@@ -3,6 +3,8 @@
 
 namespace aal {
 
+AttenuationDirectivity::~AttenuationDirectivity() = default;
+
 namespace {
 constexpr f32 cMaxConeAngle = 180.0f;
 constexpr f32 cDegToRad = 0.017453292f;

@@ -68,7 +68,7 @@ class RollOffCurve : public Curve {
     SEAD_RTTI_OVERRIDE(RollOffCurve, Curve)
 public:
     explicit RollOffCurve(const sead::SafeString& name);
-    ~RollOffCurve() override = default;
+    ~RollOffCurve() override;
 
     /// The attenuation (0 - 1) at the given distance.
     f32 interpolate(f32 distance) const override;

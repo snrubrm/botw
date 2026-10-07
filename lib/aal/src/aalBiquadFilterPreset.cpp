@@ -3,6 +3,8 @@
 
 namespace aal {
 
+BiquadFilterPreset::BiquadFilterCallback::~BiquadFilterCallback() = default;
+
 // 0x7100b7c320
 void BiquadFilterPreset::BiquadFilterCallback::GetCoefficients(
     nn::atk::BiquadFilterCoefficients* coefficients, int type, f32 value) const {
