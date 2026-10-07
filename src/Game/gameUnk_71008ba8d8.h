@@ -14,6 +14,10 @@ struct MesTransceiverId;
 enum MessageType : u32;
 }  // namespace ksys
 
+namespace uking {
+class CookItem;
+}
+
 namespace ksys::evt {
 class BaseProcLinkForEvent;
 }
@@ -60,6 +64,9 @@ bool callDemo049_controlsDemo(const sead::SafeString& entry);
 bool callDemo025_1_E3Exit();
 
 }  // namespace uking
+
+// 0x71008bb1e0 (CSV callCookingDemo; declared in aiCookPotRoot.h as well; the item parameters are unused).
+bool callCookingDemo(ksys::act::Actor* actor, const uking::CookItem* a, const uking::CookItem* b);
 
 // 0x71008ba664 / 0x71008ba670 / 0x71008ba67c (CSV getStr_CurrentActorName / getStr_SharpWeaponAddValue /
 // getStr_SharpWeaponAddType; lane2 s46): constant event parameter names.

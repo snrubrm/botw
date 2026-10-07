@@ -1,13 +1,17 @@
 #include "Game/gameUnk_71008ba8d8.h"
+#include "Game/gameScene.h"
+#include "KingSystem/System/Vibration.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/Event/evtActorBase.h"
+#include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "KingSystem/Event/evtBaseProcLinkForEvent.h"
 #include "KingSystem/Event/evtEventFlow.h"
 #include "KingSystem/Event/evtEventSystem.h"
 #include "KingSystem/Event/evtManager.h"
 #include "KingSystem/Event/evtMetadata.h"
+#include "KingSystem/Event/evtOrderParam.h"
 
 namespace ksys::evt {
 
@@ -50,6 +54,21 @@ bool callEvent(act::BaseProc* proc, const sead::SafeString& event, const sead::S
 }
 
 }  // namespace ksys::evt
+
+bool callCookingDemo(ksys::act::Actor* actor, const uking::CookItem*, const uking::CookItem*) {
+    auto* manager = ksys::evt::Manager::instance();
+    bool result = false;
+    if (manager) {
+        ksys::evt::Metadata metadata("Demo001_0", "Demo001_0");
+        if (metadata.getOrderParam()) {
+            ksys::evt::CallArg arg;
+            arg.metadata = &metadata;
+            arg.proc = actor;
+            result = manager->callEvent(arg);
+        }
+    }
+    return result;
+}
 
 namespace {
 const sead::SafeString sUnk_710246cdc0 = "CurrentActorName";
@@ -168,6 +187,63 @@ bool callPlayerGameOverDemo(ksys::act::Actor* player) {
     if (!player)
         return false;
     return ksys::evt::callEvent(nullptr, event, entry, player->getMtx(), true, false);
+}
+
+bool callPlayerRespawnEvent(ksys::act::Actor* player) {
+    sead::FixedSafeString<16> event("Demo048_0");
+    sead::FixedSafeString<16> entry("Demo048_0");
+    if (!player)
+        return false;
+    if (ksys::gdt::getFlag_Water_Relic_BattleTime(false)) {
+        event = "Demo048_1";
+        entry = "Demo048_1";
+    }
+    return ksys::evt::callEvent(nullptr, event, entry, player->getMtx(), true, false);
+}
+
+bool callDemo005_0(ksys::act::Actor* player, const sead::SafeString& a, const sead::SafeString& b) {
+    auto* manager = ksys::evt::Manager::instance();
+    if (!manager)
+        return false;
+
+    ksys::evt::Metadata metadata("Demo005_0", "Demo005_0");
+    bool result = false;
+    if (auto* params = metadata.getOrderParam()) {
+        if (params->addParamString(a, "Arg_WarpDestMapName")) {
+            if (params->addParamString(b, "Arg_WarpDestPosName")) {
+                ksys::evt::CallArg arg;
+                arg.metadata = &metadata;
+                arg.proc = player;
+                if (manager->callEvent(arg)) {
+                    if (GameScene::getCurrentMapType() == "MainFieldDungeon") {
+                        if (GameScene::getCurrentMapName() == "FinalTrial")
+                            ksys::Vibration::instance()->sub_71010BB36C();
+                    }
+                    result = true;
+                }
+            }
+        }
+    }
+    return result;
+}
+
+bool callDemo616_0(ksys::act::Actor* player, const sead::SafeString& a, const sead::SafeString& b) {
+    auto* manager = ksys::evt::Manager::instance();
+    bool result = false;
+    if (manager) {
+        ksys::evt::Metadata metadata("Demo616_0", "Demo616_0");
+        if (auto* params = metadata.getOrderParam()) {
+            if (params->addParamString(a, "Arg_WarpDestMapName")) {
+                if (params->addParamString(b, "Arg_WarpDestPosName")) {
+                    ksys::evt::CallArg arg;
+                    arg.metadata = &metadata;
+                    arg.proc = player;
+                    result = manager->callEvent(arg);
+                }
+            }
+        }
+    }
+    return result;
 }
 
 bool callSceneStartDemo(const sead::SafeString& event, const sead::SafeString& entry,
