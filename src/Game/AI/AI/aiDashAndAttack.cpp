@@ -1,5 +1,8 @@
 #include "Game/AI/AI/aiDashAndAttack.h"
 #include <math/seadMathCalcCommon.h>
+#include <geom/seadGeometry.h>
+#include <geom/seadSegment.h>
+#include "Game/AI/aiUnk_71007320F0.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 
@@ -83,6 +86,27 @@ void DashAndAttack::calc_() {
             }
         }
     }
+}
+
+// NON_MATCHING: vector copies and the squared range use different load and calculation scheduling.
+bool DashAndAttack::sub_710035BB34() {
+    const sead::Vector3f position = mActor->getMtx().getTranslation();
+    const auto& actor_velocity = mActor->getVelocity();
+    const sead::Vector3f velocity(actor_velocity.x, 0.0f, actor_velocity.z);
+    const sead::Segment3f actor_segment(position, position + velocity * *mParams.mAttackFrame_s);
+
+    sead::Vector3f target_velocity(mParams.mTargetVel_d->x, 0.0f, mParams.mTargetVel_d->z);
+    const sead::Vector3f target_position(mParams.mTargetPos_d->x, position.y,
+                                       mParams.mTargetPos_d->z);
+    const f32 speed = target_velocity.length();
+    const f32 limit = *mParams.mTargetSpeedClampMax_s;
+    if (speed > limit && limit > 0.0f)
+        target_velocity *= limit / speed;
+    const sead::Segment3f target_segment(
+        target_position, target_position + target_velocity * *mParams.mAttackFrame_s);
+    const f32 range = *mParams.mAttackRange_s + sub_71007320F0(mActor, *mParams.mWeaponIdx_s);
+    return sead::Geometry::sub_7100B20B34(actor_segment, target_segment, nullptr, nullptr) <=
+           range * range;
 }
 
 void DashAndAttack::leave_() {
