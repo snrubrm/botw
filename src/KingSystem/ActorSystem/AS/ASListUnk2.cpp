@@ -1,4 +1,5 @@
 #include "KingSystem/ActorSystem/AS/ASList.h"
+#include <gsys/gsysModelUnit.h>
 #include "KingSystem/ActorSystem/AS/asElement.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/Resource/Actor/resResourceASList.h"
@@ -8,6 +9,55 @@
 bool sub_7100E9CF8C();
 
 namespace ksys::as {
+
+bool ASList::Unk2::sub_7101163998(nn::g3d::ICalculateBlendWeightCallback::CallbackArg& arg,
+                                gsys::ModelUnit* unit, s32 index) {
+    if (!_18)
+        return false;
+    int range_index = 0;
+    const res::ASSetting::BoneParams* params = mBoneWeightRanges[0].params;
+    if (!params || mBoneWeightRanges[0].end <= index || index < mBoneWeightRanges[0].start) {
+        range_index = 1;
+        params = mBoneWeightRanges[1].params;
+        if (!params || mBoneWeightRanges[1].end <= index || index < mBoneWeightRanges[1].start) {
+            range_index = 2;
+            params = mBoneWeightRanges[2].params;
+            if (!params || mBoneWeightRanges[2].end <= index || index < mBoneWeightRanges[2].start)
+                return false;
+        }
+    }
+    const sead::SafeString name = unit->getBoneName(arg.bone_index);
+    f32 weight = params->getBoneWeight(name) * _0->sub_710125A164(0x1c);
+    if (index < mBoneWeightRanges.getBufferPtr()[range_index].middle)
+        weight = (1.0f - weight) * arg.weight * sub_710125E644();
+    else
+        weight = weight * arg.weight * sub_710125E650();
+    arg.weight = weight;
+    return true;
+}
+
+void ASList::Unk2::sub_7101162DE4(sead::Vector3f* a1, sead::Vector3f* a2,
+                                const gsys::BoneAccessKey* key) {
+    if (!(_40 & 2) || _10 < 0.01f)
+        return;
+    const f32 delta = _0->sub_710125A9A8();
+    MotionState state;
+    state._0 = delta;
+    state.weight = 1.0f;
+    state._8 = 0.0f;
+    state._c = {0.0f, 0.0f, 0.0f};
+    state._18 = {0.0f, 0.0f, 0.0f};
+    state._24 = *key;
+    state._28 = this;
+    state._30 = -1.0f;
+    state._34 = false;
+    sub_7101162940(a1, a2, &state, false, delta);
+}
+
+
+bool ASList::Unk2::sub_7100023B58() {
+    return _41 >> 3 & 1;
+}
 
 // (in this file because the original does not inline it into the ASList functions)
 void ASList::Unk2::sub_7101162E88(Unk2* other, bool a1) {

@@ -33,6 +33,7 @@ class Actor;
 namespace ksys::as {
 
 class Element;
+class Unk_710125af7c;
 
 // ASList-owned linked element list; source name inferred. Only the buffer prefix is modelled.
 // This partial declaration must not be constructed or used to infer the original allocation size.
@@ -335,6 +336,8 @@ public:
         sead::Heap* heap;
         res::AS* as;
         act::Actor* actor;
+        // Partial skeletal animation source tree, consumed by SkeltalAsset::m8.
+        Unk_710125af7c* partialSkeletalSources;
     };
 
     struct InitArg {
@@ -952,6 +955,14 @@ public:
     /* 0x18 */ Unk18* _18;
 };
 KSYS_CHECK_SIZE_NX150(SkeltalAsset, 0x20);
+
+// Original tree lookup/create at 0x710125af7c; implementation remains declared only.
+class Unk_710125af7c {
+public:
+    bool sub_710125AF7C(SkeltalAsset::Unk18** out,
+                       const gsys::AnimationAccessKey<gsys::SkeletalAnmType>* key,
+                       gsys::Model* model, act::Actor* actor, sead::Heap* heap);
+};
 
 class ClearMatAnmAsset : public Asset {
     SEAD_RTTI_OVERRIDE(ClearMatAnmAsset, Asset)

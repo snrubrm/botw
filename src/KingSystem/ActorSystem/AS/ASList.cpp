@@ -16,6 +16,21 @@
 
 namespace ksys::as {
 
+void ASList::x_0(const gsys::BoneAccessKey* key) {
+    if (!_8)
+        return;
+    const sead::SafeString name = _8->getUnits().unsafeAt(key->model_unit_index)
+                                     ->mModelUnit->getBoneName(key->bone_index);
+    if (!_8)
+        return;
+    _18.copy(name);
+    if (name.isEmpty())
+        _14.reset();
+    else
+        _14 = _8->searchBone(name);
+}
+
+
 void ASList::startAnimationMaybe(f32 a2, f32 a3, const sead::SafeString& animation, int slot,
                                int bank, bool force) {
     if (!_d8 || mSlots.size() <= slot || mSlots[slot]._20.size() <= bank)

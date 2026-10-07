@@ -65,7 +65,7 @@ public:
                            gsys::ModelUnit* unit, s32 index);
         // inline: their out-of-line copies are emitted in the callers' TUs
         bool sub_710002E82C() { return _18 != nullptr; }
-        bool sub_7100023B58() { return _41 >> 3 & 1; }
+        bool sub_7100023B58();
         // 0x710042bbec: sets bit 8 of the halfword at 0x40.
         void sub_710042BBEC();
         // 0x71011623dc: copies frame state when both slots use the same resource.
@@ -123,6 +123,8 @@ public:
         // 0x71011634c0: updates the element position, then evaluates its event state.
         void sub_71011634C0(f32 value);
         // used by Unk1::sub_7101164F3C
+        // 0x7101162940: blend the entry motion into two output vectors.
+        void sub_7101162940(sead::Vector3f* a1, sead::Vector3f* a2, MotionState* state, bool a4, f32 delta);
         void sub_7101162DE4(sead::Vector3f* a1, sead::Vector3f* a2, const gsys::BoneAccessKey* key);
         // used with x_3
         void sub_7101163044(f32 value);
@@ -513,9 +515,9 @@ struct MotionState {
 };
 static_assert(sizeof(MotionState) == 0x38);
 
-// Recovered prefix of the separate m15 bone-blend record. Its queued entries after 0x30 are
-// not modelled; do not construct this partial declaration or infer its full size.
+// Separate m15 bone-blend record with a fixed queue of 64 skeletal-animation requests.
 struct BoneBlendState {
+    BoneBlendState();
     // 0x7101257884 (declaration only): queues a skeletal-animation blend request.
     void sub_7101257884(const gsys::AnimationAccessKey<gsys::SkeletalAnmType>* key,
                       Context::Record* record, bool partial, f32 frame);

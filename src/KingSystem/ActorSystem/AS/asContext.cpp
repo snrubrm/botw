@@ -8,6 +8,10 @@
 
 namespace ksys::as {
 
+BoneBlendState::BoneBlendState()
+    : _0{}, weight{}, _8{}, _10{}, _18{}, _1c{}, _20{}, _24{}, _28{}, mNumEntries{}, mEntries{} {}
+
+
 bool Context::sub_710125A924(const Context& other) {
     return mFrames[_f4 ? _f4 - 1 : 2].sub_71012580E0(
         other.mFrames[other._f4 ? other._f4 - 1 : 2]);

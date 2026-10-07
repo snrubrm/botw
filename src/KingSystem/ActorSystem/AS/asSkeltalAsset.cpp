@@ -4,6 +4,17 @@
 
 namespace ksys::as {
 
+// NON_MATCHING: the second key halfword uses the element pointer rather than the key pointer.
+bool SkeltalAsset::m8(const InitArg& arg) {
+    const CreateArg& create_arg = *arg.createArg;
+    if (create_arg.model && mKey.isValid() && create_arg.model->getAnimation())
+        if (!create_arg.partialSkeletalSources->sub_710125AF7C(
+                &_18, &mKey, create_arg.model, create_arg.actor, create_arg.heap))
+            return false;
+    return true;
+}
+
+
 bool SkeltalAsset::m9(Context* ctx, PlayState* state, const res::ASResource* resource) {
     const int index = sub_71011653E8(resource);
     ctx->sub_7101258D68(index);
