@@ -23,7 +23,20 @@ bool DemoVoiceTrigger::init_(sead::Heap* heap) {
 }
 
 void DemoVoiceTrigger::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    // NON_MATCHING: the stack temporaries for the dynamic-param fetches are laid out differently
+    // (ours reuses slots; the original keeps an extra saved register and slot), and our call to
+    // sub_71000E13614 passes an explicit 0 for its ignored middle int parameter. Calls, branches
+    // and member stores are identical.
+    sead::SafeString label;
+    sead::SafeString actor_instance;
+    bool* is_hide_caption;
+    if (getDynamicParam(&label, "Label"))
+        mLabel_d = label;
+    if (getDynamicParam(&actor_instance, "ActorInstance"))
+        mActorInstance_d = actor_instance;
+    if (getDynamicParam(&is_hide_caption, "IsHideCaption"))
+        mIsHideCaption_d = is_hide_caption;
+    sub_71000E13614(&mLabel_d, 0, *mIsHideCaption_d);
 }
 
 void DemoVoiceTrigger::leave_() {

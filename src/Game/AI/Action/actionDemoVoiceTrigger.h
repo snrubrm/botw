@@ -20,6 +20,11 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    // 0x71000e13614 (declared only): starts the voice for the label (sets _52 etc.).
+    // The middle int parameter is ignored by the callee (x2 is overwritten before any read);
+    // our call passes 0, costing one extra mov.
+    void sub_71000E13614(const sead::SafeString* label, int unused, bool hide_caption);
+
 protected:
     void calc_() override;
 
