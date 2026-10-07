@@ -195,8 +195,13 @@ s32 UiSubsys1::get38a8() const {
 }
 
 // 0x710096746c (CSV uiSubsys1::__auto5)
-u8 UiSubsys1::get38ac() const {
+bool UiSubsys1::get38ac() const {
     return _38ac;
+}
+
+// 0x71009674e8
+bool UiSubsys1::sub_71009674E8() const {
+    return Unk_71025d6ac0::instance()->_29;
 }
 
 // 0x7100967534 (CSV uiSubsys1::__auto4)
@@ -328,7 +333,7 @@ u8 UiSubsys1::get38c8() const {
 }
 
 // 0x7100966e9c
-u8 UiSubsys1::get38d8() const {
+bool UiSubsys1::get38d8() const {
     return _38d8;
 }
 

@@ -50,7 +50,7 @@ public:
     void sub_71009686BC(s32 value);
 
     u8 _0[0x29];
-    /* 0x29 */ u8 _29;
+    /* 0x29 */ bool _29;
     u8 _2a[0x74 - 0x2a];
     /* 0x74 */ s32 _74;
     u8 _78[0x80 - 0x78];
@@ -312,7 +312,9 @@ public:
     void clear38c8();
     void set3884(bool value);
     s32 get38a8() const;
-    u8 get38ac() const;
+    bool get38ac() const;
+    // 0x71009674e8 (placeholder name; does not use `this`): the byte at 0x29 of the 0x71025d6ac0 object.
+    bool sub_71009674E8() const;
     void set38e4(s32 value);
     s32 get38f8() const;
     s32 get3900() const;
@@ -355,7 +357,7 @@ public:
     bool is3888Equal(s32 value) const;
     bool get3884() const;
     u8 get38c8() const;
-    u8 get38d8() const;
+    bool get38d8() const;
     u8 get38d9() const;
     void copy38c8To38c9();
     void copy38d8To38d9();
@@ -460,7 +462,7 @@ private:
     /* 0x388c */ UiTimer _388c;
     /* 0x38a4 */ s32 _38a4;
     /* 0x38a8 */ s32 _38a8;
-    /* 0x38ac */ u8 _38ac;
+    /* 0x38ac */ bool _38ac;
     /* 0x38ad */ u8 _38ad;
     u8 _38ae[0x38b8 - 0x38ae];
     /* 0x38b8 */ bool _38b8;
@@ -469,7 +471,7 @@ private:
     /* 0x38c8 */ u8 _38c8;
     /* 0x38c9 */ u8 _38c9;
     u8 _38ca[0x38d8 - 0x38ca];
-    /* 0x38d8 */ u8 _38d8;
+    /* 0x38d8 */ bool _38d8;
     /* 0x38d9 */ u8 _38d9;
     u8 _38da[0x38e0 - 0x38da];
     /* 0x38e0 */ s32 _38e0;

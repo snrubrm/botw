@@ -1,5 +1,6 @@
 #include "Game/AI/AI/aiPauseMenuPlayerRoot.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayerOrEnemy.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Utils/Thread/Message.h"
 
@@ -22,6 +23,36 @@ void PauseMenuPlayerRoot::leave_() {
 }
 
 void PauseMenuPlayerRoot::loadParams_() {}
+
+// NON_MATCHING: everything matches except the type info of the cast: the actor is a PauseMenuPlayer (a direct subclass of
+// PlayerOrEnemy whose RTTI static is at 0x71025bb0b8, an actor class that does not exist yet: lane4); PlayerOrEnemy is
+// used instead.
+// 0x71004f5624
+void PauseMenuPlayerRoot::calc_() {
+    if (_38) {
+        changeChild("抱え持ち増加", nullptr);
+        _38 = false;
+    } else if (_39) {
+        changeChild("アイテム使用", nullptr);
+        _39 = false;
+    }
+
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed()) {
+        if (isCurrentChild("抱え持ち増加") || isCurrentChild("アイテム使用")) {
+            if (!isCurrentChild("通常待機"))
+                changeChild("通常待機", nullptr);
+            return;
+        }
+    }
+    if (!isCurrentChild("抱え持ち増加"))
+        return;
+    auto* actor = sead::DynamicCast<ksys::act::PlayerOrEnemy>(mActor);
+    if (!actor || actor->getFlagC34())
+        return;
+    if (!isCurrentChild("通常待機"))
+        changeChild("通常待機", nullptr);
+}
 
 // 0x71004f57f8
 bool PauseMenuPlayerRoot::handleMessage_(const ksys::Message* message) {

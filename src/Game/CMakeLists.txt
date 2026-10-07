@@ -45,6 +45,8 @@ target_sources(uking PRIVATE
   gameSaveSystem.cpp
   gameRoot4.cpp
   gameRoot4.h
+  gameRadarMgr.cpp
+  gameRadarMgr.h
   gameRoot38.cpp
   gameRoot38.h
   gameRumble.h

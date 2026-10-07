@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiNPCMamonoShopRoot.h"
+#include "Game/gameGraphics.h"
+#include "KingSystem/GameData/gdtSpecialFlags.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
@@ -24,6 +26,18 @@ void NPCMamonoShopRoot::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void NPCMamonoShopRoot::leave_() {
     NPCRoot::leave_();
+}
+
+// 0x71004cd790
+void NPCMamonoShopRoot::onPreDelete() {
+    if (auto* graphics = Graphics::instance()) {
+        if (auto* block = graphics->getUnk_ab0())
+            block->_e48 |= 0x80000000;
+    }
+    mActor->emitBasicSigOff();
+    ksys::gdt::setBoolByKey(false, "MamonoShop_Start");
+    ksys::gdt::setBoolByKey(false, "MamonoShop_OpenStop");
+    ksys::gdt::setBoolByKey(false, "MamonoShop_Forward");
 }
 
 void NPCMamonoShopRoot::loadParams_() {

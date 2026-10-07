@@ -5,6 +5,8 @@
 #include "Game/AI/aiUnk_71007368A4.h"
 #include "Game/AI/aiUnk_7100742478.h"
 #include "Game/Actor/actWolfLink.h"
+#include "Game/UI/uiUnkSingletons.h"
+#include "Game/gameRadarMgr.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
@@ -229,6 +231,50 @@ bool WolfLinkNormalRoot::sub_7100606FCC() {
         params.addActor(leader, "TargetActor", -1);
     changeChild("追従", &params);
     return true;
+}
+
+// NON_MATCHING: same instructions; the original branches on `get38a8() == 1` and calls addBool with a constant `true` /
+// `false` (the key SafeString is built per branch, one shared call), ours computes the bool with `cset`.
+// 0x7100608f0c
+bool WolfLinkNormalRoot::sub_7100608F0C() {
+    auto& leader = ksys::act::PlayerInfo::getSomeProcLink();
+    if (!leader.hasProc())
+        return false;
+    if (!mActor->m45())
+        return false;
+    _1b8 = 0;
+    ksys::act::ai::InlineParamPack params;
+    params.addBool(ui::UiSubsys1::instance()->get38a8() == 1, "UpdateTarget", -1);
+    params.addVec3(_178, "TargetPos", -1);
+    params.addActor(leader, "LeaderActor", -1);
+    changeChild("シークセンサー", &params);
+    return true;
+}
+
+// NON_MATCHING: same instructions, but the original places the shared `return false` block (`mov w0, wzr`) right after
+// the nav state check (the continuation is a forward branch) and ours puts it at the end.
+// 0x7100609628
+bool WolfLinkNormalRoot::sub_7100609628() {
+    if (_1b8 != 0 || int(_1a8) == 7)
+        return false;
+    if (int(_1a8) > 7 || int(_1a8) == 6)
+        return false;
+    if (_70->_1698 >> 5 & 1)
+        return false;
+    auto* nav = mActor->m45();
+    if (!nav || (nav->_220 & 0x41000))
+        return false;
+    if (getNavState(nav) != 1) {
+        auto* subsys = ui::UiSubsys1::instance();
+        if (!subsys)
+            return false;
+        auto* radar = RadarMgr::instance();
+        if (!radar)
+            return false;
+        if (subsys->get38ac() && subsys->get38d8() && subsys->sub_71009674E8())
+            return !(radar->_9c > *mShiekSensorLeadDistance_s);
+    }
+    return false;
 }
 
 bool WolfLinkNormalRoot::sub_7100609738() {

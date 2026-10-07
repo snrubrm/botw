@@ -37,8 +37,16 @@ public:
     // `_284` to `value`, then marks the settings dirty (`_280 |= 1`).
     void sub_7100F35FA4(bool value, bool second);
 
+    // Placeholder name: the block that Graphics + 0xab0 points to (lane2 s47: only the flag word at 0xe48 that
+    // NPCMamonoShopRoot::onPreDelete sets is modeled).
+    struct Unk_ab0 {
+        u8 _0[0xe48];
+        /* 0xe48 */ u32 _e48;
+    };
+
     // Only a pointer to the (separately allocated) shadow settings is modeled.
     Unk_a98* getUnk_a98() const { return _a98; }
+    Unk_ab0* getUnk_ab0() const { return _ab0; }
 
 private:
     u8 _0[0x150];
@@ -53,7 +61,9 @@ private:
     sead::BitFlag32 _284;
     u8 _288[0xa98 - 0x288];
     Unk_a98* _a98;
-    u8 _aa0[0xe08 - 0xaa0];
+    u8 _aa0[0xab0 - 0xaa0];
+    Unk_ab0* _ab0;
+    u8 _ab8[0xe08 - 0xab8];
 
 public:
     // 0xe08 (lane1 s44): the camera of the graphics system (read by SkyMgr::sub_71010E4EE0).

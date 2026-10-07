@@ -111,7 +111,12 @@ public:
 protected:
     /* 0xb90 */ ActorWeapons mWeapons{this};
     /* 0xc30 */ f32 _c30 = 100.0;
-    /* 0xc34 */ u32 _c34;  // not initialised by the ctor; Enemy members start at 0xc38
+    /* 0xc34 */ bool _c34;  // not initialised by the ctor (lane2 s47: a byte flag, read by PauseMenuPlayerRoot::calc_)
+    u8 _c35[3];              // Enemy members start at 0xc38
+
+public:
+    // name is a guess
+    bool getFlagC34() const { return _c34; }
 };
 KSYS_CHECK_SIZE_NX150(PlayerOrEnemy, 0xc38);
 

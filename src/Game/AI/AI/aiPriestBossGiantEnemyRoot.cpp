@@ -25,6 +25,9 @@ namespace uking::ai {
 static const sead::SafeString sUnk_7102413930 = "Priest_Boss_IronBall";
 static const sead::SafeString sUnk_7102413950 = "ironball_attack";
 
+// D1 0x7100519da4
+Unk_71024137d0::~Unk_71024137d0() = default;
+
 // NON_MATCHING: the timer reset stores are merged before the delegate call.
 void Unk_71024137d0::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
                           dmg::DamageCallbackInfo* a6) {

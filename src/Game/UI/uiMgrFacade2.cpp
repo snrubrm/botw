@@ -450,9 +450,4 @@ ksys::snd::UiSoundKind sub_71010A0DE0(bool a, bool b, s32 c) {
     return {kind};
 }
 
-// 0x71009674e8
-u8 sub_71009674E8() {
-    return Unk_71025d6ac0::instance()->_29;
-}
-
 }  // namespace uking::ui
