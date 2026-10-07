@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Game/AI/AI/aiPriestBossPhase.h"
+#include "Game/AI/aiPriestBossPhaseMembers.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
@@ -30,6 +31,11 @@ protected:
     const int* mBowEquipMax_s{};
     // static_param at offset 0x90
     const float* mRespawnSpan_s{};
+    /* 0x98 */ Unk_7102451070 _98;
+    /* 0x3c8 */ Unk_7102451050 _3c8;
+    /* 0x5d0 */ bool _5d0 = false;
 };
+
+KSYS_CHECK_SIZE_NX150(PriestBossPhaseFourth, 0x5d8);
 
 }  // namespace uking::ai
