@@ -23,6 +23,8 @@ public:
 protected:
     void calc_() override;
     virtual void m32();
+    void sub_7100051124();
+    void sub_71000512C0();
 
     // static_param at offset 0x20
     const bool* mIsSound_s{};

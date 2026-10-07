@@ -2,6 +2,8 @@
 #include <xlink2/xlink2Event.h>
 #include <xlink2/xlink2HandleSLink.h>
 #include "Game/AI/aiXlinkHandle.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/System/Vibration.h"
 #include "KingSystem/Utils/Thread/Message.h"
 #include "KingSystem/Utils/InitTimeInfo.h"
 
@@ -45,7 +47,28 @@ void CameraVibrate::loadParams_() {
 }
 
 void CameraVibrate::calc_() {
-    ksys::act::ai::Action::calc_();
+    const bool active = mActor->checkBasicSig();
+    if (_60 == active)
+        return;
+    if (active) {
+        auto* actor = mActor;
+        ksys::Vibration::Unk2 request;
+        request._20 = *mCameraPattern_m;
+        request._18 = *mCameraPower_m;
+        request._1c = *mCameraRange_m;
+        sead::Vector3f home_pos;
+        actor->getHomePos(&home_pos);
+        request._0 = home_pos;
+        request._10 = &actor->getMessageTransceiver();
+        request._25 = 1;
+        ksys::Vibration::instance()->sub_71010BB428(request);
+        sub_7100051124();
+    } else {
+        if (_64 >= 0)
+            ksys::Vibration::instance()->sub_71010BB810(_64);
+        sub_71000512C0();
+    }
+    _60 = active;
 }
 
 void CameraVibrate::m32() {}
