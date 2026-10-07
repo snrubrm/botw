@@ -478,6 +478,11 @@ RailConnectablePoint* PlacementMgr::sub_71011EA44C(const sead::Vector3f* pos, s3
     return mPlacement18->sub_7100D488A0(pos, x, z);
 }
 
+RailConnectablePoint* PlacementMgr::sub_71011EA45C(const sead::Vector3f* pos,
+                                                const sead::SafeString& route_id) {
+    return mPlacement18->sub_7100D49000(pos, route_id, 18, 14);
+}
+
 Rail* PlacementMgr::sub_71011EA454(const sead::SafeString& name, const sead::Vector3f* pos) {
     return mPlacement18->sub_7100D48DE0(name, pos);
 }

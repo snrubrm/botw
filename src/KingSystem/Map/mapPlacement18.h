@@ -21,6 +21,8 @@ public:
     Rail* sub_7100D48744(const sead::SafeString& unique_name);
     RailConnectablePoint* sub_7100D488A0(const sead::Vector3f* pos, s32 x, s32 z);
     Rail* sub_7100D48DE0(const sead::SafeString& name, const sead::Vector3f* pos);
+    RailConnectablePoint* sub_7100D49000(const sead::Vector3f* pos,
+                                       const sead::SafeString& route_id, s32 x, s32 z);
 
     // 0x7100d48254 (declared only)
     Rail* sub_7100D48254(const sead::SafeString& unique_name);
