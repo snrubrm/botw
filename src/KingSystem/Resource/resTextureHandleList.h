@@ -4,6 +4,7 @@
 #include <heap/seadHeap.h>
 #include <thread/seadCriticalSection.h>
 #include "KingSystem/Utils/Types.h"
+#include "KingSystem/Resource/resUnk_71024F9D48.h"
 
 namespace ksys::res {
 
@@ -22,6 +23,8 @@ public:
 
         // 0x71012bd52c whether the list node is linked.
         bool isLinked() const;
+        bool sub_71012BD330() const;
+        void sub_71012BD338();
         void* sub_71012BD4D8() const;
         // 0x71012bd4e0 releases the entry (if flag byte +8 is set).
         void sub_71012BD4E0();
@@ -37,7 +40,8 @@ public:
         u8 _9[7];
         void* _10;
         Unk18* _18;
-        u8 _20[0xa0 - 0x20];
+        u8 _20[0x40 - 0x20];
+        Unk_71024F9D48 _40;
         sead::ListNode mListNode;
     };
 
@@ -57,5 +61,7 @@ private:
     sead::CriticalSection mCS;
     sead::OffsetList<Entry> mList;
 };
+
+KSYS_CHECK_SIZE_NX150(TextureHandleList::Entry, 0xb0);
 
 }  // namespace ksys::res

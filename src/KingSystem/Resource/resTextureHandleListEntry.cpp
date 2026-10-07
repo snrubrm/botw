@@ -28,4 +28,18 @@ void* TextureHandleList::Entry::sub_71012BD4D8() const {
     return _10;
 }
 
+bool TextureHandleList::Entry::sub_71012BD330() const {
+    return _40.sub_7100FE7FB0();
+}
+
+void TextureHandleList::Entry::sub_71012BD338() {
+    if (!_40.sub_7100FE7FB0())
+        return;
+    TextureHandleList::sInstance->remove(this);
+    void* arg;
+    _40.sub_7100FE7FBC(&arg);
+    _10 = nullptr;
+    _18 = nullptr;
+}
+
 }  // namespace ksys::res
