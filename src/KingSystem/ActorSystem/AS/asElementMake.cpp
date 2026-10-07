@@ -3,6 +3,12 @@
 
 namespace ksys::as {
 
+Element* Element::make(const CreateArg& arg, s32 value, const res::ASResource* resource) {
+    if (!resource)
+        return nullptr;
+    return res::getASElementFactory2(resource)(arg, value, resource);
+}
+
 Element* GraphicsAsset::make(const CreateArg& arg, s32 value, gsys::MaterialAnmType type) {
     return new (arg.heap) GraphicsAsset(arg, value, type);
 }
@@ -130,6 +136,14 @@ Element* SkeltalAsset::make(const CreateArg& arg, s32 value, const res::ASResour
 
 Element* RandomSelector::make(const CreateArg& arg, s32 value, const res::ASResource* resource) {
     return new (arg.heap, 8) RandomSelector(arg, value, resource);
+}
+
+Element* SyncPlayContainer::make(const CreateArg& arg, s32 value) {
+    return new (arg.heap, 8) SyncPlayContainer(arg, value, nullptr);
+}
+
+Element* SkeltalAsset::make(const CreateArg& arg, s32 value) {
+    return new (arg.heap, 8) SkeltalAsset(arg, value);
 }
 
 }  // namespace ksys::as

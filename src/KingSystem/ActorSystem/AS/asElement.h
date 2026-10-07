@@ -346,6 +346,8 @@ public:
         sead::SafeArray<s16, 512>* indexMap;
     };
 
+    static Element* make(const CreateArg& arg, s32 value, const res::ASResource* resource);
+
     Element();
     virtual ~Element() = default;
 
@@ -831,6 +833,7 @@ public:
     void m36(Context* ctx, sead::BufferedSafeString* out, sead::BufferedSafeString& name,
              const res::ASResource* resource) override;
     SyncPlayContainer(const CreateArg& arg, s32 value, const res::ASResource* resource);
+    static Element* make(const CreateArg& arg, s32 value);
     static Element* make(const CreateArg& arg, s32 value, const res::ASResource* resource);
 };
 
@@ -953,6 +956,7 @@ public:
     SkeltalAsset(const CreateArg& arg, s32 value);
     // 0x710125c384 (declaration only)
     SkeltalAsset(const CreateArg& arg, s32 value, const res::ASResource* resource);
+    static Element* make(const CreateArg& arg, s32 value);
     static Element* make(const CreateArg& arg, s32 value, const res::ASResource* resource);
     ~SkeltalAsset() override;
 
@@ -996,3 +1000,8 @@ public:
 };
 
 }  // namespace ksys::as
+
+namespace ksys::res {
+using ASElementFactoryFunc = as::Element* (*)(const as::Element::CreateArg&, s32, const ASResource*);
+ASElementFactoryFunc getASElementFactory2(const ASResource* resource);
+}  // namespace ksys::res
