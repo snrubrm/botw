@@ -915,3 +915,11 @@ void Unk_7102450410::Entry::sub_71007088C0() {
     matrix.getTranslation(position);
     _68.mSLink.setPosition(position);
 }
+
+Unk_7102450410::Entry* Unk_7102450410::sub_7100708D6C(const sead::SafeString& name) {
+    for (auto& entry : _8) {
+        if (sub_71006F5D8C(entry.mChemical) == name)
+            return &entry;
+    }
+    return nullptr;
+}

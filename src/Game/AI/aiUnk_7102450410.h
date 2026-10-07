@@ -60,6 +60,7 @@ public:
     };
     KSYS_CHECK_SIZE_NX150(Entry, 0xb8);
 
+    Entry* sub_7100708D6C(const sead::SafeString& name);
     Entry* sub_7100708E90(ksys::act::Chemical* chemical);
 
     Unk_7102450410();

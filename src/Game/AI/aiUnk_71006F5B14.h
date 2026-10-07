@@ -2,6 +2,7 @@
 
 #include <basis/seadTypes.h>
 #include <prim/seadEnum.h>
+#include <prim/seadSafeString.h>
 
 namespace ksys::act {
 class Actor;
@@ -52,3 +53,6 @@ void sub_71006F5584(ksys::act::Actor* actor);
 void sub_71006F55D8(ksys::act::Actor* actor);
 // 0x71006f566c (lane2 s21): whether the actor's character controller is in hover motion type.
 bool sub_71006F566C(ksys::act::Actor* actor);
+
+// Chemical name, or the canonical empty string when the chemical or its name source is absent.
+const sead::SafeString& sub_71006F5D8C(ksys::act::Chemical* chemical);
