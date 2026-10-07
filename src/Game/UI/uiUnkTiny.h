@@ -597,10 +597,12 @@ public:
     // 0x7100937fa4: copy the setup record and speeds, allocate the entry list, center _20 on the corners
     void sub_7100937FA4(sead::Heap* heap, Screen* screen, const Unk_7102474df8_Params* params,
                         const Unk_7102474df8_Speeds* speeds);
+    // 0x7100937c74: pick the scroll direction from _2c/_28 and arm the direction callback
+    void sub_7100937C74();
     // 0x7100938090 (declared only): advance _2c toward _30 and reposition every entry
     void sub_7100938090(f32 step);
     // 0x71009382b8 (declared only): direction helper using _5c/_60/_64/_68
-    bool sub_71009382B8(f32 step);
+    static bool sub_71009382B8(Unk_7102474df8* self, f32 step);
     // 0x7100938408: assign the entry its offset from _34 (direction) and _38 (spacing) and push it into _10
     void sub_7100938408(Unk_7102474dd0* entry);
 

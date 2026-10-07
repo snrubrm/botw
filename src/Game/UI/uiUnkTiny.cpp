@@ -1,4 +1,6 @@
 #include "Game/UI/uiUnkTiny.h"
+#include "Game/UI/euiLayoutEx.h"
+#include "KingSystem/Utils/Types.h"
 #include "KingSystem/Sound/sndMgr.h"
 #include <math/seadMathCalcCommon.h>
 #include "Game/UI/euiAnimator.h"
@@ -10,11 +12,11 @@
 // The "{ ; }" destructors keep the original's vtable store (upstream GameDataFlagSelector::~GameDataFlagSelector() { ; },
 // commit 96101229; the original D1 is `str vptr; ret`).
 namespace uking::ui {
-namespace {
 // Scroll tuning constants for Unk_7102474df8::sub_71009382B8 (original pool at 0x7102474e20,
-// shared with 0x7100937c74): initial velocity, decay, spring, clamp, range.
-float sScrollConsts[] = {0.6f, 0.35f, 50.0f, 100.0f, 100.0f};
-}
+// shared with 0x7100937c74): initial velocity, decay, spring, clamp, range. Nothing writes them,
+// yet the loads are not folded and do not go through the GOT: hidden visibility (as for the camera
+// parameter globals in actCameraUtil.cpp; KSYS_VISIBILITY_HIDDEN).
+KSYS_VISIBILITY_HIDDEN float sScrollConsts[] = {0.6f, 0.35f, 50.0f, 100.0f, 100.0f};
 
 // 0x7100934a6c
 UiStringEntry::UiStringEntry() {}
@@ -669,6 +671,58 @@ Unk_710249d300::~Unk_710249d300() { ; }
 // 0x7100937eec
 Unk_7102474df8::Unk_7102474df8() = default;
 
+// NON_MATCHING: the direction-select cases keep their csinv condition polarity (ne) and case 1 keeps
+// its out-of-range recomputation hoisted before the diff_ok check; ours inverts the csinv to eq and sinks
+// case 1's recomputation into the else. The head, case 0, the shared -1 check, the stores and the tail match.
+// 0x7100937c74
+void Unk_7102474df8::sub_7100937C74() {
+    const f32 a = _2c > 0.0f ? _2c : -_2c;
+    const f32 diff = a - _28;
+    const bool in1 = a <= sScrollConsts[4];
+    const bool in2 = -sScrollConsts[4] <= a;
+    const bool d1 = diff <= sScrollConsts[4];
+    const bool d2 = -sScrollConsts[4] <= diff;
+    const bool in_range = in1 && in2;
+    const bool diff_ok = d1 && d2;
+    s32 v = -1;
+    switch (_34) {
+    case 0:
+        v = in_range ? 1 : -1;
+        if (!diff_ok)
+            break;
+        v = 0;
+        break;
+    case 2:
+        v = in_range ? -1 : 3;
+        if (!diff_ok)
+            break;
+        v = 2;
+        break;
+    case 3:
+        v = in_range ? -1 : 2;
+        if (!diff_ok)
+            break;
+        v = 3;
+        break;
+    case 1: {
+        const bool o1 = !(a >= -sScrollConsts[4]);
+        const bool o2 = !(a <= sScrollConsts[4]);
+        if (diff_ok) {
+            v = 1;
+        } else {
+            v = (o1 || o2) ? -1 : 0;
+        }
+        break;
+    }
+    }
+    if (v == -1)
+        return;
+    _68 = v;
+    _70 = reinterpret_cast<u64>(&sub_71009382B8);
+    _78 = 0;
+    _64 = sScrollConsts[0];
+}
+
 // NON_MATCHING: the original loads the Vector2f::zero pair before the switch (hoisted, shared default)
 // and keeps the center pair in FP registers across the switch (single mov per case, stp s1, s0); we sink the
 // zero load into the default path and materialize the pair in integer registers (fmov w, stp w8, w9).
@@ -750,27 +804,27 @@ Unk_7102474df8::~Unk_7102474df8() {
 }
 
 // 0x71009382b8
-bool Unk_7102474df8::sub_71009382B8(f32 step) {
+bool Unk_7102474df8::sub_71009382B8(Unk_7102474df8* self, f32 step) {
     bool neg = false;
     bool useX = false;
     f32 target;
     f32 value;
     f32* axis;
-    switch (_68) {
+    switch (self->_68) {
     case 0:
         neg = true;
         [[fallthrough]];
     case 1:
-        target = neg ? -_64 : _64;
-        axis = &_5c.y;
+        target = neg ? -self->_64 : self->_64;
+        axis = &self->_5c.y;
         value = *axis;
         break;
     case 3:
         neg = true;
         [[fallthrough]];
     case 2:
-        target = neg ? -_64 : _64;
-        axis = &_5c.x;
+        target = neg ? -self->_64 : self->_64;
+        axis = &self->_5c.x;
         useX = true;
         value = *axis;
         break;
@@ -781,22 +835,26 @@ bool Unk_7102474df8::sub_71009382B8(f32 step) {
     }
     target -= value * sScrollConsts[2];
     const f32 v = value + target * step;
-    if (sScrollConsts[3] < (neg ? -v : v))
+    if ((neg ? -v : v) > sScrollConsts[3])
         target = (neg ? -sScrollConsts[3] : sScrollConsts[3]) - value;
-    f32* slot = useX ? &_5c.x : &_5c.y;
-    *slot = target + *slot;
+    f32* slot = &self->_5c.y;
+    if (useX)
+        slot = &self->_5c.x;
+    target += *slot;
+    *slot = target;
     if (0.0f < step)
         step = 1.0f / step;
     else
         step = 1.0f;
     step *= sScrollConsts[1];
-    if (step < 0.0f)
+    if (step < 0.0f) {
         step = 0.0f;
-    if (1.0f < step)
+    } else if (1.0f < step) {
         step = 1.0f;
-    _64 *= step;
-    if (_5c.x == sead::Vector2f::zero.x)
-        return _5c.y == sead::Vector2f::zero.y;
+    }
+    self->_64 *= step;
+    if (self->_5c.x == sead::Vector2f::zero.x)
+        return self->_5c.y == sead::Vector2f::zero.y;
     return false;
 }
 
