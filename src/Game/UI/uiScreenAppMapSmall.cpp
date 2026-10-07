@@ -63,4 +63,16 @@ void ScreenAppMap::sub_71009EF51C(s32 a1) {
     }
 }
 
+// 0x71009eecd0
+bool ScreenAppMap::sub_71009EECD0() const {
+    if (!_3610 || !_3610->sub_71009AEF7C())
+        return false;
+    return isOpened();
+}
+
+// 0x71009eed10
+s32 ScreenAppMap::sub_71009EED10() const {
+    return _3610->sub_71009AEF7C();
+}
+
 }  // namespace uking::ui

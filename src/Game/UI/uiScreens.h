@@ -1496,6 +1496,8 @@ struct ScreenAppMapWidget {
 
 class ScreenAppMap : public ScreenEx {
 public:
+    bool sub_71009EECD0() const;
+    s32 sub_71009EED10() const;
     void m92(sead::Heap*) override;
     void m83() override;
     void m100() override;

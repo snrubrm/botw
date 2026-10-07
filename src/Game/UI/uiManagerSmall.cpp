@@ -193,4 +193,9 @@ bool Manager::sub_7100A7FDAC() {
     return false;
 }
 
+// 0x7100a7a4c0
+void Manager::sub_7100A7A4C0() {
+    sub_7100A7A4C4();
+}
+
 }  // namespace uking::ui

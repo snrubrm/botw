@@ -656,4 +656,19 @@ s32 sub_71009661BC(s32 value) {
     }
 }
 
+// 0x7100966e2c
+void UiSubsys1::sub_7100966E2C() {
+    _388c.reset();
+}
+
+// 0x7100968d04
+bool UiSubsys1::sub_7100968D04() {
+    return _3840.updateAndCheckEnded();
+}
+
+// 0x7100962634
+void UiSubsys1::updateCompletionCount() {
+    sub_7100962638();
+}
+
 }  // namespace uking::ui
