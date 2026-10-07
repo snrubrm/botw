@@ -219,7 +219,13 @@ private:
     /* 0x1d120 */ EventDebugB* _1d120;
     u8 pad_1d128[0x1d170 - 0x1d128];
     /* 0x1d170 */ s32 mAliveEventFlowCount;
-    u8 pad_1d174[0x1d180 - 0x1d174];
+
+public:
+    // Bit 6 is tested by uking::action::ChangeScene::enter_.
+    /* 0x1d174 */ u8 _1d174;
+
+private:
+    u8 pad_1d175[0x1d180 - 0x1d175];
     sead::Heap* mEventHeap;
     u8 pad_1d188[0x1d1b0 - 0x1d188];
     /* 0x1d1b0 */ u32 _1d1b0;

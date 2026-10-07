@@ -25,6 +25,9 @@ protected:
     // dynamic_param at offset 0x38
     sead::SafeString mEntryPointName_d{};
     int _48 = -1;
+
+    // 0x71000d8d70: starts the warp event flow from the warp destination strings (not decompiled).
+    void initWarpEventFlow(const sead::SafeString& map_name, const sead::SafeString& pos_name);
 };
 
 }  // namespace uking::action
