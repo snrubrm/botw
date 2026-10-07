@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiGolemRoot.h"
+#include <math/seadMathCalcCommon.h>
 #include "Game/Actor/actUnk_7100d3cd74.h"
 #include "KingSystem/Utils/Thread/Message.h"
 #include "Game/Actor/actEnemy.h"
@@ -12,6 +13,7 @@
 #include "KingSystem/ActorSystem/actUnk_71024ef4e8.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerLink.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
 
 namespace uking::ai {
@@ -112,7 +114,21 @@ bool GolemRoot::init_(sead::Heap* heap) {
 }
 
 void GolemRoot::enter_(ksys::act::ai::InlineParamPack* params) {
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor))
+        enemy->_e90 = 4;
+    setDamageCallbackTiming(mActor, 0, &_3b0);
     GolemRootBase::enter_(params);
+    if (auto* controller = mActor->getCharacterController())
+        controller->enableContactLayer(ksys::phys::ContactLayer::EntityGroundObject);
+    _3a0.sub_7100721380(sead::Mathf::infinity(), mActor);
+    if (*mIsBreakContactTree_s) {
+        if (auto* set = mActor->getRigidBodyByName(ksys::act::getStr_Body().cstr())) {
+            for (s32 i = 0; i < set->getRigidBodies().size(); ++i) {
+                if (auto* body = set->getRigidBodies()[i])
+                    sub_71005DBF28(body, 0, 0, false, false, false, true);
+            }
+        }
+    }
 }
 
 void GolemRoot::leave_() {

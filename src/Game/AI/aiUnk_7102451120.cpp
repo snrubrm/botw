@@ -7,6 +7,7 @@
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
+#include "KingSystem/Physics/System/physContactPointInfo.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 
@@ -78,6 +79,31 @@ void sub_7100720454(ksys::act::Actor* actor) {
             body->enableContactLayer(ksys::phys::ContactLayer::EntityNPC);
             body->enableContactLayer(ksys::phys::ContactLayer::EntityNPC_NoHitPlayer);
             body->enableContactLayer(ksys::phys::ContactLayer::EntityPlayer);
+        }
+    }
+}
+
+void Unk_7102451120::sub_7100721380(f32 max_mass, ksys::act::Actor* actor) {
+    _8 = max_mass;
+    if (auto* instances = actor->getPhysics())
+        instances->sub_7100FBD984(true);
+    auto* set = actor->getRigidBodyByName(sub_71007A24E4()->cstr());
+    if (!set)
+        return;
+    const s32 count = set->getRigidBodies().size();
+    for (s32 i = 0; i < count; ++i) {
+        if (auto* body = set->getRigidBodies()[i]) {
+            body->changeMotionType(ksys::phys::MotionType::Dynamic);
+            body->setGravityFactor(0.0f);
+            body->enableGroundCollision(false);
+            body->setColImpulseScale(0.0f);
+            body->setEntityMotionFlag100(true);
+        }
+    }
+    if (count > 0) {
+        if (auto* body = set->getRigidBodies()[0]) {
+            if (auto* info = body->getContactPointInfo())
+                info->setContactCallback(this);
         }
     }
 }

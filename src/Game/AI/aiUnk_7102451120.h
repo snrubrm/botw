@@ -19,6 +19,10 @@ public:
     bool invoke(ksys::phys::ContactPointInfo::ShouldDisableContact* disable,
                 const ksys::phys::ContactPointInfo::Event& event) override;
 
+    // 0x7100721380 (lane1 s47): GolemRoot::enter_ calls it: sets the max mass, makes every body of the actor's "Body" set a
+    // gravity-free, impulse-free body without ground collision and installs this callback on the first one.
+    void sub_7100721380(f32 max_mass, ksys::act::Actor* actor);
+
     f32 _8 = sead::Mathf::infinity();  // max mass
 };
 KSYS_CHECK_SIZE_NX150(Unk_7102451120, 0x10);
