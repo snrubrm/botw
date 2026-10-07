@@ -14,6 +14,8 @@ class PictureEx;
 class WindowEx;
 struct DrawInfoEx;
 
+agl::utl::MultiFilter* InitializeMultiFilter(sead::Heap*, const nn::ui2d::Pane&, LayoutEx*);
+
 class FrameBufferMultiFilter {
 public:
     FrameBufferMultiFilter();
