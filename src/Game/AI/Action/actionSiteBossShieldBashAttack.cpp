@@ -2,6 +2,8 @@
 #include "Game/AI/Action/actionSiteBossShieldBashAttack.h"
 #include "Game/Actor/actSiteBoss.h"
 #include "Game/AI/aiUnk_710073fa90.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "KingSystem/ActorSystem/actAttackSensor.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
@@ -61,6 +63,26 @@ void SiteBossShieldBashAttack::m33() {
     }
     sub_71007A2B64(_48, nullptr);
     sub_71007A3258(_48, nullptr);
+}
+
+void SiteBossShieldBashAttack::m34(ksys::as::ASList::Unk4* query) {
+    if (!_48)
+        return;
+    sead::FixedSafeString<9> direction;
+    sub_71005D7C94(&direction, &query->name);
+    sub_71007A2EB0(_48, mActor, nullptr);
+    auto* sensor = getActorAttackSensor(mActor);
+    sensor->activateAttackSensor(1, 0x101, 0, 0, 0.0f, 3, 1,
+                                 sub_71007A3A8C(&direction), false, *mAtMinDamage_s, -1);
+    if (auto* boss = sead::DynamicCast<act::SiteBoss>(mActor)) {
+        if (boss->_1558.isOnBit(5)) {
+            if (auto* chemical = mActor->sub_71011D8A54("ShieldChemical")) {
+                chemical->sub_7100D90D7C(false);
+                chemical->sub_7100D91098(true);
+                chemical->sub_7100D90AF4(true);
+            }
+        }
+    }
 }
 
 void SiteBossShieldBashAttack::m35() {

@@ -3,6 +3,7 @@
 #include <math/seadMatrix.h>
 
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 
 namespace ksys::phys {
 class RigidBody;
@@ -26,7 +27,7 @@ protected:
     bool isChangeable() const override;
     virtual void m32();
     virtual void m33();
-    virtual void m34();
+    virtual void m34(ksys::as::ASList::Unk4* query);
     virtual void m35();
 
     // static_param at offset 0x20
