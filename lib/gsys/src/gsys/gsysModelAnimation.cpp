@@ -1,6 +1,21 @@
 #include "gsys/gsysModelAnimation.h"
+#include <gsys/gsysModelResource.h>
+#include <nn/g3d/ResFile.h>
 
 namespace gsys {
+
+nn::g3d::ResFile* ModelAnimation::searchResFile(AnimationAccessKey<SkeletalAnmType> key) const {
+    if (!key.isValid())
+        return nullptr;
+    s32 count = 0;
+    for (auto& resource : mResources) {
+        auto* file = resource.getResFile();
+        count += file->mSkeleAnimCount;
+        if (key.index < count)
+            return file;
+    }
+    return nullptr;
+}
 
 void ModelAnimation::sub_7100BFD598(s32 slot) {
     setSkeletalAnmByKey(slot, AnimationAccessKey<SkeletalAnmType>{}, nullptr);

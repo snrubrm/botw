@@ -3,10 +3,12 @@
 #include <basis/seadTypes.h>
 #include <prim/seadSafeString.h>
 #include <container/seadBuffer.h>
+#include <container/seadPtrArray.h>
 #include <gsys/gsysG3dResAnimationEx.h>
 
 namespace nn::g3d {
 class ResSkeletalAnim;
+class ResFile;
 }
 
 namespace ksys::as {
@@ -16,6 +18,7 @@ class ASList;
 namespace gsys {
 
 class Model;
+class ModelResource;
 class PartialSkeletalAnmBase;
 
 enum class MaterialAnmType;
@@ -76,6 +79,7 @@ public:
     static_assert(sizeof(SkeletalResource) == 0x28);
 
     AnimationAccessKey<SkeletalAnmType> searchSkeletalKey(const sead::SafeString& name) const;
+    nn::g3d::ResFile* searchResFile(AnimationAccessKey<SkeletalAnmType> key) const;
 
     /// 0x7100bfdc04 / 0x7100bfa52c (declared only): releases the animation set / frees the object.
     void finalize();
@@ -126,6 +130,10 @@ private:
 public:
     // ASList::sub_7101160ED4 stores its owner at +0x90 after enabling the animation.
     ksys::as::ASList* mASList;
+private:
+    // initialize_ bfa344 allocates this PtrArray and bfa380 appends each
+    // ModelResource; searchResFile and finalize independently consume it.
+    sead::PtrArray<ModelResource> mResources;
 };
 
 }  // namespace gsys
