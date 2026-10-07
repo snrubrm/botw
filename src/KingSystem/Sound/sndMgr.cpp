@@ -1,4 +1,5 @@
 #include "KingSystem/Sound/sndMgr.h"
+#include "KingSystem/Sound/sndBgmMgr.h"
 #include <prim/seadScopedLock.h>
 #include "KingSystem/Event/evtManager.h"
 
@@ -40,6 +41,15 @@ void Unk_710104e5b4::sub_710104F920(bool on) {
     } else {
         _2a0.reset(4);
     }
+}
+
+Unk_SoundMgr30_78* sub_7100FFD784() {
+    return SoundMgr::instance()->_30->_78;
+}
+
+void Unk_710103b704::sub_710103D094() {
+    SoundMgr::instance()->mDuckingMgr->sub_7101042D6C(0x30, false);
+    SoundMgr::instance()->mDuckingMgr->sub_7101042D6C(0x31, false);
 }
 
 void Unk_710103b704::sub_710103D418() {

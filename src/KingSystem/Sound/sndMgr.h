@@ -24,6 +24,8 @@ class Actor;
 
 namespace ksys::snd {
 
+struct Unk_SoundMgr30;
+
 // Only the interface needed by the UI sound wrapper is recovered.
 class UiSoundMgr {
 public:
@@ -283,8 +285,9 @@ public:
     void sub_71011FC0C0(UiSoundKind kind, s32 bit);
     void sub_71011FC17C(UiSoundKind kind, s32 bit);
 
-    u8 _28[0x38 - 0x28];
-    Unk_SoundMgr38* _38;
+    u8 _28[0x30 - 0x28];
+    /* 0x30 */ Unk_SoundMgr30* _30;
+    /* 0x38 */ Unk_SoundMgr38* _38;
     /* 0x40 */ UiSoundMgr* mUiSoundMgr;
     /* 0x48 */ Unk_SoundMgr48* _48;
     u8 _50[0x58 - 0x50];

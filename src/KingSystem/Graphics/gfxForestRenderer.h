@@ -28,6 +28,8 @@ public:
     u64 _48;
     u32 _50;
     s32 _54;
+    u8 _58[0x220 - 0x58];
+    u32 _220;
 };
 
 }  // namespace ksys::gfx

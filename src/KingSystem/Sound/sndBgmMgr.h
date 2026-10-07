@@ -15,6 +15,12 @@ public:
     void sub_7101007904(f32 fade_sec, const sead::SafeString& name);
 };
 
+// Placeholder name (SoundMgr::_30): the BGM side of the sound manager.
+struct Unk_SoundMgr30 {
+    u8 _0[0x78];
+    /* 0x78 */ Unk_SoundMgr30_78* _78;
+};
+
 // 0x7100ffd784 (24 B): `SoundMgr::instance()->_30->_78`.
 Unk_SoundMgr30_78* sub_7100FFD784();
 
