@@ -10,6 +10,7 @@
 
 namespace uking::ai {
 
+// NON_MATCHING: initialization of the vector/counter block is not aggregated into one clear.
 FishRoot::FishRoot(const InitArg& arg) : SimpleWildlifeRoot(arg) {}
 
 // NON_MATCHING: regalloc of the element destructor loop (we hoist the element address `end - 0xe8` into x21 for the two
@@ -67,17 +68,17 @@ void FishRoot::leave_() {
 
 void FishRoot::loadParams_() {
     SimpleWildlifeRoot::loadParams_();
-    getStaticParam(&mInWaterDepth_s, "InWaterDepth");
-    getStaticParam(&mOnGroundDepth_s, "OnGroundDepth");
-    getStaticParam(&mNextJumpTimeBase_s, "NextJumpTimeBase");
-    getStaticParam(&mNextJumpTimeRand_s, "NextJumpTimeRand");
-    getStaticParam(&mAllowReturnThreatDist_s, "AllowReturnThreatDist");
-    getStaticParam(&mFrameUntilOutOfWater_s, "FrameUntilOutOfWater");
-    getStaticParam(&mDistRunFromPlayerOnReturn_s, "DistRunFromPlayerOnReturn");
-    getStaticParam(&mIgnoreFoodBase_s, "IgnoreFoodBase");
-    getStaticParam(&mIgnoreFoodRand_s, "IgnoreFoodRand");
-    getStaticParam(&mIgnoreFoodAfterSuccessBase_s, "IgnoreFoodAfterSuccessBase");
-    getStaticParam(&mIgnoreFoodAfterSuccessRand_s, "IgnoreFoodAfterSuccessRand");
+    getStaticParam(&mParams.mInWaterDepth_s, "InWaterDepth");
+    getStaticParam(&mParams.mOnGroundDepth_s, "OnGroundDepth");
+    getStaticParam(&mParams.mNextJumpTimeBase_s, "NextJumpTimeBase");
+    getStaticParam(&mParams.mNextJumpTimeRand_s, "NextJumpTimeRand");
+    getStaticParam(&mParams.mAllowReturnThreatDist_s, "AllowReturnThreatDist");
+    getStaticParam(&mParams.mFrameUntilOutOfWater_s, "FrameUntilOutOfWater");
+    getStaticParam(&mParams.mDistRunFromPlayerOnReturn_s, "DistRunFromPlayerOnReturn");
+    getStaticParam(&mParams.mIgnoreFoodBase_s, "IgnoreFoodBase");
+    getStaticParam(&mParams.mIgnoreFoodRand_s, "IgnoreFoodRand");
+    getStaticParam(&mParams.mIgnoreFoodAfterSuccessBase_s, "IgnoreFoodAfterSuccessBase");
+    getStaticParam(&mParams.mIgnoreFoodAfterSuccessRand_s, "IgnoreFoodAfterSuccessRand");
 }
 
 bool FishRoot::m34() {

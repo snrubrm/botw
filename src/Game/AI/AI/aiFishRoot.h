@@ -57,44 +57,65 @@ protected:
     // 0x71003cd81c (placeholder name)
     void changeToReturnToInitialPlacement(bool is_escape);
 
-    // static_param at offset 0xf8
-    const float* mInWaterDepth_s{};
-    // static_param at offset 0x100
-    const float* mOnGroundDepth_s{};
-    // static_param at offset 0x108
-    const float* mNextJumpTimeBase_s{};
-    // static_param at offset 0x110
-    const float* mNextJumpTimeRand_s{};
-    // static_param at offset 0x118
-    const float* mAllowReturnThreatDist_s{};
-    // static_param at offset 0x120
-    const float* mFrameUntilOutOfWater_s{};
-    // static_param at offset 0x128
-    const float* mDistRunFromPlayerOnReturn_s{};
-    // static_param at offset 0x130
-    const float* mIgnoreFoodBase_s{};
-    // static_param at offset 0x138
-    const float* mIgnoreFoodRand_s{};
-    // static_param at offset 0x140
-    const float* mIgnoreFoodAfterSuccessBase_s{};
-    // static_param at offset 0x148
-    const float* mIgnoreFoodAfterSuccessRand_s{};
+    // Aggregate parameter initialization follows the original contiguous parameter block.
+    struct Params {
+        // static_param at offset 0xf8
+        const float* mInWaterDepth_s{};
+        // static_param at offset 0x100
+        const float* mOnGroundDepth_s{};
+        // static_param at offset 0x108
+        const float* mNextJumpTimeBase_s{};
+        // static_param at offset 0x110
+        const float* mNextJumpTimeRand_s{};
+        // static_param at offset 0x118
+        const float* mAllowReturnThreatDist_s{};
+        // static_param at offset 0x120
+        const float* mFrameUntilOutOfWater_s{};
+        // static_param at offset 0x128
+        const float* mDistRunFromPlayerOnReturn_s{};
+        // static_param at offset 0x130
+        const float* mIgnoreFoodBase_s{};
+        // static_param at offset 0x138
+        const float* mIgnoreFoodRand_s{};
+        // static_param at offset 0x140
+        const float* mIgnoreFoodAfterSuccessBase_s{};
+        // static_param at offset 0x148
+        const float* mIgnoreFoodAfterSuccessRand_s{};
+    };
+    Params mParams{};
     // 0x160 .. 0x1b4: vector / counters (not decompiled)
     ksys::act::BaseProcLink _150;  // the target of interest
-    u8 _160[0x184 - 0x160];
-    sead::Vector3f _184;
-    sead::Vector3f _190;
-    u8 _19c[0x1a4 - 0x19c];
-    f32 _1a4;
-    u8 _1a8[0x1b0 - 0x1a8];
+    u8 _160[0x184 - 0x160]{};
+    sead::Vector3f _184{};
+    sead::Vector3f _190{};
+    u8 _19c[0x1a4 - 0x19c]{};
+    f32 _1a4{};
+    u8 _1a8[0x1b0 - 0x1a8]{};
     s32 _1b0{};
     u8 _1b4[0x1b8 - 0x1b4];
     ksys::phys::RayCastForRequest* _1b8{};
     ksys::phys::RayCastForRequest* _1c0{};
-    u8 _1c8[0x1d0 - 0x1c8];
+    bool _1c8{};
+    bool _1c9{};
+    bool _1ca{};
+    u8 _1cb[0x1d0 - 0x1cb];
     sead::Buffer<FishRootBoneEntry> _1d0;
-    // 0x1e0: a 0x20-byte polymorphic object that points back at the buffer (not recovered)
-    u8 _1e0[0x200 - 0x1e0];
+    // Placeholder callback: vtable 0x71023ee000; m2 is the large bone-buffer processing routine.
+    class Unk_71023ee000 {
+    public:
+        explicit Unk_71023ee000(sead::Buffer<FishRootBoneEntry>* buffer) : _8(buffer) {}
+        virtual void m0() {}
+        virtual void m1() {}
+        virtual void m2(void* model);
+        virtual void m3() {}
+
+        sead::Buffer<FishRootBoneEntry>* _8;
+        f32 _10 = 1.0f;
+        f32 _14 = 0.5f;
+        f32 _18 = 0.52359879f;
+        bool _1c = false;
+    };
+    Unk_71023ee000 _1e0{&_1d0};
 };
 
 }  // namespace uking::ai
