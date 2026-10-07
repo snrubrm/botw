@@ -44,7 +44,8 @@ public:
     sead::SafeArray<OutputMode, 1> mOutputModes;
     u8 _c[4];
     sead::SafeArray<OutputDevice*, 1> mOutputDevices;
-    u8 _18[4];
+    /// Multiplied into the volume of every sound.
+    f32 mMasterVolume;
     f32 mBaseFPS;
     f32 mFrameWaitIntervalStepRate;
     /// The time that passes in one calculation step (the faders move by step * this value each calc).

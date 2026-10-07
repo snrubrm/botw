@@ -188,6 +188,12 @@ public:
     f32 getDist2D(s32 index, s32 listener_idx) const;
     s32 getAngleIdx(s32 index, s32 listener_idx) const;
     f32 getSpread(s32 index) const;
+    /// The smallest environment effect send of the results.
+    f32 getEnvFxSend() const { return _c; }
+    /// The largest pitch of the results.
+    f32 getPitch() const { return _10; }
+    /// The smallest filter value of the results.
+    f32 getFilter() const { return _14; }
 
 private:
     struct ListenerParam {

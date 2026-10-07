@@ -104,6 +104,7 @@ public:
     static constexpr s32 getGroupListNodeOffset() { return 0x168; }
 
     const SoundParam* getAggregatedParam() const { return mAggregatedParam; }
+    f32 getDuckingVolume() const { return mDuckingVolume; }
 
 protected:
     sead::TTreeNode<Group*>& treeNode() { return *this; }

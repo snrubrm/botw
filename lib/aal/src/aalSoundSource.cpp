@@ -1,10 +1,13 @@
 #include "aal/aalSoundSource.h"
 #include "aal/aalSpatialPlayingParamPool.h"
+#include <cfloat>
 #include <math/seadMathCalcCommon.h>
 #include "aal/aalEmitter.h"
 #include "aal/aalArbiter.h"
 #include "aal/aalGroup.h"
 #include "aal/aalISpeakerBalanceSupplier.h"
+#include "aal/aalListenerMgr.h"
+#include "aal/aalSoundController.h"
 #include "aal/aalMarkerController.h"
 #include "aal/aalSoundSourceUnifier.h"
 #include "aal/aalSettings.h"
@@ -250,6 +253,98 @@ bool SoundSource::setStartSamplePos(s32 position) {
 // 0x7100b78084
 const AssetInfo* SoundSource::getAssetInfo() const {
     return mPlayingStateController->mSoundController->mAssetInfo;
+}
+
+// NON_MATCHING: the original selects the smaller listener value with an unordered "not less" compare (`fcsel pl`), here
+// the ordered less compare is used; the register of the reloaded speaker balance supplier differs.
+// 0x7100b774a4
+void SoundSource::calcPlaying_() {
+    aggregateAndClampParams_();
+
+    if (mPlayingStateController->mSoundController->mState != 0) {
+        f32 volume = mAggregatedParam->getVolume() * SystemAccessor::getSettings()->mMasterVolume;
+        if (mSoundGroup)
+            volume *= mSoundGroup->getDuckingVolume();
+        if (mFader)
+            volume *= SimpleTimedFader::toCurvedValue(mFadeCurveType, mFader->getValue());
+
+        if (mTrackNum != 0) {
+            volume *= _d8;
+            for (s32 track = 0; track < mTrackNum; ++track)
+                updateMixBalance_(track, volume);
+        }
+
+        updateBusVolume_();
+
+        f32 pitch = mAggregatedParam->getPitch();
+        if (mSpatialPlayingParam)
+            pitch *= mSpatialPlayingParam->getPitch();
+        mPlayingStateController->mSoundController->setPitch(pitch);
+
+        f32 lpf = mAggregatedParam->getLpf();
+        if (mSpatialCalculator && !mSpeakerBalanceSupplier) {
+            const u16 listener_mask = mSpatialCalculator->mSetting.listener_mask;
+            f32 smallest = FLT_MAX;
+            s32 index = 0;
+            for (const Listener& listener : SystemAccessor::getListenerMgr()->mListeners) {
+                if (listener_mask & (1 << index))
+                    smallest = listener.mLpf < smallest ? listener.mLpf : smallest;
+                ++index;
+            }
+            lpf += smallest;
+        }
+        if (mSpeakerBalanceSupplier)
+            lpf += mSpeakerBalanceSupplier->getLpf();
+        lpf = sead::Mathf::clamp(lpf, 0.0f, 1.0f);
+        mPlayingStateController->mSoundController->setLpf(lpf);
+
+        updateBiquadFilter_();
+    }
+
+    if (mPrepareFlags & 8) {
+        const s32 previous_position = _1c;
+        _1c = mPlayingStateController->getPlayingSamplePos();
+        if (_1c >= 0 && _1c < previous_position)
+            ++_20;
+    }
+
+    if (mMarkerController)
+        mMarkerController->calcMarker(_1c, _20);
+
+    f32 priority = mPriority * mPriorityScale;
+    SoundController* controller = mPlayingStateController->mSoundController;
+    if (mSpatialPlayingParam)
+        priority *= mSpatialPlayingParam->mPriorityFactor;
+    else if (mSpeakerBalanceSupplier)
+        priority *= mSpeakerBalanceSupplier->getPriorityReduction();
+    controller->setChannelPriority(priority);
+}
+
+// NON_MATCHING: the original selects the smaller listener value with an unordered "not less" compare (`fcsel pl`), here
+// the ordered less compare is used.
+// 0x7100b78760
+void SoundSource::updateBiquadFilter_() {
+    f32 value = mAggregatedParam->getBiquadValue();
+
+    if (mSpatialCalculator && !mSpeakerBalanceSupplier) {
+        const u16 listener_mask = mSpatialCalculator->mSetting.listener_mask;
+        f32 smallest = FLT_MAX;
+        s32 index = 0;
+        for (const Listener& listener : SystemAccessor::getListenerMgr()->mListeners) {
+            if (listener_mask & (1 << index))
+                smallest = listener.mBiquadValue < smallest ? listener.mBiquadValue : smallest;
+            ++index;
+        }
+        value += smallest;
+    }
+
+    if (mSpeakerBalanceSupplier)
+        value += mSpeakerBalanceSupplier->getFilterReduction();
+    else if (mSpatialPlayingParam)
+        value += mSpatialPlayingParam->getFilter();
+
+    value = sead::Mathf::clamp(value, 0.0f, 1.0f);
+    mPlayingStateController->mSoundController->setBiquadFilter(mAggregatedParam->getBiquadType(), value);
 }
 
 // 0x7100b78524

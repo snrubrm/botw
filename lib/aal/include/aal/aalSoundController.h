@@ -61,6 +61,8 @@ public:
     /// negated frequency).
     void setPitch(f32 pitch);
     void setLpf(f32 lpf);
+    /// 0x7100ba213c (declared only)
+    void setBiquadFilter(s32 type, f32 value);
     /// 0x7100ba23f8: the priority (0 - 1) of the sound for the voice allocation of the sound library.
     void setChannelPriority(f32 priority);
     bool isInnerPaused() const;

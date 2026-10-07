@@ -18,6 +18,10 @@ public:
     /// 0x7100b9f8ac: also marks the sound source (a marker callback needs the playing state to be tracked).
     void setMarkerCallback(MarkerCallback callback, s32 param, void* user_data);
 
+    /// 0x7100b9f43c (declared only): calls the marker callback for the markers that the sound has passed (arguments:
+    /// the playing sample position and the number of loops).
+    void calcMarker(s32 sample_position, s32 loop_count);
+
     void setup(SoundSource* sound_source);
     void reset();
 

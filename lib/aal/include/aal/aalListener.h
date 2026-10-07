@@ -14,6 +14,7 @@ class ListenerPoser;
 class Listener : public FixedNamedObj<32>, public sead::hostio::Node {
     friend class Shape;
     friend class SpatialCalculator;
+    friend class SoundSource;
 
 public:
     Listener();
@@ -41,7 +42,10 @@ public:
 private:
     f32 _58;
     f32 _5c;
-    void* _60;
+    /// Added to the low pass filter and to the biquad filter value of the sounds that are heard by the listener (the
+    /// sound source takes the smallest of its listeners).
+    f32 mLpf;
+    f32 mBiquadValue;
     ListenerDirectivity mDirectivity;
     /// Sounds are positioned on the horizontal plane only (the height is ignored).
     bool mIs2D;

@@ -25,6 +25,10 @@ public:
     void setVolume(f32 volume);
     f32 getVolume() const { return mVolume; }
     f32 getSpread() const { return mSpread; }
+    f32 getPitch() const { return mPitch; }
+    f32 getLpf() const { return mLpf; }
+    int getBiquadType() const { return mBiquadType; }
+    f32 getBiquadValue() const { return mBiquadValue; }
     void setPitch(f32 pitch);
     void setLfe(f32 lfe);
     void setLpf(f32 lpf);

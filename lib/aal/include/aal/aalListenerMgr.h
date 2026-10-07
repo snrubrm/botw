@@ -38,6 +38,7 @@ public:
 
 private:
     friend class SpatialCalculator;
+    friend class SoundSource;
 
     bool mInitialized = false;
     sead::ObjList<Listener> mListeners;
