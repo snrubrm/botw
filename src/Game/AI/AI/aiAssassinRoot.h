@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Game/AI/AI/aiNPCRoot.h"
+#include "Game/AI/aiUnk_71024f1658.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
@@ -12,6 +13,7 @@ public:
     ~AssassinRoot() override;
 
     bool hasPreDeleteCb() override;
+    void onPreDelete() override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
@@ -35,6 +37,8 @@ protected:
     sead::SafeString mEquipItem4_m{};
     // map_unit_param at offset 0x280
     sead::SafeString mRideHorseName_m{};
+    Unk_71024f1658 _290;
 };
+KSYS_CHECK_SIZE_NX150(AssassinRoot, 0xa48);
 
 }  // namespace uking::ai

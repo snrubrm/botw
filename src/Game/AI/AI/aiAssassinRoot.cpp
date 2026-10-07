@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiAssassinRoot.h"
+#include "Game/Actor/actNPCBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Map/mapAutoPlacementMgr.h"
 
@@ -13,7 +14,13 @@ AssassinRoot::~AssassinRoot() {
 }
 
 bool AssassinRoot::init_(sead::Heap* heap) {
-    return NPCRoot::init_(heap);
+    NPCRoot::init_(heap);
+    if (auto* npc = sead::DynamicCast<act::NPCBase>(mActor)) {
+        const sead::Vector3f position = mActor->getMtx().getTranslation();
+        if (_290.sub_7100EEDDA4(position))
+            npc->_840 = &_290;
+    }
+    return true;
 }
 
 void AssassinRoot::enter_(ksys::act::ai::InlineParamPack* params) {
@@ -31,6 +38,13 @@ void AssassinRoot::calc_() {
 
 bool AssassinRoot::hasPreDeleteCb() {
     return true;
+}
+
+void AssassinRoot::onPreDelete() {
+    if (auto* npc = sead::DynamicCast<act::NPCBase>(mActor)) {
+        if (npc->_840 == &_290)
+            npc->_840 = nullptr;
+    }
 }
 
 void AssassinRoot::leave_() {
