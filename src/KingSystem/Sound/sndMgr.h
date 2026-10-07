@@ -442,9 +442,18 @@ public:
 // the SoundMgr +0xa0 proxy list manager. Bodies remain owned by the sound subsystem.
 class Unk_710105a6f0 {
 public:
+    Unk_710105a6f0();
+    ~Unk_710105a6f0();
+    void sub_710105A718();
     void sub_710105A734(uking::act::SoundProxy* proxy);
     void sub_710105A7B4(uking::act::SoundProxy* proxy);
+    uking::act::SoundProxy* sub_710105A830(map::Object* object);
+
+    bool _0 = false;
+    sead::OffsetList<uking::act::SoundProxy> mProxies;
+    sead::CriticalSection mCS;
 };
+KSYS_CHECK_SIZE_NX150(Unk_710105a6f0, 0x60);
 
 // FIXME: incomplete
 struct SoundMgr {
