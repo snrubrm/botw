@@ -42,7 +42,7 @@ public:
     // 0x71006f9c00 (CSV x; declared only): fades (or kills) the events of handle `idx`.
     void x(u32 idx, bool a2);
     // 0x71006f9e20 (declared only).
-    void sub_71006F9E20();
+    void sub_71006F9E20(const sead::Matrix34f& mtx);
     // 0x71006f9fdc: sets all the flags to `on`.
     void setAllFlags(bool on);
     // 0x71006f9fe8 / 0x71006fa03c / 0x71006fa090: set / reset / test the flag `idx` (0-4).

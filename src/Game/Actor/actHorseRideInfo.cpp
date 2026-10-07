@@ -1,4 +1,6 @@
 #include "Game/Actor/actHorseRideInfo.h"
+#include <cmath>
+#include <math/seadMathCalcCommon.h>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 
@@ -11,6 +13,15 @@ ksys::act::Actor* getRideActor(ksys::act::Actor* actor) {
     if (!info)
         return nullptr;
     return sead::DynamicCast<ksys::act::Actor>(info->_18.getProc(nullptr, info->mActor));
+}
+
+// NON_MATCHING: the original loads the ridden actor's x / z before the actor's own
+f32 sub_7100E8134C(ksys::act::Actor* actor, ksys::act::Actor* ride_actor) {
+    const auto& ride_mtx = ride_actor->getMtx();
+    const auto& mtx = actor->getMtx();
+    const f32 ride_angle = sead::Mathf::rad2deg(std::atan2(ride_mtx(0, 2), ride_mtx(2, 2)));
+    const f32 angle = sead::Mathf::rad2deg(std::atan2(mtx(0, 3) - ride_mtx(0, 3), mtx(2, 3) - ride_mtx(2, 3)));
+    return angle - ride_angle;
 }
 
 bool HorseRideInfo::sub_7100E7BEC0(ksys::act::BaseProc* proc) {

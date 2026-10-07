@@ -1,5 +1,6 @@
 #include "KingSystem/ActorSystem/actActorAtk.h"
 #include <basis/seadNew.h>
+#include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAttackSensor.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerOrEnemy.h"
@@ -87,6 +88,21 @@ void ActorAtk::m13() {
         _18->reset();
     if (_48)
         _48->sub_71007A124C();
+}
+
+void ActorAtk::m7() {
+    auto* actor = mActor;
+    if (auto* list = actor->getASList()) {
+        if (list->sub_710115FBC8(0x20, nullptr, &as::ASList::Unk2::sub_710116383C, true))
+            sub_71007A397C(actor);
+        if (list->sub_710115FBC8(0x20, nullptr, &as::ASList::Unk2::sub_710116388C, true))
+            sub_71007A3800(actor);
+    }
+    if (auto* sensor = _40) {
+        const bool value = sensor->_49;
+        sensor->_49 = false;
+        sensor->_4a = value;
+    }
 }
 
 void ActorAtk::m8() {}

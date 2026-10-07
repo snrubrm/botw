@@ -1,5 +1,6 @@
 #include "Game/Actor/actSandworm.h"
 #include <basis/seadNew.h>
+#include "Game/AI/aiUnk_7102451120.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
@@ -13,6 +14,23 @@ Sandworm::~Sandworm() = default;
 
 ksys::act::BaseProc* Sandworm::construct(const CreateArg& arg, sead::Heap* heap) {
     return new (heap, std::nothrow) Sandworm(arg);
+}
+
+// NON_MATCHING: the original tests 0x3000004 before 0x3000003 (ours is sorted ascending by the switch lowering)
+bool Sandworm::m81(const ksys::Message& message) {
+    const auto& type = message.getType();
+    if (type == 0x3000004) {
+        if (_14cc != 2) {
+            sub_7100720814(this, _14cc);
+            _14cc = 2;
+        }
+    } else if (type == 0x3000003) {
+        if (_14c8 != 2) {
+            _14cc = _14c8;
+            sub_71007208EC(this);
+        }
+    }
+    return Enemy::m81(message);
 }
 
 void Sandworm::killWithDropsAndEffects(int a1) {

@@ -38,6 +38,15 @@ s32 AttClient::sub_7100D72534() const {
     return int(mClient->client->getAttType());
 }
 
+void AttClient::sub_7100D72178() {
+    if (Attention::instance()) {
+        if (auto* actor = mActor) {
+            _48 = actor->getScale();
+            mClient->client->checkM4(actor, &_38);
+        }
+    }
+}
+
 void AttClient::sub_7100D72320() {
     if (auto* attention = Attention::instance()) {
         attention->sub_7100D74D78(this);

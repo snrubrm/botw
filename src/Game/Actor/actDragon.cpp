@@ -1,4 +1,6 @@
 #include "Game/Actor/actDragon.h"
+#include "Game/gameDragonChallengeMgr.h"
+#include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include <basis/seadNew.h>
 #include <math/seadVector.h>
@@ -7,6 +9,21 @@
 #include "KingSystem/Map/mapPlacementMgr.h"
 
 namespace uking::act {
+
+void Dragon::afterModelMatrixUpdate() {
+    if (_1e0c != 0)
+        return;
+    if (!ksys::gdt::getFlag_BalladOfHeroRito_DragonEffect())
+        return;
+    auto* mgr = DragonChallengeMgr::instance();
+    if (!mgr)
+        return;
+    if ((mgr->_12c == 2) != _1f70.isOn(0x10000000))
+        return;
+    sead::Matrix34f mtx;
+    if (sub_71011D57F8(&mtx, "Head"))
+        DragonChallengeMgr::instance()->sub_71006F9E20(mtx);
+}
 
 bool Dragon::sub_710000FF60(int idx) {
     return !_1f70.isOn(0x10 << idx) && _1f70.isOn(1 << idx);
