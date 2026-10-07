@@ -2,6 +2,7 @@
 #include <limits>
 #include <prim/seadSafeString.h>
 #include "KingSystem/Resource/Actor/resResourceAS.h"
+#include "KingSystem/ActorSystem/AS/asElement.h"
 
 namespace ksys::as {
 class Element;
@@ -14,8 +15,7 @@ namespace {
 struct ASElementFactory {
     const char* name;
     ASResource* (*make_res)(int type_index, const ASResource::ParseArgs& args);
-    // FIXME: signature
-    as::Element* (*make)();
+    ASElementFactoryFunc make;
     /// Arbitrary value that is passed to the Element class
     int value;
 };
@@ -369,6 +369,14 @@ ASResource* ASResource::make(const ASResource::ParseArgs& args) {
         return nullptr;
 
     return sFactories[type_index].make_res(type_index, args);
+}
+
+ASElementFactoryFunc getASElementFactory2(const ASResource* resource) {
+    return sFactories[resource->getTypeIndex()].make;
+}
+
+int getASElementFactoryField18(const ASResource* resource) {
+    return sFactories[resource->getTypeIndex()].value;
 }
 
 }  // namespace ksys::res
