@@ -1,6 +1,7 @@
 #include "KingSystem/Sound/sndMgr.h"
 #include "KingSystem/Sound/sndBgmMgr.h"
 #include <prim/seadScopedLock.h>
+#include <heap/seadHeap.h>
 #include <aal/aalSettings.h>
 #include <aal/aalSystemAccessor.h>
 #include <aal/aalGroup.h>
@@ -234,6 +235,8 @@ void ListenerPoser::sub_7101055538(s32 value) {
         _74 = value;
     }
 }
+
+bool SoundMgr::sub_71011FC2DC() { return mSLinkUserCreateHeap->getFreeSize() > 0x4000; }
 
 f32 SoundMgr::sub_71011FC31C() { return _ec == 2 ? 1.0f : 0.707f; }
 

@@ -468,6 +468,7 @@ struct SoundMgr {
     // `_238`.
     void sub_71011FC29C();
     f32 sub_71011FC31C();
+    bool sub_71011FC2DC();
 
 public:
     // 0x71011fc288 (declared only; lane2 s46): called by ScreenFadeDemo's slot 101 (nothing happens while the byte at 0xf8 is set)
@@ -493,7 +494,10 @@ public:
     /* 0x98 */ Unk_710103b704* _98;
     /* 0xa0 */ Unk_710105a6f0* _a0;
     /* 0xa8 */ Unk_SoundMgra8* _a8;
-    u8 _b0[0xec - 0xb0];
+    u8 _b0[0xd8 - 0xb0];
+    // Created by 0x71011fab7c and queried through the Heap virtual interface.
+    sead::Heap* mSLinkUserCreateHeap;
+    u8 _e0[0xec - 0xe0];
     u32 _ec;
     u8 _f0[8];
     sead::BitFlag8 _f8;
