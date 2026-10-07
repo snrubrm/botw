@@ -14,6 +14,9 @@
 #include "KingSystem/ActorSystem/actAiRoot.h"
 #include "KingSystem/ActorSystem/Attention/actAttentionSingleton.h"
 #include "Game/AI/aiUnk_7100D8C538.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/Resource/Actor/resResourceGParamList.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectEnemyLevel.h"
 #include <limits>
 
 namespace uking::ai {
@@ -238,6 +241,81 @@ void EnemyBattle::sub_7100381ED4() {
     auto* enemy = static_cast<act::Enemy*>(mActor);
     if (enemy)
         enemy->startAttackInterval(*mAttackIntervalIntensity_s);
+}
+
+void EnemyBattle::m34(ksys::act::ai::InlineParamPack* params) {
+    // NON_MATCHING: the counter-attack path keeps its own m41 test; the original shares a single
+    // m40/m41/m37/m38 tail across all three flag branches (reaching it from the counter check would
+    // need a goto into the shared tail).
+    if (testRootAiFlag2(ksys::act::ai::RootAiFlag2::_1)) {
+        if (testRootAiFlag2(ksys::act::ai::RootAiFlag2::_3)) {
+            const s32 time = *mRetFrmGrdAtkPrcTimer_s;
+            if (time >= 0) {
+                if (auto* enemy = static_cast<act::Enemy*>(mActor))
+                    enemy->_e68 = ksys::Timer(time, time);
+            }
+        } else {
+            const s32 time = *mRetFrmGrdAtkTimer_s;
+            if (time >= 0) {
+                if (auto* enemy = static_cast<act::Enemy*>(mActor))
+                    enemy->_e68 = ksys::Timer(time, time);
+            }
+        }
+        bool x;
+        {
+            ksys::act::acc::PlayerBase player;
+            ksys::act::acquireActor(&m35(), &player);
+            x = player.x_13();
+        }
+        if (x || sub_7100381D68()) {
+            m37();
+            return;
+        }
+    } else if (testRootAiFlag2(ksys::act::ai::RootAiFlag2::_0)) {
+        const s32 time = *mRetFrmDmgAtkTimer_s;
+        if (time >= 0) {
+            if (auto* enemy = static_cast<act::Enemy*>(mActor))
+                enemy->_e68 = ksys::Timer(time, time);
+        }
+        bool x;
+        {
+            ksys::act::acc::PlayerBase player;
+            ksys::act::acquireActor(&m35(), &player);
+            x = player.x_13();
+        }
+        if (x) {
+            m37();
+            return;
+        }
+        auto* actor = mActor;
+        if (sead::IsDerivedFrom<act::Enemy>(actor) &&
+            actor->getParam()->getRes().mGParamList->getEnemyLevel() &&
+            actor->getParam()->getRes().mGParamList->getEnemyLevel()->mIsCounterAttack.ref()) {
+            if (m41())
+                m38();
+            else
+                m37();
+            return;
+        }
+    } else {
+        auto* enemy = static_cast<act::Enemy*>(mActor);
+        if (enemy)
+            enemy->startAttackInterval(*mAttackIntervalIntensity_s);
+        bool x;
+        {
+            ksys::act::acc::PlayerBase player;
+            ksys::act::acquireActor(&m35(), &player);
+            x = player.x_13();
+        }
+        if (x) {
+            m37();
+            return;
+        }
+    }
+    if (!m40() || !m41())
+        m37();
+    else
+        m38();
 }
 
 }  // namespace uking::ai
