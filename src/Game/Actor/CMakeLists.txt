@@ -70,6 +70,7 @@ target_sources(uking PRIVATE
   actObjBoardWoodTriangleUserTag.h
   actPauseMenuPlayer.cpp
   actPauseMenuPlayer.h
+  actSoundProxy.cpp
   actSoundProxy.h
   actUnk_7102366570.cpp
   actUnk_7102366570Dtor.cpp
