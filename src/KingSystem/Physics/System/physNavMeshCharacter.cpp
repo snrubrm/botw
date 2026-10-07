@@ -50,6 +50,23 @@ void NavMeshCharacter::sub_7100394884(sead::ObjList<sead::Vector3f>::iterator be
         _290 = sUnk_710260ddd8.fetchAdd(1);
 }
 
+void NavMeshCharacter::sub_710038AE34(sead::ObjList<sead::Vector3f>::iterator begin,
+                                      sead::ObjList<sead::Vector3f>::iterator end) {
+    auto lock = sead::makeScopedLock(_1e0);
+    s32 count = 0;
+    for (auto it = begin; count < 16 && it != end; ++it) {
+        if (it->isNan())
+            return;
+        _d4[count].x = it->x;
+        _d4[count].y = it->y;
+        _d4[count].z = it->z;
+        ++count;
+    }
+    _1da = count;
+    if (!(_220.fetchOr(0x1000) & 0x1000))
+        _290 = sUnk_710260ddd8.fetchAdd(1);
+}
+
 void NavMeshCharacter::sub_7100F75AF0() {
     if (_2e0)
         HavokAI::instance()->sub_7100F83A9C(_2e0);

@@ -125,7 +125,7 @@ public:
     // Declaration only.
     void sub_7100394884(sead::ObjList<sead::Vector3f>::iterator begin,
                         sead::ObjList<sead::Vector3f>::iterator end);
-    // 0x710038ae34 (declaration only): the same function emitted in EnemyEscapeMove's translation unit.
+    // 0x710038ae34: a separate original point-list setter used by EnemyEscapeMove.
     void sub_710038AE34(sead::ObjList<sead::Vector3f>::iterator begin,
                         sead::ObjList<sead::Vector3f>::iterator end);
     // 0x7100f7d1b4 / 0x7100f7d1cc / 0x7100f7d298 (lane4 s29): the list of agent ids (`other->_8->_98`) at _a8 /
