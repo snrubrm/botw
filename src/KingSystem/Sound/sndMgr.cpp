@@ -131,6 +131,14 @@ void Unk_SoundMgr48::sub_7101055B44() {
         _18.stop(0.1f, 0.0f);
 }
 
+extern const f32 sUnk_7102502500[2];
+
+// NON_MATCHING: the original local data pair is accessed through the mapped external symbol.
+void Unk_710104e5b4::sub_710104FD4C() {
+    _250 = 1;
+    _258.moveTo(sUnk_7102502500[0], sUnk_7102502500[1]);
+}
+
 void Unk_710104e5b4::sub_710104F86C() {
     if (evt::Manager::instance()->hasActiveEvent() && !_2a0.isOn(4))
         SoundMgr::instance()->mDuckingMgr->sub_7101042024(0x10);

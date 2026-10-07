@@ -318,13 +318,18 @@ public:
     void sub_710104F904();
     // 0x710104f920: with `on`: stops the duckers 0x10 and 0xf and disables ducking (sets bit 2 of `_2a0`); else clears it.
     void sub_710104F920(bool on);
+    void sub_710104FD4C();
     // 0x710104fd38 (not done; copies a 12-byte value (4 bytes at +8 first) to `_278`; sead::Vector3f's operator=
     // copies element-wise).
 
     u8 _0[0x28];
     // The SLink user instance the sound triggers (SoundTrigger / SoundTriggerFadeAction) fall back to.
     /* 0x28 */ xlink2::UserInstanceSLink* _28;
-    u8 _30[0x278 - 0x30];
+    u8 _30[0x250 - 0x30];
+    /* 0x250 */ u32 _250;
+    u8 _254[4];
+    /* 0x258 */ aal::SimpleTimedFader _258;
+    u8 _270[8];
     /* 0x278 */ sead::Vector3f _278;
     u8 _284[0x2a0 - 0x284];
     /* 0x2a0 */ sead::BitFlag8 _2a0;
