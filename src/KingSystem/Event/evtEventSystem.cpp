@@ -7,46 +7,23 @@
 
 namespace ksys::evt {
 
-bool EventSpeaker::getPreviousPos(sead::Vector3f* out) const {
-    if (!mLink.hasProc())
-        return false;
-    if (out)
-        *out = mPreviousPos;
-    return true;
+SEAD_SINGLETON_DISPOSER_IMPL(EventSystem)
+
+// NON_MATCHING (createInstance, which has this constructor inlined): the original loads the disposer pointer's GOT slot
+// before the vtable's, and stores the first three members (0x30 / 0x32 / 0x34) before the vptrs; ours schedules the
+// vtable address first.
+EventSystem::EventSystem() {
+    for (auto& value : _130)
+        value = 0;
+    for (auto& flag : _3c)
+        flag = true;
+    _50 = 0;
 }
 
-bool EventSpeaker::getPos(sead::Vector3f* out) const {
-    if (!mLink.hasProc())
-        return false;
-    if (out)
-        *out = mPos;
-    return true;
-}
+EventSystem::~EventSystem() = default;
 
-bool EventSpeaker::sub_7100E497B8(act::Actor* actor) const {
-    return mLink.hasProc() && mLink.hasProcById(actor);
-}
-
-bool EventSpeaker::setSpeaker(act::Actor* actor) {
-    {
-        auto lock = sead::makeScopedLock(mCS);
-        mLink.reset();
-    }
-    if (!actor)
-        return true;
-
-    bool success;
-    {
-        auto lock = sead::makeScopedLock(mCS);
-        success = mLink.acquire(actor, false);
-        if (success && mLink.hasProc()) {
-            act::ActorConstDataAccess accessor;
-            act::acquireActor(&mLink, &accessor);
-            mPreviousPos = accessor.getPreviousPos2();
-            accessor.getActorMtx().getTranslation(mPos);
-        }
-    }
-    return success;
+int EventSystem::handleMessage(const Message& message) {
+    return 1;
 }
 
 bool EventSystem::setSpeaker(act::Actor* actor) {
