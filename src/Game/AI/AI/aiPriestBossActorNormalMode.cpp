@@ -12,6 +12,7 @@ s32 sub_710071E288(ksys::act::Actor* actor);
 
 namespace uking::ai {
 
+// NON_MATCHING: the original uses separate scalar stores where the natural constructor merges them.
 PriestBossActorNormalMode::PriestBossActorNormalMode(const InitArg& arg) : PriestBossMode(arg) {}
 
 PriestBossActorNormalMode::~PriestBossActorNormalMode() {
