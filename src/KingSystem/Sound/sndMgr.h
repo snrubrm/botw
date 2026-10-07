@@ -71,6 +71,10 @@ public:
     void sub_710105D23C(sead::Heap* heap, act::ActorCreator* creator);
     void sub_710105D308();
     void sub_710105D9F8(aal::SoundSource* source);
+    // 0x710105d5ac: stops the previous HeartUp sound and emits mc_HeartUp (`mode` picks the handle).
+    bool sub_710105D5AC(const s32* mode);
+    // 0x710105d7b0: mutes _38 and emits mc_ExtraHeartUp (mode 0 only).
+    bool sub_710105D7B0(const s32* mode);
     void sub_710105D844(const s32* mode);
     // 0x710105d330: emits the SLink sound `label` through the user instance at +0x20; the handle is copied to
     // `handle` if given. Returns whether the emitted event is alive.

@@ -8,6 +8,43 @@
 
 namespace ksys::snd {
 
+// 0x710105d5ac: stops the previous HeartUp sound and emits mc_HeartUp. Non-zero `mode` keeps the
+// sound in _38 muted while _28 plays; mode 0 fades _28 and reuses it for the new sound.
+// NON_MATCHING: the original keeps &_38 in a register across the searchAndEmit call (one extra `add`
+// and x20-relative addressing); with this source clang folds the address into the stores instead.
+// Everything else, including both tails and the fade path, is identical.
+bool UiSoundMgr::sub_710105D5AC(const s32* mode) {
+    if (*mode != 0) {
+        bool active = false;
+        if (_20) {
+            xlink2::HandleSLink h = _20->searchAndEmit("mc_HeartUp");
+            _38 = h;
+            active = h.isActive();
+        }
+        if (_28.isActive())
+            _38.setVolumeScale(0.0f);
+        return active;
+    }
+    _38.setVolumeScale(0.0f);
+    _28.fade();
+    if (!_20)
+        return false;
+    xlink2::HandleSLink h = _20->searchAndEmit("mc_HeartUp");
+    _28 = h;
+    return h.isActive();
+}
+
+// 0x710105d7b0: mutes _38 and emits mc_ExtraHeartUp (mode 0 only).
+bool UiSoundMgr::sub_710105D7B0(const s32* mode) {
+    if (*mode != 0)
+        return false;
+    _38.setVolumeScale(0.0f);
+    if (!_20)
+        return false;
+    xlink2::HandleSLink h = _20->searchAndEmit("mc_ExtraHeartUp");
+    return h.isActive();
+}
+
 void UiSoundMgr::sub_710105D844(const s32* mode) {
     if (*mode == 0) {
         _28.fade();
