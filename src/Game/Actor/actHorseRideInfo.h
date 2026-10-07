@@ -89,9 +89,9 @@ public:
 KSYS_CHECK_SIZE_NX150(Unk_71023cee88, 0x48);
 
 // Placeholder name (vtable 0x710244eaa0; D1 / D0 0x7100 6e1614 / 6e1684, RTTI functions 0x6e1b98 / 0x6e1c64). The base
-// of Player::RideInfo (vtable 0x710246ad80): two bone-bound seats (bone handles `_40` / `_118`) that are
-// configured from the actor's GParam lists. Size 0x1f0.
-// TODO: incomplete (m5 / m7 / m9 are not decompiled).
+// of Player::RideInfo (vtable 0x710246ad80): two foot rotation controllers (the left / right foot node of the rider,
+// see the HorseRider GParam object) that are configured from the actor's GParam lists. Size 0x1f0.
+// TODO: incomplete.
 class Unk_710244eaa0 : public HorseRideInfo {
     SEAD_RTTI_OVERRIDE(Unk_710244eaa0, HorseRideInfo)
 public:
@@ -106,24 +106,25 @@ public:
     void m8() override;
     void m9() override;
 
-    /* 0x038 */ ksys::act::Actor* _38 = nullptr;
-    /* 0x040 */ ksys::act::BoneHandle _40;
-    /* 0x0e8 */ const sead::SafeString* _e8 = nullptr;
-    /* 0x0f0 */ f32 _f0 = 0.0f;
-    /* 0x0f8 */ const void* _f8 = nullptr;
-    /* 0x100 */ u32 _100 = 0;
-    /* 0x104 */ f32 _104 = 1.0f;
-    /* 0x108 */ s32 _108 = 0;
-    /* 0x10c */ u32 _10c = 1;
-    /* 0x110 */ ksys::act::Actor* _110 = nullptr;
-    /* 0x118 */ ksys::act::BoneHandle _118;
-    /* 0x1c0 */ const sead::SafeString* _1c0 = nullptr;
-    /* 0x1c8 */ f32 _1c8 = 0.0f;
-    /* 0x1d0 */ const void* _1d0 = nullptr;
-    /* 0x1d8 */ u32 _1d8 = 0;
-    /* 0x1dc */ f32 _1dc = 1.0f;
-    /* 0x1e0 */ s32 _1e0 = 0;
-    /* 0x1e4 */ u32 _1e4 = 1;
+    // Placeholder name (size 0xd8; the functions at 0x7100 6e1984 (update, 532 B) work on it).
+    struct Foot {
+        // 0x6e1984 (declaration only)
+        void sub_71006E1984();
+
+        /* 0x00 */ ksys::act::Actor* actor = nullptr;
+        /* 0x08 */ ksys::act::BoneHandle bone;
+        /* 0xb0 */ const sead::SafeString* name = nullptr;
+        /* 0xb8 */ f32 _b8 = 0.0f;
+        /* 0xc0 */ const void* axis = nullptr;
+        /* 0xc8 */ u32 _c8 = 0;
+        /* 0xcc */ f32 ratio = 1.0f;
+        /* 0xd0 */ f32 retRatio = 0.0f;
+        /* 0xd4 */ u32 _d4 = 1;
+    };
+    KSYS_CHECK_SIZE_NX150(Foot, 0xd8);
+
+    /* 0x038 */ Foot mLeft;
+    /* 0x110 */ Foot mRight;
     /* 0x1e8 */ bool _1e8 = false;
 };
 KSYS_CHECK_SIZE_NX150(Unk_710244eaa0, 0x1f0);
