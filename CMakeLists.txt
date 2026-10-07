@@ -60,3 +60,8 @@ add_subdirectory(lib/hkStubs)
 target_link_libraries(uking PRIVATE hkStubs)
 
 add_subdirectory(src)
+
+# This audited translation unit uses the newer evidenced SafeString comparison;
+# other translation units retain the default historical implementation.
+set_source_files_properties(src/Game/AI/AI/aiAirOctaState.cpp PROPERTIES
+  COMPILE_DEFINITIONS SEAD_SAFE_STRING_COMPARE_VERSION=2)

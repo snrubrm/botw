@@ -12,9 +12,32 @@
 #include "KingSystem/System/VFR.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/Utils/Thread/Message.h"
+#include "KingSystem/Physics/Constraint/physConstraint.h"
 #include <random/seadGlobalRandom.h>
 
 namespace uking::ai {
+
+// NON_MATCHING: forcePushBack followed by back retains an extra ring-buffer lookup.
+void AirOctaState::sub_71002FDF9C() {
+    if (_278.isOnBit(1))
+        return;
+    auto& constraints = mActor->getConstraints().mConstraints;
+    if (constraints.size() && constraints[0])
+        constraints[0]->sub_7100F6A074();
+
+    ksys::act::ActorConstDataAccess accessor;
+    auto* manager = sead::DynamicCast<AirOctaDataMgr>(
+        *static_cast<Unk_71025afb58**>(mAirOctaDataMgr_a));
+    if (ksys::act::acquireActor(&manager->getProc(), &accessor)) {
+        _260.forcePushBack(1);
+        mActor->sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x80000c8),
+                           &_260.back(), false);
+    }
+    _278.set(2);
+    manager = sead::DynamicCast<AirOctaDataMgr>(
+        *static_cast<Unk_71025afb58**>(mAirOctaDataMgr_a));
+    manager->mFlags |= 2;
+}
 
 AirOctaState::AirOctaState(const InitArg& arg) : EnemyRoot(arg) {}
 
@@ -109,9 +132,7 @@ void AirOctaState::sub_71002FD5BC() {
     }
 }
 
-// NON_MATCHING: the inlined SafeString comparison: in the original the loop is `for (i = 0; i < 0x80000; ++i)` and falls
-// out of the loop with `true` (the code after the loop is the "equal" branch); lib/sead's isEqual loops to
-// `<= cMaximumLength` and returns false after the loop.
+// This TU uses the audited newer historical SafeString comparison, selected in CMake.
 void AirOctaState::sub_71002FDE2C() {
     auto* as_list = mActor->getASList();
     if (!as_list)
