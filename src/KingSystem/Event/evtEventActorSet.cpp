@@ -4,6 +4,7 @@
 #include "KingSystem/Event/evtActorBindings.h"
 #include "KingSystem/Event/evtEventFlow.h"
 #include "KingSystem/Event/evtManager.h"
+#include "KingSystem/Event/evtManagerDelegate.h"
 
 namespace ksys::evt {
 
@@ -20,7 +21,7 @@ void EventActorSet::allocActors(ActorBindings* bindings, sead::Heap* heap, Event
         mActors.allocBuffer(bindings->getNumBindings(), heap, 8);
         for (s32 i = 0; i < bindings->getNumBindings(); ++i) {
             ActorBinding* binding = bindings->getBinding(i);
-            Actor* actor = Manager::instance()->getActorFactory()->makeActor(binding, this, heap);
+            Actor* actor = Manager::instance()->getDelegate()->makeActor(binding, this, heap);
             actor->init(binding, slot);
             mActors.pushBack(actor);
         }

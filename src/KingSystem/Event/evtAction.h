@@ -64,10 +64,11 @@ public:
     ~Action() override;
 
     // Not decompiled (0x71008a7278 / 0x71008a7758 / 0x71008a7784 / 0x71008a7788; m6 is a tail call to ActionBase::m6).
-    void m4(Slot* slot, const evfl::ActionArg& arg, evfl::ActionDoneHandler* handler) override = 0;
-    void m5(ActionContext* context, const evfl::ActionArg& arg) override = 0;
-    void m6(ActionContext* context, const evfl::ActionArg& arg) override = 0;
-    void m7() override = 0;
+    void m4(Slot* slot, const evfl::ActionArg& arg, evfl::ActionDoneHandler* handler) override;
+    void m5(ActionContext* context, const evfl::ActionArg& arg) override;
+    void m6(ActionContext* context, const evfl::ActionArg& arg) override;
+    void m7() override;
+    void play() override;
 
     // 0x7100da7c44 (CSV evt::Action::x): true if no slot has a running context
     bool x();

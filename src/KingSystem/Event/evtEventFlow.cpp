@@ -39,7 +39,7 @@ s32 EventFlowBase::m10() {
 }
 
 // 0x7100db627c
-act::BaseProcLink* EventFlowBase::getBaseProcLink() {
+BaseProcLinkForEvent* EventFlowBase::getBaseProcLink() {
     return &_118->mLink;
 }
 
@@ -226,7 +226,7 @@ void EventFlowBase::acquireEventFlow() {
         m15();
     }
     if (x_3()) {
-        auto* actor = sead::DynamicCast<act::Actor>(_118->mLink2.getProc(nullptr, nullptr));
+        auto* actor = sead::DynamicCast<act::Actor>(_118->mLink.mLink.getProc(nullptr, nullptr));
         if (actor)
             actor->x_15(this, nullptr);
     }

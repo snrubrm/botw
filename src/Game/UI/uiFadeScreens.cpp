@@ -43,13 +43,6 @@ bool isFadeScreenOpenedOrOpening() {
     return eui::ScreenMgr::instance()->getScreen(ScreenId::Fade)->isOpened();
 }
 
-// 0x71008aeac4 (CSV evt::S7::closeFadeScreens)
-bool closeFadeScreens() {
-    eui::ScreenMgr::instance()->getScreen(ScreenId::FadeDemo)->close(-4);
-    eui::ScreenMgr::instance()->getScreen(ScreenId::Fade)->close(-4);
-    return closeFadeStatus();
-}
-
 // 0x71008ae6b8
 bool closeFadeAndFadeStatus() {
     eui::ScreenMgr::instance()->getScreen(ScreenId::Fade)->open(3);

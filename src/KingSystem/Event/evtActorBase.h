@@ -7,6 +7,7 @@
 #include <prim/seadSafeString.h>
 #include "KingSystem/ActorSystem/actBaseProcHandle.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
+#include "KingSystem/Utils/Types.h"
 
 namespace ksys::evt {
 
@@ -22,11 +23,14 @@ class Query;
 // are not decompiled yet are pure here.
 class ActorBase {
 public:
+    // 0x7100da7ed8 (CSV evt::ActorBase::ctor; not decompiled)
+    ActorBase(ActorBinding* binding, EventActorSet* set, sead::Heap* heap);
     SEAD_RTTI_BASE(ActorBase)
 
     virtual ~ActorBase();
     virtual bool m4() = 0;
-    virtual void m5(bool a1, bool a2) = 0;
+    // 0x7100daa670 (CSV evt::ActorBase::m5; not decompiled)
+    virtual void m5(bool a1, bool a2);
     // 0x7100daaa10 (CSV evt::ActorBase::m6): state 0x15 -> 0x16, returns true
     virtual bool m6();
     virtual void m7(bool a1, bool a2) = 0;
@@ -62,6 +66,22 @@ public:
 // abstract here like its base.
 class Actor : public ActorBase {
 public:
+    // 0x71008a8b78 (CSV evt::Actor::ctor)
+    Actor(ActorBinding* binding, EventActorSet* set, sead::Heap* heap);
+    SEAD_RTTI_OVERRIDE(Actor, ActorBase)
+    // D1 0x71008a8bac (CSV evt::Actor::m2), D0 0x71008a8e68 (m3)
+    ~Actor() override;
+
+    bool m4() override;
+    void m7(bool a1, bool a2) override;
+    void m8() override;
+    void m10() override;
+    void m11() override;
+    void m12() override;
+
+    // 0x71008a8be0 (CSV unnamed; placeholder name): called by the destructor
+    void sub_71008A8BE0();
+
     // 0x7100da82c0 (CSV evt::Actor::init; not decompiled)
     void init(ActorBinding* binding, EventFlow* slot);
     // 0x7100dab86c (CSV evt::Actor::x_0)
@@ -71,14 +91,10 @@ public:
     void sub_7100DAC578();
     // 0x7100daa2e0 (CSV unnamed; placeholder name): the state is one of 9-20 / 27
     bool sub_7100DAA2E0() const;
-};
 
-// The object behind evt::Manager + 0x1d2c8 that creates the event-side actors (CSV ukingEventMgr::makeActor; placeholder
-// class, only the slot used by EventActorSet::allocActors is known).
-class ActorFactory {
-public:
-    virtual ~ActorFactory();
-    virtual Actor* makeActor(ActorBinding* binding, EventActorSet* set, sead::Heap* heap);
+private:
+    /* 0x1cc */ s32 _1cc = 0;
 };
+KSYS_CHECK_SIZE_NX150(Actor, 0x1d0);
 
 }  // namespace ksys::evt

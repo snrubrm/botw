@@ -44,7 +44,7 @@ void WarpPlayer::m32() {
     if (!mgr)
         return;
     sead::Vector3f dest[2];
-    if (!mgr->getMapPosition(mWarpDestPosName_d, dest, mgr->getStageName(), mWarpDestMapName_d))
+    if (!mgr->getMapPosition(mWarpDestPosName_d, dest, mgr->getStageName(), &mWarpDestMapName_d))
         return;
     ksys::act::acc::PlayerBase player;
     player.getPlayerFromPlayerInfo();

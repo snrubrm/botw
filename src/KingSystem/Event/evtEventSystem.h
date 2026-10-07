@@ -1,5 +1,6 @@
 #pragma once
 
+#include <container/seadSafeArray.h>
 #include <heap/seadDisposer.h>
 #include <math/seadVector.h>
 #include <thread/seadCriticalSection.h>
@@ -17,6 +18,8 @@ class ActorConstDataAccess;
 }
 
 namespace ksys::evt {
+
+class EventFlowBase;
 
 // The current speaker of the event system (EventSystem + 0xc0; CSV evt::S3, placeholder name).
 class EventSpeaker {
@@ -69,6 +72,11 @@ public:
     void sub_71008ABF30();
     void sub_71008ABF38(act::ActorConstDataAccess* accessor);
 
+    // 0x71008ac1bc (CSV x?: __auto0; placeholder name): counts the event flow `flow` (by its flags), see S7
+    void sub_71008AC1BC(EventFlowBase* flow);
+    // 0x71008ac148 (CSV __auto1; placeholder name): takes the event flow out of the count
+    void sub_71008AC148(EventFlowBase* flow);
+
     // 0x71008abf48: speaker assignment.
     bool setSpeaker(act::Actor* actor);
 
@@ -77,7 +85,8 @@ public:
     u8 _33;
     /* 0x34 */ s32 _34 = 0;
     /* 0x38 */ s32 _38 = 0;
-    /* 0x3c */ bool _3c[18];
+    /* 0x3c */ sead::SafeArray<bool, 9> _3c;
+    /* 0x45 */ sead::SafeArray<bool, 9> _45;
     u8 _4e[2];
     /* 0x50 */ s32 _50;
     u8 _54[4];

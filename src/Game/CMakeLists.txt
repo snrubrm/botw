@@ -10,6 +10,8 @@ target_sources(uking PRIVATE
   gameAmiiboMgr.h
   gameDragonChallengeMgr.cpp
   gameDragonChallengeMgr.h
+  gameEventDelegate.cpp
+  gameEventDelegate.h
   gameGearMgr.cpp
   gameGearMgr.h
   gameGraphics.cpp

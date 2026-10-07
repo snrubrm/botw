@@ -4,6 +4,7 @@ target_sources(uking PRIVATE
   evtActionBase.cpp
   evtActionContext.cpp
   evtActionContext.h
+  evtActor.cpp
   evtActorBase.cpp
   evtActorBase.h
   evtActorBinding.cpp
@@ -41,6 +42,7 @@ target_sources(uking PRIVATE
   evtInfoData.h
   evtManager.cpp
   evtManager.h
+  evtManagerDelegate.h
   evtMetadata.cpp
   evtMetadata.h
   evtOrderParam.cpp
@@ -53,6 +55,9 @@ target_sources(uking PRIVATE
   evtResourceFlowchart.h
   evtResourceTimeline.cpp
   evtResourceTimeline.h
+  evtS7.cpp
+  evtS7.h
+  evtS7Movie.cpp
   evtUnk_7100dc816c.cpp
   evtUnk_7100dc816c.h
 )

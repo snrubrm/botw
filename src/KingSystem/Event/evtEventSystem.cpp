@@ -5,6 +5,7 @@
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "Game/gameRoot38.h"
+#include "KingSystem/Event/evtBaseProcLinkForEvent.h"
 #include "KingSystem/Event/evtEventFlow.h"
 #include "Game/gameScene.h"
 #include "Game/UI/uiUtils.h"
@@ -18,7 +19,9 @@ SEAD_SINGLETON_DISPOSER_IMPL(EventSystem)
 // before the vtable's, and stores the first three members (0x30 / 0x32 / 0x34) before the vptrs; ours schedules the
 // vtable address first.
 EventSystem::EventSystem() {
-    for (auto& flag : _3c)
+    for (auto& flag : _3c.mBuffer)
+        flag = true;
+    for (auto& flag : _45.mBuffer)
         flag = true;
     _50 = 0;
 }
@@ -27,6 +30,49 @@ EventSystem::~EventSystem() = default;
 
 int EventSystem::handleMessage(const Message& message) {
     return 1;
+}
+
+// 0x71008ac148
+void EventSystem::sub_71008AC148(EventFlowBase* flow) {
+    if (flow->getBaseProcLink()->mMetadata.getFlags().getDirect() == 500) {
+        const u64 flags = flow->_340;
+        if (flags & 0x400000)
+            --_38;
+        else if (flags & 0x800000)
+            --_34;
+        else
+            return;
+    } else {
+        --_50;
+    }
+    _32 = 1;
+}
+
+// NON_MATCHING: the stored flag is selected as `bit 22 ? 1 : (!(bit 23) && !byte3)` by `tst w8, #0x400000; csel` in the
+// original; ours extracts the bit (`ubfx` + `csinc` / 64-bit selects, depending on the form of the expression).
+// 0x71008ac1bc
+void EventSystem::sub_71008AC1BC(EventFlowBase* flow) {
+    if (flow->getBaseProcLink()->mMetadata.getFlags().getDirect() == 500) {
+        const u64 flags = flow->_340;
+        if (flags & 0x400000)
+            ++_38;
+        else if (flags & 0x800000)
+            ++_34;
+        else
+            return;
+        _32 = 1;
+    } else {
+        const s32 count = _50;
+        if (count >= 8) {
+            _50 = count + 1;
+            return;
+        }
+        const s32 index = count + 1;
+        _3c[index] = (!flow->byte3FlagIsSet() && !(flow->_340 & 0x800000)) || (flow->_340 & 0x400000);
+        _45[index] = !flow->byte3FlagIsSet();
+        _50 = index;
+        _32 = 1;
+    }
 }
 
 // 0x71008ac118

@@ -9,6 +9,7 @@
 #include <prim/seadRuntimeTypeInfo.h>
 #include <prim/seadSafeString.h>
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
+#include "KingSystem/Event/evtBaseProcLinkForEvent.h"
 #include "KingSystem/Event/evtEventResource.h"
 #include "KingSystem/Utils/Types.h"
 
@@ -19,6 +20,7 @@ class ActorBindings;
 class EventFlow;
 class ActorBase;
 class Actor;
+class S5Base;
 
 // The per-event actor set (CSV evt::S6) at EventFlowBase + 0x110.
 class EventActorSet {
@@ -67,13 +69,12 @@ public:
     u8 _58[0x58 - 0x58];
 };
 
-// Unknown object at EventFlowBase + 0x100 (polymorphic; slot 10 = isPlaying-like query).
+// The flow's handle at EventFlowBase + 0x100 (CSV evt::S7: base of S7EventFlow / S7Movie, see evtS7.h; the vtable has 12
+// slots: RTTI pair, destructors, 4-11). The RTTI pair comes first (SEAD_RTTI_BASE before the destructor).
 class EventFlowHandle {
 public:
-    virtual void m0() = 0;
-    virtual void m1() = 0;
-    virtual void m2() = 0;
-    virtual void m3() = 0;
+    SEAD_RTTI_BASE(EventFlowHandle)
+    virtual ~EventFlowHandle() = default;
     virtual void m4() = 0;
     virtual bool m5() = 0;  // updates the flow (EventFlowBase::calc)
     virtual void m6() = 0;
@@ -81,15 +82,18 @@ public:
     virtual void m8(void* a1, void* a2) = 0;
     virtual void m9() = 0;
     virtual bool isPlaying() = 0;  // slot 10
+    virtual bool m11() = 0;  // closes the fade screens
 };
 
-// Unknown object at EventFlowBase + 0x118 (embeds the base proc link of the event's actor at +0x18).
+// Unknown object at EventFlowBase + 0x118: the event call of the flow (embeds the BaseProcLinkForEvent of the event's
+// actor at +0x18: its Metadata's flags are read at +0x178 of the object, the link of the actor is at +0x28).
 struct EventFlowActorInfo {
     u8 _0[0x18];
-    act::BaseProcLink mLink;
-    // A second link (read by EventFlowBase::acquireEventFlow)
-    act::BaseProcLink mLink2;
+    BaseProcLinkForEvent mLink;
+    u8 _1d8[0x200 - 0x1d8];
+    /* 0x200 */ S5Base* _200;
 };
+
 
 // The value of EventFlowBase::mType (names from the CSV function evt::EventFlowBase::isEventTypeNotMovieWithNoPath; the
 // other enumerators are guesses).
@@ -135,7 +139,7 @@ public:
     virtual void m17() = 0;
 
     // 0x7100db627c (CSV evt::EventFlowBase::getBaseProcLink)
-    act::BaseProcLink* getBaseProcLink();
+    BaseProcLinkForEvent* getBaseProcLink();
     // 0x7100db6288 (CSV evt::EventFlowBase::byte3FlagIsSet)
     bool byte3FlagIsSet() const;
     // 0x7100db8b84 (CSV evt::EventFlowBase::x): sets / clears the flag bits 0x80 + 0x20 and notifies the resource.
