@@ -1,5 +1,6 @@
 #include "Game/AI/AI/aiGanonNearAttackOnFloorRoot.h"
 #include "Game/Actor/actLastBoss.h"
+#include <random/seadGlobalRandom.h>
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
@@ -33,6 +34,52 @@ void GanonNearAttackOnFloorRoot::enter_(ksys::act::ai::InlineParamPack* params) 
     if (*mIsPrevBeam_d)
         _58 = 4;
     sub_71003EC980();
+}
+
+// NON_MATCHING: boss-state checks and attack weights are scheduled differently.
+void GanonNearAttackOnFloorRoot::sub_71003EC980() {
+    s32 choices;
+    if (_58 == 5) {
+        choices = 3;
+    } else {
+        const auto position = mActor->getMtx().getTranslation();
+        const f32 dx = position.x - mTargetPos_d->x;
+        const f32 dz = position.z - mTargetPos_d->z;
+        if (dx * dx + dz * dz < *mNearDist_s * *mNearDist_s) {
+            changeToShockwave();
+            return;
+        }
+        choices = _58 == 0 ? 3 : 2;
+    }
+    if (auto* boss = sead::DynamicCast<act::LastBoss>(mActor)) {
+        if (boss->_14e8.isOn(2) && _58 != 4)
+            ++choices;
+    }
+    const u32 roll = sead::GlobalRandom::instance()->getU32(choices * 10);
+    const u32 greatsword_weight = _58 == 1 ? 0 : 10;
+    const u32 sword_weight = _58 == 2 ? 0 : 10;
+    const u32 side_weight = _58 == 3 ? 0 : 10;
+    if (!*mIsCounter_d) {
+        if (roll < greatsword_weight) {
+            changeToGreatswordAttack();
+            return;
+        }
+        if (roll < greatsword_weight + sword_weight) {
+            changeToSwordAttack();
+            return;
+        }
+        if (roll >= greatsword_weight + sword_weight + side_weight) {
+            _58 = 4;
+            ksys::act::ai::InlineParamPack pack;
+            pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+            changeChild("ビーム攻撃", &pack);
+            return;
+        }
+    } else if (_58 != 1 && (_58 == 3 || (roll & 1) == 0)) {
+        changeToGreatswordAttack();
+        return;
+    }
+    changeToGreatswordSideAttack();
 }
 
 void GanonNearAttackOnFloorRoot::leave_() {
