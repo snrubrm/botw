@@ -106,6 +106,8 @@ public:
     f32 sub_7100D91A10(int a1, int a2) const;
     f32 sub_7100D91BE4(int a1, int a2) const;
     f32 sub_7100D945AC() const;
+    // 2026-10-07: clears the two charge values at 0x1b4 / 0x1b8.
+    void sub_7100D93B84();
     // 0x7100d9153c (declared only): forwards to the owner (_18) with the matrix to fill.
     void sub_7100D9153C(sead::Matrix34f* out);
 

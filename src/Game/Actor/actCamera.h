@@ -448,7 +448,10 @@ public:
     /* 0x11f0 */ sead::Matrix34f _11f0;
     /* 0x1220 */ sead::Vector3f _1220;
     /* 0x122c */ bool _122c;
-    /* 0x122d */ u8 _122d[0x1240 - 0x122d];
+    /* 0x122d */ u8 _122d[0x1230 - 0x122d];
+    // 2026-10-07: sub_7100795F40 indexes these three floats by the platform core ID.
+    /* 0x1230 */ sead::SafeArray<f32, 3> _1230;
+    /* 0x123c */ u8 _123c[0x1240 - 0x123c];
     /* 0x1240 */ Unk_7100928b6c _1240{this};
     /* 0x1390 */ void* _1390 = nullptr;
     // Angle indices (Player::x_5's value type): _1398 is computed with atan2Idx each frame and

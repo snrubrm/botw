@@ -5,6 +5,11 @@
 
 namespace ksys::act {
 
+void Chemical::sub_7100D93B84() {
+    _1b4 = 0.0f;
+    _1b8 = 0.0f;
+}
+
 void Chemical::sub_7100D9A8F8(Chemical* chemical) {
     sUnk_7102600e50->sub_7100D99760(chemical);
     delete chemical;

@@ -105,6 +105,9 @@ target_sources(uking PRIVATE
     actActor.cpp
     actActorMaxHp.cpp
     actActor.h
+    actActorX6A0.cpp
+    actActorX6A0.h
+    actActorX6A0Sub.cpp
     actImpulseBaseProcLink.h
     actActorAtk.cpp
     actActorAtk.h

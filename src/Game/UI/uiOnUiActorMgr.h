@@ -2,6 +2,7 @@
 
 #include <heap/seadDisposer.h>
 #include <hostio/seadHostIONode.h>
+#include <prim/seadSafeString.h>
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Utils/Thread/MessageTransceiverRxOnly.h"
 #include "KingSystem/Utils/Thread/MessageTransceiverTxOnly.h"
@@ -32,6 +33,8 @@ public:
     bool sub_710090AB4C() const;
 
 private:
+    friend class uking::act::PauseMenuPlayer;
+
     /* 0x38 */ ksys::act::BaseProcLink mActorLink;
     /* 0x48 */ ksys::act::Actor* mActor;
     u8 _50[0x90 - 0x50];

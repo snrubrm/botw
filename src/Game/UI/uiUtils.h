@@ -41,6 +41,9 @@ class NpcShopData;
 
 namespace uking::ui {
 
+// 0x7100a94bac: refreshes the pause menu information after a preview animation event.
+void sub_7100A94BAC();
+
 // 0x71010b6124 (CSV ui::showLoadSaveIcon; not decompiled): shows / hides the load / save icon
 void showLoadSaveIcon(bool show);
 // 0x71010ad714 (placeholder name): the layout name of screen `index` (the table also used by getScreenIdxByName).
@@ -437,4 +440,3 @@ bool isFindDungeonActivated();
 // 0x7100a9d800 (CSV unnamed; declared only)
 s32 sub_7100A9D800();
 }  // namespace wm
-

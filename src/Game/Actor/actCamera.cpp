@@ -2,6 +2,7 @@
 #include "Game/Actor/actCameraUtil.h"
 #include <cmath>
 #include <math/seadMathCalcCommon.h>
+#include <mc/seadCoreInfo.h>
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actAiActionBase.h"
@@ -11,6 +12,13 @@
 #include "KingSystem/ksys.h"
 
 Unk_7102459708::Unk_7102459708(ksys::act::ai::ActionBase* owner) : mOwner(owner) {}
+
+bool uking::act::Camera::sub_7100795F40(f32** out) {
+    if (!out)
+        return false;
+    *out = &_1230[sead::CoreInfo::getPlatformCoreId(sead::CoreInfo::getCurrentCoreId())];
+    return true;
+}
 
 uking::act::Camera* Unk_7102459708::getCamera() const {
     if (!mOwner)

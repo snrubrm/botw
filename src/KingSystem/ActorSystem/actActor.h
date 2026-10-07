@@ -950,7 +950,7 @@ protected:
     /* 0x691 */ bool _691 = false;
     /* 0x694 */ sead::Atomic<int> mFadeOutDeleteType = 0;
     /* 0x698 */ sead::Atomic<u32> mFadeOutSleepFlags;
-    /* 0x6a0 */ void* _6a0 = nullptr;
+    /* 0x6a0 */ class ActorX6A0* _6a0 = nullptr;
     /* 0x6a8 */ ActorChemicals* mChemical = nullptr;
     /* 0x6b0 */ phys::Reaction* mReaction = nullptr;
     /* 0x6b8 */ ActorUnk6b8* _6b8 = nullptr;
