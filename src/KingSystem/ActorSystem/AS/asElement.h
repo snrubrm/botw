@@ -356,6 +356,18 @@ public:
     int sub_710116554C(Context* ctx, EventState* state, const res::ASResource* resource);
     // 0x71011654e0: m37 followed by m14.
     void sub_71011654E0(Context* ctx, void* a2, EventState* a3, const res::ASResource* resource);
+    // 0x71011655a0 produces up to eight ranges; Actor::swordBlurStuff reads count at +0xc0.
+    struct EventRanges {
+        struct Range {
+            f32 start;
+            f32 end;
+            sead::SafeString value;
+        };
+        sead::SafeArray<Range, 8> ranges;
+        s32 count;
+    };
+    static_assert(sizeof(EventRanges) == 0xc8);
+    void sub_71011655A0(EventRanges* ranges, s32 type, const res::AS* as);
     // 0x7101165e60 / 0x7101165ebc: used by SelectorBase::m35 / m36.
     void sub_7101165E60(Context* ctx, const res::ASResource* resource);
     void sub_7101165CA8(Context* ctx, bool a1, const res::ASResource* resource, f32 value,

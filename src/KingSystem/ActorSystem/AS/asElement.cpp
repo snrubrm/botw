@@ -1,5 +1,6 @@
 #include "KingSystem/ActorSystem/AS/asElement.h"
 #include <math/seadQuat.h>
+#include "KingSystem/Resource/Actor/resResourceAS.h"
 #include "KingSystem/Resource/Actor/resResourceASResource.h"
 
 namespace ksys::as {
@@ -207,6 +208,54 @@ void Element::sub_7101165EBC(Context* ctx, sead::BufferedSafeString* out,
     name.appendWithFormat("/%d", index);
     m36(ctx, out, name, resource);
     name.trim(old_length);
+}
+
+// NON_MATCHING: event record references and the shared output handling are scheduled differently.
+void Element::sub_71011655A0(EventRanges* ranges, s32 type, const res::AS* as) {
+    ranges->count = 0;
+    if (!as || m6() < 0)
+        return;
+    const auto* resource = as->getElementResources()[m6()];
+    if (!resource)
+        return;
+    const auto& extensions = resource->getExtensions();
+    if (type < 0x36) {
+        const auto* parser = sead::DynamicCast<const res::ASHoldEventsParser>(
+            extensions.getParser(res::ASParamParser::Type::HoldEvents));
+        if (!parser)
+            return;
+        const auto& events = parser->getEvents();
+        for (s32 i = 0, count = events.size(); i < count; ++i) {
+            const auto& event = events[i];
+            if (event.type_index != type)
+                continue;
+            if (ranges->count >= 8)
+                return;
+            auto& range = ranges->ranges[ranges->count];
+            range.start = *event.start_frame;
+            range.end = *event.end_frame;
+            range.value = *event.value;
+            ++ranges->count;
+        }
+    } else {
+        const auto* parser = sead::DynamicCast<const res::ASTriggerEventsParser>(
+            extensions.getParser(res::ASParamParser::Type::TriggerEvents));
+        if (!parser)
+            return;
+        const auto& events = parser->getEvents();
+        for (s32 i = 0, count = events.size(); i < count; ++i) {
+            const auto& event = events[i];
+            if (event.type_index != type)
+                continue;
+            if (ranges->count >= 8)
+                return;
+            auto& range = ranges->ranges[ranges->count];
+            range.start = *event.frame;
+            range.end = *event.frame;
+            range.value = *event.value;
+            ++ranges->count;
+        }
+    }
 }
 
 void Element::m36(Context* ctx, sead::BufferedSafeString* out, sead::BufferedSafeString& name,
