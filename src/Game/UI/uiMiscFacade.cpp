@@ -510,8 +510,8 @@ bool findDungeonNameForPositionImpl(f32 radius, sead::SafeString* out_name, cons
 }
 
 // 0x7100a9f55c
-void sub_7100A9F55C(const void* a0, void* a1) {
-    Manager::instance()->sub_7100A7F468(a0, a1);
+bool sub_7100A9F55C(sead::SafeString* out_name, const sead::Vector3f* position, f32 radius) {
+    return Manager::instance()->sub_7100A7F468(out_name, position, radius);
 }
 
 // 0x7100a9f5d4

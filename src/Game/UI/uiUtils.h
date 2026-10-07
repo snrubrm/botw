@@ -46,6 +46,8 @@ int getPorchNum(const sead::SafeString& name);
 
 // 0x7100a94bac: refreshes the pause menu information after a preview animation event.
 void sub_7100A94BAC();
+// 0x7100a9f55c: selects a nearby record name into the mutable output string.
+bool sub_7100A9F55C(sead::SafeString* out_name, const sead::Vector3f* position, f32 radius);
 
 // 0x71010b6124 (CSV ui::showLoadSaveIcon; not decompiled): shows / hides the load / save icon
 void showLoadSaveIcon(bool show);

@@ -71,7 +71,7 @@ public:
     bool checkLoadResource(ksys::res::Handle* handle, const sead::SafeString& path);
     bool parseLocations();
     bool sub_7100A7F2EC(f32 radius, sead::SafeString* out_name, const sead::Vector3f* pos);
-    void sub_7100A7F468(const void* a1, void* a2);
+    bool sub_7100A7F468(sead::SafeString* out_name, const sead::Vector3f* position, f32 radius);
     void sub_7100A7C8D4();
     void sub_7100A7C9AC();
     void sub_7100AA8698();  // 0x7100aa8698 (CSV unnamed; called by sub_7100A7C8D4)
