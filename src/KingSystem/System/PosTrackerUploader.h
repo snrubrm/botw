@@ -27,6 +27,10 @@ public:
 
     // 0x7100a8c3b8 (CSV queueUpload): queues doUpload on the low priority thread; false if one is already pending or running.
     bool queueUpload();
+    // Upload entry points used by the job at 0x7100a8f2dc (declarations only).
+    bool sub_7100A8C770(const void* buffer, u32 size, u64 nex_id, s32 block, bool hard_mode);
+    bool sub_7100A8CC48(const void* buffer, u32 size, u64 nex_id, bool hard_mode);
+    bool queueCleanUp();
 
     sead::Heap* getHeap() const { return mHeap; }
     sead::Heap* getHeap2() const { return mHeap2; }

@@ -39,6 +39,8 @@ target_sources(uking PRIVATE
     NXArgs.h
     PosTrackerUploader.cpp
     PosTrackerUploader.h
+    PosTrackerUploadJob.cpp
+    PosTrackerUploadJob.h
     OcclusionQueryCylinder.cpp
     OcclusionQueryCylinder.h
     MoviePlayer.cpp
