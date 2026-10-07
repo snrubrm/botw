@@ -115,6 +115,8 @@ void sub_710072C1B4(ksys::phys::CharacterController* controller, const sead::Vec
 /// whether a solution exists.
 bool sub_710072CD88(f32 height, f32* speed, f32* time, const sead::Vector3f* start,
                     const sead::Vector3f* target, const sead::Vector3f* gravity);
+bool sub_710072CF4C(f32 vertical_speed, f32* speed, f32* time, const sead::Vector3f* start,
+                    const sead::Vector3f* target, const sead::Vector3f* gravity);
 /// 0x710072d068 (declaration only, placeholder name): sqrt(2 * |gravity| * height).
 f32 sub_710072D068(const sead::Vector3f* gravity, f32 height);
 
