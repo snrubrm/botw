@@ -2,8 +2,21 @@
 #include "Game/UI/euiConstantBuffer.h"
 #include "Game/UI/euiFontMgr.h"
 #include "Game/UI/euiScreen.h"
+#include "Game/UI/euiNwAllocator.h"
+#include <gfx/nin/seadGraphicsNvn.h>
+#include <heap/seadHeapMgr.h>
 
 namespace eui {
+
+ScreenMgr::~ScreenMgr() {
+    if (auto* heap = sead::HeapMgr::instance()->findContainHeap(mScreens.getBufferPtr())) {
+        NwAllocator::initialize(heap);
+        mGraphicsResource.UnregisterCommonSamplerSlot(UnregisterSlotForSampler, nullptr);
+        mGraphicsResource.Finalize(sead::GraphicsNvn::instance()->getNnDevice());
+        NwAllocator::finalize();
+    }
+}
+
 
 // 0x7100bec7cc
 const void* ScreenMgr::getMultiFilterParameterData(const sead::SafeString& path) const {

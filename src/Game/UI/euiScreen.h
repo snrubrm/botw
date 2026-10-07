@@ -303,7 +303,7 @@ public:
 // The screen manager singleton (CSV: eui::ScreenMgr::*, sInstance 0x71025fcc68). The table of loaded
 // screens is a sead::Buffer (count at 0x28, pointer at 0x30) indexed by the screen id of
 // uking::ui::ScreenFactory::create.
-class ScreenMgr {
+class ScreenMgr : public sead::hostio::Node {
     SEAD_SINGLETON_DISPOSER(ScreenMgr)
     ScreenMgr();
 
