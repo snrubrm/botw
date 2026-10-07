@@ -32,4 +32,8 @@ MessageString MessageSet::tryFindMessage(const char* label) const {
     return MessageString(length, text);
 }
 
+bool MessageSet::sub_7100BE4F98(const char* label) const {
+    return LMS_GetTextIndexByLabel(mHandle, label) >= 0;
+}
+
 }  // namespace eui

@@ -19,6 +19,7 @@ public:
     MessageString findMessage(const char* label) const;
     // 0x7100be4f10 (the same code as findMessage)
     MessageString tryFindMessage(const char* label) const;
+    bool sub_7100BE4F98(const char* label) const;
 };
 
 }  // namespace eui
