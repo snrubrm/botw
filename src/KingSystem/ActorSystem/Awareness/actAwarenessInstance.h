@@ -154,6 +154,10 @@ KSYS_CHECK_SIZE_NX150(Unk_71024dc858, 0x58);
 // other vtable, and element destruction (sead::ObjArray::clear / erase in 0x7100d78f4c and
 // AwarenessInstance::sub_7100D7EAE4) calls Unk_71024dc858's D1 directly.
 struct Unk_7100d78e50 {
+    // inline-only in the original; name is a guess (the same sequence (Unk_71024dc858 ctor, a memcpy of the identity
+    // matrix, three zero stores) opens the stack copies in 0x7100d78e50 and KeeseHangOnCeil::calc_ (x2)).
+    Unk_7100d78e50() : _58(sead::Matrix34f::ident), _a0(0), _a4(0), _a8(0) {}
+
     /* 0x00 */ Unk_71024dc858 _0;
     /* 0x58 */ sead::Matrix34f _58;  // passed as a matrix by EnemyCalledAppear::calc_ (sub_71005D8DE8)
     /* 0x88 */ sead::Vector3f _88;

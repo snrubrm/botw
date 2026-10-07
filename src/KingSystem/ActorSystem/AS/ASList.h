@@ -312,6 +312,9 @@ public:
     const sead::SafeString& x_1(u32 slot, u32 seq_bank);
     // 0x710115ad68 (declaration only): queries the resolved animation resource flag.
     bool sub_710115AD68(const sead::SafeString& name);
+    // 0x710115adc0 (placeholder name): the "ForbidPartialDemoAS" flag of the AS `name` (true if there is no
+    // such define or no resource). PlayerPlayASAdapt callers.
+    bool sub_710115ADC0(const sead::SafeString& name);
     // 0x000000710115c4d4
     bool x_4(u32 slot, u32 seq_bank);
 

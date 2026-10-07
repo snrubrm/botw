@@ -304,6 +304,15 @@ bool ASList::sub_710115AD68(const sead::SafeString& name) {
     return define && ((define->_10 >> 1) & 1);
 }
 
+bool ASList::sub_710115ADC0(const sead::SafeString& name) {
+    sead::SafeString out_name;
+    bool a3 = false;
+    void* a4 = nullptr;
+    const Unk8* define = sub_710115AABC(name, &out_name, &a3, &a4, false);
+    auto* as = static_cast<res::AS*>(a4);
+    return !define || !as || as->getForbidPartialDemoAs();
+}
+
 void ASList::sub_710115D4A4(f32 t, sead::Matrix34f* out, bool a3) {
     for (s32 i = 0; i < mSlots.size(); ++i) {
         if (mSlots[i].sub_71011650FC(t, out, a3, &_14))
