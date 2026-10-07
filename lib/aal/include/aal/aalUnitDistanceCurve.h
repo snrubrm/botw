@@ -35,7 +35,7 @@ public:
 
 private:
     /// The distance after which the curve is practically zero.
-    void calcCullingStartDistance_();
+    void calcCullingDistance_();
 
     CurveType mCurveType = CurveType(0);
     f32 mStartValue = 1.0f;
@@ -43,8 +43,9 @@ private:
     f32 mHoldDistance = 0.0f;
     f32 mUnitDistance = 1.0f;
     f32 mDecayRatio = 0.5f;
-    s32 _80 = 0;
-    f32 mCullingStartDistance = 3.4028235e+38f;
+    f32 mCullingStartDistance = 0.0f;
+    /// The distance after which the value is 0 (calculated from the parameters).
+    f32 mCullingDistance = 3.4028235e+38f;
     bool _88 = false;
     bool _89 = false;
     DrawGraphArg mDrawGraphArg;

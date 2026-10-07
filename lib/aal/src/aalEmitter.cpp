@@ -1,4 +1,6 @@
 #include "aal/aalEmitter.h"
+#include <basis/seadNew.h>
+#include <heap/seadHeap.h>
 #include <prim/seadScopedLock.h>
 #include "aal/aalArbiter.h"
 #include "aal/aalAssetInfo.h"
@@ -19,6 +21,30 @@ Emitter::Emitter() : mInitialized(false), mSoundSources(nullptr), mLimiterBuffer
 
 // 0x7100b9ecf4 (D2) / 0x7100b9ed2c (D0)
 Emitter::~Emitter() = default;
+
+// 0x7100b9ed70
+bool Emitter::initialize(const sead::SafeString&, sead::Heap* heap) {
+    if (mInitialized)
+        return true;
+
+    heap->getMaxAllocatableSize(8);
+    mSoundSources = new (heap, std::nothrow) sead::OffsetList<SoundSource>;
+    if (!mSoundSources)
+        return false;
+    mSoundSources->initOffset(offsetof(SoundSource, mEmitterNode));
+
+    heap->getMaxAllocatableSize(8);
+    mLimiterBuffer = new (heap, std::nothrow) u8[LimiterUtil::getMaxActiveSoundLimiterSize()];
+    if (!mLimiterBuffer) {
+        if (mSoundSources)
+            delete mSoundSources;
+        return false;
+    }
+
+    mSpatialSetting.reset();
+    mInitialized = true;
+    return true;
+}
 
 // 0x7100b9eef0
 void Emitter::disconnectAllSoundSource_() {

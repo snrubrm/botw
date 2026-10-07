@@ -20,7 +20,7 @@ ActiveSoundLimiter* LimiterUtil::createActiveSoundLimiter(ActiveSoundLimiterType
 }
 
 // 0x7100b835e4
-u32 LimiterUtil::getMaxActiveSoundLimiterSize() {
+s32 LimiterUtil::getMaxActiveSoundLimiterSize() {
     return sizeof(ActiveSoundLimiter);
 }
 

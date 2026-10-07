@@ -86,7 +86,7 @@ SEAD_ENUM(ActiveSoundLimiterType, None, PriorityEarlier, PriorityLater, Earlier,
 
 namespace LimiterUtil {
 /// The size of the biggest active sound limiter.
-u32 getMaxActiveSoundLimiterSize();
+s32 getMaxActiveSoundLimiterSize();
 /// nullptr for None.
 ActiveSoundLimiter* createActiveSoundLimiter(ActiveSoundLimiterType type, sead::Heap* heap);
 }  // namespace LimiterUtil
