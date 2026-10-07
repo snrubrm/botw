@@ -78,6 +78,7 @@ add_library(aal OBJECT
   include/aal/aalSpatialPlayingParamPool.h
   include/aal/aalSpatialSetting.h
   include/aal/aalStopWatch.h
+  include/aal/aalStreamingViewer.h
   include/aal/aalSystem.h
   include/aal/aalSystemAccessor.h
   include/aal/aalTimedFader.h
@@ -144,6 +145,7 @@ add_library(aal OBJECT
   src/aalSettings.cpp
   src/aalSimpleTimedFader.cpp
   src/aalStopWatch.cpp
+  src/aalStreamingViewer.cpp
   src/aalPlayingStateController.cpp
   src/aalSoundController.cpp
   src/aalSoundParam.cpp

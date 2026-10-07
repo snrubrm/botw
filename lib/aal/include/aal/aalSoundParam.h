@@ -28,6 +28,8 @@ public:
     f32 getDeviceVolume(DeviceType device) const { return mDeviceVolume[device]; }
     f32 getBusVolume(BusType bus) const { return mBusVolume[bus]; }
     f32 getPitch() const { return mPitch; }
+    f32 getLfe() const { return mLfe; }
+    u32 getAngleIdx() const { return mAngleIdx; }
     f32 getLpf() const { return mLpf; }
     int getBiquadType() const { return mBiquadType; }
     f32 getBiquadValue() const { return mBiquadValue; }

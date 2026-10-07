@@ -14,6 +14,7 @@
 #include "aal/aalSoundSourceUnifier.h"
 #include "aal/aalOutputDevice.h"
 #include "aal/aalSettings.h"
+#include "aal/aalSpeakerBalanceCalculator.h"
 #include "aal/aalSystemAccessor.h"
 
 namespace aal {
@@ -363,6 +364,38 @@ void SoundSource::updateMixBalance_(s32 track, f32 volume) {
                 controller->setSpeakerBalance(sSpeakerBalance[channel].mBuffer[0], DeviceType(0), channel,
                                               BusType(0), 1u << track, total_volume);
         }
+    }
+}
+
+// NON_MATCHING: same calculation; the original splits the loop on `track < 0` (the speaker is then always 4) and keeps
+// the clamped speaker array index in a register before the loop.
+// 0x7100b78e1c
+void SoundSource::updateMixBalanceUnpositional_(sead::SafeArray<SpeakerChannelVolume, 1>* volumes, s32 track,
+                                                s32 channel_num) {
+    Settings* settings = SystemAccessor::getSettings();
+    if (!settings)
+        return;
+
+    f32 lfe = mAggregatedParam->getLfe();
+    const f32 spread = mAggregatedParam->getSpread();
+    const u32 angle_idx = mAggregatedParam->getAngleIdx();
+    OutputDevice* device = settings->getOutputDevice(DeviceType(0));
+    if (!device)
+        return;
+
+    const SpeakerBalanceMode balance_mode = settings->getCurrentSpeakerBalanceMode(DeviceType(0));
+    const f32 device_volume = mAggregatedParam->getDeviceVolume(DeviceType(0));
+    if (!(device_volume > 0.0f) || channel_num < 1)
+        return;
+
+    for (s32 channel = 0; channel < channel_num; ++channel) {
+        const SpeakerChannel speaker = getChannelSpeakerType(track, channel);
+        const s32 angle = device->getSpeakerChannelAngleIdx(speaker, mInteriorNum) + angle_idx;
+        if (speaker == SpeakerChannel::Lfe)
+            lfe = 2.0f;
+        SpeakerBalanceCalculator::calculate(&volumes[channel].mBuffer[0], device_volume * device->get_20(), angle,
+                                            1.0f, spread, lfe, device->getCurrentInterior(mInteriorNum),
+                                            SpeakerBalanceCalculator::Mode(0), balance_mode);
     }
 }
 
