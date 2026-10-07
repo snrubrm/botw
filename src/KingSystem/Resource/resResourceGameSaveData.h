@@ -18,6 +18,7 @@ namespace ksys::res {
 
 class GameSaveData : public sead::DirectResource {
 public:
+    static constexpr u32 cLoadDataAlignment = 4;
     struct SaveInfo {
         SaveInfo() = default;
         SaveInfo(const SaveInfo& other) { *this = other; }
