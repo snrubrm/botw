@@ -25,7 +25,7 @@ public:
     void sub_7100D5119C(Object* obj);
 
     // Placeholder names (declared only; lane4 s30), called by ObjectLinkData's forwarders.
-    void sub_7100D507F8();
+    bool sub_7100D507F8();
     void deleteEachActorIfDeleteType2();
     bool sub_7100D50E00();
     bool sub_7100D50E44(bool a1);
@@ -52,7 +52,7 @@ public:
     bool sub_7100D51330(const u32* a1);
     bool checkContainsObjWithName(const sead::SafeString& name, const u32* mode);
 
-    /* 0x00 */ u32 _0;
+    /* 0x00 */ sead::Atomic<u32> _0;  // deletion state, compare-exchanged by the deletion requests
     /* 0x04 */ sead::Atomic<s32> _4;
     /* 0x08 */ sead::Atomic<s32> mNumPrepareDelete;
     /* 0x0c */ sead::Atomic<s32> _c;  // spawn lock (sub_7100D5119C)

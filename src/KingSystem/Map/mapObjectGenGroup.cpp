@@ -5,9 +5,58 @@
 #include "KingSystem/Map/mapObjectLink.h"
 #include "KingSystem/Map/mapPlacementActors.h"
 #include "KingSystem/Map/mapPlacementMgr.h"
+#include "KingSystem/Map/mapLinkTag.h"
 #include "KingSystem/System/SystemTimers.h"
+#include "KingSystem/Terrain/teraSystem.h"
+#include <thread/seadThread.h>
 
 namespace ksys::map {
+
+bool GenGroup::sub_7100D507F8() {
+    if (!tera::checkTeraSystemStatus()) {
+        auto* thread = sead::ThreadMgr::instance()->getCurrentThread();
+        thread->getPriority();
+    }
+    const s32 num_prepare_delete = mNumPrepareDelete;
+    if (num_prepare_delete != mObjects.size())
+        return false;
+    if (mInitState != 2 && (mInitState != 3 || _4 != num_prepare_delete))
+        return false;
+    if (!_0.compareExchange(0, 1))
+        return false;
+    bool deleted = false;
+    for (auto& obj : mObjects) {
+        if (auto* actor = obj.getActor())
+            actor->x_34(&deleted);
+        else if (auto* tag = sead::DynamicCast<LinkTag>(obj.getProc()))
+            tag->_1de = 1;
+    }
+    _0 = 2;
+    if (!deleted)
+        deleteEachActorIfDeleteType2();
+    return true;
+}
+
+void GenGroup::deleteEachActorIfDeleteType2() {
+    if (!tera::checkTeraSystemStatus()) {
+        auto* thread = sead::ThreadMgr::instance()->getCurrentThread();
+        thread->getPriority();
+    }
+    if (!_0.compareExchange(2, 3))
+        return;
+    for (auto& obj : mObjects) {
+        auto* proc = obj.getProc();
+        if (!proc)
+            continue;
+        if (auto* actor = sead::DynamicCast<act::Actor>(proc)) {
+            actor->deleteIfDeleteType2();
+        } else if (proc->deleteLater(act::BaseProc::DeleteReason::_0)) {
+            obj.setFlags0(Object::Flag0::ActorCreated);
+            if (auto* mgr = PlacementMgr::instance())
+                mgr->sub_71011EB46C(&obj);
+        }
+    }
+}
 
 // NON_MATCHING: the original addresses the PtrArray through `this` (no copy of `&mObjects` kept in a second
 // callee-saved register) and null-tests `this` before the final size check

@@ -80,6 +80,8 @@ public:
     bool sub_7100D39E2C();
 
 private:
+    // GenGroup::sub_7100D507F8 directly marks the pre-delete flag at +0x1de.
+    friend class GenGroup;
     // 0x7100d383f4 / 0x7100d38534 / 0x7100d38820 (CSV calcCount / calcPulse / calcOther; declaration only): `frame_changed`
     // is whether the frame counter changed since the last calc.
     void calcCount(bool frame_changed);
