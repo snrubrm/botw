@@ -26,10 +26,23 @@ void Unk_7102403e80::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, dmg::Dama
 
 LumberjackFallenTree::LumberjackFallenTree(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
-LumberjackFallenTree::~LumberjackFallenTree() = default;
+LumberjackFallenTree::~LumberjackFallenTree() {
+    if (_f8)
+        _f8->clear();
+    _100.sub_7100D786EC();
+    _1b8.sub_7100D786EC();
+}
 
+// NON_MATCHING: the original loads `mActor` (the second argument) before the virtual slot of `_f8->init` (C++14
+// evaluation order of the call; we compile as C++17)
 bool LumberjackFallenTree::init_(sead::Heap* heap) {
-    return ksys::act::ai::Ai::init_(heap);
+    bool ok = true;
+    if (*mLumberjackType_a == 1) {
+        _f8 = new (heap, 8) act::Unk_710244eb00;
+        if (_f8)
+            ok = _f8->init(heap, mActor);
+    }
+    return ok & (_100.sub_7100D78564(heap) & _1b8.sub_7100D78564(heap));
 }
 
 void LumberjackFallenTree::enter_(ksys::act::ai::InlineParamPack* params) {
@@ -40,8 +53,22 @@ bool LumberjackFallenTree::hasUpdateForPreDeleteCb() {
     return true;
 }
 
+bool LumberjackFallenTree::updateForPreDelete() {
+    bool ok = true;
+    if (_f8)
+        ok = _f8->m5() & (_100.sub_7100D786D8() & _1b8.sub_7100D786D8());
+    return ok;
+}
+
 void LumberjackFallenTree::leave_() {
-    ksys::act::ai::Ai::leave_();
+    if (auto* damage_mgr = mActor->getDamageMgr()) {
+        if (auto* manager = sead::DynamicCast<uking::dmg::DamageManager>(damage_mgr)) {
+            manager->removeDamageCallback(&_38);
+            manager->removeDamageCallback(&_68);
+        }
+    }
+    if (_f8)
+        _f8->sub_71006E2420();
 }
 
 void LumberjackFallenTree::loadParams_() {

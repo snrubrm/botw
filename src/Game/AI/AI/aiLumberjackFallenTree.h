@@ -1,7 +1,9 @@
 #pragma once
 
 #include <math/seadVector.h>
+#include "Game/Actor/actUnk_710244eb00.h"
 #include "Game/Damage/dmgDamageCallback.h"
+#include "KingSystem/ActorSystem/Awareness/actAITerror.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
@@ -34,6 +36,7 @@ public:
     ~LumberjackFallenTree() override;
 
     bool hasUpdateForPreDeleteCb() override;
+    bool updateForPreDelete() override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
@@ -71,6 +74,21 @@ protected:
     sead::Vector3f* mForceSetDropPos_a{};
     // aitree_variable at offset 0xf0
     sead::Vector3f* mMoveDirection_a{};
+    /* 0x0f8 */ act::Unk_710244eb00* _f8{};  // created in init_ for LumberjackType 1
+    /* 0x100 */ ksys::act::AITerror _100{mActor};
+    /* 0x1b8 */ ksys::act::AITerror _1b8{mActor};
+    // Initial values from the constructor; the meaning of these members is not recovered.
+    s32 _270 = 0;
+    sead::Vector3f _274 = sead::Vector3f::zero;
+    sead::Vector3f _280 = sead::Vector3f::ey;
+    s32 _28c = 0;
+    s32 _290 = 0;
+    u16 _294 = 0;
+    u8 _296 = 0;
+    void* _298 = nullptr;
+    s32 _2a0 = 0;
+    u8 _2a4[4];
+    s32 _2a8 = 0;
 };
 
 }  // namespace uking::ai
