@@ -104,6 +104,9 @@ public:
     // 0x7100e8527c (declaration only; NPCRegisterHorse / NPCRegisterAndReceiveHorse): registers
     // the horse `link` under `name`.
     bool sub_7100E8527C(ksys::act::BaseProcLink* link, const sead::SafeString& name, bool a3);
+    // 2026-10-07: the registration wrapper passes its acquired horse accessor here.
+    bool sub_7100E84AE4(const ksys::act::ActorConstDataAccess& accessor,
+                        const sead::SafeString& name, bool flag);
 
     // 0x7100e857cc (declaration only, placeholder signature): used by NPCReleaseHorse with
     // (Horse_SelectedIndex, true, false, -1).
@@ -136,7 +139,8 @@ public:
     /* 0x30 */ ksys::act::BaseProcLink _30;  // the horse being registered / received (NPCRegisterHorse)
     u8 _40[0x20];
     /* 0x60 */ ksys::act::BaseProcLink _60;  // RideHorseForEventAction::calc_
-    u8 _70[0x80 - 0x70];
+    // 2026-10-07: ctor E821E4 constructs this link; registration E8527C assigns it.
+    /* 0x70 */ ksys::act::BaseProcLink _70;
     /* 0x80 */ ksys::act::BaseProcHandle _80;  // the owned horse being created (WaitWhileCreatingOwnedHorse)
     u8 _90[0xb0 - 0x90];
     /* 0xb0 */ ksys::MesTransceiverId _b0;  // NPCHorseResurrect::oneShot_ messages the horse manager's receiver

@@ -21,6 +21,21 @@ bool HorseMgr::sub_7100E84AB8(ksys::act::Actor* actor) {
     return actor && mOwnedHorse.hasProcById(actor);
 }
 
+bool HorseMgr::sub_7100E8527C(ksys::act::BaseProcLink* link, const sead::SafeString& name,
+                                      bool flag) {
+    ksys::act::ActorConstDataAccess accessor;
+    if (!ksys::act::acquireActor(link, &accessor))
+        return false;
+    if (!act::sub_7100E6DC50(accessor))
+        return false;
+    if (mOwnedHorse == *link)
+        return true;
+    if (!sub_7100E84AE4(accessor, name, flag))
+        return false;
+    _70 = *link;
+    return true;
+}
+
 bool HorseMgr::sub_7100E85334(const ksys::act::BaseProcLink& link) const {
     return mOwnedHorse == link;
 }
