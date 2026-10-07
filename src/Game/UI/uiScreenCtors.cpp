@@ -4,6 +4,10 @@
 
 namespace uking::ui {
 
+ScreenEnergyMeterDLC::ScreenEnergyMeterDLC() : ScreenEx() {}
+
+ScreenPauseMenuMantan::ScreenPauseMenuMantan() : ScreenEx() { sResult = 5; }
+
 // 0x71010a0138
 ScreenFadeDemo::ScreenFadeDemo() : Screen() {}
 

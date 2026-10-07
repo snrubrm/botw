@@ -5,6 +5,7 @@
 #include <container/seadPtrArray.h>
 #include <container/seadRingBuffer.h>
 #include <math/seadVector.h>
+#include <gfx/seadProjection.h>
 #include <prim/seadSafeString.h>
 #include <thread/seadCriticalSection.h>
 #include "Game/UI/euiAnimator.h"
@@ -2319,6 +2320,7 @@ public:
 
 class ScreenPauseMenuMantan : public ScreenEx {
 public:
+    ScreenPauseMenuMantan();
     const char* getLayoutName_() const override;
     bool isEnableControl() const override;
     ~ScreenPauseMenuMantan() override;
@@ -2681,11 +2683,26 @@ public:
 
 class ScreenEnergyMeterDLC : public ScreenEx {
 public:
+    ScreenEnergyMeterDLC();
     bool isEnableControl() const override;
     const char* getLayoutName_() const override;
     ~ScreenEnergyMeterDLC() override;
     SEAD_RTTI_OVERRIDE(ScreenEnergyMeterDLC, ScreenEx)
+
+    /* 0x3610 */ u8 _3610 = 0;
+    u8 _3611[7];
+    /* 0x3618 */ Unk_71024774a8 _3618;
+    /* 0x36d0 */ u64 _36d0 = 0;
+    /* 0x36d8 */ u8 _36d8 = 0;
+    u8 _36d9[3];
+    /* 0x36dc */ u32 _36dc[2]{};
+    u8 _36e4[4];
+    /* 0x36e8 */ u64 _36e8 = 0;
+    /* 0x36f0 */ u64 _36f0 = 0;
+    /* 0x36f8 */ sead::PerspectiveProjection mProjection;
+    /* 0x37b8 */ u64 _37b8 = 0;
 };
+KSYS_CHECK_SIZE_NX150(ScreenEnergyMeterDLC, 0x37c0);
 
 class ScreenMessageGet : public ScreenEx {
 public:
