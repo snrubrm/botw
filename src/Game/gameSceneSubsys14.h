@@ -25,6 +25,9 @@ KSYS_CHECK_SIZE_NX150(Unk_7100903948, 0x180);
 // the recovered actor-link slots and fixed arrays support slot removal and pruning.
 // TODO: incomplete (layout and namespace unknown; the CSV name has no namespace).
 class GameSceneSubsys14 {
+    // +0x8..0x18 is unknown (16 bytes before the disposer buffer); the SEAD_SINGLETON_DISPOSER macro
+    // (and its 0x20-byte disposer buffer) sits at +0x18 in the original, from createInstance's stores.
+    u8 _8[0x18 - 0x8];
     SEAD_SINGLETON_DISPOSER(GameSceneSubsys14)
     GameSceneSubsys14();
     virtual ~GameSceneSubsys14();
@@ -50,7 +53,7 @@ public:
     bool sub_7100904F4C() const;
     bool sub_7100904F68() const;
 
-    u8 _28[0x168 - 0x28];
+    u8 _38[0x168 - 0x38];
     u32 _168;
     u32 _16c;
     u8 _170[0x180 - 0x170];

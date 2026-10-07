@@ -1,5 +1,7 @@
 #include "Game/gameSceneSubsys14.h"
 
+SEAD_SINGLETON_DISPOSER_IMPL(GameSceneSubsys14)
+
 bool GameSceneSubsys14::sub_7100904ED4() const {
     return _168 & 1;
 }
