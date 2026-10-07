@@ -22,6 +22,7 @@ public:
 protected:
     void calc_() override;
     virtual bool m32();
+    virtual bool m33(sead::Matrix34f* mtx) = 0;
     void sub_710014FA28(const sead::Matrix34f& mtx);
 
     // static_param at offset 0x20

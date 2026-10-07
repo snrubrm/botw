@@ -19,7 +19,7 @@ public:
 
 protected:
     void calc_() override;
-    virtual bool m33(sead::Matrix34f* mtx);
+    bool m33(sead::Matrix34f* mtx) override;
 
     // static_param at offset 0xb8
     const sead::Vector3f* mOffsetPos_s{};

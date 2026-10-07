@@ -18,6 +18,7 @@ public:
 
 protected:
     void calc_() override;
+    bool m33(sead::Matrix34f* mtx) override;
 
     // static_param at offset 0xb8
     sead::SafeString mRigidBodyName_s{};

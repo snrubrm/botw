@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionForkASTrgEmitShockWave.h"
+#include <limits>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "Game/Actor/actEnemy.h"
@@ -48,7 +49,11 @@ void ForkASTrgEmitShockWave::loadParams_() {
 }
 
 void ForkASTrgEmitShockWave::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (*mEmitIntervalTime_s >= 0 && !(_a8.value <= std::numeric_limits<f32>::epsilon()))
+        _a8.update();
+    sead::Matrix34f mtx;
+    if (m32() && m33(&mtx))
+        sub_710014FA28(mtx);
 }
 
 bool ForkASTrgEmitShockWave::m32() {
