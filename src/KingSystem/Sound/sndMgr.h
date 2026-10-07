@@ -8,6 +8,9 @@
 #include <container/seadPtrArray.h>
 #include <aal/aalHandle.h>
 #include <thread/seadCriticalSection.h>
+#include <container/seadBuffer.h>
+#include <prim/seadEnum.h>
+#include <aal/aalGroupLimiter.h>
 
 namespace aal {
 class Shape;
@@ -96,17 +99,46 @@ struct Unk_SoundMgr38 {
 // TODO: incomplete.
 class DuckingMgr {
 public:
-    struct Ducker;
+    // The names are the strings at 0x7101e26516 (the SEAD_ENUM text; text function 0x7101042f30).
+    // clang-format off
+    // (the original text has a space before each comma: `text_all` is 737 bytes)
+    SEAD_ENUM(DuckerType,
+              cSlowBgm , cSlowSe , cFocus , cSquat , cPauseIngame , cPauseEvent , cBattleEnv , cGrudgeEnv ,
+              cGrudgeEnvBoost , cBloody , cBossDialogHero , cBossDialogZelda , cFieldRemainsFire ,
+              cFieldRemainsOrGanon , cRaceAudience , cTalk , cDialog , cScreenFadeS , cScreenFadeM ,
+              cScreenFadeL , cScreenFadeLogo , cScreenFadeForce , cHomeMenu , cEvtBgmReduce , cEvtBgmMute ,
+              cEvtEnvReduce , cEvtWorldMute , cTmlnWorldMute , cTmlnThruShake , cTmlnThruShakeWeather ,
+              cTmlnMovie , cTmlnLoading , cTitleMute , cEventSkip , cEventSkipBeam , cPlayTimeOver ,
+              cExplosion , cImpact , cLocationUI , cWaveShockL , cParasailOpen , cDive , cHorseJump ,
+              cFairyRecover , cLightningNear , cExplosionRemote , cEnemyWeaponSwing , cEnemyImpact ,
+              cCustomEvt , cCustomEvt2)
+    // clang-format on
+
+    struct Ducker {
+        // 0x7101042f18
+        bool isActive() const;
+
+        u8 _0[0x68];
+        /* 0x68 */ aal::GroupDucker mDucker;
+        /* 0xb0 */ void* _b0;
+        u8 _b8[8];
+        /* 0xc0 */ f32 _c0;
+        u8 _c4[4];
+        /* 0xc8 */ u8 _c8;  // bit 0: active
+    };
 
     // 0x7101042078: starts the ducker called `type` (looked up by name); null when there is none.
     Ducker* startDucking(const sead::SafeString& type);
-    // 0x7101042db4 (declared only): stops the ducker called `type` (`suspend`: also suspends its aal::GroupDucker).
+    // 0x7101042db4: stops the ducker called `type` (`suspend`: also suspends its aal::GroupDucker).
     void sub_7101042DB4(const sead::SafeString& type, bool suspend);
-    // 0x7101042024 (declared only): starts the ducker with index `idx`.
-    Ducker* sub_7101042024(int idx);
-    // 0x7101042d6c (declared only): clears bit 0 of the ducker `idx`'s flags byte (+0xc8) and suspends its
-    // aal::GroupDucker if `suspend`.
-    void sub_7101042D6C(int idx, bool suspend);
+    // 0x7101042024: starts the ducker `type`.
+    Ducker* sub_7101042024(DuckerType type);
+    // 0x7101042d6c: clears bit 0 of the ducker `type`'s flags byte (+0xc8) and suspends its aal::GroupDucker if
+    // `suspend`.
+    void sub_7101042D6C(DuckerType type, bool suspend);
+
+    void* _0;  // vtable
+    /* 0x08 */ sead::Buffer<Ducker> mDuckers;
 };
 
 // Placeholder name (SoundMgr::_48; the object has an aal::Handle at +0x18). Used by the UI message screens.
