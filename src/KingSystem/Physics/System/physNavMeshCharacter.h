@@ -4,6 +4,7 @@
 #include <limits>
 #include <math/seadMathCalcCommon.h>
 #include <math/seadVector.h>
+#include <prim/seadBitFlag.h>
 #include <prim/seadScopedLock.h>
 #include <thread/seadAtomic.h>
 #include <container/seadSafeArray.h>
@@ -57,6 +58,9 @@ struct NavMeshCharacterUnk8 {
 // NavMeshCharacter::inlineSetField2C0.
 extern const f32 sUnk_7101ec27f4;
 
+// 0x710260ddd8 (placeholder name): counter of the request ids stored in NavMeshCharacter::_290 (read through the GOT).
+extern sead::Atomic<u32> sUnk_710260ddd8;
+
 // Placeholder: object at NavMeshCharacter::_10 + 0x78 (move parameters).
 struct NavMeshCharacterMoveParam {
     /* 0x00 */ u8 _0[0x18];
@@ -70,6 +74,7 @@ struct NavMeshCharacterUnk10 {
     /* 0x078 */ NavMeshCharacterMoveParam* _78;
     /* 0x080 */ u8 _80[0x16c - 0x80];
     /* 0x16c */ u32 _16c;
+    /* 0x170 */ sead::BitFlag16 _170;
 };
 
 // Name from the CSV (phys::NavMeshCharacter::*, ctor 0x7100f752ac). Returned by Actor vtable slot 45
@@ -85,6 +90,17 @@ public:
     void init();
 
     void sub_7100F75AB8();
+    // 0x7100f75af0 (placeholder name): hands the query `_2e0` to HavokAI::sub_7100F83A9C.
+    void sub_7100F75AF0();
+    // 0x7100f760f0 / 0x7100f76168 / 0x7100f761c8 (placeholder names): forward to HavokAI (the `_18` of the character, or
+    // the singleton) after the NaN checks of the arguments; the last two pass the radius `_2a8 * _2ac`.
+    Unk_7100f7e9f0 sub_7100F760F0(sead::Vector3f* out, const sead::Vector3f& to);
+    bool sub_7100F76168(f32 value, bool flag, void* out);
+    bool sub_7100F761C8(const sead::Vector3f& pos, f32 value, bool flag, void* out);
+    // 0x7100f76260 (placeholder name): stores `pos` in _1b8 (unless it contains NaN), sets bit 0x2000 and clears 0x20000 of _220.
+    void sub_7100F76260(const sead::Vector3f& pos);
+    // 0x7100f76344 (placeholder name): sets / clears bit 1 of the flags `_10->_170`.
+    void sub_7100F76344(bool on);
     void sub_7100F75F3C(u8 value);
     void sub_7100F75F8C(const sead::Vector3f& target);
     void sub_7100F7604C(f32 value);
@@ -214,7 +230,10 @@ public:
     /* 0x230 */ sead::Vector3f _230;
     /* 0x23c */ sead::Vector3f _23c;
     /* 0x248 */ sead::Vector3f _248;
-    /* 0x254 */ u8 _254[0x284 - 0x254];
+    /* 0x254 */ sead::Vector3f _254;
+    /* 0x260 */ sead::Vector3f _260;
+    /* 0x26c */ sead::Vector3f _26c;
+    /* 0x278 */ sead::Vector3f _278;
     /* 0x284 */ sead::Vector3f _284;
     /* 0x290 */ u32 _290 = 0;
     /* 0x294 */ u8 _294 = 0;

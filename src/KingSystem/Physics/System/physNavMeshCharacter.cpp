@@ -6,6 +6,9 @@ namespace ksys::phys {
 
 const f32 sUnk_7101ec27f4 = 1000000.0f;
 
+// Counter at 0x710260ddd8 (placeholder name; used for the request ids stored in NavMeshCharacter::_290).
+sead::Atomic<u32> sUnk_710260ddd8;
+
 NavMeshCharacter::~NavMeshCharacter() {
     finalize();
 }
@@ -15,6 +18,65 @@ void NavMeshCharacter::sub_7100F75AB8() {
         HavokAI::instance()->sub_7100F83A94(_2e0);
         _2e0 = nullptr;
     }
+}
+
+void NavMeshCharacter::sub_7100F75F8C(const sead::Vector3f& target) {
+    auto lock = sead::makeScopedLock(_1e0);
+    if (target.isNan())
+        return;
+
+    _d4.x = target.x;
+    _d4.y = target.y;
+    _d4.z = target.z;
+    _1da = 1;
+    if (!(_220.fetchOr(0x1000) & 0x1000))
+        _290 = sUnk_710260ddd8.fetchAdd(1);
+}
+
+void NavMeshCharacter::sub_7100F75AF0() {
+    if (_2e0)
+        HavokAI::instance()->sub_7100F83A9C(_2e0);
+}
+
+// NON_MATCHING: the original loads `_18` before the singleton pointer (instruction order of the two loads)
+Unk_7100f7e9f0 NavMeshCharacter::sub_7100F760F0(sead::Vector3f* out, const sead::Vector3f& to) {
+    if (to.isNan())
+        return Unk_7100f7e9f0();
+
+    auto* ai = _18 ? _18 : HavokAI::instance();
+    return ai->sub_7100F88FD0(this, out, to);
+}
+
+bool NavMeshCharacter::sub_7100F76168(f32 value, bool flag, void* out) {
+    if (sead::Mathf::isNan(value))
+        return false;
+
+    auto* ai = _18 ? _18 : HavokAI::instance();
+    return ai->sub_7100F87594(this, nullptr, getRadiusMaybe(), value, flag, out);
+}
+
+bool NavMeshCharacter::sub_7100F761C8(const sead::Vector3f& pos, f32 value, bool flag, void* out) {
+    if (pos.isNan() || sead::Mathf::isNan(value))
+        return false;
+
+    auto* ai = _18 ? _18 : HavokAI::instance();
+    return ai->sub_7100F87594(this, &pos, getRadiusMaybe(), value, flag, out);
+}
+
+void NavMeshCharacter::sub_7100F76260(const sead::Vector3f& pos) {
+    auto lock = sead::makeScopedLock(_1e0);
+    if (pos.isNan())
+        return;
+    _1b8.x = pos.x;
+    _1b8.y = pos.y;
+    _1b8.z = pos.z;
+    _220 |= 0x2000;
+    _220 &= ~0x20000u;
+}
+
+// NON_MATCHING: the original builds the mask from a stack temporary (`1 << bit`) and branches on `on`; ours is a csel
+void NavMeshCharacter::sub_7100F76344(bool on) {
+    _10->_170.changeBit(1, on);
 }
 
 Unk_7100f7e9f0 NavMeshCharacter::sub_7100F76078(sead::Vector3f* out, const sead::Vector3f& to,
@@ -41,6 +103,28 @@ void NavMeshCharacter::sub_7100F7606C(u32 value) {
 void NavMeshCharacter::sub_7100F76314() {
     _220 |= 0x20000;
     _220 &= ~0x2000u;
+}
+
+void NavMeshCharacter::sub_7100F765E8(const sead::Vector3f& pos) {
+    if (pos.isNan())
+        return;
+
+    auto lock = sead::makeScopedLock(_1e0);
+    _254.x = pos.x;
+    _254.y = pos.y;
+    _254.z = pos.z;
+    _220 |= 4;
+}
+
+void NavMeshCharacter::sub_7100F76694(const sead::Vector3f& direction) {
+    if (direction.isNan())
+        return;
+
+    sead::Vector3f dir(direction.x, 0.0f, direction.z);
+    if (dir.normalize() != 0.0f) {
+        _260 = dir;
+        _248 = dir;
+    }
 }
 
 void NavMeshCharacter::sub_7100F7D2C8() {

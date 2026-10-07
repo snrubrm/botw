@@ -5,6 +5,8 @@
 #include <heap/seadDisposer.h>
 #include <math/seadMathCalcCommon.h>
 #include <math/seadVector.h>
+#include <thread/seadAtomic.h>
+#include <thread/seadCriticalSection.h>
 #include "KingSystem/Utils/Types.h"
 
 namespace ksys::phys {
@@ -42,6 +44,43 @@ public:
     void x_2();
 };
 
+// Placeholder name; inline-only in the original (evidence: the same lock-free push loop is inlined into
+// NavMeshQueryRequestPool::sub_71012A9EE8 / sub_71012A9F68 / sub_71012AA000 / sub_71012AA080 and HavokAI::sub_7100F82BCC).
+// A ring of `mCapacity` (a power of two) item pointers with an atomic tail and a head, 0x18 bytes: the pool has six of
+// them (0x108, 0x120, 0x138, 0x150, 0x168, 0x180).
+template <typename T>
+struct Unk_RequestQueue {
+    // Appends `item` unless the queue is full (or `item` is null).
+    bool push(T* item) {
+        if (!item)
+            return false;
+        s32 tail = mTail.load();
+        while (tail - mHead < mCapacity) {
+            if (mTail.compareExchange(tail, tail + 1)) {
+                mBuffer[tail & (mCapacity - 1)] = item;
+                return true;
+            }
+            tail = mTail.load();
+        }
+        return false;
+    }
+
+    // Replaces the entries equal to `item` that are still queued by -1.
+    void remove(T* item) {
+        for (u32 i = mHead; i < u32(mTail.load()); ++i) {
+            const s32 index = i & (mCapacity - 1);
+            if (mBuffer[index] == item)
+                mBuffer[index] = reinterpret_cast<T*>(-1);
+        }
+    }
+
+    /* 0x00 */ s32 mCapacity;
+    /* 0x08 */ T** mBuffer;
+    /* 0x10 */ sead::Atomic<s32> mTail;
+    /* 0x14 */ s32 mHead;
+};
+KSYS_CHECK_SIZE_NX150(Unk_RequestQueue<void>, 0x18);
+
 // Name from the CSV (NavMeshQueryRequestPool::ctor 0x71012a8ffc, heap name
 // "NavMeshQueryRequestPool"). Owns the request heap and lock-free request queues.
 // TODO: incomplete.
@@ -53,6 +92,23 @@ public:
     bool sub_71012A9F68(Unk_7102372790* query);
     // 0x71012aa000 (declared only): sets query->_9 = 1.
     void sub_71012AA000(Unk_7102372790* query);
+
+    // 0x71012aa080 (same as sub_71012A9F68), 0x71012aa118 / 0x71012aa1f0: remove `query` / the character
+    // from the queues (under the lock at +8 / +0x48).
+    bool sub_71012AA080(Unk_7102372790* query);
+    void sub_71012AA118(Unk_7102372790* query);
+    void sub_71012AA1F0(NavMeshCharacter* nav);
+
+    /* 0x000 */ u8 _0[8];
+    /* 0x008 */ sead::CriticalSection _8;
+    /* 0x048 */ sead::CriticalSection _48;
+    /* 0x088 */ u8 _88[0x108 - 0x88];
+    /* 0x108 */ Unk_RequestQueue<Unk_7102372790> _108;
+    /* 0x120 */ Unk_RequestQueue<Unk_7102372790> _120;
+    /* 0x138 */ Unk_RequestQueue<NavMeshCharacter> _138;  // pushed by HavokAI::sub_7100F82BCC
+    /* 0x150 */ u8 _150[0x180 - 0x150];
+    /* 0x180 */ Unk_RequestQueue<Unk_7102372790> _180;
+    /* 0x198 */ Unk_7102372790* _198;
 };
 
 // Name from the CSV (HavokAI::createInstance 0x7100f80b20, init 0x7100f80f38, ...). A polymorphic sead
@@ -98,6 +154,17 @@ public:
 
     // 0x7100f82dd8 (not decompiled): counterpart of sub_7100F82BCC (called with the same guard).
     void sub_7100F82DD8(NavMeshCharacter* nav);
+
+    // 0x7100f88fd0 (unnamed in the CSV; declaration only): NavMeshCharacter::sub_7100F760F0 forwards here.
+    Unk_7100f7e9f0 sub_7100F88FD0(NavMeshCharacter* nav, sead::Vector3f* out, const sead::Vector3f& to);
+
+    // 0x7100f87594 (unnamed in the CSV; declaration only): NavMeshCharacter::sub_7100F76168 / sub_7100F761C8 forward here
+    // (`pos` may be null; `radius` is the character's `_2a8 * _2ac`).
+    bool sub_7100F87594(NavMeshCharacter* nav, const sead::Vector3f* pos, f32 radius, f32 value, bool flag,
+                        void* out);
+
+    // 0x7100f83a9c (unnamed in the CSV; declaration only): NavMeshCharacter::sub_7100F75AF0 forwards its query here.
+    void sub_7100F83A9C(Unk_7102372790* query);
 
     // 0x7100f83a94 (CSV HavokAI::__auto4): hands the query back to the pool (NavMeshCharacter::finalize).
     void sub_7100F83A94(Unk_7102372790* query);
