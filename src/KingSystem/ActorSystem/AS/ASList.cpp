@@ -136,6 +136,25 @@ void ASList::x_0(const gsys::BoneAccessKey* key) {
 }
 
 
+// NON_MATCHING: request initialization and entry checks differ slightly in scheduling.
+void ASList::sub_710115B140(const sead::SafeString& name, int slot, int slot2, int bank, int bank2) {
+    auto* entry = getEntry(slot, bank);
+    auto* other = getEntry(slot2, bank2);
+    if (!entry || !other)
+        return;
+    if (other->sub_7101161CD8()->isEmpty()) {
+        auto* current = getEntry(slot, bank);
+        if (!current)
+            return;
+        current->sub_7101162254(true);
+    } else {
+        startAnimationMaybe(-1.0f, -1.0f, *other->sub_7101161CD8(), slot, bank, false);
+        entry->sub_7101162E88(other, false);
+        entry->mFlags &= ~0x200;
+    }
+    startAnimationMaybe(-1.0f, -1.0f, name, slot, bank, true);
+}
+
 void ASList::startAnimationMaybe(f32 a2, f32 a3, const sead::SafeString& animation, int slot,
                                int bank, bool force) {
     if (!_d8 || mSlots.size() <= slot || mSlots[slot]._20.size() <= bank)
