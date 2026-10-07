@@ -14,6 +14,9 @@ public:
     void loadParams_() override;
 
 protected:
+    bool oneShot_() override;
+    s32 sub_710018B630();
+
     // dynamic_param at offset 0x20
     int* mCount_d{};
     // dynamic_param at offset 0x28

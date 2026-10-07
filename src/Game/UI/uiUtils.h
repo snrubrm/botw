@@ -462,6 +462,9 @@ bool isPauseMenuScreenNotClosed();
 
 void uiManagerUpdateIsDungeon();
 
+void pouchDeleteCookResultFromFlow(const sead::SafeString& name, s32 effect_type);
+void sub_7100A9E540(const sead::SafeString& name);
+
 }  // namespace uking::ui
 
 namespace wm {
