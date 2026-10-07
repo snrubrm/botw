@@ -102,6 +102,9 @@ public:
     // bits of the flags byte at +0x28 (bit 0: SetAnimalSupportNormalCalc, bit 1:
     // OnAnimalSupportNrmCalcFrontRay).
     struct Unk50 {
+        // 2026-10-07: CSV AnimalSupportNormalCalculator::ctor receives the controller directly
+        // from Enemy::prepareInit_'s original 0x71000013940 call.
+        explicit Unk50(ksys::phys::CharacterController* controller);
         struct CalcArg {
             sead::Vector3f posterior_limb_offset;
             f32 ray_cast_length;
@@ -111,8 +114,12 @@ public:
         };
         bool sub_71006F0800(const CalcArg& arg);
 
-        /* 0x00 */ u8 _0[0x28];
-        /* 0x28 */ u8 _28;
+        /* 0x00 */ ksys::phys::CharacterController* mController;
+        /* 0x08 */ sead::Vector3f mPosteriorLimbOffset;
+        /* 0x14 */ sead::Vector3f mPriorLimbOffset{0, 0, 0};
+        /* 0x20 */ f32 mRayCastLength = 0;
+        /* 0x24 */ f32 mPriorRayCastLength = 0;
+        /* 0x28 */ u8 _28 = 0;
     };
     /* 0x50 */ Unk50* _50 = nullptr;
     /* 0x58 */ u32 _58 = 0;
