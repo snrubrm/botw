@@ -87,6 +87,7 @@ public:
     void sub_710094B844(bool a1, bool a2, bool a3);
     void sub_710094B8A4(bool a1);
     void sub_710094BE14();
+    void sub_710094BE30();
 
     /* 0x28 */ void* _28 = nullptr;
     /* 0x30 */ void** _30 = nullptr;
@@ -237,6 +238,8 @@ public:
     void sub_710094D8DC();
     void sub_710094E0A0();
     bool sub_710094E920();
+    void sub_710094E1C0(bool value);
+    void sub_710094E480();
     void sub_710094D9F4(s32 a1, s32 a2, s32 a3, s32 a4);
     void sub_710094DCC4(s32 a1, s32 a2);
 

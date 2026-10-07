@@ -25,4 +25,8 @@ bool Unk_71025d69f0::sub_710094E920() {
     return screen && !screen->isClosed();
 }
 
+void Unk_71025d69f0::sub_710094E480() {
+    sub_710094E1C0(false);
+}
+
 }  // namespace uking::ui
