@@ -17,6 +17,9 @@ enum class StageType {
 
 class StageInfo {
 public:
+    // Root1 registers the scene callback; the wrapper forwards the normalized selection flag.
+    static void sub_7100ED8C64(const sead::SafeString& map_name,
+                              const sead::SafeString& pos_name, s32 type, bool stage_select);
     static const sead::SafeString& getCurrentMapName();
     static const sead::SafeString& getCurrentMapType();
 

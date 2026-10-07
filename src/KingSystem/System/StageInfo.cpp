@@ -24,6 +24,12 @@ bool StageInfo::sIsMainField;
 sead::FixedSafeString<32> StageInfo::sCurrentMapType;
 sead::FixedSafeString<32> StageInfo::sCurrentMapName;
 
+void StageInfo::sub_7100ED8C64(const sead::SafeString& map_name,
+                                const sead::SafeString& pos_name, s32 type, bool stage_select) {
+    if (sChangeScene)
+        sChangeScene(map_name, pos_name, type, stage_select);
+}
+
 const sead::SafeString& StageInfo::getCurrentMapName() {
     return sCurrentMapName;
 }
