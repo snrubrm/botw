@@ -17,6 +17,11 @@ public:
 
     virtual void m34(ksys::act::ai::InlineParamPack* params);
 
+    // 0x710032f364 (placeholder name): casts a ray from the actor's position (the center of the controller's body
+    // when it has one) down to the DrownDepth below the water / ground reference height: true when it hits
+    // something (or when the actor is not in contact with the ground / is above the body).
+    bool sub_710032F364();
+
 protected:
     // static_param at offset 0x38
     const float* mDrownDepth_s{};

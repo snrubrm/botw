@@ -50,6 +50,32 @@ void AncientNecklaceBall::sub_7100301D90(bool restore_groups) {
     }
 }
 
+// NON_MATCHING: only the prologue scheduling differs (`add x29, sp, #0x30` is placed after the first loads, the
+// original has it right after the callee-saved spills)
+void AncientNecklaceBall::sub_7100301A5C() {
+    if (auto* physics = mActor->getPhysics()) {
+        if (auto* body = mActor->getMainBody()) {
+            body->setContactLayerAndGroundHit(ksys::phys::ContactLayer::EntityHitOnlyWater,
+                                              ksys::phys::GroundHit::HitAll);
+            if (!body->isAddedToWorld()) {
+                body->addToWorld();
+                physics->sub_7100FC01B0();
+            }
+            body->setMaxAngularVelocity(6283.1855f);
+            body->setFlag1000000();
+            body->changeMotionType(ksys::phys::MotionType::Keyframed);
+        }
+        if (auto* handler = sub_7100738C18(&mActor->getCreateArgBaseProcLink(), 0))
+            physics->sub_7100FBDFA4(handler);
+        if (auto* set = physics->findBodyByName("Chemical")) {
+            if (auto* body = set->getRigidBodies()[0]) {
+                if (!body->isAddedToWorld())
+                    body->addToWorld();
+            }
+        }
+    }
+}
+
 AncientNecklaceBall::AncientNecklaceBall(const InitArg& arg) : AncientNecklaceBallBase(arg) {}
 
 AncientNecklaceBall::~AncientNecklaceBall() = default;

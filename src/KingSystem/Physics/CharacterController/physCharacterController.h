@@ -117,6 +117,9 @@ public:
     const sead::Vector3f& get180() const { return _180; }
     u8 get18c() const { return _18c; }
     bool isBit4Of116() const { return _116 & 0x10; }
+    // lane1 s47 (BlownOff)
+    bool isBit6Of116() const { return _116 & 0x40; }
+    f32 get194() const { return _194; }
     const sead::Vector3f& get70() const { return _70; }
     const sead::Vector3f& get7c() const { return _7c; }
     f32 get110() const { return _110; }
@@ -341,7 +344,9 @@ public:
     u8 _170[0x180 - 0x170];
     sead::Vector3f _180;
     u8 _18c;
-    u8 _18d[0x210 - 0x18d];
+    u8 _18d[0x194 - 0x18d];
+    f32 _194;
+    u8 _198[0x210 - 0x198];
     f32 _210;
     f32 _214;
     f32 _218;

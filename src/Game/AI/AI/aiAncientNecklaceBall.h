@@ -29,6 +29,9 @@ public:
 protected:
     // Re-adds the bodies of the ball to the physics world (see the .cpp).
     void sub_7100301D90(bool restore_groups);
+    // 0x7100301a5c (placeholder name): re-enables the main body as a keyframed body (and the actor's own creation
+    // group).
+    void sub_7100301A5C();
 
     // static_param at offset 0x100
     const float* mLandNoiseLevel_s{};
