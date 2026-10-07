@@ -41,6 +41,8 @@ class Model;
 class ModelUnit {
     SEAD_RTTI_BASE(ModelUnit)
 public:
+    // Original C44D58 assigns the existing name at B8.
+    void sub_7100C44D58(const sead::SafeString& name);
     // TODO: is this an enum/enum class or a class?
     enum class BoolType;
 

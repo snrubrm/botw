@@ -11,6 +11,16 @@
 
 namespace gsys {
 
+ModelUnit* Model::sub_7100BF7114(ModelUnit* unit, bool flag, sead::Heap* heap) {
+    sub_7100BF6EBC(unit, flag, heap);
+    return unit;
+}
+
+void Model::sub_7100BF9CA8(const sead::SafeString& name) {
+    for (ModelInfo& info : mUnitAccess)
+        info.mModelUnit->sub_7100C44D58(name);
+}
+
 // 0x7100bf79a4
 int Model::getTotalBoneNum() const {
     int total = 0;

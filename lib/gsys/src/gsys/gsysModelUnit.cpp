@@ -2,6 +2,8 @@
 
 namespace gsys {
 
+void ModelUnit::sub_7100C44D58(const sead::SafeString& name) { mName = name; }
+
 // 0x7100c3e2d0
 void ModelUnit::enableRenderViewOption(int material_idx, ModelEnum::RenderViewOption option,
                                        bool enable, int view) {

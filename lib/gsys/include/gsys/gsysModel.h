@@ -53,6 +53,9 @@ public:
 class Model : public sead::IDisposer, public sead::hostio::Node {
 public:
     Model();
+    // Original BF7114 forwards registration and returns the supplied unit.
+    ModelUnit* sub_7100BF7114(ModelUnit* unit, bool flag, sead::Heap* heap);
+    void sub_7100BF9CA8(const sead::SafeString& name);
     ~Model() override;
 
     sead::PtrArray<ModelInfo>& getUnits() { return mUnitAccess; }
@@ -183,6 +186,8 @@ public:
     sead::CriticalSection& getCS() const { return mCS; }
 
 private:
+    // Original BF6EBC registers the unit; the wrapper deliberately discards its bool result.
+    bool sub_7100BF6EBC(ModelUnit* unit, bool flag, sead::Heap* heap);
     // inline-only in the original; name is a guess: the number of leading pool entries that hold model units
     // (every per-unit loop below runs over min(pool size, mNumModels) entries).
     u32 getUsedUnitNum() const { return std::min<u32>(mNumModels, mUnitPool.size()); }
