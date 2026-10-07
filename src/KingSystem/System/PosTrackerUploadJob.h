@@ -31,7 +31,7 @@ private:
     bool _19 = false;
     s32 mState = 0;
     sead::Delegate1R<Unk_7100a8f2dc, void*, bool> mDelegate;
-    // 0x7100a8faa4: this+0x40 at 0xa8fc98, ldxr/stxr loops at 0xa8fca0 and 0xa8fcb4.
+    // 0x7100a8faa4: exclusive-loop bit updates to this+0x40 at 0xa8fca0 and 0xa8fcb4.
     sead::Atomic<u32> mFlags{0};
 };
 KSYS_CHECK_SIZE_NX150(Unk_7100a8f2dc, 0x48);
