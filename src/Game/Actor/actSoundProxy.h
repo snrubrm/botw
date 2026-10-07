@@ -5,7 +5,7 @@
 namespace uking::act {
 
 // CSV SoundProxy. 2026-10-07: factory 0x7101059d08 allocates 0x8d0 bytes;
-// RTTI static 0x710260ef68 uses Derive<ksys::act::Actor>. Vtable 0x7102502ec8.
+// RTTI static 0x710260ef68 uses Derive<ksys::act::Actor>. Vtable 0x7102502bf8.
 // The manager registration and destructor helpers remain undecompiled.
 class SoundProxy : public ksys::act::Actor {
     SEAD_RTTI_OVERRIDE(SoundProxy, ksys::act::Actor)
