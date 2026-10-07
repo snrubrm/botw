@@ -3,8 +3,18 @@
 #include <filedevice/seadFileDeviceMgr.h>
 #include <thread/seadDelegateThread.h>
 #include "KingSystem/GameData/gdtManager.h"
+#include "KingSystem/Resource/resEntryFactory.h"
+#include "KingSystem/Resource/resSystem.h"
 
 namespace ksys {
+
+static sead::FixedSafeString<16> sUnk_7102601F08("../SaveData/");
+static sead::FixedSafeString<16> sUnk_7102601F30("GameData/");
+static sead::FixedSafeString<16> sUnk_7102601F58("bgsvdata");
+static sead::FixedSafeString<16> sUnk_7102601F80("sarc");
+static sead::FixedSafeString<32> sUnk_7102601FA8("セーブテスト");
+static sead::FixedSafeString<32> sUnk_7102601FE0("ロードテスト");
+static sead::FixedSafeString<16> sUnk_7102602018("_finish_copy");
 
 SEAD_SINGLETON_DISPOSER_IMPL(SaveMgr)
 
@@ -258,6 +268,30 @@ void SaveMgr::unloadResources() {
     for (s32 i = 0; i < mSaveDataHandles.size(); ++i)
         mSaveDataHandles[i].requestUnload();
     mSaveDataArcHandle.requestUnload();
+}
+
+void SaveMgr::registerGameSavedataFactoryAndLoad() {
+    auto* factory = new (mHeap, 8) res::EntryFactory<res::GameSaveData>(1.0f, 0x300000);
+    res::registerEntryFactory(factory, sUnk_7102601F58);
+    sead::FixedSafeString<1024> path;
+    const char* prefix = sUnk_7102601F30.cstr();
+    const char* extension = sUnk_7102601F80.cstr();
+    path.format("%s%s.%s", prefix, "savedataformat", extension);
+    loadSavedataformat(path, mHeap);
+    std::memset(_14c, 0xff, sizeof(_14c));
+    unloadResources();
+    mHeap->adjust();
+}
+
+u32 SaveMgr::sub_7100E0F578() const {
+    const s32 revision = _e00->mSaveInfo->revision;
+    if (revision < 9443)
+        return 0;
+    if (revision < 9455)
+        return 1;
+    if (revision < 16122)
+        return 2;
+    return 3;
 }
 
 void SaveMgr::auto3() {

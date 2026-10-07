@@ -53,6 +53,9 @@ public:
 
     void init(const InitArg& arg);
     void loadGameSaveData();
+    void registerGameSavedataFactoryAndLoad();
+    void loadSavedataformat(const sead::SafeString& path, sead::Heap* heap);
+    u32 sub_7100E0F578() const;
     void unloadResources();
     void loadFlagValuesFromTriggerParam(gdt::TriggerParam* buffer);
     void invokedLoadFlagValueFromTriggerParam(res::GameSaveData::Flag& flag);
@@ -95,7 +98,7 @@ private:
         u8 _0[1];
     };
 
-    u8 _28[0x30 - 0x28];
+    sead::Heap* mHeap;
     sead::DelegateThread* _30;
     u32 _38;
     u32 _3c;
