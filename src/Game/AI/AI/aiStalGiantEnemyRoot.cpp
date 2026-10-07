@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiStalGiantEnemyRoot.h"
+#include "Game/AI/aiUnk_7100724C64.h"
 #include "Game/Actor/actEnemy.h"
 #include "Game/Actor/actGiantEnemy.h"
 #include "Game/Damage/dmgDamageManagerBase.h"
@@ -7,9 +8,19 @@
 
 namespace uking::ai {
 
+// NON_MATCHING: the second contact callback stores its vtable before the infinity value;
+// the original initializes that value before storing the callback vtable.
 StalGiantEnemyRoot::StalGiantEnemyRoot(const InitArg& arg) : StalEnemyRoot(arg) {}
 
-StalGiantEnemyRoot::~StalGiantEnemyRoot() = default;
+StalGiantEnemyRoot::~StalGiantEnemyRoot() {
+    auto* actor = mActor;
+    sub_7100724E1C(actor, 2);
+    sub_7100724E1C(actor, 3);
+    sub_7100724E1C(actor, 4);
+    sub_7100724E1C(actor, 5);
+    sub_7100724E1C(actor, 6);
+    sub_71005A3530();
+}
 
 bool StalGiantEnemyRoot::init_(sead::Heap* heap) {
     return StalEnemyRoot::init_(heap);
