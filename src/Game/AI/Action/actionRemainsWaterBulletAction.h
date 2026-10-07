@@ -24,6 +24,9 @@ protected:
 
     // 0x7100230304 (placeholder name): how much of the sign animation is left (1 without one).
     f32 sub_7100230304();
+    // 0x7100230688 (placeholder name): the player's pose: 1 when m193, 2 when m188, 3 when m194, else 0 (also
+    // without a player).
+    int sub_7100230688();
 
     // static_param at offset 0x20
     const int* mSignASFrame_s{};

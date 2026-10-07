@@ -2,6 +2,7 @@
 #include <math/seadMathCalcCommon.h>
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/Profiles/actBullet.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/Utils/MathUtil.h"
@@ -31,6 +32,19 @@ f32 RemainsWaterBulletAction::sub_7100230304() {
         }
     }
     return left;
+}
+
+int RemainsWaterBulletAction::sub_7100230688() {
+    ksys::act::acc::PlayerBase player;
+    if (player.getPlayerFromPlayerInfo()) {
+        if (player.m193())
+            return 1;
+        if (player.m188())
+            return 2;
+        if (player.m194())
+            return 3;
+    }
+    return 0;
 }
 
 void RemainsWaterBulletAction::enter_(ksys::act::ai::InlineParamPack* params) {
