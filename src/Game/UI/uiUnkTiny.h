@@ -27,7 +27,19 @@ namespace uking::ui {
 
 class Unk_7102474b38 {
 public:
+    Unk_7102474b38();
     virtual ~Unk_7102474b38();
+    void sub_7100932F74(eui::LayoutEx* first, eui::LayoutEx* second);
+    eui::LayoutEx* sub_7100932F7C(s32 index) const;
+    void sub_7100932FA8(s32 index, eui::LayoutEx* layout, bool flag);
+    void sub_7100932FDC(s32 index, bool animated);
+    bool sub_7100933038(s32 index) const;
+    void sub_710093307C(s32 index, nn::ui2d::Pane* parent);
+    void sub_71009330E4();
+
+private:
+    eui::LayoutEx* mFirst = nullptr;
+    eui::LayoutEx* mSecond = nullptr;
 };
 
 // Member of the number-display screens (Kolog / Akash / Mamo / DLCSinJuAkashi: at 0x3638, Mamo also at 0x3678).

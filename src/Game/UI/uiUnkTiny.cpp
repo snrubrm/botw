@@ -12,6 +12,59 @@ namespace uking::ui {
 // 0x7100934a6c
 UiStringEntry::UiStringEntry() {}
 
+Unk_7102474b38::Unk_7102474b38() = default;
+
+void Unk_7102474b38::sub_7100932F74(eui::LayoutEx* first, eui::LayoutEx* second) {
+    mFirst = first;
+    mSecond = second;
+}
+
+eui::LayoutEx* Unk_7102474b38::sub_7100932F7C(s32 index) const {
+    switch (index) {
+    case 0:
+        return mFirst;
+    case 1:
+        return mSecond;
+    default:
+        return nullptr;
+    }
+}
+
+void Unk_7102474b38::sub_7100932FA8(s32 index, eui::LayoutEx* layout, bool flag) {
+    sub_7100AA1D5C(sub_7100932F7C(index), layout, flag);
+}
+
+void Unk_7102474b38::sub_7100932FDC(s32 index, bool animated) {
+    auto* layout = sub_7100932F7C(index);
+    if (!layout)
+        return;
+    if (animated) {
+        if (layout->_91 == 1 || layout->_91 == 2)
+            layout->startAnimCloseImpl_(false, false);
+    } else if (layout->_91 != 0) {
+        layout->startAnimCloseImpl_(false, true);
+    }
+}
+
+bool Unk_7102474b38::sub_7100933038(s32 index) const {
+    auto* layout = sub_7100932F7C(index);
+    return layout && (layout->_91 == 1 || layout->_91 == 2);
+}
+
+void Unk_7102474b38::sub_710093307C(s32 index, nn::ui2d::Pane* parent) {
+    auto* layout = sub_7100932F7C(index);
+    if (!layout)
+        return;
+    if (layout->GetPane()->GetParent())
+        layout->GetPane()->GetParent()->RemoveChild(layout->GetPane());
+    parent->AppendChild(layout->GetPane());
+}
+
+void Unk_7102474b38::sub_71009330E4() {
+    sub_7100932FDC(0, false);
+    sub_7100932FDC(1, false);
+}
+
 // 0x7100932f6c
 Unk_7102474b38::~Unk_7102474b38() = default;
 
