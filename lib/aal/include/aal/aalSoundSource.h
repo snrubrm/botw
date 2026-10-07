@@ -143,6 +143,8 @@ public:
     /// 0x7100b76d1c / 0x7100b76e5c (declared only)
     void beginToPlay_();
     void calcState_();
+    /// 0x7100b774a4 (declared only): the calculation of a playing sound.
+    void calcPlaying_();
     /// 0x7100b78478
     void execOnFinalizeEmitter();
     /// 0x7100b770e4: allocates the spatial calculator (and the unifier source); stops the sound if that fails.

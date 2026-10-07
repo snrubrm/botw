@@ -436,6 +436,80 @@ bool SoundSource::setupSpatialCalcUnified_(bool* unified) {
     return false;
 }
 
+// NON_MATCHING: same code; the two state stores (state 2 / state 7) are merged into one block here.
+// 0x7100b76d1c
+void SoundSource::beginToPlay_() {
+    mPlayingTime = 0.0f;
+
+    if (mSpatialSetting.isUnified()) {
+        if (!mUnifierSource) {
+            finishNow_();
+        } else {
+            mState = 8;
+        }
+        return;
+    }
+
+    mPlayingStateController->mSoundController->setChannelPriority(getAggregatedPriority());
+    if (mPlayingStateController->start(mPrepareFlags & 4)) {
+        if (mVirtualizedBy != 0) {
+            mPrepareFlags &= ~4;
+            mPlayingStateController->virtualize();
+        }
+        if (mSpeakerBalanceSupplier)
+            aggregateAndClampParams_();
+        if (mFadeInTime > 0.0f) {
+            mFader->setValueImmediate(0.0f);
+            mFader->moveTo(1.0f, mFadeInTime);
+        }
+        mState = (mPrepareFlags & 4) ? 3 : 4;
+    } else {
+        finishNow_();
+    }
+}
+
+// 0x7100b76e5c
+void SoundSource::calcState_() {
+    switch (mState) {
+    case 1:
+        if (mStartDelayTime > 0.0f)
+            mStartDelayTime -= SystemAccessor::getSettings()->mCalcTimeStep;
+        if (mStartDelayTime <= 0.0f)
+            mState = 2;
+        break;
+    case 4:
+        if ((mPrepareFlags & 1) || mPlayingTime == 0.0f)
+            calcPlaying_();
+        mFader->calc();
+        mPlayingTime += SystemAccessor::getSettings()->mCalcTimeStep;
+        break;
+    case 5:
+        if (mPrepareFlags & 1)
+            calcPlaying_();
+        if (mStartDelayTime > 0.0f)
+            mStartDelayTime -= SystemAccessor::getSettings()->mCalcTimeStep;
+        if (mStartDelayTime <= 0.0f)
+            beginToStop_();
+        mPlayingTime += SystemAccessor::getSettings()->mCalcTimeStep;
+        break;
+    case 6:
+        if (mPauseFlags.getDirect() == 0)
+            calcPlaying_();
+        if (mFader) {
+            if (!(mFadeInTime > 0.0f) || mFader->getValue() != mFader->getTarget()) {
+                mFader->calc();
+                if (mPauseFlags.getDirect() == 0)
+                    mPlayingTime += SystemAccessor::getSettings()->mCalcTimeStep;
+            } else {
+                finishNow_();
+            }
+        }
+        break;
+    default:
+        break;
+    }
+}
+
 // 0x7100b776cc
 void SoundSource::beginToStop_() {
     f32 release_time = mFadeInTime;

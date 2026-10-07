@@ -54,6 +54,7 @@ public:
     /// 0x7100b7cae8: converts a linear value to the curved domain of the fade curve type.
     static f32 toCurvedValue(FadeCurveType type, f32 value);
     f32 getValue() const { return mValue; }
+    f32 getTarget() const { return mTarget; }
 
 private:
     /// Inline-only helper: mNextValue = mValue + step * time step, not passing the target.
