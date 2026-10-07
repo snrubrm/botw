@@ -1,6 +1,7 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <container/seadBuffer.h>
 #include <math/seadVector.h>
 #include "KingSystem/Utils/Types.h"
 
@@ -29,6 +30,13 @@ public:
         u8 _0[8];
         u32 mFlags;
     };
+    struct Unk_71013010d4 {
+        s8 mIndex;
+        u8 mFlags;
+    };
+    static_assert(sizeof(Unk_71013010d4) == 2);
+    void sub_71013010D4(const Unk_71013010d4& state, s32 index);
+
     class Model;
     class Tree;
 
@@ -38,7 +46,9 @@ public:
     u8 _100[0x38];
     Grass* _138;
     void* _140;
-    u8 _148[0x20];
+    // Getter 0x710114dd84 and setter 0x71013010d4 share this two-byte record buffer.
+    sead::Buffer<Unk_71013010d4> mStates;
+    u8 _158[0x10];
     u8 _168[0x214];
     u8 _37c;
 };
@@ -51,6 +61,8 @@ public:
     static Terrain* instance() { return sInstance; }
 
     void setPauseState(bool paused);
+    s32 sub_710114DD84(s32 index);
+    void sub_710114DDA4(const Core::Unk_71013010d4* states, u32 count);
     bool isGrassEnabled() const { return (_a58 & 2) != 0; }
     Core::Grass* sub_710114DE4C();
     Core::Grass* sub_710114DE58();

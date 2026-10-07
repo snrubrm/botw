@@ -10,6 +10,13 @@ void Terrain::setPauseState(bool paused) {
     grass->mFlags = paused ? grass->mFlags | 0x10000 : grass->mFlags & ~u32(0x10000);
 }
 
+s32 Terrain::sub_710114DD84(s32 index) { return _360->mStates[index].mIndex; }
+
+void Terrain::sub_710114DDA4(const Core::Unk_71013010d4* states, u32 count) {
+    for (u32 i = 0; i < count; ++i)
+        _360->sub_71013010D4(states[i], i);
+}
+
 Core::Grass* Terrain::sub_710114DE4C() { return _360->_138; }
 Core::Grass* Terrain::sub_710114DE58() { return _360->_138; }
 void* Terrain::sub_710114DE64() { return _360->_140; }

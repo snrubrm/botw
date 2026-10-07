@@ -1,4 +1,5 @@
 target_sources(uking PRIVATE
   teraSystem.h
   teraTerrain.cpp
+  teraCore.cpp
 )
