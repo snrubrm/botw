@@ -61,6 +61,11 @@ class ConstantBuffer;
 // closeEnd_ call them for the layout's root pane when Screen::_107 has bit 4 set).
 void sub_7100BEE334(nn::ui2d::Pane* pane, LayoutEx* layout);
 void sub_7100BEE4D4(nn::ui2d::Pane* pane, LayoutEx* layout);
+// 0x7100befa30 / 0x7100befe9c / 0x7100bf01dc (declared only; placeholder names; lane2 s47): pane tree walks run by
+// Screen::setupPaneAfterBuild_ (the last two with the screen's button group).
+void sub_7100BEFA30(nn::ui2d::Pane* pane, LayoutEx* layout);
+void sub_7100BEFE9C(nn::ui2d::Pane* pane, LayoutEx* layout, ButtonGroup* group);
+void sub_7100BF01DC(nn::ui2d::Pane* pane, LayoutEx* layout, ButtonGroup* group);
 
 // Placeholder name: `Screen::_e8` (a state object notified by the open / close callbacks; only slots 3 / 4 are used so far).
 class ScreenUnkE8 {

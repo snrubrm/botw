@@ -38,6 +38,9 @@ public:
     virtual bool isWordwrapOn_();
     virtual bool isTextChangeOn_() const;
     virtual bool getLetterAnimSpeed_(f32* speed);
+    // Slot 48 (lane2 s47; not decompiled): called by Screen::setupPaneAfterBuild_ with the screen's
+    // control list and the layout.
+    virtual void m48(void* controls, LayoutEx* layout);
 
     void processAppTag(sead::IDelegate1<const sead::MessageSet<char16>::TagInfo*>* callback);
 

@@ -11,6 +11,7 @@
 #include <common/aglDrawContext.h>
 #include "Game/UI/euiUIController.h"
 #include "Game/UI/euiTagProcessor.h"
+#include "Game/UI/euiTextBoxEx.h"
 
 namespace eui {
 
@@ -65,6 +66,16 @@ void Screen::updateControl_() {
     const f32 step = getAnimationStep_();
     for (ListNode* node = mControls.next; node != &mControls; node = node->next)
         ControlBase::fromNode(node)->Update(step);
+}
+
+// 0x7100bea600
+void Screen::setupPaneAfterBuild_(nn::ui2d::Pane* pane, LayoutEx* layout, u32* count) {
+    sub_7100BEFA30(pane, layout);
+    sub_7100BEFE9C(pane, layout, mButtonGroup);
+    sub_7100BF01DC(pane, layout, mButtonGroup);
+    if (auto* text_box = sub_7100933580(pane))
+        text_box->m48(&mControls, layout);
+    countEffectLinkPane_(pane, count);
 }
 
 // NON_MATCHING: the original tests the controller count with a signed compare (`cmp w8, #2; b.lt`) where the
