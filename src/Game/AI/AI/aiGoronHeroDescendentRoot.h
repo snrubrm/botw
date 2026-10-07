@@ -21,6 +21,7 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+    void handlePendingChildChange_() override;
 
     // Called through the delegate _240.
     void sub_7100406E90();

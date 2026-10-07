@@ -1,5 +1,6 @@
 #include "Game/AI/AI/aiGoronHeroDescendentRoot.h"
 #include <gsys/gsysModel.h>
+#include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "Game/AI/aiUnk_71007377D4.h"
@@ -93,6 +94,26 @@ void GoronHeroDescendentRoot::changeToStopCommand() {
     pack.addBool(false, "TerrorOccurring", -1);
     pack.addVec3(mActor->getMtx().getTranslation(), "TargetPos", -1);
     changeChild("停止命令", &pack);
+}
+
+// NON_MATCHING: stack layout only: the bone key lives at x29-0x38 in the original (an extra 12-byte slot between the
+// position and the key), at x29-0x34 here.
+void GoronHeroDescendentRoot::handlePendingChildChange_() {
+    _88 = true;
+    ksys::act::setEnabledTalkAndLockOn(mActor, false);
+    _190.x();
+    ksys::gdt::setBoolByKey(false, mFollowModeFlagName_s, false);
+    const auto key = mActor->getModel()->searchBone("Spine_1");
+    auto* as_list = mActor->getASList();
+    as_list->sub_710115C9E0(0);
+    as_list->mSlots[0].sub_7101165008(key, 3, true);
+    as_list->mSlots[0].sub_7101164E38(false);
+    changeAS("Crouch", true, 2, 0);
+    sead::Vector3f position;
+    sub_71004091AC(&position);
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(position, "TargetPos", -1);
+    changeChild("退避", &pack);
 }
 
 void GoronHeroDescendentRoot::changeToJumpPrepare() {
