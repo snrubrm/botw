@@ -10,6 +10,13 @@ class ArchiveHandle {
 public:
     ArchiveHandle();
     virtual ~ArchiveHandle();
+    void sub_71009C3570(s32 state);
+    void sub_71009C3578(s32 state, f32 frame);
+    void sub_71009C36B8(f32 frame);
+    void sub_71009C36C0();
+    void sub_71009C36C8(s32 category, s32 value, s32 number);
+    Material* sub_71009C3780() const;
+    f32 sub_71009C37A8() const;
 
     u64 _8 = 0;
     u64 _10 = 0;
