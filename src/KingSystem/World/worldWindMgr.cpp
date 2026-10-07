@@ -33,13 +33,13 @@ f32 WindMgr::sub_71010EEF04() const {
 }
 
 // NON_MATCHING: the inlined strength calculation has the same differences as sub_71010EEF04.
-void WindMgr::x_0() {
-    _20->sub_71012FF2B0(sub_71010EEF04());
+f32 WindMgr::x_0() {
+    return _20->sub_71012FF2B0(sub_71010EEF04());
 }
 
 // NON_MATCHING: the inlined strength calculation has the same differences as sub_71010EEF04.
-void WindMgr::x_1() {
-    _20->sub_71012FF268(sub_71010EEF04());
+f32 WindMgr::x_1() {
+    return _20->sub_71012FF268(sub_71010EEF04());
 }
 
 }  // namespace ksys::world

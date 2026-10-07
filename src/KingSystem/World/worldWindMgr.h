@@ -10,8 +10,8 @@ namespace ksys::world {
 // Render-wind object: allocated as 0x268 bytes by WindMgr::init_ at 0x71010ee214.
 // Its constructor is 0x71012fe90c and its vtable is 0x710251f868; implementation remains declared-only.
 struct Unk_710251F868 {
-    void sub_71012FF2B0(f32 strength);
-    void sub_71012FF268(f32 strength);
+    f32 sub_71012FF2B0(f32 strength);
+    f32 sub_71012FF268(f32 strength);
     u8 _0[8];
     f32 _8;
     u8 _c[0x1b8 - 0xc];
@@ -31,8 +31,8 @@ public:
     nn::gfx::ResTextureData* sub_71010EEEE8();
     f32 sub_71010EEF48() const;
     f32 sub_71010EEF04() const;
-    void x_0();
-    void x_1();
+    f32 x_0();
+    f32 x_1();
 
     Unk_710251F868* _20;
     u8 _28;
