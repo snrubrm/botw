@@ -17,6 +17,32 @@ f32 sub_710105E3A4() {
     return 1.0f / 30.0f;
 }
 
+void sub_710105E534(sead::PtrArray<aal::Group>* groups, aal::Group* excluded, aal::Group* root) {
+    sead::FixedPtrArray<aal::Group, 1> excluded_groups;
+    if (excluded)
+        excluded_groups.pushBack(excluded);
+    if (!root) {
+        auto* mgr = aal::SystemAccessor::getGroupMgr();
+        if (!mgr)
+            return;
+        root = mgr->mRootGroup;
+    }
+    groups->clear();
+    sub_710105E614(groups, &excluded_groups, root);
+}
+
+void sub_710105E5CC(sead::PtrArray<aal::Group>* groups,
+                   const sead::PtrArray<aal::Group>* excluded, aal::Group* root) {
+    if (!root) {
+        auto* mgr = aal::SystemAccessor::getGroupMgr();
+        if (!mgr)
+            return;
+        root = mgr->mRootGroup;
+    }
+    groups->clear();
+    sub_710105E614(groups, excluded, root);
+}
+
 void sub_710105E614(sead::PtrArray<aal::Group>* groups,
                    const sead::PtrArray<aal::Group>* excluded, aal::Group* group) {
     bool has_excluded_descendant = false;
