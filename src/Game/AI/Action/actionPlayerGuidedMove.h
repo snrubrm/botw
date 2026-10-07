@@ -18,6 +18,7 @@ public:
 
 protected:
     void calc_() override;
+    void sub_71007E8D28();
     virtual bool m33(sead::Vector3f* pos) { return false; }
 
     // static_param at offset 0x20
