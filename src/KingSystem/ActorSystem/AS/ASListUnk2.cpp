@@ -10,6 +10,36 @@ bool sub_7100E9CF8C();
 
 namespace ksys::as {
 
+// Original byte 0x7102620f39, set by S7EventFlow delete/restore to suspend partial motion.
+bool sUnk_7102620F39;
+
+// NON_MATCHING: the saved ASList and bone-key registers differ.
+void ASList::Unk2::sub_7101161EE0(f32 value, Element* element, bool alternate) {
+    if (sUnk_7102620F39)
+        return;
+    f32 duration = -1.0f;
+    if (value >= 0.0f) {
+        duration = value;
+    } else if (element) {
+        Context* context = _0;
+        const res::ASResource* resource = context->sub_7101258CC0();
+        if (alternate)
+            element->m29(&duration, context, resource);
+        else
+            element->m28(&duration, context, resource);
+    }
+    ASList* list = _0->mList;
+    if ((list->_163 & 4) && duration >= 0.0f) {
+        _8->_8.sub_710115989C(duration);
+        if (duration > 0.0f) {
+            _8->_4c = 1;
+            if (_8->sub_7101164C24(list->_14))
+                list->_b0->sub_7100D68544(&list->_80, &list->_14);
+        }
+    }
+}
+
+
 bool ASList::Unk2::sub_7101163998(nn::g3d::ICalculateBlendWeightCallback::CallbackArg& arg,
                                 gsys::ModelUnit* unit, s32 index) {
     if (!_18)

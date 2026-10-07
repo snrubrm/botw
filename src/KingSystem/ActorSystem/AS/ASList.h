@@ -238,6 +238,8 @@ public:
 
         // Placeholder name: the fade of the slot (`_c` is the progress: 1.0 when finished).
         struct Fader {
+            void sub_710115989C(f32 duration);
+
             // 0x71011598fc
             void sub_71011598FC(f32 delta);
 
