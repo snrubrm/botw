@@ -36,6 +36,7 @@ class Unk_7100e8b2b8;
 
 namespace uking::action {
 class ChemicalAttack;
+class KokkoCreateDrop;
 }  // namespace uking::action
 
 namespace uking::dmg {
@@ -795,6 +796,7 @@ protected:
     friend class acc::WeaponBase;  // acc::WeaponBase::sub_7100EFA6B8 reads mSpecialJobTypesMaskOverride
     friend struct ActorBindEntry;  // writes mMtx / mScale
     friend class uking::act::Unk_71024e8738;  // writes mMtx / mScale (ActorBind subclass copying a pose)
+    friend class uking::action::KokkoCreateDrop;  // checks ActorX6A0 flags
     friend class uking::action::ChemicalAttack;  // lerps mScale.x in place
 
     struct Unk1 {
