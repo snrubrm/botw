@@ -12,8 +12,30 @@ bool EventVariableFade::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }
 
+// NON_MATCHING: the color validation branches have a different block order.
 void EventVariableFade::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    if (ksys::evt::Manager::instance()) {
+        if (auto* mgr = eui::ScreenMgr::instance()) {
+            if (auto* screen = sead::DynamicCast<ui::ScreenFadeDemo>(mgr->getScreen(ui::ScreenId::FadeDemo))) {
+                if (*mColor_d == 1) {
+                    screen->sub_71010A01A8(0);
+                } else if (*mColor_d == 0) {
+                    screen->sub_71010A01A8(1);
+                } else {
+                    setFailed();
+                    mFlags.set(Flag::Changeable);
+                    return;
+                }
+                f32 fade_time = *mFadeTime_d;
+                if (fade_time > *mDuration_d)
+                    fade_time = *mDuration_d;
+                screen->m73(fade_time);
+                return;
+            }
+        }
+    }
+    setFailed();
+    mFlags.set(Flag::Changeable);
 }
 
 void EventVariableFade::leave_() {
