@@ -6,6 +6,10 @@
 #include <nn/gfx/gfx_Types.h>
 #include <prim/seadDelegate.h>
 
+namespace agl::lght {
+class LocalLightMapObj;
+}
+
 namespace agl {
 class DrawContext;
 }
@@ -26,6 +30,9 @@ class ModelNW : public ModelUnit,
 
 public:
     struct BoneCallbackArg;
+
+    static s32 getSubMeshRangeNum(s32 type, s32 count);
+    agl::lght::LocalLightMapObj* getReferenceLocalLightMapObj() const;
 
     using BoneCallback = sead::IDelegate1<BoneCallbackArg*>;
     using BoneCallbackStorage = sead::AnyDelegate1<BoneCallbackArg*>;

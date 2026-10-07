@@ -2,6 +2,16 @@
 
 namespace aal {
 
+// NON_MATCHING: null return block duplication and enum argument evaluation order differ.
+AuxBusCtrl* AuxBusMgr::getAuxBusCtrl(BusType bus, DeviceType device) const {
+    if (bus == BusType::Main || !mAuxBusCtrls)
+        return nullptr;
+    if (device >= DeviceType::size())
+        return nullptr;
+    return mAuxBusCtrls[device][bus - 1];
+}
+
+
 AuxBusMgr* AuxBusMgr::sInstance = nullptr;
 
 // 0x7100b7a998

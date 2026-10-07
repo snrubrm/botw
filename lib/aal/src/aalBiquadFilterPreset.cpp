@@ -3,6 +3,11 @@
 
 namespace aal {
 
+s32 BiquadFilterPreset::getAtkRegisterNum(PresetType preset) const {
+    return preset + 0x7b;
+}
+
+
 BiquadFilterPreset::BiquadFilterCallback::~BiquadFilterCallback() = default;
 
 // 0x7100b7c320

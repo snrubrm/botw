@@ -1,6 +1,7 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <prim/seadEnum.h>
 #include <nn/atk/BiquadFilterCallback.h>
 
 namespace sead {
@@ -12,6 +13,9 @@ namespace aal {
 /// Registers the biquad filter presets (low pass filter tables) of the audio engine. TODO: incomplete.
 class BiquadFilterPreset {
 public:
+    SEAD_ENUM(PresetType, Unk0);
+    s32 getAtkRegisterNum(PresetType preset) const;
+
     /// Provides the coefficients of a filter by looking up a table with the filter value in [0, 1].
     class BiquadFilterCallback : public nn::atk::IBiquadFilterCallback {
     public:

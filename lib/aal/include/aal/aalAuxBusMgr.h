@@ -6,6 +6,8 @@
 
 namespace aal {
 
+class AuxBusCtrl;
+
 /// Manages the auxiliary buses (the environment effect send). TODO: incomplete: the singleton and everything
 /// before offset 0x48 are not modeled.
 class AuxBusMgr {
@@ -14,6 +16,7 @@ public:
 
     /// The duration of one audio frame in seconds.
     f32 getAudioFrameTime() const;
+    AuxBusCtrl* getAuxBusCtrl(BusType bus, DeviceType device) const;
     f32 getMinEnvFxSend() const;
     f32 getMaxEnvFxSend() const;
     BusType getEnvFxBus() const { return mEnvFxBus; }
@@ -22,7 +25,9 @@ public:
     void setEnvFxSend(f32 min_send, f32 max_send, f32 time);
 
 private:
-    u8 _0[0x40];
+    u8 _0[0x28];
+    AuxBusCtrl*** mAuxBusCtrls;
+    u8 _30[0x40 - 0x30];
     /// The bus that the environment effect is sent to.
     BusType mEnvFxBus;
     u8 _44[0x48 - 0x44];

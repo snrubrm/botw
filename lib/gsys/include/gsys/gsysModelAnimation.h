@@ -4,9 +4,14 @@
 #include <prim/seadSafeString.h>
 #include <container/seadBuffer.h>
 
+namespace ksys::as {
+class ASList;
+}
+
 namespace gsys {
 
 class Model;
+class PartialSkeletalAnmBase;
 
 enum class MaterialAnmType;
 enum class SkeletalAnmType;
@@ -48,6 +53,13 @@ public:
 
     /// 0x7100bfdc04 / 0x7100bfa52c (declared only): releases the animation set / frees the object.
     void finalize();
+    // 0x7100bfdbf4: enables the self-reference at +0x38.
+    void sub_7100BFDBF4(bool enabled);
+    // 0x7100bfd598 clears a skeletal slot; 0x7100bfdd10 clears material bindings.
+    void sub_7100BFD598(s32 slot);
+    void sub_7100BFDD10(s32 slot);
+    void setSkeletalAnmByKey(int slot, AnimationAccessKey<SkeletalAnmType> key,
+                             const PartialSkeletalAnmBase* partial);
     /// Frees the object through its virtual destructor (0x7100bfa52c); null is ignored.
     static void destroy(ModelAnimation* animation);
     /// Number of material animations of `type` (the table at +0x80 holds the running end index per type).
@@ -74,10 +86,15 @@ public:
     const sead::Buffer<MaterialAnm>& getMaterialAnms() const { return mMaterialAnms; }
 
 private:
-    u8 _8[0x50 - 8];
+    u8 _8[0x38 - 8];
+    ModelAnimation* mSelfReferenceMaybe;
+    u8 _40[0x50 - 0x40];
     sead::Buffer<MaterialAnm> mMaterialAnms;
     u8 _60[0x80 - 0x60];
     u16 mMaterialAnmEnd[8];
+public:
+    // ASList::sub_7101160ED4 stores its owner at +0x90 after enabling the animation.
+    ksys::as::ASList* mASList;
 };
 
 }  // namespace gsys

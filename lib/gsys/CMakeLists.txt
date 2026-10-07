@@ -9,6 +9,7 @@ add_library(gsys OBJECT
   include/gsys/gsysModelAutoAnimation.h
   include/gsys/gsysModelAccessKey.h
   include/gsys/gsysModelAnimation.h
+  include/gsys/gsysModelDynamicEnvInfo.h
   include/gsys/gsysModelNW.h
   include/gsys/gsysModelScene.h
   include/gsys/gsysModelSceneComponent.h

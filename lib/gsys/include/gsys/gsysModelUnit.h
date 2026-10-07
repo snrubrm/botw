@@ -4,6 +4,7 @@
 #include <gfx/seadColor.h>
 #include <hostio/seadHostIONode.h>
 #include <math/seadBoundBox.h>
+#include <math/seadBoundSphere.h>
 #include <math/seadMatrix.h>
 #include <math/seadVector.h>
 #include <nn/g3d/World.h>
@@ -220,8 +221,10 @@ public:
         return (mViewOptions[shape_idx * getViewNum() + view_idx].flags & (1 << int(option))) != 0;
     }
 
-    // Getter for `_50` (unknown vector, tested for NaN by GelEnemy's per-frame checks).
-    sead::Vector3f* get50() const { return _50; }
+    // The center is tested for NaN by GelEnemy. The sphere radius at +0xc is
+    // read by Unk_710244eb00::m3 (0x71006e1f34) and sub_71006E2440 (0x71006e2488).
+    const sead::Vector3f* get50() const { return &_50->getCenter(); }
+    const sead::BoundSphere3f* getBoundSphere() const { return _50; }
 
 protected:
     friend class Model;
@@ -243,7 +246,7 @@ protected:
     void* _38;
     sead::Vector3f _40;
     u32 _4c;
-    sead::Vector3f* _50;
+    sead::BoundSphere3f* _50;
     /// The per-shape / per-view render option records (0xc bytes each; `flags` holds one bit per RenderViewOption).
     struct ViewOption {
         u16 _0;

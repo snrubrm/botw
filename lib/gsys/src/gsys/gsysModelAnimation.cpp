@@ -2,6 +2,10 @@
 
 namespace gsys {
 
+void ModelAnimation::sub_7100BFDBF4(bool enabled) {
+    mSelfReferenceMaybe = enabled ? this : nullptr;
+}
+
 // 0x7100bfa214
 ModelAnimation::CreateArg::CreateArg() : _0(4), _4(4), _8(nullptr) {}
 
