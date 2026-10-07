@@ -16,6 +16,46 @@
 
 namespace ksys::as {
 
+// NON_MATCHING: the bank loop checks for count > 0 rather than count >= 1.
+s32 ASList::sub_710115BED4(bool first_only) {
+    const s32 count = mSlots.size();
+    s32 result = 0;
+    if (!(_163 & 2)) {
+        _163 |= 2;
+        gsys::BoneAccessKey key;
+        key.model_unit_index = 0;
+        key.bone_index = 0;
+        s32 mode = 0;
+        for (s32 i = 0; i < count; ++i) {
+            if (mSlots[i].sub_71011653A4())
+                continue;
+            auto& slot = mSlots[i];
+            if (slot._30) {
+                slot.sub_7101164FF8();
+                slot.sub_7101165008(key, mode, true);
+                slot.sub_7101164E38(false);
+            }
+            if (first_only && mode == 3) {
+                const s32 banks = slot._20.size();
+                for (s32 bank = 0; bank < banks; ++bank) {
+                    auto& entry = slot._20[bank];
+                    if (entry._40 & 0x10)
+                        entry.sub_7101162254(false);
+                }
+            } else {
+                result = i;
+            }
+            mode = 3;
+        }
+    } else {
+        for (s32 i = 0; i < count; ++i) {
+            if (!mSlots[i].sub_71011653A4())
+                return i;
+        }
+    }
+    return result;
+}
+
 void ASList::x_0(const gsys::BoneAccessKey* key) {
     if (!_8)
         return;
