@@ -391,6 +391,102 @@ bool DamageManager::getPosition(sead::Vector3f* out) {
     return true;
 }
 
+// NON_MATCHING: same logic and damage-kind structure, but the original keeps no float register across the switch (the
+// impulse direction is copied first and scaled afterwards; our scheduling / csel polarity differ in several kinds)
+bool DamageManager::m32(sead::Vector3f* out) {
+    s32 index;
+    switch (getDamageType()) {
+    case 1:
+        if (getField54() == 20) {
+            const f32 scale = 2400.0f;
+            out->x = _c0.x * scale;
+            out->y = _c0.y * scale;
+            out->z = _c0.z * scale;
+            return true;
+        }
+        *out = sead::Vector3f::zero;
+        return true;
+    case 2:
+    case 10:
+        index = _6c;
+        if (index < 0)
+            return false;
+        break;
+    case 3: {
+        if (::hasAttackInfo(mActor)) {
+            auto* info = ::getAttackInfo(mActor, 0);
+            if (!info)
+                return false;
+            f32 scale;
+            if (info->_18 & 2) {
+                scale = 1800.0f;
+            } else if (info->_18 & 1) {
+                scale = 600.0f;
+            } else {
+                return false;
+            }
+            out->x = info->_c.x * scale;
+            out->y = info->_c.y * scale;
+            out->z = info->_c.z * scale;
+            return true;
+        }
+        f32 scale;
+        if (_218 & 0x20) {
+            scale = 1800.0f;
+        } else if (_218 & 0x10) {
+            scale = 600.0f;
+        } else {
+            return false;
+        }
+        const auto& velocity = mActor->getVelocity();
+        out->set(-velocity.x, -velocity.y, -velocity.z);
+        out->normalize();
+        out->x *= scale;
+        out->y *= scale;
+        out->z *= scale;
+        return true;
+    }
+    case 4:
+    case 11: {
+        auto* impulse = mActor->getImpulseBaseProcLink();
+        const sead::Vector3f* direction;
+        if (!impulse)
+            direction = &sead::Vector3f::ez;
+        else
+            direction = &impulse->_10._10;
+        *out = *direction;
+        const f32 scale = impulse ? impulse->_10._8 : 0.0f;
+        out->x *= scale;
+        out->y *= scale;
+        out->z *= scale;
+        return true;
+    }
+    case 6:
+        if (!_216.isOn(0x100))
+            return false;
+        index = _88;
+        if (index < 0)
+            return false;
+        break;
+    case 7:
+        if (!_216.isOn(0x40))
+            return false;
+        *out = _cc;
+        return true;
+    case 9:
+        *out = _b4;
+        return true;
+    default:
+        return false;
+    }
+
+    auto* info = ::sub_71007A255C(mActor, index);
+    if (!info)
+        return false;
+    *out = info->_a0;
+    return true;
+}
+
 bool DamageManager::m31(sead::Vector3f* out) {
     s32 index;
     switch (getDamageType()) {

@@ -81,6 +81,9 @@ public:
     bool getAttackPos(sead::Vector3f* out) override;
     // Slot 31 (CSV DamageMgr::m31): like getAttackPos with the attack info's `_94`, `_a8` and normalised directions.
     bool m31(sead::Vector3f* out) override;
+    // Slot 32 (CSV DamageMgr::m32): the blow vector of the damage kind (the attack info's `_a0`, `_c` / the negated velocity scaled
+    // by 600 / 1800, the impulse data, `_cc`, `_b4`).
+    bool m32(sead::Vector3f* out) override;
     // Slot 35 (CSV DamageMgr::m35): the matrix of the attacker of the damage kind (the attack info's link actor, the attack
     // info's matrix, or the actor's impulse data); false (identity) otherwise.
     bool m35(sead::Matrix34f* out) override;
@@ -142,7 +145,7 @@ public:
     sead::Vector3f _90;  // position of damage kind 9 (getPosition)
     sead::Vector3f _9c;  // direction of damage kind 9 (getAttackPos)
     sead::Vector3f _a8;  // direction of damage kind 9 (m31)
-    u8 _b4[0xc0 - 0xb4];
+    sead::Vector3f _b4;  // blow of damage kind 9 (m32)
     sead::Vector3f _c0;  // direction of damage kind 1 (getAttackPos)
     sead::Vector3f _cc;  // direction used by damage kind 7 (m29 / m30)
     u8 _d8[0x210 - 0xd8];
