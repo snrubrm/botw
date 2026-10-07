@@ -12,6 +12,15 @@ Unk_710260f130* sub_7100FFD9D0() {
     return sead::DynamicCast<Unk_710260f130>(controller);
 }
 
+Unk_710260f218* sub_7100FFDA7C() {
+    Unk_71024fca78* controller = nullptr;
+    if (auto* sound = SoundMgr::instance()) {
+        if (sound->_30)
+            controller = sound->_30->_48;
+    }
+    return sead::DynamicCast<Unk_710260f218>(controller);
+}
+
 void Unk_710260f130::sub_7100FFA1E0(bool value) {
     if (!_92)
         return;

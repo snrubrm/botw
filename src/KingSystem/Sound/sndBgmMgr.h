@@ -73,6 +73,17 @@ public:
 };
 Unk_710260f130* sub_7100FFD9D0();
 
+// RTTI typeInfo 0x710260f218; the GuardianMini practice BGM controller.
+// Its remaining layout and the three practice-state method bodies are not modeled yet.
+class Unk_710260f218 : public Unk_71024fca78 {
+    SEAD_RTTI_OVERRIDE(Unk_710260f218, Unk_71024fca78)
+public:
+    void sub_7100FFC7F4();
+    void sub_7100FFC894();
+    void sub_7100FFC934();
+};
+Unk_710260f218* sub_7100FFDA7C();
+
 // Placeholder name (SoundMgr::_30): the BGM side of the sound manager.
 struct Unk_SoundMgr30 {
     // 0x7100ff8804 (declared only; 164 B): called by SoundMgr::sub_71011FC288.
