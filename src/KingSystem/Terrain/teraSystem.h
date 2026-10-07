@@ -24,6 +24,10 @@ public:
     public:
         void sub_7101150990(bool enabled);
         void sub_7101150A7C(const sead::Vector3f* pos, f32 radius, f32 value);
+
+        // Shared flags read and written by 0x7101150990 and 0x710114dd4c.
+        u8 _0[8];
+        u32 mFlags;
     };
     class Model;
     class Tree;
@@ -46,6 +50,7 @@ public:
     static Terrain* sInstance;
     static Terrain* instance() { return sInstance; }
 
+    void setPauseState(bool paused);
     bool isGrassEnabled() const { return (_a58 & 2) != 0; }
     Core::Grass* sub_710114DE4C();
     Core::Grass* sub_710114DE58();

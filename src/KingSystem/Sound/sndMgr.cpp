@@ -238,6 +238,8 @@ void ListenerPoser::sub_7101055538(s32 value) {
 
 bool SoundMgr::sub_71011FC2DC() { return mSLinkUserCreateHeap->getFreeSize() > 0x4000; }
 
+f32 SoundMgr::sub_71011FC310() { return 0.841f; }
+
 f32 SoundMgr::sub_71011FC31C() { return _ec == 2 ? 1.0f : 0.707f; }
 
 }  // namespace ksys::snd

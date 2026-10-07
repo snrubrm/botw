@@ -4,6 +4,12 @@ namespace ksys::tera {
 
 Terrain* Terrain::sInstance;
 
+void Terrain::setPauseState(bool paused) {
+    _a58 = paused ? _a58 | 8 : _a58 & ~u32(8);
+    auto* grass = _360->_138;
+    grass->mFlags = paused ? grass->mFlags | 0x10000 : grass->mFlags & ~u32(0x10000);
+}
+
 Core::Grass* Terrain::sub_710114DE4C() { return _360->_138; }
 Core::Grass* Terrain::sub_710114DE58() { return _360->_138; }
 void* Terrain::sub_710114DE64() { return _360->_140; }
