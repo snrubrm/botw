@@ -187,6 +187,7 @@ target_sources(uking PRIVATE
   uiTimer.cpp
   uiTimer.h
   uiUnkTiny.cpp
+  uiUnk_7102474c08.cpp
   uiUnkTiny.h
   uiUtils.cpp
   uiWorldFacade.cpp

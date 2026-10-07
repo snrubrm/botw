@@ -97,6 +97,7 @@ public:
     void playAnimator910();
     bool isAnimator910Playing() const;
     void stopAnimator910(f32 frame);
+    void sub_71009359E8();
     // 0x7100934b94 (declared only): attaches the gauge to `layout`
     void sub_7100934B94(eui::LayoutEx* layout, bool flag);
     // inline-only in the original; name is a guess (three screens store the byte right after the setup)
@@ -136,16 +137,41 @@ private:
 class Unk_7102474c08 {
 public:
     virtual ~Unk_7102474c08();
+    void sub_710093694C();
+    f32 sub_710093695C() const;
+
+private:
+    Unk_7102474be8* mGauge;
 };
 
 class Unk_7102474c28 {
 public:
+    Unk_7102474c28();
     virtual ~Unk_7102474c28();
+    void sub_7100936998(eui::LayoutEx* layout);
+    void sub_7100936A28(s32 value);
+    void sub_7100936A7C(s32 value);
+    void sub_7100936AD8();
+
+private:
+    eui::LayoutEx* mLayout = nullptr;
+    eui::Animator* mPageAnimator = nullptr;
+    eui::Animator* mScrollAnimator = nullptr;
+    f32 mPageStep = 0;
+    f32 mScrollStep = 0;
+    s32 mPageValue = 0;
 };
 
 class Unk_7102474c48 {
 public:
     virtual ~Unk_7102474c48();
+    void sub_7100936B18(eui::LayoutEx* layout);
+    void sub_7100936B7C(bool first, bool second);
+
+private:
+    eui::LayoutEx* mLayout;
+    eui::Animator* mAnimator;
+    bool mActive;
 };
 
 class Unk_7102475158 {

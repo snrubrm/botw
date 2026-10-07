@@ -1,4 +1,5 @@
 #include "Game/UI/uiUnkTiny.h"
+#include <math/seadMathCalcCommon.h>
 #include "Game/UI/euiAnimator.h"
 #include "Game/UI/euiButton.h"
 #include "Game/UI/euiLayoutEx.h"
@@ -93,11 +94,64 @@ Unk_7102474be8::Unk_7102474be8() {}
 
 Unk_7102474be8::~Unk_7102474be8() = default;
 
-// 0x7100935f90
-Unk_7102474c08::~Unk_7102474c08() = default;
+Unk_7102474c28::Unk_7102474c28() = default;
+
+void Unk_7102474c28::sub_7100936998(eui::LayoutEx* layout) {
+    if (!layout)
+        return;
+    mLayout = layout;
+    mPageAnimator = layout->createAnimatorAuto("PageNum", false);
+    if (mPageAnimator)
+        mPageStep = f32(mPageAnimator->GetFrameSize()) / 20.0f;
+    mScrollAnimator = layout->createAnimatorAuto("Scroll", false);
+    if (mScrollAnimator)
+        mScrollStep = f32(mScrollAnimator->GetFrameSize()) / 20.0f;
+}
+
+void Unk_7102474c28::sub_7100936A28(s32 value) {
+    if (mPageAnimator) {
+        value = sead::Mathi::clamp(value, 0, 20);
+        mPageAnimator->Stop(value * mPageStep);
+        mPageValue = value;
+    }
+}
+
+// NON_MATCHING: the virtual stop target and clamp arithmetic are scheduled differently.
+void Unk_7102474c28::sub_7100936A7C(s32 value) {
+    if (mScrollAnimator) {
+        if (mPageValue >= 1)
+            value += 1.0f;
+        mScrollAnimator->Stop(sead::Mathi::clamp(value, 0, 20) * mScrollStep);
+    }
+}
+
+void Unk_7102474c28::sub_7100936AD8() {
+    if (mScrollAnimator)
+        mScrollAnimator->StopAtMin();
+}
 
 // 0x7100936990
 Unk_7102474c28::~Unk_7102474c28() = default;
+
+void Unk_7102474c48::sub_7100936B18(eui::LayoutEx* layout) {
+    if (layout) {
+        mLayout = layout;
+        mAnimator = layout->tryCreateAnimatorAuto("GuideState", false);
+        if (mAnimator) {
+            mActive = true;
+            mAnimator->Stop(0.0f);
+        }
+    }
+}
+
+// NON_MATCHING: the four guide frames lower to a different Boolean selection tree.
+void Unk_7102474c48::sub_7100936B7C(bool first, bool second) {
+    if (mAnimator) {
+        mActive = first || second;
+        const f32 frame = first ? (second ? 0.0f : 2.0f) : (second ? 1.0f : 3.0f);
+        mAnimator->Stop(frame);
+    }
+}
 
 // 0x7100936b10
 Unk_7102474c48::~Unk_7102474c48() = default;
