@@ -27,21 +27,19 @@ void ShootingStarAnchor::sub_71010D00B0() {
                     gdt::getBoolByNameNoBool2(gdt::Manager::instance(), &finished, _70);
                 if (!finished && _88) {
                     auto* camera = CameraMgr::instance()->getLookAtCamera();
-                    if (camera) {
-                        const auto& position = camera->getPos();
-                        const f32 dx = _48.x - position.x;
-                        const f32 dz = _48.z - position.z;
-                        if (!(std::sqrt(dx * dx + dz * dz) < 2000.0f))
-                            goto update;
-                    }
-                    act::InstParamPack pack;
-                    sub_71010D0814(&pack, nullptr);
-                    if (!_89) {
-                        auto* creator = act::ActorCreator::instance();
-                        creator->requestCreateActor("FldObj_DLC_ShootingStarCollaboration",
-                                                    act::BaseProcHeapMgr::instance()->getHeap(),
-                                                    nullptr, &pack, nullptr, 1);
-                        _89 = true;
+                    if (!camera ||
+                        std::sqrt((_48.x - camera->getPos().x) * (_48.x - camera->getPos().x) +
+                                  (_48.z - camera->getPos().z) * (_48.z - camera->getPos().z)) <
+                            2000.0f) {
+                        act::InstParamPack pack;
+                        sub_71010D0814(&pack, nullptr);
+                        if (!_89) {
+                            auto* creator = act::ActorCreator::instance();
+                            creator->requestCreateActor("FldObj_DLC_ShootingStarCollaboration",
+                                                        act::BaseProcHeapMgr::instance()->getHeap(),
+                                                        nullptr, &pack, nullptr, 1);
+                            _89 = true;
+                        }
                     }
                 }
             }
@@ -49,7 +47,6 @@ void ShootingStarAnchor::sub_71010D00B0() {
     } else {
         _88 = false;
     }
-update:
     _60 = sead::GlobalRandom::instance()->getF32() + 0.5f;
 }
 
