@@ -6,6 +6,8 @@ add_library(gsys OBJECT
   include/gsys/gsysMaskedSpotLight.h
   include/gsys/gsysMemBuffer.h
   include/gsys/gsysModel.h
+  include/gsys/gsysModelResource.h
+  include/gsys/gsysCameraAnimation.h
   include/gsys/gsysModelAutoAnimation.h
   include/gsys/gsysModelAccessKey.h
   include/gsys/gsysModelAnimation.h
@@ -27,6 +29,8 @@ add_library(gsys OBJECT
 
   src/gsys/gsysMemBuffer.cpp
   src/gsys/gsysModel.cpp
+  src/gsys/gsysModelResource.cpp
+  src/gsys/gsysCameraAnimation.cpp
   src/gsys/gsysModelAccessKey.cpp
   src/gsys/gsysModelAnimation.cpp
   src/gsys/gsysModelAutoAnimation.cpp
