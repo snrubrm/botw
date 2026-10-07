@@ -2,6 +2,9 @@
 
 #include <basis/seadTypes.h>
 #include <container/seadBuffer.h>
+#include <container/seadObjArray.h>
+#include <mc/seadJobQueue.h>
+#include <prim/seadScopedLock.h>
 #include <container/seadSafeArray.h>
 #include <math/seadVector.h>
 #include <prim/seadBitFlag.h>
@@ -140,8 +143,8 @@ public:
     /* 0x088 */ Unk_PriestBossObject* _88;
     /* 0x090 */ u8 _90[0x98 - 0x90];
     /* 0x098 */ u32 _98;
-    /* 0x09c */ u32 _9c;
-    /* 0x0a0 */ u8 _a0[0x198 - 0xa0];  // sead::FixedObjArray<?, 9> (0x10-byte nodes) at 0xa0
+    /* 0x09c */ sead::JobQueueLock _9c;
+    /* 0x0a0 */ sead::FixedObjArray<ksys::act::BaseProcLink, 9> _a0;
     /* 0x198 */ u32 _198;
     /* 0x19c */ u8 _19c[4];
     /* 0x1a0 */ ksys::MesTransceiverId _1a0;  // set from Unk3::_10 by sub_710071964C

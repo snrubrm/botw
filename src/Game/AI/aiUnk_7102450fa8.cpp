@@ -79,3 +79,8 @@ void Unk_7102450fa8::sub_71007190CC(const ksys::MesTransceiverId& dest) {
     if (auto* actor = sead::DynamicCast<ksys::act::Actor>(_18.getProc(nullptr)))
         actor->sendMessage(dest, ksys::MessageType(0x80000d9), this, true);
 }
+
+void Unk_7102450fa8::sub_7100719ED0() {
+    sead::ScopedLock<sead::JobQueueLock> lock(&_9c);
+    _a0.clear();
+}
