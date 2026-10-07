@@ -17,6 +17,7 @@ class GameSceneStatusMgr {
     GameSceneStatusMgr() = default;
 
 public:
+    void initStubbed();
     // 0x71010bd280 (declared only): adds `status` and sorts the list by id, then by title.
     void registerStatus(DebugStatus* status);
     // 0x71010bd50c

@@ -47,3 +47,7 @@ bool GameSceneSubsys14::sub_7100904F68() const {
 Unk_7100903948::Unk_7100903948() = default;
 
 Unk_7100903948::~Unk_7100903948() = default;
+
+void GameSceneSubsys14::init() {
+    initCurrentLocation();
+}

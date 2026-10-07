@@ -1,6 +1,7 @@
 #pragma once
 
 #include <prim/seadRuntimeTypeInfo.h>
+#include <container/seadBuffer.h>
 #include <math/seadVector.h>
 #include <prim/seadSafeString.h>
 #include <thread/seadAtomic.h>
@@ -13,6 +14,15 @@
 namespace ksys::res {
 class Resource;
 }
+
+// Placeholder singleton (instance at 0x71025d1740) used by the patch-error scene state.
+// Only the setter used here is declared; its owner subsystem is not established.
+class Unk_71025d1740 {
+public:
+    static Unk_71025d1740* instance() { return sInstance; }
+    bool sub_7100901A90(bool value);
+    static Unk_71025d1740* sInstance;
+};
 
 namespace uking {
 
@@ -37,6 +47,19 @@ public:
     SEAD_RTTI_BASE(GameScene)
 
 public:
+    // CSV GameScene::sc (0x20 bytes, vtable 0x71024f9d28).
+    // Its record cleanup remains declared only; the constructor and flag getter are complete.
+    class sc {
+    public:
+        struct Record;
+        sc();
+        virtual ~sc();
+        bool x_0() const;
+    private:
+        u8 mFlags = 0;
+        sead::Buffer<Record> mRecords;
+    };
+
     virtual ~GameScene();
     virtual bool ret0();
     virtual void m11_null();

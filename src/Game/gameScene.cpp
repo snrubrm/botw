@@ -19,7 +19,20 @@
 #include "Game/UI/uiPauseMenuDataMgr.h"
 #include "KingSystem/System/UI/LayoutResourceMgr.h"
 
+Unk_71025d1740* Unk_71025d1740::sInstance;
+
 namespace uking {
+
+GameScene::sc::sc() = default;
+
+bool GameScene::sc::x_0() const {
+    return (mFlags >> 2) & 1;
+}
+
+
+void GameScene::PatchErrorEnter() {
+    Unk_71025d1740::instance()->sub_7100901A90(true);
+}
 
 // Internal-linkage globals of the GameScene TU (0x728 / 0x72c / 0x730; the original addresses them
 // directly, not through the GOT).

@@ -17,6 +17,9 @@ class GameSceneSubsys14 {
     virtual ~GameSceneSubsys14();
 
 public:
+    void init();
+    // Original location setup at 0x7100903d00; body remains declared only.
+    void initCurrentLocation();
     // 0x7100903fbc (CSV GameSceneSubsys14::postCalc; declared only).
     void postCalc();
     // 0x7100904ed4-0x7100904f68: out-of-line flag getters (`__auto*` in the CSV; bit meanings unknown).

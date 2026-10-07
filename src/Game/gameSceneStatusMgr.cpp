@@ -54,3 +54,5 @@ void GameSceneStatusMgr::sub_71010BDCF0(bool value) {
 void GameSceneStatusMgr::sub_71010BDCFC(bool value) {
     _23 = value;
 }
+
+void GameSceneStatusMgr::initStubbed() {}
