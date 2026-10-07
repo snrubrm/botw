@@ -1,4 +1,5 @@
 #include "KingSystem/Resource/resEntryFactory.h"
+#include "KingSystem/Resource/resUnk_71024F97F8.h"
 
 namespace ksys::res {
 
@@ -11,6 +12,8 @@ bool EntryFactoryBase::checkDerivedRuntimeTypeInfoStatic(const sead::RuntimeType
 }
 
 static EntryFactory<Resource> sDefaultEntryFactory;
+
+template class EntryFactory<Unk_71024F97F8>;
 
 u32 EntryFactoryBase::getResourceSize() const {
     KSYS_CHECK_SIZE_NX150(sead::DirectResource, 0x20);

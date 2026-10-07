@@ -123,6 +123,9 @@ target_sources(uking PRIVATE
   resSystem.h
   resTempResourceLoader.cpp
   resTempResourceLoader.h
+  resUnk_71024F97F8.cpp
+  resUnk_71024F97F8.h
+  resUnk_71024F97F8Rtti.cpp
   resUnk_71024F9D48.cpp
   resUnk_71024F9D48.h
   resUnk_710251A700.cpp
