@@ -234,6 +234,39 @@ Unk_7102476a60::~Unk_7102476a60() { ; }
 Unk_7102476b00::~Unk_7102476b00() { ; }
 
 // 0x7100988490
+void Unk_71024774a8::sub_71009884A8(eui::LayoutEx* layout) {
+    mLayout = layout;
+    sub_71009884B0();
+}
+
+void Unk_71024774a8::sub_7100988AF4(bool open) {
+    if (open)
+        mLayout->sub_7100BDDE7C(false, 1, true);
+    else
+        mLayout->startAnimCloseImpl_(false, true);
+}
+
+f32 Unk_71024774a8::sub_7100988D00(s32 index) const { return mAnimators[index]->mFrame; }
+
+bool Unk_71024774a8::sub_7100988D1C(s32 index) const {
+    const auto* animator = mAnimators[index];
+    return animator->mFrame == animator->GetFrameSize();
+}
+
+bool Unk_71024774a8::sub_7100988D60(s32 index) const {
+    return mAnimators[index]->mFrame == 0.0f;
+}
+
+void Unk_71024774a8::sub_7100988D84(s32 index, f32 frame) {
+    mAnimators[index]->mFrame = frame;
+}
+
+void Unk_71024774a8::sub_7100988DA0(s32 index, f32 speed) {
+    mAnimators[index]->PlayFromCurrent(eui::Animator::PlayType(0), speed);
+}
+
+void Unk_71024774a8::sub_7100988DC4() { _58 = 100.0f; }
+
 Unk_71024774a8::~Unk_71024774a8() { ; }
 
 // 0x71009dfd4c

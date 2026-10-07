@@ -15,12 +15,6 @@ namespace eui {
 class UniteButton;
 class Animator;
 class LayoutEx;
-}
-
-namespace eui {
-class UniteButton;
-class Animator;
-class LayoutEx;
 class TextBoxEx;
 }  // namespace eui
 
@@ -400,6 +394,22 @@ public:
 class Unk_71024774a8 {
 public:
     virtual ~Unk_71024774a8();
+    void sub_71009884A8(eui::LayoutEx* layout);
+    void sub_71009884B0();
+    void sub_7100988AF4(bool open);
+    f32 sub_7100988D00(s32 index) const;
+    bool sub_7100988D1C(s32 index) const;
+    bool sub_7100988D60(s32 index) const;
+    void sub_7100988D84(s32 index, f32 frame);
+    void sub_7100988DA0(s32 index, f32 speed);
+    void sub_7100988DC4();
+
+    /* 0x08 */ eui::LayoutEx* mLayout;
+    /* 0x10 */ sead::SafeArray<eui::Animator*, 9> mAnimators;
+    /* 0x58 */ f32 _58;
+    /* 0x5c */ u8 _5c[4];
+    // Original constructor constructs a FixedSafeString<64> here; its use remains unrecovered.
+    /* 0x60 */ u64 _60[0x58 / 8];
 };
 
 class Unk_71024810b8 {
