@@ -1,8 +1,12 @@
 #include "Game/AI/AI/aiAncientNecklaceBall.h"
+#include "Game/AI/aiUnk_7100EDD26C.h"
 #include <math/seadMathCalcCommon.h>
 #include "Game/AI/aiUnk_71007377D4.h"
 #include "Game/Actor/actWeapon.h"
+#include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/ActorSystem/actAiRoot.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
 #include "KingSystem/ActorSystem/actActorBind.h"
 #include "KingSystem/GameData/gdtSpecialFlags.h"
@@ -182,6 +186,33 @@ bool AncientNecklaceBall::m36() {
     if (SimpleLiftable::m36())
         return true;
     return isCurrentChild("吊るす");
+}
+
+// 0x71003017d0
+// NON_MATCHING: the NodeName key temp is built before the name's cstr() call in the original; ours
+// builds it after (a named key local would fix the order but is borderline). Head, GParam/pack calls,
+// tail (addBool/addVec3/changeChild/dtor loop, w20 -1 sharing) and the SimpleLiftable tail all match.
+void AncientNecklaceBall::m35() {
+    if (mActor->getRootAi()->getI() == 5 || !mActor->getCreateArgBaseProcLink().hasProc()) {
+        SimpleLiftable::m35();
+        return;
+    }
+    sub_7100301A5C();
+    mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_4000);
+
+    ksys::act::ai::InlineParamPack pack;
+    pack.addActor(mActor->getCreateArgBaseProcLink(), "ParentActor", -1);
+    auto* proc = mActor->getCreateArgBaseProcLink().getProc(nullptr, nullptr);
+    const char* node = "Root";
+    if (auto* owner = sead::DynamicCast<ksys::act::Actor>(proc)) {
+        if (*mGrabNodeIndex_m >= 0)
+            node = ::sub_7100EDD26C(owner, *mGrabNodeIndex_m)->cstr();
+    }
+    pack.addPointer(const_cast<char*>(node), "NodeName", ksys::AIDefParamType::String, -1);
+    pack.addBool(false, "IsKeepParentActor", -1);
+    pack.addVec3(sead::Vector3f::zero, "RotOffset", -1);
+    pack.addVec3(sead::Vector3f::zero, "TransOffset", -1);
+    changeChild("吊るす", &pack);
 }
 
 }  // namespace uking::ai

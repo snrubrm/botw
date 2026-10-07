@@ -112,6 +112,11 @@ public:
 
 #undef KSYS_GPARAM_DEFINE_GETTER_
 
+    // lane1 s54 (sub_7100EDD26C reads the object pointer to null-check it): the raw object pointer.
+    const GParamListObject* getObject(GParamListObjType type) const {
+        return mObjects[static_cast<s32>(type)];
+    }
+
 protected:
     bool parse_(u8* data, size_t size, sead::Heap* heap) override;
     void finalize_() override;
