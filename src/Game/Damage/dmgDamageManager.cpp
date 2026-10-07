@@ -320,6 +320,77 @@ ksys::act::BaseProcLink* DamageManager::m37() {
     }
 }
 
+// NON_MATCHING: register allocation / store scheduling of the damage kind 1 and 3 paths (the original stores x first,
+// then y and z one at a time; it fmovs the copied position in another order)
+bool DamageManager::getPosition(sead::Vector3f* out) {
+    mActor->getMtx().getTranslation(*out);
+
+    s32 index;
+    switch (getDamageType()) {
+    case 1:
+        mActor->getMtx().getTranslation(*out);
+        if (_c0.x * _c0.x + _c0.y * _c0.y + _c0.z * _c0.z > 0.0f) {
+            const sead::Vector3f offset(_c0.x * 0.4f, _c0.y * 0.4f, _c0.z * 0.4f);
+            out->x = out->x - offset.x;
+            out->y = out->y - offset.y;
+            out->z = out->z - offset.z;
+        }
+        return true;
+    case 2:
+    case 10:
+        index = _6c;
+        if (index < 0)
+            return false;
+        break;
+    case 3: {
+        if (::hasAttackInfo(mActor)) {
+            auto* info = ::getAttackInfo(mActor, 0);
+            if (!info)
+                return false;
+            *out = info->_0;
+            return true;
+        }
+        if (!(_218 & 0x30))
+            return false;
+        mActor->getMtx().getTranslation(*out);
+        const auto& velocity = mActor->getVelocity();
+        out->x = out->x - velocity.x;
+        out->y = out->y - velocity.y;
+        out->z = out->z - velocity.z;
+        return true;
+    }
+    case 4:
+    case 11: {
+        auto* impulse = mActor->getImpulseBaseProcLink();
+        const sead::Vector3f* position;
+        if (!impulse)
+            position = &sead::Vector3f::zero;
+        else
+            position = &impulse->_10._4c;
+        *out = *position;
+        return true;
+    }
+    case 6:
+        if (!_216.isOn(0x100))
+            return false;
+        index = _88;
+        if (index < 0)
+            return false;
+        break;
+    case 9:
+        *out = _90;
+        return true;
+    default:
+        return false;
+    }
+
+    auto* info = ::sub_71007A255C(mActor, index);
+    if (!info)
+        return false;
+    *out = info->_0;
+    return true;
+}
+
 bool DamageManager::getAttackPos(sead::Vector3f* out) {
     s32 index;
     switch (getDamageType()) {
