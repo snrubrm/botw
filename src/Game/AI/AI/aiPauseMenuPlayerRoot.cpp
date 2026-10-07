@@ -1,6 +1,6 @@
 #include "Game/AI/AI/aiPauseMenuPlayerRoot.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
-#include "KingSystem/ActorSystem/Profiles/actPlayerOrEnemy.h"
+#include "Game/Actor/actPauseMenuPlayer.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Utils/Thread/Message.h"
 
@@ -24,9 +24,6 @@ void PauseMenuPlayerRoot::leave_() {
 
 void PauseMenuPlayerRoot::loadParams_() {}
 
-// NON_MATCHING: everything matches except the type info of the cast: the actor is a PauseMenuPlayer (a direct subclass of
-// PlayerOrEnemy whose RTTI static is at 0x71025bb0b8, an actor class that does not exist yet: lane4); PlayerOrEnemy is
-// used instead.
 // 0x71004f5624
 void PauseMenuPlayerRoot::calc_() {
     if (_38) {
@@ -47,7 +44,7 @@ void PauseMenuPlayerRoot::calc_() {
     }
     if (!isCurrentChild("抱え持ち増加"))
         return;
-    auto* actor = sead::DynamicCast<ksys::act::PlayerOrEnemy>(mActor);
+    auto* actor = sead::DynamicCast<uking::act::PauseMenuPlayer>(mActor);
     if (!actor || actor->getFlagC34())
         return;
     if (!isCurrentChild("通常待機"))
