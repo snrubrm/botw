@@ -1,4 +1,6 @@
 #include "Game/Actor/actSoundProxy.h"
+#include <basis/seadNew.h>
+#include "KingSystem/Sound/sndMgr.h"
 #include <prim/seadScopedLock.h>
 #include <aal/aalHandle.h>
 #include <aal/aalSoundSource.h>
@@ -9,6 +11,23 @@
 #include "KingSystem/XLink/xlinkXLink.h"
 
 namespace uking::act {
+
+SoundProxy::SoundProxy(const CreateArg& arg)
+    : Actor(arg), mShape(nullptr), _848(sead::Vector3f::zero), _854(sead::Vector3f::zero),
+      _860(sead::Vector3f::zero), mSourceMapObject(nullptr), _8b8(false), _8bc(0) {
+    _1c0 = 15;
+    bindCalc1ToJob1_2();
+    getJobHandler(ksys::act::JobType::Calc2) = nullptr;
+    ksys::snd::SoundMgr::instance()->_a0->sub_710105A734(this);
+}
+
+SoundProxy::~SoundProxy() {
+    ksys::snd::SoundMgr::instance()->_a0->sub_710105A7B4(this);
+}
+
+ksys::act::BaseProc* SoundProxy::construct(const CreateArg& arg, sead::Heap* heap) {
+    return new (heap, std::nothrow) SoundProxy(arg);
+}
 
 void SoundProxy::sub_710105A0D0(aal::Shape* shape) {
     mShape = shape;

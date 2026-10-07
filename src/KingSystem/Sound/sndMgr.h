@@ -38,6 +38,7 @@ class ActorCreator;
 
 namespace uking::act {
 class EnvSeEmitPoint;
+class SoundProxy;
 }
 
 namespace ksys::snd {
@@ -434,6 +435,14 @@ public:
     /* 0x4a70 */ u16 _4a70;
 };
 
+// 2026-10-07: constructor 0x710105a6f0 and node-offset setup 0x710105a718 identify
+// the SoundMgr +0xa0 proxy list manager. Bodies remain owned by the sound subsystem.
+class Unk_710105a6f0 {
+public:
+    void sub_710105A734(uking::act::SoundProxy* proxy);
+    void sub_710105A7B4(uking::act::SoundProxy* proxy);
+};
+
 // FIXME: incomplete
 struct SoundMgr {
     SEAD_SINGLETON_DISPOSER(SoundMgr)
@@ -467,7 +476,7 @@ public:
     u8 _88[8];
     /* 0x90 */ Unk_710104e5b4* _90;
     /* 0x98 */ Unk_710103b704* _98;
-    u8 _a0[0xa8 - 0xa0];
+    /* 0xa0 */ Unk_710105a6f0* _a0;
     /* 0xa8 */ Unk_SoundMgra8* _a8;
     u8 _b0[0xec - 0xb0];
     u32 _ec;

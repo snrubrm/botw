@@ -1,6 +1,7 @@
 #pragma once
 
 #include <thread/seadCriticalSection.h>
+#include <container/seadListImpl.h>
 #include "KingSystem/ActorSystem/actActor.h"
 
 namespace aal { class Shape; }
@@ -10,7 +11,7 @@ namespace uking::act {
 
 // CSV SoundProxy. 2026-10-07: factory 0x7101059d08 allocates 0x8d0 bytes;
 // RTTI static 0x710260ef68 uses Derive<ksys::act::Actor>. Vtable 0x7102502bf8.
-// The manager registration and destructor helpers remain undecompiled.
+// Its original manager registration methods are declaration-only sound interfaces.
 class SoundProxy : public ksys::act::Actor {
     SEAD_RTTI_OVERRIDE(SoundProxy, ksys::act::Actor)
 public:
@@ -39,7 +40,8 @@ public:
     /* 0x878 */ sead::CriticalSection mLock;
     /* 0x8b8 */ bool _8b8;
     /* 0x8bc */ s32 _8bc;
-    /* 0x8c0 */ u8 _8c0[0x8d0 - 0x8c0];
+    // 2026-10-07: manager node-offset initialization proves the real intrusive node here.
+    /* 0x8c0 */ sead::ListNode mManagerNode;
 };
 KSYS_CHECK_SIZE_NX150(SoundProxy, 0x8d0);
 
