@@ -1,6 +1,7 @@
 #include "Game/UI/euiLetterAnimControl.h"
 #include "Game/UI/euiTextBoxEx.h"
 #include "Game/UI/euiTagProcessor.h"
+#include "Game/UI/euiMessageString.h"
 #include <heap/seadHeap.h>
 #include <cstring>
 
@@ -81,6 +82,25 @@ void LetterAnimControl::sub_7100BD9B68(f32 value) {
 // 0x7100bd9b74
 void LetterAnimControl::sub_7100BD9B74() {
     _60 = 2;
+}
+
+// NON_MATCHING: reset flag stores in the successful paging path are scheduled differently.
+bool LetterAnimControl::sub_7100BD9B98(const char16* string, u16 length, u32 page) {
+    bool has_next_page = false;
+    _5c = mTextBox->setStringWithPage(string, length, &has_next_page, page, true, nullptr);
+    if (mTextBox->GetStringBufferLength() < mTextBox->mTextLength + 10) {
+        _30[0] = 0;
+        _5c = 0;
+        reset();
+        return false;
+    }
+    std::memcpy(_30, mTextBox->mTextBuf, _5c * sizeof(char16));
+    reset();
+    return has_next_page;
+}
+
+bool LetterAnimControl::sub_7100BD9CDC(const MessageString& message, u32 page) {
+    return sub_7100BD9B98(message.getString(), message.getLength(), page);
 }
 
 }  // namespace eui

@@ -9,6 +9,7 @@ class Heap;
 namespace eui {
 
 class TextBoxEx;
+class MessageString;
 
 // The letter-by-letter text reveal control of a TextBoxEx (CSV eui::LetterAnimControl; 0x80 bytes, vtable 0x24c75f8).
 // Field names / types are guesses from the constructor and the small accessors.
@@ -25,6 +26,8 @@ public:
 
     // 0x7100bd9b80
     void flushAllowWait();
+    bool sub_7100BD9B98(const char16* string, u16 length, u32 page);
+    bool sub_7100BD9CDC(const MessageString& message, u32 page);
     // 0x7100bd94c4 / 0x7100bd94cc / 0x7100bd9b5c / 0x7100bd9b68 / 0x7100bd9b74 (placeholder names; trivial setters)
     void sub_7100BD94C4(void* a1);
     void sub_7100BD94CC(void* a1);
