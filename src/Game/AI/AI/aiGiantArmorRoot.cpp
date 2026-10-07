@@ -1,7 +1,12 @@
 #include "Game/AI/AI/aiGiantArmorRoot.h"
+#include "Game/AI/aiUnk_710072D608.h"
 #include "Game/Actor/actGiantArmor.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
+#include "KingSystem/Resource/Actor/resResourceGParamList.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectGiantArmor.h"
 
 namespace uking::ai {
 
@@ -65,5 +70,31 @@ void GiantArmorRoot::leave_() {
 }
 
 void GiantArmorRoot::loadParams_() {}
+
+// NON_MATCHING: argument-setup scheduling only. The original interleaves the trivial addVec3/addPointer
+// setup (idx, pack address, vtable address) with the GParam loads and builds each key temp before the
+// cstr() call; ours groups the loads first and builds the NodeName temp after. Register names differ
+// (pack base x20 vs x21, x23 vs recomputed vtable address). All calls, branches and the pack
+// constructor/destructor loops match exactly.
+// 0x71003f5f6c
+void GiantArmorRoot::sub_71003F5F6C() {
+    if (auto* body = mActor->getMainBody())
+        body->setContactLayer(ksys::phys::ContactLayer::EntityNoHit);
+
+    ksys::act::ai::InlineParamPack pack;
+
+    const sead::SafeString* name = &sead::SafeString::cEmptyString;
+    if (auto* armor = sead::DynamicCast<act::GiantArmor>(mActor)) {
+        auto* owner =
+            sead::DynamicCast<ksys::act::Actor>(armor->_be8.getProc(nullptr, nullptr));
+        const auto* giant_armor = armor->getParam()->getRes().mGParamList->getGiantArmor();
+        pack.addVec3(giant_armor->mRotOffset.ref(), "RotOffset", -1);
+        if (owner)
+            name = ::sub_710072D608(owner, armor->_bf8);
+    }
+    pack.addPointer(const_cast<char*>(name->cstr()), "NodeName", ksys::AIDefParamType::String, -1);
+    pack.addVec3(sead::Vector3f::zero, "TransOffset", -1);
+    changeChild("装備", &pack);
+}
 
 }  // namespace uking::ai
