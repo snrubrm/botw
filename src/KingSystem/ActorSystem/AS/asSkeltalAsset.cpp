@@ -17,6 +17,10 @@ bool SkeltalAsset::m9(Context* ctx, PlayState* state, const res::ASResource* res
     return true;
 }
 
+// NON_MATCHING: the original stores the two halfwords of the default key (0x12 then 0x10) in the other order.
+SkeltalAsset::SkeltalAsset(const CreateArg& arg, s32 value, const res::ASResource*)
+    : AnmAsset(arg, value, nullptr), _18(nullptr) {}
+
 SkeltalAsset::~SkeltalAsset() {}
 
 // NON_MATCHING: the filename address is computed after the virtual duration call.

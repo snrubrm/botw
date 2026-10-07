@@ -830,6 +830,9 @@ public:
 class AnmAsset : public Asset {
     SEAD_RTTI_OVERRIDE(AnmAsset, Asset)
 public:
+    // 0x7101314a4c: `value` is the initial index of the resource (replaced by the resource's index if there is one).
+    AnmAsset(const CreateArg& arg, s32 value, const res::ASResource* resource);
+
     f32 m4() override;
     int m6() override;
     int m7() override;
@@ -894,6 +897,8 @@ public:
         const sead::Vector3f* _28;
     };
 
+    // 0x710125c568
+    SkeltalAsset(const CreateArg& arg, s32 value, const res::ASResource* resource);
     ~SkeltalAsset() override;
 
     void m5(act::Actor* actor, gsys::Model* model, const sead::SafeString& name,

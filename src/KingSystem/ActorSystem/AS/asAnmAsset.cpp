@@ -4,6 +4,12 @@
 
 namespace ksys::as {
 
+AnmAsset::AnmAsset(const CreateArg&, s32 value, const res::ASResource* resource)
+    : _8(false), _9(false), _a(value), _c(0.0f) {
+    if (resource)
+        _a = resource->getIndex();
+}
+
 f32 AnmAsset::m4() {
     return _c;
 }
