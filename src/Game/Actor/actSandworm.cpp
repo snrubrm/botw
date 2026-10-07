@@ -30,15 +30,18 @@ void Sandworm::sub_71002CDAE4(bool on) {
 
 bool Sandworm::m81(const ksys::Message& message) {
     const auto& type = message.getType();
+    // NON_MATCHING: check order only: the original tests 0x3000004 before 0x3000003; our toolchain
+    // emits this if-chain in reverse (0x3000003 first) with the bodies attached. Else-if in either
+    // order, separate ifs and a switch were all tried.
     if (type == 0x3000004) {
-        if (_14cc != 2) {
-            sub_7100720814(this, _14cc);
-            _14cc = 2;
-        }
-    } else if (type == 0x3000003) {
         if (_14c8 != 2) {
             _14cc = _14c8;
             sub_71007208EC(this);
+        }
+    } else if (type == 0x3000003) {
+        if (_14cc != 2) {
+            sub_7100720814(this, _14cc);
+            _14cc = 2;
         }
     }
     return Enemy::m81(message);
