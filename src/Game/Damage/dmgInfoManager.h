@@ -91,6 +91,8 @@ public:
         u8 _18[0xd8 - 0x18];
     };
     KSYS_CHECK_SIZE_NX150(Unk790, 0xd8);
+    // Inline-only in the original; name is a guess. WizzrobeWeatherMagic::leave_
+    // 0x7100600620 and WizzrobeCombat::leave_ 0x71005fc178 both address this owner.
     Unk790& get790() { return _790; }
 
     struct Unk450 {
