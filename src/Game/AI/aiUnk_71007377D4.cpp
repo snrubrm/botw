@@ -707,3 +707,17 @@ u32 sub_710072C21C(f32* out_height, const sead::Vector3f* pos) {
     const sead::Vector2f xz(pos->x, pos->z);
     return ksys::tera::sub_71011094A0(out_height, &xz, tera_system, -1, 0);
 }
+
+namespace {
+// inline-only in the original; name is a guess: the same sequence (the name is evaluated before the flag test) is
+// inlined twice into sub_71007394E8.
+void setUpBodyUnlessFlag200(ksys::act::Actor* actor, const sead::SafeString& name) {
+    if (!actor->getActorFlags2().isOn(ksys::act::Actor::ActorFlag2::_200))
+        ksys::act::sub_7100EE5330(actor, name);
+}
+}  // namespace
+
+void sub_71007394E8(ksys::act::Actor* actor) {
+    setUpBodyUnlessFlag200(actor, *sub_71007A24D0());
+    setUpBodyUnlessFlag200(actor, *sub_71007A24F8());
+}

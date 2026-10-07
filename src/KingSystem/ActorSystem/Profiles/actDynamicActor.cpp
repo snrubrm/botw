@@ -124,6 +124,16 @@ bool DynamicActor::initField868(sead::Heap* heap) {
 // NON_MATCHING: most member types are still unknown (placeholders)
 DynamicActor::~DynamicActor() = default;
 
+bool DynamicActor::startPreparingForPreDelete_() {
+    if (!Actor::startPreparingForPreDelete_())
+        return false;
+    if (_868 && !_868->sub_71006EDA58())
+        return false;
+    if (_a58)
+        return _a58->m5();
+    return true;
+}
+
 void DynamicActor::onPreDeleteStart_(PrepareArg&) {}
 
 void DynamicActor::m156() {

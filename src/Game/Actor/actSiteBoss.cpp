@@ -63,6 +63,12 @@ void SiteBoss::sub_71002D22B8() {
     _2358.fade();
 }
 
+void SiteBoss::sub_71002D23F0() {
+    if (_2368.isActive())
+        return;
+    ksys::eft::sub_710105DDB8(this, "Elec_Sword", &_2368);
+}
+
 void SiteBoss::sub_71002D2420() {
     _2368.fade();
 }

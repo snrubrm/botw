@@ -3,8 +3,27 @@
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include <prim/seadScopedLock.h>
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/System/physContactPointInfo.h"
 
 namespace ksys::act {
+
+void Unk_7100e4e084::sub_7100E5052C() {
+    if (_1d8 & 0x4) {
+        phys::ContactPointInfo* info;
+        if (auto* controller = mActor->getCharacterController()) {
+            info = controller->sub_7100F635D8();
+        } else {
+            auto* body = mActor->getMainBody();
+            info = body ? body->getContactPointInfo() : nullptr;
+        }
+        if (info) {
+            info->setContactCallback(nullptr);
+            _1d8 &= ~0x4;
+        }
+    }
+}
 
 void Unk_7100e4e084::sub_7100E50010(int state, const sead::Vector3f& pos, bool a3) {
     auto lock = sead::makeScopedLock(_c0);

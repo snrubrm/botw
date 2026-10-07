@@ -339,3 +339,7 @@ bool actorAIGetBool(Actor* actor, const sead::SafeString& name, bool default_val
 s32 actorAIGetInt(Actor* actor, const sead::SafeString& name, s32 default_value);
 
 }  // namespace ksys::act
+
+// 0x7100ee2800 (lane4 s50, global namespace; placeholder name): acquires the actor of the ForSale link of the actor's
+// map object (an empty accessor if there is none).
+bool sub_7100EE2800(ksys::act::ActorLinkConstDataAccess* accessor, ksys::act::Actor* actor);

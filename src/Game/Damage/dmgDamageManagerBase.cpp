@@ -455,3 +455,15 @@ s32 DamageManagerBase::m49(s32 damageTypeMaybe) {
 }
 
 }  // namespace uking::dmg
+
+// 0x7100d2d424 (unnamed in the CSV, global namespace; declared by the callers): unregisters every damage callback and
+// frees the callback table.
+void sub_7100D2D424(uking::dmg::DamageManagerBase* manager) {
+    if (manager->mCallbacks.isBufferReady()) {
+        for (s32 i = 0, n = manager->mCallbacks.size(); i < n; ++i) {
+            while (auto* callback = manager->mCallbacks[i])
+                manager->removeDamageCallback(callback);
+        }
+        manager->mCallbacks.freeBuffer();
+    }
+}
