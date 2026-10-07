@@ -38,6 +38,8 @@ public:
     };
 
     bool init(const InitArg& arg, sead::Heap* heap);
+    // 0x7100fde9e4 (CSV OverlayArenaSystem::__auto1; declaration only, lane2 s47; the argument is null in the only caller)
+    void sub_7100FDE9E4(void* a1);
 
     void getSzsDecompressor(sead::ParallelSZSDecompressor** decompressor) const;
     OverlayArena* getArena() const;

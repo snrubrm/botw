@@ -27,7 +27,8 @@ public:
 
 public:
     /* 0x08 */ S7* _8 = nullptr;  // the handle that currently owns the S5
-    /* 0x10 */ u16 _10;
+    /* 0x10 */ u8 _10;
+    /* 0x11 */ u8 _11;
     /* 0x12 */ u8 _12;
 };
 KSYS_CHECK_SIZE_NX150(S5, 0x18);
@@ -57,6 +58,13 @@ public:
     void sub_71008AE2A8(bool a);
     void sub_71008AE41C(bool open_status, bool stop_at_max);
     void sub_71008AE730(bool stop_at_max);
+
+    // 0x71008ae08c (CSV evt::S7::blockSkipForDemo102): the skip state `_10` (0: none, 1 / 4: skippable, ...): `a` says
+    // that skipping is allowed, `b` selects state 4; Demo102_0 on the first launch (outside the E3 demo) blocks it
+    void blockSkipForDemo102(bool a, bool b);
+
+    // 0x71008ae1c4 (CSV evt::S7::setDemoIsPlayedFlag): for a "Demo..." event sets the game data flag IsPlayed_<event>
+    void setDemoIsPlayedFlag();
 
     // 0x71008af278 (placeholder name): has the EventSystem count the flow (sets bit 0 of `_14`) unless it already does
     void sub_71008AF278();
@@ -90,6 +98,13 @@ public:
     void m9() override {}
     bool isPlaying() override;
 
+    // 0x71008b9f10 (placeholder name): whether the event is one of the demos Demo143_0 (water / fire / electric
+    // beast cleared), Demo143_3 (fire / electric) or Demo143_1 (electric) whose condition holds
+    bool sub_71008B9F10();
+    // 0x71008b9e04 (CSV evt::S7::x; it is in the S7Movie TU): starts / stops the movie flag of the S5 according to
+    // sub_71008B9F10(); `a` marks the S5's `_11` while it is started
+    void x(bool a);
+
 private:
     /* 0x1c */ u32 _1c = 0;
     /* 0x20 */ s32 _20;
@@ -115,7 +130,14 @@ public:
     bool isPlaying() override;
 
 private:
-    u8 _1c[0x3e0 - 0x1c];
+    /* 0x1c */ s32 _1c;
+    /* 0x20 */ s32 mState;  // 3: playing
+    u8 _24[0x70 - 0x24];
+    /* 0x70 */ sead::FixedSafeString<0x180> mStatus;
+    u8 _208[0x218 - 0x208];
+    /* 0x218 */ sead::FixedSafeString<0x80> _218;
+    /* 0x2b0 */ sead::FixedSafeString<0x80> _2b0;
+    /* 0x348 */ sead::FixedSafeString<0x80> _348;
 };
 KSYS_CHECK_SIZE_NX150(S7EventFlow, 0x3e0);
 

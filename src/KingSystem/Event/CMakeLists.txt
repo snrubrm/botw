@@ -57,6 +57,7 @@ target_sources(uking PRIVATE
   evtResourceTimeline.h
   evtS7.cpp
   evtS7.h
+  evtS7EventFlow.cpp
   evtS7Movie.cpp
   evtUnk_7100dc816c.cpp
   evtUnk_7100dc816c.h

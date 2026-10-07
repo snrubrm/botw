@@ -1,7 +1,10 @@
 #include "KingSystem/Event/evtS7.h"
+#include "Game/E3Mgr.h"
 #include "Game/UI/uiScreens.h"
+#include "Game/gameScene.h"
 #include "Game/UI/uiUtils.h"
 #include "KingSystem/Event/evtEventSystem.h"
+#include "KingSystem/GameData/gdtManager.h"
 #include "KingSystem/System/AutoDim.h"
 #include "KingSystem/Terrain/teraSystem.h"
 
@@ -23,6 +26,36 @@ void S7::sub_71008ADDB0() {
     if (_14 & 1) {
         EventSystem::instance()->sub_71008AC148(mFlow);
         _14 &= ~1u;
+    }
+}
+
+// NON_MATCHING: same logic, but the original keeps the blocked flag as a materialised bool (`mov w0, wzr; tbz w0, ...`
+// after the name compare, jumps through it) where ours threads the branches.
+// 0x71008ae08c
+void S7::blockSkipForDemo102(bool a, bool b) {
+    bool blocked = false;
+    if (mFlow->mEventName == "Demo102_0") {
+        auto* e3 = uking::E3Mgr::instance();
+        if (!(e3 && e3->isDemoMode()) && uking::GameScene::getIsFirstLaunch())
+            blocked = true;
+    }
+    if (!blocked && a) {
+        if (_10 == 0)
+            _10 = b ? 4 : 1;
+        return;
+    }
+    _10 = 0;
+    uking::ui::closeSkipScreen();
+    if (int(mFlow->getType()) != EventFlowType::MovieWithNoPath)
+        EventSystem::instance()->_138 = 0;
+}
+
+// 0x71008ae1c4
+void S7::setDemoIsPlayedFlag() {
+    if (mFlow->mEventName.findIndex("Demo") == 0) {
+        sead::FixedSafeString<73> flag;
+        flag.format("IsPlayed_%s", mFlow->mEventName.cstr());
+        gdt::Manager::instance()->setBoolNoCheck(true, flag);
     }
 }
 
@@ -67,6 +100,7 @@ bool S7::m11() {
 S5::S5() {
     _12 = 0;
     _10 = 0;
+    _11 = 0;
     EventSystem::instance()->_144 |= 2;
 }
 

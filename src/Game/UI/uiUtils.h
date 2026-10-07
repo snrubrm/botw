@@ -130,6 +130,8 @@ bool setShowFlyDistance(const sead::SafeString& distance);
 bool setShowGolfCount(const sead::SafeString& counter_name);
 bool setShowRaceResult(s32 result_type);
 void openSkipScreen(bool with_button);
+// 0x7100a958dc (CSV ui::closeSkipScreen)
+void closeSkipScreen();
 void showInfoOverlay(s32 type);
 // 0x7100a95924 (CSV ui::showInfoOverlayWithString): opens the main screen's info overlay `type` with `text`.
 void showInfoOverlayWithString(s32 type, const sead::SafeString& text);
