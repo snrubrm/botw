@@ -9,6 +9,8 @@
 namespace uking {
 
 void createTitleStageBinder(bool a1, bool a2);
+// 0x71007b8ce8 (CSV createViewerStageBinder): creates the viewer stage binder (unless there is one).
+void createViewerStageBinder();
 void sub_71007BE380(s32 a1, bool a2);
 
 // Two empty polymorphic helper classes (RTTI base + virtual destructor) that every binder embeds (the Title /
@@ -171,17 +173,31 @@ public:
 };
 static_assert(sizeof(TitleStageArg) == 0x20);
 
-struct ViewerStageArg {
-    // 0x71007d4cac / b8 / c4 (declaration only)
+struct ViewerStageArg : public StageArg {
+    SEAD_RTTI_OVERRIDE(ViewerStageArg, StageArg)
+public:
+    // inline-only in the original (createViewerStageBinder).
+    ViewerStageArg() : mEnvArchive(nullptr), mHeap(nullptr), _18(-99) {}
+    s32 m4() override { return 5; }
+    s32 m5() override { return 5; }
+    void setHeap(sead::Heap* heap) override { mHeap = heap; }
+    s32 m7() override { return _18; }
+    const sead::SafeString& m8() override { return sub_71007D4CAC(); }
+    const sead::SafeString& m9() override { return sub_71007D4CB8(); }
+    const sead::SafeString& m10() override { return sub_71007D4CC4(); }
+    s32 m11() override { return -1; }
+    bool m12() override { return true; }
+
+    // 0x71007d4cac / b8 / c4 (out of line, in gameStage.cpp)
     const sead::SafeString& sub_71007D4CAC() const;
     const sead::SafeString& sub_71007D4CB8() const;
     const sead::SafeString& sub_71007D4CC4() const;
 
-    const void* _0;
-    void* mEnvArchive;
-    sead::Heap* mHeap;
-    s32 _18;
+    /* 0x08 */ void* mEnvArchive;  // GameScene::getEnvArchive()
+    /* 0x10 */ sead::Heap* mHeap;
+    /* 0x18 */ s32 _18;  // -99
 };
+static_assert(sizeof(ViewerStageArg) == 0x20);
 
 // The args of the Indoor / MainFieldDungeon binders (embedded at 0x10 of the binder; the layout is shared, the
 // two classes' virtuals are separate copies in the original).
@@ -284,6 +300,8 @@ private:
 class ViewerStageBinder : public StageBinder {
     SEAD_RTTI_OVERRIDE(ViewerStageBinder, StageBinder)
 public:
+    // inline-only in the original (createViewerStageBinder).
+    ViewerStageBinder() = default;
     ~ViewerStageBinder() override;
 
     s32 getType() override { return 5; }
@@ -300,6 +318,8 @@ private:
     /* 0x10 */ ViewerStageArg _10;
     /* 0x30 */ Unk_710245abf0 _30;
     /* 0x38 */ Unk_710245ac20 _38;
+
+    friend void createViewerStageBinder();
 };
 
 class OpenWorldStageBinder : public StageBinder {

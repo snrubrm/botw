@@ -159,6 +159,7 @@ public:
     static bool sFlag;                                 // 0x71025cb8ac
 
     friend void createTitleStageBinder(bool a1, bool a2);
+    friend void createViewerStageBinder();
 
 private:
     static bool sIsOpenWorldDemo;

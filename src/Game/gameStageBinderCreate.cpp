@@ -21,6 +21,20 @@ void createTitleStageBinder(bool a1, bool a2) {
     binder->initAndReportDungeonLeaveEnter();
 }
 
+// 0x71007b8ce8 (CSV createViewerStageBinder; mirrors createTitleStageBinder above).
+// NON_MATCHING: store order of the inlined ViewerStageArg / binder constructors (same shape as the title version).
+void createViewerStageBinder() {
+    if (gameSceneHasStageBinder())
+        return;
+    ViewerStageBinder* binder = nullptr;
+    if (GameScene::sInstance3->_288)
+        binder = new (GameScene::sInstance3->_288, 8) ViewerStageBinder;
+    binder->_10.mEnvArchive = GameScene::sInstance3->getEnvArchive();
+    setForceEnableGlidingSurfingRupee(false);
+    GameScene::sIsOpenWorldDemo = false;
+    binder->initAndReportDungeonLeaveEnter();
+}
+
 // 0x71007be380 (placeholder name): creates the open world stage binder (unless there is one) with the given map type
 // and flag, and initialises it.
 void sub_71007BE380(s32 a1, bool a2) {
