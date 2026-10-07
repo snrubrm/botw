@@ -3,7 +3,12 @@
 #include <basis/seadTypes.h>
 #include <container/seadBuffer.h>
 #include <math/seadVector.h>
+#include <thread/seadAtomic.h>
 #include "KingSystem/Utils/Types.h"
+
+namespace gsys {
+class Model;
+}
 
 namespace sead {
 class Heap;
@@ -47,6 +52,8 @@ public:
     static_assert(sizeof(Unk_7101300b4c) == 0x1a0);
     void sub_7101300B4C(u32 index, const sead::Vector3f* position, bool update);
     void sub_7101300BF0();
+    void sub_710130085C();
+    void sub_710130089C();
     bool sub_7101300D50(u32 index, bool a, bool b);
 
     class Model;
@@ -54,14 +61,17 @@ public:
 
     u8 _0[0xf0];
     void* _f0;
-    void* _f8;
+    gsys::Model* _f8;
     u8 _100[0x38];
     Grass* _138;
     void* _140;
     // Getter 0x710114dd84 and setter 0x71013010d4 share this two-byte record buffer.
     sead::Buffer<Unk_71013010d4> mStates;
     sead::Buffer<Unk_7101300b4c> mPositions;
-    u8 _168[0x214];
+    u8 _168[0x360 - 0x168];
+    // Original 0x710130085c and 0x710130089c reset this word with exclusive-loop exchanges.
+    sead::Atomic<u32> _360;
+    u8 _364[0x18];
     u8 _37c;
 };
 
@@ -83,7 +93,7 @@ public:
     void* sub_710114DE70();
     void sub_710114DE7C(bool value);
     bool sub_710114DE9C();
-    void* sub_710114DEE0();
+    gsys::Model* sub_710114DEE0();
     bool sub_710114DD40();
     f64 sub_710114D9E8();
     void* sub_710114DED4();

@@ -33,7 +33,7 @@ void Terrain::sub_710114DE7C(bool value) {
         _360->_37c &= ~1;
 }
 bool Terrain::sub_710114DE9C() { return (_360->_37c & 1) != 0; }
-void* Terrain::sub_710114DEE0() { return _360->_f8; }
+gsys::Model* Terrain::sub_710114DEE0() { return _360->_f8; }
 bool Terrain::sub_710114DD40() { return false; }
 f64 Terrain::sub_710114D9E8() { return _a48; }
 void* Terrain::sub_710114DED4() { return _360->_f0; }
