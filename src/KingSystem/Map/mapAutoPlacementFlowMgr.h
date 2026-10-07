@@ -12,6 +12,10 @@ namespace ksys::map {
 
 class AutoPlacement;
 
+// evfl::AllocateArg callbacks used by AutoPlacementFlowRes::start; userdata is its heap.
+void* autoPlacementBfevflAlloc(size_t size, size_t alignment, void* userdata);
+void autoPlacementBfevflFree(void* ptr, void* userdata);
+
 struct AutoPlacementFlowRes {
     void start(AutoPlacement* placement, const sead::SafeString& unit_name, int*);
 

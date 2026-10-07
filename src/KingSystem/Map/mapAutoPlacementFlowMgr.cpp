@@ -6,6 +6,14 @@
 
 namespace ksys::map {
 
+void* autoPlacementBfevflAlloc(size_t size, size_t alignment, void* userdata) {
+    return static_cast<sead::Heap*>(userdata)->alloc(size, alignment);
+}
+
+void autoPlacementBfevflFree(void* ptr, void* userdata) {
+    static_cast<sead::Heap*>(userdata)->free(ptr);
+}
+
 const char* sFlowResNamesData[] = {
     "AutoPlacement_Animal.bfevfl",
     "AutoPlacement_Bird.bfevfl",
