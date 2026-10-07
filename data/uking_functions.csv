@@ -28315,7 +28315,7 @@ Address,Quality,Size,Name
 0x000000710046feb8,U,001328,uking::ai::LandHumEnemyUnarmedBattle::m37
 0x00000071004703e8,O,000268,_ZN5uking2ai25LandHumEnemyUnarmedBattle14sub_71004703E8Ev
 0x00000071004704f4,U,002144,uking::ai::LandHumEnemyUnarmedBattle::m38
-0x0000007100470d54,U,000384,
+0x0000007100470d54,m,000384,_ZN5uking2ai25LandHumEnemyUnarmedBattle14sub_7100470D54EPN4ksys3act12BaseProcLinkEb
 0x0000007100470ed4,O,000216,_ZNK5uking2ai25LandHumEnemyUnarmedBattle14sub_7100470ED4ERN4ksys3act12BaseProcLinkE
 0x0000007100470fac,U,001120,uking::ai::LandHumEnemyUnarmedBattle::m39
 0x000000710047140c,O,000008,_ZN5uking2ai25LandHumEnemyUnarmedBattle3m42Ev

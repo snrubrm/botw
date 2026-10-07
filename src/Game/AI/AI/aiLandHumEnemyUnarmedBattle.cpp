@@ -8,6 +8,7 @@
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/Resource/Actor/resResourceAttCheck.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
 
 namespace uking::ai {
@@ -77,6 +78,30 @@ void LandHumEnemyUnarmedBattle::sub_71004703E8() {
     if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor))
         enemy->sub_7100019D38(_118);
     _118.reset();
+}
+
+// NON_MATCHING: same operations; the scheduling of the offset products / the matrix product loads differs (the original
+// loads the offset vector pair first and adds the translation after all three dot products)
+bool LandHumEnemyUnarmedBattle::sub_7100470D54(ksys::act::BaseProcLink* link, bool a2) {
+    auto* actor = mActor;
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(link, &accessor);
+    if (!accessor.isAttClientEnabled("Grab"))
+        return false;
+    ksys::res::AttCheck_Unk1 arg;
+    arg._0 = actor->getMtx();
+    const auto& base_offset = *mParams.mAttOffset_s;
+    const auto& scale = actor->getScale();
+    const sead::Vector3f offset(base_offset.x * scale.x, base_offset.y * scale.y,
+                                base_offset.z * scale.z);
+    sead::Vector3f position;
+    position.setMul(actor->getMtx(), offset);
+    arg._0.setTranslation(position);
+    arg._36 = a2;
+    arg._35 = true;
+    arg._34 = *mParams.mCanGrabHeavy_s;
+    arg._30 = *mParams.mGrabCheckRadius_s;
+    return accessor.sub_7100D13AE4("Grab", actor, &arg, false);
 }
 
 bool LandHumEnemyUnarmedBattle::sub_7100470ED4(ksys::act::BaseProcLink& link) const {

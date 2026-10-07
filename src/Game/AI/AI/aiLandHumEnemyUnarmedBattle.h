@@ -36,6 +36,9 @@ public:
     void changeToBattle();
     // 0x7100470ed4 (placeholder name): true if `link` is already handled or its actor is within the reach distance.
     bool sub_7100470ED4(ksys::act::BaseProcLink& link) const;
+    // 0x7100470d54 (placeholder name): the "Grab" attention client of the actor of `link` accepts a grab at the actor's
+    // matrix moved by AttOffset (scaled by the actor's scale) within GrabCheckRadius.
+    bool sub_7100470D54(ksys::act::BaseProcLink* link, bool a2);
 
 protected:
     struct Params {
