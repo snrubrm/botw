@@ -17,6 +17,8 @@ namespace uking::ai {
 // NON_MATCHING: the original addresses everything from `this` (we keep this+0x38 in a register)
 SimpleWildlifeRoot::SimpleWildlifeRoot(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
+SimpleWildlifeRoot::~SimpleWildlifeRoot() = default;
+
 void SimpleWildlifeRoot::m9() {
     auto* root_ai = mActor->getRootAi();
     _f4 = (root_ai && root_ai->getI() == 4) || *mIsLocatorCreate_m;
