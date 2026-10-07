@@ -165,7 +165,9 @@ bool AncientNecklaceBall::handleMessage_(const ksys::Message* message) {
     return AncientNecklaceBallBase::handleMessage_(message);
 }
 
-// NON_MATCHING: message receiver address scheduling differs.
+// NON_MATCHING: the original computes &_140 after the bind->sub_7100D3C5E0(mActor) argument call; ours
+// hoists it before (C++17 evaluates the member-call object expression first). A single-use local for either
+// side would fix it but is borderline, so not applied.
 void AncientNecklaceBall::m37() {
     if (auto* weapon = sead::DynamicCast<act::Weapon>(mActor)) {
         weapon->m175(sead::Vector3f::zero, false, false, nullptr, false);

@@ -765,6 +765,8 @@ void ASList::sub_710115C634(bool a1) {
 
 // NON_MATCHING: the original reads both halves of the bone key through one base register (`ldrsh w3, [x19, #2]`); ours
 // addresses the second half from `this`.
+// NON_MATCHING: the original loads the key's second half via the post-incremented pointer ([x19, #2]);
+// ours recomputes it from this ([x20, #0x16]). Register allocation only (tried the open-coded comparison too).
 void ASList::sub_710115C934() {
     const gsys::BoneAccessKey& key = _14;
     if (key.isValid()) {
@@ -933,7 +935,8 @@ const char* ASList::sub_710115ECF4(int kind, int a2) {
     return _e0[idx]._str_ptr->cstr();
 }
 
-// NON_MATCHING: the original tests 0, 0x19 and then 6 (our switch lowering tests 0x19, 6, then 0)
+// NON_MATCHING: switch lowering reorders the 0, 0x19 and 6 cases; case 6 in the original tests bit 1 of
+// the byte at LodState + 8 (ldrb + tbnz), not a 64-bit isOnBit (lane4 owns LodState).
 bool ASList::sub_710115ED5C(int a1, int bit) {
     if (bit < 0)
         return false;
@@ -973,7 +976,8 @@ bool ASList::sub_710115EECC(int kind, s32 value, int a3) {
     return true;
 }
 
-// NON_MATCHING: switch lowering reorders the 0, 0x19 and 6 cases.
+// NON_MATCHING: switch lowering reorders the 0, 0x19 and 6 cases; case 6 in the original tests bit 1 of
+// the byte at LodState + 8 (ldrb + tbnz), not a 64-bit isOnBit (lane4 owns LodState).
 bool ASList::sub_710115EE14(int bit) {
     if (bit < 0)
         return false;

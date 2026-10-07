@@ -53,8 +53,9 @@ bool DemoRootAI::initChildren(const ksys::AIDefSet& set, sead::Heap* heap) {
     return initChildren_(indices.size(), nullptr, indices, heap);
 }
 
-// NON_MATCHING: the original does not know `num > 0` after the tag branch (it keeps the `num < 1` guard and
-// the peeled first store before the unrolled clearing loop); everything else matches
+// NON_MATCHING: the original keeps a `num < 1` guard and a peeled `buffer[0] = nullptr` store with a second
+// `num == 1` guard before the unrolled clearing loop (tried: early-return guards, loop from 1, `i <= num - 1`;
+// our compiler merges or drops the redundant guards); everything else matches.
 bool DemoRootAI::init_(sead::Heap* heap) {
     s32 num = mActor->getRootAi()->getAt();
     if (num <= 0) {
@@ -88,6 +89,8 @@ void DemoRootAI::calc_() {
 
 // NON_MATCHING: the original keeps a separate `ldrh; orr` in each flag case (they are not sunk into one
 // shared `_48 |= value`); logic identical
+// NON_MATCHING: the original keeps a separate `ldrh; orr` in each flag case (only the final store is
+// shared); ours sinks the load into one shared tail. Jump-table structure and all calls match.
 bool DemoRootAI::handleMessage_(const ksys::Message* message) {
     if (!message)
         return false;
