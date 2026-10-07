@@ -270,6 +270,12 @@ ksys::phys::SystemGroupHandler* sub_7100738C18(ksys::act::BaseProcLink* link, in
     return accessor.x(idx);
 }
 
+void sub_710073953C(ksys::act::Actor* actor) {
+    const auto& name = *sub_71007A24F8();
+    if (!actor->getActorFlags2().isOn(ksys::act::Actor::ActorFlag2::_200))
+        ksys::act::sub_7100EE5330(actor, name);
+}
+
 bool sub_710072E830(const sead::Vector3f& from, const sead::Vector3f& to, int normal_checking_mode,
                     sead::Vector3f* hit_pos, sead::Vector3f* hit_normal,
                     ksys::phys::MaterialMask* material_mask, f32 y_offset) {

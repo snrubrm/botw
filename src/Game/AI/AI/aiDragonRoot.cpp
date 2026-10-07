@@ -125,8 +125,6 @@ bool DragonRoot::reenter_(ksys::act::ai::ActionBase* other, bool x) {
     return true;
 }
 
-// NON_MATCHING: only the order of the first four instructions differs (`mov x19, x0` / `ldr x0` / the two `orr`
-// constants)
 void DragonRoot::sub_710036F80C() {
     sub_71007A44E4(mActor, true);
     getActorAttackSensor(mActor)->activateAttackSensor(0x2000, 0x800c, *mBodyHitDamage_s,

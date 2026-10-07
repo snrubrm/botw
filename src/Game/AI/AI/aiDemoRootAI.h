@@ -37,6 +37,8 @@ public:
     void sub_7100D62598();
     // 0x7100d62394 (placeholder name): changes to the child "Demo_Idling" (if there is one) with DisablePhysics = false.
     bool sub_7100D62394(DemoAiRequest* request);
+    // 0x7100d62d18 (placeholder name): the child `name` exists and has the TriggerAction flag.
+    bool sub_7100D62D18(const sead::SafeString& name);
 protected:
     sead::Buffer<ksys::act::ai::ActionBase*> _38;
     u16 _48{};

@@ -50,8 +50,6 @@ void AncientNecklaceBall::sub_7100301D90(bool restore_groups) {
     }
 }
 
-// NON_MATCHING: only the prologue scheduling differs (`add x29, sp, #0x30` is placed after the first loads, the
-// original has it right after the callee-saved spills)
 void AncientNecklaceBall::sub_7100301A5C() {
     if (auto* physics = mActor->getPhysics()) {
         if (auto* body = mActor->getMainBody()) {

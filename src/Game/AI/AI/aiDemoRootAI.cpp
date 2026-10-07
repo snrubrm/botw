@@ -21,6 +21,14 @@ bool DemoRootAI::sub_7100D62394(DemoAiRequest* request) {
     return true;
 }
 
+bool DemoRootAI::sub_7100D62D18(const sead::SafeString& name) {
+    const s32 idx = getChildIdx(name);
+    if (idx == 0xffff)
+        return false;
+    auto* child = getChild(idx);
+    return child ? child->isTriggerAction() : false;
+}
+
 DemoRootAI::DemoRootAI(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
 DemoRootAI::~DemoRootAI() {

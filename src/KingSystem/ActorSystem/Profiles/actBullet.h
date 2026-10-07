@@ -63,7 +63,9 @@ public:
     /* 0xc68 */ u64 _c68 = 0;
     /* 0xc70 */ f32 _c70 = 1.0;
     /* 0xc74 */ u32 _c74 = 0;
-    /* 0xc78 */ u32 _c78 = 0;
+    /* 0xc78 */ u16 _c78 = 0;
+    /* 0xc7a */ bool _c7a = false;  // Arrow::enter_
+    /* 0xc7b */ u8 _c7b = 0;
     /* 0xc7c */ u16 _c7c = 0;
     /* 0xc7e */ u8 _c7e = 0;
     /* 0xc80 */ u64 _c80 = 0;

@@ -3,6 +3,11 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "Game/Actor/actWeapon.h"
+#include "Game/AI/aiUnk_71007377D4.h"
+#include "KingSystem/ActorSystem/Profiles/actBullet.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
 #include "KingSystem/ActorSystem/actActorChemicals.h"
 #include "KingSystem/ActorSystem/actActorCreator.h"
 #include "KingSystem/ActorSystem/actActorHeapUtil.h"
@@ -116,7 +121,87 @@ bool Arrow::init_(sead::Heap* heap) {
 }
 
 void Arrow::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (auto* body = mActor->getMainBody())
+        _9c = body->getContactLayer();
+    if (auto* physics = mActor->getPhysics()) {
+        if (auto* set = physics->findBodyByName("AreaCheck")) {
+            if (auto* body = set->findBodyByHavokName("SensorForArea")) {
+                body->addToWorld();
+                body->setContactAll();
+                body->disableContactLayer(ksys::phys::ContactLayer::SensorCustomReceiver);
+            }
+        }
+    }
+    _b9 = false;
+    sub_710073953C(mActor);
+    if (auto* chemicals = mActor->getChemicalContainer())
+        chemicals->sub_7100E39614(false);
+    _ba = false;
+    _bd = false;
+    _be = false;
+    _50 = sead::SafeString::cEmptyString;
+    _c8.reset();
+    _d8 = false;
+    ksys::act::disableAllAttClients(mActor);
+    _ec = false;
+    const f32 kill_fire_time = *mKillFireTime_s;
+    _78 = ksys::Timer(kill_fire_time, kill_fire_time);
+    _198.reset();
+    _90 = ksys::Timer(0.0f, 0.0f);
+
+    if (auto* bullet = sead::DynamicCast<ksys::act::Bullet>(mActor)) {
+        if (bullet->_c7a) {
+            if (bullet->_ca0 >= 0.0f) {
+                mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_20);
+                _84 = ksys::Timer(bullet->_ca0, bullet->_ca0);
+                sub_7100463F68();
+            } else {
+                sub_71004640B0();
+            }
+            return;
+        }
+    }
+
+    if (auto* chemical = mActor->getChemicalStuff()) {
+        bool trigger = false;
+        if (auto* chemicals = mActor->getChemicalContainer()) {
+            if (auto* element = chemicals->sub_7100E37FA8(0))
+                trigger = element->_18->m15(element->_288);
+        }
+        if (trigger || (chemical->mMaterial->attribute.ref() & 0x8000) ||
+            ((chemical->mMaterial->attribute.ref() & 0x108) == 0x108 && !(chemical->_be & 4)) ||
+            chemical->_1b8 > 0.0f) {
+            if (auto* chem = mActor->getChemicalStuff())
+                chem->sub_7100D90FF0(true);
+        }
+    }
+    sub_7100463F68();
+}
+
+void Arrow::sub_7100463F68() {
+    _b8 = false;
+    if (auto* bullet = sead::DynamicCast<ksys::act::Bullet>(mActor))
+        bullet->_cf4 &= ~0x80;
+    bool handled = false;
+    if (auto* chemicals = mActor->getChemicalContainer()) {
+        if (auto* element = chemicals->sub_7100E37FA8(0)) {
+            if (element->_18->m15(element->_288)) {
+                if (auto* chem = mActor->sub_71011D8A44(0))
+                    chem->sub_7100D8EEE0();
+                handled = true;
+            }
+        }
+    }
+    if (!handled) {
+        if (auto* chemical = mActor->getChemicalStuff()) {
+            if (((chemical->mMaterial->attribute.ref() & 0x108) == 0x108 && !(chemical->_be & 4)) ||
+                chemical->_1b8 > 0.0f) {
+                if (auto* chem = mActor->sub_71011D8A44(0))
+                    chem->sub_7100D90AF4(false);
+            }
+        }
+    }
+    changeChild("所持前");
 }
 
 bool Arrow::isChangeable() const {

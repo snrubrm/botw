@@ -310,6 +310,9 @@ ksys::phys::SystemGroupHandler* sub_710072E804(ksys::act::Actor* actor, int idx)
 // 0x7100738c18 (lane1 s23): the physics group handler `idx` (ActorConstDataAccess::x) of the actor `link` points to
 // (nullptr without one).
 ksys::phys::SystemGroupHandler* sub_7100738C18(ksys::act::BaseProcLink* link, int idx);
+// 0x710073953c (lane1 s47, placeholder name): unless the actor has ActorFlag2 0x200, applies the actor's chemical named
+// getStr_Chemical (sub_7100EE5330).
+void sub_710073953C(ksys::act::Actor* actor);
 
 /// 0x710072c494 (placeholder name): the terrain height at the (x, z) of `pos` (a nonzero result on success, 0 without a terrain system; the return type is not bool: the result is passed on unmasked).
 u32 sub_710072C494(f32* out_height, const sead::Vector3f* pos);

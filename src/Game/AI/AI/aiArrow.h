@@ -6,6 +6,7 @@
 #include "KingSystem/ActorSystem/actAiAi.h"
 #include "KingSystem/ActorSystem/actBaseProcHandle.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
+#include "KingSystem/Physics/physDefines.h"
 #include "KingSystem/System/Timer.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
 
@@ -32,6 +33,10 @@ public:
     virtual void m40(ksys::act::BaseProc* proc);
 
     void sub_7100463940();
+    // 0x7100463f68 / 0x71004640b0 (placeholder names): 0x463f68 clears the Bullet's flag 0x80, starts the chemical of the
+    // arrow (when it has one) and changes to "所持前"; 0x4640b0 is declared only (not decompiled).
+    void sub_7100463F68();
+    void sub_71004640B0();
     // 0x71004682cc: kills the ELink event of _170 (if it is still the one that was emitted).
     void sub_71004682CC();
     // 0x71004692fc (placeholder name): the linked weapon's parent actor is the player.
@@ -60,7 +65,7 @@ protected:
     ksys::Timer _78{0, 0};
     ksys::Timer _84{0.1f, 0.1f};
     ksys::Timer _90{0, 0};
-    s32 _9c = 19;
+    ksys::phys::ContactLayer _9c = ksys::phys::ContactLayer::EntityNoHit;
     const f32* mStickTime_s = nullptr;
     const f32* mGroundHitTime_s = nullptr;
     const s32* mKillFireTime_s = nullptr;
