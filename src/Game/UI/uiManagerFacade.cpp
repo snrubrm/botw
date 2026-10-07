@@ -40,36 +40,50 @@ void sub_7100A9E27C() {
     manager->_650f0 = 0;
 }
 
-// NON_MATCHING: the original tests `cmp w8, #5; b.hs` (ours `cmp w8, #4; b.hi`)
 // 0x7100a9eea4 (placeholder name): the map name of the current dungeon-type state (null: none).
 const char* sub_7100A9EEA4() {
     auto* manager = Manager::instance();
     if (!manager)
         return nullptr;
-    static const char* const sNames[] = {"MainField/B-2", "MainField/H-2", "MainField/I-4",
-                                         "MainField/B-8", "MainField/D-6"};
-    const s32 state = manager->_64c38;
-    if (u32(state) < 5)
-        return sNames[state];
-    return state == 5 ? "MainField/E-4" : nullptr;
+    switch (manager->_64c38) {
+    case 0:
+        return "MainField/B-2";
+    case 1:
+        return "MainField/H-2";
+    case 2:
+        return "MainField/I-4";
+    case 3:
+        return "MainField/B-8";
+    case 4:
+        return "MainField/D-6";
+    default:
+        break;
+    }
+    return manager->_64c38 == 5 ? "MainField/E-4" : nullptr;
 }
 
-// NON_MATCHING: same range test as above
 // 0x7100a9eef4 (placeholder name): the escape destination of the current dungeon-type state (null: none).
 const char* sub_7100A9EEF4() {
     auto* manager = Manager::instance();
     if (!manager)
         return nullptr;
-    static const char* const sNames[] = {"RemainsWind_Escape", "RemainsFire_Escape",
-                                         "RemainsWater_Escape", "RemainsElectric_Escape",
-                                         "FinalTrial_Escape"};
-    const s32 state = manager->_64c38;
-    if (u32(state) < 5)
-        return sNames[state];
-    return state == 5 ? "HyruleCastleExit" : nullptr;
+    switch (manager->_64c38) {
+    case 0:
+        return "RemainsWind_Escape";
+    case 1:
+        return "RemainsFire_Escape";
+    case 2:
+        return "RemainsWater_Escape";
+    case 3:
+        return "RemainsElectric_Escape";
+    case 4:
+        return "FinalTrial_Escape";
+    default:
+        break;
+    }
+    return manager->_64c38 == 5 ? "HyruleCastleExit" : nullptr;
 }
 
-// NON_MATCHING: same range test as sub_7100A9EEA4 (`cmp w9, #5; b.hs` in the original, `cmp #4; b.hi` here); nothing else differs
 // 0x7100a9ee24 (CSV ui::doRequestExitFromMap): the two name functions above are inlined here in the original
 void doRequestExitFromMap(ksys::act::Actor* actor) {
     sub_7100A9ED78(sub_7100A9EEA4(), sub_7100A9EEF4(), actor);

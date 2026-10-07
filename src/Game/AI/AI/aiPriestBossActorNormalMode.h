@@ -2,6 +2,7 @@
 
 #include "Game/AI/AI/aiPriestBossMode.h"
 #include <container/seadSafeArray.h>
+#include <prim/seadEnum.h>
 #include "KingSystem/ActorSystem/actAiAi.h"
 #include "KingSystem/System/Timer.h"
 
@@ -32,7 +33,13 @@ public:
     virtual f32 m46();
 
 protected:
+    // Counter indices of `_e8` (a SEAD_ENUM in the original: the index goes through a stack round trip).
+    SEAD_ENUM(Attack, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12)
+
     void sub_710050BB0C();
+    // inline-only in the original; name is a guess. Evidence: the same tail (`std::pow(0.9f, count)` scaled into
+    // a random weight, the by-value enum going through the stack) is inlined into m39 / m40 / m41.
+    f32 getWeight(Attack attack);
 
     // static_param at offset 0x40
     const int* mApproachWarpRate_s{};
@@ -73,7 +80,8 @@ protected:
     void* _120 = nullptr;  // heap object freed by the destructor
     s32 _128 = 2;
     s32 _12c = 2;
-    u64 _130 = 0;
+    s32 _130 = 0;
+    s32 _134 = 0;
 };
 KSYS_CHECK_SIZE_NX150(PriestBossActorNormalMode, 0x138);
 
