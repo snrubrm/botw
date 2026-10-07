@@ -2,8 +2,26 @@
 #include <xlink2/xlink2UserInstanceSLink.h>
 #include "KingSystem/Sound/sndMgr.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
+#include "KingSystem/ActorSystem/actActorCreator.h"
+#include "KingSystem/System/StageInfo.h"
 
 namespace ksys::snd {
+
+UiSoundMgr::UiSoundMgr() : _88("UiSoundMgr") {}
+
+UiSoundMgr::~UiSoundMgr() {
+    if (_20) {
+        _20->destroy();
+        _20 = nullptr;
+    }
+}
+
+void UiSoundMgr::sub_710105D23C(sead::Heap* heap, act::ActorCreator* creator) {
+    if (!creator)
+        return;
+    if (StageInfo::getCurrentMapType() != "TitleMenu")
+        creator->requestCreateActor("GetItemSound", heap, &_8, nullptr, nullptr, 1);
+}
 
 bool UiSoundMgr::playSound(const sead::SafeString& label, xlink2::HandleSLink* handle) {
     if (_20) {

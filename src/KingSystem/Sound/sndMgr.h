@@ -14,6 +14,7 @@
 #include <aal/aalListener.h>
 #include <aal/aalListenerPoser.h>
 #include <aal/aalTimedFader.h>
+#include <xlink2/xlink2HandleSLink.h>
 #include "KingSystem/ActorSystem/actBaseProcHandle.h"
 #include "KingSystem/System/DebugMessage.h"
 
@@ -29,6 +30,7 @@ class UserInstanceSLink;
 
 namespace ksys::act {
 class Actor;
+class ActorCreator;
 }
 
 namespace uking::act {
@@ -42,7 +44,10 @@ struct Unk_SoundMgr30;
 // Only the interface needed by the UI sound wrapper is recovered.
 class UiSoundMgr {
 public:
+    UiSoundMgr();
     virtual ~UiSoundMgr();
+    // 0x710105d23c: requests its GetItemSound actor outside the TitleMenu map.
+    void sub_710105D23C(sead::Heap* heap, act::ActorCreator* creator);
     // 0x710105d330: emits the SLink sound `label` through the user instance at +0x20; the handle is copied to
     // `handle` if given. Returns whether the emitted event is alive.
     bool playSound(const sead::SafeString& label, xlink2::HandleSLink* handle);
@@ -50,14 +55,19 @@ public:
     bool emitGetItemSound(const sead::SafeString& label);
 
     /* 0x08 */ act::BaseProcHandle _8;
-    /* 0x18 */ act::Actor* _18;
-    /* 0x20 */ xlink2::UserInstanceSLink* _20;
-    u8 _28[0x5c];
-    /* 0x84 */ u32 _84;
+    /* 0x18 */ act::Actor* _18 = nullptr;
+    /* 0x20 */ xlink2::UserInstanceSLink* _20 = nullptr;
+    /* 0x28 */ xlink2::HandleSLink _28;
+    /* 0x38 */ xlink2::HandleSLink _38;
+    /* 0x48 */ aal::Handle _48;
+    /* 0x58 */ aal::TimedFader _58{1.0f, aal::FadeCurveType::Square, 1.0f};
+    /* 0x80 */ bool _80 = false;
+    /* 0x84 */ u32 _84 = 0;
     /* 0x88 */ DebugMessage _88;
-    void* _118;
-    void* _120;
+    void* _118 = nullptr;
+    void* _120 = nullptr;
 };
+KSYS_CHECK_SIZE_NX150(UiSoundMgr, 0x128);
 
 // Placeholder name (SoundMgr::_38::_30). Holds the aal::SpeakerBalanceUnifier objects at +0x68 (count at +0x60,
 // guarded by a CriticalSection at +0x20); shapes are registered with the one picked by a size threshold.
