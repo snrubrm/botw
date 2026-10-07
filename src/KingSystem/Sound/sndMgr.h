@@ -15,6 +15,7 @@
 #include <aal/aalListener.h>
 #include <aal/aalListenerPoser.h>
 #include <aal/aalTimedFader.h>
+#include <aal/aalAssetInfo.h>
 #include <xlink2/xlink2HandleSLink.h>
 #include "KingSystem/ActorSystem/actBaseProcHandle.h"
 #include "KingSystem/System/DebugMessage.h"
@@ -39,6 +40,11 @@ class EnvSeEmitPoint;
 }
 
 namespace ksys::snd {
+
+f32 sub_710105E3A4();
+void sub_710105E614(sead::PtrArray<aal::Group>* groups,
+                   const sead::PtrArray<aal::Group>* excluded, aal::Group* group);
+s32 sub_710105E75C(const aal::AssetInfo::LoopInfo* loop, s32 position, s32 offset);
 
 struct Unk_SoundMgr30;
 

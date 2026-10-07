@@ -1,9 +1,50 @@
 #include "KingSystem/Sound/sndMgr.h"
 #include "KingSystem/Sound/sndBgmMgr.h"
 #include <prim/seadScopedLock.h>
+#include <aal/aalSettings.h>
+#include <aal/aalSystemAccessor.h>
+#include <aal/aalGroup.h>
+#include <aal/aalGroupMgr.h>
+#include <aal/aalAssetInfo.h>
 #include "KingSystem/Event/evtManager.h"
 
 namespace ksys::snd {
+
+f32 sub_710105E3A4() {
+    if (auto* settings = aal::SystemAccessor::getSettings())
+        return settings->mCalcTimeStep;
+    return 1.0f / 30.0f;
+}
+
+void sub_710105E614(sead::PtrArray<aal::Group>* groups,
+                   const sead::PtrArray<aal::Group>* excluded, aal::Group* group) {
+    bool has_excluded_descendant = false;
+    for (auto& excluded_group : *excluded) {
+        if (&excluded_group == group)
+            return;
+        has_excluded_descendant |= aal::GroupMgr::isUnderAncestorOrSelf(&excluded_group, group);
+    }
+    if (has_excluded_descendant) {
+        for (auto* child = group->child(); child; child = child->next())
+            sub_710105E614(groups, excluded, child->value());
+        return;
+    }
+    groups->pushBack(group);
+}
+
+// NON_MATCHING: the final additions in the two wrap branches are tail merged.
+s32 sub_710105E75C(const aal::AssetInfo::LoopInfo* loop, s32 position, s32 offset) {
+    s32 result = position + offset;
+    if (!loop->is_looped)
+        return sead::Mathi::max(result, 0);
+    if (offset > 0) {
+        if (result >= loop->loop_end)
+            return result - loop->loop_end + loop->loop_start;
+    } else if (offset < 0 && result < loop->loop_start) {
+        return result - loop->loop_start + loop->loop_end;
+    }
+    return result;
+}
 
 void SoundMgr::sub_71011FC29C() {
     mDuckingMgr->sub_7101042024(0x23);
