@@ -10,6 +10,11 @@
 
 namespace uking::ai {
 
+// 0x7100d630ac (placeholder name; declared only; define in its own TU, not here, or it inlines into
+// leave_): releases the event-context list at RootAi + 0x140 (takes that object; void* because the
+// nested SomeStruct type is private).
+void sub_7100D630AC(void* context);
+
 bool DemoRootAI::sub_7100D62394(DemoAiRequest* request) {
     const s32 idx = getChildIdx("Demo_Idling");
     if (idx != 0xffff) {
@@ -126,8 +131,25 @@ bool DemoRootAI::handleAck_(const ksys::MessageAck* ack) {
     return false;
 }
 
+// NON_MATCHING: the actor temporary at the tail lives in x1 in the original, x8 here
+// (register allocation only; the loop, all calls and the tail call match exactly).
 void DemoRootAI::leave_() {
-    ksys::act::ai::Ai::leave_();
+    const s32 count = _38.size();
+    if (count >= 1) {
+        for (s32 i = 0; i <= count - 1; ++i) {
+            auto& slot = _38[i];
+            auto* action = slot;
+            if (!action)
+                continue;
+            action->leave();
+            action->hasUpdateForPreDeleteCb();
+            action->onPreDelete();
+            delete action;
+            slot = nullptr;
+        }
+    }
+    auto* root_ai = mActor->getRootAi();
+    sub_7100D630AC(root_ai->_140);
 }
 
 void DemoRootAI::loadParams_() {}
