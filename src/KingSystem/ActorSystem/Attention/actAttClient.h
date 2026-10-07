@@ -41,6 +41,9 @@ public:
     // 0x7100d72178 (CSV AttClient::x_3; declaration only): copies the matrix data of the resource client (reads the
     // Attention singleton) into `_48..` and runs AttClient::checkM4.
     void sub_7100D72178();
+    // 0x7100d72660 (CSV AttClient::init_1; placeholder name): 40 for Appeal clients, else the maximum of the
+    // checks' m6 (-1 without checks / actor).
+    f32 sub_7100D72660();
     // 0x7100d72320 (CSV AttClient::x_2): registers the client with the Attention singleton.
     void sub_7100D72320();
     // 0x7100d72144: whether the client has an actor and a resource client.

@@ -47,6 +47,24 @@ void AttClient::sub_7100D72178() {
     }
 }
 
+            mClient->client->checkM4(actor, _38);
+        }
+    }
+}
+
+f32 AttClient::sub_7100D72660() {
+    auto* client = mClient->client;
+    if (client->getAttType() == AttType::Appeal)
+        return 40.0f;
+
+    f32 result = -1.0f;
+    if (mClient && client && mActor) {
+        ActorConstDataAccess accessor;
+        result = client->checkM6(accessor, mActor->getScale());
+    }
+    return result;
+}
+
 void AttClient::sub_7100D72320() {
     if (auto* attention = Attention::instance()) {
         attention->sub_7100D74D78(this);
