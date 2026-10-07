@@ -17,6 +17,58 @@
 
 namespace ksys::as {
 
+// NON_MATCHING: request initialization and the single-slot partial setup branch differ in scheduling.
+s32 ASList::sub_710115BC28(const sead::SafeString& name, f32 value) {
+    AnimationRequest request;
+    request.define = sub_710115AABC(name, &request.name, &request.lookupFlag, &request.resource, false);
+    request.force = true;
+    request.slot = 0;
+    request.bank = 0;
+    request.value2 = -1.0f;
+    if (!request.define)
+        return 0;
+    const s32 count = mSlots.size();
+    request.value = value;
+    if ((request.define->_10 & 3) == 2) {
+        if (count == 1) {
+            sub_710115AE2C(request);
+            return 0;
+        }
+        for (s32 i = 0; i < count; ++i) {
+            if (mSlots[i].sub_71011653A4()) {
+                request.slot = i;
+                sub_710115AE2C(request);
+                return i;
+            }
+        }
+        return 0;
+    }
+    auto* resource = static_cast<res::AS*>(request.resource);
+    if (!resource || resource->getForbidPartialDemoAs()) {
+        request.slot = sub_710115BED4(true);
+        sub_710115AE2C(request);
+        return 0;
+    }
+    if (_163 & 2) {
+        _163 &= ~2;
+        for (s32 i = 0; i < count; ++i)
+            mSlots[i].sub_7101164900(_d8->getParam()->getRes().mModelList, i, _d8);
+    }
+    s32 first = -1;
+    for (s32 i = 0; i < count; ++i) {
+        if (!mSlots[i].sub_71011653C4())
+            continue;
+        request.slot = i;
+        sub_710115AE2C(request);
+        if (first == -1)
+            first = i;
+        else if (auto* entry = getEntry(i, 0))
+            entry->sub_7101162E88(getEntry(first, 0), i <= first);
+    }
+    return first == -1 ? 0 : first;
+}
+
+
 // NON_MATCHING: the bool argument is masked before the blend-state constructor instead of at its store.
 void ASList::sub_710115C7A8(bool enable_partial) {
     if (!_8)
