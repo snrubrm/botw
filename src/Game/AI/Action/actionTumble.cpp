@@ -121,4 +121,8 @@ void Tumble::sub_710029D1BC() {
     controller->sub_7100F5F938(mtx);
 }
 
+bool Tumble::isChangeable() const {
+    return false;
+}
+
 }  // namespace uking::action
