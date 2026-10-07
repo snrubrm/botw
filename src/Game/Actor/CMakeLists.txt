@@ -66,6 +66,8 @@ target_sources(uking PRIVATE
   actNPC.h
   actNPCBase.cpp
   actNPCBase.h
+  actObjBoardWoodTriangleUserTag.cpp
+  actObjBoardWoodTriangleUserTag.h
   actPauseMenuPlayer.cpp
   actPauseMenuPlayer.h
   actSoundProxy.h

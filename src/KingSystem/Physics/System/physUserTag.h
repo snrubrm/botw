@@ -16,20 +16,16 @@ public:
     // collisions) passes its own argument to the user tag of the controller's rigid body and then
     // stores a copy of it (0x48 bytes) in the controller (+0x180 / +0x1c8).
     struct Unk5 {
-        u32 _0;
-        f32 _4;
-        u32 _8;
+        // 2026-10-07: ObjBoardWoodTriangleUserTag's ctor copies Vector3f::zero here.
+        sead::Vector3f _0;
         u8 _c;
         u8 _d;  // 3 / 4: tested by PhysicsUserTag::m5 and the controller
         u8 _e;
         u8 _f;
-        u32 _10;
-        u32 _14;
-        u32 _18;
+        sead::Vector3f _10;
         RigidBody* _20;  // the other body (PhysicsUserTag::m5 reads its type)
-        u32 _28;
-        u32 _2c;
-        u32 _30;
+        // The same ctor copies Vector3f::ey into this direction.
+        sead::Vector3f _28;
         f32 _34;
         sead::Vector3f _38;
         f32 _44;
