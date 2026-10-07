@@ -77,6 +77,22 @@ public:
         // 0x7100507a64: sets the byte flag at 0x44 (its only out-of-line copy is emitted in
         // aiPriestBossActorEnemyRoot.cpp, which takes its address).
         void sub_7100507A64(bool value) { _44[0] = value; }
+        // Transient request constructed by ASList::sub_710115AE2C and consumed by this entry.
+        struct PlaybackRequest {
+            res::AS* resource;
+            Element* root;
+            sead::SafeString name;
+            Context::Frame* frame;
+            bool lookupFlag;
+            bool force;
+            bool useIK;
+            bool partial;
+            f32 randomRate;
+            f32 value;
+            f32 value2;
+        };
+        static_assert(sizeof(PlaybackRequest) == 0x38);
+        void sub_7101161824(const PlaybackRequest& request);
         struct InitArg;
         bool sub_71011617A8(const InitArg& arg, sead::Heap* heap);
         // 0x7101163998 (declaration only): modifies the actual SDK blend-weight callback argument.
@@ -511,8 +527,8 @@ public:
     /* 0x133 */ u8 _133[0x138 - 0x133];
     /* 0x138 */ sead::Buffer<Unk8> _138;  // parallel to the AS defines of the actor's res::ASList
     /* 0x148 */ Unk6* _148;
-    u8 _150[0x158 - 0x150];
-    /* 0x158 */ void* _158;
+    // Allocator 115DFC8 constructs Context::Frame objects; cleanup 1159F8C finalizes and deletes them.
+    /* 0x150 */ sead::Buffer<Context::Frame> mFrames;
     /* 0x160 */ u8 _160;
     /* 0x161 */ u8 _161;
     /* 0x162 */ u8 _162;

@@ -37,7 +37,7 @@ ASList::Unk8* ASList::sub_710115AABC(const sead::SafeString& name, sead::SafeStr
         if (_160 > (*_c8.begin())->_0->sub_7101258E08() ||
             _162 > (*_c8.begin())->_0->sub_7101258E20() ||
             _161 > (*_c8.begin())->_0->sub_7101258E14()) {
-            if (!_158)
+            if (!mFrames.isBufferReady())
                 return nullptr;
         }
         *out_name = node->_18;

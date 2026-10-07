@@ -18,6 +18,38 @@
 
 namespace ksys::as {
 
+// NON_MATCHING: frame selection and playback request initialization differ in scheduling.
+void ASList::sub_710115AE2C(const AnimationRequest& request) {
+    auto& slot = mSlots[request.slot];
+    if (slot.sub_7101164C24(_14))
+        _163 &= ~1;
+    if (request.define->_0.size() < 1) {
+        if (auto* entry = getEntry(request.slot, request.bank))
+            entry->sub_7101162254(request.force);
+        return;
+    }
+    Unk2::PlaybackRequest playback;
+    playback.root = request.define->_0[0];
+    playback.name = request.name;
+    playback.lookupFlag = request.lookupFlag;
+    playback.frame = request.lookupFlag && mFrames.isBufferReady() ? &mFrames[request.slot] : nullptr;
+    playback.resource = static_cast<res::AS*>(request.resource);
+    if (playback.resource) {
+        playback.randomRate = playback.resource->getRandomRate();
+        playback.useIK = playback.resource->getUseIk();
+    } else {
+        playback.randomRate = 1.0f;
+        playback.useIK = true;
+    }
+    playback.partial = (request.define->_10 & 8) != 0;
+    playback.force = request.force;
+    playback.value = request.value;
+    playback.value2 = request.value2;
+    if (playback.value2 > 1.0f)
+        playback.value2 = 1.0f;
+    slot._20[request.bank].sub_7101161824(playback);
+}
+
 // NON_MATCHING: the canonical SDK array accessor and name comparison schedule differently.
 const nn::g3d::ResBoneAnim* sub_710115D55C(const nn::g3d::ResSkeletalAnim* resource,
                                          const sead::SafeString& name) {
