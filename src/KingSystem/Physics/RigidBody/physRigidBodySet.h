@@ -12,6 +12,7 @@ namespace ksys::phys {
 class RigidBody;
 class SystemGroupHandler;
 class UserTag;
+class RigidBodyResource;
 
 enum class Fixed : bool;
 enum class MarkLinearVelAsDirty : bool;
@@ -74,5 +75,24 @@ private:
     sead::SafeString mName;
     sead::PtrArray<RigidBody> mRigidBodies;
 };
+
+// 0x71012b034c: no members beyond the base (created with operator new(0x28) by
+// ActorPhysics::initRigidBodies).
+class RigidBodySet1 : public RigidBodySet {
+public:
+    explicit RigidBodySet1(const sead::SafeString& name);
+};
+
+// 0x71012afe48: created with operator new(0x40) by ActorPhysics::initRigidBodies, which passes
+// a RigidBodyResource (the result of loadFromRomOrActorPack<RigidBodyResource>).
+class RigidBodySet2 : public RigidBodySet {
+public:
+    RigidBodySet2(const sead::SafeString& name, RigidBodyResource* resource);
+
+    RigidBodyResource* _28;
+    void* _30;
+    u32 _38;
+};
+static_assert(sizeof(RigidBodySet2) == 0x40);
 
 }  // namespace ksys::phys
