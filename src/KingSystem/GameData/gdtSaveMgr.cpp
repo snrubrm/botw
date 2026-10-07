@@ -630,6 +630,179 @@ void SaveMgr::x_12(const sead::ObjArray<gdt::TriggerParam::FlagCopyRecord>& reco
     }
 }
 
+bool SaveMgr::sub_7100E081E4(const res::GameSaveData::Flag&,
+                                 const gdt::FlagT<sead::FixedSafeString<32>>* flag,
+                                 u32 size, u32 offset) {
+    constexpr u32 word_size = sizeof(u32);
+    const u32 length = flag->getValueRef().calcLength();
+    for (u32 i = 0; i < size; i += word_size) {
+        const u32 value_offset = offset + word_size;
+        if (value_offset >= _e10)
+            return false;
+        const u32 hash = flag->getHash();
+        std::memcpy(_e08 + offset, &hash, sizeof(hash));
+        offset += 2 * word_size;
+        if (offset >= _e10)
+            return false;
+        if (length < i) {
+            std::memset(_e08 + value_offset, 0, word_size);
+        } else if (length < i + word_size) {
+            std::memset(_e08 + value_offset, 0, word_size);
+            std::memcpy(_e08 + value_offset, flag->getValueRef().cstr() + i, length - i);
+        } else {
+            std::memcpy(_e08 + value_offset, flag->getValueRef().cstr() + i, word_size);
+        }
+    }
+    return true;
+}
+
+bool SaveMgr::sub_7100E083AC(const res::GameSaveData::Flag&,
+                                 const gdt::FlagT<sead::FixedSafeString<64>>* flag,
+                                 u32 size, u32 offset) {
+    constexpr u32 word_size = sizeof(u32);
+    const u32 length = flag->getValueRef().calcLength();
+    for (u32 i = 0; i < size; i += word_size) {
+        const u32 value_offset = offset + word_size;
+        if (value_offset >= _e10)
+            return false;
+        const u32 hash = flag->getHash();
+        std::memcpy(_e08 + offset, &hash, sizeof(hash));
+        offset += 2 * word_size;
+        if (offset >= _e10)
+            return false;
+        if (length < i) {
+            std::memset(_e08 + value_offset, 0, word_size);
+        } else if (length < i + word_size) {
+            std::memset(_e08 + value_offset, 0, word_size);
+            std::memcpy(_e08 + value_offset, flag->getValueRef().cstr() + i, length - i);
+        } else {
+            std::memcpy(_e08 + value_offset, flag->getValueRef().cstr() + i, word_size);
+        }
+    }
+    return true;
+}
+
+bool SaveMgr::sub_7100E08574(const res::GameSaveData::Flag&,
+                                 const gdt::FlagT<sead::FixedSafeString<256>>* flag,
+                                 u32 size, u32 offset) {
+    constexpr u32 word_size = sizeof(u32);
+    const u32 length = flag->getValueRef().calcLength();
+    for (u32 i = 0; i < size; i += word_size) {
+        const u32 value_offset = offset + word_size;
+        if (value_offset >= _e10)
+            return false;
+        const u32 hash = flag->getHash();
+        std::memcpy(_e08 + offset, &hash, sizeof(hash));
+        offset += 2 * word_size;
+        if (offset >= _e10)
+            return false;
+        if (length < i) {
+            std::memset(_e08 + value_offset, 0, word_size);
+        } else if (length < i + word_size) {
+            std::memset(_e08 + value_offset, 0, word_size);
+            std::memcpy(_e08 + value_offset, flag->getValueRef().cstr() + i, length - i);
+        } else {
+            std::memcpy(_e08 + value_offset, flag->getValueRef().cstr() + i, word_size);
+        }
+    }
+    return true;
+}
+
+// NON_MATCHING: reverse search and scalar/array call branches are scheduled differently.
+void SaveMgr::x_13(const sead::ObjArray<gdt::TriggerParam::FlagCopyRecord>& records) {
+    for (const auto& record : records) {
+        s32 file_index = _e00->getFiles().size();
+        s32 flag_index = -1;
+        while (file_index > 0) {
+            --file_index;
+            flag_index = _e00->getFiles()[file_index]->findFlagIndex(record.name_hash);
+            if (flag_index >= 0)
+                break;
+        }
+        if (flag_index < 0)
+            continue;
+        const auto& entry = _e00->getFiles().unsafeAt(file_index)->flags[flag_index];
+        if (entry.kv.value < 0)
+            continue;
+        u32 offset = entry._8;
+        const s16 sub_index = record.sub_index;
+        const gdt::FlagT<sead::FixedSafeString<32>>* flag;
+        if (sub_index < 0) {
+            flag = _f98->getStrFlag(entry.kv.value);
+        } else {
+            flag = _f98->getStrFlag(entry.kv.value, sub_index);
+            offset += sub_index * 64;
+        }
+        if (flag)
+            sub_7100E081E4(entry, flag, 32, offset);
+    }
+}
+
+// NON_MATCHING: reverse search and scalar/array call branches are scheduled differently.
+void SaveMgr::x_14(const sead::ObjArray<gdt::TriggerParam::FlagCopyRecord>& records) {
+    for (const auto& record : records) {
+        s32 file_index = _e00->getFiles().size();
+        s32 flag_index = -1;
+        while (file_index > 0) {
+            --file_index;
+            flag_index = _e00->getFiles()[file_index]->findFlagIndex(record.name_hash);
+            if (flag_index >= 0)
+                break;
+        }
+        if (flag_index < 0)
+            continue;
+        const auto& entry = _e00->getFiles().unsafeAt(file_index)->flags[flag_index];
+        if (entry.kv.value < 0)
+            continue;
+        u32 offset = entry._8;
+        const s16 sub_index = record.sub_index;
+        const gdt::FlagT<sead::FixedSafeString<64>>* flag;
+        if (sub_index < 0) {
+            flag = _f98->getStr64Flag(entry.kv.value);
+            if (!flag)
+                continue;
+            flag = _f98->getStr64Flag(entry.kv.value);
+            sub_7100E083AC(entry, flag, 64, offset);
+            continue;
+        } else {
+            flag = _f98->getStr64Flag(entry.kv.value, sub_index);
+            offset += sub_index * 128;
+        }
+        if (flag)
+            sub_7100E083AC(entry, flag, 64, offset);
+    }
+}
+
+// NON_MATCHING: reverse search and scalar/array call branches are scheduled differently.
+void SaveMgr::x_15(const sead::ObjArray<gdt::TriggerParam::FlagCopyRecord>& records) {
+    for (const auto& record : records) {
+        s32 file_index = _e00->getFiles().size();
+        s32 flag_index = -1;
+        while (file_index > 0) {
+            --file_index;
+            flag_index = _e00->getFiles()[file_index]->findFlagIndex(record.name_hash);
+            if (flag_index >= 0)
+                break;
+        }
+        if (flag_index < 0)
+            continue;
+        const auto& entry = _e00->getFiles().unsafeAt(file_index)->flags[flag_index];
+        if (entry.kv.value < 0)
+            continue;
+        u32 offset = entry._8;
+        const s16 sub_index = record.sub_index;
+        const gdt::FlagT<sead::FixedSafeString<256>>* flag;
+        if (sub_index < 0) {
+            flag = _f98->getStr256Flag(entry.kv.value);
+        } else {
+            flag = _f98->getStr256Flag(entry.kv.value, sub_index);
+            offset += sub_index * 512;
+        }
+        if (flag)
+            sub_7100E08574(entry, flag, 256, offset);
+    }
+}
+
 void SaveMgr::x_7() {
     _f98 = gdt::Manager::instance()->mFlagBuffer;
     x_8(_f98->mCopiedBoolFlags);

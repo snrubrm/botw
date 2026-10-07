@@ -88,6 +88,12 @@ public:
     bool x_1(s32 index, const sead::SafeString& path, bool a, bool byte_swap);
     bool sub_7100E041D0(s32 index, const sead::SafeString& file_name);
     bool sub_7100E04810(s32 index, const sead::SafeString& file_name);
+    bool sub_7100E081E4(const res::GameSaveData::Flag& entry,
+                        const gdt::FlagT<sead::FixedSafeString<32>>* flag, u32 size, u32 offset);
+    bool sub_7100E083AC(const res::GameSaveData::Flag& entry,
+                        const gdt::FlagT<sead::FixedSafeString<64>>* flag, u32 size, u32 offset);
+    bool sub_7100E08574(const res::GameSaveData::Flag& entry,
+                        const gdt::FlagT<sead::FixedSafeString<256>>* flag, u32 size, u32 offset);
     void x_7();
     void x_8(const sead::ObjArray<gdt::TriggerParam::FlagCopyRecord>& records);
     void x_11(const sead::ObjArray<gdt::TriggerParam::FlagCopyRecord>& records);
