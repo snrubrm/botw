@@ -8,4 +8,6 @@ target_sources(uking PRIVATE
   chmSystemConfig.cpp
   chmSystemConfig.h
   chmSystemConfigObjs.cpp
+  chmUnk_7102600ac0.cpp
+  chmUnk_7102600ac0.h
 )

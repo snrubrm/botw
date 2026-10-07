@@ -2,8 +2,13 @@
 #include <math/seadMathCalcCommon.h>
 #include <thread/seadThread.h>
 #include "KingSystem/ActorSystem/actActorChemicals.h"
+#include "KingSystem/Chemical/chmUnk_7102600ac0.h"
 
 namespace ksys::act {
+
+const sead::Vector3f& Unk_71024dd1c8::sub_7100D8D1E0() const {
+    return mElement ? mElement->m6() : sead::Vector3f::zero;
+}
 
 void Chemical::sub_7100D93B84() {
     _1b4 = 0.0f;
