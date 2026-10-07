@@ -2,30 +2,14 @@
 
 #include <basis/seadTypes.h>
 #include <hostio/seadHostIONode.h>
+#include <container/seadOffsetList.h>
 #include <prim/seadSafeString.h>
+#include "aal/aalAttenuationCulling.h"
+#include "aal/aalAttenuationDirectivity.h"
+#include "aal/aalAttenuator.h"
+#include "aal/aalCurve.h"
 
 namespace aal {
-
-// TODO: the attenuation components are not modelled. Only what the reflexers need (a virtual destructor) is declared.
-class Attenuator {
-public:
-    virtual ~Attenuator();
-};
-
-class Curve {
-public:
-    virtual ~Curve();
-};
-
-class AttenuationCulling {
-public:
-    virtual ~AttenuationCulling();
-};
-
-class AttenuationDirectivity {
-public:
-    virtual ~AttenuationDirectivity();
-};
 
 /// Exposes a list of attenuation components of type T to HostIO and owns the component that is being edited
 /// (created and destroyed through HostIO).
@@ -42,9 +26,46 @@ public:
     virtual void debugCreate_(const sead::SafeString&) {}
     virtual void debugDestroy_(const sead::SafeString&) {}
 
+    /// The list that is exposed (the nodes of its elements are at the offset of the list).
+    void setList(sead::OffsetList<T>* list) { mList = list; }
+
+    /// Tells HostIO that the list changed. The HostIO part is compiled out, what is left is the walk over the list
+    /// (two loops: the children are detached, then appended again).
+    void updateChildren() {
+        if (!mList)
+            return;
+        for (T& component : *mList) {
+        }
+        for (T& component : *mList) {
+        }
+    }
+
 private:
-    void* _8;
-    T* mComponent;
+    sead::OffsetList<T>* mList = nullptr;
+    T* mComponent = nullptr;
+};
+
+class AttenuatorListReflexer : public AttenuationComponentListReflexer<Attenuator> {
+public:
+    void debugCreate_(const sead::SafeString& name) override;
+    void debugDestroy_(const sead::SafeString& name) override;
+};
+
+class AttenuationCurveListReflexer : public AttenuationComponentListReflexer<Curve> {
+public:
+    void debugDestroy_(const sead::SafeString& name) override;
+};
+
+class AttenuationDirectivityListReflexer : public AttenuationComponentListReflexer<AttenuationDirectivity> {
+public:
+    void debugCreate_(const sead::SafeString& name) override;
+    void debugDestroy_(const sead::SafeString& name) override;
+};
+
+class AttenuationCullingListReflexer : public AttenuationComponentListReflexer<AttenuationCulling> {
+public:
+    void debugCreate_(const sead::SafeString& name) override;
+    void debugDestroy_(const sead::SafeString& name) override;
 };
 
 }  // namespace aal

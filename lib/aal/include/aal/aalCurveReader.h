@@ -5,6 +5,7 @@
 #include <prim/seadSafeString.h>
 #include "aal/aalResourceHeader.h"
 #include "aal/aalRollOffCurve.h"
+#include "aal/aalUnitDistanceCurve.h"
 
 namespace aal {
 
@@ -20,6 +21,8 @@ public:
     };
 
     explicit CustomCurveReader(const void* data);
+
+    bool isValid() const { return mData != nullptr; }
 
     s32 getNumOfSegments() const;
     /// nullptr if `index` is out of range.
@@ -40,6 +43,8 @@ private:
 class RollOffCurveReader {
 public:
     explicit RollOffCurveReader(const void* data);
+
+    bool isValid() const { return mData != nullptr; }
 
     RollOffModel getRollOffModel() const;
     f32 getRefDistance() const;
@@ -66,16 +71,12 @@ private:
     bool mIsVersion1 = false;
 };
 
-/// TODO: only the curve type enum is modeled.
-class UnitDistanceCurve {
-public:
-    SEAD_ENUM(CurveType, Log, Linear);
-};
-
 /// Reads the binary resource of a UnitDistanceCurve (signature "AUDC", version 1).
 class UnitDistanceCurveReader {
 public:
     explicit UnitDistanceCurveReader(const void* data);
+
+    bool isValid() const { return mData != nullptr; }
 
     UnitDistanceCurve::CurveType getCurveType() const;
     f32 getStartValue() const;

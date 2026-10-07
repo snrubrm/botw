@@ -1,5 +1,7 @@
 #include "aal/aalSpatialSetting.h"
+#include "aal/aalAttenuationMgr.h"
 #include "aal/aalMeter.h"
+#include "aal/aalSystemAccessor.h"
 
 namespace aal {
 
@@ -49,6 +51,14 @@ void SpatialSetting::setVelocity(const sead::Vector3f& velocity) {
 void SpatialSetting::getPosition(sead::Vector3f* position) const {
     if (position)
         mActorMatrix.getTranslation(*position);
+}
+
+// 0x7100b919f0
+void SpatialSetting::setAttenuator(const sead::SafeString& name) {
+    if (AttenuationMgr* mgr = SystemAccessor::getAttenuationMgr()) {
+        if (Attenuator* attenuator = mgr->findAttenuatorOrDefault(name))
+            mSetting.attenuator = attenuator;
+    }
 }
 
 // 0x7100b91a28

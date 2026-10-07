@@ -3,6 +3,7 @@
 #include <basis/seadTypes.h>
 #include <math/seadMatrix.h>
 #include <math/seadVector.h>
+#include <prim/seadSafeString.h>
 #include "aal/aalSpatialCalculator.h"
 
 namespace aal {
@@ -19,6 +20,8 @@ public:
 
     /// Makes the sound follow the shape (the sound position is the point of the shape closest to
     /// the listener).
+    /// Uses the attenuator with that name (or the default one); keeps the current one if there is none.
+    void setAttenuator(const sead::SafeString& name);
     void setShape(Shape* shape);
 
     void setPositioned(bool positioned);

@@ -28,7 +28,10 @@ public:
     FixedNamedObj() : NamedObj("") {}
     ~FixedNamedObj() override = default;
 
-    void setObjName(const sead::SafeString& name) override;
+    void setObjName(const sead::SafeString& name) override {
+        mFixedName.copy(name);
+        mName = mFixedName;
+    }
 
 protected:
     sead::FixedSafeString<N> mFixedName;

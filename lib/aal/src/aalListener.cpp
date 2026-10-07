@@ -1,4 +1,5 @@
 #include "aal/aalListener.h"
+#include "aal/aalListenerPoser.h"
 
 namespace aal {
 
@@ -11,6 +12,42 @@ Listener::Listener()
 
 // 0x7100b84474 (D1) / 0x7100b84494 (D0)
 Listener::~Listener() = default;
+
+// NON_MATCHING: same instructions; the previous position is kept in other callee-saved float registers.
+// 0x7100b844d4
+void Listener::calc() {
+    const f32 prev_x = mMatrix.m[0][3];
+    const f32 prev_y = mMatrix.m[1][3];
+    const f32 prev_z = mMatrix.m[2][3];
+
+    if (mPoser)
+        mPoser->calcListenerMatrix(&mLocalMatrix, &mLocalMatrixForAngle);
+    else
+        mLocalMatrixForAngle = mLocalMatrix;
+
+    // The position of the listener in the space of the matrix for the angle: -(R^T * t).
+    const auto& m = mLocalMatrixForAngle.m;
+    const f32 x = -(m[0][0] * m[0][3]) - m[1][0] * m[1][3] - m[2][0] * m[2][3];
+    const f32 y = -(m[0][3] * m[0][1]) - m[1][3] * m[1][1] - m[2][3] * m[2][1];
+    const f32 z = -(m[0][3] * m[0][2]) - m[1][3] * m[1][2] - m[2][3] * m[2][2];
+    mPositionForAngle.set(x, y, z);
+
+    mMatrix.setInverse(mLocalMatrix);
+
+    if (_1ac == 0) {
+        if (_1a8) {
+            _19c = sead::Vector3f::zero;
+            _1a8 = false;
+        } else {
+            const f32 dz = mMatrix.m[2][3] - prev_z;
+            const f32 dy = mMatrix.m[1][3] - prev_y;
+            const f32 dx = mMatrix.m[0][3] - prev_x;
+            _19c.set(dx, dy, dz);
+        }
+    }
+
+    mDirectivity.setListenerMatrix(mMatrix);
+}
 
 // 0x7100b8469c
 void Listener::setPoser(ListenerPoser* poser) {

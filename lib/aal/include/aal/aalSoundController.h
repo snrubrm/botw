@@ -108,6 +108,7 @@ public:
     void stopForce();
     void preCalc();
     void calc();
+    void virtualize();
     void unvirtualize();
     /// 0x7100ba028c (declared only): returns whether the wave asset was in use by this sound.
     bool execOnDestroyWaveAsset(u64 a, u64 b, bool c, bool d);

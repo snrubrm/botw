@@ -1,6 +1,7 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <math/seadMatrix.h>
 #include <math/seadVector.h>
 #include "aal/aalCone.h"
 
@@ -26,6 +27,17 @@ public:
     virtual ~ListenerDirectivity();
 
     void setParams(const Settings& settings);
+    /// Points the cone along the direction of the listener (inline only in the original: the z axis of the matrix
+    /// is flipped).
+    void setListenerMatrix(const sead::Matrix34f& matrix) {
+        if (!_78)
+            return;
+        sead::Matrix34f cone_matrix = matrix;
+        cone_matrix.m[0][2] = -cone_matrix.m[0][2];
+        cone_matrix.m[1][2] = -cone_matrix.m[1][2];
+        cone_matrix.m[2][2] = -cone_matrix.m[2][2];
+        mCone.setActorMatrix(cone_matrix);
+    }
     /// `position` is in world space; the cone position is subtracted.
     f32 calcDistRate(const sead::Vector3f& position) const;
     /// `local` is relative to the cone position.

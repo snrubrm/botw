@@ -302,6 +302,50 @@ bool SoundSource::isVirtualized() const {
     return mVirtualizedBy != 0;
 }
 
+// 0x7100b781d0
+bool SoundSource::isVirtualized(VirtualizedBy by) const {
+    const u8 mask = sead::BitFlag8::makeMask(by);
+    return sead::BitFlag8(mVirtualizedBy).isOn(mask);
+}
+
+// 0x7100b77360
+bool SoundSource::virtualize(VirtualizedBy by, DebuggerResult) {
+    if (mState >= 6 && mState < 8)
+        return false;
+
+    const s32 mode = static_cast<s32>(mPlayingStateController->mVirtualizeMode);
+    if (mode == 0)
+        return false;
+
+    if (mode == 1) {
+        if (!(mState >= 6 && mState < 8)) {
+            if (mState <= 2) {
+                finishNow_();
+            } else {
+                mStartDelayTime = 0.0f;
+                mFadeInTime = 0.0f;
+                beginToStop_();
+            }
+        }
+    } else {
+        const u8 old = mVirtualizedBy;
+        mVirtualizedBy = old | (1 << by);
+        if (old == 0 && mVirtualizedBy != 0)
+            mPlayingStateController->virtualize();
+    }
+    return true;
+}
+
+// 0x7100b77450
+void SoundSource::unvirtualize(VirtualizedBy by) {
+    if (mState >= 6 && mState < 8)
+        return;
+    const u8 old = mVirtualizedBy;
+    mVirtualizedBy = old & ~(1 << by);
+    if (old != 0 && mVirtualizedBy == 0)
+        mPlayingStateController->unvirtualize();
+}
+
 // 0x7100b77ca0
 void SoundSource::kill() {
     reset();

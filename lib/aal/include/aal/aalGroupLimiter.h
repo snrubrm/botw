@@ -36,9 +36,11 @@ public:
     void updateUpperActiveSoundLimitList();
     void updateUpperRequestSoundLimitList();
     void updateUsingRequestIntervalLimiter();
-    /// 0x7100b80354 (declared only)
-    void addToActiveSoundLimitList(sead::OffsetList<SoundSource>* sources);
-    /// 0x7100b8040c (declared only): returns whether the sound was added to the limit list.
+    /// Moves the sound sources of the list to the limit list of the limiter (of the nearest ancestor with a limiter if
+    /// it has none).
+    bool addToActiveSoundLimitList(sead::OffsetList<SoundSource>* sources);
+    /// 0x7100b8040c: adds the sound to the request limit list (the name is the one of the CSV); returns whether the sound
+    /// was added.
     bool addToActiveSoundLimitList(SoundSource* source);
     void setActiveSoundLimiter(ActiveSoundLimiter* limiter, sead::OffsetList<SoundSource>* sources);
     void setRequestSoundLimiter(RequestSoundLimiter* limiter, sead::OffsetList<SoundSource>* sources);
@@ -86,6 +88,8 @@ public:
         f32 _0;
         f32 _4;
         f32 _8;
+        /// The fade curve type of the fader of the target (set before the target is set to its first value).
+        s32 _c;
     };
 
     /// A group whose sounds duck the group of the ducker.
@@ -95,11 +99,13 @@ public:
         bool isFaderMoving() const;
         f32 getFaderVolume() const;
 
+        Target() : mFader(1.0f, FadeCurveType(0), 1.0f) {}
+
     private:
         friend class GroupDucker;
 
-        Group* mGroup;
-        TargetSettings mSettings;
+        Group* mGroup = nullptr;
+        TargetSettings mSettings = {1.0f, 0.0f, 0.0f, 0};
         TimedFader mFader;
         sead::ListNode mListNode;
     };
@@ -112,7 +118,7 @@ public:
     void finalize();
     void setup(const Settings& settings);
     void calc();
-    /// 0x7100b83064 (declared only)
+    /// A group can only be a target once (and not the group that is ducked); false if it was not added.
     bool createAndAddTarget(Group* group, const TargetSettings& settings, sead::Heap* heap);
     bool createAndAddTarget(const sead::SafeString& group_name, const TargetSettings& settings, sead::Heap* heap);
     void removeAndDestroyAllTargets();

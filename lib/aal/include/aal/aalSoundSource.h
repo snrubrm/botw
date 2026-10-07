@@ -6,7 +6,9 @@
 
 #include <container/seadSafeArray.h>
 #include <prim/seadBitFlag.h>
+#include <prim/seadEnum.h>
 #include <prim/seadSafeString.h>
+#include "aal/aalDebuggerResult.h"
 #include "aal/aalFadeCurveType.h"
 #include "aal/aalHandle.h"
 #include "aal/aalSoundController.h"
@@ -43,6 +45,11 @@ public:
         void* _8;
         u16 prepare_flags;
     };
+
+    /// What virtualized the sound: every cause has a bit in `mVirtualizedBy`. The names are guesses (the text table
+    /// of the original is not in the binary): 0 is passed by the sound source itself, 1 is the cause that the active
+    /// sound limiters use by default and 2 the one that the group limiters set.
+    SEAD_ENUM(VirtualizedBy, Inaudible, Limiter, GroupLimiter)
 
     SoundSource();
     virtual ~SoundSource();
@@ -163,6 +170,12 @@ public:
     void pause(sead::BitFlag8 mask, bool pause, f32 fade_time);
     void setTrackVolume(sead::BitFlag32 tracks, f32 volume);
     bool isVirtualized() const;
+    bool isVirtualized(VirtualizedBy by) const;
+    /// Virtualizes the sound for the cause (depending on the virtualize mode: stops it or keeps it silently playing).
+    /// False if the sound can not be virtualized.
+    bool virtualize(VirtualizedBy by, DebuggerResult result);
+    /// Removes the cause; the sound is unvirtualized when it was the last one.
+    void unvirtualize(VirtualizedBy by);
     // 0x7100b78094 / 0x7100b780c8 / 0x7100b78048 / 0x7100b77e5c / 0x7100b781a4 / 0x7100b783b8
     bool setStreamRegionCallback(SoundController::StreamRegionCallback callback, void* user_data);
     void setIgnorePrefetch(bool ignore);

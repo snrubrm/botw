@@ -11,6 +11,15 @@ AttenuatorReader::AttenuatorReader(const void* data) {
         mData = header;
 }
 
+// 0x7100b95ef0
+sead::SafeString AttenuatorReader::getCurveName(DistanceParamTarget target) const {
+    if (mData) {
+        if (const char* name = getName_(mData->curves[target].name_offset))
+            return sead::SafeString(name);
+    }
+    return sead::SafeString::cEmptyString;
+}
+
 // NON_MATCHING: the original stores the SafeString vtable once and selects the string pointer (name or the empty string)
 // 0x7100b95f58
 sead::SafeString AttenuatorReader::getDirectivityName() const {

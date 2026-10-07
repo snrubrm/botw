@@ -1,8 +1,11 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <container/seadOffsetList.h>
 
 namespace aal {
+
+class SoundSource;
 
 /// Limits the number of sound requests (TODO: partial, the limiting calculation is not modeled).
 class RequestSoundLimiter {
@@ -23,6 +26,8 @@ public:
 
     /// Copies the settings; negative values and fractions that are out of range are replaced by the defaults.
     void setup(const Settings& settings);
+    /// Limits the sound requests of the sound sources in `sound_sources` (and those of the upper group limiter).
+    virtual void calcLimit(sead::OffsetList<SoundSource>* sound_sources, sead::OffsetList<SoundSource>* upper_sound_sources);
 
 private:
     Settings mSettings;

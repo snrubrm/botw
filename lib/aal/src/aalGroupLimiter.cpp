@@ -1,8 +1,12 @@
 #include "aal/aalGroupLimiter.h"
+#include <basis/seadNew.h>
+#include "aal/aalActiveSoundLimiter.h"
 #include "aal/aalGroup.h"
 #include "aal/aalGroupMgr.h"
 #include "aal/aalRequestIntervalLimiter.h"
+#include "aal/aalRequestSoundLimiter.h"
 #include "aal/aalSettings.h"
+#include "aal/aalSoundSource.h"
 #include "aal/aalSystemAccessor.h"
 
 namespace aal {
@@ -56,6 +60,67 @@ void GroupLimiter::updateUpperActiveSoundLimitList() {
             break;
         }
     }
+}
+
+// 0x7100b80170
+void GroupLimiter::calcActiveSoundLimit() {
+    if (!mActiveSoundLimiter || !mActiveSoundLimitList)
+        return;
+
+    mActiveSoundLimiter->mVirtualizedBy = SoundSource::VirtualizedBy::GroupLimiter;
+    mActiveSoundLimiter->calcLimit(mActiveSoundLimitList);
+
+    for (SoundSource& source : mActiveSoundLimitList->robustRange()) {
+        mActiveSoundLimitList->erase(&source);
+        if (source.mState != 7) {
+            if (!mUpperActiveSoundLimitList ||
+                source.isVirtualized(SoundSource::VirtualizedBy(mActiveSoundLimiter->mVirtualizedBy))) {
+                if (source.mSoundGroup)
+                    source.mSoundGroup->addToPlayingSoundSources(&source);
+            } else {
+                mUpperActiveSoundLimitList->pushBack(&source);
+            }
+        }
+    }
+}
+
+// 0x7100b80274
+void GroupLimiter::calcRequestSoundLimit() {
+    if (mRequestSoundLimiter && mRequestSoundLimitList)
+        mRequestSoundLimiter->calcLimit(mRequestSoundLimitList, mUpperRequestSoundLimitList);
+}
+
+// 0x7100b80354
+bool GroupLimiter::addToActiveSoundLimitList(sead::OffsetList<SoundSource>* sources) {
+    if (!sources)
+        return false;
+
+    sead::OffsetList<SoundSource>* list = mActiveSoundLimitList;
+    if (!list)
+        list = mUpperActiveSoundLimitList;
+    if (!list)
+        return false;
+
+    for (SoundSource& source : sources->robustRange()) {
+        sources->erase(&source);
+        list->pushBack(&source);
+    }
+    return true;
+}
+
+// 0x7100b8040c
+bool GroupLimiter::addToActiveSoundLimitList(SoundSource* source) {
+    if (!source)
+        return false;
+
+    sead::OffsetList<SoundSource>* list = mRequestSoundLimitList;
+    if (!list)
+        list = mUpperRequestSoundLimitList;
+    if (!list)
+        return false;
+
+    list->pushBack(source);
+    return true;
 }
 
 // 0x7100b802d8
@@ -166,6 +231,34 @@ void GroupDucker::suspend() {
 // 0x7100b8305c
 void GroupDucker::resetState() {
     mState = 0;
+}
+
+// NON_MATCHING: the original compares the pointer of the ducking source with the group without the pointer adjustment of
+// the base class (Group -> IDuckingSource).
+// 0x7100b83064
+bool GroupDucker::createAndAddTarget(Group* group, const TargetSettings& settings, sead::Heap* heap) {
+    if (!group)
+        return false;
+    for (Target& target : mTargets) {
+        if (target.mGroup == group)
+            return false;
+    }
+    if (mSource == group)
+        return false;
+
+    Target* target = new (heap) Target;
+    if (!target)
+        return false;
+    target->mGroup = group;
+    target->mSettings._0 = settings._0;
+    target->mSettings._4 = settings._4;
+    target->mSettings._8 = settings._8;
+    target->mSettings._c = settings._c;
+    target->mFader.setCurveType(FadeCurveType(settings._c));
+    target->mFader.setValueImmediate(1.0f);
+    if (!mTargets.isNodeLinked(target))
+        mTargets.pushBack(target);
+    return true;
 }
 
 // NON_MATCHING: the original calls the other overload as a tail call; this one converts the returned bool.

@@ -63,6 +63,37 @@ void GroupMgr::destroyGroupAll_() {
     mDefaultSoundGroup = nullptr;
 }
 
+// NON_MATCHING: the original handles the first element before the loop (without the index clamp), and does not
+// share one heap sort with the other table (the sort of sead::Buffer is expanded here too, differently scheduled).
+// 0x7100b81168
+void GroupMgr::createGroupHashTable(sead::Heap* heap) {
+    mGroupHashTable.freeBuffer();
+    const s32 num = mGroups.size();
+    if (num < 1)
+        return;
+    if (!mGroupHashTable.tryAllocBuffer(num, heap, 8))
+        return;
+    s32 i = 0;
+    for (Group& group : mGroups) {
+        GroupHashEntry& entry = mGroupHashTable[i];
+        entry.hash = sead::HashCRC32::calcStringHash(group.getObjName().cstr());
+        entry.group = &group;
+        ++i;
+    }
+    mGroupHashTable.heapSort(0, num - 1);
+}
+
+// 0x7100b80d38
+void GroupMgr::sortGroupsBreadthFirst_() {
+    if (!mInitialized)
+        return;
+    mGroups.insertionSort([](const Group* lhs, const Group* rhs) {
+        if (!lhs || !rhs)
+            return false;
+        return lhs->calcTreeDepth() > rhs->calcTreeDepth();
+    });
+}
+
 // 0x7100b80910
 void GroupMgr::createDefaultGroup_(sead::Heap* heap) {
     if (_9 || mDefaultSoundGroup)

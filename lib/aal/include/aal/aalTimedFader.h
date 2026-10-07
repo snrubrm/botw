@@ -24,6 +24,8 @@ public:
 private:
     /// Inline-only helper: converts a value to the curved domain (the inverse of the curve function).
     f32 toCurvedDomain_(f32 value) const;
+    /// Inline-only helper: the inverse of toCurvedDomain_.
+    f32 fromCurvedDomain_(f32 curved_value) const;
 
     f32 mValue;
     f32 mNextValue;

@@ -1,19 +1,23 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <prim/seadPtrUtil.h>
 #include <prim/seadSafeString.h>
+#include "aal/aalDistanceParamTarget.h"
 #include "aal/aalResourceHeader.h"
 
 namespace aal {
 
 /// Reads the binary resource of an Attenuator (signature "AATN", version 1): the names of the curves, the
 /// directivity and the culling that it is made of.
-/// TODO: getCurveName(DistanceParamTarget) is not modeled (the enum is not).
 class AttenuatorReader {
 public:
     explicit AttenuatorReader(const void* data);
 
+    bool isValid() const { return mData != nullptr; }
+
     /// The names are empty if the resource is not valid.
+    sead::SafeString getCurveName(DistanceParamTarget target) const;
     sead::SafeString getDirectivityName() const;
     sead::SafeString getCullingName() const;
     bool isListenerDirectivityEnabled() const;
@@ -37,7 +41,7 @@ private:
     };
 
     const char* getName_(u32 name_offset) const {
-        return reinterpret_cast<const char*>(mData) + (mData->name_base_offset + name_offset);
+        return static_cast<const char*>(sead::PtrUtil::addOffset(mData, mData->name_base_offset + name_offset));
     }
 
     const Data* mData = nullptr;
@@ -47,6 +51,8 @@ private:
 class AttenuationCullingReader {
 public:
     explicit AttenuationCullingReader(const void* data);
+
+    bool isValid() const { return mData != nullptr; }
 
     f32 getCullingDistance() const;
     f32 getCullingMergin() const;
@@ -69,6 +75,8 @@ private:
 class AttenuationDirectivityReader {
 public:
     explicit AttenuationDirectivityReader(const void* data);
+
+    bool isValid() const { return mData != nullptr; }
 
     f32 getInnerConeAngle() const;
     f32 getOuterConeAngle() const;

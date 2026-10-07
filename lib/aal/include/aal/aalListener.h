@@ -22,6 +22,10 @@ public:
 
     void setPoser(ListenerPoser* poser);
 
+    /// Updates the matrices of the listener (the poser calculates them if there is one) and the movement since the last
+    /// call.
+    void calc();
+
     /// The position of `position` relative to the listener.
     void calcLocalPosition(sead::Vector3f* out, const sead::Vector3f& position) const;
     /// The distance of `position` to the listener.

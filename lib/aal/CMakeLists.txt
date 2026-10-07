@@ -9,10 +9,19 @@ add_library(aal OBJECT
   include/aal/aalBiquadFilterPreset.h
   include/aal/aalAudioMetaReader.h
   include/aal/aalAttenuationComponentListReflexer.h
+  include/aal/aalAttenuationCulling.h
+  include/aal/aalAttenuationDirectivity.h
+  include/aal/aalAttenuationMgr.h
+  include/aal/aalAttenuator.h
+  include/aal/aalCurve.h
+  include/aal/aalCustomCurve.h
+  include/aal/aalUnitDistanceCurve.h
+  include/aal/aalDistanceParamTarget.h
   include/aal/aalAttenuationReader.h
   include/aal/aalCone.h
   include/aal/aalCurveReader.h
   include/aal/aalResourceHeader.h
+  include/aal/aalDecibel.h
   include/aal/aalDeviceType.h
   include/aal/aalEmitter.h
   include/aal/aalFadeCurveType.h
@@ -49,6 +58,7 @@ add_library(aal OBJECT
   include/aal/aalSoundController.h
   include/aal/aalSoundParam.h
   include/aal/aalSoundSource.h
+  include/aal/aalSoundSourceSortFuncs.h
   include/aal/aalSoundSourceUnifier.h
   include/aal/aalSpeakerBalanceUnifier.h
   include/aal/aalSpeakerChannelVolume.h
@@ -66,10 +76,17 @@ add_library(aal OBJECT
   include/aal/aalTimedFader.h
   src/aalActiveSoundLimiter.cpp
   src/aalAttenuationComponentListReflexer.cpp
+  src/aalAttenuationCulling.cpp
+  src/aalAttenuationDirectivity.cpp
+  src/aalAttenuationMgr.cpp
+  src/aalAttenuator.cpp
   src/aalAttenuationReader.cpp
   src/aalAssetInfo.cpp
   src/aalAudioMetaReader.cpp
   src/aalCone.cpp
+  src/aalDecibel.cpp
+  src/aalCustomCurve.cpp
+  src/aalUnitDistanceCurve.cpp
   src/aalConeFactory.cpp
   src/aalCurveReader.cpp
   src/aalArbiter.cpp
@@ -90,9 +107,11 @@ add_library(aal OBJECT
   src/aalSpatialCalculatorPool.cpp
   src/aalHandle.cpp
   src/aalInterior.cpp
+  src/aalLimiterUtil.cpp
   src/aalListener.cpp
   src/aalListenerDirectivity.cpp
   src/aalListenerMgr.cpp
+  src/aalListenerPoser.cpp
   src/aalInteriorSet.cpp
   src/aalOutputDevice.cpp
   src/aalISpeakerBalanceSupplier.cpp
@@ -104,6 +123,7 @@ add_library(aal OBJECT
   src/aalRollOffCurve.cpp
   src/aalShape.cpp
   src/aalShapeCapsule.cpp
+  src/aalShapeMgr.cpp
   src/aalShapeCylinder.cpp
   src/aalShapeCube.cpp
   src/aalShapeSegment.cpp
@@ -118,6 +138,7 @@ add_library(aal OBJECT
   src/aalSystem.cpp
   src/aalTimedFader.cpp
   src/aalSoundSource.cpp
+  src/aalSoundSourceSortFuncs.cpp
   src/aalSoundSourceUnifier.cpp
   src/aalSoundSourceUnifierSource.cpp
   src/aalSoundSourceUnifierTarget.cpp

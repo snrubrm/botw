@@ -75,8 +75,11 @@ protected:
     void detachSpatialCalculator_(SpatialCalculator* calculator);
     void setActorMatrixFromSpatialCalculator_(const sead::Matrix34f& matrix);
 
-    void* _48 = nullptr;
-    void* _50 = nullptr;
+public:
+    /// The node in the list of the shapes of the ShapeMgr.
+    sead::ListNode mShapeMgrListNode;
+
+protected:
     sead::Matrix34f mMatrix = sead::Matrix34f::ident;
     sead::Vector3f mOffset = sead::Vector3f::zero;
 

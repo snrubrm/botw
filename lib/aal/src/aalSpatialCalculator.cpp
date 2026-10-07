@@ -1,7 +1,11 @@
 #include "aal/aalSpatialCalculator.h"
 #include <cstring>
 #include <prim/seadScopedLock.h>
+#include "aal/aalAttenuationDirectivity.h"
+#include "aal/aalAttenuationMgr.h"
+#include "aal/aalAttenuator.h"
 #include "aal/aalCone.h"
+#include "aal/aalSystemAccessor.h"
 #include "aal/aalShape.h"
 
 namespace aal {
@@ -43,6 +47,33 @@ void SpatialCalculator::finalize() {
     if (mSetting.shape)
         mSetting.shape->detachSpatialCalculator_(this);
     mInitialized = false;
+}
+
+// NON_MATCHING: the original reloads mCone for the setAngle call (here it stays in a register).
+// 0x7100b8f81c
+void SpatialCalculator::setup(const Setting& setting) {
+    reset();
+    std::memcpy(&mSetting, &setting, sizeof(Setting));
+
+    // A unified sound source has no size.
+    if (mSetting.sound_source_size > 0.0f && mSetting.flags & 2)
+        mSetting.sound_source_size = 0.0f;
+
+    if (!mSetting.attenuator) {
+        if (AttenuationMgr* mgr = SystemAccessor::getAttenuationMgr())
+            mSetting.attenuator = mgr->getDefaultAttenuator();
+    }
+
+    if (mSetting.attenuator) {
+        if (AttenuationDirectivity* directivity = mSetting.attenuator->getAttenuationDirectivity()) {
+            mCone = ConeFactory::instance()->create();
+            if (mCone)
+                mCone->setAngle(directivity->getInnerConeAngleRad(), directivity->getOuterConeAngleRad());
+        }
+    }
+
+    if (mSetting.shape)
+        mSetting.shape->attachSpatialCalculator_(this);
 }
 
 // 0x7100b8f930

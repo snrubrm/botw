@@ -37,6 +37,8 @@ public:
 
 /// An entry of the sorted table of the groups of the GroupMgr.
 struct GroupHashEntry {
+    bool operator<(const GroupHashEntry& rhs) const { return hash < rhs.hash; }
+
     u32 hash;
     Group* group;
 };
@@ -75,6 +77,8 @@ public:
 
 private:
     void destroyGroupAll_();
+    /// 0x7100b81168: (re)creates the table of the groups sorted by name hash.
+    void createGroupHashTable(sead::Heap* heap);
     /// 0x7100b80d38 (declared only): sorts the groups by the depth in the tree.
     void sortGroupsBreadthFirst_();
     void createDefaultGroup_(sead::Heap* heap);

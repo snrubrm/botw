@@ -2,6 +2,10 @@
 
 #include <basis/seadTypes.h>
 
+namespace sead {
+class Heap;
+}
+
 namespace aal {
 
 class Arbiter;
@@ -35,6 +39,9 @@ public:
     u8 _78[0x28];
     /// The directory of the stream files.
     const char* mStreamFileRoot;
+    u8 _a8[0xe8 - 0xa8];
+    /// The heap of the debug tools (HostIO): the components that are created through HostIO are allocated on it.
+    sead::Heap* mDebugHeap;
 };
 
 }  // namespace aal
