@@ -6,6 +6,10 @@
 #include "aal/aalListenerDirectivity.h"
 #include "aal/aalNamedObj.h"
 
+namespace ksys::snd {
+class ListenerPoser;
+}
+
 namespace aal {
 
 class ListenerPoser;
@@ -15,6 +19,8 @@ class Listener : public FixedNamedObj<32>, public sead::hostio::Node {
     friend class Shape;
     friend class SpatialCalculator;
     friend class SoundSource;
+    // 0x7101054b94: the owning sound poser directly enables the angle basis at +0xf0.
+    friend class ksys::snd::ListenerPoser;
 
 public:
     Listener();

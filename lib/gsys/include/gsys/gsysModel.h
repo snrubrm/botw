@@ -92,6 +92,9 @@ public:
     // mMatrix. Callers set the matrix with setMatrix() (which flags it as changed) first.
     void updateWorldMatrix();
 
+    // Original 0x7100bf9b88: queues this model for drawing; no return value.
+    void requestDraw();
+
     // 0x7100bf79a4 (declared only; names are guesses): the sum of ModelUnit::getBoneNum() over the first
     // min(mUnitPool.size(), mNumModels) pool entries. (0x7100bf7a04 is the maximum instead of the sum;
     // 0x7100bf7a68 / 0x7100bf7ac8 are the same for ModelUnit::getMaterialNum().)
