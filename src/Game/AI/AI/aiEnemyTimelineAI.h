@@ -20,6 +20,7 @@ public:
     void loadParams_() override;
 
     const sead::SafeString& m34() override;
+    bool m35(const sead::SafeString& name) override;
     void m36(const sead::SafeString& name, ksys::act::ai::InlineParamPack* params) override;
 
 protected:

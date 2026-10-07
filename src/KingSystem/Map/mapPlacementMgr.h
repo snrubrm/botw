@@ -20,10 +20,17 @@ namespace uking {
 class VillagerMgr;
 }
 
+namespace ksys::tera {
+class System;
+}
+
 namespace ksys::map {
 
 class Object;
 class PlacementMgr;
+
+s32 sub_7100EDB6E0(bool* out_below, f32* out_height, tera::System* system,
+                   const sead::Vector3f* pos);
 
 // Placeholder name (0x71011e3d6c, CSV MassRenderer::x_2; the class of PlacementMgr::mMassRenderer): declaration only.
 class MassRenderer {
@@ -232,7 +239,7 @@ public:
     sead::ExpHeap* mTraverseResultHeap;
     void* mActorCreator;
     u32 mLoadedActorCount;
-    void* mTeraSystem;
+    tera::System* mTeraSystem;
     s32 mIntTime;
     f32 mTime;
     bool mTimeUpdated;

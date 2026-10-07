@@ -97,6 +97,9 @@ class Water {
     void setUpAttributeTable();
 };
 
+// CreateTeraSystem passes the System created at 0x71011113d4 to PlacementMgr.
+u32 sub_710110B4A4(f32* out_height, const sead::Vector2f* xz, System* system);
+
 bool checkTeraSystemStatus();
 
 // 0x71011190c8 (declaration only; placeholder name and signature): called by map::PlacementMapMgr::postPlaceActorsRouteStuff with

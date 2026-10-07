@@ -2,16 +2,12 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
 #include "KingSystem/Map/mapPlacementMgr.h"
+#include "KingSystem/Terrain/teraSystem.h"
 #include "KingSystem/XLink/xlinkXLink.h"
 #include <aal/aalHandle.h>
 #include <aal/aalSoundSource.h>
 #include <xlink2/xlink2AssetExecutorSLink.h>
 #include <xlink2/xlink2EventSLink.h>
-
-namespace ksys::tera {
-// 0x710110b4a4 (declared only; CSV unnamed): terrain height at (x, z), written to `out_height`.
-u32 sub_710110B4A4(f32* out_height, const sead::Vector2f* xz, void* tera_system);
-}  // namespace ksys::tera
 
 namespace uking::ai {
 using ksys::tera::sub_710110B4A4;

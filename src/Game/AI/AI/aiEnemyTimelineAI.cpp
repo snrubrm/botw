@@ -3,8 +3,27 @@
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Map/mapPlacementMgr.h"
+#include "KingSystem/World/worldManager.h"
 
 namespace uking::ai {
+
+bool EnemyTimelineAI::m35(const sead::SafeString& name) {
+    if (name != "Sleep")
+        return true;
+    if (auto* manager = ksys::world::Manager::instance(); manager && manager->isAocField())
+        return false;
+    if (auto* placement = ksys::map::PlacementMgr::instance();
+        placement && placement->mTeraSystem) {
+        bool below = false;
+        f32 height = 0.0f;
+        ksys::map::sub_7100EDB6E0(&below, &height, placement->mTeraSystem, mCentralPos_d);
+        return !below;
+    }
+    return true;
+}
+
+
 
 EnemyTimelineAI::EnemyTimelineAI(const InitArg& arg) : TimelineAI(arg) {}
 

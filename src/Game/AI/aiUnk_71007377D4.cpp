@@ -11,6 +11,7 @@
 #include "KingSystem/Utils/MathUtil.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/Map/mapPlacementMgr.h"
+#include "KingSystem/Terrain/teraSystem.h"
 #include "KingSystem/ActorSystem/actAttackSensor.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
@@ -686,8 +687,6 @@ bool sub_7100738FA8(ksys::act::Actor* actor, ksys::act::BaseProc* proc) {
 }
 
 namespace ksys::tera {
-// 0x710110b4a4 (declared only; CSV unnamed): terrain height at (x, z), written to `out_height`.
-u32 sub_710110B4A4(f32* out_height, const sead::Vector2f* xz, void* tera_system);
 // 0x71011094a0 (declared only; CSV unnamed): the terrain height query with two more flags.
 u32 sub_71011094A0(f32* out_height, const sead::Vector2f* xz, void* tera_system, s32 a3, s32 a4);
 }  // namespace ksys::tera
@@ -696,7 +695,7 @@ u32 sub_710072C494(f32* out_height, const sead::Vector3f* pos) {
     auto* placement = ksys::map::PlacementMgr::instance();
     if (!placement)
         return 0;
-    void* tera_system = placement->mTeraSystem;
+    auto* tera_system = placement->mTeraSystem;
     if (!tera_system)
         return 0;
     const sead::Vector2f xz(pos->x, pos->z);
@@ -707,7 +706,7 @@ u32 sub_710072C21C(f32* out_height, const sead::Vector3f* pos) {
     auto* placement = ksys::map::PlacementMgr::instance();
     if (!placement)
         return 0;
-    void* tera_system = placement->mTeraSystem;
+    auto* tera_system = placement->mTeraSystem;
     if (!tera_system)
         return 0;
     const sead::Vector2f xz(pos->x, pos->z);
