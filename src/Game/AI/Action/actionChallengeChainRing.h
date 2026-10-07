@@ -30,6 +30,8 @@ protected:
     u8 _ac0[0xb70 - 0xac0];
     bool _b70 = false;
     Unk_71024f15c0* _b78 = nullptr;
+
+    virtual void m35(sead::Vector3f* pos);
 };
 
 }  // namespace uking::action

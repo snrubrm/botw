@@ -60,4 +60,9 @@ void ChallengeChainRing::m34(const sead::Vector3f& pos, const sead::Vector3f& di
     mActor->actorPhysicsSetFlag2();
 }
 
+void ChallengeChainRing::m35(sead::Vector3f* pos) {
+    if (pos)
+        pos->set(_b78->_30.sub_7100EEB370());
+}
+
 }  // namespace uking::action
