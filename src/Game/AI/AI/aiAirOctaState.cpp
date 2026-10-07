@@ -166,6 +166,37 @@ void AirOctaState::sub_71002FE55C(const Payload* payload) {
     changeChild("オクタの数が減った");
 }
 
+void AirOctaState::sub_71002FE668(f32 distance) {
+    if (_278.isOnBit(3))
+        return;
+    auto* manager = sead::DynamicCast<AirOctaDataMgr>(*static_cast<Unk_71025afb58**>(mAirOctaDataMgr_a));
+    if (manager && (manager->mFlags & 8))
+        return;
+    if (isCurrentChild("逃げる"))
+        return;
+
+    mActor->m93(0, 0.0f);
+    if (auto* damage_manager = sead::DynamicCast<dmg::DamageManager>(mActor->getDamageMgr()))
+        damage_manager->_216.setBit(3);
+    _278.set(0x1c);
+    manager = sead::DynamicCast<AirOctaDataMgr>(*static_cast<Unk_71025afb58**>(mAirOctaDataMgr_a));
+    if (manager)
+        manager->mFlags |= 0x10;
+
+    if (distance != 0.0f) {
+        ksys::act::ai::InlineParamPack pack;
+        mActor->getASList()->x_2(66, 40, _278.isOnBit(3), false);
+        pack.addFloat(distance, "TargetDistance", -1);
+        changeChild("上昇", &pack);
+        _204.x = 0.0f;
+    } else {
+        if (_278.isOnBit(2))
+            _278.resetBit(2);
+        changeToWait(true);
+        _204.x = 4.0f;
+    }
+}
+
 void AirOctaState::m37() {
     if (isCurrentChild("逃げる")) {
         auto* damage_manager = sub_710072BA90(mActor);
