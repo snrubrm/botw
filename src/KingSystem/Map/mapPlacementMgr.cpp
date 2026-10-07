@@ -219,6 +219,28 @@ void PlacementMgr::sub_71011E63FC(const sead::Vector3f* pos, CellPos* out) {
     out->z = z - f32(out->row * 1000);
 }
 
+void PlacementMgr::sub_71011E6EE0() {
+    if (!mThreadStarted)
+        return;
+    if (mFlags.isOn(MgrFlag::_2) || mFlags.isOn(MgrFlag::_10000) || !mFlags.isOn(MgrFlag::_2000000))
+        return;
+
+    if (!mFlags.isOn(MgrFlag::_100)) {
+        const s32 phase = mIntTime % 2;
+        if (phase == 0)
+            mPlacementActors->sub_7100D52C0C();
+        else if (phase == 1)
+            mPlacementMapMgr->updateHkscLoadStatusesMaybe();
+        mPlacementActors->mStruct1->weirdSetup(&mPlayerPos);
+    }
+    if (mFlags.isOn(MgrFlag::_40))
+        return;
+    if (!(_690 & 0x40) && mClusteredRenderer)
+        mClusteredRenderer->sub_7101244038(&mCameraPos);
+    if (auto* fr = StagePreActorCache::instance()->getForestRenderer())
+        fr->sub_710F03C18(&mCameraPos);
+}
+
 // NON_MATCHING: only the materialisation of the constant arguments (the original derives -5000 / 5000 from the
 // -4000 / 4000 registers with an add and does not merge the last two 32-bit stores into one 64-bit store).
 void PlacementMgr::initPlacementTree(bool skip_rebuild) {

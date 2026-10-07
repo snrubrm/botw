@@ -18,6 +18,8 @@ public:
     s32 x_7(const sead::Vector3f& vec);
     // 0x7100f06798 (CSV x_8; declaration only)
     void x_8(s32 idx, bool a, bool b);
+    // 0x7100f03c18 (declaration only; placeholder name)
+    void sub_710F03C18(const sead::Vector3f* pos);
     // 0x7100f06904 (declaration only; placeholder name)
     void sub_710F06904(map::PlacementMgr* mgr, bool a);
     bool x_9();

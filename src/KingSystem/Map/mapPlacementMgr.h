@@ -97,6 +97,8 @@ public:
     void invoked2_();
     // 0x71011e54e8 (CSV initBeforeStageGenB)
     void initBeforeStageGenB();
+    // 0x71011e6ee0 (CSV x; placeholder name): the per-frame update of the placement helpers.
+    void sub_71011E6EE0();
     // 0x71011e6260 (CSV initPlacementTree)
     void initPlacementTree(bool skip_rebuild);
     // 0x71011e6308 (CSV placeActors)
@@ -147,7 +149,10 @@ public:
         _40000 = 0x40000,
         _80000 = 0x80000,
         _100000 = 0x100000,
+        _100 = 0x100,
+        _10000 = 0x10000,
         _200000 = 0x200000,
+        _2000000 = 0x2000000,
         _400000 = 0x400000,
         _1000000 = 0x1000000,
     };

@@ -17,6 +17,8 @@ public:
     void requestDraw();
     // 0x7101244598 (declaration only; placeholder name)
     void sub_7101244598();
+    // 0x7101244038 (declaration only; placeholder name)
+    void sub_7101244038(const sead::Vector3f* pos);
     // 0x7101243b70 (declaration only; placeholder name)
     void sub_7101243B70();
     // 0x71012497f8: calls `callback` for every cluster entry within `radius` of `pos`.

@@ -151,6 +151,8 @@ public:
     Object* getStaticObj_2(s32 idx) const;
     bool sub_7100D524B4() const;
     void x_9();
+    // 0x7100d52c0c (an empty function in the original: CSV nullsub_3773)
+    void sub_7100D52C0C();
     // 0x7100d53558 (CSV placeObject; declaration only)
     void placeObject(Object* obj);
     // 0x7100d580dc (CSV x_7; declaration only): walks the list at 0x2a8060 under the mutex at 0x2a8078.
