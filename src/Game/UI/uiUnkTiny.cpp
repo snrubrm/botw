@@ -87,7 +87,64 @@ void Unk_7102474b78::set38(s32 value) {
 Unk_7102474b78::~Unk_7102474b78() = default;
 
 // 0x71009336a4
+Unk_7102474ba8::Unk_7102474ba8() = default;
+
 Unk_7102474ba8::~Unk_7102474ba8() = default;
+
+void Unk_7102474ba8::sub_710093372C(bool first) {
+    if (!_8)
+        return;
+    if (first) {
+        if (_8->_91 == 3 || _8->_91 == 0)
+            _8->sub_7100BDDE7C(false, 0, true);
+    } else if (_8->_91 != 2) {
+        _8->sub_7100BDDE7C(false, 1, true);
+    }
+}
+
+void Unk_7102474ba8::sub_7100933774(bool first) {
+    if (!_8)
+        return;
+    if (first) {
+        if (_8->_91 == 1 || _8->_91 == 2)
+            _8->startAnimCloseImpl_(false, false);
+    } else if (_8->_91 != 0) {
+        _8->startAnimCloseImpl_(false, true);
+    }
+}
+
+bool Unk_7102474ba8::sub_71009337B0() const {
+    return _8 && (_8->_91 == 1 || _8->_91 == 2);
+}
+
+void Unk_7102474ba8::sub_71009337D4(nn::ui2d::Pane* parent) {
+    if (!_8)
+        return;
+    if (auto* old_parent = _8->mPane->GetParent())
+        old_parent->RemoveChild(_8->mPane);
+    parent->AppendChild(_8->mPane);
+}
+
+// NON_MATCHING: the compiler uses separate false-return blocks.
+bool Unk_7102474ba8::sub_7100933828(const nn::ui2d::Pane* parent) const {
+    return parent && _8 && _8->mPane->GetParent() == parent;
+}
+
+void Unk_7102474ba8::sub_7100933850(bool reverse, bool animated) {
+    if (!_10)
+        return;
+    if (reverse) {
+        if (animated)
+            _10->PlayAuto(-1.0f);
+        else
+            _10->StopAtMin();
+    } else {
+        if (animated)
+            _10->PlayAuto(1.0f);
+        else
+            _10->StopAtMax();
+    }
+}
 
 // 0x7100934b8c
 // 0x7100934aec

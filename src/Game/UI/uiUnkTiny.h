@@ -72,9 +72,18 @@ public:
 
 class Unk_7102474ba8 {
 public:
+    Unk_7102474ba8();
     virtual ~Unk_7102474ba8();
+    void sub_710093372C(bool first);
+    void sub_7100933774(bool first);
+    bool sub_71009337B0() const;
+    void sub_71009337D4(nn::ui2d::Pane* parent);
+    bool sub_7100933828(const nn::ui2d::Pane* parent) const;
+    void sub_7100933850(bool reverse, bool animated);
 
-    u8 _8[0x10];  // sizeof is 0x18 (array element of ScreenMessageGet::_37d8)
+    // Producer 9336AC attaches the layout and creates its animator.
+    eui::LayoutEx* _8 = nullptr;
+    eui::Animator* _10 = nullptr;
 };
 
 // A UI element helper that drives three animators (placeholder layout; the CSV rows 0x7100935894 - 0x71009359d8 are
