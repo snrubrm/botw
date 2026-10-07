@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/World/worldShootingStarMgrEx.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
 
 namespace uking::action {
@@ -22,8 +23,7 @@ protected:
     // aitree_variable at offset 0x20
     sead::SafeString* mCollaboShootingStarId_a{};
     Unk_71012419b4 _28;
-    u32 _48 = 0;
-    sead::SafeString _50;
+    ksys::world::ShootingStarAnchor::Identifier _48;
 };
 
 }  // namespace uking::action
