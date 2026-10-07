@@ -2,6 +2,7 @@
 
 #include "Game/AI/Action/actionMoveByAnimeDriven.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/Utils/Unk_7100e7277c.h"
 
 namespace ksys::as {
 class ASList;
@@ -31,8 +32,7 @@ private:
     const f32* _20;
     const f32* _28;
     sead::Vector3f _30;
-    const f32* _40;
-    f32 _48;
+    Unk_7100e7277c _40;
 };
 KSYS_CHECK_SIZE_NX150(Unk_7100000fd0, 0x50);
 

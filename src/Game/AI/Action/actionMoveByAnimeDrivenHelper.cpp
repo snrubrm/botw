@@ -15,7 +15,7 @@ static const f32 sUnk_7101DA3518 = 0.4f;
 Unk_7100000fd0::Unk_7100000fd0()
     : _0(&sUnk_7101DA350C), _8(&sUnk_7101DA3510), _10(&sUnk_7101DA3514),
       _18(&sUnk_7101EC1934), _20(&sUnk_7101EC1938), _28(&sUnk_7101EC193C),
-      _30(0, 0, 0), _40(&sUnk_7101DA3518), _48(0) {}
+      _30(0, 0, 0), _40{&sUnk_7101DA3518, 0} {}
 
 // NON_MATCHING: vector copy uses three scalar stores; original uses a z store and an xy pair.
 bool Unk_7100000fd0::sub_7100001050(ksys::as::ASList* as_list,
@@ -37,11 +37,11 @@ Unk_7100000fd0::~Unk_7100000fd0() = default;
 // NON_MATCHING: the original stores the z component (wzr) before the 8-byte xy store (ours: xy first)
 void Unk_7100000fd0::sub_710000102C(f32 value) {
     _30.set(0.0f, 0.0f, 0.0f);
-    _48 = value;
+    _40._8 = value;
 }
 
 // NON_MATCHING: store order of the zeroed vector (original: z, then xy) and the load of other._48 first
 void Unk_7100000fd0::sub_710000103C(const Unk_7100000fd0& other) {
     _30.set(0.0f, 0.0f, 0.0f);
-    _48 = other._48;
+    _40._8 = other._40._8;
 }
