@@ -107,6 +107,18 @@ f32 AutoPlacementMgr::sub_7100659230(const sead::Vector3f& pos) {
     return 0.0f;
 }
 
+f32 sub_7100659298(const sead::Vector3f& pos, void* const* stats) {
+    f32 value = 0;
+    if (uking::StatisticsMgr::instance()->query(&value, 1, *stats, &pos))
+        return value;
+    return 0.0f;
+}
+
+void sub_710065622C(s32* col, s32* row, const sead::Vector3f* pos) {
+    *col = sead::Mathi::clamp(s32((pos->x + 5000.0f) / 200.0f), 0, 49);
+    *row = sead::Mathi::clamp(s32((pos->z + 4000.0f) / 200.0f), 0, 39);
+}
+
 f32 AutoPlacementMgr::sub_71006592E8(const sead::Vector3f& pos) {
     f32 value = 0;
     if (uking::StatisticsMgr::instance()->query(&value, 1, _189dd0, &pos))
