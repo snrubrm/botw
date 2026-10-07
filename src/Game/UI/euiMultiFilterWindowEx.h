@@ -11,6 +11,8 @@ class LayoutEx;
 class MultiFilterWindowEx : public WindowEx {
 public:
     NN_RUNTIME_TYPEINFO(WindowEx)
+    MultiFilterWindowEx(const nn::ui2d::ResWindow*, const nn::ui2d::ResWindow*,
+                        const nn::ui2d::BuildArgSet&);
     MultiFilterWindowEx(const MultiFilterWindowEx& other, LayoutEx* layout);
     ~MultiFilterWindowEx() override;
     void DrawSelf(nn::ui2d::DrawInfo& draw_info, nn::gfx::CommandBuffer& command_buffer) override;
