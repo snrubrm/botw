@@ -1,6 +1,7 @@
 #include "Game/AI/AI/aiEnemyChaseTargetAndAction.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/AI/aiUnk_71007368A4.h"
+#include "Game/AI/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
@@ -56,6 +57,27 @@ bool EnemyChaseTargetAndAction::sub_7100384D50() {
     if ((target_pos - pos).length() <= getReachDistanceMaybe())
         return true;
     return sub_7100739030(mActor, *mTargetActor_d);
+}
+
+// NON_MATCHING: list initialization and target-coordinate loads are scheduled differently.
+void EnemyChaseTargetAndAction::m37() {
+    if (sub_71005DEC08(mTargetActor_d, mActor, *mLostDist_s, *mLostSpeed_s, *mLostAng_s))
+        setFailed();
+    _90.reset(*mRepathTime_s);
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(mTargetActor_d, &accessor);
+    const auto& target = accessor.getActorMtx().getTranslation();
+    if (!sub_710072E154(mActor, target, nullptr, -1)) {
+        if (!isGoStraightOrMove())
+            changeToLookAround();
+        sead::FixedObjList<sead::Vector3f, 8> points;
+        points.emplaceBack(target);
+        m41(points);
+    } else if (!isGoStraight()) {
+        startMoveToTargetMaybe(target);
+    } else {
+        getCurrentChild()->setDynamicParam(target, "TargetPos");
+    }
 }
 
 void EnemyChaseTargetAndAction::m38() {

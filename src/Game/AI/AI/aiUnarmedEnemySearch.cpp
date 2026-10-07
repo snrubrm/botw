@@ -130,7 +130,7 @@ void UnarmedEnemySearch::m39() {
     setFinished();
 }
 
-bool UnarmedEnemySearch::m40(const sead::ObjList<sead::Vector3f>& points, sead::Vector3f* out) {
+bool UnarmedEnemySearch::m40(sead::FixedObjList<sead::Vector3f, 8> points, sead::Vector3f* out) {
     for (auto it = points.begin(); it != points.end(); ++it) {
         if (sub_710072E154(mActor, *it, nullptr, -1)) {
             *out = *it;
@@ -141,7 +141,7 @@ bool UnarmedEnemySearch::m40(const sead::ObjList<sead::Vector3f>& points, sead::
 }
 
 // NON_MATCHING: iterator argument setup is scheduled in a different order.
-void UnarmedEnemySearch::m41(const sead::ObjList<sead::Vector3f>& points) {
+void UnarmedEnemySearch::m41(sead::FixedObjList<sead::Vector3f, 8> points) {
     if (!mActor->m45())
         return;
     auto* state = _50;

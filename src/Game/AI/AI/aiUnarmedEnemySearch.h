@@ -27,8 +27,8 @@ public:
     virtual void m37();
     virtual void m38() {}
     virtual void m39();
-    virtual bool m40(const sead::ObjList<sead::Vector3f>& points, sead::Vector3f* out);
-    virtual void m41(const sead::ObjList<sead::Vector3f>& points);
+    virtual bool m40(sead::FixedObjList<sead::Vector3f, 8> points, sead::Vector3f* out);
+    virtual void m41(sead::FixedObjList<sead::Vector3f, 8> points);
     virtual void m42();
     virtual bool m43(sead::Vector3f* out);
 
