@@ -15,6 +15,7 @@ void ArchiveHandle::sub_71009C36C0() { mTexture.sub_7100988FE8(); }
 void ArchiveHandle::sub_71009C36C8(s32 category, s32 value, s32 number) {
     mNumber.sub_7100989AF0(category, value, number);
 }
+void ArchiveHandle::sub_71009C36D0() { mNumber.sub_7100989AF0(-1, 0, 0); }
 Material* ArchiveHandle::sub_71009C3780() const { return mBreak.sub_71009B1738(); }
 f32 ArchiveHandle::sub_71009C37A8() const { return mBreak.sub_71009B1784(); }
 

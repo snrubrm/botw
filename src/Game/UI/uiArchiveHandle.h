@@ -15,6 +15,7 @@ public:
     void sub_71009C36B8(f32 frame);
     void sub_71009C36C0();
     void sub_71009C36C8(s32 category, s32 value, s32 number);
+    void sub_71009C36D0();
     Material* sub_71009C3780() const;
     f32 sub_71009C37A8() const;
 
