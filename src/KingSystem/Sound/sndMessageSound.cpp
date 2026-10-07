@@ -1,0 +1,25 @@
+#include "KingSystem/Sound/sndMgr.h"
+#include <aal/aalArbiter.h>
+#include <aal/aalEmitter.h>
+#include <aal/aalSystemAccessor.h>
+#include <heap/seadHeap.h>
+
+namespace ksys::snd {
+
+Unk_SoundMgr48::Unk_SoundMgr48() = default;
+
+Unk_SoundMgr48::~Unk_SoundMgr48() {
+    if (_10) {
+        if (auto* arbiter = aal::SystemAccessor::getArbiter()) {
+            arbiter->freeEmitter(_10);
+            _10 = nullptr;
+        }
+    }
+    if (_8) {
+        delete _8;
+        _8 = nullptr;
+    }
+}
+
+
+}  // namespace ksys::snd

@@ -24,6 +24,7 @@
 
 namespace aal {
 class Shape;
+class Emitter;
 class SpeakerBalanceUnifier;
 }
 
@@ -246,17 +247,30 @@ public:
     /* 0x08 */ sead::Buffer<Ducker> mDuckers;
 };
 
-// Placeholder name (SoundMgr::_48; the object has an aal::Handle at +0x18). Used by the UI message screens.
+// Actual sound-owned B8 allocation in 0x710105590C; its internal interfaces remain unresolved.
+class Unk_710105fe78 {
+public:
+    Unk_710105fe78();
+    virtual ~Unk_710105fe78();
+    u8 _8[0xb8 - 8];
+};
+KSYS_CHECK_SIZE_NX150(Unk_710105fe78, 0xb8);
+
+// Placeholder name (SoundMgr::_48), used by the UI message screens.
 class Unk_SoundMgr48 {
 public:
-    // 0x7101055b44 (CSV unnamed): stops the handle with a short fade if it is enabled.
+    Unk_SoundMgr48();
+    virtual ~Unk_SoundMgr48();
+    void sub_710105590C(sead::Heap* heap);
     void sub_7101055B44();
-    // 0x7101055e3c: returns 0.2f.
     f32 sub_7101055E3C() const;
 
-    u8 _0[0x18];
+    /* 0x08 */ Unk_710105fe78* _8 = nullptr;
+    /* 0x10 */ aal::Emitter* _10 = nullptr;
     /* 0x18 */ aal::Handle _18;
+    /* 0x28 */ aal::Handle _28;
 };
+KSYS_CHECK_SIZE_NX150(Unk_SoundMgr48, 0x38);
 
 // Placeholder (lane2 s46): the sound kind (0..5) the UI hands to SoundMgr (a 4-byte class: passed in a full register).
 struct UiSoundKind {
