@@ -2,6 +2,8 @@
 
 namespace ksys::snd {
 
+void OcclusionMgr::sub_71010560D4(sead::Heap* heap) {}
+
 // NON_MATCHING: only the schedule of the constant stores (the original stores the vtable pointer and the pair at +0x20 after
 // the first group of members).
 OcclusionMgr::OcclusionMgr() = default;

@@ -59,6 +59,7 @@ class UiSoundMgr {
 public:
     UiSoundMgr();
     virtual ~UiSoundMgr();
+    void sub_710105D0E4(sead::Heap* heap);
     // 0x710105d23c: requests its GetItemSound actor outside the TitleMenu map.
     void sub_710105D23C(sead::Heap* heap, act::ActorCreator* creator);
     void sub_710105D308();

@@ -2,6 +2,10 @@
 
 #include <basis/seadTypes.h>
 
+namespace sead {
+class Heap;
+}
+
 namespace ksys::snd {
 
 // Placeholder: the type of the owned objects of OcclusionMgr (deleted through the virtual destructor in slot 1).
@@ -16,6 +20,7 @@ class OcclusionMgr {
 public:
     // 0x7101055f70
     OcclusionMgr();
+    void sub_71010560D4(sead::Heap* heap);
     // 0x7101055ffc (D1) / 0x7101056068 (D0)
     virtual ~OcclusionMgr();
 

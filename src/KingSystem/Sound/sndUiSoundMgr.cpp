@@ -7,6 +7,8 @@
 
 namespace ksys::snd {
 
+void UiSoundMgr::sub_710105D0E4(sead::Heap* heap) {}
+
 UiSoundMgr::UiSoundMgr() : _88("UiSoundMgr") {}
 
 UiSoundMgr::~UiSoundMgr() {
