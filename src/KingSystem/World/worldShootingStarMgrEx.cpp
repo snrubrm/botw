@@ -51,6 +51,29 @@ void ShootingStarAnchor::sub_71010D00B0() {
 }
 
 
+bool ShootingStarAnchor::sub_71010D0734() const {
+    if (gdt::Manager::instance()) {
+        bool result = false;
+        gdt::getBoolByNameNoBool2(gdt::Manager::instance(), &result, _68);
+        return result;
+    }
+    return false;
+}
+
+bool ShootingStarAnchor::sub_71010D07A4() const {
+    if (gdt::Manager::instance()) {
+        bool result = false;
+        gdt::getBoolByNameNoBool2(gdt::Manager::instance(), &result, _70);
+        return result;
+    }
+    return false;
+}
+
+void ShootingStarAnchor::sub_71010D1394() {
+    _2c = 0;
+    _89 = false;
+}
+
 // 0x710250cb50 (TU-local, .data)
 static const sead::SafeString sUnk_710250CB50 = "MainField";
 

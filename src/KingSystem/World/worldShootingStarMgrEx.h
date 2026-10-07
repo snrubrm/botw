@@ -22,9 +22,20 @@ public:
     void calcShootingStarDLC();
     void sub_71010D00B0();
 
+    bool sub_71010D0734() const;
+    bool sub_71010D07A4() const;
+    void sub_71010D1394();
+
+    struct Identifier {
+        u32 hash{};
+        sead::SafeString name;
+    };
+
     void sub_71010D0814(act::InstParamPack* pack, const sead::Vector3f* position);
 
-    u8 _8[0x48 - 0x8];
+    u8 _8[0x2c - 0x8];
+    s32 _2c;
+    Identifier mIdentifier;
     sead::Vector3f _48;
     u8 _54[0x60 - 0x54];
     f32 _60;
@@ -42,6 +53,7 @@ KSYS_CHECK_SIZE_NX150(ShootingStarAnchor, 0x90);
 class ShootingStarMgrEx : public ShootingStarMgr {
 public:
     ShootingStarMgrEx();
+    static ShootingStarAnchor* sub_71010D0464(const ShootingStarAnchor::Identifier& id);
     ~ShootingStarMgrEx() override;
 
     void init_(sead::Heap* heap) override;
