@@ -16,6 +16,8 @@ class DelegateThread;
 
 namespace ksys::gdt {
 class TriggerParam;
+template <typename T>
+class FlagT;
 }  // namespace ksys::gdt
 
 namespace uking {
@@ -85,6 +87,8 @@ public:
     bool x_1(s32 index, const sead::SafeString& path, bool a, bool byte_swap);
     bool sub_7100E041D0(s32 index, const sead::SafeString& file_name);
     bool sub_7100E04810(s32 index, const sead::SafeString& file_name);
+    void someCheck_0(gdt::FlagT<bool>* flag);
+    void someStuff(gdt::FlagT<s32>* flag);
     void auto4();
 
     // Placeholder (type unknown): the object at +0x1020; EventAutoSaveAction calls its first virtual

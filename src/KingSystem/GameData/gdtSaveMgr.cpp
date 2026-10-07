@@ -522,6 +522,50 @@ bool SaveMgr::enableGdtMgrChangeOnlyMode(s32 x) {
     return true;
 }
 
+// NON_MATCHING: redundant bounds checks and loop index scheduling differ.
+void SaveMgr::someCheck_0(gdt::FlagT<bool>* flag) {
+    if (!flag)
+        return;
+    const s32 count = _e00->getFiles().size();
+    for (s32 i = 0; i < count; ++i) {
+        const s32 flag_index = _e00->getFiles()[i]->findFlagIndex(flag->getHash());
+        if (flag_index < 0)
+            continue;
+        const u32 offset = _e00->getFiles()[i]->flags[flag_index]._8;
+        if (offset + 4 < _e10) {
+            const u32 hash = flag->getHash();
+            std::memcpy(_e08 + offset, &hash, sizeof(hash));
+            if (offset + 8 < _e10) {
+                const u32 value = flag->getValue();
+                std::memcpy(_e08 + (offset + 4), &value, sizeof(value));
+            }
+        }
+        return;
+    }
+}
+
+// NON_MATCHING: redundant bounds checks and loop index scheduling differ.
+void SaveMgr::someStuff(gdt::FlagT<s32>* flag) {
+    if (!flag)
+        return;
+    for (s32 i = _e00->getFiles().size(); i > 0;) {
+        --i;
+        const s32 flag_index = _e00->getFiles()[i]->findFlagIndex(flag->getHash());
+        if (flag_index < 0)
+            continue;
+        const u32 offset = _e00->getFiles()[i]->flags[flag_index]._8;
+        if (offset + 4 < _e10) {
+            const u32 hash = flag->getHash();
+            std::memcpy(_e08 + offset, &hash, sizeof(hash));
+            if (offset + 8 < _e10) {
+                const s32 value = flag->getValueRef();
+                std::memcpy(_e08 + (offset + 4), &value, sizeof(value));
+            }
+        }
+        return;
+    }
+}
+
 void SaveMgr::x_5(u32 value) {
     if (_103c >= 1)
         *reinterpret_cast<u32*>(&_e08[_103c]) = value;
