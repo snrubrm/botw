@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Game/AI/AI/aiEnemyRoot.h"
+#include "Game/AI/aiUnk_710070F974.h"
+#include "Game/AI/aiUnk_71025ba778.h"
 #include "Game/Damage/dmgDamageCallback.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
@@ -54,6 +56,11 @@ protected:
     void* mLynelBodyControlUnit_a{};
     // aitree_variable at offset 0x270
     void* mLynelMoveParam_a{};
+    Unk_71025c89e8 _278;
+    Unk_71025ba778 _2c8;
+    Unk_7102406048 _478;
+    void* _4a0;  // not set by the constructor
 };
+KSYS_CHECK_SIZE_NX150(LynelRoot, 0x4a8);
 
 }  // namespace uking::ai

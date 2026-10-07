@@ -8,6 +8,7 @@
 #include "KingSystem/Utils/Types.h"
 
 class Unk_71025afc58;
+class Unk_71025c89e8;
 class Unk_710073ebd4;
 class Unk_7102450038;
 struct Unk_7100704914;
@@ -60,6 +61,7 @@ class ActionBase {
     SEAD_RTTI_BASE(ActionBase)
     // Helper objects owned by actions forward their param lookups to the owner.
     friend class ::Unk_71025afc58;
+    friend class ::Unk_71025c89e8;
     friend class ::Unk_710073ebd4;
     friend class ::Unk_7102450038;
     friend struct ::Unk_7100704914;

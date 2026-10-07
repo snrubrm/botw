@@ -29,6 +29,9 @@ void LynelRoot::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void LynelRoot::leave_() {
     EnemyRoot::leave_();
+    if (_478.mDamageManager)
+        sub_71005DA114(mActor, &_478);
+    _2c8.sub_710070F398(mActor);
 }
 
 void LynelRoot::m37() {
@@ -58,7 +61,7 @@ void LynelRoot::loadParams_() {
     getAITreeVariable(&mLynelAreaAlarmPoint_a, "LynelAreaAlarmPoint");
     getAITreeVariable(&mLynelBodyControlUnit_a, "LynelBodyControlUnit");
     getAITreeVariable(&mLynelMoveParam_a, "LynelMoveParam");
-    // FIXME: CALL sub_710070F83C @ 0x710070f83c
+    _278.sub_710070F83C(this);
 }
 
 }  // namespace uking::ai

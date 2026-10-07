@@ -13,14 +13,28 @@ class ActionBase;
 #include "Game/AI/aiUnk_71025afb58.h"
 
 // Placeholder name from its RTTI typeInfo static 0x71025c89e8 (parent: Unk_71025afb58; Derive vtable 0x710235ff20,
-// isDerived 0x7100066ec8): the "LynelMoveParam" AI tree variable's class. Layout unknown (only its RTTI is used by
-// Unk_710070f974::sub_710070F9CC).
+// isDerived 0x7100066ec8): the "LynelMoveParam" AI tree variable's class, embedded in LynelRoot (+0x278; size 0x50).
+// Only the parameters that sub_710070F83C loads are known.
 class Unk_71025c89e8 : public Unk_71025afb58 {
     SEAD_RTTI_OVERRIDE(Unk_71025c89e8, Unk_71025afb58)
 public:
     Unk_71025c89e8() = default;
     ~Unk_71025c89e8() override;  // out of line (lane4 s47): the key function that emits the vtable 0x7102450c18
+
+    // 0x710070f83c (lane1 s46): LynelRoot::loadParams_ calls it with the root AI.
+    void sub_710070F83C(ksys::act::ai::ActionBase* action);
+
+    /* 0x08 */ const f32* mStartRotBoostAngle_s = nullptr;
+    const f32* mMaxRotBoostAngle_s = nullptr;
+    const f32* mRotBoostScale_s = nullptr;
+    const f32* mRotBoostScaleGearTop_s = nullptr;
+    const f32* mMoveStraightAngle_s = nullptr;
+    const f32* mFrontCheckStartOffset_s = nullptr;
+    const f32* mSideCheckAngle_s = nullptr;
+    const f32* mFrontCheckNavRadius_s = nullptr;
+    const f32* mFrontCheckDist_s = nullptr;
 };
+static_assert(sizeof(Unk_71025c89e8) == 0x50);
 
 // Placeholder name (0x710070f974, no name known): a 0x18-byte state struct embedded at the end of
 // LynelMove (+0x88) and LynelNavMeshMove (+0x80). Its constructor is out of line. Methods
