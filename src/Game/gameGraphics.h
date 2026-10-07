@@ -33,6 +33,9 @@ public:
     // the lock at +0xf18.
     void sub_7100F2AF70(u8 map);
 
+    // 0x7100f35de8 (declaration only; placeholder name; lane2 s47): called by ui::Manager::sub_7100A7F81C
+    void sub_7100F35DE8();
+
     // 0x7100f35fa4 (lane2 request, s49; placeholder name): sets bit 12 (`second`) or 11 (not `second`) of
     // `_284` to `value`, then marks the settings dirty (`_280 |= 1`).
     void sub_7100F35FA4(bool value, bool second);

@@ -6,6 +6,7 @@
 #include <thread/seadCriticalSection.h>
 #include <math/seadVector.h>
 #include <prim/seadSafeString.h>
+#include "Game/UI/uiTimer.h"
 #include "KingSystem/Utils/Types.h"
 
 namespace sead {
@@ -67,7 +68,9 @@ public:
     void sub_7100A7C8D4();
     void sub_7100A7C9AC();
     void sub_7100AA8698();  // 0x7100aa8698 (CSV unnamed; called by sub_7100A7C8D4)
-    void sub_7100A7F81C();
+    // 0x7100a7f81c (lane2 s47): under the lock at `_650f8`: false if `_650f0 > 0`, else sets it to 1, asks the graphics
+    // system and returns true
+    bool sub_7100A7F81C();
     // 0x7100a702e8 (CSV uiManager::x_1)
     void sub_7100A702E8(eui::UIController* controller);
     // 0x7100a7f8e8 / 0x7100a7f900 (CSV uiManager::__auto1 / __auto15; placeholder names): copy `_651e0` from / to
@@ -77,7 +80,9 @@ public:
     // 0x7100a7f918 / 0x7100a7fdb4 (CSV uiManager::__auto4 / __auto11; placeholder names)
     bool sub_7100A7F918() const;
     bool sub_7100A7FDB4() const;
+    // 0x7100a7f890 / 0x7100a7f8d4 (lane2 s47): restart the timer `_651ac` once the flag `_651c4` is set / init `_651c8`
     void sub_7100A7F890();
+    void sub_7100A7F8D4();
     void sub_7100A7FBA4();
     bool sub_7100A7FDAC();
     void sub_7100A7B8CC(s32 a1);
@@ -174,7 +179,11 @@ public:
     u8 _65130[0x65160 - 0x650f8 - sizeof(sead::CriticalSection)];
     /* 0x65160 */ u64 _65160;
     /* 0x65168 */ s32 _65168;
-    u8 _6516c[0x651e0 - 0x6516c];
+    u8 _6516c[0x651ac - 0x6516c];
+    /* 0x651ac */ UiTimer _651ac;
+    /* 0x651c4 */ bool _651c4;
+    u8 _651c5[3];
+    /* 0x651c8 */ UiTimer _651c8;
     /* 0x651e0 */ s32 _651e0;
     u8 _651e4[0x651f8 - 0x651e4];
     /* 0x651f8 */ s32 _651f8;

@@ -2,6 +2,7 @@
 #include "Game/UI/uiUnkSingletons.h"
 #include "KingSystem/Utils/Thread/TaskThread.h"
 #include "Game/UI/euiUIController.h"
+#include "Game/gameGraphics.h"
 #include "Game/UI/uiUtils.h"
 
 namespace uking::ui {
@@ -64,6 +65,28 @@ void Manager::sub_7100A7F8E8(const Unk_UiPinInfo* info) {
 void Manager::sub_7100A7F900(Unk_UiPinInfo* info) const {
     if (info)
         info->_20 = _651e0;
+}
+
+// 0x7100a7f81c
+bool Manager::sub_7100A7F81C() {
+    auto lock = sead::makeScopedLock(_650f8);
+    if (_650f0 > 0)
+        return false;
+    _650f0 = 1;
+    Graphics::instance()->sub_7100F35DE8();
+    return true;
+}
+
+// 0x7100a7f890
+void Manager::sub_7100A7F890() {
+    if (_651c4)
+        _651ac.reset();
+    _651c4 = true;
+}
+
+// 0x7100a7f8d4
+void Manager::sub_7100A7F8D4() {
+    _651c8.init(15.0f);
 }
 
 // 0x7100a7f918
