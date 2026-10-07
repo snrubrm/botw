@@ -210,6 +210,14 @@ bool sub_7100A79EC4();
 void sub_7100A82DB8(s32 a);
 void sub_7100A82DD0(s32 a);
 
+// lane2 s47 (placeholder names, the evt::S7 TU 0x71008ae2a8 - 0x71008ae928; none of them uses `this`; the ones that take
+// arguments are ksys::evt::S7 members, see evtS7.h): helpers of the fade screens. 0x71008ae818 / 0x71008ae644 /
+// 0x71008ae8f4 work on the fade demo screen, 0x71008ae928 on the fade screen.
+void sub_71008AE644();
+void sub_71008AE818();
+void sub_71008AE8F4();
+bool sub_71008AE928();
+
 // 0x7100aa9728 (placeholder name): sets the UI manager's byte at 0x652e8 (called by the ScreenBootUp ctor).
 void sub_7100AA9728();
 

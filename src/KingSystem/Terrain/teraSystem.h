@@ -1,5 +1,7 @@
 #pragma once
 
+#include <basis/seadTypes.h>
+
 namespace sead {
 class Heap;
 }
@@ -33,6 +35,8 @@ public:
     void sub_7101112A74();
     void allocateApertureMapsCollectorImage(sead::Heap* heap);
     void loadScene();
+    // 0x710111f618 (CSV TeraSystem::x_0): bit 3 of the flags of the `index`th scene (the first if out of range)
+    bool sub_710111F618(s32 index);
 };
 class Water {
     void setUpAttributeTable();

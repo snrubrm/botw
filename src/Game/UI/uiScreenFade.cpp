@@ -98,6 +98,19 @@ void Fade::m74(f32 progress) {
     sub_7100BE9DD4(frame);
 }
 
+// 0x71010a01a8
+void ScreenFadeDemo::sub_71010A01A8(s32 where) {
+    if (where)
+        _300->StopAtMax();
+    else
+        _300->StopAtMin();
+}
+
+// 0x71010a01c4
+bool ScreenFadeDemo::sub_71010A01C4() {
+    return _300->mFrame == f32(_300->GetFrameSize());
+}
+
 // 0x71010a060c (the same code as Fade::isOpenEnd_, with the flag at 0x358)
 bool ScreenFadeDemo::isOpenEnd_() {
     if (_358)

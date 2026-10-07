@@ -7,6 +7,8 @@
 
 namespace ksys::evt {
 
+class S7;
+
 // Placeholder name: the RTTI base class of S5 (the object at EventFlowActorInfo + 0x200 is cast to S5 by S7).
 class S5Base {
 public:
@@ -23,8 +25,8 @@ public:
     ~S5() override = default;
     SEAD_RTTI_OVERRIDE(S5, S5Base)
 
-private:
-    /* 0x08 */ void* _8 = nullptr;
+public:
+    /* 0x08 */ S7* _8 = nullptr;  // the handle that currently owns the S5
     /* 0x10 */ u16 _10;
     /* 0x12 */ u8 _12;
 };
@@ -49,6 +51,21 @@ public:
 
     // 0x71008addb0 (CSV unnamed; placeholder name): takes the flow out of the EventSystem's count
     void sub_71008ADDB0();
+
+    // 0x71008ae2a8 (CSV evt::S7::openFadeDemoScreen) / 0x71008ae41c / 0x71008ae730 (placeholder names; none of them uses
+    // `this`; defined in uiFadeScreens.cpp): open the fade demo screen / the fade screen
+    void sub_71008AE2A8(bool a);
+    void sub_71008AE41C(bool open_status, bool stop_at_max);
+    void sub_71008AE730(bool stop_at_max);
+
+    // 0x71008af278 (placeholder name): has the EventSystem count the flow (sets bit 0 of `_14`) unless it already does
+    void sub_71008AF278();
+    // 0x71008af2bc (placeholder name; does not use `this`): AutoDim::setEnabled
+    void sub_71008AF2BC(bool enabled);
+    // 0x71008af3b8 (placeholder name): the flow's S5
+    S5* sub_71008AF3B8() const;
+    // 0x71008af44c (placeholder name): releases the S5's current owner if it is this handle
+    void sub_71008AF44C();
 
 protected:
     /* 0x08 */ EventFlowBase* mFlow;

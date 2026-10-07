@@ -84,4 +84,46 @@ void WizzrobeRoam::sub_71005FE5CC() {
     changeChild("移動", &pack);
 }
 
+// NON_MATCHING: the original duplicates the move-count computation per path (the GlobalRandom address stays in a callee-saved
+// register from the height-change roll) and schedules the float loads / the height clamp differently.
+// 0x71005fe6b0
+void WizzrobeRoam::calc_() {
+    auto* child = getCurrentChild();
+    if (!child->isFinished() && !child->isFailed())
+        return;
+
+    if (isCurrentChild("移動")) {
+        if (_8c < _90) {
+            sub_71005FE5CC();
+            return;
+        }
+        const s32 change_height_per = *mChangeHeightPer_s;
+        if (s32(sead::GlobalRandom::instance()->getU32(100)) < change_height_per) {
+            sub_71005FE85C();
+            return;
+        }
+        _8c = 0;
+    } else {
+        s32 level;
+        const f32 offset = *mHeightOffset_s;
+        if (offset == 0.0f) {
+            level = 0;
+        } else {
+            level = s32((offset * 0.5f + (mActor->getMtx().getTranslation().y - mCentralPos_d->y)) / offset);
+            level = sead::Mathi::min(level, *mMexHeightLevel_s);
+        }
+        _88 = level;
+        _8c = 0;
+    }
+
+    s32 count = *mMoveCountMin_s;
+    if (count < 1) {
+        count = 1;
+    } else if (count < *mMoveCountMax_s) {
+        count = sead::GlobalRandom::instance()->getS32Range(count, *mMoveCountMax_s + 1);
+    }
+    _90 = count;
+    sub_71005FE5CC();
+}
+
 }  // namespace uking::ai

@@ -94,6 +94,23 @@ void Unk_7102413808::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
     }
 }
 
+// NON_MATCHING: the original stores `_24 = 1` / `_24 = 0` in the two branches (ours sinks one store) and reaches the static
+// SafeString through a base 0x10 below it (`ldr x8, [x21, #0x10]!`).
+// 0x710051a6b8
+void Unk_7102413808::sub_710051A6B8() {
+    auto* manager = sead::DynamicCast<dmg::DamageManager>(mDamageManager);
+    ksys::act::ActorConstDataAccess accessor;
+    if (manager) {
+        ksys::act::acquireActor(manager->m37(), &accessor);
+        if (accessor.hasProc()) {
+            if (accessor.getName() == sUnk_7102413930)
+                _24 = 1;
+            else
+                _24 = 0;
+        }
+    }
+}
+
 // NON_MATCHING: the first stores (params, contact callbacks, sender) are scheduled differently
 PriestBossGiantEnemyRoot::PriestBossGiantEnemyRoot(const InitArg& arg)
     : PriestBossActorEnemyRoot(arg) {}

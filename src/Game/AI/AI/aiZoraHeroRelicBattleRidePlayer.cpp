@@ -55,6 +55,38 @@ bool ZoraHeroRelicBattleRidePlayer::handleMessage_(const ksys::Message* message)
     return false;
 }
 
+// NON_MATCHING: the original copies the link position component-wise (separate stores, `fcmp; b.gt` on the squared
+// distances, the actor height read after the access destructor); ours merges the copy and schedules the loads differently.
+// 0x7100614194
+void ZoraHeroRelicBattleRidePlayer::sub_7100614194(const ksys::act::BaseProcLink& link) {
+    if (!link.hasProc())
+        return;
+    if (_50 == link || _60 == link || _40 == link)
+        return;
+
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(&link, &accessor);
+    sead::Vector3f target = accessor.getActorMtx().getTranslation();
+    if (!_40.hasProc()) {
+        target.y = mActor->getMtx().getTranslation().y;
+    } else {
+        const f32 actor_x = mActor->getMtx().getTranslation().x;
+        const f32 actor_z = mActor->getMtx().getTranslation().z;
+        ksys::act::ActorConstDataAccess current;
+        ksys::act::acquireActor(&_40, &current);
+        const sead::Vector3f current_pos = current.getActorMtx().getTranslation();
+        const f32 current_dx = actor_x - current_pos.x;
+        const f32 current_dz = actor_z - current_pos.z;
+        const f32 link_dx = actor_x - target.x;
+        const f32 link_dz = actor_z - target.z;
+        target.y = mActor->getMtx().getTranslation().y;
+        if (current_dx * current_dx + current_dz * current_dz <= link_dx * link_dx + link_dz * link_dz)
+            return;
+    }
+    if (sub_710061430C(target))
+        _40 = link;
+}
+
 // 0x7100613ff0
 void ZoraHeroRelicBattleRidePlayer::sub_7100613FF0() {
     if (!ksys::gdt::getFlag_Water_Relic_ChanceTime(false)) {

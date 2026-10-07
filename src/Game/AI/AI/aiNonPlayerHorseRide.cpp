@@ -7,7 +7,10 @@
 
 namespace uking::ai {
 
-NonPlayerHorseRide::NonPlayerHorseRide(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
+NonPlayerHorseRide::NonPlayerHorseRide(const InitArg& arg) : ksys::act::ai::Ai(arg) {
+    // the original stores the bind type again after the ModelBindInfo constructor (`str wzr, [this, #0xd0]`)
+    _38._98 = 0;
+}
 
 NonPlayerHorseRide::~NonPlayerHorseRide() = default;
 

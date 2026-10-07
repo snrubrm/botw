@@ -973,8 +973,12 @@ public:
     void m101() override;
     // 0x71010a01f8 (declaration only; lane3 s38): `_350 = value` then a tail call into 0x71010a0200.
     void sub_71010A01F8(s32 value);
+    // 0x71010a01a8 / 0x71010a01c4 (placeholder names): the same as Fade::stopColorAnimatorAt / whether the animator
+    // is at its last frame
+    void sub_71010A01A8(s32 where);
+    bool sub_71010A01C4();
 
-    /* 0x300 */ void* _300{};
+    /* 0x300 */ eui::Animator* _300{};
     /* 0x308 */ eui::AnimatorSet _308;
     /* 0x328 */ eui::AnimatorSet _328;
     /* 0x348 */ void* _348{};

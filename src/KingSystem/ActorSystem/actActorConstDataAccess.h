@@ -347,6 +347,6 @@ private:
 };
 KSYS_CHECK_SIZE_NX150(ActorConstDataAccess, 0x18);
 
-bool acquireActor(BaseProcLink* link, ActorConstDataAccess* accessor);
+bool acquireActor(const BaseProcLink* link, ActorConstDataAccess* accessor);
 
 }  // namespace ksys::act

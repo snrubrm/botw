@@ -1,5 +1,6 @@
 #include "Game/AI/AI/aiPlayerGrab.h"
 #include "Game/UI/uiUtils.h"
+#include "KingSystem/ActorSystem/Attention/actAttentionSingleton.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 #include "Game/gameUnk_710246d058.h"
 
@@ -11,8 +12,31 @@ bool PlayerGrab::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
 }
 
+// 0x710082b9e8
 void PlayerGrab::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _38 = false;
+    _39 = false;
+    if (handlePendingChildChange())
+        return;
+
+    if (!static_cast<ksys::act::Player*>(mActor)->_d11) {
+        if (ksys::act::sub_710086B194() == ksys::act::AttActionCodeValue(0x1800004))
+            ksys::act::Attention::instance()->sub_7100D74514(nullptr);
+        if (static_cast<ksys::act::Player*>(mActor)->m199())
+            changeChild("持上げ", nullptr);
+        else
+            changeChild("準備", nullptr);
+    } else if (static_cast<ksys::act::Player*>(mActor)->get17d0()->controllerCheckPressedMaybe(17)) {
+        _38 = true;
+        changeChild("置き", nullptr);
+    } else if (static_cast<ksys::act::Player*>(mActor)->m200()) {
+        _39 = true;
+        changeChild("置き", nullptr);
+    } else if (static_cast<ksys::act::Player*>(mActor)->x_49() && !static_cast<ksys::act::Player*>(mActor)->m203()) {
+        changeChild("投げ", nullptr);
+    } else {
+        changeChild("置き", nullptr);
+    }
 }
 
 void PlayerGrab::leave_() {

@@ -14,6 +14,7 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+    void calc_() override;
 
 protected:
     // 0x71005fedb4: raycast from `start` to `end` (ground / object / tree layers); the hit position goes to `hit_pos`
@@ -44,9 +45,9 @@ protected:
     const float* mHeightOffset_s{};
     // dynamic_param at offset 0x80
     sead::Vector3f* mCentralPos_d{};
-    u32 _88 = 0;
-    u32 _8c = 0;
-    u32 _90 = 1;
+    s32 _88 = 0;
+    s32 _8c = 0;
+    s32 _90 = 1;
 };
 KSYS_CHECK_SIZE_NX150(WizzrobeRoam, 0x98);
 
