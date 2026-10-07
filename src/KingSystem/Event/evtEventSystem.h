@@ -9,6 +9,7 @@
 
 namespace ksys::act {
 class Actor;
+class ActorConstDataAccess;
 }
 
 namespace ksys::evt {
@@ -21,6 +22,10 @@ public:
     // D1 0x71008aa750 (CSV evt::EventSystem::x_6), D0 0x71008ac2a0
     virtual ~EventSpeaker() = default;
 
+    // 0x7100e49784 (placeholder name): releases the speaker link under the lock
+    void sub_7100E49784();
+    // 0x7100e496f0 (CSV evt::S3::updateActorPosition): copies the previous / current position of the linked actor
+    void updateActorPosition();
     // 0x7100e497fc (CSV evt::S3::setSpeaker): replaces the speaker link; false if `actor` could not be linked.
     bool setSpeaker(act::Actor* actor);
     // 0x7100e497b8 (placeholder name; lane5 s5): whether `actor` is the linked speaker.
@@ -50,13 +55,20 @@ public:
     // 0x71008abf28
     int handleMessage(const Message& message) override;
 
+    // 0x71008ac100 (CSV x_3): sets bit 5 of the global scene flag word
+    void x_3(bool value);
+    // 0x71008abf30 / 0x71008abf38 (placeholder names): release the speaker link / acquire the speaker actor
+    void sub_71008ABF30();
+    void sub_71008ABF38(act::ActorConstDataAccess* accessor);
+
     // 0x71008abf48: speaker assignment.
     bool setSpeaker(act::Actor* actor);
 
     /* 0x30 */ u16 _30 = 0;
     /* 0x32 */ u8 _32 = 0;
     u8 _33;
-    /* 0x34 */ u8 _34[8] = {};
+    /* 0x34 */ s32 _34 = 0;
+    /* 0x38 */ s32 _38 = 0;
     /* 0x3c */ bool _3c[18];
     u8 _4e[2];
     /* 0x50 */ s32 _50;

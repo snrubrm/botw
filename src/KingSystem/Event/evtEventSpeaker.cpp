@@ -33,11 +33,14 @@ bool EventSpeaker::sub_7100E497B8(act::Actor* actor) const {
     return mLink.hasProc() && mLink.hasProcById(actor);
 }
 
+// 0x7100e49784
+void EventSpeaker::sub_7100E49784() {
+    auto lock = sead::makeScopedLock(mCS);
+    mLink.reset();
+}
+
 bool EventSpeaker::setSpeaker(act::Actor* actor) {
-    {
-        auto lock = sead::makeScopedLock(mCS);
-        mLink.reset();
-    }
+    sub_7100E49784();
     if (!actor)
         return true;
 
@@ -45,14 +48,20 @@ bool EventSpeaker::setSpeaker(act::Actor* actor) {
     {
         auto lock = sead::makeScopedLock(mCS);
         success = mLink.acquire(actor, false);
-        if (success && mLink.hasProc()) {
-            act::ActorConstDataAccess accessor;
-            act::acquireActor(&mLink, &accessor);
-            mPreviousPos = accessor.getPreviousPos2();
-            accessor.getActorMtx().getTranslation(mPos);
-        }
+        if (success)
+            updateActorPosition();
     }
     return success;
+}
+
+// 0x7100e496f0 (CSV evt::S3::updateActorPosition)
+void EventSpeaker::updateActorPosition() {
+    if (mLink.hasProc()) {
+        act::ActorConstDataAccess accessor;
+        act::acquireActor(&mLink, &accessor);
+        mPreviousPos = accessor.getPreviousPos2();
+        accessor.getActorMtx().getTranslation(mPos);
+    }
 }
 
 }  // namespace ksys::evt

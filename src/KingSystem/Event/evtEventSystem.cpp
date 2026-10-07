@@ -4,6 +4,7 @@
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
+#include "Game/gameRoot38.h"
 
 namespace ksys::evt {
 
@@ -24,6 +25,22 @@ EventSystem::~EventSystem() = default;
 
 int EventSystem::handleMessage(const Message& message) {
     return 1;
+}
+
+// 0x71008ac100
+void EventSystem::x_3(bool value) {
+    uking::Root38::instance()->setFlag(5, value);
+}
+
+// 0x71008abf30
+void EventSystem::sub_71008ABF30() {
+    mSpeaker.sub_7100E49784();
+}
+
+// 0x71008abf38
+void EventSystem::sub_71008ABF38(act::ActorConstDataAccess* accessor) {
+    if (accessor)
+        act::acquireActor(&mSpeaker.mLink, accessor);
 }
 
 bool EventSystem::setSpeaker(act::Actor* actor) {

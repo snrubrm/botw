@@ -17,6 +17,8 @@ class Root38 {
 public:
     virtual ~Root38();
 
+    // 0x710090c07c (declared only): sets / clears bit `flag` of the global flag word
+    void setFlag(int flag, bool on);
     // 0x71090c504 (declared only): whether bit `flag` of the global flag word is set (the actors use flag 2).
     bool testFlag(int flag) const;
     // 0x710090c300 (CSV Root38::hasAnyFlag; declared only): whether any bit of the global flag word is set.
