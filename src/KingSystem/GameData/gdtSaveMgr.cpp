@@ -294,6 +294,22 @@ u32 SaveMgr::sub_7100E0F578() const {
     return 3;
 }
 
+// NON_MATCHING: size and buffer argument copies and stores are scheduled differently.
+bool SaveMgr::x(const sead::SafeString& path, void* buffer, u32 size) {
+    if (_38 != 0)
+        return false;
+    const char* mount = _80.cstr();
+    sead::FormatFixedSafeString<256> full_path("%s://%s", mount, path.cstr());
+    _e60.copy(full_path);
+    _e58 = size;
+    _e50 = buffer;
+    _e4c = true;
+    _f78 = 4;
+    _38 = 1;
+    _30->sendMessage(1, sead::MessageQueue::BlockType::NonBlocking);
+    return true;
+}
+
 void SaveMgr::auto3() {
     _140 &= ~0x100;
 }

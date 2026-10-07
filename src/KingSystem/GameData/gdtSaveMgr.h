@@ -125,7 +125,14 @@ private:
     u32 _e40;
     u32 _e44;
     u32 _e48;
-    u8 _e4c[0xf80 - 0xe4c];
+    bool _e4c;
+    u8 _e4d[3];
+    void* _e50;
+    u32 _e58;
+    u8 _e5c[4];
+    sead::FixedSafeString<256> _e60;
+    u32 _f78;
+    u8 _f7c[4];
     void* _f80;
     u8 _f88[0xf94 - 0xf88];
     s32 _f94;
