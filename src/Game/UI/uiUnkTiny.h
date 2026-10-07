@@ -11,6 +11,11 @@
 // Small screen members and controllers named after their original vtable.
 // Several retain only their recovered destructor pair; recovered layouts and helpers are below.
 
+namespace nn::ui2d {
+class Pane;
+class Material;
+}
+
 namespace eui {
 class UniteButton;
 class Animator;
@@ -289,8 +294,20 @@ public:
 
 class Unk_710247aa30 {
 public:
+    Unk_710247aa30();
     virtual ~Unk_710247aa30();
+    void sub_71009B14F8(eui::LayoutEx* layout);
+    void sub_71009B1578(s32 state);
+    void sub_71009B163C(s32 state, f32 frame);
+    nn::ui2d::Pane* sub_71009B170C() const;
+    nn::ui2d::Material* sub_71009B1738() const;
+    f32 sub_71009B1784() const;
+
+    eui::LayoutEx* mLayout = nullptr;
+    eui::Animator* mBreakLoopAnimator = nullptr;
+    eui::Animator* mNewAnimator = nullptr;
 };
+static_assert(sizeof(Unk_710247aa30) == 0x20);
 
 class Unk_710247adc8 {
 public:

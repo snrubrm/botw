@@ -3,6 +3,7 @@
 #include "Game/UI/euiButton.h"
 #include "Game/UI/euiLayoutEx.h"
 #include "Game/UI/uiUtils.h"
+#include <nn/ui2d/Pane.h>
 
 // The "{ ; }" destructors keep the original's vtable store (upstream GameDataFlagSelector::~GameDataFlagSelector() { ; },
 // commit 96101229; the original D1 is `str vptr; ret`).
@@ -245,6 +246,75 @@ Unk_7102479f90::~Unk_7102479f90() = default;
 Unk_7102479fb0::~Unk_7102479fb0() = default;
 
 // 0x71009b14f0
+Unk_710247aa30::Unk_710247aa30() = default;
+
+void Unk_710247aa30::sub_71009B14F8(eui::LayoutEx* layout) {
+    if (layout) {
+        mLayout = layout;
+        mBreakLoopAnimator = layout->createAnimatorAuto("BreakLoop", true);
+        if (mBreakLoopAnimator)
+            mBreakLoopAnimator->StopAtMin();
+        mNewAnimator = mLayout->createAnimatorAuto("New", true);
+        if (mNewAnimator)
+            mNewAnimator->StopAtMin();
+    }
+}
+
+// NON_MATCHING: the compiler shares the New Animator frame load across both state branches.
+void Unk_710247aa30::sub_71009B1578(s32 state) {
+    if (mNewAnimator) {
+        if (state != 0) {
+            if (mNewAnimator->mFrame != 0.0f)
+                mNewAnimator->StopAtMin();
+        } else if (mNewAnimator->mFrame != mNewAnimator->GetFrameSize()) {
+            mNewAnimator->StopAtMax();
+        }
+    }
+    if (mBreakLoopAnimator) {
+        if (state == 2)
+            mBreakLoopAnimator->PlayAuto(1.0f);
+        else if (mBreakLoopAnimator->mRate != 0.0f)
+            mBreakLoopAnimator->StopAtMin();
+    }
+}
+
+// NON_MATCHING: shared frame load and the common StopAtMin exit use different scheduling.
+void Unk_710247aa30::sub_71009B163C(s32 state, f32 frame) {
+    if (state == 2) {
+        if (mBreakLoopAnimator)
+            mBreakLoopAnimator->PlayFromFrame(eui::Animator::PlayType(1), frame, 1.0f);
+        if (mNewAnimator && mNewAnimator->mFrame != 0.0f)
+            mNewAnimator->StopAtMin();
+    } else {
+        if (mNewAnimator) {
+            if (state != 0) {
+                if (mNewAnimator->mFrame != 0.0f)
+                    mNewAnimator->StopAtMin();
+            } else if (mNewAnimator->mFrame != mNewAnimator->GetFrameSize()) {
+                mNewAnimator->StopAtMax();
+            }
+        }
+        if (mBreakLoopAnimator && mBreakLoopAnimator->mRate != 0.0f)
+            mBreakLoopAnimator->StopAtMin();
+    }
+}
+
+nn::ui2d::Pane* Unk_710247aa30::sub_71009B170C() const {
+    return mLayout ? mLayout->GetPane()->FindPaneByName("N_Chemical_00", true) : nullptr;
+}
+
+nn::ui2d::Material* Unk_710247aa30::sub_71009B1738() const {
+    if (mLayout) {
+        if (auto* pane = mLayout->GetPane()->FindPaneByName("P_Icon_00", true))
+            return pane->GetMaterial(0);
+    }
+    return nullptr;
+}
+
+f32 Unk_710247aa30::sub_71009B1784() const {
+    return mBreakLoopAnimator && mBreakLoopAnimator->mRate != 0.0f ? mBreakLoopAnimator->mFrame : 0.0f;
+}
+
 Unk_710247aa30::~Unk_710247aa30() = default;
 
 // 0x71009b2054
