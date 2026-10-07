@@ -1,4 +1,7 @@
 #include "Game/AI/AI/aiLynelCloseBattle.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/AI/aiUnk_71007377D4.h"
+#include "KingSystem/Utils/MathUtil.h"
 
 namespace uking::ai {
 
@@ -60,6 +63,30 @@ bool LynelCloseBattle::isFinished() const {
     return ActionBase::isFinished() ||
            (isCurrentChild("戦闘攻撃") && getCurrentChild()->isFinished() &&
             (*mBackAngleAction_s != 1 || !sub_710048FA58()));
+}
+
+// Whether the target is within BackAngle (radians) of directly behind the actor,
+// measured in the plane perpendicular to the actor's up direction.
+bool LynelCloseBattle::sub_710048FA58() const {
+    if (*mBackAngle_s > 0.0f) {
+        const sead::Vector3f& target_pos = sub_71005D9330(mActor);
+        const sead::Vector3f pos = mActor->getMtx().getTranslation();
+        const sead::Vector3f up = getUpDir(mActor);
+
+        sead::Vector3f to_target = target_pos;
+        to_target -= pos;
+        ksys::util::sub_71011EFA00(&to_target, to_target, up);
+        to_target.normalize();
+
+        sead::Vector3f front;
+        mActor->getMtx().getBase(front, 2);
+        ksys::util::sub_71011EFA00(&front, front, up);
+        front.normalize();
+
+        const f32 angle = sead::Mathf::pi() - *mBackAngle_s;
+        return !(front.dot(to_target) >= sead::Mathf::cos(angle));
+    }
+    return false;
 }
 
 bool LynelCloseBattle::isFailed() const {
