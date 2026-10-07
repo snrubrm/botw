@@ -134,8 +134,12 @@ public:
     void pauseImpl_(bool pause, f32 fade_time);
     void freeUnifierSource_();
     void finishNow_();
-    /// 0x7100b776cc (declared only): starts the release of the sound.
+    /// 0x7100b776cc: starts the release of the sound (immediately if the release time is 0 or negative).
     void beginToStop_();
+    /// Allocates the spatial calculator (and the playing param) if the sound is positioned in space and calculates it.
+    void spatialCalc();
+    /// `force`: calculates even if the sound does not follow the position of the actor.
+    void spatialCalcNormal_(bool force);
     /// 0x7100b76d1c / 0x7100b76e5c (declared only)
     void beginToPlay_();
     void calcState_();

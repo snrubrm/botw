@@ -436,6 +436,97 @@ bool SoundSource::setupSpatialCalcUnified_(bool* unified) {
     return false;
 }
 
+// 0x7100b776cc
+void SoundSource::beginToStop_() {
+    f32 release_time = mFadeInTime;
+    if (release_time <= 0.0f) {
+        if (mEmitter) {
+            if (mEmitterNode.isLinked()) {
+                mEmitter->removeSoundSource(this);
+                release_time = mFadeInTime;
+            }
+            mEmitter = nullptr;
+        }
+    }
+
+    if (mSpatialSetting.isUnified()) {
+        if (mUnifierSource) {
+            if (SoundSourceUnifier* unifier = SystemAccessor::getSoundSourceUnifier())
+                unifier->freeSource(mUnifierSource, release_time);
+            mUnifierSource = nullptr;
+        }
+        finishNow_();
+    } else if (release_time < 0.0f) {
+        finishNow_();
+    } else {
+        if (release_time == 0.0f) {
+            mPlayingStateController->stopWithRelease();
+        } else if (mFader) {
+            mFader->moveTo(0.0f, release_time);
+        }
+        mState = 6;
+    }
+}
+
+// NON_MATCHING: the original stores `unified` (false) to its stack slot again in front of the call for the sounds that have a
+// speaker balance supplier and keeps a separate null check of the calculator after the allocation.
+// 0x7100b76fcc
+void SoundSource::spatialCalc() {
+    if (mState == 0 || mState == 7)
+        return;
+
+    bool unified = false;
+    if (!mSpatialSetting.isUnified()) {
+        if (mSpeakerBalanceSupplier) {
+            unified = false;
+        } else {
+            if (!mSpatialSetting.isPositioned())
+                return;
+            if (!mSpatialCalculator) {
+                mSpatialCalculator = SystemAccessor::getArbiter()->getSpatialCalculatorPool()->alloc(
+                    mSpatialSetting.getCalculatorSetting(), mSpatialSetting.isCalculatorExclusive());
+                if (!mSpatialCalculator)
+                    return;
+            }
+            if (!mSpatialPlayingParam) {
+                mSpatialPlayingParam = SystemAccessor::getArbiter()->getSpatialPlayingParamPool()->alloc();
+                if (!mSpatialPlayingParam)
+                    return;
+            }
+            unified = true;
+        }
+        spatialCalcNormal_(unified);
+        return;
+    }
+
+    if (setupSpatialCalcUnified_(&unified) && mSpatialCalculator && (unified | mSpatialSetting.isPositionFollow()))
+        mSpatialCalculator->calc(mTrackNum != 0 ? mChannelNum[0] > 1 : false);
+}
+
+// NON_MATCHING: the original keeps the load of the debugger result of the calculator for the (unused) argument of
+// virtualize (the other copy of the function is not the dead-argument-eliminated one).
+// 0x7100b771a0
+void SoundSource::spatialCalcNormal_(bool force) {
+    if (!mSpatialCalculator)
+        return;
+    if (!mSpatialSetting.isPositionFollow() && !force)
+        return;
+
+    if (mSpatialCalculator->calc(mTrackNum != 0 ? mChannelNum[0] > 1 : false))
+        virtualize(VirtualizedBy(0), DebuggerResult{mSpatialCalculator->_d0});
+    else
+        unvirtualize(VirtualizedBy(0));
+
+    if (mSpatialPlayingParam) {
+        mSpatialPlayingParam->reset();
+        for (s32 i = 0; i < mSpatialCalculator->getResultNum(); ++i) {
+            const SpatialCalculator::Result* result = mSpatialCalculator->getResult(i);
+            if (result->is_valid)
+                mSpatialPlayingParam->aggregate(i, *result);
+        }
+    }
+}
+
 // 0x7100b77ca4
 void SoundSource::stop(f32 fade_time, f32 release_time) {
     if (fade_time < 0.0f) {

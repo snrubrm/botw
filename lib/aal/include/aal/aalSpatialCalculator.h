@@ -21,7 +21,9 @@ class Shape;
 /// The spatial calculation result for one listener (0x98 bytes, partially modeled: the fields are the ones
 /// SpatialPlayingParam::aggregate reads).
 struct SpatialCalcResult {
-    u32 _0;
+    /// Whether the result is used (the sound source aggregates only the valid results).
+    bool is_valid;
+    u8 _1[3];
     f32 volume;
     f32 _8;
     f32 _c;
@@ -69,7 +71,9 @@ public:
     void initialize(s32 index, u32* dirty_counter, sead::Heap* heap);
     void finalize();
     virtual void setup(const Setting& setting);
-    virtual void calc(bool force);
+    /// Calculates the results for the listeners; returns whether the sound has to be virtualized (it is inaudible for
+    /// all listeners).
+    virtual bool calc(bool force);
     virtual void reset();
 
     /// Detaches the calculator from its shape; with `reset_position`, also forgets the position/matrix
@@ -94,6 +98,7 @@ private:
     friend class Shape;
     friend class SoundSourceUnifierSource;
     friend class SoundSourceUnifierTarget;
+    friend class SoundSource;
 
     /// Node in the calculator list of the attached Shape.
     sead::ListNode mShapeListNode;
