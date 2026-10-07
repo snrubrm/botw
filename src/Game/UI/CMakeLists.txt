@@ -95,6 +95,7 @@ target_sources(uking PRIVATE
   uiScreenBaseSlots.cpp
   uiScreenAkashNum.cpp
   uiScreenAppMapSmall.cpp
+  uiScreenAppMapWidget.cpp
   uiScreenKologNum.cpp
   uiScreenMamoNum.cpp
   uiScreenConstSlots.cpp

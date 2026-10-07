@@ -1430,10 +1430,45 @@ struct ScreenAppMapUnk3c98 {
 struct ScreenAppMapWidget {
     // 0x71009a9438 (CSV unnamed; declared only)
     bool sub_71009A9438();
-    u8 _0[0xb33a];
+    // Small accessors of the widget (lane2 s46; placeholder names, the field meanings are not known)
+    void sub_71009A995C();
+    s32 sub_71009AEF7C() const;
+    sead::Vector2f sub_71009AEFEC() const;
+    bool sub_71009AF0B4() const;
+    bool sub_71009AF0C4() const;
+    bool sub_71009AF0D8() const;
+    bool sub_71009AF0EC() const;
+    bool sub_71009AF0FC() const;
+    bool sub_71009AF110() const;
+    void sub_71009AF124(sead::Vector2f* out) const;
+    u8 sub_71009AF178() const;
+    bool sub_71009AF194() const;
+    u8 sub_71009AF37C() const;
+
+    u8 _0[0xb1db];
+    /* 0xb1db */ u8 _b1db;
+    u8 _b1dc[0xb33a - 0xb1dc];
     /* 0xb33a */ u8 _b33a;
-    u8 _b33b[0xb350 - 0xb33b];
+    u8 _b33b[0xb34c - 0xb33b];
+    /* 0xb34c */ u8 _b34c;
+    u8 _b34d[0xb350 - 0xb34d];
     /* 0xb350 */ s32 _b350;
+    u8 _b354[0xb4a0 - 0xb354];
+    /* 0xb4a0 */ s32 _b4a0;
+    u8 _b4a4[0xb4a8 - 0xb4a4];
+    /* 0xb4a8 */ s32 _b4a8;
+    u8 _b4ac[0xb4b0 - 0xb4ac];
+    /* 0xb4b0 */ f32 _b4b0;
+    /* 0xb4b4 */ f32 _b4b4;
+    /* 0xb4b8 */ f32 _b4b8;
+    /* 0xb4bc */ f32 _b4bc;
+    u8 _b4c0[0xb4e0 - 0xb4c0];
+    /* 0xb4e0 */ f32 _b4e0;
+    /* 0xb4e4 */ f32 _b4e4;
+    /* 0xb4e8 */ f32 _b4e8;
+    u8 _b4ec[0xb4fe - 0xb4ec];
+    /* 0xb4fe */ s8 _b4fe;
+    /* 0xb4ff */ u8 _b4ff;
 };
 
 class ScreenAppMap : public ScreenEx {
