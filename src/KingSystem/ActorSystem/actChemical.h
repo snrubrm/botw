@@ -12,8 +12,6 @@ namespace ksys::chm {
 class IShape;
 }
 
-class Unk_7102600ac0;
-
 namespace ksys::act {
 
 class Unk_71024e6560;
@@ -32,15 +30,11 @@ struct Unk_ChemicalWatch {
 };
 
 // Declaration only: chemical holder with vtable 0x71024dd1c8 (ctor 0x7100d8cbec).
-// 2026-10-07: D8CF1C links this holder to an Element-family peer. Root slot6 returns zero;
-// Element override10C6C54 returns its position at38. This is only the holder's prefix.
+// 2026-10-07: sub_7100D8D1E0 returns its owner's position reference, or Vector3f::zero;
+// its complete layout and separate owner interface are not recovered yet.
 class Unk_71024dd1c8 {
 public:
-    // Original own D1/D0 atD8CC64/D8CE60 remain unresolved.
-    virtual ~Unk_71024dd1c8();
     const sead::Vector3f& sub_7100D8D1E0() const;
-    void* _8;
-    Unk_7102600ac0* mElement;
 };
 
 // Placeholder (lane1 s22): the object Chemical::_90 points to; fields read by ChmCheck / ViewWaitRiskAvoid.
