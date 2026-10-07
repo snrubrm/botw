@@ -1,5 +1,7 @@
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include <gsys/gsysModelUnit.h>
+#include "KingSystem/Resource/Actor/resResourceModelList.h"
+#include "KingSystem/Mii/miiUMii.h"
 #include "KingSystem/ActorSystem/AS/asElement.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/Resource/Actor/resResourceASList.h"
@@ -257,6 +259,45 @@ void ASList::Unk1::sub_7101165008(const gsys::BoneAccessKey& key, int mode, bool
     } else {
         const auto name = model->getUnits()[key.model_unit_index]->mModelUnit->getBoneName(key.bone_index);
         partial->sub_7100BFF8E4(model, name, mode);
+    }
+}
+
+namespace {
+const char* const sPartialBoneNames[] = {
+    "DFM_Spine_1", "DFM_Spine_2", "DFM_Waist", "DFM_Neck_Controlled", "DFM_Chin", "DFM_Lip",
+    "Neck_Root", "Head_Controled", "Ear_L", "Ear_R", "Beard_Base", "Lip_U_Scale_Trans",
+    "Null_Teeth_U", "Nose", "Nose_U", "Null_Nose_Base", "Lip_D_Root", "Lip_D_Scale",
+    "Nose_Root", "Hair_Root", "Glass_Root", "Mustache_Root", "Hat_Root",
+};
+}
+
+// NON_MATCHING: typed key checks and folded constant names change scheduling and size.
+void ASList::Unk1::sub_7101164900(const res::ModelList* model_list, int idx, act::Actor* actor) {
+    if (!_30)
+        return;
+    _30->mCount = 0;
+    const s32 count = model_list->getNumPartials(idx);
+    for (s32 i = 0; i < count; ++i) {
+        res::ModelList::PartialInfo info;
+        model_list->getPartialInfo(&info, idx, i);
+        const auto key = _0->searchBone(info.bone);
+        if (!key.isValid())
+            continue;
+        if (info.recursible)
+            _30->sub_7100BFF95C(_0, info.bone, info.bind_flag);
+        else
+            _30->sub_7100BFF8E4(_0, info.bone, info.bind_flag);
+    }
+    if (_4e[0] != 2 && actor->sub_71011C7A98() &&
+        *actor->getUMii()->getBody().race == mii::UMii::Body::Race_Hylian) {
+        for (s32 i = 6; i < 23; ++i)
+            _30->sub_7100BFF8E4(_0, sPartialBoneNames[i], 3);
+        for (s32 i = 0; i < 6; ++i)
+            _30->sub_7100BFF95C(_0, sPartialBoneNames[i], 3);
+    }
+    if (_30) {
+        _4d = false;
+        _30->sub_7100BFF4CC(_0, &_38);
     }
 }
 
