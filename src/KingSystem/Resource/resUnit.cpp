@@ -157,8 +157,8 @@ static const ResourceUnit::Status sUnitStatusTransitionTable[] = {
 
 // NON_MATCHING: ldr + sxtw -> ldrsw
 void ResourceUnit::updateStatus() {
-    const s32 idx = mStatus;
-    if (Status::_2 <= idx && idx <= Status::_6)
+    const s32 idx = mStatus - Status::_2;
+    if (0 <= idx && idx <= Status::_6 - Status::_2)
         mStatus = sUnitStatusTransitionTable[idx];
 }
 

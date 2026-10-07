@@ -119,6 +119,7 @@ target_sources(uking PRIVATE
   resPlacement.h
   resResourceMgrTask.cpp
   resResourceMgrTask.h
+  resResourceMgrTaskRtti.cpp
   resSystem.cpp
   resSystem.h
   resTempResourceLoader.cpp

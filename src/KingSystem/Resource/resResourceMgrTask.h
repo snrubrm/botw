@@ -84,7 +84,18 @@ KSYS_CHECK_SIZE_NX150(FileDevicePrefix, 0x30);
 
 // FIXME: very incomplete.
 class ResourceMgrTask : public sead::CalculateTask, public sead::hostio::Node {
-    SEAD_RTTI_OVERRIDE(ResourceMgrTask, sead::CalculateTask)
+public:
+    static const sead::RuntimeTypeInfo::Interface* getRuntimeTypeInfoStatic() {
+        static const sead::RuntimeTypeInfo::Derive<sead::CalculateTask> typeInfo;
+        return &typeInfo;
+    }
+    static bool checkDerivedRuntimeTypeInfoStatic(const sead::RuntimeTypeInfo::Interface* typeInfo) {
+        if (typeInfo == getRuntimeTypeInfoStatic())
+            return true;
+        return sead::CalculateTask::checkDerivedRuntimeTypeInfoStatic(typeInfo);
+    }
+    bool checkDerivedRuntimeTypeInfo(const sead::RuntimeTypeInfo::Interface* typeInfo) const override;
+    const sead::RuntimeTypeInfo::Interface* getRuntimeTypeInfo() const override;
 public:
     enum class LaneId {
         _0 = 0,
