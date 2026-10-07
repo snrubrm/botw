@@ -7,6 +7,7 @@
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "Game/gameGraphics.h"
 #include "KingSystem/ActorSystem/actActorSystem.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayerLink.h"
 #include "KingSystem/Ecosystem/ecoSystem.h"
 #include "KingSystem/Event/evtManager.h"
 #include "KingSystem/Resource/resLoadRequest.h"
@@ -15,6 +16,14 @@
 #include "KingSystem/Utils/InitTimeInfo.h"
 
 namespace ksys::world {
+
+bool Manager::sub_71010F3A94() {
+    auto* player = act::ActorSystem::instance()->getPlayerLink();
+    if (player)
+        return player->m209();
+    return false;
+}
+
 
 namespace {
 
