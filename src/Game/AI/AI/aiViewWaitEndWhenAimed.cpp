@@ -9,6 +9,7 @@ namespace uking::ai {
 
 ViewWaitEndWhenAimed::ViewWaitEndWhenAimed(const InitArg& arg) : TimeredViewWait(arg) {}
 
+// NON_MATCHING: the natural base destructor call remains TimeredViewWait; original own/base definitions are preserved.
 ViewWaitEndWhenAimed::~ViewWaitEndWhenAimed() = default;
 
 bool ViewWaitEndWhenAimed::init_(sead::Heap* heap) {
