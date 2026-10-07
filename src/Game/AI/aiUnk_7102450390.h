@@ -15,7 +15,7 @@ class Ai;
 }
 }  // namespace ksys::act
 
-// Placeholder (vtable 0x7102450390: RTTI base, D1 0x7100705978 (664 B), D0 0x7100705cac) for the 0x308-byte message
+// Placeholder (vtable 0x7102450390: shared AI-tree RTTI subtype, D1 0x7100705978 (664 B), D0 0x7100705cac) for the 0x308-byte message
 // handling composite embedded in ForestGiantRoot at +0x230 (ctor 0x7100705834; the object at +0x150 has its own
 // vtable 0x71024503c0). Only the members that ForestGiantRoot calls are declared (all declaration only).
 // Constructor vtable slots and the necklace caller prove this shared AI-tree RTTI subtype.
