@@ -2,6 +2,7 @@
 
 #include <basis/seadTypes.h>
 #include <heap/seadDisposer.h>
+#include <prim/seadSafeString.h>
 #include "KingSystem/Utils/Types.h"
 
 namespace uking::ui {
@@ -22,14 +23,14 @@ public:
 
     // 0x71009859c8 (declared only).
     void show(s32 type, bool clear_input);
-    // 0x7100985c54 (declared only): the keyboard was confirmed.
+    // 0x7100985c54: the keyboard was confirmed (and some text was entered).
     bool x() const;
-    // 0x7100985ca8 (declared only): reads the entered text.
+    // 0x7100985ca8: stores the entered text as the new name of the horse.
     void x_0();
     // 0x7100985c84: the state field compares equal to the cancel state (0x29f).
     bool x_1() const;
 
-    /* 0x28 */ u16 _28 = 0;
+    /* 0x28 */ char16 _28 = 0;  // the first character of the entered text (the buffer extends to 0x78)
     u8 _2a[0x58 - 0x2a];
     /* 0x58 */ u64 _58 = 0;
     /* 0x60 */ u64 _60 = 0;
@@ -39,7 +40,7 @@ public:
     /* 0x74 */ bool _74 = true;
     /* 0x75 */ bool _75 = true;
     u8 _76[2];
-    /* 0x78 */ s32 _78;
+    /* 0x78 */ s32 _78;  // the result of the keyboard (0 = confirmed, low 22 bits: 0x29f = cancelled)
     u8 _7c[4];
 };
 KSYS_CHECK_SIZE_NX150(SwkbdMgr, 0x80);
