@@ -77,6 +77,14 @@ void Unk_71024dc858::sub_7100D77518(int idx, f32 value) {
     _18[idx] = value;
 }
 
+u16 Unk_71024dca28::m4() {
+    return m8()->m6()->getDirect();
+}
+
+void Unk_71024dca28::m7() {
+    m8()->m15();
+}
+
 Unk_71024dca28::~Unk_71024dca28() {
     for (auto* terror = _8; terror;) {
         auto* next = terror->_a8;
