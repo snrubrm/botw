@@ -2,6 +2,7 @@
 
 #include <math/seadMatrix.h>
 #include <math/seadVector.h>
+#include <prim/seadDelegate.h>
 #include <prim/seadSafeString.h>
 #include "KingSystem/System/VFR.h"
 
@@ -42,6 +43,10 @@ class BaseProcLink;
 void sub_7100EE9B68(Actor* actor, VFR::ScopedDeltaSetter* setter);
 // 0x7100ee66c4 (declared only; used by res::AttCheckCharacterOn::check)
 bool sub_7100EE66C4(Actor* actor, bool a2);
+// 0x7100eeb078 (declared only; used by ForkDisableContact): looks `body` up in the mutex-guarded list of the
+// rigid bodies it touches and calls `filter` on each entry; true when an entry was found (and accepted).
+bool sub_7100EEB078(phys::RigidBody* body, phys::RigidBody** out,
+                    sead::IDelegate2R<phys::RigidBody*, phys::RigidBody*, bool>* filter);
 // 0x7100ee3fa8 (declared only; used by res::AttCheckLine::check): a sphere cast between the actor of `link` and the
 // actor of `accessor` (line of sight when `as_line_of_sight`).
 bool sub_7100EE3FA8(const ActorConstDataAccess& link, const ActorConstDataAccess& accessor,

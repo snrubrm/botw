@@ -47,8 +47,6 @@ void Flint::calc_() {
 
 }  // namespace uking::action
 
-// NON_MATCHING: the original stores the masked material (`ldr w8, [x0, #8]; and w8, w8, #0x3f`) to a stack slot and
-// reloads it before the compare (the comparison goes through a volatile enum temporary); our compare keeps it in w8.
 void Unk_71023820a8::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
                           uking::dmg::DamageCallbackInfo* a6) {
     if (*a5 == -1)
@@ -61,7 +59,6 @@ void Unk_71023820a8::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
     auto* mask = mgr->m33();
     if (!mask)
         return;
-    const auto material = mask->getData().getMaterial();
-    if (material != ksys::phys::Material::Metal)
+    if (int(mask->getData().getMaterial()) != ksys::phys::Material::Metal)
         *a1 = 0;
 }
