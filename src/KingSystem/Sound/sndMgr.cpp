@@ -10,6 +10,52 @@ void SoundMgr::sub_71011FC29C() {
     _238 |= 2;
 }
 
+void SoundMgr::sub_71011FC288() {
+    if (!_f8.getDirect())
+        _30->sub_7100FF8804();
+}
+
+// NON_MATCHING: the original spills both arguments to the stack and reads them back (they are not plain ints; the types are
+// unknown).
+void SoundMgr::sub_71011FC0C0(UiSoundKind kind, s32 bit) {
+    _f8.setBit(bit);
+    if (!_f8.isZero()) {
+        switch (kind.value) {
+        case 0:
+            mDuckingMgr->sub_7101042024(DuckingMgr::DuckerType::cScreenFadeL);
+            break;
+        case 1:
+            mDuckingMgr->sub_7101042024(DuckingMgr::DuckerType::cScreenFadeM);
+            break;
+        case 2:
+            mDuckingMgr->sub_7101042024(DuckingMgr::DuckerType::cScreenFadeS);
+            break;
+        case 3:
+            mDuckingMgr->sub_7101042024(DuckingMgr::DuckerType::cScreenFadeLogo);
+            break;
+        case 5:
+            mDuckingMgr->sub_7101042024(DuckingMgr::DuckerType::cScreenFadeForce);
+            break;
+        }
+        _98->sub_710103D0D8(kind);
+    }
+}
+
+// NON_MATCHING: the original spills `bit` to the stack and reads it back (the type is unknown).
+void SoundMgr::sub_71011FC17C(UiSoundKind kind, s32 bit) {
+    _f8.resetBit(bit);
+    if (_f8.isZero()) {
+        bool active = mDuckingMgr->mDuckers[DuckingMgr::DuckerType(DuckingMgr::DuckerType::cScreenFadeLogo)].isActive();
+        mDuckingMgr->sub_7101042D6C(DuckingMgr::DuckerType::cScreenFadeS, active);
+        mDuckingMgr->sub_7101042D6C(DuckingMgr::DuckerType::cScreenFadeM, active);
+        mDuckingMgr->sub_7101042D6C(DuckingMgr::DuckerType::cScreenFadeL, active);
+        mDuckingMgr->sub_7101042D6C(DuckingMgr::DuckerType::cScreenFadeForce, active);
+        mDuckingMgr->sub_7101042D6C(DuckingMgr::DuckerType::cScreenFadeLogo, false);
+        mDuckingMgr->sub_7101042D6C(DuckingMgr::DuckerType::cPlayTimeOver, false);
+        _98->sub_710103D324(kind);
+    }
+}
+
 void Unk_SoundMgr48::sub_7101055B44() {
     if (_18.isEnabled())
         _18.stop(0.1f, 0.0f);

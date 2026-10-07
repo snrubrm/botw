@@ -17,6 +17,7 @@
 
 namespace aal {
 class Shape;
+class SpeakerBalanceUnifier;
 }
 
 namespace xlink2 {
@@ -47,13 +48,20 @@ public:
 // guarded by a CriticalSection at +0x20); shapes are registered with the one picked by a size threshold.
 class SpeakerBalanceUnifierMgr {
 public:
-    // 0x7101027d4c (declared only): adds `shape` to the unifier chosen by `size` (3 thresholds).
+    // 0x7101027d4c: adds `shape` to the unifier chosen by `size` (3 thresholds).
     void sub_7101027D4C(f32 size, aal::Shape* shape);
-    // 0x7101027e0c (declared only): removes `shape` from every unifier.
+    // 0x7101027e0c: removes `shape` from every unifier.
     void sub_7101027E0C(aal::Shape* shape);
     // 0x7101027e90 (declared only): emits the SLink sound for `type` (1 or 2) picked by `size` and
     // attaches `shape` to its sound source.
     xlink2::HandleSLink sub_7101027E90(f32 size, int type, aal::Shape* shape);
+
+    // 0x7102501140: the sizes that separate the four unifiers.
+    static f32 sSizeThresholds[3];
+
+    u8 _0[0x20];
+    /* 0x20 */ sead::CriticalSection mCS;
+    /* 0x60 */ sead::PtrArray<aal::SpeakerBalanceUnifier> mUnifiers;
 };
 
 // Placeholder name (SoundMgr::_38::_28; lane5 s6): the occlusion volume state of the sound manager, used by the
@@ -118,10 +126,12 @@ public:
     // clang-format on
 
     struct Ducker {
+        virtual void v0();
+        virtual void v1();
         // 0x7101042f18
-        bool isActive() const;
+        virtual bool isActive() const;
 
-        u8 _0[0x68];
+        u8 _8[0x60];
         /* 0x68 */ aal::GroupDucker mDucker;
         /* 0xb0 */ void* _b0;
         u8 _b8[8];
@@ -156,6 +166,11 @@ public:
     /* 0x18 */ aal::Handle _18;
 };
 
+// Placeholder (lane2 s46): the sound kind (0..5) the UI hands to SoundMgr (a 4-byte class: passed in a full register).
+struct UiSoundKind {
+    s32 value;
+};
+
 // Placeholder name (ctor 0x710103b704; SoundMgr::_98): starts / stops the two custom duckers (indices 0x30 / 0x31
 // of the DuckingMgr). Used by CustomDuckingStartAction / CustomDuckingEndAction.
 class Unk_710103b704 {
@@ -173,6 +188,9 @@ public:
     void sub_710103CFF4(StartParam& param);
     // 0x710103d094 (declared only)
     void sub_710103D094();
+    // 0x710103d0d8 / 0x710103d324 (declared only): the UI sound kind handed over by SoundMgr (see sub_71011FC0C0).
+    void sub_710103D0D8(UiSoundKind kind);
+    void sub_710103D324(UiSoundKind kind);
     // 0x710103d418: starts the ducker 0x1f.
     void sub_710103D418();
 
@@ -309,11 +327,6 @@ public:
     /* 0x4a70 */ u16 _4a70;
 };
 
-// Placeholder (lane2 s46): the sound kind (0..5) the UI hands to SoundMgr (a 4-byte class: passed in a full register).
-struct UiSoundKind {
-    s32 value;
-};
-
 // FIXME: incomplete
 struct SoundMgr {
     SEAD_SINGLETON_DISPOSER(SoundMgr)
@@ -348,7 +361,9 @@ public:
     /* 0x98 */ Unk_710103b704* _98;
     u8 _a0[0xa8 - 0xa0];
     /* 0xa8 */ Unk_SoundMgra8* _a8;
-    u8 _b0[0x238 - 0xb0];
+    u8 _b0[0xf8 - 0xb0];
+    sead::BitFlag8 _f8;
+    u8 _f9[0x238 - 0xf9];
     u8 _238;
     u8 _239[0x270 - 0x239];
     AudioChannelType mAudioChannelType;

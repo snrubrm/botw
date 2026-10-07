@@ -35,6 +35,9 @@ private:
 
 // Placeholder name (SoundMgr::_30): the BGM side of the sound manager.
 struct Unk_SoundMgr30 {
+    // 0x7100ff8804 (declared only; 164 B): called by SoundMgr::sub_71011FC288.
+    void sub_7100FF8804();
+
     u8 _0[0x78];
     /* 0x78 */ Unk_SoundMgr30_78* _78;
 };
