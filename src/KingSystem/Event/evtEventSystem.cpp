@@ -4,6 +4,8 @@
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
+#include "Game/gameRoot1.h"
+#include "Game/gameRoot4.h"
 #include "Game/gameRoot38.h"
 #include "KingSystem/Event/evtBaseProcLinkForEvent.h"
 #include "KingSystem/Event/evtEventFlow.h"
@@ -42,6 +44,32 @@ void EventSystem::x() {
     mSpeaker.updateActorPosition();
     x_4();
     uking::ui::sub_7100A941DC();
+}
+
+// NON_MATCHING: singleton load scheduling, branch sharing and zero argument width differ.
+void EventSystem::x_4() {
+    if (!_32)
+        return;
+    if (u32(_50) < 9) {
+        if (_38 > 0) {
+            if (uking::Root1::instance())
+                uking::Root1::instance()->sub_7100899CA4(uking::Root1::FlagIdx::_1, 0);
+        } else {
+            auto* root = uking::Root1::instance();
+            if (_34 > 0) {
+                if (root)
+                    root->sub_7100899CA4(uking::Root1::FlagIdx::_1, 1);
+            } else if (root) {
+                if (_3c[_50])
+                    root->sub_7100899CA4(uking::Root1::FlagIdx::_1, 0);
+                else
+                    root->sub_7100899CA4(uking::Root1::FlagIdx::_1, 1);
+            }
+        }
+        if (uking::Root4::instance())
+            uking::Root4::instance()->sub_71008BCE5C(uking::Root4::FlagIdx::_1, _45[_50], 3);
+    }
+    _32 = false;
 }
 
 // 0x71008ac148

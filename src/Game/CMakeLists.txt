@@ -46,6 +46,8 @@ target_sources(uking PRIVATE
   gameAlbumInfo.h
   gameSaveFlagCache.cpp
   gameSaveSystem.cpp
+  gameRoot1.cpp
+  gameRoot1.h
   gameRoot4.cpp
   gameRoot4.h
   gameRadarMgr.cpp
