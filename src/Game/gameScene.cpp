@@ -1,4 +1,5 @@
 #include "Game/gameScene.h"
+#include <devenv/seadGameConfig.h>
 #include <prim/seadDelegate.h>
 #include "KingSystem/ActorSystem/actBaseProc.h"
 #include "Game/gameSceneStateMachine.h"
@@ -34,6 +35,10 @@ bool sForceEnableGlidingSurfingRupee;
 // 0x71025cb0e8 (also addressed through the GOT; unnamed). Set by setIsRestartStageFromGameOver (the
 // restart-from-game-over request), cleared by genStage / resetStage and read by PlayerInfo::updateLifeAfterGameOver.
 bool sIsRestartStageFromGameOver;
+
+// 0x710245a360 (also addressed through the GOT; unnamed). Written by setIsRestartStageFromGameOver and read /
+// written by many of the stage generation functions.
+bool sUnk_710245a360;
 
 bool GameScene::sIsOpenWorldDemo{};
 GameScene* GameScene::sInstance;
@@ -289,6 +294,23 @@ void gameSceneSetFlag(bool value) {
 void setForceEnableGlidingSurfingRupee(bool value) {
     sForceEnableGlidingSurfingRupee = value;
 }
+
+}  // namespace uking
+
+bool sub_71007AF558() {
+    return uking::sForceEnableGlidingSurfingRupee && !sead::GameConfig::instance()->get_81a();
+}
+
+void setIsRestartStageFromGameOver() {
+    uking::sUnk_710245a360 = true;
+    uking::sIsRestartStageFromGameOver = true;
+    if (sub_71007AF558()) {
+        uking::recoverLifeAndStamina();
+        uking::sIsRestartStageFromGameOver = false;
+    }
+}
+
+namespace uking {
 
 bool gameSceneGetFlag() {
     return GameScene::sFlag;
