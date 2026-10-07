@@ -1,4 +1,12 @@
 #include "KingSystem/Resource/Actor/resResourceAttCheck.h"
+#include "KingSystem/ActorSystem/Attention/actAttentionSingleton.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "Game/Actor/actRideable.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/Physics/System/physRayCastBodyQuery.h"
+#include "KingSystem/ActorSystem/actUnk_7100e4e084.h"
+#include "KingSystem/GameData/gdtManagerInline.h"
 
 namespace ksys::res {
 
@@ -111,6 +119,113 @@ bool AttCheckEachOtherArea::parse(const CreateArg& arg) {
     mOffsetBottom.init(0.0, "OffsetBottom", "(アテンションを出される側の範囲オフセット)下辺",
                        "Min=-100,Max=100", &mObj);
     return AttCheck::parse(arg);
+}
+
+bool AttCheckWeight::check(act::Actor*, const act::ActorConstDataAccess&, const sead::Matrix34f*,
+                           const sead::Vector3f&, const AttCheck_Unk1* arg, bool, bool) {
+    return arg && arg->_34;
+}
+
+bool AttCheckRideSpace::check(act::Actor* actor, const act::ActorConstDataAccess& accessor,
+                              const sead::Matrix34f*, const sead::Vector3f&,
+                              const AttCheck_Unk1* arg, bool a6, bool) {
+    if (!actor)
+        return false;
+    if (arg)
+        return true;
+
+    act::ActorConstDataAccess link(actor);
+    auto* horse = link.getHorseRideStuff();
+
+    sead::Vector3f start;
+    link.getActorMtx().getTranslation(start);
+    start.y += horse ? horse->_38 : 0.0f;
+
+    sead::Vector3f end = start;
+    end.y = (a6 ? 0.8f : 0.85f) + end.y;
+
+    phys::RayCastBodyQuery query(accessor.x(0), phys::GroundHit::Player);
+    query.enableLayer(phys::ContactLayer::EntityGroundObject);
+    query.enableLayer(phys::ContactLayer::EntityGround);
+    query.enableLayer(phys::ContactLayer::EntityGroundRough);
+    query.enableLayer(phys::ContactLayer::EntityTree);
+    query.setStartAndEnd(start, end);
+    return !query.worldRayCast(phys::ContactLayerType::Entity);
+}
+
+bool AttCheckRideHorse::check(act::Actor*, const act::ActorConstDataAccess&, const sead::Matrix34f*,
+                              const sead::Vector3f&, const AttCheck_Unk1*, bool, bool) {
+    if (auto* attention = act::Attention::instance())
+        return !attention->sub_7100D75430();
+    return true;
+}
+
+bool AttCheckSwim::check(act::Actor*, const act::ActorConstDataAccess&, const sead::Matrix34f*,
+                         const sead::Vector3f&, const AttCheck_Unk1*, bool, bool) {
+    if (auto* attention = act::Attention::instance())
+        return !attention->sub_7100D75448();
+    return true;
+}
+
+bool AttCheckCarry::check(act::Actor*, const act::ActorConstDataAccess&, const sead::Matrix34f*,
+                          const sead::Vector3f&, const AttCheck_Unk1*, bool, bool) {
+    if (auto* attention = act::Attention::instance())
+        return attention->sub_7100D75460();
+    return true;
+}
+
+bool AttCheckNoCarry::check(act::Actor*, const act::ActorConstDataAccess&, const sead::Matrix34f*,
+                            const sead::Vector3f&, const AttCheck_Unk1*, bool, bool) {
+    if (auto* attention = act::Attention::instance())
+        return !attention->sub_7100D75460();
+    return true;
+}
+
+bool AttCheckGrab::check(act::Actor* actor, const act::ActorConstDataAccess&,
+                         const sead::Matrix34f*, const sead::Vector3f&, const AttCheck_Unk1*, bool,
+                         bool) {
+    if (!actor)
+        return false;
+    if (actor->getActorFlags2().isOn(act::Actor::ActorFlag2::_40000000))
+        return false;
+    auto* info = actor->m100();
+    if (!info)
+        return true;
+    return !info->_bc;
+}
+
+// NON_MATCHING: scheduling only (the original computes `activated != 0` before `ok ^ 1`)
+bool AttCheckBootFirstTower::check(act::Actor*, const act::ActorConstDataAccess&,
+                                   const sead::Matrix34f*, const sead::Vector3f&,
+                                   const AttCheck_Unk1*, bool, bool) {
+    auto* mgr = gdt::Manager::instance();
+    if (!mgr)
+        return true;
+    bool activated = false;
+    const bool ok = gdt::getBoolByName(mgr, &activated, "FindDungeon_Activated");
+    return activated || !ok;
+}
+
+bool AttCheckFireContact::check(act::Actor*, const act::ActorConstDataAccess&,
+                                const sead::Matrix34f*, const sead::Vector3f&,
+                                const AttCheck_Unk1*, bool, bool) {
+    if (auto* attention = act::Attention::instance())
+        return !attention->sub_7100D75478();
+    return false;
+}
+
+bool AttCheckCharacterOn::check(act::Actor* actor, const act::ActorConstDataAccess&,
+                                const sead::Matrix34f*, const sead::Vector3f&,
+                                const AttCheck_Unk1* arg, bool a6, bool) {
+    if (arg)
+        return true;
+    return !act::sub_7100EE66C4(actor, a6);
+}
+
+bool AttCheckUnderWater::check(act::Actor* actor, const act::ActorConstDataAccess&,
+                               const sead::Matrix34f*, const sead::Vector3f&,
+                               const AttCheck_Unk1*, bool, bool) {
+    return actor && actor->get6f4() <= 0.99f;
 }
 
 bool AttCheckAngle::parse(const CreateArg& arg) {

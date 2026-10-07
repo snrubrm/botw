@@ -202,6 +202,9 @@ public:
     // 0x7100d13ae4: AttClient::sub_7100D72554 of the actor's attention client `name`.
     bool sub_7100D13AE4(const sead::SafeString& name, BaseProc* proc,
                         const res::AttCheck_Unk1* arg, bool a4) const;
+    // 0x7100d12944 (declared only; used by res::AttPos::x_1): writes the world matrix of the bone `name` of the
+    // actor's model to `mtx`; false when there is none.
+    bool sub_7100D12944(sead::Matrix34f* mtx, const sead::SafeString& name) const;
     // 0x7100d10448: the physics instance set's system group handler `idx` (0 / 1).
     phys::SystemGroupHandler* sub_7100D10448(s32 idx) const;
     // 0x7100d103a0 (CSV act::acc::Actor::x): the physics instance set's handler _188[idx] (0 / 1).

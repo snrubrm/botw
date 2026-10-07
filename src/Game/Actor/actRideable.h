@@ -113,7 +113,7 @@ public:
     /* 0x18 */ ksys::act::Actor* mActor = nullptr;
     /* 0x20 */ ksys::act::BaseProcLink _20;
     /* 0x30 */ void* _30 = nullptr;
-    /* 0x38 */ u32 _38 = 0;
+    /* 0x38 */ f32 _38 = 0.0f;  // (read by res::AttCheckRideSpace::check as a height offset)
 };
 
 // Name from the CSV (RideableBase::*). vtable 0x71024eae60 (17 slots), size 0x180,

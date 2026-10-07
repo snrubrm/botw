@@ -74,9 +74,8 @@ void CameraAction::m34() {}
 
 void CameraAction::m36() {}
 
-// NON_MATCHING: the original zeroes x0 (`mov x0, xzr`): the return type is probably a 4-byte struct
-// (e.g. a SEAD_ENUM) whose type is unknown; enter_ stores it to Camera::_860._72c._0.
-u32 CameraAction::m37() {
+// The original zeroes x0 (`mov x0, xzr`): a 64-bit return type of unknown meaning.
+u64 CameraAction::m37() {
     return 0;
 }
 

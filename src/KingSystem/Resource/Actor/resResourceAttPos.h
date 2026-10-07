@@ -11,6 +11,7 @@ struct BoneAccessKey;
 
 namespace ksys::act {
 class Actor;
+class ActorConstDataAccess;
 }
 
 namespace ksys::res {
@@ -25,7 +26,13 @@ struct AttPos {
     // 0x00000071010952a0
     void edit(sead::Matrix34f* mtx, act::Actor* actor, const gsys::BoneAccessKey* key) const;
 
-    // TODO: more functions
+    // 0x7101095114 (CSV AttPos::x): when `y_rot_only` is set, rebuilds the basis of `mtx` so that only the rotation
+    // about the Y axis is kept.
+    void x(sead::Matrix34f* mtx) const;
+    // 0x71010954b8 / 0x7101095728 (CSV AttPos::x_1 / x_2): the attention position matrix of an actor (through its
+    // data accessor / directly): the bone (or actor) matrix with `x` applied, then the scaled offset and rotation.
+    void x_1(sead::Matrix34f* mtx, act::ActorConstDataAccess& accessor) const;
+    void x_2(sead::Matrix34f* mtx, act::Actor* actor) const;
 
     agl::utl::Parameter<sead::SafeString> node;
     agl::utl::Parameter<sead::Vector3f> offset;

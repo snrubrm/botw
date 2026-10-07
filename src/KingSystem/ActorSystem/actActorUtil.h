@@ -40,6 +40,8 @@ class BaseProcLink;
 
 // 0x7100ee9b68: applies the animation time rate for the actor update.
 void sub_7100EE9B68(Actor* actor, VFR::ScopedDeltaSetter* setter);
+// 0x7100ee66c4 (declared only; used by res::AttCheckCharacterOn::check)
+bool sub_7100EE66C4(Actor* actor, bool a2);
 
 enum class ArrowType {
     /// Wooden arrows.

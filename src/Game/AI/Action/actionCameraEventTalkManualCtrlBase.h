@@ -15,7 +15,7 @@ public:
     ~CameraEventTalkManualCtrlBase() override = default;
 
 protected:
-    u32 m37() override { return 1; }
+    u64 m37() override { return 1; }
     int m38() override { return 0; }
     void m43() override;
     void m46() override;

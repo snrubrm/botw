@@ -26,7 +26,7 @@ protected:
     virtual void m34();
     virtual void m35() {}
     virtual void m36();
-    virtual u32 m37();
+    virtual u64 m37();
     virtual int m38() { return 0; }
     virtual bool m39() { return true; }
     virtual void m40();
