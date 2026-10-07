@@ -11,6 +11,12 @@ const sead::Vector3f& Unk_71024f15c0::Data::sub_7100EEB370() const {
     return pos;
 }
 
+ksys::map::Rail* Unk_71024f15c0::Data::sub_7100EEB374() const {
+    if (rail && rail->x_20())
+        return rail;
+    return nullptr;
+}
+
 bool Unk_71024f15c0::m3() {
     if (_30.progress == 0)
         return true;

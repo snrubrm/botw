@@ -24,7 +24,7 @@ public:
         ksys::map::Rail* rail = nullptr;
 
         const sead::Vector3f& sub_7100EEB370() const;
-        // 0x7100eeb374 (declared only; lane4 s45): `rail` if it is a route (Rail::x_20), else null.
+        // 0x7100eeb374 (lane4 s45): `rail` if it is a route (Rail::x_20), else null.
         ksys::map::Rail* sub_7100EEB374() const;
     };
 
