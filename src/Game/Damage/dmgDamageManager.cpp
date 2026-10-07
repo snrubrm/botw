@@ -17,6 +17,18 @@
 
 namespace uking::dmg {
 
+// The out-of-line copy of the constructor lives in this TU (DamageManager::allocStruct20 inlines it).
+Struct20_2::Struct20_2() = default;
+
+bool DamageManager::allocStruct20(sead::Heap* heap) {
+    mStruct20_a = new (heap, 8) Struct20_2;
+    if (!mStruct20_a)
+        return false;
+
+    mStruct20_b = new (heap, 8) Struct20_2;
+    return mStruct20_b != nullptr;
+}
+
 // NON_MATCHING (also sub_71006D9B30): the original keeps a flag for "no speed limit scaling" (`w19`) across the accessor
 // destructor and applies the default 1.0 afterwards; ours materialises 1.0f in a register up front.
 f32 DamageManagerUnk220::sub_71006D9A24(ksys::act::Actor* actor) const {
@@ -306,6 +318,54 @@ ksys::act::BaseProcLink* DamageManager::m37() {
     default:
         return &ksys::act::getDummyBaseProcLink();
     }
+}
+
+bool DamageManager::m35(sead::Matrix34f* out) {
+    s32 index;
+    switch (getDamageType()) {
+    case 2:
+        index = _6c;
+        if (index < 0)
+            return false;
+        break;
+    case 3: {
+        if (!::hasAttackInfo(mActor))
+            return false;
+        auto* info = ::getAttackInfo(mActor, 0);
+        if (!info)
+            return false;
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::acquireActor(&info->_50, &accessor);
+        *out = accessor.getActorMtx();
+        return true;
+    }
+    case 4: {
+        auto* impulse = mActor->getImpulseBaseProcLink();
+        const sead::Matrix34f* mtx;
+        if (!impulse)
+            mtx = &sead::Matrix34f::ident;
+        else
+            mtx = &impulse->_10._1c;
+        *out = *mtx;
+        return true;
+    }
+    case 6:
+        if (!_216.isOn(0x100))
+            return false;
+        index = _88;
+        if (index < 0)
+            return false;
+        break;
+    default:
+        *out = sead::Matrix34f::ident;
+        return false;
+    }
+
+    auto* info = ::sub_71007A255C(mActor, index);
+    if (!info)
+        return false;
+    *out = info->_58;
+    return true;
 }
 
 // NON_MATCHING: the original duplicates the `info ? &info->_20 : nullptr` tail in both arms of the damage kind switch

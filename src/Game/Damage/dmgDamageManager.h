@@ -52,6 +52,8 @@ class DamageManager : public DamageManagerBase {
 public:
     explicit DamageManager(ksys::act::Actor* actor);
     void preDelete1() override;
+    // 0x71006d22d0 (CSV DamageMgr::m23): the two Struct20 objects are Struct20_2 (their constructor is inlined here).
+    bool allocStruct20(sead::Heap* heap) override;
     // 0x71006d8520: 1 while _8c has bit 4, else the base class's table lookup.
     s32 m49(s32 damageTypeMaybe) override;
     // Overrides of the base slots (lane4 s47; CSV DamageMgr::m18 / checkDamageFlags / m42 / m39 / m40 / m41).
@@ -71,6 +73,9 @@ public:
     // Slots 33 / 34 (CSV DamageMgr::m33 / m34): the material masks of the attack info (`_20` / `_38`) or null.
     ksys::phys::MaterialMask* m33() override;
     ksys::phys::MaterialMask* tgSensorMaterialOnHitMaybe() override;
+    // Slot 35 (CSV DamageMgr::m35): the matrix of the attacker of the damage kind (the attack info's link actor, the attack
+    // info's matrix, or the actor's impulse data); false (identity) otherwise.
+    bool m35(sead::Matrix34f* out) override;
     // Slots 36 / 37 (CSV DamageMgr::m36 / m37): the attacker links of the attack info the damage kind refers to
     // (`_d8` / `_e8`; kind 3: the first attack info's `_50`; kind 4 / 11: the actor's impulse link) or the dummy link.
     ksys::act::BaseProcLink* getAttacker() override;

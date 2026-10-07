@@ -25,8 +25,6 @@ void Struct20::combineMaybe(Struct20Base* other) {
     }
 }
 
-Struct20_2::Struct20_2() = default;
-
 void Struct20_2::reset() {
     mField_1C = 0;
     mField_30 = false;
