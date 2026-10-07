@@ -1393,6 +1393,7 @@ public:
 
 class ScreenMiniGame : public ScreenEx {
 public:
+    ScreenMiniGame();
     ~ScreenMiniGame() override;
     SEAD_RTTI_OVERRIDE(ScreenMiniGame, ScreenEx)
     void m100() override;
@@ -1400,7 +1401,8 @@ public:
     /* 0x3610 */ eui::LayoutEx* _3610[7];
     /* 0x3648 */ eui::Animator* _3648;
     /* 0x3650 */ u16 _3650;  // bit n: minigame layout n is open
-    u8 _pad_3652[0x3660 - 0x3652];
+    u8 _pad_3652[0x3658 - 0x3652];
+    /* 0x3658 */ u64 _3658;
     /* 0x3660 */ u64 _3660;
     /* 0x3668 */ u8 _3668;
     u8 _pad_3669[0x366c - 0x3669];
@@ -1408,7 +1410,7 @@ public:
     // widget layout that shows the value and the last value read. Names / types are guesses from those functions.
     /* 0x366c */ s32 _366c;
     /* 0x3670 */ sead::SafeString _3670;
-    u8 _pad_3680[0x3688 - 0x3680];
+    /* 0x3680 */ u64 _3680;
     /* 0x3688 */ eui::Animator* _3688;
     /* 0x3690 */ s32 _3690;
     /* 0x3698 */ sead::SafeString _3698;
@@ -1416,7 +1418,7 @@ public:
     /* 0x36b0 */ sead::SafeString _36b0;
     /* 0x36c0 */ s32 _36c0;
     /* 0x36c8 */ sead::SafeString _36c8;
-    u8 _pad_36d8[0x36e0 - 0x36d8];
+    /* 0x36d8 */ u64 _36d8;
     /* 0x36e0 */ eui::Animator* _36e0;
     /* 0x36e8 */ eui::Animator* _36e8;
 

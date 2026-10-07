@@ -7,6 +7,21 @@
 
 namespace uking::ui {
 
+// NON_MATCHING: scalar zero stores are scheduled differently around string initialization.
+ScreenMiniGame::ScreenMiniGame()
+    : _3648(nullptr), _3660(0), _3668(0), _366c(0), _3690(0), _36a8(0), _36c0(0) {
+    _3658 = 0;
+    _3650 = 0;
+    for (auto& layout : _3610)
+        layout = nullptr;
+    _3688 = nullptr;
+    _3680 = 0;
+    _36e8 = nullptr;
+    _36e0 = nullptr;
+    _36d8 = 0;
+}
+
+
 // 0x7100a280a4
 // NON_MATCHING: the original keeps the key temporary, the widget name and the text in separate stack slots
 void ScreenMiniGame::sub_7100A280A4(const sead::SafeString& key) {
