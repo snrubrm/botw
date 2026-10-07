@@ -10,8 +10,6 @@ namespace uking::ai {
 
 DefWanderAI::DefWanderAI(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
-DefWanderAI::~DefWanderAI() = default;
-
 void DefWanderAI::enter_(ksys::act::ai::InlineParamPack* params) {
     mActor->getMtx().getTranslation(_60);
     if (*mMaxWaitTime_s < 0.0f) {

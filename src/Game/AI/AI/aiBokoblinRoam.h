@@ -11,7 +11,8 @@ class BokoblinRoam : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(BokoblinRoam, ksys::act::ai::Ai)
 public:
     explicit BokoblinRoam(const InitArg& arg);
-    ~BokoblinRoam() override;
+    // Inline in the original; Timer members preserve the standalone base destructor.
+    ~BokoblinRoam() override = default;
     bool isChangeable() const override;
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;

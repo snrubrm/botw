@@ -10,7 +10,8 @@ class DefWanderAI : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(DefWanderAI, ksys::act::ai::Ai)
 public:
     explicit DefWanderAI(const InitArg& arg);
-    ~DefWanderAI() override;
+    // Inline in the original; Timer members preserve the standalone base destructor.
+    ~DefWanderAI() override = default;
     bool isChangeable() const override;
     bool isFinished() const override;
 

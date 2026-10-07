@@ -12,8 +12,6 @@ namespace uking::ai {
 
 BokoblinRoam::BokoblinRoam(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
-BokoblinRoam::~BokoblinRoam() = default;
-
 void BokoblinRoam::enter_(ksys::act::ai::InlineParamPack* params) {
     _dc = false;
     _dd = false;
