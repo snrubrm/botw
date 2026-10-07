@@ -3,6 +3,10 @@
 #include "Game/AI/Action/actionBackWalkBase.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
+namespace ksys::phys {
+class CharacterController;
+}
+
 namespace uking::action {
 
 class SlippedBackWalkBase : public BackWalkBase {
@@ -18,6 +22,8 @@ public:
 
 protected:
     void calc_() override;
+    virtual void m32(ksys::phys::CharacterController* controller);
+    virtual void m33(ksys::phys::CharacterController* controller);
 
     // static_param at offset 0xb0
     const float* mAccRatio_s{};

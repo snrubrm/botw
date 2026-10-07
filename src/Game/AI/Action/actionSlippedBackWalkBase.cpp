@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionSlippedBackWalkBase.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -25,6 +27,22 @@ void SlippedBackWalkBase::loadParams_() {
 
 void SlippedBackWalkBase::calc_() {
     BackWalkBase::calc_();
+}
+
+void SlippedBackWalkBase::m32(ksys::phys::CharacterController* controller) {
+    auto* actor = mActor;
+    sead::Vector3f dir;
+    actor->getMtx().getBase(dir, 2);
+    dir.normalize();
+    sub_71005E2540(controller, actor, -dir * (*mParams.mDecelRatio_s * *mParams.mSpeed_s), 0.1f);
+}
+
+void SlippedBackWalkBase::m33(ksys::phys::CharacterController* controller) {
+    auto* actor = mActor;
+    sead::Vector3f dir;
+    actor->getMtx().getBase(dir, 2);
+    dir.normalize();
+    sub_71005E2540(controller, actor, -dir * *mParams.mSpeed_s, 0.1f);
 }
 
 }  // namespace uking::action
