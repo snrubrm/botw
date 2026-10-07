@@ -310,6 +310,30 @@ bool SaveMgr::x(const sead::SafeString& path, void* buffer, u32 size) {
     return true;
 }
 
+// NON_MATCHING: byte-order flag operations fold the original temporary flag-index storage.
+bool SaveMgr::x_1(s32 index, const sead::SafeString& path, bool a, bool byte_swap) {
+    _142 = _140;
+    _140 = (_140 & 0x100) | (a ? 0x204 : 0x200);
+    _105a = !a;
+    if (byte_swap)
+        _1058 |= 2;
+    else
+        _1058 &= ~2;
+    _10b0.copy(path);
+    if (_38 != 0)
+        return false;
+    _38 = 1;
+    _148 = index;
+    auto* manager = gdt::Manager::instance();
+    if (!manager)
+        return false;
+    manager->mBitFlags.set(gdt::Manager::BitFlag::_1);
+    manager->mParam.setChangeOnlyOnce(true);
+    manager->mParamBypassPerm.setChangeOnlyOnce(true);
+    _30->sendMessage(1, sead::MessageQueue::BlockType::NonBlocking);
+    return true;
+}
+
 void SaveMgr::auto3() {
     _140 &= ~0x100;
 }

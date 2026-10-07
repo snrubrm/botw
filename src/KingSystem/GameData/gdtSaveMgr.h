@@ -80,6 +80,7 @@ public:
     bool sub_7100E044A8(const sead::SafeString& path, void* data, u32 value, u32 size);
     // 0x7100e04968 (CSV x; declared only): writes `size` bytes of `buffer` to the save file `path`.
     bool x(const sead::SafeString& path, void* buffer, u32 size);
+    bool x_1(s32 index, const sead::SafeString& path, bool a, bool byte_swap);
     void auto4();
 
     // Placeholder (type unknown): the object at +0x1020; EventAutoSaveAction calls its first virtual
@@ -109,7 +110,8 @@ private:
     bool _f8;
     u8 _f9[0x140 - 0xf9];
     u16 _140;
-    u8 _142[0x148 - 0x142];
+    u16 _142;
+    u8 _144[4];
     s32 _148;
     u8 _14c[0x80];
     u8 _1cc[0x328 - 0x1cc];
@@ -141,9 +143,14 @@ private:
     Unk1020* _1020;
     u8 _1028[0x103c - 0x1028];
     s32 _103c;
-    u8 _1040[0x105b - 0x1040];
+    u8 _1040[0x1058 - 0x1040];
+    u8 _1058;
+    u8 _1059;
+    bool _105a;
     bool _105b;
-    u8 _105c[0x11c8 - 0x105c];
+    u8 _105c[0x10b0 - 0x105c];
+    sead::FixedSafeString<128> _10b0;
+    u8 _1148[0x11c8 - 0x1148];
     sead::ObjArray<Unk3> _11c8;
     u8 _11e8[0x1de8 - 0x11e8];
 };
