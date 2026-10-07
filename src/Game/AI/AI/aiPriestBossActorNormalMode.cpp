@@ -14,7 +14,12 @@ namespace uking::ai {
 
 PriestBossActorNormalMode::PriestBossActorNormalMode(const InitArg& arg) : PriestBossMode(arg) {}
 
-PriestBossActorNormalMode::~PriestBossActorNormalMode() = default;
+PriestBossActorNormalMode::~PriestBossActorNormalMode() {
+    if (_120) {
+        delete _120;
+        _120 = nullptr;
+    }
+}
 
 bool PriestBossActorNormalMode::init_(sead::Heap* heap) {
     return PriestBossMode::init_(heap);

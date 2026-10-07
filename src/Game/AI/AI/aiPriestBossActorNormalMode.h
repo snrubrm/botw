@@ -6,6 +6,16 @@
 #include "KingSystem/ActorSystem/actAiAi.h"
 #include "KingSystem/System/Timer.h"
 
+// Actual polymorphic 0x40-byte action record pool allocated by init_ at 0x710050c1e4.
+// Its RTTI pair precedes the two destructor slots in vtable 0x7102451280.
+// The record storage and pool implementation remain unrecovered.
+class Unk_7102451280 {
+public:
+    virtual bool checkDerivedRuntimeTypeInfo(const sead::RuntimeTypeInfo::Interface*) const;
+    virtual const sead::RuntimeTypeInfo::Interface* getRuntimeTypeInfo() const;
+    virtual ~Unk_7102451280();
+};
+
 namespace uking::ai {
 
 class PriestBossActorNormalMode : public PriestBossMode {
@@ -77,7 +87,7 @@ protected:
     u32 _e0 = 0;
     s32 _e4 = -1;
     sead::SafeArray<u32, 13> _e8{};  // indexed by a SEAD_ENUM
-    void* _120 = nullptr;  // heap object freed by the destructor
+    Unk_7102451280* _120 = nullptr;
     s32 _128 = 2;
     s32 _12c = 2;
     s32 _130 = 0;
