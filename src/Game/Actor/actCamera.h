@@ -178,7 +178,7 @@ public:
     /* 0x150 */ sead::Vector3f _150 = sead::Vector3f::ez;
     /* 0x15c */ f32 _15c = 0.1;
     /* 0x160 */ f32 _160 = 25000.0;
-    /* 0x164 */ u8 _164[0x170 - 0x164];
+    /* 0x164 */ sead::Vector3f _164;  // the camera target set by Camera::sub_7100793DB4
     /* 0x170 */ bool _170 = false;
     /* 0x171 */ u8 _171[0x180 - 0x171];
     /* 0x180 */ bool _180 = false;
@@ -367,7 +367,7 @@ public:
     /* 150 */ virtual void m150();
     /* 151 */ virtual void m151(const sead::Vector3f* pos, const sead::Vector3f* at, bool a3);  // lane1 s44: signature from PlayerResetPosMgr
     /* 152 */ virtual void m152();
-    /* 153 */ virtual void m153();
+    /* 153 */ virtual void m153(const sead::Vector3f* pos, bool a2);  // lane4 s51: arguments from Camera::sub_7100793DB4
     /* 154 */ virtual void m154(f32 value, bool a2);
     // `m154(deg2rad(degrees), true)`.
     /* 155 */ virtual void m155(f32 degrees);
@@ -422,7 +422,11 @@ public:
     void sub_7100793924();
     // 0x7100793d88 (CSV x_2): `sub_7100793DB4(); _860._804.sub_710079AE20(0x80000)`. 0x7100793db4: declared only.
     void sub_7100793D88();
+    // 0x7100793db4: takes the player's look-at position (or the current look-at point of `_860._0`) as the camera target:
+    // stores it in `_860._164`, calls m153 with it and updates the matrix.
     void sub_7100793DB4();
+    // 0x710079572c (CSV act::Camera::updateMatrix; declared only).
+    void updateMatrix(bool a1);
     void sub_7100793BD8();
     // 0x7100795f40: `*out` = the current core's entry of the f32 array at 0x1230 (false if out is null).
     bool sub_7100795F40(f32** out);

@@ -2,10 +2,12 @@
 #include "Game/Actor/actCameraUtil.h"
 #include <cmath>
 #include <math/seadMathCalcCommon.h>
+#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actAiActionBase.h"
 #include "KingSystem/Framework/frmWorkerSupportThreadMgr.h"
 #include "KingSystem/System/VFR.h"
+#include "KingSystem/Utils/MathUtil.h"
 #include "KingSystem/ksys.h"
 
 Unk_7102459708::Unk_7102459708(ksys::act::ai::ActionBase* owner) : mOwner(owner) {}
@@ -95,6 +97,21 @@ void Camera::m161() {
     if (sub_7100922428())
         return;
     sub_7100793BD8();
+}
+
+void Camera::sub_7100793DB4() {
+    sead::Vector3f target = _860._0._c;
+    ksys::act::acc::PlayerBase accessor;
+    sub_7100926A50(&accessor);
+    if (accessor.hasProc()) {
+        const sead::Vector3f& look_at = accessor.getLookAtPosForCamera();
+        if (!ksys::util::sub_71011F1040(look_at))
+            target = look_at;
+    }
+    _860._170 = true;
+    _860._164 = target;
+    m153(&target, false);
+    updateMatrix(true);
 }
 
 void Camera::sub_7100793D88() {
