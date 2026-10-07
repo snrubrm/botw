@@ -22,7 +22,6 @@ void HorseEscapeRouteRailAI::leave_() {
     ksys::act::ai::Ai::leave_();
 }
 
-// NON_MATCHING: the original loads the `UpdatePosDistance` argument before the object / vtable of the call (C++14 evaluation order)
 void HorseEscapeRouteRailAI::calc_() {
     auto* child = getCurrentChild();
     child->getName();
@@ -37,8 +36,6 @@ void HorseEscapeRouteRailAI::calc_() {
             return;
         }
         _50.x(*mUpdatePosDistance_s);
-        // called through a pointer in the original (not devirtualised)
-        (&_50)->m4(*mUpdatePosDistance_s, nullptr, nullptr);
         sub_7100E5BE9C(false);
     }
 }
