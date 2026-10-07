@@ -13,6 +13,10 @@
 #include "aal/aalSpatialSetting.h"
 #include "aal/aalActiveSoundLimiter.h"
 
+namespace ksys::snd {
+class Unk_SoundMgr48;
+}
+
 namespace aal {
 
 class AssetInfo;
@@ -25,6 +29,8 @@ class SoundSource;
 class Emitter : public sead::hostio::Node {
     friend class Arbiter;
     friend class SoundSource;
+    // Original 105590c initializes this emitter's SpatialSetting at +a8 directly.
+    friend class ksys::snd::Unk_SoundMgr48;
 
 public:
     Emitter();

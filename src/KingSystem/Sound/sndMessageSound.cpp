@@ -22,4 +22,13 @@ Unk_SoundMgr48::~Unk_SoundMgr48() {
 }
 
 
+void Unk_SoundMgr48::sub_710105590C(sead::Heap* heap) {
+    _8 = new (heap, 8) Unk_710105fe78;
+    if (auto* arbiter = aal::SystemAccessor::getArbiter()) {
+        _10 = arbiter->allocEmitter(nullptr, "Emitter");
+        if (_10)
+            _10->mSpatialSetting.setPositioned(false);
+    }
+}
+
 }  // namespace ksys::snd
