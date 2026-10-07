@@ -7,7 +7,12 @@
 #include <math/seadVector.h>
 #include <thread/seadAtomic.h>
 #include <thread/seadCriticalSection.h>
+#include "KingSystem/Resource/resHandle.h"
 #include "KingSystem/Utils/Types.h"
+
+namespace ksys::res {
+class Handle;
+}
 
 namespace ksys::phys {
 
@@ -35,6 +40,16 @@ public:
 // HavokAI::_48). The navmesh tile loader: tiles are requested by world position (x, z).
 class NavMeshLoadMgr {
 public:
+    // Placeholder: a resource handle with the tile it was requested for.
+    struct TileHandle : public res::Handle {
+        /* 0x50 */ s32 _50;
+        /* 0x54 */ s32 _54;
+    };
+    // Placeholder: the object at `_10` holds the tile handle at +0x360 (used while `_8` > 9).
+    struct Unk10 {
+        u8 _0[0x360];
+        /* 0x360 */ TileHandle _360;
+    };
     // 0x7100f8aca4 (CSV NavMeshLoadMgr::x_1; declared only): whether the tile of `pos` is covered (false when the manager is
     // disabled or has no tiles).
     bool x_1(const sead::Vector3f* pos);
@@ -42,10 +57,14 @@ public:
     void sub_7100F8B334(const sead::Vector3f* pos);
     // 0x7100f8b444 (CSV NavMeshLoadMgr::x_2; declared only): releases the requested tile.
     void x_2();
+    // 0x7100f8a670 (CSV NavMeshLoadMgr::x_3; declared only): called with the same handle twice.
+    void x_3(TileHandle* a, TileHandle* b);
 
     /* 0x000 */ u8 _0[8];
     /* 0x008 */ u32 _8;
-    /* 0x010 */ void* _10;
+    // 0x7100f8a3b8 (CSV NavMeshLoadMgr::a; declared only): requests the tile of the handle.
+    void a(TileHandle* handle);
+    /* 0x010 */ Unk10* _10;
     /* 0x018 */ u8 _18[0x130 - 0x18];
     /* 0x130 */ sead::CriticalSection _130;
     /* 0x170 */ s32 _170;  // origin of the tile grid (x / z)

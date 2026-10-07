@@ -6,6 +6,29 @@ namespace ksys::phys {
 
 // NON_MATCHING: register allocation / instruction scheduling only (the original ors the tile sizes in the other operand order
 // and clamps the z tile before converting the z position)
+// NON_MATCHING: register allocation / instruction scheduling only (same as x_1)
+void NavMeshLoadMgr::sub_7100F8B334(const sead::Vector3f* pos) {
+    if (_190)
+        return;
+
+    auto lock = sead::makeScopedLock(_130);
+    if (!_10)
+        return;
+    if ((_180 | _184) == 0)
+        return;
+
+    const s32 x = sead::Mathi::clamp((s32(pos->x) - _170) / _178, 0, _180 - 1);
+    const s32 z = sead::Mathi::clamp((s32(pos->z) - _174) / _17c, 0, _184 - 1);
+    TileHandle* handle = _8 > 9 ? &_10->_360 : nullptr;
+    if (handle->requestedLoad()) {
+        if (x != handle->_50 || z != handle->_54)
+            return;
+    }
+    handle->_50 = x;
+    handle->_54 = z;
+    a(handle);
+}
+
 bool NavMeshLoadMgr::x_1(const sead::Vector3f* pos) {
     if (_190)
         return false;
@@ -25,6 +48,21 @@ bool NavMeshLoadMgr::x_1(const sead::Vector3f* pos) {
     if (dx == 2 && dz == 2)
         return false;
     return dx < 3 && dz < 3;
+}
+
+void NavMeshLoadMgr::x_2() {
+    if (_190)
+        return;
+
+    auto lock = sead::makeScopedLock(_130);
+    if (!_10)
+        return;
+    if ((_180 | _184) == 0)
+        return;
+
+    TileHandle* handle = _8 > 9 ? &_10->_360 : nullptr;
+    if (handle->requestedLoad())
+        x_3(handle, handle);
 }
 
 }  // namespace ksys::phys
