@@ -7,6 +7,8 @@
 
 namespace uking::action {
 
+extern bool sUnk_71025b5e68;
+
 SiteBossLswordWhirlSlash::SiteBossLswordWhirlSlash(const InitArg& arg)
     : SiteBossLswordAtkWithChemical(arg) {}
 
@@ -18,8 +20,19 @@ void SiteBossLswordWhirlSlash::loadParams_() {
     getStaticParam(&mCircleEmitOffset_s, "CircleEmitOffset");
 }
 
+// NON_MATCHING: The original flag uses a local data binding.
 void SiteBossLswordWhirlSlash::calc_() {
     SiteBossLswordAtkWithChemical::calc_();
+    if (!sUnk_71025b5e68)
+        return;
+    auto* object = mActor->getMapObject();
+    if (!object || !object->getRails_0())
+        return;
+    auto* rail = *object->getRails_0();
+    if (!rail)
+        return;
+    for (s32 i = 0; i < rail->getNumPoints(); ++i)
+        rail->getPointTranslate(i);
 }
 
 int SiteBossLswordWhirlSlash::m34() {

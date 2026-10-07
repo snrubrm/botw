@@ -28,6 +28,7 @@ public:
     void onBaseProcMgrCalc();
 
     bool getPlayer(ActorConstDataAccess* accessor);
+    bool getPlayerPosition(sead::Vector3f* position);
 
     bool getAutoPlacementActorPos(const sead::SafeString& name, sead::Vector3f* pos) const;
 
