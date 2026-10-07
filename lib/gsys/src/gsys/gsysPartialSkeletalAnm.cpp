@@ -2,6 +2,7 @@
 #include <gsys/gsysModel.h>
 #include <gsys/gsysModelNW.h>
 #include <nn/g3d/SkeletonObj.h>
+#include <nn/g3d/SkeletalAnimObj.h>
 #include <cstring>
 
 namespace gsys {
@@ -17,6 +18,27 @@ void PartialSkeletalAnmBase::initialize(s32 count, sead::Heap* heap) {
             mFlags.setBuffer(count, flags);
     }
     initializeImpl_(count, heap);
+}
+
+void PartialSkeletalAnmBase::sub_7100BFF3F0(s32 model_unit,
+                                         const nn::g3d::ResSkeleton* skeleton,
+                                         nn::g3d::SkeletalAnimObj* animation) {
+    const u32 count = std::min<u32>(mCount, mFlags.size());
+    const u8* flag_buffer = mFlags.getBufferPtr();
+    for (u32 i = 0; i != count; ++i) {
+        // The original uses the const key virtual; binding does not modify the key.
+        const auto* key = static_cast<const PartialSkeletalAnmBase*>(this)->getBoneAccessKeyImpl_(i);
+        if (!key->isValid() || key->model_unit_index != model_unit)
+            continue;
+        // A negative flag byte marks a subtree registration.
+        const s8 flags = flag_buffer[i];
+        const auto flag = static_cast<nn::g3d::AnimObj::BindFlag>(flags & 0x7f);
+        if (flags < 0)
+            animation->sub_7101333EC0(skeleton, key->bone_index, flag);
+        else
+            animation->SetBindFlagImpl(key->bone_index, flag);
+    }
+    _a &= ~1;
 }
 
 // NON_MATCHING: all 131 instructions agree except the scheduling of the count copy.

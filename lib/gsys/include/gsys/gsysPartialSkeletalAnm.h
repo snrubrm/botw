@@ -3,6 +3,11 @@
 #include <container/seadBuffer.h>
 #include <gsys/gsysModelAccessKey.h>
 
+namespace nn::g3d {
+class ResSkeleton;
+class SkeletalAnimObj;
+}
+
 namespace gsys {
 
 // The vtable at 0x71024c9f98 and initialize at 0x7100bff364 identify this base.
@@ -13,6 +18,8 @@ public:
     virtual ~PartialSkeletalAnmBase();
 
     void initialize(s32 count, sead::Heap* heap);
+    void sub_7100BFF3F0(s32 model_unit, const nn::g3d::ResSkeleton* skeleton,
+                       nn::g3d::SkeletalAnimObj* animation);
 
     // 0x7100bff4cc operates on one 0x80-byte mask per Model unit.
     struct BoneMask {
