@@ -73,25 +73,6 @@ s32 sub_710105E75C(const aal::AssetInfo::LoopInfo* loop, s32 position, s32 offse
     return result;
 }
 
-const char* sub_710105E898(sead::RegionLanguageID language, bool* flag) {
-    if (flag)
-        *flag = false;
-    switch (language.value()) {
-    case sead::RegionLanguageID::USfr:
-        if (flag)
-            *flag = true;
-        return sead::RegionLanguageID::text(sead::RegionLanguageID::EUfr);
-    case sead::RegionLanguageID::EUen:
-    case sead::RegionLanguageID::EUnl:
-        return sead::RegionLanguageID::text(sead::RegionLanguageID::USen);
-    case sead::RegionLanguageID::KRko:
-    case sead::RegionLanguageID::CNzh:
-    case sead::RegionLanguageID::TWzh:
-        return sead::RegionLanguageID::text(sead::RegionLanguageID::JPja);
-    default:
-        return language.text();
-    }
-}
 
 void SoundMgr::sub_71011FC29C() {
     mDuckingMgr->sub_7101042024(0x23);

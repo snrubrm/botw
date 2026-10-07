@@ -44,6 +44,7 @@ class SoundProxy;
 namespace ksys::snd {
 
 f32 sub_710105E3A4();
+const char* sub_710105E7B4(bool* flag);
 void sub_710105E534(sead::PtrArray<aal::Group>* groups, aal::Group* excluded, aal::Group* root);
 void sub_710105E5CC(sead::PtrArray<aal::Group>* groups,
                    const sead::PtrArray<aal::Group>* excluded, aal::Group* root);
