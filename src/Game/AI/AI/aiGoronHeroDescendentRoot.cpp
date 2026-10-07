@@ -1,6 +1,7 @@
 #include "Game/AI/AI/aiGoronHeroDescendentRoot.h"
 #include <gsys/gsysModel.h>
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "Game/AI/aiUnk_71007377D4.h"
 #include "Game/UI/uiUnkSingletons.h"
 #include "KingSystem/GameData/gdtSpecialFlags.h"
@@ -34,7 +35,8 @@ void GoronHeroDescendentRoot::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void GoronHeroDescendentRoot::leave_() {
-    ksys::act::ai::Ai::leave_();
+    if (auto* controller = mActor->getCharacterController())
+        *controller->_48->sub_7100F68F38() = 50.0f;
 }
 
 void GoronHeroDescendentRoot::loadParams_() {

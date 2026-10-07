@@ -31,6 +31,9 @@ struct CharacterControllerShapes;
 struct CharacterControllerUnk38;
 struct CharacterControllerUnk40;
 struct CharacterControllerUnk48 {
+    // 0x7100f68f38 (declaration only): the address of the field at 0x5c.
+    f32* sub_7100F68F38();
+
     /* 0x00 */ u8 _0[0x50];
     /* 0x50 */ u8 _50;
     /* 0x51 */ u8 _51[0x8c - 0x51];
