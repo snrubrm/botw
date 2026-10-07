@@ -70,6 +70,7 @@ public:
     // 0x710105d23c: requests its GetItemSound actor outside the TitleMenu map.
     void sub_710105D23C(sead::Heap* heap, act::ActorCreator* creator);
     void sub_710105D308();
+    void sub_710105D844(const s32* mode);
     void sub_710105D9F8(aal::SoundSource* source);
     void sub_710105D844(const s32* mode);
     // 0x710105d330: emits the SLink sound `label` through the user instance at +0x20; the handle is copied to

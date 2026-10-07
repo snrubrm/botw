@@ -1,4 +1,5 @@
 #include "Game/UI/uiUnkTiny.h"
+#include "KingSystem/Sound/sndMgr.h"
 #include <math/seadMathCalcCommon.h>
 #include "Game/UI/euiAnimator.h"
 #include "Game/UI/euiButton.h"
@@ -760,6 +761,15 @@ u8* Unk_7102475368::get60() {
 
 // Unk_7102474be8 methods (placeholder names after the offsets)
 // 0x7100935930
+// NON_MATCHING: stack slot placement for the sound mode.
+void Unk_7102474be8::sub_71009359E8() {
+    const s32 mode = _95f;
+    if (_964) {
+        ksys::snd::SoundMgr::instance()->mUiSoundMgr->sub_710105D844(&mode);
+        _964 = 0;
+    }
+}
+
 void Unk_7102474be8::set940(s32 value) {
     _940 = value;
 }
