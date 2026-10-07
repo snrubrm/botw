@@ -144,11 +144,11 @@ ksys::phys::NavMeshCharacter* Guardian::m45() {
     return Actor::m45();
 }
 
-void Guardian::m44() {
+void Guardian::m44(ksys::phys::NavMeshCharacter* nav) {
     if (_15b0)
         _15b0->sub_7100042048();
     else
-        Actor::m44();
+        Actor::m44(nav);
 }
 
 // NON_MATCHING: the original loads the 30.0 from rodata (adrp/ldr) instead of an fmov immediate

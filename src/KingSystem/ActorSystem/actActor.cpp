@@ -1,4 +1,5 @@
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/System/physNavMeshCharacter.h"
 #include "KingSystem/Mii/miiHylianInfo.h"
 #include "Game/gameEventMgr1.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
@@ -1449,6 +1450,24 @@ void Actor::onAiEnter(const char* name, const char* context) {
     if (mXLink)
         mXLink->prepareAIChangeMaybe(name, context);
     mActorEditorNode.onAiEnter();
+}
+
+// NON_MATCHING: the original copies the position through a temporary that is reused for the velocity (stack slots)
+void Actor::m44(phys::NavMeshCharacter* nav) {
+    if (!mPhysics)
+        return;
+    auto* controller = mPhysics->getCharacterController();
+    if (!controller)
+        return;
+
+    sead::Matrix34f mtx;
+    controller->physicsXXXGetMtx_1(&mtx);
+    sead::Vector3f position;
+    controller->sub_7100F5F6E0(&position);
+    sead::Vector3f velocity;
+    controller->sub_7100F5F598(&velocity);
+    nav->sub_7100F76380(position, controller->get64(), velocity,
+                        sead::Vector3f(mtx(0, 2), mtx(1, 2), mtx(2, 2)));
 }
 
 void Actor::m35(f32 impulse, phys::RigidBody* body_a, phys::RigidBody* body_b) {

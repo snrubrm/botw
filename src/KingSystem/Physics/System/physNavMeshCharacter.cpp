@@ -127,6 +127,29 @@ void NavMeshCharacter::sub_7100F76694(const sead::Vector3f& direction) {
     }
 }
 
+void NavMeshCharacter::sub_7100F76380(const sead::Vector3f& pos, const sead::Vector3f& dir_a,
+                                      const sead::Vector3f& vec, const sead::Vector3f& dir_b) {
+    sub_7100F765E8(pos);
+
+    if (!dir_a.isNan()) {
+        sead::Vector3f dir(dir_a.x, 0.0f, dir_a.z);
+        if (dir.normalize() != 0.0f)
+            _260 = dir;
+    }
+
+    if (!vec.isNan()) {
+        _26c.x = vec.x;
+        _26c.y = vec.y;
+        _26c.z = vec.z;
+    }
+
+    if (!dir_b.isNan()) {
+        sead::Vector3f dir(dir_b.x, 0.0f, dir_b.z);
+        if (dir.normalize() != 0.0f)
+            _278 = dir;
+    }
+}
+
 void NavMeshCharacter::sub_7100F7D2C8() {
     s32 value = _d0.load();
     while (value >= 1) {

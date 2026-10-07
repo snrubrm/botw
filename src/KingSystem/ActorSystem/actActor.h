@@ -484,7 +484,9 @@ public:
     // Called by setMtx with the new matrix (Player::m42 forwards it).
     virtual void m42(const sead::Matrix34f& mtx);
     virtual void m43(bool on);
-    virtual void m44();
+    // lane4 s51: the argument is the NavMeshCharacter to update (Actor::m44 feeds it the pose of the character controller;
+    // overrides may ignore it).
+    virtual void m44(phys::NavMeshCharacter* nav);
     // Returns mPhysics->mNavMeshCharacter (or null).
     virtual phys::NavMeshCharacter* m45();
     virtual void* m46();

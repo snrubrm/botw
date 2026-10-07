@@ -1398,7 +1398,7 @@ void Motorcycle::m70() {
     }
 }
 
-void Motorcycle::m44() {
+void Motorcycle::m44(ksys::phys::NavMeshCharacter* nav) {
     sead::Matrix34f mtx;
     _bb8->getTransform(&mtx);
     const sead::Vector3f pos = mtx.getTranslation();

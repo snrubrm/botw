@@ -68,7 +68,7 @@ protected:
     void preDelete2_(const PreDeleteArg& arg) override;
 
 public:
-    void m44() override;
+    void m44(ksys::phys::NavMeshCharacter* nav) override;
     void killWithDropsAndEffects(int a1) override;
     void m56(sead::Vector3f* pos) override;
     void m63() override;

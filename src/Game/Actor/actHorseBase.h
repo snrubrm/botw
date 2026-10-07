@@ -80,7 +80,7 @@ protected:
 
 public:
     Actor* m31() override;
-    void m44() override;
+    void m44(ksys::phys::NavMeshCharacter* nav) override;
     Actor* m48() override;
     void onPreFadeOutDelete() override;
     bool shouldUnload(s32* a1) override;

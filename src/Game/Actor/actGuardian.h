@@ -82,7 +82,7 @@ protected:
 public:
     bool m33() override;
     void m34(sead::Vector3f* pos, f32* value) override;
-    void m44() override;
+    void m44(ksys::phys::NavMeshCharacter* nav) override;
     ksys::phys::NavMeshCharacter* m45() override;
     void initMaybe() override;
     void calcMaybe() override;

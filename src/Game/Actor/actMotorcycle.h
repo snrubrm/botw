@@ -281,7 +281,7 @@ protected:
     IsSpecialJobTypeResult isSpecialJobType_(ksys::act::JobType type) override;
 
 public:
-    void m44() override;
+    void m44(ksys::phys::NavMeshCharacter* nav) override;
     ksys::phys::NavMeshCharacter* m45() override { return _1650; }
     bool shouldUnload(s32* a1) override;
     void initMaybe() override;
