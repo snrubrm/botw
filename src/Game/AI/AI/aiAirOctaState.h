@@ -45,6 +45,11 @@ protected:
         };
     };
 
+    // 0x71002fde2c (placeholder name): reacts to the AS events of slot 57 ("板との接続解除": sub_71002FDF9C; "プレイヤの方向を向く":
+    // sub_71002FEF78(pi)).
+    void sub_71002FDE2C();
+    // 0x71002fef78 (placeholder name; declared only): turns towards the player by `angle`.
+    void sub_71002FEF78(f32 angle);
     // 0x71002fd7d8 (placeholder name): while the flag 0x20 is set the actor follows the player's previous position; with
     // the flag 0x40 the elapsed time is accumulated in `_204.y` and the follow ends after 5 s.
     void sub_71002FD7D8();

@@ -91,6 +91,24 @@ void AirOctaState::sub_71002FEDD0() {
 
 // NON_MATCHING: register allocation only (case 8: the original keeps the bit pattern in s1 and -1.0f in s0 for the
 // `getF32()` subtraction and reloads `_278` into w9 / w8 the other way round).
+// NON_MATCHING: the inlined SafeString comparison: in the original the loop is `for (i = 0; i < 0x80000; ++i)` and falls
+// out of the loop with `true` (the code after the loop is the "equal" branch); lib/sead's isEqual loops to
+// `<= cMaximumLength` and returns false after the loop.
+void AirOctaState::sub_71002FDE2C() {
+    auto* as_list = mActor->getASList();
+    if (!as_list)
+        return;
+    ksys::as::ASList::Unk4 query;
+    if (!as_list->x(57, &query, 0, 0, &ksys::as::ASList::Unk2::sub_71011637EC, true))
+        return;
+    if (query.name == "板との接続解除") {
+        sub_71002FDF9C();
+        return;
+    }
+    if (query.name == "プレイヤの方向を向く")
+        sub_71002FEF78(sead::Mathf::pi());
+}
+
 void AirOctaState::sub_71002FD7D8() {
     if (!_278.isOnBit(5))
         return;
