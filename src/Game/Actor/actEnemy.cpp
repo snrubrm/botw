@@ -18,6 +18,9 @@
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/ActorSystem/actTag.h"
 #include "KingSystem/System/PlayReportMgr.h"
+// For Enemy::m75: the callback element type (lane5 owns it; used, not modified).
+#include "Game/AI/Action/actionRemainElectricCannonBeamHerald.h"
+#include "KingSystem/System/PlayReportMgr.h"
 #include "KingSystem/GameData/gdtSpecialFlags.h"
 #include "KingSystem/GameData/gdtManager.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
@@ -267,6 +270,14 @@ ksys::act::Actor* Enemy::m48() {
 void Enemy::m70() {
     if (auto* rideable = sead::DynamicCast<Rideable>(_1148._20))
         rideable->Unk_7100e8b2b8::_10 &= ~0x38u;
+}
+
+// Dispatches the registered effect callbacks (lane5's Unk_71023b30d8 family: single Actor*
+// virtual slot 0) and forwards to Actor::m75.
+void Enemy::m75() {
+    for (auto it = _1110.begin(); it != _1110.end(); ++it)
+        (*it)->sub_710022C55C(this);
+    Actor::m75();
 }
 
 Rideable* Enemy::getHorseOptionsMaybe() {

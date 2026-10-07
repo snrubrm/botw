@@ -6,6 +6,10 @@ namespace ksys::act {
 
 void Unk_71024dc900::sub_7100D77EAC(Actor* actor) {}
 
+void Unk_71024dc900::m6(Actor* actor) {
+    Unk_71024dca28::m6(actor);
+}
+
 void AwarenessInstance::disable() {
     if (auto* awareness = Awareness::instance()) {
         awareness->mInstances.deregisterInstance(this);

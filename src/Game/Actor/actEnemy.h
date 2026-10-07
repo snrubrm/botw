@@ -5,6 +5,7 @@
 #include <container/seadBuffer.h>
 #include <container/seadListImpl.h>
 #include <container/seadSafeArray.h>
+#include <container/seadTList.h>
 #include <math/seadMatrix.h>
 #include <math/seadVector.h>
 #include <mc/seadJobQueue.h>
@@ -26,6 +27,10 @@
 namespace ksys::phys {
 class NavMeshCharacter;
 }  // namespace ksys::phys
+
+namespace uking::action {
+class Unk_71023b30d8;
+}  // namespace uking::action
 
 namespace uking::act {
 
@@ -393,7 +398,7 @@ public:
     /* 0xf60 */ Unk_7100701be4 _f60{this};  // eyelid controller (EyeBlink / CloseEye / DieEye)
     /* 0x10f8 */ HorseRideInfo* _10f8 = nullptr;  // getPlayerRideInfo
     /* 0x1100 */ ksys::act::BaseProcLink _1100;
-    /* 0x1110 */ u8 _1110[0x1128 - 0x1110];  // list head + count
+    /* 0x1110 */ sead::TList<uking::action::Unk_71023b30d8*> _1110;  // effect callbacks
     /* 0x1128 */ Unk_7100d3cd74 _1128{this};
     /* 0x1148 */ Unk_7102357908 _1148{this};
     /* 0x11a8 */ sead::CriticalSection _11a8;

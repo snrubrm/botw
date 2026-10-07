@@ -3,6 +3,10 @@
 #include "Game/Actor/actItem.h"
 #include "Game/Cooking/cookManager.h"
 
+namespace ksys::act {
+class ActorConstDataAccess;
+}
+
 namespace uking::act {
 
 // Name from the CSV (CookResult::*; the namespace is a guess). Child of Item (the factory 0x710000a118 calls
@@ -19,5 +23,8 @@ public:
     /* 0xbb0 */ CookItem _bb0;
 };
 KSYS_CHECK_SIZE_NX150(CookResult, 0xdd8);
+
+// 0x710000a5e4: copies the cook item of the CookResult actor held by `accessor` into `result`.
+bool copyCookResultToCookItem(const ksys::act::ActorConstDataAccess& accessor, CookItem& result);
 
 }  // namespace uking::act
