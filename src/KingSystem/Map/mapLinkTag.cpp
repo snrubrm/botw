@@ -1,13 +1,44 @@
 #include "KingSystem/Map/mapLinkTag.h"
 #include <algorithm>
 #include "Game/gameScene.h"
+#include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actBaseProcMgr.h"
+#include "KingSystem/GameData/gdtManager.h"
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Map/mapObjectLink.h"
 #include "KingSystem/System/MCMgr.h"
 #include "KingSystem/System/SystemTimers.h"
 
 namespace ksys::map {
+
+// NON_MATCHING: only the block order of the getS32 buffer 1 path (same instructions; the original tests the 0x8000 flag with the
+// opposite polarity there).
+bool isFlagSet(bool* value, bool a, const Object* obj) {
+    if (!obj)
+        return false;
+
+    const auto hash = obj->getRevivalGameDataFlagHash();
+    if (hash == gdt::InvalidHandle)
+        return false;
+
+    const auto flags = obj->getFlags();
+    *value = false;
+    auto* mgr = gdt::Manager::instance();
+    if (flags.isOn(Object::Flag::IncrementSave)) {
+        s32 count = 0;
+        const bool result = a ? mgr->getS32Buffer1Debug(hash, &count) : mgr->getS32(hash, &count, true);
+        if (result && count >= 1)
+            *value = true;
+        return result;
+    }
+    if (a)
+        return mgr->getBoolBuffer1Debug(hash, value);
+    return mgr->getBool(hash, value, true);
+}
+
+bool isLinkTagNAndOrNOr(const sead::SafeString& name) {
+    return name == "LinkTagNAnd" || name == "LinkTagNOr";
+}
 
 // NON_MATCHING: only the order of the constant stores of the members (the original stores 0x1dd / 0x1df, then 0x1e8, then
 // the 8 bytes at 0x1e0).
@@ -59,6 +90,63 @@ void LinkTag::calc() {
 
     _1e0 &= ~0x1000;
     _1ec.setBitOff(array_idx ^ 1);
+}
+
+// NON_MATCHING: the original keeps the branch on bit 6 (and extracts the bits with ubfx); ours folds both paths into csel.
+bool LinkTag::sub_7100D39420(bool a) const {
+    if (_1e0 & 0x40)
+        return ((_1e0 >> 5) & 1) ^ ((_1e0 & 4) >> 2);
+    if (!a)
+        return ((_1e0 >> 3) & 1) ^ ((_1e0 & 4) >> 2);
+    return (_1e0 >> 10) & 1;
+}
+
+bool LinkTag::sub_7100D39D60(sead::Matrix34f* mtx) {
+    if (_1df >= 0 && mObj && mObj->getLinkData()) {
+        auto* actor = mObj->getLinkData()->mLinksToSelf.links[_1df].getObjectActor();
+        if (actor) {
+            *mtx = actor->getMtx();
+            return true;
+        }
+    }
+    return false;
+}
+
+void LinkTag::sub_7100D39DE4() {
+    if (mObj && deleteLater(DeleteReason::_0))
+        mObj->setFlags0(Object::Flag0::ActorCreated);
+}
+
+bool LinkTag::sub_7100D39E2C() {
+    if (mObj && mObj->getLinkData())
+        return mObj->getLinkData()->sub_7100D4FBF8();
+    return true;
+}
+
+// NON_MATCHING: only the count accumulation (the original selects `count + 1` with csinc; ours folds the bool into an add) and
+// the register assignment of the loop counters.
+void LinkTag::calcCount(bool frame_changed) {
+    if (!(_1e0 & 1))
+        return;
+    if (!mObj)
+        return;
+
+    u8 count = 0;
+    if (auto* link_data = mObj->getLinkData()) {
+        auto& links = link_data->mLinksToSelf.links;
+        const s32 num = std::min(links.size(), 0x60);
+        for (s32 i = 0; i < num; ++i) {
+            if (links[i].type <= MapLinkDefType::ChangeAtnSig && isTriggered(&links[i], i))
+                ++count;
+        }
+    }
+
+    _1e0 &= ~0x10;
+    if (count != _1e2) {
+        _1e2 = count;
+        setS32ByIdxForLinkTag(gdt::Manager::instance(), count, mObj->getRevivalGameDataFlagHash());
+        updateIsFlagSetFlag(s8(_1e2) > 0, false, frame_changed);
+    }
 }
 
 void LinkTag::finalizeInit_(InitContext* context) {

@@ -339,6 +339,22 @@ public:
 
 #undef GDT_GET1_
 
+    // lane5 s8: like getBool / getS32 with `debug` set, but reading buffer 1 and failing while `_40000` is set. Inline-only
+    // in the original (map::isFlagSet reads the revival flag of a placed object this way); the names are guesses.
+#define GDT_GET1_DEBUG_(NAME, T)                                                                   \
+    bool NAME##Buffer1Debug(FlagHandle handle, T* value) {                                         \
+        if (mBitFlags.isOn(BitFlag::_40000))                                                       \
+            return false;                                                                          \
+        return unwrapHandle<false>(handle, true, [&](u32 idx, TriggerParamRef& ref) {              \
+            return ref.get1().NAME(value, idx);                                                    \
+        });                                                                                        \
+    }
+
+    GDT_GET1_DEBUG_(getBool, bool)
+    GDT_GET1_DEBUG_(getS32, s32)
+
+#undef GDT_GET1_DEBUG_
+
 #define GDT_SET_(NAME, TRAITS)                                                                     \
     /* Setters (by handle) */                                                                      \
     KSYS_ALWAYS_INLINE bool NAME(TRAITS::ArgType value, FlagHandle handle, bool debug,             \
