@@ -241,6 +241,30 @@ void PlacementMgr::sub_71011E6EE0() {
         fr->sub_710F03C18(&mCameraPos);
 }
 
+bool PlacementMgr::sub_71011E6C60() {
+    if (_228 == 0)
+        return false;
+    if (_228 > 30) {
+        if (mFlags.isOn(MgrFlag::_20))
+            return true;
+        for (s32 i = 0; i < 64; ++i)
+            mPlacementMapMgr->mMaps[mPlacementMapMgr->_1c + i].unloadStaticMubin();
+        mPlacementActors->setNumInUseForStaticGroup(mNumStaticObjs);
+        mPlacementTree->resetPlacementObjPtrs();
+        const s32 num = mPlacementActors->getStaticNumInUse();
+        for (s32 i = 0; i < num; ++i) {
+            if (auto* obj = mPlacementActors->getStaticObj_1(i))
+                mPlacementTree->calledForPlaceActor1(obj);
+        }
+        _228 = 0;
+        return true;
+    }
+    mFlags.set(MgrFlag::_1);
+    ++_228;
+    x_3();
+    return false;
+}
+
 // NON_MATCHING: only the materialisation of the constant arguments (the original derives -5000 / 5000 from the
 // -4000 / 4000 registers with an add and does not merge the last two 32-bit stores into one 64-bit store).
 void PlacementMgr::initPlacementTree(bool skip_rebuild) {

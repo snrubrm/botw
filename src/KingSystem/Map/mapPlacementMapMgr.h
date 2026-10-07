@@ -58,6 +58,7 @@ public:
 
 private:
     friend class res::CompactionMgr;
+    friend class PlacementMgr;
 
     sead::Buffer<PlacementMap> mMaps;
     MapProperties* mMapProps;

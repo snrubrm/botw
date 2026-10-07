@@ -113,6 +113,8 @@ public:
     void initBeforeStageGenB();
     // 0x71011e6ee0 (CSV x; placeholder name): the per-frame update of the placement helpers.
     void sub_71011E6EE0();
+    // 0x71011e6c60 (CSV x_5; placeholder name)
+    bool sub_71011E6C60();
     // 0x71011e6260 (CSV initPlacementTree)
     void initPlacementTree(bool skip_rebuild);
     // 0x71011e6308 (CSV placeActors)
@@ -231,7 +233,8 @@ public:
     Placement18* mPlacement18;
     u8 _210[8];
     uking::VillagerMgr* mVillagerMgr;
-    u8 TEMP2[0xc];
+    u8 TEMP2[8];
+    s32 _228;
     u32 mNumStaticObjs;
     u32 mActorDataMapSize;
     sead::Vector3f _234;
