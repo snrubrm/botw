@@ -587,7 +587,7 @@ void SoundSource::spatialCalcNormal_(bool force) {
         return;
 
     if (mSpatialCalculator->calc(mTrackNum != 0 ? mChannelNum[0] > 1 : false))
-        virtualize(VirtualizedBy(0), DebuggerResult{mSpatialCalculator->_d0});
+        virtualize(VirtualizedBy(0), mSpatialCalculator->mDebuggerResult);
     else
         unvirtualize(VirtualizedBy(0));
 

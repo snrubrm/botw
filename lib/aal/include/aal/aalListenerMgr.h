@@ -37,6 +37,8 @@ public:
     s32 getListenerNum() const { return mListeners.getMaxNum(); }
 
 private:
+    friend class SpatialCalculator;
+
     bool mInitialized = false;
     sead::ObjList<Listener> mListeners;
     sead::OffsetList<ListenerPoser> mPosers;

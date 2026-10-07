@@ -76,7 +76,7 @@ void SoundSourceUnifierTarget::setParamsFromSoundSourceFirst(SoundSource* sound_
     if (mUnifier) {
         if (SpatialCalculator* calculator = sound_source->mSpatialCalculator) {
             mUnifier->setAttenuator(calculator->mSetting.attenuator);
-            mUnifier->mInteriorMask = calculator->mSetting._2a;
+            mUnifier->mInteriorMask = calculator->mSetting.listener_mask;
             const s32 interior_num = sound_source->mInteriorNum;
             mUnifier->setInteriorNum(interior_num);
             mUnifier->setListenerDirectivityEnabled((calculator->mSetting.flags >> 5) & 1);

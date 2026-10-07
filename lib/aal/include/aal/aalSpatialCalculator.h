@@ -6,6 +6,7 @@
 #include <math/seadMatrix.h>
 #include <math/seadVector.h>
 #include <thread/seadCriticalSection.h>
+#include "aal/aalDebuggerResult.h"
 #include <prim/seadRuntimeTypeInfo.h>
 
 namespace sead {
@@ -16,6 +17,7 @@ namespace aal {
 
 class Attenuator;
 class Cone;
+class Listener;
 class Shape;
 
 /// The spatial calculation result for one listener (0x98 bytes, partially modeled: the fields are the ones
@@ -23,7 +25,7 @@ class Shape;
 struct SpatialCalcResult {
     /// Whether the result is used (the sound source aggregates only the valid results).
     bool is_valid;
-    u8 _1[3];
+    /// The volume of the sound for the listener.
     f32 volume;
     f32 _8;
     f32 _c;
@@ -32,7 +34,20 @@ struct SpatialCalcResult {
     f32 priority_factor;
     f32 dist_2d[2];
     s32 angle_idx[2];
-    u8 _2c[0x98 - 0x2c];
+    sead::Matrix34f _2c;
+    sead::Matrix34f _5c;
+    f32 _8c;
+    f32 _90;
+    f32 _94;
+
+    SpatialCalcResult() :
+        is_valid(false), volume(1.0f), _8(0.0f), _c(1.0f), _10(0.0f), spread(0.0f), priority_factor(1.0f), dist_2d{0.0f, 0.0f}, angle_idx{0, 0} {
+        _2c = sead::Matrix34f::ident;
+        _5c = sead::Matrix34f::ident;
+        _8c = 0.0f;
+        _90 = 1.0f;
+        _94 = 0.0f;
+    }
 };
 static_assert(sizeof(SpatialCalcResult) == 0x98);
 
@@ -54,10 +69,11 @@ public:
         f32 sound_source_size;
         Shape* shape;
         u16 flags;
-        u16 _2a;
+        /// A bit for each listener that is used for the calculation.
+        u16 listener_mask;
         u64 user_param;
 
-        Setting() : flags(0), _2a(0) { initialize(); }
+        Setting() : flags(0), listener_mask(0) { initialize(); }
 
         /// 0x7100b8f4ec
         void initialize();
@@ -95,6 +111,10 @@ public:
     const Result* getResult(s32 index) const;
 
 private:
+    /// 0x7100b8fc8c: calculates the result for one listener; returns whether the sound is audible for it.
+    bool calcByListener_(Result* result, const Listener& listener, s32 index, bool force,
+                         DebuggerResult* debugger_result);
+
     friend class Shape;
     friend class SoundSourceUnifierSource;
     friend class SoundSourceUnifierTarget;
@@ -106,17 +126,23 @@ private:
     u8 _19[0x20 - 0x19];
     Setting mSetting;
     Cone* mCone;
-    u8 _60[0x64 - 0x60];
+    /// Whether the last calculation found that the sound has to be virtualized.
+    u8 mLastResult;
+    u8 _61[0x64 - 0x61];
     s32 mReferredCount;
     /// The index in the SpatialCalculatorPool.
     s32 mPoolIndex;
-    u8 _6c[0x80 - 0x6c];
+    u8 _6c[0x70 - 0x6c];
+    /// The change counter of the pool: the calculation is repeated when it has changed.
+    u32* mDirtyCounter;
+    u32 mLastDirtyCounter;
+    u8 _7c[0x80 - 0x7c];
     /// volatile: the original reads the count again for the bounds check of the result.
     volatile s32 mResultNum;
     u8 _84[4];
     Result* mResults;
     sead::CriticalSection mCS;
-    u32 _d0;
+    DebuggerResult mDebuggerResult;
     u8 _d4[4];
 };
 static_assert(sizeof(SpatialCalculator) == 0xd8);

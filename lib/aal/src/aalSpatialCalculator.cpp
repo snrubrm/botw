@@ -1,24 +1,27 @@
 #include "aal/aalSpatialCalculator.h"
 #include <cstring>
+#include <new>
 #include <prim/seadScopedLock.h>
 #include "aal/aalAttenuationDirectivity.h"
 #include "aal/aalAttenuationMgr.h"
 #include "aal/aalAttenuator.h"
 #include "aal/aalCone.h"
+#include "aal/aalListener.h"
+#include "aal/aalListenerMgr.h"
 #include "aal/aalSystemAccessor.h"
 #include "aal/aalShape.h"
 
 namespace aal {
 
 // NON_MATCHING: same stores, but the original issues them in a different order (it stores flags, matrix, velocity,
-// attenuator, _2a, user_param, then the zeroed float/shape block).
+// attenuator, listener_mask, user_param, then the zeroed float/shape block).
 // 0x7100b8f4ec
 void SpatialCalculator::Setting::initialize() {
     flags = 0xd;
     actor_matrix = nullptr;
     velocity = nullptr;
     attenuator = nullptr;
-    _2a = 0xffff;
+    listener_mask = 0xffff;
     user_param = 0;
     doppler_factor = 0.0f;
     sound_source_size = 0.0f;
@@ -74,6 +77,72 @@ void SpatialCalculator::setup(const Setting& setting) {
 
     if (mSetting.shape)
         mSetting.shape->attachSpatialCalculator_(this);
+}
+
+// 0x7100b8f708
+void SpatialCalculator::initialize(s32 index, u32* dirty_counter, sead::Heap* heap) {
+    if (mInitialized)
+        return;
+
+    s32 listener_num = SystemAccessor::getListenerMgr()->getListenerNum();
+    if (listener_num > 0) {
+        Result* results = new (heap, 8, std::nothrow) Result[listener_num];
+        if (results) {
+            mResultNum = listener_num;
+            mResults = results;
+        }
+    }
+
+    mDirtyCounter = dirty_counter;
+    mReferredCount = 0;
+    mPoolIndex = index;
+    reset();
+    mInitialized = true;
+}
+
+// NON_MATCHING: same logic; the original keeps the object pointer and the lock address in swapped registers, converts
+// the cached result to a bool where it is read (here the conversion is moved to the return) and counts the audible
+// listeners with a select instead of an or.
+// 0x7100b8fb18
+bool SpatialCalculator::calc(bool force) {
+    bool result;
+    if (mLastDirtyCounter == *mDirtyCounter) {
+        result = mLastResult != 0;
+    } else {
+        sead::ScopedLock<sead::CriticalSection> lock(&mCS);
+        result = mLastResult != 0;
+
+        if (mSetting.actor_matrix) {
+            if (mSetting.shape)
+                mSetting.shape->setActorMatrixFromSpatialCalculator_(*mSetting.actor_matrix);
+
+            if (mSetting.flags & 2) {
+                // A unified sound source is never virtualized here.
+                result = true;
+            } else {
+                s32 audible = 0;
+                u64 index = 0;
+                for (const Listener& listener : SystemAccessor::getListenerMgr()->mListeners) {
+                    if (index < static_cast<u32>(mResultNum)) {
+                        if (Result* r = &mResults[index]) {
+                            if (mSetting.listener_mask & (1 << index)) {
+                                r->is_valid = true;
+                                if (calcByListener_(r, listener, index, force, &mDebuggerResult))
+                                    audible = 1;
+                            } else {
+                                r->is_valid = false;
+                            }
+                        }
+                    }
+                    ++index;
+                }
+                result = !audible;
+            }
+            mLastDirtyCounter = *mDirtyCounter;
+            mLastResult = result;
+        }
+    }
+    return result;
 }
 
 // 0x7100b8f930
