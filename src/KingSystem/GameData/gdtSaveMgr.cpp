@@ -1,6 +1,7 @@
 #include "KingSystem/GameData/gdtSaveMgr.h"
 #include <cstring>
 #include <filedevice/seadFileDeviceMgr.h>
+#include <resource/seadResource.h>
 #include <thread/seadDelegateThread.h>
 #include "KingSystem/GameData/gdtManager.h"
 #include "KingSystem/Resource/resEntryFactory.h"
@@ -1025,6 +1026,72 @@ void SaveMgr::someStuff(gdt::FlagT<s32>* flag) {
 void SaveMgr::x_5(u32 value) {
     if (_103c >= 1)
         *reinterpret_cast<u32*>(&_e08[_103c]) = value;
+}
+
+}  // namespace ksys
+
+namespace ksys {
+
+// NON_MATCHING: write-status branches fold to a conditional selection and handle loads move.
+void SaveMgr::sub_7100E0BC7C() {
+    _3c = 4;
+    if (!sead::FileDeviceMgr::instance()) {
+        _38 = 0;
+        _3c = 3;
+        return;
+    }
+    if (!sub_7100E05560(_80, _1d0, 1, true)) {
+        _3c = 3;
+        if (mFileHandle.getDevice()) {
+            if ((_140 & 0x10) && _100->isAvailable())
+                _100->tryFlush(&mFileHandle);
+            mFileHandle.tryClose();
+        }
+        return;
+    }
+    if (mFileHandle.getDevice()) {
+        const u32 size = _e28;
+        u32 written = 0;
+        if (mFileHandle.tryWrite(&written, _e2c ? static_cast<const u8*>(_e30) : _e08, size) &&
+            written == size) {
+            _3c = 0;
+        } else {
+            _3c = 3;
+        }
+    } else {
+        _3c = 3;
+    }
+    if (mFileHandle.getDevice()) {
+        if ((_140 & 0x10) && _100->isAvailable())
+            _100->tryFlush(&mFileHandle);
+        if (!mFileHandle.tryClose())
+            _3c = 3;
+    }
+}
+
+bool SaveMgr::sub_7100E0C688() {
+    if (_105a) {
+        auto* resource = sead::DynamicCast<sead::DirectResource>(mLoadHandle.getResource());
+        if (resource) {
+            const u32 size = resource->getRawSize();
+            if (size <= _e10) {
+                _e18 = size;
+                std::memcpy(_e08, resource->getRawData(), size);
+                _e14 = 0;
+                mLoadHandle.requestUnload();
+                return true;
+            }
+        }
+    } else if (mFileHandle.getDevice()) {
+        u32 size = 0;
+        if (!mFileHandle.tryGetFileSize(&size))
+            return false;
+        if (size && mFileHandle.tryRead(&_e18, _e08 + _e14, size)) {
+            _e14 = 0;
+            return true;
+        }
+    }
+    return false;
 }
 
 }  // namespace ksys

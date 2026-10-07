@@ -10,6 +10,7 @@
 #include "KingSystem/Resource/resResourceGameSaveData.h"
 #include "KingSystem/Resource/resHandle.h"
 #include <container/seadSafeArray.h>
+#include <filedevice/seadFileDevice.h>
 
 namespace sead {
 class DelegateThread;
@@ -103,6 +104,9 @@ public:
     void x_15(const sead::ObjArray<gdt::TriggerParam::FlagCopyRecord>& records);
     void x_16(const sead::ObjArray<gdt::TriggerParam::FlagCopyRecord>& records);
     void x_17(const sead::ObjArray<gdt::TriggerParam::FlagCopyRecord>& records);
+    bool sub_7100E05560(const sead::SafeString& mount, const sead::SafeString& path, s32 mode, bool retry);
+    void sub_7100E0BC7C();
+    bool sub_7100E0C688();
     void sub_7100E07E3C(const sead::ObjArray<gdt::TriggerParam::FlagCopyRecord>& records);
     void someCheck_0(gdt::FlagT<bool>* flag);
     void someStuff(gdt::FlagT<s32>* flag);
@@ -133,7 +137,9 @@ private:
     sead::SafeString _80;
     u8 _90[0xf8 - 0x90];
     bool _f8;
-    u8 _f9[0x140 - 0xf9];
+    u8 _f9[0x100 - 0xf9];
+    sead::FileDevice* _100;
+    u8 _108[0x140 - 0x108];
     u16 _140;
     u16 _142;
     u8 _144[4];
@@ -141,7 +147,7 @@ private:
     s32 _14c[32];
     u8 _1cc[4];
     sead::FixedSafeString<256> _1d0;
-    u8 _2e8[0x328 - 0x2e8];
+    sead::FileHandle mFileHandle;
     res::Handle mSaveDataArcHandle;
     sead::SafeArray<res::Handle, 32> mSaveDataHandles;
     u8 _d78[0xe00 - 0xd78];
@@ -180,7 +186,8 @@ private:
     u8 _1059;
     bool _105a;
     bool _105b;
-    u8 _105c[0x10b0 - 0x105c];
+    u8 _105c[4];
+    res::Handle mLoadHandle;
     sead::FixedSafeString<128> _10b0;
     u8 _1148[0x11c8 - 0x1148];
     sead::ObjArray<Unk3> _11c8;
