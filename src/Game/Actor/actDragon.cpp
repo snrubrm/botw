@@ -127,6 +127,14 @@ bool Dragon::sub_710000FDFC() const {
     return _1f70.isOn(0xf0);
 }
 
+// NON_MATCHING: the final boolean branch is folded into a normalized return instead of sharing the earlier true return.
+bool Dragon::sub_710000FE10() {
+    if (getGameDataFlagGrudgeAlive(0) || getGameDataFlagGrudgeAlive(1) ||
+        getGameDataFlagGrudgeAlive(2) || getGameDataFlagGrudgeAlive(3))
+        return true;
+    return false;
+}
+
 bool Dragon::getGameDataFlagGrudgeAlive(int idx) {
     if (_1e0c != 3)
         return false;

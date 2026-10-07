@@ -335,6 +335,33 @@ bool sub_710072DEF0(const sead::Vector3f& target, f32 max_dist, f32 min_dy, f32 
     return !query.worldRayCast(ksys::phys::ContactLayerType::Entity);
 }
 
+bool sub_710072EB10(const sead::Vector3f& from, const sead::Vector3f& to,
+                    ksys::phys::RayCast::NormalCheckingMode mode, ksys::act::Actor* actor,
+                    sead::Vector3f* hit_pos, sead::Vector3f* hit_normal,
+                    ksys::phys::MaterialMask* hit_info, f32 y_offset) {
+    sead::Vector3f start = from;
+    sead::Vector3f end = to;
+    start.y += y_offset;
+    end.y += y_offset;
+    ksys::phys::RayCastBodyQuery query(nullptr, ksys::phys::GroundHit::HitAll);
+    ksys::act::sub_7100EEACE8(&query);
+    query.setStartAndEnd(start, end);
+    query.setNormalCheckingMode(mode);
+    if (actor) {
+        if (auto* physics = actor->getPhysics())
+            query.setGroupHandlerIfAny(physics->get188(0));
+    }
+    if (!query.worldRayCast(ksys::phys::ContactLayerType::Entity))
+        return false;
+    if (hit_pos)
+        query.getHitPosition(hit_pos);
+    if (hit_normal)
+        query.getHitNormal(hit_normal);
+    if (hit_info)
+        *hit_info = query.getMaterialMask();
+    return true;
+}
+
 bool sub_710072E928(const sead::Vector3f& from, const sead::Vector3f& to, sead::Vector3f* hit_pos,
                     sead::Vector3f* hit_normal, ksys::phys::MaterialMask* material_mask,
                     f32 y_offset) {

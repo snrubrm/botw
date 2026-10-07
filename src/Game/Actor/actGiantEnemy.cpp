@@ -1,4 +1,6 @@
 #include "Game/Actor/actGiantEnemy.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/Physics/System/physNavMeshCharacter.h"
 #include <basis/seadNew.h>
 #include "Game/Actor/actGiantArmor.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
@@ -7,6 +9,26 @@
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace uking::act {
+
+// NON_MATCHING: position and velocity temporaries are allocated separately instead of reusing storage.
+void GiantEnemy::m44(ksys::phys::NavMeshCharacter* nav) {
+    auto* controller = getCharacterController();
+    if (!controller)
+        return;
+    sead::Matrix34f matrix;
+    controller->physicsXXXGetMtx_1(&matrix);
+    sead::Vector3f position;
+    if (get68f().load() && (nav->_1d8 == 12 || nav->_1d8 == 13 || nav->_1d8 == 18)) {
+        controller->sub_7100F5F6E0(&position);
+        position.y += get68f().load() ? get6f0() - getMtx()(1, 3) : 0.0f;
+    } else {
+        controller->sub_7100F5F6E0(&position);
+    }
+    sead::Vector3f velocity;
+    controller->sub_7100F5F598(&velocity);
+    nav->sub_7100F76380(position, controller->get64(), velocity,
+                       sead::Vector3f(matrix(0, 2), matrix(1, 2), matrix(2, 2)));
+}
 
 Unk_71025ae680* GiantEnemy::m178(sead::Heap* heap) {
     return new (heap) Unk_710244ebc8(this);

@@ -288,7 +288,8 @@ bool sub_710072E928(const sead::Vector3f& from, const sead::Vector3f& to, sead::
 /// has physics, its system group handler (to ignore the actor itself). Placeholder name.
 bool sub_710072EB10(const sead::Vector3f& from, const sead::Vector3f& to,
                     ksys::phys::RayCast::NormalCheckingMode mode, ksys::act::Actor* actor,
-                    sead::Vector3f* hit_pos, sead::Vector3f* hit_normal, void* hit_info,
+                    sead::Vector3f* hit_pos, sead::Vector3f* hit_normal,
+                    ksys::phys::MaterialMask* hit_info,
                     f32 y_offset);
 /// 0x710072e5f8 / 0x710072e830 / 0x710072ea18: same with the layers of ksys::act::sub_7100EEAE58 /
 /// sub_7100EEAECC / sub_7100EEACE8 and a normal checking mode (ksys::phys::RayCast::
