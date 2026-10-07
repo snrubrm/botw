@@ -35,8 +35,9 @@ public:
 
     void init(sead::Heap* heap);
     void loadEventFlows();
-    res::Handle* getResource1(int idx);
-    res::Handle* getResource2(int idx);
+    // (both return the flow's first member, `handle`: the pointer is the AutoPlacementFlowRes itself)
+    AutoPlacementFlowRes* getResource1(int idx);
+    AutoPlacementFlowRes* getResource2(int idx);
 
     AutoPlacementFlowRes* getFlow(const sead::SafeString& actor_name, bool near_flow);
 

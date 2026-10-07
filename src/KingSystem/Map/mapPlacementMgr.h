@@ -82,6 +82,8 @@ public:
     // 0x71011e9c28 (CSV __auto4; placeholder name, declaration only): `enabled` changes the object's render flag
     // (mass renderer / forest renderer update).
     void sub_71011E9C28(Object* obj, bool enabled);
+    // 0x71011eb46c (CSV __auto19; placeholder name): PlacementActors::sub_7100D52CA4(obj).
+    void sub_71011EB46C(Object* obj);
     void stubbed();
     void insertTraverseResultPreActor(act::Actor* actor);
     void setFlag8Enabled(bool enabled);

@@ -301,6 +301,16 @@ f32 Object::getTraverseDistForLOD() const {
         return 100.0 * mult;
 }
 
+f32 Object::getLoadDistance(bool get_diameter) const {
+    const sead::SafeString name = getUnitConfigName();
+    const f32 base = name.startsWith("Npc") ? 150.0f : 100.0f;
+
+    auto* data = &PlacementMgr::instance()->mPlacementActors->mActorData[mActorDataIdx];
+    u32 unused;  // the original passes an uninitialised value
+    f32 dist = getDispDistance(data, get_diameter, unused, false);
+    return dist > 0.0f ? base + dist : 0.0f;
+}
+
 sead::Vector3f Object::getScale() const {
     sead::Vector3f vec;
     mMubinIter.getScale(&vec);

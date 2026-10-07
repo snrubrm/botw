@@ -1,6 +1,8 @@
 #include "KingSystem/Map/mapAutoPlacementMgr.h"
 #include <prim/seadScopedLock.h>
 #include "Game/AI/aiUnk_7100736460.h"
+#include "Game/gameStatisticsMgr.h"
+#include "KingSystem/Map/mapAutoPlacementFlowMgr.h"
 
 namespace ksys::map {
 
@@ -32,6 +34,35 @@ bool AutoPlacementMgr::isNonAutoPlacement(const sead::Vector3f& pos, bool a2) {
 
 bool AutoPlacementMgr::auto9() {
     return _171e48 > 0;
+}
+
+int AutoPlacementMgr::sub_7100659158(int idx, bool near_flow) {
+    auto* mgr = AutoPlacementFlowMgr::instance();
+    return (near_flow ? mgr->getResource2(idx) : mgr->getResource1(idx))->placement_type;
+}
+
+// NON_MATCHING: the original loads the placement type with `ldrsb x20` (sign-extended to 64 bits, tested with
+// `cbnz x20` after the call); ours loads `ldrb w20` and sign-extends later (for `s8` / `int` / `long` locals alike).
+bool AutoPlacementMgr::sub_71006591BC(int idx, bool near_flow) {
+    auto* mgr = AutoPlacementFlowMgr::instance();
+    const s8 type = (near_flow ? mgr->getResource2(idx) : mgr->getResource1(idx))->placement_type;
+    if (dlc::isPlayingOneHitObliteratorQuest() && type == 0)
+        return true;
+    return _171e68[type] > 0;
+}
+
+f32 AutoPlacementMgr::sub_7100659230(const sead::Vector3f& pos) {
+    f32 value = 0;
+    if (uking::StatisticsMgr::instance()->query(&value, 1, _189db0, &pos))
+        return value * 50.0f;
+    return 0.0f;
+}
+
+f32 AutoPlacementMgr::sub_71006592E8(const sead::Vector3f& pos) {
+    f32 value = 0;
+    if (uking::StatisticsMgr::instance()->query(&value, 1, _189dd0, &pos))
+        return value * 200.0f;
+    return 0.0f;
 }
 
 // NON_MATCHING: the original reads the counter once more (a discarded volatile load) after the decrement

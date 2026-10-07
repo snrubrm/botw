@@ -6,6 +6,7 @@
 #include <prim/seadTypedBitFlag.h>
 #include <prim/seadTypedLongBitFlag.h>
 #include <thread/seadAtomic.h>
+#include <thread/seadMutex.h>
 #include <thread/seadReadWriteLock.h>
 #include "KingSystem/Map/mapPlacementMap.h"
 #include "KingSystem/Resource/resHandle.h"
@@ -150,6 +151,8 @@ public:
     Object* getStaticObj_2(s32 idx) const;
     bool sub_7100D524B4() const;
     void x_9();
+    // 0x7100d52ca4 (declared; unnamed in the CSV): adds `obj` to the first free slot of `_f8` (the list x_9 handles).
+    void sub_7100D52CA4(Object* obj);
     // 0x0000007100d53788 (CSV name; declared only): spawns the actor of `obj` for the generation group `other`
     // belongs to (parameter names are guesses).
     bool spawnGenGroupActor(Object* obj, Object* other);
@@ -184,8 +187,9 @@ public:
     PlacementAreaMgr* mStruct1;
     u32 _e8;
     PlacementObjs* mObjs;
-    sead::SafeArray<u32, 256> _f8;
-    u8 _4f8[0x538 - 0x4f8];
+    // Objects whose actors are to be (re)enabled (cleared by x_9), guarded by mMutex.
+    Object* _f8[128];
+    sead::Mutex mMutex;
     sead::SafeArray<ActorData, 6000> mActorData;
     u8 _261b38[0x2a8058 - 0x261b38];
     u32 mActorDataMapSize;

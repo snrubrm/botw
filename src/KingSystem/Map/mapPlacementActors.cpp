@@ -16,7 +16,8 @@ void PlacementActors::clearActorDataAndObjects() {
         deleteActorData(&mActorData[i]);
     if (mObjs)
         mObjs->freeObjects();
-    _f8.fill(0);
+    for (auto*& slot : _f8)
+        slot = nullptr;
 }
 
 // NON_MATCHING: an extra `and w0, w0, #1` on the returned bool
@@ -55,6 +56,39 @@ void PlacementActors::rebuildTree(PlacementTree* tree) {
 
 int PlacementActors::getNumGroups() const {
     return mObjs->mGroups.size();
+}
+
+void PlacementActors::x_9() {
+    mMutex.lock();
+    for (auto*& slot : _f8) {
+        auto* obj = slot;
+        if (!obj)
+            continue;
+        if (!obj->shouldSkipSpawn()) {
+            if (obj->getFlags0().isOn(Object::Flag0::_1))
+                PlacementMgr::instance()->enableObjStaticCompound(obj);
+            PlacementMgr::instance()->sub_71011E9C28(obj, true);
+        }
+        slot = nullptr;
+    }
+    mMutex.unlock();
+}
+
+// NON_MATCHING: only the loop bound (`cmp x9, #0x80; b.lt` in the original, `cmp x9, #0x7f; b.le` here: clang canonicalises
+// the exit test)
+void PlacementActors::sub_7100D52CA4(Object* obj) {
+    mMutex.lock();
+    for (int i = 0; i < 128; i += 2) {
+        if (!_f8[i]) {
+            _f8[i] = obj;
+            break;
+        }
+        if (!_f8[i + 1]) {
+            _f8[i + 1] = obj;
+            break;
+        }
+    }
+    mMutex.unlock();
 }
 
 bool PlacementActors::sub_7100D524B4() const {

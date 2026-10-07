@@ -66,16 +66,16 @@ void AutoPlacementFlowMgr::loadEventFlows() {
     }
 }
 
-res::Handle* AutoPlacementFlowMgr::getResource1(int idx) {
+AutoPlacementFlowRes* AutoPlacementFlowMgr::getResource1(int idx) {
     if (idx >= mFlowArray.size())
         return nullptr;
-    return &mFlowArray[idx].handle;
+    return &mFlowArray[idx];
 }
 
-res::Handle* AutoPlacementFlowMgr::getResource2(int idx) {
+AutoPlacementFlowRes* AutoPlacementFlowMgr::getResource2(int idx) {
     if (idx >= mFlowNearArray.size())
         return nullptr;
-    return &mFlowNearArray[idx].handle;
+    return &mFlowNearArray[idx];
 }
 
 // NON_MATCHING: the original compares the flow index with != and schedules the 0x430 stride earlier

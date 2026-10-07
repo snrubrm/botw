@@ -156,6 +156,17 @@ void PlacementMgr::disableObjStaticCompound(Object* obj) {
         map->setStaticCompoundInstanceEnabled(obj, false);
 }
 
+void PlacementMgr::enableObjStaticCompound(Object* obj) {
+    if (obj->getFlags0().isOn(Object::Flag0::StaticCompoundInstanceEnabled))
+        return;
+    if (obj->getStaticCompoundActorId() < 0)
+        return;
+    if (!mPlacementActors->mActorData[obj->getActorDataIdx()].mFlags.isOnBit(ActorData::Flag::MapConstActive))
+        return;
+    if (auto* map = mPlacementMapMgr->getMap(obj->getIdx()))
+        map->setStaticCompoundInstanceEnabled(obj, true);
+}
+
 void PlacementMgr::sub_71011E9C28(Object* obj, bool enabled) {
     if (!obj->getFlags0().isOn(Object::Flag0::_80000)) {
         if (obj->getFlags0().isOn(Object::Flag0::_8) == enabled)
@@ -178,6 +189,10 @@ void PlacementMgr::sub_71011E9C28(Object* obj, bool enabled) {
                 fr->x_8(idx, enabled, false);
         }
     }
+}
+
+void PlacementMgr::sub_71011EB46C(Object* obj) {
+    mPlacementActors->sub_7100D52CA4(obj);
 }
 
 void PlacementMgr::stubbed() {}

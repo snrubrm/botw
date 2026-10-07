@@ -24,7 +24,7 @@ public:
     // 0x189df8 for placement type 0).
     bool x(const sead::Vector3f& pos, bool a2, u32 type_mask, const void* a4);
 
-    u8 _0[0x189df8 - 0x171ef0];
+    u8 _0[0x189db0 - 0x171ef0];
 };
 
 class AutoPlacementMgr {
@@ -36,6 +36,14 @@ public:
     bool sub_7100659E40(act::Actor* actor, const sead::SafeString& actor_name, int count,
                         bool is_box);
     void sub_7100659F94(act::Actor* actor);
+    // 0x7100659158 (CSV __auto10; placeholder name): placement type of the flow `idx` (near flows with `near_flow`).
+    int sub_7100659158(int idx, bool near_flow);
+    // 0x71006591bc (CSV __auto4; placeholder name): whether the placement type of the flow `idx` is active.
+    bool sub_71006591BC(int idx, bool near_flow);
+    // 0x7100659230 / 0x71006592e8 (CSV __auto7 / __auto6; placeholder names): 50 / 200 times the statistics value at
+    // `pos` (0 if there is none).
+    f32 sub_7100659230(const sead::Vector3f& pos);
+    f32 sub_71006592E8(const sead::Vector3f& pos);
     // 0x7100659de0 (CSV AutoPlacementMgr::__auto3, declaration only): increments (`enable`) or decrements the
     // atomic counter of kind `type` (0-6) at 0x171e4c; incrementing also stores 5 at 0x171e68 + type.
     void sub_7100659DE0(int type, bool enable);
@@ -76,6 +84,11 @@ public:
     sead::SafeArray<s8, 7> _171e68;
     u8 _171e6f[0x171ef0 - 0x171e6f];
     AutoPlacementInfo _171ef0;
+    // Statistics pointers (StatisticsMgr::getStatsPointer results) used by sub_7100659230 / sub_71006592E8.
+    void* _189db0;
+    u8 _189db8[0x189dd0 - 0x189db8];
+    void* _189dd0;
+    u8 _189dd8[0x189df8 - 0x189dd8];
     u8 _189df8[0x189e38 - 0x189df8];
 };
 KSYS_CHECK_SIZE_NX150(AutoPlacementMgr, 0x189E38);
