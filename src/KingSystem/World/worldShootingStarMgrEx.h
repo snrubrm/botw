@@ -5,6 +5,10 @@
 #include "KingSystem/Utils/Types.h"
 #include "KingSystem/World/worldShootingStarMgr.h"
 
+namespace ksys::act {
+class InstParamPack;
+}
+
 namespace ksys::world {
 
 // One "FldObj_DLC_ShootingStarCollaborationAnchor" entry of the map static mubin (0x90 bytes, constructed inline
@@ -16,10 +20,22 @@ public:
 
     // 0x71010cf868 (CSV wm::calcShootingStarDLC; declaration only)
     void calcShootingStarDLC();
-    // 0x71010d00b0 (declaration only)
     void sub_71010D00B0();
 
-    u8 _8[0x90 - 0x8];
+    void sub_71010D0814(act::InstParamPack* pack, const sead::Vector3f* position);
+
+    u8 _8[0x48 - 0x8];
+    sead::Vector3f _48;
+    u8 _54[0x60 - 0x54];
+    f32 _60;
+    u8 _64[4];
+    const char* _68;
+    const char* _70;
+    const char* _78;
+    u8 _80[8];
+    bool _88;
+    bool _89;
+    u8 _8a[6];
 };
 KSYS_CHECK_SIZE_NX150(ShootingStarAnchor, 0x90);
 
