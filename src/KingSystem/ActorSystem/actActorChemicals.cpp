@@ -1,4 +1,7 @@
 #include "KingSystem/ActorSystem/actActorChemicals.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
 
 namespace ksys::act {
 
@@ -6,6 +9,113 @@ namespace ksys::act {
 // (commit 96101229).
 Unk_71024e6560::~Unk_71024e6560() {
     ;
+}
+
+const sead::Vector3f& Unk_71024e6428::m5() const {
+    return _2a4;
+}
+
+const sead::Vector3f& Unk_71024e6428::m6() const {
+    return _2b0;
+}
+
+const sead::SafeString& Unk_71024e6428::getName() const {
+    return mActor ? mActor->getName() : sead::SafeString::cEmptyString;
+}
+
+bool Unk_71024e6428::m15(u32 a1) const {
+    return _30 & 0x100;
+}
+
+bool Unk_71024e6428::m16() const {
+    return _30 & 0x2;
+}
+
+bool Unk_71024e6428::m17() const {
+    return mActor && mActor->getActorFlags2().isOn(Actor::ActorFlag2::_40);
+}
+
+// NON_MATCHING: the original guards the loop with a signed `count >= 1` test (`cmp w20, #1; b.lt`), ours with `cbz`
+bool Unk_71024e6428::m18() const {
+    for (auto& entry : _278) {
+        if (auto* body = entry.body) {
+            if (!body->isAddedToWorld() && !body->isAddingBodyToWorld())
+                return false;
+        }
+    }
+    return true;
+}
+
+bool Unk_71024e6428::m19() const {
+    return mActor && mActor->isSleep();
+}
+
+bool Unk_71024e6428::m21() const {
+    return false;
+}
+
+f32 Unk_71024e6428::m23() const {
+    return _28c;
+}
+
+f32 Unk_71024e6428::m24() const {
+    return _290;
+}
+
+f32 Unk_71024e6428::m26() const {
+    return _294;
+}
+
+void Unk_71024e6428::m27(f32 value) {
+    _28c = value;
+}
+
+bool Unk_71024e6428::m22(u32 a1) const {
+    return !(_30 & 0x30);
+}
+
+f32 Unk_71024e6428::m25() const {
+    if (mActor) {
+        if (auto* body = mActor->getMainBody())
+            return body->getMass();
+    }
+    return 1.0f;
+}
+
+// NON_MATCHING: the original loads `mActor` before the virtual m5() call (the null test comes after it) and reloads it
+// inside the branch
+bool Unk_71024e6428::m28() {
+    return sub_7100E41470(m5(), mActor ? mActor->getPhysics()->get188(0) : nullptr);
+}
+
+f32 Unk_71024e6428::m30(const void* a1) {
+    f32 sum = 0;
+    for (auto& entry : _278)
+        sum += sub_7100E40B7C(entry.body, a1, entry._24);
+    return sum;
+}
+
+bool Unk_71024e6428::m31() {
+    return !_18->m22(_288);
+}
+
+bool Unk_71024e6428::m33() {
+    if (mChemical._c0 == 2 && mActor) {
+        if (mActor->getName() == "FireWoodFromBundle") {
+            mChemical.sub_7100D90B78();
+            return true;
+        }
+    }
+    return false;
+}
+
+// NON_MATCHING: the original loads `_288` before the slot of the virtual call (scheduling only)
+bool Unk_71024e6428::m36() {
+    if ((_30 & 0x10000) || !(_3c & 0x1))
+        return true;
+    if (!_18->m15(_288) && !(_3c & 0x100000))
+        return true;
+    return _30 & 0x8000;
 }
 
 ActorChemicals::ActorChemicals() = default;

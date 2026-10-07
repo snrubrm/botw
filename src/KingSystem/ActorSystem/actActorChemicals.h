@@ -12,7 +12,14 @@
 #include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/Utils/Types.h"
 
+namespace ksys::phys {
+class RigidBody;
+class SystemGroupHandler;
+}
+
 namespace ksys::act {
+
+class Actor;
 
 // Placeholder name (vtable 0x71024e6560, 37 slots): the interface the Chemical calls back through its owner
 // (Chemical::_18) and the base class of Unk_71024e6428. All virtuals have trivial default bodies (the
@@ -37,14 +44,14 @@ public:
     virtual void m12() {}
     virtual const sead::SafeString& getName() const { return sead::SafeString::cEmptyString; }
     virtual void m14(sead::BufferedSafeString* out) const {}
-    virtual bool m15() const { return false; }
+    virtual bool m15(u32 a1) const { return false; }
     virtual bool m16() const { return false; }
     virtual bool m17() const { return false; }
     virtual bool m18() const { return false; }
     virtual bool m19() const { return false; }
     virtual bool m20() const { return false; }
     virtual bool m21() const { return false; }
-    virtual bool m22() const { return true; }
+    virtual bool m22(u32 a1) const { return true; }
     virtual f32 m23() const { return 1.0f; }
     virtual f32 m24() const { return 1.0f; }
     virtual f32 m25() const { return 1.0f; }
@@ -61,21 +68,68 @@ public:
     virtual bool m36() { return true; }
 };
 
+// Declared only (lane4 s50; placeholder names, signatures from Unk_71024e6428::m28 / m30): 0x7100e41470 casts a ray
+// (RayCastBodyQuery) at the vector with the actor's group handler; 0x7100e40b7c computes a value per rigid body entry.
+bool sub_7100E41470(const sead::Vector3f& pos, phys::SystemGroupHandler* handler);
+f32 sub_7100E40B7C(phys::RigidBody* body, const void* a1, const void* entry_24);
+
 // Placeholder name (vtable 0x71024e6428, 37 slots; ctor 0x7100e399c0; size 0x2d8): an element of
 // ActorChemicals' arrays and the owner of its Chemical (Chemical::_18).
-// TODO: incomplete (virtual functions not declared).
+// TODO: incomplete (ctor / D1 / m7 / m8 / m10 / m11 / m14 / m20 / m29 / m32-m36 not decompiled).
 class Unk_71024e6428 : public Unk_71024e6560 {
     SEAD_RTTI_OVERRIDE(Unk_71024e6428, Unk_71024e6560)
 public:
     Unk_71024e6428();
     ~Unk_71024e6428() override;
 
-    /* 0x008 */ u8 _8[0x30 - 0x8];
+    // Slot numbering: mN is the virtual at vtable slot N + 2 (the first two are the RTTI functions), as in the CSV.
+    void m4(sead::Matrix34f* out, Chemical* chemical) override;
+    const sead::Vector3f& m5() const override;
+    const sead::Vector3f& m6() const override;
+    const sead::SafeString& getName() const override;
+    bool m15(u32 a1) const override;
+    bool m16() const override;
+    bool m17() const override;
+    bool m18() const override;
+    bool m19() const override;
+    bool m21() const override;
+    bool m22(u32 a1) const override;
+    f32 m23() const override;
+    f32 m24() const override;
+    f32 m25() const override;
+    f32 m26() const override;
+    void m27(f32 value) override;
+    bool m28() override;
+    f32 m30(const void* a1) override;
+    bool m31() override;
+    bool m33() override;
+    bool m36() override;
+
+    // The rigid bodies of the element (stride 0x40; the entry's first member is the body).
+    struct BodyEntry {
+        phys::RigidBody* body;
+        u8 _8[0x24 - 0x8];
+        u8 _24[0x40 - 0x24];
+    };
+
+    /* 0x008 */ Actor* mActor;
+    /* 0x010 */ u8 _10[0x18 - 0x10];
+    /* 0x018 */ Unk_71024e6560* _18;
+    /* 0x020 */ u8 _20[0x30 - 0x20];
     /* 0x030 */ u32 _30;  // flags (bit 9 set by ChemicalWeaponRoot::m44)
     /* 0x034 */ u8 _34[0x3c - 0x34];
     /* 0x03c */ u32 _3c;  // flags (RootAi::setChemicalFlags3cMaybe)
     /* 0x040 */ Chemical mChemical;
-    /* 0x278 */ u8 _278[0x2d8 - 0x278];
+    /* 0x278 */ sead::Buffer<BodyEntry> _278;
+    /* 0x288 */ u32 _288;
+    /* 0x28c */ f32 _28c;
+    /* 0x290 */ f32 _290;
+    /* 0x294 */ f32 _294;
+    /* 0x298 */ u8 _298[0x2a4 - 0x298];
+    /* 0x2a4 */ sead::Vector3f _2a4;
+    /* 0x2b0 */ sead::Vector3f _2b0;
+    /* 0x2bc */ s32 _2bc;
+    /* 0x2c0 */ u8 _2c0[0x2d8 - 0x2c0];
 };
 KSYS_CHECK_SIZE_NX150(Unk_71024e6428, 0x2d8);
 
