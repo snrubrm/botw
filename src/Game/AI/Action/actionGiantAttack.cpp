@@ -1,5 +1,7 @@
 #include "Game/AI/Action/actionGiantAttack.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/AI/aiUnk_71007377D4.h"
 
 namespace uking::action {
 
@@ -30,6 +32,20 @@ void GiantAttack::loadParams_() {
     getStaticParam(&mStopRotSpeedRatio_s, "StopRotSpeedRatio");
     getStaticParam(&mRotBaseBoneName_s, "RotBaseBoneName");
     getDynamicParam(&mTargetPos_d, "TargetPos");
+}
+
+void GiantAttack::sub_71002A182C() {
+    if (sub_71005DD5B0(mActor, 0x29, nullptr, 0, 0))
+        sub_71002A1A08();
+    if (sub_71005DD798(mActor, 0x29, nullptr, 0, 0)) {
+        sub_71002A1C38();
+        return;
+    }
+    auto* controller = mActor->getCharacterController();
+    if (controller) {
+        sub_7100737C0C(controller, *mStopSpeedRatio_s, -sead::Vector3f::ey);
+        sub_7100738660(controller, *mStopRotSpeedRatio_s);
+    }
 }
 
 void GiantAttack::calc_() {
