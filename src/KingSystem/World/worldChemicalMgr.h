@@ -17,6 +17,7 @@ public:
     virtual ~WorldMgrStruct0_8_a();
     void sub_71010C9D00(ksys::act::Actor* actor);
     void sub_71010C9E48(ksys::act::Actor* actor);
+    void sub_71010C9438();
     sead::CriticalSection _8;
     u8 _48[0x90 - 0x48];
 };
@@ -43,6 +44,10 @@ public:
 
     void initBeforeStageGen();
     void unload2();
+    void sub_71010CC5AC();
+    void sub_71010CC5B4();
+    void sub_71010CE760();
+    void sub_71010CB5C0();
     // Original 0x71010cbdcc: enqueue a unique chemical pair and event type under the pool lock.
     void sub_71010CBDCC(act::Chemical* first, act::Chemical* second, s32 type);
     bool x_4() const;

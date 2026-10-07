@@ -218,6 +218,10 @@ public:
     // 0x71010f7930: the chemical manager's element holder.
     void* getElementHolderMaybe() const;
     ChemicalMgr* getChemicalMgr() const { return static_cast<ChemicalMgr*>(mMgrs[8]); }
+    void sub_71010F78A4();
+    void sub_71010F78C4();
+    void sub_71010F78E4();
+    void sub_71010F7940();
 
     bool worldInfoLoaded() const { return mWorldInfoLoadStatus != WorldInfoLoadStatus::NotLoaded; }
 

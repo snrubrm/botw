@@ -738,6 +738,22 @@ void Manager::unload2() {
     getChemicalMgr()->unload2();
 }
 
+void Manager::sub_71010F78A4() {
+    getChemicalMgr()->sub_71010CC5AC();
+}
+
+void Manager::sub_71010F78C4() {
+    getChemicalMgr()->sub_71010CC5B4();
+}
+
+void Manager::sub_71010F78E4() {
+    getChemicalMgr()->sub_71010CE760();
+}
+
+void Manager::sub_71010F7940() {
+    getChemicalMgr()->sub_71010CB5C0();
+}
+
 void Manager::clearArray() {
     mAtomicPtrArray.clear();
 }

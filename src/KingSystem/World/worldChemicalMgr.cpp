@@ -3,6 +3,10 @@
 
 namespace ksys::world {
 
+void ChemicalMgr::sub_71010CC5AC() {
+    _cf8.sub_71010C9438();
+}
+
 bool ChemicalMgr::x_4() const {
     return _b10 < 10;
 }
