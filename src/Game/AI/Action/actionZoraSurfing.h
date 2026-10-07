@@ -20,7 +20,7 @@ public:
 protected:
     void calc_() override;
     virtual float m32();
-    virtual void m33();
+    virtual ksys::map::Rail* m33();
     virtual void m34();
     virtual void m35();
     virtual void m36();

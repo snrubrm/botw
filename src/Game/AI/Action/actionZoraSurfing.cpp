@@ -1,6 +1,8 @@
 #include "Game/AI/Action/actionZoraSurfing.h"
 #include <math/seadMathCalcCommon.h>
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Map/mapRail.h"
+#include "KingSystem/System/VFR.h"
 
 namespace uking::action {
 
@@ -52,6 +54,31 @@ float ZoraSurfing::m32() {
     const float distance = (pos - target).length();
     const float t = sead::Mathf::clamp((distance - *mOnRailDistance_s) / (*mFarDistance_s - *mOnRailDistance_s), 0.0f, 1.0f);
     return (1.0f - t) * 10.0f;
+}
+
+ksys::map::Rail* ZoraSurfing::m33() {
+    if (!mUniqueName_d.isEmpty()) {
+        for (s32 i = 0; i < 10; ++i) {
+            auto* rail = sub_7100EEF264(mActor, i);
+            if (rail && rail->getUniqueName() &&
+                mUniqueName_d == sead::SafeString(rail->getUniqueName()))
+                return rail;
+        }
+    }
+    return sub_7100EEF264(mActor, 0);
+}
+
+// NON_MATCHING: the common distance variable keeps -1.0f in a saved register; the original uses a separate fallback block.
+void ZoraSurfing::m34() {
+    if (!_20.sub_7100EEBB74())
+        return;
+    if (!_20.sub_7100EEBE88() && _20.m3() && m37())
+        _20.sub_7100EEBE9C(-_20._58);
+    f32 distance = -1.0f;
+    if (_20._8.rail && _20._8.rail->isBezier())
+        distance = m32() * ksys::VFR::instance()->getDeltaFrame();
+    // called through a pointer in the original (not devirtualised)
+    (&_20)->m4(distance, nullptr, nullptr);
 }
 
 void ZoraSurfing::m36() {
