@@ -1330,6 +1330,14 @@ extern const ksys::StateBase sUnk_71025ec610;
 // Flag bytes next to the states of ScreenAppTool (0x71025ec548 / 0x71025ec549; written by other screens at run time).
 extern bool sUnk_71025ec548;
 extern bool sUnk_71025ec549;
+// Run-time state of ScreenAppTool (0x71025ec540: a record id followed by a halfword, written by its
+// constructor); the flag bytes at 0x71025ec548 / 0x71025ec549 / 0x71025ec54a are separate globals.
+struct AppToolState {
+    s32 _0;
+    u16 _4;
+};
+extern AppToolState sUnk_71025ec540;
+extern u8 sUnk_71025ec54a;
 
 struct ScreenAppPictureBookUnk;
 
@@ -1775,17 +1783,32 @@ public:
 
 class ScreenAppTool : public ScreenEx {
 public:
+    ScreenAppTool();
     bool isEnableControl() const override;
     const char* getLayoutName_() const override;
     ~ScreenAppTool() override;
     SEAD_RTTI_OVERRIDE(ScreenAppTool, ScreenEx)
     void m107(eui::AnimButton*) override;
 
-    // Members used by the state callbacks (the constructor 0x71009fcd64 is not decompiled).
-    /* 0x3610 */ u8 _3610;
-    u8 _pad_3611[0x3620 - 0x3611];
-    /* 0x3620 */ eui::Animator* _3620;
-    u8 _pad_3628[0x3744 - 0x3628];
+    // Members used by the state callbacks (see the constructor 0x71009fcd64).
+    /* 0x3610 */ u8 _3610 = 1;
+    u8 _pad_3611[0x3618 - 0x3611];
+    /* 0x3618 */ u64 _3618 = 0;
+    /* 0x3620 */ eui::Animator* _3620 = nullptr;
+    /* 0x3628 */ u64 _3628 = 0;
+    /* 0x3630 */ u8 _3630 = 0;
+    u8 _pad_3631[0x3638 - 0x3631];
+    // Count and storage of the array the destructor deletes (element type not known).
+    /* 0x3638 */ u32 _3638 = 0;
+    u8 _pad_363c[0x3640 - 0x363c];
+    /* 0x3640 */ void* _3640 = nullptr;
+    /* 0x3648 */ u64 _3648 = 0;
+    /* 0x3650 */ u64 _3650 = 0;
+    /* 0x3658 */ u64 _3658 = 0;
+    /* 0x3660 */ u64 _3660 = 0;
+    /* 0x3668 */ u64 _3668 = 0;
+    /* 0x3670 */ UiTexSlots _3670;
+    /* 0x3740 */ s32 _3740;
     /* 0x3744 */ u8 _3744;
 
     // own virtual slots (state callbacks; groups of four: void, void, void, s32 -- the types are guesses from the trivial ones)

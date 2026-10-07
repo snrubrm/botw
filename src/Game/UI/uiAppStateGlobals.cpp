@@ -1,4 +1,5 @@
 #include <basis/seadTypes.h>
+#include "Game/UI/uiScreens.h"
 
 // Small helpers around TU-level state of the app screens (AppCamera, AppMapDungeon, AppPictureBook, AppTool). The
 // variables are unnamed in the binary; `sUnk_<address>` placeholders.
@@ -10,8 +11,10 @@ u16 sUnk_71025de180;
 s32 sUnk_71025eb5b8;
 u8 sUnk_71025eb5b4;
 // 0x71025ec540 / 0x71025ec549 (ScreenAppTool)
-s32 sUnk_71025ec540;
-u8 sUnk_71025ec549;
+AppToolState sUnk_71025ec540;
+bool sUnk_71025ec548;
+bool sUnk_71025ec549;
+u8 sUnk_71025ec54a;
 
 namespace {
 // TU-local state of the AppPictureBook screen (0x71025eb850)
@@ -43,7 +46,7 @@ bool sub_71009F8450() {
 
 // 0x71009fd6c0
 void sub_71009FD6C0() {
-    if (sUnk_71025ec540 != -1)
+    if (sUnk_71025ec540._0 != -1)
         sUnk_71025ec549 = 1;
 }
 

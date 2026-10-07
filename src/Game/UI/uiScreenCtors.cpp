@@ -44,6 +44,19 @@ ScreenReadyGo::ScreenReadyGo() : ScreenEx() {}
 // 0x7100a40da0
 ScreenRupee::ScreenRupee() : ScreenEx() {}
 
+// NON_MATCHING: the tail GOT-load/store scheduling differs (the original interleaves the loads with the
+// stores and materialises -1 first; ours hoists all three loads and materialises -1 late). All stores match.
+// 0x71009fcd64
+ScreenAppTool::ScreenAppTool() : ScreenEx() {
+    _3740 = -1;
+    _3744 = 0;
+    sUnk_71025ec540._0 = -1;
+    sUnk_71025ec540._4 = 0;
+    sUnk_71025ec548 = false;
+    sUnk_71025ec549 = false;
+    sUnk_71025ec54a = 0;
+}
+
 // 0x7100a265ec
 ScreenMessageTipsRunTime::ScreenMessageTipsRunTime() : ScreenEx() {}
 
