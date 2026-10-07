@@ -121,8 +121,6 @@ void Motorcycle::sub_710007C1C4(ksys::phys::RigidBody* body, const sead::Matrix3
     body->setAngularVelocity(parallel + body->getAngularVelocity());
 }
 
-// NON_MATCHING: only the scheduling of the translation copy (the original copies x, y, z with separate stores
-// interleaved with the impulse multiplications)
 void Motorcycle::sub_710007B694(MotorcycleStruct2* wheel, f32 a, f32 b) {
     sead::Matrix34f mtx;
     wheel->_0->getTransform(&mtx);
@@ -135,7 +133,9 @@ void Motorcycle::sub_710007B694(MotorcycleStruct2* wheel, f32 a, f32 b) {
     unused.setCross(direction, wheel->_24.getBase(0));
     unused.normalize();
     sead::Vector3f point;
-    point = mtx.getTranslation();
+    point.x = mtx(0, 3);
+    point.y = mtx(1, 3);
+    point.z = mtx(2, 3);
     const sead::Vector3f impulse = direction * (a * b);
     wheel->_0->applyPointImpulse(impulse, point);
 }
