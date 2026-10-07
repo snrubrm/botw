@@ -1,6 +1,7 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <math/seadVector.h>
 #include "KingSystem/Utils/Types.h"
 
 namespace ksys::act {
@@ -35,3 +36,6 @@ bool sub_710071EB88(ksys::act::Actor* actor);
 bool sub_710071EDAC(ksys::act::Actor* actor);
 // Calls sub_71005DB068(actor, sub_71005D960C(actor)) for a non-null actor.
 void sub_710071EB3C(ksys::act::Actor* actor);
+
+// 0x710071e600: XZ distance from the recovered stage center, scaled stage radius.
+bool sub_710071E600(const sead::Vector3f* pos, f32 radius_rate);

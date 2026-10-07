@@ -1,4 +1,5 @@
 #include "Game/AI/aiUnk_710071edf8.h"
+#include "Game/AI/aiUnk_7102450fa8.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Event/evtManager.h"
@@ -39,4 +40,12 @@ void sub_710071EDD0(ksys::act::Actor* actor, bool enable) {
         return;
     if (auto* physics = actor->getPhysics())
         physics->getFlags().change(ksys::phys::InstanceSet::Flag::_80000, !enable);
+}
+
+// NON_MATCHING: stage-radius load and arithmetic scheduling differ.
+bool sub_710071E600(const sead::Vector3f* pos, f32 radius_rate) {
+    const f32 dx = pos->x - sUnk_71025c8cf8.x;
+    const f32 dz = pos->z - sUnk_71025c8cf8.z;
+    const f32 radius = sUnk_7102450fa0 * radius_rate;
+    return dx * dx + dz * dz < radius * radius;
 }
