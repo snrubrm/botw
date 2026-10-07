@@ -1,8 +1,17 @@
 #include "Game/AI/AI/aiInsectRoot.h"
 #include "Game/Damage/dmgDamageManagerBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/Resource/Actor/resResourceGParamList.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectInsect.h"
 #include "KingSystem/Utils/Thread/Message.h"
+#include "KingSystem/World/worldManager.h"
+#include <cfloat>
+
+// 0x71006e8610 (declaration only; defined in the actor-bind TU): whether the actor's bind object at
+// +0xd8 has byte 0x9a8 set.
+bool sub_71006E8610(ksys::act::Actor* actor);
 
 namespace uking::ai {
 
@@ -68,6 +77,61 @@ void InsectRoot::m40() {
         }
     }
     SimpleWildlifeRoot::m40();
+}
+
+// 0x710044b36c
+// NON_MATCHING: the final _b8 stores use three str where the original pairs x/y into stp (tried
+// operator-, set() and braced assignment with and without named temps; snippet builds pair, the full
+// function does not). Everything else in all paths matches.
+void InsectRoot::calc_() {
+    auto* awareness = mActor->get548();
+    if (awareness->_18._48 <= 0)
+        awareness->_18._48 = 1;
+    awareness->_18._44 |= 1;
+
+    if (!sub_71006E8610(mActor)) {
+        const int level = ksys::world::Manager::instance()->getIgnitedLevel(
+            mActor->getMtx().getTranslation());
+        const auto* insect = mActor->getParam()->getRes().mGParamList->getInsect();
+        const s32 threshold = insect ? insect->mFireResistanceLevel.ref() : 0;
+        if (level > threshold) {
+            if (isCurrentChild("逃走") || isCurrentChild("死亡")) {
+                _100.update();
+                if (_100.value > FLT_EPSILON)
+                    return;
+                mActor->deleteEx(ksys::act::Actor::DeleteType::_1,
+                                 ksys::act::BaseProc::DeleteReason::_0, nullptr);
+                return;
+            }
+            _100 = ksys::Timer(20.0f, 20.0f);
+            _c4 = ksys::Timer(-1.0f, -1.0f);
+            const sead::Vector3f trans = mActor->getMtx().getTranslation();
+            const sead::Vector3f front = mActor->getMtx().getBase(2);
+            _b8.set(trans.x - front.x, trans.y - front.y, trans.z - front.z);
+            m39();
+            return;
+        }
+    }
+
+    if (mActor->get68f() && *mIsEscapeInWater_s) {
+        if (isCurrentChild("逃走") || isCurrentChild("死亡")) {
+            SimpleWildlifeRoot::calc_();
+        } else {
+            _c4 = ksys::Timer(-1.0f, -1.0f);
+            const sead::Vector3f trans = mActor->getMtx().getTranslation();
+            const sead::Vector3f front = mActor->getMtx().getBase(2);
+            _b8.set(trans.x - front.x, trans.y - front.y, trans.z - front.z);
+            m39();
+        }
+    } else if (isChangeable() && getCurrentChild()->isFailed()) {
+        _c4 = ksys::Timer(-1.0f, -1.0f);
+        const sead::Vector3f trans = mActor->getMtx().getTranslation();
+        const sead::Vector3f front = mActor->getMtx().getBase(2);
+        _b8.set(trans.x - front.x, trans.y - front.y, trans.z - front.z);
+        m39();
+    } else {
+        SimpleWildlifeRoot::calc_();
+    }
 }
 
 }  // namespace uking::ai
