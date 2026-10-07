@@ -164,4 +164,30 @@ void LumberjackFallenTree::loadParams_() {
     getAITreeVariable(&mMoveDirection_a, "MoveDirection");
 }
 
+void LumberjackFallenTree::sub_7100486258() {
+    _294 = false;
+    if (auto* damage = mActor->getDamageMgr()) {
+        if (auto* manager = sead::DynamicCast<uking::dmg::DamageManager>(damage)) {
+            manager->removeDamageCallback(&_38);
+            manager->removeDamageCallback(&_68);
+        }
+    }
+    if (auto* damage = mActor->getDamageMgr()) {
+        if (auto* manager = sead::DynamicCast<uking::dmg::DamageManager>(damage))
+            manager->addDamageCallback(4, &_38);
+    }
+    _296 = 1;
+    auto* xlink = mActor->getXLink();
+    auto* user = xlink ? xlink->_50 : nullptr;
+    if (user) {
+        user->searchAndEmit("felling");
+        mFellingHandle = user->searchAndEmit("felling_TreeFall");
+    } else {
+        _296 = 0;
+    }
+    if (auto* current_xlink = mActor->getXLink())
+        current_xlink->_cc.set(0x2000);
+    changeChild("通常");
+}
+
 }  // namespace uking::ai

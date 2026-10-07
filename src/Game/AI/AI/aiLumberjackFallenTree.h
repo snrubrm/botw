@@ -1,6 +1,7 @@
 #pragma once
 
 #include <math/seadVector.h>
+#include <xlink2/xlink2HandleSLink.h>
 #include "Game/Actor/actUnk_710244eb00.h"
 #include "Game/Damage/dmgDamageCallback.h"
 #include "KingSystem/ActorSystem/Awareness/actAITerror.h"
@@ -93,9 +94,8 @@ protected:
     bool _294 = false;
     u8 _295 = 0;
     u8 _296 = 0;
-    void* _298 = nullptr;
-    s32 _2a0 = 0;
-    u8 _2a4[4];
+    // The retained felling_TreeFall searchAndEmit result.
+    xlink2::HandleSLink mFellingHandle;
     s32 _2a8 = 0;
 };
 
