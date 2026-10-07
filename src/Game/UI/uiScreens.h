@@ -1337,6 +1337,8 @@ public:
     // own virtual slots (state callbacks; groups of four: void, void, void, s32 -- the types are guesses from the trivial ones)
     u8 _pad_3610[0x3638 - 0x3610];
     nn::ui2d::ArchiveHandle _3638;
+    /* 0x36e0 */ eui::Animator* _36e0;
+    /* 0x36e8 */ s32 _36e8;
     sead::PtrArray<Unk_Elem> _36f0;
     /* 0x3700 */ sead::BitFlag8 _3700;
     u8 _pad_3701[0x3720 - 0x3701];

@@ -1,18 +1,26 @@
 #pragma once
 
-#include "KingSystem/Utils/Types.h"
+#include "Game/UI/uiUnkTiny.h"
 
 namespace nn::ui2d {
 
-// Handle of a loaded layout archive (CSV: nn::ui2d::ArchiveHandle). Only the size and the destructor are known:
-// the destructor (0x71009c3358) destroys several placeholder objects and a base object at +0x30; it is not
-// decompiled yet.
+// The constructor and shortcut-button composite prove these four owned UI
+// controllers and the 0xa8-byte extent.
 class ArchiveHandle {
 public:
-    ~ArchiveHandle();
+    ArchiveHandle();
+    virtual ~ArchiveHandle();
 
-private:
-    u8 _0[0xb8];
+    u64 _8 = 0;
+    u64 _10 = 0;
+    u64 _18 = 0;
+    u64 _20 = 0;
+    u64 _28 = 0;
+    /* 0x30 */ uking::ui::Unk_710247aa30 mBreak;
+    /* 0x50 */ uking::ui::Unk_71024774c8 mTexture;
+    /* 0x68 */ uking::ui::Unk_7102477508 mNumber;
+    /* 0x90 */ uking::ui::Unk_7102474b38 mSwitch;
 };
+static_assert(sizeof(ArchiveHandle) == 0xa8);
 
 }  // namespace nn::ui2d
