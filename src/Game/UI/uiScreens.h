@@ -11,6 +11,7 @@
 #include "Game/UI/euiControlBase.h"
 #include "Game/UI/euiMessageString.h"
 #include "Game/UI/uiTimer.h"
+#include "KingSystem/System/DebugBoard.h"
 #include "Game/UI/euiScreen.h"
 #include "Game/UI/euiUIController.h"
 #include "Game/UI/uiButtonEventQueue.h"
@@ -381,8 +382,17 @@ public:
     /* 0x44 */ s32 _44 = -1;
 };
 
+// An item of ScreenEx's button helper (placeholder; no RTTI: vtable slots D1 = nullsub 0x92f36c, D0 = delete
+// 0x92f370). 0x92f374 (1.2 KB, not decompiled) updates it.
+class Unk_71024746b0Item {
+public:
+    virtual ~Unk_71024746b0Item() = default;
+    // 0x710092f374 (declared only)
+    void sub_710092F374(bool a1);
+};
+
 // ScreenEx's helper at+0x330. The constructor0x92fc8c and destructor0x92fcb4 prove
-// size0x38, heap+8, Screen*+0x10, config+0x18, buffer+0x20 and boolean+0x30.
+// size0x38, heap+8, Screen*+0x10, config+0x18, item buffer+0x20 (a sead::Buffer of pointers) and boolean+0x30.
 class Unk_71024746b0 {
 public:
     Unk_71024746b0();
@@ -392,8 +402,11 @@ public:
     void initialize(Screen* screen, eui::LayoutEx* layout, void* config);
     void update();
 
-    /* 0x08 */ sead::Heap* mHeap;
-    u8 _10[0x38 - 0x10];
+    /* 0x08 */ sead::Heap* mHeap{};
+    /* 0x10 */ Screen* mScreen{};
+    /* 0x18 */ void* mConfig{};
+    /* 0x20 */ sead::Buffer<Unk_71024746b0Item*> mItems;
+    /* 0x30 */ bool _30 = true;
 };
 static_assert(sizeof(Unk_71024746b0) == 0x38);
 
@@ -421,7 +434,9 @@ public:
     void registerController_() override;
 
     // Placeholder for the real data (0x300 ...; the leaf classes' members start at 0x3610).
-    u8 _300[0x330 - 0x300];
+    /* 0x300 */ Unk_710246c458 _300;
+    /* 0x310 */ Unk_710246c4d8 _310;
+    /* 0x320 */ Unk_710246c498 _320;
     /* 0x330 */ Unk_71024746b0 mButtonHelper;
     /* 0x368 */ ButtonEventQueue* mButtonEvents;
     u8 _370[0x3a8 - 0x370];

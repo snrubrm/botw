@@ -17,6 +17,9 @@ target_sources(uking PRIVATE
     CameraMgr.cpp
     CameraMgr.h
     CoreInfo.h
+    DebugBoard.cpp
+    DebugBoard.h
+    DebugBoardMgr.cpp
     DebugFinder.cpp
     DebugFinder.h
     DebugMessage.h
