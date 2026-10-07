@@ -5,6 +5,9 @@
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "Game/gameRoot38.h"
+#include "Game/gameScene.h"
+#include "Game/UI/uiUtils.h"
+#include "KingSystem/Event/evtManager.h"
 
 namespace ksys::evt {
 
@@ -25,6 +28,18 @@ EventSystem::~EventSystem() = default;
 
 int EventSystem::handleMessage(const Message& message) {
     return 1;
+}
+
+// NON_MATCHING: everything else matches, but the original tests bit 7 of the Manager flag byte as `ldrb; tbnz #7` (ours:
+// `ldrsb; tbnz #0x1f`; a bool bitfield view gives the same)
+// 0x71008ac078
+void EventSystem::x_2(s32 value) {
+    _130_fields._140 = value;
+    uking::Root38::instance()->setFlag(3, value != 0);
+    if (_130_fields._140)
+        _130_fields._13c = 0;
+    if (!(Manager::instance()->_1d2f4_bytes[0] & 0x80))
+        uking::ui::showLoadSaveIcon(_130_fields._140 ? getSceneStatus() != 4 : false);
 }
 
 // 0x71008ac100

@@ -7,6 +7,10 @@
 #include "KingSystem/System/DebugBoard.h"
 #include "KingSystem/Utils/Thread/ActorMessageTransceiver.h"
 
+namespace ksys {
+class MessageTransceiverTxOnly;
+}
+
 namespace ksys::act {
 class Actor;
 class ActorConstDataAccess;
@@ -55,6 +59,8 @@ public:
     // 0x71008abf28
     int handleMessage(const Message& message) override;
 
+    // 0x71008ac078 (CSV x_2): sets the scene freeze state `_140` (Root38 flag 3, the load / save icon)
+    void x_2(s32 value);
     // 0x71008ac100 (CSV x_3): sets bit 5 of the global scene flag word
     void x_3(bool value);
     // 0x71008abf30 / 0x71008abf38 (placeholder names): release the speaker link / acquire the speaker actor
@@ -76,8 +82,17 @@ public:
     /* 0x58 */ Unk_710246c4d8 _58;
     /* 0x68 */ ActorMessageTransceiver mTransceiver{*this};
     /* 0xc0 */ EventSpeaker mSpeaker;
-    /* 0x130 */ u8 _130[0x16];
-    u8 _146[2];
+    // 0x130 - 0x146 are cleared as one block by the constructor.
+    union {
+        /* 0x130 */ u8 _130[0x16];
+        struct {
+            ksys::MessageTransceiverTxOnly* mTxTransceiver;
+            s32 _138;
+            s32 _13c;
+            s32 _140;
+            u16 _144;
+        } _130_fields;
+    };
 };
 KSYS_CHECK_SIZE_NX150(EventSystem, 0x148);
 
