@@ -16,6 +16,18 @@ namespace aal {
 class AssetInfo;
 class MarkerInfo;
 
+// Original interface and method spellings are unknown. SoundController
+// startStreamSound_ ba19fc calls slot0 with (path, AssetInfo*) at ba1aec;
+// the original game implementation105f710 independently proves the bool return.
+// Its derived constructor105fe78 places the first data member at+8 and has
+// a single-slot vtable, establishing this genuine interface without a virtual dtor.
+class Unk_7100BA1AEC {
+public:
+    virtual bool sub_7100BA1AEC(sead::BufferedSafeStringBase<char>* path, AssetInfo* info) = 0;
+};
+static_assert(sizeof(Unk_7100BA1AEC) == 8);
+
+
 /// Reads the description of an asset by its name. TODO: the meaning of the flag is not known.
 class IAssetInfoReadable {
 public:
@@ -69,7 +81,7 @@ public:
     /// Bit 0: the asset is looped; bit 1: the stream file path is not built from the name of the asset; bit 2: the
     /// prefetched data is ignored (SoundController::setIgnorePrefetch).
     u8 mFlags;
-    void* _18;
+    Unk_7100BA1AEC* _18;
 };
 static_assert(sizeof(AssetInfo) == 0x20, "aal::AssetInfo size mismatch");
 
