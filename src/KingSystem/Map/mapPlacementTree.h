@@ -28,6 +28,20 @@ public:
     PlacementTree();
     ~PlacementTree();
 
+    // Placeholder arguments of the init function 0x71011ed47c (CSV PlacementTree::x): the map bounds (x / z min and
+    // max), the cell size of the finest level and a node count; PlacementMgr::initPlacementTree passes the constants.
+    struct InitArg {
+        sead::Heap* heap;
+        f32 min_x;
+        f32 min_z;
+        f32 max_x;
+        f32 max_z;
+        f32 cell_size;
+        u32 num_nodes;
+    };
+    // 0x71011ed47c (declaration only)
+    void sub_71011ED47C(const InitArg& arg);
+
     void resetPlacementObjPtrs();
     // 0x71011ed9ec (CSV PlacementTree::calledForPlaceActor1; declared only; lane4 s45)
     void calledForPlaceActor1(Object* obj);

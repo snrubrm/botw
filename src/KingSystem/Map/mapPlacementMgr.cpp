@@ -1,5 +1,6 @@
 #include "KingSystem/Map/mapPlacementMgr.h"
 #include <thread/seadThreadUtil.h>
+#include <time/seadTickTime.h>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorCreator.h"
 #include "KingSystem/ActorSystem/actClusteredRenderer.h"
@@ -9,7 +10,9 @@
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Map/mapStagePreActorCache.h"
 #include "KingSystem/Physics/System/physSystem.h"
+#include "KingSystem/System/OverlayArenaSystem.h"
 #include "KingSystem/Map/mapPlacementActors.h"
+#include "KingSystem/Map/mapPlacementAreaMgr.h"
 #include "KingSystem/Map/mapPlacementTree.h"
 #include "KingSystem/System/VFR.h"
 
@@ -214,6 +217,36 @@ void PlacementMgr::sub_71011E63FC(const sead::Vector3f* pos, CellPos* out) {
     out->row = s32(z / 1000.0f);
     out->x = x - f32(out->col * 1000);
     out->z = z - f32(out->row * 1000);
+}
+
+// NON_MATCHING: only the materialisation of the constant arguments (the original derives -5000 / 5000 from the
+// -4000 / 4000 registers with an add and does not merge the last two 32-bit stores into one 64-bit store).
+void PlacementMgr::initPlacementTree(bool skip_rebuild) {
+    auto* heap = OverlayArenaSystem::instance()->getPlacementTreeHeap();
+    mPlacementTree = new (heap) PlacementTree;
+    mPlacementTree->sub_71011ED47C({heap, -5000.0f, -4000.0f, 5000.0f, 4000.0f, 30.0f, 370000});
+    if (!skip_rebuild)
+        mPlacementActors->rebuildTree(mPlacementTree);
+}
+
+void PlacementMgr::placeActors() {
+    sead::TickTime start;
+    for (s32 i = 0; i < mPlacementMapMgr->getNumMaps(); ++i) {
+        auto* map = mPlacementMapMgr->getMap(i);
+        if (!map->mStaticMapLoaded || map->mParsedNumStaticObjs < 0)
+            continue;
+        mPlacementTree->mLock.writeLock();
+        for (s32 j = map->mParsedNumStaticObjs; j <= map->mNumStaticObjs; ++j) {
+            auto* obj = mPlacementActors->getStaticObj_0(j);
+            mPlacementTree->calledForPlaceActor1(obj);
+            mPlacementActors->placeObject(obj);
+        }
+        mPlacementTree->mLock.writeUnlock();
+    }
+    mPlacementMapMgr->postPlaceActorsRouteStuff(mTeraSystem);
+    mPlacementActors->mStruct1->pushFarModels();
+    mPlacementActors->mStruct1->postPlaceActorsUpdateFlagsAndLazyTraverse();
+    static_cast<void>(start.diffToNow());
 }
 
 void PlacementMgr::stopThread() {

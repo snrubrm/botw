@@ -74257,7 +74257,7 @@ Address,Quality,Size,Name
 0x0000007100d470dc,U,000404,PlacementMapMgr::updateNeedLoadDynMapCounts
 0x0000007100d47270,m,000252,_ZN4ksys3map15PlacementMapMgr16isHkscResStatus3ERKN4sead7Vector3IfEEb
 0x0000007100d4736c,U,000392,PlacementMapMgr::parseRoute
-0x0000007100d474f4,U,000172,PlacementMapMgr::postPlaceActorsRouteStuff
+0x0000007100d474f4,U,000172,_ZN4ksys3map15PlacementMapMgr25postPlaceActorsRouteStuffEPv
 0x0000007100d475a0,U,000172,PlacementMapMgr::routeStuff
 0x0000007100d4764c,U,000480,Placement18::ctor
 0x0000007100d4782c,U,000860,Placement18::dtor
@@ -74466,7 +74466,7 @@ Address,Quality,Size,Name
 0x0000007100d52ca4,m,000108,_ZN4ksys3map15PlacementActors14sub_7100D52CA4EPNS0_6ObjectE
 0x0000007100d52d10,U,002072,PlacementActors::parseLinks
 0x0000007100d53528,O,000048,_ZN4ksys3map15PlacementActors6getObjEii
-0x0000007100d53558,U,000264,PlacementActors::placeObject
+0x0000007100d53558,U,000264,_ZN4ksys3map15PlacementActors11placeObjectEPNS0_6ObjectE
 0x0000007100d53660,U,000296,PlacementObj::shouldSpawn
 0x0000007100d53788,U,000304,_ZN4ksys3map15PlacementActors18spawnGenGroupActorEPNS0_6ObjectES3_
 0x0000007100d538b8,U,000300,PlacementActors::threadSpawnGenGroupActors
@@ -92939,8 +92939,8 @@ Address,Quality,Size,Name
 0x00000071011e57ac,m,000064,_ZN4ksys3map12PlacementMgr5auto1Ev
 0x00000071011e57ec,U,000344,PlacementMgr::createMapsAndInitAndStartPlacementThread
 0x00000071011e5944,U,002332,PlacementMgr::initAndStartPlacementThread
-0x00000071011e6260,U,000168,PlacementMgr::initPlacementTree
-0x00000071011e6308,U,000244,PlacementMgr::placeActors
+0x00000071011e6260,m,000168,_ZN4ksys3map12PlacementMgr17initPlacementTreeEb
+0x00000071011e6308,O,000244,_ZN4ksys3map12PlacementMgr11placeActorsEv
 0x00000071011e63fc,O,000096,_ZN4ksys3map12PlacementMgr14sub_71011E63FCEPKN4sead7Vector3IfEEPNS1_7CellPosE
 0x00000071011e645c,U,001760,PlacementMgr::preCalc
 0x00000071011e6b3c,U,000292,PlacementMgr::requestDraw
@@ -93023,7 +93023,7 @@ Address,Quality,Size,Name
 0x00000071011ed3e8,U,000004,nullsub_4652
 0x00000071011ed3ec,O,000060,_ZN4ksys3map13PlacementTreeC1Ev
 0x00000071011ed428,O,000084,_ZN4ksys3map13PlacementTreeD1Ev
-0x00000071011ed47c,U,000940,PlacementTree::x
+0x00000071011ed47c,U,000940,_ZN4ksys3map13PlacementTree14sub_71011ED47CERKNS1_7InitArgE
 0x00000071011ed828,O,000160,_ZN4ksys3map13PlacementTree21resetPlacementObjPtrsEv
 0x00000071011ed8c8,m,000152,_ZNK4ksys3map13PlacementTree3x_1ERKN4sead7Vector3IfEEi
 0x00000071011ed960,O,000140,_ZNK4ksys3map13PlacementTree14sub_71011ED960Ef

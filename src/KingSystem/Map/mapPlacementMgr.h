@@ -97,6 +97,10 @@ public:
     void invoked2_();
     // 0x71011e54e8 (CSV initBeforeStageGenB)
     void initBeforeStageGenB();
+    // 0x71011e6260 (CSV initPlacementTree)
+    void initPlacementTree(bool skip_rebuild);
+    // 0x71011e6308 (CSV placeActors)
+    void placeActors();
     // 0x71011e5734 / 0x71011e5678 (CSV stopThread / stopThreads)
     void stopThread();
     void stopThreads();

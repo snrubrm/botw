@@ -50,6 +50,9 @@ public:
     PlacementMap* getMap(int idx);
     // 0x0000007100d47270
     bool isHkscResStatus3(const sead::Vector3f& pos, bool x);
+    s32 getNumMaps() const { return mMaps.size(); }
+    // 0x7100d474f4 (CSV postPlaceActorsRouteStuff; declaration only)
+    void postPlaceActorsRouteStuff(void* tera_system);
     // 0x7100d46ef8 (CSV updateHkscLoadStatusesMaybe; declaration only)
     void updateHkscLoadStatusesMaybe();
 
