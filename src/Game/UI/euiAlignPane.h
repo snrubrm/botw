@@ -4,11 +4,15 @@
 
 namespace eui {
 
+class LayoutEx;
+
 // Fields proved by both constructors and the alignment consumers.
 class AlignPane : public nn::ui2d::Pane {
 public:
     NN_RUNTIME_TYPEINFO(nn::ui2d::Pane)
 
+    AlignPane(const nn::ui2d::ResPane*, const nn::ui2d::BuildArgSet&);
+    AlignPane(const AlignPane&, LayoutEx*);
     ~AlignPane() override;
 
     void Calculate(nn::ui2d::DrawInfo&, nn::ui2d::Pane::CalculateContext&, bool) override;
