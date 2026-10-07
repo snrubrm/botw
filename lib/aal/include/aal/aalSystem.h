@@ -18,6 +18,7 @@ class Settings;
 class ShapeMgr;
 class SoundSourceUnifier;
 class SDKFoundation;
+class MemoryPoolManager;
 class SpeakerBalanceUnifierMgr;
 
 /// The aal system singleton. TODO: only the manager pointers read through aal::SystemAccessor are modeled.
@@ -40,7 +41,8 @@ public:
     FinalFxMgr* mFinalFxMgr;
     u8 _78[0x10];
     SDKFoundation* mSDKFoundation;
-    u8 _90[0x10];
+    u8 _90[8];
+    MemoryPoolManager* mMemoryPoolManager;
     /// The directory of the stream files.
     const char* mStreamFileRoot;
     u8 _a8[0xe8 - 0xa8];

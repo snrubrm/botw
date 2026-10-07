@@ -2,6 +2,7 @@
 
 #include <basis/seadTypes.h>
 #include <container/seadSafeArray.h>
+#include <nn/atk/SoundHandle.h>
 #include <thread/seadCriticalSection.h>
 #include "aal/aalFadeCurveType.h"
 #include "aal/aalAssetInfo.h"
@@ -30,16 +31,6 @@ public:
 };
 }  // namespace detail
 
-/// A handle to a playing sound (the original header's SoundHandle). TODO: partial.
-class SoundHandle {
-public:
-    SoundHandle() : m_pSound(nullptr) {}
-
-    /// 0x71033c3b0 (declared only)
-    void DetachSound();
-
-    detail::BasicSound* m_pSound;
-};
 }  // namespace nn::atk
 
 namespace aal {

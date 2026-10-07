@@ -24,6 +24,8 @@ add_library(aal OBJECT
   include/aal/aalResourceHeader.h
   include/aal/aalDebuggerResult.h
   include/aal/aalDecibel.h
+  include/aal/aalMemoryPool.h
+  include/aal/aalMemoryPoolManager.h
   include/aal/aalDeviceType.h
   include/aal/aalEmitter.h
   include/aal/aalFadeCurveType.h

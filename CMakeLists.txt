@@ -44,6 +44,8 @@ target_link_libraries(uking PUBLIC agl)
 
 add_subdirectory(lib/aal)
 target_link_libraries(uking PRIVATE aal)
+# The audio classes of sead (AudioPlayerCafe) attach their memory to the aal memory pool manager.
+target_include_directories(sead PRIVATE lib/aal/include)
 
 add_subdirectory(lib/gsys)
 target_link_libraries(uking PRIVATE gsys)
