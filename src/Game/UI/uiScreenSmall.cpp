@@ -11,6 +11,39 @@ void ScreenPauseMenu::sub_7100A34A04() {
     _3bb4 = 1;
 }
 
+// 0x71009b0224
+void ScreenPauseMenuUnk3a00::sub_71009B0224(bool enabled) {
+    if (_130 == -1)
+        return;
+    for (auto& button : mButtons)
+        button.sub_7100989968(enabled);
+}
+
+// 0x71009b5fc8
+void ScreenPauseMenuUnk3b98::sub_71009B5FC8(bool active) {
+    if (active) {
+        // Pointer virtual form retains the original state descriptor getId call.
+        if (mStateMachine.getState()->getId() != (&sUnk_710261ee00)->getId())
+            return;
+        mStateMachine.changeState(&sUnk_71025d98a0);
+    } else {
+        mStateMachine.changeState(&sUnk_710261ee00);
+    }
+}
+
+// 0x71009b9f94
+bool ScreenPauseMenuUnk3b90::sub_71009B9F94(bool active) {
+    if (active) {
+        // Pointer virtual form retains the original state descriptor getId call.
+        if (mStateMachine.getState()->getId() != (&sUnk_710261ee00)->getId())
+            return false;
+        mStateMachine.changeState(&sUnk_71025d9e00);
+    } else {
+        mStateMachine.changeState(&sUnk_710261ee00);
+    }
+    return true;
+}
+
 bool sub_7100AA8DD4();
 
 struct CommandInfo {

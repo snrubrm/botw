@@ -1566,22 +1566,48 @@ public:
 
 // State of ScreenPauseMenu's state callbacks (0x71025f0cf0; placeholder name).
 extern const ksys::StateBase sUnk_71025f0cf0;
+extern const ksys::StateBase sUnk_710261ee00;
+extern const ksys::StateBase sUnk_71025d98a0;
+extern const ksys::StateBase sUnk_71025d9e00;
 
 // Placeholder for the object ScreenPauseMenu keeps at 0x3b90.
 struct ScreenPauseMenuUnk3b90 {
+    u8 _0[0x80];
+    /* 0x80 */ ksys::StateMachine mStateMachine;
     // 0x71009b9f94 (CSV unnamed; declared only)
-    void sub_71009B9F94(bool a1);
+    bool sub_71009B9F94(bool a1);
 };
+
+// Repeated 0x90-byte button records used by PauseMenu's three page controllers.
+// The original record's class name is unknown.
+struct ScreenButton_7100989968 {
+    void sub_710098993C(bool enabled, bool play);
+    void sub_7100989968(bool enabled);
+    void sub_71009899EC();
+
+    u8 _0[8];
+    /* 0x8 */ eui::AnimButton* mButton;
+    u8 _10[0x20 - 0x10];
+    /* 0x20 */ eui::Animator* mAnimator;
+    u8 _28[0x90 - 0x28];
+};
+KSYS_CHECK_SIZE_NX150(ScreenButton_7100989968, 0x90);
 
 // Placeholder for the three objects ScreenPauseMenu keeps at 0x3a00 (indexed by the byte at 0x3a18).
 struct ScreenPauseMenuUnk3a00 {
+    u8 _0[0x130];
+    /* 0x130 */ s32 _130;
+    u8 _134[4];
+    /* 0x138 */ ScreenButton_7100989968 mButtons[20];
     // 0x71009b0224 (CSV unnamed; declared only)
     void sub_71009B0224(bool a1);
 };
 
 // Placeholder for the object ScreenPauseMenu keeps at 0x3b98.
 struct ScreenPauseMenuUnk3b98 {
-    u8 _0[0x1a0];
+    u8 _0[0x80];
+    /* 0x80 */ ksys::StateMachine mStateMachine;
+    u8 _a8[0x1a0 - 0xa8];
     /* 0x1a0 */ s32 _1a0;
     // 0x71009b5fc8 (CSV unnamed; declared only)
     void sub_71009B5FC8(bool a1);

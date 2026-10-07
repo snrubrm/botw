@@ -96,6 +96,7 @@ target_sources(uking PRIVATE
   uiScreenAkashNum.cpp
   uiScreenAppMapSmall.cpp
   uiScreenAppMapController.cpp
+  uiScreenPauseMenuButtons.cpp
   uiScreenAppMapWidget.cpp
   uiScreenKologNum.cpp
   uiScreenMamoNum.cpp
