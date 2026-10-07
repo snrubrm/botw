@@ -522,6 +522,42 @@ bool SaveMgr::enableGdtMgrChangeOnlyMode(s32 x) {
     return true;
 }
 
+// NON_MATCHING: reverse search and shared scalar/array write branches differ.
+void SaveMgr::x_8(const sead::ObjArray<gdt::TriggerParam::FlagCopyRecord>& records) {
+    for (const auto& record : records) {
+        s32 file_index = _e00->getFiles().size();
+        s32 flag_index = -1;
+        while (file_index > 0) {
+            --file_index;
+            flag_index = _e00->getFiles()[file_index]->findFlagIndex(record.name_hash);
+            if (flag_index >= 0)
+                break;
+        }
+        if (flag_index < 0)
+            continue;
+        const auto& entry = _e00->getFiles().unsafeAt(file_index)->flags[flag_index];
+        if (entry.kv.value < 0)
+            continue;
+        u32 offset = entry._8;
+        gdt::FlagT<bool>* flag;
+        const s16 sub_index = record.sub_index;
+        if (sub_index < 0) {
+            flag = _f98->getBoolFlag(entry.kv.value);
+        } else {
+            flag = _f98->getBoolFlag(entry.kv.value, sub_index);
+            offset += sub_index * 8;
+        }
+        if (!flag || offset + 4 >= _e10)
+            continue;
+        const u32 hash = flag->getHash();
+        std::memcpy(_e08 + offset, &hash, sizeof(hash));
+        if (offset + 8 < _e10) {
+            const u32 value = flag->getValue();
+            std::memcpy(_e08 + (offset + 4), &value, sizeof(value));
+        }
+    }
+}
+
 void SaveMgr::x_7() {
     _f98 = gdt::Manager::instance()->mFlagBuffer;
     x_8(_f98->mCopiedBoolFlags);
