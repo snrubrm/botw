@@ -1,4 +1,5 @@
 target_sources(uking PRIVATE
+  sndBattleDungeonBgm.cpp
   sndBgmList.cpp
   sndBgmMgr.h
   sndDuckingMgr.cpp

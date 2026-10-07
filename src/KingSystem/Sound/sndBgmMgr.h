@@ -3,6 +3,7 @@
 #include <basis/seadTypes.h>
 #include <container/seadOffsetList.h>
 #include <prim/seadSafeString.h>
+#include <prim/seadRuntimeTypeInfo.h>
 #include <thread/seadCriticalSection.h>
 
 struct Unk_SpotBgmHandle;
@@ -42,6 +43,36 @@ struct Unk_SoundMgr30_10 {
     void sub_710101D718(Unk_SpotBgmHandle* handle);
 };
 
+// The RTTI root of the BGM controller family (vtable 0x71024fca78).
+class Unk_71024fca78 {
+public:
+    virtual ~Unk_71024fca78();
+    SEAD_RTTI_BASE(Unk_71024fca78)
+};
+
+// Four-byte state argument of sub_7100FF7BE0; the real enum name is unknown.
+struct Unk_7100FF7BE0 {
+    s32 value;
+};
+
+class Unk_7100ff7444 {
+public:
+    void sub_7100FF7BE0(Unk_7100FF7BE0 state);
+    u8 _0[0x88];
+};
+
+// RTTI typeInfo 0x710260f130, SoundMgr::_30->_48.
+class Unk_710260f130 : public Unk_71024fca78 {
+    SEAD_RTTI_OVERRIDE(Unk_710260f130, Unk_71024fca78)
+public:
+    void sub_7100FFA1E0(bool value);
+    Unk_7100ff7444 _8;
+    bool _90;
+    bool _91;
+    bool _92;
+};
+Unk_710260f130* sub_7100FFD9D0();
+
 // Placeholder name (SoundMgr::_30): the BGM side of the sound manager.
 struct Unk_SoundMgr30 {
     // 0x7100ff8804 (declared only; 164 B): called by SoundMgr::sub_71011FC288.
@@ -49,7 +80,9 @@ struct Unk_SoundMgr30 {
 
     u8 _0[0x10];
     /* 0x10 */ Unk_SoundMgr30_10* _10;
-    u8 _18[0x78 - 0x18];
+    u8 _18[0x30];
+    /* 0x48 */ Unk_71024fca78* _48;
+    u8 _50[0x28];
     /* 0x78 */ Unk_SoundMgr30_78* _78;
 };
 

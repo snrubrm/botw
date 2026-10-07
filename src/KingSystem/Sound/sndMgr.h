@@ -14,6 +14,8 @@
 #include <aal/aalListener.h>
 #include <aal/aalListenerPoser.h>
 #include <aal/aalTimedFader.h>
+#include "KingSystem/ActorSystem/actBaseProcHandle.h"
+#include "KingSystem/System/DebugMessage.h"
 
 namespace aal {
 class Shape;
@@ -40,14 +42,21 @@ struct Unk_SoundMgr30;
 // Only the interface needed by the UI sound wrapper is recovered.
 class UiSoundMgr {
 public:
+    virtual ~UiSoundMgr();
     // 0x710105d330: emits the SLink sound `label` through the user instance at +0x20; the handle is copied to
     // `handle` if given. Returns whether the emitted event is alive.
     bool playSound(const sead::SafeString& label, xlink2::HandleSLink* handle);
     // 0x710105d3bc (CSV uiSoundMgr::emitGetItemSound; declared only): emits the "get item" sound `label`.
     bool emitGetItemSound(const sead::SafeString& label);
 
-    u8 _0[0x20];
+    /* 0x08 */ act::BaseProcHandle _8;
+    /* 0x18 */ act::Actor* _18;
     /* 0x20 */ xlink2::UserInstanceSLink* _20;
+    u8 _28[0x5c];
+    /* 0x84 */ u32 _84;
+    /* 0x88 */ DebugMessage _88;
+    void* _118;
+    void* _120;
 };
 
 // Placeholder name (SoundMgr::_38::_30). Holds the aal::SpeakerBalanceUnifier objects at +0x68 (count at +0x60,
@@ -391,6 +400,7 @@ struct SoundMgr {
     // 0x71011fc29c (lane2 request, s49; placeholder name): starts the ducker 0x23 of the DuckingMgr and sets bit 1 of
     // `_238`.
     void sub_71011FC29C();
+    f32 sub_71011FC31C();
 
 public:
     // 0x71011fc288 (declared only; lane2 s46): called by ScreenFadeDemo's slot 101 (nothing happens while the byte at 0xf8 is set)
@@ -416,7 +426,9 @@ public:
     /* 0x98 */ Unk_710103b704* _98;
     u8 _a0[0xa8 - 0xa0];
     /* 0xa8 */ Unk_SoundMgra8* _a8;
-    u8 _b0[0xf8 - 0xb0];
+    u8 _b0[0xec - 0xb0];
+    u32 _ec;
+    u8 _f0[8];
     sead::BitFlag8 _f8;
     u8 _f9[0x238 - 0xf9];
     u8 _238;
