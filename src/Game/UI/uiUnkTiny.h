@@ -555,13 +555,42 @@ public:
 // Opaque element type of the PtrArray members below.
 struct Unk_Elem;
 
+class Unk_7102474dd0;
+
+// Scroll-list controller (member of several screens, e.g. ScreenSousaGuide at 0x3610). The setup function
+// 0x7100937fa4 fills it from a parameter record; 0x7100938408 registers Unk_7102474dd0 entries with it.
 class Unk_7102474df8 {
 public:
+    // 0x7100937eec
+    Unk_7102474df8();
     virtual ~Unk_7102474df8();
 
-    u64 _8;
-    sead::PtrArray<Unk_Elem> _10;
+    // 0x7100938408: assign the entry its offset from _34 (direction) and _38 (spacing) and push it into _10
+    void sub_7100938408(Unk_7102474dd0* entry);
+
+    /* 0x08 */ void* _8 = nullptr;
+    /* 0x10 */ sead::PtrArray<Unk_7102474dd0> _10;
+    /* 0x20 */ sead::Vector2f _20 = sead::Vector2f::zero;
+    /* 0x28 */ f32 _28 = 0.0f;
+    /* 0x2c */ f32 _2c = 0.0f;
+    /* 0x30 */ f32 _30 = 0.0f;
+    /* 0x34 */ s32 _34 = 1;      // direction: 0 down, 1 up, 2 left, 3 right
+    /* 0x38 */ f32 _38 = 50.0f;  // spacing accumulated into _28 per registered entry
+    /* 0x3c */ sead::Vector2f _3c = {0, 0};
+    /* 0x44 */ sead::Vector2f _44 = {0, 0};
+    /* 0x4c */ s32 _4c = 0;
+    /* 0x50 */ f32 _50 = 0.28f;
+    /* 0x54 */ f32 _54 = 300.0f;
+    /* 0x58 */ f32 _58 = 0.1f;
+    /* 0x5c */ sead::Vector2f _5c = sead::Vector2f::zero;
+    /* 0x64 */ f32 _64 = 0.0f;
+    /* 0x68 */ s32 _68 = 3;
+    /* 0x6c */ u32 _6c;  // never initialized (padding)
+    /* 0x70 */ u64 _70 = 0;  // inline delegate (function)
+    /* 0x78 */ u64 _78 = 0;  // inline delegate (object offset | member flag)
+    /* 0x80 */ u8 _80 = 0;
 };
+static_assert(sizeof(Unk_7102474df8) == 0x88);
 
 // Element type of Unk_7102474bc8::_140: an inline empty destructor, so `delete[]` keeps the array cookie.
 struct Unk_Elem2 {
@@ -629,7 +658,8 @@ public:
     // 0x7100937e9c
     virtual void m2(const sead::Vector2f& a, const sead::Vector2f& b);
 
-    u8 _8[8];
+    // set to the owning Unk_7102474df8 by 0x7100938408
+    Unk_7102474df8* _8 = nullptr;
     Unk_PaneTransform* _10;
     sead::Vector2f _18;
     sead::Vector2f _20;

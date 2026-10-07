@@ -661,6 +661,42 @@ Unk_710249d300::Unk_710249d300() = default;
 // 0x7100a8331c
 Unk_710249d300::~Unk_710249d300() { ; }
 
+// 0x7100937eec
+Unk_7102474df8::Unk_7102474df8() = default;
+
+// NON_MATCHING: the original keeps the Vector2f::zero pair in FP registers across the switch (ldp/stp s2, s1,
+// fneg) and loads it before the switch; we sink the load into the default path and materialize the pair in
+// integer registers (stp w8, w9, eor). Everything after the store matches.
+// 0x7100938408
+void Unk_7102474df8::sub_7100938408(Unk_7102474dd0* entry) {
+    if (entry == nullptr)
+        return;
+
+    if (_10.size() != 0)
+        _28 += _38;
+    const f32 offset = _28;
+
+    sead::Vector2f dir = sead::Vector2f::zero;
+    switch (_34) {
+    case 0:
+        dir.set(0.0f, offset);
+        break;
+    case 1:
+        dir.set(0.0f, -offset);
+        break;
+    case 2:
+        dir.set(-offset, 0.0f);
+        break;
+    case 3:
+        dir.set(offset, 0.0f);
+        break;
+    }
+    entry->_18 = dir;
+    entry->_8 = this;
+    // the original ignores a full list (pushBack's result is discarded)
+    _10.pushBack(entry);
+}
+
 // 0x7100937f5c
 Unk_7102474df8::~Unk_7102474df8() {
     _10.freeBuffer();

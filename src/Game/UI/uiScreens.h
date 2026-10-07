@@ -3153,7 +3153,6 @@ public:
     SEAD_RTTI_OVERRIDE(ScreenOptionWindow, ScreenEx)
 
     /* 0x3610 */ Unk_7102474df8 _3610;
-    u8 _pad_3630[0x3698 - 0x3630];
     /* 0x3698 */ sead::PtrArray<Unk_OptionWindowEntry> _3698;
 };
 
