@@ -91,6 +91,24 @@ void AirOctaState::sub_71002FEDD0() {
 
 // NON_MATCHING: register allocation only (case 8: the original keeps the bit pattern in s1 and -1.0f in s0 for the
 // `getF32()` subtraction and reloads `_278` into w9 / w8 the other way round).
+void AirOctaState::sub_71002FD5BC() {
+    if (!isCurrentChild("待機") || m36())
+        return;
+    ksys::act::ActorConstDataAccess accessor;
+    if (ksys::act::acquireActor(
+            &sead::DynamicCast<AirOctaDataMgr>(*static_cast<Unk_71025afb58**>(mAirOctaDataMgr_a))
+                 ->mBaseProcLink2,
+            &accessor) &&
+        accessor.hasProc() && accessor.sub_7100D13448(-1)) {
+        if (auto* manager = sead::DynamicCast<AirOctaDataMgr>(
+                *static_cast<Unk_71025afb58**>(mAirOctaDataMgr_a)))
+            manager->mFlags |= 8;
+        ksys::act::ai::InlineParamPack pack;
+        mActor->getASList()->x_2(66, 40, _278.isOnBit(3), false);
+        changeChild("板燃焼");
+    }
+}
+
 // NON_MATCHING: the inlined SafeString comparison: in the original the loop is `for (i = 0; i < 0x80000; ++i)` and falls
 // out of the loop with `true` (the code after the loop is the "equal" branch); lib/sead's isEqual loops to
 // `<= cMaximumLength` and returns false after the loop.

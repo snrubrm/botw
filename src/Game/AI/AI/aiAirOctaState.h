@@ -45,6 +45,9 @@ protected:
         };
     };
 
+    // 0x71002fd5bc (placeholder name): while waiting, if the board's actor (the data manager's second link) is burning:
+    // changes to "板燃焼".
+    void sub_71002FD5BC();
     // 0x71002fde2c (placeholder name): reacts to the AS events of slot 57 ("板との接続解除": sub_71002FDF9C; "プレイヤの方向を向く":
     // sub_71002FEF78(pi)).
     void sub_71002FDE2C();
