@@ -1,5 +1,10 @@
 #include "Game/AI/AI/aiEnemyHorseRide.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/Actor/actEnemy.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actBoneControl.h"
+#include "KingSystem/Physics/System/physNavMeshCharacter.h"
 #include "KingSystem/Utils/Thread/Message.h"
 
 namespace uking::ai {
@@ -60,6 +65,34 @@ void EnemyHorseRide::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void EnemyHorseRide::leave_() {
     NonPlayerHorseRide::leave_();
+    auto* actor = mActor;
+    if (auto* damage_mgr = actor->getDamageMgr()) {
+        damage_mgr->removeDamageCallback(&_f8);
+        damage_mgr->removeDamageCallback(&_120);
+        damage_mgr->removeDamageCallback(&_148);
+    }
+    if (_f0) {
+        auto* owner = mActor;
+        if (owner->getModel()) {
+            owner->getASList()->sub_710115B01C(*mLowerBodyASSlot_s, 0, true);
+            owner->getASList()->sub_710115C11C();
+            _f0 = false;
+        }
+    }
+    sub_71005DDA94(actor);
+    if (auto* nav = actor->m45()) {
+        if (!sead::Vector3f::zero.isNan()) {
+            auto lock = sead::makeScopedLock(nav->_1e0);
+            nav->_284 = sead::Vector3f::zero;
+        }
+        nav->sub_7100F7D2C8();
+    }
+    if (auto* bone_control = sub_71005DB0EC(actor)) {
+        bone_control->sub_7100D89FD8();
+        bone_control->sub_7100D89F60();
+    }
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor))
+        enemy->_e84.resetBit(13);
 }
 
 void EnemyHorseRide::loadParams_() {

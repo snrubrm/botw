@@ -239,6 +239,8 @@ void sub_71005DB558(ksys::act::Actor* actor, f32 a2, bool a3);
 void sub_71005DB594(ksys::act::Actor* actor, const sead::Vector3f& pos);
 /// &BoneControl::_0->_10, or nullptr.
 ksys::act::Unk_7100d860d8* sub_71005DB0EC(ksys::act::Actor* actor);
+// 0x71005dda94 (defined in aiUnk_71005D6D10.cpp): the "LockOn" attention client's sub_7100D7250C(1).
+void sub_71005DDA94(ksys::act::Actor* actor);
 
 // --- Actor vtable slot 100 object (ksys::act::Unk_7100e4e084, DynamicActor+0x870) ---
 
