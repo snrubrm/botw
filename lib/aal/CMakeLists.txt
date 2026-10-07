@@ -108,6 +108,7 @@ add_library(aal OBJECT
   src/aalBiquadFilterPreset.cpp
   src/aalEmitter.cpp
   src/aalFinalFxMgr.cpp
+  src/aalFinalOutputMeasure.cpp
   src/aalFxDelayParamSetter.cpp
   src/aalFxParamSetter.cpp
   src/aalGroup.cpp
