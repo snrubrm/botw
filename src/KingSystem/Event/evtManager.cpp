@@ -1,4 +1,6 @@
 #include "KingSystem/Event/evtManager.h"
+#include "KingSystem/Event/evtActionContext.h"
+#include "KingSystem/Utils/Thread/MessageAck.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Event/evtBaseProcLinkForEvent.h"
 #include <math/seadMathCalcCommon.h>
@@ -416,6 +418,18 @@ void Manager::initBeforeStageGen() {
 // 0x7100db04d8
 void Manager::initBeforeStageGenB() {
     _1d1b0 &= ~2u;
+}
+
+}  // namespace ksys::evt
+
+namespace ksys::evt {
+
+void Manager::handleAck(const MessageAck& ack) {
+    if (ack.isDestinationValid() && ack.isSuccess())
+        return;
+    const MessageType& type = ack.getType();
+    if (type == 0x800008 || type == 0x800006)
+        static_cast<ActionContext*>(ack.getUserData())->x_2();
 }
 
 }  // namespace ksys::evt

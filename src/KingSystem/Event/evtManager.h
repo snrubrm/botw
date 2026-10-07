@@ -161,7 +161,9 @@ public:
     act::BaseProcLink* getBaseProcLinkForActorOrActiveLink(act::BaseProc* proc) const;
     // 0x7100db0ea0 (CSV EventMgr::callEvent_0): message handler: calls the event described by the
     // BaseProcLinkForEvent in the user data of the message types 0x800001 / 0x800002
-    bool sub_7100DB0EA0(const Message* message);
+    // The primary vtable contains the acknowledgement handler and this event-message callback.
+    virtual void handleAck(const MessageAck& ack);
+    virtual bool sub_7100DB0EA0(const Message* message);
     // 0x7100db0fb0 (CSV EventMgr::__auto14; declared only): sends `type` with `user_data` to `dest` through the
     // manager's message transceiver (at +0x38; on the processing thread if called from it)
     bool sub_7100DB0FB0(const MesTransceiverId& dest, MessageType type, void* user_data);
