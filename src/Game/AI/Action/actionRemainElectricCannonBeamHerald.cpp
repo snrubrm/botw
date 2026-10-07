@@ -7,6 +7,33 @@
 
 namespace uking::action {
 
+// NON_MATCHING: event position/scale stores differ, and the handle validity test is hoisted across the mode branch.
+void Unk_71023b30d8::sub_710022C55C(ksys::act::Actor* actor) {
+    sead::Vector3f pos = getPlayerPosition();
+    pos.y += 1.0f;
+    _28.setPosition(pos);
+    if (_8c) {
+        if (!_78.isActive())
+            _78 = ksys::eft::searchAndEmitELink(actor, "LockOnSign");
+        if (!_38.sub_7101241B6C()) {
+            xlinkSearchAndEmit(actor, "LockOnCore", 2, &_38);
+            _58.fadeXLink();
+        }
+    } else {
+        if (!(_78.isActive() && _78.getEvent()->getBitFlag().isOnBit(4)))
+            _78.fade();
+        if (!_58.sub_7101241B6C()) {
+            xlinkSearchAndEmit(actor, "LockOnCore_InBarrier", 2, &_58);
+            _38.fadeXLink();
+        }
+    }
+    _78.setPosition(pos);
+    _38.mELink.setPosition(pos, _88);
+    _38.mSLink.setPosition(pos);
+    _58.mELink.setPosition(pos, _88);
+    _58.mSLink.setPosition(pos);
+}
+
 RemainElectricCannonBeamHerald::RemainElectricCannonBeamHerald(const InitArg& arg)
     : ksys::act::ai::Action(arg) {}
 
