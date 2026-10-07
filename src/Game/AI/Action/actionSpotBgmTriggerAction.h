@@ -1,5 +1,6 @@
 #pragma once
 
+#include <aal/aalTimedFader.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 // Placeholder names (the objects live in the sound TUs around 0x710100000..0x710102400; declared only).
@@ -17,7 +18,7 @@ class Unk_SpotBgmInstance {
 public:
     // 0x7101023050 (declared only; 532 B)
     explicit Unk_SpotBgmInstance(bool a);
-    // 0x71010242f0 (declared only): SpotBgmTriggerAction::init_ calls it for a box area with
+    // 0x71010242f0: SpotBgmTriggerAction::init_ calls it for a box area with
     // IsStopWithoutReductionY.
     void sub_71010242F0();
     virtual ~Unk_SpotBgmInstance();
@@ -25,7 +26,11 @@ public:
     void sub_71010233CC(sead::Heap* heap, const sead::SafeString* name, u64 a3, ksys::act::Actor* actor);
 
     Unk_SpotBgmHandle _8;
-    u8 _10[0x368 - 0x10];
+    u8 _10[0x308 - 0x10];
+    /* 0x308 */ s32 _308;
+    u8 _30c[4];
+    /* 0x310 */ aal::TimedFader _310;
+    u8 _338[0x368 - 0x338];
     /* 0x368 */ u32 _368;  // MusicianSpotBgmTriggerAction::enter_ sets bit 0x400
     u8 _36c[0x3c0 - 0x36c];
 };

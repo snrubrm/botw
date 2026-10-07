@@ -5,6 +5,8 @@
 #include <prim/seadSafeString.h>
 #include <thread/seadCriticalSection.h>
 
+struct Unk_SpotBgmHandle;
+
 namespace ksys::snd {
 
 // Placeholder name (`SoundMgr::_30->_78`, see sub_7100FFD784; the BGM interface used by the EventBgm* actions). Only the
@@ -33,14 +35,26 @@ private:
     sead::CriticalSection mCS;
 };
 
+// Placeholder name (`SoundMgr::_30->_10`, see sub_7100FFD754): the manager the spot BGM handles register with.
+struct Unk_SoundMgr30_10 {
+    // 0x710101d5ec (declared only; 300 B) / 0x710101d718 (declared only; 96 B)
+    void sub_710101D5EC(Unk_SpotBgmHandle* handle);
+    void sub_710101D718(Unk_SpotBgmHandle* handle);
+};
+
 // Placeholder name (SoundMgr::_30): the BGM side of the sound manager.
 struct Unk_SoundMgr30 {
     // 0x7100ff8804 (declared only; 164 B): called by SoundMgr::sub_71011FC288.
     void sub_7100FF8804();
 
-    u8 _0[0x78];
+    u8 _0[0x10];
+    /* 0x10 */ Unk_SoundMgr30_10* _10;
+    u8 _18[0x78 - 0x18];
     /* 0x78 */ Unk_SoundMgr30_78* _78;
 };
+
+// 0x7100ffd754 (24 B): `SoundMgr::instance()->_30->_10`.
+Unk_SoundMgr30_10* sub_7100FFD754();
 
 // 0x7100ffd784 (24 B): `SoundMgr::instance()->_30->_78`.
 Unk_SoundMgr30_78* sub_7100FFD784();

@@ -39,6 +39,8 @@ public:
     // 0x710105d330: emits the SLink sound `label` through the user instance at +0x20; the handle is copied to
     // `handle` if given. Returns whether the emitted event is alive.
     bool playSound(const sead::SafeString& label, xlink2::HandleSLink* handle);
+    // 0x710105d3bc (CSV uiSoundMgr::emitGetItemSound; declared only): emits the "get item" sound `label`.
+    bool emitGetItemSound(const sead::SafeString& label);
 
     u8 _0[0x20];
     /* 0x20 */ xlink2::UserInstanceSLink* _20;

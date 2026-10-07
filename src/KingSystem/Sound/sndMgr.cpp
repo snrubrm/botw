@@ -89,6 +89,10 @@ void Unk_710104e5b4::sub_710104F920(bool on) {
     }
 }
 
+Unk_SoundMgr30_10* sub_7100FFD754() {
+    return SoundMgr::instance()->_30->_10;
+}
+
 Unk_SoundMgr30_78* sub_7100FFD784() {
     return SoundMgr::instance()->_30->_78;
 }
@@ -163,3 +167,7 @@ void ListenerPoser::sub_7101055538(s32 value) {
 }
 
 }  // namespace ksys::snd
+
+bool emitActorGetDemoSound(const sead::SafeString& name) {
+    return ksys::snd::SoundMgr::instance()->mUiSoundMgr->emitGetItemSound(name);
+}
