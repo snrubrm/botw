@@ -3,11 +3,39 @@
 #include "KingSystem/Sound/sndMgr.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
 #include "KingSystem/ActorSystem/actActorCreator.h"
+#include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/System/StageInfo.h"
 
 namespace ksys::snd {
 
 void UiSoundMgr::sub_710105D0E4(sead::Heap* heap) {}
+
+// NON_MATCHING: the two flag selections allocate their temporary values in a different order.
+void UiSoundMgr::sub_710105D0E8() {
+    if (_8.isAllocatedOrFailed() && _8.isProcReady()) {
+        _18 = static_cast<act::Actor*>(_8.getProc());
+        _18->getActorFlags2().set(act::Actor::ActorFlag2::NoDistanceCheck);
+        _8.releaseAndWakeProc();
+    }
+    if ((_80 & 0x10) && !_48.isActive()) {
+        _58.moveTo(1.0f, 1.0f);
+        _80 &= ~0x10;
+    }
+    _58.calc();
+    if (auto* user = _20) {
+        user->preCalc();
+        user->postCalc();
+    }
+    if (_80 & 1)
+        _80 |= 2;
+    else
+        _80 &= ~2;
+    if (_80 & 4)
+        _80 |= 8;
+    else
+        _80 &= ~0xd;
+    _80 &= ~5;
+}
 
 UiSoundMgr::UiSoundMgr() : _88("UiSoundMgr") {}
 
