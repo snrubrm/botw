@@ -242,6 +242,10 @@ bool SoundMgr::sub_71011FC2DC() { return mSLinkUserCreateHeap->getFreeSize() > 0
 
 f32 SoundMgr::sub_71011FC310() { return 0.841f; }
 
+f32 SoundMgr::sub_71011FC338() { return 1.0f; }
+
+f32 SoundMgr::sub_71011FC340() { return 0.5f; }
+
 f32 SoundMgr::sub_71011FC31C() { return _ec == 2 ? 1.0f : 0.707f; }
 
 }  // namespace ksys::snd
