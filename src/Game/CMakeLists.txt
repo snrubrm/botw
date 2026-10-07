@@ -6,6 +6,8 @@ add_subdirectory(DLC)
 add_subdirectory(UI)
 
 target_sources(uking PRIVATE
+  gameVillagerMgr.cpp
+  gameVillagerMgr.h
   gameAmiiboMgr.cpp
   gameAmiiboMgr.h
   gameDragonChallengeMgr.cpp
