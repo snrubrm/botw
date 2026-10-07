@@ -108,8 +108,7 @@ void AddCarriedBase::calc_() {
                 if (*mIsUseConstraint_s) {
                     m35()->_18 = false;
                     if (parent) {
-                        parent->m38();
-                        _68.x_17();
+                        _68.x_17(parent->m38());
                         _68.x_18(parent);
                     }
                 }

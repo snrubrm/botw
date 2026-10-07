@@ -56,7 +56,8 @@ public:
     void x_13(sead::Matrix34f mtx, bool a2, sead::Vector3f pos);
 
     ksys::act::Actor* mActor;
-    u32 _10 = 0;
+    // 2026-10-07: sub_71006F8CB0 compares this state as signed.
+    s32 _10 = 0;
     f32 _14 = sead::Mathf::pi() / 6;  // 0x3f060a92 (30 degrees)
     f32 _18 = 10.0f;
     f32 _1c = -1.0f;
@@ -90,7 +91,7 @@ public:
     // 0x71006f8f24: bit 0 of the constraint's `_50`.
     bool x_15();
     // 0x71006f8cb0 (declared only).
-    void x_17();
+    void x_17(f32 mass);
     // 0x71006f8f90: hands the controller's velocity direction / horizontal speed back to its character controller.
     void x_20();
     // 0x71006f8e60: links the bodies of `mActor` and `actor` with the constraint.
@@ -126,3 +127,6 @@ public:
     /* 0x70 */ u32 _70 = 0;
 };
 KSYS_CHECK_SIZE_NX150(Unk_710244ed58, 0x78);
+
+// 2026-10-07: original sub_71006F8CB0 references this constant local inertia.
+extern const sead::Vector3f sUnk_7101e7b5c8;

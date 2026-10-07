@@ -96,3 +96,20 @@ void CarriedData::updateIsDroppedFlag() {
         return;
     _2c |= 0x80;
 }
+
+const sead::Vector3f sUnk_7101e7b5c8{1000.0f, 1000.0f, 1000.0f};
+
+void Unk_7102450298::x_17(f32 mass) {
+    _40 = mass;
+    const f32 scaled_mass = mass * (_54 && _10 > 3 ? 0.03f : 0.25f);
+    _3c = scaled_mass;
+    auto* body = mActor->getMainBody();
+    auto* controller = mActor->getCharacterController();
+    f32 body_mass = sead::Mathf::max(scaled_mass, 0.01f);
+    if (controller) {
+        controller->sub_7100F60368(body_mass);
+    } else if (body) {
+        body->setMass(body_mass);
+        body->setInertiaLocal(sUnk_7101e7b5c8);
+    }
+}
