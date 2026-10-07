@@ -226,6 +226,7 @@ public:
     bool sub_71000161A4(s32 idx);
     void sub_7100019C58(ksys::act::Actor* actor);
     void sub_7100019D38(const ksys::act::BaseProcLink& link);
+    bool sub_7100019A9C(const ksys::act::BaseProcLink& link);
 
 protected:
     InitResult init_() override;
