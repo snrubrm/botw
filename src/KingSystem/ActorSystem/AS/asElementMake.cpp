@@ -117,4 +117,8 @@ Element* SkeltalAsset::make(const CreateArg& arg, s32 value, const res::ASResour
     return new (arg.heap, 8) SkeltalAsset(arg, value, resource);
 }
 
+Element* RandomSelector::make(const CreateArg& arg, s32 value, const res::ASResource* resource) {
+    return new (arg.heap, 8) RandomSelector(arg, value, resource);
+}
+
 }  // namespace ksys::as

@@ -583,7 +583,8 @@ public:
 class RandomSelector : public FloatSelector {
     SEAD_RTTI_OVERRIDE(RandomSelector, FloatSelector)
 public:
-    RandomSelector();
+    RandomSelector(const CreateArg& arg, s32 value, const res::ASResource* resource);
+    static Element* make(const CreateArg& arg, s32 value, const res::ASResource* resource);
 
     f32 m40(Context* ctx, u32 a2, const res::ASResource* resource) override;
 };

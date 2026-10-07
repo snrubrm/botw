@@ -5,8 +5,11 @@
 
 namespace ksys::as {
 
-RandomSelector::RandomSelector() {}
-PreExclusionRandomSelector::PreExclusionRandomSelector(const CreateArg&, s32, const res::ASResource*) {}
+RandomSelector::RandomSelector(const CreateArg& arg, s32 value, const res::ASResource* resource)
+    : FloatSelector() {}
+PreExclusionRandomSelector::PreExclusionRandomSelector(const CreateArg& arg, s32 value,
+                                                       const res::ASResource* resource)
+    : RandomSelector(arg, value, resource) {}
 
 f32 ASList::sub_710131D504() {
     return sead::GlobalRandom::instance()->getF32();
