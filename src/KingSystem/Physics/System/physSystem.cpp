@@ -165,6 +165,11 @@ void System::setEntityContactListenerField91(bool value) {
     mContactListeners(int(ContactLayerType::Entity))->_91 = value;
 }
 
+// NON_MATCHING: pointer and value registers differ from the original store.
+void System::sub_71012167EC(bool value) {
+    mContactListeners(int(ContactLayerType::Sensor))->mDisableContactPointInfoNotifications = value;
+}
+
 bool System::getEntityContactListenerField91() const {
     return mContactListeners(int(ContactLayerType::Entity))->_91;
 }

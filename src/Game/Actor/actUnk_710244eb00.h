@@ -9,6 +9,7 @@ class Heap;
 
 namespace ksys::act {
 class Actor;
+class AITerror;
 }
 
 namespace uking::act {
@@ -30,7 +31,7 @@ public:
     virtual void m3();
     // 0x6e1d94: unlinks the actor and destroys the AITerror.
     virtual void clear();
-    // 0x6e1de0: AITerror::sub_7100D786D8 of the terror (true without one).
+    // 0x6e1de0: AITerror::sub_7100D786D8 of the terror (false without one).
     virtual bool m5();
     // 0x6e2078 (700 B)
     virtual void m6(bool a1);
@@ -45,7 +46,11 @@ public:
     void sub_71006E2024();
     void sub_71006E1FD0();
 
-    u8 _8[0x20 - 0x8];
+    // 2026-10-07: constructor 0x71006e1cc0 and cleanup 0x71006e1d94 establish these fields.
+    ksys::act::Actor* _8 = nullptr;
+    ksys::act::AITerror* _10 = nullptr;
+    s32 _18 = 0;
+    bool _1c = false;
 };
 
 }  // namespace uking::act

@@ -4,7 +4,21 @@
 #include <container/seadSafeArray.h>
 #include <prim/seadEnum.h>
 #include "Game/Actor/actEnemy.h"
+#include "Game/AI/aiUnk_7102357d20.h"
 #include "KingSystem/System/Timer.h"
+
+// 2026-10-07: WolfLink's factory installs these two message senders at 0x1620 / 0x1638.
+// Both have the original shared base D1 (0x710001bfec) and a null message payload.
+class Unk_71023d2f68 : public Unk_7102357d20 {
+public:
+    using Unk_7102357d20::Unk_7102357d20;
+    void* m2() override { return nullptr; }
+};
+class Unk_71023d2f90 : public Unk_7102357d20 {
+public:
+    using Unk_7102357d20::Unk_7102357d20;
+    void* m2() override { return nullptr; }
+};
 
 namespace ksys::res {
 class GParamListObjectWolfLink;
@@ -63,7 +77,8 @@ public:
     /* 0x1608 */ u8 _1608[0x1618 - 0x1608];  // buffer (count, pointer) of 0x28-byte entries
                                              // with a BaseProcLink at +0x10; freed in preDelete2_
     /* 0x1618 */ u32 _1618;
-    /* 0x1620 */ u8 _1620[0x1650 - 0x1620];  // two message listeners (base vtable 0x7102357d20)
+    /* 0x1620 */ Unk_71023d2f68 _1620{this, 0x80000af};
+    /* 0x1638 */ Unk_71023d2f90 _1638{this, 0x80000b0};
     /* 0x1650 */ u8 _1650[0x1680 - 0x1650];
     /* 0x1680 */ const ksys::res::GParamListObjectWolfLink* _1680;  // the WolfLink GParam object
     /* 0x1688 */ u32 _1688;

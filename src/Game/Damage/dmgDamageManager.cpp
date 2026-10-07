@@ -17,6 +17,21 @@
 
 namespace uking::dmg {
 
+// NON_MATCHING: the original duplicates accessor cleanup in its true / false return paths.
+bool DamageManager::m51(const ksys::act::BaseProcLink* link) {
+    const auto* param = getActorDamageParam();
+    if (!(_78 >= 1.0f)) {
+        if (!param || param->mLightningAffect.ref())
+            return false;
+    }
+    ksys::act::ActorConstDataAccess accessor;
+    // The original deliberately discards acquireActor's bool before the name lookup.
+    ksys::act::acquireActor(link, &accessor);
+    if (accessor.getName() == "Explode")
+        return true;
+    return false;
+}
+
 // The out-of-line copy of the constructor lives in this TU (DamageManager::allocStruct20 inlines it).
 Struct20_2::Struct20_2() = default;
 

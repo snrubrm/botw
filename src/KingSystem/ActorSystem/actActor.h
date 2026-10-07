@@ -448,6 +448,9 @@ public:
     void setFlag(ActorFlag flag);
     void setFlag(ActorFlag flag, bool on);
     bool deleteEx(DeleteType type, DeleteReason reason, bool* ok = nullptr);
+    // 0x71011cc238 / 0x71011cbf04: deletion requests from placement groups.
+    void deleteIfDeleteType2();
+    bool x_34(bool* ok);
     // 0x71011c9814 (CSV Actor::deleteAndEmit): deleteLater + emitSignalsOrDisappearEffectForDelete
     bool deleteAndEmit(s32 type);
     // 0x7100ee3e44 (CSV Actor::x_6; declared only; lane2 s20): looks up two attention clients by name and

@@ -5,6 +5,16 @@
 
 namespace ksys::act {
 
+void Chemical::sub_7100D9A8F8(Chemical* chemical) {
+    sUnk_7102600e50->sub_7100D99760(chemical);
+    delete chemical;
+}
+
+// NON_MATCHING: the returned vector uses paired loads instead of the original component addresses.
+sead::Vector3f Chemical::sub_7100D9155C() const {
+    return _18 ? _18->m5() : sead::Vector3f::zero;
+}
+
 void Chemical::notifyWatch_() {
     if (sub_7100D9CB54(_60, this)) {
         if (sUnk_7102600e50->_84 & 1) {

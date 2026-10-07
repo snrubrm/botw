@@ -31,6 +31,16 @@ void BeamBase::initMaybe() {
     }
 }
 
+void BeamBase::sub_7100002DA8(ksys::act::Actor* actor) {
+    auto* physics = getPhysics();
+    auto* other_physics = actor->getPhysics();
+    if (physics && other_physics) {
+        physics->sub_7100FBDFA4(other_physics->get188(0));
+        physics->sub_7100FBDFA4(other_physics->get188(1));
+    }
+    _c28.acquire(actor, false);
+}
+
 // NON_MATCHING: the pose, position and target snapshot use separate stack storage.
 void BeamBase::m163() {
     sead::Matrix34f pose;

@@ -6,8 +6,15 @@
 
 namespace uking::act {
 
-// NON_MATCHING: the message listener members at 0x1620/0x1638 are not typed yet
 WolfLink::~WolfLink() = default;
+
+void WolfLink::sub_71002F493C() {
+    if (_c48._8.hasProc()) {
+        _1638.sub_710070DCC0(&_c48._8, false);
+        _c48._8.reset();
+        _c48._7c = 0;
+    }
+}
 
 bool WolfLink::shouldUnload(s32* a1) {
     s32 reason = 0;

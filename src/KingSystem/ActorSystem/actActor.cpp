@@ -49,6 +49,15 @@
 
 namespace ksys::act {
 
+phys::RigidBody* Actor::sub_71011DB364(phys::RigidBody* body) {
+    if (body->isSensor())
+        return nullptr;
+    auto* physics = getPhysics();
+    if (!physics || !physics->sub_7100FBB374(body))
+        return nullptr;
+    return mMainBody.exchange(body);
+}
+
 // NON_MATCHING: the conditional offset reference avoids a temporary vector copy.
 void Actor::m89() {
     res::ModelList::AttentionInfo attention_info;

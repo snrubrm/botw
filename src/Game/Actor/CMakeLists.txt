@@ -66,6 +66,9 @@ target_sources(uking PRIVATE
   actNPC.h
   actNPCBase.cpp
   actNPCBase.h
+  actPauseMenuPlayer.cpp
+  actPauseMenuPlayer.h
+  actSoundProxy.h
   actPlayerCreateMgr.cpp
   actPlayerCreateMgr.h
   actPlayerCreateTrace.cpp
@@ -94,6 +97,8 @@ target_sources(uking PRIVATE
   actUnk_710244dd20.cpp
   actUnk_71025ae680.cpp
   actUnk_710244eaa0.cpp
+  actUnk_710244eb00.cpp
+  actUnk_710244eb00.h
   actUnk_710000b710.cpp
   actUnk_7100701be4.cpp
   actUnk_7100701be4.h

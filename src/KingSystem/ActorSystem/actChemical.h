@@ -1,6 +1,7 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <container/seadPtrArray.h>
 #include <hostio/seadHostIONode.h>
 #include <math/seadMatrix.h>
 #include <math/seadVector.h>
@@ -10,11 +11,16 @@
 namespace ksys::act {
 
 class Unk_71024e6560;
+class Chemical;
 
-// Placeholder (lane4 s47): the object the debug-watch global 0x7102600e50 points to; only its two bytes are used (the
-// flag byte `_84` and a counter `_85` that the Chemical setters reset to 100).
+// Placeholder (lane4 s47): the object the debug-watch global 0x7102600e50 points to.
+// Chemical setters use the flag byte `_84` and reset counter `_85` to 100.
 struct Unk_ChemicalWatch {
-    /* 0x00 */ u8 _0[0x84];
+    // 2026-10-07: 0x7100d99760 searches and erases this chemical pointer array.
+    void sub_7100D99760(Chemical* chemical);
+    /* 0x00 */ u8 _0[0x68];
+    /* 0x68 */ sead::PtrArray<Chemical> mChemicals;
+    /* 0x78 */ u8 _78[0x84 - 0x78];
     /* 0x84 */ u8 _84;
     /* 0x85 */ u8 _85;
 };
@@ -43,6 +49,9 @@ class Chemical : public sead::hostio::Node {
 public:
     Chemical();
     virtual ~Chemical();
+
+    // 2026-10-07: removes the pointer from the watch array, then invokes Chemical's D0.
+    static void sub_7100D9A8F8(Chemical* chemical);
 
     void sub_7100D8EAB4(int value);
     void sub_7100D8EEE0();

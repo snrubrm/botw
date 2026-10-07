@@ -151,6 +151,8 @@ public:
 
     // 0x0000007101216800
     void setEntityContactListenerField91(bool value);
+    // 0x71012167ec: disables notifications of the sensor contact listener.
+    void sub_71012167EC(bool value);
     // 0x0000007101216814
     bool getEntityContactListenerField91() const;
 

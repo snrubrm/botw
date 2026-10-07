@@ -93,7 +93,8 @@ public:
     ksys::act::BaseProcLink* m37() override;
     // The new virtual slots 50-56 (placeholders; m52 / m53 are constants).
     virtual void m50();
-    virtual void m51();
+    // 2026-10-07: slot 51 tests the lightning factor and the linked actor's name.
+    virtual bool m51(const ksys::act::BaseProcLink* link);
     virtual s32 m52() { return 40; }
     virtual s32 m53() { return 0; }
     virtual void m54();
@@ -137,7 +138,9 @@ public:
     s32 _6c;  // read by PreyRoot's damage callback (lane2 s42)
     s32 _70;  // current shield guard power (PlayerOrEnemy::m160)
     s32 _74;  // Horse::loadReduceAncientEnemyDamageInfo
-    u8 _78[0x80 - 0x78];
+    // 0x71006d77b8 loads this as a float before testing against 1.0.
+    f32 _78;
+    u8 _7c[0x80 - 0x7c];
     f32 _80;  // multiplier of the impulse threshold (sub_71006D27BC)
     u8 _84[0x88 - 0x84];
     s32 _88;  // attack info index of damage kind 6 (DamageManager::getAttackInfo_)
