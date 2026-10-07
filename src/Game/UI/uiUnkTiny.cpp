@@ -318,6 +318,55 @@ f32 Unk_710247aa30::sub_71009B1784() const {
 Unk_710247aa30::~Unk_710247aa30() = default;
 
 // 0x71009b2054
+Unk_710247adc8::Unk_710247adc8() = default;
+
+void Unk_710247adc8::sub_71009B205C(eui::LayoutEx* layout) {
+    if (!layout)
+        return;
+    mLayout = layout;
+    mTexturePatternAnimator = layout->createAnimatorAuto("TexPattern", false);
+    mColorAnimator = mLayout->createAnimatorAuto("Color", false);
+    mNumberAnimator = mLayout->createAnimatorAuto("Number", false);
+    mOldNumberAnimator = mLayout->createAnimatorAuto("NumberOld", false);
+}
+
+void Unk_710247adc8::sub_71009B21B4(s32 value, bool old) {
+    sead::FixedSafeString<32> text;
+    text.format("%d", value);
+    sead::FixedSafeString<32> special;
+    if (formatSpecialAttackPower(value, &special))
+        text = special;
+    if (old)
+        setWidgetString(mLayout, "T_OldNum_00", text);
+    else
+        setWidgetString(mLayout, "T_Num_00", text);
+}
+
+void Unk_710247adc8::sub_71009B20E4(u32 category, s32 value, s32 old_number) {
+    if (!mLayout)
+        return;
+    if (mTexturePatternAnimator)
+        mTexturePatternAnimator->Stop(category);
+    if (mColorAnimator)
+        mColorAnimator->StopAtMin();
+    sub_71009B21B4(value, true);
+    if (!mOldNumberAnimator)
+        return;
+    if (old_number <= 1) {
+        mOldNumberAnimator->StopAtMin();
+    } else {
+        f32 frame;
+        switch (old_number) {
+        case 2: frame = 1.0f; break;
+        case 3: frame = 2.0f; break;
+        case 4: frame = 0.0f; break;
+        case 5: frame = 3.0f; break;
+        default: frame = 0.0f; break;
+        }
+        mOldNumberAnimator->Stop(frame);
+    }
+}
+
 Unk_710247adc8::~Unk_710247adc8() = default;
 
 // 0x71009b2ee0
@@ -428,6 +477,11 @@ void Unk_71024774a8::sub_7100988DA0(s32 index, f32 speed) {
 }
 
 void Unk_71024774a8::sub_7100988DC4() { _58 = 100.0f; }
+
+// NON_MATCHING: the pane pointer load is scheduled before the input vector loads.
+void Unk_71024774a8::sub_7100988DD0(const sead::Vector2f& position) {
+    mLayout->GetPane()->SetPosition({position.x, position.y, 0.0f});
+}
 
 Unk_71024774a8::~Unk_71024774a8() { ; }
 

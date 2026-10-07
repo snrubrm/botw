@@ -311,9 +311,18 @@ static_assert(sizeof(Unk_710247aa30) == 0x20);
 
 class Unk_710247adc8 {
 public:
+    Unk_710247adc8();
     virtual ~Unk_710247adc8();
+    void sub_71009B205C(eui::LayoutEx* layout);
+    void sub_71009B20E4(u32 category, s32 value, s32 old_number);
+    void sub_71009B21B4(s32 value, bool old);
 
-    u8 _8[0x38];  // sizeof is 0x40 (ScreenMessageGet::_3670 is an array of two)
+    /* 0x08 */ eui::LayoutEx* mLayout = nullptr;
+    /* 0x10 */ eui::Animator* mTexturePatternAnimator = nullptr;
+    /* 0x18 */ eui::Animator* mColorAnimator = nullptr;
+    /* 0x20 */ eui::Animator* mNumberAnimator = nullptr;
+    /* 0x28 */ eui::Animator* mOldNumberAnimator = nullptr;
+    u8 _30[0x10];
 };
 
 class Unk_710247ae08 {
@@ -439,6 +448,7 @@ public:
     void sub_7100988D84(s32 index, f32 frame);
     void sub_7100988DA0(s32 index, f32 speed);
     void sub_7100988DC4();
+    void sub_7100988DD0(const sead::Vector2f& position);
 
     /* 0x08 */ eui::LayoutEx* mLayout;
     /* 0x10 */ sead::SafeArray<eui::Animator*, 9> mAnimators;
