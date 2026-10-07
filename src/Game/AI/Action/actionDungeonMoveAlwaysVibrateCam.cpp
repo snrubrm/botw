@@ -1,8 +1,6 @@
 #include "Game/AI/Action/actionDungeonMoveAlwaysVibrateCam.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actActor.h"
-
-void sub_71005DDC98(ksys::act::Actor* actor, s32 pattern, f32 power, f32 range, bool start,
-                    ksys::map::Object* object);
 
 namespace uking::action {
 

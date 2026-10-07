@@ -25,6 +25,10 @@ class BaseProcLink;
 class Unk_7100d860d8;
 }  // namespace ksys::act
 
+namespace ksys::map {
+class Object;
+}
+
 namespace uking::dmg {
 class DamageManager;
 }
@@ -416,3 +420,11 @@ bool sub_71005E2684(ksys::act::Actor* actor, const sead::SafeString& body_name,
 
 // Updates the character controller velocity from the actor contact points.
 void sub_71005E1D00(ksys::act::Actor* actor);
+
+// 0x71005ddc98 (declared only; lane3 s46): camera vibration for DungeonMoveAlwaysVibrateCam::leave_.
+// Signature from the CSV mangled name and the matching caller.
+void sub_71005DDC98(ksys::act::Actor* actor, s32 pattern, f32 power, f32 range, bool start,
+                    ksys::map::Object* object);
+// 0x71005dde8c (declared only; lane3 s46): remains-part helper for DunegonRotateWait::calc_.
+// Signature from the CSV mangled name and the matching caller.
+void sub_71005DDE8C(ksys::act::Actor* actor, const sead::Vector3f* axis, s32 part_type);

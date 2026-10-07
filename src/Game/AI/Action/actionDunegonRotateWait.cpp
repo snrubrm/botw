@@ -1,7 +1,5 @@
 #include "Game/AI/Action/actionDunegonRotateWait.h"
-
-// The original source owner is unknown; keep the declaration in the global scope.
-void sub_71005DDE8C(ksys::act::Actor* actor, const sead::Vector3f* axis, s32 part_type);
+#include "Game/AI/aiUnk_71005D6D10.h"
 
 namespace uking::action {
 
