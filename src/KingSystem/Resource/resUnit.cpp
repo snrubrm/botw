@@ -1,11 +1,15 @@
 #include "KingSystem/Resource/resUnit.h"
 #include <filedevice/seadArchiveFileDevice.h>
 #include <resource/seadArchiveRes.h>
+#include <resource/seadResourceMgr.h>
+#include <thread/seadThread.h>
+#include <time/seadTickSpan.h>
 #include "KingSystem/Resource/resCache.h"
 #include "KingSystem/Resource/resCacheCriticalSection.h"
 #include "KingSystem/Resource/resControlTask.h"
 #include "KingSystem/Resource/resEntryFactory.h"
 #include "KingSystem/Resource/resLoadRequest.h"
+#include "KingSystem/Resource/resResource.h"
 #include "KingSystem/Resource/resResourceMgrTask.h"
 #include "KingSystem/Resource/resSystem.h"
 
@@ -422,6 +426,411 @@ void ResourceUnit::setStatusFlag10000() {
 
 bool ResourceUnit::isStatusFlag10000Set() const {
     return mStatusFlags.isOn(StatusFlag::_10000);
+}
+
+bool ResourceUnit::sub_7101212F3C(void*) {
+    if (mHeap) {
+        mHeap->adjust();
+        mStatusFlags.set(StatusFlag::_8);
+        auto* arena = mArena1;
+
+        if (mStatusFlags.isOff(StatusFlag::_2)) {
+            arena->addSize(mHeap ? mHeap->getSize() : 0);
+            mStatusFlags.set(StatusFlag::_2);
+        }
+
+        if (mStatusFlags.isOff(StatusFlag::_4) &&
+            mStatusFlags.isOff(StatusFlag::NeedToIncrementRefCount)) {
+            arena->addSize2(mHeap ? mHeap->getSize() : 0);
+            mStatusFlags.set(StatusFlag::_4);
+        }
+    }
+    return true;
+}
+
+// NON_MATCHING: the original materialises the status constant (0xb) before the return value in both branches
+bool ResourceUnit::prepareUnload() {
+    bool ok;
+    const auto status = mStatus.value();
+    if ((status == Status::_5 || status == Status::_14 || status == Status::_15) && mResource) {
+        if (auto* res = sead::DynamicCast<Resource>(mResource)) {
+            mStatus = Status::_6;
+            if (!res->m7()) {
+                mStatus = Status::_5;
+                stubbedLogFunction();
+                return false;
+            }
+        }
+        mCounter.storeNonAtomic(0);
+        mEvent.resetSignal();
+        ok = true;
+    } else {
+        ok = false;
+    }
+    mStatus = Status::_11;
+    return ok;
+}
+
+void ResourceUnit::doRetryLoad() {
+    const auto sleep_time = sead::TickSpan::makeFromMilliSeconds(30);
+    for (s32 i = 0; i < 30; ++i) {
+        auto* resource = sead::ResourceMgr::instance()->tryLoadWithoutDecomp(mLoadArg);
+        if (auto* checked_resource = sead::DynamicCast<sead::Resource>(resource)) {
+            mResource = static_cast<sead::DirectResource*>(checked_resource);
+            return;
+        }
+        mResource = nullptr;
+        if (mLoadArg.device->getLastRawError() > 0)
+            stubbedLogFunction();
+        sead::Thread::sleep(sleep_time);
+    }
+}
+
+void ResourceUnit::requestPrepareLoad(util::TaskPostRunResult* result,
+                                      const util::TaskPostRunContext& ctx) {
+    if (!mHeap || mStatus != Status::_7)
+        return;
+
+    u8 lane_id;
+    switch (ctx.mTask->getLaneId()) {
+    case 1:
+    case 2:
+        lane_id = 0;
+        break;
+    case 3:
+    case 4:
+        lane_id = 1;
+        break;
+    case 5:
+    case 6:
+        lane_id = 2;
+        break;
+    default:
+        lane_id = 0xff;
+        break;
+    }
+
+    util::TaskRequest req;
+    req.mHasHandle = true;
+    req.mSynchronous = false;
+    req.mLaneId = lane_id;
+    req.mThread = ResourceMgrTask::instance()->getResourceLoadingThread();
+    req.mDelegate = &ResourceMgrTask::instance()->getUnitPrepareLoadFn();
+    req.mUserData = this;
+    req.mName = mPath;
+    if (ctx.mTask->submitRequest(req))
+        result->setResult(true);
+}
+
+// NON_MATCHING: the switch over the status is a jump table in the original (ours: bit tests)
+bool ResourceUnit::unloadForSync() {
+    lockCacheCriticalSection();
+    if (returnFalse())
+        stubbedLogFunction();
+
+    mRefCount.decrement();
+    if (mStatusFlags.isOn(StatusFlag::_80000) && mRefCount == 1 &&
+        ResourceMgrTask::instance()->isFlag4Set() && mStatusFlags.isOn(StatusFlag::_80000)) {
+        mRefCount.decrement();
+        mStatusFlags.reset(StatusFlag::_80000);
+        stubbedLogFunction();
+    }
+
+    if (mRefCount == 0) {
+        bool erase = true;
+        if (mStatusFlags.isOn(StatusFlag::_20000)) {
+            switch (mStatus.value()) {
+            case Status::_9:
+            case Status::_12:
+            case Status::_15:
+                break;
+            case Status::_10:
+            case Status::_13:
+                mEvent.wait();
+                erase = mStatus == Status::_15;
+                break;
+            case Status::_11:
+            case Status::_14:
+            default:
+                erase = false;
+                break;
+            }
+        }
+
+        if (erase) {
+            if (mCache)
+                mCache->eraseUnit(this);
+            else
+                stubbedLogFunction();
+            mStatusFlags.reset(StatusFlag::_20000);
+        }
+    }
+
+    if (returnFalse())
+        stubbedLogFunction();
+    unlockCacheCriticalSection();
+    return true;
+}
+
+void ResourceUnit::requestUnload(util::TaskPostRunResult* result,
+                                 const util::TaskPostRunContext& ctx) {
+    if (mRefCount > 0)
+        return;
+
+    if (returnFalse())
+        stubbedLogFunction();
+
+    {
+        ControlTaskRequest req;
+        req.mHasHandle = true;
+        req.mSynchronous = false;
+        req.mLaneId = 9;
+        req.mThread = ResourceMgrTask::instance()->getResourceMemoryThread();
+        req.mDelegate = &ResourceMgrTask::instance()->getUnitUnloadFn().fn;
+        req.mUserData = this;
+        req.mPostRunCallback = &ResourceMgrTask::instance()->getUnitUnloadFn().cb;
+        req.mName = "Unload";
+        mTask3.submitRequest(req);
+    }
+    result->setResult(false);
+    if (returnFalse())
+        stubbedLogFunction();
+}
+
+void ResourceUnit::requestClearCache(util::TaskPostRunResult* result,
+                                     const util::TaskPostRunContext& ctx) {
+    if (returnFalse())
+        stubbedLogFunction();
+
+    {
+        ControlTaskRequest req;
+        req.mHasHandle = true;
+        req.mSynchronous = false;
+        req.mLaneId = 9;
+        req.mThread = ResourceMgrTask::instance()->getResourceMemoryThread();
+        req.mDelegate = &ResourceMgrTask::instance()->getUnitClearCacheFn().fn;
+        req.mUserData = this;
+        req.mPostRunCallback = &ResourceMgrTask::instance()->getUnitClearCacheFn().cb;
+        req.mName = "ClearCache";
+        ctx.mTask->submitRequest(req);
+    }
+    result->setResult(true);
+    if (returnFalse())
+        stubbedLogFunction();
+}
+
+// NON_MATCHING: the status == 5 test comes before the status == 1 test in the original (ours compares 1 first)
+void ResourceUnit::postUnload(util::TaskPostRunResult* result,
+                              const util::TaskPostRunContext& ctx) {
+    if (returnFalse())
+        stubbedLogFunction();
+
+    const auto status = mStatus.value();
+    if (status == Status::_5) {
+        if (ctx.mCancelled) {
+            result->setResult(false);
+        } else {
+            {
+                ControlTaskRequest req;
+                req.mHasHandle = true;
+                req.mSynchronous = false;
+                req.mLaneId = 9;
+                req.mThread = ResourceMgrTask::instance()->getResourceMemoryThread();
+                req.mDelegate = &ResourceMgrTask::instance()->getUnitUnloadFn().fn;
+                req.mUserData = this;
+                req.mPostRunCallback = &ResourceMgrTask::instance()->getUnitUnloadFn().cb;
+                req.mName = "Unload";
+                ctx.mTask->submitRequest(req);
+            }
+            result->setResult(true);
+            if (returnFalse())
+                stubbedLogFunction();
+            return;
+        }
+    } else {
+        if (status == Status::_1) {
+            postClearCache(result, ctx);
+            if (returnFalse())
+                stubbedLogFunction();
+            return;
+        }
+
+        if (isTask1NotQueued() || status == Status::_0 || mStatusFlags.isOff(StatusFlag::_20000)) {
+            ResourceMgrTask::instance()->registerUnit(this);
+            result->setResult(false);
+        }
+    }
+
+    if (returnFalse())
+        stubbedLogFunction();
+}
+
+void ResourceUnit::postClearCache(util::TaskPostRunResult* result,
+                                  const util::TaskPostRunContext& ctx) {
+    if (returnFalse())
+        stubbedLogFunction();
+
+    if (mStatus == Status::_5) {
+        bool success;
+        if (ctx.mCancelled) {
+            if (returnFalse())
+                stubbedLogFunction();
+            success = false;
+        } else {
+            {
+                ControlTaskRequest req;
+                req.mHasHandle = true;
+                req.mSynchronous = false;
+                req.mLaneId = 9;
+                req.mThread = ResourceMgrTask::instance()->getResourceMemoryThread();
+                req.mDelegate = &ResourceMgrTask::instance()->getUnitClearCacheFn().fn;
+                req.mUserData = this;
+                req.mPostRunCallback = &ResourceMgrTask::instance()->getUnitClearCacheFn().cb;
+                req.mName = "ClearCache";
+                ctx.mTask->submitRequest(req);
+            }
+            if (returnFalse())
+                stubbedLogFunction();
+            success = true;
+        }
+        result->setResult(success);
+    } else {
+        ResourceUnit* unit = this;
+        ResourceMgrTask::instance()->requestDeleteUnit(&unit);
+        result->setResult(false);
+        if (returnFalse())
+            stubbedLogFunction();
+    }
+}
+
+// NON_MATCHING: the MakeHeapArg is above the path buffer in the original's stack frame (ours: below), and the
+// original calls prepareLoad without the null second argument that the default argument adds here
+bool ResourceUnit::initLoad(void*) {
+    if (returnFalse())
+        stubbedLogFunction();
+
+    mStatus = Status::_7;
+
+    sead::FixedSafeString<384> path;
+    const u32 heap_size = determineHeapSize(&path);
+    if (heap_size == 0) {
+        mStatusFlags.set(StatusFlag::FailedMaybe);
+        if (mStatusFlags.isOn(StatusFlag::_80000)) {
+            mRefCount.decrement();
+            mStatusFlags.reset(StatusFlag::_80000);
+            stubbedLogFunction();
+        }
+        mStatus = Status::_9;
+        mEvent.setSignal();
+        stubbedLogFunction();
+        return false;
+    }
+
+    if (mStatusFlags.isOff(StatusFlag::HasHeap)) {
+        ResourceMgrTask::MakeHeapArg arg;
+        arg.heap_size = heap_size;
+        arg.unit = this;
+        arg.out_arena1 = &mArena1;
+        arg.out_arena2 = &mArena2;
+        arg.path = mPath;
+        arg.arena = mLoadReqArena;
+        auto* heap = ResourceMgrTask::instance()->makeHeapForUnit(arg);
+        if (!heap) {
+            mStatusFlags.set(StatusFlag::_80);
+            if (mStatusFlags.isOn(StatusFlag::_80000)) {
+                mRefCount.decrement();
+                mStatusFlags.reset(StatusFlag::_80000);
+                stubbedLogFunction();
+            }
+            mStatus = Status::_9;
+            mEvent.setSignal();
+            if (!mArena1 || !mArena1->isFlag1Set() || returnFalse())
+                stubbedLogFunction();
+            return false;
+        }
+        mLoadArg.instance_heap = heap;
+        mLoadArg.load_data_heap = heap;
+        mHeap = heap;
+        if (returnFalse())
+            stubbedLogFunction();
+    } else {
+        auto* heap = mHeap;
+        if (heap->getMaxAllocatableSize(8) < heap_size) {
+            mStatusFlags.set(StatusFlag::_80);
+            if (mStatusFlags.isOn(StatusFlag::_80000)) {
+                mRefCount.decrement();
+                mStatusFlags.reset(StatusFlag::_80000);
+                stubbedLogFunction();
+            }
+            mStatus = Status::_9;
+            mEvent.setSignal();
+            stubbedLogFunction();
+            return false;
+        }
+        mLoadArg.instance_heap = heap;
+        mLoadArg.load_data_heap = heap;
+        mHeap = heap;
+        if (!heap) {
+            if (mStatusFlags.isOn(StatusFlag::_80000)) {
+                mRefCount.decrement();
+                mStatusFlags.reset(StatusFlag::_80000);
+                stubbedLogFunction();
+            }
+            stubbedLogFunction();
+            return false;
+        }
+        if (returnFalse())
+            stubbedLogFunction();
+    }
+
+    if (mStatusFlags.isOn(StatusFlag::NeedToIncrementRefCount) && !mArenaUnitListNode2.isLinked())
+        mArena2->sub_71011FD7C8(this);
+
+    if (mStatusFlags.isOn(StatusFlag::LoadFromArchive))
+        prepareLoad();
+
+    return true;
+}
+
+u32 ResourceUnit::determineHeapSize(const sead::SafeString& path, bool flag4, bool flag1,
+                                    bool flag2) {
+    ResourceMgrTask::ResourceSizeInfo info;
+
+    {
+        ResourceMgrTask::GetResourceSizeInfoArg arg;
+        arg.alloc_size = mAllocSize;
+        arg.factory = mLoadArg.factory;
+        arg.file_device = mLoadArg.device;
+        arg.load_data_alignment = mLoadArg.load_data_alignment;
+        arg.archive_res = mArchiveRes;
+        arg.str = path;
+        arg.path = mPath;
+        arg.flag4_try_decomp = flag4;
+        arg.flag1 = flag1;
+        arg.flag2 = flag2;
+        ResourceMgrTask::instance()->getResourceSizeInfo(&info, arg);
+    }
+
+    const u32 buffer_size = info.buffer_size;
+    mInfoAllocSize = info.alloc_size;
+    if (buffer_size != 0) {
+        mLoadArg.device = info.is_archive_file_dev2 ? nullptr : info.file_device;
+        return buffer_size;
+    }
+
+    auto* archive_res = mArchiveRes;
+    bool exists = false;
+    if (archive_res) {
+        exists = archive_res->getFile(path) != nullptr;
+        if (exists)
+            return 0;
+        stubbedLogFunction();
+    } else if (info.file_device) {
+        if (!info.file_device->tryIsExistFile(&exists, path) || exists)
+            return 0;
+        stubbedLogFunction();
+    }
+    return 0;
 }
 
 }  // namespace ksys::res

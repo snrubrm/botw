@@ -132,7 +132,8 @@ public:
     /// Destroys the underlying resource and reallocates it for defragmentation purposes.
     void reallocate();
 
-    u32 determineHeapSize();
+    // 0x120eee4 (4612 bytes; declared only): the size of the heap to allocate for the load, 0 on failure.
+    u32 determineHeapSize(sead::BufferedSafeString* out_path);
     u32 determineHeapSize(const sead::SafeString& path, bool flag4, bool flag1, bool flag2);
 
     void detachFromHandle_(Handle* handle);
@@ -192,18 +193,23 @@ private:
     void doLoad();
     void doRetryLoad();
 
-    void prepareUnload();
+    bool prepareUnload();
 
-    void initLoad(void* x = nullptr);
-    void prepareLoad();
+    bool initLoad(void* x = nullptr);
+    bool prepareLoad(void* x = nullptr);
     void requestPrepareLoad(util::TaskPostRunResult* result, const util::TaskPostRunContext& ctx);
+    // 0x7101212f3c (CSV unnamed): the heap adjustment step after a load (OverlayArena size bookkeeping).
+    bool sub_7101212F3C(void* x = nullptr);
 
-    void unloadForSync();
+    bool unloadForSync();
     bool clearCacheForSync(bool x);
+    void requestUnload(util::TaskPostRunResult* result, const util::TaskPostRunContext& ctx);
+    void postUnload(util::TaskPostRunResult* result, const util::TaskPostRunContext& ctx);
 
-    void unload();
-    void clearCache(void* x);
+    bool unload(void* x);
+    bool clearCache(void* x);
     void requestClearCache(util::TaskPostRunResult* result, const util::TaskPostRunContext& ctx);
+    void postClearCache(util::TaskPostRunResult* result, const util::TaskPostRunContext& ctx);
 
     sead::TypedBitFlag<CacheFlag> mCacheFlags;
     sead::TypedBitFlag<Flag> mFlags;

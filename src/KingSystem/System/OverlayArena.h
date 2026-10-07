@@ -66,6 +66,9 @@ public:
                                  sead::Heap::HeapDirection direction, res::ResourceUnit* unit,
                                  bool x);
 
+    // 0x71011fd7c8 (declared only): moves the unit (if it is linked to an arena list) to the front of mUnits.
+    void sub_71011FD7C8(res::ResourceUnit* unit);
+
     void addSize(s32 size);
     void addSize2(s32 size);
 

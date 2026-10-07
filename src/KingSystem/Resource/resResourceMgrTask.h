@@ -252,21 +252,21 @@ public:
     bool returnTrue2();
 
     struct ResourceSizeInfo {
-        bool is_archive_file_dev2;
-        u32 buffer_size;
-        u32 alloc_size;
-        sead::FileDevice* file_device;
+        bool is_archive_file_dev2 = false;
+        u32 buffer_size = 0;
+        u32 alloc_size = 0;
+        sead::FileDevice* file_device = nullptr;
     };
     KSYS_CHECK_SIZE_NX150(ResourceSizeInfo, 0x18);
 
     struct GetResourceSizeInfoArg {
-        bool flag1;
-        bool flag4_try_decomp;
-        bool flag2;
+        bool flag1 = false;
+        bool flag4_try_decomp = false;
+        bool flag2 = false;
         u32 alloc_size;
         sead::ArchiveRes* archive_res;
         sead::FileDevice* file_device;
-        EntryFactoryBase* factory;
+        sead::ResourceFactory* factory;
         u32 load_data_alignment;
         sead::SafeString str;  // TODO: rename
         sead::SafeString path;
@@ -283,6 +283,9 @@ public:
     util::TaskThread* getMovableMemoryThread() const { return mMovableMemoryThread; }
 
     ResourceUnitDelegatePair& getUnitInitLoadFn() { return mUnitInitLoadFn; }
+    auto& getUnitPrepareLoadFn() { return mUnitPrepareLoadFn; }
+    auto& getUnitUnloadFn() { return mUnitUnloadFn; }
+    auto& getUnitClearCacheFn() { return mUnitClearCacheFn; }
     auto& getUnitAdjustHeapFn() { return mUnitAdjustHeapFn; }
 
     OverlayArena* getArenaForResourceL() { return &mArenaForResourceL; }
@@ -310,6 +313,27 @@ private:
 
     explicit ResourceMgrTask(const sead::TaskConstructArg& arg);
     ~ResourceMgrTask();
+
+    // The unit delegate functions (placeholder names; 0x7101205f5c .. 0x7101206008): each forwards the
+    // task user data (the ResourceUnit) to the unit's method.
+    static bool sub_7101205F5C(void* unit);
+    static void sub_7101205F64(util::TaskPostRunResult* result,
+                               const util::TaskPostRunContext& context);
+    static bool sub_7101205F7C(void* unit);
+    static bool sub_7101205F84(void* unit);
+    static bool sub_7101205F8C(void* unit);
+    static void sub_7101205F90(util::TaskPostRunResult* result,
+                               const util::TaskPostRunContext& context);
+    static bool sub_7101205FA8(void* unit);
+    static void sub_7101205FB0(util::TaskPostRunResult* result,
+                               const util::TaskPostRunContext& context);
+    static bool sub_7101205FC8(void* unit);
+    static void sub_7101205FD0(util::TaskPostRunResult* result,
+                               const util::TaskPostRunContext& context);
+    static bool sub_7101205FE8(void* unit);
+    static void sub_7101205FF0(util::TaskPostRunResult* result,
+                               const util::TaskPostRunContext& context);
+    static bool sub_7101206008(void* unit);
 
     bool calc_(void* userdata);
     bool doLoadOnThread(void* userdata);

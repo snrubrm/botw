@@ -497,6 +497,65 @@ bool ResourceMgrTask::isHostPath(const sead::SafeString&) const {
     return false;
 }
 
+bool ResourceMgrTask::sub_7101205F5C(void* unit) {
+    return static_cast<ResourceUnit*>(unit)->initLoad();
+}
+
+void ResourceMgrTask::sub_7101205F64(util::TaskPostRunResult* result,
+                                     const util::TaskPostRunContext& context) {
+    static_cast<ResourceUnit*>(context.mUserData)->requestPrepareLoad(result, context);
+}
+
+bool ResourceMgrTask::sub_7101205F7C(void* unit) {
+    return static_cast<ResourceUnit*>(unit)->prepareLoad();
+}
+
+bool ResourceMgrTask::sub_7101205F84(void* unit) {
+    return static_cast<ResourceUnit*>(unit)->sub_7101212F3C();
+}
+
+bool ResourceMgrTask::sub_7101205F8C(void* unit) {
+    return static_cast<ResourceUnit*>(unit)->unloadForSync();
+}
+
+void ResourceMgrTask::sub_7101205F90(util::TaskPostRunResult* result,
+                                     const util::TaskPostRunContext& context) {
+    static_cast<ResourceUnit*>(context.mUserData)->requestUnload(result, context);
+}
+
+bool ResourceMgrTask::sub_7101205FA8(void* unit) {
+    return static_cast<ResourceUnit*>(unit)->unload(unit);
+}
+
+void ResourceMgrTask::sub_7101205FB0(util::TaskPostRunResult* result,
+                                     const util::TaskPostRunContext& context) {
+    static_cast<ResourceUnit*>(context.mUserData)->postUnload(result, context);
+}
+
+bool ResourceMgrTask::sub_7101205FC8(void* unit) {
+    return static_cast<ResourceUnit*>(unit)->clearCacheForSync(false);
+}
+
+void ResourceMgrTask::sub_7101205FD0(util::TaskPostRunResult* result,
+                                     const util::TaskPostRunContext& context) {
+    static_cast<ResourceUnit*>(context.mUserData)->requestClearCache(result, context);
+}
+
+bool ResourceMgrTask::sub_7101205FE8(void* unit) {
+    return static_cast<ResourceUnit*>(unit)->clearCache(unit);
+}
+
+void ResourceMgrTask::sub_7101205FF0(util::TaskPostRunResult* result,
+                                     const util::TaskPostRunContext& context) {
+    static_cast<ResourceUnit*>(context.mUserData)->postClearCache(result, context);
+}
+
+bool ResourceMgrTask::sub_7101206008(void* unit_) {
+    auto* unit = static_cast<ResourceUnit*>(unit_);
+    ResourceMgrTask::instance()->deleteUnit(unit, false);
+    return true;
+}
+
 bool ResourceMgrTask::calc_(void*) {
     if (mCacheControlFlags.testAndClear(CacheControlFlag::ClearAllCachesRequested)) {
         MemoryTaskRequest req;
