@@ -8,6 +8,15 @@
 
 namespace ksys::snd {
 
+void UiSoundMgr::sub_710105D844(const s32* mode) {
+    if (*mode == 0) {
+        _28.fade();
+        _38.setVolumeScale(1.0f);
+    } else {
+        _38.fade();
+    }
+}
+
 void UiSoundMgr::sub_710105D0E4(sead::Heap* heap) {}
 
 // NON_MATCHING: the two flag selections allocate their temporary values in a different order.
