@@ -54,6 +54,18 @@ void Manager::sub_7100A702E8(eui::UIController* controller) {
         controller->setPadRepeat(repeat.mask, repeat.delay_frame, repeat.pulse_frame);
 }
 
+// 0x7100a7f8e8
+void Manager::sub_7100A7F8E8(const Unk_UiPinInfo* info) {
+    if (info)
+        _651e0 = info->_20;
+}
+
+// 0x7100a7f900
+void Manager::sub_7100A7F900(Unk_UiPinInfo* info) const {
+    if (info)
+        info->_20 = _651e0;
+}
+
 // 0x7100a7f918
 bool Manager::sub_7100A7F918() const {
     return _651f8 > 0;

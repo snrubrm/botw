@@ -23,6 +23,12 @@ class Pane;
 
 namespace uking::ui {
 
+// Placeholder: the object whose +0x20 field the manager's `_651e0` mirrors (the pin of the map / camera screens).
+struct Unk_UiPinInfo {
+    u8 _0[0x20];
+    /* 0x20 */ s32 _20;
+};
+
 // The UI manager singleton (CSV: uiManager::createInstance 0x7100a6e038, ctor 0x7100a6e0c4,
 // instance pointer 0x71025f5ee0, size 0x653b0, disposer at +0x18). Only the fields that are used
 // by the UI facade functions / read inline by AI code are declared (offsets from the original);
@@ -64,6 +70,10 @@ public:
     void sub_7100A7F81C();
     // 0x7100a702e8 (CSV uiManager::x_1)
     void sub_7100A702E8(eui::UIController* controller);
+    // 0x7100a7f8e8 / 0x7100a7f900 (CSV uiManager::__auto1 / __auto15; placeholder names): copy `_651e0` from / to
+    // the pin info (ignored for null)
+    void sub_7100A7F8E8(const Unk_UiPinInfo* info);
+    void sub_7100A7F900(Unk_UiPinInfo* info) const;
     // 0x7100a7f918 / 0x7100a7fdb4 (CSV uiManager::__auto4 / __auto11; placeholder names)
     bool sub_7100A7F918() const;
     bool sub_7100A7FDB4() const;
@@ -164,7 +174,9 @@ public:
     u8 _65130[0x65160 - 0x650f8 - sizeof(sead::CriticalSection)];
     /* 0x65160 */ u64 _65160;
     /* 0x65168 */ s32 _65168;
-    u8 _6516c[0x651f8 - 0x6516c];
+    u8 _6516c[0x651e0 - 0x6516c];
+    /* 0x651e0 */ s32 _651e0;
+    u8 _651e4[0x651f8 - 0x651e4];
     /* 0x651f8 */ s32 _651f8;
     u8 _651fc[0x65218 - 0x651fc];
     /* 0x65218 */ bool _65218;
