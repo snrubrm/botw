@@ -7,6 +7,17 @@ namespace uking::ui {
 
 Unk_7102474c68::Unk_7102474c68() = default;
 Unk_7102474c68::~Unk_7102474c68() = default;
+
+// 0x7100936db8
+void Unk_7102474c68::m4(sead::Heap* heap) {
+    mTextures.sub_7100A814D8(heap, 0, 1, "ShortCutIconContent");
+    if (!_8)
+        return;
+    mArchive.sub_71009C33F8(_8);
+    mTextures.setMaterial(0, mArchive.sub_71009C3780(), true);
+    mTextures.setAnimator(0, mArchive.mBreak.mLayout, "PicLoad");
+}
+
 void Unk_7102474c68::m6() {
     mTextures.sub_7100A816D8();
     if (_10) {

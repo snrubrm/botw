@@ -379,7 +379,7 @@ public:
     // 0x7100939bd8: the constructor; the destructor at939c18 resets the same state.
     Unk_7102474e38();
 
-    /* 0x08 */ u64 _8{};
+    /* 0x08 */ eui::LayoutEx* _8{};
     /* 0x10 */ eui::AnimButton* _10{};
     /* 0x18 */ Unk_7102474f10* _18{};
     /* 0x20 */ ScreenAppPictureBookUnk* _20{};

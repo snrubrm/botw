@@ -51,6 +51,8 @@ public:
     bool isLoaded(s32 index);
     // 0x7100a816d8 (804 bytes, declared only; lane2 s46): called by the shop screens' slot 94
     void sub_7100A816D8();
+    // 0x7100a814d8 (declared only; 512 bytes): initialises entries from `path`
+    void sub_7100A814D8(sead::Heap* heap, s32 a, s32 b, const sead::SafeStringBase<char>& path);
 
 private:
     /* 0x08 */ sead::Buffer<Entry> mEntries;
