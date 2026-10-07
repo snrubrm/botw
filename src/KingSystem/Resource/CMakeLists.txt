@@ -120,6 +120,7 @@ target_sources(uking PRIVATE
   resResourceMgrTask.cpp
   resResourceMgrTask.h
   resResourceMgrTaskRtti.cpp
+  resBfRes.cpp
   resResourceJpg.cpp
   resResourceJpg.h
   resSystem.cpp

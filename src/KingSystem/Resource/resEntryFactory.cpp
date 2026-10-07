@@ -2,6 +2,7 @@
 #include "KingSystem/Resource/resUnk_71024F97F8.h"
 #include "KingSystem/Resource/resUnk_71024F9898.h"
 #include "KingSystem/Resource/resResourceJpg.h"
+#include "KingSystem/Resource/resBfRes.h"
 
 namespace ksys::res {
 
@@ -18,6 +19,12 @@ static EntryFactory<Resource> sDefaultEntryFactory;
 template class EntryFactory<Unk_71024F97F8>;
 template class EntryFactory<Unk_71024F9898>;
 template class EntryFactory<ResourceJpg>;
+
+template <>
+u32 EntryFactory<BfRes>::getLoadDataAlignment() const {
+    return mResource.getLoadDataAlignment();
+}
+template class EntryFactory<BfRes>;
 
 u32 EntryFactoryBase::getResourceSize() const {
     KSYS_CHECK_SIZE_NX150(sead::DirectResource, 0x20);
