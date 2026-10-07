@@ -13,11 +13,11 @@ namespace aal {
 class CustomCurveReader {
 public:
     struct SegmentParam {
-        /// TODO: the fields are the type, position, value and coefficient of the segment (the order is unknown).
-        u32 _0;
-        f32 _4;
-        f32 _8;
-        f32 _c;
+        f32 position;
+        f32 value;
+        /// A CustomCurveType.
+        u32 type;
+        f32 coefficient;
     };
 
     explicit CustomCurveReader(const void* data);

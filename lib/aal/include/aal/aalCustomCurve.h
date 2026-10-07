@@ -2,6 +2,7 @@
 
 #include <basis/seadTypes.h>
 #include <container/seadOffsetList.h>
+#include <prim/seadEnum.h>
 #include <prim/seadRuntimeTypeInfo.h>
 #include "aal/aalCurve.h"
 
@@ -12,7 +13,23 @@ class Heap;
 namespace aal {
 
 class CustomCurveReader;
-class CustomCurveSegment;
+
+/// How a segment of a CustomCurve is interpolated up to the next segment (`coefficient` is the exponent of the
+/// non-linear shapes). The names are from the text table of the original (0x7100ba9418).
+SEAD_ENUM(CustomCurveType, Linear, Exp, Log, Sin, Cos, Const)
+
+/// A point of a CustomCurve (the segments are sorted by position).
+class CustomCurveSegment {
+public:
+    CustomCurveSegment() = default;
+
+    f32 mPosition = 0.0f;
+    f32 mValue = 1.0f;
+    CustomCurveType mType = CustomCurveType(0);
+    f32 mCoefficient = 1.0f;
+    sead::ListNode mListNode;
+};
+static_assert(sizeof(CustomCurveSegment) == 0x20, "aal::CustomCurveSegment size mismatch");
 
 /// A curve that is made of segments (a list of positions, values and shapes). TODO: only the construction is
 /// implemented.
@@ -30,7 +47,8 @@ public:
     void loadFromXmlDocument(const sead::SafeString& path) override;
 
     void setupFromResourceReader(const CustomCurveReader& reader, sead::Heap* heap);
-    void addSegment(CustomCurveSegment* segment);
+    /// False if there is a segment at the same position.
+    bool addSegment(CustomCurveSegment* segment);
 
 private:
     sead::OffsetList<CustomCurveSegment> mSegments;

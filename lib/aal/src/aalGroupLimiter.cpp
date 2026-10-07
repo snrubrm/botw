@@ -223,6 +223,103 @@ void GroupDucker::calc() {
     }
 }
 
+// NON_MATCHING: same code; the load of the ducking source is hoisted in front of the state test here.
+// 0x7100b82c64
+void GroupDucker::updateStartEnd_() {
+    if (static_cast<u32>(mState) > 4)
+        return;
+
+    if ((1 << mState) & 0x19) {
+        // Not ducking (0), or ending (3, 4): start if the ducking source ducks.
+        if (!mSource || !mSource->isOnDucking())
+            return;
+        if (mSettings._0 == 0.0f) {
+            for (Target& target : mTargets) {
+                target.mFader.setCurveType(FadeCurveType(target.mSettings._c));
+                target.mFader.moveTo(target.mSettings._0, target.mSettings._4);
+            }
+            mState = 2;
+        } else {
+            mState = 1;
+        }
+        _40 = 0.0f;
+        return;
+    }
+
+    // Waiting to start (1) or ducking (2).
+    if (mSource && mSource->isOnDucking()) {
+        if (mSettings._8 > 0.0f && _44 >= mSettings._8) {
+            for (Target& target : mTargets) {
+                target.mFader.setCurveType(FadeCurveType(target.mSettings._c));
+                target.mFader.moveTo(1.0f, target.mSettings._8);
+            }
+            mState = 5;
+        }
+        return;
+    }
+
+    if (mSettings._4 == 0.0f) {
+        for (Target& target : mTargets) {
+            target.mFader.setCurveType(FadeCurveType(target.mSettings._c));
+            target.mFader.moveTo(1.0f, target.mSettings._8);
+        }
+        mState = 4;
+    } else {
+        mState = 3;
+    }
+    _40 = 0.0f;
+}
+
+// 0x7100b82e30
+void GroupDucker::updateState_() {
+    switch (mState) {
+    case 1:
+        if (!(_40 >= mSettings._0))
+            return;
+        for (Target& target : mTargets) {
+            target.mFader.setCurveType(FadeCurveType(target.mSettings._c));
+            target.mFader.moveTo(target.mSettings._0, target.mSettings._4);
+        }
+        mState = 2;
+        break;
+    case 3:
+        if (!(_40 >= mSettings._4))
+            return;
+        for (Target& target : mTargets) {
+            target.mFader.setCurveType(FadeCurveType(target.mSettings._c));
+            target.mFader.moveTo(1.0f, target.mSettings._8);
+        }
+        mState = 4;
+        break;
+    case 4:
+        for (Target& target : mTargets) {
+            if (target.mFader.getValue() != target.mFader.getNextValue())
+                return;
+        }
+        mState = 0;
+        break;
+    case 5:
+        for (Target& target : mTargets) {
+            if (target.mFader.getValue() != target.mFader.getNextValue())
+                return;
+        }
+        if (mSource && mSource->isOnDucking())
+            return;
+        mState = 0;
+        break;
+    case 6:
+        for (Target& target : mTargets) {
+            target.mFader.setValueImmediate(1.0f);
+            if (target.mGroup)
+                target.mGroup->aggregateDuckingVolumeFromDucker_(target.mFader.getValue());
+        }
+        mState = 0;
+        break;
+    default:
+        break;
+    }
+}
+
 // 0x7100b83050
 void GroupDucker::suspend() {
     mState = 6;
