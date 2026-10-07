@@ -5,6 +5,7 @@
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "Game/gameRoot38.h"
+#include "KingSystem/Event/evtEventFlow.h"
 #include "Game/gameScene.h"
 #include "Game/UI/uiUtils.h"
 #include "KingSystem/Event/evtManager.h"
@@ -28,6 +29,17 @@ EventSystem::~EventSystem() = default;
 
 int EventSystem::handleMessage(const Message& message) {
     return 1;
+}
+
+// 0x71008ac118
+bool EventSystem::sub_71008AC118() const {
+    auto* manager = Manager::instance();
+    if (!manager)
+        return false;
+    auto* flow = manager->sub_7100DB222C();
+    if (!flow)
+        return false;
+    return flow->byte3FlagIsSet();
 }
 
 // NON_MATCHING: everything else matches, but the original tests bit 7 of the Manager flag byte as `ldrb; tbnz #7` (ours:

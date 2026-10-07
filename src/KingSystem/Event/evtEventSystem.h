@@ -59,6 +59,8 @@ public:
     // 0x71008abf28
     int handleMessage(const Message& message) override;
 
+    // 0x71008ac118 (placeholder name): whether the active event flow has the byte-3 flag (the object is unused)
+    bool sub_71008AC118() const;
     // 0x71008ac078 (CSV x_2): sets the scene freeze state `_140` (Root38 flag 3, the load / save icon)
     void x_2(s32 value);
     // 0x71008ac100 (CSV x_3): sets bit 5 of the global scene flag word

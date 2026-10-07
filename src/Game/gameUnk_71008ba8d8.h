@@ -8,6 +8,10 @@ class Actor;
 class BaseProc;
 }  // namespace ksys::act
 
+namespace ksys::evt {
+class BaseProcLinkForEvent;
+}
+
 // Event call helpers of the game's event utility TU (0x71008ba108-0x71008bb270, with evt::S7Movie,
 // GameScene::callSceneStartDemo, callPlayerRespawnEvent, ...).
 
@@ -41,6 +45,24 @@ bool callDemo616_0(ksys::act::Actor* player, const sead::SafeString& a, const se
 bool callPlayerGameOverDemo(ksys::act::Actor* player);
 
 }  // namespace uking
+
+// 0x71008ba664 / 0x71008ba670 / 0x71008ba67c (CSV getStr_CurrentActorName / getStr_SharpWeaponAddValue /
+// getStr_SharpWeaponAddType; lane2 s46): constant event parameter names.
+const sead::SafeString& getStr_CurrentActorName();
+const sead::SafeString& getStr_SharpWeaponAddValue();
+const sead::SafeString& getStr_SharpWeaponAddType();
+// 0x71008ba688 (CSV isDemo000Or002; lane2 s46): whether the event of `link` is Demo000_0 or Demo002_0.
+bool isDemo000Or002(const ksys::evt::BaseProcLinkForEvent& link);
+// 0x71008ba750 (CSV eventMgrHasActiveEvent): without the null check of the Manager.
+bool eventMgrHasActiveEvent();
+// 0x71008ba760 (placeholder name): the EventSystem's sub_71008AC118() (false without an EventSystem).
+bool sub_71008BA760();
+// 0x71008ba7d8 (CSV isActiveEventDemo000Or001Or002)
+bool isActiveEventDemo000Or001Or002();
+// 0x71008bb7d8 / 0x71008bb878 (placeholder names): whether the active flow is playing / the name of the active event
+// (empty without one).
+bool sub_71008BB7D8();
+const sead::SafeString& sub_71008BB878();
 
 // Global-namespace event state checks of the same TU (lane2 s45, declared only; placeholder names except the CSV one).
 bool sub_71008BB600();
