@@ -122,7 +122,8 @@ public:
         /* 0x28 */ u8 _28 = 0;
     };
     /* 0x50 */ Unk50* _50 = nullptr;
-    /* 0x58 */ u32 _58 = 0;
+    // 2026-10-07: 16494 clamps this signed counter; 2EE60C compares it with a signed arrow limit.
+    /* 0x58 */ s32 _58 = 0;
 };
 KSYS_CHECK_SIZE_NX150(Unk_7102357908, 0x60);
 

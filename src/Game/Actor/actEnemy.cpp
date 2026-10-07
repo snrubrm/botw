@@ -1,5 +1,8 @@
 #include "Game/Actor/actEnemy.h"
 #include <limits>
+#include <math/seadMathCalcCommon.h>
+#include "KingSystem/ActorSystem/actInfoCommon.h"
+#include "KingSystem/ActorSystem/actInfoData.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/ActorSystem/actLifeRecoveryInfo.h"
 #include <basis/seadNew.h>
@@ -27,6 +30,17 @@
 bool sub_71002F0924(const ksys::act::ActorConstDataAccess& accessor);
 
 namespace uking::act {
+
+void Enemy::sub_7100016494() {
+    ++_1148._58;
+    sead::FixedSafeString<32> name;
+    if (m165(&name)) {
+        const s32 limit = ksys::act::getArrowEnemyShootNumForDelete(
+            ksys::act::InfoData::instance(), name.cstr());
+        _1148._58 = sead::Mathf::clampMax(_1148._58, limit);
+    }
+}
+
 
 Unk_7102357908::Unk50::Unk50(ksys::phys::CharacterController* controller)
     : mController(controller),
