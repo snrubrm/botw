@@ -1,6 +1,7 @@
 #include "Game/UI/uiScreens.h"
 #include "Game/UI/euiAnimator.h"
 #include "Game/UI/euiButton.h"
+#include "Game/UI/uiUtils.h"
 
 namespace uking::ui {
 
@@ -61,6 +62,20 @@ void ScreenButton_7100989968::sub_71009896D8() {
     mBreakNewController.sub_71009B1578(-1);
     mTexturePatternController.sub_7100988FE8();
     mCategoryController.sub_7100989AF0(-1, 0, 0);
+}
+
+// NON_MATCHING: the compiler orders the negative-count tail call and common exit differently.
+void ScreenButton_7100989968::sub_710098975C(s32 count) {
+    if (count >= 0) {
+        sead::FixedSafeString<32> text;
+        text.format("%d", count);
+        setWidgetString(mButton->mLayout, "T_ItemNum_00", text);
+        if (_18 && _18->mFrame != _18->GetFrameSize())
+            _18->StopAtMax();
+        return;
+    }
+    if (_18 && _18->mFrame != 0.0f)
+        _18->StopAtMin();
 }
 
 // NON_MATCHING: the compiler shares the Animator frame load across enabled/disabled branches.

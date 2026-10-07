@@ -1601,6 +1601,7 @@ struct ScreenButton_7100989968 {
     void sub_710098923C();
     void sub_71009892B0();
     void sub_71009896D8();
+    void sub_710098975C(s32 count);
     void sub_7100989888(bool enabled, bool play);
     bool sub_7100989A08() const;
     void sub_7100989A40();
