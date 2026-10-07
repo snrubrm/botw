@@ -1,5 +1,6 @@
 #include "Game/gameSaveSystem.h"
 #include "Game/DLC/aocHardModeManager.h"
+#include "Game/E3Mgr.h"
 #include "Game/gameRoot38.h"
 #include "Game/gameScene.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
@@ -92,6 +93,30 @@ bool SaveSystem::sub_7100914D48() {
     _34 = 0;
     _3c = 6;
     return true;
+}
+
+bool SaveSystem::sub_710091410C() const {
+    if (auto* e3 = E3Mgr::instance(); e3 && e3->isDemoMode())
+        return false;
+    return _30 == 8;
+}
+
+bool SaveSystem::sub_7100913160() {
+    auto* save_mgr = ksys::SaveMgr::instance();
+    auto* gdt_mgr = ksys::gdt::Manager::instance();
+    if (!save_mgr || !gdt_mgr)
+        return false;
+
+    save_mgr->_f94 = 2;
+    _34 = 0;
+    _3c = 22;
+    return true;
+}
+
+void SaveSystem::sub_71009157E4() {
+    if (_30 != 8)
+        _1880.sub_710090CD84(&_40[_30], false);
+    _30 = 8;
 }
 
 SaveSlot* SaveSystem::sub_7100914DA0(s32 slot) {
