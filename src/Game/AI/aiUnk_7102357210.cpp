@@ -3,6 +3,8 @@
 #include "Game/AI/aiUnk_7102357d20.h"
 #include "Game/AI/aiUnk_7102450410.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actChemical.h"
+#include "KingSystem/ActorSystem/actActorChemicals.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
@@ -889,4 +891,27 @@ Unk_7102450410::Entry* Unk_7102450410::sub_7100708E90(ksys::act::Chemical* chemi
             return &entry;
     }
     return nullptr;
+}
+
+void Unk_7102450410::Entry::sub_7100708A0C() {
+    sub_71006F5940(mChemical);
+    _68.fadeXLink();
+    _88.fadeXLink();
+    _60 = false;
+}
+
+void Unk_7102450410::Entry::sub_71007088C0() {
+    auto* owner = mChemical->_18;
+    if (!owner)
+        return;
+    sead::Matrix34f matrix;
+    owner->m4(&matrix, mChemical);
+    if (_68.mELink.isActive()) {
+        auto* event = static_cast<xlink2::EventELink*>(_68.mELink.getEvent());
+        if (event->getMtxSetType() == 0)
+            _68.mELink.setMatrix(matrix);
+    }
+    sead::Vector3f position;
+    matrix.getTranslation(position);
+    _68.mSLink.setPosition(position);
 }

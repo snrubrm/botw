@@ -7,6 +7,7 @@
 #include "Game/AI/aiUnk_71025afb58.h"
 #include "Game/AI/aiUnk_71006F5B14.h"
 #include "KingSystem/Utils/Types.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
 
 namespace ksys::act { class Actor; }
 
@@ -25,6 +26,8 @@ public:
         // 0x71007086ac (ForkOnLeaveGolemChemReset::leave_, ForkASTrgGolemChemicalReset::calc_).
         void sub_71007086AC();
         void sub_71007089BC();
+        void sub_7100708A0C();
+        void sub_71007088C0();
         // Declaration only: per-part chemical controller update called by GolemRootBase.
         void sub_71007083DC();
 
@@ -44,7 +47,10 @@ public:
         sead::SafeString _30;
         u8 _40[0x10];
         sead::SafeString _50;
-        u8 _60[0xa8 - 0x60];
+        bool _60;
+        u8 _61[7];
+        Unk_71012419b4 _68;
+        Unk_71012419b4 _88;
         s32 _a8;
         u8 _ac[4];
         s32 _b0;  // GolemChemicalResetSelect::enter_ tests entry 0 for 4
