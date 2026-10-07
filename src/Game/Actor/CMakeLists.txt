@@ -22,6 +22,7 @@ target_sources(uking PRIVATE
   actDragon.cpp
   actDragon.h
   actEnemy.cpp
+  actEnemyUnk12d0.cpp
   actEnemyAccessors.cpp
   actEnemy.h
   actExtendedEntity.cpp

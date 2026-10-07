@@ -339,7 +339,7 @@ public:
         void sub_7100710F04();
         // 0x7100710f08 (declared only; lane2 s20): `if (_0) { _8 = -1; _c = 0; }` (one 8-byte store).
         void sub_7100710F08();
-        // 0x7100710f28 (declared only; lane2 s20): advances the state `_8` (0 -> 1 -> 2 -> 3) from the character's
+        // 0x7100710f28 (lane4 s50, non-matching): advances the state `_8` (0 -> 1 -> 2 -> 3) from the character's
         // flags (_294 / _296, _220) under its critical section.
         void sub_7100710F28();
 
