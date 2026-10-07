@@ -7,6 +7,8 @@
 
 namespace ksys::phys {
 
+class Shape;
+
 // Placeholder: object at CharacterController::_10 (only the field written by sub_7100F5EDE8).
 struct CharacterControllerUnk10 {
     /* 0x00 */ u8 _0[0x30];
@@ -30,8 +32,10 @@ struct CharacterControllerUnk20 {
 
 // Placeholder: 0x30 byte entry of the controller's shape list (CharacterControllerShapes).
 struct CharacterControllerShape {
-    /* 0x00 */ u8 _0[8];
-    /* 0x08 */ void* _8;
+    // 2026-10-07: factory F67174 stores newly constructed Havok capsule shapes
+    // here; controller initialization passes the second pointer to RigidBodyFromShape.
+    /* 0x00 */ hkpShape* _0;
+    /* 0x08 */ Shape* _8;
     /* 0x10 */ bool _10;
     /* 0x11 */ u8 _11;
     /* 0x12 */ bool _12;
@@ -591,6 +595,22 @@ bool CharacterController::sub_7100F5F270(int idx) {
         }
     }
     return sub_7100F5F344(idx, force);
+}
+
+// NON_MATCHING: clearing the first two flag bits materializes narrower masks.
+bool CharacterController::sub_7100F5F344(int idx, bool force) {
+    if (!force && _224 == idx)
+        return false;
+    bool changed = false;
+    if (_30->mShapes.size() > idx && _30->mShapes[idx]._0) {
+        _224 = idx;
+        mRigidBody->updateShape();
+        changed = true;
+    }
+    _114 = _30->mShapes[_224]._10 ? (_114 | 0x400) : (_114 & ~0x400);
+    _114 = _30->mShapes[_224]._11 ? (_114 | 0x800) : (_114 & ~0x800);
+    _114 = _30->mShapes[_224]._12 ? (_114 | 0x1000) : (_114 & ~0x1000);
+    return changed;
 }
 
 void CharacterController::sub_7100F5FBC8(sead::Vector3f* linear_velocity,
