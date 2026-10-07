@@ -3,8 +3,23 @@
 // Kept out of uiScreenEx.cpp: the original calls these forwarders out of line.
 namespace uking::ui {
 
-// 0x7100939c18
+// 0x7100939bd8
 Unk_7102474e38::Unk_7102474e38() {}
+
+// NON_MATCHING: vector assignment and flag-store scheduling differ.
+// 0x7100939c18
+Unk_7102474e38::~Unk_7102474e38() {
+    _8 = 0;
+    _10 = 0;
+    _18 = 0;
+    _20 = nullptr;
+    _28 = 0;
+    _30 = 0;
+    _34 = sead::Vector2f::zero;
+    _3c = -1;
+    _40 = -1;
+    _44 = -1;
+}
 
 // 0x7100939c5c
 ScreenEx* Unk_7102474e38::sub_7100939C5C() const {

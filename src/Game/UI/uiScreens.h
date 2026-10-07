@@ -372,7 +372,7 @@ public:
     void sub_7100939F40(eui::AnimButton* button);
     void sub_7100939F4C(eui::AnimButton* button);
 
-    // 0x7100939bd8 (C2) / 0x7100939c18 (C1): two identical copies in the original
+    // 0x7100939bd8: the constructor; the destructor at939c18 resets the same state.
     Unk_7102474e38();
 
     /* 0x08 */ u64 _8{};
