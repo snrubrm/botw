@@ -1,7 +1,37 @@
 #include "Game/Actor/actSiteBoss.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 
+namespace {
+// 2026-10-07: static initializer 0x710066e034 creates this record and registers
+// the message ID at +8 for destruction; 0x710066b9b8 copies that ID.
+struct Unk_71025c5d60 {
+    Unk_71025c5d60() {}
+    s32 _0 = 0;
+    s32 _4 = 0x8004ef;
+    ksys::MesTransceiverId _8;
+};
+Unk_71025c5d60 sUnk_71025c5d60;
+}  // namespace
+
 namespace uking::act {
+
+SiteBoss::Unk_71002cf2ac::~Unk_71002cf2ac() {
+    mOwner = nullptr;
+    for (s32 i = 0; i < 20; ++i) {
+        auto& link = _1e0[i];
+        if (link.hasProc()) {
+            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::acquireActor(&link, &accessor);
+            if (!accessor.isDeletedOrDeleting())
+                accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+        }
+        link.reset();
+        if (_a0[i].isAllocatedOrFailed())
+            _a0[i].deleteProc();
+        _530[i] = sUnk_71025c5d60._8;
+    }
+    sub_710066BC04();
+}
 
 void SiteBoss::Unk_71002cf2ac::sub_710066C13C(ksys::act::BaseProcLink* target, int idx) {
     sub_710066C164(mOwner, target, ksys::MessageType(0x800004d), idx, 0, nullptr);

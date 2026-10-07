@@ -14,6 +14,7 @@
 #include "Game/Damage/dmgDamageCallback.h"
 #include "KingSystem/Event/evtResidentEvent.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
+#include "KingSystem/ActorSystem/actBaseProcHandle.h"
 #include "KingSystem/Utils/Thread/Message.h"
 
 namespace ksys::map {
@@ -150,7 +151,6 @@ public:
     // TODO: incomplete.
     struct Unk_71002cf2ac {
         // 2026-10-07: real original D1 0x710066b9b8 called by SiteBoss::~SiteBoss.
-        // Declaration only: cleanup depends on an unresolved dummy message-transceiver global.
         ~Unk_71002cf2ac();
         // 0x710066c164: sends `type` to bound actor `idx` (every bound actor when idx >= 20).
         void sub_710066C164(ksys::act::Actor* owner, ksys::act::BaseProcLink* target,
@@ -223,11 +223,11 @@ public:
         /* 0x094 */ u32 _94;
         /* 0x098 */ u8 _98[4];
         /* 0x09c */ u32 _9c;  // bit idx: bound actor idx (cleared by SiteBossChemicalProjectile)
-        /* 0x0a0 */ u8 _a0[0x1e0 - 0xa0];
+        /* 0x0a0 */ sead::SafeArray<ksys::act::BaseProcHandle, 20> _a0;
         /* 0x1e0 */ sead::SafeArray<ksys::act::BaseProcLink, 20> _1e0;
-        /* 0x320 */ u8 _320[0x360 - 0x320];
+        /* 0x320 */ sead::SafeArray<ksys::act::BaseProcLink, 4> _320;
         /* 0x360 */ ksys::act::BaseProcLink _360;
-        /* 0x370 */ u8 _370[0x3b0 - 0x370];
+        /* 0x370 */ sead::SafeArray<ksys::act::BaseProcLink, 4> _370;
         /* 0x3b0 */ sead::SafeArray<ksys::act::BaseProcLink, 24> _3b0;
         /* 0x530 */ sead::SafeArray<ksys::MesTransceiverId, 20> _530;
         /* 0x710 */ sead::SafeArray<Payload, 24> _710;
