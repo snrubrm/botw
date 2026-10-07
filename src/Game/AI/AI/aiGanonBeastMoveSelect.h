@@ -17,6 +17,7 @@ public:
     void loadParams_() override;
 
     bool sub_71003E51DC();
+    bool sub_71003E5500(const sead::Vector3f* first, const sead::Vector3f* second);
 
 protected:
     // static_param at offset 0x38
