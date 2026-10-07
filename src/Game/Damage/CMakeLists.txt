@@ -13,6 +13,7 @@ target_sources(uking PRIVATE
     dmgClothStiffnessMgr.cpp
     dmgClothStiffnessMgr.h
     dmgActorAccessors.cpp
+    dmgInfoManagerActorLists.cpp
     dmgInfoManager.cpp
     dmgInfoManager.h
     dmgStruct20.h

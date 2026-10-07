@@ -4,6 +4,7 @@
 #include <container/seadBuffer.h>
 #include <container/seadSafeArray.h>
 #include <heap/seadDisposer.h>
+#include <mc/seadJobQueue.h>
 #include <thread/seadReadWriteLock.h>
 #include "Game/Damage/dmgClothStiffnessMgr.h"
 #include "Game/Damage/dmgUnk_7100671794.h"
@@ -51,12 +52,32 @@ public:
     bool isTrueFormMasterSword() const;
 
     // Placeholders (lane4 s49): the lock-protected actor lists embedded at +0x28 (lock at +0x41c, size 0x428) and +0x450
-    // (lock at +0xa0, size 0xa8). Methods declared only (names after their addresses).
+    // (lock at +0xa0, size 0xa8). Placeholder names follow their original addresses.
     struct Unk28 {
         // 0x710065ce14 (BattleTensionUp::m8) / 0x710065cf08 (BattleTensionUp::m9)
         void sub_710065CE14(ksys::act::Actor* actor);
         void sub_710065CF08(ksys::act::Actor* actor);
-        u8 _0[0x428];
+        Unk28();
+        ~Unk28();
+        // 2026-10-07: 32 entries constructed at 0x710065c96c; link/reset, countdown,
+        // rank and removal flag are independently written at offsets 0, 0x10, 0x14, 0x18.
+        struct Entry {
+            Entry() { mLink.reset(); }
+            ksys::act::BaseProcLink mLink;
+            f32 mCountdown = 0.0f;
+            s32 mRank = -1;
+            bool mRemove = false;
+        };
+        // The original removal loop advances an Entry*; destruction directly destroys all 32 entries.
+        Entry mEntries[32];
+        u8 _400[0xc];
+        s32 _40c = 0;
+        u8 _410[0xc];
+        sead::JobQueueLock mLock;
+        bool _420 = false;
+        bool _421 = false;
+        bool _422 = false;
+        bool _423 = false;
     };
     struct Unk450 {
         // 0x710065d5d4 (BossBgm::m9, sub_7100720A70) / 0x710065d428
@@ -65,8 +86,31 @@ public:
         // 0x710065d674 (lane4 s50; BossBgmDamaged::m7): stores the arguments in the slot of `actor`'s entry (slots at
         // +0x18 / +0x40 / +0x68 / +0x90, stride 0x28; `a` at +0x1c, the bools at +0x24 / +0x25, `d` at +0x14).
         void sub_710065D674(ksys::act::Actor* actor, s32 a, bool b, bool c, s32 d);
-        u8 _0[0xa8];
+        Unk450();
+        ~Unk450();
+        void sub_710065D0A8();
+        // 2026-10-07: four 0x28-byte linked entries, ctor 0x710065cfa4;
+        // the actor ID at +0x18 is distinct from the BaseProcLink's ID at +8.
+        struct Entry {
+            Entry() { mLink.reset(); }
+            ksys::act::BaseProcLink mLink;
+            f32 _10 = 0.0f;
+            s32 _14 = 0;
+            s32 mActorId = -1;
+            s32 _1c = 0;
+            s32 _20 = 0;
+            bool _24 = false;
+            bool _25 = false;
+            bool mRemove = false;
+        };
+        sead::SafeArray<Entry, 4> mEntries;
+        sead::JobQueueLock mLock;
+        s32 _a4 = 0;
     };
+    KSYS_CHECK_SIZE_NX150(Unk28::Entry, 0x20);
+    KSYS_CHECK_SIZE_NX150(Unk28, 0x428);
+    KSYS_CHECK_SIZE_NX150(Unk450::Entry, 0x28);
+    KSYS_CHECK_SIZE_NX150(Unk450, 0xa8);
     Unk28& get28() { return _28; }
     Unk450& get450() { return _450; }
 
