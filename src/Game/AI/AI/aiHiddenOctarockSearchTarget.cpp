@@ -1,7 +1,10 @@
 #include "Game/AI/AI/aiHiddenOctarockSearchTarget.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/AI/aiAwarenessFilters.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
+#include "KingSystem/ActorSystem/Awareness/actAwarenessRequest.h"
 
 namespace uking::ai {
 
@@ -51,6 +54,94 @@ void HiddenOctarockSearchTarget::calc_() {
 void HiddenOctarockSearchTarget::loadParams_() {
     getStaticParam(&mNoticeTerrorLevel_s, "NoticeTerrorLevel");
     getStaticParam(&mNoticeWorryRange_s, "NoticeWorryRange");
+}
+
+// 0x7100432b0c
+// NON_MATCHING: register allocation and tail sharing only (bool via w19, filter address kept in x20,
+// request zero-store position, 4a branch layout). All four scan blocks, both thresholds, the sensor
+// request and every call match.
+bool HiddenOctarockSearchTarget::sub_7100432B0C(sead::Vector3f* out) {
+    auto* awareness = mActor->getAwareness();
+    if (!awareness)
+        return false;
+
+    if (auto* sensor = awareness->_260[0]) {
+        if (sensor->_8.isBufferReady() && sensor->_8.size() >= 1) {
+            auto* check = ksys::act::sub_7100D78E30(&sensor->_8, 0);
+            if (u32(check->_a0) >= 2) {
+                Unk_71024514c0 filter(mActor);
+                if (auto* sensor2 = awareness->_260[0]) {
+                    if (auto* entry = ksys::act::sub_7100D7EEE8(&sensor2->_8, &filter)) {
+                        if (out)
+                            *out = entry->_88;
+                        return true;
+                    }
+                }
+            }
+        }
+    }
+
+    if (auto* sensor = awareness->_260[2]) {
+        if (sensor->_8.size() >= 1) {
+            if (auto* entry = ksys::act::sub_7100D78E30(&sensor->_8, 0)) {
+                if (*mNoticeTerrorLevel_s <= entry->_a4) {
+                    if (out)
+                        *out = entry->_88;
+                    return true;
+                }
+            }
+        }
+    }
+
+    if (auto* sensor = awareness->_260[1]) {
+        if (sensor->_8.isBufferReady() && sensor->_8.size() >= 1) {
+            auto* check = ksys::act::sub_7100D78E30(&sensor->_8, 0);
+            if (u32(check->_a0) >= 2) {
+                Unk_71024514e8 filter(mActor, nullptr);
+                if (auto* sensor2 = awareness->_260[1]) {
+                    if (auto* entry = ksys::act::sub_7100D7EEE8(&sensor2->_8, &filter)) {
+                        if (out)
+                            *out = entry->_88;
+                        return true;
+                    }
+                }
+            }
+        }
+    }
+
+    f32 range = *mNoticeWorryRange_s;
+    if (range < 0.0f) {
+        auto* awareness2 = mActor->getAwareness();
+        if (!awareness2)
+            return false;
+        Unk_71023e2780 request;
+        f32 value;
+        if (auto* sensor = awareness2->_260[3]) {
+            value = sensor->m4(&request) ? request._8 : 0.0f;
+            if (value > 0.0f)
+                range = value;
+            else
+                return false;
+        } else {
+            value = 0.0f;
+        }
+    }
+    if (range <= 0.0f)
+        return false;
+
+    Unk_7102451510 filter;
+    filter._28 = mActor;
+    auto* sensor = awareness->_260[3];
+    if (!sensor)
+        return false;
+    if (auto* entry = ksys::act::sub_7100D7EEE8(&sensor->_8, &filter)) {
+        if (entry->_a8 <= range) {
+            if (out)
+                *out = entry->_88;
+            return true;
+        }
+    }
+    return false;
 }
 
 }  // namespace uking::ai
