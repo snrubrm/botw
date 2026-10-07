@@ -20,6 +20,11 @@ public:
 protected:
     void calc_() override;
 
+    void m35(ksys::phys::RigidBody* a, ksys::phys::RigidBody* b,
+             ksys::act::RopeBase* rope) override;
+    // 0x71000b70dc (declared only).
+    bool sub_71000B70DC();
+
     // static_param at offset 0xf0
     const float* mLength_s{};
     // static_param at offset 0xf8

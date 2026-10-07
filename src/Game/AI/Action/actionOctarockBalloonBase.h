@@ -17,9 +17,12 @@ public:
     void leave_() override;
     void loadParams_() override;
 
-protected:
-    // 0xb8928 (declared only): out of line in the original.
+public:
+    // 0xb8928: out of line in the original. Public because Balloon::init_ calls it directly on its
+    // own object (via BalloonBase); it only reads Action+0x8, which has the same layout.
     void sub_71000B8928(f32 value);
+
+protected:
     void calc_() override;
     float m33() override;
     f32 m34(f32 current, f32 target, f32 step) override;
