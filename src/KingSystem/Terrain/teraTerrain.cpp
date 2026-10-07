@@ -20,6 +20,10 @@ void Terrain::sub_710114DDF8(u32 index, const sead::Vector3f* position, bool upd
     _360->sub_7101300B4C(index, position, update);
 }
 
+void Terrain::sub_710114DE04(u32 index, const sead::Vector3f* position, bool update) {
+    _360->sub_7101300F1C(index, position, update);
+}
+
 void Terrain::setPauseState(bool paused) {
     _a58 = paused ? _a58 | 8 : _a58 & ~u32(8);
     auto* grass = _360->_138;

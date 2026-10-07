@@ -52,6 +52,7 @@ public:
     };
     static_assert(sizeof(Unk_7101300b4c) == 0x1a0);
     void sub_7101300B4C(u32 index, const sead::Vector3f* position, bool update);
+    void sub_7101300F1C(u32 index, const sead::Vector3f* position, bool update);
     void sub_7101300BF0();
     void sub_710130085C();
     void sub_710130089C();
@@ -88,6 +89,7 @@ public:
                       const sead::Matrix34f* view);
     s32 sub_710114DD84(s32 index);
     void sub_710114DDF8(u32 index, const sead::Vector3f* position, bool update);
+    void sub_710114DE04(u32 index, const sead::Vector3f* position, bool update);
     void sub_710114DDA4(const Core::Unk_71013010d4* states, u32 count);
     bool isGrassEnabled() const { return (_a58 & 2) != 0; }
     Core::Grass* sub_710114DE4C();
