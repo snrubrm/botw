@@ -255,24 +255,23 @@ public:
         u8 _4e[0x50 - 0x4e];
     };
 
-    // Placeholder: node of the chain at ASList::_148 (the next node is at 0x30).
-    struct Unk6 {
+    // Placeholder: 0x18-byte entry of the define table (`_138`) that sub_710115AABC returns; the nodes of the chain at
+    // `_148` (Unk6) start with the same header. The elements are Element::m5 targets (sub_710115E13C); bit 1 of
+    // the byte at 0x10 is queried by sub_710115AD68.
+    struct Unk8 {
         sead::Buffer<Element*> _0;
-        u8 _10[0x11 - 0x10];
+        u8 _10;
         u8 _11;
         u8 _12;
         u8 _13[0x18 - 0x13];
+    };
+    static_assert(sizeof(Unk8) == 0x18);
+
+    // Placeholder: node of the chain at ASList::_148 (the next node is at 0x30).
+    struct Unk6 : Unk8 {
         sead::SafeString _18;
         const res::AS* _28;
         Unk6* _30;
-    };
-
-    // Placeholder: 0x18-byte entry of the define table (`_138`) that sub_710115AABC returns (bit 1 of the byte at
-    // 0x10 is queried by sub_710115AD68).
-    struct Unk8 {
-        u8 _0[0x10];
-        u8 _10;
-        u8 _11[0x18 - 0x11];
     };
 
     // Placeholder: 8-byte parameter value; depending on the parameter kind it holds a value or a
@@ -485,9 +484,14 @@ public:
     /* 0x0d8 */ act::Actor* _d8;  // owner
     /* 0x0e0 */ sead::Buffer<Unk3> _e0;
     /* 0x0f0 */ sead::SafeArray<s8, 0x43> _f0;
-    /* 0x133 */ u8 _133[0x148 - 0x133];
+    /* 0x133 */ u8 _133[0x138 - 0x133];
+    /* 0x138 */ sead::Buffer<Unk8> _138;  // parallel to the AS defines of the actor's res::ASList
     /* 0x148 */ Unk6* _148;
-    u8 _150[0x163 - 0x150];
+    u8 _150[0x158 - 0x150];
+    /* 0x158 */ void* _158;
+    /* 0x160 */ u8 _160;
+    /* 0x161 */ u8 _161;
+    /* 0x162 */ u8 _162;
     /* 0x163 */ u8 _163;
 };
 

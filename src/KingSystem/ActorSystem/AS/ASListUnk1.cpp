@@ -1,8 +1,47 @@
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/AS/asElement.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/Resource/Actor/resResourceASList.h"
 #include "KingSystem/System/VFR.h"
 
 namespace ksys::as {
+
+// (in this file so that the callers in ASList.cpp cannot see that `a5` is unused here)
+// NON_MATCHING: when the define is not found and `a5` is false the original calls
+// `as_list->getPath().findIndex("Dummy.baslist")` and drops the result (a stripped diagnostic); the compiler removes
+// the call here because the result is unused.
+ASList::Unk8* ASList::sub_710115AABC(const sead::SafeString& name, sead::SafeString* out_name,
+                                     bool* out_a3, void** out_a4, bool a5) {
+    *out_a3 = false;
+    *out_a4 = nullptr;
+    if (!_d8)
+        return nullptr;
+
+    Unk8* result;
+    const s32 index = _d8->getParam()->getRes().mASList->findASDefine(name);
+    if (index >= 0) {
+        result = &_138[index];
+        *out_name = _d8->getParam()->getRes().mASList->getASDefines()[index].name.ref();
+        *out_a4 = _d8->getParam()->getRes().mASList->getASDefines()[index].as;
+        return result;
+    } else {
+        Unk6* node = _148;
+        while (node && !(name == node->_18))
+            node = node->_30;
+        if (!node)
+            return nullptr;
+        *out_a3 = true;
+        if (_160 > (*_c8.begin())->_0->sub_7101258E08() ||
+            _162 > (*_c8.begin())->_0->sub_7101258E20() ||
+            _161 > (*_c8.begin())->_0->sub_7101258E14()) {
+            if (!_158)
+                return nullptr;
+        }
+        *out_name = node->_18;
+        *out_a4 = const_cast<res::AS*>(node->_28);
+        return node;
+    }
+}
 
 // (in this file because the original does not inline Unk2::sub_7101162E88 into it)
 void ASList::sub_710115C1D0(int slot, int other_slot, int bank, int other_bank) {
