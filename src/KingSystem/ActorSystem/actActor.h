@@ -414,6 +414,9 @@ public:
     bool x_8(bool a1);
     // CSV Actor::x_9: sets _4f0 (and _68e when it changes).
     void sub_71011CCB1C(f32 value);
+    // 0x710011ccbd0 (declaration only; placeholder name): Actor TU helper clearing _68e (called by
+    // Swarm::m74; body not written).
+    void sub_710011CCBD0();
     // Sets mModelBindInfo (ignored while ActorFlag::_5 is set).
     void sub_71011DA824(ActorBind* info);
     // Clears mModelBindInfo (ignored while ActorFlag::_5 is set). `info` (the object passed to

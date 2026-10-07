@@ -4,6 +4,7 @@
 #include "Game/gameStasisMgr.h"
 #include "KingSystem/ActorSystem/actActorSystem.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actDebug.h"
 
 namespace uking::act {
 
@@ -17,6 +18,20 @@ Unk_71025ae680* Swarm::m178(sead::Heap* heap) {
 // compile as an override of Actor's bool m39())
 bool Swarm::m39() {
     return _14c8.getSize();
+}
+
+void Swarm::m74() {
+    sub_710011CCBD0();
+    if ((mActorFlags2.getDirect() & 0x21) != 0)
+        return;
+    auto* debug = ksys::act::ActorDebug::instance();
+    if (debug && (debug->mFlags.getDirect() & 0x4000) != 0)
+        return;
+    for (s32 i = 0; i < _14c8.size(); ++i) {
+        Unit* unit = _14c8[i];
+        if ((unit->_b8 & 3) == 0 && unit->_78)
+            unit->_78->requestDraw();
+    }
 }
 
 void Swarm::m63() {
