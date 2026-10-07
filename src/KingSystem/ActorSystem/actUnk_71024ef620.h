@@ -60,4 +60,8 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(Unk_71024ef620, 0x90);
 
+// 0x7100eba4ac (declared only; lane1 s46): `delete body` (null-checked virtual call of the deleting destructor), out of
+// line in the original.
+void sub_7100EBA4AC(Unk_71024ef620* body);
+
 }  // namespace ksys::act

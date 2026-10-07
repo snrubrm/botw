@@ -2,6 +2,7 @@
 #include "KingSystem/ActorSystem/actAttackSensor.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "Game/Actor/actSwarm.h"
 #include "Game/Actor/actUnk_71025ae680.h"
 
@@ -9,7 +10,15 @@ namespace uking::ai {
 
 BeeSwarmRoot::BeeSwarmRoot(const InitArg& arg) : SwarmRoot(arg) {}
 
-BeeSwarmRoot::~BeeSwarmRoot() = default;
+BeeSwarmRoot::~BeeSwarmRoot() {
+    auto& link = mActor->getCreateArgBaseProcLink();
+    if (link.hasProc()) {
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::acquireActor(&link, &accessor);
+        mActor->sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x300000d),
+                            nullptr, false);
+    }
+}
 
 bool BeeSwarmRoot::init_(sead::Heap* heap) {
     return SwarmRoot::init_(heap);

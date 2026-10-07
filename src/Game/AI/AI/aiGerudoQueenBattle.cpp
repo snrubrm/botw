@@ -1,6 +1,7 @@
 #include "Game/AI/AI/aiGerudoQueenBattle.h"
 #include "Game/AI/aiUnk_710073033C.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/World/worldEnvMgr.h"
 #include "KingSystem/World/worldManager.h"
@@ -10,7 +11,28 @@ namespace uking::ai {
 
 GerudoQueenBattle::GerudoQueenBattle(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
-GerudoQueenBattle::~GerudoQueenBattle() = default;
+GerudoQueenBattle::~GerudoQueenBattle() {
+    if (_50.hasProc()) {
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::acquireActor(&_50, &accessor);
+        accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+        _50.reset();
+    }
+    if (_60.hasProc())
+        _60.reset();
+    if (_70.hasProc())
+        _70.reset();
+    if (_80) {
+        ksys::act::sub_7100EBA4AC(_80);
+        _80 = nullptr;
+    }
+    if (_118) {
+        mActor->sub_71011DA868(&_118[0]);
+        mActor->sub_71011DA868(&_118[1]);
+        mActor->sub_71011DA868(&_118[2]);
+        delete[] _118;
+    }
+}
 
 // NON_MATCHING: register numbering (the original keeps `this` in x20 and `&_70` in x19)
 bool GerudoQueenBattle::sub_71003F4648() {

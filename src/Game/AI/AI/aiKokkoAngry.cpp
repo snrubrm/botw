@@ -1,6 +1,8 @@
 #include "Game/AI/AI/aiKokkoAngry.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "Game/AI/Action/actionSpotBgmTriggerAction.h"
 #include "Game/Actor/actEnemy.h"
+#include "KingSystem/GameData/gdtSpecialFlags.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
@@ -8,7 +10,15 @@ namespace uking::ai {
 
 KokkoAngry::KokkoAngry(const InitArg& arg) : CreateActorWithTarget(arg) {}
 
-KokkoAngry::~KokkoAngry() = default;
+KokkoAngry::~KokkoAngry() {
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
+        if (enemy->_e84.isOnBit(6)) {
+            ksys::gdt::setBoolByKey(false, "Kokko_Event_Running", false);
+            if (auto* mgr = sub_710FFD7CC())
+                mgr->sub_710FFBEA8(false);
+        }
+    }
+}
 
 bool KokkoAngry::init_(sead::Heap* heap) {
     return CreateActorWithTarget::init_(heap);
