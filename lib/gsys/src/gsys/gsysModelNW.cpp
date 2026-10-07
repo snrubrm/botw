@@ -12,6 +12,14 @@ bool ModelNW::initialize(nn::g3d::ResModel* model, s32 buffer_num, sead::Heap* h
 }
 
 
+void ModelNW::getMaterialUserData(ModelNW** model, u16* material_index, const void* user_data) {
+    const auto* data = static_cast<const MaterialUserData*>(user_data);
+    if (model)
+        *model = data->model;
+    if (material_index)
+        *material_index = data->material_index;
+}
+
 void ModelNW::calcBounding() {
     if ((_200 & 2) && _50 == &_40)
         calcBounding_();

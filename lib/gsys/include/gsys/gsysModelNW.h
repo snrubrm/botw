@@ -42,6 +42,14 @@ public:
     bool initialize(nn::g3d::ResModel* model, s32 buffer_num, sead::Heap* heap);
     bool initialize(const CreateArg& arg, sead::Heap* heap);
 
+    // initialize c0334c allocates 0x10-byte records, stores this at +0 and
+    // the material index at +8, then installs each record as MaterialObj user data.
+    struct MaterialUserData {
+        ModelNW* model;
+        u16 material_index;
+    };
+    static void getMaterialUserData(ModelNW** model, u16* material_index, const void* user_data);
+
     struct BoneCallbackArg;
 
     static s32 getSubMeshRangeNum(s32 type, s32 count);

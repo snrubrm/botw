@@ -25,8 +25,6 @@ public:
     void setCapture(DynamicCapturePane* capture_pane, u8 texture_index);
 
 private:
-    // The Window members (0xe0 - 0x138) are not recovered.
-    u8 _e0[0x138 - 0xe0];
     /* 0x138 */ DynamicCapturePane* mCapturePane;
     /* 0x140 */ u8 mTextureIndex;
 };
