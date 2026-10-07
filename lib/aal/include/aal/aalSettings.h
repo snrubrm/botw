@@ -2,6 +2,7 @@
 
 #include <basis/seadTypes.h>
 #include <container/seadSafeArray.h>
+#include <hostio/seadHostIONode.h>
 #include "aal/aalDeviceType.h"
 #include "aal/aalOutputMode.h"
 
@@ -14,13 +15,15 @@ enum class SpeakerBalanceMode : u32;
 
 /// The settings of the aal system. TODO: incomplete: the vtable (offset 0), the output mode (0x8), the SDK
 /// and the speaker balance modes (0x54) are not modeled.
-class Settings {
+class Settings : public sead::hostio::Node {
 public:
     Settings();
     virtual ~Settings();
 
     /// Calculates the output device.
     void calc();
+    /// Changes the output mode of the device (also of the sound library).
+    void setOutputMode(OutputMode output_mode, DeviceType device);
     /// Also recalculates what the speaker balance unifiers have precalculated.
     void setSpeakerBalanceMode(OutputMode output_mode, SpeakerBalanceMode mode);
     SpeakerBalanceMode getCurrentSpeakerBalanceMode(DeviceType device) const;
@@ -60,7 +63,12 @@ public:
     f32 mDopplerPitchMin;
     f32 mDopplerPitchMax;
     u32 mDopplerMode;
-    u8 _44[0x54 - 0x44];
+    /// The volumes of the outputs of the sound library (Settings::initialize passes them on).
+    f32 mTVOutputVolume;
+    f32 mBuildInSpeakerOutputVolume;
+    f32 mStereoJackOutputVolume;
+    u16 _50;
+    u8 _52[0x54 - 0x52];
     sead::SafeArray<SpeakerBalanceMode, 3> mSpeakerBalanceModes;
 };
 

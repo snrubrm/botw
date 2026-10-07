@@ -52,6 +52,7 @@ add_library(aal OBJECT
   include/aal/aalRequestIntervalLimiter.h
   include/aal/aalRequestSoundLimiter.h
   include/aal/aalRollOffCurve.h
+  include/aal/aalSDKFoundation.h
   include/aal/aalSettings.h
   include/aal/aalShape.h
   include/aal/aalShapeMgr.h

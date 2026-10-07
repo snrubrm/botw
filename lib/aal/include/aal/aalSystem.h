@@ -3,6 +3,7 @@
 #include <basis/seadTypes.h>
 
 namespace sead {
+class AudioMgr;
 class Heap;
 }
 
@@ -16,6 +17,7 @@ class ListenerMgr;
 class Settings;
 class ShapeMgr;
 class SoundSourceUnifier;
+class SDKFoundation;
 class SpeakerBalanceUnifierMgr;
 
 /// The aal system singleton. TODO: only the manager pointers read through aal::SystemAccessor are modeled.
@@ -36,12 +38,17 @@ public:
     SpeakerBalanceUnifierMgr* mSpeakerBalanceUnifierMgr;
     SoundSourceUnifier* mSoundSourceUnifier;
     FinalFxMgr* mFinalFxMgr;
-    u8 _78[0x28];
+    u8 _78[0x10];
+    SDKFoundation* mSDKFoundation;
+    u8 _90[0x10];
     /// The directory of the stream files.
     const char* mStreamFileRoot;
     u8 _a8[0xe8 - 0xa8];
     /// The heap of the debug tools (HostIO): the components that are created through HostIO are allocated on it.
     sead::Heap* mDebugHeap;
+    u8 _f0[0x108 - 0xf0];
+    /// The audio manager of the sound library (nullptr if the library is not used).
+    sead::AudioMgr* mAudioMgr;
 };
 
 }  // namespace aal
