@@ -1,10 +1,17 @@
 #include "aal/aalSDKFoundation.h"
 #include <nn/atk/detail/Util.h>
+#include <nn/atk/SoundSystem.h>
 #include <nn/atk/detail/driver/HardwareManager.h>
 
 namespace aal {
 
 static nn::audio::AudioDeviceName sDeviceNames[3];
+
+// 0x7100ba0c20
+void SDKFoundation::calc() {
+    if (mIsInitialized && nn::atk::SoundSystem::IsInitialized() && mSoundArchivePlayer.IsAvailable())
+        mSoundArchivePlayer.Update();
+}
 
 // 0x7100ba0c6c
 void SDKFoundation::setOutputMode(OutputMode mode, DeviceType device) {

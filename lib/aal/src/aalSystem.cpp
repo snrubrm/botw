@@ -5,6 +5,11 @@ namespace aal {
 
 System* System::sInstance;
 
+// 0x7100b7a098
+void System::setLoopAssetListReader(LoopAssetListReader& reader) {
+    mLoopAssetListReader = reader;
+}
+
 // 0x7100b7a0a4
 void System::drawInformation3D(sead::DrawContext*, const sead::Camera&, const sead::Projection&,
                                const sead::Viewport&) const {}

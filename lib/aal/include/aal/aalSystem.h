@@ -1,6 +1,7 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include "aal/aalCurveReader.h"
 
 namespace sead {
 class AudioMgr;
@@ -30,6 +31,9 @@ class System {
 public:
     static System* sInstance;
 
+    /// 0x7100b7a098
+    void setLoopAssetListReader(LoopAssetListReader& reader);
+
     /// 0x7100b7a0a4: draws nothing in the retail build.
     void drawInformation3D(sead::DrawContext* context, const sead::Camera& camera,
                            const sead::Projection& projection, const sead::Viewport& viewport) const;
@@ -56,7 +60,8 @@ public:
     u8 _a8[0xe8 - 0xa8];
     /// The heap of the debug tools (HostIO): the components that are created through HostIO are allocated on it.
     sead::Heap* mDebugHeap;
-    u8 _f0[0x108 - 0xf0];
+    u8 _f0[0x100 - 0xf0];
+    LoopAssetListReader mLoopAssetListReader;
     /// The audio manager of the sound library (nullptr if the library is not used).
     sead::AudioMgr* mAudioMgr;
 };
