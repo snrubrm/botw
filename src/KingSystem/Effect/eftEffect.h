@@ -20,6 +20,11 @@ public:
     // Tested by ItemConductor::calc_ (a byte load of bit 0 at +0x192f5); meaning unknown.
     static constexpr u32 cFlag_Unk100 = 0x100;
 
+    // 0x71011b63ac / 0x71011b7b0c (CSV calcMostProbably / calcMostProbably2; declaration only): called by
+    // MCMgr::invoked3.
+    void calcMostProbably();
+    void calcMostProbably2();
+
     void setFlags(u32 mask) { mFlags |= mask; }
     void clearFlags(u32 mask) { mFlags &= ~mask; }
     bool hasFlags(u32 mask) const { return (mFlags & mask) != 0; }

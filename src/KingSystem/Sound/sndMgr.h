@@ -6,6 +6,7 @@
 #include <prim/seadSafeString.h>
 #include <container/seadPtrArray.h>
 #include <aal/aalHandle.h>
+#include <thread/seadCriticalSection.h>
 
 namespace aal {
 class Shape;
@@ -192,6 +193,11 @@ struct Unk_SoundMgr60 {
 struct Unk_SoundInstance {
     // 0x710104acb4 (declared only; 68 B).
     bool sub_710104ACB4();
+    // Declared only (placeholder names; the callers are the Unk_SoundMgra8 list queries):
+    bool sub_710104AFBC(int a);    // 0x710104afbc
+    bool sub_710104AFC0(void* a);  // 0x710104afc0
+    bool sub_710104B1D8(void* a);  // 0x710104b1d8
+    bool sub_710104ADB8(int a);    // 0x710104adb8
     // 0x710104ac00 (declared only): the volume this instance gives `actor` (negative: none).
     f32 sub_710104AC00(ksys::act::Actor* actor);
 
@@ -212,8 +218,16 @@ public:
     f32 sub_710104B558(ksys::act::Actor* actor);
     // 0x710104b5dc: `idx` is below the count at +0x4a70.
     bool sub_710104B5DC(u32 idx) const;
+    // 0x710104b68c: the first instance for which sub_710104B1D8(a) holds, passed on to sub_710104ADB8(b); false if none.
+    bool sub_710104B68C(void* a, int b);
+    // 0x710104b708 / 0x710104b76c: whether any instance answers sub_710104AFBC(a) / sub_710104AFC0(a).
+    bool sub_710104B708(int a);
+    bool sub_710104B76C(void* a);
+    // 0x710104b7d0: increments (under the critical section) and returns the counter at +0x4a70.
+    int sub_710104B7D0();
 
-    u8 _0[0x48];
+    u8 _0[8];
+    /* 0x8 */ sead::CriticalSection mCS;
     /* 0x48 */ bool _48;
     /* 0x49 */ bool _49;
     u8 _4a[0x50 - 0x4a];

@@ -29,6 +29,8 @@ target_sources(uking PRIVATE
     Hio.h
     KingEditor.cpp
     KingEditor.h
+    MCMgr.cpp
+    MCMgr.h
     MemoryProfiler.cpp
     MemoryProfiler.h
     MessageCapture.cpp

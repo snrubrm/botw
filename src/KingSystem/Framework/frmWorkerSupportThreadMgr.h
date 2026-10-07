@@ -33,6 +33,7 @@ public:
     void pauseThreads();
     void resumeThreads();
     void destroyThreads();
+    bool isThreadsPaused() const { return mThreadsPaused; }
 
 private:
     static constexpr int NumWorkers = 2;

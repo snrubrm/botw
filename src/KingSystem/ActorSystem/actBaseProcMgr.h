@@ -223,6 +223,9 @@ public:
     u32 getNumJobTypes() const { return mJobLists.size(); }
     BaseProcJobLists& getJobLists(JobType type) { return mJobLists[u32(type)]; }
     bool isPushingJobs() const { return mIsPushingJobs; }
+    // Used by MCMgr::processAllBaseProcMgrJobsType3 (names follow the members).
+    void setEnableExtraJobPush(bool enabled) { mEnableExtraJobPush = enabled; }
+    bool isPushActorJobType3InsteadOf6() const { return mPushActorJobType3InsteadOf6; }
 
     static u32 sConstant0;
     static u32 sConstant1;
