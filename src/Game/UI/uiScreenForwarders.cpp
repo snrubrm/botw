@@ -43,4 +43,8 @@ void ScreenMainHardMode::close(s32 option) {
     Screen::close(option);
 }
 
+eui::TagProcessor* ScreenMessageDialog::doCreateTagProcessor_(sead::Heap* heap) {
+    return ScreenBase::doCreateTagProcessor_(heap);
+}
+
 }  // namespace uking::ui

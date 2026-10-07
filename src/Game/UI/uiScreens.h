@@ -828,6 +828,7 @@ public:
 // 0x71010b25c8 takes a bool). Only the nominal type and the members read by the UI facade are recovered.
 class ScreenMessageDialog : public Screen {
 public:
+    eui::TagProcessor* doCreateTagProcessor_(sead::Heap* heap) override;
     ~ScreenMessageDialog() override;
     SEAD_RTTI_OVERRIDE(ScreenMessageDialog, Screen)
     // 0x71010b34d0
