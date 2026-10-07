@@ -1,3 +1,4 @@
+#include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 #include <math/seadMathCalcCommon.h>
 #include <prim/seadRuntimeTypeInfo.h>
@@ -59,6 +60,21 @@ AttActionCodeValue sub_710086B194() {
     Attention::instance()->sub_7100D7482C(&accessor);
     return AttActionCodeValue(accessor.sub_7100D10FB8() ? 0x1800000 :
                                                           int(Attention::instance()->sub_7100D74880()));
+}
+
+bool Player::sub_7100892724() {
+    bool result = false;
+    if (m224()) {
+        result = true;
+        if (!getASList()->sub_710115FBC8(0, nullptr, &as::ASList::Unk2::sub_71011638DC, true)) {
+            if (!getASList()->sub_710115ED5C(0x42, 0x24) ||
+                !getASList()->sub_710115ED5C(0x42, 0x26) ||
+                getASList()->x(0x16, nullptr, 0, 0, &as::ASList::Unk2::sub_71011638DC, true)) {
+                result = false;
+            }
+        }
+    }
+    return result;
 }
 
 }  // namespace ksys::act
