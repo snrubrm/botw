@@ -5,6 +5,8 @@ namespace eui {
 
 FrameBufferMultiFilter::FrameBufferMultiFilter() = default;
 
+FrameBufferMultiFilter::~FrameBufferMultiFilter() = default;
+
 void FrameBufferMultiFilter::freeResultTexture(const agl::TextureData* texture) {
     if (mMultiFilter && mMultiFilter->getResultTexture())
         mMultiFilter->freeResultTexture();
