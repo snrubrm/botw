@@ -22,6 +22,7 @@ public:
 
 protected:
     bool sub_7100325F84();
+    bool sub_7100326384();
 
     // static_param at offset 0x90
     const float* mBackAttackAngle_s{};
