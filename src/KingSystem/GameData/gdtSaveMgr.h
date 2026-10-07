@@ -80,6 +80,8 @@ public:
     bool sub_7100E044A8(const sead::SafeString& path, void* data, u32 value, u32 size);
     // 0x7100e04968 (CSV x; declared only): writes `size` bytes of `buffer` to the save file `path`.
     bool x(const sead::SafeString& path, void* buffer, u32 size);
+    bool saveAlbumPicture(const sead::SafeString& path, void* data, s32 size, u32 capacity);
+    bool sub_7100E0461C(const sead::SafeString& path, void* data, s32 size, u32 capacity);
     bool x_1(s32 index, const sead::SafeString& path, bool a, bool byte_swap);
     bool sub_7100E041D0(s32 index, const sead::SafeString& file_name);
     bool sub_7100E04810(s32 index, const sead::SafeString& file_name);
@@ -116,7 +118,9 @@ private:
     u8 _144[4];
     s32 _148;
     s32 _14c[32];
-    u8 _1cc[0x328 - 0x1cc];
+    u8 _1cc[4];
+    sead::FixedSafeString<256> _1d0;
+    u8 _2e8[0x328 - 0x2e8];
     res::Handle mSaveDataArcHandle;
     sead::SafeArray<res::Handle, 32> mSaveDataHandles;
     u8 _d78[0xe00 - 0xd78];
@@ -125,7 +129,12 @@ private:
     u32 _e10;
     u32 _e14;
     u32 _e18;
-    u8 _e1c[0xe40 - 0xe1c];
+    u8 _e1c[0xe28 - 0xe1c];
+    u32 _e28;
+    bool _e2c;
+    u8 _e2d[3];
+    void* _e30;
+    u8 _e38[8];
     u32 _e40;
     u32 _e44;
     u32 _e48;

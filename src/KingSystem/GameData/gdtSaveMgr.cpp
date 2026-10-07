@@ -294,7 +294,54 @@ u32 SaveMgr::sub_7100E0F578() const {
     return 3;
 }
 
-// NON_MATCHING: size and buffer argument copies and stores are scheduled differently.
+// NON_MATCHING: guard checks and return branches are scheduled differently.
+bool SaveMgr::saveAlbumPicture(const sead::SafeString& path, void* data, s32 size,
+                               u32 capacity) {
+    if (size == 0 || _38 != 0 || size > s32(capacity) || capacity >= _e10)
+        return false;
+    _38 = 2;
+    _e2c = true;
+    std::memset(_e30, 0, s32(capacity));
+    std::memcpy(_e30, data, size);
+    _e28 = capacity;
+    _1d0.copy(path);
+    _30->sendMessage(3, sead::MessageQueue::BlockType::NonBlocking);
+    return true;
+}
+
+// NON_MATCHING: guard checks and return branches are scheduled differently.
+bool SaveMgr::sub_7100E044A8(const sead::SafeString& path, void* data, u32 size,
+                               u32 capacity) {
+    if (size == 0 || _38 != 0 || s32(size) > s32(capacity) || capacity >= _e10)
+        return false;
+    _38 = 2;
+    _e2c = true;
+    std::memset(_e30, 0, s32(capacity));
+    std::memcpy(_e30, data, s32(size));
+    _e28 = capacity;
+    _1d0.copy(path);
+    _30->sendMessage(3, sead::MessageQueue::BlockType::NonBlocking);
+    return true;
+}
+
+// NON_MATCHING: guard checks and return branches are scheduled differently.
+bool SaveMgr::sub_7100E0461C(const sead::SafeString& path, void* data, s32 size,
+                               u32 capacity) {
+    _f8 = false;
+    if (size == 0 || _38 != 0 || size > s32(capacity) || capacity >= _e10) {
+        _f8 = true;
+        return false;
+    }
+    _38 = 2;
+    _e2c = true;
+    std::memset(_e30, 0, s32(capacity));
+    std::memcpy(_e30, data, size);
+    _e28 = capacity;
+    _1d0.copy(path);
+    _30->sendMessage(3, sead::MessageQueue::BlockType::NonBlocking);
+    return true;
+}
+
 // NON_MATCHING: the library string comparison expands the byte loop.
 bool SaveMgr::sub_7100E041D0(s32 index, const sead::SafeString& file_name) {
     if (_38 != 0)
@@ -348,6 +395,7 @@ bool SaveMgr::sub_7100E04810(s32 index, const sead::SafeString& file_name) {
     return false;
 }
 
+// NON_MATCHING: size and buffer argument copies and stores are scheduled differently.
 bool SaveMgr::x(const sead::SafeString& path, void* buffer, u32 size) {
     if (_38 != 0)
         return false;
