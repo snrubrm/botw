@@ -4,6 +4,7 @@
 #include <math/seadMathCalcCommon.h>
 #include "aal/aalEmitter.h"
 #include "aal/aalArbiter.h"
+#include "aal/aalAuxBusMgr.h"
 #include "aal/aalGroup.h"
 #include "aal/aalISpeakerBalanceSupplier.h"
 #include "aal/aalListenerMgr.h"
@@ -345,6 +346,53 @@ void SoundSource::updateBiquadFilter_() {
 
     value = sead::Mathf::clamp(value, 0.0f, 1.0f);
     mPlayingStateController->mSoundController->setBiquadFilter(mAggregatedParam->getBiquadType(), value);
+}
+
+// 0x7100b7859c
+void SoundSource::updateBusVolume_() {
+    SoundController* controller = mPlayingStateController->mSoundController;
+    controller->setBusVolume(BusType(0), mAggregatedParam->getBusVolume(BusType(0)));
+    f32 aux_a = mAggregatedParam->getBusVolume(BusType(1));
+    f32 aux_b = mAggregatedParam->getBusVolume(BusType(2));
+    f32 aux_c = mAggregatedParam->getBusVolume(BusType(3));
+
+    f32 env_fx_send = 0.0f;
+    bool has_env_fx_send;
+    if (mSpeakerBalanceSupplier) {
+        env_fx_send = mSpeakerBalanceSupplier->getEnvFxReduction();
+        has_env_fx_send = env_fx_send >= 0.0f;
+    } else if (mSpatialPlayingParam) {
+        env_fx_send = mSpatialPlayingParam->getEnvFxSend();
+        has_env_fx_send = env_fx_send >= 0.0f;
+    } else {
+        has_env_fx_send = false;
+    }
+
+    if (has_env_fx_send) {
+        AuxBusMgr* mgr = AuxBusMgr::sInstance;
+        BusType bus = mgr->getEnvFxBus();
+        f32 send = mgr->getMinEnvFxSend();
+        if (env_fx_send > 0.0f)
+            send += env_fx_send * (mgr->getMaxEnvFxSend() - send);
+
+        switch (bus) {
+        case BusType::AuxA:
+            aux_a = sead::Mathf::clamp(aux_a + send, 0.0f, 1.0f);
+            break;
+        case BusType::AuxB:
+            aux_b = sead::Mathf::clamp(aux_b + send, 0.0f, 1.0f);
+            break;
+        case BusType::AuxC:
+            aux_c = sead::Mathf::clamp(aux_c + send, 0.0f, 1.0f);
+            break;
+        default:
+            break;
+        }
+    }
+
+    controller->setBusVolume(BusType(1), aux_a);
+    controller->setBusVolume(BusType(2), aux_b);
+    controller->setBusVolume(BusType(3), aux_c);
 }
 
 // 0x7100b78524

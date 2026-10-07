@@ -2,6 +2,8 @@
 
 namespace aal {
 
+AuxBusMgr* AuxBusMgr::sInstance = nullptr;
+
 // 0x7100b7a998
 f32 AuxBusMgr::getAudioFrameTime() const {
     return 0.005f;
