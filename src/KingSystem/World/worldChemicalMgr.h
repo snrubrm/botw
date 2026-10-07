@@ -9,6 +9,7 @@
 namespace ksys::act {
 class Actor;
 class Chemical;
+class Unk_71024dd490;
 }
 
 // Name from the CSV; partial declaration of ChemicalMgr's carried chemical-element pool.
@@ -19,6 +20,7 @@ public:
     void sub_71010C9D00(ksys::act::Actor* actor);
     void sub_71010C9E48(ksys::act::Actor* actor);
     void sub_71010C9438();
+    void sub_71010C9B48();
     sead::CriticalSection _8;
     u8 _48[0x90 - 0x48];
 };
@@ -44,6 +46,7 @@ public:
     JobType getType() const override { return JobType::Chemical; }
 
     void initBeforeStageGen();
+    void sub_71010CB39C();
     void unload2();
     void sub_71010CC5AC();
     void sub_71010CC5B4();
@@ -70,7 +73,7 @@ public:
     sead::CriticalSection _68;
     u8 _a8[0x10];
     sead::FixedObjList<ChemicalPair, 64> mChemicalPairs;
-    void* _ae8;  // chemical element holder (type incomplete), read by Manager::getElementHolderMaybe.
+    act::Unk_71024dd490* _ae8;  // Actual Element holder created by sub_7100D9A1D0.
     u8 _af0[0xb10 - 0xaf0];
     u8 _b10;
     u8 _b11[0xc10 - 0xb11];

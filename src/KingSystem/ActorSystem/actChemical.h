@@ -119,6 +119,8 @@ public:
     void sub_7100D91978(f32 value);
     f32 sub_7100D91A10(int a1, int a2) const;
     f32 sub_7100D91BE4(int a1, int a2) const;
+    // Original D8F0FC resets the chemical state after D8EEE0; called by its holder.
+    void sub_7100D8F0FC();
     f32 sub_7100D945AC() const;
     // 2026-10-07: clears the two charge values at 0x1b4 / 0x1b8.
     void sub_7100D93B84();

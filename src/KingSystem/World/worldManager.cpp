@@ -1016,11 +1016,11 @@ u8 Manager::sub_71010F3308() const {
     }
 }
 
-void* Manager::getChemicalMgrFieldAE8() const {
+act::Unk_71024dd490* Manager::getChemicalMgrFieldAE8() const {
     return static_cast<ChemicalMgr*>(mMgrs.unsafeAt(8))->_ae8;
 }
 
-void* Manager::getElementHolderMaybe() const {
+act::Unk_71024dd490* Manager::getElementHolderMaybe() const {
     return static_cast<ChemicalMgr*>(mMgrs.unsafeAt(8))->_ae8;
 }
 

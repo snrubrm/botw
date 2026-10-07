@@ -1,7 +1,17 @@
 #include "KingSystem/World/worldChemicalMgr.h"
 #include <prim/seadScopedLock.h>
+#include "KingSystem/ActorSystem/actChemicalElementHolder.h"
 
 namespace ksys::world {
+
+void ChemicalMgr::initBeforeStageGen() {
+    sead::ScopedLock<sead::CriticalSection> lock(&mChemicalPairLock);
+    _cf8.sub_71010C9B48();
+    _ae8->sub_7100D9AA84();
+    mChemicalPairs.clear();
+    sub_71010CB39C();
+}
+
 
 void ChemicalMgr::sub_71010CC5AC() {
     _cf8.sub_71010C9438();

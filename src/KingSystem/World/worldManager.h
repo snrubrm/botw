@@ -216,7 +216,7 @@ public:
     EnvMgr* getEnvMgrUnchecked() const { return static_cast<EnvMgr*>(mMgrs.unsafeAt(6)); }
     DofMgr* getDofMgr() const { return static_cast<DofMgr*>(mMgrs[7]); }
     // 0x71010f7930: the chemical manager's element holder.
-    void* getElementHolderMaybe() const;
+    act::Unk_71024dd490* getElementHolderMaybe() const;
     ChemicalMgr* getChemicalMgr() const { return static_cast<ChemicalMgr*>(mMgrs[8]); }
     void sub_71010F78A4();
     void sub_71010F78C4();
@@ -242,7 +242,7 @@ public:
     u8 sub_71010F3308() const;
     bool sub_71010F3A94();
     // 0x71010f7960 (CSV WorldMgr::getChemicalMgrFieldAE8): same body as getElementHolderMaybe.
-    void* getChemicalMgrFieldAE8() const;
+    act::Unk_71024dd490* getChemicalMgrFieldAE8() const;
 
 private:
     friend class SkyMgr;  // SkyMgr::sub_71010E4FFC reads mTimer directly (0x71010e5068).
