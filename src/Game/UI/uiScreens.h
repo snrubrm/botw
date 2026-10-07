@@ -995,7 +995,7 @@ public:
     /* 0x300 */ eui::Animator* _300{};
     /* 0x308 */ eui::AnimatorSet _308;
     /* 0x328 */ eui::AnimatorSet _328;
-    /* 0x348 */ void* _348{};
+    /* 0x348 */ eui::Animator* _348{};
     /* 0x350 */ s32 _350 = 1;
     /* 0x354 */ s32 _354 = -1;
     /* 0x358 */ bool _358 = false;

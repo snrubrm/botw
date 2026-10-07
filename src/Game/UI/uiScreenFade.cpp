@@ -318,6 +318,30 @@ void Fade::clearSomeTipsField() {
 
 namespace uking::ui {
 
+void ScreenFadeDemo::sub_71010A0200() {
+    if (!isClosed() && !isOpened())
+        return;
+    if (_350 == 3) {
+        _308.mCurrent->StopAtMin();
+        if (isOpened())
+            _348->StopAtMax();
+        else
+            _348->StopAtMin();
+        mLayout->mOpenAnimator = _348;
+        mLayout->mCloseAnimator = nullptr;
+    } else {
+        _348->StopAtMin();
+        _308.select(_350);
+        _328.select(_350);
+        if (isOpened())
+            _308.mCurrent->StopAtMax();
+        else
+            _308.mCurrent->StopAtMin();
+        mLayout->mOpenAnimator = _308.mCurrent;
+        mLayout->mCloseAnimator = _328.mCurrent;
+    }
+}
+
 void ScreenFadeDemo::sub_71010A01F8(s32 value) {
     _350 = value;
     sub_71010A0200();
