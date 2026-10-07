@@ -8,6 +8,10 @@ Unk_710070f974::Unk_710070f974() = default;
 
 Unk_710070f974::~Unk_710070f974() = default;
 
+void Unk_710070f974::sub_710070F984(ksys::act::ai::ActionBase* action) {
+    action->getAITreeVariable(&_10, "LynelMoveParam");
+}
+
 void Unk_710070f974::sub_710070F9CC(ksys::act::Actor* actor) {
     _0 = 0;
     if (auto* as_list = actor->getASList())

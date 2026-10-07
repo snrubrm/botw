@@ -94,7 +94,6 @@ void SiteBoss::m117(ksys::act::Unk117* arg) {
     forwardX17ToParts(this, arg);
 }
 
-// NON_MATCHING: member types incomplete
 SiteBoss::~SiteBoss() = default;
 
 void SiteBoss::m63() {

@@ -20,6 +20,8 @@ class Dragon : public Enemy {
     SEAD_RTTI_OVERRIDE(Dragon, Enemy)
 public:
     explicit Dragon(const CreateArg& arg);
+    // Canonical declaration verified and gated by lane1 (acc300dcf).
+    f32 x_0() const;
     // CSV Dragon::construct: the actor factory function.
     static ksys::act::BaseProc* construct(const CreateArg& arg, sead::Heap* heap);
     ~Dragon() override;
@@ -117,8 +119,8 @@ public:
     /* 0x1e08 */ f32 _1e08;
     /* 0x1e0c */ s32 _1e0c;  // dragon kind (3 checked by getGameDataFlagGrudgeAlive)
     /* 0x1e10 */ sead::Vector3f _1e10;
-    /* 0x1e1c */ u32 _1e1c = 0;
-    /* 0x1e20 */ u64 _1e20 = 0;
+    // 2026-10-07: x_0 at 0x710000c630 reads XYZ here and returns their vector length.
+    /* 0x1e1c */ sead::Vector3f _1e1c{0.0f, 0.0f, 0.0f};
     /* 0x1e28 */ sead::Matrix34f _1e28;
     /* 0x1e58 */ sead::Matrix34f _1e58;
     // gsys::BoneAccessKeyEx at 0x1e88, object with ctor 0x71010f122c at 0x1ec0, two

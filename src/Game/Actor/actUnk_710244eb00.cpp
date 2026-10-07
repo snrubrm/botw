@@ -87,7 +87,7 @@ void Unk_710244eb00::m3() {
             radius = _8->getScale().x * unit->getBoundSphere()->getRadius();
     }
     if (param) {
-        // 2026-10-07: original b.ge selects the huge level; an unordered radius takes the small branch.
+        // 2026-10-07: the original ordered comparison selects the huge level; an unordered radius takes the small branch.
         if (radius >= param->mSpeedTerrorLevelCheckRadius.ref())
             sub_71006E1FD0();
         else

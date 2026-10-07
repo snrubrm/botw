@@ -76,6 +76,8 @@ public:
 struct Unk_710071f494 {
     // 0x710071f47c: reset().
     void sub_710071F47C();
+    // 0x710071f374: updates angular-velocity direction and frame countdown.
+    void sub_710071F374(ksys::act::Actor* actor);
     // 0x710071f494: init(s32 check_time, f32 value).
     void sub_710071F494(s32 check_time, f32 value);
 
@@ -83,7 +85,8 @@ struct Unk_710071f494 {
     /* 0x04 */ f32 _4 = 5.0f;
     /* 0x08 */ s32 _8 = 5;
     /* 0x0c */ s32 _c = 5;
-    /* 0x10 */ bool _10 = false;
+    // 2026-10-07: sub_710071F374 reads a signed byte and writes direction states 0, 1, 2.
+    /* 0x10 */ s8 _10 = 0;
 };
 KSYS_CHECK_SIZE_NX150(Unk_710071f494, 0x14);
 

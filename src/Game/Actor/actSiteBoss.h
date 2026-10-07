@@ -9,6 +9,8 @@
 #include <xlink2/xlink2HandleELink.h>
 #include <xlink2/xlink2HandleSLink.h>
 #include "Game/Actor/actEnemy.h"
+#include "Game/AI/aiUnk_71025b2aa8.h"
+#include "KingSystem/Utils/Thread/MessageTransceiverId.h"
 #include "Game/Damage/dmgDamageCallback.h"
 #include "KingSystem/Event/evtResidentEvent.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
@@ -40,12 +42,16 @@ KSYS_CHECK_SIZE_NX150(Unk_71023d04f8, 0x38);
 // Placeholder name (ctor 0x7100722420(this + 0x2390, boss), dtor 0x71007224cc; size 0x258): SiteBoss::_2390. Wraps a
 // Unk_71025b2aa8Data at +0x240. TODO: incomplete (not modelled).
 struct Unk_7100722420 {
+    // 2026-10-07: original 0x71007224cc closes the embedded dialog at +0x240.
+    ~Unk_7100722420();
     // 0x71007224d4 (declared only; lane5 s5): forwards to the Unk_71025b2aa8Data at +0x240 (sub_7100721EFC).
     void sub_71007224D4();
 
-    u64 _0;  // vtable pointer
+    // 2026-10-07: ctor 0x7100722420 stores its Actor* argument here, not a vtable.
+    ksys::act::Actor* _0;
     /* 0x08 */ bool _8;  // cleared by SiteBossDie::leave_
-    u8 _9[0x258 - 9];
+    u8 _9[0x240 - 9];
+    /* 0x240 */ Unk_71025b2aa8Data _240;
 };
 KSYS_CHECK_SIZE_NX150(Unk_7100722420, 0x258);
 
@@ -143,6 +149,9 @@ public:
     // stride 0x18 / 0x28; spin lock at 0xdb0).
     // TODO: incomplete.
     struct Unk_71002cf2ac {
+        // 2026-10-07: real original D1 0x710066b9b8 called by SiteBoss::~SiteBoss.
+        // Declaration only: cleanup depends on an unresolved dummy message-transceiver global.
+        ~Unk_71002cf2ac();
         // 0x710066c164: sends `type` to bound actor `idx` (every bound actor when idx >= 20).
         void sub_710066C164(ksys::act::Actor* owner, ksys::act::BaseProcLink* target,
                             ksys::MessageType type, int idx, u32 flags, ksys::map::Rail* rail);
@@ -210,7 +219,9 @@ public:
         };
 
         /* 0x000 */ ksys::act::Actor* mOwner;
-        /* 0x008 */ u8 _8[0x9c - 0x8];
+        /* 0x008 */ u8 _8[0x94 - 0x8];
+        /* 0x094 */ u32 _94;
+        /* 0x098 */ u8 _98[4];
         /* 0x09c */ u32 _9c;  // bit idx: bound actor idx (cleared by SiteBossChemicalProjectile)
         /* 0x0a0 */ u8 _a0[0x1e0 - 0xa0];
         /* 0x1e0 */ sead::SafeArray<ksys::act::BaseProcLink, 20> _1e0;
@@ -218,9 +229,11 @@ public:
         /* 0x360 */ ksys::act::BaseProcLink _360;
         /* 0x370 */ u8 _370[0x3b0 - 0x370];
         /* 0x3b0 */ sead::SafeArray<ksys::act::BaseProcLink, 24> _3b0;
-        /* 0x530 */ u8 _530[0x710 - 0x530];  // MesTransceiverId x 20 (stride 0x18)
-        /* 0x710 */ Payload _710[24];
-        /* 0xad0 */ u8 _ad0[0xdb0 - 0xad0];
+        /* 0x530 */ sead::SafeArray<ksys::MesTransceiverId, 20> _530;
+        /* 0x710 */ sead::SafeArray<Payload, 24> _710;
+        /* 0xad0 */ u8 _ad0[0xd50 - 0xad0];
+        // 2026-10-07: sub_710066D9B8 tests, sends and clears a 24-entry message-type array.
+        /* 0xd50 */ sead::SafeArray<ksys::MessageType, 24> mPendingMessages;
         /* 0xdb0 */ sead::JobQueueLock _db0;
     };
     /* 0x1560 */ Unk_71002cf2ac _1560;

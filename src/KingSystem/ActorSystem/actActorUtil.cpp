@@ -42,6 +42,16 @@ extern ksys::DebugMessage sUnk_7102601328;
 void getNameAndUniqueName(const ksys::map::Object* object, sead::BufferedSafeString* name,
                           sead::BufferedSafeString* unique_name);
 
+// 2026-10-07: original 0x7100ee9efc reads a bool game-data result; declaration only.
+bool checkIsGet(const sead::SafeString& name, bool mode);
+
+// NON_MATCHING: the same-group lookup is inlined from this TU instead of retaining its original call.
+bool checkIsGetSameGroupActorName(const sead::SafeString& actor_name, bool mode) {
+    sead::SafeString group_name;
+    const bool has_group = ksys::act::getSameGroupActorName(&group_name, actor_name);
+    return checkIsGet(has_group ? group_name : actor_name, mode);
+}
+
 namespace ksys::act {
 
 void getPlacementNameAndUniqueName(Actor* actor, sead::BufferedSafeString* name,

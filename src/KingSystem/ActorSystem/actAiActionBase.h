@@ -9,6 +9,7 @@
 
 class Unk_71025afc58;
 class Unk_71025c89e8;
+class Unk_710070f974;
 class Unk_710073ebd4;
 class Unk_7102450038;
 struct Unk_7100704914;
@@ -62,6 +63,8 @@ class ActionBase {
     // Helper objects owned by actions forward their param lookups to the owner.
     friend class ::Unk_71025afc58;
     friend class ::Unk_71025c89e8;
+    // 2026-10-07: 0x710070f984 reads LynelMoveParam through the original tree-variable API.
+    friend class ::Unk_710070f974;
     friend class ::Unk_710073ebd4;
     friend class ::Unk_7102450038;
     friend struct ::Unk_7100704914;

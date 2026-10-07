@@ -113,4 +113,34 @@ void SiteBoss::Unk_71002cf2ac::sub_710066DB98(ksys::act::BaseProc* proc, int idx
 }
 
 
+Unk_7100722420::~Unk_7100722420() {
+    _240.sub_7100721EFC();
+}
+
+void Unk_7100722420::sub_71007224D4() {
+    _240.sub_7100721EFC();
+}
+
+// NON_MATCHING: the SafeArray iterator uses an element index instead of the original byte offset.
+void SiteBoss::Unk_71002cf2ac::sub_710066CD7C(u32 value) {
+    _94 = value;
+    for (auto& link : _1e0) {
+        if (link.hasProc()) {
+            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::acquireActor(&link, &accessor);
+            accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+        }
+    }
+}
+
+bool SiteBoss::Unk_71002cf2ac::sub_710066D9B8(s32 idx) {
+    auto& message = mPendingMessages[idx];
+    if (message == 0)
+        return false;
+    auto& payload = _710[idx];
+    payload.owner->sendMessage(_530[idx], message, &payload, true);
+    message = ksys::MessageType(0);
+    return true;
+}
+
 }  // namespace uking::act

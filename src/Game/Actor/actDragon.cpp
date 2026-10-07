@@ -10,6 +10,11 @@
 
 namespace uking::act {
 
+f32 Dragon::x_0() const {
+    return _1e1c.length();
+}
+
+
 void Dragon::afterModelMatrixUpdate() {
     if (_1e0c != 0)
         return;

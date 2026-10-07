@@ -30,7 +30,7 @@ void SoundProxy::sub_710105A0D8(const sead::Vector3f& a, const sead::Vector3f& b
     _860 = b;
 }
 
-// NON_MATCHING: the zero-countdown branch uses cbnz instead of reusing the decrement flags.
+// NON_MATCHING: the zero-countdown branch performs a separate test rather than reusing the decrement result.
 void SoundProxy::calcMaybe() {
     if (_8b8) {
         const s32 remaining = _8bc - 1;

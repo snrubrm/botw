@@ -1,5 +1,7 @@
 #include "Game/AI/aiUnk_71025b0578.h"
 #include <math/seadMathCalcCommon.h>
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/System/VFR.h"
 
 // 0x71007169cc.
 // NON_MATCHING: the original keeps the result in w8 and returns through a shared `mov w0, w8`
@@ -27,4 +29,27 @@ void Unk_710071f494::sub_710071F494(s32 check_time, f32 value) {
     _10 = false;
     _8 = _c = check_time;
     _4 = value;
+}
+
+// NON_MATCHING: the compiler shares a separately computed counter address between reset paths.
+void Unk_710071f494::sub_710071F374(ksys::act::Actor* actor) {
+    _4 -= ksys::VFR::instance()->getDeltaFrame();
+    s8 direction = 0;
+    if (actor && !(actor->getAngVelocity().y <= 0.0006f &&
+                   actor->getAngVelocity().y >= -0.0006f)) {
+        direction = actor->getAngVelocity().y >= 0.0f ? 1 : 2;
+        if (direction != _10) {
+            if (_10 != 0)
+                _c = sead::Mathi::clampMin(_c - 1, 0);
+            _4 = _0;
+        }
+    } else {
+        _c = _8;
+        _4 = _0;
+    }
+    if (_4 <= 0.0f) {
+        _4 = _0;
+        _c = _8;
+    }
+    _10 = direction;
 }

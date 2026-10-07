@@ -3,10 +3,24 @@
 #include "KingSystem/ActorSystem/actBoneControl.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Physics/Ragdoll/physRagdollInstance.h"
+#include "KingSystem/Physics/Ragdoll/physRagdollRigidBody.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
 #include "KingSystem/Physics/physDefines.h"
 
 namespace ksys::act {
+
+void Unk_71006ecc78::sub_71006EE1F8(const sead::SafeString& name) {
+    const s32 index = mActor->getRagdollInstance()->getBoneIndexByName(name);
+    if (index < 0)
+        return;
+    sead::Vector3f pos;
+    if (auto* ragdoll = mActor->getRagdollInstance()) {
+        if (auto* body = ragdoll->getRigidBodies_()[index])
+            body->getPosition(&pos);
+    }
+    _10.sub_7100716408(pos);
+}
+
 
 bool Unk_71006ecc78::sub_71006EDA58() {
     auto* ragdoll = mActor->getRagdollInstance();
@@ -138,7 +152,7 @@ bool Unk_71006ecc78::sub_71006EE1A4() const {
         return false;
     if (ragdoll->sub_7101221D24())
         return false;
-    return _88 <= 0.0f;
+    return _10._78 <= 0.0f;
 }
 
 void Unk_71006ecc78::sub_71006EE128(sead::Vector3f* out) const {

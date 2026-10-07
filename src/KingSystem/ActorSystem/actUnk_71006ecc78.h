@@ -6,6 +6,7 @@
 #include <math/seadVector.h>
 #include <prim/seadSafeString.h>
 #include <prim/seadBitFlag.h>
+#include "Game/AI/aiUnk_71025b0578.h"
 #include "KingSystem/Utils/Types.h"
 
 namespace sead {
@@ -81,14 +82,9 @@ public:
 
     /* 0x00 */ Actor* mActor;
     /* 0x08 */ Unk_7100e9d810* _8 = nullptr;
-    /* 0x10 */ u8 _10[0x88 - 0x10];
-    /* 0x88 */ f32 _88 = 10.0f;
-    /* 0x8c */ f32 _8c = 0.0f;
-    /* 0x90 */ f32 _90 = 0.0f;
-    /* 0x94 */ f32 _94 = 1.0f;
-    /* 0x98 */ f32 _98 = 10.0f;
-    /* 0x9c */ u8 _9c = 0;
-    /* 0xa0 */ sead::BoundBox3f _a0;
+    // 2026-10-07: 0x71006ee1f8 passes +0x10 to the position vibration checker;
+    // its 0xa8-byte data maps every existing +0x88..+0xb8 counter and bound field.
+    /* 0x10 */ Unk_7100716408 _10;
     /* 0xb8 */ f32 _b8 = 0.0f;
     /* 0xbc */ s32 _bc = 4;
     /* 0xc0 */ s32 _c0 = -1;
