@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionBattleDungeonBGMAction.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Sound/sndBgmMgr.h"
 
 namespace uking::action {
 
@@ -21,7 +23,15 @@ void BattleDungeonBGMAction::leave_() {
 void BattleDungeonBGMAction::loadParams_() {}
 
 void BattleDungeonBGMAction::calc_() {
-    ksys::act::ai::Action::calc_();
+    const bool active = mActor->checkBasicSig();
+    auto* bgm = ksys::snd::sub_7100FFD9D0();
+    if (active) {
+        if (bgm)
+            bgm->sub_7100FFA1E0(true);
+    } else {
+        if (bgm)
+            bgm->sub_7100FFA1E0(false);
+    }
 }
 
 }  // namespace uking::action

@@ -5,6 +5,7 @@
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Terrain/teraSystem.h"
 
 namespace uking::action {
 
@@ -36,6 +37,12 @@ void ChemicalAttackBall::loadParams_() {
 
 void ChemicalAttackBall::calc_() {
     ChemicalAttack::calc_();
+    auto* terrain = ksys::tera::Terrain::instance();
+    if (terrain && terrain->isGrassEnabled()) {
+        auto* grass = terrain->sub_710114DE4C();
+        const sead::Vector3f position = mActor->getMtx().getTranslation();
+        grass->sub_7101150A7C(&position, _7c, 0.0f);
+    }
 }
 
 int ChemicalAttackBall::m35() {

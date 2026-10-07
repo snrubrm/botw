@@ -1,5 +1,8 @@
 #include "Game/AI/Action/actionGuardianMiniPracticeFlagSet.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Sound/sndBgmMgr.h"
+#include "Game/Damage/dmgDamageManagerBase.h"
 
 namespace uking::action {
 
@@ -13,8 +16,22 @@ bool GuardianMiniPracticeFlagSet::init_(sead::Heap* heap) {
     return true;
 }
 
+// NON_MATCHING: compiler orders the three state comparisons differently.
 void GuardianMiniPracticeFlagSet::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    mFlags.set(Flag::Changeable);
+    auto* damage = mActor->getDamageMgr();
+    if (!damage || s32(damage->getDamage()) < 1)
+        return;
+    --*mGuardianMiniPracticeState_a;
+    auto* bgm = ksys::snd::sub_7100FFDA7C();
+    if (!bgm)
+        return;
+    if (*mGuardianMiniPracticeState_a == 1)
+        bgm->sub_7100FFC934();
+    else if (*mGuardianMiniPracticeState_a == 2)
+        bgm->sub_7100FFC894();
+    else if (*mGuardianMiniPracticeState_a == 3)
+        bgm->sub_7100FFC7F4();
 }
 
 void GuardianMiniPracticeFlagSet::leave_() {
