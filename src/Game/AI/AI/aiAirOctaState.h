@@ -20,6 +20,7 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+    bool handleMessage_(const ksys::Message* message) override;
 
     void m37() override;
     void m38() override;
@@ -34,6 +35,25 @@ public:
     void sub_71002FEC08();
 
 protected:
+    // The user data of the message 0x80000c8 (placeholder; only the members that are used).
+    struct Payload {
+        s32 kind;
+        u8 _4[0x14 - 4];
+        union {
+            f32 value;
+            s32 mode;
+        };
+    };
+
+    // 0x71002fe490 (placeholder name): message kind 6: adds `payload->value` to the height offset of the octas.
+    void sub_71002FE490(const Payload* payload);
+    // 0x71002fe55c (placeholder name): message kind 11: changes to "オクタの数が減った" while waiting.
+    void sub_71002FE55C(const Payload* payload);
+    // 0x71002fe668 (placeholder name; declared only): message kind 2: the player is at `distance`.
+    void sub_71002FE668(f32 distance);
+    // 0x71002fe954 (placeholder name; declared only): the check of message kind 7 with the two angle limits.
+    bool sub_71002FE954(f32 a, f32 b);
+
     // static_param at offset 0x1d8
     const float* mRopeGravityFactor_s{};
     // static_param at offset 0x1e0

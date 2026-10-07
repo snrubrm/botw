@@ -8,6 +8,8 @@
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "KingSystem/Utils/Thread/Message.h"
+#include <random/seadGlobalRandom.h>
 
 namespace uking::ai {
 
@@ -82,6 +84,86 @@ void AirOctaState::sub_71002FEDD0() {
         changeChild("プレイヤが板に乗った", &pack);
         mActor->m93(4, 0.0f);
     }
+}
+
+// NON_MATCHING: register allocation only (case 8: the original keeps the bit pattern in s1 and -1.0f in s0 for the
+// `getF32()` subtraction and reloads `_278` into w9 / w8 the other way round).
+bool AirOctaState::handleMessage_(const ksys::Message* message) {
+    if (message->getType() != 0x80000c8)
+        return EnemyRoot::handleMessage_(message);
+    auto* payload = static_cast<const Payload*>(message->getUserData());
+    if (!payload)
+        return EnemyRoot::handleMessage_(message);
+
+    switch (payload->kind) {
+    case 2:
+        if (!_278.isOnBit(1) && payload->value >= 0.0f)
+            sub_71002FE668(payload->value);
+        return true;
+    case 5:
+        if (!_278.isOnBit(1)) {
+            auto* manager = sead::DynamicCast<AirOctaDataMgr>(*static_cast<Unk_71025afb58**>(mAirOctaDataMgr_a));
+            manager->mFlags |= 2;
+            _278.set(2);
+        }
+        return true;
+    case 6:
+        sub_71002FE490(payload);
+        return true;
+    case 7:
+        if (!_278.isOn(0x202) && sub_71002FE954(1.04719758f, 0.52359879f))
+            sub_71002FEC08();
+        return true;
+    case 8:
+        if (!_278.isOnBit(1)) {
+            _278.set(0x40);
+            const f32 value = sead::GlobalRandom::instance()->getF32();
+            _278.reset(0x300);
+            _204.y = value * -2.5f;
+        }
+        return true;
+    case 9:
+        if (!_278.isOnBit(7)) {
+            _278.set(0x80);
+            mActor->m93(0, 0.0f);
+            changeChild("逃げる");
+        }
+        return true;
+    case 10:
+        if (!_278.isOn(0x300))
+            sub_71002FEDD0();
+        return true;
+    case 11:
+        sub_71002FE55C(payload);
+        return true;
+    default:
+        return false;
+    }
+}
+
+void AirOctaState::sub_71002FE490(const Payload* payload) {
+    if (_278.isOnBit(1))
+        return;
+    auto* manager = sead::DynamicCast<AirOctaDataMgr>(*static_cast<Unk_71025afb58**>(mAirOctaDataMgr_a));
+    if (!manager)
+        return;
+    auto* data = manager->sub_71002FB32C();
+    if (!data || data->_b1 || data->_b2)
+        return;
+    manager->unk_118 += payload->value;
+    manager->changeOctasYheightMaybe();
+}
+
+void AirOctaState::sub_71002FE55C(const Payload* payload) {
+    if (!isCurrentChild("待機"))
+        return;
+    if (u32(payload->mode - 1) > 1)
+        return;
+    auto* manager = sead::DynamicCast<AirOctaDataMgr>(*static_cast<Unk_71025afb58**>(mAirOctaDataMgr_a));
+    auto* data = manager->sub_71002FB32C();
+    if (!data || data->_b1 || data->_b2)
+        return;
+    changeChild("オクタの数が減った");
 }
 
 void AirOctaState::m37() {
