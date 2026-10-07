@@ -20,6 +20,8 @@ target_sources(uking PRIVATE
   sndSoundMgr38.cpp
   sndSoundInstance.cpp
   sndMessageSound.cpp
+  sndEmitterControl.cpp
+  sndCustomDucking.cpp
   sndDialogue.cpp
   sndSoundInstanceMgr.cpp
   sndSoundInstanceForwarders.cpp

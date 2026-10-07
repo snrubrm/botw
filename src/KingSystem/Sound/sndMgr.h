@@ -285,6 +285,23 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(Unk_SoundMgr48, 0x38);
 
+// Root subobject at 0x5e0 of Unk_710103b704, constructed at 0x710105abc0.
+// Its original vtable has only the two destructor slots.
+class Unk_710105abc0 {
+public:
+    explicit Unk_710105abc0(sead::Heap* heap);
+    virtual ~Unk_710105abc0();
+    bool sub_710105B090();
+
+    aal::Emitter* _8;
+    aal::Handle _10;
+    aal::SimpleTimedFader _20{1.0f};
+    sead::BitFlag8 _38;
+    u8 _39[3];
+    f32 _3c;
+};
+KSYS_CHECK_SIZE_NX150(Unk_710105abc0, 0x40);
+
 // Placeholder (lane2 s46): the sound kind (0..5) the UI hands to SoundMgr (a 4-byte class: passed in a full register).
 struct UiSoundKind {
     s32 value;
@@ -294,6 +311,8 @@ struct UiSoundKind {
 // of the DuckingMgr). Used by CustomDuckingStartAction / CustomDuckingEndAction.
 class Unk_710103b704 {
 public:
+    explicit Unk_710103b704(sead::Heap* heap);
+    virtual ~Unk_710103b704();
     struct StartParam {
         sead::SafeString _0;
         sead::SafeString _10;
@@ -318,14 +337,18 @@ public:
     // 0x710103cfe8: stores the two types in _5d0 / _5d4 for later (used while _5cc is set).
     void sub_710103CFE8(int bgm_type, int se_type);
 
-    u8 _0[0x5cc];
+    u8 _8[0x5cc - 8];
     /* 0x5cc */ bool _5cc;
     u8 _5cd[0x5d0 - 0x5cd];
     /* 0x5d0 */ int _5d0;
     /* 0x5d4 */ int _5d4;
     // Set by SceneSoundSetEndProcAction ("SkipAll"); name unknown.
     /* 0x5d8 */ bool _5d8;
+    u8 _5d9[0x5e0 - 0x5d9];
+    /* 0x5e0 */ Unk_710105abc0 _5e0;
+    /* 0x620 */ u32 _620;
 };
+KSYS_CHECK_SIZE_NX150(Unk_710103b704, 0x628);
 
 // Placeholder name (ctor 0x710104e5b4; SoundMgr::_90; the object has a byte at +0x2a0 whose bit 2 means "ducking
 // is allowed"). Used by the message-dialog / talk actions (NPCTalk, OpenMessageDialog*, SimpleUniqueTalk).

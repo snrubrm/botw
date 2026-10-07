@@ -1,6 +1,7 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <aal/aalTimedFader.h>
 #include <container/seadOffsetList.h>
 #include <prim/seadSafeString.h>
 #include <prim/seadRuntimeTypeInfo.h>
@@ -116,7 +117,8 @@ struct Unk_SoundMgr30 {
     /* 0x10 */ Unk_SoundMgr30_10* _10;
     u8 _18[0x30];
     /* 0x48 */ Unk_71024fca78* _48;
-    u8 _50[0x28];
+    u8 _50[0x10];
+    /* 0x60 */ aal::SimpleTimedFader _60;
     /* 0x78 */ Unk_SoundMgr30_78* _78;
 };
 
