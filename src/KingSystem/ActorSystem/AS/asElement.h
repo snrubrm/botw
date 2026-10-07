@@ -908,6 +908,8 @@ KSYS_CHECK_SIZE_NX150(AnmAsset, 0x10);
 class GraphicsAsset : public AnmAsset {
     SEAD_RTTI_OVERRIDE(GraphicsAsset, AnmAsset)
 public:
+    GraphicsAsset(const CreateArg& arg, s32 value, gsys::MaterialAnmType type);
+    static Element* make(const CreateArg& arg, s32 value, gsys::MaterialAnmType type);
     void m5(act::Actor* actor, gsys::Model* model, const sead::SafeString& name,
             sead::Heap* heap, const res::AS* as) override;
     bool m10(Context* ctx, State* state, const res::ASResource* resource) override;

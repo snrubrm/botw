@@ -5,6 +5,12 @@
 
 namespace ksys::as {
 
+// NON_MATCHING: the two default key halfwords are stored in the opposite order.
+GraphicsAsset::GraphicsAsset(const CreateArg& arg, s32 value, gsys::MaterialAnmType type)
+    : AnmAsset(arg, value, nullptr), _14(type) {}
+
+
+
 void GraphicsAsset::m5(act::Actor*, gsys::Model* model, const sead::SafeString& name,
                        sead::Heap*, const res::AS* as) {
     auto* animation = model->getAnimation();

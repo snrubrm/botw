@@ -3,6 +3,11 @@
 
 namespace ksys::as {
 
+Element* GraphicsAsset::make(const CreateArg& arg, s32 value, gsys::MaterialAnmType type) {
+    return new (arg.heap) GraphicsAsset(arg, value, type);
+}
+
+
 Element* DungeonClearSelector::make(const CreateArg& arg, s32 value, const res::ASResource* resource) {
     return new (arg.heap, 8) DungeonClearSelector(arg, value, resource);
 }
