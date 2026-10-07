@@ -29,6 +29,8 @@ public:
     void x_0();
     // 0x7100985c84: the state field compares equal to the cancel state (0x29f).
     bool x_1() const;
+    const char16* sub_7100985C98() const;
+    bool sub_7100985CA0() const;
 
     /* 0x28 */ char16 _28 = 0;  // the first character of the entered text (the buffer extends to 0x78)
     u8 _2a[0x58 - 0x2a];

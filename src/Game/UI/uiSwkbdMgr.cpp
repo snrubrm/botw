@@ -30,4 +30,12 @@ bool SwkbdMgr::x_1() const {
     return (_78 & 0x3fffff) == 0x29f;
 }
 
+const char16* SwkbdMgr::sub_7100985C98() const {
+    return &_28;
+}
+
+bool SwkbdMgr::sub_7100985CA0() const {
+    return true;
+}
+
 }  // namespace uking::ui
