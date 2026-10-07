@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionDungeonRotateApp.h"
+#include "KingSystem/System/VFR.h"
+#include "Game/UI/uiUtils.h"
 
 namespace uking::action {
 
@@ -37,6 +39,17 @@ void DungeonRotateApp::loadParams_() {
 
 void DungeonRotateApp::calc_() {
     DungeonRotateBase::calc_();
+    m35();
+    const bool finished = ksys::VFR::chase(&_80, _d8, _84);
+    if (_90) {
+        ui::sub_7100A9D244(_80);
+        const sead::Vector3f rotation = _70 * _80;
+        sub_71000FCCA4(&rotation, _d8 < _80);
+    }
+    if (finished) {
+        sub_71000FD51C();
+        setFinished();
+    }
 }
 
 }  // namespace uking::action

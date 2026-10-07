@@ -27,6 +27,8 @@ public:
 
 protected:
     void calc_() override;
+    void sub_71000FCCA4(const sead::Vector3f* rotation, bool reverse);
+    void sub_71000FD51C();
     virtual float m32();
     virtual void m33();
     virtual void m34(f32 x);

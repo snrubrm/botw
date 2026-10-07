@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionDungeonRotateShuttle.h"
+#include "KingSystem/System/VFR.h"
 
 namespace uking::action {
 
@@ -28,6 +29,15 @@ void DungeonRotateShuttle::loadParams_() {
 
 void DungeonRotateShuttle::calc_() {
     DungeonRotateBase::calc_();
+    const bool finished = ksys::VFR::chase(&_80, _d8, _84);
+    if (_90) {
+        const sead::Vector3f rotation = _70 * _80;
+        sub_71000FCCA4(&rotation, _d8 < _80);
+    }
+    if (finished) {
+        sub_71000FD51C();
+        setFinished();
+    }
 }
 
 }  // namespace uking::action
