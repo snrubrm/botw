@@ -4,8 +4,6 @@ namespace uking::ai {
 
 SeqTimeredTwoAction::SeqTimeredTwoAction(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
-SeqTimeredTwoAction::~SeqTimeredTwoAction() = default;
-
 bool SeqTimeredTwoAction::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
 }
