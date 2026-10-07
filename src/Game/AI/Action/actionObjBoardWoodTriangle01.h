@@ -1,6 +1,9 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "Game/Actor/actObjBoardWoodTriangleUserTag.h"
+#include "KingSystem/ActorSystem/actBaseProcLink.h"
+#include <container/seadObjArray.h>
 
 namespace uking::action {
 
@@ -18,6 +21,14 @@ public:
 
 protected:
     void calc_() override;
+
+    sead::FixedObjArray<ksys::act::BaseProcLink, 4> _20;
+    // The original has another fixed object array and message senders in this block.
+    u8 _a0[0x3f8 - 0xa0];
+    f32 _3f8 = 1.0f;
+    act::ObjBoardWoodTriangleUserTag _400{mActor};
+    bool _460 = false;
 };
+KSYS_CHECK_SIZE_NX150(ObjBoardWoodTriangle01, 0x468);
 
 }  // namespace uking::action
