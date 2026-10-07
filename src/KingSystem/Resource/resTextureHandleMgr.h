@@ -32,6 +32,7 @@ public:
     // 0x7100fe4cf4 (CSV TextureHandleMgr::xx; declared only)
     void xx();
     void sub_7100FE5190();
+    void sub_7100FE53BC();
     void sub_7100FE5334();
     // 0x7100fe56d8 (CSV TextureHandleMgr::isTooSlow): true (and restarts the timer) when bit 2 of the second flag byte is
     // set and at least `seconds` seconds passed since the timer was started.

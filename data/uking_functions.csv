@@ -85268,7 +85268,7 @@ Address,Quality,Size,Name
 0x0000007100fe5190,U,000164,_ZN4ksys3res16TextureHandleMgr14sub_7100FE5190Ev
 0x0000007100fe5234,U,000256,TextureHandleMgr::x_2
 0x0000007100fe5334,U,000136,_ZN4ksys3res16TextureHandleMgr14sub_7100FE5334Ev
-0x0000007100fe53bc,U,000092,
+0x0000007100fe53bc,O,000092,_ZN4ksys3res16TextureHandleMgr14sub_7100FE53BCEv
 0x0000007100fe5418,O,000164,_ZN4ksys3res16TextureHandleMgr4calcEv
 0x0000007100fe54bc,O,000004,_ZN4ksys3res16TextureHandleMgr7preCalcEv
 0x0000007100fe54c0,U,000536,TextureHandleMgr::d
@@ -93733,7 +93733,7 @@ Address,Quality,Size,Name
 0x0000007101206b48,U,000460,res::ResourceMgrTask::jamThreadMessageQueuesAndWait2
 0x0000007101206d14,O,000064,_ZN4ksys3res15ResourceMgrTask29jamThreadMessageQueuesAndWaitEv
 0x0000007101206d54,O,000016,_ZN4ksys3res15ResourceMgrTask6auto12Ev
-0x0000007101206d64,U,000016,
+0x0000007101206d64,O,000016,_ZN4ksys3res15ResourceMgrTask14sub_7101206D64Ev
 0x0000007101206d74,O,000288,_ZN4ksys3res15ResourceMgrTask11clearUnits_Ev
 0x0000007101206e94,O,000196,_ZN4ksys3res15ResourceMgrTask11systemCalc_Ev
 0x0000007101206f58,O,000380,_ZN4ksys3res15ResourceMgrTask16updateCompactionEv
@@ -93758,7 +93758,7 @@ Address,Quality,Size,Name
 0x0000007101208388,O,000016,_ZN4ksys3res15ResourceMgrTask18getArchiveFileDev1Ev
 0x0000007101208398,O,000016,_ZN4ksys3res15ResourceMgrTask14resetFlag20000Ev
 0x00000071012083a8,m,000088,_ZN4ksys3res15ResourceMgrTask18controlField9c0d88Eb
-0x0000007101208400,U,000044,
+0x0000007101208400,O,000044,_ZNK4ksys3res15ResourceMgrTask14sub_7101208400Ev
 0x000000710120842c,O,000036,_ZN4ksys3res15ResourceMgrTask17setFlag2000Or5000Ei
 0x0000007101208450,U,000960,res::ResourceMgrTask::setSomePropertiesOnArgForLoad
 0x0000007101208810,U,001008,res::ResourceMgrTask::getFactoryForExtensionAndFallBackToResBase

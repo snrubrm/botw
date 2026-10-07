@@ -228,6 +228,11 @@ public:
     void x_0();
     void x_1(bool b);
     void auto12();
+    // 0x7101206d64 (unnamed in the CSV)
+    void sub_7101206D64();
+    // 0x7101208400 (unnamed in the CSV): false when the KingEditor is present with _88 == 0,
+    // otherwise whether flag 0x800 is set
+    bool sub_7101208400() const;
     void repairAllHandlesForSync();
     bool x_2();
     // 0x710120b754 / 0x710120b864 / 0x710120b964 (placeholder names): synchronous / synchronous / asynchronous
@@ -303,6 +308,7 @@ private:
         _4 = 4,
         _8 = 8,
         _400 = 0x400,
+        _800 = 0x800,
         _1000 = 0x1000,
         _2000 = 0x2000,
         _4000 = 0x4000,

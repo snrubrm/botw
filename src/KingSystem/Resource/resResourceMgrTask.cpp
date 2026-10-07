@@ -15,6 +15,7 @@
 #include "KingSystem/Resource/resTextureHandleList.h"
 #include "KingSystem/Resource/resArchiveWork.h"
 #include "KingSystem/Resource/resTextureHandleMgr.h"
+#include "KingSystem/System/KingEditor.h"
 #include "KingSystem/System/OverlayArenaSystem.h"
 #include "KingSystem/System/PlayReportMgr.h"
 #include "KingSystem/System/Patrol.h"
@@ -301,6 +302,12 @@ void ResourceMgrTask::jamThreadMessageQueuesAndWait() {
     mResourceControlThread->resumeAndWaitForAck();
     mMovableMemoryThread->resumeAndWaitForAck();
     stubbedLogFunction();
+}
+
+bool ResourceMgrTask::sub_7101208400() const {
+    if (auto* editor = KingEditor::instance(); editor && editor->get88() == 0)
+        return false;
+    return mFlags.isOn(Flag::_800);
 }
 
 bool ResourceMgrTask::isFlag4Set() const {
@@ -1002,6 +1009,10 @@ void ResourceMgrTask::x_0() {
 
 void ResourceMgrTask::auto12() {
     mTexHandleMgr->sub_7100FE5334();
+}
+
+void ResourceMgrTask::sub_7101206D64() {
+    mTexHandleMgr->sub_7100FE53BC();
 }
 
 void ResourceMgrTask::x_1(bool b) {

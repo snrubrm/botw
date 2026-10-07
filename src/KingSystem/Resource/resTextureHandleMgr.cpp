@@ -1,6 +1,7 @@
 #include "KingSystem/Resource/resTextureHandleMgr.h"
 #include "KingSystem/Resource/resSystem.h"
 #include "KingSystem/Utils/Thread/Task.h"
+#include "KingSystem/Utils/Thread/TaskThread.h"
 
 namespace ksys::res {
 
@@ -18,6 +19,18 @@ void TextureHandleMgr::calc() {
 }
 
 void TextureHandleMgr::preCalc() {}
+
+// 0x7100fe53bc (unnamed in the CSV): cancel everything queued on the loading thread and mark the
+// manager as stopped.
+void TextureHandleMgr::sub_7100FE53BC() {
+    _50->cancelTasks(0);
+    _50->cancelTasks(1);
+    mFlags2.reset(1);
+    if (!mFlags.isOn(4)) {
+        mFlags.set(4);
+        stubbedLogFunction();
+    }
+}
 
 void TextureHandleMgr::sub_7100FE60B0(bool on) {
     if (mFlags.isOn(2) != on) {
