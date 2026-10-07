@@ -1596,15 +1596,26 @@ struct ScreenPauseMenuUnk3b90 {
 // Repeated 0x90-byte button records used by PauseMenu's three page controllers.
 // The original record's class name is unknown.
 struct ScreenButton_7100989968 {
+    ScreenButton_7100989968();
+    virtual ~ScreenButton_7100989968();
+    void sub_710098923C();
+    void sub_71009892B0();
+    void sub_71009896D8();
+    void sub_7100989888(bool enabled, bool play);
+    bool sub_7100989A08() const;
+    void sub_7100989A40();
     void sub_710098993C(bool enabled, bool play);
     void sub_7100989968(bool enabled);
     void sub_71009899EC();
 
-    u8 _0[8];
-    /* 0x8 */ eui::AnimButton* mButton;
-    u8 _10[0x20 - 0x10];
-    /* 0x20 */ eui::Animator* mAnimator;
-    u8 _28[0x90 - 0x28];
+    /* 0x8 */ eui::AnimButton* mButton = nullptr;
+    /* 0x10 */ eui::Animator* _10 = nullptr;
+    /* 0x18 */ eui::Animator* _18 = nullptr;
+    /* 0x20 */ eui::Animator* mAnimator = nullptr;
+    /* 0x28 */ eui::Animator* _28 = nullptr;
+    /* 0x30 */ Unk_710247aa30 mBreakNewController;
+    /* 0x50 */ Unk_71024774c8 mTexturePatternController;
+    /* 0x68 */ Unk_7102477508 mCategoryController;
 };
 KSYS_CHECK_SIZE_NX150(ScreenButton_7100989968, 0x90);
 
