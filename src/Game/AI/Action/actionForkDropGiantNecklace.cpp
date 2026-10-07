@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionForkDropGiantNecklace.h"
+#include "Game/AI/aiUnk_7102450390.h"
 
 namespace uking::action {
 
@@ -11,7 +12,12 @@ bool ForkDropGiantNecklace::init_(sead::Heap* heap) {
 }
 
 void ForkDropGiantNecklace::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    mFlags.set(Flag::Changeable);
+    if (auto* unit = sead::DynamicCast<Unk_7102450390>(*mGiantNecklaceUnit_a)) {
+        unit->sub_7100707544(0);
+        unit->sub_7100707544(1);
+        unit->sub_7100707544(2);
+    }
 }
 
 void ForkDropGiantNecklace::leave_() {

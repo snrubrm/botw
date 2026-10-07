@@ -2,6 +2,8 @@
 
 #include "KingSystem/ActorSystem/actAiAction.h"
 
+class Unk_71025afb58;
+
 namespace uking::action {
 
 class ForkDropGiantNecklace : public ksys::act::ai::Action {
@@ -19,7 +21,7 @@ protected:
     void calc_() override;
 
     // aitree_variable at offset 0x20
-    void* mGiantNecklaceUnit_a{};
+    Unk_71025afb58** mGiantNecklaceUnit_a{};
 };
 
 }  // namespace uking::action
