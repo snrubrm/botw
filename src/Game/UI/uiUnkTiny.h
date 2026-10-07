@@ -12,10 +12,12 @@
 // original keeps them as members / locals of the screens. Named after their vtable (symbol start).
 
 namespace eui {
+class UniteButton;
 class Animator;
 }
 
 namespace eui {
+class UniteButton;
 class Animator;
 class LayoutEx;
 class TextBoxEx;
@@ -217,8 +219,19 @@ public:
 
 class Unk_7102477468 {
 public:
+    Unk_7102477468();
     virtual ~Unk_7102477468();
+    void sub_7100987FBC(eui::UniteButton* button);
+    void sub_7100988010(u32 frame);
+    void sub_710098802C(bool checked);
+    bool sub_7100988040() const;
+    void sub_7100988060(bool play);
+    bool sub_710098807C() const;
+
+    eui::UniteButton* mButton = nullptr;
+    eui::Animator* mIconAnimator = nullptr;
 };
+static_assert(sizeof(Unk_7102477468) == 0x18);
 
 class Unk_7102477488 {
 public:

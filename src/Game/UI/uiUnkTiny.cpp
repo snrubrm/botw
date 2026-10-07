@@ -1,5 +1,7 @@
 #include "Game/UI/uiUnkTiny.h"
 #include "Game/UI/euiAnimator.h"
+#include "Game/UI/euiButton.h"
+#include "Game/UI/euiLayoutEx.h"
 
 // The "{ ; }" destructors keep the original's vtable store (upstream GameDataFlagSelector::~GameDataFlagSelector() { ; },
 // commit 96101229; the original D1 is `str vptr; ret`).
@@ -72,6 +74,39 @@ Unk_7102476b40::~Unk_7102476b40() = default;
 Unk_7102476b60::~Unk_7102476b60() = default;
 
 // 0x7100987fb4
+Unk_7102477468::Unk_7102477468() = default;
+
+void Unk_7102477468::sub_7100987FBC(eui::UniteButton* button) {
+    if (button) {
+        mButton = button;
+        button->setFlag10(false);
+        mIconAnimator = mButton->mLayout->createAnimatorAuto("Icon", false);
+    }
+}
+
+void Unk_7102477468::sub_7100988010(u32 frame) {
+    if (mIconAnimator)
+        mIconAnimator->Stop(frame);
+}
+
+void Unk_7102477468::sub_710098802C(bool checked) {
+    if (mButton)
+        mButton->ForceSetChecked(checked);
+}
+
+bool Unk_7102477468::sub_7100988040() const {
+    return mButton && mButton->mChecked;
+}
+
+void Unk_7102477468::sub_7100988060(bool play) {
+    if (mButton)
+        mButton->PlayDisableAnim(play);
+}
+
+bool Unk_7102477468::sub_710098807C() const {
+    return mButton && mButton->IsPlayDisableAnim();
+}
+
 Unk_7102477468::~Unk_7102477468() = default;
 
 // 0x71009880a4
