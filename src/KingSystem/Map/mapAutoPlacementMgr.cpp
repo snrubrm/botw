@@ -2,6 +2,7 @@
 #include <prim/seadScopedLock.h>
 #include "Game/AI/aiUnk_7100736460.h"
 #include "Game/gameStatisticsMgr.h"
+#include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Map/mapAutoPlacementFlowMgr.h"
 
 namespace ksys::map {
@@ -63,6 +64,35 @@ f32 AutoPlacementMgr::sub_71006592E8(const sead::Vector3f& pos) {
     if (uking::StatisticsMgr::instance()->query(&value, 1, _189dd0, &pos))
         return value * 200.0f;
     return 0.0f;
+}
+
+// NON_MATCHING: only the select polarity of the free-entry choice (`csel x25, x12, x25, eq` in the original, `csel
+// x25, x25, x12, ne` here). `is_box` is a u32 (the original stores the raw argument register).
+bool AutoPlacementMgr::sub_7100659E40(act::Actor* actor, const sead::SafeString& actor_name, int count,
+                                      u32 is_box) {
+    if (u32(count - 1) >= 0x7fff)
+        return false;
+
+    auto lock = sead::makeScopedLock(mCS);
+    Unk1* free_entry = nullptr;
+    for (auto& entry : _5b118) {
+        if (entry.actor == actor)
+            return false;
+        if (!entry.actor && !entry._8b62 && !free_entry)
+            free_entry = &entry;
+    }
+    if (!free_entry)
+        return false;
+
+    free_entry->actor = actor;
+    free_entry->mtx = actor->getMtx();
+    free_entry->scale = actor->getScale();
+    free_entry->name = actor_name;
+    free_entry->is_box = is_box;
+    free_entry->count = count;
+    free_entry->_8b62 = true;
+    _171e46 = true;
+    return true;
 }
 
 // NON_MATCHING: the original reads the counter once more (a discarded volatile load) after the decrement

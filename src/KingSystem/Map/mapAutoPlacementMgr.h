@@ -1,6 +1,7 @@
 #pragma once
 
 #include <heap/seadDisposer.h>
+#include <math/seadMatrix.h>
 #include <math/seadVector.h>
 #include <prim/seadDelegate.h>
 #include <prim/seadSafeString.h>
@@ -34,7 +35,7 @@ public:
     virtual ~AutoPlacementMgr();
 
     bool sub_7100659E40(act::Actor* actor, const sead::SafeString& actor_name, int count,
-                        bool is_box);
+                        u32 is_box);
     void sub_7100659F94(act::Actor* actor);
     // 0x7100659158 (CSV __auto10; placeholder name): placement type of the flow `idx` (near flows with `near_flow`).
     int sub_7100659158(int idx, bool near_flow);
@@ -67,7 +68,15 @@ public:
     // TODO: rename
     struct Unk1 {
         act::Actor* actor;
-        u8 _8[0x8b68 - 0x8];
+        sead::SafeString name;
+        // The actor's matrix / scale when it was registered (sub_7100659E40).
+        sead::Matrix34f mtx;
+        sead::Vector3f scale;
+        u32 is_box;
+        u8 _58[0x8b60 - 0x58];
+        u16 count;
+        bool _8b62;
+        u8 _8b63[0x8b68 - 0x8b63];
     };
     KSYS_CHECK_SIZE_NX150(Unk1, 0x8b68);
 
