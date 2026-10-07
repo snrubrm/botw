@@ -66,4 +66,14 @@ void Unk_7102474e38::sub_7100939F4C(eui::AnimButton* button) {
     m22(button);
 }
 
+// The eight original default button notifications are empty.
+void Unk_7102474e38::m15(eui::AnimButton*) {}
+void Unk_7102474e38::m16(eui::AnimButton*) {}
+void Unk_7102474e38::m17(eui::AnimButton*) {}
+void Unk_7102474e38::m18(eui::AnimButton*) {}
+void Unk_7102474e38::m19(eui::AnimButton*) {}
+void Unk_7102474e38::m20(eui::AnimButton*) {}
+void Unk_7102474e38::m21(eui::AnimButton*) {}
+void Unk_7102474e38::m22(eui::AnimButton*) {}
+
 }  // namespace uking::ui
