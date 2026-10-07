@@ -195,7 +195,6 @@ public:
     }
 
     bool isDemo() const { return mIsDemo; }
-    bool sub_71010F3A94();
     StageType getStageType() const { return mStageType; }
     FieldType getFieldType() const { return mFieldType; }
     ScalingMode getScalingMode() const { return mScalingMode; }
