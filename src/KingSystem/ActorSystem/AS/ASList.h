@@ -260,7 +260,8 @@ public:
         // 0x7100bff4cc reads the Model unit array and 0x80-byte masks passed by
         // sub_7101164CA4 and sub_7101164E38; the canonical library type owns this API.
         using PartialBones = gsys::PartialSkeletalAnmBase;
-        PartialBones* _30;
+        // sub_7101164600 constructs PartialSkeletalAnmEx and stores it here.
+        gsys::PartialSkeletalAnmEx* _30;
         sead::Buffer<BitRow> _38;
         f32 _48;
         u8 _4c;

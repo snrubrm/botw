@@ -1,4 +1,5 @@
 #include "KingSystem/ActorSystem/AS/ASList.h"
+#include <gsys/gsysModelUnit.h>
 #include "KingSystem/ActorSystem/AS/asElement.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/Resource/Actor/resResourceASList.h"
@@ -242,6 +243,21 @@ void ASList::Unk1::sub_7101164E38(bool a1) {
     }
     _4d = false;
     _30->sub_7100BFF4CC(_0, &_38);
+}
+
+// NON_MATCHING: model-unit and key loads are shared across the two branches.
+void ASList::Unk1::sub_7101165008(const gsys::BoneAccessKey& key, int mode, bool variant) {
+    auto* partial = _30;
+    if (!partial)
+        return;
+    auto* model = _0;
+    if (variant) {
+        const auto name = model->getUnits()[key.model_unit_index]->mModelUnit->getBoneName(key.bone_index);
+        partial->sub_7100BFF95C(model, name, mode);
+    } else {
+        const auto name = model->getUnits()[key.model_unit_index]->mModelUnit->getBoneName(key.bone_index);
+        partial->sub_7100BFF8E4(model, name, mode);
+    }
 }
 
 void ASList::Unk1::sub_7101164FF8() {
