@@ -25,6 +25,8 @@ class ApertureMapsCollector {
     void allocateImage();
     void releaseImage();
 };
+class System;
+
 class Core {
 public:
     class Grass {
@@ -56,6 +58,8 @@ public:
     void sub_7101300BF0();
     void sub_710130085C();
     void sub_710130089C();
+    void sub_71013008E4(sead::Heap* heap, System* system);
+    void sub_71013009C4(sead::Heap* heap);
     bool sub_7101300D50(u32 index, bool a, bool b);
 
     class Model;
@@ -85,6 +89,8 @@ public:
     static Terrain* instance() { return sInstance; }
 
     void setPauseState(bool paused);
+    void sub_710114D8C0(sead::Heap* heap, System* system);
+    void sub_710114D8C8(sead::Heap* heap);
     void sub_710114D804(bool enabled, const sead::Matrix44f* projection,
                       const sead::Matrix34f* view);
     s32 sub_710114DD84(s32 index);
