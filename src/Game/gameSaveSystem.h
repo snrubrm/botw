@@ -66,8 +66,11 @@ public:
     void requestAutoSaveForGameClear(const sead::SafeString& game_clear_flag);
     // 0x71009146f8 (CSV SaveSystem::setRetryData; declaration only)
     bool setRetryData();
-    // 0x71009145f8 (CSV SaveSystem::loadOptionsStart; declaration only; 256 bytes)
-    void sub_71009145F8();
+    // 0x71009145f8 (CSV SaveSystem::loadOptionsStart): starts loading the options save file (state 24 first when the
+    // save manager asks for the track block file number); false when the save system is busy.
+    bool sub_71009145F8();
+    // 0x7100913cc8 (CSV loadOptions; declared only)
+    void sub_7100913CC8(bool a);
 
     // 0x7100914ce4 / 0x7100914504 (CSV SaveSystem::__auto3 / __auto4; the same test as isFinishedSavingMaybe,
     // separate copies called by the UI).
@@ -128,6 +131,10 @@ public:
     void sub_7100912464();
     // 0x710090fa84 (CSV callback): the save finished / was cancelled callback: resets the state unless it is 2 or 11.
     void callback();
+    // 0x710090fb5c (CSV finishLoadCb): the load finished: starts state 35 and applies the loaded game data fixes.
+    void finishLoadCb();
+    // 0x7100912c94 (CSV x; declared only)
+    void sub_7100912C94(s32 slot);
     // 0x710091453c (CSV triggerAutoSaveFromArea): an auto save requested by the area actor `actor` (not again for
     // the same map object while the cool down _1a24 runs).
     bool triggerAutoSaveFromArea(ksys::act::Actor* actor);
@@ -164,10 +171,10 @@ public:
     u8 _1a14[4];
     // The buffer written by SaveMgr::x for the tracker file
     void* _1a18;
-    u8 _1a20[4];
+    f32 _1a20;
     f32 _1a24;
     f32 _1a28;
-    u8 _1a2c[0x1a30 - 0x1a2c];
+    s32 _1a2c;
     // The HashId of the map object of the last auto save area
     u32 _1a30;
     // bool / s32 flag indices (with the flag handle prefix in the top byte) set by requestAutoSaveForGameClear

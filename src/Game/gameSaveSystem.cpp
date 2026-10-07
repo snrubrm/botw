@@ -277,6 +277,95 @@ bool SaveSystem::triggerAutoSaveFromArea(ksys::act::Actor* actor) {
     return sub_71009109EC(false, true);
 }
 
+bool SaveSystem::sub_71009145F8() {
+    auto* save_mgr = ksys::SaveMgr::instance();
+    auto* gdt_mgr = ksys::gdt::Manager::instance();
+    if (!save_mgr || !gdt_mgr)
+        return false;
+    if (save_mgr->get38() != 0)
+        return false;
+    if (_3c != 0)
+        return false;
+
+    if (!save_mgr->_105b) {
+        const char* flag_name;
+        if (aoc::HardModeManager::instance() &&
+            aoc::HardModeManager::instance()->checkFlag(
+                aoc::HardModeManager::Flag::EnableHardMode)) {
+            flag_name = ksys::gdt::flagname::TrackBlockFileNumber_Hard();
+        } else {
+            flag_name = ksys::gdt::flagname::TrackBlockFileNumber();
+        }
+
+        const u32 hash = sead::HashCRC32::calcStringHash(flag_name);
+        gdt_mgr->mBitFlags.set(ksys::gdt::Manager::BitFlag::_2);
+        gdt_mgr->mStr.format("%s", "option.sav");
+        gdt_mgr->mTrackerBlockSaveNumberFlagCrc32 = hash;
+        _3c = 24;
+    }
+
+    sub_7100913CC8(true);
+    return true;
+}
+
+void SaveSystem::finishLoadCb() {
+    switch (_3c) {
+    case 6:
+    case 7:
+    case 22:
+    case 23:
+    case 26:
+    case 27:
+    case 32:
+    case 39:
+    case 40:
+        return;
+    default:
+        break;
+    }
+
+    _3c = 35;
+    sub_7100912C94(_30);
+
+    if (E3Mgr::instance()) {
+        bool is_demo;
+        if (E3Mgr::instance()->isDemoMode0AndNotStageSelect()) {
+            is_demo = true;
+        } else if (auto* e3 = E3Mgr::instance()) {
+            // discarded call in the original
+            e3->getDemoStage();
+            is_demo = e3->isDemoMode2AndNotStageSelect();
+        } else {
+            is_demo = false;
+        }
+        if (is_demo) {
+            ksys::gdt::setFlag_AmiiboItemOnOff(true, false);
+            ksys::gdt::setFlag_IsGet_Obj_AmiiboItem(true, false);
+        }
+    }
+
+    if (ksys::gdt::getFlag_LastBossGanonBeastGenerateFlag(false)) {
+        if (auto* gdt_mgr = ksys::gdt::Manager::instance()) {
+            gdt_mgr->setBoolNoCheck(true, "SaveProhibition");
+            gdt_mgr->setBoolNoCheck(true, "WarpProhibition");
+            gdt_mgr->setBoolNoCheck(true, "KillTimeProhibition");
+            gdt_mgr->setBoolNoCheck(true, "EnterDungeonProhibition");
+        }
+    } else if (auto* gdt_mgr = ksys::gdt::Manager::instance()) {
+        gdt_mgr->mBitFlags.reset(ksys::gdt::Manager::BitFlag::_80000);
+        gdt_mgr->destroyRetryBuffer();
+    }
+
+    if (!ksys::gdt::getFlag_IsPlayed_Demo102_0(false))
+        ksys::gdt::setFlag_IsPlayed_Demo102_0(true, false);
+
+    if (auto* mgr = ksys::gdt::Manager::instance())
+        mgr->startSyncOnLoadEnd();
+
+    _1a20 = f32(_1a2c);
+    _1a50 = (_1a50 & ~0xc) | 4;
+}
+
 void SaveSystem::callback() {
     switch (_3c) {
     case 14:
