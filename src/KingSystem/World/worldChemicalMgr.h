@@ -3,6 +3,7 @@
 #include <container/seadPtrArray.h>
 #include <container/seadObjList.h>
 #include <thread/seadCriticalSection.h>
+#include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Utils/Types.h"
 #include "KingSystem/World/worldJob.h"
 
@@ -21,6 +22,8 @@ public:
     void sub_71010C9E48(ksys::act::Actor* actor);
     void sub_71010C9438();
     void sub_71010C9B48();
+    // Pool reset forwarder (0x71010c9cfc); defined in its own TU so callers keep the call.
+    void sub_71010C9CFC();
     sead::CriticalSection _8;
     u8 _48[0x90 - 0x48];
 };
@@ -83,7 +86,9 @@ public:
     sead::PtrArray<Unk_710250c698> _c70;
     u8 _c80[0xcf8 - 0xc80];
     WorldMgrStruct0_8_a _cf8;
-    u8 _d88[0xdc0 - 0xd88];
+    // The actor whose chemical state is put to sleep on unload (acquireActor in unload2).
+    act::BaseProcLink _d88;
+    u8 _d98[0xdc0 - 0xd98];
 };
 KSYS_CHECK_SIZE_NX150(ChemicalMgr, 0xdc0);
 

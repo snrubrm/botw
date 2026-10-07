@@ -100,6 +100,10 @@ public:
     u8 _37c;
 };
 
+// 0x71011501c8 (declaration only): Grass cleanup thunk called by world::ChemicalMgr::unload2;
+// the body stays with the Grass owner.
+void sub_71011501C8(Core::Grass* grass);
+
 // Terrain is the CSV name of the singleton at 0x7102620698.
 // The bases and the remaining members are not modeled yet.
 class Terrain {

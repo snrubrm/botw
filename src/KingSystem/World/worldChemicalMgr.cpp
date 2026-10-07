@@ -1,6 +1,8 @@
 #include "KingSystem/World/worldChemicalMgr.h"
 #include <prim/seadScopedLock.h>
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actChemicalElementHolder.h"
+#include "KingSystem/Terrain/teraSystem.h"
 
 namespace ksys::world {
 
@@ -10,6 +12,23 @@ void ChemicalMgr::initBeforeStageGen() {
     _ae8->sub_7100D9AA84();
     mChemicalPairs.clear();
     sub_71010CB39C();
+}
+
+void ChemicalMgr::unload2() {
+    sead::ScopedLock<sead::CriticalSection> lock(&mChemicalPairLock);
+    act::ActorConstDataAccess accessor;
+    act::acquireActor(&_d88, &accessor);
+    if (accessor.isStateCalc())
+        accessor.sleep(act::BaseProc::SleepWakeReason::_0);
+    _cf8.sub_71010C9CFC();
+    mChemicalPairs.clear();
+    if (_ae8) {
+        auto* terrain = ksys::tera::Terrain::instance();
+        if (terrain && terrain->isGrassEnabled())
+            ksys::tera::sub_71011501C8(terrain->sub_710114DE4C());
+        sub_71010CB39C();
+        _ae8->sub_7100D9AAE4();
+    }
 }
 
 
