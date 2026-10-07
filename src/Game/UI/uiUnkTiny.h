@@ -443,9 +443,9 @@ public:
     /* 0x08 */ eui::LayoutEx* mLayout;
     /* 0x10 */ sead::SafeArray<eui::Animator*, 9> mAnimators;
     /* 0x58 */ f32 _58;
-    /* 0x5c */ u8 _5c[4];
-    // Original constructor constructs a FixedSafeString<64> here; its use remains unrecovered.
-    /* 0x60 */ u64 _60[0x58 / 8];
+    /* 0x5c */ u8 _5c;
+    u8 _5d[3];
+    /* 0x60 */ sead::FixedSafeString<64> _60;
 };
 
 class Unk_71024810b8 {

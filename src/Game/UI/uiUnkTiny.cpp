@@ -390,7 +390,12 @@ Unk_7102476a60::~Unk_7102476a60() { ; }
 // 0x7100968020
 Unk_7102476b00::~Unk_7102476b00() { ; }
 
-// 0x7100988490
+Unk_71024774a8::Unk_71024774a8()
+    : mLayout(nullptr), mAnimators{}, _58(0.0f), _5c(0), _60(sead::SafeString::cEmptyString) {
+    mAnimators.fill(nullptr);
+}
+
+// 0x71009884a8
 void Unk_71024774a8::sub_71009884A8(eui::LayoutEx* layout) {
     mLayout = layout;
     sub_71009884B0();
