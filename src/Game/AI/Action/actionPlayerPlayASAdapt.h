@@ -18,6 +18,8 @@ public:
 
 protected:
     void calc_() override;
+    const sead::SafeString& m34() override;
+    const sead::SafeString& m35() override;
 
     // dynamic_param at offset 0xb0
     bool* mIsOneTimeEndKeep_d{};

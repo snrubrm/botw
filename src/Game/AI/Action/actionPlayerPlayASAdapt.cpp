@@ -5,6 +5,8 @@
 
 namespace uking::action {
 
+static const sead::SafeString sMotorcycleWait = "MotorcycleWait";
+
 PlayerPlayASAdapt::PlayerPlayASAdapt(const InitArg& arg) : PlayASForDemo(arg) {}
 
 PlayerPlayASAdapt::~PlayerPlayASAdapt() = default;
@@ -61,6 +63,28 @@ void PlayerPlayASAdapt::loadParams_() {
 
 void PlayerPlayASAdapt::calc_() {
     PlayASForDemo::calc_();
+}
+
+const sead::SafeString& PlayerPlayASAdapt::m34() {
+    if (static_cast<ksys::act::Player*>(mActor)->x_48()) {
+        if (PlayASForDemo::m34() == "DemoWait")
+            return sMotorcycleWait;
+    } else if (static_cast<ksys::act::Player*>(mActor)->isRidingHorse()) {
+        if (PlayASForDemo::m34() == "DemoWait")
+            return _118;
+    }
+    return PlayASForDemo::m34();
+}
+
+const sead::SafeString& PlayerPlayASAdapt::m35() {
+    if (static_cast<ksys::act::Player*>(mActor)->x_48()) {
+        if (PlayASForDemo::m34() == "DemoWait")
+            return sMotorcycleWait;
+    } else if (static_cast<ksys::act::Player*>(mActor)->isRidingHorse()) {
+        if (PlayASForDemo::m34() == "DemoWait")
+            return _118;
+    }
+    return mASName_d;
 }
 
 bool PlayerPlayASAdapt::isChangeable() const {
