@@ -128,4 +128,15 @@ f32 PriestBossActorGiantRoot::m45() {
     return 0.0f;
 }
 
+// NON_MATCHING: ObjList::front folds the node and object null checks into a conditional comparison;
+// the original retains separate branches around the node-to-record conversion.
+PriestBossActorGiantRoot::Attack PriestBossActorGiantRoot::m46() {
+    Attack attack = Attack::_0;
+    _a8->sub_710072B330();
+    if (auto* record = _a8->mRecords.front())
+        attack = Attack(record->mIndex);
+    ++_b0[attack];
+    return attack;
+}
+
 }  // namespace uking::ai

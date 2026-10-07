@@ -13,6 +13,8 @@ target_sources(uking PRIVATE
   aiBehaviorFactories.h
   aiAwarenessFilters.cpp
   aiAwarenessFilters.h
+  aiPriestBossWeightedPool.cpp
+  aiPriestBossWeightedPool.h
   aiFlagByte.h
   aiRandomTimer.h
   aiGuardianAimBeamState.cpp

@@ -2,6 +2,7 @@
 
 #include "Game/AI/AI/aiPriestBossActorRoot.h"
 #include "Game/AI/aiUnk_7102451120.h"
+#include "Game/AI/aiPriestBossWeightedPool.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 #include <container/seadSafeArray.h>
 #include "KingSystem/System/Timer.h"
@@ -73,7 +74,7 @@ protected:
     s32 _98 = 0;
     State _9c = State::_2;
     s32 _a0 = 0;
-    void* _a8 = nullptr;
+    Unk_7102451280* _a8 = nullptr;
     // Per-phase counters (indexed by the phase, clamped to 10): the weights of m40-m44 decay as 0.9^count.
     sead::SafeArray<u32, 11> _b0{};
     ksys::Timer _dc{900.0f, 900.0f};
