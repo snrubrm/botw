@@ -1,5 +1,10 @@
 #include "Game/gameSaveSystem.h"
+#include "Game/DLC/aocHardModeManager.h"
 #include "Game/gameRoot38.h"
+#include "Game/gameScene.h"
+#include "KingSystem/GameData/gdtCommonFlagsUtils.h"
+#include "KingSystem/GameData/gdtSpecialFlagNames.h"
+#include "KingSystem/GameData/gdtSpecialFlags.h"
 #include "KingSystem/GameData/gdtManager.h"
 #include "KingSystem/GameData/gdtSaveMgr.h"
 #include "KingSystem/GameData/gdtTriggerParam.h"
@@ -122,6 +127,61 @@ void SaveSystem::requestAutoSaveForGameClear(const sead::SafeString& game_clear_
     }
 
     _3c = 30;
+}
+
+// NON_MATCHING: block layout only (the original keeps one `mov w0, wzr` per failing test and places the shared
+// epilogue after the first checks; every nesting / early-return variant tried gives one merged `mov w0, wzr`)
+bool SaveSystem::x_3(s32 slot) {
+    if (u32(slot) > 7 || _3c != 0)
+        return false;
+
+    if (ksys::SaveMgr::instance()) {
+        if (ksys::SaveMgr::instance()->get38() == 0) {
+            if (!ksys::gdt::getFlag_IsPlayed_Demo102_0())
+                return false;
+            if (ksys::gdt::isSaveProhibited())
+                return false;
+            if (_1a42)
+                return false;
+            if (_1a50 & 0x1008)
+                return false;
+            if (GameScene::getCurrentMapType().isEmpty())
+                return false;
+
+            _1a50 |= 0x4200;
+            _30 = slot;
+            _3c = 30;
+            return true;
+        }
+    }
+    return false;
+}
+
+void SaveSystem::calculateTrackBlockSaveNumberFlagHash() {
+    auto* save_mgr = ksys::SaveMgr::instance();
+    if (!save_mgr)
+        return;
+    auto* gdt_mgr = ksys::gdt::Manager::instance();
+    if (!gdt_mgr)
+        return;
+
+    save_mgr->auto5();
+    if (!save_mgr->someCheck())
+        return;
+
+    const char* flag_name;
+    if (aoc::HardModeManager::instance() &&
+        aoc::HardModeManager::instance()->checkFlag(aoc::HardModeManager::Flag::EnableHardMode)) {
+        flag_name = ksys::gdt::flagname::TrackBlockFileNumber_Hard();
+    } else {
+        flag_name = ksys::gdt::flagname::TrackBlockFileNumber();
+    }
+
+    const u32 hash = sead::HashCRC32::calcStringHash(flag_name);
+    gdt_mgr->mBitFlags.set(ksys::gdt::Manager::BitFlag::_2);
+    gdt_mgr->mStr.format("%s", "caption.sav");
+    gdt_mgr->mTrackerBlockSaveNumberFlagCrc32 = hash;
+    _3c = 38;
 }
 
 }  // namespace uking

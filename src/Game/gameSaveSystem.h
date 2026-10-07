@@ -62,7 +62,9 @@ public:
     // bool / s32 flag indices (with the flag handle prefix in the top byte) set by requestAutoSaveForGameClear
     u32 _1a34;
     u32 _1a38;
-    u8 _1a3c[0x1a50 - 0x1a3c];
+    u8 _1a3c[0x1a42 - 0x1a3c];
+    bool _1a42;
+    u8 _1a43[0x1a50 - 0x1a43];
     // bit 2 (4): auto saving paused (cleared by DisableAutoSavePausing); bit 11 (0x800) is tested by calc
     u16 _1a50;
 };
