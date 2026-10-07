@@ -1,5 +1,6 @@
 #pragma once
 
+#include <basis/seadTypes.h>
 #include <math/seadMatrix.h>
 #include <prim/seadSafeString.h>
 
@@ -7,6 +8,11 @@ namespace ksys::act {
 class Actor;
 class BaseProc;
 }  // namespace ksys::act
+
+namespace ksys {
+struct MesTransceiverId;
+enum MessageType : u32;
+}  // namespace ksys
 
 namespace ksys::evt {
 class BaseProcLinkForEvent;
@@ -44,6 +50,15 @@ bool callDemo616_0(ksys::act::Actor* player, const sead::SafeString& a, const se
 // 0x71008bad74 (CSV name): calls Demo006_0 at the player's matrix.
 bool callPlayerGameOverDemo(ksys::act::Actor* player);
 
+// 0x71008baae0 (CSV GameScene::callSceneStartDemo; lane2 s46): callEvent without a proc.
+bool callSceneStartDemo(const sead::SafeString& event, const sead::SafeString& entry,
+                        const sead::Matrix34f& mtx, bool a4, bool a5);
+
+// 0x71008bb0b4 / 0x71008bb14c (CSV callDemo049_controlsDemo / callDemo025_1_E3Exit; lane2 s46): call the demo at the
+// player's matrix (false without a player).
+bool callDemo049_controlsDemo(const sead::SafeString& entry);
+bool callDemo025_1_E3Exit();
+
 }  // namespace uking
 
 // 0x71008ba664 / 0x71008ba670 / 0x71008ba67c (CSV getStr_CurrentActorName / getStr_SharpWeaponAddValue /
@@ -57,6 +72,10 @@ bool isDemo000Or002(const ksys::evt::BaseProcLinkForEvent& link);
 bool eventMgrHasActiveEvent();
 // 0x71008ba760 (placeholder name): the EventSystem's sub_71008AC118() (false without an EventSystem).
 bool sub_71008BA760();
+// 0x71008ba8ac (placeholder name): sends `type` to `dest` through the Manager (nothing without one).
+void sub_71008BA8AC(const ksys::MesTransceiverId& dest, ksys::MessageType type);
+// 0x71008bacb8 (placeholder name): calls the Timeline event `event` without entry point or proc (false if empty).
+bool sub_71008BACB8(const sead::SafeString& event);
 // 0x71008ba7d8 (CSV isActiveEventDemo000Or001Or002)
 bool isActiveEventDemo000Or001Or002();
 // 0x71008bb7d8 / 0x71008bb878 (placeholder names): whether the active flow is playing / the name of the active event

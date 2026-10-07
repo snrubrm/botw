@@ -48,6 +48,7 @@ public:
     bool isSkipIsStartableAirCheck() const { return mSkipIsStartableAirCheck; }
     void setSkipIsStartableAirCheck(bool skip) { mSkipIsStartableAirCheck = skip; }
     bool isForceNoChild() const { return mForceNoChild; }
+    void setForceNoChild(bool value) { mForceNoChild = value; }
     bool is13() const { return _13; }
     void set13(bool value) { _13 = value; }
     void* get18() const { return _18; }

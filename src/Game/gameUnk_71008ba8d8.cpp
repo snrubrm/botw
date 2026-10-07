@@ -1,5 +1,8 @@
 #include "Game/gameUnk_71008ba8d8.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/Event/evtActorBase.h"
 #include "KingSystem/Event/evtBaseProcLinkForEvent.h"
 #include "KingSystem/Event/evtEventFlow.h"
 #include "KingSystem/Event/evtEventSystem.h"
@@ -75,6 +78,23 @@ bool eventMgrHasActiveEvent() {
     return ksys::evt::Manager::instance()->hasActiveEvent();
 }
 
+void sub_71008BA8AC(const ksys::MesTransceiverId& dest, ksys::MessageType type) {
+    if (auto* manager = ksys::evt::Manager::instance())
+        manager->sub_7100DB0FB0(dest, type, nullptr);
+}
+
+bool sub_71008BACB8(const sead::SafeString& event) {
+    auto* manager = ksys::evt::Manager::instance();
+    if (event.isEmpty())
+        return false;
+
+    ksys::evt::Metadata metadata(event.cstr(), "", "Timeline");
+    metadata.setForceNoChild(true);
+    ksys::evt::CallArg arg;
+    arg.metadata = &metadata;
+    return manager->callEvent(arg);
+}
+
 bool sub_71008BA760() {
     if (auto* system = ksys::evt::EventSystem::instance())
         return system->sub_71008AC118();
@@ -99,6 +119,23 @@ bool sub_71008BB7D8() {
 bool sub_71008BB804() {
     if (auto* flow = ksys::evt::Manager::instance()->sub_7100DB222C())
         return flow->byte3FlagIsSet();
+    return false;
+}
+
+// NON_MATCHING: same logic; the original devirtualises the literal operand's assureTerminationImpl_ (only two virtual
+// calls, on the actor's name) and compares the pointers directly, ours keeps a stack SafeString for each literal.
+// 0x71008bb600
+bool sub_71008BB600() {
+    auto* flow = ksys::evt::Manager::instance()->sub_7100DB222C();
+    if (flow && flow->_110) {
+        auto& actors = flow->_110->mActors;
+        for (s32 i = 0; i < actors.size(); ++i) {
+            if (auto* actor = actors[i]) {
+                if (actor->mName == "GameROMPlayer" || actor->mName == "GameRomCamera")
+                    return true;
+            }
+        }
+    }
     return false;
 }
 
@@ -131,6 +168,30 @@ bool callPlayerGameOverDemo(ksys::act::Actor* player) {
     if (!player)
         return false;
     return ksys::evt::callEvent(nullptr, event, entry, player->getMtx(), true, false);
+}
+
+bool callSceneStartDemo(const sead::SafeString& event, const sead::SafeString& entry,
+                        const sead::Matrix34f& mtx, bool a4, bool a5) {
+    return ksys::evt::callEvent(nullptr, event, entry, mtx, a4, a5);
+}
+
+bool callDemo049_controlsDemo(const sead::SafeString& entry) {
+    const sead::SafeString event = "Demo049_0";
+    ksys::act::acc::PlayerBase player;
+    player.getPlayerFromPlayerInfo();
+    if (!player.hasProc())
+        return false;
+    return ksys::evt::callEvent(nullptr, event, entry, player.getActorMtx(), true, false);
+}
+
+bool callDemo025_1_E3Exit() {
+    const sead::SafeString event = "Demo025_1";
+    const sead::SafeString entry = "Demo025_1";
+    ksys::act::acc::PlayerBase player;
+    player.getPlayerFromPlayerInfo();
+    if (!player.hasProc())
+        return false;
+    return ksys::evt::callEvent(nullptr, event, entry, player.getActorMtx(), true, false);
 }
 
 }  // namespace uking
