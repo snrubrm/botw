@@ -1,5 +1,7 @@
 #pragma once
 
+#include <math/seadMatrix.h>
+
 #include "KingSystem/ActorSystem/actAiAction.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/System/Timer.h"
@@ -20,6 +22,7 @@ public:
 protected:
     void calc_() override;
     virtual bool m32();
+    void sub_710014FA28(const sead::Matrix34f& mtx);
 
     // static_param at offset 0x20
     const int* mPower_s{};

@@ -78,4 +78,25 @@ bool ForkASTrgEmitShockWave::m32() {
     return false;
 }
 
+void ForkASTrgEmitShockWave::sub_710014FA28(const sead::Matrix34f& mtx) {
+    const f32 scale_value = *mMaxScale_s;
+    sead::Vector3f scale{scale_value, scale_value, scale_value};
+    ksys::act::BaseProcLink* link = &_98;
+    if (!link->hasProc()) {
+        if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor))
+            link = &enemy->getActorPartsActor(mShockWavePartsKey_s);
+        else
+            link = &ksys::act::sUnk_71026505e0;
+    }
+    if (!link->hasProc())
+        return;
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(link, &accessor);
+    if (accessor.isStateSleep()) {
+        accessor.setProperties(mtx, nullptr, nullptr, &scale, false, 0, -1);
+        _90 = true;
+        _a8.reset(*mEmitIntervalTime_s);
+    }
+}
+
 }  // namespace uking::action

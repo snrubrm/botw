@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionForkASTrgEmitShockWaveAtEnter.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -13,6 +14,9 @@ bool ForkASTrgEmitShockWaveAtEnter::init_(sead::Heap* heap) {
 
 void ForkASTrgEmitShockWaveAtEnter::enter_(ksys::act::ai::InlineParamPack* params) {
     ForkASTrgEmitShockWave::enter_(params);
+    sead::Matrix34f mtx = sead::Matrix34f::ident;
+    mtx.setTranslation(mActor->getMtx() * *mOffsetPos_s);
+    sub_710014FA28(mtx);
 }
 
 void ForkASTrgEmitShockWaveAtEnter::leave_() {
