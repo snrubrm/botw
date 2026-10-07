@@ -136,3 +136,32 @@ protected:
     bool _10 = false;
     bool _11 = false;
 };
+KSYS_CHECK_SIZE_NX150(ActorObserverBase, 0x18);
+
+// vtable 0x71024e5408 (TU 0x7100e28d58 for the ctor; the m3/m4/m7/m8 bodies live in the observer TU
+// 0x7100e28da8-0x7100e28fb8, the m15 default in AreaFireObserveBase's TU).
+//
+// Observer used as the second base (at +0x20) of AreaFireObserveBase. Overrides the m3/m4/m7/m8
+// filters (they DynamicCast the observed actor to the Area actor class, which does not exist in the
+// repo yet, so they stay declared-only) and m6 (a 1-entry payload buffer with embedded storage),
+// and adds one new virtual (slot 15).
+class Unk_71024e5408 : public ActorObserverBase {
+public:
+    // 0x7100e28d58 (declared only).
+    explicit Unk_71024e5408(ksys::act::ai::ActionBase* owner);
+    // 0x7100e28da8 / 0x7100e28e58 / 0x7100e28f10 / 0x7100e28fb8 (all declared only): need the Area
+    // actor class (DynamicCast with guard 0x7102600a98 and typeinfo static 0x7102600a90).
+    bool m3(const CollisionIterator& it) override;
+    bool m4(const ContactIterator& it) override;
+    sead::Buffer<Payload>* m6() override { return &_18; }
+    bool m7(const CollisionIterator& it) override;
+    bool m8(const ContactIterator& it) override;
+    // Slot 15: called by the m3/m4 filters with the observed actor's link data (nullable).
+    // 0x7100e23fa0 (defined in actionAreaFireObserveBase.cpp).
+    virtual bool m15(const void* data);
+
+protected:
+    sead::Buffer<Payload> _18;
+    Payload _28;
+};
+KSYS_CHECK_SIZE_NX150(Unk_71024e5408, 0x30);
