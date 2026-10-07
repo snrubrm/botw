@@ -337,6 +337,7 @@ public:
 // 15-22 are known). The sub_ functions are out-of-line forwarders to the slots (0x7100939ef8 - 0x7100939f4c).
 class ScreenEx;
 struct ScreenAppPictureBookUnk;
+class Unk_7102474f10;
 
 class Unk_7102474e38 {
 public:
@@ -363,6 +364,8 @@ public:
     virtual void m22(eui::AnimButton* button);
 
     ScreenEx* sub_7100939C5C() const;
+    s32 sub_7100939C68() const;
+    s32 sub_7100939C78() const;
     bool sub_7100939CA0() const;
     void sub_7100939EF8(eui::AnimButton* button);
     void sub_7100939F04(eui::AnimButton* button);
@@ -378,7 +381,7 @@ public:
 
     /* 0x08 */ u64 _8{};
     /* 0x10 */ eui::AnimButton* _10{};
-    /* 0x18 */ u64 _18{};
+    /* 0x18 */ Unk_7102474f10* _18{};
     /* 0x20 */ ScreenAppPictureBookUnk* _20{};
     /* 0x28 */ u64 _28{};
     /* 0x30 */ s32 _30{};
@@ -1784,10 +1787,37 @@ public:
 // Placeholder for the objects ScreenAppPictureBook keeps at 0x3658 / 0x3660.
 // An entry of the picture book's list (placeholder; only the two flag bytes are known).
 struct ScreenAppPictureBookEntry {
-    u8 _0[0x38c];
+    u8 _0[0x29c];
+    /* 0x29c */ s32 _29c;
+    /* 0x2a0 */ s32 _2a0;
+    /* 0x2a4 */ s32 _2a4;
+    u8 _2a8[0x2f0 - 0x2a8];
+    /* 0x2f0 */ s32 _2f0;
+    u8 _2f4[0x38c - 0x2f4];
     /* 0x38c */ bool _38c;
     /* 0x38d */ bool _38d;
 };
+
+// Producer93C24C allocates this 0x48-byte button group. Binding93C304
+// writes its entry and list controller, and93C660 attaches its units.
+struct PictureBookGroupRecord {
+    u32 _0;
+    f32 _4;
+    f32 _8;
+    s32 _c;
+};
+class Unk_7102474f10 {
+public:
+    virtual ~Unk_7102474f10();
+    eui::LayoutEx* _8;
+    ScreenAppPictureBookEntry* mEntry;
+    ScreenAppPictureBookUnk* mController;
+    sead::PtrArray<Unk_7102474e38> mUnits;
+    eui::Animator* _30;
+    PictureBookGroupRecord* mRecord;
+    void* _40;
+};
+static_assert(sizeof(Unk_7102474f10) == 0x48);
 
 // Placeholder name: the picture book list controller (0x710093cd20 - 0x7100945000, about 100 unnamed rows).
 struct ScreenAppPictureBookUnk {
@@ -1803,11 +1833,15 @@ struct ScreenAppPictureBookUnk {
 
     /* 0x000 */ u8 _0[0x60];
     /* 0x060 */ ScreenEx* mScreen;
-    u8 _68[0x290 - 0x68];
+    u8 _68[0x288 - 0x68];
+    /* 0x288 */ u32 _288;
+    u32 _28c;
     /* 0x290 */ ScreenAppPictureBookEntry** _290;
     /* 0x298 */ u8 _298[0x2a8 - 0x298];
     /* 0x2a8 */ s32 _2a8;
-    /* 0x2ac */ u8 _2ac[0x33c - 0x2ac];
+    /* 0x2ac */ u8 _2ac[0x2d8 - 0x2ac];
+    /* 0x2d8 */ s32 _2d8;
+    u8 _2dc[0x33c - 0x2dc];
     /* 0x33c */ s32 _33c;
     /* 0x340 */ s32 _340;
 };

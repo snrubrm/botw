@@ -11,7 +11,7 @@ Unk_7102474e38::Unk_7102474e38() {}
 Unk_7102474e38::~Unk_7102474e38() {
     _8 = 0;
     _10 = nullptr;
-    _18 = 0;
+    _18 = nullptr;
     _20 = nullptr;
     _28 = 0;
     _30 = 0;
@@ -24,6 +24,24 @@ Unk_7102474e38::~Unk_7102474e38() {
 // 0x7100939c5c
 ScreenEx* Unk_7102474e38::sub_7100939C5C() const {
     return _20->mScreen;
+}
+
+s32 Unk_7102474e38::sub_7100939C68() const { return _18->mEntry->_2f0; }
+// NON_MATCHING: multiplication operand loads and registers differ.
+s32 Unk_7102474e38::sub_7100939C78() const {
+    return _3c + _18->mEntry->_2a0 * _18->mRecord->_c * _18->mEntry->_2a4;
+}
+// NON_MATCHING: loop induction width and arithmetic scheduling differ.
+bool Unk_7102474e38::sub_7100939CA0() const {
+    s32 count = 0;
+    if (_20->_290) {
+        for (s32 i = 0; i < _18->mEntry->_2f0; ++i) {
+            if (u32(i) < _20->_288 && _20->_290[i])
+                count += _20->_290[i]->_29c;
+        }
+        count += _3c + _18->mEntry->_2a0 * _18->mRecord->_c * _18->mEntry->_2a4;
+    }
+    return _20->_2d8 == count;
 }
 
 // 0x7100939ef8
