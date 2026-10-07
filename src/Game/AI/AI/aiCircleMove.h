@@ -29,8 +29,8 @@ protected:
 
     // w1 bit 0 gates direction selection (sub_710034F16C).
     void sub_710034E90C(bool keep_direction);
-    // 0x710034f16c (declaration only, 644 B; placeholder name): picks the circling direction.
-    void sub_710034F16C();
+    // 0x710034f16c: picks the circling direction from the current angle.
+    void sub_710034F16C(f32 angle);
 
     // static_param at offset 0x38
     const int* mDirection_s{};

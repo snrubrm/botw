@@ -3,6 +3,8 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/System/VFR.h"
 #include <math/seadMathCalcCommon.h>
+#include <random/seadGlobalRandom.h>
+#include "KingSystem/Utils/MathUtil.h"
 
 namespace uking::ai {
 
@@ -80,7 +82,7 @@ void CircleMove::sub_710034E90C(bool keep_direction) {
     direction.normalize();
     _58 = sead::Mathf::atan2(direction.x, direction.z);
     if (!keep_direction)
-        sub_710034F16C();
+        sub_710034F16C(_58);
     const f32 speed = *mSpeed_s;
     const f32 radius = m37();
     _58 += _5c * (speed / radius) * ksys::VFR::instance()->getDeltaFrame();
@@ -170,6 +172,47 @@ void CircleMove::m38(sead::Vector3f* out, f32 angle, f32 radius) {
     m34(out);
     out->x += sead::Mathf::sin(angle) * radius;
     out->z += sead::Mathf::cos(angle) * radius;
+}
+
+// NON_MATCHING: vector temporaries, direct actor access, and direction comparison scheduling differ.
+void CircleMove::sub_710034F16C(f32 angle) {
+    s32 direction = *mDirection_s;
+    if (direction == 3) {
+        const auto position = mActor->getMtx().getTranslation();
+        const f32 radius = m37();
+        direction = 2;
+        if (radius > 0.0f) {
+            const f32 speed = *mSpeed_s / radius;
+            const f32 step = speed > 0.0f ? speed : -speed;
+            f32 next = angle + step;
+            next -= sead::Mathf::floor(next * (1.0f / sead::Mathf::pi2())) * sead::Mathf::pi2();
+            if (next >= sead::Mathf::pi2())
+                next = 0.0f;
+            sead::Vector3f forward;
+            m38(&forward, next, radius);
+            f32 previous = angle - step;
+            previous -= sead::Mathf::floor(previous * (1.0f / sead::Mathf::pi2())) * sead::Mathf::pi2();
+            if (previous >= sead::Mathf::pi2())
+                previous = 0.0f;
+            sead::Vector3f reverse;
+            m38(&reverse, previous, radius);
+            forward -= position;
+            reverse -= position;
+            sead::Vector3f facing;
+            facing.setRotated(mActor->getMtx(), sead::Vector3f(0.0f, 0.0f, 1.0f));
+            sead::Vector3f axis;
+            f32 forward_angle = 0.0f;
+            f32 reverse_angle = 0.0f;
+            ksys::util::sub_71011EEB08(&axis, &forward_angle, facing, forward, sead::Vector3f::ey);
+            ksys::util::sub_71011EEB08(&axis, &reverse_angle, facing, reverse, sead::Vector3f::ey);
+            direction = reverse_angle < forward_angle ? 1 : 2;
+            if (!(reverse_angle <= forward_angle))
+                direction = 0;
+        }
+    }
+    if (direction == 2)
+        direction = sead::GlobalRandom::instance()->getU32() & 1;
+    _5c = direction == 1 ? -1.0f : 1.0f;
 }
 
 }  // namespace uking::ai
