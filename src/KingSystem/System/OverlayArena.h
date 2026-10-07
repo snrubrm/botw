@@ -66,8 +66,12 @@ public:
                                  sead::Heap::HeapDirection direction, res::ResourceUnit* unit,
                                  bool x);
 
-    // 0x71011fd7c8 (declared only): moves the unit (if it is linked to an arena list) to the front of mUnits.
+    // 0x71011fd7c8 (declared only): moves the unit (if it is linked to mUnits) to the back of mUnits2.
     void sub_71011FD7C8(res::ResourceUnit* unit);
+
+    // 0x71011fd3d0: clears the cached units of mUnits2 one by one (_b0 is set by the clearing) until `_b0 >= size`;
+    // false when the list ran out first.
+    bool sub_71011FD3D0(u32 size);
 
     void addSize(s32 size);
     void addSize2(s32 size);
@@ -106,7 +110,7 @@ private:
     sead::OffsetList<res::ResourceUnit> mUnits2;  // TODO: rename
     sead::CriticalSection mCS;
     size_t mUsage2 = 0;
-    void* _b0 = nullptr;
+    size_t _b0 = 0;
     s32 mSize = 0;
     s32 mUsage1 = 0;
     u32 mHeapFreeSize = 0;

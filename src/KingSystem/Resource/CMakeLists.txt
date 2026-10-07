@@ -84,6 +84,7 @@ target_sources(uking PRIVATE
 
   resArchiveWork.cpp
   resArchiveWork.h
+  resBfRes.h
   resCache.cpp
   resCache.h
   resCacheCriticalSection.cpp
@@ -130,6 +131,8 @@ target_sources(uking PRIVATE
   resUnitPool.cpp
   resUnitPool.h
 
+  resResDerived.cpp
+  resResDerived.h
   resResource.cpp
   resResource.h
   resResourceASSetting.cpp

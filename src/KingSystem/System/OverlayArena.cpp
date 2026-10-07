@@ -127,7 +127,7 @@ s32 OverlayArena::clearCaches(s32 num, bool b) {
         }
 
         res::ResourceMgrTask::instance()->deregisterUnit(unit);
-        _b0 = nullptr;
+        _b0 = 0;
         res::ResourceMgrTask::instance()->requestClearCacheForSync(&unit, true, b);
         ++count;
     }
@@ -218,6 +218,38 @@ util::DualHeap* OverlayArena::makeDualHeap(u32 size, const sead::SafeString& nam
 
     mFlags.set(Flag::_4);
     return heap;
+}
+
+// NON_MATCHING: the original shares the `mov w22, wzr` of the loop exit with the null unit exit
+bool OverlayArena::sub_71011FD3D0(u32 size) {
+    auto lock = sead::makeScopedLock(mCS);
+    res::ResourceUnit* unit;
+    while ((unit = mUnits2.popFront())) {
+        res::lockCacheCriticalSection();
+        if (!unit->isStatusFlag8000Set()) {
+            res::unlockCacheCriticalSection();
+            continue;
+        }
+        unit->removeFromCache();
+        res::unlockCacheCriticalSection();
+
+        res::ResourceMgrTask::instance()->deregisterUnit(unit);
+        _b0 = 0;
+        res::ResourceMgrTask::instance()->requestClearCacheForSync(&unit, true, false);
+        if (_b0 >= size)
+            return true;
+    }
+    return false;
+}
+
+void OverlayArena::sub_71011FD7C8(res::ResourceUnit* unit) {
+    if (!mUnits.isNodeLinked(unit))
+        return;
+
+    auto lock = sead::makeScopedLock(mCS);
+    if (mUnits2.isNodeLinked(unit))
+        mUnits2.erase(unit);
+    mUnits2.pushBack(unit);
 }
 
 void OverlayArena::addSize(s32 size) {

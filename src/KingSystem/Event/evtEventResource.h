@@ -9,6 +9,7 @@
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Event/evtDemoInfo.h"
 #include "KingSystem/Resource/resHandle.h"
+#include "KingSystem/Resource/resResDerived.h"
 #include "KingSystem/Resource/resTempResourceLoader.h"
 #include "KingSystem/Utils/Thread/LowPrioThreadMgr.h"
 
@@ -24,18 +25,6 @@ namespace ksys::xlink {
 class XLink;
 }
 
-namespace ksys::res {
-// CSV ResDerived (ctor 0x71011fc5c0: `res::Handle::Handle()` + its own vtable store; 71 callers): a res::Handle
-// subclass that holds a model resource. Placeholder name; declared only.
-class ResDerived : public Handle {
-    SEAD_RTTI_OVERRIDE(ResDerived, Handle)
-public:
-    ResDerived();
-    ~ResDerived() override;
-    // 0x71011fc618 (CSV ResDerived::getModelRes)
-    void* getModelRes();
-};
-}  // namespace ksys::res
 
 namespace ksys::evt {
 
