@@ -292,14 +292,38 @@ public:
 
     // 0x7101055538 (CSV unnamed): if `_70` is clear, sets it and stores `value` in `_74`.
     void sub_7101055538(s32 value);
+    // 0x7101054b30 (declaration only): creates the poser (in `heap`) and the default listener.
+    void init(sead::Heap* heap);
 
-    u8 _8[0x70 - 0x8];
-    /* 0x70 */ bool _70;
-    /* 0x74 */ s32 _74;
-    /* 0x78 */ s32 _78;  // mode: 0 Normal, 5 Gyro, 6 EvtBack (ListenerSetModeAction)
-    u8 _7c[0x80 - 0x7c];
-    u32 _80;  // set to 1 / 0 by uking::action::CameraAction enter_ / leave_
-    u8 _84[0xe0 - 0x84];
+    /* 0x08 */ aal::Listener* mListener = nullptr;
+    /* 0x10 */ aal::ListenerPoser* mPoser = nullptr;
+    /* 0x18 */ f32 _18 = 22.5f;
+    /* 0x1c */ f32 _1c = 45.0f;
+    /* 0x20 */ f32 _20 = 1.0f;
+    /* 0x24 */ f32 _24 = 5.0f;
+    /* 0x28 */ f32 _28 = 0.25f;
+    /* 0x2c */ f32 _2c = 1.0f;
+    /* 0x30 */ u64 _30[4] = {};
+    u8 _50[8];
+    /* 0x58 */ aal::SimpleTimedFader _58{0.0f};
+    /* 0x70 */ bool _70 = true;
+    /* 0x74 */ s32 _74 = 0;
+    /* 0x78 */ s32 _78 = 0;  // mode: 0 Normal, 5 Gyro, 6 EvtBack (ListenerSetModeAction)
+    /* 0x7c */ u32 _7c = 0;
+    // set to 1 / 0 by uking::action::CameraAction enter_ / leave_
+    /* 0x80 */ u32 _80 = 0;
+    /* 0x84 */ u16 _84 = 0;
+    /* 0x88 */ u32 _88 = 1;
+    /* 0x90 */ aal::SimpleTimedFader _90{1.0f};
+    /* 0xa8 */ aal::SimpleTimedFader _a8{0.0f};
+    /* 0xc0 */ f32 _c0 = 1.0f;
+    /* 0xc4 */ u32 _c4 = 0;
+    /* 0xc8 */ u32 _c8 = 0;
+    /* 0xcc */ u32 _cc = 0;
+    /* 0xd0 */ u32 _d0 = 0;
+    /* 0xd4 */ u32 _d4 = 0;
+    /* 0xd8 */ u32 _d8 = 0;
+    u8 _dc[4];
 };
 static_assert(sizeof(ListenerPoser) == 0xe0);
 

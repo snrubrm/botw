@@ -6,6 +6,9 @@ namespace ksys {
 
 struct Timer {
     Timer() = default;
+    // User-provided (user decision 2026-10-07): classes with Timer members keep their own D1 in the original instead of
+    // being aliased to the base dtor, which only happens when a member has a non-trivial dtor.
+    ~Timer() {}
     Timer(f32 value, f32 previous_value, f32 rate = -1.0)
         : value(value), previous_value(previous_value), rate(rate) {}
 
