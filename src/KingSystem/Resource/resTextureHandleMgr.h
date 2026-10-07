@@ -27,6 +27,10 @@ public:
     void sub_7100FE60B0(bool on);
     void sub_7100FE60DC(bool on);
     bool sub_7100FE6120() const;
+    // 0x7100fe54c0 (CSV TextureHandleMgr::d; declared only)
+    void d();
+    // 0x7100fe4cf4 (CSV TextureHandleMgr::xx; declared only)
+    void xx();
     void sub_7100FE5190();
     void sub_7100FE5334();
     // 0x7100fe56d8 (CSV TextureHandleMgr::isTooSlow): true (and restarts the timer) when bit 2 of the second flag byte is

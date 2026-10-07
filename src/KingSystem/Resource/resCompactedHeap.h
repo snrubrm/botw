@@ -19,6 +19,10 @@ public:
     bool setBuffer(void* buffer, size_t size);
     bool compact();
 
+    // 0x71012b5900 (CSV CompactedHeap::x; declared only)
+    void x(const sead::SafeString& name, bool b);
+    // The state (_5c90): 3 once the compaction is finished.
+    s32 getState() const { return _5c90; }
     void x_2();
     void x_3();
     bool x_4();

@@ -5,6 +5,7 @@
 #include <resource/seadSZSDecompressor.h>
 #include <thread/seadThreadUtil.h>
 #include "KingSystem/Framework/frmWorkerSupportThreadMgr.h"
+#include "KingSystem/Resource/resBfRes.h"
 #include "KingSystem/Resource/resCache.h"
 #include "KingSystem/Resource/resCompactedHeap.h"
 #include "KingSystem/Resource/resControlTask.h"
@@ -16,6 +17,7 @@
 #include "KingSystem/Resource/resTextureHandleMgr.h"
 #include "KingSystem/System/OverlayArenaSystem.h"
 #include "KingSystem/System/PlayReportMgr.h"
+#include "KingSystem/System/Patrol.h"
 #include "KingSystem/System/ProductReporter.h"
 #include "KingSystem/Utils/SafeDelete.h"
 #include "KingSystem/Utils/Thread/GameTaskThread.h"
@@ -25,6 +27,8 @@
 #include "KingSystem/Utils/Thread/TaskThread.h"
 
 namespace ksys::res {
+
+static bool sUnk_71026529C8;
 
 namespace {
 class ClearCachesTaskData : public util::TaskData {
@@ -52,7 +56,7 @@ ResourceMgrTask::ResourceMgrTask(const sead::TaskConstructArg& arg)
       mCounter(arg.heap_array->getPrimaryHeap()), mTask(arg.heap_array->getPrimaryHeap()) {
     mArenas.initOffset(OverlayArena::getListNodeOffset());
     mUnits.initOffset(ResourceUnit::getResMgrUnitListNodeOffset());
-    mSomeList.initOffset(0x188);  // TODO: replace this with a "get offset" call
+    mBfResList.initOffset(0x188);  // TODO: replace this with a get-offset call
     mSystemCalcFn.bind(this, &ResourceMgrTask::callSystemCalc_);
     mFileDevicePrefixes.initOffset(FileDevicePrefix::getListNodeOffset());
 }
@@ -556,6 +560,110 @@ bool ResourceMgrTask::sub_7101206008(void* unit_) {
     return true;
 }
 
+bool ResourceMgrTask::sub_7101206A44(void* userdata) {
+    mTexHandleMgr->xx();
+    if (!sUnk_71026529C8) {
+        auto* patrol = Patrol::instance();
+        sUnk_71026529C8 = patrol ? patrol->mField0 : false;
+    }
+    return true;
+}
+
+void ResourceMgrTask::compactionThreadFunc(sead::Thread* thread,
+                                           sead::MessageQueue::Element message) {
+    if (message != 1)
+        return;
+
+    bool compacted;
+    if (_9c0d3c == 0) {
+        compacted = false;
+    } else {
+        compacted = mCompactedHeapMain->compact();
+        if (mCompactedHeapMain->getState() == 3)
+            _9c0d3c.exchange(0);
+    }
+
+    if (mCounter.isFlagSet() && _9c0d40 != 0) {
+        compacted |= mCompactedHeapMip0->compact();
+        if (mCompactedHeapMip0->getState() == 3)
+            _9c0d40.exchange(0);
+    }
+
+    if (sUnk_71026529C8 && compacted) {
+        mCompactedHeapMain->x("Main", true);
+        if (mCounter.isFlagSet())
+            mCompactedHeapMip0->x("Mip0", true);
+    }
+}
+
+bool ResourceMgrTask::doClearAllCaches(void* userdata) {
+    auto* data = static_cast<MemoryTaskData*>(userdata);
+
+    if (returnFalse())
+        stubbedLogFunction();
+
+    auto lock = sead::makeScopedLock(mArenasCS);
+    for (OverlayArena& arena : mArenas) {
+        if (data->mStr.isEmpty()) {
+            if (arena.isFlag1Set())
+                stubbedLogFunction();
+            else
+                arena.clearCaches(-1, data->_8);
+        } else if (arena.getHeap()->getName() == data->mStr) {
+            arena.clearCaches(-1, data->_8);
+        }
+    }
+
+    if (returnFalse())
+        stubbedLogFunction();
+    return true;
+}
+
+bool ResourceMgrTask::doClearCaches(void* userdata) {
+    auto* data = static_cast<ClearCachesTaskData*>(userdata);
+
+    if (returnFalse())
+        stubbedLogFunction();
+
+    auto lock = sead::makeScopedLock(mArenasCS);
+    bool cleared = false;
+    for (OverlayArena& arena : mArenas) {
+        if (arena.isFlag1Set() && arena.clearCaches(data->_c, data->_8) > 0) {
+            stubbedLogFunction();
+            cleared = true;
+            break;
+        }
+    }
+
+    if (!cleared) {
+        for (OverlayArena& arena : mArenas) {
+            if (!arena.isFlag1Set() && arena.clearCaches(data->_c, data->_8) > 0) {
+                stubbedLogFunction();
+                break;
+            }
+        }
+    }
+
+    if (returnFalse())
+        stubbedLogFunction();
+    return true;
+}
+
+bool ResourceMgrTask::calcOverlayArenaHeapSize(void* userdata) {
+    auto lock = sead::makeScopedLock(mCritSection4);
+    auto arenas_lock = sead::makeScopedLock(mArenasCS);
+
+    const OverlayArena::HeapSizeArg arg = mHeapSizeArg;
+    auto* arena = mArenas.nth(mArenaIdx);
+    if (!arena)
+        return false;
+
+    arena->sub_71011FDC20(arg);
+    mTickTime.setNow();
+    mArenaIdx = (mArenaIdx + 1) % mArenas.size();
+    return true;
+}
+
 bool ResourceMgrTask::calc_(void*) {
     if (mCacheControlFlags.testAndClear(CacheControlFlag::ClearAllCachesRequested)) {
         MemoryTaskRequest req;
@@ -914,6 +1022,35 @@ bool ResourceMgrTask::isCompactionStopped() const {
     return mCompactionCounter == 0;
 }
 
+void ResourceMgrTask::registerBfRes(BfRes* res) {
+    mBfResList.pushBack(res);
+}
+
+void ResourceMgrTask::updateCompaction() {
+    auto lock = sead::makeScopedLock(mCritSection3);
+
+    if (mCounter.isFlagSet()) {
+        if (mCompactionCounter == 0) {
+            _9c0d3c.exchange(1);
+            _9c0d40.exchange(1);
+        }
+
+        if (_9c0d3c != 0 || _9c0d40 != 0) {
+            if (mCompactedHeapMain)
+                mCompactedHeapMain->incrementCompactionCount();
+            if (mCompactedHeapMip0)
+                mCompactedHeapMip0->incrementCompactionCount();
+            mCompactionThread->sendMessage(1, sead::MessageQueue::BlockType::NonBlocking);
+        }
+    }
+
+    mTexHandleMgr->d();
+    mTexHandleList->sub_71012BD6BC();
+    for (BfRes& res : mBfResList)
+        res.sub_71011FFECC();
+    mBfResList.clear();
+}
+
 void ResourceMgrTask::requestCalc() {
     frm::WorkerSupportThreadMgr::instance()->submitRequest(2, &mSystemCalcFn);
 }
@@ -1041,6 +1178,68 @@ void ResourceMgrTask::clearAllCachesSynchronously(OverlayArena* arena) {
     util::TaskMgrRequest task_mgr_request;
     task_mgr_request.request = &req;
     mResourceMemoryTaskMgr->submitRequest(task_mgr_request);
+}
+
+void ResourceMgrTask::requestDefragAllMemoryMgr() {
+    clearUnits_();
+
+    mResourceControlThread->getTaskQueue()->waitForLaneToEmpty(u8(LaneId::_5));
+    mResourceControlThread->getTaskQueue()->waitForLaneToEmpty(u8(LaneId::_4));
+    mResourceControlThread->getTaskQueue()->waitForLaneToEmpty(u8(LaneId::_3));
+
+    if (!mTask2->canSubmitRequest()) {
+        stubbedLogFunction();
+        return;
+    }
+
+    _4c8 = -1;
+    _4cc = 0;
+
+    mMovableMemoryThread->getTaskQueue()->blockTasksAndReloadThreads(u8(LaneId::_0));
+    mMovableMemoryThread->getTaskQueue()->blockTasksAndReloadThreads(u8(LaneId::_1));
+    mMovableMemoryThread->getTaskQueue()->blockTasksAndReloadThreads(u8(LaneId::_2));
+    mMovableMemoryThread->getTaskQueue()->blockTasksAndReloadThreads(u8(LaneId::_3));
+    mMovableMemoryThread->getTaskQueue()->blockTasksAndReloadThreads(u8(LaneId::_6));
+    mMovableMemoryThread->getTaskQueue()->cancelTasks(u8(LaneId::_0));
+    mMovableMemoryThread->getTaskQueue()->cancelTasks(u8(LaneId::_1));
+    mMovableMemoryThread->getTaskQueue()->cancelTasks(u8(LaneId::_2));
+    mMovableMemoryThread->getTaskQueue()->cancelTasks(u8(LaneId::_3));
+    mMovableMemoryThread->getTaskQueue()->cancelTasks(u8(LaneId::_6));
+
+    auto* arena = mTexHandleMgr->getArchiveWork()->getArena();
+
+    mResourceControlThread->getTaskQueue()->waitForLaneToEmpty(u8(LaneId::_5));
+    mResourceControlThread->getTaskQueue()->waitForLaneToEmpty(u8(LaneId::_4));
+    mResourceControlThread->getTaskQueue()->waitForLaneToEmpty(u8(LaneId::_3));
+
+    {
+        MemoryTaskRequest req;
+        req.mLaneId = u8(LaneId::_9);
+        req.mHasHandle = true;
+        req.mSynchronous = false;
+        req.mThread = mResourceMemoryThread;
+        req.mDelegate = &mClearAllCachesFn;
+        req.mName = "ClearAllCaches";
+        req.mData_8 = false;
+        req.mData_c = -1;
+        req.mData_mStr = arena->getHeap()->getName();
+
+        util::TaskMgrRequest task_mgr_request;
+        task_mgr_request.request = &req;
+        mResourceMemoryTaskMgr->submitRequest(task_mgr_request);
+    }
+
+    {
+        ControlTaskRequest req;
+        req.mLaneId = u8(LaneId::_7);
+        req.mHasHandle = true;
+        req.mSynchronous = false;
+        req.mThread = mResourceMemoryThread;
+        req.mDelegate = &mDefragAllMemoryMgrFn;
+        req.mUserData = nullptr;
+        req.mName = "DefragAllMemoryMgr";
+        mTask2->submitRequest(req);
+    }
 }
 
 bool ResourceMgrTask::returnTrue() {

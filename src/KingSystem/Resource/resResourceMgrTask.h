@@ -46,6 +46,7 @@ class TaskThread;
 namespace ksys::res {
 
 class Cache;
+class BfRes;
 class CompactedHeap;
 class ControlTaskData;
 class EntryFactoryBase;
@@ -238,6 +239,9 @@ public:
     void x_5();
     void x_6();
 
+    // 0x710120b6b4 (CSV res::ResourceMgrTask::x_3): adds the bfres resource to mBfResList.
+    void registerBfRes(BfRes* res);
+
     void requestCalc();
     void waitForCalc();
 
@@ -336,6 +340,22 @@ private:
     static bool sub_7101206008(void* unit);
 
     bool calc_(void* userdata);
+    // 0x7101206208 (CSV res::ResourceMgrTask::doClearCaches): the "ClearCaches" memory task: clears the caches of the
+    // used arenas, then of the unused ones (stops at the first arena that cleared something).
+    bool doClearCaches(void* userdata);
+    // 0x71012067e0 (CSV res::ResourceMgrTask::calculateOverlayArenaHeapSizeStuff): the memory task that updates the heap
+    // size of the next arena (round robin).
+    bool calcOverlayArenaHeapSize(void* userdata);
+    // 0x7101206040 (CSV res::ResourceMgrTask::clearAllCachesInvoker): the "ClearAllCaches" memory task: clears the
+    // caches of the unused arenas (all arenas when the name of the request is empty, else the one whose heap has that
+    // name).
+    bool doClearAllCaches(void* userdata);
+    // 0x7101206a44 (CSV res::ResourceMgrTask::m): the texture handle manager step of the calc; also latches
+    // Patrol's first flag into a static (the compaction log switch).
+    bool sub_7101206A44(void* userdata);
+    // 0x71012068e4 (CSV res::compactionThreadFunc): the compaction thread (message 1): compacts the main and mip0
+    // heaps.
+    void compactionThreadFunc(sead::Thread* thread, sead::MessageQueue::Element message);
     bool doLoadOnThread(void* userdata);
     void callCacheLoad2(util::TaskPostRunResult* result, const util::TaskPostRunContext& context);
     void loadTaskRemoveCb(const util::TaskRemoveCallbackContext& context);
@@ -410,7 +430,7 @@ private:
     ResourceUnitPool mUnitPool;
     sead::CriticalSection mUnitsCS;
     sead::OffsetList<ResourceUnit> mUnits;
-    sead::OffsetList<bool> mSomeList;  // TODO: fix the type and rename
+    sead::OffsetList<BfRes> mBfResList;
 
     sead::FileDevice* mSeadMainFileDevice = nullptr;
     OffsetReadFileDevice* mOffsetReadFileDevice = nullptr;
@@ -456,8 +476,7 @@ private:
     u32 _9c0d8c = 0;
     u32 mArenaIdx = 0;
     u32 _9c0d94;
-    u8 _9c0d98 = 1;
-    size_t _9c0da0 = 500;
+    OverlayArena::HeapSizeArg mHeapSizeArg;
 
     util::Task mTask;                     // TODO: rename
     sead::CriticalSection mCritSection4;  // TODO: rename

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <container/seadListImpl.h>
 #include "KingSystem/Resource/resResource.h"
 
 namespace ksys::res {
@@ -13,8 +14,14 @@ public:
     BfRes();
     ~BfRes() override;
 
+    // 0x71011ffecc (declared only)
+    void sub_71011FFECC();
+
     u8 _38[0x50 - 0x38];
     void* _50;
+    u8 _58[0x188 - 0x58];
+    // The node of ResourceMgrTask::mBfResList.
+    sead::ListNode mListNode;
 };
 
 }  // namespace ksys::res
