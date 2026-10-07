@@ -110,11 +110,10 @@ bool Manager::checkEventCancel() const {
 }
 
 // 0x7100db2480 (name is a guess; AI_Query_CheckJustBeforeEventCancel)
-// NON_MATCHING: the original is `ldrb; lsr #7` (probably a bitfield read); the shift form folds to ldrsb + cmp #0 + cset lt.
 bool Manager::checkJustBeforeEventCancel() const {
     if (!_1d2b8)
         return false;
-    return (_1d2b8->getCurrentFlowUnchecked()->_340_bytes[5] >> 7) & 1;
+    return _1d2b8->getCurrentFlowUnchecked()->_340_bits.bit47;
 }
 
 // 0x7100db137c

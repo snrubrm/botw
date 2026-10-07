@@ -1639,11 +1639,32 @@ public:
 };
 
 // Placeholder for the objects ScreenAppPictureBook keeps at 0x3658 / 0x3660.
+// An entry of the picture book's list (placeholder; only the two flag bytes are known).
+struct ScreenAppPictureBookEntry {
+    u8 _0[0x38c];
+    /* 0x38c */ bool _38c;
+    /* 0x38d */ bool _38d;
+};
+
+// Placeholder name: the picture book list controller (0x710093cd20 - 0x7100945000, about 100 unnamed rows).
 struct ScreenAppPictureBookUnk {
     // 0x710093f594 (CSV unnamed; not decompiled)
     void sub_710093F594(bool a1);
-    // 0x710093dae8 (declared only; lane2 s46)
-    void sub_710093DAE8(s32 a1);
+    // 0x710093dad4 / 0x710093dae8 (identical code): raise `_33c` to at least `value`
+    void sub_710093DAD4(s32 value);
+    void sub_710093DAE8(s32 value);
+    // 0x7100939f58: whether `_340` is 2
+    bool sub_7100939F58() const;
+    // 0x710093fe74: the `_38d` flag of entry `index` (true for an invalid index)
+    bool sub_710093FE74(s32 index) const;
+
+    /* 0x000 */ u8 _0[0x290];
+    /* 0x290 */ ScreenAppPictureBookEntry** _290;
+    /* 0x298 */ u8 _298[0x2a8 - 0x298];
+    /* 0x2a8 */ s32 _2a8;
+    /* 0x2ac */ u8 _2ac[0x33c - 0x2ac];
+    /* 0x33c */ s32 _33c;
+    /* 0x340 */ s32 _340;
 };
 
 class ScreenAppPictureBook : public ScreenEx {

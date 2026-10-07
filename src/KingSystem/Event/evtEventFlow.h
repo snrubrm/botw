@@ -203,6 +203,11 @@ public:
     union {
         /* 0x340 */ u64 _340;
         u8 _340_bytes[8];
+        // Bit 47 as a bool bitfield (Manager::checkJustBeforeEventCancel reads it as `ldrb; lsr #7`).
+        struct {
+            u64 : 47;
+            bool bit47 : 1;
+        } _340_bits;
     };
     u8 _348[0x620 - 0x348];
 };
