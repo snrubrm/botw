@@ -96,11 +96,17 @@ public:
     // 0x7101027e90 (declared only): emits the SLink sound for `type` (1 or 2) picked by `size` and
     // attaches `shape` to its sound source.
     xlink2::HandleSLink sub_7101027E90(f32 size, int type, aal::Shape* shape);
+    void sub_7101027CE8();
+    static sead::SafeString sUnk_7102610618[4];
+    static sead::SafeString sUnk_7102610658[4];
 
     // 0x7102501140: the sizes that separate the four unifiers.
     static f32 sSizeThresholds[3];
 
-    u8 _0[0x20];
+    u8 _0[8];
+    // 0x710102780c obtains this actor through the handle; 0x7101027ce8 clears both.
+    act::BaseProcHandle mHandle;
+    act::Actor* mActor;
     /* 0x20 */ sead::CriticalSection mCS;
     /* 0x60 */ sead::PtrArray<aal::SpeakerBalanceUnifier> mUnifiers;
 };
