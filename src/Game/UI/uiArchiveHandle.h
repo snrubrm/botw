@@ -12,6 +12,9 @@ public:
     ArchiveHandle();
     virtual ~ArchiveHandle();
     void sub_71009C33F8(eui::LayoutEx* layout);
+    void sub_71009C35A4(s32 count);
+    void sub_71009C372C(bool play, f32 frame);
+    eui::LayoutEx* sub_71009C37B0(s32 index) const;
     void sub_71009C3580(bool off);
     void sub_71009C3694();
     void sub_71009C36E4(bool play);

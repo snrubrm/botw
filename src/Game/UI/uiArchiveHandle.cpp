@@ -1,5 +1,6 @@
 #include "Game/UI/uiArchiveHandle.h"
 #include "Game/UI/euiLayoutEx.h"
+#include "Game/UI/uiUtils.h"
 
 namespace nn::ui2d {
 
@@ -35,6 +36,28 @@ void ArchiveHandle::sub_71009C33F8(eui::LayoutEx* layout) {
     auto* smoke = mLayout->findPartsLayout("Pa_IconSmoke_00");
     auto* electric = mLayout->findPartsLayout("Pa_IconElect_00");
     mSwitch.sub_7100932F74(smoke, electric);
+}
+
+void ArchiveHandle::sub_71009C35A4(s32 count) {
+    if (mNumOff && mNumOff->mFrame != mNumOff->GetFrameSize())
+        mNumOff->StopAtMax();
+    sead::FixedSafeString<128> text;
+    text.format("%d", count);
+    uking::ui::setWidgetString(mLayout, "T_BowNum_00", text);
+}
+void ArchiveHandle::sub_71009C372C(bool play, f32 frame) {
+    if (play) {
+        if (mBombLoop)
+            mBombLoop->PlayFromFrame(eui::Animator::PlayType(1), frame, 1.0f);
+    } else {
+        if (mBombLoop && mBombLoop->mRate != 0)
+            mBombLoop->StopAtMin();
+    }
+}
+eui::LayoutEx* ArchiveHandle::sub_71009C37B0(s32 index) const {
+    if (mSwitch.sub_7100933038(index))
+        return mSwitch.sub_7100932F7C(index);
+    return nullptr;
 }
 
 void ArchiveHandle::sub_71009C3580(bool off) {
