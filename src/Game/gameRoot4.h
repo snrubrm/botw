@@ -23,14 +23,16 @@ public:
     SEAD_ENUM(FlagIdx, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9)
     // 0x71008bce34: tests the effective flag.
     bool checkFlag(FlagIdx idx) const;
+    void init(sead::Heap* heap);
+    void sub_71008BCE5C(FlagIdx idx, bool on, s32 record_index);
     // 0x71008bcf44: overrides the selected flag.
     void sub_71008BCF44(FlagIdx idx, bool on);
     // 0x71008bcfa0: removes the override and recomputes it from the records.
     void sub_71008BCFA0(FlagIdx idx);
 
     struct Record {
-        s32 _0;
-        u32 _4;
+        s32 _0 = 0;
+        sead::BitFlag32 _4;
     };
     sead::BitFlag32 _28{0xffffffff};
     sead::BitFlag32 _2c;
