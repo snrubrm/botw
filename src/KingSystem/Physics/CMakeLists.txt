@@ -158,6 +158,7 @@ target_sources(uking PRIVATE
     System/physGroupFilter.h
     System/physHavokAI.cpp
     System/physHavokAI.h
+    System/physNavMeshLoadMgr.cpp
     System/physNavMeshQueryRequestPool.cpp
     System/physInstanceSet.cpp
     System/physInstanceSet.h

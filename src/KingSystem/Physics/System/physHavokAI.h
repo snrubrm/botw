@@ -42,6 +42,21 @@ public:
     void sub_7100F8B334(const sead::Vector3f* pos);
     // 0x7100f8b444 (CSV NavMeshLoadMgr::x_2; declared only): releases the requested tile.
     void x_2();
+
+    /* 0x000 */ u8 _0[8];
+    /* 0x008 */ u32 _8;
+    /* 0x010 */ void* _10;
+    /* 0x018 */ u8 _18[0x130 - 0x18];
+    /* 0x130 */ sead::CriticalSection _130;
+    /* 0x170 */ s32 _170;  // origin of the tile grid (x / z)
+    /* 0x174 */ s32 _174;
+    /* 0x178 */ s32 _178;  // tile size (x / z)
+    /* 0x17c */ s32 _17c;
+    /* 0x180 */ s32 _180;  // tile counts (x / z)
+    /* 0x184 */ s32 _184;
+    /* 0x188 */ s32 _188;  // the current tile (x / z)
+    /* 0x18c */ s32 _18c;
+    /* 0x190 */ bool _190;  // disabled
 };
 
 // Placeholder name; inline-only in the original (evidence: the same lock-free push loop is inlined into
