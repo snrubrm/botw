@@ -123,7 +123,12 @@ target_sources(uking PRIVATE
   resSystem.h
   resTempResourceLoader.cpp
   resTempResourceLoader.h
+  resUnk_71024F9D48.cpp
+  resUnk_71024F9D48.h
+  resUnk_710251A700.cpp
+  resUnk_710251A700.h
   resTextureHandleList.cpp
+  resTextureHandleListEntry.cpp
   resTextureHandleList.h
   resTextureHandleMgr.cpp
   resTextureHandleMgr.h

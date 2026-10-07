@@ -12,11 +12,20 @@ class TaskThread;
 namespace ksys::res {
 
 class ArchiveWork;
+class Unk_71024F9D48;
 
 // TODO: very incomplete
 class TextureHandleMgr {
 public:
     virtual ~TextureHandleMgr();
+    static TextureHandleMgr* instance() { return sInstance; }
+    static void setInstance(TextureHandleMgr* mgr);
+    struct InvalidateArg {
+        bool _0 = true;
+        bool _1 = false;
+        Unk_71024F9D48* _8;
+    };
+    bool invalidateUser(const InvalidateArg& arg);
 
     void preCalc();
     void calc();
@@ -39,6 +48,7 @@ public:
     bool isTooSlow(s32 seconds);
 
 private:
+    static TextureHandleMgr* sInstance;
     // TODO
     sead::BitFlag8 mFlags;
     sead::BitFlag8 mFlags2;

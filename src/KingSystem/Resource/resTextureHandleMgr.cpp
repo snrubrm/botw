@@ -5,6 +5,12 @@
 
 namespace ksys::res {
 
+TextureHandleMgr* TextureHandleMgr::sInstance;
+
+void TextureHandleMgr::setInstance(TextureHandleMgr* mgr) {
+    sInstance = mgr;
+}
+
 void TextureHandleMgr::calc() {
     if (!_30->canSubmitRequest())
         return;

@@ -25,7 +25,18 @@ public:
         // 0x71012bd4e0 (declared only): releases the entry (if flag byte +8 is set).
         void sub_71012BD4E0();
 
-        u8 _0[0xa0];
+        class Unk18 {
+        public:
+            // Slot 0 is called by sub_71012BD4E0 with this entry.
+            virtual void m0(Entry* entry) = 0;
+        };
+
+        u8 _0[8];
+        bool _8;
+        u8 _9[7];
+        void* _10;
+        Unk18* _18;
+        u8 _20[0xa0 - 0x20];
         sead::ListNode mListNode;
     };
 
@@ -39,6 +50,7 @@ public:
 
     // 0x71012bd5dc (declared only; other TU): stores the instance pointer.
     static void setInstance(TextureHandleList* list);
+    static TextureHandleList* sInstance;
 
 private:
     sead::CriticalSection mCS;
