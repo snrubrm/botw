@@ -496,6 +496,29 @@ bool PlacementAreaMgr::insideInnerHideLoad(const int& idx) {
     return true;
 }
 
+// NON_MATCHING: the original keeps the choice of the starting corner (base[1] for the first four, base[0] otherwise) as a
+// branch with two copies; here it becomes a select, which also changes the register allocation of the rest.
+bool PlacementAreaMgr::x_0(const int& idx, const int& sub_idx) {
+    const auto& area = mInnerHide[idx];
+    for (int i = 0; i < 8; i++) {
+        sead::Vector3f pos;
+        if (i < 4)
+            pos = area.base[1];
+        else
+            pos = area.base[0];
+        const auto& a = area.base[(i % 4 < 2) ? 5 : 4];
+        const auto& b = area.base[(i % 4 < 2) ? 4 : 5];
+        const auto& c = area.base[(i & 1) ^ 3];
+        const auto& d = area.base[2 | (i & 1)];
+        pos += (a - b) * 0.5f;
+        pos += (c - d) * 0.5f;
+        float zero = 0.0f;
+        if (insideInnerHideBase(pos, zero, sub_idx))
+            return true;
+    }
+    return false;
+}
+
 bool PlacementAreaMgr::insideInnerHideBase(const sead::Vector3f& pos, const float& dist_from_face,
                                            const int& idx) {
     for (int i = 0; i < 6; i++) {
