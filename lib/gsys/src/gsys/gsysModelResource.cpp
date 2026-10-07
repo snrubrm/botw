@@ -1,4 +1,5 @@
 #include <gsys/gsysModelResource.h>
+#include <nn/g3d/ResFile.h>
 
 namespace gsys {
 ModelResource::CreateArg::CreateArg(void* file)
@@ -7,5 +8,9 @@ ModelResource::CreateArg::CreateArg(void* file)
 
 void ModelResource::sub_7100C0B764(ModelResource* resource) {
     delete resource;
+}
+
+size_t ModelResource::getResFileSize() const {
+    return mResFile->GetFileSize();
 }
 }  // namespace gsys

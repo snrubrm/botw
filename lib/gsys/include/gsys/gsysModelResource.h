@@ -34,6 +34,7 @@ public:
     ~ModelResource() override;
     static ModelResource* create_(const CreateArg& arg, sead::Heap* heap);
     static void sub_7100C0B764(ModelResource* resource);
+    size_t getResFileSize() const;
 
     // inline-only in the original; name is a guess. Resource creation c0b8ec stores +38;
     // model creation bf66b0 and getResFileSize c0c264 independently read it.
