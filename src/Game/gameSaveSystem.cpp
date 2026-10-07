@@ -1,4 +1,5 @@
 #include "Game/gameSaveSystem.h"
+#include <heap/seadFrameHeap.h>
 #include "Game/DLC/aocHardModeManager.h"
 #include "Game/E3Mgr.h"
 #include "Game/gameRoot38.h"
@@ -32,6 +33,8 @@ void sub_7100A9E27C();
 }  // namespace uking::ui
 
 namespace uking {
+
+
 
 SEAD_SINGLETON_DISPOSER_IMPL(SaveSystem)
 
@@ -496,6 +499,33 @@ void SaveSystem::sub_7100912464() {
     _30 = slot;
 }
 
+void SaveSystem::sub_7100912928() {
+    auto* save_mgr = ksys::SaveMgr::instance();
+    if (!save_mgr)
+        return;
+    auto* gdt_mgr = ksys::gdt::Manager::instance();
+    if (!gdt_mgr)
+        return;
+    gdt_mgr->mBitFlags.reset(ksys::gdt::Manager::BitFlag::_80000);
+    gdt_mgr->destroyRetryBuffer();
+    _1a50 &= ~0x40;
+    if (auto* heap = ui::getHeap()) {
+        auto* cache_heap = sead::FrameHeap::tryCreate(0x64000, "AlbumInfo", heap, 8,
+                                                     sead::Heap::cHeapDirection_Reverse, false);
+        _1a08 = cache_heap;
+        if (cache_heap)
+            _1a00 = new (cache_heap) SaveFlagCache;
+    }
+    if (_1a00)
+        _1a00->sub_710090CDA8();
+    if (save_mgr->get38() != 0) {
+        _3c = 31;
+    } else {
+        save_mgr->enableGdtMgrChangeOnlyMode(_30);
+        _3c = 32;
+    }
+}
+
 void SaveSystem::sub_7100912A50() {
     auto* save_mgr = ksys::SaveMgr::instance();
     if (!save_mgr)
@@ -518,7 +548,7 @@ void SaveSystem::sub_7100912A50() {
 
     _1a50 |= 0x200;
     if (_1a08) {
-        _1a08->m4();
+        _1a08->destroy();
         _1a00 = nullptr;
         _1a08 = nullptr;
     }

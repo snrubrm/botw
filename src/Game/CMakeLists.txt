@@ -44,6 +44,7 @@ target_sources(uking PRIVATE
   gameRumble.cpp
   gameAlbumInfo.cpp
   gameAlbumInfo.h
+  gameSaveFlagCache.cpp
   gameSaveSystem.cpp
   gameRoot4.cpp
   gameRoot4.h

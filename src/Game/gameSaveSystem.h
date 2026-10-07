@@ -3,6 +3,8 @@
 #include <basis/seadTypes.h>
 #include <heap/seadDisposer.h>
 #include <container/seadSafeArray.h>
+#include <container/seadBuffer.h>
+#include <heap/seadHeap.h>
 #include <prim/seadSafeString.h>
 #include "Game/gameAlbumInfo.h"
 #include "KingSystem/Utils/Types.h"
@@ -29,21 +31,25 @@ struct SaveSlot {
 };
 KSYS_CHECK_SIZE_NX150(SaveSlot, 0x308);
 
-// Placeholders (unknown classes: the objects at SaveSystem + 0x1a00 / + 0x1a08).
+// Original allocation in state1E is 0x58 bytes: a flag and five Buffer objects.
 class SaveFlagCache {
 public:
-    // 0x710090cdf4 (CSV AlbumInfo::x; declared only)
+    void sub_710090CDA8();
     void sub_710090CDF4();
-};
 
-class SaveFlagCacheOwner {
-public:
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
+    struct Entry0;
+    struct Entry1;
+    struct Entry2;
+    struct Entry3;
+    struct Entry4;
+    bool _0 = false;
+    sead::Buffer<Entry0> _8;
+    sead::Buffer<Entry1> _18;
+    sead::Buffer<Entry2> _28;
+    sead::Buffer<Entry3> _38;
+    sead::Buffer<Entry4> _48;
 };
+KSYS_CHECK_SIZE_NX150(SaveFlagCache, 0x58);
 
 // Placeholder declaration (name from the CSV: SaveSystem::createInstance 0x710090ee60, ctor
 // 0x710090eee8, calc 0x7100910e5c, init, invokedAutoSave, isFinishedSavingMaybe, ...; instance
@@ -130,6 +136,7 @@ public:
     // 0x7100912464 (CSV init27): when the tracker block save file exists, writes it (state 40), else resets the
     // callbacks and flags.
     void sub_7100912464();
+    void sub_7100912928();
     // 0x710090fa84 (CSV callback): the save finished / was cancelled callback: resets the state unless it is 2 or 11.
     void callback();
     // 0x710090fb5c (CSV finishLoadCb): the load finished: starts state 35 and applies the loaded game data fixes.
@@ -165,10 +172,9 @@ public:
     u32 _3c;
     sead::SafeArray<SaveSlot, 8> _40;
     AlbumInfo _1880;
-    // 0x1a00 / 0x1a08: objects of unknown type (0x1a00 is passed to the album cache flush 0x90cdf4; 0x1a08 has a virtual
-    // function called by init20)
+    // Cache and its owning FrameHeap (state1E allocates it; state20 calls Heap::destroy).
     SaveFlagCache* _1a00;
-    SaveFlagCacheOwner* _1a08;
+    sead::Heap* _1a08;
     // The track block save file number
     s32 _1a10;
     u8 _1a14[4];
