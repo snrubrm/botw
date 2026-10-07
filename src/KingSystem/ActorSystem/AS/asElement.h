@@ -923,10 +923,18 @@ public:
     // Placeholder: the object at +0x18 (a partial-skeletal-animation source); its vector at +0x28 is added to
     // the output of m34.
     struct Unk18 {
-        u8 _0[0x25];
+        // Vtable 0x7102517148: D1/D0 followed by the child-link reset at 0x710125b118.
+        virtual ~Unk18();
+        virtual void sub_710125B118();
+        Unk18* _8;
+        Unk18* _10;
+        u8 _18[0x20 - 0x18];
+        gsys::AnimationAccessKey<gsys::SkeletalAnmType> mKey;
+        bool _24;
         bool _25;
         const sead::Vector3f* _28;
     };
+    static_assert(sizeof(Unk18) == 0x30);
 
     // 0x710125c568
     SkeltalAsset(const CreateArg& arg, s32 value);

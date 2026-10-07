@@ -69,6 +69,7 @@ public:
     // Placeholder: 0x98-byte entry of a slot's bank buffer (the member functions passed to the
     // x/x_3/x_5/x_7 helpers below live at 0x71011612e8-0x7101163b24).
     struct Unk2 {
+        Unk2();
         ~Unk2();
         // 0x7100507a64: sets the byte flag at 0x44 (its only out-of-line copy is emitted in
         // aiPriestBossActorEnemyRoot.cpp, which takes its address).
@@ -374,7 +375,9 @@ public:
     // (null if none); outputs the define's name and two values. Return type and outputs are
     // placeholders.
     Unk8* sub_710115AABC(const sead::SafeString& name, sead::SafeString* out_name, bool* out_a3,
-                         void** out_a4, bool a5);
+                       void** out_a4, bool a5);
+    bool sub_7101160F88(const sead::SafeString& name,
+                      gsys::AnimationAccessKey<gsys::SkeletalAnmType>* key);
     // 0x710115aa68: whether sub_710115AABC finds `name` (a5 = true).
     bool sub_710115AA68(const sead::SafeString& name);
     // 0x710115d2d4: the anim-driven translation of this frame (_68), accumulated over all slots on the

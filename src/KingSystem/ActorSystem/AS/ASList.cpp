@@ -47,6 +47,24 @@ void ASList::sub_7101160ED4() {
     }
 }
 
+bool ASList::sub_7101160F88(const sead::SafeString& name,
+                           gsys::AnimationAccessKey<gsys::SkeletalAnmType>* key) {
+    sead::SafeString resolved_name;
+    bool flag = false;
+    void* value = nullptr;
+    auto* definition = sub_710115AABC(name, &resolved_name, &flag, &value, true);
+    if (!definition)
+        return false;
+    for (auto* element : definition->_0) {
+        if (auto* asset = sead::DynamicCast<SkeltalAsset>(element)) {
+            *key = asset->mKey;
+            if (key->isValid())
+                return true;
+        }
+    }
+    return false;
+}
+
 
 // NON_MATCHING: the bank loop checks for count > 0 rather than count >= 1.
 s32 ASList::sub_710115BED4(bool first_only) {

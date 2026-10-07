@@ -4,6 +4,19 @@
 
 namespace ksys::as {
 
+SkeltalAsset::Unk18::~Unk18() {
+    if (_24 && _28) {
+        delete _28;
+        _24 = false;
+        _28 = nullptr;
+    }
+}
+
+void SkeltalAsset::Unk18::sub_710125B118() {
+    _8 = nullptr;
+    _10 = nullptr;
+}
+
 // NON_MATCHING: the second key halfword uses the element pointer rather than the key pointer.
 bool SkeltalAsset::m8(const InitArg& arg) {
     const CreateArg& create_arg = *arg.createArg;

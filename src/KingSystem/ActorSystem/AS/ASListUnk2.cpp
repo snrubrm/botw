@@ -13,6 +13,15 @@ namespace ksys::as {
 // Original byte 0x7102620f39, set by S7EventFlow delete/restore to suspend partial motion.
 bool sUnk_7102620F39;
 
+// NON_MATCHING: scalar initialization is combined and scheduled differently; the fields agree.
+ASList::Unk2::Unk2()
+    : _0(nullptr), _8(nullptr), _10(1.0f), _18(nullptr), _20(nullptr), _28(nullptr),
+      _30(1.0f), _34(1.0f), _38(0.0f), _3c(0.0f), mFlags(0), _42(0), _43(0),
+      _48(nullptr), mBoneWeightRanges{}, _80(0.0f), _84(1.0f), _88(nullptr), _90(nullptr) {
+    _44[0] = 1;
+    _44[1] = 0;
+}
+
 // NON_MATCHING: the saved ASList and bone-key registers differ.
 void ASList::Unk2::sub_7101161EE0(f32 value, Element* element, bool alternate) {
     if (sUnk_7102620F39)
