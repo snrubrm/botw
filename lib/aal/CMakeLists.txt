@@ -140,6 +140,7 @@ add_library(aal OBJECT
   src/aalShapeSegment.cpp
   src/aalShapeSphere.cpp
   src/aalSoundGroup.cpp
+  src/aalSDKFoundation.cpp
   src/aalSettings.cpp
   src/aalSimpleTimedFader.cpp
   src/aalStopWatch.cpp

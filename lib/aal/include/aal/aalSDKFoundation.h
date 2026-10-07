@@ -1,6 +1,7 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <nn/audio.h>
 #include "aal/aalDeviceType.h"
 #include "aal/aalOutputMode.h"
 
