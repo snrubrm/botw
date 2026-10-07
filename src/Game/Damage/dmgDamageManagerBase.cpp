@@ -454,6 +454,14 @@ s32 DamageManagerBase::m49(s32 damageTypeMaybe) {
     return 0;
 }
 
+ksys::act::BaseProcLink* DamageManagerBase::getAttacker() {
+    return &ksys::act::getDummyBaseProcLink();
+}
+
+ksys::act::BaseProcLink* DamageManagerBase::m37() {
+    return &ksys::act::getDummyBaseProcLink();
+}
+
 }  // namespace uking::dmg
 
 // 0x7100d2d424 (unnamed in the CSV, global namespace; declared by the callers): unregisters every damage callback and

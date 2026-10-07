@@ -119,10 +119,9 @@ public:
     // Slot 35: overrides write a matrix (DamageMgr::m35: the attacker's actor matrix).
     virtual bool m35(sead::Matrix34f* out) { return false; }
 
-    // FIXME: incomplete. Return dummy Base Proc Link
+    // 2026-10-07: both base slots return the canonical dummy BaseProcLink.
     virtual ksys::act::BaseProcLink* getAttacker();
 
-    // FIXME: incomplete. Same as getAttacker, but return different Actor ProcLink I assume.
     virtual ksys::act::BaseProcLink* m37();
 
     // lane2 s42: takes a rigid body (the Sandworm damage callback calls it with the actor's "Body" body).
