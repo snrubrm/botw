@@ -13,6 +13,19 @@ Unk_71025ae680* Swarm::m178(sead::Heap* heap) {
     return new (heap) Unk_710244ff68(this);
 }
 
+// NON_MATCHING: bool conversion: the original returns the count unconverted (s32 return does not
+// compile as an override of Actor's bool m39())
+bool Swarm::m39() {
+    return _14c8.getSize();
+}
+
+void* Swarm::m40(s32 idx) {
+    Unit* unit = _14c8[idx];
+    if (!unit)
+        return nullptr;
+    return unit->_78;
+}
+
 bool Swarm::startPreparingForPreDelete_() {
     bool ready = true;
     for (s32 i = 0; i < _14c8.size(); ++i) {

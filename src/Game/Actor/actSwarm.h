@@ -90,8 +90,11 @@ public:
     void m108() override;
     void m114() override;
     Unk_71025ae680* m178(sead::Heap* heap) override;
-    // Not declared yet: slot 39 (returns the unit count, Actor declares `bool m39()`) and slot 40
-    // (`(int idx)` returning _14c8[idx]->_78, Actor declares `void m40()`).
+    // Slot 39 (overrides Actor's `bool m39()`): true while the swarm has units.
+    bool m39() override;
+    // Slot 40 (Actor declares `void* m40()`): _14c8[idx]->_78. Takes an index, so it hides the base
+    // signature instead of overriding it; our toolchain puts it in a new end slot.
+    void* m40(s32 idx);
 
     /* 0x14c8 */ sead::Buffer<Unit*> _14c8;  // units
     // The remaining groups of three pointers are not typed.
