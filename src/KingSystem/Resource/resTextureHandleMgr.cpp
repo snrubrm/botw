@@ -34,6 +34,19 @@ void TextureHandleMgr::sub_7100FE60DC(bool on) {
     }
 }
 
+bool TextureHandleMgr::isTooSlow(s32 seconds) {
+    if (!mFlags2.isOn(4))
+        return false;
+
+    if (mTickTime.diffToNow().toSeconds() < seconds)
+        return false;
+
+    mTickTime.setNow();
+    mFlags2.reset(4);
+    stubbedLogFunction();
+    return true;
+}
+
 bool TextureHandleMgr::sub_7100FE6120() const {
     return mFlags2.isOn(2);
 }

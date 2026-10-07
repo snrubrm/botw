@@ -155,6 +155,10 @@ bool AttCheckAreaBox::parse(const CreateArg& arg) {
 
 AttCheckEachOtherArea::AttCheckEachOtherArea(AttCheckType type) : AttCheck(type) {}
 
+void AttCheckEachOtherArea::m4(act::Actor* actor, sead::Matrix34f* mtx) {
+    *mtx = actor->getMtx();
+}
+
 bool AttCheckEachOtherArea::parse(const CreateArg& arg) {
     mForceEditModelArea.init(false, "ForceEditModelArea", "(モデル範囲)強制編集", "", &mObj);
     mRadius.init(0.0, "Radius", "(モデル範囲)半径", "Min=0.f,Max=100.f", &mObj);

@@ -2,6 +2,7 @@
 
 #include <basis/seadTypes.h>
 #include <prim/seadBitFlag.h>
+#include <time/seadTickTime.h>
 
 namespace ksys::util {
 class Task;
@@ -28,6 +29,9 @@ public:
     bool sub_7100FE6120() const;
     void sub_7100FE5190();
     void sub_7100FE5334();
+    // 0x7100fe56d8 (CSV TextureHandleMgr::isTooSlow): true (and restarts the timer) when bit 2 of the second flag byte is
+    // set and at least `seconds` seconds passed since the timer was started.
+    bool isTooSlow(s32 seconds);
 
 private:
     // TODO
@@ -37,7 +41,9 @@ private:
     util::Task* _30;
     u8 _38[0x50 - 0x38];
     util::TaskThread* _50;
-    u8 _58[0x768 - 0x58];
+    u8 _58[0xa0 - 0x58];
+    sead::TickTime mTickTime;
+    u8 _a8[0x768 - 0xa8];
     ArchiveWork* mArchiveWork;
 };
 

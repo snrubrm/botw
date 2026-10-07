@@ -85272,7 +85272,7 @@ Address,Quality,Size,Name
 0x0000007100fe5418,O,000164,_ZN4ksys3res16TextureHandleMgr4calcEv
 0x0000007100fe54bc,O,000004,_ZN4ksys3res16TextureHandleMgr7preCalcEv
 0x0000007100fe54c0,U,000536,TextureHandleMgr::d
-0x0000007100fe56d8,U,000124,TextureHandleMgr::isTooSlow
+0x0000007100fe56d8,O,000124,_ZN4ksys3res16TextureHandleMgr9isTooSlowEi
 0x0000007100fe5754,U,000232,TextureHandleMgr::x
 0x0000007100fe583c,U,000368,TextureHandleMgr::x_1
 0x0000007100fe59ac,U,000404,TextureHandleMgr::validateUser
@@ -88295,7 +88295,7 @@ Address,Quality,Size,Name
 0x000000710108e000,O,000304,_ZN4ksys3res21AttCheckEachOtherAreaC1ENS0_12AttCheckTypeE
 0x000000710108e130,O,000856,_ZN4ksys3res21AttCheckEachOtherArea5parseERKNS0_8AttCheck9CreateArgE
 0x000000710108e488,O,000008,_ZN4ksys3res8AttCheck5parseERKNS1_9CreateArgE
-0x000000710108e490,U,000040,
+0x000000710108e490,O,000040,_ZN4ksys3res21AttCheckEachOtherArea2m4EPNS_3act5ActorEPN4sead8Matrix34IfEE
 0x000000710108e4b8,U,001264,
 0x000000710108e9a8,U,000784,
 0x000000710108ecb8,U,001500,
@@ -88348,10 +88348,10 @@ Address,Quality,Size,Name
 0x0000007101090768,O,000092,_ZNK4ksys3res15AttCheckAreaBox18getRuntimeTypeInfoEv
 0x00000071010907c4,O,000116,_ZN4ksys3res15AttCheckAreaBoxD2Ev
 0x0000007101090838,O,000004,_ZN4ksys3res15AttCheckAreaBoxD0Ev
-0x000000710109083c,U,000204,
-0x0000007101090908,U,000092,
-0x0000007101090964,U,000116,
-0x00000071010909d8,U,000004,j__ZdlPv_1152
+0x000000710109083c,O,000204,_ZNK4ksys3res21AttCheckEachOtherArea27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE
+0x0000007101090908,O,000092,_ZNK4ksys3res21AttCheckEachOtherArea18getRuntimeTypeInfoEv
+0x0000007101090964,O,000116,_ZN4ksys3res21AttCheckEachOtherAreaD2Ev
+0x00000071010909d8,O,000004,_ZN4ksys3res21AttCheckEachOtherAreaD0Ev
 0x00000071010909dc,O,000204,_ZNK4ksys3res13AttCheckAngle27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE
 0x0000007101090aa8,O,000092,_ZNK4ksys3res13AttCheckAngle18getRuntimeTypeInfoEv
 0x0000007101090b04,O,000084,_ZN4ksys3res13AttCheckAngleD2Ev
@@ -93816,8 +93816,8 @@ Address,Quality,Size,Name
 0x000000710120c238,U,000424,res::getRequiredBufferSizeForFile
 0x000000710120c3e0,U,000336,res::ResourceMgrTask::y
 0x000000710120c530,O,000152,_ZN4ksys3res15ResourceMgrTask18removeOverlayArenaEPNS_12OverlayArenaE
-0x000000710120c5c8,U,000268,res::ResourceMgrTask::isOutOfMemory
-0x000000710120c6d4,U,000008,res::ResourceMgrTask::return1
+0x000000710120c5c8,O,000268,_ZN4ksys3res15ResourceMgrTask13isOutOfMemoryEv
+0x000000710120c6d4,O,000008,_ZN4ksys3res15ResourceMgrTask11returnTrue2Ev
 0x000000710120c6dc,U,000288,res::ResourceMgrTask::checkDerivedRuntimeTypeInfo
 0x000000710120c7fc,U,000092,res::ResourceMgrTask::getRuntimeTypeInfo
 0x000000710120c858,O,000204,_ZNK4ksys3res18ControlTaskRequest27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE

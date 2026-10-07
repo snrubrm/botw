@@ -15,6 +15,8 @@
 #include "KingSystem/Resource/resArchiveWork.h"
 #include "KingSystem/Resource/resTextureHandleMgr.h"
 #include "KingSystem/System/OverlayArenaSystem.h"
+#include "KingSystem/System/PlayReportMgr.h"
+#include "KingSystem/System/ProductReporter.h"
 #include "KingSystem/Utils/SafeDelete.h"
 #include "KingSystem/Utils/Thread/GameTaskThread.h"
 #include "KingSystem/Utils/Thread/TaskMgr.h"
@@ -871,6 +873,28 @@ bool ResourceMgrTask::returnTrue1() {
     return true;
 }
 
+bool ResourceMgrTask::isOutOfMemory() {
+    if (mFlags.isOn(Flag::_1000)) {
+        mFlags.reset(Flag::_1000);
+        return true;
+    }
+
+    {
+        auto lock = sead::makeScopedLock(mArenasCS);
+        for (OverlayArena& arena : mArenas) {
+            if (arena.checkIsOom())
+                return true;
+        }
+    }
+
+    if (mTexHandleMgr && mTexHandleMgr->isTooSlow(60)) {
+        if (PlayReportMgr::instance() && PlayReportMgr::instance()->getReporter())
+            PlayReportMgr::instance()->getReporter()->addPanicReason(PanicReason::TextureHandleMgrSlow);
+        return true;
+    }
+    return false;
+}
+
 void ResourceMgrTask::x_4() {
     mResourceControlThread->getTaskQueue()->waitForLaneToEmpty(u8(LaneId::_5));
     mResourceControlThread->getTaskQueue()->waitForLaneToEmpty(u8(LaneId::_4));
@@ -961,6 +985,10 @@ void ResourceMgrTask::clearAllCachesSynchronously(OverlayArena* arena) {
 }
 
 bool ResourceMgrTask::returnTrue() {
+    return true;
+}
+
+bool ResourceMgrTask::returnTrue2() {
     return true;
 }
 

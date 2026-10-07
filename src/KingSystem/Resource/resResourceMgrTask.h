@@ -231,6 +231,9 @@ public:
     bool x_2();
     // 0x710120b754 / 0x710120b864 / 0x710120b964 (placeholder names): synchronous / synchronous / asynchronous
     // "ClearAllCaches" request without an arena; x_4 also clears the texture handle cache.
+    // 0x710120c5c8 (CSV res::ResourceMgrTask::isOutOfMemory): clears flag 0x1000 (true when it was set); true when
+    // an arena is out of memory, or the texture handle manager is too slow (which is recorded as a panic reason).
+    bool isOutOfMemory();
     void x_4();
     void x_5();
     void x_6();
@@ -246,6 +249,7 @@ public:
     void clearAllCachesSynchronously(OverlayArena* arena);
 
     bool returnTrue();
+    bool returnTrue2();
 
     struct ResourceSizeInfo {
         bool is_archive_file_dev2;
