@@ -400,7 +400,8 @@ public:
 // D1 slot is the base's D2). Embedded in uking::act::Unk_710244dd20 at 0x88.
 class Unk_710235a0c0 : public Unk_7102357210 {
 public:
-    ~Unk_710235a0c0() override;
+    // 2026-10-07: the original D1 slot is the shared base D2; actor-controller cleanup inlines it.
+    ~Unk_710235a0c0() override = default;
     bool m2(const ksys::Message& message) override;
     void m3() override {}
 };

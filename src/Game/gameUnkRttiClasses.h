@@ -183,23 +183,6 @@ public:
     void m10() override;
 };
 
-// vtable 0x710244e820 (14 slots)
-class Unk_710244e820 {
-    SEAD_RTTI_BASE(Unk_710244e820)
-public:
-    virtual ~Unk_710244e820();
-    virtual bool m4() { return true; }
-    virtual void m5() {}
-    virtual void m6();
-    virtual void m7();
-    virtual bool m8() { return false; }
-    virtual bool m9() { return false; }
-    virtual void m10() {}
-    virtual void m11() {}
-    virtual void m12() {}
-    virtual void m13() {}
-};
-
 // vtable 0x7102457a80 (6 slots)
 class Unk_7102457a80 {
     SEAD_RTTI_BASE(Unk_7102457a80)

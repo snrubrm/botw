@@ -226,8 +226,6 @@ bool Unk_7102450768::m2(const ksys::Message& message) {
     return true;
 }
 
-Unk_710235a0c0::~Unk_710235a0c0() = default;
-
 bool Unk_710235a0c0::m2(const ksys::Message& message) {
     if (message.getType() != 0x800009b)
         return false;

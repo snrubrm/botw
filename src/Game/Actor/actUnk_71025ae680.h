@@ -3,6 +3,7 @@
 #include <prim/seadBitFlag.h>
 #include <prim/seadRuntimeTypeInfo.h>
 #include "Game/AI/aiUnk_7102357210.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
 #include "KingSystem/Utils/Types.h"
 
 namespace ksys {
@@ -27,19 +28,21 @@ namespace uking::act {
 class Unk_71025ae680 {
     SEAD_RTTI_BASE(Unk_71025ae680)
 public:
+    // 2026-10-07: the actor controller factories initialise this common prefix.
+    explicit Unk_71025ae680(ksys::act::Actor* actor) : _8(0), _a(0), _10(actor), _18(-1) {}
     virtual ~Unk_71025ae680();
 
     // FIXME: figure out return types, parameters and names
-    virtual void m4();
-    virtual void m5();
+    virtual bool m4() { return true; }
+    virtual void m5() {}
     virtual void m6();
     virtual void m7();
-    virtual bool m8(const ksys::Message& message);
-    virtual bool m9();
-    virtual void m10();
-    virtual void m11(bool enable);
-    virtual void m12();
-    virtual void m13(int index);  // DemoEnemyReset::enter_ calls it for 0..11
+    virtual bool m8(const ksys::Message& message) { return false; }
+    virtual bool m9() { return false; }
+    virtual void m10() {}
+    virtual void m11(bool enable) {}
+    virtual void m12(int index) {}
+    virtual void m13(int index) {}  // DemoEnemyReset::enter_ calls it for 0..11
 
     // 0x71006dfa04 (not decompiled): if `enable` changes bit 0 of `_a`, calls m13(0..11) first when enabling,
     // then m11(enable), then updates the bit (behavior Invincible).
@@ -57,7 +60,6 @@ public:
     /* 0x0a */ u8 _a;
     /* 0x10 */ ksys::act::Actor* _10;
     /* 0x18 */ s32 _18;
-    /* 0x1c */ u32 _1c;
 };
 KSYS_CHECK_SIZE_NX150(Unk_71025ae680, 0x20);
 
@@ -78,6 +80,7 @@ public:
     void m7() override;
     bool m8(const ksys::Message& message) override;
 
+    /* 0x01c */ u8 _1c[4];  // opaque alignment gap before the secondary interface at +0x20
     /* 0x020 */ u8 _20[0x38 - 0x20];
     /* 0x038 */ f32 _38;  // FlyingCharacterFreezeDie: 0 in enter_, 1 in leave_
     /* 0x03c */ u8 _3c[0x88 - 0x3c];
@@ -109,11 +112,86 @@ KSYS_CHECK_SIZE_NX150(Unk_71008502cc, 0x150);
 class Unk_710244ff68 : public Unk_71025ae680 {
     SEAD_RTTI_OVERRIDE(Unk_710244ff68, Unk_71025ae680)
 public:
+    explicit Unk_710244ff68(ksys::act::Actor* actor)
+        : Unk_71025ae680(actor), _1c(-1), _20(-1), _24(-1), _28(0) {}
+    ~Unk_710244ff68() override;
+
+    bool m4() override { return true; }
+    void m5() override {
+        _8.makeAllZero();
+        _28 = 0;
+    }
+    void m7() override { Unk_71025ae680::m7(); }
+    bool m8(const ksys::Message& message) override;
+    void m10() override;
+    void m11(bool enable) override;
+    void m12(int index) override;
+    void m13(int index) override { _8.resetBit(index); }
+
+    // 2026-10-07: factories of sibling controllers reuse the common prefix's tail padding
+    // for different types; the swarm's three condition indices start here.
+    /* 0x1c */ s32 _1c;
     /* 0x20 */ s32 _20;  // SwarmChemicalDamaged::sub_7100283004 (placeholder names)
     /* 0x24 */ s32 _24;
     /* 0x28 */ u8 _28;  // flags (BeeSwarmRoot::enter_ sets bit 0)
-    /* 0x29 */ u8 _29[0x68 - 0x29];
+    /* 0x30 */ Unk_710235a0c0 _30;
 };
 KSYS_CHECK_SIZE_NX150(Unk_710244ff68, 0x68);
+
+// 2026-10-07: GiantEnemy's controller factory and its timer/effect readers establish this layout.
+class Unk_710244ebc8 : public Unk_71025ae680 {
+    SEAD_RTTI_OVERRIDE(Unk_710244ebc8, Unk_71025ae680)
+public:
+    explicit Unk_710244ebc8(ksys::act::Actor* actor) : Unk_71025ae680(actor) {}
+    ~Unk_710244ebc8() override;
+    bool m4() override { return true; }
+    void m5() override { _8.makeAllZero(); }
+    void m7() override { Unk_71025ae680::m7(); }
+    bool m8(const ksys::Message& message) override;
+    void m10() override;
+    void m12(int index) override;
+    void m13(int index) override;
+
+    /* 0x1c */ f32 _1c = 0;
+    /* 0x20 */ Unk_71012419b4 _20;
+    /* 0x40 */ Unk_710235a0c0 _40;
+};
+KSYS_CHECK_SIZE_NX150(Unk_710244ebc8, 0x78);
+
+// 2026-10-07: LastBoss's factory places the message listener before its paired effect handles.
+class Unk_710244eb48 : public Unk_71025ae680 {
+    SEAD_RTTI_OVERRIDE(Unk_710244eb48, Unk_71025ae680)
+public:
+    explicit Unk_710244eb48(ksys::act::Actor* actor) : Unk_71025ae680(actor) {}
+    ~Unk_710244eb48() override;
+    bool m4() override { return true; }
+    void m5() override;
+    void m7() override { Unk_71025ae680::m7(); }
+    bool m8(const ksys::Message& message) override;
+    void m10() override;
+
+    /* 0x1c */ bool _1c = false;
+    /* 0x20 */ Unk_710235a0c0 _20;
+    /* 0x58 */ Unk_71012419b4 _58;
+};
+KSYS_CHECK_SIZE_NX150(Unk_710244eb48, 0x78);
+
+// 2026-10-07: SiteBoss's factory uses the same member types as the LastBoss controller.
+class Unk_710244fee8 : public Unk_71025ae680 {
+    SEAD_RTTI_OVERRIDE(Unk_710244fee8, Unk_71025ae680)
+public:
+    explicit Unk_710244fee8(ksys::act::Actor* actor) : Unk_71025ae680(actor) {}
+    ~Unk_710244fee8() override;
+    bool m4() override { return true; }
+    void m5() override;
+    void m7() override { Unk_71025ae680::m7(); }
+    bool m8(const ksys::Message& message) override;
+    void m10() override;
+
+    /* 0x1c */ bool _1c = false;
+    /* 0x20 */ Unk_710235a0c0 _20;
+    /* 0x58 */ Unk_71012419b4 _58;
+};
+KSYS_CHECK_SIZE_NX150(Unk_710244fee8, 0x78);
 
 }  // namespace uking::act

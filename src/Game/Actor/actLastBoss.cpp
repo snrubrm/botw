@@ -9,6 +9,10 @@
 
 namespace uking::act {
 
+Unk_71025ae680* LastBoss::m178(sead::Heap* heap) {
+    return new (heap) Unk_710244eb48(this);
+}
+
 namespace {
 void forwardX17ToParts(ksys::act::Actor* actor, ksys::act::Unk117* arg) {
     if (!sead::IsDerivedFrom<Enemy>(actor))

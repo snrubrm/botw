@@ -9,6 +9,10 @@ namespace uking::act {
 
 Swarm::Swarm(const CreateArg& arg) : Enemy(arg) {}
 
+Unk_71025ae680* Swarm::m178(sead::Heap* heap) {
+    return new (heap) Unk_710244ff68(this);
+}
+
 bool Swarm::startPreparingForPreDelete_() {
     bool ready = true;
     for (s32 i = 0; i < _14c8.size(); ++i) {

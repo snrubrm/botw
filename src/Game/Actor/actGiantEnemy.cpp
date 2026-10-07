@@ -1,4 +1,5 @@
 #include "Game/Actor/actGiantEnemy.h"
+#include <basis/seadNew.h>
 #include "Game/Actor/actGiantArmor.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
@@ -6,6 +7,10 @@
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace uking::act {
+
+Unk_71025ae680* GiantEnemy::m178(sead::Heap* heap) {
+    return new (heap) Unk_710244ebc8(this);
+}
 
 // NON_MATCHING: member types incomplete
 GiantEnemy::~GiantEnemy() = default;

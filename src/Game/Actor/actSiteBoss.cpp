@@ -1,4 +1,5 @@
 #include "Game/Actor/actSiteBoss.h"
+#include <basis/seadNew.h>
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actChemical.h"
@@ -9,6 +10,10 @@
 #include "KingSystem/XLink/xlinkActorUtil.h"
 
 namespace uking::act {
+
+Unk_71025ae680* SiteBoss::m178(sead::Heap* heap) {
+    return new (heap) Unk_710244fee8(this);
+}
 
 namespace {
 void forwardX17ToParts(ksys::act::Actor* actor, ksys::act::Unk117* arg) {
