@@ -1,4 +1,5 @@
 #include "Game/Actor/actBeamBase.h"
+#include <aal/aalShape.h>
 #include <prim/seadScopedLock.h>
 #include "Game/AI/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
@@ -29,6 +30,20 @@ void BeamBase::initMaybe() {
             physics->sub_7100FBDFA4(nullptr);
         }
     }
+}
+
+void BeamBase::preDelete2_(const PreDeleteArg& arg) {
+    DynamicActor::preDelete2_(arg);
+    if (_c78) {
+        _c78->destroy();
+        _c78 = nullptr;
+    }
+    m158();
+}
+
+void BeamBase::updateMtxFromPhysics() {
+    m163();
+    ksys::act::Actor::updateMtxFromPhysics();
 }
 
 void BeamBase::sub_7100002DA8(ksys::act::Actor* actor) {

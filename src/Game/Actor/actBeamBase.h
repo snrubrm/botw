@@ -14,6 +14,10 @@ class Event;
 class EventSLink;
 }
 
+namespace aal {
+class Shape;
+}
+
 namespace ksys::phys {
 class CapsuleRigidBody;
 class RigidBody;
@@ -38,6 +42,8 @@ public:
     bool shouldUnload(s32* a1) override { return false; }
 
     void initMaybe() override;
+    void preDelete2_(const PreDeleteArg& arg) override;
+    void updateMtxFromPhysics() override;
     /* 163 */ virtual void m163();
     /* 164 */ virtual void m164(void* arg);
     // The position of the beam (the actor's translation).
@@ -80,7 +86,7 @@ public:
     /* 0xc60 */ u32 _c60 = 0;
     /* 0xc64 */ u8 _c64[4];
     /* 0xc68 */ sead::Vector3f _c68 = sead::Vector3f::zero;  // a position (the beam's target / hit point)
-    /* 0xc78 */ u64 _c78 = 0;
+    /* 0xc78 */ aal::Shape* _c78 = nullptr;
     /* 0xc80 */ f32 _c80 = 1.0f;
     /* 0xc84 */ sead::Atomic<u32> _c84 = 0;
 };
