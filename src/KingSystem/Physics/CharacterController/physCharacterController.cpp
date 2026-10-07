@@ -613,6 +613,44 @@ bool CharacterController::sub_7100F5F344(int idx, bool force) {
     return changed;
 }
 
+// NON_MATCHING: state-test branching, return allocation and vector construction differ.
+bool CharacterController::sub_7100F63388(bool enable, s32 idx) {
+    if (!mFlags.isOn(0x10000) && mRigidBody->isRemovingBodyFromWorld())
+        return false;
+    if (enable == mFlags.isOn(0x10000) && (idx < 0 || _224 == idx))
+        return false;
+    if (idx < 0)
+        idx = _224;
+    if (idx >= _30->mShapes.size())
+        return false;
+    if (enable) {
+        if (_224 != idx)
+            sub_7100F5F344(idx, false);
+        _298 = _288[idx];
+        sead::Matrix34f mtx;
+        (mFlags.isOn(0x10000) ? _298 : mRigidBody)->getTransform(&mtx);
+        mRigidBody->removeFromWorld();
+        _298->setTransform(mtx);
+        _298->addToWorld();
+        mFlags.set(0x10000);
+        return true;
+    }
+    if (_224 != idx)
+        sub_7100F5F344(idx, false);
+    if (!_298)
+        return false;
+    sead::Matrix34f mtx;
+    _298->getTransform(&mtx);
+    mRigidBody->setTransform(mtx);
+    if (_20->_40)
+        _20->_50 = toHkVec4(-_7c);
+    mRigidBody->addToWorld();
+    _298->removeFromWorld();
+    _298 = nullptr;
+    mFlags.reset(0x10000);
+    return true;
+}
+
 void CharacterController::sub_7100F5FBC8(sead::Vector3f* linear_velocity,
                                          sead::Vector3f* angular_velocity,
                                          const sead::Matrix34f& target) {
