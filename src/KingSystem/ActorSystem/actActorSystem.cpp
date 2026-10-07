@@ -97,6 +97,15 @@ bool ActorSystem::getPlayer(ActorConstDataAccess* accessor) {
     return accessor->acquire(nullptr);
 }
 
+bool ActorSystem::getPlayerPosition(sead::Vector3f* out) {
+    ActorConstDataAccess accessor;
+    ActorSystem::instance()->getPlayer(&accessor);
+    if (!accessor.hasProc())
+        return false;
+    accessor.getActorMtx().getTranslation(*out);
+    return true;
+}
+
 bool ActorSystem::a() {
     if (!_278)
         return true;
