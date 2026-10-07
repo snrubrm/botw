@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Game/Actor/actUnk_7102366570.h"
+
 #include <container/seadBuffer.h>
 #include <container/seadListImpl.h>
 #include <container/seadSafeArray.h>
@@ -89,7 +91,7 @@ public:
     /* 0x10 */ void* _10 = nullptr;
     /* 0x18 */ void* _18 = nullptr;
     /* 0x20 */ RideableBase* _20 = nullptr;  // Enemy::m132
-    /* 0x28 */ void* _28 = nullptr;
+    /* 0x28 */ class ::Unk_71006cee58* _28 = nullptr;
     /* 0x30 */ u32 _30 = 0;
     /* 0x38 */ ksys::act::BaseProcLink _38;
     // Placeholder (type unknown): an object with a scale (_2c, used while _10 is set) and flag bits

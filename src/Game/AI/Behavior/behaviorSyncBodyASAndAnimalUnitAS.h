@@ -1,11 +1,11 @@
 #pragma once
 
 #include <prim/seadSafeString.h>
+#include "Game/Actor/actUnk_7102366570.h"
 #include "KingSystem/ActorSystem/actAiBehavior.h"
 
 namespace uking::behavior {
 
-// TODO: `_28` is an object with vtable 0x710243b090 (RTTI, destructor, one more virtual); type not declared yet.
 class SyncBodyASAndAnimalUnitAS : public ksys::act::ai::Behavior {
     SEAD_RTTI_OVERRIDE(SyncBodyASAndAnimalUnitAS, ksys::act::ai::Behavior)
 public:
@@ -17,7 +17,14 @@ public:
     void m9() override;  // not decompiled yet (0x7100645d08)
     ~SyncBodyASAndAnimalUnitAS() override;  // not decompiled yet
 
-    /* 0x28 */ u8 _28[0x20];
+    // 2026-10-07: vtable0x710243b090 inherits the root callback RTTI and owns its D1/D0.
+    class Callback : public Unk_7102366570 {
+    public:
+        ~Callback() override;
+        void call(ksys::act::Actor* actor) override;
+        void sub_71006459BC(ksys::act::Actor* actor);
+    };
+    /* 0x28 */ Callback _28;
     /* 0x48 */ const int* mSeqBank_s{};
     /* 0x50 */ const int* mTargetBone_s{};
     /* 0x58 */ sead::SafeString mPreFix_s{};

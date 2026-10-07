@@ -8,6 +8,13 @@
 
 namespace ksys::act {
 
+Unk_7100d860d8::Unk_7100d860d8(Actor* actor)
+    : mActor(actor), _8(sead::Vector3f::zero), _28(0), _68(sead::Vector3f::zero),
+      _74(sead::Vector3f::zero), _80(sead::Vector3f::zero), _8c(0), _90(0.0f), _94(0.0f),
+      _98(0.0f), _9c(0.0f), _a0(0.0f), _a4(0.0f), _a8(0.0f), _ac(0.0f),
+      _b0(0.0f), _b4(0.0f), _b8(0.0f), _bc(0.0f), _c0(0.0f), _c4(0.0f),
+      _c8(0.0f), _cc(0.0f), _d0(1.0f), _d4(0) {}
+
 // Unk_7100d860d8 lives in its own source file: BoneControl's helpers (actBoneControl.cpp) call these out of
 // line in the original.
 bool Unk_7100d860d8::sub_7100D87BE4() const {
