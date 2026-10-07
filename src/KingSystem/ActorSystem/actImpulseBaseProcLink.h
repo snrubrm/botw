@@ -5,6 +5,10 @@
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Utils/Types.h"
 
+namespace ksys::phys {
+class RigidBody;
+}
+
 namespace ksys::act {
 
 // Name from Actor::mImpulseBaseProcLink (Actor+0x708). Allocated with new(0x70) by the actor's init
@@ -26,8 +30,8 @@ public:
         /* 0x5c */ u16 _5c = 0;
     };
 
-    // 0x71011d8260 (declared only; placeholder name; ~1.1 KB): called by Actor::m35.
-    void sub_71011D8260();
+    // 0x71011d8260 (declared only; placeholder name; ~1.1 KB): called by Actor::m35, which passes its arguments on.
+    void sub_71011D8260(f32 impulse, phys::RigidBody* body_a, phys::RigidBody* body_b);
 
     /* 0x00 */ BaseProcLink mLink;
     /* 0x10 */ Unk1 _10;

@@ -470,7 +470,8 @@ public:
     virtual void m32();
     virtual bool m33();
     virtual void m34(sead::Vector3f* pos, f32* value);
-    virtual void m35();
+    // lane4 s51: called with the impulse and the two bodies by PhysicsUserTag::onImpulse; forwards to ImpulseBaseProcLink.
+    virtual void m35(f32 impulse, phys::RigidBody* body_a, phys::RigidBody* body_b);
     // The original forwards to 0x71011d8718 (applies an impulse-like request to the main body).
     virtual void m36(const sead::Vector3f& a1, const sead::Vector3f& a2, bool a3, bool a4, bool a5);
     virtual f32 getGuardableAngle();

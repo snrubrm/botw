@@ -6,12 +6,14 @@
 #include <prim/seadSafeString.h>
 #include <thread/seadCriticalSection.h>
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
+#include "KingSystem/Physics/System/physContactPointInfo.h"
 #include "KingSystem/Utils/Types.h"
 
 namespace ksys::act {
 
 class Actor;
 class ActorConstDataAccess;
+class ActorChemicals;
 class BaseProc;
 
 // Placeholder name (methods 0x7100e4e084-0x7100e50590; its constructor is inlined into
@@ -67,7 +69,13 @@ public:
     // object with vtable 0x71024e8790 (invoke 0x7100e50590, clone, isNoDummy) and two bytes at
     // +0x8 / +0x10
     /* 0x1c4 */ u8 _1c4[0x1c8 - 0x1c4];  // padding (the object below is 8-aligned)
-    /* 0x1c8 */ u8 _1c8[0x1d0 - 0x1c8];
+    // Contact callback (vtable 0x71024e8790; invoke 0x7100e50590 is only declared).
+    class ContactCallback : public phys::ContactPointInfo::ContactCallback {
+    public:
+        bool invoke(phys::ContactPointInfo::ShouldDisableContact* a1,
+                    const phys::ContactPointInfo::Event& a2) override;
+    };
+    /* 0x1c8 */ ContactCallback _1c8;
     /* 0x1d0 */ u8 _1d0;  // flags (CarriedData tests bit 0 and counts the set bits)
     /* 0x1d1 */ u8 _1d1[0x1d8 - 0x1d1];
     /* 0x1d8 */ u8 _1d8;  // flags (bit 2: the contact point info points at `_1c8`)

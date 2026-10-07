@@ -1,13 +1,65 @@
 #include "KingSystem/ActorSystem/actUnk_7100e4e084.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorChemicals.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/Resource/Actor/resResourceGParamList.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectLiftable.h"
 #include <prim/seadScopedLock.h>
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/System/physContactPointInfo.h"
 
 namespace ksys::act {
+
+void Unk_7100e4e084::sub_7100E504C0() {
+    if (sead::BitFlagUtil::countOnBit(_1d0) < 1)
+        return;
+
+    phys::ContactPointInfo* info;
+    if (auto* controller = mActor->getCharacterController()) {
+        info = controller->sub_7100F635D8();
+    } else {
+        auto* body = mActor->getMainBody();
+        info = body ? body->getContactPointInfo() : nullptr;
+    }
+    if (info) {
+        info->setContactCallback(&_1c8);
+        _1d8 |= 0x4;
+    }
+}
+
+void Unk_7100e4e084::sub_7100E50450(Actor* carrier) {
+    if (!carrier)
+        return;
+    auto* list = mActor->getParam()->getRes().mGParamList;
+    if (!list)
+        return;
+    auto* liftable = list->getLiftable();
+    if (!liftable || !liftable->mIsSetChemicalParent.ref())
+        return;
+    if (auto* chemicals = mActor->getChemicalContainer()) {
+        chemicals->sub_7100E38C54(carrier, true);
+        _1d8 |= 0x1;
+    }
+}
+
+void Unk_7100e4e084::sub_7100E4E084() {
+    _100 = -1;
+    _bc = 0;
+    _128 = false;
+    _129 = false;
+    _b0 = 0;
+    _b8 = 0;
+    if (_1d8 & 0x1) {
+        if (auto* chemicals = mActor->getChemicalContainer())
+            chemicals->sub_7100E38C54(nullptr, false);
+        _1d8 &= ~0x1;
+    }
+    _1d0 = 0;
+    _1d8 &= ~0x4;
+}
 
 void Unk_7100e4e084::sub_7100E5052C() {
     if (_1d8 & 0x4) {

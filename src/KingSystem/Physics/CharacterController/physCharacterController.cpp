@@ -73,6 +73,24 @@ void CharacterController::sub_7100F5E754(bool value) {
     _48->_50 = value;
 }
 
+void CharacterController::sub_7100F607CC(bool on) {
+    mRigidBody->setUseSystemTimeFactor(on);
+    if (_298)
+        _298->setUseSystemTimeFactor(on);
+}
+
+void CharacterController::sub_7100F60500(const sead::Matrix34f& mtx) {
+    if (mFlags.isOn(0x10000)) {
+        _298->setTransform(mtx);
+    } else {
+        mRigidBody->setTransform(mtx);
+        if (_20->_40 != 0)
+            _20->_50 = toHkVec4({-_7c.x, -_7c.y, -_7c.z});
+    }
+    if (_258)
+        _258->invoke(this);
+}
+
 void CharacterController::sub_7100F631E0(bool value) {
     _40->sub_7100F6693C(value);
 }

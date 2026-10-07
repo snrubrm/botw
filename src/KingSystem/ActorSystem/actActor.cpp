@@ -1451,9 +1451,9 @@ void Actor::onAiEnter(const char* name, const char* context) {
     mActorEditorNode.onAiEnter();
 }
 
-void Actor::m35() {
+void Actor::m35(f32 impulse, phys::RigidBody* body_a, phys::RigidBody* body_b) {
     if (mImpulseBaseProcLink)
-        mImpulseBaseProcLink->sub_71011D8260();
+        mImpulseBaseProcLink->sub_71011D8260(impulse, body_a, body_b);
 }
 
 Chemical* Actor::sub_71011D8A54(const sead::SafeString& name) {
