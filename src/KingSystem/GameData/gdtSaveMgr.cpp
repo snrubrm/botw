@@ -38,6 +38,222 @@ void SaveMgr::loadFlagValuesFromTriggerParam(gdt::TriggerParam* buffer) {
     _f98 = nullptr;
 }
 
+void SaveMgr::invokedLoadFlagValueFromTriggerParam(res::GameSaveData::Flag& flag) {
+    if (!gdt::Manager::instance())
+        return;
+    auto* buffer = _f98;
+    if (!buffer)
+        return;
+    const u32 hash = flag.kv.name_hash;
+    {
+        s32 index = 0;
+        flag.kv.value = -1;
+        flag._8 = 0;
+        if (buffer->getBoolFlagAndIdx(&index, hash)) {
+            flag.type = gdt::FlagType::Bool;
+            flag.kv.value = index;
+            return;
+        }
+    }
+    {
+        s32 index = 0;
+        flag.kv.value = -1;
+        flag._8 = 0;
+        if (buffer->getS32FlagAndIdx(&index, hash)) {
+            flag.type = gdt::FlagType::S32;
+            flag.kv.value = index;
+            return;
+        }
+    }
+    {
+        s32 index = 0;
+        flag.kv.value = -1;
+        flag._8 = 0;
+        if (buffer->getF32FlagAndIdx(&index, hash)) {
+            flag.type = gdt::FlagType::F32;
+            flag.kv.value = index;
+            return;
+        }
+    }
+    {
+        s32 index = 0;
+        flag.kv.value = -1;
+        flag._8 = 0;
+        if (buffer->getStrFlagAndIdx(&index, hash)) {
+            flag.type = gdt::FlagType::String;
+            flag.kv.value = index;
+            return;
+        }
+    }
+    {
+        s32 index = 0;
+        flag.kv.value = -1;
+        flag._8 = 0;
+        if (buffer->getStr64FlagAndIdx(&index, hash)) {
+            flag.type = gdt::FlagType::String64;
+            flag.kv.value = index;
+            return;
+        }
+    }
+    {
+        s32 index = 0;
+        flag.kv.value = -1;
+        flag._8 = 0;
+        if (buffer->getStr256FlagAndIdx(&index, hash)) {
+            flag.type = gdt::FlagType::String256;
+            flag.kv.value = index;
+            return;
+        }
+    }
+    {
+        s32 index = 0;
+        flag.kv.value = -1;
+        flag._8 = 0;
+        if (buffer->getVec2fFlagAndIdx(&index, hash)) {
+            flag.type = gdt::FlagType::Vector2f;
+            flag.kv.value = index;
+            return;
+        }
+    }
+    {
+        s32 index = 0;
+        flag.kv.value = -1;
+        flag._8 = 0;
+        if (buffer->getVec3fFlagAndIdx(&index, hash)) {
+            flag.type = gdt::FlagType::Vector3f;
+            flag.kv.value = index;
+            return;
+        }
+    }
+    {
+        s32 index = 0;
+        flag.kv.value = -1;
+        flag._8 = 0;
+        if (buffer->getVec4fFlagAndIdx(&index, hash)) {
+            flag.type = gdt::FlagType::Vector4f;
+            flag.kv.value = index;
+            return;
+        }
+    }
+    {
+        s32 size = 0;
+        if (buffer->getBoolArraySizeByHash(&size, hash)) {
+            s32 index = 0;
+            flag.kv.value = -1;
+            flag._8 = 0;
+            if (buffer->getBoolFlagAndIdx(&index, hash, 0)) {
+                flag.type = gdt::FlagType::BoolArray;
+                flag.kv.value = index;
+                return;
+            }
+        }
+    }
+    {
+        s32 size = 0;
+        if (buffer->getS32ArraySizeByHash(&size, hash)) {
+            s32 index = 0;
+            flag.kv.value = -1;
+            flag._8 = 0;
+            if (buffer->getS32FlagAndIdx(&index, hash, 0)) {
+                flag.type = gdt::FlagType::S32Array;
+                flag.kv.value = index;
+                return;
+            }
+        }
+    }
+    {
+        s32 size = 0;
+        if (buffer->getF32ArraySizeByHash(&size, hash)) {
+            s32 index = 0;
+            flag.kv.value = -1;
+            flag._8 = 0;
+            if (buffer->getF32FlagAndIdx(&index, hash, 0)) {
+                flag.type = gdt::FlagType::F32Array;
+                flag.kv.value = index;
+                return;
+            }
+        }
+    }
+    {
+        s32 size = 0;
+        if (buffer->getStrArraySizeByHash(&size, hash)) {
+            s32 index = 0;
+            flag.kv.value = -1;
+            flag._8 = 0;
+            if (buffer->getStrFlagAndIdx(&index, hash, 0)) {
+                flag.type = gdt::FlagType::StringArray;
+                flag.kv.value = index;
+                return;
+            }
+        }
+    }
+    {
+        s32 size = 0;
+        if (buffer->getStr64ArraySizeByHash(&size, hash)) {
+            s32 index = 0;
+            flag.kv.value = -1;
+            flag._8 = 0;
+            if (buffer->getStr64FlagAndIdx(&index, hash, 0)) {
+                flag.type = gdt::FlagType::String64Array;
+                flag.kv.value = index;
+                return;
+            }
+        }
+    }
+    {
+        s32 size = 0;
+        if (buffer->getStr256ArraySizeByHash(&size, hash)) {
+            s32 index = 0;
+            flag.kv.value = -1;
+            flag._8 = 0;
+            if (buffer->getStr256FlagAndIdx(&index, hash, 0)) {
+                flag.type = gdt::FlagType::String256Array;
+                flag.kv.value = index;
+                return;
+            }
+        }
+    }
+    {
+        s32 size = 0;
+        if (buffer->getVec2fArraySizeByHash(&size, hash)) {
+            s32 index = 0;
+            flag.kv.value = -1;
+            flag._8 = 0;
+            if (buffer->getVec2fFlagAndIdx(&index, hash, 0)) {
+                flag.type = gdt::FlagType::Vector2fArray;
+                flag.kv.value = index;
+                return;
+            }
+        }
+    }
+    {
+        s32 size = 0;
+        if (buffer->getVec3fArraySizeByHash(&size, hash)) {
+            s32 index = 0;
+            flag.kv.value = -1;
+            flag._8 = 0;
+            if (buffer->getVec3fFlagAndIdx(&index, hash, 0)) {
+                flag.type = gdt::FlagType::Vector3fArray;
+                flag.kv.value = index;
+                return;
+            }
+        }
+    }
+    {
+        s32 size = 0;
+        if (buffer->getVec4fArraySizeByHash(&size, hash)) {
+            s32 index = 0;
+            flag.kv.value = -1;
+            flag._8 = 0;
+            if (buffer->getVec4fFlagAndIdx(&index, hash, 0)) {
+                flag.type = gdt::FlagType::Vector4fArray;
+                flag.kv.value = index;
+                return;
+            }
+        }
+    }
+}
+
 void SaveMgr::auto3() {
     _140 &= ~0x100;
 }
