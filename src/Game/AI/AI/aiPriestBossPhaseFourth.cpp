@@ -26,6 +26,10 @@ void PriestBossPhaseFourth::loadParams_() {
     getStaticParam(&mRespawnSpan_s, "RespawnSpan");
 }
 
+bool PriestBossPhaseFourth::handleMessage_(const ksys::Message* message) {
+    return _3c8.sub_710071C550(*message);
+}
+
 bool PriestBossPhaseFourth::m37(f32* x) {
     ksys::act::ActorConstDataAccess accessor;
     if (sub_7100525B18(1, &accessor) && accessor.isStateCalc()) {

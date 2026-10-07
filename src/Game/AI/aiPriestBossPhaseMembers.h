@@ -4,6 +4,8 @@
 #include <prim/seadRuntimeTypeInfo.h>
 #include "KingSystem/Utils/Types.h"
 
+namespace ksys { class Message; }
+
 // Two unnamed embedded objects of PriestBossPhaseFourth, identified by their
 // SEAD RTTI vtables. Their internals are not yet recovered; these declarations
 // retain the original out-of-line constructor and nonvirtual destructor calls.
@@ -23,6 +25,7 @@ public:
     // 0x710071bd3c / 0x710071bf08
     Unk_7102451050();
     ~Unk_7102451050();
+    bool sub_710071C550(const ksys::Message& message);
 
 private:
     u64 _0[0x208 / sizeof(u64)];
