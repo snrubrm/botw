@@ -1,5 +1,7 @@
 #include "Game/AI/AI/aiGuardianMiniChangeWeapon.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
+#include "Game/AI/aiUnk_710072BA90.h"
+#include "Game/Damage/dmgDamageManager.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
@@ -35,6 +37,26 @@ void GuardianMiniChangeWeapon::enter_(ksys::act::ai::InlineParamPack* params) {
     mActor->getDamageMgr();
     setDamageCallbackTiming(mActor, 4, &_78);
     changeChild("切替開始");
+}
+
+// NON_MATCHING: the two damage-type cases share a later tail-call block.
+void GuardianMiniChangeWeapon::sub_710041A554() {
+    if (!mActor)
+        return;
+    auto* manager = sub_710072BA90(mActor);
+    if (!manager)
+        return;
+    if (manager->_216.isOff(2) || manager->getField54() == 12) {
+        if (!mActor)
+            return;
+        auto* as_list = mActor->getASList();
+        if (as_list && as_list->x_4(1, 0) && as_list->x_1(1, 0) == mDamageASName_s)
+            sub_710041AA18();
+    } else {
+        const u32 type = manager->getField50();
+        if (type < 3 || (type == 3 && manager->checkDamageFlags(0)))
+            sub_710041ABD4();
+    }
 }
 
 void GuardianMiniChangeWeapon::calc_() {

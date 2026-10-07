@@ -33,11 +33,12 @@ public:
     void loadParams_() override;
     bool handleMessage_(const ksys::Message* message) override;
 
-    // 0x710041a554 / 0x710041a6dc (placeholder names; declared only)
+    // 0x710041a554 / 0x710041a6dc (placeholder names)
     void sub_710041A554();
     void sub_710041A6DC();
     void sub_710041AAD4();
     void sub_710041AA18();
+    void sub_710041ABD4();
 
 protected:
     // static_param at offset 0x38

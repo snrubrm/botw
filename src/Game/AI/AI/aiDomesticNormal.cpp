@@ -3,6 +3,8 @@
 #include <math/seadMathCalcCommon.h>
 #include <random/seadGlobalRandom.h>
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Map/mapObject.h"
+#include "KingSystem/Map/mapRail.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
@@ -18,6 +20,24 @@ DomesticNormal::~DomesticNormal() = default;
 
 bool DomesticNormal::init_(sead::Heap* heap) {
     return PreyNormal::init_(heap);
+}
+
+// NON_MATCHING: selected-rail and vector-copy load scheduling differs.
+bool DomesticNormal::sub_7100364F7C() {
+    _378 = ksys::act::sub_7100EEF0FC(mActor, *mDomesticAnimalRailName_a);
+    if (!_378) {
+        if (auto* object = mActor->getMapObject()) {
+            if (object->getRails())
+                _378 = *object->getRails();
+        }
+    }
+    if (_378) {
+        const sead::Vector3f position = mActor->getMtx().getTranslation();
+        _380 = _378->getPointTranslate(ksys::act::sub_7100EEF690(_378, &position));
+    } else if (!ksys::act::sub_7100EE37EC(&_380, nullptr, mActor, *mDomesticAnimalRailName_a)) {
+        mActor->getHomePos(&_380);
+    }
+    return true;
 }
 
 void DomesticNormal::sub_71003653B0() {

@@ -23,6 +23,7 @@ bool getEcosystemActorName(sead::SafeString* out, const sead::SafeString& name,
 
 namespace ksys::map {
 class Object;
+class Rail;
 }
 
 namespace ksys::phys {
@@ -34,6 +35,12 @@ class RigidBody;
 namespace ksys::act {
 
 class Actor;
+
+// DomesticNormal 364F7C uses the named rail, anchor outputs and nearest point index.
+map::Rail* sub_7100EEF0FC(Actor* actor, const sead::SafeString& name);
+bool sub_7100EE37EC(sead::Vector3f* position, sead::Vector3f* rotation, Actor* actor,
+                     const sead::SafeString& name);
+s32 sub_7100EEF690(map::Rail* rail, const sead::Vector3f* position);
 class AttClient;
 class ActorConstDataAccess;
 class ActorLinkConstDataAccess;
