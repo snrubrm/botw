@@ -22,6 +22,15 @@ class VillagerMgr;
 namespace ksys::map {
 
 class Object;
+class PlacementMgr;
+
+// Placeholder name (0x71011e3d6c, CSV MassRenderer::x_2; the class of PlacementMgr::mMassRenderer): declaration only.
+class MassRenderer {
+public:
+    // 0x71011e3d6c (804 B): updates the object's entry after its render flag changed.
+    void x_2(PlacementMgr* mgr, Object* obj);
+};
+
 // Placeholder name (callback argument of the ClusteredRenderer query 0x71012497f8): a stack copy of
 // the cluster entry.
 struct Unk_71012497f8Entry {
@@ -70,6 +79,9 @@ public:
     // 0x7100e9d3c-like twin at 0x71011e9d3c (placeholder name, declaration only; lane4 s28): the same checks
     // as disableObjStaticCompound, then setStaticCompoundInstanceEnabled(obj, true).
     void enableObjStaticCompound(Object* obj);
+    // 0x71011e9c28 (CSV __auto4; placeholder name, declaration only): `enabled` changes the object's render flag
+    // (mass renderer / forest renderer update).
+    void sub_71011E9C28(Object* obj, bool enabled);
     void stubbed();
     void insertTraverseResultPreActor(act::Actor* actor);
     void setFlag8Enabled(bool enabled);
@@ -186,7 +198,7 @@ public:
     TraverseResults mTraverseResults[2];
     PlacementTree* mPlacementTree = nullptr;
     u32 _7a8;
-    void* mMassRenderer = nullptr;
+    MassRenderer* mMassRenderer = nullptr;
     act::ClusteredRenderer* mClusteredRenderer = nullptr;
     void* mPlacementNavi = nullptr;
     u32 mMassRendererReqCount = 0;

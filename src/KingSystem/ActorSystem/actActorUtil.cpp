@@ -1242,6 +1242,22 @@ bool itemIsForSale(Actor* actor) {
     return false;
 }
 
+}  // namespace ksys::act
+
+namespace ksys::map {
+
+// 0x7100ee2788: the original tests `this` for null (callers null check the object too).
+bool Object::getForSaleLink() {
+    if (!this)
+        return false;
+    auto* link_data = getLinkData();
+    return link_data && link_data->findLinkWithType(MapLinkDefType::ForSale);
+}
+
+}  // namespace ksys::map
+
+namespace ksys::act {
+
 bool isAlive(BaseProcLink* link) {
     ActorConstDataAccess accessor;
     acquireActor(link, &accessor);

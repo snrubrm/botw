@@ -220,7 +220,7 @@ public:
     gdt::FlagHandle getRevivalGameDataFlagHash() const { return mRevivalGameDataFlagHash; }
     u32 getHashId() const { return mHashId; }
 
-    const sead::Vector3f& getTranslate() const { return mTranslate; }
+    sead::Vector3f getTranslate() const { return mTranslate; }
 
     auto getTraverseDistInt() const { return mTraverseDistInt; }
 

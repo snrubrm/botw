@@ -70,6 +70,7 @@ public:
 
 private:
     friend class PlacementMgr;
+    friend class PlacementMapMgr;
 
     bool loadStaticMap_(bool load);
     void doLoadStaticMap_(bool load);

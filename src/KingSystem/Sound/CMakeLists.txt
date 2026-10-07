@@ -7,9 +7,13 @@ target_sources(uking PRIVATE
   sndMusicInfo.cpp
   sndMusicInfo.h
   sndResource.cpp
+  sndResourceManager.cpp
   sndResource.h
   sndMgr.cpp
   sndMgr.h
+  sndSoundMgr38.cpp
+  sndUiSoundMgr.cpp
+  sndUnk68.cpp
   sndUnk_7102502138.cpp
   sndUnk_7102502138.h
 )

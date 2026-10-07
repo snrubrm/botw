@@ -3,6 +3,8 @@
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Map/mapObjectGenGroup.h"
+#include "KingSystem/Map/mapPlacementMgr.h"
+#include "KingSystem/Terrain/teraSystem.h"
 #include "KingSystem/Map/mapRail.h"
 
 namespace ksys::map {
@@ -350,6 +352,32 @@ bool ObjectLinkData::x_0() {
     if (mGenGroup)
         return mGenGroup->sub_7100D51064();
     return true;
+}
+
+void ObjectLinkData::sub_7100D4F884() {
+    if (!tera::checkTeraSystemStatus()) {
+        auto* thread = sead::ThreadMgr::instance()->getCurrentThread();
+        thread->getPriority();
+    }
+    if (mGenGroup) {
+        mGenGroup->_4.decrement();
+        mGenGroup->sub_7100D50AA8();
+    } else {
+        field_54 = false;
+    }
+}
+
+void ObjectLinkData::sub_7100D4FAD8() {
+    for (auto& link : mLinksOther.links) {
+        auto* obj = link.other_obj;
+        if (obj && link.type == MapLinkDefType::StackLink) {
+            obj->setFlags0(Object::Flag0::_40000000);
+            PlacementMgr::instance()->disableObjStaticCompound(obj);
+            PlacementMgr::instance()->sub_71011E9C28(obj, false);
+            if (auto* link_data = obj->getLinkData())
+                link_data->sub_7100D4FAD8();
+        }
+    }
 }
 
 void ObjectLinkData::incrementGenGroupNumPrepareDelete() {

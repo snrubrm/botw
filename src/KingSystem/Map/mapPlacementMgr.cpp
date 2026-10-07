@@ -5,7 +5,9 @@
 #include "KingSystem/ActorSystem/actClusteredRenderer.h"
 #include "KingSystem/ActorSystem/actInfoData.h"
 #include "KingSystem/ActorSystem/actInstParamPack.h"
+#include "KingSystem/Graphics/gfxForestRenderer.h"
 #include "KingSystem/Map/mapObject.h"
+#include "KingSystem/Map/mapStagePreActorCache.h"
 #include "KingSystem/Map/mapPlacementActors.h"
 #include "KingSystem/Map/mapPlacementTree.h"
 #include "KingSystem/System/VFR.h"
@@ -152,6 +154,30 @@ void PlacementMgr::disableObjStaticCompound(Object* obj) {
         return;
     if (auto* map = mPlacementMapMgr->getMap(obj->getIdx()))
         map->setStaticCompoundInstanceEnabled(obj, false);
+}
+
+void PlacementMgr::sub_71011E9C28(Object* obj, bool enabled) {
+    if (!obj->getFlags0().isOn(Object::Flag0::_80000)) {
+        if (obj->getFlags0().isOn(Object::Flag0::_8) == enabled)
+            return;
+        if (enabled)
+            obj->setFlags0(Object::Flag0::_8);
+        else
+            obj->resetFlags0(Object::Flag0::_8);
+        mMassRenderer->x_2(this, obj);
+    } else {
+        if (obj->getFlags0().isOn(Object::Flag0::_40000) == enabled)
+            return;
+        if (enabled)
+            obj->setFlags0(Object::Flag0::_40000);
+        else
+            obj->resetFlags0(Object::Flag0::_40000);
+        if (auto* fr = StagePreActorCache::instance()->getForestRenderer()) {
+            const s32 idx = fr->x_7(obj->getTranslate());
+            if (idx != -1)
+                fr->x_8(idx, enabled, false);
+        }
+    }
 }
 
 void PlacementMgr::stubbed() {}

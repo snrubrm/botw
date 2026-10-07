@@ -12,6 +12,8 @@ public:
     virtual ~ForestRenderer();
 
     s32 x_7(const sead::Vector3f& vec);
+    // 0x7100f06798 (CSV x_8; declaration only)
+    void x_8(s32 idx, bool a, bool b);
     bool x_9();
 
     sead::CriticalSection mCS;

@@ -4,6 +4,8 @@
 #include <heap/seadDisposer.h>
 #include <math/seadVector.h>
 #include <prim/seadSafeString.h>
+#include <container/seadPtrArray.h>
+#include <aal/aalHandle.h>
 
 namespace aal {
 class Shape;
@@ -11,6 +13,7 @@ class Shape;
 
 namespace xlink2 {
 class HandleSLink;
+class UserInstanceSLink;
 }
 
 namespace ksys::act {
@@ -22,7 +25,12 @@ namespace ksys::snd {
 // Only the interface needed by the UI sound wrapper is recovered.
 class UiSoundMgr {
 public:
+    // 0x710105d330: emits the SLink sound `label` through the user instance at +0x20; the handle is copied to
+    // `handle` if given. Returns whether the emitted event is alive.
     bool playSound(const sead::SafeString& label, xlink2::HandleSLink* handle);
+
+    u8 _0[0x20];
+    /* 0x20 */ xlink2::UserInstanceSLink* _20;
 };
 
 // Placeholder name (SoundMgr::_38::_30). Holds the aal::SpeakerBalanceUnifier objects at +0x68 (count at +0x60,
@@ -48,9 +56,12 @@ public:
     void sub_7101037F5C(u8 value);
     // 0x7101037f64: sets the enabled flag at +0x328 (clears the pointers at +0x3c0 / +0x3c8 when disabled).
     void sub_7101037F64(bool enabled);
+    // 0x7101037f7c: stores `value` in the byte at +0x39c.
+    void sub_7101037F7C(bool value);
 
     u8 _0[0x398];
     /* 0x398 */ f32 _398;
+    /* 0x39c */ bool _39c;
 };
 
 // Placeholder name (SoundMgr::_38).
@@ -77,13 +88,21 @@ public:
     void sub_7101042DB4(const sead::SafeString& type, bool suspend);
     // 0x7101042024 (declared only): starts the ducker with index `idx`.
     Ducker* sub_7101042024(int idx);
+    // 0x7101042d6c (declared only): clears bit 0 of the ducker `idx`'s flags byte (+0xc8) and suspends its
+    // aal::GroupDucker if `suspend`.
+    void sub_7101042D6C(int idx, bool suspend);
 };
 
 // Placeholder name (SoundMgr::_48; the object has an aal::Handle at +0x18). Used by the UI message screens.
 class Unk_SoundMgr48 {
 public:
-    // 0x7101055b44 (declared only; CSV unnamed)
+    // 0x7101055b44 (CSV unnamed): stops the handle with a short fade if it is enabled.
     void sub_7101055B44();
+    // 0x7101055e3c: returns 0.2f.
+    f32 sub_7101055E3C() const;
+
+    u8 _0[0x18];
+    /* 0x18 */ aal::Handle _18;
 };
 
 // Placeholder name (ctor 0x710103b704; SoundMgr::_98): starts / stops the two custom duckers (indices 0x30 / 0x31
@@ -103,6 +122,8 @@ public:
     void sub_710103CFF4(StartParam& param);
     // 0x710103d094 (declared only)
     void sub_710103D094();
+    // 0x710103d418: starts the ducker 0x1f.
+    void sub_710103D418();
 
     // 0x710103bb00 (declared only; CSV unnamed): applies the scene sound controls (bgm type, se type) now.
     void sub_710103BB00(int bgm_type, int se_type);
@@ -122,8 +143,21 @@ public:
 // is allowed"). Used by the message-dialog / talk actions (NPCTalk, OpenMessageDialog*, SimpleUniqueTalk).
 class Unk_710104e5b4 {
 public:
-    // 0x710104f86c (declared only): starts the dialogue ducker (SoundMgr::_80 ducker 0x10) while an event is active.
+    // 0x710104f86c: starts the dialogue ducker (SoundMgr::_80 ducker 0x10) while an event is active.
     void sub_710104F86C();
+    // 0x710104f8c4: `suspend` the dialogue ducker (SoundMgr::_80 ducker 0x10).
+    void sub_710104F8C4(bool suspend);
+    // 0x710104f8e0: starts the ducker 0xf unless ducking is not allowed (bit 2 of `_2a0`).
+    void sub_710104F8E0();
+    // 0x710104f904: stops the ducker 0xf without suspending it.
+    void sub_710104F904();
+    // 0x710104fd38 (not done; copies a 12-byte value (4 bytes at +8 first) to `_278`; sead::Vector3f's operator=
+    // copies element-wise).
+
+    u8 _0[0x278];
+    /* 0x278 */ sead::Vector3f _278;
+    u8 _284[0x2a0 - 0x284];
+    /* 0x2a0 */ u8 _2a0;
 };
 
 enum class AudioChannelType {
@@ -158,6 +192,8 @@ struct Unk_SoundMgr60 {
 struct Unk_SoundInstance {
     // 0x710104acb4 (declared only; 68 B).
     bool sub_710104ACB4();
+    // 0x710104ac00 (declared only): the volume this instance gives `actor` (negative: none).
+    f32 sub_710104AC00(ksys::act::Actor* actor);
 
     u8 _0[0x440];
     /* 0x440 */ f32 _440;
@@ -169,11 +205,21 @@ struct Unk_SoundInstance {
 // Placeholder name (SoundMgr::_a8): the manager of the sound instances the AreaTagAction family hold at +0xa0.
 class Unk_SoundMgra8 {
 public:
-    // 0x710104b554 (CSV nullsub_4415; declared only): releases `instance`.
+    // 0x710104b554 (CSV nullsub_4415): releases `instance`.
     void sub_710104B554(Unk_SoundInstance* instance);
-    // 0x710104b558 (declared only; 132 B): the volume the sound instance list gives `actor` (the first
-    // non-negative value of the instances' 0x710104ac00 query, else -1).
+    // 0x710104b558 (132 B): the volume the sound instance list gives `actor` (the first non-negative value of the
+    // instances' 0x710104ac00 query, else -1).
     f32 sub_710104B558(ksys::act::Actor* actor);
+    // 0x710104b5dc: `idx` is below the count at +0x4a70.
+    bool sub_710104B5DC(u32 idx) const;
+
+    u8 _0[0x48];
+    /* 0x48 */ bool _48;
+    /* 0x49 */ bool _49;
+    u8 _4a[0x50 - 0x4a];
+    /* 0x50 */ sead::PtrArray<Unk_SoundInstance> _50;
+    u8 _60[0x4a70 - 0x60];
+    /* 0x4a70 */ u16 _4a70;
 };
 
 // Placeholder (lane2 s46): the sound kind (0..5) the UI hands to SoundMgr (a 4-byte class: passed in a full register).
