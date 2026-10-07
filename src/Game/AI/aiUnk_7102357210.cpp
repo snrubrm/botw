@@ -882,3 +882,11 @@ void Unk_7102450410::Entry::sub_7100708B64() {
     _14 = value;
     _18 = -1.0f;
 }
+
+Unk_7102450410::Entry* Unk_7102450410::sub_7100708E90(ksys::act::Chemical* chemical) {
+    for (auto& entry : _8) {
+        if (entry.mChemical == chemical)
+            return &entry;
+    }
+    return nullptr;
+}

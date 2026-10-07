@@ -54,6 +54,8 @@ public:
     };
     KSYS_CHECK_SIZE_NX150(Entry, 0xb8);
 
+    Entry* sub_7100708E90(ksys::act::Chemical* chemical);
+
     Unk_7102450410();
     ~Unk_7102450410() override;
 
