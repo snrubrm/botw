@@ -3,7 +3,7 @@
 
 namespace ksys::as {
 
-YSpeedBlender::YSpeedBlender() {}
+YSpeedBlender::YSpeedBlender(const CreateArg&, s32, const res::ASResource*) {}
 
 f32 YSpeedBlender::m38(Context* ctx, const res::ASResource* resource) {
     return ctx->mList->sub_710115EC98(0x14, &ASList::sub_710115F820, 0);

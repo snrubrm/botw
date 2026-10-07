@@ -4,7 +4,7 @@
 
 namespace ksys::as {
 
-WeatherSelector::WeatherSelector() {}
+WeatherSelector::WeatherSelector(const CreateArg&, s32, const res::ASResource*) {}
 
 const char* WeatherSelector::m40(Context* ctx, const res::ASResource* resource) {
     auto* manager = world::Manager::instance();

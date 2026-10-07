@@ -3,7 +3,7 @@
 
 namespace ksys::as {
 
-SequencePlayContainer::SequencePlayContainer() {}
+SequencePlayContainer::SequencePlayContainer(const CreateArg&, s32, const res::ASResource*) {}
 
 // NON_MATCHING: cached child-buffer field addresses change register allocation and store scheduling.
 void SequencePlayContainer::sub_710125F94C(Context* ctx, const res::ASResource* resource,

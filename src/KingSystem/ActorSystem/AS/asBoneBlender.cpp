@@ -4,7 +4,7 @@
 
 namespace ksys::as {
 
-BoneBlender::BoneBlender() {}
+BoneBlender::BoneBlender(const CreateArg&, s32, const res::ASResource*) {}
 
 void BoneBlender::m12(Context* ctx, State* state, const res::ASResource* resource) {
     ctx->mList->sub_7101160ED4();

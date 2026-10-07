@@ -3,7 +3,7 @@
 
 namespace ksys::as {
 
-ClearMatAnmAsset::ClearMatAnmAsset() {}
+ClearMatAnmAsset::ClearMatAnmAsset(const CreateArg&, s32, const res::ASResource*) {}
 
 bool ClearMatAnmAsset::m9(Context* ctx, PlayState* state, const res::ASResource* resource) {
     if (ctx->sub_7101258E2C()) {

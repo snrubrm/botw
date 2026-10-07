@@ -5,7 +5,7 @@
 
 namespace ksys::as {
 
-EventFlagSelector::EventFlagSelector() {}
+EventFlagSelector::EventFlagSelector(const CreateArg&, s32, const res::ASResource*) {}
 
 EventFlagSelector::~EventFlagSelector() {
     _18.freeBuffer();

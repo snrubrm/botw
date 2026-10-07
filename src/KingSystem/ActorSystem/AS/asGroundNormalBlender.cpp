@@ -3,8 +3,8 @@
 
 namespace ksys::as {
 
-GroundNormalBlender::GroundNormalBlender() {}
-GroundNormalSideBlender::GroundNormalSideBlender() {}
+GroundNormalBlender::GroundNormalBlender(const CreateArg&, s32, const res::ASResource*) {}
+GroundNormalSideBlender::GroundNormalSideBlender(const CreateArg&, s32, const res::ASResource*) {}
 
 f32 GroundNormalBlender::m38(Context* ctx, const res::ASResource* resource) {
     return ctx->mList->sub_710115EC98(0x15, &ASList::sub_710115F8A0, 0);

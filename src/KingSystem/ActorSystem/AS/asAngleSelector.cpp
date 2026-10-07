@@ -4,7 +4,7 @@
 
 namespace ksys::as {
 
-AngleSelector::AngleSelector() {}
+AngleSelector::AngleSelector(const CreateArg&, s32, const res::ASResource*) {}
 
 // NON_MATCHING: reverse-loop induction, Buffer fallback simplification and block layout differ.
 int AngleSelector::m39(Context* ctx, u32 a2, const res::ASResource* resource) {

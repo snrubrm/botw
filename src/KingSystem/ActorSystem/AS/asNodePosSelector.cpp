@@ -18,7 +18,7 @@ f32 sub_710131CA1C(const sead::Vector3f& value) {
     return value.z;
 }
 
-NodePosSelector::NodePosSelector() {}
+NodePosSelector::NodePosSelector(const CreateArg&, s32, const res::ASResource*) {}
 
 NodePosSelector::~NodePosSelector() {
     _18.freeBuffer();

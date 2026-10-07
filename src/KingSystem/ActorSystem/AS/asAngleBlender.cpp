@@ -9,7 +9,7 @@ f32 sub_71013180B4() {
     return 0.01f;
 }
 
-AngleBlender::AngleBlender() {}
+AngleBlender::AngleBlender(const CreateArg&, s32, const res::ASResource*) {}
 
 // NON_MATCHING: circular range loops use different induction variables and bounds checks.
 f32 AngleBlender::m39(s32* first, s32* second, Context* ctx,

@@ -3,7 +3,7 @@
 
 namespace ksys::as {
 
-TimeSelector::TimeSelector() {}
+TimeSelector::TimeSelector(const CreateArg&, s32, const res::ASResource*) {}
 
 const char* TimeSelector::m40(Context* ctx, const res::ASResource* resource) {
     auto* manager = world::Manager::instance();

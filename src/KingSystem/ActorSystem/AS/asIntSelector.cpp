@@ -13,11 +13,6 @@ IntSelector::IntSelector(const CreateArg& arg, s32 value, const res::ASResource*
         _18 = getValue(arg.actor, children);
 }
 
-// NON_MATCHING: the compiler inlines the constructor into this factory.
-Element* IntSelector::make(const CreateArg& arg, s32 value, const res::ASResource* resource) {
-    return new (arg.heap, 8) IntSelector(arg, value, resource);
-}
-
 // NON_MATCHING: signed length tests and the common integer-lookup tail have different scheduling.
 s32 IntSelector::getValue(act::Actor* actor, const res::ASResource* resource) {
     mii::UMii* umii = actor->getUMii();

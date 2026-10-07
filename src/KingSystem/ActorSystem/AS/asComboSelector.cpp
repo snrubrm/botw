@@ -4,7 +4,7 @@
 
 namespace ksys::as {
 
-ComboSelector::ComboSelector() {}
+ComboSelector::ComboSelector(const CreateArg&, s32, const res::ASResource*) {}
 
 int ComboSelector::m39(Context* ctx, u32 a2, const res::ASResource* resource) {
     return resource->findIntIndex(ctx->mList->sub_710115EC5C(sub_7101165408(resource), 0));

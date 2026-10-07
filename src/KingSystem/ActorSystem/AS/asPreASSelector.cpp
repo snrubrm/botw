@@ -2,7 +2,7 @@
 
 namespace ksys::as {
 
-PreASSelector::PreASSelector() {}
+PreASSelector::PreASSelector(const CreateArg&, s32, const res::ASResource*) {}
 
 const char* PreASSelector::m40(Context* ctx, const res::ASResource* resource) {
     return ctx->mUnk18.cstr();

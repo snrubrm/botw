@@ -5,6 +5,7 @@ target_sources(uking PRIVATE
     AS/ASListUnk2.cpp
     AS/asAngleBlender.cpp
     AS/asAnmAsset.cpp
+    AS/asElementMake.cpp
     AS/asAngleSelector.cpp
     AS/asAsset.cpp
     AS/asBlender.cpp

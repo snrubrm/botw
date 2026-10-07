@@ -3,7 +3,7 @@
 
 namespace ksys::as {
 
-ZEx00ExposureSelector::ZEx00ExposureSelector() {}
+ZEx00ExposureSelector::ZEx00ExposureSelector(const CreateArg&, s32, const res::ASResource*) {}
 
 f32 ZEx00ExposureSelector::m40(Context* ctx, u32 a2, const res::ASResource* resource) {
     auto* manager = world::Manager::instance();

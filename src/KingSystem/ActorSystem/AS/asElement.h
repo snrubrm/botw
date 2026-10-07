@@ -468,7 +468,8 @@ public:
 class BoolSelector : public Selector {
     SEAD_RTTI_OVERRIDE(BoolSelector, Selector)
 public:
-    BoolSelector();
+    BoolSelector(const CreateArg& arg, s32 value, const res::ASResource* resource);
+    static Element* make(const CreateArg& arg, s32 value, const res::ASResource* resource);
 
     int m39(Context* ctx, u32 a2, const res::ASResource* resource) override;
 };
@@ -492,7 +493,8 @@ KSYS_CHECK_SIZE_NX150(IntSelector, 0x20);
 class ComboSelector : public Selector {
     SEAD_RTTI_OVERRIDE(ComboSelector, Selector)
 public:
-    ComboSelector();
+    ComboSelector(const CreateArg& arg, s32 value, const res::ASResource* resource);
+    static Element* make(const CreateArg& arg, s32 value, const res::ASResource* resource);
 
     int m39(Context* ctx, u32 a2, const res::ASResource* resource) override;
 };
@@ -508,7 +510,8 @@ public:
     };
     KSYS_CHECK_SIZE_NX150(Unk1, 0x98);
 
-    NodePosSelector();
+    NodePosSelector(const CreateArg& arg, s32 value, const res::ASResource* resource);
+    static Element* make(const CreateArg& arg, s32 value, const res::ASResource* resource);
     ~NodePosSelector() override;
 
     bool m8(const InitArg& arg) override;
@@ -542,7 +545,8 @@ public:
 class ZEx00ExposureSelector : public FloatSelector {
     SEAD_RTTI_OVERRIDE(ZEx00ExposureSelector, FloatSelector)
 public:
-    ZEx00ExposureSelector();
+    ZEx00ExposureSelector(const CreateArg& arg, s32 value, const res::ASResource* resource);
+    static Element* make(const CreateArg& arg, s32 value, const res::ASResource* resource);
 
     f32 m40(Context* ctx, u32 a2, const res::ASResource* resource) override;
 };
@@ -550,7 +554,8 @@ public:
 class GroundNormalSelector : public FloatSelector {
     SEAD_RTTI_OVERRIDE(GroundNormalSelector, FloatSelector)
 public:
-    GroundNormalSelector();
+    GroundNormalSelector(const CreateArg& arg, s32 value, const res::ASResource* resource);
+    static Element* make(const CreateArg& arg, s32 value, const res::ASResource* resource);
 
     f32 m40(Context* ctx, u32 a2, const res::ASResource* resource) override;
 };
@@ -558,7 +563,8 @@ public:
 class GroundNormalSideSelector : public FloatSelector {
     SEAD_RTTI_OVERRIDE(GroundNormalSideSelector, FloatSelector)
 public:
-    GroundNormalSideSelector();
+    GroundNormalSideSelector(const CreateArg& arg, s32 value, const res::ASResource* resource);
+    static Element* make(const CreateArg& arg, s32 value, const res::ASResource* resource);
 
     f32 m40(Context* ctx, u32 a2, const res::ASResource* resource) override;
 };
@@ -566,7 +572,8 @@ public:
 class AngleSelector : public FloatSelector {
     SEAD_RTTI_OVERRIDE(AngleSelector, FloatSelector)
 public:
-    AngleSelector();
+    AngleSelector(const CreateArg& arg, s32 value, const res::ASResource* resource);
+    static Element* make(const CreateArg& arg, s32 value, const res::ASResource* resource);
 
     int m39(Context* ctx, u32 a2, const res::ASResource* resource) override;
     virtual f32 m41();
@@ -584,7 +591,8 @@ public:
 class PreExclusionRandomSelector : public RandomSelector {
     SEAD_RTTI_OVERRIDE(PreExclusionRandomSelector, RandomSelector)
 public:
-    PreExclusionRandomSelector();
+    PreExclusionRandomSelector(const CreateArg& arg, s32 value, const res::ASResource* resource);
+    static Element* make(const CreateArg& arg, s32 value, const res::ASResource* resource);
 
     bool m9(Context* ctx, PlayState* state, const res::ASResource* resource) override;
     void m12(Context* ctx, State* state, const res::ASResource* resource) override;
@@ -594,7 +602,8 @@ public:
 class SpeedSelector : public FloatSelector {
     SEAD_RTTI_OVERRIDE(SpeedSelector, FloatSelector)
 public:
-    SpeedSelector();
+    SpeedSelector(const CreateArg& arg, s32 value, const res::ASResource* resource);
+    static Element* make(const CreateArg& arg, s32 value, const res::ASResource* resource);
 
     f32 m40(Context* ctx, u32 a2, const res::ASResource* resource) override;
 };
@@ -602,7 +611,8 @@ public:
 class YSpeedSelector : public FloatSelector {
     SEAD_RTTI_OVERRIDE(YSpeedSelector, FloatSelector)
 public:
-    YSpeedSelector();
+    YSpeedSelector(const CreateArg& arg, s32 value, const res::ASResource* resource);
+    static Element* make(const CreateArg& arg, s32 value, const res::ASResource* resource);
 
     f32 m40(Context* ctx, u32 a2, const res::ASResource* resource) override;
 };
@@ -610,7 +620,8 @@ public:
 class EventFlagSelector : public StringSelector {
     SEAD_RTTI_OVERRIDE(EventFlagSelector, StringSelector)
 public:
-    EventFlagSelector();
+    EventFlagSelector(const CreateArg& arg, s32 value, const res::ASResource* resource);
+    static Element* make(const CreateArg& arg, s32 value, const res::ASResource* resource);
 
     bool m8(const InitArg& arg) override;
     int m39(Context* ctx, u32 a2, const res::ASResource* resource) override;
@@ -623,7 +634,8 @@ public:
 class PreASSelector : public StringSelector {
     SEAD_RTTI_OVERRIDE(PreASSelector, StringSelector)
 public:
-    PreASSelector();
+    PreASSelector(const CreateArg& arg, s32 value, const res::ASResource* resource);
+    static Element* make(const CreateArg& arg, s32 value, const res::ASResource* resource);
 
     const char* m40(Context* ctx, const res::ASResource* resource) override;
 };
@@ -631,7 +643,8 @@ public:
 class TimeSelector : public StringSelector {
     SEAD_RTTI_OVERRIDE(TimeSelector, StringSelector)
 public:
-    TimeSelector();
+    TimeSelector(const CreateArg& arg, s32 value, const res::ASResource* resource);
+    static Element* make(const CreateArg& arg, s32 value, const res::ASResource* resource);
 
     const char* m40(Context* ctx, const res::ASResource* resource) override;
 };
@@ -639,7 +652,8 @@ public:
 class WeatherSelector : public StringSelector {
     SEAD_RTTI_OVERRIDE(WeatherSelector, StringSelector)
 public:
-    WeatherSelector();
+    WeatherSelector(const CreateArg& arg, s32 value, const res::ASResource* resource);
+    static Element* make(const CreateArg& arg, s32 value, const res::ASResource* resource);
 
     const char* m40(Context* ctx, const res::ASResource* resource) override;
 };
@@ -694,7 +708,8 @@ public:
 class BoneBlender : public Blender {
     SEAD_RTTI_OVERRIDE(BoneBlender, Blender)
 public:
-    BoneBlender();
+    BoneBlender(const CreateArg& arg, s32 value, const res::ASResource* resource);
+    static Element* make(const CreateArg& arg, s32 value, const res::ASResource* resource);
 
     void m12(Context* ctx, State* state, const res::ASResource* resource) override;
     void m15(Context* ctx, BoneBlendState* state, const res::ASResource* resource) override;
@@ -705,7 +720,8 @@ public:
 class ZEx00ExposureBlender : public Blender {
     SEAD_RTTI_OVERRIDE(ZEx00ExposureBlender, Blender)
 public:
-    ZEx00ExposureBlender();
+    ZEx00ExposureBlender(const CreateArg& arg, s32 value, const res::ASResource* resource);
+    static Element* make(const CreateArg& arg, s32 value, const res::ASResource* resource);
 
     f32 m38(Context* ctx, const res::ASResource* resource) override;
 };
@@ -713,7 +729,8 @@ public:
 class GroundNormalBlender : public Blender {
     SEAD_RTTI_OVERRIDE(GroundNormalBlender, Blender)
 public:
-    GroundNormalBlender();
+    GroundNormalBlender(const CreateArg& arg, s32 value, const res::ASResource* resource);
+    static Element* make(const CreateArg& arg, s32 value, const res::ASResource* resource);
 
     f32 m38(Context* ctx, const res::ASResource* resource) override;
 };
@@ -721,7 +738,8 @@ public:
 class GroundNormalSideBlender : public Blender {
     SEAD_RTTI_OVERRIDE(GroundNormalSideBlender, Blender)
 public:
-    GroundNormalSideBlender();
+    GroundNormalSideBlender(const CreateArg& arg, s32 value, const res::ASResource* resource);
+    static Element* make(const CreateArg& arg, s32 value, const res::ASResource* resource);
 
     f32 m38(Context* ctx, const res::ASResource* resource) override;
 };
@@ -729,7 +747,8 @@ public:
 class AngleBlender : public Blender {
     SEAD_RTTI_OVERRIDE(AngleBlender, Blender)
 public:
-    AngleBlender();
+    AngleBlender(const CreateArg& arg, s32 value, const res::ASResource* resource);
+    static Element* make(const CreateArg& arg, s32 value, const res::ASResource* resource);
     f32 m39(s32* first, s32* second, Context* ctx, const res::ASResource* resource) override;
 
     virtual f32 m40();
@@ -739,7 +758,8 @@ public:
 class SpeedBlender : public Blender {
     SEAD_RTTI_OVERRIDE(SpeedBlender, Blender)
 public:
-    SpeedBlender();
+    SpeedBlender(const CreateArg& arg, s32 value, const res::ASResource* resource);
+    static Element* make(const CreateArg& arg, s32 value, const res::ASResource* resource);
 
     f32 m38(Context* ctx, const res::ASResource* resource) override;
 };
@@ -747,7 +767,8 @@ public:
 class WindVelocityBlender : public Blender {
     SEAD_RTTI_OVERRIDE(WindVelocityBlender, Blender)
 public:
-    WindVelocityBlender();
+    WindVelocityBlender(const CreateArg& arg, s32 value, const res::ASResource* resource);
+    static Element* make(const CreateArg& arg, s32 value, const res::ASResource* resource);
 
     f32 m38(Context* ctx, const res::ASResource* resource) override;
 };
@@ -755,7 +776,8 @@ public:
 class YSpeedBlender : public Blender {
     SEAD_RTTI_OVERRIDE(YSpeedBlender, Blender)
 public:
-    YSpeedBlender();
+    YSpeedBlender(const CreateArg& arg, s32 value, const res::ASResource* resource);
+    static Element* make(const CreateArg& arg, s32 value, const res::ASResource* resource);
 
     f32 m38(Context* ctx, const res::ASResource* resource) override;
 };
@@ -793,14 +815,16 @@ public:
     void m35(Context* ctx, const res::ASResource* resource) override;
     void m36(Context* ctx, sead::BufferedSafeString* out, sead::BufferedSafeString& name,
              const res::ASResource* resource) override;
-    SyncPlayContainer();
+    SyncPlayContainer(const CreateArg& arg, s32 value, const res::ASResource* resource);
+    static Element* make(const CreateArg& arg, s32 value, const res::ASResource* resource);
 };
 
 // A container that plays its children one after the other (CSV: ASSequencePlayContainer).
 class SequencePlayContainer : public SelectorBase {
     SEAD_RTTI_OVERRIDE(SequencePlayContainer, SelectorBase)
 public:
-    SequencePlayContainer();
+    SequencePlayContainer(const CreateArg& arg, s32 value, const res::ASResource* resource);
+    static Element* make(const CreateArg& arg, s32 value, const res::ASResource* resource);
 
     // (the first out-of-line virtual: the vtable is emitted with it)
     bool m24(Context* ctx, const res::ASResource* resource) override;
@@ -832,6 +856,7 @@ class AnmAsset : public Asset {
 public:
     // 0x7101314a4c: `value` is the initial index of the resource (replaced by the resource's index if there is one).
     AnmAsset(const CreateArg& arg, s32 value, const res::ASResource* resource);
+    static Element* make(const CreateArg& arg, s32 value, const res::ASResource* resource);
 
     f32 m4() override;
     int m6() override;
@@ -899,6 +924,7 @@ public:
 
     // 0x710125c568
     SkeltalAsset(const CreateArg& arg, s32 value, const res::ASResource* resource);
+    static Element* make(const CreateArg& arg, s32 value, const res::ASResource* resource);
     ~SkeltalAsset() override;
 
     void m5(act::Actor* actor, gsys::Model* model, const sead::SafeString& name,
@@ -927,7 +953,8 @@ class ClearMatAnmAsset : public Asset {
 public:
     bool m9(Context* ctx, PlayState* state, const res::ASResource* resource) override;
     bool m10(Context* ctx, State* state, const res::ASResource* resource) override;
-    ClearMatAnmAsset();
+    ClearMatAnmAsset(const CreateArg& arg, s32 value, const res::ASResource* resource);
+    static Element* make(const CreateArg& arg, s32 value, const res::ASResource* resource);
 };
 
 }  // namespace ksys::as

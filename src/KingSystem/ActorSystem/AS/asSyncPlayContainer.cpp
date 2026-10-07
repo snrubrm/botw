@@ -2,7 +2,7 @@
 
 namespace ksys::as {
 
-SyncPlayContainer::SyncPlayContainer() {}
+SyncPlayContainer::SyncPlayContainer(const CreateArg&, s32, const res::ASResource*) {}
 
 int SyncPlayContainer::m7() {
     return 0;
