@@ -9,6 +9,9 @@ ScalableFontMgr::InitializeArg::InitializeArg()
       thread_priority(sead::ThreadUtil::ConvertPrioritySeadToPlatform(17)),
       affinity(sead::CoreId::cMain) {}
 
+// D1 is folded into sead::Thread::~Thread (0x7100b18e58) in the original; D0 0x7100be5bc0
+ScalableFontMgr::UpdateTextureCacheThread::~UpdateTextureCacheThread() = default;
+
 // 0x7100be5b98
 void ScalableFontMgr::UpdateTextureCacheThread::calc_(sead::MessageQueue::Element) {
     mTextureCache->UpdateTextureCache();
