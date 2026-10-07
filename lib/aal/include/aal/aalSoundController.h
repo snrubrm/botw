@@ -16,6 +16,7 @@ class Heap;
 }
 
 namespace nn::atk {
+class SoundArchivePlayer;
 enum StreamRegionCallbackResult : int;
 struct StreamRegionCallbackParam;
 
@@ -41,6 +42,10 @@ class SoundController {
 public:
     using StreamRegionCallback =
         nn::atk::StreamRegionCallbackResult (*)(nn::atk::StreamRegionCallbackParam*, void*);
+
+    /// Remembers the sound archive player of the audio engine (called once by SoundSource::initPlayer).
+    static void initPlayer();
+    static nn::atk::SoundArchivePlayer* sSoundArchivePlayer;
 
     /// 0x7100ba1d64 / 0x7100ba2058 / 0x7100ba2060 / 0x7100ba2068 / 0x7100ba2070 (declared only)
     void startPrepared();

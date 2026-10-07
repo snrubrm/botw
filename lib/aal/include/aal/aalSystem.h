@@ -4,7 +4,11 @@
 
 namespace sead {
 class AudioMgr;
+class Camera;
+class DrawContext;
 class Heap;
+class Projection;
+class Viewport;
 }
 
 namespace aal {
@@ -25,6 +29,10 @@ class SpeakerBalanceUnifierMgr;
 class System {
 public:
     static System* sInstance;
+
+    /// 0x7100b7a0a4: draws nothing in the retail build.
+    void drawInformation3D(sead::DrawContext* context, const sead::Camera& camera,
+                           const sead::Projection& projection, const sead::Viewport& viewport) const;
 
     u8 _0[0x28];
     /// Cleared while the system does not play sounds (Emitter::emit fails then).

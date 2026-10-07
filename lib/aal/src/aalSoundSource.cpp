@@ -19,6 +19,11 @@
 
 namespace aal {
 
+// 0x7100b76804
+void SoundSource::initPlayer() {
+    SoundController::initPlayer();
+}
+
 sead::SafeArray<SpeakerChannelVolume, 1> SoundSource::sSpeakerBalance[2];
 
 // 0x7100b76808

@@ -191,6 +191,8 @@ public:
     /// Virtualizes the sound for the cause (depending on the virtualize mode: stops it or keeps it silently playing).
     /// False if the sound can not be virtualized.
     bool virtualize(VirtualizedBy by, DebuggerResult result);
+    /// 0x7100b76804: forwards to SoundController::initPlayer (called by System::initialize).
+    static void initPlayer();
     /// Removes the cause; the sound is unvirtualized when it was the last one.
     void unvirtualize(VirtualizedBy by);
     // 0x7100b78094 / 0x7100b780c8 / 0x7100b78048 / 0x7100b77e5c / 0x7100b781a4 / 0x7100b783b8

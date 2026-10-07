@@ -1,9 +1,15 @@
 #include "aal/aalSoundController.h"
 #include <basis/seadNew.h>
+#include "aal/aalATKAccessor.h"
 #include "aal/aalSettings.h"
 #include "aal/aalSystemAccessor.h"
 
 namespace aal {
+
+// 0x7100ba1324
+void SoundController::initPlayer() {
+    sSoundArchivePlayer = ATKAccessor::getSoundArchivePlayer();
+}
 
 // 0x7100ba2098
 void SoundController::setPitch(f32 pitch) {

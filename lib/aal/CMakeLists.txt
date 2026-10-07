@@ -1,6 +1,7 @@
 project(aal CXX ASM)
 
 add_library(aal OBJECT
+  include/aal/aalATKAccessor.h
   include/aal/aalActiveSoundLimiter.h
   include/aal/aalArbiter.h
   include/aal/aalAudioFrameProcessMgr.h

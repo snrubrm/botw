@@ -5,6 +5,10 @@ namespace aal {
 
 System* System::sInstance;
 
+// 0x7100b7a0a4
+void System::drawInformation3D(sead::DrawContext*, const sead::Camera&, const sead::Projection&,
+                               const sead::Viewport&) const {}
+
 // 0x7100b7a134
 System* SystemAccessor::getSystem() {
     return System::sInstance;
