@@ -35,11 +35,13 @@ struct Unk_UiPinInfo {
 // by the UI facade functions / read inline by AI code are declared (offsets from the original);
 // the namespace and class name are guesses.
 class Manager {
-    u8 _0[0x18];
+    u8 _8[0x10];  // vptr at 0 (lane2 s47: the destructor is virtual); two more vtable pointers / padding
     SEAD_SINGLETON_DISPOSER(Manager)
     Manager();
 
 public:
+    virtual ~Manager();
+
     // 0x7100a7b5d8 (CSV uiManager::createAndLoadScreenIfNeeded)
     void createAndLoadScreenIfNeeded(s32 id);
 

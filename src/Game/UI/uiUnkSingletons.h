@@ -25,20 +25,23 @@ namespace uking::ui {
 // The UI's low priority thread manager (CSV uiLowPrioThreadMgr; instance pointer 0x71025f59e0). Only the thread it
 // forwards pause / resume / clearQueue to is declared.
 class UiLowPrioThreadMgr {
+    SEAD_SINGLETON_DISPOSER(UiLowPrioThreadMgr)
+    UiLowPrioThreadMgr() = default;
+
 public:
-    static UiLowPrioThreadMgr* instance() { return sInstance; }
+    // D1 0x7100a6d5bc, D0 0x7100a6d654 (not decompiled)
+    virtual ~UiLowPrioThreadMgr();
 
     // 0x7100a6d978 / 0x7100a6d988 / 0x7100a6d998
     void pause();
     void resume();
     void clearQueue();
 
-    u8 _0[0x28];
-    /* 0x28 */ ksys::util::TaskThread* _28;
-
-private:
-    static UiLowPrioThreadMgr* sInstance;
+    /* 0x28 */ ksys::util::TaskThread* _28 = nullptr;
+    /* 0x30 */ void* _30 = nullptr;
+    /* 0x38 */ void* _38[100]{};
 };
+KSYS_CHECK_SIZE_NX150(UiLowPrioThreadMgr, 0x358);
 
 // Instance pointer 0x71025d6ac0 (placeholder name; used by the UI facade).
 class Unk_71025d6ac0 {

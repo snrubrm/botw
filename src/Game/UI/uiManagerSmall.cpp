@@ -14,6 +14,9 @@ sead::Heap* getHeap() {
     return sUnk_71025f59d0;
 }
 
+SEAD_SINGLETON_DISPOSER_IMPL(UiLowPrioThreadMgr)
+SEAD_SINGLETON_DISPOSER_IMPL(Manager)
+
 // 0x7100a6d978
 void UiLowPrioThreadMgr::pause() {
     if (_28)
