@@ -71,6 +71,9 @@ void sub_710105DDB8(act::Actor* actor, const char* name, xlink2::HandleSLink* ha
 void sub_710105DDDC(act::Actor* actor, const char* name, xlink2::HandleSLink* handle,
                     const sead::Vector3f& position);
 void sub_710105DF88(act::Actor* actor, const char* name, bool a, bool b);
+// 0x710105dfa4 (declaration only; called by the 0x71010b3484 tag forwarder): same shape with a u8
+// argument (guess) in place of the name.
+void sub_710105DFA4(act::Actor* actor, u8 a, bool b, bool c);
 bool sub_710105E000(act::Actor* actor, u32 idx, f32 value);
 void sub_710105E060(xlink2::HandleSLink* handle, const sead::Matrix34f& matrix);
 f32 sub_710105E0AC(xlink2::HandleSLink& handle);

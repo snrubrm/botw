@@ -3018,6 +3018,10 @@ u32 sub_7100AA4E70(ShopInfoTagData* data, u32 sel_lo, u32 sel_hi, sead::WBuffere
 // 0x7100aa4e60 / 0x7100aa5140 (CSV placeholders): forwarders reading the selector from the tag data.
 u32 sub_7100AA4E60(ShopInfoTagData* data, sead::WBufferedSafeString* out);
 u32 sub_7100AA5140(ShopInfoTagData* data, sead::WBufferedSafeString* out);
+// 0x71010b3468 / 0x71010b3484 (CSV placeholders): TagInfo adapters into the ksys::eft helpers
+// (called by the ScreenMessage3D tag invoke).
+void sub_71010B3468(const sead::MessageSet<char16>::TagInfo* tag, ksys::act::Actor* actor, bool flag);
+void sub_71010B3484(const sead::MessageSet<char16>::TagInfo* tag, ksys::act::Actor* actor, bool flag);
 
 class ScreenShopInfo : public ScreenEx {
 public:

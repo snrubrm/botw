@@ -3,6 +3,7 @@
 #include "Game/UI/euiButton.h"
 #include "Game/UI/euiLayoutEx.h"
 #include "Game/UI/uiScreens.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
 #include "KingSystem/Resource/resHandle.h"
 #include "Game/gameGraphics.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
@@ -293,6 +294,17 @@ void ScreenMessageDialog::sub_71010B34A0(bool a1) {
 // 0x71010b34d0
 const char* ScreenMessageDialog::getLayoutName_() const {
     return !_76a ? "Message_00" : "MessageSp_00";
+}
+
+// 0x71010b3468: TagInfo adapter into ksys::eft::sub_710105DF88.
+void sub_71010B3468(const sead::MessageSet<char16>::TagInfo* tag, ksys::act::Actor* actor, bool flag) {
+    ksys::eft::sub_710105DF88(actor, reinterpret_cast<const char*>(tag->getParam()), ~flag & 1,
+                              flag & 1);
+}
+
+// 0x71010b3484: TagInfo adapter into ksys::eft::sub_710105DFA4.
+void sub_71010B3484(const sead::MessageSet<char16>::TagInfo* tag, ksys::act::Actor* actor, bool flag) {
+    ksys::eft::sub_710105DFA4(actor, tag->getParam()[0], ~flag & 1, flag & 1);
 }
 
 // 0x710109e94c
