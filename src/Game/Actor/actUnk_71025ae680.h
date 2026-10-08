@@ -169,6 +169,8 @@ public:
     void m7() override { Unk_71025ae680::m7(); }
     bool m8(const ksys::Message& message) override;
     void m10() override;
+    // Placeholder (0x71006e264c, declared only): needs sub_71006DF5CC + eft/xlink decls.
+    void sub_71006E264C();
 
     /* 0x1c */ bool _1c = false;
     /* 0x20 */ Unk_710235a0c0 _20;
@@ -187,6 +189,8 @@ public:
     void m7() override { Unk_71025ae680::m7(); }
     bool m8(const ksys::Message& message) override;
     void m10() override;
+    // Placeholder (0x71006ee474, declared only): the fee8 twin of sub_71006E264C.
+    void sub_71006EE474();
 
     /* 0x1c */ bool _1c = false;
     /* 0x20 */ Unk_710235a0c0 _20;

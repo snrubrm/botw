@@ -63,6 +63,16 @@ bool Unk_710244eb48::m8(const ksys::Message& message) {
     return true;
 }
 
+void Unk_710244eb48::m10() {
+    if (!_20._30)
+        return;
+    sub_71006E264C();
+    _20._30 = false;
+    _20._8.reset();
+    // called through a pointer in the original (not devirtualised)
+    (&_20)->m3();
+}
+
 void Unk_710244fee8::m5() {
     if (_58.sub_7101241B6C())
         _58.fadeXLink();
@@ -74,6 +84,16 @@ bool Unk_710244fee8::m8(const ksys::Message& message) {
     _20._30 = true;
     _20._18 = message.getSource();
     return true;
+}
+
+void Unk_710244fee8::m10() {
+    if (!_20._30)
+        return;
+    sub_71006EE474();
+    _20._30 = false;
+    _20._8.reset();
+    // called through a pointer in the original (not devirtualised)
+    (&_20)->m3();
 }
 
 ksys::res::DamageParam* Unk_71025ae680::sub_71006DF5A4() {
