@@ -1,5 +1,6 @@
 #include "KingSystem/Event/evtS7.h"
 #include "Game/gameRoot38.h"
+#include "Game/UI/uiUnkSingletons.h"
 #include "KingSystem/Physics/System/physSystem.h"
 
 namespace ksys::evt {
@@ -44,6 +45,27 @@ bool S7EventFlow::calc() {
         }
     }
     return result & 1;
+}
+
+// 0x71008b2eb4
+void S7EventFlow::m9() {
+    setupDemoOverrides(true);
+    switch (mFlow->getType()) {
+    case EventFlowType::MovieWithNoPath:
+        break;
+    default:
+        mFlow->x_6();
+        _1c |= 0x80;
+        if (mFlow->_340_bytes[3] & 2) {
+            if (uking::ui::UiSubsys1::instance()->sub_71008B43CC()) {
+                _1c |= 0x10000;
+                uking::ui::UiSubsys1::instance()->set4cc(true);
+            }
+        }
+        break;
+    }
+    setup_1_1();
+    x(0);
 }
 
 // 0x71008b6f20 (CSV evt::S7EventFlow::getStatusStr)

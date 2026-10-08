@@ -326,6 +326,7 @@ public:
     void sub_7100968844();
     void set3885() { _3885 = true; }
     void clear3885() { _3885 = false; }
+    void set4cc(bool value) { _4cc = value; }
     // 0x71009644e8: entry `index` of the table at 0x658 (null if out of range).
     UiSubsys1Entry* sub_71009644E8(s32 index);
     void sub_71009645D0(const void* a1);
@@ -339,6 +340,8 @@ public:
     void sub_7100963C8C(const UiSubsys1PinArg* arg);
     // 0x7100961e48 (CSV uiSubsys1::__auto0; declared only): called by GameSceneSubsys13::setGameOverPosition.
     void sub_7100961E48(const sead::Vector3f* pos);
+    // 0x71008b43cc (CSV uiSubsys1::__auto43; not decompiled)
+    bool sub_71008B43CC();
     void sub_7100963C78(bool a1);
     bool sub_710096310C(s32* out_index, const sead::Vector3f* pos, f32 radius);
 
@@ -472,7 +475,9 @@ private:
     u8 _480[0x4bc - 0x480];
     /* 0x4bc */ sead::Vector3f _4bc;
     /* 0x4c8 */ bool _4c8;
-    u8 _4c9[0x610 - 0x4c9];
+    u8 _4c9[0x4cc - 0x4c9];
+    /* 0x4cc */ bool _4cc = false;  // set by S7EventFlow::m9
+    u8 _4cd[0x610 - 0x4cd];
     /* 0x610 */ sead::PtrArray<UiSubsys1Entry> _610;
     u8 _620[0x650 - 0x620];
     /* 0x650 */ UiSubsys1Entry* _650;

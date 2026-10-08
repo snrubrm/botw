@@ -133,6 +133,13 @@ public:
     bool calc();
     // 0x71008afd40 (CSV evt::S7EventFlow::calc_; not decompiled)
     u32 calc_();
+    // 0x71008b2eb4 (CSV evt::S7EventFlow::m9; defined in evtS7EventFlow.cpp)
+    // 0x71008b2f50 (CSV evt::S7EventFlow::setupDemoOverrides; not decompiled)
+    void setupDemoOverrides(bool a1);
+    // 0x71008b44ac (CSV evt::S7EventFlow::setup_1_1; not decompiled)
+    void setup_1_1();
+    // 0x71008b53f0 (CSV evt::S7EventFlow::x; not decompiled)
+    void x(int a1);
 
 private:
     /* 0x1c */ s32 _1c;

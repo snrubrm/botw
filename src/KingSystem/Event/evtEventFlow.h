@@ -172,6 +172,8 @@ public:
     // 0x7100db8abc / 0x7100db8994 (CSV evt::EventFlowBase::x_7 / x_5)
     void x_7();
     void x_5(EventFlowBase* other);
+    // 0x7100db7898 (CSV evt::EventFlowBase::x_6; not decompiled)
+    void x_6();
     // inline-only in the original; name is a guess (the by-value copy gives the volatile SEAD_ENUM stack round trip
     // seen in isEventTypeNotMovieWithNoPath / x_3 / acquireEventFlow)
     EventFlowType getType() const { return mType; }
@@ -202,8 +204,7 @@ public:
     u8 _148[0x208 - 0x148];
     /* 0x208 */ EventFlowType mType;
     /* 0x20c */ f32 _20c;
-    /* 0x210 */ EventFlow* mSlot;
-    u8 _218[0x2c8 - 0x218];
+    /* 0x210 */ EventFlow* mSlot;    u8 _218[0x2c8 - 0x218];
     /* 0x2c8 */ s32 _2c8;
     u8 _2cc[0x2e8 - 0x2cc];
     u8 _2e8[0x340 - 0x2e8];  // a res::Handle at 0x2e8
