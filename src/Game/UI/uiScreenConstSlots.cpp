@@ -124,6 +124,12 @@ s32 ScreenAppMenuBtn::m81() {
     return 1;
 }
 
+// 0x71009f2d8c
+void ScreenAppMenuBtn::m83() {
+    if (sForceEnableGlidingSurfingRupee)
+        open(1);
+}
+
 // 0x7100a0e5bc
 void ScreenKeyBoradTextArea::m98() {
     if (auto* root = Root1::instance())

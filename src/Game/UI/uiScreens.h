@@ -40,6 +40,11 @@ namespace ksys::res {
 class Handle;
 }
 
+namespace uking {
+// 0x71025cb0eb (defined in gameScene.cpp)
+extern bool sForceEnableGlidingSurfingRupee;
+}  // namespace uking
+
 namespace uking::ui {
 
 class TagProcessor;
@@ -2851,6 +2856,8 @@ public:
 class ScreenAppMenuBtn : public ScreenEx {
 public:
     s32 m81() override;
+    // 0x71009f2d8c: override of Screen::m83; opens the screen when the gliding / surfing rupee is force enabled
+    void m83() override;
     void m94() override;
     void m98() override;
     bool isEnableControl() const override;
