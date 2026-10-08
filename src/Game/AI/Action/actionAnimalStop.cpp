@@ -37,11 +37,10 @@ void AnimalStop::loadParams_() {
     getStaticParam(&mIsFixAxisY_s, "IsFixAxisY");
 }
 
-// NON_MATCHING: register assignment and load/scheduling order only — the velocity-z load goes
-// to s2 before the squares in the original (ours uses s1 after the x/y sum) and the a0 fadd keeps
-// (m, axis) operand order in s5 (ours swaps to s1-first). The deadband shape needs the six-way &&
-// with assignment-in-condition and an empty then-block (plain > gives b.gt, the original's b.hi
-// needs !(x <= c)); the temp scopes reproduce the 0x70 frame exactly.
+// NON_MATCHING: two fadd operand orders only (a0: original keeps (mtx, axis),
+// a2: original keeps (mtx, axis); ours puts the axis local first in both). Source order
+// swaps were tried and do not change the output (reassociation ranks the local first).
+// The velocity-z load schedule matches via named f32 locals (each used twice).
 void AnimalStop::calc_() {
     HorseWaitAction::calc_();
     if (!*mIsFixAxisY_s)
@@ -60,8 +59,10 @@ void AnimalStop::calc_() {
     {
         sead::Vector3f velocity;
         controller->sub_7100F635BC(&velocity);
-        if (!(velocity.x * velocity.x + velocity.y * velocity.y + velocity.z * velocity.z <
-              sead::Mathf::epsilon())) {
+        const f32 vx = velocity.x;
+        const f32 vy = velocity.y;
+        const f32 vz = velocity.z;
+        if (!(vx * vx + vy * vy + vz * vz < sead::Mathf::epsilon())) {
             return;
         }
     }
