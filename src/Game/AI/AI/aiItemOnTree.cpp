@@ -3,8 +3,12 @@
 #include "Game/AI/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actPhysicsConstraints.h"
+#include "KingSystem/Map/mapObject.h"
+#include "KingSystem/Map/mapPlacementActors.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/System/VFR.h"
 #include "KingSystem/Utils/Thread/Message.h"
+#include <random/seadGlobalRandom.h>
 
 namespace uking::ai {
 
@@ -46,6 +50,80 @@ bool ItemOnTree::handleMessage_(const ksys::Message* message) {
         _b4 = true;
     }
     return false;
+}
+
+// NON_MATCHING: the original keeps separate LOW/HIGH diamonds (w21 set in each arm, _48
+// tested in both arms, shared A/B blocks); ours flattens the flag routing (cset) and uses
+// different registers (no x23, actor in x21). Velocity/length, VFR per-core block, atomic
+// revival flag + setRevivalFlagValueIf + m36() tail all match. The two FALLROLL copies do not
+// merge in ours (extra tails); manual (u64*100)>>32 reduction matches the getU32(100) lowering.
+void ItemOnTree::calc_() {
+    ItemRoot::calc_();
+    auto* actor = mActor;
+    if (!isCurrentChild("通常"))
+        return;
+
+    sead::Vector3f vel = sead::Vector3f::zero;
+    bool flag;
+    if (auto* body = actor->getMainBody();
+        body && (body->getLinearVelocity(&vel), vel.length() >= *mFallCheckSpeedTh_s * 30.0f)) {
+        flag = true;
+    } else {
+        flag = false;
+        if (_48)
+            flag = true;
+    }
+    if (!_48 && _b4 && !_b5) {
+        if (_a8 < *mFallPowerMin_s) {
+            _a8 = 0;
+            _b4 = false;
+        } else {
+            auto* random = sead::GlobalRandom::instance();
+            const s32 odds_range = *mFallOddsMax_s - *mFallOddsMin_s;
+            const f32 min_pow = *mFallPowerMin_s;
+            const f32 min_odds = *mFallOddsMin_s;
+            const s32 pow_range = *mFallPowerMax_s - *mFallPowerMin_s;
+            const f32 slope = f32(odds_range) / f32(pow_range);
+            const f32 intercept = min_odds - min_pow * slope;
+            const u32 rand = random->getU32();
+            const s32 odds = s32(f32(_a8) * slope + intercept);
+            if (odds <= s32((u64(rand) * 100) >> 32)) {
+                _b5 = false;
+            } else {
+                _b0 = *mFallIntervalRange_s * random->getF32();
+                _b5 = true;
+            }
+            _a8 = 0;
+            _b4 = false;
+        }
+    }
+
+    int outcome;
+    if (_b5) {
+        f32 f15 = _ac;
+        f32 f14 = _b0;
+        f32 f16 = ksys::VFR::instance()->getDeltaFrame();
+        if (f15 < f14) {
+            f16 += f15;
+            outcome = (f16 >= f14) || (f16 < f15);
+            if (outcome)
+                f14 = f16;
+            _ac = f14;
+        } else if (f15 > f14) {
+            f16 = f15 - f16;
+            outcome = (f16 <= f14) || (f15 < f16);
+            if (outcome)
+                f14 = f16;
+            _ac = f14;
+        }
+    }
+    if ((flag || outcome) == 1) {
+        if (auto* map_obj = actor->getMapObject()) {
+            map_obj->setFlags0(ksys::map::Object::Flag0::_400000);
+            map_obj->setRevivalFlagValueIf(ksys::map::ActorData::Flag::RevivalEnable, true);
+        }
+        m36();
+    }
 }
 
 void ItemOnTree::m34() {

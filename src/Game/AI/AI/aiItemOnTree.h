@@ -12,7 +12,7 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
-    // 0x710044f8ec: not decompiled yet (declared for CreationNestOnTree::calc_).
+    // 0x710044f8ec: tree-shaking check (fall odds by power interp + interval random + timer).
     void calc_() override;
     void leave_() override;
     void loadParams_() override;
