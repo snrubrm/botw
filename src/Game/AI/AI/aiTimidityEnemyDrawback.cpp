@@ -1,4 +1,7 @@
 #include "Game/AI/AI/aiTimidityEnemyDrawback.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/AI/aiUnk_71007377D4.h"
+#include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/Utils/MathUtil.h"
@@ -55,6 +58,22 @@ void TimidityEnemyDrawback::loadParams_() {
     getStaticParam(&mLostVMin_s, "LostVMin");
     getStaticParam(&mLostVMax_s, "LostVMax");
     getDynamicParam(&mTargetPos_d, "TargetPos");
+}
+
+// 0x71005ca738 (placeholder name): the target is out of the lost range (as BokoblinRestraint::sub_71003331A0)
+bool TimidityEnemyDrawback::sub_71005CA738() {
+    sead::Vector3f dir;
+    sead::Vector3f pos;
+    if (auto* awareness = mActor->getAwareness()) {
+        awareness->_230.getBase(dir, 2);
+        pos = awareness->_2c8;
+    } else {
+        mActor->getMtx().getBase(dir, 2);
+        mActor->getMtx().getTranslation(pos);
+    }
+
+    return !sub_710072DEF0(sub_71005D960C(mActor), *mLostRange_s, *mLostVMin_s, *mLostVMax_s, pos, dir,
+                           sead::Mathf::pi(), sead::Mathf::maxNumber(), 0.0f);
 }
 
 }  // namespace uking::ai

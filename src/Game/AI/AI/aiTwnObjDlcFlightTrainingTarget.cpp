@@ -2,6 +2,7 @@
 #include <gsys/gsysModelAccessKey.h>
 #include <gsys/gsysModel.h>
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
@@ -32,6 +33,21 @@ void TwnObjDlcFlightTrainingTarget::leave_() {
 
 void TwnObjDlcFlightTrainingTarget::loadParams_() {
     getStaticParam(&mLimitTime_s, "LimitTime");
+}
+
+// 0x71005d35a8: deletes the actors linked to the sensor entries with flag 8
+void TwnObjDlcFlightTrainingTarget::sub_71005D35A8() {
+    const s32 count = sub_71007A26AC(mActor);
+    for (s32 i = 0; i < count; ++i) {
+        auto* entry = sub_71007A255C(mActor, i);
+        if (!entry || !entry->sub_71007A1F68(8))
+            continue;
+        if (!entry->_e8.hasProc())
+            continue;
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::acquireActor(&entry->_e8, &accessor);
+        accessor.deleteEx(ksys::act::BaseProc::DeleteReason(0));
+    }
 }
 
 }  // namespace uking::ai

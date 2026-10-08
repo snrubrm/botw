@@ -15,6 +15,9 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    // 0x71005d35a8 (placeholder name)
+    void sub_71005D35A8();
+
 protected:
     // static_param at offset 0x38
     const float* mLimitTime_s{};

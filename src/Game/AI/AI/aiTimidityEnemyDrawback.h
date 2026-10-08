@@ -15,6 +15,8 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    bool sub_71005CA738();
+
 protected:
     // static_param at offset 0x38
     const float* mEscapeDist_s{};
