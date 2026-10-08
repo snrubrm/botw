@@ -4,6 +4,8 @@
 #include <math/seadMathCalcCommon.h>
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/System/Timer.h"
+#include "KingSystem/System/VFRValue.h"
+#include "KingSystem/ActorSystem/actAiRoot.h"
 
 namespace uking::action {
 
@@ -113,6 +115,275 @@ void CameraShieldSurfing::m33() {
         _ec = 0.0f;
         _f0 = 0.0f;
     }
+}
+
+// NON_MATCHING: state and scalar scheduling, vector copies and curve lifetimes differ.
+void CameraShieldSurfing::m34() {
+    auto* camera = getCamera();
+    if (!camera)
+        return;
+    auto* player = sub_7100926A14();
+    if (!player)
+        return;
+    act::Unk_7100922700 polar(camera->_860._0._0 - camera->_860._0._c);
+    const act::Unk_7100922700 current_polar = polar;
+    sead::Vector2f stick(0.0f, 0.0f);
+    sub_7100924F08(&stick);
+    const f32 stick_length = stick.length();
+    const f32 stick_angle = std::atan2(stick.y, stick.x);
+    const u8 previous_state = _286;
+    if (!(stick_length <= 0.0f)) {
+        _286 = 5;
+    } else if (_286 < 2) {
+        if (_70._18 == 1.0f) {
+            if (sub_7100927110())
+                _286 = 2;
+            else
+                _286 = sub_7100926FD0() ? 5 : 4;
+        }
+    } else if (_286 == 2) {
+        if (_70._18 == 1.0f)
+            _286 = sub_7100926FD0() ? 5 : 3;
+    } else if (_286 == 3) {
+        if (sub_7100927110())
+            _286 = 2;
+        else if (sub_7100926FD0())
+            _286 = 5;
+    } else {
+        _286 = sub_7100927110() ? 2 : 4;
+    }
+    if (previous_state != _286)
+        sub_710077EF8C();
+    if (_286 == 4 || _286 == 5)
+        camera->_860._7f8.set(1);
+    else
+        camera->_860._7f8.reset(1);
+    _50.sub_710079C408();
+    _70.sub_710079C408();
+    const f32 progress = _70._18;
+    f32 frame = 0.0f;
+    ksys::Timer::update(&frame, 1.0f);
+    if (frame <= 0.0f) {
+        _10c = 0.01f;
+        _110 = 100.0f;
+    } else {
+        _10c = frame;
+        _110 = 1.0f / frame;
+        if (!std::isfinite(_110)) {
+            _10c = 0.01f;
+            _110 = 100.0f;
+        }
+    }
+    const f32 vertical_stick = stick_length * std::sin(stick_angle) * sub_7100927228();
+    const f32 squared_stick = vertical_stick * vertical_stick *
+                              (vertical_stick > 0.0f ? 1.0f : -1.0f);
+    const bool fixed_latitude = _228 == _22c ||
+                               (std::fabs(_228) == 180.0f && std::fabs(_22c) == 180.0f);
+    f32 lat_ratio = 0.0f;
+    f32 radius_ratio = 0.0f;
+    if (!fixed_latitude) {
+        f32 value = _dc;
+        {
+            act::Unk_71024741b8 curve;
+            curve.set(_228, _228, _22c, _22c, *mLatMinWeight_s, *mLatMaxWeight_s);
+            value = curve.sub_71009234D8(value, 10);
+        }
+        {
+            act::Unk_71024741b8 curve;
+            curve.set(0.0f, _238, 1.0f - _23c, 1.0f, *mLatMinWeight_s, *mLatMaxWeight_s);
+            lat_ratio = curve.eval(value);
+        }
+    }
+    const f32 radius_min = _24c;
+    const f32 radius_max = _250;
+    if (radius_min != radius_max) {
+        f32 value = _100;
+        {
+            act::Unk_71024741b8 curve;
+            curve.set(_24c, _24c, _250, _250, *mRadiusMinWeight_s, *mRadiusMaxWeight_s);
+            value = curve.sub_71009234D8(value, 10);
+        }
+        {
+            act::Unk_71024741b8 curve;
+            curve.set(0.0f, _254, 1.0f - _258, 1.0f, *mRadiusMinWeight_s, *mRadiusMaxWeight_s);
+            radius_ratio = curve.eval(value);
+        }
+    }
+    f32 latitude_delta = 0.0f;
+    if (squared_stick == 0.0f) {
+        if (!fixed_latitude && (lat_ratio < _e4 || _e8 < lat_ratio)) {
+            const f32 limit = _e4 <= lat_ratio ? _e8 : _e4;
+            latitude_delta = (limit - lat_ratio) * sub_7100791E44(sub_7100922090());
+        }
+    } else {
+        latitude_delta = squared_stick * 0.006756757f * sub_7100927238() *
+                         *mLatStickScale_s * _10c;
+    }
+    const f32 remaining = 1.0f - progress;
+    if (_286 == 3) {
+        if (previous_state != 3) {
+            _ec = 0.0f;
+            _f0 = 0.0f;
+        }
+        f32 latitude = 0.0f;
+        if (!player->m194() && !player->m188())
+            latitude = sub_710092738C(camera->_860._0._c, camera->_860._0._0);
+        _ec += sub_7100791E44(0.05f) * (latitude - _ec);
+        _f0 += sub_7100791E44(0.1f) * (_ec - _f0);
+        polar._4 = angleStuff(_dc + _f0) + angleStuff(remaining * _e0);
+    } else if (_286 == 4) {
+        // The original computes this transition angle but clamps the previous polar latitude.
+        angleStuff(angleStuff(remaining * _e0) + _dc);
+    } else {
+        if (_286 > 4 && !fixed_latitude) {
+            f32 value = lat_ratio + latitude_delta;
+            {
+                act::Unk_71024741b8 curve;
+                curve.set(0.0f, _238, 1.0f - _23c, 1.0f, *mLatMinWeight_s, *mLatMaxWeight_s);
+                value = curve.sub_71009234D8(value, 10);
+            }
+            {
+                act::Unk_71024741b8 curve;
+                curve.set(_228, _228, _22c, _22c, *mLatMinWeight_s, *mLatMaxWeight_s);
+                _dc = angleStuff(curve.eval(value));
+            }
+        }
+        polar._4 = angleStuff(remaining * _e0) + _dc;
+    }
+    if (_286 != 4)
+        polar._4 = angleStuff(polar._4);
+    polar._4 = angleStuff(sub_7100924CAC(polar._4));
+    if (_286 == 3 || _286 == 4) {
+        sead::Vector3f forward = camera->_860._270.getBase(2);
+        forward.y = 0.0f;
+        f32 yaw = 0.0f;
+        if (forward.x != 0.0f || forward.z != 0.0f)
+            yaw = angleStuff(std::atan2(forward.x, forward.z) * 57.295776f + 180.0f);
+        const f32 forward_length = forward.length();
+        if (forward_length > 0.0f)
+            forward *= 1.0f / forward_length;
+        sead::Vector3f direction = polar.sub_7100923254();
+        direction.y = 0.0f;
+        const f32 direction_length = direction.length();
+        if (direction_length > 0.0f)
+            direction *= 1.0f / direction_length;
+        f32 dot = forward.dot(direction);
+        if (dot < -1.0f)
+            dot = -1.0f;
+        else if (!(dot <= 1.0f))
+            dot = 1.0f;
+        const f32 rate = sub_7100791E44(_244);
+        f32 first;
+        f32 second;
+        if (dot <= 0.0f) {
+            first = sead::lerp(0.6f, 1.0f, dot + 1.0f);
+            second = sead::lerp(1.0f, 1.0f, dot + 1.0f);
+        } else {
+            first = sead::lerp(0.5f, 1.0f, 1.0f - dot);
+            second = sead::lerp(0.0f, 1.0f, 1.0f - dot);
+        }
+        if (first < 0.0f)
+            first = 0.0f;
+        else if (!(first <= 1.0f))
+            first = 1.0f;
+        if (second < 0.0f)
+            second = 0.0f;
+        else if (!(second <= 1.0f))
+            second = 1.0f;
+        const sead::Vector3f player_pos = player->getMtx().getTranslation();
+        const sead::Vector3f& old_pos = sub_7100928868(camera->_860._164);
+        const f32 distance = sead::Vector3f(player_pos.x - old_pos.x, 0.0f,
+                                           player_pos.z - old_pos.z).length();
+        const f32 speed_ratio = sead::Mathf::clampMax(distance / _248, 1.0f);
+        const f32 yaw_rate = rate * first * second * speed_ratio;
+        _fc = sead::Mathf::clampMax(_fc + (yaw_rate - _fc) * 0.01f, yaw_rate);
+        _f4 = angleStuff(angleStuff(angleStuff(yaw - _f4) * _fc) + _f4);
+        polar._8 = angleStuff(angleStuff(remaining * _f8) + _f4);
+    } else if (_286 == 5) {
+        ksys::VFRValue rate(sub_7100927230() * stick_length * std::cos(stick_angle) *
+                            sub_71009272A8() * *mLngStickScale_s);
+        rate.updateStats();
+        polar._8 = angleStuff(sub_7100924DFC(current_polar._8 + rate.mean));
+        _fc = 0.0f;
+    } else {
+        if (_286 == 2) {
+            const sead::Vector3f forward = camera->_860._270.getBase(2);
+            if (forward.x != 0.0f || forward.z != 0.0f) {
+                const f32 yaw = angleStuff((std::atan2(forward.x, forward.z) + 3.1415927f) * 57.295776f);
+                _f4 = angleStuff(angleStuff(angleStuff(yaw - _f4) *
+                                            (progress * 0.39999998f + 0.6f)) + _f4);
+            }
+        }
+        polar._8 = angleStuff(angleStuff(remaining * _f8) + _f4);
+    }
+    if (_286 > 2) {
+        if (_286 == 3 || _286 == 4) {
+            if (!fixed_latitude)
+                sub_710077FFA0();
+        } else if (radius_min != radius_max) {
+            f32 value = radius_ratio + latitude_delta;
+            {
+                act::Unk_71024741b8 curve;
+                curve.set(0.0f, _254, 1.0f - _258, 1.0f, *mRadiusMinWeight_s, *mRadiusMaxWeight_s);
+                value = curve.sub_71009234D8(value, 10);
+            }
+            {
+                act::Unk_71024741b8 curve;
+                curve.set(_24c, _24c, _250, _250, *mRadiusMinWeight_s, *mRadiusMaxWeight_s);
+                _100 = curve.eval(value);
+            }
+        }
+    }
+    polar._0 = sub_7100924D40(_100 + remaining * _104);
+    _c4 = _d0 = _278;
+    const f32 vertical_speed = (player->getMtx().getTranslation().y -
+                               sub_7100928868(camera->_860._164).y) * _110;
+    const f32 acceleration = (vertical_speed - sub_7100928868(camera->_860._174).y) * _110;
+    f32 amount = sead::Mathf::clampMax(vertical_speed > 0.0f ? vertical_speed : -vertical_speed, 1.0f);
+    amount = std::sin(amount * 3.1415927f - 1.5707964f);
+    const f32 vertical_rate = _260 + (amount + 1.0f) * 0.5f * (_264 - _260);
+    amount = sead::Mathf::clampMax(acceleration > 0.0f ? acceleration : -acceleration, 0.05f);
+    const f32 acceleration_rate = (amount / 0.05f) * 0.79999995f + 0.1f;
+    const f32 rate = sub_7100791E44(0.1f);
+    _cc += rate * (acceleration_rate - _cc);
+    if (player->getRootAi() &&
+        (player->getRootAi()->isCurrentAction("よじ登り飛びつき") ||
+         (player->getRootAi() && player->getRootAi()->isCurrentAction("小段差よじ登り壁つかみ")) ||
+         (player->getRootAi() && player->getRootAi()->isCurrentAction("ぶら下がりからのよじ登り")) ||
+         (player->getRootAi() && player->getRootAi()->isCurrentAction("段差登り"))))
+        _c8 = 0.08f;
+    else
+        _c8 += sub_7100791E44(_cc) * (vertical_rate - _c8);
+    _d8 += rate * (acceleration_rate - _d8);
+    if (player->getRootAi() &&
+        (player->getRootAi()->isCurrentAction("よじ登り飛びつき") ||
+         (player->getRootAi() && player->getRootAi()->isCurrentAction("小段差よじ登り壁つかみ")) ||
+         (player->getRootAi() && player->getRootAi()->isCurrentAction("ぶら下がりからのよじ登り")) ||
+         (player->getRootAi() && player->getRootAi()->isCurrentAction("段差登り"))))
+        _d4 = 0.08f;
+    else
+        _d4 += sub_7100791E44(_d8) * (vertical_rate - _d4);
+    sead::Vector3f base_target(0.0f, 0.0f, 0.0f);
+    if (auto* current_camera = getCamera())
+        base_target = current_camera->_860._2b8;
+    const f32 base_rate_xz = sub_7100791E44(_d0);
+    const f32 base_rate_y = sub_7100791E44(_d4);
+    _ac.x += base_rate_xz * (base_target.x - _ac.x);
+    _ac.y += base_rate_y * (base_target.y - _ac.y);
+    _ac.z += base_rate_xz * (base_target.z - _ac.z);
+    sub_71007802FC();
+    sead::Vector3f target(0.0f, 0.0f, 0.0f);
+    sub_71007803E0(&target, &polar);
+    const f32 rate_xz = sub_7100791E44(_c4);
+    const f32 rate_y = sub_7100791E44(_c8);
+    _94.x += rate_xz * (target.x - _94.x);
+    _94.y += rate_y * (target.y - _94.y);
+    _94.z += rate_xz * (target.z - _94.z);
+    camera->_860._0._c = _94 + _a0 * remaining;
+    camera->_860._0._0 = camera->_860._0._c + polar.sub_7100923254();
+    camera->_860._0._24 = sub_7100924D50(_27c + remaining * _108);
+    _285 = _284.getDirect();
+    camera->sub_71007953C8();
 }
 
 void CameraShieldSurfing::m36() {
