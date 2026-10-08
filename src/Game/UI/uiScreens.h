@@ -3079,6 +3079,8 @@ public:
     bool isEnableControl() const override;
     // 0x7100a4b574 (placeholder name): whether the button group has a down button
     bool sub_7100A4B574() const;
+    // 0x7100a4b10c (placeholder name): moves the box cursor to tag 122 + index (122 for an index out of range)
+    void sub_7100A4B10C(s32 index);
     const char* getLayoutName_() const override;
     ~ScreenShopBtnList15() override;
     SEAD_RTTI_OVERRIDE(ScreenShopBtnList15, ScreenEx)
