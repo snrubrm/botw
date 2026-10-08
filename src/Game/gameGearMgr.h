@@ -26,6 +26,14 @@ extern f32 sUnk_710243C148;
 // postCalc_). A polymorphic sead singleton (size 0x1108, instance pointer at 0x71025c5d08) with 0x80
 // actor links (0x20-byte entries from +0x30) guarded by a CriticalSection at +0x1058. Only what the
 // AI classes use is declared so far.
+// 0x7100669f50 (placeholder names): the fraction closest to `value` (Stern-Brocot search, terms up to 1000,
+// tolerance 1e-4), returned in x0 as two 32-bit halves.
+struct Fraction {
+    s32 numerator;
+    s32 denominator;
+};
+Fraction sub_7100669F50(f32 value);
+
 class GearMgr {
     SEAD_SINGLETON_DISPOSER(GearMgr)
     GearMgr();

@@ -175,8 +175,42 @@ bool GearMgr::sub_7100669A60(f32 value) {
     return lowered;
 }
 
+void GearMgr::sub_7100669144(f32 gear_ratio) {
+    const Fraction fraction = sub_7100669F50(gear_ratio > 0.0f ? 1.0f / gear_ratio : 0.0f);
+    _10c8 = sead::Mathu::lcm(u32(_10c8), fraction.denominator);
+}
+
 void GearMgr::sub_7100669C88() {}
 
 void GearMgr::sub_7100669ED8() {}
+
+// NON_MATCHING: the original keeps both bounds in registers (field-wise csel); ours selects the bound through a
+// stack address. Control flow and arithmetic are the same.
+Fraction sub_7100669F50(f32 value) {
+    if (value < 0.0f) {
+        const Fraction fraction = sub_7100669F50(-value);
+        return {-fraction.numerator, fraction.denominator};
+    }
+
+    Fraction lower{0, 1};
+    Fraction upper{1, 0};
+    f32 lower_error;
+    f32 upper_error;
+    while (true) {
+        const Fraction mediant{upper.numerator + lower.numerator, upper.denominator + lower.denominator};
+        if (f32(mediant.numerator) / f32(mediant.denominator) < value)
+            lower = mediant;
+        else
+            upper = mediant;
+        lower_error = sead::Mathf::abs(value - f32(lower.numerator) / f32(lower.denominator));
+        upper_error = sead::Mathf::abs(value - f32(upper.numerator) / f32(upper.denominator));
+        if (u32(mediant.denominator) > 1000 || u32(mediant.numerator) > 1000 || lower_error < 1e-4f ||
+            upper_error < 1e-4f) {
+            break;
+        }
+    }
+
+    return lower_error < upper_error ? lower : upper;
+}
 
 }  // namespace uking
