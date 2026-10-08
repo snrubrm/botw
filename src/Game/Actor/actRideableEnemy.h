@@ -13,6 +13,7 @@ class RideableEnemy : public Rideable {
     SEAD_RTTI_OVERRIDE(RideableEnemy, Rideable)
 public:
     void m24() override;
+    bool m44() override;
 };
 
 }  // namespace uking::act
