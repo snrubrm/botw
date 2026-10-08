@@ -10,8 +10,22 @@ namespace uking::dmg {
 // Only the layout, the ctor and the RTTI are declared: the overrides (slots 0-3 [RTTI, D1 / D0 inline the whole
 // DamageManager destructor chain], 15, 20, 22, 47, 50-56) are not decompiled.
 class DamageMgrPlayer : public DamageManager {
-    SEAD_RTTI_OVERRIDE(DamageMgrPlayer, DamageManager)
 public:
+    // Replaces SEAD_RTTI_OVERRIDE: the original's checkDerivedRuntimeTypeInfoStatic
+    // (0x710085269c) is a flat comparison against the four typeinfos of the inheritance
+    // chain (Player, Manager, ManagerBase, ManagerBase_UnknownBase1), not the chained
+    // per-class form the macro generates.
+    static const sead::RuntimeTypeInfo::Interface* getRuntimeTypeInfoStatic() {
+        static const sead::RuntimeTypeInfo::Derive<DamageManager> typeInfo;
+        return &typeInfo;
+    }
+    static bool checkDerivedRuntimeTypeInfoStatic(
+        const sead::RuntimeTypeInfo::Interface* typeInfo);
+    bool checkDerivedRuntimeTypeInfo(
+        const sead::RuntimeTypeInfo::Interface* typeInfo) const override;
+    const sead::RuntimeTypeInfo::Interface* getRuntimeTypeInfo() const override;
+
+    void resetDamage() override;
     explicit DamageMgrPlayer(ksys::act::Actor* actor);
 
     s32 m52() override;
