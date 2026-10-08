@@ -1,5 +1,6 @@
 #include "Game/AI/AI/aiEnemyEscapeMove.h"
 #include <math/seadMathCalcCommon.h>
+#include "Game/AI/Action/actionWillBallAvoidCenterDist.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/AI/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actActor.h"
@@ -16,6 +17,24 @@ bool Unk_NavMeshCallback::m2() {
 }
 
 namespace uking::ai {
+
+// NON_MATCHING: the original computes the length of the horizontal z axis of the actor matrix (an unused
+// `fsqrt` with the sqrtf fallback call that our build drops), keeps the callback at the bottom of the frame and the
+// box above it, and schedules the loads differently.
+bool EnemyEscapeMove::sub_710038AB40() {
+    _58.clear();
+    auto* query = action::Unk_710260de68::instance();
+    if (!query)
+        return false;
+    const auto& mtx = mActor->getMtx();
+    sead::Vector3f pos;
+    mtx.getTranslation(pos);
+    Unk_71023e7178 callback(&_58, pos, *mTargetPos_d, *mBehindCheckDist_s);
+    const sead::BoundBox3f box(sead::Vector3f(pos.x - 30.0f, pos.y - 2.0f, pos.z - 30.0f),
+                               sead::Vector3f(pos.x + 30.0f, pos.y + 2.0f, pos.z + 30.0f));
+    query->sub_7100F857F4(&callback, &box);
+    return !_58.isEmpty();
+}
 
 EnemyEscapeMove::EnemyEscapeMove(const InitArg& arg) : ksys::act::ai::Ai(arg) {
     _58.clear();

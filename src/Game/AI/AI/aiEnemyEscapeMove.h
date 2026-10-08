@@ -8,13 +8,22 @@
 
 #include "Game/AI/aiUnk_NavMeshCallback.h"
 
-// Vtable 0x71023e7178 (GOT 0x2586918, used only by EnemyEscapeMove::sub_710038AB40 which declares it as a local
-// object): m0 is 0x7100389680 (964 B, declared only; it appends points to a list), m1 / m2 are the defaults. The
-// members are not recovered.
+// Vtable 0x71023e7178 (GOT 0x2586918, used only by EnemyEscapeMove::sub_710038AB40 which builds it on the stack): m0 is
+// 0x7100389680 (964 B, declared only; it inserts points at the front of `mList`), m1 / m2 are the defaults.
 class Unk_71023e7178 : public Unk_NavMeshCallback {
 public:
+    Unk_71023e7178(sead::ObjList<sead::Vector3f>* list, const sead::Vector3f& pos, const sead::Vector3f& target,
+                   f32 dist)
+        : mList(list), mPos(pos), mTarget(target), mDir(pos.x - target.x, 0.0f, pos.z - target.z), mDist(dist) {}
     bool m0(const void* node) override;
+
+    sead::ObjList<sead::Vector3f>* mList;
+    sead::Vector3f mPos;
+    sead::Vector3f mTarget;
+    sead::Vector3f mDir;
+    f32 mDist;
 };
+KSYS_CHECK_SIZE_NX150(Unk_71023e7178, 0x38);
 
 namespace uking::ai {
 

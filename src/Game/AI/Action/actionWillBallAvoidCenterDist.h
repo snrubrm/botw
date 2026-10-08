@@ -1,6 +1,8 @@
 #pragma once
 
+#include <math/seadBoundBox.h>
 #include "Game/AI/Action/actionWillBallAction.h"
+#include "Game/AI/aiUnk_NavMeshCallback.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -11,6 +13,8 @@ class Unk_710260de68 {
 public:
     static Unk_710260de68* instance() { return sInstance; }
     bool sub_7100F85EB8(f32 radius, const sead::Vector3f* from, const sead::Vector3f* to, void* unused);
+    // 0x7100f857f4 (384 B; declared only): visits the nav mesh nodes inside `box` with `callback` (EnemyEscapeMove).
+    void sub_7100F857F4(Unk_NavMeshCallback* callback, const sead::BoundBox3f* box);
 
 private:
     static Unk_710260de68* sInstance;
