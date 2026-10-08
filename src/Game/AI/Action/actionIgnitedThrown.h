@@ -43,8 +43,8 @@ protected:
     bool _72 = false;
     u8 _73[0x1];
     f32 _74 = 0.0f;
-    s32 _78 = 0;
-    s32 _7c = 0;
+    f32 _78 = 0.0f;
+    f32 _7c = 0.0f;
     xlink2::HandleSLink _80;
     sead::Vector3f _90 = sead::Vector3f::zero;
     u16 _9c = 0;

@@ -37,6 +37,7 @@ class Unk_7100e8b2b8;
 namespace uking::action {
 class ChemicalAttack;
 class KokkoCreateDrop;
+class IgnitedThrown;
 }  // namespace uking::action
 
 namespace uking::ai {
@@ -813,6 +814,7 @@ protected:
     friend class uking::action::KokkoCreateDrop;  // checks ActorX6A0 flags
     friend class uking::ai::KokkoRoot;  // checks ActorX6A0 flags
     friend class uking::action::ChemicalAttack;  // lerps mScale.x in place
+    friend class uking::action::IgnitedThrown;  // writes mScale directly (enter_)
 
     struct Unk1 {
         Actor* actor;
