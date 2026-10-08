@@ -356,6 +356,8 @@ public:
     struct Unk_12d0 {
         // 0x7100710f04 (CSV nullsub_2335; declared only): empty.
         void sub_7100710F04();
+        // 0x7100710f1c (placeholder name): `_8 = -1; _c = 0;` (one 8-byte store of 0xffffffff).
+        void sub_7100710F1C();
         // 0x7100710f08 (declared only; lane2 s20): `if (_0) { _8 = -1; _c = 0; }` (one 8-byte store).
         void sub_7100710F08();
         // 0x7100710f28 (lane4 s50, non-matching): advances the state `_8` (0 -> 1 -> 2 -> 3) from the character's
