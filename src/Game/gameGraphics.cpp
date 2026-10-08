@@ -40,3 +40,8 @@ f32 Graphics::sub_7100F35F28() const {
 f32 Graphics::sub_7100F35F38() const {
     return _378->_18->_1524;
 }
+
+void Graphics::sub_7100F32AC8(sead::Camera* camera, void* unk) {
+    _e08 = camera;
+    _e10 = unk;
+}

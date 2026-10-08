@@ -9,6 +9,10 @@
 #include "KingSystem/Map/mapMapProperties.h"
 #include "KingSystem/Utils/Thread/MessageTransceiverTxOnly.h"
 
+namespace sead {
+class Camera;
+}
+
 namespace ksys::world {
 class EnvMgr;
 // 0x71010d6094 (CSV wm::SkyMgr::initForStageGen; declaration only): called by the stages' initForStageGen with the
@@ -156,7 +160,7 @@ private:
     /* 0x28 */ void* _28 = nullptr;
     /* 0x30 */ bool _30 = false;
     /* 0x38 */ sead::FixedSafeString<0xff> mMapName;
-    /* 0x150 */ void* _150 = nullptr;
+    /* 0x150 */ sead::Camera* _150 = nullptr;  // passed to Graphics::sub_7100F32AC8 by initForStageGen
     /* 0x158 */ void* _158 = nullptr;
     /* 0x160 */ ksys::act::BaseProcLink mLink;
     /* 0x170 */ void* _170 = nullptr;

@@ -65,6 +65,8 @@ public:
         bool sub_7100F8AF0C();
     };
     KSYS_CHECK_SIZE_NX150(TileHandle, 0x60);
+    // 0x7100f89f4c (CSV NavMeshLoadMgr::x; declared only; 1132 B): called with Vector3f::zero by the dungeon stages' preCalc.
+    void x(const sead::Vector3f* pos);
     // 0x7100f8aca4 (CSV NavMeshLoadMgr::x_1; declared only): whether the tile of `pos` is covered (false when the manager is
     // disabled or has no tiles).
     bool x_1(const sead::Vector3f* pos);

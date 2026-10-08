@@ -2,6 +2,9 @@
 #include "Game/gamePlayReport.h"
 #include "Game/Damage/dmgInfoManager.h"
 #include "Game/gameGearMgr.h"
+#include "Game/gameGraphics.h"
+#include "Game/gameSceneStatusMgr.h"
+#include "KingSystem/Terrain/teraSystem.h"
 #include "Game/gameLastBossMgr.h"
 #include "Game/gameSaveSystem.h"
 #include "KingSystem/GameData/gdtSaveMgr.h"
@@ -9,6 +12,7 @@
 #include "Game/gameSceneSubsysMisc.h"
 #include "Game/gameScene.h"
 #include "Game/gameStageInfo.h"
+#include "KingSystem/Physics/System/physHavokAI.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "KingSystem/System/StageInfo.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
@@ -233,6 +237,22 @@ void StartupSaveCheckStage::calc() {
     createTitleStageBinder(true, true);
 }
 
+void IndoorStage::postInit(Unk_710245ac20* a, Unk_710245abf0* b) {
+    a->_8 = true;
+    Graphics::instance()->getUnk_ab0()->_e48 |= 2;
+    auto* terrain = ksys::tera::Terrain::instance();
+    if (terrain->isGrassEnabled())
+        terrain->sub_710114DE7C(false);
+    if (auto* mgr = GameSceneStatusMgr::instance())
+        mgr->unregisterStatus(&mDebugStatus);
+    mDebugStatus.clear();
+}
+
+void IndoorStage::preCalc() {
+    ksys::phys::HavokAI::instance()->_48->x(&sead::Vector3f::zero);
+    GearMgr::instance()->sub_7100669ED8();
+}
+
 void IndoorStage::postCalc() {
     dmg::DamageInfoMgr::instance()->postCalc();
     GameSceneSubsys4::instance()->m6();
@@ -278,6 +298,25 @@ int IndoorStage::m0() {
 }
 
 MainFieldDungeonStage::MainFieldDungeonStage() = default;
+
+void MainFieldDungeonStage::initForStageGen() {
+    Graphics::instance()->sub_7100F32AC8(_150, _158);
+    ksys::world::sub_71010D6094(ksys::world::Manager::instance()->getEnvMgr());
+}
+
+void MainFieldDungeonStage::postInit(Unk_710245ac20* a, Unk_710245abf0* b) {
+    Graphics::instance()->getUnk_ab0()->_e48 &= ~2u;
+    a->_8 = true;
+    if (auto* mgr = GameSceneStatusMgr::instance())
+        mgr->unregisterStatus(&mDebugStatus);
+    GearMgr::instance()->sub_7100669C88();
+    mDebugStatus.clear();
+}
+
+void MainFieldDungeonStage::preCalc() {
+    ksys::phys::HavokAI::instance()->_48->x(&sead::Vector3f::zero);
+    GearMgr::instance()->sub_7100669ED8();
+}
 
 MainFieldDungeonStage::~MainFieldDungeonStage() {
     mHeap->destroy();

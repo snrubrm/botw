@@ -98,9 +98,13 @@ private:
 public:
     // 0xe08 (lane1 s44): the camera of the graphics system (read by SkyMgr::sub_71010E4EE0).
     sead::Camera* _e08;
+    // 0xf32ac8 (CSV Graphics::__auto12; placeholder name): stores the camera at 0xe08 and an unknown object at 0xe10
+    // (MainFieldDungeonStage::initForStageGen passes its members at 0x150 / 0x158).
+    void sub_7100F32AC8(sead::Camera* camera, void* unk);
 
 private:
-    u8 _e10[0xf18 - 0xe10];
+    void* _e10;
+    u8 _e18[0xf18 - 0xe18];
     // Lock for the map kind below (placeholder name).
     sead::CriticalSection _f18;
     u8 _f58;
