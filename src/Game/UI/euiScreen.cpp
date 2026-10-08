@@ -13,8 +13,25 @@
 #include "Game/UI/euiUIController.h"
 #include "Game/UI/euiTagProcessor.h"
 #include "Game/UI/euiTextBoxEx.h"
+#include "Game/UI/euiControlCreator.h"
+#include "Game/UI/euiTextSearcher.h"
+#include "Game/UI/euiMessageMgr.h"
+#include <gfx/nin/seadGraphicsNvn.h>
+#include <nn/ui2d/BuildTypes.h>
 
 namespace eui {
+
+// 0x7100bead1c
+// NON_MATCHING: result counter initialization, temporary placement and the out-of-line creator destructor call differ.
+void Screen::doBuildLayout_(const sead::SafeString& name, nn::ui2d::ResourceAccessor* accessor) {
+    ControlCreator creator(mButtonGroup, &mControls, &_50);
+    auto* messages = mMgr->getMessageMgr();
+    TextSearcher searcher(messages->getLayoutMessageSet(getMessageName_()), mTagProcessor);
+    auto* device = sead::GraphicsNvn::instance()->getNnDevice();
+    nn::ui2d::Layout::BuildOption options{};
+    nn::ui2d::BuildResultInformation result;
+    mLayout->BuildWithName(&result, device, accessor, &creator, &searcher, options, name.cstr(), false);
+}
 
 // NON_MATCHING: only the order of the zero stores differs (the original stores 0xb8 first and 0xb0 late; we
 // pair them).

@@ -90,6 +90,10 @@ public:
     Animator* tryCreateAnimatorAuto(const char* name, bool b);
     Animator* tryCreateAnimatorAutoWithWarning(const char* name, bool b);
     AnimatorSet* createAnimatorSet(const char* const* names, u32 count, bool b);
+    // 0x7100bdd6d8 / 0x7100bdd7bc / 0x7100bdd898: explicit group, basic and repeated-content animators.
+    Animator* sub_7100BDD6D8(const char* name, nn::ui2d::Group* group, bool enabled);
+    Animator* sub_7100BDD7BC(const char* name, bool enabled);
+    Animator* sub_7100BDD898(const char* name, u32 count, bool enabled);
 
     s32 setMessageStringForEachId(const char*, const MessageString&, bool adjust_size, void*);
     s32 setMessageStringForEachIdWithPage(const char*, const MessageString&, bool* has_next_page,

@@ -461,6 +461,58 @@ Animator* LayoutEx::tryCreateAnimatorAuto(const char* name, bool enabled) {
     return animator;
 }
 
+// 0x7100bdd6d8
+Animator* LayoutEx::sub_7100BDD6D8(const char* name, nn::ui2d::Group* group, bool enabled) {
+    nn::ui2d::AnimResource animation;
+    animation.Set(GetAnimResourceData(name));
+    Animator* animator = nullptr;
+    if (const auto* block = animation.GetAnimationBlock()) {
+        auto* device = sead::GraphicsNvn::instance()->getNnDevice();
+        if (void* memory = nn::ui2d::Layout::AllocateMemory(sizeof(Animator), 4)) {
+            animator = new (memory) Animator;
+            mAnimTransformList.push_back(*animator);
+            animator->SetResource(device, mResourceAccessor, block);
+        }
+    }
+    animator->SetupWithGroup(animation, this, group, enabled);
+    return animator;
+}
+
+// 0x7100bdd7bc
+Animator* LayoutEx::sub_7100BDD7BC(const char* name, bool enabled) {
+    nn::ui2d::AnimResource animation;
+    animation.Set(GetAnimResourceData(name));
+    Animator* animator = nullptr;
+    if (const auto* block = animation.GetAnimationBlock()) {
+        auto* device = sead::GraphicsNvn::instance()->getNnDevice();
+        if (void* memory = nn::ui2d::Layout::AllocateMemory(sizeof(Animator), 4)) {
+            animator = new (memory) Animator;
+            mAnimTransformList.push_back(*animator);
+            animator->SetResource(device, mResourceAccessor, block);
+        }
+    }
+    animator->SetupBasic(animation, this, enabled);
+    return animator;
+}
+
+// 0x7100bdd898
+Animator* LayoutEx::sub_7100BDD898(const char* name, u32 count, bool enabled) {
+    nn::ui2d::AnimResource animation;
+    animation.Set(GetAnimResourceData(name));
+    const auto* block = animation.GetAnimationBlock();
+    if (!block)
+        return nullptr;
+    Animator* animator = nullptr;
+    if (void* memory = nn::ui2d::Layout::AllocateMemory(sizeof(Animator), 4)) {
+        animator = new (memory) Animator;
+        mAnimTransformList.push_back(*animator);
+        animator->SetResource(sead::GraphicsNvn::instance()->getNnDevice(), mResourceAccessor,
+                              block, animation.GetAnimationBlock()->contentCount * count);
+    }
+    animator->SetupBasic(animation, this, enabled);
+    return animator;
+}
+
 // 0x7100befa30
 void sub_7100BEFA30(nn::ui2d::Pane* pane, LayoutEx* layout) {
     AdjustPaneSizeToTextSize(pane, layout);
