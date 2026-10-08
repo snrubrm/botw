@@ -10,6 +10,7 @@
 namespace ksys::phys {
 
 class RigidBody;
+class RigidBodySetParamAccessor;
 class SystemGroupHandler;
 class UserTag;
 class RigidBodyResource;
@@ -81,6 +82,11 @@ private:
 class RigidBodySet1 : public RigidBodySet {
 public:
     explicit RigidBodySet1(const sead::SafeString& name);
+    ~RigidBodySet1() override;
+
+    // Placeholder name (0x71012b047c): fill the set with the bodies the accessor creates
+    // (false if any creation fails, deleting the bodies created so far).
+    bool sub_71012B047C(RigidBodySetParamAccessor* accessor, sead::Heap* heap);
 };
 
 // 0x71012afe48: created with operator new(0x40) by ActorPhysics::initRigidBodies, which passes
@@ -88,10 +94,16 @@ public:
 class RigidBodySet2 : public RigidBodySet {
 public:
     RigidBodySet2(const sead::SafeString& name, RigidBodyResource* resource);
+    ~RigidBodySet2() override;
 
     RigidBodyResource* _28;
     void* _30;
     u32 _38;
+
+private:
+    // Placeholder name (0x71012afeb8): delete every body, free the body array, then unload
+    // and free the copied resource data.
+    void sub_71012AFEB8();
 };
 static_assert(sizeof(RigidBodySet2) == 0x40);
 
