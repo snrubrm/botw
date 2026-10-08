@@ -1,5 +1,6 @@
 #include <basis/seadNew.h>
 #include "Game/Actor/actRideable.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
@@ -68,12 +69,29 @@ void RideableBase::sub_7100E6314C(Rank rank, f32 value, u32 id) {
 
 // NON_MATCHING: the original computes the member address (`add x8, x0, #0x140`) and loads through it, with a 64-bit zero for
 // the third result; we fold the offset into the load and return a 32-bit zero.
+// NON_MATCHING: the original computes &_a0 before the m45 call and keeps it in a callee-saved register
+void RideableBase::sub_7100E62B84() {
+    auto* as_list = mActor->getASList();
+    auto* nav = mActor->m45();
+    as_list->sub_710115EC98(1, nullptr, 0);
+    _a0.sub_7100E6FAB4(this, as_list, nav);
+}
+
 u64 RideableBase::sub_7100E63374() {
     if (_138 > 0.0f)
         return _140;
     if (_13c > 0.0f)
         return _144;
     return 0;
+}
+
+// NON_MATCHING: see sub_7100E62B84
+void RideableBase::sub_7100E633AC() {
+    _18.sub_7100E761A4(true, true);
+    auto* as_list = mActor->getASList();
+    auto* nav = mActor->m45();
+    as_list->sub_710115EC98(1, nullptr, 0);
+    _a0.sub_7100E6FAB4(this, as_list, nav);
 }
 
 }  // namespace uking::act

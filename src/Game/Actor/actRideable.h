@@ -30,6 +30,7 @@ class ASList;
 
 namespace ksys::phys {
 class CharacterController;
+class NavMeshCharacter;
 }
 
 namespace uking::act {
@@ -128,6 +129,8 @@ public:
         S1();
 
         void sub_7100E747E8(ksys::as::ASList* list);
+        // 0x7100e761a4 (declared only; 188 B; called with (true, true) by RideableBase::sub_7100E633AC).
+        void sub_7100E761A4(bool a1, bool a2);
 
         void sub_7100E74890(bool a1, bool a2, f32 a3, f32 a4);
 
@@ -185,6 +188,8 @@ public:
     struct S2 {
         S2();
         ~S2();
+        // 0x7100e6fab4 (declared only; 800 B): updates from the rider's AS list and navmesh character.
+        void sub_7100E6FAB4(RideableBase* owner, ksys::as::ASList* as_list, ksys::phys::NavMeshCharacter* nav);
 
         u8 _0[0x88];
         /* 0x88 */ u16 _88 = 0;  // flags (bit 4 is tested by HorseRiddenByNPC::calc_)
@@ -202,6 +207,10 @@ public:
     bool getSomethingFromAnimalUnitSpeed();
     // 0x7100e63374 (lane4 s46, placeholder name): _140 if _138 > 0, else _144 if _13c > 0, else 0.
     u64 sub_7100E63374();
+    // 0x7100e62b84 / 0x7100e633ac (placeholder names): `_a0.sub_7100E6FAB4` after resetting the AS list's kind 1
+    // value (0x7100e633ac first calls `_18.sub_7100E761A4(true, true)`).
+    void sub_7100E62B84();
+    void sub_7100E633AC();
 
     // 0x7100e63224 (ForkAnimalASPlay::calc_): selects the next gear (`type` 1-5, else 0) unless
     // flag 4 of _8 is set. Both parameters are probably small by-value enum structs in the original.
