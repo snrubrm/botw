@@ -449,6 +449,8 @@ public:
     s32 sub_7100965938() const;
     void set898(s32 value);
     bool returnTrue2() const;
+    // 0x7100965e60 (placeholder name): always false
+    bool returnFalse() const;
     s32 get7c4(s32 index) const;
 
 private:

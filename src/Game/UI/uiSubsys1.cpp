@@ -564,6 +564,11 @@ bool UiSubsys1::returnTrue2() const {
     return true;
 }
 
+// 0x7100965e60
+bool UiSubsys1::returnFalse() const {
+    return false;
+}
+
 // 0x7100965cf0
 s32 UiSubsys1::get7c4(s32 index) const {
     return _7c4[index];
