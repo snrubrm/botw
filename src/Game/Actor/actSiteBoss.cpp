@@ -211,6 +211,20 @@ void SiteBoss::sub_71002D3498(Enemy* boss, ksys::act::Actor* sender) {
     }
 }
 
+void SiteBoss::sub_71002D355C(Enemy* boss, ksys::act::Actor* sender, const sead::SafeString& part) {
+    if (!boss)
+        return;
+    if (!boss->getActorPartsActor(part).hasProc())
+        return;
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(&boss->getActorPartsActor(part), &accessor);
+    if (accessor.isStateSleep()) {
+        accessor.setProperties(boss->getMtx(), nullptr, nullptr, nullptr, false, 0, -1);
+        if (!sender->getConnectedCalcChild())
+            accessor.setThisActorAsChild(sender, false);
+    }
+}
+
 void SiteBoss::sub_71002D3624(SiteBoss* boss, const sead::SafeString& part) {
     if (!boss)
         return;
