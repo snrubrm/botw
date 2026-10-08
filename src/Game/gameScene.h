@@ -7,6 +7,7 @@
 #include <thread/seadAtomic.h>
 #include "Game/gameScene320.h"
 #include "KingSystem/Resource/resHandle.h"
+#include "KingSystem/Resource/resUnk_71024F9D48.h"
 #include "KingSystem/Utils/StateMachine.h"
 #include "KingSystem/Utils/Thread/Event.h"
 #include "KingSystem/Utils/Types.h"
@@ -51,7 +52,8 @@ public:
     // Its record cleanup remains declared only; the constructor and flag getter are complete.
     class sc {
     public:
-        struct Record;
+        // 0x60-byte records (the texture handle entry type ksys::res::Unk_71024F9D48, see ~sc).
+        using Record = ksys::res::Unk_71024F9D48;
         sc();
         virtual ~sc();
         bool x_0() const;

@@ -25,6 +25,16 @@ namespace uking {
 
 GameScene::sc::sc() = default;
 
+// NON_MATCHING: the loop updates the remaining count before the record pointer (ours: the other way round).
+GameScene::sc::~sc() {
+    for (auto& record : mRecords) {
+        void* unused;
+        record.sub_7100FE7FBC(&unused);
+    }
+    mRecords.freeBuffer();
+    mFlags &= ~4;
+}
+
 bool GameScene::sc::x_0() const {
     return (mFlags >> 2) & 1;
 }
