@@ -9,4 +9,8 @@ void Rope::m149() {
     GameSceneSubsys5::sInstance->sub_7100905C70();
 }
 
+s32* Rope::getLife() {
+    return &_cb0;
+}
+
 }  // namespace uking::act
