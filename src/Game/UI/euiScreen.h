@@ -37,6 +37,7 @@ class UserInstanceSLink;
 }
 
 namespace nn::ui2d {
+class Group;
 class Pane;
 class ResourceAccessor;
 }  // namespace nn::ui2d
@@ -69,6 +70,8 @@ void sub_7100BEE240(nn::ui2d::Pane* pane);
 // sub_7100BED748 (declared only, 508 bytes).
 void sub_7100BEE3C8(nn::ui2d::Pane* pane, LayoutEx* layout);
 void sub_7100BED748(nn::ui2d::Pane* pane, LayoutEx* layout);
+// 0x7100bef300 (euiUtil.cpp): a copy of `group` with the panes of the same names under `root`
+nn::ui2d::Group* sub_7100BEF300(const nn::ui2d::Group* group, nn::ui2d::Pane* root);
 // 0x7100bee564: forwards a CapturePane to CapturePane::sub_7100BF1E64.
 void sub_7100BEE564(nn::ui2d::Pane* pane);
 // 0x7100befa30 / 0x7100befe9c / 0x7100bf01dc (declared only; placeholder names; lane2 s47): pane tree walks run by

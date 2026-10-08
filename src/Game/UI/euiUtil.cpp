@@ -8,6 +8,8 @@
 #include <nn/gfx/gfx_Sampler.h>
 #include <nn/gfx/gfx_Texture.h>
 #include <nn/ui2d/DrawInfo.h>
+#include <nn/ui2d/Group.h>
+#include <nn/ui2d/Layout.h>
 #include <nn/ui2d/Types.h>
 #include <nn/ui2d/Material.h>
 #include <nn/ui2d/Pane.h>
@@ -211,6 +213,17 @@ void UnregisterSlotForTexture(nn::gfx::DescriptorSlot* slot, const nn::gfx::Text
 void UnregisterSlotForSampler(nn::gfx::DescriptorSlot* slot, const nn::gfx::Sampler&, void*) {
     static_cast<agl::driver::NVNMgr*>(agl::driver::GraphicsDriverMgr::instance())
         ->releaseSampler(slot->ToData()->value);
+}
+
+// 0x7100bef300 (placeholder name; LayoutEx's copy constructor calls it): a copy of `group` whose panes are looked
+// up by name under `root`
+nn::ui2d::Group* sub_7100BEF300(const nn::ui2d::Group* group, nn::ui2d::Pane* root) {
+    const char* name = group->GetName();
+    void* memory = nn::ui2d::Layout::AllocateMemory(sizeof(nn::ui2d::Group), 4);
+    auto* copy = memory ? new (memory) nn::ui2d::Group(name) : nullptr;
+    for (const auto& link : group->mPaneLinkList)
+        copy->AppendPane(root->FindPaneByName(link.pane->GetName(), true));
+    return copy;
 }
 
 // 0x7100bee240
