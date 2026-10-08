@@ -1092,6 +1092,15 @@ void Actor::sub_71011C8BA4(u32 value) {
         mRootAi->setI(value);
 }
 
+void Actor::sub_71011C75D4() {
+    if (!ActorSystem::instance()->get139())
+        return;
+    if (getCharacterController() || m31())
+        _4f8 = 1.0f;
+    else
+        _4f8 = 10.0f;
+}
+
 void Actor::setVelocity(const sead::Vector3f* vel, const sead::Vector3f* ang_vel) {
     if (!isInit() && !isSleep())
         return;

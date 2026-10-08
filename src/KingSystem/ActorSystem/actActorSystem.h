@@ -51,6 +51,8 @@ public:
     const sead::Vector3f& getPlayerPos() const { return mPlayerPos; }
     // The player (read inline by MotorcycleMgr::isProhibited).
     PlayerLink* getPlayerLink() const { return _c0; }
+    // Read inline by Actor::sub_71011C75D4.
+    bool get139() const { return _139; }
     // inline-only in the original; name is a guess (Swarm::m81, Guardian::m81).
     uking::Unk_710243c7c8* getStasisMessageSender() const { return _c8; }
 
