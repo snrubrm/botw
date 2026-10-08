@@ -1189,6 +1189,11 @@ void ScreenMainShortCut::m166() {
     m80(false);
 }
 
+// 0x7100a45fc0
+bool ScreenSaveTransferWindow::sub_7100A45FC0() {
+    return SaveSystem::instance()->sub_7100914D48();
+}
+
 // 0x7100a43294
 void ScreenSaveTransferWindow::m106(eui::AnimButton* button) {
     const s32 tag = button->mTag;

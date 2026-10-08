@@ -3383,6 +3383,8 @@ public:
     virtual void m184();
     virtual s32 m185();
 
+    // 0x7100a45fc0 (placeholder name): starts state 6 through the save system singleton.
+    bool sub_7100A45FC0();
     /* 0x3610 */ eui::Animator* _3610;
     /* 0x3618 */ eui::Animator* _3618;
     /* 0x3620 */ eui::Animator* _3620;
