@@ -143,11 +143,16 @@ public:
     // 0x0000007101256d58 (CSV findObjByHashInAllGroups): the same over the groups 0-9; writes the group of the result.
     Object* findObjByHashInAllGroups(const u32& hash, int start, int end, int* out_group);
 
+    // 0x00000071012567f8 (CSV PlacementObjs::ctor): allocates the object buffers of the groups (80600 objects for
+    // group 0 and 4100 for each other group if `num_objs` > 10000; otherwise `num_objs` for groups 0 and 1 and
+    // one object for each other group).
+    PlacementObjs(sead::Heap* heap, s32 num_objs);
     // 0x0000007101256be8 (CSV PlacementObjs::dtor): frees every group's object buffer.
     ~PlacementObjs();
 
     void* _0;
     sead::SafeArray<Group, 10> mGroups;
+    sead::Heap* mHeap;
 };
 
 class PlacementActors {

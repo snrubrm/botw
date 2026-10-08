@@ -4,6 +4,28 @@
 
 namespace ksys::map {
 
+// NON_MATCHING: the original does not initialise the groups' Buffer members (its only caller, the PlacementActors
+// ctor, zero-fills the object first); sead::Buffer's constructor adds 20 stores.
+PlacementObjs::PlacementObjs(sead::Heap* heap, s32 num_objs) {
+    if (num_objs > 10000) {
+        mGroups[0].objects.tryAllocBuffer(80600, heap, 8);
+        for (s32 i = 0; i < 9; ++i)
+            mGroups[i + 1].objects.tryAllocBuffer(4100, heap, 8);
+    } else {
+        if (num_objs >= 1) {
+            mGroups[0].objects.tryAllocBuffer(num_objs, heap, 8);
+            mGroups[1].objects.tryAllocBuffer(num_objs, heap, 8);
+        }
+        for (s32 i = 2; i < 10; ++i)
+            mGroups[i].objects.tryAllocBuffer(1, heap, 8);
+    }
+    for (s32 i = 0; i < 10; ++i) {
+        mGroups[i].num_objs = 0;
+        mGroups[i].map = nullptr;
+    }
+    mHeap = heap;
+}
+
 PlacementObjs::~PlacementObjs() {
     for (size_t i = 0; i < 10; ++i) {
         auto& group = mGroups.mBuffer[i];
