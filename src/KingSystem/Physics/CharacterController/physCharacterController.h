@@ -85,6 +85,8 @@ public:
     CollisionInfo* sub_7100F6367C() const;
     // 0x7100f62bc0: setFixed on the main rigid body (unless it is already unfixed and `fixed` is false).
     void sub_7100F62BC0(bool fixed);
+    // 0x7100f60464 (declaration only; called by BackToRailFromLava::enter_).
+    void warpActorToPosition(const sead::Vector3f& pos);
 
     act::MotionType sub_7100F5F0E4() const;
     // 0x7100f5f0a4 (unnamed in the CSV): the character context is in state 0 and the

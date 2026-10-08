@@ -630,6 +630,7 @@ public:
     // lane3 s38 (FixedMagneStick::calc_); the type is a placeholder (only byte 0x8b is known).
     ActorUnk6b8* get6b8() const { return _6b8; }
     float get6f0() const { return _6f0; }
+    int get6fc() const { return _6fc; }
     // lane5 s2 (NPCKnockBackMove::calc_ scales the knock-back speed by it); name is a guess.
     float get830() const { return _830; }
     // 0x71011ce204 (lane4 s29; name is a guess, twin of get6f0).
