@@ -59,6 +59,9 @@ public:
     // 0x710000d474 (declared only; 168 B): when _1f70 bit 22 is set, clears it and removes three named rigid bodies
     // from the world.
     void sub_710000D474();
+    // 0x710000eca4 (declared only; 584 B): the counterpart of sub_710000D474 (updatePositionMaybe calls it within
+    // 350 of _1f54 when m139() >= 1).
+    void sub_710000ECA4();
     // 0x710000d51c (placeholder name): unless _1f70 bit 28 is set, `_1ec0.sub_71010F17FC(false)` (inlined in m63).
     void sub_710000D51C();
     bool sub_710000FE10();
@@ -133,7 +136,9 @@ public:
     /* 0x1e88 */ u8 _1e88[0x1ec0 - 0x1e88];
     /* 0x1ec0 */ Unk_710250d530 _1ec0;
     /* 0x1ef0 */ u8 _1ef0[0x1f40 - 0x1ef0];
-    /* 0x1f40 */ u8 _1f40[0x1f60 - 0x1f40];
+    /* 0x1f40 */ u8 _1f40[0x1f54 - 0x1f40];
+    // updatePositionMaybe compares the actor's horizontal distance to this point with 350.
+    /* 0x1f54 */ sead::Vector3f _1f54;
     /* 0x1f60 */ sead::Vector3f _1f60;  // m34
     /* 0x1f6c */ u32 _1f6c = 0;
     /* 0x1f70 */ sead::BitFlag32 _1f70;  // ~45 AI accesses

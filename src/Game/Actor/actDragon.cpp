@@ -25,6 +25,20 @@ void Dragon::sub_710000D51C() {
         _1ec0.sub_71010F17FC(false);
 }
 
+// NON_MATCHING: the two calls are laid out in the other order (the original falls through to sub_710000ECA4)
+void Dragon::updatePositionMaybe() {
+    Enemy::updatePositionMaybe();
+    const sead::Vector3f pos = getMtx().getTranslation();
+    const sead::Vector3f center = _1f54;
+    const f32 dx = pos.x - center.x;
+    const f32 dz = pos.z - center.z;
+    if (m139() < 1.0f || dx * dx + dz * dz > 350.0f * 350.0f)
+        sub_710000D474();
+    else
+        sub_710000ECA4();
+    _1f70.set(0x40000000);
+}
+
 void Dragon::afterModelMatrixUpdate() {
     if (_1e0c != 0)
         return;
