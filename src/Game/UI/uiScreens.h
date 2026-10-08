@@ -1344,6 +1344,7 @@ public:
 
 class ScreenShopHorse : public ScreenEx {
 public:
+    ScreenShopHorse();
     void m96() override;
     void m104(eui::AnimButton*) override;
     void m106(eui::AnimButton*) override;
@@ -1352,11 +1353,26 @@ public:
     ~ScreenShopHorse() override;
     SEAD_RTTI_OVERRIDE(ScreenShopHorse, ScreenEx)
     void m99() override;
-    u8 _pad_3610[0x36bc - 0x3610];
-    s32 _36bc;
+    /* 0x3610 */ u32 _3610 = 0;
+    /* 0x3614 */ u32 _3614 = 0;
+    u64 _3618[0xa0 / 8] = {};
+    /* 0x36b8 */ u32 _36b8 = 5;
+    s32 _36bc = 0;
+    /* 0x36c0 */ s32 _36c0 = -1;
+    u8 _36c4[4];
+    u64 _36c8[0x70 / 8] = {};
+    /* 0x3738 */ u32 _3738;
+    /* 0x373c */ u32 _373c;
+    /* 0x3740 */ u32 _3740;
+    /* 0x3744 */ u32 _3744;
+    /* 0x3748 */ u8 _3748 = 0;
 
     void sub_7100A4EBA0(s32);
 };
+
+// 0x7101eb6d7c / 0x7101eb6d80 (rodata words read by the ScreenShopHorse ctor; owner unknown)
+extern const u32 sUnk_7101EB6D7C;
+extern const u32 sUnk_7101EB6D80;
 
 // State objects of ScreenMainShortCut (StateTemplate<...>; 0x71025ef170 / 0x71025ef290) and ScreenAppTool (0x71025ec670).
 extern const ksys::StateBase sUnk_71025ef170;

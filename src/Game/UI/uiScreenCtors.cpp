@@ -223,6 +223,19 @@ ScreenAppHome::ScreenAppHome() : ScreenEx() {
     _3660[0] = 0;
 }
 
+// rodata words read by the ScreenShopHorse ctor (0x7101eb6d7c = 255, 0x7101eb6d80 = -1;
+// owner unknown, names are placeholders)
+const u32 sUnk_7101EB6D7C = 255;
+const u32 sUnk_7101EB6D80 = 0xFFFFFFFF;
+
+// 0x7100a4ea68
+// NON_MATCHING: member-init scheduling only (original stores _3610 and the vtable/constant stores
+// before the memsets; ours merges and reorders them). All offsets/values/calls match.
+ScreenShopHorse::ScreenShopHorse() : ScreenEx() {
+    _3738 = sUnk_7101EB6D7C;
+    _373c = _3740 = _3744 = sUnk_7101EB6D80;
+}
+
 // 0x7100a58150
 ScreenStaffRollDLC::ScreenStaffRollDLC() : ScreenEx() {
     _37f8.setBuffer(2, _3808);
