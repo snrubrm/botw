@@ -39,6 +39,80 @@ void ScreenAppPictureBookUnk::sub_710093F594(bool flag) {
     sub_710093E784(_310);
 }
 
+// 0x710093f670
+// NON_MATCHING: lowering only (all loads/stores/calls/branches match, including both loop
+// skeletons with their reloads, the record/match logic and the select/deselect truth table).
+// Four small diffs remain: _2e4 is loaded before _288 (ours loads them in compare order); the
+// else-path null check is mov+cmp+beq while ours uses cbz; the select block loads _318 after the
+// _10 store while ours loads it before; (all scheduling/codegen-shape, no semantic difference).
+void ScreenAppPictureBookUnk::sub_710093F670() {
+    if ((_2c & 1) == 0)
+        return;
+    u32 n = _298;
+    if ((s32)n < 1)
+        return;
+    u64 count298 = n;
+    u32 lim = n;
+    u64 i = 0;
+    while (true) {
+        if (lim > i) {
+            PictureBookGroupList* group = _2a0[i];
+            if (group && group->_0 >= 1) {
+                u32 count = group->_0;
+                u64 last = (u64)count - 1;
+                u64 j = 0;
+                while (true) {
+                    if (count > j) {
+                        Unk_7102474f10* g = group->_8[j];
+                        if (g) {
+                            ScreenAppPictureBookEntry* entry = g->mEntry;
+                            s32 rb = -1;
+                            if (PictureBookGroupRecord* record = g->mRecord)
+                                rb = record->_c;
+                            bool sel;
+                            if (_288 > _2e4) {
+                                if (_290[_2e4] != entry)
+                                    sel = false;
+                                else
+                                    sel = _2ec == rb;
+                            } else {
+                                if (entry != nullptr)
+                                    sel = false;
+                                else
+                                    sel = _2ec == rb;
+                            }
+                            if (PictureBookItem* item = g->_40) {
+                                bool old = item->_10;
+                                if (!old && sel) {
+                                    item->_10 = true;
+                                    item->m8(_318);
+                                    _318 = item;
+                                }
+                                if (old && !sel) {
+                                    item->_10 = false;
+                                    item->m9();
+                                }
+                            }
+                        }
+                    }
+                    if (last != j) {
+                        count = group->_0;
+                        ++j;
+                        continue;
+                    }
+                    break;
+                }
+            }
+        }
+        ++i;
+        if (i != count298) {
+            lim = _298;
+            continue;
+        }
+        break;
+    }
+}
+
 // 0x710093f7f8
 // NON_MATCHING: scheduling only (original uses an lsl+sub+cbnz byte-countdown while ours
 // normalises to neg+add, and lowers the 7-operand flag expression to branches plus a cset
