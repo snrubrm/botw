@@ -50,6 +50,15 @@ public:
         void x_0();
         // 0x7100854028 (placeholder name): whether the constraint (_2d8) has bit 0 of `_50` set and its `_18` reports so.
         bool sub_7100854028() const;
+        // 0x7100853fb4 (lane4 s64; placeholder name): if `_2f0` bit 0 is set, sets bit 2, requests the constraint's
+        // bit 1 and removes the body from the world.
+        void sub_7100853FB4();
+
+        // lane4 s64: bit indices of `_2f0`. The inline helpers below are inline-only in the original (names are guesses);
+        // their by-value Flag parameters reproduce the stack round trip of the index in sub_7100853FB4.
+        SEAD_ENUM(Flag, _0, _1, _2, _3)
+        bool isFlagOn(Flag flag) const { return _2f0.isOnBit(flag); }
+        void setFlagOn(Flag flag) { _2f0.setDirect((1 << flag) | _2f0.getDirect()); }
 
         /* 0x1f0 */ BaseProcLink _1f0;
         /* 0x200 */ ModelBindInfo _200;
@@ -58,7 +67,7 @@ public:
         /* 0x2e0 */ phys::RigidBody* _2e0 = nullptr;
         /* 0x2e8 */ u32 _2e8 = 0;
         /* 0x2ec */ f32 _2ec = 0.0f;
-        /* 0x2f0 */ bool _2f0 = false;
+        /* 0x2f0 */ sead::BitFlag8 _2f0;  // flags (see Flag)
     };
     KSYS_CHECK_SIZE_NX150(RideInfo, 0x2f8);
 

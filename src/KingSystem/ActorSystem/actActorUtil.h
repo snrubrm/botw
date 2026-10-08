@@ -333,6 +333,10 @@ bool getBoolParam(Actor* actor, const sead::SafeString& name, bool default_value
 // map placement object (no-op for a null actor).
 void getPlacementNameAndUniqueName(Actor* actor, sead::BufferedSafeString* name,
                                    sead::BufferedSafeString* unique_name);
+// 0x7100ee7854 (lane4 s64; placeholder name): fills both strings from the map object of `accessor`'s actor
+// (without clearing them first).
+void sub_7100EE7854(const ActorConstDataAccess& accessor, sead::BufferedSafeString* name,
+                    sead::BufferedSafeString* unique_name);
 // 0x7100ee9a14 (declared only): whether `body` is a player body other than the one whose Havok
 // name is "SensorForArea".
 bool sub_7100EE9A14(phys::RigidBody* body);

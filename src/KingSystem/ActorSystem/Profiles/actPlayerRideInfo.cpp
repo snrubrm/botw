@@ -37,7 +37,16 @@ void Player::RideInfo::m8() {
     _2e0 = mActor->findPhysicsBodyByName("Player", "Riding");
     if (_2e0 && _2d8)
         _2e0->setGravityFactor(0.0f);
-    _2f0 = false;
+    _2f0.makeAllZero();
+}
+
+// NON_MATCHING: identical instructions; the operands of the `and` that tests the flag bit are swapped
+void Player::RideInfo::sub_7100853FB4() {
+    if (_2d8 && _2e0 && isFlagOn(Flag::_0)) {
+        setFlagOn(Flag::_2);
+        _2d8->sub_7100F6A074();
+        _2e0->removeFromWorld();
+    }
 }
 
 }  // namespace ksys::act

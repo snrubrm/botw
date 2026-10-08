@@ -2,6 +2,7 @@
 #include <prim/seadScopedLock.h>
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 
 namespace uking {
 
@@ -103,6 +104,11 @@ bool RuneMgr::__auto15(int idx) {
 f32 RuneMgr::sub_710067582C(int idx) const {
     s64 i = (u32)idx < 2 ? idx : 0;
     return _3c8[i].getProgress();
+}
+
+s32 RuneMgr::sub_7100676104() {
+    const s32 type = ksys::gdt::getFlag_PlayerEquipItemType(false);
+    return _240 = _24c = _248 = u32(type) > 7 ? -1 : type;
 }
 
 }  // namespace uking

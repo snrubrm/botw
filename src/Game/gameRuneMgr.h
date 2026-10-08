@@ -47,6 +47,9 @@ public:
     void sub_710067594C();  // `_170` (CSV __auto5)
     void setFlag1F8();
 
+    // 0x7100676104 (lane4 s64; placeholder name): reads the equipped item type game data (-1 when it is above 7) into
+    // _248, _24c and _240.
+    s32 sub_7100676104();
     s32 getCurrentItem();
     void setCurrentItem(s32 item);
 

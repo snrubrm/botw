@@ -81,6 +81,15 @@ void getPlacementNameAndUniqueName(Actor* actor, sead::BufferedSafeString* name,
         getNameAndUniqueName(actor->getMapObject(), name, unique_name);
 }
 
+void sub_7100EE3CAC(Actor* actor, s32 message, void* user_data) {
+    actor->sub_71011D8AFC(1, 3, message, user_data, nullptr);
+}
+
+void sub_7100EE7854(const ActorConstDataAccess& accessor, sead::BufferedSafeString* name,
+                    sead::BufferedSafeString* unique_name) {
+    getNameAndUniqueName(accessor.getMapObject(), name, unique_name);
+}
+
 int getSelectedChoiceIdx(int max_idx, const char* query_name) {
     auto* ui = uking::ui::UI::instance();
     if (!ui)

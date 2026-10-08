@@ -1,6 +1,8 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <container/seadSafeArray.h>
+#include <thread/seadCriticalSection.h>
 
 namespace uking {
 class Unk_710243b770;
@@ -17,8 +19,18 @@ public:
 
     u8 _0[0xd4];
     /* 0xd4 */ s32 _d4;
-    u8 _d8[0x195 - 0xd8];
-    /* 0x195 */ u8 _195;
+    u8 _d8[0x108 - 0xd8];
+    // lane4 s64 (from NFP::sub_F45CF0 / sub_F45D5C): a ring buffer of 16 requests (2: sub_F45CF0, 3: sub_F45D5C)
+    // written at `mWriteIndex` under the lock `mCS` of `_108`.
+    struct RequestQueue {
+        sead::CriticalSection mCS;
+        sead::SafeArray<s32, 16> mRequests;
+        u8 _80[4];
+        s32 mWriteIndex;
+    };
+    /* 0x108 */ RequestQueue _108;
+    u8 _190[4];
+    /* 0x194 */ u16 _194;  // flags; bits 9 and 11 (0x200 / 0x800) are tested / set by NFP
 };
 
 // Name from the CSV (NFP::createInstance 0xf45988, NFP::init, NFP::quitThread, NFPThread::*): the
@@ -41,7 +53,7 @@ public:
 
     // 0xf45ce8 (CSV NFP::returnFalse).
     bool returnFalse() const;
-    // 0xf45cf0 (CSV NFP::c) / 0xf45d5c: queue a request (2 / 3) on the NFP thread.
+    // 0xf45cf0 (CSV NFP::c) / 0xf45d5c: set flag 0x800 and queue a request (2 / 3) on the NFP thread.
     void sub_F45CF0();
     void sub_F45D5C();
     // 0x7100f45bb8 (placeholder name): false without a thread, else whether the thread's `_d4` is outside 3-4.

@@ -445,6 +445,9 @@ public:
     // 0x71011d8a54 (declared only; lane1 s21): mChemical->(0x7100e381dc)(name) — the chemical called
     // `name` (e.g. EnemyChemicalSelect::init_), null without a chemical container.
     Chemical* sub_71011D8A54(const sead::SafeString& name);
+    // 0x71011d8afc (declaration only; lane4 s64, placeholder name; 208 B): sub_7100EE3CAC calls it with (1, 3, message,
+    // user_data, nullptr).
+    void sub_71011D8AFC(s32 a1, s32 a2, s32 message, void* user_data, void* a5);
     // The spine controller of the bone control (BoneControl::_0->_10), if any.
     Unk_7100d860d8* sub_71011D8A10();
     Unk_7100d8557c* sub_71011D89F8();

@@ -49,6 +49,16 @@ void LifeRecoverInfo::sub_7100D68D54() {
     mFlags &= ~(1 << int(enabled));
 }
 
+void LifeRecoverInfo::sub_7100D68AD4() {
+    mExtraHp1 = sead::Mathf::min(f32(mExtraHp2), 0.0f);
+    const Flag first(1);
+    mFlags &= ~(1 << int(first));
+    mTimer.value = mField_2C;
+    mTimer.previous_value = mField_2C;
+    const Flag second(1);
+    mFlags &= ~(1 << int(second));
+}
+
 void LifeRecoverInfo::onApplyDamage_0() {
     mTimer.value = mField_2C;
     mTimer.previous_value = mField_2C;
