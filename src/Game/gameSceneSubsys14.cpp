@@ -1,5 +1,22 @@
 #include "Game/gameSceneSubsys14.h"
 
+// 0x7100903408. `.operator=(...)` instead of `a = b`: C++14 evaluation order: the original evaluates
+// the destination first.
+bool Unk_71024735b0::m2(const ksys::Message& message) {
+    if (message.getType() != 0x8000083)
+        return false;
+
+    auto* payload = static_cast<Unk_71024735b0_Payload*>(message.getUserData());
+    if (!payload)
+        return false;
+
+    sead::ScopedLock<sead::JobQueueLock> lock(&payload->mLock);
+    _38 = payload->_0;
+    _40 = payload->_8;
+    _48.operator=(payload->_10);
+    return true;
+}
+
 SEAD_SINGLETON_DISPOSER_IMPL(GameSceneSubsys14)
 
 // NON_MATCHING: the members now have the layout of the original, but the library's FixedSafeString<256> constructor

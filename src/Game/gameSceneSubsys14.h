@@ -43,11 +43,22 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(Unk_7102473580, 0x170);
 
+// Message 0x8000083 payload read by Unk_71024735b0::m2 (placeholder name; sender unknown).
+struct Unk_71024735b0_Payload {
+    bool _0;
+    u8 _1[7];
+    s32 _8;
+    ksys::act::BaseProcLink _10;
+    sead::JobQueueLock mLock;
+};
+
 // Vtable 0x71024735b0 (GOT 0x2593a60; D1 0x7100903bd0, D0 0x7100904fd4, m2 0x7100903408). Message listener embedded at
 // GameSceneSubsys14 + 0x340.
 class Unk_71024735b0 : public Unk_7102357210 {
 public:
     bool m2(const ksys::Message& message) override;
+    // 0x7100905030
+    void m3() override {}
 
     u32 _34;
     bool _38 = true;
