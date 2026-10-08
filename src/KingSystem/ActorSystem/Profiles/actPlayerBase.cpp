@@ -1,4 +1,5 @@
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include <gsys/gsysModel.h>
 #include "Game/Actor/actHorseRideInfo.h"
@@ -1423,6 +1424,13 @@ bool PlayerBase::sub_710084CF74() {
     if (auto* chemical = getChemicalStuff())
         return chemical->sub_7100D91508();
     return false;
+}
+
+bool PlayerBase::sub_710084BDEC() {
+    if (!sub_71007A2604(this))
+        return false;
+    auto* info = sub_71007A255C(this, 0);
+    return (info->_18 >> 1) & 1;
 }
 
 }  // namespace ksys::act

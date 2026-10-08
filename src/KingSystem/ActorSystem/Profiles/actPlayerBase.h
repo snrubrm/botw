@@ -311,6 +311,9 @@ public:
     bool sub_710084CE04();
     // 0x84cef8 / 0x84cf24 / 0x84cf74: read the Chemical (getChemicalStuff()).
     bool sub_710084CEF8();
+    // 0x710084bdec (64 B; declared only): sub_71007A2604(this) and bit 1 of
+    // sub_71007A255C(this, 0)+0x18. Placeholder name. Sole caller: DamageMgrPlayer::m47.
+    bool sub_710084BDEC();
     bool sub_710084CF24();
     bool sub_710084CF74();
     bool checkCanUseRuneCommon();            // 0x84c04c
