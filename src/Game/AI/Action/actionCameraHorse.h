@@ -33,6 +33,21 @@ protected:
     void sub_71007711DC(f32* out);
     void sub_7100771684(f32* out);
 
+    // Native state selection, transition and angle dispatch helpers.
+    void sub_7100770474();
+    void sub_7100770574();
+    void sub_71007719C4();
+    void sub_7100771C30(f32* out);
+    void sub_7100771DA8(f32* out);
+    void sub_710077066C(u8 previous_state);
+    void sub_7100770B98();
+    void sub_7100770DA8();
+    void sub_7100771008(f32* out);
+    void sub_71007712B0(f32* out);
+    void sub_7100771480(f32* out);
+    void sub_710077154C(f32* out);
+    void sub_7100771758(f32* out);
+
     // A value that follows a parameter (m33 starts it from *startCus).
     struct Unk1 {
         f32 _0 = 0;
@@ -50,7 +65,7 @@ protected:
     f32 _60 = angleStuff(0);
     f32 _64 = angleStuff(0);
     f32 _68 = 0;
-    u8 _6c[0x78 - 0x6c];
+    sead::Vector3f _6c;  // transition start look-at position (0x7100770b98 / 0x7100770da8)
     sead::Vector3f _78 = sead::Vector3f::zero;
     f32 _84 = 0;
     f32 _88 = 0;
