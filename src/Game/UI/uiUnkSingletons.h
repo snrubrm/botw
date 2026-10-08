@@ -1,6 +1,7 @@
 #pragma once
 
 #include <container/seadOffsetList.h>
+#include <prim/seadEnum.h>
 #include <heap/seadDisposer.h>
 #include <container/seadPtrArray.h>
 #include <math/seadVector.h>
@@ -407,6 +408,12 @@ public:
     // set `_3868` / `_3870` to the given vector clamped to half the extent of the map bounds when `_848` is set
     bool sub_7100964174() const;
     void sub_7100968D10(bool set);
+
+    // A 4-byte SEAD_ENUM-like id (the argument is spilled to the stack and reloaded; placeholder name and no enumerators)
+    SEAD_ENUM(Pin, _0)
+    // 0x710096349c (placeholder name): maps the ids 0x1b .. 0x20 to 0 .. 5, 0x21 .. 0x23 to 11 .. 13 and 0x25 .. 0x29 to
+    // 6 .. 10 (-1 for the others)
+    s32 sub_710096349C(Pin pin) const;
     void sub_7100966D0C(const sead::Vector2f& value);
     void sub_7100966350(const sead::Vector2f& value);
     sead::Vector2f* getVec3870();

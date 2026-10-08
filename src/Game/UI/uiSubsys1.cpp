@@ -339,6 +339,25 @@ void UiSubsys1::sub_7100966D0C(const sead::Vector2f& value) {
     _3868 = result;
 }
 
+// 0x710096349c
+s32 UiSubsys1::sub_710096349C(Pin pin) const {
+    s32 base;
+    s32 first;
+    if (pin >= 0x1b && pin < 0x21) {
+        first = 0;
+        base = 0x1b;
+    } else if (pin >= 0x21 && pin < 0x24) {
+        first = 11;
+        base = 0x21;
+    } else if (pin >= 0x25 && pin <= 0x29) {
+        first = 6;
+        base = 0x25;
+    } else {
+        return -1;
+    }
+    return pin + (first - base);
+}
+
 // 0x7100968d5c
 bool UiSubsys1::has3864Bit0() const {
     return _3864 & 1;
