@@ -21,6 +21,10 @@ protected:
     void m34() override;
     void m36() override;
 
+    // 0x71007893f4 (placeholder name): moves the camera's _ac towards the target, the camera matrix's
+    // translation (y raised by OffsetYBase) plus its z axis times OffsetZ (the target is zero without a camera).
+    void sub_71007893F4();
+
     act::Unk_7102459dd8 _50;
     act::Unk_7102459dd8 _70;
     f32 _90 = 1.0;

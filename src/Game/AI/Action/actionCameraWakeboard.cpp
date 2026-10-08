@@ -49,4 +49,19 @@ void CameraWakeboard::m36() {
     getStaticParam(&mAutoModeConnect_s, "AutoModeConnect");
 }
 
+void CameraWakeboard::sub_71007893F4() {
+    sead::Vector3f target = sead::Vector3f::zero;
+    if (auto* camera = getCamera()) {
+        const sead::Matrix34f& mtx = camera->_860._444;
+        target = mtx.getTranslation();
+        target.y += *mOffsetYBase_s;
+        target += mtx.getBase(2) * *mOffsetZ_s;
+    }
+    const f32 rate_xz = sub_7100791E44(_cc);
+    const f32 rate_y = sub_7100791E44(_d0);
+    _ac.x += rate_xz * (target.x - _ac.x);
+    _ac.y += rate_y * (target.y - _ac.y);
+    _ac.z += rate_xz * (target.z - _ac.z);
+}
+
 }  // namespace uking::action
