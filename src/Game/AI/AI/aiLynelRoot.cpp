@@ -51,12 +51,18 @@ void LynelRoot::enter_(ksys::act::ai::InlineParamPack* params) {
         mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_2000000);
 
     const s32 count = sub_71005D7854(mActor);
-    for (s32 i = 0; i < count; ++i)
-        sub_71005DB6D0(mActor, i);
+    if (count >= 1) {
+        s32 i = 0;
+        do {
+            sub_71005DB6D0(mActor, i);
+            ++i;
+        } while (i != count);
+    }
 
     {
-        if (auto* controller = mActor->getCharacterController()) {
-            if (auto* as_list = mActor->getASList()) {
+        auto* actor = mActor;
+        if (auto* controller = actor->getCharacterController()) {
+            if (auto* as_list = actor->getASList()) {
                 sead::Vector3f velocity;
                 if (!controller->sub_7100F5F234(&velocity))
                     velocity = sead::Vector3f::ey;
