@@ -5,6 +5,7 @@
 #include "Game/Actor/actHorseRideInfo.h"
 #include "Game/Actor/actWeapon.h"
 #include "Game/Damage/dmgDamageManagerBase.h"
+#include "Game/Damage/dmgDamageMgrPlayer.h"
 #include "KingSystem/ActorSystem/actChemical.h"
 #include "Game/gameRuneMgr.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
@@ -47,6 +48,36 @@ bool sub_710084BD40(ksys::act::Actor* actor) {
 // neighbours); called by PlayerAttack::calc_ and PlayerNormal::calc_.
 bool playerHasAttackInfo(ksys::act::Actor* actor) {
     return hasAttackInfo(actor);
+}
+
+// 0x710084beec: tail-calls eventMgrHasActiveEvent (the actor argument is ignored).
+// Lives here (PlayerBase's TU, by address neighbours); called by PlayerBase TU
+// functions and PlayerNormal::leave_.
+bool j_eventMgrHasActiveEventMaybe(ksys::act::Actor* actor) {
+    static_cast<void>(actor);
+    return eventMgrHasActiveEvent();
+}
+
+// 0x710084be2c: sub_71007A255C(actor, 0). Lives here (PlayerBase's TU, by address
+// neighbours); called by Player::m303.
+ksys::act::ActorAtk::Unk_710079e64c::Unk1* sub_710084BE2C(ksys::act::Actor* actor) {
+    return sub_71007A255C(actor, 0);
+}
+
+// 0x710084bd48 (CSV Player::x_54, a misnomer: not Player slot 54, which is
+// Actor::killWithDropsAndEffects; no callers or vtable entry found): whether the
+// actor's damage manager is a DamageMgrPlayer whose _22c timer is positive.
+// Free function in PlayerBase's TU like its neighbours.
+// NON_MATCHING (m): identical except the tail: the original keeps explicit
+// branches (b.le to a shared `return false`), ours if-converts the float test
+// to cset (same value on all inputs including NaN). No natural source form
+// was found that keeps the branches (early-return, nested and negated forms
+// all fold; see session log).
+bool sub_710084BD48(ksys::act::Actor* actor) {
+    auto* mgr = actor->getDamageMgr();
+    if (!sead::IsDerivedFrom<uking::dmg::DamageMgrPlayer>(mgr))
+        return false;
+    return static_cast<uking::dmg::DamageMgrPlayer*>(mgr)->_22c > 0.0f;
 }
 
 namespace ksys::act {
