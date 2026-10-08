@@ -159,8 +159,23 @@ void Unk_710104e5b4::sub_710104F920(bool on) {
     }
 }
 
+Unk_SoundMgr30* sub_7100FFD71C() {
+    auto* sound = SoundMgr::instance();
+    if (sound && sound->_30)
+        return sound->_30;
+    return nullptr;
+}
+
+Unk_SoundMgr30_8* sub_7100FFD73C() {
+    return SoundMgr::instance()->_30->_8;
+}
+
 Unk_SoundMgr30_10* sub_7100FFD754() {
     return SoundMgr::instance()->_30->_10;
+}
+
+Unk_SoundMgr30_18* sub_7100FFD76C() {
+    return SoundMgr::instance()->_30->_18;
 }
 
 Unk_SoundMgr30_78* sub_7100FFD784() {

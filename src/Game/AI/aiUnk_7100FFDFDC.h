@@ -1,22 +1,17 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include "KingSystem/Sound/sndBgmMgr.h"
 
 // Placeholder classes (types unknown): the BGM controller objects returned by the BGM manager lookups at
 // 0x7100ffdfdc / 0x7100ffdea8 / 0x7100ffe468 / 0x7100ffe5ec / 0x7100ffe6ec (each finds an entry of the list at
 // `sub_7100FFD79C()` + 8 by index and casts it; declaration only). Used by the BGM behaviors
 // (AssassinBossBgm*, BeastGanonBgm*, EnemyGanonBgmStop, CurseGanonBGMApplyLPF, SandwormBgmControl).
 
-// 0x7100ffdfdc: entry 0xe (the assassin boss BGM).
-class Unk_7100ffdfdc {
-public:
-    // 0x7100ff61bc (4 B, empty; CSV nullsub_4300)
-    void sub_7100FF61BC();
-    void sub_7100FF61C0();
-    void sub_7100FF6220();
-    void sub_7100FF6268();
-};
-Unk_7100ffdfdc* sub_7100FFDFDC();
+// 0x7100ffdfdc: entry 0xe (the assassin boss BGM): ksys::snd::sub_7100FFDFDC (sndBgmMgr.h) returns it as
+// ksys::snd::Unk_710260f048.
+using Unk_7100ffdfdc = ksys::snd::Unk_710260f048;
+using ksys::snd::sub_7100FFDFDC;
 
 // 0x7100ffdea8 (the object itself is only tested for null by SandwormBgmControl::m8).
 class Unk_7100ffdea8 {

@@ -56,6 +56,13 @@ class Unk_710260f288 : public Unk_71025ce380 {
 // RTTI typeInfo 0x710260f048, derived from Unk_71025ce380 (sub_7100FFDFDC casts BGM kind 14 to it).
 class Unk_710260f048 : public Unk_71025ce380 {
     SEAD_RTTI_OVERRIDE(Unk_710260f048, Unk_71025ce380)
+public:
+    // The assassin boss BGM (was Unk_7100ffdfdc in Game/AI/aiUnk_7100FFDFDC.h).
+    // 0x7100ff61bc (4 B, empty; CSV nullsub_4300)
+    void sub_7100FF61BC();
+    void sub_7100FF61C0();
+    void sub_7100FF6220();
+    void sub_7100FF6268();
 };
 
 // RTTI typeInfo 0x710260f1a8, derived from Bgm (sub_7100FFE14C casts BGM kind 5 to it).
@@ -178,19 +185,31 @@ Unk_710260f288* sub_7100FFDDF0();
 Unk_710260f048* sub_7100FFDFDC();
 Unk_710260f1a8* sub_7100FFE14C();
 
+// Placeholders (types unknown): SoundMgr::_30->_8 / _18 (returned by sub_7100FFD73C / sub_7100FFD76C).
+struct Unk_SoundMgr30_8;
+struct Unk_SoundMgr30_18;
+
 // Placeholder name (SoundMgr::_30): the BGM side of the sound manager.
 struct Unk_SoundMgr30 {
     // 0x7100ff8804 (declared only; 164 B): called by SoundMgr::sub_71011FC288.
     void sub_7100FF8804();
 
-    u8 _0[0x10];
+    u8 _0[0x8];
+    /* 0x08 */ Unk_SoundMgr30_8* _8;
     /* 0x10 */ Unk_SoundMgr30_10* _10;
-    u8 _18[0x30];
+    /* 0x18 */ Unk_SoundMgr30_18* _18;
+    u8 _20[0x28];
     /* 0x48 */ Unk_71024fca78* _48;
     u8 _50[0x10];
     /* 0x60 */ aal::SimpleTimedFader _60;
     /* 0x78 */ Unk_SoundMgr30_78* _78;
 };
+
+// 0x7100ffd71c (32 B): `SoundMgr::instance()->_30`, or null without a SoundMgr. Placeholder name.
+Unk_SoundMgr30* sub_7100FFD71C();
+// 0x7100ffd73c / 0x7100ffd76c (24 B): `SoundMgr::instance()->_30->_8` / `->_18`. Placeholder names.
+Unk_SoundMgr30_8* sub_7100FFD73C();
+Unk_SoundMgr30_18* sub_7100FFD76C();
 
 // 0x7100ffd754 (24 B): `SoundMgr::instance()->_30->_10`.
 Unk_SoundMgr30_10* sub_7100FFD754();
