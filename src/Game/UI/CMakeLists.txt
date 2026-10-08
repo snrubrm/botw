@@ -26,6 +26,7 @@ target_sources(uking PRIVATE
   euiSelectButton.cpp
   euiButtonGroup.cpp
   euiControlBase.cpp
+  euiControlCreator.cpp
   euiControlBase.h
   euiGrammar.cpp
   euiTagProcessor.cpp

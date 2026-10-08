@@ -244,6 +244,8 @@ public:
     NN_RUNTIME_TYPEINFO(AnimButton)
     const char* getClassName() const override { return "DecisionButton"; }
 
+    // 0x7100bd8948 inlines this constructor after AnimButton.
+    DecisionButton() { mFlags |= 0x20; }
     DecisionButton(const DecisionButton& other, LayoutEx* layout, sead::Heap* heap);
 
     bool ProcessOn() override;
@@ -258,6 +260,8 @@ public:
     NN_RUNTIME_TYPEINFO(AnimButton)
     const char* getClassName() const override { return "NormalButton"; }
 
+    // 0x7100bd8920 inlines the trivial derived constructor.
+    NormalButton() = default;
     NormalButton(const NormalButton& other, LayoutEx* layout, sead::Heap* heap);
 };
 static_assert(sizeof(NormalButton) == 0x68);
