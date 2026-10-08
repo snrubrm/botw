@@ -22,8 +22,6 @@ public:
 
 protected:
     /* 0x80 */ Unk_710038ffb8 _80;
-    /* 0x448 */ u8 _448;  // bit 0: changeable, bit 3: cleared when the child ends
-    u8 _449[0x450 - 0x449];
 };
 
 }  // namespace uking::ai

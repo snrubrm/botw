@@ -40,8 +40,6 @@ protected:
     // static_param at offset 0x60
     sead::SafeString mEatItem_s{};
     /* 0x70 */ Unk_710038ffb8 _70;
-    /* 0x438 */ u8 _438;  // bit 0: changeable, bit 3: set from `_450`
-    u8 _439[0x440 - 0x439];
     /* 0x440 */ ksys::act::BaseProcHandle _440;
     /* 0x450 */ bool _450 = false;
     bool _451 = false;

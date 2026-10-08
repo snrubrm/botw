@@ -26,17 +26,17 @@ void EnemyFortressWait::enter_(ksys::act::ai::InlineParamPack* params) {
         _440.deleteProcIfFailed();
 
     if (!mFortressEatItem_m.isEmpty() && (_440.isAllocatedOrFailed() || _440.isProcReady())) {
-        _438 |= 0x28;
+        _70._3c8 |= 0x28;
         changeToEat();
         return;
     }
 
     if (!(_440.isAllocatedOrFailed() || _440.isProcReady()) || !sub_71003C3C68()) {
-        _438 &= ~0x20;
+        _70._3c8 &= ~0x20;
         EnemyWaitViewItem::enter_(params);
         return;
     }
-    _438 |= 0x28;
+    _70._3c8 |= 0x28;
     changeToEat();
 }
 
@@ -47,14 +47,14 @@ void EnemyFortressWait::calc_() {
         _440.deleteProcIfFailed();
 
     if (isCurrentChild("食事")) {
-        _438 |= 0x20;
+        _70._3c8 |= 0x20;
         auto* proc = mActor->getConnectedCalcChild();
         if (sead::DynamicCast<ksys::act::Actor>(proc)) {
             if (auto* mgr = sub_71005D9D68(mActor))
                 mgr->sub_71002DC3A8(proc, 0x100);
         }
     } else {
-        _438 &= ~0x20;
+        _70._3c8 &= ~0x20;
     }
     _70.sub_7100390ABC();
     _70.getTargetLink() = *mTargetActor_d;
@@ -66,7 +66,7 @@ void EnemyFortressWait::calc_() {
             case 3:
                 if (!isCurrentChild("食事") && sub_71003C3C68() &&
                     (_440.isAllocatedOrFailed() || _440.isProcReady())) {
-                    _438 |= 8;
+                    _70._3c8 |= 8;
                     changeToEat();
                     return;
                 }
@@ -77,7 +77,7 @@ void EnemyFortressWait::calc_() {
                         sub_71003C3A2C(false);
                         return;
                     }
-                    _438 |= 8;
+                    _70._3c8 |= 8;
                     changeToEat();
                 }
                 break;
@@ -89,10 +89,10 @@ void EnemyFortressWait::calc_() {
                 break;
             }
         }
-        if (!isCurrentChild("食事") && !(_438 & 1))
+        if (!isCurrentChild("食事") && !(_70._3c8 & 1))
             EnemyWaitViewItem::calc_();
     } else {
-        _438 = _451 ? (_438 | 8) : (_438 & ~8);
+        _70._3c8 = _451 ? (_70._3c8 | 8) : (_70._3c8 & ~8);
         const s32 result = _70.sub_7100390D0C();
         if (result == 1) {
             if (_440.isProcReady())
@@ -103,7 +103,7 @@ void EnemyFortressWait::calc_() {
         }
         if (result == 2 || isCurrentChild("食事")) {
             sub_71003C3A2C(false);
-        } else if (!isCurrentChild("食事") && !(_438 & 1)) {
+        } else if (!isCurrentChild("食事") && !(_70._3c8 & 1)) {
             EnemyWaitViewItem::calc_();
         }
     }
@@ -132,23 +132,23 @@ bool EnemyFortressWait::handleMessage_(const ksys::Message* message) {
 }
 
 bool EnemyFortressWait::isChangeable() const {
-    return getCurrentChild()->isChangeable() || (_438 & 1);
+    return getCurrentChild()->isChangeable() || (_70._3c8 & 1);
 }
 
 void EnemyFortressWait::m34() {
     _450 = true;
     _451 = false;
-    _438 &= ~8;
+    _70._3c8 &= ~8;
 }
 
 void EnemyFortressWait::m35() {
     _451 = _450;
-    _438 = _450 ? (_438 | 8) : (_438 & ~8);
+    _70._3c8 = _450 ? (_70._3c8 | 8) : (_70._3c8 & ~8);
 }
 
 void EnemyFortressWait::m36() {
     _451 = _450;
-    _438 = _450 ? (_438 | 8) : (_438 & ~8);
+    _70._3c8 = _450 ? (_70._3c8 | 8) : (_70._3c8 & ~8);
 }
 
 }  // namespace uking::ai

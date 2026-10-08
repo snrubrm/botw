@@ -22,7 +22,7 @@ void EnemyFortressWatchKeepingWait::calc_() {
     _80.sub_7100390ABC();
     auto* child = getCurrentChild();
     if (child->isFinished() || child->isFailed()) {
-        _448 &= ~8;
+        _80._3c8 &= ~8;
         const s32 result = _80.sub_7100390D0C();
         if (result == 1)
             return;
@@ -57,7 +57,7 @@ bool EnemyFortressWatchKeepingWait::handleMessage_(const ksys::Message* message)
 }
 
 bool EnemyFortressWatchKeepingWait::isChangeable() const {
-    return getCurrentChild()->isChangeable() || (_448 & 1) || isCurrentChild("サボり");
+    return getCurrentChild()->isChangeable() || (_80._3c8 & 1) || isCurrentChild("サボり");
 }
 
 }  // namespace uking::ai
