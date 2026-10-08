@@ -96,6 +96,10 @@ void Unk_710244fee8::m10() {
     (&_20)->m3();
 }
 
+void Unk_71025ae680::sub_71006DF750() {
+    m13(11);
+}
+
 ksys::res::DamageParam* Unk_71025ae680::sub_71006DF5A4() {
     if (!_10 || !_10->getParam())
         return nullptr;
