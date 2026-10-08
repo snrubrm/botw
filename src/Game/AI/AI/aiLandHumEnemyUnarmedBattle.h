@@ -39,6 +39,9 @@ public:
     // 0x7100470d54 (placeholder name): the "Grab" attention client of the actor of `link` accepts a grab at the actor's
     // matrix moved by AttOffset (scaled by the actor's scale) within GrabCheckRadius.
     bool sub_7100470D54(ksys::act::BaseProcLink* link, bool a2);
+    // 0x7100472020 (placeholder name): Enemy::sub_710001A204 with the positions of the actor of `link`
+    // and of our actor, sub_71005D9330 and SearchWeaponTargetDist; true when not an Enemy.
+    bool sub_7100472020(const ksys::act::BaseProcLink* link);
 
 protected:
     struct Params {

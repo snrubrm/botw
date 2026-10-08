@@ -235,6 +235,10 @@ public:
     void sub_7100019C58(ksys::act::Actor* actor);
     void sub_7100019D38(const ksys::act::BaseProcLink& link);
     bool sub_7100019A9C(const ksys::act::BaseProcLink& link);
+    // 0x710001a204 (declaration only, lane1 s65; placeholder name): true when `radius` <= 0, false when
+    // `pos` is farther than `radius` from the segment b-a, else the result of 0x710001a2b0.
+    bool sub_710001A204(const sead::Vector3f& a, const sead::Vector3f& b, const sead::Vector3f& pos,
+                        f32 radius);
 
 protected:
     InitResult init_() override;

@@ -163,4 +163,17 @@ void LandHumEnemyUnarmedBattle::changeToBattle() {
     changeChild("戦闘", &pack);
 }
 
+bool LandHumEnemyUnarmedBattle::sub_7100472020(const ksys::act::BaseProcLink* link) {
+    auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
+    if (!enemy)
+        return true;
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(link, &accessor);
+    sead::Vector3f target;
+    accessor.getActorMtx().getTranslation(target);
+    const sead::Vector3f self = enemy->getMtx().getTranslation();
+    return enemy->sub_710001A204(target, self, sub_71005D9330(mActor),
+                                 *mParams.mSearchWeaponTargetDist_s);
+}
+
 }  // namespace uking::ai
