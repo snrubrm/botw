@@ -21,7 +21,8 @@ public:
     virtual void m34();
     virtual sead::Vector3f m35();
     virtual bool m36();
-    virtual void m37();
+    virtual void m37(ksys::act::BaseProcHandle* handle);
+    void sub_710035A00C(ksys::act::InstParamPack* pack, const sead::Vector3f* pos);
 
 protected:
     // static_param at offset 0x38
