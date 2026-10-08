@@ -2987,8 +2987,27 @@ public:
     UiTexSlots _3610;
 };
 
+// Tag-argument block at ScreenShopInfo +0x3788: a FixedSafeString<64> (the ScreenShopInfo ctor
+// carries its two vtable stores) followed by the selector u32s the 0xaa4b4c/0xaa4e70 tag handlers
+// compare (read through the 0xaa4e60/0xaa5140 forwarders as +0x58/+0x5c; the ctor writes both halves
+// with one 0x1ffffffff store).
+struct ShopInfoTagData {
+    sead::FixedSafeString<64> str;
+    u32 _58 = 0xffffffff;
+    u32 _5c = 1;
+};
+
+// 0x7100aa4b4c / 0x7100aa4e70 (CSV placeholders, not decompiled yet): resolve a shop tag into `out`
+// (the handlers compare the selector against a table and copy the found message).
+u32 sub_7100AA4B4C(ShopInfoTagData* data, u32 selector, sead::WBufferedSafeString* out);
+u32 sub_7100AA4E70(ShopInfoTagData* data, u32 sel_lo, u32 sel_hi, sead::WBufferedSafeString* out);
+// 0x7100aa4e60 / 0x7100aa5140 (CSV placeholders): forwarders reading the selector from the tag data.
+u32 sub_7100AA4E60(ShopInfoTagData* data, sead::WBufferedSafeString* out);
+u32 sub_7100AA5140(ShopInfoTagData* data, sead::WBufferedSafeString* out);
+
 class ScreenShopInfo : public ScreenEx {
 public:
+    ScreenShopInfo();
     const char* getLayoutName_() const override;
     void m94() override;
     void m96() override;
@@ -2996,14 +3015,29 @@ public:
     ~ScreenShopInfo() override;
     SEAD_RTTI_OVERRIDE(ScreenShopInfo, ScreenEx)
     eui::TagProcessor* doCreateTagProcessor_(sead::Heap* heap) override;
+    // 0x7100a51790 (CSV placeholder): app-tag router bound to _3768 (TagInfo type 7 routes to
+    // sub_7100AA4E60, type 8 to sub_7100AA5140; anything else returns 0).
+    u32 sub_7100A51790(const sead::MessageSet<char16>::TagInfo* tag,
+                       sead::WBufferedSafeString* out);
 
     u8 _pad_3610[0x3658 - 0x3610];
     sead::PtrArray<Unk_Elem> _3658;
     u8 _pad_3668[0x3678 - 0x3668];
     Unk_710247dc70 _3678;
-    /* 0x3690 */ eui::LayoutEx* _3690;
+    /* 0x3690 */ eui::LayoutEx* _3690 = nullptr;
 
     UiTexSlots _3698;
+    // App-tag delegate (bound to sub_7100A51790 in the ctor; invoke 0x7100a534e8, clone 0x7100a5351c).
+    // The second argument and u32 return are guesses from the 0xaa4b4c/0xaa4e70 handlers (buffer at
+    // +8, size at +0x10; the handlers return a 32-bit value).
+    /* 0x3768 */ sead::Delegate2R<ScreenShopInfo, const sead::MessageSet<char16>::TagInfo*,
+                                  sead::WBufferedSafeString*, u32>
+        _3768;
+    // Tag-argument block (seen by the 0xaa4e60/0xaa5140 forwarders): a FixedSafeString<64> (its two
+    // vtable stores are in the ctor) followed by the selector u32s the handlers compare. A plain
+    // composition (not a derived struct, which would get its own vtable) with no mem-init (a `: _x()`
+    // value-init emits a zeroing memset first).
+    /* 0x3788 */ ShopInfoTagData _3788;
 };
 
 class ScreenAppAlbum : public ScreenEx {

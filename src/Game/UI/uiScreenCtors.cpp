@@ -256,6 +256,16 @@ ScreenStaffRollDLC::ScreenStaffRollDLC() : ScreenEx() {
     _36a0 = 0;
 }
 
+// 0x7100a51698
+// NON_MATCHING: init order only (all offsets/values/calls match: the delegate bind, the
+// FixedSafeString<64> build and the u64 store are identical). Two differences remain: our lib sead
+// zeroes the _3658 PtrArray members via NSDMI (two extra str xzr; the original's older sead did not,
+// its memset covered them), and the original hoists the 0x68-byte memset above the member
+// constructions (bl) while ours runs it last (tail b).
+ScreenShopInfo::ScreenShopInfo() : ScreenEx(), _3768(this, &ScreenShopInfo::sub_7100A51790) {
+    memset(_pad_3610, 0, 0x68);
+}
+
 
 
 }  // namespace uking::ui

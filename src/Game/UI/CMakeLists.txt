@@ -163,6 +163,7 @@ target_sources(uking PRIVATE
   uiScreens.h
   uiShopFacade.cpp
   uiShopSmall.cpp
+  uiShopTagHelpers.cpp
   uiScreenSmall.cpp
   uiShopMgr.h
   uiShopMgrSmall.cpp
