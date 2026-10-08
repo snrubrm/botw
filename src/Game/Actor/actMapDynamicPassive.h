@@ -2,6 +2,10 @@
 
 #include "KingSystem/ActorSystem/Profiles/actDynamicActor.h"
 
+namespace ksys::map {
+class Object;
+}  // namespace ksys::map
+
 namespace uking::act {
 
 // Name from the CSV (MapDynamicPassive::*; the namespace is a guess). Factory 0x710001c304: new(0xb98) +
@@ -30,6 +34,9 @@ public:
     void m73() override;
     void m76(ksys::VFR::ScopedDeltaSetter* setter) override;
     void onPlacementObjReset() override;
+
+    // 0x710001c378 (placeholder name): stores `obj` in `_b90` and sets its Flag0 bit 0x800000.
+    void sub_710001C378(ksys::map::Object* obj);
 
     /* 0xb90 */ ksys::map::Object* _b90 = nullptr;
 };

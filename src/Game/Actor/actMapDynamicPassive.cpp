@@ -7,6 +7,12 @@
 
 namespace uking::act {
 
+void MapDynamicPassive::sub_710001C378(ksys::map::Object* obj) {
+    _b90 = obj;
+    if (obj)
+        obj->setFlags0(ksys::map::Object::Flag0::_800000);
+}
+
 MapDynamicPassive::MapDynamicPassive(const CreateArg& arg) : DynamicActor(arg) {
     _1c0 = 3;
 }
