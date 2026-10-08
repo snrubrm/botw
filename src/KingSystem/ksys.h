@@ -30,7 +30,7 @@ bool checkPreInitializeResourcesStillLoading();
 // 0x0000007100f40370
 void setPlayerLink(act::PlayerLink* link);
 
-// 0x0000007100f3ed80 / 0x0000007100f3ee94 (placeholder names): forward to the placement manager and the world
+// 0x7100f3ed80 / 0x7100f3ee94 (placeholder names): forward to the placement manager and the world
 // manager when they exist.
 void sub_7100F3ED80();
 void sub_7100F3EE94();

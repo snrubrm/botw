@@ -44,7 +44,7 @@ public:
     // 0xf45cf0 (CSV NFP::c) / 0xf45d5c: queue a request (2 / 3) on the NFP thread.
     void sub_F45CF0();
     void sub_F45D5C();
-    // 0xf45bb8 (placeholder name): false without a thread, else whether the thread's `_d4` is outside 3-4.
+    // 0x7100f45bb8 (placeholder name): false without a thread, else whether the thread's `_d4` is outside 3-4.
     bool sub_F45BB8() const;
     // 0xf45dc8 / 0xf45dfc: bits 1 / 3 of the thread's flag byte +0x195.
     bool sub_F45DC8() const;

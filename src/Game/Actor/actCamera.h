@@ -304,7 +304,7 @@ public:
     void sub_7100928C40();
     // 0x710092a83c: resets _11c-_124 to -1, _128 / _140-_142 / _148 to 0 and _145 to 1.
     void sub_710092A83C();
-    // 0x7100929 8c4 (placeholder name): like sub_710092A83C, but leaves _145 / _148 alone.
+    // 0x71009298c4 (placeholder name): like sub_710092A83C, but leaves _145 / _148 alone.
     void sub_71009298C4();
 
     /* 0x000 */ Camera* mCamera;

@@ -48,7 +48,7 @@ public:
         void init(sead::Heap* heap);
         // 0x852c28 (CSV x_0): destroys the constraint.
         void x_0();
-        // 0x854028 (placeholder name): whether the constraint (_2d8) has bit 0 of `_50` set and its `_18` reports so.
+        // 0x7100854028 (placeholder name): whether the constraint (_2d8) has bit 0 of `_50` set and its `_18` reports so.
         bool sub_7100854028() const;
 
         /* 0x1f0 */ BaseProcLink _1f0;

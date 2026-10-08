@@ -28,10 +28,10 @@ public:
 
     // 0x71007917bc: returns &_840._40.
     CameraNames* sub_71007917BC();
-    // 0x7100917b4 / 0x7100917c4 (placeholder names): `&_840._8` (the byte array) and `&_840._40` again.
+    // 0x71007917b4 / 0x71007917c4 (placeholder names): `&_840._8` (the byte array) and `&_840._40` again.
     u8* sub_71007917B4();
     CameraNames* sub_71007917C4();
-    // 0x7100917e0 (placeholder name): stores `_840._0` into `out` when `out` is given.
+    // 0x71007917e0 (placeholder name): stores `_840._0` into `out` when `out` is given.
     void sub_71007917E0(void** out) const;
     // 0x71007917cc (placeholder name): stores `value` in `_840._0` when `value` is given and that field is empty.
     void sub_71007917CC(void* value);
