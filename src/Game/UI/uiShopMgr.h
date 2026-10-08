@@ -53,6 +53,8 @@ public:
     void sub_71009852C0(bool value);
     void sub_71009853F4();
 
+    // 0x71009854fc (placeholder name): acquires `proc` through _140 without acquiring it immediately
+    bool sub_71009854FC(ksys::act::BaseProc* proc);
     // 0x7100985508 (declaration only; NPCClerkRoot::leave_): `_140.reset()`.
     void sub_7100985508();
 };
