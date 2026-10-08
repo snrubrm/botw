@@ -704,6 +704,12 @@ public:
 
     bool checkLinkBasicSig() const;
     bool hasPlacementLinkForBasicSig() const;
+    // 0x71011d8f44 (placeholder name): isSpecialJobType(BaseProcMgr::sConstant0).
+    bool sub_71011D8F44();
+    // 0x71011db1e4 / 0x71011db280 (placeholder names): the Grab param SlotNNode name of `slot` (0-5) / the bone name
+    // of the last spine node of the BoneControl resource (empty string without them).
+    const sead::SafeString& sub_71011DB1E4(int slot);
+    const sead::SafeString& sub_71011DB280();
     // 0x7100ee2050 / 0x7100ee20a4 (placeholder names): sub_71011D8AFC(1, 1, 0x800012 / 0x800013, nullptr, "EventTag");
     // always true.
     bool sub_7100EE2050();

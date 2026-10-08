@@ -29,7 +29,9 @@
 #include "KingSystem/Graphics/gfxUnk_710260af28.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/Resource/Actor/resResourceAnimInfo.h"
+#include "KingSystem/Resource/Actor/resResourceBoneControl.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectGrab.h"
 #include "KingSystem/Resource/Actor/resResourceModelList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectGeneral.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
@@ -1132,6 +1134,10 @@ bool Actor::m47() {
     return false;
 }
 
+bool Actor::sub_71011D8F44() {
+    return isSpecialJobType(JobType(BaseProcMgr::getConstant0()));
+}
+
 bool Actor::m53() {
     return false;
 }
@@ -1379,6 +1385,42 @@ bool Actor::m142() {
 void Actor::m144() {
     _7d8 = false;
     mActorEditorNode.disconnect();
+}
+
+const sead::SafeString& Actor::sub_71011DB1E4(int slot) {
+    const auto* gparam = mActorParam->getRes().mGParamList;
+    if (!gparam)
+        return sead::SafeString::cEmptyString;
+    const auto* grab = gparam->getGrab();
+    if (!grab)
+        return sead::SafeString::cEmptyString;
+    switch (slot) {
+    case 0:
+        return grab->mSlot0Node.ref();
+    case 1:
+        return grab->mSlot1Node.ref();
+    case 2:
+        return grab->mSlot2Node.ref();
+    case 3:
+        return grab->mSlot3Node.ref();
+    case 4:
+        return grab->mSlot4Node.ref();
+    case 5:
+        return grab->mSlot5Node.ref();
+    default:
+        return sead::SafeString::cEmptyString;
+    }
+}
+
+const sead::SafeString& Actor::sub_71011DB280() {
+    const auto* bone_control = mActorParam->getRes().mBoneControl;
+    if (!bone_control)
+        return sead::SafeString::cEmptyString;
+    const auto& spine = bone_control->getSpine();
+    const int idx = spine.spineNodeNum.ref() - 1;
+    if (idx < 0)
+        return sead::SafeString::cEmptyString;
+    return spine.spineNodes[idx].boneName.ref();
 }
 
 void Actor::m145() {}
