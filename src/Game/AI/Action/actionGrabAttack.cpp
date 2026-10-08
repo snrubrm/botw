@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionGrabAttack.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorAtk.h"
@@ -32,8 +34,37 @@ void GrabAttack::loadParams_() {
     getStaticParam(&mAtRigidBodyName_s, "AtRigidBodyName");
 }
 
+// NON_MATCHING: scheduling only — the original loads the Atk string top into x21 before
+// the member vtable (pre-indexed) load; ours loads the member vtable first and the Atk top
+// straight into x1. Forcing the order needs a single-use local for the Atk top (borderline,
+// not applied). All calls, branches and constants match.
 void GrabAttack::calc_() {
+    ksys::as::ASList::Unk4 query;
+    if (sub_71005DD66C(mActor, &query, 0, 0)) {
+        sub_7100190184(&query);
+    } else if (sub_71005DD74C(mActor, nullptr, 0, 0)) {
+        auto* actor = mActor;
+        auto* atk = sub_71007A24BC();
+        atk->cstr();
+        mAtRigidBodyName_s.cstr();
+        if (auto* body = actor->findPhysicsBodyByName(atk->getStringTop(),
+                                                      mAtRigidBodyName_s.getStringTop())) {
+            sub_71007A3258(body, nullptr);
+        }
+    }
     Grab::calc_();
+    if (m33() && m34()) {
+        if (auto* actor = sead::DynamicCast<ksys::act::Actor>(mActor->getConnectedCalcChild())) {
+            sub_71005DC41C(actor);
+            _70 = true;
+        }
+    }
+    if (isFinishedAS(0, 0) && _70) {
+        if (auto* actor = sead::DynamicCast<ksys::act::Actor>(mActor->getConnectedCalcChild())) {
+            actor->deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+            mActor->resetConnectedCalcChild(false);
+        }
+    }
 }
 
 void GrabAttack::m32() {

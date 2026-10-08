@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Game/AI/Action/actionGrab.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -20,6 +21,8 @@ protected:
     void m32() override;
     bool m33() override;
     bool m34() override { return true; }
+    // 0x7100190184 (declaration only): handles the Unk4 query hit.
+    void sub_7100190184(ksys::as::ASList::Unk4* query);
 
     // static_param at offset 0x50
     sead::SafeString mASName_s{};
