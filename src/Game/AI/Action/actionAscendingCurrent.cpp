@@ -1,10 +1,12 @@
 #include "Game/AI/Action/actionAscendingCurrent.h"
 #include <aal/aalHandle.h>
 #include <aal/aalSoundSource.h>
+#include <aal/aalSpeakerBalanceUnifier.h>
 #include <xlink2/xlink2AssetExecutorSLink.h>
 #include <xlink2/xlink2EventSLink.h>
 #include "Game/AI/aiXlinkHandle.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actReaction.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
 #include "KingSystem/XLink/xlinkXLink.h"
 
@@ -117,6 +119,69 @@ void AscendingCurrent::sub_71000A6F24() {
 void AscendingCurrent::calc_() {
     sub_71000A6F24();
     sub_71000A7354();
+}
+
+// NON_MATCHING: register allocation and scheduling order only; all calls, values and
+// branches match.
+void AscendingCurrent::sub_71000A71B0() {
+    if (!_68.isActive()) {
+        if (auto* xlink = mActor->getXLink()) {
+            if (auto* user = xlink->_50)
+                _68 = user->searchAndEmit("wind");
+        }
+    }
+    if (!_68.isActive()) {
+        auto* actor = ksys::act::Reaction::sInstance->_38;
+        if (!actor)
+            return;
+        auto* xlink = actor->getXLink();
+        if (!xlink)
+            return;
+        auto* user = xlink->_50;
+        if (!user)
+            return;
+        user->setPropertyValue(25, mActor->getScale().x);
+        user->setPropertyValue(26, mActor->getScale().y);
+        user->setPropertyValue(27, *mWindSpeed_s * 30.0f);
+        _68 = user->searchAndEmit("windAscending");
+    }
+    if (!_68.isActive())
+        return;
+    _68.getEvent()->resetFlagBit(1);
+    if (_78) {
+        if (auto* executor =
+                static_cast<xlink2::EventSLink*>(_68.getEvent())->getAliveAssetExecutor()) {
+            if (auto* source = executor->getHandle()->getSoundSource())
+                source->mSpatialSetting.setShape(_78);
+        }
+    }
+}
+
+// NON_MATCHING: register allocation and scheduling order only; all calls, values and
+// branches match.
+void AscendingCurrent::sub_71000A7354() {
+    if (!_68.isActive())
+        sub_71000A71B0();
+    if (!_68.isActive())
+        return;
+    auto* executor =
+        static_cast<xlink2::EventSLink*>(_68.getEvent())->getAliveAssetExecutor();
+    if (!executor)
+        return;
+    auto* source = executor->getHandle()->getSoundSource();
+    if (!source)
+        return;
+    aal::Handle handle = source->getUnifiedSoundHandle();
+    auto* unified = handle.getSoundSource();
+    if (!unified)
+        return;
+    if (unified->mState <= 2)
+        unified->setReleaseTime(1.0f);
+    auto* supplier = unified->mSpeakerBalanceSupplier;
+    if (!supplier)
+        return;
+    if (sead::DynamicCast<aal::SpeakerBalanceUnifier>(supplier))
+        static_cast<aal::SpeakerBalanceUnifier*>(supplier)->setSpeakerBalanceMoveStep(2.0f);
 }
 
 bool AscendingCurrent::hasUpdateForPreDeleteCb() {
