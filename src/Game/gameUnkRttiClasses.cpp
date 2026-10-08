@@ -3,6 +3,8 @@
 #include "Game/AI/aiUnk_71025b2aa8.h"
 #include "Game/AI/aiUnk_71025b2d88.h"
 #include "Game/AI/aiUnk_710070F974.h"
+#include <driver/aglNVNsampler.h>
+#include <driver/aglNVNtexture.h>
 
 // Existing placeholder AI tree variable classes whose vtables had no key function so far (the original keeps one
 // out-of-line empty destructor per class).
@@ -62,6 +64,22 @@ Unk_71024e80e0::~Unk_71024e80e0() = default;
 Unk_71024efd58::~Unk_71024efd58() = default;
 
 Unk_710250dcd8::~Unk_710250dcd8() = default;
+
+struct Unk_710250dcd8::Unk1 {
+    agl::driver::NVNsampler_ _0;
+    u8 _pad[0x68 - sizeof(agl::driver::NVNsampler_)];
+    agl::driver::NVNtexture_ _68;
+};
+
+void Unk_710250dcd8::sub_710110DD20(bool on) {
+    _8 = on ? _8 | 4 : _8 & ~4;
+}
+
+void Unk_710250dcd8::sub_710110DD3C() {
+    _8 &= ~8;
+    _10->~Unk1();
+    _10 = nullptr;
+}
 
 // The body keeps the vtable store of the original, as in upstream's GameDataFlagSelector::~GameDataFlagSelector() { ; }
 // (commit 96101229).

@@ -156,6 +156,19 @@ class Unk_710250dcd8 {
     SEAD_RTTI_BASE(Unk_710250dcd8)
 public:
     virtual ~Unk_710250dcd8();
+
+    // 0x710110dd20: sets (or clears) bit 2 of the flags. Placeholder name.
+    void sub_710110DD20(bool on);
+    // 0x710110dd3c: clears bit 3 of the flags, destroys the sampler / texture pair at `_10` and nulls it.
+    // Placeholder name.
+    void sub_710110DD3C();
+
+private:
+    // Sampler (+0) and texture (+0x68) wrapper of the object at `_10` (defined in the .cpp).
+    struct Unk1;
+
+    u32 _8;
+    Unk1* _10;
 };
 
 // vtable 0x7102518b60 (4 slots)

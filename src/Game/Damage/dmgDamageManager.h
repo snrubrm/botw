@@ -134,6 +134,9 @@ public:
     s32 sub_71006D8304() const;
     s32 sub_71006D8340() const;
     s32 sub_71006D837C() const;
+    // 0x71006ee2b0 (in the ragdoll TU; called by DynamicActor::sub_71006DD21C): true for damage types 1, 4, 5 and 6,
+    // else whether `_218` has bit 4 or 5 set. Placeholder name.
+    bool sub_71006EE2B0() const;
     // 0x71006d82d4: `_219` is set and there are damage records.
     bool sub_71006D82D4() const;
     // 0x71006d83b8: whether bit `bit` of field 0x18 of the most recent damage record is set.

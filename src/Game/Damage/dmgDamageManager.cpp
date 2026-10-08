@@ -759,6 +759,18 @@ s32 DamageManager::m49(s32 damageTypeMaybe) {
     return DamageManagerBase::m49(damageTypeMaybe);
 }
 
+bool DamageManager::sub_71006EE2B0() const {
+    switch (getDamageType()) {
+    case 1:
+    case 4:
+    case 5:
+    case 6:
+        return true;
+    default:
+        return (_218 & 0x30) != 0;
+    }
+}
+
 bool DamageManager::sub_71006D82D4() const {
     if (!_219)
         return false;
