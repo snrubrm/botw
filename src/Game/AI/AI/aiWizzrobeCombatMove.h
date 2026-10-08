@@ -18,6 +18,8 @@ public:
     void leave_() override;
     void loadParams_() override;
     void sub_71005FD0AC();
+    // 0x71005fd24c: two by-value Vector3f arguments are passed in s0-s5.
+    bool sub_71005FD24C(sead::Vector3f* hit_position, sead::Vector3f start, sead::Vector3f end);
 
 protected:
     // static_param at offset 0x38
