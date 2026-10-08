@@ -209,15 +209,21 @@ private:
 
 class Unk_7102474c48 {
 public:
+    Unk_7102474c48();
     virtual ~Unk_7102474c48();
     void sub_7100936B18(eui::LayoutEx* layout);
     void sub_7100936B7C(bool first, bool second);
+    void sub_7100936BCC(eui::LayoutEx* first, eui::LayoutEx* second);
+    void sub_7100936BD4(bool first, bool second);
 
 private:
-    eui::LayoutEx* mLayout;
-    eui::Animator* mAnimator;
-    bool mActive;
+    eui::LayoutEx* mLayout = nullptr;
+    eui::Animator* mAnimator = nullptr;
+    bool mActive = false;
+    eui::LayoutEx* mFirstLayout = nullptr;
+    eui::LayoutEx* mSecondLayout = nullptr;
 };
+KSYS_CHECK_SIZE_NX150(Unk_7102474c48, 0x30);
 
 class Unk_7102475158 {
 public:

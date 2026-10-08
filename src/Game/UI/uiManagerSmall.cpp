@@ -1,4 +1,6 @@
 #include "Game/UI/uiManager.h"
+#include "Game/UI/uiScreens.h"
+#include "KingSystem/System/SeadController.h"
 #include "Game/UI/uiUnkSingletons.h"
 #include "Game/UI/uiUI.h"
 #include "KingSystem/Utils/Thread/TaskThread.h"
@@ -235,6 +237,30 @@ void Manager::sub_7100A7C8D4() {
 // 0x7100a7c9ac
 void Manager::sub_7100A7C9AC() {
     _64c2c = 8;
+}
+
+void Manager::sub_7100A7C9C0() {
+    if (eui::ScreenMgr::instance()->getScreen(ScreenId::AppSystemWindowNoBtn))
+        return;
+    _64c28 = _64c24;
+    _64c2c = 4;
+    sub_7100A7A1A8();
+    sub_7100AA8698();
+    static_cast<ksys::SeadController*>(_649f0)->sub_7100D9D8DC(~u32(0));
+    sub_7100A7E590();
+    _64c30 &= ~u64(3);
+}
+
+void Manager::sub_7100A7CACC() {
+    if (eui::ScreenMgr::instance()->getScreen(ScreenId::AppSystemWindowNoBtn))
+        return;
+    _64c28 = _64c24;
+    _64c2c = 4;
+    sub_7100A7A1A8();
+    sub_7100AA8698();
+    static_cast<ksys::SeadController*>(_649f0)->sub_7100D9D8DC(~u32(0));
+    sub_7100A7E590();
+    _64c30 &= ~u64(3);
 }
 
 // 0x7100a7ca68

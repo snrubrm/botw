@@ -1,4 +1,5 @@
 #include "Game/UI/uiManager.h"
+#include "Game/UI/uiScreens.h"
 #include "Game/UI/uiPauseMenuDataMgr.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "Game/UI/uiUtils.h"
@@ -123,6 +124,24 @@ void sub_7100A9E584(s32 value) {
         mgr->_444fc = value;
     Manager::instance()->sub_7100A7C8D4();
     Manager::instance()->_64c30 |= 1;
+}
+
+// 0x7100a9e6b0
+bool sub_7100A9E6B0(s32 type) {
+    auto* screen_mgr = eui::ScreenMgr::instance();
+    if (!screen_mgr)
+        return false;
+    auto* screen = sead::DynamicCast<ScreenPauseMenu>(screen_mgr->getScreen(ScreenId::PauseMenu));
+    if (!screen)
+        return false;
+    auto* pouch_mgr = PauseMenuDataMgr::instance();
+    if (!pouch_mgr)
+        return false;
+    screen->sub_7100A34A04();
+    pouch_mgr->_444fc = 0;
+    pouch_mgr->_44500 = type;
+    Manager::instance()->sub_7100A7DA38();
+    return true;
 }
 
 // 0x7100a9e5f8

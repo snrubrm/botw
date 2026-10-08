@@ -1994,6 +1994,23 @@ struct ScreenPauseMenuUnk3b98 {
     void sub_71009B5FC8(bool a1);
 };
 
+// Seven tab controls owned by ScreenPauseMenu (+0x3678); native ctor/dtor a341d0/a34434.
+class Unk_7100A341D0 {
+public:
+    struct Entry {
+        Unk_7102477468 mButton;
+        Unk_7102474c28 mPage;
+        Unk_7102474c48 mGuide;
+        s32 mFirstItemIndex = 0;
+        u8 _7c[4]{};
+    };
+    Unk_7100A341D0();
+    ~Unk_7100A341D0();
+    sead::SafeArray<Entry, 7> mEntries;
+};
+KSYS_CHECK_SIZE_NX150(Unk_7100A341D0::Entry, 0x80);
+KSYS_CHECK_SIZE_NX150(Unk_7100A341D0, 0x380);
+
 class ScreenPauseMenu : public ScreenEx {
 public:
     s32 m72() override;
@@ -2013,6 +2030,7 @@ public:
     void sub_7100A3840C(eui::AnimButton* button);
     // 0x7100a392d8 (CSV unnamed, 396 bytes; declared only)
     void sub_7100A392D8();
+    void sub_7100A379BC(s32 tab);
     // 0x7100a38028 (CSV unnamed, 296 bytes; declared only)
     void sub_7100A38028();
     // 0x7100a38994: closes the TV box cursor screen when the cursor box leaves _3664
@@ -2022,7 +2040,9 @@ public:
     u8 _pad_361c[0x3664 - 0x361c];
     /* 0x3664 */ sead::BoundBox2f _3664;  // the box cursor must stay inside it while _3674 is set (adjstBoxCursor)
     /* 0x3674 */ s32 _3674;
-    u8 _pad_3678[0x3a00 - 0x3678];
+    /* 0x3678 */ Unk_7100A341D0 mTabControls;
+    /* 0x39f8 */ s32 mSelectedCategory;
+    u8 _39fc[4];
     /* 0x3a00 */ ScreenPauseMenuUnk3a00* _3a00[3];
     /* 0x3a18 */ u8 _3a18;
     u8 _pad_3a19[0x3b80 - 0x3a19];

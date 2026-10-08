@@ -213,6 +213,30 @@ void Unk_7102474c28::sub_7100936AD8() {
 // 0x7100936990
 Unk_7102474c28::~Unk_7102474c28() = default;
 
+Unk_7102474c48::Unk_7102474c48() = default;
+
+void Unk_7102474c48::sub_7100936BCC(eui::LayoutEx* first, eui::LayoutEx* second) {
+    mFirstLayout = first;
+    mSecondLayout = second;
+}
+
+// NON_MATCHING: the guide-frame boolean selection and final branch scheduling differ.
+void Unk_7102474c48::sub_7100936BD4(bool first, bool second) {
+    if (mFirstLayout)
+        first = mFirstLayout->_91 == 1 || mFirstLayout->_91 == 2;
+    if (mSecondLayout)
+        second = mSecondLayout->_91 == 1 || mSecondLayout->_91 == 2;
+    sub_7100936B7C(first, second);
+    if (!mActive)
+        return;
+    if (first && mFirstLayout && mLayout && mFirstLayout->_70 && mLayout->_70) {
+        mLayout->_70->ContinueFrom(*mFirstLayout->_70);
+        return;
+    }
+    if (mSecondLayout && mLayout && mSecondLayout->_70 && mLayout->_70)
+        mLayout->_70->ContinueFrom(*mSecondLayout->_70);
+}
+
 void Unk_7102474c48::sub_7100936B18(eui::LayoutEx* layout) {
     if (layout) {
         mLayout = layout;

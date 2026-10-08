@@ -4,6 +4,8 @@
 #include "Game/E3Mgr.h"
 #include "Game/UI/uiScreens.h"
 #include "Game/UI/uiManager.h"
+#include "Game/UI/euiBoxCursor.h"
+#include "KingSystem/System/SeadController.h"
 #include "Game/UI/uiPauseMenuDataMgr.h"
 #include "Game/UI/euiLayoutEx.h"
 #include "Game/UI/uiUI.h"
@@ -286,6 +288,14 @@ void sub_7100AA865C() {
     }
 }
 
+// 0x7100aa8698
+void Manager::sub_7100AA8698() {
+    static_cast<ksys::SeadController*>(instance()->_649f0)->sub_7100D9D8E4();
+    auto* cursor_mgr = eui::ScreenMgr::instance()->getBoxCursorMgr();
+    if (cursor_mgr)
+        cursor_mgr->m4(eui::BoxCursorMgr::Mode::_0);
+}
+
 // 0x7100aa8fcc
 // NON_MATCHING: same selects, but the original combines the three comparisons into one `or` tree for the final select
 // (`mi | (pl & le) | le`) where we select on the `gt` flag directly; clamp / branchy / `ok ? : ` forms all differ more.
@@ -450,8 +460,8 @@ bool sub_7100A79EC4() {
 }
 
 // 0x7100a82db8 / 0x7100a82dd0 (placeholder names)
-void sub_7100A82DB8(s32 a) {
-    PauseMenuDataMgr::instance()->x_37(a);
+s32 sub_7100A82DB8(s32 a) {
+    return PauseMenuDataMgr::instance()->x_37(a);
 }
 
 void sub_7100A82DD0(s32 a) {

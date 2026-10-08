@@ -281,7 +281,7 @@ void sub_7100A9F74C();
 // 0x7100a79ec4 (placeholder name): Root38::hasAnyFlag of the singleton.
 bool sub_7100A79EC4();
 // 0x7100a82db8 / 0x7100a82dd0 (placeholder names): forward to PauseMenuDataMgr::x_37 / x_38.
-void sub_7100A82DB8(s32 a);
+s32 sub_7100A82DB8(s32 a);
 void sub_7100A82DD0(s32 a);
 
 // lane2 s47 (placeholder names, the evt::S7 TU 0x71008ae2a8 - 0x71008ae928; none of them uses `this`; the ones that take
@@ -454,7 +454,7 @@ bool sub_7100A94E08();
 bool sub_7100A990BC();
 void sub_7100A9E5F8(s32 category);
 void sub_7100A9E584(s32 category);
-void sub_7100A9E6B0(s32 type);
+bool sub_7100A9E6B0(s32 type);
 bool sub_7100A9E864();
 bool sub_7100A9F57C(s32* out_index, const sead::Vector3f& pos, f32 radius);
 void sub_7100A9A308(s32 index, bool is_player_close);

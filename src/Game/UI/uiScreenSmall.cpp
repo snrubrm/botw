@@ -3,10 +3,33 @@
 #include "Game/UI/uiScreens.h"
 #include <container/seadBuffer.h>
 #include "Game/UI/uiUtils.h"
+#include "Game/UI/uiPauseMenuDataMgr.h"
 #include "KingSystem/GameData/gdtSpecialFlags.h"
 
 // Small leaf screen methods (named after their CSV address).
 namespace uking::ui {
+
+PouchCategory sub_7100A82D08(s32 tab);
+
+// NON_MATCHING: the compiler outlines the SafeArray member constructor.
+Unk_7100A341D0::Unk_7100A341D0() = default;
+// NON_MATCHING: the compiler outlines the SafeArray member destructor.
+Unk_7100A341D0::~Unk_7100A341D0() = default;
+
+// NON_MATCHING: the loop induction variable is widened in category comparisons.
+void ScreenPauseMenu::sub_7100A379BC(s32 tab) {
+    mSelectedCategory = s32(sub_7100A82D08(tab));
+    for (s32 i = 0; i < mTabControls.mEntries.size(); ++i) {
+        auto& entry = mTabControls.mEntries[i];
+        entry.mButton.sub_7100988060(entry.mFirstItemIndex < 0);
+        entry.mButton.sub_710098802C(i == mSelectedCategory);
+        entry.mPage.sub_7100936A28(sub_7100A82DB8(i));
+        if (i == mSelectedCategory)
+            entry.mPage.sub_7100936A7C(tab - entry.mFirstItemIndex);
+        else
+            entry.mPage.sub_7100936AD8();
+    }
+}
 
 // 0x7100a34a04
 void ScreenPauseMenu::sub_7100A34A04() {
