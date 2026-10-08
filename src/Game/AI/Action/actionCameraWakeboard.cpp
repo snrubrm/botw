@@ -78,7 +78,7 @@ void CameraWakeboard::m33() {
     amount = sead::Mathf::clampMax(acceleration > 0.0f ? acceleration : -acceleration, 0.05f);
     _d4 = _c8 = (amount / 0.05f) * 0.79999995f + 0.1f;
     _f8 = 0.0f;
-    if (camera->_860._7fc.sub_710079BFB0(0x100000)) {
+    if (!camera->_860._7fc.sub_710079BFB0(0x100000)) {
         _70.sub_710079C510(1.0f);
         const act::Unk_7100922700 polar(_fc, _d8, _f0);
         camera->_860._0._c = _ac;
@@ -275,11 +275,11 @@ void CameraWakeboard::m34() {
         f32 first;
         f32 second;
         if (dot <= 0.0f) {
-            first = (dot + 1.0f) * 0.39999998f + 0.6f;
-            second = (dot + 1.0f) * 0.0f + 1.0f;
+            first = sead::lerp(0.6f, 1.0f, dot + 1.0f);
+            second = sead::lerp(1.0f, 1.0f, dot + 1.0f);
         } else {
-            first = (1.0f - dot) * 0.5f + 0.5f;
-            second = (1.0f - dot) + 0.0f;
+            first = sead::lerp(0.5f, 1.0f, 1.0f - dot);
+            second = sead::lerp(0.0f, 1.0f, 1.0f - dot);
         }
         if (first < 0.0f)
             first = 0.0f;
