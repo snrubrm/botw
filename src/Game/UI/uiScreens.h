@@ -2976,7 +2976,6 @@ public:
     sead::PtrArray<Unk_Elem> _3658;
     u8 _pad_3668[0x3678 - 0x3668];
     Unk_710247dc70 _3678;
-    u8 _pad_3680[0x3690 - 0x3680];
     /* 0x3690 */ eui::LayoutEx* _3690;
 
     UiTexSlots _3698;

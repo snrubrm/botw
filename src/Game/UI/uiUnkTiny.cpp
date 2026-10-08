@@ -553,6 +553,9 @@ Unk_710247d8d8::~Unk_710247d8d8() = default;
 // 0x71009c66e4
 Unk_710247dc50::~Unk_710247dc50() = default;
 
+// 0x71009c6858
+Unk_710247dc70::Unk_710247dc70() = default;
+
 // 0x71009c6870
 Unk_710247dc70::~Unk_710247dc70() = default;
 

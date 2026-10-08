@@ -420,7 +420,11 @@ public:
 
 class Unk_710247dc70 {
 public:
+    Unk_710247dc70();
     virtual ~Unk_710247dc70();
+
+    /* 0x8 */ u64 _8 = 0;
+    /* 0x10 */ u64 _10 = 0;
 };
 
 class Unk_71024810d8 {
