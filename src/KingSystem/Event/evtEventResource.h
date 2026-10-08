@@ -123,25 +123,26 @@ public:
     /* 0x10 */ ResourceTimeline* mTimeline;
     /* 0x18 */ ActorBindings* mActorBindings;
     /* 0x20 */ DemoInfo mDemoInfo;
-    u8 _pad_after_demo[0x148 - 0x20 - sizeof(DemoInfo)];
+    /* 0xc0 */ res::Handle _c0;
+    /* 0x110 */ sead::FixedSafeString<32> _110;
     /* 0x148 */ CameraSystem* _148;
     /* 0x150 */ sead::Heap* mHeap;
     /* 0x158 */ res::ResDerived _158;
-    u8 _1a8[8];
-    /* 0x1b0 */ void* _1b0;
-    /* 0x1b8 */ EventXlinkInfo* _1b8;
-    /* 0x1c0 */ EventBgmInfo* _1c0;
+    /* 0x1a8 */ void* _1a8{};
+    /* 0x1b0 */ void* _1b0{};
+    /* 0x1b8 */ EventXlinkInfo* _1b8{};
+    /* 0x1c0 */ EventBgmInfo* _1c0{};
     /* 0x1c8 */ res::TempResourceLoader* mTempResourceLoader;
-    /* 0x1d0 */ u16 _1d0;
+    /* 0x1d0 */ u16 _1d0 = 0;
     u8 _1d2;
     /* 0x1d3 */ bool _1d3;
     u8 _1d4[4];
     /* 0x1d8 */ res::Handle* _1d8;
     union {
-        /* 0x1e0 */ u32 _1e0;
+        /* 0x1e0 */ u32 _1e0 = 0;
         u8 _1e0_bytes[4];
     };
-    u8 _1e4[0x208 - 0x1e4];
+    /* 0x1e8 */ sead::DelegateR<EventResource, bool> _1e8{this, &EventResource::invokedParseExtraModelRes};
 };
 static_assert(sizeof(EventResource) == 0x208);
 

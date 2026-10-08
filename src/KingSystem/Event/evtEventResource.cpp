@@ -1,5 +1,6 @@
 #include "KingSystem/Event/evtEventResource.h"
 #include <heap/seadHeap.h>
+#include "KingSystem/Event/evtActorBindings.h"
 #include "KingSystem/Event/evtInfoData.h"
 #include "KingSystem/Event/evtResourceFlowchart.h"
 #include "KingSystem/Event/evtResourceTimeline.h"
@@ -9,6 +10,21 @@
 
 namespace ksys::evt {
 
+
+// NON_MATCHING: store scheduling of the member initialisation (delegate, _1a8 .. _1c0, _148 / mHeap).
+// 0x7100dc2360
+EventResource::EventResource(sead::Heap* heap) {
+    _148 = nullptr;
+    mHeap = heap;
+    mFlowchart = nullptr;
+    mTimeline = nullptr;
+    mActorBindings = new (heap, 8) ActorBindings;
+    _1e0 = 0;
+    mTempResourceLoader = nullptr;
+    _1d8 = nullptr;
+    _1d2 = 0;
+    _1d3 = false;
+}
 
 bool EventResource::invokedParseExtraModelRes() {
     _158.parseResource(nullptr);
