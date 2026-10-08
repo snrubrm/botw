@@ -3224,18 +3224,20 @@ public:
     ~ScreenEnergyMeterDLC() override;
     SEAD_RTTI_OVERRIDE(ScreenEnergyMeterDLC, ScreenEx)
 
+    // 0x7100a08850 (slot 0x2f8, overrides Screen::m93): finds the energy meter parts and the Dungeon animator, starts the animator
+    void m93(sead::Heap*) override;
     // 0x7100a094f8 (placeholder name): copies two values of _3618 into the motorcycle manager's energy position
     void sub_7100A094F8();
 
     /* 0x3610 */ u8 _3610 = 0;
     u8 _3611[7];
     /* 0x3618 */ Unk_71024774a8 _3618;
-    /* 0x36d0 */ u64 _36d0 = 0;
+    /* 0x36d0 */ nn::ui2d::Pane* _36d0 = nullptr;
     /* 0x36d8 */ u8 _36d8 = 0;
     u8 _36d9[3];
     /* 0x36dc */ u32 _36dc[2]{};
     u8 _36e4[4];
-    /* 0x36e8 */ u64 _36e8 = 0;
+    /* 0x36e8 */ eui::Animator* _36e8 = nullptr;
     /* 0x36f0 */ u64 _36f0 = 0;
     /* 0x36f8 */ sead::PerspectiveProjection mProjection;
     /* 0x37b8 */ u64 _37b8 = 0;

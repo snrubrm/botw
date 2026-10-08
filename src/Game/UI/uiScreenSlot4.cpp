@@ -1,5 +1,6 @@
 #include "Game/UI/uiScreens.h"
 #include "Game/UI/uiUtils.h"
+#include "Game/UI/euiLayoutEx.h"
 #include "Game/gameMotorcycleMgr.h"
 
 // Slot 4 of the leaf classes (overrides eui::Screen's, which returns 0).
@@ -40,6 +41,16 @@ bool ScreenTitle::isEnableControl() const {
 // 0x71009dbcf8
 bool ScreenAppCamera::isEnableControl() const {
     return 1;
+}
+
+// 0x7100a08850
+void ScreenEnergyMeterDLC::m93(sead::Heap*) {
+    if (auto* parts = mLayout->findPartsLayout("L_EnergyMeterDLC_00"))
+        _3618.sub_71009884A8(parts);
+    _36d0 = mLayout->GetPane()->FindPaneByName("N_EnergyMeterDLC_00", true);
+    _36e8 = mLayout->createAnimatorAuto("Dungeon", true);
+    if (_36e8)
+        _36e8->StopAtMin();
 }
 
 // 0x7100a094f8
