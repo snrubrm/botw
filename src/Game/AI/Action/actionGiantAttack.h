@@ -33,8 +33,10 @@ protected:
     sead::SafeString mRotBaseBoneName_s{};
     // dynamic_param at offset 0x48
     sead::Vector3f* mTargetPos_d{};
-    u8 _50[0x3c];
-    u32 _8c = 0;
+    sead::Vector3f _50;
+    sead::Vector3f _5c;
+    u8 _68[0x24];
+    f32 _8c = 0.0f;
     Unk_7102451320 _90;
 };
 KSYS_CHECK_SIZE_NX150(GiantAttack, 0x128);
