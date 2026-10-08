@@ -1046,6 +1046,26 @@ void Unk_7102474be8::sub_71009359E8() {
     }
 }
 
+// NON_MATCHING: same instructions; block order and tail duplication differ (the original duplicates the common tail)
+// 0x71009358cc
+void Unk_7102474be8::sub_71009358CC(u32 value, bool track) {
+    if (track && _938 < value) {
+        _95d = 1;
+        _95e = 0;
+        _960 = value;
+        return;
+    }
+    _95d = 0;
+    if (track && _938 > value) {
+        _95e = 1;
+        _960 = value;
+        return;
+    }
+    _95e = 0;
+    _960 = value;
+    _938 = value;
+}
+
 void Unk_7102474be8::set940(s32 value) {
     _940 = value;
 }

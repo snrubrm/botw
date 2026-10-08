@@ -126,6 +126,9 @@ public:
     void sub_7100935180(f32 step);
     // 0x7100935384 (declared only): post-step gauge/animation update
     void sub_7100935384();
+    // 0x71009358cc (placeholder name): sets the target `value`; with `track` the flags 0x95d / 0x95e record whether it is
+    // above / below the current one (_938)
+    void sub_71009358CC(u32 value, bool track);
 
 private:
     friend class Unk_7102474c08;
