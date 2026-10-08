@@ -2860,6 +2860,8 @@ class ScreenShopBtnList20 : public ScreenEx {
 public:
     const char* getLayoutName_() const override;
     bool isEnableControl() const override;
+    // 0x7100a4cef0 (placeholder name): whether the button group has a down button
+    bool sub_7100A4CEF0() const;
     ~ScreenShopBtnList20() override;
     SEAD_RTTI_OVERRIDE(ScreenShopBtnList20, ScreenEx)
     void m102(eui::AnimButton*) override;
