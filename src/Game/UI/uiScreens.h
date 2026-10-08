@@ -3065,6 +3065,22 @@ public:
 
 struct ScreenAppPictureBookUnk;
 
+// The controller window's button unit (vtable 0x7102485670, 0x58 bytes). The ScreenControllerWindow
+// function at 0x7100a03478 creates one per button; the unit starts a "New" animator.
+class Unk_7102485670 : public Unk_7102474e38 {
+public:
+    SEAD_RTTI_OVERRIDE(Unk_7102485670, Unk_7102474e38)
+    Unk_7102485670() = default;
+    ~Unk_7102485670() override;
+    void m4(sead::Heap*) override;
+    void m6() override;
+    // 0x7100a01918 (not decompiled; m6 tail-calls it)
+    void sub_7100A01918();
+
+    /* 0x48 */ eui::Animator* _48{};
+    /* 0x50 */ bool _50{};
+};
+
 class ScreenControllerWindow : public ScreenEx {
 public:
     void m101() override;
