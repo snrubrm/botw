@@ -1034,6 +1034,8 @@ public:
     // 0x710109ff58
     const char* getLayoutName_() const override;
     void sub_710109EE10(s32 error_code);
+    // 0x710109fe14 (placeholder name): when the error code is 0, sets the UI flag _a4 to 2
+    void sub_710109FE14();
 
     u8 _2fc[0x300 - 0x2fc];
     /* 0x300 */ s32 _300 = 0x100;

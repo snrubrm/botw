@@ -1,6 +1,7 @@
 #include "Game/UI/euiBoxCursor.h"
 #include "Game/UI/euiButton.h"
 #include "Game/UI/uiScreens.h"
+#include "Game/UI/uiUI.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "Game/DLC/aocManager.h"
 
@@ -620,6 +621,12 @@ namespace uking::ui {
 void ScreenErrorViewer::sub_710109EE10(s32 error_code) {
     if (u32(error_code) - 1000000 < 9000000)
         mErrorCode = error_code;
+}
+
+// 0x710109fe14
+void ScreenErrorViewer::sub_710109FE14() {
+    if (_314 == 0)
+        UI::instance()->_a4 = 2;
 }
 
 }  // namespace uking::ui
