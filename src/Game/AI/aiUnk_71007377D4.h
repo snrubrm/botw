@@ -322,6 +322,10 @@ u32 sub_710072C494(f32* out_height, const sead::Vector3f* pos);
 /// 0x710072c278 (lane1 s47, placeholder name; declared only): terrain query at the (x, z) of `pos` (a similar one to sub_710072C494; 1 when the position is on grass / a special surface, with the height in `out`).
 u32 sub_710072C278(f32* out, const sead::Vector3f* pos);
 
+/// 0x710072c1b8 (placeholder name): the grass amount at the (x, z) of `pos` (Grass::sub_71011516D0; 0 without terrain
+/// or with the grass disabled).
+u32 sub_710072C1B8(f32* out, const sead::Vector3f* pos);
+
 /// 0x710072c21c (placeholder name): the same through the second terrain query (0x71011094a0) with its parameters -1 / 0.
 u32 sub_710072C21C(f32* out_height, const sead::Vector3f* pos);
 

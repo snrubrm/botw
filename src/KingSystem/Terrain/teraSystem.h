@@ -49,6 +49,9 @@ public:
         bool sub_7101150F88(const sead::Vector3f* pos, f32 a, f32 b, bool flag);
         bool sub_7101150FD4(const sead::Vector3f* pos, f32 a, f32 b);
         bool sub_710115101C(const sead::Vector3f* pos, f32 radius);
+        // 0x71011516d0 (declared only): grass amount at `xz` written to `out`; returns the terrain query result
+        // (2 when the grass is disabled, 0 without terrain data).
+        u32 sub_71011516D0(f32* out, const sead::Vector2f* xz);
 
         void sub_7101150990(bool enabled);
         void sub_7101150A7C(const sead::Vector3f* pos, f32 radius, f32 value);

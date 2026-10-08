@@ -726,6 +726,17 @@ u32 sub_710072C494(f32* out_height, const sead::Vector3f* pos) {
     return ksys::tera::sub_710110B4A4(out_height, &xz, tera_system);
 }
 
+u32 sub_710072C1B8(f32* out, const sead::Vector3f* pos) {
+    auto* terrain = ksys::tera::Terrain::instance();
+    if (!terrain)
+        return 0;
+    if (!terrain->isGrassEnabled())
+        return 0;
+    auto* grass = terrain->sub_710114DE58();
+    const sead::Vector2f xz(pos->x, pos->z);
+    return grass->sub_71011516D0(out, &xz);
+}
+
 u32 sub_710072C21C(f32* out_height, const sead::Vector3f* pos) {
     auto* placement = ksys::map::PlacementMgr::instance();
     if (!placement)

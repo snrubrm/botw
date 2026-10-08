@@ -31,7 +31,7 @@ void DemoCookPotCook::sub_71000E8D94() {
     sead::Matrix34f root_local = sead::Matrix34f::ident;
     sead::Vector3f scale;
     if (_48.isValid()) {
-        model->getUnits()(_48.getKey().model_unit_index)->mModelUnit->safeGetBoneWorldMatrix(
+        model->getUnits()(_48.getKey().model_unit_index)->mModelUnit->getBoneWorldMatrix(
             &matrix, _48.getKey().bone_index);
         model->getUnits()(_48.getKey().model_unit_index)->mModelUnit->getBoneLocalMatrix(
             &root_local, &scale, _48.getKey().bone_index);
