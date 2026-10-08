@@ -7,4 +7,6 @@ void Guardian::Unk1::sub_7100042B40() {
     _64 = 0;
 }
 
+void Guardian::Unk1::sub_7100042B48() {}
+
 }  // namespace uking::act

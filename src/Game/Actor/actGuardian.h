@@ -98,6 +98,8 @@ public:
     // 0x710003b098 (placeholder name): index of the first sleeping actor among _1538[0..4], or -1.
     s32 sub_710003B098() const;
     void sub_710003B3FC();
+    // 0x710003b41c: like sub_710003B3FC, but the call on `_15b0` is the empty Unk1::sub_7100042B48.
+    void sub_710003B41C();
     // 0x710003b554 (lane1 s47, declaration only; placeholder name): returns a static flag (`sFlag & 1`).
     bool sub_710003B554() const;
     // 0x7100034514: sets or clears bit 4 of _14c8.
@@ -164,6 +166,8 @@ public:
         void sub_7100042048();
         // 0x7100042b40: clears _64.
         void sub_7100042B40();
+        // 0x7100042b48 (CSV nullsub_6129): empty.
+        void sub_7100042B48();
 
         u8 _0[0x30];
         ksys::phys::NavMeshCharacter* _30;  // m45

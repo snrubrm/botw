@@ -153,6 +153,12 @@ bool Guardian::sub_710003B4C8() const {
     return (_c48._18 - getMtx().getTranslation()).length() > 25.0f;
 }
 
+void Guardian::sub_710003B41C() {
+    _14c8.set(0x208);
+    if (_15b0)
+        _15b0->sub_7100042B48();
+}
+
 void Guardian::sub_710003B090(u32 value) {
     _14d4 = value;
 }
