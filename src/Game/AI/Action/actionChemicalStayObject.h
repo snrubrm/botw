@@ -53,7 +53,7 @@ protected:
     const int* mCreateLimit_m{};
     // map_unit_param at offset 0x98
     const float* mScaleTime_m{};
-    s32 _a0 = 0;
+    f32 _a0 = 0;
     f32 _a4 = 1.0f;
     bool _a8 = false;
     f32 _ac = 0;
