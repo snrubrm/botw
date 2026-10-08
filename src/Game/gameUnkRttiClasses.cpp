@@ -11,7 +11,17 @@ Unk_71025b2d88::~Unk_71025b2d88() = default;
 Unk_71025b27b8::~Unk_71025b27b8() = default;
 Unk_71025c89e8::~Unk_71025c89e8() = default;
 
-Unk_71023f3710::~Unk_71023f3710() = default;
+// (Unk_71023f3710's destructor is defaulted inline in the header: virtual but trivial,
+// so its subclasses keep no D1 of their own. Its RTTI virtuals are defined here so the
+// vtable keeps an out-of-line key function.)
+bool Unk_71023f3710::checkDerivedRuntimeTypeInfo(
+    const sead::RuntimeTypeInfo::Interface* typeInfo) const {
+    return checkDerivedRuntimeTypeInfoStatic(typeInfo);
+}
+
+const sead::RuntimeTypeInfo::Interface* Unk_71023f3710::getRuntimeTypeInfo() const {
+    return getRuntimeTypeInfoStatic();
+}
 
 Unk_710245a498::~Unk_710245a498() = default;
 

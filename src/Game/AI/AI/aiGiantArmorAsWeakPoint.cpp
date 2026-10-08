@@ -35,8 +35,8 @@ void Unk_71023f36d8::m4(f32* out_scale, s32* out_level, const Info* info) {
 // DynamicCast; we emit only the derived vtable store before the cast.
 GiantArmorAsWeakPoint::GiantArmorAsWeakPoint(const InitArg& arg) : GiantArmorRoot(arg) {}
 
-// NON_MATCHING: the original destroys _38 without a call (the destructor of its base is inline there); the base
-// destructor Unk_71023f3710::~Unk_71023f3710 is defined out of line in gameUnkRttiClasses.cpp here.
+// _38's base has a virtual but trivial destructor (defaulted inline in
+// gameUnkRttiClasses.h), so destroying _38 emits no call.
 GiantArmorAsWeakPoint::~GiantArmorAsWeakPoint() = default;
 
 bool GiantArmorAsWeakPoint::init_(sead::Heap* heap) {

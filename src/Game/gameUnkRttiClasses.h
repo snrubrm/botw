@@ -9,10 +9,31 @@
 // the vtable; the class is only defined so that its RTTI functions, destructors and stubs can be matched.
 
 // vtable 0x71023f3710 (4 slots)
+// The destructor is defaulted on its first declaration (virtual but trivial): the
+// original's D0 is just `b operator delete` with no D1 call, so subclasses keep no D1
+// of their own (their D1 slot is the base's). The two RTTI virtuals are therefore
+// declared here and defined out of line in gameUnkRttiClasses.cpp (instead of using
+// SEAD_RTTI_BASE, whose inline virtuals would leave no key function): the first one is
+// the key function that emits the vtable. Bodies are the macro's. Do not move the
+// destructor out of line.
 class Unk_71023f3710 {
-    SEAD_RTTI_BASE(Unk_71023f3710)
 public:
-    virtual ~Unk_71023f3710();
+    static const sead::RuntimeTypeInfo::Interface* getRuntimeTypeInfoStatic() {
+        static const sead::RuntimeTypeInfo::Root typeInfo;
+        return &typeInfo;
+    }
+
+    static bool checkDerivedRuntimeTypeInfoStatic(
+        const sead::RuntimeTypeInfo::Interface* typeInfo) {
+        const sead::RuntimeTypeInfo::Interface* clsTypeInfo =
+            Unk_71023f3710::getRuntimeTypeInfoStatic();
+        return typeInfo == clsTypeInfo;
+    }
+
+    virtual bool checkDerivedRuntimeTypeInfo(
+        const sead::RuntimeTypeInfo::Interface* typeInfo) const;
+    virtual const sead::RuntimeTypeInfo::Interface* getRuntimeTypeInfo() const;
+    virtual ~Unk_71023f3710() = default;
 };
 
 // vtable 0x710245a498 (4 slots)
