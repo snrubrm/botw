@@ -1029,6 +1029,14 @@ inline void clearDecideWindowAlpha(eui::AnimButton* button) {
 }
 }  // namespace
 
+// 0x7100a56d08
+void ScreenSousaGuide::sub_7100A56D08() {
+    if (_3610 == -1)
+        return;
+    _3610 = -1;
+    _3618.sub_71009348D0(true);
+}
+
 // 0x7100a4b10c
 void ScreenShopBtnList15::sub_7100A4B10C(s32 index) {
     moveBoxCursorByTag_(static_cast<u32>(index) < 15 ? index + 122 : 122);

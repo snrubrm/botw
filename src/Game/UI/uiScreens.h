@@ -3073,6 +3073,9 @@ public:
     /* 0x3610 */ s32 _3610 = -1;
     u8 _pad_3614[0x3618 - 0x3614];
     Unk_7102474bc8 _3618;
+
+    // 0x7100a56d08 (placeholder name): clears _3610 and calls _3618.sub_71009348D0(true) if it was set
+    void sub_7100A56D08();
 };
 
 class ScreenShopBtnList15 : public ScreenEx {

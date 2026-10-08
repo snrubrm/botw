@@ -672,6 +672,8 @@ public:
 
     // 0x7100933e50 / 0x7100933fb8 (placeholder names): `_130` holds `_8` slots (16 bytes each).
     bool sub_7100933E50() const;
+    // 0x71009348d0 (declared only; not decompiled): takes one bool
+    void sub_71009348D0(bool flag);
     void sub_7100933FB8(u32 index, UiSlotTarget* target);
 
     // 0x7100933fe0 (declared only; 35 callers) / 0x7100934308 (32 callers): adds a string record (id, text, value)
