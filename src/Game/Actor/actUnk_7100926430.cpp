@@ -288,3 +288,7 @@ f32 sub_710092738C(const sead::Vector3f& pos, const sead::Vector3f& target) {
     }
     return result;
 }
+
+const sead::Vector3f& sub_7100928868(const sead::Vector3f& vec) {
+    return vec;
+}

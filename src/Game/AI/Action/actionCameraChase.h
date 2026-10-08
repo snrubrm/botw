@@ -20,6 +20,22 @@ protected:
     void m34() override;
     void m36() override;
 
+    // 0x710075503c (placeholder name): limits _f4 / _f8 from LatMin / LatMax and _fc / _100 from LatLimitMin / LatLimitMax
+    // (angle-wrapped, _fc >= _f4 and _100 <= _f8), then _10c / _110 are their sub_7100751710 curve values.
+    void sub_710075503C();
+    // 0x7100752dc4 (placeholder name): eases _ac towards the camera's _414 translation (or _2b8 without the 0x40000
+    // flag) by sub_7100791E44(_dc) for x / z and sub_7100791E44(_e0) for y.
+    void sub_7100752DC4();
+    // 0x710075156c (placeholder name): sets _90, the weight of the previous mode's blend, from the camera state:
+    // the camera's _7e4 after an event, the Camera GParam's DefaultConnectScaleAfterEvent just after one, else
+    // 1 / _11c / _120 / _124.
+    void sub_710075156C();
+    // 0x71007552b0 (placeholder name; _2be < 2, the player is on foot and the camera's _270 translation is above its
+    // _164 point).
+    bool sub_71007552B0();
+    // 0x7100752b60 (placeholder name): sets / clears bit 1 of _2b8 from sub_71007552B0 and the same player checks
+    // against _160.
+    void sub_7100752B60();
     // 0x710075165c: runs the update of the current mode (_2bb), then restarts the eased progress.
     void sub_710075165C();
     // 0x7100753aa0 / 0x7100753ea4 / 0x7100754194 / 0x7100754a0c / 0x7100754680 (declared only): the per-mode
@@ -175,7 +191,7 @@ protected:
     u8 _2bb = 5;
     u8 _2bc = 5;
     u8 _2bd = 3;
-    bool _2be = false;
+    u8 _2be = 0;
 };
 KSYS_CHECK_SIZE_NX150(CameraChase, 0x2c0);
 

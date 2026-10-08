@@ -6,12 +6,30 @@
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actAiActionBase.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/Framework/frmWorkerSupportThreadMgr.h"
+#include "KingSystem/Resource/Actor/resResourceGParamList.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectCamera.h"
 #include "KingSystem/System/VFR.h"
 #include "KingSystem/Utils/MathUtil.h"
 #include "KingSystem/ksys.h"
 
 Unk_7102459708::Unk_7102459708(ksys::act::ai::ActionBase* owner) : mOwner(owner) {}
+
+const ksys::res::GParamListObjectCamera* Unk_7102459708::sub_7100791DE8() const {
+    if (!mOwner)
+        return nullptr;
+    auto* actor = mOwner->getActor();
+    if (!actor)
+        return nullptr;
+    auto* param = actor->getParam();
+    if (!param)
+        return nullptr;
+    auto* list = param->getRes().mGParamList;
+    if (!list)
+        return nullptr;
+    return list->getCamera();
+}
 
 bool uking::act::Camera::sub_7100795F40(f32** out) {
     if (!out)

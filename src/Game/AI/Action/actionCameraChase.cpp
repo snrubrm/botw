@@ -1,6 +1,8 @@
 #include "Game/AI/Action/actionCameraChase.h"
 #include <math/seadMathCalcCommon.h>
 #include "Game/Actor/actCameraUtil.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectCamera.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 
 namespace uking::action {
 
@@ -168,6 +170,96 @@ void CameraChase::m36() {
     getStaticParam(&mControlMode_s, "controlMode");
     getStaticParam(&mBgCheckToAt_s, "BgCheckToAt");
     getStaticParam(&mKeepManual_s, "keepManual");
+}
+
+// NON_MATCHING: load order only (the original loads _f4 / _f8 together before the first angleStuff call).
+void CameraChase::sub_710075503C() {
+    sub_7100924CDC(*mLatMin_s, *mLatMax_s, &_f4, &_f8);
+    sub_7100924CDC(*mLatLimitMin_s, *mLatLimitMax_s, &_fc, &_100);
+    _fc = angleStuff(_fc < _f4 ? _f4 : _fc);
+    _100 = angleStuff(_100 > _f8 ? _f8 : _100);
+    if (angleStuff(_f4) != angleStuff(_f8)) {
+        _10c = sub_7100751710(_fc);
+        _110 = sub_7100751710(_100);
+    } else {
+        _10c = 0.0f;
+        _110 = 0.0f;
+    }
+}
+
+void CameraChase::sub_7100752DC4() {
+    sead::Vector3f target = sead::Vector3f::zero;
+    if (auto* camera = getCamera()) {
+        const bool flag = camera->_860._7fc.sub_710079C0CC(0x40000);
+        auto* c = getCamera();
+        if (flag) {
+            if (c)
+                target = c->_860._414.getTranslation();
+        } else if (c) {
+            target = c->_860._2b8;
+        }
+    }
+    const f32 rate_xz = sub_7100791E44(_dc);
+    const f32 rate_y = sub_7100791E44(_e0);
+    _ac.x += rate_xz * (target.x - _ac.x);
+    _ac.y += rate_y * (target.y - _ac.y);
+    _ac.z += rate_xz * (target.z - _ac.z);
+}
+
+bool CameraChase::sub_71007552B0() {
+    if (_2be > 1)
+        return false;
+
+    ksys::act::acc::PlayerBase player;
+    sub_7100926A50(&player);
+    if (player.hasProc() && !player.m194() && !player.m188()) {
+        if (auto* camera = getCameraActor())
+            return camera->_860._270.m[1][3] - sub_7100928868(camera->_860._164).y > 0.0f;
+    }
+    return false;
+}
+
+void CameraChase::sub_7100752B60() {
+    if (!_2b8.isOn(2)) {
+        if (sub_71007552B0())
+            _2b8.set(2);
+    } else if (_2be >= 2) {
+        _2b8.reset(2);
+    } else {
+        ksys::act::acc::PlayerBase player;
+        sub_7100926A50(&player);
+        if (!player.hasProc() || player.m194() || player.m188()) {
+            _2b8.reset(2);
+        } else if (auto* camera = getCamera()) {
+            if (camera->_860._270.m[1][3] < _160)
+                _2b8.reset(2);
+        }
+    }
+}
+
+void CameraChase::sub_710075156C() {
+    _90 = 1.0f;
+    auto* camera = getCamera();
+    if (!camera)
+        return;
+
+    if (_2bb == 0 && camera->_860._80f.sub_710079C1F4(1) && camera->_860.sub_710079BF20()) {
+        _90 = camera->_860._7e4;
+        return;
+    }
+
+    if (camera->_860._817 <= 3) {
+        if (auto* param = sub_7100791DE8())
+            _90 = param->mDefaultConnectScaleAfterEvent.ref();
+        return;
+    }
+
+    if (_2b8.isOn(1))
+        _90 = 1.0f;
+    else if (camera->_860._7fc.sub_710079C0CC(0x20000))
+        _90 = _120;
+    else
+        _90 = camera->_860._808.sub_710079AE50(0x40) ? _124 : _11c;
 }
 
 }  // namespace uking::action

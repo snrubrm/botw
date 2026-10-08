@@ -229,6 +229,8 @@ bool sub_71009270A4();
 // (false without a Root6 or camera).
 bool sub_7100927110();
 bool sub_71009271B0();
+// 0x7100928868 (CSV nullsub_2663): returns its argument (a `ret`). Called with Camera::_860._164 by the camera actions.
+const sead::Vector3f& sub_7100928868(const sead::Vector3f& vec);
 // 0x7100927238: sub_71009220FC of the "StickSensitivity" game data value (2 by default).
 f32 sub_7100927238();
 // 0x71009272a8: sub_7100927238's value times sub_7100922120().

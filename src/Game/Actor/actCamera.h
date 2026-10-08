@@ -16,6 +16,10 @@
 #include "KingSystem/Utils/MathUtil.h"
 #include "KingSystem/Utils/Types.h"
 
+namespace ksys::res {
+class GParamListObjectCamera;
+}
+
 namespace ksys::act::ai {
 class ActionBase;
 }
@@ -495,6 +499,9 @@ public:
     // 0x7100791e44: the per-frame lerp factor for `t` (sub_710092523C with the camera's
     // sub_71009251C4 frame count).
     f32 sub_7100791E44(f32 t) const;
+    // 0x7100791de8: the owner actor's Camera GParam object (owner -> actor -> actor param -> GParamList ->
+    // getCamera(); null if any link is missing).
+    const ksys::res::GParamListObjectCamera* sub_7100791DE8() const;
 
     ksys::act::ai::ActionBase* mOwner;
 };
