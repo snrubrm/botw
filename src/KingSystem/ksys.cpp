@@ -14,6 +14,9 @@
 
 namespace ksys {
 
+// 0x71024f4d40 (file-local, initially true; set by setInitBeforeStageGenDone and initBeforeStageGenA / B).
+static bool sInitBeforeStageGenDone = true;
+
 // 0x710260b180 (file-local in the original: addressed with adrp + offset, no GOT entry).
 static bool sIsGameOver;
 
@@ -25,6 +28,10 @@ void setIsGameOver(bool is_game_over) {
     sIsGameOver = is_game_over;
 }
 
+bool sub_7100F3F00C() {
+    return sInitBeforeStageGenDone;
+}
+
 void sub_7100F3ED80() {
     if (auto* mgr = map::PlacementMgr::instance())
         mgr->sub_71011E6EE0();
@@ -34,6 +41,14 @@ void sub_7100F3EE94() {
     if (auto* mgr = world::Manager::instance())
         mgr->sub_71010F78A4();
 }
+
+}  // namespace ksys
+
+void setInitBeforeStageGenDone(bool done) {
+    ksys::sInitBeforeStageGenDone = done;
+}
+
+namespace ksys {
 
 void initBaseProcMgr(sead::Heap* heap) {
     sead::ScopedCurrentHeapSetter setter(heap);

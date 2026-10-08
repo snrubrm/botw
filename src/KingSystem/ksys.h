@@ -34,8 +34,13 @@ void setPlayerLink(act::PlayerLink* link);
 // manager when they exist.
 void sub_7100F3ED80();
 void sub_7100F3EE94();
+// 0x7100f3f00c (placeholder name): the flag set by setInitBeforeStageGenDone (initially true).
+bool sub_7100F3F00C();
 
 // 0x0000007100f40428: stores `camera` (a Camera actor pointer or null) in the camera-using singletons.
 void sub_7100F40428(void* camera);
 
 }  // namespace ksys
+
+// 0x7100f40360 (CSV name; global namespace).
+void setInitBeforeStageGenDone(bool done);
