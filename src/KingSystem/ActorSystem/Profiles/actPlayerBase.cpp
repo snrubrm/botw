@@ -1,5 +1,6 @@
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/System/SeadController.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include <gsys/gsysModel.h>
 #include "Game/Actor/actHorseRideInfo.h"
@@ -173,6 +174,14 @@ bool PlayerBase::sub_7100848F54() {
 
 bool PlayerBase::sub_7100848F5C() {
     return _17d0->controllerCheckPressedMaybe(15);
+}
+
+bool PlayerBase::sub_7100848F68() {
+    return SeadController::getInstance()->isHold(1 << sead::Controller::cPadIdx_Up);
+}
+
+bool PlayerBase::sub_7100848F84() {
+    return SeadController::getInstance()->isHold(1 << sead::Controller::cPadIdx_Down);
 }
 
 bool PlayerBase::runeMgrCheckCanUseRoundBomb() {

@@ -293,6 +293,9 @@ public:
     bool sub_7100848F40();  // playerCheckController(5)
     bool sub_7100848F54();  // false
     bool sub_7100848F5C();  // controllerCheckPressedMaybe(15)
+    // lane4 s64: 0x7100848f68 / 0x7100848f84 (don't use `this`): whether the SeadController holds the pad Up / Down bit.
+    bool sub_7100848F68();
+    bool sub_7100848F84();
     bool x_48();                             // 0x84a988
     bool x_2();                              // 0x84bce8
     // 0x84b580 (CSV PlayerBase::x_2; lane4 s45): 0 unless _cf4 bit 15 is set; then 1 if `_d24` is 0, else 2 if m227().
