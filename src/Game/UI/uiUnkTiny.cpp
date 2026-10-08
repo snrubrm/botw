@@ -1,6 +1,7 @@
 #include "Game/UI/uiUnkTiny.h"
 #include "Game/UI/euiLayoutEx.h"
 #include "Game/UI/euiScreen.h"
+#include "Game/UI/euiTextBoxEx.h"
 #include "KingSystem/Utils/Types.h"
 #include "KingSystem/Sound/sndMgr.h"
 #include <math/seadMathCalcCommon.h>
@@ -99,6 +100,18 @@ Unk_7102474b78::~Unk_7102474b78() = default;
 Unk_7102474ba8::Unk_7102474ba8() = default;
 
 Unk_7102474ba8::~Unk_7102474ba8() = default;
+
+// The animator name (a constant object in the original, 0x7102474b98).
+static const sead::SafeString sUnk_7102474b98 = "Check";
+
+// 0x71009336ac
+void Unk_7102474ba8::sub_71009336AC(eui::LayoutEx* layout) {
+    if (layout) {
+        _8 = layout;
+        if (layout->GetAnimResourceData(sUnk_7102474b98.cstr()))
+            _10 = _8->createAnimatorAuto(sUnk_7102474b98.cstr(), false);
+    }
+}
 
 void Unk_7102474ba8::sub_710093372C(bool first) {
     if (!_8)
@@ -632,6 +645,19 @@ void Unk_7102474b58::sub_7100933294() {
     const char* name = _50->b.cstr();
     screen->invokeSoundLink2Event_(name);
     _50 = nullptr;
+}
+
+// 0x710093331c
+void Unk_7102474b78::sub_71009331C(eui::LayoutEx* layout, eui::TextBoxEx* text) {
+    if (!layout)
+        return;
+    _8 = layout;
+    _10 = text;
+    _18 = eui::sub_7100933580(layout->GetPane()->FindPaneByName("T_RupeeGhost_00", true));
+    _20 = _8->tryCreateAnimatorAuto("GhostIn", false);
+    if (_20)
+        _20->StopAtMin();
+    _28 = _8->tryCreateAnimatorAuto("PlusMinus", false);
 }
 
 // 0x71009333ac

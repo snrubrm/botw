@@ -82,6 +82,8 @@ class Unk_7102474ba8 {
 public:
     Unk_7102474ba8();
     virtual ~Unk_7102474ba8();
+    // 0x71009336ac (placeholder name): attaches the layout and creates the "Check" animator if the layout has one
+    void sub_71009336AC(eui::LayoutEx* layout);
     void sub_710093372C(bool first);
     void sub_7100933774(bool first);
     bool sub_71009337B0() const;
