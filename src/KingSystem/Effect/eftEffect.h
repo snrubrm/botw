@@ -1,6 +1,7 @@
 #pragma once
 
 #include <heap/seadDisposer.h>
+#include <container/seadSafeArray.h>
 #include <thread/seadCriticalSection.h>
 #include "KingSystem/Utils/Types.h"
 
@@ -15,12 +16,21 @@ namespace ksys::eft {
 // pointer first), a count at +0x600 and the lock at +0x608.
 class Unk_EffectActorTable {
 public:
-    // 0x7100da2330 (placeholder name; declaration only): clears the slot holding `actor` and decrements
+    void sub_7100DA2118();
+    // 0x7100da2330 (placeholder name): clears the slot holding `actor` and decrements
     // the count; false when the actor is not in the table. LumberjackTree's destructor calls it.
     bool sub_7100DA2330(act::Actor* actor);
 
 private:
-    u8 _0[0x608];
+    struct Entry {
+        act::Actor* actor;
+        u8 _8[0x20];
+        bool _28;
+        u8 _29[7];
+    };
+    sead::SafeArray<Entry, 32> _0;
+    s32 mCount;
+    u8 _604[4];
     sead::CriticalSection mCS;
 };
 
