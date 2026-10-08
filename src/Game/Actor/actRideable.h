@@ -317,7 +317,8 @@ public:
     /* 0x260 */ u64 _260 = 0;
     /* 0x268 */ u64 _268 = 0;
     /* 0x270 */ sead::Vector2f _270 = sead::Vector2f::zero;
-    /* 0x278 */ u16 _278 = 0;
+    /* 0x278 */ u8 _278 = 0;
+    /* 0x279 */ s8 _279 = 0;  // LynelRodeo::calc_ reads it with ldrsb (finished when negative)
 };
 KSYS_CHECK_SIZE_NX150(Rideable, 0x280);
 

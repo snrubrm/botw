@@ -45,8 +45,7 @@ void LynelRodeo::loadParams_() {
     getStaticParam(&mTurnCheckAngleStep_s, "TurnCheckAngleStep");
 }
 
-// NON_MATCHING: the original reads a separate byte field at 0x279 (`ldrsb`; Rideable::_278 is declared u16 here) and
-// tail-calls setFinished / setFailed from single blocks; ours emits `bl` + shared epilogue for them.
+// NON_MATCHING: the original tail-calls setFinished / setFailed from single blocks; ours emits `bl` + shared epilogue for them.
 void LynelRodeo::calc_() {
     auto* actor = mActor;
     auto* rideable = actor->getHorseOptionsMaybe();
@@ -68,7 +67,7 @@ void LynelRodeo::calc_() {
     if (!controller)
         return;
     act::sub_7100E7F698(rideable, as_list, controller);
-    if (s8(rideable->_278 >> 8) < 0)
+    if (rideable->_279 < 0)
         setFinished();
     if (isFinishedAS(0, 0))
         setFinished();
