@@ -15,6 +15,7 @@ public:
 
 protected:
     void m33() override;
+    void m34() override;
     void m35() override;
     bool m32(sead::Heap* heap) override;
     void m36() override;
@@ -25,6 +26,10 @@ protected:
     // 0x7100755d60 (placeholder name; called by m34): the m33 setup of _68 / _74 / _80, eased by the camera's frame
     // rate instead of set directly.
     void sub_7100755D60();
+
+    void sub_7100755F70();
+    void sub_7100756190();
+    void sub_71007563AC();
 
     sead::Vector3f _4c = sead::Vector3f::zero;
     sead::Vector3f _58 = sead::Vector3f::zero;
