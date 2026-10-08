@@ -61,6 +61,8 @@ public:
     // have a rigid body owner) and acquires it with `_c28`.
     void sub_7100002DA8(ksys::act::Actor* actor);
     bool sub_7100003494(sead::Matrix34f* out);
+    // 0x7100002f78 (placeholder name): the translation of the pose from `sub_7100003494` into `_c68`.
+    void sub_7100002F78();
     void reflectMaybe(const sead::Vector3f& start, const sead::Vector3f& target);
     void sub_71000029CC();
 

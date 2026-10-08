@@ -56,6 +56,12 @@ void BeamBase::sub_7100002DA8(ksys::act::Actor* actor) {
     _c28.acquire(actor, false);
 }
 
+void BeamBase::sub_7100002F78() {
+    sead::Matrix34f pose;
+    if (sub_7100003494(&pose))
+        pose.getTranslation(_c68);
+}
+
 // NON_MATCHING: the pose, position and target snapshot use separate stack storage.
 void BeamBase::m163() {
     sead::Matrix34f pose;
