@@ -206,4 +206,14 @@ f32 ScreenMainScreen::sub_7100A1E44C() {
     return 1.0f;
 }
 
+// 0x7100a1ab68
+f32 ScreenMainScreen::sub_7100A1AB68() const {
+    return _3678.sub_710093695C();
+}
+
+// 0x7100a1ab94
+void ScreenMainScreen::sub_7100A1AB94() {
+    _3678.sub_7100936254(getAnimationStep_(), false);
+}
+
 }  // namespace uking::ui

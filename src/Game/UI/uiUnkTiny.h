@@ -170,6 +170,8 @@ public:
     void sub_71009368EC(f32 step);
     void sub_710093694C();
     f32 sub_710093695C() const;
+    // 0x7100936254 (declared only): the per-frame update of the gauge (600 bytes)
+    void sub_7100936254(f32 step, bool first);
 
 private:
     Unk_7102474be8* mGauge = nullptr;

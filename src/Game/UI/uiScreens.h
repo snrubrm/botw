@@ -775,7 +775,8 @@ public:
     /* 0x3648 */ ScreenMainScreenUnk3648* _3648;
     u8 _pad_3650[0x3658 - 0x3650];
     /* 0x3658 */ ScreenMainScreenUnk3658* _3658;
-    u8 _pad_3660[0x36b0 - 0x3660];
+    u8 _pad_3660[0x3678 - 0x3660];
+    /* 0x3678 */ Unk_7102474c08 _3678;  // 0x38 bytes (0x7100a1ab68 / 0x7100a1ab94 call into it)
     /* 0x36b0 */ void* _36b0;
     // The two ints are written together by sub_7100A1ABF8 ({1, 0}) and separately by sub_7100A1ABC8.
     /* 0x36b8 */ s32 _36b8;
@@ -806,6 +807,10 @@ public:
     bool sub_7100A1E1E0();
     // 0x7100a1e44c (placeholder name): always 1.0
     static f32 sub_7100A1E44C();
+    // 0x7100a1ab68 (placeholder name; called by Unk_7102474c08::sub_7100936254): the value of the gauge member
+    f32 sub_7100A1AB68() const;
+    // 0x7100a1ab94 (placeholder name): runs the gauge update with this screen's animation step
+    void sub_7100A1AB94();
 };
 
 // The MessageTips screen (members from 0x300 recovered from the constructor).
