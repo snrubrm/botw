@@ -291,6 +291,24 @@ inline void LinkTag::queueCalcJob_() {
         act::BaseProcMgr::instance()->queueExtraJobPush(&mJob.getLink());
 }
 
+void LinkTag::sub_7100D39120() {
+    s32 mc_value = 0;
+    if (act::BaseProcMgr::instance()->getJobType() == act::JobType::Calc3) {
+        if (auto* mc = MCMgr::instance()) {
+            mc_value = mc->get1be4();
+            if (mc_value >= 1)
+                act::BaseProcMgr::instance()->mPushActorJobType3InsteadOf6 = true;
+        }
+    }
+
+    if (mState == State::Calc) {
+        const s8 array_idx = act::BaseProcMgr::instance()->getCurrentExtraJobArrayIdx();
+        if (!mStateFlags.isOn(StateFlags::RequestDelete) && _1ec.setBitOn(array_idx))
+            act::BaseProcMgr::instance()->queueExtraJobPush(&mJob.getLink());
+    }
+    _1dd = s8(mc_value);
+}
+
 void LinkTag::queueExtraJobPush_(act::JobType type, int idx) {
     if (type != act::JobType::Calc3)
         return;

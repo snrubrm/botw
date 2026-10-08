@@ -91,6 +91,9 @@ private:
     bool isTriggered(const ObjectLink* link, u32 idx);
     // 0x7100d391cc (CSV updateIsFlagSetFlag; declaration only)
     void updateIsFlagSetFlag(bool on, bool a, bool b);
+    // 0x7100d39120 (placeholder name): sets the actor job type 3 push flag if the MCMgr value is positive and queues the
+    // calc job for a calc-state proc; then stores the MCMgr value in `_1dd`.
+    void sub_7100D39120();
     // inline-only in the original; name is a guess: the end of queueExtraJobPush_ and onEnterCalc_ (queues the calc job
     // for the current extra job array unless the proc is deleted).
     void queueCalcJob_();

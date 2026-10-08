@@ -24,6 +24,10 @@ class FixedSizeJQ;
 class WorkerMgr;
 }  // namespace sead
 
+namespace ksys::map {
+class LinkTag;
+}  // namespace ksys::map
+
 namespace ksys::act {
 
 class ActorParam;
@@ -235,6 +239,8 @@ public:
     static u32 sConstant4;
 
 private:
+    friend class ksys::map::LinkTag;  // writes mPushActorJobType3InsteadOf6 (LinkTag::sub_7100D39120)
+
     void doAddToUpdateStateList_(BaseProc& proc);
 
     bool checkJobPushState() const;
