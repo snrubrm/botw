@@ -54,6 +54,31 @@ void ChemicalStayObject::loadParams_() {
     getMapUnitParam(&mScaleTime_m, "ScaleTime");
 }
 
+void ChemicalStayObject::sub_71000DD774() {
+    if (_bc <= _b8)
+        return;
+
+    _e8.update();
+    if (!(_e8.value <= sead::Mathf::epsilon()))
+        return;
+
+    _e8 = ksys::Timer(20.0f, 20.0f);
+    const sead::Vector3f pos = {mActor->getMtx()(0, 3), mActor->getMtx()(1, 3), mActor->getMtx()(2, 3)};
+    if (_c0) {
+        _c0 = false;
+        _c4 = pos;
+        return;
+    }
+
+    sead::Matrix34f mtx = mActor->getMtx();
+    mtx.setTranslation(_c4);
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(&_1a8[_b8], &accessor);
+    accessor.setProperties(mtx, nullptr, nullptr, nullptr, false, 0, -1);
+    _c4 = pos;
+    ++_b8;
+}
+
 void ChemicalStayObject::calc_() {
     ksys::act::ai::Action::calc_();
 }

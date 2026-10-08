@@ -4,6 +4,7 @@
 #include "KingSystem/ActorSystem/actAiAction.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/ActorSystem/actModelBindInfo.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::action {
 
@@ -20,6 +21,7 @@ public:
 
 protected:
     void calc_() override;
+    void sub_71000DD774();
 
     // static_param at offset 0x20
     const int* mAtAttr_s{};
@@ -57,12 +59,14 @@ protected:
     f32 _ac = 0;
     f32 _b0 = 0;
     f32 _b4 = 0;
-    f32 _b8 = 0;
-    f32 _bc = 0;
+    s32 _b8 = 0;
+    s32 _bc = 0;
     bool _c0 = false;
-    u8 _c1[0xd0 - 0xc1];
-    f32 _d0[8]{};
-    f32 _f0 = 0;
+    u8 _c1[3];
+    sead::Vector3f _c4;
+    ksys::Timer _d0;
+    ksys::Timer _dc;
+    ksys::Timer _e8;
     ksys::act::ModelBindInfo _f8;
     ksys::act::BaseProcLink _198;
     sead::Buffer<ksys::act::BaseProcLink> _1a8;
