@@ -14,8 +14,40 @@ bool ForkStalEnemyGrabOwnPart::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }
 
+// NON_MATCHING: one instruction — ours tests the acquireActor result as `eor + tbnz`
+// (clang's default lowering for a named bool, verified in isolation); the original has a
+// plain `tbz`, which needs the call result tested directly — impossible here since the call
+// precedes the target check. Everything else matches.
 void ForkStalEnemyGrabOwnPart::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Action::enter_(params);
+    _48 = false;
+    _49 = false;
+    mFlags.set(Flag::Changeable);
+    if (!sub_7100724D7C(mActor))
+        setFailed();
+    auto* actor = mActor;
+    if (!actor->getConnectedCalcChild()) {
+        auto* link = &sub_7100724F08(actor, *mPartIndex_d);
+        auto* proc = link->getProc(nullptr, nullptr);
+        auto* target =
+            sead::IsDerivedFrom<ksys::act::Actor>(proc) ? static_cast<ksys::act::Actor*>(proc)
+                                                        : nullptr;
+        ksys::act::ActorConstDataAccess accessor;
+        if (link->hasProc()) {
+            bool acquired = ksys::act::acquireActor(link, &accessor);
+            if (target) {
+                if (acquired) {
+                    if (!accessor.isStateSleep()) {
+                        setFailed();
+                    } else {
+                        accessor.setThisActorAsChild(actor, false);
+                        sub_71005DC208(actor, target, 0);
+                        sub_71005DC41C(target);
+                    }
+                }
+            }
+        }
+    }
 }
 
 void ForkStalEnemyGrabOwnPart::leave_() {
