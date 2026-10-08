@@ -927,6 +927,8 @@ public:
 class ScreenMessageDialog : public Screen {
 public:
     eui::TagProcessor* doCreateTagProcessor_(sead::Heap* heap) override;
+    // 0x71010b5b60 (overrides eui::Screen::isEnableControl): always true
+    bool isEnableControl() const override;
     ~ScreenMessageDialog() override;
     SEAD_RTTI_OVERRIDE(ScreenMessageDialog, Screen)
     // 0x71010b34d0

@@ -305,6 +305,11 @@ struct Unk_710261EF90 {
 };
 static Unk_710261EF90 sUnk_710261EF90;
 
+// 0x71010b5b60
+bool ScreenMessageDialog::isEnableControl() const {
+    return true;
+}
+
 // 0x71010b343c
 bool ScreenMessageDialog::sub_71010B343C() {
     switch (_350) {
