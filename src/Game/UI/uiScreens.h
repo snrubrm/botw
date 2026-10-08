@@ -1539,6 +1539,7 @@ extern const ksys::StateBase sUnk_71025ef290;
 extern const ksys::StateBase sUnk_71025ec670;
 extern const ksys::StateBase sUnk_71025ec5b0;
 extern const ksys::StateBase sUnk_71025ec610;
+extern const ksys::StateBase sUnk_71025ec550;
 // Flag bytes next to the states of ScreenAppTool (0x71025ec548 / 0x71025ec549; written by other screens at run time).
 extern bool sUnk_71025ec548;
 extern bool sUnk_71025ec549;
@@ -2029,7 +2030,18 @@ public:
     const char* getLayoutName_() const override;
     ~ScreenAppTool() override;
     SEAD_RTTI_OVERRIDE(ScreenAppTool, ScreenEx)
+    void m99() override;
+    void m100() override;
+    void m102(eui::AnimButton*) override;
     void m107(eui::AnimButton*) override;
+    // 0x71009fe318 (declared only; placeholder name)
+    void sub_71009FE318(s32 value, bool flag);
+
+    // An element of the table at 0x3640 (0x28 bytes; only the s32 at 0x24 is used so far).
+    struct Record {
+        u8 _0[0x24];
+        s32 _24;
+    };
 
     // Members used by the state callbacks (see the constructor 0x71009fcd64).
     /* 0x3610 */ u8 _3610 = 1;
@@ -2042,9 +2054,9 @@ public:
     // Count and storage of the array the destructor deletes (element type not known).
     /* 0x3638 */ u32 _3638 = 0;
     u8 _pad_363c[0x3640 - 0x363c];
-    /* 0x3640 */ u8* _3640 = nullptr;  // delete[]d by the destructor
+    /* 0x3640 */ Record* _3640 = nullptr;  // delete[]d by the destructor
     /* 0x3648 */ u64 _3648 = 0;
-    /* 0x3650 */ u64 _3650 = 0;
+    /* 0x3650 */ eui::Animator* _3650 = nullptr;
     /* 0x3658 */ u64 _3658 = 0;
     /* 0x3660 */ u64 _3660 = 0;
     /* 0x3668 */ u64 _3668 = 0;

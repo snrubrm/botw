@@ -206,6 +206,42 @@ bool ScreenAppHome::sub_71009DD838(f32 a1) const {
     return _3818.sub_7100938294(a1);
 }
 
+// 0x71009fe1dc
+void ScreenAppTool::m99() {
+    if (sUnk_71025ec540._0 == -1)
+        mStateMachine.changeState(&sUnk_71025ec5b0);
+    else if (sUnk_71025ec548)
+        mStateMachine.changeState(&sUnk_71025ec610);
+    else
+        mStateMachine.changeState(&sUnk_71025ec550);
+}
+
+// NON_MATCHING: register allocation / scheduling only (the original materialises the -1 after the three global loads)
+// 0x71009fe22c
+void ScreenAppTool::m100() {
+    mStateMachine.changeState(&sUnk_710261ee98);
+    sUnk_71025ec540._0 = -1;
+    sUnk_71025ec540._4 = 0;
+    sUnk_71025ec548 = false;
+    sUnk_71025ec549 = false;
+    sUnk_71025ec54a = 0;
+}
+
+// NON_MATCHING: the original builds both record addresses and selects between the pointers (madd + csel) where ours selects the index first
+// 0x71009fe284
+void ScreenAppTool::m102(eui::AnimButton* button) {
+    if (button->IsPlayDisableAnim()) {
+        if (_3650)
+            _3650->StopAtMax();
+        return;
+    }
+    if (_3650)
+        _3650->StopAtMin();
+    const s32 index = button->mTag - 0x70;
+    const Record* record = static_cast<u32>(index) < _3638 ? &_3640[index] : &_3640[0];
+    sub_71009FE318(record->_24, true);
+}
+
 // 0x71009ff43c
 void ScreenAppTool::m107(eui::AnimButton*) {
     _3610 = 1;
