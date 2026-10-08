@@ -372,6 +372,7 @@ target_sources(uking PRIVATE
   aiDemoRootAI.cpp
   aiDemoRootAI.h
   aiDemoRootAIContext.cpp
+  aiDemoRootAIHelpers.cpp
   aiDgnObj_DLC_CogWheel2.cpp
   aiDgnObj_DLC_CogWheel2.h
   aiDgnObj_DLC_CogWheel_Physics_Ctr.cpp

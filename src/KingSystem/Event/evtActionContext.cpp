@@ -125,7 +125,8 @@ bool ActionContext::statusStuff_0() {
 }
 
 // 0x7100da56c4
-void ActionContext::statusStuff_1() {
+void ActionContext::statusStuff_1(act::Actor* actor) {
+    (void)actor;
     switch (mStatus) {
     case 0:
     case 5:

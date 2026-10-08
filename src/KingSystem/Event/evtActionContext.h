@@ -8,6 +8,7 @@ struct ActionArg;
 
 namespace ksys::act {
 class BaseProcLink;
+class Actor;
 }
 
 namespace ksys::evt {
@@ -28,7 +29,9 @@ public:
     // (the bool is passed by the callers -- 0 in ActionBase::m4 / play, 1 in x / Action::x_0 -- and ignored)
     bool statusStuff(bool);
     bool statusStuff_0();
-    void statusStuff_1();
+    // Takes the actor (ignored; the DemoRootAI d6300C helper passes it -- the mov x1 before the bl
+    // proves the argument exists in the original).
+    void statusStuff_1(act::Actor* actor);
     // 0x7100da5678 (CSV x_0)
     void x_0();
     // 0x7100da5708 (CSV statusStuff_2)
