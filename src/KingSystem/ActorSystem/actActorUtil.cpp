@@ -1295,6 +1295,11 @@ bool isAlive(BaseProcLink* link) {
     return false;
 }
 
+void sub_7100EE5AF8(Actor* actor, const sead::Matrix34f& mtx) {
+    if (auto* physics = actor->getPhysics())
+        physics->setMtxAndScale(mtx, false, false, actor->getScale().x);
+}
+
 void sub_7100EE5B18(Actor* actor, const sead::Vector3f& pos) {
     sead::Matrix34f mtx = actor->getMtx();
     mtx.setTranslation(pos);

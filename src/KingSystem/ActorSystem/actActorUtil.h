@@ -281,6 +281,8 @@ void setEnabledTalkAndLockOn(Actor* actor, bool enabled);
 // NPCClerkRoot.
 bool sub_7100EE2850(Actor* actor, ActorLinkConstDataAccess* accessor, bool a3,
                     ActorLinkConstDataAccess* a4, void* a5);
+// 0x7100ee5af8 (placeholder name): passes `mtx` to the actor's InstanceSet::setMtxAndScale with the scale x.
+void sub_7100EE5AF8(Actor* actor, const sead::Matrix34f& mtx);
 // 0x7100ee5b18 (declaration only): sets the actor's translation (copy of its matrix with a new
 // translation passed to InstanceSet::setMtxAndScale).
 void sub_7100EE5B18(Actor* actor, const sead::Vector3f& pos);
