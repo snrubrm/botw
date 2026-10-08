@@ -1,7 +1,9 @@
 #include "Game/UI/uiOnUiActorMgr.h"
+#include "Game/Actor/actPauseMenuPlayer.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerArmors.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 
 namespace uking::ui {
 
@@ -38,6 +40,31 @@ void OnUiActorMgr::sub_7100906E70() {
         _50.reset();
     }
     _1f4.makeAllZero();
+}
+
+// 0x71009070d0
+void OnUiActorMgr::x_4() {
+    const s32 hot = ksys::gdt::getFlag_Item_HotLevelAdd(false);
+    const s32 cold = ksys::gdt::getFlag_Item_ColdResistLevelAdd(false);
+    const s32 burn = ksys::gdt::getFlag_Item_BurnLevelAdd(false);
+    if (hot >= 1) {
+        if (auto* player = static_cast<uking::act::PauseMenuPlayer*>(mActor)) {
+            player->sub_71006E9E24();
+            player->_c3c = hot;
+        }
+    } else if (cold >= 1) {
+        if (auto* player = static_cast<uking::act::PauseMenuPlayer*>(mActor)) {
+            player->sub_71006E9E24();
+            player->_c40 = cold;
+        }
+    } else if (burn >= 1) {
+        if (auto* player = static_cast<uking::act::PauseMenuPlayer*>(mActor)) {
+            player->sub_71006E9E24();
+            player->_c44 = burn;
+        }
+    } else if (auto* player = static_cast<uking::act::PauseMenuPlayer*>(mActor)) {
+        player->sub_71006E9E24();
+    }
 }
 
 }  // namespace uking::ui

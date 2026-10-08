@@ -43,6 +43,8 @@ public:
     void sub_7100907A30();
     // 0x7100906e70 (CSV OnUiActorMgr::__auto3; placeholder name): releases the armors/actor/link actors
     void sub_7100906E70();
+    // 0x71009070d0 (CSV OnUiActorMgr::x_4): applies the heat/cold/burn resist levels to the player
+    void x_4();
 
 private:
     friend class uking::act::PauseMenuPlayer;
