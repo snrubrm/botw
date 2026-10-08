@@ -21,6 +21,12 @@ static struct {
 
 static sead::Vector3f sStarProperty{};
 
+bool ShootingStarMgr::sUnk_71026200E8;
+
+bool ShootingStarMgr::sub_71010DCE2C() {
+    return sUnk_71026200E8;
+}
+
 const sead::Vector3f& ShootingStarMgr::getStarProperty() {
     return sStarProperty;
 }
