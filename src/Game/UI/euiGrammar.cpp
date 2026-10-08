@@ -1,7 +1,54 @@
 #include "Game/UI/euiGrammar.h"
 #include <devenv/seadEnvUtil.h>
+#include <cstring>
 
 namespace eui {
+
+namespace {
+inline u16 readU16(const u8* p) {
+    u16 value;
+    std::memcpy(&value, p, sizeof(value));
+    return value;
+}
+}  // namespace
+
+// NON_MATCHING: same loads, calls and stores; the original schedules the pointer arithmetic of the next record before
+// the assign call and shifts the first two lengths with ubfx
+// 0x7100be3b80
+void Grammar::readWordForms(WordForms* out, const u8* data) {
+    const u8* base = data + 8;
+    const u32 len0 = readU16(base);
+    out->_0.assign(MessageString(len0 >> 1, reinterpret_cast<const char16*>(base + 2)));
+    const u32 len1 = readU16(base + len0 + 2);
+    out->_10.assign(MessageString(len1 >> 1, reinterpret_cast<const char16*>(base + len0 + 4)));
+    const u32 off2 = len0 + 4 + len1;
+    const u32 len2 = readU16(base + off2);
+    out->_20.assign(MessageString(len2 >> 1, reinterpret_cast<const char16*>(base + off2 + 2)));
+}
+
+// NON_MATCHING: same as readWordForms (the two functions are byte-identical in the original)
+// 0x7100be3c20
+void Grammar::readWordForms2(WordForms* out, const u8* data) {
+    const u8* base = data + 8;
+    const u32 len0 = readU16(base);
+    out->_0.assign(MessageString(len0 >> 1, reinterpret_cast<const char16*>(base + 2)));
+    const u32 len1 = readU16(base + len0 + 2);
+    out->_10.assign(MessageString(len1 >> 1, reinterpret_cast<const char16*>(base + len0 + 4)));
+    const u32 off2 = len0 + 4 + len1;
+    const u32 len2 = readU16(base + off2);
+    out->_20.assign(MessageString(len2 >> 1, reinterpret_cast<const char16*>(base + off2 + 2)));
+}
+
+// NON_MATCHING: scheduling of the flag compare and the pointer adds only
+// 0x7100be3cc0
+void Grammar::readWordFlagPair(WordFlagPair* out, const u8* data) {
+    out->_0 = readU16(data + 4) == 8;
+    const u8* base = data + 8;
+    const u32 len0 = readU16(base);
+    out->_8.assign(MessageString(len0 >> 1, reinterpret_cast<const char16*>(base + 2)));
+    const u32 len1 = readU16(base + len0 + 2);
+    out->_18.assign(MessageString(len1 >> 1, reinterpret_cast<const char16*>(base + len0 + 4)));
+}
 
 // NON_MATCHING: character append remains an out-of-line SDK call and loop lowering differs.
 // 0x7100be3d48

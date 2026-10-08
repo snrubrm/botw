@@ -18,6 +18,25 @@ public:
         u8 _3;
     };
 
+    // Placeholders for the word records read from the grammar resource (names and layouts are guesses from the readers).
+    // Three consecutive strings (0x7100be3b80 and 0x7100be3c20 read them identically).
+    struct WordForms {
+        MessageString _0;
+        MessageString _10;
+        MessageString _20;
+    };
+    // A flag and two strings (0x7100be3cc0).
+    struct WordFlagPair {
+        bool _0;
+        MessageString _8;
+        MessageString _18;
+    };
+    // 0x7100be3b80 / 0x7100be3c20 / 0x7100be3cc0 (placeholder names): parse a record (u16 byte length + UTF-16 text,
+    // three times resp. twice, starting at +8) into the strings.
+    static void readWordForms(WordForms* out, const u8* data);
+    static void readWordForms2(WordForms* out, const u8* data);
+    static void readWordFlagPair(WordFlagPair* out, const u8* data);
+
     // 0x7100be39b8
     static void setWordAttrFromTag(WordAttr* attr, const sead::MessageSet<char16>::TagInfo& tag);
     // 0x7100be39dc (CSV unnamed): find a group-0xc9 type-0 tag in the message text, fill `attr`.
