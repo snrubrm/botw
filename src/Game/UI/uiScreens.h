@@ -1221,14 +1221,22 @@ public:
     // 0x71010a3f6c (overrides Screen::m93): creates the layout "Pa_SaveIcon_00" and its "Type" / "Color" animators
     void m93(sead::Heap* heap) override;
 
+    // 0x71010a3f10 / 0x71010a3f3c (placeholder names): set the flag at 0x318 / 0x319; a rising edge restarts the fade
+    // (90.0 at 0x31c / the pair 16.0, 10.0 at 0x320)
+    void sub_71010A3F10(bool on);
+    void sub_71010A3F3C(bool on);
+    // 0x71010a42e0 (slot 101): shows the icon again and starts the close animation of the layout
+    void m101() override;
+
     /* 0x300 */ eui::LayoutEx* _300{};
     /* 0x308 */ void* _308{};
     /* 0x310 */ void* _310{};
-    /* 0x318 */ u16 _318 = 0;
+    /* 0x318 */ bool _318 = false;
+    /* 0x319 */ bool _319 = false;
     /* 0x31a */ bool _31a = true;
-    /* 0x31c */ u32 _31c = 0;
-    /* 0x320 */ u32 _320 = 0;
-    /* 0x324 */ u32 _324 = 0;
+    /* 0x31c */ f32 _31c = 0;
+    /* 0x320 */ f32 _320 = 0;
+    /* 0x324 */ f32 _324 = 0;
 };
 
 // State objects of ScreenGameOver (CSV: unnamed data, 0x71025edda0 / 0x71025ede00).

@@ -219,4 +219,26 @@ f32 UI::sub_71010A71A8() const {
     return -3.0f;
 }
 
+// 0x71010b6124
+void showLoadSaveIcon(bool show) {
+    auto* screen = sead::DynamicCast<ScreenLoadSaveIcon>(
+        eui::ScreenMgr::instance()->getScreen(ScreenId::LoadSaveIcon));
+    if (screen) {
+        screen->sub_71010A3F3C(show);
+        if (show)
+            screen->open(1);
+    }
+}
+
+// 0x71010b61f4 (CSV ui::showLoadSaveIcon_0)
+void showLoadSaveIcon_0(bool show) {
+    auto* screen = sead::DynamicCast<ScreenLoadSaveIcon>(
+        eui::ScreenMgr::instance()->getScreen(ScreenId::LoadSaveIcon));
+    if (screen) {
+        screen->sub_71010A3F10(show);
+        if (show)
+            screen->open(1);
+    }
+}
+
 }  // namespace uking::ui
