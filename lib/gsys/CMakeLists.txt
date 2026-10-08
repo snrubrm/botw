@@ -20,6 +20,7 @@ add_library(gsys OBJECT
   include/gsys/gsysG3dResAnimationEx.h
   include/gsys/gsysPartialSkeletalAnm.h
   include/gsys/gsysModelUnit.h
+  include/gsys/gsysModelUnitGroup.h
   include/gsys/gsysModelUnitDrawArray.h
   include/gsys/gsysOfxLensFlareRig.h
   include/gsys/gsysORUtil.h
@@ -38,6 +39,7 @@ add_library(gsys OBJECT
   src/gsys/gsysG3dResAnimationEx.cpp
   src/gsys/gsysPartialSkeletalAnm.cpp
   src/gsys/gsysModelUnit.cpp
+  src/gsys/gsysModelUnitGroup.cpp
   src/gsys/gsysModelSceneConfig.cpp
   src/gsys/gsysParticleConfig.cpp
 )
