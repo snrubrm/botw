@@ -157,9 +157,9 @@ void GuardianMiniChangeWeapon::sub_710041ABD4() {
             dir.normalize();
             sead::Vector3f rot;
             const sead::Matrix34f& mtx = actor->getMtx();
-            rot.x = dir.x * mtx.m[0][0] + dir.y * mtx.m[0][1] + dir.z * mtx.m[0][2];
-            rot.y = dir.x * mtx.m[1][0] + dir.y * mtx.m[1][1] + dir.z * mtx.m[1][2];
-            rot.z = dir.x * mtx.m[2][0] + dir.y * mtx.m[2][1] + dir.z * mtx.m[2][2];
+            rot.x = dir.x * mtx.m[0][0] + dir.y * mtx.m[1][0] + dir.z * mtx.m[2][0];
+            rot.y = dir.x * mtx.m[0][1] + dir.y * mtx.m[1][1] + dir.z * mtx.m[2][1];
+            rot.z = dir.x * mtx.m[0][2] + dir.y * mtx.m[1][2] + dir.z * mtx.m[2][2];
             sead::Vector3f axis;
             f32 angle;
             ksys::util::sub_71011EEB08(&axis, &angle, rot, sead::Vector3f::ez,
