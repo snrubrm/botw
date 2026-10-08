@@ -275,6 +275,21 @@ f32 Chemical::sub_7100D945AC() const {
     return _1b8 * _1b4;
 }
 
+// NON_MATCHING: same operations; the clamped (1 - _18c) is kept in s1 instead of s0 and the early returns share one ret
+// (register allocation / block layout only).
+f32 Chemical::sub_7100D912AC() const {
+    const f32 value = sead::Mathf::clamp(1.0f - _18c, 0.0f, 1.0f);
+    if (mMaterial->attribute.ref() & 0x10200)
+        return value;
+    if (!_1c8)
+        return 0.0f;
+
+    const f32 limit = mMaterial->ignition_point.ref();
+    if (limit > _17c)
+        return value * sead::Mathf::clamp((_48 * (_174 - _17c)) / ((limit - _17c) * _4c), 0.01f, 1.0f);
+    return value;
+}
+
 bool Chemical::sub_7100D90B14() const {
     return mMaterial && mMaterial->id.ref().startsWith("Animal_");
 }

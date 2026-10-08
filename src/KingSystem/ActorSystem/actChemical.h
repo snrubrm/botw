@@ -84,6 +84,9 @@ public:
     void makeChmElementMaybe(bool a1);
     // 0x7100d90b14 (placeholder name): the material id starts with "Animal_" (false without a material).
     bool sub_7100D90B14() const;
+    // 0x7100d912ac (placeholder name): (1 - _18c) clamped to 0 - 1, scaled (when the material has none of the flags
+    // 0x10200 and `_1c8` is set) by how far _174 has come from _17c towards the material's value at +0x2d0.
+    f32 sub_7100D912AC() const;
     void sub_7100D90B78();
     // 0x7100d91898 (lane4 s47; placeholder name): whether the chemical may be ignited / melted now (needs _c3 >= 30
     // and no pending charge) and the owner agrees (owner slot 36).
@@ -140,7 +143,9 @@ public:
     /* 0x034 */ f32 _34;
     /* 0x038 */ u8 _38[0x40 - 0x38];
     /* 0x040 */ f32 _40;
-    /* 0x044 */ u8 _44[0x50 - 0x44];
+    /* 0x044 */ u8 _44[0x48 - 0x44];
+    /* 0x048 */ f32 _48;
+    /* 0x04c */ f32 _4c;
     /* 0x050 */ f32 _50;
     /* 0x054 */ f32 _54;
     /* 0x058 */ f32 _58;
