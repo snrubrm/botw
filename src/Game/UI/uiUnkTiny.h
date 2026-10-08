@@ -679,6 +679,8 @@ public:
     bool sub_7100933E50() const;
     // 0x71009348d0 (declared only; not decompiled): takes one bool
     void sub_71009348D0(bool flag);
+    // 0x7100933bdc (declared only; 628 bytes): the per-frame update
+    void sub_7100933BDC();
     void sub_7100933FB8(u32 index, UiSlotTarget* target);
 
     // 0x7100933fe0 (declared only; 35 callers) / 0x7100934308 (32 callers): adds a string record (id, text, value)
@@ -690,7 +692,8 @@ public:
     /* 0x128 */ u8 _128 = 0;
     /* 0x130 */ sead::Buffer<UiSlot> _130;
     sead::Buffer<Unk_Elem2> _140;
-    /* 0x150 */ u16 _150 = 0;
+    /* 0x150 */ u8 _150 = 0;
+    /* 0x151 */ u8 _151 = 0;
 };
 
 // Placeholder for the pane-like object Unk_7102474dd0 positions (a translation at 0x30 and a dirty bit in the byte at 0x58).

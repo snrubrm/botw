@@ -3101,6 +3101,8 @@ public:
     s32 m141(const ksys::Message& message) override;
     s32 m142(const ksys::Message& message) override;
     void m96() override;
+    // 0x7100a6ba08 (slot 99): moves the box cursor to the start button (tag 0x68, 0x69 or 0x6a)
+    void m99() override;
     bool isEnableControl() const override;
     ~ScreenTitle() override;
     SEAD_RTTI_OVERRIDE(ScreenTitle, ScreenEx)
@@ -3116,7 +3118,9 @@ public:
     u64 _3620;
     u64 _3628;
     u64 _3630;
-    /* 0x3638 */ s32 _3638 = 0;
+    /* 0x3638 */ u8 _3638 = 0;
+    /* 0x3639 */ bool _3639 = false;
+    u8 _363a[2]{};
     s32 _363c = -1;
     s32 _3640 = -1;
     u8 _3644[4];
@@ -3228,6 +3232,8 @@ public:
 
     // 0x7100a56d08 (placeholder name): clears _3610 and calls _3618.sub_71009348D0(true) if it was set
     void sub_7100A56D08();
+    // 0x7100a54270 (slot 94)
+    void m94() override;
 };
 
 struct ShopInfoTagData;

@@ -201,6 +201,9 @@ bool loadHorseLayoutResImpl();
 bool sub_7100AA862C();
 void sub_7100AA865C();
 
+// 0x7100aa0718 (CSV isRIDDemo; uiMgrFacade2.cpp)
+bool isRIDDemo();
+
 // 0x7100a9b2d0 (uiManagerFacade.cpp): clears the manager's flag at 0x64c4d
 void sub_7100A9B2D0();
 

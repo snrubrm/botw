@@ -15,6 +15,7 @@
 #include "Game/UI/uiTagProcessor.h"
 #include "Game/UI/uiUtils.h"
 #include "Game/UI/uiUI.h"
+#include "Game/DLC/aocManager.h"
 #include "Game/gameScene.h"
 #include "KingSystem/GameData/gdtSpecialFlags.h"
 #include "KingSystem/System/StageInfo.h"
@@ -1035,6 +1036,19 @@ void ScreenPauseMenuMantan::m98() {
     setReservedBoxCursorNode(findBoxCursorNodeByTag(137));
 }
 
+// 0x7100a6ba08
+void ScreenTitle::m99() {
+    s32 tag = 0x68;
+    if (_3639) {
+        tag = 0x69;
+        if (auto* manager = aoc::Manager::instance())
+            tag += manager->getVersion() != 0;
+    }
+    if (isRIDDemo())
+        tag = 0x68;
+    setReservedBoxCursorNode(findBoxCursorNodeByTag(tag));
+}
+
 // 0x7100a69b28
 void ScreenTitle::sub_7100A69B28() {
     _363c = -1;
@@ -1227,6 +1241,15 @@ inline void clearDecideWindowAlpha(eui::AnimButton* button) {
         sub_7100AA1CB8(pane->GetMaterial(i), 0);
 }
 }  // namespace
+
+// 0x7100a54270
+void ScreenSousaGuide::m94() {
+    _3618.sub_7100933BDC();
+    if (_3618._151)
+        x_2();
+    if (_3610 == -1 && _3618.sub_7100933E50())
+        close(-1);
+}
 
 // 0x7100a56d08
 void ScreenSousaGuide::sub_7100A56D08() {
