@@ -43,6 +43,30 @@ bool EquipedRod::sub_7100111C48() {
     return player && player->m296() == 1;
 }
 
+bool EquipedRod::sub_7100111AC4() {
+    auto* weapon = sead::DynamicCast<uking::act::Weapon>(mActor);
+    if (!weapon || weapon->isMasterSword())
+        return false;
+    if (!weapon->_c4c)
+        return false;
+    if (!(weapon->_c20._14 & 8))
+        return false;
+    if (weapon->_d09)
+        return false;
+    if (weapon->_c20._0 == 2)
+        return false;
+    auto* unit = sead::DynamicCast<ai::Unk_7102407678>(*mMagicCreateUnit_a);
+    if (!unit)
+        return false;
+    for (s32 i = 0; i < _a0; ++i) {
+        if (i >= 8)
+            return false;
+        if (!unit->_18[i].isProcReady())
+            return false;
+    }
+    return true;
+}
+
 bool EquipedRod::sub_7100111D60() {
     auto* unit = sead::DynamicCast<ai::Unk_7102407678>(*mMagicCreateUnit_a);
     if (!unit)
@@ -70,6 +94,27 @@ bool EquipedRod::sub_7100111EB8() {
     auto& handle = unit->_8;
     auto* weapon = sead::DynamicCast<uking::act::Weapon>(mActor);
     return handle.isProcReady() && weapon && weapon->_af8._0 == 9 && weapon->m214();
+}
+
+bool EquipedRod::sub_7100112850() {
+    auto* weapon = sead::DynamicCast<uking::act::Weapon>(mActor);
+    if (!weapon)
+        return false;
+    if (weapon->_d38 && (weapon->_d38->_18 & 1))
+        return false;
+    auto* weapon2 = sead::DynamicCast<uking::act::Weapon>(mActor);
+    if (weapon2 && weapon2->_c4c && (weapon2->_c20._0 | 2) == 2 && !weapon2->m214())
+        return true;
+    return sub_7100112C20();
+}
+
+bool EquipedRod::sub_7100112C20() {
+    auto* unit = sead::DynamicCast<ai::Unk_7102407678>(*mMagicCreateUnit_a);
+    if (!unit)
+        return false;
+    auto& handle = unit->_8;
+    auto* weapon = sead::DynamicCast<uking::act::Weapon>(mActor);
+    return handle.isProcReady() && weapon && weapon->_af8._0 == 9 && !weapon->m214();
 }
 
 void EquipedRod::leave_() {
