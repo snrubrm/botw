@@ -15,10 +15,12 @@ namespace ksys::snd {
 
 // Placeholder (the object at Unk68+0x480). Its declared-only method 0x12c5034 (28 B) stores a level derived from its
 // argument in `_10`.
-class Unk_12C5034 {
+// Placeholder type named after its method at 0x71012c5034 (vtable and constructor not identified yet; 0x71012c384c
+// loads a vptr from the same object, so the real class is polymorphic).
+class Unk_71012C5034 {
 public:
-    // 0x12c5034 (declared only)
-    void sub_12C5034(s32 value);
+    // 0x71012c5034 (declared only)
+    void sub_71012C5034(s32 value);
 
     u8 _0[0x10];
     s32 _10;
@@ -92,7 +94,7 @@ public:
         void sub_710104DB84(const sead::SafeString& name);
         void sub_710104DD20(bool flag);
         void sub_710104DD88(bool flag);
-        // 0x710104dd7c (12 B): `_568 = value`, then forwards `value` to the object at +0x480 (Unk_12C5034::sub_12C5034).
+        // 0x710104dd7c (12 B): `_568 = value`, then forwards `value` to the object at +0x480 (Unk_71012C5034::sub_71012C5034).
         void sub_710104DD7C(s32 value);
 
         u8 _8[0xbc - 0x8];
@@ -102,7 +104,7 @@ public:
         u8 _15d[0x1fc - 0x15d];
         /* 0x1fc */ bool _1fc;
         u8 _1fd[0x480 - 0x1fd];
-        /* 0x480 */ Unk_12C5034* _480;
+        /* 0x480 */ Unk_71012C5034* _480;
         u8 _488[0x568 - 0x488];
         /* 0x568 */ s32 _568;
         /* 0x56c */ u16 _56c;
