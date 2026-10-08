@@ -1038,4 +1038,66 @@ hkpCharacterStateType CharacterControllerStateA::m5() const {
     return static_cast<hkpCharacterStateType>(3);
 }
 
+void CharacterController::sub_7100F5FBE0(const sead::Vector3f& pos) {
+    sead::Vector3f velocity;
+    if (mFlags.isOn(0x10000))
+        _298->computeLinearVelocity(&velocity, pos, TakeAngularVelocityIntoAccount(false));
+    else
+        mRigidBody->computeLinearVelocity(&velocity, pos, TakeAngularVelocityIntoAccount(false));
+    sub_7100F5F774(velocity, true, false);
+    if (mFlags.isOn(0x10000))
+        _298->setLinearVelocity(velocity);
+    if (velocity.x != 0.0f || velocity.y != 0.0f || velocity.z != 0.0f)
+        _114 |= 0x20;
+}
+
+// NON_MATCHING: the original stores and reloads the state query results on the stack.
+void CharacterController::sub_7100F60274(const sead::Vector3f& delta) {
+    if (_28->sub_710167785C() == 3 || _28->sub_710167785C() == 2) {
+        sead::Vector3f velocity;
+        mRigidBody->getLinearVelocity(&velocity);
+        velocity += delta;
+        sub_7100F5F774(velocity, true, false);
+        if (mFlags.isOn(0x10000))
+            _298->setLinearVelocity(velocity);
+        if (velocity.x != 0.0f || velocity.y != 0.0f || velocity.z != 0.0f)
+            _114 |= 0x20;
+    }
+}
+
+void CharacterController::warpActorToPosition(const sead::Vector3f& pos) {
+    if (mFlags.isOn(0x10000)) {
+        _298->setPosition(pos, PropagateToLinkedMotions(true));
+    } else {
+        mRigidBody->setPosition(pos, PropagateToLinkedMotions(true));
+        if (_20->_40 != 0)
+            _20->_50 = toHkVec4({-_7c.x, -_7c.y, -_7c.z});
+    }
+    if (_258)
+        _258->invoke(this);
+}
+
+void CharacterController::sub_7100F609E4(Fixed fixed, PreserveVelocities preserve) {
+    if (fixed == Fixed(false) && mFlags.isOn(4))
+        return;
+    mRigidBody->setFixed(fixed, preserve);
+    if (_114 & 0x2000) {
+        for (int i = 0; i < _288.size(); ++i) {
+            if (auto* body = _288[i])
+                body->setFixed(fixed, preserve);
+        }
+    }
+    if (fixed == Fixed(true)) {
+        _114 |= 2;
+        if (preserve == PreserveVelocities(false)) {
+            _60 = 0;
+            _48->sub_7101674940(0);
+            _50->sub_710167A220(0);
+            _58->_c = 0;
+        }
+    } else {
+        _114 &= ~2;
+    }
+}
+
 }  // namespace ksys::phys
