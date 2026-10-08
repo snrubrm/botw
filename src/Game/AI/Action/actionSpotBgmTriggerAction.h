@@ -18,6 +18,9 @@ class Unk_SpotBgmInstance {
 public:
     // 0x7101023050 (declared only; 532 B)
     explicit Unk_SpotBgmInstance(bool a);
+    // 0x71010242c8 (placeholder name): if flag 4 is set, clears flags 0xc and stores 1.0 in `_260` when flag
+    // 0x8000 is set (0.0 otherwise).
+    void sub_71010242C8();
     // 0x71010242f0: SpotBgmTriggerAction::init_ calls it for a box area with
     // IsStopWithoutReductionY.
     void sub_71010242F0();
@@ -26,7 +29,9 @@ public:
     void sub_71010233CC(sead::Heap* heap, const sead::SafeString* name, u64 a3, ksys::act::Actor* actor);
 
     Unk_SpotBgmHandle _8;
-    u8 _10[0x308 - 0x10];
+    u8 _10[0x260 - 0x10];
+    /* 0x260 */ f32 _260;
+    u8 _264[0x308 - 0x264];
     /* 0x308 */ s32 _308;
     u8 _30c[4];
     /* 0x310 */ aal::TimedFader _310;
