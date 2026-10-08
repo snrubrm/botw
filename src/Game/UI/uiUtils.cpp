@@ -6,6 +6,7 @@
 #include <nn/ui2d/Parts.h>
 #include "Game/UI/euiMessageString.h"
 #include "Game/UI/euiMessageMgr.h"
+#include "Game/UI/euiScreen.h"
 #include <devenv/seadEnvUtil.h>
 #include <math/seadMathCalcCommon.h>
 #include <prim/seadStringUtil.h>
@@ -438,6 +439,30 @@ bool sub_7100AA16E8(const nn::ui2d::Pane* pane) {
         pane = pane->GetParent();
     } while (pane);
     return true;
+}
+
+// NON_MATCHING: the original shares the second (overshoot) compare between the two branches; here each branch has
+// both compares.
+// 0x7100aa20f0 (placeholder name): moves `*value` towards `target` by the screen's animation step times `speed`;
+// true (and `*value = target`) once it is reached or passed
+bool sub_7100AA20F0(eui::Screen* screen, f32* value, f32 target, f32 speed) {
+    if (!screen || !value)
+        return false;
+    const f32 step = screen->getAnimationStep_() * speed;
+    const f32 current = *value;
+    f32 next;
+    bool reached;
+    if (current < target) {
+        next = current + step;
+        reached = next >= target || next < current;
+    } else if (current > target) {
+        next = current - step;
+        reached = next <= target || next > current;
+    } else {
+        return true;
+    }
+    *value = reached ? target : next;
+    return reached;
 }
 
 // 0x7100aa7a50
