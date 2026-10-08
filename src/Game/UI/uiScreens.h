@@ -3309,6 +3309,12 @@ public:
     void sub_7100A56D08();
     // 0x7100a54270 (slot 94)
     void m94() override;
+    // 0x7100a5434c (placeholder name; 10684 bytes, declared only): shows the guide page `guide`; `flag` is true when the screen was just opened
+    void sub_7100A5434C(s32 guide, bool flag);
+    // 0x7100a542e4 (placeholder name): opens the screen and shows the guide page `guide` unless it is -1 / 0x16 / shown already
+    void sub_7100A542E4(s32 guide);
+    // 0x7100a56d30 (placeholder name): redraws the current guide page (if any) and runs x_2
+    void sub_7100A56D30();
 };
 
 struct ShopInfoTagData;

@@ -1366,6 +1366,22 @@ void ScreenSousaGuide::sub_7100A56D08() {
     _3618.sub_71009348D0(true);
 }
 
+// 0x7100a542e4
+void ScreenSousaGuide::sub_7100A542E4(s32 guide) {
+    if (guide == -1 || guide == 0x16 || _3610 == guide)
+        return;
+    open(1);
+    sub_7100A5434C(guide, true);
+}
+
+// 0x7100a56d30
+void ScreenSousaGuide::sub_7100A56D30() {
+    if (_3610 == -1)
+        return;
+    sub_7100A5434C(_3610, false);
+    x_2();
+}
+
 // 0x7100a4b10c
 void ScreenShopBtnList15::sub_7100A4B10C(s32 index) {
     moveBoxCursorByTag_(static_cast<u32>(index) < 15 ? index + 122 : 122);
