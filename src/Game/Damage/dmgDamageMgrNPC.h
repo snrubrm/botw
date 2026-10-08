@@ -22,6 +22,11 @@ class DamageMgrNPC : public DamageManagerBase {
 public:
     explicit DamageMgrNPC(ksys::act::Actor* actor);
 
+    // Slot 18 (0x71002c9f84): 3.
+    s32 getNumCallbacks() override;
+    // Slot 20 (0x71002c9f8c): the base reset, resetStuff and a zero `_80`.
+    void resetDamage() override;
+
     // Slot 28 getAttackPos (0x71002c9670; lane4 s64): the direction of the damage by kind: 0 the first contact record's vector, 2 the
     // actor's impulse link vector (zero without one), 3 the direction `_80` (else minus the actor's x axis), others false.
     bool getAttackPos(sead::Vector3f* out) override;

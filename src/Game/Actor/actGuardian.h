@@ -168,8 +168,12 @@ public:
         void sub_7100042B40();
         // 0x7100042b48 (CSV nullsub_6129): empty.
         void sub_7100042B48();
+        // 0x7100042338 (placeholder name): forwards to the owner's sub_71000370B4.
+        bool sub_7100042338() const;
 
-        u8 _0[0x30];
+        u8 _0[0x8];
+        Guardian* _8;  // the owner (sub_7100042338)
+        u8 _10[0x30 - 0x10];
         ksys::phys::NavMeshCharacter* _30;  // m45
         u8 _38[0x50 - 0x38];
         // The movement provider (GuardianMoveTo's second base), set in GuardianMoveTo::enter_ and cleared

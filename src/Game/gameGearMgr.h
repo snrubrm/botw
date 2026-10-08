@@ -40,8 +40,10 @@ class GearMgr {
     virtual ~GearMgr();
 
 public:
-    // 0x7100669ee0 (CSV GearMgr::postCalc; declared only).
+    // 0x7100669ee0 (CSV GearMgr::postCalc): calls postCalc_.
     void postCalc();
+    // 0x7100669644 (CSV GearMgr::postCalc_; 620 B, declared only).
+    void postCalc_();
     // 0x7100669ed8 (placeholder name): empty.
     void sub_7100669ED8();
     // 0x7100669c88 (CSV nullsub_2166): empty.

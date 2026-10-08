@@ -184,6 +184,10 @@ void GearMgr::sub_7100669C88() {}
 
 void GearMgr::sub_7100669ED8() {}
 
+void GearMgr::postCalc() {
+    postCalc_();
+}
+
 // NON_MATCHING: the original keeps both bounds in registers (field-wise csel); ours selects the bound through a
 // stack address. Control flow and arithmetic are the same.
 Fraction sub_7100669F50(f32 value) {

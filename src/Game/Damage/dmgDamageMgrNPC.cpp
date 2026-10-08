@@ -242,4 +242,14 @@ bool DamageMgrNPC::m32(sead::Vector3f* out) {
     }
 }
 
+s32 DamageMgrNPC::getNumCallbacks() {
+    return 3;
+}
+
+void DamageMgrNPC::resetDamage() {
+    DamageManagerBase::resetDamage();
+    resetStuff();
+    _80 = {0.0f, 0.0f, 0.0f};
+}
+
 }  // namespace uking::dmg
