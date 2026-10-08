@@ -1,6 +1,7 @@
 #pragma once
 
 #include <container/seadPtrArray.h>
+#include <math/seadVector.h>
 #include <container/seadObjList.h>
 #include <thread/seadCriticalSection.h>
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
@@ -39,12 +40,31 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(Unk_710250c698, 0x38);
 
+// Interface at ChemicalMgr + 0x20. Vtable 0x710250cac8 (GOT 0x25a0c20): D1 (stores the vptr only), D0, then
+// m2 (returns null), m3 and m4 (empty). ChemicalMgr overrides m2 / m3 / m4; as the overriders of this
+// non-primary base they also get slots 13 - 15 of ChemicalMgr's own vtable (in declaration order m3, m4, m2),
+// and the vtable group at +0x20 holds this-adjusting thunks with those bodies inlined.
+class Unk_710250cac8 {
+public:
+    virtual ~Unk_710250cac8();
+    virtual void* m2(void* arg) { return nullptr; }
+    virtual void m3(const sead::Vector3f* pos) {}
+    virtual void m4() {}
+};
+
 namespace ksys::world {
 
 // TODO
-class ChemicalMgr : public Job {
+class ChemicalMgr : public Job, public Unk_710250cac8 {
 public:
     ChemicalMgr();
+    ~ChemicalMgr() override;
+
+    // m3: sets the position of the actor at `_d88`; m4: `_b10 = 0`; m2: forwards `arg` to
+    // sub_71010CBF7C with the element holder `_ae8` (null without one).
+    void m3(const sead::Vector3f* pos) override;
+    void m4() override;
+    void* m2(void* arg) override;
 
     JobType getType() const override { return JobType::Chemical; }
 
@@ -71,7 +91,6 @@ public:
         u8 type;
     };
     static_assert(sizeof(ChemicalPair) == 0x18);
-    u8 _20[8];
     sead::CriticalSection mChemicalPairLock;
     sead::CriticalSection _68;
     u8 _a8[0x10];
@@ -91,5 +110,12 @@ public:
     u8 _d98[0xdc0 - 0xd98];
 };
 KSYS_CHECK_SIZE_NX150(ChemicalMgr, 0xdc0);
+
+// 0x71010cbf7c (declaration only): called by ChemicalMgr::m2 with (`_ae8`, {arg, `_ae8`}).
+struct Unk_ChemicalMgrM2Arg {
+    void* arg;
+    act::Unk_71024dd490* holder;
+};
+void* sub_71010CBF7C(act::Unk_71024dd490* holder, Unk_ChemicalMgrM2Arg* arg);
 
 }  // namespace ksys::world

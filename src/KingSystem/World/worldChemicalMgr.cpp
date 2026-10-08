@@ -1,10 +1,41 @@
 #include "KingSystem/World/worldChemicalMgr.h"
+#include <math/seadMatrix.h>
 #include <prim/seadScopedLock.h>
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actChemicalElementHolder.h"
 #include "KingSystem/Terrain/teraSystem.h"
 
+// The original keeps the vtable store that an empty destructor would drop: `{ ; }` as in upstream's
+// GameDataFlagSelector::~GameDataFlagSelector() { ; } (commit 96101229).
+Unk_710250cac8::~Unk_710250cac8() {
+    ;
+}
+
 namespace ksys::world {
+
+// NON_MATCHING: placeholder; the original destructor (0x71010ca33c) frees the pools and phys handlers first.
+ChemicalMgr::~ChemicalMgr() = default;
+
+// The three overriders of Unk_710250cac8 are inline in the original: the vtable group at +0x20 has copies of
+// their bodies (0x71010cc0e8, 0x71010cc1a8, 0x71010cc244) instead of branches to them.
+inline void ChemicalMgr::m3(const sead::Vector3f* pos) {
+    act::ActorConstDataAccess accessor;
+    act::acquireActor(&_d88, &accessor);
+    sead::Matrix34f mtx = sead::Matrix34f::ident;
+    mtx.setTranslation(*pos);
+    accessor.setProperties(mtx, nullptr, nullptr, nullptr, false, 0, -1);
+}
+
+inline void ChemicalMgr::m4() {
+    _b10 = 0;
+}
+
+inline void* ChemicalMgr::m2(void* arg) {
+    if (!_ae8)
+        return nullptr;
+    Unk_ChemicalMgrM2Arg m2_arg{arg, _ae8};
+    return sub_71010CBF7C(_ae8, &m2_arg);
+}
 
 void ChemicalMgr::initBeforeStageGen() {
     sead::ScopedLock<sead::CriticalSection> lock(&mChemicalPairLock);
