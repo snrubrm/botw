@@ -261,3 +261,9 @@ bool isFadeDemoOrFadeScreenOpened();
 }
 // 0x71008bb840 (CSV someEventMgrCheck; declared only): the event manager's current event check (global namespace).
 bool someEventMgrCheck();
+// 0x71007be43c / 0x71007be750 (declared only; global namespace): fill the warp-destination map/pos
+// names for the C-dungeon / dungeon to main-field scene change.
+void changeSceneForCDungeonToMainField(int type, sead::BufferedSafeString* map_name,
+                                       sead::BufferedSafeString* pos_name);
+void changeSceneForDungeonToMainField(int type, sead::BufferedSafeString* map_name,
+                                      sead::BufferedSafeString* pos_name);
