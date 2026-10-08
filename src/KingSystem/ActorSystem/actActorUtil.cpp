@@ -924,6 +924,18 @@ bool Actor::hasPlacementLinkForBasicSig() const {
     return findPlacementLinkWithType(map::MapLinkDefType::BasicSig) != nullptr;
 }
 
+bool Actor::sub_7100EE2050() {
+    sead::SafeString tag = "EventTag";
+    sub_71011D8AFC(1, 1, 0x800012, nullptr, &tag);
+    return true;
+}
+
+bool Actor::sub_7100EE20A4() {
+    sead::SafeString tag = "EventTag";
+    sub_71011D8AFC(1, 1, 0x800013, nullptr, &tag);
+    return true;
+}
+
 bool Actor::checkRemainsSignal() const {
     return checkSignal(map::MapLinkDefType::Remains);
 }
