@@ -42,6 +42,9 @@ class NpcShopData;
 
 namespace uking::ui {
 
+// 0x7100aa0700 (declared only): E3 demo mode flag
+bool isE3DemoMode();
+
 int getPorchNum(const sead::SafeString& name);
 
 // 0x7100a94bac: refreshes the pause menu information after a preview animation event.

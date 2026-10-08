@@ -884,6 +884,14 @@ void ScreenPauseMenuMantan::m98() {
     setReservedBoxCursorNode(findBoxCursorNodeByTag(137));
 }
 
+// 0x7100a69b28
+void ScreenTitle::sub_7100A69B28() {
+    _363c = -1;
+    if (isE3DemoMode())
+        _3680 = 0x200;
+    mButtonGroup->_38 |= 2;
+}
+
 // 0x7100a69aec
 void ScreenTitle::sub_7100A69AEC() {
     _3610->PlayAuto(1.0f);

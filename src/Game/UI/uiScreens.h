@@ -2960,6 +2960,8 @@ public:
     // whether it is at its end
     void sub_7100A69AEC();
     bool sub_7100A69B6C();
+    // 0x7100a69b28 (placeholder name): clears _363c, sets _3680 to 0x200 in E3 demo mode, and sets bit 1 of the button group's _38
+    void sub_7100A69B28();
 
     /* 0x3610 */ eui::Animator* _3610;  // zeroed in the constructor body
     u64 _3618;
