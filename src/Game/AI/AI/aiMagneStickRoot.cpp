@@ -10,6 +10,8 @@
 #include "KingSystem/Physics/System/physContactPointInfo.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actUnk_71006e45c4.h"
+#include "KingSystem/Map/mapObject.h"
+#include "KingSystem/Map/mapObjectLink.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
 #include "KingSystem/Physics/System/physShapeCastWithInfo.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
@@ -141,6 +143,64 @@ void MagneStickRoot::loadParams_() {
     getMapUnitParam(&mRegistFromBeginning_m, "RegistFromBeginning");
     getMapUnitParam(&mIgnoreObstacle_m, "IgnoreObstacle");
     getAITreeVariable(&mIsTargetFixedAcceptor_a, "IsTargetFixedAcceptor");
+}
+
+// NON_MATCHING: the original unswitches the loop three ways (filter / index / neither) with
+// cleanup-state codes for the accessor; ours keeps fewer copies. Same calls and logic.
+ksys::map::Object* MagneStickRoot::sub_71004A0174(ksys::act::BaseProc* proc, s32* idx,
+                                                   Unk_7102407060* filter) {
+    if (!proc) {
+        if (idx)
+            *idx = -1;
+        return nullptr;
+    }
+    ksys::act::ActorConstDataAccess accessor(proc);
+    s32 start = 0;
+    bool has_idx = false;
+    if (idx) {
+        start = std::max(*idx, 0);
+        *idx = -1;
+        has_idx = true;
+    }
+    auto* link_data = accessor.getMapObjectLinkData();
+    if (!link_data)
+        return nullptr;
+    const s32 num = link_data->mObjects.size();
+    for (s32 i = start; i < num; ++i) {
+        auto* obj = link_data->mObjects.getBufferPtr()[i];
+        if (!obj)
+            continue;
+        ksys::act::ActorConstDataAccess obj_accessor;
+        obj->getActorWithAccessor(obj_accessor);
+        if (!obj_accessor.hasProc())
+            continue;
+        if (filter && !filter->m0(obj_accessor))
+            continue;
+        if (has_idx)
+            *idx = i;
+        return link_data->mObjects.getBufferPtr()[i];
+    }
+    return nullptr;
+}
+
+void MagneStickRoot::sub_71004A0384(ksys::act::ActorConstDataAccess* out) {
+    f32 min_dist = _88;
+    s32 idx = 0;
+    Unk_7102407060 filter(0x7fe6e43f);
+    auto* actor = mActor;
+    if (!actor)
+        return;
+    const sead::Vector3f pos = actor->getMtx().getTranslation();
+    while (auto* obj = sub_71004A0174(actor, &idx, &filter)) {
+        ksys::act::ActorConstDataAccess accessor;
+        obj->getActorWithAccessor(accessor);
+        const f32 dist = (accessor.getActorMtx().getTranslation() - pos).length();
+        if (dist < min_dist) {
+            out->acquireActor(accessor);
+            min_dist = dist;
+        }
+        ++idx;
+    }
 }
 
 void MagneStickRoot::m35() {

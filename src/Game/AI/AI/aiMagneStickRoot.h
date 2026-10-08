@@ -5,11 +5,12 @@
 #include <math/seadMatrix.h>
 #include <math/seadVector.h>
 
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 #include "KingSystem/System/Timer.h"
 
-namespace ksys::act {
-class ActorLinkConstDataAccess;
+namespace ksys::map {
+class Object;
 }
 
 namespace ksys::phys {
@@ -18,6 +19,17 @@ class ShapeCast;
 }
 
 namespace uking::ai {
+
+// Placeholder name (vtable 0x7102407060; built on the stack by MagneStickRoot::sub_71004A0384): accepts the
+// actors that have the tag `mTag`.
+class Unk_7102407060 {
+public:
+    explicit Unk_7102407060(u32 tag) : mTag(tag) {}
+    // 0x71004a1e84
+    virtual bool m0(const ksys::act::ActorConstDataAccess& accessor) { return accessor.hasTag(mTag); }
+
+    u32 mTag;
+};
 
 class MagneStickRoot : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(MagneStickRoot, ksys::act::ai::Ai)
@@ -57,6 +69,12 @@ public:
     virtual void m51() {}
 
     bool sub_71004A1138(ksys::phys::ShapeCast* cast);
+    // 0x71004a0174 (placeholder name): the first object linked to `proc`'s map object, from index
+    // `*idx` on, whose actor exists and passes `filter`; stores its index in `*idx` (-1 if none).
+    ksys::map::Object* sub_71004A0174(ksys::act::BaseProc* proc, s32* idx, Unk_7102407060* filter);
+    // 0x71004a0384 (placeholder name): acquires in `out` the nearest linked actor with tag 0x7fe6e43f
+    // that is closer than `_88`.
+    void sub_71004A0384(ksys::act::ActorConstDataAccess* out);
 
 protected:
     u32 _38 = 0;
