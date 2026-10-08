@@ -3037,6 +3037,11 @@ u32 sub_7100AA4E70(ShopInfoTagData* data, u32 sel_lo, u32 sel_hi, sead::WBuffere
 // 0x7100aa4e60 / 0x7100aa5140 (CSV placeholders): forwarders reading the selector from the tag data.
 u32 sub_7100AA4E60(ShopInfoTagData* data, sead::WBufferedSafeString* out);
 u32 sub_7100AA5140(ShopInfoTagData* data, sead::WBufferedSafeString* out);
+// 0x7100aa29c4 (CSV unnamed): strip the "_Far" suffix from the name, reporting whether it changed.
+bool sub_7100AA29C4(ShopInfoTagData* data, sead::SafeString& name);
+// 0x7100aa2bdc (CSV unnamed): resolve the tag data's string into a message (suffix-stripped actor
+// name under ActorType/<profile>, or the empty message).
+u32 sub_7100AA2BDC(ShopInfoTagData* data, eui::MessageString* out);
 // 0x71010b3468 / 0x71010b3484 (CSV placeholders): TagInfo adapters into the ksys::eft helpers
 // (called by the ScreenMessage3D tag invoke).
 void sub_71010B3468(const sead::MessageSet<char16>::TagInfo* tag, ksys::act::Actor* actor, bool flag);
