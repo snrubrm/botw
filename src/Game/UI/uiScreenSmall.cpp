@@ -1,3 +1,4 @@
+#include "Game/UI/uiScreenControlCreators.h"
 #include "Game/UI/euiLayoutEx.h"
 #include "Game/UI/uiScreens.h"
 #include <container/seadBuffer.h>
@@ -248,5 +249,21 @@ void ScreenMessageTipsRunTime::m101() {
     if (_3684 == -1)
         _3660 = -1;
 }
+
+
+// ScreenPauseMenu creator; native getter/D0 precede its screen constructor.
+static const ChildControlCreatorEntry sUnk_71024934b0[] = {
+    {"Pa_Save_00", sub_7100A32F3C, 0},
+    {"Pa_Quest_00", sub_7100A33038, 0},
+    {"Pa_PagePorch_", sub_7100A33134, 1},
+};
+static const sead::Buffer<const ChildControlCreatorEntry> sUnk_71024934a0(sUnk_71024934b0);
+// 0x7100a32f0c
+// NON_MATCHING: adjacent owner-TU statics are merged, adding an address offset instruction.
+const sead::Buffer<const ChildControlCreatorEntry>* Unk_71024934f8::getEntries() const {
+    return &sUnk_71024934a0;
+}
+// 0x7100a32f18
+Unk_71024934f8::~Unk_71024934f8() = default;
 
 }  // namespace uking::ui

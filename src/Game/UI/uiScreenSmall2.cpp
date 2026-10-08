@@ -1,3 +1,4 @@
+#include "Game/UI/uiScreenControlCreators.h"
 #include "Game/UI/euiTagProcessor.h"
 #include "Game/UI/euiMessageMgr.h"
 #include "Game/UI/euiAnimator.h"
@@ -2317,5 +2318,102 @@ void ScreenSaveTransferWindow::m291() {
 void ScreenSaveTransferWindow::m310() {
     _3678 |= 1 << Flag(Flag::_1);
 }
+
+
+// ScreenMainScreen3D creator; native getter/D0 precede its screen constructor.
+static const ChildControlCreatorEntry sUnk_710248d260[] = {
+    {"Pa_NoticeZ_00", sub_71009D7198, 0},
+    {"Pa_NoticeItem_00", sub_71009D7198, 0},
+    {"Pa_NoticeItemShop_00", sub_71009D7198, 0},
+};
+static const sead::Buffer<const ChildControlCreatorEntry> sUnk_710248d250(sUnk_710248d260);
+// 0x7100a10e9c
+// NON_MATCHING: adjacent owner-TU statics are merged, adding an address offset instruction.
+const sead::Buffer<const ChildControlCreatorEntry>* Unk_710248d2a8::getEntries() const {
+    return &sUnk_710248d250;
+}
+// 0x7100a10ea8
+Unk_710248d2a8::~Unk_710248d2a8() = default;
+
+// ScreenMainScreen creator; native getter/D0 precede its screen constructor.
+static const ChildControlCreatorEntry sUnk_710248e3c0[] = {
+    {"Pa_ArrowPointer_00", sub_7100A17160, 0},
+    {"Pa_CameraPointer_00", sub_7100A1725C, 0},
+    {"Pa_Information_00", sub_7100A17358, 0},
+    {"Pa_ThrowingPointer_00", sub_71009D7198, 0},
+    {"Pa_PlayerStatusUp_00", sub_7100A17454, 0},
+    {"Pa_ItemPointer_00", sub_7100A17550, 0},
+    {"Pa_TempMeter_00", sub_7100A1764C, 0},
+    {"Pa_Sensor_00", sub_71009E8350, 0},
+    {"Pa_Weather_00", sub_7100A17748, 0},
+    {"Pa_Time_00", sub_71009D7198, 0},
+    {"Pa_Guide_", sub_71009D7198, 1},
+    {"Pa_SinJu_", sub_7100A17844, 1},
+};
+static const sead::Buffer<const ChildControlCreatorEntry> sUnk_710248e3b0(sUnk_710248e3c0);
+// 0x7100a17130
+// NON_MATCHING: adjacent owner-TU statics are merged, adding an address offset instruction.
+const sead::Buffer<const ChildControlCreatorEntry>* Unk_710248e4e0::getEntries() const {
+    return &sUnk_710248e3b0;
+}
+// 0x7100a1713c
+Unk_710248e4e0::~Unk_710248e4e0() = default;
+
+// ScreenMainShortCut creator; native getter/D0 precede its screen constructor.
+// 0x7100a1ec24
+const sead::Buffer<const ChildControlCreatorEntry>* Unk_710248ea90::getEntries() const {
+    return nullptr;
+}
+// 0x7100a1ec2c
+Unk_710248ea90::~Unk_710248ea90() = default;
+
+// ScreenMessageGet creator; native getter/D0 precede its screen constructor.
+static const ChildControlCreatorEntry sUnk_710248f710[] = {
+    {"Pa_Gear_00", sub_7100A233EC, 0},
+    {"Pa_Gear_01", sub_7100A233EC, 0},
+};
+static const sead::Buffer<const ChildControlCreatorEntry> sUnk_710248f700(sUnk_710248f710);
+// 0x7100a233bc
+// NON_MATCHING: adjacent owner-TU statics are merged, adding an address offset instruction.
+const sead::Buffer<const ChildControlCreatorEntry>* Unk_710248f740::getEntries() const {
+    return &sUnk_710248f700;
+}
+// 0x7100a233c8
+Unk_710248f740::~Unk_710248f740() = default;
+
+// ScreenPauseMenuInfo creator; native getter/D0 precede its screen constructor.
+static const ChildControlCreatorEntry sUnk_7102492320[] = {
+    {"Pa_Gear_00", sub_7100A233EC, 0},
+    {"Pa_PlayerStatusUp_00", sub_7100A17454, 0},
+    {"Pa_TempMeter_00", sub_7100A1764C, 0},
+    {"Pa_HaveNum_00", sub_7100A2C3D8, 0},
+    {"Pa_SetBonus_00", sub_71009D7198, 0},
+    {"Pa_RotateGuide_00", sub_71009D7198, 0},
+    {"Pa_Guide_", sub_71009D7198, 1},
+    {"Pa_Sp_", sub_7100A2C4D4, 1},
+};
+static const sead::Buffer<const ChildControlCreatorEntry> sUnk_7102492310(sUnk_7102492320);
+// 0x7100a2c3a8
+// NON_MATCHING: adjacent owner-TU statics are merged, adding an address offset instruction.
+const sead::Buffer<const ChildControlCreatorEntry>* Unk_71024923e0::getEntries() const {
+    return &sUnk_7102492310;
+}
+// 0x7100a2c3b4
+Unk_71024923e0::~Unk_71024923e0() = default;
+
+// ScreenShopBtnList20 creator; native getter/D0 precede its screen constructor.
+static const ChildControlCreatorEntry sUnk_7102496ed8[] = {
+    {"Pa_GuideA_00", sub_71009D7198, 0},
+    {"Pa_GuideB_00", sub_71009D7198, 0},
+    {"Pa_GuideY_00", sub_71009D7198, 0},
+};
+static const sead::Buffer<const ChildControlCreatorEntry> sUnk_7102496ec8(sUnk_7102496ed8);
+// 0x7100a4b67c
+// NON_MATCHING: adjacent owner-TU statics are merged, adding an address offset instruction.
+const sead::Buffer<const ChildControlCreatorEntry>* Unk_7102496f20::getEntries() const {
+    return &sUnk_7102496ec8;
+}
+// 0x7100a4b688
+Unk_7102496f20::~Unk_7102496f20() = default;
 
 }  // namespace uking::ui

@@ -1,3 +1,4 @@
+#include "Game/UI/uiScreenControlCreators.h"
 #include "Game/UI/uiScreens.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "Game/UI/uiUnkSingletons.h"
@@ -202,5 +203,32 @@ s32 ScreenAppPictureBook::m161() {
 s32 ScreenAppPictureBook::m165() {
     return 0;
 }
+
+
+// ScreenAppCamera creator; native getter/D0 precede its screen constructor.
+static const ChildControlCreatorEntry sUnk_7102480388[] = {
+    {"Pa_Guide_", sub_71009D7198, 1},
+    {"Pa_SystemWindow_00", sub_71009D7294, 0},
+};
+static const sead::Buffer<const ChildControlCreatorEntry> sUnk_7102480378(sUnk_7102480388);
+// 0x71009d7168
+const sead::Buffer<const ChildControlCreatorEntry>* Unk_71024803b8::getEntries() const {
+    return &sUnk_7102480378;
+}
+// 0x71009d7174
+Unk_71024803b8::~Unk_71024803b8() = default;
+
+// ScreenAppMapDungeon creator; native getter/D0 precede its screen constructor.
+static const ChildControlCreatorEntry sUnk_7102481048[] = {
+    {"Pa_SensorBox_00", sub_71009DE3F4, 0},
+    {"Pa_SensorIcon_00", sub_71009DE4F0, 0},
+};
+static const sead::Buffer<const ChildControlCreatorEntry> sUnk_7102481038(sUnk_7102481048);
+// 0x71009de3c4
+const sead::Buffer<const ChildControlCreatorEntry>* Unk_7102481078::getEntries() const {
+    return &sUnk_7102481038;
+}
+// 0x71009de3d0
+Unk_7102481078::~Unk_7102481078() = default;
 
 }  // namespace uking::ui

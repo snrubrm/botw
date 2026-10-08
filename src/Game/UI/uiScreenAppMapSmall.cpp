@@ -1,3 +1,4 @@
+#include "Game/UI/uiScreenControlCreators.h"
 #include "Game/UI/uiScreens.h"
 #include "Game/UI/uiUnkSingletons.h"
 #include "Game/UI/euiAnimator.h"
@@ -74,5 +75,25 @@ bool ScreenAppMap::sub_71009EECD0() const {
 s32 ScreenAppMap::sub_71009EED10() const {
     return _3610->sub_71009AEF7C();
 }
+
+
+// ScreenAppMap creator; native getter/D0 precede its screen constructor.
+static const ChildControlCreatorEntry sUnk_7102481768[] = {
+    {"Pa_Map_00", sub_71009E7F60, 0},
+    {"Pa_MapIcon_00", sub_71009E805C, 0},
+    {"Pa_PlayerNavi_00", sub_71009E8158, 0},
+    {"Pa_StampBox_00", sub_71009E8254, 0},
+    {"Pa_SensorIcon_00", sub_71009DE4F0, 0},
+    {"Pa_SensorBox_00", sub_71009DE3F4, 0},
+    {"Pa_Sensor_00", sub_71009E8350, 0},
+    {"Pa_Comp_00", sub_71009E844C, 0},
+};
+static const sead::Buffer<const ChildControlCreatorEntry> sUnk_7102481758(sUnk_7102481768);
+// 0x71009e7f30
+const sead::Buffer<const ChildControlCreatorEntry>* Unk_7102481828::getEntries() const {
+    return &sUnk_7102481758;
+}
+// 0x71009e7f3c
+Unk_7102481828::~Unk_7102481828() = default;
 
 }  // namespace uking::ui

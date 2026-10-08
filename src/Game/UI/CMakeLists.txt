@@ -28,7 +28,6 @@ target_sources(uking PRIVATE
   euiControlBase.cpp
   euiControlCreator.cpp
   uiControlCreator.cpp
-  uiScreenControlCreators.cpp
   euiControlBase.h
   euiGrammar.cpp
   euiTagProcessor.cpp

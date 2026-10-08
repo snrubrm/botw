@@ -1,3 +1,4 @@
+#include "Game/UI/uiScreenControlCreators.h"
 #include "Game/UI/uiManager.h"
 #include "Game/UI/uiScreens.h"
 #include "Game/UI/uiUtils.h"
@@ -280,5 +281,57 @@ ScreenShopInfo::ScreenShopInfo() : ScreenEx(), _3768(this, &ScreenShopInfo::sub_
 }
 
 
+
+
+// ScreenAppHome creator; native getter/D0 precede its screen constructor.
+static const ChildControlCreatorEntry sUnk_7102480a98[] = {
+    {"Pa_Guide_", sub_71009D7198, 1},
+};
+static const sead::Buffer<const ChildControlCreatorEntry> sUnk_7102480a88(sUnk_7102480a98);
+// 0x71009dbe48
+const sead::Buffer<const ChildControlCreatorEntry>* Unk_7102480ab0::getEntries() const {
+    return &sUnk_7102480a88;
+}
+// 0x71009dbe54
+Unk_7102480ab0::~Unk_7102480ab0() = default;
+
+// ScreenShopInfo creator; native getter/D0 precede its screen constructor.
+static const ChildControlCreatorEntry sUnk_71024981e8[] = {
+    {"Pa_ItemName_00", sub_7100A513A4, 0},
+    {"Pa_SubTextRupee_00", sub_7100A514A0, 0},
+    {"Pa_SubTextMamo_00", sub_7100A514A0, 0},
+    {"Pa_Material_", sub_7100A5159C, 1},
+};
+static const sead::Buffer<const ChildControlCreatorEntry> sUnk_71024981d8(sUnk_71024981e8);
+// 0x7100a51374
+const sead::Buffer<const ChildControlCreatorEntry>* Unk_7102498248::getEntries() const {
+    return &sUnk_71024981d8;
+}
+// 0x7100a51380
+Unk_7102498248::~Unk_7102498248() = default;
+
+// ScreenSkip creator; native getter/D0 precede its screen constructor.
+static const ChildControlCreatorEntry sUnk_7102498840[] = {
+    {"Pa_Skip_00", sub_71009D7198, 0},
+};
+static const sead::Buffer<const ChildControlCreatorEntry> sUnk_7102498830(sUnk_7102498840);
+// 0x7100a53578
+const sead::Buffer<const ChildControlCreatorEntry>* Unk_7102498858::getEntries() const {
+    return &sUnk_7102498830;
+}
+// 0x7100a53584
+Unk_7102498858::~Unk_7102498858() = default;
+
+// ScreenSousaGuide creator; native getter/D0 precede its screen constructor.
+static const ChildControlCreatorEntry sUnk_7102498e00[] = {
+    {"Pa_Guide_", sub_71009D7198, 1},
+};
+static const sead::Buffer<const ChildControlCreatorEntry> sUnk_7102498df0(sUnk_7102498e00);
+// 0x7100a53970
+const sead::Buffer<const ChildControlCreatorEntry>* Unk_7102498e18::getEntries() const {
+    return &sUnk_7102498df0;
+}
+// 0x7100a5397c
+Unk_7102498e18::~Unk_7102498e18() = default;
 
 }  // namespace uking::ui
