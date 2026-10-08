@@ -14,6 +14,16 @@ f32 Dragon::x_0() const {
     return _1e1c.length();
 }
 
+void Dragon::m63() {
+    Enemy::m63();
+    sub_710000D474();
+    sub_710000D51C();
+}
+
+void Dragon::sub_710000D51C() {
+    if (!_1f70.isOn(1 << 28))
+        _1ec0.sub_71010F17FC(false);
+}
 
 void Dragon::afterModelMatrixUpdate() {
     if (_1e0c != 0)

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Game/AI/aiUnk_71010F122C.h"
+
 #include <math/seadMatrix.h>
 #include <math/seadVector.h>
 #include <prim/seadBitFlag.h>
@@ -54,6 +56,11 @@ public:
 
     // Placeholder names (non-virtual functions called by the Dragon AI).
     bool sub_710000FDFC() const;
+    // 0x710000d474 (declared only; 168 B): when _1f70 bit 22 is set, clears it and removes three named rigid bodies
+    // from the world.
+    void sub_710000D474();
+    // 0x710000d51c (placeholder name): unless _1f70 bit 28 is set, `_1ec0.sub_71010F17FC(false)` (inlined in m63).
+    void sub_710000D51C();
     bool sub_710000FE10();
     void sub_710000E500(const sead::SafeString& name);
     // 0x710000c440: the dragon's map object: Actor::mMapObject when _1f70 bit 28 is set, otherwise a lookup
@@ -123,7 +130,9 @@ public:
     /* 0x1e58 */ sead::Matrix34f _1e58;
     // gsys::BoneAccessKeyEx at 0x1e88, object with ctor 0x71010f122c at 0x1ec0, two
     // FixedSafeString<20> at 0x1ef0 / 0x1f18
-    /* 0x1e88 */ u8 _1e88[0x1f40 - 0x1e88];
+    /* 0x1e88 */ u8 _1e88[0x1ec0 - 0x1e88];
+    /* 0x1ec0 */ Unk_710250d530 _1ec0;
+    /* 0x1ef0 */ u8 _1ef0[0x1f40 - 0x1ef0];
     /* 0x1f40 */ u8 _1f40[0x1f60 - 0x1f40];
     /* 0x1f60 */ sead::Vector3f _1f60;  // m34
     /* 0x1f6c */ u32 _1f6c = 0;
