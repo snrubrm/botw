@@ -83,6 +83,8 @@ target_sources(uking PRIVATE
   actPlayerCreateUtils.h
   actRideable.cpp
   actRideable.h
+  actRideableEnemy.cpp
+  actRideableEnemy.h
   actRideableBase.cpp
   actRideableBaseS1.cpp
   actRideableBaseS2.cpp
