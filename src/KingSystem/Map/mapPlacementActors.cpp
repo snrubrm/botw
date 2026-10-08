@@ -63,6 +63,13 @@ int PlacementActors::getNumGroups() const {
 
 void PlacementActors::sub_7100D52C0C() {}
 
+void PlacementActors::x_7() {
+    _2a8078.lock();
+    for (auto& obj : _2a8060)
+        obj.sub_7100D4DB08();
+    _2a8078.unlock();
+}
+
 void PlacementActors::x_9() {
     mMutex.lock();
     for (auto*& slot : _f8) {

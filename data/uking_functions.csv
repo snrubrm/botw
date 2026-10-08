@@ -74355,7 +74355,7 @@ Address,Quality,Size,Name
 0x0000007100d4d988,O,000016,_ZN4ksys3map6Object27spawnGenGroupActorsIfNeededEPS1_
 0x0000007100d4d998,U,000288,
 0x0000007100d4dab8,U,000080,
-0x0000007100d4db08,U,000428,
+0x0000007100d4db08,U,000428,_ZN4ksys3map6Object14sub_7100D4DB08Ev
 0x0000007100d4dcb4,O,000044,_ZNK4ksys3map6Object9getRotateEv
 0x0000007100d4dce0,U,000360,PlacementObj::x_21
 0x0000007100d4de48,m,000124,_ZNK4ksys3map6Object29getTraversePosAndLoadDistanceEPN4sead7Vector3IfEEPf
@@ -74479,7 +74479,7 @@ Address,Quality,Size,Name
 0x0000007100d5787c,O,000032,_ZN4ksys3map27getActorTraverseDistPlus100ERKN4sead14SafeStringBaseIcEEf
 0x0000007100d5789c,U,001932,PlacementActors::allocAndInitObj
 0x0000007100d58028,U,000180,PlacementActors::x
-0x0000007100d580dc,U,000152,_ZN4ksys3map15PlacementActors3x_7Ev
+0x0000007100d580dc,O,000152,_ZN4ksys3map15PlacementActors3x_7Ev
 0x0000007100d58174,O,000032,_ZNK4ksys3map15PlacementActors14getStaticObj_2Ei
 0x0000007100d58194,O,000032,_ZN4ksys3map15PlacementActors14getStaticObj_0Ei
 0x0000007100d581b4,O,000032,_ZN4ksys3map15PlacementActors12getStaticObjEi

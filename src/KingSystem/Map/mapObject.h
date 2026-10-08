@@ -106,6 +106,8 @@ public:
 
     void initData(MubinIter* iter, u8 idx, u32 actor_data_idx, ActorData* data);
     void free();
+    // 0x7100d4db08 (placeholder name; declared only; 428 B).
+    void sub_7100D4DB08();
 
     void registerBaseProc(act::BaseProc* proc);
     void setBaseProcDirect(act::BaseProc* proc);

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <container/seadBuffer.h>
+#include <container/seadOffsetList.h>
 #include <container/seadSafeArray.h>
 #include <prim/seadSafeString.h>
 #include <prim/seadTypedBitFlag.h>
@@ -155,7 +156,7 @@ public:
     void sub_7100D52C0C();
     // 0x7100d53558 (CSV placeObject; declaration only)
     void placeObject(Object* obj);
-    // 0x7100d580dc (CSV x_7; declaration only): walks the list at 0x2a8060 under the mutex at 0x2a8078.
+    // 0x7100d580dc (CSV x_7): calls Object::sub_7100D4DB08 on each object of `_2a8060`, under the mutex `_2a8078`.
     void x_7();
     // 0x7100d52ca4 (declared; unnamed in the CSV): adds `obj` to the first free slot of `_f8` (the list x_9 handles).
     void sub_7100D52CA4(Object* obj);
@@ -199,7 +200,12 @@ public:
     sead::SafeArray<ActorData, 6000> mActorData;
     u8 _261b38[0x2a8058 - 0x261b38];
     u32 mActorDataMapSize;
-    u8 _2a805c[0x2a80d0 - 0x2a805c];
+    u8 _2a805c[0x2a8060 - 0x2a805c];
+    // The object list walked by x_7 (its link offset is the list's own mOffset).
+    sead::OffsetList<Object> _2a8060;
+    // The mutex guarding `_2a8060` (used by x_7 only).
+    sead::Mutex _2a8078;
+    u8 _2a80a0[0x2a80d0 - 0x2a8078 - sizeof(sead::Mutex)];
 };
 KSYS_CHECK_SIZE_NX150(PlacementActors, 0x2A80D0);
 
