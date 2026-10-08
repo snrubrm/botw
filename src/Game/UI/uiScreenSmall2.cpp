@@ -6,6 +6,7 @@
 #include "Game/UI/euiButton.h"
 #include "Game/UI/euiLayoutEx.h"
 #include "Game/UI/uiScreens.h"
+#include "Game/UI/uiPauseMenuDataMgr.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
 #include "KingSystem/Resource/resHandle.h"
 #include "Game/gameGraphics.h"
@@ -1351,6 +1352,45 @@ void ScreenShopBtnList5::sub_7100A4E084() {
 // 0x7100a4e2dc
 bool ScreenShopBtnList5::sub_7100A4E2DC() const {
     return mButtonGroup->FindDownButton() != nullptr;
+}
+
+s32 sub_7100A82D3C(PouchCategory category);
+
+// 0x7100a4cc28
+void ScreenShopBtnList20::sub_7100A4CC28(s32 mode) {
+    _3860 = mode;
+    if (_3848)
+        _3848->m6(true);
+    if (_3850)
+        _3850->m6(true);
+    if (_3858)
+        _3858->m6(true);
+}
+
+// 0x7100a4ccb0
+void ScreenShopBtnList20::sub_7100A4CCB0(s32 category, s32 first, s32 last) {
+    if (!_3610)
+        return;
+    const s32 count = _3610->_2a8;
+    for (s32 i = 0; i < count; ++i) {
+        if (i < first || i > last)
+            _3610->sub_710093FDCC(i);
+    }
+    _3610->sub_710093E4B4(0, category, 1);
+    _3610->sub_710093E900(0, category);
+}
+
+// 0x7100a4cd80
+// NON_MATCHING: call-argument evaluation caches the receiver before the count query.
+void ScreenShopBtnList20::sub_7100A4CD80(s32 index) {
+    if (!_3610)
+        return;
+    const s32 category = _3610->_2e4;
+    const s32 count = sub_7100A82D3C(PouchCategory(category));
+    _3610->sub_710093F278(sead::Mathi::max(sub_7100A82DB8(category), 1) * count, category);
+    _3610->sub_710093E4B4(count > 0 ? index / count : 0, category, 1);
+    _3610->sub_710093E900(index, category);
+    _3610->sub_71009401E4();
 }
 
 // 0x7100a4cd5c

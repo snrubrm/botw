@@ -2251,6 +2251,8 @@ struct PictureBookGroupList {
 struct ScreenAppPictureBookUnk {
     // 0x710093ff88: releases active units across the existing group lists (undecompiled).
     void sub_710093FF88();
+    // 0x710093e4b4: forwards signed item/category and mode to the bool selection helper.
+    bool sub_710093E4B4(s32 index, s32 category, s32 mode);
     // 0x710093f594 (CSV unnamed; not decompiled)
     void sub_710093F594(bool a1);
     // 0x710093e900 (placeholder name): sub_710093E784 of `base` plus the _29c of the first `count` entries
@@ -3120,13 +3122,22 @@ public:
     void m98() override;
     // 0x7100a4cd5c / 0x7100a4cd70 / 0x7100a4ce28 (placeholder names): forward to the picture book controller
     void sub_7100A4CD5C(bool value);
+    void sub_7100A4CCB0(s32 category, s32 first, s32 last);
+    void sub_7100A4CD80(s32 index);
+    void sub_7100A4CC28(s32 mode);
     void sub_7100A4CD70();
     s32 sub_7100A4CE28();
     // 0x7100a4ce68 (placeholder name): plays the sound event of a carry action (0: decide, 1: prohibited, 2: sort, 3: carry,
     // 4: carry end)
     void sub_7100A4CE68(s32 action);
     /* 0x3610 */ ScreenAppPictureBookUnk* _3610;
-    u8 _pad_3618[0x3864 - 0x3618];
+    u8 _pad_3618[0x3840 - 0x3618];
+    // Producer A4C708 creates this animator and casts the three getChild results to ScreenChildEx.
+    /* 0x3840 */ eui::Animator* _3840;
+    /* 0x3848 */ ScreenChildEx* _3848;
+    /* 0x3850 */ ScreenChildEx* _3850;
+    /* 0x3858 */ ScreenChildEx* _3858;
+    /* 0x3860 */ s32 _3860;
     /* 0x3864 */ u8 _3864;
     u8 _pad_3865[0x3868 - 0x3865];
     eui::AnimButton* _3868;
