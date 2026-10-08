@@ -1988,7 +1988,7 @@ public:
     // Count and storage of the array the destructor deletes (element type not known).
     /* 0x3638 */ u32 _3638 = 0;
     u8 _pad_363c[0x3640 - 0x363c];
-    /* 0x3640 */ void* _3640 = nullptr;
+    /* 0x3640 */ u8* _3640 = nullptr;  // delete[]d by the destructor
     /* 0x3648 */ u64 _3648 = 0;
     /* 0x3650 */ u64 _3650 = 0;
     /* 0x3658 */ u64 _3658 = 0;
@@ -3326,23 +3326,25 @@ public:
     ~ScreenAppHome() override;
     SEAD_RTTI_OVERRIDE(ScreenAppHome, ScreenEx)
 
-    u64 _3610[0x50 / 8] = {};
+    // 0x3610 .. 0x3660 is zeroed by one memset in the constructor; the pointer at 0x3640 is an animator
+    // (0x71009dd81c reads its finished flag).
+    struct Unk3610 {
+        u8 _0[0x30];
+        eui::Animator* _30;
+        u8 _38[0x50 - 0x38];
+    };
+    /* 0x3610 */ Unk3610 _3610 = {};
     u64 _3660[0x30 / 8];
     u64 _3690[2] = {};
     /* 0x36a0 */ Unk_7102474bc8 _36a0;
-    /* 0x37f8 */ u32 _37f8 = 0;
-    /* 0x37fc */ u32 _37fc = 0;
-    /* 0x3800 */ u32 _3800 = 0;
-    /* 0x3804 */ u32 _3804 = 0;
+    /* 0x37f8 */ sead::PtrArrayImpl _37f8;  // freed by the destructor (0x71009dc3ec)
     /* 0x3808 */ u32 _3808 = 0;
     /* 0x380c */ u32 _380c = 4;
-    /* 0x3810 */ u16 _3810 = 0;
+    /* 0x3810 */ u8 _3810 = 0;
+    /* 0x3811 */ u8 _3811 = 0;
     u8 _3812[0x3818 - 0x3812];
     /* 0x3818 */ Unk_7102474df8 _3818;
-    /* 0x38a0 */ Unk_7102474dd0 _38a0;
-    /* 0x38c8 */ Unk_7102474dd0 _38c8;
-    /* 0x38f0 */ Unk_7102474dd0 _38f0;
-    /* 0x3918 */ Unk_7102474dd0 _3918;
+    /* 0x38a0 */ Unk_7102474dd0 _38a0[4];
 
     // 0x71009de1c8 / 0x71009dcf18 (CSV unnamed; the second is declared only)
     void sub_71009DE1C8();
@@ -3355,6 +3357,12 @@ public:
     void sub_71009DD814();
     void sub_71009DD7EC(bool a1);
     void sub_71009DD800(bool a1);
+    // 0x71009dd81c (placeholder name): the finished flag of the animator at 0x3640
+    bool sub_71009DD81C() const;
+    // 0x71009ddfb8 (slot 99): when the byte at 0x3811 is set, calls ui::sub_7100AA86EC(1, false)
+    void m99() override;
+    // 0x71009dc77c (placeholder name): stores `value` in the third word (+0x10) of the Unk_7102474dd0 `index` (0-3)
+    void sub_71009DC77C(s32 index, Unk_PaneTransform* value);
     // 0x71009dd838 (placeholder name): forwards the float to the _3818 Unk_7102474df8 check
     bool sub_71009DD838(f32 a1) const;
 };

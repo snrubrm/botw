@@ -201,6 +201,10 @@ bool loadHorseLayoutResImpl();
 bool sub_7100AA862C();
 void sub_7100AA865C();
 
+// 0x7100aa86ec (placeholder name; declared only, not decompiled): sets a flag of a layer of the agl layer renderer
+// through Graphics (index clamped to the layer count; nothing happens without the global at 0x7102652458).
+void sub_7100AA86EC(u32 index, bool flag);
+
 // 0x7100aa8fcc (placeholder name): `*out = clamp(value / max, 0, 1) * 100`; returns whether the ratio was inside [0, 1].
 bool sub_7100AA8FCC(f32* out, f32 value, f32 max);
 // 0x7100aa946c (placeholder name): the frame rate of the VFR (30 while it does not exist).

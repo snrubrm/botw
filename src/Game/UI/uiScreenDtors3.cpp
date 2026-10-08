@@ -32,7 +32,16 @@ ScreenRupee::~ScreenRupee() = default;
 ScreenKologNum::~ScreenKologNum() = default;
 ScreenAkashNum::~ScreenAkashNum() = default;
 ScreenMamoNum::~ScreenMamoNum() = default;
-ScreenAppTool::~ScreenAppTool() = default;
+// 0x71009fce34 (D1): frees the array, then resets the ScreenAppHome slot 0
+ScreenAppTool::~ScreenAppTool() {
+    if (_3640) {
+        delete[] _3640;
+        _3640 = nullptr;
+        _3638 = 0;
+    }
+    if (auto* screen = sead::DynamicCast<ScreenAppHome>(eui::ScreenMgr::instance()->getScreen(ScreenId::AppHome)))
+        screen->sub_71009DC77C(0, nullptr);
+}
 ScreenAppAlbum::~ScreenAppAlbum() = default;
 ScreenAppPictureBook::~ScreenAppPictureBook() = default;
 ScreenAppMapDungeon::~ScreenAppMapDungeon() = default;
@@ -40,7 +49,12 @@ ScreenMainScreen::~ScreenMainScreen() = default;
 ScreenPickUp::~ScreenPickUp() = default;
 ScreenMessageTipsRunTime::~ScreenMessageTipsRunTime() = default;
 ScreenAppMap::~ScreenAppMap() = default;
-ScreenAppHome::~ScreenAppHome() = default;
+// 0x71009dc3ec (D1): frees the array, then shows the skip screen again (m80(true)) if there is one
+ScreenAppHome::~ScreenAppHome() {
+    _37f8.freeBuffer();
+    if (auto* screen = sead::DynamicCast<Screen>(eui::ScreenMgr::instance()->getScreen(ScreenId::Skip)))
+        screen->m80(true);
+}
 // 0x7100a1f0bc
 ScreenMainShortCut::~ScreenMainShortCut() {
     _3850.freeBuffer();

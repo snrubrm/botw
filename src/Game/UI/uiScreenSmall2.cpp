@@ -1709,6 +1709,23 @@ void ScreenAppHome::sub_71009DD7DC() { sub_71009DCF18(5); }
 void ScreenAppHome::sub_71009DD7E4() { sub_71009DCF18(7); }
 void ScreenAppHome::sub_71009DD814() { sub_71009DCF18(0); }
 
+// 0x71009dd81c
+bool ScreenAppHome::sub_71009DD81C() const {
+    return _3610._30 && (_3610._30->mFlags & 1);
+}
+
+// 0x71009ddfb8
+void ScreenAppHome::m99() {
+    if (_3811)
+        sub_7100AA86EC(1, false);
+}
+
+// 0x71009dc77c
+void ScreenAppHome::sub_71009DC77C(s32 index, Unk_PaneTransform* value) {
+    if (u32(index) <= 3)
+        _38a0[index]._10 = value;
+}
+
 // 0x7100a432fc
 void ScreenSaveTransferWindow::m107(eui::AnimButton*) {
     if (mStateMachine.getState()->getId() == (&sUnk_71025f2d80)->getId())
