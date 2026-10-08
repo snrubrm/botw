@@ -1,6 +1,10 @@
 #include "KingSystem/Event/evtS7.h"
 #include "Game/gameRoot38.h"
 #include "Game/UI/uiUnkSingletons.h"
+#include "Game/UI/uiUI.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "KingSystem/Event/evtEventSystem.h"
+#include "KingSystem/Event/evtManager.h"
 #include "KingSystem/Physics/System/physSystem.h"
 
 namespace ksys::evt {
@@ -31,6 +35,23 @@ bool S7EventFlow::isPlaying() {
     return mState == 3;
 }
 
+// 0x71008b6748
+// NON_MATCHING: only the int-conversion spill slot differs (original reuses [sp, #0x8], later reused
+// by the accessor; ours uses a separate top-of-frame slot). Tried switch-on-member, switch-on-getType
+// (matches in m9), if with !=, by-value local, and orderings - the spill address is the only diff.
+void S7EventFlow::setup_1() {
+    mFlow->getBaseProcLink();
+    if (int(mFlow->getType()) != EventFlowType::MovieWithNoPath) {
+        ksys::act::acc::PlayerBase accessor;
+        accessor.getPlayerFromPlayerInfo();
+        Manager::instance()->sub_7100DB0FB0(*accessor.getMessageTransceiverId(),
+                                            MessageType(0x80000b2), nullptr);
+        uking::ui::UI* ui = uking::ui::UI::instance();
+        if (ui)
+            ui->x_0(false);
+        EventSystem::instance()->_144 &= ~1;
+    }
+}
 // 0x71008afcdc
 bool S7EventFlow::calc() {
     const u32 result = calc_();
