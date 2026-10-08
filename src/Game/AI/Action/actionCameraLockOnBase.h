@@ -53,6 +53,9 @@ protected:
     // 0x7100786974: `*out` = the longitude from LngNear / LngFar blended by _b8, negated when the camera's
     // azimuth is more than _a0._14 degrees ahead.
     void sub_7100786974(f32* out);
+    // Native helpers blend the viewing direction and adjust collision radius (0x71007860dc / 6a44).
+    void sub_71007860DC(const act::Unk_7100922700* polar, f32* out);
+    void sub_7100786A44(act::Unk_71009214b8* out, const f32* latitude, const f32* longitude);
 
     sead::Vector3f _4c = sead::Vector3f::zero;
     sead::Vector3f _58 = sead::Vector3f::zero;
