@@ -22,6 +22,7 @@ public:
 
 protected:
     void calc_() override;
+    s32 sub_71001788F4();
     bool sub_7100178AA0();
     void sub_7100178DC4(s32 index, ksys::act::ActorConstDataAccess* accessor);
 

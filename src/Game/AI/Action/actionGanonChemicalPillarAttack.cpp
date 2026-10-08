@@ -26,6 +26,31 @@ GanonChemicalPillarAttack::~GanonChemicalPillarAttack() {
     }
 }
 
+s32 GanonChemicalPillarAttack::sub_71001788F4() {
+    const s32 start = _c0;
+    if (_cc != -1)
+        return start > _cc ? start : start - 1;
+
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
+        for (u32 i = start; i < 19; ++i) {
+            const sead::FormatFixedSafeString<64> name("IronPile%d", i);
+            if (enemy->getActorPartsActor(name).hasProc()) {
+                ksys::act::ActorConstDataAccess accessor;
+                ksys::act::acquireActor(&enemy->getActorPartsActor(name), &accessor);
+                if (accessor.sub_7100D13BB8()) {
+                    const sead::Vector3f diff =
+                        accessor.getActorMtx().getTranslation() - mActor->getMtx().getTranslation();
+                    if (diff.squaredLength() <= 16.0f) {
+                        _cc = i;
+                        return i;
+                    }
+                }
+            }
+        }
+    }
+    return start;
+}
+
 bool GanonChemicalPillarAttack::sub_7100178AA0() {
     if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
         for (u32 i = 0; i < 19; ++i) {
