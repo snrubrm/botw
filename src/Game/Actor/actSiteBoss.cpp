@@ -1,5 +1,7 @@
 #include "Game/Actor/actSiteBoss.h"
 #include <basis/seadNew.h>
+#include "Game/AI/aiUnk_71007368A4.h"
+#include "Game/Damage/dmgDamageManager.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actChemical.h"
@@ -85,6 +87,12 @@ void SiteBoss::sub_71002D2390() {
     _2358 = ksys::eft::searchAndEmitELink(this, "LightShield");
 }
 
+// 0x71002d1740 (placeholder name): sets the shield guard power (DamageManager::_70) of the damage manager.
+void SiteBoss::sub_71002D1740(s32 value) {
+    if (auto* mgr = sead::DynamicCast<dmg::DamageManager>(getDamageMgr()))
+        mgr->_70 = value;
+}
+
 // 0x71002d28bc / 0x71002d3944 / 0x71002d39d8: m159() is the controller; the function-local static guard at
 // 0x2584000 + 0x868 is DynamicCast<Unk_710244fee8>'s typeinfo (vptr Derive<Unk_71025ae680>).
 void SiteBoss::sub_71002D28BC() {
@@ -100,6 +108,19 @@ void SiteBoss::sub_71002D3944() {
 void SiteBoss::sub_71002D39D8() {
     if (auto* controller = sead::DynamicCast<Unk_710244fee8>(m159()))
         controller->_1c = false;
+}
+
+// 0x71002d2ae0 (placeholder name): false when `a` has reached a positive `b`, or the life is at most `rate` of the max and
+// the ASList is not in the state x(22, ...) tests.
+bool SiteBoss::sub_71002D2AE0(f32 rate, s32 a, s32 b) {
+    if (b >= 1 && a >= b)
+        return false;
+    if (!checkHpRate(this, rate))
+        return false;
+    auto* as_list = getASList();
+    if (as_list && as_list->x(22, nullptr, 0, 0, &ksys::as::ASList::Unk2::sub_71011638DC, true))
+        return false;
+    return true;
 }
 
 void SiteBoss::sub_71002D2A5C(s32 bit, bool on) {
@@ -261,6 +282,38 @@ bool SiteBoss::sub_71002D3804(ksys::act::Actor* actor, const sead::SafeString& p
     ksys::act::ActorConstDataAccess acc;
     ksys::act::acquireActor(&boss->_1128.getActorPartsActor(part), &acc);
     return acc.isStateCalc();
+}
+
+namespace {
+// Same shape as getProcIfActor in actActorConstDataAccess.cpp (the original inlines ActorConstDataAccess::getActor()).
+ksys::act::BaseProc* getProcIfActor(ksys::act::BaseProc* proc) {
+    if (proc && sead::IsDerivedFrom<ksys::act::Actor>(proc))
+        return proc;
+    return nullptr;
+}
+}  // namespace
+
+// 0x71002d3b20 (placeholder name): the accessor's proc as a SiteBoss (Actor check, then SiteBoss).
+SiteBoss* SiteBoss::sub_71002D3B20(const ksys::act::ActorConstDataAccess& accessor) {
+    auto* actor = static_cast<ksys::act::Actor*>(getProcIfActor(accessor.getProc()));
+    return sead::DynamicCast<SiteBoss>(actor);
+}
+
+// 0x71002d3a68 (placeholder name): the accessor's SiteBoss has a damage manager with pending damage.
+bool SiteBoss::sub_71002D3A68(const ksys::act::ActorConstDataAccess& accessor) {
+    auto* boss = sub_71002D3B20(accessor);
+    if (!boss)
+        return false;
+    auto* mgr = sead::DynamicCast<dmg::DamageManager>(boss->getDamageMgr());
+    if (mgr && s32(mgr->getDamage()) > 0)
+        return true;
+    return false;
+}
+
+// 0x71002d3c14 (placeholder name): bit 9 of _14c8._30 of the accessor's SiteBoss.
+bool SiteBoss::sub_71002D3C14(const ksys::act::ActorConstDataAccess& accessor) {
+    auto* boss = sub_71002D3B20(accessor);
+    return boss && boss->_14c8._30.isOnBit(9);
 }
 
 void SiteBoss::sub_71002D38EC(const sead::SafeString& name) {
