@@ -1,6 +1,7 @@
 #include "KingSystem/Physics/RigidBody/physRigidBodyRequestMgr.h"
 #include <Havok/Physics2012/Dynamics/World/hkpWorld.h>
 #include <prim/seadScopedLock.h>
+#include "KingSystem/Physics/Constraint/physConstraint.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/System/physSystem.h"
 #include "KingSystem/Physics/System/physUserTag.h"
@@ -135,6 +136,22 @@ void RigidBodyRequestMgr::removeEntityFromWorld(ContactLayerType type, hkpEntity
     auto* world = System::instance()->getHavokWorld(type);
     if (world->removeEntity(entity))
         --mNumEntitiesInWorld;
+}
+
+void RigidBodyRequestMgr::addConstraintToWorld(hkpConstraintInstance* constraint) {
+    static_cast<void>(System::instance()->isActorSystemIdle());
+
+    auto* world = System::instance()->getHavokWorld(ContactLayerType::Entity);
+    if (!world->addConstraint(constraint))
+        sub_7100F6AC60(constraint);
+}
+
+void RigidBodyRequestMgr::removeConstraintFromWorld(hkpConstraintInstance* constraint) {
+    static_cast<void>(System::instance()->isActorSystemIdle());
+
+    auto* world = System::instance()->getHavokWorld(ContactLayerType::Entity);
+    if (!world->removeConstraint(constraint))
+        sub_7100F6AC60(constraint);
 }
 
 bool RigidBodyRequestMgr::onMaxPositionExceeded(ContactLayerType layer_type, RigidBody* body) {

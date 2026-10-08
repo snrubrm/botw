@@ -6,6 +6,7 @@
 #include <prim/seadRuntimeTypeInfo.h>
 #include <thread/seadCriticalSection.h>
 #include <thread/seadSpinLock.h>
+#include "KingSystem/Physics/System/physUnk_71012a6844.h"
 
 class hkpConstraintInstance;
 
@@ -20,6 +21,14 @@ struct ConstraintUnk18 {
     bool sub_7100F6C658() const;
     // 0x7100f6c64c: stores `value` in the object at +8 (+0x44).
     void sub_7100F6C64C(f32 value);
+};
+
+class Constraint;
+
+// Placeholder (the object at Constraint +0xa0): 0x7100f6a474 calls its first virtual with (this, false) before the
+// constraint is added to the world.
+struct ConstraintUnkA0 {
+    virtual void m0(Constraint* constraint, bool x) = 0;
 };
 
 class Constraint {
@@ -59,6 +68,16 @@ public:
     void sub_7100F6A6F8(bool a1, bool a2);
     // 0x7100f6aaa4 (lane4 s49; declared only, 308 B): attaches the constraint to the two bodies.
     void sub_7100F6AAA4(RigidBody* a, RigidBody* b);
+    // 0x7100f6a228 (placeholder name): under mCS, applies the pending bodies (if _50 bit 0), then the bit 0 and
+    // bit 2 requests, and clears _52.
+    void sub_7100F6A228();
+    // 0x7100f6a300 (placeholder name): replaces the attached body `old_body` with `body` in the hk constraint
+    // (removing and re-adding it to the world if it is added) and sets bit 0x800000 of the new body's flags.
+    bool sub_7100F6A300(RigidBody* old_body, RigidBody* body);
+    // 0x7100f6a474 (placeholder name): adds the constraint to the world (optionally applying the pending bodies first).
+    bool sub_7100F6A474(bool apply_pending);
+    // 0x7100f6a5c8 (placeholder name): sets the virtual mass inverses from _98 / _9c and the two body masses.
+    void sub_7100F6A5C8();
     // 0x7100f6abd8: mPendingBodies[idx] (idx clamped to 0-1), falling back to mCurrentBodies[idx].
     RigidBody* x_0(int idx) const;
     // 0x7100f6a69c (lane4 s64; placeholder names): clears body `idx` and the bit 3 (0x8) request.
@@ -83,7 +102,7 @@ public:
     /* 0x08 */ hkpConstraintInstance* mConstraintInstance;
     /* 0x10 */ u32 _10;
     /* 0x18 */ ConstraintUnk18* _18;
-    /* 0x20 */ void* _20;
+    /* 0x20 */ Unk_71012a6844::ItemA* _20;
     /* 0x28 */ void* _28;
     // lane4 s64 (from the ctor 0x7100f69d38, x_0 and the commit function 0x7100f6a228): `mCurrentBodies` are the bodies the
     // hk constraint is attached to (the ctor stores {System::_190, null}); `mPendingBodies` are the bodies requested with
@@ -95,12 +114,17 @@ public:
     /* 0x58 */ sead::CriticalSection mCS;
     /* 0x98 */ f32 _98;
     /* 0x9c */ f32 _9c;
-    /* 0xa0 */ void* _a0;
+    /* 0xa0 */ ConstraintUnkA0* _a0;
     /* 0xa8 */ sead::SpinLock _a8;
 };
 
 // 0x7100f6ac60 (lane4 s64; placeholder name): out-of-line in the Constraint TU, returns `instance->m_userData` (the
 // ctor stores the Constraint there). RigidBodyRequestMgr::x_5 / x_6 tail-call it when adding / removing fails.
 u64 sub_7100F6AC60(const hkpConstraintInstance* instance);
+
+// 0x7100f6c5ac (CSV const_0x28; declared only): returns 0x28, the extra size a breakable constraint needs.
+u32 sub_7100F6C5AC();
+// 0x7100f6acf4 (placeholder name): 0x98 plus sub_7100F6C5AC() when `breakable` (size helper of the make functions).
+u32 sub_7100F6ACF4(bool breakable);
 
 }  // namespace ksys::phys

@@ -1,11 +1,34 @@
 #include "KingSystem/Physics/Constraint/physConstraint.h"
 #include <prim/seadScopedLock.h>
 #include <Havok/Physics2012/Dynamics/Constraint/hkpConstraintInstance.h>
+#include <Havok/Physics2012/Dynamics/Entity/hkpRigidBody.h>
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodyRequestMgr.h"
 #include "KingSystem/Physics/StaticCompound/physStaticCompoundMgr.h"
 #include "KingSystem/Physics/System/physSystem.h"
 
 namespace ksys::phys {
+
+// NON_MATCHING: regalloc (this and &mCS swap x19 / x20); same with a ScopedLock
+void Constraint::sub_7100F6A228() {
+    mCS.lock();
+    if ((_50 & 1) && sub_7100F6A2E0()) {
+        if (mPendingBodies[0]) {
+            sub_7100F6A300(mCurrentBodies[0], mPendingBodies[0]);
+            mPendingBodies[0] = nullptr;
+        }
+        if (mPendingBodies[1]) {
+            sub_7100F6A300(mCurrentBodies[1], mPendingBodies[1]);
+            mPendingBodies[1] = nullptr;
+        }
+    }
+    if (_52 & 1)
+        sub_7100F6A474(sub_7100F6A2E0());
+    if (_52 & 4)
+        sub_7100F6A5C8();
+    _52 = 0;
+    mCS.unlock();
+}
 
 bool Constraint::sub_7100F6A2E0() const {
     if (mPendingBodies[0])
@@ -79,6 +102,112 @@ RigidBody* Constraint::x_0(int idx) const {
     return (*bodies)[idx];
 }
 
+// NON_MATCHING: the original loads mConstraintInstance before the RigidBodyRequestMgr for both calls
+bool Constraint::sub_7100F6A300(RigidBody* old_body, RigidBody* body) {
+    bool result = false;
+    if (old_body != body && body) {
+        if (System::instance()->get190() || body->isAddedToWorld()) {
+            _50 |= 0x20;
+            const bool added = _50 & 1;
+            hkpEntity* old_entity = old_body ? old_body->getHkBody() : nullptr;
+            hkpEntity* entity = body->getHkBody();
+            if (added) {
+                System::instance()->getRigidBodyRequestMgr()->removeConstraintFromWorld(mConstraintInstance);
+                if (_20)
+                    System::instance()->sub_7101216AB0(_20);
+                _50 = (_50 & ~9) | 8;
+            }
+            if (mCurrentBodies[0] == old_body)
+                mCurrentBodies[0] = body;
+            else if (mCurrentBodies[1] == old_body)
+                mCurrentBodies[1] = body;
+            mConstraintInstance->replaceEntity(old_entity, entity);
+            if (added) {
+                System::instance()->getRigidBodyRequestMgr()->addConstraintToWorld(mConstraintInstance);
+                if (_20)
+                    System::instance()->sub_7101216AA8(_20);
+                _50 = (_50 & ~9) | 1;
+            }
+            body->setFlag800000();
+            result = true;
+        }
+    }
+    _50 &= ~0x20;
+    return result;
+}
+
+// NON_MATCHING: the original loads mCurrentBodies[1] separately on each branch; same request-mgr load order
+// as sub_7100F6A300
+bool Constraint::sub_7100F6A474(bool apply_pending) {
+    RigidBody* body_a = mCurrentBodies[0];
+    RigidBody* body_b = mCurrentBodies[1];
+    if (apply_pending) {
+        if (mPendingBodies[0])
+            body_a = mPendingBodies[0];
+        if (mPendingBodies[1])
+            body_b = mPendingBodies[1];
+    }
+
+    if (body_b == System::instance()->get190())
+        return false;
+    if (body_a->isSensor())
+        return false;
+    if (body_b && body_b->isSensor())
+        return false;
+    if (!body_a->isAddedToWorld())
+        return false;
+    if (body_b && !body_b->isAddedToWorld())
+        return false;
+    if (_50 & 1)
+        return false;
+
+    auto lock = sead::makeScopedLock(_a8);
+    if (apply_pending) {
+        if (mPendingBodies[0]) {
+            sub_7100F6A300(mCurrentBodies[0], body_a);
+            mPendingBodies[0] = nullptr;
+        }
+        if (mPendingBodies[1]) {
+            sub_7100F6A300(mCurrentBodies[1], body_b);
+            mPendingBodies[1] = nullptr;
+        }
+    }
+    if (_a0)
+        _a0->m0(this, false);
+    System::instance()->getRigidBodyRequestMgr()->addConstraintToWorld(mConstraintInstance);
+    if (_20)
+        System::instance()->sub_7101216AA8(_20);
+    _50 = (_50 & ~9) | 1;
+    return true;
+}
+
+void Constraint::sub_7100F6A5C8() {
+    if (!mConstraintInstance->getOwner())
+        return;
+    RigidBody* body_a = mCurrentBodies[0];
+    if (!body_a)
+        return;
+    RigidBody* body_b = mCurrentBodies[1];
+    if (!body_b)
+        return;
+
+    hkpRigidBody* hk_body_a = body_a->getHkBody();
+    hkpRigidBody* hk_body_b = body_b->getHkBody();
+    const f32 mass_a = hk_body_a->getMotion()->getMass();
+    const f32 mass_b = hk_body_b->getMotion()->getMass();
+    f32 inv_a = 1.0f;
+    f32 inv_b = 1.0f;
+    if (hk_body_a->getMotion()->getMass() >= hk_body_b->getMotion()->getMass())
+        inv_b = (mass_b * _98) / (mass_a * _9c);
+    else
+        inv_a = (mass_a * _9c) / (mass_b * _98);
+    hkVector4 inv_mass_a;
+    hkVector4 inv_mass_b;
+    inv_mass_a.setAll(inv_a);
+    inv_mass_b.setAll(inv_b);
+    mConstraintInstance->setVirtualMassInverse(inv_mass_a, inv_mass_b);
+}
+
 void Constraint::sub_7100F6A69C(BodyIndex idx) {
     auto lock = sead::makeScopedLock(mCS);
     mPendingBodies[idx] = nullptr;
@@ -138,6 +267,12 @@ bool Constraint::sub_7100F6AC68() const {
 
 u64 sub_7100F6AC60(const hkpConstraintInstance* instance) {
     return instance->getUserData();
+}
+
+u32 sub_7100F6ACF4(bool breakable) {
+    if (breakable)
+        return sub_7100F6C5AC() + 0x98;
+    return 0x98;
 }
 
 }  // namespace ksys::phys

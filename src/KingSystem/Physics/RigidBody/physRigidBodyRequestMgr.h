@@ -15,6 +15,7 @@
 #include "KingSystem/Utils/Container/LockFreeQueue.h"
 #include "KingSystem/Utils/Types.h"
 
+class hkpConstraintInstance;
 class hkpEntity;
 
 namespace ksys::phys {
@@ -55,6 +56,10 @@ public:
     bool pushRigidBody(ContactLayerType type, RigidBody* body);
     void addEntityToWorld(ContactLayerType type, hkpEntity* entity);
     void removeEntityFromWorld(ContactLayerType type, hkpEntity* entity);
+    // 0x7100fa6e10 / 0x7100fa6e64: add / remove the constraint in the default world; on failure they call
+    // sub_7100F6AC60 (tail call), so they return nothing.
+    void addConstraintToWorld(hkpConstraintInstance* constraint);
+    void removeConstraintFromWorld(hkpConstraintInstance* constraint);
     // 0x0000007100fa6ebc
     void removeRigidBody(ContactLayerType type, RigidBody* body);
 

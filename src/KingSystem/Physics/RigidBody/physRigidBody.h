@@ -595,6 +595,8 @@ public:
     void setFlag20() { mFlags.set(Flag::_20); }
     // inline-only in the original (GelEnemy::m63); name is a guess
     void setFlag1000000() { mFlags.set(Flag::_1000000); }
+    // Constraint::sub_7100F6A300 (0x7100f6a300) sets this bit (ldxr/stxr orr 0x800000 on +0x68).
+    void setFlag800000() { mFlags.set(Flag::_800000); }
     // Set inline by AI code (ChuchuRoot::enter_: atomic or of 0x100000 on a body found by name).
     void setFlag100000() { mFlags.set(Flag::_100000); }
     // Cleared inline by AI code (WeaponRootAI::m34: atomic and of ~0x1000000; lane2 s20).
