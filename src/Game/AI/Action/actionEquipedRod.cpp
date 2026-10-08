@@ -2,6 +2,7 @@
 #include "Game/Actor/actWeapon.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectRod.h"
 
@@ -31,6 +32,14 @@ void EquipedRod::enter_(ksys::act::ai::InlineParamPack* params) {
             _78 = rod->mMagicRange.ref();
         }
     }
+}
+
+bool EquipedRod::sub_7100111C48() {
+    auto* weapon = sead::DynamicCast<uking::act::Weapon>(mActor);
+    if (!weapon)
+        return false;
+    auto* player = sead::DynamicCast<ksys::act::PlayerBase>(weapon->getParentActor());
+    return player && player->m296() == 1;
 }
 
 void EquipedRod::leave_() {

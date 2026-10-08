@@ -17,6 +17,7 @@ public:
 
 protected:
     void calc_() override;
+    bool sub_7100111C48();
 
     // static_param at offset 0x40
     const float* mMagicCreateYOffset_s{};
