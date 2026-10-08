@@ -23,6 +23,16 @@ class Enemy;
 // Unk_710073ebd4.
 ksys::act::BaseProcLink& sub_710073E9A8(ksys::act::Actor* actor, const sead::SafeString& name);
 
+namespace sead {
+template <typename T>
+class Matrix34;
+}
+// 0x710073ea44 (lane4 s64; placeholder name; free function in the same TU): for the parts actor `name` of an enemy
+// `actor`: sets its pose (`mtx`, `vel`, `ang_vel`; no scale), runs sub_71006DED9C on it and, if `a6`, the parts
+// object's sub_7100D3D2B4(name).
+void sub_710073EA44(ksys::act::Actor* actor, const sead::SafeString& name, const sead::Matrix34<f32>& mtx,
+                    const sead::Vector3f* vel, const sead::Vector3f* ang_vel, bool a6);
+
 // Placeholder name = constructor address (0x710073ebd4; no real name known). Parameter / state object of
 // the "vacuum shoot" actions (an enemy shoots a vacuumed item at a target): embedded in
 // ForkVacuumShootToTarget (+0x20), PredictVacuumShoot (+0x78) and VacuumedItemShootToTarget (+0x48).

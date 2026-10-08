@@ -12,6 +12,28 @@ ksys::act::BaseProcLink& sub_710073E9A8(ksys::act::Actor* actor, const sead::Saf
     return ksys::act::getDummyBaseProcLink();
 }
 
+void sub_71006DED9C(const ksys::act::ActorConstDataAccess& accessor, ksys::act::BaseProc* proc);
+
+void sub_710073EA44(ksys::act::Actor* actor, const sead::SafeString& name, const sead::Matrix34f& mtx,
+                    const sead::Vector3f* vel, const sead::Vector3f* ang_vel, bool a6) {
+    if (!sead::IsDerivedFrom<uking::act::Enemy>(actor))
+        return;
+    auto* enemy = static_cast<uking::act::Enemy*>(actor);
+    auto& link = enemy->getActorPartsActor(name);
+    if (!link.hasProc())
+        return;
+    ksys::act::ActorConstDataAccess accessor;
+    acquireActor(&link, &accessor);
+    accessor.setProperties(mtx, vel, ang_vel, nullptr, true, 2, -1);
+    {
+        ksys::act::ActorConstDataAccess accessor2;
+        acquireActor(&link, &accessor2);
+        sub_71006DED9C(accessor2, enemy);
+        if (a6)
+            enemy->sub_7100D3D2B4(name);
+    }
+}
+
 Unk_710073ebd4::Unk_710073ebd4(ksys::act::Actor* actor)
     : mActor(sead::DynamicCast<uking::act::Enemy>(actor)) {}
 
