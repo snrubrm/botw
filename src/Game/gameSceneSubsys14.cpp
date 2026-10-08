@@ -2,6 +2,10 @@
 
 SEAD_SINGLETON_DISPOSER_IMPL(GameSceneSubsys14)
 
+// NON_MATCHING: the members now have the layout of the original, but the library's FixedSafeString<256> constructor
+// differs from the original's (which clears the buffer with memset after assureTerminationImpl_()), 12 times here.
+GameSceneSubsys14::GameSceneSubsys14() = default;
+
 GameSceneSubsys14::~GameSceneSubsys14() = default;
 
 bool GameSceneSubsys14::sub_7100904ED4() const {

@@ -96,11 +96,11 @@ public:
     bool sub_7100904F68() const;
 
     Unk_GameSceneSubsys14Entry _38;
-    u32 _168;
-    u32 _16c;
+    u32 _168 = 0;
+    u32 _16c = 0;
     ksys::ActorMessageTransceiver mTransceiver{*this};
     Unk_7102473580 _1c8;
-    u32 _338;
+    u32 _338 = 0;
     Unk_71024735b0 _340;
     Unk_GameSceneSubsys14Entry mEntries[10];
     sead::FixedPtrArray<Unk_GameSceneSubsys14Entry, 10> _f80;
@@ -109,6 +109,6 @@ public:
     // Constructor 0x7100903620 sets 16-entry buffers at +0x11d0 and +0x1260.
     sead::FixedPtrArray<Unk_7100903948::Slot, 16> mActiveSlots;
     sead::FixedPtrArray<Unk_7100903948::Slot, 16> mFreeSlots;
-    bool _12e0;
-    bool mSlotsChanged;
+    bool _12e0 = false;
+    bool mSlotsChanged = false;
 };
