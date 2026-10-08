@@ -797,6 +797,8 @@ public:
     // 0x7100a1a518 (CSV unnamed; declared only; the types are guesses)
     void sub_7100A1A518(s64 a1, bool a2);
     bool sub_7100A1E1E0();
+    // 0x7100a1e44c (placeholder name): always 1.0
+    f32 sub_7100A1E44C();
 };
 
 // The MessageTips screen (members from 0x300 recovered from the constructor).

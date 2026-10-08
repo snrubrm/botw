@@ -286,6 +286,11 @@ bool ScreenMainScreen::sub_7100A1E1E0() {
     return !_3ca8->isAnimOpenEnd(false);
 }
 
+// 0x7100a1e44c
+f32 ScreenMainScreen::sub_7100A1E44C() {
+    return 1.0f;
+}
+
 }  // namespace uking::ui
 
 namespace uking::ui {
