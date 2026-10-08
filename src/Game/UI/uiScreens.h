@@ -212,7 +212,7 @@ public:
     // 0x71009b0618 (27 leaf constructors call it, e.g. 0x7100931d6c / 0x71009d7198)
     explicit ScreenChildEx(eui::LayoutEx* layout);
 
-    /* 0x128 */ void* _128;
+    /* 0x128 */ eui::Screen* _128;  // Unk_710247af10::m110 calls eui::Screen::sub_7100BEB70C on it
 };
 static_assert(sizeof(ScreenChildEx) == 0x130);
 

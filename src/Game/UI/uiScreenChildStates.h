@@ -2,11 +2,11 @@
 
 #include "Game/UI/uiScreens.h"
 
-// ScreenChild-derived classes with their own state callback slots (105+, groups of four: void, void, void, s32).
+// ScreenChildEx-derived classes (their constructors call ScreenChildEx's) with their own state callback slots (105+, groups of four: void, void, void, s32).
 // Placeholder names after the vtable; their destructors / RTTI are not decompiled yet.
 namespace uking::ui {
 
-class Unk_710247af10 : public ScreenChild {
+class Unk_710247af10 : public ScreenChildEx {
 public:
     ~Unk_710247af10() override;
 
@@ -24,12 +24,11 @@ public:
     virtual s32 m116();
 
     // The members used so far (the child has a state machine at 0x80, like ScreenChildUnk_71025d9b08).
-    /* 0x128 */ eui::Screen* _128;
     u8 _130[0x148 - 0x130];
     /* 0x148 */ eui::Animator* _148;
 };
 
-class Unk_710247b428 : public ScreenChild {
+class Unk_710247b428 : public ScreenChildEx {
 public:
     ~Unk_710247b428() override;
 
@@ -83,7 +82,7 @@ public:
     virtual s32 m152();
 };
 
-class Unk_710247e468 : public ScreenChild {
+class Unk_710247e468 : public ScreenChildEx {
 public:
     ~Unk_710247e468() override;
 
@@ -97,7 +96,7 @@ public:
     virtual s32 m112();
 
     // The members used so far (state callbacks m109 / m111 play the animator, m110 waits for it to stop).
-    u8 _128[0x138 - 0x128];
+    u8 _130[0x138 - 0x130];
     /* 0x138 */ eui::Animator* _138;
 };
 
