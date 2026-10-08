@@ -13,6 +13,7 @@
 class hkpWorld;
 
 namespace sead {
+class INamable;
 class Thread;
 }
 
@@ -77,6 +78,9 @@ public:
     // 0x71012157b4 (CSV PhysicsMemSys::__auto0; declaration only; placeholder name): called by the placement managers
     // after they asked their worker thread to quit.
     void sub_71012157B4(sead::Thread* thread, bool a);
+    // 0x7101215550 (CSV PhysicsMemSys::runJobsMaybe; declaration only): GameTaskThread::calc_ passes `this + 0x20`
+    // (the INamable base of sead::Thread: vtable + name) and keeps the bool result.
+    bool runJobsMaybe(sead::INamable* thread);
     // 0x7101215358 / 0x71012153b4 (lane4 s64; placeholder names): under `_270`, add the controller to `_2b0` (if
     // there is room) / remove it.
     void sub_7101215358(CharacterController* controller);
