@@ -433,6 +433,16 @@ bool ScreenAppPictureBookUnk::sub_7100939F58() const {
     return _340 == 2;
 }
 
+// 0x710093f278
+void ScreenAppPictureBookUnk::sub_710093F278(s32 value, s32 index) {
+    if (_290 && static_cast<u32>(index) < _288) {
+        ScreenAppPictureBookEntry* entry = _290[index];
+        if (entry)
+            entry->_29c = value;
+    }
+    sub_710093F29C();
+}
+
 // 0x710093fd14
 void ScreenAppPictureBookUnk::sub_710093FD14(s32 index) {
     if (index >= 0 && _290 && index < _2a8)

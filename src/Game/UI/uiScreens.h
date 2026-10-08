@@ -2074,6 +2074,8 @@ struct ScreenAppPictureBookUnk {
     void sub_710093FE1C();
     // 0x710093f29c (declared only; not decompiled)
     void sub_710093F29C();
+    // 0x710093f278 (placeholder name): stores `value` in the entry at `index` (if it exists), then sub_710093F29C
+    void sub_710093F278(s32 value, s32 index);
     // Callees of sub_710093F594 (declared only; not decompiled yet)
     void sub_710093F670();
     void sub_710093F7F8(bool flag);
