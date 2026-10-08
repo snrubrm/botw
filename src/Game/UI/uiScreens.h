@@ -646,8 +646,12 @@ public:
     /* 0x3904 */ u8 _3904;
     u8 _pad_3905[0x391c - 0x3905];
     /* 0x391c */ u8 _391c;
+    u8 _pad_391d[0x39f8 - 0x391d];
+    /* 0x39f8 */ Unk_7102474bc8 _39f8;
 
     void sub_7100A31BE0();
+    // 0x7100a31988 (placeholder name): forwards to the member at 0x39f8
+    void sub_7100A31988(bool flag);
 };
 
 class ScreenMessageTipsRunTime : public ScreenEx {
@@ -2261,6 +2265,7 @@ extern const ksys::StateBase sUnk_71025ee330;
 extern const ksys::StateBase sUnk_71025ee5d0;
 extern const ksys::StateBase sUnk_71025ee930;
 extern const ksys::StateBase sUnk_71025ee810;
+extern const ksys::StateBase sUnk_71025ee7b0;
 
 class ScreenHardMode : public ScreenEx {
 public:
@@ -2275,6 +2280,8 @@ public:
     void m99() override;
     void m106(eui::AnimButton* button) override;
     void m107(eui::AnimButton* button) override;
+    // 0x7100a0bae4 (placeholder name): opens the screen and changes to the state at 0x71025ee7b0
+    void sub_7100A0BAE4();
 
     // State callbacks (slots 154-245; the trivial ones are defined in uiScreenHardMode.cpp)
     virtual void m154();
@@ -2590,6 +2597,8 @@ public:
     // 0x71009fb958 / 0x71009fb970 (placeholder names): set _3618 to 1 / 2, then open(2)
     void sub_71009FB958();
     void sub_71009FB970();
+    // 0x71009fb930 (placeholder name): starts the animator at 0x3610 when it is stopped (rate 0)
+    void sub_71009FB930();
 };
 
 class ScreenMessageTipsPauseMenu : public ScreenEx {
@@ -3297,6 +3306,8 @@ public:
     bool sub_71009D3DC0() const;
     u8 _3610[0x3630 - 0x3610];
     /* 0x3630 */ eui::Animator* _3630;
+    u8 _pad_3638[0x3a9c - 0x3638];
+    /* 0x3a9c */ s32 _3a9c;
 
 };
 

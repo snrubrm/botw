@@ -22,6 +22,11 @@
 
 namespace uking::ui {
 
+// 0x71009d656c
+void ScreenAppAlbum::m174() {
+    _3a9c = Unk_71025d1740::instance()->sub_7100901A90(false) ? 0 : -1;
+}
+
 bool ScreenAppAlbum::sub_71009D3DA0() const {
     return _3630 && _3630->mFrame != 0.0f;
 }
@@ -1156,6 +1161,24 @@ void ScreenSousaGuide::sub_7100A56D08() {
 // 0x7100a4b10c
 void ScreenShopBtnList15::sub_7100A4B10C(s32 index) {
     moveBoxCursorByTag_(static_cast<u32>(index) < 15 ? index + 122 : 122);
+}
+
+// 0x7100a0bae4
+void ScreenHardMode::sub_7100A0BAE4() {
+    open(1);
+    mStateMachine.changeState(&sUnk_71025ee7b0);
+}
+
+// 0x7100a31988
+void ScreenPauseMenuInfo::sub_7100A31988(bool flag) {
+    _39f8.sub_71009348D0(flag);
+}
+
+// 0x71009fb930
+void ScreenAppSystemWindowNoBtn::sub_71009FB930() {
+    if (!_3610 || _3610->mRate != 0)
+        return;
+    _3610->PlayAuto(1.0f);
 }
 
 // 0x7100a4b444
