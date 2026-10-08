@@ -1,7 +1,14 @@
 #pragma once
 
+#include <prim/seadSafeString.h>
+#include "Game/AI/aiUnk_7102357210.h"
+#include "Game/AI/aiUnk_7102357d20.h"
 #include "Game/Damage/dmgDamageCallback.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
+
+namespace ksys::act {
+class PhysicsUserTag;
+}
 
 namespace uking::ai {
 
@@ -14,6 +21,46 @@ public:
     void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, dmg::DamageCallbackInfo* a6) override;
 
     LumberjackTree* _28;
+};
+
+// Placeholder (the fourth argument of Unk_7102404020::m0; only the two words it reads).
+struct Unk_7102404020_Arg7 {
+    u8 _0[0x18];
+    u32 _18;
+    u32 _1c;
+};
+
+// Placeholder name (vtable 0x7102404020: a single virtual, no destructor; like SimpleWildlifeRoot's
+// Unk_71023dcc38 with the pointer to itself at +0x18). `_70` of LumberjackTree.
+class Unk_7102404020_Base {
+public:
+    virtual bool m0(const sead::Vector3f* pos, void* a2, void* a3, void* a4, void* a5, void* a6,
+                    const Unk_7102404020_Arg7* a7, const ksys::act::PhysicsUserTag* tag) = 0;
+
+    void* _8 = nullptr;
+    void* _10 = nullptr;
+    Unk_7102404020_Base* _18 = this;
+    void* _20 = nullptr;
+};
+
+class Unk_7102404020 : public Unk_7102404020_Base {
+public:
+    // 0x71004873f0: true when the tagged actor passes the 0x71006e3ab0 check and `pos->y - _30` is
+    // outside [_28, _2c]. Only `pos`, `a7` and `tag` are used.
+    virtual bool m0(const sead::Vector3f* pos, void* a2, void* a3, void* a4, void* a5, void* a6,
+                    const Unk_7102404020_Arg7* a7, const ksys::act::PhysicsUserTag* tag) override;
+
+    f32 _28 = 9999.0f;
+    f32 _2c = 9999.0f;
+    f32 _30 = 0.0f;
+};
+KSYS_CHECK_SIZE_NX150(Unk_7102404020, 0x38);
+
+// Placeholder name (vtable 0x7102404038; message 0x800001a, no payload). `_f8` of LumberjackTree.
+class Unk_7102404038 : public Unk_7102357d20 {
+public:
+    using Unk_7102357d20::Unk_7102357d20;
+    void* m2() override { return nullptr; }
 };
 
 class LumberjackTree : public ksys::act::ai::Ai {
@@ -34,12 +81,19 @@ public:
     void sub_710048A190();
 
 protected:
-    // FIXME: remove this
-    u8 pad_0x38[0x8];
+    void* _38 = nullptr;
     Unk_7102403fe8 _40{this};
-    u8 pad_0x70[0x240 - 0x70];
+    Unk_7102404020 _70;
+    Unk_7102404060 _a8;
+    Unk_7102404038 _f8{mActor, 0x800001a};
+    Unk_7102450a08 _110;
+    Unk_710237ecc0 _160{mActor};
+    sead::FixedSafeString<0x40> _190;
+    sead::FixedSafeString<0x40> _1e8;
     u8 _240 = 0xff;  // Original constructor sentinel; enter_ assigns tree kinds 0, 1 and 2.
-    u8 _241[0x250 - 0x241];
+    f32 _244 = 1.0f;
+    u32 _248 = 0;
+    bool _24c = false;
     // static_param at offset 0x250
     const float* mFallInterval_s{};
     // static_param at offset 0x258
@@ -67,8 +121,15 @@ protected:
     // aitree_variable at offset 0x2b8
     sead::Vector3f* mMoveDirection_a{};
 
-    // Members not recovered yet (class size from the factory).
-    u8 _2c0[0x2f8 - 0x2c0];
+    sead::Vector3f _2c0;
+    sead::Vector3f _2cc;
+    u32 _2d8 = 0;
+    u16 _2dc = 0;
+    void* _2e0 = nullptr;  // sound handle (freed through 0x7100da2330 in D1)
+    void* _2e8 = nullptr;  // phys::Constraint (destroyed in D1)
+    u32 _2f0 = 0;
+    u16 _2f4 = 0;
+    u8 _2f6 = 0;
 };
 KSYS_CHECK_SIZE_NX150(LumberjackTree, 0x2f8);
 

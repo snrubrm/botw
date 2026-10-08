@@ -5,12 +5,20 @@
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "Game/AI/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actPhysicsUserTag.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
 #include "KingSystem/XLink/xlinkXLink.h"
 #include "KingSystem/Map/mapObject.h"
 #include "Game/Actor/actMapDynamicPassive.h"
 #include "KingSystem/Map/mapPlacementMgr.h"
+
+namespace uking::act {
+// 0x71006e3ab0 (unnamed in the CSV; placeholder name, declaration only): a check on the accessor's actor
+// with two words of the contact info.
+bool sub_71006E3AB0(ksys::act::ActorLinkConstDataAccess* accessor, u32 a2, u32 a3);
+}  // namespace uking::act
 
 namespace uking::ai {
 
@@ -30,6 +38,23 @@ void Unk_7102403fe8::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, dmg::Dama
         *a1 = 0;
 }
 
+bool Unk_7102404020::m0(const sead::Vector3f* pos, void*, void*, void*, void*, void*,
+                        const Unk_7102404020_Arg7* a7, const ksys::act::PhysicsUserTag* tag) {
+    if ((a7->_18 & 8) != 0)
+        return false;
+    ksys::act::ActorConstDataAccess accessor;
+    tag->acquireActor(&accessor);
+    if (act::sub_71006E3AB0(&accessor, a7->_18, a7->_1c))
+        return false;
+    if ((a7->_1c & 0x8000) != 0)
+        return false;
+    const f32 height = pos->y - _30;
+    if (height < _28 || _2c < height)
+        return true;
+    return false;
+}
+
+// NON_MATCHING: store scheduling only (_248 and the _2d8 / _2dc stores land at different points).
 LumberjackTree::LumberjackTree(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
 LumberjackTree::~LumberjackTree() = default;
