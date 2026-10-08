@@ -18,6 +18,7 @@ public:
 // constructor are declared; the overrides (RTTI, slots 18-41 at 0x71002c909c, 0x71002c9670 ...) are
 // not decompiled.
 class DamageMgrNPC : public DamageManagerBase {
+    SEAD_RTTI_OVERRIDE(DamageMgrNPC, DamageManagerBase)
 public:
     explicit DamageMgrNPC(ksys::act::Actor* actor);
 
@@ -27,6 +28,9 @@ public:
     // Slot 31 (0x71002c976c; lane4 s64): like getAttackPos with the first contact record's direction (_94); the kinds 0
     // (without a record) and 3 use `_80`, else minus the actor's z axis; kind 2 the impulse link's vector.
     bool m31(sead::Vector3f* out) override;
+    // Slot 32 (0x71002c9868; lane4 s64): a velocity: kind 0 the first contact record's _a0; kind 2 the impulse link's
+    // vector times its factor (_8); kind 3 `_80` * 2400 when getField54() is 20, else zero.
+    bool m32(sead::Vector3f* out) override;
     // Slots 33 / 36 / 37 / 40 / 41 (0x71002c9af4 / 9a5c / 9aa8 / 9c7c / 9c44; lane4 s64): the first contact record's
     // material mask / attacker link (_d8) / link (_e8) / value _bc (-1 written first) / flag _fc; kind 2 returns the
     // impulse link for both links; other kinds return null / dummy link / false.

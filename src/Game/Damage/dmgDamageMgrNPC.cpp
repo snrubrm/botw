@@ -206,4 +206,40 @@ bool DamageMgrNPC::m41() {
     return info->_fc & 1;
 }
 
+// NON_MATCHING: identical except that the original does not pair the x / y stores of the scaled vector (two str
+// instead of an stp) in the kind 2 path.
+bool DamageMgrNPC::m32(sead::Vector3f* out) {
+    switch (getDamageType()) {
+    case 0: {
+        auto* info = sub_71007A255C(mActor, 0);
+        if (!info)
+            return false;
+        *out = info->_a0;
+        return true;
+    }
+    case 2: {
+        auto* link = mActor->getImpulseBaseProcLink();
+        const sead::Vector3f* src;
+        if (!link)
+            src = &sead::Vector3f::zero;
+        else
+            src = &link->_10._10;
+        *out = *src;
+        auto* factor_link = mActor->getImpulseBaseProcLink();
+        const f32 factor = factor_link ? factor_link->_10._8 : 0.0f;
+        *out *= factor;
+        return true;
+    }
+    case 3: {
+        if (getField54() == 20)
+            *out = _80 * 2400.0f;
+        else
+            *out = sead::Vector3f::zero;
+        return true;
+    }
+    default:
+        return false;
+    }
+}
+
 }  // namespace uking::dmg
