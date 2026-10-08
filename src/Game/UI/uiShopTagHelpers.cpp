@@ -1,5 +1,6 @@
 #include "Game/UI/uiScreens.h"
 #include "Game/UI/uiUtils.h"
+#include "Game/UI/uiPauseMenuDataMgr.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actInfoCommon.h"
 #include "KingSystem/ActorSystem/actInfoData.h"
@@ -326,6 +327,17 @@ void sub_7100AA3B50(const sead::SafeString& name, sead::BufferedSafeStringBase<c
         path.appendWithFormat(".%02d", count);
     path.append(".bitemico");
     out->copy(path);
+}
+
+// 0x7100a91e40 (CSV unnamed): the item count for `name` (0 when the name is empty or there is no
+// pouch manager).
+s32 sub_7100A91E40(const sead::SafeString& name, bool count_equipped) {
+    if (name.isEmpty())
+        return 0;
+    auto* mgr = PauseMenuDataMgr::instance();
+    if (mgr == nullptr)
+        return 0;
+    return mgr->getItemCount(name, count_equipped);
 }
 
 // Emits the Delegate2R vtable (0x71024987e0) + invoke (0x7100a534e8) + clone (0x7100a5351c).

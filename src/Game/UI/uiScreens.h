@@ -3066,6 +3066,9 @@ u32 sub_7100AA2BDC(ShopInfoTagData* data, eui::MessageString* out);
 // (icon-actor lookup, Weapon_Sword_502/503 quirk, ".%02d" count suffix, ".bitemico" extension).
 void sub_7100AA3B50(const sead::SafeString& name, sead::BufferedSafeStringBase<char>* out,
                     s32 count);
+// 0x7100a91e40 (CSV unnamed): the item count for `name` (0 when the name is empty or there is
+// no pouch manager).
+s32 sub_7100A91E40(const sead::SafeString& name, bool count_equipped);
 // 0x71010b3468 / 0x71010b3484 (CSV placeholders): TagInfo adapters into the ksys::eft helpers
 // (called by the ScreenMessage3D tag invoke).
 void sub_71010B3468(const sead::MessageSet<char16>::TagInfo* tag, ksys::act::Actor* actor, bool flag);
