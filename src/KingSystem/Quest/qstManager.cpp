@@ -86,7 +86,7 @@ bool Manager::sub_7100FD78F8() {
     for (int i = 0; i < size; ++i) {
         s32 num2 = mQuests[i]->_148;
         for (int j = 0; j < num2; ++j) {
-            ActorData* data = mQuests[i]->sub_7100FDA5F8(j);
+            const CameraTarget* data = mQuests[i]->sub_7100FDA5F8(j);
             if (data != nullptr) {
                 _48.pushBack(data);
             }

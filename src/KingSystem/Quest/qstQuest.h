@@ -8,6 +8,7 @@
 namespace ksys::qst {
 
 struct Step;
+struct CameraTarget;
 
 struct Quest {
 public:
@@ -22,7 +23,7 @@ public:
     void initFlags(gdt::Manager* gdm);
     bool flagStuff() const;
     void setField31();
-    ActorData* sub_7100FDA5F8(int idx);
+    const CameraTarget* sub_7100FDA5F8(int idx);
 
     bool x_1() const;
     void x_3();

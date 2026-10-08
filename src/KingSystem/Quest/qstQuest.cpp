@@ -1,5 +1,6 @@
 #include "KingSystem/Quest/qstQuest.h"
 #include <utility/aglParameter.h>
+#include "KingSystem/Quest/qstActorData.h"
 
 namespace ksys::qst {
 
@@ -116,6 +117,25 @@ const char* Quest::x_11() {
 
 void Quest::formatQLNameKey(sead::BufferedSafeString* out) const {
     out->format("QL_%s_Name", mName.cstr());
+}
+
+// NON_MATCHING: the original keeps the unsigned index check of mSteps(i) inside the loop; clang folds it away here
+// 0x7100fda5f8: the idx-th camera target counted across the actor data of all steps.
+const CameraTarget* Quest::sub_7100FDA5F8(int idx) {
+    if (idx < 0)
+        return nullptr;
+    for (int i = 0; i < mSteps.size() && idx >= 0; ++i) {
+        const Step* step = mSteps(i);
+        if (!step || !step->actor_data)
+            continue;
+        const int count = step->actor_data->targets.size();
+        for (int j = 0; j < count; ++j) {
+            if (idx == 0)
+                return step->actor_data->getTarget(j);
+            --idx;
+        }
+    }
+    return nullptr;
 }
 
 bool Quest::sub_7100FDA678(sead::BufferedSafeString* out) const {

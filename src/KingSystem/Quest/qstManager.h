@@ -45,7 +45,7 @@ private:
     void* temp;
     u32 temp2;
     u32 _44;
-    sead::PtrArray<ActorData> _48;
+    sead::PtrArray<const CameraTarget> _48;  // camera targets of all quest steps (sub_7100FD78F8)
     u32 _58;
     u32 temp3;
     u32 temp4;
