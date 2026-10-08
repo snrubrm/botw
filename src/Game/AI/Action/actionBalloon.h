@@ -22,7 +22,8 @@ protected:
 
     void m35(ksys::phys::RigidBody* a, ksys::phys::RigidBody* b,
              ksys::act::RopeBase* rope) override;
-    // 0x71000b70dc (declared only).
+    // 0x71000b70dc: creates the rope actor via the actor creator (or nothing if the rope name
+    // is empty) and links it.
     bool sub_71000B70DC();
 
     // static_param at offset 0xf0
