@@ -7,6 +7,10 @@ namespace ksys::act {
 class ActorBind;
 }
 
+namespace ksys::act {
+class ActorConstDataAccess;
+}
+
 namespace uking::act {
 
 // Name from the CSV (ActorOption::*; the namespace is a guess). Direct child of DynamicActor. Factory 0x71000001b4:
@@ -29,5 +33,8 @@ public:
     /* 0xba8 */ ksys::act::ActorBind* _ba8 = nullptr;     // a ModelBindInfo (heap)
 };
 KSYS_CHECK_SIZE_NX150(ActorOption, 0xbb0);
+
+// 0x7100000610 (placeholder name): the `_b90` link of the accessor's ActorOption, or the dummy link.
+ksys::act::BaseProcLink& sub_7100000610(const ksys::act::ActorConstDataAccess& accessor);
 
 }  // namespace uking::act
