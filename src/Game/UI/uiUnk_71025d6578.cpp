@@ -1,7 +1,11 @@
 #include "Game/UI/uiUnkSingletons.h"
 #include <math/seadMathCalcCommon.h>
 #include "Game/UI/uiUtils.h"
+#include "Game/UI/euiScreen.h"
+#include "Game/UI/uiScreens.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "KingSystem/GameData/gdtSpecialFlagNames.h"
+#include "KingSystem/GameData/gdtSpecialFlags.h"
 
 namespace uking::ui {
 
@@ -71,6 +75,93 @@ bool Unk_71025d6578::sub_710094B8D4() const {
     const u32 current = getCurrentHeartValue();
     getMaxHeartValue();
     return current == (_4a ? _50 : u32(sub_7100A9B6B0()));
+}
+
+// 0x710094b9a0
+// NON_MATCHING: ceil calculation and cache/state store scheduling differ.
+void Unk_71025d6578::sub_710094B9A0() {
+    if (_4a)
+        return;
+    _4c = getCurrentHeartValue();
+    _50 = getMaxHeartValue();
+    const u32 extra = getExtraHeartValue();
+    _2c = _4c;
+    _30 = _50;
+    _28 = u32(sead::Mathf::ceil(_50 * 0.25f)) >> 4;
+    _54 = extra;
+    _34 = extra;
+    _3c = 13;
+    _40 = 7;
+    _44 = 0;
+    _48 = 0;
+    _49 = 0;
+    _61 = 0;
+    if (auto* mgr = eui::ScreenMgr::instance()) {
+        if (auto* screen = sead::DynamicCast<ScreenMainScreen>(mgr->getScreen(ScreenId::MainScreen)))
+            screen->sub_7100A1AB94();
+    }
+    _4a = 1;
+}
+
+// 0x7100949fbc
+// NON_MATCHING: the final flag updates use different load/store scheduling and merge the zero store.
+void Unk_71025d6578::sub_7100949FBC() {
+    if (_61 & 2)
+        return;
+    _38 = 0;
+    if (_61 & 8)
+        return;
+    const u32 current = getCurrentHeartValue();
+    if (_61 & 1) {
+        _38 |= 4;
+        _61 &= ~1;
+    }
+    _2c = current;
+    if (!_61)
+        _2c += _58;
+    u32 maximum = getMaxHeartValue();
+    if (!_61)
+        maximum += _5c;
+    if (_30 != maximum) {
+        _38 |= 0x40;
+        _30 = maximum;
+        _28 = u32(sead::Mathf::ceil(maximum * 0.25f)) >> 4;
+    }
+    _34 = getExtraHeartValue();
+    if (!_61)
+        _34 += _5c;
+    if (current <= 4)
+        _38 |= 1;
+    else
+        _3a = 0;
+    if (_61) {
+        if (_61 & 4) {
+            _61 = (_61 & ~0xc) | 8;
+            _38 |= 0x400;
+        }
+    } else {
+        if (_58)
+            _38 = _60 ? _38 | 0x180 : (_38 & ~0x180) | 0x80;
+        _60 = 0;
+    }
+}
+
+// 0x710094bd54
+// NON_MATCHING: pending-delta arithmetic and flag-mask calculation scheduling differ.
+void Unk_71025d6578::sub_710094BD54() {
+    if (_61 & 0x10) {
+        _61 &= ~0x10;
+        sub_7100949FBC();
+    }
+    const s32 delta = _58;
+    _4c += _58;
+    _50 += _5c;
+    _54 += _5c;
+    _58 = 0;
+    _5c = 0;
+    _61 = delta ? _61 | 3 : (_61 & ~3) | 2;
+    _38 &= _4c <= 4 ? u16(~0x180) : u16(~0x181);
+    ksys::gdt::setS32ByKey(_4c - _54, ksys::gdt::flagname::CurrentHart(), false);
 }
 
 // 0x710094bcdc

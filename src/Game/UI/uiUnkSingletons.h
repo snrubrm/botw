@@ -88,7 +88,10 @@ public:
     void sub_710094B844(bool a1, bool a2, bool a3);
     void sub_710094B8A4(bool a1);
     bool sub_710094B8D4() const;
+    void sub_710094B9A0();
     void sub_710094BCDC();
+    void sub_710094BD54();
+    void sub_7100949FBC();
     u32 sub_710094C094(u32 value) const;
     u32 sub_710094C0D4(u32 value) const;
     void sub_710094BF98(u32 current_increment, u32 max_increment);
