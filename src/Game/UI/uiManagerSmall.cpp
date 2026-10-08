@@ -1,9 +1,12 @@
 #include "Game/UI/uiManager.h"
 #include "Game/UI/uiUnkSingletons.h"
+#include "Game/UI/uiUI.h"
 #include "KingSystem/Utils/Thread/TaskThread.h"
 #include "Game/UI/euiUIController.h"
 #include "Game/gameGraphics.h"
 #include "Game/UI/uiUtils.h"
+#include <devenv/seadEnvUtil.h>
+#include <heap/seadExpHeap.h>
 
 namespace uking::ui {
 
@@ -25,6 +28,24 @@ sead::Heap* sUnk_71025f59d0;
 
 sead::Heap* getHeap() {
     return sUnk_71025f59d0;
+}
+
+// 0x7100a6d344
+// NON_MATCHING: the original keeps the two region compares branchy (b.eq-big after the first,
+// b.ne-small after the second); ours if-converts the second test to a csel. Tried the || form below,
+// if/else-if/else and the nested !=/== form, all with the RegionID::US/EU names - the second test
+// always becomes a csel. All loads/stores/calls match.
+void createUiHeap(sead::Heap* parent) {
+    size_t size;
+    if (sead::EnvUtil::getRegion() == sead::RegionID::US ||
+        sead::EnvUtil::getRegion() == sead::RegionID::EU) {
+        size = 0x1c00000;
+    } else {
+        size = 0x1b00000;
+    }
+    sUnk_71025f59d0 = sead::ExpHeap::create(size, "UiHeap", parent, 8,
+                                            sead::Heap::cHeapDirection_Forward, true);
+    UI::instance()->_38 = sUnk_71025f59d0;
 }
 
 SEAD_SINGLETON_DISPOSER_IMPL(UiLowPrioThreadMgr)
