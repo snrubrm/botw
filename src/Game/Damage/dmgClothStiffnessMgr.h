@@ -1,5 +1,7 @@
 #pragma once
 
+#include <prim/seadSafeString.h>
+
 #include <basis/seadTypes.h>
 #include <thread/seadCriticalSection.h>
 #include "KingSystem/Resource/resHandle.h"
@@ -18,7 +20,7 @@ namespace uking::dmg {
 class ClothStiffnessMgr {
 public:
     struct Entry {
-        /* 0x00 */ u8 _0[0x98];  // a FixedSafeString (the key)
+        /* 0x00 */ sead::FixedSafeString<128> mKey;
         /* 0x98 */ f32 _98;
         /* 0x9c */ f32 _9c;
         /* 0xa0 */ s32 mRefCount;

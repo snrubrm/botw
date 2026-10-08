@@ -9,6 +9,15 @@
 
 namespace uking::dmg {
 
+ClothStiffnessMgr::Entry* ClothStiffnessMgr::sub_7100665830(const sead::SafeString& name) {
+    sead::ScopedLock<sead::CriticalSection> lock(&mCS);
+    for (auto& entry : mEntries) {
+        if (entry.mRefCount > 0 && entry.mKey == name)
+            return &entry;
+    }
+    return nullptr;
+}
+
 void ClothStiffnessMgr::sub_7100665A84(ksys::act::Actor* actor) {
     const sead::SafeString name =
         actor->getParam()->getRes().mPhysics->getParamSet().cloth_set->cloth_setup_file_path.ref();
