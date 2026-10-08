@@ -1029,6 +1029,19 @@ void ScreenSystemWindowNoBtn::sub_7100A60650() {
     _3610->PlayAuto(1.0f);
 }
 
+// 0x7100a03ee8
+bool ScreenDemoName::m154(ShopInfoTagData* name) {
+    eui::MessageString message;
+    if (sub_7100AA2BDC(name, &message))
+        return false;
+    if (!setWidgetString(mLayout, "T_Name_00", message))
+        return false;
+    sead::FormatFixedSafeString<64> label("%s_SubText", name->str.cstr());
+    getMessage("StaticMsg/DemoActorSubText", label, &message);
+    setWidgetString(mLayout, "T_SubText_00", message);
+    return true;
+}
+
 // 0x7100a0b63c
 void ScreenHardModeTextDLC::m98() {
     eui::MessageString message;

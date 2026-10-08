@@ -2555,6 +2555,8 @@ public:
     SEAD_RTTI_OVERRIDE(ScreenGameTitle, ScreenEx)
 };
 
+struct ShopInfoTagData;
+
 class ScreenDemoName : public ScreenEx {
 public:
     const char* getLayoutName_() const override;
@@ -2562,7 +2564,9 @@ public:
     void m93(sead::Heap*) override;
     ScreenDemoName();
     ~ScreenDemoName() override;
-    virtual void m154();  // placeholder: one extra virtual slot (vtable offsets +8)
+    // 0x7100a03ee8 (one extra virtual slot, vtable offsets +8): shows the demo actor's name (T_Name_00) and its
+    // sub text (<name>_SubText in StaticMsg/DemoActorSubText); false when the name has no message
+    virtual bool m154(ShopInfoTagData* name);
     SEAD_RTTI_OVERRIDE(ScreenDemoName, ScreenEx)
 };
 
