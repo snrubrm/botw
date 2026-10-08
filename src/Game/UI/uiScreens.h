@@ -838,10 +838,24 @@ public:
     };
 
     // One entry referenced by _300/_660. Not owned by the screen (never destroyed/freed by it):
-    // +0x38 is an embedded proc link (hasProc/hasProcById/reset callers in the subs).
+    // +0x8 is the layout, +0x10 an animation state, +0x38 an embedded proc link
+    // (hasProc/hasProcById/reset callers in the subs), +0x48 a timer/counter.
+    struct EntryState {
+        u8 _0[0x30];
+        /* 0x30 */ u32 _30;
+        /* 0x34 */ u32 _34;
+        /* 0x38 */ u32 _38;
+        u8 _3c[0x58 - 0x3c];
+        /* 0x58 */ u8 _58;
+    };
+
     struct Entry {
-        u8 _0[0x38];
-        ksys::act::BaseProcLink m38;
+        u8 _0[8];
+        /* 0x8 */ eui::LayoutEx* _8;
+        /* 0x10 */ EntryState* _10;
+        u8 _18[0x38 - 0x18];
+        /* 0x38 */ ksys::act::BaseProcLink m38;
+        /* 0x48 */ u32 _48;
     };
 
     /* 0x300 */ sead::PtrArray<Entry> _300;
