@@ -3031,8 +3031,12 @@ public:
     const char* getLayoutName_() const override;
     ScreenAppMenuBtn();
     ~ScreenAppMenuBtn() override;
-    /* 0x3610 */ void* _3610{};
-    /* 0x3618 */ void* _3618{};
+    // 0x71009f2b84
+    void m93(sead::Heap* heap) override;
+    // 0x71009f2c7c
+    void m107(eui::AnimButton* button) override;
+    /* 0x3610 */ eui::Animator* _3610{};  // "TexPattern" of _3618's layout
+    /* 0x3618 */ eui::AnimButton* _3618{};  // Pa_Btn_00
     /* 0x3620 */ u16 _3620{};
     SEAD_RTTI_OVERRIDE(ScreenAppMenuBtn, ScreenEx)
 };

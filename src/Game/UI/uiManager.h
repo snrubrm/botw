@@ -60,6 +60,8 @@ public:
     void sub_7100A7A4C4();
     void sub_7100A7A6E4(s32 a1);
     void sub_7100A7A704(s32 a1);
+    // 0x7100a7a72c (declared only; ScreenAppMenuBtn::m107 passes the Pa_CheckBtn_00 check state)
+    void sub_7100A7A72C(bool checked);
     // 0x7100a7fe9c (declared only)
     void sub_7100A7FE9C();
     // 0x7100a7fd64: remembers `pane` in the list of panes at 0x652f0 (ignored when it is null or the list is full)

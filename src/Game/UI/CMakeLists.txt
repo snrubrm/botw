@@ -148,6 +148,7 @@ target_sources(uking PRIVATE
   uiScreenHardModeSetup.cpp
   uiScreenMainScreenMS.cpp
   uiScreenMiniGame.cpp
+  uiScreenAppMenuBtn.cpp
   uiScreenMessage3D.cpp
   uiScreenSmall2.cpp
   uiScreenLeafSlots.cpp
