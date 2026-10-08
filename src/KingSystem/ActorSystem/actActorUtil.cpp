@@ -1,4 +1,5 @@
 #include "KingSystem/ActorSystem/actActorUtil.h"
+#include "Game/gameGraphics.h"
 #include <gsys/gsysModel.h>
 #include "Game/AI/aiUnk_7100EE53C4.h"
 #include "Game/UI/uiUI.h"
@@ -1226,6 +1227,16 @@ void sub_7100EEACE8(phys::RayCast* cast) {
 }
 
 // 0x7100eeaf30 (lane1 s43): the layers of sub_7100EEAF80 without the player.
+// NON_MATCHING: the original builds the -dir temporary first (stack slots and scheduling differ)
+void sub_7100EEAFDC(phys::RayCast* cast, const sead::Vector3f& pos, s32 steps) {
+    const auto* unk = Graphics::instance()->getUnk_aa8();
+    if (!unk)
+        return;
+    const sead::Vector3f& dir = unk->_7f8;
+    const f32 length = steps * 200.0f + 0.1f;
+    cast->setStartAndDisplacementScaled(pos - dir * length, -dir, 200.0f);
+}
+
 void sub_7100EEAF30(phys::RayCast* cast) {
     cast->enableLayer(phys::ContactLayer::EntityObject);
     cast->enableLayer(phys::ContactLayer::EntityGround);

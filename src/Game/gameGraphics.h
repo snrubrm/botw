@@ -2,6 +2,7 @@
 
 #include <basis/seadTypes.h>
 #include <container/seadPtrArray.h>
+#include <math/seadVector.h>
 #include <gfx/seadCamera.h>
 #include <prim/seadBitFlag.h>
 #include <thread/seadCriticalSection.h>
@@ -76,6 +77,14 @@ public:
         /* 0xe48 */ u32 _e48;
     };
 
+    // Placeholder name: the block that Graphics + 0xaa8 points to; ksys::act::sub_7100EEAFDC casts along the vector at
+    // 0x7f8 (a down direction).
+    struct Unk_aa8 {
+        u8 _0[0x7f8];
+        /* 0x7f8 */ sead::Vector3f _7f8;
+    };
+    Unk_aa8* getUnk_aa8() const { return _aa8; }
+
     // Only a pointer to the (separately allocated) shadow settings is modeled.
     Unk_a98* getUnk_a98() const { return _a98; }
     Unk_ab0* getUnk_ab0() const { return _ab0; }
@@ -102,7 +111,8 @@ private:
     Unk_378* _378;
     u8 _380[0xa98 - 0x380];
     Unk_a98* _a98;
-    u8 _aa0[0xab0 - 0xaa0];
+    u8 _aa0[0xaa8 - 0xaa0];
+    Unk_aa8* _aa8;
     Unk_ab0* _ab0;
     u8 _ab8[0xe08 - 0xab8];
 
