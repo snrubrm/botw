@@ -3,6 +3,8 @@
 #include <basis/seadTypes.h>
 #include <heap/seadDisposer.h>
 #include <container/seadPtrArray.h>
+#include <prim/seadSafeString.h>
+#include "Game/AI/aiUnk_7102357210.h"
 #include "Game/gameUnk_710243c330.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Utils/Thread/ActorMessageTransceiver.h"
@@ -20,6 +22,41 @@ public:
     Slot slots[16];
 };
 KSYS_CHECK_SIZE_NX150(Unk_7100903948, 0x180);
+
+// A named actor link (placeholder name; layout from the constructor 0x7100903620: the destructor resets `link`).
+struct Unk_GameSceneSubsys14Entry {
+    sead::FixedSafeString<256> name;
+    s64 id = -1;
+    ksys::act::BaseProcLink link;
+};
+KSYS_CHECK_SIZE_NX150(Unk_GameSceneSubsys14Entry, 0x130);
+
+// Vtable 0x7102473580 (GOT 0x2593a58; D1 0x7100903c24, D0 0x7100904f74, m2 0x710090325c = message handler, m3 is
+// an empty function). Message listener embedded at GameSceneSubsys14 + 0x1c8.
+class Unk_7102473580 : public Unk_7102357210 {
+public:
+    bool m2(const ksys::Message& message) override;
+
+    u32 _34;
+    bool _38 = true;
+    Unk_GameSceneSubsys14Entry _40;
+};
+KSYS_CHECK_SIZE_NX150(Unk_7102473580, 0x170);
+
+// Vtable 0x71024735b0 (GOT 0x2593a60; D1 0x7100903bd0, D0 0x7100904fd4, m2 0x7100903408). Message listener embedded at
+// GameSceneSubsys14 + 0x340.
+class Unk_71024735b0 : public Unk_7102357210 {
+public:
+    bool m2(const ksys::Message& message) override;
+
+    u32 _34;
+    bool _38 = true;
+    u32 _3c;
+    s32 _40 = -1;
+    ksys::act::BaseProcLink _48;
+    s32 _58 = 0;
+};
+KSYS_CHECK_SIZE_NX150(Unk_71024735b0, 0x60);
 
 // Name from the CSV (GameSceneSubsys14::createInstance 0x7100903598, ctor 0x7100903620, init,
 // initCurrentLocation, postCalc, x_N, ...; instance pointer at 0x71025d1760). A polymorphic sead
@@ -58,12 +95,16 @@ public:
     bool sub_7100904F4C() const;
     bool sub_7100904F68() const;
 
-    u8 _38[0x168 - 0x38];
+    Unk_GameSceneSubsys14Entry _38;
     u32 _168;
     u32 _16c;
-    u8 _170[0x180 - 0x170];
-    const ksys::MesTransceiverId* _180;
-    u8 _188[0x1040 - 0x188];
+    ksys::ActorMessageTransceiver mTransceiver{*this};
+    Unk_7102473580 _1c8;
+    u32 _338;
+    Unk_71024735b0 _340;
+    Unk_GameSceneSubsys14Entry mEntries[10];
+    sead::FixedPtrArray<Unk_GameSceneSubsys14Entry, 10> _f80;
+    sead::FixedPtrArray<Unk_GameSceneSubsys14Entry, 10> _fe0;
     Unk_7100903948 _1040;
     // Constructor 0x7100903620 sets 16-entry buffers at +0x11d0 and +0x1260.
     sead::FixedPtrArray<Unk_7100903948::Slot, 16> mActiveSlots;

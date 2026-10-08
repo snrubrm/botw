@@ -35,7 +35,7 @@ void AreaLocation::enter_(ksys::act::ai::InlineParamPack* params) {
         const bool active = !_38;
         _38 = active;
         _40.x(active);
-        _40.sub_710070DBB0(*GameSceneSubsys14::instance()->_180, true);
+        _40.sub_710070DBB0(*GameSceneSubsys14::instance()->mTransceiver.getId(), true);
     }
 }
 
@@ -47,7 +47,7 @@ void AreaLocation::leave_() {
     _40.x(false);
     if (isActorDeletedOrDeleting())
         return;
-    _40.sub_710070DBB0(*GameSceneSubsys14::instance()->_180, true);
+    _40.sub_710070DBB0(*GameSceneSubsys14::instance()->mTransceiver.getId(), true);
 }
 
 void AreaLocation::loadParams_() {
@@ -61,7 +61,7 @@ void AreaLocation::calc_() {
         const bool active = !_38;
         _38 = active;
         _40.x(active);
-        _40.sub_710070DBB0(*GameSceneSubsys14::instance()->_180, true);
+        _40.sub_710070DBB0(*GameSceneSubsys14::instance()->mTransceiver.getId(), true);
     }
 }
 

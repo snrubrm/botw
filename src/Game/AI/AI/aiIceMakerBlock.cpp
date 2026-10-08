@@ -150,7 +150,7 @@ void IceMakerBlock::sub_7100447C8C() {
                 sead::ScopedLock<sead::JobQueueLock> lock(&_150._18.mLock);
                 _150._18._0 = state;
             }
-            _150.sub_710070DBB0(*GameSceneSubsys14::instance()->_180, true);
+            _150.sub_710070DBB0(*GameSceneSubsys14::instance()->mTransceiver.getId(), true);
         }
     }
 }
@@ -169,7 +169,7 @@ void IceMakerBlock::leave_() {
             sead::ScopedLock<sead::JobQueueLock> lock(&_150._18.mLock);
             _150._18._0 = false;
         }
-        _150.sub_710070DBB0(*GameSceneSubsys14::instance()->_180, true);
+        _150.sub_710070DBB0(*GameSceneSubsys14::instance()->mTransceiver.getId(), true);
     }
 }
 

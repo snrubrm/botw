@@ -150,7 +150,7 @@ void CookPotRoot::sub_71003584D4() {
             sead::ScopedLock<sead::JobQueueLock> lock(&_248._18.mLock);
             _248._18._0 = new_state;
         }
-        _248.sub_710070DBB0(*GameSceneSubsys14::instance()->_180, true);
+        _248.sub_710070DBB0(*GameSceneSubsys14::instance()->mTransceiver.getId(), true);
     }
 }
 
@@ -163,7 +163,7 @@ void CookPotRoot::leave_() {
             sead::ScopedLock<sead::JobQueueLock> lock(&_248._18.mLock);
             _248._18._0 = false;
         }
-        _248.sub_710070DBB0(*GameSceneSubsys14::instance()->_180, true);
+        _248.sub_710070DBB0(*GameSceneSubsys14::instance()->mTransceiver.getId(), true);
     }
     if (!isActorGoingBackToRootAi()) {
         if (auto* holder = static_cast<void**>(mCurrentCookResultHolder_a)) {
