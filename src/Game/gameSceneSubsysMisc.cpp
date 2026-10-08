@@ -5,6 +5,8 @@
 #include "Game/AI/aiXlinkHandle.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/Physics/System/physRayCastBodyQuery.h"
+#include "KingSystem/ActorSystem/actReaction.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
 
 SEAD_SINGLETON_DISPOSER_IMPL(GameSceneSubsys4)
 
@@ -21,6 +23,12 @@ bool GameSceneSubsys5::sub_71009059D4() const {
 void GameSceneSubsys5::sub_71009059EC(ksys::act::ActorConstDataAccess* accessor) {
     if (accessor)
         ksys::act::acquireActor(&_a8, accessor);
+}
+
+void GameSceneSubsys5::sub_7100905F30() {
+    if (_48.isActive())
+        return;
+    _48 = ksys::eft::searchAndEmitELink(ksys::act::Reaction::sInstance->_30, "MagneConnect");
 }
 
 bool GameSceneSubsys5::sub_7100905B34() const {

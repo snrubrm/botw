@@ -77,6 +77,8 @@ public:
     bool sub_7100905D44(ksys::act::Actor* actor) const;
     // 0x7100905ca8 (placeholder name): sets the selected position and its radius.
     void sub_7100905CA8(const sead::Vector3f& pos, f32 radius);
+    // 0x7100905f30 (placeholder name): emits the "MagneConnect" ELink on the Reaction singleton's actor `_30` unless `_48` is still active.
+    void sub_7100905F30();
     // 0x71009059ec: acquires the actor of the link at +0xa8 into `accessor` (if given).
     void sub_71009059EC(ksys::act::ActorConstDataAccess* accessor);
     // 0x7100905c70: _fc[_144] = true

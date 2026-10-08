@@ -15,7 +15,8 @@ public:
     void sub_7100EC29D0(Actor* actor);
 
     // EC04D0 stores an Actor cast from the released handle; EC0D20 deletes the same actor.
-    u8 _0[0x38];
+    u8 _0[0x30];
+    Actor* _30;
     Actor* _38;
 };
 }  // namespace ksys::act
