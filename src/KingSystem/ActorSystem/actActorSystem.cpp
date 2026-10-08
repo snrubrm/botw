@@ -97,6 +97,12 @@ bool ActorSystem::getPlayer(ActorConstDataAccess* accessor) {
     return accessor->acquire(nullptr);
 }
 
+PlayerBase* ActorSystem::getPlayer() {
+    if (!_c0)
+        return nullptr;
+    return _c0->getPlayer();
+}
+
 bool ActorSystem::getPlayerPosition(sead::Vector3f* out) {
     ActorConstDataAccess accessor;
     ActorSystem::instance()->getPlayer(&accessor);

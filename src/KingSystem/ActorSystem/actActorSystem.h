@@ -17,6 +17,7 @@ namespace ksys::act {
 
 class Actor;
 class ActorConstDataAccess;
+class PlayerBase;
 class PlayerLink;
 
 // TODO: incomplete
@@ -28,6 +29,9 @@ public:
     void onBaseProcMgrCalc();
 
     bool getPlayer(ActorConstDataAccess* accessor);
+    // 0x7100d5d4c0: the player actor (null without a player link). New virtual-slot-free
+    // overload; the bool one above takes an accessor.
+    PlayerBase* getPlayer();
     bool getPlayerPosition(sead::Vector3f* out);
 
     bool getAutoPlacementActorPos(const sead::SafeString& name, sead::Vector3f* pos) const;
