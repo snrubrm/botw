@@ -40,12 +40,16 @@ protected:
     virtual void m52();
     virtual void m53() {}
     virtual void m54() {}
-    virtual bool m55() { return false; }
+    // m55 (CameraMagneCatch) writes two floats through its parameters; this default ignores them.
+    virtual bool m55(f32* out0, f32* out1) { return false; }
     virtual void m56(bool x) {}
     virtual void m57() {}
     virtual bool m58() { return false; }
     virtual int m59() { return -1; }
     virtual bool m60(int idx) { return false; }
+
+    // 0x7100786cc0: m60(_f4).
+    bool sub_7100786CC0();
 
     sead::Vector3f _4c = sead::Vector3f::zero;
     sead::Vector3f _58 = sead::Vector3f::zero;

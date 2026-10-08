@@ -54,6 +54,10 @@ bool CameraLockOnBase::m51() {
     return true;
 }
 
+bool CameraLockOnBase::sub_7100786CC0() {
+    return m60(_f4);
+}
+
 void CameraLockOnBase::m52() {
     _a0 = _88;
 }
