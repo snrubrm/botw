@@ -1,5 +1,7 @@
 #include "Game/AI/AI/aiMoriblinSpearNearBattle.h"
+#include <random/seadGlobalRandom.h>
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/ActorSystem/actAiRoot.h"
 #include "Game/AI/aiUnk_71007320F0.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
@@ -8,7 +10,39 @@ namespace uking::ai {
 MoriblinSpearNearBattle::MoriblinSpearNearBattle(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
 void MoriblinSpearNearBattle::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    // NON_MATCHING: the original loads the target's x / z before the actor's translation (ours
+    // interleaves them); the instructions are otherwise identical (same scheduling note as calc_).
+    if (testRootAiFlag2(ksys::act::ai::RootAiFlag2::_0) ||
+        testRootAiFlag2(ksys::act::ai::RootAiFlag2::_4)) {
+        const f32 dx = mTargetPos_d->x - mActor->getMtx().m[0][3];
+        const f32 dz = mTargetPos_d->z - mActor->getMtx().m[2][3];
+        const sead::Vector3f diff(dx, 0.0f, dz);
+        if (diff.length() <= sub_71007320F0(mActor, *mWeaponIdx_s) + *mNearDist_s) {
+            const sead::Vector3f target_pos = *mTargetPos_d;
+            ksys::act::ai::InlineParamPack pack;
+            pack.addVec3(target_pos, "TargetPos", -1);
+            changeChild("後退", &pack);
+            return;
+        }
+    }
+    auto* random = sead::GlobalRandom::instance();
+    const u32 r = random->getU32();
+    const s32 per = s32((u64(r) * 100) >> 32);
+    if (per < *mBackWalkPer_s) {
+        const sead::Vector3f target_pos = *mTargetPos_d;
+        ksys::act::ai::InlineParamPack pack;
+        pack.addVec3(target_pos, "TargetPos", -1);
+        changeChild("後退", &pack);
+        return;
+    }
+    if (per < *mBackStepPer_s + *mBackWalkPer_s) {
+        changeToBackStep();
+        return;
+    }
+    const sead::Vector3f target_pos = *mTargetPos_d;
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(target_pos, "TargetPos", -1);
+    changeChild("大攻撃", &pack);
 }
 
 // NON_MATCHING: the original loads the target's x / z before the actor's translation (ours the other way round)
