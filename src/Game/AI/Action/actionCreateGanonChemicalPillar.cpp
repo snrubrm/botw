@@ -1,6 +1,10 @@
 #include "Game/AI/Action/actionCreateGanonChemicalPillar.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorCreator.h"
+#include "KingSystem/ActorSystem/actActorHeapUtil.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actInstParamPack.h"
 
 namespace uking::action {
 
@@ -13,8 +17,33 @@ CreateGanonChemicalPillar::~CreateGanonChemicalPillar() {
     accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
 }
 
+// NON_MATCHING: one scheduling difference — the original saves the created proc to x20 after
+// loading the DynamicCast guard byte where ours saves it immediately before (independent
+// operations in different order). Calls, branch structure, constants identical.
 bool CreateGanonChemicalPillar::init_(sead::Heap* heap) {
-    return ksys::act::ai::Action::init_(heap);
+    if (!sub_71005D6D10()) {
+        ksys::act::InstParamPack params;
+        params->add(*mAttackPower_s + *mAddAtkPower_m, "AttackPower");
+        params->add(*mScaleTime_s, "ScaleTime");
+        ksys::act::ActorCreator::addScale(params, 1.0f);
+        params->add(*mAtMinDamage_s, "AtMinDamage");
+        auto* creator = ksys::act::ActorCreator::instance();
+        mCreateActorName_s.cstr();
+        auto* proc = creator->createActor(mCreateActorName_s.getStringTop(),
+                                          ksys::act::ActorHeapUtil::instance()->getBaseProcHeap(),
+                                          &params, true, false);
+        if (!proc)
+            return false;
+
+        auto* actor = sead::DynamicCast<ksys::act::Actor>(proc);
+        if (!actor)
+            return false;
+
+        actor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_2000);
+        _58.acquire(actor, false);
+        return true;
+    }
+    return true;
 }
 
 void CreateGanonChemicalPillar::enter_(ksys::act::ai::InlineParamPack* params) {
