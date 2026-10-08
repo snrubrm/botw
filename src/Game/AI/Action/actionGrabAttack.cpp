@@ -4,6 +4,7 @@
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorAtk.h"
+#include "KingSystem/ActorSystem/actAttackSensor.h"
 
 namespace uking::action {
 
@@ -26,6 +27,27 @@ void GrabAttack::leave_() {
     if (sead::DynamicCast<ksys::act::Actor>(mActor->getConnectedCalcChild()))
         mActor->resetConnectedCalcChild(false);
     Grab::leave_();
+}
+
+// NON_MATCHING: register allocation and load scheduling only; all calls, values and
+// branches match.
+void GrabAttack::sub_7100190184(ksys::as::ASList::Unk4* query) {
+    auto* actor = mActor;
+    const sead::SafeString* atk = sub_71007A24BC();
+    // Discarded calls, both real in the target: assure termination before reading the
+    // buffers directly below.
+    atk->cstr();
+    mAtRigidBodyName_s.cstr();
+    auto* body = actor->findPhysicsBodyByName(atk->getStringTop(),
+                                              mAtRigidBodyName_s.getStringTop());
+    if (!body)
+        return;
+    sub_71007A2EB0(body, actor, nullptr);
+    sead::FixedSafeString<64> name;
+    sub_71005D7C94(&name, &query->name);
+    auto* sensor = getActorAttackSensor(actor);
+    const s32 x = sub_71007A3A8C(&name);
+    sensor->activateAttackSensor(0x2000, 0, 0, 0, 0.0f, 0, 1, x, false, 1, -1);
 }
 
 void GrabAttack::loadParams_() {
