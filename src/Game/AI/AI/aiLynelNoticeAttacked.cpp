@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiLynelNoticeAttacked.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
@@ -14,8 +15,49 @@ bool LynelNoticeAttacked::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
 }
 
+// NON_MATCHING: backend scheduling only — the original loads the actor-x/z components
+// before the home-x/z components and keeps home_pos at sp+0x8; ours loads home first
+// and spills home_pos at the frame top. Actor-first temporaries reproduce the load
+// order (tested, reverted as register-steering); no lever found for the home_pos slot.
 void LynelNoticeAttacked::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    const s32 reset_time = *mRepeatResetTime_s;
+    const f32 time = reset_time > 0 ? reset_time : 1.0f;
+    const f32 rate = reset_time > 0 ? -1.0f : 0.0f;
+    _6c.value = time;
+    _6c.previous_value = time;
+    _6c.rate = rate;
+    mActor->getMtx().getTranslation(_60);
+    ++*mLynelNoticeAttackRepeatNum_a;
+    if (*mLynelNoticeAttackRepeatNum_a > *mRepeatMax_s) {
+        sead::Vector3f home;
+        mActor->getHomePos(&home);
+        const f32 dx = home.x - mActor->getMtx().m[0][3];
+        const f32 dz = home.z - mActor->getMtx().m[2][3];
+        if (dx * dx + dz * dz >= *mForceReturnDistFromHomePos_s * *mForceReturnDistFromHomePos_s) {
+            *mLynelNoticeAttackRepeatNum_a = 0;
+            sead::Vector3f home_pos;
+            mActor->getHomePos(&home_pos);
+            ksys::act::ai::InlineParamPack pack;
+            pack.addVec3(home_pos, "TargetPos", -1);
+            changeChild("強制帰還", &pack);
+            return;
+        }
+    }
+    auto& link = sub_71005D94AC(mActor);
+    if (!link.hasProc()) {
+        ksys::act::ai::InlineParamPack pack;
+        pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+        changeChild("未発見", &pack);
+    } else {
+        auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
+        if (enemy && enemy->_e08._0 == link) {
+            sub_7100494D04();
+        } else {
+            ksys::act::ai::InlineParamPack pack;
+            pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+            changeChild("未発見", &pack);
+        }
+    }
 }
 
 bool LynelNoticeAttacked::isFailed() const {
