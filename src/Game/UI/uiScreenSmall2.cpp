@@ -1100,6 +1100,12 @@ void ScreenWolfLinkHeartGauge::m94() {
     _3610->sub_710093515C(getAnimationStep_());
 }
 
+// 0x7100a6be1c
+void ScreenWolfLinkHeartGauge::sub_7100A6BE1C() {
+    if (_3610)
+        _3610->sub_71009359E8();
+}
+
 // 0x71010a8840
 void ScreenMessageTips::m93(sead::Heap*) {
     _318.sub_71010A7CA4(sub_7100BEAFB0("Pa_Tips_00"));

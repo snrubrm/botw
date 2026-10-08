@@ -2376,6 +2376,8 @@ public:
     ~ScreenWolfLinkHeartGauge() override;
     void m93(sead::Heap* heap) override;
     void m94() override;
+    // 0x7100a6be1c (placeholder name): forwards to the gauge's sub_71009359E8
+    void sub_7100A6BE1C();
     Unk_7102474be8* _3610{};
     SEAD_RTTI_OVERRIDE(ScreenWolfLinkHeartGauge, ScreenEx)
 };
