@@ -139,6 +139,38 @@ void ScreenMessage3D::sub_71010AE190(ksys::act::Actor* actor, f32 x, u32 flags) 
     _698.unlock();
 }
 
+// 0x71010aeacc (slot 103): reset all four entries
+void ScreenMessage3D::m101() {
+    Entry* e0;
+    if (_300.size() == 0)
+        e0 = nullptr;
+    else
+        e0 = _300.data()[0];
+    e0->sub_71010AEB60();
+    Entry* e1 = (u32)_300.size() >= 2 ? _300.data()[1] : nullptr;
+    e1->sub_71010AEB60();
+    Entry* e2 = (u32)_300.size() >= 3 ? _300.data()[2] : nullptr;
+    e2->sub_71010AEB60();
+    Entry* e3 = (u32)_300.size() >= 4 ? _300.data()[3] : nullptr;
+    e3->sub_71010AEB60();
+}
+
+// 0x71010aec24 (slot 85): reset all four entries
+void ScreenMessage3D::m83() {
+    Entry* e0;
+    if (_300.size() == 0)
+        e0 = nullptr;
+    else
+        e0 = _300.data()[0];
+    e0->sub_71010AEB60();
+    Entry* e1 = (u32)_300.size() >= 2 ? _300.data()[1] : nullptr;
+    e1->sub_71010AEB60();
+    Entry* e2 = (u32)_300.size() >= 3 ? _300.data()[2] : nullptr;
+    e2->sub_71010AEB60();
+    Entry* e3 = (u32)_300.size() >= 4 ? _300.data()[3] : nullptr;
+    e3->sub_71010AEB60();
+}
+
 // 0x71010ae9e8
 bool ScreenMessage3D::sub_71010AE9E8(ksys::act::Actor* actor) {
     if (!isOpened())

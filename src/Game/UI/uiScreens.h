@@ -340,6 +340,7 @@ public:
 class ScreenEx;
 struct ScreenAppPictureBookUnk;
 class Unk_7102474f10;
+struct PictureBookItem;
 
 class Unk_7102474e38 {
 public:
@@ -834,6 +835,10 @@ public:
     void sub_71010AE190(ksys::act::Actor* actor, f32 x, u32 flags);
     // 0x71010ae104 (CSV unnamed): message lookup into _680, 0/1/2 return.
     s32 sub_71010AE104(const sead::SafeString& set, const sead::SafeString& label);
+    // 0x71010aec24 (slot 85) / 0x71010aeacc (slot 103): reset all four entries
+    // (identical twins; overrides of Screen::m83/m101).
+    void m83() override;
+    void m101() override;
 
     // One message entry (0xd0 bytes, linked through +0; the last of the four has a null link).
     // The entries are plain buffers: ScreenMessage3D's D1 destroys only the CriticalSection, so they
@@ -1948,7 +1953,7 @@ public:
     sead::PtrArray<Unk_7102474e38> mUnits;
     eui::Animator* _30;
     PictureBookGroupRecord* mRecord;
-    void* _40;
+    PictureBookItem* _40;
 };
 static_assert(sizeof(Unk_7102474f10) == 0x48);
 
@@ -1995,13 +2000,18 @@ struct ScreenAppPictureBookUnk {
     u32 sub_710093E784(s32 index);
     s32 sub_710093FBF0(eui::BoxCursorNode* node);
 
-    /* 0x000 */ u8 _0[0x2c];
+    /* 0x000 */ u8 _0[0x28];
+    /* 0x028 */ u8 _28;
+    u8 _29[0x2c - 0x29];
     /* 0x02c */ u32 _2c;
-    u8 _30[0x38 - 0x30];
+    /* 0x030 */ u32 _30;
+    u8 _34[0x38 - 0x34];
     /* 0x038 */ void* _38;
-    u8 _40[0x60 - 0x40];
+    /* 0x040 */ eui::LayoutEx* _40[4];
     /* 0x060 */ ScreenEx* mScreen;
-    u8 _68[0x288 - 0x68];
+    u8 _68[0xc8 - 0x68];
+    /* 0x0c8 */ s32 _c8;
+    u8 _cc[0x288 - 0xcc];
     /* 0x288 */ u32 _288;
     u32 _28c;
     /* 0x290 */ ScreenAppPictureBookEntry** _290;
@@ -2011,7 +2021,11 @@ struct ScreenAppPictureBookUnk {
     /* 0x2a8 */ s32 _2a8;
     /* 0x2ac */ u8 _2ac[0x2d8 - 0x2ac];
     /* 0x2d8 */ s32 _2d8;
-    u8 _2dc[0x310 - 0x2dc];
+    u8 _2dc[0x2e4 - 0x2dc];
+    /* 0x2e4 */ s32 _2e4;
+    u8 _2e8[0x2ec - 0x2e8];
+    /* 0x2ec */ s32 _2ec;
+    u8 _2f0[0x310 - 0x2f0];
     /* 0x310 */ s32 _310;
     /* 0x318 */ PictureBookItem* _318;
     u8 _320[0x33c - 0x320];
