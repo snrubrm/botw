@@ -78,6 +78,14 @@ void Camera::sub_71007953C8() {
     _860._0._28 += rate * (0.0f - _860._0._28);
 }
 
+EditCamera::CameraNames* Camera::sub_7100795414() {
+    if (!_850.hasProc())
+        return nullptr;
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(&_850, &accessor);
+    return sub_7100791B00(accessor);
+}
+
 void Camera::sub_71007929E0() {
     _860._0 = _860._38 = _860._70 = _860._a8 = _860._e0;
     _860._150 = _860._0._c;

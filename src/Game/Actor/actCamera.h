@@ -10,6 +10,7 @@
 #include <prim/seadRuntimeTypeInfo.h>
 #include <prim/seadSafeString.h>
 #include <thread/seadAtomic.h>
+#include "Game/Actor/actEditCamera.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "Game/Actor/actCameraUtil.h"
@@ -453,6 +454,8 @@ public:
     void sub_7100793BD8();
     // 0x7100795f40: `*out` = the current core's entry of the f32 array at 0x1230 (false if out is null).
     bool sub_7100795F40(f32** out);
+    // 0x7100795414 (placeholder name): sub_7100791B00 (EditCamera names) of the actor in _850, null without one.
+    EditCamera::CameraNames* sub_7100795414();
 
     /* 0x0850 */ ksys::act::BaseProcLink _850;
     /* 0x0860 */ Unk_710079a8e8 _860;

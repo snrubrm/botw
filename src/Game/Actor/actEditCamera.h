@@ -2,6 +2,10 @@
 
 #include "KingSystem/ActorSystem/actActor.h"
 
+namespace ksys::act {
+class ActorConstDataAccess;
+}
+
 namespace uking::act {
 
 // Name from the CSV (EditCamera::*; the namespace is a guess). Factory 0x710079172c: new(0x8b8) + inlined ctor
@@ -45,5 +49,9 @@ public:
     /* 0x840 */ Unk840 _840{};
 };
 KSYS_CHECK_SIZE_NX150(EditCamera, 0x8b8);
+
+// 0x7100791a0c / 0x7100791b00 (placeholder names): the accessor's actor as an EditCamera, and its sub_71007917C4().
+EditCamera* sub_7100791A0C(const ksys::act::ActorConstDataAccess& accessor);
+EditCamera::CameraNames* sub_7100791B00(const ksys::act::ActorConstDataAccess& accessor);
 
 }  // namespace uking::act

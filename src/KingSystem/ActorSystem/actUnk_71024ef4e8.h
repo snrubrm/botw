@@ -35,7 +35,8 @@ public:
         phys::Constraint* mConstraint;
         u8 _10[0x48 - 0x10];
         /* 0x48 */ u8 _48;  // bit 1: _c0 is valid (read inline by Unk_71003ffbf0::sub_71003FFD3C)
-        u8 _49[0x50 - 0x49];
+        /* 0x49 */ u8 _49;  // bit 1 tested by sub_7100926AC4 (camera)
+        u8 _4a[0x50 - 0x4a];
         /* 0x50 */ phys::RigidBody* mBody;
         u8 _58[0xc0 - 0x58];
         /* 0xc0 */ phys::RigidBody* _c0;

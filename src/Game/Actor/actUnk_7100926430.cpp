@@ -9,6 +9,7 @@
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "KingSystem/ActorSystem/actUnk_71024ef4e8.h"
 #include "KingSystem/GameData/gdtManager.h"
 #include "KingSystem/Utils/MathUtil.h"
 
@@ -45,6 +46,22 @@ bool sub_7100926A9C(ksys::act::ActorConstDataAccess* accessor) {
     if (auto* info = ksys::act::PlayerInfo::instance())
         return ksys::act::acquireActor(&info->getHorseLink(), accessor);
     return false;
+}
+
+bool sub_7100926AC4() {
+    ksys::act::acc::PlayerBase accessor;
+    sub_7100926A50(&accessor);
+    if (!accessor.m186() && !accessor.m185())
+        return false;
+    if (accessor.checkActionX_1() || accessor.checkActionX_0() || accessor.isClimbingStep())
+        return false;
+    auto* player = sub_7100926A14();
+    if (!player)
+        return false;
+    auto* target = player->getAttachedTargetActor();
+    if (!target || !target->mAttachInfo)
+        return false;
+    return !(target->mAttachInfo->_49 & 2);
 }
 
 bool sub_7100926CB0() {
