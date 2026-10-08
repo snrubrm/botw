@@ -326,6 +326,12 @@ void DynamicActor::sub_71006DD908(sead::Vector3f* out) {
         _868->sub_71006EE128(out);
 }
 
+f32 DynamicActor::sub_71006DD918() {
+    if (_868)
+        return _868->sub_71006EE148();
+    return 0.0f;
+}
+
 }  // namespace ksys::act
 
 namespace ksys::act {

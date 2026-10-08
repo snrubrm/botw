@@ -121,6 +121,8 @@ public:
     void sub_71006DE274(bool on);
     // 0x71006dd908 (declared only): forwards to _868 (Unk_71006ecc78::sub_71006EE128(out)) if it exists.
     void sub_71006DD908(sead::Vector3f* out);
+    // 0x71006dd918 (placeholder name): the ragdoll handler's value (Unk_71006ecc78::sub_71006EE148), 0 without one.
+    f32 sub_71006DD918();
 
 public:
     // Members are public: AI and action code read them directly.
