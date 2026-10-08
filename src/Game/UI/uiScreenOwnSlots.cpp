@@ -623,6 +623,37 @@ void ScreenErrorViewer::sub_710109EE10(s32 error_code) {
         mErrorCode = error_code;
 }
 
+// NON_MATCHING: the original keeps `5 : 4` as separate blocks (branch) where ours selects with csinc
+// 0x710109fe34
+void ScreenErrorViewer::m101() {
+    if (mId == 0x61) {
+        ksys::ui::sub_7100EDC638(false);
+        s32 mode;
+        switch (_314) {
+        case 1:
+            mode = (mErrorCode | 2) == 0x17a716 ? 5 : 4;
+            break;
+        case 2:
+            mode = _31d ? 6 : 7;
+            break;
+        default:
+            mode = 3;
+            break;
+        }
+        UI::instance()->_a4 = mode;
+    }
+}
+
+// 0x710109fd90
+void ScreenErrorViewer::m107(eui::AnimButton* button) {
+    if (_314 == 2)
+        _31d = _320._348 == button;
+    _320._340->setFlag10(false);
+    _320._348->setFlag10(false);
+    _320._350->setFlag10(false);
+    close(-1);
+}
+
 // 0x710109fe14
 void ScreenErrorViewer::sub_710109FE14() {
     if (_314 == 0)

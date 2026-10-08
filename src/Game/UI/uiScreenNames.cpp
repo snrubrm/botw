@@ -149,6 +149,13 @@ const char* ScreenMessageTips::getLayoutName_() const {
     return "MessageTips_00";
 }
 
+// 0x71010a53f0
+void ScreenMainDungeon::m101() {
+    _9d0->startAnimCloseImpl_(false, true);
+    _9d8->startAnimCloseImpl_(false, true);
+    _9e0->startAnimCloseImpl_(false, true);
+}
+
 // 0x71010a4f24
 void ScreenMainDungeon::sub_71010A4F24() {
     _2fc = 2;

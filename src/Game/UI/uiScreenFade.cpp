@@ -53,6 +53,14 @@ void Fade::close(s32 option) {
     Screen::close(option);
 }
 
+// 0x71010a1b24
+void Fade::m101() {
+    mTips.clear();
+    updateTipMessage();
+    setDrawTargetMaybe(1);
+    ksys::snd::SoundMgr::instance()->sub_71011FC288();
+}
+
 // 0x71010a1ce8
 const char* Fade::getLayoutName_() const {
     return "Fade_00";

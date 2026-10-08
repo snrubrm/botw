@@ -1061,6 +1061,10 @@ public:
     void sub_710109EE10(s32 error_code);
     // 0x710109fe14 (placeholder name): when the error code is 0, sets the UI flag _a4 to 2
     void sub_710109FE14();
+    // 0x710109fe34 (slot 101): publishes the viewer's mode in the UI singleton's _a4 (screen id 0x61 only)
+    void m101() override;
+    // 0x710109fd90 (slot 107)
+    void m107(eui::AnimButton* button) override;
 
     u8 _2fc[0x300 - 0x2fc];
     /* 0x300 */ s32 _300 = 0x100;
@@ -1069,9 +1073,18 @@ public:
     /* 0x310 */ s32 mErrorCode = -1;
     /* 0x314 */ u32 _314;
     /* 0x318 */ u32 _318;
-    /* 0x31c */ u16 _31c = 0;
+    /* 0x31c */ u8 _31c = 0;
+    /* 0x31d */ bool _31d = false;
     u8 _31e[0x320 - 0x31e];
-    /* 0x320 */ u8 _320[0x4c]{};
+    // 0x320 .. 0x36c is zeroed by one memset; the three buttons are at 0x340 / 0x348 / 0x350
+    struct Buttons {
+        u8 _0[0x20];
+        eui::AnimButton* _340;
+        eui::AnimButton* _348;
+        eui::AnimButton* _350;
+        u8 _358[0x4c - 0x38];
+    };
+    /* 0x320 */ Buttons _320{};
 };
 
 // Only the nominal type and the three state words checked by UI::sub_71010A5CFC / sub_71010A5DB0 / sub_71010A5E64
@@ -1089,9 +1102,16 @@ public:
     void sub_71010A4F3C();
     void sub_71010A4F64();
 
+    // 0x71010a53f0 (slot 101): starts the close animation of the three layouts at 0x9d0 / 0x9d8 / 0x9e0
+    void m101() override;
+
     /* 0x2fc */ s32 _2fc;
     /* 0x300 */ s32 _300;
     /* 0x304 */ s32 _304;
+    u8 _pad_308[0x9d0 - 0x308];
+    /* 0x9d0 */ eui::LayoutEx* _9d0;
+    /* 0x9d8 */ eui::LayoutEx* _9d8;
+    /* 0x9e0 */ eui::LayoutEx* _9e0;
 };
 
 // The fade screen (id 78): a full-screen fade that can also show a loading tip; its tip texts are queued in a ring
@@ -1111,6 +1131,10 @@ public:
     void m93(sead::Heap* heap) override;
 
     void sub_71010A0EE8(f32 progress);
+    // 0x71010a1b24 (slot 101): clears the tip queue, refreshes the tip message and the draw target, tells the sound manager
+    void m101() override;
+    // 0x71010a172c (CSV Fade::updateTipMessage; declared only)
+    void updateTipMessage();
     // 0x71010a0b88 (placeholder name): whether the animator at _300 is at its last frame
     bool sub_71010A0B88() const;
     // 0x71010a0bbc: starts the colour animator forwards / backwards
