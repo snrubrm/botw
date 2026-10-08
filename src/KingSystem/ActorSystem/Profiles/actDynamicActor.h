@@ -115,6 +115,8 @@ public:
     // 0x71006dc81c / 0x71006dc864: release the owned actor attack / ragdoll handlers.
     void sub_71006DC81C();
     void sub_71006DC864();
+    // 0x71006dc89c (placeholder name): deletes the drop data (`_a60`) and clears it.
+    void sub_71006DC89C();
     // 0x71006dd908 (declared only): forwards to _868 (Unk_71006ecc78::sub_71006EE128(out)) if it exists.
     void sub_71006DD908(sead::Vector3f* out);
 

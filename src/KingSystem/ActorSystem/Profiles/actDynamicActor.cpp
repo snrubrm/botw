@@ -346,4 +346,11 @@ void DynamicActor::sub_71006DC864() {
     }
 }
 
+void DynamicActor::sub_71006DC89C() {
+    if (_a60) {
+        DropData::sub_71006DB89C(_a60);
+        _a60 = nullptr;
+    }
+}
+
 }  // namespace ksys::act
