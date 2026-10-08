@@ -149,3 +149,5 @@ PlayReport::~PlayReport() {
 }
 
 }  // namespace ksys
+
+void ksys::PlayReportMgr::sub_7100FD3A50() {}
