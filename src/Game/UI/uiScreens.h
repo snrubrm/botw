@@ -1951,6 +1951,24 @@ public:
 static_assert(sizeof(Unk_7102474f10) == 0x48);
 
 // Placeholder name: the picture book list controller (0x710093cd20 - 0x7100945000, about 100 unnamed rows).
+// Placeholder for the selectable picture-book item held at ScreenAppPictureBookUnk+0x318
+// (byte at +0x10; slot 0x40 takes the previous item, slot 0x48 takes nothing). Only the slots
+// used by ScreenAppPictureBookUnk::sub_710093F594 are named; the rest are padding slots.
+struct PictureBookItem {
+    virtual void m0();
+    virtual void m1();
+    virtual void m2();
+    virtual void m3();
+    virtual void m4();
+    virtual void m5();
+    virtual void m6();
+    virtual void m7();
+    virtual void m8(PictureBookItem* prev);
+    virtual void m9();
+    /* 0x8 */ u8 _8[0x10 - 0x8];
+    /* 0x10 */ bool _10;
+};
+
 struct ScreenAppPictureBookUnk {
     // 0x710093f594 (CSV unnamed; not decompiled)
     void sub_710093F594(bool a1);
@@ -1961,8 +1979,18 @@ struct ScreenAppPictureBookUnk {
     bool sub_7100939F58() const;
     // 0x710093fe74: the `_38d` flag of entry `index` (true for an invalid index)
     bool sub_710093FE74(s32 index) const;
+    // Callees of sub_710093F594 (declared only; not decompiled yet)
+    void sub_710093F670();
+    void sub_710093F7F8(bool flag);
+    void sub_710093F924(bool flag);
+    u32 sub_710093E784(s32 index);
+    s32 sub_710093FBF0(eui::BoxCursorNode* node);
 
-    /* 0x000 */ u8 _0[0x60];
+    /* 0x000 */ u8 _0[0x2c];
+    /* 0x02c */ u32 _2c;
+    u8 _30[0x38 - 0x30];
+    /* 0x038 */ void* _38;
+    u8 _40[0x60 - 0x40];
     /* 0x060 */ ScreenEx* mScreen;
     u8 _68[0x288 - 0x68];
     /* 0x288 */ u32 _288;
@@ -1972,7 +2000,10 @@ struct ScreenAppPictureBookUnk {
     /* 0x2a8 */ s32 _2a8;
     /* 0x2ac */ u8 _2ac[0x2d8 - 0x2ac];
     /* 0x2d8 */ s32 _2d8;
-    u8 _2dc[0x33c - 0x2dc];
+    u8 _2dc[0x310 - 0x2dc];
+    /* 0x310 */ s32 _310;
+    /* 0x318 */ PictureBookItem* _318;
+    u8 _320[0x33c - 0x320];
     /* 0x33c */ s32 _33c;
     /* 0x340 */ s32 _340;
 };
