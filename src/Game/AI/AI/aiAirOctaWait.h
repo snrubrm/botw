@@ -15,6 +15,9 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    // 0x71002ffedc (placeholder name): sets `_48` from the AS event 0x39 ("待機可" / "待機不可").
+    void sub_71002FFEDC();
+
 protected:
     // dynamic_param at offset 0x38
     bool* mIsSameChange_d{};
