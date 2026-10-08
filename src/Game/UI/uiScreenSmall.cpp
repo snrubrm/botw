@@ -12,6 +12,18 @@ void ScreenPauseMenu::sub_7100A34A04() {
     _3bb4 = 1;
 }
 
+// 0x7100a38994
+void ScreenPauseMenu::adjstBoxCursor(sead::BoundBox2<f32>* box, const eui::BoxCursorNode*) const {
+    if (!_3674)
+        return;
+    if (_3664.isUndef())
+        return;
+    if (_3664.isInside(box->getMin()) && _3664.isInside(box->getMax()))
+        return;
+    if (auto* screen = eui::ScreenMgr::instance()->getScreen(ScreenId::BoxCursorTV))
+        screen->close(-4);
+}
+
 // 0x71009b0224
 void ScreenPauseMenuUnk3a00::sub_71009B0224(bool enabled) {
     if (_130 == -1)

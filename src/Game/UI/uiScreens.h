@@ -1993,9 +1993,12 @@ public:
     void sub_7100A392D8();
     // 0x7100a38028 (CSV unnamed, 296 bytes; declared only)
     void sub_7100A38028();
+    // 0x7100a38994: closes the TV box cursor screen when the cursor box leaves _3664
+    void adjstBoxCursor(sead::BoundBox2<f32>* box, const eui::BoxCursorNode* node) const override;
     u8 _pad_3610[0x3618 - 0x3610];
     /* 0x3618 */ s32 _3618;
-    u8 _pad_361c[0x3674 - 0x361c];
+    u8 _pad_361c[0x3664 - 0x361c];
+    /* 0x3664 */ sead::BoundBox2f _3664;  // the box cursor must stay inside it while _3674 is set (adjstBoxCursor)
     /* 0x3674 */ s32 _3674;
     u8 _pad_3678[0x3a00 - 0x3678];
     /* 0x3a00 */ ScreenPauseMenuUnk3a00* _3a00[3];
