@@ -1,6 +1,14 @@
 #include "hkpCharacterStateOnGround.h"
 #include <Havok/Physics2012/Utilities/CharacterControl/StateMachine/hkpCharacterContext.h>
 
+hkpCharacterStateOnGround::hkpCharacterStateOnGround()
+    : mGain(0.95f), mSpeed(10.0f), mMaximumAcceleration(200.0f), _18(true), _19(false),
+      _1a(false) {}
+
+hkpCharacterStateType hkpCharacterStateOnGround::m5() const {
+    return hkpCharacterStateType(0);
+}
+
 void hkpCharacterStateOnGround::m9(hkpCharacterContext& context, const hkpCharacterInput& input,
                                  hkpCharacterOutput& output) {
     if (input.m_wantJump)
