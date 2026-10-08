@@ -1,5 +1,8 @@
 #include "Game/AI/AI/aiKokkoAngry.h"
+#include "Game/AI/aiActorLink.h"
+#include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actAiRoot.h"
 #include "Game/AI/Action/actionSpotBgmTriggerAction.h"
 #include "Game/Actor/actEnemy.h"
 #include "KingSystem/GameData/gdtSpecialFlags.h"
@@ -55,6 +58,25 @@ bool KokkoAngry::m36() {
         return true;
     }
     return false;
+}
+
+// NON_MATCHING: same values, calls and branches; differs in register allocation and in the
+// documented getKokkoTargetLink fold (entry-0 link as enemy + 0xd78 instead of _d70 + 8) plus the
+// var->mLink address computed at the send instead of before the Enemy check. A single-use
+// `auto& link = var->mLink` reproduces the early address but is scheduling-only, so not applied.
+void KokkoAngry::m37(ksys::act::BaseProcHandle* handle) {
+    auto* proc = handle->getProc();
+    if (!sead::IsDerivedFrom<ksys::act::Actor>(proc))
+        return;
+    auto* actor = static_cast<ksys::act::Actor*>(proc);
+    void* raw;
+    actor->getRootAi()->getAITreeVariable(&raw, "AttackTargetActorLink");
+    auto* var = static_cast<Unk_7102370e70*>(*static_cast<void**>(raw));
+    if (!var)
+        return;
+    if (!sead::IsDerivedFrom<Unk_7102370e70>(var))
+        return;
+    var->mLink = *getKokkoTargetLink(mActor);
 }
 
 // NON_MATCHING: see getKokkoTargetLink (entry-0 address computed as enemy + 0xd78)

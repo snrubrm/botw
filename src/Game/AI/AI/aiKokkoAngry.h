@@ -34,6 +34,7 @@ public:
 
     sead::Vector3f m35() override;
     bool m36() override;
+    void m37(ksys::act::BaseProcHandle* handle) override;
 
 protected:
 };
