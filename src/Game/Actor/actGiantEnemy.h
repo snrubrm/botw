@@ -33,6 +33,12 @@ public:
     virtual void* m8();
 };
 
+class GiantEnemy;
+// 0x710002d99c / 0x71000302d0 (placeholder names; declared only): create the _1558 object (0x20 bytes) for `enemy`
+// (0x71000302d0 for Golem actors); null if its init fails.
+Unk_71002d99c* sub_710002D99C(sead::Heap* heap, GiantEnemy* enemy);
+Unk_71002d99c* sub_71000302D0(sead::Heap* heap, GiantEnemy* enemy);
+
 // Name from the CSV (GiantEnemy::*): Hinox / Stalnox / Talus / Molduga-sized enemies. vtable
 // 0x7102359a48 (181 slots, no new virtuals), RTTI static 0x71025af110 (parent: Enemy). Factory
 // 0x710002a150 (CSV GiantEnemy::construct, which inlines the ctor): new(0x1588).

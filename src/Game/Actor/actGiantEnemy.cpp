@@ -44,6 +44,16 @@ void GiantEnemy::m56(sead::Vector3f* pos) {
         x_18(pos);
 }
 
+bool GiantEnemy::prepareInit_(sead::Heap* heap, PrepareArg& arg) {
+    if (!Enemy::prepareInit_(heap, arg))
+        return false;
+    if (getName().findIndex("Golem") != -1)
+        _1558 = sub_71000302D0(heap, this);
+    else
+        _1558 = sub_710002D99C(heap, this);
+    return true;
+}
+
 void GiantEnemy::killWithDropsAndEffects(int a1) {
     Enemy::killWithDropsAndEffects(a1);
     incrementGiantOrSandwormDefeatCount();
