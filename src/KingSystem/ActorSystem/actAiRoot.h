@@ -65,6 +65,8 @@ public:
     bool stubbedRet0() const;
     // Public through the root AI (SiteBossSpearRoot::leave_ calls it on `mActor->getRootAi()`; lane2 s20).
     using ActionBase::isActorGoingBackToRootAi;
+    // Public through the root AI (LynelRecognizeTarget::enter_ calls it on `mActor->getRootAi()`; lane1 s63).
+    using ActionBase::testRootAiFlag2;
 
     const Actions& getActions() const { return mActions; }
     const Ais& getAis() const { return mAis; }

@@ -32,6 +32,11 @@ public:
     void changeToForceStartBattle();
     // 0x7100497be8 (placeholder name): `actor` has a weapon (not of type 4) for which PlayerOrEnemy::sub_7100009AA8 is false.
     bool sub_7100497BE8(ksys::act::acc::PlayerOrEnemy* actor);
+    // 0x71004963f8 (CSV placeholder, declared only): update _f0 from sub_710049759C (kept when
+    // `flag & 1` and larger); blocked on checkIsFooledByDisguise's accessor/PlayerBase paradox.
+    void sub_71004963F8(u32 flag);
+    // 0x7100496564 (CSV lynelRecogniseTargetStuff): set flag 0x2000000, change to 戦闘, set _e84 bit.
+    void sub_7100496564();
 
 protected:
     // static_param at offset 0x38
