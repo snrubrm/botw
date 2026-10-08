@@ -28,6 +28,9 @@ public:
 protected:
     void calc_() override;
 
+    // 0x7100e13474 (placeholder name): the init_ body (emitter allocation, _50 = false) without the return value.
+    void sub_7100E13474(sead::Heap* heap);
+
     // dynamic_param at offset 0x20
     bool* mIsHideCaption_d{};
     // dynamic_param at offset 0x28

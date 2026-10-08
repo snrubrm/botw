@@ -22,6 +22,11 @@ bool DemoVoiceTrigger::init_(sead::Heap* heap) {
     return true;
 }
 
+void DemoVoiceTrigger::sub_7100E13474(sead::Heap* heap) {
+    mEmitter = aal::SystemAccessor::getArbiter()->allocEmitter(heap, "demoVoiceTrigger");
+    _50 = false;
+}
+
 void DemoVoiceTrigger::enter_(ksys::act::ai::InlineParamPack* params) {
     // NON_MATCHING: the stack temporaries for the dynamic-param fetches are laid out differently
     // (ours reuses slots; the original keeps an extra saved register and slot), and our call to
