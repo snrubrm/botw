@@ -18,6 +18,7 @@ RigidBodySet2::~RigidBodySet2() {
 void RigidBodySet2::sub_71012AFEB8() {
     // NON_MATCHING: the original recomputes the body-array address from this for every
     // access; ours keeps it in a saved register (one extra mov, writeback addressing).
+    // Tried direct mRigidBodies access (via protected): identical codegen. Logged HARD.
     const s32 num = getRigidBodies().size();
     for (s32 i = 0; i < num; ++i) {
         getRigidBodies()[i]->removeFromWorldImmediately();
