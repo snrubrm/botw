@@ -31,6 +31,12 @@ bool eventMgrHasActiveEvent();
 bool sub_71002C802C(const ksys::act::ActorConstDataAccess& accessor);
 bool sub_71002C8330(const ksys::act::ActorConstDataAccess& accessor, sead::Vector3f* out);
 
+// 0x710084be34: getAttackInfo(actor, 0). Lives here (PlayerBase's TU), not in actPlayer.cpp:
+// playerIsGuardJust must call it out of line.
+ksys::act::ActorAtk::Struct7::AttackInfo* getAttackInfo0(ksys::act::Actor* actor) {
+    return getAttackInfo(actor, 0);
+}
+
 namespace ksys::act {
 
 void PlayerBase::x_1(bool on) {

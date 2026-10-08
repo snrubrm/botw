@@ -94,6 +94,8 @@ void sub_71007A3778(ksys::act::Actor* actor, const sead::SafeString& name);
 ksys::act::ActorAtk::Unk_710079e64c::Unk1* sub_71007A255C(ksys::act::Actor* actor, int idx);
 // 0x71007a28dc (CSV Actor::getAttackInfo): ActorAtk::getAttackInfo(idx).
 ksys::act::ActorAtk::Struct7::AttackInfo* getAttackInfo(ksys::act::Actor* actor, int idx);
+// 0x710084be34 (in PlayerBase's TU): getAttackInfo(actor, 0).
+ksys::act::ActorAtk::Struct7::AttackInfo* getAttackInfo0(ksys::act::Actor* actor);
 // 0x71007a2604 (CSV Actor::x_52): ActorAtk::m10().
 bool sub_71007A2604(ksys::act::Actor* actor);
 // 0x71007a274c (CSV Actor::x_47): whether ActorAtk::m10() and one of its sub_710079E2C0 entries has

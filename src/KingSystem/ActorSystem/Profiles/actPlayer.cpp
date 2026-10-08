@@ -48,8 +48,10 @@ namespace uking::ui {
 bool sub_7100A991C0();
 }
 
-ksys::act::ActorAtk::Struct7::AttackInfo* getAttackInfo0(ksys::act::Actor* actor) {
-    return getAttackInfo(actor, 0);
+// 0x71008739a0 (in Player's TU): bit 1 of the attack info flags.
+bool playerIsGuardJust(ksys::act::Actor* actor) {
+    auto* info = getAttackInfo0(actor);
+    return (info->_18 >> 1) & 1;
 }
 
 // Source namespace unknown (0x710084ca64); declaration only.
