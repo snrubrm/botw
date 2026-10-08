@@ -754,7 +754,10 @@ public:
     void sub_71010A7CA4(eui::LayoutEx* layout);
     void sub_71010A7EDC(eui::LayoutEx* layout, eui::Animator* animator);
 
-    u8 _8[0x88]{};
+    u8 _8[0x70]{};
+    eui::LayoutEx* _78{};
+    eui::Animator* _80{};
+    eui::Animator* _88{};
 };
 
 }  // namespace uking::ui

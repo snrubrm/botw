@@ -941,6 +941,14 @@ Unk_7102509148::Unk_7102509148() = default;
 // 0x71010a7bf8
 Unk_7102509148::~Unk_7102509148() = default;
 
+// 0x71010a7edc
+void Unk_7102509148::sub_71010A7EDC(eui::LayoutEx* layout, eui::Animator* animator) {
+    _78 = layout;
+    _80 = animator;
+    if (layout)
+        _88 = layout->findPartsLayout("Pa_AmiiboIllust_00")->createAnimatorAuto("Type", false);
+}
+
 // Unk_7102475368 accessors (placeholder names after the offsets)
 // 0x7100950244
 u8* Unk_7102475368::get10() {
