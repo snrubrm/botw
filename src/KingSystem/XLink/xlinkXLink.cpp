@@ -4,6 +4,20 @@
 
 namespace ksys::xlink {
 
+void XLink::sub_710123051C(aal::IAssetInfoReadable* reader) {
+    if (_50)
+        _50->setAssetInfoReader(reader);
+}
+
+bool XLink::sub_7101230714() {
+    if (_48 && _48->getEventList()->size() > 0) {
+        _48->fadeIfLoopEffect();
+        _48->postCalc();
+        return false;
+    }
+    return true;
+}
+
 bool XLink::x_1() {
     if (_cc.isOnBit(9)) {
         if (_48 && _48->getEventList()->size() != 0)
