@@ -96,6 +96,7 @@ public:
         KSYS_CHECK_SIZE_NX150(AttackInfo, 0x78);
 
         void reset();
+        void sub_710079F208(const Struct7& other);
         void sub_710079E958(sead::Buffer<u8>* buffer, Actor* actor);
         void sub_710079EFBC(sead::Buffer<u8>* buffer, Actor* actor);
 
@@ -183,6 +184,7 @@ public:
     Unk_710079e64c::Unk1* sub_710079E2C0(int idx) const;
     bool sub_710079E300(BaseProc* proc);
     void sub_710079E318();
+    void sub_710079E32C(const ActorAtk& other);
     // 0x710079e344 / 0x710079e3b8: add (to the back of) / remove a listener to / from _70's list.
     void sub_710079E344(AttackSensor2Listener* listener);
     void sub_710079E3B8(AttackSensor2Listener* listener);

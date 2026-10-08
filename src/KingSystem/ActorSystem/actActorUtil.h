@@ -35,6 +35,7 @@ class RigidBody;
 namespace ksys::act {
 
 class Actor;
+class BaseProc;
 
 // DomesticNormal 364F7C uses the named rail, anchor outputs and nearest point index.
 map::Rail* sub_7100EEF0FC(Actor* actor, const sead::SafeString& name);
@@ -384,3 +385,8 @@ void callGetDemoHandler2(ksys::act::Actor* actor, ksys::act::Actor* item,
 // 0x7100ee56c0 (declaration only; global namespace placeholder, SystemHide::leave_): called after the "Tgt" bodies are
 // removed by ksys::act::sub_7100EE5624.
 void sub_7100EE56C0(ksys::act::Actor* actor);
+
+// Actor message helpers at 0x71011d75cc / 7650 / 76e0, defined beside the Actor methods.
+void sub_71011D75CC(ksys::act::Actor* actor);
+void sub_71011D7650(ksys::act::Actor* actor, ksys::act::BaseProc* proc);
+void sub_71011D76E0(ksys::act::Actor* actor, const ksys::act::ActorConstDataAccess& accessor);

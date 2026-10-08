@@ -1,4 +1,6 @@
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Utils/Thread/Message.h"
+#include "KingSystem/Utils/Thread/MessageDispatcher.h"
 #include <container/seadPtrArray.h>
 #include "KingSystem/Map/mapPlacementMgr.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
@@ -1878,3 +1880,33 @@ bool Actor::x_8(bool on) {
 }
 
 }  // namespace ksys::act
+
+void sub_71011D75CC(ksys::act::Actor* actor) {
+    const bool processing = ksys::MessageDispatcher::instance()->isProcessingOnCurrentThread();
+    auto* transceiver = ksys::act::ActorSystem::instance()->sub_7100D5D80C();
+    if (processing)
+        transceiver->sendMessageOnProcessingThread(*actor->getMesTransceiverId(), ksys::MessageType(0x3000012), nullptr, true);
+    else
+        transceiver->sendMessage(*actor->getMesTransceiverId(), ksys::MessageType(0x3000012), nullptr, true);
+}
+
+void sub_71011D7650(ksys::act::Actor* actor, ksys::act::BaseProc* proc) {
+    const bool processing = ksys::MessageDispatcher::instance()->isProcessingOnCurrentThread();
+    auto* transceiver = ksys::act::ActorSystem::instance()->sub_7100D5D80C();
+    // This message's pointer-sized user-data slot carries the zero-extended actor ID.
+    if (processing)
+        transceiver->sendMessageOnProcessingThread(*actor->getMesTransceiverId(), ksys::MessageType(0x3000013), reinterpret_cast<void*>(uintptr_t(proc->getId())), true);
+    else
+        transceiver->sendMessage(*actor->getMesTransceiverId(), ksys::MessageType(0x3000013), reinterpret_cast<void*>(uintptr_t(proc->getId())), true);
+}
+
+void sub_71011D76E0(ksys::act::Actor* actor, const ksys::act::ActorConstDataAccess& accessor) {
+    const bool processing = ksys::MessageDispatcher::instance()->isProcessingOnCurrentThread();
+    auto* transceiver = ksys::act::ActorSystem::instance()->sub_7100D5D80C();
+    // The same message protocol accepts an ID obtained through an actor link.
+    if (processing)
+        transceiver->sendMessageOnProcessingThread(*actor->getMesTransceiverId(), ksys::MessageType(0x3000013), reinterpret_cast<void*>(uintptr_t(accessor.getId())), true);
+    else
+        transceiver->sendMessage(*actor->getMesTransceiverId(), ksys::MessageType(0x3000013), reinterpret_cast<void*>(uintptr_t(accessor.getId())), true);
+}
+

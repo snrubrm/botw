@@ -190,6 +190,11 @@ void ActorAtk::sub_710079E318() {
         _48->_808.clear();
 }
 
+void ActorAtk::sub_710079E32C(const ActorAtk& other) {
+    if (_18 && other._18)
+        _18->sub_710079F208(*other._18);
+}
+
 }  // namespace ksys::act
 
 bool actorHasTgtBody(ksys::act::Actor* actor) {

@@ -33,6 +33,8 @@ class ActorSystem {
     ActorSystem();
 
 public:
+    // Selects the per-core transceiver through the polymorphic message interface.
+    MessageTransceiverBase* sub_7100D5D80C();
     void onBaseProcMgrCalc();
 
     bool getPlayer(ActorConstDataAccess* accessor);
