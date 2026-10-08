@@ -1,8 +1,12 @@
 #include "Game/AI/Action/actionFreeMoveToNearGround.h"
 #include <random/seadGlobalRandom.h>
+
+#include <cmath>
+
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/Physics/System/physContactPointInfo.h"
 
 namespace uking::action {
 
@@ -85,6 +89,47 @@ bool FreeMoveToNearGround::m32(ksys::phys::CharacterController* controller) {
     _f8 = *mParams.mSpeed_s * sead::GlobalRandom::instance()->getF32Range(0.7f, 1.3f);
     sub_710016B114(controller->sub_7100F5EF00());
     return true;
+}
+
+bool FreeMoveToNearGround::sub_710016D7C0(sead::Vector3f* out) {
+    // NON_MATCHING: stack layout and scheduling only — the original places pos at sp+0x50 (ours
+    // lower), keeps diff in s9-s11 across the dot, and sets w0 after the out stores; calls,
+    // iterator logic, constants and branches are identical.
+    auto* controller = mActor->getCharacterController();
+    if (!controller)
+        return false;
+    auto* info = controller->sub_7100F635E4();
+    if (!info)
+        return false;
+    auto it = info->begin();
+    const auto end = info->end();
+    if (it == end)
+        return false;
+    do {
+        sead::Vector3f pos;
+        controller->sub_7100F5F6E0(&pos);
+        const sead::Vector3f pt = it.getPointPosition(
+            ksys::phys::ContactPointInfo::Iterator::Point::BodyA);
+        sead::Vector3f diff = pos - pt;
+        f32 tmp;
+        const f32 b = controller->sub_7100F62E74(&tmp, 0);
+        const f32 len =
+            std::sqrt(diff.x * diff.x + diff.y * diff.y + diff.z * diff.z);
+        if (!(len > 0.0f)) {
+            if (out)
+                *out = controller->get64();
+            return true;
+        }
+        diff *= 1.0f / len;
+        if (diff.dot(controller->get64()) < 0.0f) {
+            if (!out)
+                return true;
+            *out = diff;
+            return true;
+        }
+        ++it;
+    } while (it != end);
+    return false;
 }
 
 }  // namespace uking::action
