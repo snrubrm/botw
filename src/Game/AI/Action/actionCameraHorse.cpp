@@ -113,4 +113,13 @@ void CameraHorse::sub_710076F638() {
     _25c = sead::Mathf::clamp(*mHandlingRateReturnSpeed_s, 0.0f, 1.0f);
 }
 
+void CameraHorse::sub_71007710F8(f32* out) {
+    if (auto* camera = getCamera()) {
+        const act::Unk_7100922700 polar(camera->_860._0._0 - camera->_860._0._c);
+        *out = angleStuff(*mLatSlow_s + (*mLatFast_s - *mLatSlow_s) * _50);
+        const sead::Vector3f pos = camera->_860._0._c + polar.sub_7100923254();
+        *out = angleStuff(sub_710092738C(camera->_860._0._c, pos) + *out);
+    }
+}
+
 }  // namespace uking::action

@@ -25,6 +25,9 @@ protected:
     void sub_710076F638();
     // 0x7100771b94 (called by m34): eases _9c towards _84 and _a0 towards _88 (`_261` bit 2 selects the rate).
     void sub_7100771B94();
+    // 0x71007710f8 (placeholder name): `*out` is the lerp of LatSlow / LatFast by _50 (wrapped), plus the
+    // angle between the camera look-at point and the point polar(_0 - _c) from it (camera required).
+    void sub_71007710F8(f32* out);
 
     // A value that follows a parameter (m33 starts it from *startCus).
     struct Unk1 {
