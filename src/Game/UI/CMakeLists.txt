@@ -27,6 +27,8 @@ target_sources(uking PRIVATE
   euiButtonGroup.cpp
   euiControlBase.cpp
   euiControlCreator.cpp
+  uiControlCreator.cpp
+  uiScreenControlCreators.cpp
   euiControlBase.h
   euiGrammar.cpp
   euiTagProcessor.cpp
