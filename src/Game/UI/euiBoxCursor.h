@@ -5,7 +5,9 @@
 #include <math/seadBoundBox.h>
 #include <math/seadVector.h>
 #include <prim/seadBitFlag.h>
+#include <controller/seadController.h>
 #include <prim/seadRuntimeTypeInfo.h>
+#include <prim/seadSafeString.h>
 #include "Game/UI/euiControlBase.h"
 #include "Game/UI/euiTypes.h"
 
@@ -80,6 +82,8 @@ public:
     Screen* getActiveNodeScreen() const;
     // 0x7100bdc274
     void clearActiveAndReservedActiveNode(const BoxCursorNode* node);
+    // 0x7100bdc684 (placeholder name): whether the layout of the active node's button has the name `name`
+    bool sub_7100BDC684(const sead::SafeString& name) const;
     // 0x7100bdc2c8 / 0x7100bdc700 (not decompiled)
     void selectActiveNode_();
     BoxCursorNode* getNodeByDirection_(Direction direction);
@@ -103,7 +107,7 @@ public:
     virtual ~BoxCursorMgr() = default;
     // 0x7100bdccfc: stores the mode (values 3-6 move the cursor in the direction `mode - 3`)
     SEAD_ENUM(Mode, _0, _1, _2, _3, _4, _5, _6)
-    virtual void m4(s32 mode);
+    virtual void m4(Mode mode);
     virtual void m5(BoxCursorNode* node);
     virtual void m6(DrawTarget target);
     virtual void update();
@@ -111,6 +115,12 @@ public:
     // inline-only in the original; name is a guess (the DrawTarget argument is spilled to the stack by the inlined
     // by-value parameter, see BoxCursorControl::Update)
     bool isTargetEnabled(DrawTarget target) const { return mEnabledTargets.isOnBit(target); }
+
+    // 0x7100bdcc60 / 0x7100bdcc90 (placeholder names): forward to the control of `target`
+    Screen* getActiveNodeScreen(DrawTarget target) const;
+    bool sub_7100BDCC90(DrawTarget target, const sead::SafeString& name) const;
+    // 0x7100bdcd04 (placeholder name): selects the mode (m4) from the trigger and repeat masks of the controller
+    void sub_7100BDCD04(const sead::Controller* controller);
 
     // 0x7100bdccc4 / 0x7100bdcdd0 / 0x7100bdcd80
     void setEnable(DrawTarget target, bool enable);

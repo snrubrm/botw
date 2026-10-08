@@ -31,6 +31,15 @@ void BoxCursorControl::initialize(const nn::ui2d::ControlSrc& src, LayoutEx* lay
     mLayout->mScreen->_107 |= 4;
 }
 
+// 0x7100bdc684
+bool BoxCursorControl::sub_7100BDC684(const sead::SafeString& name) const {
+    if (mActiveNode && mActiveNode->mButton) {
+        if (LayoutEx* layout = mActiveNode->mButton->mLayout)
+            return IsNameEqual(name.cstr(), layout->mName);
+    }
+    return false;
+}
+
 // NON_MATCHING: regalloc only (the original loads the box as ldp min.x/min.y -> w8/w11 and ldp max.x/max.y -> w10/w9)
 // 0x7100bdbe1c
 void BoxCursorControl::Update(f32 dt) {

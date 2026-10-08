@@ -7,18 +7,6 @@ namespace eui {
 // 0x7100bd7b74
 ButtonGroup::ButtonGroup() = default;
 
-namespace {
-// Inline-only in the original (the same bounded 64 character comparison repeats in the four searches below).
-inline bool IsNameEqual(const char* a, const char* b) {
-    for (s32 i = 0; i < 64; ++i) {
-        if (a[i] != b[i])
-            return false;
-        if (a[i] == '\0')
-            return true;
-    }
-    return true;
-}
-}  // namespace
 
 // 0x7100bd81d0
 ButtonBase* ButtonGroup::FindControlByName(const char* name) {

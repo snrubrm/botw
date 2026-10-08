@@ -8,6 +8,18 @@ namespace eui {
 
 class LayoutEx;
 
+// Inline-only in the original (the same bounded 64 character comparison repeats in the four ButtonGroup searches and
+// in BoxCursorControl::sub_7100BDC684).
+inline bool IsNameEqual(const char* a, const char* b) {
+    for (s32 i = 0; i < 64; ++i) {
+        if (a[i] != b[i])
+            return false;
+        if (a[i] == '\0')
+            return true;
+    }
+    return true;
+}
+
 // Circular intrusive list node with the layout of nn::util::IntrusiveListNode. lib/NintendoSDK only declares
 // IntrusiveListImplementation::push_front (the original inlines it, e.g. in ButtonBase::On), so the inline
 // pieces live here until the SDK header has them.
