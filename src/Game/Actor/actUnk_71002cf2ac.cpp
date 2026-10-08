@@ -139,6 +139,18 @@ s32 SiteBoss::Unk_71002cf2ac::sub_710066C074() {
 }
 
 
+ksys::act::BaseProcLink* SiteBoss::Unk_71002cf2ac::sub_710066DE04() {
+    return &_360;
+}
+
+ksys::act::BaseProcLink* SiteBoss::Unk_71002cf2ac::sub_710066DDEC(int idx) {
+    return &_320[idx];
+}
+
+ksys::act::BaseProcLink* SiteBoss::Unk_71002cf2ac::sub_710066DE0C(int idx) {
+    return &_370[idx];
+}
+
 ksys::act::BaseProcLink* SiteBoss::Unk_71002cf2ac::sub_710066DE24(int idx) {
     return &_3b0[idx];
 }
