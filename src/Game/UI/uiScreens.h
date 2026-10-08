@@ -3970,8 +3970,9 @@ public:
 
     /* 0x3610 */ s32 _3610 = 2;
     s32 _3614;
-    // own virtual slots (state callbacks; groups of four: void, void, void, s32 -- the types are guesses from the trivial ones)
-    virtual void m154();
+    // 0x7100a0e44c (own slot 154): stores the keyboard type, clears T_Answer_00, shows the software keyboard and opens
+    // the screen
+    virtual void m154(s32 type, bool clear_input);
 
 };
 

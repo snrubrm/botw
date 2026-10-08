@@ -21,6 +21,8 @@ class SwkbdMgr {
 public:
     virtual ~SwkbdMgr();
 
+    // 0x710098590c (declared only; placeholder name): called before show() by ScreenKeyBoradTextArea::m154
+    void sub_710098590C();
     // 0x71009859c8 (declared only).
     void show(s32 type, bool clear_input);
     // 0x7100985c54: the keyboard was confirmed (and some text was entered).

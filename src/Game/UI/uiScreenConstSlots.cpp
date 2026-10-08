@@ -1,5 +1,8 @@
 #include "Game/UI/uiScreens.h"
 #include "Game/gameRoot1.h"
+#include "Game/gameRoot4.h"
+#include "Game/UI/uiSwkbdMgr.h"
+#include "Game/UI/uiUtils.h"
 
 // Overrides that return a constant (slots 18, 72, 81, 141, 142) in the Screen<Name> classes.
 namespace uking::ui {
@@ -128,6 +131,28 @@ s32 ScreenAppMenuBtn::m81() {
 void ScreenAppMenuBtn::m83() {
     if (sForceEnableGlidingSurfingRupee)
         open(1);
+}
+
+// 0x7100a0e44c
+void ScreenKeyBoradTextArea::m154(s32 type, bool clear_input) {
+    _3610 = type;
+    auto* swkbd = SwkbdMgr::instance();
+    if (!swkbd)
+        return;
+    swkbd->sub_710098590C();
+    setWidgetString(mLayout, "T_Answer_00", sead::SafeString::cEmptyString);
+    Root4::instance()->sub_71008BCE5C(Root4::FlagIdx::_2, false, 5);
+    switch (type) {
+    case 0:
+        swkbd->show(0, clear_input);
+        break;
+    case 1:
+        swkbd->show(1, clear_input);
+        break;
+    default:
+        return;
+    }
+    open(1);
 }
 
 // 0x7100a0e5bc
