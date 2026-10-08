@@ -505,4 +505,52 @@ bool ScreenAppPictureBookUnk::sub_710093FE74(s32 index) const {
     return _290[index]->_38d;
 }
 
+// 0x71009401e4
+void ScreenAppPictureBookUnk::sub_71009401E4() {
+    s64 count = _298;
+    if (count == 0)
+        return;
+    PictureBookGroupList** outer = _2a0;
+    PictureBookGroupList** end = outer + count;
+    for (; outer != end; ++outer) {
+        PictureBookGroupList* o = *outer;
+        s64 n = o->_0;
+        if (n == 0)
+            continue;
+        Unk_7102474f10** group = o->_8;
+        Unk_7102474f10** gend = group + n;
+        for (; group != gend; ++group) {
+            for (Unk_7102474e38& u : (*group)->mUnits) {
+                eui::AnimButton* button = u._10;
+                if (button && !(button->mFlags & 0x10))
+                    button->ForceOff();
+            }
+        }
+    }
+}
+
+// 0x7100940288
+void ScreenAppPictureBookUnk::sub_7100940288() {
+    s64 count = _298;
+    if (count == 0)
+        return;
+    PictureBookGroupList** outer = _2a0;
+    PictureBookGroupList** end = outer + count;
+    for (; outer != end; ++outer) {
+        PictureBookGroupList* o = *outer;
+        s64 n = o->_0;
+        if (n == 0)
+            continue;
+        Unk_7102474f10** group = o->_8;
+        Unk_7102474f10** gend = group + n;
+        for (; group != gend; ++group) {
+            for (Unk_7102474e38& u : (*group)->mUnits) {
+                eui::AnimButton* button = u._10;
+                if (button && button->IsDowning())
+                    button->ForceOff();
+            }
+        }
+    }
+}
+
 }  // namespace uking::ui

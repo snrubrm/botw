@@ -2231,6 +2231,10 @@ struct ScreenAppPictureBookUnk {
     void sub_710093F924(bool flag);
     u32 sub_710093E784(s32 index);
     s32 sub_710093FBF0(eui::BoxCursorNode* node);
+    // 0x71009401e4 / 0x7100940288 (placeholder names): ForceOff the units' buttons (those without flag 0x10 / those
+    // that are being pressed)
+    void sub_71009401E4();
+    void sub_7100940288();
     // 0x7100943684 (CSV placeholder): find the unit covering `index` (reads _288/_290/_2a8).
     Unk_7102474e38* sub_7100943684(s32 index);
 
