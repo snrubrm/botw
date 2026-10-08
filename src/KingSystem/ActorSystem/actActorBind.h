@@ -4,6 +4,10 @@
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Utils/Types.h"
 
+namespace gsys {
+class Model;
+}  // namespace gsys
+
 namespace ksys::act {
 
 class Actor;
@@ -44,6 +48,8 @@ public:
 
     // Returns the bound actor (looked up as `_20` if set, else as `proc`).
     Actor* sub_7100D3C5E0(BaseProc* proc);
+    // 0x7100d3c770 (placeholder name): the model of the actor returned by sub_7100D3C5E0, or null.
+    gsys::Model* sub_7100D3C770(BaseProc* proc);
 
     /* 0x08 */ BaseProcLink _8;
     /* 0x18 */ bool _18 = true;

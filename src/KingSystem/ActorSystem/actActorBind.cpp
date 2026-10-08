@@ -24,6 +24,11 @@ Actor* ActorBind::sub_7100D3C5E0(BaseProc* proc) {
     return nullptr;
 }
 
+gsys::Model* ActorBind::sub_7100D3C770(BaseProc* proc) {
+    auto* actor = sub_7100D3C5E0(proc);
+    return actor ? actor->getModel() : nullptr;
+}
+
 // NON_MATCHING: the original merges the two false paths into `and w0, w9, w8`
 bool ActorBind::m6(BaseProc* proc) {
     auto* actor = sub_7100D3C5E0(proc);
