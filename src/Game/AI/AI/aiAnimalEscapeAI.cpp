@@ -1,5 +1,7 @@
 #include "Game/AI/AI/aiAnimalEscapeAI.h"
 #include <limits>
+#include <random/seadGlobalRandom.h>
+#include "Game/AI/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
@@ -134,6 +136,28 @@ void AnimalEscapeAI::loadParams_() {
     getStaticParam(&mIsDynamicallyOffsetNavChar_s, "IsDynamicallyOffsetNavChar");
     getDynamicParam(&mTargetPos_d, "TargetPos");
     getAITreeVariable(&mIsUseTerritory_a, "IsUseTerritory");
+}
+
+// NON_MATCHING: register allocation and spills differ (the original keeps the position on the stack
+// and the normalised axis in float registers); same calls and arithmetic.
+bool AnimalEscapeAI::sub_7100306890(sead::Vector3f* out_dir) {
+    const auto& mtx = mActor->getMtx();
+    sead::Vector3f side(mtx(0, 0), 0.0f, mtx(2, 0));
+    side.normalize();
+    sead::Vector3f pos;
+    mtx.getTranslation(pos);
+    const u32 roll = sead::GlobalRandom::instance()->getU32(100);
+    sead::Vector3f dir = roll < 50 ? side : -side;
+    sead::Vector3f target = pos + dir * 7.0f;
+    if (!sub_710072FAB0(mActor, target, nullptr, -1, -1.0f, -1.0f)) {
+        dir = roll < 50 ? -side : side;
+        target = pos + dir * 7.0f;
+        if (!sub_710072FAB0(mActor, target, nullptr, -1, -1.0f, -1.0f))
+            return false;
+    }
+    if (out_dir)
+        *out_dir = dir;
+    return true;
 }
 
 bool AnimalEscapeAI::m37() {

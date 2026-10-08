@@ -28,6 +28,9 @@ public:
     void changeToStuckOnTerrain();
     // 0x71003051c0 (placeholder name)
     void sub_71003051C0();
+    // 0x7100306890 (placeholder name): picks a random side (the actor's horizontal x axis or its
+    // opposite, the other one if blocked) whose point 7 units away is reachable; stores the direction.
+    bool sub_7100306890(sead::Vector3f* out_dir);
 
 protected:
     // static_param at offset 0xa8
