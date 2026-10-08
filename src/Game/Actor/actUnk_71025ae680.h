@@ -46,6 +46,8 @@ public:
 
     // 0x71006df750 (placeholder name): `m13(11)`.
     void sub_71006DF750();
+    // 0x71006df6ec (placeholder name): `m13(7)`, `m13(8)`, `m13(9)`, `m13(10)`.
+    void sub_71006DF6EC();
 
     // 0x71006dfa04 (not decompiled): if `enable` changes bit 0 of `_a`, calls m13(0..11) first when enabling,
     // then m11(enable), then updates the bit (behavior Invincible).
