@@ -37,6 +37,18 @@ ksys::act::ActorAtk::Struct7::AttackInfo* getAttackInfo0(ksys::act::Actor* actor
     return getAttackInfo(actor, 0);
 }
 
+// 0x710084bd40: tail-calls sub_71007A2604. Lives here (PlayerBase's TU, by address
+// neighbours); called by Player::m303.
+bool sub_710084BD40(ksys::act::Actor* actor) {
+    return sub_71007A2604(actor);
+}
+
+// 0x710084bd44: tail-calls hasAttackInfo. Lives here (PlayerBase's TU, by address
+// neighbours); called by PlayerAttack::calc_ and PlayerNormal::calc_.
+bool playerHasAttackInfo(ksys::act::Actor* actor) {
+    return hasAttackInfo(actor);
+}
+
 namespace ksys::act {
 
 void PlayerBase::x_1(bool on) {
