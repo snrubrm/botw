@@ -24,6 +24,7 @@ public:
     void changeToPassThrough();
 
     void sub_710049B8F0();
+    void calc_() override;
     bool handleMessage_(const ksys::Message* message) override;
 protected:
     // static_param at offset 0x38

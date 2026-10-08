@@ -1,4 +1,7 @@
 #include "Game/AI/AI/aiLynelTackleMove.h"
+#include <cfloat>
+#include <cmath>
+#include "Game/AI/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
@@ -92,6 +95,63 @@ void LynelTackleMove::sub_710049BEC4() {
             rigid_body->disableContactLayer(ksys::phys::ContactLayer::EntityRagdoll);
         }
     }
+}
+
+// NON_MATCHING: backend load scheduling only (same values, registers and branches) — the original
+// hoists the child-vtable reloads above the tbnz/tbz in the isFinished/isFailed/isChangeable chain
+// and loads all four ANGLE direction components before either fsub
+void LynelTackleMove::calc_() {
+    if (!(_58.value <= FLT_EPSILON))
+        _58.update();
+
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed()) {
+        if (child->isFailed()) {
+            setFailed();
+            return;
+        }
+        if (isCurrentChild("近づき"))
+            changeToPassThrough();
+        else
+            setFinished();
+        return;
+    }
+
+    if (child->isChangeable()) {
+        if (isCurrentChild("近づき")) {
+            auto* actor = mActor;
+            sead::Vector3f dir;
+            dir.y = 0.0f;
+            dir.x = mTargetPos_d->x - actor->getMtx().m[0][3];
+            dir.z = mTargetPos_d->z - actor->getMtx().m[2][3];
+            const f32 len = dir.normalize();
+            if (len <= *mCloseEndDist_s) {
+                changeToPassThrough();
+                return;
+            }
+            sead::Vector3f fwd;
+            fwd.x = actor->getMtx().m[0][2];
+            fwd.z = actor->getMtx().m[2][2];
+            fwd.y = 0.0f;
+            fwd.normalize();
+            if (!(dir.x * fwd.x + dir.y * fwd.y + dir.z * fwd.z >= std::cos(*mCloseEndAngle_s))) {
+                changeToPassThrough();
+                return;
+            }
+        }
+        if (_58.value <= FLT_EPSILON) {
+            sead::Vector3f dir;
+            sub_71000891C8(&dir, mActor);
+            if (sub_710072FEC4(mActor, dir, mActor->getVelocity().dot(dir) + 3.5f, nullptr,
+                               true, nullptr)) {
+                setFailed();
+                return;
+            }
+        }
+    }
+    if (!isCurrentChild("近づき"))
+        return;
+    getCurrentChild()->setDynamicParam(*mTargetPos_d, "TargetPos");
 }
 
 bool LynelTackleMove::handleMessage_(const ksys::Message* message) {
