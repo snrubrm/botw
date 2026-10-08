@@ -1,5 +1,7 @@
 #pragma once
 
+#include <basis/seadTypes.h>
+
 // Partial declaration: name from CSV HorseColorInfoMgr::createInstance (0x710094c374).
 // Source namespace remains unknown; global spelling preserves the CSV placeholder.
 // No instance layout or construction is modeled here.
