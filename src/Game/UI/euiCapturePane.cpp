@@ -1,4 +1,6 @@
 #include "Game/UI/euiCapturePane.h"
+#include "Game/UI/euiLayoutEx.h"
+#include "Game/UI/euiScreen.h"
 
 #include <nn/ui2d/Pane.h>
 #include <heap/seadHeap.h>
@@ -39,6 +41,29 @@ void CapturePane::setupCaptureOutputAlpha255_(nn::ui2d::Pane* pane, sead::BitFla
 void CapturePane::setupCaptureOriginalSize_(nn::ui2d::Pane* pane, sead::BitFlag<u8>* flags) {
     if (pane->FindExtUserDataByName("CaptureOriginalSize"))
         flags->setBit(4);
+}
+
+// 0x7100bee240
+void sub_7100BEE240(nn::ui2d::Pane* pane) {
+    if (auto* capture = nn::font::DynamicCast<CapturePane>(pane))
+        capture->_db = true;
+    for (auto& child : pane->GetChildList())
+        sub_7100BEE240(&child);
+}
+
+// 0x7100bee3c8
+void sub_7100BEE3C8(nn::ui2d::Pane* pane, LayoutEx* layout) {
+    if (auto* capture = nn::font::DynamicCast<CapturePane>(pane)) {
+        const char* name = layout->mScreen ? layout->mScreen->_c8.cstr() : layout->mName;
+        capture->initializeCaptureTextureData_(name);
+    }
+    sub_7100BED748(pane, layout);
+}
+
+// 0x7100bee564
+void sub_7100BEE564(nn::ui2d::Pane* pane) {
+    if (auto* capture = nn::font::DynamicCast<CapturePane>(pane))
+        capture->sub_7100BF1E64();
 }
 
 }  // namespace eui

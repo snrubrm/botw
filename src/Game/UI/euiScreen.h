@@ -63,6 +63,14 @@ class ConstantBuffer;
 // closeEnd_ call them for the layout's root pane when Screen::_107 has bit 4 set).
 void sub_7100BEE334(nn::ui2d::Pane* pane, LayoutEx* layout);
 void sub_7100BEE4D4(nn::ui2d::Pane* pane, LayoutEx* layout);
+// 0x7100bee240: marks every CapturePane of the tree (sets its flag byte at 0xdb).
+void sub_7100BEE240(nn::ui2d::Pane* pane);
+// 0x7100bee3c8: initializes the capture texture data of a CapturePane (named after the layout or its screen), then
+// sub_7100BED748 (declared only, 508 bytes).
+void sub_7100BEE3C8(nn::ui2d::Pane* pane, LayoutEx* layout);
+void sub_7100BED748(nn::ui2d::Pane* pane, LayoutEx* layout);
+// 0x7100bee564: forwards a CapturePane to CapturePane::sub_7100BF1E64.
+void sub_7100BEE564(nn::ui2d::Pane* pane);
 // 0x7100befa30 / 0x7100befe9c / 0x7100bf01dc (declared only; placeholder names; lane2 s47): pane tree walks run by
 // Screen::setupPaneAfterBuild_ (the last two with the screen's button group).
 void sub_7100BEFA30(nn::ui2d::Pane* pane, LayoutEx* layout);
