@@ -99,4 +99,40 @@ bool DamageMgrNPC::m35(sead::Matrix34f* out) {
     }
 }
 
+// NON_MATCHING: same structure; the original merges the z store of all paths (sunk) and negates z as an integer
+// (eor with the sign bit) in the last path.
+bool DamageMgrNPC::m31(sead::Vector3f* out) {
+    switch (getDamageType()) {
+    case 0: {
+        auto* info = sub_71007A255C(mActor, 0);
+        if (info) {
+            *out = info->_94;
+            return true;
+        }
+    }
+        [[fallthrough]];
+    case 3: {
+        if (_80.x * _80.x + _80.y * _80.y + _80.z * _80.z > 0.0f) {
+            *out = _80;
+        } else {
+            const auto& mtx = mActor->getMtx();
+            out->set(-mtx(0, 2), -mtx(1, 2), -mtx(2, 2));
+        }
+        return true;
+    }
+    case 2: {
+        auto* link = mActor->getImpulseBaseProcLink();
+        const sead::Vector3f* src;
+        if (!link)
+            src = &sead::Vector3f::zero;
+        else
+            src = &link->_10._10;
+        *out = *src;
+        return true;
+    }
+    default:
+        return false;
+    }
+}
+
 }  // namespace uking::dmg
