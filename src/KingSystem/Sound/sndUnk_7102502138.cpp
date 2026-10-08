@@ -120,4 +120,8 @@ void Unk_7102502138::sub_710103B474(s32 value) {
     _68->sub_710104DD7C(value);
 }
 
+void Unk_71012C5034::sub_71012C5034(s32 value) {
+    _10 = value > 4 ? 2 : value > 0;
+}
+
 }  // namespace ksys::snd
