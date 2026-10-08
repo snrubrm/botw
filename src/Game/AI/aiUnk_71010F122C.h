@@ -30,7 +30,37 @@ public:
     // Placeholder (the holder `mElement` points to; the wind element is at +0x10). The setters read the pointer twice
     // (null check, then use), which only an atomic (volatile) load does.
     struct ElementHolder {
-        u8 _0[0x10];
+        virtual ~ElementHolder();
+        virtual void m2();
+        virtual void m3();
+        virtual void m4();
+        virtual void m5();
+        virtual void m6();
+        virtual void m7();
+        virtual void m8();
+        virtual void m9();
+        virtual void m10();
+        virtual void m11();
+        virtual void m12();
+        virtual void m13();
+        virtual void m14();
+        virtual void m15();
+        virtual void m16();
+        virtual void m17();
+        virtual void m18();
+        virtual void m19();
+        virtual void m20();
+        virtual void m21();
+        virtual void m22();
+        virtual void m23();
+        virtual void m24();
+        virtual void m25();
+        virtual void m26();
+        virtual void m27();
+        // vtable offset 0xe0: called by sub_71010F17FC before the pointer is cleared (releases the wind).
+        virtual void m28();
+
+        u8 _8[8];
         /* 0x10 */ sead::Atomic<Element*> mWind;
     };
 
