@@ -48,13 +48,16 @@ struct CharacterControllerShapes {
 
 // Placeholder: objects at CharacterController::_38 / _40 / _48 / _50 (only the fields read / written by the accessors).
 struct CharacterControllerUnk38 {
-    /* 0x00 */ u8 _0[0x1c];
+    /* 0x00 */ u8 _0[0x18];
+    // Constructor f63cd0 and controller initialization f5dc88 prove the slope angle.
+    /* 0x18 */ f32 _18;
     /* 0x1c */ sead::Vector3f _1c;
     /* 0x28 */ sead::Vector3f _28;
     /* 0x34 */ bool _34;
     /* 0x38 */ sead::Vector3f _38;
     /* 0x44 */ sead::Vector3f _44;
     /* 0x50 */ sead::Vector3f _50;
+    void sub_7100F652F8(const sead::Vector3f& velocity);
 };
 
 
@@ -1098,6 +1101,39 @@ void CharacterController::sub_7100F609E4(Fixed fixed, PreserveVelocities preserv
     } else {
         _114 &= ~2;
     }
+}
+
+void CharacterControllerUnk38::sub_7100F652F8(const sead::Vector3f& velocity) {
+    if (velocity.squaredLength() > 400.0f) {
+        sead::Vector3f clamped = velocity;
+        clamped.normalize();
+        _50 = clamped * 20.0f;
+    } else {
+        _50 = velocity;
+    }
+}
+
+// NON_MATCHING: the compiler inlines the listener's clamp; the original calls it.
+void CharacterController::sub_7100F632AC(const sead::Vector3f& velocity) {
+    _38->sub_7100F652F8(velocity);
+    if (velocity.x != 0.0f || velocity.y != 0.0f || velocity.z != 0.0f)
+        _114 |= 0x20;
+}
+
+// NON_MATCHING: the compiler inlines the listener's clamp; the original calls it.
+void CharacterController::sub_7100F6321C(bool on) {
+    f32 angle;
+    if (on) {
+        mFlags.set(0x200);
+        _38->sub_7100F652F8(sead::Vector3f::zero);
+        angle = sead::Mathf::pi() / 4;
+    } else {
+        mFlags.reset(0x200);
+        _38->sub_7100F652F8(sead::Vector3f::zero);
+        angle = sead::Mathf::deg2rad(_158);
+    }
+    _10->_44 = std::cos(angle);
+    _38->_18 = angle;
 }
 
 }  // namespace ksys::phys

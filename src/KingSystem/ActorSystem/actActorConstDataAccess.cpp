@@ -2,6 +2,7 @@
 #include <prim/seadRuntimeTypeInfo.h>
 #include "Game/Actor/actHorseRideInfo.h"
 #include "Game/Actor/actRideable.h"
+#include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorChemicals.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
@@ -31,6 +32,12 @@
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectSystem.h"
 
 namespace ksys::act {
+
+u32 ActorConstDataAccess::sub_71006E3EC0() const {
+    if (auto* enemy = sead::DynamicCast<uking::act::Enemy>(getActor()))
+        return enemy->_e90;
+    return u32(-1);
+}
 
 namespace {
 phys::StaticCompoundRigidBodyGroup* sNullFieldBodyGroup = nullptr;

@@ -103,6 +103,7 @@ public:
     bool hasTag(u32 tag) const;
     const char* getUniqueName() const;
     u32 getId() const;
+    u32 sub_71006E3EC0() const;
     bool acquireConnectedCalcParent(ActorLinkConstDataAccess* accessor) const;
     bool acquireConnectedCalcChild(ActorLinkConstDataAccess* accessor) const;
     bool hasConnectedCalcParent() const;

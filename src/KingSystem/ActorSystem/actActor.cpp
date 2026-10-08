@@ -1748,4 +1748,12 @@ res::AnimInfo::SwordBlurInfo* sub_71011D66C0(Actor* actor) {
     return actor->getParam()->getRes().mAnimationInfo->getSwordBlurInfo();
 }
 
+void Actor::sub_71011C5630(gsys::Model* model) {
+    if (!model)
+        return;
+    // The two 32-bit shader user-data slots hold the pointer's bits.
+    Unk_710260af28::instance()->sub_7100F1CC38(model, reinterpret_cast<u64>(&mUnk1));
+    Unk_710260af28::instance()->sub_7100F1CACC(model, mStasisFlags.isOn(StasisFlag(0x800)));
+}
+
 }  // namespace ksys::act

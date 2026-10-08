@@ -343,6 +343,7 @@ public:
     void sub_7100F631E0(bool value);
     // 0x7100f6321c: sets / clears bit 0x200 of mFlags and updates the controller's friction-like values.
     void sub_7100F6321C(bool value);
+    void sub_7100F632AC(const sead::Vector3f& velocity);
     // 0x7100f63370: the byte at +0x6c of the object at +0x40.
     bool sub_7100F63370() const;
 
@@ -430,7 +431,8 @@ public:
     f32 _148;
     u8 _14c[0x150 - 0x14c];
     s32 _150;  // saved / restored by PlayerWaterFall (zeroed while it is active; gravity-like)
-    u8 _154[0x15c - 0x154];
+    u8 _154[4];
+    f32 _158;  // Slope angle in degrees, copied from init parameter +0x40.
     f32 _15c;
     f32 _160;
     f32 _164;
