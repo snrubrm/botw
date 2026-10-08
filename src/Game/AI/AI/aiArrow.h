@@ -49,6 +49,9 @@ public:
     // 0x710046757c (placeholder names): the connected Weapon has a pending request of type 6 or 7 /
     // returns its `_d0c` (1 without a weapon) / forwards to Weapon::sub_71002EE7E8.
     bool sub_710046757C();
+    // 0x710046a9ec (placeholder name): attack flags from the connected Weapon (the pending request's,
+    // `_cf4` or `_c20._4`) plus 0x8, 0x200 and 0x8000000 from the weapon / chemical / tag state.
+    u32 sub_710046A9EC();
     s32 sub_710046ABA8();
     bool sub_710046ACA4(ksys::act::BaseProcLink* out);
     // 0x7100469850 (placeholder name): makes the arrow's body dynamic again and bounces ("跳ね返る").

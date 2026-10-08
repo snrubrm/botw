@@ -84,6 +84,35 @@ bool Arrow::sub_710046757C() {
     return false;
 }
 
+u32 Arrow::sub_710046A9EC() {
+    auto* actor = sead::DynamicCast<ksys::act::Actor>(mActor->getConnectedCalcParent());
+    auto* weapon = sead::DynamicCast<act::Weapon>(actor);
+    if (!weapon)
+        return 0;
+    u32 flags;
+    if ((weapon->_af8._0 | 1) == 7)
+        flags = weapon->_af8._4;
+    else if (weapon->_d08)
+        flags = weapon->_cf4;
+    else
+        flags = weapon->_c20._4;
+    if (weapon->sub_71002EE484())
+        flags |= 8;
+    auto* chemical = mActor->getChemicalStuff();
+    bool attribute = chemical && chemical->_c0 == 2;
+    if (!attribute) {
+        if (auto* chemicals = mActor->getChemicalContainer()) {
+            if (auto* element = chemicals->sub_7100E37FA8(0))
+                attribute = element->_18->isRigidAttribute6Or14Set(element->_288);
+        }
+    }
+    if (attribute)
+        flags |= 0x200;
+    if (ksys::act::hasTag(mActor, 0x5e27ef10))
+        flags |= 0x8000000;
+    return flags;
+}
+
 s32 Arrow::sub_710046ABA8() {
     auto* actor = sead::DynamicCast<ksys::act::Actor>(mActor->getConnectedCalcParent());
     if (auto* weapon = sead::DynamicCast<act::Weapon>(actor))

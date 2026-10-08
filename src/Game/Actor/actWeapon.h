@@ -419,7 +419,8 @@ public:
     /* 0xce1 */ u8 _ce1[0xcec - 0xce1];  // TODO
     /* 0xcec */ s32 _cec = -1;
     /* 0xcf0 */ s32 _cf0 = -1;  // flags (BitFlag32; the sign bit is tested by AI helpers); sub_71005DBB60 returns it
-    /* 0xcf4 */ u8 _cf4[0xd08 - 0xcf4];  // TODO
+    /* 0xcf4 */ u32 _cf4;  // flags read by Arrow::sub_710046A9EC when _d08 is set (lane1 s65)
+    /* 0xcf8 */ u8 _cf8[0xd08 - 0xcf8];  // TODO
     /* 0xd08 */ u8 _d08;  // read by ChemicalWeaponRoot / DeadlyBlowWeaponRoot::m42 (lane1 request)
     /* 0xd09 */ bool _d09;
     /* 0xd0a */ u8 _d0a[2];  // TODO
