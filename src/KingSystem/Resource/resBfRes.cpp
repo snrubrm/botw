@@ -5,6 +5,15 @@
 
 namespace ksys::res {
 
+// NON_MATCHING: the original stores _41 right after Resource::Resource() and _40 later (ours merges the two bytes into
+// one halfword store) and schedules the 0x48 / 0x58 / 0x180 / 0x190 stores differently.
+BfRes::BfRes() {
+    _138.initOffset(8);
+    _150.initOffset(8);
+}
+
+BfRes::~BfRes() = default;
+
 s32 BfRes::getLoadDataAlignment() const {
     return 0x1000;
 }
