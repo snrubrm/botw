@@ -114,7 +114,17 @@ public:
     virtual void m150();
     virtual void m151();
     virtual s32 m152();
+
+    u8 _130[0x1a8 - 0x130];
+    /* 0x1a8 */ eui::Animator* _1a8;  // stopped at max / min by m114 depending on the JumpButtonChange flag
 };
+
+// States of Unk_710247b428's state machine (plain StateBase objects; the transitions after the option / controller /
+// DLC / system window screens close).
+extern const ksys::StateBase sUnk_71025d9ec0;
+extern const ksys::StateBase sUnk_71025da040;
+extern const ksys::StateBase sUnk_71025da100;
+extern const ksys::StateBase sUnk_71025da220;
 
 class Unk_710247e468 : public ScreenChildEx {
 public:

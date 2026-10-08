@@ -1,6 +1,9 @@
 #include "Game/UI/uiScreenChildStates.h"
 #include "Game/UI/euiAnimator.h"
+#include "Game/UI/uiUtils.h"
 #include "Game/gameSaveSystem.h"
+#include "Game/gameStageBinder.h"
+#include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "KingSystem/Event/evtManager.h"
 
 namespace uking::ui {
@@ -69,6 +72,13 @@ s32 Unk_710247b428::m108() { return 0; }
 // 0x71009bb594
 void Unk_710247b428::m109() {}
 
+// 0x71009bb598
+void Unk_710247b428::m110() {
+    auto* screen = sead::DynamicCast<ScreenOptionWindow>(eui::ScreenMgr::instance()->getScreen(ScreenId::OptionWindow));
+    if (!screen || screen->isOpened())
+        mStateMachine.changeState(&sUnk_71025d9ec0);
+}
+
 // 0x71009bb660
 void Unk_710247b428::m111() {}
 
@@ -77,6 +87,22 @@ s32 Unk_710247b428::m112() { return 0; }
 
 // 0x71009bb664
 void Unk_710247b428::m113() {}
+
+// 0x71009bb668
+void Unk_710247b428::m114() {
+    auto* screen = sead::DynamicCast<ScreenOptionWindow>(eui::ScreenMgr::instance()->getScreen(ScreenId::OptionWindow));
+    if (screen) {
+        if ((screen->_291 & 4) && _1a8) {
+            if (ksys::gdt::getFlag_JumpButtonChange())
+                _1a8->StopAtMax();
+            else
+                _1a8->StopAtMin();
+        }
+        if (!screen->isClosed())
+            return;
+    }
+    mStateMachine.changeState(&sUnk_71025d9e00);
+}
 
 // 0x71009bb768
 void Unk_710247b428::m115() {}
@@ -105,6 +131,13 @@ s32 Unk_710247b428::m124() { return 0; }
 // 0x71009bbad4
 void Unk_710247b428::m125() {}
 
+// 0x71009bbad8
+void Unk_710247b428::m126() {
+    auto* screen = sead::DynamicCast<ScreenControllerWindow>(eui::ScreenMgr::instance()->getScreen(ScreenId::ControllerWindow));
+    if (!screen || screen->isOpened())
+        mStateMachine.changeState(&sUnk_71025da040);
+}
+
 // 0x71009bbba0
 void Unk_710247b428::m127() {}
 
@@ -123,6 +156,13 @@ s32 Unk_710247b428::m132() { return 0; }
 // 0x71009bbcb4
 void Unk_710247b428::m133() {}
 
+// 0x71009bbcb8
+void Unk_710247b428::m134() {
+    auto* screen = sead::DynamicCast<ScreenDLCWindow>(eui::ScreenMgr::instance()->getScreen(ScreenId::DLCWindow));
+    if (!screen || screen->isOpened())
+        mStateMachine.changeState(&sUnk_71025da100);
+}
+
 // 0x71009bbd80
 void Unk_710247b428::m135() {}
 
@@ -131,6 +171,13 @@ s32 Unk_710247b428::m136() { return 0; }
 
 // 0x71009bbd84
 void Unk_710247b428::m137() {}
+
+// 0x71009bbd88
+void Unk_710247b428::m138() {
+    auto* screen = sead::DynamicCast<ScreenDLCWindow>(eui::ScreenMgr::instance()->getScreen(ScreenId::DLCWindow));
+    if (!screen || screen->isClosed())
+        mStateMachine.changeState(&sUnk_71025d9e00);
+}
 
 // 0x71009bbe50
 void Unk_710247b428::m139() {}
@@ -150,6 +197,13 @@ s32 Unk_710247b428::m144() { return 0; }
 // 0x71009bbe9c
 void Unk_710247b428::m145() {}
 
+// 0x71009bbea0
+void Unk_710247b428::m146() {
+    auto* screen = sead::DynamicCast<ScreenSystemWindow00>(eui::ScreenMgr::instance()->getScreen(ScreenId::SystemWindow00));
+    if (!screen || screen->isOpened())
+        mStateMachine.changeState(&sUnk_71025da220);
+}
+
 // 0x71009bbf68
 void Unk_710247b428::m147() {}
 
@@ -158,6 +212,17 @@ s32 Unk_710247b428::m148() { return 0; }
 
 // 0x71009bbf6c
 void Unk_710247b428::m149() {}
+
+// 0x71009bbf70
+void Unk_710247b428::m150() {
+    auto* screen = sead::DynamicCast<ScreenSystemWindow00>(eui::ScreenMgr::instance()->getScreen(ScreenId::SystemWindow00));
+    if (!screen || screen->isClosed()) {
+        mStateMachine.changeState(&sUnk_71025d9e00);
+        return;
+    }
+    if (!sub_7100A64304())
+        createTitleStageBinder(true, true);
+}
 
 // 0x71009bc054
 void Unk_710247b428::m151() {}
