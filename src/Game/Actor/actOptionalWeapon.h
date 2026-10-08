@@ -43,6 +43,8 @@ public:
     void sub_7100EF0D44();
     void sub_7100EF0FAC();
     void sub_7100EF10BC();
+    // 0x7100ef13a4 (placeholder name): the string at `_860`.
+    sead::FixedSafeString<32>& sub_7100EF13A4();
 
 protected:
     bool prepareInit_(sead::Heap* heap, PrepareArg& arg) override;

@@ -88,4 +88,8 @@ OptionalWeapon::IsSpecialJobTypeResult OptionalWeapon::isSpecialJobType_(ksys::a
     return Actor::isSpecialJobType_(type);
 }
 
+sead::FixedSafeString<32>& OptionalWeapon::sub_7100EF13A4() {
+    return _860;
+}
+
 }  // namespace uking::act
