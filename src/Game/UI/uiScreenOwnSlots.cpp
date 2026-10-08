@@ -1,5 +1,7 @@
 #include "Game/UI/euiBoxCursor.h"
 #include "Game/UI/euiButton.h"
+#include "Game/UI/euiLayoutEx.h"
+#include "Game/UI/uiUtils.h"
 #include "Game/UI/uiScreens.h"
 #include "Game/UI/uiUI.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
@@ -484,6 +486,23 @@ bool ScreenErrorViewer::isEnableControl() const {
 void ScreenPauseMenu::m160() {
     _3618 = 15;
     mButtonGroup->_38 |= 2;
+}
+
+// 0x7100a3da0c
+// NON_MATCHING: direct open-state membership tests and guide index scheduling differ.
+void ScreenPauseMenu::m170() {
+    mButtonGroup->_38 &= ~u32(2);
+    if (mFirstGuideLayout && mSecondGuideLayout) {
+        if (mFirstGuideLayout->_91 == 1 || mFirstGuideLayout->_91 == 2)
+            mFirstGuideLayout->startAnimCloseImpl_(false, false);
+        if (mSecondGuideLayout->_91 == 1 || mSecondGuideLayout->_91 == 2)
+            mSecondGuideLayout->startAnimCloseImpl_(false, false);
+        if (mSelectedCategory != -1)
+            mTabControls.mEntries[mSelectedCategory].mGuide.sub_7100936BD4(false, false);
+    }
+    createAndLoadScreenIfNeededImpl(ScreenId::PauseMenuEiketsu, nullptr);
+    if (auto* screen = eui::ScreenMgr::instance()->getScreen(ScreenId::PauseMenuEiketsu))
+        screen->open(1);
 }
 
 // 0x7100a3db00

@@ -2047,7 +2047,10 @@ public:
     u8 _39fc[4];
     /* 0x3a00 */ ScreenPauseMenuUnk3a00* _3a00[3];
     /* 0x3a18 */ u8 _3a18;
-    u8 _pad_3a19[0x3b80 - 0x3a19];
+    u8 _pad_3a19[0x3a20 - 0x3a19];
+    /* 0x3a20 */ eui::LayoutEx* mFirstGuideLayout;
+    /* 0x3a28 */ eui::LayoutEx* mSecondGuideLayout;
+    u8 _pad_3a30[0x3b80 - 0x3a30];
     /* 0x3b80 */ s32 _3b80;
     /* 0x3b84 */ s32 _3b84;
     /* 0x3b88 */ s32 _3b88;
