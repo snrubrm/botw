@@ -44,13 +44,13 @@ protected:
     // dynamic_param at offset 0x88
     ksys::act::BaseProcLink* mTargetActor_d{};
     ksys::act::BoneHandle _90;
-    // NOTE: the original constructor stores _13a before _138 (ours the other way round), so the constructor stays W.
-    u16 _138 = 0xffff;
-    u16 _13a = 0xffff;
-    u8 _13c[0x16c - 0x13c];
+    gsys::BoneAccessKey _138;
+    sead::Matrix34f _13c;
     s32 _16c = -1;
-    void* _170{};
-    void* _178{};
+    f32 _170 = 0.0f;
+    f32 _174 = 0.0f;
+    f32 _178 = 0.0f;
+    s32 _17c = 0;
 };
 KSYS_CHECK_SIZE_NX150(Chemicalward, 0x180);
 

@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionChemicalward.h"
+#include <gsys/gsysModel.h>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actBoneHandle.h"
 
@@ -14,6 +15,23 @@ bool Chemicalward::init_(sead::Heap* heap) {
 
 void Chemicalward::enter_(ksys::act::ai::InlineParamPack* params) {
     ActionWithPosAngReduce::enter_(params);
+    playAS("Burnward", false, 0, 0, -1.0f);
+    _13c = sead::Matrix34f::ident;
+    auto* model = mActor->getModel();
+    if (*mNodeName_s.getStringTop() == sead::SafeString::cNullChar)
+        return;
+    gsys::BoneAccessKey key = model->searchBone(mNodeName_s);
+    if (!key.isValid())
+        return;
+    _138 = key;
+    _90.setName(mNodeName_s);
+    _90._68 = _13c;
+    mActor->boneHandleStuff(&_90, false);
+    _16c = 0;
+    _17c = 0;
+    _170 = static_cast<f32>(*mStableTime_s);
+    _174 = static_cast<f32>(*mKeepTime_s);
+    _178 = static_cast<f32>(*mTiredTime_s);
 }
 
 void Chemicalward::leave_() {
