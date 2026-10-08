@@ -300,6 +300,9 @@ public:
     /* 43 */ void m43() override {}
     /* 44 */ virtual bool m44();
 
+    // 0x7100e7ef1c (placeholder name): emits the xlink events "Attached" and "mc_HorseSoothe" on the actor.
+    void sub_7100E7EF1C();
+
     /* 0x1bc */ u32 _1bc = 0;
     /* 0x1c0 */ u32 _1c0 = 0;
     /* 0x1c4 */ sead::Matrix34f _1c4 = sead::Matrix34f::ident;
@@ -317,6 +320,9 @@ public:
     /* 0x278 */ u16 _278 = 0;
 };
 KSYS_CHECK_SIZE_NX150(Rideable, 0x280);
+
+// 0x7100e80d18 (placeholder name): Rideable::sub_7100E7EF1C for the rideable of `actor` while its state (_c) is 1.
+void sub_7100E80D18(ksys::act::Actor* actor);
 
 // Ridden anim-driven movement helpers (TU 0x7100e7f25c-, after Rideable's RTTI functions).
 // 0x7100e7f318: applies the AS anim-driven movement of `as_list` to `controller` (`scale` = 1 / the

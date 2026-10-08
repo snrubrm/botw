@@ -1,4 +1,6 @@
 #include "Game/Actor/actRideable.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
 
 namespace uking::act {
 
@@ -42,6 +44,11 @@ HorseReins* Rideable::m40() {
 }
 
 void Rideable::m42(int a1) {}
+
+void Rideable::sub_7100E7EF1C() {
+    xlinkSearchAndEmit(RideableBase::mActor, "Attached", 2, nullptr);
+    xlinkSearchAndEmit(RideableBase::mActor, "mc_HorseSoothe", 2, nullptr);
+}
 
 f32 Unk_7100e8b2b8::procLink13() {
     return 0.0f;

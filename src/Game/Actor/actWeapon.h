@@ -186,6 +186,8 @@ struct Unk_71002ef75c {
     // 0x71002e999c: the part of Weapon::m214 after the `_18` check (lane4 s46; placeholder name).
     bool sub_71002E999C();
 
+    // 0x71002ef828: `_14 -= delta; if (_14 <= 0) { _18 |= 1; _14 = 0; }`.
+    void sub_71002EF828(f32 delta);
     // 0x71002ef850: `_14 -= (f32)_8->_2a8; if (_14 <= 0) { _18 |= 1; _14 = 0; }`.
     void sub_71002EF850();
     // 0x71002ef74c: the maximum charge: `(f32)_8->_2a8`.

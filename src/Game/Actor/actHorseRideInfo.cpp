@@ -1,6 +1,7 @@
 #include "Game/Actor/actHorseRideInfo.h"
 #include <cmath>
 #include <math/seadMathCalcCommon.h>
+#include "Game/Actor/actRideable.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 
@@ -61,6 +62,15 @@ void HorseRideInfo::sub_7100E7C350() {
 void HorseRideInfo::sub_7100E7C4F8(ksys::act::Unk117* arg) {
     if (auto* actor = sead::DynamicCast<ksys::act::Actor>(_18.getProc(nullptr, nullptr)))
         actor->x_17(arg);
+}
+
+// Separate TU from Rideable::sub_7100E7EF1C, which this tail-calls: the original keeps it out of line.
+void sub_7100E80D18(ksys::act::Actor* actor) {
+    if (!actor)
+        return;
+    auto* rideable = actor->getHorseOptionsMaybe();
+    if (rideable && rideable->_c == 1)
+        rideable->sub_7100E7EF1C();
 }
 
 }  // namespace uking::act

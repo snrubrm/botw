@@ -804,6 +804,14 @@ bool Unk_71002ef75c::sub_71002E999C() {
     return charge >= f32(_8->_2c8);
 }
 
+void Unk_71002ef75c::sub_71002EF828(f32 delta) {
+    _14 -= delta;
+    if (_14 <= 0) {
+        _14 = 0;
+        _18 |= 1;
+    }
+}
+
 void Unk_71002ef75c::sub_71002EF850() {
     _14 -= _8->_2a8;
     if (_14 <= 0) {
