@@ -25,6 +25,7 @@ protected:
     void calc_() override;
     virtual void m32();
     virtual void m33();
+    bool sub_71001CF880();
     void sub_71001CFA48(s32 index, ksys::act::ActorConstDataAccess* accessor);
 
     struct Params {

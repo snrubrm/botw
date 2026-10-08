@@ -12,6 +12,21 @@ LastBossChemicalPillarAttack::LastBossChemicalPillarAttack(const InitArg& arg)
 
 LastBossChemicalPillarAttack::~LastBossChemicalPillarAttack() = default;
 
+bool LastBossChemicalPillarAttack::sub_71001CF880() {
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
+        for (u32 i = 0; i < 16; ++i) {
+            const sead::FormatFixedSafeString<64> name("IronPile%d", i);
+            if (enemy->getActorPartsActor(name).hasProc()) {
+                ksys::act::ActorConstDataAccess accessor;
+                ksys::act::acquireActor(&enemy->getActorPartsActor(name), &accessor);
+                if (accessor.isStateCalc() && !accessor.sub_7100D13BB8())
+                    return false;
+            }
+        }
+    }
+    return true;
+}
+
 void LastBossChemicalPillarAttack::sub_71001CFA48(s32 index, ksys::act::ActorConstDataAccess* accessor) {
     if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
         const sead::FormatFixedSafeString<64> name("IronPile%d", index);
