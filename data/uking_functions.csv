@@ -75945,7 +75945,7 @@ Address,Quality,Size,Name
 0x0000007100da9bb0,O,000056,_ZN4ksys3evt9ActorBaseD1Ev
 0x0000007100da9be8,O,000068,_ZN4ksys3evt9ActorBaseD0Ev
 0x0000007100da9c2c,O,000100,_ZNK4ksys3evt9ActorBase15getActionByNameEPKN4evfl9ResActionE
-0x0000007100da9c90,U,000172,_ZNK4ksys3evt9ActorBase13getQueryByResEPKN4evfl8ResQueryE
+0x0000007100da9c90,m,000172,_ZNK4ksys3evt9ActorBase13getQueryByResEPKN4evfl8ResQueryE
 0x0000007100da9d3c,U,001444,evt::ActorBase::m4
 0x0000007100daa2e0,O,000064,_ZNK4ksys3evt5Actor14sub_7100DAA2E0Ev
 0x0000007100daa320,U,000848,evt::ActorBase::m11

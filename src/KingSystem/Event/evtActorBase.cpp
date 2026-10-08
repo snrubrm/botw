@@ -1,6 +1,7 @@
 #include "KingSystem/Event/evtActorBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Event/evtAction.h"
+#include "KingSystem/Event/evtQuery.h"
 
 namespace ksys::evt {
 
@@ -13,6 +14,23 @@ ActionBase* ActorBase::getActionByName(const evfl::ResAction* res) const {
         ActionBase* action = mActions.at(i);
         if (action->getRes() == res)
             return action;
+    }
+    return nullptr;
+}
+
+// 0x7100da9c90
+// NON_MATCHING: induction/register details only (original keeps the at() null-select per iteration
+// with a zero-extended size; ours proves it away and uses direct indexing). Tried s32/s64 indices.
+Query* ActorBase::getQueryByRes(const evfl::ResQuery* res) const {
+    for (s32 i = 0; i < mQueries.size(); ++i) {
+        Query* query = mQueries.at(i);
+        if (query->mRes == res)
+            return query;
+    }
+    for (s32 i = 0; i < mQueries.size(); ++i) {
+        Query* query = mQueries.at(i);
+        if (query->mRes == res)
+            return query;
     }
     return nullptr;
 }
