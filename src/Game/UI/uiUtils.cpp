@@ -465,6 +465,25 @@ bool sub_7100AA20F0(eui::Screen* screen, f32* value, f32 target, f32 speed) {
     return reached;
 }
 
+// 0x7100aa6c84 (placeholder name): a weapon / bow / shield that can burn (has burnable params and is not a
+// MagicFireObj)
+bool sub_7100AA6C84(const sead::SafeString& name) {
+    if (!PauseMenuDataMgr::instance())
+        return false;
+    auto* info = ksys::act::InfoData::instance();
+    if (!info)
+        return false;
+    const auto type = PauseMenuDataMgr::getType(name, nullptr);
+    if (type > PouchItemType::Shield || type == PouchItemType::Arrow)
+        return false;
+    al::ByamlIter iter;
+    if (!ksys::act::InfoData::instance()->getActorIter(&iter, name.cstr()))
+        return false;
+    if (info->hasTag(iter, ksys::act::tags::MagicFireObj))
+        return false;
+    return ksys::act::InfoData::hasBurnableParam(iter);
+}
+
 // 0x7100aa7a50
 int sub_7100AA7A50(const sead::SafeString& name, bool is_shield) {
     auto* info = ksys::act::InfoData::instance();

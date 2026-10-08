@@ -142,6 +142,8 @@ nn::ui2d::Parts* sub_7100AA0D40(nn::ui2d::Layout* layout, const WidgetPathEntry*
 void sub_7100AA1D5C(eui::LayoutEx* layout, eui::LayoutEx* other, bool a3);
 // 0x7100aa16e8 (uiUtils.cpp)
 bool sub_7100AA16E8(const nn::ui2d::Pane* pane);
+// 0x7100aa6c84 (uiUtils.cpp)
+bool sub_7100AA6C84(const sead::SafeString& name);
 // 0x7100aa20f0 (uiUtils.cpp)
 bool sub_7100AA20F0(eui::Screen* screen, f32* value, f32 target, f32 speed);
 // 0x7100aa7a50: the guard power (`is_shield`) or the attack power of the actor `name` (0 without actor info).

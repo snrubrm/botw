@@ -2,6 +2,7 @@
 #include <prim/seadScopedLock.h>
 #include "Game/Actor/actPlayerCreateMgr.h"
 #include "Game/Damage/dmgInfoManager.h"
+#include "Game/UI/euiScreen.h"
 #include "Game/UI/uiManager.h"
 #include "Game/DLC/aocManager.h"
 #include "Game/UI/uiPauseMenuDataMgr.h"
@@ -487,6 +488,17 @@ void sub_7100A9BAB4(s32 idx, s32 value) {
 // 0x7100a9bad8
 void sub_7100A9BAD8(s32 value) {
     Manager::instance()->_c4 = value;
+}
+
+// 0x7100a9bc0c (placeholder name): `id` equals Manager::_c8; for id 0 also the target flag of draw target 2
+bool sub_7100A9BC0C(s32 id) {
+    auto* manager = Manager::instance();
+    if (id != 0 || manager->_c8 != id)
+        return id != 0 && manager->_c8 == id;
+    auto* screen_mgr = eui::ScreenMgr::instance();
+    if (!screen_mgr)
+        return true;
+    return screen_mgr->getTargetFlag(2) != 0;
 }
 
 // 0x7100a9bca4
