@@ -2,6 +2,8 @@
 #include <limits>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actAiRoot.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayerOrEnemy.h"
 #include "Game/Actor/actEnemy.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 
@@ -37,6 +39,58 @@ bool ForkASTrgEmitShockWave::init_(sead::Heap* heap) {
     auto* proc = sub_710014F4BC();
     _98.acquire(proc, false);
     return true;
+}
+
+namespace {
+// Attack attribute bits for AttackAttr 1/2/3 (0 otherwise).
+const u32 sAttackAttrBits[] = {1, 2, 4};
+}  // namespace
+
+// NON_MATCHING: micro-diffs only — ours sign-extends the AttackIntensity load (ldrsw) and
+// indexes the bits table with lsl (64-bit idx), keeps map_power in w8 not w22; the original
+// uses ldr + sxtw and keeps map_power in w22. Structure, calls, branches and constants match.
+bool ForkASTrgEmitShockWave::sub_710014F780(ksys::act::Actor* actor) {
+    if (!actor)
+        return false;
+    auto* root = actor->getRootAi();
+    if (!root)
+        return false;
+    const bool* reuse = nullptr;
+    if (!root->getMapUnitParam(&reuse, "IsReuseActor"))
+        return false;
+    if (*reuse != true)
+        return false;
+    const s32* map_power = nullptr;
+    if (!root->getMapUnitParam(&map_power, "AttackPower"))
+        return false;
+    s32 power = *mPower_s;
+    if (power >= 0)
+        power = static_cast<ksys::act::PlayerOrEnemy*>(mActor)->getEnemyAtkPower();
+    if (*map_power != power)
+        return false;
+    const f32* map_time = nullptr;
+    if (!root->getMapUnitParam(&map_time, "ScaleTime"))
+        return false;
+    if (*map_time != *mScaleTime_s)
+        return false;
+    const s32* map_attr = nullptr;
+    if (!root->getMapUnitParam(&map_attr, "AttackAttr"))
+        return false;
+    const s32 attr = *mAttackIntensity_s;
+    const s32 idx = attr - 1;
+    u32 mask = 0;
+    if ((u32)idx <= 2)
+        mask = sAttackAttrBits[idx];
+    mask = *mIsGuardPierce_s ? (mask | 0x8) : mask;
+    mask = *mIsForceGuardBreak_s ? (mask | 0x40) : mask;
+    mask = *mIsIniviciblePierce_s ? (mask | 0x100) : mask;
+    mask = *mIsHeavy_s ? (mask | 0x8000) : mask;
+    if (*map_attr != static_cast<s32>(mask))
+        return false;
+    const s32* map_min = nullptr;
+    if (!root->getMapUnitParam(&map_min, "AtMinDamage"))
+        return false;
+    return *map_min == *mAtMinDamage_s;
 }
 
 void ForkASTrgEmitShockWave::enter_(ksys::act::ai::InlineParamPack* params) {
