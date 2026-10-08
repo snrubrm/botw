@@ -1,4 +1,7 @@
 #include "Game/AI/AI/aiEquipStand.h"
+#include <cstdarg>
+#include <gfx/seadColor.h>
+#include <math/seadVector.h>
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "Game/AI/aiUnk_71005E0420.h"
 #include "KingSystem/ActorSystem/actActor.h"
@@ -42,6 +45,15 @@ void EquipStand::enter_(ksys::act::ai::InlineParamPack* params) {
         changeChild("待機");
     }
     _38._34 = 0x1800020;
+}
+
+// 0x71003c7ad8 (placeholder name): a debug text function whose body is compiled out (only the
+// variadic register save remains). EquipStand::calc_ calls it with "なにを飾ろうとしているのだ".
+void sub_71003C7AD8(const char* name, const sead::Vector3f* pos, const sead::Color4f* color, s32 a4,
+                    const char* format, f32 scale, ...) {
+    std::va_list args;
+    va_start(args, scale);
+    va_end(args);
 }
 
 void EquipStand::leave_() {
