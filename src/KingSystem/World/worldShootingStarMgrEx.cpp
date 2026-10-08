@@ -155,6 +155,20 @@ void ShootingStarMgrEx::spawnStar() {
         mAnchors.at(i)->sub_71010D00B0();
 }
 
+f32 ShootingStarMgrEx::sub_71010D05F0() {
+    return 20.0f;
+}
+
+const sead::SafeString& ShootingStarMgrEx::sub_71010D05F8() {
+    auto* mgr = Manager::instance();
+    if (!mgr)
+        return sUnk_710250CB50;
+    auto* star_mgr = sead::DynamicCast<ShootingStarMgrEx>(mgr->getShootingStarMgr());
+    if (!star_mgr)
+        return sUnk_710250CB50;
+    return star_mgr->mMapName;
+}
+
 void ShootingStarMgrEx::sub_71010D06C4(const sead::SafeString& name) {
     for (u32 i = 0; i < mAnchors.size(); ++i) {
         // The original calls cstr() and discards the result, then reads the string top directly.

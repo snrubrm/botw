@@ -59,6 +59,11 @@ class ShootingStarMgrEx : public ShootingStarMgr {
 public:
     ShootingStarMgrEx();
     static ShootingStarAnchor* sub_71010D0464(const ShootingStarAnchor::Identifier& id);
+    // 0x71010d05f0 (placeholder name): returns 20.0f.
+    static f32 sub_71010D05F0();
+    // 0x71010d05f8 (placeholder name): the map name of the world manager's ShootingStarMgrEx, or
+    // "MainField" without one.
+    static const sead::SafeString& sub_71010D05F8();
     // 0x71010d06c4 (CSV WorldMgrStruct0_2::x; placeholder name): clears _84 of the anchors with this name.
     void sub_71010D06C4(const sead::SafeString& name);
     ~ShootingStarMgrEx() override;
