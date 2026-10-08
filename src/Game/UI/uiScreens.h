@@ -3640,6 +3640,9 @@ public:
 class ScreenKeyBoradTextArea : public ScreenEx {
 public:
     ScreenKeyBoradTextArea();
+    // 0x7100a0e5bc / 0x7100a0e5dc: overrides of Screen::m98 / m101; set a Root1 flag (index 0) to 1 / 2
+    void m98() override;
+    void m101() override;
     const char* getLayoutName_() const override;
     s32 m141(const ksys::Message& message) override;
     s32 m142(const ksys::Message& message) override;

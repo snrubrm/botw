@@ -1,4 +1,5 @@
 #include "Game/UI/uiScreens.h"
+#include "Game/gameRoot1.h"
 
 // Overrides that return a constant (slots 18, 72, 81, 141, 142) in the Screen<Name> classes.
 namespace uking::ui {
@@ -121,6 +122,18 @@ bool ScreenSkip::isPlayPartsInOut_() const {
 // 0x71009f2ea4
 s32 ScreenAppMenuBtn::m81() {
     return 1;
+}
+
+// 0x7100a0e5bc
+void ScreenKeyBoradTextArea::m98() {
+    if (auto* root = Root1::instance())
+        root->sub_7100899CA4(Root1::FlagIdx::_0, 1);
+}
+
+// 0x7100a0e5dc
+void ScreenKeyBoradTextArea::m101() {
+    if (auto* root = Root1::instance())
+        root->sub_7100899CA4(Root1::FlagIdx::_0, 2);
 }
 
 }  // namespace uking::ui
