@@ -1,3 +1,4 @@
+#include "KingSystem/ActorSystem/AS/ASList.h"
 #include "Game/Actor/actHorseRideInfo.h"
 #include <cmath>
 #include <math/seadMathCalcCommon.h>
@@ -78,6 +79,12 @@ void sub_7100E80D18(ksys::act::Actor* actor) {
     auto* rideable = actor->getHorseOptionsMaybe();
     if (rideable && rideable->_c == 1)
         rideable->sub_7100E7EF1C();
+}
+
+bool sub_7100E81568(ksys::as::ASList* list) {
+    if (list->x_4(0, 0))
+        return false;
+    return list->x(22, nullptr, 0, 0, &ksys::as::ASList::Unk2::sub_71011638DC, true);
 }
 
 }  // namespace uking::act

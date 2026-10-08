@@ -69,6 +69,9 @@ ksys::act::BaseProcLink* sub_7100E811F0(ksys::act::Actor* actor);
 sead::SafeString sub_7100E81260(ksys::act::Actor* actor, ksys::act::Actor* ride_actor);
 f32 sub_7100E8134C(ksys::act::Actor* actor, ksys::act::Actor* ride_actor);
 bool sub_7100E813B0(ksys::as::ASList* list);
+// 0x7100e81568 (placeholder name): false while `list->x_4(0, 0)` holds, else the AS list query 22 with
+// Unk2::sub_71011638DC.
+bool sub_7100E81568(ksys::as::ASList* list);
 
 // Placeholder name (vtable 0x71023cee88). The HorseRideInfo embedded in NPC at 0xf28; its
 // functions sit at 0x71002c9ffc-0x71002ca1d8.

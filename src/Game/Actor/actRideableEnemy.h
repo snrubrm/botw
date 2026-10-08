@@ -14,8 +14,9 @@ class RideableEnemy : public Rideable {
 public:
     void m24() override;
     bool m44() override;
-    // First new virtual (slot 45): RiddenAnimalType-gated speed factor.
-    virtual float m45();
+    // Slot 45: the override of Unk_7100e8b2b8::procLink13 (RiddenAnimalType-gated speed factor; its thunk
+    // 0x71002cb704 inlines the body, like RideableHorse's).
+    f32 procLink13() override;
     HorseReins* m40() override;
 };
 
