@@ -19,6 +19,9 @@ public:
 protected:
     void calc_() override;
 
+    bool m37(ksys::phys::CharacterController* controller, f32 speed,
+             const sead::Vector3f& dir) override;
+
     // static_param at offset 0x98
     const float* mAccRatio_s{};
 };
