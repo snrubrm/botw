@@ -3,14 +3,194 @@
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actInfoCommon.h"
 #include "KingSystem/ActorSystem/actInfoData.h"
+#include "KingSystem/ActorSystem/actTag.h"
+#include "Game/UI/euiGrammar.h"
+#include <cstring>
 
 // Shop tag-argument helpers (the 0x7100aa4b4c/0x7100aa4e70 tag resolvers live in this TU in the
 // original: the 16-byte forwarders sit right next to them).
 namespace uking::ui {
 
+namespace {
+
+// Cook-effect table: the global info block at 0x71025f6960 (filled by the 0x7100a9fd94 static
+// initializer). Only the effect-table members are modelled: the count + Buffer at +0x180/+0x188
+// and the 11 inline {CookEffectId, name} entries at +0x2e0 (selectors and strings read from the
+// init's stores; the MovingSpeed entry's string is "AllSpeed").
+struct ShopCookEffectEntry {
+    CookEffectId effect;
+    sead::SafeString name;
+};
+static_assert(sizeof(ShopCookEffectEntry) == 0x18);
+
+struct ShopCookInfo {
+    u8 _0[0x180];
+    sead::Buffer<ShopCookEffectEntry> effects;
+    u8 _190[0x2e0 - 0x190];
+    ShopCookEffectEntry entries[11];
+};
+
+}  // namespace
+
+static ShopCookInfo sUnk_71025F6960{
+    {},
+    {11, sUnk_71025F6960.entries},
+    {},
+    {{CookEffectId::GutsRecover, "GutsRecover"},
+      {CookEffectId::ExGutsMaxUp, "ExGutsMaxUp"},
+      {CookEffectId::LifeMaxUp, "LifeMaxUp"},
+      {CookEffectId::ResistHot, "ResistHot"},
+      {CookEffectId::ResistCold, "ResistCold"},
+      {CookEffectId::ResistElectric, "ResistElectric"},
+      {CookEffectId::AttackUp, "AttackUp"},
+      {CookEffectId::DefenseUp, "DefenseUp"},
+      {CookEffectId::Quietness, "Quietness"},
+      {CookEffectId::MovingSpeed, "AllSpeed"},
+      {CookEffectId::Fireproof, "Fireproof"}},
+};
+
 // 0x7100aa4e60
 u32 sub_7100AA4E60(ShopInfoTagData* data, sead::WBufferedSafeString* out) {
     return sub_7100AA4B4C(data, data->_58, out);
+}
+
+// 0x7100aa4b4c (CSV unnamed): resolve a cook-effect shop tag into `out` (the message looked up
+// under StaticMsg/CookEffect for the "<effect>_Name<suffix>" label, copied with the length
+// returned). Returns 0 when the actor has the CookEffectName tag or the effect is not in the table.
+u32 sub_7100AA4B4C(ShopInfoTagData* data, u32 selector, sead::WBufferedSafeString* out) {
+    ksys::act::InfoData* info = ksys::act::InfoData::instance();
+    if (info != nullptr) {
+        if (info->hasTag(data->str.cstr(), ksys::act::tags::CookEffectName))
+            return 0;
+    }
+
+    eui::Grammar::WordAttr attr;
+    eui::MessageString msg;
+    bool use_plural;
+    if (sub_7100AA2BDC(data, &msg) != 0)
+        use_plural = false;
+    else
+        use_plural = eui::Grammar::sub_7100BE39DC(&attr, msg);
+
+    const s32 count = sUnk_71025F6960.effects.size();
+    if (count < 1)
+        return 0;
+    const s64 n = count;
+    for (s32 i = 0; i < n; ++i) {
+        if (sUnk_71025F6960.effects[i].effect != CookEffectId(selector))
+            continue;
+        if (i < 0)
+            return 0;
+        sead::FixedSafeString<256> label;
+        sead::SafeString suffix = "";
+        if (use_plural) {
+            // Note: written 1/2/3-first: clang lays the tests out back to front, so this
+            // reproduces the original's 3/2/1 test order.
+            if (attr._3 == 1) {
+                suffix = "_Plural";
+            } else if (attr._0 == 1) {
+                suffix = "_Masculine";
+            } else if (attr._0 == 2) {
+                suffix = "_Feminine";
+            } else if (attr._0 == 3) {
+                suffix = "_Neuter";
+            }
+        }
+        label.format("%s_Name%s", sUnk_71025F6960.effects[i].name.cstr(), suffix.cstr());
+        eui::MessageString msg2;
+        // Discarded call that really is in the target asm (the lookup result is used, not the
+        // return value).
+        ui::getMessage("StaticMsg/CookEffect", label, &msg2);
+        const char16* str = msg2.getString();
+        s32 len = (s32)msg2.getLength();
+        char16* dst = const_cast<char16*>(out->getStringTop());
+        if (dst == str)
+            return msg2.getLength();
+        if (len < 0) {
+            len = 0;
+            for (;;) {
+                if (len > 0x80000 || str[len] == sead::WSafeString::cNullChar)
+                    break;
+                ++len;
+            }
+            if (len > 0x80000)
+                len = 0;
+        }
+        if (len >= out->getBufferSize())
+            len = out->getBufferSize() - 1;
+        std::memcpy(dst, str, len * sizeof(char16));
+        dst[len] = sead::WSafeString::cNullChar;
+        return msg2.getLength();
+    }
+    return 0;
+}
+
+// 0x7100aa4e70 (CSV unnamed): resolve a cook-effect shop tag with a level into `out` (the
+// message looked up under StaticMsg/CookEffect for the "<effect>_<Desc>" label, copied with the
+// length returned). The Desc part gains a Medicine/level suffix. Returns 0 when the effect is not
+// in the table.
+// NON_MATCHING: the table search, entry bind, InfoData/tag check, label/message/tail all match,
+// but the level-suffix block is restructured: the original keeps branchy `level >= 1`, clamping
+// `level > 3` to 3, and `level >= 2` tests around a single append, while ours proves the first
+// test redundant and fuses the clamp+test into predicated append-argument computing (cinc/csel
+// with an unconditional append). Six natural forms tried (nested ifs, &&-outer, u32/s32 tests,
+// separate level copy); the compiler always re-derives the fused shape.
+u32 sub_7100AA4E70(ShopInfoTagData* data, u32 sel_lo, u32 sel_hi, sead::WBufferedSafeString* out) {
+    const s32 count = sUnk_71025F6960.effects.size();
+    if (count < 1)
+        return 0;
+    const s64 n = count;
+    for (s32 i = 0; i < n; ++i) {
+        if (sUnk_71025F6960.effects[i].effect != CookEffectId(sel_lo))
+            continue;
+        // Dead index guard that really is in the target asm (as in sub_7100AA4B4C).
+        if (i < 0)
+            return 0;
+        sead::FixedSafeString<256> label;
+        const sead::SafeString& entry_name = sUnk_71025F6960.effects[i].name;
+        {
+            sead::FormatFixedSafeString<16> name("Desc");
+            ksys::act::InfoData* info = ksys::act::InfoData::instance();
+            if (info != nullptr) {
+                if (info->hasTag(data->str.cstr(), ksys::act::tags::CookEMedicine))
+                    name.format("MedicineDesc");
+            }
+            s32 level = sel_hi;
+            if (sel_lo > 15 || ((1u << sel_lo) & 0xc004) == 0) {
+                if (level >= 1) {
+                    if (level > 3)
+                        level = 3;
+                    if (level >= 2)
+                        name.appendWithFormat("_%02d", level);
+                }
+            }
+            label.format("%s_%s", entry_name.cstr(), name.cstr());
+        }
+        eui::MessageString msg;
+        // Discarded call that really is in the target asm (as in sub_7100AA4B4C).
+        ui::getMessage("StaticMsg/CookEffect", label, &msg);
+        const char16* str = msg.getString();
+        s32 len = (s32)msg.getLength();
+        char16* dst = const_cast<char16*>(out->getStringTop());
+        if (dst == str)
+            return msg.getLength();
+        if (len < 0) {
+            len = 0;
+            for (;;) {
+                if (len > 0x80000 || str[len] == sead::WSafeString::cNullChar)
+                    break;
+                ++len;
+            }
+            if (len > 0x80000)
+                len = 0;
+        }
+        if (len >= out->getBufferSize())
+            len = out->getBufferSize() - 1;
+        std::memcpy(dst, str, len * sizeof(char16));
+        dst[len] = sead::WSafeString::cNullChar;
+        return msg.getLength();
+    }
+    return 0;
 }
 
 // 0x7100aa5140
