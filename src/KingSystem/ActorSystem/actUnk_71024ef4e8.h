@@ -45,6 +45,14 @@ public:
         BaseProcLink mTargetLink;
     };
 
+    // Placeholder (object at `_c8`, size unknown): only the members Player::sub_710087CF54 reads are modelled.
+    struct Unk2 {
+        u8 _0[0x1a8];
+        /* 0x1a8 */ sead::Vector3f _1a8;
+        u8 _1b4[0x1f0 - 0x1b4];
+        /* 0x1f0 */ u32 _1f0;  // tested with 0x1002 by Player::sub_710087CF54
+    };
+
     virtual ~Unk_71024ef4e8() = default;
 
     // 0x7100eb480c: the centre of mass of `_20` in world space.
@@ -97,7 +105,8 @@ public:
     /* 0x0b0 */ AttachInfo* mAttachInfo;
     u8 _b8[8];
     /* 0x0c0 */ Unk_71024ef620* _c0;
-    u8 _c8[0xe0 - 0xc8];
+    /* 0x0c8 */ Unk2* _c8;
+    u8 _d0[0xe0 - 0xd0];
     /* 0x0e0 */ sead::Matrix34f mMtx;
         /* 0x110 */ sead::BitFlag32 _110;  // flags
     /* 0x114 */ sead::Vector3f _114;

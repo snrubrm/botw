@@ -427,6 +427,11 @@ public:
     void sub_71008692F8();
     // 0x7100877e2c / 0x7100888d24 (declared only, lane5 s6; called in sequence by PlayerSubjectWait::calc_).
     void sub_7100877E2C();
+    // 0x710087cf54 (placeholder name): if the attached-target object's `_c8` has flags 0x1002 & ~0x1000 set and the
+    // character controller's _116 bit 2 is clear: `_1cbc = 10`, copies its vector at +0x1a8 to `_2160`, `_1c88 = x_5()`.
+    void sub_710087CF54();
+    // 0x71008695a8 (placeholder name): moves the translation of the bone transform of `_19f0[1]` by `offset`.
+    void sub_71008695A8(const sead::Vector3f& offset);
     void sub_7100888D24();
     // 0x71008901d0 (declared only, lane5 s6; 216 B): a float derived from controller / mode checks (PlayerAtnMove::enter_).
     f32 sub_71008901D0();
@@ -622,12 +627,15 @@ public:
     /* 0x1c74 */ u32 _1c74;  // an angle index (PlayerLand::enter_)
     /* 0x1c78 */ u8 _1c78[0x1c84 - 0x1c78];
     /* 0x1c84 */ u32 _1c84;  // angle index (ladder direction)
-    /* 0x1c88 */ u8 _1c88[0x1ca4 - 0x1c88];
+    /* 0x1c88 */ Unk1 _1c88;  // x_5() (sub_710087CF54)
+    /* 0x1c8c */ u8 _1c8c[0x1ca4 - 0x1c8c];
     /* 0x1ca4 */ s32 _1ca4;
     /* 0x1ca8 */ s32 _1ca8;
     /* 0x1cac */ u8 _1cac[0x1cb0 - 0x1cac];
     /* 0x1cb0 */ s32 _1cb0;  // a ui tip type (PlayerCutFall::enter_)
-    /* 0x1cb4 */ u8 _1cb4[0x1cbe - 0x1cb4];
+    /* 0x1cb4 */ u8 _1cb4[0x1cbc - 0x1cb4];
+    /* 0x1cbc */ u8 _1cbc;  // set to 10 by sub_710087CF54
+    u8 _1cbd;
     /* 0x1cbe */ u8 _1cbe;
     /* 0x1cbf */ u8 _1cbf;
     /* 0x1cc0 */ u8 _1cc0[0x1cc8 - 0x1cc0];
@@ -754,7 +762,9 @@ public:
     /* 0x212c */ f32 _212c;  // zeroed by PlayerMove::leave_
     /* 0x2130 */ u8 _2130[0x2158 - 0x2130];
     /* 0x2158 */ f32 _2158;  // copy of _1770.y (PlayerClimb::leave_)
-    /* 0x215c */ u8 _215c[0x2184 - 0x215c];
+    /* 0x215c */ u8 _215c[0x2160 - 0x215c];
+    /* 0x2160 */ sead::Vector3f _2160;  // copy of the vector at +0x1a8 of _1870->_c8 (sub_710087CF54)
+    u8 _216c[0x2184 - 0x216c];
     /* 0x2184 */ sead::Vector3f _2184;
     /* 0x2190 */ u8 _2190[0x21b8 - 0x2190];
     // Three lock-guarded positions (m245 / getPosCopyMagnesis / m244 return a pointer to `mPos`).

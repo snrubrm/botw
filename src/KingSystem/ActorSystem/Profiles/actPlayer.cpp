@@ -1500,4 +1500,33 @@ bool Player::sub_7100894540() {
     return sub_71008921A8() && m224() && !Attention::instance()->sub_7100D742E8(3);
 }
 
+void Player::sub_710087CF54() {
+    auto* controller = getCharacterController();
+    if (!controller)
+        return;
+
+    auto* unk = _1870->_c8;
+    if (!unk)
+        return;
+    if ((unk->_1f0 & 0x1002) != 2)
+        return;
+    if (controller->isBit2Of116())
+        return;
+
+    _1cbc = 10;
+    _2160 = unk->_1a8;
+    _1c88 = x_5();
+}
+
+// NON_MATCHING: the constant 0x19f4 is built in w8 instead of w9 (register allocation only).
+void Player::sub_71008695A8(const sead::Vector3f& offset) {
+    sead::Matrix34f mtx;
+    mASList->_b0->sub_7100D68464(&mtx, &_19f0[1]);
+    sead::Vector3f translation;
+    mtx.getTranslation(translation);
+    translation += offset;
+    mtx.setTranslation(translation);
+    mASList->_b0->sub_7100D68544(&mtx, &_19f0[1]);
+}
+
 }  // namespace ksys::act

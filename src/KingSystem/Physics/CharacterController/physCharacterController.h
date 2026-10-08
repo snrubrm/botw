@@ -179,6 +179,8 @@ public:
     // lane3 s39 (FloatWait::calc_)
     const sead::Vector3f& get180() const { return _180; }
     u8 get18c() const { return _18c; }
+    // 0x7100f5f128 reads bit 0; Player::sub_710087CF54 tests bit 2 inline.
+    bool isBit2Of116() const { return _116 & 0x4; }
     bool isBit4Of116() const { return _116 & 0x10; }
     // lane1 s47 (BlownOff)
     bool isBit6Of116() const { return _116 & 0x40; }
