@@ -8,6 +8,8 @@
 #include "Game/AI/aiUnk_PartsActorDelete.h"
 #include "Game/Damage/dmgDamageManagerBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorWeapons.h"
+#include "KingSystem/ActorSystem/Profiles/actWeaponBase.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
 namespace uking::ai {
@@ -76,6 +78,24 @@ void LynelRoot::enter_(ksys::act::ai::InlineParamPack* params) {
         controller->sub_7100F631B8(true);
     sub_7100721670(&_4a0, mActor, "BodyFrontLeg");
     EnemyRoot::enter_(params);
+}
+
+void LynelRoot::sub_710049AEA0() {
+    auto* as_list = mActor->getASList();
+    if (!as_list)
+        return;
+    auto* weapons = mActor->getWeapons();
+    if (!weapons)
+        return;
+    for (s32 i = 0; i < 6; ++i) {
+        auto& entry = weapons->mWeapons[i];
+        auto* weapon = sead::DynamicCast<ksys::act::WeaponBase>(entry.link.getProc(nullptr, mActor));
+        if (weapon && !entry._10 && !weapon->isWeaponType4()) {
+            as_list->goLimpFromHeadShotMaybe(0x2c, weapon->getProfile(), 0);
+            return;
+        }
+    }
+    as_list->goLimpFromHeadShotMaybe(0x2c, sead::SafeString::cEmptyString, 0);
 }
 
 void LynelRoot::leave_() {
