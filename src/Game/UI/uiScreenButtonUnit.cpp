@@ -13,7 +13,7 @@ Unk_7102474e38::~Unk_7102474e38() {
     _10 = nullptr;
     _18 = nullptr;
     _20 = nullptr;
-    _28 = 0;
+    _28 = nullptr;
     _30 = 0;
     _34 = sead::Vector2f::zero;
     _3c = -1;

@@ -49,34 +49,34 @@ s32 ScreenAppPictureBookUnk::sub_710093FBF0(eui::BoxCursorNode* node) {
     s64 count = _298;
     if (count == 0)
         return -1;
-    PictureBookLeaf* l = nullptr;
-    PictureBookOuter** outer = _2a0;
-    PictureBookOuter** end = outer + count;
+    Unk_7102474e38* l = nullptr;
+    PictureBookGroupList** outer = _2a0;
+    PictureBookGroupList** end = outer + count;
     for (; outer != end; ++outer) {
-        PictureBookOuter* o = *outer;
+        PictureBookGroupList* o = *outer;
         s64 n = o->_0;
         if (n == 0)
             continue;
-        PictureBookMiddle** mid = o->_8;
-        PictureBookMiddle** mend = mid + n;
-        for (; mid != mend; ++mid) {
-            PictureBookMiddle* m = *mid;
-            if (m->_10 == nullptr)
+        Unk_7102474f10** group = o->_8;
+        Unk_7102474f10** gend = group + n;
+        for (; group != gend; ++group) {
+            Unk_7102474f10* g = *group;
+            if (g->mEntry == nullptr)
                 continue;
-            if (m->_38 == nullptr)
+            if (g->mRecord == nullptr)
                 continue;
-            if (m->_38->_c < 0)
+            if (g->mRecord->_c < 0)
                 continue;
-            s64 k = m->_20;
+            s64 k = g->mUnits.size();
             if (k == 0)
                 continue;
-            PictureBookLeaf** leaf = m->_28;
+            Unk_7102474e38** unit = g->mUnits.data();
             s64 left = k * 8;
             do {
-                l = *leaf;
+                l = *unit;
                 if ((l->_30 & 4) != 0 && l->_28 == node)
                     goto found;
-                ++leaf;
+                ++unit;
             } while ((left -= 8) != 0);
         }
     }
