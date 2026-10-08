@@ -41,8 +41,6 @@ target_sources(uking PRIVATE
   euiArcResourceMgr.h
   euiLayoutEx.cpp
   euiPartsEx.cpp
-  euiPaneWalkBEE334.cpp
-  euiPaneWalkBEE4D4.cpp
   euiPictureEx.cpp
   euiDynamicCaptureUsePictureEx.cpp
   euiDynamicCaptureUseWindowEx.cpp
