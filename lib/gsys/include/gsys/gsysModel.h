@@ -12,6 +12,7 @@
 #include <math/seadVector.h>
 #include <prim/seadSafeString.h>
 #include <thread/seadCriticalSection.h>
+#include <gsys/gsysModelUnitGroup.h>
 
 namespace gsys {
 
@@ -53,6 +54,8 @@ public:
 class Model : public sead::IDisposer, public sead::hostio::Node {
 public:
     Model();
+    // Native 0x7100bf738c creates and appends a 0x30-byte unit group.
+    ModelUnitGroup* createUnitGroup(const ModelUnitGroup::CreateArg& arg, sead::Heap* heap);
     // Original BF7114 forwards registration and returns the supplied unit.
     ModelUnit* sub_7100BF7114(ModelUnit* unit, bool flag, sead::Heap* heap);
     void sub_7100BF9CA8(const sead::SafeString& name);
