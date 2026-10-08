@@ -263,6 +263,10 @@ public:
     void sub_7100F83580(NavMeshObj2Maybe* obj);
     void sub_7100F8363C(NavMeshObj2Maybe* obj);
 
+    // 0x7100f82c88 (placeholder name): resets the character's path state (inlineReset) and queues it with bit 1
+    // (clearing bit 0), like sub_7100F82BCC.
+    void sub_7100F82C88(NavMeshCharacter* nav);
+
     // 0x7100f82dd8 (not decompiled): counterpart of sub_7100F82BCC (called with the same guard).
     void sub_7100F82DD8(NavMeshCharacter* nav);
 

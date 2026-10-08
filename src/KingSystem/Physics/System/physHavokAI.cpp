@@ -29,6 +29,15 @@ void HavokAI::sub_7100F82BCC(NavMeshCharacter* nav) {
         _40->_138.push(nav);
 }
 
+void HavokAI::sub_7100F82C88(NavMeshCharacter* nav) {
+    nav->inlineReset();
+    nav->_220 &= ~1u;
+    nav->_220 |= 2;
+    HavokAI* pending = nav->_20.exchange(this);
+    if (!pending || uintptr_t(pending) == (uintptr_t(this) | 1))
+        _40->_138.push(nav);
+}
+
 void HavokAI::sub_7100F8305C(NavMeshObjMaybe* obj) {
     obj->_a8.reset(NavMeshObjMaybe::Flag::_2);
     obj->_a8.set(NavMeshObjMaybe::Flag::_1);
