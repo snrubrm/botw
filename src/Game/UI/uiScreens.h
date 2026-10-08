@@ -1969,6 +1969,32 @@ struct PictureBookItem {
     /* 0x10 */ bool _10;
 };
 
+// Placeholders for the photo-group traversal of sub_710093FBF0 (shapes from the asm).
+struct PictureBookLeaf {
+    u8 _0[0x18];
+    /* 0x18 */ Unk_7102474f10* _18;
+    /* 0x28 */ eui::BoxCursorNode* _28;
+    u8 _2c[0x30 - 0x2c];
+    /* 0x30 */ u8 _30;
+    u8 _31[0x3c - 0x31];
+    /* 0x3c */ s32 _3c;
+};
+struct PictureBookMiddle {
+    u8 _0[0x10];
+    /* 0x10 */ void* _10;
+    u8 _18[0x20 - 0x18];
+    /* 0x20 */ s32 _20;
+    u8 _24[0x28 - 0x24];
+    /* 0x28 */ PictureBookLeaf** _28;
+    u8 _30[0x38 - 0x30];
+    /* 0x38 */ PictureBookGroupRecord* _38;
+};
+struct PictureBookOuter {
+    /* 0x0 */ s32 _0;
+    u8 _4[0x8 - 0x4];
+    /* 0x8 */ PictureBookMiddle** _8;
+};
+
 struct ScreenAppPictureBookUnk {
     // 0x710093f594 (CSV unnamed; not decompiled)
     void sub_710093F594(bool a1);
@@ -1996,7 +2022,9 @@ struct ScreenAppPictureBookUnk {
     /* 0x288 */ u32 _288;
     u32 _28c;
     /* 0x290 */ ScreenAppPictureBookEntry** _290;
-    /* 0x298 */ u8 _298[0x2a8 - 0x298];
+    /* 0x298 */ s32 _298;
+    u8 _29c[0x2a0 - 0x29c];
+    /* 0x2a0 */ PictureBookOuter** _2a0;
     /* 0x2a8 */ s32 _2a8;
     /* 0x2ac */ u8 _2ac[0x2d8 - 0x2ac];
     /* 0x2d8 */ s32 _2d8;
