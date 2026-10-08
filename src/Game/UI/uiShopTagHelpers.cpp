@@ -270,6 +270,40 @@ bool sub_7100AA29C4(ShopInfoTagData* data, sead::SafeString& name) {
     return len != len2;
 }
 
+// 0x7100aa2e08 (CSV unnamed): resolve the tag data's string into a message (the empty message
+// when the string is empty, else the "<profile>" / "<name>_Desc" lookup through sub_7100AA2FA0).
+u32 sub_7100AA2E08(ShopInfoTagData* data, eui::MessageString* out) {
+    if (data->str.getStringTop()[0] == sead::SafeString::cNullChar) {
+        const s32 len = sead::WSafeString::cEmptyString.calcLength();
+        eui::MessageString empty(len, sead::WSafeString::cEmptyString.cstr());
+        out->assign(empty);
+        return 1;
+    }
+    sead::FixedSafeString<0x100> set;
+    sead::FixedSafeString<0x100> label;
+    sub_7100AA2FA0(data, &set, &label);
+    return ui::getMessage(set, label, out);
+}
+
+// 0x7100aa2fa0 (CSV unnamed): fill `arg1` with "ActorType/<profile>" and `arg2` with
+// "<name>_Desc" for the tag data's (suffix-stripped) actor name. Does nothing when the tag
+// data's string is empty.
+void sub_7100AA2FA0(ShopInfoTagData* data, sead::BufferedSafeStringBase<char>* arg1,
+                    sead::BufferedSafeStringBase<char>* arg2) {
+    if (data->str.getStringTop()[0] == sead::SafeString::cNullChar)
+        return;
+    sead::FixedSafeString<64> name;
+    sub_7100AA29C4(data, name);
+    if (arg1 != nullptr) {
+        const char* profile;
+        ksys::act::InfoData::instance()->getActorProfile(&profile, name.cstr());
+        arg1->format("ActorType/%s", profile);
+    }
+    if (arg2 != nullptr) {
+        arg2->format("%s_Desc", name.cstr());
+    }
+}
+
 // Emits the Delegate2R vtable (0x71024987e0) + invoke (0x7100a534e8) + clone (0x7100a5351c).
 }  // namespace uking::ui
 

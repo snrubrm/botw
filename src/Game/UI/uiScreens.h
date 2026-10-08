@@ -3049,6 +3049,13 @@ u32 sub_7100AA4E70(ShopInfoTagData* data, u32 sel_lo, u32 sel_hi, sead::WBuffere
 // 0x7100aa4e60 / 0x7100aa5140 (CSV placeholders): forwarders reading the selector from the tag data.
 u32 sub_7100AA4E60(ShopInfoTagData* data, sead::WBufferedSafeString* out);
 u32 sub_7100AA5140(ShopInfoTagData* data, sead::WBufferedSafeString* out);
+// 0x7100aa2e08 (CSV unnamed): resolve the tag data's string into a message (empty message when
+// the string is empty, else the "<profile>" / "<name>_Desc" lookup through sub_7100AA2FA0).
+u32 sub_7100AA2E08(ShopInfoTagData* data, eui::MessageString* out);
+// 0x7100aa2fa0 (CSV unnamed): fill `arg1` with "ActorType/<profile>" and `arg2` with
+// "<name>_Desc" for the tag data's (suffix-stripped) actor name.
+void sub_7100AA2FA0(ShopInfoTagData* data, sead::BufferedSafeStringBase<char>* arg1,
+                    sead::BufferedSafeStringBase<char>* arg2);
 // 0x7100aa29c4 (CSV unnamed): strip the "_Far" suffix from the name, reporting whether it changed.
 bool sub_7100AA29C4(ShopInfoTagData* data, sead::SafeString& name);
 // 0x7100aa2bdc (CSV unnamed): resolve the tag data's string into a message (suffix-stripped actor
