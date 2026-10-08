@@ -1,9 +1,18 @@
 #include "Game/AI/AI/aiGolemPartRoot.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/AI/aiUnk_71006F5B14.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorChemicals.h"
-#include "Game/AI/aiUnk_71006F5B14.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorCreator.h"
+#include "KingSystem/ActorSystem/actActorHeapUtil.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/ActorSystem/actInstParamPack.h"
+#include "KingSystem/ActorSystem/Profiles/actBullet.h"
+#include "KingSystem/Resource/Actor/resResourceGParamList.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectChemicalType.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
 
 namespace uking::ai {
@@ -17,8 +26,53 @@ GolemPartRoot::~GolemPartRoot() {
         accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
 }
 
+// 0x71003fd684
+// NON_MATCHING: the sub_71005D6D10 result tail keeps explicit if/else bool stores in the original;
+// ours folds them into one move (3 instructions). Everything else matches, including the IsDerivedFrom
+// shape, the pack setup, the DynamicCast blocks and both acquires.
 bool GolemPartRoot::init_(sead::Heap* heap) {
-    return ReuseBulletPartsRoot::init_(heap);
+    bool result = true;
+    if (!ReuseBulletPartsRoot::init_(heap)) {
+        result = false;
+    } else {
+        const auto* chem = mActor->getParam()->getRes().mGParamList->getChemicalType();
+        const sead::SafeString* name = &sead::SafeString::cEmptyString;
+        if (chem)
+            name = &chem->mEmitChemicalActor.ref();
+        if (name->getStringTop()[0] == sead::SafeString::cNullChar)
+            return result;
+
+        ksys::act::InstParamPack pack;
+        pack->addMatrix(mActor->getMtx());
+        pack->add(10.0f, "ScaleTime");
+        pack->add(true, "IsReuseActor");
+        ksys::act::ActorCreator::addScale(pack, *mChemFieldScale_s);
+        pack->add(false, "IsUseAtCollision");
+
+        auto* actor = ksys::act::ActorCreator::instance()->createActor(
+            name->cstr(), ksys::act::ActorHeapUtil::instance()->getBaseProcHeap(), &pack, true,
+            false);
+        if (!actor) {
+            if (sub_71005D6D10())
+                result = true;
+            else
+                result = false;
+        } else {
+            if (auto* bullet = sead::DynamicCast<ksys::act::Bullet>(actor)) {
+                auto* owner = mActor;
+                if (sead::IsDerivedFrom<ksys::act::Bullet>(owner)) {
+                    auto& link = owner->getCreateArgBaseProcLink();
+                    if (link.hasProc()) {
+                        bullet->sub_7100004988(link);
+                        bullet->sub_71000048C8(link);
+                    }
+                }
+                bullet->_bd0._0.acquire(mActor, false);
+            }
+            _c8.acquire(actor, false);
+        }
+    }
+    return result;
 }
 
 // NON_MATCHING: register allocation of the loop count / the two flags (the logic is complete)
