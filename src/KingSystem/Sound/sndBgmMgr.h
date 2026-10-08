@@ -33,6 +33,36 @@ class Unk_71025ce380 : public Bgm {
     SEAD_RTTI_OVERRIDE(Unk_71025ce380, Bgm)
 };
 
+// RTTI typeInfo 0x710260f278, derived from Unk_71025ce380 (sub_7100FFDD38 casts BGM kind 2 to it).
+class Unk_710260f278 : public Unk_71025ce380 {
+    SEAD_RTTI_OVERRIDE(Unk_710260f278, Unk_71025ce380)
+};
+
+// RTTI typeInfo 0x710260f2a8, derived from Bgm (sub_7100FFE094 casts BGM kind 15 to it).
+class Unk_710260f2a8 : public Bgm {
+    SEAD_RTTI_OVERRIDE(Unk_710260f2a8, Bgm)
+};
+
+// RTTI typeInfo 0x71025ce350, derived from Bgm (sub_7100FFDC80 casts BGM kind 0 to it).
+class Unk_71025ce350 : public Bgm {
+    SEAD_RTTI_OVERRIDE(Unk_71025ce350, Bgm)
+};
+
+// RTTI typeInfo 0x710260f288, derived from Unk_71025ce380 (sub_7100FFDDF0 casts BGM kind 6 to it).
+class Unk_710260f288 : public Unk_71025ce380 {
+    SEAD_RTTI_OVERRIDE(Unk_710260f288, Unk_71025ce380)
+};
+
+// RTTI typeInfo 0x710260f048, derived from Unk_71025ce380 (sub_7100FFDFDC casts BGM kind 14 to it).
+class Unk_710260f048 : public Unk_71025ce380 {
+    SEAD_RTTI_OVERRIDE(Unk_710260f048, Unk_71025ce380)
+};
+
+// RTTI typeInfo 0x710260f1a8, derived from Bgm (sub_7100FFE14C casts BGM kind 5 to it).
+class Unk_710260f1a8 : public Bgm {
+    SEAD_RTTI_OVERRIDE(Unk_710260f1a8, Bgm)
+};
+
 // Four-byte practice-state argument, passed by reference to sub_71010267A8.
 struct Unk_71010267A8 {
     s32 value;
@@ -65,13 +95,6 @@ struct Unk_SoundMgr30_10 {
     void sub_710101D718(Unk_SpotBgmHandle* handle);
 };
 
-// The RTTI root of the BGM controller family (vtable 0x71024fca78).
-class Unk_71024fca78 {
-public:
-    virtual ~Unk_71024fca78();
-    SEAD_RTTI_BASE(Unk_71024fca78)
-};
-
 // Four-byte state argument of sub_7100FF7BE0; the real enum name is unknown.
 struct Unk_7100FF7BE0 {
     s32 value;
@@ -84,17 +107,56 @@ public:
     u8 _0[0x88];
 };
 
+// The RTTI root of the BGM controller family (vtable 0x71024fca78). `_8` is common to the family: the helpers
+// sub_7100FFDD38 etc. call `_48->_8.sub_7100FF7C74()` on the base pointer without a cast.
+class Unk_71024fca78 {
+public:
+    virtual ~Unk_71024fca78();
+    SEAD_RTTI_BASE(Unk_71024fca78)
+
+    Unk_7100ff7444 _8;
+};
+
 // RTTI typeInfo 0x710260f130, SoundMgr::_30->_48.
 class Unk_710260f130 : public Unk_71024fca78 {
     SEAD_RTTI_OVERRIDE(Unk_710260f130, Unk_71024fca78)
 public:
     void sub_7100FFA1E0(bool value);
-    Unk_7100ff7444 _8;
     bool _90;
     bool _91;
     bool _92;
 };
 Unk_710260f130* sub_7100FFD9D0();
+
+// RTTI typeInfo 0x710260f198, a BGM controller (sub_7100FFD7CC casts SoundMgr::_30->_48 to it).
+class Unk_710260f198 : public Unk_71024fca78 {
+    SEAD_RTTI_OVERRIDE(Unk_710260f198, Unk_71024fca78)
+};
+Unk_710260f198* sub_7100FFD7CC();
+
+// RTTI typeInfo 0x710260f1f8, a BGM controller (sub_7100FFD878 casts SoundMgr::_30->_48 to it).
+class Unk_710260f1f8 : public Unk_71024fca78 {
+    SEAD_RTTI_OVERRIDE(Unk_710260f1f8, Unk_71024fca78)
+};
+Unk_710260f1f8* sub_7100FFD878();
+
+// RTTI typeInfo 0x710260f150, a BGM controller (sub_7100FFD924 casts SoundMgr::_30->_48 to it).
+class Unk_710260f150 : public Unk_71024fca78 {
+    SEAD_RTTI_OVERRIDE(Unk_710260f150, Unk_71024fca78)
+};
+Unk_710260f150* sub_7100FFD924();
+
+// RTTI typeInfo 0x710260f0c0, a BGM controller (sub_7100FFDB28 casts SoundMgr::_30->_48 to it).
+class Unk_710260f0c0 : public Unk_71024fca78 {
+    SEAD_RTTI_OVERRIDE(Unk_710260f0c0, Unk_71024fca78)
+};
+Unk_710260f0c0* sub_7100FFDB28();
+
+// RTTI typeInfo 0x710260f160, a BGM controller (sub_7100FFDBD4 casts SoundMgr::_30->_48 to it).
+class Unk_710260f160 : public Unk_71024fca78 {
+    SEAD_RTTI_OVERRIDE(Unk_710260f160, Unk_71024fca78)
+};
+Unk_710260f160* sub_7100FFDBD4();
 
 // RTTI typeInfo 0x710260f218; the GuardianMini practice BGM controller.
 // Its remaining layout is not modeled yet.
@@ -104,9 +166,17 @@ public:
     void sub_7100FFC7F4();
     void sub_7100FFC894();
     void sub_7100FFC934();
-    Unk_7100ff7444 _8;
 };
 Unk_710260f218* sub_7100FFDA7C();
+
+// 0x7100ffdd38 / 0x7100ffe094 (placeholder names): BGM kind 2 / 15 of the controller at SoundMgr::_30->_48, cast to its
+// class (null if there is none). The controller is read without null checks on SoundMgr and _30.
+Unk_710260f278* sub_7100FFDD38();
+Unk_710260f2a8* sub_7100FFE094();
+Unk_71025ce350* sub_7100FFDC80();
+Unk_710260f288* sub_7100FFDDF0();
+Unk_710260f048* sub_7100FFDFDC();
+Unk_710260f1a8* sub_7100FFE14C();
 
 // Placeholder name (SoundMgr::_30): the BGM side of the sound manager.
 struct Unk_SoundMgr30 {
