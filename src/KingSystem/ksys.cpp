@@ -14,6 +14,17 @@
 
 namespace ksys {
 
+// 0x710260b180 (file-local in the original: addressed with adrp + offset, no GOT entry).
+static bool sIsGameOver;
+
+bool isGameOver() {
+    return sIsGameOver;
+}
+
+void setIsGameOver(bool is_game_over) {
+    sIsGameOver = is_game_over;
+}
+
 void sub_7100F3ED80() {
     if (auto* mgr = map::PlacementMgr::instance())
         mgr->sub_71011E6EE0();
