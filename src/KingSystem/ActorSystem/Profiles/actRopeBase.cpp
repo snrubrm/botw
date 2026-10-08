@@ -51,6 +51,12 @@ void RopeBase::sub_7100ECE140() {
     }
 }
 
+phys::RigidBody* RopeBase::sub_7100ED6878(s32 index) const {
+    if (index < 0 || _930 < index)
+        return nullptr;
+    return _860[index];
+}
+
 }  // namespace ksys::act
 
 namespace ksys::act::acc {

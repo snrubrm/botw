@@ -40,6 +40,8 @@ public:
     // layer / set every contact on each rigid body of the rope.
     void sub_7100ECE0CC(phys::ContactLayer layer);
     void sub_7100ECE140();
+    // 0x7100ed6878 (placeholder name): the rigid body `index` of the first list (null when index is negative or past _930).
+    phys::RigidBody* sub_7100ED6878(s32 index) const;
 
     // FIXME: figure out return types, parameters and names
     virtual void m148();
