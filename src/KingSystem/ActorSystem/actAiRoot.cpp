@@ -56,6 +56,10 @@ RootAi::~RootAi() {
         delete _140;
 }
 
+bool RootAi::init_(sead::Heap* heap) {
+    return false;
+}
+
 bool RootAi::loadMapUnitParams(const AIDef& def, sead::Heap* heap) {
     return mMapUnitParams.load(*mActor, def, heap, AIDefInstParamKind::MapUnit);
 }
