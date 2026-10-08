@@ -2,6 +2,7 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/Map/mapObject.h"
 #include "KingSystem/ActorSystem/Profiles/actRopeBase.h"
 #include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
@@ -134,6 +135,22 @@ void BalloonBase::calc_() {
 
 f32 BalloonBase::m34(f32 current, f32 target, f32 step) {
     return target;
+}
+
+// 0x71000b7f94: messages 0x3000011 to the rope actor unless the actor is held or its LOD flag is set.
+void BalloonBase::sub_71000B7F94() {
+    ksys::act::Actor* actor = mActor;
+    const auto* map_object = actor->getMapObject();
+    bool skip = false;
+    if (actor->get1a0() == nullptr && (!map_object || !map_object->getFlags0().isOn(ksys::map::Object::Flag0::_20000)))
+        skip = true;
+    if (_20.hasProc()) {
+        ksys::act::ActorConstDataAccess accessor;
+        if (ksys::act::acquireActor(&_20, &accessor)) {
+            if (!accessor.sub_7100D10F0C() && !skip)
+                actor->sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x3000011), nullptr, true);
+        }
+    }
 }
 
 // NON_MATCHING: same as leave_ (the accessor address is kept in an extra saved register).
