@@ -204,7 +204,7 @@ public:
     f32 sub_7100F5F050() const;        // 0
     f32 sub_7100F5F058() const;        // 1
     u32 sub_7100F609D8() const;        // _40->_64
-    f32 sub_7100F62F58() const;        // _218
+    virtual f32 sub_7100F62F58() const;  // _218; slot 2 in the controller vtable
     const sead::Vector3f& sub_7100F62B80() const;  // _120
     void sub_7100F62B88(const sead::Vector3f& value);
     void sub_7100F62BA4(f32 value);    // _50->_18

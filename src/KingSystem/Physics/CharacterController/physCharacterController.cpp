@@ -1,11 +1,13 @@
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include <cmath>
 #include "KingSystem/Physics/CharacterController/physCharacterRigidBody.h"
+#include "KingSystem/Physics/CharacterController/physCharacterControllerRigidBody.h"
 #include "KingSystem/ActorSystem/actCCAccessor.h"
 #include "KingSystem/Physics/CharacterController/physCharacterControllerUnk40.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/System/physSystem.h"
 #include "KingSystem/Physics/physConversions.h"
+#include "KingSystem/Physics/physMaterialMask.h"
 #include <Havok/Physics2012/Collide/Shape/Convex/Capsule/hkpCapsuleShape.h>
 #include <Havok/Physics2012/Dynamics/Entity/hkpRigidBody.h>
 
@@ -1101,6 +1103,29 @@ void CharacterController::sub_7100F609E4(Fixed fixed, PreserveVelocities preserv
     } else {
         _114 &= ~2;
     }
+}
+
+CharacterControllerRigidBody::CharacterControllerRigidBody(CharacterController* controller,
+                                                         hkpRigidBody* body, sead::Heap* heap,
+                                                         const sead::SafeString& name)
+    : RigidBody(Type::CharacterController, ContactLayerType::Entity, body, name, heap, true),
+      mController(controller) {
+    mFlags.set(Flag::NoCharStandingOn);
+}
+
+CharacterControllerRigidBody::~CharacterControllerRigidBody() = default;
+
+u32 CharacterControllerRigidBody::getCollisionMasks(CollisionMasks* masks, const u32* shape_key,
+                                                   const sead::Vector3f& contact_point) {
+    masks->ignored_layers = ~mContactMask.getDirect();
+    masks->collision_filter_info = getCollisionFilterInfo();
+    MaterialMask material(u32(18));
+    masks->material_mask = material.getRawData();
+    return 0;
+}
+
+float CharacterControllerRigidBody::getVolume() {
+    return mController ? mController->sub_7100F62F58() : 1.0f;
 }
 
 void CharacterControllerUnk38::sub_7100F652F8(const sead::Vector3f& velocity) {
