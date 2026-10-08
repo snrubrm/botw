@@ -3,7 +3,9 @@
 #include <basis/seadTypes.h>
 #include <heap/seadDisposer.h>
 #include <container/seadPtrArray.h>
+#include "Game/gameUnk_710243c330.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
+#include "KingSystem/Utils/Thread/ActorMessageTransceiver.h"
 #include "KingSystem/Utils/Thread/MessageTransceiverId.h"
 
 // Placeholder name (ctor 0x7100903948 / dtor 0x7100903b38): 16 actor links with an id.
@@ -24,15 +26,18 @@ KSYS_CHECK_SIZE_NX150(Unk_7100903948, 0x180);
 // singleton. The transceiver receives area-location messages from the AI code;
 // the recovered actor-link slots and fixed arrays support slot removal and pruning.
 // TODO: incomplete (layout and namespace unknown; the CSV name has no namespace).
-class GameSceneSubsys14 {
-    // +0x8..0x18 is unknown (16 bytes before the disposer buffer); the SEAD_SINGLETON_DISPOSER macro
-    // (and its 0x20-byte disposer buffer) sits at +0x18 in the original, from createInstance's stores.
-    u8 _8[0x18 - 0x8];
+// Bases (from the vtable groups at +0, +8 and +0x10, same as IceBlockMgr): the Rx and Tx handlers of the
+// transceiver at +0x170 (m2 = handleMessage) and the interface Unk_710243c330. The SEAD_SINGLETON_DISPOSER macro (and
+// its 0x20-byte disposer buffer) sits at +0x18 in the original, from createInstance's stores.
+class GameSceneSubsys14 : public ksys::ActorMessageTransceiver::IHandler, public uking::Unk_710243c330 {
     SEAD_SINGLETON_DISPOSER(GameSceneSubsys14)
     GameSceneSubsys14();
-    virtual ~GameSceneSubsys14();
+    ~GameSceneSubsys14() override;
 
 public:
+    // 0x7100904834 (CSV GameSceneSubsys14::m2; declared only).
+    int handleMessage(const ksys::Message& message) override;
+
     void init();
     // Original location setup at 0x7100903d00; body remains declared only.
     void initCurrentLocation();

@@ -2,6 +2,10 @@
 
 SEAD_SINGLETON_DISPOSER_IMPL(GameSceneSubsys14)
 
+// NON_MATCHING: placeholder; the original destructor (0x7100903a24) resets the actor links, the two senders and the
+// transceiver of the members that are still padding in the header.
+GameSceneSubsys14::~GameSceneSubsys14() = default;
+
 bool GameSceneSubsys14::sub_7100904ED4() const {
     return _168 & 1;
 }
