@@ -830,6 +830,8 @@ public:
     void sub_71010AE548(ksys::act::Actor* actor, bool flag);
     // 0x71010ae9e8 (CSV unnamed, declared only): called by UI::sub_71010A5B0C with the actor.
     bool sub_71010AE9E8(ksys::act::Actor* actor);
+    // 0x71010ae190 (CSV unnamed): claim a free entry for an actor.
+    void sub_71010AE190(ksys::act::Actor* actor, f32 x, u32 flags);
     // 0x71010ae104 (CSV unnamed): message lookup into _680, 0/1/2 return.
     s32 sub_71010AE104(const sead::SafeString& set, const sead::SafeString& label);
 
@@ -864,10 +866,24 @@ public:
         /* 0x38 */ ksys::act::BaseProcLink m38;
         /* 0x48 */ u32 _48;
         /* 0x4c */ s32 _4c;
-        u8 _50[0x54 - 0x50];
-        /* 0x54 */ u32 _54;
-        u8 _58[0xa8 - 0x58];
+        /* 0x50 */ f32 _50;
+        /* 0x54 */ f32 _54;
+        /* 0x58 */ bool _58;
+        /* 0x59 */ bool _59;
+        /* 0x5a */ bool _5a;
+        /* 0x5b */ bool _5b;
+        /* 0x60 */ eui::MessageString _60;
+        /* 0x70 */ u32 _70;
+        /* 0x74 */ f32 _74;
+        /* 0x78 */ u8 _78[4];
+        /* 0x7c */ u32 _7c;
+        /* 0x80 */ u32 _80;
+        /* 0x84 */ u32 _84;
+        u8 _88[0xa8 - 0x88];
         /* 0xa8 */ bool _a8;
+        /* 0xac */ f32 _ac;
+        /* 0xb0 */ f32 _b0;
+        /* 0xb4 */ f32 _b4;
         // 0x71010aeb60 (CSV unnamed)
         void sub_71010AEB60();
     };
@@ -878,7 +894,7 @@ public:
     /* 0x320 */ Item _320[4];
     /* 0x660 */ void* _660[4];
     /* 0x680 */ eui::MessageString _680;
-    /* 0x690 */ u32 _690;
+    /* 0x690 */ f32 _690;
     u8 _694[0x698 - 0x694];
     /* 0x698 */ sead::CriticalSection _698;
 };
