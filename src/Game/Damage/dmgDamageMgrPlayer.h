@@ -40,7 +40,7 @@ public:
     void m55() override;
 
     // Set by Player::sub_7100884578 (PlayerIce / PlayerElectric leave_) to the unnamed .rodata int 30.
-    /* 0x22c */ f32 _22c;
+    /* 0x22c */ f32 _22c = 0;
     /* 0x230 */ u8 _230 = 0;
     // 0x7100852060 (m55): skip the base handling while this is set.
     /* 0x231 */ bool _231 = false;

@@ -8,6 +8,8 @@
 
 namespace uking::dmg {
 
+DamageMgrPlayer::DamageMgrPlayer(ksys::act::Actor* actor) : DamageManager(actor) {}
+
 bool DamageMgrPlayer::checkDerivedRuntimeTypeInfoStatic(
     const sead::RuntimeTypeInfo::Interface* typeInfo) {
     return typeInfo == DamageMgrPlayer::getRuntimeTypeInfoStatic() ||
