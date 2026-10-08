@@ -33,6 +33,9 @@ public:
     // the lock at +0xf18.
     void sub_7100F2AF70(u8 map);
 
+    // 0x7100f2e06c (placeholder name): sets bit 22 of `_284`.
+    void sub_7100F2E06C();
+
     // 0x7100f35de8 (declaration only; placeholder name; lane2 s47): called by ui::Manager::sub_7100A7F81C
     void sub_7100F35DE8();
 
