@@ -1086,6 +1086,8 @@ public:
     void m93(sead::Heap* heap) override;
 
     void sub_71010A0EE8(f32 progress);
+    // 0x71010a0b88 (placeholder name): whether the animator at _300 is at its last frame
+    bool sub_71010A0B88() const;
     // 0x71010a0bbc: starts the colour animator forwards / backwards
     void x(s32 forward);
     // 0x71010a0b6c

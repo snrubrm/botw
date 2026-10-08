@@ -33,6 +33,11 @@ Fade::Fade() : Screen() {}
 Fade::~Fade() = default;
 
 // 0x71010a1ce0
+// 0x71010a0b88
+bool Fade::sub_71010A0B88() const {
+    return _300->mFrame == _300->GetFrameSize();
+}
+
 bool Fade::isEnableControl() const {
     return true;
 }
