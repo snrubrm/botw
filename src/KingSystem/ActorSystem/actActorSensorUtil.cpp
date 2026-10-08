@@ -181,6 +181,18 @@ void sub_71007A3258(ksys::phys::RigidBody* body, ksys::phys::SystemGroupHandler*
         body->setContactLayerAndHandler(ksys::phys::ContactLayer::SensorNoHit, handler);
 }
 
+void sub_71007A338C(Actor* actor, const sead::SafeString& name) {
+    if (!actor)
+        return;
+    auto* body = actor->findPhysicsBodyByName(ksys::act::getStr_Atk().cstr(), name.cstr());
+    if (!body)
+        return;
+    if (auto* sensor = sead::DynamicCast<ksys::act::AttackSensor>(body->getUserTag())) {
+        ++sensor->_44;
+        sensor->_49 = true;
+    }
+}
+
 void sub_71007A32E4(Actor* actor, ksys::phys::SystemGroupHandler* handler) {
     auto* set = actor->getRigidBodyByName(ksys::act::getStr_Atk().cstr());
     if (!set)

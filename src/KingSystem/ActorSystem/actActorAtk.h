@@ -3,6 +3,7 @@
 #include <basis/seadTypes.h>
 #include <container/seadBuffer.h>
 #include <container/seadSafeArray.h>
+#include <container/seadRingBuffer.h>
 #include <math/seadMatrix.h>
 #include <math/seadVector.h>
 #include <prim/seadRuntimeTypeInfo.h>
@@ -17,6 +18,7 @@ class Heap;
 
 namespace ksys::phys {
 class RigidBody;
+class PhysicsUserTag;
 }  // namespace ksys::phys
 
 namespace ksys::act {
@@ -141,7 +143,19 @@ public:
         sead::SafeArray<Unk1, 8> mEntries;
         s16 mNum;
         u8 _802;
+        // Constructor 79d7b0 allocates 8e0 and initializes an eight-entry ring
+        // at 808, with inline storage at 820 and 24-byte entries.
+        struct HistoryEntry {
+            phys::PhysicsUserTag* _0;
+            u32 _8;
+            u32 actor_id;
+            f32 _10 = 0;
+            u8 _14[4];
+        };
+        KSYS_CHECK_SIZE_NX150(HistoryEntry, 0x18);
+        sead::FixedRingBuffer<HistoryEntry, 8> _808;
     };
+    KSYS_CHECK_SIZE_NX150(Unk_710079e64c, 0x8e0);
 
     static ActorAtk* makeForActor(Actor* actor, sead::Heap* heap);
 
@@ -167,6 +181,8 @@ public:
     // 0x710079e2c0 (CSV ActorAtk::x): entry `idx` of _48, or a static default entry.
     // Non-const result: callers acquire the actor through the entry's _e8 link.
     Unk_710079e64c::Unk1* sub_710079E2C0(int idx) const;
+    bool sub_710079E300(BaseProc* proc);
+    void sub_710079E318();
     // 0x710079e344 / 0x710079e3b8: add (to the back of) / remove a listener to / from _70's list.
     void sub_710079E344(AttackSensor2Listener* listener);
     void sub_710079E3B8(AttackSensor2Listener* listener);

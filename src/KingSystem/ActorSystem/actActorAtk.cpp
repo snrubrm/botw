@@ -2,6 +2,7 @@
 #include <basis/seadNew.h>
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actAttackSensor.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerOrEnemy.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
@@ -161,6 +162,32 @@ void AttackSensor::activateAttackSensor(u32 a1, u32 a2, u32 a3, u32 a4, f32 a5, 
     _3c = a9;
     _40 = a10;
     _48 = a11;
+}
+
+// NON_MATCHING: the original counts remaining entries down; the range iterator counts up.
+bool sub_71007A0E18(const sead::RingBuffer<ActorAtk::Unk_710079e64c::HistoryEntry>& history,
+                   BaseProc* proc) {
+    ActorConstDataAccess accessor(proc);
+    if (!accessor.hasProc())
+        return false;
+    const u32 id = accessor.getId();
+    for (const auto& entry : history) {
+        if (entry.actor_id == id)
+            return true;
+    }
+    return false;
+}
+
+// NON_MATCHING: the compiler inlines the history lookup; the original calls it.
+bool ActorAtk::sub_710079E300(BaseProc* proc) {
+    if (_48)
+        return sub_71007A0E18(_48->_808, proc);
+    return false;
+}
+
+void ActorAtk::sub_710079E318() {
+    if (_48)
+        _48->_808.clear();
 }
 
 }  // namespace ksys::act
