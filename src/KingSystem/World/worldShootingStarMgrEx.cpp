@@ -1,5 +1,6 @@
 #include "KingSystem/World/worldShootingStarMgrEx.h"
 #include <cmath>
+#include <cstring>
 #include <math/seadQuat.h>
 #include <gfx/seadCamera.h>
 #include <random/seadGlobalRandom.h>
@@ -152,6 +153,16 @@ void ShootingStarMgrEx::spawnStar() {
     sub_71010CFE18();
     for (size_t i = 0; i < size_t(mAnchors.size()); ++i)
         mAnchors.at(i)->sub_71010D00B0();
+}
+
+void ShootingStarMgrEx::sub_71010D06C4(const sead::SafeString& name) {
+    for (u32 i = 0; i < mAnchors.size(); ++i) {
+        // The original calls cstr() and discards the result, then reads the string top directly.
+        name.cstr();
+        auto* anchor = mAnchors.unsafeAt(i);
+        if (std::strcmp(name.getStringTop(), anchor->_68) == 0)
+            anchor->_84 = 0;
+    }
 }
 
 }  // namespace ksys::world

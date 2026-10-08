@@ -47,7 +47,8 @@ public:
     const char* _68;
     const char* _70;
     const char* _78;
-    u8 _80[8];
+    u8 _80[4];
+    s32 _84;
     bool _88;
     bool _89;
     u8 _8a[6];
@@ -58,6 +59,8 @@ class ShootingStarMgrEx : public ShootingStarMgr {
 public:
     ShootingStarMgrEx();
     static ShootingStarAnchor* sub_71010D0464(const ShootingStarAnchor::Identifier& id);
+    // 0x71010d06c4 (CSV WorldMgrStruct0_2::x; placeholder name): clears _84 of the anchors with this name.
+    void sub_71010D06C4(const sead::SafeString& name);
     ~ShootingStarMgrEx() override;
 
     void init_(sead::Heap* heap) override;

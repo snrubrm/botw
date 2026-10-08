@@ -22,6 +22,13 @@ protected:
     void m34() override;
     void m36() override;
 
+    // 0x71007749f8 (placeholder name): _168 = the azimuth of the offset _144 - _150, shifted by asin(OffsetX / its
+    // horizontal length) in degrees.
+    void sub_71007749F8();
+    // 0x7100775368 (placeholder name; `this` is unused): `link` acquires the player, or the player's horse when it
+    // is mounted (sub_7100926D24) and an actor.
+    void sub_7100775368(ksys::act::BaseProcLink* link);
+
     act::Unk_71008a45f0 _4c;
     ksys::act::BaseProcLink _128;
     sead::Vector3f _138 = sead::Vector3f::zero;

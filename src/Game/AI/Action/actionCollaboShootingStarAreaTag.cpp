@@ -1,4 +1,8 @@
 #include "Game/AI/Action/actionCollaboShootingStarAreaTag.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/World/worldManager.h"
+#include "KingSystem/World/worldShootingStarMgrEx.h"
 
 namespace uking::action {
 
@@ -28,6 +32,22 @@ void CollaboShootingStarAreaTag::loadParams_() {
 
 void CollaboShootingStarAreaTag::calc_() {
     AreaTagAction::calc_();
+}
+
+bool CollaboShootingStarAreaTag::m15(const ksys::act::ActorConstDataAccess& accessor) {
+    if (!accessor.hasProc())
+        return false;
+
+    auto* world = ksys::world::Manager::instance();
+    if (!world)
+        return false;
+
+    auto* mgr = static_cast<ksys::world::ShootingStarMgrEx*>(world->getShootingStarMgr());
+    if (!sead::IsDerivedFrom<ksys::world::ShootingStarMgr>(mgr) || !ksys::act::isPlayerProfile(accessor))
+        return false;
+
+    mgr->sub_71010D06C4(mcollaboSSFalloutFlagName_m);
+    return true;
 }
 
 }  // namespace uking::action

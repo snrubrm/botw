@@ -8,6 +8,7 @@
 namespace ksys::world {
 
 class ShootingStarMgr : public Job {
+    SEAD_RTTI_OVERRIDE(ShootingStarMgr, Job)
 public:
     ShootingStarMgr();
     ~ShootingStarMgr() override;
