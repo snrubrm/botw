@@ -14,6 +14,7 @@ public:
 
 protected:
     void m43() override;
+    void m44() override;
     void m46() override;
 
     u8 _49[0x3];

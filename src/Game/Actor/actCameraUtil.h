@@ -194,6 +194,9 @@ bool sub_7100925654(uking::act::Unk_71009214b8* state, const uking::act::Unk_710
 // 0x7100926210: the look-at position of the actor (acc::PlayerBase::getLookAtPosForCamera for the
 // player, else getPreviousPos2); false (out unchanged) if it is NaN / infinite.
 bool sub_7100926210(const ksys::act::ActorConstDataAccess& accessor, sead::Vector3f* out);
+// 0x7100926154: the look-at position of `player` (same as sub_7100926210 but acquiring `player`
+// directly); false (out unchanged) if it is NaN / infinite.
+bool sub_7100926154(ksys::act::PlayerBase* player, sead::Vector3f* out);
 // 0x7100926a14 / 0x7100926a2c: PlayerInfo::getPlayer() / getPlayer_() (null without PlayerInfo).
 ksys::act::PlayerBase* sub_7100926A14();
 ksys::act::PlayerBase* sub_7100926A2C();
