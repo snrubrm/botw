@@ -300,11 +300,6 @@ bool ScreenMainScreen::sub_7100A1E1E0() {
     return !_3ca8->isAnimOpenEnd(false);
 }
 
-// 0x7100a1e44c
-f32 ScreenMainScreen::sub_7100A1E44C() {
-    return 1.0f;
-}
-
 }  // namespace uking::ui
 
 namespace uking::ui {
@@ -857,6 +852,56 @@ void ScreenChallengeWin::m93(sead::Heap*) {
     _3870 = _3610->createAnimatorAuto("GuideOff", false);
     if (_3870)
         _3870->StopAtMin();
+}
+
+// 0x7100a00ef0
+void ScreenChangeController::sub_7100A00EF0(u32 frame) {
+    if (u32(mState - 1) <= 1)
+        open(2);
+    else
+        open(1);
+    if (_3610)
+        _3610->Stop(f32(frame));
+}
+
+// 0x7100a05f7c
+void ScreenDLCWindow::sub_7100A05F7C(f32 frame) {
+    if (_3870)
+        _3870->Stop(frame);
+}
+
+// 0x7100a00af8
+void ScreenChallengeWin::m86() {
+    _3618.clear();
+    _3730.clear();
+    _3848.init(ScreenMainScreen::sub_7100A1E44C());
+    if (_3610)
+        _3610->startAnimCloseImpl_(false, true);
+    close(-4);
+}
+
+// 0x7100a00b68
+void ScreenChallengeWin::m83() {
+    if (_3610 && u32(_3610->_91 - 1) <= 1) {
+        _3618.clear();
+        _3730.clear();
+        _3848.init(ScreenMainScreen::sub_7100A1E44C());
+        if (_3610)
+            _3610->startAnimCloseImpl_(false, true);
+        close(-4);
+    }
+}
+
+// 0x7100a00bfc
+void ScreenChallengeWin::m91() {
+    if (_3610 && u32(_3610->_91 - 1) <= 1) {
+        _3618.clear();
+        _3730.clear();
+        _3848.init(ScreenMainScreen::sub_7100A1E44C());
+        if (_3610)
+            _3610->startAnimCloseImpl_(false, true);
+        close(-4);
+    }
 }
 
 // 0x7100a00440

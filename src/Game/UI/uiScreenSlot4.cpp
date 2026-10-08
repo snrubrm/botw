@@ -201,4 +201,9 @@ bool ScreenAppMenuBtn::isEnableControl() const {
     return 1;
 }
 
+// 0x7100a1e44c (kept out of uiScreenSmall2.cpp, where it would be inlined into the ScreenChallengeWin callers)
+f32 ScreenMainScreen::sub_7100A1E44C() {
+    return 1.0f;
+}
+
 }  // namespace uking::ui

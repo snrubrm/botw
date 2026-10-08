@@ -805,7 +805,7 @@ public:
     void sub_7100A1A518(s64 a1, bool a2);
     bool sub_7100A1E1E0();
     // 0x7100a1e44c (placeholder name): always 1.0
-    f32 sub_7100A1E44C();
+    static f32 sub_7100A1E44C();
 };
 
 // The MessageTips screen (members from 0x300 recovered from the constructor).
@@ -2843,6 +2843,8 @@ public:
     void m94() override;
     eui::Animator* _3610{};
     SEAD_RTTI_OVERRIDE(ScreenChangeController, ScreenEx)
+    // 0x7100a00ef0 (placeholder name): opens the screen (option 2 in states 1 / 2, else 1) and stops the animator at `frame`
+    void sub_7100A00EF0(u32 frame);
 };
 
 class ScreenDemoStart : public ScreenEx {
@@ -2927,14 +2929,15 @@ public:
     SEAD_RTTI_OVERRIDE(ScreenChallengeWin, ScreenEx)
 
     void m93(sead::Heap* heap) override;
+    // Slots 83 / 86 / 91 (0x7100a00b68 / 0x7100a00af8 / 0x7100a00bfc): clear both strings, restart the timer and close
+    // the layout and the screen; m83 and m91 do it only while the layout's byte at +0x91 is 1 or 2.
+    void m83() override;
+    void m86() override;
+    void m91() override;
     /* 0x3610 */ eui::LayoutEx* _3610{};
     /* 0x3618 */ sead::FixedSafeString<256> _3618;
     /* 0x3730 */ sead::FixedSafeString<256> _3730;
-    /* 0x3848 */ u64 _3848{};
-    u64 _3850{};
-    f32 _3858 = 1.0f;
-    u8 _385c{};
-    u8 _385d[3];
+    /* 0x3848 */ UiTimer _3848;
     u8 _3860{};
     u8 _3861[7];
     eui::Animator* _3868{};
@@ -2975,6 +2978,10 @@ public:
 
     // 0x7100a05f94 (placeholder name): returns the result and sets it to 2
     s32 sub_7100A05F94();
+    // 0x7100a05f7c (placeholder name): stops the animator at 0x3870 at `frame`
+    void sub_7100A05F7C(f32 frame);
+    u8 _pad_3610[0x3870 - 0x3610];
+    /* 0x3870 */ eui::Animator* _3870;
     // 0x7102486d48 (placeholder name): the window's result (0: no, 1: yes, 2: none yet)
     static s32 sResult;
 };
