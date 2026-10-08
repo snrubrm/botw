@@ -125,6 +125,34 @@ void Guardian::sub_7100034514(bool on) {
     _14c8.change(4, on);
 }
 
+void Guardian::sub_710003B3FC() {
+    _14c8.set(0x208);
+    if (_15b0)
+        _15b0->sub_7100042B40();
+}
+
+s32 Guardian::sub_710003B098() const {
+    for (s32 i = 0; i < 5; ++i) {
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::acquireActor(&_1538[i], &accessor);
+        if (accessor.isStateSleep())
+            return i;
+    }
+    return -1;
+}
+
+bool Guardian::sub_710003B2A8() const {
+    return sub_710003B098() >= 0;
+}
+
+// NON_MATCHING: the original loads the 25.0 from a float at 0x710235ab70 in .data instead of using an immediate
+// 0x710003b4c8: true without a target (_c48._8), else whether the target position (_c48._18) is more than 25 away.
+bool Guardian::sub_710003B4C8() const {
+    if (!_c48._8.hasProc())
+        return true;
+    return (_c48._18 - getMtx().getTranslation()).length() > 25.0f;
+}
+
 void Guardian::sub_710003B090(u32 value) {
     _14d4 = value;
 }

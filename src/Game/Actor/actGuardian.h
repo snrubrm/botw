@@ -95,6 +95,8 @@ public:
     // lane1 s47 (declaration only; placeholder names): 0x710003b2a8: `sub_710003B098() >= 0`. 0x710003b3fc: sets
     // bits 3 and 9 of _14c8 and calls a method of `_15b0` (when set).
     bool sub_710003B2A8() const;
+    // 0x710003b098 (placeholder name): index of the first sleeping actor among _1538[0..4], or -1.
+    s32 sub_710003B098() const;
     void sub_710003B3FC();
     // 0x710003b554 (lane1 s47, declaration only; placeholder name): returns a static flag (`sFlag & 1`).
     bool sub_710003B554() const;
@@ -160,6 +162,8 @@ public:
     struct Unk1 {
         // 0x7100042048: updates the navigation position (declaration only).
         void sub_7100042048();
+        // 0x7100042b40: clears _64.
+        void sub_7100042B40();
 
         u8 _0[0x30];
         ksys::phys::NavMeshCharacter* _30;  // m45
@@ -167,6 +171,8 @@ public:
         // The movement provider (GuardianMoveTo's second base), set in GuardianMoveTo::enter_ and cleared
         // in leave_.
         Unk_7100041da4* _50;
+        u8 _58[0x64 - 0x58];
+        u32 _64;
     };
     /* 0x15b0 */ Unk1* _15b0 = nullptr;
     /* 0x15b8 */ u32 _15b8 = 0;
