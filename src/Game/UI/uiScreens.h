@@ -94,8 +94,8 @@ public:
     // false if the child cannot (no _110 / _118, or already in the other transition)
     virtual bool m5(bool a1);
     virtual bool m6(bool a1);
-    virtual void m7();
-    virtual void m8();
+    virtual bool m7(bool immediate);
+    virtual bool m8(bool immediate);
     virtual void m9();
     virtual void m10();
     virtual void m11();
@@ -1636,6 +1636,7 @@ static_assert(sizeof(ShortcutIconInfo) == 0xd8);
 class ScreenMainShortCut : public ScreenEx {
 public:
     void m83() override;
+    void m90() override;
     void sub_7100A1F684(s32 index);
     void m96() override;
     void m98() override;
@@ -2245,6 +2246,8 @@ struct PictureBookGroupList {
 };
 
 struct ScreenAppPictureBookUnk {
+    // 0x710093ff88: releases active units across the existing group lists (undecompiled).
+    void sub_710093FF88();
     // 0x710093f594 (CSV unnamed; not decompiled)
     void sub_710093F594(bool a1);
     // 0x710093e900 (placeholder name): sub_710093E784 of `base` plus the _29c of the first `count` entries

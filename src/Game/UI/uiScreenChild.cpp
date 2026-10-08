@@ -1,4 +1,5 @@
 #include "Game/UI/uiScreens.h"
+#include "Game/UI/euiLayoutEx.h"
 
 // Default implementations of ScreenChild's virtual slots (0x7100931dd8 - 0x71009321c8, ...): empty or
 // forwarding to another slot of the same object.
@@ -28,6 +29,38 @@ bool ScreenChild::m6(bool a1) {
     const s32 state = _104;
     if (state == 7 || state == 1 || state == 3 || state == 5) {
         _104 = a1 ? 2 : 4;
+        return true;
+    }
+    if (state == 2 || state == 4 || state == 6)
+        return false;
+    return true;
+}
+
+// 0x71010a8ee0
+// NON_MATCHING: the direct state membership tests become a bit-mask test.
+bool ScreenChild::m7(bool immediate) {
+    if (!_110)
+        return false;
+    const s32 state = _104;
+    if (state == 0 || state == 2 || state == 4 || state == 6) {
+        mLayout->sub_7100BDDE7C(false, !immediate, true);
+        _104 = 5;
+        return true;
+    }
+    if (state == 1 || state == 3 || state == 5)
+        return false;
+    return true;
+}
+
+// 0x71010a8f68
+// NON_MATCHING: the direct state membership tests become a bit-mask test.
+bool ScreenChild::m8(bool immediate) {
+    if (!_110 && !_118)
+        return false;
+    const s32 state = _104;
+    if (state == 7 || state == 1 || state == 3 || state == 5) {
+        mLayout->startAnimCloseImpl_(false, !immediate);
+        _104 = 6;
         return true;
     }
     if (state == 2 || state == 4 || state == 6)

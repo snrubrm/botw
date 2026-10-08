@@ -176,6 +176,16 @@ void ScreenMainShortCut::m84() {
         _36e0->StopAtMin();
 }
 
+// 0x7100a203b4
+void ScreenMainShortCut::m90() {
+    if (_3790)
+        _3790->sub_710093FF88();
+    if (_36e8 != -1)
+        _38d0.unload(0);
+    _3638.sub_71009C36E4(false);
+    _36e8 = -1;
+}
+
 // 0x7100a205f0
 void ScreenMainShortCut::m98() {
     _3790->sub_710093DAE8(2);

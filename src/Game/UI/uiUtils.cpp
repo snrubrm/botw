@@ -244,6 +244,14 @@ bool isMasterSwordItem(const PouchItem& item) {
     return item.getType() == PouchItemType::Sword && isMasterSwordActorName(item.getName());
 }
 
+// 0x7100a9fa60
+// NON_MATCHING: FixedSafeString default initialization and resulting stack/register use differ.
+bool sub_7100A9FA60() {
+    sead::FixedSafeString<64> name;
+    ksys::act::PlayerInfo::instance()->getPlayer()->m379(&name);
+    return isOneHitObliteratorActorName(name);
+}
+
 bool shouldUseWeaponSword503() {
     if (ksys::evt::Manager::instance() && ksys::evt::Manager::instance()->getActiveEvent() &&
         ksys::evt::Manager::instance()->getActiveEvent()->mEventName == "Demo601_1")
