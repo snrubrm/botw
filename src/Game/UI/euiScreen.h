@@ -222,6 +222,9 @@ public:
     s32 getId() const { return mId; }
     bool hasFlag4() const { return _107 & 4; }
 
+    // 0x7100bea704 (placeholder name): plain function whose address createSoundLink2User_ passes on (through the pointer
+    // table entry at 0x71025995b8): forwards to the virtual setSlink2PropertyDefinition_
+    static void sub_7100BEA704(Screen* screen, xlink2::UserInstanceSLink* link);
     // 0x7100bea690 / 0x7100beb6f8 (placeholder names): sizes every pane below `pane` (the root pane of `layout`) to
     // its text, switching to the parts' own layout at each parts pane
     void sub_7100BEA690(nn::ui2d::Pane* pane, LayoutEx* layout);

@@ -69,6 +69,11 @@ void Screen::updateControl_() {
         ControlBase::fromNode(node)->Update(step);
 }
 
+// 0x7100bea704
+void Screen::sub_7100BEA704(Screen* screen, xlink2::UserInstanceSLink* link) {
+    screen->setSlink2PropertyDefinition_(link);
+}
+
 // 0x7100bea690
 void Screen::sub_7100BEA690(nn::ui2d::Pane* pane, LayoutEx* layout) {
     if (auto* parts = sub_7100BDD310(pane))
