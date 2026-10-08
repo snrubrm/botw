@@ -14,6 +14,8 @@ class DamageMgrPlayer : public DamageManager {
 public:
     explicit DamageMgrPlayer(ksys::act::Actor* actor);
 
+    s32 m52() override;
+
     // Set by Player::sub_7100884578 (PlayerIce / PlayerElectric leave_) to the unnamed .rodata int 30.
     /* 0x22c */ f32 _22c;
     /* 0x230 */ u16 _230;
