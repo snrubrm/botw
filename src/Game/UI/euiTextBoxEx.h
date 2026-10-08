@@ -4,6 +4,7 @@
 #include <message/seadMessageSet.h>
 #include <prim/seadDelegate.h>
 #include <prim/seadSafeString.h>
+#include "Game/UI/euiControlBase.h"
 #include "Game/UI/euiMessageString.h"
 
 namespace eui {
@@ -38,9 +39,9 @@ public:
     virtual bool isWordwrapOn_();
     virtual bool isTextChangeOn_() const;
     virtual bool getLetterAnimSpeed_(f32* speed);
-    // Slot 48 (lane2 s47; not decompiled): called by Screen::setupPaneAfterBuild_ with the screen's
-    // control list and the layout.
-    virtual void m48(void* controls, LayoutEx* layout);
+    // Slot 48 (0x7100be2e2c): called by Screen::setupPaneAfterBuild_ with the screen's control list and the
+    // layout; adds a LetterAnimControl to the list when the pane has a letter animation speed.
+    virtual void m48(ListNode* controls, LayoutEx* layout);
 
     void processAppTag(sead::IDelegate1<const sead::MessageSet<char16>::TagInfo*>* callback);
 

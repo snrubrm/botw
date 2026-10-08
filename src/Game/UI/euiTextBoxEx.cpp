@@ -47,6 +47,18 @@ TextBoxEx::TextBoxEx(const TextBoxEx& other, LayoutEx* layout)
     }
 }
 
+// 0x7100be2e2c
+void TextBoxEx::m48(ListNode* controls, LayoutEx* layout) {
+    f32 speed;
+    if (getLetterAnimSpeed_(&speed)) {
+        void* memory = nn::ui2d::Layout::AllocateMemory(sizeof(LetterAnimControl), 4);
+        auto* control = memory ? new (memory) LetterAnimControl : nullptr;
+        control->initialize(GetNwAllocatorHeap(), this, layout);
+        control->sub_7100BD9B68(speed);
+        controls->linkPrev(&control->_8);
+    }
+}
+
 // 0x7100be2350
 void TextBoxEx::InitializeString(nn::ui2d::BuildResultInformation* result, nn::gfx::Device* device,
                                  const nn::ui2d::BuildArgSet& args,
