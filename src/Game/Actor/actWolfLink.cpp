@@ -116,3 +116,11 @@ bool WolfLink::m81(const ksys::Message& message) {
 }
 
 }  // namespace uking::act
+
+void* Unk_71023d2f68::m2() {
+    return nullptr;
+}
+
+void* Unk_71023d2f90::m2() {
+    return nullptr;
+}

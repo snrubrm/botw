@@ -8,16 +8,17 @@
 #include "KingSystem/System/Timer.h"
 
 // 2026-10-07: WolfLink's factory installs these two message senders at 0x1620 / 0x1638.
-// Both have the original shared base D1 (0x710001bfec) and a null message payload.
+// Both have the original shared base D1 (0x710001bfec) and a null message payload; m2 is
+// defined out of line in actWolfLink.cpp (its TU also emits the 4-byte D0s, which only delete).
 class Unk_71023d2f68 : public Unk_7102357d20 {
 public:
     using Unk_7102357d20::Unk_7102357d20;
-    void* m2() override { return nullptr; }
+    void* m2() override;
 };
 class Unk_71023d2f90 : public Unk_7102357d20 {
 public:
     using Unk_7102357d20::Unk_7102357d20;
-    void* m2() override { return nullptr; }
+    void* m2() override;
 };
 
 namespace ksys::res {
