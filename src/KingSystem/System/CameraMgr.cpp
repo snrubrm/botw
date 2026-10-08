@@ -16,6 +16,26 @@ bool sub_7100D8C6AC(sead::Vector3f* out) {
     return true;
 }
 
+bool sub_7100D8C71C(sead::Vector3f* out) {
+    auto* camera = CameraMgr::instance()->getLookAtCamera();
+    if (!camera) {
+        *out = sead::Vector3f::zero;
+        return false;
+    }
+    *out = camera->getAt();
+    return true;
+}
+
+bool sub_7100D8C78C(sead::Vector3f* out) {
+    auto* camera = CameraMgr::instance()->getLookAtCamera();
+    if (!camera) {
+        *out = sead::Vector3f::zero;
+        return false;
+    }
+    *out = camera->getUp();
+    return true;
+}
+
 f32 sub_7100D8C8FC() {
     const auto* viewport = CameraMgr::instance()->sub_7100D8C4C8();
     if (!viewport)
