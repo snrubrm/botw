@@ -60,6 +60,9 @@ void KeepBackSelect::leave_() {
     ksys::act::ai::Ai::leave_();
 }
 
+// NON_MATCHING: backend load scheduling only (same values and registers) — the original pairs
+// the m[2][2]/m[2][3] loads, hoists the target.z and m[1][3] loads one step early, and loads all three
+// column floats before negating in the neg-axis path
 bool KeepBackSelect::sub_710045134C() {
     auto* model = mActor->getModel();
     sead::Matrix34f mtx;
@@ -141,7 +144,7 @@ bool KeepBackSelect::sub_710045134C() {
         fwd.y = 0.0f;
         fwd.normalize();
     }
-    return !(dir.y * fwd.y + dir.x * fwd.x + dir.z * fwd.z >= std::cos(*mBackAngle_s));
+    return !(dir.x * fwd.x + dir.y * fwd.y + dir.z * fwd.z >= std::cos(*mBackAngle_s));
 }
 
 void KeepBackSelect::loadParams_() {
