@@ -1727,6 +1727,19 @@ struct ScreenAppMapWidget {
     u8 sub_71009AF178() const;
     bool sub_71009AF194() const;
     u8 sub_71009AF37C() const;
+    // 0x71009a9b48 / 0x71009a9b7c / 0x71009a9e74 (placeholder names): set the mode at 0xb350 (0 / 1 / 2) and tell the map state
+    void sub_71009A9B48();
+    void sub_71009A9B7C();
+    void sub_71009A9E74(const sead::Vector3f* pos);
+    // 0x71009a9b8c (364 bytes) / 0x71009aa024 (344 bytes): declared only
+    void sub_71009A9B8C();
+    void sub_71009AA024();
+    // 0x71009aa004 (placeholder name): runs sub_71009AA024 for DLC version 0x200 and later
+    void sub_71009AA004();
+    // 0x71009af034 (placeholder name): the table entry `_b4fc` (0 for an index of 32 or more)
+    f32 sub_71009AF034() const;
+    // 0x71009aef88 (placeholder name): clears _b4ec / _b4f0 and decodes the packed signed (x, y) word at `_b370` into _b4b8 / _b4bc
+    void sub_71009AEF88();
 
     u8 _0[0xb1db];
     /* 0xb1db */ u8 _b1db;
@@ -1738,11 +1751,17 @@ struct ScreenAppMapWidget {
     /* 0xb34c */ u8 _b34c;
     u8 _b34d[0xb350 - 0xb34d];
     /* 0xb350 */ s32 _b350;
-    u8 _b354[0xb4a0 - 0xb354];
+    u8 _b354[0xb370 - 0xb354];
+    /* 0xb370 */ u32* _b370;  // points at a packed (x, y) word
+    u8 _b378[0xb388 - 0xb378];
+    /* 0xb388 */ s32 _b388;
+    u8 _b38c[0xb499 - 0xb38c];
+    /* 0xb499 */ u8 _b499;
+    u8 _b49a[0xb4a0 - 0xb49a];
     /* 0xb4a0 */ s32 _b4a0;
     u8 _b4a4[0xb4a8 - 0xb4a4];
     /* 0xb4a8 */ s32 _b4a8;
-    u8 _b4ac[0xb4b0 - 0xb4ac];
+    /* 0xb4ac */ s32 _b4ac;
     /* 0xb4b0 */ f32 _b4b0;
     /* 0xb4b4 */ f32 _b4b4;
     /* 0xb4b8 */ f32 _b4b8;
@@ -1751,7 +1770,11 @@ struct ScreenAppMapWidget {
     /* 0xb4e0 */ f32 _b4e0;
     /* 0xb4e4 */ f32 _b4e4;
     /* 0xb4e8 */ f32 _b4e8;
-    u8 _b4ec[0xb4fe - 0xb4ec];
+    /* 0xb4ec */ u32 _b4ec;
+    /* 0xb4f0 */ u32 _b4f0;
+    u8 _b4f4[0xb4fc - 0xb4f4];
+    /* 0xb4fc */ s8 _b4fc;
+    u8 _b4fd;
     /* 0xb4fe */ s8 _b4fe;
     /* 0xb4ff */ u8 _b4ff;
 };

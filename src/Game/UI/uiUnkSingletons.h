@@ -416,6 +416,11 @@ public:
     void copy38d8To38d9();
     void update388c();
     bool sub_7100966E64() const;
+    // 0x7100966894 (480 bytes) / 0x71009666c0 (424 bytes): declared only
+    void sub_7100966894();
+    void sub_71009666C0(const sead::Vector2f* pos);
+    // 0x7100966684 (CSV uiSubsys1::__auto10; placeholder name): scales the (x, z) of `pos` into the map view and forwards it
+    void sub_7100966684(const sead::Vector3f* pos);
     // 0x7100965e58 / 0x7100965d10 / 0x71009659a4 (placeholder names)
     void* sub_7100965E58();
     // The position of the map view in map units (scaled by 1 / _8b0 and _878, rotated by _87c degrees)

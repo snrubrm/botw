@@ -310,6 +310,12 @@ sead::Vector2f* UiSubsys1::getVec3878() {
     return &_3878;
 }
 
+// 0x7100966684
+void UiSubsys1::sub_7100966684(const sead::Vector3f* pos) {
+    sead::Vector2f offset(pos->x * _8b0, -(pos->z * _8b4));
+    sub_71009666C0(&offset);
+}
+
 // 0x7100965e58
 void* UiSubsys1::sub_7100965E58() {
     return &_84c[0x850 - 0x84c];
