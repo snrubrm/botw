@@ -8,6 +8,25 @@
 
 namespace uking::act {
 
+void Unk_710079a8e8::SavePoint::save(const Unk_710079a8e8& camera) {
+    _0 = camera._0;
+    _38 = camera._72c._0;
+    _3c = camera._39c;
+    _6c = camera._3cc;
+    _78 = camera._3d8;
+}
+
+bool Unk_710079a8e8::SavePoint::restore(Unk_71009214b8* out) const {
+    if (!isValid())
+        return false;
+    *out = _0;
+    return true;
+}
+
+bool Unk_710079a8e8::SavePoint::isValid() const {
+    return _38 >= 0 && _38 < 2;
+}
+
 void Unk_710079b62c::sub_710079B62C(u32 mask) {
     _0 |= mask;
 }
@@ -130,7 +149,7 @@ void Unk_710079a8e8::sub_710079BE34() {
 }
 
 void Unk_710079a8e8::sub_710079BEA8() {
-    _72c._3c = 2;
+    _72c._4._38 = 2;
 }
 
 void Unk_710079a8e8::sub_710079BEB4() {

@@ -32,9 +32,9 @@ void CameraEventTalkAIRet::m50() {
     if (!camera)
         return;
 
-    camera->_860._39c = camera->_860._72c._40;
-    camera->_860._3cc = camera->_860._72c._70;
-    camera->_860._3d8 = camera->_860._72c._7c;
+    camera->_860._39c = camera->_860._72c._4._3c;
+    camera->_860._3cc = camera->_860._72c._4._6c;
+    camera->_860._3d8 = camera->_860._72c._4._78;
 }
 
 void CameraEventTalkAIRet::m52(ksys::act::ai::InlineParamPack* params) {

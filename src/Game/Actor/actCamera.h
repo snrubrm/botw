@@ -9,6 +9,7 @@
 #include <prim/seadDelegate.h>
 #include <prim/seadRuntimeTypeInfo.h>
 #include <prim/seadSafeString.h>
+#include <thread/seadAtomic.h>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "Game/Actor/actCameraUtil.h"
@@ -120,14 +121,28 @@ public:
 // TODO: incomplete (field meanings unknown; 0x164-0x170 not initialised by the ctor).
 class Unk_710079a8e8 {
 public:
+    // Saved camera state at 0x730 (Camera + 0xf90; Camera::x_1 saves it, CameraEventReturnSavePoint and
+    // CameraEventMovePosBase / CameraEventTalkManualCtrlRet restore it). Placeholder name.
+    struct SavePoint {
+        // 0x710079a718: copies camera._0, camera._72c._0 (into _38) and camera._39c / _3cc / _3d8.
+        void save(const Unk_710079a8e8& camera);
+        // 0x710079a7d8: if isValid(), copies _0 to `out` and returns true.
+        bool restore(Unk_71009214b8* out) const;
+        // 0x710079a864: 0 <= _38 < 2.
+        bool isValid() const;
+
+        /* 0x00 */ Unk_71009214b8 _0;
+        // Read twice by isValid / restore (two loads of the same word): an atomic.
+        /* 0x38 */ sead::Atomic<s32> _38 = 2;
+        /* 0x3c */ sead::Matrix34f _3c = sead::Matrix34f::ident;
+        /* 0x6c */ sead::Vector3f _6c = sead::Vector3f::zero;
+        /* 0x78 */ sead::Vector3f _78 = sead::Vector3f::zero;
+    };
+
     // Value-initialised member at 0x72c (memset over it in the ctor).
     struct Unk72c {
         /* 0x00 */ u32 _0;
-        /* 0x04 */ Unk_71009214b8 _4;
-        /* 0x3c */ s32 _3c = 2;
-        /* 0x40 */ sead::Matrix34f _40 = sead::Matrix34f::ident;
-        /* 0x70 */ sead::Vector3f _70 = sead::Vector3f::zero;
-        /* 0x7c */ sead::Vector3f _7c = sead::Vector3f::zero;
+        /* 0x04 */ SavePoint _4;
     };
 
     Unk_710079a8e8();
