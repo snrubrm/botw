@@ -3,6 +3,7 @@
 #include <basis/seadTypes.h>
 #include <math/seadMatrix.h>
 #include <math/seadVector.h>
+#include <thread/seadAtomic.h>
 #include "KingSystem/Utils/Types.h"
 
 namespace ksys::phys {
@@ -19,6 +20,20 @@ class Heap;
 // AscendingCurrent (+0x28). The destructor removes the body from the world and deletes it. No RTTI.
 class Unk_710250d530 {
 public:
+    // Placeholder (the ElementDirectionalWind created by 0x71010f1d1c; only the fields the setters write are modeled).
+    struct Element {
+        u8 _0[0x1c];
+        /* 0x1c */ sead::Vector3f mDirection;
+        u8 _28[0x3c - 0x28];
+        /* 0x3c */ f32 mSpeed;
+    };
+    // Placeholder (the holder `mElement` points to; the wind element is at +0x10). The setters read the pointer twice
+    // (null check, then use), which only an atomic (volatile) load does.
+    struct ElementHolder {
+        u8 _0[0x10];
+        /* 0x10 */ sead::Atomic<Element*> mWind;
+    };
+
     Unk_710250d530();
     virtual ~Unk_710250d530();
 
@@ -41,7 +56,7 @@ public:
     // 0x71010f17fc (declared only; 124 B): removes the element and the body from the world.
     void sub_71010F17FC(bool remove_links);
 
-    /* 0x08 */ void* mElement = nullptr;
+    /* 0x08 */ ElementHolder* mElement = nullptr;
     /* 0x10 */ ksys::phys::RigidBody* mBody = nullptr;
     /* 0x18 */ f32 mSpeed = 20.0f;
     /* 0x1c */ sead::Vector3f mDirection{1.0f, 0.0f, 0.0f};

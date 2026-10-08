@@ -18,3 +18,15 @@ bool Unk_710250d530::sub_71010F1314() {
         return true;
     return !mBody->isAddedToWorld();
 }
+
+void Unk_710250d530::sub_71010F1344(f32 speed) {
+    mSpeed = speed;
+    if (mElement && mElement->mWind)
+        mElement->mWind->mSpeed = speed;
+}
+
+void Unk_710250d530::sub_71010F1364(const sead::Vector3f* direction) {
+    mDirection = *direction;
+    if (mElement && mElement->mWind)
+        mElement->mWind->mDirection = *direction;
+}
