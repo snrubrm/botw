@@ -10,6 +10,14 @@
 
 namespace uking::ui {
 
+// 0x7100a7da38
+void Manager::sub_7100A7DA38() {
+    sub_7100AA8698();
+    _64c28 = 1;
+    _64c2c = 1;
+    _64c30 |= 0x80000000002;
+}
+
 // 0x7100a7fe9c
 void Manager::sub_7100A7FE9C() {
     _65387 = 0;
