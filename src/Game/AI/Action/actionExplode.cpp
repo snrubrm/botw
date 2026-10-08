@@ -1,4 +1,9 @@
 #include "Game/AI/Action/actionExplode.h"
+#include "KingSystem/ActorSystem/Profiles/actBullet.h"
+#include "KingSystem/Resource/Actor/resResourceActorLink.h"
+#include "KingSystem/Resource/Actor/resResourceGParamList.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectAttack.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/System/VFR.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/AI/aiUnk_710072BA90.h"
@@ -139,6 +144,39 @@ u32 Explode::sub_710012B058() {
     if (*mIsDamageGuarantee_s)
         type |= 0x10000000;
     return type;
+}
+
+void Explode::m34(ksys::act::AttackSensor* sensor) {
+    u32 type;
+    switch (*mAttackIntensity_s) {
+    case 1:
+        type = 1;
+        break;
+    case 2:
+        type = 2;
+        break;
+    case 3:
+        type = 4;
+        break;
+    default:
+        type = 0;
+        break;
+    }
+    if (*mIsDamageGuarantee_s)
+        type |= 0x10000000;
+
+    f32 power = mActor->getParam()->getRes().mGParamList->getAttack()->mPower.ref();
+    const auto* actor_link = mActor->getParam()->getRes().mActorLink;
+    if (actor_link && actor_link->hasTag(0x19f6c13a)) {
+        if (auto* bullet = sead::DynamicCast<ksys::act::Bullet>(mActor))
+            power *= bullet->_cfc;
+    }
+    sensor->activateAttackSensor(0x10, type, s32(power),
+                                 mActor->getParam()->getRes().mGParamList->getAttack()->mImpulse.ref(),
+                                 0.0f,
+                                 mActor->getParam()->getRes().mGParamList->getAttack()->mGuardBreakPower.ref(),
+                                 0x1e, -1, false, 1,
+                                 mActor->getParam()->getRes().mGParamList->getAttack()->mPowerForPlayer.ref());
 }
 
 }  // namespace uking::action
