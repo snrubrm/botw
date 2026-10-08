@@ -1,6 +1,8 @@
 #include "Game/AI/AI/aiSiteBossChemicalProjectile.h"
 #include "Game/Actor/actSiteBoss.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actUnk_7102459df8.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actAttackSensor.h"
 #include "KingSystem/ActorSystem/actChemical.h"
@@ -260,6 +262,31 @@ bool SiteBossChemicalProjectile::m56() {
 
 f32 SiteBossChemicalProjectile::m57() {
     return *mChaseAngleLimit_s;
+}
+
+// NON_MATCHING: the original branches on the sub_7100D117C0 result before reading `layer`; here both are kept
+// and combined after the accessor destructor (one more callee-saved register).
+bool SiteBossChemicalProjectile::sub_71003EB7C8() {
+    if (isLandedMaybe(mActor, false))
+        return false;
+    const s32 count = sub_71007A49F0(mActor);
+    for (s32 i = 0; i < count; ++i) {
+        auto* entry = sub_71007A4948(mActor, i);
+        if (!entry)
+            return false;
+        if (!entry->_18.hasProc())
+            return false;
+        bool other;
+        {
+            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::acquireActor(&entry->_18, &accessor);
+            ksys::phys::ContactLayer layer;
+            other = !accessor.sub_7100D117C0(&layer) || layer != ksys::phys::ContactLayer::EntityObject;
+        }
+        if (other)
+            return false;
+    }
+    return true;
 }
 
 }  // namespace uking::ai

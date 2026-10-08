@@ -37,6 +37,9 @@ public:
     bool handleMessage_(const ksys::Message* message) override;
     void loadParams_() override;
 
+    // 0x71003eb7c8 (placeholder name): not landed, and every ground contact is an actor whose contact layer is 0
+    bool sub_71003EB7C8();
+
     virtual const sead::SafeString& m34();
     virtual sead::Vector3f m35();
     virtual sead::Vector3f m36();
