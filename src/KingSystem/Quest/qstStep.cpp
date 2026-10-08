@@ -13,6 +13,47 @@ Step::Step(const u8** iter_data, sead::Heap* heap) : heap(heap) {
     }
 }
 
+Step::ActLink::ActLink(const Args& args, sead::Heap* heap)
+    : _18(args._28), name(args.name), heap(heap), unique_name(args.unique_name) {
+    name_hash = sead::HashCRC32::calcStringHash(name);
+    if (args.proc != nullptr)
+        link.acquire(args.proc, false);
+    if (args.iter_40 != nullptr)
+        _40 = new (this->heap, 8) al::ByamlIter(*args.iter_40);
+    _30 = args.iter_30 != nullptr ? new (this->heap, 8) al::ByamlIter(*args.iter_30) :
+                                    new (this->heap, 8) al::ByamlIter();
+    _1c = args._2c;
+    _1d = args._2d;
+}
+
+Step::ActLink::~ActLink() {
+    sub_71012B4274();
+    if (_30 != nullptr) {
+        delete _30;
+        _30 = nullptr;
+    }
+    if (_40 != nullptr) {
+        delete _40;
+        _40 = nullptr;
+    }
+}
+
+Step::~Step() {
+    if (actor_data != nullptr) {
+        delete actor_data;
+        actor_data = nullptr;
+    }
+    if (indicator_info != nullptr) {
+        delete indicator_info;
+        indicator_info = nullptr;
+    }
+    if (iter != nullptr) {
+        delete iter;
+        iter = nullptr;
+    }
+    links.freeBuffer();
+}
+
 bool Step::sub_7100FDB89C(act::Actor* actor) const {
     for (int i = 0; i < links.size(); ++i) {
         if (!links[i]->link.hasProc())

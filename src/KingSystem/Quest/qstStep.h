@@ -19,18 +19,37 @@ struct Indicator;
 
 struct Step {
     struct ActLink {
-        void* _0;
-        act::BaseProcLink link;
-        void* _18;
-        const char* name;
-        void* _28;
-        void* _30;
-        void* _38;
-        void* _40;
-        const char* unique_name;
+        // The arguments of the constructor (0x71012b4124).
+        struct Args {
+            const char* name;
+            const char* unique_name;
+            act::BaseProc* proc;
+            al::ByamlIter* iter_40;
+            al::ByamlIter* iter_30;
+            u32 _28;
+            u8 _2c;
+            u8 _2d;
+        };
 
+        ActLink(const Args& args, sead::Heap* heap);
+        virtual ~ActLink();
+
+        // 0x00000071012b4274: releases the linked actor (clears the quest-link state of its schedule)
+        void sub_71012B4274();
         bool sub_71012B43D0(act::Actor* actor, const sead::SafeString& name) const;
+
+        act::BaseProcLink link;
+        u32 _18;
+        u8 _1c = 0;
+        u8 _1d = 0;
+        const char* name;
+        u32 name_hash = 0;
+        al::ByamlIter* _30 = nullptr;
+        sead::Heap* heap;
+        al::ByamlIter* _40 = nullptr;
+        const char* unique_name;
     };
+    KSYS_CHECK_SIZE_NX150(ActLink, 0x50);
 
     Step(const u8** iter_data, sead::Heap* heap);
     virtual ~Step();

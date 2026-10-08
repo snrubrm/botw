@@ -138,6 +138,16 @@ const CameraTarget* Quest::sub_7100FDA5F8(int idx) {
     return nullptr;
 }
 
+sead::SafeString Quest::sub_7100FDA734() const {
+    if (_140 >= 0 && mSteps.size() > _140)
+        return mSteps[_140]->name;
+    return sead::SafeString::cEmptyString;
+}
+
+bool Quest::sub_7100FDA78C() const {
+    return sub_7100FDA734() == "Ready";
+}
+
 bool Quest::sub_7100FDA678(sead::BufferedSafeString* out) const {
     const s32 idx = _140 > 0 ? _140 - 1 : -1;
     if (idx < 0 || sead::SafeString(mSteps(idx)->message_name).isEmpty())
