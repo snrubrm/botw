@@ -107,6 +107,7 @@ target_sources(uking PRIVATE
   uiScreenMamoNum.cpp
   uiScreenConstSlots.cpp
   uiScreenAppPictureBook.cpp
+  uiScreenAppPictureBookUnk784.cpp
   uiScreenFactory.cpp
   uiScreenFactory.h
   uiScreenNames.cpp

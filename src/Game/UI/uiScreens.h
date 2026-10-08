@@ -2130,6 +2130,11 @@ struct PictureBookGroupList {
 struct ScreenAppPictureBookUnk {
     // 0x710093f594 (CSV unnamed; not decompiled)
     void sub_710093F594(bool a1);
+    // 0x710093e900 (placeholder name): sub_710093E784 of `base` plus the _29c of the first `count` entries
+    u32 sub_710093E900(s32 base, s32 count);
+    // 0x710093f10c (placeholder name): finds the entry that `index` falls into (walking the _29c sizes); returns the
+    // index inside it and the entry's _2f0
+    void sub_710093F10C(s32 index, s32* out_index, s32* out_value);
     // 0x710093feac (declared only; 220 bytes): refreshes the groups' layouts
     void sub_710093FEAC();
     // 0x710093e428 (declared only; the 4-byte forwarder to sub_710093E784)
