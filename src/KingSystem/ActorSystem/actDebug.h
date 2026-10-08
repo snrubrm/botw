@@ -14,6 +14,7 @@ class ActorDebug {
 public:
     enum class Flag {
         _100 = 0x100,
+        _200000 = 0x200000,  // enables the UI handler call of ksys::sub_7100F3ED50
         _10000000 = 0x10000000,
         _20000000 = 0x20000000,
     };

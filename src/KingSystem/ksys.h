@@ -32,6 +32,8 @@ void setPlayerLink(act::PlayerLink* link);
 
 // 0x7100f3ed80 / 0x7100f3ee94 (placeholder names): forward to the placement manager and the world
 // manager when they exist.
+// 0x7100f3ed50 (placeholder name): calls the UI handler 0x7102606a90 unless ActorDebug exists without flag 0x200000.
+void sub_7100F3ED50();
 void sub_7100F3ED80();
 void sub_7100F3EE94();
 // 0x7100f3f00c (placeholder name): the flag set by setInitBeforeStageGenDone (initially true).

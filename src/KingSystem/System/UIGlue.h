@@ -4,6 +4,10 @@
 
 namespace ksys::ui {
 
+// Handler table entry 0x7102606a90 (placeholder name; see UIGlue.cpp).
+using SUnk_7102606a90HandlerFn = void (*)();
+extern SUnk_7102606a90HandlerFn sUnk_7102606a90Handler;
+
 int getPorchNum(const sead::SafeString& name);
 void initRupeeCounter();
 bool isRupeeCounterActive();

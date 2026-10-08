@@ -5,6 +5,8 @@
 #include "KingSystem/ActorSystem/actBaseProcCreateTaskSelector.h"
 #include "KingSystem/ActorSystem/actBaseProcInitializer.h"
 #include "KingSystem/ActorSystem/actBaseProcMgr.h"
+#include "KingSystem/ActorSystem/actDebug.h"
+#include "KingSystem/System/UIGlue.h"
 #include "KingSystem/System/BasicProfiler.h"
 #include "KingSystem/System/HavokWorkerMgr.h"
 #include "KingSystem/System/StarterPackMgr.h"
@@ -30,6 +32,14 @@ void setIsGameOver(bool is_game_over) {
 
 bool sub_7100F3F00C() {
     return sInitBeforeStageGenDone;
+}
+
+void sub_7100F3ED50() {
+    auto* debug = act::ActorDebug::instance();
+    if (debug && !debug->hasFlag(act::ActorDebug::Flag::_200000))
+        return;
+    if (ui::sUnk_7102606a90Handler)
+        ui::sUnk_7102606a90Handler();
 }
 
 void sub_7100F3ED80() {

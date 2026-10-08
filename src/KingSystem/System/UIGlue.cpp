@@ -7,6 +7,9 @@
 // `a<N>` arguments) are used where the function is not named yet; only the number of arguments is known.
 namespace ksys::ui {
 
+// 0x7102606a90: set by uiManager::init (0x7100a94460); called directly by ksys::sub_7100F3ED50 (no wrapper).
+SUnk_7102606a90HandlerFn sUnk_7102606a90Handler;
+
 using SSub_7100EDC2E4HandlerFn = bool (*)(bool);
 SSub_7100EDC2E4HandlerFn sSub_7100EDC2E4Handler;
 
