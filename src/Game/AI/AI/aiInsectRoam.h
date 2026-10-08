@@ -31,7 +31,7 @@ protected:
     const float* mMoveSpeed_s{};
     // dynamic_param at offset 0x58
     sead::Vector3f* mTargetPos_d{};
-    bool _60 = false;
+    u8 _60 = 0;
     f32 _64 = 0;
     sead::Vector3f _68;
     sead::Vector3f _74;
