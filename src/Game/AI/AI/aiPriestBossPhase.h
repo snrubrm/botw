@@ -33,6 +33,7 @@ public:
     virtual void m40();
 
 protected:
+    bool sub_7100528C48();
     // static_param at offset 0x50
     const float* mPercentLifeTransition_s{};
     // static_param at offset 0x58

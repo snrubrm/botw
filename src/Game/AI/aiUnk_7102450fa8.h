@@ -62,7 +62,7 @@ class Unk_7102450fa8 : public Unk_71025afb58 {
     SEAD_RTTI_OVERRIDE(Unk_7102450fa8, Unk_71025afb58)
 public:
     SEAD_ENUM(Phase, _0, _1, _2, _3, _4)
-    SEAD_ENUM(Flag, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15)
+    SEAD_ENUM(Flag, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16)
 
     // Element of the 33-entry buffer allocated by the init function (0x71007183a4).
     struct Unk1 {
