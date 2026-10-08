@@ -90,6 +90,8 @@ target_sources(uking PRIVATE
   actRideableHorse.h
   actRemains.cpp
   actRemains.h
+  actRope.cpp
+  actRope.h
   actSandworm.cpp
   actSandworm.h
   actSiteBoss.cpp
