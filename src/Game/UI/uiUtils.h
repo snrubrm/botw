@@ -107,6 +107,8 @@ bool sub_7100AA4A4C(CookEffectId effect, f32* out);
 bool sub_7100AA4ACC(s32 effect, f32* out);
 bool sub_7100AA7290(const act::WeaponModifierInfo& modifier, bool is_bow, f32* out);
 s32 sub_7100AA6E4C(const PouchItem& item);
+// 0x7100aa6d54 (placeholder name): whether the actor `name` (a weapon, bow or shield; not an arrow) has a capacity parameter
+bool sub_7100AA6D54(const sead::SafeString& name);
 
 bool isMasterSwordItem(const PouchItem& item);
 // 0x7100aa6f90 (uiManagerFacade.cpp; declaration added by lane4 s45 for CheckMasterSwordState): 1 without a value; with

@@ -5,6 +5,7 @@
 #include "Game/UI/uiManager.h"
 #include "Game/DLC/aocManager.h"
 #include "Game/UI/uiPauseMenuDataMgr.h"
+#include "KingSystem/ActorSystem/actInfoData.h"
 #include "Game/UI/uiUnkSingletons.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "Game/UI/uiUtils.h"
@@ -95,6 +96,18 @@ s32 sub_7100AA4A2C(s32 index) {
     if (u32(index) < 8)
         return sTable[index];
     return -1;
+}
+
+// 0x7100aa6d54 (placeholder name): whether the actor `name` (a weapon, bow or shield; not an arrow) has a capacity parameter
+bool sub_7100AA6D54(const sead::SafeString& name) {
+    if (PauseMenuDataMgr::instance()) {
+        if (auto* info = ksys::act::InfoData::instance()) {
+            const PouchItemType type = PauseMenuDataMgr::getType(name, nullptr);
+            if (type <= PouchItemType::Shield && type != PouchItemType::Arrow)
+                return info->hasCapaciterParam(name.cstr());
+        }
+    }
+    return false;
 }
 
 // 0x7100aa6f90 (placeholder name): 1 without a value; with one, 2 for the true form Master Sword and 0 otherwise.
