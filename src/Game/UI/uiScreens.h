@@ -1641,6 +1641,8 @@ public:
     void sub_7100A283B0(s32 a1);
     void sub_7100A28418(s32 a1);
 
+    // 0x7100a27654 (placeholder name): the layout of mini game `index` is in state 2
+    bool sub_7100A27654(s32 index) const;
     bool sub_7100A275EC(s32, s32);
     // 0x7100a2747c (CSV unnamed; declared only)
     bool sub_7100A2747C(s32 index, bool a2);

@@ -114,4 +114,14 @@ void ScreenMiniGame::sub_7100A28418(s32 a1) {
                                                                                                "mc_NewRecord");
 }
 
+// 0x7100a27654
+bool ScreenMiniGame::sub_7100A27654(s32 index) const {
+    if (u32(index) > 6)
+        return false;
+    const eui::LayoutEx* layout = _3610[index];
+    if (!layout)
+        return false;
+    return layout->_91 == 2;
+}
+
 }  // namespace uking::ui
