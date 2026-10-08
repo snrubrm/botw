@@ -1,13 +1,15 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <container/seadSafeArray.h>
+#include <prim/seadSafeString.h>
+#include "KingSystem/ActorSystem/actBaseProcLink.h"
 
 namespace evfl {
 struct ActionArg;
 }
 
 namespace ksys::act {
-class BaseProcLink;
 class Actor;
 }
 
@@ -44,17 +46,41 @@ public:
     void x_3(act::BaseProcLink* link);
     // 0x7100da53e4 (CSV unnamed; placeholder name): like x_3 with status 1 / message 0x800008
     void sub_7100DA53E4(act::BaseProcLink* link);
+    // 0x7100da7b1c (CSV unnamed): construct the strings and the request nodes.
+    ActionContext();
+    // 0x7100da5528 (CSV unnamed): fill the context from a name, an action argument and a value.
+    void init(const sead::SafeString& name, const evfl::ActionArg& arg, s32 a3);
+
+    // One entry of the +0x50 request-node table (0x50 bytes; name is a guess). Only the
+    // fields the ctor touches are known; they are filled by an explicit loop, not NSDMIs
+    // (NSDMI construction fully unrolls where the original keeps a loop).
+    struct Node {
+        act::BaseProcLink link;
+        u8 _10[0x10];
+        s64 _20;
+        u64 _28;
+        u64 _30;
+        u8 _38[0x18];
+    };
 
     /* 0x0 */ s32 mStatus;
-    u8 _4[0x4c - 4];
+    u8 _4[0x8 - 0x4];
+    /* 0x8 */ sead::FixedSafeString<0x20> _8;
+    /* 0x40 */ s32 _40;
+    /* 0x44 */ f32 _44;
+    /* 0x48 */ s32 _48;
     /* 0x4c */ s32 mStatus2;
-    u8 _50[0xa50 - 0x50];
-    /* 0xa50 */ s32 _a50;
+    /* 0x50 */ Node _50[32];
+    /* 0xa50 */ s32 _a50 = 0;
     u8 _a54[0xa58 - 0xa54];
     // Next context in the DemoRootAI release chain (sub_7100D630AC walks and unlinks these).
     /* 0xa58 */ ActionContext* _a58;
-    u8 _a60[0xaf4 - 0xa60];
-    /* 0xaf4 */ u16 _af4;
+    /* 0xa60 */ sead::FixedSafeString<0x30> _a60;
+    /* 0xaa8 */ sead::FixedSafeString<0x30> _aa8;
+    /* 0xaf0 */ s32 _af0;
+    /* 0xaf4 */ u16 _af4 = 0;
 };
+static_assert(sizeof(ActionContext) == 0xaf8);
 
 }  // namespace ksys::evt
+

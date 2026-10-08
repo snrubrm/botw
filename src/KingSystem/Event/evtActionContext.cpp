@@ -1,7 +1,10 @@
 #include "KingSystem/Event/evtActionContext.h"
+#include <cstring>
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/Event/evtManager.h"
 #include "KingSystem/Utils/Thread/Message.h"
+#include "evfl/Action.h"
+#include "evfl/ResTimeline.h"
 
 namespace ksys::evt {
 
@@ -142,6 +145,57 @@ void ActionContext::statusStuff_1(act::Actor* actor) {
         _af4 = 0;
         break;
     }
+}
+
+// 0x7100da7b1c (CSV unnamed): construct the strings and the request nodes.
+// NON_MATCHING: the 32 request-node constructions fully unroll in ours (32 out-of-line
+// link calls plus an unrolled-by-2 field loop) while the original keeps a single rolled
+// loop holding one link call plus the field stores. Two source shapes tried (NSDMI element
+// init, explicit field loop); neither reproduces the rolled fusion, and placement-new to
+// force it is not honest source. All member offsets/stores/calls match.
+ActionContext::ActionContext() {
+    for (s32 i = 0; i < 32; ++i) {
+        _50[i]._20 = -1;
+        _50[i]._28 = 0;
+        _50[i]._30 = 0;
+    }
+    reset();
+    _48 = 0;
+    mStatus2 = 2;
+    _a58 = nullptr;
+    _40 = 0;
+    _44 = 0.0f;
+    _af0 = -1;
+}
+
+// 0x7100da5528 (CSV unnamed): fill the context from a name, an action argument and a value.
+void ActionContext::init(const sead::SafeString& name, const evfl::ActionArg& arg, s32 a3) {
+    // Discarded call that really is in the target asm (ensures `name` is terminated before
+    // its top is read below; the top itself comes from the reload, as in sub_7100AA2FA0).
+    char* dst = const_cast<char*>(_8.getStringTop());
+    name.cstr();
+    const char* top = name.getStringTop();
+    if (dst != top) {
+        s32 len = name.calcLength();
+        const s32 cap = _8.getBufferSize();
+        if (len >= cap)
+            len = cap - 1;
+        memcpy(dst, top, len);
+        dst[len] = sead::SafeString::cNullChar;
+    }
+    _af4 = 0;
+    _a58 = nullptr;
+    _af0 = a3;
+    const u32 trigger = u32(arg.trigger_type) - 1;
+    if (trigger <= 1) {
+        _48 = arg.res.clip->_c - 1;
+        _44 = arg.res.clip->duration;
+    } else {
+        _48 = -1;
+        _44 = -1.0f;
+    }
+    _a50 = 0;
+    _40 = -1;
 }
 
 }  // namespace ksys::evt
