@@ -53,6 +53,49 @@ void Grammar::setWordAttrFromTag(WordAttr* attr, const sead::MessageSet<char16>:
     attr->_3 = param[3];
 }
 
+// 0x7100be39dc (CSV unnamed): find a group-0xc9 type-0 tag in the message text, fill the attribute
+// bytes from its parameters.
+// NON_MATCHING: the original has a third (dead) tag-marker arm that loads from a null pointer;
+// only the 0xe/0xf arms are reachable (the (head|1) pre-check proves it), so it is omitted here.
+// Also differs in the 0xe arm's register assignment (temp + mov), q's register, the duplicated
+// bounds-check layout, and the tail. The 0xe arm is written first: clang otherwise emits the
+// 0xe/0xf tests swapped (same as sub_71010B307C).
+bool Grammar::sub_7100BE39DC(WordAttr* attr, const MessageString& message) {
+    const char16* text = message.getString();
+    if (text == nullptr || (s32)message.getLength() < 1)
+        return false;
+    const char16* end = text + (s32)message.getLength();
+    const char16* p = text;
+    do {
+        char16 head = *p;
+        if ((head | 1) != 0xf) {
+            ++p;
+            continue;
+        }
+        const char16* q;
+        // Note: written 0xe-first: clang emits the 0xf test first (as in the original); the
+        // written 0xf-first order emits the tests swapped (unexplained, seen in sub_71010B307C too).
+        if (head == 0xe) {
+            q = p;
+            p = reinterpret_cast<const char16*>(reinterpret_cast<const u8*>(p) + p[3] + 8);
+        } else if (head == 0xf) {
+            q = p;
+            p += 3;
+        } else {
+            return false;
+        }
+        if (q[1] == 0xc9 && q[2] == 0) {
+            const u8* param = reinterpret_cast<const u8*>(q);
+            attr->_0 = param[8];
+            attr->_1 = param[9];
+            attr->_2 = param[10];
+            attr->_3 = param[11];
+            return true;
+        }
+    } while (p < end);
+    return false;
+}
+
 // 0x7100be3a94
 u64 Grammar::getWordAttrCount(s32 count) {
     switch (sead::EnvUtil::getLanguage().value()) {

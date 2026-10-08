@@ -3,6 +3,7 @@
 #include <basis/seadTypes.h>
 #include <message/seadMessageSet.h>
 #include <prim/seadStringBuilder.h>
+#include "Game/UI/euiMessageString.h"
 
 namespace eui {
 
@@ -19,6 +20,8 @@ public:
 
     // 0x7100be39b8
     static void setWordAttrFromTag(WordAttr* attr, const sead::MessageSet<char16>::TagInfo& tag);
+    // 0x7100be39dc (CSV unnamed): find a group-0xc9 type-0 tag in the message text, fill `attr`.
+    static bool sub_7100BE39DC(WordAttr* attr, const MessageString& message);
     // 0x7100be3a94: the plural form index of the number for the current language
     static u64 getWordAttrCount(s32 count);
     // 0x7100be3d48: returns the required length, or -1 when the output buffer is too small.
