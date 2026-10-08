@@ -6,6 +6,10 @@
 #include "KingSystem/ActorSystem/actAiAi.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 
+namespace ksys::act {
+struct Unk_7100d78e50;
+}
+
 namespace uking::act {
 class NPC;
 }
@@ -42,6 +46,8 @@ protected:
     // 0x71004d92dc: shows the boot / leg materials of the NPC model depending on the
     // <name>_Barefoot / _SandBoots / _SnowBoots save flags
     void sub_71004D92DC();
+    // 0x71004dc010: whether the awareness entry is a RemoteBomb, or the player's link with bit 9 set
+    bool sub_71004DC010(ksys::act::Unk_7100d78e50* entry);
     // 0x71004dc204: whether the player wears the Black / Stalfos / PhantomGanon armor series
     bool sub_71004DC204();
     struct Unk1 {

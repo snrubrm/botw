@@ -25,6 +25,8 @@ public:
 protected:
     // 0x71004dd654: finds the first NPC among the linked map objects and acquires it into `link` (the same body as NPCConfrontEnemy::sub_71004C69B0)
     bool sub_71004DD654(ksys::act::BaseProcLink* link);
+    // 0x71004de978: the first entry of the third awareness sensor whose actor is targeting this actor; its link goes to `link` (if given)
+    bool sub_71004DE978(ksys::act::BaseProcLink* link);
     // 0x71004deba0: false if any linked actor is closer than ReleaseDistance
     bool sub_71004DEBA0();
     // 0x71004df1d0: starts the "立ち上がる" child (timer _90[4] = StandingTime * 30)

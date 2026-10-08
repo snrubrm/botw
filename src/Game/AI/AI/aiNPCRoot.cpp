@@ -1,6 +1,7 @@
 #include "Game/AI/AI/aiNPCRoot.h"
 #include <prim/seadSafeString.h>
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
@@ -67,6 +68,24 @@ bool NPCRoot::handleMessage_(const ksys::Message* message) {
     }
     changeChild("EventStartWait", nullptr);
     return true;
+}
+
+// 0x71004dc010
+bool NPCRoot::sub_71004DC010(ksys::act::Unk_7100d78e50* entry) {
+    if (!entry)
+        return false;
+    auto& link = entry->_0.mLink;
+    if (!link.hasProc())
+        return false;
+    bool result;
+    ksys::act::ActorConstDataAccess accessor;
+    if (ksys::act::acquireActor(&link, &accessor) && accessor.getName().startsWith("RemoteBomb"))
+        result = true;
+    else if (ksys::act::PlayerInfo::getSomeProcLink() == link && entry->_0.m5(9))
+        result = true;
+    else
+        result = false;
+    return result;
 }
 
 // 0x71004dc204

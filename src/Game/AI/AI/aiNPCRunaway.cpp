@@ -10,9 +10,13 @@
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/LOD/actLodState.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectNpc.h"
+
+// Source namespace is unknown (same declaration as in actionForkDynActorNoTargetSelf.cpp).
+bool sub_710001A9A4(const ksys::act::ActorConstDataAccess& accessor, ksys::act::BaseProc* proc);
 
 namespace uking::ai {
 
@@ -148,6 +152,33 @@ bool NPCRunaway::sub_71004DD654(ksys::act::BaseProcLink* link) {
                     return true;
                 }
             }
+        }
+    }
+    return false;
+}
+
+// 0x71004de978
+// NON_MATCHING: the original keeps the loop counter as `i + 1` in a register (index = counter - 1); ours counts from 0 and allocates the callee-saved registers in a different order
+bool NPCRunaway::sub_71004DE978(ksys::act::BaseProcLink* link) {
+    auto* awareness = mActor->getAwareness();
+    if (!awareness)
+        return false;
+    if (!awareness->_260[2])
+        return false;
+    const int count = awareness->_260[2]->_8.size();
+    for (int i = 0; i < count; ++i) {
+        ksys::act::Unk_7100d78e50* entry = nullptr;
+        if (awareness->_260[2]) {
+            auto& entries = awareness->_260[2]->_8;
+            if (entries.size() > i)
+                entry = ksys::act::sub_7100D78E30(&entries, i);
+        }
+        ksys::act::ActorConstDataAccess accessor;
+        if (entry && ksys::act::acquireActor(&entry->_0.mLink, &accessor) &&
+            sub_710001A9A4(accessor, mActor)) {
+            if (link)
+                *link = entry->_0.mLink;
+            return true;
         }
     }
     return false;
