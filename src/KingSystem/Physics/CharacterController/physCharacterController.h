@@ -8,6 +8,7 @@
 #include "Havok/Physics2012/Utilities/CharacterControl/StateMachine/InAir/hkpCharacterStateInAir.h"
 #include "Havok/Physics2012/Utilities/CharacterControl/StateMachine/OnGround/hkpCharacterStateOnGround.h"
 #include "Havok/Physics2012/Utilities/CharacterControl/StateMachine/hkpCharacterContext.h"
+#include "Havok/Physics2012/Utilities/CharacterControl/StateMachine/hkpCharacterState.h"
 #include "Havok/Physics2012/Utilities/CharacterControl/StateMachine/hkpCharacterStateManager.h"
 #include "KingSystem/Physics/physDefines.h"
 #include "KingSystem/Utils/Types.h"
@@ -62,9 +63,40 @@ struct CharacterControllerUnk50;
 
 // The object at +0x58: a minimal ksys character state (0x10 bytes; constructor 0x7100f67aa0)
 // with a single float at 0xc (the character's speed is stored there).
-struct CharacterControllerUnk58 {
-    /* 0x00 */ u8 _0[0xc];
+struct CharacterControllerUnk58 : public hkpCharacterState {
+    HK_DECLARE_CLASS_ALLOCATOR(CharacterControllerUnk58)
+    // 0x7100f67aa0 (D1 is the empty 0x7100f67abc, D0 0x7100f67ac0).
+    CharacterControllerUnk58();
+    ~CharacterControllerUnk58() override = default;
+
+    // 0x7100f67b14 (lane4 s64): returns 4.
+    hkpCharacterStateType m5() const override;
+    // 0x7100f67b20 (declared only; hkpCharacterInput / hkpCharacterOutput have no definition in hkStubs): the output
+    // velocity is `-_c * input.m_inputUD` times the input's forward vector.
+    void m8(hkpCharacterContext& context, const hkpCharacterInput& input,
+            hkpCharacterOutput& output) override;
+    // 0x7100f67b1c: empty.
+    void m9(hkpCharacterContext& context, const hkpCharacterInput& input,
+            hkpCharacterOutput& output) override {}
+
     /* 0x0c */ f32 _c;
+};
+
+// A second minimal ksys character state (lane4 s64; ctor 0x7100f67a1c; created and registered in the
+// hkpCharacterStateManager at +0x18 with index 2 by the controller init, 0x10 bytes, not stored in a member).
+struct CharacterControllerStateA : public hkpCharacterState {
+    HK_DECLARE_CLASS_ALLOCATOR(CharacterControllerStateA)
+    CharacterControllerStateA();
+    ~CharacterControllerStateA() override = default;  // D1 0x7100f67a38, D0 0x7100f67a3c
+
+    // 0x7100f67a90: returns 3.
+    hkpCharacterStateType m5() const override;
+    // 0x7100f67a9c: empty.
+    void m8(hkpCharacterContext& context, const hkpCharacterInput& input,
+            hkpCharacterOutput& output) override {}
+    // 0x7100f67a98: empty.
+    void m9(hkpCharacterContext& context, const hkpCharacterInput& input,
+            hkpCharacterOutput& output) override {}
 };
 
 struct CharacterControllerUnk50;

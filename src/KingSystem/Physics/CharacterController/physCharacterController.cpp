@@ -992,4 +992,16 @@ void CharacterController::sub_7100F63310(bool on) {
     }
 }
 
+CharacterControllerUnk58::CharacterControllerUnk58() : _c(0.0f) {}
+
+hkpCharacterStateType CharacterControllerUnk58::m5() const {
+    return static_cast<hkpCharacterStateType>(4);
+}
+
+CharacterControllerStateA::CharacterControllerStateA() = default;
+
+hkpCharacterStateType CharacterControllerStateA::m5() const {
+    return static_cast<hkpCharacterStateType>(3);
+}
+
 }  // namespace ksys::phys
