@@ -29,6 +29,18 @@ bool Unk_71024f15c0::sub_7100EEBB74() const {
 }
 
 // NON_MATCHING: the original copies each Data's progress and rail before pos and rot
+void Unk_71024f15c0::m2() {
+    _8.progress = 0;
+    _8.rail = nullptr;
+    _8.pos = sead::Vector3f::zero;
+    _8.rot = sead::Vector3f::zero;
+    _30.progress = 0;
+    _30.rail = nullptr;
+    _30.pos = sead::Vector3f::zero;
+    _30.rot = sead::Vector3f::zero;
+    _58 = 1;
+}
+
 void Unk_71024f15c0::sub_7100EEBDB8(const Unk_71024f15c0* other) {
     _8 = other->_8;
     _30 = other->_30;

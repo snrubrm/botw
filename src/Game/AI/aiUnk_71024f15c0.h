@@ -31,6 +31,7 @@ public:
 
     Unk_71024f15c0();
     virtual ~Unk_71024f15c0() = default;
+    // 0x7100eebb84: resets both positions (_8 and its copy _30) and sets _58 to 1.
     virtual void m2();
     virtual bool m3();
     virtual void m4(f32 distance, void* a2, f32* a3);
