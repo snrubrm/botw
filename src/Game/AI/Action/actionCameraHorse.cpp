@@ -240,7 +240,11 @@ void CameraHorse::sub_7100771008(f32* out) {
         sub_71007712B0(out);
         break;
     }
-    *out = angleStuff(sead::Mathf::clamp(*out, _58, _5c));
+    if (*out < _58)
+        *out = _58;
+    else if (!(*out <= _5c))
+        *out = _5c;
+    *out = angleStuff(*out);
 }
 
 void CameraHorse::sub_7100771480(f32* out) {
