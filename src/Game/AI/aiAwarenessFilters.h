@@ -183,6 +183,10 @@ class Unk_71024516f0 : public ksys::act::Unk_71024dccf8 {
 public:
     bool m2(ksys::act::Unk_71024dc978* entry) override;
 
+    // 0x71007470b8 (placeholder name): `_28 = a * a`, `_2c = b * b`, `_30 = height`, `_34` = position of `actor`
+    // and `_40` = its home position.
+    void sub_71007470B8(ksys::act::Actor* actor, f32 a, f32 b, f32 height);
+
     // m2: Stalfos parts within XZ distance sqrt(_28) of _34 and sqrt(_2c) of _40, and within
     // height difference _30 of _34.
     /* 0x28 */ f32 _28 = 0;

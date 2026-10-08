@@ -340,6 +340,16 @@ bool Unk_7102451808::m2(Unk_71024dc978* entry) {
     return Unk_71024517e0::m2(entry);
 }
 
+// NON_MATCHING: same stores and loads; the translation copy is not interleaved with the multiplications and is
+// merged into an stp.
+void Unk_71024516f0::sub_71007470B8(ksys::act::Actor* actor, f32 a, f32 b, f32 height) {
+    actor->getHomePos(&_40);
+    _34 = actor->getMtx().getTranslation();
+    _28 = a * a;
+    _2c = b * b;
+    _30 = height;
+}
+
 // NON_MATCHING: the original keeps a cleanup flag for the failed-acquire path instead of
 // duplicating the accessor destructor call; loads of the translation z/x swapped
 bool Unk_71024516f0::m2(Unk_71024dc978* entry) {
