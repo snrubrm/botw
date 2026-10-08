@@ -674,19 +674,16 @@ public:
     SEAD_RTTI_OVERRIDE(ScreenMessageTipsRunTime, ScreenEx)
     eui::TagProcessor* doCreateTagProcessor_(sead::Heap* heap) override;
 
+    void m93(sead::Heap* heap) override;
     void m101() override;
 
-    /* 0x3610 */ u64 _3610{};
+    /* 0x3610 */ eui::Animator* _3610{};
     sead::CriticalSection _3618;
     s32 _3658 = -1;
     u8 _365c{};
     s32 _3660 = -1;
     u8 _3664{};
-    u64 _3668{};
-    u64 _3670{};
-    f32 _3678 = 1.0f;
-    u8 _367c{};
-    u8 _367d[3];
+    /* 0x3668 */ UiTimer _3668;
     u8 _3680{};
     s32 _3684 = -1;
 
@@ -3006,6 +3003,7 @@ public:
     void m93(sead::Heap* heap) override;
     // Slots 83 / 86 / 91 (0x7100a00b68 / 0x7100a00af8 / 0x7100a00bfc): clear both strings, restart the timer and close
     // the layout and the screen; m83 and m91 do it only while the layout's byte at +0x91 is 1 or 2.
+    void m80(bool visible) override;
     void m83() override;
     void m86() override;
     void m91() override;
@@ -3167,6 +3165,8 @@ public:
     eui::TagProcessor* doCreateTagProcessor_(sead::Heap* heap) override;
 
     void m99() override;
+    // 0x7100a257f4 (slot 101): clears the UI singleton's actor name and runs ui::sub_7100A9B2D0
+    void m101() override;
 
     u8 _pad_3610[0x3640 - 0x3610];
     /* 0x3640 */ eui::LayoutEx* _3640;

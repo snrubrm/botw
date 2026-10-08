@@ -58894,7 +58894,7 @@ Address,Quality,Size,Name
 0x0000007100a0075c,O,000076,_ZThn264_N5uking2ui18ScreenChallengeWinD0Ev
 0x0000007100a007a8,O,000076,_ZThn272_N5uking2ui18ScreenChallengeWinD0Ev
 0x0000007100a007f4,U,000272,
-0x0000007100a00904,U,000056,
+0x0000007100a00904,O,000056,_ZN5uking2ui18ScreenChallengeWin3m80Eb
 0x0000007100a0093c,O,000012,_ZNK5uking2ui18ScreenChallengeWin14getLayoutName_Ev
 0x0000007100a00948,O,000132,_ZN5uking2ui18ScreenChallengeWin3m93EPN4sead4HeapE
 0x0000007100a009cc,U,000300,
@@ -59793,7 +59793,7 @@ Address,Quality,Size,Name
 0x0000007100a25474,U,000452,
 0x0000007100a25638,O,000192,_ZN5uking2ui16ScreenMessageGet3m99Ev
 0x0000007100a256f8,U,000252,_ZN3agl3env6EnvObj16setGroupNameCopyERKN4sead14SafeStringBaseIcEE
-0x0000007100a257f4,U,000036,
+0x0000007100a257f4,O,000036,_ZN5uking2ui16ScreenMessageGet4m101Ev
 0x0000007100a25818,U,000680,
 0x0000007100a25ac0,U,000004,j_j__ZN3eui6Screen7doDraw_EPKNS_10DrawInfoEx16RenderBufferInfoE_0
 0x0000007100a25ac4,O,000132,_ZNK5uking2ui16ScreenMessageGet27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE
@@ -59833,7 +59833,7 @@ Address,Quality,Size,Name
 0x0000007100a26954,U,000264,ScreenMessageTipsRunTime::x
 0x0000007100a26a5c,U,000336,ScreenMessageTipsRunTime::x_0
 0x0000007100a26bac,m,000060,_ZN5uking2ui17getRuntimeTipFlagEi
-0x0000007100a26be8,U,000064,ScreenMessageTipsRunTime::m93
+0x0000007100a26be8,O,000064,_ZN5uking2ui24ScreenMessageTipsRunTime3m93EPN4sead4HeapE
 0x0000007100a26c28,O,000004,_ZN5uking2ui24ScreenMessageTipsRunTime21doCreateTagProcessor_EPN4sead4HeapE
 0x0000007100a26c2c,U,000396,ScreenMessageTipsRunTime::m94
 0x0000007100a26db8,O,000024,_ZN5uking2ui24ScreenMessageTipsRunTime4m101Ev

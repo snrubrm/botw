@@ -896,6 +896,14 @@ void ScreenDLCWindow::sub_7100A05F7C(f32 frame) {
         _3870->Stop(frame);
 }
 
+// 0x7100a00904
+void ScreenChallengeWin::m80(bool visible) {
+    if (visible)
+        sub_7100AA94C4(mLayout, sub_7100AA94A8());
+    else
+        sub_7100AA94C4(mLayout, false);
+}
+
 // 0x7100a00af8
 void ScreenChallengeWin::m86() {
     _3618.clear();
@@ -1767,6 +1775,12 @@ void ScreenPauseMenuMantan::m107(eui::AnimButton* button) {
         break;
     }
     close(-1);
+}
+
+// 0x7100a257f4
+void ScreenMessageGet::m101() {
+    UI::instance()->_40.clear();
+    sub_7100A9B2D0();
 }
 
 // 0x7100a25638

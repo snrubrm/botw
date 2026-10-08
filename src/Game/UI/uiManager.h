@@ -162,7 +162,7 @@ public:
     /* 0x64b0c */ u32 _64b0c;
     /* 0x64b10 */ u32 _64b10;
     /* 0x64b14 */ u8 _64b14;
-    /* 0x64b15 */ u8 _64b15;
+    /* 0x64b15 */ bool _64b15;
     u8 _64b16[0x64b80 - 0x64b16];
     /* 0x64b80 */ ksys::res::Handle mLocationResource;
     u8 _64bd0[0x64c24 - 0x64bd0];

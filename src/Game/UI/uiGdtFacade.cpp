@@ -153,7 +153,7 @@ u8 sub_7100AA948C() {
     return Manager::instance()->_64b14;
 }
 
-u8 sub_7100AA94A8() {
+bool sub_7100AA94A8() {
     return Manager::instance()->_64b15;
 }
 

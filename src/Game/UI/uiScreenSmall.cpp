@@ -1,3 +1,4 @@
+#include "Game/UI/euiLayoutEx.h"
 #include "Game/UI/uiScreens.h"
 #include <container/seadBuffer.h>
 #include "Game/UI/uiUtils.h"
@@ -217,6 +218,12 @@ void ScreenMessageTipsRunTime::sub_7100A268AC(s32 index, s32 force) {
         _365c = force & 1;
     }
     _3618.unlock();
+}
+
+// 0x7100a26be8
+void ScreenMessageTipsRunTime::m93(sead::Heap*) {
+    _3610 = mLayout->createAnimatorAuto("GuideOn", false);
+    _3668.init(6.0f);
 }
 
 // 0x7100a26db8

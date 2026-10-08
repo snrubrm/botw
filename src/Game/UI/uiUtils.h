@@ -201,6 +201,9 @@ bool loadHorseLayoutResImpl();
 bool sub_7100AA862C();
 void sub_7100AA865C();
 
+// 0x7100a9b2d0 (uiManagerFacade.cpp): clears the manager's flag at 0x64c4d
+void sub_7100A9B2D0();
+
 // 0x7100aa86ec (placeholder name; declared only, not decompiled): sets a flag of a layer of the agl layer renderer
 // through Graphics (index clamped to the layer count; nothing happens without the global at 0x7102652458).
 void sub_7100AA86EC(u32 index, bool flag);
@@ -220,6 +223,8 @@ void sub_7100AA9838();
 void sub_7100AA9848();
 // 0x7100aa94c4 (placeholder name): shows / hides the root pane of the (built) layout; returns whether it changed.
 bool sub_7100AA94C4(eui::LayoutEx* layout, bool visible);
+// 0x7100aa94a8: the byte at 0x64b15 of the UI manager (a bool; the callers convert it with `and #1`)
+bool sub_7100AA94A8();
 
 // 0x7100aa950c (placeholder name): sets the visibility of the screen through its slot 80 unless it is closed or already
 // in that state; returns whether it did.
