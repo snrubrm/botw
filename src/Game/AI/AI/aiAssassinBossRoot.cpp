@@ -2,6 +2,7 @@
 #include <cmath>
 #include <math/seadMathCalcCommon.h>
 #include <prim/seadSafeString.h>
+#include <random/seadGlobalRandom.h>
 #include "Game/AI/aiUnk_71007368A4.h"
 #include "Game/AI/aiUnk_71007377D4.h"
 #include "Game/Actor/actEnemy.h"
@@ -264,6 +265,97 @@ bool AssassinBossRoot::m45() {
 
 void AssassinBossRoot::m47() {
     m38();
+}
+
+// NON_MATCHING: register allocation and scheduling only (same values, calls and branches:
+// the original keeps entry + 0x20 in x24 across the loop body and reloads the zero-vector GOT
+// entry in each arm; ours computes the link address at the send and hoists the GOT load).
+void AssassinBossRoot::m37() {
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
+        for (act::Unk_7100d3cd74::Unk1* entry : enemy->_1128.mList) {
+            const s32* life_ptr = mActor->getLife();
+            const s32 life = life_ptr ? *life_ptr : 1;
+            const s32 threshold = s32(f32(mActor->getMaxLife()) *
+                                      *AssassinBossRootBase::mParams.mChangeModeLifeRatio_s);
+            const sead::Vector3f pos = mActor->getMtx().getTranslation();
+            auto& payload = _390._18;
+            if (life < threshold) {
+                const s32 value = sead::GlobalRandom::instance()->getU32(5) + 10;
+                {
+                    sead::ScopedLock<sead::JobQueueLock> lock(&payload.mLock);
+                    payload._0.acquire(mActor, false);
+                    payload._10 = enemy->_c48._8;
+                    payload._44 = value;
+                    payload._20 = pos;
+                    payload._2c = sead::Vector3f::zero;
+                    payload._48 = 6;
+                    payload._38 = pos;
+                    payload._4c = 0;
+                }
+            } else {
+                {
+                    sead::ScopedLock<sead::JobQueueLock> lock(&payload.mLock);
+                    payload._0.acquire(mActor, false);
+                    payload._10 = enemy->_c48._8;
+                    payload._44 = 0;
+                    payload._20 = pos;
+                    payload._2c = sead::Vector3f::zero;
+                    payload._48 = 6;
+                    payload._38 = pos;
+                    payload._4c = 0;
+                }
+            }
+            _390.sub_710070DCC0(&entry->mLink, true);
+        }
+    }
+    if (auto* controller = mActor->getCharacterController())
+        controller->sub_7100F63388(false, -1);
+    EnemyRoot::m37();
+}
+
+// NON_MATCHING: register allocation and scheduling only (same as m37 above).
+void AssassinBossRoot::m46() {
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
+        for (act::Unk_7100d3cd74::Unk1* entry : enemy->_1128.mList) {
+            const s32* life_ptr = mActor->getLife();
+            const s32 life = life_ptr ? *life_ptr : 1;
+            const s32 threshold = s32(f32(mActor->getMaxLife()) *
+                                      *AssassinBossRootBase::mParams.mChangeModeLifeRatio_s);
+            const sead::Vector3f pos = mActor->getMtx().getTranslation();
+            auto& payload = _390._18;
+            if (life < threshold) {
+                const s32 value = sead::GlobalRandom::instance()->getU32(5) + 30;
+                {
+                    sead::ScopedLock<sead::JobQueueLock> lock(&payload.mLock);
+                    payload._0.acquire(mActor, false);
+                    payload._10 = enemy->_c48._8;
+                    payload._44 = value;
+                    payload._20 = pos;
+                    payload._2c = sead::Vector3f::zero;
+                    payload._48 = 5;
+                    payload._38 = pos;
+                    payload._4c = 0;
+                }
+            } else {
+                {
+                    sead::ScopedLock<sead::JobQueueLock> lock(&payload.mLock);
+                    payload._0.acquire(mActor, false);
+                    payload._10 = enemy->_c48._8;
+                    payload._44 = 30;
+                    payload._20 = pos;
+                    payload._2c = sead::Vector3f::zero;
+                    payload._48 = 5;
+                    payload._38 = pos;
+                    payload._4c = 0;
+                }
+            }
+            _390.sub_710070DCC0(&entry->mLink, true);
+        }
+    }
+    AssassinBossRootBase::m46();
+    _2c0._24 = false;
+    _2c0._25 = false;
+    _2c0._26 = false;
 }
 
 // NON_MATCHING: same instructions, but the original loads the matrix terms (0x3a0 / 0x3b0) before the attack
