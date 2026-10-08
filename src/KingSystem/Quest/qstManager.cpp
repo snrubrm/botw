@@ -65,6 +65,10 @@ bool Manager::auto4(act::Actor* actor) const {
     return true;
 }
 
+void Manager::sub_7100FD78B0(const sead::SafeString& quest_name) {
+    setQuestStep(quest_name, "Ready", false, false, false);
+}
+
 // NON_MATCHING: loops are nonmatching
 bool Manager::sub_7100FD78F8() {
     s32 size = mQuests.size();
