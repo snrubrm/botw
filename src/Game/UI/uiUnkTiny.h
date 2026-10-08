@@ -607,6 +607,8 @@ public:
     void sub_7100938090(f32 step);
     // 0x71009382b8 (declared only): direction helper using _5c/_60/_64/_68
     bool sub_71009382B8(f32 step);
+    // 0x7100938294 (placeholder name): whether the distance _2c - _30 lies within [-x, x]
+    bool sub_7100938294(f32 x) const;
     // 0x7100938408: assign the entry its offset from _34 (direction) and _38 (spacing) and push it into _10
     void sub_7100938408(Unk_7102474dd0* entry);
 

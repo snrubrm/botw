@@ -770,6 +770,12 @@ void Unk_7102474df8::sub_7100937FA4(sead::Heap* heap, Screen* screen,
 // NON_MATCHING: the original keeps the Vector2f::zero pair in FP registers across the switch (ldp/stp s2, s1,
 // fneg) and loads it before the switch; we sink the load into the default path and materialize the pair in
 // integer registers (stp w8, w9, eor). Everything after the store matches.
+// 0x7100938294
+bool Unk_7102474df8::sub_7100938294(f32 x) const {
+    const f32 distance = _2c - _30;
+    return distance >= -x && distance <= x;
+}
+
 // 0x7100938408
 void Unk_7102474df8::sub_7100938408(Unk_7102474dd0* entry) {
     if (entry == nullptr)
