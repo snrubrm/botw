@@ -3068,6 +3068,8 @@ class ScreenShopBtnList15 : public ScreenEx {
 public:
     ScreenShopBtnList15();
     bool isEnableControl() const override;
+    // 0x7100a4b574 (placeholder name): whether the button group has a down button
+    bool sub_7100A4B574() const;
     const char* getLayoutName_() const override;
     ~ScreenShopBtnList15() override;
     SEAD_RTTI_OVERRIDE(ScreenShopBtnList15, ScreenEx)

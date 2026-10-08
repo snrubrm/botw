@@ -56,6 +56,11 @@ bool ScreenShopBtnList15::isEnableControl() const {
     return 1;
 }
 
+// 0x7100a4b574
+bool ScreenShopBtnList15::sub_7100A4B574() const {
+    return mButtonGroup->FindDownButton() != nullptr;
+}
+
 // 0x7100a51368
 bool ScreenShopHorse::isEnableControl() const {
     return 1;
