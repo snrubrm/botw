@@ -35,6 +35,33 @@ void CameraEventAnimBase::sub_7100758FC0(const ksys::map::Object* object) {
     _17a |= 1;
 }
 
+// NON_MATCHING: block layout (the original tests m51 first and evaluates the type compares late, and selects the offset
+// words per branch; ours hoists the compares and selects the offset addresses).
+void CameraEventAnimBase::sub_710075863C() {
+    if (_17a & 2)
+        return;
+
+    auto* camera = getCamera();
+    if (!camera)
+        return;
+
+    const u8 type = m56();
+    if (!m51() && type != 3 && (_17a & 1)) {
+        sead::Vector3f offset;
+        if (type == 0) {
+            const sead::Matrix34f* mtx = camera->m159();
+            offset.set(mtx->m[0][3], mtx->m[1][3], mtx->m[2][3]);
+        } else {
+            offset.set(_60.m[0][3], _60.m[1][3], _60.m[2][3]);
+        }
+        _94.set(camera->_860._0._c.x - offset.x, camera->_860._0._c.y - offset.y,
+                camera->_860._0._c.z - offset.z);
+    } else {
+        _94 = camera->_860._0._c;
+    }
+    _17a |= 2;
+}
+
 void CameraEventAnimBase::m45() {
     if (auto* camera = getCamera())
         camera->sub_7100799920();

@@ -47,15 +47,16 @@ protected:
     // 0x7100757a78 / 0x7100757c24 (non-virtual helpers, declared only).
     void sub_7100757A78();
     void sub_7100757C24();
+    // 0x710075863c (placeholder name): once (_17a bit 1), stores the camera's look-at point (minus the anim
+    // object's / the camera's own translation when the animation is placed in the world) in _94.
+    void sub_710075863C();
     void sub_7100758F80(const ksys::act::ActorConstDataAccess* access);
     void sub_7100758FC0(const ksys::map::Object* object);
 
     ksys::act::BaseProcLink _50;
     sead::Matrix34f _60 = sead::Matrix34f::ident;
     int _90 = 0;
-    f32 _94;
-    f32 _98;
-    f32 _9c;
+    sead::Vector3f _94;
     f32 _a0 = 0;
     f32 _a4 = 0;
     f32 _a8 = 0;
