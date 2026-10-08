@@ -18,6 +18,17 @@
 
 namespace ksys::as {
 
+void ASList::sub_710115A9C0() {
+    const s32 count = mSlots.size();
+    if (count >= 1) {
+        mSlots[0].sub_7101164B24();
+        for (s32 i = 1; i != count; ++i)
+            mSlots[i].sub_7101164B24();
+    }
+    if (_b0)
+        _b0->_21 = false;
+}
+
 // NON_MATCHING: frame selection and playback request initialization differ in scheduling.
 void ASList::sub_710115AE2C(const AnimationRequest& request) {
     auto& slot = mSlots[request.slot];

@@ -353,8 +353,8 @@ public:
     // 0x710115adc0 (placeholder name): the "ForbidPartialDemoAS" flag of the AS `name` (true if there is no
     // such define or no resource). PlayerPlayASAdapt callers.
     bool sub_710115ADC0(const sead::SafeString& name);
-    // 0x710115a9c0 (declaration only; placeholder name): re-triggers Unk1::sub_7101164B24 on the slot
-    // entries and clears the flag at _b0+0x21 (called by Swarm::m63 for every list, body not written).
+    // 0x710115a9c0 (placeholder name): re-triggers Unk1::sub_7101164B24 on the slot entries and clears the flag
+    // at _b0+0x21 (called by Swarm::m63 for every list).
     void sub_710115A9C0();
     // 0x000000710115c4d4
     bool x_4(u32 slot, u32 seq_bank);
