@@ -4,6 +4,7 @@
 #include <container/seadPtrArray.h>
 #include <gfx/seadCamera.h>
 #include <prim/seadBitFlag.h>
+#include <thread/seadCriticalSection.h>
 #include <gsys/gsysModelScene.h>
 
 // Partial declaration: name from the CSV Graphics::createInstance (0x7100f2a1d0).
@@ -29,7 +30,7 @@ public:
     void sub_7100F2DDF0(s32 preset);
 
 
-    // 0x7100f2af70 (placeholder name; CSV Graphics::__auto0; declaration only): stores the map kind (byte at +0xf59) under
+    // 0x7100f2af70 (placeholder name; CSV Graphics::__auto0): stores the map kind (byte at +0xf59) under
     // the lock at +0xf18.
     void sub_7100F2AF70(u8 map);
 
@@ -74,4 +75,11 @@ private:
 public:
     // 0xe08 (lane1 s44): the camera of the graphics system (read by SkyMgr::sub_71010E4EE0).
     sead::Camera* _e08;
+
+private:
+    u8 _e10[0xf18 - 0xe10];
+    // Lock for the map kind below (placeholder name).
+    sead::CriticalSection _f18;
+    u8 _f58;
+    u8 _f59;  // map kind (Graphics::sub_7100F2AF70)
 };
