@@ -526,6 +526,9 @@ public:
     void sub_7100988DA0(s32 index, f32 speed);
     void sub_7100988DC4();
     void sub_7100988DD0(const sead::Vector2f& position);
+    // 0x71009888d4 / 0x710098892c (placeholder names): stop animators 4 / 6 at frame 99, then 5 / 7 at frame 1
+    void sub_71009888D4();
+    void sub_710098892C();
 
     /* 0x08 */ eui::LayoutEx* mLayout;
     /* 0x10 */ sead::SafeArray<eui::Animator*, 9> mAnimators;

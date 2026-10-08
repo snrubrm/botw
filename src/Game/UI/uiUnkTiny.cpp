@@ -653,6 +653,22 @@ void Unk_71024774a8::sub_7100988DA0(s32 index, f32 speed) {
 
 void Unk_71024774a8::sub_7100988DC4() { _58 = 100.0f; }
 
+// 0x71009888d4
+void Unk_71024774a8::sub_71009888D4() {
+    if (mAnimators[4])
+        mAnimators[4]->Stop(99.0f);
+    if (mAnimators[5])
+        mAnimators[5]->Stop(1.0f);
+}
+
+// 0x710098892c
+void Unk_71024774a8::sub_710098892C() {
+    if (mAnimators[6])
+        mAnimators[6]->Stop(99.0f);
+    if (mAnimators[7])
+        mAnimators[7]->Stop(1.0f);
+}
+
 // NON_MATCHING: the pane pointer load is scheduled before the input vector loads.
 void Unk_71024774a8::sub_7100988DD0(const sead::Vector2f& position) {
     mLayout->GetPane()->SetPosition({position.x, position.y, 0.0f});
