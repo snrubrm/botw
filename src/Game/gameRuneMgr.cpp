@@ -90,4 +90,9 @@ bool RuneMgr::sub_710067525C() const {
     return _250;
 }
 
+bool RuneMgr::__auto15(int idx) {
+    s64 i = (u32)idx < 2 ? idx : 0;
+    return !_3c8[i].isDone();
+}
+
 }  // namespace uking

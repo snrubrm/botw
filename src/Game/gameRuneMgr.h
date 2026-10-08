@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Game/UI/uiTimer.h"
+
 #include <heap/seadDisposer.h>
 #include <thread/seadCriticalSection.h>
 #include "Game/gameUnk_710243c330.h"
@@ -62,6 +64,10 @@ public:
     // 0x710067525c (CSV __auto6): byte flag at 0x250.
     bool sub_710067525C() const;
 
+    // 0x71006757f8 (CSV __auto15; placeholder name): whether UiTimer _3c8[idx]
+    // (idx clamped to 0-1) is done.
+    bool __auto15(int idx);
+
     /* 0x038 */ ksys::ActorMessageTransceiver mTransceiver{*this};
     /* 0x090 */ u32 _90 = 0;  // flags (bit 4: camera selected ..., bit 7 / 8: remote bomb state)
     /* 0x094 */ u32 _94 = 0;
@@ -76,7 +82,10 @@ public:
     /* 0x248 */ s32 _248;  // selected rune (-1: none)
     /* 0x24c */ s32 _24c;
     /* 0x250 */ bool _250;
-    /* 0x251 */ u8 _251[0x428 - 0x251];
+    /* 0x251 */ u8 _251[0x3c8 - 0x251];
+    // The two UiTimers set by sub_71006757B8 (0x18 bytes each).
+    /* 0x3c8 */ ui::UiTimer _3c8[2];
+    /* 0x3f8 */ u8 _3f8[0x428 - 0x3f8];
 };
 KSYS_CHECK_SIZE_NX150(RuneMgr, 0x428);
 
