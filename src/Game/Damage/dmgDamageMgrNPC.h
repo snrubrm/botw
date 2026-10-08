@@ -24,6 +24,12 @@ public:
     // Slot 28 getAttackPos (0x71002c9670; lane4 s64): the direction of the damage by kind: 0 the first contact record's vector, 2 the
     // actor's impulse link vector (zero without one), 3 the direction `_80` (else minus the actor's x axis), others false.
     bool getAttackPos(sead::Vector3f* out) override;
+    // Slot 27 getPosition (0x71002c9b2c; lane4 s64): by kind: 0 the first contact record's position, 2 the impulse link's
+    // position (zero without one), 3 the actor's translation moved against `_80`, others false.
+    bool getPosition(sead::Vector3f* out) override;
+    // Slot 35 (0x71002c99b0; lane4 s64): kind 0 the first contact record's matrix, 2 the impulse link's matrix
+    // (identity without one); other kinds write the identity matrix and return false.
+    bool m35(sead::Matrix34f* out) override;
 
     /* 0x68 */ Unk_71023cee50 _68;
     /* 0x80 */ sead::Vector3f _80;
