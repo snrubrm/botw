@@ -8,6 +8,7 @@ namespace uking {
 // StateMachine::Unk2 in the GameScene TU; CSV StateMachineWrapper__, 0x71007b705c-0x71007b7138; name is a guess).
 class StateMachineOwnerBinding : public ksys::StateMachine::Unk2 {
 public:
+    ~StateMachineOwnerBinding() override;
     // (the first out-of-line virtual: the vtable is emitted with it)
     const ksys::StateBase& getState() const override;
     void enter() override;

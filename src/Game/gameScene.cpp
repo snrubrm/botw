@@ -64,6 +64,8 @@ const ksys::StateBase& StateMachineOwnerBinding::getState() const {
     return *mState;
 }
 
+StateMachineOwnerBinding::~StateMachineOwnerBinding() = default;
+
 void StateMachineOwnerBinding::enter() {
     mRunCount = 0;
     mState->enter(mOwner);
