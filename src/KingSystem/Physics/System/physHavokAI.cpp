@@ -18,4 +18,8 @@ bool HavokAI::submitQuery(Unk_7102372790* query) {
     return _40->sub_71012A9F68(query);
 }
 
+bool HavokAI::startNavMeshSystemThread() {
+    return _38->start();
+}
+
 }  // namespace ksys::phys

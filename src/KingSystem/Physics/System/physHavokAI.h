@@ -7,6 +7,7 @@
 #include <math/seadVector.h>
 #include <thread/seadAtomic.h>
 #include <thread/seadCriticalSection.h>
+#include <thread/seadThread.h>
 #include "KingSystem/Resource/resHandle.h"
 #include "KingSystem/Utils/Types.h"
 
@@ -18,6 +19,16 @@ namespace ksys::phys {
 
 class NavMeshCharacter;
 class Unk_7100f7e9f0;
+
+// NavMeshSystemThread (ctor 0x7100f89514, D0 0x7100f897a8, calc_ 0x7100f8972c,
+// vtable 0x71024f70b0): HavokAI's navmesh worker thread (HavokAI::_38).
+// TODO: incomplete (ctor args, calc_ body, the sub-object with its own vtable at +0x30,
+// members at +0x100/+0x108/+0x10c).
+class NavMeshSystemThread : public sead::Thread {
+public:
+    // 0x7100f8972c (declaration only).
+    void calc_(sead::MessageQueue::Element msg) override;
+};
 
 // Placeholder name (vtable 0x7102372790; a second base with its own vtable at +0x10): base of the
 // navmesh query requests that AI / horse code allocates from NavMeshQueryRequestPool's heap and
@@ -195,6 +206,9 @@ public:
     // 0x7100f82dd8 (not decompiled): counterpart of sub_7100F82BCC (called with the same guard).
     void sub_7100F82DD8(NavMeshCharacter* nav);
 
+    // 0x7100f8183c: starts the navmesh system thread (_38->start()).
+    bool startNavMeshSystemThread();
+
     // 0x7100f88fd0 (unnamed in the CSV; declaration only): NavMeshCharacter::sub_7100F760F0 forwards here.
     Unk_7100f7e9f0 sub_7100F88FD0(NavMeshCharacter* nav, sead::Vector3f* out, const sead::Vector3f& to);
 
@@ -213,7 +227,8 @@ public:
     void destroyQuery(Unk_7102372790* query);
     bool submitQuery(Unk_7102372790* query);
 
-    u8 _28[0x40 - 0x28];
+    u8 _28[0x38 - 0x28];
+    NavMeshSystemThread* _38;
     NavMeshQueryRequestPool* _40;
     NavMeshLoadMgr* _48;
     u8 _50[0x178 - 0x50];
