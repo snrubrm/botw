@@ -1,5 +1,24 @@
 #include "Game/gameSceneSubsys14.h"
 
+// 0x710090325c. `.operator=(...)` for the link: C++14 evaluation order: the original evaluates the
+// destination first.
+bool Unk_7102473580::m2(const ksys::Message& message) {
+    if (message.getType() != 0x8000082)
+        return false;
+
+    auto* payload = static_cast<Unk_7102473580_Payload*>(message.getUserData());
+    if (!payload)
+        return false;
+
+    sead::ScopedLock<sead::JobQueueLock> lock(&payload->mLock);
+    _38 = payload->_0;
+    _40.name = payload->entry.name;
+    _40.id = payload->entry.id;
+    _40._11c = payload->entry._11c;
+    _40.link.operator=(payload->entry.link);
+    return true;
+}
+
 // 0x7100903408. `.operator=(...)` instead of `a = b`: C++14 evaluation order: the original evaluates
 // the destination first.
 bool Unk_71024735b0::m2(const ksys::Message& message) {

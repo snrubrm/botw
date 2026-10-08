@@ -26,16 +26,27 @@ KSYS_CHECK_SIZE_NX150(Unk_7100903948, 0x180);
 // A named actor link (placeholder name; layout from the constructor 0x7100903620: the destructor resets `link`).
 struct Unk_GameSceneSubsys14Entry {
     sead::FixedSafeString<256> name;
-    s64 id = -1;
+    // Two words (Unk_7102473580::m2 copies them separately); both start at -1.
+    s32 id = -1;
+    s32 _11c = -1;
     ksys::act::BaseProcLink link;
 };
 KSYS_CHECK_SIZE_NX150(Unk_GameSceneSubsys14Entry, 0x130);
+
+// Message 0x8000082 payload read by Unk_7102473580::m2 (placeholder name; sender unknown).
+struct Unk_7102473580_Payload {
+    bool _0;
+    Unk_GameSceneSubsys14Entry entry;
+    sead::JobQueueLock mLock;
+};
 
 // Vtable 0x7102473580 (GOT 0x2593a58; D1 0x7100903c24, D0 0x7100904f74, m2 0x710090325c = message handler, m3 is
 // an empty function). Message listener embedded at GameSceneSubsys14 + 0x1c8.
 class Unk_7102473580 : public Unk_7102357210 {
 public:
     bool m2(const ksys::Message& message) override;
+    // 0x7100904fd0
+    void m3() override {}
 
     u32 _34;
     bool _38 = true;
