@@ -1161,6 +1161,9 @@ public:
     const char* getLayoutName_() const override;
 
     /* 0x2fc */ s32 _2fc = 0;
+
+    // 0x71010a215c (placeholder name for the override of Screen::m98): resets _2fc
+    void m98() override;
 };
 
 class ScreenBoxCursorTV : public Screen {
