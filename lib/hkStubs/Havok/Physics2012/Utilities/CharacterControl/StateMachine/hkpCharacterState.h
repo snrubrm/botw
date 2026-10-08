@@ -25,7 +25,8 @@ static_assert(sizeof(hkpSurfaceInfo) == 0x40);
 struct hkpCharacterInput {
     hkReal m_inputLR;
     hkReal m_inputUD;
-    hkUint8 _8[8];
+    hkBool m_wantJump;  // OnGround::m9 at 0x71016745d4 dispatches state 1 when set.
+    hkUint8 _9[7];
     hkVector4f m_up;
     hkVector4f m_forward;
     hkBool m_atLadder;
