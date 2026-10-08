@@ -433,6 +433,38 @@ bool ScreenAppPictureBookUnk::sub_7100939F58() const {
     return _340 == 2;
 }
 
+// 0x710093fd14
+void ScreenAppPictureBookUnk::sub_710093FD14(s32 index) {
+    if (index >= 0 && _290 && index < _2a8)
+        _290[index]->_38c = true;
+    sub_710093F7F8(_2c & 1);
+    sub_710093F924(true);
+}
+
+// 0x710093fd6c
+void ScreenAppPictureBookUnk::sub_710093FD6C() {
+    for (s64 i = 0; i < _2a8; ++i)
+        _290[i]->_38c = false;
+    sub_710093F7F8(_2c & 1);
+    sub_710093F924(true);
+}
+
+// 0x710093fdcc
+void ScreenAppPictureBookUnk::sub_710093FDCC(s32 index) {
+    if (index >= 0 && _290 && index < _2a8)
+        _290[index]->_38d = true;
+    sub_710093F29C();
+    sub_710093F924(true);
+}
+
+// 0x710093fe1c
+void ScreenAppPictureBookUnk::sub_710093FE1C() {
+    for (s64 i = 0; i < _2a8; ++i)
+        _290[i]->_38d = false;
+    sub_710093F29C();
+    sub_710093F924(true);
+}
+
 // 0x710093fe74
 bool ScreenAppPictureBookUnk::sub_710093FE74(s32 index) const {
     if (index < 0 || index >= _2a8)

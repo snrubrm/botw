@@ -2066,6 +2066,14 @@ struct ScreenAppPictureBookUnk {
     bool sub_7100939F58() const;
     // 0x710093fe74: the `_38d` flag of entry `index` (true for an invalid index)
     bool sub_710093FE74(s32 index) const;
+    // 0x710093fd14 / 0x710093fd6c / 0x710093fdcc / 0x710093fe1c (placeholder names): set or clear `_38c` / `_38d` of the
+    // entries; each ends with sub_710093F7F8 or sub_710093F29C and sub_710093F924(true)
+    void sub_710093FD14(s32 index);
+    void sub_710093FD6C();
+    void sub_710093FDCC(s32 index);
+    void sub_710093FE1C();
+    // 0x710093f29c (declared only; not decompiled)
+    void sub_710093F29C();
     // Callees of sub_710093F594 (declared only; not decompiled yet)
     void sub_710093F670();
     void sub_710093F7F8(bool flag);
