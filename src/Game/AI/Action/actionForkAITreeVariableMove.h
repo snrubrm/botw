@@ -21,6 +21,10 @@ protected:
     // 0x710005be70: with IsKeepDistFromGround, raises the destination's height by the keep distance
     // above the ground found below it.
     void sub_710005BE70();
+    // 0x710005bf68: called from calc_ when the destination changed or arrival was (not) reached.
+    void sub_710005BF68();
+    // 0x710005c14c: called from calc_ when _ac is 1 (movement + rotation towards the destination).
+    void sub_710005C14C();
 
     // static_param at offset 0x20
     const float* mArrivedRadius_s{};
@@ -49,7 +53,8 @@ protected:
     // aitree_variable at offset 0x80
     sead::Vector3f* mFacePos_a{};
     sead::Vector3f _88{0.0f, 0.0f, 0.0f};
-    u8 _94[0x18]{};
+    sead::Vector3f _94{0.0f, 0.0f, 0.0f};
+    u8 _a0[0xc]{};
     s32 _ac = 0;
     bool _b0 = false;
     bool _b1 = false;
