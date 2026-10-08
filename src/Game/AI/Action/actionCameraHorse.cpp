@@ -10,6 +10,9 @@
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actTag.h"
 #include "KingSystem/Physics/System/physRayCastBodyQuery.h"
+#include "KingSystem/Utils/MathUtil.h"
+#include "KingSystem/System/VFR.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::action {
 
@@ -55,7 +58,7 @@ void CameraHorse::m33() {
             camera->_860._7f8.reset(1);
         const bool flag = camera->_860._7f8.isOn(1);
         _261.makeAllZero();
-        _262 = false;
+        _262 = 0;
         if (_260.isOn(2) && flag)
             _260.set(4);
         else
@@ -464,6 +467,190 @@ void CameraHorse::sub_71007719C4() {
         query.getHitPosition(&end);
         std::sqrt((end - _78).squaredLength());
     }
+}
+
+// NON_MATCHING: smoothing arithmetic, vector copies and register allocation differ.
+void CameraHorse::m34() {
+    auto* camera = getCamera();
+    if (!camera)
+        return;
+    auto* player = sub_7100926A14();
+    if (!player)
+        return;
+    auto* ridden_actor = sead::DynamicCast<ksys::act::Actor>(
+        ksys::act::PlayerInfo::instance()->getHorseLink().getProc(nullptr, nullptr));
+    if (!ridden_actor)
+        return;
+    const sead::Vector3f forward = ridden_actor->getMtx().getBase(2);
+    if (!_260.isOn(1)) {
+        _263 = 4;
+        sub_710077002C();
+        _260.set(1);
+    }
+    _262 = _261.getDirect();
+    _261.makeAllZero();
+    sub_71007701C4();
+    sub_71007702C8();
+    sub_7100924CDC(*mLatMin_s, *mLatMax_s, &_58, &_5c);
+    if (camera->_860._260.hasProc())
+        _261.set(1);
+    const u8 previous_state = _263;
+    sub_7100770474();
+    sub_7100771480(&_64);
+    if (auto* ridden = sead::DynamicCast<ksys::act::Actor>(
+            ksys::act::PlayerInfo::instance()->getHorseLink().getProc(nullptr, nullptr)))
+        _78 = ridden->getMtx().getTranslation();
+    sub_7100770574();
+    _6c = _78 + _90;
+    sub_7100771008(&_60);
+    _68 = *mRadiusSlow_s + (*mRadiusFast_s - *mRadiusSlow_s) * _50;
+    if (sub_7100926E0C())
+        _68 += sub_71009221E4();
+    _8c = *mFovySlow_s + (*mFovyFast_s - *mFovySlow_s) * _50;
+    sub_710077066C(previous_state);
+    act::Unk_7100922700 polar(camera->_860._0._0 - camera->_860._0._c);
+    sead::Vector2f stick(0.0f, 0.0f);
+    sub_7100924F08(&stick);
+    if (stick.x == 0.0f && stick.y == 0.0f) {
+        ksys::Timer::update(&_4c, -1.0f);
+        if (_4c < 0.0f)
+            _4c = 0.0f;
+    } else {
+        _4c = 45.0f;
+    }
+    if (stick.x != 0.0f || stick.y != 0.0f)
+        _260.set(4);
+    if (camera->_860._7f8.isOn(1) && !_260.isOn(4) && player->m290()) {
+        camera->_860._7f8.reset(1);
+        _260.set(4);
+    }
+    if (stick.x != 0.0f || stick.y != 0.0f)
+        camera->_860._7f8.set(1);
+    ksys::VFR::chase(&_e0._8, sead::Mathf::piHalf(), _e0._4);
+    _e0._0 = (std::sin(_e0._8) + 1.0f) * 0.5f;
+    sub_710077071C();
+    _110.sub_710079C408();
+    ksys::VFR::lerp(&_130, 0.0f, 0.1f);
+    const f32 transition = _130;
+    if (_263 == 3) {
+        const f32 rate = sub_7100791E44(0.6f);
+        _ac = angleStuff(_ac + angleStuff(rate * angleStuff(_64 - _ac)));
+    } else if (_263 == 2) {
+        _ac = _64;
+    } else if (_263 == 1) {
+        f32 heading = 0.0f;
+        if (forward.x != 0.0f || forward.z != 0.0f)
+            heading = angleStuff(sead::Mathf::rad2deg(std::atan2(forward.x, forward.z)));
+        const f32 wrapped_heading = angleStuff(sub_7100922530(heading));
+        const f32 rate = sub_7100791E44(_238 + _50 * (_23c - _238));
+        const f32 difference = angleStuff(polar._8 - wrapped_heading);
+        const f32 magnitude = difference > 0.0f ? difference : -difference;
+        const f32 blend = (std::sin(sead::Mathf::deg2rad(magnitude) - sead::Mathf::piHalf()) + 1.0f) * 0.5f;
+        _ac = angleStuff(_ac + angleStuff(angleStuff(_64 - _ac) * rate * (_240 + blend * (_244 - _240))));
+    }
+    polar._8 = angleStuff(_ac + angleStuff(transition * _b0));
+    if (_263 == 1 || _263 == 3) {
+        const f32 rate = sub_7100791E44(*mLatCus_s);
+        _a4 = angleStuff(_a4 + angleStuff(rate * angleStuff(_60 - _a4)));
+    } else if (_263 == 2) {
+        _a4 = _60;
+    }
+    polar._4 = angleStuff(sub_7100924CAC(angleStuff(_a4 + angleStuff(transition * _a8))));
+    _b4 = _b4 + sub_7100791E44(*mRadiusCus_s) * (_68 - _b4);
+    polar._0 = _b4 + transition * _b8;
+    const sead::Vector3f ridden_position = camera->_860._270.getTranslation();
+    const sead::Vector3f& target = sub_7100928868(camera->_860._164);
+    const f32 horizontal = sead::Mathf::clamp(std::sqrt(
+        (ridden_position.x - target.x) * (ridden_position.x - target.x) +
+        (ridden_position.z - target.z) * (ridden_position.z - target.z)), 0.0f, 1.0f);
+    const f32 vertical = sead::Mathf::clamp(
+        ridden_position.y - target.y > 0.0f ? ridden_position.y - target.y : -(ridden_position.y - target.y), 0.0f, 1.0f);
+    const f32 horizontal_rate = sub_7100791E44(_248 + horizontal * (_24c - _248));
+    const f32 vertical_rate = sub_7100791E44(_250 + vertical * (_254 - _250));
+    _c0.x = _c0.x + horizontal_rate * (_6c.x - _c0.x);
+    _c0.y = _c0.y + vertical_rate * (_6c.y - _c0.y);
+    _c0.z = _c0.z + horizontal_rate * (_6c.z - _c0.z);
+    camera->_860._0._c = transition * _cc + _c0;
+    _d8 = _d8 + _e0._0 * sub_7100791E44(*mFovyCus_s) * (_8c - _d8);
+    camera->_860._0._24 = _d8 + transition * _dc;
+    camera->_860._0._0 = camera->_860._0._c + polar.sub_7100923254();
+    _bc = _bc + sub_7100791E44(0.1f) * (0.0f - _bc);
+    polar._0 += _bc;
+    camera->_860._0._0 = camera->_860._0._c + polar.sub_7100923254();
+    camera->sub_71007953C8();
+}
+
+// NON_MATCHING: translation copying and saved registers differ.
+void CameraHorse::sub_710077002C() {
+    if (auto* ridden_actor = sead::DynamicCast<ksys::act::Actor>(
+            ksys::act::PlayerInfo::instance()->getHorseLink().getProc(nullptr, nullptr)))
+        _78 = ridden_actor->getMtx().getTranslation();
+    sub_7100771C30(&_84);
+    sub_7100771DA8(&_88);
+    _9c = _84;
+    _a0 = _88;
+    sub_71007719C4();
+    {
+        ksys::act::ActorConstDataAccess accessor;
+        sub_7100926A9C(&accessor);
+        _90 = accessor.getActorMtx().getBase(0);
+        _90.y = 0.0f;
+        const f32 length = _90.length();
+        if (length > 0.0f)
+            _90 *= _9c / length;
+    }
+    _90.y += _a0;
+}
+
+// NON_MATCHING: branch layout and min/max stack slots differ.
+void CameraHorse::sub_71007701C4() {
+    ksys::act::ActorConstDataAccess accessor;
+    sub_7100926A9C(&accessor);
+    if (!accessor.hasProc())
+        return;
+    const sead::Vector3f& velocity = accessor.getVelocity();
+    if (ksys::util::sub_71011F1040(velocity))
+        return;
+    if (*mSpeedMin_s == *mSpeedMax_s) {
+        _50 = 0.5f;
+        return;
+    }
+    f32 min = 0.0f;
+    f32 max = 0.0f;
+    sub_7100924C94(*mSpeedMin_s, *mSpeedMax_s, &min, &max);
+    _50 = (sead::Mathf::clamp(velocity.length(), min, max) - min) / (max - min);
+}
+
+// NON_MATCHING: float registers differ in the handling return path.
+void CameraHorse::sub_71007702C8() {
+    ksys::act::ActorConstDataAccess accessor;
+    sub_7100926A74(&accessor);
+    const f32 turn = accessor.getAngVelocity().y;
+    const f32 epsilon = sead::Mathf::epsilon();
+    if (_263 == 2 || (turn <= epsilon && turn >= -epsilon)) {
+        const sead::Vector3f& velocity = accessor.getVelocity();
+        if (velocity.x <= epsilon && velocity.x >= -epsilon &&
+            velocity.y <= epsilon && velocity.y >= -epsilon &&
+            velocity.z <= epsilon && velocity.z >= -epsilon)
+            return;
+        sead::Mathf::chase(&_54, 0.0f, _25c * sub_71009251C4(getCamera()));
+    } else {
+        const f32 sign = turn > 0.0f ? 1.0f : -1.0f;
+        const f32 magnitude = turn > 0.0f ? turn : -turn;
+        sead::Mathf::chase(&_54, sign, magnitude * _258 * sub_71009251C4(getCamera()));
+    }
+}
+
+void CameraHorse::sub_710077071C() {
+    if (auto* camera = getCamera()) {
+        if (camera->_860._7f8.isOn(1)) {
+            _f8._0 = 0.0f;
+            _f8._8 = -sead::Mathf::piHalf();
+            return;
+        }
+    }
+    ksys::VFR::chase(&_f8._8, sead::Mathf::piHalf(), _f8._4);
+    _f8._0 = (std::sin(_f8._8) + 1.0f) * 0.5f;
 }
 
 }  // namespace uking::action

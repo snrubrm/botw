@@ -17,7 +17,6 @@ public:
 
 protected:
     void m33() override;
-    // 0x710076f710 (not decompiled yet; calls the ~20 unnamed helpers of this TU).
     void m34() override;
     void m36() override;
 
@@ -34,6 +33,10 @@ protected:
     void sub_7100771684(f32* out);
 
     // Native state selection, transition and angle dispatch helpers.
+    void sub_710077002C();
+    void sub_71007701C4();
+    void sub_71007702C8();
+    void sub_710077071C();
     void sub_7100770474();
     void sub_7100770574();
     void sub_71007719C4();
@@ -165,7 +168,7 @@ protected:
     f32 _25c = 0.01;
     sead::BitFlag8 _260;  // flags
     sead::BitFlag8 _261;
-    bool _262 = false;
+    u8 _262 = 0;  // previous _261 flag byte (copied by m34)
     u8 _263 = 4;
 };
 KSYS_CHECK_SIZE_NX150(CameraHorse, 0x268);
