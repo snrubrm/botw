@@ -24,6 +24,15 @@ protected:
     // 0x71007802fc (placeholder name): _c0 eases towards the sign of the stick x while the player is on foot (bgCrossFoot),
     // then _bc eases towards SideOffset * _c0.
     void sub_71007802FC();
+    void sub_71007803E0(sead::Vector3f* out, const act::Unk_7100922700* polar);
+    void sub_71007808F4();
+    void sub_71007809E0();
+    void sub_7100780AD8();
+    void sub_7100780ED0(bool clamp_latitude);
+    void sub_710078105C();
+    void sub_71007812B8();
+    void sub_7100781548();
+    void sub_71007817A0(f32 latitude, f32* out);
 
     act::Unk_7102459dd8 _50;
     act::Unk_7102459dd8 _70;
@@ -122,11 +131,34 @@ protected:
     const float* mFovy_s{};
     // static_param at offset 0x220
     const float* mAutoModeConnect_s{};
-    u8 _228[0x270 - 0x228]{};
+    f32 _228 = 0;
+    f32 _22c = 0;
+    f32 _230 = 0;
+    f32 _234 = 0;
+    f32 _238 = 0;
+    f32 _23c = 0;
+    f32 _240 = 0;
+    f32 _244 = 0;
+    f32 _248 = 0;
+    f32 _24c = 0;
+    f32 _250 = 0;
+    f32 _254 = 0;
+    f32 _258 = 0;
+    f32 _25c = 0;
+    f32 _260 = 0;
+    f32 _264 = 0;
+    f32 _268 = 0;
+    f32 _26c = 0;
     f32 _270 = 0;
     f32 _274 = 0;
-    u8 _278[0x286 - 0x278]{};
+    f32 _278 = 0;
+    f32 _27c = 0;
+    f32 _280 = 0;
+    sead::BitFlag8 _284;
+    u8 _285 = 0;
     u8 _286 = 6;
 };
+
+KSYS_CHECK_SIZE_NX150(CameraShieldSurfing, 0x288);
 
 }  // namespace uking::action
