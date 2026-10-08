@@ -3,6 +3,7 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actImpulseBaseProcLink.h"
+#include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/System/Timer.h"
 
 namespace uking::dmg {
@@ -42,6 +43,22 @@ void DamageMgrPlayer::m22() {
         }
     }
     DamageManager::m22();
+}
+
+bool DamageMgrPlayer::m51(const ksys::act::BaseProcLink* link) {
+    bool result = false;
+    if (DamageManager::m51(link)) {
+        result = true;
+    } else if (isSlowTimeMaybe()) {
+        auto* actor = mActor;
+        if (sead::IsDerivedFrom<ksys::act::PlayerBase>(actor)) {
+            auto* player = static_cast<ksys::act::PlayerBase*>(actor);
+            ksys::act::BaseProcLink tmp;
+            if (player->sub_710084AA9C(&tmp) && link->hasProc())
+                result = *link == tmp;
+        }
+    }
+    return result;
 }
 
 s32 DamageMgrPlayer::m53() {

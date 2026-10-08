@@ -27,6 +27,7 @@ public:
 
     void resetDamage() override;
     void m22() override;
+    bool m51(const ksys::act::BaseProcLink* link) override;
     s32 m53() override;
     bool m56() override;
 
