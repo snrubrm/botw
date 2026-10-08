@@ -2,7 +2,15 @@
 
 namespace uking::action {
 
-EventPlayMovieAction::EventPlayMovieAction(const InitArg& arg) : ksys::act::ai::Action(arg) {}
+EventPlayMovieAction::EventPlayMovieAction(const InitArg& arg) : ksys::act::ai::Action(arg) {
+    // NON_MATCHING: our build materialises the _70 u64 with one redundant movk #0 (16-bit-repeating
+    // bitmask + patch) where the original uses the 32-bit-repeating bitmask + patch (2 insns).
+    // All stores, branches, calls and other constants are identical.
+    _38.copy("Skip A !");
+    _70 = 0x43ed3fc03fc00000;
+    _78 = 0xc3960000;
+    _80 = 0x42480000434e0000;
+}
 
 EventPlayMovieAction::~EventPlayMovieAction() = default;
 
