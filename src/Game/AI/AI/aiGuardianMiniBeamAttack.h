@@ -31,6 +31,9 @@ protected:
     // the head node of the model to `target` (XZ) is within `mInDirAngle_s` of its forward direction.
     bool sub_710041760C();
     bool sub_710041740C(const sead::Vector3f& target);
+    // 0x7100417800 (placeholder name): sets the current child's TargetPos to the point straight ahead
+    // of the head node (XZ) at the horizontal distance of m35(), keeping its height.
+    void sub_7100417800();
 
     // static_param at offset 0x250
     sead::SafeString mHeadNodeName_s{};

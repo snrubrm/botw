@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiGuardianMiniBeamAttack.h"
+#include <cmath>
 #include <gsys/gsysModel.h>
 #include <gsys/gsysModelAccessKey.h>
 #include <gsys/gsysModelUnit.h>
@@ -74,6 +75,38 @@ bool GuardianMiniBeamAttack::sub_710041760C() {
         }
     }
     return false;
+}
+
+// NON_MATCHING: the copy of *m35() goes through a 64-bit load with y kept in a register in the
+// original; scheduling of the final stores differs.
+void GuardianMiniBeamAttack::sub_7100417800() {
+    auto* actor = mActor;
+    if (!actor)
+        return;
+    auto* model = actor->getModel();
+    if (!model)
+        return;
+    const auto key = model->searchBone(mHeadNodeName_s.cstr());
+    if (!key.isValid())
+        return;
+    sead::Matrix34f mtx;
+    actor->getModel()
+        ->getUnits()
+        .unsafeAt(key.model_unit_index)
+        ->mModelUnit->getBoneWorldMatrix(&mtx, key.bone_index);
+    sead::Vector3f dir;
+    mtx.getBase(dir, 2);
+    dir.y = 0.0f;
+    dir.normalize();
+    const f32 head_x = mtx.m[0][3];
+    const f32 head_z = mtx.m[2][3];
+    sead::Vector3f pos = *m35();
+    const f32 dx = pos.x - head_x;
+    const f32 dz = pos.z - head_z;
+    const f32 dist = std::sqrt(dx * dx + dz * dz);
+    pos.x = head_x + dir.x * dist;
+    pos.z = head_z + dir.z * dist;
+    getCurrentChild()->setDynamicParam(pos, "TargetPos");
 }
 
 GuardianMiniBeamAttack::GuardianMiniBeamAttack(const InitArg& arg) : MiniBeamAttack(arg) {}
