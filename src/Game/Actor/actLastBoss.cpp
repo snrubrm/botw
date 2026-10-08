@@ -212,6 +212,14 @@ bool sub_71002C6B0C(const ksys::act::ActorConstDataAccess& accessor) {
     return boss ? boss->_14e4 == 1 : false;
 }
 
+void sub_71002C6408(sead::Vector3f* out, const sead::Vector3f& from, const sead::Vector3f& to, f32 y_offset) {
+    sead::Vector3f pos = from;
+    pos.y += y_offset;
+    sead::Vector3f dir = pos - to;
+    dir.normalize();
+    *out = dir;
+}
+
 void sub_71002C64A0(sead::Vector3f* out, ksys::act::Actor* actor) {
     const sead::Vector3f pos = actor->getMtx().getTranslation();
     sead::Vector3f home;
