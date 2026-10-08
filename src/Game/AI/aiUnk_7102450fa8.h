@@ -3,6 +3,7 @@
 #include <basis/seadTypes.h>
 #include <container/seadBuffer.h>
 #include <container/seadObjArray.h>
+#include <container/seadRingBuffer.h>
 #include <mc/seadJobQueue.h>
 #include <prim/seadScopedLock.h>
 #include <container/seadSafeArray.h>
@@ -45,12 +46,13 @@ struct Unk_PriestBossObject {
     virtual void m1();
     virtual void m2();
     virtual void m3();
-    virtual void m4();
+    virtual s32 m4();
     virtual void m5();
     virtual s32 m6(s32 idx);
     virtual void m7(sead::Vector3f* out, s32 idx);
 
-    u8 _8[0xac - 0x8];
+    u8 _8[0xa8 - 0x8];
+    /* 0xa8 */ s32 _a8;
     /* 0xac */ s32 _ac;
     u8 _b0[0xb8 - 0xb0];
     /* 0xb8 */ s16** _b8;
@@ -124,10 +126,29 @@ public:
     // true (the formation position of `idx`). Placeholder name.
     bool sub_710071A020(sead::Vector3f* out, s32 idx);
     s32 sub_710071A048(s32 idx);
+    // 0x7100719fa4: `_88 ? _88->_a8 : 0`. Placeholder name.
+    s32 sub_7100719FA4();
     // `_3c8 > 0 && _350 has ended`. Placeholder name.
     bool sub_710071A22C();
     // `_35c has ended`. Placeholder name.
     bool sub_710071A2D0();
+    // 0x710071962c: copies the global {0, 0, 900} (sUnk_71025c8cf8) to `out` and returns true. Placeholder name.
+    bool sub_710071962C(sead::Vector3f* out);
+    // 0x71007199a8: zeroes `_50`..`_70` and `_80`. Placeholder name.
+    void sub_71007199A8();
+    // 0x7100719f70: `_88 ? _88->m4() : 0` (result goes through a Phase temporary). Placeholder name.
+    s32 sub_7100719F70();
+    // 0x710071a1c0: pushes (a, b) into the ring buffer `_3f0`. Placeholder name.
+    void sub_710071A1C0(u32 a, u32 b);
+    // 0x710071a200: `_348 > 0 && _34c >= _348` (signed). Placeholder name.
+    bool sub_710071A200() const;
+    // 0x710071a258 / 0x710071a2e8: update the timers `_350` / `_3e0` (resp. `_35c`) unless the actor of
+    // `_8[1]` is found and its sub_7100D10FB8 is set. Placeholder names.
+    void sub_710071A258();
+    void sub_710071A2E8();
+    // 0x710071a38c: true if `_3e0` has not run out and the actor of `_3d0` is the one held by `accessor`.
+    // Placeholder name.
+    bool sub_710071A38C(const ksys::act::ActorConstDataAccess* accessor);
 
     /* 0x008 */ sead::Buffer<Unk1> _8;
     /* 0x018 */ ksys::act::BaseProcLink _18;
@@ -135,7 +156,13 @@ public:
     /* 0x038 */ Phase _38;
     /* 0x03c */ Phase _3c;
     /* 0x040 */ f32 _40;  // compared with PriestBossActorNormalMode's SecondHalfLifePercent
-    /* 0x044 */ u8 _44[0x78 - 0x44];
+    /* 0x044 */ u8 _44[0x50 - 0x44];
+    // Cleared together with `_80` by sub_71007199A8.
+    /* 0x050 */ u64 _50;
+    /* 0x058 */ u64 _58;
+    /* 0x060 */ u64 _60;
+    /* 0x068 */ u64 _68;
+    /* 0x070 */ u64 _70;
     /* 0x078 */ sead::BitFlag32 _78;
     /* 0x07c */ u8 _7c[0x80 - 0x7c];
     /* 0x080 */ u32 _80;  // bit mask indexed by Phase-like ints 3..10 (sub_7100719978)
@@ -161,14 +188,23 @@ public:
     /* 0x257 */ u8 _257;
     /* 0x258 */ Unk_7102450918 _258;
     /* 0x2b0 */ sead::FixedSafeString<128> _2b0;
-    /* 0x348 */ s32 _348;  // PriestBossPhaseThird::enter_: BreakIronBallCount
-    /* 0x34c */ sead::Atomic<u32> _34c;
+    /* 0x348 */ sead::Atomic<s32> _348;  // PriestBossPhaseThird::enter_: BreakIronBallCount; read twice (volatile) by sub_710071A200
+    /* 0x34c */ sead::Atomic<s32> _34c;  // compared as signed with `_348` by sub_710071A200
     /* 0x350 */ ksys::Timer _350;
     /* 0x35c */ ksys::Timer _35c;  // PriestBossIronBall::sub_710051EE40: ChangeEndAnime
     /* 0x368 */ Unk_71024508b8 _368;
     /* 0x3c8 */ f32 _3c8;
     /* 0x3cc */ bool _3cc;  // PriestBossIronBallRoot::enter_
-    /* 0x3cd */ u8 _3cd[0x43c - 0x3cd];  // BaseProcLink at 0x3d0; sead::FixedRingBuffer<?, 6> at 0x3f0
+    /* 0x3cd */ u8 _3cd[0x3d0 - 0x3cd];
+    /* 0x3d0 */ ksys::act::BaseProcLink _3d0;  // used by sub_710071A38C (hasProc / acquireActor)
+    /* 0x3e0 */ ksys::Timer _3e0;
+    // Elements pushed by sub_710071A1C0 (two 32-bit values).
+    struct Unk4 {
+        u32 _0;
+        u32 _4;
+    };
+    /* 0x3f0 */ sead::FixedRingBuffer<Unk4, 6> _3f0;
+    /* 0x438 */ u8 _438[0x43c - 0x438];
     /* 0x43c */ f32 _43c;  // PriestBossIronBallRoot::m38: attack power (int-converted)
     /* 0x440 */ f32 _440;  // PriestBossIronBallRoot::m38(true): attack power
     /* 0x444 */ bool _444;  // PriestBossActorGiantFouthRoot::m46 (cleared when read)

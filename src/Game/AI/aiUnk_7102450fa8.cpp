@@ -12,10 +12,21 @@ s32 Unk_7102450fa8::sub_7100719FCC() const {
     return _88 ? _88->_ac : -1;
 }
 
-// NON_MATCHING: the original calls m6 non-tail and round-trips the result through the stack (the return type is likely a
-// SEAD_ENUM-style wrapper)
+// The result goes through a Phase temporary (the return value is stored to the stack and reloaded).
 s32 Unk_7102450fa8::sub_7100719FE4(s32 idx) {
-    return _88 ? _88->m6(idx) : 3;
+    if (_88) {
+        const Phase phase = _88->m6(idx);
+        return phase;
+    }
+    return 3;
+}
+
+s32 Unk_7102450fa8::sub_7100719FA4() {
+    if (_88) {
+        const Phase phase = _88->_a8;
+        return phase;
+    }
+    return 0;
 }
 
 bool Unk_7102450fa8::sub_710071A020(sead::Vector3f* out, s32 idx) {
@@ -63,6 +74,75 @@ int Unk_7102450fa8::sub_71007195B0(const ksys::act::BaseProcLink& link) {
             return i;
     }
     return -1;
+}
+
+bool Unk_7102450fa8::sub_710071962C(sead::Vector3f* out) {
+    out->set(sUnk_71025c8cf8);
+    return true;
+}
+
+void Unk_7102450fa8::sub_71007199A8() {
+    _80 = 0;
+    _68 = 0;
+    _70 = 0;
+    _50 = 0;
+    _58 = 0;
+    _60 = 0;
+}
+
+s32 Unk_7102450fa8::sub_7100719F70() {
+    if (_88) {
+        const Phase phase = _88->m4();
+        return phase;
+    }
+    return 0;
+}
+
+void Unk_7102450fa8::sub_710071A1C0(u32 a, u32 b) {
+    _3f0.pushBack({a, b});
+}
+
+bool Unk_7102450fa8::sub_710071A200() const {
+    if (_348 > 0) {
+        if (_34c >= _348)
+            return true;
+    }
+    return false;
+}
+
+void Unk_7102450fa8::sub_710071A258() {
+    ksys::act::ActorConstDataAccess accessor;
+    if (_8.size() > 1) {
+        ksys::act::acquireActor(&_8[1]._e0, &accessor);
+        if (accessor.hasProc() && !accessor.sub_7100D10FB8())
+            _350.update();
+    }
+    _3e0.update();
+}
+
+void Unk_7102450fa8::sub_710071A2E8() {
+    if (sub_710071A22C()) {
+        _35c.update();
+        return;
+    }
+
+    ksys::act::ActorConstDataAccess accessor;
+    if (_8.size() > 1) {
+        ksys::act::acquireActor(&_8[1]._e0, &accessor);
+        if (accessor.hasProc() && !accessor.sub_7100D10FB8())
+            _35c.update();
+    }
+}
+
+// NON_MATCHING: the original loads both procs before ~ActorConstDataAccess, compares after it and branches to the
+// constant 1 (ours: cset after the destructor).
+bool Unk_7102450fa8::sub_710071A38C(const ksys::act::ActorConstDataAccess* accessor) {
+    if (_3e0.value <= sead::Mathf::epsilon() || !_3d0.hasProc())
+        return false;
+
+    ksys::act::ActorConstDataAccess other;
+    ksys::act::acquireActor(&_3d0, &other);
+    return other.getProc() == accessor->getProc();
 }
 
 bool Unk_7102450fa8::sub_710071A22C() {
