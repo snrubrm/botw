@@ -1999,6 +1999,8 @@ struct ScreenAppPictureBookUnk {
     void sub_710093F924(bool flag);
     u32 sub_710093E784(s32 index);
     s32 sub_710093FBF0(eui::BoxCursorNode* node);
+    // 0x7100943684 (CSV placeholder): find the unit covering `index` (reads _288/_290/_2a8).
+    Unk_7102474e38* sub_7100943684(s32 index);
 
     /* 0x000 */ u8 _0[0x28];
     /* 0x028 */ u8 _28;
@@ -2025,10 +2027,12 @@ struct ScreenAppPictureBookUnk {
     /* 0x2e4 */ s32 _2e4;
     u8 _2e8[0x2ec - 0x2e8];
     /* 0x2ec */ s32 _2ec;
-    u8 _2f0[0x310 - 0x2f0];
+    u8 _2f0[0x30c - 0x2f0];
+    /* 0x30c */ s32 _30c;
     /* 0x310 */ s32 _310;
     /* 0x318 */ PictureBookItem* _318;
-    u8 _320[0x33c - 0x320];
+    /* 0x320 */ s32 _320;
+    u8 _324[0x33c - 0x324];
     /* 0x33c */ s32 _33c;
     /* 0x340 */ s32 _340;
 };

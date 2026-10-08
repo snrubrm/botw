@@ -311,6 +311,9 @@ public:
     virtual ~ScreenMgr();
 
     Screen* getScreen(s32 id) { return mScreens[id]; }
+    s32 getScreenCount() const { return mScreens.size(); }
+    // 0x710093e784 does pointer arithmetic over the screen buffer (not getScreen's scaled index)
+    Screen** getScreenBuffer() { return mScreens.getBufferPtr(); }
     f32 getAnimationStep() const { return mAnimationStep; }
     ArcResourceMgr* getArcResourceMgr() const { return mArcResourceMgr; }
     BoxCursorMgr* getBoxCursorMgr() const { return mBoxCursorMgr; }
