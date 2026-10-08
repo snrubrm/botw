@@ -82,6 +82,8 @@ public:
     void sub_7100D90AF4(bool on);
     // 0x7100d8f550 (CSV makeChmElementMaybe, 3.7 KB; declared only; lane4 s31): the argument is a bool / 0 (placeholder type).
     void makeChmElementMaybe(bool a1);
+    // 0x7100d90b14 (placeholder name): the material id starts with "Animal_" (false without a material).
+    bool sub_7100D90B14() const;
     void sub_7100D90B78();
     // 0x7100d91898 (lane4 s47; placeholder name): whether the chemical may be ignited / melted now (needs _c3 >= 30
     // and no pending charge) and the owner agrees (owner slot 36).

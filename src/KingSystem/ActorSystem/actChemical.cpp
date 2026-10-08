@@ -2,6 +2,7 @@
 #include <math/seadMathCalcCommon.h>
 #include <thread/seadThread.h>
 #include "KingSystem/ActorSystem/actActorChemicals.h"
+#include "KingSystem/Chemical/chmSystemConfig.h"
 
 namespace ksys::act {
 
@@ -272,6 +273,10 @@ f32 Chemical::sub_7100D91958() const {
 
 f32 Chemical::sub_7100D945AC() const {
     return _1b8 * _1b4;
+}
+
+bool Chemical::sub_7100D90B14() const {
+    return mMaterial && mMaterial->id.ref().startsWith("Animal_");
 }
 
 void Chemical::sub_7100D90AF4(bool on) {
