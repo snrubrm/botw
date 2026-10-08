@@ -12,6 +12,7 @@ target_sources(uking PRIVATE
     dmgDamageMgrWeapon.h
     dmgDamageMgrPlayer.h
     dmgDamageMgrPlayer.cpp
+    dmgDamageReactionTable.cpp
     dmgClothStiffnessMgr.cpp
     dmgClothStiffnessMgr.h
     dmgActorAccessors.cpp

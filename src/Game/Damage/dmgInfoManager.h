@@ -18,6 +18,23 @@ class Actor;
 namespace uking::dmg {
 
 // FIXME: incomplete
+class DamageItem {
+public:
+    s32 mField_0;  // the hash of the entry's name (DamageReactionTable::sub_71006681E4)
+    sead::SafeArray<u8, 3> mCanTakeDamageFromType;
+};
+
+// Name from the CSV (DamageReactionTable::load 0x7100667de4): DamageInfoMgr + 0x5d0, the reaction table resource and
+// its entries. Methods are in the TU 0x7100667de4 - 0x7100668260 (dmgDamageReactionTable.cpp).
+struct DamageReactionTable {
+    // 0x71006681e4 (placeholder name): the index of the entry whose hash is calcHash(name), or -1.
+    s32 sub_71006681E4(const sead::SafeString& name) const;
+
+    /* 0x00 */ ksys::res::Handle mHandle;
+    /* 0x50 */ sead::Buffer<DamageItem> mItems;
+};
+
+// FIXME: incomplete
 class DamageInfoMgr {
     SEAD_SINGLETON_DISPOSER(DamageInfoMgr)
     DamageInfoMgr();
@@ -27,12 +44,7 @@ public:
     // 0x710067428c (CSV DamageInfoMgr::postCalc; declared only).
     void postCalc();
 
-    // FIXME: incomplete
-    class DamageItem {
-    public:
-        s32 mField_0;  // unknown
-        sead::SafeArray<u8, 3> mCanTakeDamageFromType;
-    };
+    using DamageItem = dmg::DamageItem;
 
     /// Boomerang remote bombs are a scrapped feature.
     static bool enableBoomerangRemoteBombs();
@@ -130,8 +142,9 @@ public:
     Unk28& get28() { return _28; }
     Unk450& get450() { return _450; }
 
-    sead::Buffer<DamageItem>& getDamagesArray() { return mDamagesArray; }
-    const sead::Buffer<DamageItem>& getDamagesArray() const { return mDamagesArray; }
+    sead::Buffer<DamageItem>& getDamagesArray() { return mReactionTable.mItems; }
+    const sead::Buffer<DamageItem>& getDamagesArray() const { return mReactionTable.mItems; }
+    DamageReactionTable& getReactionTable() { return mReactionTable; }
     f32 getMasterSwordSearchEvilDist() const { return mMasterSwordSearchEvilDist; }
     bool isMasterSwordDetectedEvil() const { return mMasterSwordDetectedEvil; }
     bool isMasterSwordDisableTrueForm() const { return mMasterSwordDisableTrueForm; }
@@ -156,8 +169,7 @@ private:
     /* 0x0028 */ Unk28 _28;
     /* 0x0450 */ Unk450 _450;
     /* 0x04f8 */ Unk_7100671794 _4f8;
-    /* 0x05d0 */ ksys::res::Handle mReactionTable;
-    /* 0x0620 */ sead::Buffer<DamageItem> mDamagesArray;
+    /* 0x05d0 */ DamageReactionTable mReactionTable;
     /* 0x0630 */ u8 TEMP_630[0x790 - 0x630];
     /* 0x0790 */ Unk790 _790;
     /* 0x0868 */ u8 TEMP_868[0xd00 - 0x868];

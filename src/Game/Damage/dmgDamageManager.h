@@ -52,6 +52,8 @@ class DamageManager : public DamageManagerBase {
 public:
     explicit DamageManager(ksys::act::Actor* actor);
     void preDelete1() override;
+    // 0x71006d263c (CSV DamageMgr::m20; declared only): the base reset, resetStuff, then its own state.
+    void resetDamage() override;
     // 0x71006d22d0 (CSV DamageMgr::m23): the two Struct20 objects are Struct20_2 (their constructor is inlined here).
     bool allocStruct20(sead::Heap* heap) override;
     // 0x71006d8520: 1 while _8c has bit 4, else the base class's table lookup.

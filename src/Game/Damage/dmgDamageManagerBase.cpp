@@ -1,3 +1,5 @@
+#include "KingSystem/Resource/Actor/resResourceDamageParam.h"
+#include "Game/Damage/dmgInfoManager.h"
 #include "Game/Damage/dmgDamageManagerBase.h"
 #include "Game/DLC/aocHardModeManager.h"
 #include "Game/Damage/dmgDamageCallback.h"
@@ -37,6 +39,18 @@ u32 DamageManagerBase::getDamage() {
 // them into one 64-bit store
 bool DamageManagerBase::isSlowTime() {
     return isSlowTimeMaybe();
+}
+
+// NON_MATCHING: like resetStuff, the two -1 values are one 64-bit store in ours (stp w8, w8 in the original)
+void DamageManagerBase::resetDamage() {
+    resetStuff();
+    auto* damage_param = getActorDamageParam();
+    if (!damage_param)
+        return;
+    auto* mgr = DamageInfoMgr::instance();
+    if (!mgr)
+        return;
+    mDamageReactionTableStuff = mgr->getReactionTable().sub_71006681E4(damage_param->mKeyString.ref());
 }
 
 void DamageManagerBase::resetStuff() {
