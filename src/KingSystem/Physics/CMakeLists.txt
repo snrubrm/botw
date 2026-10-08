@@ -165,6 +165,7 @@ target_sources(uking PRIVATE
     System/physNavMeshLoadMgr.cpp
     System/physNavMeshLoadMgrLifetime.cpp
     System/physNavMeshQueryRequestPool.cpp
+    System/physNavMeshSystemThread.cpp
     System/physInstanceSet.cpp
     System/physInstanceSet.h
     System/physMaterialTable.cpp

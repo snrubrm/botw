@@ -115,4 +115,12 @@ bool HavokAI::startNavMeshSystemThread() {
     return _38->start();
 }
 
+void HavokAI::sendStepMessageToNavMeshSysThread(f32 dt) {
+    _38->sub_7100F895FC(dt);
+}
+
+void HavokAI::sub_7100F8185C() {
+    _38->_10c = false;
+}
+
 }  // namespace ksys::phys

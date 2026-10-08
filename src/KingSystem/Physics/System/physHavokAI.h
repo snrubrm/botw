@@ -36,6 +36,14 @@ class NavMeshSystemThread : public sead::Thread {
 public:
     // 0x7100f8972c (declaration only).
     void calc_(sead::MessageQueue::Element msg) override;
+
+    // 0x7100f895fc (placeholder name): unless stopped (_10c), accumulates `dt` in _108 and sends the 'step' message.
+    void sub_7100F895FC(f32 dt);
+
+    u8 _pad[0x100 - sizeof(sead::Thread)];
+    /* 0x100 */ void* _100;
+    /* 0x108 */ f32 _108;
+    /* 0x10c */ bool _10c;
 };
 
 // Placeholder name (vtable 0x7102372790; a second base with its own vtable at +0x10): base of the
@@ -269,6 +277,11 @@ public:
 
     // 0x7100f82dd8 (not decompiled): counterpart of sub_7100F82BCC (called with the same guard).
     void sub_7100F82DD8(NavMeshCharacter* nav);
+
+    // 0x7100f8184c (CSV name): _38->sub_7100F895FC(dt).
+    void sendStepMessageToNavMeshSysThread(f32 dt);
+    // 0x7100f8185c (placeholder name): clears the thread's stop flag (_38->_10c).
+    void sub_7100F8185C();
 
     // 0x7100f8183c: starts the navmesh system thread (_38->start()).
     bool startNavMeshSystemThread();
