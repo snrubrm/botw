@@ -29,3 +29,9 @@ bool NFP::sub_F45DC8() const {
 bool NFP::sub_F45DFC() const {
     return (_30->_195 & 8) != 0;
 }
+
+bool NFP::sub_F45BB8() const {
+    if (!_30)
+        return false;
+    return u32(_30->_d4 - 3) > 1;
+}
