@@ -38,6 +38,11 @@ void BoneControl::sub_7100D82FC4() {
         _0->sub_7100D857B0();
 }
 
+void BoneControl::sub_7100D82FD4(bool reset) {
+    if (_0)
+        _0->sub_7100D860AC(reset);
+}
+
 void BoneControl::sub_7100D82FE8(f32 value) {
     if (auto* unk = _0) {
         unk->_e8._28 = value;

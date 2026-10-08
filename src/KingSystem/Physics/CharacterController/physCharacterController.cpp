@@ -1,5 +1,6 @@
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include <cmath>
+#include "KingSystem/Physics/CharacterController/physCharacterRigidBody.h"
 #include "KingSystem/ActorSystem/actCCAccessor.h"
 #include "KingSystem/Physics/CharacterController/physCharacterControllerUnk40.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
@@ -11,22 +12,6 @@
 namespace ksys::phys {
 
 class Shape;
-
-// Placeholder: object at CharacterController::_10 (only the fields used by the accessors).
-struct CharacterControllerUnk10 {
-    /* 0x00 */ u8 _0[0x30];
-    /* 0x30 */ hkVector4f _30;
-    /* 0x40 */ u8 _40[4];
-    /* 0x44 */ f32 _44;
-    /* 0x48 */ f32 _48;
-    /* 0x4c */ u8 _4c[0x70 - 0x4c];
-    /* 0x70 */ f32 _70;
-    /* 0x74 */ u8 _74[0x88 - 0x74];
-    /* 0x88 */ f32 _88;
-
-    // 0x7101679858 (placeholder name; hkpCharacterRigidBody::getRigidBody in Havok): `m_character` at +0x20.
-    hkpRigidBody* sub_7101679858() const;
-};
 
 // Placeholder: object at CharacterController::_20.
 struct CharacterControllerUnk20 {
@@ -79,6 +64,13 @@ struct CharacterControllerUnk50 : public hkpCharacterStateInAir {
     /* 0x38 */ u32 _38;
 };
 
+// NON_MATCHING: scalar register assignment differs.
+void CharacterControllerUnk58::m8(hkpCharacterContext&, const hkpCharacterInput& input,
+                                  hkpCharacterOutput& output) {
+    const f32 speed = -_c * input.m_inputUD;
+    output.m_velocity = toHkVec4(toVec3(input.m_forward) * speed);
+}
+
 // NON_MATCHING: register assignment
 void CharacterController::sub_7100F5E754(bool value) {
     _48->_50 = value;
@@ -127,7 +119,7 @@ void CharacterController::sub_7100F5E850(f32 value) {
 
 // NON_MATCHING: the original moves the z component into s2 before y
 sead::Vector3f CharacterController::sub_7100F5EE08() const {
-    return toVec3(_10->_30);
+    return toVec3(_10->m_up);
 }
 
 void CharacterController::sub_7100F5EED4(f32 value) {
@@ -833,7 +825,7 @@ void CharacterController::sub_7100F5EECC(f32 value) {
 }
 
 void CharacterController::sub_7100F5EDE8(const sead::Vector3f& value) {
-    loadFromVec3(&_10->_30, value);
+    loadFromVec3(&_10->m_up, value);
 }
 
 void CharacterController::sub_7100F6353C(sead::Vector3f* out) const {
@@ -992,7 +984,7 @@ void CharacterController::sub_7100F63140(CharacterControllerUnk48* state) {
 
 // NON_MATCHING: the original evaluates `on ? 2 : 1` before the call that fetches the rigid body
 void CharacterController::sub_7100F5E864(bool on) {
-    _10->sub_7101679858()->getRigidMotion()->setDeactivationClass(on ? 2 : 1);
+    _10->getRigidBody()->getRigidMotion()->setDeactivationClass(on ? 2 : 1);
 }
 
 // NON_MATCHING: same instructions; the float temporaries are extracted and numbered in a different order

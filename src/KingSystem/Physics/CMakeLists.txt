@@ -1,4 +1,6 @@
 target_sources(uking PRIVATE
+    CharacterController/physCharacterRigidBody.cpp
+    CharacterController/physCharacterRigidBody.h
     CharacterController/physCharacterController.cpp
     CharacterController/physCharacterController.h
     CharacterController/physCharacterControllerUnk40.cpp

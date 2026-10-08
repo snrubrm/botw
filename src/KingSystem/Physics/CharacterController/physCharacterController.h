@@ -30,7 +30,8 @@ class RigidBody;
 class SystemGroupHandler;
 class UserTag;
 
-struct CharacterControllerUnk10;
+struct CharacterControllerUnk10;  // Legacy placeholder declaration.
+class CharacterRigidBody;
 struct CharacterControllerUnk20;
 struct CharacterControllerShapes;
 struct CharacterControllerUnk38;
@@ -71,7 +72,7 @@ struct CharacterControllerUnk58 : public hkpCharacterState {
 
     // 0x7100f67b14 (lane4 s64): returns 4.
     hkpCharacterStateType m5() const override;
-    // 0x7100f67b20 (declared only; hkpCharacterInput / hkpCharacterOutput have no definition in hkStubs): the output
+    // 0x7100f67b20: the output
     // velocity is `-_c * input.m_inputUD` times the input's forward vector.
     void m8(hkpCharacterContext& context, const hkpCharacterInput& input,
             hkpCharacterOutput& output) override;
@@ -387,7 +388,7 @@ public:
     u8 sub_7100F6337C() const;
 
     RigidBody* mRigidBody;
-    CharacterControllerUnk10* _10;
+    CharacterRigidBody* _10;
     // lane4 s64: the controller registers its ground state in it (0x7100f63140 calls sub_710167D718).
     hkpCharacterStateManager* _18;
     CharacterControllerUnk20* _20;

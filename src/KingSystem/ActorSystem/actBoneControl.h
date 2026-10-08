@@ -284,6 +284,7 @@ public:
     void sub_7100D856C4();
     // 0x7100d85ef4: sets / clears bit 0x20 of both controllers' flag words.
     void sub_7100D85EF4(bool on);
+    void sub_7100D860AC(bool reset);
 
     /* 0x000 */ Actor* mActor;
     /* 0x008 */ f32 _8 = 1.0f;

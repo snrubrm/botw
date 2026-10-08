@@ -97,4 +97,9 @@ void Unk_7100d8557c::sub_7100D85EF4(bool on) {
     }
 }
 
+void Unk_7100d8557c::sub_7100D860AC(bool reset) {
+    _10.sub_7100D89070(reset);
+    _e8.sub_7100D852EC();
+}
+
 }  // namespace ksys::act
