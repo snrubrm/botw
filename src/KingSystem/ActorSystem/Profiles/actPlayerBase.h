@@ -172,7 +172,8 @@ public:
     /* 264 */ Unk_71024ef4e8* getAttachedTargetActor() override;
     /* 265 */ virtual const sead::Vector3f* m265() { return &sead::Vector3f::zero; }
     /* 266 */ virtual void m266(const sead::SafeString& slot, int frames);
-    /* 267 */ virtual void m267();
+    // (s32, Actor*, bool, bool): from Player::sub_710086C84C and the register use of Player::m267.
+    /* 267 */ virtual void m267(s32 a, Actor* actor, bool b, bool c);
     /* 268 */ virtual bool m268() { return false; }
     /* 269 */ virtual bool m269() { return false; }
     /* 270 */ virtual bool m270() { return false; }

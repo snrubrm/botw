@@ -71,3 +71,6 @@ public:
     void sub_7101010C58(f32 value);
 };
 Unk_7100ffe6ec* sub_7100FFE6EC();
+
+// 0x7100ffed80 (declaration only; placeholder name): the byte at +0x88 of SoundMgr::_30->_48 (false if either is null).
+bool sub_7100FFED80();

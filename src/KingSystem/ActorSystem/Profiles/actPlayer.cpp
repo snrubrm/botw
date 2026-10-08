@@ -7,6 +7,8 @@
 #include "Game/AI/aiUnk_71007377D4.h"
 #include "Game/AI/aiUnk_710072BA90.h"
 #include "Game/Damage/dmgDamageManager.h"
+#include "Game/Damage/dmgInfoManager.h"
+#include "Game/AI/aiUnk_7100FFDFDC.h"
 #include "Game/gameRoot4.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
 #include "Game/AI/aiUnk_7100736460.h"
@@ -191,6 +193,20 @@ bool Player::sub_710086C9E0() {
             result = false;
     }
     return result;
+}
+
+void Player::sub_710086C84C(s32 a, const BaseProcLink* link, bool b, bool c) {
+    m267(a, sead::DynamicCast<Actor>(link->getProc(nullptr, nullptr)), b, c);
+}
+
+// Placeholder name; static (no `this`).
+// NON_MATCHING: the early `return true` shares the result register with the inlined sub_710086C9E0 (w19 instead of w0)
+bool Player::sub_710086C928() {
+    if (auto* mgr = uking::dmg::DamageInfoMgr::instance()) {
+        if (sub_7100FFED80() || mgr->_11eb[3] > 0)
+            return true;
+    }
+    return sub_710086C9E0();
 }
 
 void Player::updateMtxFromPhysics() {

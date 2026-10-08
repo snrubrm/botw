@@ -172,7 +172,7 @@ private:
     /* 0x11ea */ bool mOneHitObliteratorActive;
 
 public:
-    /* 0x11eb */ sead::SafeArray<u8, 4> _11eb;  // per-core counters (ForceConfront behavior)
+    /* 0x11eb */ sead::SafeArray<s8, 4> _11eb;  // per-core counters (ForceConfront behavior; Player::sub_710086C928 reads [3] signed)
 
 private:
     /* 0x11f0 */ ksys::act::BaseProcLink _11f0;

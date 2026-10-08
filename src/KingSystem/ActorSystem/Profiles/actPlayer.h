@@ -182,7 +182,7 @@ public:
     /* 263 */ Unk_71024ef4e8* getAttachedTargetActor2() override;
     /* 264 */ Unk_71024ef4e8* getAttachedTargetActor() override;
     /* 265 */ const sead::Vector3f* m265() override { return &_230c; }
-    /* 267 */ void m267() override;
+    /* 267 */ void m267(s32 a, Actor* actor, bool b, bool c) override;
     /* 268 */ bool m268() override;
     /* 269 */ bool m269() override;
     /* 270 */ bool m270() override;
@@ -535,6 +535,8 @@ public:
     // 0x710086c9e0 (placeholder name; static): whether target list 1 of the Attention singleton has an
     // entry whose actor has a non-zero enemy rank.
     static bool sub_710086C9E0();
+    // 0x710086c928 (placeholder name): sub_7100FFED80() or DamageInfoMgr::_11eb[3] > 0, else sub_710086C9E0().
+    static bool sub_710086C928();
     // 0x7100881104 (declared only): clears _c40/_c44/_c48/_c4c bits (_c44 &= 0xfffbffe5, _c40 &= ~(1 << 22),
     // _c4c &= ~(1 << 12), _c48 &= ~(1 << 11)) and resets _1e9c (u64), _1ea4 (-1.0f) and _20b4.
     void sub_7100881104();
@@ -590,7 +592,12 @@ public:
     void syncStatusEffectFlags(bool a);
     // Declaration only.
     void sub_710086B834();
+    // 0x710086bb68 / 0x710086bc30 (placeholder names): set the ui tip type _1cb0 from the Attention target type.
+    void sub_710086BB68();
+    void sub_710086BC30();
     void sub_710086BCF8();
+    // 0x710086c84c (placeholder name): m267 with the Actor of `link`.
+    void sub_710086C84C(s32 a, const BaseProcLink* link, bool b, bool c);
     // 0x7100868220 (declared only; lane5 s5): rotates _1b18 around the y axis by `angle` minus the yaw of its z
     // axis (called by PlayerRideJump::leave_ with the yaw of the horse).
     void sub_7100868220(f32 angle);

@@ -8,6 +8,7 @@
 #include <prim/seadRuntimeTypeInfo.h>
 #include "Game/AI/aiUnk_7101E7C2B4.h"
 #include "Game/Damage/dmgDamageMgrPlayer.h"
+#include "Game/gameRuneMgr.h"
 #include "KingSystem/ActorSystem/Attention/actAttentionSingleton.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
@@ -67,6 +68,34 @@ AttActionCodeValue sub_710086B194() {
     Attention::instance()->sub_7100D7482C(&accessor);
     return AttActionCodeValue(accessor.sub_7100D10FB8() ? 0x1800000 :
                                                           int(Attention::instance()->sub_7100D74880()));
+}
+
+// Placeholder name: sets the ui tip type _1cb0 from the Attention target type (not while the camera rune is
+// selected).
+void Player::sub_710086BB68() {
+    auto* rune_mgr = uking::RuneMgr::instance();
+    if (rune_mgr->_90 & 0x20)
+        return;
+    if ((rune_mgr->_90 & 0x10) && rune_mgr->isSelectedRune(5))
+        return;
+    const AttActionCodeValue type = sub_710086B194();
+    if (type == AttActionCodeValue(0x1800001))
+        _1cb0 = 0x12;
+    else if (type == AttActionCodeValue(0x1800010))
+        _1cb0 = 0x27;
+}
+
+// Placeholder name: same for the other target types.
+void Player::sub_710086BC30() {
+    const AttActionCodeValue type = sub_710086B194();
+    if (type == AttActionCodeValue(0x1800001)) {
+        _1cb0 = 0x12;
+    } else if (type == AttActionCodeValue(0x180001a)) {
+        _1cb0 = 0x3b;
+    } else if (type == AttActionCodeValue(0x1800023)) {
+        if (_207f)
+            _1cb0 = 0x3c;
+    }
 }
 
 bool Player::sub_7100892724() {
