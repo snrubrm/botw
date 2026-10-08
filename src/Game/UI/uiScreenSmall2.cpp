@@ -1709,4 +1709,129 @@ void ScreenAppHome::sub_71009DD7DC() { sub_71009DCF18(5); }
 void ScreenAppHome::sub_71009DD7E4() { sub_71009DCF18(7); }
 void ScreenAppHome::sub_71009DD814() { sub_71009DCF18(0); }
 
+// 0x7100a432fc
+void ScreenSaveTransferWindow::m107(eui::AnimButton*) {
+    if (mStateMachine.getState()->getId() == (&sUnk_71025f2d80)->getId())
+        _3678 |= 1 << Flag(Flag::_1);
+}
+
+// 0x7100a43ac0
+void ScreenSaveTransferWindow::m183() {
+    switch (_366c) {
+    case 0x8b:
+        mStateMachine.changeState(&sUnk_71025f2240);
+        break;
+    case 0x8c:
+        mStateMachine.changeState(&sUnk_71025f2d20);
+        break;
+    case 0x8d:
+        if ((1 << Flag(Flag::_4)) & _3678) {
+            mStateMachine.changeState(&sUnk_71025f23c0);
+        } else {
+            _3678 |= 1 << Flag(Flag::_5);
+            mStateMachine.changeState(&sUnk_71025f2300);
+        }
+        break;
+    }
+}
+
+// 0x7100a44508
+void ScreenSaveTransferWindow::m215() {
+    switch (_366c) {
+    case 0x8d:
+        mStateMachine.changeState(&sUnk_71025f2540);
+        break;
+    case 0x8c:
+        mStateMachine.changeState(&sUnk_71025f2d80);
+        break;
+    }
+}
+
+// 0x7100a445e8
+void ScreenSaveTransferWindow::m219() {
+    switch (_366c) {
+    case 0x8d:
+        mStateMachine.changeState(&sUnk_71025f25a0);
+        break;
+    case 0x8c:
+        mStateMachine.changeState(&sUnk_71025f2d80);
+        break;
+    }
+}
+
+// 0x7100a44928
+void ScreenSaveTransferWindow::m235() {
+    switch (_366c) {
+    case 0x8d:
+        mStateMachine.changeState(&sUnk_71025f2720);
+        break;
+    case 0x8c:
+        mStateMachine.changeState(&sUnk_71025f2d20);
+        break;
+    }
+}
+
+// 0x7100a45130
+void ScreenSaveTransferWindow::m259() {
+    switch (_366c) {
+    case 0x8d:
+        mStateMachine.changeState(&sUnk_71025f2960);
+        break;
+    case 0x8c:
+        mStateMachine.changeState(&sUnk_71025f2d20);
+        break;
+    }
+}
+
+// 0x7100a44ddc
+void ScreenSaveTransferWindow::m250() {
+    _366c = -1;
+    s32 old_index = _3668;
+    _37a0 = 0;
+    _3668 = 5;
+    if (old_index == -1) {
+        sub_7100A428D0();
+        return;
+    }
+    _3618->StopAtMax();
+    _3620->PlayAuto(1.0f);
+    _3630->setFlag10(false);
+    _3638->setFlag10(false);
+    _3640->setFlag10(false);
+}
+
+// 0x7100a45b6c
+void ScreenSaveTransferWindow::m279() {
+    if (SaveSystem::instance()->loadDone())
+        mStateMachine.changeState(&sUnk_71025f2b40);
+}
+
+// 0x7100a45bb8
+void ScreenSaveTransferWindow::m282() {
+    _379c = 0;
+    SaveSystem::instance()->sub_7100914D48();
+}
+
+// 0x7100a45e40
+void ScreenSaveTransferWindow::m287() {
+    if (_366c == 0x8b) {
+        _3678 |= 1 << Flag(Flag::_2);
+        mStateMachine.changeState(&sUnk_71025f2d80);
+    }
+}
+
+// 0x7100a45f80
+// NON_MATCHING: the original tests `_3760 == 0` then `== 4` with cmp / ccmp; clang folds the two tests into a different compare order
+void ScreenSaveTransferWindow::m291() {
+    if (_3760 == 0 || _3760 == 4)
+        mStateMachine.changeState(&sUnk_71025f2de0);
+    else if (_3760 == 3)
+        mStateMachine.changeState(&sUnk_71025f2c60);
+}
+
+// 0x7100a46234
+void ScreenSaveTransferWindow::m310() {
+    _3678 |= 1 << Flag(Flag::_1);
+}
+
 }  // namespace uking::ui

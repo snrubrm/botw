@@ -5,6 +5,8 @@
 #include <container/seadPtrArray.h>
 #include <container/seadRingBuffer.h>
 #include <math/seadBoundBox.h>
+#include <prim/seadBitFlag.h>
+#include <prim/seadEnum.h>
 #include <math/seadVector.h>
 #include <gfx/seadProjection.h>
 #include <prim/seadSafeString.h>
@@ -3362,11 +3364,24 @@ extern const ksys::StateBase sUnk_71025f23c0;
 extern const ksys::StateBase sUnk_71025f2480;
 extern const ksys::StateBase sUnk_71025f2d20;
 extern const ksys::StateBase sUnk_71025f2d80;
+// More states of ScreenSaveTransferWindow (placeholder names; the 0x60 spaced StateBase objects 0x71025f2180 ..
+// 0x71025f2c60, found from the GOT loads in its state callbacks).
+extern const ksys::StateBase sUnk_71025f2180;
+extern const ksys::StateBase sUnk_71025f21e0;
+extern const ksys::StateBase sUnk_71025f2300;
+extern const ksys::StateBase sUnk_71025f2360;
+extern const ksys::StateBase sUnk_71025f2540;
+extern const ksys::StateBase sUnk_71025f25a0;
+extern const ksys::StateBase sUnk_71025f2720;
+extern const ksys::StateBase sUnk_71025f2960;
+extern const ksys::StateBase sUnk_71025f2b40;
+extern const ksys::StateBase sUnk_71025f2c60;
 
 class ScreenSaveTransferWindow : public ScreenEx {
 public:
     void m98() override;
     void m106(eui::AnimButton* button) override;
+    void m107(eui::AnimButton* button) override;
     bool isEnableControl() const override;
     const char* getLayoutName_() const override;
     ~ScreenSaveTransferWindow() override;
@@ -3429,6 +3444,18 @@ public:
     /* 0x3668 */ s32 _3668;
     s32 _366c;
     /* 0x3670 */ const ksys::StateBase* _3670;
+    // Bits set by the state callbacks (0x7100a432fc, 0x7100a43ac0, 0x7100a45e40, 0x7100a46234): the bit index goes
+    // through a 4-byte enum class, so the original spills it to the stack (same form as Horse / PriestBoss flags).
+    SEAD_ENUM(Flag, _0, _1, _2, _3, _4, _5, _6, _7)
+    /* 0x3678 */ u8 _3678;
+    u8 _3679;
+    u8 _367a;
+    u8 _pad_367b[0x3760 - 0x367b];
+    /* 0x3760 */ s32 _3760;
+    u8 _pad_3764[0x3798 - 0x3764];
+    /* 0x3798 */ f32 _3798;
+    /* 0x379c */ s32 _379c;
+    /* 0x37a0 */ s32 _37a0;
     virtual void m186();
     virtual void m187();
     virtual void m188();
