@@ -2,6 +2,7 @@
 #include <cmath>
 #include <math/seadMathCalcCommon.h>
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::action {
 
@@ -51,6 +52,28 @@ bool CameraTail::sub_71007837D8(const sead::Vector3f& base, f32 a, f32 b, f32 r)
     else
         radius = 0.0f;
     return pos.y < radius + height;
+}
+
+// NON_MATCHING: the original keeps the delta in a register across the sqrt call (ours reloads it from the stack) and
+// returns through a shared zero (s8) set at the top.
+f32 CameraTail::sub_7100784940() {
+    f32 speed = 0.0f;
+    if (!(_12c < 20.0f)) {
+        if (auto* camera = getCameraActor()) {
+            if (auto* player = sub_7100926A14()) {
+                const sead::Vector3f pos(player->getMtx().m[0][3], player->getMtx().m[1][3],
+                                         player->getMtx().m[2][3]);
+                f32 dt = 0.0f;
+                ksys::Timer::update(&dt, 1.0f);
+                if (dt != 0.0f) {
+                    const f32 dist = (pos - sub_7100928868(camera->_860._164)).length();
+                    const f32 value = dist / dt;
+                    speed = value > _124 ? _124 : value;
+                }
+            }
+        }
+    }
+    return speed;
 }
 
 }  // namespace uking::action
