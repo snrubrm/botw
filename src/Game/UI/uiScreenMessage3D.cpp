@@ -2,8 +2,24 @@
 #include "Game/UI/euiLayoutEx.h"
 #include "Game/UI/euiMessageMgr.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 
 namespace uking::ui {
+
+// File-static message block for the Entry tag processing (0x710261ef20 in the original; the two
+// SafeStrings carry the "T_Message_00" IDs, with the assure-termination virtual calls and string
+// accesses below reproducing).
+struct Message3DMsgStatics {
+    u32 _20 = 0;
+    u32 _24 = 0x8004ef;
+    sead::SafeString _28 = "T_Message_00";
+    sead::SafeString _38 = "T_Message_00";
+    sead::SafeString _48 = "Pa_Message_00";
+    sead::SafeString _58 = "Pa_Message_01";
+    sead::SafeString _68 = "Pa_Message_02";
+    sead::SafeString _78 = "Pa_Message_03";
+};
+static Message3DMsgStatics sUnk_710261EF20;
 
 // 0x71010ae104 (CSV unnamed): message lookup into _680 (0 = found, 1 = no set, 2 = no message)
 s32 ScreenMessage3D::sub_71010AE104(const sead::SafeString& set, const sead::SafeString& label) {
@@ -299,6 +315,59 @@ void ScreenMessage3D::sub_71010AE7C0(bool flag) {
         }
     }
     _698.unlock();
+}
+
+// 0x71010aeff8 (CSV unnamed)
+void ScreenMessage3D::Entry::sub_71010AEFF8() {
+    if (_5b)
+        return;
+    if (_5a)
+        _28->PlayAuto(1.0f);
+    else
+        _28->StopAtMin();
+    if (_60.getString() != nullptr &&
+        sUnk_710261EF20._38.getStringTop()[0] != sead::SafeString::cNullChar) {
+        bool has_next = false;
+        eui::LayoutEx* layout = _8;
+        // Discarded call that really is in the target asm (explicit termination before use).
+        sUnk_710261EF20._38.cstr();
+        layout->setMessageStringForEachIdWithPage(sUnk_710261EF20._38.getStringTop(), _60, &has_next,
+                                                 _4c, true, nullptr);
+        _4c = has_next ? 1 : -1;
+        _18->processAppTag(&_88);
+        _59 = true;
+    }
+    {
+        ksys::act::ActorConstDataAccess access;
+        eui::MessageSet* set = nullptr;
+        bool have_actor = ksys::act::acquireActor(&m38, &access);
+        if (have_actor)
+            set = eui::MessageMgr::instance()->getMessageSet("ActorType/NPC");
+        if (!have_actor || !set) {
+            eui::MessageString empty;
+            if (empty.getString() != nullptr)
+                _8->setMessageStringForEachId("T_Name_00", empty, true, nullptr);
+        } else {
+            sead::FixedSafeString<256> label;
+            const sead::SafeString& actor_name = access.getName();
+            actor_name.cstr();
+            label.format("%s_Name", actor_name.getStringTop());
+            label.cstr();
+            eui::MessageString msg = set->tryFindMessage(label.getStringTop());
+            if (msg.getString() == nullptr) {
+                eui::MessageSet* clerk_set =
+                    eui::MessageMgr::instance()->getMessageSet("ActorType/ClerkNPC");
+                if (clerk_set) {
+                    label.cstr();
+                    eui::MessageString msg2 = clerk_set->tryFindMessage(label.getStringTop());
+                    msg.assign(msg2);
+                }
+            }
+            if (msg.getString() != nullptr)
+                _8->setMessageStringForEachId("T_Name_00", msg, true, nullptr);
+        }
+    }
+    _5b = true;
 }
 
 }  // namespace uking::ui

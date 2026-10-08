@@ -884,13 +884,16 @@ public:
         /* 0x7c */ u32 _7c;
         /* 0x80 */ u32 _80;
         /* 0x84 */ u32 _84;
-        u8 _88[0xa8 - 0x88];
+        // App-tag delegate for processAppTag (bound by the entry creator, not by any Entry method).
+        /* 0x88 */ sead::Delegate1<Entry, const sead::MessageSet<char16>::TagInfo*> _88;
         /* 0xa8 */ bool _a8;
         /* 0xac */ f32 _ac;
         /* 0xb0 */ f32 _b0;
         /* 0xb4 */ f32 _b4;
         // 0x71010aeb60 (CSV unnamed)
         void sub_71010AEB60();
+        // 0x71010aeff8 (CSV unnamed)
+        void sub_71010AEFF8();
     };
 
     /* 0x300 */ sead::PtrArray<Entry> _300;
