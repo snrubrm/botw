@@ -1,8 +1,12 @@
 #include "Game/AI/AI/aiLynelRecognizeTarget.h"
 #include "Game/Actor/actEnemy.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/Damage/dmgDamageManagerBase.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
+#include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
+#include "KingSystem/ActorSystem/Awareness/actAwarenessRequest.h"
+#include "KingSystem/System/Timer.h"
 #include "Game/Actor/actWeapon.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerOrEnemy.h"
 #include "KingSystem/ActorSystem/actActor.h"
@@ -30,7 +34,7 @@ bool LynelRecognizeTarget::init_(sead::Heap* heap) {
 
 void LynelRecognizeTarget::enter_(ksys::act::ai::InlineParamPack* params) {
     auto* actor = mActor;
-    _118 = *mForceBattleStartTime_s;
+    _110.mValue = *mForceBattleStartTime_s;
 // NON_MATCHING: the original keeps two copies of the 0x518 load + bit-25 test (one reached from
 // the _f4-unset paths, one from the _f4-set paths); ours merges them. Ours also picks different
 // registers for the `*mLynelAIFlags_a & 1` result (w9 vs w8), reloads mActor for the m93 call
@@ -79,6 +83,43 @@ void LynelRecognizeTarget::sub_7100496564() {
         enemy->_e84.setBit(1);
 }
 
+// 0x7100496ee4 (CSV placeholder): whether the threat score passes.
+bool LynelRecognizeTarget::sub_7100496EE4() {
+    if (!isCurrentChild("観察") && !isCurrentChild("警戒")) {
+        if (!isCurrentChild("帰還"))
+            return false;
+    } else if (_100.mValue >= (f32)*mTiredTime_s) {
+        // Reached the tired threshold: skip the 帰還 check below.
+    } else if (!isCurrentChild("帰還")) {
+        return false;
+    }
+// NON_MATCHING: the original keeps a dead w21 flag (!isCurrentChild(観察)) with a duplicated
+// 帰還 test diamond (both arms do the same thing); ours folds it. Ours also lays out the stack
+// strings/request differently (NSDMI zero grouping, home slot) and the request leaves _20/_24
+// uninitialised where the header NSDMIs zero them (same family as DistanceLostCheck::enter_).
+// All calls, strings, float shapes, cond codes and values match.
+    if (_f0 > 0)
+        return false;
+    auto* actor = mActor;
+    const sead::Vector3f& target = sub_71005D9330(actor);
+    sead::Vector3f home;
+    actor->getHomePos(&home);
+    f32 range = 5.0f;
+    if (auto* awareness = actor->getAwareness()) {
+        range = 0.0f;
+        if (auto* sensor = awareness->_260[0]) {
+            Unk_71023e26d8 request;
+            sensor->m4(&request);
+            range = request._20;
+        }
+    }
+    const f32 dx = home.x - target.x;
+    const f32 dz = home.z - target.z;
+    if (sead::Mathf::sqrt(dx * dx + dz * dz) > range)
+        return (*mLynelAIFlags_a & 0x10) == 0;
+    return false;
+}
+
 void LynelRecognizeTarget::leave_() {
     mActor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_1000000);
     mActor->m93(0, 0.0f);
@@ -119,7 +160,7 @@ void LynelRecognizeTarget::changeToReturn() {
 }
 
 void LynelRecognizeTarget::changeToNotice() {
-    _108 = 0;
+    _100.mValue = 0;
 
     ksys::act::ai::InlineParamPack pack;
     pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
@@ -128,8 +169,8 @@ void LynelRecognizeTarget::changeToNotice() {
 
 void LynelRecognizeTarget::changeToAlert() {
     const f32 time = *mForceBattleStartTime_s;
-    _108 = 0;
-    _118 = time;
+    _100.mValue = 0;
+    _110.mValue = time;
 
     ksys::act::ai::InlineParamPack pack;
     pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
@@ -138,8 +179,8 @@ void LynelRecognizeTarget::changeToAlert() {
 
 void LynelRecognizeTarget::changeToObserve() {
     const f32 time = *mForceBattleStartTime_s;
-    _108 = 0;
-    _118 = time;
+    _100.mValue = 0;
+    _110.mValue = time;
 
     ksys::act::ai::InlineParamPack pack;
     pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
@@ -170,6 +211,105 @@ void LynelRecognizeTarget::changeToForceStartBattle() {
     actor = mActor;
     if (sead::IsDerivedFrom<act::Enemy>(actor))
         static_cast<act::Enemy*>(actor)->_e84.setBit(1);
+}
+
+void LynelRecognizeTarget::calc_() {
+    if (auto* dmg = mActor->getDamageMgr()) {
+// NON_MATCHING: everything matches except register allocation and the 0x60-vs-0x70 frame (ours
+// keeps two more values in callee-saved registers across the isCurrentChild calls; the string
+// address-points are recomputed per call instead of hoisted). All calls, branches, strings,
+// float shapes, cond codes and values match.
+        // s32 (not > 0): cmp-#1+b.lt (LastBossFlyWait precedent); bare && would ccmp-fold and
+        // named locals would grow the frame, so nested ifs with no locals.
+        if (s32(dmg->getDamage()) >= 1) {
+            if (dmg->getField54() >= 2)
+                _f4 = true;
+        }
+    }
+    if (_f8 > 0.0f) {
+        ksys::Timer::update(&_f8, -1.0f);
+        if (_f8 <= 0.0f)
+            mActor->m93(0, 0.0f);
+    }
+    auto* child = getCurrentChild();
+    const bool changeable = child->isChangeable();
+    if (!isCurrentChild("戦闘")) {
+        sub_71004963F8(!changeable);
+        *mLynelAreaAlarmPoint_a = 0;
+    }
+    if (isCurrentChild("帰還"))
+        sub_71005DB3EC(mActor);
+    else
+        sub_71005DB068(mActor, sub_71005D960C(mActor));
+    if (isCurrentChild("観察") || isCurrentChild("警戒")) {
+        if (_f0 > 0)
+            _100.mValue = 0;
+        else
+            _100.sub_7100D3BC4C(1.0f);
+        _110.sub_7100D3BC4C(-1.0f);
+    }
+    if (child->isFinished() || child->isFailed()) {
+        if (child->isFailed()) {
+            setFailed();
+            return;
+        }
+        if (isCurrentChild("気づき")) {
+            if ((f32)_f0 >= (f32)*mObserveEndPoint_s) {
+                changeToStartBattle();
+                return;
+            }
+            if ((f32)_f0 >= (f32)*mAttensionStartPoint_s) {
+                changeToAlert();
+                return;
+            }
+            changeToObserve();
+            return;
+        }
+        if (isCurrentChild("戦闘開始")) {
+            sub_7100496564();
+            return;
+        }
+        if (isCurrentChild("強制戦闘開始")) {
+            changeToStartBattle();
+            return;
+        }
+        setFinished();
+        return;
+    }
+    if (changeable) {
+        if (isCurrentChild("観察")) {
+            if ((f32)_f0 >= (f32)*mObserveEndPoint_s) {
+                changeToStartBattle();
+                return;
+            }
+            if ((f32)_f0 < (f32)*mAttensionStartPoint_s) {
+                if (sub_7100496EE4()) {
+                    changeToReturn();
+                    return;
+                }
+                if (_110.mValue < 0.0f)
+                    changeToForceStartBattle();
+            } else {
+                changeToAlert();
+                return;
+            }
+        } else if (isCurrentChild("警戒")) {
+            if ((f32)_f0 >= (f32)*mObserveEndPoint_s) {
+                changeToStartBattle();
+                return;
+            }
+            if (sub_7100496EE4()) {
+                changeToReturn();
+                return;
+            }
+            if (_110.mValue < 0.0f)
+                changeToForceStartBattle();
+        } else if (isCurrentChild("帰還") && _f0 >= 1) {
+            changeToStartBattle();
+            return;
+        }
+    }
+    getCurrentChild()->setDynamicParam(sub_71005D9330(mActor), "TargetPos");
 }
 
 }  // namespace uking::ai
