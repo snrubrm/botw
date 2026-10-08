@@ -21,6 +21,14 @@ static struct {
 
 static sead::Vector3f sStarProperty{};
 
+// 0x71026200e8 (placeholder name): no writer in this TU; hidden visibility keeps the load direct (adrp)
+// without folding it, like GameScene's sSceneStatics.
+KSYS_VISIBILITY_HIDDEN bool sUnk_71026200E8;
+
+bool ShootingStarMgr::sub_71010DCE2C() {
+    return sUnk_71026200E8;
+}
+
 const sead::Vector3f& ShootingStarMgr::getStarProperty() {
     return sStarProperty;
 }

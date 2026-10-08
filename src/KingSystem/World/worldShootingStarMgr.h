@@ -20,8 +20,9 @@ public:
     virtual void spawnStar();
 
     static void setScheduled(bool enable);
-    // 0x71010dce38 (placeholder name; called by ShootingStartFlying::calc_): `sStarProperty`. (0x71010dce2c, the getter of
-    // the byte at 0x71026200e8 right before it, needs that file-local flag's writer.)
+    // 0x71010dce2c (placeholder name): the flag sUnk_71026200E8 of this TU.
+    static bool sub_71010DCE2C();
+    // 0x71010dce38 (placeholder name; called by ShootingStartFlying::calc_): `sStarProperty`.
     static const sead::Vector3f& getStarProperty();
     void initSchedule();
     static bool isScheduledTime();
