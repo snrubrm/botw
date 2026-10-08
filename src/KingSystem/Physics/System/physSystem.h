@@ -54,6 +54,8 @@ class System {
 public:
     float get64() const { return _64; }
     float get6c() const { return _6c; }
+    // lane4 s64: a RigidBody (Constraint's ctor stores it as the fallback body 0; 0x7100f6ac68 compares with it).
+    RigidBody* get190() const { return _190; }
     float getTimeFactor() const { return mTimeFactor; }
     ContactMgr* getContactMgr() const { return mContactMgr; }
     StaticCompoundMgr* getStaticCompoundMgr() const { return mStaticCompoundMgr; }
@@ -197,7 +199,7 @@ private:
     SystemData* mSystemData;
     MaterialTable* mMaterialTable;
     RayCastRequestMgr* mRayCastRequestMgr{};
-    void* _190{};
+    RigidBody* _190{};
     void* _198{};
     void* _1a0{};
     sead::Heap* mPhysicsSystemHeap{};

@@ -1,14 +1,16 @@
 #include "KingSystem/Physics/Constraint/physConstraint.h"
 #include <prim/seadScopedLock.h>
+#include <Havok/Physics2012/Dynamics/Constraint/hkpConstraintInstance.h>
 #include "KingSystem/Physics/RigidBody/physRigidBodyRequestMgr.h"
+#include "KingSystem/Physics/StaticCompound/physStaticCompoundMgr.h"
 #include "KingSystem/Physics/System/physSystem.h"
 
 namespace ksys::phys {
 
 bool Constraint::sub_7100F6A2E0() const {
-    if (_40)
+    if (mBodies[0])
         return true;
-    return _48 != nullptr;
+    return mBodies[1] != nullptr;
 }
 
 bool Constraint::sub_7100F6ACE8() const {
@@ -69,15 +71,73 @@ void Constraint::destroy(Constraint* instance) {
     delete instance;
 }
 
-// NON_MATCHING (m): identical instructions, only the index/base registers are swapped
-// (original keeps the index in x9 and the base in x8). Hoisting &_30 into its own local
-// reproduces the exact order but that local only steers scheduling (borderline, not applied).
-RigidBody* Constraint::x_0(int idx) {
-    s64 i = (u32)idx < 2 ? idx : 0;
-    RigidBody** bodies = &_40;
-    if (bodies[i] == nullptr)
-        bodies = &_30;
-    return bodies[i];
+// NON_MATCHING: identical instructions, only the shift by 3 (lsl) is scheduled after the &mFallbackBodies add
+RigidBody* Constraint::x_0(int idx) const {
+    auto* bodies = &mBodies;
+    if (!(*bodies)[idx])
+        bodies = &mFallbackBodies;
+    return (*bodies)[idx];
+}
+
+void Constraint::sub_7100F6A69C(BodyIndex idx) {
+    auto lock = sead::makeScopedLock(mCS);
+    mBodies[idx] = nullptr;
+    _52 &= ~8;
+}
+
+// inline-only in the original; name is a guess. Sets a body and requests the update (bit 3). The original has
+// three copies of it, at 0x7100f6a88c (body index 0), 0x7100f6a92c (index 1) and 0x7100f6a9d4 (index 1, body from
+// the StaticCompoundMgr).
+inline bool Constraint::setBodyAndRequest_(BodyIndex idx, RigidBody* body) {
+    if (_52 & 2)
+        return false;
+    auto lock = sead::makeScopedLock(mCS);
+    mBodies[idx] = body;
+    auto lock2 = sead::makeScopedLock(mCS);
+    if (_52 == 0)
+        System::instance()->getRigidBodyRequestMgr()->pushConstraint(this);
+    _52 |= 8;
+    return true;
+}
+
+bool Constraint::sub_7100F6A88C(RigidBody* body) {
+    return setBodyAndRequest_(BodyIndex::_0, body);
+}
+
+bool Constraint::sub_7100F6A92C(RigidBody* body) {
+    return setBodyAndRequest_(BodyIndex::_1, body);
+}
+
+bool Constraint::sub_7100F6A9D4(StaticCompoundRigidBodyGroup* group) {
+    if (!group)
+        return false;
+    auto* mgr = System::instance()->getStaticCompoundMgr();
+    if (!mgr)
+        return false;
+    auto* body = mgr->getRigidBody(group);
+    if (!body)
+        return false;
+    return setBodyAndRequest_(BodyIndex::_1, body);
+}
+
+void Constraint::sub_7100F6AC04(bool toi) {
+    if (toi != ((_50 >> 4) & 1)) {
+        mConstraintInstance->setPriority(toi ? hkpConstraintInstance::PRIORITY_TOI :
+                                               hkpConstraintInstance::PRIORITY_PSI);
+        if (toi)
+            _50 |= 0x10;
+        else
+            _50 &= ~0x10;
+    }
+}
+
+bool Constraint::sub_7100F6AC68() const {
+    auto* body = x_0(1);
+    return !body || body == System::instance()->get190();
+}
+
+u64 sub_7100F6AC60(const hkpConstraintInstance* instance) {
+    return instance->getUserData();
 }
 
 }  // namespace ksys::phys
