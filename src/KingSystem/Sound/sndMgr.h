@@ -553,14 +553,14 @@ struct SoundMgr {
 
     virtual ~SoundMgr();
 
-    // 0x71011fc29c (lane2 request, s49; placeholder name): starts the ducker 0x23 of the DuckingMgr and sets bit 1 of
-    // `_238`.
-    void sub_71011FC29C();
     f32 sub_71011FC31C();
     f32 sub_71011FC310();
     bool sub_71011FC2DC();
 
 public:
+    // 0x71011fc29c (lane2 request, s49; placeholder name): starts the ducker 0x23 of the DuckingMgr and sets bit 1 of
+    // `_238`. (Public: called by uking::ui::sub_7100A9F8B0.)
+    void sub_71011FC29C();
     aal::Listener* sub_71011FC2D0();
     f32 sub_71011FC338();
     f32 sub_71011FC340();

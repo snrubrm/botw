@@ -18,6 +18,7 @@
 #include "KingSystem/Utils/MathUtil.h"
 #include "Game/gameHorseColorInfoMgr.h"
 #include "Game/gameRoot38.h"
+#include "KingSystem/Sound/sndMgr.h"
 #include "Game/gameRuneMgr.h"
 #include "Game/gameSaveSystem.h"
 #include "KingSystem/System/UI/LayoutResourceMgr.h"
@@ -234,6 +235,15 @@ bool sub_7100A9F888() {
     if (mgr && (mgr->_90 & 0x10))
         return mgr->isSelectedRune(5);
     return false;
+}
+
+// 0x7100a9f8b0
+void sub_7100A9F8B0() {
+    createAndLoadScreenIfNeededImpl(ScreenId::PlainScreen, nullptr);
+    if (auto* screen = eui::ScreenMgr::instance()->getScreen(ScreenId::PlainScreen))
+        screen->open(1);
+    if (auto* sound = ksys::snd::SoundMgr::instance())
+        sound->sub_71011FC29C();
 }
 
 // 0x7100aa85b4
