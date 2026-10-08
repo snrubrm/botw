@@ -59,4 +59,15 @@ void Constraint::destroy(Constraint* instance) {
     delete instance;
 }
 
+// NON_MATCHING (m): identical instructions, only the index/base registers are swapped
+// (original keeps the index in x9 and the base in x8). Hoisting &_30 into its own local
+// reproduces the exact order but that local only steers scheduling (borderline, not applied).
+RigidBody* Constraint::x_0(int idx) {
+    s64 i = (u32)idx < 2 ? idx : 0;
+    RigidBody** bodies = &_40;
+    if (bodies[i] == nullptr)
+        bodies = &_30;
+    return bodies[i];
+}
+
 }  // namespace ksys::phys

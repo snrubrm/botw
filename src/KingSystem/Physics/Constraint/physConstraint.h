@@ -48,6 +48,8 @@ public:
     void sub_7100F6A6F8(bool a1, bool a2);
     // 0x7100f6aaa4 (lane4 s49; declared only, 308 B): attaches the constraint to the two bodies.
     void sub_7100F6AAA4(RigidBody* a, RigidBody* b);
+    // 0x7100f6abd8: _40[idx] (idx clamped to 0-1), falling back to _30[idx].
+    RigidBody* x_0(int idx);
     // 0x7100f6d420 (lane4 s49; declared only, 696 B): sets the pivot transforms (the matrices are converted to
     // quaternions and positions).
     void sub_7100F6D420(const sead::Matrix34f& a, const sead::Matrix34f& b, const sead::Matrix34f& c);
@@ -59,8 +61,9 @@ public:
     /* 0x28 */ void* _28;
     /* 0x30 */ RigidBody* _30;
     /* 0x38 */ RigidBody* _38;
-    /* 0x40 */ void* _40;
-    /* 0x48 */ void* _48;
+    // x_0 indexes _40/_48 and _30/_38 as two-element RigidBody* arrays (0x7100f6abd8).
+    /* 0x40 */ RigidBody* _40;
+    /* 0x48 */ RigidBody* _48;
     /* 0x50 */ u16 _50;
     /* 0x52 */ u16 _52;
     /* 0x58 */ sead::CriticalSection mCS;
