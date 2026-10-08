@@ -6,6 +6,8 @@
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/Utils/Thread/Message.h"
+#include "KingSystem/Physics/System/physNavMeshCharacter.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 
 namespace uking::ai {
 
@@ -88,6 +90,39 @@ void NPCTravel::sub_71004E3B10(f32 value, bool onProcessingThread) {
         }
         _110.mLock.unlock();
     }
+}
+
+// NON_MATCHING: XZ target/actor position loads use different registers and scheduling.
+bool NPCTravel::sub_71004E5824() {
+    if (auto* nav = mActor->m45()) {
+        nav->_1e0.lock();
+        const u8 state = nav->_294;
+        nav->_1e0.unlock();
+        if (state == 2)
+            return true;
+    }
+    auto* rail = static_cast<Unk_71024f15c0*>(_88->_840);
+    if (!rail || !rail->sub_7100EEBB74())
+        return false;
+    const auto& target = static_cast<Unk_71024f15c0*>(_88->_840)->_30.sub_7100EEB370();
+    const auto& mtx = mActor->getMtx();
+    return sead::Vector2f(target.x - mtx.m[0][3], target.z - mtx.m[2][3]).length() < 5.0f;
+}
+
+// NON_MATCHING: flag temporary stack placement and speed/threshold scheduling differ.
+bool NPCTravel::sub_71004E58FC() {
+    auto* rail = static_cast<Unk_71024f15c0*>(_88->_840);
+    if (!rail || !rail->sub_7100EEBB74())
+        return false;
+    const auto& motion = mActor->getASList()->sub_710115D2D4();
+    sead::Vector2f distance(motion.x, motion.z);
+    if (mActor->sub_71011C7A98())
+        distance *= mActor->get830();
+    const f32 speed = distance.length();
+    u32 flags = 0;
+    static_cast<Unk_71024f15c0*>(_88->_840)->m4(
+        speed < sead::Mathf::epsilon() ? 0.75f : speed * 15.0f, nullptr, &flags);
+    return (flags & 0x30) != 0;
 }
 
 void NPCTravel::sub_71004E59D4() {

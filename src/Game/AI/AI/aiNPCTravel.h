@@ -32,6 +32,10 @@ public:
 protected:
     // 0x71004e59d4: sends message 0x3800007 to the horse of _88 when it is closer than 2
     void sub_71004E59D4();
+    // 0x71004e5824: completed navigation, or less than five units from the rail target in XZ.
+    bool sub_71004E5824();
+    // 0x71004e58fc: advance the rail target by fifteen frames of XZ animation motion.
+    bool sub_71004E58FC();
     // 0x71004e3b10: with the horse ride info's actor of _88 acquired: locks _110, links this actor,
     // stores `value` and sends message 0x3800008 with _110 as its payload.
     void sub_71004E3B10(f32 value, bool onProcessingThread);

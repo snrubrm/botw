@@ -34,7 +34,9 @@ public:
     // 0x7100eebb84: resets both positions (_8 and its copy _30) and sets _58 to 1.
     virtual void m2();
     virtual bool m3();
-    virtual void m4(f32 distance, void* a2, f32* a3);
+    // 0x7100eebcb8: the third argument is cleared and receives integer flags
+    // from 0x7100eeb868; NPCTravel tests those flags with mask 0x30.
+    virtual void m4(f32 distance, void* a2, u32* flags);
 
     void sub_7100EEBAE0(ksys::map::Rail* rail, f32 progress);
     bool sub_7100EEBB74() const;
