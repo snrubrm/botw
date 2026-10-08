@@ -24,6 +24,10 @@ protected:
     virtual bool m32();
     virtual bool m33(sead::Matrix34f* mtx) = 0;
     void sub_710014FA28(const sead::Matrix34f& mtx);
+    // 0x710014f4bc: proc for the shockwave parts link (declaration only).
+    ksys::act::BaseProc* sub_710014F4BC();
+    // 0x710014f780: checks the resolved parts actor (declaration only).
+    bool sub_710014F780(ksys::act::Actor* actor);
 
     // static_param at offset 0x20
     const int* mPower_s{};

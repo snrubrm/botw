@@ -20,7 +20,23 @@ ForkASTrgEmitShockWave::~ForkASTrgEmitShockWave() {
 }
 
 bool ForkASTrgEmitShockWave::init_(sead::Heap* heap) {
-    return ksys::act::ai::Action::init_(heap);
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
+        enemy->sub_7100D3CED8(mShockWavePartsKey_s, heap);
+        if (!enemy->getActorPartsActor(mShockWavePartsKey_s).hasProc()) {
+            if (auto* proc = sub_710014F4BC())
+                enemy->sub_7100D3D108(mShockWavePartsKey_s, proc);
+            return true;
+        } else {
+            auto* link = &enemy->getActorPartsActor(mShockWavePartsKey_s);
+            auto* actor =
+                sead::DynamicCast<ksys::act::Actor>(link->getProc(nullptr, mActor));
+            if (sub_710014F780(actor))
+                return true;
+        }
+    }
+    auto* proc = sub_710014F4BC();
+    _98.acquire(proc, false);
+    return true;
 }
 
 void ForkASTrgEmitShockWave::enter_(ksys::act::ai::InlineParamPack* params) {
