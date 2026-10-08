@@ -336,6 +336,8 @@ public:
     // Returns a 4-byte class by value (AArch64 returns it zero-extended in x0: `and x0, x0, #0xffffffff`); sead::BitFlag32
     // is a guess for its type.
     sead::BitFlag32 getDeathReason();
+    // 0x710084c044 (placeholder name): always false.
+    bool sub_710084C044();
 
 protected:
     friend class acc::PlayerBase;

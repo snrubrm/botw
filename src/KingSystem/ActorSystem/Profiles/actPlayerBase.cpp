@@ -1482,4 +1482,8 @@ bool PlayerBase::sub_710084BDEC() {
     return (info->_18 >> 1) & 1;
 }
 
+bool PlayerBase::sub_710084C044() {
+    return false;
+}
+
 }  // namespace ksys::act
