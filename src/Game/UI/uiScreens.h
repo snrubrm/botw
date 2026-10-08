@@ -12,6 +12,7 @@
 #include "Game/UI/euiAnimator.h"
 #include "Game/UI/euiControlBase.h"
 #include "Game/UI/euiMessageString.h"
+#include "Game/UI/euiTextBoxEx.h"
 #include "Game/UI/uiTimer.h"
 #include "KingSystem/System/DebugBoard.h"
 #include "Game/UI/euiScreen.h"
@@ -829,6 +830,8 @@ public:
     void sub_71010AE548(ksys::act::Actor* actor, bool flag);
     // 0x71010ae9e8 (CSV unnamed, declared only): called by UI::sub_71010A5B0C with the actor.
     bool sub_71010AE9E8(ksys::act::Actor* actor);
+    // 0x71010ae104 (CSV unnamed): message lookup into _680, 0/1/2 return.
+    s32 sub_71010AE104(const sead::SafeString& set, const sead::SafeString& label);
 
     // One message entry (0xd0 bytes, linked through +0; the last of the four has a null link).
     // The entries are plain buffers: ScreenMessage3D's D1 destroys only the CriticalSection, so they
@@ -854,9 +857,19 @@ public:
         virtual ~Entry();
         /* 0x8 */ eui::LayoutEx* _8;
         /* 0x10 */ EntryState* _10;
-        u8 _18[0x38 - 0x18];
+        /* 0x18 */ eui::TextBoxEx* _18;
+        /* 0x20 */ eui::Animator* _20;
+        /* 0x28 */ eui::Animator* _28;
+        u8 _30[0x38 - 0x30];
         /* 0x38 */ ksys::act::BaseProcLink m38;
         /* 0x48 */ u32 _48;
+        /* 0x4c */ s32 _4c;
+        u8 _50[0x54 - 0x50];
+        /* 0x54 */ u32 _54;
+        u8 _58[0xa8 - 0x58];
+        /* 0xa8 */ bool _a8;
+        // 0x71010aeb60 (CSV unnamed)
+        void sub_71010AEB60();
     };
 
     /* 0x300 */ sead::PtrArray<Entry> _300;

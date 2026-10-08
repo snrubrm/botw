@@ -1,11 +1,39 @@
 #include "Game/UI/uiScreens.h"
 #include "Game/UI/euiLayoutEx.h"
+#include "Game/UI/euiMessageMgr.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ui {
 
+// 0x71010ae104 (CSV unnamed): message lookup into _680 (0 = found, 1 = no set, 2 = no message)
+s32 ScreenMessage3D::sub_71010AE104(const sead::SafeString& set, const sead::SafeString& label) {
+    eui::MessageSet* message_set = eui::MessageMgr::instance()->getMessageSet(set);
+    if (!message_set)
+        return 1;
+    eui::MessageString message = message_set->tryFindMessage(label.cstr());
+    _680.assign(message);
+    return _680.getString() ? 0 : 2;
+}
+
 // 0x71010aefb0 (CSV unnamed): Entry D1 (restores the vtable, releases the proc link)
 ScreenMessage3D::Entry::~Entry() = default;
+
+// 0x71010aeb60
+void ScreenMessage3D::Entry::sub_71010AEB60() {
+    if (m38.hasProc())
+        m38.reset();
+    _54 = 0;
+    _4c = -1;
+    _a8 = false;
+    _18->setStringNoPreproces(sead::WSafeString::cEmptyString.cstr(), 0);
+    if (_20)
+        _20->StopAtMin();
+    if (_8) {
+        _8->sub_7100BDDE7C(false, 1, true);
+        _8->startAnimCloseImpl_(false, true);
+    }
+    _48 = 6;
+}
 
 // 0x71010ae9e8
 bool ScreenMessage3D::sub_71010AE9E8(ksys::act::Actor* actor) {
