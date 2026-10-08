@@ -2,6 +2,10 @@
 
 #include "KingSystem/ActorSystem/actAiAi.h"
 
+namespace ksys::phys {
+class NavMeshCharacter;
+}
+
 namespace uking::ai {
 
 class HorseCheckLineOfSightSelectorBase : public ksys::act::ai::Ai {
@@ -19,6 +23,9 @@ public:
     void loadParams_() override;
 
     virtual void m34(sead::Vector3f* out);
+
+    // 0x7100346aa4 (placeholder name): line-of-sight probe in one direction.
+    bool sub_7100346AA4(ksys::phys::NavMeshCharacter* nav, sead::Vector3f* dir);
 
 protected:
     // static_param at offset 0x38
