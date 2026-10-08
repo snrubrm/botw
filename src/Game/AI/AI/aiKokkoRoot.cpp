@@ -1,15 +1,22 @@
 #include "Game/AI/AI/aiKokkoRoot.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include <cfloat>
+#include <prim/seadSafeString.h>
 #include "Game/Actor/actEnemy.h"
+#include "Game/Damage/dmgDamageManager.h"
 #include "Game/Damage/dmgDamageManagerBase.h"
+#include "KingSystem/ActorSystem/Profiles/actBullet.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actActorX6A0.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/Event/evtManager.h"
 #include "KingSystem/Event/evtMetadata.h"
 #include "KingSystem/GameData/gdtSpecialFlags.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/World/worldManager.h"
+#include "Game/AI/aiUnk_710072BA90.h"
 
 namespace uking::ai {
 
@@ -52,6 +59,80 @@ void KokkoRoot::enter_(ksys::act::ai::InlineParamPack* params) {
 void KokkoRoot::leave_() {
     sub_71005DA114(mActor, &_248);
     PreyRoot::leave_();
+}
+
+// NON_MATCHING: backend allocation/scheduling plus a source-structure gap — the original reaches the
+// shared world-check/counter tail from the player path by fallthrough while the enemy-bullet path jumps
+// over it with no test (unrepresentable without goto; a check_world flag stands in, duplicating one
+// link.reset()); also frame keeps x23, the _80 block uses mov+writeback addressing, and the timer guard
+// is b.le (all tried float forms give hi/ge/le, never b.ls, in this layout)
+void KokkoRoot::calc_() {
+    PreyRoot::calc_();
+    if (_248._80) {
+        const char* arg = mActor->_6a0->_a.isOn(2 | 4) ? "○" : "×";
+        const char* arg2 =
+            ksys::world::Manager::instance()->sub_71010F3A94() ? "○" : "×";
+        sead::FormatFixedSafeString<64> msg("屋内判定: 自分 %s、プレイヤー %s", arg, arg2);
+    }
+    auto* actor = mActor;
+    auto* damage_mgr = sub_710072BA90(actor);
+    if (damage_mgr && (damage_mgr->_216.isOn(2) || s32(damage_mgr->getDamage()) >= 1)) {
+        if (actor->_6a0->_a.isOn(2 | 4))
+            return;
+        ksys::act::BaseProcLink link;
+        auto* attacker = damage_mgr->getAttacker();
+        if (ksys::act::isEnemyProfile(attacker)) {
+            link = *attacker;
+        } else {
+            auto* attacker2 = damage_mgr->m37();
+            bool check_world = false;
+            {
+                ksys::act::acc::Bullet accessor;
+                if (ksys::act::acquireActor(attacker2, &accessor) &&
+                    ksys::act::isEnemyProfile(&accessor.sub_71000056E4())) {
+                    link = accessor.sub_71000056E4();
+                } else {
+                    link = ksys::act::PlayerInfo::getSomeProcLink();
+                    check_world = true;
+                }
+            }
+            if (check_world && ksys::world::Manager::instance()->sub_71010F3A94()) {
+                link.reset();
+                return;
+            }
+        }
+        if (++_220 >= *mStartSpecialAttackCount_s) {
+            _228 = link;
+            _238 = ksys::Timer(30.0f, 30.0f);
+        }
+        link.reset();
+    }
+    if (!(_238.value > FLT_EPSILON))
+        return;
+    auto* controller = mActor->getCharacterController();
+    if (m34()) {
+        _228.reset();
+    } else if (!controller || !controller->sub_7100F5F14C()) {
+        _238.update();
+        return;
+    } else {
+        if (_228.hasProc() && !sub_7100504EBC(0x40) &&
+            !ksys::gdt::getBoolByKey("Kokko_Event_Running", false)) {
+            if (ksys::act::isEnemyProfile(&_228)) {
+                sub_7100456DE4(_228);
+            } else {
+                if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
+                    if (!enemy->_d70.sub_71002DCCBC(-1))
+                        enemy->_d70.sub_71002DC32C();
+                    enemy->_d70.sub_71002DC628(_228, 1);
+                }
+                sub_7100456EEC();
+            }
+        }
+        _228.reset();
+    }
+    _238 = ksys::Timer(-1.0f, -1.0f, 0.0f);
+    _238.update();
 }
 
 void KokkoRoot::loadParams_() {

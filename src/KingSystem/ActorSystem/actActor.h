@@ -39,6 +39,10 @@ class ChemicalAttack;
 class KokkoCreateDrop;
 }  // namespace uking::action
 
+namespace uking::ai {
+class KokkoRoot;
+}  // namespace uking::ai
+
 namespace uking::dmg {
 class DamageManagerBase;
 }  // namespace uking::dmg
@@ -806,6 +810,7 @@ protected:
     friend struct ActorBindEntry;  // writes mMtx / mScale
     friend class uking::act::Unk_71024e8738;  // writes mMtx / mScale (ActorBind subclass copying a pose)
     friend class uking::action::KokkoCreateDrop;  // checks ActorX6A0 flags
+    friend class uking::ai::KokkoRoot;  // checks ActorX6A0 flags
     friend class uking::action::ChemicalAttack;  // lerps mScale.x in place
 
     struct Unk1 {
