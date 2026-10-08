@@ -1179,6 +1179,8 @@ public:
     ~ScreenBoxCursorTV() override;
     SEAD_RTTI_OVERRIDE(ScreenBoxCursorTV, Screen)
     void m93(sead::Heap* heap) override;
+    // 0x710109db4c
+    const char* getLayoutName_() const override;
 
     /* 0x300 */ eui::Animator* _300{};
 };
