@@ -899,6 +899,9 @@ public:
         // 0x71010ade64 / 0x71010af290 (CSV unnamed / placeholder): state update / look-at-camera sync
         void sub_71010ADE64();
         void sub_71010AF290();
+        // 0x71010aecb8 (CSV unnamed): tag invoke (the method bound to the _88 delegate by the entry
+        // creator; dispatches the voice/applause tags to the dialog helpers).
+        void sub_71010AECB8(const sead::MessageSet<char16>::TagInfo* tag);
     };
 
     /* 0x300 */ sead::PtrArray<Entry> _300;
@@ -3022,6 +3025,10 @@ u32 sub_7100AA5140(ShopInfoTagData* data, sead::WBufferedSafeString* out);
 // (called by the ScreenMessage3D tag invoke).
 void sub_71010B3468(const sead::MessageSet<char16>::TagInfo* tag, ksys::act::Actor* actor, bool flag);
 void sub_71010B3484(const sead::MessageSet<char16>::TagInfo* tag, ksys::act::Actor* actor, bool flag);
+// 0x71010b3188 (CSV unnamed): TagInfo dispatch shared by the ScreenMessage3D tag invoke (below)
+// and the dialog scan (calls the eft voice helper and the WeaponBase TU helper).
+void sub_71010B3188(const sead::MessageSet<char16>::TagInfo* tag, ksys::act::Actor* actor, bool a,
+                    s16* out, bool b);
 
 class ScreenShopInfo : public ScreenEx {
 public:

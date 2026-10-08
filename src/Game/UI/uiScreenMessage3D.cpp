@@ -555,4 +555,40 @@ void ScreenMessage3D::Entry::sub_71010AEFF8() {
     _5b = true;
 }
 
+// 0x71010aecb8 (CSV unnamed): tag invoke (the method bound to the _88 delegate).
+void ScreenMessage3D::Entry::sub_71010AECB8(const sead::MessageSet<char16>::TagInfo* tag) {
+    if (tag->group == 4 && tag->type == 0) {
+        if (m38.hasProc()) {
+            auto* proc = m38.getProc(nullptr, nullptr);
+            auto* actor = sead::DynamicCast<ksys::act::Actor>(proc);
+            if (actor)
+                sub_71010B3468(tag, actor, true);
+        }
+    }
+    if (tag->group == 4 && tag->type == 1) {
+        if (m38.hasProc()) {
+            auto* proc = m38.getProc(nullptr, nullptr);
+            auto* actor = sead::DynamicCast<ksys::act::Actor>(proc);
+            if (actor)
+                sub_71010B3484(tag, actor, true);
+        }
+    }
+    if (tag->group == 4 && tag->type == 2) {
+        if (m38.hasProc()) {
+            auto* proc = m38.getProc(nullptr, nullptr);
+            auto* actor = sead::DynamicCast<ksys::act::Actor>(proc);
+            if (actor)
+                sub_71010B3468(tag, actor, true);
+        }
+    }
+    if (tag->group == 3 && tag->type == 1) {
+        if (m38.hasProc()) {
+            auto* proc = m38.getProc(nullptr, nullptr);
+            auto* actor = sead::DynamicCast<ksys::act::Actor>(proc);
+            if (actor)
+                sub_71010B3188(tag, actor, true, nullptr, true);
+        }
+    }
+}
+
 }  // namespace uking::ui
