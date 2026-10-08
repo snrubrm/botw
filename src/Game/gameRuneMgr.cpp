@@ -16,6 +16,11 @@ void RuneMgr::setFieldD8() {
     setLockedFlag(_98);
 }
 
+void RuneMgr::sub_71006757B8() {
+    _3c8[0].setDuration(1e-4f);
+    _3c8[1].setDuration(1e-4f);
+}
+
 void RuneMgr::sub_710067587C() {
     setLockedFlag(_e0);
 }
