@@ -210,6 +210,26 @@ ScreenMessage3D::ScreenMessage3D() : Screen() {
     _690 = 0;
 }
 
+// 0x7100a58150
+ScreenStaffRollDLC::ScreenStaffRollDLC() : ScreenEx() {
+    _37f8.setBuffer(2, _3808);
+    _38f4 = -1;
+    _38f0 = 0;
+    _38e8 = 0;
+    _38e0 = 0;
+    _38d8 = 0;
+    _38f8 = -1.0f;
+    _38fc = 0;
+    _3904 = 3.0f;
+    _37f8.clear();
+    _3900 = 0;
+    _3908 = 3;
+    _36b8 = 0;
+    _36b0 = 0;
+    _36a8 = 0;
+    _36a0 = 0;
+}
+
 
 
 }  // namespace uking::ui

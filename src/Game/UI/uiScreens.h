@@ -4,6 +4,7 @@
 #include <container/seadFreeList.h>
 #include <container/seadPtrArray.h>
 #include <container/seadRingBuffer.h>
+#include <math/seadBoundBox.h>
 #include <math/seadVector.h>
 #include <gfx/seadProjection.h>
 #include <prim/seadSafeString.h>
@@ -3286,9 +3287,42 @@ public:
 
 class ScreenStaffRollDLC : public ScreenEx {
 public:
+    ScreenStaffRollDLC();
     bool isEnableControl() const override;
     ~ScreenStaffRollDLC() override;
     SEAD_RTTI_OVERRIDE(ScreenStaffRollDLC, ScreenEx)
+
+    /* 0x3610 */ u32 _3610 = 0;
+    /* 0x3614 */ u32 _3614 = 0;
+    /* 0x3618 */ f32 _3618 = 1.0f;
+    u8 _361c[0x3620 - 0x361c];
+    u64 _3620[0x60 / 8] = {};
+    /* 0x3680 */ sead::Vector2f _3680 = sead::Vector2f::zero;
+    /* 0x3688 */ sead::Vector2f _3688 = sead::Vector2f::zero;
+    /* 0x3690 */ sead::BoundBox2f _3690;
+    /* 0x36a0 */ u64 _36a0;
+    /* 0x36a8 */ u64 _36a8;
+    /* 0x36b0 */ u64 _36b0;
+    /* 0x36b8 */ u64 _36b8;
+    /* 0x36c0 */ f32 _36c0 = -1.0f;
+    u32 _36c4[0x54 / 4] = {};
+    /* 0x3718 */ u64 _3718 = 0x439600003F800000;  // two f32 {1.0f, 300.0f} in memory order
+    /* 0x3720 */ u32 _3720 = 0;
+    /* 0x3728 */ UiTexSlots _3728;
+    /* 0x37f8 */ sead::PtrArrayImpl _37f8;
+    /* 0x3808 */ void* _3808[2];
+    u8 _3818[0x38d8 - 0x3818];
+    /* 0x38d8 */ u64 _38d8;
+    /* 0x38e0 */ u64 _38e0;
+    /* 0x38e8 */ u64 _38e8;
+    /* 0x38f0 */ u32 _38f0;
+    /* 0x38f4 */ s32 _38f4;
+    /* 0x38f8 */ f32 _38f8;
+    /* 0x38fc */ u8 _38fc;
+    u8 _38fd[0x3900 - 0x38fd];
+    /* 0x3900 */ u32 _3900;
+    /* 0x3904 */ f32 _3904;
+    /* 0x3908 */ u32 _3908;
 };
 
 class ScreenKeyBoradTextArea : public ScreenEx {
