@@ -51,16 +51,25 @@ public:
     // 0x7100da5528 (CSV unnamed): fill the context from a name, an action argument and a value.
     void init(const sead::SafeString& name, const evfl::ActionArg& arg, s32 a3);
 
-    // One entry of the +0x50 request-node table (0x50 bytes; name is a guess). Only the
-    // fields the ctor touches are known; they are filled by an explicit loop, not NSDMIs
-    // (NSDMI construction fully unrolls where the original keeps a loop).
+    // One entry of the +0x50 request-node table (0x50 bytes). The ctor's rolled loop
+    // constructs the link at +0x8 (x0 = elem + 0x58 - 0x50), stores -1 at +0x28 and
+    // zeroes +0x30/+0x38, leaving +0x0 and +0x18..+0x28 untouched. The link call sits
+    // inside the loop (not in an unrolled mem-init), so the node has a user-provided
+    // inline ctor carrying the call plus the stores; that keeps the 32-element
+    // mem-init construction rolled where a trivial node fully unrolls.
     struct Node {
-        act::BaseProcLink link;
-        u8 _10[0x10];
-        s64 _20;
-        u64 _28;
+        Node() {
+            _28 = -1;
+            _30 = 0;
+            _38 = 0;
+        }
+        void* _0;
+        act::BaseProcLink _8;
+        u8 _18[0x10];
+        s64 _28;
         u64 _30;
-        u8 _38[0x18];
+        u64 _38;
+        u8 _40[0x10];
     };
 
     /* 0x0 */ s32 mStatus;

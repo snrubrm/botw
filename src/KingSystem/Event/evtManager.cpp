@@ -432,4 +432,11 @@ void Manager::handleAck(const MessageAck& ack) {
         static_cast<ActionContext*>(ack.getUserData())->x_2();
 }
 
+// 0x7100da56b8: defined here (not in evtActionContext.cpp) because the original's
+// ActionContext ctor calls it out of line instead of inlining it.
+void ActionContext::reset() {
+    mStatus = 0;
+    _af4 = 0;
+}
+
 }  // namespace ksys::evt

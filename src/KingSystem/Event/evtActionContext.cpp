@@ -43,12 +43,6 @@ void ActionContext::setStatus1_0(const evfl::ActionArg&) {
     mStatus = 1;
 }
 
-// 0x7100da56b8
-void ActionContext::reset() {
-    mStatus = 0;
-    _af4 = 0;
-}
-
 // 0x7100da5678
 void ActionContext::x_0() {
     _a50 = 0;
@@ -147,18 +141,20 @@ void ActionContext::statusStuff_1(act::Actor* actor) {
     }
 }
 
-// 0x7100da7b1c (CSV unnamed): construct the strings and the request nodes.
-// NON_MATCHING: the 32 request-node constructions fully unroll in ours (32 out-of-line
-// link calls plus an unrolled-by-2 field loop) while the original keeps a single rolled
-// loop holding one link call plus the field stores. Two source shapes tried (NSDMI element
-// init, explicit field loop); neither reproduces the rolled fusion, and placement-new to
-// force it is not honest source. All member offsets/stores/calls match.
+// 0x7100da7b1c (CSV unnamed): construct the strings and the request nodes. The 32
+// nodes are default-constructed by the mem-init (Node's inline ctor above); the body
+// only resets the status and fills the scalar fields.
+// NON_MATCHING: the 32 node constructions fully unroll in ours (one out-of-line link
+// call plus the field stores per node) while the original keeps a single rolled loop
+// holding one link call plus the field stores. The loop base proves the member layout
+// (link at node + 0x8, -1 at +0x28, zeros at +0x30/+0x38 — ours stores the same values
+// at the same offsets) and everything after the loop (string setups, reset call, scalar
+// stores) matches. Tried: NSDMI element init, explicit field loop, user-provided inline
+// Node ctor carrying the call plus the stores (current form). None rolls: any honest
+// `Node _50[32]` member must construct its 32 links in the mem-init and clang fully
+// unrolls that here, so the remaining consistent source shape is raw storage with
+// placement-new in an explicit loop, which is not honest source (HARD, logged).
 ActionContext::ActionContext() {
-    for (s32 i = 0; i < 32; ++i) {
-        _50[i]._20 = -1;
-        _50[i]._28 = 0;
-        _50[i]._30 = 0;
-    }
     reset();
     _48 = 0;
     mStatus2 = 2;
