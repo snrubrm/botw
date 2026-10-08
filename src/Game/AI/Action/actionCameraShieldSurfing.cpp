@@ -3,12 +3,117 @@
 #include <cmath>
 #include <math/seadMathCalcCommon.h>
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::action {
 
 CameraShieldSurfing::CameraShieldSurfing(const InitArg& arg) : CameraAction(arg) {}
 
 CameraShieldSurfing::~CameraShieldSurfing() = default;
+
+// NON_MATCHING: target and curve lifetimes, scalar loads and float scheduling differ.
+void CameraShieldSurfing::m33() {
+    auto* camera = getCamera();
+    if (!camera)
+        return;
+    auto* player = sub_7100926A14();
+    if (!player)
+        return;
+    _284.makeAllZero();
+    _285 = 0;
+    if (camera->_860._808.sub_710079ADC8(0x100) &&
+        camera->_860._804.sub_710079AE50(0x100))
+        _284.set(2);
+    sub_710077EBEC();
+    f32 frame = 0.0f;
+    ksys::Timer::update(&frame, 1.0f);
+    if (frame <= 0.0f) {
+        _10c = 0.01f;
+        _110 = 100.0f;
+    } else {
+        _10c = frame;
+        _110 = 1.0f / frame;
+        if (!std::isfinite(_110)) {
+            _10c = 0.01f;
+            _110 = 100.0f;
+        }
+    }
+    sub_710077ED58();
+    _ac = sead::Vector3f(0.0f, 0.0f, 0.0f);
+    if (auto* current_camera = getCamera())
+        _ac = current_camera->_860._2b8;
+    _bc = 0.0f;
+    _c0 = 0.0f;
+    camera->_860._7f8.reset(1);
+    sead::Vector2f stick(0.0f, 0.0f);
+    sub_7100924F08(&stick);
+    if (stick.x != 0.0f || stick.y != 0.0f)
+        camera->_860._7f8.set(1);
+    if (camera->_860._7fc.sub_710079C0CC(0x800))
+        camera->_860._7f8.set(1);
+    if (stick.x != 0.0f || stick.y != 0.0f)
+        _286 = 5;
+    else if (sub_7100927110())
+        _286 = 2;
+    _286 = sub_7100926FD0() ? 5 : (camera->_860._7fa.getDirect() & 1);
+    _90 = 2.25f;
+    if (auto* current_camera = getCamera()) {
+        if (_286 == 2 && current_camera->_860._80f.sub_710079C1F4(1) &&
+            current_camera->_860.sub_710079BF20())
+            _90 = current_camera->_860._7e4;
+    }
+    sub_710077EF8C();
+    const f32 vertical_speed = (player->getMtx().getTranslation().y -
+                                sub_7100928868(camera->_860._164).y) * _110;
+    f32 amount = sead::Mathf::clampMax(vertical_speed > 0.0f ? vertical_speed : -vertical_speed, 1.0f);
+    amount = std::sin(amount * 3.1415927f - 1.5707964f);
+    _d4 = _c8 = _260 + (amount + 1.0f) * 0.5f * (_264 - _260);
+    const f32 acceleration = (vertical_speed - sub_7100928868(camera->_860._174).y) * _110;
+    amount = sead::Mathf::clampMax(acceleration > 0.0f ? acceleration : -acceleration, 0.05f);
+    _d8 = _cc = (amount / 0.05f) * 0.79999995f + 0.1f;
+    _fc = 0.0f;
+    if (!camera->_860._7fc.sub_710079BFB0(0x100000)) {
+        _70.sub_710079C510(1.0f);
+        const act::Unk_7100922700 polar(_100, _dc, _f4);
+        camera->_860._0._c = _ac;
+        camera->_860._0._0 = camera->_860._0._c + polar.sub_7100923254();
+        f32 offset = *mOffsetYMin_s;
+        if (*mOffsetYMin_s != *mOffsetYMax_s) {
+            f32 value = polar._4;
+            if (value < _228)
+                value = _228;
+            else if (!(value <= _22c))
+                value = _22c;
+            value = angleStuff(value);
+            {
+                act::Unk_71024741b8 curve;
+                curve.set(_228, _228, _22c, _22c, *mLatMinWeight_s, *mLatMaxWeight_s);
+                value = curve.sub_71009234D8(value, 10);
+            }
+            {
+                act::Unk_71024741b8 curve;
+                curve.set(0.0f, _238, 1.0f - _23c, 1.0f, *mLatMinWeight_s, *mLatMaxWeight_s);
+                value = curve.eval(value);
+            }
+            {
+                act::Unk_71024741b8 curve;
+                curve.set(0.0f, _268, 1.0f - _26c, 1.0f, *mOffsetYMaxWeight_s, *mOffsetYMinWeight_s);
+                value = curve.sub_71009234D8(value, 10);
+            }
+            {
+                act::Unk_71024741b8 curve;
+                curve.set(*mOffsetYMax_s, *mOffsetYMax_s, *mOffsetYMin_s, *mOffsetYMin_s,
+                          *mOffsetYMaxWeight_s, *mOffsetYMinWeight_s);
+                offset = curve.eval(value);
+            }
+        }
+        camera->_860._0._c.y += offset;
+        camera->_860._0._0 = camera->_860._0._c + polar.sub_7100923254();
+    } else {
+        _ec = 0.0f;
+        _f0 = 0.0f;
+    }
+}
 
 void CameraShieldSurfing::m36() {
     getStaticParam(&mLatMin_s, "LatMin");
@@ -382,6 +487,150 @@ void CameraShieldSurfing::sub_71007812B8() {
     _70.sub_710079C384(duration, 0.0f);
     _70.sub_710079C3F8(_280);
     sub_710074BCB4();
+}
+
+// NON_MATCHING: curve lifetimes, field loads and scalar scheduling differ.
+void CameraShieldSurfing::sub_710077EBEC() {
+    sub_7100781548();
+    _244 = sub_7100924D80(*mLngCus_s);
+    _248 = sead::Mathf::clampMin(*mLngCusSpeedEffect_s, 0.01f);
+    _24c = sub_7100924D40(*mRadiusMin_s);
+    _250 = sub_7100924D40(*mRadiusMax_s);
+    _254 = sead::Mathf::clamp(*mRadiusMinWidth_s, 0.0f, 0.5f);
+    _258 = sead::Mathf::clamp(*mRadiusMaxWidth_s, 0.0f, 0.5f);
+    _25c = sub_7100924D40(*mRadius_s);
+    _278 = sub_7100924D80(*mAtHCus_s);
+    sub_7100924DA4(*mAtVCusMin_s, *mAtVCusMax_s, &_260, &_264);
+    _268 = sead::Mathf::clamp(*mOffsetYMinWidth_s, 0.0f, 0.5f);
+    _26c = sead::Mathf::clamp(*mOffsetYMaxWidth_s, 0.0f, 0.5f);
+    _27c = sub_7100924D50(*mFovy_s);
+    _270 = sub_7100924D80(*mSideOffsetCus_s);
+    _274 = sub_7100924D80(*mSideOffsetRateCus_s);
+    _280 = sead::Mathf::clampMin(*mAutoModeConnect_s, 0.0f);
+}
+
+// NON_MATCHING: curve lifetimes, field loads and scalar scheduling differ.
+void CameraShieldSurfing::sub_710077ED58() {
+    auto* camera = getCamera();
+    if (!camera || !camera->_860.sub_710079C184(0x100))
+        return;
+    if ((camera->_860._0._c - camera->_860._0._0).squaredLength() < 400.0f)
+        return;
+    camera->_860._a8 = camera->_860._e0;
+    camera->_860._70 = camera->_860._e0;
+    camera->_860._38 = camera->_860._e0;
+    camera->_860._0 = camera->_860._e0;
+    act::Unk_7100922700 polar(camera->_860._0._c - camera->_860._0._0);
+    polar._0 = _25c;
+    camera->_860._0._c = camera->_860._0._0 + polar.sub_7100923254();
+}
+
+// NON_MATCHING: curve lifetimes, field loads and scalar scheduling differ.
+void CameraShieldSurfing::sub_710077EF8C() {
+    switch (_286) {
+    case 0:
+        sub_7100780ED0(false);
+        _70.sub_710079C3F8(_90);
+        break;
+    case 1:
+        sub_7100780ED0(true);
+        _70.sub_710079C3F8(_90);
+        break;
+    case 2:
+        sub_71007808F4();
+        break;
+    case 3:
+        if (auto* camera = getCamera()) {
+            const act::Unk_7100922700 polar(camera->_860._0._0 - camera->_860._0._c);
+            _dc = _240;
+            _e0 = angleStuff(polar._4 - _240);
+            _100 = _25c;
+            _104 = polar._0 - _25c;
+            sub_710078105C();
+        }
+        break;
+    case 4:
+        sub_71007809E0();
+        break;
+    default:
+        sub_7100780AD8();
+        break;
+    }
+    _90 = 1.0f;
+    _284.set(1);
+}
+
+// NON_MATCHING: curve lifetimes, field loads and scalar scheduling differ.
+void CameraShieldSurfing::sub_710077FFA0() {
+    if (_228 == _22c || (std::fabs(_228) == 180.0f && std::fabs(_22c) == 180.0f) ||
+        _24c == _250) {
+        _100 = _25c;
+        return;
+    }
+    f32 value = _240;
+    {
+        act::Unk_71024741b8 curve;
+        curve.set(_228, _228, _22c, _22c, *mLatMinWeight_s, *mLatMaxWeight_s);
+        value = curve.sub_71009234D8(value, 10);
+    }
+    f32 base_lat_ratio;
+    {
+        act::Unk_71024741b8 curve;
+        curve.set(0.0f, _238, 1.0f - _23c, 1.0f, *mLatMinWeight_s, *mLatMaxWeight_s);
+        base_lat_ratio = curve.eval(value);
+    }
+    value = angleStuff(_f0 + _dc);
+    if (value < _228)
+        value = _228;
+    else if (!(value <= _22c))
+        value = _22c;
+    value = angleStuff(value);
+    {
+        act::Unk_71024741b8 curve;
+        curve.set(_228, _228, _22c, _22c, *mLatMinWeight_s, *mLatMaxWeight_s);
+        value = curve.sub_71009234D8(value, 10);
+    }
+    f32 lat_ratio;
+    {
+        act::Unk_71024741b8 curve;
+        curve.set(0.0f, _238, 1.0f - _23c, 1.0f, *mLatMinWeight_s, *mLatMaxWeight_s);
+        lat_ratio = curve.eval(value);
+    }
+    const f32 edge = lat_ratio > base_lat_ratio ? 1.0f : -1.0f;
+    f32 blend = 1.0f;
+    if (edge - base_lat_ratio != 0.0f)
+        blend = (lat_ratio - base_lat_ratio) / (edge - base_lat_ratio);
+    f32 min = 1.0f;
+    f32 max = 1.0f;
+    sub_7100924C94(_24c, _250, &min, &max);
+    value = _25c;
+    if (value < min)
+        value = min;
+    else if (!(value <= max))
+        value = max;
+    {
+        act::Unk_71024741b8 curve;
+        curve.set(_24c, _24c, _250, _250, *mRadiusMinWeight_s, *mRadiusMaxWeight_s);
+        value = curve.sub_71009234D8(value, 10);
+    }
+    {
+        act::Unk_71024741b8 curve;
+        curve.set(0.0f, _254, 1.0f - _258, 1.0f, *mRadiusMinWeight_s, *mRadiusMaxWeight_s);
+        value = curve.eval(value);
+    }
+    {
+        act::Unk_71024741b8 curve;
+        curve.set(0.0f, _254, 1.0f - _258, 1.0f, *mRadiusMinWeight_s, *mRadiusMaxWeight_s);
+        value = curve.sub_71009234D8(value + blend * (edge - value), 10);
+    }
+    {
+        act::Unk_71024741b8 curve;
+        curve.set(_24c, _24c, _250, _250, *mRadiusMinWeight_s, *mRadiusMaxWeight_s);
+        value = curve.eval(value);
+    }
+    const f32 radius = sub_7100924D40(value);
+    const f32 rate = sub_7100791E44(0.6f);
+    _100 += rate * (radius - _100);
 }
 
 }  // namespace uking::action

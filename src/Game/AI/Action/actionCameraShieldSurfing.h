@@ -16,13 +16,16 @@ public:
     ~CameraShieldSurfing() override;
 
 protected:
-    // m33 / m34 (not decompiled yet).
     void m33() override;
     void m34() override;
     void m36() override;
 
     // 0x71007802fc (placeholder name): _c0 eases towards the sign of the stick x while the player is on foot (bgCrossFoot),
     // then _bc eases towards SideOffset * _c0.
+    void sub_710077EBEC();
+    void sub_710077ED58();
+    void sub_710077EF8C();
+    void sub_710077FFA0();
     void sub_71007802FC();
     void sub_71007803E0(sead::Vector3f* out, const act::Unk_7100922700* polar);
     void sub_71007808F4();
