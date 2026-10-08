@@ -2,7 +2,11 @@
 #include <limits>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorCreator.h"
+#include "KingSystem/ActorSystem/actActorHeapUtil.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
+#include "KingSystem/ActorSystem/actInstParamPack.h"
+#include "KingSystem/ActorSystem/Profiles/actBullet.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerOrEnemy.h"
 #include "Game/Actor/actEnemy.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
@@ -46,9 +50,56 @@ namespace {
 const u32 sAttackAttrBits[] = {1, 2, 4};
 }  // namespace
 
+// Creates the shockwave actor with the attack params. The original makes a discarded cstr()
+// call on the actor name (a real virtual call in the asm) before creating the actor with the
+// name's raw top pointer (Balloon::sub_71000B70DC precedent).
+// NON_MATCHING: load scheduling only — the original hoists the ScaleTime-bits word load into
+// the guard-pierce ternary (between its orr and cmp); ours sinks it below the 0x40 csel, with
+// cascading callee-saved register renames. All calls, branches, constants and the table match.
+// NOTE: loadParams_ proves [0x58] holds "IsForceGuardBreak" and [0x60] "IsIniviciblePierce",
+// yet both this function and sub_710014F780 read [0x60] for bit 0x40 and [0x58] for 0x100 —
+// i.e. the "IsForceGuardBreak" param drives 0x100 and "IsIniviciblePierce" drives 0x40.
+// Any other AttackAttr-masks must be verified against their own offsets, not assumed.
+ksys::act::BaseProc* ForkASTrgEmitShockWave::sub_710014F4BC() {
+    const s32 idx = *mAttackIntensity_s - 1;
+    u32 mask = 0;
+    if ((u32)idx <= 2)
+        mask = sAttackAttrBits[idx];
+    const f32 scale_time = *mMaxScale_s;
+    mask = *mIsGuardPierce_s ? (mask | 0x8) : mask;
+    mask = *mIsIniviciblePierce_s ? (mask | 0x40) : mask;
+    mask = *mIsForceGuardBreak_s ? (mask | 0x100) : mask;
+    mask = *mIsHeavy_s ? (mask | 0x8000) : mask;
+    s32 power = *mPower_s;
+    if (power < 0)
+        power = static_cast<ksys::act::PlayerOrEnemy*>(mActor)->getEnemyAtkPower();
+    const s32 min_damage = *mAtMinDamage_s;
+
+    ksys::act::InstParamPack pack;
+    pack->addMatrix(mActor->getMtx());
+    pack->add(static_cast<s32>(mask), "AttackAttr");
+    pack->add(scale_time, "ScaleTime");
+    pack->add(true, "IsReuseActor");
+    pack->add(power, "AttackPower");
+    pack->add(min_damage, "AtMinDamage");
+
+    auto* creator = ksys::act::ActorCreator::instance();
+    mShockWaveActorName_s.cstr();
+    auto* proc = creator->createActor(mShockWaveActorName_s.getStringTop(),
+                                      ksys::act::ActorHeapUtil::instance()->getBaseProcHeap(),
+                                      &pack, true, false);
+    if (auto* bullet = sead::DynamicCast<ksys::act::Bullet>(proc)) {
+        bullet->sub_710000497C(mActor);
+        bullet->_bd0._0.acquire(mActor, false);
+    }
+    return proc;
+}
+
 // NON_MATCHING: micro-diffs only — ours sign-extends the AttackIntensity load (ldrsw) and
 // indexes the bits table with lsl (64-bit idx), keeps map_power in w8 not w22; the original
 // uses ldr + sxtw and keeps map_power in w22. Structure, calls, branches and constants match.
+// Bit mapping (verified against loadParams_ offsets, same as sub_710014F4BC): the
+// "IsForceGuardBreak" param ([0x58]) drives 0x100 and "IsIniviciblePierce" ([0x60]) drives 0x40.
 bool ForkASTrgEmitShockWave::sub_710014F780(ksys::act::Actor* actor) {
     if (!actor)
         return false;
@@ -82,8 +133,8 @@ bool ForkASTrgEmitShockWave::sub_710014F780(ksys::act::Actor* actor) {
     if ((u32)idx <= 2)
         mask = sAttackAttrBits[idx];
     mask = *mIsGuardPierce_s ? (mask | 0x8) : mask;
-    mask = *mIsForceGuardBreak_s ? (mask | 0x40) : mask;
-    mask = *mIsIniviciblePierce_s ? (mask | 0x100) : mask;
+    mask = *mIsIniviciblePierce_s ? (mask | 0x40) : mask;
+    mask = *mIsForceGuardBreak_s ? (mask | 0x100) : mask;
     mask = *mIsHeavy_s ? (mask | 0x8000) : mask;
     if (*map_attr != static_cast<s32>(mask))
         return false;
