@@ -1,6 +1,9 @@
 #include "Game/AI/AI/aiEnemySomeIgniteBattle.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actActorCreator.h"
 #include "KingSystem/ActorSystem/actActorHeapUtil.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/ActorSystem/Profiles/actBullet.h"
 #include "KingSystem/ActorSystem/actInstParamPack.h"
 
 namespace uking::ai {
@@ -70,6 +73,26 @@ bool EnemySomeIgniteBattle::m44() {
             return false;
     }
     return true;
+}
+
+// 0x71003be17c
+// NON_MATCHING: callee-saved register numbering (one extra live value shifts x20-x24 by one) and
+// addPointer argument-setup order; all three DynamicCast blocks, all pack calls and the dtor loop match.
+void EnemySomeIgniteBattle::m37() {
+    m41();
+    if (auto* bullet = sead::DynamicCast<ksys::act::Bullet>(_b8[0].getProc()))
+        bullet->sub_710000497C(mActor);
+    if (auto* bullet = sead::DynamicCast<ksys::act::Bullet>(_b8[1].getProc()))
+        bullet->sub_710000497C(mActor);
+    if (auto* bullet = sead::DynamicCast<ksys::act::Bullet>(_b8[2].getProc()))
+        bullet->sub_710000497C(mActor);
+
+    ksys::act::ai::InlineParamPack pack;
+    pack.addPointer(&_b8[0], "IgniteHandle", ksys::AIDefParamType::BaseProcHandle, -1);
+    pack.addPointer(&_b8[1], "IgniteHandle2", ksys::AIDefParamType::BaseProcHandle, -1);
+    pack.addPointer(&_b8[2], "IgniteHandle3", ksys::AIDefParamType::BaseProcHandle, -1);
+    pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+    changeChild("戦闘攻撃", &pack);
 }
 
 }  // namespace uking::ai
