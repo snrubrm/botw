@@ -41,6 +41,22 @@ void LastBoss::initMaybe() {
     Enemy::initMaybe();
 }
 
+// 0x71002c5978: m159() is the controller; DynamicCast<Unk_710244eb48> has its own function-local static.
+void LastBoss::stunEnd() {
+    if (auto* controller = sead::DynamicCast<Unk_710244eb48>(m159()))
+        controller->sub_71006E252C();
+}
+
+void LastBoss::sub_71002C5B3C() {
+    if (auto* controller = sead::DynamicCast<Unk_710244eb48>(m159()))
+        controller->_1c = true;
+}
+
+void LastBoss::sub_71002C6A78() {
+    if (auto* controller = sead::DynamicCast<Unk_710244eb48>(m159()))
+        controller->_1c = false;
+}
+
 void LastBoss::sub_71002C5A14() {
     if (_1548.mEventFlow)
         _1548.unloadEvent();

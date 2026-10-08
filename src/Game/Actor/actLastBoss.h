@@ -49,6 +49,9 @@ public:
 
     // CSV names; called by LastBoss / Ganon AI.
     void stunEnd();
+    // 0x71002c5b3c / 0x71002c6a78 (placeholder names): set / clear Unk_710244eb48::_1c on the controller (m159).
+    void sub_71002C5B3C();
+    void sub_71002C6A78();
     void update();
     // 0x71002c5f18 (CSV LastBoss::x; declaration only): called by GanonShockRoot::leave_.
     void x();

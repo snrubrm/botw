@@ -85,6 +85,23 @@ void SiteBoss::sub_71002D2390() {
     _2358 = ksys::eft::searchAndEmitELink(this, "LightShield");
 }
 
+// 0x71002d28bc / 0x71002d3944 / 0x71002d39d8: m159() is the controller; the function-local static guard at
+// 0x2584000 + 0x868 is DynamicCast<Unk_710244fee8>'s typeinfo (vptr Derive<Unk_71025ae680>).
+void SiteBoss::sub_71002D28BC() {
+    if (auto* controller = sead::DynamicCast<Unk_710244fee8>(m159()))
+        controller->sub_71006EE354();
+}
+
+void SiteBoss::sub_71002D3944() {
+    if (auto* controller = sead::DynamicCast<Unk_710244fee8>(m159()))
+        controller->_1c = true;
+}
+
+void SiteBoss::sub_71002D39D8() {
+    if (auto* controller = sead::DynamicCast<Unk_710244fee8>(m159()))
+        controller->_1c = false;
+}
+
 void SiteBoss::sub_71002D2A5C(s32 bit, bool on) {
     if (mASList)
         mASList->x_2(0x42, bit, on, false);
