@@ -25,6 +25,17 @@ protected:
     // translation (y raised by OffsetYBase) plus its z axis times OffsetZ (the target is zero without a camera).
     void sub_71007893F4();
 
+    // Native initialization and target/curve helpers.
+    void sub_7100787C08();
+    void sub_7100787DB4();
+    void sub_710078A5C0();
+    void sub_71007894D4(sead::Vector3f* out, const act::Unk_7100922700* polar);
+    void sub_7100789A74();
+    void sub_7100789B5C();
+    void sub_710078A0C0();
+    void sub_710078A294();
+    void sub_710078A818(f32 latitude, f32* out);
+
     act::Unk_7102459dd8 _50;
     act::Unk_7102459dd8 _70;
     f32 _90 = 1.0;
@@ -134,8 +145,36 @@ protected:
     const float* mFovyCusDecel_s{};
     // static_param at offset 0x250
     const float* mAutoModeConnect_s{};
-    u8 _258[0x2c2 - 0x258]{};
+    f32 _258 = 0;
+    f32 _25c = 0;
+    f32 _260 = 0;
+    f32 _264 = 0;
+    f32 _268 = 0;
+    f32 _26c = 0;
+    f32 _270 = 0;
+    f32 _274 = 0;
+    f32 _278 = 0;
+    f32 _27c = 0;
+    f32 _280 = 0;
+    f32 _284 = 0;
+    f32 _288 = 0;
+    f32 _28c = 0;
+    f32 _290 = 0;
+    f32 _294 = 0;
+    f32 _298 = 0;
+    f32 _29c = 0;
+    f32 _2a0 = 0;
+    f32 _2a4 = 0;
+    f32 _2a8 = 0;
+    f32 _2ac = 0;
+    f32 _2b0 = 0;
+    f32 _2b4 = 0;
+    f32 _2b8 = 0;
+    f32 _2bc = 0;
+    sead::BitFlag8 _2c0;
+    u8 _2c1 = 0;
     u8 _2c2 = 5;
 };
+KSYS_CHECK_SIZE_NX150(CameraWakeboard, 0x2c8);
 
 }  // namespace uking::action

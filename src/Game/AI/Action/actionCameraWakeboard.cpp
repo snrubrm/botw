@@ -1,5 +1,6 @@
 #include "Game/AI/Action/actionCameraWakeboard.h"
 #include <math/seadMathCalcCommon.h>
+#include <cmath>
 
 namespace uking::action {
 
@@ -62,6 +63,241 @@ void CameraWakeboard::sub_71007893F4() {
     _ac.x += rate_xz * (target.x - _ac.x);
     _ac.y += rate_y * (target.y - _ac.y);
     _ac.z += rate_xz * (target.z - _ac.z);
+}
+
+// NON_MATCHING: stack slots, saved float registers and output stores differ.
+void CameraWakeboard::sub_71007894D4(sead::Vector3f* out, const act::Unk_7100922700* polar) {
+    *out = _ac;
+    f32 height = 0.0f;
+    if (sub_71009269F8(*out, &height)) {
+        height += 0.4f;
+        out->y = sead::Mathf::max(out->y, height);
+    }
+    f32 offset = 0.0f;
+    sub_710078A818(polar->_4, &offset);
+    out->y += offset;
+    if (auto* camera = getCameraActor()) {
+        const sead::Vector3f base = camera->_860._444.getBase(0);
+        sead::Vector3f direction(-base.x, 0.0f, -base.z);
+        const f32 length = sead::Vector3f(base.x, 0.0f, base.z).length();
+        if (length > 0.0f)
+            direction *= _bc / length;
+        *out += direction;
+    }
+}
+
+// NON_MATCHING: curve lifetimes reuse one stack slot and the equality branch differs.
+void CameraWakeboard::sub_710078A818(f32 latitude, f32* out) {
+    if (*mOffsetYMin_s == *mOffsetYMax_s) {
+        *out = *mOffsetYMin_s;
+        return;
+    }
+    f32 value = angleStuff(sead::Mathf::clamp(angleStuff(latitude), _258, _25c));
+    {
+        act::Unk_71024741b8 curve;
+        curve.set(_258, _258, _25c, _25c, *mLatMinWeight_s, *mLatMaxWeight_s);
+        value = curve.sub_71009234D8(value, 10);
+    }
+    {
+        act::Unk_71024741b8 curve;
+        curve.set(0.0f, _268, 1.0f - _26c, 1.0f, *mLatMinWeight_s, *mLatMaxWeight_s);
+        value = curve.eval(value);
+    }
+    {
+        act::Unk_71024741b8 curve;
+        curve.set(0.0f, _2a0, 1.0f - _2a4, 1.0f, *mOffsetYMaxWeight_s, *mOffsetYMinWeight_s);
+        value = curve.sub_71009234D8(value, 10);
+    }
+    {
+        act::Unk_71024741b8 curve;
+        curve.set(*mOffsetYMax_s, *mOffsetYMax_s, *mOffsetYMin_s, *mOffsetYMin_s,
+                  *mOffsetYMaxWeight_s, *mOffsetYMinWeight_s);
+        *out = curve.eval(value);
+    }
+}
+
+// NON_MATCHING: vector store pairing and saved float registers differ.
+void CameraWakeboard::sub_710078A0C0() {
+    auto* camera = getCamera();
+    if (!camera)
+        return;
+    const act::Unk_7100922700 polar(camera->_860._0._0 - camera->_860._0._c);
+    _d8 = _270;
+    _dc = angleStuff(polar._4 - _270);
+    const sead::Vector3f forward = camera->_860._444.getBase(2);
+    if (forward.x == 0.0f && forward.z == 0.0f) {
+        _f0 = polar._8;
+        _f4 = angleStuff(0.0f);
+    } else {
+        const f32 longitude = sead::Mathf::rad2deg(std::atan2(forward.x, forward.z) + sead::Mathf::pi());
+        _f0 = angleStuff(longitude);
+        _f4 = angleStuff(polar._8 - angleStuff(longitude));
+    }
+    sead::Vector3f target = sead::Vector3f::zero;
+    sub_71007894D4(&target, &polar);
+    _94 = target;
+    _a0 = camera->_860._0._c - target;
+    _fc = _28c;
+    _100 = polar._0 - _28c;
+    if (auto* current = getCamera())
+        _110 = (current->_860._0._24 - _10c) - _2b0;
+    if (!_2c0.isOn(1))
+        _50.sub_710079C384(10.0f, 0.0f);
+    _70.sub_710079C384(10.0f, 0.0f);
+}
+
+// NON_MATCHING: target-vector copies and float registers differ.
+void CameraWakeboard::sub_710078A294() {
+    auto* camera = getCamera();
+    if (!camera)
+        return;
+    const act::Unk_7100922700 polar(camera->_860._0._0 - camera->_860._0._c);
+    f32 duration = 0.0f;
+    if (angleStuff(_dc) != angleStuff(0.0f))
+        duration = std::fmax((_dc > 0.0f ? _dc : -_dc) * 0.5f, 0.0f);
+    const sead::Vector3f forward = camera->_860._444.getBase(2);
+    if (forward.x == 0.0f && forward.z == 0.0f) {
+        _f0 = polar._8;
+        _f4 = angleStuff(0.0f);
+    } else {
+        const f32 longitude = sead::Mathf::rad2deg(std::atan2(forward.x, forward.z) + sead::Mathf::pi());
+        _f0 = angleStuff(longitude);
+        _f4 = angleStuff(polar._8 - angleStuff(longitude));
+    }
+    if (angleStuff(_f4) != angleStuff(0.0f))
+        duration = sead::Mathf::max(duration, (_f4 > 0.0f ? _f4 : -_f4) * 0.25f);
+    if (_100 != 0.0f)
+        duration = sead::Mathf::clampMin(duration, (_100 > 0.0f ? _100 : -_100) * 2.5f);
+    sead::Vector3f target = sead::Vector3f::zero;
+    sub_71007894D4(&target, &polar);
+    _94 = target;
+    _a0 = camera->_860._0._c - target;
+    if (_a0 != sead::Vector3f(0.0f, 0.0f, 0.0f)) {
+        const f32 length = _a0.length();
+        if (length > 5.0f)
+            duration = sead::Mathf::clampMin(duration, (length > 0.0f ? length : -length) * 2.5f);
+    }
+    if (auto* current = getCamera())
+        _110 = (current->_860._0._24 - _10c) - _2b0;
+    const f32 degrees = sead::Mathf::rad2deg(_110);
+    duration = sead::Mathf::clampMin(duration, (degrees > 0.0f ? degrees : -degrees) * 0.5f);
+    if (duration > 0.0f)
+        duration = sead::Mathf::clamp(duration, 15.0f, 90.0f);
+    if (!_2c0.isOn(1))
+        _50.sub_710079C384(duration, 0.0f);
+    _70.sub_710079C384(duration, 0.0f);
+    _70.sub_710079C3F8(_2ac);
+    sub_710074BCB4();
+}
+
+void CameraWakeboard::sub_7100789A74() {
+    sub_710078A0C0();
+    _70.sub_710079C3F8(1.0f);
+    if (auto* camera = getCamera()) {
+        const act::Unk_7100922700 current(camera->_860._0._0 - camera->_860._0._c);
+        const act::Unk_7100922700 a(1.0f, current._4, current._8);
+        const act::Unk_7100922700 b(1.0f, _d8, _f0);
+        sub_710074BDF8(a.sub_7100923254().dot(b.sub_7100923254()));
+    }
+}
+
+// NON_MATCHING: bound values are reloaded after wrapping calls.
+void CameraWakeboard::sub_7100789B5C() {
+    auto* camera = getCamera();
+    if (!camera)
+        return;
+    const act::Unk_7100922700 polar(camera->_860._0._0 - camera->_860._0._c);
+    f32 difference = 0.0f;
+    if (angleStuff(polar._4) < angleStuff(_258)) {
+        _d8 = _258;
+        difference = polar._4 - _d8;
+    } else if (angleStuff(_25c) < angleStuff(polar._4)) {
+        _d8 = _25c;
+        difference = polar._4 - _d8;
+    } else {
+        _d8 = polar._4;
+    }
+    _dc = angleStuff(difference);
+    _fc = polar._0;
+    _100 = 0.0f;
+    sub_710078A294();
+}
+
+// NON_MATCHING: width clamp branches and saved float registers differ.
+void CameraWakeboard::sub_7100787C08() {
+    sub_710078A5C0();
+    _274 = sub_7100924D80(*mLngCus_s);
+    _278 = sead::Mathf::clampMin(*mLngCusSpeedEffect_s, 0.01f);
+    _27c = sub_7100924D40(*mRadiusMin_s);
+    _280 = sub_7100924D40(*mRadiusMax_s);
+    _284 = sead::Mathf::clamp(*mRadiusMinWidth_s, 0.0f, 0.5f);
+    _288 = sead::Mathf::clamp(*mRadiusMaxWidth_s, 0.0f, 0.5f);
+    _28c = sub_7100924D40(*mRadius_s);
+    _290 = sub_7100924D80(*mAtHCusNormal_s);
+    _294 = sub_7100924D80(*mAtHCusSpurt_s);
+    sub_7100924DA4(*mAtVCusMin_s, *mAtVCusMax_s, &_298, &_29c);
+    _2a0 = sead::Mathf::clamp(*mOffsetYMinWidth_s, 0.0f, 0.5f);
+    _2a4 = sead::Mathf::clamp(*mOffsetYMaxWidth_s, 0.0f, 0.5f);
+    _2b0 = sub_7100924D50(*mFovyNormal_s);
+    _2b4 = sub_7100924D50(*mFovySpurt_s);
+    _2b8 = sub_7100924D80(*mFovyCusAccel_s);
+    _2bc = sub_7100924D80(*mFovyCusDecel_s);
+    _2a8 = sub_7100924D80(*mSideOffsetCus_s);
+    _2ac = sead::Mathf::clampMin(*mAutoModeConnect_s, 0.0f);
+    _104 = _2b4 - _2b0;
+}
+
+// NON_MATCHING: saved camera-state copies have different scheduling.
+void CameraWakeboard::sub_7100787DB4() {
+    auto* camera = getCamera();
+    if (!camera || !camera->_860.sub_710079C184(0x100))
+        return;
+    if ((camera->_860._0._c - camera->_860._0._0).squaredLength() < 400.0f)
+        return;
+    camera->_860._a8 = camera->_860._e0;
+    camera->_860._70 = camera->_860._e0;
+    camera->_860._38 = camera->_860._e0;
+    camera->_860._0 = camera->_860._e0;
+    act::Unk_7100922700 polar(camera->_860._0._c - camera->_860._0._0);
+    polar._0 = _28c;
+    camera->_860._0._c = camera->_860._0._0 + polar.sub_7100923254();
+}
+
+// NON_MATCHING: width clamp branches, curve storage and parameter loads differ.
+void CameraWakeboard::sub_710078A5C0() {
+    _268 = sead::Mathf::clamp(*mLatMinWidth_s, 0.0f, 0.5f);
+    _26c = sead::Mathf::clamp(*mLatMaxWidth_s, 0.0f, 0.5f);
+    sub_7100924CDC(*mLatMin_s, *mLatMax_s, &_258, &_25c);
+    sub_7100924CDC(*mLatLimitMin_s, *mLatLimitMax_s, &_260, &_264);
+    _260 = angleStuff(sead::Mathf::clampMin(_260, _258));
+    _264 = angleStuff(sead::Mathf::clampMax(_264, _25c));
+    if (angleStuff(_258) == angleStuff(_25c)) {
+        _e0 = 0.0f;
+        _e4 = 0.0f;
+    } else {
+        f32 value;
+        {
+            act::Unk_71024741b8 curve;
+            curve.set(_258, _258, _25c, _25c, *mLatMinWeight_s, *mLatMaxWeight_s);
+            value = curve.sub_71009234D8(_260, 10);
+        }
+        {
+            act::Unk_71024741b8 curve;
+            curve.set(0.0f, _268, 1.0f - _26c, 1.0f, *mLatMinWeight_s, *mLatMaxWeight_s);
+            _e0 = curve.eval(value);
+        }
+        {
+            act::Unk_71024741b8 curve;
+            curve.set(_258, _258, _25c, _25c, *mLatMinWeight_s, *mLatMaxWeight_s);
+            value = curve.sub_71009234D8(_264, 10);
+        }
+        {
+            act::Unk_71024741b8 curve;
+            curve.set(0.0f, _268, 1.0f - _26c, 1.0f, *mLatMinWeight_s, *mLatMaxWeight_s);
+            _e4 = curve.eval(value);
+        }
+    }
+    _270 = angleStuff(sead::Mathf::clamp(angleStuff(*mLat_s), _258, _25c));
 }
 
 }  // namespace uking::action
