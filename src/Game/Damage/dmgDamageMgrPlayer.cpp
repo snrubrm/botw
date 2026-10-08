@@ -60,6 +60,33 @@ s32 DamageMgrPlayer::m53() {
     return result;
 }
 
+void DamageMgrPlayer::x() {
+    // NON_MATCHING: identical instruction multiset and registers, but different store
+    // scheduling (ours: _7c/_218/_6c/_88, and+strh216, _c0, _5c; original: _6c/_7c/_88/_218,
+    // and, _c0, _5c, strh216). Tried _216.reset() first / between _218 and _c0 / last.
+    DamageManagerBase::resetStuff();
+    _6c = -1;
+    _7c[0] = _7c[1] = _7c[2] = _7c[3] = 0;
+    _88 = -1;
+    _8c = 0;
+    _218 = 0;
+    _219 = false;
+    // Clears bits 1, 5, 7 and 8 (single and with ~0x1a2).
+    _216.reset(0x1a2);
+    _c0 = {0, 0, 0};
+    mDamageType = -1;
+}
+
+bool DamageMgrPlayer::m56() {
+    auto* actor = mActor;
+    if (sead::IsDerivedFrom<ksys::act::PlayerBase>(actor)) {
+        auto* player = static_cast<ksys::act::PlayerBase*>(actor);
+        if (player->_cf0.isOnBit(8))
+            return false;
+    }
+    return DamageManager::m56();
+}
+
 s32 DamageMgrPlayer::m52() {
     return 12;
 }

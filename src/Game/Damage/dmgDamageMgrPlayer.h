@@ -28,6 +28,11 @@ public:
     void resetDamage() override;
     void m22() override;
     s32 m53() override;
+    bool m56() override;
+
+    // 0x71006d276c (in the DamageManager TU range; called only by applyDamage):
+    // reset the damage indices, flags and direction. Placeholder name.
+    void x();
     explicit DamageMgrPlayer(ksys::act::Actor* actor);
 
     s32 m52() override;
