@@ -154,7 +154,7 @@ const char* ScreenFadeDemo::getLayoutName_() const {
 }
 
 // 0x71010a215c
-void ScreenHomeNixSign::sub_71010A215C() {
+void ScreenHomeNixSign::m98() {
     _2fc = 0;
 }
 
