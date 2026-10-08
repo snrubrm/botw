@@ -1720,7 +1720,7 @@ public:
     // widget layout that shows the value and the last value read. Names / types are guesses from those functions.
     /* 0x366c */ s32 _366c;
     /* 0x3670 */ sead::SafeString _3670;
-    /* 0x3680 */ u64 _3680;
+    /* 0x3680 */ eui::Animator* _3680;  // played when the counter of _3698 goes up
     /* 0x3688 */ eui::Animator* _3688;
     /* 0x3690 */ s32 _3690;
     /* 0x3698 */ sead::SafeString _3698;
@@ -1728,7 +1728,7 @@ public:
     /* 0x36b0 */ sead::SafeString _36b0;
     /* 0x36c0 */ s32 _36c0;
     /* 0x36c8 */ sead::SafeString _36c8;
-    /* 0x36d8 */ u64 _36d8;
+    /* 0x36d8 */ eui::Animator* _36d8;  // played when the counter of _36c8 goes up
     /* 0x36e0 */ eui::Animator* _36e0;
     /* 0x36e8 */ eui::Animator* _36e8;
 
@@ -1738,6 +1738,9 @@ public:
     void sub_7100A28318(const sead::SafeString& a1);
     void sub_7100A283B0(s32 a1);
     void sub_7100A28418(s32 a1);
+    // 0x7100a27ec0 / 0x7100a27f9c (placeholder names): refresh the counters of layouts 2 / 4 from game data
+    void sub_7100A27EC0();
+    void sub_7100A27F9C();
 
     // 0x7100a27654 (placeholder name): the layout of mini game `index` is in state 2
     bool sub_7100A27654(s32 index) const;

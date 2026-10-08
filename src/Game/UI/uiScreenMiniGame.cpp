@@ -3,6 +3,7 @@
 #include "Game/UI/euiLayoutEx.h"
 #include "Game/UI/uiScreens.h"
 #include "Game/UI/uiUtils.h"
+#include "KingSystem/GameData/gdtManager.h"
 #include "KingSystem/GameData/gdtSpecialFlags.h"
 
 namespace uking::ui {
@@ -21,6 +22,43 @@ ScreenMiniGame::ScreenMiniGame()
     _36d8 = 0;
 }
 
+// 0x7100a27ec0
+// NON_MATCHING: the original keeps the key temporary, the widget name and the text in separate stack slots (as
+// sub_7100A280A4)
+void ScreenMiniGame::sub_7100A27EC0() {
+    eui::LayoutEx* layout = _3610[2];
+    if (!layout || (layout->_91 != 1 && layout->_91 != 2))
+        return;
+    if (!ksys::gdt::Manager::instance()->getParam().get().getBuffer0()->hasCopiedS32Flags())
+        return;
+    const s32 old_value = _3690;
+    const sead::SafeString name = "T_Num_00";
+    const s32 value = ksys::gdt::getS32ByKey(sead::SafeString(_3698), false);
+    sead::FormatFixedSafeString<32> text("%d", value);
+    setWidgetString(layout, name, text);
+    _3690 = value;
+    if (value > old_value)
+        _3680->PlayAuto(1.0f);
+}
+
+// 0x7100a27f9c
+// NON_MATCHING: the original keeps the key temporary, the widget name and the text in separate stack slots (as
+// sub_7100A280A4)
+void ScreenMiniGame::sub_7100A27F9C() {
+    eui::LayoutEx* layout = _3610[4];
+    if (!layout || (layout->_91 != 1 && layout->_91 != 2))
+        return;
+    if (!ksys::gdt::Manager::instance()->getParam().get().getBuffer0()->hasCopiedS32Flags())
+        return;
+    const s32 old_value = _36c0;
+    const sead::SafeString name = "T_Num_00";
+    const s32 value = ksys::gdt::getS32ByKey(sead::SafeString(_36c8), false);
+    sead::FormatFixedSafeString<32> text("%d", value);
+    setWidgetString(layout, name, text);
+    _36c0 = value;
+    if (value > old_value && _36d8)
+        _36d8->PlayAuto(1.0f);
+}
 
 // 0x7100a280a4
 // NON_MATCHING: the original keeps the key temporary, the widget name and the text in separate stack slots

@@ -456,6 +456,9 @@ public:
 
     bool getBoolIfCopied(bool* value, const sead::SafeString& name, bool x, bool y) const;
     bool getS32IfCopied(s32* value, const sead::SafeString& name, bool x, bool y) const;
+    // inline-only in the original; name is a guess (ScreenMiniGame::sub_7100A27EC0 / sub_7100A27F9C read the count of
+    // mCopiedS32Flags before refreshing their counters)
+    bool hasCopiedS32Flags() const { return !mCopiedS32Flags.isEmpty(); }
     bool getF32IfCopied(f32* value, const sead::SafeString& name, bool x, bool y) const;
 
     void copyChangedFlags(TriggerParam& other, bool set_all_flags, bool record_copies,
