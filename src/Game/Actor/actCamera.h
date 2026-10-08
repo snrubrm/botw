@@ -175,6 +175,7 @@ public:
     void sub_710079BD98();
     bool sub_710079BDA4() const;
     void sub_710079BE34();
+    f32 sub_710079BE40() const;
     void sub_710079BEA8();
     void sub_710079BEB4();
     bool sub_710079BEBC() const;
@@ -206,7 +207,8 @@ public:
     /* 0x160 */ f32 _160 = 25000.0;
     /* 0x164 */ sead::Vector3f _164;  // the camera target set by Camera::sub_7100793DB4
     /* 0x170 */ bool _170 = false;
-    /* 0x171 */ u8 _171[0x180 - 0x171];
+    /* 0x171 */ u8 _171[3];
+    /* 0x174 */ sead::Vector3f _174;
     /* 0x180 */ bool _180 = false;
     /* 0x184 */ f32 _184 = 0;
     /* 0x188 */ f32 _188 = 1.0;

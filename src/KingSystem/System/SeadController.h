@@ -25,6 +25,7 @@ public:
     u32 sub_7100D9D874() const;
     void sub_7100D9D8C0(bool on);   // flag 0x80
     void sub_7100D9D8DC(u32 value);  // _190
+    void sub_7100D9D8E4();  // accumulates controller masks, then applies them
     void sub_7100D9DAC8(u32 value);  // _194
     void sub_7100D9DAD8();           // clears flag 0x1
     void sub_7100D9DAE8();           // clears flag 0x2
