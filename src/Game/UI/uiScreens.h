@@ -1046,6 +1046,11 @@ public:
     const char* getLayoutName_() const override;
     eui::TagProcessor* doCreateTagProcessor_(sead::Heap* heap) override;
 
+    // 0x71010a4f24 / 0x71010a4f3c / 0x71010a4f64 (placeholder names): state changes that close the screen
+    void sub_71010A4F24();
+    void sub_71010A4F3C();
+    void sub_71010A4F64();
+
     /* 0x2fc */ s32 _2fc;
     /* 0x300 */ s32 _300;
     /* 0x304 */ s32 _304;

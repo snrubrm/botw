@@ -143,6 +143,28 @@ const char* ScreenMainDungeon::getLayoutName_() const {
     return "MainDungeon_00";
 }
 
+// 0x71010a4f24
+void ScreenMainDungeon::sub_71010A4F24() {
+    _2fc = 2;
+    open(1);
+}
+
+// 0x71010a4f3c
+void ScreenMainDungeon::sub_71010A4F3C() {
+    if (_304 == 3) {
+        _300 = 2;
+        open(1);
+    }
+}
+
+// 0x71010a4f64
+void ScreenMainDungeon::sub_71010A4F64() {
+    if (_300 == 3) {
+        _304 = 2;
+        open(1);
+    }
+}
+
 // 0x710109df74
 const char* ScreenChangeControllerNN::getLayoutName_() const {
     return "ChangeControllerNN_00";
