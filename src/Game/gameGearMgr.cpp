@@ -161,4 +161,6 @@ bool GearMgr::sub_7100669A60(f32 value) {
     return lowered;
 }
 
+void GearMgr::sub_7100669ED8() {}
+
 }  // namespace uking
