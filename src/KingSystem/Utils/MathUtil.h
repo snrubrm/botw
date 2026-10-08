@@ -128,9 +128,10 @@ bool sub_71011F1040(const sead::Vector3f& vec);
 bool sub_71011F10F4(const sead::Matrix34f& mtx);
 
 // 0x71011efe58 / 0x71011effa8: Matrix33 versions of sub_71011F00EC / sub_71011F0260.
-// The fourth parameter is unused (callers pass true).
+// The fourth parameter is unused (callers of sub_71011EFE58 pass true, callers of sub_71011EFFA8 pass false, e.g.
+// GuardianMiniBeamAttackMove::sub_710041896C and 0x71000cd468).
 void sub_71011EFE58(sead::Matrix33f* mtx, const sead::Vector3f& front, const sead::Vector3f& up, bool unused);
-void sub_71011EFFA8(sead::Matrix33f* mtx, const sead::Vector3f& front, const sead::Vector3f& up);
+void sub_71011EFFA8(sead::Matrix33f* mtx, const sead::Vector3f& front, const sead::Vector3f& up, bool unused);
 
 // 0x71011eee2c / 0x71011eee98: sets x/z of `vec` to the XZ direction of `angle` (sead index /
 // radians) scaled by `length`; 0x71011eeee0 / 0x71011eef5c add it instead.

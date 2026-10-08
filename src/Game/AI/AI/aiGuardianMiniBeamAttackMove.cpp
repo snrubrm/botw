@@ -21,8 +21,7 @@ namespace uking::ai {
 
 // NON_MATCHING: bone-key high-half check (original `cmn`/`b.hs`, ours `cmp`/`b.hi`,
 // same as key.isValid() everywhere else including the sibling sub_7100418694),
-// translation held in int regs in the original (float regs in ours), and the original
-// passes a 4th zero arg to sub_71011EFFA8 (3-param decl in MathUtil.h, lane4-owned).
+// translation held in int regs in the original (float regs in ours).
 void GuardianMiniBeamAttackMove::sub_710041896C() {
     auto* proc = _88.getProc();
     if (!sead::IsDerivedFrom<ksys::act::Actor>(proc))
@@ -67,7 +66,7 @@ void GuardianMiniBeamAttackMove::sub_710041896C() {
     front.normalize();
 
     sead::Matrix33f rot;
-    ksys::util::sub_71011EFFA8(&rot, front, sead::Vector3f::ey);
+    ksys::util::sub_71011EFFA8(&rot, front, sead::Vector3f::ey, false);
     sub_71005DFAE0(&_88, mActor, &pos, &rot, &vel, nullptr);
     xlinkSearchAndEmit(mActor, "Launch_Small", 2, nullptr);
 }
