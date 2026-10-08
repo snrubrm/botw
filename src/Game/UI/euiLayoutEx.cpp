@@ -439,4 +439,11 @@ Animator* LayoutEx::tryCreateAnimatorAuto(const char* name, bool enabled) {
     return animator;
 }
 
+// 0x7100befa30
+void sub_7100BEFA30(nn::ui2d::Pane* pane, LayoutEx* layout) {
+    AdjustPaneSizeToTextSize(pane, layout);
+    CenteringPanePair(pane);
+    sub_7100BEDD34(pane, layout);
+}
+
 }  // namespace eui

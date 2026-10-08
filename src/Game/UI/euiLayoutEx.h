@@ -29,6 +29,11 @@ class MessageString;
 class LayoutEx;
 
 void AdjustPaneSizeToTextSize(nn::ui2d::Pane*, LayoutEx*);
+void CenteringPanePair(nn::ui2d::Pane*);
+// 0x7100bedd34 (declared only; not decompiled)
+void sub_7100BEDD34(nn::ui2d::Pane* pane, LayoutEx* layout);
+// 0x7100befa30 (placeholder name): sizes the pane to its text, centers the pane pair, then sub_7100BEDD34
+void sub_7100BEFA30(nn::ui2d::Pane* pane, LayoutEx* layout);
 
 // The eui layout (CSV eui::LayoutEx; derives from nn::ui2d::Layout, vtable 0x24c7d18 with 26 slots). Only the
 // fields and functions used so far are declared.
