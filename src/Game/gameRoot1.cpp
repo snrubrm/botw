@@ -3,7 +3,14 @@
 
 namespace uking {
 
-Root1* Root1::sInstance = nullptr;
+SEAD_SINGLETON_DISPOSER_IMPL(Root1)
+
+Root1::Root1() {
+    _28[0] = 2;
+    _28[1] = 2;
+}
+
+Root1::~Root1() = default;
 
 void Root1::sub_7100899CA4(FlagIdx idx, s32 value) {
     _28[idx] = value;
