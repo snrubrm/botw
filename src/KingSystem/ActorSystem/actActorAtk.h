@@ -128,7 +128,7 @@ public:
             /* 0xd8 */ BaseProcLink _d8;
             /* 0xe8 */ BaseProcLink _e8;
             /* 0xf8 */ s32 _f8 = -1;
-            /* 0xfc */ bool _fc = false;
+            /* 0xfc */ u8 _fc = 0;  // flags (bit 0 tested by DamageManager::m41 / DamageMgrNPC::m41)
         };
         KSYS_CHECK_SIZE_NX150(Unk1, 0x100);
 

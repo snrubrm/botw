@@ -135,4 +135,75 @@ bool DamageMgrNPC::m31(sead::Vector3f* out) {
     }
 }
 
+ksys::phys::MaterialMask* DamageMgrNPC::m33() {
+    if (getDamageType() != 0)
+        return nullptr;
+    auto* info = sub_71007A255C(mActor, 0);
+    if (!info)
+        return nullptr;
+    return &info->_20;
+}
+
+// NON_MATCHING: the original tail-calls getDummyBaseProcLink() from each fallback and only builds the stack frame
+// around the contact record lookup; ours merges the fallbacks into one non-tail call.
+ksys::act::BaseProcLink* DamageMgrNPC::getAttacker() {
+    switch (getDamageType()) {
+    case 0: {
+        auto* info = sub_71007A255C(mActor, 0);
+        if (!info)
+            return &ksys::act::getDummyBaseProcLink();
+        return &info->_d8;
+    }
+    case 2: {
+        auto* link = mActor->getImpulseBaseProcLink();
+        if (!link)
+            return &ksys::act::getDummyBaseProcLink();
+        return &link->mLink;
+    }
+    default:
+        return &ksys::act::getDummyBaseProcLink();
+    }
+}
+
+// NON_MATCHING: the original tail-calls getDummyBaseProcLink() from each fallback and only builds the stack frame
+// around the contact record lookup; ours merges the fallbacks into one non-tail call.
+ksys::act::BaseProcLink* DamageMgrNPC::m37() {
+    switch (getDamageType()) {
+    case 0: {
+        auto* info = sub_71007A255C(mActor, 0);
+        if (!info)
+            return &ksys::act::getDummyBaseProcLink();
+        return &info->_e8;
+    }
+    case 2: {
+        auto* link = mActor->getImpulseBaseProcLink();
+        if (!link)
+            return &ksys::act::getDummyBaseProcLink();
+        return &link->mLink;
+    }
+    default:
+        return &ksys::act::getDummyBaseProcLink();
+    }
+}
+
+bool DamageMgrNPC::m40(s32* out) {
+    *out = -1;
+    if (getDamageType() != 0)
+        return false;
+    auto* info = sub_71007A255C(mActor, 0);
+    if (!info)
+        return false;
+    *out = info->_bc;
+    return true;
+}
+
+bool DamageMgrNPC::m41() {
+    if (getDamageType() != 0)
+        return false;
+    auto* info = sub_71007A255C(mActor, 0);
+    if (!info)
+        return false;
+    return info->_fc & 1;
+}
+
 }  // namespace uking::dmg
