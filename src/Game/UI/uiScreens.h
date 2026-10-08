@@ -1200,8 +1200,10 @@ public:
     SEAD_RTTI_OVERRIDE(ScreenLoadSaveIcon, Screen)
     // 0x71010a4380
     const char* getLayoutName_() const override;
+    // 0x71010a3f6c (overrides Screen::m93): creates the layout "Pa_SaveIcon_00" and its "Type" / "Color" animators
+    void m93(sead::Heap* heap) override;
 
-    /* 0x300 */ void* _300{};
+    /* 0x300 */ eui::LayoutEx* _300{};
     /* 0x308 */ void* _308{};
     /* 0x310 */ void* _310{};
     /* 0x318 */ u16 _318 = 0;

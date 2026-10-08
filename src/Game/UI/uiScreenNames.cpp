@@ -1,4 +1,5 @@
 #include "Game/UI/uiScreens.h"
+#include "Game/UI/euiLayoutEx.h"
 
 // Slot 15 of the leaf classes: the name of the layout resource (<Name>_00).
 namespace uking::ui {
@@ -199,6 +200,13 @@ void ScreenHomeNixSign::m98() {
 // 0x71010a2258
 const char* ScreenHomeNixSign::getLayoutName_() const {
     return "HomeNixSign_00";
+}
+
+// 0x71010a3f6c
+void ScreenLoadSaveIcon::m93(sead::Heap*) {
+    _300 = sub_7100BEAFB0("Pa_SaveIcon_00");
+    _308 = _300->tryCreateAnimatorAutoWithWarning("Type", true);
+    _310 = _300->tryCreateAnimatorAutoWithWarning("Color", true);
 }
 
 // 0x71010a4380
