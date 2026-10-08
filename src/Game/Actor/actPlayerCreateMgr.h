@@ -140,8 +140,18 @@ private:
 };
 KSYS_CHECK_SIZE_NX150(CreatePlayerEquipActorMgr, 0x3B0);
 
-// TODO
-class CreatePlayerTrachActorMgr {};
+// CreatePlayerTrashActorMgr (vtable 0x710258e9a8, createInstance 0x7100667494,
+// postCalc 0x71006677c8, trashItem 0x7100667984). Singleton like
+// CreatePlayerEquipActorMgr; only the layout up to _28 plus D1/D0 are known.
+class CreatePlayerTrashActorMgr {
+    SEAD_SINGLETON_DISPOSER(CreatePlayerTrashActorMgr)
+    CreatePlayerTrashActorMgr();
+    virtual ~CreatePlayerTrashActorMgr();
+
+private:
+    // _28: the tracer finished by the destructor. Members before it unknown.
+    PlayerCreateTracer _28;
+};
 
 bool needsArmorHeadB(const sead::SafeString& armor_head_name,
                      const sead::SafeString& armor_upper_name);

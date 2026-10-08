@@ -79,6 +79,7 @@ target_sources(uking PRIVATE
   actPlayerCreateMgr.h
   actPlayerCreateTrace.cpp
   actPlayerCreateTrace.h
+  actPlayerCreateTrashMgr.cpp
   actPlayerCreateUtils.cpp
   actPlayerCreateUtils.h
   actRideable.cpp
