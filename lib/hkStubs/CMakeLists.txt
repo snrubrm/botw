@@ -228,6 +228,7 @@ add_library(hkStubs OBJECT
   Havok/Physics2012/Internal/Collide/StaticCompound/hkpStaticCompoundShape.h
   Havok/Physics2012/Internal/Solver/Contact/hkpSimpleContactConstraintDataInfo.h
 
+  Havok/Physics2012/Utilities/CharacterControl/CharacterRigidBody/hkpCharacterRigidBody.cpp
   Havok/Physics2012/Utilities/CharacterControl/CharacterRigidBody/hkpCharacterRigidBody.h
   Havok/Physics2012/Utilities/CharacterControl/StateMachine/InAir/hkpCharacterStateInAir.cpp
   Havok/Physics2012/Utilities/CharacterControl/StateMachine/InAir/hkpCharacterStateInAir.h
