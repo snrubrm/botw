@@ -24,6 +24,7 @@ class Heap;
 
 namespace eui {
 class UniteButton;
+class Screen;
 class Animator;
 class LayoutEx;
 class TextBoxEx;
@@ -482,7 +483,7 @@ public:
 // With a user-provided (empty) destructor: the original D1 keeps the vtable store.
 class Unk_7102474b58 {
 public:
-    explicit Unk_7102474b58(void* owner);
+    explicit Unk_7102474b58(eui::Screen* owner);
     virtual ~Unk_7102474b58();
 
     // The index is a SEAD_ENUM in the original (a 4-byte class passed in x1; `operator int() const volatile` spills it).
@@ -490,7 +491,9 @@ public:
 
     // 0x71009319c: copies the two strings into entry `index`.
     void sub_71009319C(Index index, const sead::SafeString& a, const sead::SafeString& b);
-    // 0x71009331e8 (172 bytes) / 0x7100933294 (92 bytes): declared only (placeholder names)
+    // 0x71009331e8 / 0x7100933294 (placeholder names): play the sound event b of the active entry (if another one is
+    // active) and then the event a of entry `index`, which becomes the active entry / play the event b of the active
+    // entry and clear it
     void sub_71009331E8(Index index);
     void sub_7100933294();
 
@@ -499,9 +502,9 @@ public:
         sead::SafeString b = sead::SafeString::cEmptyString;
     };
 
-    void* _8;
+    eui::Screen* _8;
     sead::SafeArray<Entry, 2> _10;
-    u64 _50{};
+    Entry* _50 = nullptr;
 };
 
 class Unk_7102476a40 {

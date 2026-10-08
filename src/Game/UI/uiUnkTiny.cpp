@@ -1,11 +1,13 @@
 #include "Game/UI/uiUnkTiny.h"
 #include "Game/UI/euiLayoutEx.h"
+#include "Game/UI/euiScreen.h"
 #include "KingSystem/Utils/Types.h"
 #include "KingSystem/Sound/sndMgr.h"
 #include <math/seadMathCalcCommon.h>
 #include "Game/UI/euiAnimator.h"
 #include "Game/UI/euiButton.h"
 #include "Game/UI/euiLayoutEx.h"
+#include "Game/UI/euiScreen.h"
 #include "Game/UI/uiUtils.h"
 #include <nn/ui2d/Pane.h>
 
@@ -593,7 +595,7 @@ Unk_710249c410::~Unk_710249c410() = default;
 Unk_7102516880::~Unk_7102516880() = default;
 
 // 0x7100933140
-Unk_7102474b58::Unk_7102474b58(void* owner) : _8(owner) {}
+Unk_7102474b58::Unk_7102474b58(eui::Screen* owner) : _8(owner) {}
 
 // 0x7100933184
 Unk_7102474b58::~Unk_7102474b58() { ; }
@@ -603,6 +605,33 @@ void Unk_7102474b58::sub_71009319C(Index index, const sead::SafeString& a, const
     Entry& entry = _10[index];
     entry.a = a;
     entry.b = b;
+}
+
+// NON_MATCHING: in the second call the original loads the vtable function after the argument's assureTermination call
+// (ours hoists it above that call); a local for the argument moves the load of _8 instead.
+// 0x71009331e8
+void Unk_7102474b58::sub_71009331E8(Index index) {
+    eui::Screen* screen = _8;
+    if (!screen)
+        return;
+    Entry* active = _50;
+    Entry& entry = _10[index];
+    if (active && active != &entry) {
+        const char* name = active->b.cstr();
+        screen->invokeSoundLink2Event_(name);
+    }
+    _8->invokeSoundLink2Event_(entry.a.cstr());
+    _50 = &entry;
+}
+
+// 0x7100933294
+void Unk_7102474b58::sub_7100933294() {
+    eui::Screen* screen = _8;
+    if (!screen || !_50)
+        return;
+    const char* name = _50->b.cstr();
+    screen->invokeSoundLink2Event_(name);
+    _50 = nullptr;
 }
 
 // 0x71009333ac
