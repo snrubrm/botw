@@ -50,7 +50,24 @@ void Unk_710244ebc8::m13(int index) {
     _8.resetBit(index);
 }
 
+void Unk_71025ae680::sub_71006DF67C(s32 value) {
+    auto* actor = _10;
+    if (auto* life = actor->getLife()) {
+        const s32 max_life = actor->getMaxLife();
+        *life += value;
+        if (*life > max_life)
+            *life = max_life;
+        else if (*life < 0)
+            *life = 0;
+    }
+}
+
 void Unk_710244eb48::m5() {
+    sub_71006E252C();
+}
+
+// lane4 s64: out-of-line copy of m5's body (the original has both: m5 inlines this).
+void Unk_710244eb48::sub_71006E252C() {
     if (_58.sub_7101241B6C())
         _58.fadeXLink();
 }
@@ -74,6 +91,11 @@ void Unk_710244eb48::m10() {
 }
 
 void Unk_710244fee8::m5() {
+    sub_71006EE354();
+}
+
+// lane4 s64: out-of-line copy of m5's body (the original has both: m5 inlines this).
+void Unk_710244fee8::sub_71006EE354() {
     if (_58.sub_7101241B6C())
         _58.fadeXLink();
 }

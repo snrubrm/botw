@@ -46,6 +46,8 @@ public:
 
     // 0x71006df750 (placeholder name): `m13(11)`.
     void sub_71006DF750();
+    // 0x71006df67c (lane4 s64; placeholder name): adds `value` to the actor's life (if it has one), clamped to [0, max life].
+    void sub_71006DF67C(s32 value);
     // 0x71006df6ec (placeholder name): `m13(7)`, `m13(8)`, `m13(9)`, `m13(10)`.
     void sub_71006DF6EC();
 
@@ -178,6 +180,8 @@ public:
     ~Unk_710244eb48() override;
     bool m4() override { return true; }
     void m5() override;
+    // 0x71006e252c (lane4 s64; placeholder name): m5's body, called by LastBoss code.
+    void sub_71006E252C();
     void m7() override { Unk_71025ae680::m7(); }
     bool m8(const ksys::Message& message) override;
     void m10() override;
@@ -198,6 +202,8 @@ public:
     ~Unk_710244fee8() override;
     bool m4() override { return true; }
     void m5() override;
+    // 0x71006ee354 (lane4 s64; placeholder name): m5's body, called by SiteBoss code.
+    void sub_71006EE354();
     void m7() override { Unk_71025ae680::m7(); }
     bool m8(const ksys::Message& message) override;
     void m10() override;
