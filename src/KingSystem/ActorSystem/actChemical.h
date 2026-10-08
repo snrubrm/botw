@@ -17,6 +17,17 @@ namespace ksys::act {
 class Unk_71024e6560;
 class Chemical;
 
+// Legacy declaration kept for shared-header compatibility. The object at 0x7102600e50
+// is now identified as ksys::chm::Chemical; current users use that native singleton.
+struct Unk_ChemicalWatch {
+    void sub_7100D99760(Chemical* chemical);
+    /* 0x00 */ u8 _0[0x68];
+    /* 0x68 */ sead::PtrArray<Chemical> mChemicals;
+    /* 0x78 */ u8 _78[0x84 - 0x78];
+    /* 0x84 */ u8 _84;
+    /* 0x85 */ u8 _85;
+};
+
 
 // Declaration only: chemical holder with vtable 0x71024dd1c8 (ctor 0x7100d8cbec).
 // 2026-10-07: sub_7100D8D1E0 returns its owner's position reference, or Vector3f::zero;
@@ -197,6 +208,9 @@ public:
     /* 0x1d8 */ u8 _1d8[0x1e8 - 0x1d8];
     /* 0x1e8 */ void* _1e8;
     /* 0x1f0 */ u8 _1f0[0x238 - 0x1f0];
+
+    // Unused legacy declaration; the single emitted global is chm::Chemical::sInstance.
+    static Unk_ChemicalWatch* sUnk_7102600e50;
 
 private:
     // Inline-only in the original; name is a guess. The same block opens the setters sub_7100D90C2C / 90CD8 / 90D7C
