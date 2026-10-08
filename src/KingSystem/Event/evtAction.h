@@ -67,6 +67,9 @@ public:
     void m4(Slot* slot, const evfl::ActionArg& arg, evfl::ActionDoneHandler* handler) override;
     void m5(ActionContext* context, const evfl::ActionArg& arg) override;
     void m6(ActionContext* context, const evfl::ActionArg& arg) override;
+    // 0x71008a72a4 (placeholder name): tail-called by m4/m5 with (this, arg). The middle argument register
+    // is never read by the callee (it is overwritten before any use), so the declaration keeps a dummy.
+    void sub_71008A72A4(void* unused, const evfl::ActionArg& arg);
     void m7() override;
     void play() override;
 

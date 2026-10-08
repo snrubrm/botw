@@ -51,4 +51,24 @@ void Action::sub_7100DA7DC4() {
     }
 }
 
+// 0x71008a7278
+// NON_MATCHING: the original leaves x1 (slot) unset for the tail call (the callee never reads it);
+// ours sets an explicit nullptr (+1 mov).
+void Action::m4(Slot* slot, const evfl::ActionArg& arg, evfl::ActionDoneHandler* handler) {
+    ActionBase::m4(slot, arg, handler);
+    sub_71008A72A4(nullptr, arg);
+}
+
+// 0x71008a7758
+// NON_MATCHING: same unset-x1 as m4 (see above).
+void Action::m5(ActionContext* context, const evfl::ActionArg& arg) {
+    ActionBase::m5(context, arg);
+    sub_71008A72A4(nullptr, arg);
+}
+
+// 0x71008a7784
+void Action::m6(ActionContext* context, const evfl::ActionArg& arg) {
+    ActionBase::m6(context, arg);
+}
+
 }  // namespace ksys::evt
