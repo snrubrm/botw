@@ -1,5 +1,6 @@
 #include "KingSystem/System/CameraMgr.h"
 #include <gfx/seadCamera.h>
+#include <gfx/seadViewport.h>
 
 namespace ksys {
 
@@ -13,6 +14,13 @@ bool sub_7100D8C6AC(sead::Vector3f* out) {
     }
     *out = camera->getPos();
     return true;
+}
+
+f32 sub_7100D8C8FC() {
+    const auto* viewport = CameraMgr::instance()->sub_7100D8C4C8();
+    if (!viewport)
+        return 1.0f;
+    return viewport->getSizeX() / viewport->getSizeY();
 }
 
 bool sub_7100D8C7FC(sead::Vector3f* out) {

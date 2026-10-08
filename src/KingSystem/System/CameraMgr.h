@@ -20,6 +20,8 @@ bool sub_7100D8C6AC(sead::Vector3f* out);
 // 0x7100d8c7fc (free function): writes the negated look vector of the look-at camera
 // to `out` (zero without a camera); false when `out` is null or there is no camera. Placeholder name.
 bool sub_7100D8C7FC(sead::Vector3f* out);
+// 0x7100d8c8fc: aspect ratio of the CameraMgr viewport (1 without one). Placeholder name.
+f32 sub_7100D8C8FC();
 
 // FIXME: incomplete
 class CameraMgr : public sead::hostio::Node {
