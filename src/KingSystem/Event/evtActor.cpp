@@ -1,4 +1,5 @@
 #include "KingSystem/Event/evtActorBase.h"
+#include "KingSystem/Event/evtEventSystem.h"
 
 namespace ksys::evt {
 
@@ -8,6 +9,21 @@ Actor::Actor(ActorBinding* binding, EventActorSet* set, sead::Heap* heap) : Acto
 // D1 0x71008a8bac, D0 0x71008a8e68
 Actor::~Actor() {
     sub_71008A8BE0();
+}
+
+// 0x71008a8ea4
+bool Actor::m4() {
+    if (!ActorBase::m4())
+        return false;
+    if ((_1cc & 0x10) == 0 && mName.isEqual("GameROMPlayer")) {
+        if ((_1cc & 8) == 0 && EventSystem::instance()->x_1(_108))
+            _1cc |= 8;
+        if (EventSystem::instance()->x_0(_108))
+            return false;
+        _1cc &= ~8;
+    }
+    _1cc |= 0x10;
+    return true;
 }
 
 }  // namespace ksys::evt

@@ -62,6 +62,10 @@ public:
     // 0x71008abf28
     int handleMessage(const Message& message) override;
 
+    // 0x71008ab24c (CSV x_0; not decompiled): takes the actor's +0x108 word
+    bool x_0(void* arg);
+    // 0x71008aab4c (CSV x_1; not decompiled): takes the actor's +0x108 word
+    bool x_1(void* arg);
     // 0x71008aa970: per-frame speaker and UI update.
     void x();
     // 0x71008aa9a0: applies pending input/control flags; declaration only.

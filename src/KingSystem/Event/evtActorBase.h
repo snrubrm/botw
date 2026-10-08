@@ -57,7 +57,8 @@ public:
     /* 0x0dc */ u8 _dc[0xe8 - 0xdc];
     /* 0x0e8 */ sead::PtrArray<ActionBase> mActions;  // the elements are Action objects
     /* 0x0f8 */ sead::PtrArray<Query> mQueries;
-    /* 0x108 */ u8 _108[0x1b4 - 0x108];
+    /* 0x108 */ void* _108;  // passed to EventSystem::x_0/x_1 (Actor::m4); type unknown
+    /* 0x110 */ u8 _110[0x1b4 - 0x110];
     /* 0x1b4 */ bool _1b4;
     /* 0x1b5 */ u8 _1b5[0x1b8 - 0x1b5];
     /* 0x1b8 */ void* _1b8;
