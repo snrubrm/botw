@@ -4,6 +4,7 @@
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include <cmath>
 
 namespace uking::ai {
 
@@ -81,6 +82,35 @@ void EnemyLiftShootItem::calc_() {
     }
     if (isCurrentChild("投げつけ"))
         child->setDynamicParam(*mTargetPos_d, "TargetPos");
+}
+
+// NON_MATCHING: same branches, pack idiom, cosf and normalize shapes; ours loads the actor
+// before the target and uses a different frame/register assignment.
+void EnemyLiftShootItem::sub_7100397A64() {
+    const sead::Vector2f flat(mTargetPos_d->x - mActor->getMtx().getTranslation().x,
+                             mTargetPos_d->z - mActor->getMtx().getTranslation().z);
+    const f32 dist = flat.length();
+    sead::Vector3f dir;
+    dir.x = mTargetPos_d->x - mActor->getMtx().getTranslation().x;
+    dir.y = 0.0f;
+    dir.z = mTargetPos_d->z - mActor->getMtx().getTranslation().z;
+    dir.normalize();
+    const f32 dot = dir.dot(mActor->getMtx().getBase(2));
+    const bool far = dist > *mShootDist_s;
+    if (dot < sead::Mathf::cos(*mShootAngle_s) || far) {
+        ksys::act::ai::InlineParamPack pack;
+        if (dist > *mShootDist_s) {
+            pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+            changeChild("移動", &pack);
+        } else {
+            pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+            changeChild("回転", &pack);
+        }
+    } else {
+        ksys::act::ai::InlineParamPack pack;
+        pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+        changeChild("投げつけ", &pack);
+    }
 }
 
 void EnemyLiftShootItem::leave_() {
