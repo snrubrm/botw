@@ -18,6 +18,9 @@ class DamageMgrWeapon : public DamageManagerBase {
 public:
     explicit DamageMgrWeapon(ksys::act::Actor* actor);
 
+    // Slot 44 (shared by the Sword/Bow/Shield vtables): weapons always take damage.
+    bool canTakeDamage() override { return true; }
+
     virtual void m50(f32 scale) {}
     virtual s32 m51() { return 1; }
     virtual bool m52() { return false; }
