@@ -1,9 +1,11 @@
 #include "Game/AI/AI/aiLandHumEnemyThrowWeapon.h"
+#include <limits>
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 #include "Game/Actor/actEnemy.h"
 #include "Game/Actor/actWeapon.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actUnk_71006e45c4.h"
 
 namespace uking::ai {
 
@@ -42,6 +44,25 @@ bool LandHumEnemyThrowWeapon::sub_710046C380() {
     if (weapon && weapon->hasParentActor() && weapon->isParentPlayer())
         return true;
     return false;
+}
+
+bool LandHumEnemyThrowWeapon::sub_710046C6E0() {
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
+        auto* proc = enemy->_c38[*mWeaponIdx_s].getProc(nullptr, nullptr);
+        if (sead::DynamicCast<act::Weapon>(proc) && proc->isCalc()) {
+            if (auto* weapon = sead::DynamicCast<act::Weapon>(proc)) {
+                if (weapon->m211())
+                    return true;
+                if (weapon->hasParentActor() && !weapon->isParentPlayer())
+                    return true;
+                if (weapon->_d90 && weapon->_d90->m2())
+                    return true;
+                if (weapon->get68f())
+                    return true;
+            }
+        }
+    }
+    return _58.value <= std::numeric_limits<f32>::epsilon();
 }
 
 void LandHumEnemyThrowWeapon::sub_710046C574() {
