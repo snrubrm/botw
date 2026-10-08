@@ -309,6 +309,8 @@ public:
     sead::Vector3f sub_7100F5EE08() const;
     // 0x7100f5eed4: `_10->_70 = value`.
     void sub_7100F5EED4(f32 value);
+    // 0x7100f5f07c (placeholder name): `*_48->sub_7100F68F38() = value`.
+    void sub_7100F5F07C(f32 value);
     // 0x7100f60368 / 0x7100f60378: setMass on the main body (the second also stores _138 and divides by _130).
     void sub_7100F60368(f32 mass);
     void sub_7100F60378(f32 mass);

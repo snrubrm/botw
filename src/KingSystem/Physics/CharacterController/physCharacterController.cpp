@@ -118,6 +118,10 @@ void CharacterController::sub_7100F5EED4(f32 value) {
     _10->_70 = value;
 }
 
+void CharacterController::sub_7100F5F07C(f32 value) {
+    *_48->sub_7100F68F38() = value;
+}
+
 void CharacterController::sub_7100F60368(f32 mass) {
     mRigidBody->setMass(mass);
 }
