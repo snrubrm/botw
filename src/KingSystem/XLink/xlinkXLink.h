@@ -2,6 +2,7 @@
 
 #include <basis/seadTypes.h>
 #include <prim/seadBitFlag.h>
+#include <prim/seadEnum.h>
 #include "KingSystem/Utils/Types.h"
 
 namespace aal {
@@ -38,10 +39,19 @@ struct Unk_710123830c {
 // TODO: incomplete. Only the user instances read by the actor xlink helpers are declared.
 class XLink {
 public:
+    // Placeholder (values unknown): the bit index argument of toggle / sleep / setMask (bit `1 << value` of _73).
+    // An enum wrapper: the three functions spill it to the stack and reload it for each use, like SEAD_ENUM
+    // parameters.
+    SEAD_ENUM(MaskBit, _0, _1, _2, _3, _4, _5, _6, _7)
+
     // 0x71012302d0 (CSV ActorEffects::toggle; declaration only, lane2 s21): PriestBossAfterImageRoot::enter_
     // calls it with true.
-    void toggle(bool a1);
-    void sleep(s32 reason);
+    // Clears `bit` of _73 and reactivates the user instances when the last bit goes (the wake-up counterpart of
+    // setMask / sleep).
+    void toggle(MaskBit bit);
+    // 0x7101230c88 (declared only): sets `bit` of _73; on the first bit sleeps (scene status 4) or hands the
+    // object to the xlink manager (0x7101240570).
+    void sleep(MaskBit bit);
     // 0x7101232e88 / 0x7101232f2c: actor-job effect activity queries.
     bool x_1();
     bool x_2();
@@ -52,7 +62,9 @@ public:
     void sub_71012311D8(bool paused);
     // 0x7101230dac (CSV ActorEffects::setMask; declaration only, lane2 s21): PriestBossAfterImageRoot::calc_
     // calls it with 1 while `_73` is 0.
-    void setMask(int a1);
+    void setMask(MaskBit bit);
+    // 0x7101230d20 (CSV ActorEffects::sleep_; 140 B, declared only): called by setMask when the first mask bit is set.
+    void sleep_();
     // 0x7101231500 (CSV ActorEffects::x_3; declared only): called by Actor::m75.
     void sub_7101231500();
     // 0x71012311e4 (CSV ActorEffects::prepareAIChangeMaybe; declared only): called by Actor::onAiEnter.
@@ -74,7 +86,7 @@ public:
     /* 0x48 */ xlink2::UserInstanceELink* _48;
     /* 0x50 */ xlink2::UserInstanceSLink* _50;
     /* 0x58 */ u8 _58[0x73 - 0x58];
-    /* 0x73 */ u8 _73;
+    /* 0x73 */ sead::BitFlag8 _73;
     /* 0x74 */ u8 _74[0xa0 - 0x74];
     /* 0xa0 */ Unk_710123830c* _a0;
     /* 0xa8 */ u8 _a8[0xbc - 0xa8];

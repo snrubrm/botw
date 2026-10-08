@@ -21,7 +21,7 @@ bool DemoGetItem::oneShot_() {
     if (auto* attention = actor->getAttention())
         attention->disableAllClients();
     if (auto* xlink = actor->getXLink())
-        xlink->sleep(1);
+        xlink->sleep(ksys::xlink::XLink::MaskBit::_1);
     actor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_20);
     return true;
 }

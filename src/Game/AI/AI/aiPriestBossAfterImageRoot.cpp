@@ -16,7 +16,7 @@ bool PriestBossAfterImageRoot::init_(sead::Heap* heap) {
 
 void PriestBossAfterImageRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     _38 = false;
-    mActor->getXLink()->toggle(true);
+    mActor->getXLink()->toggle(ksys::xlink::XLink::MaskBit::_1);
     mActor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_20);
     changeChild("通常");
 }
@@ -24,8 +24,8 @@ void PriestBossAfterImageRoot::enter_(ksys::act::ai::InlineParamPack* params) {
 void PriestBossAfterImageRoot::calc_() {
     if (isSlowTimeMaybe() || _38) {
         auto* xlink = mActor->getXLink();
-        if (!xlink->_73)
-            xlink->setMask(1);
+        if (xlink->_73.isZero())
+            xlink->setMask(ksys::xlink::XLink::MaskBit::_1);
         if (!mActor->getActorFlags2().isOn(ksys::act::Actor::ActorFlag2::_20))
             mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_20);
         _38 = true;

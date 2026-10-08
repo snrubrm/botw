@@ -21,7 +21,7 @@ bool DemoVisibleOn::oneShot_() {
     actor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_20);
     if (!ksys::evt::Manager::instance()->sub_7100DB20D0()) {
         if (auto* xlink = actor->getXLink()) {
-            xlink->toggle(true);
+            xlink->toggle(ksys::xlink::XLink::MaskBit::_1);
             xlink->_cc.set(4);
         }
     }

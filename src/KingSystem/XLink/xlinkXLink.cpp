@@ -60,6 +60,29 @@ void XLink::x_4(bool paused) {
     }
 }
 
+void XLink::toggle(MaskBit bit) {
+    if (!_73.isOnBit(bit))
+        return;
+    const bool was_set = !_73.isZero();
+    _73.resetBit(bit);
+    if (!was_set || !_73.isZero())
+        return;
+    if (_48)
+        _48->setIsActive(true);
+    if (_50)
+        _50->setIsActive(true);
+}
+
+void XLink::setMask(MaskBit bit) {
+    if (_73.isOnBit(bit))
+        return;
+    if (_73.isZero()) {
+        _73.setDirect(sead::BitFlag8::makeMask(bit));
+        sleep_();
+    }
+    _73.setBit(bit);
+}
+
 void XLink::sleepELink() {
     if (_48 && !_48->getBitFlag().isOnBit(1)) {
         _48->postCalc();

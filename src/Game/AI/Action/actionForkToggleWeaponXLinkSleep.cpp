@@ -18,13 +18,13 @@ void ForkToggleWeaponXLinkSleep::enter_(ksys::act::ai::InlineParamPack* params) 
         enemy->getWeapons()->getEquippedWeapon(0)->getXLink()) {
         switch (*mToggle_s) {
         case 0:
-            enemy->getWeapons()->getEquippedWeapon(0)->getXLink()->setMask(1);
+            enemy->getWeapons()->getEquippedWeapon(0)->getXLink()->setMask(ksys::xlink::XLink::MaskBit::_1);
             break;
         case 1:
-            enemy->getWeapons()->getEquippedWeapon(0)->getXLink()->toggle(true);
+            enemy->getWeapons()->getEquippedWeapon(0)->getXLink()->toggle(ksys::xlink::XLink::MaskBit::_1);
             break;
         case 2:
-            enemy->getWeapons()->getEquippedWeapon(0)->getXLink()->sleep(1);
+            enemy->getWeapons()->getEquippedWeapon(0)->getXLink()->sleep(ksys::xlink::XLink::MaskBit::_1);
             break;
         }
     }

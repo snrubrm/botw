@@ -26,7 +26,7 @@ bool DemoTriggerToggleVisible::oneShot_() {
         actor->setFlag(ksys::act::Actor::ActorFlag::_2b, false);
         if (*mIsXLinkHandling_d) {
             if (auto* xlink = actor->getXLink()) {
-                xlink->toggle(true);
+                xlink->toggle(ksys::xlink::XLink::MaskBit::_1);
                 xlink->_cc.set(4);
             }
         }
@@ -41,7 +41,7 @@ bool DemoTriggerToggleVisible::oneShot_() {
         actor->setFlag(ksys::act::Actor::ActorFlag::_2b, true);
         if (*mIsXLinkHandling_d) {
             if (auto* xlink = actor->getXLink()) {
-                xlink->sleep(1);
+                xlink->sleep(ksys::xlink::XLink::MaskBit::_1);
                 xlink->_cc.reset(4);
             }
         }

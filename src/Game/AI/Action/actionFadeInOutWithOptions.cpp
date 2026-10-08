@@ -57,7 +57,7 @@ void FadeInOutWithOptions::enter_(ksys::act::ai::InlineParamPack* params) {
             }
         }
         if (*mToggleEffects_s) {
-            mActor->getXLink()->toggle(true);
+            mActor->getXLink()->toggle(ksys::xlink::XLink::MaskBit::_1);
             mActor->getXLink()->_cc.set(4);
         }
     }
