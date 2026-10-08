@@ -1,5 +1,6 @@
 #include "Game/UI/uiScreenControlCreators.h"
 #include "Game/UI/uiScreens.h"
+#include "Game/UI/euiLayoutEx.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "Game/UI/uiUnkSingletons.h"
 #include "Game/UI/uiUtils.h"
@@ -217,6 +218,14 @@ const sead::Buffer<const ChildControlCreatorEntry>* Unk_71024803b8::getEntries()
 }
 // 0x71009d7174
 Unk_71024803b8::~Unk_71024803b8() = default;
+
+// 0x71009d7198
+ScreenChild* sub_71009D7198(const nn::ui2d::ControlSrc&, eui::LayoutEx* layout) {
+    auto* layout_ex = nn::font::DynamicCast<eui::LayoutEx>(layout);
+    if (!layout_ex || !layout_ex->mScreen || !layout_ex->mScreen->mInitializeHeap)
+        return nullptr;
+    return new (layout_ex->mScreen->mInitializeHeap, 8) ScreenChildEx(layout_ex);
+}
 
 // ScreenAppMapDungeon creator; native getter/D0 precede its screen constructor.
 static const ChildControlCreatorEntry sUnk_7102481048[] = {
