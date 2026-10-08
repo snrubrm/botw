@@ -35,7 +35,7 @@ void Carried::enter_(ksys::act::ai::InlineParamPack* params) {
     _68 = 0;
     if (*mIsOnBaseLink_s)
         actor->emitBasicSigOn();
-    _110.x();
+    _110.x_14();
     _110.x_0();
     auto* bind = m34();
     bind->x(sead::DynamicCast<ksys::act::Actor>(actor->getConnectedCalcParent()));

@@ -31,7 +31,7 @@ void AddCarriedBase::enter_(ksys::act::ai::InlineParamPack* params) {
     auto* carrier = sead::DynamicCast<ksys::act::Actor>(actor->getConnectedCalcParent());
     actor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_4000);
     _60 = 0;
-    _68.x();
+    _68.x_14();
     _68.x_0();
     auto* bind = m35();
     bind->x(sead::DynamicCast<ksys::act::Actor>(actor->getConnectedCalcParent()));

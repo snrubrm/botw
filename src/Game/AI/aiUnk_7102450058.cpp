@@ -8,6 +8,9 @@
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Physics/Constraint/physConstraint.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/Resource/Actor/resResourceGParamList.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectLiftable.h"
 
 // NON_MATCHING: scheduling only (the original materialises 10.0f / -1.0f after the stores to
 // +0x20 / +0x2c)
@@ -27,6 +30,27 @@ void Unk_7102450298::finalize() {
     }
 }
 
+
+// NON_MATCHING: the original keeps a branch for the bit 8 set / clear; ours folds it into a select
+void CarriedData::x_14() {
+    _10 = 0;
+    _14 = sead::Mathf::pi() / 6;
+    _18 = 10.0f;
+    _2c = 0;
+    auto* parent = sead::DynamicCast<ksys::act::Actor>(mActor->getConnectedCalcParent());
+    if (parent && ksys::act::isEnemyProfile(parent))
+        _18 = 15.0f;
+    if (const auto* param = mActor->getParam()) {
+        if (const auto* gparams = param->getRes().mGParamList) {
+            if (const auto* liftable = gparams->getLiftable()) {
+                if (liftable->mIsUpdateOffsetEachFrame.ref())
+                    _2c |= 8;
+                else
+                    _2c &= 0xf7;
+            }
+        }
+    }
+}
 
 void CarriedData::x_3(f32 a, f32 b) {
     auto* parent = sead::DynamicCast<ksys::act::Actor>(mActor->getConnectedCalcParent());

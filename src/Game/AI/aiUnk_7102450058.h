@@ -28,14 +28,19 @@ ksys::phys::Constraint* sub_7100F6D358(sead::Heap* heap);
 class CarriedData {
 public:
     explicit CarriedData(ksys::act::Actor* actor);
-    virtual ~CarriedData();
+    // The destructor is not virtual: the original vtable (0x7102450058) has only two slots, a no-op x_23 and x_14.
+    ~CarriedData();
+
+    // Slot 0: no-op here (0x71006f54e8 `ret`), overridden by Unk_7102450298::x_23.
+    virtual void x_23(ksys::act::Actor* actor) {}
+    // Slot 1 (0x71006f4cf0): overridden by Unk_7102450298::x.
+    virtual void x_14();
 
     // 0x71006f5450 / 0x71006f4804 (CSV CarriedData::x_12 / x_13; declared only; called directly (devirtualised) by
     // Carried::leave_). The matrix / vector are passed by value.
     // 0x71006f9460 / 0x71006f8ad4 (CSV CarriedData::x / x_0) / 0x71006f3e80 / 0x71006f4f78 / 0x71006f4128 /
     // 0x71006f41f4 / 0x71006f536c / 0x71006f5484 (declared only; signatures from Carried::enter_).
-    void x();
-    void x_0();
+    // 0x71006f4cf0 (CSV CarriedData::x_14): resets _10 / _14 / _18 / _2c; called by Unk_7102450298::x.
     sead::Matrix34f x_1(const sead::Matrix34f& mtx);
     void x_2(sead::Matrix34f mtx);
     void x_3(f32 a, f32 b);
@@ -50,8 +55,6 @@ public:
     void x_9();
     void x_16();
     void x_19();
-    void x_21();
-    void x_23(ksys::act::Actor* actor);
     void x_12();
     void x_13(sead::Matrix34f mtx, bool a2, sead::Vector3f pos);
 
@@ -71,7 +74,7 @@ KSYS_CHECK_SIZE_NX150(CarriedData, 0x30);
 class Unk_7102450298 : public CarriedData {
 public:
     explicit Unk_7102450298(ksys::act::Actor* actor);
-    ~Unk_7102450298() override;
+    ~Unk_7102450298();
 
     // 0x71006f8a88 (CSV CarriedData::x_25): destroys the constraint.
     void finalize();
@@ -84,6 +87,13 @@ public:
 
     // The non-virtual methods of the constraint-carried object (CSV CarriedData::x_*; lane4 s49: they read `_30`, so they
     // belong to this class; the CSV rows are renamed). Called by Carried::enter_ / calc_ / leave_.
+    // 0x71006f9460 (CSV CarriedData::x; renamed x_14: it overrides slot 1), 0x71006f8ad4 x_0, 0x71006f8bd4 x_21 (lane4 s64:
+    // they use _38..._54, so they belong to this class; the CSV rows are renamed).
+    void x_14() override;
+    void x_0();
+    void x_21();
+    // 0x71006f908c (CSV CarriedData::x_23; renamed).
+    void x_23(ksys::act::Actor* actor) override;
     // 0x71006f8f14: `_30->sub_7100F6A074()`.
     void x_10();
     // 0x71006f8d58 (declared only).
