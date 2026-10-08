@@ -2,6 +2,14 @@
 
 #include "KingSystem/ActorSystem/actAiBehavior.h"
 
+namespace ksys::phys {
+class CharacterController;
+}
+
+namespace uking::act {
+class Rideable;
+}
+
 namespace uking::behavior {
 
 class HorseSlipBehavior : public ksys::act::ai::Behavior {
@@ -14,6 +22,9 @@ public:
     void m7() override;  // not decompiled yet (0x7100e613f4)
     void m8() override;  // not decompiled yet (0x7100e612f0)
     void m9() override;  // not decompiled yet (0x7100e61aa0)
+
+    // 0x7100e61830 (placeholder name): passes the slip angle of the rider's current gear to the controller.
+    void sub_7100E61830(ksys::phys::CharacterController* controller, act::Rideable* rideable);
 
     /* 0x28 */ const float* mSlipAngleDeg_s{};
     /* 0x30 */ const float* mSlipAngleDegGear1_s{};

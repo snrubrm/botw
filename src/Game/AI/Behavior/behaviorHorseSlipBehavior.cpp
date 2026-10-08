@@ -15,6 +15,31 @@ bool HorseSlipBehavior::m6(sead::Heap* heap) {
     return true;
 }
 
+// NON_MATCHING: the original tail-calls sub_7100F5F07C without a frame record (ours sets up x29 / x30 and calls)
+void HorseSlipBehavior::sub_7100E61830(ksys::phys::CharacterController* controller,
+                                       act::Rideable* rideable) {
+    const act::Rideable::Gear gear(*(rideable->_18._b == 0 ? &rideable->_18._9 : &rideable->_18._b));
+    switch (gear) {
+    case act::Rideable::Gear::_0:
+        controller->sub_7100F5F07C(*mSlipAngleDeg_s);
+        break;
+    case act::Rideable::Gear::_1:
+        controller->sub_7100F5F07C(*mSlipAngleDegGear1_s);
+        break;
+    case act::Rideable::Gear::_2:
+        controller->sub_7100F5F07C(*mSlipAngleDegGear2_s);
+        break;
+    case act::Rideable::Gear::_3:
+        controller->sub_7100F5F07C(*mSlipAngleDegGear3_s);
+        break;
+    case act::Rideable::Gear::_4:
+        controller->sub_7100F5F07C(*mSlipAngleDegGearTop_s);
+        break;
+    default:
+        break;
+    }
+}
+
 void HorseSlipBehavior::m9() {
     if (auto* controller = mActor->getCharacterController())
         controller->sub_7100F5E754(false);

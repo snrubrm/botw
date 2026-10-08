@@ -1,6 +1,9 @@
 #include "Game/Actor/actUnk_71025ae680.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/ActorSystem/actChemicalElementHolder.h"
+#include "KingSystem/World/worldChemicalMgr.h"
+#include "KingSystem/World/worldManager.h"
 
 namespace uking::act {
 
@@ -133,6 +136,19 @@ ksys::res::DamageParam* Unk_71025ae680::sub_71006DF5A4() {
     if (!_10 || !_10->getParam())
         return nullptr;
     return _10->getParam()->getRes().mDamageParam;
+}
+
+bool sub_71006DFB58() {
+    auto* world = ksys::world::Manager::instance();
+    if (!world)
+        return false;
+    auto* chemical_mgr = world->getChemicalMgr();
+    if (!chemical_mgr)
+        return false;
+    auto* holder = chemical_mgr->_ae8;
+    if (!holder)
+        return false;
+    return holder->_c8 & 0x100000;
 }
 
 }  // namespace uking::act

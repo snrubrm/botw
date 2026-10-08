@@ -220,4 +220,8 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(Unk_710244fee8, 0x78);
 
+// 0x71006dfb58 (placeholder name): bit 20 of the flags of the world chemical element holder (ChemicalMgr::_ae8);
+// false without one.
+bool sub_71006DFB58();
+
 }  // namespace uking::act
