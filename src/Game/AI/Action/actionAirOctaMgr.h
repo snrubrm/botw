@@ -39,6 +39,10 @@ public:
 protected:
     void calc_() override;
 
+    // 0x71000873f4 (placeholder name): sets bit 0 of _354 when the first entry of the awareness sensor 1 of `awareness`
+    // has a live actor and an interest (`_a4`) of at least 6.2, while bit 1 is set and ReactHorn is on.
+    void sub_71000873F4(ksys::act::AwarenessInstance* awareness);
+
     // static_param at offset 0x20
     const float* mLeaveDistance_s{};
     // static_param at offset 0x28
@@ -65,7 +69,8 @@ protected:
     f32 _f8 = 1.0f;
     bool _fc = false;
     ksys::act::BaseProcLink _100;
-    u8 _110[0x358 - 0x110];
+    u8 _110[0x354 - 0x110];
+    u32 _354;
     Unk_7102362e80 _358{mActor, 0x80000cc};
 };
 
