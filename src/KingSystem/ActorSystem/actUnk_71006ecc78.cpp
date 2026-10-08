@@ -86,6 +86,14 @@ void Unk_71006ecc78::sub_71006ED484() {
     _cc = -1;
 }
 
+f32 Unk_71006ecc78::sub_71006EE148() const {
+    return _8->_d4 / 30.0f;
+}
+
+u8 Unk_71006ecc78::sub_71006EE274() const {
+    return _8->_dc;
+}
+
 // NON_MATCHING: the two comparisons against _cc are combined with the operands of `and` swapped
 bool Unk_71006ecc78::sub_71006ED9EC() const {
     if (!mActor->sub_71011CEA90())

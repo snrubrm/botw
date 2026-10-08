@@ -353,4 +353,10 @@ void DynamicActor::sub_71006DC89C() {
     }
 }
 
+void DynamicActor::sub_71006DE274(bool on) {
+    if (_a60) {
+        _a60->_c = on ? _a60->_c | 1 : _a60->_c & ~1;
+    }
+}
+
 }  // namespace ksys::act

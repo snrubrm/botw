@@ -81,6 +81,8 @@ public:
     f32 sub_71006D1D48();
     bool sub_71006D1D7C();
     bool sub_71006D1DA0();
+    // 0x71006d22b4 (lane4 s64; placeholder name): whether bit `bit` of `_139` is set.
+    bool sub_71006D22B4(s32 bit) const;
 
     void m7() override;
     bool m8(const ksys::Message& message) override;
@@ -93,6 +95,7 @@ public:
     /* 0x088 */ Unk_710235a0c0 _88;
     /* 0x0c0 */ u8 _c0[0x138 - 0xc0];
     /* 0x138 */ u8 _138;  // flags: 1 burn, 2 ice, 4 electric invalidated (behavior InvalidateCondition)
+    /* 0x139 */ sead::BitFlag8 _139;
     // (sizeof is 0x140 via tail padding: Player's derived object stores members at 0x13c.)
 };
 KSYS_CHECK_SIZE_NX150(Unk_710244dd20, 0x140);
@@ -103,6 +106,10 @@ KSYS_CHECK_SIZE_NX150(Unk_710244dd20, 0x140);
 class Unk_71008502cc : public Unk_710244dd20 {
 public:
     explicit Unk_71008502cc(ksys::act::Actor* actor);
+
+    // 0x7100850ce4 / 0x7100850cf4 (lane4 s64; placeholder names): `_8` has a bit of 0x3 / 0x587 set.
+    bool sub_7100850CE4() const;
+    bool sub_7100850CF4() const;
 
     /* 0x13c */ u32 _13c;
     /* 0x140 */ u32 _140;

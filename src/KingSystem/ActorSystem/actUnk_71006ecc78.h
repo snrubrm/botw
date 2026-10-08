@@ -26,6 +26,10 @@ class Unk_7100e9d810 {
 public:
     /* 0x00 */ u8 _0[0xc4];
     /* 0xc4 */ sead::Vector3f _c4;
+    u8 _d0[4];
+    /* 0xd4 */ f32 _d4;  // lane4 s64: sub_71006EE148 returns it / 30
+    u8 _d8[4];
+    /* 0xdc */ u8 _dc;  // sub_71006EE274
 };
 
 // Placeholder name (functions at 0x71006ecc78-0x71006ee3e0; ctor inlined into DynamicActor::initField868
@@ -71,6 +75,9 @@ public:
     void sub_71006EE1F8(const sead::SafeString& name);
     // 0x71006ee128: copies the vector at _8->_c4.
     void sub_71006EE128(sead::Vector3f* out) const;
+    // 0x71006ee148 / 0x71006ee274 (lane4 s64; placeholder names): `_8->_d4 / 30` / `_8->_dc`.
+    f32 sub_71006EE148() const;
+    u8 sub_71006EE274() const;
     // 0x71006ee15c / 0x71006ee1a4
     bool sub_71006EE15C() const;
     bool sub_71006EE1A4() const;

@@ -117,6 +117,8 @@ public:
     void sub_71006DC864();
     // 0x71006dc89c (placeholder name): deletes the drop data (`_a60`) and clears it.
     void sub_71006DC89C();
+    // 0x71006de274 (lane4 s64; placeholder name): sets / clears bit 0 of the drop data's flags `_c` (if there is drop data).
+    void sub_71006DE274(bool on);
     // 0x71006dd908 (declared only): forwards to _868 (Unk_71006ecc78::sub_71006EE128(out)) if it exists.
     void sub_71006DD908(sead::Vector3f* out);
 
