@@ -49,8 +49,8 @@ public:
     phys::RigidBody* sub_7100ED6878(s32 index) const;
 
     // FIXME: figure out return types, parameters and names
-    virtual void m148();
-    virtual void m149();
+    virtual void m148() {}
+    virtual void m149() {}
     virtual void m150();
 
     friend class acc::RopeBase;

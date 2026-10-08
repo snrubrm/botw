@@ -7,6 +7,7 @@
 
 namespace ksys {
 class OverlayArenaSystemS1;
+class SystemPauseMgr;
 struct MesTransceiverId;
 }
 
@@ -207,6 +208,7 @@ public:
 
 private:
     friend class ksys::OverlayArenaSystemS1;
+    friend class ksys::SystemPauseMgr;  // m14 clears bit 1 of _1d1b0
     // reads and writes the flag word at 0x1d1b0 (the original accessed it directly)
     friend class uking::ui::Unk_710247af10;
 
