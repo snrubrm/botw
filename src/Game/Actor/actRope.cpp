@@ -13,4 +13,8 @@ s32* Rope::getLife() {
     return &_cb0;
 }
 
+uking::dmg::DamageManagerBase* Rope::getDamageMgr() {
+    return &_a00;
+}
+
 }  // namespace uking::act
