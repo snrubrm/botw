@@ -2616,6 +2616,10 @@ public:
     void m94() override;
     /* 0x3610 */ u8 _3610{};
     SEAD_RTTI_OVERRIDE(ScreenPauseMenuBG, ScreenEx)
+    // 0x7100a2bedc / 0x7100a2bf64 (placeholder names; called by ScreenPauseMenu): bring the background up (and remember
+    // whether the UI manager's flag 2 was set) / close it again
+    void sub_7100A2BEDC();
+    void sub_7100A2BF64();
 };
 
 class ScreenSeekPadMenuBG : public ScreenEx {
