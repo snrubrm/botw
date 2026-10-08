@@ -73,6 +73,17 @@ void LastBoss::sub_71002C5DB4() {
         _1c88.unloadEvent();
 }
 
+void LastBoss::sub_71002C6930() {
+    for (auto* part : _1128.mList) {
+        if (!part->mLink.hasProcInCalcState())
+            continue;
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::acquireActor(&part->mLink, &accessor);
+        if (!accessor.isDeletedOrDeleting())
+            accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+    }
+}
+
 void LastBoss::sub_71002C69CC() {
     if (_14f8.mDamageManager)
         return;

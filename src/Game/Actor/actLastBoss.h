@@ -64,6 +64,8 @@ public:
     // `_14f8` with the actor's damage manager (timing 4).
     void sub_71002C69CC();
     void sub_71002C6A24();
+    // 0x71002c6930 (placeholder name): deleteLater on every part actor (`_1128`) that is in its calc state.
+    void sub_71002C6930();
 
     // The "WarpCharge" effect handle (LastBossPreNormalWarp::enter_). 0x14d4-0x14e4 are not initialised by the ctor.
     /* 0x14c8 */ xlink2::HandleELink _14c8;
