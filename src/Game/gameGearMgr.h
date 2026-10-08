@@ -5,6 +5,7 @@
 #include <prim/seadDelegate.h>
 #include <thread/seadCriticalSection.h>
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
+#include "KingSystem/System/Timer.h"
 #include "KingSystem/Utils/Types.h"
 
 namespace ksys::act {
@@ -17,6 +18,9 @@ class SystemGroupHandler;
 }  // namespace ksys::phys
 
 namespace uking {
+
+// Non-const f32 in .data at 0x710243c148 (12.0 in the executable), read by GearMgr::sub_710066990C.
+extern f32 sUnk_710243C148;
 
 // Name from the CSV (GearMgr::createInstance 0x7100668af8, GearMgr::ctor 0x7100668bd8, init,
 // postCalc_). A polymorphic sead singleton (size 0x1108, instance pointer at 0x71025c5d08) with 0x80
@@ -108,9 +112,8 @@ public:
     // Least common multiple of the registered gear ratios (sub_7100669144).
     f32 _10c8;
     u32 _10cc;
-    u32 _10d0 = 0;
-    u32 _10d4 = 0;
-    f32 _10d8 = 0;
+    // 0x710066990c stores Timer(sUnk_710243C148, sUnk_710243C148) here and sub_7100668D44 calls Timer::update() on it.
+    ksys::Timer _10d0;
     u8 _10dc;
     u8 _10dd;
     u8 _10de[0x10e0 - 0x10de];

@@ -132,6 +132,20 @@ void GearMgr::sub_71006698B0(bool on) {
     mCS.unlock();
 }
 
+f32 sUnk_710243C148 = 12.0f;
+
+// NON_MATCHING: the original addresses sUnk_710243C148 directly (adrp + ldr, internal linkage); ours goes through the GOT.
+
+void GearMgr::sub_710066990C(bool on) {
+    mCS.lock();
+    if (on)
+        _10a8[_28] |= 1;
+    else
+        _10a8[_28] &= ~1u;
+    _10d0 = ksys::Timer(sUnk_710243C148, sUnk_710243C148);
+    mCS.unlock();
+}
+
 void GearMgr::sub_7100669AF8(f32 value) {
     mCS.lock();
     _10c4 = value;
