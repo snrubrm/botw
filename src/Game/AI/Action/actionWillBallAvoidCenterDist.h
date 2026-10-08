@@ -4,21 +4,13 @@
 #include "Game/AI/Action/actionWillBallAction.h"
 #include "Game/AI/aiUnk_NavMeshCallback.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/Physics/System/physHavokAI.h"
 
 namespace uking::action {
 
-// Placeholder name (the singleton at 0x710260de68; declared only): the method at 0x7100f85eb8 (700 B) is a line query from
-// `from` to `to` (`radius` 3 here) that answers whether something is in the way.
-class Unk_710260de68 {
-public:
-    static Unk_710260de68* instance() { return sInstance; }
-    bool sub_7100F85EB8(f32 radius, const sead::Vector3f* from, const sead::Vector3f* to, void* unused);
-    // 0x7100f857f4 (384 B; declared only): visits the nav mesh nodes inside `box` with `callback` (EnemyEscapeMove).
-    void sub_7100F857F4(Unk_NavMeshCallback* callback, const sead::BoundBox3f* box);
-
-private:
-    static Unk_710260de68* sInstance;
-};
+// The singleton at 0x710260de68 is ksys::phys::HavokAI (HavokAI::createInstance stores it; the old placeholder name
+// is kept as an alias for its callers).
+using Unk_710260de68 = ksys::phys::HavokAI;
 
 class WillBallAvoidCenterDist : public WillBallAction {
     SEAD_RTTI_OVERRIDE(WillBallAvoidCenterDist, WillBallAction)

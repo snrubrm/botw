@@ -1,4 +1,6 @@
 #include "KingSystem/Physics/System/physHavokAI.h"
+#include <thread/seadThread.h>
+#include <thread/seadThreadUtil.h>
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
 
 namespace ksys::phys {
@@ -82,6 +84,22 @@ void HavokAI::sub_7100F832B4(NavMeshObjMaybe* obj, bool on) {
     HavokAI* pending = obj->_a0.exchange(this);
     if (!pending || uintptr_t(pending) == (uintptr_t(this) | 1))
         _40->_150.push(obj);
+}
+
+void HavokAI::sub_7100F857F4(Unk_NavMeshCallback* callback, const sead::BoundBox3f* aabb) {
+    if (sead::ThreadMgr::instance()->getCurrentThread() != _38) {
+        static_cast<void>(sead::ThreadUtil::ConvertPriorityPlatformToSead(
+            sead::ThreadMgr::instance()->getCurrentThread()->getPriority()));
+        static_cast<void>(sead::ThreadUtil::ConvertPriorityPlatformToSead(_38->getPriority()));
+    }
+
+    if (_90.tryLock()) {
+        sub_7100F854C4(callback, aabb);
+        _90.unlock();
+    } else if (_c8.tryLock()) {
+        sub_7100F8565C(callback, aabb);
+        _c8.unlock();
+    }
 }
 
 bool HavokAI::startNavMeshSystemThread() {

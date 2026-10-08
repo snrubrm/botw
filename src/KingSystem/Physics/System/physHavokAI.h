@@ -7,11 +7,16 @@
 #include <math/seadVector.h>
 #include <prim/seadTypedBitFlag.h>
 #include <thread/seadAtomic.h>
+#include <math/seadBoundBox.h>
+#include <thread/seadEvent.h>
 #include "KingSystem/Utils/Container/LockFreeQueue.h"
 #include <thread/seadCriticalSection.h>
 #include <thread/seadThread.h>
 #include "KingSystem/Resource/resHandle.h"
 #include "KingSystem/Utils/Types.h"
+
+// Game/AI/aiUnk_NavMeshCallback.h
+class Unk_NavMeshCallback;
 
 namespace ksys::res {
 class Handle;
@@ -282,11 +287,51 @@ public:
     void destroyQuery(Unk_7102372790* query);
     bool submitQuery(Unk_7102372790* query);
 
+    // inline-only in the original; name is a guess. A shared lock: up to 0x100 holders, the event is reset by the first
+    // and signalled when the last one leaves. The same acquire / release sequence is inlined into 0x7100f857f4,
+    // 0x7100f854c4 and 0x7100f8565c (for _90 and _c8).
+    struct SharedLock {
+        bool tryLock() {
+            while (true) {
+                const u32 count = mCount.load();
+                if (count > 0xff)
+                    return false;
+                if (!mCount.compareExchange(count, count + 1))
+                    continue;
+                if (count == 0)
+                    mEvent.resetSignal();
+                return true;
+            }
+        }
+
+        void unlock() {
+            if (mCount.decrement() == 1)
+                mEvent.setSignal();
+        }
+
+        sead::Event mEvent;
+        sead::Atomic<u32> mCount;
+    };
+
+    // 0x7100f85eb8 (700 B; declared only; was Unk_710260de68::sub_7100F85EB8): a line query from `from` to `to`
+    // that answers whether something is in the way.
+    bool sub_7100F85EB8(f32 radius, const sead::Vector3f* from, const sead::Vector3f* to, void* unused);
+
+    // 0x7100f857f4 (placeholder name): visits the nav mesh nodes inside `aabb` with `callback` (0x7100f854c4 under _90, or 0x7100f8565c under _c8 if _90
+    // is full). The callback is a caller-defined object (e.g. vtable 0x71023e7188).
+    void sub_7100F857F4(Unk_NavMeshCallback* callback, const sead::BoundBox3f* aabb);
+    // 0x7100f854c4 / 0x7100f8565c (declared only).
+    void sub_7100F854C4(Unk_NavMeshCallback* callback, const sead::BoundBox3f* aabb);
+    void sub_7100F8565C(Unk_NavMeshCallback* callback, const sead::BoundBox3f* aabb);
+
     u8 _28[0x38 - 0x28];
     NavMeshSystemThread* _38;
     NavMeshQueryRequestPool* _40;
     NavMeshLoadMgr* _48;
-    u8 _50[0x178 - 0x50];
+    /* 0x50 */ sead::CriticalSection _50;
+    /* 0x90 */ SharedLock _90;
+    /* 0xc8 */ SharedLock _c8;
+    u8 _100[0x178 - 0x100];
 };
 KSYS_CHECK_SIZE_NX150(HavokAI, 0x178);
 
