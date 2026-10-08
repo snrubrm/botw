@@ -15,11 +15,14 @@ public:
     explicit DamageMgrPlayer(ksys::act::Actor* actor);
 
     s32 m52() override;
+    void m55() override;
 
     // Set by Player::sub_7100884578 (PlayerIce / PlayerElectric leave_) to the unnamed .rodata int 30.
     /* 0x22c */ f32 _22c;
-    /* 0x230 */ u16 _230;
-    /* 0x232 */ u8 _232;
+    /* 0x230 */ u8 _230 = 0;
+    // 0x7100852060 (m55): skip the base handling while this is set.
+    /* 0x231 */ bool _231 = false;
+    /* 0x232 */ u8 _232 = 0;
 };
 KSYS_CHECK_SIZE_NX150(DamageMgrPlayer, 0x238);
 
