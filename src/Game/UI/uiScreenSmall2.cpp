@@ -1056,6 +1056,19 @@ bool ScreenDemoName::m154(ShopInfoTagData* name) {
     return true;
 }
 
+// 0x7100a0a770
+void ScreenGameOver::m102(eui::AnimButton* button) {
+    if (button->mTag == 0x78) {
+        eui::MessageString message;
+        getMessage("LayoutMsg/GameOver_00", "0000", &message);
+        setWidgetString(mLayout, "T_SubText_00", message);
+    } else if (button->mTag == 0x79) {
+        eui::MessageString message;
+        getMessage("LayoutMsg/GameOver_00", "0001", &message);
+        setWidgetString(mLayout, "T_SubText_00", message);
+    }
+}
+
 // 0x7100a0b63c
 void ScreenHardModeTextDLC::m98() {
     eui::MessageString message;

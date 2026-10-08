@@ -1297,6 +1297,8 @@ public:
     void m101() override;
     void m99() override;
     void m100() override;
+    // 0x7100a0a770: shows the sub text of the focused button (tag 0x78: "0000", 0x79: "0001" of LayoutMsg/GameOver_00)
+    void m102(eui::AnimButton* button) override;
     void m106(eui::AnimButton* button) override;
     bool isEnableControl() const override;
     ~ScreenGameOver() override;
