@@ -98,6 +98,10 @@ public:
     virtual void m110();
     virtual void m111();
     virtual s32 m112();
+
+    // The members used so far (state callbacks m109 / m111 play the animator, m110 waits for it to stop).
+    u8 _28[0x138 - 0x28];
+    /* 0x138 */ eui::Animator* _138;
 };
 
 }  // namespace uking::ui

@@ -1,4 +1,5 @@
 #include "Game/UI/uiScreenChildStates.h"
+#include "Game/UI/euiAnimator.h"
 #include "Game/gameSaveSystem.h"
 #include "KingSystem/Event/evtManager.h"
 
@@ -154,6 +155,17 @@ void Unk_710247e468::m105() {}
 
 // 0x71009ca2c8
 void Unk_710247e468::m107() {}
+
+// 0x71009ca2cc
+void Unk_710247e468::m109() {
+    if (_138)
+        _138->Play(eui::Animator::PlayType(0), 1.0f);
+}
+
+// 0x71009ca340
+void Unk_710247e468::m111() {
+    _138->Play(eui::Animator::PlayType(0), -1.0f);
+}
 
 // 0x71009ca35c
 s32 Unk_710247e468::m108() { return 0; }
