@@ -57,6 +57,10 @@ public:
     // 0x71002f2e78 (not decompiled; 720 bytes, switch on idx). Placeholder name; return type unknown
     // (WolfLinkWarp::leave_ tail-calls it with Idx14f8::_10).
     void sub_71002F2E78(Idx14f8 idx);
+    // 0x71002f3148 / 0x71002f31bc (placeholder names): start / stop the invincible state (bit 2 of _1698 and the
+    // damage manager's mField_34). The first argument is unused; `flag` also sets the rate of timer 8 to -1 (stop: 0).
+    void sub_71002F3148(u32 a1, bool flag);
+    void sub_71002F31BC();
     // 0x71002f4428 (not decompiled): `s32(p->_850 + p->_870 * (getMaxLife-like virtual 0xf0 / 4))` from the
     // parameter object _1680.
     s32 sub_71002F4428();

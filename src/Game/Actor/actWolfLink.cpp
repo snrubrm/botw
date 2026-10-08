@@ -1,4 +1,5 @@
 #include "Game/Actor/actWolfLink.h"
+#include "Game/Damage/dmgDamageManagerBase.h"
 #include "Game/UI/uiUtils.h"
 #include "Game/gameWolfLinkMgr.h"
 #include "KingSystem/ActorSystem/actBoneControl.h"
@@ -66,6 +67,27 @@ WolfLink::State WolfLink::sub_71002F430C(const ksys::act::BaseProcLink* link) {
 
 WolfLink::State WolfLink::sub_71002F440C() {
     return sub_71002F430C(&_c48._8);
+}
+
+void WolfLink::sub_71002F3148(u32 a1, bool flag) {
+    if (_1698 & 4)
+        return;
+    if (flag) {
+        const Idx14f8 idx = Idx14f8::_8;
+        _14f8[idx].rate = -1;
+    }
+    getDamageMgr()->mField_34 = true;
+    _1698 |= 4;
+}
+
+void WolfLink::sub_71002F31BC() {
+    if (!(_1698 & 4))
+        return;
+    const Idx14f8 idx = Idx14f8::_8;
+    _14f8[idx].rate = 0;
+    sub_71002F2E78(Idx14f8::_8);
+    getDamageMgr()->mField_34 = false;
+    _1698 &= ~4;
 }
 
 void WolfLink::sub_71002F493C() {
