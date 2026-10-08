@@ -26,6 +26,12 @@ void Player::RideInfo::x_0() {
     }
 }
 
+bool Player::RideInfo::sub_7100854028() const {
+    if (!_2d8 || !(_2d8->_50 & 1) || !_2d8->_18)
+        return false;
+    return _2d8->_18->sub_7100F6C658();
+}
+
 void Player::RideInfo::m8() {
     Unk_710244eaa0::m8();
     _2e0 = mActor->findPhysicsBodyByName("Player", "Riding");
