@@ -136,4 +136,10 @@ void ScreenKeyBoradTextArea::m101() {
         root->sub_7100899CA4(Root1::FlagIdx::_0, 2);
 }
 
+// 0x7100a503dc
+void ScreenShopHorse::sub_7100A503DC() {
+    if (auto* root = Root1::instance())
+        root->sub_7100899CA4(Root1::FlagIdx::_0, 2);
+}
+
 }  // namespace uking::ui

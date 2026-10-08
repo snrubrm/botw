@@ -1457,6 +1457,8 @@ public:
 class ScreenShopHorse : public ScreenEx {
 public:
     ScreenShopHorse();
+    // 0x7100a503dc (placeholder name): sets the Root1 flag (index 0) to 2
+    void sub_7100A503DC();
     void m96() override;
     void m104(eui::AnimButton*) override;
     void m106(eui::AnimButton*) override;
