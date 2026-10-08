@@ -216,6 +216,10 @@ public:
     void sub_7100F5FBC8(sead::Vector3f* linear_velocity, sead::Vector3f* angular_velocity,
                         const sead::Matrix34f& target);
     void sub_7100F60500(const sead::Matrix34f& mtx);
+    // 0x7100f60088 (declared only; U in the CSV): writes a normalised cross-product axis of the
+    // controller state and `in` to `out` (called by AnimalStop::calc_ with (out, negated _7c, true)).
+    // Placeholder name; third parameter type (bool vs int) is a guess.
+    void sub_7100F60088(sead::Vector3f* out, const sead::Vector3f* in, bool flag);
     // 0x7100f5eecc (declared only)
     void sub_7100F5EECC(f32 value);
     // 0x7100f5e954: mRigidBody->isAddedToWorld().
