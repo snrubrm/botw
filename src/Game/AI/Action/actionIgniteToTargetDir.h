@@ -14,6 +14,7 @@ public:
     void loadParams_() override;
 
 protected:
+    void m32(ksys::act::BaseProcHandle* handle) override;
 };
 
 }  // namespace uking::action
