@@ -10,7 +10,8 @@
 #include <thread/seadMutex.h>
 #include <thread/seadReadWriteLock.h>
 #include "KingSystem/Map/mapPlacementMap.h"
-#include "KingSystem/Resource/resHandle.h"
+#include "KingSystem/Resource/resResDerived.h"
+#include "KingSystem/Resource/resUnk_71024F9938.h"
 #include "KingSystem/Utils/Types.h"
 
 namespace ksys::map {
@@ -104,11 +105,13 @@ public:
 
     sead::TypedLongBitFlag<64, Flag, sead::Atomic<u32>> mFlags;
     sead::TypedBitFlag<ActorFlag8, u8> mActorFlags8;
-    u8 _9;
-    u8 _a;
-    u8 _b;
-    u8 _c[0x88 - 0xc];
-    res::Handle mRes;
+    u8 _9 = 0;
+    u8 _a = 0xff;
+    u8 _b = 0;
+    u8 _c[0x20 - 0xc];
+    res::Unk_71024f9958 _20;
+    res::Unk_71024f9938 _58;
+    res::ResDerived mRes;
     u8 _d8[0x148 - 0xd8];
     sead::FixedSafeString<64> mActorName;
 };
@@ -139,6 +142,9 @@ public:
     Object* findObjByHash(const u32& hash, int group_idx, int start, int end);
     // 0x0000007101256d58 (CSV findObjByHashInAllGroups): the same over the groups 0-9; writes the group of the result.
     Object* findObjByHashInAllGroups(const u32& hash, int start, int end, int* out_group);
+
+    // 0x0000007101256be8 (CSV PlacementObjs::dtor): frees every group's object buffer.
+    ~PlacementObjs();
 
     void* _0;
     sead::SafeArray<Group, 10> mGroups;

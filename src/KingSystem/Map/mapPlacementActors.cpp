@@ -5,10 +5,20 @@
 #include "KingSystem/ActorSystem/actInfoData.h"
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Map/mapObjectLink.h"
+#include "KingSystem/Map/mapPlacementAreaMgr.h"
 #include "KingSystem/Map/mapPlacementMgr.h"
 #include "KingSystem/Map/mapPlacementTree.h"
 
 namespace ksys::map {
+
+PlacementActors::~PlacementActors() {
+    for (int i = 0; i < mActorData.size(); ++i)
+        deleteActorData(&mActorData[i]);
+    delete mObjs;
+    mObjs = nullptr;
+    delete mStruct1;
+    mStruct1 = nullptr;
+}
 
 void PlacementActors::removeInnerData1() {
     _e8 = 0;

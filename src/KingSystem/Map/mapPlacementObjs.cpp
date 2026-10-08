@@ -4,6 +4,14 @@
 
 namespace ksys::map {
 
+PlacementObjs::~PlacementObjs() {
+    for (size_t i = 0; i < 10; ++i) {
+        auto& group = mGroups.mBuffer[i];
+        group.objects.freeBuffer();
+        group.num_objs = 0;
+    }
+}
+
 int PlacementObjs::allocGroupForDynamicMap(PlacementMap* pmap) {
     for (int i = 0; i < 9; ++i) {
         auto& group = mGroups[i + 1];
