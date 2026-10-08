@@ -23,6 +23,8 @@ protected:
 
     // 0x710076f638: clamps the "Cus" parameters into _238 - _25c.
     void sub_710076F638();
+    // 0x7100771b94 (called by m34): eases _9c towards _84 and _a0 towards _88 (`_261` bit 2 selects the rate).
+    void sub_7100771B94();
 
     // A value that follows a parameter (m33 starts it from *startCus).
     struct Unk1 {
@@ -140,7 +142,7 @@ protected:
     f32 _258 = 1.0;
     f32 _25c = 0.01;
     sead::BitFlag8 _260;  // flags
-    bool _261 = false;
+    sead::BitFlag8 _261;
     bool _262 = false;
     u8 _263 = 4;
 };

@@ -45,7 +45,7 @@ void CameraHorse::m33() {
         if (camera->_860._260.hasProc())
             camera->_860._7f8.reset(1);
         const bool flag = camera->_860._7f8.isOn(1);
-        _261 = false;
+        _261.makeAllZero();
         _262 = false;
         if (_260.isOn(2) && flag)
             _260.set(4);
@@ -55,6 +55,16 @@ void CameraHorse::m33() {
         _b4 = (camera->_860._0._c - camera->_860._0._0).length();
         _bc = 0;
     }
+}
+
+// NON_MATCHING: the original loads the rate pointer in the two branches (tbnz) instead of selecting the address,
+// and swaps the registers of the two loads before the first fsub.
+void CameraHorse::sub_7100771B94() {
+    const f32 rate = *(_261.isOn(2) ? mSideOffsetCus_s : mSideOffsetCusNoInput_s);
+    const f32 t1 = sub_710092523C(sub_71009251C4(getCameraActor()), rate);
+    _9c = _9c + (_84 - _9c) * t1;
+    const f32 t2 = sub_710092523C(sub_71009251C4(getCameraActor()), 0.4f);
+    _a0 = t2 * (_88 - _a0) + _a0;
 }
 
 void CameraHorse::m36() {
