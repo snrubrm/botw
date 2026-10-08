@@ -34,6 +34,7 @@ class ObjectLinkData;
 }  // namespace ksys::map
 
 namespace ksys::phys {
+class Constraint;
 class ContactLayer;
 class NavMeshCharacter;
 class StaticCompoundRigidBodyGroup;
@@ -328,6 +329,8 @@ public:
     f32 sub_7100D14780() const;
     bool sub_7100D14C80(sead::Vector3f* out) const;
     bool sub_7100D14D40(const sead::Matrix34f& mtx) const;
+    // 0x7100d15c0c (placeholder name): `constraint->sub_7100F6A92C(actor's main physics body)`; false without a body.
+    bool sub_7100D15C0C(phys::Constraint* constraint) const;
     bool sub_7100D13DBC() const;
     s32 sub_7100D15CB8() const;
     s32 sub_7100D15D84() const;

@@ -12,6 +12,7 @@
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/ActorSystem/LOD/actLodState.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/Physics/Constraint/physConstraint.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/physDefines.h"
 #include "KingSystem/Physics/System/physSystem.h"
@@ -1434,6 +1435,19 @@ u64 ActorConstDataAccess::sub_7100D142E0() const {
     if (!rideable)
         return 0;
     return rideable->_18._b == 0 ? rideable->_18._9 : rideable->_18._b;
+}
+
+bool ActorConstDataAccess::sub_7100D15C0C(phys::Constraint* constraint) const {
+    auto* actor = getActor();
+    if (!actor)
+        return false;
+
+    auto* body = actor->getPhysicsMainBody();
+    if (!body)
+        return false;
+
+    constraint->sub_7100F6A92C(body);
+    return true;
 }
 
 }  // namespace ksys::act
