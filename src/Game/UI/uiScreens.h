@@ -3101,6 +3101,19 @@ public:
     /* 0x3851 */ u8 _3851;
 };
 
+// The DLC window's tip unit (vtable 0x71024872a0, 0x50 bytes). The ScreenDLCWindow function at
+// 0x7100a067a8 creates the units; each one looks up its Pa_DLCTips_00 parts layout.
+class Unk_71024872a0 : public Unk_7102474e38 {
+public:
+    SEAD_RTTI_OVERRIDE(Unk_71024872a0, Unk_7102474e38)
+    Unk_71024872a0() = default;
+    ~Unk_71024872a0() override;
+    void m4(sead::Heap*) override;
+    void m6() override;
+
+    /* 0x48 */ eui::LayoutEx* _48{};
+};
+
 class ScreenDLCWindow : public ScreenEx {
 public:
     bool isEnableControl() const override;

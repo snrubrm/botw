@@ -26,4 +26,15 @@ void Unk_7102485670::m6() {
         sub_7100A01918();
 }
 
+// 0x7100a065c8 (D0)
+Unk_71024872a0::~Unk_71024872a0() = default;
+
+// 0x7100a05314
+void Unk_71024872a0::m4(sead::Heap*) {
+    _48 = _8->findPartsLayout("Pa_DLCTips_00");
+}
+
+// 0x7100a065ec
+void Unk_71024872a0::m6() {}
+
 }  // namespace uking::ui
