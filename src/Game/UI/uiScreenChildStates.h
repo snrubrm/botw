@@ -6,6 +6,25 @@
 // Placeholder names after the vtable; their destructors / RTTI are not decompiled yet.
 namespace uking::ui {
 
+// A list unit of the Unk_710247af10 TU (vtable 0x710247ae48, 0x58 bytes; created by 0x71009b951c, which allocates
+// them into a PtrArray). Only the overridden slots are declared.
+class Unk_710247ae48 : public Unk_7102474e38 {
+public:
+    SEAD_RTTI_OVERRIDE(Unk_710247ae48, Unk_7102474e38)
+    Unk_710247ae48() = default;
+    ~Unk_710247ae48() override;
+    // 0x71009b3054 / 0x71009b30ec / 0x71009b328c / 0x71009b3840 / 0x71009b40dc (not decompiled)
+    void m4(sead::Heap* heap) override;
+    void m7() override;
+    void m13() override;
+    void m15(eui::AnimButton* button) override;
+    void m19(eui::AnimButton* button) override;
+
+    /* 0x48 */ void* _48{};
+    /* 0x50 */ void* _50{};
+};
+static_assert(sizeof(Unk_710247ae48) == 0x58);
+
 class Unk_710247af10 : public ScreenChildEx {
 public:
     ~Unk_710247af10() override;

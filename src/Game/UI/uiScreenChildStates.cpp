@@ -5,6 +5,8 @@
 
 namespace uking::ui {
 
+Unk_710247ae48::~Unk_710247ae48() = default;
+
 // 0x71009b8d98
 void Unk_710247af10::m106() {}
 
