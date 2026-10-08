@@ -403,4 +403,12 @@ WallCode wallCodeFromText(const sead::SafeString& text);
 
 MotionType motionTypeFromText(const sead::SafeString& text);
 
+// 0x7100e94740: contact-layer classifier (true for layers 2, 8, 9, 10, 12).
+// Placeholder name; the exact meaning is unknown. Callers pass
+// RigidBody::getContactLayer().
+bool xxx_2(int layer);
+// 0x7100e94768: contact-layer classifier (true for layers 0, 2, 8, 9, 12).
+// Placeholder name; the exact meaning is unknown.
+bool xxx_3(int layer);
+
 }  // namespace ksys::phys

@@ -103,4 +103,36 @@ MotionType motionTypeFromText(const sead::SafeString& text) {
     return MotionType::Unknown;
 }
 
+// 0x7100e94740. Layer numbers match ContactLayer (2 = EntityGroundObject,
+// 8/9/10 = EntityGround/Smooth/Rough, 12 = EntityTree).
+bool xxx_2(int layer) {
+    switch (layer) {
+    case 2:
+    case 8:
+    case 9:
+    case 10:
+    case 12:
+        return true;
+    default:
+        return false;
+    }
+}
+
+// 0x7100e94768 (0 = EntityObject on top of xxx_2's set minus EntityGroundRough).
+// NON_MATCHING (m): the original masks the table index in 64-bit
+// (`and x8, x0, #0x1fff`); all tested source forms (int/u32/long param, casts,
+// explicit range check, SEAD_ENUM) produce the 32-bit form. Structure identical.
+bool xxx_3(int layer) {
+    switch (layer) {
+    case 0:
+    case 2:
+    case 8:
+    case 9:
+    case 12:
+        return true;
+    default:
+        return false;
+    }
+}
+
 }  // namespace ksys::phys
