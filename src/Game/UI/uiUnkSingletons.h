@@ -416,6 +416,12 @@ public:
     void copy38d8To38d9();
     void update388c();
     bool sub_7100966E64() const;
+    // 0x7100965e58 / 0x7100965d10 / 0x71009659a4 (placeholder names)
+    void* sub_7100965E58();
+    // The position of the map view in map units (scaled by 1 / _8b0 and _878, rotated by _87c degrees)
+    void sub_7100965D10(sead::Vector2f* out) const;
+    // Sets _880 and _890 to the negated `view` size scaled by (_8b0, _8b4) (zero when both are zero)
+    void sub_71009659A4(const sead::Vector2f* view);
     // 0x7100965e68 / 0x7100965e78 / 0x7100965e88 / 0x7100965e98 (placeholder names)
     bool is898Zero() const;
     bool is898EqualTo3() const;
@@ -498,11 +504,20 @@ private:
     /* 0x7c4 */ sead::SafeArray<s32, 15> _7c4;
     u8 _800[0x848 - 0x800];
     /* 0x848 */ s32 _848;
-    u8 _84c[0x880 - 0x84c];
+    // 0x850 .. 0x870: a 0x20 byte object (UiSubsys1::sub_7100965E58 returns its address)
+    u8 _84c[0x870 - 0x84c];
+    // The map view: position, scale, rotation (degrees) and the scale factors of the map widget.
+    /* 0x870 */ sead::Vector2f _870;
+    /* 0x878 */ f32 _878;
+    /* 0x87c */ f32 _87c;
     /* 0x880 */ sead::Vector2f _880;
-    u8 _888[0x898 - 0x888];
+    u8 _888[0x890 - 0x888];
+    /* 0x890 */ sead::Vector2f _890;
     /* 0x898 */ s32 _898;
-    u8 _89c[0x3820 - 0x89c];
+    u8 _89c[0x8b0 - 0x89c];
+    /* 0x8b0 */ f32 _8b0;
+    /* 0x8b4 */ f32 _8b4;
+    u8 _8b8[0x3820 - 0x8b8];
     /* 0x3820 */ s32 _3820;
     u8 _3824[0x3830 - 0x3824];
     /* 0x3830 */ s32 _3830;

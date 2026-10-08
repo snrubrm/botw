@@ -1,6 +1,7 @@
 #include <limits>
 #include <prim/seadBitFlag.h>
 #include "Game/UI/uiUnkSingletons.h"
+#include "Game/UI/uiUtils.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 
 namespace uking::ui {
@@ -307,6 +308,34 @@ sead::Vector2f* UiSubsys1::getVec3870() {
 // 0x7100966db0
 sead::Vector2f* UiSubsys1::getVec3878() {
     return &_3878;
+}
+
+// 0x7100965e58
+void* UiSubsys1::sub_7100965E58() {
+    return &_84c[0x850 - 0x84c];
+}
+
+// NON_MATCHING: float register allocation and the order of the fnmul / fmul pair (target: s2 = 1 / _8b0, y computed before x)
+// 0x7100965d10
+void UiSubsys1::sub_7100965D10(sead::Vector2f* out) const {
+    const f32 inv_scale = 1.0f / _8b0;
+    const sead::Vector2f pos = _870;
+    out->set(-(pos.x * inv_scale), pos.y * inv_scale);
+    sub_7100AA0BB0(out, _87c);
+    const f32 inv_zoom = 1.0f / _878;
+    out->x = inv_zoom * out->x;
+    out->y = inv_zoom * out->y;
+}
+
+// 0x71009659a4
+void UiSubsys1::sub_71009659A4(const sead::Vector2f* view) {
+    sead::Vector2f offset;
+    if (_8b0 == 0 && _8b4 == 0)
+        offset.set(0, 0);
+    else
+        offset.set(-(_8b0 * view->x), -(_8b4 * view->y));
+    _880 = offset;
+    _890 = offset;
 }
 
 // 0x7100966d9c
