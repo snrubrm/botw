@@ -1,3 +1,4 @@
+#include <algorithm>
 #include "Game/UI/uiScreenControlCreators.h"
 #include "Game/UI/euiTagProcessor.h"
 #include "Game/UI/euiMessageMgr.h"
@@ -1636,6 +1637,17 @@ void ScreenWolfLinkHeartGauge::m94() {
     if ((info->_70 & 1) && !_3610->isAnimator8e0Playing())
         _3610->playAnimator8e0();
     _3610->sub_710093515C(getAnimationStep_());
+}
+
+// NON_MATCHING: minimum-count and final gauge-load scheduling differ.
+// 0x7100a6bd98
+void ScreenWolfLinkHeartGauge::sub_7100A6BD98() {
+    if (!_3610)
+        return;
+    _3610->set948(sub_7100949D18(Unk_71025d6578::instance()->_68));
+    _3610->set944(_3610->_948);
+    const s32 count = sub_7100949CE8(Unk_71025d6578::instance()->_6c);
+    _3610->sub_71009358CC(std::min(count, 20), false);
 }
 
 // 0x7100a6be1c

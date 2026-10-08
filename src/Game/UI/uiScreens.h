@@ -2565,6 +2565,7 @@ public:
     void m94() override;
     // 0x7100a6be1c (placeholder name): forwards to the gauge's sub_71009359E8
     void sub_7100A6BE1C();
+    void sub_7100A6BD98();
     Unk_7102474be8* _3610{};
     SEAD_RTTI_OVERRIDE(ScreenWolfLinkHeartGauge, ScreenEx)
 };
@@ -4045,6 +4046,7 @@ s32 sub_7100A64304();
 void sub_7100AA1CB8(nn::ui2d::Material* material, u8 alpha);
 
 // 0x7100949d18 (declared only): the heart gauge value of `count` quarter hearts
+s32 sub_7100949CE8(u32 count);
 f32 sub_7100949D18(s32 count);
 
 // 0x7100aa8784 (declared only)

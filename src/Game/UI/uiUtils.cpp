@@ -51,6 +51,11 @@ s32 sub_7100A64304() {
     return result;
 }
 
+// 0x7100949ce8
+s32 sub_7100949CE8(u32 count) {
+    return sead::Mathf::ceil(f32(count) * 0.25f);
+}
+
 // 0x7100949d18
 f32 sub_7100949D18(s32 count) {
     return f32(count) * 0.25f;

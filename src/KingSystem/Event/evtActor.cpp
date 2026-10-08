@@ -1,7 +1,24 @@
 #include "KingSystem/Event/evtActorBase.h"
 #include "KingSystem/Event/evtEventSystem.h"
+#include "Game/Actor/actHorseRideInfo.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 
 namespace ksys::evt {
+
+// 0x71008a9380
+void Actor::m12() {
+    ActorBase::m12();
+    auto* actor = sead::DynamicCast<act::Actor>(mLink.getProc(nullptr));
+    if (!actor)
+        return;
+    auto* ride = actor->getPlayerRideInfo();
+    if (!ride)
+        return;
+    act::ActorConstDataAccess accessor;
+    if (act::acquireActor(&ride->_18, &accessor))
+        accessor.wakeUp(act::BaseProc::SleepWakeReason::_0);
+}
 
 // 0x71008a8b78
 Actor::Actor(ActorBinding* binding, EventActorSet* set, sead::Heap* heap) : ActorBase(binding, set, heap) {}

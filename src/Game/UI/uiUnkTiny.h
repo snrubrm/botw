@@ -136,6 +136,7 @@ public:
 
 private:
     friend class Unk_7102474c08;
+    friend class ScreenWolfLinkHeartGauge;
     /* 0x8 */ eui::LayoutEx* _8{};
     u8 _10[0x8e0 - 0x10];
     /* 0x8e0 */ eui::Animator* _8e0{};
