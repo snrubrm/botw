@@ -4,6 +4,7 @@
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
+#include "KingSystem/Event/evtActionContext.h"
 #include "KingSystem/Resource/Actor/resResourceAIProgram.h"
 #include "KingSystem/Utils/Thread/Message.h"
 #include "KingSystem/Utils/Thread/MessageAck.h"
@@ -14,15 +15,15 @@ namespace uking::ai {
 // leave_): releases the event-context list at RootAi + 0x140 (takes that object; void* because the
 // nested SomeStruct type is private).
 void sub_7100D630AC(void* context);
-// 0x7100d6300c (placeholder name; declared only): walks the DemoAiRequest list at the RootAi + 0x140
+// 0x7100d6300c (placeholder name; declared only): walks the ActionContext list at the RootAi + 0x140
 // context and advances each node (takes the context and the actor).
 void sub_7100D6300C(void* context, ksys::act::Actor* actor);
 
-bool DemoRootAI::sub_7100D62394(DemoAiRequest* request) {
+bool DemoRootAI::sub_7100D62394(ksys::evt::ActionContext* request) {
     const s32 idx = getChildIdx("Demo_Idling");
     if (idx != 0xffff) {
         ksys::act::ai::InlineParamPack local;
-        auto* pack = request == nullptr ? &local : &request->mParams;
+        auto* pack = request == nullptr ? &local : &request->_50;
         pack->addBool(false, "DisablePhysics", -1);
         changeChild(idx, pack);
     }

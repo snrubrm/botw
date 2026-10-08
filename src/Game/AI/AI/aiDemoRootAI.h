@@ -10,18 +10,6 @@ class ActionContext;
 
 namespace uking::ai {
 
-// Placeholder (no name known): the request object passed to the DemoRootAI helpers at 0x7100d61fac-0x7100d62d18: the child
-// name at +8, the child index at +0x48, the parameter pack at +0x50 and flags at +0xaf4. Only the members that are used
-// are described.
-struct DemoAiRequest {
-    u8 _0[8];
-    sead::SafeString mChildName;
-    u8 _18[0x48 - 0x18];
-    s32 mChildIdx;
-    u8 _4c[4];
-    ksys::act::ai::InlineParamPack mParams;
-};
-
 class DemoRootAI : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(DemoRootAI, ksys::act::ai::Ai)
 public:
@@ -38,8 +26,9 @@ public:
     void getCurrentName(sead::BufferedSafeString* name, ksys::act::ai::ActionBase* last) const override;
 
     void sub_7100D62598();
-    // 0x7100d62394 (placeholder name): changes to the child "Demo_Idling" (if there is one) with DisablePhysics = false.
-    bool sub_7100D62394(DemoAiRequest* request);
+    // 0x7100d62394 (placeholder name): changes to the child "Demo_Idling" (if there is one) with DisablePhysics = false,
+    // using the context's parameter pack.
+    bool sub_7100D62394(ksys::evt::ActionContext* request);
     // 0x7100d62d18 (placeholder name): the child `name` exists and has the TriggerAction flag.
     bool sub_7100D62D18(const sead::SafeString& name);
 

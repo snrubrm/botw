@@ -45,7 +45,7 @@ void ActionContext::setStatus1_0(const evfl::ActionArg&) {
 
 // 0x7100da5678
 void ActionContext::x_0() {
-    _a50 = 0;
+    _50.count = 0;
 }
 
 // 0x7100da5708
@@ -141,19 +141,10 @@ void ActionContext::statusStuff_1(act::Actor* actor) {
     }
 }
 
-// 0x7100da7b1c (CSV unnamed): construct the strings and the request nodes. The 32
-// nodes are default-constructed by the mem-init (Node's inline ctor above); the body
-// only resets the status and fills the scalar fields.
-// NON_MATCHING: the 32 node constructions fully unroll in ours (one out-of-line link
-// call plus the field stores per node) while the original keeps a single rolled loop
-// holding one link call plus the field stores. The loop base proves the member layout
-// (link at node + 0x8, -1 at +0x28, zeros at +0x30/+0x38 — ours stores the same values
-// at the same offsets) and everything after the loop (string setups, reset call, scalar
-// stores) matches. Tried: NSDMI element init, explicit field loop, user-provided inline
-// Node ctor carrying the call plus the stores (current form). None rolls: any honest
-// `Node _50[32]` member must construct its 32 links in the mem-init and clang fully
-// unrolls that here, so the remaining consistent source shape is raw storage with
-// placement-new in an explicit loop, which is not honest source (HARD, logged).
+// 0x7100da7b1c (CSV unnamed): construct the strings and the parameter pack.
+// NON_MATCHING: the 32 InlineParam constructions of _50 fully unroll in ours while the original
+// keeps one rolled loop (link at +0x8, -1 at +0x28, zeros at +0x30/+0x38, same stores); the rest
+// matches.
 ActionContext::ActionContext() {
     reset();
     _48 = 0;
@@ -190,7 +181,7 @@ void ActionContext::init(const sead::SafeString& name, const evfl::ActionArg& ar
         _48 = -1;
         _44 = -1.0f;
     }
-    _a50 = 0;
+    _50.count = 0;
     _40 = -1;
 }
 

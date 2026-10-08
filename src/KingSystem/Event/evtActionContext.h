@@ -3,6 +3,8 @@
 #include <basis/seadTypes.h>
 #include <container/seadSafeArray.h>
 #include <prim/seadSafeString.h>
+#include "KingSystem/ActorSystem/actAiParam.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 
 namespace evfl {
@@ -51,27 +53,6 @@ public:
     // 0x7100da5528 (CSV unnamed): fill the context from a name, an action argument and a value.
     void init(const sead::SafeString& name, const evfl::ActionArg& arg, s32 a3);
 
-    // One entry of the +0x50 request-node table (0x50 bytes). The ctor's rolled loop
-    // constructs the link at +0x8 (x0 = elem + 0x58 - 0x50), stores -1 at +0x28 and
-    // zeroes +0x30/+0x38, leaving +0x0 and +0x18..+0x28 untouched. The link call sits
-    // inside the loop (not in an unrolled mem-init), so the node has a user-provided
-    // inline ctor carrying the call plus the stores; that keeps the 32-element
-    // mem-init construction rolled where a trivial node fully unrolls.
-    struct Node {
-        Node() {
-            _28 = -1;
-            _30 = 0;
-            _38 = 0;
-        }
-        void* _0;
-        act::BaseProcLink _8;
-        u8 _18[0x10];
-        s64 _28;
-        u64 _30;
-        u64 _38;
-        u8 _40[0x10];
-    };
-
     /* 0x0 */ s32 mStatus;
     u8 _4[0x8 - 0x4];
     /* 0x8 */ sead::FixedSafeString<0x20> _8;
@@ -79,9 +60,9 @@ public:
     /* 0x44 */ f32 _44;
     /* 0x48 */ s32 _48;
     /* 0x4c */ s32 mStatus2;
-    /* 0x50 */ Node _50[32];
-    /* 0xa50 */ s32 _a50 = 0;
-    u8 _a54[0xa58 - 0xa54];
+    // The parameter pack handed to the DemoRootAI helpers (count at +0xa50; 0x7100d61fc0 and
+    // 0x7100d62394 pass +0x50 as InlineParamPack*).
+    /* 0x50 */ act::ai::InlineParamPack _50;
     // Next context in the DemoRootAI release chain (sub_7100D630AC walks and unlinks these).
     /* 0xa58 */ ActionContext* _a58;
     /* 0xa60 */ sead::FixedSafeString<0x30> _a60;
