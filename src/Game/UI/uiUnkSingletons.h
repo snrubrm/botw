@@ -227,6 +227,9 @@ private:
 
 // Singleton at 0x71025d69f0 (createInstance 0x710094d7b4, size 0x48, vtable 0x7102475348 with D1 / D0 0x710094d8c4 /
 // 0x710094d8c8, disposer vtable 0x7102475328; `_2c` is a state set by the facade functions).
+// 0x71009f8420: sets the mode in sUnk_71025eb5b8
+void sub_71009F8420(s32 a1);
+
 class Unk_71025d69f0 {
     SEAD_SINGLETON_DISPOSER(Unk_71025d69f0)
     Unk_71025d69f0() = default;
@@ -242,6 +245,8 @@ public:
     void sub_710094E480();
     void sub_710094D9F4(s32 a1, s32 a2, s32 a3, s32 a4);
     void sub_710094DCC4(s32 a1, s32 a2);
+    // 0x710094e064 (placeholder name): sets _28 to 3, then forwards to sub_710094DCC4 with the change
+    void sub_710094E064();
 
     /* 0x28 */ s32 _28 = 1;
     /* 0x2c */ s32 _2c = 4;

@@ -29,4 +29,12 @@ void Unk_71025d69f0::sub_710094E480() {
     sub_710094E1C0(false);
 }
 
+// 0x710094e064
+void Unk_71025d69f0::sub_710094E064() {
+    const s32 prev = _28;
+    _28 = 3;
+    sub_71009F8420(3);
+    sub_710094DCC4(_28, _28 - prev);
+}
+
 }  // namespace uking::ui
