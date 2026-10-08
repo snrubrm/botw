@@ -1286,6 +1286,54 @@ void ScreenSaveTransferWindow::m182() {
     _3640->setFlag10(false);
 }
 
+// 0x7100a45da0
+void ScreenSaveTransferWindow::sub_7100A45DA0() {
+    _366c = -1;
+    s32 old_index = _3668;
+    _3668 = 0;
+    if (old_index == -1) {
+        sub_7100A428D0();
+        return;
+    }
+    _3618->StopAtMax();
+    _3620->PlayAuto(1.0f);
+    _3630->setFlag10(false);
+    _3638->setFlag10(false);
+    _3640->setFlag10(false);
+}
+
+// 0x7100a46124
+void ScreenSaveTransferWindow::sub_7100A46124() {
+    _366c = -1;
+    s32 old_index = _3668;
+    _3668 = 1;
+    if (old_index == -1) {
+        sub_7100A428D0();
+        return;
+    }
+    _3618->StopAtMax();
+    _3620->PlayAuto(1.0f);
+    _3630->setFlag10(false);
+    _3638->setFlag10(false);
+    _3640->setFlag10(false);
+}
+
+// 0x7100a46268
+void ScreenSaveTransferWindow::sub_7100A46268() {
+    _366c = -1;
+    s32 old_index = _3668;
+    _3668 = 4;
+    if (old_index == -1) {
+        sub_7100A428D0();
+        return;
+    }
+    _3618->StopAtMax();
+    _3620->PlayAuto(1.0f);
+    _3630->setFlag10(false);
+    _3638->setFlag10(false);
+    _3640->setFlag10(false);
+}
+
 // 0x7100a43690
 void ScreenSaveTransferWindow::m158() {
     _366c = -1;

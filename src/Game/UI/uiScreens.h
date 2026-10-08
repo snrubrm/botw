@@ -3394,6 +3394,10 @@ public:
 
     // 0x7100a45fc0 (placeholder name): starts state 6 through the save system singleton.
     bool sub_7100A45FC0();
+    // 0x7100a45da0 / 0x7100a46124 / 0x7100a46268 (placeholder names): the m158 pattern with _3668 set to 0 / 1 / 4
+    void sub_7100A45DA0();
+    void sub_7100A46124();
+    void sub_7100A46268();
     /* 0x3610 */ eui::Animator* _3610;
     /* 0x3618 */ eui::Animator* _3618;
     /* 0x3620 */ eui::Animator* _3620;
