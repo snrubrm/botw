@@ -15,6 +15,10 @@ bool Constraint::sub_7100F6ACE8() const {
     return _52 & 1;
 }
 
+bool Constraint::sub_7100F6A880() const {
+    return _52 & 2;
+}
+
 void Constraint::sub_7100F69FF0() {
     auto lock = sead::makeScopedLock(mCS);
     if (_52 & 2) {
