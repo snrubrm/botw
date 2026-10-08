@@ -34,6 +34,9 @@ protected:
     // 0x7100417800 (placeholder name): sets the current child's TargetPos to the point straight ahead
     // of the head node (XZ) at the horizontal distance of m35(), keeping its height.
     void sub_7100417800();
+    // 0x71004179d4 (placeholder name): turns the neck towards `target`: the signed angle between the
+    // "Neck" bone's forward (XZ) and the direction to `target`, smoothed into `_2d0`.
+    void sub_71004179D4(const sead::Vector3f& target);
 
     // static_param at offset 0x250
     sead::SafeString mHeadNodeName_s{};

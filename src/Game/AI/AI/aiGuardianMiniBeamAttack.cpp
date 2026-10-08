@@ -11,6 +11,8 @@
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "Game/Actor/actBeamBase.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
+#include "KingSystem/System/VFR.h"
+#include "KingSystem/Utils/MathUtil.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectGuardianMini.h"
 
@@ -107,6 +109,39 @@ void GuardianMiniBeamAttack::sub_7100417800() {
     pos.x = head_x + dir.x * dist;
     pos.z = head_z + dir.z * dist;
     getCurrentChild()->setDynamicParam(pos, "TargetPos");
+}
+
+// NON_MATCHING: stack slot of `front` and the store order of the target direction differ; the
+// calls and constants (0.15, 12 and 1 degree in radians) match.
+void GuardianMiniBeamAttack::sub_71004179D4(const sead::Vector3f& target) {
+    auto* actor = mActor;
+    if (!actor)
+        return;
+    auto* model = actor->getModel();
+    if (!model)
+        return;
+    sead::Vector3f to_target = target;
+    to_target.set(to_target.x - actor->getMtx().m[0][3], 0.0f,
+                  to_target.z - actor->getMtx().m[2][3]);
+    to_target.normalize();
+    sead::Vector3f front;
+    const auto key = model->searchBone("Neck");
+    if (!key.isValid())
+        return;
+    sead::Matrix34f mtx;
+    model->getUnits()
+        .unsafeAt(key.model_unit_index)
+        ->mModelUnit->getBoneWorldMatrix(&mtx, key.bone_index);
+    mtx.getBase(front, 2);
+    front.y = 0.0f;
+    front.normalize();
+    sead::Vector3f axis;
+    f32 angle;
+    ksys::util::sub_71011EEB08(&axis, &angle, front, to_target, sead::Vector3f::ey);
+    angle *= axis.y;
+    angle = ksys::util::sub_71011EF0CC(angle);
+    ksys::VFR::lerp(&_2d0, -angle, 0.15f, 0.20943952f, 0.017453292f);
+    sub_71005DB44C(actor, _2d0, 0.0f);
 }
 
 GuardianMiniBeamAttack::GuardianMiniBeamAttack(const InitArg& arg) : MiniBeamAttack(arg) {}
