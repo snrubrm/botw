@@ -4,6 +4,7 @@
 #include "KingSystem/ActorSystem/actUnk_7100d3bc4c.h"
 
 namespace ksys::act::acc {
+class PlayerBase;
 class PlayerOrEnemy;
 }
 
@@ -42,6 +43,13 @@ public:
     // 0x7100496ee4 (CSV placeholder): whether the threat score passes (child/state gates, home
     // distance beyond the awareness range, flag bit 0x10 clear).
     bool sub_7100496EE4();
+    // 0x7100497978 (CSV checkIsFooledByDisguise, declared only): whether `player`'s mask fools the
+    // Lynel (All→any team tag, PhantomGanon→TeamStalfos, else Team<mask>). HARD: both callers pass
+    // a stack ActorConstDataAccess where the body reads a PlayerBase (no extraction call).
+    bool sub_7100497978(const ksys::act::acc::PlayerBase* player);
+    // 0x710049759c (CSV placeholder, declared only): threat score summed from params/AI state.
+    // HARD: same accessor paradox (calls the above).
+    s32 sub_710049759C();
 
 protected:
     // static_param at offset 0x38
