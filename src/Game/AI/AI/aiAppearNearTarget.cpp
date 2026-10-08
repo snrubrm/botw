@@ -2,6 +2,7 @@
 #include <random/seadGlobalRandom.h>
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/AI/aiUnk_71007377D4.h"
 #include "Game/Damage/dmgDamageManager.h"
 #include "Game/UI/euiScreen.h"
 #include "Game/UI/uiScreens.h"
@@ -10,6 +11,7 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
+#include "KingSystem/Map/mapAutoPlacementMgr.h"
 #include "KingSystem/System/StageInfo.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
@@ -98,6 +100,23 @@ bool AppearNearTarget::isFinished() const {
     if (isCurrentChild("湧出"))
         return getCurrentChild()->isFinished();
     return false;
+}
+
+bool AppearNearTarget::sub_710030E930(const sead::Vector3f& pos) {
+    auto* mgr = ksys::map::AutoPlacementMgr::instance();
+    if (mgr && (mgr->auto0(pos, 0) || mgr->isNonAutoPlacement(pos, true)))
+        return false;
+    if (!m36(pos))
+        return false;
+    if (_8d) {
+        f32 height;
+        if (!sub_710072C21C(&height, &pos) || !(sead::Mathf::abs(pos.y - height) < *mTeraDist_s))
+            return false;
+    }
+    mgr = ksys::map::AutoPlacementMgr::instance();
+    if (mgr && (mgr->sub_7100659230(pos) > 0.0f || mgr->sub_71006592E8(pos) < 6.0f))
+        return false;
+    return true;
 }
 
 void AppearNearTarget::m37(const sead::Vector3f& pos) {

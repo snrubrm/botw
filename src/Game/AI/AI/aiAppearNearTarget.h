@@ -33,6 +33,10 @@ public:
     // 0x710030db14 (placeholder name): when the actor has tag 0xa4c7ba34 (no name known) and the fade screen is opened,
     // sets `_8e` and restarts the AS list at 0.
     void sub_710030DB14();
+    // 0x710030e930 (placeholder name): `pos` is a valid spawn point: not an auto-placement area, accepted
+    // by m36, within mTeraDist_s of the ground when `_8d` is set, and passing the AutoPlacementMgr
+    // statistics checks.
+    bool sub_710030E930(const sead::Vector3f& pos);
 
 protected:
     // static_param at offset 0x38
