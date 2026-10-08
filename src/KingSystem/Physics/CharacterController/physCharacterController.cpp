@@ -110,6 +110,15 @@ f32 CharacterController::sub_7100F5EEE8() const {
     return _130;
 }
 
+void CharacterController::sub_7100F5E7F0(f32 value) {
+    _60 = value;
+    if (value != 0.0f)
+        _114 |= 0x20;
+    _48->sub_7101674940(value);
+    _50->sub_710167A220(value);
+    _58->_c = value;
+}
+
 void CharacterController::sub_7100F5E850(f32 value) {
     if (value <= 0.0f)
         return;
