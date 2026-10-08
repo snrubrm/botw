@@ -1,11 +1,9 @@
 #include "Game/AI/AI/aiMoveLOSFeedback.h"
+#include "Game/AI/aiUnk_7100742478.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
 
-// Source namespace and input constness are inferred from the named caller; declaration only.
-bool sub_7100742664(sead::Vector3f* hit, ksys::phys::NavMeshCharacter* nav,
-                    const sead::Vector3f* position, f32 length, f32 tolerance);
 
 namespace uking::ai {
 

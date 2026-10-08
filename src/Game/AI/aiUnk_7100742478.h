@@ -24,3 +24,9 @@ bool sub_7100742278(f32 radius, void* a2, ksys::phys::NavMeshCharacter* nav,
 // `out`. Placeholder name; `out` is passed as null by AnimalRoam::m35.
 bool sub_7100742588(sead::Vector3f* out, ksys::phys::NavMeshCharacter* nav, const sead::Vector3f* pos,
                     f32 radius);
+
+// 0x7100742664 (declared only): line-of-sight probe from `position` along the character's direction (`length`,
+// `tolerance`); writes the hit point to `hit`. Placeholder name; callers MoveLOSFeedback::calc_ and
+// AnimalLineOfSightSelector.
+bool sub_7100742664(sead::Vector3f* hit, ksys::phys::NavMeshCharacter* nav, const sead::Vector3f* position,
+                    f32 length, f32 tolerance);

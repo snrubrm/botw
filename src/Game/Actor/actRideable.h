@@ -233,7 +233,7 @@ public:
     /* 0x010 */ ksys::act::Actor* mActor = nullptr;
     /* 0x018 */ S1 _18;
     /* 0x0a0 */ S2 _a0;
-    /* 0x130 */ u32 _130 = 0;
+    /* 0x130 */ s32 _130 = 0;  // row of the _170 speed entry (clamped to _178 by AnimalLineOfSightSelector::enter_)
     /* 0x134 */ u32 _134 = 0;
     /* 0x138 */ f32 _138 = 0;
     /* 0x13c */ f32 _13c = 0;
@@ -244,8 +244,19 @@ public:
     /* 0x158 */ sead::Vector3f _158 = sead::Vector3f::zero;
     /* 0x164 */ f32 _164 = 1.0;
     /* 0x168 */ int _168 = 4;
-    /* 0x170 */ u64 _170 = 0;
-    /* 0x178 */ u32 _178 = 0;
+    // The entry of this actor's SpeedActorName (CRC32 hash) in the animal speed table resource (handle at
+    // 0x710259d120 in getSomethingFromAnimalUnitSpeed): the hash followed by `_178` rows of 4 gears.
+    // AnimalLineOfSightSelector::enter_ reads `mGears[_130][gear - 1].mSpeed * _164`.
+    struct SpeedEntry {
+        struct Gear {
+            f32 mSpeed;
+            f32 _4;
+        };
+        u32 mNameHash;
+        Gear mGears[][4];
+    };
+    /* 0x170 */ const SpeedEntry* _170 = nullptr;
+    /* 0x178 */ s32 _178 = 0;  // number of rows of _170 (table header word / 4)
 };
 KSYS_CHECK_SIZE_NX150(RideableBase, 0x180);
 
