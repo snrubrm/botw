@@ -45,6 +45,30 @@ void ShootingStarAnchor::sub_71010D0814(act::InstParamPack* pack, sead::Vector3f
 
 
 
+// NON_MATCHING: the final distance tests: the original branches on the 2000 bound and sets the result
+// from the 25 bound directly; ours merges the result with an `and`. Same checks and constants.
+bool ShootingStarAnchor::sub_71010D0D78() const {
+    if (!sub_71010D0734())
+        return false;
+    if (sub_71010D07A4())
+        return false;
+    if (!sub_71010D0F64(2))
+        return false;
+    if (_89)
+        return false;
+    f32 dist = 0.0f;
+    if (auto* camera = CameraMgr::instance()->getLookAtCamera()) {
+        const f32 dx = _48.x - camera->getPos().x;
+        const f32 dz = _48.z - camera->getPos().z;
+        dist = std::sqrt(dx * dx + dz * dz);
+        if (dist > 2000.0f)
+            return false;
+    }
+    if (dist < 25.0f)
+        return false;
+    return true;
+}
+
 bool ShootingStarAnchor::sub_71010D0F64(s32 hour_offset) const {
     const s32 hour = Manager::instance()->getTimeMgr()->getHour();
     const s32 start = mStartHour % 24;

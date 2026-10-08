@@ -26,6 +26,9 @@ public:
     bool sub_71010D07A4() const;
     void sub_71010D1394();
     bool sub_71010D0F64(s32 hour_offset) const;
+    // 0x71010d0d78 (placeholder name): the anchor can show its star: flag _68 set, flag _70 clear, the
+    // hour window (end + 2), not `_89`, and the camera between 25 and 2000 units away (horizontally).
+    bool sub_71010D0D78() const;
     void sub_71010D1348(bool value) const;
 
     struct Identifier {
