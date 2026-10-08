@@ -11,6 +11,7 @@
 #include "Game/UI/uiUnkSingletons.h"
 #include "Game/UI/uiUnkTiny.h"
 #include "Game/UI/uiShopMgr.h"
+#include "Game/UI/uiTagProcessor.h"
 #include "Game/UI/uiUtils.h"
 #include "Game/gameScene.h"
 #include "KingSystem/GameData/gdtSpecialFlags.h"
@@ -337,7 +338,7 @@ void ScreenMessageDialog::sub_71010B3294() {
     } else {
         _768 = 0xffff;
         _76d = 0;
-        if (reinterpret_cast<u8*>(_778)[0x5d] != 0) {
+        if (_778->_5d) {
             result = 2;
         } else {
             result = 0;

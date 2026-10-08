@@ -42,6 +42,8 @@ class Handle;
 
 namespace uking::ui {
 
+class TagProcessor;
+
 // The game's UI screen classes (CSV: ScreenBase / Screen / ScreenEx / Screen<Name>, IDA placeholder
 // names; the namespace is a guess). The chain eui::Screen <- ScreenBase <- Screen <- ScreenEx <-
 // Screen<Name> is established by the RTTI (the leaf classes' checkDerivedRuntimeTypeInfo compares
@@ -960,7 +962,8 @@ public:
     u8 _76e[0x773 - 0x76e];
     /* 0x773 */ u8 _773;
     /* 0x774 */ s32 _774;
-    /* 0x778 */ void* _778;
+    // Created by ScreenBase::doCreateTagProcessor_ in 0x71010b34f0.
+    /* 0x778 */ TagProcessor* _778;
 
     // 0x71010b343c / 0x71010b34b4 / 0x71010b34a0: called by UI::sub_71010A5C8C / setPlacedItemStockNum / sub_71010A7994.
     bool sub_71010B343C();

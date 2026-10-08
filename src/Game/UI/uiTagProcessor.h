@@ -20,6 +20,9 @@ private:
     /* 0x50 */ void* _50 = nullptr;
     /* 0x58 */ f32 _58 = 1.4f;
     /* 0x5c */ bool _5c = false;
+
+public:
+    // Original visibility is unknown; ScreenMessageDialog::sub_71010B3294 reads it.
     /* 0x5d */ bool _5d = false;
 };
 KSYS_CHECK_SIZE_NX150(TagProcessor, 0x60);

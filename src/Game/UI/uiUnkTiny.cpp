@@ -721,8 +721,7 @@ void Unk_7102474df8::sub_7100937C74() {
     if (v == -1)
         return;
     _68 = v;
-    _70 = reinterpret_cast<u64>(&sub_71009382B8);
-    _78 = 0;
+    _70 = &Unk_7102474df8::sub_71009382B8;
     _64 = sScrollConsts[0];
 }
 
@@ -807,27 +806,27 @@ Unk_7102474df8::~Unk_7102474df8() {
 }
 
 // 0x71009382b8
-bool Unk_7102474df8::sub_71009382B8(Unk_7102474df8* self, f32 step) {
+bool Unk_7102474df8::sub_71009382B8(f32 step) {
     bool neg = false;
     bool useX = false;
     f32 target;
     f32 value;
     f32* axis;
-    switch (self->_68) {
+    switch (_68) {
     case 0:
         neg = true;
         [[fallthrough]];
     case 1:
-        target = neg ? -self->_64 : self->_64;
-        axis = &self->_5c.y;
+        target = neg ? -_64 : _64;
+        axis = &_5c.y;
         value = *axis;
         break;
     case 3:
         neg = true;
         [[fallthrough]];
     case 2:
-        target = neg ? -self->_64 : self->_64;
-        axis = &self->_5c.x;
+        target = neg ? -_64 : _64;
+        axis = &_5c.x;
         useX = true;
         value = *axis;
         break;
@@ -840,9 +839,9 @@ bool Unk_7102474df8::sub_71009382B8(Unk_7102474df8* self, f32 step) {
     const f32 v = value + target * step;
     if ((neg ? -v : v) > sScrollConsts[3])
         target = (neg ? -sScrollConsts[3] : sScrollConsts[3]) - value;
-    f32* slot = &self->_5c.y;
+    f32* slot = &_5c.y;
     if (useX)
-        slot = &self->_5c.x;
+        slot = &_5c.x;
     target += *slot;
     *slot = target;
     if (0.0f < step)
@@ -855,9 +854,9 @@ bool Unk_7102474df8::sub_71009382B8(Unk_7102474df8* self, f32 step) {
     } else if (1.0f < step) {
         step = 1.0f;
     }
-    self->_64 *= step;
-    if (self->_5c.x == sead::Vector2f::zero.x)
-        return self->_5c.y == sead::Vector2f::zero.y;
+    _64 *= step;
+    if (_5c.x == sead::Vector2f::zero.x)
+        return _5c.y == sead::Vector2f::zero.y;
     return false;
 }
 

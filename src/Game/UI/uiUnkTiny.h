@@ -606,7 +606,7 @@ public:
     // 0x7100938090 (declared only): advance _2c toward _30 and reposition every entry
     void sub_7100938090(f32 step);
     // 0x71009382b8 (declared only): direction helper using _5c/_60/_64/_68
-    static bool sub_71009382B8(Unk_7102474df8* self, f32 step);
+    bool sub_71009382B8(f32 step);
     // 0x7100938408: assign the entry its offset from _34 (direction) and _38 (spacing) and push it into _10
     void sub_7100938408(Unk_7102474dd0* entry);
 
@@ -626,8 +626,9 @@ public:
     /* 0x64 */ f32 _64 = 0.0f;
     /* 0x68 */ s32 _68 = 3;
     /* 0x6c */ u32 _6c;  // never initialized (padding)
-    /* 0x70 */ u64 _70 = 0;  // inline delegate (function)
-    /* 0x78 */ u64 _78 = 0;  // inline delegate (object offset | member flag)
+    // Called by sub_7100938090 through the AArch64 member-function-pointer sequence (null check on the pointer
+    // and the virtual bit, this-adjust by adj >> 1), then reset to null.
+    /* 0x70 */ bool (Unk_7102474df8::*_70)(f32) = nullptr;
     /* 0x80 */ u8 _80 = 0;
 };
 static_assert(sizeof(Unk_7102474df8) == 0x88);

@@ -116,10 +116,8 @@ void ScreenAppPictureBookUnk::sub_710093F670() {
 }
 
 // 0x710093f7f8
-// NON_MATCHING: scheduling only (original uses an lsl+sub+cbnz byte-countdown while ours
-// normalises to neg+add, and lowers the 7-operand flag expression to branches plus a cset
-// while the original funnels all false paths to a shared mov w1,0 (all loads/stores/calls/
-// branches match; the outer search loops and per-unit flag logic are structurally identical).
+// NON_MATCHING: the 7-operand flag expression is lowered to branches plus a cset, while the original
+// funnels all false paths to a shared mov w1,0; registers differ in that block.
 void ScreenAppPictureBookUnk::sub_710093F7F8(bool flag) {
     s64 count = _298;
     if (count == 0)
@@ -135,40 +133,30 @@ void ScreenAppPictureBookUnk::sub_710093F7F8(bool flag) {
         Unk_7102474f10** gend = group + n;
         for (; group != gend; ++group) {
             Unk_7102474f10* g = *group;
-            s64 k = g->mUnits.size();
-            if (k == 0)
-                continue;
-            Unk_7102474e38** unit = g->mUnits.data();
-            s64 left = k * 8;
-            do {
-                Unk_7102474e38* u = *unit;
+            for (Unk_7102474e38& u : g->mUnits) {
                 if (!flag) {
-                    if (eui::AnimButton* button = u->_10)
+                    if (eui::AnimButton* button = u._10)
                         button->setFlag10(false);
                 } else {
-                    eui::AnimButton* button = u->_10;
+                    eui::AnimButton* button = u._10;
                     if (button) {
-                        u32 flags = u->_30;
-                        ScreenAppPictureBookUnk* ctrl = u->_20;
-                        ScreenAppPictureBookEntry* entry = u->_18->mEntry;
+                        u32 flags = u._30;
+                        ScreenAppPictureBookUnk* ctrl = u._20;
+                        ScreenAppPictureBookEntry* entry = u._18->mEntry;
                         button->setFlag10((flags & 4) && (ctrl->_2c & 1) &&
                                           ctrl->_340 == 2 && (flags & 2) &&
                                           ((flags & 1) || entry->_2ca) && !entry->_38c &&
                                           entry->_38d == 0);
                     }
                 }
-                ++unit;
-            } while ((left -= 8) != 0);
+            }
         }
     }
 }
 
 // 0x710093fbf0
-// NON_MATCHING: regalloc/scheduling only (original keeps the leaf in x15 and the countdown in
-// x14 with lsl+sub+cbnz while ours uses a named local (neg+add countdown) and different load/
-// mul operand registers in the found-block; the _290-null path returns 0 via mov w0,wzr while
-// the original returns the null pointer itself via mov w0,w8). All loads/stores/calls/branches
-// match; the triple search loop, mul+madd index math and _29c sum loop are structurally identical.
+// NON_MATCHING: regalloc in the found block (load/mul operand registers), and the _290-null path returns 0
+// via mov w0,wzr while the original returns the null pointer itself via mov w0,w8.
 s32 ScreenAppPictureBookUnk::sub_710093FBF0(eui::BoxCursorNode* node) {
     s32 result = -1;
     s64 count = _298;
@@ -192,17 +180,12 @@ s32 ScreenAppPictureBookUnk::sub_710093FBF0(eui::BoxCursorNode* node) {
                 continue;
             if (g->mRecord->_c < 0)
                 continue;
-            s64 k = g->mUnits.size();
-            if (k == 0)
-                continue;
-            Unk_7102474e38** unit = g->mUnits.data();
-            s64 left = k * 8;
-            do {
-                l = *unit;
-                if ((l->_30 & 4) != 0 && l->_28 == node)
+            for (Unk_7102474e38& unit : g->mUnits) {
+                if ((unit._30 & 4) != 0 && unit._28 == node) {
+                    l = &unit;
                     goto found;
-                ++unit;
-            } while ((left -= 8) != 0);
+                }
+            }
         }
     }
     return result;
