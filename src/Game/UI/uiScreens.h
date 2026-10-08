@@ -2597,6 +2597,12 @@ public:
     void m100() override;
     // 0x7100a4df38 (slot 99)
     void m99() override;
+    // 0x7100a4dff0 / 0x7100a4e2dc (placeholder names; copies of ScreenShopBtnList15's sub_7100A4B3C4 / sub_7100A4B574)
+    void sub_7100A4DFF0();
+    bool sub_7100A4E2DC() const;
+    // 0x7100a4e070 / 0x7100a4e084 (placeholder names): copies of ScreenShopBtnList20's sub_7100A4CD5C / sub_7100A4CD70
+    void sub_7100A4E070(bool value);
+    void sub_7100A4E084();
 };
 
 class ScreenPauseMenuBG : public ScreenEx {

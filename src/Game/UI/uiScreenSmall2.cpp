@@ -1192,6 +1192,35 @@ void ScreenShopBtnList20::m98() {
     }
 }
 
+// 0x7100a4dff0
+void ScreenShopBtnList5::sub_7100A4DFF0() {
+    if (auto* layout = sub_7100BEAFB0("Pa_GuideA_00")) {
+        if (static_cast<u32>(layout->_91 - 1) <= 1)
+            layout->startAnimCloseImpl_(false, false);
+    }
+    if (auto* layout = sub_7100BEAFB0("Pa_GuideB_00")) {
+        if (static_cast<u32>(layout->_91 - 1) <= 1)
+            layout->startAnimCloseImpl_(false, false);
+    }
+}
+
+// 0x7100a4e070
+void ScreenShopBtnList5::sub_7100A4E070(bool value) {
+    if (_3610)
+        _3610->sub_710093F594(value);
+}
+
+// 0x7100a4e084
+void ScreenShopBtnList5::sub_7100A4E084() {
+    if (_3610)
+        _3610->sub_710093FEAC();
+}
+
+// 0x7100a4e2dc
+bool ScreenShopBtnList5::sub_7100A4E2DC() const {
+    return mButtonGroup->FindDownButton() != nullptr;
+}
+
 // 0x7100a4cd5c
 void ScreenShopBtnList20::sub_7100A4CD5C(bool value) {
     if (_3610)
