@@ -6,6 +6,7 @@
 #include <container/seadSafeArray.h>
 #include <heap/seadDisposer.h>
 #include <thread/seadCriticalSection.h>
+#include <thread/seadMutex.h>
 #include "KingSystem/Physics/physDefines.h"
 #include "KingSystem/Utils/Types.h"
 
@@ -17,6 +18,7 @@ class Thread;
 
 namespace ksys::phys {
 
+class CharacterController;
 class CollisionInfo;
 class ContactLayerCollisionInfo;
 class ContactLayerCollisionInfoGroup;
@@ -75,6 +77,10 @@ public:
     // 0x71012157b4 (CSV PhysicsMemSys::__auto0; declaration only; placeholder name): called by the placement managers
     // after they asked their worker thread to quit.
     void sub_71012157B4(sead::Thread* thread, bool a);
+    // 0x7101215358 / 0x71012153b4 (lane4 s64; placeholder names): under `_270`, add the controller to `_2b0` (if
+    // there is room) / remove it.
+    void sub_7101215358(CharacterController* controller);
+    void sub_71012153B4(CharacterController* controller);
     // 0x7101214b04: StaticCompoundMgr::resetExtraTransformsAndApply() if there is one.
     void waitForResourceCreation();
     // 0x7101216c58
@@ -208,7 +214,10 @@ private:
     sead::Heap* mPhysicsTempLowHeap{};
     u8 _1c8[0x268 - 0x1c8];
     IsIndoorStage mIsIndoorStage;
-    u8 _26c[0x2c0 - 0x26c];
+    u8 _26c[0x270 - 0x26c];
+    // lane4 s64: the character controllers whose mFlags bit 12 is set (0x7101215358 adds, 0x71012153b4 removes).
+    sead::Mutex _270;
+    sead::PtrArray<CharacterController> _2b0;
     // lane4 s46: system group handlers (sub_7101216894 / sub_71012168C8).
     sead::SafeArray<sead::SafeArray<SystemGroupHandler*, 4>, 2> _2c0;
     sead::SafeArray<sead::SafeArray<SystemGroupHandler*, 2>, 2> _300;

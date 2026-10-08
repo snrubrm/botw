@@ -10,6 +10,8 @@ namespace ksys::phys {
 struct CharacterControllerUnk40 {
     // 0x7100f6693c (out of line in the original, in its own file so that it is not inlined into its callers).
     void sub_7100F6693C(bool value);
+    // 0x7100f66948 (lane4 s64; own file for the same reason): `_6b`.
+    bool sub_7100F66948() const;
 
     /* 0x00 */ u8 _0[0x10];
     /* 0x10 */ s32 _10;
@@ -22,7 +24,7 @@ struct CharacterControllerUnk40 {
     /* 0x68 */ u8 _68;
     /* 0x69 */ bool _69;
     /* 0x6a */ bool _6a;
-    /* 0x6b */ u8 _6b;
+    /* 0x6b */ bool _6b;
     /* 0x6c */ bool _6c;
     /* 0x6d */ u8 _6d;
     /* 0x6e */ u8 _6e;

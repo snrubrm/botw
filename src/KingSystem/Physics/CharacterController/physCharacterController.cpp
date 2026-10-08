@@ -3,7 +3,10 @@
 #include "KingSystem/ActorSystem/actCCAccessor.h"
 #include "KingSystem/Physics/CharacterController/physCharacterControllerUnk40.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/System/physSystem.h"
 #include "KingSystem/Physics/physConversions.h"
+#include <Havok/Physics2012/Collide/Shape/Convex/Capsule/hkpCapsuleShape.h>
+#include <Havok/Physics2012/Dynamics/Entity/hkpRigidBody.h>
 
 namespace ksys::phys {
 
@@ -20,6 +23,9 @@ struct CharacterControllerUnk10 {
     /* 0x70 */ f32 _70;
     /* 0x74 */ u8 _74[0x88 - 0x74];
     /* 0x88 */ f32 _88;
+
+    // 0x7101679858 (placeholder name; hkpCharacterRigidBody::getRigidBody in Havok): `m_character` at +0x20.
+    hkpRigidBody* sub_7101679858() const;
 };
 
 // Placeholder: object at CharacterController::_20.
@@ -63,6 +69,7 @@ struct CharacterControllerUnk38 {
     /* 0x34 */ bool _34;
     /* 0x38 */ sead::Vector3f _38;
     /* 0x44 */ sead::Vector3f _44;
+    /* 0x50 */ sead::Vector3f _50;
 };
 
 
@@ -923,6 +930,64 @@ void CharacterController::sub_7100F60850(bool clear) {
         for (int i = 0; i < _288.size(); ++i) {
             if (auto* body = _288[i])
                 body->clearFlag400000(clear);
+        }
+    }
+}
+
+const sead::Vector3f& CharacterController::sub_7100F63304() const {
+    return _38->_50;
+}
+
+bool CharacterController::sub_7100F631EC() const {
+    return _40->sub_7100F66948();
+}
+
+void CharacterController::sub_7100F63140(CharacterControllerUnk48* state) {
+    _18->sub_710167D718(state, 0);
+    state->_a8 = _40;
+    _48 = state;
+}
+
+// NON_MATCHING: the original evaluates `on ? 2 : 1` before the call that fetches the rigid body
+void CharacterController::sub_7100F5E864(bool on) {
+    _10->sub_7101679858()->getRigidMotion()->setDeactivationClass(on ? 2 : 1);
+}
+
+// NON_MATCHING: same instructions; the float temporaries are extracted and numbered in a different order
+bool CharacterController::sub_7100F62F60(f32* radius, f32* top, int index) const {
+    auto* shape = _30->mShapes[index]._0;
+    if (shape->getType() != hkcdShapeType::CAPSULE)
+        return false;
+    auto* capsule = static_cast<const hkpCapsuleShape*>(shape);
+    const hkVector4f a = capsule->getVertex<0>();
+    const hkVector4f& b = capsule->getVertex<1>();
+    *radius = a(3);
+    *top = a(3) + sead::Mathf::max(a(1), b(1));
+    return true;
+}
+
+bool CharacterController::sub_7100F62FC0(f32* radius, sead::Vector3f* vertex_a,
+                                         sead::Vector3f* vertex_b, int index) const {
+    auto* shape = _30->mShapes[index]._0;
+    if (shape->getType() != hkcdShapeType::CAPSULE)
+        return false;
+    auto* capsule = static_cast<const hkpCapsuleShape*>(shape);
+    const hkVector4f a = capsule->getVertex<0>();
+    const hkVector4f b = capsule->getVertex<1>();
+    storeToVec3(vertex_b, b);
+    *radius = a(3);
+    toVec3(vertex_a, a);
+    return true;
+}
+
+void CharacterController::sub_7100F63310(bool on) {
+    if (on != ((mFlags.getDirect() >> 12) & 1)) {
+        if (on) {
+            System::instance()->sub_7101215358(this);
+            mFlags.set(0x1000);
+        } else {
+            System::instance()->sub_71012153B4(this);
+            mFlags.reset(0x1000);
         }
     }
 }

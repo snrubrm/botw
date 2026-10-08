@@ -3,6 +3,7 @@
 #include "KingSystem/Physics/System/physContactMgr.h"
 #include "KingSystem/Physics/System/physWorld.h"
 #include <heap/seadHeap.h>
+#include <prim/seadScopedLock.h>
 #include <thread/seadThread.h>
 #include "KingSystem/ActorSystem/actBaseProcMgr.h"
 #include "KingSystem/Physics/Cloth/physClothResource.h"
@@ -250,6 +251,18 @@ sead::Heap* System::getPhysicsTempHeap(LowPriority low_priority) const {
         mPhysicsTempDefaultHeap->dump();
 
     return mPhysicsTempDefaultHeap;
+}
+
+void System::sub_7101215358(CharacterController* controller) {
+    auto lock = sead::makeScopedLock(_270);
+    _2b0.pushBack(controller);
+}
+
+void System::sub_71012153B4(CharacterController* controller) {
+    auto lock = sead::makeScopedLock(_270);
+    const s32 index = _2b0.indexOf(controller);
+    if (index >= 0)
+        _2b0.erase(index);
 }
 
 }  // namespace ksys::phys

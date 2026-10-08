@@ -8,6 +8,7 @@
 #include "Havok/Physics2012/Utilities/CharacterControl/StateMachine/InAir/hkpCharacterStateInAir.h"
 #include "Havok/Physics2012/Utilities/CharacterControl/StateMachine/OnGround/hkpCharacterStateOnGround.h"
 #include "Havok/Physics2012/Utilities/CharacterControl/StateMachine/hkpCharacterContext.h"
+#include "Havok/Physics2012/Utilities/CharacterControl/StateMachine/hkpCharacterStateManager.h"
 #include "KingSystem/Physics/physDefines.h"
 #include "KingSystem/Utils/Types.h"
 
@@ -49,6 +50,9 @@ struct CharacterControllerUnk48 : public hkpCharacterStateOnGround {
     /* 0x8c */ u32 _8c;
     /* 0x90 */ u8 _90[0x94 - 0x90];
     /* 0x94 */ u32 _94;
+    /* 0x98 */ u8 _98[0xa8 - 0x98];
+    // 0x7100f63140 stores the controller's `_40` here.
+    /* 0xa8 */ CharacterControllerUnk40* _a8;
 };
 
 // The object at +0x50: a ksys character state derived from hkpCharacterStateInAir
@@ -302,6 +306,22 @@ public:
     // 0x7100f63370: the byte at +0x6c of the object at +0x40.
     bool sub_7100F63370() const;
 
+    // lane4 s64 (placeholder names, bodies in the comments).
+    // 0x7100f63304: the vector at `_38 + 0x50`.
+    const sead::Vector3f& sub_7100F63304() const;
+    // 0x7100f631ec: `_40->sub_7100F66948()` (the byte at +0x6b of the object at +0x40).
+    bool sub_7100F631EC() const;
+    // 0x7100f63140: registers `state` as ground state in the state manager at +0x18 and makes it `_48`.
+    void sub_7100F63140(CharacterControllerUnk48* state);
+    // 0x7100f5e864: sets the deactivation class of the controller's rigid body (2 if `on`, else 1).
+    void sub_7100F5E864(bool on);
+    // 0x7100f62f60 / 0x7100f62fc0: for the capsule shape `index` of the shape list (false for other shapes):
+    // the radius and the top (radius + the larger y of the two vertices) / the radius and the two vertices.
+    bool sub_7100F62F60(f32* radius, f32* top, int index) const;
+    bool sub_7100F62FC0(f32* radius, sead::Vector3f* vertex_a, sead::Vector3f* vertex_b, int index) const;
+    // 0x7100f63310: adds / removes the controller to / from System's list when bit 12 of mFlags changes.
+    void sub_7100F63310(bool on);
+
     // Unnamed small accessors (lane4 s32; placeholder names, bodies in the comments).
     // 0x7100f5e850: `if (value > 0) _10->_88 = value`.
     void sub_7100F5E850(f32 value);
@@ -330,7 +350,8 @@ public:
 
     RigidBody* mRigidBody;
     CharacterControllerUnk10* _10;
-    u8 _18[0x20 - 0x18];
+    // lane4 s64: the controller registers its ground state in it (0x7100f63140 calls sub_710167D718).
+    hkpCharacterStateManager* _18;
     CharacterControllerUnk20* _20;
     // The character context (a ksys-derived hkpCharacterContext, constructor 0x71012a6634).
     hkpCharacterContext* _28;
