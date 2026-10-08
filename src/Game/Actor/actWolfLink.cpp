@@ -87,6 +87,32 @@ s32 WolfLink::sub_71002F4428() {
     return base + heart_mod * (getMaxLife() / 4);
 }
 
+void WolfLink::sub_71002F4A40(const sead::Vector3f* pos, f32 a, f32 b) {
+    const f32 dist_sq = (getMtx().getTranslation() - *pos).squaredLength();
+    if (dist_sq > 1600.0f) {
+        if (auto* bone_control = mBoneControl) {
+            if (auto* controller = bone_control->_0) {
+                controller->_8 = controller->_c;
+                controller->_10._9c = controller->_10._98;
+                controller->sub_7100D85774();
+                _1698 &= ~8;
+            }
+        }
+    } else {
+        if (auto* bone_control = mBoneControl) {
+            if (auto* controller = bone_control->_0) {
+                if (b > 0.0f)
+                    controller->_10.sub_7100D8A9D0(b);
+                if (a > 0.0f)
+                    controller->sub_7100D85600(a);
+                controller->sub_7100D8571C(*pos);
+                controller->sub_7100D85750();
+                _1698 |= 8;
+            }
+        }
+    }
+}
+
 void WolfLink::sub_71002F4B3C() {
     if (auto* bone_control = mBoneControl) {
         if (auto* controller = bone_control->_0) {
