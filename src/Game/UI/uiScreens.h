@@ -1931,7 +1931,8 @@ struct ScreenAppPictureBookEntry {
     /* 0x2ca */ bool _2ca;
     u8 _2cb[0x2f0 - 0x2cb];
     /* 0x2f0 */ s32 _2f0;
-    u8 _2f4[0x38c - 0x2f4];
+    /* 0x2f4 */ s32 _2f4;
+    u8 _2f8[0x38c - 0x2f8];
     /* 0x38c */ bool _38c;
     /* 0x38d */ bool _38d;
 };
@@ -2025,9 +2026,10 @@ struct ScreenAppPictureBookUnk {
     /* 0x2d8 */ s32 _2d8;
     u8 _2dc[0x2e4 - 0x2dc];
     /* 0x2e4 */ s32 _2e4;
-    u8 _2e8[0x2ec - 0x2e8];
+    /* 0x2e8 */ s32 _2e8;
     /* 0x2ec */ s32 _2ec;
-    u8 _2f0[0x30c - 0x2f0];
+    /* 0x2f0 */ s32 _2f0;
+    u8 _2f4[0x30c - 0x2f4];
     /* 0x30c */ s32 _30c;
     /* 0x310 */ s32 _310;
     /* 0x318 */ PictureBookItem* _318;

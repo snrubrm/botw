@@ -1,5 +1,7 @@
 #include "Game/UI/uiScreens.h"
 #include "Game/UI/euiBoxCursor.h"
+#include "Game/UI/euiLayoutEx.h"
+#include "Game/UI/uiUtils.h"
 
 namespace uking::ui {
 
@@ -306,6 +308,131 @@ u32 ScreenAppPictureBookUnk::sub_710093E784(s32 index) {
     return 0;
 }
 
+// File-static rodata tables for sub_710093F924 (values verified against the original with fstr;
+// our addresses differ from the original's file-local ones, so the adrp/add pairs cannot match
+// and the function caps at m).
+namespace {
+const u32 sUnk_7101E794A8[4] = {2, 1, 8, 4};
+const u32 sUnk_7101E794B8[4] = {1, 2, 4, 8};
+const s64 sUnk_7101E79C80[4] = {1, 0, 3, 2};
+}  // namespace
+
+// 0x710093f924
+// NON_MATCHING: data addressing plus search-layout lowering (all table values verified against the
+// original, but the three file-static tables live at different addresses so every adrp/add pair
+// differs; the backward-search block sits inline while the original outlines it, with knock-on
+// register allocation through the search; the entry loops, the _30 updates, the layout null checks
+// and the whole animation tail match).
+void ScreenAppPictureBookUnk::sub_710093F924(bool flag) {
+    if (!flag && (_28 & 0x30) == 0)
+        return;
+    s64 c = _c8;
+    _30 = 0;
+    eui::LayoutEx* layout_a;
+    eui::LayoutEx* layout_b;
+    u32 mask_b;
+    u32 mask_a;
+    if ((u32)c <= 3) {
+        s64 idx = sUnk_7101E79C80[c];
+        mask_a = sUnk_7101E794A8[c];
+        mask_b = sUnk_7101E794B8[c];
+        layout_a = _40[idx];
+        layout_b = _40[(u32)c];
+    } else {
+        layout_a = nullptr;
+        layout_b = nullptr;
+        mask_b = 8;
+        mask_a = 4;
+    }
+    u32 bits;
+    if ((_2c & 1) == 0) {
+        bits = 0;
+        _30 = 0;
+        _30 = bits & ~mask_b;
+    } else {
+        bits = mask_a;
+        _30 = mask_a;
+        if (_2f0 <= 0) {
+            bool found_back = false;
+            if (_2e8 >= 1) {
+                s64 i = (s64)_2e8 - 1;
+                while (true) {
+                    ScreenAppPictureBookEntry* e = _290[i];
+                    if (e->_29c > 0 && !e->_38c && !e->_38d) {
+                        found_back = true;
+                        break;
+                    }
+                    if (i < 1)
+                        break;
+                    --i;
+                }
+            }
+            if (found_back) {
+                bits = mask_a;
+                _30 = mask_a;
+            } else {
+                bits = 0;
+                _30 = 0;
+            }
+        }
+        bool found_fwd = false;
+        ScreenAppPictureBookEntry* entry = _290[_2e8];
+        if (entry->_2f4 - 1 <= _2f0) {
+            found_fwd = true;
+        } else {
+            s64 last = (s64)_288 - 1;
+            if ((s32)_2e8 < (s32)last) {
+                s64 i = _2e8;
+                while (true) {
+                    ScreenAppPictureBookEntry* e = _290[i + 1];
+                    if (e->_29c > 0 && !e->_38c && !e->_38d) {
+                        found_fwd = true;
+                        break;
+                    }
+                    ++i;
+                    if (i >= last)
+                        break;
+                }
+            }
+        }
+        if (found_fwd)
+            _30 = bits | mask_b;
+        else
+            _30 = bits & ~mask_b;
+    }
+    if (!layout_a)
+        return;
+    if (!layout_b)
+        return;
+    if (flag) {
+        if ((_30 & mask_a) == 0)
+            layout_a->startAnimCloseImpl_(false, true);
+        else
+            layout_a->sub_7100BDDE7C(false, 1, true);
+        if ((_30 & mask_b) == 0) {
+            layout_b->startAnimCloseImpl_(false, true);
+            return;
+        }
+        layout_b->sub_7100BDDE7C(false, 1, true);
+    } else {
+        if ((_30 & mask_a) == 0) {
+            layout_a->startAnimCloseImpl_(false, false);
+        } else if (layout_b->_91 - 1u < 2u) {
+            sub_7100AA1D5C(layout_a, layout_b, true);
+        } else {
+            layout_a->sub_7100BDDE7C(false, 0, true);
+        }
+        if ((_30 & mask_b) == 0) {
+            layout_b->startAnimCloseImpl_(false, false);
+            return;
+        }
+        if (layout_a->_91 - 1u < 2u) {
+            sub_7100AA1D5C(layout_b, layout_a, true);
+            return;
+        }
+        layout_b->sub_7100BDDE7C(false, 0, true);
+    }
+}
 // 0x710093dad4
 void ScreenAppPictureBookUnk::sub_710093DAD4(s32 value) {
     if (_33c <= value)
