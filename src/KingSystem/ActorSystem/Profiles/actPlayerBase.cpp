@@ -1486,4 +1486,10 @@ bool PlayerBase::sub_710084C044() {
     return false;
 }
 
+bool PlayerBase::sub_71008494E4() {
+    if (!isRidingHorse())
+        return false;
+    return m288() > 1;
+}
+
 }  // namespace ksys::act

@@ -338,6 +338,8 @@ public:
     sead::BitFlag32 getDeathReason();
     // 0x710084c044 (placeholder name): always false.
     bool sub_710084C044();
+    // 0x71008494e4 (placeholder name): `isRidingHorse() && m288() > 1`.
+    bool sub_71008494E4();
 
 protected:
     friend class acc::PlayerBase;
