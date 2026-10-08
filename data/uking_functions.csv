@@ -88898,7 +88898,7 @@ Address,Quality,Size,Name
 0x00000071010a8a9c,U,000004,j_j__ZN3eui6Screen7doDraw_EPKNS_10DrawInfoEx16RenderBufferInfoE_4
 0x00000071010a8aa0,O,000080,_ZN5uking2ui17ScreenMessageTips3m98Ev
 0x00000071010a8af0,O,000012,_ZN5uking2ui17ScreenMessageTips4m100Ev
-0x00000071010a8afc,U,000012,
+0x00000071010a8afc,O,000012,_ZNK5uking2ui17ScreenMessageTips14getLayoutName_Ev
 0x00000071010a8b08,U,000004,nullsub_4482
 0x00000071010a8b0c,U,000008,
 0x00000071010a8b14,O,000092,_ZNK5uking2ui17ScreenMessageTips18getRuntimeTypeInfoEv

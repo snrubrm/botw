@@ -808,6 +808,8 @@ public:
     void m93(sead::Heap* heap) override;
     void m98() override;
     void m100() override;
+    // 0x71010a8afc
+    const char* getLayoutName_() const override;
 
     // 0x71010a87f0 (CSV unnamed, declared only): called by ui::sub_7100A981B0 with the tip type 18.
     bool sub_71010A87F0(s32 type);

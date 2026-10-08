@@ -143,6 +143,11 @@ const char* ScreenMainDungeon::getLayoutName_() const {
     return "MainDungeon_00";
 }
 
+// 0x71010a8afc
+const char* ScreenMessageTips::getLayoutName_() const {
+    return "MessageTips_00";
+}
+
 // 0x71010a4f24
 void ScreenMainDungeon::sub_71010A4F24() {
     _2fc = 2;
