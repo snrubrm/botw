@@ -153,6 +153,10 @@ s32 StartupSaveCheckStageArg::sub_71007D17E0() {
     return 4;
 }
 
+s32 StartupSaveCheckStageArg::sub_71007D17E8() {
+    return 4;
+}
+
 void StartupSaveCheckStageArg::sub_71007D17F0(sead::Heap* heap) {
     mHeap = heap;
 }

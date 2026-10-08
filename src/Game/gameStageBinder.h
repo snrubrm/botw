@@ -257,6 +257,8 @@ struct StartupSaveCheckStageArg {
     // 0x71007d17d8 (out of line; empty)
     ~StartupSaveCheckStageArg();
     s32 sub_71007D17E0();
+    // 0x71007d17e8: the next slot after sub_71007D17E0, also 4 (like TitleStageArg's m4 / m5).
+    s32 sub_71007D17E8();
     void sub_71007D17F0(sead::Heap* heap);
     s32 sub_71007D17F8();
     const sead::SafeString& sub_71007D1800();
