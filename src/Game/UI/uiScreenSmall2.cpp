@@ -839,6 +839,18 @@ void ScreenReadyGo::m94() {
         close(-4);
 }
 
+// 0x71009fb958
+void ScreenAppSystemWindowNoBtn::sub_71009FB958() {
+    _3618 = 1;
+    open(2);
+}
+
+// 0x71009fb970
+void ScreenAppSystemWindowNoBtn::sub_71009FB970() {
+    _3618 = 2;
+    open(2);
+}
+
 // 0x71009fb9bc
 void ScreenAppSystemWindowNoBtn::m94() {
     if ((_291 & 2) || isOpened() ||

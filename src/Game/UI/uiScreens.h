@@ -2543,6 +2543,9 @@ public:
     /* 0x3610 */ eui::Animator* _3610{};
     /* 0x3618 */ u32 _3618{};
     SEAD_RTTI_OVERRIDE(ScreenAppSystemWindowNoBtn, ScreenEx)
+    // 0x71009fb958 / 0x71009fb970 (placeholder names): set _3618 to 1 / 2, then open(2)
+    void sub_71009FB958();
+    void sub_71009FB970();
 };
 
 class ScreenMessageTipsPauseMenu : public ScreenEx {
