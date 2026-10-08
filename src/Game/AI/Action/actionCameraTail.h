@@ -27,6 +27,12 @@ protected:
     bool sub_71007837D8(const sead::Vector3f& base, f32 a, f32 b, f32 r);
     // 0x710078483c: the look-at position (camera _860._2b8 plus the OffsetY for the elevation).
     void sub_710078483C(sead::Vector3f* out);
+    f32 sub_7100784288();
+    void sub_710078441C();
+    void sub_7100783BA8();
+    bool sub_710078469C(f32* out);
+    void sub_7100781F9C();
+    void sub_71007821D0();
     // 0x7100784940 (placeholder name): the player's speed relative to the camera's target point (_164): 0 while
     // _12c < 20, else distance / frame delta, at most _124.
     f32 sub_7100784940();
