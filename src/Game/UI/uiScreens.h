@@ -3220,6 +3220,9 @@ public:
     ~ScreenEnergyMeterDLC() override;
     SEAD_RTTI_OVERRIDE(ScreenEnergyMeterDLC, ScreenEx)
 
+    // 0x7100a094f8 (placeholder name): copies two values of _3618 into the motorcycle manager's energy position
+    void sub_7100A094F8();
+
     /* 0x3610 */ u8 _3610 = 0;
     u8 _3611[7];
     /* 0x3618 */ Unk_71024774a8 _3618;

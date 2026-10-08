@@ -1,5 +1,6 @@
 #include "Game/UI/uiScreens.h"
 #include "Game/UI/uiUtils.h"
+#include "Game/gameMotorcycleMgr.h"
 
 // Slot 4 of the leaf classes (overrides eui::Screen's, which returns 0).
 namespace uking::ui {
@@ -39,6 +40,17 @@ bool ScreenTitle::isEnableControl() const {
 // 0x71009dbcf8
 bool ScreenAppCamera::isEnableControl() const {
     return 1;
+}
+
+// 0x7100a094f8
+void ScreenEnergyMeterDLC::sub_7100A094F8() {
+    if (auto* mgr = MotorcycleMgr::instance()) {
+        const f32 x = _3618.sub_7100988D00(1);
+        const f32 y = _3618.sub_7100988D00(5);
+        mgr->_184.x = x;
+        mgr->_184.y = y;
+        mgr->_180 = 1;
+    }
 }
 
 // 0x7100a09644
