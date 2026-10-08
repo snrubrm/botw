@@ -2,6 +2,7 @@
 
 #include <basis/seadTypes.h>
 #include <container/seadBuffer.h>
+#include <controller/seadMaskControllerWrapper.h>
 #include <heap/seadDisposer.h>
 #include <prim/seadEnum.h>
 #include "KingSystem/Utils/Thread/MessageTransceiverRxOnly.h"
@@ -39,14 +40,16 @@ public:
     // Returns nullptr when there is no instance.
     static sead::Controller* getControllerSafe(ControllerIdx idx);
     sead::Controller* getController(ControllerIdx idx);
-    // 0x71008bca40: the controller wrapper at +0x40 (a sead::MaskControllerWrapper subclass, not
-    // declared yet; WaitForKeyInput / KeyInputCheck test its trigger mask). Declared only.
+    // 0x71008bca40: the controller wrapper at +0x40 (WaitForKeyInput / KeyInputCheck
+    // test its trigger mask). It is exactly sead::MaskControllerWrapper: createInstance calls
+    // its ctor (0x7100b1b32c) with this+0x40.
     sead::ControllerWrapperBase* sub_71008BCA40();
 
 private:
     u8 _28[8];
     sead::Buffer<sead::Controller*> mControllers;
-    u8 _40[0x2c8 - 0x40];
+    sead::MaskControllerWrapper _40;
+    u8 _258[0x2c8 - 0x258];
 };
 KSYS_CHECK_SIZE_NX150(MaskController, 0x2c8);
 
