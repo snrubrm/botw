@@ -584,4 +584,16 @@ void Screen::moveBoxCursorByButton_(const AnimButton* button) {
 
 void Screen::sub_7100BEB70C() { _106 = 0; }
 
+// 0x7100a52150 (CSV placeholder): find the LetterAnimControl with the given pane name.
+LetterAnimControl* Screen::sub_7100A52150(const char* name) {
+    const sead::SafeString query(name);
+    for (ListNode* node = mControls.next; node != &mControls; node = node->next) {
+        ControlBase* control = ControlBase::fromNode(node);
+        auto* letter = nn::font::DynamicCast<LetterAnimControl>(control);
+        if (letter != nullptr && query.isEqual(letter->mName))
+            return letter;
+    }
+    return nullptr;
+}
+
 }  // namespace eui

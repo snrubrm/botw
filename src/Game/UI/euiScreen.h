@@ -9,6 +9,8 @@
 #include <nn/ui2d/DrawInfo.h>
 #include <nn/ui2d/GraphicsResource.h>
 #include "KingSystem/Utils/Types.h"
+#include "Game/UI/euiLetterAnimControl.h"
+#include <prim/seadRuntimeTypeInfo.h>
 #include <prim/seadRuntimeTypeInfo.h>
 #include <prim/seadSafeString.h>
 #include <container/seadOffsetList.h>
@@ -245,6 +247,8 @@ public:
     void x_2();
     ControlBase* findControlWithParentLayout_(const char* name, const LayoutEx* layout);
     ControlBase* findControlWithLayout_(const char* name, const LayoutEx* layout);
+    // 0x7100a52150 (CSV placeholder): find the LetterAnimControl with the given pane name.
+    LetterAnimControl* sub_7100A52150(const char* name);
     void moveBoxCursor_(BoxCursorNode* node);
     void moveBoxCursorByTag_(s32 tag);
     void moveBoxCursorByButton_(const AnimButton* button);
