@@ -26,6 +26,7 @@
 #include "KingSystem/Event/evtManager.h"
 #include "KingSystem/Event/evtEventFlow.h"
 #include "KingSystem/Sound/sndMgr.h"
+#include "KingSystem/Utils/MathUtil.h"
 
 namespace dlc {
 bool isOneHitObliteratorActor(ksys::act::Actor* actor, bool require_active);
@@ -441,6 +442,35 @@ bool sub_7100AA16E8(const nn::ui2d::Pane* pane) {
     return true;
 }
 
+// NON_MATCHING: load scheduling in the parent loop (the original reloads the parent rotation / scale after the call).
+// 0x7100aa170c (placeholder name): the scale, z rotation and position of `pane` in its root pane's space
+void sub_7100AA170C(const nn::ui2d::Pane* pane, sead::Vector2f* scale, f32* rotation, sead::Vector2f* position) {
+    if (!pane)
+        return;
+    f32 rot = 0.0f;
+    sead::Vector2f pos(0.0f, 0.0f);
+    rot += pane->GetRotation().z;
+    pos.x += pane->GetPosition().x;
+    pos.y += pane->GetPosition().y;
+    f32 scale_x = pane->GetScale().x;
+    f32 scale_y = pane->GetScale().y;
+    for (const auto* parent = pane->GetParent(); parent; parent = parent->GetParent()) {
+        sead::Vector3f v(pos.x * parent->GetScale().x, pos.y * parent->GetScale().y, 0.0f);
+        ksys::util::sub_71011EF070(&v, parent->GetRotation().z * (sead::Mathf::pi() / 180.0f));
+        scale_x *= parent->GetScale().x;
+        rot += parent->GetRotation().z;
+        scale_y *= parent->GetScale().y;
+        pos.x = v.x + parent->GetPosition().x;
+        pos.y = v.y + parent->GetPosition().y;
+    }
+    if (scale)
+        scale->set(scale_x, scale_y);
+    if (rotation)
+        *rotation = rot;
+    if (position)
+        *position = pos;
+}
+
 // NON_MATCHING: the original shares the second (overshoot) compare between the two branches; here each branch has
 // both compares.
 // 0x7100aa20f0 (placeholder name): moves `*value` towards `target` by the screen's animation step times `speed`;
@@ -463,6 +493,31 @@ bool sub_7100AA20F0(eui::Screen* screen, f32* value, f32 target, f32 speed) {
     }
     *value = reached ? target : next;
     return reached;
+}
+
+// 0x7100aa2350 (placeholder name): moves `*value` towards `target` by `rate` of the distance per animation step,
+// clamped to [min_step, max_step]; snaps (and returns true) within min_step
+bool sub_7100AA2350(eui::Screen* screen, f32* value, f32 target, f32 rate, f32 max_step, f32 min_step) {
+    if (!screen || !value)
+        return false;
+    const f32 step = screen->getAnimationStep_();
+    const f32 current = *value;
+    const f32 diff = target - current;
+    const f32 dist = diff > 0.0f ? diff : -diff;
+    if (dist <= min_step) {
+        *value = target;
+        return true;
+    }
+    const f32 speed = step * rate;
+    f32 delta;
+    if (speed * dist > max_step)
+        delta = diff < 0.0f ? -max_step : max_step;
+    else if (speed * dist < min_step)
+        delta = diff < 0.0f ? -min_step : min_step;
+    else
+        delta = speed * diff;
+    *value = current + delta;
+    return false;
 }
 
 // 0x7100aa6c84 (placeholder name): a weapon / bow / shield that can burn (has burnable params and is not a
