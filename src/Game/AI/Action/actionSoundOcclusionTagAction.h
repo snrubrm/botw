@@ -19,7 +19,9 @@ public:
 
 protected:
     void calc_() override;
-    virtual void m32();
+    // The original (placeholder) name was m32: this overrides ActorObserver::m15 (primary slot 32, with a
+    // this-adjusting thunk in the ActorObserver vtable group that returns the constant true).
+    bool m15(const ksys::act::ActorConstDataAccess& accessor) override;
 
     sead::Buffer<Payload>* m6() override { return &_38; }
 
