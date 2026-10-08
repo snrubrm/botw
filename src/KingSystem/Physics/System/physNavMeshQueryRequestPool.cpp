@@ -44,4 +44,14 @@ void NavMeshQueryRequestPool::sub_71012AA1F0(NavMeshCharacter* nav) {
     _138.erase(nav);
 }
 
+void NavMeshQueryRequestPool::sub_71012AA270(NavMeshObjMaybe* obj) {
+    auto lock = sead::makeScopedLock(_88);
+    _150.erase(obj);
+}
+
+void NavMeshQueryRequestPool::sub_71012AA2F0(NavMeshObj2Maybe* obj) {
+    auto lock = sead::makeScopedLock(_c8);
+    _168.erase(obj);
+}
+
 }  // namespace ksys::phys

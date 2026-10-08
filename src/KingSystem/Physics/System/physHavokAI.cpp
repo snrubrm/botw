@@ -28,23 +28,23 @@ void HavokAI::sub_7100F82BCC(NavMeshCharacter* nav) {
 }
 
 void HavokAI::sub_7100F8305C(NavMeshObjMaybe* obj) {
-    obj->_a8 &= ~2u;
-    obj->_a8 |= 1;
+    obj->_a8.reset(NavMeshObjMaybe::Flag::_2);
+    obj->_a8.set(NavMeshObjMaybe::Flag::_1);
     HavokAI* pending = obj->_a0.exchange(this);
     if (!pending || uintptr_t(pending) == (uintptr_t(this) | 1))
         _40->_150.push(obj);
 }
 
 void HavokAI::sub_7100F83118(NavMeshObjMaybe* obj) {
-    obj->_a8 |= 4;
+    obj->_a8.set(NavMeshObjMaybe::Flag::_4);
     HavokAI* pending = obj->_a0.exchange(this);
     if (!pending || uintptr_t(pending) == (uintptr_t(this) | 1))
         _40->_150.push(obj);
 }
 
 void HavokAI::sub_7100F833A8(NavMeshObjMaybe* obj) {
-    obj->_a8 &= ~1u;
-    obj->_a8 |= 2;
+    obj->_a8.reset(NavMeshObjMaybe::Flag::_1);
+    obj->_a8.set(NavMeshObjMaybe::Flag::_2);
     HavokAI* pending = obj->_a0.exchange(this);
     if (!pending || uintptr_t(pending) == (uintptr_t(this) | 1))
         _40->_150.push(obj);
@@ -63,6 +63,25 @@ void HavokAI::sub_7100F8363C(NavMeshObj2Maybe* obj) {
     HavokAI* pending = obj->_78.exchange(this);
     if (!pending || uintptr_t(pending) == (uintptr_t(this) | 1))
         _40->_168.push(obj);
+}
+
+// NON_MATCHING: the original orders the two flag updates differently on each path (b: clear 0x10 first; !b: clear 8
+// first); matches with `if (on) { reset(_10); change(_8, on); } else { reset(_8); change(_10, !on); }`
+void HavokAI::sub_7100F831C0(NavMeshObjMaybe* obj, bool on) {
+    obj->_a8.change(NavMeshObjMaybe::Flag::_10, !on);
+    obj->_a8.change(NavMeshObjMaybe::Flag::_8, on);
+    HavokAI* pending = obj->_a0.exchange(this);
+    if (!pending || uintptr_t(pending) == (uintptr_t(this) | 1))
+        _40->_150.push(obj);
+}
+
+// NON_MATCHING: same as sub_7100F831C0 (flags 0x40 / 0x20)
+void HavokAI::sub_7100F832B4(NavMeshObjMaybe* obj, bool on) {
+    obj->_a8.change(NavMeshObjMaybe::Flag::_40, !on);
+    obj->_a8.change(NavMeshObjMaybe::Flag::_20, on);
+    HavokAI* pending = obj->_a0.exchange(this);
+    if (!pending || uintptr_t(pending) == (uintptr_t(this) | 1))
+        _40->_150.push(obj);
 }
 
 bool HavokAI::startNavMeshSystemThread() {

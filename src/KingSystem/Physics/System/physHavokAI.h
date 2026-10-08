@@ -5,6 +5,7 @@
 #include <heap/seadDisposer.h>
 #include <math/seadMathCalcCommon.h>
 #include <math/seadVector.h>
+#include <prim/seadTypedBitFlag.h>
 #include <thread/seadAtomic.h>
 #include "KingSystem/Utils/Container/LockFreeQueue.h"
 #include <thread/seadCriticalSection.h>
@@ -141,10 +142,20 @@ KSYS_CHECK_SIZE_NX150(Unk_RequestQueue<void>, 0x18);
 // the next request (exchanged with ldxr/stxr, compared against `this | 1`), `_a8` request flags (ldxr/stxr
 // and / orr in those functions: sead::Atomic).
 struct NavMeshObjMaybe {
+    enum class Flag : u32 {
+        _1 = 1 << 0,
+        _2 = 1 << 1,
+        _4 = 1 << 2,
+        _8 = 1 << 3,
+        _10 = 1 << 4,
+        _20 = 1 << 5,
+        _40 = 1 << 6,
+    };
+
     /* 0x00 */ u8 _0[0x98];
     /* 0x98 */ HavokAI* _98;  // the HavokAI it was added to
     /* 0xa0 */ sead::Atomic<HavokAI*> _a0;
-    /* 0xa8 */ sead::Atomic<u32> _a8;
+    /* 0xa8 */ sead::TypedBitFlag<Flag, sead::Atomic<u32>> _a8;
 };
 KSYS_CHECK_SIZE_NX150(NavMeshObjMaybe, 0xb0);
 
@@ -174,11 +185,15 @@ public:
     bool sub_71012AA080(Unk_7102372790* query);
     void sub_71012AA118(Unk_7102372790* query);
     void sub_71012AA1F0(NavMeshCharacter* nav);
+    // 0x71012aa270 / 0x71012aa2f0 (placeholder names): remove `obj` from the queue at +0x150 / +0x168.
+    void sub_71012AA270(NavMeshObjMaybe* obj);
+    void sub_71012AA2F0(NavMeshObj2Maybe* obj);
 
     /* 0x000 */ u8 _0[8];
     /* 0x008 */ sead::CriticalSection _8;
     /* 0x048 */ sead::CriticalSection _48;
-    /* 0x088 */ u8 _88[0x108 - 0x88];
+    /* 0x088 */ sead::CriticalSection _88;  // guards _150 (0x71012aa270)
+    /* 0x0c8 */ sead::CriticalSection _c8;  // guards _168 (0x71012aa2f0)
     /* 0x108 */ Unk_RequestQueue<Unk_7102372790> _108;
     /* 0x120 */ Unk_RequestQueue<Unk_7102372790> _120;
     /* 0x138 */ util::LockFreeQueue<NavMeshCharacter> _138;  // pushed by HavokAI::sub_7100F82BCC
@@ -235,6 +250,10 @@ public:
     void sub_7100F8305C(NavMeshObjMaybe* obj);
     void sub_7100F83118(NavMeshObjMaybe* obj);
     void sub_7100F833A8(NavMeshObjMaybe* obj);
+    // 0x7100f831c0 / 0x7100f832b4 (placeholder names): set flag 8 / 0x20 and clear 0x10 / 0x40 (or the other way
+    // round when `on` is false), then queue like sub_7100F8305C.
+    void sub_7100F831C0(NavMeshObjMaybe* obj, bool on);
+    void sub_7100F832B4(NavMeshObjMaybe* obj, bool on);
     // 0x7100f83580 / 0x7100f8363c (placeholder names): the same for NavMeshObj2Maybe (bit 0 / bit 2).
     void sub_7100F83580(NavMeshObj2Maybe* obj);
     void sub_7100F8363C(NavMeshObj2Maybe* obj);
