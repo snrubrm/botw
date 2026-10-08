@@ -217,20 +217,7 @@ public:
 static_assert(sizeof(ScreenChildEx) == 0x130);
 
 
-// A child class of the PauseMenu screen (id 46, child group 1) derived from ScreenChildEx (placeholder name: its typeinfo
-// static is at 0x71025d9b08, guard 0x71025d9b10; the facade helpers of the 0x7100a94000 TU DynamicCast to it). Only the
-// member the facade writes is declared.
-class ScreenChildUnk_71025d9b08 : public ScreenChildEx {
-public:
-    NN_RUNTIME_TYPEINFO(ScreenChildEx)
-    // 0x71009b62cc (`_1a8 = a1`)
-    void sub_71009B62CC(void* a1);
-
-    u8 _130[0x1a8 - 0x130];
-    /* 0x1a8 */ void* _1a8;
-};
-
-// A state of ScreenChildUnk_71025d9b08's state machine (a plain StateBase object).
+// A state of Unk_710247af10's state machine (a plain StateBase object; uiScreenChildStates.h).
 extern const ksys::StateBase sUnk_71025d9960;
 
 // 0x71009de2b8 (uiPaneCasts.cpp)

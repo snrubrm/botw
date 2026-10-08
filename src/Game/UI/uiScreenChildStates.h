@@ -25,9 +25,15 @@ public:
 };
 static_assert(sizeof(Unk_710247ae48) == 0x58);
 
+// A child class of the PauseMenu screen (id 46, child group 1; the facade helpers of the 0x7100a94000 TU DynamicCast
+// to it). Its typeinfo static is at 0x71025d9b08 (guard 0x71025d9b10); it was declared separately as
+// ScreenChildUnk_71025d9b08 before.
 class Unk_710247af10 : public ScreenChildEx {
 public:
+    NN_RUNTIME_TYPEINFO(ScreenChildEx)
     ~Unk_710247af10() override;
+    // 0x71009b62cc (`_1a8 = a1`)
+    void sub_71009B62CC(void* a1);
 
     virtual void m105();
     virtual void m106();
@@ -42,9 +48,18 @@ public:
     virtual void m115();
     virtual s32 m116();
 
-    // The members used so far (the child has a state machine at 0x80, like ScreenChildUnk_71025d9b08).
+    // The members used so far (the state machine at 0x80 is ScreenChild's).
+    // 0x71009b8b6c (not decompiled; m110 tail-calls it)
+    void sub_71009B8B6C();
+
     u8 _130[0x148 - 0x130];
     /* 0x148 */ eui::Animator* _148;
+    u8 _150[0x1a8 - 0x150];
+    /* 0x1a8 */ void* _1a8;
+    u8 _1b0[0x300 - 0x1b0];
+    /* 0x300 */ ScreenAppPictureBookUnk* _300;
+    u8 _308[0x32c - 0x308];
+    /* 0x32c */ s32 _32c;
 };
 
 class Unk_710247b428 : public ScreenChildEx {

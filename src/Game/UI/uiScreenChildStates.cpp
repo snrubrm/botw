@@ -7,6 +7,14 @@ namespace uking::ui {
 
 Unk_710247ae48::~Unk_710247ae48() = default;
 
+// 0x71009b8d58
+void Unk_710247af10::m105() {
+    if (_300)
+        _300->sub_710093F594(true);
+    _148->StopAtMin();
+    _32c = 0;
+}
+
 // 0x71009b8d98
 void Unk_710247af10::m106() {}
 
@@ -15,6 +23,11 @@ s32 Unk_710247af10::m108() { return 0; }
 
 // 0x71009b8db0
 void Unk_710247af10::m109() {}
+
+// 0x71009b8db4
+void Unk_710247af10::m110() {
+    sub_71009B8B6C();
+}
 
 // 0x71009b8db8
 void Unk_710247af10::m111() {}

@@ -1,3 +1,4 @@
+#include "Game/UI/uiScreenChildStates.h"
 #include "Game/UI/uiScreens.h"
 #include <prim/seadRuntimeTypeInfo.h>
 #include "Game/UI/uiManager.h"
@@ -901,7 +902,7 @@ void sub_7100A97C6C(s32 add_num, s32 type) {
 // many) while ours inlines it into this function's inline copy of the derived getter
 // 0x7100a95808 (placeholder name)
 bool sub_7100A95808() {
-    auto* child = nn::font::DynamicCast<ScreenChildUnk_71025d9b08>(getScreenWidgetMaybe(ScreenId::PauseMenu, 1));
+    auto* child = nn::font::DynamicCast<Unk_710247af10>(getScreenWidgetMaybe(ScreenId::PauseMenu, 1));
     if (!child)
         return false;
     // called through a pointer in the original (not devirtualised)
@@ -912,7 +913,7 @@ bool sub_7100A95808() {
 // many) while ours inlines it into this function's inline copy of the derived getter
 // 0x7100a9ac84 (placeholder name)
 void sub_7100A9AC84(void* a1) {
-    if (auto* child = nn::font::DynamicCast<ScreenChildUnk_71025d9b08>(getScreenWidgetMaybe(ScreenId::PauseMenu, 1)))
+    if (auto* child = nn::font::DynamicCast<Unk_710247af10>(getScreenWidgetMaybe(ScreenId::PauseMenu, 1)))
         child->sub_71009B62CC(a1);
 }
 

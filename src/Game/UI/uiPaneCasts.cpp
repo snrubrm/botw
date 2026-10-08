@@ -1,6 +1,7 @@
 #include "Game/UI/euiButton.h"
 #include "Game/UI/euiPartsEx.h"
 #include "Game/UI/euiTextBoxEx.h"
+#include "Game/UI/uiScreenChildStates.h"
 #include "Game/UI/uiScreens.h"
 
 // A separate translation unit: the original's out-of-line DynamicCast has the runtime type info
@@ -32,7 +33,7 @@ ScreenChildEx* sub_71009DE2B8(eui::ControlBase* control) {
 }
 
 // 0x71009b62cc
-void ScreenChildUnk_71025d9b08::sub_71009B62CC(void* a1) {
+void Unk_710247af10::sub_71009B62CC(void* a1) {
     _1a8 = a1;
 }
 
