@@ -107,6 +107,25 @@ void ScreenShopInfo::m101() {
         _3690->startAnimCloseImpl_(false, true);
 }
 
+// 0x7100a52db0
+void ScreenShopInfo::sub_7100A52DB0(u32 mode, ShopInfoTagData* data) {
+    if (_3620 == nullptr)
+        return;
+    _3620->Stop(mode);
+    if (mode != 1) {
+        if (mode != 0)
+            return;
+        if (_3650 == nullptr)
+            return;
+        eui::MessageString msg;
+        sub_7100AA2E08(data, &msg);
+        _3650->sub_7100BD9CDC(msg, 0);
+        _3650->sub_7100BD9B5C();
+        return;
+    }
+    sub_7100A52E60(data, 0, -1);
+}
+
 // 0x7100a081e8
 void ScreenDoCommand::m100() {
     _3660 = -1;

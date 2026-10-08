@@ -3088,7 +3088,21 @@ public:
     u32 sub_7100A51790(const sead::MessageSet<char16>::TagInfo* tag,
                        sead::WBufferedSafeString* out);
 
-    u8 _pad_3610[0x3658 - 0x3610];
+    // 0x7100a52db0 (CSV placeholder): mode select (1 = full refresh through sub_7100A52E60,
+    // 0 = re-resolve the shop message into _3650; anything else only runs the _3620 animator).
+    void sub_7100A52DB0(u32 mode, ShopInfoTagData* data);
+    // 0x7100a52e60 (CSV placeholder, not decompiled yet): the full shop refresh (888B; uses
+    // _3690/_3698/_3658, calls sub_7100AA2BDC + unnamed 0x9c2c28/2c44/2c8c/2d44 + sub_7100AA3B50).
+    // Declared only so sub_7100A52DB0 can tail-call it.
+    void sub_7100A52E60(ShopInfoTagData* data, u32 a2, s32 a3);
+    u8 _pad_3610[0x3620 - 0x3610];
+    // 0x7100a52db0 (CSV placeholder): resolved by the Animator::Stop slot-24 call (vtable-proven)
+    // and the sibling screens' `eui::Animator* _3620` at the same offset.
+    /* 0x3620 */ eui::Animator* _3620 = nullptr;
+    u8 _pad_3628[0x3650 - 0x3628];
+    // 0x7100a52db0 (CSV placeholder): the LetterAnimControl fed by sub_7100AA2E08 +
+    // sub_7100BD9CDC / sub_7100BD9B5C (same tail as ScreenMessageDialog's 0x10b2b30).
+    /* 0x3650 */ eui::LetterAnimControl* _3650 = nullptr;
     sead::PtrArray<Unk_Elem> _3658;
     u8 _pad_3668[0x3678 - 0x3668];
     Unk_710247dc70 _3678;
