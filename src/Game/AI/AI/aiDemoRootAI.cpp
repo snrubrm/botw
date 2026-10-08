@@ -14,6 +14,9 @@ namespace uking::ai {
 // leave_): releases the event-context list at RootAi + 0x140 (takes that object; void* because the
 // nested SomeStruct type is private).
 void sub_7100D630AC(void* context);
+// 0x7100d6300c (placeholder name; declared only): walks the DemoAiRequest list at the RootAi + 0x140
+// context and advances each node (takes the context and the actor).
+void sub_7100D6300C(void* context, ksys::act::Actor* actor);
 
 bool DemoRootAI::sub_7100D62394(DemoAiRequest* request) {
     const s32 idx = getChildIdx("Demo_Idling");
@@ -68,6 +71,48 @@ bool DemoRootAI::init_(sead::Heap* heap) {
     for (s32 i = 0; i < num; ++i)
         _38(i) = nullptr;
     return true;
+}
+
+void DemoRootAI::sub_7100D62598() {
+    if ((_48 & 4) != 0) {
+        const s32 idx = getChildIdx("Demo_VisibleOff");
+        if (idx != 0xffff) {
+            changeChild(idx, nullptr);
+            const s32 count = _38.size();
+            if (count >= 1) {
+                for (s32 i = 0; i <= count - 1; ++i) {
+                    auto& slot = _38[i];
+                    auto* action = slot;
+                    if (!action)
+                        continue;
+                    action->leave();
+                    action->hasUpdateForPreDeleteCb();
+                    action->onPreDelete();
+                    delete action;
+                    slot = nullptr;
+                }
+            }
+        }
+    }
+    if ((_48 & 8) != 0) {
+        sub_7100D62394(nullptr);
+        const s32 count = _38.size();
+        if (count >= 1) {
+            for (s32 i = 0; i <= count - 1; ++i) {
+                auto& slot = _38[i];
+                auto* action = slot;
+                if (!action)
+                    continue;
+                action->leave();
+                action->hasUpdateForPreDeleteCb();
+                action->onPreDelete();
+                delete action;
+                slot = nullptr;
+            }
+        }
+    }
+    auto* root_ai = mActor->getRootAi();
+    sub_7100D6300C(root_ai->_140, mActor);
 }
 
 void DemoRootAI::enter_(ksys::act::ai::InlineParamPack* params) {
