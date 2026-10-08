@@ -32,6 +32,8 @@ struct Unk_SandwormTackleTarget {
     bool sub_710073E5E0(const ksys::MessageAck* ack);
     bool sub_710073E45C(sead::Heap* heap, const sead::SafeString& name);
     void sub_710073E580(ksys::act::BaseProcLink* link);
+    bool sub_710073E4C4() const;
+    bool sub_710073E50C() const;
 
     uking::act::Enemy* mActor;
     Unk_71024512c0 _8;

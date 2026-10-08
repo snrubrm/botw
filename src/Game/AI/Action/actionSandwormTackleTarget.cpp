@@ -38,6 +38,22 @@ bool Unk_SandwormTackleTarget::sub_710073E45C(sead::Heap* heap, const sead::Safe
     return mActor->_1128.sub_7100D3CED8(_48, heap);
 }
 
+bool Unk_SandwormTackleTarget::sub_710073E4C4() const {
+    if (_58 != 0)
+        return false;
+    return !mActor->_1128.getActorPartsActor(_48).hasProc();
+}
+
+bool Unk_SandwormTackleTarget::sub_710073E50C() const {
+    bool result = false;
+    if (_58 == 2 && _38.hasProc()) {
+        ksys::act::ActorConstDataAccess actor;
+        ksys::act::acquireActor(&_38, &actor);
+        result = actor.isStateSleep();
+    }
+    return result;
+}
+
 void Unk_SandwormTackleTarget::sub_710073E580(ksys::act::BaseProcLink* link) {
     if (link->hasProcInCalcState()) {
         _8.sub_710070DCC0(link, true);
