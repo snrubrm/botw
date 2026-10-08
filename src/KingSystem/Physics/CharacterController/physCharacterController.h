@@ -275,6 +275,8 @@ public:
     bool sub_7100F5F270(int idx);
     // 0x7100f5f938: validates `mtx`, then sets the velocities that move the body to it.
     void sub_7100F5F938(const sead::Matrix34f& mtx);
+    // 0x7100f5fbe0 (declaration only; placeholder name): the position counterpart of sub_7100F5F938 (ksys::act::sub_7100EE57FC).
+    void sub_7100F5FBE0(const sead::Vector3f& pos);
     // 0x7100f5fc8c: sets the angular velocity that rotates the body to `mtx`.
     void sub_7100F5FC8C(const sead::Matrix34f& mtx);
     // 0x7100f5fdf0: sets the angular velocity that turns the body towards `dir`.

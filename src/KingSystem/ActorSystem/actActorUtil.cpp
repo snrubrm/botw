@@ -491,6 +491,14 @@ void sub_7100EE5408(Actor* actor) {
         body->removeFromWorld();
 }
 
+void sub_7100EE5624(Actor* actor) {
+    if (auto* set = actor->getRigidBodyByName(sStr_Tgt.cstr())) {
+        for (s32 i = 0, n = set->getRigidBodies().size(); i < n; ++i)
+            set->getRigidBodies()[i]->removeFromWorld();
+    }
+    ::sub_7100EE56C0(actor);
+}
+
 bool isCameraProfile(Actor* actor) {
     return isProfile(getAccessor(actor), "Camera");
 }
@@ -1033,6 +1041,20 @@ bool Actor::hasForbidAttentionLink_0() const {
 }  // namespace ksys::act
 
 namespace ksys::act {
+
+void sub_7100EE57FC(Actor* actor, const sead::Vector3f& pos) {
+    if (auto* controller = actor->getCharacterController()) {
+        if (controller->sub_7100F5E954())
+            controller->sub_7100F5FBE0(pos);
+        else
+            controller->warpActorToPosition(pos);
+    } else if (auto* body = actor->getMainBody()) {
+        if (body->isAddedToWorld())
+            body->changePosition(pos, phys::KeepAngularVelocity{false});
+        else
+            body->setPosition(pos);
+    }
+}
 
 void sub_7100EE58C0(Actor* actor, const sead::Matrix34f& mtx) {
     if (auto* controller = actor->getCharacterController()) {

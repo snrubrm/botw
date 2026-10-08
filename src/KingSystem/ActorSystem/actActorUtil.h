@@ -380,3 +380,7 @@ void setGetDemoHandler(GetDemoHandler handler);
 void callGetDemoHandler(ksys::act::Actor* actor, const sead::SafeString& name);
 void callGetDemoHandler2(ksys::act::Actor* actor, ksys::act::Actor* item,
                          const sead::SafeString& name);
+
+// 0x7100ee56c0 (declaration only; global namespace placeholder, SystemHide::leave_): called after the "Tgt" bodies are
+// removed by ksys::act::sub_7100EE5624.
+void sub_7100EE56C0(ksys::act::Actor* actor);
