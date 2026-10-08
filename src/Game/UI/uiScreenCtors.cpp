@@ -4,6 +4,19 @@
 
 namespace uking::ui {
 
+Unk_7101EC39D4 sUnk_7101EC39D4;
+
+// 0x710109ed94
+// NON_MATCHING: store scheduling only (all stores/calls match: base ctor, the five member
+// stores, both vtable pairs, the merged 8-byte _314 zero and the non-tail memset). Ours emits
+// mErrorCode second-to-last (after the +0x108 pair) instead of second, keeps the chained _314
+// zero after the memset instead of before it, and does not swap the _308/_310 order. Six source
+// shapes tried (all-NSDMI, value-init array, full-body, split NSDMI/body, mem-init); the
+// scheduler packs differently in each and none reproduces the exact interleaving.
+ScreenErrorViewer::ScreenErrorViewer() : Screen() {
+    _314 = _318 = 0;
+}
+
 ScreenEnergyMeterDLC::ScreenEnergyMeterDLC() : ScreenEx() {}
 
 ScreenPauseMenuMantan::ScreenPauseMenuMantan() : ScreenEx() { sResult = 5; }

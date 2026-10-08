@@ -1005,8 +1005,13 @@ public:
     void sub_710109E978();
 };
 
+// 0x7101ec39d4 (object whose address the ScreenErrorViewer ctor stores in _308; contents unknown).
+struct Unk_7101EC39D4 {};
+extern Unk_7101EC39D4 sUnk_7101EC39D4;
+
 class ScreenErrorViewer : public Screen {
 public:
+    ScreenErrorViewer();
     ~ScreenErrorViewer() override;
     SEAD_RTTI_OVERRIDE(ScreenErrorViewer, Screen)
     bool isEnableControl() const override;
@@ -1014,8 +1019,16 @@ public:
     const char* getLayoutName_() const override;
     void sub_710109EE10(s32 error_code);
 
-    u8 _2fc[0x310 - 0x2fc];
-    /* 0x310 */ s32 mErrorCode;
+    u8 _2fc[0x300 - 0x2fc];
+    /* 0x300 */ s32 _300 = 0x100;
+    /* 0x304 */ u8 _304[0x308 - 0x304];
+    /* 0x308 */ void* _308 = &sUnk_7101EC39D4;
+    /* 0x310 */ s32 mErrorCode = -1;
+    /* 0x314 */ u32 _314;
+    /* 0x318 */ u32 _318;
+    /* 0x31c */ u16 _31c = 0;
+    u8 _31e[0x320 - 0x31e];
+    /* 0x320 */ u8 _320[0x4c]{};
 };
 
 // Only the nominal type and the three state words checked by UI::sub_71010A5CFC / sub_71010A5DB0 / sub_71010A5E64
