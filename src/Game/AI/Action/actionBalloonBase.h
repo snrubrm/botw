@@ -12,6 +12,11 @@ namespace ksys::act {
 class RopeBase;
 }
 
+namespace ksys::act {
+class Actor;
+class BaseProc;
+}  // namespace ksys::act
+
 namespace uking::action {
 
 class BalloonBase : public ksys::act::ai::Action {
@@ -45,6 +50,9 @@ protected:
     void sub_71000B7F94();
     // 0x71000b89dc: whether the actor is at or above the (remains) height limit.
     bool sub_71000B89DC() const;
+    // 0x71000b8470: attaches the rope actor to the hung actor (declaration only).
+    void sub_71000B8470(ksys::act::Actor* actor, ksys::phys::RigidBody* body,
+                        const sead::Vector3f* offset, ksys::act::BaseProc* rope);
     ksys::act::BaseProcLink _20;
     // static_param at offset 0x30
     const float* mUpLimitSpeed_s{};

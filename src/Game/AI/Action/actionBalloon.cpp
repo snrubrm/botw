@@ -7,6 +7,9 @@
 #include "KingSystem/ActorSystem/actActorHeapUtil.h"
 #include "KingSystem/ActorSystem/actInstParamPack.h"
 #include "KingSystem/ActorSystem/Profiles/actRopeBase.h"
+#include "KingSystem/Map/mapObject.h"
+#include "KingSystem/Map/mapObjectLink.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
 namespace uking::action {
 
@@ -35,6 +38,32 @@ bool Balloon::init_(sead::Heap* heap) {
 
 void Balloon::enter_(ksys::act::ai::InlineParamPack* params) {
     BalloonBase::enter_(params);
+    if (!_118.hasProc())
+        return;
+    if (!_110)
+        return;
+
+    ksys::act::Actor* actor = nullptr;
+    ksys::phys::RigidBody* body = nullptr;
+    auto* map_object = mActor->getMapObject();
+    if (map_object) {
+        auto* link_data = map_object->getLinkData();
+        if (link_data && link_data->mObjects.size() >= 1) {
+            actor = link_data->mObjects(0)->tryGetActor(false);
+            if (actor) {
+                if (auto* controller = actor->getCharacterController())
+                    body = controller->sub_7100F61A34();
+                else
+                    body = actor->getMainBody();
+            }
+        }
+    }
+    sub_71000B8470(actor, body, mRopeHungActOffset_m,
+                   static_cast<ksys::act::BaseProc*>(_110));
+    static_cast<ksys::act::BaseProc*>(_110)->wakeUp(
+        ksys::act::BaseProc::SleepWakeReason::_0);
+    _110 = nullptr;
+    _118.reset();
 }
 
 void Balloon::leave_() {
