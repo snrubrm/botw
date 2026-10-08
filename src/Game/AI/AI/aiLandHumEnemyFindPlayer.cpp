@@ -110,6 +110,29 @@ bool LandHumEnemyFindPlayer::m43() {
     return EnemyBaseFindPlayer::m43();
 }
 
+bool LandHumEnemyFindPlayer::sub_7100461990() {
+    if (isCurrentChild("危険回避"))
+        return false;
+    auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
+    if (!enemy)
+        return false;
+    const auto* level = enemy->getParam()->getRes().mGParamList->getEnemyLevel();
+    if (!level || !level->mIsKickBomb.ref())
+        return false;
+    _1b8.reset();
+    auto& link = sub_71005DE7F4(mActor, *mParams.mExplosivesAvoidDist_s,
+                                *mParams.mExplosivesAvoidSpeed_s, *mParams.mExplosivesAvoidAng_s, true);
+    if (!link.hasProc())
+        return false;
+    _1b8 = link;
+    if (_1b8.hasProc()) {
+        ksys::act::ai::InlineParamPack pack;
+        pack.addActor(_1b8, "TargetActor", -1);
+        changeChild("危険回避", &pack);
+    }
+    return true;
+}
+
 // NON_MATCHING: the original ends with `if (dist <= Hmax) return true; return false;` as two
 // branches (one dtor call shared); ours folds the compare into a cset
 bool LandHumEnemyFindPlayer::sub_7100461B74() {

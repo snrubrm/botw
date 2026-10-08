@@ -36,6 +36,9 @@ public:
     // 0x7100461b74: whether the player (while hanging or in the 21 state) is within the climb
     // height range (ClimbVmin..ClimbVmax) and horizontal distance (ClimbHmax) of the actor.
     bool sub_7100461B74();
+    // 0x7100461990 (placeholder name): for a kick-bomb enemy level: finds an explosive to avoid
+    // (sub_71005DE7F4 with the ExplosivesAvoid params) into `_1b8` and starts "危険回避" with it.
+    bool sub_7100461990();
     // inline-only in the original; name is a guess (changeToSummonChemicalAllies, changeToApplyWeaponChemical and m44 repeat it):
     // the translation of the actor linked by _1c8.
     void getChemTargetPos(sead::Vector3f* pos);
