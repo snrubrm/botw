@@ -5,6 +5,42 @@
 
 namespace uking::ui {
 
+// 0x7100939f68 (D1) / 0x7100939fb8 (D0)
+Unk_7102474f10::~Unk_7102474f10() {
+    _8 = nullptr;
+    mEntry = nullptr;
+    mController = nullptr;
+    mUnits.clear();
+    _30 = nullptr;
+    mRecord = nullptr;
+    delete _40;
+    _40 = nullptr;
+}
+
+// 0x710093a0a8
+void Unk_7102474f10::sub_710093A0A8(s32 mode) {
+    switch (mode) {
+    case 0:
+        if (_30)
+            _30->PlayFromCurrent(eui::Animator::PlayType(0), -1.0f);
+        else if (_8)
+            _8->startAnimCloseImpl_(false, false);
+        break;
+    case 1:
+        if (_30)
+            _30->PlayAuto(-1.0f);
+        else if (_8)
+            _8->startAnimCloseImpl_(false, false);
+        break;
+    case 2:
+        if (_30)
+            _30->StopAtMin();
+        else if (_8)
+            _8->startAnimCloseImpl_(false, true);
+        break;
+    }
+}
+
 // 0x710093f594
 void ScreenAppPictureBookUnk::sub_710093F594(bool flag) {
     bool old = _2c & 1;

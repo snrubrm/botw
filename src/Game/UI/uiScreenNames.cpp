@@ -197,6 +197,16 @@ void ScreenHomeNixSign::m98() {
     _2fc = 0;
 }
 
+// 0x71010a2164
+void ScreenHomeNixSign::m94() {
+    if (isOpened()) {
+        if (_2fc < 30.0f)
+            _2fc += getAnimationStep_();
+        else
+            close(-1);
+    }
+}
+
 // 0x71010a2258
 const char* ScreenHomeNixSign::getLayoutName_() const {
     return "HomeNixSign_00";

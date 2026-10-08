@@ -1186,10 +1186,12 @@ public:
     // 0x71010a2258
     const char* getLayoutName_() const override;
 
-    /* 0x2fc */ s32 _2fc = 0;
+    /* 0x2fc */ f32 _2fc = 0;
 
     // 0x71010a215c (placeholder name for the override of Screen::m98): resets _2fc
     void m98() override;
+    // 0x71010a2164 (slot 94): counts _2fc up by the animation step while the screen is open and closes it at 30
+    void m94() override;
 };
 
 class ScreenBoxCursorTV : public Screen {
@@ -2044,7 +2046,11 @@ struct PictureBookGroupRecord {
 };
 class Unk_7102474f10 {
 public:
+    SEAD_RTTI_BASE(Unk_7102474f10)
     virtual ~Unk_7102474f10();
+    // 0x710093a0a8 (placeholder name; called for every group by 0x7100943d5c): mode 0 / 1 / 2 plays the _30 animator
+    // (from current / auto / stops at min), or starts the close animation of the layout when there is none.
+    void sub_710093A0A8(s32 mode);
     eui::LayoutEx* _8;
     ScreenAppPictureBookEntry* mEntry;
     ScreenAppPictureBookUnk* mController;
@@ -2060,10 +2066,10 @@ static_assert(sizeof(Unk_7102474f10) == 0x48);
 // (byte at +0x10; slot 0x40 takes the previous item, slot 0x48 takes nothing). Only the slots
 // used by ScreenAppPictureBookUnk::sub_710093F594 are named; the rest are padding slots.
 struct PictureBookItem {
+    // The first slots are not named from the vtable; 0x7100939f68 deletes `_40` through slot 3.
     virtual void m0();
     virtual void m1();
-    virtual void m2();
-    virtual void m3();
+    virtual ~PictureBookItem();
     virtual void m4();
     virtual void m5();
     virtual void m6();
