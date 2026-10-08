@@ -13,7 +13,7 @@ public:
 
     AlignPane(const nn::ui2d::ResPane*, const nn::ui2d::BuildArgSet&);
     AlignPane(const AlignPane&, LayoutEx*);
-    ~AlignPane() override;
+    ~AlignPane() override = default;
 
     void Calculate(nn::ui2d::DrawInfo&, nn::ui2d::Pane::CalculateContext&, bool) override;
     void doAlign_();
