@@ -47,6 +47,12 @@ void DamageMgrPlayer::m22() {
     DamageManager::m22();
 }
 
+bool DamageMgrPlayer::m50() {
+    // Discarded IsDerivedFrom (a real virtual call in the target asm); always false.
+    sead::IsDerivedFrom<ksys::act::PlayerBase>(mActor);
+    return false;
+}
+
 bool DamageMgrPlayer::m51(const ksys::act::BaseProcLink* link) {
     bool result = false;
     if (DamageManager::m51(link)) {

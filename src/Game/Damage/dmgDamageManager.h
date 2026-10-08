@@ -95,7 +95,9 @@ public:
     // DamageMgrPlayer::m22 after the _22c timer handling below. Declared only.
     void m22() override;
     // The new virtual slots 50-56 (placeholders; m52 / m53 are constants).
-    virtual void m50();
+    // Slot 50 returns bool (DamageManager::m50 (0x71006d6c30) and DamageMgrPlayer::m50
+    // both produce 0/1 in w0); the old void declaration was a guess.
+    virtual bool m50();
     // 2026-10-07: slot 51 tests the lightning factor and the linked actor's name.
     virtual bool m51(const ksys::act::BaseProcLink* link);
     virtual s32 m52() { return 40; }
