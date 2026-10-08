@@ -2516,6 +2516,8 @@ class ScreenGamePadBG : public ScreenEx {
 public:
     ScreenGamePadBG();
     void m82() override;
+    // 0x7100a0b1d8
+    void m83() override;
     void m93(sead::Heap* heap) override;
     void m94() override;
     bool isEnableControl() const override;

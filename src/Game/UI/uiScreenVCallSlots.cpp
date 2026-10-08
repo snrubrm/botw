@@ -3,6 +3,7 @@
 #include "Game/UI/uiScreens.h"
 #include "Game/UI/uiManager.h"
 #include "Game/gameGraphics.h"
+#include "KingSystem/System/DebugBoard.h"
 
 // Slots that forward to open() / close() with a constant argument.
 namespace uking::ui {
@@ -10,6 +11,33 @@ namespace uking::ui {
 // 0x7100a0b1c4
 void ScreenGamePadBG::m82() {
     open(1);
+}
+
+// NON_MATCHING: the original materialises !isOpened() (eor) before testing it; branch layout of the last select.
+// 0x7100a0b1d8
+void ScreenGamePadBG::m83() {
+    open(3);
+    const s32 type = DebugBoardMgr::instance()->_39bc;
+    if (type == 0) {
+        if (_3618)
+            _3618->StopAtMin();
+    } else if (type == 1) {
+        if (_3618)
+            _3618->StopAtMax();
+    }
+    if (!_3620)
+        return;
+    if (auto* screen = eui::ScreenMgr::instance()->getScreen(ScreenId::KeyBoradTextArea)) {
+        const bool opened = screen->isOpened();
+        if ((_292 & 0x40) && !opened)
+            _3620->StopAtMin();
+        else
+            _3620->StopAtMax();
+    } else if (_292 & 0x40) {
+        _3620->StopAtMin();
+    } else {
+        _3620->StopAtMax();
+    }
 }
 
 // 0x7100a0b140

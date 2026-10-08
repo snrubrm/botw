@@ -37,6 +37,8 @@ public:
     /* 0x60 */ Unk_DebugBoardBroker mBroker0;
     /* 0x1338 */ Unk_DebugBoardBroker mBroker1;
     /* 0x2610 */ Unk_DebugBoardBroker mBroker2;
+    u8 _38e8[0x39bc - 0x38e8];
+    /* 0x39bc */ s32 _39bc;  // 1 / 0: ScreenGamePadBG::m83 stops its animator at max / min
 };
 
 // The three board components (no RTTI; vtables 0x710246c458 / 0x710246c498 / 0x710246c4d8 with the destructor pair
