@@ -116,4 +116,8 @@ void Unk_7102502138::sub_710103B47C(bool flag) {
     _68->sub_710104DD88(flag);
 }
 
+void Unk_7102502138::sub_710103B474(s32 value) {
+    _68->sub_710104DD7C(value);
+}
+
 }  // namespace ksys::snd
