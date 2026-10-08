@@ -11,6 +11,8 @@ public:
     static HorseColorInfoMgr* instance() { return sInstance; }
     static HorseColorInfoMgr* sInstance;
 
+    // 0x710094c638 (placeholder name): clears the flag byte `_28`.
+    void sub_710094C638();
     // 0x710094d018: declaration-only model creation request.
     void sub_710094D018();
     // 0x710094d0f8 (declared only; called after the horse layout is unloaded)
