@@ -22,6 +22,28 @@ void LandHumEnemyThrowWeapon::changeToThrowWeapon() {
     changeChild("武器投げ", &pack);
 }
 
+// NON_MATCHING: the original returns through separate constant blocks; ours merges the results into
+// one register (eor / and). Same tests.
+bool LandHumEnemyThrowWeapon::sub_710046C380() {
+    if (!_64)
+        return false;
+    auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
+    if (!enemy)
+        return false;
+    auto* proc = enemy->_c38[*mWeaponIdx_s].getProc(nullptr, nullptr);
+    if (!sead::DynamicCast<act::Weapon>(proc)) {
+        if (enemy->_c38[*mWeaponIdx_s].hasProc())
+            return false;
+        return true;
+    }
+    if (!proc->isCalc())
+        return true;
+    auto* weapon = sead::DynamicCast<act::Weapon>(proc);
+    if (weapon && weapon->hasParentActor() && weapon->isParentPlayer())
+        return true;
+    return false;
+}
+
 void LandHumEnemyThrowWeapon::sub_710046C574() {
     if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
         const s32 index = *mWeaponIdx_s;
