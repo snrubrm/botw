@@ -100,4 +100,9 @@ bool RuneMgr::__auto15(int idx) {
     return !_3c8[i].isDone();
 }
 
+f32 RuneMgr::sub_710067582C(int idx) const {
+    s64 i = (u32)idx < 2 ? idx : 0;
+    return _3c8[i].getProgress();
+}
+
 }  // namespace uking

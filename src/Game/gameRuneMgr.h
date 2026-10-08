@@ -67,6 +67,8 @@ public:
     // 0x71006757f8 (CSV __auto15; placeholder name): whether UiTimer _3c8[idx]
     // (idx clamped to 0-1) is done.
     bool __auto15(int idx);
+    // 0x71006758 2c (placeholder name): the progress of the UiTimer `_3c8[idx]` (idx clamped to 0-1).
+    f32 sub_710067582C(int idx) const;
 
     /* 0x038 */ ksys::ActorMessageTransceiver mTransceiver{*this};
     /* 0x090 */ u32 _90 = 0;  // flags (bit 4: camera selected ..., bit 7 / 8: remote bomb state)
