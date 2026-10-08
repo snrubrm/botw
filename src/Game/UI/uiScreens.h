@@ -1163,6 +1163,8 @@ public:
     SEAD_RTTI_OVERRIDE(ScreenChangeControllerNN, Screen)
     // 0x710109df74
     const char* getLayoutName_() const override;
+    // 0x710109deac (overrides Screen::m94): closes the screen with option -4 when it is open
+    void m94() override;
 };
 
 class ScreenHomeNixSign : public Screen {
