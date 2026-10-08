@@ -15,6 +15,36 @@ f32 TagProcessor::m31() const {
     return _58;
 }
 
+// NON_MATCHING: store scheduling (the original stores _2c = 100 second).
+// 0x71010afbbc
+s32 TagProcessor::m9(char16* out, u32* text_length, u32* character_count, u32 capacity, const char16* text,
+                     u32 length, s32 page, u32 line_count, bool trim_newlines, void*) {
+    eui::TagParseState state(text, length);
+    _5c = false;
+    _5d = false;
+    return eui::TagProcessor::m9(out, text_length, character_count, capacity, text, length, page, line_count,
+                                 trim_newlines, &state);
+}
+
+// NON_MATCHING: the original does not thread the jump from the first 0x50 check to the second one.
+// 0x71010afc50
+void TagProcessor::m10(const sead::MessageSet<char16>::TagInfo* tag, char16* out, u32* text_length,
+                       u32* character_count, u32 capacity, const char16* text, u32 length, void* user_data) {
+    auto* state = static_cast<eui::TagParseState*>(user_data);
+    const u16* param = reinterpret_cast<const u16*>(tag->getParam());
+    if (tag->type == 2) {
+        if (*character_count == 0 && *param == 0x50)
+            _5c = true;
+        if (*param != 0x50)
+            _5c = false;
+        state->_2c = *param;
+    } else if (tag->type == 3) {
+        if (*param == 3)
+            _5d = true;
+    }
+    eui::TagProcessor::m10(tag, out, text_length, character_count, capacity, text, length, user_data);
+}
+
 // 0x71010afc24
 f32 TagProcessor::m27() const {
     return UI::instance()->sub_71010A719C();

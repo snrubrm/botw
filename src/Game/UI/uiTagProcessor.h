@@ -10,6 +10,10 @@ public:
     TagProcessor(eui::MessageMgr* message_mgr, eui::FontMgr* font_mgr);
     ~TagProcessor() override = default;
     NN_RUNTIME_TYPEINFO(eui::TagProcessor)
+    s32 m9(char16* out, u32* text_length, u32* character_count, u32 capacity, const char16* text, u32 length,
+           s32 page, u32 line_count, bool trim_newlines, void* user_data) override;
+    void m10(const sead::MessageSet<char16>::TagInfo* tag, char16* out, u32* text_length, u32* character_count,
+             u32 capacity, const char16* text, u32 length, void* user_data) override;
     f32 m27() const override;
     f32 m28() const override;
     f32 m29() const override;

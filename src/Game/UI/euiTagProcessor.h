@@ -14,6 +14,22 @@ namespace eui {
 class MessageMgr;
 class FontMgr;
 
+// The text parse state that uking::ui::TagProcessor::m9 (0x71010afbbc) builds on the stack and passes as the
+// `user_data` of eui::TagProcessor::m9; its m10 override (0x71010afc50) writes _2c.
+struct TagParseState {
+    TagParseState(const char16* text_, u32 length_) : text(text_), length(length_) {}
+
+    /* 0x00 */ u64 _0 = 0;
+    /* 0x08 */ s32 _8 = 0x7fffffff;
+    /* 0x10 */ const char16* text;
+    /* 0x18 */ u32 length;
+    /* 0x20 */ u64 _20 = 0;
+    /* 0x28 */ u16 _28 = 0;
+    /* 0x2a */ u16 _2a = 1;
+    /* 0x2c */ u16 _2c = 100;  // or the parameter of the last type 2 tag
+};
+static_assert(sizeof(TagParseState) == 0x30);
+
 // The tag writers below build the tags of
 // sead::MessageSet<char16>::TagInfo layout in a text buffer (start marker 0xe, group, type, parameter size in
 // bytes, parameters) and return the position after the tag.
