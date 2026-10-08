@@ -16,6 +16,9 @@ target_sources(uking PRIVATE
     CameraEditor.h
     CameraMgr.cpp
     CameraMgr.h
+    CameraLookAt.cpp
+    CameraPairSelector.cpp
+    CameraS1.h
     CoreInfo.h
     DebugBoard.cpp
     DebugBoard.h
