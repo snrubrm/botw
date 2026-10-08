@@ -661,9 +661,13 @@ public:
     /* 0x3904 */ u8 _3904;
     u8 _pad_3905[0x391c - 0x3905];
     /* 0x391c */ u8 _391c;
-    u8 _pad_391d[0x39f8 - 0x391d];
+    u8 _pad_391d[0x39e8 - 0x391d];
+    /* 0x39e8 */ eui::ControlBase* _39e8;  // the control whose layout shows the number (T_Num_00)
+    u8 _pad_39f0[0x39f8 - 0x39f0];
     /* 0x39f8 */ Unk_7102474bc8 _39f8;
 
+    // 0x7100a30380 (placeholder name): shows `value` in the number pane of the control at 0x39e8
+    void sub_7100A30380(s32 value);
     void sub_7100A31BE0();
     // 0x7100a31988 (placeholder name): forwards to the member at 0x39f8
     void sub_7100A31988(bool flag);
@@ -2828,6 +2832,8 @@ public:
     // 0x71024929f8 (placeholder name): the window's result (5: none yet); 0x7100a3219c takes it and resets it
     static s32 sResult;
     static s32 takeResult();
+    // 0x7100a31fa4 (placeholder name): shows the message for `index` (0: "0000", 2: "0006", else "0005") in T_Text_00
+    void sub_7100A31FA4(s32 index);
 
     /* 0x3610 */ s32 _3610 = 5;
     void m99() override;

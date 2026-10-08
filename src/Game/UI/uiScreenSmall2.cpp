@@ -1377,6 +1377,30 @@ void ScreenHardMode::sub_7100A0BAE4() {
     mStateMachine.changeState(&sUnk_71025ee7b0);
 }
 
+// The message set of ScreenPauseMenuMantan (a constant object in the original, 0x71024929e8).
+static const sead::SafeString sUnk_71024929e8 = "LayoutMsg/PauseMenuMantan_00";
+
+// 0x7100a31fa4
+void ScreenPauseMenuMantan::sub_7100A31FA4(s32 index) {
+    eui::MessageString message;
+    if (index == 0)
+        getMessage(sUnk_71024929e8, "0000", &message);
+    else if (index == 2)
+        getMessage(sUnk_71024929e8, "0006", &message);
+    else
+        getMessage(sUnk_71024929e8, "0005", &message);
+    setWidgetString(mLayout, "T_Text_00", message);
+}
+
+// 0x7100a30380
+void ScreenPauseMenuInfo::sub_7100A30380(s32 value) {
+    if (_39e8) {
+        sead::FixedSafeString<8> text;
+        text.format("%d", value);
+        setWidgetString(_39e8->mLayout, "T_Num_00", text);
+    }
+}
+
 // 0x7100a31988
 void ScreenPauseMenuInfo::sub_7100A31988(bool flag) {
     _39f8.sub_71009348D0(flag);
