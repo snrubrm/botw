@@ -50,6 +50,9 @@ protected:
 
     // 0x7100786cc0: m60(_f4).
     bool sub_7100786CC0();
+    // 0x7100786974: `*out` = the longitude from LngNear / LngFar blended by _b8, negated when the camera's
+    // azimuth is more than _a0._14 degrees ahead.
+    void sub_7100786974(f32* out);
 
     sead::Vector3f _4c = sead::Vector3f::zero;
     sead::Vector3f _58 = sead::Vector3f::zero;

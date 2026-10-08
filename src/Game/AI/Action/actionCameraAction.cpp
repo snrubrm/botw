@@ -1,6 +1,7 @@
 #include "Game/AI/Action/actionCameraAction.h"
 #include "Game/AI/aiXlinkHandle.h"
 #include "Game/Actor/actCameraUtil.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
 
 namespace uking::action {
 
@@ -96,6 +97,17 @@ void CameraAction::sub_710074BCB4() {
         _48 &= ~1;
         xlink::fade(_30, -1);
     }
+}
+
+// NON_MATCHING: regalloc only. We keep &_30 in a callee-saved register (x20) across the calls and
+// spill x25; the original recomputes x19 + 0x30 before each use.
+void CameraAction::sub_710074BDF8(f32 rate) {
+    if (_48 & 1)
+        xlink::fade(_30, -1);
+
+    sub_71012412E4(mActor, 0x19, rate, false);
+    _48 |= 1;
+    ksys::eft::sub_710105DDB8(mActor, "MoveBack", &_30);
 }
 
 }  // namespace uking::action

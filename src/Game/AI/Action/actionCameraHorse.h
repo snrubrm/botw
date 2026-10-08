@@ -28,6 +28,10 @@ protected:
     // 0x71007710f8 (placeholder name): `*out` is the lerp of LatSlow / LatFast by _50 (wrapped), plus the
     // angle between the camera look-at point and the point polar(_0 - _c) from it (camera required).
     void sub_71007710F8(f32* out);
+    // 0x71007711dc / 0x7100771684 (placeholder names): `*out` = the camera's elevation / azimuth, then the
+    // right stick y / x scaled by the stick sensitivity and added to it (wrapped; camera required).
+    void sub_71007711DC(f32* out);
+    void sub_7100771684(f32* out);
 
     // A value that follows a parameter (m33 starts it from *startCus).
     struct Unk1 {

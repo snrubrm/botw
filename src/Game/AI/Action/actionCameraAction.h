@@ -37,6 +37,9 @@ protected:
     void sub_710074B838(const act::Unk_71009214b8* states);
     // 0x710074bcb4: fades _30 if it was emitted.
     void sub_710074BCB4();
+    // 0x710074bdf8: fades _30 if it was emitted, then sets xlink event 0x19 to `rate` and emits
+    // "MoveBack" into _30 (called by CameraWakeboard, CameraShieldSurfing and CameraTail).
+    void sub_710074BDF8(f32 rate);
 
     xlink2::HandleSLink _30;
     // static_param at offset 0x40

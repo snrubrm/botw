@@ -1,6 +1,8 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/GameData/gdtFlagHandle.h"
+#include "KingSystem/GameData/gdtManager.h"
 
 namespace uking::action {
 
@@ -87,8 +89,23 @@ protected:
     // static_param at offset 0x128
     const float* mStressIncByDamage_s{};
 
+    // 0x71001a388c (placeholder name): looks up the four horse flag handles (_324.._330) in the game data.
+    // The constructor calls it directly; the reinit callback below forwards to it.
+    void sub_71001A388C();
+    // 0x71001a3888: gdt reinit callback (a tail call to sub_71001A388C, the event is unused).
+    void onGdtReinit(ksys::gdt::Manager::ReinitEvent* event);
+
     // Members not recovered yet (class size from the factory).
-    u8 _130[0x3b8 - 0x130];
+    u8 _130[0x324 - 0x130];
+    // Horse_CurrentChargeNum, Horse_CurrentExtraChargeNum, Horse_IsOnChargePenalty,
+    // MiniGame_HorseRace_CreateObstacle (the constructor stores -1 to each, 0x71001a37f0).
+    ksys::gdt::FlagHandle _324 = ksys::gdt::InvalidHandle;
+    ksys::gdt::FlagHandle _328 = ksys::gdt::InvalidHandle;
+    ksys::gdt::FlagHandle _32c = ksys::gdt::InvalidHandle;
+    ksys::gdt::FlagHandle _330 = ksys::gdt::InvalidHandle;
+    u8 _334[0x338 - 0x334];
+    ksys::gdt::Manager::ReinitSignal::Slot _338{this, &HorseRiddenByPlayer::onGdtReinit};
+    u8 _3a8[0x3b8 - 0x3a8];
 };
 KSYS_CHECK_SIZE_NX150(HorseRiddenByPlayer, 0x3b8);
 

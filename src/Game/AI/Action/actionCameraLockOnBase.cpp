@@ -62,4 +62,15 @@ void CameraLockOnBase::m52() {
     _a0 = _88;
 }
 
+// NON_MATCHING: load order only (the original loads _a0._14 before polar._8).
+void CameraLockOnBase::sub_7100786974(f32* out) {
+    if (auto* camera = getCameraActor()) {
+        const act::Unk_7100922700 polar(camera->_860._0._0 - camera->_860._0._c);
+        *out = angleStuff(*mLngNear_s + (*mLngFar_s - *mLngNear_s) * _b8);
+        const f32 diff = angleStuff(angleStuff(polar._8 - _a0._14));
+        if (diff > angleStuff(0.0f))
+            *out = angleStuff(-*out);
+    }
+}
+
 }  // namespace uking::action

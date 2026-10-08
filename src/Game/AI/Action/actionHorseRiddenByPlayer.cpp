@@ -4,7 +4,20 @@ namespace uking::action {
 
 HorseRiddenByPlayer::HorseRiddenByPlayer(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
-HorseRiddenByPlayer::~HorseRiddenByPlayer() = default;
+HorseRiddenByPlayer::~HorseRiddenByPlayer() {
+    ksys::gdt::Manager::instance()->removeReinitCallback(_338);
+}
+
+void HorseRiddenByPlayer::sub_71001A388C() {
+    _324 = ksys::gdt::Manager::instance()->getS32Handle("Horse_CurrentChargeNum");
+    _328 = ksys::gdt::Manager::instance()->getS32Handle("Horse_CurrentExtraChargeNum");
+    _32c = ksys::gdt::Manager::instance()->getBoolHandle("Horse_IsOnChargePenalty");
+    _330 = ksys::gdt::Manager::instance()->getBoolHandle("MiniGame_HorseRace_CreateObstacle");
+}
+
+void HorseRiddenByPlayer::onGdtReinit(ksys::gdt::Manager::ReinitEvent* event) {
+    sub_71001A388C();
+}
 
 bool HorseRiddenByPlayer::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);

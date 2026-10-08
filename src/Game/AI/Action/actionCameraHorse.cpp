@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionCameraHorse.h"
+#include "KingSystem/System/VFRValue.h"
 #include <math/seadMathCalcCommon.h>
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 
@@ -119,6 +120,34 @@ void CameraHorse::sub_71007710F8(f32* out) {
         *out = angleStuff(*mLatSlow_s + (*mLatFast_s - *mLatSlow_s) * _50);
         const sead::Vector3f pos = camera->_860._0._c + polar.sub_7100923254();
         *out = angleStuff(sub_710092738C(camera->_860._0._c, pos) + *out);
+    }
+}
+
+// NON_MATCHING: load order only (the original loads the stick component into a callee-saved register before
+// the first call; ours loads it after).
+void CameraHorse::sub_71007711DC(f32* out) {
+    if (auto* camera = getCamera()) {
+        const act::Unk_7100922700 polar(camera->_860._0._0 - camera->_860._0._c);
+        *out = polar._4;
+        sead::Vector2f stick = sead::Vector2f::zero;
+        sub_7100924F08(&stick);
+        ksys::VFRValue rate(sub_7100927238() * stick.y * sub_7100927228());
+        rate.updateStats();
+        *out = angleStuff(angleStuff(rate.mean) + *out);
+    }
+}
+
+// NON_MATCHING: load order only (the original loads the stick component into a callee-saved register before
+// the first call; ours loads it after).
+void CameraHorse::sub_7100771684(f32* out) {
+    if (auto* camera = getCamera()) {
+        const act::Unk_7100922700 polar(camera->_860._0._0 - camera->_860._0._c);
+        *out = polar._8;
+        sead::Vector2f stick = sead::Vector2f::zero;
+        sub_7100924F08(&stick);
+        ksys::VFRValue rate(sub_71009272A8() * stick.x * sub_7100927230());
+        rate.updateStats();
+        *out = angleStuff(angleStuff(rate.mean) + *out);
     }
 }
 
