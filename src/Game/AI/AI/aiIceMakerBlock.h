@@ -39,6 +39,9 @@ public:
     void sub_71004473A8();
     // 0x7100447f20 (placeholder name): reads `_148` from the AS event 0x2f and eases `_144` towards it.
     void sub_7100447F20();
+    // 0x7100446b0c (placeholder name): flags the "Water" body and the three "Water_Break_%d" bodies
+    // (stored in `_88`); false if one is missing.
+    bool sub_7100446B0C();
     // 0x71004483e8 (placeholder name): whether every one of the three bodies `_88` has a contact point whose floor
     // code is not Fall.
     bool sub_71004483E8();

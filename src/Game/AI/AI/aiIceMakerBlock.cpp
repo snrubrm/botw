@@ -94,6 +94,28 @@ bool IceMakerBlock::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
 }
 
+// NON_MATCHING: the original loads mActor once before the string for the three loop calls (and
+// reloads it for the first call); ours reloads it each time.
+bool IceMakerBlock::sub_7100446B0C() {
+    _88[0] = nullptr;
+    _88[1] = nullptr;
+    _88[2] = nullptr;
+    sead::FixedSafeString<128> name;
+    auto* water = mActor->findPhysicsBodyByName(sub_71007A24E4()->cstr(), "Water");
+    if (!water)
+        return false;
+    water->setFlag100000();
+    for (s32 i = 0; i < 3; ++i) {
+        name.format("Water_Break_%d", i);
+        auto* body = mActor->findPhysicsBodyByName("Body", name.cstr());
+        if (!body)
+            return false;
+        body->changeFlag100000(true);
+        _88[i] = body;
+    }
+    return true;
+}
+
 void IceMakerBlock::enter_(ksys::act::ai::InlineParamPack* params) {
     setDamageCallbackTiming(mActor, 4, &_38);
     if (auto* body = mActor->findPhysicsBodyByName(sub_71007A2548()->cstr(), "NPCSensor"))
