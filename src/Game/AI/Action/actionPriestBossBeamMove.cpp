@@ -35,6 +35,20 @@ void PriestBossBeamMove::calc_() {
     ksys::act::ai::Action::calc_();
 }
 
+void PriestBossBeamMove::sub_710006566C(const sead::Vector3f& pos) {
+    sead::Matrix34f mtx;
+    _b8->getTransform(&mtx);
+    if (pos != sead::Vector3f::zero) {
+        mtx.setTranslation(pos);
+        _b8->setTransform(mtx);
+        _c0->setTransform(mtx);
+        _c8->setTransform(mtx);
+    }
+    _b8->setLinearVelocity(sead::Vector3f::zero);
+    _c0->setLinearVelocity(sead::Vector3f::zero);
+    _c8->setLinearVelocity(sead::Vector3f::zero);
+}
+
 bool PriestBossBeamMove::isFinished() const {
     auto* actor = mActor;
     if (hasAttackInfo(actor)) {

@@ -24,6 +24,10 @@ public:
 protected:
     void calc_() override;
 
+    // 0x710006566c (placeholder name): moves the beam bodies to `pos` (the transform of `_b8`, if `pos` is not zero) and
+    // stops them.
+    void sub_710006566C(const sead::Vector3f& pos);
+
     // static_param at offset 0x20
     const int* mAtMinDamage_s{};
     // static_param at offset 0x28
@@ -46,7 +50,7 @@ protected:
     f32 _ac = 0.5f;
     u64 _b0{};
     ksys::phys::RigidBody* _b8{};  // the beam body (its transform is copied to _c8)
-    u64 _c0{};
+    ksys::phys::RigidBody* _c0{};
     ksys::phys::RigidBody* _c8{};
     bool _d0{};
     bool _d1{};
