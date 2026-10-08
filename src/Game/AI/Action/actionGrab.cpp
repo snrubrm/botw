@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionGrab.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
@@ -29,6 +30,27 @@ void Grab::loadParams_() {
 
 void Grab::calc_() {
     ActionWithPosAngReduce::calc_();
+    if (m33()) {
+        auto* child = mActor->getConnectedCalcChild();
+        if (auto* actor = sead::DynamicCast<ksys::act::Actor>(child)) {
+            if (m34())
+                sub_71005DC208(mActor, actor, *mGrabIdx_s);
+            else
+                mActor->resetConnectedCalcChild(false);
+        } else {
+            mActor->resetConnectedCalcChild(false);
+        }
+    }
+    if (isFinishedAS(0, 0)) {
+        if (!mActor->getConnectedCalcChild()) {
+            setFailed();
+        } else {
+            auto* child = mActor->getConnectedCalcChild();
+            if (auto* actor = sead::DynamicCast<ksys::act::Actor>(child))
+                sub_71005DC41C(actor);
+            setFinished();
+        }
+    }
 }
 
 void Grab::m32() {

@@ -245,6 +245,8 @@ void sub_71005DB594(ksys::act::Actor* actor, const sead::Vector3f& pos);
 ksys::act::Unk_7100d860d8* sub_71005DB0EC(ksys::act::Actor* actor);
 // 0x71005dda94 (defined in aiUnk_71005D6D10.cpp): the "LockOn" attention client's sub_7100D7250C(1).
 void sub_71005DDA94(ksys::act::Actor* actor);
+// 0x71005dc208 (declaration only): grabs with the given grab index.
+void sub_71005DC208(ksys::act::Actor* actor, ksys::act::Actor* child, int idx);
 
 // --- Actor vtable slot 100 object (ksys::act::Unk_7100e4e084, DynamicActor+0x870) ---
 
