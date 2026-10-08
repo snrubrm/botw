@@ -16,6 +16,7 @@
 #include "KingSystem/GameData/gdtSpecialFlags.h"
 #include "KingSystem/System/StageInfo.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include <nn/os.h>
 
 namespace uking::ui {
 
@@ -263,6 +264,21 @@ bool ScreenMainScreen::sub_7100A1E1E0() {
 
 namespace uking::ui {
 
+// Voice/emotion names for the dialog voice tags (0x710250b268 in the original; indexed by the
+// tag byte mapped into 0..5).
+static const char* sVoiceNames[6] = {"Normal", "Pleasure", "Anger", "Sorrow", "Surprise", "Thinking"};
+
+// TU-global voice state (0x710261ef90 in the original; initialised by the 0x71010b60d0 static
+// initializer: id 0x8004ef, the tick, zero, then the per-emotion voice ids at +0x28).
+struct Unk_710261EF90 {
+    u64 _0 = 0x8004ef;
+    u64 _8 = nn::os::GetSystemTick().value;
+    u64 _10 = 0;
+    u8 _18[0x28 - 0x18]{};
+    s32 _28[6] = {2, 9, 0xc, 0xa, 0x12, 0xe};
+};
+static Unk_710261EF90 sUnk_710261EF90;
+
 // 0x71010b343c
 bool ScreenMessageDialog::sub_71010B343C() {
     switch (_350) {
@@ -305,6 +321,85 @@ void sub_71010B3468(const sead::MessageSet<char16>::TagInfo* tag, ksys::act::Act
 // 0x71010b3484: TagInfo adapter into ksys::eft::sub_710105DFA4.
 void sub_71010B3484(const sead::MessageSet<char16>::TagInfo* tag, ksys::act::Actor* actor, bool flag) {
     ksys::eft::sub_710105DFA4(actor, tag->getParam()[0], ~flag & 1, flag & 1);
+}
+
+// 0x71010b3188 (CSV unnamed): voice/emotion tag dispatch.
+// NON_MATCHING: the nonzero-voice path computes the out value (orr+add) and the call arg
+// (add #0xfe) separately while ours shares one sub (GVN merges them); the inverted-flag arg is
+// mvn+and here vs the original's early eor+and (a single-use `bool nb = !b;` temp reproduces the
+// eor but sinks it to the call — logged as Borderline). Register names cascade from there.
+void sub_71010B3188(const sead::MessageSet<char16>::TagInfo* tag, ksys::act::Actor* actor, bool a,
+                    s16* out, bool b) {
+    u8 v8 = tag->getParam()[0];
+    u8 mapped = v8 > 5 ? v8 - 6 : v8;
+    if (!b) {
+        sead::SafeStringBase<char> voice(sVoiceNames[mapped < 6 ? mapped : 0]);
+        sub_7100EE6B88(actor, voice, v8 > 5);
+    }
+    if (a) {
+        u8 v9 = tag->getParam()[1];
+        if (v9 == 1)
+            return;
+        u32 arg;
+        if (v9 == 0) {
+            if (v8 < 6)
+                return;
+            arg = sUnk_710261EF90._28[mapped < 6 ? mapped : 0];
+            if (out != nullptr) {
+                *out = (s16)(s8)arg;
+                return;
+            }
+        } else {
+            if (out != nullptr) {
+                *out = (u16)(v9 - 2);
+                return;
+            }
+            arg = v9 - 2;
+        }
+        ksys::eft::sub_710105DFA4(actor, arg, !b & 1, b & 1);
+    }
+}
+
+// 0x71010b306c (CSV unnamed): set the dialog's actor.
+void ScreenMessageDialog::sub_71010B306C(ksys::act::Actor* actor) {
+    _720 = actor;
+    _728.acquire(actor, false);
+}
+
+// 0x71010b307c (CSV unnamed): scan the text for a voice tag, apply the emotion to the actor.
+// NON_MATCHING: the original has a third (dead) tag-marker arm that loads from a null pointer;
+// only the 0xe/0xf arms are reachable (the (head|1) pre-check proves it), so it is omitted here.
+// Also differs in q's register, one extra and-x on the voice index, and the tail schedule.
+void ScreenMessageDialog::sub_71010B307C() {
+    if (_720 == nullptr || !_728.hasProc())
+        return;
+    const char16* p = _3a0;
+    const char16* q;
+    do {
+        char16 head = *p;
+        if ((head | 1) != 0xf)
+            return;
+        if (head == 0xe) {
+            q = p;
+            p = reinterpret_cast<const char16*>(reinterpret_cast<const u8*>(p) + p[3] + 8);
+        } else if (head == 0xf) {
+            q = p;
+            p += 3;
+        } else {
+            return;
+        }
+        if (q[1] != 0) {
+            if (q[1] != 3)
+                return;
+            if (q[2] != 1)
+                return;
+            u8 eb = reinterpret_cast<const u8*>(q)[8];
+            u8 m = eb > 5 ? eb - 6 : eb;
+            sead::SafeStringBase<char> voice(sVoiceNames[m < 6 ? m : 0]);
+            sub_7100EE6B88(_720, voice, eb > 5);
+            return;
+        }
+    } while (q[2] - 1u < 3);
 }
 
 // 0x710109e94c

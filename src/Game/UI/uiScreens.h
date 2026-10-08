@@ -927,22 +927,38 @@ public:
 
     u8 _2fc[0x350 - 0x2fc];
     /* 0x350 */ s32 _350;
-    u8 _354[0x5ec - 0x354];
+    u8 _354[0x3a0 - 0x354];
+    // The message text being scanned (u16 units) and its length, walked by sub_71010B307C/3294.
+    /* 0x3a0 */ const char16* _3a0;
+    /* 0x3a8 */ s32 _3a8;
+    u8 _3ac[0x5ec - 0x3ac];
     /* 0x5ec */ s32 _5ec;
     u8 _5f0[0x720 - 0x5f0];
-    /* 0x720 */ u64 _720;
+    // The dialog's actor (set by sub_71010B306C, linked by _728).
+    /* 0x720 */ ksys::act::Actor* _720;
     /* 0x728 */ ksys::act::BaseProcLink _728;
     /* 0x738 */ s32 _738;
     /* 0x73c */ s32 _73c;
-    u8 _740[0x76a - 0x740];
+    u8 _740[0x768 - 0x740];
+    /* 0x768 */ u16 _768;
     /* 0x76a */ bool _76a;
-    u8 _76b[0x773 - 0x76b];
+    u8 _76b[0x76d - 0x76b];
+    /* 0x76d */ u8 _76d;
+    u8 _76e[0x773 - 0x76e];
     /* 0x773 */ u8 _773;
+    /* 0x774 */ s32 _774;
+    /* 0x778 */ void* _778;
 
     // 0x71010b343c / 0x71010b34b4 / 0x71010b34a0: called by UI::sub_71010A5C8C / setPlacedItemStockNum / sub_71010A7994.
     bool sub_71010B343C();
     void sub_71010B34B4(bool choice_mode, s32 stock);
     void sub_71010B34A0(bool a1);
+    // 0x71010b306c (CSV unnamed): set the dialog's actor (stores it in _720, acquires _728).
+    void sub_71010B306C(ksys::act::Actor* actor);
+    // 0x71010b307c (CSV unnamed): scan the text for a voice tag, apply the emotion to the actor.
+    void sub_71010B307C();
+    // 0x71010b3294 (CSV unnamed): scan the text, record the kind in _774.
+    void sub_71010B3294();
 };
 
 // Nominal types of two more screens (ScreenId::DemoMessage, ScreenId::ErrorViewer).
@@ -3029,6 +3045,9 @@ void sub_71010B3484(const sead::MessageSet<char16>::TagInfo* tag, ksys::act::Act
 // and the dialog scan (calls the eft voice helper and the WeaponBase TU helper).
 void sub_71010B3188(const sead::MessageSet<char16>::TagInfo* tag, ksys::act::Actor* actor, bool a,
                     s16* out, bool b);
+// 0x7100ee6b88 (CSV unnamed; WeaponBase-TU helper, lane4's — declared only): apply an emotion voice
+// name to the actor (stores it at +0x8a8, flag at +0x8b8) or trigger the head-shot go-limp path.
+bool sub_7100EE6B88(ksys::act::Actor* actor, const sead::SafeStringBase<char>& name, bool flag);
 
 class ScreenShopInfo : public ScreenEx {
 public:
