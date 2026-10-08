@@ -62,6 +62,8 @@ KSYS_CHECK_SIZE_NX150(HorseRideInfo, 0x38);
 // 0x7100e81140 (CSV act::getRideActor; lane2 s21): the actor linked in the ride info of `actor` (null without
 // ride info or when it is no actor).
 ksys::act::Actor* getRideActor(ksys::act::Actor* actor);
+// 0x7100e811f0 (placeholder name): the link in the ride info of `actor` (_18), or the dummy link sUnk_71026505e0.
+ksys::act::BaseProcLink* sub_7100E811F0(ksys::act::Actor* actor);
 
 // Original ride animation-name and relative-angle helpers; declarations only.
 sead::SafeString sub_7100E81260(ksys::act::Actor* actor, ksys::act::Actor* ride_actor);

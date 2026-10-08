@@ -313,6 +313,9 @@ public:
 
     // 0x7100e7ef1c (placeholder name): emits the xlink events "Attached" and "mc_HorseSoothe" on the actor.
     void sub_7100E7EF1C();
+    // 0x7100e7ead8 (placeholder name): debug log with a printf format (e.g. "[Horse] Reject: No NavMesh Face",
+    // level 1, from 0x7100e7e85c); empty in the release build.
+    void sub_7100E7EAD8(s32 level, const char* format, ...);
 
     /* 0x1bc */ u32 _1bc = 0;
     /* 0x1c0 */ u32 _1c0 = 0;

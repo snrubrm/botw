@@ -1,3 +1,4 @@
+#include <cstdarg>
 #include "Game/Actor/actRideable.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
@@ -45,6 +46,12 @@ HorseReins* Rideable::m40() {
 }
 
 void Rideable::m42(int a1) {}
+
+void Rideable::sub_7100E7EAD8(s32 level, const char* format, ...) {
+    std::va_list args;
+    va_start(args, format);
+    va_end(args);
+}
 
 void Rideable::sub_7100E7EF1C() {
     xlinkSearchAndEmit(RideableBase::mActor, "Attached", 2, nullptr);

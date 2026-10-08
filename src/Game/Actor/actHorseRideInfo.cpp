@@ -16,6 +16,13 @@ ksys::act::Actor* getRideActor(ksys::act::Actor* actor) {
     return sead::DynamicCast<ksys::act::Actor>(info->_18.getProc(nullptr, info->mActor));
 }
 
+ksys::act::BaseProcLink* sub_7100E811F0(ksys::act::Actor* actor) {
+    auto* info = actor->getPlayerRideInfo();
+    if (!info)
+        return &ksys::act::sUnk_71026505e0;
+    return &info->_18;
+}
+
 // NON_MATCHING: the original loads the ridden actor's x / z before the actor's own
 f32 sub_7100E8134C(ksys::act::Actor* actor, ksys::act::Actor* ride_actor) {
     const auto& ride_mtx = ride_actor->getMtx();
