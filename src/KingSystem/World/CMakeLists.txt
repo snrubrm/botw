@@ -25,4 +25,5 @@ target_sources(uking PRIVATE
   worldWeatherMgr.h
   worldWindMgr.cpp
   worldWindMgr.h
+  worldWindRender.cpp
 )
