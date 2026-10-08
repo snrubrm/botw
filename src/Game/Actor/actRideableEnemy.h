@@ -16,6 +16,7 @@ public:
     bool m44() override;
     // First new virtual (slot 45): RiddenAnimalType-gated speed factor.
     virtual float m45();
+    HorseReins* m40() override;
 };
 
 }  // namespace uking::act
