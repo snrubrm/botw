@@ -54,7 +54,10 @@ public:
     ~Unk_710070ef50();
 
     /* 0x00 */ ksys::act::Actor* mActor;
-    /* 0x08 */ u8 _8[0x20 - 0x8];
+    /* 0x08 */ u8 _8[0x1e - 0x8];
+    // Set to 1 by Unk_7100013308::sub_71002DBC8C when a target is set.
+    /* 0x1e */ u8 _1e;
+    /* 0x1f */ u8 _1f;
 };
 KSYS_CHECK_SIZE_NX150(Unk_710070ef50, 0x20);
 

@@ -520,4 +520,29 @@ bool Enemy::m165(sead::BufferedSafeString* out) {
     return true;
 }
 
+void Unk_7100013308::sub_71002DBC8C(const ksys::act::BaseProcLink& link, const sead::Matrix34f* mtx,
+                                    const sead::Vector3f* pos) {
+    _8 = link;
+    _7c = 2;
+    if (pos)
+        _54 = *pos;
+    else {
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::acquireActor(&_8, &accessor);
+        _54 = accessor.getPreviousPos();
+    }
+    if (mtx) {
+        mtx->getTranslation(_18);
+        _24 = *mtx;
+    } else {
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::acquireActor(&_8, &accessor);
+        const sead::Matrix34f* m = &accessor.getActorMtx();
+        _24 = *m;
+        _24.getTranslation(_18);
+    }
+    _70 = _18;
+    _80._1e = 1;
+}
+
 }  // namespace uking::act
