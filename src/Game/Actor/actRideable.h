@@ -80,6 +80,9 @@ public:
     /* 15 */ virtual void m42(int a1) {}
     /* 16 */ virtual void m43() {}
 
+    // 0x7100e8b524 (placeholder name): the rider attachment bone: "Saddle_Root" when flag bit 7 of _10 is set, else
+    // "Root".
+    const sead::SafeString& sub_7100E8B524() const;
     ksys::act::Actor* sub_7100E8B644();
     ksys::act::Actor* sub_7100E8B6E0();
     // 0x7100e8bb4c: called with the base class' result by the isSpecialJobType_ overrides of Enemy, HorseBase and

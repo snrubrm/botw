@@ -70,6 +70,15 @@ void Unk_7100e8b2b8::sub_7100E8BE10() {
         client->disable();
 }
 
+// 0x71024ec700: two SafeStrings in read-only data.
+static const sead::SafeString sRiderBoneNames[] = {"Saddle_Root", "Root"};
+
+// NON_MATCHING: the original loads _10 after reloading the spilled flag (ours before)
+const sead::SafeString& Unk_7100e8b2b8::sub_7100E8B524() const {
+    const Flag10 flag = Flag10::_7;
+    return (_10 & (1u << flag)) ? sRiderBoneNames[0] : sRiderBoneNames[1];
+}
+
 // NON_MATCHING: only the register of the shared `1` constant (w10 instead of w11) and its position differ
 void Unk_7100e8b2b8::m7() {
     const u32 mask4 = 1u << Flag10(Flag10::_4);
