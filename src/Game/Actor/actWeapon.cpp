@@ -28,6 +28,7 @@
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodyAccessor.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectLargeSword.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectSmallSword.h"
@@ -61,6 +62,33 @@ bool emitActorGetDemoSound(const sead::SafeString& name);
 void emitItemKirakira_Plus(sead::Vector3f position, bool flag);
 
 namespace uking::act {
+
+void Weapon::sub_71002E1748() {
+    auto* body = getMainBody();
+    if (!body)
+        return;
+    body->setTransform(mMtx);
+    body->enableContactLayer(ksys::phys::ContactLayer::EntityRagdoll);
+    if (!hasCanPullGiantObjectTag())
+        body->updateCollidableQualityType(false);
+    if (!body->isAddedToWorld())
+        body->addToWorld();
+    if (mPhysics)
+        mPhysics->sub_7100FC012C(nullptr);
+}
+
+void Weapon::sub_71002E5BB4() {
+    auto* chemical = getChemicalStuff();
+    if (!chemical)
+        return;
+    chemical->sub_7100D90D7C(false);
+    if (_938.hasProc()) {
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::acquireActor(&_938, &accessor);
+        if (accessor.hasTag(0xf97d1393))
+            chemical->sub_7100D90D7C(true);
+    }
+}
 
 f32 Weapon::sub_71002ED434() {
     if (hasCanPullGiantObjectTag() && _d68) {

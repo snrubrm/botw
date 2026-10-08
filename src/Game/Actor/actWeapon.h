@@ -232,6 +232,12 @@ class Weapon : public ksys::act::WeaponBase {
     SEAD_RTTI_OVERRIDE(Weapon, ksys::act::WeaponBase)
 public:
     void sub_71002EE8B0();
+    // 0x71002e1748 (placeholder name; called by m63): moves the main body to the actor's matrix, makes it collide with the
+    // ragdoll layer, adds it to the world and refreshes the nav mesh cut.
+    void sub_71002E1748();
+    // 0x71002e5bb4 (placeholder name; called at 0x71002e4f24): turns the chemical's flag off, and back on
+    // when the parent actor has tag 0xf97d1393.
+    void sub_71002E5BB4();
     // 0x71002e5f88 (CSV Weapon::m175): `x_4(pos, false, false, a4, false)`, then the base.
     bool m175(const sead::Vector3f& pos, bool a2, bool a3, void* a4, bool a5) override;
     // 0x71002ee7e8 (lane1 s41, declaration only; placeholder name): writes the enemy actor link that is both the
