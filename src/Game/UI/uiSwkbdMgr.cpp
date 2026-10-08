@@ -9,6 +9,9 @@ SEAD_SINGLETON_DISPOSER_IMPL(SwkbdMgr)
 // D1 0x71009858fc, D0 0x7100985900
 SwkbdMgr::~SwkbdMgr() = default;
 
+// 0x7100985c4c
+void SwkbdMgr::sub_7100985C4C() {}
+
 // 0x7100985c54
 bool SwkbdMgr::x() const {
     if (_28 == sead::SafeStringBase<char16>::cNullChar)

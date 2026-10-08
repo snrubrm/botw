@@ -155,6 +155,14 @@ void ScreenKeyBoradTextArea::m154(s32 type, bool clear_input) {
     open(1);
 }
 
+// 0x7100a0e528
+void ScreenKeyBoradTextArea::close(s32) {
+    if (auto* swkbd = SwkbdMgr::instance()) {
+        Root4::instance()->sub_71008BCE5C(Root4::FlagIdx::_2, true, 5);
+        swkbd->sub_7100985C4C();
+    }
+}
+
 // 0x7100a0e5bc
 void ScreenKeyBoradTextArea::m98() {
     if (auto* root = Root1::instance())

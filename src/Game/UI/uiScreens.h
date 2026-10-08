@@ -3976,6 +3976,8 @@ public:
 class ScreenKeyBoradTextArea : public ScreenEx {
 public:
     ScreenKeyBoradTextArea();
+    // 0x7100a0e528: lets the software keyboard go (Root4 flag _2 back on, record 5)
+    void close(s32 option) override;
     // 0x7100a0e5bc / 0x7100a0e5dc: overrides of Screen::m98 / m101; set a Root1 flag (index 0) to 1 / 2
     void m98() override;
     void m101() override;

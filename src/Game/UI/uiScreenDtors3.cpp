@@ -1,3 +1,4 @@
+#include "Game/UI/uiSwkbdMgr.h"
 #include "Game/UI/uiScreens.h"
 #include "KingSystem/Resource/resHandle.h"
 #include "KingSystem/Utils/SafeDelete.h"
@@ -105,7 +106,12 @@ ScreenPauseMenuRecipe::~ScreenPauseMenuRecipe() {
 ScreenStaffRoll::~ScreenStaffRoll() = default;
 ScreenStaffRollDLC::~ScreenStaffRollDLC() = default;
 ScreenDLCSinJuAkashiNum::~ScreenDLCSinJuAkashiNum() = default;
-ScreenKeyBoradTextArea::~ScreenKeyBoradTextArea() = default;
+ScreenKeyBoradTextArea::~ScreenKeyBoradTextArea() {
+    if (auto* swkbd = SwkbdMgr::instance()) {
+        if (!swkbd->sub_7100985CA0())
+            swkbd->sub_7100985C4C();
+    }
+}
 // 0x7100a098d0
 ScreenFadeStatus::~ScreenFadeStatus() {
     _3658.freeBuffer();
