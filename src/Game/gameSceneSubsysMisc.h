@@ -6,6 +6,7 @@
 #include <heap/seadDisposer.h>
 #include <math/seadQuat.h>
 #include <math/seadVector.h>
+#include <mc/seadJobQueue.h>
 #include <xlink2/xlink2HandleELink.h>
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Utils/Types.h"
@@ -25,22 +26,40 @@ class RigidBody;
 // Placeholder declarations: only the small out-of-line members that are decompiled so far (the real classes are
 // polymorphic singletons; names from the CSV, no namespace; layouts incomplete).
 
+// Path node read by Unk_710243c208::m2 (0x710066a28c): a segment from `_48` to `_54`; the rest is not recovered.
+struct Unk_PathNode {
+    u8 _0[0x48];
+    sead::Vector3f _48;
+    sead::Vector3f _54;
+};
+
+// Vtable GOT 0x258e9f8 (symbol 0x710243c208), the object at GameSceneSubsys4 + 0x16b0 (set up by 0x710066a598).
+class Unk_710243c208 {
+public:
+    virtual ~Unk_710243c208() = default;
+    // 0x710066a28c: true when the path node is farther than 3 from `mPos` or `mPos` lies before its start.
+    virtual bool m2(const Unk_PathNode* node);
+
+    sead::Vector3f mPos = sead::Vector3f::zero;
+};
+KSYS_CHECK_SIZE_NX150(Unk_710243c208, 0x18);
+
 // GameSceneSubsys4: the path request manager (CSV createInstance 0x710066a204, ctor 0x710066a598). Only the members
 // the AI code calls are declared (declaration only; the name follows the CSV).
 class GameSceneSubsys4 {
     SEAD_SINGLETON_DISPOSER(GameSceneSubsys4)
-    // 0x710066a598 / 0x710066a28c (declaration only)
+    // 0x710066a598
     GameSceneSubsys4();
     virtual ~GameSceneSubsys4();
 
 public:
-    // User virtuals (vptr + 0x10 / 0x18 / 0x20; 0x66a958 / 0x66aaec are not decompiled, the third is an empty function that
-    // the stages' postCalc call).
+    // User virtuals (vptr + 0x10 / 0x18 / 0x20; the third is an empty function that the stages' postCalc call).
+    // m4 and m5 (0x710066a958 / 0x710066aaec) both release every request list.
     virtual void m4();
     virtual void m5();
     virtual void m6() {}
 
-    // 0x710066b8c0 (declaration only): drops the path requests of `actor` (called by EnemyHide's destructor and
+    // 0x710066b8c0: drops the path requests of `actor` (called by EnemyHide's destructor and
     // before a new request).
     void sub_710066B8C0(ksys::act::BaseProc* actor);
     // 0x710066b73c (declaration only): path request towards `target` (returns 1 when a path was found).
@@ -49,8 +68,26 @@ public:
     s32 sub_710066B1BC(f32 time, ksys::act::Actor* actor, ksys::phys::NavMeshCharacter* nav,
                        sead::ObjList<sead::Vector3f>* points, sead::ObjList<sead::Vector3f>* out);
 
+    // A request of an actor to reach `mPos` (BaseProcLink at 0, Vector3f at 0x10; the list node follows at 0x20).
+    struct Request {
+        ksys::act::BaseProcLink mLink;
+        sead::Vector3f mPos;
+    };
+    // Two points (the element type of the 0x1218 list; the list node follows at 0x18).
+    struct PointPair {
+        sead::Vector3f mFirst;
+        sead::Vector3f mSecond;
+    };
+
 private:
-    u8 _28[0x16d0 - 0x28];
+    // Lists at 0x28 / 0x358 / 0x1008 / 0x1218 / 0x14a0 (capacities from the constructor: 16 / 100 / 15 / 15 / 15).
+    sead::FixedObjList<Request, 16> mRequests;
+    sead::FixedObjList<sead::Vector3f, 100> mPoints;
+    sead::FixedObjList<sead::Vector3f, 15> mList1008;
+    sead::FixedObjList<PointPair, 15> mList1218;
+    sead::FixedObjList<sead::Vector3f, 15> mList14a0;
+    Unk_710243c208 _16b0;
+    sead::JobQueueLock mLock;
 };
 KSYS_CHECK_SIZE_NX150(GameSceneSubsys4, 0x16d0);
 

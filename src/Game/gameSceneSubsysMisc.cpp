@@ -1,4 +1,7 @@
 #include "Game/gameSceneSubsysMisc.h"
+#include <geom/seadGeometry.h>
+#include <geom/seadSegment.h>
+#include <prim/seadScopedLock.h>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
@@ -9,6 +12,45 @@
 #include "KingSystem/XLink/xlinkActorUtil.h"
 
 SEAD_SINGLETON_DISPOSER_IMPL(GameSceneSubsys4)
+
+// NON_MATCHING: the five lists are laid out and initialised as in the original; only the scheduling of the
+// address computations for the second list differs.
+GameSceneSubsys4::GameSceneSubsys4() = default;
+
+GameSceneSubsys4::~GameSceneSubsys4() = default;
+
+bool Unk_710243c208::m2(const Unk_PathNode* node) {
+    const sead::Segment3f segment(node->_48, node->_54);
+    f32 t = 0;
+    const f32 distance = sead::Mathf::sqrt(sead::Geometry::calcSquaredDistancePointToSegment(mPos, segment, &t));
+    return !(t > 0) || !(distance <= 3.0f);
+}
+
+void GameSceneSubsys4::m4() {
+    mRequests.clear();
+    mPoints.clear();
+    mList1008.clear();
+    mList1218.clear();
+    mList14a0.clear();
+}
+
+void GameSceneSubsys4::m5() {
+    mRequests.clear();
+    mPoints.clear();
+    mList1008.clear();
+    mList1218.clear();
+    mList14a0.clear();
+}
+
+void GameSceneSubsys4::sub_710066B8C0(ksys::act::BaseProc* actor) {
+    sead::ScopedLock<sead::JobQueueLock> lock(&mLock);
+    for (auto it = mRequests.begin(); it != mRequests.end(); ++it) {
+        if (it->mLink.hasProcById(actor) || !it->mLink.hasProc()) {
+            mRequests.erase(&*it);
+            break;
+        }
+    }
+}
 
 void GameSceneSubsys5::init() {
     _9c = 1;
