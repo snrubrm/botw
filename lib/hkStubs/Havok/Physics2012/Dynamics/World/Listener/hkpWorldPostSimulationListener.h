@@ -9,5 +9,5 @@ public:
     virtual ~hkpWorldPostSimulationListener() = default;
 
     virtual void postSimulationCallback(hkpWorld* world) = 0;
-    virtual void inactiveEntityMovedCallback(hkpEntity* entity) {}
+    virtual void inactiveEntityMovedCallback(hkpEntity* entity) {}  // 0x7100f69d34
 };

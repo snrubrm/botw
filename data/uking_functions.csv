@@ -82900,10 +82900,10 @@ Address,Quality,Size,Name
 0x0000007100f69998,U,000004,nullsub_4195
 0x0000007100f6999c,U,000348,
 0x0000007100f69af8,U,000476,
-0x0000007100f69cd4,U,000088,
-0x0000007100f69d2c,U,000004,nullsub_4196
-0x0000007100f69d30,U,000004,nullsub_4197
-0x0000007100f69d34,U,000004,nullsub_4198
+0x0000007100f69cd4,U,000088,_ZN17hkpEntityListener22entityShapeSetCallbackEP9hkpEntity
+0x0000007100f69d2c,U,000004,_ZN17hkpEntityListener21entityDeletedCallbackEP9hkpEntity
+0x0000007100f69d30,U,000004,_ZN17hkpEntityListener24entityMotionTypeSetCallbackEP9hkpEntity
+0x0000007100f69d34,U,000004,_ZN30hkpWorldPostSimulationListener27inactiveEntityMovedCallbackEP9hkpEntity
 0x0000007100f69d38,U,000180,Constraint::ctor
 0x0000007100f69dec,U,000376,Constraint::dtor
 0x0000007100f69f64,U,000036,Constraint::dtorDelete
