@@ -9,6 +9,10 @@
 
 namespace uking::ui {
 
+// 0x710094b99c / 0x710094bb9c: both native entry points forward unchanged.
+void Unk_71025d6578::sub_710094B99C() { sub_710094B9A0(); }
+void Unk_71025d6578::sub_710094BB9C() { sub_710094B9A0(); }
+
 s32 sub_7100A9B690();
 s32 sub_7100A9B6B0();
 bool sub_7100AA8F30();

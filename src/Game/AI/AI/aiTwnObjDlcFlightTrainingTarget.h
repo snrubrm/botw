@@ -17,6 +17,7 @@ public:
 
     // 0x71005d35a8 (placeholder name)
     void sub_71005D35A8();
+    void sub_71005D34D8();
 
 protected:
     // static_param at offset 0x38

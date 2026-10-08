@@ -89,6 +89,8 @@ public:
     void sub_710094B8A4(bool a1);
     bool sub_710094B8D4() const;
     void sub_710094B9A0();
+    void sub_710094B99C();
+    void sub_710094BB9C();
     void sub_710094BCDC();
     void sub_710094BD54();
     void sub_7100949FBC();

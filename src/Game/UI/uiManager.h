@@ -76,6 +76,7 @@ public:
     bool sub_7100A7F468(sead::SafeString* out_name, const sead::Vector3f* position, f32 radius);
     void sub_7100A7C8D4();
     void sub_7100A7C9AC();
+    void sub_7100A7CA68();
     void sub_7100AA8698();  // 0x7100aa8698 (CSV unnamed; called by sub_7100A7C8D4)
     // 0x7100a7f81c (lane2 s47): under the lock at `_650f8`: false if `_650f0 > 0`, else sets it to 1, asks the graphics
     // system and returns true

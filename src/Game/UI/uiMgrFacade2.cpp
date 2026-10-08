@@ -27,6 +27,14 @@
 
 namespace uking::ui {
 
+// 0x7100aa9748
+void sub_7100AA9748(s32 index) {
+    auto* screen = sead::DynamicCast<ScreenOPtext>(
+        eui::ScreenMgr::instance()->getScreen(ScreenId::OPtext));
+    if (screen)
+        screen->m154(index);
+}
+
 // 0x7100aa0700 (CSV isE3DemoMode)
 bool isE3DemoMode() {
     auto* mgr = E3Mgr::instance();

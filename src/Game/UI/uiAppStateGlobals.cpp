@@ -34,7 +34,8 @@ s32 ScreenAppSystemWindow::sub_71009FC4A0() {
 // 0x71009fff58
 void AppToolState::sub_71009FFF58() {
     _0 = -1;
-    _4 = 0;
+    _4 = false;
+    _5 = false;
 }
 
 // 0x71009e2e94

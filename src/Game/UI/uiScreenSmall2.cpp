@@ -51,6 +51,12 @@ void ScreenRupee::sub_7100A41558() {
 }
 
 // 0x7100a20dd0
+// 0x7100a201f0
+void ScreenMainShortCut::m83() {
+    auto* mgr = RuneMgr::instance();
+    sub_7100A1F684(mgr ? mgr->sub_7100676104() : -1);
+}
+
 bool ScreenMainShortCut::sub_7100A20DD0() {
     // called through a pointer in the original (not devirtualised)
     if (mStateMachine.getState()->getId() == (&sUnk_71025ef170)->getId())
@@ -241,6 +247,19 @@ bool ScreenAppHome::sub_71009DD838(f32 a1) const {
     return _3818.sub_7100938294(a1);
 }
 
+// NON_MATCHING: typed boolean copies use byte accesses; the original copies the pair as a halfword.
+// 0x71009fd640
+void sub_71009FD640(const AppToolState* state) {
+    const s32 id = state->_0;
+    if (u32(id) > 7)
+        return;
+    sUnk_71025ec540._4 = state->_4;
+    sUnk_71025ec540._5 = state->_5;
+    sUnk_71025ec540._0 = state->_0;
+    if (id == 1)
+        sUnk_71025ec540._0 = 0;
+}
+
 // 0x71009fe1dc
 void ScreenAppTool::m99() {
     if (sUnk_71025ec540._0 == -1)
@@ -256,7 +275,8 @@ void ScreenAppTool::m99() {
 void ScreenAppTool::m100() {
     mStateMachine.changeState(&sUnk_710261ee98);
     sUnk_71025ec540._0 = -1;
-    sUnk_71025ec540._4 = 0;
+    sUnk_71025ec540._4 = false;
+    sUnk_71025ec540._5 = false;
     sUnk_71025ec548 = false;
     sUnk_71025ec549 = false;
     sUnk_71025ec54a = 0;

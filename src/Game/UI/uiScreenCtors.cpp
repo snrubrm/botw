@@ -65,7 +65,8 @@ ScreenAppTool::ScreenAppTool() : ScreenEx() {
     _3740 = -1;
     _3744 = 0;
     sUnk_71025ec540._0 = -1;
-    sUnk_71025ec540._4 = 0;
+    sUnk_71025ec540._4 = false;
+    sUnk_71025ec540._5 = false;
     sUnk_71025ec548 = false;
     sUnk_71025ec549 = false;
     sUnk_71025ec54a = 0;

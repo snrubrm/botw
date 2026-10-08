@@ -7,8 +7,12 @@
 #include "KingSystem/ActorSystem/actTag.h"
 #include "Game/UI/uiUnkSingletons.h"
 #include "Game/UI/uiUtils.h"
+#include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 
 namespace uking::ui {
+
+void sub_71009FD640(const AppToolState* state);
+bool sub_7100AA0730();
 
 // 0x7100a95d04
 void showRuntimeTip(s32 a0) {
@@ -592,6 +596,26 @@ bool sub_7100A9E864() {
     if (!screen)
         return true;
     return screen->sub_7100A349F4();
+}
+
+// 0x7100a9ec04
+bool sub_7100A9EC04(s32 id, bool option_a, bool option_b, bool option_c) {
+    if (u32(id) > 7 || !eui::ScreenMgr::instance())
+        return false;
+    auto* subsystem = Unk_71025d69f0::instance();
+    if (!subsystem)
+        return false;
+    subsystem->sub_710094D9F4(0, 1, 0, option_c);
+    AppToolState state;
+    state.sub_71009FFF58();
+    state._0 = id;
+    state._4 = option_a;
+    state._5 = option_b;
+    sub_71009FD640(&state);
+    if (sub_7100AA0730() && !ksys::gdt::getFlag_IsGet_Obj_AmiiboItem(false) &&
+        !ksys::gdt::getFlag_Guide_ItemUse(false))
+        ksys::gdt::setFlag_IsGet_Obj_AmiiboItem(true, false);
+    return true;
 }
 
 // 0x7100a9ecbc

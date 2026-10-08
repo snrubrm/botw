@@ -4,6 +4,7 @@
 #include "KingSystem/Utils/Thread/TaskThread.h"
 #include "Game/UI/euiUIController.h"
 #include "Game/gameGraphics.h"
+#include "Game/gameRoot38.h"
 #include "Game/UI/uiUtils.h"
 #include <devenv/seadEnvUtil.h>
 #include <heap/seadExpHeap.h>
@@ -55,6 +56,9 @@ void createUiHeap(sead::Heap* parent) {
                                             sead::Heap::cHeapDirection_Forward, true);
     UI::instance()->_38 = sUnk_71025f59d0;
 }
+
+// 0x7100a6d3ec
+void sub_7100A6D3EC() {}
 
 SEAD_SINGLETON_DISPOSER_IMPL(UiLowPrioThreadMgr)
 SEAD_SINGLETON_DISPOSER_IMPL(Manager)
@@ -231,6 +235,14 @@ void Manager::sub_7100A7C8D4() {
 // 0x7100a7c9ac
 void Manager::sub_7100A7C9AC() {
     _64c2c = 8;
+}
+
+// 0x7100a7ca68
+void Manager::sub_7100A7CA68() {
+    if (!Root38::instance()->hasAnyFlag() && !(_64c30 & 2))
+        Root38::instance()->setFlag(2, true);
+    _64c28 = 4;
+    _64c2c = 1;
 }
 
 // 0x7100a7fba4

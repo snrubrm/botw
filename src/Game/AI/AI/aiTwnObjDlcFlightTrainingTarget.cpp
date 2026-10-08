@@ -6,6 +6,7 @@
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace uking::ai {
 
@@ -33,6 +34,20 @@ void TwnObjDlcFlightTrainingTarget::leave_() {
 
 void TwnObjDlcFlightTrainingTarget::loadParams_() {
     getStaticParam(&mLimitTime_s, "LimitTime");
+}
+
+// 0x71005d34d8
+void TwnObjDlcFlightTrainingTarget::sub_71005D34D8() {
+    sub_71005D35A8();
+    sub_710124127C(mActor, 2);
+    if (ksys::gdt::getFlag_BalladOfHeroRito_TargetEffect(false))
+        xlinkSearchAndEmit(mActor, "FlightTrainingTarget_End", 2, nullptr);
+    mActor->emitDisappearEffect();
+    mActor->getModel()->x(false, 0);
+    if (auto* body = mActor->getMainBody())
+        body->removeFromWorld();
+    sub_71007A36BC(mActor);
+    mActor->emitBasicSigOn();
 }
 
 // 0x71005d35a8: deletes the actors linked to the sensor entries with flag 8

@@ -1596,11 +1596,12 @@ extern const ksys::StateBase sUnk_71025ec550;
 // Flag bytes next to the states of ScreenAppTool (0x71025ec548 / 0x71025ec549; written by other screens at run time).
 extern bool sUnk_71025ec548;
 extern bool sUnk_71025ec549;
-// Run-time state of ScreenAppTool (0x71025ec540: a record id followed by a halfword, written by its
-// constructor); the flag bytes at 0x71025ec548 / 0x71025ec549 / 0x71025ec54a are separate globals.
+// Run-time state of ScreenAppTool (0x71025ec540: a record id followed by two boolean options, written by its
+// constructor); native copy 0x71009fd640 combines the two options as a halfword. The flag bytes at 0x71025ec548 / 0x71025ec549 / 0x71025ec54a are separate globals.
 struct AppToolState {
     s32 _0;
-    u16 _4;
+    bool _4;
+    bool _5;
     // 0x71009fff58 (placeholder name): resets the record id to -1 and the halfword to 0
     void sub_71009FFF58();
 };
@@ -1633,6 +1634,8 @@ static_assert(sizeof(ShortcutIconInfo) == 0xd8);
 
 class ScreenMainShortCut : public ScreenEx {
 public:
+    void m83() override;
+    void sub_7100A1F684(s32 index);
     void m96() override;
     void m98() override;
     void m99() override;
