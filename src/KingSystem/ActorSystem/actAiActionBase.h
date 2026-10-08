@@ -14,6 +14,7 @@ class Unk_710073ebd4;
 class Unk_7102450038;
 struct Unk_7100704914;
 struct Unk_71007050e4;
+struct Unk_71005e1be8;
 
 namespace ksys {
 struct AIDefSet;
@@ -69,6 +70,8 @@ class ActionBase {
     friend class ::Unk_7102450038;
     friend struct ::Unk_7100704914;
     friend struct ::Unk_71007050e4;
+    // Golem part strings (Unk_71005e1be8::sub_71005E1BE8 loads them as the owner's static params).
+    friend struct ::Unk_71005e1be8;
 
 public:
     struct InitArg {
