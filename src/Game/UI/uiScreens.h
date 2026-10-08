@@ -19,6 +19,7 @@
 #include "Game/UI/euiUIController.h"
 #include "Game/UI/uiButtonEventQueue.h"
 #include "Game/UI/uiArchiveHandle.h"
+#include "Game/UI/uiShopItemElement.h"
 #include "Game/UI/uiTexSlots.h"
 #include "Game/UI/uiUnkTiny.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
@@ -3103,7 +3104,7 @@ public:
     // 0x7100a52db0 (CSV placeholder): the LetterAnimControl fed by sub_7100AA2E08 +
     // sub_7100BD9CDC / sub_7100BD9B5C (same tail as ScreenMessageDialog's 0x10b2b30).
     /* 0x3650 */ eui::LetterAnimControl* _3650 = nullptr;
-    sead::PtrArray<Unk_Elem> _3658;
+    sead::PtrArray<ShopInfoItem> _3658;
     u8 _pad_3668[0x3678 - 0x3668];
     Unk_710247dc70 _3678;
     /* 0x3690 */ eui::LayoutEx* _3690 = nullptr;

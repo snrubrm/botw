@@ -162,6 +162,7 @@ target_sources(uking PRIVATE
   uiScreenOwnSlots.cpp
   uiScreens.h
   uiShopFacade.cpp
+  uiShopItemElement.cpp
   uiShopSmall.cpp
   uiShopTagHelpers.cpp
   uiScreenSmall.cpp
