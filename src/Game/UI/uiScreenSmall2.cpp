@@ -133,6 +133,14 @@ void ScreenDoCommand::m100() {
     _3660 = -1;
 }
 
+// 0x7100a20230
+void ScreenMainShortCut::m84() {
+    if (isClosed())
+        open(1);
+    if (_36e0)
+        _36e0->StopAtMin();
+}
+
 // 0x7100a205f0
 void ScreenMainShortCut::m98() {
     _3790->sub_710093DAE8(2);

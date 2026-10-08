@@ -1537,6 +1537,8 @@ public:
     bool isEnableControl() const override;
     ~ScreenMainShortCut() override;
     SEAD_RTTI_OVERRIDE(ScreenMainShortCut, ScreenEx)
+    // 0x7100a20230: override of Screen::m84; opens the screen when it is closed, then stops the _36e0 animator at its minimum
+    void m84() override;
 
     // own virtual slots (state callbacks; groups of four: void, void, void, s32 -- the types are guesses from the trivial ones)
     u8 _pad_3610[0x3638 - 0x3610];
