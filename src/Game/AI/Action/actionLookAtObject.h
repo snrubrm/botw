@@ -17,6 +17,7 @@ public:
 
 protected:
     void m33() override;
+    void m37(ksys::act::BaseProcLink* link, const sead::Vector3f* pos) override;
 };
 
 }  // namespace uking::action

@@ -58,4 +58,38 @@ bool LookAtObject::oneShot_() {
     return true;
 }
 
+void LookAtObject::m37(ksys::act::BaseProcLink* link, const sead::Vector3f* pos) {
+    auto* npc = sead::DynamicCast<act::NPC>(mActor);
+    if (!npc) {
+        setFailed();
+        return;
+    }
+    switch (_30) {
+    case -1:
+        npc->sub_7100022D44(_45, 1, _68, nullptr, sead::Vector3f::zero);
+        break;
+    case 0:
+    case 4: {
+        bool flag = _45 != 0;
+        if (link) {
+            npc->sub_7100022D44(flag, 2, _68, link, sead::Vector3f::zero);
+        } else {
+            npc->sub_7100022D44(flag, 3, sead::Vector3f::zero, nullptr, *pos);
+        }
+        break;
+    }
+    case 1:
+        npc->sub_7100022D44(_45, 3, sead::Vector3f::zero, nullptr, *pos);
+        break;
+    case 2:
+        npc->sub_7100022D44(_45, 4, sead::Vector3f::zero, nullptr, *pos);
+        break;
+    case 3:
+        npc->sub_7100022D44(_45, 2, _68, link, sead::Vector3f::zero);
+        break;
+    default:
+        break;
+    }
+}
+
 }  // namespace uking::action
