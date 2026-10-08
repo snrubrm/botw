@@ -5,6 +5,12 @@
 
 namespace ksys::phys {
 
+bool Constraint::sub_7100F6A2E0() const {
+    if (_40)
+        return true;
+    return _48 != nullptr;
+}
+
 bool Constraint::sub_7100F6ACE8() const {
     return _52 & 1;
 }
