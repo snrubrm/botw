@@ -74,6 +74,15 @@ void Screen::sub_7100BEA704(Screen* screen, xlink2::UserInstanceSLink* link) {
     screen->setSlink2PropertyDefinition_(link);
 }
 
+// 0x7100be9688
+void Screen::sub_7100BE9688(nn::ui2d::Pane* pane, LayoutEx* layout, u32* count) {
+    if (auto* parts = sub_7100BDD310(pane))
+        layout = static_cast<LayoutEx*>(parts->mPartsLayoutLink.layout);
+    setupPaneAfterBuild_(pane, layout, count);
+    for (auto& child : pane->GetChildList())
+        sub_7100BE9688(&child, layout, count);
+}
+
 // 0x7100bea690
 void Screen::sub_7100BEA690(nn::ui2d::Pane* pane, LayoutEx* layout) {
     if (auto* parts = sub_7100BDD310(pane))

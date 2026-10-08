@@ -8,6 +8,10 @@ MessageString::MessageString() : mString(nullptr), _8(0) {}
 // 0x7100be4fe8
 MessageString::MessageString(s32 length, const char16* string) : mString(string), _8(length) {}
 
+// 0x7100be4ff4
+MessageString::MessageString(const sead::WSafeString& string)
+    : mString(string.cstr()), _8(string.calcLength()) {}
+
 // 0x7100be50a8
 MessageString::MessageString(const MessageString& other) : mString(other.mString), _8(other._8) {}
 

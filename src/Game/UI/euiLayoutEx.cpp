@@ -273,6 +273,28 @@ void LayoutEx::sub_7100BDE29C(bool recursive) {
     }
 }
 
+// NON_MATCHING: same logic, different block order; the original reads animator->mFrame twice on the open path and
+// puts the early returns in one block at the end.
+// 0x7100bde4cc (vtable slot 18; the repo numbers it m20): called when an animator of the layout stops
+void LayoutEx::m20(Animator* animator) {
+    if (mCloseAnimator == animator && animator->mFrame == f32(animator->GetFrameSize())) {
+    } else if (mOpenAnimator == animator) {
+        if (animator->mFrame != 0.0f) {
+            if (animator->mFrame == f32(animator->GetFrameSize()) && _91 == 1)
+                _91 = 2;
+            return;
+        }
+    } else {
+        return;
+    }
+    if (_91 != 0) {
+        if (_91 != 3)
+            return;
+        _91 = 0;
+    }
+    sub_7100BDE29C(mPane->GetParent() != nullptr);
+}
+
 // 0x7100bde308
 bool LayoutEx::isAnimOpenEnd(bool recursive) const {
     if (mOpenAnimator && mOpenAnimator->mFrame != mOpenAnimator->GetFrameSize())
