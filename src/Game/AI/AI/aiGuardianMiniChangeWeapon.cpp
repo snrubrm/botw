@@ -125,6 +125,10 @@ void GuardianMiniChangeWeapon::sub_710041AAD4() {
         sub_710041AA18();
 }
 
+// NON_MATCHING: the original keeps `dir` stack-resident (int-copy init, float reloads,
+// sunk writebacks, checkpoint stores, bigger frame); ours SROA-promotes it to regs.
+// Snippet-proven only an escaping use reproduces it, and no call in the real code
+// takes dir's address (EEB08 takes rot, which is provably distinct).
 void GuardianMiniChangeWeapon::sub_710041ABD4() {
     auto* actor = mActor;
     if (!actor)
