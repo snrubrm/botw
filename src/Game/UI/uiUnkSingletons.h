@@ -87,10 +87,15 @@ public:
 
     void sub_710094B844(bool a1, bool a2, bool a3);
     void sub_710094B8A4(bool a1);
+    bool sub_710094B8D4() const;
     void sub_710094BCDC();
     u32 sub_710094C094(u32 value) const;
+    u32 sub_710094C0D4(u32 value) const;
+    void sub_710094BF98(u32 current_increment, u32 max_increment);
     void sub_710094BE14();
     void sub_710094BE30();
+    bool sub_710094BE40();
+    void sub_710094BE84();
 
     // Heart values copied as u32 by 0x710094b9a0 / 0x710094bcdc;
     // ScreenMainScreen reads _28 as an integer and the Ichigeki gauge reads _2c.
@@ -123,6 +128,12 @@ public:
     /* 0x70 */ u16 _70 = 0;
     u16 _72 = 0;
     u8 _74[4];
+
+private:
+    // Repeated inline sequences in 0x710094b8d4, b9a0, be84 and c0d4.
+    u32 getCurrentHeartValue() const;
+    u32 getMaxHeartValue() const;
+    u32 getExtraHeartValue() const;
 };
 KSYS_CHECK_SIZE_NX150(Unk_71025d6578, 0x78);
 
