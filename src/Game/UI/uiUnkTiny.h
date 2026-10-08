@@ -692,15 +692,17 @@ struct Unk_PaneTransform {
 // passed to m2) applied to one object.
 class Unk_7102474dd0 {
 public:
+    // 0x7100937d74 (CSV unnamed): the constructor (vtable + null link + zero vectors)
+    Unk_7102474dd0();
     virtual ~Unk_7102474dd0();
     // 0x7100937e9c
     virtual void m2(const sead::Vector2f& a, const sead::Vector2f& b);
 
     // set to the owning Unk_7102474df8 by 0x7100938408
     Unk_7102474df8* _8 = nullptr;
-    Unk_PaneTransform* _10;
-    sead::Vector2f _18;
-    sead::Vector2f _20;
+    Unk_PaneTransform* _10 = nullptr;
+    sead::Vector2f _18 = sead::Vector2f::zero;
+    sead::Vector2f _20 = sead::Vector2f::zero;
 };
 static_assert(sizeof(Unk_7102474dd0) == 0x28);
 

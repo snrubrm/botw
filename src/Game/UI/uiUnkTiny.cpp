@@ -892,6 +892,9 @@ Unk_7102474bc8::~Unk_7102474bc8() {
     _140.freeBuffer();
 }
 
+// 0x7100937d74
+Unk_7102474dd0::Unk_7102474dd0() = default;
+
 // 0x7100937d9c
 Unk_7102474dd0::~Unk_7102474dd0() = default;
 

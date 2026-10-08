@@ -210,6 +210,19 @@ ScreenMessage3D::ScreenMessage3D() : Screen() {
     _690 = 0;
 }
 
+// 0x71009dc30c
+// NON_MATCHING: init scheduling only (original hoists the memset args before the vtable stores and
+// keeps &_36a0 in x20 across the memset call; ours uses a smaller frame without x20). All stores,
+// calls and member offsets match.
+ScreenAppHome::ScreenAppHome() : ScreenEx() {
+    _3660[5] = 0;
+    _3660[4] = 0;
+    _3660[3] = 0;
+    _3660[2] = 0;
+    _3660[1] = 0;
+    _3660[0] = 0;
+}
+
 // 0x7100a58150
 ScreenStaffRollDLC::ScreenStaffRollDLC() : ScreenEx() {
     _37f8.setBuffer(2, _3808);

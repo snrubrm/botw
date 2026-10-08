@@ -2998,13 +2998,29 @@ public:
 
 class ScreenAppHome : public ScreenEx {
 public:
+    ScreenAppHome();
     bool isEnableControl() const override;
     const char* getLayoutName_() const override;
     ~ScreenAppHome() override;
     SEAD_RTTI_OVERRIDE(ScreenAppHome, ScreenEx)
 
-    u8 _pad_3610[0x3808 - 0x3610];
-    /* 0x3808 */ s32 _3808;
+    u64 _3610[0x50 / 8] = {};
+    u64 _3660[0x30 / 8];
+    u64 _3690[2] = {};
+    /* 0x36a0 */ Unk_7102474bc8 _36a0;
+    /* 0x37f8 */ u32 _37f8 = 0;
+    /* 0x37fc */ u32 _37fc = 0;
+    /* 0x3800 */ u32 _3800 = 0;
+    /* 0x3804 */ u32 _3804 = 0;
+    /* 0x3808 */ u32 _3808 = 0;
+    /* 0x380c */ u32 _380c = 4;
+    /* 0x3810 */ u16 _3810 = 0;
+    u8 _3812[0x3818 - 0x3812];
+    /* 0x3818 */ Unk_7102474df8 _3818;
+    /* 0x38a0 */ Unk_7102474dd0 _38a0;
+    /* 0x38c8 */ Unk_7102474dd0 _38c8;
+    /* 0x38f0 */ Unk_7102474dd0 _38f0;
+    /* 0x3918 */ Unk_7102474dd0 _3918;
 
     // 0x71009de1c8 / 0x71009dcf18 (CSV unnamed; the second is declared only)
     void sub_71009DE1C8();
