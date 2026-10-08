@@ -3514,11 +3514,13 @@ public:
     // and calls UiTimer::init on the slot). Only the link matters here.
     struct Slot {
         Slot* mNext;
-        u8 _8[0xe8 - 8];
+        u8 _8[0xa8 - 8];
+        /* 0xa8 */ eui::ControlBase* _a8;  // deleted when the slot is released (virtual deleting destructor)
+        u8 _b0[0xe8 - 0xb0];
     };
 
     /* 0x3610 */ sead::CriticalSection _3610;
-    /* 0x3650 */ sead::PtrArrayImpl _3650;
+    /* 0x3650 */ sead::PtrArray<Slot> _3650;
     /* 0x3660 */ Slot* _3660;
     /* 0x3668 */ Slot* _3668;
     /* 0x3670 */ Slot _3670[7];
