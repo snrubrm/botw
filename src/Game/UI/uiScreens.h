@@ -3398,6 +3398,11 @@ public:
     void sub_7100A45DA0();
     void sub_7100A46124();
     void sub_7100A46268();
+    void sub_7100A46004();
+    void sub_7100A44544();
+    void sub_7100A44458();
+    void sub_7100A44878();
+    void sub_7100A45080();
     /* 0x3610 */ eui::Animator* _3610;
     /* 0x3618 */ eui::Animator* _3618;
     /* 0x3620 */ eui::Animator* _3620;
