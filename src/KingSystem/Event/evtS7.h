@@ -129,6 +129,10 @@ public:
     void m8(void* a1, void* a2) override;
     void m9() override;
     bool isPlaying() override;
+    // 0x71008afcdc (CSV evt::S7EventFlow::calc)
+    bool calc();
+    // 0x71008afd40 (CSV evt::S7EventFlow::calc_; not decompiled)
+    u32 calc_();
 
 private:
     /* 0x1c */ s32 _1c;

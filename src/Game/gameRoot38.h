@@ -27,4 +27,8 @@ public:
     bool doNotFreezeScene() const;
 };
 
+// 0x7100f41834 (CSV unnamed; placeholder name; declared only): returns the address of an unknown global
+// (0x710260b310); S7EventFlow::calc calls it and discards the result.
+void* sub_7100F41834();
+
 }  // namespace uking
