@@ -1559,6 +1559,13 @@ void ScreenControllerWindow::m100() {
 
 s32 ScreenDLCWindow::sResult = 2;
 
+// 0x7100a05f94
+s32 ScreenDLCWindow::sub_7100A05F94() {
+    const s32 result = sResult;
+    sResult = 2;
+    return result;
+}
+
 // 0x7100a060e0
 void ScreenDLCWindow::m107(eui::AnimButton* button) {
     if (button->IsPlayDisableAnim()) {

@@ -2954,6 +2954,8 @@ public:
     void m106(eui::AnimButton* button) override;
     void m107(eui::AnimButton* button) override;
 
+    // 0x7100a05f94 (placeholder name): returns the result and sets it to 2
+    s32 sub_7100A05F94();
     // 0x7102486d48 (placeholder name): the window's result (0: no, 1: yes, 2: none yet)
     static s32 sResult;
 };
