@@ -66,6 +66,8 @@ target_sources(uking PRIVATE
     RigidBody/physRigidBodySet2.cpp
     RigidBody/physRigidBodySetParam.cpp
     RigidBody/physRigidBodySetParam.h
+    RigidBody/physRigidBodySetParamAccessor.cpp
+    RigidBody/physRigidBodySetParamAccessor.h
 
     RigidBody/Shape/Box/physBoxRigidBody.cpp
     RigidBody/Shape/Box/physBoxRigidBody.h

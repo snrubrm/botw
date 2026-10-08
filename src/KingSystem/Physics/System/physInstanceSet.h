@@ -39,6 +39,7 @@ class ParamSet;
 class RagdollController;
 class RagdollInstance;
 class RigidBodySet;
+class RigidBodySetParamAccessor;
 class BoxRigidBody;
 class CapsuleRigidBody;
 class CylinderWaterRigidBody;
@@ -66,6 +67,8 @@ public:
 
 class InstanceSet : public sead::hostio::Node {
 public:
+    // Reads _178/_188 (the system group handler tables).
+    friend class RigidBodySetParamAccessor;
     enum class Flag : u32 {
         _1 = 1 << 0,
         _2 = 1 << 1,
