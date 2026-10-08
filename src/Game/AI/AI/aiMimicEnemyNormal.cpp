@@ -1,6 +1,9 @@
 #include "Game/AI/AI/aiMimicEnemyNormal.h"
+#include <cmath>
+#include "Game/AI/aiAwarenessFilters.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/AI/aiUnk_71007368A4.h"
+#include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
@@ -15,6 +18,87 @@ namespace uking::ai {
 MimicEnemyNormal::MimicEnemyNormal(const InitArg& arg) : EnemyNormal(arg) {}
 
 MimicEnemyNormal::~MimicEnemyNormal() = default;
+
+// NON_MATCHING: the original computes the dx fsub before the dz fsub; ours does them in
+// declaration order (dz, then dx). All calls, branches, stack layout and the return-and match.
+bool MimicEnemyNormal::sub_71004A7894() {
+    auto* actor = mActor;
+    if (!actor)
+        return false;
+    auto* awareness = actor->getAwareness();
+    if (!awareness)
+        return false;
+    const sead::Matrix34f& mtx = actor->getMtx();
+    const f32 x = mtx.m[0][3];
+    const f32 y = mtx.m[1][3];
+    const f32 z = mtx.m[2][3];
+
+    Unk_7102451678 filter;
+    auto* entry = ksys::act::sub_7100D7EEE8(&awareness->_8, &filter);
+    bool adopted;
+    bool result;
+    if (entry == nullptr) {
+        result = false;
+    } else {
+        bool found = false;
+        while (true) {
+            auto* link = &entry->_0.mLink;
+            bool check;
+            if (enemyTeamStuff(mActor, link)) {
+                ksys::act::ActorConstDataAccess accessor;
+                ksys::act::acquireActor(link, &accessor);
+                found = true;
+                check = accessor.sub_7100D12E64();
+            } else {
+                check = true;
+            }
+            if (check && !m45(entry->_88, entry->_0.mLink, false)) {
+                const f32 dy = sead::Mathf::abs(entry->_88.y - y);
+                if (dy > 3.0f) {
+                    adopted = false;
+                    result = true;
+                    break;
+                }
+                const f32 dz = entry->_88.z - z;
+                const f32 dx = entry->_88.x - x;
+                const f32 dist = sead::Mathf::sqrt(dz * dz + dx * dx);
+                if (!found) {
+                    if (dist <= *mPlayerForceFindDist_s) {
+                        sub_71005D8DE8(actor, entry->_0.mLink, &entry->_58, nullptr);
+                        Unk2 target;
+                        target.sub_71003A02A4(entry);
+                        sub_71003A02E0(&target);
+                        result = true;
+                        adopted = true;
+                        break;
+                    } else {
+                        found = false;
+                    }
+                } else if (dist <= *mRideHorseMaskPlayerFindDist_s) {
+                    ksys::act::ActorConstDataAccess accessor;
+                    ksys::act::acquireActor(link, &accessor);
+                    sead::Vector3f pos;
+                    accessor.getActorMtx().getTranslation(pos);
+                    ksys::act::ai::InlineParamPack pack;
+                    pack.addVec3(pos, "TargetPos", -1);
+                    changeChild("不審者発見", &pack);
+                    result = true;
+                    adopted = true;
+                    break;
+                } else {
+                    found = true;
+                }
+            }
+            entry = ksys::act::sub_7100D7EEE8(&awareness->_8, &filter);
+            if (entry == nullptr) {
+                result = false;
+                adopted = false;
+                break;
+            }
+        }
+    }
+    return result && adopted;
+}
 
 bool MimicEnemyNormal::sub_71004A7BB4() {
     if (!sub_71007A4178(mActor, false))
