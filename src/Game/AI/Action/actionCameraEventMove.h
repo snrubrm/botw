@@ -26,6 +26,10 @@ protected:
     void m44() override;
     void m45() override;
     void m46() override;
+    // 0x710075d338 / 0x710075d3cc (placeholder names): `link` becomes the player (acquired through an accessor) when
+    // PlayerRelative is true / false, otherwise the event actor's link (or the speaker's if _2a3 is 0).
+    void sub_710075D338(ksys::act::BaseProcLink* link);
+    void sub_710075D3CC(ksys::act::BaseProcLink* link);
 
     uking::act::Unk_71009214b8 _4c;
     uking::act::Unk_71009214b8 _84;
