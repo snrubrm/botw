@@ -1438,3 +1438,17 @@ bool sub_71005DF66C(sead::Vector3f* out, ksys::act::Actor* actor, const sead::Ve
         *out_time = time;
     return true;
 }
+
+// 0x71005dfae0
+void sub_71005DFAE0(ksys::act::BaseProcHandle* handle, ksys::act::Actor* actor,
+                    const sead::Vector3f* pos, const sead::Matrix33f* rot,
+                    const sead::Vector3f* vel, const sead::Vector3f* ang_vel) {
+    if (auto* target = sead::DynamicCast<ksys::act::Actor>(handle->getProc())) {
+        target->sub_71011C7020(pos, rot, nullptr);
+        target->setVelocity(vel, ang_vel);
+        target->sub_71011C8BA4(2);
+        if (auto* obj = target->m100())
+            obj->sub_7100E502EC(actor);
+    }
+    handle->releaseAndWakeProc();
+}

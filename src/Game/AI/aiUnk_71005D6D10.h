@@ -428,3 +428,8 @@ void sub_71005DDC98(ksys::act::Actor* actor, s32 pattern, f32 power, f32 range, 
 // 0x71005dde8c (declared only; lane3 s46): remains-part helper for DunegonRotateWait::calc_.
 // Signature from the CSV mangled name and the matching caller.
 void sub_71005DDE8C(ksys::act::Actor* actor, const sead::Vector3f* axis, s32 part_type);
+// 0x71005dfae0: applies a placement (pos/rot) and velocity to the actor linked by `handle`
+// (GuardianMiniBeamAttackMove::sub_710041896C helper); releases the handle afterwards.
+void sub_71005DFAE0(ksys::act::BaseProcHandle* handle, ksys::act::Actor* actor,
+                    const sead::Vector3f* pos, const sead::Matrix33f* rot,
+                    const sead::Vector3f* vel, const sead::Vector3f* ang_vel);
