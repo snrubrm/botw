@@ -133,7 +133,7 @@ public:
     /* 225 */ virtual bool m225() { return false; }
     /* 226 */ virtual bool m226() { return false; }
     /* 227 */ virtual bool m227() { return false; }
-    /* 228 */ virtual void m228(bool a1);
+    /* 228 */ virtual void m228(bool a1) {}
     /* 229 */ virtual void m229() {}
     /* 230 */ virtual bool m230() { return false; }
     /* 231 */ virtual f32 m231() { return 1.0f; }
@@ -173,7 +173,7 @@ public:
     /* 265 */ virtual const sead::Vector3f* m265() { return &sead::Vector3f::zero; }
     /* 266 */ virtual void m266(const sead::SafeString& slot, int frames);
     // (s32, Actor*, bool, bool): from Player::sub_710086C84C and the register use of Player::m267.
-    /* 267 */ virtual void m267(s32 a, Actor* actor, bool b, bool c);
+    /* 267 */ virtual void m267(s32 a, Actor* actor, bool b, bool c) {}
     /* 268 */ virtual bool m268() { return false; }
     /* 269 */ virtual bool m269() { return false; }
     /* 270 */ virtual bool m270() { return false; }
@@ -234,7 +234,7 @@ public:
     /* 308 */ void m308() override;
     /* 309 */ virtual void m309(f32) {}
     /* 310 */ virtual void m310(f32) {}
-    /* 311 */ virtual void m311();
+    /* 311 */ virtual void m311() {}
     /* 312 */ virtual gsys::BoneAccessKey m312(int idx);
     /* 313 */ void getActorDirect() override;
     /* 314 */ void* m314() override;
