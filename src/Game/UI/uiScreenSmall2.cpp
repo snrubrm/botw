@@ -1272,6 +1272,27 @@ s32 ScreenShopBtnList20::sub_7100A4CE28() {
     return _3610->_2e4;
 }
 
+// 0x7100a4ce68
+void ScreenShopBtnList20::sub_7100A4CE68(s32 action) {
+    switch (action) {
+    case 0:
+        invokeSoundLink2Event_("mc_Decide");
+        break;
+    case 1:
+        invokeSoundLink2Event_("mc_prohibited");
+        break;
+    case 2:
+        invokeSoundLink2Event_("mc_Sort");
+        break;
+    case 3:
+        invokeSoundLink2Event_("mc_Carry");
+        break;
+    case 4:
+        invokeSoundLink2Event_("mc_CarryEnd");
+        break;
+    }
+}
+
 // 0x7100a4de04
 void ScreenShopBtnList5::m98() {
     _3628 = 0;

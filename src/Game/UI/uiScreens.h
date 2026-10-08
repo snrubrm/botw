@@ -3040,6 +3040,9 @@ public:
     void sub_7100A4CD5C(bool value);
     void sub_7100A4CD70();
     s32 sub_7100A4CE28();
+    // 0x7100a4ce68 (placeholder name): plays the sound event of a carry action (0: decide, 1: prohibited, 2: sort, 3: carry,
+    // 4: carry end)
+    void sub_7100A4CE68(s32 action);
     /* 0x3610 */ ScreenAppPictureBookUnk* _3610;
     u8 _pad_3618[0x3864 - 0x3618];
     /* 0x3864 */ u8 _3864;
