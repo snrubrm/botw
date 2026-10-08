@@ -14,6 +14,7 @@
 #include "Game/UI/uiShopMgr.h"
 #include "Game/UI/uiTagProcessor.h"
 #include "Game/UI/uiUtils.h"
+#include "Game/UI/uiUI.h"
 #include "Game/gameScene.h"
 #include "KingSystem/GameData/gdtSpecialFlags.h"
 #include "KingSystem/System/StageInfo.h"
@@ -503,6 +504,26 @@ void sub_71010B3188(const sead::MessageSet<char16>::TagInfo* tag, ksys::act::Act
         }
         ksys::eft::sub_710105DFA4(actor, arg, !b & 1, b & 1);
     }
+}
+
+// 0x71010b5290
+void ScreenMessageDialog::m106(eui::AnimButton*) {
+    if (_350 == 3) {
+        eui::ButtonGroup* group = mButtonGroup;
+        eui::ListNode* const end = &group->mButtons;
+        for (eui::ListNode* node = group->mButtons.next; node != end; node = node->next)
+            static_cast<eui::ButtonBase*>(eui::ControlBase::fromNode(node))->setFlag10(false);
+    }
+}
+
+// 0x71010b5a14
+void ScreenMessageDialog::m101() {
+    UI* ui = UI::instance();
+    ui->_98 = _5ec;
+    ui->_9c = _73c;
+    _720 = nullptr;
+    _728.reset();
+    ksys::snd::Unk_710104e5b4::instance()->sub_710104F8C4(false);
 }
 
 // 0x71010b306c (CSV unnamed): set the dialog's actor.

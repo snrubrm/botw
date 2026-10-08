@@ -958,6 +958,10 @@ public:
     eui::TagProcessor* doCreateTagProcessor_(sead::Heap* heap) override;
     // 0x71010b5b60 (overrides eui::Screen::isEnableControl): always true
     bool isEnableControl() const override;
+    // 0x71010b5a14 (slot 101): hands the dialog's result fields to the UI singleton, forgets the actor and resumes the sound ducker
+    void m101() override;
+    // 0x71010b5290 (slot 106): in state 3 clears the flag 0x10 of every button of the dialog
+    void m106(eui::AnimButton* button) override;
     ~ScreenMessageDialog() override;
     SEAD_RTTI_OVERRIDE(ScreenMessageDialog, Screen)
     // 0x71010b34d0
