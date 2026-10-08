@@ -3,6 +3,7 @@
 #include <basis/seadTypes.h>
 #include "Game/UI/euiControlBase.h"
 #include <math/seadVector.h>
+#include <prim/seadEnum.h>
 #include "KingSystem/Utils/Types.h"
 
 namespace sead {
@@ -363,6 +364,10 @@ public:
 
     // Slot 41 (0x7100bdb254; the CSV names it CheckKeepButton::Uncheck)
     virtual void Uncheck();
+    // The values of mType (enumerator names unknown).
+    SEAD_ENUM(Type, _0, _1, _2, _3, _4, _5)
+    // 0x7100bdafc0 (placeholder name): stores the type and sets flag 0x20 for type 2 and flag 0x400 for type 3
+    void sub_7100BDAFC0(Type type);
     // 0x7100bdb2b0
     void ForceSetChecked(bool checked);
 

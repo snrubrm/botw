@@ -83,6 +83,16 @@ void UniteButton::BuildStateAnim(const nn::ui2d::ControlSrc& src, LayoutEx* layo
     mAnimators = layout->createAnimatorSet(names, 8, true);
 }
 
+// NON_MATCHING: the original ANDs the first flag with the 32-bit mask 0xffffffdf (and w9, w9, #0xffffffdf); ours narrows it to
+// `mov w11, #0xffdf` and a register AND. Everything else is identical.
+// 0x7100bdafc0
+void UniteButton::sub_7100BDAFC0(Type type) {
+    const s32 value = type;
+    mType = value;
+    mFlags = value == 2 ? mFlags | 0x20 : mFlags & ~0x20;
+    mFlags = value == 3 ? mFlags | 0x400 : mFlags & ~0x400;
+}
+
 // 0x7100bdb4ec
 void UniteButton::StartDown() {
     AnimButton::StartDown();

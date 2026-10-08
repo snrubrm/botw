@@ -94,6 +94,8 @@ public:
     static char16* setAlphaTag(char16* out, bool flag, u8 alpha);
     // 0x7100be628c: type 0x82, one u16 parameter
     static char16* setSkipTag(char16* out, u16 count);
+    // 0x7100be62b8 (placeholder name): type 0x83 (m26): the number of characters and the maximum width in 8.8 fixed point
+    static char16* setFitWidthTag(char16* out, u16 count, f32 width);
     // 0x7100be6308: type 2, one u16 parameter
     static char16* setSizeTag(char16* out, u16 size);
 

@@ -6,6 +6,7 @@
 #include "Game/UI/euiBoxCursor.h"
 #include "Game/UI/euiConstantBuffer.h"
 #include "Game/UI/euiLayoutEx.h"
+#include "Game/UI/euiPartsEx.h"
 #include "Game/UI/euiScreen.h"
 
 #include <common/aglDrawContext.h>
@@ -66,6 +67,20 @@ void Screen::updateControl_() {
     const f32 step = getAnimationStep_();
     for (ListNode* node = mControls.next; node != &mControls; node = node->next)
         ControlBase::fromNode(node)->Update(step);
+}
+
+// 0x7100bea690
+void Screen::sub_7100BEA690(nn::ui2d::Pane* pane, LayoutEx* layout) {
+    if (auto* parts = sub_7100BDD310(pane))
+        layout = static_cast<LayoutEx*>(parts->mPartsLayoutLink.layout);
+    AdjustPaneSizeToTextSize(pane, layout);
+    for (auto& child : pane->GetChildList())
+        sub_7100BEA690(&child, layout);
+}
+
+// 0x7100beb6f8
+void Screen::sub_7100BEB6F8(LayoutEx* layout) {
+    sub_7100BEA690(layout->mPane, layout);
 }
 
 // 0x7100bea600

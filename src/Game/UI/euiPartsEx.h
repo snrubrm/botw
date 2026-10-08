@@ -17,4 +17,7 @@ public:
     ~PartsEx() override = default;
 };
 
+// 0x7100bdd310: the out-of-line DynamicCast<PartsEx>(pane)
+PartsEx* sub_7100BDD310(nn::ui2d::Pane* pane);
+
 }  // namespace eui

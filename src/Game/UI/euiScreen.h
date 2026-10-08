@@ -222,6 +222,10 @@ public:
     s32 getId() const { return mId; }
     bool hasFlag4() const { return _107 & 4; }
 
+    // 0x7100bea690 / 0x7100beb6f8 (placeholder names): sizes every pane below `pane` (the root pane of `layout`) to
+    // its text, switching to the parts' own layout at each parts pane
+    void sub_7100BEA690(nn::ui2d::Pane* pane, LayoutEx* layout);
+    void sub_7100BEB6F8(LayoutEx* layout);
     // 0x7100be9830 / 0x7100be9850 (placeholder names): link / unlink an animator in `mAnimators`
     void addAnimator(Animator* animator);
     void removeAnimator(Animator* animator);

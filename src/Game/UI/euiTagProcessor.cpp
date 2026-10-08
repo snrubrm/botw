@@ -1,3 +1,4 @@
+#include <math/seadMathCalcCommon.h>
 #include "Game/UI/euiTagProcessor.h"
 #include <cstring>
 #include <nn/font/font_PrintContext.h>
@@ -379,6 +380,17 @@ char16* TagProcessor::setSkipTag(char16* out, u16 count) {
     out[3] = 2;
     out[4] = count;
     return out + 5;
+}
+
+// 0x7100be62b8
+char16* TagProcessor::setFitWidthTag(char16* out, u16 count, f32 width) {
+    out[0] = 0xe;
+    out[1] = 0;
+    out[2] = 0x83;
+    out[3] = 4;
+    out[4] = count;
+    out[5] = sead::Mathf::round(width * 256.0f);
+    return out + 6;
 }
 
 // 0x7100be6308
