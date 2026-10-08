@@ -2599,6 +2599,8 @@ public:
     void m100() override;
     // 0x7100a4df38 (slot 99)
     void m99() override;
+    // 0x7100a4deb0 (placeholder name): the same body as ScreenShopBtnList15::sub_7100A4B2BC
+    void sub_7100A4DEB0();
     // 0x7100a4dff0 / 0x7100a4e2dc (placeholder names; copies of ScreenShopBtnList15's sub_7100A4B3C4 / sub_7100A4B574)
     void sub_7100A4DFF0();
     bool sub_7100A4E2DC() const;

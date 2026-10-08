@@ -1192,6 +1192,18 @@ void ScreenShopBtnList20::m98() {
     }
 }
 
+// 0x7100a4deb0
+void ScreenShopBtnList5::sub_7100A4DEB0() {
+    if (auto* layout = sub_7100BEAFB0("Pa_GuideA_00")) {
+        if (layout->_91 == 3 || layout->_91 == 0)
+            layout->sub_7100BDDE7C(false, 0, true);
+    }
+    if (auto* layout = sub_7100BEAFB0("Pa_GuideB_00")) {
+        if (layout->_91 == 3 || layout->_91 == 0)
+            layout->sub_7100BDDE7C(false, 0, true);
+    }
+}
+
 // 0x7100a4dff0
 void ScreenShopBtnList5::sub_7100A4DFF0() {
     if (auto* layout = sub_7100BEAFB0("Pa_GuideA_00")) {
