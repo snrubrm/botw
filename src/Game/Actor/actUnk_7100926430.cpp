@@ -61,7 +61,7 @@ bool sub_7100926AC4() {
     auto* target = player->getAttachedTargetActor();
     if (!target || !target->mAttachInfo)
         return false;
-    return !(target->mAttachInfo->_49 & 2);
+    return !(target->mAttachInfo->_48 & 0x200);
 }
 
 bool sub_7100926CB0() {

@@ -1,4 +1,5 @@
 #include "KingSystem/ActorSystem/actUnk_71024ef4e8.h"
+#include "KingSystem/ActorSystem/actUnk_71024ef620.h"
 #include "KingSystem/ActorSystem/actCCAccessor.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Physics/Constraint/physConstraint.h"
@@ -15,6 +16,19 @@ void Unk_71024ef4e8::sub_7100EB480C(sead::Vector3f* out) const {
 void Unk_71024ef4e8::sub_7100EB2448() {
     if (mAttachInfo)
         mAttachInfo->sub_7100EB0D30();
+}
+
+// NON_MATCHING: the original tests _b8->_74 before the _110 mask (ours sinks it) and loads _c0->_60 with ldrh
+bool Unk_71024ef4e8::sub_7100EB5784() const {
+    if (_110.isOnBit(11))
+        return false;
+    if (mAttachInfo->_48 & 2)
+        return !(mAttachInfo->_48 & 0x80);
+    if (_b8->_74 & 1)
+        return false;
+    if ((_110.getDirect() & 0x2100) == 0x2000)
+        return false;
+    return !_c0->_60.isOnBit(0);
 }
 
 void Unk_71024ef4e8::sub_7100EB57F0(const sead::Matrix34f& mtx) {

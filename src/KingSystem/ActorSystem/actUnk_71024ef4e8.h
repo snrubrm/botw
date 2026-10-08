@@ -34,9 +34,10 @@ public:
         u8 _0[8];
         phys::Constraint* mConstraint;
         u8 _10[0x48 - 0x10];
-        /* 0x48 */ u8 _48;  // bit 1: _c0 is valid (read inline by Unk_71003ffbf0::sub_71003FFD3C)
-        /* 0x49 */ u8 _49;  // bit 1 tested by sub_7100926AC4 (camera)
-        u8 _4a[0x50 - 0x4a];
+        // Flags: bit 1: _c0 is valid (read inline by Unk_71003ffbf0::sub_71003FFD3C); bit 9 tested by
+        // sub_7100926AC4 (camera); bits 1 / 7 by Unk_71024ef4e8::sub_7100EB5784 (a 32-bit load).
+        /* 0x48 */ u32 _48;
+        u8 _4c[0x50 - 0x4c];
         /* 0x50 */ phys::RigidBody* mBody;
         u8 _58[0xc0 - 0x58];
         /* 0xc0 */ phys::RigidBody* _c0;
@@ -47,6 +48,12 @@ public:
     };
 
     // Placeholder (object at `_c8`, size unknown): only the members Player::sub_710087CF54 reads are modelled.
+    // Placeholder: the object at `_b8` (only the flag byte at +0x74 that sub_7100EB5784 tests is modeled).
+    struct Unk3 {
+        u8 _0[0x74];
+        /* 0x74 */ u8 _74;
+    };
+
     struct Unk2 {
         u8 _0[0x1a8];
         /* 0x1a8 */ sead::Vector3f _1a8;
@@ -60,6 +67,8 @@ public:
     void sub_7100EB480C(sead::Vector3f* out) const;
     // 0x7100eb2448: `if (mAttachInfo) mAttachInfo->sub_7100EB0D30()` (calls Constraint::sub_7100F6A074 on the attach constraint).
     void sub_7100EB2448();
+    // 0x7100eb5784 (placeholder name): flag query over _110, the attach info flags, _b8->_74 and _c0->_60.
+    bool sub_7100EB5784() const;
     // 0x7100eb57f0: stores `mtx` into _e0 / _188 (resets the scale at _1b8 to 1) and updates the flags at _110.
     void sub_7100EB57F0(const sead::Matrix34f& mtx);
 
@@ -104,7 +113,7 @@ public:
     /* 0x060 */ sead::Buffer<f32> _60;  // the mass of each ragdoll body
     u8 _70[0xb0 - 0x70];
     /* 0x0b0 */ AttachInfo* mAttachInfo;
-    u8 _b8[8];
+    /* 0x0b8 */ Unk3* _b8;
     /* 0x0c0 */ Unk_71024ef620* _c0;
     /* 0x0c8 */ Unk2* _c8;
     u8 _d0[0xe0 - 0xd0];
