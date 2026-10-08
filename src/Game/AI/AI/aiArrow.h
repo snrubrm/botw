@@ -45,6 +45,9 @@ public:
     // calc parent has `_d54` 1 / `_d54` 2 / bit 12 of its flags.
     bool sub_7100467D20();
     bool sub_7100467E24();
+    // 0x7100467b40 (placeholder name): the charge xlink events ("ArrowCharge" until the bow is fully
+    // charged unless `complete`, then "ArrowCharge_Complete" and fade the first).
+    void sub_7100467B40(bool complete);
     bool sub_7100467F28();
     // 0x710046757c (placeholder names): the connected Weapon has a pending request of type 6 or 7 /
     // returns its `_d0c` (1 without a weapon) / forwards to Weapon::sub_71002EE7E8.

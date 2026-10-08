@@ -15,6 +15,11 @@
 #include "KingSystem/Chemical/chmSystemConfig.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
+namespace uking::ui {
+// 0x7100a9b94c (defined in uiManagerFacade.cpp; no header declares it): the UI manager's `_a0`.
+f32 sub_7100A9B94C();
+}  // namespace uking::ui
+
 namespace uking::ai {
 
 Arrow::Arrow(const InitArg& arg)
@@ -54,6 +59,25 @@ bool Arrow::sub_71004692FC() {
             return true;
     }
     return false;
+}
+
+void Arrow::sub_7100467B40(bool complete) {
+    f32 charge = ui::sub_7100A9B94C();
+    auto* actor = sead::DynamicCast<ksys::act::Actor>(mActor->getConnectedCalcParent());
+    if (auto* weapon = sead::DynamicCast<act::Weapon>(actor)) {
+        if (weapon->m142() && sub_7100467E24())
+            charge = 1.0f;
+    }
+    if (charge >= 1.0f || complete) {
+        if (!_110.sub_7101241B6C())
+            xlinkSearchAndEmit(mActor, "ArrowCharge_Complete", 2, &_110);
+        // Fade the charge effect unless its event is already flagged (bit 4).
+        if (_f0.mELink.isActive() && !_f0.mELink.getEvent()->getBitFlag().isOnBit(4))
+            _f0.fadeXLink();
+        return;
+    }
+    if (!_f0.sub_7101241B6C())
+        xlinkSearchAndEmit(mActor, "ArrowCharge", 2, &_f0);
 }
 
 bool Arrow::sub_7100467D20() {
