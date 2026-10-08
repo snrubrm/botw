@@ -2032,7 +2032,9 @@ public:
     /* 0x3ba4 */ u8 _3ba4;
     u8 _pad_3ba5[0x3bb4 - 0x3ba5];
     /* 0x3bb4 */ s32 _3bb4;
-    u8 _pad_3bb8[0x3c10 - 0x3bb8];
+    /* 0x3bb8 */ UiTimer _3bb8;
+    /* 0x3bd0 */ s32 _3bd0;  // button index in _3a00[_3a18] (m175)
+    u8 _pad_3bd4[0x3c10 - 0x3bd4];
     /* 0x3c10 */ u8 _3c10;
     u8 _pad_3c11[3];
     /* 0x3c14 */ UiTimer _3c14;

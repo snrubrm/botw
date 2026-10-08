@@ -504,6 +504,23 @@ void ScreenPauseMenu::m156() {
         _3a00[index]->sub_71009B0224(false);
 }
 
+// 0x7100a3dd78
+void ScreenPauseMenu::m175() {
+    if (_3bb4 == 2) {
+        const u32 index = _3a18 < 3 ? _3a18 : 0;
+        auto* unit = _3a00[index];
+        if (unit && unit->mButtons[u32(_3bd0) < 20 ? _3bd0 : 0].sub_7100989A08())
+            _3bb4 = 3;
+    } else if (_3bb4 == 1) {
+        if (!_3bb8.updateAndCheckEnded())
+            return;
+        _3bb4 = 2;
+        const u32 index = _3a18 < 3 ? _3a18 : 0;
+        if (auto* unit = _3a00[index])
+            unit->mButtons[u32(_3bd0) < 20 ? _3bd0 : 0].sub_71009899EC();
+    }
+}
+
 // 0x7100a3e2d4
 void ScreenPauseMenu::m186() {
     if (_3674)
