@@ -4,6 +4,7 @@
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 
 namespace uking::ai {
 
@@ -94,6 +95,20 @@ bool PriestBossActorNormalRoot::m36() {
         return true;
     }
     return false;
+}
+
+// 0x710050ddbc
+// NON_MATCHING: actor load and accessor-destructor branch scheduling differ.
+void PriestBossActorNormalRoot::sub_710050DDBC(u32 value) {
+    ksys::act::ActorConstDataAccess accessor;
+    if (sub_7100505BE4()->sub_71007194CC(&accessor)) {
+        {
+            sead::ScopedLock<sead::JobQueueLock> lock(&_48._30);
+            _48._18 = value;
+            _48._20.acquire(mActor, false);
+        }
+        _48.sub_710070DBB0(*accessor.getMessageTransceiverId(), false);
+    }
 }
 
 }  // namespace uking::ai

@@ -12,6 +12,22 @@ s32 sub_710071E288(ksys::act::Actor* actor);
 
 namespace uking::ai {
 
+// 0x710050b7a8: the second unit lookup's result is discarded natively.
+bool PriestBossActorNormalMode::sub_710050B7A8() {
+    if (!sub_7100505BE4())
+        return false;
+    sub_7100505BE4();
+    if (_e4 == 2 || u32(_e4 - 2) > 8)
+        return false;
+    if (!sub_7100505BE4())
+        return false;
+    dmg::Unk_7100671794_Entry entry;
+    entry.mLink.acquire(mActor, false);
+    entry.mDistance = 10000.0f;
+    auto* limiter = &dmg::DamageInfoMgr::instance()->get4f8();
+    return limiter->sub_7100671A74(&entry, sub_7100505BE4()->_98);
+}
+
 // NON_MATCHING: the original uses separate scalar stores where the natural constructor merges them.
 PriestBossActorNormalMode::PriestBossActorNormalMode(const InitArg& arg) : PriestBossMode(arg) {}
 

@@ -277,7 +277,8 @@ public:
 
     u32 _18 = 0;
     ksys::act::BaseProcLink _20;
-    u32 _30 = 0;
+    // 0x710050ddbc locks this while filling the payload and acquiring _20.
+    sead::JobQueueLock _30;
 };
 
 // vtable 0x7102418f20 (RemainsFireBattleMove)

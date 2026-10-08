@@ -23,6 +23,7 @@ public:
 
 protected:
     void sub_710050DC18(bool from_sync);
+    void sub_710050DDBC(u32 value);
 
     // aitree_variable at offset 0x40
     int* mEquipWeaponBufIndex_a{};
