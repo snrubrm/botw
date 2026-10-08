@@ -6,6 +6,16 @@
 #include "KingSystem/ActorSystem/actAiAi.h"
 #include "KingSystem/System/Timer.h"
 
+#include "Game/AI/aiUnk_NavMeshCallback.h"
+
+// Vtable 0x71023e7178 (GOT 0x2586918, used only by EnemyEscapeMove::sub_710038AB40 which declares it as a local
+// object): m0 is 0x7100389680 (964 B, declared only; it appends points to a list), m1 / m2 are the defaults. The
+// members are not recovered.
+class Unk_71023e7178 : public Unk_NavMeshCallback {
+public:
+    bool m0(const void* node) override;
+};
+
 namespace uking::ai {
 
 class EnemyEscapeMove : public ksys::act::ai::Ai {

@@ -7,6 +7,14 @@
 #include "KingSystem/Physics/System/physHavokAI.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
 
+void* Unk_NavMeshCallback::m1() {
+    return nullptr;
+}
+
+bool Unk_NavMeshCallback::m2() {
+    return true;
+}
+
 namespace uking::ai {
 
 EnemyEscapeMove::EnemyEscapeMove(const InitArg& arg) : ksys::act::ai::Ai(arg) {
