@@ -3,6 +3,7 @@
 #include "Game/AI/aiUnk_710072BA90.h"
 #include "Game/Damage/dmgDamageManager.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Utils/MathUtil.h"
 
 namespace uking::ai {
 
@@ -122,6 +123,51 @@ void GuardianMiniChangeWeapon::sub_710041AAD4() {
         return;
     if (as_list->x_1(1, 0) != mDamageASName_s)
         sub_710041AA18();
+}
+
+void GuardianMiniChangeWeapon::sub_710041ABD4() {
+    auto* actor = mActor;
+    if (!actor)
+        return;
+    auto* model = actor->getModel();
+    if (!model)
+        return;
+    auto* as_list = actor->getASList();
+    if (!as_list)
+        return;
+    const auto root_key = model->searchBone(mRootNodeName_s.cstr());
+    const auto damage_key = actor->getModel()->searchBone(mDamageNodeName_s.cstr());
+    if (!root_key.isValid() || !damage_key.isValid())
+        return;
+    as_list->sub_710115C9E0(1);
+    as_list->mSlots[1].sub_7101165008(root_key, 0, true);
+    as_list->mSlots[1].sub_7101165008(damage_key, 3, true);
+    as_list->mSlots[1].sub_7101164E38(false);
+    as_list->sub_710115C9E0(0);
+    as_list->mSlots[0].sub_7101165008(root_key, 3, true);
+    as_list->mSlots[0].sub_7101165008(damage_key, 0, true);
+    as_list->mSlots[0].sub_7101164E38(false);
+    if (auto* damage_mgr = sub_710072BA90(actor)) {
+        sead::Vector3f pos;
+        if (damage_mgr->getPosition(&pos)) {
+            sead::Vector3f dir = pos;
+            dir.y = 0.0f;
+            dir.x = dir.x - actor->getMtx().m[0][3];
+            dir.z = dir.z - actor->getMtx().m[2][3];
+            dir.normalize();
+            sead::Vector3f rot;
+            const sead::Matrix34f& mtx = actor->getMtx();
+            rot.x = dir.x * mtx.m[0][0] + dir.y * mtx.m[0][1] + dir.z * mtx.m[0][2];
+            rot.y = dir.x * mtx.m[1][0] + dir.y * mtx.m[1][1] + dir.z * mtx.m[1][2];
+            rot.z = dir.x * mtx.m[2][0] + dir.y * mtx.m[2][1] + dir.z * mtx.m[2][2];
+            sead::Vector3f axis;
+            f32 angle;
+            ksys::util::sub_71011EEB08(&axis, &angle, rot, sead::Vector3f::ez,
+                                       sead::Vector3f::ey);
+            as_list->x_6(9, 0, axis.y * angle * 57.295776f);
+        }
+    }
+    as_list->startAnimationMaybe(-1.0f, -1.0f, mDamageASName_s.cstr(), 1, 0, true);
 }
 
 bool GuardianMiniChangeWeapon::handleMessage_(const ksys::Message* message) {
