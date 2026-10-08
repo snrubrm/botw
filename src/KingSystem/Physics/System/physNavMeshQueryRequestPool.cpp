@@ -41,7 +41,7 @@ void NavMeshQueryRequestPool::sub_71012AA118(Unk_7102372790* query) {
 
 void NavMeshQueryRequestPool::sub_71012AA1F0(NavMeshCharacter* nav) {
     auto lock = sead::makeScopedLock(_48);
-    _138.remove(nav);
+    _138.erase(nav);
 }
 
 }  // namespace ksys::phys

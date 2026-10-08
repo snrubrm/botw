@@ -208,7 +208,10 @@ public:
     /* 0x008 */ NavMeshCharacterUnk8* _8 = nullptr;  // heap object (0xe0 bytes) created by init
     /* 0x010 */ NavMeshCharacterUnk10* _10 = nullptr;
     /* 0x018 */ HavokAI* _18 = nullptr;
-    /* 0x020 */ u8 _20[0x58 - 0x20];
+    // HavokAI::sub_7100F82BCC exchanges this with ldxr/stxr (sead::Atomic): the HavokAI that should handle the next
+    // request (compared against `ai | 1`).
+    /* 0x020 */ sead::Atomic<HavokAI*> _20;
+    /* 0x028 */ u8 _28[0x58 - 0x28];
     /* 0x058 */ void* _58 = nullptr;
     /* 0x060 */ void* _60 = nullptr;
     /* 0x068 */ sead::CriticalSection _68;

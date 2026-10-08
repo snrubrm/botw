@@ -6,6 +6,7 @@
 #include <math/seadMathCalcCommon.h>
 #include <math/seadVector.h>
 #include <thread/seadAtomic.h>
+#include "KingSystem/Utils/Container/LockFreeQueue.h"
 #include <thread/seadCriticalSection.h>
 #include <thread/seadThread.h>
 #include "KingSystem/Resource/resHandle.h"
@@ -17,6 +18,7 @@ class Handle;
 
 namespace ksys::phys {
 
+class HavokAI;
 class NavMeshCharacter;
 class Unk_7100f7e9f0;
 
@@ -134,6 +136,27 @@ struct Unk_RequestQueue {
 };
 KSYS_CHECK_SIZE_NX150(Unk_RequestQueue<void>, 0x18);
 
+// Placeholder (the 0xb0-byte entries of InstanceSet::_100, the same layout as InstanceSet::Unk2): HavokAI queues
+// them for adding / removing (0x7100f8305c, 0x7100f83118, 0x7100f833a8). `_a0` is the HavokAI that should handle
+// the next request (exchanged with ldxr/stxr, compared against `this | 1`), `_a8` request flags (ldxr/stxr
+// and / orr in those functions: sead::Atomic).
+struct NavMeshObjMaybe {
+    /* 0x00 */ u8 _0[0x98];
+    /* 0x98 */ HavokAI* _98;  // the HavokAI it was added to
+    /* 0xa0 */ sead::Atomic<HavokAI*> _a0;
+    /* 0xa8 */ sead::Atomic<u32> _a8;
+};
+KSYS_CHECK_SIZE_NX150(NavMeshObjMaybe, 0xb0);
+
+// Placeholder (the object 0x7100f8b518 / 0x7100f8b538 pass to HavokAI 0x7100f83580 / 0x7100f8363c / 0x7100f83790):
+// same request scheme as NavMeshObjMaybe with the HavokAI at +0x70, the pending one at +0x78 and the flags at +0x80.
+struct NavMeshObj2Maybe {
+    /* 0x00 */ u8 _0[0x70];
+    /* 0x70 */ HavokAI* _70;
+    /* 0x78 */ sead::Atomic<HavokAI*> _78;
+    /* 0x80 */ sead::Atomic<u32> _80;
+};
+
 // Name from the CSV (NavMeshQueryRequestPool::ctor 0x71012a8ffc, heap name
 // "NavMeshQueryRequestPool"). Owns the request heap and lock-free request queues.
 // TODO: incomplete.
@@ -158,8 +181,10 @@ public:
     /* 0x088 */ u8 _88[0x108 - 0x88];
     /* 0x108 */ Unk_RequestQueue<Unk_7102372790> _108;
     /* 0x120 */ Unk_RequestQueue<Unk_7102372790> _120;
-    /* 0x138 */ Unk_RequestQueue<NavMeshCharacter> _138;  // pushed by HavokAI::sub_7100F82BCC
-    /* 0x150 */ u8 _150[0x180 - 0x150];
+    /* 0x138 */ util::LockFreeQueue<NavMeshCharacter> _138;  // pushed by HavokAI::sub_7100F82BCC
+    // The push loop of 0x7100f8305c etc. matches util::LockFreeQueue (same 0x18-byte layout as Unk_RequestQueue).
+    /* 0x150 */ util::LockFreeQueue<NavMeshObjMaybe> _150;
+    /* 0x168 */ util::LockFreeQueue<NavMeshObj2Maybe> _168;
     /* 0x180 */ Unk_RequestQueue<Unk_7102372790> _180;
     /* 0x198 */ Unk_7102372790* _198;
 };
@@ -204,6 +229,15 @@ public:
     // 0x7100f82bcc (CSV HavokAI::__auto2): registers a navmesh character: clears flag 2 / sets flag 1 of
     // its `_220`, stores this in its `_20` and queues it. Callers run it when `nav->_18` is null.
     void sub_7100F82BCC(NavMeshCharacter* nav);
+
+    // 0x7100f8305c / 0x7100f83118 / 0x7100f833a8 (placeholder names): request bit 0 (clearing bit 1) / bit 2 /
+    // bit 1 (clearing bit 0) for `obj` and queue it in the pool unless another HavokAI has it pending.
+    void sub_7100F8305C(NavMeshObjMaybe* obj);
+    void sub_7100F83118(NavMeshObjMaybe* obj);
+    void sub_7100F833A8(NavMeshObjMaybe* obj);
+    // 0x7100f83580 / 0x7100f8363c (placeholder names): the same for NavMeshObj2Maybe (bit 0 / bit 2).
+    void sub_7100F83580(NavMeshObj2Maybe* obj);
+    void sub_7100F8363C(NavMeshObj2Maybe* obj);
 
     // 0x7100f82dd8 (not decompiled): counterpart of sub_7100F82BCC (called with the same guard).
     void sub_7100F82DD8(NavMeshCharacter* nav);
