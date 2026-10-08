@@ -57,6 +57,30 @@ void ScreenAppPictureBookUnk::sub_710093F10C(s32 index, s32* out_index, s32* out
     }
 }
 
+// 0x710093a008
+void Unk_7102474f10::sub_710093A008(s32 mode) {
+    switch (mode) {
+    case 3:
+        if (_30)
+            _30->PlayFromCurrent(eui::Animator::PlayType(0), 1.0f);
+        else if (_8)
+            _8->sub_7100BDDE7C(false, 0, true);
+        break;
+    case 4:
+        if (_30)
+            _30->PlayAuto(1.0f);
+        else if (_8)
+            _8->sub_7100BDDE7C(false, 0, true);
+        break;
+    case 5:
+        if (_30)
+            _30->StopAtMax();
+        else if (_8)
+            _8->sub_7100BDDE7C(false, 1, true);
+        break;
+    }
+}
+
 // 0x710093a0a8
 void Unk_7102474f10::sub_710093A0A8(s32 mode) {
     switch (mode) {

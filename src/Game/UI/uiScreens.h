@@ -2138,6 +2138,8 @@ class Unk_7102474f10 {
 public:
     SEAD_RTTI_BASE(Unk_7102474f10)
     virtual ~Unk_7102474f10();
+    // 0x710093a008 (placeholder name): modes 3 / 4 / 5 of sub_710093A0A8 (play from current / play auto / stop at max)
+    void sub_710093A008(s32 mode);
     // 0x710093a0a8 (placeholder name; called for every group by 0x7100943d5c): mode 0 / 1 / 2 plays the _30 animator
     // (from current / auto / stops at min), or starts the close animation of the layout when there is none.
     void sub_710093A0A8(s32 mode);
