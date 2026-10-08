@@ -35,6 +35,10 @@ bool sub_7100724E1C(ksys::act::Actor* actor, u32 part);
 ksys::act::BaseProcLink& sub_7100724F08(ksys::act::Actor* actor, u32 part);
 bool sub_7100724FE8(ksys::act::Actor* actor, ksys::act::BaseProc* proc, u32 part);
 bool sub_71007250E4(ksys::act::Actor* actor, u32 part);
+// 0x710072735c (declared only; called by ForkStalEnemyGrabOwnPart::calc_).
+void sub_710072735C(ksys::act::Actor* actor, bool a1, bool a2);
+// 0x7100727aa0 (declared only; called by ForkStalEnemyGrabOwnPart::calc_).
+void sub_7100727AA0(ksys::act::Actor* actor, u32 part);
 
 const char* sub_71007251D0();
 const char* sub_71007251DC();
