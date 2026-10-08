@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiMasterSwordRoot.h"
+#include "Game/Actor/actWeapon.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
@@ -19,6 +21,20 @@ void MasterSwordRoot::enter_(ksys::act::ai::InlineParamPack* params) {
         return;
     }
     WeaponRootAI::enter_(params);
+}
+
+// NON_MATCHING: the original copies Vector3f::zero to a stack temporary before each addVec3 (two
+// named `const sead::Vector3f` copies reproduce it exactly; not applied, see lane1 log s65).
+void MasterSwordRoot::sub_71004A3AFC() {
+    auto* weapon = sead::DynamicCast<act::Weapon>(mActor);
+    if (!weapon)
+        return;
+    sub_7100E1EE94(ksys::phys::MotionType(2));
+    ksys::act::ai::InlineParamPack params;
+    params.addString(weapon->m164(), "NodeName", -1);
+    params.addVec3(sead::Vector3f::zero, "RotOffset", -1);
+    params.addVec3(sead::Vector3f::zero, "TransOffset", -1);
+    changeChild("マスターソードチャレンジ", &params);
 }
 
 void MasterSwordRoot::leave_() {

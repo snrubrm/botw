@@ -19,6 +19,9 @@ public:
 
     // 0x71004a3410 (not decompiled): (re)creates the magic attack actor into _100.
     void sub_71004A3410();
+    // 0x71004a3afc (placeholder name): for a Weapon actor: motion type 2, then changeChild
+    // "マスターソードチャレンジ" with the weapon's NodeName (m164) and zero RotOffset / TransOffset.
+    void sub_71004A3AFC();
 
 protected:
     bool _e8 = false;
