@@ -23,6 +23,8 @@ protected:
     void m35() override;
     void m36() override;
 
+    void sub_710077B7DC();
+
     // static_param at offset 0x50
     const float* mSpeedMax_s{};
     // static_param at offset 0x58
