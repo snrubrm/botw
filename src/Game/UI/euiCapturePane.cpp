@@ -3,11 +3,34 @@
 #include "Game/UI/euiPartsEx.h"
 #include "Game/UI/euiScreen.h"
 
+#include <nn/ui2d/BuildTypes.h>
 #include <nn/ui2d/Pane.h>
 #include <heap/seadHeap.h>
 #include <nn/ui2d/ResExtUserData.h>
+#include <utility/aglDynamicTextureAllocator.h>
 
 namespace eui {
+
+CapturePane::CapturePane(const nn::ui2d::ResPane* resource, const nn::ui2d::BuildArgSet& args)
+    : nn::ui2d::Pane(resource, args) {
+    initialize_(const_cast<LayoutEx*>(static_cast<const LayoutEx*>(args.mParentLayout)));
+}
+
+CapturePane::~CapturePane() {
+    if (mClearColor) {
+        delete mClearColor;
+        mClearColor = nullptr;
+    }
+    sub_7100BF1E64();
+}
+
+// 0x7100bf1e64
+void CapturePane::sub_7100BF1E64() {
+    if (mTexture) {
+        agl::utl::DynamicTextureAllocator::instance()->free(mTexture);
+        mTexture = nullptr;
+    }
+}
 
 // NON_MATCHING: byte-to-float conversion and color-store scheduling differ.
 // 0x7100bf14f0
@@ -42,50 +65,6 @@ void CapturePane::setupCaptureOutputAlpha255_(nn::ui2d::Pane* pane, sead::BitFla
 void CapturePane::setupCaptureOriginalSize_(nn::ui2d::Pane* pane, sead::BitFlag<u8>* flags) {
     if (pane->FindExtUserDataByName("CaptureOriginalSize"))
         flags->setBit(4);
-}
-
-// 0x7100bee240
-void sub_7100BEE240(nn::ui2d::Pane* pane) {
-    if (auto* capture = nn::font::DynamicCast<CapturePane>(pane))
-        capture->_db = true;
-    for (auto& child : pane->GetChildList())
-        sub_7100BEE240(&child);
-}
-
-// NON_MATCHING: the original calls PartsEx::GetRuntimeTypeInfoStatic out of line (0x7100a4a4f8, shared with other
-// callers); here it is inlined. Same for sub_7100BEE4D4.
-// 0x7100bee334
-void sub_7100BEE334(nn::ui2d::Pane* pane, LayoutEx* layout) {
-    if (auto* parts = nn::font::DynamicCast<PartsEx>(pane))
-        layout = static_cast<LayoutEx*>(parts->mPartsLayoutLink.layout);
-    sub_7100BEE3C8(pane, layout);
-    for (auto& child : pane->GetChildList())
-        sub_7100BEE334(&child, layout);
-}
-
-// 0x7100bee3c8
-void sub_7100BEE3C8(nn::ui2d::Pane* pane, LayoutEx* layout) {
-    if (auto* capture = nn::font::DynamicCast<CapturePane>(pane)) {
-        const char* name = layout->mScreen ? layout->mScreen->_c8.cstr() : layout->mName;
-        capture->initializeCaptureTextureData_(name);
-    }
-    sub_7100BED748(pane, layout);
-}
-
-// NON_MATCHING: as sub_7100BEE334.
-// 0x7100bee4d4
-void sub_7100BEE4D4(nn::ui2d::Pane* pane, LayoutEx* layout) {
-    if (auto* parts = nn::font::DynamicCast<PartsEx>(pane))
-        layout = static_cast<LayoutEx*>(parts->mPartsLayoutLink.layout);
-    sub_7100BEE564(pane);
-    for (auto& child : pane->GetChildList())
-        sub_7100BEE4D4(&child, layout);
-}
-
-// 0x7100bee564
-void sub_7100BEE564(nn::ui2d::Pane* pane) {
-    if (auto* capture = nn::font::DynamicCast<CapturePane>(pane))
-        capture->sub_7100BF1E64();
 }
 
 }  // namespace eui

@@ -13,6 +13,9 @@
 #include <nn/ui2d/Pane.h>
 #include <nn/ui2d/ResExtUserData.h>
 #include <nn/ui2d/TextureInfo.h>
+#include "Game/UI/euiCapturePane.h"
+#include "Game/UI/euiPartsEx.h"
+#include "Game/UI/euiScreen.h"
 #include "Game/UI/euiTypes.h"
 #include "Game/UI/euiTextSearcher.h"
 #include "Game/UI/euiLayoutEx.h"
@@ -208,6 +211,50 @@ void UnregisterSlotForTexture(nn::gfx::DescriptorSlot* slot, const nn::gfx::Text
 void UnregisterSlotForSampler(nn::gfx::DescriptorSlot* slot, const nn::gfx::Sampler&, void*) {
     static_cast<agl::driver::NVNMgr*>(agl::driver::GraphicsDriverMgr::instance())
         ->releaseSampler(slot->ToData()->value);
+}
+
+// 0x7100bee240
+void sub_7100BEE240(nn::ui2d::Pane* pane) {
+    if (auto* capture = nn::font::DynamicCast<CapturePane>(pane))
+        capture->_db = true;
+    for (auto& child : pane->GetChildList())
+        sub_7100BEE240(&child);
+}
+
+// NON_MATCHING: the original calls PartsEx::GetRuntimeTypeInfoStatic out of line (0x7100a4a4f8, shared with other
+// callers); here it is inlined. Same for sub_7100BEE4D4.
+// 0x7100bee334
+void sub_7100BEE334(nn::ui2d::Pane* pane, LayoutEx* layout) {
+    if (auto* parts = nn::font::DynamicCast<PartsEx>(pane))
+        layout = static_cast<LayoutEx*>(parts->mPartsLayoutLink.layout);
+    sub_7100BEE3C8(pane, layout);
+    for (auto& child : pane->GetChildList())
+        sub_7100BEE334(&child, layout);
+}
+
+// 0x7100bee3c8
+void sub_7100BEE3C8(nn::ui2d::Pane* pane, LayoutEx* layout) {
+    if (auto* capture = nn::font::DynamicCast<CapturePane>(pane)) {
+        const char* name = layout->mScreen ? layout->mScreen->_c8.cstr() : layout->mName;
+        capture->initializeCaptureTextureData_(name);
+    }
+    sub_7100BED748(pane, layout);
+}
+
+// NON_MATCHING: as sub_7100BEE334.
+// 0x7100bee4d4
+void sub_7100BEE4D4(nn::ui2d::Pane* pane, LayoutEx* layout) {
+    if (auto* parts = nn::font::DynamicCast<PartsEx>(pane))
+        layout = static_cast<LayoutEx*>(parts->mPartsLayoutLink.layout);
+    sub_7100BEE564(pane);
+    for (auto& child : pane->GetChildList())
+        sub_7100BEE4D4(&child, layout);
+}
+
+// 0x7100bee564
+void sub_7100BEE564(nn::ui2d::Pane* pane) {
+    if (auto* capture = nn::font::DynamicCast<CapturePane>(pane))
+        capture->sub_7100BF1E64();
 }
 
 }  // namespace eui
