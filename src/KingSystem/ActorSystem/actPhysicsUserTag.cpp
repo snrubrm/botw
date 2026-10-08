@@ -26,6 +26,10 @@ bool PhysicsUserTag::acquireActor(ActorLinkConstDataAccess* accessor) const {
     return accessor->acquire(mActor);
 }
 
+void PhysicsUserTag::onMaxPositionExceeded(phys::RigidBody* body) {
+    mActor->m92(body);
+}
+
 void PhysicsUserTag::onImpulse(phys::RigidBody* body_a, phys::RigidBody* body_b, float impulse_a) {
     // The tag hash is not identified.
     constexpr u32 tag = 0x2c608f30;
