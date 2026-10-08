@@ -4,6 +4,9 @@
 
 namespace uking::ui {
 
+// 0x71010aefb0 (CSV unnamed): Entry D1 (restores the vtable, releases the proc link)
+ScreenMessage3D::Entry::~Entry() = default;
+
 // 0x71010ae9e8
 bool ScreenMessage3D::sub_71010AE9E8(ksys::act::Actor* actor) {
     if (!isOpened())

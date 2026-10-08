@@ -851,7 +851,7 @@ public:
     };
 
     struct Entry {
-        u8 _0[8];
+        virtual ~Entry();
         /* 0x8 */ eui::LayoutEx* _8;
         /* 0x10 */ EntryState* _10;
         u8 _18[0x38 - 0x18];
