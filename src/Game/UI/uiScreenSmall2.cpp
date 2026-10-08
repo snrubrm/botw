@@ -307,6 +307,101 @@ void ScreenMessageDialog::sub_71010B34A0(bool a1) {
     _773 = a1 ? 1 : 2;
 }
 
+// 0x71010b3294 (CSV unnamed): scan the text for a continuation marker; record the kind in _774.
+// NON_MATCHING: the original has a third (dead) tag-marker arm that loads from a null pointer;
+// only the 0xe/0xf arms are reachable (the (head|1) pre-check proves it), so the else is omitted
+// (q defaults to null). Also differs in the 0xe arm's registers and branch layout.
+void ScreenMessageDialog::sub_71010B3294() {
+    s32 result;
+    if (_720 == nullptr || !_728.hasProc()) {
+        result = 0;
+    } else {
+        _768 = 0xffff;
+        _76d = 0;
+        if (reinterpret_cast<u8*>(_778)[0x5d] != 0) {
+            result = 2;
+        } else {
+            result = 0;
+            if (_3a8 >= 1) {
+                const char16* end = _3a0 + _3a8;
+                const char16* p = _3a0;
+                while (true) {
+                    const char16 head = *p;
+                    if ((head | 1) != 0xf) {
+                        if (head > 0x2025) {
+                            if (head == 0x2026) {
+                                result = 1;
+                                break;
+                            }
+                            if (head == 0x3000) {
+                                result = 1;
+                                break;
+                            }
+                            if (head != 0x30fb || p + 4 >= end || p[1] != 0x30fb ||
+                                p[2] != 0x30fb) {
+                                ksys::act::sActorDebugFlagsMaybe.set(2);
+                                break;
+                            }
+                            result = 1;
+                            break;
+                        }
+                        if (head == 0xa) {
+                            result = 1;
+                            break;
+                        }
+                        if (head == 0x20) {
+                            result = 1;
+                            break;
+                        }
+                        if (head != 0x2e || p + 4 >= end || p[1] != 0x2e || p[2] != 0x2e) {
+                            ksys::act::sActorDebugFlagsMaybe.set(2);
+                            break;
+                        }
+                        result = 1;
+                        break;
+                    }
+                    const char16* q = nullptr;
+                    if (head == 0xf) {
+                        q = p;
+                        p += 3;
+                    } else if (head == 0xe) {
+                        q = p;
+                        p = reinterpret_cast<const char16*>(reinterpret_cast<const u8*>(p) + p[3] +
+                                                           8);
+                    }
+                    const u16 type = q[1];
+                    if (type > 1) {
+                        if (type == 2) {
+                            ksys::act::sActorDebugFlagsMaybe.set(2);
+                            break;
+                        }
+                        if (type == 5) {
+                            result = 1;
+                            break;
+                        }
+                        if (type == 0xc9) {
+                            ksys::act::sActorDebugFlagsMaybe.set(2);
+                            break;
+                        }
+                    } else if (type == 1) {
+                        if (q[2] == 0) {
+                            result = 1;
+                            break;
+                        }
+                    }
+                    if (p >= end) {
+                        ksys::act::sActorDebugFlagsMaybe.set(2);
+                        break;
+                    }
+                }
+            } else {
+                ksys::act::sActorDebugFlagsMaybe.set(2);
+            }
+        }
+    }
+    _774 = result;
+}
+
 // 0x71010b34d0
 const char* ScreenMessageDialog::getLayoutName_() const {
     return !_76a ? "Message_00" : "MessageSp_00";
