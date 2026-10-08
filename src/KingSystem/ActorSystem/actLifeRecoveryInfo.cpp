@@ -43,6 +43,12 @@ bool LifeRecoverInfo::onApplyDamage(s32& damage) {
     return remaining != extra;
 }
 
+void LifeRecoverInfo::sub_7100D68D54() {
+    mExtraHp1 = sead::Mathf::min(f32(mExtraHp2), 0.0f);
+    const Flag enabled(0);
+    mFlags &= ~(1 << int(enabled));
+}
+
 void LifeRecoverInfo::onApplyDamage_0() {
     mTimer.value = mField_2C;
     mTimer.previous_value = mField_2C;

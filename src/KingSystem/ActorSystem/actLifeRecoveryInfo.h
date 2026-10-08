@@ -38,6 +38,8 @@ public:
     LifeRecoverInfo();
     bool init(const LifeRecoverParams* params);
 
+    // 0x7100d68d54 (placeholder name): `mExtraHp1 = min(mExtraHp2, 0)` and clears flag 0 (the init() form).
+    void sub_7100D68D54();
     // 0x7100d68ad4 (88 B; in this TU, right after onApplyDamage): resets the recovery state
     // (mExtraHp1 = min(mExtraHp2, 0), both timers take mField_2C, clears flag bit 1).
     // Placeholder name; called by Eat::calc_ via Actor::getLifeRecoverInfo().
