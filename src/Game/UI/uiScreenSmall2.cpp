@@ -1334,6 +1334,12 @@ void ScreenSaveTransferWindow::sub_7100A46268() {
     _3640->setFlag10(false);
 }
 
+// 0x7100a45fd0
+void ScreenSaveTransferWindow::sub_7100A45FD0() {
+    if ((SaveSystem::instance()->_3c | 1) != 7)
+        mStateMachine.changeState(&sUnk_71025f2de0);
+}
+
 // 0x7100a46004
 void ScreenSaveTransferWindow::sub_7100A46004() {
     _366c = -1;

@@ -3399,6 +3399,8 @@ public:
     void sub_7100A46124();
     void sub_7100A46268();
     void sub_7100A46004();
+    // 0x7100a45fd0 (placeholder name): leaves the window's state when the save system is not in state 7
+    void sub_7100A45FD0();
     void sub_7100A44544();
     void sub_7100A44458();
     void sub_7100A44878();
