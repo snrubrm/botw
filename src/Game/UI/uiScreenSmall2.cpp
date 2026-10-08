@@ -1442,6 +1442,13 @@ bool ScreenAppMap::sub_71009E9F10() {
     return _3610 ? _3610->sub_71009A9438() : false;
 }
 
+// 0x71009e9f20
+bool ScreenAppMap::sub_71009E9F20() {
+    if (_3ad1)
+        return !sub_71009E9F48();
+    return false;
+}
+
 }  // namespace uking::ui
 
 namespace uking::ui {

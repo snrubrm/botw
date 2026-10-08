@@ -1747,6 +1747,8 @@ public:
     bool sub_71009EF5A8(s32);
     // 0x71009e9f48 / 0x71009eb52c / 0x71009eb72c (CSV unnamed; declared only)
     bool sub_71009E9F48();
+    // 0x71009e9f20 (placeholder name): false unless `_3ad1` is set; then the negated sub_71009E9F48
+    bool sub_71009E9F20();
     // 0x71009eacc0 (CSV unnamed, 640 bytes; declared only)
     void sub_71009EACC0(s32 a1);
     void sub_71009EB52C();
