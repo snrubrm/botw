@@ -32,9 +32,10 @@ void IncreaseNumHeroSeal::enter_(ksys::act::ai::InlineParamPack* params) {
     const sead::SafeString* name = u32(sHeroSealPouchTable._148) > u32(*mRelicPattern_d)
                                        ? &sHeroSealPouchTable._150[*mRelicPattern_d]
                                        : sHeroSealPouchTable._150;
-    bool ok = ui::checkWeaponFreeSlotImpl(*name, *mValue_d);
+    const bool ok = ui::checkWeaponFreeSlotImpl(*name, *mValue_d);
+    const s32 pattern = *mRelicPattern_d;
     if (ok) {
-        ui::sub_7100A97860(*mRelicPattern_d);
+        ui::sub_7100A97860(pattern);
         const sead::SafeString* name2 = u32(sHeroSealPouchTable._148) > u32(*mRelicPattern_d)
                                             ? &sHeroSealPouchTable._150[*mRelicPattern_d]
                                             : sHeroSealPouchTable._150;
