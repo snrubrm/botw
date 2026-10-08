@@ -3062,6 +3062,10 @@ bool sub_7100AA29C4(ShopInfoTagData* data, sead::SafeString& name);
 // 0x7100aa2bdc (CSV unnamed): resolve the tag data's string into a message (suffix-stripped actor
 // name under ActorType/<profile>, or the empty message).
 u32 sub_7100AA2BDC(ShopInfoTagData* data, eui::MessageString* out);
+// 0x7100aa3b50 (CSV unnamed): build the "UI/StockItem/<icon>" texture path for `name` into `out`
+// (icon-actor lookup, Weapon_Sword_502/503 quirk, ".%02d" count suffix, ".bitemico" extension).
+void sub_7100AA3B50(const sead::SafeString& name, sead::BufferedSafeStringBase<char>* out,
+                    s32 count);
 // 0x71010b3468 / 0x71010b3484 (CSV placeholders): TagInfo adapters into the ksys::eft helpers
 // (called by the ScreenMessage3D tag invoke).
 void sub_71010B3468(const sead::MessageSet<char16>::TagInfo* tag, ksys::act::Actor* actor, bool flag);

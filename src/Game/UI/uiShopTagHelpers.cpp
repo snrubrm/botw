@@ -304,6 +304,30 @@ void sub_7100AA2FA0(ShopInfoTagData* data, sead::BufferedSafeStringBase<char>* a
     }
 }
 
+// 0x7100aa3b50 (CSV unnamed): build the "UI/StockItem/<icon>" texture path for `name` into `out`
+// (icon-actor lookup, Weapon_Sword_502/503 quirk, ".%02d" count suffix, ".bitemico" extension).
+void sub_7100AA3B50(const sead::SafeString& name, sead::BufferedSafeStringBase<char>* out,
+                    s32 count) {
+    sead::FixedSafeString<0x80> path;
+    ksys::act::InfoData* info = ksys::act::InfoData::instance();
+    if (info != nullptr) {
+        const char* icon = ksys::act::getItemUseIconActorName(info, name.cstr());
+        if (*icon != sead::SafeString::cNullChar)
+            path.format("UI/StockItem/%s", icon);
+    }
+    if (path.isEmpty())
+        path.format("UI/StockItem/%s", name.cstr());
+    if (name == "Weapon_Sword_502") {
+        const char* sword =
+            shouldUseWeaponSword503() ? "Weapon_Sword_503" : "Weapon_Sword_502";
+        path.format("UI/StockItem/%s", sword);
+    }
+    if (count >= 1)
+        path.appendWithFormat(".%02d", count);
+    path.append(".bitemico");
+    out->copy(path);
+}
+
 // Emits the Delegate2R vtable (0x71024987e0) + invoke (0x7100a534e8) + clone (0x7100a5351c).
 }  // namespace uking::ui
 
