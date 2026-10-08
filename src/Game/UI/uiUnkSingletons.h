@@ -402,6 +402,13 @@ public:
     u8 get88() const;
     void clear88();
     sead::Vector2f* getVec3868();
+    // 0x7100964174 / 0x7100968d10 / 0x7100966d0c / 0x7100966350 (placeholder names): whether an entry is selected
+    // (or the cursor state 0 .. 5 / 11 .. 13 is active); updates the change bits of _3864 (2: set, 4: cleared);
+    // set `_3868` / `_3870` to the given vector clamped to half the extent of the map bounds when `_848` is set
+    bool sub_7100964174() const;
+    void sub_7100968D10(bool set);
+    void sub_7100966D0C(const sead::Vector2f& value);
+    void sub_7100966350(const sead::Vector2f& value);
     sead::Vector2f* getVec3870();
     sead::Vector2f* getVec3878();
     void set880(const sead::Vector2f& value);
@@ -522,7 +529,11 @@ private:
     u8 _89c[0x8b0 - 0x89c];
     /* 0x8b0 */ f32 _8b0;
     /* 0x8b4 */ f32 _8b4;
-    u8 _8b8[0x3820 - 0x8b8];
+    u8 _8b8[0x8c0 - 0x8b8];
+    // The bounds of the map view (min / max corner)
+    /* 0x8c0 */ sead::Vector2f _8c0;
+    /* 0x8c8 */ sead::Vector2f _8c8;
+    u8 _8d0[0x3820 - 0x8d0];
     /* 0x3820 */ s32 _3820;
     u8 _3824[0x3830 - 0x3824];
     /* 0x3830 */ s32 _3830;

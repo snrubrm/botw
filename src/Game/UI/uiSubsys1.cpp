@@ -275,6 +275,70 @@ bool UiSubsys1::return0D() const {
     return false;
 }
 
+// NON_MATCHING: the original evaluates the state test branch-free (csel chain, orr with the entry test); ours branches.
+// 0x7100964174
+bool UiSubsys1::sub_7100964174() const {
+    const bool has_entry = _650 != nullptr;
+    if (_38e0 != 0) {
+        if (_38e0 == 1) {
+            const u32 state = _38e8;
+            return has_entry || (state < 6 || (u32(state - 6) > 4 && u32(state - 11) < 3));
+        }
+        return false;
+    }
+    return has_entry;
+}
+
+// NON_MATCHING: same logic; the original keeps the bit tests as cset flags and orders the branches differently.
+// 0x7100968d10
+void UiSubsys1::sub_7100968D10(bool set) {
+    u32 flags = _3864;
+    const u32 was_set = flags & 1;
+    if (set) {
+        flags |= 1;
+        _3864 = flags;
+    }
+    u32 change;
+    if ((flags & 1) && was_set == 0) {
+        change = 2;
+    } else {
+        if (flags & 1)
+            return;
+        if (was_set == 0)
+            return;
+        change = 4;
+    }
+    _3864 = flags | change;
+}
+
+// NON_MATCHING: same logic; the original orders the loads / arithmetic differently (fmov of the vector after the bound maths).
+// 0x7100966350
+void UiSubsys1::sub_7100966350(const sead::Vector2f& value) {
+    sead::Vector2f result = value;
+    if (instance()->_848 != 0) {
+        const f32 width = _8c8.x - _8c0.x;
+        const f32 half_width = width * 0.5f;
+        const f32 half_height = (_8c8.y - _8c0.y) * 0.5f;
+        result.x = sead::Mathf::clamp(result.x, width * -0.5f, half_width);
+        result.y = sead::Mathf::clamp(result.y, -half_height, half_height);
+    }
+    _3870 = result;
+}
+
+// NON_MATCHING: same as sub_7100966350.
+// 0x7100966d0c
+void UiSubsys1::sub_7100966D0C(const sead::Vector2f& value) {
+    sead::Vector2f result = value;
+    if (instance()->_848 != 0) {
+        const f32 width = _8c8.x - _8c0.x;
+        const f32 half_width = width * 0.5f;
+        const f32 half_height = (_8c8.y - _8c0.y) * 0.5f;
+        result.x = sead::Mathf::clamp(result.x, width * -0.5f, half_width);
+        result.y = sead::Mathf::clamp(result.y, -half_height, half_height);
+    }
+    _3868 = result;
+}
+
 // 0x7100968d5c
 bool UiSubsys1::has3864Bit0() const {
     return _3864 & 1;
