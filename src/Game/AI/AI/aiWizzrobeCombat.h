@@ -19,6 +19,7 @@ public:
     void loadParams_() override;
 
 protected:
+    bool sub_71005FACD8();
     // 0x71005fc498: the ray from `start` to `end` hits something that is neither water nor bog
     bool sub_71005FC498(const sead::Vector3f& start, const sead::Vector3f& end);
     // 0x71005fc01c: changes to the "召喚魔法" child

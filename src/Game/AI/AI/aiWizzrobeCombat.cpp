@@ -1,12 +1,28 @@
 #include "Game/AI/AI/aiWizzrobeCombat.h"
+#include "Game/AI/aiUnk_71007320F0.h"
+#include <random/seadGlobalRandom.h>
 #include "Game/Damage/dmgInfoManager.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/Physics/System/physRayCastBodyQuery.h"
 
 namespace uking::ai {
+
+// NON_MATCHING: vector component loads and subtraction register scheduling differ.
+bool WizzrobeCombat::sub_71005FACD8() {
+    const f32 distance = (sub_71005D9330(mActor) - mActor->getMtx().getTranslation()).length();
+    if (!(distance < sub_71007320F0(mActor, 0) * 1.5f))
+        return false;
+    auto* target = sub_71005D9050(mActor);
+    if (!target || ksys::act::isPlayerProfile(target))
+        return true;
+    if (_59d)
+        return true;
+    return sead::GlobalRandom::instance()->getS32Range(1, 100) < 16;
+}
 
 WizzrobeCombat::WizzrobeCombat(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
