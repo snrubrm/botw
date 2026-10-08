@@ -18,6 +18,10 @@ protected:
     virtual void m47();
     virtual void m48(sead::Matrix34f* mtx);
 
+    // 0x710075c7ec (placeholder name): _9c = the elevation in degrees of the z axis of the m48 matrix (reversed
+    // with Back).
+    void sub_710075C7EC();
+
     act::Unk_71009214b8 _4c;
     f32 _84 = 0;
     f32 _88 = 0;

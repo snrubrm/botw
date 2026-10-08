@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionCameraEventLookBase.h"
+#include <cmath>
+#include <math/seadMathCalcCommon.h>
 
 namespace uking::action {
 
@@ -24,5 +26,22 @@ void CameraEventLookBase::m46() {
 void CameraEventLookBase::m47() {}
 
 void CameraEventLookBase::m48(sead::Matrix34f* mtx) {}
+
+// NON_MATCHING: the original negates and selects the axis words in general registers (eor / csel w); ours mixes
+// float and integer selects.
+void CameraEventLookBase::sub_710075C7EC() {
+    sead::Matrix34f mtx = sead::Matrix34f::zero;
+    m48(&mtx);
+    sead::Vector3f axis;
+    mtx.getBase(axis, 2);
+    const sead::Vector3f dir = *mBack_d ? -axis : axis;
+    const f32 x = dir.x;
+    const f32 y = dir.y;
+    const f32 z = dir.z;
+    _9c = angleStuff(0.0f);
+    if (z != 0.0f || y != 0.0f || x != 0.0f)
+        _9c = angleStuff(std::atan2(y, std::sqrt(x * x + z * z)));
+    _9c = angleStuff(sead::Mathf::rad2deg(_9c));
+}
 
 }  // namespace uking::action
