@@ -2,6 +2,7 @@
 #include <math/seadMathCalcCommon.h>
 #include <thread/seadThread.h>
 #include "KingSystem/ActorSystem/actActorChemicals.h"
+#include "KingSystem/Chemical/chmChemical.h"
 #include "KingSystem/Chemical/chmSystemConfig.h"
 
 namespace ksys::act {
@@ -21,7 +22,7 @@ void Chemical::sub_7100D93B84() {
 }
 
 void Chemical::sub_7100D9A8F8(Chemical* chemical) {
-    sUnk_7102600e50->sub_7100D99760(chemical);
+    chm::Chemical::instance()->sub_7100D99760(chemical);
     delete chemical;
 }
 
@@ -32,10 +33,10 @@ sead::Vector3f Chemical::sub_7100D9155C() const {
 
 void Chemical::notifyWatch_() {
     if (sub_7100D9CB54(_60, this)) {
-        if (sUnk_7102600e50->_84 & 1) {
+        if (chm::Chemical::instance()->_84 & 1) {
             sead::ThreadMgr::instance()->getCurrentThread();
-            if (static_cast<const void*>(sUnk_7102600e50) != this)
-                sUnk_7102600e50->_85 = 100;
+            if (static_cast<const void*>(chm::Chemical::instance()) != this)
+                chm::Chemical::instance()->_85 = 100;
         }
     }
 }

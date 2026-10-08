@@ -17,17 +17,6 @@ namespace ksys::act {
 class Unk_71024e6560;
 class Chemical;
 
-// Placeholder (lane4 s47): the object the debug-watch global 0x7102600e50 points to.
-// Chemical setters use the flag byte `_84` and reset counter `_85` to 100.
-struct Unk_ChemicalWatch {
-    // 2026-10-07: 0x7100d99760 searches and erases this chemical pointer array.
-    void sub_7100D99760(Chemical* chemical);
-    /* 0x00 */ u8 _0[0x68];
-    /* 0x68 */ sead::PtrArray<Chemical> mChemicals;
-    /* 0x78 */ u8 _78[0x84 - 0x78];
-    /* 0x84 */ u8 _84;
-    /* 0x85 */ u8 _85;
-};
 
 // Declaration only: chemical holder with vtable 0x71024dd1c8 (ctor 0x7100d8cbec).
 // 2026-10-07: sub_7100D8D1E0 returns its owner's position reference, or Vector3f::zero;
@@ -208,9 +197,6 @@ public:
     /* 0x1d8 */ u8 _1d8[0x1e8 - 0x1d8];
     /* 0x1e8 */ void* _1e8;
     /* 0x1f0 */ u8 _1f0[0x238 - 0x1f0];
-
-    // The debug-watch global (0x7102600e50, not in the symbol list before lane4 s47): the chemical the debug UI watches.
-    static Unk_ChemicalWatch* sUnk_7102600e50;
 
 private:
     // Inline-only in the original; name is a guess. The same block opens the setters sub_7100D90C2C / 90CD8 / 90D7C

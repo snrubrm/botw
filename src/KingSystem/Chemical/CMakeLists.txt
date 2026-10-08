@@ -1,4 +1,6 @@
 target_sources(uking PRIVATE
+  chmChemical.cpp
+  chmChemical.h
   chmRigid.cpp
   chmRigid.h
   chmRoot.cpp
