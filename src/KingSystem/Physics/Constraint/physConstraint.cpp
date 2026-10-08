@@ -8,9 +8,9 @@
 namespace ksys::phys {
 
 bool Constraint::sub_7100F6A2E0() const {
-    if (mBodies[0])
+    if (mPendingBodies[0])
         return true;
-    return mBodies[1] != nullptr;
+    return mPendingBodies[1] != nullptr;
 }
 
 bool Constraint::sub_7100F6ACE8() const {
@@ -71,17 +71,17 @@ void Constraint::destroy(Constraint* instance) {
     delete instance;
 }
 
-// NON_MATCHING: identical instructions, only the shift by 3 (lsl) is scheduled after the &mFallbackBodies add
+// NON_MATCHING: identical instructions, only the shift by 3 (lsl) is scheduled after the &mCurrentBodies add
 RigidBody* Constraint::x_0(int idx) const {
-    auto* bodies = &mBodies;
+    auto* bodies = &mPendingBodies;
     if (!(*bodies)[idx])
-        bodies = &mFallbackBodies;
+        bodies = &mCurrentBodies;
     return (*bodies)[idx];
 }
 
 void Constraint::sub_7100F6A69C(BodyIndex idx) {
     auto lock = sead::makeScopedLock(mCS);
-    mBodies[idx] = nullptr;
+    mPendingBodies[idx] = nullptr;
     _52 &= ~8;
 }
 
@@ -92,7 +92,7 @@ inline bool Constraint::setBodyAndRequest_(BodyIndex idx, RigidBody* body) {
     if (_52 & 2)
         return false;
     auto lock = sead::makeScopedLock(mCS);
-    mBodies[idx] = body;
+    mPendingBodies[idx] = body;
     auto lock2 = sead::makeScopedLock(mCS);
     if (_52 == 0)
         System::instance()->getRigidBodyRequestMgr()->pushConstraint(this);

@@ -39,7 +39,7 @@ public:
 
     // Placeholder names. Requests are recorded in _52 (bit 0, 1, 2) and the constraint is queued
     // on the RigidBodyRequestMgr when the first one is made.
-    // 0x7100f6a2e0 (placeholder name): true when `mBodies[0]` is set, else whether `mBodies[1]` is set.
+    // 0x7100f6a2e0 (placeholder name): true when `mPendingBodies[0]` is set, else whether `mPendingBodies[1]` is set.
     bool sub_7100F6A2E0() const;
     // 0x7100f6ace8: whether a bit 0 request is pending (_52 bit 0).
     bool sub_7100F6ACE8() const;
@@ -59,7 +59,7 @@ public:
     void sub_7100F6A6F8(bool a1, bool a2);
     // 0x7100f6aaa4 (lane4 s49; declared only, 308 B): attaches the constraint to the two bodies.
     void sub_7100F6AAA4(RigidBody* a, RigidBody* b);
-    // 0x7100f6abd8: mBodies[idx] (idx clamped to 0-1), falling back to mFallbackBodies[idx].
+    // 0x7100f6abd8: mPendingBodies[idx] (idx clamped to 0-1), falling back to mCurrentBodies[idx].
     RigidBody* x_0(int idx) const;
     // 0x7100f6a69c (lane4 s64; placeholder names): clears body `idx` and the bit 3 (0x8) request.
     void sub_7100F6A69C(BodyIndex idx);
@@ -85,10 +85,11 @@ public:
     /* 0x18 */ ConstraintUnk18* _18;
     /* 0x20 */ void* _20;
     /* 0x28 */ void* _28;
-    // lane4 s64 (from the ctor 0x7100f69d38 and x_0): the constraint's two bodies are `_40` (ctor arguments, set by
-    // sub_7100F6A88C / A92C / A9D4); `_30` is the fallback x_0 uses for an empty slot ({System::_190, nullptr}).
-    /* 0x30 */ sead::SafeArray<RigidBody*, 2> mFallbackBodies;
-    /* 0x40 */ sead::SafeArray<RigidBody*, 2> mBodies;
+    // lane4 s64 (from the ctor 0x7100f69d38, x_0 and the commit function 0x7100f6a228): `mCurrentBodies` are the bodies the
+    // hk constraint is attached to (the ctor stores {System::_190, null}); `mPendingBodies` are the bodies requested with
+    // sub_7100F6A88C / A92C / A9D4 (request bit 3), applied by 0x7100f6a300 and cleared by the commit.
+    /* 0x30 */ sead::SafeArray<RigidBody*, 2> mCurrentBodies;
+    /* 0x40 */ sead::SafeArray<RigidBody*, 2> mPendingBodies;
     /* 0x50 */ u16 _50;
     /* 0x52 */ u16 _52;
     /* 0x58 */ sead::CriticalSection mCS;
