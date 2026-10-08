@@ -38,6 +38,10 @@ public:
     LifeRecoverInfo();
     bool init(const LifeRecoverParams* params);
 
+    // 0x7100d68ad4 (88 B; in this TU, right after onApplyDamage): resets the recovery state
+    // (mExtraHp1 = min(mExtraHp2, 0), both timers take mField_2C, clears flag bit 1).
+    // Placeholder name; called by Eat::calc_ via Actor::getLifeRecoverInfo().
+    void sub_7100D68AD4();
     // Declaration only: applies the recovery parameters in the message payload.
     bool sub_7100D68E54(const ksys::Message* message);
 
