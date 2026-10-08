@@ -1,4 +1,6 @@
 #include "Game/UI/uiScreenChildStates.h"
+#include "Game/gameSaveSystem.h"
+#include "KingSystem/Event/evtManager.h"
 
 namespace uking::ui {
 
@@ -16,6 +18,31 @@ void Unk_710247af10::m111() {}
 
 // 0x71009b91a0
 s32 Unk_710247af10::m112() { return 0; }
+
+// 0x71009b8dbc
+void Unk_710247af10::m113() {
+    if (auto* manager = ksys::evt::Manager::instance())
+        manager->_1d1b0 &= ~2u;
+    if (auto* save = SaveSystem::instance())
+        save->_1a50 |= 0x1000;
+}
+
+// 0x71009b8e00
+void Unk_710247af10::m114() {
+    if (ksys::evt::Manager::instance()->hasActiveEvent())
+        return;
+    _148->PlayAuto(-1.0f);
+    _128->sub_7100BEB70C();
+    mStateMachine.changeState(&sUnk_71025d98a0);
+}
+
+// 0x71009b8e64
+void Unk_710247af10::m115() {
+    if (auto* manager = ksys::evt::Manager::instance())
+        manager->_1d1b0 |= 2;
+    if (auto* save = SaveSystem::instance())
+        save->_1a50 &= ~0x1000;
+}
 
 // 0x71009b91a8
 s32 Unk_710247af10::m116() { return 0; }

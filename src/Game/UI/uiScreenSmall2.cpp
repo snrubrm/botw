@@ -1121,6 +1121,19 @@ void ScreenShopBtnList5::m99() {
         _3610->sub_710093E428(0);
 }
 
+// 0x7100a4c9e0
+void ScreenShopBtnList20::m98() {
+    _3864 = 0;
+    if (_3610) {
+        const s32 index = _3610->_2e4;
+        if (!_3610->sub_710093FE74(index)) {
+            UiShopMgr::instance()->sub_710098425C(index, false);
+            UiShopMgr::instance()->_b4 = true;
+        }
+        _3610->sub_710093E900(0, index);
+    }
+}
+
 // 0x7100a4cd5c
 void ScreenShopBtnList20::sub_7100A4CD5C(bool value) {
     if (_3610)

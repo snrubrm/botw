@@ -10,6 +10,10 @@ class OverlayArenaSystemS1;
 struct MesTransceiverId;
 }
 
+namespace uking::ui {
+class Unk_710247af10;
+}
+
 namespace ksys::act {
 class Actor;
 }
@@ -203,6 +207,8 @@ public:
 
 private:
     friend class ksys::OverlayArenaSystemS1;
+    // reads and writes the flag word at 0x1d1b0 (the original accessed it directly)
+    friend class uking::ui::Unk_710247af10;
 
     u8 pad_28[0x38 - 0x28];
 

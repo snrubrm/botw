@@ -41,6 +41,8 @@ public:
     bool sub_71009821F0(s32 state);  // returns true (its last block)
     // 0x710098411c (320 bytes, declared only)
     void sub_710098411C(s32 value);
+    // 0x710098425c (156 bytes, declared only; placeholder name)
+    void sub_710098425C(s32 value, bool flag);
     bool sub_7100982A44(s32 state, NpcShopData* shop_data);
     bool sub_7100982A60(s32 state, s32 value);
     // 0x71009843ac (1.5 KB, declared only): `out` receives a bool

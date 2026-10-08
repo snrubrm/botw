@@ -2969,12 +2969,16 @@ public:
     SEAD_RTTI_OVERRIDE(ScreenShopBtnList20, ScreenEx)
     void m102(eui::AnimButton*) override;
     void m107(eui::AnimButton* button) override;
+    // 0x7100a4c9e0 (slot 98)
+    void m98() override;
     // 0x7100a4cd5c / 0x7100a4cd70 / 0x7100a4ce28 (placeholder names): forward to the picture book controller
     void sub_7100A4CD5C(bool value);
     void sub_7100A4CD70();
     s32 sub_7100A4CE28();
     /* 0x3610 */ ScreenAppPictureBookUnk* _3610;
-    u8 _pad_3618[0x3868 - 0x3618];
+    u8 _pad_3618[0x3864 - 0x3618];
+    /* 0x3864 */ u8 _3864;
+    u8 _pad_3865[0x3868 - 0x3865];
     eui::AnimButton* _3868;
 };
 
