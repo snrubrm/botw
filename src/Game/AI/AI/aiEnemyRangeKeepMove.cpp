@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiEnemyRangeKeepMove.h"
+#include <cmath>
 #include "Game/AI/aiUnk_71007320F0.h"
 #include "Game/AI/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actActor.h"
@@ -78,6 +79,31 @@ bool EnemyRangeKeepMove::isChangeable() const {
 
 void EnemyRangeKeepMove::leave_() {
     ksys::act::ai::Ai::leave_();
+}
+
+// NON_MATCHING: the `force` test is an eor + tbnz in the original (tbz here) and two instructions are
+// scheduled differently; same logic. The upper clamp of the first branch really is the angle limit.
+void EnemyRangeKeepMove::sub_71003AD3EC(f32* angle, const sead::Vector3f& front,
+                                        const sead::Matrix34f& mtx, bool force, f32 speed, f32 dist) {
+    sead::Vector3f pos;
+    mtx.getTranslation(pos);
+    const sead::Vector3f& target = sub_71005D9330(mActor);
+    sead::Vector3f dir(target.x - pos.x, 0.0f, target.z - pos.z);
+    const f32 len = dir.normalize();
+    if (len > dist + 1.0f && !force)
+        return;
+    const f32 diff = std::acos(sead::Mathf::clamp(dir.dot(front), -0.999f, 0.999f));
+    const f32 side = dir.cross(front).y;
+    const f32 limit = *mSpaceAngle_s;
+    if (side < 0.0f) {
+        if (diff > limit)
+            speed *= sead::Mathf::clamp((diff - limit) * -3.0f / limit + 1.0f, 0.0f, limit);
+        *angle += speed;
+    } else {
+        if (diff > limit)
+            speed *= sead::Mathf::clamp((diff - limit) * -3.0f / limit + 1.0f, 0.0f, 1.0f);
+        *angle -= speed;
+    }
 }
 
 void EnemyRangeKeepMove::loadParams_() {

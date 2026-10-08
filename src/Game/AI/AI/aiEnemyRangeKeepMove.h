@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Game/AI/aiUnk_71025b0578.h"
+#include <math/seadMatrix.h>
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
@@ -39,6 +40,11 @@ public:
     void changeToForcedRetreat();
     // 0x71003abe3c (placeholder name)
     void changeToMoveSideways(s8 dir);
+    // 0x71003ad3ec (placeholder name): turns `angle` by up to `speed` towards the target position (the
+    // side from the cross product with `front`), slowing down within SpaceAngle; skipped when the target
+    // is farther than `dist + 1` unless `force`.
+    void sub_71003AD3EC(f32* angle, const sead::Vector3f& front, const sead::Matrix34f& mtx, bool force,
+                        f32 speed, f32 dist);
 
 protected:
     // 0x71003ab704 / 0x71003ab9b0: declaration-only movement queries.
