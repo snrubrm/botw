@@ -10,6 +10,7 @@
 #include "Game/UI/uiUtils.h"
 #include <devenv/seadEnvUtil.h>
 #include <heap/seadExpHeap.h>
+#include <math/seadMathCalcCommon.h>
 
 namespace uking::ui {
 
@@ -81,6 +82,19 @@ void UiLowPrioThreadMgr::resume() {
 void UiLowPrioThreadMgr::clearQueue() {
     if (_28)
         _28->clearQueue();
+}
+
+// 0x71009452d0
+// NON_MATCHING: Mathf::min lowers to fminnm instead of the native fmin.
+void sub_71009452D0(CookingInfo* out, s32 level) {
+    out->_10 = sead::Mathf::min(f32(level), 3000.0f);
+    out->level = s32(out->_10 / 200.0f);
+}
+
+// 0x71009452fc
+// NON_MATCHING: Mathf::min lowers to fminnm instead of the native fmin.
+void sub_71009452FC(CookingInfo* out, s32 level) {
+    out->_10 = sead::Mathf::min(f32(level) * 200.0f, 2000.0f);
 }
 
 // 0x7100945320 / 0x7100945344: the two gauge ranges (value, maximum, default limit); names are guesses

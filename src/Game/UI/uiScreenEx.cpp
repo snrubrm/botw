@@ -1,5 +1,6 @@
 #include "Game/UI/uiScreens.h"
 #include "Game/UI/euiLayoutEx.h"
+#include "Game/UI/euiPartsEx.h"
 #include "Game/UI/uiManager.h"
 #include "KingSystem/Utils/Thread/Message.h"
 
@@ -332,6 +333,29 @@ eui::ControlBase* ScreenEx::sub_7100A4810C(const eui::LayoutEx* layout) {
          node = node->next) {
         eui::ControlBase* control = eui::ControlBase::fromNode(node);
         if (control->mLayout == layout)
+            return control;
+    }
+    return nullptr;
+}
+
+// 0x7100a4815c
+// NON_MATCHING: PartsEx runtime type information is inlined rather than called out of line.
+eui::ControlBase* ScreenEx::sub_7100A4815C(nn::ui2d::Pane* pane, nn::ui2d::Pane* target, bool* found) {
+    if (pane == target)
+        *found = true;
+    if (*found) {
+        auto* parts = nn::font::DynamicCast<eui::PartsEx>(pane);
+        if (parts && parts->mPartsLayoutLink.layout) {
+            for (eui::ListNode* node = mButtonGroup->mButtons.next; node != &mButtonGroup->mButtons;
+                 node = node->next) {
+                auto* control = eui::ControlBase::fromNode(node);
+                if (control->mLayout == parts->mPartsLayoutLink.layout)
+                    return control;
+            }
+        }
+    }
+    for (auto& child : pane->GetChildList()) {
+        if (auto* control = sub_7100A4815C(&child, target, found))
             return control;
     }
     return nullptr;

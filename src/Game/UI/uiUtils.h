@@ -106,11 +106,15 @@ struct CookingInfo {
     s32 level = 0;
     s32 healthRecover = 0;
     s32 _c = 0;
-    s32 _10 = 0;
+    f32 _10 = 0;  // stamina recovery, written as a float by the effect helpers
     f32 duration = 0;
     s32 _18 = 0;
 };
 void getArmorInfoMaybe(const sead::SafeString& name, ArmorInfo* out);
+s32 sub_7100949CE8(u32 count);
+void sub_71009452D0(CookingInfo* out, s32 level);
+void sub_71009452FC(CookingInfo* out, s32 level);
+void sub_7100AA4810(const PouchItem& item, CookingInfo* out);
 void cookingStuff_0(const sead::SafeString& name, CookingInfo* out);
 CookEffectId sub_7100AA42AC(const PouchItem& item);
 bool sub_7100AA4A4C(CookEffectId effect, f32* out);

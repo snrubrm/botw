@@ -500,6 +500,7 @@ public:
     void* sub_7100A48328(const sead::SafeString& path, void* out);
     // 0x7100a4810c: the button whose layout is `layout`
     eui::ControlBase* sub_7100A4810C(const eui::LayoutEx* layout);
+    eui::ControlBase* sub_7100A4815C(nn::ui2d::Pane* pane, nn::ui2d::Pane* target, bool* found);
     // 0x7100a48a18 / 48aac / 48b40 / 48bd4: m127 - m130 followed by ScreenChildEx::m81 - m84 of every ScreenChildEx child
     void sub_7100A48A18();
     void sub_7100A48AAC();

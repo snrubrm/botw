@@ -1,3 +1,7 @@
+#include "Game/Cooking/cookManager.h"
+#include "Game/DLC/aocHardModeManager.h"
+#include "KingSystem/ActorSystem/actInfoCommon.h"
+#include "KingSystem/Utils/Byaml/Byaml.h"
 #include <math/seadMathCalcCommon.h>
 #include <prim/seadScopedLock.h>
 #include "Game/Actor/actPlayerCreateMgr.h"
@@ -89,6 +93,64 @@ const char* sub_7100A9EEF4() {
 // 0x7100a9ee24 (CSV ui::doRequestExitFromMap): the two name functions above are inlined here in the original
 void doRequestExitFromMap(ksys::act::Actor* actor) {
     sub_7100A9ED78(sub_7100A9EEA4(), sub_7100A9EEF4(), actor);
+}
+
+// 0x7100aa4810
+// NON_MATCHING: switch case ordering and adjacent result stores differ.
+void sub_7100AA4810(const PouchItem& item, CookingInfo* out) {
+    const auto& data = item.getCookData();
+    if (data.mHealthRecover >= 1)
+        out->healthRecover = data.mHealthRecover;
+    const auto effect = data.getEffect();
+    if (effect == CookEffectId::None)
+        return;
+    out->effect = effect;
+    out->level = s32(data.getEffectLevel());
+    switch (effect) {
+    case CookEffectId::LifeMaxUp:
+        out->level = sub_7100949CE8(out->level);
+        out->healthRecover = 120;
+        out->_c = out->level * 4;
+        break;
+    case CookEffectId::GutsRecover:
+        sub_71009452D0(out, out->level);
+        break;
+    case CookEffectId::ExGutsMaxUp:
+        sub_71009452FC(out, out->level);
+        break;
+    default:
+        out->duration = data.getEffectDurationFrames();
+        break;
+    }
+    out->_18 = sead::Mathi::max(data.mSellPrice, 0);
+}
+
+// 0x7100aa48c8
+void cookingStuff_0(const sead::SafeString& name, CookingInfo* out) {
+    auto* info = ksys::act::InfoData::instance();
+    if (!info)
+        return;
+    al::ByamlIter iter;
+    if (!info->getActorIter(&iter, name.cstr(), true))
+        return;
+    out->healthRecover = ksys::act::getCureItemHitPointRecover(iter);
+    using HardModeMgr = uking::aoc::HardModeManager;
+    if (HardModeMgr::instance() &&
+        HardModeMgr::instance()->checkFlag(HardModeMgr::Flag::EnableHardMode) &&
+        HardModeMgr::instance()->isHardModeChangeOn(HardModeMgr::HardModeChange::NerfHpRestore)) {
+        HardModeMgr::instance()->nerfHpRestore(&out->healthRecover);
+    }
+    s32 level = 0;
+    if (iter.tryGetIntByKey(&level, "cureItemEffectLevel") && level >= 1) {
+        const char* effect_name = nullptr;
+        if (iter.tryGetStringByKey(&effect_name, "cureItemEffectType")) {
+            out->effect = CookingMgr::instance()->getCookEffectIdByName(effect_name);
+            if (out->effect != CookEffectId::None)
+                out->level = level;
+        }
+    }
+    if (out->effect != CookEffectId::None)
+        out->duration = f32(ksys::act::getCureItemEffectiveTime(iter));
 }
 
 // 0x7100aa4a2c (placeholder name): table lookup, -1 when out of range.
