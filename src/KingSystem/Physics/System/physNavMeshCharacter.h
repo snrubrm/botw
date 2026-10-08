@@ -125,6 +125,9 @@ public:
     // Declaration only.
     void sub_7100394884(sead::ObjList<sead::Vector3f>::iterator begin,
                         sead::ObjList<sead::Vector3f>::iterator end);
+    // 0x710019960c (placeholder name; defined in the GuardianMoveToPosition TU of the original): the same point-list
+    // setter over an array of Vector3f pointers.
+    void sub_710019960C(sead::Vector3f* const* begin, sead::Vector3f* const* end);
     // 0x710038ae34: a separate original point-list setter used by EnemyEscapeMove.
     void sub_710038AE34(sead::ObjList<sead::Vector3f>::iterator begin,
                         sead::ObjList<sead::Vector3f>::iterator end);
