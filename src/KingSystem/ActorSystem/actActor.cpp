@@ -1,5 +1,8 @@
 #include "KingSystem/ActorSystem/actActor.h"
+#include <container/seadPtrArray.h>
+#include "KingSystem/Map/mapPlacementMgr.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
+#include "KingSystem/Physics/System/physHavokAI.h"
 #include "KingSystem/Mii/miiHylianInfo.h"
 #include "Game/gameEventMgr1.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
@@ -1754,6 +1757,124 @@ void Actor::sub_71011C5630(gsys::Model* model) {
     // The two 32-bit shader user-data slots hold the pointer's bits.
     Unk_710260af28::instance()->sub_7100F1CC38(model, reinterpret_cast<u64>(&mUnk1));
     Unk_710260af28::instance()->sub_7100F1CACC(model, mStasisFlags.isOn(StasisFlag(0x800)));
+}
+
+// sinit_actor initializes three inline buffers of 256 actor pointers at 0x7102650688.
+sead::SafeArray<sead::FixedPtrArray<Actor, 256>, 3> sActorListsMaybe;
+
+bool Actor::sub_71011D7194(s32 index) {
+    auto& actors = sActorListsMaybe[index];
+    if (actors.indexOf(this) >= 0)
+        return false;
+    actors.pushBack(this);
+    return true;
+}
+
+void Actor::sub_71011CCB38() {
+    if (!_68e)
+        return;
+    const f32 opacity = m139();
+    if (mModel) {
+        const bool fade = mStartModelOpacity < 1.0f && mActorFlags.isOffBit(ActorFlag::_21);
+        Unk_710260af28::instance()->sub_7100F1DCA8(mModel, opacity, fade);
+    }
+    m61(opacity);
+    _68e = false;
+}
+
+void Actor::sub_710011CCBD0() {
+    if (!_68e)
+        return;
+    const f32 opacity = m139();
+    if (mModel) {
+        const bool fade = mStartModelOpacity < 1.0f && mActorFlags.isOffBit(ActorFlag::_21);
+        Unk_710260af28::instance()->sub_7100F1DCA8(mModel, opacity, fade);
+    }
+    m61(opacity);
+    _68e = false;
+}
+
+void Actor::sub_71011D7EC4(phys::RigidBody* body) {
+    // NON_MATCHING: one multiply/store pair uses a different floating-point register.
+    if (!body)
+        return;
+    phys::RigidBody* main_body = nullptr;
+    if (mPhysics) {
+        if (auto* controller = mPhysics->getCharacterController())
+            main_body = controller->sub_7100F61A34();
+    }
+    if (!main_body)
+        main_body = mMainBody;
+    if (main_body == body)
+        sub_71011CFA74();
+    if (mTgtBody == body) {
+        if (auto* nav_body = mTgtBody.load()) {
+            sead::BoundBox3f aabb(sead::Vector3f::zero, sead::Vector3f::ones);
+            nav_body->getAabbInLocal(&aabb);
+            mEnterCalcPos = aabb.getCenter();
+        } else {
+            mMtx.getTranslation(mEnterCalcPos);
+        }
+    }
+}
+
+void Actor::deleteIfDeleteType2() {
+    if (mFadeOutDeleteType != 2)
+        return;
+    const s32 type = mFadeOutDeleteType;
+    if (!deleteLater(DeleteReason::_0) || !mMapObject)
+        return;
+    if (((type == 2 || type == 3) && mMapObject->getFlags0().isOff(map::Object::Flag0::_400)) ||
+        (getState() != State::Calc && mMapObject->getFlags0().isOff(map::Object::Flag0::_400))) {
+        mMapObject->setFlags0(map::Object::Flag0::ActorCreated);
+        if (auto* mgr = map::PlacementMgr::instance())
+            mgr->sub_71011EB46C(mMapObject);
+    }
+}
+
+bool Actor::x_34(bool* ok) {
+    bool deleted;
+    if (getState() == State::Calc) {
+        deleted = deleteEx(DeleteType::_2, DeleteReason::_0, ok);
+    } else {
+        const s32 type = mFadeOutDeleteType;
+        deleted = deleteLater(DeleteReason::_0);
+        if (deleted && mMapObject &&
+            (((type == 2 || type == 3) && mMapObject->getFlags0().isOff(map::Object::Flag0::_400)) ||
+             (getState() != State::Calc && mMapObject->getFlags0().isOff(map::Object::Flag0::_400)))) {
+            mMapObject->setFlags0(map::Object::Flag0::ActorCreated);
+            if (auto* mgr = map::PlacementMgr::instance())
+                mgr->sub_71011EB46C(mMapObject);
+        }
+    }
+    updatePlacementObjDistanceFlags();
+    return deleted;
+}
+
+bool Actor::x_8(bool on) {
+    bool changed = false;
+    if (auto* physics = mPhysics) {
+        if (on) {
+            changed = !physics->sub_7100FBAAC8();
+        } else if (!physics->sub_7100FBAB68()) {
+            physics->sub_7100FBAA3C();
+            changed = true;
+        }
+        if (physics->sub_7100FC0234())
+            physics->sub_7100FC01B0();
+    }
+    changed |= mConstraints.sub_7100D40338();
+    if (auto* nav = m45()) {
+        nav->sub_7100F75AB8();
+        // HavokAI stores request flags in the low two bits of this atomic pointer.
+        auto* pending = reinterpret_cast<phys::HavokAI*>(uintptr_t(nav->_20.load()) & ~uintptr_t(3));
+        if (pending)
+            pending->sub_7100F82C88(nav);
+        if (auto* active = nav->_18)
+            active->sub_7100F82C88(nav);
+    }
+    changed |= m47();
+    return changed;
 }
 
 }  // namespace ksys::act

@@ -43,6 +43,8 @@ public:
     // 0x71006e4668 (out of line; also inlined into the destructors and m13 / m14): lets the scene singleton forget this
     // object.
     void sub_71006E4668();
+    // 0x71006e6194: m11 forwards this object to its scene/physics update.
+    void sub_71006E6194();
 
     /* 0x08 */ Actor* mActor = nullptr;
     /* 0x10 */ sead::Atomic<u32> mFlags = 0;

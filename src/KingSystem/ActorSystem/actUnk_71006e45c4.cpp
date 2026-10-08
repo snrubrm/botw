@@ -31,6 +31,10 @@ bool Unk_71006e45c4::m2() {
     return false;
 }
 
+void Unk_71006e45c4::m11() {
+    sub_71006E6194();
+}
+
 void Unk_71006e45c4::m12() {
     if (m2()) {
         GameSceneSubsys5::instance()->sub_7100905C70();

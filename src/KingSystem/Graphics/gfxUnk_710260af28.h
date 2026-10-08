@@ -21,6 +21,8 @@ public:
     void sub_7100F1CC38(gsys::Model* model, u64 value);
     // 0x7100f1cacc: changes the material flag selected by Actor's bit 11.
     void sub_7100F1CACC(gsys::Model* model, bool on);
+    // 0x7100f1dca8: applies the model opacity to each model unit, with the fade flag.
+    void sub_7100F1DCA8(gsys::Model* model, f32 opacity, bool fade);
     void sub_7100F1CEF4(gsys::Model* model, f32 value);
 
     // 0x7100f1ece8: clears bit 2 of the flags halfword (+0x12) of every element of the model's list.

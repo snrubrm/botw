@@ -184,6 +184,7 @@ public:
         _1c = 0x1c,
         _1d = 0x1d,
         _20 = 0x20,
+        _21 = 0x21,
         _25 = 0x25,
         _29 = 0x29,
         _2b = 0x2b,
@@ -422,9 +423,11 @@ public:
     bool x_8(bool a1);
     // CSV Actor::x_9: sets _4f0 (and _68e when it changes).
     void sub_71011CCB1C(f32 value);
-    // 0x710011ccbd0 (declaration only; placeholder name): Actor TU helper clearing _68e (called by
-    // Swarm::m74; body not written).
+    // 0x71011ccbd0: applies changed opacity to the model and animation (called by Swarm::m74).
     void sub_710011CCBD0();
+    void sub_71011CCB38();
+    bool sub_71011D7194(s32 index);
+    void sub_71011D7EC4(phys::RigidBody* body);
     // Sets mModelBindInfo (ignored while ActorFlag::_5 is set).
     void sub_71011DA824(ActorBind* info);
     // Clears mModelBindInfo (ignored while ActorFlag::_5 is set). `info` (the object passed to
@@ -466,6 +469,7 @@ public:
     // 0x71011cc238 / 0x71011cbf04: deletion requests from placement groups.
     void deleteIfDeleteType2();
     bool x_34(bool* ok);
+    void updatePlacementObjDistanceFlags();
     // 0x71011c9814 (CSV Actor::deleteAndEmit): deleteLater + emitSignalsOrDisappearEffectForDelete
     bool deleteAndEmit(s32 type);
     // 0x7100ee3e44 (CSV Actor::x_6; declared only; lane2 s20): looks up two attention clients by name and
