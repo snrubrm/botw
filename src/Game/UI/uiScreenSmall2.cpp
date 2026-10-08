@@ -8,6 +8,7 @@
 #include "Game/gameGraphics.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "Game/gameSaveSystem.h"
+#include "Game/gameRoot1.h"
 #include "Game/UI/uiUnkSingletons.h"
 #include "Game/UI/uiUnkTiny.h"
 #include "Game/UI/uiShopMgr.h"
@@ -803,6 +804,28 @@ void ScreenSeekPadMenuBG::m93(sead::Heap*) {
     _3610 = mLayout->tryCreateAnimatorAuto("Type", false);
     if (_3610)
         _3610->StopAtMax();
+}
+
+// 0x7100a4a8a8
+void ScreenSeekPadMenuBG::sub_7100A4A8A8() {
+    if (mLayout->_91 == 3 || mLayout->_91 == 0)
+        mLayout->sub_7100BDDE7C(false, 1, true);
+    if (auto* root = Root1::instance()) {
+        const bool value = root->_30;
+        _3618 = value;
+        if (value)
+            root->sub_7100899CA4(Root1::FlagIdx::_0, 1);
+    }
+}
+
+// 0x7100a4a91c
+void ScreenSeekPadMenuBG::sub_7100A4A91C() {
+    if (u32(mLayout->_91 - 1) <= 1)
+        mLayout->startAnimCloseImpl_(false, true);
+    if (_3618) {
+        if (auto* root = Root1::instance())
+            root->sub_7100899CA4(Root1::FlagIdx::_0, 2);
+    }
 }
 
 // 0x7100a4dd8c

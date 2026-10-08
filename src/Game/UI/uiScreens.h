@@ -2498,6 +2498,9 @@ public:
     ScreenSeekPadMenuBG();
     ~ScreenSeekPadMenuBG() override;
     void m93(sead::Heap* heap) override;
+    // 0x7100a4a8a8 / 0x7100a4a91c (placeholder names)
+    void sub_7100A4A8A8();
+    void sub_7100A4A91C();
     /* 0x3610 */ eui::Animator* _3610{};
     /* 0x3618 */ u8 _3618{};
     SEAD_RTTI_OVERRIDE(ScreenSeekPadMenuBG, ScreenEx)
