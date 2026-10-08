@@ -30,6 +30,10 @@ bool XLink::x_2() {
     return true;
 }
 
+void XLink::sub_71012311D8(bool paused) {
+    sub_7101230FC8(paused, false);
+}
+
 void XLink::x_4(bool paused) {
     if (paused) {
         if (!_cc.isOnBit(8)) {
