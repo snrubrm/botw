@@ -239,6 +239,71 @@ f32 ScreenMainScreen::sub_7100A1E44C() {
     return 1.0f;
 }
 
+// 0x7100a1a3c8
+bool ScreenMainScreen::sub_7100A1A3C8(s32 index, bool a2) {
+    ScreenChild* child;
+    switch (index) {
+    case 0:
+        child = _3638;
+        break;
+    case 1:
+        child = _3640;
+        break;
+    case 2:
+        child = _3648;
+        break;
+    case 3:
+        _3678.sub_7100936830(a2);
+        return true;
+    case 4:
+        child = _3650;
+        break;
+    case 5:
+        child = _3660;
+        break;
+    case 6:
+        child = _3658;
+        break;
+    default:
+        return false;
+    }
+    if (!child)
+        return false;
+    return child->m6(a2);
+}
+
+// 0x7100a1a460
+bool ScreenMainScreen::sub_7100A1A460(s32 index) {
+    ScreenChild* child;
+    switch (index) {
+    case 0:
+        child = _3638;
+        break;
+    case 1:
+        child = _3640;
+        break;
+    case 2:
+        child = _3648;
+        break;
+    case 3:
+        return _3678.sub_71009368A4();
+    case 4:
+        child = _3650;
+        break;
+    case 5:
+        child = _3660;
+        break;
+    case 6:
+        child = _3658;
+        break;
+    default:
+        return false;
+    }
+    if (!child)
+        return false;
+    return child->_104 == 7;
+}
+
 // 0x7100a1ab68
 f32 ScreenMainScreen::sub_7100A1AB68() const {
     return _3678.sub_710093695C();

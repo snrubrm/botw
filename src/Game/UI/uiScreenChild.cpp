@@ -4,6 +4,37 @@
 // forwarding to another slot of the same object.
 namespace uking::ui {
 
+// NON_MATCHING: the state tests become one bit-mask test here; the original tests 0 separately and the odd / even
+// ranges with sub + cmp + tbnz.
+// 0x71010a8e30
+bool ScreenChild::m5(bool a1) {
+    if (!_110)
+        return false;
+    const s32 state = _104;
+    if (state == 0 || state == 2 || state == 4 || state == 6) {
+        _104 = a1 ? 1 : 3;
+        return true;
+    }
+    if (state == 1 || state == 3 || state == 5)
+        return false;
+    return true;
+}
+
+// NON_MATCHING: as m5.
+// 0x71010a8e80
+bool ScreenChild::m6(bool a1) {
+    if (!_110 && !_118)
+        return false;
+    const s32 state = _104;
+    if (state == 7 || state == 1 || state == 3 || state == 5) {
+        _104 = a1 ? 2 : 4;
+        return true;
+    }
+    if (state == 2 || state == 4 || state == 6)
+        return false;
+    return true;
+}
+
 // 0x71010a8ff4
 void ScreenChild::m9() {}
 

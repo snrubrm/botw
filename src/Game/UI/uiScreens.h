@@ -90,8 +90,10 @@ public:
 class ScreenChild : public eui::ControlBase {
 public:
     NN_RUNTIME_TYPEINFO(eui::ControlBase)
-    virtual void m5();
-    virtual void m6();
+    // 0x71010a8e30 / 0x71010a8e80 (placeholder names): request opening / closing (states 1 / 3 and 2 / 4 in _104);
+    // false if the child cannot (no _110 / _118, or already in the other transition)
+    virtual bool m5(bool a1);
+    virtual bool m6(bool a1);
     virtual void m7();
     virtual void m8();
     virtual void m9();
@@ -198,7 +200,13 @@ public:
 
     u8 _28[0x80 - 0x28];
     /* 0x80 */ ksys::StateMachine mStateMachine;
-    u8 _a8[0x128 - 0xa8];
+    u8 _a8[0x100 - 0xa8];
+    /* 0x100 */ bool _100;
+    /* 0x104 */ s32 _104;  // open / close state (7: ScreenMainScreen::sub_7100A1A460 checks it)
+    /* 0x108 */ u16 _108;
+    /* 0x110 */ void* _110;
+    /* 0x118 */ void* _118;
+    /* 0x120 */ void* _120;
 };
 static_assert(sizeof(ScreenChild) == 0x128);
 
@@ -771,7 +779,7 @@ public:
 };
 
 // Placeholder for the info overlay object ScreenMainScreen keeps at 0x3648.
-struct ScreenMainScreenUnk3648 {
+struct ScreenMainScreenUnk3648 : ScreenChildEx {
     // 0x710098a93c (CSV unnamed; declared only)
     void sub_710098A93C(s32 type, const sead::SafeString& text);
     // 0x710098ae8c (declared only)
@@ -779,8 +787,8 @@ struct ScreenMainScreenUnk3648 {
 };
 
 // Placeholder for the object ScreenMainScreen keeps at 0x3658 (the int at 0x150 is written by sub_7100A1AB58).
-struct ScreenMainScreenUnk3658 {
-    u8 _0[0x150];
+struct ScreenMainScreenUnk3658 : ScreenChildEx {
+    u8 _130[0x150 - 0x130];
     /* 0x150 */ s32 _150;
 };
 
@@ -794,11 +802,16 @@ public:
 
     u8 _pad_3610[0x3620 - 0x3610];
     /* 0x3620 */ void* _3620;
-    u8 _pad_3628[0x3648 - 0x3628];
+    u8 _pad_3628[0x3638 - 0x3628];
+    // The screen's children (indices 0 - 6 of sub_7100A1A3C8 / sub_7100A1A460 are 3638, 3640, 3648, 3678, 3650, 3660,
+    // 3658)
+    /* 0x3638 */ ScreenChild* _3638;
+    /* 0x3640 */ ScreenChild* _3640;
     /* 0x3648 */ ScreenMainScreenUnk3648* _3648;
-    u8 _pad_3650[0x3658 - 0x3650];
+    /* 0x3650 */ ScreenChild* _3650;
     /* 0x3658 */ ScreenMainScreenUnk3658* _3658;
-    u8 _pad_3660[0x3678 - 0x3660];
+    /* 0x3660 */ ScreenChild* _3660;
+    u8 _pad_3668[0x3678 - 0x3668];
     /* 0x3678 */ Unk_7102474c08 _3678;  // 0x38 bytes (0x7100a1ab68 / 0x7100a1ab94 call into it)
     /* 0x36b0 */ void* _36b0;
     // The two ints are written together by sub_7100A1ABF8 ({1, 0}) and separately by sub_7100A1ABC8.
@@ -814,6 +827,10 @@ public:
     /* 0x3ca8 */ eui::LayoutEx* _3ca8;
 
     bool sub_7100A1A1C4(s32 a1, bool a2);
+    // 0x7100a1a3c8 / 0x7100a1a460 (placeholder names): open / close request (ScreenChild::m6) and "state 7" check of
+    // child `index`
+    bool sub_7100A1A3C8(s32 index, bool a2);
+    bool sub_7100A1A460(s32 index);
     void sub_7100A1AB58(s32 a1);
     // 0x7100a1ab74 (CSV ScreenMainScreen::showInfoOverlayWithString)
     void showInfoOverlayWithString(s32 type, const sead::SafeString& text);
