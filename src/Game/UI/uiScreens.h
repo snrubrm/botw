@@ -79,6 +79,8 @@ public:
     // 0x71010a9eb8
     void registerController_() override;
     eui::TagProcessor* doCreateTagProcessor_(sead::Heap* heap) override;
+    // 0x71010a9b44 (placeholder name): empty; called with `true` by ScreenChangeController::m98 and Screen::doInitialize
+    void sub_71010A9B44(bool flag);
 };
 
 // Base class of the screens' child components (elements of Screen::mChildren at 0x250; the 24 classes with a
@@ -1572,8 +1574,12 @@ extern bool sUnk_71025ec549;
 struct AppToolState {
     s32 _0;
     u16 _4;
+    // 0x71009fff58 (placeholder name): resets the record id to -1 and the halfword to 0
+    void sub_71009FFF58();
 };
 extern AppToolState sUnk_71025ec540;
+// 0x7102483490 (.data, initial value 6, the word before the ScreenAppSystemWindow vtable)
+extern s32 sUnk_7102483490;
 extern u8 sUnk_71025ec54a;
 
 struct ScreenAppPictureBookUnk;
@@ -2846,6 +2852,8 @@ public:
     bool isEnableControl() const override;
     ~ScreenAppSystemWindow() override;
     SEAD_RTTI_OVERRIDE(ScreenAppSystemWindow, ScreenEx)
+    // 0x71009fc4a0 (placeholder name; static): returns the value of sUnk_7102483490 and sets it to 6
+    static s32 sub_71009FC4A0();
     void m99() override;
     void m100() override;
     void m94() override;
@@ -2954,6 +2962,8 @@ public:
     ~ScreenChangeController() override;
     void m93(sead::Heap* heap) override;
     void m94() override;
+    // 0x7100a00ee8 (overrides Screen::m98)
+    void m98() override;
     eui::Animator* _3610{};
     SEAD_RTTI_OVERRIDE(ScreenChangeController, ScreenEx)
     // 0x7100a00ef0 (placeholder name): opens the screen (option 2 in states 1 / 2, else 1) and stops the animator at `frame`

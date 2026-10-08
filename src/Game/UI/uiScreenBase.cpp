@@ -22,6 +22,9 @@ void* ScreenBase::getSlink2ResourceList_(xlink2::UserInstanceSLink*) const {
 }
 
 // NON_MATCHING: only the register assignment of the first two loads differs (mMgr / mDrawInfo), as in eui::Screen::doSetupDrawInfo_
+// 0x71010a9b44
+void ScreenBase::sub_71010A9B44(bool) {}
+
 // 0x71010a9f70 (CSV ScreenBase::doSetupDrawInfo_)
 void ScreenBase::doSetupDrawInfo_() {
     mDrawInfo->mGraphicsResource = mMgr->getGraphicsResource();

@@ -917,6 +917,11 @@ void ScreenChallengeWin::m93(sead::Heap*) {
         _3870->StopAtMin();
 }
 
+// 0x7100a00ee8
+void ScreenChangeController::m98() {
+    sub_71010A9B44(true);
+}
+
 // 0x7100a00ef0
 void ScreenChangeController::sub_7100A00EF0(u32 frame) {
     if (u32(mState - 1) <= 1)

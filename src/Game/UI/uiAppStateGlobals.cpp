@@ -16,10 +16,26 @@ bool sUnk_71025ec548;
 bool sUnk_71025ec549;
 u8 sUnk_71025ec54a;
 
+// 0x7102483490 (.data, initial value 6)
+s32 sUnk_7102483490 = 6;
+
 namespace {
 // TU-local state of the AppPictureBook screen (0x71025eb850)
 bool sUnk_71025eb850;
 }  // namespace
+
+// 0x71009fc4a0
+s32 ScreenAppSystemWindow::sub_71009FC4A0() {
+    const s32 value = sUnk_7102483490;
+    sUnk_7102483490 = 6;
+    return value;
+}
+
+// 0x71009fff58
+void AppToolState::sub_71009FFF58() {
+    _0 = -1;
+    _4 = 0;
+}
 
 // 0x71009e2e94
 bool sub_71009E2E94() {
