@@ -2,6 +2,7 @@
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
 namespace uking::ai {
@@ -64,6 +65,18 @@ void PriestBossEyeBeamFourth::m48(const sead::Vector3f& pos) {
     ksys::act::ai::InlineParamPack params;
     params.addVec3(pos, "TargetPos", -1);
     changeChild("速攻照準", &params);
+}
+
+// NON_MATCHING: the final compare branches to the `true` block at the end (the original falls through to it).
+// 0x710051600c (placeholder name): the StandEyeBeamFoot animation is playing and not at its last frame yet
+bool PriestBossEyeBeamFourth::sub_710051600C() {
+    auto* list = mActor->getASList();
+    if (list && list->x_1(0, 0) == "StandEyeBeamFoot") {
+        const f32 frame = list->x_5(0, 0, &ksys::as::ASList::Unk2::sub_71011632F8);
+        if (frame < list->x_5(0, 0, &ksys::as::ASList::Unk2::sub_710116323C))
+            return true;
+    }
+    return false;
 }
 
 }  // namespace uking::ai

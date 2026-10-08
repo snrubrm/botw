@@ -21,6 +21,8 @@ public:
     virtual void m47(const sead::Vector3f& pos);
     virtual void m48(const sead::Vector3f& pos);
 
+    bool sub_710051600C();
+
 protected:
     // static_param at offset 0xb8
     const int* mAtDirType_s{};
