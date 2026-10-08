@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionAirOctaMgr.h"
+#include "Game/AI/aiUnk_7102357d20.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 
@@ -34,6 +35,8 @@ void AirOctaMgr::calc_() {
 }
 
 }  // namespace uking::action
+
+Unk_7102362e80::~Unk_7102362e80() = default;
 
 bool uking::action::Unk_7102362ea8::m2(ksys::act::Unk_71024dc978* entry) {
     auto* target = sead::DynamicCast<ksys::act::Unk_71024dc858>(entry);

@@ -71,6 +71,17 @@ public:
     Unk_710235aba0_Payload _18;
 };
 
+// vtable 0x7102362e80 (AirOctaMgr::_358): sends a BaseProcLink (payload at +0x18, no lock). D1 0x7100085720,
+// D0 0x7100087ef4, m2 0x7100087f28; the destructors are out of line in actionAirOctaMgr.cpp.
+class Unk_7102362e80 : public Unk_7102357d20 {
+public:
+    using Unk_7102357d20::Unk_7102357d20;
+    ~Unk_7102362e80() override;
+    void* m2() override { return &_18; }
+
+    ksys::act::BaseProcLink _18;
+};
+
 // vtable 0x71023b73c8 (SendTargetActorRequestShareAwn::_30): sends a BaseProcLink (message 0x80000bf;
 // same payload layout as Unk_710235aba0). Its out-of-line copies sit in actionSendMessageToTargetActor's TU.
 class Unk_71023b73c8 : public Unk_7102357d20 {
