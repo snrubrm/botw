@@ -1087,6 +1087,12 @@ void ScreenMainScreenHeartIchigekiDLC::m100() {
     _3618->sub_710093515C(getAnimationStep_());
 }
 
+// 0x7100a16adc
+void ScreenMainScreenHeartIchigekiDLC::sub_7100A16ADC() {
+    if (_3618)
+        _3618->playAnimator8e0();
+}
+
 // 0x7100a6bcf8
 void ScreenWolfLinkHeartGauge::m94() {
     if (!_3610)

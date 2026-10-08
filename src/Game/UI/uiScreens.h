@@ -2520,6 +2520,8 @@ public:
     void m100() override;
     // 0x7100a168f0 (declared only)
     void sub_7100A168F0();
+    // 0x7100a16adc (placeholder name): forwards to the gauge's playAnimator8e0
+    void sub_7100A16ADC();
     /* 0x3610 */ eui::Animator* _3610{};
     /* 0x3618 */ Unk_7102474be8* _3618{};
     /* 0x3620 */ nn::ui2d::Pane* _3620{};
