@@ -400,6 +400,9 @@ public:
     // 0x71011db364 (declared only; unnamed in the CSV): swaps `body` in as the main body (mMainBody, atomic exchange)
     // if it belongs to this actor's physics; returns the previous main body, or null.
     phys::RigidBody* sub_71011DB364(phys::RigidBody* body);
+    // 0x71011db3b8 (placeholder name): swaps `body` in as the tgt body (mTgtBody, atomic exchange)
+    // if it is a sensor body belonging to this actor's physics; returns the previous tgt body, or null.
+    phys::RigidBody* sub_710011DBB8(phys::RigidBody* body);
     // Placeholder-named pieces of Actor::onJobPush2_ that NoCalcActor::onJobPush2_ calls one by one (declarations
     // only; lane4 s28): CSV Actor::deleteIfPlacementStuff (0x71011ccc68), Actor::decrementSkipJobPushTimer
     // (0x71011cddb8), Actor::x_14 (0x71011c99dc), Actor::x_16 (0x71011ce034) and

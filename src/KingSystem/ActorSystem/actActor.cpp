@@ -58,6 +58,15 @@ phys::RigidBody* Actor::sub_71011DB364(phys::RigidBody* body) {
     return mMainBody.exchange(body);
 }
 
+phys::RigidBody* Actor::sub_710011DBB8(phys::RigidBody* body) {
+    if (!body->isSensor())
+        return nullptr;
+    auto* physics = getPhysics();
+    if (!physics || !physics->sub_7100FBB374(body))
+        return nullptr;
+    return mTgtBody.exchange(body);
+}
+
 // NON_MATCHING: the conditional offset reference avoids a temporary vector copy.
 void Actor::m89() {
     res::ModelList::AttentionInfo attention_info;
