@@ -3,7 +3,10 @@
 #include "Game/UI/euiPartsEx.h"
 #include "Game/UI/euiScreen.h"
 
+#include <cstring>
+#include <gfx/seadProjection.h>
 #include <nn/ui2d/BuildTypes.h>
+#include <nn/ui2d/DrawInfo.h>
 #include <nn/ui2d/Pane.h>
 #include <heap/seadHeap.h>
 #include <nn/ui2d/ResExtUserData.h>
@@ -22,6 +25,37 @@ CapturePane::~CapturePane() {
         mClearColor = nullptr;
     }
     sub_7100BF1E64();
+}
+
+// NON_MATCHING: the projection matrix copy is a memcpy call here (the original copies it in q registers; same as
+// SetupDrawInfoOrtho), and the flag bit 5 update is a select instead of two branches.
+// 0x7100bf1f7c
+void CapturePane::Calculate(nn::ui2d::DrawInfo& info, nn::ui2d::Pane::CalculateContext& context, bool b) {
+    if (!_db && !_dc)
+        return;
+    if (!IsVisible() || GetAlpha() == 0)
+        return;
+
+    _dd = true;
+    const bool saved = context._1f;
+    context._1f = false;
+    context._28 = false;
+    nn::util::Matrix4x4fType proj_mtx = info.mProjMtx;
+    {
+        const auto& size = GetSize();
+        sead::OrthoProjection projection(0.0f, 300.0f, size.height * 0.5f, size.height * -0.5f,
+                                        size.width * -0.5f, size.width * 0.5f);
+        nn::util::Matrix4x4fType matrix;
+        std::memcpy(&matrix, &projection.getDeviceProjectionMatrix(), sizeof(matrix));
+        info.SetProjMtx(matrix);
+        nn::ui2d::Pane::Calculate(info, context, b);
+        info.SetProjMtx(proj_mtx);
+    }
+    context._1f = saved;
+    if (context._28)
+        mCaptureFlags.setBit(5);
+    else
+        mCaptureFlags.resetBit(5);
 }
 
 // 0x7100bf1e64
