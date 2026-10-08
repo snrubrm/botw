@@ -300,12 +300,31 @@ public:
 KSYS_CHECK_SIZE_NX150(Unk_710079a8e8, 0x820);
 
 // Placeholder name (its vtable group in Camera's vtable starts at 0x7102459cc0): secondary base of
-// Camera at 0x840. 12 virtual slots and no destructor: slots 0/1 return the owning Camera, 2-9 are
-// overridden by Camera::m150-m157, 10/11 return Camera::_1088.
-// TODO: virtual functions not declared (signatures unknown); only the layout is modelled.
+// Camera at 0x840, no destructor.
+// Its vtable (Camera's copy at 0x7102459cd0) has 19 slots, all overridden by Camera::m148 - m166 (the thunks at
+// 0x7100799d00, 0x7100792b98, ... adjust `this` by -0x840). Slot order from those thunks: m148 - m157, m158 / m165
+// (identical bodies, order between them unknown), m166, m159, m160, m161, m163, m164, m162.
 class Unk_7102459cc0 {
 public:
-    virtual void* m0() = 0;
+    virtual Camera* m148() = 0;
+    virtual Camera* m149() = 0;
+    virtual void m150(const sead::Vector3f* a1, const sead::Vector3f* a2, bool a3) = 0;
+    virtual void m151(const sead::Vector3f* pos, const sead::Vector3f* at, bool a3) = 0;
+    virtual void m152(f32 a1, f32 a2, f32 a3, f32 a4, bool a5) = 0;
+    virtual void m153(const sead::Vector3f* pos, bool a2) = 0;
+    virtual void m154(f32 value, bool a2) = 0;
+    virtual void m155(f32 degrees) = 0;
+    virtual sead::Vector3f m156() = 0;
+    virtual void m157(void* a1, const sead::Matrix34f& mtx) = 0;
+    virtual void* m158() = 0;
+    virtual void* m165() = 0;
+    virtual void m166(ksys::act::BaseProc* proc) = 0;
+    virtual sead::Matrix34f* m159() = 0;
+    virtual void m160() = 0;
+    virtual void m161() = 0;
+    virtual void m163() = 0;
+    virtual void m164() = 0;
+    virtual void m162() = 0;
 
     /* 0x08 */ f32 _8 = 1.0;
 };
@@ -385,12 +404,15 @@ public:
     explicit Camera(const CreateArg& arg);
 
     // The new virtual functions (slots 148-166; lane4 s44; signatures from the small ones, the rest are declarations
-    // only). m148 / m149 are empty (CSV m148_null / m149_null).
-    /* 148 */ virtual void m148();
-    /* 149 */ virtual void m149();
-    /* 150 */ virtual void m150();
+    // only). m148 / m149 return the camera (CSV m148_null / m149_null: `ret` only; their thunks 0x7100799d00 /
+    // 0x7100799d08 keep the `this` adjustment, so they return `this`).
+    /* 148 */ virtual Camera* m148();
+    /* 149 */ virtual Camera* m149();
+    // m150 / m152: the int / bool arguments come from the thunks (0x7100792b98: bool in w3; 0x71007931e8: bool in w1,
+    // m152 reads s0 - s3); the float count of m152 is a guess.
+    /* 150 */ virtual void m150(const sead::Vector3f* a1, const sead::Vector3f* a2, bool a3);
     /* 151 */ virtual void m151(const sead::Vector3f* pos, const sead::Vector3f* at, bool a3);  // lane1 s44: signature from PlayerResetPosMgr
-    /* 152 */ virtual void m152();
+    /* 152 */ virtual void m152(f32 a1, f32 a2, f32 a3, f32 a4, bool a5);
     /* 153 */ virtual void m153(const sead::Vector3f* pos, bool a2);  // lane4 s51: arguments from Camera::sub_7100793DB4
     /* 154 */ virtual void m154(f32 value, bool a2);
     // `m154(deg2rad(degrees), true)`.

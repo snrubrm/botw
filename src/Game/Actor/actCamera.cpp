@@ -99,9 +99,13 @@ void Camera::sub_71007929E0() {
 
 void Camera::sub_7100799920() {}
 
-void Camera::m148() {}
+Camera* Camera::m148() {
+    return this;
+}
 
-void Camera::m149() {}
+Camera* Camera::m149() {
+    return this;
+}
 
 void Camera::m155(f32 degrees) {
     m154(sead::Mathf::deg2rad(degrees), true);
