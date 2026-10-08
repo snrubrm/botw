@@ -925,13 +925,24 @@ public:
     // 0x71010b34d0
     const char* getLayoutName_() const override;
 
-    u8 _2fc[0x350 - 0x2fc];
+    u8 _2fc[0x300 - 0x2fc];
+    /* 0x300 */ eui::LetterAnimControl* _300 = nullptr;
+    /* 0x308 */ eui::LetterAnimControl* _308 = nullptr;
+    u8 _310[0x350 - 0x310];
     /* 0x350 */ s32 _350;
     u8 _354[0x3a0 - 0x354];
-    // The message text being scanned (u16 units) and its length, walked by sub_71010B307C/3294.
-    /* 0x3a0 */ const char16* _3a0;
-    /* 0x3a8 */ s32 _3a8;
-    u8 _3ac[0x5ec - 0x3ac];
+    // The message being scanned (its mString/_8 are walked by sub_71010B307C/3294 as text/length;
+    // sub_71010B2B30 assigns it as a whole).
+    /* 0x3a0 */ eui::MessageString _3a0;
+    u8 _3b0[0x3b8 - 0x3b0];
+    /* 0x3b8 */ char* _3b8 = nullptr;
+    /* 0x3c0 */ s32 _3c0 = 0;
+    u8 _3c4[0x4d0 - 0x3c4];
+    /* 0x4d0 */ char* _4d0 = nullptr;
+    /* 0x4d8 */ s32 _4d8 = 0;
+    u8 _4dc[0x5e0 - 0x4dc];
+    /* 0x5e0 */ s32 _5e0 = 0;
+    u8 _5e4[0x5ec - 0x5e4];
     /* 0x5ec */ s32 _5ec;
     u8 _5f0[0x720 - 0x5f0];
     // The dialog's actor (set by sub_71010B306C, linked by _728).
@@ -939,7 +950,8 @@ public:
     /* 0x728 */ ksys::act::BaseProcLink _728;
     /* 0x738 */ s32 _738;
     /* 0x73c */ s32 _73c;
-    u8 _740[0x768 - 0x740];
+    /* 0x740 */ u32 _740 = 0;
+    u8 _744[0x768 - 0x744];
     /* 0x768 */ u16 _768;
     /* 0x76a */ bool _76a;
     u8 _76b[0x76d - 0x76b];

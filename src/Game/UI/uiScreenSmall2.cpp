@@ -322,9 +322,9 @@ void ScreenMessageDialog::sub_71010B3294() {
             result = 2;
         } else {
             result = 0;
-            if (_3a8 >= 1) {
-                const char16* end = _3a0 + _3a8;
-                const char16* p = _3a0;
+            if ((s32)_3a0.getLength() >= 1) {
+                const char16* end = _3a0.getString() + (s32)_3a0.getLength();
+                const char16* p = _3a0.getString();
                 while (true) {
                     const char16 head = *p;
                     if ((head | 1) != 0xf) {
@@ -468,7 +468,7 @@ void ScreenMessageDialog::sub_71010B306C(ksys::act::Actor* actor) {
 void ScreenMessageDialog::sub_71010B307C() {
     if (_720 == nullptr || !_728.hasProc())
         return;
-    const char16* p = _3a0;
+    const char16* p = _3a0.getString();
     const char16* q;
     do {
         char16 head = *p;
