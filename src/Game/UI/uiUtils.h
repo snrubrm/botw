@@ -181,6 +181,7 @@ bool sub_7100A951B0();
 bool isOneHitObliteratorActorName(const sead::SafeString& name);
 int getItemGeneralLife(const char* name);
 bool formatSpecialAttackPower(s32 power, sead::BufferedSafeString* out);
+bool isSelectedRuneEqualToItemType(s32 type);
 bool sub_7100A9FA60();
 bool shouldUseWeaponSword503();
 bool sub_7100A9FC20(const sead::SafeString& name, s32* out, bool force);

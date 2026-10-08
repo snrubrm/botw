@@ -210,6 +210,28 @@ bool sub_7100A9BCD4(s32 rune) {
     return RuneMgr::instance()->getCurrentItem() == item;
 }
 
+// 0x7100a9bd38
+// NON_MATCHING: natural UI-rune mapping switch and shared flag checks lower differently.
+bool isSelectedRuneEqualToItemType(s32 type) {
+    s32 rune;
+    switch (type) {
+    case 0: rune = 2; break;
+    case 1: rune = 3; break;
+    case 2: rune = 4; break;
+    case 3: rune = 5; break;
+    case 10: rune = 0; break;
+    case 11: rune = 1; break;
+    case 12: rune = 6; break;
+    case 13: rune = 7; break;
+    default: return false;
+    }
+    if (rune == 0)
+        return RuneMgr::instance()->isSelectedRune(0) && (RuneMgr::instance()->_90 & 4);
+    if (rune == 1)
+        return RuneMgr::instance()->isSelectedRune(1) && (RuneMgr::instance()->_90 & 8);
+    return (RuneMgr::instance()->_90 & 0x10) && RuneMgr::instance()->isSelectedRune(rune);
+}
+
 // 0x7100a9bebc (placeholder name): whether the player (the current one if null) can use UI rune `rune`.
 bool sub_7100A9BEBC(s32 rune, ksys::act::PlayerBase* player) {
     if (!player) {

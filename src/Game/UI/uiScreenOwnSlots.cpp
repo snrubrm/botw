@@ -489,7 +489,6 @@ void ScreenPauseMenu::m160() {
 }
 
 // 0x7100a3da0c
-// NON_MATCHING: direct open-state membership tests and guide index scheduling differ.
 void ScreenPauseMenu::m170() {
     mButtonGroup->_38 &= ~u32(2);
     if (mFirstGuideLayout && mSecondGuideLayout) {
