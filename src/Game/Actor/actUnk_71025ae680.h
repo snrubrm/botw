@@ -95,7 +95,11 @@ public:
     /* 0x03c */ u8 _3c[0x88 - 0x3c];
     // Listener (message 0x800009b); PriestBossShadowCloneEnemyRoot::enter_ resets it (x()).
     /* 0x088 */ Unk_710235a0c0 _88;
-    /* 0x0c0 */ u8 _c0[0x138 - 0xc0];
+    /* 0x0c0 */ u8 _c0[0xd0 - 0xc0];
+    // Set by Player's 0x710088588c / 0x710088592c (ice / electric; the matching `_138` bits 2 / 4 say whether it is 0).
+    /* 0x0d0 */ f32 _d0;
+    /* 0x0d4 */ f32 _d4;
+    /* 0x0d8 */ u8 _d8[0x138 - 0xd8];
     /* 0x138 */ u8 _138;  // flags: 1 burn, 2 ice, 4 electric invalidated (behavior InvalidateCondition)
     /* 0x139 */ sead::BitFlag8 _139;
     // (sizeof is 0x140 via tail padding: Player's derived object stores members at 0x13c.)

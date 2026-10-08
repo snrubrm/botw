@@ -179,6 +179,20 @@ bool Player::sub_710086CA68() {
     return gdt::getFlag_IsGet_PlayerStole2(false);
 }
 
+// Placeholder name; static (no `this`), the second half of 0x710086c928 inlines the same code.
+bool Player::sub_710086C9E0() {
+    auto* attention = Attention::instance();
+    ActorConstDataAccess accessor;
+    bool result = false;
+    if (!attention->sub_7100D742E8(1)) {
+        if (attention->x_0(1, 0, &accessor) && accessor.getEnemyRank() != 0)
+            result = true;
+        else
+            result = false;
+    }
+    return result;
+}
+
 void Player::updateMtxFromPhysics() {
     if (!m359())
         Actor::updateMtxFromPhysics();
@@ -1144,6 +1158,37 @@ s32 Player::sub_71008859EC() {
     if (_23e0.sub_7100E2F61C()->isOnBit(1))
         value = base + 2.0f;
     return std::min(value, 3.0f);
+}
+
+// NON_MATCHING: the original reads the armor effect flags with a 32-bit load (ldr w8, [x0]); ours is ldrh.
+void Player::sub_710088588C() {
+    getChemicalStuff();  // discarded: the call is in the original
+    const f32 level = _2034 + _2018;
+    f32 value = static_cast<s32>(level) == 0 ? 1.0f : 0.0f;
+    if (_23e0.sub_7100E2F61C()->isOnBit(3))
+        value = 0.0f;
+    const f32 inverse = 1.0f - value;
+    if (value == 0.0f)
+        _2550._138 |= 2;
+    else
+        _2550._138 &= ~2;
+    _2550._d0 = 1.0f - inverse;
+}
+
+// NON_MATCHING: the 32-bit flag load as in sub_710088588C, and the second 1.0f - x is scheduled after the flag update.
+void Player::sub_710088592C() {
+    getChemicalStuff();  // discarded: the call is in the original
+    const s32 level = sub_71008859EC();
+    eco::StatusEffectInfo info;
+    eco::Ecosystem::instance()->getStatusEffectInfo(eco::StatusEffect_ResistElectric, level,
+                                                    &info);
+    const f32 value = info.val._f32;
+    const f32 inverse = 1.0f - value;
+    if (value == 0.0f)
+        _2550._138 |= 4;
+    else
+        _2550._138 &= ~4;
+    _2550._d4 = 1.0f - inverse;
 }
 
 // NON_MATCHING: the original returns the constant from a shared exit block (no result register)

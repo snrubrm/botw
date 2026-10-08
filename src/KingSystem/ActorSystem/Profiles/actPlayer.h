@@ -532,6 +532,9 @@ public:
     // 0x710086ca68 (placeholder name; static, no arguments): true while the E3 demo's RidDemo state
     // is active, else the IsGet_PlayerStole2 flag.
     static bool sub_710086CA68();
+    // 0x710086c9e0 (placeholder name; static): whether target list 1 of the Attention singleton has an
+    // entry whose actor has a non-zero enemy rank.
+    static bool sub_710086C9E0();
     // 0x7100881104 (declared only): clears _c40/_c44/_c48/_c4c bits (_c44 &= 0xfffbffe5, _c40 &= ~(1 << 22),
     // _c4c &= ~(1 << 12), _c48 &= ~(1 << 11)) and resets _1e9c (u64), _1ea4 (-1.0f) and _20b4.
     void sub_7100881104();
@@ -573,6 +576,11 @@ public:
     // 0x71008859ec (declared only; unnamed in the CSV): an armor-dependent integer (base _2038 + _201c, +2 with the
     // PlayerArmors flag 0x2, clamped to 3), read by PlayerForkDropWeaponWithSpeed::calc_.
     s32 sub_71008859EC();
+    // 0x710088588c / 0x710088592c (placeholder names): update the ice / electric part of `_2550`
+    // (`_d0` / `_d4` and the bit of `_138`) from the armor resistance levels; 0x710088592c reads the
+    // ResistElectric status effect.
+    void sub_710088588C();
+    void sub_710088592C();
     s32 playerWeapons_return2();
     // 0x7100892100: sets the character controller velocity towards `pos` (from _1770, scaled by
     // 30 / _20f0) and its matrix to _1b18 (ladder actions).
@@ -710,13 +718,13 @@ public:
     /* 0x200c */ s32 _200c;
     /* 0x2010 */ s32 _2010;
     /* 0x2014 */ s32 _2014;
-    /* 0x2018 */ u8 _2018[0x201c - 0x2018];
+    /* 0x2018 */ s32 _2018;  // sub_710088588C
     /* 0x201c */ s32 _201c;  // sub_71008859EC
     /* 0x2020 */ u8 _2020[0x2028 - 0x2020];
     /* 0x2028 */ s32 _2028;
     /* 0x202c */ s32 _202c;
     /* 0x2030 */ s32 _2030;
-    /* 0x2034 */ u8 _2034[0x2038 - 0x2034];
+    /* 0x2034 */ s32 _2034;  // sub_710088588C
     /* 0x2038 */ s32 _2038;  // sub_71008859EC
     /* 0x203c */ u8 _203c[0x2040 - 0x203c];
     /* 0x2040 */ s32 _2040;
