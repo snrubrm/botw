@@ -356,6 +356,8 @@ public:
     // 0x710115a9c0 (placeholder name): re-triggers Unk1::sub_7101164B24 on the slot entries and clears the flag
     // at _b0+0x21 (called by Swarm::m63 for every list).
     void sub_710115A9C0();
+    // 0x710115aa3c (placeholder name): the name of AS define `idx` of the owner's ASList resource (entry 0 if idx is out of range).
+    const sead::SafeString& sub_710115AA3C(u32 idx) const;
     // 0x000000710115c4d4
     bool x_4(u32 slot, u32 seq_bank);
 

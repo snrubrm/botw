@@ -609,6 +609,10 @@ void ASList::sub_710115C278(int slot) {
     }
 }
 
+const sead::SafeString& ASList::sub_710115AA3C(u32 idx) const {
+    return _d8->getParam()->getRes().mASList->getASDefines()[idx].name.ref();
+}
+
 bool ASList::sub_710115AA68(const sead::SafeString& name) {
     sead::SafeString out_name;
     bool a3 = false;
