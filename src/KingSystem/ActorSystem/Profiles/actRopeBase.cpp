@@ -37,6 +37,20 @@ int RopeBase::getExtraHeapSize() {
     return sead::Mathf::ceil(srt.scale.y * 16384.0f);
 }
 
+void RopeBase::sub_7100ECE0CC(phys::ContactLayer layer) {
+    for (int i = 0; i < _92c; ++i) {
+        if (_860[i])
+            _860[i]->enableContactLayer(layer);
+    }
+}
+
+void RopeBase::sub_7100ECE140() {
+    for (int i = 0; i < _92c; ++i) {
+        if (_860[i])
+            _860[i]->setContactAll();
+    }
+}
+
 }  // namespace ksys::act
 
 namespace ksys::act::acc {
