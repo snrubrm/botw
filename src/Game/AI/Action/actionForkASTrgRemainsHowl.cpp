@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionForkASTrgRemainsHowl.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 #include <gsys/gsysModel.h>
 #include <gsys/gsysModelAccessKey.h>
 #include <gsys/gsysModelUnit.h>
@@ -113,7 +114,25 @@ void ForkASTrgRemainsHowl::loadParams_() {
 }
 
 void ForkASTrgRemainsHowl::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (isFinished() || isFailed())
+        return;
+    if (sub_71005DD798(mActor, 0x2f, nullptr, *mTargetBone_s, *mSeqBank_s)) {
+        ksys::act::acc::Camera accessor;
+        sub_710092DAE8(&accessor);
+        sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x8800005), nullptr);
+    }
+    if (sub_71005DD780(mActor, 0x3b, nullptr, *mTargetBone_s, *mSeqBank_s)) {
+        if (*mIsTargetLost_d) {
+            setFailed();
+        } else {
+            xlinkSearchAndEmit(mActor, "Roar", 0, &_38);
+            if (mActor) {
+                xlink2::HandleSLink handle;
+                ksys::eft::sub_710105DDB8(mActor, "RoarWaveHit", &handle);
+            }
+            sub_7100143398();
+        }
+    }
 }
 
 }  // namespace uking::action

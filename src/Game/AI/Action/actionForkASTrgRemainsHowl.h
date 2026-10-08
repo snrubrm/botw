@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
 
 namespace uking::action {
 
@@ -20,6 +21,8 @@ protected:
     void sub_7100142EC4(bool on);
     void sub_7100143068();
     void sub_7100143180();
+    // 0x7100143398 (declaration only).
+    void sub_7100143398();
     void calc_() override;
 
     // static_param at offset 0x20
@@ -28,12 +31,7 @@ protected:
     const int* mTargetBone_s{};
     // dynamic_param at offset 0x30
     bool* mIsTargetLost_d{};
-    u64 _38 = 0;
-    s32 _40 = 0;
-    u8 _44[0x4];
-    u64 _48 = 0;
-    s32 _50 = 0;
-    u8 _54[0x4];
+    ::Unk_71012419b4 _38;
 
 };
 KSYS_CHECK_SIZE_NX150(ForkASTrgRemainsHowl, 0x58);
