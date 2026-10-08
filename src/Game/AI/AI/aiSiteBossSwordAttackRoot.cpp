@@ -12,6 +12,17 @@
 
 namespace uking::ai {
 
+void SiteBossSwordAttackRoot::sub_710059616C() {
+    auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
+    if (!enemy || *mElectricCounterMax_s < 1)
+        return;
+    for (s32 i = 0; i < *mElectricCounterMax_s; ++i) {
+        sead::FormatFixedSafeString<32> name("ElectricBall%d", i);
+        if (!enemy->getActorPartsActor(name).hasProc())
+            sub_71005947AC(i);
+    }
+}
+
 // NON_MATCHING: the original loads the address of Vector3f::zero after the SafeString stores (into the
 // register it already used); ours loads it earlier into x10
 SiteBossSwordAttackRoot::SiteBossSwordAttackRoot(const InitArg& arg) : ksys::act::ai::Ai(arg) {}

@@ -7,6 +7,19 @@
 
 namespace uking::ai {
 
+// 0x7100585f94
+bool SiteBossShootArrowRoot::sub_7100585F94() {
+    if (auto* boss = sead::DynamicCast<act::SiteBoss>(mActor)) {
+        if (!boss->_1558.isOnBit(8) || boss->_1560.sub_710066C074() == *mChildDeviceMax_s)
+            return false;
+    }
+    if (_122)
+        return sub_7100586218(*mChildDeviceSupplyNum_s);
+    const bool created = sub_7100586218(*mChildDeviceMax_s);
+    _122 = true;
+    return created;
+}
+
 const sead::SafeArray<s32, 8> sUnk_7101e7abb4[12] = {
     {{50, 0, 0, 0, 0, 50, 0, 0}},     {{100, 0, 0, 0, 0, 0, 0, 0}},
     {{50, 0, 0, 0, 0, 50, 0, 0}},     {{100, 0, 0, 0, 0, 0, 0, 0}},

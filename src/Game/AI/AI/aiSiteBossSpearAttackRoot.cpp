@@ -6,7 +6,22 @@
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 
+bool sub_71002D2B5C(bool* side, ksys::act::Actor* actor, const gsys::BoneAccessKeyEx& key,
+                  f32 angle, f32 scale);
+
 namespace uking::ai {
+
+// 0x710058b3a0
+// NON_MATCHING: the original normalizes the final bool through a shared false return.
+bool SiteBossSpearAttackRoot::sub_710058B3A0() {
+    if (!*mIsBowAimedCounterOn_s)
+        return false;
+    auto* boss = sead::DynamicCast<act::SiteBoss>(mActor);
+    if (!boss || !boss->sub_71002D33D0(90.0f))
+        return false;
+    bool side = false;
+    return sub_71002D2B5C(&side, mActor, _f0, 0.2617994f, 2.4f);
+}
 
 SiteBossSpearAttackRoot::SiteBossSpearAttackRoot(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 

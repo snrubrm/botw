@@ -23,6 +23,7 @@ public:
     void m40() override;
 
 protected:
+    bool sub_710058196C();
     // static_param at offset 0x68
     const int* mIgnoreWaprDistMax_s{};
     // static_param at offset 0x70

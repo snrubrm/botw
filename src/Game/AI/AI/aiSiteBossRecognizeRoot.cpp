@@ -3,7 +3,26 @@
 #include "Game/Actor/actSiteBoss.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
 
+bool sub_71002D17D4(ksys::act::Actor* actor, const sead::Vector3f* home,
+                  const sead::Vector3f* target, const sead::Vector3f* distance,
+                  const sead::Vector3f* offset, bool special);
+
 namespace uking::ai {
+
+// 0x710058196c
+bool SiteBossRecognizeRoot::sub_710058196C() {
+    sead::Vector3f target;
+    sub_7100478F78(&target);
+    sead::Vector3f home;
+    bool special = false;
+    if (auto* boss = sead::DynamicCast<act::SiteBoss>(mActor)) {
+        home = boss->_2318;
+        special = (boss->_1534 & ~3) == 4;
+    } else {
+        mActor->getHomePos(&home);
+    }
+    return sub_71002D17D4(mActor, &home, &target, mChaseDist_s, mChaseDistOffset_s, special);
+}
 
 SiteBossRecognizeRoot::SiteBossRecognizeRoot(const InitArg& arg) : SiteBossRecognizeRootBase(arg) {}
 
