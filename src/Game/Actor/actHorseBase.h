@@ -85,6 +85,8 @@ public:
     void onPreFadeOutDelete() override;
     bool shouldUnload(s32* a1) override;
     void m63() override;
+    // 0x7100e67230 (declared only; 384 B): called by m63 when _b74 bit 3 is set.
+    void sub_7100E67230();
     void initMaybe() override;
     bool m67() override;
     void calcMaybe() override;
@@ -230,8 +232,8 @@ public:
     /* 0xbf0 */ u32 _bf0 = 0;
     /* 0xbf8 */ void* _bf8 = nullptr;
     /* 0xc00 */ sead::FixedSafeString<48> _c00;
-    /* 0xc48 */ u32 _c48 = 0;
-    /* 0xc4c */ u32 _c4c = 0;
+    /* 0xc48 */ f32 _c48 = 0;  // m63 sets 2.5
+    /* 0xc4c */ f32 _c4c = 0;  // m63 sets pi / 4
     /* 0xc50 */ u32 _c50 = 0;
 };
 KSYS_CHECK_SIZE_NX150(HorseBase, 0xc58);

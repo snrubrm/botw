@@ -1,4 +1,6 @@
 #include "Game/Actor/actHorseBase.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/Map/mapObject.h"
 #include "KingSystem/ActorSystem/LOD/actLodState.h"
 #include <math/seadMathCalcCommon.h>
 #include <prim/seadScopedLock.h>
@@ -64,6 +66,20 @@ void HorseBase::sub_7100E6C464(s32 id) {
         if (ksys::act::acquireActor(&_b30, &accessor))
             sub_7100E6C5A4(accessor, id);
     }
+}
+
+void HorseBase::m63() {
+    if (auto* obj = mMapObject) {
+        if (auto* rails = obj->getRails_0())
+            _b40 = *rails;
+    }
+    _c48 = 2.5f;
+    _c4c = sead::Mathf::pi() / 4;
+    if (_b10)
+        _b10->m5();
+    if (_b74.isOnBit(3))
+        sub_7100E67230();
+    getASList()->goLimpFromHeadShotMaybe(47, getParam()->getRes().mGParamList->getHorse()->mASVariation.ref(), 0);
 }
 
 void HorseBase::sub_7100E682C0(const sead::SafeString& name, sead::Heap* heap,
