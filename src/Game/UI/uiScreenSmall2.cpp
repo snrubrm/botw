@@ -20,6 +20,7 @@
 #include "KingSystem/GameData/gdtSpecialFlags.h"
 #include "KingSystem/System/StageInfo.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 #include <nn/os.h>
 
 namespace uking::ui {
@@ -163,6 +164,19 @@ void ScreenPauseMenu::m101() {
 void ScreenPauseMenu::m106(eui::AnimButton* button) {
     if (static_cast<u32>(button->mTag - 9) <= 59)
         sub_7100A3840C(button);
+}
+
+// 0x7100a07830
+void ScreenDoCommand::sub_7100A07830() {
+    if (auto* player = static_cast<ksys::act::Player*>(getPlayerActor(nullptr))) {
+        if (_3658 == 4) {
+            if (player->isRidingHorse())
+                _3658 = 5;
+        } else if (_3658 == 0x14) {
+            if (player->isRidingHorse())
+                _3658 = 0x15;
+        }
+    }
 }
 
 // 0x7100a07cf4

@@ -718,6 +718,8 @@ public:
     bool setCommand(s32 command);
 
     void sub_7100A0772C(s32);
+    // 0x7100a07830 (placeholder name): while the player rides a horse, switches command 4 / 20 to the riding variant 5 / 21
+    void sub_7100A07830();
 };
 
 // Placeholder for the object ScreenMainScreen3D keeps at 0x4090 (0xb0 bytes).
