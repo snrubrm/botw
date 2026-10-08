@@ -93,6 +93,8 @@ public:
     bool m17() const override;
     bool m18() const override;
     bool m19() const override;
+    // 0x7100e3e8d0: whether the first rigid body is on a sensor layer (HitOnlyInDoor / NoHit); true without one.
+    bool m20() const override;
     bool m21() const override;
     bool m22(u32 a1) const override;
     f32 m23() const override;
