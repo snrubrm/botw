@@ -2,6 +2,10 @@
 #include <codec/seadHashCRC32.h>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "KingSystem/ActorSystem/LOD/actLodState.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
+#include "KingSystem/XLink/xlinkXLink.h"
 
 namespace uking::action {
 
@@ -15,7 +19,23 @@ bool CollaboShootingStarBrightTower::init_(sead::Heap* heap) {
 }
 
 void CollaboShootingStarBrightTower::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    auto* anchor = ksys::world::ShootingStarMgrEx::sub_71010D0464(_48);
+    if (!anchor)
+        return;
+
+    anchor->sub_71010D0734();
+    anchor->sub_71010D07A4();
+    mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_20);
+    mActor->getXLink()->_cc.resetBit(19);
+    const sead::Vector3f pos = anchor->_48;
+    xlinkSearchAndEmit(mActor, "BrightTower_01", 2, &_28);
+    _28.sub_71012419B4(pos);
+    mActor->getMainBody()->setContactLayer(ksys::phys::ContactLayer::EntityNoHit);
+    mActor->getMainBody()->setAngularVelocity(sead::Vector3f::zero);
+    mActor->getMainBody()->setLinearVelocity(sead::Vector3f::zero);
+    mActor->getMainBody()->setGravityFactor(0.0f);
+    mActor->getMainBody()->setPosition(pos);
+    mActor->getLodState()->mFlags10.set(0x40);
 }
 
 void CollaboShootingStarBrightTower::leave_() {
