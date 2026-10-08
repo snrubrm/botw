@@ -15,7 +15,19 @@ bool IdleAction::init_(sead::Heap* heap) {
 }
 
 void IdleAction::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    if (*mDisablePhysics_d)
+        _28 = mActor->sub_71011DA9F8();
+    if (mActor->getName() == "GameROMPlayer") {
+        const sead::SafeString event_name = ksys::evt::Manager::instance()->sub_7100DB1184();
+        if (event_name == "Demo143_4") {
+            if (auto* controller = mActor->getCharacterController()) {
+                controller->sub_7100F5F6FC(sead::Vector3f::zero);
+                controller->sub_7100F5FB24(sead::Vector3f::zero);
+                controller->sub_7100F60500(mActor->getMtx());
+                controller->sub_7100F5EC44();
+            }
+        }
+    }
 }
 
 void IdleAction::leave_() {

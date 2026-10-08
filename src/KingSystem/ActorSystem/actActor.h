@@ -771,6 +771,9 @@ public:
     // 0x71011dabc0 (IdleAction::leave_): adds the main body (bit 0), the body at _190 (bit 2) to the world and
     // runs CharacterController::sub_7100F5EC30 (bit 3) according to the flag byte.
     void sub_71011DABC0(const u8* flags);
+    // 0x71011da9f8 (IdleAction::enter_): removes physics bodies like sub_71011DABC0, returns the
+    // flag byte stored by the caller (cf. leave_ reading it back).
+    u8 sub_71011DA9F8();
     // 0x71011dac3c (lane5 s5, placeholder name; TurnToActorBase::enter_, PlayASForDemo::enter_ pass (Fixed-like type 2,
     // true)): resets the controller's velocities and sets the character controller / main bodies to the motion type.
     void sub_71011DAC3C(phys::MotionType type, bool flag);
