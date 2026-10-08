@@ -6,6 +6,7 @@ class hkpCharacterStateInAir : public hkpCharacterState {
 public:
     HK_DECLARE_CLASS_ALLOCATOR(hkpCharacterStateInAir)
     hkpCharacterStateInAir();
+    // NON_MATCHING: D0 schedules the allocator receiver argument before size selection.
     ~hkpCharacterStateInAir() override = default;
     hkpCharacterStateType m5() const override;
     void m8(hkpCharacterContext&, const hkpCharacterInput&, hkpCharacterOutput&) override;

@@ -1,6 +1,13 @@
 #include "hkpCharacterStateInAir.h"
 #include <Havok/Physics2012/Utilities/CharacterControl/StateMachine/hkpCharacterContext.h>
 
+hkpCharacterStateInAir::hkpCharacterStateInAir()
+    : mGain(0.05f), mSpeed(10.0f), mMaximumAcceleration(50.0f) {}
+
+hkpCharacterStateType hkpCharacterStateInAir::m5() const {
+    return hkpCharacterStateType(2);
+}
+
 void hkpCharacterStateInAir::m9(hkpCharacterContext& context, const hkpCharacterInput& input,
                               hkpCharacterOutput& output) {
     if (input.m_surfaceInfo.m_supportedState == hkpSurfaceInfo::SUPPORTED)
