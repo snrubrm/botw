@@ -1,4 +1,6 @@
 #include "Game/UI/uiScreens.h"
+#include "Game/UI/euiBoxCursor.h"
+#include "Game/UI/euiButton.h"
 #include <nn/ui2d/Pane.h>
 #include "Game/UI/euiAnimator.h"
 #include "Game/UI/euiLayoutEx.h"
@@ -235,6 +237,23 @@ void Screen::doCloseEnd_() {
         mMgr->activateScreen(mId);
 }
 
+// NON_MATCHING: the original evaluates `held == button`, `held != 0` and the cursor flag without branches (cmp / ccmp / ccmp);
+// ours branches on the button check.
+// 0x71010ab97c
+void Screen::sub_71010AB97C(eui::AnimButton* button) {
+    if (button && mMgr->getBoxCursorMgr()) {
+        eui::ButtonGroup* group = mButtonGroup;
+        const bool enabled = mMgr->getBoxCursorMgr()->isTargetEnabled(eui::DrawTarget(1));
+        if (group->_28 == button && group->_28 && !enabled) {
+            if (eui::BoxCursorNode* node = findBoxCursorNodeByTag(button->mTag))
+                moveBoxCursor_(node);
+        }
+    }
+    m102(button);
+    for (auto& child : mChildren)
+        child.m61(button);
+}
+
 // 0x71010aba48 (CSV Screen::doButtonOnEnd)
 void Screen::doButtonOnEnd_(eui::AnimButton* button) {
     m103(button);
@@ -279,6 +298,55 @@ void Screen::doButtonCancelStart_(eui::AnimButton* button) {
 
 // 0x71010abec8 (CSV Screen::doButtonCancelEnd)
 void Screen::doButtonCancelEnd_(eui::AnimButton* button) {
+    m109(button);
+    for (auto& child : mChildren)
+        child.m68(button);
+}
+
+// 0x71010abaa8
+void Screen::sub_71010ABAA8(eui::AnimButton* button) {
+    m103(button);
+    for (auto& child : mChildren)
+        child.m62(button);
+}
+
+// 0x71010abb68
+void Screen::sub_71010ABB68(eui::AnimButton* button) {
+    m104(button);
+    for (auto& child : mChildren)
+        child.m63(button);
+}
+
+// 0x71010abc28
+void Screen::sub_71010ABC28(eui::AnimButton* button) {
+    m105(button);
+    for (auto& child : mChildren)
+        child.m64(button);
+}
+
+// 0x71010abce8
+void Screen::sub_71010ABCE8(eui::AnimButton* button) {
+    m106(button);
+    for (auto& child : mChildren)
+        child.m65(button);
+}
+
+// 0x71010abda8
+void Screen::sub_71010ABDA8(eui::AnimButton* button) {
+    m107(button);
+    for (auto& child : mChildren)
+        child.m66(button);
+}
+
+// 0x71010abe68
+void Screen::sub_71010ABE68(eui::AnimButton* button) {
+    m108(button);
+    for (auto& child : mChildren)
+        child.m67(button);
+}
+
+// 0x71010abf28
+void Screen::sub_71010ABF28(eui::AnimButton* button) {
     m109(button);
     for (auto& child : mChildren)
         child.m68(button);
@@ -330,6 +398,13 @@ s32 Screen::sub_71010AA868(s32 group) const {
     if (!mChildGroupSizes.isBufferReady() || !mChildGroupSizes.isIndexValid(group))
         return 0;
     return mChildGroupSizes(group);
+}
+
+// 0x71010aa894
+void Screen::sub_71010AA894() {
+    const s32 mode = eui::ScreenMgr::instance()->getBoxCursorMgr()->mMode;
+    if (static_cast<u32>(mode - 1) <= 1 && mActiveCursorNode)
+        mActiveCursorNode->mButton->ForceOff();
 }
 
 // 0x71010aa8d0

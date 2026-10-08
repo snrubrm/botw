@@ -17,6 +17,11 @@ Unk_7102474f10::~Unk_7102474f10() {
     _40 = nullptr;
 }
 
+// 0x710093e428
+u32 ScreenAppPictureBookUnk::sub_710093E428(s32 index) {
+    return sub_710093E784(index);
+}
+
 // NON_MATCHING: only the order of the two loop initialisers (`mov w9, wzr` before `mov x10, xzr` in the original)
 // 0x710093e900
 u32 ScreenAppPictureBookUnk::sub_710093E900(s32 base, s32 count) {

@@ -47,9 +47,6 @@ void ButtonEventQueue::init(sead::Heap* heap, s32 count) {
         releaseRecords();
 }
 
-// NON_MATCHING: identical code, but the original calls separate out-of-line copies of uking::ui::Screen::doButton*_
-// (0x71010ab97c / aa8 / b68 / c28 / ce8 / da8 / e68 / f28: the CSV names only the copies at the odd addresses between them,
-// which are the ones in the vtable); we can only reference the one symbol.
 // 0x7100932cfc
 void ButtonEventQueue::Update(f32) {
     for (auto it = mRecords.begin(), end = mRecords.end(); it != end; ++it) {
@@ -61,28 +58,28 @@ void ButtonEventQueue::Update(f32) {
             continue;
         switch (it->kind) {
         case 1:
-            screen->Screen::doButtonOnStart_(button);
+            screen->sub_71010AB97C(button);
             break;
         case 2:
-            screen->Screen::doButtonOnEnd_(button);
+            screen->sub_71010ABAA8(button);
             break;
         case 3:
-            screen->Screen::doButtonOffStart_(button);
+            screen->sub_71010ABB68(button);
             break;
         case 4:
-            screen->Screen::doButtonOffEnd_(button);
+            screen->sub_71010ABC28(button);
             break;
         case 5:
-            screen->Screen::doButtonDownStart_(button);
+            screen->sub_71010ABCE8(button);
             break;
         case 6:
-            screen->Screen::doButtonDownEnd_(button);
+            screen->sub_71010ABDA8(button);
             break;
         case 7:
-            screen->Screen::doButtonCancelStart_(button);
+            screen->sub_71010ABE68(button);
             break;
         case 8:
-            screen->Screen::doButtonCancelEnd_(button);
+            screen->sub_71010ABF28(button);
             break;
         }
     }

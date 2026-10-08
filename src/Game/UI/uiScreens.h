@@ -256,8 +256,19 @@ public:
     s32 sub_71010AA868(s32 group) const;
     void sub_71010AA8D0();
     void sub_71010AA910();
-    // 0x71010aa894 (declared only; 19 callers)
+    // 0x71010aa894 (placeholder name; 19 callers): releases the active cursor node's button while the box cursor is on
     void sub_71010AA894();
+    // 0x71010abaa8 / 0x71010abb68 / 0x71010abc28 / 0x71010abce8 / 0x71010abda8 / 0x71010abe68 / 0x71010abf28
+    // (placeholder names): out-of-line copies of doButtonOnEnd_ .. doButtonCancelEnd_ that ButtonEventQueue::Update calls
+    // 0x71010ab97c (placeholder name): the body of doButtonOnStart_ (0x71010ab978 only forwards to it)
+    void sub_71010AB97C(eui::AnimButton* button);
+    void sub_71010ABAA8(eui::AnimButton* button);
+    void sub_71010ABB68(eui::AnimButton* button);
+    void sub_71010ABC28(eui::AnimButton* button);
+    void sub_71010ABCE8(eui::AnimButton* button);
+    void sub_71010ABDA8(eui::AnimButton* button);
+    void sub_71010ABE68(eui::AnimButton* button);
+    void sub_71010ABF28(eui::AnimButton* button);
     // 0x71010aa9d0 (placeholder name; 107 callers): `DynamicCast<ksys::SeadController>(mUIController->getController())`
     ksys::SeadController* sub_71010AA9D0();
 

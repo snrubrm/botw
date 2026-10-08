@@ -9,6 +9,11 @@ void ScreenSkip::m93(sead::Heap*) {
     _3610 = sub_71009DE2B8(getChild(0, 0));
 }
 
+// 0x71010ab978 (CSV Screen::doButtonOnStart; a different TU from sub_71010AB97C so that it stays a forwarder)
+void Screen::doButtonOnStart_(eui::AnimButton* button) {
+    sub_71010AB97C(button);
+}
+
 // 0x7100a537f8
 void ScreenSkip::sub_7100A537F8(bool with_button) {
     open(1);
