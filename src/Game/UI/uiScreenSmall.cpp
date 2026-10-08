@@ -20,6 +20,11 @@ void ScreenPauseMenuUnk3a00::sub_71009B0224(bool enabled) {
         button.sub_7100989968(enabled);
 }
 
+// 0x71009b0618
+ScreenChildEx::ScreenChildEx(eui::LayoutEx* layout) : ScreenChild(layout) {
+    _128 = nullptr;
+}
+
 // 0x71009b5fc8
 void ScreenPauseMenuUnk3b98::sub_71009B5FC8(bool active) {
     if (active) {

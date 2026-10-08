@@ -24,9 +24,6 @@ public:
     virtual s32 m116();
 
     // The members used so far (the child has a state machine at 0x80, like ScreenChildUnk_71025d9b08).
-    u8 _28[0x80 - 0x28];
-    /* 0x80 */ ksys::StateMachine mStateMachine;
-    u8 _a8[0x128 - 0xa8];
     /* 0x128 */ eui::Screen* _128;
     u8 _130[0x148 - 0x130];
     /* 0x148 */ eui::Animator* _148;
@@ -100,7 +97,7 @@ public:
     virtual s32 m112();
 
     // The members used so far (state callbacks m109 / m111 play the animator, m110 waits for it to stop).
-    u8 _28[0x138 - 0x28];
+    u8 _128[0x138 - 0x128];
     /* 0x138 */ eui::Animator* _138;
 };
 

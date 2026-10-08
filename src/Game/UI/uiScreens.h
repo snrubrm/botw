@@ -190,7 +190,17 @@ public:
     virtual void m102(void* a1, void* a2);
     virtual void m103(void* a1, void* a2);
     virtual void m104(void* a1, void* a2);
+
+    // 0x71010a8cec (CSV ksys::ui::Control::ctor; declared only): builds the message transceiver at 0x38, the state
+    // machine at 0x80 and the receiver at 0xa8 / adapter at 0xc8, then mName = the layout's root pane name and
+    // mLayout = layout
+    explicit ScreenChild(eui::LayoutEx* layout);
+
+    u8 _28[0x80 - 0x28];
+    /* 0x80 */ ksys::StateMachine mStateMachine;
+    u8 _a8[0x128 - 0xa8];
 };
+static_assert(sizeof(ScreenChild) == 0x128);
 
 // The class between ScreenChild and the concrete child classes (guess: the name; the RTTI chain of the leaf classes
 // is ControlBase <- ScreenChild-sized class <- this one <- leaf, e.g. the static at 0x71009865a8; ScreenEx::m144 -
@@ -199,7 +209,12 @@ public:
 class ScreenChildEx : public ScreenChild {
 public:
     NN_RUNTIME_TYPEINFO(ScreenChild)
+    // 0x71009b0618 (27 leaf constructors call it, e.g. 0x7100931d6c / 0x71009d7198)
+    explicit ScreenChildEx(eui::LayoutEx* layout);
+
+    /* 0x128 */ void* _128;
 };
+static_assert(sizeof(ScreenChildEx) == 0x130);
 
 
 // A child class of the PauseMenu screen (id 46, child group 1) derived from ScreenChildEx (placeholder name: its typeinfo
@@ -211,9 +226,7 @@ public:
     // 0x71009b62cc (`_1a8 = a1`)
     void sub_71009B62CC(void* a1);
 
-    u8 _28[0x80 - 0x28];
-    /* 0x80 */ ksys::StateMachine mStateMachine;
-    u8 _a8[0x1a8 - 0xa8];
+    u8 _130[0x1a8 - 0x130];
     /* 0x1a8 */ void* _1a8;
 };
 
