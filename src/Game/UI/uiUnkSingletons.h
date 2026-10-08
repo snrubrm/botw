@@ -87,11 +87,17 @@ public:
 
     void sub_710094B844(bool a1, bool a2, bool a3);
     void sub_710094B8A4(bool a1);
+    void sub_710094BCDC();
+    u32 sub_710094C094(u32 value) const;
     void sub_710094BE14();
     void sub_710094BE30();
 
-    /* 0x28 */ void* _28 = nullptr;
-    /* 0x30 */ void** _30 = nullptr;
+    // Heart values copied as u32 by 0x710094b9a0 / 0x710094bcdc;
+    // ScreenMainScreen reads _28 as an integer and the Ichigeki gauge reads _2c.
+    /* 0x28 */ u32 _28 = 0;
+    /* 0x2c */ u32 _2c = 0;
+    /* 0x30 */ u32 _30 = 0;
+    /* 0x34 */ u32 _34 = 0;
     /* 0x38 */ u16 _38 = 0;
     /* 0x3a */ u8 _3a = 0;
     /* 0x3c */ s32 _3c = 13;
@@ -101,7 +107,12 @@ public:
     /* 0x49 */ u8 _49 = 0;
     /* 0x4a */ u8 _4a = 0;
     u8 _4b;
-    u8 _4c[0x61 - 0x4c]{};
+    /* 0x4c */ u32 _4c = 0;
+    /* 0x50 */ u32 _50 = 0;
+    /* 0x54 */ u32 _54 = 0;
+    /* 0x58 */ s32 _58 = 0;
+    /* 0x5c */ s32 _5c = 0;
+    u8 _60 = 0;
     /* 0x61 */ u8 _61 = 0;  // bit 1: ?, bits 1 / 2 are rewritten by sub_710094BE14
     u8 _62 = 0;
     /* 0x63 */ u8 _63 = 0;  // four flags (bits 0 / 1 and 2 / 3: two pairs, see sub_710094B844)

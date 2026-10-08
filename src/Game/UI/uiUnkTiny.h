@@ -569,11 +569,17 @@ public:
     Unk_710249d300();
     ~Unk_710249d300() override;
 
+    // 0x7100a83ec0: completion byte read by ScreenTitle and Unk_710247b428.
+    bool sub_7100A83EC0() const;
+    void sub_7100A83EC8(bool value);
+    void sub_7100A83ED4(s32 value);
+
     u8 _c[4];
     // Small fields (meaning unknown; the original stores both initial values as one merged 64-bit constant).
     u32 _10 = 0x11e000;
     u32 _14 = 0x01007ef0;
-    u16 _18 = 0;
+    bool _18 = false;
+    bool _19 = false;
     sead::FixedSafeString<16> _20 = sead::SafeString::cEmptyString;
     sead::FixedSafeString<16> _48 = sead::SafeString::cEmptyString;
     sead::FixedSafeString<16> _70 = sead::SafeString::cEmptyString;

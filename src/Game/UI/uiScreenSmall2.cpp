@@ -1,4 +1,5 @@
 #include "Game/UI/euiTagProcessor.h"
+#include "Game/UI/euiMessageMgr.h"
 #include "Game/UI/euiAnimator.h"
 #include "Game/UI/euiButton.h"
 #include "Game/UI/euiLayoutEx.h"
@@ -593,6 +594,30 @@ void ScreenMessageDialog::m101() {
     _720 = nullptr;
     _728.reset();
     ksys::snd::Unk_710104e5b4::instance()->sub_710104F8C4(false);
+}
+
+// 0x71010b2b30
+s32 ScreenMessageDialog::sub_71010B2B30(const sead::SafeString& set_name,
+                                      const sead::SafeString& message_name) {
+    auto* set = eui::MessageMgr::instance()->getMessageSet(set_name);
+    if (!set)
+        return 1;
+    const auto message = set->tryFindMessage(message_name.cstr());
+    _3a0.assign(message);
+    _3b0.copy(set_name);
+    _4c8.copy(message_name);
+    if (!_3a0.getString())
+        return 2;
+    const bool result = _300->sub_7100BD9CDC(_3a0, 0);
+    if (_308)
+        _308->sub_7100BD9CDC(_3a0, 0);
+    if (auto* pane = findPane_("N_TextOut_00")) {
+        pane->SetPosition({pane->GetPosition().x, _778->_5c ? _740 : 0.0f,
+                           pane->GetPosition().z});
+    }
+    _5ec = -1;
+    _5e0 = result ? 1 : -1;
+    return 0;
 }
 
 // 0x71010b306c (CSV unnamed): set the dialog's actor.

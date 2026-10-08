@@ -21,6 +21,8 @@ public:
     void m32(char16* glyph, u16* font_index, u8 type) override;
 
 private:
+    friend class ScreenMessageDialog;
+
     /* 0x50 */ void* _50 = nullptr;
     /* 0x58 */ f32 _58 = 1.4f;
     /* 0x5c */ bool _5c = false;

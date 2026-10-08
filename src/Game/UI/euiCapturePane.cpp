@@ -19,6 +19,11 @@ CapturePane::CapturePane(const nn::ui2d::ResPane* resource, const nn::ui2d::Buil
     initialize_(const_cast<LayoutEx*>(static_cast<const LayoutEx*>(args.mParentLayout)));
 }
 
+CapturePane::CapturePane(const CapturePane& other, LayoutEx* layout)
+    : nn::ui2d::Pane(other), _dc(other._dc) {
+    initialize_(layout);
+}
+
 CapturePane::~CapturePane() {
     if (mClearColor) {
         delete mClearColor;

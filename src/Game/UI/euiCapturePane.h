@@ -29,6 +29,8 @@ public:
     NN_RUNTIME_TYPEINFO(nn::ui2d::Pane)
     // 0x7100bf12d4
     CapturePane(const nn::ui2d::ResPane* resource, const nn::ui2d::BuildArgSet& args);
+    // 0x7100bf1464
+    CapturePane(const CapturePane& other, LayoutEx* layout);
     // 0x7100bf1e9c
     ~CapturePane() override;
     // 0x7100bf1f7c (not decompiled)

@@ -64,6 +64,7 @@ public:
 
 class Unk_710247b428 : public ScreenChildEx {
 public:
+    explicit Unk_710247b428(eui::LayoutEx* layout);
     ~Unk_710247b428() override;
 
     virtual void m105();
@@ -117,6 +118,11 @@ public:
 
     u8 _130[0x1a8 - 0x130];
     /* 0x1a8 */ eui::Animator* _1a8;  // stopped at max / min by m114 depending on the JumpButtonChange flag
+    u8 _1b0[0x1c4 - 0x1b0];
+    u8 _1c4[4];
+    // Constructed by 0x7100a82fbc in this class' constructor.
+    /* 0x1c8 */ Unk_710249d300 _1c8;
+    /* 0x268 */ bool _268 = false;
 };
 
 // States of Unk_710247b428's state machine (plain StateBase objects; the transitions after the option / controller /

@@ -1002,13 +1002,9 @@ public:
     // The message being scanned (its mString/_8 are walked by sub_71010B307C/3294 as text/length;
     // sub_71010B2B30 assigns it as a whole).
     /* 0x3a0 */ eui::MessageString _3a0;
-    u8 _3b0[0x3b8 - 0x3b0];
-    /* 0x3b8 */ char* _3b8 = nullptr;
-    /* 0x3c0 */ s32 _3c0 = 0;
-    u8 _3c4[0x4d0 - 0x3c4];
-    /* 0x4d0 */ char* _4d0 = nullptr;
-    /* 0x4d8 */ s32 _4d8 = 0;
-    u8 _4dc[0x5e0 - 0x4dc];
+    // The constructor points each string at its inline buffer and sets capacity 256.
+    /* 0x3b0 */ sead::FixedSafeString<256> _3b0;
+    /* 0x4c8 */ sead::FixedSafeString<256> _4c8;
     /* 0x5e0 */ s32 _5e0 = 0;
     u8 _5e4[0x5ec - 0x5e4];
     /* 0x5ec */ s32 _5ec;
@@ -1018,7 +1014,8 @@ public:
     /* 0x728 */ ksys::act::BaseProcLink _728;
     /* 0x738 */ s32 _738;
     /* 0x73c */ s32 _73c;
-    /* 0x740 */ u32 _740 = 0;
+    // Vertical text offset, initialized to 3.0f and written to the output pane.
+    /* 0x740 */ f32 _740 = 3.0f;
     u8 _744[0x768 - 0x744];
     /* 0x768 */ u16 _768;
     /* 0x76a */ bool _76a;
@@ -1029,6 +1026,9 @@ public:
     /* 0x774 */ s32 _774;
     // Created by ScreenBase::doCreateTagProcessor_ in 0x71010b34f0.
     /* 0x778 */ TagProcessor* _778;
+
+    // 0x71010b2b30: set the message archive / message name and populate the letter controls.
+    s32 sub_71010B2B30(const sead::SafeString& set_name, const sead::SafeString& message_name);
 
     // 0x71010b343c / 0x71010b34b4 / 0x71010b34a0: called by UI::sub_71010A5C8C / setPlacedItemStockNum / sub_71010A7994.
     bool sub_71010B343C();

@@ -8,6 +8,11 @@
 
 namespace uking::ui {
 
+// 0x71009b9b38
+Unk_710247b428::Unk_710247b428(eui::LayoutEx* layout)
+    : ScreenChildEx(layout), _130{}, _1a8(nullptr), _1b0{} {}
+
+
 Unk_710247ae48::~Unk_710247ae48() = default;
 
 // 0x71009b8d58
@@ -187,6 +192,12 @@ s32 Unk_710247b428::m140() { return 0; }
 
 // 0x71009bbe54
 void Unk_710247b428::m141() {}
+
+// 0x71009bbe58
+void Unk_710247b428::m142() {
+    if (_1c8.sub_7100A83EC0())
+        mStateMachine.changeState(&sUnk_71025d9e00);
+}
 
 // 0x71009bbe98
 void Unk_710247b428::m143() {}

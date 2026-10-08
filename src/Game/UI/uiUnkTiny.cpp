@@ -745,6 +745,12 @@ Unk_71024810b8::~Unk_71024810b8() { ; }
 // 0x7100a82fbc
 Unk_710249d300::Unk_710249d300() = default;
 
+bool Unk_710249d300::sub_7100A83EC0() const { return _18; }
+
+void Unk_710249d300::sub_7100A83EC8(bool value) { _19 = value; }
+
+void Unk_710249d300::sub_7100A83ED4(s32 value) { _9c = value; }
+
 // 0x7100a8331c
 Unk_710249d300::~Unk_710249d300() { ; }
 
