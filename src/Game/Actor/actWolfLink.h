@@ -61,7 +61,13 @@ public:
     // parameter object _1680.
     s32 sub_71002F4428();
     bool sub_71002F420C();
-    u32 sub_71002F440C();
+    // State of the linked actor from the _1608 table (value at +0x20 of the entry). Returned in x0 as a
+    // 4-byte struct (the callee builds it with a zero-extending ldr and the caller of 0x71002f430c
+    // masks it with 0xffffffff), and the AI callers keep it in a stack slot: a SEAD_ENUM.
+    // Values 2..7 are tested by AnimalRangeKeepMoveWithLOS; the value count and names are unknown.
+    SEAD_ENUM(State, _0, _1, _2, _3, _4, _5, _6, _7)
+    State sub_71002F430C(const ksys::act::BaseProcLink* link);
+    State sub_71002F440C();
     // 0x71002f3234 / 0x71002f4b3c / 0x71002f493c / 0x71002f4a40 / 0x71002f4008 (not decompiled;
     // placeholder names and guessed signatures, from WolfLinkNormalRoot's calls).
     bool sub_71002F3234(f32 range, s32 a, s32 b, s32 c);
@@ -81,7 +87,8 @@ public:
         u8 _0[0xc];
         u32 mActorId;
         ksys::act::BaseProcLink _10;
-        u8 _20[8];
+        u32 _20;
+        u32 _24;
     };
     /* 0x1608 */ sead::Buffer<Entry1608> _1608;
     /* 0x1618 */ u32 _1618;

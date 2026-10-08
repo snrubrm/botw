@@ -37,8 +37,35 @@ bool WolfLink::sub_71002F420C() {
         return false;
     const u32 id = accessor.getId();
     return _1608.binarySearch(id, +[](const Entry1608& entry, const u32& id) -> s32 {
-        return (entry.mActorId > id) - (entry.mActorId < id);
+        if (entry.mActorId > id)
+            return 1;
+        if (entry.mActorId < id)
+            return -1;
+        return 0;
     }) != -1;
+}
+
+// NON_MATCHING: the comparator folds differently (target tests `hi == lo` of the two compares, ours tests a combined result)
+// 0x71002f430c: same search as sub_71002F420C, returns the entry's value at +0x20.
+WolfLink::State WolfLink::sub_71002F430C(const ksys::act::BaseProcLink* link) {
+    ksys::act::ActorConstDataAccess accessor;
+    if (!ksys::act::acquireActor(link, &accessor))
+        return State();
+    const u32 id = accessor.getId();
+    const s32 index = _1608.binarySearch(id, +[](const Entry1608& entry, const u32& id) -> s32 {
+        if (entry.mActorId > id)
+            return 1;
+        if (entry.mActorId < id)
+            return -1;
+        return 0;
+    });
+    if (index == -1)
+        return State();
+    return State(_1608[index]._20);
+}
+
+WolfLink::State WolfLink::sub_71002F440C() {
+    return sub_71002F430C(&_c48._8);
 }
 
 void WolfLink::sub_71002F493C() {
