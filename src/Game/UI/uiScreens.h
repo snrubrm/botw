@@ -3301,6 +3301,8 @@ public:
     void m107(eui::AnimButton* button) override;
     // 0x7100a4b0b4 (placeholder name): sets the flag 0x10 of the 15 buttons (tags 122 - 136)
     void sub_7100A4B0B4(bool on);
+    // 0x7100a4b2bc (placeholder name): sets up the "Pa_GuideA_00" / "Pa_GuideB_00" layouts when they are idle or stopped
+    void sub_7100A4B2BC();
     // 0x7100a4b3c4 (placeholder name): closes the "Pa_GuideA_00" / "Pa_GuideB_00" layouts when they are opening or open
     void sub_7100A4B3C4();
     // 0x7100a4b50c (placeholder name): shows the name of the item described by `data` in "T_Name_00"
