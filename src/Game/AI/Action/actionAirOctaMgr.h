@@ -1,6 +1,11 @@
 #pragma once
 
+#include <container/seadBuffer.h>
+#include <math/seadVector.h>
+#include "Game/AI/aiUnk_7102357210.h"
+#include "Game/AI/aiUnk_7102357d20.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/ActorSystem/actBaseProcLink.h"
 
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 
@@ -46,6 +51,22 @@ protected:
     const float* mMoveDis_m{};
     // map_unit_param at offset 0x48
     const bool* mReactHorn_m{};
+
+    // The members from 0x50 follow the constructor 0x7100085354 / destructor 0x7100085618; the types of the
+    // elements of _60 (0x18 bytes, a link first) and of the members in the padding are unknown.
+    struct Unk60 {
+        ksys::act::BaseProcLink link;
+        u64 _10;
+    };
+    sead::Vector3f _50 = sead::Vector3f::zero;
+    sead::Buffer<Unk60> _60;
+    ksys::act::BaseProcLink _70;
+    Unk_7102450528 _80;
+    f32 _f8 = 1.0f;
+    bool _fc = false;
+    ksys::act::BaseProcLink _100;
+    u8 _110[0x358 - 0x110];
+    Unk_7102362e80 _358{mActor, 0x80000cc};
 };
 
 }  // namespace uking::action

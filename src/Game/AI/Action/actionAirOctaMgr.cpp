@@ -7,7 +7,9 @@ namespace uking::action {
 
 AirOctaMgr::AirOctaMgr(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
-AirOctaMgr::~AirOctaMgr() = default;
+AirOctaMgr::~AirOctaMgr() {
+    _60.freeBuffer();
+}
 
 bool AirOctaMgr::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
