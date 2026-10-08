@@ -26,6 +26,8 @@ public:
     const sead::RuntimeTypeInfo::Interface* getRuntimeTypeInfo() const override;
 
     void resetDamage() override;
+    void m22() override;
+    s32 m53() override;
     explicit DamageMgrPlayer(ksys::act::Actor* actor);
 
     s32 m52() override;

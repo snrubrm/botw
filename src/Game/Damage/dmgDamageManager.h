@@ -91,6 +91,9 @@ public:
     // (`_d8` / `_e8`; kind 3: the first attack info's `_50`; kind 4 / 11: the actor's impulse link) or the dummy link.
     ksys::act::BaseProcLink* getAttacker() override;
     ksys::act::BaseProcLink* m37() override;
+    // Slot 22 (CSV DamageMgr::m22, 0x71006d2a84): base periodic update, tail-called by
+    // DamageMgrPlayer::m22 after the _22c timer handling below. Declared only.
+    void m22() override;
     // The new virtual slots 50-56 (placeholders; m52 / m53 are constants).
     virtual void m50();
     // 2026-10-07: slot 51 tests the lightning factor and the linked actor's name.
