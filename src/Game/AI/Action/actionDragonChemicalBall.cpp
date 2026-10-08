@@ -1,8 +1,12 @@
 #include "Game/AI/Action/actionDragonChemicalBall.h"
+#include <cmath>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actChemical.h"
+#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "KingSystem/Event/evtManager.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::action {
 
@@ -50,8 +54,46 @@ void DragonChemicalBall::loadParams_() {
     getStaticParam(&mHomingTime_s, "HomingTime");
 }
 
+// NON_MATCHING: register assignment and load/scheduling order only — our (dx, dy, dz) land in
+// s12/s11/s10 (the original's s11/s10/s12), cascading through the impulse fmuls, and our
+// HomingPower-float/mMainBody loads sit on opposite sides of them. All calls, branches, constants
+// and the sqrt/normalize/Timer shapes match.
 void DragonChemicalBall::calc_() {
-    ksys::act::ai::Action::calc_();
+    ksys::Timer::update(&_50, 1.0f);
+    if (f32(*mLife_s) < _50)
+        mActor->deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+    if (auto* manager = ksys::evt::Manager::instance()) {
+        if (manager->hasActiveEvent() || manager->_1d3e0)
+            mActor->deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+    }
+    if (_54 < *mHomingTime_s) {
+        const sead::Vector3f& player = getPlayerPosition();
+        const auto& mtx = mActor->getMtx();
+        const f32 mx = mtx.m[0][3];
+        const f32 my = mtx.m[1][3];
+        const f32 mz = mtx.m[2][3];
+        const f32 px = player.x;
+        const f32 py = player.y;
+        f32 dx = px - mx;
+        f32 dy = py - my;
+        const f32 pz = player.z;
+        f32 dz = pz - mz;
+        const f32 dist_sq = dx * dx + dy * dy + dz * dz;
+        if (dist_sq < *mHomingDistance_s * *mHomingDistance_s) {
+            const f32 len = std::sqrt(dist_sq);
+            if (len > 0.0f) {
+                const f32 inv = 1.0f / len;
+                dx *= inv;
+                dy *= inv;
+                dz *= inv;
+            }
+            const f32 power = *mHomingPower_s;
+            const sead::Vector3f impulse(dist_sq * dx * power, dist_sq * dy * power,
+                                         dist_sq * dz * power);
+            mActor->getMainBody()->applyLinearImpulse(impulse);
+            ksys::Timer::update(&_54, 1.0f);
+        }
+    }
 }
 
 }  // namespace uking::action
