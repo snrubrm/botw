@@ -158,6 +158,12 @@ public:
     void sub_7100E39614(bool on);
     // 0x7100e37788: same as getStuff (a separate copy in the binary; Actor::sub_71011D8A44).
     Chemical* sub_7100E37788(int idx);
+    // 0x7100e380fc / 0x7100e3816c (placeholder names; two identical copies): the Chemical of entry `idx` of _70
+    // (null when out of range).
+    Chemical* sub_7100E380FC(int idx);
+    Chemical* sub_7100E3816C(int idx);
+    // 0x7100e384c4 (placeholder name): whether `body` is one of the rigid bodies (_278) of element `idx` (no lock).
+    bool sub_7100E384C4(const phys::RigidBody* body, int idx);
     // 0x7100e381dc (declared only; placeholder name): looks a Chemical up by name; Actor::sub_71011D8A54.
     Chemical* sub_7100E381DC(const sead::SafeString& name);
     // 0x7100e38c54 (unnamed in the CSV; declaration only; 1.7 KB, lane4 s51 placeholder name): attaches (`true`) / detaches the

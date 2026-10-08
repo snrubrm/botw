@@ -156,6 +156,47 @@ Chemical* ActorChemicals::getStuff(int idx) {
     return &element->mChemical;
 }
 
+Chemical* ActorChemicals::sub_7100E380FC(int idx) {
+    const auto lock = sead::makeScopedLock(mCS);
+    if (idx < 0 || idx >= _70.size())
+        return nullptr;
+    return &_70[idx].mChemical;
+}
+
+Chemical* ActorChemicals::sub_7100E3816C(int idx) {
+    const auto lock = sead::makeScopedLock(mCS);
+    if (idx < 0 || idx >= _70.size())
+        return nullptr;
+    return &_70[idx].mChemical;
+}
+
+// NON_MATCHING: same as getStuff (the null path of the inlined element lookup branches to a different unlock)
+Chemical* ActorChemicals::sub_7100E381DC(const sead::SafeString& name) {
+    const auto lock = sead::makeScopedLock(mCS);
+    const s32 idx = sub_7100E382C4(name);
+    if (idx == -1)
+        return nullptr;
+    return getStuff(idx);
+}
+
+// NON_MATCHING: the original keeps the null check of the element and loads the body count without sign extension
+bool ActorChemicals::sub_7100E384C4(const phys::RigidBody* body, int idx) {
+    if (idx < 0 || idx >= _58.size() + _80)
+        return false;
+    Unk_71024e6428* element;
+    if (idx < _58.size())
+        element = &_58[idx];
+    else
+        element = &_70[idx - _58.size()];
+    if (!element)
+        return false;
+    for (s32 i = 0; i < element->_278.size(); ++i) {
+        if (element->_278[i].body == body)
+            return true;
+    }
+    return false;
+}
+
 // NON_MATCHING: same as getStuff (the original's null path of the inlined element lookup unlocks once and shares the
 // outer unlock; the loop counters also use other registers)
 void ActorChemicals::sub_7100E39614(bool on) {
