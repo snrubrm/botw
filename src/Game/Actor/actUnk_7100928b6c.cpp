@@ -1,5 +1,6 @@
 // TU of Camera::_1240 (Unk_7100928b6c, 0x7100928874-), in the camera utility code.
 #include "Game/Actor/actCamera.h"
+#include "KingSystem/Physics/System/physRayCast.h"
 
 namespace uking::act {
 
@@ -19,6 +20,17 @@ void Unk_7100928b6c::sub_7100928C30() {
 
 void Unk_7100928b6c::sub_7100928C40() {
     _141 &= ~1;
+}
+
+void Unk_7100928b6c::sub_7100928C50(ksys::phys::RayCast* ray_cast) {
+    ray_cast->setGroundHit(ksys::phys::GroundHit::Camera);
+    ray_cast->enableLayer(ksys::phys::ContactLayer::EntityGround);
+    ray_cast->enableLayer(ksys::phys::ContactLayer::EntityGroundSmooth);
+    ray_cast->enableLayer(ksys::phys::ContactLayer::EntityGroundRough);
+    ray_cast->enableLayer(ksys::phys::ContactLayer::EntityGroundObject);
+    ray_cast->enableLayer(ksys::phys::ContactLayer::EntityWater);
+    if (_144)
+        ray_cast->disableLayer(ksys::phys::ContactLayer::EntityGroundObject);
 }
 
 void Unk_7100928b6c::sub_71009298C4() {

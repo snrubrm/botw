@@ -1,6 +1,7 @@
 #include <cstdarg>
 #include "Game/Actor/actRideable.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/World/worldManager.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
 
 namespace uking::act {
@@ -51,6 +52,20 @@ void Rideable::sub_7100E7EAD8(s32 level, const char* format, ...) {
     std::va_list args;
     va_start(args, format);
     va_end(args);
+}
+
+bool Rideable::sub_7100E7ECC8() const {
+    auto* world = ksys::world::Manager::instance();
+    if (!world)
+        return false;
+    sead::Vector3f pos;
+    RideableBase::mActor->getMtx().getTranslation(pos);
+    const auto climate = world->getClimate(pos);
+    if (climate == ksys::world::Climate::GerudoDesertClimate ||
+        climate == ksys::world::Climate::GerudoDesertClimateLv2) {
+        return true;
+    }
+    return false;
 }
 
 void Rideable::sub_7100E7EF1C() {

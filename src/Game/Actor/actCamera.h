@@ -18,6 +18,10 @@
 #include "KingSystem/Utils/MathUtil.h"
 #include "KingSystem/Utils/Types.h"
 
+namespace ksys::phys {
+class RayCast;
+}
+
 namespace ksys::res {
 class GParamListObjectCamera;
 }
@@ -345,6 +349,8 @@ public:
     void sub_710092A83C();
     // 0x71009298c4 (placeholder name): like sub_710092A83C, but leaves _145 / _148 alone.
     void sub_71009298C4();
+    // 0x7100928c50 (placeholder name): sets up a camera ray cast (GroundHit Camera, the ground / water / object layers).
+    void sub_7100928C50(ksys::phys::RayCast* ray_cast);
 
     /* 0x000 */ Camera* mCamera;
     /* 0x008 */ Unk_71009214b8 _8;
@@ -366,7 +372,8 @@ public:
     /* 0x140 */ u8 _140 = 0;  // flags (sub_7100928C10 / sub_7100928C20)
     /* 0x141 */ u8 _141 = 0;  // bit 0: sub_7100928C30 / sub_7100928C40
     /* 0x142 */ u8 _142 = 0;
-    /* 0x143 */ u8 _143[0x145 - 0x143]{};
+    /* 0x143 */ u8 _143 = 0;
+    /* 0x144 */ bool _144 = false;  // sub_7100928C50: keep EntityGroundObject out of the camera ray casts
     /* 0x145 */ u8 _145 = 0;
     /* 0x146 */ u8 _146[0x148 - 0x146]{};
     /* 0x148 */ bool _148 = false;

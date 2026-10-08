@@ -325,6 +325,9 @@ public:
     // 0x7100e7ead8 (placeholder name): debug log with a printf format (e.g. "[Horse] Reject: No NavMesh Face",
     // level 1, from 0x7100e7e85c); empty in the release build.
     void sub_7100E7EAD8(s32 level, const char* format, ...);
+    // 0x7100e7ecc8 (placeholder name): whether the actor stands in the Gerudo desert climates (horses cannot come
+    // back there; "[Horse] Reject: isNotEnterableClimate" in 0x7100e7e85c).
+    bool sub_7100E7ECC8() const;
 
     /* 0x1bc */ u32 _1bc = 0;
     /* 0x1c0 */ u32 _1c0 = 0;
