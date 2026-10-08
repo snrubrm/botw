@@ -53544,7 +53544,7 @@ Address,Quality,Size,Name
 0x00000071008bbfac,O,000092,_ZNK14Unk_710246cec818getRuntimeTypeInfoEv
 0x00000071008bc008,O,000100,_ZN5uking14MaskController18SingletonDisposer_D1Ev
 0x00000071008bc06c,O,000108,_ZN5uking14MaskController18SingletonDisposer_D0Ev
-0x00000071008bc0d8,U,000216,MaskController::createInstance
+0x00000071008bc0d8,W,000216,_ZN5uking14MaskController14createInstanceEPN4sead4HeapE
 0x00000071008bc1b0,U,000160,
 0x00000071008bc250,U,000036,
 0x00000071008bc274,U,000204,
