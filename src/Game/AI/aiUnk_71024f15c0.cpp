@@ -1,5 +1,6 @@
 #include "Game/AI/aiUnk_71024f15c0.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/Map/mapDebug.h"
 #include "KingSystem/Map/mapMubinIter.h"
 #include "KingSystem/Map/mapObject.h"
@@ -68,6 +69,13 @@ ksys::map::Rail* sub_7100EEF264(ksys::act::Actor* actor, s32 idx) {
     return nullptr;
 }
 
+ksys::map::Rail* sub_7100EEF2F0(ksys::act::Actor* actor, const sead::SafeString& name) {
+    auto* rail = ksys::act::sub_7100EEF0FC(actor, name);
+    if (!rail && actor->getMapObject())
+        ksys::map::printDebugMsg(actor, "レールがリンクされていません", nullptr);
+    return rail;
+}
+
 const char* sub_7100EEF358(const ksys::map::Rail* rail, s32 idx) {
     const char* value = &sead::SafeString::cNullChar;
     const auto* point = rail->getPoint(idx);
@@ -77,6 +85,49 @@ const char* sub_7100EEF358(const ksys::map::Rail* rail, s32 idx) {
         return &sead::SafeString::cNullChar;
     point->getIter().tryGetParamStringByKey(&value, "WaitASKeyName");
     return value;
+}
+
+const char* sub_7100EEF3E4(const ksys::map::Rail* rail, s32 idx) {
+    const char* value = &sead::SafeString::cNullChar;
+    const auto* point = rail->getPoint(idx);
+    if (!point)
+        return value;
+    if (!point->getIter().isValid())
+        return &sead::SafeString::cNullChar;
+    point->getIter().tryGetParamStringByKey(&value, "MoveASKeyName");
+    return value;
+}
+
+const char* sub_7100EEF470(const ksys::map::Rail* rail, s32 idx) {
+    const char* value = &sead::SafeString::cNullChar;
+    const auto* point = rail->getPoint(idx);
+    if (!point)
+        return value;
+    if (!point->getIter().isValid())
+        return &sead::SafeString::cNullChar;
+    point->getIter().tryGetParamStringByKey(&value, "OnFlagName");
+    return value;
+}
+
+const char* sub_7100EEF4FC(const ksys::map::Rail* rail, s32 idx) {
+    const char* value = &sead::SafeString::cNullChar;
+    const auto* point = rail->getPoint(idx);
+    if (!point)
+        return value;
+    if (!point->getIter().isValid())
+        return &sead::SafeString::cNullChar;
+    point->getIter().tryGetParamStringByKey(&value, "OffFlagName");
+    return value;
+}
+
+bool sub_7100EEF588(const ksys::map::Rail* rail, s32 idx) {
+    bool value = false;
+    const auto* point = rail->getPoint(idx);
+    if (point && point->getIter().isValid()) {
+        point->getIter().tryGetParamBoolByKey(&value, "IsAdjustPosAndDirToPoint");
+        return value;
+    }
+    return false;
 }
 
 f32 sub_7100EEF078(const ksys::map::Rail* rail, s32 idx) {
