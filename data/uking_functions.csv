@@ -12674,7 +12674,7 @@ Address,Quality,Size,Name
 0x00000071001dd52c,O,000004,_ZN5uking6action12LookAtObjectD1Ev
 0x00000071001dd530,O,000036,_ZN5uking6action12LookAtObjectD0Ev
 0x00000071001dd554,O,000004,_ZN5uking6action12LookAtObject5init_EPN4sead4HeapE
-0x00000071001dd558,U,000400,_ZN5uking6action12LookAtObject8oneShot_Ev
+0x00000071001dd558,O,000400,_ZN5uking6action12LookAtObject8oneShot_Ev
 0x00000071001dd6e8,O,000044,_ZN5uking6action12LookAtObject3m33Ev
 0x00000071001dd714,U,000372,uking::action::LookAtObject::m37
 0x00000071001dd888,O,000004,_ZN5uking6action12LookAtObject11loadParams_Ev
