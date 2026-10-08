@@ -74,7 +74,11 @@ public:
         // 0x710104bcbc
         void init(sead::Heap* heap);
         // 0x710104bef0 / 0x710104df54 / 0x710104e004 / 0x710104e0a0 (declared only)
+        // 0x710104bef0: applies the dirty parts (_56c bit 2: 0x710104bf44, bit 3: 0x710104c648) and clears the bits.
         void sub_710104BEF0();
+        // 0x710104bf44 / 0x710104c648 (declared only; 1796 / 2592 B).
+        void sub_710104BF44();
+        void sub_710104C648();
         void sub_710104DF54(f32 value);
         void sub_710104E004(f32 value);
         void sub_710104E0A0(void* arg);
