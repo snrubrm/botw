@@ -8,6 +8,8 @@
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
+#include "Game/Actor/actCamera.h"
+#include "Game/Actor/actCameraUtil.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
 
@@ -71,6 +73,33 @@ void ForkASTrgRemainsHowl::enter_(ksys::act::ai::InlineParamPack* params) {
     mFlags.set(Flag::Changeable);
     sub_7100143068();
     sub_7100143180();
+}
+
+// NON_MATCHING: one vtable slot — the original calls ModelUnit slot 0x70, ours resolves
+// safeGetBoneWorldMatrix to slot 0x80 (gsysModelUnit.h carries two extra virtuals before it;
+// libwork request in lane3-log session 52). Everything else matches.
+void ForkASTrgRemainsHowl::sub_7100143180() {
+    ksys::act::acc::Camera accessor;
+    sub_710092DAE8(&accessor);
+    const auto& mtx = mActor->getMtx();
+    sead::Vector3f pos;
+    pos.x = mtx(0, 3);
+    pos.y = mtx(1, 3);
+    pos.z = mtx(2, 3);
+    auto* model = mActor->getModel();
+    const auto& actor_mtx = mActor->getMtx();
+    if (model) {
+        auto key = model->searchBone("Nose_1");
+        if (key.isValid()) {
+            sead::Matrix34f bone_mtx;
+            model->getUnits()(key.model_unit_index)
+                ->mModelUnit->safeGetBoneWorldMatrix(&bone_mtx, key.bone_index);
+            pos.x = bone_mtx(0, 3);
+            pos.y = bone_mtx(1, 3);
+            pos.z = bone_mtx(2, 3);
+        }
+    }
+    accessor.setWaterRemainsData(actor_mtx, pos);
 }
 
 void ForkASTrgRemainsHowl::leave_() {

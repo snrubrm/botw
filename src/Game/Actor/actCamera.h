@@ -510,6 +510,8 @@ public:
     bool sub_7100799F60() const;
     bool sub_710079A05C() const;
     bool sub_710079A158() const;
+    // 0x710079a4ac (called by ForkASTrgRemainsHowl::sub_7100143180).
+    void setWaterRemainsData(const sead::Matrix34f& mtx, const sead::Vector3f& pos) const;
 
 protected:
     uking::act::Camera* getCamera() const;
