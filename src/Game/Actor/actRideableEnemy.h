@@ -14,6 +14,8 @@ class RideableEnemy : public Rideable {
 public:
     void m24() override;
     bool m44() override;
+    // First new virtual (slot 45): RiddenAnimalType-gated speed factor.
+    virtual float m45();
 };
 
 }  // namespace uking::act

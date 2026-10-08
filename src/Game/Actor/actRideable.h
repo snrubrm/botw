@@ -74,7 +74,7 @@ public:
     /* 10 */ virtual f32 m26() { return 0.0f; }
     /* 11 */ virtual f32 m27() { return 0.0f; }
     /* 12 */ virtual f32 m28() { return 0.0f; }
-    /* 13 */ virtual f32 procLink13() { return 0.0f; }
+    /* 13 */ virtual f32 procLink13();
     /* 14 */ virtual bool m10(const ksys::Message& message);
     /* 15 */ virtual void m42(int a1) {}
     /* 16 */ virtual void m43() {}

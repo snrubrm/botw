@@ -43,4 +43,8 @@ HorseReins* Rideable::m40() {
 
 void Rideable::m42(int a1) {}
 
+f32 Unk_7100e8b2b8::procLink13() {
+    return 0.0f;
+}
+
 }  // namespace uking::act
