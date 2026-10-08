@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionEquipedRod.h"
+#include "Game/AI/aiUnk_7102407678.h"
 #include "Game/Actor/actWeapon.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
@@ -40,6 +41,35 @@ bool EquipedRod::sub_7100111C48() {
         return false;
     auto* player = sead::DynamicCast<ksys::act::PlayerBase>(weapon->getParentActor());
     return player && player->m296() == 1;
+}
+
+bool EquipedRod::sub_7100111D60() {
+    auto* unit = sead::DynamicCast<ai::Unk_7102407678>(*mMagicCreateUnit_a);
+    if (!unit)
+        return false;
+    auto* weapon = sead::DynamicCast<uking::act::Weapon>(mActor);
+    if (!weapon || weapon->isMasterSword())
+        return false;
+    if (!unit->_8.isProcReady())
+        return false;
+    if (!weapon->_c4c)
+        return false;
+    if ((weapon->_c20._0 | 2) != 2)
+        return false;
+    if (!weapon->m214())
+        return false;
+    if (weapon->_d09)
+        return false;
+    return weapon->_c20._0 != 2;
+}
+
+bool EquipedRod::sub_7100111EB8() {
+    auto* unit = sead::DynamicCast<ai::Unk_7102407678>(*mMagicCreateUnit_a);
+    if (!unit)
+        return false;
+    auto& handle = unit->_8;
+    auto* weapon = sead::DynamicCast<uking::act::Weapon>(mActor);
+    return handle.isProcReady() && weapon && weapon->_af8._0 == 9 && weapon->m214();
 }
 
 void EquipedRod::leave_() {

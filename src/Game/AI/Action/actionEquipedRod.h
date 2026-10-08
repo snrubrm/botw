@@ -3,6 +3,10 @@
 #include "Game/AI/Action/actionEquipedAction.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
+namespace uking::ai {
+class Unk_7102407678;
+}
+
 namespace uking::action {
 
 class EquipedRod : public EquipedAction {
@@ -18,6 +22,8 @@ public:
 protected:
     void calc_() override;
     bool sub_7100111C48();
+    bool sub_7100111D60();
+    bool sub_7100111EB8();
 
     // static_param at offset 0x40
     const float* mMagicCreateYOffset_s{};
@@ -32,7 +38,7 @@ protected:
     // static_param at offset 0x68
     const float* mAxisYAngle_s{};
     // aitree_variable at offset 0x70
-    void* mMagicCreateUnit_a{};
+    ai::Unk_7102407678** mMagicCreateUnit_a{};
     f32 _78 = 0.0f;
     f32 _7c = 0.0f;
     f32 _80 = 0.0f;
