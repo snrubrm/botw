@@ -4,6 +4,11 @@
 // Slot 4 of the leaf classes (overrides eui::Screen's, which returns 0).
 namespace uking::ui {
 
+// 0x7100a537c8
+void ScreenSkip::m93(sead::Heap*) {
+    _3610 = sub_71009DE2B8(getChild(0, 0));
+}
+
 // 0x7100a537f8
 void ScreenSkip::sub_7100A537F8(bool with_button) {
     open(1);
@@ -11,7 +16,7 @@ void ScreenSkip::sub_7100A537F8(bool with_button) {
         const s32 icon = with_button ? 10 : 8;
         if (_3618 != icon) {
             _3618 = icon;
-            sub_7100AA34A4(_3610->_20, "T_Icon_00", icon);
+            sub_7100AA34A4(_3610->mLayout, "T_Icon_00", icon);
         }
     }
 }

@@ -2095,6 +2095,10 @@ struct PictureBookGroupList {
 struct ScreenAppPictureBookUnk {
     // 0x710093f594 (CSV unnamed; not decompiled)
     void sub_710093F594(bool a1);
+    // 0x710093feac (declared only; 220 bytes): refreshes the groups' layouts
+    void sub_710093FEAC();
+    // 0x710093e428 (declared only; the 4-byte forwarder to sub_710093E784)
+    u32 sub_710093E428(s32 index);
     // 0x710093dad4 / 0x710093dae8 (identical code): raise `_33c` to at least `value`
     void sub_710093DAD4(s32 value);
     void sub_710093DAE8(s32 value);
@@ -2487,12 +2491,7 @@ public:
     bool isEnableControl() const override;
     ScreenShopBtnList5();
     ~ScreenShopBtnList5() override;
-    // Placeholder: the object `_3610` points to (only the s32 at 0x30c is used).
-    struct Unk3610 {
-        u8 _0[0x30c];
-        s32 _30c;
-    };
-    /* 0x3610 */ Unk3610* _3610{};
+    /* 0x3610 */ ScreenAppPictureBookUnk* _3610{};  // the picture book list controller (it has _30c)
     void m93(sead::Heap* heap) override;
     /* 0x3618 */ eui::Animator* _3618{};
     /* 0x3620 */ eui::Animator* _3620{};
@@ -2501,6 +2500,8 @@ public:
     void m94() override;
     void m98() override;
     void m100() override;
+    // 0x7100a4df38 (slot 99)
+    void m99() override;
 };
 
 class ScreenPauseMenuBG : public ScreenEx {
@@ -2819,14 +2820,10 @@ public:
 
 class ScreenSkip : public ScreenEx {
 public:
-    // The icon holder at ScreenSkip + 0x3610 (placeholder; only the pointer at +0x20 is used).
-    struct IconHolder {
-        u8 _0[0x20];
-        void* _20;
-    };
-
     // 0x7100a537f8: opens the screen and switches the skip icon (10 with the button, 8 without).
     void sub_7100A537F8(bool with_button);
+    // 0x7100a537c8 (slot 93): remembers the first child as the icon holder (its layout is at 0x20)
+    void m93(sead::Heap* heap) override;
     ScreenSkip();
     const char* getLayoutName_() const override;
     bool isPlayPartsInOut_() const override;
@@ -2834,7 +2831,7 @@ public:
     ~ScreenSkip() override;
     SEAD_RTTI_OVERRIDE(ScreenSkip, ScreenEx)
 
-    /* 0x3610 */ IconHolder* _3610{};
+    /* 0x3610 */ ScreenChildEx* _3610{};
     s32 _3618 = 30;
     s32 _361c;
 };
@@ -2912,7 +2909,12 @@ public:
     SEAD_RTTI_OVERRIDE(ScreenShopBtnList20, ScreenEx)
     void m102(eui::AnimButton*) override;
     void m107(eui::AnimButton* button) override;
-    u8 _pad_3610[0x3868 - 0x3610];
+    // 0x7100a4cd5c / 0x7100a4cd70 / 0x7100a4ce28 (placeholder names): forward to the picture book controller
+    void sub_7100A4CD5C(bool value);
+    void sub_7100A4CD70();
+    s32 sub_7100A4CE28();
+    /* 0x3610 */ ScreenAppPictureBookUnk* _3610;
+    u8 _pad_3618[0x3868 - 0x3618];
     eui::AnimButton* _3868;
 };
 
@@ -3124,6 +3126,8 @@ public:
     void sub_7100A56D08();
 };
 
+struct ShopInfoTagData;
+
 class ScreenShopBtnList15 : public ScreenEx {
 public:
     ScreenShopBtnList15();
@@ -3137,8 +3141,16 @@ public:
     SEAD_RTTI_OVERRIDE(ScreenShopBtnList15, ScreenEx)
     void m94() override;
     void m100() override;
+    // 0x7100a4b444: a button was selected; tells the shop manager the index (tag - 122) of the item
+    void m102(eui::AnimButton* button) override;
     void m106(eui::AnimButton* button) override;
     void m107(eui::AnimButton* button) override;
+    // 0x7100a4b0b4 (placeholder name): sets the flag 0x10 of the 15 buttons (tags 122 - 136)
+    void sub_7100A4B0B4(bool on);
+    // 0x7100a4b3c4 (placeholder name): closes the "Pa_GuideA_00" / "Pa_GuideB_00" layouts when they are opening or open
+    void sub_7100A4B3C4();
+    // 0x7100a4b50c (placeholder name): shows the name of the item described by `data` in "T_Name_00"
+    void sub_7100A4B50C(ShopInfoTagData* data);
 
     UiTexSlots _3610;
 };

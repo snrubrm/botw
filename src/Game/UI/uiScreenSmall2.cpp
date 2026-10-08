@@ -1089,6 +1089,33 @@ void ScreenShopBtnList5::m100() {
         invokeSoundLink2Event_("mc_Close");
 }
 
+// 0x7100a4df38
+void ScreenShopBtnList5::m99() {
+    if (_3610)
+        _3610->sub_710093E428(0);
+}
+
+// 0x7100a4cd5c
+void ScreenShopBtnList20::sub_7100A4CD5C(bool value) {
+    if (_3610)
+        _3610->sub_710093F594(value);
+}
+
+// 0x7100a4cd70
+void ScreenShopBtnList20::sub_7100A4CD70() {
+    if (_3610)
+        _3610->sub_710093FEAC();
+}
+
+// 0x7100a4ce28
+s32 ScreenShopBtnList20::sub_7100A4CE28() {
+    if (!_3610)
+        return -1;
+    if (_3610->sub_710093FE74(_3610->_2e4))
+        return -1;
+    return _3610->_2e4;
+}
+
 // 0x7100a4de04
 void ScreenShopBtnList5::m98() {
     _3628 = 0;
@@ -1129,6 +1156,40 @@ void ScreenSousaGuide::sub_7100A56D08() {
 // 0x7100a4b10c
 void ScreenShopBtnList15::sub_7100A4B10C(s32 index) {
     moveBoxCursorByTag_(static_cast<u32>(index) < 15 ? index + 122 : 122);
+}
+
+// 0x7100a4b444
+void ScreenShopBtnList15::m102(eui::AnimButton* button) {
+    const s32 index = button->mTag - 122;
+    if (static_cast<u32>(index) <= 14)
+        UiShopMgr::instance()->sub_710098411C(index);
+}
+
+// 0x7100a4b0b4
+void ScreenShopBtnList15::sub_7100A4B0B4(bool on) {
+    for (s32 tag = 122; tag != 137; ++tag) {
+        if (auto* button = mButtonGroup->FindButtonByTag(tag))
+            button->setFlag10(on);
+    }
+}
+
+// 0x7100a4b3c4
+void ScreenShopBtnList15::sub_7100A4B3C4() {
+    if (auto* layout = sub_7100BEAFB0("Pa_GuideA_00")) {
+        if (static_cast<u32>(layout->_91 - 1) <= 1)
+            layout->startAnimCloseImpl_(false, false);
+    }
+    if (auto* layout = sub_7100BEAFB0("Pa_GuideB_00")) {
+        if (static_cast<u32>(layout->_91 - 1) <= 1)
+            layout->startAnimCloseImpl_(false, false);
+    }
+}
+
+// 0x7100a4b50c
+void ScreenShopBtnList15::sub_7100A4B50C(ShopInfoTagData* data) {
+    eui::MessageString message;
+    sub_7100AA2BDC(data, &message);
+    setWidgetString(mLayout, "T_Name_00", message);
 }
 
 // 0x7100a4b468
