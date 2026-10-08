@@ -4,6 +4,10 @@
 #include "KingSystem/ActorSystem/actAiAi.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 
+namespace ksys::evt {
+class ActionContext;
+}
+
 namespace uking::ai {
 
 // Placeholder (no name known): the request object passed to the DemoRootAI helpers at 0x7100d61fac-0x7100d62d18: the child
@@ -23,7 +27,6 @@ class DemoRootAI : public ksys::act::ai::Ai {
 public:
     explicit DemoRootAI(const InitArg& arg);
     ~DemoRootAI() override;
-
     bool initChildren(const ksys::AIDefSet& set, sead::Heap* heap) override;
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
@@ -39,6 +42,13 @@ public:
     bool sub_7100D62394(DemoAiRequest* request);
     // 0x7100d62d18 (placeholder name): the child `name` exists and has the TriggerAction flag.
     bool sub_7100D62D18(const sead::SafeString& name);
+
+    // The 0x7100d61fc0-0x7100d62750 node-advance helpers are free functions in this TU that read
+    // _38 directly, so they are friends (they cannot go through a public accessor: the original
+    // calls Buffer::operator[] on _38 itself, with the checked-index fallback).
+    friend void sub_7100D61FC0(DemoRootAI*, ksys::evt::ActionContext*, u32*, bool);
+    friend void sub_7100D6225C(DemoRootAI*, const sead::SafeString&, s32, bool);
+    friend void sub_7100D62750(DemoRootAI*, u32, s32, ksys::act::ai::InlineParamPack*);
 protected:
     sead::Buffer<ksys::act::ai::ActionBase*> _38;
     u16 _48{};
