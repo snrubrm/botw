@@ -40,6 +40,11 @@ public:
     // layer / set every contact on each rigid body of the rope.
     void sub_7100ECE0CC(phys::ContactLayer layer);
     void sub_7100ECE140();
+    // 0x7100ece410 (placeholder name): the position along the rope of `pos`: the index of the closest rigid body
+    // of the first list times the segment length (`_938`) plus a term from the angle to that body's y axis.
+    f32 sub_7100ECE410(const sead::Vector3f& pos) const;
+    // 0x7100ed68b4 (placeholder name): the segment index of `pos` (via sub_7100ECE410), clamped to 0 / _930.
+    s32 sub_7100ED68B4(const sead::Vector3f& pos) const;
     // 0x7100ed6878 (placeholder name): the rigid body `index` of the first list (null when index is negative or past _930).
     phys::RigidBody* sub_7100ED6878(s32 index) const;
 
@@ -64,7 +69,9 @@ protected:
     s32 _930;
     u8 _934[4];
     f32 _938;  // length of one rope segment (lane1 s41)
-    u8 _93c[0x955 - 0x93c];
+    f32 _93c;  // scale of the (1 - dot) term in sub_7100ECE410
+    f32 _940;  // sub_7100ED68B4 multiplies the rope position by this to get a segment index
+    u8 _944[0x955 - 0x944];
     // 2026-10-07: ECAA68 clears this flag; ED4A80 sets it together with _956 after detachment.
     bool _955;
     u8 _956;

@@ -258,6 +258,8 @@ public:
     // controller state and `in` to `out` (called by AnimalStop::calc_ with (out, negated _7c, true)).
     // Placeholder name; third parameter type (bool vs int) is a guess.
     void sub_7100F60088(sead::Vector3f* out, const sead::Vector3f* in, bool flag);
+    // 0x7100f5ffe8: sub_7100F5FB24 of the angular velocity computed by sub_7100F60088(in, flag). Placeholder name.
+    void sub_7100F5FFE8(const sead::Vector3f* in, bool flag);
     // 0x7100f5eecc (declared only)
     void sub_7100F5EECC(f32 value);
     // 0x7100f5e954: mRigidBody->isAddedToWorld().

@@ -743,6 +743,39 @@ void CharacterController::sub_7100F5FBC8(sead::Vector3f* linear_velocity,
 
 // NON_MATCHING: the body selection becomes a csel of the two field addresses (the original loads one of them in
 // each branch of a flag test)
+// NON_MATCHING: same code; the address computations for the `flag ? _64 : transform` selects are scheduled differently.
+// Builds a basis from `in` and the vector `up` (the controller's _64 or the z axis of the body transform) and
+// writes the angular velocity that brings the body to it to `out`.
+void CharacterController::sub_7100F60088(sead::Vector3f* out, const sead::Vector3f* in, bool flag) {
+    sead::Vector3f linear_vel;
+    sead::Matrix34f transform;
+    mRigidBody->getTransform(&transform);
+
+    sead::Vector3f up;
+    up.y = flag ? _64.y : transform.m[1][2];
+    up.z = flag ? _64.z : transform.m[2][2];
+    up.x = flag ? _64.x : transform.m[0][2];
+
+    sead::Vector3f axis = in->cross(up);
+    axis.normalize();
+    sead::Vector3f side = axis.cross(*in);
+    side.normalize();
+
+    sead::Matrix34f target;
+    target.setBase(0, axis);
+    target.setBase(1, *in);
+    target.setBase(2, side);
+    target.setTranslation(sead::Vector3f::zero);
+
+    sub_7100F5FBC8(&linear_vel, out, target);
+}
+
+void CharacterController::sub_7100F5FFE8(const sead::Vector3f* in, bool flag) {
+    sead::Vector3f angular_vel;
+    sub_7100F60088(&angular_vel, in, flag);
+    sub_7100F5FB24(angular_vel);
+}
+
 void CharacterController::sub_7100F5FC8C(const sead::Matrix34f& mtx) {
     sead::Vector3f linear_vel;
     sead::Vector3f angular_vel;

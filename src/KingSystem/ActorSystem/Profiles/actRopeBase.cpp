@@ -51,6 +51,34 @@ void RopeBase::sub_7100ECE140() {
     }
 }
 
+// NON_MATCHING: the two selects in the search loop are scheduled the other way round (fcsel before csel).
+f32 RopeBase::sub_7100ECE410(const sead::Vector3f& pos) const {
+    f32 min_dist = 100000.0f;
+    s32 min_index = 0;
+    for (s32 i = 0; i <= _930; ++i) {
+        const f32 dist = (_860[i]->getPosition() - pos).length();
+        if (dist < min_dist) {
+            min_dist = dist;
+            min_index = i;
+        }
+    }
+
+    sead::Vector3f diff = pos - _860[min_index]->getPosition();
+    const sead::Matrix34f mtx = _860[min_index]->getTransform();
+    sead::Vector3f axis(mtx.m[0][1], mtx.m[1][1], mtx.m[2][1]);
+    diff.normalize();
+    axis.normalize();
+    return min_index * _938 + _93c * (1.0f - diff.dot(axis));
+}
+
+s32 RopeBase::sub_7100ED68B4(const sead::Vector3f& pos) const {
+    const f32 value = sub_7100ECE410(pos);
+    s32 index = (value - 0.001f) * _940;
+    if (index < 0 || index > _930)
+        return value < 0.0f ? 0 : _930;
+    return index;
+}
+
 phys::RigidBody* RopeBase::sub_7100ED6878(s32 index) const {
     if (index < 0 || _930 < index)
         return nullptr;
