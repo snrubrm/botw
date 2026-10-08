@@ -42,7 +42,7 @@ class NpcShopData;
 
 namespace uking::ui {
 
-// 0x7100aa0700 (declared only): E3 demo mode flag
+// 0x7100aa0700: E3 demo mode flag
 bool isE3DemoMode();
 
 int getPorchNum(const sead::SafeString& name);
