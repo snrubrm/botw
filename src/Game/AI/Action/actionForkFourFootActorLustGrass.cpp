@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionForkFourFootActorLustGrass.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "gsys/gsysModel.h"
 
@@ -26,7 +27,7 @@ void ForkFourFootActorLustGrass::enter_(ksys::act::ai::InlineParamPack* params) 
     _88._8._14 = *mMinRadius_s;
     _88._8._18 = *mMinRadius_s;
     _88._8._1c = *mMinRadius_s;
-    _1a0 = false;
+    _1a0 = 0;
     mFlags.set(Flag::Changeable);
 }
 
@@ -46,8 +47,52 @@ void ForkFourFootActorLustGrass::loadParams_() {
     getAITreeVariable(&mGanonBeastGrudgeMarkMgr_a, "GanonBeastGrudgeMarkMgr");
 }
 
+// NON_MATCHING: the event-name strlen differs — the original addresses all three byte checks
+// through one shared str+len+2 base (unscaled -2/-1 loads plus [str, len+2]) where ours computes
+// separate addresses, and ours merges the bound-exceeded fixup test with the negativity test into
+// a ccmp where the original keeps a separate cmp. Calls, loop structure, constants identical.
 void ForkFourFootActorLustGrass::calc_() {
-    ksys::act::ai::Action::calc_();
+    _1a0 = 0;
+    if (!mActor->getModel())
+        return;
+
+    ksys::as::ASList::EventQueryResults results;
+    if (!mActor->getASList()->sub_710115FB60(&results, 6, 0, 0,
+                                            &ksys::as::ASList::Unk2::sub_7101163908, true)) {
+        return;
+    }
+    if (results.count < 1)
+        return;
+
+    for (s64 i = 0; i < results.count; ++i) {
+        u32 bit;
+        if (results.events[0].name.isEmpty()) {
+            bit = 1;
+        } else {
+            const auto& event = results.events.mBuffer[i < 16ul ? i : 0];
+            event.name.cstr();
+            const char* str = event.name.getStringTop();
+            int len = 0;
+            while (len + 2 < 0x80000) {
+                if (str[len] == sead::SafeString::cNullChar)
+                    break;
+                if (str[len + 1] == sead::SafeString::cNullChar) {
+                    ++len;
+                    break;
+                }
+                if (str[len + 2] == sead::SafeString::cNullChar) {
+                    len += 2;
+                    break;
+                }
+                len += 3;
+            }
+            if (len + 2 >= 0x80000)
+                len = 0;
+            const char* p = len < 0 ? &sead::SafeString::cNullChar : str;
+            bit = 1 << s8(*p - 0x30);
+        }
+        _1a0 |= bit;
+    }
 }
 
 bool ForkFourFootActorLustGrass::hasUpdateForPreDeleteCb() {

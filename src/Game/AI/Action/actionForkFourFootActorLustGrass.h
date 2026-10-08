@@ -65,7 +65,7 @@ protected:
     gsys::BoneAccessKeyEx _b0[4];
     s64 _190;
     s64 _198;
-    bool _1a0 = false;
+    u8 _1a0 = 0;
 };
 KSYS_CHECK_SIZE_NX150(ForkFourFootActorLustGrass, 0x1a8);
 
