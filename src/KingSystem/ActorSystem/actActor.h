@@ -527,7 +527,8 @@ public:
     virtual void onPreFadeOutDelete();
     virtual void onFadeOutSleep();
     virtual void m60();
-    virtual void m61();
+    // actorHpStuff forwards the model animation rate; Swarm and NPC preserve it.
+    virtual void m61(f32 rate);
     virtual bool shouldUnload(s32* a1);
     virtual void m63();
     virtual void initMaybe();
@@ -535,7 +536,8 @@ public:
     // rail follower and matrix). The name is a guess.
     virtual void updateLodStuff(Actor* other);
     virtual void m66();
-    virtual bool m67();
+    // createModel passes its heap to this slot; HorseBase uses it for the model unit group.
+    virtual bool m67(sead::Heap* heap);
     virtual void m68();
     virtual void calcMaybe();
     virtual void m70();
@@ -629,7 +631,7 @@ public:
 
     sead::Atomic<bool>& get689() { return _689; }
     sead::Atomic<bool>& get68c() { return _68c; }
-    sead::Atomic<bool>& get68f() { return _68f; }
+    sead::Atomic<u8>& get68f() { return _68f; }
     bool get690() const { return _690; }
     // lane3 s38 (FixedMagneStick::calc_); the type is a placeholder (only byte 0x8b is known).
     ActorUnk6b8* get6b8() const { return _6b8; }
@@ -645,6 +647,10 @@ public:
     // 0x71011db138: sets ActorFlag::_1.
     void sub_71011DB138();
     void sub_71011DB070();
+    // Bit indices are passed by value through SEAD_ENUM storage in both byte setters.
+    SEAD_ENUM(Flag68f, _0, _1)
+    void sub_71011DAF44(Flag68f bit, bool on);
+    void sub_71011DAF7C(Flag68f bit, bool on);
     // 0x71011dafb4: sets _6fc / _700.
     void sub_71011DAFB4(int a, int b);
     // 0x71011d89d4 (CSV name): the character controller's `_210` while its `_116` bit 2 is set, else -1.
@@ -980,9 +986,10 @@ protected:
     /* 0x68c */ sead::Atomic<bool> _68c = false;
     /* 0x68d */ u8 _68d = 0;  // set to 1-4 by ActorConstDataAccess::sub_7100D15570 / 155F8 / 15680 / 15708
     /* 0x68e */ sead::Atomic<bool> _68e = false;
-    /* 0x68f */ sead::Atomic<bool> _68f = false;
+    // job1_1 independently clears bits 0 and 1 with separate reads and writes of this shared byte.
+    /* 0x68f */ sead::Atomic<u8> _68f = 0;
     /* 0x690 */ bool _690 = false;
-    /* 0x691 */ bool _691 = false;
+    /* 0x691 */ sead::BitFlag8 _691;
     /* 0x694 */ sead::Atomic<int> mFadeOutDeleteType = 0;
     /* 0x698 */ sead::Atomic<u32> mFadeOutSleepFlags;
     /* 0x6a0 */ class ActorX6A0* _6a0 = nullptr;

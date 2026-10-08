@@ -88,7 +88,7 @@ public:
     // 0x7100e67230 (declared only; 384 B): called by m63 when _b74 bit 3 is set.
     void sub_7100E67230();
     void initMaybe() override;
-    bool m67() override;
+    bool m67(sead::Heap* heap) override;
     void calcMaybe() override;
     void m70() override;
     void updatePositionMaybe() override;

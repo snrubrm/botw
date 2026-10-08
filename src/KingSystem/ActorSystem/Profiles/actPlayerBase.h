@@ -423,7 +423,9 @@ public:
 
 protected:
     /* 0xdf8 */ sead::FixedSafeString<64> _df8;
-    /* 0xe50 */ u8 _e50[0xe54 - 0xe50];
+public:
+    // PlayerLadder::enter_ writes the facing angle in degrees; updateSupportTimerRates reads it.
+    /* 0xe50 */ f32 _e50;
 public:  // read by PlayerCutTurnLSword::enter_ (lane5 request, s49)
     /* 0xe54 */ f32 _e54;
 

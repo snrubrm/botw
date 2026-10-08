@@ -426,7 +426,10 @@ public:
     /* 0xd09 */ bool _d09;
     /* 0xd0a */ u8 _d0a[2];  // TODO
     /* 0xd0c */ s32 _d0c;  // read by Arrow::sub_710046ABA8 (lane1 s41)
-    /* 0xd10 */ u8 _d10[0xd38 - 0xd10];  // TODO
+    /* 0xd10 */ u8 _d10[4];
+    // The active attack count: doAttackMaybe_inner0_0 copies _c20._24 here, or resets it to 1.
+    /* 0xd14 */ s32 _d14;
+    /* 0xd18 */ u8 _d18[0xd38 - 0xd18];  // TODO
     /* 0xd38 */ Unk_71002ef75c* _d38 = nullptr;
     /* 0xd40 */ u8 _d40[0xd4c - 0xd40];  // TODO
     // The signed life value returned by getLife; the original constructor initializes it to zero.

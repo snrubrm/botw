@@ -82,7 +82,7 @@ public:
     bool m33() override { return true; }
     void m34(sead::Vector3f* pos, f32* value) override;
     void m43(bool on) override;
-    void m61() override;
+    void m61(f32 rate) override;
     void m63() override;
     void initMaybe() override;
     void m68() override;

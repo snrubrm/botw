@@ -52,7 +52,7 @@ protected:
     bool canWakeUp_() override;
 
 public:
-    void m61() override;
+    void m61(f32 rate) override;
     void m63() override;
     void initMaybe() override;
     void calcMaybe() override;

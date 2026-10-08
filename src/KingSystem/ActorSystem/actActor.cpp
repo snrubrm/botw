@@ -708,6 +708,19 @@ void Actor::sub_71011DB138() {
     mActorFlags.setBit(ActorFlag::_1);
 }
 
+// NON_MATCHING: the byte read is shared and the set/clear branch becomes a conditional select.
+void Actor::sub_71011DAF44(Flag68f bit, bool on) {
+    const u8 mask = 1 << int(bit);
+    if (on)
+        _68f.store(_68f.load() | mask);
+    else
+        _68f.store(_68f.load() & ~mask);
+}
+
+void Actor::sub_71011DAF7C(Flag68f bit, bool on) {
+    _691.changeBit(int(bit), on);
+}
+
 void Actor::sub_71011DAFB4(int a, int b) {
     _6fc = a;
     _700 = b;
@@ -1192,7 +1205,7 @@ void Actor::onFadeOutSleep() {}
 
 void Actor::m60() {}
 
-void Actor::m61() {}
+void Actor::m61(f32 rate) {}
 
 bool Actor::shouldUnload(s32* a1) {
     return shouldUnloadBecauseOfDistance(a1);
@@ -1268,7 +1281,7 @@ bool Actor::m49() {
     return false;
 }
 
-bool Actor::m67() {
+bool Actor::m67(sead::Heap* heap) {
     return true;
 }
 
