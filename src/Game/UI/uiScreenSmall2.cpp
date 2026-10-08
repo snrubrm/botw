@@ -157,6 +157,12 @@ void ScreenDoCommand::sub_7100A07CF4() {
     Screen::close(-1);
 }
 
+// 0x7100a07d18
+void ScreenDoCommand::sub_7100A07D18() {
+    _3658 = -1;
+    _365c = -1;
+}
+
 // 0x71009dd7a8
 void ScreenAppHome::sub_71009DD7A8() {
     const s32 saved = _3808;

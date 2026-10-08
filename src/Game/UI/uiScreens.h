@@ -688,6 +688,8 @@ public:
     // 0x7100a07cf4 (placeholder name): closes the screen (remembering the command at 0x365c in 0x3664) unless it is closed
     // or in state 3
     void sub_7100A07CF4();
+    // 0x7100a07d18 (placeholder name): resets the two command slots at 0x3658 / 0x365c
+    void sub_7100A07D18();
 
     // 0x7100a0768c (CSV ScreenDoCommand::setCommand)
     bool setCommand(s32 command);
