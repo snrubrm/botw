@@ -99,3 +99,6 @@ bool sub_71002C6B0C(const ksys::act::ActorConstDataAccess& accessor);
 // 0x71002c64a0 (placeholder name): the point 2 units from the actor towards the up-axis component
 // perpendicular to its offset from the home position.
 void sub_71002C64A0(sead::Vector3f* out, ksys::act::Actor* actor);
+// 0x71002c682c (placeholder name): ActorConstDataAccess::sub_7100D153A4(value) on every part actor (Enemy::_1128) of
+// `actor` that is in its calc state.
+void sub_71002C682C(ksys::act::Actor* actor, f32 value);

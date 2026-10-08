@@ -224,3 +224,16 @@ void sub_71002C64A0(sead::Vector3f* out, ksys::act::Actor* actor) {
     dir.normalize();
     *out = pos + dir * 2.0f;
 }
+
+void sub_71002C682C(ksys::act::Actor* actor, f32 value) {
+    auto* enemy = sead::DynamicCast<uking::act::Enemy>(actor);
+    if (!enemy)
+        return;
+    for (auto* part : enemy->_1128.mList) {
+        if (!part->mLink.hasProcInCalcState())
+            continue;
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::acquireActor(&part->mLink, &accessor);
+        accessor.sub_7100D153A4(value);
+    }
+}
