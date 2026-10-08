@@ -317,6 +317,191 @@ void ScreenMessage3D::sub_71010AE7C0(bool flag) {
     _698.unlock();
 }
 
+// 0x71010adbc8 (slot 96, m94 override)
+// NON_MATCHING: guard layout only (per-entry bodies, _59 accumulation, close/x_2 tails match).
+// The size-guard branches lay out null-away in the original but entry-away in ours (if/else form
+// keeps the e0 cbz guard; a ternary gets UB-folded away entirely).
+void ScreenMessage3D::m94() {
+    if (isOpened()) {
+        Entry* e0;
+        if ((u32)_300.size() == 0)
+            e0 = nullptr;
+        else
+            e0 = _300.data()[0];
+        if (e0->_48 == 6 && !e0->m38.hasProc()) {
+            Entry* e1;
+            if ((u32)_300.size() <= 1)
+                e1 = nullptr;
+            else
+                e1 = _300.data()[1];
+            if (e1->_48 == 6 && !e1->m38.hasProc()) {
+                Entry* e2;
+                if ((u32)_300.size() < 3)
+                    e2 = nullptr;
+                else
+                    e2 = _300.data()[2];
+                if (e2->_48 == 6 && !e2->m38.hasProc()) {
+                    Entry* e3;
+                    if ((u32)_300.size() < 4)
+                        e3 = nullptr;
+                    else
+                        e3 = _300.data()[3];
+                    if (e3->_48 == 6 && !e3->m38.hasProc()) {
+                        close(-1);
+                        return;
+                    }
+                }
+            }
+        }
+    }
+    Entry* e0;
+    if ((u32)_300.size() == 0)
+        e0 = nullptr;
+    else
+        e0 = _300.data()[0];
+    e0->_b4 = getAnimationStep_();
+    Entry* a0;
+    if ((u32)_300.size() == 0)
+        a0 = nullptr;
+    else
+        a0 = _300.data()[0];
+    a0->sub_71010ADE64();
+    u32 mask = _300.data()[0]->_59;
+    Entry* e1;
+    if ((u32)_300.size() <= 1)
+        e1 = nullptr;
+    else
+        e1 = _300.data()[1];
+    e1->_b4 = getAnimationStep_();
+    Entry* a1;
+    if ((u32)_300.size() < 2)
+        a1 = nullptr;
+    else
+        a1 = _300.data()[1];
+    a1->sub_71010ADE64();
+    mask |= _300.data()[1]->_59;
+    Entry* e2;
+    if ((u32)_300.size() < 3)
+        e2 = nullptr;
+    else
+        e2 = _300.data()[2];
+    e2->_b4 = getAnimationStep_();
+    Entry* a2;
+    if ((u32)_300.size() < 3)
+        a2 = nullptr;
+    else
+        a2 = _300.data()[2];
+    a2->sub_71010ADE64();
+    mask |= _300.data()[2]->_59;
+    Entry* e3;
+    if ((u32)_300.size() < 4)
+        e3 = nullptr;
+    else
+        e3 = _300.data()[3];
+    e3->_b4 = getAnimationStep_();
+    Entry* a3;
+    if ((u32)_300.size() < 4)
+        a3 = nullptr;
+    else
+        a3 = _300.data()[3];
+    a3->sub_71010ADE64();
+    mask |= _300.data()[3]->_59;
+    if ((mask & 0xff) == 0)
+        return;
+    x_2();
+}
+
+// 0x71010ade64 (CSV unnamed)
+// NON_MATCHING: scheduling/allocation only (switch structure, all calls/stores/branches match).
+// Remaining diffs: smaller frame (fewer callee-saved regs), case-1 _a8=1 kept inline instead of
+// shared with case 4, TextBox vslot load hoisted differently, float <= uses b.ls not b.le.
+void ScreenMessage3D::Entry::sub_71010ADE64() {
+    _59 = false;
+    switch (_48) {
+    case 0:
+        sub_71010AEFF8();
+        _8->sub_7100BDDE7C(false, 0, true);
+        _a8 = true;
+        _48 = 1;
+        break;
+    case 1:
+        if (_8->isAnimOpenEnd(false)) {
+            _ac = 0.0f;
+            _a8 = true;
+            _20->StopAtMin();
+            _48 = 2;
+        }
+        break;
+    case 2:
+        if (_b0 < 0.0f)
+            break;
+        if (_ac <= _b0)
+            break;
+        _54 = 0.0f;
+        _48 = 3;
+        break;
+    case 3:
+        if (_50 <= _54) {
+            if (_4c == -1) {
+                if (!_58) {
+                    _8->startAnimCloseImpl_(false, false);
+                    _48 = 5;
+                } else {
+                    _48 = _8->isAnimCloseEnd(false) ? 6 : 5;
+                }
+            } else {
+                _20->PlayAuto(1.0f);
+                _48 = 4;
+            }
+        } else {
+            _54 += _b4;
+        }
+        break;
+    case 4:
+        if ((_20->mFlags & 1) != 0) {
+            u32 page = _4c;
+            bool has_next = false;
+            _8->setMessageStringForEachIdWithPage("T_Message_00", _60, &has_next, page, true,
+                                                 nullptr);
+            _59 = true;
+            u16 len = _18->GetStringBufferLength();
+            u16 textlen = _18->mTextLength;
+            _a8 = false;
+            // Discarded call that really is in the target asm.
+            sead::WSafeString::cEmptyString.cstr();
+            _18->setStringNoPreproces(sead::WSafeString::cEmptyString.getStringTop(), 0);
+            if ((len & 0xffff) < textlen + 10) {
+                _4c = -1;
+            } else {
+                _18->processAppTag(&_88);
+                if (!has_next)
+                    _4c = -1;
+                else
+                    ++_4c;
+            }
+            _a8 = true;
+            _20->StopAtMin();
+            _48 = 2;
+        }
+        break;
+    case 5:
+        if (_8->isAnimCloseEnd(false)) {
+            _48 = 6;
+            sub_71010AEFF8();
+        }
+        break;
+    case 6:
+        if (m38.hasProc())
+            m38.reset();
+        break;
+    default:
+        break;
+    }
+    if (_a8)
+        _ac += _b4;
+    sub_71010AF290();
+}
+
 // 0x71010aeff8 (CSV unnamed)
 void ScreenMessage3D::Entry::sub_71010AEFF8() {
     if (_5b)

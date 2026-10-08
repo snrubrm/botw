@@ -833,6 +833,8 @@ public:
     bool sub_71010AE9E8(ksys::act::Actor* actor);
     // 0x71010ae190 (CSV unnamed): claim a free entry for an actor.
     void sub_71010AE190(ksys::act::Actor* actor, f32 x, u32 flags);
+    // 0x71010adbc8 (slot 96): per-entry animation-step refresh + update driver
+    void m94() override;
     // 0x71010ae104 (CSV unnamed): message lookup into _680, 0/1/2 return.
     s32 sub_71010AE104(const sead::SafeString& set, const sead::SafeString& label);
     // 0x71010aec24 (slot 85) / 0x71010aeacc (slot 103): reset all four entries
@@ -894,6 +896,9 @@ public:
         void sub_71010AEB60();
         // 0x71010aeff8 (CSV unnamed)
         void sub_71010AEFF8();
+        // 0x71010ade64 / 0x71010af290 (CSV unnamed / placeholder): state update / look-at-camera sync
+        void sub_71010ADE64();
+        void sub_71010AF290();
     };
 
     /* 0x300 */ sead::PtrArray<Entry> _300;
