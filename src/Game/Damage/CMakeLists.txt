@@ -3,6 +3,7 @@ target_sources(uking PRIVATE
     dmgDamageManager.cpp
     dmgDamageManagerBase.h
     dmgDamageManagerBase.cpp
+    dmgDamageMgrNPC.cpp
     dmgDamageMgrNPC.h
     dmgDamageMgrBow.cpp
     dmgDamageMgrShield.cpp

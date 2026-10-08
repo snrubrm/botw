@@ -21,6 +21,10 @@ class DamageMgrNPC : public DamageManagerBase {
 public:
     explicit DamageMgrNPC(ksys::act::Actor* actor);
 
+    // Slot 28 getAttackPos (0x71002c9670; lane4 s64): the direction of the damage by kind: 0 the first contact record's vector, 2 the
+    // actor's impulse link vector (zero without one), 3 the direction `_80` (else minus the actor's x axis), others false.
+    bool getAttackPos(sead::Vector3f* out) override;
+
     /* 0x68 */ Unk_71023cee50 _68;
     /* 0x80 */ sead::Vector3f _80;
 };
