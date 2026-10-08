@@ -6,6 +6,7 @@
 
 namespace ksys::act {
 class Actor;
+class PlayerLink;
 }
 
 namespace ksys::eft {
@@ -52,7 +53,15 @@ public:
     Unk_EffectActorTable& getActorTable9FE0() { return _9fe0; }
 
 private:
-    u8 _38[0x9fe0 - 0x38];
+    u8 _38[0x9fb8 - 0x38];
+
+public:
+    // The player link (set by ksys::setPlayerLink) and the camera actor (set by ksys::sub_7100F40428).
+    /* 0x9fb8 */ act::PlayerLink* _9fb8;
+    /* 0x9fc0 */ void* _9fc0;
+
+private:
+    u8 _9fc8[0x9fe0 - 0x9fc8];
     Unk_EffectActorTable _9fe0;
     u8 _9fe0_end[0x192f4 - 0x9fe0 - sizeof(Unk_EffectActorTable)];
     u32 mFlags;
