@@ -33,4 +33,11 @@ void Unk_71024746b0::update() {
     }
 }
 
+// 0x71009301f4
+Unk_71024746b0Item* Unk_71024746b0::sub_71009301F4(s32 index) {
+    if (mItems.isBufferReady() && static_cast<u32>(index) < static_cast<u32>(mItems.size()))
+        return mItems(index);
+    return nullptr;
+}
+
 }  // namespace uking::ui

@@ -434,6 +434,8 @@ public:
     void setHeap(sead::Heap* heap);
     void initialize(Screen* screen, eui::LayoutEx* layout, void* config);
     void update();
+    // 0x71009301f4 (placeholder name): the item `index` (null when there is no buffer or the index is out of range)
+    Unk_71024746b0Item* sub_71009301F4(s32 index);
 
     /* 0x08 */ sead::Heap* mHeap{};
     /* 0x10 */ Screen* mScreen{};
@@ -2454,15 +2456,17 @@ class ScreenGamePadBG : public ScreenEx {
 public:
     ScreenGamePadBG();
     void m82() override;
+    void m93(sead::Heap* heap) override;
     void m94() override;
     bool isEnableControl() const override;
     const char* getLayoutName_() const override;
     ~ScreenGamePadBG() override;
     SEAD_RTTI_OVERRIDE(ScreenGamePadBG, ScreenEx)
 
-    /* 0x3610 */ u64 _3610{};
-    u64 _3618{};
-    u8 _3620[14]{};
+    /* 0x3610 */ Unk_71024746b0Item* _3610{};
+    /* 0x3618 */ eui::Animator* _3618{};
+    /* 0x3620 */ eui::Animator* _3620{};
+    u8 _3628[6]{};
     u8 _362e[2];
 };
 
