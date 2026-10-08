@@ -9,6 +9,7 @@
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "Game/gameSaveSystem.h"
 #include "Game/gameRoot1.h"
+#include "Game/gameRuneMgr.h"
 #include "Game/UI/uiUnkSingletons.h"
 #include "Game/UI/uiUnkTiny.h"
 #include "Game/UI/uiShopMgr.h"
@@ -139,6 +140,23 @@ void ScreenShopInfo::sub_7100A52DB0(u32 mode, ShopInfoTagData* data) {
 // 0x7100a081e8
 void ScreenDoCommand::m100() {
     _3660 = -1;
+}
+
+bool sub_7100AA8F50();
+
+// NON_MATCHING: the `closing` flag is or-ed into the camera check here; the original tests the camera rune first and
+// or-s `closing` with the remote bomb bit.
+// 0x7100a081f8: closes the screen when the camera rune is selected, the gamedata check fails while it is closing, or the
+// remote bomb state bit is set
+void ScreenDoCommand::m130() {
+    const bool closing = sub_7100AA8F50() && isClosedOrClosing();
+    const bool camera = (RuneMgr::instance()->_94 & 0x20) && (RuneMgr::instance()->_90 & 0x10) &&
+                        RuneMgr::instance()->isSelectedRune(5);
+    if (camera ||
+        (closing || ((RuneMgr::instance()->_94 & 0x80) && (RuneMgr::instance()->_90 & 0x20)))) {
+        close(-4);
+        sub_7100AA9808(mLayout->GetPane());
+    }
 }
 
 // 0x7100a20230

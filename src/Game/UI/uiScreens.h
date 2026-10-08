@@ -710,6 +710,7 @@ public:
     ScreenDoCommand();
     void m100() override;
     void m101() override;
+    void m130() override;
     ~ScreenDoCommand() override;
     SEAD_RTTI_OVERRIDE(ScreenDoCommand, ScreenEx)
 
