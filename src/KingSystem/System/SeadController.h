@@ -3,6 +3,7 @@
 #include <basis/seadTypes.h>
 #include <container/seadTreeNode.h>
 #include <controller/seadController.h>
+#include <prim/seadSafeString.h>
 #include "KingSystem/Utils/Types.h"
 
 namespace ksys {
@@ -29,6 +30,12 @@ public:
     void sub_7100D9DAE8();           // clears flag 0x2
     void sub_7100D9DB04(bool on);   // flag 0x10
     void sub_7100D9DF60();           // clears flag 0x20
+    // Vtable 0x71024dd518 slots 9 - 11, after sead::Controller's setIdle_ (placeholder names; argument lists from
+    // the bodies: slot 9 returns a SafeString by value, slot 10 is empty).
+    virtual sead::SafeString sub_7100D9DF34() const;
+    virtual void sub_7100D9DF54();
+    virtual bool sub_7100D9DF58();
+
     // 0x7100d9daf8: appends the tree node of `child` (+0x1a8) to this controller's.
     void sub_7100D9DAF8(SeadController* child);
 

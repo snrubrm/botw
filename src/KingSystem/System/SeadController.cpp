@@ -50,4 +50,14 @@ void SeadController::sub_7100D9DAF8(SeadController* child) {
     mTreeNode.pushBackChild(&child->mTreeNode);
 }
 
+sead::SafeString SeadController::sub_7100D9DF34() const {
+    return sead::SafeString::cEmptyString;
+}
+
+void SeadController::sub_7100D9DF54() {}
+
+bool SeadController::sub_7100D9DF58() {
+    return true;
+}
+
 }  // namespace ksys
