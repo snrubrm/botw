@@ -22,6 +22,18 @@ public:
         /* 0x544 */ f32 mShadowFar;
     };
 
+    // Placeholder names (lane4 s64): the object at Graphics + 0x378 points (+0x18) to a block that holds two floats
+    // at 0x1520 / 0x1524 (read by Camera::updateMatrix and sub_710079AE60 as clip distances).
+    struct Unk_378_18 {
+        u8 _0[0x1520];
+        /* 0x1520 */ f32 _1520;
+        /* 0x1524 */ f32 _1524;
+    };
+    struct Unk_378 {
+        u8 _0[0x18];
+        /* 0x18 */ Unk_378_18* _18;
+    };
+
     // Original instance pointer 0x710260b060 (GOT 0x7102579d58).
     static Graphics* instance() { return sInstance; }
     static Graphics* sInstance;
@@ -33,6 +45,15 @@ public:
     // 0x7100f2af70 (placeholder name; CSV Graphics::__auto0): stores the map kind (byte at +0xf59) under
     // the lock at +0xf18.
     void sub_7100F2AF70(u8 map);
+
+    // 0x7100f2afac / 0x7100f2afe8 / 0x7100f2b024 (lane4 s64; placeholder names; CSV Graphics::__auto9 / __auto14 / x):
+    // store a byte at +0xf5b / +0xf5d / +0xf5f under the lock at +0xf18 (values 0 .. 2 seen).
+    void sub_7100F2AFAC(u8 value);
+    void sub_7100F2AFE8(u8 value);
+    void sub_7100F2B024(u8 value);
+    // 0x7100f35f28 / 0x7100f35f38 (lane4 s64): `_378->_18->_1520` / `_1524`.
+    f32 sub_7100F35F28() const;
+    f32 sub_7100F35F38() const;
 
     // 0x7100f2e06c (placeholder name): sets bit 22 of `_284`.
     void sub_7100F2E06C();
@@ -66,7 +87,9 @@ private:
     u8 _160[0x280 - 0x160];
     u32 _280;
     sead::BitFlag32 _284;
-    u8 _288[0xa98 - 0x288];
+    u8 _288[0x378 - 0x288];
+    Unk_378* _378;
+    u8 _380[0xa98 - 0x380];
     Unk_a98* _a98;
     u8 _aa0[0xab0 - 0xaa0];
     Unk_ab0* _ab0;
@@ -82,4 +105,10 @@ private:
     sead::CriticalSection _f18;
     u8 _f58;
     u8 _f59;  // map kind (Graphics::sub_7100F2AF70)
+    u8 _f5a;
+    u8 _f5b;  // sub_7100F2AFAC
+    u8 _f5c;
+    u8 _f5d;  // sub_7100F2AFE8
+    u8 _f5e;
+    u8 _f5f;  // sub_7100F2B024
 };
