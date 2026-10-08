@@ -21,6 +21,10 @@ protected:
     void m34() override;
     void m36() override;
 
+    // 0x71007802fc (placeholder name): _c0 eases towards the sign of the stick x while the player is on foot (bgCrossFoot),
+    // then _bc eases towards SideOffset * _c0.
+    void sub_71007802FC();
+
     act::Unk_7102459dd8 _50;
     act::Unk_7102459dd8 _70;
     f32 _90 = 1.0;
@@ -118,7 +122,10 @@ protected:
     const float* mFovy_s{};
     // static_param at offset 0x220
     const float* mAutoModeConnect_s{};
-    u8 _228[0x286 - 0x228]{};
+    u8 _228[0x270 - 0x228]{};
+    f32 _270 = 0;
+    f32 _274 = 0;
+    u8 _278[0x286 - 0x278]{};
     u8 _286 = 6;
 };
 

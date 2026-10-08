@@ -1,5 +1,6 @@
 #include "Game/AI/Action/actionCameraShieldSurfing.h"
 #include <math/seadMathCalcCommon.h>
+#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 
 namespace uking::action {
 
@@ -42,6 +43,26 @@ void CameraShieldSurfing::m36() {
     getStaticParam(&mAtVCusMax_s, "AtVCusMax");
     getStaticParam(&mFovy_s, "Fovy");
     getStaticParam(&mAutoModeConnect_s, "AutoModeConnect");
+}
+
+// NON_MATCHING: the original branches on stick.x > 0 and selects the other two values with one fcsel (ours: two fcsel and no
+// branch), and computes SideOffset * _c0 before the call of sub_7100791E44(_270) (ours after).
+void CameraShieldSurfing::sub_71007802FC() {
+    ksys::act::acc::PlayerBase player;
+    sub_7100926A50(&player);
+    if (player.hasProc() && player.isBgCrossFoot()) {
+        sead::Vector2f stick = sead::Vector2f::zero;
+        sub_7100927054(&stick);
+        f32 sign;
+        if (stick.x > 0.0f)
+            sign = 1.0f;
+        else if (stick.x < 0.0f)
+            sign = -1.0f;
+        else
+            sign = 0.0f;
+        _c0 += sub_7100791E44(_274) * (sign - _c0);
+    }
+    _bc += sub_7100791E44(_270) * (*mSideOffset_s * _c0 - _bc);
 }
 
 }  // namespace uking::action
