@@ -38,6 +38,54 @@ void ScreenAppPictureBookUnk::sub_710093F594(bool flag) {
     sub_710093E784(_310);
 }
 
+// 0x710093f7f8
+// NON_MATCHING: scheduling only (original uses an lsl+sub+cbnz byte-countdown while ours
+// normalises to neg+add, and lowers the 7-operand flag expression to branches plus a cset
+// while the original funnels all false paths to a shared mov w1,0 (all loads/stores/calls/
+// branches match; the outer search loops and per-unit flag logic are structurally identical).
+void ScreenAppPictureBookUnk::sub_710093F7F8(bool flag) {
+    s64 count = _298;
+    if (count == 0)
+        return;
+    PictureBookGroupList** outer = _2a0;
+    PictureBookGroupList** end = outer + count;
+    for (; outer != end; ++outer) {
+        PictureBookGroupList* o = *outer;
+        s64 n = o->_0;
+        if (n == 0)
+            continue;
+        Unk_7102474f10** group = o->_8;
+        Unk_7102474f10** gend = group + n;
+        for (; group != gend; ++group) {
+            Unk_7102474f10* g = *group;
+            s64 k = g->mUnits.size();
+            if (k == 0)
+                continue;
+            Unk_7102474e38** unit = g->mUnits.data();
+            s64 left = k * 8;
+            do {
+                Unk_7102474e38* u = *unit;
+                if (!flag) {
+                    if (eui::AnimButton* button = u->_10)
+                        button->setFlag10(false);
+                } else {
+                    eui::AnimButton* button = u->_10;
+                    if (button) {
+                        u32 flags = u->_30;
+                        ScreenAppPictureBookUnk* ctrl = u->_20;
+                        ScreenAppPictureBookEntry* entry = u->_18->mEntry;
+                        button->setFlag10((flags & 4) && (ctrl->_2c & 1) &&
+                                          ctrl->_340 == 2 && (flags & 2) &&
+                                          ((flags & 1) || entry->_2ca) && !entry->_38c &&
+                                          entry->_38d == 0);
+                    }
+                }
+                ++unit;
+            } while ((left -= 8) != 0);
+        }
+    }
+}
+
 // 0x710093fbf0
 // NON_MATCHING: regalloc/scheduling only (original keeps the leaf in x15 and the countdown in
 // x14 with lsl+sub+cbnz while ours uses a named local (neg+add countdown) and different load/

@@ -1922,7 +1922,9 @@ struct ScreenAppPictureBookEntry {
     /* 0x29c */ s32 _29c;
     /* 0x2a0 */ s32 _2a0;
     /* 0x2a4 */ s32 _2a4;
-    u8 _2a8[0x2f0 - 0x2a8];
+    u8 _2a8[0x2ca - 0x2a8];
+    /* 0x2ca */ bool _2ca;
+    u8 _2cb[0x2f0 - 0x2cb];
     /* 0x2f0 */ s32 _2f0;
     u8 _2f4[0x38c - 0x2f4];
     /* 0x38c */ bool _38c;
