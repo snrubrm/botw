@@ -20,6 +20,8 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    s32 sub_71006041A8();
+
 protected:
     struct Unk1 {
         void* _0{};

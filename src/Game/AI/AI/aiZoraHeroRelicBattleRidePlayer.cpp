@@ -87,6 +87,27 @@ void ZoraHeroRelicBattleRidePlayer::sub_7100614194(const ksys::act::BaseProcLink
         _40 = link;
 }
 
+// 0x7100613d60: takes over the candidate link _60 as _50 if the ray to it is free; clears both otherwise
+void ZoraHeroRelicBattleRidePlayer::sub_7100613D60() {
+    if (_60.hasProc()) {
+        ksys::act::ActorConstDataAccess accessor;
+        if (ksys::act::acquireActor(&_60, &accessor)) {
+            const auto& mtx = accessor.getActorMtx();
+            sead::Vector3f target;
+            target.x = mtx.m[0][3];
+            target.z = mtx.m[2][3];
+            target.y = mActor->getMtx().m[1][3];
+            if (sub_710061430C(target)) {
+                _50 = _60;
+                _60.reset();
+                return;
+            }
+        }
+    }
+    _50.reset();
+    _60.reset();
+}
+
 // 0x7100613ff0
 void ZoraHeroRelicBattleRidePlayer::sub_7100613FF0() {
     if (!ksys::gdt::getFlag_Water_Relic_ChanceTime(false)) {
