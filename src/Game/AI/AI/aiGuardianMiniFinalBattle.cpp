@@ -15,6 +15,62 @@ GuardianMiniFinalBattle::GuardianMiniFinalBattle(const InitArg& arg) : EnemyBatt
 
 GuardianMiniFinalBattle::~GuardianMiniFinalBattle() = default;
 
+void GuardianMiniFinalBattle::calc_() {
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed()) {
+        if (isCurrentChild("戦闘予兆開始")) {
+            sub_710041BA0C();
+            changeChild("戦闘予兆点滅", nullptr);
+            EnemyBattle::calc_();
+            return;
+        }
+    }
+    child = getCurrentChild();
+    if (child->isFinished() || child->isFailed()) {
+        if (isCurrentChild("戦闘予兆移動")) {
+            sub_710041B3D4();
+            return;
+        }
+    }
+    child = getCurrentChild();
+    if (child->isFinished() || child->isFailed()) {
+        if (isCurrentChild("戦闘開始")) {
+            m38();
+            return;
+        }
+    }
+    child = getCurrentChild();
+    if (child->isFinished() || child->isFailed()) {
+        if (isCurrentChild("戦闘攻撃")) {
+            m38();
+            return;
+        }
+    }
+    child = getCurrentChild();
+    if (child->isChangeable()) {
+        if (isCurrentChild("戦闘予兆点滅")) {
+            if (auto* as_list = mActor->getASList()) {
+                if (as_list->x_1(0, 1) != "FlashShader" && as_list->x_4(0, 2)) {
+                    changeChild("戦闘開始", nullptr);
+                    return;
+                }
+            }
+            EnemyBattle::calc_();
+            return;
+        }
+    }
+    child = getCurrentChild();
+    if (!child->isChangeable()) {
+        EnemyBattle::calc_();
+    } else if (!isCurrentChild("戦闘攻撃")) {
+        EnemyBattle::calc_();
+    } else if (_d4 < *mAttackHitNum_s) {
+        EnemyBattle::calc_();
+    } else {
+        m38();
+    }
+}
+
 void GuardianMiniFinalBattle::sub_710041BA0C() {
     if (auto* as_list = mActor->getASList()) {
         as_list->startAnimationMaybe(-1.0f, -1.0f, "FlashShader", 0, 1, true);
