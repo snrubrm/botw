@@ -2,6 +2,8 @@
 #include "Game/AI/aiXlinkHandle.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/Resource/Actor/resResourceGParamList.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectEnemyRace.h"
 #include "Game/Actor/actWeapon.h"
 #include "Game/AI/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/Profiles/actBullet.h"
@@ -106,6 +108,22 @@ bool Arrow::sub_710046757C() {
     if (auto* weapon = sead::DynamicCast<act::Weapon>(actor))
         return (weapon->_af8._0 | 1) == 7;
     return false;
+}
+
+f32 Arrow::sub_7100469958() {
+    auto* actor = sead::DynamicCast<ksys::act::Actor>(mActor->getConnectedCalcParent());
+    auto* weapon = sead::DynamicCast<act::Weapon>(actor);
+    if (!weapon)
+        return 0.0f;
+    f32 range = weapon->_d04;
+    if (weapon->m142()) {
+        range *= weapon->getParentActor()
+                     ->getParam()
+                     ->getRes()
+                     .mGParamList->getEnemyRace()
+                     ->mBowAttackRangeRatio.ref();
+    }
+    return range * weapon->sub_71002ED434();
 }
 
 u32 Arrow::sub_710046A9EC() {

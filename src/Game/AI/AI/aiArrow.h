@@ -55,6 +55,9 @@ public:
     // 0x710046a9ec (placeholder name): attack flags from the connected Weapon (the pending request's,
     // `_cf4` or `_c20._4`) plus 0x8, 0x200 and 0x8000000 from the weapon / chemical / tag state.
     u32 sub_710046A9EC();
+    // 0x7100469958 (placeholder name): the connected Weapon's `_d04` range, scaled by the holder's
+    // BowAttackRangeRatio (when m142) and Weapon::sub_71002ED434; 0 without a Weapon.
+    f32 sub_7100469958();
     s32 sub_710046ABA8();
     bool sub_710046ACA4(ksys::act::BaseProcLink* out);
     // 0x7100469850 (placeholder name): makes the arrow's body dynamic again and bounces ("跳ね返る").
