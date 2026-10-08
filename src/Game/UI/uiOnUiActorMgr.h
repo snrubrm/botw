@@ -41,6 +41,8 @@ public:
     void sub_7100906F08(ksys::act::Actor* actor);
     bool sub_710090AB4C() const;
     void sub_7100907A30();
+    // 0x7100906e70 (CSV OnUiActorMgr::__auto3; placeholder name): releases the armors/actor/link actors
+    void sub_7100906E70();
 
 private:
     friend class uking::act::PauseMenuPlayer;
@@ -48,7 +50,8 @@ private:
 
     /* 0x38 */ ksys::act::BaseProcLink mActorLink;
     /* 0x48 */ ksys::act::Actor* mActor;
-    u8 _50[0x90 - 0x50];
+    /* 0x50 */ ksys::act::BaseProcLink _50;
+    u8 _60[0x90 - 0x60];
     /* 0x90 */ ksys::act::PlayerArmors* mArmors;
     u8 _98[0xb0 - 0x98];
     /* 0xb0 */ sead::FixedSafeString<64> _b0;
