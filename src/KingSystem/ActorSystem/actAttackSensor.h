@@ -14,13 +14,14 @@ struct Struct8Base;
 // with one virtual and the TListNode base at +8 whose data points back to the object; SetThroughArrow and
 // SetThroughCloseWeapon embed one each and register it with ActorAtk::sub_710079E344). The virtual
 // takes seven arguments of which the known implementations only look at the last one (the flags at
-// +0x18 of the attack info: bit 3 for arrows, bits 0-2 for close weapons).
+// +0x18 of the attack info: bit 3 for arrows, bits 0-2 for close weapons). The eighth argument (passed
+// on the stack) is the other body's user tag: LumberjackTree's listener (0x71004873f0) reads it.
 class AttackSensor2Listener : public sead::TListNode<AttackSensor2Listener*> {
 public:
     AttackSensor2Listener() : TListNode(this) {}
 
     virtual bool m0(void* a1, void* a2, void* a3, void* a4, void* a5, void* a6,
-                    const Struct8Base* info) = 0;
+                    const Struct8Base* info, const PhysicsUserTag* tag) = 0;
 };
 KSYS_CHECK_SIZE_NX150(AttackSensor2Listener, 0x28);
 

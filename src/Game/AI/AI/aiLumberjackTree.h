@@ -4,10 +4,15 @@
 #include "Game/AI/aiUnk_7102357210.h"
 #include "Game/AI/aiUnk_7102357d20.h"
 #include "Game/Damage/dmgDamageCallback.h"
+#include "KingSystem/ActorSystem/actAttackSensor.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace ksys::act {
 class PhysicsUserTag;
+}
+
+namespace ksys::phys {
+class Constraint;
 }
 
 namespace uking::ai {
@@ -23,32 +28,21 @@ public:
     LumberjackTree* _28;
 };
 
-// Placeholder (the fourth argument of Unk_7102404020::m0; only the two words it reads).
-struct Unk_7102404020_Arg7 {
-    u8 _0[0x18];
-    u32 _18;
-    u32 _1c;
-};
-
-// Placeholder name (vtable 0x7102404020: a single virtual, no destructor; like SimpleWildlifeRoot's
-// Unk_71023dcc38 with the pointer to itself at +0x18). `_70` of LumberjackTree.
-class Unk_7102404020_Base {
+// Placeholder name (vtable 0x71024e1b58: D1 0x7100e18058, D0 0x7100e180b0; ctor 0x7100e17fc0, 0x3c8 bytes).
+// Created by LumberjackTree::init_ into `_38`.
+class Unk_71024e1b58 {
 public:
-    virtual bool m0(const sead::Vector3f* pos, void* a2, void* a3, void* a4, void* a5, void* a6,
-                    const Unk_7102404020_Arg7* a7, const ksys::act::PhysicsUserTag* tag) = 0;
-
-    void* _8 = nullptr;
-    void* _10 = nullptr;
-    Unk_7102404020_Base* _18 = this;
-    void* _20 = nullptr;
+    virtual ~Unk_71024e1b58();
 };
 
-class Unk_7102404020 : public Unk_7102404020_Base {
+// Placeholder name (vtable 0x7102404020). `_70` of LumberjackTree; registered as an attack sensor
+// listener (leave_ unregisters it with sub_71007A4440).
+class Unk_7102404020 : public ksys::act::AttackSensor2Listener {
 public:
     // 0x71004873f0: true when the tagged actor passes the 0x71006e3ab0 check and `pos->y - _30` is
-    // outside [_28, _2c]. Only `pos`, `a7` and `tag` are used.
-    virtual bool m0(const sead::Vector3f* pos, void* a2, void* a3, void* a4, void* a5, void* a6,
-                    const Unk_7102404020_Arg7* a7, const ksys::act::PhysicsUserTag* tag) override;
+    // outside [_28, _2c], with `a1` a position. Only `a1`, `info` and `tag` are used.
+    bool m0(void* a1, void* a2, void* a3, void* a4, void* a5, void* a6,
+            const ksys::act::Struct8Base* info, const ksys::act::PhysicsUserTag* tag) override;
 
     f32 _28 = 9999.0f;
     f32 _2c = 9999.0f;
@@ -81,7 +75,7 @@ public:
     void sub_710048A190();
 
 protected:
-    void* _38 = nullptr;
+    Unk_71024e1b58* _38 = nullptr;
     Unk_7102403fe8 _40{this};
     Unk_7102404020 _70;
     Unk_7102404060 _a8;
@@ -126,7 +120,7 @@ protected:
     u32 _2d8 = 0;
     u16 _2dc = 0;
     void* _2e0 = nullptr;  // sound handle (freed through 0x7100da2330 in D1)
-    void* _2e8 = nullptr;  // phys::Constraint (destroyed in D1)
+    ksys::phys::Constraint* _2e8 = nullptr;
     u32 _2f0 = 0;
     u16 _2f4 = 0;
     u8 _2f6 = 0;

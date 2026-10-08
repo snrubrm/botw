@@ -1,9 +1,27 @@
 #pragma once
 
 #include <heap/seadDisposer.h>
+#include <thread/seadCriticalSection.h>
 #include "KingSystem/Utils/Types.h"
 
+namespace ksys::act {
+class Actor;
+}
+
 namespace ksys::eft {
+
+// Effect + 0x9fe0 (placeholder name): a locked table of 32 actor slots (0x30 bytes each, the actor
+// pointer first), a count at +0x600 and the lock at +0x608.
+class Unk_EffectActorTable {
+public:
+    // 0x7100da2330 (placeholder name; declaration only): clears the slot holding `actor` and decrements
+    // the count; false when the actor is not in the table. LumberjackTree's destructor calls it.
+    bool sub_7100DA2330(act::Actor* actor);
+
+private:
+    u8 _0[0x608];
+    sead::CriticalSection mCS;
+};
 
 // The effect manager singleton (CSV: Effect::createInstance 0x71011b3fb0, ctor 0x71011b403c; instance
 // pointer 0x7102621598, size 0x2a750, singleton disposer at +0x18). The namespace is a guess. Only
@@ -31,9 +49,12 @@ public:
     bool hasFlags(u32 mask) const { return (mFlags & mask) != 0; }
     // Read by UKingEmitEffectLoopAction::calc_ (compared with 2); name unknown.
     s32 get193e0() const { return _193e0; }
+    Unk_EffectActorTable& getActorTable9FE0() { return _9fe0; }
 
 private:
-    u8 _38[0x192f4 - 0x38];
+    u8 _38[0x9fe0 - 0x38];
+    Unk_EffectActorTable _9fe0;
+    u8 _9fe0_end[0x192f4 - 0x9fe0 - sizeof(Unk_EffectActorTable)];
     u32 mFlags;
     u8 _192f8[0x193e0 - 0x192f8];
     s32 _193e0;

@@ -7,6 +7,8 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actPhysicsUserTag.h"
+#include "KingSystem/Effect/eftEffect.h"
+#include "KingSystem/Physics/Constraint/physConstraint.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
 #include "KingSystem/XLink/xlinkXLink.h"
@@ -38,17 +40,17 @@ void Unk_7102403fe8::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, dmg::Dama
         *a1 = 0;
 }
 
-bool Unk_7102404020::m0(const sead::Vector3f* pos, void*, void*, void*, void*, void*,
-                        const Unk_7102404020_Arg7* a7, const ksys::act::PhysicsUserTag* tag) {
-    if ((a7->_18 & 8) != 0)
+bool Unk_7102404020::m0(void* a1, void*, void*, void*, void*, void*,
+                        const ksys::act::Struct8Base* info, const ksys::act::PhysicsUserTag* tag) {
+    if ((info->_18 & 8) != 0)
         return false;
     ksys::act::ActorConstDataAccess accessor;
     tag->acquireActor(&accessor);
-    if (act::sub_71006E3AB0(&accessor, a7->_18, a7->_1c))
+    if (act::sub_71006E3AB0(&accessor, info->_18, info->_1c))
         return false;
-    if ((a7->_1c & 0x8000) != 0)
+    if ((info->_1c & 0x8000) != 0)
         return false;
-    const f32 height = pos->y - _30;
+    const f32 height = static_cast<const sead::Vector3f*>(a1)->y - _30;
     if (height < _28 || _2c < height)
         return true;
     return false;
@@ -57,7 +59,18 @@ bool Unk_7102404020::m0(const sead::Vector3f* pos, void*, void*, void*, void*, v
 // NON_MATCHING: store scheduling only (_248 and the _2d8 / _2dc stores land at different points).
 LumberjackTree::LumberjackTree(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
-LumberjackTree::~LumberjackTree() = default;
+// NON_MATCHING: scheduling only (the original loads mActor before the Effect instance).
+LumberjackTree::~LumberjackTree() {
+    if (_38) {
+        delete _38;
+        _38 = nullptr;
+    }
+    ksys::eft::Effect::instance()->getActorTable9FE0().sub_7100DA2330(mActor);
+    if (_2e8) {
+        ksys::phys::Constraint::destroy(_2e8);
+        _2e8 = nullptr;
+    }
+}
 
 void LumberjackTree::sub_710048A190() {
     auto* actor = mActor;

@@ -39,6 +39,8 @@ struct Struct8Base {
     // Position (copied out by DamageMgrSword::getAttackPos for AttackInfo 0).
     /* 0x0c */ sead::Vector3f _c{0, 0, 1};
     /* 0x18 */ u32 _18 = 0;  // flags (cleared by resetFlags; bits 0-1 tested by LynelRepeatAttack::calc_)
+    // Read with _18 by LumberjackTree's attack sensor listener (0x71004873f0; bit 15 tested).
+    /* 0x1c */ u32 _1c;
     /* 0x20 */ phys::MaterialMask _20;
     /* 0x38 */ phys::MaterialMask _38;
 };

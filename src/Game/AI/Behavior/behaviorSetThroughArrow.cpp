@@ -59,7 +59,7 @@ void SetThroughArrow::m9() {
 }
 
 bool SetThroughArrow::Listener::m0(void* a1, void* a2, void* a3, void* a4, void* a5, void* a6,
-                                   const ksys::act::Struct8Base* info) {
+                                   const ksys::act::Struct8Base* info, const ksys::act::PhysicsUserTag* tag) {
     return (info->_18 >> 3) & 1;
 }
 

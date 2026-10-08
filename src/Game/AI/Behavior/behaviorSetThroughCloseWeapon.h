@@ -21,7 +21,7 @@ public:
     class Listener : public ksys::act::AttackSensor2Listener {
     public:
         bool m0(void* a1, void* a2, void* a3, void* a4, void* a5, void* a6,
-                const ksys::act::Struct8Base* info) override;
+                const ksys::act::Struct8Base* info, const ksys::act::PhysicsUserTag* tag) override;
     };
 
     /* 0x28 */ Listener _28;
