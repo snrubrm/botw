@@ -51,6 +51,10 @@ Unk_71024dcf80::~Unk_71024dcf80() {
 
 Unk_71024dd5c8::~Unk_71024dd5c8() = default;
 
+bool Unk_71024dd5c8::sub_7100D9E148() {
+    return true;
+}
+
 Unk_71024e8128::~Unk_71024e8128() = default;
 
 Unk_71024e80e0::~Unk_71024e80e0() = default;
