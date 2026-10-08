@@ -371,6 +371,7 @@ target_sources(uking PRIVATE
   aiDemoRailMoveRemains.h
   aiDemoRootAI.cpp
   aiDemoRootAI.h
+  aiDemoRootAIContext.cpp
   aiDgnObj_DLC_CogWheel2.cpp
   aiDgnObj_DLC_CogWheel2.h
   aiDgnObj_DLC_CogWheel_Physics_Ctr.cpp

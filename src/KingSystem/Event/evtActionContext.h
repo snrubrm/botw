@@ -47,7 +47,10 @@ public:
     /* 0x4c */ s32 mStatus2;
     u8 _50[0xa50 - 0x50];
     /* 0xa50 */ s32 _a50;
-    u8 _a54[0xaf4 - 0xa54];
+    u8 _a54[0xa58 - 0xa54];
+    // Next context in the DemoRootAI release chain (sub_7100D630AC walks and unlinks these).
+    /* 0xa58 */ ActionContext* _a58;
+    u8 _a60[0xaf4 - 0xa60];
     /* 0xaf4 */ u16 _af4;
 };
 
