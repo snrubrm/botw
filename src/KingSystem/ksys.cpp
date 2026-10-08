@@ -7,6 +7,14 @@
 #include "KingSystem/ActorSystem/actBaseProcMgr.h"
 #include "KingSystem/ActorSystem/actDebug.h"
 #include "KingSystem/System/UIGlue.h"
+#include "Game/gameGraphics.h"
+#include "KingSystem/ActorSystem/Attention/actAttentionSingleton.h"
+#include "KingSystem/ActorSystem/actActorSystem.h"
+#include "KingSystem/System/KingEditor.h"
+#include "KingSystem/System/PlayReportMgr.h"
+#include "KingSystem/System/Vibration.h"
+#include "KingSystem/Effect/eftEffect.h"
+#include "KingSystem/Event/evtManager.h"
 #include "KingSystem/System/BasicProfiler.h"
 #include "KingSystem/System/HavokWorkerMgr.h"
 #include "KingSystem/System/StarterPackMgr.h"
@@ -109,6 +117,32 @@ bool checkPreInitializeResourcesStillLoading() {
         return !uking::aoc::Manager::instance()->parseVersion();
     }
     return true;
+}
+
+void setPlayerLink(act::PlayerLink* link) {
+    if (auto* actor_system = act::ActorSystem::instance())
+        actor_system->_c0 = link;
+    if (auto* attention = act::Attention::instance())
+        attention->setPlayerLink(link);
+    if (auto* editor = KingEditor::instance())
+        editor->mPlayerLink = link;
+    if (auto* graphics = Graphics::instance())
+        graphics->_360 = link;
+    if (auto* effect = eft::Effect::instance())
+        effect->_9fb8 = link;
+    if (auto* evt_mgr = evt::Manager::instance())
+        evt_mgr->_1d108 = link;
+    if (auto* report = PlayReportMgr::instance())
+        report->mPlayerLink = link;
+}
+
+void sub_7100F40428(void* camera) {
+    if (auto* evt_mgr = evt::Manager::instance())
+        evt_mgr->_1d100 = camera;
+    if (auto* vibration = Vibration::instance())
+        vibration->sub_71010BB85C(camera);
+    if (auto* effect = eft::Effect::instance())
+        effect->_9fc0 = camera;
 }
 
 }  // namespace ksys

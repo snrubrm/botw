@@ -17,6 +17,7 @@ class Unk_710247af10;
 
 namespace ksys::act {
 class Actor;
+class PlayerLink;
 }
 
 namespace ksys {
@@ -220,8 +221,15 @@ public:
     /* 0x38 */ ActorMessageTransceiver mTransceiver;
 
 private:
-    u8 pad_90[0x1d108 - 0x90];
-    /* 0x1d108 */ StartableAirChecker* _1d108;
+    u8 pad_90[0x1d100 - 0x90];
+
+public:
+    // The camera actor (set by ksys::sub_7100F40428).
+    /* 0x1d100 */ void* _1d100;
+    // The player link (set by ksys::setPlayerLink; isGroundForEvent is slot 21).
+    /* 0x1d108 */ act::PlayerLink* _1d108;
+
+private:
     /* 0x1d110 */ EventDebugA* _1d110;
     u8 pad_1d118[0x1d120 - 0x1d118];
     /* 0x1d120 */ EventDebugB* _1d120;

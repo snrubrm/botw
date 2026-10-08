@@ -7,6 +7,10 @@
 #include <thread/seadCriticalSection.h>
 #include <gsys/gsysModelScene.h>
 
+namespace ksys::act {
+class PlayerLink;
+}
+
 // Partial declaration: name from the CSV Graphics::createInstance (0x7100f2a1d0).
 // Source namespace remains unknown; global spelling follows the existing scene placeholders.
 // No instance layout or construction is modeled here.
@@ -87,7 +91,14 @@ private:
     u8 _160[0x280 - 0x160];
     u32 _280;
     sead::BitFlag32 _284;
-    u8 _288[0x378 - 0x288];
+    u8 _288[0x360 - 0x288];
+
+public:
+    // The player link (set by ksys::setPlayerLink).
+    /* 0x360 */ ksys::act::PlayerLink* _360;
+
+private:
+    u8 _368[0x378 - 0x368];
     Unk_378* _378;
     u8 _380[0xa98 - 0x380];
     Unk_a98* _a98;

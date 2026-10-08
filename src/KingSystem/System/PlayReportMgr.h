@@ -47,6 +47,7 @@ public:
 private:
     ProductReporter* mReporter = nullptr;
     bool _30 = false;
+    friend void setPlayerLink(act::PlayerLink* link);
     act::PlayerLink* mPlayerLink = nullptr;
 };
 KSYS_CHECK_SIZE_NX150(PlayReportMgr, 0x40);

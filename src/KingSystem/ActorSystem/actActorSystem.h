@@ -13,6 +13,13 @@ namespace uking {
 class Unk_710243c7c8;
 }
 
+namespace ksys {
+namespace act {
+class PlayerLink;
+}
+void setPlayerLink(act::PlayerLink* link);
+}  // namespace ksys
+
 namespace ksys::act {
 
 class Actor;
@@ -80,6 +87,7 @@ private:
     DebugMessage mDebugMessage{"アクタ"};
     void* _b0 = nullptr;
     void* _b8 = nullptr;
+    friend void ksys::setPlayerLink(PlayerLink* link);
     PlayerLink* _c0 = nullptr;  // the player (set by setPlayerLink)
     uking::Unk_710243c7c8* _c8 = nullptr;
     sead::Heap* mEmergencyHeap = nullptr;

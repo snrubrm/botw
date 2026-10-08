@@ -7,6 +7,11 @@
 
 namespace ksys {
 
+namespace act {
+class PlayerLink;
+}
+void setPlayerLink(act::PlayerLink* link);
+
 class KingEditorComponent {
 public:
     virtual const char* getName() const = 0;
@@ -43,7 +48,8 @@ private:
     u32 _98 = 0;
     void* _a0 = nullptr;
     void* _a8 = nullptr;
-    void* mPlayerLink = nullptr;
+    friend void ksys::setPlayerLink(act::PlayerLink* link);
+    act::PlayerLink* mPlayerLink = nullptr;
     bool _b8 = false;
 };
 KSYS_CHECK_SIZE_NX150(KingEditor, 0xc0);

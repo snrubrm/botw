@@ -1,4 +1,5 @@
 #include "KingSystem/Event/evtManager.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayerLink.h"
 #include "KingSystem/Event/evtActionContext.h"
 #include "KingSystem/Utils/Thread/MessageAck.h"
 #include "KingSystem/ActorSystem/actActor.h"
@@ -34,7 +35,7 @@ bool Manager::isEventStartableAir(const BaseProcLinkForEvent& link) {
     iter.tryGetBoolByKey(&startable_air, "is_startable_air");
     if (startable_air)
         return true;
-    if (_1d108 && !_1d108->m21())
+    if (_1d108 && !_1d108->isGroundForEvent())
         return false;
     return true;
 }
