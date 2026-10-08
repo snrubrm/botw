@@ -102,3 +102,5 @@ void sub_71002C64A0(sead::Vector3f* out, ksys::act::Actor* actor);
 // 0x71002c682c (placeholder name): ActorConstDataAccess::sub_7100D153A4(value) on every part actor (Enemy::_1128) of
 // `actor` that is in its calc state.
 void sub_71002C682C(ksys::act::Actor* actor, f32 value);
+// 0x71002c6408 (placeholder name): the unit direction from `to` to `from` raised by `y_offset` (unchanged if zero).
+void sub_71002C6408(sead::Vector3f* out, const sead::Vector3f& from, const sead::Vector3f& to, f32 y_offset);
