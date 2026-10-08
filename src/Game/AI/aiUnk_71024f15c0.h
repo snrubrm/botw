@@ -59,3 +59,5 @@ const char* sub_7100EEF358(const ksys::map::Rail* rail, s32 idx);
 f32 sub_7100EEF078(const ksys::map::Rail* rail, s32 idx);
 // The "MoveSpeed" parameter of the rail's idx-th point (0 if missing).
 f32 sub_7100EEF60C(const ksys::map::Rail* rail, s32 idx);
+// 0x7100eebe90: the minimum rail-step distance (0.001f from rodata).
+f32 sub_7100EEBE90();

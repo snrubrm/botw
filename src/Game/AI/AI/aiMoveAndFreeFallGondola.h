@@ -20,6 +20,7 @@ public:
     void m34() override;
     f32 m35() override;
     ksys::map::Rail* m36() override;
+    void m37() override;
     bool m40() override;
     bool handleMessage_(const ksys::Message* message) override;
 

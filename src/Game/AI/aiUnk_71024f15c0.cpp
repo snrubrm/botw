@@ -94,3 +94,7 @@ f32 sub_7100EEF60C(const ksys::map::Rail* rail, s32 idx) {
         point->getIter().tryGetParamFloatByKey(&value, "MoveSpeed");
     return value;
 }
+
+f32 sub_7100EEBE90() {
+    return 0.001f;
+}

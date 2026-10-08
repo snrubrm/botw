@@ -4,7 +4,10 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorSystem.h"
+#include "KingSystem/System/VFR.h"
 #include "KingSystem/Utils/Thread/Message.h"
+#include <cfloat>
+#include <cmath>
 
 namespace uking::ai {
 
@@ -43,8 +46,44 @@ void MoveAndFreeFallGondola::sub_71004AFD3C(ksys::map::Rail* rail) {
 }
 
 void MoveAndFreeFallGondola::m34() {}
+void MoveAndFreeFallGondola::m37() {
+    if (!_40.sub_7100EEBB74())
+        return;
 
-ksys::map::Rail* MoveAndFreeFallGondola::m36() {
+    // called through a pointer in the original (not devirtualised)
+    if (!_40.sub_7100EEBE88() && (&_40)->m3() && m40())
+        _40.sub_7100EEBE9C(-_40._58);
+
+    if (!sub_710032C5AC()) {
+        _40.x(-1.0f);
+        return;
+    }
+    f32 speed;
+    if (!(_f8 <= FLT_EPSILON) || !(_f8 >= -FLT_EPSILON))
+        speed = m35() * (_f8 / ksys::VFR::instance()->getRawDeltaTime());
+    else
+        speed = 0.0f;
+    speed += m35() * ksys::VFR::instance()->getDeltaFrame();
+
+    const sead::Vector3f* pos = &_40._30.sub_7100EEB370();
+    if (speed > 0.0f) {
+        f32 total = 0.0f;
+        do {
+            const sead::Vector3f prev = *pos;
+            const f32 step = fminf(speed - total, 0.01f);
+            if (step < sub_7100EEBE90())
+                break;
+            _40.x(step);
+            // called through a pointer in the original (not devirtualised)
+            if ((&_40)->m3())
+                break;
+            pos = &_40._30.sub_7100EEB370();
+            total += (*pos - prev).length();
+            pos = &_40._30.sub_7100EEB370();
+        } while (total < speed);
+    }
+    _f8 = 0.0f;
+}ksys::map::Rail* MoveAndFreeFallGondola::m36() {
     if (sub_7100EEF034(mActor, 0))
         return RailMove::m36();
     return _f0;
