@@ -300,4 +300,176 @@ void CameraWakeboard::sub_710078A5C0() {
     _270 = angleStuff(sead::Mathf::clamp(angleStuff(*mLat_s), _258, _25c));
 }
 
+// NON_MATCHING: prepared-field loads and saved float registers differ.
+void CameraWakeboard::sub_7100787FE8() {
+    switch (_2c2) {
+    case 0:
+        sub_710078A0C0();
+        _70.sub_710079C3F8(_90);
+        break;
+    case 1:
+        sub_7100789A74();
+        break;
+    case 2:
+        if (auto* camera = getCamera()) {
+            const act::Unk_7100922700 polar(camera->_860._0._0 - camera->_860._0._c);
+            _d8 = _270;
+            _dc = angleStuff(polar._4 - _270);
+            _fc = _28c;
+            _100 = polar._0 - _28c;
+            sub_710078A294();
+        }
+        break;
+    case 3:
+        sub_7100789B5C();
+        break;
+    default:
+        sub_7100789C50();
+        break;
+    }
+    _90 = 1.0f;
+    _2c0.set(1);
+}
+
+// NON_MATCHING: curve lifetimes, clamp branches and saved float registers differ.
+void CameraWakeboard::sub_7100789098() {
+    if (_258 == _25c || (std::fabs(_258) == 180.0f && std::fabs(_25c) == 180.0f) ||
+        _27c == _280) {
+        _fc = _28c;
+        return;
+    }
+    f32 value = _270;
+    {
+        act::Unk_71024741b8 curve;
+        curve.set(_258, _258, _25c, _25c, *mLatMinWeight_s, *mLatMaxWeight_s);
+        value = curve.sub_71009234D8(value, 10);
+    }
+    f32 base_lat_ratio;
+    {
+        act::Unk_71024741b8 curve;
+        curve.set(0.0f, _268, 1.0f - _26c, 1.0f, *mLatMinWeight_s, *mLatMaxWeight_s);
+        base_lat_ratio = curve.eval(value);
+    }
+    value = angleStuff(sead::Mathf::clamp(angleStuff(_ec + _d8), _258, _25c));
+    {
+        act::Unk_71024741b8 curve;
+        curve.set(_258, _258, _25c, _25c, *mLatMinWeight_s, *mLatMaxWeight_s);
+        value = curve.sub_71009234D8(value, 10);
+    }
+    f32 lat_ratio;
+    {
+        act::Unk_71024741b8 curve;
+        curve.set(0.0f, _268, 1.0f - _26c, 1.0f, *mLatMinWeight_s, *mLatMaxWeight_s);
+        lat_ratio = curve.eval(value);
+    }
+    const f32 edge = lat_ratio > base_lat_ratio ? 1.0f : -1.0f;
+    f32 blend = 1.0f;
+    if (edge - base_lat_ratio != 0.0f)
+        blend = (lat_ratio - base_lat_ratio) / (edge - base_lat_ratio);
+    f32 min = 1.0f;
+    f32 max = 1.0f;
+    sub_7100924C94(_27c, _280, &min, &max);
+    value = sead::Mathf::clamp(_28c, min, max);
+    {
+        act::Unk_71024741b8 curve;
+        curve.set(_27c, _27c, _280, _280, *mRadiusMinWeight_s, *mRadiusMaxWeight_s);
+        value = curve.sub_71009234D8(value, 10);
+    }
+    {
+        act::Unk_71024741b8 curve;
+        curve.set(0.0f, _284, 1.0f - _288, 1.0f, *mRadiusMinWeight_s, *mRadiusMaxWeight_s);
+        value = curve.eval(value);
+    }
+    {
+        act::Unk_71024741b8 curve;
+        curve.set(0.0f, _284, 1.0f - _288, 1.0f, *mRadiusMinWeight_s, *mRadiusMaxWeight_s);
+        value = curve.sub_71009234D8(value + blend * (edge - value), 10);
+    }
+    {
+        act::Unk_71024741b8 curve;
+        curve.set(_27c, _27c, _280, _280, *mRadiusMinWeight_s, *mRadiusMaxWeight_s);
+        value = curve.eval(value);
+    }
+    const f32 radius = sub_7100924D40(value);
+    const f32 rate = sub_7100791E44(0.6f);
+    _fc += rate * (radius - _fc);
+}
+
+// NON_MATCHING: curve lifetimes, clamp selection and vector-copy scheduling differ.
+void CameraWakeboard::sub_7100789C50() {
+    auto* camera = getCamera();
+    if (!camera)
+        return;
+    const act::Unk_7100922700 polar(camera->_860._0._0 - camera->_860._0._c);
+    f32 difference = 0.0f;
+    if (angleStuff(polar._4) < angleStuff(_258)) {
+        _d8 = _258;
+        difference = polar._4 - _d8;
+    } else if (angleStuff(_25c) < angleStuff(polar._4)) {
+        _d8 = _25c;
+        difference = polar._4 - _d8;
+    } else {
+        _d8 = polar._4;
+    }
+    _dc = angleStuff(difference);
+    f32 duration = 0.0f;
+    if (angleStuff(_dc) != angleStuff(0.0f))
+        duration = sead::Mathf::clampMin((_dc > 0.0f ? _dc : -_dc) * 0.75f, 10.0f);
+    _f0 = polar._8;
+    _f4 = angleStuff(0.0f);
+    f32 value = _d8;
+    {
+        act::Unk_71024741b8 curve;
+        curve.set(_258, _258, _25c, _25c, *mLatMinWeight_s, *mLatMaxWeight_s);
+        value = curve.sub_71009234D8(value, 10);
+    }
+    {
+        act::Unk_71024741b8 curve;
+        curve.set(0.0f, _268, 1.0f - _26c, 1.0f, *mLatMinWeight_s, *mLatMaxWeight_s);
+        value = curve.eval(value);
+    }
+    {
+        act::Unk_71024741b8 curve;
+        curve.set(0.0f, _284, 1.0f - _288, 1.0f, *mRadiusMinWeight_s, *mRadiusMaxWeight_s);
+        value = curve.sub_71009234D8(value, 10);
+    }
+    {
+        act::Unk_71024741b8 curve;
+        curve.set(_27c, _27c, _280, _280, *mRadiusMinWeight_s, *mRadiusMaxWeight_s);
+        value = curve.eval(value);
+    }
+    const f32 radius_difference = polar._0 - value;
+    if (!((radius_difference > 0.0f ? radius_difference : -radius_difference) > 1.4f)) {
+        f32 min = 0.0f;
+        f32 max = 0.0f;
+        sub_7100924C94(_27c, _280, &min, &max);
+        value = sead::Mathf::clamp(polar._0, min, max);
+    }
+    _fc = value;
+    _100 = polar._0 - value;
+    if (_100 != 0.0f)
+        duration = sead::Mathf::clampMin(std::fmax(duration, 10.0f),
+                                       (_100 > 0.0f ? _100 : -_100) * 0.5f);
+    sead::Vector3f target = sead::Vector3f::zero;
+    sub_71007894D4(&target, &polar);
+    _94 = target;
+    _a0 = camera->_860._0._c - target;
+    if (_a0 != sead::Vector3f(0.0f, 0.0f, 0.0f)) {
+        const f32 length = _a0.length();
+        duration = sead::Mathf::clampMin(duration, 10.0f);
+        if (!(length <= 5.0f))
+            duration = sead::Mathf::clampMin(duration, (length > 0.0f ? length : -length) * 2.5f);
+    }
+    if (auto* current_camera = getCamera())
+        _110 = (current_camera->_860._0._24 - _10c) - _2b0;
+    const f32 degrees = _110 * 57.295776f;
+    duration = sead::Mathf::clampMin(duration, (degrees > 0.0f ? degrees : -degrees) * 0.5f);
+    duration = sead::Mathf::clampMax(duration, 90.0f);
+    if (!_2c0.isOn(1))
+        _50.sub_710079C384(duration, 0.0f);
+    _70.sub_710079C384(duration, 0.0f);
+    _70.sub_710079C3F8(1.0f);
+    sub_710074BCB4();
+}
+
 }  // namespace uking::action

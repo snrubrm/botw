@@ -35,6 +35,9 @@ protected:
     void sub_710078A0C0();
     void sub_710078A294();
     void sub_710078A818(f32 latitude, f32* out);
+    void sub_7100787FE8();
+    void sub_7100789098();
+    void sub_7100789C50();
 
     act::Unk_7102459dd8 _50;
     act::Unk_7102459dd8 _70;
