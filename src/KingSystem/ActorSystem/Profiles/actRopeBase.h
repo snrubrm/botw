@@ -40,6 +40,13 @@ public:
     // layer / set every contact on each rigid body of the rope.
     void sub_7100ECE0CC(phys::ContactLayer layer);
     void sub_7100ECE140();
+    // 0x7100ece1ac / 228 / 29c / 318 / 394 (placeholder names): set the mass / local inertia / linear damping /
+    // angular damping / gravity factor of every rope body.
+    void sub_7100ECE1AC(f32 mass);
+    void sub_7100ECE228(const sead::Vector3f& inertia);
+    void sub_7100ECE29C(f32 value);
+    void sub_7100ECE318(f32 value);
+    void sub_7100ECE394(f32 value);
     // 0x7100ece410 (placeholder name): the position along the rope of `pos`: the index of the closest rigid body
     // of the first list times the segment length (`_938`) plus a term from the angle to that body's y axis.
     f32 sub_7100ECE410(const sead::Vector3f& pos) const;

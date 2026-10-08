@@ -51,6 +51,41 @@ void RopeBase::sub_7100ECE140() {
     }
 }
 
+void RopeBase::sub_7100ECE1AC(f32 mass) {
+    for (int i = 0; i < _92c; ++i) {
+        if (_860[i])
+            _860[i]->setMass(mass);
+    }
+}
+
+void RopeBase::sub_7100ECE228(const sead::Vector3f& inertia) {
+    for (int i = 0; i < _92c; ++i) {
+        if (_860[i])
+            _860[i]->setInertiaLocal(inertia);
+    }
+}
+
+void RopeBase::sub_7100ECE29C(f32 value) {
+    for (int i = 0; i < _92c; ++i) {
+        if (_860[i])
+            _860[i]->setLinearDamping(value);
+    }
+}
+
+void RopeBase::sub_7100ECE318(f32 value) {
+    for (int i = 0; i < _92c; ++i) {
+        if (_860[i])
+            _860[i]->setAngularDamping(value);
+    }
+}
+
+void RopeBase::sub_7100ECE394(f32 value) {
+    for (int i = 0; i < _92c; ++i) {
+        if (_860[i])
+            _860[i]->setGravityFactor(value);
+    }
+}
+
 // NON_MATCHING: the two selects in the search loop are scheduled the other way round (fcsel before csel).
 f32 RopeBase::sub_7100ECE410(const sead::Vector3f& pos) const {
     f32 min_dist = 100000.0f;
