@@ -1,10 +1,14 @@
 #include "Game/AI/AI/aiHiddenOctarockFindPlayer.h"
+#include <math/seadVector.h>
 #include <random/seadGlobalRandom.h>
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/AI/aiUnk_71007320F0.h"
 #include "Game/AI/aiUnk_7100D8C538.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
+#include "KingSystem/ActorSystem/Awareness/actAwarenessRequest.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
@@ -90,6 +94,73 @@ void HiddenOctarockFindPlayer::changeToApproaching() {
     ksys::act::ai::InlineParamPack pack;
     pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
     changeChild("近づき", &pack);
+}
+
+// NON_MATCHING: all dispatch, visibility, awareness-request, distance, range-timer and revival
+// logic matches; remaining diffs are backend scheduling/allocation only: vtable loads hoisted
+// above branch tests, request _8-zero store scheduled before the vtable GOT load, &_68 not
+// hoisted above the dist branch (in-arm adds), _6c rematerialized after getU32 instead of kept
+// in w21 (subs+b.eq vs sub+cbz, w-reg coloring follows)
+void HiddenOctarockFindPlayer::calc_() {
+    auto* child = getCurrentChild();
+    if (!child->isFinished() && !child->isFailed()) {
+        if (child->isChangeable()) {
+            if (_68 <= 0.0f && !isCurrentChild("近づき")) {
+                setFailed();
+            } else {
+                if (isCurrentChild("戦闘")) {
+                    if (sub_7100430DF0())
+                        changeToApproaching();
+                } else {
+                    // The result is discarded, but the call really is in the target asm.
+                    isCurrentChild("近づき");
+                }
+            }
+        }
+    } else if (child->isFailed()) {
+        setFailed();
+    } else {
+        if (isCurrentChild("近づき")) {
+            sead::Vector3f pos;
+            mActor->getMtx().getTranslation(pos);
+            if (visibilityCheckMaybe(pos, *mActorRadius_s))
+                changeToNotice();
+            else {
+                mActor->m93(0, 0.0f);
+                changeChild("隠れる", nullptr);
+            }
+        } else if (isCurrentChild("気づき")) {
+            mActor->m93(0, 0.0f);
+            changeChild("隠れる", nullptr);
+        } else {
+            if (sub_7100430DF0())
+                changeToApproaching();
+            else
+                changeChild("戦闘", nullptr);
+        }
+    }
+
+    const f32 x = mActor->getMtx()(0, 3);
+    const f32 z = mActor->getMtx()(2, 3);
+    f32 value = 0.0f;
+    if (auto* awareness = mActor->getAwareness()) {
+        Unk_71023e2780 request;
+        if (auto* sensor = awareness->_260[3])
+            value = sensor->m4(&request) ? request._8 : 0.0f;
+    }
+    const sead::Vector3f& target = sub_71005D9330(mActor);
+    const sead::Vector2f diff(target.x - x, target.z - z);
+    const f32 dist = diff.length();
+    // Ordered-compare branch-away form (NaN takes the randomize path): b.le, not b.ls.
+    if (!(dist > value + *mLostDistOffset_s)) {
+        const u32 range = _70 - _6c;
+        if (range != 0) {
+            const u32 r = sead::GlobalRandom::instance()->getU32();
+            _68 = _6c + s32((u64(r) * range) >> 32);
+        }
+    } else {
+        ksys::Timer::update(&_68, -1.0f);
+    }
 }
 
 }  // namespace uking::ai

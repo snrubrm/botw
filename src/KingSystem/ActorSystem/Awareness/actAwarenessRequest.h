@@ -19,7 +19,9 @@ public:
     virtual ~Unk_71023e2708() { ; }
 
     /* 0x08 */ f32 _8 = 0;
-    /* 0x0c */ f32 _c = 0;
+    // No initializer (the original request construction only stores _8: HiddenOctarockSearchTarget /
+    // HiddenOctarockFindPlayer store just the vtable and _8; _c is always set explicitly before use).
+    /* 0x0c */ f32 _c;
 };
 
 // Request of the sensor `_260[0]` (vtable 0x71023e26d8; 0x50 bytes). `_c` is the interest level (output of the sensor's

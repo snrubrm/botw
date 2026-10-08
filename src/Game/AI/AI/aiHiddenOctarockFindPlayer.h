@@ -15,6 +15,7 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+    void calc_() override;
     // 0x7100430df0 (placeholder name)
     bool sub_7100430DF0();
     // 0x71004312d8 (placeholder name)
