@@ -243,8 +243,9 @@ public:
     /* 0x290 */ u8 _290;
     u8 _291;
     /* 0x292 */ u16 _292;
+    /* 0x294 */ u8 _294;  // 1: ScreenSystemWindow00::m98 / m99 leave the button group's flag 2 clear
     // Ends at 0x2fc: the members of ScreenMainDungeon start there (tail padding of the non-POD base).
-    u8 _294[0x2fc - 0x294];
+    u8 _295[0x2fc - 0x295];
 
     void open(s32 option) override;
     void close(s32 option) override;
@@ -2804,13 +2805,17 @@ public:
     bool isEnableControl() const override;
     ~ScreenSystemWindow00() override;
     SEAD_RTTI_OVERRIDE(ScreenSystemWindow00, ScreenEx)
+    // 0x7100a64634 / 0x7100a646b0
+    void m98() override;
+    void m99() override;
 
     /* 0x3610 */ u64 _3610{};
     u64 _3618{};
     u64 _3620{};
     u64 _3628{};
     u64 _3630{};
-    u8 _3638[0x36b0 - 0x3638];
+    u8 _3638[0x3678 - 0x3638];
+    /* 0x3678 */ eui::AnimButton* _3678[7];  // indexed by button tag - 0x58 (m99)
     /* 0x36b0 */ s32 _36b0 = 15;
     s32 _36b4;
     u64 _36b8{};

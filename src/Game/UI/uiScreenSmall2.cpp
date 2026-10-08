@@ -1856,6 +1856,35 @@ void ScreenSaveTransferWindow::m159() {
     }
 }
 
+// NON_MATCHING: the original loads mButtonGroup before _294 (register allocation of the flag select).
+// 0x7100a64634
+void ScreenSystemWindow00::m98() {
+    sUnk_710249a788 = 13;
+    setReservedBoxCursorNode(findBoxCursorNodeByTag(_36c4));
+    mActiveCursorNode = nullptr;
+    x_2();
+    registerController_();
+    if (_294 != 1)
+        mButtonGroup->_38 |= 2;
+    else
+        mButtonGroup->_38 &= ~2;
+}
+
+// 0x7100a646b0
+void ScreenSystemWindow00::m99() {
+    if (_294 != 1)
+        return;
+    if (_36c2 && _36c8 >= 0x58) {
+        sub_71010AA894();
+        _3678[_36c8 - 0x58]->DownOff(false);
+    } else if (_36c1 && _36c4 >= 0x58) {
+        sub_71010AA894();
+        _3678[_36c4 - 0x58]->DownOff(false);
+    } else {
+        mButtonGroup->_38 |= 2;
+    }
+}
+
 // 0x71009d0ee4
 void ScreenAmiiboWindow::m98() {
     _3610 = 4;
