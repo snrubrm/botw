@@ -133,4 +133,11 @@ bool Swarm::m81(const ksys::Message& message) {
 
 void Swarm::sub_71002D47D4(const sead::SafeString& name) {}
 
+void Swarm::sub_71002D484C(Unit* unit) {
+    if (!unit || unit->_b0 != this || unit->_b8 & 1)
+        return;
+    --_1610;
+    unit->_b8 |= 1;
+}
+
 }  // namespace uking::act

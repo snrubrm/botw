@@ -42,7 +42,8 @@ public:
         /* 0x60 */ sead::Vector3f _60;
         /* 0x6c */ sead::Vector3f _6c;
         /* 0x78 */ gsys::Model* _78;  // effect model (m63 plays it for every unit)
-        u8 _80[0xb8 - 0x80];
+        u8 _80[0xb0 - 0x80];
+        /* 0xb0 */ Swarm* _b0;  // the owner (Swarm::sub_71002D484C)
         /* 0xb8 */ u16 _b8;  // state flags (bit 1: active; bits 1-3 are rewritten by the two functions below)
         /* 0xbc */ s32 _bc;
 
@@ -68,6 +69,8 @@ public:
     static ksys::act::BaseProc* construct(const CreateArg& arg, sead::Heap* heap);
 
     void sub_71002D47D4(const sead::SafeString& name);
+    // 0x71002d484c (placeholder name): marks `unit` (one of ours) as gone: bit 0 of _b8 and one fewer in _1610.
+    void sub_71002D484C(Unit* unit);
 
 protected:
     InitResult init_() override;
