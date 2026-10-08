@@ -8,6 +8,7 @@
 #include <prim/seadEnum.h>
 #include <prim/seadSafeString.h>
 #include "Game/UI/uiTimer.h"
+#include "Game/UI/euiButton.h"
 
 // Small screen members and controllers named after their original vtable.
 // Several retain only their recovered destructor pair; recovered layouts and helpers are below.
@@ -319,6 +320,7 @@ public:
     void sub_71009880E8(u32 frame);
     eui::UniteButton* sub_7100988104() const;
     eui::LayoutEx* sub_710098810C() const;
+    void sub_7100988124(eui::UniteButton::Type type);
     void sub_7100988138(bool on);
     void sub_7100988154(bool checked);
 

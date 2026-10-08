@@ -304,6 +304,12 @@ eui::LayoutEx* Unk_7102477488::sub_710098810C() const {
     return mButton ? mButton->mLayout : nullptr;
 }
 
+// 0x7100988124
+void Unk_7102477488::sub_7100988124(eui::UniteButton::Type type) {
+    if (mButton)
+        mButton->sub_7100BDAFC0(type);
+}
+
 void Unk_7102477488::sub_7100988138(bool on) {
     if (mButton)
         mButton->setFlag10(on);
