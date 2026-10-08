@@ -9,8 +9,20 @@
 #include "KingSystem/System/HavokWorkerMgr.h"
 #include "KingSystem/System/StarterPackMgr.h"
 #include "KingSystem/System/UI/LayoutResourceMgr.h"
+#include "KingSystem/Map/mapPlacementMgr.h"
+#include "KingSystem/World/worldManager.h"
 
 namespace ksys {
+
+void sub_7100F3ED80() {
+    if (auto* mgr = map::PlacementMgr::instance())
+        mgr->sub_71011E6EE0();
+}
+
+void sub_7100F3EE94() {
+    if (auto* mgr = world::Manager::instance())
+        mgr->sub_71010F78A4();
+}
 
 void initBaseProcMgr(sead::Heap* heap) {
     sead::ScopedCurrentHeapSetter setter(heap);
