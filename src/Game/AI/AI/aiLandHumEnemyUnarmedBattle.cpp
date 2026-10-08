@@ -163,6 +163,33 @@ void LandHumEnemyUnarmedBattle::changeToBattle() {
     changeChild("戦闘", &pack);
 }
 
+// The getName() call and the profile comparison results are unused in the original (their use was
+// compiled out); the calls remain.
+// NON_MATCHING: scheduling only (loop setup order and the fcsel of min_dist).
+const ksys::act::BaseProcLink* LandHumEnemyUnarmedBattle::sub_7100471E98() {
+    const ksys::act::BaseProcLink* nearest = nullptr;
+    if (auto* nav = mActor->m45()) {
+        const sead::Vector3f nav_pos = nav->_194;
+        f32 min_dist = sead::Mathf::maxNumber();
+        for (auto& entry : _150) {
+            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::acquireActor(&entry._0.mLink, &accessor);
+            const sead::Vector3f pos = accessor.getActorMtx().getTranslation();
+            accessor.getName();
+            const f32 dist = (nav_pos - pos).length();
+            if (dist <= min_dist) {
+                nearest = &entry._0.mLink;
+                min_dist = dist;
+            }
+            const bool is_shield = accessor.getProfile() == "WeaponShield";
+            static_cast<void>(is_shield);
+        }
+    }
+    if (!nearest)
+        nearest = &ksys::act::getDummyBaseProcLink();
+    return nearest;
+}
+
 bool LandHumEnemyUnarmedBattle::sub_7100472020(const ksys::act::BaseProcLink* link) {
     auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
     if (!enemy)
