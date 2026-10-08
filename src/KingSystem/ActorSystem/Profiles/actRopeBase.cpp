@@ -86,6 +86,10 @@ void RopeBase::sub_7100ECE394(f32 value) {
     }
 }
 
+f32 RopeBase::sub_7100ECE76C() const {
+    return _938 * (_930 + 1);
+}
+
 // NON_MATCHING: the two selects in the search loop are scheduled the other way round (fcsel before csel).
 f32 RopeBase::sub_7100ECE410(const sead::Vector3f& pos) const {
     f32 min_dist = 100000.0f;

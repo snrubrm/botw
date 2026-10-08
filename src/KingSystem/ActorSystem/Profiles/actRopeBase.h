@@ -47,6 +47,8 @@ public:
     void sub_7100ECE29C(f32 value);
     void sub_7100ECE318(f32 value);
     void sub_7100ECE394(f32 value);
+    // 0x7100ece76c (placeholder name): the rope length, (_930 + 1) segments of _938.
+    f32 sub_7100ECE76C() const;
     // 0x7100ece410 (placeholder name): the position along the rope of `pos`: the index of the closest rigid body
     // of the first list times the segment length (`_938`) plus a term from the angle to that body's y axis.
     f32 sub_7100ECE410(const sead::Vector3f& pos) const;
