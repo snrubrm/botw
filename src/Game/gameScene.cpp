@@ -1,4 +1,7 @@
 #include "Game/gameScene.h"
+#include "Game/gameDebugStatus.h"
+#include "Game/gameSceneStatusMgr.h"
+#include "KingSystem/ksys.h"
 #include <devenv/seadGameConfig.h>
 #include <prim/seadDelegate.h>
 #include "KingSystem/ActorSystem/actBaseProc.h"
@@ -170,13 +173,16 @@ void StateMachineWrapper::exec6(void* arg) {
 // from going through the GOT, as the original addresses it directly)
 struct SceneStatics {
     bool isFirstLaunch;
-    u8 _1[6];
+    u8 _1[4];
+    bool _5;  // set by sub_71007B4C28 (game over)
+    u8 _6;
     u8 _7;
     bool _8;
     u8 _9[0x2c - 9];
     s32 newSaveState_2c;
     u8 _30[0x2c];
     s32 newSaveState_5c;
+    s32 _60;  // cleared by sub_71007B4C28
 };
 KSYS_VISIBILITY_HIDDEN SceneStatics sSceneStatics;
 
@@ -444,6 +450,22 @@ void GameScene::sub_71007B4BE4() {
 
 bool GameScene::sub_71007B4C00() const {
     return _948.isBitOn(1);
+}
+
+// 0x71025cb348 (placeholder name): a DebugStatus of this TU, constructed by its static initialiser
+// (not decompiled; declaration only).
+extern DebugStatus sUnk_71025CB348;
+
+void GameScene::sub_71007B4C28() {
+    if (sub_71007AF558())
+        return;
+    ksys::setIsGameOver(true);
+    sSceneStatics._5 = true;
+    sSceneStatics._60 = 0;
+    sUnk_71025CB348.clear();
+    sUnk_71025CB348.startTimer();
+    if (auto* mgr = GameSceneStatusMgr::instance())
+        mgr->registerStatus(&sUnk_71025CB348);
 }
 
 bool GameScene::sub_71007B0D3C() const {
