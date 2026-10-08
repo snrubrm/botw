@@ -21,7 +21,9 @@ public:
     // 0x7101218a90 (declared only): called by GelEnemy::m79.
     void sub_7101218A90();
 
-    /* 0x00 */ u8 _0[0x18];
+    /* 0x00 */ u8 _0[0x8];
+    /* 0x08 */ void* _8;  // tested by ClothStiffnessMgr::sub_7100665A84
+    /* 0x10 */ u8 _10[0x18 - 0x10];
     /* 0x18 */ sead::Buffer<Unk1> _18;
     /* 0x28 */ u8 _28[0x60 - 0x28];
     /* 0x60 */ f32 _60;  // read by ForkClothOnOffASPlay::enter_ (cloth is off while < 1)

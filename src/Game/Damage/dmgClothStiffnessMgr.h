@@ -33,6 +33,8 @@ public:
     bool x(f32 a, f32 b, ksys::act::Actor* actor);
     // 0x7100665a84 (declared only): drops the reference taken by x() (requests the unload at 0).
     void sub_7100665A84(ksys::act::Actor* actor);
+    // 0x7100665830 (declared only; 596 B): the entry whose key is `name` (null if none).
+    Entry* sub_7100665830(const sead::SafeString& name);
     // 0x7100665b20: forgets all the entries' pointers and reference counts.
     void sub_7100665B20();
 
