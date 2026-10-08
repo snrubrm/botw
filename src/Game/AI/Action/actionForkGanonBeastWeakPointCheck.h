@@ -36,6 +36,10 @@ protected:
     void* mGanonBeastWeakPointXLinkHandle_a{};
     // aitree_variable at offset 0x60
     void* mWeakPointCounter_a{};
+
+    // Members not recovered yet (class size from the factory).
+    u8 _68[0x208 - 0x68];
 };
+KSYS_CHECK_SIZE_NX150(ForkGanonBeastWeakPointCheck, 0x208);
 
 }  // namespace uking::action

@@ -86,6 +86,10 @@ protected:
     const float* mStressIncByEnemy_s{};
     // static_param at offset 0x128
     const float* mStressIncByDamage_s{};
+
+    // Members not recovered yet (class size from the factory).
+    u8 _130[0x3b8 - 0x130];
 };
+KSYS_CHECK_SIZE_NX150(HorseRiddenByPlayer, 0x3b8);
 
 }  // namespace uking::action

@@ -14,6 +14,10 @@ public:
 protected:
     void m35() override;
     bool m32(sead::Heap* heap) override;
+
+    // Members not recovered yet (class size from the factory).
+    u8 _50[0x128 - 0x50];
 };
+KSYS_CHECK_SIZE_NX150(CameraClimbObj, 0x128);
 
 }  // namespace uking::action

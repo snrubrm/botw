@@ -12,6 +12,10 @@ public:
     ~CameraMotorcycle() override;
 
 protected:
+
+    // Members not recovered yet (class size from the factory).
+    u8 _50[0x528 - 0x50];
 };
+KSYS_CHECK_SIZE_NX150(CameraMotorcycle, 0x528);
 
 }  // namespace uking::action

@@ -29,6 +29,10 @@ protected:
     const sead::Vector3f* mWeakPointOffset_s{};
     // map_unit_param at offset 0xa0
     const bool* mIsJoinRemainsBattle_m{};
+
+    // Members not recovered yet (class size from the factory).
+    u8 _a8[0x540 - 0xa8];
 };
+KSYS_CHECK_SIZE_NX150(MoveRemainsElectric, 0x540);
 
 }  // namespace uking::ai

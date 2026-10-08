@@ -21,6 +21,10 @@ protected:
 
     // static_param at offset 0xab0
     sead::SafeString mDungeonName_s{};
+
+    // Members not recovered yet (class size from the factory).
+    u8 _ac0[0xc50 - 0xac0];
 };
+KSYS_CHECK_SIZE_NX150(DragonFollow, 0xc50);
 
 }  // namespace uking::action

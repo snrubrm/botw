@@ -47,6 +47,10 @@ protected:
     // Not decompiled yet (the ctor / calc_ are W).
     u8 _80[0x204 - 0x80];
     f32 _204 = 0.0f;
+
+    // Members not recovered yet (class size from the factory).
+    u8 _208[0x260 - 0x208];
 };
+KSYS_CHECK_SIZE_NX150(PriestBossFastWarpMove, 0x260);
 
 }  // namespace uking::action

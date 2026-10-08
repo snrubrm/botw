@@ -57,8 +57,7 @@ protected:
     };
     // 0x25ee64 is the out-of-line destructor of this array type (called by D1 / D0).
     sead::SafeArray<Entry, 21> _88;
-    u8 _910[0x18];
 };
-KSYS_CHECK_SIZE_NX150(SiteBossLswordThrowFireBall, 0x928);
+KSYS_CHECK_SIZE_NX150(SiteBossLswordThrowFireBall, 0x910);
 
 }  // namespace uking::action

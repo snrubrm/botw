@@ -61,6 +61,10 @@ protected:
     const float* mInWaterTimeForRagdoll_s{};
     // static_param at offset 0x108
     const float* mToFallHeightForJustRush_s{};
+
+    // Members not recovered yet (class size from the factory).
+    u8 _110[0x238 - 0x110];
 };
+KSYS_CHECK_SIZE_NX150(PlayerNormal, 0x238);
 
 }  // namespace uking::ai

@@ -31,6 +31,10 @@ protected:
     const float* mReverbAdd_m{};
     // map_unit_param at offset 0x98
     const float* mMerginDistance_m{};
+
+    // Members not recovered yet (class size from the factory).
+    u8 _68[0x150 - 0x68];
 };
+KSYS_CHECK_SIZE_NX150(SoundReverbAreaTagAction, 0x150);
 
 }  // namespace uking::action

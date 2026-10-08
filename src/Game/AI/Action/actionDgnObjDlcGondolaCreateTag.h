@@ -27,6 +27,10 @@ protected:
     const float* mRailMoveSpeed_m{};
     u8 _40[0x980 - 0x40];
     ksys::act::BaseProcHandle _980[6];
+
+    // Members not recovered yet (class size from the factory).
+    u8 _9e0[0xa38 - 0x9e0];
 };
+KSYS_CHECK_SIZE_NX150(DgnObjDlcGondolaCreateTag, 0xa38);
 
 }  // namespace uking::action

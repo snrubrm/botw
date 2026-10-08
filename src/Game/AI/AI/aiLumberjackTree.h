@@ -66,6 +66,10 @@ protected:
     sead::Vector3f* mForceSetDropPos_a{};
     // aitree_variable at offset 0x2b8
     sead::Vector3f* mMoveDirection_a{};
+
+    // Members not recovered yet (class size from the factory).
+    u8 _2c0[0x2f8 - 0x2c0];
 };
+KSYS_CHECK_SIZE_NX150(LumberjackTree, 0x2f8);
 
 }  // namespace uking::ai

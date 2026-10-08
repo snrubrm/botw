@@ -16,6 +16,10 @@ protected:
     float m45() override;
     bool m55(f32* out0, f32* out1) override;
     bool m60(int idx) override { return u32(idx) < 3; }
+
+    // Members not recovered yet (class size from the factory).
+    u8 _1c0[0x458 - 0x1c0];
 };
+KSYS_CHECK_SIZE_NX150(CameraMagneCatch, 0x458);
 
 }  // namespace uking::action
