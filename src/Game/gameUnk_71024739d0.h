@@ -22,6 +22,8 @@ public:
     void getHitNormal(sead::Vector3f* normal) const;
     bool hasHit() const { return mQuery.hasHit(); }
 
+    // 0x710090d728 (placeholder name): sets the flag at RayCast + 0x99.
+    void sub_710090D728();
     // Contact layer presets.
     void sub_710090D73C();
     void sub_710090D784();

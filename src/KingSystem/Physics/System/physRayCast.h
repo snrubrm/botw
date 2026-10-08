@@ -59,6 +59,8 @@ public:
     void setIgnoredGroundHit(GroundHit ground_hit);
     // TODO: rename
     void set9A(bool value);
+    // Inline in the original (Unk_71024739d0::sub_710090D728 stores true; name is a placeholder).
+    void set99(bool value) { _99 = value; }
 
     void setStart(const sead::Vector3f& start);
     void setEnd(const sead::Vector3f& end);

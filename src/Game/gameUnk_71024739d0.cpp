@@ -28,6 +28,10 @@ void Unk_71024739d0::getHitNormal(sead::Vector3f* normal) const {
     mQuery.getHitNormal(normal);
 }
 
+void Unk_71024739d0::sub_710090D728() {
+    mQuery.set99(true);
+}
+
 void Unk_71024739d0::sub_710090D73C() {
     mQuery.enableLayer(ksys::phys::ContactLayer::EntityGround);
     mQuery.enableLayer(ksys::phys::ContactLayer::EntityGroundRough);
