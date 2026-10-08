@@ -46,6 +46,7 @@ protected:
 
     // 0x7100757a78 / 0x7100757c24 (non-virtual helpers, declared only).
     void sub_7100757A78();
+    void sub_71007583CC();
     void sub_7100757C24();
     // 0x710075863c (placeholder name): once (_17a bit 1), stores the camera's look-at point (minus the anim
     // object's / the camera's own translation when the animation is placed in the world) in _94.

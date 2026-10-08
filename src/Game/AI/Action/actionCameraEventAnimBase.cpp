@@ -1,5 +1,6 @@
 #include "Game/AI/Action/actionCameraEventAnimBase.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Utils/Thread/Message.h"
 
@@ -16,6 +17,24 @@ bool CameraEventAnimBase::handleMessage_(const ksys::Message* message) {
             sub_7100757C24();
     }
     return true;
+}
+
+// NON_MATCHING: the no-target sentinel compare uses an unsigned byte instead of sign extension.
+void CameraEventAnimBase::sub_71007583CC() {
+    const u8 type = m52();
+    if (type != 1) {
+        if (type == u8(-1)) {
+            _90 = 1;
+        } else if (auto* actor = getActor()) {
+            if (m52() != u8(-1)) {
+                ksys::act::ActorConstDataAccess access(actor);
+                sendMessage(*access.getMessageTransceiverId(), ksys::MessageType(0x8800007), nullptr);
+            }
+        }
+        return;
+    }
+    sub_7100757A78();
+    sub_7100757C24();
 }
 
 void CameraEventAnimBase::sub_7100758F80(const ksys::act::ActorConstDataAccess* access) {
