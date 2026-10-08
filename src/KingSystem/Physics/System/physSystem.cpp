@@ -53,6 +53,22 @@ void System::setRigidBodyDividedMeshShapeMgr(void* mgr) {
     mRigidBodyDividedMeshShapeMgr = mgr;
 }
 
+void System::sub_7101216AA8(Unk_71012a6844::ItemA* item) {
+    _150->sub_71012A69E0(item);
+}
+
+void System::sub_7101216AB0(Unk_71012a6844::ItemA* item) {
+    _150->sub_71012A6A44(item);
+}
+
+void System::sub_7101216AB8(Unk_71012a6844::ItemB* item) {
+    _150->sub_71012A6AA4(item);
+}
+
+void System::sub_7101216AC0(Unk_71012a6844::ItemB* item) {
+    _150->sub_71012A6AF8(item);
+}
+
 void System::registerCollisionInfo(CollisionInfo* info) const {
     mContactMgr->registerCollisionInfo(info);
 }

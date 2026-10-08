@@ -200,6 +200,8 @@ target_sources(uking PRIVATE
     System/physSystemData.h
     System/physWorld.cpp
     System/physWorld.h
+    System/physUnk_71012a6844.cpp
+    System/physUnk_71012a6844.h
     System/physUserTag.cpp
     System/physUserTag.h
 

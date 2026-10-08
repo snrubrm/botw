@@ -7,6 +7,7 @@
 #include <heap/seadDisposer.h>
 #include <thread/seadCriticalSection.h>
 #include <thread/seadMutex.h>
+#include "KingSystem/Physics/System/physUnk_71012a6844.h"
 #include "KingSystem/Physics/physDefines.h"
 #include "KingSystem/Utils/Types.h"
 
@@ -81,6 +82,11 @@ public:
     // 0x7101215550 (CSV PhysicsMemSys::runJobsMaybe; declaration only): GameTaskThread::calc_ passes `this + 0x20`
     // (the INamable base of sead::Thread: vtable + name) and keeps the bool result.
     bool runJobsMaybe(sead::INamable* thread);
+    // 0x7101216aa8 / 0x7101216ab0 / 0x7101216ab8 / 0x7101216ac0 (placeholder names): forward to the object at _150.
+    void sub_7101216AA8(Unk_71012a6844::ItemA* item);
+    void sub_7101216AB0(Unk_71012a6844::ItemA* item);
+    void sub_7101216AB8(Unk_71012a6844::ItemB* item);
+    void sub_7101216AC0(Unk_71012a6844::ItemB* item);
     // 0x7101215358 / 0x71012153b4 (lane4 s64; placeholder names): under `_270`, add the controller to `_2b0` (if
     // there is room) / remove it.
     void sub_7101215358(CharacterController* controller);
@@ -201,7 +207,7 @@ private:
     sead::FixedPtrArray<GroupFilter, 2> mGroupFilters;
     sead::FixedPtrArray<ContactListener, 2> mContactListeners;
     ContactMgr* mContactMgr;
-    void* _150;
+    Unk_71012a6844* _150;  // created by 0x71012a6844 in System::init
     StaticCompoundMgr* mStaticCompoundMgr;
     RigidBodyRequestMgr* mRigidBodyRequestMgr;
     RagdollInstanceMgr* mRagdollInstanceMgr;
