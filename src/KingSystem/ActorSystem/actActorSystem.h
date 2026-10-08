@@ -32,6 +32,10 @@ public:
     // 0x7100d5d4c0: the player actor (null without a player link). New virtual-slot-free
     // overload; the bool one above takes an accessor.
     PlayerBase* getPlayer();
+
+    // 0x7100d5d954: sets _138 and tail-calls ResourceMgrTask::sub_7101208400
+    // (return type uncertain; no in-tree callers).
+    void handleActorCreateFailure();
     bool getPlayerPosition(sead::Vector3f* out);
 
     bool getAutoPlacementActorPos(const sead::SafeString& name, sead::Vector3f* pos) const;

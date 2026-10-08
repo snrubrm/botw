@@ -2,6 +2,7 @@
 #include <heap/seadExpHeap.h>
 #include <thread/seadThread.h>
 #include "KingSystem/ActorSystem/Profiles/actPlayerLink.h"
+#include "KingSystem/Resource/resResourceMgrTask.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/Framework/frmWorkerSupportThreadMgr.h"
@@ -101,6 +102,11 @@ PlayerBase* ActorSystem::getPlayer() {
     if (!_c0)
         return nullptr;
     return _c0->getPlayer();
+}
+
+void ActorSystem::handleActorCreateFailure() {
+    _138 = true;
+    ksys::res::ResourceMgrTask::instance()->sub_7101208400();
 }
 
 bool ActorSystem::getPlayerPosition(sead::Vector3f* out) {
