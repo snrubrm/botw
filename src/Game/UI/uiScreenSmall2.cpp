@@ -186,6 +186,11 @@ void ScreenAppHome::sub_71009DD800(bool a1) {
         sub_71009DCF18(11);
 }
 
+// 0x71009dd838
+bool ScreenAppHome::sub_71009DD838(f32 a1) const {
+    return _3818.sub_7100938294(a1);
+}
+
 // 0x71009ff43c
 void ScreenAppTool::m107(eui::AnimButton*) {
     _3610 = 1;

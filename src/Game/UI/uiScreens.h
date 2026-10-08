@@ -3325,6 +3325,8 @@ public:
     void sub_71009DD814();
     void sub_71009DD7EC(bool a1);
     void sub_71009DD800(bool a1);
+    // 0x71009dd838 (placeholder name): forwards the float to the _3818 Unk_7102474df8 check
+    bool sub_71009DD838(f32 a1) const;
 };
 
 extern const ksys::StateBase sUnk_71025dc3c0;
