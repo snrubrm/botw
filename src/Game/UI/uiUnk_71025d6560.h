@@ -16,6 +16,8 @@ class Unk_71025d6560 {
 public:
     virtual ~Unk_71025d6560();
 
+    // 0x7100949974 (placeholder name): allocates the table (0x91 entries) and clears it
+    void sub_7100949974(sead::Heap* heap);
     // 0x7100949a60 (placeholder name): stores `value` at `index` if the table has such an entry
     void sub_7100949A60(s32 index, void* value);
 

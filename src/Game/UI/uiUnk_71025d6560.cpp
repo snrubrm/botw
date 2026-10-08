@@ -13,6 +13,15 @@ Unk_71025d6560::~Unk_71025d6560() {
     }
 }
 
+// 0x7100949974
+void Unk_71025d6560::sub_7100949974(sead::Heap* heap) {
+    mEntries.tryAllocBuffer(0x91, heap, 8);
+    if (mEntries.isBufferReady()) {
+        for (s32 i = 0, n = mEntries.size(); i < n; ++i)
+            mEntries(i) = nullptr;
+    }
+}
+
 // 0x7100949a60
 void Unk_71025d6560::sub_7100949A60(s32 index, void* value) {
     if (mEntries.isBufferReady() && u32(index) < u32(mEntries.size()))
