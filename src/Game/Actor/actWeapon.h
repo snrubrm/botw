@@ -385,6 +385,9 @@ public:
     // 0x71002ee1f0: bow resource arrow name, or the owning player/enemy arrow name.
     bool bowGetArrowName(sead::BufferedSafeString* name);
     const sead::Vector3f* getAttackPosMaybe() const;
+    // 0x71002ee46c / 0x71002ee47c (lane4 s64; placeholder names): `&_af8._14` / `_af8._3c`.
+    const sead::Vector3f* sub_71002EE46C() const;
+    bool sub_71002EE47C() const;
 
     /* 0xab8 */ sead::CriticalSection _ab8;
     /* 0xaf8 */ Unk_71002eda38 _af8;

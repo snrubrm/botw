@@ -28,6 +28,7 @@
 #include "KingSystem/System/UIGlue.h"
 #include "KingSystem/Graphics/gfxUnk_710260af28.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/Resource/Actor/resResourceAnimInfo.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/Actor/resResourceModelList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectGeneral.h"
@@ -1677,6 +1678,10 @@ void Actor::job1_2() {
         }
     }
     m72();
+}
+
+res::AnimInfo::SwordBlurInfo* sub_71011D66C0(Actor* actor) {
+    return actor->getParam()->getRes().mAnimationInfo->getSwordBlurInfo();
 }
 
 }  // namespace ksys::act

@@ -42,7 +42,6 @@ public:
     const Anim* getAnim(const sead::SafeString& name) const;
     int findAnimIndex(const sead::SafeString& name) const;
 
-private:
     struct SwordBlurInfo {
         void finalize();
 
@@ -52,8 +51,18 @@ private:
     };
     KSYS_CHECK_SIZE_NX150(SwordBlurInfo, 0x18);
 
+    SwordBlurInfo* getSwordBlurInfo() const { return mSwordBlurInfo; }
+
+private:
     sead::Buffer<Anim> mAnims;
     SwordBlurInfo* mSwordBlurInfo = nullptr;
 };
 
 }  // namespace ksys::res
+
+namespace ksys::act {
+class Actor;
+// 0x71011d66c0 (lane4 s64; placeholder name, in the Actor TU): `actor->mActorParam->getRes().mAnimationInfo->mSwordBlurInfo`
+// (no null checks).
+res::AnimInfo::SwordBlurInfo* sub_71011D66C0(Actor* actor);
+}  // namespace ksys::act

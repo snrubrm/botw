@@ -765,6 +765,14 @@ const sead::Vector3f* Weapon::getAttackPosMaybe() const {
     return &_af8._8;
 }
 
+const sead::Vector3f* Weapon::sub_71002EE46C() const {
+    return &_af8._14;
+}
+
+bool Weapon::sub_71002EE47C() const {
+    return _af8._3c;
+}
+
 bool Weapon::m214() {
     auto* state = _d38;
     if (!state)
