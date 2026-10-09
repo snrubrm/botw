@@ -18,15 +18,13 @@ SignalFlowchartRootAI::SignalFlowchartRootAI(const InitArg& arg) : ksys::act::ai
     _60 = nullptr;
 }
 
-// NON_MATCHING: the original keeps `_3ba` and the handle test as two separate branches (the GOT load of the
-// handle stays inside the first one); ours folds them into a ccmp.
 SignalFlowchartRootAI::~SignalFlowchartRootAI() {
-    if (_3ba) {
-        if (sUnk_7102602228) {
-            sUnk_7102602228->requestUnload2();
-            delete sUnk_7102602228;
-            sUnk_7102602228 = nullptr;
-        }
+    if (!_3ba)
+        return;
+    if (sUnk_7102602228) {
+        sUnk_7102602228->requestUnload2();
+        delete sUnk_7102602228;
+        sUnk_7102602228 = nullptr;
     }
 }
 
