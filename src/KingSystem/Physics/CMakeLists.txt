@@ -16,6 +16,8 @@ target_sources(uking PRIVATE
     Constraint/physFixedCs.cpp
     Constraint/physHingeCs.cpp
     Constraint/physHingeCs.h
+    Constraint/physLimitHingeCs.cpp
+    Constraint/physLimitHingeCs.h
     Constraint/physConstraintBreakable.cpp
     Constraint/physConstraint.h
 
