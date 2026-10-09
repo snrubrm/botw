@@ -4,6 +4,8 @@
 #include "Game/AI/Action/actionForkASPlayBase.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
+class Unk_71025afb58;
+
 namespace uking::action {
 
 class GanonBeastASPlayFromActiveWp : public ForkASPlayBase {
@@ -24,7 +26,7 @@ protected:
     // static_param at offset 0x50
     sead::SafeString mASName_s{};
     // aitree_variable at offset 0x60
-    void* mWeakPointActiveFlag_a{};
+    Unk_71025afb58** mWeakPointActiveFlag_a{};
     sead::FixedSafeString<32> _68;
 };
 KSYS_CHECK_SIZE_NX150(GanonBeastASPlayFromActiveWp, 0xa0);

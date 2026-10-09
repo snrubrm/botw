@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionGanonBeastASPlayFromActiveWp.h"
+#include "Game/AI/aiUnk_71025b2d88.h"
 
 namespace uking::action {
 
@@ -16,6 +17,13 @@ bool GanonBeastASPlayFromActiveWp::init_(sead::Heap* heap) {
 }
 
 void GanonBeastASPlayFromActiveWp::enter_(ksys::act::ai::InlineParamPack* params) {
+    const char* suffix = nullptr;
+    if (auto* active = sead::DynamicCast<Unk_71025b2d88>(*mWeakPointActiveFlag_a))
+        suffix = sub_7100704128(&active->mFlags);
+    if (suffix)
+        _68.format("%s%s", mASName_s.cstr(), suffix);
+    else
+        _68.copy(mASName_s);
     ForkASPlayBase::enter_(params);
 }
 
