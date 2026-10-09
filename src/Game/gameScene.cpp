@@ -1,4 +1,5 @@
 #include "Game/gameScene.h"
+#include <layer/aglLayer.h>
 #include "Game/gameDebugStatus.h"
 #include "Game/gameSceneStatusMgr.h"
 #include "KingSystem/ksys.h"
@@ -25,6 +26,17 @@
 Unk_71025d1740* Unk_71025d1740::sInstance;
 
 namespace uking {
+
+// NON_MATCHING: the base zero stores are ordered differently around the vtable initialization.
+GameScene::sb::sb() = default;
+
+GameScene::sb::~sb() {
+    clear();
+}
+
+void GameScene::sb::x(s32 index, agl::lyr::Layer* layer, s32 step) {
+    layer->sub_7100B60B8C(step, at(index));
+}
 
 GameScene::sc::sc() = default;
 

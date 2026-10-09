@@ -2,6 +2,8 @@
 
 #include <prim/seadRuntimeTypeInfo.h>
 #include <container/seadBuffer.h>
+#include <container/seadObjArray.h>
+#include <layer/aglDrawMethod.h>
 #include <math/seadVector.h>
 #include <prim/seadSafeString.h>
 #include <thread/seadAtomic.h>
@@ -11,6 +13,10 @@
 #include "KingSystem/Utils/StateMachine.h"
 #include "KingSystem/Utils/Thread/Event.h"
 #include "KingSystem/Utils/Types.h"
+
+namespace agl::lyr {
+class Layer;
+}
 
 namespace ksys::res {
 class Resource;
@@ -48,6 +54,15 @@ public:
     SEAD_RTTI_BASE(GameScene)
 
 public:
+    // Vtable 0x7102513D50. Native cleanup destroys each DrawMethod and returns it to the free list.
+    class sb : public sead::ObjArray<agl::lyr::DrawMethod> {
+    public:
+        sb();
+        virtual ~sb();
+        void x(s32 index, agl::lyr::Layer* layer, s32 step);
+    };
+    static_assert(sizeof(sb) == 0x28);
+
     // CSV GameScene::sc (0x20 bytes, vtable 0x71024f9d28).
     // Its record cleanup remains declared only; the constructor and flag getter are complete.
     class sc {
