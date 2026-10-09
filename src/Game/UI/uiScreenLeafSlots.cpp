@@ -255,4 +255,11 @@ ScreenChild* sub_71009DE3F4(const nn::ui2d::ControlSrc&, eui::LayoutEx* layout) 
     return new (layout_ex->mScreen->mInitializeHeap, 8) Unk_710247c010(layout_ex);
 }
 
+ScreenChild* sub_71009DE4F0(const nn::ui2d::ControlSrc&, eui::LayoutEx* layout) {
+    auto* layout_ex = nn::font::DynamicCast<eui::LayoutEx>(layout);
+    if (!layout_ex || !layout_ex->mScreen || !layout_ex->mScreen->mInitializeHeap)
+        return nullptr;
+    return new (layout_ex->mScreen->mInitializeHeap, 8) Unk_710247c6c0(layout_ex);
+}
+
 }  // namespace uking::ui

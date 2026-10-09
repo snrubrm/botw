@@ -33,6 +33,26 @@ public:
 };
 static_assert(sizeof(Unk_710247c010) == 0x480);
 
+// Full ctor 9c0ebc/dtor 9c0f04 and factory 9de4f0 establish the base, vtable and size.
+class Unk_710247c6c0 : public ScreenChildEx {
+public:
+    explicit Unk_710247c6c0(eui::LayoutEx* layout);
+    ~Unk_710247c6c0() override;
+
+    u8 _130[0x160 - 0x130];
+};
+static_assert(sizeof(Unk_710247c6c0) == 0x160);
+
+// Full ctor 98fc08/dtor 98fc90 and factory 9e805c prove this 0x450-byte child.
+class Unk_7102478048 : public ScreenChildEx {
+public:
+    explicit Unk_7102478048(eui::LayoutEx* layout);
+    ~Unk_7102478048() override;
+
+    u8 _130[0x450 - 0x130];
+};
+static_assert(sizeof(Unk_7102478048) == 0x450);
+
 // A list unit of the Unk_710247af10 TU (vtable 0x710247ae48, 0x58 bytes; created by 0x71009b951c, which allocates
 // them into a PtrArray). Only the overridden slots are declared.
 class Unk_710247ae48 : public Unk_7102474e38 {

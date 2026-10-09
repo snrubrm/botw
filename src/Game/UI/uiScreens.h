@@ -1814,7 +1814,10 @@ struct ScreenAppMapUnk3c90 {
 };
 
 // Placeholder for the map widget the AppMap screen owns (byte 0xb33a is set by ScreenAppMap::mainEnter).
-struct ScreenAppMapWidget {
+struct ScreenAppMapWidget : public ScreenChildEx {
+    // Full native ctor 9a863c calls ScreenChildEx; factory 9e7f60 allocates 0xb538 bytes.
+    explicit ScreenAppMapWidget(eui::LayoutEx* layout);
+    ~ScreenAppMapWidget() override;
     // 0x71009a9438 (CSV unnamed): the timer at 0xb290 is done or the flag at 0xb1db is set
     bool sub_71009A9438();
     // Small accessors of the widget (lane2 s46; placeholder names, the field meanings are not known)
@@ -1845,7 +1848,7 @@ struct ScreenAppMapWidget {
     // 0x71009aef88 (placeholder name): clears _b4ec / _b4f0 and decodes the packed signed (x, y) word at `_b370` into _b4b8 / _b4bc
     void sub_71009AEF88();
 
-    u8 _0[0xb1db];
+    u8 _130[0xb1db - 0x130];
     /* 0xb1db */ u8 _b1db;
     u8 _b1dc[0xb290 - 0xb1dc];
     /* 0xb290 */ UiTimer _b290;
@@ -1881,7 +1884,10 @@ struct ScreenAppMapWidget {
     u8 _b4fd;
     /* 0xb4fe */ s8 _b4fe;
     /* 0xb4ff */ u8 _b4ff;
+    u8 _b500[0xb538 - 0xb500];
 };
+static_assert(sizeof(ScreenAppMapWidget) == 0xb538);
+static_assert(offsetof(ScreenAppMapWidget, _b290) == 0xb290);
 
 class ScreenAppMap : public ScreenEx {
 public:

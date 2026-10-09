@@ -1,4 +1,6 @@
 #include "Game/UI/uiScreenControlCreators.h"
+#include "Game/UI/uiScreenChildStates.h"
+#include "Game/UI/euiLayoutEx.h"
 #include "Game/UI/uiScreens.h"
 #include "Game/UI/uiUnkSingletons.h"
 #include "Game/UI/euiAnimator.h"
@@ -95,5 +97,19 @@ const sead::Buffer<const ChildControlCreatorEntry>* Unk_7102481828::getEntries()
 }
 // 0x71009e7f3c
 Unk_7102481828::~Unk_7102481828() = default;
+
+ScreenChild* sub_71009E7F60(const nn::ui2d::ControlSrc&, eui::LayoutEx* layout) {
+    auto* layout_ex = nn::font::DynamicCast<eui::LayoutEx>(layout);
+    if (!layout_ex || !layout_ex->mScreen || !layout_ex->mScreen->mInitializeHeap)
+        return nullptr;
+    return new (layout_ex->mScreen->mInitializeHeap, 8) ScreenAppMapWidget(layout_ex);
+}
+
+ScreenChild* sub_71009E805C(const nn::ui2d::ControlSrc&, eui::LayoutEx* layout) {
+    auto* layout_ex = nn::font::DynamicCast<eui::LayoutEx>(layout);
+    if (!layout_ex || !layout_ex->mScreen || !layout_ex->mScreen->mInitializeHeap)
+        return nullptr;
+    return new (layout_ex->mScreen->mInitializeHeap, 8) Unk_7102478048(layout_ex);
+}
 
 }  // namespace uking::ui
