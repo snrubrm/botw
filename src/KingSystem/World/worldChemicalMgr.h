@@ -4,6 +4,7 @@
 #include <math/seadVector.h>
 #include <container/seadObjList.h>
 #include <thread/seadCriticalSection.h>
+#include <prim/seadBitFlag.h>
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Utils/Types.h"
 #include "KingSystem/World/worldJob.h"
@@ -100,7 +101,9 @@ public:
     act::Unk_71024dd490* _ae8;  // Actual Element holder created by sub_7100D9A1D0.
     u8 _af0[0xb10 - 0xaf0];
     u8 _b10;
-    u8 _b11[0xc10 - 0xb11];
+    u8 _b11[3];
+    sead::BitFlag32 _b14;
+    u8 _b18[0xc10 - 0xb18];
     sead::CriticalSection _c10;
     u8 _c50[0xc60 - 0xc50];
     sead::PtrArray<Unk_710250c698> _c60;
@@ -109,7 +112,9 @@ public:
     WorldMgrStruct0_8_a _cf8;
     // The actor whose chemical state is put to sleep on unload (acquireActor in unload2).
     act::BaseProcLink _d88;
-    u8 _d98[0xdc0 - 0xd98];
+    u8 _d98[4];
+    u16 _d9c;
+    u8 _d9e[0xdc0 - 0xd9e];
 };
 KSYS_CHECK_SIZE_NX150(ChemicalMgr, 0xdc0);
 

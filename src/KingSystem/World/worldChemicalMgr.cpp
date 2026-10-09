@@ -2,6 +2,7 @@
 #include <math/seadMatrix.h>
 #include <prim/seadScopedLock.h>
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorChemicals.h"
 #include "KingSystem/ActorSystem/actChemicalElementHolder.h"
 #include "KingSystem/Terrain/teraSystem.h"
 #include "KingSystem/System/VFR.h"
@@ -130,6 +131,30 @@ void ChemicalMgr::sub_71010CBEAC(act::Chemical* chemical) {
 
 void ChemicalMgr::sub_71010CE760() {
     sub_71010CE7DC(VFR::instance() ? VFR::instance()->getDeltaFrame() : 1.0f);
+}
+
+// NON_MATCHING: the queued pair value is copied before the counter increment, and iterator
+// advancement uses the entry pointer rather than the native node pointer.
+void ChemicalMgr::sub_71010CE7DC(f32 delta_frame) {
+    sead::ScopedLock<sead::CriticalSection> lock(&mChemicalPairLock);
+    for (const auto pair : mChemicalPairs) {
+        ++_d9c;
+        if (_b14.isOn(0x100000)) {
+            pair.first->sub_7100D9155C();
+            pair.second->sub_7100D9155C();
+            pair.first->_18->getName().cstr();
+            pair.second->_18->getName().cstr();
+        }
+        if (pair.type == 4) {
+            if (pair.first->_1e8)
+                pair.first->_1e8->sub_7100D8D3F4(pair.second, true, true, false, delta_frame,
+                                               sead::Vector3f::zero, sead::Vector3f::ex);
+            if (pair.second->_1e8)
+                pair.second->_1e8->sub_7100D8D3F4(pair.first, true, true, false, delta_frame,
+                                                sead::Vector3f::zero, sead::Vector3f::ex);
+        }
+    }
+    mChemicalPairs.clear();
 }
 
 }  // namespace ksys::world

@@ -35,6 +35,9 @@ struct Unk_ChemicalWatch {
 class Unk_71024dd1c8 {
 public:
     const sead::Vector3f& sub_7100D8D1E0() const;
+    // D8CBEC / Element::emitWrap construct this holder; collision10CD440 supplies both vectors.
+    void sub_7100D8D3F4(Chemical* chemical, bool a, bool b, bool c, f32 delta_frame,
+                       const sead::Vector3f& position, const sead::Vector3f& normal);
 };
 
 // Placeholder (lane1 s22): the object Chemical::_90 points to; fields read by ChmCheck / ViewWaitRiskAvoid.
@@ -206,7 +209,7 @@ public:
     /* 0x1c8 */ Unk_Chemical1c8* _1c8;
     /* 0x1d0 */ void* _1d0;
     /* 0x1d8 */ u8 _1d8[0x1e8 - 0x1d8];
-    /* 0x1e8 */ void* _1e8;
+    /* 0x1e8 */ Unk_71024dd1c8* _1e8;
     /* 0x1f0 */ u8 _1f0[0x238 - 0x1f0];
 
     // Unused legacy declaration; the single emitted global is chm::Chemical::sInstance.
