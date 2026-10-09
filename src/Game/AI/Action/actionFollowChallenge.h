@@ -19,6 +19,8 @@ public:
 protected:
     void calc_() override;
     void sub_710004E108();
+    // Full 4E2B4 tests the bool argument and adds/removes the challenge body and effects.
+    void sub_710004E2B4(bool enable);
     bool sub_710004FA3C();
 
     // map_unit_param at offset 0x20
