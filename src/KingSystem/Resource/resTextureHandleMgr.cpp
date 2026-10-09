@@ -34,6 +34,31 @@ KSYS_CHECK_SIZE_NX150(Unk_71024f9da0, 0x140);
 
 Unk_71024f9da0::Unk_71024f9da0(sead::Heap* heap) : util::ManagedTask(heap) {}
 
+// NON_MATCHING: request flags are copied by field instead of the native whole block.
+void Unk_71024f9da0::prepareImpl_(util::TaskRequest* request) {
+    auto* req = sead::DynamicCast<::Unk_71024f9bb8>(request);
+    if (!req)
+        return;
+    mData._20 = req->_68;
+    mData._18 = req->_60;
+    mData._10 = req->_58;
+    mData._c = req->_54;
+    mData._8 = req->_50;
+    // C++14 evaluation order: the original evaluates the destination first.
+    mData._28.operator=(req->_70);
+    mData._38 = req->_80;
+    // C++14 evaluation order: the original evaluates the destination first.
+    mData._40.operator=(req->_88);
+    mData._50 = req->_98;
+    mData._58 = req->_a0;
+    mData._68 = req->_b0;
+    mData._60 = req->_a8;
+    // C++14 evaluation order: the original evaluates the destination first.
+    mData._70.operator=(req->_b8);
+    if (!getUserData())
+        setUserData(&mData);
+}
+
 // NON_MATCHING: the existing task-data destructor is called out of line.
 Unk_71024f9da0::~Unk_71024f9da0() = default;
 
