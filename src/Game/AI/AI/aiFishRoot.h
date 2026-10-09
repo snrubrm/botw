@@ -48,6 +48,8 @@ protected:
     // Declaration only; original method names and void returns are inferred.
     void sub_71003CC69C();
     void sub_71003CC878();
+    // Full native tail helper updates the owned animation values; called only by sub_71003CC878.
+    void sub_71003CD268();
     // 0x71003ce608 (placeholder name): submits a downward ground ray cast from `start` as tall as the actor.
     bool sub_71003CE608(const sead::Vector3f& start);
     void sub_71003CCA34();
@@ -89,7 +91,8 @@ protected:
     u8 _160[0x184 - 0x160]{};
     sead::Vector3f _184{};
     sead::Vector3f _190{};
-    u8 _19c[0x1a4 - 0x19c]{};
+    u8 _19c[4]{};
+    f32 _1a0{};
     f32 _1a4{};
     u8 _1a8[0x1b0 - 0x1a8]{};
     s32 _1b0{};

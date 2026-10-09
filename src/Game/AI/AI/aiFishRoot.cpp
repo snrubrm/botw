@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiFishRoot.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 #include "Game/Actor/actUnk_71025ae680.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerOrEnemy.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
@@ -11,6 +12,45 @@
 #include "KingSystem/ActorSystem/actChemical.h"
 
 namespace uking::ai {
+
+// NON_MATCHING: interpolation registers and the final minimum-step branch differ.
+void FishRoot::sub_71003CC878() {
+    if (auto* controller = mActor->getCharacterController()) {
+        sead::Vector3f velocity = controller->get64() * (controller->sub_7100F5EF00() / 30.0f);
+        if (controller->isBit2Of116())
+            velocity -= controller->get180() * 0.5f;
+        const f32 target = velocity.length() + sead::Mathf::abs(mActor->getVelocity().y) * 0.5f;
+        const f32 diff = target - _1a0;
+        const f32 distance = sead::Mathf::abs(diff);
+        if (_1a0 < target) {
+            if (distance <= 0.005f) {
+                _1a0 = target;
+            } else {
+                const f32 step = distance * 0.8f;
+                if (step > 0.2f)
+                    _1a0 += diff < 0.0f ? -0.2f : 0.2f;
+                else if (step < 0.005f)
+                    _1a0 += diff < 0.0f ? -0.005f : 0.005f;
+                else
+                    _1a0 += diff * 0.8f;
+            }
+        } else {
+            if (distance <= 0.001f) {
+                _1a0 = target;
+            } else {
+                const f32 step = distance * 0.2f;
+                if (step > 0.02f)
+                    _1a0 += diff < 0.0f ? -0.02f : 0.02f;
+                else if (step < 0.001f)
+                    _1a0 += diff < 0.0f ? -0.001f : 0.001f;
+                else
+                    _1a0 += diff * 0.2f;
+            }
+        }
+        mActor->getASList()->x_6(10, 0, _1a0);
+    }
+    sub_71003CD268();
+}
 
 // NON_MATCHING: initialization of the vector/counter block is not aggregated into one clear.
 FishRoot::FishRoot(const InitArg& arg) : SimpleWildlifeRoot(arg) {}
