@@ -3,6 +3,7 @@
 // line (e.g. Camera::sub_7100794FD0 tail-calls Unk_710079b62c::sub_710079C0CC).
 #include <cmath>
 #include <math/seadMathCalcCommon.h>
+#include <mc/seadCoreInfo.h>
 #include "Game/Actor/actCamera.h"
 #include "KingSystem/Utils/MathUtil.h"
 
@@ -143,27 +144,30 @@ bool Unk_710079a8e8::sub_710079BDA4() const {
     return _190 >= 0.0f && _190 <= 1.0f;
 }
 
+void Unk_710079a8e8::sub_710079BDC4(const f32& value) {
+    const auto core = sead::CoreInfo::getPlatformCoreId(sead::CoreInfo::getCurrentCoreId());
+    _6f0[core] = value;
+}
+
 void Unk_710079a8e8::sub_710079BE34() {
-    _6f0 = 0;
-    _6f4 = 0;
-    _6f8 = 0;
+    _6f0.fill(0);
 }
 
 f32 Unk_710079a8e8::sub_710079BE40() const {
     f32 result = 0;
     f32 maximum = -1.0f;
-    const f32 a = sead::Mathf::abs(_6f0);
+    const f32 a = sead::Mathf::abs(_6f0[0]);
     if (a > maximum) {
         maximum = a;
-        result = _6f0;
+        result = _6f0[0];
     }
-    const f32 b = sead::Mathf::abs(_6f4);
+    const f32 b = sead::Mathf::abs(_6f0[1]);
     if (b > maximum) {
         maximum = b;
-        result = _6f4;
+        result = _6f0[1];
     }
-    if (sead::Mathf::abs(_6f8) > maximum)
-        result = _6f8;
+    if (sead::Mathf::abs(_6f0[2]) > maximum)
+        result = _6f0[2];
     return result;
 }
 

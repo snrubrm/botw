@@ -174,6 +174,7 @@ public:
     void sub_710079BD6C(f32 value);
     void sub_710079BD98();
     bool sub_710079BDA4() const;
+    void sub_710079BDC4(const f32& value);
     void sub_710079BE34();
     f32 sub_710079BE40() const;
     void sub_710079BEA8();
@@ -266,9 +267,7 @@ public:
     /* 0x530 */ Unk_7100791b1c _530;
     /* 0x5a0 */ Unk_7100791b1c _5a0[3]{};
     // Per-core scalar values: 79BDC4 writes one 4-byte slot; BE40 chooses its signed maximum magnitude.
-    /* 0x6f0 */ f32 _6f0 = 0;
-    /* 0x6f4 */ f32 _6f4 = 0;
-    /* 0x6f8 */ f32 _6f8 = 0;
+    /* 0x6f0 */ sead::SafeArray<f32, 3> _6f0{};
     /* 0x6fc */ sead::Matrix34f _6fc = sead::Matrix34f::ident;
     /* 0x72c */ Unk72c _72c{};
     /* 0x7b4 */ u32 _7b4 = 0;
