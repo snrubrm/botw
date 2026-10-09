@@ -23,6 +23,10 @@ public:
     Rail* sub_7100D48DE0(const sead::SafeString& name, const sead::Vector3f* pos);
     RailConnectablePoint* sub_7100D49000(const sead::Vector3f* pos,
                                        const sead::SafeString& route_id, s32 x, s32 z);
+    // Full rail-route scans at 0x7100d49324 and 0x7100d495b0 use SafeString filters.
+    // Independent 0x7100eed470 passes both results to the connectable-point rail initializer.
+    const RailConnectablePoint* sub_7100D49324(const sead::SafeString& route_ids);
+    const RailConnectablePoint* sub_7100D495B0(const sead::SafeString& point_name);
 
     // 0x7100d48254 (declared only)
     Rail* sub_7100D48254(const sead::SafeString& unique_name);

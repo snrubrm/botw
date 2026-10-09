@@ -491,4 +491,12 @@ Rail* PlacementMgr::sub_71011EA454(const sead::SafeString& name, const sead::Vec
     return mPlacement18->sub_7100D48DE0(name, pos);
 }
 
+const RailConnectablePoint* PlacementMgr::roadStuff(const sead::SafeString& route_ids) {
+    return mPlacement18->sub_7100D49324(route_ids);
+}
+
+const RailConnectablePoint* PlacementMgr::__auto10(const sead::SafeString& point_name) {
+    return mPlacement18->sub_7100D495B0(point_name);
+}
+
 }  // namespace ksys::map

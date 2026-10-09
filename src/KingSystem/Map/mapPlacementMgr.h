@@ -144,6 +144,8 @@ public:
     Rail* sub_71011EA454(const sead::SafeString& name, const sead::Vector3f* pos);
     RailConnectablePoint* sub_71011EA45C(const sead::Vector3f* pos,
                                       const sead::SafeString& route_id);
+    const RailConnectablePoint* roadStuff(const sead::SafeString& route_ids);
+    const RailConnectablePoint* __auto10(const sead::SafeString& point_name);
     // 0x71011e63fc (CSV x_0; placeholder name): the map cell of `pos` (1000 x 1000 cells, origin -5000 / -4000) and the
     // position inside the cell.
     struct CellPos {
