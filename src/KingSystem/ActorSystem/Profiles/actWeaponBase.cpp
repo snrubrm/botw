@@ -1,5 +1,6 @@
 #include "KingSystem/ActorSystem/Profiles/actWeaponBase.h"
 #include <random/seadGlobalRandom.h>
+#include <heap/seadHeapMgr.h>
 #include "KingSystem/ActorSystem/actInfoCommon.h"
 #include "KingSystem/ActorSystem/actInfoData.h"
 #include "KingSystem/Ecosystem/ecoLevelSensor.h"
@@ -21,6 +22,40 @@
 bool checkIsGetSameGroupActorName(const sead::SafeString& actor_name, bool a1);
 
 namespace ksys::act {
+
+bool WeaponBase::prepareInit_(sead::Heap* heap, PrepareArg& arg) {
+    if (!arg._0) {
+        mExtraActorHandle.deleteProc();
+        spawnExtraActor1();
+        spawnExtraActor2();
+    }
+    return true;
+}
+
+void WeaponBase::spawnExtraActor1() {
+    sead::SafeString name = m159();
+    if (name.isEmpty())
+        return;
+    auto* heap = sead::HeapMgr::instance()->findContainHeap(this);
+    InstParamPack params;
+    if (mActorFlags2.isOn(ActorFlag2::_200))
+        params->addPlayerControl();
+    params->addResourceLane(2);
+    ActorCreator::instance()->requestCreateActor(name.cstr(), heap, &mExtraActorHandle, &params,
+                                               nullptr, 2);
+}
+
+void WeaponBase::spawnExtraActor2() {
+    sead::SafeString name = m160();
+    if (name.isEmpty())
+        return;
+    auto* heap = sead::HeapMgr::instance()->findContainHeap(this);
+    InstParamPack params;
+    if (mActorFlags2.isOn(ActorFlag2::_200))
+        params->addPlayerControl();
+    ActorCreator::instance()->requestCreateActor(name.cstr(), heap, &mExtraActorHandle, &params,
+                                               nullptr, 1);
+}
 
 eco::WeaponModifier getRandomWeaponModifier(eco::WeaponModifier modifier,
                                           const sead::SafeString& actor_name) {

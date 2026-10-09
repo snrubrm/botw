@@ -47,6 +47,9 @@ public:
     bool m142() override { return false; }
 
     bool areExtraActorsReady() const;
+    // Native EF3084/EF31D8 consume only this and request the two optional actors.
+    void spawnExtraActor1();
+    void spawnExtraActor2();
     // 0x7100ef91b0 (lane4 s45, unnamed in the CSV): sets `_ab0` (and the OptionalWeapon's `_94c` when `propagate`).
     void sub_7100EF91B0(bool ready, bool propagate);
 
@@ -213,6 +216,8 @@ protected:
     void onWakeUpRequested_(SleepWakeReason reason) override;
     void onDeleteRequested_(DeleteReason reason) override;
     void onEnterDelete_() override;
+    // Primary vtable slot18 at24F2F70 points toEF3044.
+    bool prepareInit_(sead::Heap* heap, PrepareArg& arg) override;
 
     // TODO
     sead::CriticalSection _840;

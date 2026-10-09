@@ -81387,9 +81387,9 @@ Address,Quality,Size,Name
 0x0000007100ef2f78,m,000188,_ZN4ksys3act10WeaponBaseD0Ev
 0x0000007100ef3034,O,000008,_ZThn384_N4ksys3act10WeaponBaseD0Ev
 0x0000007100ef303c,O,000008,_ZThn392_N4ksys3act10WeaponBaseD0Ev
-0x0000007100ef3044,U,000064,WeaponBase::init1
-0x0000007100ef3084,U,000340,WeaponBase::spawnExtraActor1
-0x0000007100ef31d8,U,000288,WeaponBase::spawnExtraActor2
+0x0000007100ef3044,O,000064,_ZN4ksys3act10WeaponBase12prepareInit_EPN4sead4HeapERNS0_8BaseProc10PrepareArgE
+0x0000007100ef3084,O,000340,_ZN4ksys3act10WeaponBase16spawnExtraActor1Ev
+0x0000007100ef31d8,O,000288,_ZN4ksys3act10WeaponBase16spawnExtraActor2Ev
 0x0000007100ef32f8,U,000004,nullsub_4074
 0x0000007100ef32fc,U,000280,WeaponBase::m64
 0x0000007100ef3414,O,000072,_ZN4ksys3act10WeaponBase9calcMaybeEv
