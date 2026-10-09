@@ -13,6 +13,7 @@ target_sources(uking PRIVATE
     Cloth/physClothSet.h
 
     Constraint/physConstraint.cpp
+    Constraint/physConstraintCallbacks.h
     Constraint/physFixedCs.cpp
     Constraint/physHingeCs.cpp
     Constraint/physHingeCs.h
