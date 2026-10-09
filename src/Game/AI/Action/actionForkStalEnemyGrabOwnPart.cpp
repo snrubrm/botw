@@ -74,9 +74,6 @@ void ForkStalEnemyGrabOwnPart::loadParams_() {
     getDynamicParam(&mPartIndex_d, "PartIndex");
 }
 
-// NON_MATCHING: one vtable slot — the original calls ModelUnit slot 0x70, ours resolves
-// safeGetBoneWorldMatrix to slot 0x80 (our gsysModelUnit.h has two extra virtuals before it:
-// getBoneWorldMatrix + getBoneWorldMatrixPtr). Libwork request logged. Everything else matches.
 void ForkStalEnemyGrabOwnPart::calc_() {
     auto* actor = mActor;
     if (_49) {
@@ -102,7 +99,7 @@ void ForkStalEnemyGrabOwnPart::calc_() {
                     auto key = model->searchBone(bone_name);
                     if (key.isValid()) {
                         model->getUnits()(key.model_unit_index)
-                            ->mModelUnit->safeGetBoneWorldMatrix(&mtx, key.bone_index);
+                            ->mModelUnit->getBoneWorldMatrix(&mtx, key.bone_index);
                     } else {
                         mtx = actor->getMtx();
                     }
