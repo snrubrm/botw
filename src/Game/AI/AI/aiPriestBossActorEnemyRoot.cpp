@@ -43,6 +43,45 @@ bool PriestBossActorEnemyRoot::m51() {
     return false;
 }
 
+// NON_MATCHING: enum bit-index temporaries occupy separate stack slots
+// (frame 0x70 instead of 0x50), with different flag reload scheduling.
+// 0x710050719c
+bool PriestBossActorEnemyRoot::m53() {
+    if (!m52())
+        return false;
+    const bool phase_finished = m46();
+    if (!phase_finished &&
+        (!isCurrentChild("フェイズ終了") || _228.isOnBit(Flag(Flag::_2)))) {
+        changeChild("フェイズ終了", nullptr);
+        sub_7100507440(true);
+        _228.resetBit(Flag(Flag::_2));
+        return true;
+    }
+    if (!_228.isOnBit(Flag(Flag::_1))) {
+        auto* child = getCurrentChild();
+        if (phase_finished || child->isFinished() || child->isFailed() || child->isChangeable()) {
+            sub_7100507440(false);
+            _228.setBit(Flag(Flag::_1));
+        }
+    }
+    if (!_228.isOnBit(Flag(Flag::_1)))
+        return true;
+    const u32 old_phase = _1e8;
+    const u32 new_phase =
+        sead::DynamicCast<Unk_7102450fa8>(*static_cast<Unk_71025afb58**>(mPriestBossMetaAIUnit_a))->_3c;
+    const bool phase_finished_now = m46();
+    if (old_phase == new_phase && !phase_finished_now)
+        return true;
+    sub_7100506DB0();
+    _228.resetBit(Flag(Flag::_2));
+    _228.resetBit(Flag(Flag::_1));
+    if (old_phase != new_phase) {
+        _228.setBit(Flag(Flag::_2));
+        return true;
+    }
+    return false;
+}
+
 bool PriestBossActorEnemyRoot::m52() {
     if (!sead::DynamicCast<Unk_7102450fa8>(*static_cast<Unk_71025afb58**>(mPriestBossMetaAIUnit_a)))
         return false;
