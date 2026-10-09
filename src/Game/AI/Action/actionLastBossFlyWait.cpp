@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionLastBossFlyWait.h"
+#include "KingSystem/System/VFR.h"
 #include <random/seadGlobalRandom.h>
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
@@ -85,6 +86,32 @@ void LastBossFlyWait::calc_() {
 
 bool LastBossFlyWait::isChangeable() const {
     return true;
+}
+
+// NON_MATCHING: matrix/velocity registers differ and discarded Y scaling is removed.
+void LastBossFlyWait::m32(sead::Matrix34f* mtx) {
+    auto matrix = mActor->getMtx();
+    const auto initial_position = matrix.getTranslation();
+    auto position = initial_position;
+    position.y += (_90 + *mAmplitude_s * _94 - position.y) * *mMoveRate_s;
+    if (auto* controller = mActor->getCharacterController()) {
+        sead::Vector3f velocity;
+        controller->sub_7100F5F598(&velocity);
+        if (!velocity.isNan() && (velocity.x != 0.0f || velocity.z != 0.0f)) {
+            velocity *= 1.0f / 30.0f;
+            velocity.y = 0.0f;
+            auto* vfr = ksys::VFR::instance();
+            const f32 frame_rate = vfr->getFrameRate();
+            const f32 factor = frame_rate * vfr->getDeltaTime();
+            velocity.x = (factor * velocity.x) * 0.98f;
+            velocity.z = (factor * velocity.z) * 0.98f;
+            position += velocity;
+        }
+    }
+    if (position.isNan())
+        position = initial_position;
+    matrix.setTranslation(position);
+    *mtx = matrix;
 }
 
 }  // namespace uking::action

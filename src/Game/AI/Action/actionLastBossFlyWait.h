@@ -20,7 +20,7 @@ public:
 
 protected:
     void calc_() override;
-    // 0x71001d0d04 (declared only): the target matrix of the flight (called by calc_ and sub_7100F5F938).
+    // Target matrix of the flight, passed by calc_ to the character controller.
     virtual void m32(sead::Matrix34f* mtx);
     virtual float* m33() { return &_90; }
     virtual void m34() {}
