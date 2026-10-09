@@ -20,13 +20,7 @@ class FixedCs : public Constraint {
     SEAD_RTTI_OVERRIDE(FixedCs, Constraint)
 public:
     // Layout deduced from make() and its callers (all of which fill in exactly these defaults).
-    struct Param {
-        RigidBody* body_a = nullptr;
-        RigidBody* body_b = nullptr;
-        u64 _10 = 0;
-        bool _18 = true;
-        bool _19 = false;
-        f32 _1c = 10.0f;
+    struct Param : Constraint::Param {
         bool _20 = true;
         // Frames of the constraint in the space of body_a / body_b.
         sead::Matrix34f mtx_a = sead::Matrix34f::ident;

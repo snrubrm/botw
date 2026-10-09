@@ -54,6 +54,17 @@ class Constraint {
     SEAD_RTTI_BASE(Constraint)
 
 public:
+    // Shared prefix consumed by whole factory helpers 0x7100f69f88,
+    // 0x7100f69fac and 0x7100f6aca8. FixedCs adds its frame settings after it.
+    struct Param {
+        RigidBody* body_a = nullptr;
+        RigidBody* body_b = nullptr;
+        StaticCompoundRigidBodyGroup* mBodyGroup = nullptr;
+        bool _18 = true;
+        bool _19 = false;
+        f32 _1c = 10.0f;
+    };
+
     // lane4 s64: the index of the two bodies a constraint joins (`_30` / `_40` are two-element arrays; SEAD_ENUM
     // because 0x7100f6a69c spills its index parameter like SEAD_ENUM parameters do).
     SEAD_ENUM(BodyIndex, _0, _1)
@@ -135,6 +146,12 @@ public:
     /* 0xa0 */ ConstraintUnkA0* _a0;
     /* 0xa8 */ sead::SpinLock _a8;
 };
+
+// Common factory helpers; names remain address placeholders.
+RigidBody* getPhysicsMemSysField190Or(const Constraint::Param& param);
+RigidBody* sub_7100F69FAC(const Constraint::Param& param);
+ConstraintUnk18* sub_7100F6ACA8(hkpConstraintData* data, const Constraint::Param& param,
+                              sead::Heap* heap);
 
 // 0x7100f6ac60 (lane4 s64; placeholder name): out-of-line in the Constraint TU, returns `instance->m_userData` (the
 // ctor stores the Constraint there). RigidBodyRequestMgr::x_5 / x_6 tail-call it when adding / removing fails.

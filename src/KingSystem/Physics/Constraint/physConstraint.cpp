@@ -9,6 +9,31 @@
 
 namespace ksys::phys {
 
+// NON_MATCHING: the native selects the body-pointer address before loading it; this branches on the pointer.
+RigidBody* getPhysicsMemSysField190Or(const Constraint::Param& param) {
+    return param.body_a ? param.body_a : System::instance()->get190();
+}
+
+RigidBody* sub_7100F69FAC(const Constraint::Param& param) {
+    if (param.mBodyGroup) {
+        auto* mgr = System::instance()->getStaticCompoundMgr();
+        if (mgr)
+            return mgr->getRigidBody(param.mBodyGroup);
+        return nullptr;
+    }
+    return param.body_b;
+}
+
+ConstraintUnk18* sub_7100F6ACA8(hkpConstraintData* data, const Constraint::Param& param,
+                              sead::Heap* heap) {
+    if (!param._19)
+        return nullptr;
+    ConstraintUnk18::Param breakable_param;
+    breakable_param._0 = true;
+    breakable_param.mSolverResultLimit = param._1c;
+    return ConstraintUnk18::sub_7100F6C5B4(data, breakable_param, heap);
+}
+
 Constraint::Constraint(hkpConstraintInstance* instance, RigidBody* body_a, RigidBody* body_b,
                        const u32& value, ConstraintUnk18* breakable)
     : mConstraintInstance(instance), _10(value), _18(breakable), _20(nullptr), _28(nullptr),
