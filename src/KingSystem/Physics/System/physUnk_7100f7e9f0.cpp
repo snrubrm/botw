@@ -1,6 +1,8 @@
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
 #include <thread/seadAtomic.h>
 #include <thread/seadEvent.h>
+#include <Havok/Ai/Pathfinding/NavMesh/hkaiNavMeshInstance.h>
+#include <Havok/Ai/Pathfinding/Streaming/hkaiStreamingCollection.h>
 
 namespace ksys::phys {
 
@@ -64,6 +66,17 @@ Unk_7100f7e9f0::~Unk_7100f7e9f0() {
 
 bool Unk_7100f7e9f0::sub_7100F7EB40() const {
     return _0 && _8 != -1;
+}
+
+f32 Unk_7100f7e9f0::sub_7100F7ED6C(sead::Vector3f* normal_out) const {
+    auto* instance = _0->m_instances[u32(_8) >> 22].m_instancePtr;
+    if (!instance)
+        return 0.0f;
+    hkVector4 normal;
+    const f32 area = instance->sub_71015214B0(_8 & 0x3fffff, normal);
+    if (normal_out)
+        normal.store<3>(normal_out->e.data());
+    return area;
 }
 
 }  // namespace ksys::phys
