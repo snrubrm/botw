@@ -47,12 +47,12 @@ void GetUpMoveAnmDriven::enter_(ksys::act::ai::InlineParamPack* params) {
         setFailed();
 }
 
-// NON_MATCHING: the original loads the ASList before clearing _170 (scheduling)
 void GetUpMoveAnmDriven::leave_() {
     GetUp::leave_();
     if (_170) {
+        auto* as_list = mActor->getASList();
         _170 = false;
-        mActor->getASList()->sub_710115D0AC();
+        as_list->sub_710115D0AC();
     }
 }
 
