@@ -12,6 +12,9 @@ namespace ksys::phys {
 class RigidBody;
 }
 
+class Unk_71025afb58;
+namespace uking::act { class Enemy; }
+
 namespace uking::action {
 
 class GolemThrowPartsToTargetBase : public ActionWithAS {
@@ -29,6 +32,7 @@ protected:
     // 0x710018d8dc (declared only): out of line in the original.
     void sub_710018D8DC();
     void sub_710018D998();
+    void sub_710018DC70(act::Enemy* enemy, const Unk_71005e1be8& part, bool burning, bool ice);
     void calc_() override;
     // The body's transform and its velocities per frame (all four arguments are required).
     virtual void m32(sead::Vector3f* linear_velocity, sead::Vector3f* angular_velocity,
@@ -45,7 +49,7 @@ protected:
     bool _e0;
     bool _e1;
     // aitree_variable at offset 0xe8
-    void* mGolemChemicalController_a{};
+    Unk_71025afb58** mGolemChemicalController_a{};
     Unk_7102451ba0 _f0;
 };
 
