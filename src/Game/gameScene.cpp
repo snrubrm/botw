@@ -73,6 +73,14 @@ GameScene* GameScene::sInstance2;
 GameScene* GameScene::sInstance3;
 bool GameScene::sFlag;
 
+bool GameSceneStateBase::return0(void* owner, void* arg) const {
+    return static_cast<GameScene*>(owner)->ret0(arg);
+}
+
+void GameSceneStateBase::null(void* owner, void* arg) const {
+    static_cast<GameScene*>(owner)->m11_null(arg);
+}
+
 const ksys::StateBase& StateMachineOwnerBinding::getState() const {
     return *mState;
 }
@@ -399,11 +407,11 @@ bool GameScene::returnZero() {
     return false;
 }
 
-bool GameScene::ret0() {
+bool GameScene::ret0(void*) {
     return false;
 }
 
-void GameScene::m11_null() {}
+void GameScene::m11_null(void*) {}
 
 void GameScene::StageMgrEnter() {}
 

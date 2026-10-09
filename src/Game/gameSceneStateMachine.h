@@ -4,6 +4,18 @@
 
 namespace uking {
 
+class GameScene;
+
+// GameScene's state descriptors use the usual member callbacks, and forward the last two state
+// operations to GameScene's common virtual callbacks (vtable 0x710245a628).
+class GameSceneStateBase : public ksys::StateTemplate<GameScene> {
+public:
+    using StateTemplate::StateTemplate;
+    bool return0(void* owner, void* arg) const override;
+    void null(void* owner, void* arg) const override;
+};
+KSYS_CHECK_SIZE_NX150(GameSceneStateBase, 0x60);
+
 // Binds a ksys::StateBase to its owner and counts the frames it runs (the implementation of
 // StateMachine::Unk2 in the GameScene TU; CSV StateMachineWrapper__, 0x71007b705c-0x71007b7138; name is a guess).
 class StateMachineOwnerBinding : public ksys::StateMachine::Unk2 {

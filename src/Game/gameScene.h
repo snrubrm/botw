@@ -63,8 +63,9 @@ public:
     };
 
     virtual ~GameScene();
-    virtual bool ret0();
-    virtual void m11_null();
+    // The state descriptor forwards its extra argument to owner slots 10 / 11.
+    virtual bool ret0(void* arg);
+    virtual void m11_null(void* arg);
 
     virtual void StageMgrEnter();
     virtual void StageMgrRun();
