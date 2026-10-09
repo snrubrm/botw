@@ -2,7 +2,32 @@
 
 // Native 1607E14 sorts collidable pointers by unsigned broad-phase IDs; the
 // complete 1607DD0 caller supplies the array and signed first/last indices.
-void sub_7101607E14(hkpCollidable** collidables, int first, int last);
+// NON_MATCHING: loop induction widths and partition branches differ.
+void sub_7101607E14(hkpCollidable** collidables, int first, int last) {
+    do {
+        int left = first;
+        int right = last;
+        hkpCollidable* pivot = collidables[(first + last) >> 1];
+        do {
+            while (collidables[left]->m_broadPhaseHandle.m_id < pivot->m_broadPhaseHandle.m_id)
+                ++left;
+            while (pivot->m_broadPhaseHandle.m_id < collidables[right]->m_broadPhaseHandle.m_id)
+                --right;
+            if (left <= right) {
+                if (left != right) {
+                    hkpCollidable* temp = collidables[right];
+                    collidables[right] = collidables[left];
+                    collidables[left] = temp;
+                }
+                --right;
+                ++left;
+            }
+        } while (left <= right);
+        if (first < right)
+            sub_7101607E14(collidables, first, right);
+        first = left;
+    } while (first < last);
+}
 
 hkpAabbPhantom::hkpAabbPhantom(const hkAabb& aabb, hkUint32 collisionFilterInfo)
     : hkpPhantom(nullptr), m_orderDirty(false) {
