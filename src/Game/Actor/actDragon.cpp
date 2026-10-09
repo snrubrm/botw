@@ -1,4 +1,5 @@
 #include "Game/Actor/actDragon.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 #include "Game/gameDragonChallengeMgr.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
@@ -205,4 +206,59 @@ void Dragon::m113(f32* a1, s32* a2) {
     }
 }
 
+}  // namespace uking::act
+
+namespace uking::act {
+void Dragon::sub_710000F52C(s32 idx) {
+    if (_1f70.isOn(0x8000u << idx) || _1f70.isOn(0x800u << idx))
+        return;
+    _1f70.set(0x8000u << idx);
+    switch (idx) {
+    case 0:
+        mASList->startAnimationMaybe(-1.0f, -1.0f, "GrudgeEye_Close", 1, 0, true);
+        break;
+    case 1:
+        mASList->startAnimationMaybe(-1.0f, -1.0f, "GrudgeEye_Close", 2, 0, true);
+        break;
+    case 2:
+        mASList->startAnimationMaybe(-1.0f, -1.0f, "GrudgeEye_Close", 3, 0, true);
+        break;
+    case 3:
+        mASList->startAnimationMaybe(-1.0f, -1.0f, "GrudgeEye_Close", 4, 0, true);
+        break;
+    }
+}
+
+void Dragon::sub_710000F654(s32 idx) {
+    const u32 bit = 0x10u << idx;
+    if (_1e0c != 3 || _1f70.isOn(bit))
+        return;
+    if (!getGameDataFlag("GrudgeAlive", idx))
+        return;
+    _1e0c = 3;
+    _1f70.set(bit);
+    _1f70.reset(0x8800u << idx);
+    sub_710000F52C(idx);
+    _1f70.set(0x100000u);
+}
+
+// NON_MATCHING: compiler merges the common animation-call tail and flag update; scheduling differs.
+void Dragon::sub_710000FC70(s32 idx, bool start, bool secondary) {
+    if (!_1f70.isOn(0x10u << idx) || _1f70.isOn(0x800u << idx))
+        return;
+    if (start) {
+        _1f70.set(0x8000000u);
+        _1f4c = 60.0f;
+        _1f50 = 0.0f;
+        mASList->startAnimationMaybe(-1.0f, -1.0f, "Damage_Grudge_Body", 0, 0, true);
+        _1f70.set(0x400u);
+        mASList->startAnimationMaybe(-1.0f, -1.0f, "Damage_Grudge", idx + 1, 0, true);
+    } else {
+        _1f70.set(0x200u);
+        mASList->startAnimationMaybe(-1.0f, -1.0f, "Damage_Grudge_Skip", idx + 1, 0, true);
+        if (secondary)
+            mASList->startAnimationMaybe(-1.0f, -1.0f, "Damage_Grudge", idx + 1, 0, true);
+    }
+    _1f70.set(0x800u << idx);
+}
 }  // namespace uking::act

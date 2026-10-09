@@ -75,6 +75,7 @@ public:
     // 0x710000f70c (lane4 s46, unnamed in the CSV): `_1f70` has the bit `idx + 4`.
     bool sub_710000F70C(int idx);
     // Full F654 / FC70 bodies and independent DragonIceRoot / DragonRoot callers prove these arguments.
+    void sub_710000F52C(s32 idx);
     void sub_710000F654(s32 idx);
     void sub_710000FC70(s32 idx, bool start, bool secondary);
     bool getGameDataFlag(const sead::SafeString& name, int idx);  // CSV name
@@ -139,7 +140,10 @@ public:
     /* 0x1e88 */ u8 _1e88[0x1ec0 - 0x1e88];
     /* 0x1ec0 */ Unk_710250d530 _1ec0;
     /* 0x1ef0 */ u8 _1ef0[0x1f40 - 0x1ef0];
-    /* 0x1f40 */ u8 _1f40[0x1f54 - 0x1f40];
+    /* 0x1f40 */ u8 _1f40[0x1f4c - 0x1f40];
+    // FC70 writes these; calcMaybe D5E0 passes them in s0/s1 to6FD6BC.
+    /* 0x1f4c */ f32 _1f4c;
+    /* 0x1f50 */ f32 _1f50;
     // updatePositionMaybe compares the actor's horizontal distance to this point with 350.
     /* 0x1f54 */ sead::Vector3f _1f54;
     /* 0x1f60 */ sead::Vector3f _1f60;  // m34
