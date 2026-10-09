@@ -37,3 +37,11 @@ void hkpRigidBody::setTransform(const hkTransform& transform) {
     getRigidMotion()->setTransform(transform);
     updateBroadphaseAndResetCollisionInformationOfWarpedBody(this);
 }
+
+bool hkpRigidBody::isDeactivationEnabled() const {
+    return getRigidMotion()->isDeactivationEnabled();
+}
+
+hkMotionState* hkpRigidBody::getMotionState() {
+    return getRigidMotion()->getMotionState();
+}
