@@ -18,6 +18,7 @@
 class hkaiWorld;
 class hkaiSilhouetteGenerator;
 class hkaiObstacleGenerator;
+class hkpRigidBody;
 
 // Game/AI/aiUnk_NavMeshCallback.h
 class Unk_NavMeshCallback;
@@ -154,11 +155,13 @@ struct Unk_RequestQueue {
 };
 KSYS_CHECK_SIZE_NX150(Unk_RequestQueue<void>, 0x18);
 
-// Placeholder (the 0xb0-byte entries of InstanceSet::_100, the same layout as InstanceSet::Unk2): HavokAI queues
+// Placeholder (the 0xb0-byte entries of InstanceSet::_100): HavokAI queues
 // them for adding / removing (0x7100f8305c, 0x7100f83118, 0x7100f833a8). `_a0` is the HavokAI that should handle
 // the next request (exchanged with ldxr/stxr, compared against `this | 1`), `_a8` request flags (ldxr/stxr
 // and / orr in those functions: sead::Atomic).
 struct NavMeshObjMaybe {
+    // 0x7100f7f430 returns whether the body change queued a HavokAI update.
+    bool sub_7100F7F430(hkpRigidBody* body);
     enum class Flag : u32 {
         _1 = 1 << 0,
         _2 = 1 << 1,

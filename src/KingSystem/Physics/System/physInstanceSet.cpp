@@ -1077,13 +1077,13 @@ bool InstanceSet::sub_7100FBDF08(const void* key) const {
     return false;
 }
 
-InstanceSet::Unk2* InstanceSet::sub_7100FC00EC(s32 idx) {
+NavMeshObjMaybe* InstanceSet::sub_7100FC00EC(s32 idx) {
     if (idx < 0 || idx >= _100.size())
         return nullptr;
     return &_100[idx];
 }
 
-sead::Buffer<InstanceSet::Unk2>* InstanceSet::sub_7100FC0124() {
+sead::Buffer<NavMeshObjMaybe>* InstanceSet::sub_7100FC0124() {
     return &_100;
 }
 
@@ -1096,6 +1096,22 @@ void InstanceSet::sub_7100FBBEC0() {}
 void InstanceSet::sub_7100FBDA08(const sead::Vector3f& translation) {
     if (_f0)
         _f0->mTranslate = translation;
+}
+
+void InstanceSet::sub_7100FC012C(HavokAI* havok_ai) {
+    if (!havok_ai)
+        havok_ai = HavokAI::instance();
+    for (int i = 0; i < _100.size(); ++i) {
+        if (!_100[i]._98)
+            havok_ai->sub_7100F8305C(&_100[i]);
+    }
+}
+
+void InstanceSet::sub_7100FC0288(RigidBody* body) {
+    if (!body || body->isSensor())
+        return;
+    for (int i = 0; i < _100.size(); ++i)
+        _100[i].sub_7100F7F430(body->getHkBody());
 }
 
 }  // namespace ksys::phys

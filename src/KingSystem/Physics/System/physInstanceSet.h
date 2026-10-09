@@ -10,6 +10,7 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodyParam.h"
+#include "KingSystem/Physics/System/physHavokAI.h"
 
 namespace gsys {
 class Model;
@@ -179,6 +180,7 @@ public:
     bool sub_7100FBDC24(s32 idx, const sead::SafeString& bone_name, f32 weight);
     // 0x7100fc0234 (lane4 s46): any listed body (0xb0-byte entries at 0x108) has a 0x98 entry.
     bool sub_7100FC0234() const;
+    void sub_7100FC0288(RigidBody* body);
     // 0x7100fbd390 (lane4 s46): true without a cloth set or if any cloth has flag 4 (placeholder name).
     bool sub_7100FBD390() const;
     // 0x7100fbdc70 (declaration only): scales the friction of the bodies by the ragdoll config.
@@ -243,7 +245,7 @@ public:
     // 0x108) that has no 0x98 entry: calls 0xf8305c with `heap` (or the global heap pointer at GOT
     // 0x7102579290 if null) / unlinks the 0x98 and 0xa0 entries. Used by AddRigidBodyToWorld and
     // RemoveNavMeshObj (EnableNavMeshCut); names are placeholders.
-    void sub_7100FC012C(sead::Heap* heap);
+    void sub_7100FC012C(HavokAI* havok_ai);
     void sub_7100FC01B0();
     // 0x7100fc0300: makes a sphere rigid body (group handler from _188 unless the param has one)
     // and links it into the body list at 0x148. Used by ksys::act::AITerror.
@@ -346,19 +348,14 @@ private:
     ModelBoneAccessor* _f0{};  // owned while flag _40 is set
 
     NavMeshCharacter* mNavMeshCharacter;
-    // The listed bodies: 0xb0-byte entries (only the 0x98 entry is known).
-    struct Unk2 {
-        /* 0x00 */ u8 _0[0x98];
-        /* 0x98 */ void* _98;
-        /* 0xa0 */ u8 _a0[0xb0 - 0xa0];
-    };
-    sead::Buffer<Unk2> _100;
+    // Native 0x7100fc012c / 0x7100fc01b0 pass these same 0xb0-byte entries to HavokAI.
+    sead::Buffer<NavMeshObjMaybe> _100;
 
 public:
     // 0x7100fc00ec (lane4 s47; placeholder name): the listed body entry `idx` (null if out of range).
-    Unk2* sub_7100FC00EC(s32 idx);
+    NavMeshObjMaybe* sub_7100FC00EC(s32 idx);
     // 0x7100fc0124: the buffer of listed body entries.
-    sead::Buffer<Unk2>* sub_7100FC0124();
+    sead::Buffer<NavMeshObjMaybe>* sub_7100FC0124();
 
 private:
     u16 _110{};
