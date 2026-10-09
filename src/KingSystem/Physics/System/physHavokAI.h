@@ -30,6 +30,8 @@ class Handle;
 
 namespace ksys::phys {
 
+enum class NavMeshSubMaterial;
+
 class HavokAI;
 class RigidBody;
 class NavMeshCharacter;
@@ -167,6 +169,15 @@ struct NavMeshObjMaybe {
     virtual ~NavMeshObjMaybe();
     // 0x7100f7f6a0 unregisters the object and releases both generators.
     void sub_7100F7F6A0();
+    // Whole 0x7100e8e92c supplies a BoxRigidBody, mode 2, bool, Fire submaterial,
+    // zero group and SafeString name. This forwards to 0x7100f7ef9c, whose other
+    // whole producer 0x7100fbfd54 supplies modes 0..3, bool, the parsed
+    // NavMeshSubMaterial, a u16 group and InstanceSet's SafeString name.
+    void sub_7100F7EF8C(RigidBody* body, u32 mode, bool forceTolerance,
+                       NavMeshSubMaterial material, u16 group, const sead::SafeString& name);
+    // Library generator construction remains undecompiled; no packet/layout substitution.
+    void sub_7100F7EF9C(hkpRigidBody* body, u32 mode, bool forceTolerance,
+                       NavMeshSubMaterial material, u16 group, const sead::SafeString& name);
     // 0x7100f7f428 forwards the rigid body's Havok body to the next native method.
     bool sub_7100F7F428(RigidBody* body);
     // 0x7100f7f430 returns whether the body change queued a HavokAI update.
