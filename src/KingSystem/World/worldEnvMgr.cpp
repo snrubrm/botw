@@ -35,6 +35,95 @@ EnvMgr::EnvMgr() {
 
 EnvMgr::EnvPaletteStatic::EnvPaletteStatic() = default;
 
+void EnvMgr::reset() {
+    mBloodMoonStartState = 0;
+    mEnvTimeTransition = 0.0f;
+    mBloodMoonEndState = 0;
+    mPrevSkyEnvTimeDivision = 0;
+    mSkyEnvTimeDivision = 0;
+    mPaletteSetOverride = -1;
+    mPaletteSetOverrideTimer = 0;
+    mPaletteSetForClimate = -1;
+    mPaletteSetForClimateTimer = 0;
+    mPaletteSelSpeed = 0;
+    mPaletteSelSpeedTimer = 0;
+    _6b5c8 = 1;
+    _6b5cc = 1;
+    _6b550 = 1.0f;
+    mBlockPaletteSetOverride = false;
+    _6b5d0 = 0;
+    mEventYfogRatio = 0.0f;
+    _6b558 = 1.0f;
+    mEventDiffuseAttenuateDiameter = 1.0f;
+    _6b5d4 = 0;
+    mCharAmbientScale = {1.0f, 1.0f, 1.0f, 1.0f};
+    mCharAmbientScaleTimer = 0;
+    mCharMainLightScale = {1.0f, 1.0f, 1.0f, 1.0f};
+    mCharMainLightScaleTimer = 0;
+    _6b4e8 = {0.452f, 0.652f, 0.989f, 1.0f};
+    _6b564 = 12.0f;
+    _6b568 = 6.0f;
+    _6b4f8 = {0.499f, 0.935f, 0.792f, 0.3f};
+    _6b60a = true;
+    _6b56c = -25.0f;
+    _6b60b = true;
+    _6b570 = 600.0f;
+    _6b508 = {1.0f, 1.0f, 1.0f, 1.0f};
+    _6b574 = -10.0f;
+    _6b578 = 10.0f;
+    mWarpMistIntensity = 0.0f;
+    mWarpMistTimer = 0;
+    _6b560 = 0.0f;
+    mPreviousPaletteSet = 0;
+    mActivePaletteSet = 0;
+    if (Manager::instance()->getStageType() == StageType::Indoor) {
+        mPreviousPaletteSet = 5;
+        mActivePaletteSet = 5;
+    }
+    mPaletteSetTransition = 1.0f;
+    mBloodMoonProgress = 1.0f;
+    mDungeonSizeType = Manager::instance()->getDungeonSize();
+    _6b548 = 300.0f;
+    _6b5c8 = 1;
+    _6b5cc = 1;
+    _6b550 = 1.0f;
+    mBlockPaletteSetOverride = false;
+    mExposure = -1.0f;
+    _6b518 = {-1.0f, -1.0f, -1.0f, -1.0f};
+    _6b5e4 = 0;
+    _6b5e8 = 0;
+    _6b5dc = 0;
+    _6b5e0 = 0;
+    if (auto* graphics = Graphics::instance()) {
+        if (graphics->_ab8)
+            graphics->_ab8->sub_71012A2268(0);
+    }
+    mForcedBloodMoonReady = false;
+    if (!Manager::instance()->isMainField()) {
+        mForcedBloodMoonRequested = false;
+        mForcedBloodMoonStatus = 0;
+        mForcedBloodMoonTimer = 0.0f;
+        mDeactivateForcedBloodMoon = false;
+    }
+    _6b58c = 1.0f;
+    _6b590 = 1.0f;
+    mFogSetDirectTimer = 0;
+    mFogRatio = 1.0f;
+    mFogNear = -1.0f;
+    mFogFar = 1000.0f;
+    mFogInstantSW = false;
+    mFogNearUse = false;
+    mFogFagUse = false;
+    _6b594 = 1.0f;
+    _6b598 = 0.0f;
+    mConcentrationBM = 0.0f;
+    mBloodMoonTimeRangeProgress = 0.0f;
+    _6b60e = false;
+    _6b60f = false;
+    _6b610 = false;
+    _6b5b4 = _6b5b0;
+}
+
 void EnvMgr::resetForStageUnload() {
     mForcedBloodMoonRequested = false;
     mDeactivateForcedBloodMoon = false;
