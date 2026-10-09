@@ -22,8 +22,6 @@ bool GuardianMiniGuardSelect::isChangeable() const {
     return getCurrentChild()->isChangeable();
 }
 
-// NON_MATCHING: the final `return 1` is a `cset eq` in ours (select) but separate return blocks in the
-// original; everything else matches.
 // 0x710041cce0 (placeholder name): 2 if the weapon in the first slot selected by sub_71007091AC is a type 4
 // weapon, 1 if the second one is, otherwise 0 (also without a model / enemy).
 s32 GuardianMiniGuardSelect::sub_710041CCE0() {
@@ -39,9 +37,7 @@ s32 GuardianMiniGuardSelect::sub_710041CCE0() {
     auto* enemy = static_cast<uking::act::Enemy*>(actor);
     if (hasType4Weapon(enemy, a))
         return 2;
-    if (hasType4Weapon(enemy, b))
-        return 1;
-    return 0;
+    return hasType4Weapon(enemy, b) ? 1 : 0;
 }
 
 // 0x710041ced0 (placeholder name): resets the three guard AS slots.
