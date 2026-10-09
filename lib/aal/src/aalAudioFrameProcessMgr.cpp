@@ -56,7 +56,7 @@ void AudioFrameProcessMgr::audioFrameCallback_(unsigned long arg) {
 
     sead::ScopedLock<sead::CriticalSection> lock(&mgr->mCS);
     for (IAudioFrameProcess& process : mgr->mProcesses)
-        process.process();
+        process.audioFrameProcess_();
 }
 
 }  // namespace aal

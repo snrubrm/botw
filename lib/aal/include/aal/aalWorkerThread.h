@@ -12,7 +12,8 @@ class WorkerTask {
 public:
     virtual ~WorkerTask() = default;
     /// `is_quitting`: the thread is quitting (the task has to finish quickly).
-    virtual void run(bool is_quitting) = 0;
+    // Native FinalOutputMeasure and AuxBusRootFx tables name this slot.
+    virtual void workerThreadProc_(bool is_quitting) = 0;
 
     /// The number of times the task was added to a thread and has not been run yet.
     sead::Atomic<s32> mNumPending;

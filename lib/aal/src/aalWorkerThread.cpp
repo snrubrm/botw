@@ -34,7 +34,7 @@ void WorkerThread::calc_(sead::MessageQueue::Element msg) {
 
     if (msg) {
         auto* task = reinterpret_cast<WorkerTask*>(msg);
-        task->run(mState == State::cQuitting);
+        task->workerThreadProc_(mState == State::cQuitting);
         task->mNumPending.decrement();
     }
 

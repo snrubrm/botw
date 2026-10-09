@@ -3,6 +3,21 @@
 
 namespace aal {
 
+// 0x7100BA9D00
+FinalOutputMeasure::~FinalOutputMeasure() {
+    finalize();
+}
+
+// 0x7100BA9ECC
+void FinalOutputMeasure::initialize(const InitializeArg& arg, sead::Heap* heap) {
+    initialize(arg, heap, nullptr, nullptr);
+}
+
+// 0x7100BAA5C0
+void FinalOutputMeasure::workerThreadProc_(bool is_quitting) {
+    analyze_();
+}
+
 namespace {
 // The position of the channel in the arrays of the measure.
 s32 getChannelIndex(SpeakerChannel channel) {

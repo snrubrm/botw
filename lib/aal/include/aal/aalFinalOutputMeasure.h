@@ -1,8 +1,11 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <hostio/seadHostIONode.h>
+#include "aal/aalAudioFrameProcessMgr.h"
 #include "aal/aalDeviceType.h"
 #include "aal/aalSpeakerChannel.h"
+#include "aal/aalWorkerThread.h"
 
 namespace sead {
 class DrawContext;
@@ -13,16 +16,20 @@ class TextWriter;
 namespace aal {
 
 /// Measures the final output of a device. TODO: incomplete.
-class FinalOutputMeasure {
+// Constructor 0x7100BA9B38 and table 0x71024C5A70 establish the three bases.
+// Finalization independently unregisters the frame-process subobject at +0x10.
+class FinalOutputMeasure : public WorkerTask, public IAudioFrameProcess, public sead::hostio::Node {
 public:
     struct InitializeArg {
         f32 _0;
     };
 
     explicit FinalOutputMeasure(DeviceType device);
-    virtual ~FinalOutputMeasure();
+    ~FinalOutputMeasure() override;
 
     void initialize(const InitializeArg& arg, sead::Heap* heap);
+    void initialize(const InitializeArg& arg, sead::Heap* heap, WorkerThread* worker,
+                    AudioFrameProcessMgr* frameProcessMgr);
     void finalize();
     void calc();
     void drawInformation(sead::DrawContext* context, sead::TextWriter* writer) const;
@@ -34,6 +41,9 @@ public:
     f32 getSamplePeak(SpeakerChannel channel) const;
 
 private:
+    void workerThreadProc_(bool is_quitting) override;
+    void audioFrameProcess_() override;
+    void analyze_();
     /// 0x7100baa27c (declared only)
     void updateActivation();
     /// The different layouts of the information that drawInformation draws (declared only).
@@ -46,7 +56,7 @@ private:
     void drawInformationVerticalSurround_(sead::DrawContext* context, sead::TextWriter* writer) const;
     void drawInformationVerticalSimpleLFE_(sead::DrawContext* context, sead::TextWriter* writer) const;
 
-    u8 _8[0x37 - 8];
+    u8 _30[0x37 - 0x30];
     bool mIsActive;
     u8 _38[0xf4 - 0x38];
     f32 mVU[6];

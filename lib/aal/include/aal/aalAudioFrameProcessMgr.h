@@ -10,7 +10,8 @@ namespace aal {
 class IAudioFrameProcess {
 public:
     virtual ~IAudioFrameProcess() = default;
-    virtual void process() = 0;
+    // The native FinalOutputMeasure callback names this slot.
+    virtual void audioFrameProcess_() = 0;
 
     static constexpr s32 getListNodeOffset() { return 8; }
 
