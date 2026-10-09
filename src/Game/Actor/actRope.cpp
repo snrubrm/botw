@@ -1,7 +1,19 @@
 #include "Game/Actor/actRope.h"
 #include "Game/gameSceneSubsysMisc.h"
 
+// Existing global damage callback cleanup, also called by DynamicActor.
+void sub_7100D2D424(uking::dmg::DamageManagerBase* manager);
+
 namespace uking::act {
+
+void Rope::preDelete1_() {
+    sub_7100D2D424(&_a00);
+    // called through a pointer in the original (not devirtualised)
+    (&_a00)->preDelete1();
+    // called through a pointer in the original (not devirtualised)
+    (&_a00)->preDelete2();
+    _c30.free();
+}
 
 void Rope::initMaybe() {
     RopeBase::initMaybe();
