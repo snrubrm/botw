@@ -33,8 +33,6 @@ GuardianMiniNoWeaponSelect::GuardianMiniNoWeaponSelect(const InitArg& arg)
 
 GuardianMiniNoWeaponSelect::~GuardianMiniNoWeaponSelect() = default;
 
-// NON_MATCHING: the final `return true` is a `cset eq` in ours (select) but separate return blocks in the
-// original; everything else matches.
 // 0x710041d4ec (placeholder name): whether one of the two weapon slots selected by sub_71007091AC holds a
 // type 4 weapon (the "盾はある" state).
 bool GuardianMiniNoWeaponSelect::sub_710041D4EC() {
@@ -48,11 +46,7 @@ bool GuardianMiniNoWeaponSelect::sub_710041D4EC() {
     if (a == -1 || b == -1)
         return false;
     auto* enemy = static_cast<uking::act::Enemy*>(actor);
-    if (hasType4Weapon(enemy, a))
-        return true;
-    if (hasType4Weapon(enemy, b))
-        return true;
-    return false;
+    return hasType4Weapon(enemy, a) || hasType4Weapon(enemy, b);
 }
 
 void GuardianMiniNoWeaponSelect::enter_(ksys::act::ai::InlineParamPack* params) {
