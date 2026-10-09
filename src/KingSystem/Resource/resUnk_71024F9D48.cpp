@@ -1,6 +1,7 @@
 #include "KingSystem/Resource/resUnk_71024F9D48.h"
 #include "KingSystem/Resource/resBfRes.h"
 #include "KingSystem/Resource/resTextureHandleMgr.h"
+#include "KingSystem/Resource/resResourceFileUtil.h"
 #include "KingSystem/Resource/resSystem.h"
 #include <thread/seadAtomic.h>
 
@@ -37,6 +38,35 @@ bool Unk_71024f9a08::sub_7100FE0C38(const LoadArg& arg) {
     return true;
 }
 
+
+// NON_MATCHING: the existing SDK StringBuilder reverse-search inline differs,
+// and the transfer record uses separate field stores instead of a native halfword clear.
+bool Unk_71024f9a08::sub_7100FE0860(const LoadArg& arg) {
+    auto* texture = arg.texture;
+    if (sub_7100FDDBFC(texture) == 0)
+        mFlags.set(2);
+    const TransferArg transfer{false, true, texture, arg.heap};
+    bool success = false;
+    sub_7100FE09EC(&success, transfer);
+    if (!success) {
+        mStatus = 5;
+        _159 = 1;
+        return true;
+    }
+    if (mStatus == 1) {
+        mStatus = 6;
+        _159 = 2;
+        const s32 index = mPath.rfindIndex(".Tex2.");
+        if (_158) {
+            sead::FormatFixedSafeString<32> suffix(".Tex1.%u.bfres", _158);
+            mPath.copyAt(index, suffix.cstr());
+        } else {
+            mPath.copyAt(index, ".Tex1");
+        }
+    }
+    return true;
+}
+
 bool Unk_71024f9a08::sub_7100FE0CF8() const {
     return mStatus >= 6 && mStatus <= 8;
 }
@@ -65,7 +95,7 @@ void Unk_71024f9a08::sub_7100FE0EC8() {
 }
 
 sead::SafeString Unk_71024f9a08::sub_7100FE0DF0() const {
-    return sead::SafeString(_168);
+    return sead::SafeString(mPath.cstr());
 }
 
 sead::SafeString Unk_71024f9a08::sub_7100FE10A8() const {

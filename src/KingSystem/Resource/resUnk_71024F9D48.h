@@ -3,6 +3,7 @@
 #include "KingSystem/Utils/Thread/ManagedTaskHandle.h"
 #include <prim/seadBitFlag.h>
 #include <prim/seadSafeString.h>
+#include <prim/seadStringBuilder.h>
 #include <container/seadTreeMap.h>
 #include <container/seadOffsetList.h>
 #include <thread/seadCriticalSection.h>
@@ -66,6 +67,15 @@ public:
         nn::gfx::ResTexture* texture = nullptr;
     };
     KSYS_CHECK_SIZE_NX150(LoadArg, 0x38);
+    // Complete FE0584 and FE0860 independently produce the record consumed by FE09EC.
+    struct TransferArg {
+        bool _0 = false;
+        bool _1 = false;
+        nn::gfx::ResTexture* texture = nullptr;
+        CompactedHeap* heap = nullptr;
+    };
+    KSYS_CHECK_SIZE_NX150(TransferArg, 0x18);
+    void sub_7100FE09EC(bool* success, const TransferArg& arg);
     bool sub_7100FE0C38(const LoadArg& arg);
     bool sub_7100FE0584(const LoadArg& arg);
     bool sub_7100FE0860(const LoadArg& arg);
@@ -102,12 +112,17 @@ public:
     Unk_71024f9a28 mNode{this};
     // FE0144 constructs this, and FE028C/FE02F0 destroy it.
     util::ManagedTaskHandle mTaskHandle;
-    u8 _158[0x160 - 0x158];
+    // FE0584 copies the request byte; FE0860 uses it in the texture path suffix.
+    u8 _158;
+    // FE0584 and FE0860 independently set the load-result byte.
+    u8 _159;
+    u8 _15a[6];
     // FE0584 copies the load device here; FE3760 forwards it to getUncompressedSize.
     sead::FileDevice* mFileDevice;
-    // FE0144 points this at its initialized character buffer at 178.
-    char* _168;
-    u8 _170[0x29a - 0x170];
+    // Whole FE0144 sets buffer 178, length 0 and capacity 80; FE0584/FE0860 use
+    // StringBuilder::copy/copyAt and its reverse search on the same object.
+    sead::FixedStringBuilder<128> mPath;
+    u8 _1f8[0x29a - 0x1f8];
     // FE0348 assigns the path using a BufferedSafeString with capacity 126.
     char _29a[0x7e];
     u8 _318[0x618 - 0x318];
