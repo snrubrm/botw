@@ -59,6 +59,53 @@ Unk_7100f7e64c::~Unk_7100f7e64c() {
         event->mEvent.setSignal();
 }
 
+// NON_MATCHING: vertex-selection comparisons, midpoint/direction load order and vector registers differ.
+void Unk_7100f7e64c::sub_7100F7E754(sead::Vector3f* start_out, sead::Vector3f* end_out,
+                                     sead::Vector3f* midpoint_out, sead::Vector3f* direction_out,
+                                     f32* length_out, sead::Vector3f* side_out,
+                                     sead::Vector3f* up_out) const {
+    if (!start_out || !end_out || !mInstance)
+        return;
+    const s32 original_count = mInstance->m_originalVertices.m_size;
+    const hkVector4& vertex_a = mEdge->m_a < original_count ?
+                                   mInstance->m_originalVertices.m_data[mEdge->m_a] :
+                                   mInstance->m_ownedVertices[mEdge->m_a - original_count];
+    const hkVector4& vertex_b = mEdge->m_b < original_count ?
+                                   mInstance->m_originalVertices.m_data[mEdge->m_b] :
+                                   mInstance->m_ownedVertices[mEdge->m_b - original_count];
+    hkVector4 world_a;
+    hkVector4 world_b;
+    world_a._setTransformedPos(mInstance->m_referenceFrame.m_transform, vertex_a);
+    world_b._setTransformedPos(mInstance->m_referenceFrame.m_transform, vertex_b);
+    world_a.store<3>(start_out->e.data());
+    world_b.store<3>(end_out->e.data());
+    if (midpoint_out)
+        *midpoint_out = *start_out + (*end_out - *start_out) * 0.5f;
+
+    sead::Vector3f direction;
+    sead::Vector3f up;
+    if (side_out) {
+        if (!direction_out)
+            direction_out = &direction;
+        if (!up_out)
+            up_out = &up;
+    }
+    if (!direction_out && length_out)
+        direction_out = &direction;
+    if (direction_out) {
+        *direction_out = *end_out - *start_out;
+        const f32 length = direction_out->normalize();
+        if (length_out)
+            *length_out = length;
+    }
+    if (up_out)
+        *up_out = sead::Vector3f::ey;
+    if (side_out) {
+        side_out->setCross(*up_out, *direction_out);
+        side_out->normalize();
+    }
+}
+
 // Separate translation unit: the original calls the constructor out of line from
 // NavMeshCharacter::sub_7100F76078.
 Unk_7100f7e9f0::Unk_7100f7e9f0() : _0(nullptr), _8(-1), _10(nullptr) {}

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Havok/Ai/Pathfinding/NavMesh/hkaiNavMesh.h>
+#include <math/seadVector.h>
 #include "KingSystem/Utils/Types.h"
 
 class hkaiNavMeshInstance;
@@ -19,6 +20,12 @@ public:
     // Visitor 0x7100f854c4 passes this same edge result to shared cleanup
     // 0x7100f7e728, also used by the face result; both own the event at +0x10.
     ~Unk_7100f7e64c();
+
+    // 0x7100f7e754 writes endpoints and optional midpoint, direction, length,
+    // sideways normal and up vector. The independent callback 0x710066a30c consumes them.
+    void sub_7100F7E754(sead::Vector3f* start_out, sead::Vector3f* end_out,
+                        sead::Vector3f* midpoint_out, sead::Vector3f* direction_out,
+                        f32* length_out, sead::Vector3f* side_out, sead::Vector3f* up_out) const;
 
     hkaiNavMeshInstance* mInstance;
     const hkaiNavMesh::Edge* mEdge;
