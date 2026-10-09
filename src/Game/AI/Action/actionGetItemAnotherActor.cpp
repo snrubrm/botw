@@ -33,9 +33,9 @@ void GetItemAnotherActor::loadParams_() {
     getAITreeVariable(&mGetNumLeft_a, "GetNumLeft");
 }
 
-// NON_MATCHING: the actor load and boolean argument evaluation are scheduled differently.
 void GetItemAnotherActor::m32(const sead::SafeString& actor_name) {
-    getDemoGetAnotherActor(mActor, actor_name, actorHasTagCanGetPouch(actor_name), false, nullptr);
+    const bool can_get_pouch = actorHasTagCanGetPouch(actor_name);
+    getDemoGetAnotherActor(mActor, actor_name, can_get_pouch, false, nullptr);
 }
 
 void GetItemAnotherActor::calc_() {
