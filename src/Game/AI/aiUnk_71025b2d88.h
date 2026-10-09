@@ -21,3 +21,7 @@ public:
 
     /* 0x08 */ u32 mFlags;
 };
+
+// 0x7100704128: selects a string by the active weak point groups (bits 0-17). Declaration only.
+// The native GanonBeastASPlayFromActiveWp caller passes &Unk_71025b2d88::mFlags.
+const char* sub_7100704128(const u32* active_flags);

@@ -221,6 +221,10 @@ public:
     // 0x7100e63424 (lane2 s20; declared only; PreyRoot::m43): sets or clears bit 1 of _18._52 depending on
     // a flag byte (+0xb8) of the first body of the actor's ragdoll / rider data (mActor+0x570 ...).
     void sub_7100E63424();
+    // 0x7100e636d4: updates the rider position, with an optional local offset and height adjustment.
+    // Declared only; full callee and HorseWaitAndLookAtNPC caller establish the pointer/bool inputs.
+    void sub_7100E636D4(const sead::Vector3f* position, const sead::Vector3f* offset, bool adjust_height);
+
     // Placeholder names (declared only: no callers identified yet; lane4 s28).
     // 0x7100e63900: sets bit 0x80 of _8 if bit 0x20 is set.
     void sub_7100E63900();
