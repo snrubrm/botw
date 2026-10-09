@@ -264,4 +264,21 @@ void NavMeshCharacter::sub_7100F75F3C(u8 value) {
     _220 |= 8;
 }
 
+void NavMeshObjMaybe::sub_7100F7FAC8(bool on) {
+    if (!_8)
+        return;
+    const u32 value = _ac & 0xffff;
+    if (value < 15 || value > 21)
+        return;
+    auto* havok_ai = _98 ? _98 : HavokAI::instance();
+    havok_ai->sub_7100F831C0(this, on);
+}
+
+void NavMeshObjMaybe::sub_7100F7FB0C(bool on) {
+    if (_8) {
+        auto* havok_ai = _98 ? _98 : HavokAI::instance();
+        havok_ai->sub_7100F832B4(this, on);
+    }
+}
+
 }  // namespace ksys::phys

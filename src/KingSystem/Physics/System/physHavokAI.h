@@ -162,6 +162,8 @@ KSYS_CHECK_SIZE_NX150(Unk_RequestQueue<void>, 0x18);
 struct NavMeshObjMaybe {
     // 0x7100f7f430 returns whether the body change queued a HavokAI update.
     bool sub_7100F7F430(hkpRigidBody* body);
+    void sub_7100F7FAC8(bool on);
+    void sub_7100F7FB0C(bool on);
     enum class Flag : u32 {
         _1 = 1 << 0,
         _2 = 1 << 1,
@@ -180,6 +182,8 @@ struct NavMeshObjMaybe {
     /* 0x98 */ HavokAI* _98;  // the HavokAI it was added to
     /* 0xa0 */ sead::Atomic<HavokAI*> _a0;
     /* 0xa8 */ sead::TypedBitFlag<Flag, sead::Atomic<u32>> _a8;
+    // 0x7100f7ef9c packs two u16 values here; 0x7100f7fac8 tests the low half.
+    /* 0xac */ u32 _ac;
 };
 KSYS_CHECK_SIZE_NX150(NavMeshObjMaybe, 0xb0);
 
