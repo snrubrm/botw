@@ -49,6 +49,7 @@ public:
     Unk_7101059888();
     virtual ~Unk_7101059888();
     void sub_710105999C(sead::Heap* heap);
+    void sub_7101059B08();
     void sub_7101059B14(Unk_7101059828* controller);
     void sub_7101059B8C(Unk_7101059828* controller);
 

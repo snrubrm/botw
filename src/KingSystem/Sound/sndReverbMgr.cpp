@@ -1,5 +1,6 @@
 #include "KingSystem/Sound/sndReverbMgr.h"
 #include <prim/seadScopedLock.h>
+#include <cstring>
 
 namespace ksys::snd {
 
@@ -27,6 +28,10 @@ Unk_7101059888::~Unk_7101059888() {
 
 void Unk_7101059888::sub_710105999C(sead::Heap* heap) {
     _74 |= 0xc;
+}
+
+void Unk_7101059888::sub_7101059B08() {
+    std::memset(_60, 0, sizeof(_60));
 }
 
 void Unk_7101059888::sub_7101059B14(Unk_7101059828* controller) {
