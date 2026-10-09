@@ -17,6 +17,8 @@ public:
 protected:
     void calc_() override;
     void m33() override;
+    const sead::SafeString& m34() override;
+    const sead::SafeString& m35() override;
     bool sub_7100197BE4(sead::Vector3f* direction);
     int m36() override { return *mMaxLengthTime_s; }
 

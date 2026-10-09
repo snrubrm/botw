@@ -1,5 +1,9 @@
 #include "Game/AI/Action/actionGuardianMiniNeckSpinBeam.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/Resource/Actor/resResourceGParamList.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectGuardianMini.h"
 
 namespace uking::action {
 
@@ -46,6 +50,30 @@ void GuardianMiniNeckSpinBeam::m33() {
     if (speed <= sead::Mathf::epsilon() && speed >= -sead::Mathf::epsilon())
         return;
     NeckSpin::m33();
+}
+
+const sead::SafeString& GuardianMiniNeckSpinBeam::m34() {
+    if (!mBeamActorName_s.isEmpty())
+        return mBeamActorName_s;
+    auto* params = mActor->getParam()->getRes().mGParamList;
+    if (params) {
+        auto* guardian = params->getGuardianMini();
+        if (guardian)
+            return guardian->mLineBeamName.ref();
+    }
+    return sead::SafeString::cEmptyString;
+}
+
+const sead::SafeString& GuardianMiniNeckSpinBeam::m35() {
+    if (!mBeamActorKey_s.isEmpty())
+        return mBeamActorKey_s;
+    auto* params = mActor->getParam()->getRes().mGParamList;
+    if (params) {
+        auto* guardian = params->getGuardianMini();
+        if (guardian)
+            return guardian->mBeamName.ref();
+    }
+    return sead::SafeString::cEmptyString;
 }
 
 }  // namespace uking::action
