@@ -404,8 +404,6 @@ void SoundSource::updateMixBalanceUnpositional_(sead::SafeArray<SpeakerChannelVo
     }
 }
 
-// NON_MATCHING: the original selects the smaller listener value with an unordered "not less" compare (`fcsel pl`), here
-// the ordered less compare is used.
 // 0x7100b78760
 void SoundSource::updateBiquadFilter_() {
     f32 value = mAggregatedParam->getBiquadValue();
@@ -415,8 +413,8 @@ void SoundSource::updateBiquadFilter_() {
         f32 smallest = FLT_MAX;
         s32 index = 0;
         for (const Listener& listener : SystemAccessor::getListenerMgr()->mListeners) {
-            if (listener_mask & (1 << index))
-                smallest = listener.mBiquadValue < smallest ? listener.mBiquadValue : smallest;
+            if ((listener_mask & (1 << index)) && listener.mBiquadValue < smallest)
+                smallest = listener.mBiquadValue;
             ++index;
         }
         value += smallest;
