@@ -4,6 +4,8 @@
 
 #include "KingSystem/ActorSystem/actAiAction.h"
 
+class GameSceneSubsys12;
+
 namespace uking::action {
 
 class DemoMotorcyclePutMaterials : public ksys::act::ai::Action {
@@ -19,6 +21,8 @@ public:
 
 protected:
     void calc_() override;
+    // Full 55160 consumes the scene through its typed transform setters and tests the bool bit.
+    void sub_7100055160(GameSceneSubsys12* scene, bool pre_animation);
 
     // static_param at offset 0x20
     const float* mCloseSaddleFramesSincePut_s{};
