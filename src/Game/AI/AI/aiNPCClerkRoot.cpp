@@ -20,15 +20,13 @@ bool NPCClerkRoot::init_(sead::Heap* heap) {
     return true;
 }
 
-// NON_MATCHING: the original loads mActor for the first argument of sub_7100EE2850 AFTER the hasTag call (ours
-// loads it before and keeps it in x20); a `const bool` local for the hasTag result would match
 void NPCClerkRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     NPCRoot::enter_(params);
     {
         ksys::act::ActorConstDataAccess accessor;
-        _238 = ksys::act::sub_7100EE2850(
-            mActor, &accessor, ksys::act::hasTag(mActor, ksys::act::tags::GroupingDisplayItem),
-            nullptr, nullptr);
+        const bool grouping_item =
+            ksys::act::hasTag(mActor, ksys::act::tags::GroupingDisplayItem);
+        _238 = ksys::act::sub_7100EE2850(mActor, &accessor, grouping_item, nullptr, nullptr);
     }
     mActor->resetConnectedCalcChild(false);
     _239 = false;
@@ -47,13 +45,12 @@ void NPCClerkRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     }
 }
 
-// NON_MATCHING: same as enter_ (load of mActor for the first argument vs the hasTag call)
 void NPCClerkRoot::calc_() {
     NPCRoot::calc_();
     ksys::act::ActorConstDataAccess accessor;
-    _238 = ksys::act::sub_7100EE2850(
-        mActor, &accessor, ksys::act::hasTag(mActor, ksys::act::tags::GroupingDisplayItem), nullptr,
-        nullptr);
+    const bool grouping_item =
+        ksys::act::hasTag(mActor, ksys::act::tags::GroupingDisplayItem);
+    _238 = ksys::act::sub_7100EE2850(mActor, &accessor, grouping_item, nullptr, nullptr);
 }
 
 void NPCClerkRoot::leave_() {
