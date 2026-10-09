@@ -1046,8 +1046,8 @@ bool Player::canUseUrbosaFury() {
 }
 
 // NON_MATCHING: the original loads _c48 as a word (`ldr w8` + tbnz) after `mov w0, wzr`; we narrow it to a byte load
-// NON_MATCHING: the original converts the angle with `fcvtzs x8, s0` (a 64-bit signed conversion stored as 32 bits; rad2idx
-// gives `fcvtzu w8`) and assigns x / z to the other float registers
+// NON_MATCHING: the original assigns x / z to the other float registers. The signed-64 rad2idx
+// conversion is also present in aal::SoundParam::setAngle (0x7100b763d8) and this consumer (0x71008569b8).
 Player::Unk1 Player::sub_71008569B8() {
     Unk1 result(0);
     f32 x = sead::Vector3f::zero.x;
