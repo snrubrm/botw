@@ -5,8 +5,6 @@ namespace uking::behavior {
 
 NoSensorWaterInNoise::NoSensorWaterInNoise(const InitArg& arg) : NoiseBase(arg) {}
 
-// NON_MATCHING: Actor::_68f is read through sead::Atomic (volatile with MATCHING_HACK_NX_CLANG); the
-// original reads it like a plain byte (both loads speculated / an explicit != 0)
 void NoSensorWaterInNoise::m7() {
     NoiseBase::m7();
     const bool in_water = mActor->get68f();
