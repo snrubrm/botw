@@ -113,10 +113,29 @@ static_assert(sizeof(Unk_710247d8f8) == 0x408);
 // Full ctor 9bf770/D1 9bf7e4 and factory 9e8350 prove this 0x1a0-byte child.
 class Unk_710247c368 : public ScreenChildEx {
 public:
+    NN_RUNTIME_TYPEINFO(ScreenChildEx)
     explicit Unk_710247c368(eui::LayoutEx* layout);
     ~Unk_710247c368() override;
+    void m14() override;
+    void m24() override;
+    void m25() override;
+    void m27() override;
+    void m29() override;
+    void m30() override;
+    void sub_71009C0310();
+    void sub_71009C07FC(s32 state);
+    void sub_71009C082C();
 
-    u8 _130[0x1a0 - 0x130];
+    // Full setup and independent callbacks identify eight animators and their current selection.
+    u8 _130[0x140 - 0x130];
+    /* 0x140 */ f32 _140;
+    /* 0x144 */ f32 _144;
+    /* 0x148 */ f32 _148;
+    /* 0x14c */ s32 _14c;
+    /* 0x150 */ s32 _150;
+    u8 _154[4];
+    /* 0x158 */ eui::Animator* mAnimators[8];
+    /* 0x198 */ eui::Animator* mCurrentAnimator;
 };
 static_assert(sizeof(Unk_710247c368) == 0x1a0);
 

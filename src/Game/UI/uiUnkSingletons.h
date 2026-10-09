@@ -76,7 +76,7 @@ public:
     bool sub_71009686D8() const;
 
     // Native child reset 0x71009c0310 passes this singleton to the byte accessors.
-    u8 get88() const;
+    bool get88() const;
     void clear88();
 
     // Full createInstance 967E78 and child consumers identify flags, scale and timer.
@@ -96,7 +96,7 @@ public:
     u8 _78[0x80 - 0x78];
     /* 0x80 */ s32 _80;
     /* 0x84 */ s32 _84;
-    /* 0x88 */ u8 _88;
+    /* 0x88 */ bool _88;
 
 private:
     static Unk_71025d6ac0* sInstance;
@@ -542,7 +542,7 @@ private:
     u8 _0[0x29];
     /* 0x29 */ u8 _29;
     u8 _2a[0x88 - 0x2a];
-    /* 0x88 */ u8 _88;
+    /* 0x88 */ bool _88;
     u8 _89[0x120 - 0x89];
     /* 0x120 */ u16 _120;
     u8 _122[0x128 - 0x122];

@@ -7,6 +7,7 @@
 #include "Game/UI/euiMessageString.h"
 #include "KingSystem/Quest/qstQuest.h"
 #include "Game/UI/uiUtils.h"
+#include "Game/UI/uiUnkSingletons.h"
 #include "Game/gameSaveSystem.h"
 #include "Game/gameStageBinder.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
@@ -589,5 +590,83 @@ s32 Unk_710247e468::m108() { return 0; }
 
 // 0x71009ca364
 s32 Unk_710247e468::m112() { return 0; }
+
+// 0x71009c0310
+void Unk_710247c368::sub_71009C0310() {
+    if (!Unk_71025d6ac0::instance()->get88())
+        return;
+    Unk_71025d6ac0::instance()->clear88();
+    _150 = 0;
+    if (mAnimators[0])
+        mAnimators[0]->StopAtMin();
+    if (mAnimators[1])
+        mAnimators[1]->StopAtMin();
+    if (mAnimators[3])
+        mAnimators[3]->StopAtMin();
+    if (mAnimators[4])
+        mAnimators[4]->StopAtMax();
+    if (mAnimators[5])
+        mAnimators[5]->StopAtMax();
+    if (mAnimators[6])
+        mAnimators[6]->StopAtMin();
+    if (mAnimators[7])
+        mAnimators[7]->StopAtMin();
+}
+
+// 0x71009c0660
+void Unk_710247c368::m14() {
+    Unk_71025d6ac0::instance()->sub_71009684A0();
+    mAnimators[0]->Stop(_148);
+    mAnimators[1]->StopAtMin();
+    mAnimators[5]->StopAtMax();
+    Unk_71025d6ac0::instance()->sub_7100968688();
+    _14c = 0;
+    mAnimators[3]->StopAtMin();
+}
+
+// 0x71009c0770
+void Unk_710247c368::m29() {
+    Unk_71025d6ac0::instance()->sub_710096809C();
+}
+
+// 0x71009c0780
+void Unk_710247c368::m30() {
+    if (!UiSubsys1::instance()->get38b8())
+        return;
+    _144 = _148;
+    _140 = _148;
+    if (mAnimators[5])
+        mAnimators[5]->StopAtMax();
+    Unk_71025d6ac0::instance()->sub_7100968688();
+    _14c = 0;
+    mAnimators[3]->StopAtMin();
+}
+
+// 0x71009c07fc
+void Unk_710247c368::sub_71009C07FC(s32 state) {
+    if (!mAnimators[2])
+        return;
+    switch (state) {
+    case 0:
+        mAnimators[2]->StopAtMin();
+        break;
+    case 1:
+        mAnimators[2]->StopAtMax();
+        break;
+    }
+}
+
+// NON_MATCHING: virtual target register allocation after the frame-size query.
+// 0x71009c082c
+void Unk_710247c368::sub_71009C082C() {
+    Unk_71025d6ac0::instance()->sub_71009682A4();
+    m6(true);  // Native virtual call discards its result.
+    if (_14c == 0) {
+        const f32 frame_size = mAnimators[4]->GetFrameSize();
+        mAnimators[4]->Stop(frame_size - mAnimators[3]->mFrame);
+    }
+    mAnimators[4]->PlayFromCurrent(eui::Animator::PlayType(0), 1.0f);
+    _14c = 1;
+}
 
 }  // namespace uking::ui
