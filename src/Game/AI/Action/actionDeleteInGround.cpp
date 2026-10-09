@@ -17,16 +17,17 @@ bool DeleteInGround::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }
 
-// NON_MATCHING: the original hoists the load of mActor above the isEmpty() branch (shared by both arms)
 void DeleteInGround::enter_(ksys::act::ai::InlineParamPack* params) {
     sub_710073DE08(mActor);
     if (auto* mgr = mActor->getDamageMgr())
         mgr->mField_34 = 1;
     sub_71007A397C(mActor);
-    if (mASName_s.isEmpty()) {
-        mActor->deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+    const bool empty_as = mASName_s.isEmpty();
+    auto* actor = mActor;
+    if (empty_as) {
+        actor->deleteLater(ksys::act::BaseProc::DeleteReason::_0);
         setFinished();
-    } else if (auto* rideable = mActor->m132()) {
+    } else if (auto* rideable = actor->m132()) {
         rideable->_18.sub_7100E786F0(mASName_s);
     } else {
         playAS(mASName_s.cstr(), false, 0, 0, -1.0f);
