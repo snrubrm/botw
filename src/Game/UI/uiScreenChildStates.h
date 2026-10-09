@@ -94,8 +94,12 @@ static_assert(sizeof(Unk_710247c368) == 0x1a0);
 // Full ctor 98c278/D1 98c2a8 and factory 9e844c prove this child has no added storage.
 class Unk_7102477c30 : public ScreenChildEx {
 public:
+    // Native 98c694 follows the ControlBase / ScreenChild / ScreenChildEx RTTI chain.
+    NN_RUNTIME_TYPEINFO(ScreenChildEx)
     explicit Unk_7102477c30(eui::LayoutEx* layout);
     ~Unk_7102477c30() override;
+    void m24() override;
+    void m25() override;
 };
 static_assert(sizeof(Unk_7102477c30) == 0x130);
 

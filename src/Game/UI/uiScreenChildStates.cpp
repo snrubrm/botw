@@ -14,6 +14,14 @@
 
 namespace uking::ui {
 
+// 0x710098c278
+Unk_7102477c30::Unk_7102477c30(eui::LayoutEx* layout) : ScreenChildEx(layout) {}
+
+// 0x710098c688 / 0x710098c68c: the native table overrides only these two update hooks.
+void Unk_7102477c30::m24() {}
+void Unk_7102477c30::m25() {}
+
+
 // 0x71009b9b38
 Unk_710247b428::Unk_710247b428(eui::LayoutEx* layout)
     : ScreenChildEx(layout), _130{}, _1a8(nullptr), _1b0{} {}
