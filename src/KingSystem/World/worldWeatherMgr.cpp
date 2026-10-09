@@ -240,12 +240,13 @@ bool WeatherMgr::isRaining() {
     return Manager::instance()->getWeatherMgr()->_2dc > 0.1f;
 }
 
-// NON_MATCHING: same as isRaining
 bool WeatherMgr::isSnowing() {
     auto* wm = Manager::instance();
     const f32 temp = wm->getTempMgr()->calcTemperature();
-    if (temp <= -2.0f || wm->getTempMgr()->_60 <= -2.0f)
-        return Manager::instance()->getWeatherMgr()->_2dc > 0.1f;
+    if (temp <= -2.0f || wm->getTempMgr()->_60 <= -2.0f) {
+        if (Manager::instance()->getWeatherMgr()->_2dc > 0.1f)
+            return true;
+    }
     return false;
 }
 
