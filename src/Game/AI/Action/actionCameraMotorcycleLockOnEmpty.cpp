@@ -119,13 +119,14 @@ void CameraMotorcycleLockOnEmpty::sub_710077C8A8() {
     _15c = camera->_860._0._24 - _124;
 }
 
-// NON_MATCHING: bound and prepared-field loads and scalar scheduling differ.
 void CameraMotorcycleLockOnEmpty::sub_710077CC90() {
     auto* camera = getCamera();
     if (!camera)
         return;
     const act::Unk_7100922700 polar(camera->_860._0._0 - camera->_860._0._c);
-    _110 = angleStuff(sead::lerp(*mAutoLatitudeSlow_s, *mAutoLatitudeFast_s, _108));
+    const f32 slow_latitude = *mAutoLatitudeSlow_s;
+    const f32 fast_latitude = *mAutoLatitudeFast_s;
+    _110 = angleStuff(slow_latitude + (fast_latitude - slow_latitude) * _108);
     const sead::Vector3f position = camera->_860._0._c + polar.sub_7100923254();
     _110 = angleStuff(sub_710092738C(camera->_860._0._c, position) + _110);
     _110 = angleStuff(sead::Mathf::clamp(_110, *mLatitudeMin_s, *mLatitudeMax_s));
