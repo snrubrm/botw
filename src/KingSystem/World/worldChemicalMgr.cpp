@@ -101,7 +101,6 @@ bool ChemicalMgr::x_9(Unk_710250c698* entry) {
     return true;
 }
 
-// NON_MATCHING: aggregate initialization clears the type byte separately.
 void ChemicalMgr::sub_71010CBDCC(act::Chemical* first, act::Chemical* second, s32 type) {
     sead::ScopedLock<sead::CriticalSection> lock(&mChemicalPairLock);
     if (mChemicalPairs.isFull())
