@@ -3,12 +3,44 @@
 #include "KingSystem/Utils/Thread/ManagedTaskHandle.h"
 #include <prim/seadBitFlag.h>
 #include <prim/seadSafeString.h>
+#include <container/seadTreeMap.h>
+#include <thread/seadCriticalSection.h>
+#include "KingSystem/Utils/Thread/Event.h"
 
 namespace nn::gfx {
 class ResTexture;
 }
 
 namespace ksys::res {
+
+class Unk_71024f9a08;
+
+// FE0144 constructs this key at 118; FE0348 writes its hash at 120.
+class Unk_71024f9a50 {
+public:
+    virtual ~Unk_71024f9a50();
+
+    s32 compare(const Unk_71024f9a50& rhs) const {
+        if (mHash < rhs.mHash)
+            return -1;
+        if (rhs.mHash < mHash)
+            return 1;
+        return 0;
+    }
+
+    u32 mHash;
+    Unk_71024f9a08* mOwner = nullptr;
+};
+KSYS_CHECK_SIZE_NX150(Unk_71024f9a50, 0x18);
+
+// The complete FE67D4 tree consumer uses the key's hash and standard node links.
+class Unk_71024f9a28 : public sead::TreeMapNode<Unk_71024f9a50> {
+public:
+    explicit Unk_71024f9a28(Unk_71024f9a08* owner) { mKey.mOwner = owner; }
+    ~Unk_71024f9a28() override;
+    void erase_() override;
+};
+KSYS_CHECK_SIZE_NX150(Unk_71024f9a28, 0x38);
 
 // FE2890 allocates 0x618 bytes and calls FE0144, which installs vtable 24F9A08.
 // FE0348 sets the status byte and flags independently of the query consumers.
@@ -30,7 +62,11 @@ public:
     u8 mStatus;
     // FE0D38 increments this independently of the current handle-list count.
     u16 _1a;
-    u8 _1c[0x130 - 0x1c];
+    u8 _1c[4];
+    util::Event mEvent;
+    u8 _60[0xb8 - 0x60];
+    sead::CriticalSection mCS;
+    Unk_71024f9a28 mNode{this};
     // FE0144 constructs this, and FE028C/FE02F0 destroy it.
     util::ManagedTaskHandle mTaskHandle;
     u8 _158[0x168 - 0x158];

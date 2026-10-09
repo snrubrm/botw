@@ -6,6 +6,21 @@
 
 namespace ksys::res {
 
+Unk_71024f9a08::~Unk_71024f9a08() = default;
+
+Unk_71024f9a50::~Unk_71024f9a50() = default;
+
+// Empty-statement body as in upstream's GameDataFlagSelector destructor (96101229):
+// the native FE02DC retains its vtable store, which a defaulted destructor drops.
+Unk_71024f9a28::~Unk_71024f9a28() {
+    ;
+}
+
+void Unk_71024f9a28::erase_() {
+    mLeft = nullptr;
+    mRight = nullptr;
+}
+
 bool Unk_71024f9a08::sub_7100FE0F38() const {
     return mFlags.isOn(1);
 }
