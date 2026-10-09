@@ -27,6 +27,12 @@ public:
     // callers 0x7100F6D070 and 0x7100F6D6D8 supply two hkTransform values.
     void sub_71015F3F90(const hkTransform& bodyA, const hkTransform& bodyB);
 
+    // 0x71015F3C84 computes both local frames from the body transforms and
+    // world frame. FixedCs 0x7100F6D420 builds all three complete transforms
+    // and passes the same factory-owned constraint data at +0xb8.
+    void sub_71015F3C84(const hkTransform& bodyA, const hkTransform& bodyB,
+                      const hkTransform& worldFrame);
+
     struct Atoms {
         hkpSetLocalTransformsConstraintAtom m_transforms;
         hkpSetupStabilizationAtom m_setupStabilization;
