@@ -2,6 +2,8 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "Game/Actor/actDragon.h"
 #include "KingSystem/Utils/Thread/Message.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace uking::ai {
 
@@ -66,6 +68,18 @@ void DragonItemRoot::loadParams_() {
     getMapUnitParam(&mTargetPosition_m, "TargetPosition");
     getAITreeVariable(&mIsInitFromCarryBox_a, "IsInitFromCarryBox");
     getAITreeVariable(&mIsInsideObserverArea_a, "IsInsideObserverArea");
+}
+
+// NON_MATCHING: parameter-pack count and string-call preparation are scheduled differently.
+void DragonItemRoot::sub_710036CE54(ksys::act::Actor* actor) {
+    if (auto* dragon = sead::DynamicCast<act::Dragon>(actor)) {
+        ksys::act::ai::InlineParamPack params;
+        params.addString(dragon->_1f78.cstr(), "NodeName", -1);
+        params.addVec3(sead::Vector3f::zero, "RotOffset", -1);
+        params.addVec3({dragon->_1fac, dragon->_1fbc, dragon->_1fcc}, "TransOffset", -1);
+        mActor->getMainBody()->enableContactLayer(ksys::phys::ContactLayer::SensorAttackEnemy);
+        changeChild("体に貼り付く", &params);
+    }
 }
 
 bool DragonItemRoot::handleMessage_(const ksys::Message* message) {

@@ -30,6 +30,7 @@ public:
     void loadParams_() override;
 
 protected:
+    void sub_710036CE54(ksys::act::Actor* actor);
     // static_param at offset 0x50
     const int* mFlyStartTime_s{};
     // static_param at offset 0x58
