@@ -71,8 +71,13 @@ bool AttClient::sub_7100D72144() const {
     return mActor && mClient;
 }
 
-void AttClient::sub_7100D7235C(void* value) {
+void AttClient::sub_7100D7235C(sead::IDelegate* value) {
     _30 = value;
+}
+
+void AttClient::sub_7100D72374() {
+    if (_30)
+        _30->invoke();
 }
 
 bool AttClient::sub_7100D72364() const {

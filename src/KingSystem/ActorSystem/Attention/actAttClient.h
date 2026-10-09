@@ -5,6 +5,7 @@
 #include <math/seadMatrix.h>
 #include <math/seadVector.h>
 #include <prim/seadSafeString.h>
+#include <prim/seadDelegate.h>
 #include "KingSystem/Resource/Actor/resResourceAttClient.h"
 #include "KingSystem/Utils/Types.h"
 
@@ -49,7 +50,9 @@ public:
     // 0x7100d72144: whether the client has an actor and a resource client.
     bool sub_7100D72144() const;
     // 0x7100d7235c: `_30 = value`.
-    void sub_7100D7235C(void* value);
+    void sub_7100D7235C(sead::IDelegate* value);
+    // Native attention consumer D755DC invokes the delegate bound by GoronHeroDescendentRoot / HiddenKorokRoot.
+    void sub_7100D72374();
     // 0x7100d72364: whether `_30` is set.
     bool sub_7100D72364() const;
     // 0x7100d723dc: `mMode = mode` for modes 0-2.
@@ -71,7 +74,7 @@ private:
     f32 _1c = 1.0;
     f32 _20 = 0.0f;
     void* mCallback = nullptr;
-    void* _30 = nullptr;
+    sead::IDelegate* _30 = nullptr;
     sead::Buffer<sead::Matrix34f> _38;  // one matrix per check of the resource client
     sead::Vector3f _48;
     u32 _54 = 0;
