@@ -18,6 +18,7 @@ add_library(hkStubs OBJECT
   Havok/Animation/Animation/Rig/hkaBone.h
   Havok/Animation/Animation/Rig/hkaBoneAttachment.h
   Havok/Animation/Animation/Rig/hkaSkeleton.h
+  Havok/Animation/Animation/Rig/hkaPose.cpp
   Havok/Animation/Animation/Rig/hkaPose.h
   Havok/Animation/Physics2012Bridge/Controller/RigidBody/hkaKeyFrameHierarchyUtility.h
   Havok/Animation/Physics2012Bridge/Controller/RigidBody/hkaRagdollRigidBodyController.cpp
