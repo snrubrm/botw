@@ -161,8 +161,6 @@ void Unk_71025d6550::sub_71009485EC() {
 }
 
 // 0x7100948db0
-// NON_MATCHING: same code; the original shares one `return true` block between the two early exits of the three-value
-// compare, ours emits a second copy (`||` chain, early returns and a `bool` local give the same)
 bool Unk_71025d6550::sub_7100948DB0() {
     const s32* value;
     switch (_b3c) {
@@ -176,11 +174,11 @@ bool Unk_71025d6550::sub_7100948DB0() {
         value = &_b74;
         break;
     case 3:
-        if (_b58[0] != _d54[0])
-            return true;
-        if (_b58[1] != _d54[1])
-            return true;
-        return _b58[2] != _d54[2];
+        for (s32 i = 0; i < _b58.size(); ++i) {
+            if (_b58[i] != _d54[i])
+                return true;
+        }
+        return false;
     case 4:
         value = &_d64;
         break;
