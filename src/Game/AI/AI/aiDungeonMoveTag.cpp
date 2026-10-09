@@ -25,7 +25,6 @@ void DungeonMoveTag::loadParams_() {
     getMapUnitParam(&mMoveDis_m, "MoveDis");
 }
 
-// NON_MATCHING: the original has a default case with target = -0.0f (unknown source form)
 void DungeonMoveTag::calc_() {
     auto* actor = mActor;
     auto* child = getCurrentChild();
@@ -63,6 +62,9 @@ void DungeonMoveTag::calc_() {
     case 2:
         target = 0.0f;
         _48 = 3;
+        break;
+    default:
+        target = -0.0f;
         break;
     }
 
