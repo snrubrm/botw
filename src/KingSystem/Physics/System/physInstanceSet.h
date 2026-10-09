@@ -241,10 +241,10 @@ public:
     // in PhysBodyPartLod::sub_710021A344 and InstanceSet::sub_7100FBB668.
     s32 getNumRigidBodySets() const { return mRigidBodySets.size(); }
     ContactPointInfo* getContactPointInfo(int idx) const { return mContactPointInfo[idx]; }
-    // 0x7100fc012c / 0x7100fc01b0 (declared only): for every listed body (0xb0-byte entries at
-    // 0x108) that has no 0x98 entry: calls 0xf8305c with `heap` (or the global heap pointer at GOT
-    // 0x7102579290 if null) / unlinks the 0x98 and 0xa0 entries. Used by AddRigidBodyToWorld and
-    // RemoveNavMeshObj (EnableNavMeshCut); names are placeholders.
+    // 0x7100fc012c / 0x7100fc01b0: register / unregister the listed navmesh objects.
+    // Registration uses the supplied HavokAI or its singleton (GOT 0x7102579290) when null.
+    // Removal uses the attached and tagged pending HavokAI pointers. Used by
+    // AddRigidBodyToWorld and RemoveNavMeshObj (EnableNavMeshCut); names are placeholders.
     void sub_7100FC012C(HavokAI* havok_ai);
     void sub_7100FC01B0();
     // 0x7100fc0300: makes a sphere rigid body (group handler from _188 unless the param has one)

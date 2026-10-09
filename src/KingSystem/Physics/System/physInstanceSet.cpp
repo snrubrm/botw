@@ -1114,4 +1114,16 @@ void InstanceSet::sub_7100FC0288(RigidBody* body) {
         _100[i].sub_7100F7F430(body->getHkBody());
 }
 
+void InstanceSet::sub_7100FC01B0() {
+    for (int i = 0; i < _100.size(); ++i) {
+        auto& obj = _100[i];
+        // The request pointer carries low-bit tags, also tested by HavokAI's queue operations.
+        auto* pending = reinterpret_cast<HavokAI*>(uintptr_t(obj._a0.load()) & ~uintptr_t(3));
+        if (pending)
+            pending->sub_7100F833A8(&obj);
+        if (obj._98)
+            obj._98->sub_7100F833A8(&obj);
+    }
+}
+
 }  // namespace ksys::phys
