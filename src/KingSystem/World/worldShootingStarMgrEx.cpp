@@ -81,6 +81,44 @@ bool ShootingStarAnchor::sub_71010D0D78() const {
     return true;
 }
 
+// NON_MATCHING: the inlined hour-range branches and common false-return block differ.
+bool ShootingStarAnchor::sub_71010D0B64() const {
+    if (_89)
+        return false;
+    if (auto* manager = gdt::Manager::instance()) {
+        bool started = false;
+        gdt::getBoolByNameNoBool2(manager, &started, _68);
+        if (started)
+            return false;
+        if (auto* manager = gdt::Manager::instance()) {
+            bool finished = false;
+            gdt::getBoolByNameNoBool2(manager, &finished, _70);
+            if (finished)
+                return false;
+        }
+    }
+    if (!sub_71010D0F64(0))
+        return false;
+    const auto* camera = CameraMgr::instance()->getLookAtCamera();
+    if (!camera)
+        return false;
+    const f32 dx = _48.x - camera->getPos().x;
+    const f32 dz = _48.z - camera->getPos().z;
+    const f32 distance = dx * dx + dz * dz;
+    if (!(distance > 40000.0f))
+        return false;
+    if (!(distance < 250000.0f))
+        return false;
+    if (!sub_71010D103C())
+        return false;
+    bool available;
+    bool in_view;
+    sub_71010D1130(&available, &in_view);
+    if (!available || !in_view)
+        return false;
+    return !(_2c < 10.0f);
+}
+
 bool ShootingStarAnchor::sub_71010D0F64(s32 hour_offset) const {
     const s32 hour = Manager::instance()->getTimeMgr()->getHour();
     const s32 start = mStartHour % 24;
