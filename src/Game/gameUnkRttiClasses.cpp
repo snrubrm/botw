@@ -33,8 +33,6 @@ Unk_710245a4f8::~Unk_710245a4f8() = default;
 
 Unk_710245a578::~Unk_710245a578() = default;
 
-Unk_710245bee0::~Unk_710245bee0() = default;
-
 Unk_710245c6b8::~Unk_710245c6b8() = default;
 
 Unk_710245c858::~Unk_710245c858() = default;
