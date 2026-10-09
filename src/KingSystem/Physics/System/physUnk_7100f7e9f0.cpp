@@ -1,4 +1,5 @@
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
+#include "KingSystem/Physics/System/physNavMeshEdgeResult.h"
 #include <thread/seadAtomic.h>
 #include <thread/seadEvent.h>
 #include <Havok/Ai/Pathfinding/NavMesh/hkaiNavMeshInstance.h>
@@ -13,6 +14,50 @@ public:
     sead::Atomic<s32> mRefCount;
 };
 static_assert(offsetof(Unk_7100f7e9f0Event, mRefCount) == 0x30);
+
+// NON_MATCHING: edge selection branches and address calculations differ.
+Unk_7100f7e64c::Unk_7100f7e64c(hkaiStreamingCollection* collection, s32 key,
+                               Unk_7100f7e9f0Event* event) {
+    if (key == -1) {
+        mInstance = nullptr;
+        mEdge = nullptr;
+        mEvent = nullptr;
+    } else {
+        mInstance = collection->m_instances[u32(key) >> 22].m_instancePtr;
+        const s32 edge_index = key & 0x3fffff;
+        if (edge_index >= mInstance->m_originalEdges.m_size) {
+            mEdge = &mInstance->m_ownedEdges[edge_index - mInstance->m_originalEdges.m_size];
+        } else if (mInstance->m_edgeMap.isEmpty()) {
+            mEdge = &mInstance->m_instancedEdges[edge_index];
+        } else {
+            const s32 mapped_index = mInstance->m_edgeMap[edge_index];
+            if (mapped_index == -1)
+                mEdge = &mInstance->m_originalEdges.m_data[edge_index];
+            else
+                mEdge = &mInstance->m_instancedEdges[mapped_index];
+        }
+        mEvent = event;
+    }
+    event = mEvent;
+    if (event) {
+        while (true) {
+            const s32 count = event->mRefCount;
+            if (u32(count) > 0xff)
+                break;
+            if (event->mRefCount.compareExchange(count, count + 1)) {
+                if (count == 0)
+                    event->mEvent.resetSignal();
+                break;
+            }
+        }
+    }
+}
+
+Unk_7100f7e64c::~Unk_7100f7e64c() {
+    auto* event = mEvent;
+    if (event && event->mRefCount.decrement() == 1)
+        event->mEvent.setSignal();
+}
 
 // Separate translation unit: the original calls the constructor out of line from
 // NavMeshCharacter::sub_7100F76078.
