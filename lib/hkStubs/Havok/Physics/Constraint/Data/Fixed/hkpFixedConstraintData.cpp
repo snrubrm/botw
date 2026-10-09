@@ -64,3 +64,31 @@ hkResult hkpFixedConstraintData::getInertiaStabilizationFactor(hkReal& factorOut
     factorOut = m_atoms.m_ballSocket.m_inertiaStabilizationFactor;
     return HK_SUCCESS;
 }
+
+// 0x71015F4024
+void hkpFixedConstraintData::getConstraintInfo(ConstraintInfo& infoOut) const {
+    getConstraintInfoUtil(&m_atoms.m_transforms, sizeof(m_atoms), infoOut);
+}
+
+// 0x71015F4038
+// NON_MATCHING: Clang stores the two typed output fields with paired 32-bit stores.
+void hkpFixedConstraintData::getRuntimeInfo(hkBool wantRuntime, RuntimeInfo& infoOut) const {
+    if (wantRuntime || m_atoms.m_ballSocket.m_breachImpulse != HK_REAL_MAX) {
+        infoOut.m_sizeOfExternalRuntime = 48;
+        infoOut.m_numSolverResults = 6;
+    } else {
+        infoOut.m_sizeOfExternalRuntime = 0;
+        infoOut.m_numSolverResults = 0;
+    }
+}
+
+// 0x71015F40D0
+// NON_MATCHING: the scalar clamp becomes fmax/fmin instead of the native lower-bound select.
+hkResult hkpFixedConstraintData::setInertiaStabilizationFactor(hkReal factor) {
+    if (factor < 0.0f)
+        factor = 0.0f;
+    if (factor > 1.0f)
+        factor = 1.0f;
+    m_atoms.m_ballSocket.m_inertiaStabilizationFactor = factor;
+    return HK_SUCCESS;
+}

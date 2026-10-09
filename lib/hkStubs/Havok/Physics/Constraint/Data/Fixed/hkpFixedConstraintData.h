@@ -19,6 +19,7 @@ public:
     hkUint8 getNotifiedBodyIndex() const override;
     void setSolvingMethod(hkpConstraintAtom::SolvingMethod method) override;
     hkResult getInertiaStabilizationFactor(hkReal& factorOut) const override;
+    hkResult setInertiaStabilizationFactor(hkReal factor) override;
     // Declared for the native bool/output pair only. The unresolved base
     // runtime slot order is not repaired by this derived declaration.
     void getRuntimeInfo(hkBool wantRuntime, RuntimeInfo& infoOut) const override;
