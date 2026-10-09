@@ -1,4 +1,6 @@
 #include "Game/AI/aiUnk_7100724C64.h"
+#include <gsys/gsysModel.h>
+#include <gsys/gsysModelUnit.h>
 #include "Game/AI/AI/aiStalEnemyRoot.h"
 #include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
@@ -105,6 +107,30 @@ bool sub_7100725790(ksys::act::Actor* actor, const ksys::act::BaseProcLink& link
 
 bool sub_710072587C(ksys::act::Actor* actor) {
     return sub_71007250E4(actor, 0);
+}
+
+bool sub_7100725960(ksys::act::Actor* actor, const sead::SafeString& material, bool visible) {
+    auto* unit = actor->getModel()->getUnits().unsafeAt(0)->mModelUnit;
+    if (!unit)
+        return false;
+    const int index = unit->searchMaterialIndex(material);
+    if (index < 0)
+        return false;
+    unit->setMaterialVisible(index, visible);
+    return true;
+}
+
+bool sub_71007259CC(ksys::act::Actor* actor, const sead::SafeString& material, bool visible) {
+    auto* unit = actor->getModel()->getUnits().unsafeAt(0)->mModelUnit;
+    if (!unit)
+        return false;
+    sead::FixedSafeString<64> name;
+    name.format("%s_Seal", material.cstr());
+    const int index = unit->searchMaterialIndex(name);
+    if (index < 0)
+        return false;
+    unit->setMaterialVisible(index, visible);
+    return true;
 }
 
 bool sub_7100726004(ksys::act::Actor* actor, u32 part) {
