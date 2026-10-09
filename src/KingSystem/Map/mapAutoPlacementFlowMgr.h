@@ -39,6 +39,8 @@ public:
 
     void init(sead::Heap* heap);
     void loadEventFlows();
+    // 0x7100652780 loads each flow in order and returns false at the first failure.
+    bool resAreReady();
     // (both return the flow's first member, `handle`: the pointer is the AutoPlacementFlowRes itself)
     AutoPlacementFlowRes* getResource1(int idx);
     AutoPlacementFlowRes* getResource2(int idx);
