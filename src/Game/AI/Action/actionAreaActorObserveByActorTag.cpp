@@ -13,15 +13,13 @@ AreaActorObserveByActorTag::~AreaActorObserveByActorTag() {
     ;
 }
 
-// NON_MATCHING: the original calls cstr() twice with a null check (`cstr() ? cstr() : ""`)
 bool AreaActorObserveByActorTag::init_(sead::Heap* heap) {
-    _60 = sead::HashCRC32::calcStringHash(mActorTag_m);
+    _60 = sead::HashCRC32::calcStringHash(mActorTag_m.cstr() ? mActorTag_m.cstr() : "");
     return AreaActorObserve::init_(heap);
 }
 
-// NON_MATCHING: see init_
 void AreaActorObserveByActorTag::m9() {
-    _60 = sead::HashCRC32::calcStringHash(mActorTag_m);
+    _60 = sead::HashCRC32::calcStringHash(mActorTag_m.cstr() ? mActorTag_m.cstr() : "");
 }
 
 void AreaActorObserveByActorTag::m32() {
