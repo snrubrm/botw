@@ -1,5 +1,14 @@
 #include <Havok/Physics2012/Dynamics/Motion/Rigid/hkpBoxMotion.h>
 
+// NON_MATCHING: one commuted vector multiply operand pair.
+// 0x710161aa90
+void hkpBoxMotion::getInertiaInvLocal(hkMatrix3& inverseInertia) const {
+    const hkVector4 diagonal = m_inertiaAndMassInv;
+    inverseInertia.m_col0.setMul(hkVector4::getConstant<HK_QUADREAL_1000>(), diagonal);
+    inverseInertia.m_col1.setMul(hkVector4::getConstant<HK_QUADREAL_0100>(), diagonal);
+    inverseInertia.m_col2.setMul(hkVector4::getConstant<HK_QUADREAL_0010>(), diagonal);
+}
+
 // 0x710161ab70
 void hkpBoxMotion::setMass(hkReal mass) {
     m_inertiaAndMassInv.setW(hkSimdReal(mass).reciprocal());
