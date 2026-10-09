@@ -6,6 +6,8 @@
 
 namespace ksys::phys {
 class RigidBody;
+class SphereRigidBody;
+class CollisionInfo;
 }
 
 namespace gsys {
@@ -49,6 +51,8 @@ public:
 
         // 0x71002daa98 (SwarmPatternMovingSphere::m8): unless bit 1 is set, replaces bits 2 / 3 with 8.
         void sub_71002DAA98();
+        // 0x71002daa58: applies opacity to this unit's model without fading.
+        void sub_71002DAA58(f32 opacity);
         // 0x71002daa78 (SwarmPatternMovingSphere::m9): if bit 1 is set, replaces bits 1-3 with 4 and clears _bc.
         void sub_71002DAA78();
         // 0x71002da3a0 (declared only; 320 B): material animation (name, frame) of the unit; called for every unit by
@@ -104,24 +108,28 @@ public:
     void* m40(s32 idx);
 
     /* 0x14c8 */ sead::Buffer<Unit*> _14c8;  // units
-    // The remaining groups of three pointers are not typed.
-    struct Ptr3 {
-        void* _0 = nullptr;
-        void* _8 = nullptr;
-        void* _10 = nullptr;
+    // 0x71002d56b4 constructs the sphere body and its collision information. The four
+    // records are indexed with a 0x30 stride by 0x71002d47d8.
+    struct BodyInfo {
+        bool sub_71002D481C() const;
+        f32 sub_71002D5F30() const;
+        void sub_71002D5F44(const sead::Vector3f& position);
+        void sub_71002D71C8(bool paused);
+
+        /* 0x00 */ sead::Vector3f _0;
+        /* 0x0c */ sead::Vector3f _c;
+        /* 0x18 */ ksys::phys::SphereRigidBody* _18 = nullptr;
+        /* 0x20 */ Actor* _20 = nullptr;
+        /* 0x28 */ ksys::phys::CollisionInfo* _28 = nullptr;
     };
+    static_assert(sizeof(BodyInfo) == 0x30);
+    bool sub_71002D47D8(s32 idx) const;
+
     /* 0x14d8 */ ksys::as::ASList* _14d8 = nullptr;
     /* 0x14e0 */ ksys::as::ASList* _14e0 = nullptr;
     /* 0x14e8 */ ksys::as::ASList* _14e8 = nullptr;
     /* 0x14f0 */ ksys::as::ASList* _14f0 = nullptr;
-    /* 0x14f8 */ u8 _14f8[0x18];
-    /* 0x1510 */ Ptr3 _1510;
-    /* 0x1528 */ u8 _1528[0x18];
-    /* 0x1540 */ Ptr3 _1540;
-    /* 0x1558 */ u8 _1558[0x18];
-    /* 0x1570 */ Ptr3 _1570;
-    /* 0x1588 */ u8 _1588[0x18];
-    /* 0x15a0 */ Ptr3 _15a0;
+    /* 0x14f8 */ sead::SafeArray<BodyInfo, 4> _14f8;
     /* 0x15b8 */ sead::Matrix34f _15b8;  // the inverse of the actor matrix (setMtx)
     /* 0x15e8 */ sead::Buffer<UnitBody> _15e8;
     /* 0x15f8 */ sead::Buffer<UnitBody> _15f8;

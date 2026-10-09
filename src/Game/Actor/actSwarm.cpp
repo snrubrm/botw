@@ -2,11 +2,77 @@
 #include <basis/seadNew.h>
 #include <math/seadMatrixCalcCommon.h>
 #include "Game/gameStasisMgr.h"
+#include "KingSystem/Graphics/gfxUnk_710260af28.h"
 #include "KingSystem/ActorSystem/actActorSystem.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actDebug.h"
+#include "KingSystem/Physics/RigidBody/Shape/Sphere/physSphereRigidBody.h"
+#include "KingSystem/Physics/System/physCollisionInfo.h"
 
 namespace uking::act {
+
+bool Swarm::sub_71002D47D8(s32 idx) const {
+    const auto& body = _14f8[idx];
+    if (!body._18)
+        return false;
+    if (auto* info = body._18->getCollisionInfo())
+        return info->getCollidingBodies().size() != 0;
+    return false;
+}
+
+bool Swarm::BodyInfo::sub_71002D481C() const {
+    if (!_18)
+        return false;
+    if (auto* info = _18->getCollisionInfo())
+        return info->getCollidingBodies().size() != 0;
+    return false;
+}
+
+f32 Swarm::BodyInfo::sub_71002D5F30() const {
+    if (_18)
+        return _18->getRadius();
+    return 0.0f;
+}
+
+void Swarm::BodyInfo::sub_71002D5F44(const sead::Vector3f& position) {
+    _c = position;
+    _0 = position;
+    if (!_18)
+        return;
+    if (!_18->getCollisionInfo())
+        _18->setCollisionInfo(_28);
+    _18->addToWorld();
+    sead::Vector3f world_position;
+    world_position.setMul(_20->getMtx(), position);
+    _18->setPosition(world_position, ksys::phys::PropagateToLinkedMotions{true});
+}
+
+void Swarm::BodyInfo::sub_71002D71C8(bool paused) {
+    if (paused) {
+        if (_18) {
+            _18->setLinearVelocity(sead::Vector3f::zero);
+            _18->setAngularVelocity(sead::Vector3f::zero);
+        }
+    } else if (_18) {
+        sead::Vector3f world_position;
+        world_position.setMul(_20->getMtx(), _c);
+        _18->changePosition(world_position, ksys::phys::KeepAngularVelocity{false});
+    }
+}
+
+void Swarm::Unit::sub_71002DAA58(f32 opacity) {
+    if (_78)
+        Unk_710260af28::instance()->sub_7100F1DCA8(_78, opacity, false);
+}
+
+// NON_MATCHING: the per-unit opacity helper is inlined into this loop.
+void Swarm::m61(f32 rate) {
+    for (s32 i = 0; i < _14c8.size(); ++i) {
+        if (auto* unit = _14c8[i])
+            unit->sub_71002DAA58(rate);
+    }
+}
+
 
 Swarm::Swarm(const CreateArg& arg) : Enemy(arg) {}
 
