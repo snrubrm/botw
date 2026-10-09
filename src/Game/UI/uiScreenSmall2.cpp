@@ -1,4 +1,5 @@
 #include <algorithm>
+#include "KingSystem/Quest/qstQuest.h"
 #include "Game/UI/uiScreenControlCreators.h"
 #include "Game/UI/euiTagProcessor.h"
 #include "Game/UI/euiMessageMgr.h"
@@ -412,6 +413,42 @@ void ScreenMainScreen::sub_7100A1A4E4(s64 a1) {
     sub_7100A1A518(a1, false);
     if (!sub_7100AA8F10())
         _3720 = -99.0f;
+}
+
+// 0x7100a1958c
+void ScreenMainScreen::sub_7100A1958C() {
+    _3ca8 = sub_7100BEAFB0("Pa_QuestName_00");
+    if (!_3ca8)
+        return;
+    _3ca8->sub_7100BDDE7C(false, 1, true);
+    _3cb0 = _3ca8->tryCreateAnimatorAuto("State", false);
+    if (_3cb0)
+        _3cb0->StopAtMin();
+    _3cb8 = _3ca8->tryCreateAnimatorAuto("Category", false);
+    if (_3cb8)
+        _3cb8->StopAtMin();
+    _3cc0 = _3ca8->tryCreateAnimatorAuto("Check", false);
+    if (_3cc0)
+        _3cc0->StopAtMin();
+    _3cc8 = 0;
+}
+
+// 0x7100a1e28c
+bool ScreenMainScreen::sub_7100A1E28C(const ksys::qst::Quest* quest) {
+    if (!quest || !_3ca8)
+        return false;
+    sead::FixedSafeString<256> file;
+    quest->sub_7100FDA570(&file);
+    sead::FixedSafeString<256> label;
+    quest->formatQLNameKey(&label);
+    eui::MessageString message;
+    getMessage(file, label, &message);
+    setWidgetString(_3ca8, "QuestName", message);
+    sub_7100A1E454(quest);
+    eui::Screen::x_2();
+    _3ca8->startAnimCloseImpl_(false, true);
+    _3ccc.init(1.0f);
+    return true;
 }
 
 // 0x7100a1e1e0

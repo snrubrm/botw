@@ -34,6 +34,10 @@ namespace ksys {
 class SeadController;
 }
 
+namespace ksys::qst {
+struct Quest;
+}
+
 namespace ksys::act {
 class Actor;
 }
@@ -834,6 +838,12 @@ public:
     /* 0x3aa8 */ u8 _3aa8;
     u8 _pad_3aa9[0x3ca8 - 0x3aa9];
     /* 0x3ca8 */ eui::LayoutEx* _3ca8;
+    /* 0x3cb0 */ eui::Animator* _3cb0;
+    /* 0x3cb8 */ eui::Animator* _3cb8;
+    /* 0x3cc0 */ eui::Animator* _3cc0;
+    /* 0x3cc8 */ u8 _3cc8;
+    u8 _pad_3cc9[3];
+    /* 0x3ccc */ UiTimer _3ccc;
 
     bool sub_7100A1A1C4(s32 a1, bool a2);
     // 0x7100a1a3c8 / 0x7100a1a460 (placeholder names): open / close request (ScreenChild::m6) and "state 7" check of
@@ -853,6 +863,10 @@ public:
     void sub_7100A1ABF8();
     // 0x7100a1a518 (CSV unnamed; declared only; the types are guesses)
     void sub_7100A1A518(s64 a1, bool a2);
+    void sub_7100A1958C();
+    bool sub_7100A1E28C(const ksys::qst::Quest* quest);
+    // 0x7100a1e454: updates the quest category message and animation.
+    void sub_7100A1E454(const ksys::qst::Quest* quest);
     bool sub_7100A1E1E0();
     // 0x7100a1e44c (placeholder name): always 1.0
     static f32 sub_7100A1E44C();
