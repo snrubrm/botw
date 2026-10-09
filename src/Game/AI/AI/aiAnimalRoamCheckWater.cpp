@@ -1,9 +1,29 @@
 #include "Game/AI/AI/aiAnimalRoamCheckWater.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
+#include <math/seadMathCalcCommon.h>
+#include "Game/AI/aiUnk_71007377D4.h"
 
+// Adjacent to AnimalRoamCheckWater::m38/m39 in the original; keep this terrain query in the owner TU.
 // 0x710030c688 (placeholder name): how far the terrain is above the highest ground below `pos` (searched `limit` below).
-f32 sub_710030C688(void* unused, const sead::Vector3f* pos, f32 limit);
+f32 sub_710030C688(void*, const sead::Vector3f* pos, f32 limit) {
+    f32 terrain_height = 0.0f;
+    if (!sub_710072C494(&terrain_height, pos))
+        return 0.0f;
+
+    const sead::Vector3f from = *pos + sead::Vector3f(0.0f, 3.0f, 0.0f);
+    const sead::Vector3f to(from.x, from.y - limit, from.z);
+    sead::Vector3f hit_pos;
+    f32 ground_height;
+    if (sub_710072EA18(from, to, 0, &hit_pos, nullptr, nullptr, 0.0f)) {
+        ground_height = hit_pos.y;
+    } else {
+        f32 height = -10000.0f;
+        sub_710072C21C(&height, pos);
+        ground_height = sead::Mathf::max(pos->y, height);
+    }
+    return terrain_height - ground_height;
+}
 
 namespace uking::ai {
 
@@ -74,8 +94,6 @@ bool AnimalRoamCheckWater::m40(sead::Vector3f* pos) {
     return false;
 }
 
-// NON_MATCHING: the original never sets the first argument of sub_710030C688 (x0 is whatever m35() returned; ours passes
-// nullptr)
 bool AnimalRoamCheckWater::m38() {
     auto* nav = mActor->m45();
     if (!nav)
