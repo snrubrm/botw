@@ -34,18 +34,14 @@ void GanonThrowTornado::loadParams_() {
     getDynamicParam(&mTargetActor_d, "TargetActor");
 }
 
-// NON_MATCHING: scheduling of the direction math: the original stores dir.y = 0 right after loading the target z and
-// only stores dir.x / dir.z after the sqrt; ours stores dir.x first.
 void GanonThrowTornado::calc_() {
     if (sub_71005DD798(mActor, 0x29, nullptr, 0, 0)) {
         sub_710073FA94(&_6c, mActor);
         auto* actor = mActor;
-        const f32 pos_x = actor->getMtx()(0, 3);
-        const f32 pos_z = actor->getMtx()(2, 3);
-        sead::Vector3f dir;
-        dir.x = mTargetPos_d->x - pos_x;
+        const sead::Vector3f position = actor->getMtx().getTranslation();
+        const sead::Vector3f target = *mTargetPos_d;
+        sead::Vector3f dir = target - position;
         dir.y = 0.0f;
-        dir.z = mTargetPos_d->z - pos_z;
         dir.normalize();
         sub_710074006C(&_6c, dir, sead::Vector3f::ey, true, 0.08f, 6.2831855f, 0.0f);
         sub_7100740F1C(_6c, mActor);
