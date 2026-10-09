@@ -6,6 +6,7 @@
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/AI/aiUnk_7102357d20.h"
 #include "Game/Actor/actModelMaterialUtil.h"
+#include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
@@ -65,6 +66,34 @@ GuardianMiniRoot::~GuardianMiniRoot() = default;
 
 bool GuardianMiniRoot::init_(sead::Heap* heap) {
     return EnemyRoot::init_(heap);
+}
+
+void GuardianMiniRoot::sub_71004267E4() {
+    auto* as_list = mActor->getASList();
+    if (!as_list)
+        return;
+    const sead::SafeString shader = as_list->x_1(0, 1);
+    if (shader == "DemoFindShader")
+        *mIsTransformedGuardianMini_a = true;
+    const sead::SafeString animation = as_list->x_1(0, 0);
+    if (animation == "Transform" || animation == "BeamStart")
+        *mIsTransformedGuardianMini_a = true;
+    else if (animation == "FoldTransform")
+        *mIsTransformedGuardianMini_a = false;
+}
+
+bool GuardianMiniRoot::sub_710042699C() {
+    auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
+    if (!enemy)
+        return false;
+    // The original calls the actor's actual getWeapons virtual and discards its result.
+    enemy->getWeapons();
+    for (s32 slot = 0; slot < 6; ++slot) {
+        const sead::SafeString weapon = sub_71003B5E54(slot);
+        if (!weapon.isEmpty() && weapon != "Default")
+            return true;
+    }
+    return false;
 }
 
 void GuardianMiniRoot::enter_(ksys::act::ai::InlineParamPack* params) {

@@ -68,6 +68,8 @@ protected:
 
     // 0x71004262d4 (placeholder name): kills the ELink and fades the SLink event of the three handle pairs.
     void stopXLinks();
+    void sub_71004267E4();
+    bool sub_710042699C();
 };
 
 }  // namespace uking::ai
