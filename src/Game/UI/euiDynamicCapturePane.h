@@ -38,7 +38,8 @@ public:
     /* 0xf8 */ sead::Color4f* mClearColor = nullptr;
     /* 0x100 */ agl::utl::MultiFilter* mMultiFilter = nullptr;  // filter whose result texture the pane displays (may be null)
     /* 0x108 */ nn::ui2d::ExternalTextureInfo mTextureInfo;
-    /* 0x120 */ const agl::TextureData* mTexture = nullptr;  // the capture's texture data (null until captured)
+    // BF2530's allocator/filter result is mutated by BF31AC's selector update.
+    /* 0x120 */ agl::TextureData* mTexture = nullptr;  // the capture's texture data (null until captured)
     /* 0x128 */ agl::RenderBuffer mRenderBuffer;
     /* 0x190 */ agl::RenderTargetColor mRenderTarget;
 };

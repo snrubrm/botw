@@ -1,6 +1,13 @@
 #include "Game/UI/euiDynamicCapturePane.h"
 #include "Game/UI/euiCapturePane.h"
 #include "Game/UI/euiFrameBufferMultiFilter.h"
+#include "Game/UI/euiScreen.h"
+#include "Game/UI/euiTypes.h"
+#include <common/aglDrawContext.h>
+#include <common/aglTextureSampler.h>
+#include <utility/aglImageFilter2D.h>
+#include <gfx/seadGraphicsContext.h>
+#include <gfx/seadViewport.h>
 #include <nn/ui2d/ResExtUserData.h>
 #include <utility/aglDynamicTextureAllocator.h>
 #include <utility/aglMultiFilter.h>
@@ -68,6 +75,54 @@ void DynamicCapturePane::Calculate(nn::ui2d::DrawInfo& info,
         info.SetProjMtx(proj_mtx);
     }
     context._1f = saved;
+}
+
+// NON_MATCHING: framebuffer/texture copies and temporary lifetimes differ,
+// with different stack slots and branch scheduling.
+// 0x7100bf2f18
+void DynamicCapturePane::Draw(nn::ui2d::DrawInfo& info, nn::gfx::CommandBuffer& command_buffer) {
+    auto& draw_info = static_cast<DrawInfoEx&>(info);
+    if (draw_info._100 || !IsVisible() || GetAlpha() == 0 || !draw_info._f8)
+        return;
+    const auto* render_info = draw_info._f8;
+    mTexture = sub_7100BF2530(this, info, &mCaptureFlags, mMultiFilter, &mRenderBuffer,
+                            &mRenderTarget, mClearColor, command_buffer);
+    if (const auto* scale_data = FindExtUserDataByName("CaptureScale")) {
+        const f32 scale = scale_data->GetFloatArray()[0];
+        const f32 width = scale * GetSize().width;
+        const f32 height = scale * GetSize().height;
+        auto* resized = agl::utl::DynamicTextureAllocator::instance()->alloc(
+            render_info->mDrawContext, mTexture->getDebugLabel(), mTexture->getFormat(),
+            u32(width), u32(height), 1, nullptr,
+            static_cast<agl::utl::DynamicTextureAllocator::AllocateType>(0), true, false);
+        mRenderTarget.applyTextureData(*resized, mRenderTarget.getMipLevel(), mRenderTarget.getLayer());
+        mRenderBuffer.setVirtualSize({width, height});
+        mRenderBuffer.setPhysicalArea(0.0f, 0.0f, width, height);
+        mRenderBuffer.bind(render_info->mDrawContext);
+        sead::GraphicsContext context;
+        // BF3100 clears blend bit0; BF3104 clears only depth-test byte0.
+        context.setBlendEnable(false, 0);
+        context.setDepthTestEnable(false);
+        context.apply(render_info->mDrawContext);
+        agl::TextureSampler sampler(*mTexture);
+        sead::Viewport viewport(mRenderBuffer);
+        viewport.apply(render_info->mDrawContext, mRenderBuffer);
+        agl::utl::ImageFilter2D::drawTextureQuadTriangle(render_info->mDrawContext, sampler);
+        mRenderTarget.invalidateGPUCache(render_info->mDrawContext);
+        if (mMultiFilter && mMultiFilter->getResultTexture())
+            mMultiFilter->freeResultTexture();
+        else
+            agl::utl::DynamicTextureAllocator::instance()->free(mTexture);
+        mTexture = resized;
+    }
+    if (mCaptureFlags.isOnBit(3)) {
+        mTexture->setCompSel(mTexture->getCompSelRed(), mTexture->getCompSelGreen(),
+                            mTexture->getCompSelBlue(), agl::TextureCompSel::cTextureCompSel_One);
+    }
+    SetupTextureInfoByAglTextureData(&mTextureInfo, *mTexture, nullptr);
+    draw_info.mDynamicTextures.push_back(*this);
+    DrawInfoEx::applyRenderBufferInfo(render_info);
+    info._eb[4] = 1;
 }
 
 // 0x7100bf3214
