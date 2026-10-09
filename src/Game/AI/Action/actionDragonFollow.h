@@ -30,7 +30,10 @@ protected:
     // F4534 constructs ModelBindInfo here; F460C destroys its bone key/link,
     // and F49B0 uses its ActorBind interface before leave_ unbinds it.
     ksys::act::ModelBindInfo mBindInfo;
-    u8 _c38[0xc50 - 0xc38];
+    // F4534 initializes these; F4798 writes the position and F49B0 consumes all three.
+    u32 _c38 = 3;
+    sead::Vector3f mDungeonPosition = sead::Vector3f::zero;
+    s32 _c48 = 0;
 };
 KSYS_CHECK_SIZE_NX150(DragonFollow, 0xc50);
 

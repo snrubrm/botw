@@ -18,6 +18,12 @@ public:
 
 protected:
     void calc_() override;
+    // Native table 235BD60 ends with this bool slot; DragonFollow calls it virtually.
+    virtual bool m32();
+    void sub_710004D9A4();
+    void sub_710004DFF4();
+    void sub_710004E754();
+    bool sub_710004F8A4();
     void sub_710004E108();
     // Full 4E2B4 tests the bool argument and adds/removes the challenge body and effects.
     void sub_710004E2B4(bool enable);
