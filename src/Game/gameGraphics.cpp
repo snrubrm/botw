@@ -1,5 +1,6 @@
 #include "Game/gameGraphics.h"
 #include <prim/seadScopedLock.h>
+#include <layer/aglLayer.h>
 
 // NON_MATCHING: scheduling of the bounds and zero stores differs.
 Unk_7100f35df8::Unk_7100f35df8() = default;
@@ -18,6 +19,21 @@ void Graphics::sub_7100F35FA4(bool value, bool second) {
 
 void Graphics::sub_7100F2E06C() {
     _284.setBit(22);
+}
+
+void Graphics::sub_7100F35F50(agl::lyr::Layer* layer, bool value) {
+    if (layer)
+        layer->sub_7100B60DC4(value);
+}
+
+void Graphics::sub_7100F35F68(bool value) {
+    _284.changeBit(14, value);
+    if (_398) {
+        if (value)
+            _398->mFlags.setBit(0);
+        else
+            _398->mFlags.resetBit(0);
+    }
 }
 
 void Graphics::sub_7100F2AF70(u8 map) {

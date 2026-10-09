@@ -7,6 +7,7 @@
 #include <math/seadBoundBox.h>
 #include "KingSystem/Utils/Types.h"
 #include <gfx/seadCamera.h>
+#include <hostio/seadHostIONode.h>
 #include <prim/seadBitFlag.h>
 #include <thread/seadCriticalSection.h>
 #include <gsys/gsysModelScene.h>
@@ -16,6 +17,9 @@ class ResTexture;
 }
 namespace gsys {
 class ModelNW;
+}
+namespace agl::lyr {
+class Layer;
 }
 
 namespace ksys::act {
@@ -61,6 +65,17 @@ public:
 class Unk_710129175c {
 public:
     void sub_71012920C4(s32 index);
+};
+
+// Partial declaration only: F2C140 constructs this 0x258-byte item filter at
+// 1293BAC and stores it at 398. Table 25192A8 inherits Node's class-type method;
+// 1293BAC initializes the word at C to 2, and 1293D68 / 1293FC0 consume its flags.
+// The DebugTexturePage at 10 and its lifetime remain unmodeled.
+class Unk_7101293bac : public sead::hostio::Node {
+public:
+    virtual ~Unk_7101293bac();
+    s32 _8;
+    sead::BitFlag32 mFlags;
 };
 
 // Partial declaration: name from the CSV Graphics::createInstance (0x7100f2a1d0).
@@ -128,6 +143,8 @@ public:
     // 0x7100f35f28 / 0x7100f35f38 (lane4 s64): `_378->_18->_1520` / `_1524`.
     f32 sub_7100F35F28() const;
     f32 sub_7100F35F38() const;
+    void sub_7100F35F50(agl::lyr::Layer* layer, bool value);
+    void sub_7100F35F68(bool value);
 
     // 0x7100f2e06c (placeholder name): sets bit 22 of `_284`.
     void sub_7100F2E06C();
@@ -186,7 +203,9 @@ public:
     Unk_378* _378;
 
 private:
-    u8 _380[0xa98 - 0x380];
+    u8 _380[0x398 - 0x380];
+    Unk_7101293bac* _398;
+    u8 _3a0[0xa98 - 0x3a0];
     Unk_a98* _a98;
     u8 _aa0[0xaa8 - 0xaa0];
     Unk_aa8* _aa8;
