@@ -172,7 +172,9 @@ bool SiteBossRecognizeRootBase::m35() {
     return (mActor->getMtx().getTranslation() - player_pos).length() >= *mWarpStartDist_s;
 }
 
-// NON_MATCHING: getU32 argument evaluation order differs, as in enter_.
+// NON_MATCHING: sUnk_71025ba278 is reached through the GOT here (the original addresses it directly:
+// a TU-local object that is never written, yet not folded — tried TU-local static, which folds to a
+// constant); getU32 argument order as in enter_
 void SiteBossRecognizeRootBase::m40() {
     if (sUnk_71025ba278) {
         _64 = 0;
@@ -197,6 +199,7 @@ void SiteBossRecognizeRootBase::m40() {
     changeChild("ワープ移動", &params);
 }
 
+// NON_MATCHING: sUnk_71025ba278 through the GOT (see m40)
 bool SiteBossRecognizeRootBase::m41() {
     return sUnk_71025ba278;
 }

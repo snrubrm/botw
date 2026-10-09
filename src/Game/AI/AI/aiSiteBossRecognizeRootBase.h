@@ -1,7 +1,6 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAi.h"
-#include "KingSystem/Utils/Types.h"
 
 namespace uking::ai {
 
@@ -47,9 +46,7 @@ protected:
 };
 
 // 0x71025ba278: read by m40 / m41, never written (a debug switch?). Placeholder name.
-// The original reads this external flag directly without folding it, as with
-// ShootingStarMgr::sUnk_71026200E8: its linkage is hidden.
-KSYS_VISIBILITY_HIDDEN extern bool sUnk_71025ba278;
+extern bool sUnk_71025ba278;
 KSYS_CHECK_SIZE_NX150(SiteBossRecognizeRootBase, 0x68);
 
 }  // namespace uking::ai
