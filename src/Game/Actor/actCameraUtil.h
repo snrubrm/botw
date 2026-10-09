@@ -271,6 +271,14 @@ ksys::util::Unk_7101EC6BAC sub_710092DBA4();
 // 0x710092dc00: Camera::_860.sub_710079C120(1) (false without camera).
 bool sub_710092DC00();
 
+// 0x7100923a38: compares two 3x3 matrices along distinct indexed axes; returns radians.
+f32 sub_7100923A38(const sead::Matrix33f& current, const sead::Matrix33f& previous, u32 axis0,
+                     u32 axis1);
+// 0x7100923e2c: VFR-scaled vertical gyro input.
+f32 sub_7100923E2C();
+// 0x710092732c: player-state check returning a boolean for the gyro mode.
+bool sub_710092732C();
+
 namespace uking::act {
 
 // Placeholder name (out-of-line ctor 0x71009214b8, in the camera utility code): a camera state
@@ -328,6 +336,8 @@ public:
 
     // 0x71008a4644: resets the matrices to identity if _da is set.
     void sub_71008A4644();
+    // 0x71008a4694: advances the matrices, with the float smoothing argument in s0.
+    void sub_71008A4694(f32 rate);
 
     /* 0x00 */ sead::Matrix33f _0;
     /* 0x24 */ sead::Matrix33f _24;

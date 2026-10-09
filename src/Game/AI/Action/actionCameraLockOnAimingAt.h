@@ -18,7 +18,6 @@ public:
 
 protected:
     void m33() override;
-    // 0x710077408c (not decompiled yet).
     void m34() override;
     void m36() override;
 
@@ -28,6 +27,15 @@ protected:
     // 0x7100775368 (placeholder name; `this` is unused): `link` acquires the player, or the player's horse when it
     // is mounted (sub_7100926D24) and an actor.
     void sub_7100775368(ksys::act::BaseProcLink* link);
+
+    // Native helpers between m34 and m36 operate on this action's target and input fields.
+    void sub_71007744A8(bool reset);
+    void sub_71007748EC();
+    void sub_7100774AF4();
+    void sub_7100774CB4();
+    void sub_7100774DEC(bool reset);
+    void sub_7100775000();
+    void sub_710077544C();
 
     act::Unk_71008a45f0 _4c;
     ksys::act::BaseProcLink _128;
