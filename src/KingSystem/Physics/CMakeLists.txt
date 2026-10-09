@@ -18,6 +18,9 @@ target_sources(uking PRIVATE
     Constraint/physHingeCs.h
     Constraint/physLimitHingeCs.cpp
     Constraint/physLimitHingeCs.h
+    Constraint/physMotorcycleType1Cs.h
+    Constraint/physPulleyCs.cpp
+    Constraint/physPulleyCs.h
     Constraint/physRackAndPinionCs.cpp
     Constraint/physRackAndPinionCs.h
     Constraint/physConstraintBreakable.cpp
