@@ -2,6 +2,7 @@
 #include <prim/seadFormatPrint.h>
 #include <cmath>
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/AI/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "Game/Actor/actEnemy.h"
 #include "Game/Actor/actActorOption.h"
@@ -19,6 +20,10 @@
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/ActorSystem/actActorCreator.h"
+#include "KingSystem/ActorSystem/actBaseProcHeapMgr.h"
+#include "KingSystem/Resource/Actor/resResourceGParamList.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectEnemy.h"
 
 namespace uking::ai {
 
@@ -46,6 +51,43 @@ void ForestGiantRoot::deleteWeakPoints() {
             enemy->sub_7100D3CFEC(name);
         }
     }
+}
+
+// NON_MATCHING: stack slots and register allocation differ; the existing heap getter is out of line.
+bool ForestGiantRoot::sub_71003DA620(sead::Heap* heap) {
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
+        sead::Vector3f position = enemy->getMtx().getTranslation();
+        position.y += 1.0f;
+        const auto& names = getGParamList()->getEnemy()->mPartActorName.ref();
+        auto it = names.tokenBegin(",");
+        const auto end = names.tokenEnd(",");
+        sead::FixedSafeString<64> actor_name;
+        sead::FixedSafeString<16> part_name;
+        for (u32 i = 0; i < 4; ++i) {
+            if (it == end)
+                break;
+            (sead::StringCutOffPrintFormatter(&part_name) << "WeakPoint%d", i) << sead::flush;
+            enemy->sub_7100D3CED8(part_name, heap);
+            ksys::act::InstParamPack params;
+            params->addPosition(position);
+            it.get(&actor_name);
+            ksys::act::ActorCreator::setCreatePriorityState1(params, mActor);
+            auto* actor = ksys::act::ActorCreator::instance()->createActor(
+                actor_name.cstr(), ksys::act::BaseProcHeapMgr::instance()->getHeap(), &params,
+                false, false);
+            if (actor) {
+                sub_71003DB684(actor, mWeakPointNode_s[i]);
+                actor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_4000);
+                sub_7100738C88(actor, mActor);
+                sub_7100738D28(actor, mActor);
+                enemy->sub_7100D3D108(part_name, actor);
+            } else if (!sub_71005D6D10()) {
+                return false;
+            }
+            ++it;
+        }
+    }
+    return true;
 }
 
 bool ForestGiantRoot::init_(sead::Heap* heap) {
