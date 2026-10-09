@@ -1,5 +1,23 @@
 #include <Havok/Physics2012/Dynamics/Motion/Rigid/hkpKeyframedRigidMotion.h>
 
+// NON_MATCHING: constructor store grouping and scheduling.
+// 0x7101612d9c
+hkpKeyframedRigidMotion::hkpKeyframedRigidMotion(const hkVector4& position,
+                                               const hkQuaternion& rotation)
+    : hkpMotion(position, rotation) {
+    m_type = MOTION_KEYFRAMED;
+    m_inertiaAndMassInv.setZero();
+    m_savedMotion = nullptr;
+    m_savedQualityTypeIndex = 0;
+}
+
+// NON_MATCHING: existing atomic retry branches; deleting variant also moves a register earlier.
+// 0x7101612de8; deleting destructor 0x7101612e58
+hkpKeyframedRigidMotion::~hkpKeyframedRigidMotion() {
+    if (m_savedMotion)
+        m_savedMotion->removeReference();
+}
+
 // 0x7101612f18
 void hkpKeyframedRigidMotion::setMass(hkReal) {}
 
