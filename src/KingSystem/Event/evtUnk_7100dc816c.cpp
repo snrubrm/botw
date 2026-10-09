@@ -17,6 +17,16 @@ act::BaseProcLink& sub_7100DC85D4(act::Actor* actor) {
     return act::getDummyBaseProcLink();
 }
 
+// 0x7100dc8630
+act::BaseProcLink& sub_7100DC8630(const sead::SafeString& name,
+                                const sead::SafeString& secondary_name) {
+    if (auto* manager = Manager::instance()) {
+        if (auto* link = manager->getBaseProcLinkFromActiveEvent(name, secondary_name))
+            return *link;
+    }
+    return act::getDummyBaseProcLink();
+}
+
 bool sub_7100DC866C() {
     if (auto* manager = Manager::instance())
         return manager->hasActiveEvent();
