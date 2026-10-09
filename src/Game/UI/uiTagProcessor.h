@@ -14,6 +14,10 @@ public:
            s32 page, u32 line_count, bool trim_newlines, void* user_data) override;
     void m10(const sead::MessageSet<char16>::TagInfo* tag, char16* out, u32* text_length, u32* character_count,
              u32 capacity, const char16* text, u32 length, void* user_data) override;
+    // 0x71010b2018: regional vertical adjustment after the base pict-font tag.
+    Operation processPictFontProcessTag_(const sead::MessageSet<char16>::TagInfo* tag,
+                                        nn::font::PrintContext<u16>* context,
+                                        nn::font::Rectangle* rect, const char16* next) override;
     f32 m27() const override;
     f32 m28() const override;
     f32 m29() const override;

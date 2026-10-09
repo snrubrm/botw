@@ -1,4 +1,8 @@
 #include "Game/UI/uiTagProcessor.h"
+#include <cstring>
+#include <devenv/seadEnvUtil.h>
+#include <nn/font/font_PrintContext.h>
+#include <nn/font/font_TextWriterBase.h>
 #include "Game/UI/uiUI.h"
 #include "KingSystem/GameData/gdtManagerInline.h"
 
@@ -8,6 +12,26 @@ namespace uking::ui {
 TagProcessor::TagProcessor(eui::MessageMgr* message_mgr, eui::FontMgr* font_mgr)
     : eui::TagProcessor(message_mgr, font_mgr) {
     mRubyEnabled = false;
+}
+
+// 0x71010b2018
+// NON_MATCHING: regional array indexing and cursor arithmetic scheduling differ.
+TagProcessor::Operation TagProcessor::processPictFontProcessTag_(
+    const sead::MessageSet<char16>::TagInfo* tag, nn::font::PrintContext<u16>* context,
+    nn::font::Rectangle* rect, const char16* next) {
+    const Operation result = eui::TagProcessor::processPictFontProcessTag_(tag, context, rect, next);
+    const auto language = sead::EnvUtil::getRegionLanguage();
+    if (language == sead::RegionLanguageID::KRko || language == sead::RegionLanguageID::CNzh ||
+        language == sead::RegionLanguageID::TWzh) {
+        static const f32 offsets[] = {0.08f, 0.06f, 0.08f};
+        const f32 offset = offsets[language.getRelativeIndex() - sead::RegionLanguageID::KRko] *
+                           (mSavedScaleY * context->writer->GetFontHeight());
+        u16 font_index;
+        std::memcpy(&font_index, tag->getParam(), sizeof(font_index));
+        context->writer->SetCursorY(context->writer->GetCursorY() +
+                                   (font_index == 0xffff ? -offset : offset));
+    }
+    return result;
 }
 
 // 0x71010b20a8
