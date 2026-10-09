@@ -35,12 +35,12 @@ bool sub_71002F0924(const ksys::act::ActorConstDataAccess& accessor);
 namespace uking::act {
 
 void Enemy::sub_7100016494() {
-    ++_1148._58;
+    ++_11a0;
     sead::FixedSafeString<32> name;
     if (m165(&name)) {
         const s32 limit = ksys::act::getArrowEnemyShootNumForDelete(
             ksys::act::InfoData::instance(), name.cstr());
-        _1148._58 = sead::Mathf::clampMax(_1148._58, limit);
+        _11a0 = sead::Mathf::clampMax(_11a0, limit);
     }
 }
 
@@ -120,10 +120,10 @@ void Enemy::m92(ksys::phys::RigidBody* body) {
 
 void Enemy::onEnterSleep_() {
     Actor::onEnterSleep_();
-    if (_1148._48)
-        _1148._48->sub_7100E64E60();
+    if (_1190)
+        _1190->sub_7100E64E60();
     ksys::act::ActorConstDataAccess first;
-    if (ksys::act::acquireActor(&_1148._38, &first))
+    if (ksys::act::acquireActor(&_1180, &first))
         first.sleep(SleepWakeReason::_0);
     ksys::act::ActorConstDataAccess second;
     if (ksys::act::acquireActor(&_1100, &second))
@@ -273,7 +273,7 @@ ksys::act::Actor* Enemy::m48() {
 }
 
 void Enemy::m70() {
-    if (auto* rideable = sead::DynamicCast<Rideable>(_1148._20))
+    if (auto* rideable = sead::DynamicCast<Rideable>(_1168))
         rideable->Unk_7100e8b2b8::_10 &= ~0x38u;
 }
 
@@ -286,15 +286,15 @@ void Enemy::m75() {
 }
 
 Rideable* Enemy::getHorseOptionsMaybe() {
-    return sead::DynamicCast<Rideable>(_1148._20);
+    return sead::DynamicCast<Rideable>(_1168);
 }
 
 RideableBase* Enemy::m132() {
-    return _1148._20;
+    return _1168;
 }
 
 Unk_7100e8b2b8* Enemy::getMotorcyclePriorityStuffMaybe() {
-    return sead::DynamicCast<Rideable>(_1148._20);
+    return sead::DynamicCast<Rideable>(_1168);
 }
 
 Enemy::IsSpecialJobTypeResult Enemy::isSpecialJobType_(ksys::act::JobType type) {
@@ -387,9 +387,9 @@ bool Enemy::isGuard() {
 
 void Enemy::onPreDeleteStart_(PrepareArg& arg) {
     ksys::act::ActorConstDataAccess accessor1;
-    if (ksys::act::acquireActor(&_1148._38, &accessor1))
+    if (ksys::act::acquireActor(&_1180, &accessor1))
         accessor1.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
-    _1148._38.reset();
+    _1180.reset();
 
     ksys::act::ActorConstDataAccess accessor2;
     if (ksys::act::acquireActor(&_1100, &accessor2))
@@ -506,10 +506,10 @@ ksys::act::LifeRecoverInfo* Enemy::getLifeRecoverInfo() {
 }
 
 void Enemy::m114(bool, bool) {
-    if (_1148._20) {
-        _1148._20->m9();
-        if (_1148._28)
-            _1148._28->dispatch();
+    if (_1168) {
+        _1168->m9();
+        if (_1170)
+            _1170->dispatch();
     }
 }
 

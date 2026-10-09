@@ -17,7 +17,7 @@ void SetAnimalSupportNormalCalc::m7() {}
 // NON_MATCHING: aggregate initialization omits overwritten defaults and copies vectors together.
 void SetAnimalSupportNormalCalc::m8() {
     if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
-        if (auto* support = enemy->_1148._50) {
+        if (auto* support = enemy->_1198) {
             act::Unk_7102357908::Unk50::CalcArg arg{
                 *mPosteriorLimbOffset_s, *mRayCastLength_s,
                 *mPriorLimbOffset_s, *mPriorRayCastLength_s, true};
@@ -30,7 +30,7 @@ void SetAnimalSupportNormalCalc::m8() {
 void SetAnimalSupportNormalCalc::m9() {
     auto* actor = mActor;
     if (auto* enemy = sead::DynamicCast<act::Enemy>(actor)) {
-        if (auto* support = enemy->_1148._50)
+        if (auto* support = enemy->_1198)
             support->_28 &= ~1;
     }
 }

@@ -89,23 +89,22 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(Unk_7100013308, 0x128);
 
-// Placeholder name = vtable (2 slots: empty D1, D0). Embedded in Enemy at 0x1148.
+// Native vtable 0x7102357908 has empty D1 0x710001AF70 and D0 0x710001AF74.
+// Enemy +0x1148 and GiantEnemy +0x1570 both embed this 0x18-byte callback list.
 class Unk_7102357908 {
 public:
     explicit Unk_7102357908(ksys::act::Actor* actor) : mActor(actor) {}
     virtual ~Unk_7102357908() = default;
 
+    void clear();
+    void erase(Unk_7102366570* callback);
+    void append(Unk_7102366570* callback);
+    void dispatch();
+
     /* 0x08 */ ksys::act::Actor* mActor;
-    /* 0x10 */ void* _10 = nullptr;
-    /* 0x18 */ void* _18 = nullptr;
-    /* 0x20 */ RideableBase* _20 = nullptr;  // Enemy::m132
-    /* 0x28 */ class ::Unk_71006cee58* _28 = nullptr;
-    /* 0x30 */ u32 _30 = 0;
-    /* 0x38 */ ksys::act::BaseProcLink _38;
-    // Placeholder (type unknown): an object with a scale (_2c, used while _10 is set) and flag bits
-    // (LynelHighJumpAttack scales its jump height with it and sets flag bit 4 when it changes it).
+    /* 0x10 */ Unk_7102366570* mHead = nullptr;
+
     using Unk48 = ExtendedEntity;
-    /* 0x48 */ Unk48* _48 = nullptr;
     // Placeholder (type unknown): the animal support object; the AnimalSupport behaviors set / clear
     // bits of the flags byte at +0x28 (bit 0: SetAnimalSupportNormalCalc, bit 1:
     // OnAnimalSupportNrmCalcFrontRay).
@@ -129,11 +128,8 @@ public:
         /* 0x24 */ f32 mPriorRayCastLength = 0;
         /* 0x28 */ u8 _28 = 0;
     };
-    /* 0x50 */ Unk50* _50 = nullptr;
-    // 2026-10-07: 16494 clamps this signed counter; 2EE60C compares it with a signed arrow limit.
-    /* 0x58 */ s32 _58 = 0;
 };
-KSYS_CHECK_SIZE_NX150(Unk_7102357908, 0x60);
+KSYS_CHECK_SIZE_NX150(Unk_7102357908, 0x18);
 
 // Message listeners embedded in Enemy (base vtable 0x7102357210). Placeholder names = vtables.
 class Unk_7102357a08 : public Unk_7102357210 {
@@ -410,6 +406,15 @@ public:
     /* 0x1110 */ sead::TList<uking::action::Unk_71023b30d8*> _1110;  // effect callbacks
     /* 0x1128 */ Unk_7100d3cd74 _1128{this};
     /* 0x1148 */ Unk_7102357908 _1148{this};
+    /* 0x1160 */ void* _1160 = nullptr;
+    /* 0x1168 */ RideableBase* _1168 = nullptr;
+    /* 0x1170 */ Unk_7102357908* _1170 = nullptr;
+    /* 0x1178 */ u32 _1178 = 0;
+    /* 0x1180 */ ksys::act::BaseProcLink _1180;
+    /* 0x1190 */ Unk_7102357908::Unk48* _1190 = nullptr;
+    /* 0x1198 */ Unk_7102357908::Unk50* _1198 = nullptr;
+    // Native 16494 clamps this counter; 2EE60C compares it with the signed arrow limit.
+    /* 0x11a0 */ s32 _11a0 = 0;
     /* 0x11a8 */ sead::CriticalSection _11a8;
     /* 0x11e8 */ ksys::act::BaseProcLink _11e8;
     /* 0x11f8 */ sead::Matrix34f _11f8 = sead::Matrix34f::ident;

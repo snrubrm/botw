@@ -54,7 +54,7 @@ void PreyRoot::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void PreyRoot::leave_() {
-    if (!_188->_1148._48) {
+    if (!_188->_1190) {
         if (auto* controller = mActor->getCharacterController())
             controller->sub_7100F62DD0(1.0f);
     }

@@ -15,7 +15,7 @@ bool LynelHighJumpAttack::init_(sead::Heap* heap) {
 void LynelHighJumpAttack::enter_(ksys::act::ai::InlineParamPack* params) {
     _a8 = 1.0f;
     if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
-        if (auto* unit = enemy->_1148._48) {
+        if (auto* unit = enemy->_1190) {
             _a8 = unit->_10 ? unit->_2c : 0.0f;
             unit->_2c = 0.4f;
             unit->_58 |= 1 << int(act::Unk_7102357908::Unk48::Flag(act::Unk_7102357908::Unk48::Flag::_4));
@@ -26,7 +26,7 @@ void LynelHighJumpAttack::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void LynelHighJumpAttack::leave_() {
     if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
-        if (auto* unit = enemy->_1148._48) {
+        if (auto* unit = enemy->_1190) {
             const f32 scale = _a8;
             const f32 current = unit->_10 ? unit->_2c : 0.0f;
             if (scale != current) {
@@ -53,7 +53,7 @@ f32 LynelHighJumpAttack::m33() {
 void LynelHighJumpAttack::m32(f32 a, f32 b) {
     f32 scale = 1.0f;
     if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
-        if (auto* unit = enemy->_1148._48) {
+        if (auto* unit = enemy->_1190) {
             if (unit->_10)
                 scale = unit->_2c + 1.0f;
         }

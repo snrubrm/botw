@@ -103,9 +103,8 @@ public:
     /* 0x1558 */ Unk_71002d99c* _1558 = nullptr;
     /* 0x1560 */ ksys::phys::RigidBody* _1560 = nullptr;  // set by the ForestGiant / StalGiantEnemy / Golem root AIs (m56)
     /* 0x1568 */ u8 _1568 = 0;  // written by several giant AIs
-    // object with vtable 0x7102357908 (owner = this); m79 forwards to 0x71006cef08 on it
-    // 2026-10-07: m79 passes this exact 0x18-byte prefix to the original dispatch helper.
-    /* 0x1570 */ Unk_71006cee58 _1570;
+    // Native m79 dispatches this 0x18-byte list, with the same vtable as Enemy::_1148.
+    /* 0x1570 */ Unk_7102357908 _1570{this};
 };
 KSYS_CHECK_SIZE_NX150(GiantEnemy, 0x1588);
 

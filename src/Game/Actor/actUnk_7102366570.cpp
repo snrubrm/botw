@@ -1,13 +1,16 @@
 #include "Game/Actor/actUnk_7102366570.h"
+#include "Game/Actor/actEnemy.h"
+
+namespace uking::act {
 
 // NON_MATCHING: the invalid-owner retry loop differs from the original terminal loop.
-void Unk_71006cee58::clear() {
+void Unk_7102357908::clear() {
     while (mHead)
         erase(mHead);
 }
 
 // NON_MATCHING: pointer strength reduction and callback field stores differ.
-void Unk_71006cee58::erase(Unk_7102366570* callback) {
+void Unk_7102357908::erase(Unk_7102366570* callback) {
     if (callback->mOwner != this || !mHead)
         return;
     if (mHead == callback) {
@@ -29,7 +32,7 @@ void Unk_71006cee58::erase(Unk_7102366570* callback) {
     callback->mPrev = nullptr;
 }
 
-void Unk_71006cee58::append(Unk_7102366570* callback) {
+void Unk_7102357908::append(Unk_7102366570* callback) {
     if (callback->mOwner)
         return;
     if (mHead) {
@@ -44,7 +47,7 @@ void Unk_71006cee58::append(Unk_7102366570* callback) {
     callback->mOwner = this;
 }
 
-void Unk_71006cee58::dispatch() {
+void Unk_7102357908::dispatch() {
     auto* current = mHead;
     if (!current)
         return;
@@ -54,3 +57,5 @@ void Unk_71006cee58::dispatch() {
         current = current->mNext;
     } while (current);
 }
+
+}  // namespace uking::act

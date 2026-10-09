@@ -17,7 +17,7 @@ void OnAnimalSupportNrmCalcFrontRay::m7() {}
 void OnAnimalSupportNrmCalcFrontRay::m8() {
     auto* actor = mActor;
     if (auto* enemy = sead::DynamicCast<act::Enemy>(actor)) {
-        if (auto* support = enemy->_1148._50)
+        if (auto* support = enemy->_1198)
             support->_28 |= 2;
     }
 }
@@ -25,7 +25,7 @@ void OnAnimalSupportNrmCalcFrontRay::m8() {
 void OnAnimalSupportNrmCalcFrontRay::m9() {
     auto* actor = mActor;
     if (auto* enemy = sead::DynamicCast<act::Enemy>(actor)) {
-        if (auto* support = enemy->_1148._50)
+        if (auto* support = enemy->_1198)
             support->_28 &= ~2;
     }
 }

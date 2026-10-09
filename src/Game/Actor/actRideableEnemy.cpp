@@ -20,7 +20,7 @@ HorseReins* RideableEnemy::m40() {
     auto* actor = RideableBase::mActor;
     if (!sead::IsDerivedFrom<Enemy>(actor))
         return nullptr;
-    auto* proc = static_cast<Enemy*>(actor)->_1148._38.getProc(nullptr, nullptr);
+    auto* proc = static_cast<Enemy*>(actor)->_1180.getProc(nullptr, nullptr);
     proc = sead::DynamicCast<ksys::act::Actor>(proc);
     return sead::DynamicCast<HorseReins>(proc);
 }

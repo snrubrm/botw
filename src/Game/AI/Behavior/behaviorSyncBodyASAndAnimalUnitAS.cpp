@@ -19,14 +19,14 @@ void SyncBodyASAndAnimalUnitAS::Callback::call(ksys::act::Actor* actor) {
 void SyncBodyASAndAnimalUnitAS::m8() {
     _68 = -1;
     auto* enemy = sead::DynamicCast<uking::act::Enemy>(mActor);
-    if (enemy && enemy->_1148._28)
-        enemy->_1148._28->append(&_28);
+    if (enemy && enemy->_1170)
+        enemy->_1170->append(&_28);
 }
 
 void SyncBodyASAndAnimalUnitAS::m9() {
     auto* enemy = sead::DynamicCast<uking::act::Enemy>(mActor);
-    if (enemy && enemy->_1148._28)
-        enemy->_1148._28->erase(&_28);
+    if (enemy && enemy->_1170)
+        enemy->_1170->erase(&_28);
 }
 
 bool SyncBodyASAndAnimalUnitAS::m6(sead::Heap* heap) {
