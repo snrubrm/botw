@@ -397,7 +397,6 @@ void CameraHorse::sub_7100770DA8() {
     _110.sub_710079C384(duration, 0.0f);
 }
 
-// NON_MATCHING: cached input flag branch layout differs.
 void CameraHorse::sub_7100771C30(f32* out) {
     *out = *mSideOffsetSlow_s + (*mSideOffsetFast_s - *mSideOffsetSlow_s) * _50;
     auto* ridden_actor = sead::DynamicCast<ksys::act::Actor>(
@@ -405,10 +404,10 @@ void CameraHorse::sub_7100771C30(f32* out) {
     f32 speed;
     if (auto* motorcycle = sead::DynamicCast<act::Motorcycle>(ridden_actor)) {
         speed = motorcycle->speedStuff_1();
-        if (motorcycle->_bb4 == 0.0f)
-            _261.reset(2);
-        else
+        if (motorcycle->_bb4 != 0.0f)
             _261.set(2);
+        else
+            _261.reset(2);
     } else {
         speed = _54;
     }
