@@ -1,4 +1,5 @@
 #include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actActorNameSearch.h"
 #include "Game/gameGraphics.h"
 #include <gsys/gsysModel.h>
 #include "Game/AI/aiUnk_7100EE53C4.h"
@@ -1473,3 +1474,29 @@ ksys::phys::RigidBody* sub_7100EE5FE4(ksys::act::Actor* actor) {
     }
     return nullptr;
 }
+
+namespace ksys::act {
+
+ActorNameSearch::ActorNameSearch(const sead::Vector3f& origin, const sead::SafeString& unique_name)
+    : mOrigin(origin), mUniqueName(unique_name), mClosestDistanceSquared(-1.0f) {}
+
+void ActorNameSearch::sub_7100EDCED0(BaseProc* proc) {
+    if (!proc)
+        return;
+    auto* actor = sead::DynamicCast<Actor>(proc);
+    if (!actor)
+        return;
+    if (!mUniqueName.isEmpty()) {
+        const char* unique_name = nullptr;
+        if (!actor->getMapObjIter().tryGetParamStringByKey(&unique_name, "UniqueName") ||
+            !unique_name || mUniqueName != unique_name)
+            return;
+    }
+    const f32 distance_squared = (mOrigin - actor->getMtx().getTranslation()).squaredLength();
+    if (mClosestDistanceSquared < 0.0f || distance_squared < mClosestDistanceSquared) {
+        mClosestDistanceSquared = distance_squared;
+        mLink.acquire(actor, false);
+    }
+}
+
+}  // namespace ksys::act

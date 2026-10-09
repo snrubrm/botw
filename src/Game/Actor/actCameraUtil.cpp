@@ -4,6 +4,9 @@
 #include "Game/Actor/actHorseBase.h"
 #include "Game/Actor/actCamera.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actActorNameSearch.h"
+#include "KingSystem/ActorSystem/actBaseProcMgr.h"
+#include "KingSystem/Map/mapPlacementMgr.h"
 #include "KingSystem/Event/evtEventSystem.h"
 #include "KingSystem/Event/evtManager.h"
 #include "KingSystem/Event/evtEventFlow.h"
@@ -591,6 +594,33 @@ void Unk_71009241ac::sub_710092464C() {
     matrix = mtx;
     previousPos = mtx.getTranslation();
     position = mtx.getTranslation();
+}
+
+// NON_MATCHING: the empty-name constructor choice is folded to csel; local stack placement differs.
+void sub_7100923F44(const sead::SafeString& name, const sead::SafeString& unique_name,
+                    const sead::Vector3f& origin,
+                    sead::IDelegate1<ksys::act::ActorConstDataAccess*>* on_actor,
+                    sead::IDelegate1<ksys::map::Object*>* on_object) {
+    if (!on_actor || !on_object)
+        return;
+    auto* proc_manager = ksys::act::BaseProcMgr::instance();
+    if (!proc_manager)
+        return;
+    auto* placement_manager = ksys::map::PlacementMgr::instance();
+    if (!placement_manager)
+        return;
+    ksys::act::ActorNameSearch search(origin, unique_name.isEmpty() ? sead::SafeString::cEmptyString
+                                                                 : unique_name);
+    sead::Delegate1<ksys::act::ActorNameSearch, ksys::act::BaseProc*> callback(
+        &search, &ksys::act::ActorNameSearch::sub_7100EDCED0);
+    proc_manager->forEachProc(name, callback, ksys::act::BaseProcMgr::ProcFilters(5));
+    if (search.mLink.hasProc()) {
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::acquireActor(&search.mLink, &accessor);
+        on_actor->invoke(&accessor);
+    } else if (auto* object = placement_manager->sub_71011EC398(name, unique_name, origin)) {
+        on_object->invoke(object);
+    }
 }
 
 // NON_MATCHING: vector load/store grouping and local delegate stack placement differ.

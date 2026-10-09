@@ -156,6 +156,9 @@ public:
     // 0x71011eb2ac / 0x71011eb460 (CSV x_8 / x_7; placeholder names): forward to the mass / forest renderers.
     void sub_71011EB2AC();
     u32 sub_71011EB460() const;
+    // Native camera caller924078 passes both names and the origin; the callee returns the nearest Object.
+    Object* sub_71011EC398(const sead::SafeString& name, const sead::SafeString& unique_name,
+                           const sead::Vector3f& origin);
     void stubbed();
     void insertTraverseResultPreActor(act::Actor* actor);
     void setFlag8Enabled(bool enabled);
