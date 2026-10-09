@@ -20,7 +20,6 @@ bool TreasureBoxRoot::init_(sead::Heap* heap) {
     return true;
 }
 
-// NON_MATCHING: the ground-state condition is combined with the captured query results.
 void TreasureBoxRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     auto* actor = mActor;
     auto* map = actor->getMapObject();
@@ -29,7 +28,11 @@ void TreasureBoxRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     const bool revival = map && map->checkRevivalFlag(ksys::map::ActorData::Flag::RevivalEnable);
     if (auto* body = actor->getMainBody())
         body->getMotionType();
-    if (!*mIsInGround_m || linked || used || revival || _79)
+    if (!*mIsInGround_m) {
+        enter_init();
+        return;
+    }
+    if (linked || used || revival || _79)
         enter_init();
     else
         sub_71005CEA88();
