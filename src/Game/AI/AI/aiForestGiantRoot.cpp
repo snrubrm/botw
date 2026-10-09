@@ -4,6 +4,8 @@
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "Game/Actor/actEnemy.h"
+#include "Game/Actor/actActorOption.h"
+#include "KingSystem/ActorSystem/actModelBindInfo.h"
 #include "Game/Actor/actGiantEnemy.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actAttackSensor.h"
@@ -193,6 +195,21 @@ bool ForestGiantRoot::m35() {
         }
     }
     return false;
+}
+
+void ForestGiantRoot::sub_71003DB684(ksys::act::Actor* actor, const sead::SafeString& bone) {
+    if (bone.isEmpty())
+        return;
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(actor)) {
+        auto* binding = enemy->_f38;
+        if (!binding)
+            return;
+        binding->x(mActor);
+        binding->_28 = bone.cstr();
+        binding->_30.getKey().reset();
+    } else if (auto* option = sead::DynamicCast<act::ActorOption>(actor)) {
+        option->sub_71000003F4(mActor, bone, sead::Vector3f::zero, sead::Vector3f::zero);
+    }
 }
 
 void ForestGiantRoot::m37() {

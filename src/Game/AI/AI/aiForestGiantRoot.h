@@ -31,6 +31,8 @@ protected:
     bool sub_71003DA620(sead::Heap* heap);
     // 0x71003DAF1C updates the root flags and controller callbacks; called first by calc_.
     void sub_71003DAF1C();
+    // 3DA620 passes each created weak point actor and its bone name.
+    void sub_71003DB684(ksys::act::Actor* actor, const sead::SafeString& bone);
 
     void sub_71003DB978(const sead::SafeString& add_suffix1, const sead::SafeString& add_suffix2,
                        const sead::SafeString& remove_suffix1, const sead::SafeString& remove_suffix2);
