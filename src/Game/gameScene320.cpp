@@ -23,7 +23,6 @@ void GameScene320::sub_71008979B0(sead::Controller* a8, s32 a10, u8 a21, u8 a18)
     _20 = 0;
 }
 
-// NON_MATCHING: held-mask load and bit-shift scheduling differ inside the loop.
 void GameScene320::sub_71008979E4() {
     if (!_8)
         return;
@@ -33,7 +32,7 @@ void GameScene320::sub_71008979E4() {
     }
     for (u32 i = 0; i < 32; ++i) {
         const u32 bit = 1u << i;
-        if (_10 != 0 && (_8->getHoldMask() & bit) != 0)
+        if (_10 != 0 && (_8->getTrigMask() & bit) != 0)
             _14 |= bit;
     }
     if (_14 == _10) {
