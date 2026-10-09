@@ -62,6 +62,12 @@ f32 Unk_7102459708::sub_7100791E44(f32 t) const {
 
 namespace uking::act {
 
+bool Camera::sub_7100792360(void*) {
+    sub_7100793924();
+    sub_7100793BD8();
+    return true;
+}
+
 Unk_7100928644::Unk_7100928644() : _0(0), _4(0), _8(0), _c(0), _10(0), _14(0) {}
 
 

@@ -17,6 +17,7 @@
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Utils/MathUtil.h"
 #include "KingSystem/Utils/Types.h"
+#include "KingSystem/Utils/Thread/Task.h"
 
 namespace ksys::phys {
 class RayCast;
@@ -419,6 +420,10 @@ public:
     void sub_7100795E08(const Unk_71009214b8& src, Unk_71009214b8* dst);
     explicit Camera(const CreateArg& arg);
 
+    // Constructor 791F38 binds this callback into the task delegate at 1400;
+    // complete 79691C submits it to WorkerSupportThreadMgr::submitRequest.
+    bool sub_7100792360(void* arg);
+
     // The new virtual functions (slots 148-166; lane4 s44; signatures from the small ones, the rest are declarations
     // only). m148 / m149 return the camera (CSV m148_null / m149_null: `ret` only; their thunks 0x7100799d00 /
     // 0x7100799d08 keep the `this` adjustment, so they return `this`).
@@ -532,7 +537,7 @@ public:
     /* 0x13fc */ u8 _13fc = 0;
     /* 0x13fd */ u8 _13fd = 0;
     /* 0x13fe */ u8 _13fe = 0;
-    /* 0x1400 */ sead::Delegate<Camera> _1400;
+    /* 0x1400 */ ksys::util::TaskDelegateT<Camera> _1400;
     // m163 waits for the worker task 1 when set, m164 / m75 use _1421.
     /* 0x1420 */ u8 _1420 = 0;
     /* 0x1421 */ u8 _1421 = 0;
