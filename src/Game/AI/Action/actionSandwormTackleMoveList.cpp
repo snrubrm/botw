@@ -4,8 +4,7 @@
 
 const sead::SafeString& sub_71002CCC20(s32 idx);
 
-// Out of line in the original (a TU of its own around 0x71f6dc); kept apart from the actions so that their destructors
-// do not inline these helpers.
+// Adjacent target-list helper family used by the two Sandworm tackle actions.
 namespace uking::action {
 
 bool Unk_SandwormTackleMoveList::sub_71F6DC(sead::Heap* heap) {
