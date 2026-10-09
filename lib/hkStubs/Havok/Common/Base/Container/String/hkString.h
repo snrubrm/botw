@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstdarg>
+
 #include <Havok/Common/Base/Types/hkBaseDefs.h>
 #include <Havok/Common/Base/Types/hkBaseTypes.h>
 
@@ -7,6 +9,10 @@ class hkMemoryAllocator;
 
 namespace hkString {
 
+// Full native 15943E8 copies the AArch64 va_list; 159442C saves GP/vector
+// argument registers. Ostream consumers15883C4/15880D0 supply format and buffer.
+int vsnprintf(char* buffer, int bufferSize, const char* format, std::va_list args);
+int snprintf(char* buffer, int bufferSize, const char* format, ...);
 int strCmp(const char* s1, const char* s2);
 // Native 1594548 and complete hkOstream callers1588184/15880D0 consume a
 // null-terminated string and use the returned signed 32-bit length.

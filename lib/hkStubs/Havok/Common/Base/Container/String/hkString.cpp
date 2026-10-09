@@ -1,9 +1,22 @@
 #include <Havok/Common/Base/Container/String/hkString.h>
 
 #include <cstring>
+#include <cstdio>
 #include <Havok/Common/Base/Memory/Router/hkMemoryRouter.h>
 
 namespace hkString {
+
+int vsnprintf(char* buffer, int bufferSize, const char* format, std::va_list args) {
+    return std::vsnprintf(buffer, bufferSize, format, args);
+}
+
+int snprintf(char* buffer, int bufferSize, const char* format, ...) {
+    std::va_list args;
+    va_start(args, format);
+    const int result = std::vsnprintf(buffer, bufferSize, format, args);
+    va_end(args);
+    return result;
+}
 
 int strCmp(const char* s1, const char* s2) {
     return std::strcmp(s1, s2);
