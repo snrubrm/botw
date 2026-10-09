@@ -10,6 +10,10 @@ namespace uking::dmg {
 
 SEAD_SINGLETON_DISPOSER_IMPL(DamageInfoMgr)
 
+bool DamageInfoMgr::isReady() {
+    return mReactionTable.isReady();
+}
+
 bool DamageInfoMgr::enableBoomerangRemoteBombs() {
     return false;
 }

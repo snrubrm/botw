@@ -3,6 +3,10 @@
 
 namespace uking::dmg {
 
+bool DamageReactionTable::isReady() {
+    return true;
+}
+
 s32 DamageReactionTable::sub_71006681E4(const sead::SafeString& name) const {
     const u32 hash = agl::utl::ParameterBase::calcHash(name);
     for (s32 i = 0; i < mItems.size(); ++i) {
