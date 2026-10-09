@@ -37,6 +37,20 @@ void NPCTravelBase::leave_() {
 
 void NPCTravelBase::loadParams_() {}
 
+// 0x71004dfb9c: send this actor's link to the selected awareness entry.
+// NON_MATCHING: actor load timing, awareness-link address scheduling and return register differ.
+bool NPCTravelBase::sub_71004DFB9C() {
+    auto* entry = sub_71004DFA90();
+    if (!entry)
+        return false;
+    {
+        sead::ScopedLock<sead::JobQueueLock> lock(&_38._18.mLock);
+        _38._18.mLink.acquire(mActor, false);
+    }
+    _38.sub_710070DCC0(&entry->_0.mLink, true);
+    return true;
+}
+
 // 0x71004dfa0c
 void NPCTravelBase::sub_71004DFA0C(bool crouching) {
     const sead::SafeString name = crouching ? "Crouching" : "Standing";

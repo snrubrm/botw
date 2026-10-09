@@ -4,6 +4,10 @@
 #include "KingSystem/ActorSystem/actAiAi.h"
 #include "KingSystem/System/Timer.h"
 
+namespace ksys::act {
+struct Unk_7100d78e50;
+}
+
 namespace uking::ai {
 
 class NPCTravelBase : public ksys::act::ai::Ai {
@@ -19,6 +23,9 @@ public:
     void loadParams_() override;
 
 protected:
+    // Full native 4dfa90 returns an awareness array entry selected by the existing filter.
+    ksys::act::Unk_7100d78e50* sub_71004DFA90();
+    bool sub_71004DFB9C();
     // 0x71004df978: plays the stance AS (slot 0x3b) selected by the schedule value (_1b0 / _1b4 / _1b8)
     void sub_71004DF978(bool a1, bool a2);
     // 0x71004df7ec: the NPC meeting state (NPCMove::sub_71004D44B0 without the name check): flags and awareness from the schedule state value (_1a0 / _1a4 / _1a8)

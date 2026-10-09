@@ -57,7 +57,8 @@ struct Unk_71023b1608_Payload {
 // Message 0x8000009 (sender Unk_710240bc48; NPCTravelBase / NPCMove)
 struct Unk_710240bc48_Payload {
     ksys::act::BaseProcLink mLink;
-    s32 _10 = 0;
+    // NPCTravelBase 4dfb9c and NPCMove 4d12ac lock this field around link acquisition.
+    sead::JobQueueLock mLock;
 };
 
 // Message 0x8000006 (sender Unk_710235abc8)
