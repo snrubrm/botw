@@ -80,6 +80,22 @@ bool Unk_71024dc858::m16(Unk_71024dc978* other) {
     return false;
 }
 
+bool Unk_71024dc858::m14(Unk_71024dc978* other) {
+    auto* entry = sead::DynamicCast<Unk_71024dc858>(other);
+    if (!entry)
+        return false;
+    for (s32 i = 0; i < 4; ++i)
+        m9(i, entry->m4(i));
+    _38 = *entry->m6();
+    _3c = entry->_3c;
+    _40 = entry->_40;
+    // Explicit call preserves the native destination-first C++14 evaluation, as in Struct7::sub_710079F208.
+    mLink.operator=(entry->mLink);
+    _44 = entry->_44;
+    _48 = entry->_48;
+    return true;
+}
+
 void Unk_71024dc858::sub_7100D77518(int idx, f32 value) {
     _18[idx] = value;
 }
