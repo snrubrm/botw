@@ -86,8 +86,6 @@ ScreenAppPictureBookEntry::~ScreenAppPictureBookEntry() {
     }
 }
 
-// NON_MATCHING: constructor vector copies and bound stores are grouped differently,
-// with different constant-register allocation in the entry loop.
 void ScreenAppPictureBookUnk::sub_7100943E80(sead::Heap* heap, s32 count) {
     if (count < 1)
         return;

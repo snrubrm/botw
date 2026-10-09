@@ -1,4 +1,5 @@
 #include "Game/UI/uiScreenControlCreators.h"
+#include "Game/UI/uiScreenChildStates.h"
 #include "Game/UI/uiScreens.h"
 #include "Game/UI/euiLayoutEx.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
@@ -227,6 +228,13 @@ ScreenChild* sub_71009D7198(const nn::ui2d::ControlSrc&, eui::LayoutEx* layout) 
     return new (layout_ex->mScreen->mInitializeHeap, 8) ScreenChildEx(layout_ex);
 }
 
+ScreenChild* sub_71009D7294(const nn::ui2d::ControlSrc&, eui::LayoutEx* layout) {
+    auto* layout_ex = nn::font::DynamicCast<eui::LayoutEx>(layout);
+    if (!layout_ex || !layout_ex->mScreen || !layout_ex->mScreen->mInitializeHeap)
+        return nullptr;
+    return new (layout_ex->mScreen->mInitializeHeap, 8) Unk_710247dc90(layout_ex);
+}
+
 // ScreenAppMapDungeon creator; native getter/D0 precede its screen constructor.
 static const ChildControlCreatorEntry sUnk_7102481048[] = {
     {"Pa_SensorBox_00", sub_71009DE3F4, 0},
@@ -239,5 +247,12 @@ const sead::Buffer<const ChildControlCreatorEntry>* Unk_7102481078::getEntries()
 }
 // 0x71009de3d0
 Unk_7102481078::~Unk_7102481078() = default;
+
+ScreenChild* sub_71009DE3F4(const nn::ui2d::ControlSrc&, eui::LayoutEx* layout) {
+    auto* layout_ex = nn::font::DynamicCast<eui::LayoutEx>(layout);
+    if (!layout_ex || !layout_ex->mScreen || !layout_ex->mScreen->mInitializeHeap)
+        return nullptr;
+    return new (layout_ex->mScreen->mInitializeHeap, 8) Unk_710247c010(layout_ex);
+}
 
 }  // namespace uking::ui

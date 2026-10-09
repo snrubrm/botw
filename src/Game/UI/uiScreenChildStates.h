@@ -11,6 +11,28 @@ class MessageString;
 
 namespace uking::ui {
 
+// Factory 9d7294 allocates 0x708 bytes; full ctor 9c69a4 and dtor 9c6a2c
+// establish ScreenChildEx and native vtable 247dc90. Lifetime bodies remain undecompiled.
+class Unk_710247dc90 : public ScreenChildEx {
+public:
+    explicit Unk_710247dc90(eui::LayoutEx* layout);
+    ~Unk_710247dc90() override;
+
+    u8 _130[0x708 - 0x130];
+};
+static_assert(sizeof(Unk_710247dc90) == 0x708);
+
+// Factory 9de3f4 allocates 0x480 bytes; full ctor 9bd404 and dtor 9bd470
+// establish the same base and vtable 247c010. No embedded lifetime is defined here.
+class Unk_710247c010 : public ScreenChildEx {
+public:
+    explicit Unk_710247c010(eui::LayoutEx* layout);
+    ~Unk_710247c010() override;
+
+    u8 _130[0x480 - 0x130];
+};
+static_assert(sizeof(Unk_710247c010) == 0x480);
+
 // A list unit of the Unk_710247af10 TU (vtable 0x710247ae48, 0x58 bytes; created by 0x71009b951c, which allocates
 // them into a PtrArray). Only the overridden slots are declared.
 class Unk_710247ae48 : public Unk_7102474e38 {
