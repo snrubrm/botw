@@ -10,6 +10,10 @@
 #include <thread/seadDelegateThread.h>
 #include "KingSystem/Utils/Types.h"
 
+namespace ksys::eft {
+class Unk_EffectActorTable;
+}
+
 namespace ksys::act {
 class Actor;
 class ClusteredRenderer;
@@ -77,6 +81,9 @@ class PlacementMapMgr;
 class PlacementTree;
 
 class PlacementMgr {
+    // 0x7100da216c directly reads the placement state.
+    friend class ksys::eft::Unk_EffectActorTable;
+
     SEAD_SINGLETON_DISPOSER(PlacementMgr)
     PlacementMgr();
     virtual ~PlacementMgr();
