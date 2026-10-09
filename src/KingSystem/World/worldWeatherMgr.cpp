@@ -1,5 +1,7 @@
 #include "KingSystem/World/worldWeatherMgr.h"
 #include <random/seadGlobalRandom.h>
+#include <gfx/seadCamera.h>
+#include "KingSystem/System/CameraMgr.h"
 #include "KingSystem/GameData/gdtManager.h"
 #include "KingSystem/World/worldEnvMgr.h"
 #include "KingSystem/World/worldManager.h"
@@ -198,6 +200,23 @@ int WeatherMgr::x() const {
     if (_320 != 3)
         return 0;
     return _324;
+}
+
+// NON_MATCHING: source floats s0/s1 and output integers w8/w9 are swapped.
+void WeatherMgr::x_12(const sead::Vector3f& position) {
+    auto* camera = CameraMgr::instance()->getLookAtCamera();
+    if (!camera)
+        return;
+    sead::Vector3f target = position;
+    target.y = camera->getPos().y;
+    sead::Vector3f direction = camera->getPos() - target;
+    const float length = direction.length();
+    if (length != 0.0f)
+        direction *= 1.0f / length;
+    else
+        direction.set(1.0f, 0.0f, 0.0f);
+    direction.y -= 0.6f;
+    _2ac = direction;
 }
 
 // NON_MATCHING: the original materializes the false result before the first branch and branches

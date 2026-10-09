@@ -1,6 +1,7 @@
 #pragma once
 
 #include <container/seadSafeArray.h>
+#include <math/seadVector.h>
 #include "KingSystem/Utils/Types.h"
 #include "KingSystem/World/worldDefines.h"
 #include "KingSystem/World/worldJob.h"
@@ -47,6 +48,8 @@ public:
     WeatherType x_4(int climate) const;
     WeatherType x_5(int climate) const;
     WeatherType x_18(int climate) const;
+    // 10ED7B8 receives the lightning position; D9C0CC passes a Vector3f temporary.
+    void x_12(const sead::Vector3f& position);
     void x_13();
     void x_14();
     void sub_71010EDEBC(int value);
@@ -69,7 +72,10 @@ public:
     u8 _193;
     ClimateWeathers mClimateWeathers[NumClimates];  // 0x194
     sead::SafeArray<u8, 6> _284;
-    u8 _28a[0x2d0 - 0x28a];
+    u8 _28a[0x2ac - 0x28a];
+    // Constructor sets (0, 1, 0); x_12 and x_9 write the camera-facing direction.
+    sead::Vector3f _2ac;
+    u8 _2b8[0x2d0 - 0x2b8];
     float _2d0;  // Puddle::enter_: 1 - _2d0 is subtracted from the home matrix height
     u8 _2d4[0x2d8 - 0x2d4];
     float _2d8;  // Puddle::calc_
