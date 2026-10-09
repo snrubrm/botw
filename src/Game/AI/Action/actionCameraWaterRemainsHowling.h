@@ -22,6 +22,7 @@ protected:
 
     void sub_710078BF18();
     void sub_710078C1F0();
+    void sub_710078C4F8();
     void m36() override;
 
     f32 _4c = angleStuff(0);
