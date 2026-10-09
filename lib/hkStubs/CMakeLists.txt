@@ -60,6 +60,7 @@ add_library(hkStubs OBJECT
   Havok/Common/Base/Math/Quaternion/hkQuaternionf.inl
   Havok/Common/Base/Math/SweptTransform/hkSweptTransform.h
   Havok/Common/Base/Math/SweptTransform/hkSweptTransformf.h
+  Havok/Common/Base/Math/SweptTransform/hkSweptTransformfUtil.cpp
   Havok/Common/Base/Math/SweptTransform/hkSweptTransformfUtil.h
   Havok/Common/Base/Math/Vector/hkFourTransposedPoints.h
   Havok/Common/Base/Math/Vector/hkFourTransposedPointsf.h
