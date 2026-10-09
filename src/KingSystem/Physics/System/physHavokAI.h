@@ -15,6 +15,10 @@
 #include "KingSystem/Resource/resHandle.h"
 #include "KingSystem/Utils/Types.h"
 
+class hkaiWorld;
+class hkaiSilhouetteGenerator;
+class hkaiObstacleGenerator;
+
 // Game/AI/aiUnk_NavMeshCallback.h
 class Unk_NavMeshCallback;
 
@@ -165,7 +169,11 @@ struct NavMeshObjMaybe {
         _40 = 1 << 6,
     };
 
-    /* 0x00 */ u8 _0[0x98];
+    /* 0x00 */ u8 _0[8];
+    // 0x7100f83460 / 0x7100f834cc pass these to hkaiWorld's generator operations.
+    /* 0x08 */ hkaiSilhouetteGenerator* _8;
+    /* 0x10 */ hkaiObstacleGenerator* _10;
+    u8 _18[0x98 - 0x18];
     /* 0x98 */ HavokAI* _98;  // the HavokAI it was added to
     /* 0xa0 */ sead::Atomic<HavokAI*> _a0;
     /* 0xa8 */ sead::TypedBitFlag<Flag, sead::Atomic<u32>> _a8;
@@ -263,6 +271,8 @@ public:
     void sub_7100F8305C(NavMeshObjMaybe* obj);
     void sub_7100F83118(NavMeshObjMaybe* obj);
     void sub_7100F833A8(NavMeshObjMaybe* obj);
+    void sub_7100F83460(NavMeshObjMaybe* obj);
+    void sub_7100F834CC(NavMeshObjMaybe* obj, bool queued);
     // 0x7100f831c0 / 0x7100f832b4 (placeholder names): set flag 8 / 0x20 and clear 0x10 / 0x40 (or the other way
     // round when `on` is false), then queue like sub_7100F8305C.
     void sub_7100F831C0(NavMeshObjMaybe* obj, bool on);
@@ -341,7 +351,8 @@ public:
     void sub_7100F854C4(Unk_NavMeshCallback* callback, const sead::BoundBox3f* aabb);
     void sub_7100F8565C(Unk_NavMeshCallback* callback, const sead::BoundBox3f* aabb);
 
-    u8 _28[0x38 - 0x28];
+    /* 0x28 */ hkaiWorld* _28;
+    u8 _30[8];
     NavMeshSystemThread* _38;
     NavMeshQueryRequestPool* _40;
     NavMeshLoadMgr* _48;

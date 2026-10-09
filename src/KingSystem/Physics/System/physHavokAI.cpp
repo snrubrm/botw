@@ -1,9 +1,43 @@
 #include "KingSystem/Physics/System/physHavokAI.h"
 #include <thread/seadThread.h>
+#include <prim/seadScopedLock.h>
+#include <Havok/Ai/Pathfinding/World/hkaiWorld.h>
 #include <thread/seadThreadUtil.h>
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
 
 namespace ksys::phys {
+
+void HavokAI::sub_7100F83460(NavMeshObjMaybe* obj) {
+    auto lock = sead::makeScopedLock(_50);
+    if (obj->_98 != this && !obj->_98) {
+        if (obj->_8)
+            _28->sub_710153AABC(obj->_8);
+        if (obj->_10)
+            _28->sub_710151E18C(obj->_10);
+        obj->_98 = this;
+    }
+}
+
+void HavokAI::sub_7100F834CC(NavMeshObjMaybe* obj, bool queued) {
+    auto lock = sead::makeScopedLock(_50);
+    if (obj->_98) {
+        if (obj->_98 != this)
+            return;
+        if (!queued) {
+            _40->sub_71012AA270(obj);
+            obj->_a0.exchange(nullptr);
+        }
+        if (obj->_8)
+            _28->sub_710153AC2C(obj->_8);
+        if (obj->_10)
+            _28->sub_710151E2EC(obj->_10);
+        obj->_98 = nullptr;
+    } else if (!queued) {
+        _40->sub_71012AA270(obj);
+        obj->_a0.exchange(nullptr);
+    }
+}
+
 
 void HavokAI::destroyQuery(Unk_7102372790* query) {
     _40->sub_71012A9EE8(query);
