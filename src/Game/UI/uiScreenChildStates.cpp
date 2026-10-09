@@ -1,5 +1,8 @@
 #include "Game/UI/uiScreenChildStates.h"
 #include "Game/UI/euiAnimator.h"
+#include "Game/UI/euiLetterAnimControl.h"
+#include "Game/UI/euiMessageString.h"
+#include "KingSystem/Quest/qstQuest.h"
 #include "Game/UI/uiUtils.h"
 #include "Game/gameSaveSystem.h"
 #include "Game/gameStageBinder.h"
@@ -14,6 +17,33 @@ Unk_710247b428::Unk_710247b428(eui::LayoutEx* layout)
 
 
 Unk_710247ae48::~Unk_710247ae48() = default;
+
+// 0x71009b7a1c
+void Unk_710247af10::sub_71009B7A1C(Unk_710247ae28* record) {
+    sead::FixedSafeString<256> file;
+    if (record->mQuest)
+        record->mQuest->sub_7100FDA570(&file);
+    sead::FixedSafeString<256> label;
+    if (record->mQuest)
+        record->mQuest->sub_7100FDA678(&label);
+    eui::MessageString message;
+    getMessage(file, label, &message);
+    if (mQuestCaption) {
+        mQuestCaption->sub_7100BD9CDC(message, 0);
+        mQuestCaption->sub_7100BD9B5C();
+    }
+}
+
+// 0x71009b87c8
+void Unk_710247af10::sub_71009B87C8(Unk_710247ae28* record, eui::MessageString* out) {
+    sead::FixedSafeString<256> file;
+    if (record->mQuest)
+        record->mQuest->sub_7100FDA570(&file);
+    sead::FixedSafeString<256> label;
+    if (record->mQuest)
+        record->mQuest->formatQLNameKey(&label);
+    getMessage(file, label, out);
+}
 
 // 0x71009b8d58
 void Unk_710247af10::m105() {

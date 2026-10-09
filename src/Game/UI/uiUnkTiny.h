@@ -30,6 +30,10 @@ class LayoutEx;
 class TextBoxEx;
 }  // namespace eui
 
+namespace ksys::qst {
+struct Quest;
+}
+
 namespace uking::ui {
 
 class Screen;
@@ -425,10 +429,19 @@ public:
     virtual ~Unk_710247ae08();
 };
 
+// Quest-list record: 9b55b8 allocates records with a 0x20 stride; 9b62d4
+// constructs this vtable and initializes all fields below.
 class Unk_710247ae28 {
 public:
     virtual ~Unk_710247ae28();
+
+    /* 0x8 */ ksys::qst::Quest* mQuest;
+    /* 0x10 */ u32 mCategory;
+    /* 0x14 */ s32 mListIndex;
+    /* 0x18 */ bool mGuide;
+    /* 0x1a */ s16 mQuestIndex;
 };
+static_assert(sizeof(Unk_710247ae28) == 0x20);
 
 class Unk_710247d8d8 {
 public:

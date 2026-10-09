@@ -4,6 +4,11 @@
 
 // ScreenChildEx-derived classes (their constructors call ScreenChildEx's) with their own state callback slots (105+, groups of four: void, void, void, s32).
 // Placeholder names after the vtable; their destructors / RTTI are not decompiled yet.
+namespace eui {
+class LetterAnimControl;
+class MessageString;
+}
+
 namespace uking::ui {
 
 // A list unit of the Unk_710247af10 TU (vtable 0x710247ae48, 0x58 bytes; created by 0x71009b951c, which allocates
@@ -34,6 +39,8 @@ public:
     ~Unk_710247af10() override;
     // 0x71009b62cc (`_1a8 = a1`)
     void sub_71009B62CC(void* a1);
+    void sub_71009B7A1C(Unk_710247ae28* record);
+    void sub_71009B87C8(Unk_710247ae28* record, eui::MessageString* out);
 
     virtual void m105();
     virtual void m106();
@@ -54,7 +61,10 @@ public:
 
     u8 _130[0x148 - 0x130];
     /* 0x148 */ eui::Animator* _148;
-    u8 _150[0x1a8 - 0x150];
+    u8 _150[0x160 - 0x150];
+    // Found by 9b5238 via 9b53f4's LetterAnimControl RTTI lookup.
+    /* 0x160 */ eui::LetterAnimControl* mQuestCaption;
+    u8 _168[0x1a8 - 0x168];
     /* 0x1a8 */ void* _1a8;
     u8 _1b0[0x300 - 0x1b0];
     /* 0x300 */ ScreenAppPictureBookUnk* _300;
