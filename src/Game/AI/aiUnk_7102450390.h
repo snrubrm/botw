@@ -1,6 +1,9 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include "KingSystem/ActorSystem/actBaseProcHandle.h"
+#include "KingSystem/ActorSystem/actBaseProcLink.h"
+#include "KingSystem/System/Timer.h"
 #include "Game/AI/aiUnk_71025afb58.h"
 
 namespace ksys {
@@ -30,6 +33,9 @@ public:
     // 0x7100707544: drops the selected necklace slot; implementation remains declared-only.
     void sub_7100707544(s32 slot);
 
+    void sub_71007062D4();
+    ksys::act::Actor* sub_7100706D0C(u32 slot);
+
     // 0x7100706c3c: called by leave_.
     void sub_7100706C3C();
     // 0x7100706e98: called by loadParams_ with the owner AI.
@@ -40,6 +46,16 @@ public:
     bool sub_71007073D0(const ksys::MessageAck* ack);
 
 private:
-    void* _8[(0x308 - 0x8) / sizeof(void*)];
+    // Constructor 705834 and helpers 7062D4 / 706C3C prove the actor and timer/link tail.
+    /* 0x008 */ ksys::act::Actor* mActor;
+    u8 _10[0x2c0 - 0x10];
+    /* 0x2c0 */ bool _2c0;
+    u8 _2c1[3];
+    /* 0x2c4 */ s32 _2c4;
+    /* 0x2c8 */ s32 _2c8;
+    /* 0x2cc */ ksys::Timer _2cc;
+    /* 0x2d8 */ ksys::act::BaseProcLink _2d8;
+    /* 0x2e8 */ ksys::act::BaseProcHandle _2e8;
+    /* 0x2f8 */ ksys::Timer _2f8;
 };
 static_assert(sizeof(Unk_7102450390) == 0x308);

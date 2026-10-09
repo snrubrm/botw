@@ -2,6 +2,7 @@
 #include <prim/seadFormatPrint.h>
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/Actor/actEnemy.h"
+#include "Game/Damage/dmgInfoManager.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
@@ -83,3 +84,42 @@ void ForestGiantRoot::loadParams_() {
 }
 
 }  // namespace uking::ai
+
+void Unk_7102450390::sub_71007062D4() {
+    _2c0 = uking::dmg::DamageInfoMgr::instance()->get11f0().sub_7100674A94(mActor);
+    if (!_2c0)
+        _2cc.reset(60.0f);
+    if (_2d8.hasProc()) {
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::acquireActor(&_2d8, &accessor);
+        accessor.wakeUp(ksys::act::BaseProc::SleepWakeReason::_0);
+        mActor->sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x300000c),
+                            nullptr, false);
+    }
+    _2f8.reset(30.0f);
+}
+
+// NON_MATCHING: the formatter and string occupy different stack slots.
+ksys::act::Actor* Unk_7102450390::sub_7100706D0C(u32 slot) {
+    auto* parts = mActor->m101();
+    if (!parts)
+        return nullptr;
+    sead::FixedSafeString<64> name;
+    (sead::StringCutOffPrintFormatter(&name) << "Necklace%d", slot) << sead::flush;
+    return sead::DynamicCast<ksys::act::Actor>(
+        parts->getActorPartsActor(name).getProc(nullptr, mActor));
+}
+
+void Unk_7102450390::sub_7100706C3C() {
+    uking::dmg::DamageInfoMgr::instance()->get11f0().sub_7100674B30(mActor);
+    if (_2d8.hasProc()) {
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::acquireActor(&_2d8, &accessor);
+        mActor->sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x300000d),
+                            nullptr, false);
+    }
+    if (_2e8.isAllocatedOrFailed())
+        _2e8.deleteProc();
+    if (auto* actor = sub_7100706D0C(0))
+        actor->deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+}
