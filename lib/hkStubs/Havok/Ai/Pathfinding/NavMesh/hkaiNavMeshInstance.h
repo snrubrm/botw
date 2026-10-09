@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Havok/Ai/Pathfinding/NavMesh/hkaiNavMesh.h>
+#include <Havok/Common/Base/Container/Array/hkSimpleArray.h>
 
 // Reflection initializer 1775658 identifies hkaiNavMeshInstance, its
 // hkReferencedObject parent and 0x1c0 extent. Member records 255dbd0
@@ -19,15 +20,11 @@ public:
     // tail padding. Preserve that unidentified interval explicitly.
     hkUint8 _c[0x20 - 0xc];
     // Finish constructor 152e4ec copies these pointer/count views from the
-    // original mesh. Reflection marks the views as zeroed storage; neither
-    // capacity nor the intervening bytes are assumed. Game f7e64c/f7e754
-    // independently consume the edge and vertex domains.
-    hkaiNavMesh::Edge* m_originalEdges;
-    hkInt32 m_numOriginalEdges;
-    hkUint8 _2c[4];
-    hkVector4* m_originalVertices;
-    hkInt32 m_numOriginalVertices;
-    hkUint8 _3c[4];
+    // original mesh. Reflected kind 26 is TYPE_SIMPLEARRAY with ignored
+    // serialization; there is no capacity or ownership field. Game
+    // f7e64c/f7e754 independently consume the edge and vertex domains.
+    hkSimpleArray<hkaiNavMesh::Edge> m_originalEdges;
+    hkSimpleArray<hkVector4> m_originalVertices;
     hkUint8 _40[0xd0 - 0x40];
     // Reflected records 255dd38 / 255ddb0 / 255de00 / 255de28 identify
     // these actual hkArray fields and their element types.
