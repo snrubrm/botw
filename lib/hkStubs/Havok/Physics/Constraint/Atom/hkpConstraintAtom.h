@@ -46,6 +46,7 @@ public:
         TYPE_OVERWRITE_PIVOT,
 
         TYPE_WHEEL_FRICTION,  // 28
+        TYPE_ELLIPTICAL_LIMIT,  // 29
 
         TYPE_CONTACT,
 

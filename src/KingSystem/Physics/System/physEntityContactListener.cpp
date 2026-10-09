@@ -110,8 +110,8 @@ void EntityContactListener::collisionRemovedCallback(const hkpCollisionEvent& ev
     auto* body_b = getRigidBody(*event.getBody(1));
 
     handleCollisionRemoved(event, body_a, body_b);
-    removeViscousSurfaceModifierAndCollision(event, body_a, body_b);
-    removeMassChangerModifier(event, body_a, body_b);
+    removeMassChangerModifierAndCollision(event, body_a, body_b);
+    removeSoftContactModifier(event, body_a, body_b);
 }
 
 bool EntityContactListener::m15(RigidBody* body_a, RigidBody* body_b) {
@@ -311,8 +311,8 @@ void EntityContactListener::setImpulseScalingForTerrainContact(const hkpCollisio
                                                      *event.getSimulationIsland(), 15.0, 25.0);
 }
 
-static bool removeViscousSurfaceModifier(const hkpCollisionEvent& event) {
-    constexpr auto type = hkpConstraintAtom::TYPE_MODIFIER_VISCOUS_SURFACE;
+static bool removeMassChangerModifier(const hkpCollisionEvent& event) {
+    constexpr auto type = hkpConstraintAtom::TYPE_MODIFIER_MASS_CHANGER;
     auto* constraint = event.m_contactMgr->getConstraintInstance();
     if (!hkpWorldConstraintUtil::findModifier(constraint, type)) {
         return false;
@@ -330,9 +330,9 @@ static bool removeViscousSurfaceModifier(const hkpCollisionEvent& event) {
     return true;
 }
 
-inline void EntityContactListener::removeViscousSurfaceModifierAndCollision(
+inline void EntityContactListener::removeMassChangerModifierAndCollision(
     const hkpCollisionEvent& event, RigidBody* body_a, RigidBody* body_b) {
-    if (!removeViscousSurfaceModifier(event))
+    if (!removeMassChangerModifier(event))
         return;
 
     const auto update_contact_flags = [](RigidBody* body) {
@@ -355,9 +355,9 @@ inline void EntityContactListener::removeViscousSurfaceModifierAndCollision(
 }
 
 KSYS_ALWAYS_INLINE inline void
-EntityContactListener::removeMassChangerModifier(const hkpCollisionEvent& event, RigidBody* body_a,
+EntityContactListener::removeSoftContactModifier(const hkpCollisionEvent& event, RigidBody* body_a,
                                                  RigidBody* body_b) {
-    constexpr auto type = hkpConstraintAtom::TYPE_MODIFIER_MASS_CHANGER;
+    constexpr auto type = hkpConstraintAtom::TYPE_MODIFIER_SOFT_CONTACT;
     auto* constraint = event.m_contactMgr->getConstraintInstance();
     if (hkpWorldConstraintUtil::findModifier(constraint, type)) {
         auto* island = event.getSimulationIsland();
@@ -469,7 +469,7 @@ static void updateMotionFlagsAtEndOfStep(const hkpCollisionEvent& event, RigidBo
         updated2 |= update_flags2(body_b, body_a);
 
         if (updated2) {
-            removeViscousSurfaceModifier(event);
+            removeMassChangerModifier(event);
         } else {
             update_flags3(body_a, body_b);
             update_flags3(body_b, body_a);
@@ -488,7 +488,7 @@ bool EntityContactListener::regularContactPointCallback(const hkpContactPointEve
         auto* constraint = event.m_contactMgr->getConstraintInstance();
 
         auto* modifier = hkpWorldConstraintUtil::findModifier(
-            constraint, hkpConstraintAtom::TYPE_MODIFIER_VISCOUS_SURFACE);
+            constraint, hkpConstraintAtom::TYPE_MODIFIER_MASS_CHANGER);
 
         const bool field90 = System::instance()->getEntityContactListenerField90();
 
@@ -500,7 +500,7 @@ bool EntityContactListener::regularContactPointCallback(const hkpContactPointEve
             } else {
                 body_a->getEntityMotionAccessor()->getContactFlags().makeAllZero();
                 body_b->getEntityMotionAccessor()->getContactFlags().makeAllZero();
-                removeViscousSurfaceModifier(event);
+                removeMassChangerModifier(event);
             }
         } else if (field90 && needsMagneMassScaling(event, body_a, body_b) &&
                    !shouldProcessEntityContact(body_a, body_b)) {

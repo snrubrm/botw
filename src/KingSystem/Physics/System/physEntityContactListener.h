@@ -41,10 +41,10 @@ private:
     void setImpulseScalingForTerrainContact(const hkpCollisionEvent& event, RigidBody* body_a,
                                             RigidBody* body_b);
 
-    void removeViscousSurfaceModifierAndCollision(const hkpCollisionEvent& event, RigidBody* body_a,
+    void removeMassChangerModifierAndCollision(const hkpCollisionEvent& event, RigidBody* body_a,
                                                   RigidBody* body_b);
 
-    void removeMassChangerModifier(const hkpCollisionEvent& event, RigidBody* body_a,
+    void removeSoftContactModifier(const hkpCollisionEvent& event, RigidBody* body_a,
                                    RigidBody* body_b);
 
     void setMagneMassScalingForContact(const hkpCollisionEvent& event, RigidBody* body_a,
