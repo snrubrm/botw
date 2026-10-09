@@ -20,6 +20,56 @@
 
 namespace uking::ui {
 
+// 0x71009cbd48
+void Unk_71009cb0c8::sub_71009CBD48(sead::Heap* heap, eui::LayoutEx* layout,
+                                    const sead::SafeString& name) {
+    if (!layout)
+        return;
+    const char* pane_name = name.cstr();
+    auto* pane = layout->mPane->FindPaneByName(pane_name, true);
+    if (!pane)
+        return;
+    auto* material = pane->GetMaterial();
+    mTextureHandle = new (heap, 8) ksys::res::Handle;
+    mMaterial = material;
+    if (mMaterial)
+        eui::SetTextureInfoFromTexMap(&mTexInfo, mMaterial->GetTexMapArray()[0]);
+}
+
+// 0x71009cbde8
+void Unk_71009cb0c8::sub_71009CBDE8(eui::LayoutEx* layout, const sead::SafeString& name) {
+    mAnimator = layout->tryCreateAnimatorAuto(name.cstr(), false);
+}
+
+// 0x71009cbeac
+bool Unk_71009cb0c8::sub_71009CBEAC() const {
+    if (mQueueCount != 0)
+        return false;
+    return mQueueState == 5;
+}
+
+// 0x71009cbfa4
+bool Unk_71009cb0c8::sub_71009CBFA4() const {
+    if (mQueueCount != 0)
+        return false;
+    return mQueueState == 13;
+}
+
+// 0x71009bdd54
+void Unk_710247c010::m34() {
+    mController.sub_71009CC3A0();
+}
+
+// 0x71009be0c8
+void Unk_710247c010::m30() {
+    mController.sub_71009CC3A0();
+}
+
+// 0x71009be770
+void Unk_710247c010::m82() {
+    mController.sub_71009CC970();
+}
+
 // 0x710098b59c
 ScreenMainScreenUnk3658::ScreenMainScreenUnk3658(eui::LayoutEx* layout) : ScreenChildEx(layout) {}
 

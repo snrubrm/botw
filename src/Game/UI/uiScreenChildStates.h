@@ -162,14 +162,45 @@ public:
 };
 static_assert(sizeof(Unk_710247dc90) == 0x708);
 
-// Factory 9de3f4 allocates 0x480 bytes; full ctor 9bd404 and dtor 9bd470
-// establish the same base and vtable 247c010. No embedded lifetime is defined here.
+// Native ctor 9cb0c8 and D1 9cbcc0 establish this non-polymorphic 0x2e8-byte controller.
+// Queue count/state are also initialized by inner ctor 9cc648 and consumed by 9cc3a0 / 9cc970.
+class Unk_71009cb0c8 {
+public:
+    Unk_71009cb0c8();
+    ~Unk_71009cb0c8();
+    void sub_71009CC3A0();
+    void sub_71009CC970();
+    bool sub_71009CBFA4() const;
+    bool sub_71009CBEAC() const;
+    void sub_71009CBD48(sead::Heap* heap, eui::LayoutEx* layout, const sead::SafeString& name);
+    void sub_71009CBDE8(eui::LayoutEx* layout, const sead::SafeString& name);
+
+    u8 _0[8];
+    /* 0x8 */ bool mApplied;
+    u8 _9[7];
+    /* 0x10 */ ksys::res::Handle* mTextureHandle;
+    /* 0x18 */ nn::ui2d::Material* mMaterial;
+    /* 0x20 */ nn::ui2d::ExternalTextureInfo mTexInfo;
+    /* 0x38 */ eui::Animator* mAnimator;
+    u8 _40[0x88 - 0x40];
+    /* 0x88 */ s32 mQueueCount;
+    u8 _8c[0xc8 - 0x8c];
+    /* 0xc8 */ s32 mQueueState;
+    u8 _cc[0x2e8 - 0xcc];
+};
+static_assert(sizeof(Unk_71009cb0c8) == 0x2e8);
+
+// Factory 9de3f4 and full ctor/D1 9bd404 / 9bd470 place the controller at 0x198.
 class Unk_710247c010 : public ScreenChildEx {
 public:
     explicit Unk_710247c010(eui::LayoutEx* layout);
     ~Unk_710247c010() override;
+    void m30() override;
+    void m34() override;
+    void m82() override;
 
-    u8 _130[0x480 - 0x130];
+    u8 _130[0x198 - 0x130];
+    /* 0x198 */ Unk_71009cb0c8 mController;
 };
 static_assert(sizeof(Unk_710247c010) == 0x480);
 
