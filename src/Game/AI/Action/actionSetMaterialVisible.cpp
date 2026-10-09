@@ -19,7 +19,6 @@ void SetMaterialVisible::loadParams_() {
     getDynamicParam(&mMaterialName_d, "MaterialName");
 }
 
-// NON_MATCHING: the visibility load and material index extraction are scheduled differently.
 bool SetMaterialVisible::oneShot_() {
     if (!mActor)
         return false;
@@ -29,8 +28,9 @@ bool SetMaterialVisible::oneShot_() {
     const auto key = model->searchMaterial(mMaterialName_d);
     if (!key.isValid())
         return false;
+    const bool visible = *mIsVisible_s;
     model->getUnits().unsafeAt(key.model_unit_index)->mModelUnit->setMaterialVisible(
-        key.material_index, *mIsVisible_s);
+        key.material_index, visible);
     return true;
 }
 
