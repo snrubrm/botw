@@ -393,3 +393,9 @@ void sub_7100EE56C0(ksys::act::Actor* actor);
 void sub_71011D75CC(ksys::act::Actor* actor);
 void sub_71011D7650(ksys::act::Actor* actor, ksys::act::BaseProc* proc);
 void sub_71011D76E0(ksys::act::Actor* actor, const ksys::act::ActorConstDataAccess& accessor);
+
+// Declaration only, source owner unknown. Complete 2F6D8 forwards these vector
+// addresses and three floats to 2FAC8 / 11EE70C. Matrix callers 740118 / 74018C /
+// 741628 supply a mutable column vector, the target and floats, then consume bool.
+bool sub_710002F6D8(sead::Vector3f* value, const sead::Vector3f& target, f32 weight,
+                   f32 max_step, f32 min_step);
