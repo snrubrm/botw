@@ -38,6 +38,13 @@ void FollowChallenge::sub_710004E108() {
     _4bc = -*mGimmickTimeLimit_m;
 }
 
+void FollowChallenge::sub_710004E0A4() {
+    _4bc = *mGimmickTimeLimit_m;
+    for (auto& effect : mEffects)
+        effect.scale = 1.0f;
+    _4c4 = 0.0f;
+}
+
 void FollowChallenge::sub_710004D9A4() {
     // called through a pointer in the original (not devirtualised)
     xlinkSearchAndEmit(mActor, (&_4d8[13])->cstr(), 2, &_458);

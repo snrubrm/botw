@@ -25,6 +25,7 @@ protected:
     // Complete native geometry update receives one of this action's paired handles.
     void sub_710004D9FC(Unk_71012419b4* handle);
     void sub_710004DFF4();
+    void sub_710004E0A4();
     void sub_710004E754();
     bool sub_710004F8A4();
     void sub_710004E108();
@@ -57,7 +58,9 @@ protected:
     bool _4ba;
     u8 _4bb;
     f32 _4bc;
-    u8 _4c0[0x4c8 - 0x4c0];
+    u8 _4c0[4];
+    // Native 4D0B4 clears this float; m32 advances it through the effect records.
+    f32 _4c4;
     f32 _4c8;
     sead::Vector3f _4cc;
     // Native 4D2CC constructs 17 strings; enter_ assigns each through its virtual string slot.
