@@ -95,6 +95,7 @@ add_library(aal OBJECT
   src/aalAssetInfo.cpp
   src/aalAudioMetaReader.cpp
   src/aalAudioResource.cpp
+  src/aalMemoryPoolManager.cpp
   src/aalCone.cpp
   src/aalDebugDrawUtil.cpp
   src/aalDebuggerResult.cpp
