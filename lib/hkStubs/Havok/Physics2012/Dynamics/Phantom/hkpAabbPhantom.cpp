@@ -10,6 +10,9 @@ hkpAabbPhantom::hkpAabbPhantom(const hkAabb& aabb, hkUint32 collisionFilterInfo)
     m_collidable.setCollisionFilterInfo(collisionFilterInfo);
 }
 
+// NON_MATCHING (D0 only): the generated deleting destructor schedules its object argument earlier.
+hkpAabbPhantom::~hkpAabbPhantom() = default;
+
 hkpPhantomType hkpAabbPhantom::getType() const {
     return HK_PHANTOM_AABB;
 }
