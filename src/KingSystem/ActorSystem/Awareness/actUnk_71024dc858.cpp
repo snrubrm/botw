@@ -110,7 +110,7 @@ void Unk_71024dc858::m12(Actor* actor) {
         awareness->mLinks.sub_7100D79574(mLink);
     if (m4(3) > 0.0f)
         flags |= 8;
-    else if (level <= 0.0f)
+    else if (!(level > 0.0f))
         return;
     awareness->mLinks2.sub_7100D796C4(mLink, flags, _40);
 }
