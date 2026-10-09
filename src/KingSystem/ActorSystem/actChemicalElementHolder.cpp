@@ -4,8 +4,8 @@
 
 namespace ksys::act {
 
-// NON_MATCHING: the default SafeString initialization uses a different empty-string load.
-Unk_71024dd490::CreateArg::CreateArg() : _0(0x400), _4(0x400), _18(nullptr) {}
+Unk_71024dd490::CreateArg::CreateArg()
+    : _0(0x400), _4(0x400), worldName(sead::SafeString::cEmptyString), _18(nullptr) {}
 
 void Unk_71024dd490::sub_7100D9AA84() {
     _c8 &= ~0x1f8;
