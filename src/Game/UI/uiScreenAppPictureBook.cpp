@@ -12,7 +12,7 @@ sead::Vector2f sUnk_71025D5CE8{std::numeric_limits<f32>::max(), std::numeric_lim
 
 // 0x7100938c94
 // NON_MATCHING: Vector2 component copies and global addressing differ.
-ScreenAppPictureBookEntry::Params::Params() : _2a8(sUnk_71025D5CE8) {
+ScreenAppPictureBookEntry::Params::Params() {
     _28.clear();
     _80.clear();
     _d8.clear();

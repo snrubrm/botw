@@ -1,10 +1,18 @@
 #include "Game/AI/AI/aiOctarockEscape.h"
 #include <math/seadMathCalcCommon.h>
+#include <gsys/gsysModel.h>
+#include <gsys/gsysModelAccessKey.h>
+#include <gsys/gsysModelUnit.h>
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/AI/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Utils/Thread/Message.h"
+
+// 0x7100edd258: existing actor default-bone-name API, declaration only.
+const sead::SafeString& sub_7100EDD258(ksys::act::Actor* actor, int a2);
 
 namespace uking::ai {
 
@@ -94,6 +102,44 @@ void OctarockEscape::sub_71004EC6F0() {
             accessor.setThisActorAsChild(mActor, false);
         }
     }
+}
+
+// 0x71004ec7a0
+bool OctarockEscape::sub_71004EC7A0() {
+    auto* actor = mActor;
+    auto* child = sead::DynamicCast<ksys::act::Actor>(actor->getConnectedCalcChild());
+    if (!child) {
+        sub_71004EC6F0();
+        return false;
+    }
+    if (_40.hasProcInCalcState()) {
+        _40.reset();
+        return true;
+    }
+    if (child->isSleep() && !sub_71005DC444(child) && sub_71004ECBB4()) {
+        sendMessage(*child->getMesTransceiverId(), ksys::MessageType(0x8000001), actor);
+        sub_71005DC208(actor, child, 0);
+        sub_71005DC41C(child);
+    }
+    return false;
+}
+
+// 0x71004ecbb4
+// NON_MATCHING: model receiver caching, vector-copy scheduling and stack placement differ.
+bool OctarockEscape::sub_71004ECBB4() {
+    auto* actor = mActor;
+    const auto key = actor->getModel()->searchBone(sub_7100EDD258(actor, 0));
+    if (!key.isValid())
+        return false;
+    sead::Matrix34f matrix;
+    actor->getModel()->getUnits().unsafeAt(key.model_unit_index)->mModelUnit->getBoneWorldMatrix(
+        &matrix, key.bone_index);
+    const sead::Vector3f bone_pos = matrix.getTranslation();
+    actor = mActor;
+    sead::Vector3f position = actor->getMtx().getTranslation();
+    position.y += 2.0f;
+    return !sub_710072EB10(bone_pos, position, ksys::phys::RayCast::NormalCheckingMode::DoNotCheck,
+                          actor, nullptr, nullptr, nullptr, 0.0f);
 }
 
 void OctarockEscape::sub_71004EC9BC() {

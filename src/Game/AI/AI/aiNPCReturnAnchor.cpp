@@ -3,6 +3,7 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actSchedule.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 
 namespace uking::ai {
 
@@ -23,6 +24,22 @@ void NPCReturnAnchor::leave_() {
 }
 
 void NPCReturnAnchor::loadParams_() {}
+
+// 0x71004d6e7c
+// NON_MATCHING: conditional schedule-field address selection uses reversed registers.
+void NPCReturnAnchor::sub_71004D6E7C() {
+    const bool bad_weather = wm::callIsRainingOrSnowingOrThunderStorm(true);
+    auto* schedule = mActor->getSchedule();
+    const sead::SafeString current = mActor->getASList()->sub_710115ECF4(0x3b, 1);
+    const char* posture = sub_710071300C(bad_weather ? schedule->_1b8 : schedule->_1b4).getStringTop();
+    if (current == posture) {
+        sub_71004D70D8();
+        return;
+    }
+    ksys::act::ai::InlineParamPack params;
+    params.addString(posture, "Posture", -1);
+    changeChild("姿勢変更", &params);
+}
 
 void NPCReturnAnchor::sub_71004D70D8() {
     const bool bad_weather = wm::callIsRainingOrSnowingOrThunderStorm(true);

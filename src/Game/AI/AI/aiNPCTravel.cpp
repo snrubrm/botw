@@ -26,7 +26,14 @@ void NPCTravel::onPreDelete() {
 }
 
 bool NPCTravel::init_(sead::Heap* heap) {
-    return NPCTravelBase::init_(heap);
+    _88 = sead::DynamicCast<act::NPC>(mActor);
+    if (_88 && !_88->_840) {
+        _9b0 = true;
+        const sead::Vector3f pos = mActor->getMtx().getTranslation();
+        if (_1f8.sub_7100EEDDA4(pos))
+            _88->_840 = &_1f8;
+    }
+    return true;
 }
 
 void NPCTravel::enter_(ksys::act::ai::InlineParamPack* params) {
