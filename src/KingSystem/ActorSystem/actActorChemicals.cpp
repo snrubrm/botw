@@ -40,8 +40,9 @@ bool Unk_71024e6428::m17() const {
     return mActor && mActor->getActorFlags2().isOn(Actor::ActorFlag2::_40);
 }
 
-// NON_MATCHING: the original guards the loop with a signed `count >= 1` test (`cmp w20, #1; b.lt`), ours with `cbz`
 bool Unk_71024e6428::m18() const {
+    if (_278.size() < 1)
+        return false;
     for (auto& entry : _278) {
         if (auto* body = entry.body) {
             if (!body->isAddedToWorld() && !body->isAddingBodyToWorld())
