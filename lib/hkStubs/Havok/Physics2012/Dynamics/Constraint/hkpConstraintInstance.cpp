@@ -87,3 +87,20 @@ void hkpConstraintInstance::removeConstraintListener(hkpConstraintListener* list
     }
     m_listeners[index] = nullptr;
 }
+
+// NON_MATCHING: endpoint null branches and existing reference-count retry loops have different layouts.
+// 0x71016164c4
+void hkpConstraintInstance::pointNullsToFixedRigidBody() {
+    for (int i = 0; i < 2; ++i) {
+        if (m_entities[i])
+            continue;
+        hkpEntity* other = m_entities[1 - i];
+        if (!other)
+            continue;
+        hkpWorld* world = other->getWorld();
+        if (!world)
+            continue;
+        m_entities[i] = world->getFixedRigidBody();
+        m_entities[i]->addReference();
+    }
+}
