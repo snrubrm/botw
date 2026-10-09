@@ -73,7 +73,7 @@ void GolemDieFromRagdoll::sub_710018C27C() {
     controller->sub_7100F5F6E0(&body_pos);
     const sead::Vector3f controller_pos = body_pos;
     body->getPosition(&body_pos);
-    if (!((body_pos - controller_pos).length() <= *mRagdollMoveLimitDist_s)) {
+    if ((body_pos - controller_pos).length() > *mRagdollMoveLimitDist_s) {
         controller->sub_7100F5FBE0(controller_pos);
         body->setPosition(controller_pos);
         body->setLinearVelocity(sead::Vector3f::zero, sead::Mathf::epsilon());
