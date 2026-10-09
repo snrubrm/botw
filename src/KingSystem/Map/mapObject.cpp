@@ -598,12 +598,11 @@ sead::Vector3f Object::getRotate() const {
     return result;
 }
 
-// NON_MATCHING: Vec3f copy incorrect
 void Object::getTraversePosAndLoadDistance(sead::Vector3f* traverse_pos, f32* load_dist) const {
     if (mFlags.isOn(Flag::HasTraversePos))
         mMubinIter.tryGetFloatArrayByKey(&traverse_pos->x, "TraversePos");
     else
-        *traverse_pos = mTranslate;
+        traverse_pos->set(mTranslate.x, mTranslate.y, mTranslate.z);
     *load_dist = getLoadDistance(false);
 }
 
