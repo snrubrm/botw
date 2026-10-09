@@ -33,6 +33,9 @@ public:
     // 0x7100707544: drops the selected necklace slot; implementation remains declared-only.
     void sub_7100707544(s32 slot);
 
+    // 0x7100705CD0 consumes heap / actor and returns success; ForestGiantRoot discards that result.
+    bool sub_7100705CD0(sead::Heap* heap, ksys::act::Actor* actor);
+
     void sub_71007062D4();
     ksys::act::Actor* sub_7100706D0C(u32 slot);
 

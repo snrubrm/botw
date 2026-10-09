@@ -24,6 +24,9 @@ public:
     void m37() override;
 
 protected:
+    // 0x71003DA620 creates the weak point actors using the supplied heap; returns success.
+    bool sub_71003DA620(sead::Heap* heap);
+
     // Deletes the parts actors "WeakPoint0" .. "WeakPoint3" (called by the destructor; name is a guess).
     void deleteWeakPoints();
 

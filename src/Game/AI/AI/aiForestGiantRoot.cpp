@@ -2,6 +2,9 @@
 #include <prim/seadFormatPrint.h>
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/Actor/actEnemy.h"
+#include "Game/Actor/actGiantEnemy.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "Game/Damage/dmgInfoManager.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
@@ -33,7 +36,15 @@ void ForestGiantRoot::deleteWeakPoints() {
 }
 
 bool ForestGiantRoot::init_(sead::Heap* heap) {
-    return EnemyRoot::init_(heap);
+    if (!EnemyRoot::init_(heap) || !sub_71003DA620(heap))
+        return false;
+    if (auto* controller = mActor->getCharacterController())
+        controller->enableContactLayer(ksys::phys::ContactLayer::EntityGroundObject);
+    _230.sub_7100705CD0(heap, mActor);
+    *static_cast<Unk_7102450390**>(mGiantNecklaceUnit_a) = &_230;
+    if (auto* giant = sead::DynamicCast<act::GiantEnemy>(mActor))
+        giant->_1560 = mActor->findPhysicsBodyByName(sub_71007A24D0()->cstr(), "TgtBody");
+    return true;
 }
 
 void ForestGiantRoot::enter_(ksys::act::ai::InlineParamPack* params) {
