@@ -46,7 +46,6 @@ bool WolfLink::sub_71002F420C() {
     }) != -1;
 }
 
-// NON_MATCHING: the comparator folds differently (target tests `hi == lo` of the two compares, ours tests a combined result)
 // 0x71002f430c: same search as sub_71002F420C, returns the entry's value at +0x20.
 WolfLink::State WolfLink::sub_71002F430C(const ksys::act::BaseProcLink* link) {
     ksys::act::ActorConstDataAccess accessor;
@@ -54,10 +53,10 @@ WolfLink::State WolfLink::sub_71002F430C(const ksys::act::BaseProcLink* link) {
         return State();
     const u32 id = accessor.getId();
     const s32 index = _1608.binarySearch(id, +[](const Entry1608& entry, const u32& id) -> s32 {
-        if (entry.mActorId > id)
-            return 1;
         if (entry.mActorId < id)
             return -1;
+        if (entry.mActorId > id)
+            return 1;
         return 0;
     });
     if (index == -1)
