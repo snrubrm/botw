@@ -16,6 +16,8 @@ class Unk_7100f7e64c {
 public:
     Unk_7100f7e64c(hkaiStreamingCollection* collection, s32 key,
                    Unk_7100f7e9f0Event* event);
+    // Visitor 0x7100f854c4 passes this same edge result to shared cleanup
+    // 0x7100f7e728, also used by the face result; both own the event at +0x10.
     ~Unk_7100f7e64c();
 
     hkaiNavMeshInstance* mInstance;
