@@ -18,6 +18,8 @@ class TipsMgr {
 
 public:
     bool areResourcesReady();
+    // 91E158 loads resources using only the receiver; its final call destroys a load request.
+    void loadTipFiles();
     void sub_7100920200();
     void initBeforeStageGen();
 
