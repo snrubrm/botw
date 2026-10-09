@@ -3,6 +3,8 @@
 #include <basis/seadTypes.h>
 #include <container/seadPtrArray.h>
 #include <math/seadVector.h>
+#include <math/seadBoundBox.h>
+#include "KingSystem/Utils/Types.h"
 #include <gfx/seadCamera.h>
 #include <prim/seadBitFlag.h>
 #include <thread/seadCriticalSection.h>
@@ -11,6 +13,28 @@
 namespace ksys::act {
 class PlayerLink;
 }
+
+// Settings registered at Graphics + 0xae0, embedded in RuneMgr + 0x250 and GameSceneSubsys5 + 0x58.
+// Constructor 0x7100f35df8; the bounds and result fields are copied by Graphics::sub_7100F2E2A4.
+class Unk_7100f35df8 {
+public:
+    Unk_7100f35df8();
+
+    bool _0 = false;
+    u64 _8 = 0;
+    sead::BoundBox2f _10;
+    sead::Vector3f _20 = sead::Vector3f::zero;
+    f32 _2c = 0;
+    f32 _30 = 0;
+    f32 _34 = 0;
+    f32 _38 = 0;
+    f32 _3c = 0.36f;
+    f32 _40 = 0.48f;
+    s32 _44 = 0;
+    f32 _48 = 0;
+    f32 _4c = 0;
+};
+KSYS_CHECK_SIZE_NX150(Unk_7100f35df8, 0x50);
 
 // Partial declaration: name from the CSV Graphics::createInstance (0x7100f2a1d0).
 // Source namespace remains unknown; global spelling follows the existing scene placeholders.
@@ -66,6 +90,9 @@ public:
     // 0x7100f35de8 (declaration only; placeholder name; lane2 s47): called by ui::Manager::sub_7100A7F81C
     void sub_7100F35DE8();
 
+    // 0x7100f35e54: settings currently registered by the rune / magnesis managers.
+    Unk_7100f35df8* sub_7100F35E54() const;
+
     // 0x7100f35fa4 (lane2 request, s49; placeholder name): sets bit 12 (`second`) or 11 (not `second`) of
     // `_284` to `value`, then marks the settings dirty (`_280 |= 1`).
     void sub_7100F35FA4(bool value, bool second);
@@ -114,7 +141,9 @@ private:
     u8 _aa0[0xaa8 - 0xaa0];
     Unk_aa8* _aa8;
     Unk_ab0* _ab0;
-    u8 _ab8[0xe08 - 0xab8];
+    u8 _ab8[0xae0 - 0xab8];
+    Unk_7100f35df8* _ae0;
+    u8 _ae8[0xe08 - 0xae8];
 
 public:
     // 0xe08 (lane1 s44): the camera of the graphics system (read by SkyMgr::sub_71010E4EE0).

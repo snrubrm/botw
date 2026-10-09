@@ -1,6 +1,13 @@
 #include "Game/gameGraphics.h"
 #include <prim/seadScopedLock.h>
 
+// NON_MATCHING: scheduling of the bounds and zero stores differs.
+Unk_7100f35df8::Unk_7100f35df8() = default;
+
+Unk_7100f35df8* Graphics::sub_7100F35E54() const {
+    return _ae0;
+}
+
 void Graphics::sub_7100F35FA4(bool value, bool second) {
     if (second)
         _284.changeBit(12, value);
