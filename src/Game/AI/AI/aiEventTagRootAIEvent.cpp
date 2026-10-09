@@ -8,10 +8,12 @@
 
 namespace uking::ai {
 
-// NON_MATCHING: only the entry dispatch differs (the original tests `== 2`, then `== 0`, then the 1..2 range
-// as separate compares; ours folds the zero test into the range check)
 void EventTagRootAI::sub_7100E19EDC() {
-    if (_3c == State::_2) {
+    switch (_3c.value()) {
+    case State::_0:
+        ++_40;
+        return;
+    case State::_2: {
         auto* actor = mActor;
         if (actor->checkFlag(ksys::act::Actor::ActorFlag::_3c)) {
             _38 = _3c;
@@ -20,6 +22,10 @@ void EventTagRootAI::sub_7100E19EDC() {
             return;
         }
         actor->checkFlag(ksys::act::Actor::ActorFlag::_3d);
+        break;
+    }
+    default:
+        break;
     }
 
     switch (_3c.value()) {
