@@ -4,6 +4,8 @@
 #include <heap/seadDisposer.h>
 #include <math/seadMatrix.h>
 #include <math/seadVector.h>
+#include <prim/seadSafeString.h>
+#include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Utils/MathUtil.h"
 #include "KingSystem/Utils/Types.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"

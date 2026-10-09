@@ -482,6 +482,42 @@ f32 sub_71009226EC(const f32& deg) {
 
 namespace uking::act {
 
+Unk_71009241ac::Unk_71009241ac()
+    : selector(-1), matrix(sead::Matrix34f::ident), previousPos(sead::Vector3f::zero),
+      position(sead::Vector3f::zero), linkIndex(-1), linkKind(0), status(0) {}
+
+void Unk_71009241ac::sub_7100924238(const Params& params) {
+    selector = -1;
+    link.reset();
+    linkIndex = -1;
+    linkKind = 0;
+    status = 0;
+    if (params.selector) {
+        selector = u32(*params.selector) + 1 < 6 ? *params.selector : -1;
+        actorName = params.actorName;
+        uniqueName = params.uniqueName;
+    }
+}
+
+
+bool Unk_71009241ac::sub_710092479C(const ksys::act::ActorConstDataAccess& accessor) {
+    if (!accessor.getProc())
+        return false;
+    const auto& mtx = accessor.getActorMtx();
+    if (ksys::util::sub_71011F10F4(mtx))
+        return false;
+    const auto& prev = accessor.getPreviousPos2();
+    if (ksys::util::sub_71011F1040(prev))
+        return false;
+    const auto& pos = accessor.getField458_Vec3();
+    if (ksys::util::sub_71011F1040(pos))
+        return false;
+    matrix = mtx;
+    previousPos = prev;
+    position = pos;
+    return true;
+}
+
 Unk_7100922700::Unk_7100922700(f32 r, f32 a, f32 b) {
     set(r, a, b);
 }
