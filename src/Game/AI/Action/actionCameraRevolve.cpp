@@ -129,7 +129,7 @@ void CameraRevolve::m34() {
         (!player->getRootAi() || !player->getRootAi()->isCurrentAction("移動"))) {
         const f32 distance = (target - camera->_860._0._c).length();
         f32 blend = 1.0f;
-        if (!(distance > 0.8f)) {
+        if (distance <= 0.8f) {
             blend = 0.0f;
         } else if (!(distance >= 1.5f)) {
             blend = (std::sin((distance - 0.8f) / 0.7f * sead::Mathf::pi() -
