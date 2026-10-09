@@ -1,5 +1,8 @@
 #include "Game/AI/Action/actionSoundReverbAreaTagAction.h"
 #include "KingSystem/Utils/InitTimeInfo.h"
+#include "KingSystem/Sound/sndMgr.h"
+#include "KingSystem/Sound/sndFxMgr.h"
+#include <cstring>
 
 namespace uking::action {
 
@@ -25,10 +28,23 @@ bool SoundReverbAreaTagAction::init_(sead::Heap* heap) {
 
 void SoundReverbAreaTagAction::enter_(ksys::act::ai::InlineParamPack* params) {
     AreaTagAction::enter_(params);
+    std::memset(_b0.getBufferPtr(), 0, _b0.getByteSize());
+    sub_7101059880(0);
+    if (auto* sound = ksys::snd::SoundMgr::instance()) {
+        if (auto* fx = sound->_50) {
+            if (auto* reverb = fx->_50)
+                reverb->sub_7101059B14(this);
+        }
+    }
 }
 
 void SoundReverbAreaTagAction::leave_() {
-    AreaTagAction::leave_();
+    if (auto* sound = ksys::snd::SoundMgr::instance()) {
+        if (auto* fx = sound->_50) {
+            if (auto* reverb = fx->_50)
+                reverb->sub_7101059B8C(this);
+        }
+    }
 }
 
 void SoundReverbAreaTagAction::loadParams_() {

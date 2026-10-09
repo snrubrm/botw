@@ -53,6 +53,7 @@ class SoundProxy;
 }
 
 namespace ksys::snd {
+class FxMgr;
 
 f32 sub_710105E3A4();
 const char* sub_710105E7B4(bool* flag);
@@ -601,7 +602,7 @@ public:
     /* 0x38 */ Unk_SoundMgr38* _38;
     /* 0x40 */ UiSoundMgr* mUiSoundMgr;
     /* 0x48 */ Unk_SoundMgr48* _48;
-    u8 _50[0x58 - 0x50];
+    /* 0x50 */ FxMgr* _50;
     ListenerPoser* _58;
     /* 0x60 */ Unk_SoundMgr60* _60;
     u8 _68[0x78 - 0x68];
