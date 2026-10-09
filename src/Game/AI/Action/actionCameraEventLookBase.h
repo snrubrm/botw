@@ -13,6 +13,8 @@ public:
     ~CameraEventLookBase() override = default;
 
 protected:
+    void m43() override;
+    void m44() override;
     void m46() override;
 
     virtual void m47();
