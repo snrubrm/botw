@@ -487,6 +487,28 @@ public:
     void m3() override {}
 };
 
+// vtable 0x71024506a8 (DragonFollow; message 0x80000df)
+class Unk_71024506a8 : public Unk_7102357210 {
+public:
+    // DragonFollow F460C inlines this lifetime; standalone D1 is 70AA30.
+    // Written like GameDataFlagSelector::~GameDataFlagSelector() { ; } (commit 96101229).
+    ~Unk_71024506a8() override { ; }
+    bool m2(const ksys::Message& message) override;
+
+    // F4534 constructs the link and string; 70A910 copies these fields,
+    // and F4B64 consumes the bind matrix, position and enable flag.
+    u8 _31[7];
+    s32 _38 = 0;
+    ksys::act::BaseProcLink _40;
+    sead::SafeString _50;
+    sead::Matrix34f _60;
+    sead::Matrix34f _90;
+    sead::Vector3f _c0;
+    u8 _cc[4];
+    bool _d0 = false;
+};
+KSYS_CHECK_SIZE_NX150(Unk_71024506a8, 0xd8);
+
 // vtable 0x7102450708 (message 0x80000a5)
 class Unk_7102450708 : public Unk_7102357210 {
 public:
