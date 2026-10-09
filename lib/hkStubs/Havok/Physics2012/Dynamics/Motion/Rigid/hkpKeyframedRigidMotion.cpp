@@ -58,3 +58,41 @@ void hkpKeyframedRigidMotion::applyTorque(hkReal, const hkVector4&) {}
 
 // 0x7101612f88
 void hkpKeyframedRigidMotion::setStepPosition(hkReal, hkReal) {}
+
+// NON_MATCHING: existing reference-count atomic retry branch layout.
+// 0x7101612f8c
+void hkpKeyframedRigidMotion::setStoredMotion(hkpMaxSizeMotion* savedMotion) {
+    if (savedMotion)
+        savedMotion->addReference();
+    if (m_savedMotion)
+        m_savedMotion->removeReference();
+    m_savedMotion = savedMotion;
+}
+
+// 0x710161304c
+void hkpKeyframedRigidMotion::getProjectedPointVelocity(const hkVector4& point,
+                                                      const hkVector4& normal,
+                                                      hkReal& velocityOut,
+                                                      hkReal& inverseVirtualMassOut) const {
+    hkVector4 relativePosition;
+    relativePosition.setSub(point, getCenterOfMassInWorld());
+    hkVector4 angularDirection;
+    angularDirection.setCross(normal, relativePosition);
+    velocityOut = (angularDirection.dot<3>(m_angularVelocity) +
+                   normal.dot<3>(m_linearVelocity)).val();
+    inverseVirtualMassOut = 0.0f;
+}
+
+// NON_MATCHING: paired velocity loads, reduction scheduling and zero store.
+// 0x71016130d0
+void hkpKeyframedRigidMotion::getProjectedPointVelocitySimd(const hkVector4& point,
+                                                          const hkVector4& normal,
+                                                          hkSimdReal& velocityOut,
+                                                          hkSimdReal& inverseVirtualMassOut) const {
+    hkVector4 relativePosition;
+    relativePosition.setSub(point, getCenterOfMassInWorld());
+    hkVector4 angularDirection;
+    angularDirection.setCross(normal, relativePosition);
+    velocityOut = angularDirection.dot<3>(m_angularVelocity) + normal.dot<3>(m_linearVelocity);
+    inverseVirtualMassOut = hkSimdReal(0.0f);
+}
