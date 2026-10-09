@@ -9,8 +9,6 @@
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Utils/MathUtil.h"
 #include "KingSystem/Utils/Types.h"
-#include "KingSystem/ActorSystem/actBaseProcLink.h"
-#include <prim/seadSafeString.h>
 
 namespace ksys::map {
 class Object;
@@ -296,7 +294,42 @@ bool sub_710092732C();
 
 namespace uking::act {
 
-class Camera;
+// 924A4C supplies a Vector3f origin and typed Delegate1 callbacks; native vtables
+// 2474250/24742A0 share the already mapped IDelegate1 isNoDummy slots.
+void sub_7100923F44(const sead::SafeString& name, const sead::SafeString& unique_name,
+                    const sead::Vector3f& origin,
+                    sead::IDelegate1<ksys::act::ActorConstDataAccess*>* on_actor,
+                    sead::IDelegate1<ksys::map::Object*>* on_object);
+
+// Native79B400 passes an Actor and ActorConstDataAccess output; null output is ignored.
+void sub_710092486C(ksys::act::Actor* actor, ksys::act::ActorConstDataAccess* accessor);
+// Named actor/map callbacks from CameraEventMovePosBase, with camera or event translation as origin.
+void sub_71009248D4(ksys::act::Actor* actor, const sead::SafeString& name,
+                    const sead::SafeString& unique_name,
+                    sead::IDelegate1<ksys::act::ActorConstDataAccess*>* on_actor,
+                    sead::IDelegate1<ksys::map::Object*>* on_object);
+
+// Temporary records produced by 9243FC and consumed by 9240C0/9242AC/92464C.
+struct CameraTargetResult {
+    void sub_7100923ECC(ksys::act::ActorConstDataAccess* accessor);
+    void sub_7100923F0C(ksys::map::Object* object);
+    ksys::act::BaseProcLink link;
+    ksys::map::Object* object = nullptr;
+    s32 kind = 0;
+};
+struct CameraTargetLink {
+    void sub_71009240C0(CameraTargetResult* result);
+    ksys::act::BaseProcLink link;
+    s32 index = -1;
+    s32 kind = 0;
+};
+KSYS_CHECK_SIZE_NX150(CameraTargetResult, 0x20);
+KSYS_CHECK_SIZE_NX150(CameraTargetLink, 0x18);
+void sub_71009243FC(ksys::act::Actor* actor, s32 selector, const sead::SafeString& name,
+                    const sead::SafeString& unique_name, CameraTargetResult* result,
+                    CameraTargetLink* target_link);
+void sub_7100924A4C(ksys::act::Actor* actor, const sead::SafeString& name,
+                    const sead::SafeString& unique_name, CameraTargetResult* result);
 
 // Native 0x90-byte camera target record, constructed by 9241AC and resolved by 9242AC.
 struct Unk_71009241ac {
@@ -310,6 +343,7 @@ struct Unk_71009241ac {
     void sub_7100924238(const Params& params);
     void sub_71009242AC(Camera* camera);
     void sub_710092464C();
+    bool sub_710092479C(const ksys::act::ActorConstDataAccess& accessor);
 
     s32 selector;
     sead::SafeString actorName;
@@ -317,11 +351,7 @@ struct Unk_71009241ac {
     sead::Matrix34f matrix;
     sead::Vector3f previousPos;
     sead::Vector3f position;
-    ksys::act::BaseProcLink link;
-    // 9243FC produces the index via findLinkReferenceObj(int*); 9240C0 reuses it.
-    s32 linkIndex;
-    // -1 on construction/reset, 1 for actor links, 2 for map reference links.
-    s32 linkKind;
+    CameraTargetLink targetLink;
     u32 status;
 };
 KSYS_CHECK_SIZE_NX150(Unk_71009241ac, 0x90);
