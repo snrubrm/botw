@@ -23,6 +23,8 @@ void sub_71010D6094(EnvMgr* mgr);
 namespace uking {
 
 extern bool sIsTitleStageActive;
+// 0x71007D4228 prepares the Demo102_0 stage change used by NewSaveRun.
+void calledFromNewSaveRun_10();
 
 // OpenWorldStage initialization and both teardown paths maintain the TeraWaterDisable region.
 // Other readers use the same XZ bounds and maximum height; storage remains in the original data.

@@ -1,4 +1,5 @@
 #include "Game/gameStage.h"
+#include "KingSystem/ksys.h"
 #include "Game/gamePlayReport.h"
 #include "Game/Damage/dmgInfoManager.h"
 #include "Game/gameGearMgr.h"
@@ -194,6 +195,14 @@ TitleStage::TitleStage() : mHeap(nullptr), _18(nullptr), _20(nullptr), _28(nullp
 TitleStage::~TitleStage() {
     sIsTitleStageActive = false;
     mHeap->destroy();
+}
+
+// NON_MATCHING: the native call supplies three unused arguments to setSceneChangeEventFlow.
+void calledFromNewSaveRun_10() {
+    setSceneChangeEventFlow("Demo102_0", "");
+    GameScene::resetStage(-99, true);
+    sIsTitleStageActive = true;
+    ksys::setStartingDemoName("Demo102_0");
 }
 
 StartupSaveCheckStage::StartupSaveCheckStage() : mHeap(nullptr), mState(nullptr) {}

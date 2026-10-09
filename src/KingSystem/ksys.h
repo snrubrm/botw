@@ -30,6 +30,9 @@ bool checkPreInitializeResourcesStillLoading();
 // 0x0000007100f40370
 void setPlayerLink(act::PlayerLink* link);
 
+// 0x7100F40B3C stores the caller's demo-name pointer; TitleStage passes a string literal.
+void setStartingDemoName(const char* name);
+
 // 0x7100f3ed80 / 0x7100f3ee94 (placeholder names): forward to the placement manager and the world
 // manager when they exist.
 // 0x7100f3ed50 (placeholder name): calls the UI handler 0x7102606a90 unless ActorDebug exists without flag 0x200000.
