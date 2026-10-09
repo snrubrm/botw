@@ -54,15 +54,15 @@ void SoundSourceUnifierSource::updatePosition_() {
 
 // 0x7100b8ef58
 Handle SoundSourceUnifierSource::getTargetHandle() const {
-    const Handle& handle = mTarget ? mTarget->mHandle : Handle::cInvalid;
-    return handle;
+    if (mTarget)
+        return mTarget->mHandle;
+    return Handle::cInvalid;
 }
 
-// NON_MATCHING: same copy order difference as getTargetHandle.
 // 0x7100b8ef88
 void SoundSourceUnifierSource::pause(bool pause, f32 fade_time) {
     if (mTarget) {
-        Handle handle = mTarget->mHandle;
+        Handle handle = getTargetHandle();
         handle.pause(pause, fade_time);
     }
 }
