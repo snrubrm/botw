@@ -455,6 +455,57 @@ void ScreenMainScreen::sub_7100A1957C(s32 count) {
 }
 
 // 0x7100a1af60
+void ScreenMainScreen::sub_7100A1AC14() {
+    _3678.sub_710093694C();
+}
+
+void ScreenMainScreen::sub_7100A1AC24(bool stop) {
+    if (!stop)
+        return;
+    _3670 = true;
+    _3aa9 = true;
+    if (mLocationNameLayout && mLocationNameLayout->mOpenAnimator)
+        mLocationNameLayout->mOpenAnimator->StopCurrent();
+    if (mLocationNameSLayout && mLocationNameSLayout->mOpenAnimator)
+        mLocationNameSLayout->mOpenAnimator->StopCurrent();
+    if (_3ca8 && _3ca8->mOpenAnimator)
+        _3ca8->mOpenAnimator->StopCurrent();
+}
+
+void ScreenMainScreen::sub_7100A1ACB4() {
+    _3aa9 = true;
+    if (mLocationNameLayout && mLocationNameLayout->mOpenAnimator)
+        mLocationNameLayout->mOpenAnimator->StopCurrent();
+    if (mLocationNameSLayout && mLocationNameSLayout->mOpenAnimator)
+        mLocationNameSLayout->mOpenAnimator->StopCurrent();
+    if (_3ca8 && _3ca8->mOpenAnimator)
+        _3ca8->mOpenAnimator->StopCurrent();
+    _292 &= ~2;
+}
+
+void ScreenMainScreen::sub_7100A1AD40() {
+    _3aa9 = true;
+    if (mLocationNameLayout && mLocationNameLayout->mOpenAnimator)
+        mLocationNameLayout->mOpenAnimator->StopCurrent();
+    if (mLocationNameSLayout && mLocationNameSLayout->mOpenAnimator)
+        mLocationNameSLayout->mOpenAnimator->StopCurrent();
+    if (_3ca8 && _3ca8->mOpenAnimator)
+        _3ca8->mOpenAnimator->StopCurrent();
+}
+
+void ScreenMainScreen::sub_7100A1AE54() {
+    _3aa9 = false;
+    if (mLocationNameLayout && !mLocationNameLayout->isAnimOpenEnd(false) &&
+        !mLocationNameLayout->isAnimCloseEnd(false) && mLocationNameLayout->mOpenAnimator)
+        mLocationNameLayout->mOpenAnimator->PlayFromCurrent(eui::Animator::PlayType(0), 1.0f);
+    if (mLocationNameSLayout && !mLocationNameSLayout->isAnimOpenEnd(false) &&
+        !mLocationNameSLayout->isAnimCloseEnd(false) && mLocationNameSLayout->mOpenAnimator)
+        mLocationNameSLayout->mOpenAnimator->PlayFromCurrent(eui::Animator::PlayType(0), 1.0f);
+    if (_3ca8 && _3ccc.isDone() && !_3ca8->isAnimOpenEnd(false) &&
+        !_3ca8->isAnimCloseEnd(false) && _3ca8->mOpenAnimator)
+        _3ca8->mOpenAnimator->PlayFromCurrent(eui::Animator::PlayType(0), 1.0f);
+}
+
 void ScreenMainScreen::sub_7100A1AF60() {
     if (_3d68)
         _3d68->sub_71009C0310();

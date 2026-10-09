@@ -882,7 +882,9 @@ public:
     /* 0x3650 */ ScreenChild* _3650;
     /* 0x3658 */ ScreenMainScreenUnk3658* _3658;
     /* 0x3660 */ ScreenChild* _3660;
-    u8 _pad_3668[0x3678 - 0x3668];
+    u8 _pad_3668[8];
+    /* 0x3670 */ bool _3670;
+    u8 _pad_3671[7];
     /* 0x3678 */ Unk_7102474c08 _3678;  // 0x38 bytes (0x7100a1ab68 / 0x7100a1ab94 call into it)
     /* 0x36b0 */ void* _36b0;
     // The two ints are written together by sub_7100A1ABF8 ({1, 0}) and separately by sub_7100A1ABC8.
@@ -892,9 +894,13 @@ public:
     /* 0x3704 */ s32 _3704;
     u8 _pad_3708[0x3720 - 0x3708];
     /* 0x3720 */ f32 _3720;  // -99.0f initially
-    u8 _pad_3724[0x3aa8 - 0x3724];
+    u8 _pad_3724[0x3968 - 0x3724];
+    /* 0x3968 */ eui::LayoutEx* mLocationNameLayout;
+    /* 0x3970 */ eui::LayoutEx* mLocationNameSLayout;
+    u8 _pad_3978[0x3aa8 - 0x3978];
     /* 0x3aa8 */ u8 _3aa8;
-    u8 _pad_3aa9[0x3ca8 - 0x3aa9];
+    /* 0x3aa9 */ bool _3aa9;
+    u8 _pad_3aaa[0x3ca8 - 0x3aaa];
     /* 0x3ca8 */ eui::LayoutEx* _3ca8;
     /* 0x3cb0 */ eui::Animator* _3cb0;
     /* 0x3cb8 */ eui::Animator* _3cb8;
@@ -907,6 +913,11 @@ public:
     // Full ctor A17AF8 and setup A18464 group 7 cast through native RTTI 25DAC48.
     /* 0x3d68 */ Unk_710247c368* _3d68;
 
+    void sub_7100A1AC14();
+    void sub_7100A1AC24(bool stop);
+    void sub_7100A1ACB4();
+    void sub_7100A1AD40();
+    void sub_7100A1AE54();
     void sub_7100A1AF60();
     void sub_7100A1E958(s32 state);
     void sub_7100A1E968();
