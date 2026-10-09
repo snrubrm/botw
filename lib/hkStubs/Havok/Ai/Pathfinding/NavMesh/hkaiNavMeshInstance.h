@@ -10,6 +10,11 @@ public:
     HK_DECLARE_CLASS_ALLOCATOR(hkaiNavMeshInstance)
     ~hkaiNavMeshInstance() override;
 
+    // 0x71015214B0 calculates the face area and writes its normalized world
+    // normal. Game 0x7100F7ED6C supplies the instance from StreamingCollection
+    // and copies the output xyz while retaining the scalar area return.
+    hkReal sub_71015214B0(hkInt32 faceIndex, hkVector4& normalOut) const;
+
     // hkReferencedObject's data ends at0xc; derived storage reuses its
     // tail padding. Preserve that unidentified interval explicitly.
     hkUint8 _c[0x1a0 - 0xc];
