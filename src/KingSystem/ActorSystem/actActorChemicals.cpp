@@ -5,6 +5,11 @@
 
 namespace ksys::act {
 
+namespace {
+// The fallback name object at 0x71024e6418 is used when the chemical has no actor.
+const sead::SafeString sFarObjName("FarObj");
+}
+
 // The body keeps the vtable store of the original, as in upstream's GameDataFlagSelector::~GameDataFlagSelector() { ; }
 // (commit 96101229).
 Unk_71024e6560::~Unk_71024e6560() {
@@ -20,7 +25,7 @@ const sead::Vector3f& Unk_71024e6428::m6() const {
 }
 
 const sead::SafeString& Unk_71024e6428::getName() const {
-    return mActor ? mActor->getName() : sead::SafeString::cEmptyString;
+    return mActor ? mActor->getName() : sFarObjName;
 }
 
 bool Unk_71024e6428::m15(u32 a1) const {
