@@ -24,7 +24,6 @@ f32 perpendicularPart(sead::Vector3f* out, const sead::Vector3f& a, const sead::
     return dot;
 }
 
-// NON_MATCHING: register allocation / load scheduling only
 f32 splitParallelPerpendicular(sead::Vector3f* parallel, sead::Vector3f* perpendicular,
                                 const sead::Vector3f& a, const sead::Vector3f& b) {
     *perpendicular = a;
@@ -32,9 +31,7 @@ f32 splitParallelPerpendicular(sead::Vector3f* parallel, sead::Vector3f* perpend
     parallel->x = b.x * dot;
     parallel->y = b.y * dot;
     parallel->z = dot * b.z;
-    perpendicular->x -= parallel->x;
-    perpendicular->y -= parallel->y;
-    perpendicular->z -= parallel->z;
+    *perpendicular -= *parallel;
     return dot;
 }
 
