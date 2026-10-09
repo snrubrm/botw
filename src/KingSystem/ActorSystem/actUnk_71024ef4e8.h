@@ -81,6 +81,12 @@ public:
     void sub_7100EB4928(int type, int a2, const sead::Vector3f& a, const sead::Vector3f& b, bool flag,
                         f32 f);
 
+    // 0x7100eb5950: body position plus an offset along its local Y axis.
+    void sub_7100EB5950(sead::Vector3f* out, phys::RigidBody* body, f32 height);
+    // 0x7100eb59e8: 0 blocked/invalid, 1 clear after the ground-normal retry, 2 farther than 3.
+    u32 sub_7100EB59E8(const sead::Vector3f& target, phys::CharacterController* controller,
+                     phys::RigidBody* body, f32 height);
+
     // Small flag / state setters called by the Player actions (0x7100eb51b0-0x7100eb56e8). Placeholder
     // names; the comments describe the effect on `_110`.
     void sub_7100EB51B0(const sead::Vector3f& a, const sead::Vector3f& b, int c);  // sets 0x40

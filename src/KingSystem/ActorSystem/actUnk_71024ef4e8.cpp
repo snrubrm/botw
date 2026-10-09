@@ -6,11 +6,61 @@
 #include "KingSystem/Physics/Ragdoll/physRagdollInstance.h"
 #include "KingSystem/Physics/Ragdoll/physRagdollRigidBody.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodyFromResource.h"
+#include "KingSystem/Physics/System/physRayCastBodyQuery.h"
 
 namespace ksys::act {
 
 void Unk_71024ef4e8::sub_7100EB480C(sead::Vector3f* out) const {
     _20->getCenterOfMassInWorld(out);
+}
+
+void Unk_71024ef4e8::sub_7100EB5950(sead::Vector3f* out, phys::RigidBody* body, f32 height) {
+    sead::Matrix34f transform;
+    body->getTransform(&transform);
+    transform.getTranslation(*out);
+    if (height != 0.0f)
+        *out += transform.getBase(1) * height;
+}
+
+u32 Unk_71024ef4e8::sub_7100EB59E8(const sead::Vector3f& target,
+                                 phys::CharacterController* controller,
+                                 phys::RigidBody* body, f32 height) {
+    phys::RayCastBodyQuery query(nullptr, phys::GroundHit::Player);
+    query.setNormalCheckingMode(phys::RayCast::NormalCheckingMode::DoNotCheck);
+    query.enableLayer(phys::ContactLayer::EntityGround);
+    query.enableLayer(phys::ContactLayer::EntityGroundSmooth);
+    sead::Vector3f start;
+    if (controller) {
+        controller->sub_7100F5F6E0(&start);
+        if (!controller->sub_7100F5E954())
+            return 0;
+    } else {
+        if (!body)
+            return 0;
+        body->getPosition(&start);
+        if (!body->isAddedToWorld())
+            return 0;
+    }
+    start += sead::Vector3f::ey * height;
+    if ((start - target).length() > 3.0f)
+        return 2;
+    query.setNormalCheckingMode(phys::RayCast::NormalCheckingMode::_1);
+    query.setStartAndEnd(start, target);
+    query.setNormalCheckingMode(phys::RayCast::NormalCheckingMode::_1);
+    if (!query.worldRayCast(phys::ContactLayerType::Entity))
+        return 0;
+    auto* hit_body = query.getHitRigidBody();
+    if (!hit_body)
+        return 0;
+    auto* hit = sead::DynamicCast<phys::RigidBodyFromResource>(hit_body);
+    if (!hit || !hit->isBvTreeOrStaticCompound())
+        return 0;
+    sead::Vector3f position;
+    query.getHitPosition(&position);
+    query.setEnd(position);
+    query.setNormalCheckingMode(phys::RayCast::NormalCheckingMode::_0);
+    return !query.worldRayCast(phys::ContactLayerType::Entity);
 }
 
 void Unk_71024ef4e8::sub_7100EB2448() {

@@ -437,7 +437,7 @@ void CameraAiming::sub_710074DD28(const act::Unk_7100922700& polar, sead::Vector
     const sead::Vector3f polar_offset = polar.sub_7100923254();
     sead::Vector3f horizontal(polar_offset.x, 0.0f, polar_offset.z);
     const f32 length = horizontal.length();
-    if (!(length <= 0.0f))
+    if (length > 0.0f)
         horizontal *= offset_length / length;
     *out -= horizontal;
     if (sub_7100926D24()) {
@@ -468,7 +468,7 @@ void CameraAiming::sub_710074DD28(const act::Unk_7100922700& polar, sead::Vector
     vertical_offset.setRotated(transform, sead::Vector3f::ey * weight);
     sead::Vector3f axis(transform(0, 0), 0.0f, transform(2, 0));
     const f32 axis_length = axis.length();
-    if (!(axis_length <= 0.0f))
+    if (axis_length > 0.0f)
         axis *= 1.0f / axis_length;
     sead::Vector3f tilt;
     tilt.setCross(transform.getBase(2), sead::Vector3f::ey);
