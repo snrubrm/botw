@@ -1,6 +1,7 @@
 #include "Game/AI/AI/aiPriestBossActorEnemyRoot.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/LOD/actLodState.h"
 #include "Game/AI/aiUnk_710071edf8.h"
@@ -88,6 +89,37 @@ bool PriestBossActorEnemyRoot::m52() {
     auto* unit =
         sead::DynamicCast<Unk_7102450fa8>(*static_cast<Unk_71025afb58**>(mPriestBossMetaAIUnit_a));
     return unit->_248[unit->_3c]._0;
+}
+
+// NON_MATCHING: payload input loads occur inside the lock, and enum temporaries and accessor
+// destruction use different stack slots and branch layout.
+void PriestBossActorEnemyRoot::sub_7100507440(bool a1) {
+    if (a1) {
+        if (_228.isOnBit(Flag(Flag::_0)))
+            return;
+        sead::ScopedLock<sead::JobQueueLock> lock(&_1f0._18.mLock);
+        _1f0._18._0 = _1e8;
+        _1f0._18._4 = 1;
+        _1f0._18.mLink.acquire(mActor, false);
+    } else {
+        if (!_228.isOnBit(Flag(Flag::_0)))
+            return;
+        sead::ScopedLock<sead::JobQueueLock> lock(&_1f0._18.mLock);
+        _1f0._18._0 = _1e8;
+        _1f0._18._4 = 2;
+        _1f0._18.mLink.acquire(mActor, false);
+    }
+
+    ksys::act::ActorConstDataAccess accessor;
+    auto* unit =
+        sead::DynamicCast<Unk_7102450fa8>(*static_cast<Unk_71025afb58**>(mPriestBossMetaAIUnit_a));
+    if (unit->sub_71007194CC(&accessor)) {
+        _1f0.sub_710070DBB0(*accessor.getMessageTransceiverId(), false);
+        if (a1)
+            _228.setBit(Flag(Flag::_0));
+        else
+            _228.resetBit(Flag(Flag::_0));
+    }
 }
 
 void PriestBossActorEnemyRoot::leave_() {
