@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionForkFlyToTargetDirect.h"
+#include "Game/AI/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
@@ -39,8 +40,28 @@ void ForkFlyToTargetDirect::loadParams_() {
     getStaticParam(&mOnGround_s, "OnGround");
 }
 
+// NON_MATCHING: vector temporaries and interpolation registers differ.
 void ForkFlyToTargetDirect::calc_() {
     FreeMovingAction::calc_();
+    const f32 speed = *mMoveSpd_s > _58.value ? *mMoveSpd_s : _58.value;
+    auto* actor = mActor;
+    _58.lerp(*mMoveSpd_s, 0.12f, speed * 0.2f, speed * 0.05f);
+    _58.updateStats();
+    auto target = *mTargetPos_d;
+    const auto& actor_matrix = actor->getMtx();
+    const sead::Vector3f position{actor_matrix(0, 3), actor_matrix(1, 3), actor_matrix(2, 3)};
+    if (*mOnGround_s) {
+        auto ray_start = target;
+        ray_start.y = position.y + 1.0f;
+        if (!somePositionCalc(&target, ray_start, -sead::Vector3f::ey, 10.0f))
+            target = *mTargetPos_d;
+    }
+    auto direction = target - position;
+    const f32 distance = direction.normalize();
+    const auto next_position = distance < _58.value ? target : position + direction * _58.value;
+    ksys::act::sub_7100EE57FC(actor, next_position);
+    if (distance - _58.value < *mFinRadius_s)
+        setFinished();
 }
 
 }  // namespace uking::action
