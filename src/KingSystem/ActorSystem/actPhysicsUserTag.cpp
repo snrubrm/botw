@@ -5,12 +5,19 @@
 #include "KingSystem/ActorSystem/actBaseProcMgr.h"
 #include "KingSystem/ActorSystem/LOD/actLodState.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
 
 namespace ksys::act {
 
 PhysicsUserTag::PhysicsUserTag(Actor* actor) : mActor(actor) {}
 
 PhysicsUserTag::~PhysicsUserTag() = default;
+
+void PhysicsUserTag::onBodyShapeChanged(phys::RigidBody* body) {
+    if (auto* physics = mActor->getPhysics())
+        physics->sub_7100FC0288(body);
+    mActor->sub_71011D7EC4(body);
+}
 
 Actor* PhysicsUserTag::getActor(ActorLinkConstDataAccess* accessor, Actor* other_actor) const {
     if (mActor != nullptr) {
