@@ -1,12 +1,18 @@
 #include "KingSystem/Physics/Constraint/physConstraintCallbacks.h"
 #include "KingSystem/Physics/Constraint/physSliderCs.h"
 #include "KingSystem/Physics/Constraint/physUnk_71024f6778.h"
+#include "KingSystem/Physics/Constraint/physUnk_71024f67a8.h"
 
 namespace ksys::phys {
 
 SliderCs::~SliderCs() = default;
 Unk_71024f6730::~Unk_71024f6730() = default;
 Unk_71024f6778::~Unk_71024f6778() = default;
+Unk_71024f67a8::~Unk_71024f67a8() = default;
+
+void Unk_71024f67a8::sub_7100F71CB4(Unk_71024f67a8* object) {
+    delete object;
+}
 
 void Unk_71024f6778::sub_7100F719B4(Unk_71024f6778* object) {
     delete object;
