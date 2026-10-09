@@ -492,6 +492,29 @@ f32 sub_71009226EC(const f32& deg) {
     return std::cos(deg * (sead::Mathf::pi() / 180.0f));
 }
 
+// NON_MATCHING: clang merges the NaN-test branches and keeps an additional contiguous matrix copy.
+bool sub_71009258B0(ksys::act::Actor* actor, sead::Matrix34f* out) {
+    auto* manager = ksys::act::BaseProcMgr::instance();
+    if (!manager)
+        return false;
+    sead::Matrix34f matrix;
+    if (manager->getJobType() == ksys::act::JobType::Calc1) {
+        if (!manager->isAccessingProcSafe(actor, nullptr))
+            return false;
+        matrix = actor->getMtx();
+    } else {
+        ksys::act::ActorConstDataAccess accessor(actor);
+        matrix = accessor.getActorMtx();
+    }
+    // The native twelve scalar checks reject NaN while accepting infinities.
+    for (f32 component : matrix.a) {
+        if (std::isnan(component))
+            return false;
+    }
+    *out = matrix;
+    return true;
+}
+
 namespace uking::act {
 
 void CameraTargetResult::sub_7100923ECC(ksys::act::ActorConstDataAccess* accessor) {
