@@ -39,10 +39,11 @@ class Unk_7100f7e9f0;
 
 // NavMeshSystemThread (ctor 0x7100f89514, D0 0x7100f897a8, calc_ 0x7100f8972c,
 // vtable 0x71024f70b0): HavokAI's navmesh worker thread (HavokAI::_38).
-// TODO: incomplete (ctor args, calc_ body, the sub-object with its own vtable at +0x30,
-// members at +0x100/+0x108/+0x10c).
+// Whole HavokAI::init allocates 110 bytes and passes (this, heap) to F89514.
+// Complete SDK Thread owns the secondary base at 30; whole table starts 24F70A0.
 class NavMeshSystemThread : public sead::Thread {
 public:
+    NavMeshSystemThread(HavokAI* system, sead::Heap* heap);
     // 0x7100f8972c (declaration only).
     void calc_(sead::MessageQueue::Element msg) override;
 
@@ -50,10 +51,11 @@ public:
     void sub_7100F895FC(f32 dt);
 
     u8 _pad[0x100 - sizeof(sead::Thread)];
-    /* 0x100 */ void* _100;
+    /* 0x100 */ HavokAI* _100;
     /* 0x108 */ f32 _108;
     /* 0x10c */ bool _10c;
 };
+KSYS_CHECK_SIZE_NX150(NavMeshSystemThread, 0x110);
 
 // Placeholder name (vtable 0x7102372790; a second base with its own vtable at +0x10): base of the
 // navmesh query requests that AI / horse code allocates from NavMeshQueryRequestPool's heap and
