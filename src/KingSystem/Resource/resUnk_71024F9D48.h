@@ -13,6 +13,7 @@ namespace ksys::res {
 // with the proved receiver and return domain; the storage layout stays opaque.
 class Unk_71024f9a08;
 class Unk_71024F9D48;
+class Unk_71024f9d68;
 // Native FE0D98 removes this handle's list node while holding the resource lock.
 void sub_7100FE0D98(Unk_71024f9a08* resource, Unk_71024F9D48* handle);
 // Complete native bodies read the same receiver's status/flags and return bool.
@@ -39,6 +40,8 @@ public:
     void sub_7100FE8414(Unk_71024f9a08* resource);
     void sub_7100FE8428();
     void sub_7100FE8474(Unk_71024f9a08* resource, u32 status);
+    void sub_7100FE848C();
+    void sub_7100FE84D4();
 
 private:
     void* _8 = nullptr;
@@ -48,7 +51,7 @@ private:
     u32 _1c = 0;
     u32 _20 = 1;
     Unk_71024f9a08* _28 = nullptr;
-    void* _30 = nullptr;
+    Unk_71024f9d68* _30 = nullptr;
     util::ManagedTaskHandle _38;
 };
 KSYS_CHECK_SIZE_NX150(Unk_71024F9D48, 0x60);

@@ -20,6 +20,7 @@ class ResFile;
 namespace ksys::res {
 
 class BfRes;
+class Unk_71024F9D48;
 class Unk_71024f9958;
 // Native FE1310 constructs the path, load parameters and handle; FE1630 fills the
 // ResFile and FileDevice pointers. BfRes1200038 consumes this whole loader object.
@@ -78,6 +79,15 @@ public:
     virtual void m2(const void* arg) = 0;
     virtual void m3(const void* arg) = 0;
     virtual void m4(const void* arg) = 0;
+
+    // FE848C/FE84D4 produce the signed manager generation and current handle;
+    // BfRes callbacks 12007B8/12007E4/120086C consume the handle at +8.
+    struct CallbackArg {
+        s32 mGeneration;
+        Unk_71024F9D48* mHandle = nullptr;
+    };
+    void sub_7100FE85AC(const CallbackArg* arg);
+    void sub_7100FE85B8(const CallbackArg* arg);
 
     u64 _8;
     s32 _10;

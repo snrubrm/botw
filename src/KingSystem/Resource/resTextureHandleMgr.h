@@ -33,6 +33,8 @@ public:
     void calc();
 
     ArchiveWork* getArchiveWork() const;
+    // inline-only in the original; name is a guess. FE848C and FE84D4 repeat this read.
+    s32 getGeneration() const { return mGeneration; }
     void repairAllHandlesForSync();
     void clearAllCache();
     void sub_7100FE60B0(bool on);
@@ -54,7 +56,10 @@ private:
     // TODO
     sead::BitFlag8 mFlags;
     sead::BitFlag8 mFlags2;
-    u8 _a[0x30 - 0xa];
+    u8 _a[2];
+    // Native FE2534 zeroes +C; FE54C0 increments it modulo the signed maximum.
+    s32 mGeneration;
+    u8 _10[0x30 - 0x10];
     util::Task* _30;
     u8 _38[0x48 - 0x38];
     util::TaskMgr* _48;
