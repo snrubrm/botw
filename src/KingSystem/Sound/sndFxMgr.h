@@ -21,6 +21,10 @@ public:
     FxMgr();
     virtual ~FxMgr();
     void init(sead::Heap* heap);
+    // Whole SoundMgr::calc 11FB8A4 calls 1050348 with its FxMgr pointer.
+    void sub_7101050348();
+    // Whole 105034C updates effect state using only this.
+    void sub_710105034C();
     void sub_71010511D4();
     void sub_71010514F4(sead::DrawContext* context, const sead::Camera& camera,
                       const sead::Projection& projection, const sead::Viewport& viewport);

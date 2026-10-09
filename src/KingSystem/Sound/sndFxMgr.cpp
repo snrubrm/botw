@@ -3,6 +3,10 @@
 
 namespace ksys::snd {
 
+void FxMgr::sub_7101050348() {
+    sub_710105034C();
+}
+
 void FxMgr::sub_71010511D4() {
     _a8 = 0;
 }
