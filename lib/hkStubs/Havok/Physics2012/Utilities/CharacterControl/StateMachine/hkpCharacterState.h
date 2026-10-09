@@ -60,8 +60,8 @@ public:
     ~hkpCharacterState() override = default;
 
     virtual hkpCharacterStateType m5() const = 0;
-    // Native 1675D34/1675D38 are empty defaults, shared by the ground/air
-    // vtables and called around a transition by Context1677864.
+    // Native 0x7101675D34 / 0x7101675D38 are empty defaults, shared by the
+    // ground/air vtables and called around a transition by Context 0x7101677864.
     virtual void sub_7101675D34(hkpCharacterContext&, hkpCharacterStateType,
                               const hkpCharacterInput&, hkpCharacterOutput&) {}
     virtual void sub_7101675D38(hkpCharacterContext&, hkpCharacterStateType,
