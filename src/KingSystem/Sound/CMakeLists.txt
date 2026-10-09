@@ -11,6 +11,7 @@ target_sources(uking PRIVATE
   sndOcclusionMgr.h
   sndReverbMgr.cpp
   sndReverbMgr.h
+  sndFxMgr.cpp
   sndFxMgr.h
   sndMusicDefinition.h
   sndMusicInfo.cpp

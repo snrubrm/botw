@@ -1,9 +1,14 @@
 #pragma once
 
 #include "KingSystem/Utils/Types.h"
+#include <basis/seadTypes.h>
 
 namespace sead {
 class Heap;
+class DrawContext;
+class Camera;
+class Projection;
+class Viewport;
 }
 namespace ksys::snd {
 class Unk_7101059888;
@@ -16,10 +21,16 @@ public:
     FxMgr();
     virtual ~FxMgr();
     void init(sead::Heap* heap);
+    void sub_71010511D4();
+    void sub_71010514F4(sead::DrawContext* context, const sead::Camera& camera,
+                      const sead::Projection& projection, const sead::Viewport& viewport);
 
     u8 _8[0x50 - 8];
     Unk_7101059888* _50;
-    u8 _58[0xd8 - 0x58];
+    u8 _58[0xa8 - 0x58];
+    // Whole calculation 1050104 uses this signed index for the five-float preset table.
+    s32 _a8;
+    u8 _ac[0xd8 - 0xac];
 };
 KSYS_CHECK_SIZE_NX150(FxMgr, 0xd8);
 
