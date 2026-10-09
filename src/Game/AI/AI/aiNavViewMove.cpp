@@ -85,8 +85,6 @@ void NavViewMove::calc_() {
     }
 }
 
-// NON_MATCHING: the original copies nav->_248 under the lock as one 12-byte block (ldr x + ldr w), ours
-// member-wise (sead::Vector3f::operator=); everything else is instruction-identical
 bool NavViewMove::sub_71004BABDC() {
     auto* nav = mActor->m45();
     if (!nav)
@@ -97,7 +95,7 @@ bool NavViewMove::sub_71004BABDC() {
     sead::Vector3f nav_dir;
     {
         auto lock = sead::makeScopedLock(nav->_1e0);
-        nav_dir = nav->_248;
+        nav_dir.set(nav->_248);
     }
     ksys::util::sub_71011EFA00(&nav_dir, nav_dir, up);
     nav_dir.normalize();
