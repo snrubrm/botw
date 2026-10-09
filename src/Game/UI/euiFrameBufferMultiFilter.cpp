@@ -8,7 +8,6 @@
 
 namespace eui {
 
-// NON_MATCHING: the compiler shares the alpha-mode stores and lays out their branches differently.
 void FrameBufferMultiFilter::initialize(sead::Heap* heap, const nn::ui2d::Pane& pane,
                                       LayoutEx* layout) {
     const auto* data = pane.FindExtUserDataByName("FrameBufferUse");
@@ -30,9 +29,11 @@ void FrameBufferMultiFilter::initialize(sead::Heap* heap, const nn::ui2d::Pane& 
     mRenderBuffer.mRenderTargetColor[0] = &mRenderTarget;
     if (const auto* alpha = pane.FindExtUserDataByName("FrameBufferAlpha")) {
         const s32 value = alpha->GetIntArray()[0];
-        if (value == 255)
+        if (value == 255) {
             _1f4 = 1;
-        else if (value == 0)
+            return;
+        }
+        if (value == 0)
             _1f4 = 0;
     }
 }
