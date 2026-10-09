@@ -9,6 +9,8 @@ target_sources(uking PRIVATE
   sndMusicDefinition.cpp
   sndOcclusionMgr.cpp
   sndOcclusionMgr.h
+  sndReverbMgr.cpp
+  sndReverbMgr.h
   sndMusicDefinition.h
   sndMusicInfo.cpp
   sndMusicInfo.h
