@@ -8,6 +8,11 @@
 #include <prim/seadEnum.h>
 #include "KingSystem/Utils/Types.h"
 
+namespace gsys {
+class Model;
+class ModelAnimation;
+}
+
 namespace aal {
 class IAssetInfoReadable;
 }
@@ -19,6 +24,7 @@ class UserInstanceSLink;
 
 namespace ksys::act {
 class Actor;
+namespace ai { class RootAi; }
 }
 
 namespace ksys::as {
@@ -83,6 +89,10 @@ public:
     void silenceFootsteps();
     void unsilenceFootsteps();
     bool sub_7101233168();
+    void sub_71012342D8(bool value);
+    bool sub_71012342F8();
+    act::ai::RootAi* getRootAi() const;
+    gsys::ModelAnimation* getModelAnimation() const;
     void x_4(bool paused);
     // 0x7101230fc8: pauses selected sound groups.
     void sub_7101230FC8(bool paused, bool skip_environment);
@@ -116,7 +126,8 @@ public:
     // 0x7101232318: the linked actor's AS list, or null.
     as::ASList* getASList() const;
 
-    /* 0x00 */ u8 _0[0x8];
+    // Producer11C9AA0 supplies Actor.mModel in CreateArg+40; ctor122FCE0 stores it here.
+    /* 0x00 */ gsys::Model* mModel;
     // 0x710122fce0 stores the Actor from its creation argument at +0x8.
     /* 0x08 */ act::Actor* mActor;
     /* 0x10 */ u8 _10[0x48 - 0x10];

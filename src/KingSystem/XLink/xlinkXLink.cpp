@@ -3,6 +3,7 @@
 #include "KingSystem/Sound/sndMiiSound.h"
 #include "KingSystem/XLink/xlinkManager.h"
 #include "Game/gameScene.h"
+#include <gsys/gsysModel.h>
 #include <aal/aalGroup.h>
 #include <aal/aalGroupMgr.h>
 #include <aal/aalSystemAccessor.h>
@@ -51,6 +52,25 @@ bool XLink::sub_7101233168() {
     if (_cc.isOn(0x800))
         return true;
     return mActor && mActor->getActorFlags2().isOn(act::Actor::ActorFlag2::_40);
+}
+
+void XLink::sub_71012342D8(bool value) {
+    _cc.change(0x40000, value);
+    _cc.set(0x20000);
+}
+
+bool XLink::sub_71012342F8() {
+    if (_cc.isOn(0x2000000) || _cc.isOnAll(0x1800))
+        return true;
+    return mActor && mActor->getActorFlags2().isOn(act::Actor::ActorFlag2::_40);
+}
+
+act::ai::RootAi* XLink::getRootAi() const {
+    return mActor ? mActor->getRootAi() : nullptr;
+}
+
+gsys::ModelAnimation* XLink::getModelAnimation() const {
+    return mModel ? mModel->getAnimation() : nullptr;
 }
 
 as::ASList* XLink::getASList() const {
