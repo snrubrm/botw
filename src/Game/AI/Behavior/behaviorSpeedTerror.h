@@ -17,22 +17,25 @@ public:
     void m8() override;
 
     /* 0x28 */ ksys::act::AITerror _28{mActor};
-    /* 0xe0 */ const int* mLevel_s{};
-    /* 0xe8 */ const float* mRadius_s{};
-    /* 0xf0 */ const float* mSpeedTh_s{};
-    /* 0xf8 */ const float* mRemoveSpTh_s{};
-    /* 0x100 */ const bool* mIsPlayerLayer_s{};
-    /* 0x108 */ const bool* mIsNpcLayer_s{};
-    /* 0x110 */ const bool* mIsEnemyLayer_s{};
-    /* 0x118 */ const bool* mIsGuardianLayer_s{};
-    /* 0x120 */ const bool* mIsImpulseLayer_s{};
-    /* 0x128 */ const bool* mIsFireLayer_s{};
-    /* 0x130 */ const bool* mIsInsectLayer_s{};
-    /* 0x138 */ const bool* mIsHorseLayer_s{};
-    /* 0x140 */ const bool* mIsAnimalLayer_s{};
-    /* 0x148 */ const bool* mIsWolfLinkLayer_s{};
-    /* 0x150 */ const bool* mIsIceLayer_s{};
-    /* 0x158 */ const bool* mIsElectricLayer_s{};
+    struct Params {
+        const int* mLevel_s{};
+        const float* mRadius_s{};
+        const float* mSpeedTh_s{};
+        const float* mRemoveSpTh_s{};
+        const bool* mIsPlayerLayer_s{};
+        const bool* mIsNpcLayer_s{};
+        const bool* mIsEnemyLayer_s{};
+        const bool* mIsGuardianLayer_s{};
+        const bool* mIsImpulseLayer_s{};
+        const bool* mIsFireLayer_s{};
+        const bool* mIsInsectLayer_s{};
+        const bool* mIsHorseLayer_s{};
+        const bool* mIsAnimalLayer_s{};
+        const bool* mIsWolfLinkLayer_s{};
+        const bool* mIsIceLayer_s{};
+        const bool* mIsElectricLayer_s{};
+    };
+    /* 0xe0 */ Params mParams;
 };
 KSYS_CHECK_SIZE_NX150(SpeedTerror, 0x160);
 
