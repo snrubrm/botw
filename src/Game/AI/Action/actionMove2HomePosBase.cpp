@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionMove2HomePosBase.h"
+#include "KingSystem/System/VFR.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
@@ -35,8 +36,25 @@ void Move2HomePosBase::loadParams_() {
     getDynamicParam(&mDynMoveSpeed_d, "DynMoveSpeed");
 }
 
+// NON_MATCHING: vector chase and matrix multiplication registers differ.
 void Move2HomePosBase::calc_() {
-    ksys::act::ai::Action::calc_();
+    const f32 step = *mDynMoveSpeed_d * ksys::VFR::instance()->getDeltaFrame();
+    auto difference = _44 - _38;
+    const f32 distance = difference.length();
+    if (distance <= step) {
+        _38 = _44;
+        setFinished();
+    } else {
+        difference *= 1.0f / distance;
+        _38 += difference * step;
+    }
+    sead::Matrix34f matrix;
+    mActor->getHomeMtx(&matrix);
+    sead::Matrix34f translation;
+    translation.makeT(_38);
+    matrix.setMul(matrix, translation);
+    if (auto* body = m32())
+        body->changePositionAndRotation(matrix, sead::Mathf::epsilon());
 }
 
 ksys::phys::RigidBody* Move2HomePosBase::m32() {
