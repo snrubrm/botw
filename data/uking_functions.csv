@@ -103562,7 +103562,7 @@ Address,Quality,Size,Name
 0x000000710157e25c,L,001204,
 0x000000710157e710,L,000084,_ZN27hkaKeyFrameHierarchyUtility10initializeERKNS_8BodyDataEPNS_8WorkElemE
 0x000000710157e764,L,002904,
-0x000000710157f2bc,L,000188,
+0x000000710157f2bc,L,000188,_ZN11hkArrayUtil8_reserveER17hkMemoryAllocatorPvii
 0x000000710157f378,L,000164,_ZN11hkArrayUtil12_reserveMoreER17hkMemoryAllocatorPvi
 0x000000710157f41c,L,000204,
 0x000000710157f4e8,L,000200,hkErrStream::hkErrStream
@@ -105753,12 +105753,12 @@ Address,Quality,Size,Name
 0x00000071015fdf04,L,000232,
 0x00000071015fdfec,L,000176,
 0x00000071015fe09c,L,000144,
-0x00000071015fe12c,L,000028,_ZNK9hkpEntity8isActiveEv
+0x00000071015fe12c,m,000028,_ZNK9hkpEntity8isActiveEv
 0x00000071015fe148,L,000144,hkpEntity::activate
 0x00000071015fe1d8,L,000040,hkpEntity::requestDeactivation
 0x00000071015fe200,L,000220,hkpEntity::deactivate
 0x00000071015fe2dc,L,001056,hkpEntity::deallocateInternalArrays
-0x00000071015fe6fc,L,000016,hkpEntity::getNumConstraints
+0x00000071015fe6fc,O,000016,_ZNK9hkpEntity17getNumConstraintsEv
 0x00000071015fe70c,L,000052,hkpEntity::getConstraint
 0x00000071015fe740,U,000052,
 0x00000071015fe774,U,000240,
