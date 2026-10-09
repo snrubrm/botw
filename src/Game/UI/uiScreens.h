@@ -2267,14 +2267,14 @@ struct ScreenAppPictureBookEntry {
     /* 0x308 */ sead::BoundBox2f _308;
     /* 0x318 */ sead::BoundBox2f _318;
     /* 0x328 */ sead::BoundBox2f _328;
-    /* 0x338 */ sead::Vector2f _338{0, 0};
-    /* 0x340 */ sead::Vector2f _340{0, 0};
+    /* 0x338 */ sead::Vector2f _338 = sead::Vector2f::zero;
+    /* 0x340 */ sead::Vector2f _340 = sead::Vector2f::zero;
     /* 0x348 */ sead::BoundBox2f _348;
     /* 0x358 */ sead::BoundBox2f _358;
-    /* 0x368 */ sead::Vector2f _368{0, 0};
-    /* 0x370 */ sead::Vector2f _370{0, 0};
-    /* 0x378 */ sead::Vector2f _378{0, 0};
-    /* 0x380 */ sead::Vector2f _380{0, 0};
+    /* 0x368 */ sead::Vector2f _368 = sead::Vector2f::zero;
+    /* 0x370 */ sead::Vector2f _370 = sead::Vector2f::zero;
+    /* 0x378 */ sead::Vector2f _378 = sead::Vector2f::zero;
+    /* 0x380 */ sead::Vector2f _380 = sead::Vector2f::zero;
     /* 0x388 */ s32 _388 = -1;
     /* 0x38c */ bool _38c = false;
     /* 0x38d */ bool _38d = false;
@@ -2340,7 +2340,7 @@ struct PictureBookGroupList {
 };
 
 struct ScreenAppPictureBookUnk {
-    // 0x7100943e80: allocates and initializes the entry list (declaration only).
+    // 0x7100943e80: allocates and initializes the entry list.
     void sub_7100943E80(sead::Heap* heap, s32 count);
     // 0x710093ff88: releases active units across the existing group lists (undecompiled).
     void sub_710093FF88();
@@ -2399,9 +2399,8 @@ struct ScreenAppPictureBookUnk {
     u8 _68[0xc8 - 0x68];
     /* 0x0c8 */ s32 _c8;
     u8 _cc[0x288 - 0xcc];
-    /* 0x288 */ u32 _288;
-    u32 _28c;
-    /* 0x290 */ ScreenAppPictureBookEntry** _290;
+    // Full producer 943e80 calls PtrArrayImpl::allocBuffer at +288 then pushes 0x398 entries.
+    /* 0x288 */ sead::PtrArray<ScreenAppPictureBookEntry> mEntries;
     /* 0x298 */ s32 _298;
     u8 _29c[0x2a0 - 0x29c];
     /* 0x2a0 */ PictureBookGroupList** _2a0;

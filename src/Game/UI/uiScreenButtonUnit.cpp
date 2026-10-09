@@ -34,10 +34,10 @@ s32 Unk_7102474e38::sub_7100939C78() const {
 // NON_MATCHING: loop induction width and arithmetic scheduling differ.
 bool Unk_7102474e38::sub_7100939CA0() const {
     s32 count = 0;
-    if (_20->_290) {
+    if (_20->mEntries.data()) {
         for (s32 i = 0; i < _18->mEntry->_2f0; ++i) {
-            if (u32(i) < _20->_288 && _20->_290[i])
-                count += _20->_290[i]->mParams._29c;
+            if (u32(i) < _20->mEntries.size() && _20->mEntries.data()[i])
+                count += _20->mEntries.data()[i]->mParams._29c;
         }
         count += _3c + _18->mEntry->mParams._2a0 * _18->mRecord->_c * _18->mEntry->mParams._2a4;
     }

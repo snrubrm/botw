@@ -86,6 +86,16 @@ ScreenAppPictureBookEntry::~ScreenAppPictureBookEntry() {
     }
 }
 
+// NON_MATCHING: constructor vector copies and bound stores are grouped differently,
+// with different constant-register allocation in the entry loop.
+void ScreenAppPictureBookUnk::sub_7100943E80(sead::Heap* heap, s32 count) {
+    if (count < 1)
+        return;
+    mEntries.allocBuffer(count, heap);
+    for (s32 i = 0; i < count; ++i)
+        mEntries.pushBack(new (heap, 8) ScreenAppPictureBookEntry);
+}
+
 // NON_MATCHING: empty-string comparison loads and page-count branches are scheduled differently.
 // 0x710093ac7c
 void ScreenAppPictureBookEntry::sub_710093AC7C() {
@@ -247,24 +257,24 @@ u32 ScreenAppPictureBookUnk::sub_710093E428(s32 index) {
 // 0x710093e900
 u32 ScreenAppPictureBookUnk::sub_710093E900(s32 base, s32 count) {
     s32 sum = 0;
-    if (!_290)
+    if (!mEntries.data())
         return sub_710093E784(0);
     for (s32 i = 0; i < count; ++i) {
-        if (_288 > static_cast<u64>(i) && _290[i])
-            sum += _290[i]->mParams._29c;
+        if (mEntries.size() > static_cast<u64>(i) && mEntries.data()[i])
+            sum += mEntries.data()[i]->mParams._29c;
     }
     return sub_710093E784(sum + base);
 }
 
 // 0x710093f10c
 void ScreenAppPictureBookUnk::sub_710093F10C(s32 index, s32* out_index, s32* out_value) {
-    if (!_290)
+    if (!mEntries.data())
         return;
-    const s32 count = static_cast<s32>(_288);
+    const s32 count = mEntries.size();
     if (count == 0)
         return;
-    ScreenAppPictureBookEntry** end = _290 + count;
-    for (ScreenAppPictureBookEntry** p = _290; p != end; ++p) {
+    ScreenAppPictureBookEntry** end = mEntries.data() + count;
+    for (ScreenAppPictureBookEntry** p = mEntries.data(); p != end; ++p) {
         ScreenAppPictureBookEntry* entry = *p;
         if (entry) {
             const s32 rest = index - entry->mParams._29c;
@@ -365,7 +375,7 @@ void ScreenAppPictureBookUnk::sub_710093F594(bool flag) {
 // 0x710093f670
 // NON_MATCHING: lowering only (all loads/stores/calls/branches match, including both loop
 // skeletons with their reloads, the record/match logic and the select/deselect truth table).
-// Four small diffs remain: _2e4 is loaded before _288 (ours loads them in compare order); the
+// Four small diffs remain: _2e4 is loaded before mEntries.size() (ours loads them in compare order); the
 // else-path null check is mov+cmp+beq while ours uses cbz; the select block loads _318 after the
 // _10 store while ours loads it before; (all scheduling/codegen-shape, no semantic difference).
 void ScreenAppPictureBookUnk::sub_710093F670() {
@@ -393,8 +403,8 @@ void ScreenAppPictureBookUnk::sub_710093F670() {
                             if (PictureBookGroupRecord* record = g->mRecord)
                                 rb = record->_c;
                             bool sel;
-                            if (_288 > _2e4) {
-                                if (_290[_2e4] != entry)
+                            if (mEntries.size() > _2e4) {
+                                if (mEntries.data()[_2e4] != entry)
                                     sel = false;
                                 else
                                     sel = _2ec == rb;
@@ -476,7 +486,7 @@ void ScreenAppPictureBookUnk::sub_710093F7F8(bool flag) {
 }
 
 // 0x710093fbf0
-// NON_MATCHING: regalloc in the found block (load/mul operand registers), and the _290-null path returns 0
+// NON_MATCHING: regalloc in the found block (load/mul operand registers), and the mEntries.data()-null path returns 0
 // via mov w0,wzr while the original returns the null pointer itself via mov w0,w8.
 s32 ScreenAppPictureBookUnk::sub_710093FBF0(eui::BoxCursorNode* node) {
     s32 result = -1;
@@ -511,7 +521,7 @@ s32 ScreenAppPictureBookUnk::sub_710093FBF0(eui::BoxCursorNode* node) {
     }
     return result;
 found:
-    if (_290 == nullptr)
+    if (mEntries.data() == nullptr)
         return 0;
     Unk_7102474f10* group = l->_18;
     PictureBookGroupRecord* record = group->mRecord;
@@ -526,8 +536,8 @@ found:
     s32 sum = 0;
     if (limit >= 1) {
         for (; i != limit; ++i) {
-            if (_288 > i) {
-                if (ScreenAppPictureBookEntry* e = _290[i])
+            if (mEntries.size() > i) {
+                if (ScreenAppPictureBookEntry* e = mEntries.data()[i])
                     sum += e->mParams._29c;
             }
         }
@@ -584,7 +594,7 @@ void ScreenAppPictureBookUnk::sub_710093F924(bool flag) {
             if (_2e8 >= 1) {
                 s64 i = (s64)_2e8 - 1;
                 while (true) {
-                    ScreenAppPictureBookEntry* e = _290[i];
+                    ScreenAppPictureBookEntry* e = mEntries.data()[i];
                     if (e->mParams._29c > 0 && !e->_38c && !e->_38d) {
                         found_back = true;
                         break;
@@ -603,15 +613,15 @@ void ScreenAppPictureBookUnk::sub_710093F924(bool flag) {
             }
         }
         bool found_fwd = false;
-        ScreenAppPictureBookEntry* entry = _290[_2e8];
+        ScreenAppPictureBookEntry* entry = mEntries.data()[_2e8];
         if (entry->_2f4 - 1 <= _2f0) {
             found_fwd = true;
         } else {
-            s64 last = (s64)_288 - 1;
+            s64 last = (s64)mEntries.size() - 1;
             if ((s32)_2e8 < (s32)last) {
                 s64 i = _2e8;
                 while (true) {
-                    ScreenAppPictureBookEntry* e = _290[i + 1];
+                    ScreenAppPictureBookEntry* e = mEntries.data()[i + 1];
                     if (e->mParams._29c > 0 && !e->_38c && !e->_38d) {
                         found_fwd = true;
                         break;
@@ -679,8 +689,8 @@ bool ScreenAppPictureBookUnk::sub_7100939F58() const {
 
 // 0x710093f278
 void ScreenAppPictureBookUnk::sub_710093F278(s32 value, s32 index) {
-    if (_290 && static_cast<u32>(index) < _288) {
-        ScreenAppPictureBookEntry* entry = _290[index];
+    if (mEntries.data() && static_cast<u32>(index) < mEntries.size()) {
+        ScreenAppPictureBookEntry* entry = mEntries.data()[index];
         if (entry)
             entry->mParams._29c = value;
     }
@@ -689,8 +699,8 @@ void ScreenAppPictureBookUnk::sub_710093F278(s32 value, s32 index) {
 
 // 0x710093fd14
 void ScreenAppPictureBookUnk::sub_710093FD14(s32 index) {
-    if (index >= 0 && _290 && index < _2a8)
-        _290[index]->_38c = true;
+    if (index >= 0 && mEntries.data() && index < _2a8)
+        mEntries.data()[index]->_38c = true;
     sub_710093F7F8(_2c & 1);
     sub_710093F924(true);
 }
@@ -698,15 +708,15 @@ void ScreenAppPictureBookUnk::sub_710093FD14(s32 index) {
 // 0x710093fd6c
 void ScreenAppPictureBookUnk::sub_710093FD6C() {
     for (s64 i = 0; i < _2a8; ++i)
-        _290[i]->_38c = false;
+        mEntries.data()[i]->_38c = false;
     sub_710093F7F8(_2c & 1);
     sub_710093F924(true);
 }
 
 // 0x710093fdcc
 void ScreenAppPictureBookUnk::sub_710093FDCC(s32 index) {
-    if (index >= 0 && _290 && index < _2a8)
-        _290[index]->_38d = true;
+    if (index >= 0 && mEntries.data() && index < _2a8)
+        mEntries.data()[index]->_38d = true;
     sub_710093F29C();
     sub_710093F924(true);
 }
@@ -714,7 +724,7 @@ void ScreenAppPictureBookUnk::sub_710093FDCC(s32 index) {
 // 0x710093fe1c
 void ScreenAppPictureBookUnk::sub_710093FE1C() {
     for (s64 i = 0; i < _2a8; ++i)
-        _290[i]->_38d = false;
+        mEntries.data()[i]->_38d = false;
     sub_710093F29C();
     sub_710093F924(true);
 }
@@ -723,7 +733,7 @@ void ScreenAppPictureBookUnk::sub_710093FE1C() {
 bool ScreenAppPictureBookUnk::sub_710093FE74(s32 index) const {
     if (index < 0 || index >= _2a8)
         return true;
-    return _290[index]->_38d;
+    return mEntries.data()[index]->_38d;
 }
 
 // 0x71009401e4

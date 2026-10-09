@@ -19,11 +19,11 @@ u32 ScreenAppPictureBookUnk::sub_710093E784(s32 index) {
         return 0;
     }
     s32 total;
-    u64 count = _288;
+    u64 count = mEntries.size();
     if ((s32)count < 1) {
         total = -1;
     } else {
-        ScreenAppPictureBookEntry** entries = _290;
+        ScreenAppPictureBookEntry** entries = mEntries.data();
         s32 sum;
         u64 step;
         if ((count & 1) != 0) {
