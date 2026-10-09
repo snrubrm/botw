@@ -1,5 +1,6 @@
 #include "Game/UI/euiCapturePane.h"
 #include "Game/UI/euiLayoutEx.h"
+#include "Game/UI/euiFrameBufferMultiFilter.h"
 #include "Game/UI/euiPartsEx.h"
 #include "Game/UI/euiScreen.h"
 
@@ -22,6 +23,25 @@ CapturePane::CapturePane(const nn::ui2d::ResPane* resource, const nn::ui2d::Buil
 CapturePane::CapturePane(const CapturePane& other, LayoutEx* layout)
     : nn::ui2d::Pane(other), _dc(other._dc) {
     initialize_(layout);
+}
+
+// 0x7100bf1348
+void CapturePane::initialize_(LayoutEx* layout) {
+    auto* heap = GetNwAllocatorHeap();
+    Show();
+    mClearColor = setupClearColor_(heap, this, layout, &mCaptureFlags);
+    if (FindExtUserDataByName("CaptureWorkFormat"))
+        mCaptureFlags.setBit(2);
+    setupCaptureOutputAlpha255_(this, &mCaptureFlags);
+    setupCaptureOriginalSize_(this, &mCaptureFlags);
+    mMultiFilter = InitializeMultiFilter(heap, *this, layout);
+    if (mMultiFilter)
+        mMultiFilter->setUseTextureAlpha(true);
+    mRenderBuffer.mRenderTargetColor[0] = &mRenderTarget;
+    std::memcpy(&mMtx, &sead::Matrix34f::ident, sizeof(mMtx));
+    SetUserGlobalMatrix(true);
+    if (layout->mScreen)
+        layout->mScreen->_107 |= 0x10;
 }
 
 CapturePane::~CapturePane() {

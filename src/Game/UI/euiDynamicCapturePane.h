@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstddef>
+#include <prim/seadBitFlag.h>
 #include <common/aglRenderBuffer.h>
 #include <common/aglRenderTarget.h>
 #include <nn/ui2d/Pane.h>
@@ -33,7 +34,7 @@ public:
                                                const nn::ui2d::Size& size, s32 texture_index);
 
     /* 0xe0 */ nn::util::IntrusiveListNode mDynamicTextureNode;
-    /* 0xf0 */ u8 mCaptureFlags = 0;
+    /* 0xf0 */ sead::BitFlag<u8> mCaptureFlags;
     /* 0xf8 */ sead::Color4f* mClearColor = nullptr;
     /* 0x100 */ agl::utl::MultiFilter* mMultiFilter = nullptr;  // filter whose result texture the pane displays (may be null)
     /* 0x108 */ nn::ui2d::ExternalTextureInfo mTextureInfo;

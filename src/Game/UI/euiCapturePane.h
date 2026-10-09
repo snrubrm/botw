@@ -11,6 +11,9 @@
 
 namespace agl {
 class TextureData;
+namespace utl {
+class MultiFilter;
+}
 }
 
 namespace sead {
@@ -52,7 +55,7 @@ public:
     /* 0xdc */ bool _dc = false;
     /* 0xdd */ bool _dd = false;  // set by Calculate
     /* 0xe0 */ sead::Color4f* mClearColor = nullptr;
-    /* 0xe8 */ void* _e8 = nullptr;
+    /* 0xe8 */ agl::utl::MultiFilter* mMultiFilter = nullptr;
     /* 0xf0 */ nn::ui2d::ExternalTextureInfo mTextureInfo;
     /* 0x108 */ const agl::TextureData* mTexture = nullptr;  // freed by sub_7100BF1E64
     /* 0x110 */ agl::RenderBuffer mRenderBuffer;

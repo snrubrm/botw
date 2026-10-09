@@ -1,4 +1,7 @@
 #include "Game/UI/euiDynamicCapturePane.h"
+#include "Game/UI/euiCapturePane.h"
+#include "Game/UI/euiFrameBufferMultiFilter.h"
+#include <nn/ui2d/ResExtUserData.h>
 #include <utility/aglDynamicTextureAllocator.h>
 #include <utility/aglMultiFilter.h>
 #include <nn/ui2d/BuildTypes.h>
@@ -18,6 +21,24 @@ DynamicCapturePane::DynamicCapturePane(const nn::ui2d::ResPane* resource,
 DynamicCapturePane::DynamicCapturePane(const DynamicCapturePane& other, LayoutEx* layout)
     : nn::ui2d::Pane(other) {
     initialize_(layout);
+}
+
+// 0x7100bf2bec
+void DynamicCapturePane::initialize_(LayoutEx* layout) {
+    auto* heap = GetNwAllocatorHeap();
+    Show();
+    mClearColor = CapturePane::setupClearColor_(heap, this, layout, &mCaptureFlags);
+    const auto* data = FindExtUserDataByName("DynamicCaptureOn");
+    if (data && sead::SafeString(data->GetString()) == "R10G10B10A2")
+        mCaptureFlags.setBit(2);
+    CapturePane::setupCaptureOutputAlpha255_(this, &mCaptureFlags);
+    CapturePane::setupCaptureOriginalSize_(this, &mCaptureFlags);
+    mMultiFilter = InitializeMultiFilter(heap, *this, layout);
+    if (mMultiFilter)
+        mMultiFilter->setUseTextureAlpha(true);
+    mRenderBuffer.mRenderTargetColor[0] = &mRenderTarget;
+    std::memcpy(&mMtx, &sead::Matrix34f::ident, sizeof(mMtx));
+    SetUserGlobalMatrix(true);
 }
 
 DynamicCapturePane::~DynamicCapturePane() {
