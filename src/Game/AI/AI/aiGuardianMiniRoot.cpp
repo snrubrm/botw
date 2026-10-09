@@ -16,6 +16,10 @@
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/LOD/actLodState.h"
+#include "KingSystem/ActorSystem/actPhysicsConstraints.h"
+#include "KingSystem/Physics/Constraint/physConstraint.h"
+#include "KingSystem/System/StageInfo.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectGuardianMini.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectGuardianMiniWeapon.h"
@@ -265,7 +269,45 @@ void GuardianMiniRoot::sub_7100427940() {
 }
 
 void GuardianMiniRoot::enter_(ksys::act::ai::InlineParamPack* params) {
+    sub_71004267E4();
     EnemyRoot::enter_(params);
+    const bool special = sub_710042699C();
+    _208 = special;
+    _209 = false;
+    _20a = false;
+    _220 = 0;
+    _398._20 = false;
+    _214 = 0.0f;
+    _20c = 0.0f;
+    _210 = 0.0f;
+    if (auto* model = mActor->getModel())
+        model->setMaterialVisibleAll(false);
+    if (!special)
+        sub_7100428738(mActor, true);
+    auto* actor = mActor;
+    if (auto* as_list = actor->getASList()) {
+        as_list->startAnimationMaybe(-1.0f, -1.0f, "ChangeColor", 0, 2, true);
+        if (const auto* mini = actor->getParam()->getRes().mGParamList->getGuardianMini())
+            as_list->x_3(0, 2, &ksys::as::ASList::Unk2::sub_7101163298, mini->mColorType.ref());
+        as_list->x_3(0, 2, &ksys::as::ASList::Unk2::sub_7101163100, 0.0f);
+    }
+    _288.setName("Neck");
+    mActor->boneHandleStuff(&_288, false);
+    _21c = true;
+    if (auto* controller = mActor->getCharacterController())
+        controller->sub_7100F62DD0(0.0f);
+    if (ksys::StageInfo::sIsRemainsElectric) {
+        auto& constraints = mActor->getConstraints();
+        for (s32 i = 0; i < constraints.size(); ++i) {
+            auto* constraint = constraints.mConstraints[i];
+            if (constraint && constraint->_10 == 0) {
+                if (auto* lod = mActor->getLodState()) {
+                    lod->mFlags26.set(1);
+                    break;
+                }
+            }
+        }
+    }
 }
 
 void GuardianMiniRoot::leave_() {

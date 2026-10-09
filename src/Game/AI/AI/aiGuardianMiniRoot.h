@@ -52,7 +52,8 @@ protected:
     bool* mIsTransformedGuardianMini_a{};
     // aitree_variable at offset 0x200
     int* mGuardianMiniChanceTimeState_a{};
-    u16 _208 = 0;
+    bool _208 = false;
+    bool _209 = false;
     bool _20a = false;
     f32 _20c = 0;
     f32 _210 = 0;
