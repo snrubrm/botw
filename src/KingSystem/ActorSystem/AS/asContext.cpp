@@ -109,11 +109,14 @@ void Context::sub_7101259F94(f32 duration, f32 weight, int type,
     ++mNumEvents2;
 }
 
-// NON_MATCHING: compiler combines the range tests and return into conditional selects.
 f32 sub_710125A978(f32 frame, f32 start, f32 end, bool hold) {
-    if (frame < 0.0f || (hold && end < frame))
-        return hold ? end + 0.01f : end;
-    return frame;
+    if (!(frame < 0.0f)) {
+        if (!(end < frame))
+            return frame;
+        if (!hold)
+            return frame;
+    }
+    return hold ? end + 0.01f : end;
 }
 
 void Context::sub_710125AAA0(u32 index, s16 value) {
