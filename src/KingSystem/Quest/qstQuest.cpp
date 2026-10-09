@@ -115,6 +115,10 @@ const char* Quest::x_11() {
     return mSteps[_140 + 1]->name;
 }
 
+void Quest::sub_7100FDA570(sead::BufferedSafeString* out) const {
+    out->format("%sQL_%s", "QuestMsg/", mName.cstr());
+}
+
 void Quest::formatQLNameKey(sead::BufferedSafeString* out) const {
     out->format("QL_%s_Name", mName.cstr());
 }
