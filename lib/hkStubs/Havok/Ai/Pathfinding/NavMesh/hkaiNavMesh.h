@@ -45,7 +45,15 @@ public:
         hkHalf m_userEdgeCost;
     };
 
-    hkUint8 _c[0xb0 - 0xc];
+    hkUint8 _c[0x50 - 0xc];
+    // Reflection 152ce18 / records 2538e08 and 2538e58 establish the
+    // int32 face-data array and signed word stride. Destructor 1520ec8
+    // independently releases the array using four-byte elements. Instance
+    // initialization 152ea04 retains this mesh while borrowing its data.
+    hkArray<hkInt32> m_faceData;
+    hkUint8 _60[0x70 - 0x60];
+    hkInt32 m_faceDataStriding;
+    hkUint8 _74[0xb0 - 0x74];
 };
 static_assert(sizeof(hkaiNavMesh) == 0xb0);
 static_assert(sizeof(hkaiNavMesh::Edge) == 0x14);
@@ -54,3 +62,5 @@ static_assert(offsetof(hkaiNavMesh::Edge, m_userEdgeCost) == 0x12);
 
 static_assert(sizeof(hkaiNavMesh::Face) == 0x10);
 static_assert(offsetof(hkaiNavMesh::Face, m_numEdges) == 0x8);
+static_assert(offsetof(hkaiNavMesh, m_faceData) == 0x50);
+static_assert(offsetof(hkaiNavMesh, m_faceDataStriding) == 0x70);
