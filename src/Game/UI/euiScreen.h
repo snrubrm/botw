@@ -373,7 +373,8 @@ private:
     /* 0x38 */ sead::Buffer<s8> mScreenTargets;  // draw target of each screen (-1: inactive)
     /* 0x48 */ ScreenTargetMgr* mTargetMgr;
     /* 0x50 */ nn::ui2d::GraphicsResource mGraphicsResource;
-    u8 _b08[0xb10 - 0xb08];  // unknown object; SharcArchive at 0xb28
+    // Native createInstance stores hostio::Node's vtable here; size is eight bytes.
+    sead::hostio::Node _b08;
     /* 0xb10 */ ArcResourceMgr* mArcResourceMgr;
     /* 0xb18 */ BoxCursorMgr* mBoxCursorMgr;
     /* 0xb20 */ f32 mAnimationStep;
@@ -382,8 +383,12 @@ private:
     /* 0xb30 */ MessageMgr* mMessageMgr;
     /* 0xb38 */ FontMgr* mFontMgr;
     /* 0xb40 */ sead::SafeArray<u8, 2> mTargetFlags;  // indexed by DrawTarget (read by Screen::sub_7100BE9F60)
-    u8 _b42[0xb48 - 0xb42];
+    // Full init BEC244 copies argument byte +2c here; createInstance initializes it to zero.
+    u8 _b42 = 0;
+    u8 _b43[0xb48 - 0xb43];
     /* 0xb48 */ ConstantBuffer* mConstantBuffer;
 };
+
+KSYS_CHECK_SIZE_NX150(ScreenMgr, 0xb50);
 
 }  // namespace eui

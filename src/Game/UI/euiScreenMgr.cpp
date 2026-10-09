@@ -8,6 +8,13 @@
 
 namespace eui {
 
+// NON_MATCHING: final byte flags and null-pointer initialization store order differs.
+SEAD_CREATE_SINGLETON_INSTANCE(ScreenMgr)
+
+ScreenMgr::ScreenMgr()
+    : mTargetMgr(nullptr), mArcResourceMgr(nullptr), mBoxCursorMgr(nullptr), mAnimationStep(1.0f),
+      mMessageMgr(nullptr), mFontMgr(nullptr), mTargetFlags{{1, 1}}, mConstantBuffer(nullptr) {}
+
 ScreenMgr::~ScreenMgr() {
     if (auto* heap = sead::HeapMgr::instance()->findContainHeap(mScreens.getBufferPtr())) {
         NwAllocator::initialize(heap);
