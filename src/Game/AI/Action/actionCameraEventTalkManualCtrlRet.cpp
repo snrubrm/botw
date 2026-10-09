@@ -1,5 +1,6 @@
 #include "Game/AI/Action/actionCameraEventTalkManualCtrlRet.h"
 #include "Game/Actor/actCamera.h"
+#include <math/seadMathCalcCommon.h>
 
 namespace uking::action {
 
@@ -22,6 +23,38 @@ void CameraEventTalkManualCtrlRet::m46() {
     getDynamicParam_2(&mCount_d, "Count");
     getDynamicParam_2(&mReturn_d, "Return");
     getDynamicParam_2(&mNoConnect_d, "NoConnect");
+}
+
+// NON_MATCHING: saved-state and scalar load scheduling differ.
+void CameraEventTalkManualCtrlRet::m47(f32* elevation) {
+    *elevation = angleStuff(0.0f);
+    if (*mReturn_d) {
+        if (auto* camera = getCameraActor()) {
+            act::Unk_71009214b8 saved;
+            if (camera->_860._72c._4.restore(&saved)) {
+                const act::Unk_7100922700 polar(saved._0 - saved._c);
+                *elevation = polar._4;
+                *elevation = angleStuff(sead::Mathf::clamp(*elevation, _d8, _dc));
+                return;
+            }
+        }
+    }
+    CameraEventTalkManualCtrlBase::m47(elevation);
+}
+
+void CameraEventTalkManualCtrlRet::m48(f32* azimuth) {
+    *azimuth = angleStuff(0.0f);
+    if (*mReturn_d) {
+        if (auto* camera = getCameraActor()) {
+            act::Unk_71009214b8 saved;
+            if (camera->_860._72c._4.restore(&saved)) {
+                const act::Unk_7100922700 polar(saved._0 - saved._c);
+                *azimuth = polar._8;
+                return;
+            }
+        }
+    }
+    CameraEventTalkManualCtrlBase::m48(azimuth);
 }
 
 void CameraEventTalkManualCtrlRet::m49() {

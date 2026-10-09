@@ -12,6 +12,8 @@ public:
 
 protected:
     void m46() override;
+    void m47(f32* elevation) override;
+    void m48(f32* azimuth) override;
     void m49() override;
     bool m50() override;
     f32 m51() override;
