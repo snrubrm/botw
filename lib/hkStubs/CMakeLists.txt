@@ -234,6 +234,7 @@ add_library(hkStubs OBJECT
   Havok/Physics2012/Dynamics/World/hkpWorld.h
   Havok/Physics2012/Dynamics/World/hkpWorldCinfo.cpp
   Havok/Physics2012/Dynamics/World/hkpWorldCinfo.h
+  Havok/Physics2012/Dynamics/World/hkpWorldObject.cpp
   Havok/Physics2012/Dynamics/World/hkpWorldObject.h
   Havok/Physics2012/Dynamics/World/BroadPhaseBorder/hkpBroadPhaseBorder.h
   Havok/Physics2012/Dynamics/World/Listener/hkpIslandActivationListener.h
