@@ -52,10 +52,38 @@ void GameSceneSubsys4::sub_710066B8C0(ksys::act::BaseProc* actor) {
     }
 }
 
+// NON_MATCHING: member store scheduling differs.
+Unk_7100905034::Unk_7100905034() {
+    _100._34 = 1;
+    for (s32 i = 0; i < mBodyStates.size(); ++i) {
+        mBodyStates[i].gravity = 0;
+        mBodyStates[i].friction = 1;
+        mBodyStates[i].restitution = 1;
+    }
+}
+
+// NON_MATCHING: the disposer keeps the existing out-of-line message callback destructor; the original
+// inlines that cleanup. createInstance differs only in final member store scheduling.
+SEAD_SINGLETON_DISPOSER_IMPL(GameSceneSubsys5)
+
+// NON_MATCHING: final pointer and flag initialization stores are scheduled differently.
+GameSceneSubsys5::GameSceneSubsys5() {
+    _d8.fill(false);
+    _fc.fill(false);
+    _fe.fill(false);
+    _dc.fill(sead::Vector3f::zero);
+    _f4.fill(0);
+    _124 = 0.1f;
+    _128 = 0.7f;
+}
+
+// NON_MATCHING: the original inlines the message callback cleanup.
+GameSceneSubsys5::~GameSceneSubsys5() = default;
+
 void GameSceneSubsys5::init() {
-    _9c = 1;
-    _8c = 0.5f;
-    _90 = 0.5f;
+    _58._44 = 1;
+    _58._34 = 0.5f;
+    _58._38 = 0.5f;
 }
 
 bool GameSceneSubsys5::sub_71009059D4() const {
@@ -186,7 +214,7 @@ sead::Vector3f GameSceneSubsys5::sub_7100905E18() const {
 
 void GameSceneSubsys5::sub_7100905B28() {
     _331 = false;
-    _58 = false;
+    _58._0 = false;
 }
 
 bool GameSceneSubsys5::sub_7100905C30() const {
@@ -201,14 +229,14 @@ void GameSceneSubsys5::sub_7100905C54() {
     _d8[_144] = true;
 }
 
-void GameSceneSubsys5::sub_7100905CEC(s32* out) const {
+void GameSceneSubsys5::sub_7100905CEC(f32* out) const {
     if (out) {
         out[0] = _124;
         out[1] = _128;
     }
 }
 
-void GameSceneSubsys5::sub_7100905D04(const s32* value) {
+void GameSceneSubsys5::sub_7100905D04(const f32* value) {
     _124 = value[0];
     _128 = value[1];
 }

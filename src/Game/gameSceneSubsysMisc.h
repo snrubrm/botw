@@ -8,6 +8,9 @@
 #include <math/seadVector.h>
 #include <mc/seadJobQueue.h>
 #include <xlink2/xlink2HandleELink.h>
+#include <xlink2/xlink2HandleSLink.h>
+#include "Game/gameGraphics.h"
+#include "Game/AI/aiUnk_7102357210.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Utils/Types.h"
 
@@ -91,12 +94,40 @@ private:
 };
 KSYS_CHECK_SIZE_NX150(GameSceneSubsys4, 0x16d0);
 
+// Magnesis body state, constructed at 0x7100905034 and embedded in GameSceneSubsys5 +0x150.
+// The saved body properties are restored by Unk_71006e45c4::sub_71006E4DF0.
+class Unk_7100905034 {
+public:
+    Unk_7100905034();
+    struct BodyState {
+        f32 gravity;
+        f32 friction;
+        f32 restitution;
+        u32 flags = 0;
+    };
+    sead::SafeArray<BodyState, 16> mBodyStates;
+    Unk_71024505e8 _100;
+    xlink2::HandleELink _138;
+    xlink2::HandleELink _148;
+    xlink2::HandleELink _158;
+    xlink2::HandleSLink _168;
+    sead::Vector3f _178 = sead::Vector3f::zero;
+    s32 _184 = 0;
+    s32 _188 = 0;
+    sead::Vector3f _18c = sead::Vector3f::zero;
+    u8 _198[0x1bc - 0x198];
+    f32 _1bc = 0;
+    f32 _1c0 = 1;
+};
+KSYS_CHECK_SIZE_NX150(Unk_7100905034, 0x1c8);
+
 // GameSceneSubsys5: CSV createInstance 0x71009052fc, init 0x7100905468, postCalc 0x71009054bc.
 class GameSceneSubsys5 {
+    SEAD_SINGLETON_DISPOSER(GameSceneSubsys5)
+    GameSceneSubsys5();
+    ~GameSceneSubsys5();
+
 public:
-    // The instance pointer (0x71025d1770, GOT 0x25793f8; the singleton machinery is not declared yet).
-    static GameSceneSubsys5* instance() { return sInstance; }
-    static GameSceneSubsys5* sInstance;
 
     // 0x7100905468
     void init();
@@ -145,8 +176,8 @@ public:
     bool sub_7100905C30() const;  // _32f
     const sead::Vector3f& sub_7100905C38() const;  // _dc[_148]
     void sub_7100905C54();  // _d8[_144] = true
-    void sub_7100905CEC(s32* out) const;  // out = {_124, _128}
-    void sub_7100905D04(const s32* value);
+    void sub_7100905CEC(f32* out) const;  // out = {_124, _128}
+    void sub_7100905D04(const f32* value);
     f32 sub_7100905D18() const;  // _130
     void sub_7100905D20(f32 value);
     f32 sub_7100905D34() const;  // _134
@@ -178,47 +209,44 @@ public:
     Box* sub_7100905D84();
     void sub_7100905D8C(const Box& box);
 
-    u8 _0[0x20];
-    Box _20;
+    Box _20{{0, 0, 0}, {0, 0, 0}, {0, 0, 0, 0}};
     xlink2::HandleELink _48;
-    bool _58;
-    u8 _59[0x8c - 0x59];
-    f32 _8c;
-    f32 _90;
-    u8 _94[0x9c - 0x94];
-    u32 _9c;
-    u8 _a0[0xa8 - 0xa0];
+    Unk_7100f35df8 _58;
     ksys::act::BaseProcLink _a8;
     ksys::act::BaseProcLink _b8;
     ksys::act::BaseProcLink _c8;
-    sead::SafeArray<bool, 2> _d8;
-    u8 _da[0xdc - 0xda];
-    sead::SafeArray<sead::Vector3f, 2> _dc;
-    sead::SafeArray<f32, 2> _f4;
-    sead::SafeArray<bool, 2> _fc;
-    sead::SafeArray<bool, 2> _fe;
-    sead::Vector3f _100;
-    sead::Vector3f _10c;
-    u8 _118[0x124 - 0x118];
-    s32 _124;
-    s32 _128;
-    u8 _12c[0x130 - 0x12c];
-    f32 _130;
-    f32 _134;
-    f32 _138;
-    f32 _13c;
-    s32 _140;
-    s32 _144;
-    s32 _148;
-    u8 _14c[0x150 - 0x14c];
-    u8 _150[0x318 - 0x150];
-    ksys::act::Unk_71006e45c4* _318;
-    ksys::phys::RigidBody* _320;
-    bool _328;
-    bool _329;
-    u8 _32a[0x32f - 0x32a];
-    bool _32f;
-    u8 _330;
-    bool _331;
+    sead::SafeArray<bool, 2> _d8{};
+    sead::SafeArray<sead::Vector3f, 2> _dc{{{0, 0, 0}, {0, 0, 0}}};
+    sead::SafeArray<f32, 2> _f4{};
+    sead::SafeArray<bool, 2> _fc{};
+    sead::SafeArray<bool, 2> _fe{};
+    sead::Vector3f _100 = sead::Vector3f::zero;
+    sead::Vector3f _10c = sead::Vector3f::zero;
+    sead::Vector3f _118{0, 0, 0};
+    f32 _124 = 0;
+    f32 _128 = 0;
+    u32 _12c = 0;
+    f32 _130 = 20;
+    f32 _134 = 2;
+    f32 _138 = 0;
+    f32 _13c = 0;
+    s32 _140 = -1;
+    s32 _144 = 0;
+    s32 _148 = 1;
+    Unk_7100905034 _150;
+    ksys::act::Unk_71006e45c4* _318 = nullptr;
+    ksys::phys::RigidBody* _320 = nullptr;
+    bool _328 = false;
+    bool _329 = false;
+    bool _32a = false;
+    bool _32b = false;
+    bool _32c = false;
+    bool _32d = false;
+    bool _32e = false;
+    bool _32f = false;
+    bool _330 = false;
+    bool _331 = false;
 };
 
+
+KSYS_CHECK_SIZE_NX150(GameSceneSubsys5, 0x338);

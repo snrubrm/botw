@@ -4,9 +4,9 @@
 namespace uking::act {
 
 void Rope::m149() {
-    if (GameSceneSubsys5::sInstance == nullptr)
+    if (GameSceneSubsys5::instance() == nullptr)
         return;
-    GameSceneSubsys5::sInstance->sub_7100905C70();
+    GameSceneSubsys5::instance()->sub_7100905C70();
 }
 
 s32* Rope::getLife() {
