@@ -3,6 +3,8 @@
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessDefs.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/Profiles/actWeaponBase.h"
+#include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 
 namespace ksys::act {
@@ -82,6 +84,82 @@ void Unk_71024dc858::m11() {
         return;
     if (Awareness::instance())
         Awareness::instance()->setFlag(Awareness::Flag::_0);
+}
+
+// NON_MATCHING: register allocation and branch layout.
+void Unk_71024dc858::m12(Actor* actor) {
+    if (_50)
+        return;
+    auto* awareness = Awareness::instance();
+    if (!awareness || awareness->checkFlag(Awareness::Flag::Paused) ||
+        awareness->checkFlag(Awareness::Flag::EventActive))
+        return;
+    if (m4(2) > 0.0f) {
+        const u32 value = -1;
+        awareness->mLinks2.sub_7100D796C4(mLink, 4, value);
+    }
+    if ((_40 & 0x149c00) || (_38.getDirect() & 0x68)) {
+        if (!sub_7100D779E8(actor))
+            return;
+    }
+    if (!_40)
+        return;
+    const f32 level = m4(0);
+    u8 flags = level > 0.0f;
+    if (m4(1) > 0.0f)
+        awareness->mLinks.sub_7100D79574(mLink);
+    if (m4(3) > 0.0f)
+        flags |= 8;
+    else if (level <= 0.0f)
+        return;
+    awareness->mLinks2.sub_7100D796C4(mLink, flags, _40);
+}
+
+// NON_MATCHING: register allocation and branch layout.
+bool Unk_71024dc858::sub_7100D779E8(Actor* actor) {
+    auto* awareness = Awareness::instance();
+    if (!awareness)
+        return false;
+    if ((_40 & 0x100c00) && actor->checkFlag(Actor::ActorFlag::_25))
+        return false;
+    if (_40 & 0x40000) {
+        if (m4(1) > 0.0f)
+            awareness->mLinks.sub_7100D79574(mLink);
+        return false;
+    }
+    if (_40 & 0x1000) {
+        auto* weapon = sead::DynamicCast<WeaponBase>(actor);
+        return !weapon || !weapon->hasParentActor_();
+    }
+    if (_40 & 0x8000)
+        return awareness->checkFlag(Awareness::Flag::_0);
+    if (m5(3)) {
+        if (auto* chemical = actor->getChemicalStuff())
+            m10(7, (chemical->_bc & 0x300) != 0);
+        return false;
+    }
+    if (m5(6)) {
+        if (auto* chemical = actor->getChemicalStuff()) {
+            m10(7, (chemical->_bc & 0x300) != 0);
+            if (chemical->_c0 == 2) {
+                m9(2, 4.0f);
+                _3c |= 0x1000;
+                _4c = 0.5f;
+                const u32 value = -1;
+                awareness->mLinks2.sub_7100D796C4(mLink, 4, value);
+            }
+        }
+        return false;
+    }
+    if (m5(5)) {
+        m9(2, 2.0f);
+        _3c |= 0x10;
+        _4c = 2.5f;
+        const u32 value = -1;
+        awareness->mLinks2.sub_7100D796C4(mLink, 4, value);
+        return false;
+    }
+    return true;
 }
 
 // NON_MATCHING: store merging (the original merges only the _18[1] / _18[2] zeros into one 64-bit

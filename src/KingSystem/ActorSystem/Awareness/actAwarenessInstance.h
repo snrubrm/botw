@@ -83,7 +83,7 @@ public:
     // Slots 11-13 are empty / return -1 (0x7100d7825c, 0x7100d78260, 0x7100d78264); 14-18 are pure.
     // Names and the parameter types of m11 / m12 / m14 / m16 are placeholders (see Unk_71024dc858).
     virtual void m11() {}
-    virtual void m12(void*) {}
+    virtual void m12(Actor*) {}
     virtual f32 m13() { return -1.0f; }
     virtual bool m14(Unk_71024dc978* other) = 0;
     virtual void m15() = 0;
@@ -97,7 +97,7 @@ public:
 // 0x52 and the embedding objects place the next member at +0x58 (Unk_71024dc900: entry at +0x18,
 // actor at +0x70; the HornUse awareness object 0x710235f078: entry at +0x28, member at +0x80).
 // Must not be `final`: filters call its virtuals through DynamicCast results.
-// TODO: incomplete (m11 / m12 / m14 are declared only).
+// TODO: incomplete.
 class Unk_71024dc858 : public Unk_71024dc978 {
     SEAD_RTTI_OVERRIDE(Unk_71024dc858, Unk_71024dc978)
 public:
@@ -116,7 +116,8 @@ public:
 
     // Clears pending entry levels unless inactive or Awareness is paused/event-active.
     void m11() override;
-    void m12(void* arg) override;
+    void m12(Actor* actor) override;
+    bool sub_7100D779E8(Actor* actor);
     f32 m13() override { return _4c; }
     bool m14(Unk_71024dc978* other) override;
     // 0x7100d77230: resets the entry values (AITerror users call it devirtualised).
