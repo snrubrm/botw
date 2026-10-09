@@ -16,7 +16,10 @@ void ForkGanonBeastWeakPointCheck::enter_(ksys::act::ai::InlineParamPack* params
 }
 
 void ForkGanonBeastWeakPointCheck::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (mDamageCallback.mDamageManager)
+        sub_71005DA114(mActor, &mDamageCallback);
+    if (mLastWeakPointDamageCallback.mDamageManager)
+        sub_71005DA114(mActor, &mLastWeakPointDamageCallback);
 }
 
 void ForkGanonBeastWeakPointCheck::loadParams_() {
