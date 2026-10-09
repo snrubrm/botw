@@ -6,13 +6,12 @@
 
 namespace ksys::world {
 
-// NON_MATCHING: the Vector3 assignment copies components separately instead of the original word/pair copy.
 void WindMgr::sub_71010EEBE4(sead::Vector3f* out, const sead::Vector3f* position) {
     if (!(_28 & 8)) {
         sub_71010EEA98(out, position);
         return;
     }
-    *out = _34;
+    out->set(_34);
 }
 
 agl::TextureSampler* WindMgr::sub_71010EEE94() {
