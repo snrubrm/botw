@@ -17,7 +17,7 @@ namespace ksys::phys {
 class RigidBody;
 class StaticCompoundRigidBodyGroup;
 
-// Placeholder (the object at Constraint +0x18; its +8 is read by the two helpers).
+// The breakable holder at Constraint +0x18; its data is at +8 and instance at +0x10.
 struct ConstraintUnk18 {
     // 0x7100f6aca8 initializes this eight-byte argument with a bool at +0 and
     // the make parameter's float at +4; 0x7100f6c5b4 consumes the float.
@@ -83,7 +83,7 @@ public:
     void sub_7100F6A21C();
     // 0x7100f6a6f8
     void sub_7100F6A6F8(bool a1, bool a2);
-    // 0x7100f6aaa4 (lane4 s49; declared only, 308 B): attaches the constraint to the two bodies.
+    // 0x7100f6aaa4 (308 B): requests both bodies and returns their combined success.
     bool sub_7100F6AAA4(RigidBody* a, RigidBody* b);
     // 0x7100f6a228 (placeholder name): under mCS, applies the pending bodies (if _50 bit 0), then the bit 0 and
     // bit 2 requests, and clears _52.
@@ -139,7 +139,7 @@ public:
 // ctor stores the Constraint there). RigidBodyRequestMgr::x_5 / x_6 tail-call it when adding / removing fails.
 u64 sub_7100F6AC60(const hkpConstraintInstance* instance);
 
-// 0x7100f6c5ac (CSV const_0x28; declared only): returns 0x28, the extra size a breakable constraint needs.
+// 0x7100f6c5ac: returns 0x28, the extra size a breakable constraint needs.
 u32 sub_7100F6C5AC();
 // 0x7100f6acf4 (placeholder name): 0x98 plus sub_7100F6C5AC() when `breakable` (size helper of the make functions).
 u32 sub_7100F6ACF4(bool breakable);

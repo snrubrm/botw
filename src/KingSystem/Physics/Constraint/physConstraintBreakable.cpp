@@ -4,6 +4,10 @@
 
 namespace ksys::phys {
 
+u32 sub_7100F6C5AC() {
+    return 0x28;
+}
+
 ConstraintUnk18::~ConstraintUnk18() = default;
 
 ConstraintUnk18* ConstraintUnk18::sub_7100F6C5B4(hkpConstraintData* data, const Param& param,
