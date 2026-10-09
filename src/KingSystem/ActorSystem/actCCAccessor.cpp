@@ -49,7 +49,6 @@ void CCAccessor::sub_710072AE20(phys::CharacterController* cc) {
         _5.change(8, cc->mFlags.isOn(8));
 }
 
-// NON_MATCHING: last block - the original selects the new flag word with csel, we branch
 void CCAccessor::sub_710072AEEC(phys::CharacterController* cc) {
     if (!cc)
         return;
@@ -60,7 +59,8 @@ void CCAccessor::sub_710072AEEC(phys::CharacterController* cc) {
     if (_4.isOn(4) && _5.isOn(4) != cc->sub_7100F62D34())
         cc->sub_7100F62CA8(_5.isOn(4));
     if (_4.isOn(8) && _5.isOn(8) != cc->mFlags.isOn(8))
-        cc->mFlags.change(8, _5.isOn(8));
+        cc->mFlags.setDirect(_5.isOn(8) ? (cc->mFlags.getDirect() | 8) :
+                                       (cc->mFlags.getDirect() & ~8));
 }
 
 }  // namespace ksys::act
