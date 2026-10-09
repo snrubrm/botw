@@ -168,6 +168,7 @@ void CameraMotorcycleLockOnEmpty::sub_710077BED8() {
         ksys::act::PlayerInfo::instance()->getHorseLink().getProc(nullptr, nullptr)));
     if (!actor)
         return;
+    sead::CoreInfo::getCurrentCoreId();
     sead::Matrix33f basis = sead::Matrix33f::ident;
     sead::Vector3f forward = actor->getMtx().getBase(2);
     forward.y = 0.0f;
