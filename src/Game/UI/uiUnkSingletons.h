@@ -61,6 +61,10 @@ public:
     void sub_71009686C8();
     bool sub_71009686D8() const;
 
+    // Native child reset 0x71009c0310 passes this singleton to the byte accessors.
+    u8 get88() const;
+    void clear88();
+
     u8 _0[0x29];
     /* 0x29 */ bool _29;
     u8 _2a[0x74 - 0x2a];
@@ -68,6 +72,7 @@ public:
     u8 _78[0x80 - 0x78];
     /* 0x80 */ s32 _80;
     /* 0x84 */ s32 _84;
+    /* 0x88 */ u8 _88;
 
 private:
     static Unk_71025d6ac0* sInstance;
@@ -427,8 +432,6 @@ public:
     // 0x7100967484 / 0x7100966e14 / 0x7100966e64 / 0x7100967498 / 0x71009674c0 (placeholder names)
     bool has3864Bit0() const;
     void clear3864();
-    u8 get88() const;
-    void clear88();
     sead::Vector2f* getVec3868();
     // 0x7100964174 / 0x7100968d10 / 0x7100966d0c / 0x7100966350 (placeholder names): whether an entry is selected
     // (or the cursor state 0 .. 5 / 11 .. 13 is active); updates the change bits of _3864 (2: set, 4: cleared);

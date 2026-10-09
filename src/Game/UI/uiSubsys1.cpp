@@ -369,12 +369,12 @@ void UiSubsys1::clear3864() {
 }
 
 // 0x7100968d70
-u8 UiSubsys1::get88() const {
+u8 Unk_71025d6ac0::get88() const {
     return _88;
 }
 
 // 0x7100968d78
-void UiSubsys1::clear88() {
+void Unk_71025d6ac0::clear88() {
     _88 = 0;
 }
 
