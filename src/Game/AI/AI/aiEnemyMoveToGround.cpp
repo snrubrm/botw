@@ -58,11 +58,9 @@ bool EnemyMoveToGround::sub_710039A2B8() {
     return false;
 }
 
-// NON_MATCHING: the original loads the child's vtable in the predecessors of the second `child->isFailed()` call
-// (hoisted above the `isFinished() ||` branch); ours loads it in the join block. Everything else matches.
 void EnemyMoveToGround::calc_() {
     auto* child = getCurrentChild();
-    if (child->isFinished() || child->isFailed()) {
+    if (child->isFinishedOrFailed()) {
         if (!child->isFailed()) {
             if (!isCurrentChild("発見")) {
                 ksys::act::ai::InlineParamPack pack;
