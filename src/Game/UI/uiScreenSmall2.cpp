@@ -511,7 +511,12 @@ void ScreenMainScreen::sub_7100A1AF60() {
         _3d68->sub_71009C0310();
 }
 
-// 0x7100a1e958
+// 0x7100a1de04
+void ScreenMainScreen::sub_7100A1DE04() {
+    eui::Screen::x_2();
+}
+
+// 0x7100a1e3ec
 bool ScreenMainScreen::sub_7100A1E3EC(const ksys::qst::Quest* quest) {
     if (_3cb0)
         _3cb0->Stop(1.0f);

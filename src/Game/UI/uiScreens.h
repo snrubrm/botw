@@ -956,6 +956,7 @@ public:
     f32 sub_7100A1AB68() const;
     // 0x7100a1de08: sends the native heart-alert message to the player.
     void sub_7100A1DE08();
+    void sub_7100A1DE04();
     // 0x7100a1ab94 (placeholder name): runs the gauge update with this screen's animation step
     void sub_7100A1AB94();
 };
