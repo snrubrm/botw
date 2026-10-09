@@ -25,13 +25,9 @@ bool SiteBossSwordThrowElectricBall::init_(sead::Heap* heap) {
     return true;
 }
 
-// NON_MATCHING: the original interleaves the position loads with the stores of _d8 (no stp pair)
 void SiteBossSwordThrowElectricBall::enter_(ksys::act::ai::InlineParamPack* params) {
     SiteBossThrowParts::enter_(params);
-    const sead::Vector3f& pos = mActor->getMtx().getTranslation();
-    _d8.x = pos.x;
-    _d8.y = pos.y;
-    _d8.z = pos.z;
+    mActor->getMtx().getTranslation(_d8);
     _d8 += *mParams.mMoveOffset_s;
     const f32 limit = mTargetPos_d->y + mParams.mMoveOffset_s->y * 1.5f;
     if (_d8.y > limit)
