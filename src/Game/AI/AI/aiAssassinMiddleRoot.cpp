@@ -1,4 +1,7 @@
 #include "Game/AI/AI/aiAssassinMiddleRoot.h"
+#include <gsys/gsysModel.h>
+#include <gsys/gsysModelAnimation.h>
+#include <gsys/gsysModelUnit.h>
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/Actor/actEnemy.h"
 #include "Game/Actor/actWeapon.h"
@@ -15,6 +18,24 @@
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectWeaponCommon.h"
 
 namespace uking::ai {
+
+// NON_MATCHING: the second bone-key load uses the object base instead of the saved key address.
+void Unk_71023d8e28::m2(gsys::Model* model) {
+    if (!_20.isValid())
+        return;
+    auto* animation = model->getAnimation();
+    if (!animation || animation->sub_7100BFF2A0())
+        return;
+
+    sead::Matrix34f matrix;
+    sead::Vector3f scale;
+    model->getUnits().unsafeAt(_20.model_unit_index)->mModelUnit->getBoneLocalMatrix(
+        &matrix, &scale, _20.bone_index);
+    scale.x *= _54.x;
+    scale.y *= _54.y;
+    scale.z *= _54.z;
+    model->setBoneLocalMatrix(_20, _24, scale);
+}
 
 bool Unk_71023d8e28::m3(gsys::Model* model, bool sorted) {
     return _20.isValid();

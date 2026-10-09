@@ -17,7 +17,7 @@ class Unk_71023d8e28 : public ksys::act::BoneHandleBase {
 public:
     // 0x710032173c (declared before m2 so that this TU emits the vtable).
     bool m3(gsys::Model* model, bool sorted) override;
-    // 0x7100320da8: not decompiled (reads gsys::Model fields that lib/gsys does not declare).
+    // 0x7100320da8: applies the local transform after querying the current animation.
     void m2(gsys::Model* model) override;
     const gsys::BoneAccessKey* m4() override { return &_20; }
 
