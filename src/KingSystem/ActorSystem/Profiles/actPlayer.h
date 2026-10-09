@@ -114,7 +114,7 @@ public:
     /*  90 */ void m90() override;
     /*  99 */ PlayerArmors* getArmors() override;
     /* 109 */ int m109() override { return 0x30; }
-    /* 114 */ void m114() override;
+    /* 114 */ void m114(bool, bool) override;
     /* 115 */ void m115() override;
     /* 116 */ void m116() override;
     /* 117 */ void m117(Unk117* arg) override;

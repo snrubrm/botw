@@ -1325,7 +1325,7 @@ int Actor::getExtraHeapSize() {
 
 void Actor::m103() {}
 
-void Actor::m114() {}
+void Actor::m114(bool, bool) {}
 
 void Actor::m117(Unk117*) {}
 

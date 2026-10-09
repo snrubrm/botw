@@ -23,7 +23,7 @@ public:
     ksys::act::PlayerArmors* getArmors() override;
     void m76(ksys::VFR::ScopedDeltaSetter* setter) override;
     bool m81(const ksys::Message& message) override;
-    void m114() override;
+    void m114(bool, bool) override;
     bool m165(sead::BufferedSafeString* out) override;
     void coldHotStatusEffectStuff();
     void sub_71006EA6B8(s32 bit);

@@ -288,7 +288,7 @@ void HorseBase::m70() {
         _b10->Unk_7100e8b2b8::_10 &= ~0x38u;
 }
 
-void HorseBase::m114() {
+void HorseBase::m114(bool, bool) {
     if (_b10)
         _b10->m9();
 }

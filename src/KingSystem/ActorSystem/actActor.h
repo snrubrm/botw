@@ -596,7 +596,8 @@ public:
     virtual void m111(f32* a1, s32* a2);
     virtual void m112(f32* a1, s32* a2);
     virtual void m113(f32* a1, s32* a2);
-    virtual void m114();
+    // 11C7638 passes both incoming arguments, normalized to bool, to this virtual slot.
+    virtual void m114(bool, bool);
     virtual void m115();
     virtual void m116();
     virtual void m117(Unk117* arg);

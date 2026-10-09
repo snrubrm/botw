@@ -284,7 +284,7 @@ public:
     }
     s32 m94() override { return _f40; }
     Unk_7100d3cd74* m101() override;
-    void m114() override;
+    void m114(bool, bool) override;
     void m117(ksys::act::Unk117* arg) override;
     void* m119() override;
     HorseRideInfo* getPlayerRideInfo() override;

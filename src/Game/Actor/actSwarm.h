@@ -101,7 +101,7 @@ public:
     int getExtraHeapSize() override;
     void m103() override;
     void m108() override;
-    void m114() override;
+    void m114(bool, bool) override;
     Unk_71025ae680* m178(sead::Heap* heap) override;
     // Slot 39 (overrides Actor's `bool m39()`): true while the swarm has units.
     bool m39() override;

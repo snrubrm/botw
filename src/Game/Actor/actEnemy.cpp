@@ -505,7 +505,7 @@ ksys::act::LifeRecoverInfo* Enemy::getLifeRecoverInfo() {
     return nullptr;
 }
 
-void Enemy::m114() {
+void Enemy::m114(bool, bool) {
     if (_1148._20) {
         _1148._20->m9();
         if (_1148._28)

@@ -102,7 +102,7 @@ public:
     void m88() override;
     int getExtraHeapSize() override;
     int m109() override;
-    void m114() override;
+    void m114(bool, bool) override;
     void m117(ksys::act::Unk117* arg) override;
     void m118(bool on) override;
     Rideable* getHorseOptionsMaybe() override;

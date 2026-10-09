@@ -78,7 +78,7 @@ bool PauseMenuPlayer::m165(sead::BufferedSafeString* out) {
 }
 
 // NON_MATCHING: the SafeString argument stores merge after the conditional selection.
-void PauseMenuPlayer::m114() {
+void PauseMenuPlayer::m114(bool, bool) {
     auto* as_list = sub_71011C9A88();
     if (!as_list)
         return;
