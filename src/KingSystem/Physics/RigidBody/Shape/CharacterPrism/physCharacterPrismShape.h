@@ -6,6 +6,7 @@
 namespace ksys::phys {
 
 class PolytopeShape;
+struct CharacterControllerShapes;
 
 struct CharacterPrismShapeParam {
     float radius = 0.35;
@@ -19,6 +20,7 @@ struct CharacterPrismShapeParam {
 /// A "stretched bipyramid" shape with a top and bottom vertex and two rings of eight vertices
 /// between them.
 class CharacterPrismShape : public Shape {
+    friend struct CharacterControllerShapes;
     SEAD_RTTI_OVERRIDE(CharacterPrismShape, Shape)
 
 public:

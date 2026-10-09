@@ -5,6 +5,9 @@
 #include "KingSystem/ActorSystem/actCCAccessor.h"
 #include "KingSystem/Physics/CharacterController/physCharacterControllerUnk40.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/RigidBody/Shape/Capsule/physCapsuleShape.h"
+#include "KingSystem/Physics/RigidBody/Shape/CharacterPrism/physCharacterPrismShape.h"
+#include "KingSystem/Physics/RigidBody/Shape/Sphere/physSphereShape.h"
 #include "KingSystem/Physics/System/physSystem.h"
 #include "KingSystem/Physics/physConversions.h"
 #include "KingSystem/Physics/physMaterialMask.h"
@@ -48,6 +51,8 @@ struct CharacterControllerShapes {
 
     /* 0x00 */ void* _0;
     /* 0x08 */ sead::Buffer<CharacterControllerShape> mShapes;
+    // Constructor F66978 stores its float argument here; factory 12814BC forwards param +520.
+    /* 0x18 */ f32 _18;
 };
 
 // Placeholder: objects at CharacterController::_38 / _40 / _48 / _50 (only the fields read / written by the accessors).
@@ -1163,6 +1168,60 @@ const hkpShape* CharacterControllerRigidBody::getNewHavokShape_() {
     shapes->sub_7100F66D34(index);
     mController->sub_7100F5E898();
     return shapes->mShapes[index]._0;
+}
+
+// NON_MATCHING: prism/sphere field loads and stores are scheduled differently.
+void CharacterControllerShapes::sub_7100F66D34(s32 index) {
+    auto& entry = mShapes[index];
+    entry._10 = false;
+    entry._11 = 0;
+    entry._12 = false;
+    entry._14 = 0;
+    entry._18 = _18;
+    entry._20.set(0, 0, 0);
+    auto* shape = entry._8;
+    if (shape->getType() == ShapeType::Capsule) {
+        auto* capsule = sead::DynamicCast<CapsuleShape>(shape);
+        if (!capsule)
+            return;
+        sead::Vector3f a, b;
+        capsule->getVertices(&a, &b);
+        if ((a.x - b.x) * (a.x - b.x) + (a.z - b.z) * (a.z - b.z) <
+            sead::Mathf::epsilon()) {
+            entry._10 = true;
+            entry._14 = capsule->getRadius();
+            entry._18 = capsule->getRadius();
+            if (a.x == 0.0f && a.z == 0.0f && b.x == 0.0f && b.z == 0.0f)
+                entry._11 = 1;
+        }
+        entry._12 = true;
+        entry._20 = b.y < a.y ? b : a;
+        entry._20.y -= capsule->getRadius();
+    } else if (shape->getType() == ShapeType::Sphere) {
+        auto* sphere = sead::DynamicCast<SphereShape>(shape);
+        if (!sphere)
+            return;
+        entry._10 = true;
+        entry._14 = sphere->mRadius;
+        entry._18 = sphere->mRadius;
+        if (sphere->mTranslate.x == 0.0f && sphere->mTranslate.z == 0.0f)
+            entry._11 = 1;
+        entry._12 = true;
+        entry._20 = sphere->mTranslate;
+        entry._20.y -= sphere->mRadius;
+    } else {
+        auto* prism = sead::DynamicCast<CharacterPrismShape>(shape);
+        if (!prism)
+            return;
+        entry._10 = true;
+        entry._14 = prism->mRadius;
+        entry._18 = prism->mRing0Distance;
+        entry._1c = prism->mRing1Distance;
+        if (prism->mOffset.x == 0.0f && prism->mOffset.z == 0.0f)
+            entry._11 = 1;
+        entry._12 = true;
+        entry._20 += prism->mOffset;
+    }
 }
 
 void CharacterControllerUnk38::sub_7100F652F8(const sead::Vector3f& velocity) {
