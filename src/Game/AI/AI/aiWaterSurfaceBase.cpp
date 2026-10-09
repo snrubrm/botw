@@ -46,7 +46,6 @@ bool WaterSurfaceBase::init_(sead::Heap* heap) {
     return true;
 }
 
-// NON_MATCHING: the home translation copy groups stores and changes cleanup scheduling.
 void WaterSurfaceBase::enter_(ksys::act::ai::InlineParamPack* params) {
     auto* actor = mActor;
     sub_71005ED41C();
@@ -56,7 +55,7 @@ void WaterSurfaceBase::enter_(ksys::act::ai::InlineParamPack* params) {
     }
     if (auto* water = sead::DynamicCast<ksys::phys::BoxWaterRigidBody>(actor->getMainBody()))
         water->_d8 = *mFlowSpeedFactor_m;
-    _68 = actor->getHomeMtxRaw().getTranslation();
+    actor->getHomeMtxRaw().getTranslation(_68);
 }
 
 void WaterSurfaceBase::calc_() {
