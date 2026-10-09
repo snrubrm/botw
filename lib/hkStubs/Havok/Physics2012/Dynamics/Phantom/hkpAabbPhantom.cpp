@@ -4,6 +4,12 @@
 // complete 1607DD0 caller supplies the array and signed first/last indices.
 void sub_7101607E14(hkpCollidable** collidables, int first, int last);
 
+hkpAabbPhantom::hkpAabbPhantom(const hkAabb& aabb, hkUint32 collisionFilterInfo)
+    : hkpPhantom(nullptr), m_orderDirty(false) {
+    m_aabb = aabb;
+    m_collidable.setCollisionFilterInfo(collisionFilterInfo);
+}
+
 hkpPhantomType hkpAabbPhantom::getType() const {
     return HK_PHANTOM_AABB;
 }
