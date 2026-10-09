@@ -91,6 +91,8 @@ public:
         // 0x71006fc514: the matrix at +0x20.
         const sead::Matrix34f* sub_71006FC514() const;
         void sub_71006FD830(f32 start_frame, f32 end_frame);
+        // FF8C supplies a normalized matrix; 6FB3FC copies it to the existing matrix20.
+        void sub_71006FB3FC(const sead::Matrix34f& matrix);
 
         u8 _0[0x20];
         /* 0x20 */ sead::Matrix34f _20;

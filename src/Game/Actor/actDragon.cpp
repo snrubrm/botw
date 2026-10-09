@@ -1,5 +1,6 @@
 #include "Game/Actor/actDragon.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "Game/gameDragonChallengeMgr.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
@@ -260,5 +261,26 @@ void Dragon::sub_710000FC70(s32 idx, bool start, bool secondary) {
             mASList->startAnimationMaybe(-1.0f, -1.0f, "Damage_Grudge", idx + 1, 0, true);
     }
     _1f70.set(0x800u << idx);
+}
+}  // namespace uking::act
+
+namespace uking::act {
+// NON_MATCHING: matrix temporaries use different register and stack placement.
+void Dragon::x(const sead::Matrix34f& mtx) {
+    auto* controller = getCharacterController();
+    if (!controller)
+        return;
+    sead::Matrix34f matrix = mtx;
+    auto x_axis = matrix.getBase(0);
+    auto y_axis = matrix.getBase(1);
+    auto z_axis = matrix.getBase(2);
+    x_axis.normalize();
+    y_axis.normalize();
+    z_axis.normalize();
+    matrix.setBase(0, x_axis);
+    matrix.setBase(1, y_axis);
+    matrix.setBase(2, z_axis);
+    _14c8.sub_71006FB3FC(matrix);
+    controller->sub_7100F5FBE0(matrix.getTranslation());
 }
 }  // namespace uking::act
