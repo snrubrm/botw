@@ -4,6 +4,7 @@
 #include <prim/seadBitFlag.h>
 #include <prim/seadSafeString.h>
 #include <container/seadTreeMap.h>
+#include <container/seadOffsetList.h>
 #include <thread/seadCriticalSection.h>
 #include "KingSystem/Utils/Thread/Event.h"
 
@@ -15,6 +16,7 @@ namespace ksys::res {
 
 class Unk_71024f9a08;
 class CompactedHeap;
+class Unk_71024F9D48;
 
 // FE0144 constructs this key at 118; FE0348 writes its hash at 120.
 class Unk_71024f9a50 {
@@ -66,7 +68,9 @@ public:
     u16 _1a;
     u8 _1c[4];
     util::Event mEvent;
-    u8 _60[0xb8 - 0x60];
+    u8 _60[0xa0 - 0x60];
+    // FE0144 initializes offset 8; FE0D38/FE0D98 insert and erase texture handles.
+    sead::OffsetList<Unk_71024F9D48> mHandles;
     sead::CriticalSection mCS;
     Unk_71024f9a28 mNode{this};
     // FE0144 constructs this, and FE028C/FE02F0 destroy it.
@@ -82,6 +86,7 @@ public:
 KSYS_CHECK_SIZE_NX150(Unk_71024f9a08, 0x618);
 class Unk_71024F9D48;
 class Unk_71024f9d68;
+void sub_7100FE0D38(Unk_71024f9a08* resource, Unk_71024F9D48* handle);
 // Native FE0D98 removes this handle's list node while holding the resource lock.
 void sub_7100FE0D98(Unk_71024f9a08* resource, Unk_71024F9D48* handle);
 // Complete native bodies read the same receiver's status/flags and return bool.

@@ -37,6 +37,13 @@ bool Unk_71024f9a08::sub_7100FE0D1C() const {
     return mStatus == 4 || mStatus == 8;
 }
 
+void sub_7100FE0D38(Unk_71024f9a08* resource, Unk_71024F9D48* handle) {
+    resource->mCS.lock();
+    resource->mHandles.pushBack(handle);
+    ++resource->_1a;
+    resource->mCS.unlock();
+}
+
 u16 Unk_71024f9a08::sub_7100FE0DE8() const {
     return _1a;
 }
