@@ -278,6 +278,13 @@ void NavMeshCharacter::sub_7100F75F3C(u8 value) {
     _220 |= 8;
 }
 
+NavMeshObjMaybe::NavMeshObjMaybe()
+    : _8(nullptr), _10(nullptr), _98(nullptr), _a0(nullptr), _a8(0), _ac(0) {}
+
+NavMeshObjMaybe::~NavMeshObjMaybe() {
+    sub_7100F7F6A0();
+}
+
 bool NavMeshObjMaybe::sub_7100F7F428(RigidBody* body) {
     return sub_7100F7F430(body->getHkBody());
 }

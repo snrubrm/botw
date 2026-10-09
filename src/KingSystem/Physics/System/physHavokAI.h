@@ -1,5 +1,6 @@
 #pragma once
 
+#include <Havok/Common/Base/hkBase.h>
 #include <limits>
 #include <basis/seadTypes.h>
 #include <heap/seadDisposer.h>
@@ -161,6 +162,11 @@ KSYS_CHECK_SIZE_NX150(Unk_RequestQueue<void>, 0x18);
 // the next request (exchanged with ldxr/stxr, compared against `this | 1`), `_a8` request flags (ldxr/stxr
 // and / orr in those functions: sead::Atomic).
 struct NavMeshObjMaybe {
+    // Native 0x7100f7f5ac / 0x7100f7f604 and the two-slot vtable 0x71024f6d00.
+    NavMeshObjMaybe();
+    virtual ~NavMeshObjMaybe();
+    // 0x7100f7f6a0 unregisters the object and releases both generators.
+    void sub_7100F7F6A0();
     // 0x7100f7f428 forwards the rigid body's Havok body to the next native method.
     bool sub_7100F7F428(RigidBody* body);
     // 0x7100f7f430 returns whether the body change queued a HavokAI update.
@@ -177,11 +183,16 @@ struct NavMeshObjMaybe {
         _40 = 1 << 6,
     };
 
-    /* 0x00 */ u8 _0[8];
     // 0x7100f83460 / 0x7100f834cc pass these to hkaiWorld's generator operations.
     /* 0x08 */ hkaiSilhouetteGenerator* _8;
     /* 0x10 */ hkaiObstacleGenerator* _10;
-    u8 _18[0x98 - 0x18];
+    // Constructor and destructor independently establish the hkArray lifetime;
+    // collector 0x710157ca0c appends transformed vectors and vertex counts,
+    // while 0x7100f7f964 passes both arrays to generator update 0x7101531a84.
+    /* 0x18 */ hkArray<hkVector4> mVertices;
+    /* 0x28 */ hkArray<hkInt32> mVertexCounts;
+    /* 0x38 */ u8 _38[0x58 - 0x38];
+    /* 0x58 */ sead::CriticalSection mCriticalSection;
     /* 0x98 */ HavokAI* _98;  // the HavokAI it was added to
     /* 0xa0 */ sead::Atomic<HavokAI*> _a0;
     /* 0xa8 */ sead::TypedBitFlag<Flag, sead::Atomic<u32>> _a8;
