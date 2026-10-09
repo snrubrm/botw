@@ -17,6 +17,7 @@ class TipsMgr {
     ~TipsMgr();
 
 public:
+    void init(sead::Heap* heap);
     bool areResourcesReady();
     // 91E158 loads resources using only the receiver; its final call destroys a load request.
     void loadTipFiles();
@@ -24,7 +25,10 @@ public:
     void initBeforeStageGen();
 
 private:
-    u8 _20[0x20a8 - 0x20];
+    // 91E0E0 creates the Tips ExpHeap here; the complete destructor only destroys
+    // the resource handles, leaving this heap's lifetime to the parent heap.
+    sead::Heap* _20;
+    u8 _28[0x20a8 - 0x28];
     ksys::res::Handle _20a8;
     sead::SafeArray<ksys::res::Handle, 9> _20f8;
     ksys::act::BaseProc* _23c8;

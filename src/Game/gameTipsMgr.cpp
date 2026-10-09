@@ -1,4 +1,5 @@
 #include "Game/gameTipsMgr.h"
+#include <heap/seadExpHeap.h>
 #include "KingSystem/ActorSystem/actBaseProc.h"
 #include "KingSystem/Utils/HeapUtil.h"
 #include "KingSystem/Resource/resLoadRequest.h"
@@ -7,7 +8,14 @@
 // 920CFC is the native sead enum text parser; text_(s32) returns const char*.
 const char* getTipString(s32 index);
 
-TipsMgr* TipsMgr::sInstance;
+SEAD_SINGLETON_DISPOSER_IMPL(TipsMgr)
+
+TipsMgr::~TipsMgr() = default;
+
+void TipsMgr::init(sead::Heap* heap) {
+    _20 = sead::ExpHeap::create(0x100000, "Tips", heap, 8, sead::Heap::cHeapDirection_Forward, true);
+    _26fc = false;
+}
 
 bool TipsMgr::areResourcesReady() {
     for (s32 i = 0; i < _23d0.size(); ++i) {
