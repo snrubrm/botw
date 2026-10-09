@@ -142,7 +142,9 @@ public:
     /* 0x1f60 */ sead::Vector3f _1f60;  // m34
     /* 0x1f6c */ u32 _1f6c = 0;
     /* 0x1f70 */ sead::BitFlag32 _1f70;  // ~45 AI accesses
-    /* 0x1f78 */ sead::FixedSafeString<64> _1f78;
+    // B214 stores capacity 16 at +1f88 and the buffer pointer +1f8c at +1f80.
+    /* 0x1f78 */ sead::FixedSafeString<16> _1f78;
+    /* 0x1fa0 */ u8 _1fa0[0x30];
     // object with ctor 0x710000b9b0(this + 0x1fd0)
     /* 0x1fd0 */ u8 _1fd0[0x2270 - 0x1fd0];
     /* 0x2270 */ u8 _2270[0x22c0 - 0x2270];
