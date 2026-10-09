@@ -1,9 +1,88 @@
 #include "Game/UI/uiScreens.h"
+#include <limits>
 #include "Game/UI/euiBoxCursor.h"
 #include "Game/UI/euiLayoutEx.h"
 #include "Game/UI/uiUtils.h"
 
 namespace uking::ui {
+
+// Initialized as two FLT_MAX components by native 9384e4; read as the
+// optional layout size by 93bb48 and copied by both parameter lifetime bodies.
+sead::Vector2f sUnk_71025D5CE8{std::numeric_limits<f32>::max(), std::numeric_limits<f32>::max()};
+
+// 0x7100938c94
+// NON_MATCHING: Vector2 component copies and global addressing differ.
+ScreenAppPictureBookEntry::Params::Params() : _2a8(sUnk_71025D5CE8) {
+    _28.clear();
+    _80.clear();
+    _d8.clear();
+    _130.format("N_PartsSize_00");
+    _188.clear();
+    _1e0.clear();
+    _238 = 0;
+    _240.clear();
+    _298 = 3;
+    _29c = 0;
+    _2a0 = 1;
+    _2a4 = 1;
+    _2a8 = sUnk_71025D5CE8;
+    _2c8 = false;
+    _2c9 = false;
+    _2ca = true;
+    _2cb = true;
+    _2b0 = sead::Vector2f::zero;
+    _2b8 = sead::Vector2f::zero;
+    _2c0 = sead::Vector2f::zero;
+    _2cc = false;
+    _2cd = true;
+    _2d0 = nullptr;
+}
+
+// 0x7100938e9c
+// NON_MATCHING: Vector2 component copies and global addressing differ.
+ScreenAppPictureBookEntry::Params::~Params() {
+    _28.clear();
+    _80.clear();
+    _d8.clear();
+    _130.clear();
+    _188.clear();
+    _1e0.clear();
+    _238 = 0;
+    _240.clear();
+    _298 = 0;
+    _29c = -1;
+    _2a0 = -1;
+    _2a4 = -1;
+    _2a8 = sUnk_71025D5CE8;
+    _2b0 = sead::Vector2f::zero;
+    _2b8 = sead::Vector2f::zero;
+    _2c0 = sead::Vector2f::zero;
+    _2d0 = nullptr;
+    _2cc = false;
+    _2cd = false;
+    _2c8 = false;
+    _2c9 = false;
+    _2ca = false;
+    _2cb = false;
+}
+
+// 0x710093a13c / 0x710093a238
+// NON_MATCHING: D1 has Vector2 component-copy differences; D0 retains a D1 call
+// rather than inlining the lifetime body and dropping dead parameter resets.
+ScreenAppPictureBookEntry::~ScreenAppPictureBookEntry() {
+    if (mIconControl) {
+        delete mIconControl;
+        mIconControl = nullptr;
+    }
+    if (mPageControl) {
+        delete mPageControl;
+        mPageControl = nullptr;
+    }
+    if (mGuideControl) {
+        delete mGuideControl;
+        mGuideControl = nullptr;
+    }
+}
 
 // 0x7100939f68 (D1) / 0x7100939fb8 (D0)
 Unk_7102474f10::~Unk_7102474f10() {
@@ -30,7 +109,7 @@ u32 ScreenAppPictureBookUnk::sub_710093E900(s32 base, s32 count) {
         return sub_710093E784(0);
     for (s32 i = 0; i < count; ++i) {
         if (_288 > static_cast<u64>(i) && _290[i])
-            sum += _290[i]->_29c;
+            sum += _290[i]->mParams._29c;
     }
     return sub_710093E784(sum + base);
 }
@@ -46,7 +125,7 @@ void ScreenAppPictureBookUnk::sub_710093F10C(s32 index, s32* out_index, s32* out
     for (ScreenAppPictureBookEntry** p = _290; p != end; ++p) {
         ScreenAppPictureBookEntry* entry = *p;
         if (entry) {
-            const s32 rest = index - entry->_29c;
+            const s32 rest = index - entry->mParams._29c;
             if (rest < 0) {
                 *out_value = entry->_2f0;
                 *out_index = index;
@@ -245,7 +324,7 @@ void ScreenAppPictureBookUnk::sub_710093F7F8(bool flag) {
                         ScreenAppPictureBookEntry* entry = u._18->mEntry;
                         button->setFlag10((flags & 4) && (ctrl->_2c & 1) &&
                                           ctrl->_340 == 2 && (flags & 2) &&
-                                          ((flags & 1) || entry->_2ca) && !entry->_38c &&
+                                          ((flags & 1) || entry->mParams._2ca) && !entry->_38c &&
                                           entry->_38d == 0);
                     }
                 }
@@ -296,9 +375,9 @@ found:
     PictureBookGroupRecord* record = group->mRecord;
     ScreenAppPictureBookEntry* entry = group->mEntry;
     s32 base = record->_c;
-    s32 span = entry->_2a0;
+    s32 span = entry->mParams._2a0;
     s32 start = l->_3c;
-    s32 step = entry->_2a4;
+    s32 step = entry->mParams._2a4;
     s32 limit = entry->_2f0;
     s32 total = start + base * span * step;
     u64 i = 0;
@@ -307,7 +386,7 @@ found:
         for (; i != limit; ++i) {
             if (_288 > i) {
                 if (ScreenAppPictureBookEntry* e = _290[i])
-                    sum += e->_29c;
+                    sum += e->mParams._29c;
             }
         }
     }
@@ -364,7 +443,7 @@ void ScreenAppPictureBookUnk::sub_710093F924(bool flag) {
                 s64 i = (s64)_2e8 - 1;
                 while (true) {
                     ScreenAppPictureBookEntry* e = _290[i];
-                    if (e->_29c > 0 && !e->_38c && !e->_38d) {
+                    if (e->mParams._29c > 0 && !e->_38c && !e->_38d) {
                         found_back = true;
                         break;
                     }
@@ -391,7 +470,7 @@ void ScreenAppPictureBookUnk::sub_710093F924(bool flag) {
                 s64 i = _2e8;
                 while (true) {
                     ScreenAppPictureBookEntry* e = _290[i + 1];
-                    if (e->_29c > 0 && !e->_38c && !e->_38d) {
+                    if (e->mParams._29c > 0 && !e->_38c && !e->_38d) {
                         found_fwd = true;
                         break;
                     }
@@ -461,7 +540,7 @@ void ScreenAppPictureBookUnk::sub_710093F278(s32 value, s32 index) {
     if (_290 && static_cast<u32>(index) < _288) {
         ScreenAppPictureBookEntry* entry = _290[index];
         if (entry)
-            entry->_29c = value;
+            entry->mParams._29c = value;
     }
     sub_710093F29C();
 }

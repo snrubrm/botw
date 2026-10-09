@@ -2202,22 +2202,79 @@ public:
     bool sub_71009FD674();
 };
 
-// Placeholder for the objects ScreenAppPictureBook keeps at 0x3658 / 0x3660.
-// An entry of the picture book's list (placeholder; only the two flag bytes are known).
+struct PictureBookGroupList;
+struct PictureBookGroupRecord;
+
+// The 0x398-byte entry allocated by 943e80, with vtable 2474f30.
 struct ScreenAppPictureBookEntry {
-    u8 _0[0x29c];
-    /* 0x29c */ s32 _29c;
-    /* 0x2a0 */ s32 _2a0;
-    /* 0x2a4 */ s32 _2a4;
-    u8 _2a8[0x2ca - 0x2a8];
-    /* 0x2ca */ bool _2ca;
-    u8 _2cb[0x2f0 - 0x2cb];
-    /* 0x2f0 */ s32 _2f0;
-    /* 0x2f4 */ s32 _2f4;
-    u8 _2f8[0x38c - 0x2f8];
-    /* 0x38c */ bool _38c;
-    /* 0x38d */ bool _38d;
+    // Constructor 938c94 and destructor 938e9c; also used as a standalone setup block.
+    // Field names retain their offsets in the outer entry.
+    struct Params {
+        Params();
+        ~Params();
+
+        sead::FixedSafeString<64> _28;
+        sead::FixedSafeString<64> _80;
+        sead::FixedSafeString<64> _d8;
+        sead::FixedSafeString<64> _130;
+        sead::FixedSafeString<64> _188;
+        sead::FixedSafeString<64> _1e0;
+        u32 _238 = 0;
+        sead::FixedSafeString<64> _240;
+        s32 _298 = 0;
+        s32 _29c = -1;
+        s32 _2a0 = -1;
+        s32 _2a4 = -1;
+        sead::Vector2f _2a8;
+        sead::Vector2f _2b0{0, 0};
+        sead::Vector2f _2b8{0, 0};
+        sead::Vector2f _2c0{0, 0};
+        bool _2c8 = false;
+        bool _2c9 = false;
+        bool _2ca = false;
+        bool _2cb = false;
+        bool _2cc = false;
+        bool _2cd = false;
+        // Nonowned factory object invoked by 93c304; its interface is not yet modeled.
+        void* _2d0 = nullptr;
+    };
+
+    ScreenAppPictureBookEntry() = default;
+    virtual ~ScreenAppPictureBookEntry();
+
+    /* 0x8 */ ScreenAppPictureBookUnk* mController = nullptr;
+    /* 0x10 */ PictureBookGroupList* mGroupList = nullptr;
+    // 93a500 allocates 0x10-byte PictureBookGroupRecord objects in this array.
+    /* 0x18 */ sead::PtrArray<PictureBookGroupRecord> mRecords;
+    /* 0x28 */ Params mParams;
+    // Producer 93a5c0 allocates and constructs these three controllers.
+    /* 0x2d8 */ Unk_7102477468* mIconControl = nullptr;
+    /* 0x2e0 */ Unk_7102474c28* mPageControl = nullptr;
+    /* 0x2e8 */ Unk_7102474c48* mGuideControl = nullptr;
+    /* 0x2f0 */ s32 _2f0 = -1;
+    /* 0x2f4 */ s32 _2f4 = -1;
+    /* 0x2f8 */ sead::BoundBox2f _2f8;
+    /* 0x308 */ sead::BoundBox2f _308;
+    /* 0x318 */ sead::BoundBox2f _318;
+    /* 0x328 */ sead::BoundBox2f _328;
+    /* 0x338 */ sead::Vector2f _338{0, 0};
+    /* 0x340 */ sead::Vector2f _340{0, 0};
+    /* 0x348 */ sead::BoundBox2f _348;
+    /* 0x358 */ sead::BoundBox2f _358;
+    /* 0x368 */ sead::Vector2f _368{0, 0};
+    /* 0x370 */ sead::Vector2f _370{0, 0};
+    /* 0x378 */ sead::Vector2f _378{0, 0};
+    /* 0x380 */ sead::Vector2f _380{0, 0};
+    /* 0x388 */ s32 _388 = -1;
+    /* 0x38c */ bool _38c = false;
+    /* 0x38d */ bool _38d = false;
+    /* 0x390 */ u32 _390 = 0;
 };
+static_assert(sizeof(ScreenAppPictureBookEntry::Params) == 0x2b0);
+static_assert(offsetof(ScreenAppPictureBookEntry, mParams) == 0x28);
+static_assert(offsetof(ScreenAppPictureBookEntry, mIconControl) == 0x2d8);
+static_assert(offsetof(ScreenAppPictureBookEntry, _38c) == 0x38c);
+static_assert(sizeof(ScreenAppPictureBookEntry) == 0x398);
 
 // Producer93C24C allocates this 0x48-byte button group. Binding93C304
 // writes its entry and list controller, and93C660 attaches its units.
@@ -2273,6 +2330,8 @@ struct PictureBookGroupList {
 };
 
 struct ScreenAppPictureBookUnk {
+    // 0x7100943e80: allocates and initializes the entry list (declaration only).
+    void sub_7100943E80(sead::Heap* heap, s32 count);
     // 0x710093ff88: releases active units across the existing group lists (undecompiled).
     void sub_710093FF88();
     // 0x710093e4b4: forwards signed item/category and mode to the bool selection helper.

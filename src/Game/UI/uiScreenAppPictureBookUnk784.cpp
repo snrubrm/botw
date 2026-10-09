@@ -27,7 +27,7 @@ u32 ScreenAppPictureBookUnk::sub_710093E784(s32 index) {
         s32 sum;
         u64 step;
         if ((count & 1) != 0) {
-            sum = entries[0]->_29c;
+            sum = entries[0]->mParams._29c;
             step = 1;
         } else {
             sum = 0;
@@ -38,8 +38,8 @@ u32 ScreenAppPictureBookUnk::sub_710093E784(s32 index) {
             count -= step;
             entries += 1;
             do {
-                sum = entries[-1]->_29c + sum;
-                sum = entries[0]->_29c + sum;
+                sum = entries[-1]->mParams._29c + sum;
+                sum = entries[0]->mParams._29c + sum;
                 entries += 2;
                 count -= 2;
             } while (count != 0);
@@ -56,7 +56,7 @@ u32 ScreenAppPictureBookUnk::sub_710093E784(s32 index) {
     } else {
         u32 flags = unit->_30;
         ScreenAppPictureBookEntry* entry = unit->_18->mEntry;
-        if ((flags & 2) == 0 || ((flags & 1) == 0 && !entry->_2ca) || entry->_38c ||
+        if ((flags & 2) == 0 || ((flags & 1) == 0 && !entry->mParams._2ca) || entry->_38c ||
             !entry->_38d) {
             _310 = _30c;
             return 0;
