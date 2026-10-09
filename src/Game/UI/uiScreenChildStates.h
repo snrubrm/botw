@@ -2,6 +2,7 @@
 
 #include "Game/UI/uiScreens.h"
 #include "Game/UI/uiControlCreator.h"
+#include "KingSystem/World/worldDefines.h"
 
 // ScreenChildEx-derived classes (their constructors call ScreenChildEx's) with their own state callback slots (105+, groups of four: void, void, void, s32).
 // Placeholder names after the vtable; their destructors / RTTI are not decompiled yet.
@@ -169,6 +170,7 @@ public:
     // 0x71009b62cc (`_1a8 = a1`)
     void sub_71009B62CC(void* a1);
     void sub_71009B7A1C(Unk_710247ae28* record);
+    void sub_71009B7D88();
     void sub_71009B87C8(Unk_710247ae28* record, eui::MessageString* out);
 
     virtual void m105();
@@ -197,7 +199,9 @@ public:
     /* 0x1a8 */ void* _1a8;
     u8 _1b0[0x300 - 0x1b0];
     /* 0x300 */ ScreenAppPictureBookUnk* _300;
-    u8 _308[0x32c - 0x308];
+    // Native reset uses -1; 9b6ec0 consumes this as the selected group index.
+    /* 0x308 */ s32 _308;
+    u8 _30c[0x32c - 0x30c];
     /* 0x32c */ s32 _32c;
 };
 
@@ -276,6 +280,10 @@ public:
     // Factory a17748 and full ctor 9c96a4/D1 9c9700 establish the 0x190 extent.
     explicit Unk_710247e468(eui::LayoutEx* layout);
     ~Unk_710247e468() override;
+    void m24() override;
+    void m25() override;
+    void m27() override;
+    void m31() override;
 
     virtual void m105();
     virtual void m106();
@@ -288,11 +296,24 @@ public:
 
     // Native weather-frame updater; independently called by setup and state callbacks.
     void sub_71009C9D5C(bool update);
+    void sub_71009C9A88();
+    bool sub_71009C9BEC();
+    bool sub_71009C9F20();
 
-    // The members used so far (state callbacks m109 / m111 play the animator, m110 waits for it to stop).
-    u8 _130[0x138 - 0x130];
+    /* 0x130 */ eui::Animator* _130;
     /* 0x138 */ eui::Animator* _138;
-    u8 _140[0x190 - 0x140];
+    /* 0x140 */ eui::Animator* _140;
+    /* 0x148 */ eui::Animator* _148;
+    /* 0x150 */ eui::Animator* _150;
+    // Native frame updater indexes these five animators at +158 with an 8-byte stride.
+    /* 0x158 */ eui::Animator* mTexPatterns[5];
+    /* 0x180 */ ksys::world::Climate _180;
+    /* 0x184 */ ksys::world::Climate _184;
+    /* 0x188 */ bool _188;
+    /* 0x189 */ bool _189;
+    /* 0x18a */ bool _18a;
+    /* 0x18b */ bool _18b;
+    u8 _18c[0x190 - 0x18c];
 };
 static_assert(sizeof(Unk_710247e468) == 0x190);
 

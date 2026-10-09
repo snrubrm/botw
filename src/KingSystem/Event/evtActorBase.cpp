@@ -1,6 +1,7 @@
 #include "KingSystem/Event/evtActorBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Event/evtAction.h"
+#include "KingSystem/Event/evtEventFlow.h"
 #include "KingSystem/Event/evtQuery.h"
 
 namespace ksys::evt {
@@ -45,6 +46,19 @@ bool ActorBase::m6() {
 void ActorBase::m8() {
     mFlags |= 1;
     sub_7100DAB470();
+}
+
+// 0x7100dab470
+void ActorBase::sub_7100DAB470() {
+    auto* actor = sead::DynamicCast<act::Actor>(mLink.getProc(nullptr));
+    if (!actor)
+        return;
+    if (mFlags & 8) {
+        actor->setMtx(mAppliedTransform, true, true);
+        actor->nullsub_4648();
+    }
+    if (mActorSet->mResource->mDemoInfo.isWithTransAnimation())
+        actor->_7d0 = &mTransform;
 }
 
 // 0x7100dab5f8

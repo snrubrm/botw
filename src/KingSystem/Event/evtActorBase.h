@@ -3,6 +3,7 @@
 #include <basis/seadTypes.h>
 #include <container/seadPtrArray.h>
 #include <evfl/ResActor.h>
+#include <math/seadMatrix.h>
 #include <prim/seadRuntimeTypeInfo.h>
 #include <prim/seadSafeString.h>
 #include "KingSystem/ActorSystem/actBaseProcHandle.h"
@@ -58,7 +59,12 @@ public:
     /* 0x0e8 */ sead::PtrArray<ActionBase> mActions;  // the elements are Action objects
     /* 0x0f8 */ sead::PtrArray<Query> mQueries;
     /* 0x108 */ void* _108;  // passed to EventSystem::x_0/x_1 (Actor::m4); type unknown
-    /* 0x110 */ u8 _110[0x1b4 - 0x110];
+    /* 0x110 */ EventActorSet* mActorSet;
+    // Produced by Actor::init / da8cd8 and consumed by dab470.
+    /* 0x118 */ sead::Matrix34f mTransform;
+    /* 0x148 */ sead::Matrix34f mOriginalTransform;
+    /* 0x178 */ sead::Matrix34f mAppliedTransform;
+    u8 _1a8[0x1b4 - 0x1a8];
     /* 0x1b4 */ bool _1b4;
     /* 0x1b5 */ u8 _1b5[0x1b8 - 0x1b5];
     /* 0x1b8 */ void* _1b8;

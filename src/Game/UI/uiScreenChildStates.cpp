@@ -1,5 +1,6 @@
 #include "Game/UI/uiScreenChildStates.h"
 #include "Game/UI/euiAnimator.h"
+#include "Game/UI/euiLayoutEx.h"
 #include "Game/UI/euiLetterAnimControl.h"
 #include "Game/UI/euiMessageString.h"
 #include "KingSystem/Quest/qstQuest.h"
@@ -8,6 +9,8 @@
 #include "Game/gameStageBinder.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "KingSystem/Event/evtManager.h"
+#include "KingSystem/World/worldManager.h"
+#include <math/seadMathCalcCommon.h>
 
 namespace uking::ui {
 
@@ -32,6 +35,12 @@ void Unk_710247af10::sub_71009B7A1C(Unk_710247ae28* record) {
         mQuestCaption->sub_7100BD9CDC(message, 0);
         mQuestCaption->sub_7100BD9B5C();
     }
+}
+
+// 0x71009b7d88
+void Unk_710247af10::sub_71009B7D88() {
+    if (_300)
+        _308 = _300->_2e4;
 }
 
 // 0x71009b87c8
@@ -270,6 +279,68 @@ void Unk_710247b428::m151() {}
 
 // 0x71009bc0b4
 s32 Unk_710247b428::m152() { return 0; }
+
+// 0x71009c9878
+void Unk_710247e468::m24() {
+    _130 = mLayout->tryCreateAnimatorAuto("Scroll", false);
+    if (_130)
+        _130->StopAtMin();
+    _138 = mLayout->tryCreateAnimatorAuto("Reload", false);
+    if (_138)
+        _138->StopAtMin();
+    _140 = mLayout->tryCreateAnimatorAuto("Next", false);
+    if (_140)
+        _140->StopAtMax();
+    _148 = mLayout->tryCreateAnimatorAuto("Off", false);
+    if (_148)
+        _148->StopAtMax();
+    _150 = mLayout->tryCreateAnimatorAuto("TexPattern1", false);
+    for (s32 i = 0; i < 5; ++i) {
+        sead::FormatFixedSafeString<16> name("TexPattern%d", i + 2);
+        mTexPatterns[i] = mLayout->tryCreateAnimatorAuto(name.cstr(), false);
+    }
+}
+
+// 0x71009c9a7c
+void Unk_710247e468::m25() {
+    mStateMachine.run();
+}
+
+// 0x71009c9a84
+void Unk_710247e468::m31() {
+    sub_71009C9A88();
+}
+
+// 0x71009c9bb8
+void Unk_710247e468::m27() {
+    if (!sub_71009C9BEC())
+        sub_71009C9A88();
+}
+
+// 0x71009c9f20
+// NON_MATCHING: condition folding, flag-store scheduling and register allocation (600 vs 700 bytes).
+bool Unk_710247e468::sub_71009C9F20() {
+    auto* weather = ksys::world::Manager::instance()->getWeatherMgr();
+    const auto climate = ksys::world::Manager::instance()->getCurrentClimate();
+    const bool state = weather->x_8();
+    const bool cold = weather->x_7();
+    const bool changed = (climate != _180) | (state != _188);
+    const bool cold_changed = cold != _18a;
+    _184 = _180;
+    _180 = climate;
+    _189 = _188;
+    _188 = state;
+    _18b = _18a;
+    _18a = cold;
+    if (cold_changed) {
+        for (auto* animator : mTexPatterns) {
+            if (animator && (sead::Mathf::equalsEpsilon(animator->mFrame, 2.0f) ||
+                             sead::Mathf::equalsEpsilon(animator->mFrame, 4.0f)))
+                return true;
+        }
+    }
+    return changed;
+}
 
 // 0x71009ca1dc
 void Unk_710247e468::m105() {}

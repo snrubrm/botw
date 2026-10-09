@@ -24,7 +24,7 @@ public:
 
     // 0x7100985c4c (placeholder name; empty): called by ScreenKeyBoradTextArea's close override and destructor
     void sub_7100985C4C();
-    // 0x710098590c (declared only; placeholder name): called before show() by ScreenKeyBoradTextArea::m154
+    // 0x710098590c (placeholder name): called before show() by ScreenKeyBoradTextArea::m154
     void sub_710098590C();
     // 0x71009859c8 (declared only).
     void show(s32 type, bool clear_input);
