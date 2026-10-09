@@ -165,6 +165,18 @@ void Unk_71025d6ac0::sub_710096809C() {
     ksys::xlink::Manager::instance()->setGlobalProperty(27, 0.0f);
 }
 
+bool Unk_71025d6ac0::sub_710096828C() const {
+    return UiSubsys1::instance()->_38ac;
+}
+
+bool Unk_71025d6ac0::sub_71009682B4() const {
+    return UiSubsys1::instance()->_38d8;
+}
+
+s32 Unk_71025d6ac0::sub_71009682CC() const {
+    return UiSubsys1::instance()->_38a8;
+}
+
 void Unk_71025d6ac0::sub_71009682A4() {
     _29 = false;
     _4c = 1.0f;

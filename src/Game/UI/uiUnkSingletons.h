@@ -51,7 +51,12 @@ public:
 
     // Child m29 9C0770 passes this singleton; the native body leaves its receiver unused.
     void sub_710096809C();
-    u8 get29() const;
+    bool get29() const;
+    // Complete MainScreen and child callers pass this singleton; bodies read UiSubsys1.
+    bool sub_710096828C() const;
+    bool sub_71009682B4() const;
+    s32 sub_71009682CC() const;
+    void sub_71009685C4();
     void sub_71009682A4();
     void sub_71009684A0();
     bool sub_71009684C4() const;
@@ -363,6 +368,8 @@ struct UiSubsys1Entry {
 };
 
 class UiSubsys1 {
+    // Native singleton forwarders 96828C / 9682B4 / 9682CC read these UI fields directly.
+    friend class Unk_71025d6ac0;
 public:
     static UiSubsys1* instance() { return sInstance; }
 

@@ -9,6 +9,7 @@
 #include "Game/UI/uiUtils.h"
 #include "Game/UI/uiUnkSingletons.h"
 #include "Game/gameSaveSystem.h"
+#include "Game/gameRadarMgr.h"
 #include "Game/gameStageBinder.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "KingSystem/Event/evtManager.h"
@@ -622,6 +623,23 @@ void Unk_710247c368::m14() {
     Unk_71025d6ac0::instance()->sub_7100968688();
     _14c = 0;
     mAnimators[3]->StopAtMin();
+}
+
+// 0x71009c06d8
+void Unk_710247c368::m27() {
+    if (!RadarMgr::instance())
+        return;
+    Unk_71025d6ac0::instance()->sub_71009685C4();
+    switch (Unk_71025d6ac0::instance()->sub_71009682CC()) {
+    case 0:
+        mAnimators[2]->StopAtMin();
+        break;
+    case 1:
+        mAnimators[2]->StopAtMax();
+        break;
+    }
+    mAnimators[6]->StopAtMin();
+    mAnimators[7]->StopAtMin();
 }
 
 // 0x71009c0770
