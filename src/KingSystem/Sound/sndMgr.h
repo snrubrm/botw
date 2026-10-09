@@ -211,6 +211,7 @@ struct Unk_SoundMgr38 {
     // 0x710102b11c: forwards to the cleanup operation.
     void sub_710102B11C();
     void sub_710102AF84();
+    void sub_710102B4B8();
 
     u8 _0[0x20];
     /* 0x20 */ Unk_SoundMgr38_20* _20;
@@ -221,7 +222,12 @@ struct Unk_SoundMgr38 {
     u8 _50[0x70 - 0x50];
     // Read by 0x710102c10c and the cleanup operation 0x710102af84.
     /* 0x70 */ bool _70;
+    u8 _71[0x130 - 0x71];
+    // Whole ctor 1029fe0 clears this word; whole 102b120 passes it as a float to 1036a6c.
+    f32 _130;
+    u8 _134[0x160 - 0x134];
 };
+KSYS_CHECK_SIZE_NX150(Unk_SoundMgr38, 0x160);
 
 // Name from the CSV (snd::DuckingMgr::startDucking 0x7101042078; ctor 0x710103e404, init 0x710103e58c).
 // SoundMgr::_80. A buffer (size at +8, data at +0x10) of 50 duckers (0xd0 bytes each: aal::GroupDucker at +0x68,

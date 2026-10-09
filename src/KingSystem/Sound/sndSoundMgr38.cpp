@@ -1,6 +1,10 @@
 #include "KingSystem/Sound/sndMgr.h"
 #include "KingSystem/Utils/InitTimeInfo.h"
 #include "Game/Actor/actEnvSeEmitPoint.h"
+#include "KingSystem/ActorSystem/actActorSystem.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayerLink.h"
+#include "KingSystem/Map/mapPlacementMgr.h"
+#include "KingSystem/Terrain/teraSystem.h"
 #include <prim/seadScopedLock.h>
 
 // Address placeholder for the original kind-name text lookup; its enum type is not recovered.
@@ -109,6 +113,25 @@ void Unk_SoundMgr38_20::sub_7101029D3C(sead::OffsetList<uking::act::EnvSeEmitPoi
                              const uking::act::EnvSeEmitPoint* b) {
         return !(a->_840 <= b->_840);
     });
+}
+
+// NON_MATCHING: local vector and terrain-height stack layout differs.
+void Unk_SoundMgr38::sub_710102B4B8() {
+    sead::Vector3f position = sead::Vector3f::zero;
+    f32 distance = 0.0f;
+    if (ksys::act::ActorSystem::instance()->getPlayerPosition(&position) &&
+        ksys::act::ActorSystem::instance()->getPlayer() &&
+        ksys::act::ActorSystem::instance()->getPlayerLink()->m200()) {
+        if (auto* placement = ksys::map::PlacementMgr::instance()) {
+            if (auto* terrain = placement->mTeraSystem) {
+                f32 height = 0.0f;
+                const sead::Vector2f xz{position.x, position.z};
+                if (ksys::tera::sub_71011094A0(&height, &xz, terrain, -1, 0))
+                    distance = position.y - height;
+            }
+        }
+    }
+    _130 = distance;
 }
 
 Unk_SoundMgr38_28* Unk_SoundMgr38::sub_710102C104() const {
