@@ -24,6 +24,11 @@ public:
 
     static ksys::act::BaseProc* construct(const CreateArg& arg, sead::Heap* heap);
 
+    // 0003F4 acquires source into B90 and updates the ModelBindInfo at BA8.
+    // GiantEnemy3DB684 checks ActorOption RTTI before calling this method.
+    void sub_71000003F4(ksys::act::Actor* source, const sead::SafeString& bone,
+                       const sead::Vector3f& translation, const sead::Vector3f& rotation);
+
     bool shouldUnload(s32* a1) override;
     Actor* m31() override;
     Actor* m48() override;

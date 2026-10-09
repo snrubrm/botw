@@ -395,7 +395,9 @@ public:
         const s32 time = _f28.sub_7100001AA4(scale);
         _e68 = ksys::Timer(time, time);
     }
-    /* 0xf38 */ void* _f38 = nullptr;
+    // prepareInit_13420 constructs ModelBindInfo here; preDelete2_143AC unregisters
+    // and deletes it. GiantEnemy3DB684 uses its own link, bone name and access key.
+    /* 0xf38 */ ksys::act::ModelBindInfo* _f38 = nullptr;
     /* 0xf40 */ s32 _f40 = 0;
     /* 0xf44 */ s32 _f44 = -1;
     /* 0xf48 */ f32 _f48 = 0;
