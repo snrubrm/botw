@@ -1,8 +1,6 @@
 #include "aal/aalRollOffCurve.h"
 #include <algorithm>
 #include <cfloat>
-#include <cmath>
-#include <limits>
 #include <basis/seadNew.h>
 #include <math/seadMathCalcCommon.h>
 #include "aal/aalCurveReader.h"
@@ -97,19 +95,6 @@ f32 RollOffCurve::getCullingStartDistance() const {
 
 
 namespace {
-// sead::Mathf::powTable is declared by sead but not defined; this is its (inline) definition: pow with the exp / log
-// tables. x == 0 is handled separately (the log of zero is undefined).
-f32 powTable(f32 x, f32 y) {
-    if (x == 0.0f) {
-        if (y > 0.0f)
-            return 0.0f;
-        if (y < 0.0f)
-            return std::numeric_limits<f32>::infinity();
-        return 1.0f;
-    }
-    return sead::Mathf::expTable(sead::Mathf::logTable(x) * y);
-}
-
 // Gains this close to zero are rounded to zero (the two limits are not symmetric).
 constexpr f32 cGainEpsilonPositive = 3.0518509e-05f;
 constexpr f32 cGainEpsilonNegative = -3.0517578e-05f;
@@ -143,6 +128,7 @@ f32 RollOffCurveStrategyInv::calcRolloff(f32 distance, f32 gain, f32 ref_distanc
     return (1.0f - gain) * ref_distance / (gain * (distance - ref_distance));
 }
 
+// NON_MATCHING: the final float select uses swapped operands and the complementary condition.
 // 0x7100ba56cc
 f32 RollOffCurveStrategyInv::calcRefDistance(f32 distance, f32 gain, f32 roll_off_factor,
                                              f32) const {
@@ -219,12 +205,12 @@ f32 RollOffCurveStrategyExp::calc(f32 distance, f32 ref_distance, f32 max_distan
         return 1.0f;
     if (distance >= max_distance)
         distance = max_distance;
-    return roundSmallGain(powTable(distance, -roll_off_factor) * pre_calc_factor);
+    return roundSmallGain(sead::Mathf::powTable(distance, -roll_off_factor) * pre_calc_factor);
 }
 
 // 0x7100ba593c
 f32 RollOffCurveStrategyExp::calcPreCalcFactor(f32 ref_distance, f32, f32 roll_off_factor) const {
-    return powTable(1.0f / ref_distance, -roll_off_factor);
+    return sead::Mathf::powTable(1.0f / ref_distance, -roll_off_factor);
 }
 
 // 0x7100ba59a8
@@ -235,13 +221,14 @@ f32 RollOffCurveStrategyExp::calcRolloff(f32 distance, f32 gain, f32 ref_distanc
     return sead::Mathf::logTable(1.0f / gain) / sead::Mathf::logTable(distance / ref_distance);
 }
 
+// NON_MATCHING: the final float select uses swapped operands and the complementary condition.
 // 0x7100ba5a0c
 f32 RollOffCurveStrategyExp::calcRefDistance(f32 distance, f32 gain, f32 roll_off_factor, f32) const {
     if (distance <= 0.0f || roll_off_factor <= 0.0f)
         return -1.0f;
     gain = std::max(gain, cMinGain);
     const f32 ref_distance =
-        distance / powTable(1.0f / gain, 1.0f / roll_off_factor);
+        distance / sead::Mathf::powTable(1.0f / gain, 1.0f / roll_off_factor);
     return !(ref_distance <= 0.0f) ? ref_distance : -1.0f;
 }
 
@@ -250,7 +237,7 @@ f32 RollOffCurveStrategyExp::calcDistance(f32 gain, f32 ref_distance, f32 roll_o
     if (ref_distance <= 0.0f || roll_off_factor <= 0.0f)
         return -1.0f;
     gain = std::max(gain, cMinGain);
-    return powTable(1.0f / gain, 1.0f / roll_off_factor) * ref_distance;
+    return sead::Mathf::powTable(1.0f / gain, 1.0f / roll_off_factor) * ref_distance;
 }
 
 }  // namespace aal
