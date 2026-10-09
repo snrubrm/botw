@@ -89,10 +89,8 @@ void GiantSleepNormal::calc_() {
                 _80.setMul(mActor->getMtx(), sead::Vector3f::ez);
             _98 = 4;
             if (!sub_71005D8F28(mActor)) {
-                auto* actor = mActor;
-                if (sub_7100739D74(actor, manager->getAttacker())) {
-                    auto* current_actor = mActor;
-                    sub_71005D8DE8(current_actor, *manager->getAttacker(), nullptr, nullptr);
+                if (sub_7100739D74(mActor, manager->getAttacker())) {
+                    sub_71005D8DE8(mActor, *manager->getAttacker(), nullptr, nullptr);
                     mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_2000000);
                     mActor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_1000000);
                 }
