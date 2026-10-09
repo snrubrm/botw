@@ -12,6 +12,13 @@
 
 namespace ksys::snd {
 
+void SoundMgr::sub_71011FBECC() {
+    if (_38)
+        _38->sub_710102B11C();
+    if (mUiSoundMgr)
+        mUiSoundMgr->sub_710105D308();
+}
+
 f32 sub_710105E3A4() {
     if (auto* settings = aal::SystemAccessor::getSettings())
         return settings->mCalcTimeStep;

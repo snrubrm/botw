@@ -569,6 +569,8 @@ public:
     // 0x71011fc29c (lane2 request, s49; placeholder name): starts the ducker 0x23 of the DuckingMgr and sets bit 1 of
     // `_238`. (Public: called by uking::ui::sub_7100A9F8B0.)
     void sub_71011FC29C();
+    // 0x71011fbecc: cleanup forwarding to the spatial and UI sound managers.
+    void sub_71011FBECC();
     aal::Listener* sub_71011FC2D0();
     f32 sub_71011FC338();
     f32 sub_71011FC340();
