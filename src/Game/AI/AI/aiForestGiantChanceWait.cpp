@@ -68,11 +68,9 @@ void ForestGiantChanceWait::changeToWait(bool a2) {
     changeChild("待機", &pack);
 }
 
-// NON_MATCHING: the original hoists the `[child]` vtable load above the branch of every child state
-// test (shared tail for the two isFailed calls); ours reloads it in each branch
 void ForestGiantChanceWait::calc_() {
     auto* child = getCurrentChild();
-    if (child->isFinished() || child->isFailed()) {
+    if (child->isFinishedOrFailed()) {
         if (child->isFailed()) {
             setFailed();
             return;
