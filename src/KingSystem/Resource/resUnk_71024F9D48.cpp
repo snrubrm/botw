@@ -6,6 +6,10 @@
 
 namespace ksys::res {
 
+bool Unk_71024f9a08::sub_7100FE0F38() const {
+    return mFlags.isOn(1);
+}
+
 // FE852C receives the fallback ResTexture from TextureHandleMgr::xx; FE83EC consumes it.
 nn::gfx::ResTexture* sUnk_710260EAD0;
 

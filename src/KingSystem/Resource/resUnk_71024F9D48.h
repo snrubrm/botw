@@ -9,9 +9,19 @@ class ResTexture;
 
 namespace ksys::res {
 
-// FE0144 installs vtable 24F9A08. Its native texture accessor FE0F8C is declared
-// with the proved receiver and return domain; the storage layout stays opaque.
-class Unk_71024f9a08;
+// FE2890 allocates 0x618 bytes and calls FE0144, which installs vtable 24F9A08.
+// FE0348 sets the status byte and flags independently of the query consumers.
+class Unk_71024f9a08 {
+public:
+    virtual ~Unk_71024f9a08();
+    bool sub_7100FE0F38() const;
+
+    u8 _8[0x18 - 0x8];
+    sead::BitFlag8 mFlags;
+    u8 mStatus;
+    u8 _1a[0x618 - 0x1a];
+};
+KSYS_CHECK_SIZE_NX150(Unk_71024f9a08, 0x618);
 class Unk_71024F9D48;
 class Unk_71024f9d68;
 // Native FE0D98 removes this handle's list node while holding the resource lock.
