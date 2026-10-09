@@ -5,6 +5,7 @@
 #include "KingSystem/ActorSystem/actAiAction.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/ActorSystem/actCCAccessor.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
 
 namespace uking::action {
 
@@ -92,10 +93,7 @@ protected:
     sead::Vector3f _194 = sead::Vector3f::zero;
     sead::Vector3f _1a0 = sead::Vector3f::zero;
     sead::Vector3f _1ac = sead::Vector3f::zero;
-    u64 _1b8 = 0;
-    s32 _1c0 = 0;
-    u64 _1c8 = 0;
-    s32 _1d0 = 0;
+    Unk_71012419b4 _1b8;
     ksys::act::BaseProcLink _1d8;
     ksys::act::CCAccessor _1e8;
 

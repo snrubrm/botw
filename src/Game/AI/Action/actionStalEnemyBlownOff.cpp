@@ -2,6 +2,7 @@
 #include <math/seadMathCalcCommon.h>
 #include "Game/AI/aiUnk_7100724C64.h"
 #include "Game/AI/aiUnk_710073fa90.h"
+#include "Game/AI/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
@@ -142,8 +143,67 @@ void StalEnemyBlownOff::enter_(ksys::act::ai::InlineParamPack* params) {
     }
 }
 
+// NON_MATCHING: the compiler removes the redundant actor null check before DynamicCast;
+// all remaining instructions match. The standard RTTI predicate form has the same difference.
 void StalEnemyBlownOff::leave_() {
-    ksys::act::ai::Action::leave_();
+    auto* actor = mActor;
+    if (_158 > 0) {
+        _158 = 0;
+        sub_71007275C8(sub_7100724D7C(actor));
+    }
+    sub_71007260F4(actor, true);
+    sub_7100738DC8(actor);
+    if (auto* physics = mActor->getPhysics()) {
+        if (auto* ragdoll = physics->getRagdollInstance()) {
+            ragdoll->setContactNone();
+            ragdoll->setContactLayer(ksys::phys::ContactLayer::EntityRagdoll);
+        }
+    }
+    if (auto* physics = mActor->getPhysics()) {
+        if (auto* ragdoll = physics->getRagdollInstance())
+            ragdoll->setGravityFactor(1.0f);
+    }
+    if (auto* physics = mActor->getPhysics()) {
+        if (auto* ragdoll = physics->getRagdollInstance()) {
+            const int count = ragdoll->getNumConstraints();
+            for (int i = 0; i < count; ++i)
+                ragdoll->enableConstraint(i, true);
+        }
+    }
+    if (auto* physics = actor->getPhysics()) {
+        if (auto* ragdoll = physics->getRagdollInstance())
+            ragdoll->x_22(-1, 0.0f);
+    }
+    if (auto* dynamic_actor = sead::DynamicCast<ksys::act::DynamicActor>(actor)) {
+        if (dynamic_actor->_868)
+            dynamic_actor->_868->sub_71006EDCB8();
+    }
+    ksys::act::enableAttClient(actor, "LockOn");
+    ksys::act::enableAttClient(actor, "Grab");
+    if (auto* controller = mActor->getCharacterController())
+        controller->sub_7100F5EEB8(1.0f);
+    if (auto* controller = actor->getCharacterController()) {
+        _1e8.resetMotionType(controller);
+        _1e8.sub_710072AEEC(controller);
+        controller->sub_7100F60AE0();
+        if (!_16e) {
+            controller->disableContactLayer(ksys::phys::ContactLayer::EntityPlayer);
+            controller->disableContactLayer(ksys::phys::ContactLayer::EntityObject);
+            controller->disableContactLayer(ksys::phys::ContactLayer::EntitySmallObject);
+        }
+        if (auto* body = mActor->findPhysicsBodyByName("Ragdoll", "Base")) {
+            float height = 0.5f;
+            controller->sub_7100F62EC0(&height, 0);
+            sead::Matrix34f transform;
+            controller->physicsXXXGetMtx_1(&transform);
+            sead::Vector3f position = sead::Vector3f::ey * height;
+            position.mul(transform);
+            transform.setTranslation(position);
+            body->setTransform(transform);
+        }
+    }
+    sub_71007A3800(actor);
+    _1b8.fadeXLink();
 }
 
 void StalEnemyBlownOff::loadParams_() {
