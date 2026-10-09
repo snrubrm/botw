@@ -79,7 +79,7 @@ class Unk_710245a578 {
 public:
     virtual ~Unk_710245a578();
 
-    // Native7B2D34 installs this vtable;7B2D40/50 copies Scene+280 and7B2D38/3C takes Scene+2B0.
+    // Native 7B2D34 installs this vtable; 7B2D40/50 copies Scene + 280 and 7B2D38/3C takes Scene + 2B0.
     /* 0x08 */ sead::Heap* mHeap;
     /* 0x10 */ uking::StageFactory* mFactory;
 };
