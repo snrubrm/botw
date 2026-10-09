@@ -30,6 +30,14 @@ void Unk_71024f9a08::sub_7100FE0EC8() {
     mTaskHandle.finalize();
 }
 
+sead::SafeString Unk_71024f9a08::sub_7100FE0DF0() const {
+    return sead::SafeString(_168);
+}
+
+sead::SafeString Unk_71024f9a08::sub_7100FE10A8() const {
+    return sead::SafeString(_29a);
+}
+
 void Unk_71024f9a08::sub_7100FE10D8() {
     if (_1a)
         --_1a;

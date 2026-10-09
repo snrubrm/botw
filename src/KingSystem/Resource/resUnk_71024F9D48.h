@@ -2,6 +2,7 @@
 
 #include "KingSystem/Utils/Thread/ManagedTaskHandle.h"
 #include <prim/seadBitFlag.h>
+#include <prim/seadSafeString.h>
 
 namespace nn::gfx {
 class ResTexture;
@@ -20,6 +21,8 @@ public:
     bool sub_7100FE0D1C() const;
     u16 sub_7100FE0DE8() const;
     void sub_7100FE0EC8();
+    sead::SafeString sub_7100FE0DF0() const;
+    sead::SafeString sub_7100FE10A8() const;
     void sub_7100FE10D8();
 
     u8 _8[0x18 - 0x8];
@@ -30,7 +33,13 @@ public:
     u8 _1c[0x130 - 0x1c];
     // FE0144 constructs this, and FE028C/FE02F0 destroy it.
     util::ManagedTaskHandle mTaskHandle;
-    u8 _158[0x618 - 0x158];
+    u8 _158[0x168 - 0x158];
+    // FE0144 points this at its initialized character buffer at 178.
+    char* _168;
+    u8 _170[0x29a - 0x170];
+    // FE0348 assigns the path using a BufferedSafeString with capacity 126.
+    char _29a[0x7e];
+    u8 _318[0x618 - 0x318];
 };
 KSYS_CHECK_SIZE_NX150(Unk_71024f9a08, 0x618);
 class Unk_71024F9D48;
