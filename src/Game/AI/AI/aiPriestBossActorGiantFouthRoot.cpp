@@ -16,10 +16,12 @@ bool PriestBossActorGiantFouthRoot::init_(sead::Heap* heap) {
     return PriestBossActorGiantRoot::init_(heap);
 }
 
-// NON_MATCHING: the compiler folds the state selection into a conditional increment.
 void PriestBossActorGiantFouthRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     PriestBossActorGiantRoot::enter_(params);
-    sub_71005089F4(m34() ? State::_9 : State::_8);
+    if (m34())
+        sub_71005089F4(State::_9);
+    else
+        sub_71005089F4(State::_8);
     _120.reset(0.0f);
 }
 
