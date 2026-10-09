@@ -281,6 +281,7 @@ public:
 
     const sead::SafeString& getProfile() const;
     const char* getUniqueName() const;
+    bool createXlinkInstance(sead::Heap* heap);
 
     ai::RootAi* getRootAi() const { return mRootAi; }
     const ActorParam* getParam() const { return mActorParam; }

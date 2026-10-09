@@ -6,6 +6,7 @@
 #include <prim/seadBitFlag.h>
 #include <container/seadListImpl.h>
 #include <prim/seadEnum.h>
+#include <prim/seadSafeString.h>
 #include "KingSystem/Utils/Types.h"
 
 namespace gsys {
@@ -45,6 +46,7 @@ struct Unk_710123830c {
     // 0x7101236190-0x710123830c (not decompiled): 0x1236520 (FootstepReactionChanger::m8), 0x12370a8 (m9),
     // 0x12381a8 (FootstepChanger::m8).
     void sub_71012372EC();
+    void sub_7101235444();
     void sub_7101236520(s32 reaction, s32 scale, s32 duration);
     void sub_71012370A8();
     void sub_71012381A8(const char* key, s32 duration);
@@ -60,6 +62,21 @@ struct Unk_710123830c {
 // TODO: incomplete. Only the user instances read by the actor xlink helpers are declared.
 class XLink {
 public:
+    // Producer11C9AA0 supplies each field;122ECC8 creates the 0x110-byte XLink from this record.
+    struct CreateArg {
+        CreateArg();
+        XLink* build(sead::Heap* heap);
+        act::Actor* actor = nullptr;
+        sead::SafeString actorName;
+        sead::SafeString uniqueName;
+        const sead::Matrix34f* rootMtx = nullptr;
+        sead::Vector3f* scale = nullptr;
+        sead::Vector3f* _38 = nullptr;
+        gsys::Model* model = nullptr;
+        u32 flags = 0;
+    };
+    KSYS_CHECK_SIZE_NX150(CreateArg, 0x50);
+
     // Camera7963AC constructs this record;1230100 forwards each pointer to UserInstance.
     struct RebuildArg {
         RebuildArg();
@@ -86,6 +103,7 @@ public:
     // 0x7101232e88 / 0x7101232f2c: actor-job effect activity queries.
     bool x_1();
     bool x_2();
+    void x_5();
     void silenceFootsteps();
     void unsilenceFootsteps();
     bool sub_7101233168();
@@ -113,6 +131,8 @@ public:
     void sub_7101231468(u32 property, f32 value, bool force);
     // 0x7101232fb4 (declared only): called by eft::sub_710105DF6C.
     void sub_7101232FB4(const char* name, bool a, bool b, bool c);
+    void sub_7101234334(const char* name, bool a, bool pending, bool b);
+    void sub_710123445C(const char* name, bool a, bool b);
     // 0x7101230e18 (declared only, lane5 s6): emits the "Disappear_Ancient" SLink asset and sets a flag (Vanish::enter_ when the die type is 3).
     void sub_7101230E18();
     // 0x710123051c (placeholder name): sets the asset info reader of the SLink user instance (if any).

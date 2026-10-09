@@ -17,6 +17,7 @@ class Heap;
 namespace uking {
 class Stage;
 class StageBinder;
+class StageFactory;
 }
 
 // Placeholder classes (lane4 s47) for vtables of the original that have no name: every class here has only trivial
@@ -77,7 +78,12 @@ class Unk_710245a578 {
     SEAD_RTTI_BASE(Unk_710245a578)
 public:
     virtual ~Unk_710245a578();
+
+    // Native7B2D34 installs this vtable;7B2D40/50 copies Scene+280 and7B2D38/3C takes Scene+2B0.
+    /* 0x08 */ sead::Heap* mHeap;
+    /* 0x10 */ uking::StageFactory* mFactory;
 };
+static_assert(sizeof(Unk_710245a578) == 0x18);
 
 // Vtable 0x710245bee0 (4 slots). StageBinder::createStage at 7CBC5C constructs this request;
 // StageFactory::create at 7CBEAC reads its heap/binder and writes the stage output.

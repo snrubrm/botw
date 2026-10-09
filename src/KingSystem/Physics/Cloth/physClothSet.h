@@ -1,6 +1,7 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <prim/seadSafeString.h>
 #include <cstddef>
 #include <container/seadBuffer.h>
 #include <math/seadVector.h>
@@ -20,6 +21,10 @@ public:
 
     // 0x7101218a90 (declared only): called by GelEnemy::m79.
     void sub_7101218A90();
+    // Full12193C4 and independent ForestGiant706818: signed cloth index, -1 when absent.
+    s32 sub_71012193C4(const sead::SafeString& name);
+    // Full121C26C bounds-checks both signed indices and stores value at the selected item+8.
+    void sub_710121C26C(s32 cloth_index, s32 item_index, f32 value);
     // 0x71012189b8: updates each cloth entry's enabled flags.
     void sub_71012189B8(bool enabled);
 

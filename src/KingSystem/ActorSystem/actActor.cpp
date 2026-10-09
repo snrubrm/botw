@@ -235,6 +235,25 @@ const char* Actor::getUniqueName() const {
     return unique_name;
 }
 
+// NON_MATCHING: creation-argument store scheduling and inlined name-prefix comparison differ.
+bool Actor::createXlinkInstance(sead::Heap* heap) {
+    xlink::XLink::CreateArg arg;
+    arg.actor = this;
+    arg.actorName = mName;
+    arg.model = mModel;
+    arg.rootMtx = &mMtx;
+    arg.scale = &mScale;
+    const char* unique_name = getUniqueName();
+    if (unique_name && sead::SafeString(unique_name).startsWith("xlink:")) {
+        arg.uniqueName = unique_name;
+        arg.flags = 3;
+    }
+    mXLink = arg.build(heap);
+    if (mXLink)
+        mXLink->setMask(xlink::XLink::MaskBit::_0);
+    return mXLink != nullptr;
+}
+
 void Actor::handleAck(const MessageAck& ack) {
     if (m80(ack))
         return;

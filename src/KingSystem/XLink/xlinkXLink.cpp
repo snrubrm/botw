@@ -18,6 +18,7 @@
 
 namespace ksys::xlink {
 
+XLink::CreateArg::CreateArg() = default;
 XLink::RebuildArg::RebuildArg() = default;
 
 void XLink::sub_7101230100(const RebuildArg& arg) {
@@ -35,6 +36,27 @@ void XLink::sub_7101230100(const RebuildArg& arg) {
         rebuild_arg._18 = arg._10;
         _50->rebuild(rebuild_arg);
     }
+}
+
+// NON_MATCHING: Boolean argument masks are hoisted, increasing register saves and stack size.
+void XLink::sub_710123445C(const char* name, bool a, bool b) {
+    if (!mMiiSound)
+        return;
+    if (!mMiiSound->hasRequestedLoad()) {
+        mMiiSound->sub_71012CD7A4();
+        if (mMiiSound->mHandle.isBusy()) {
+            mMiiSound->mPendingName.copy(name);
+            mMiiSound->_119 = a;
+            mMiiSound->_11a = b;
+        }
+    }
+    if (mMiiSound->mHandle.isSuccess())
+        sub_7101234334(name, a, false, b);
+}
+
+void XLink::x_5() {
+    if (_a0 && _cc.isOn(0x20))
+        _a0->sub_7101235444();
 }
 
 void XLink::silenceFootsteps() {
