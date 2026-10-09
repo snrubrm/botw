@@ -2,6 +2,7 @@
 
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
 
 namespace uking::action {
 
@@ -34,7 +35,15 @@ protected:
     // map_unit_param at offset 0x28
     const bool* mIsBillboard_m{};
     ksys::act::ActorConstDataAccess _30;
-    u8 _48[0x4b8 - 0x48];
+    // Native constructor and effect updates use 19 records at 48, stride 30.
+    struct EffectEntry {
+        f32 scale;
+        u8 _4[0xc];
+        Unk_71012419b4 handle;
+    };
+    static_assert(sizeof(EffectEntry) == 0x30);
+    EffectEntry mEffects[19];
+    u8 _3d8[0x4b8 - 0x3d8];
     bool _4b8 = false;
     bool _4b9 = false;
     bool _4ba;

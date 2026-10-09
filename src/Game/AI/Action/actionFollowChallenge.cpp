@@ -38,6 +38,11 @@ void FollowChallenge::sub_710004E108() {
     _4bc = -*mGimmickTimeLimit_m;
 }
 
+void FollowChallenge::sub_710004DFF4() {
+    for (auto& effect : mEffects)
+        effect.handle.fadeXLink();
+}
+
 bool FollowChallenge::sub_710004FA3C() {
     return _4ba;
 }
