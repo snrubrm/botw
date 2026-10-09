@@ -10,6 +10,7 @@
 
 class hkpConstraintInstance;
 class hkpConstraintData;
+class hkpRigidBody;
 class hkpBreakableConstraintData;
 
 namespace ksys::phys {
@@ -150,6 +151,8 @@ public:
 // Common factory helpers; names remain address placeholders.
 RigidBody* getPhysicsMemSysField190Or(const Constraint::Param& param);
 RigidBody* sub_7100F69FAC(const Constraint::Param& param);
+// Whole FixedCs factory passes this result as the instance constructor's body A.
+hkpRigidBody* sub_7100F69FD8();
 ConstraintUnk18* sub_7100F6ACA8(hkpConstraintData* data, const Constraint::Param& param,
                               sead::Heap* heap);
 

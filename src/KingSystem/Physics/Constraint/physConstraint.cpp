@@ -24,6 +24,10 @@ RigidBody* sub_7100F69FAC(const Constraint::Param& param) {
     return param.body_b;
 }
 
+hkpRigidBody* sub_7100F69FD8() {
+    return System::instance()->get190()->getHkBody();
+}
+
 ConstraintUnk18* sub_7100F6ACA8(hkpConstraintData* data, const Constraint::Param& param,
                               sead::Heap* heap) {
     if (!param._19)
