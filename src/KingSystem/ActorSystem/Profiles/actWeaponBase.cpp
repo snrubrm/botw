@@ -473,9 +473,9 @@ bool WeaponBase::hasCanPullGiantObjectTag() {
     return getParam()->getRes().mActorLink->hasTag(0x2b533845);
 }
 
-// NON_MATCHING: x0/x1 materialised in the other order for the BaseProcLink copy
 void WeaponBase::m207() {
-    _948 = _938;
+    // C++14 evaluation order: the original evaluates the destination first.
+    _948.operator=(_938);
     setFlag(ActorFlag::_2c, true);
 }
 
