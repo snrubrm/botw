@@ -1,5 +1,9 @@
 #include <Havok/Physics2012/Dynamics/Phantom/hkpAabbPhantom.h>
 
+// Native 1607E14 sorts collidable pointers by unsigned broad-phase IDs; the
+// complete 1607DD0 caller supplies the array and signed first/last indices.
+void sub_7101607E14(hkpCollidable** collidables, int first, int last);
+
 hkpPhantomType hkpAabbPhantom::getType() const {
     return HK_PHANTOM_AABB;
 }
@@ -38,4 +42,13 @@ void hkpAabbPhantom::removeOverlappingCollidable(hkpCollidable* collidable) {
         return;
     m_overlappingCollidables.removeAt(index);
     m_orderDirty = true;
+}
+
+void hkpAabbPhantom::ensureDeterministicOrder() {
+    if (m_orderDirty) {
+        const int count = m_overlappingCollidables.getSize();
+        if (count > 1)
+            sub_7101607E14(m_overlappingCollidables.begin(), 0, count - 1);
+        m_orderDirty = false;
+    }
 }
