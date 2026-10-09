@@ -3,9 +3,20 @@
 
 namespace uking::act {
 
-// NON_MATCHING: the original tests the proc for null before the type info guard and selects the first cast with csel
+// inline-only in the original; name is a guess. The proc-null/type-check sequence
+// at 0x7100791a0c repeats in acc::Weapon::isShield (0x71002efb9c) and
+// acc::Armor::getArmorDefenceAddLevel (0x7100e2bcc4).
+static inline ksys::act::BaseProc* getProcIfActor(ksys::act::BaseProc* proc) {
+    if (proc && sead::IsDerivedFrom<ksys::act::Actor>(proc))
+        return proc;
+    return nullptr;
+}
+
 EditCamera* sub_7100791A0C(const ksys::act::ActorConstDataAccess& accessor) {
-    auto* actor = sead::DynamicCast<ksys::act::Actor>(accessor.getProc());
+    auto* proc = accessor.getProc();
+    if (!proc)
+        return nullptr;
+    auto* actor = static_cast<ksys::act::Actor*>(getProcIfActor(proc));
     return sead::DynamicCast<EditCamera>(actor);
 }
 
