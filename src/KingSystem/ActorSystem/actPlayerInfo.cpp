@@ -1,5 +1,6 @@
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "Game/UI/uiUtils.h"
+#include "Game/gameScene.h"
 #include "KingSystem/System/VFR.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
@@ -16,6 +17,15 @@ SEAD_SINGLETON_DISPOSER_IMPL(PlayerInfo)
 
 PlayerInfo::PlayerInfo() = default;
 PlayerInfo::~PlayerInfo() = default;
+
+// NON_MATCHING: the compiler combines the restart flag and integer clamp with CCMP.
+void PlayerInfo::updateLifeAfterGameOver() {
+    s32 life = gdt::getFlag_CurrentHart(false);
+    if (uking::sIsRestartStageFromGameOver)
+        life = sead::Mathi::max(life, 12);
+    if (mPlayerActor)
+        *mPlayerActor->getLife() = life == 0 ? 1 : life;
+}
 
 bool PlayerInfo::init() {
     return true;
