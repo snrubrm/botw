@@ -761,3 +761,8 @@ void sub_71007394E8(ksys::act::Actor* actor) {
     setUpBodyUnlessFlag200(actor, *sub_71007A24D0());
     setUpBodyUnlessFlag200(actor, *sub_71007A24F8());
 }
+
+void sub_71007428DC(f32 distance, f32 radius, sead::Vector3f* out,
+                   ksys::phys::NavMeshCharacter* character, const sead::Vector3f* axis, s32 count) {
+    sub_71007428EC(distance, radius, out, character, axis, axis, count);
+}

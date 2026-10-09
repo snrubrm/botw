@@ -26,6 +26,7 @@ class Rideable;
 namespace ksys::phys {
 class CharacterController;
 class MaterialMask;
+class NavMeshCharacter;
 class RigidBody;
 class SystemGroupHandler;
 }  // namespace ksys::phys
@@ -402,3 +403,12 @@ class RigidBody;
 // 0x7100ee5fe4 (declaration only; unnamed in the CSV): the first rigid body of the first chemical entry of the actor
 // that has a body (OctarockBalloon::sub_710020ECB0 / enter_ link it with the swapped body).
 ksys::phys::RigidBody* sub_7100EE5FE4(ksys::act::Actor* actor);
+
+// 7428EC selects a navmesh endpoint among signed count samples between two axes.
+// Complete AnimalEscapeAI m36 and LumberjackFallenTree 484D58 pass m45() and Vector3f axes.
+void sub_71007428EC(f32 distance, f32 radius, sead::Vector3f* out,
+                   ksys::phys::NavMeshCharacter* character, const sead::Vector3f* first_axis,
+                   const sead::Vector3f* last_axis, s32 count);
+// 7428DC searches the complete circle by supplying the same axis at both ends.
+void sub_71007428DC(f32 distance, f32 radius, sead::Vector3f* out,
+                   ksys::phys::NavMeshCharacter* character, const sead::Vector3f* axis, s32 count);
