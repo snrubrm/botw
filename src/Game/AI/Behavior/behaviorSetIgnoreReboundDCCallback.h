@@ -16,9 +16,12 @@ public:
     void m9() override;
     void loadParams() override;
 
-    /* 0x28 */ const bool* mEnableRebound_s{};
-    /* 0x30 */ const bool* mEnableReboundStrong_s{};
-    /* 0x38 */ const bool* mEnableReboundSuper_s{};
+    struct Params {
+        const bool* mEnableRebound_s{};
+        const bool* mEnableReboundStrong_s{};
+        const bool* mEnableReboundSuper_s{};
+    };
+    /* 0x28 */ Params mParams;
     /* 0x40 */ Unk_7102451b68 _40;
 };
 KSYS_CHECK_SIZE_NX150(SetIgnoreReboundDCCallback, 0x68);
