@@ -75,10 +75,8 @@ void GuardianMiniGroggy::calc_() {
     }
 }
 
-// NON_MATCHING: the original compares the current AS name without the virtual assureTermination call on it
-// (only on the parameter strings); our SafeString operator== calls it on both operands.
 void GuardianMiniGroggy::leave_() {
-    const sead::SafeString& current = mActor->getASList()->x_1(0, 1);
+    const sead::SafeString current(mActor->getASList()->x_1(0, 1).getStringTop());
     if (current != mDefaultASName_s && current != mRestartASName_s) {
         auto* list = mActor->getASList();
         list->sub_710115B140(sead::SafeString(mDefaultASName_s.cstr()), 0, 0, 1, 1);
