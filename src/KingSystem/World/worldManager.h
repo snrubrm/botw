@@ -218,6 +218,10 @@ public:
     // 0x71010f7930: the chemical manager's element holder.
     act::Unk_71024dd490* getElementHolderMaybe() const;
     ChemicalMgr* getChemicalMgr() const { return static_cast<ChemicalMgr*>(mMgrs[8]); }
+    // Inline-only: complete WeatherMgr x_11 / x_9 read slot 8 without a bounds check.
+    ChemicalMgr* getChemicalMgrUnchecked() const {
+        return static_cast<ChemicalMgr*>(mMgrs.unsafeAt(8));
+    }
     void sub_71010F78A4();
     void sub_71010F78C4();
     void sub_71010F78E4();

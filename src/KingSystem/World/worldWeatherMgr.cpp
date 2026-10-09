@@ -2,6 +2,8 @@
 #include <random/seadGlobalRandom.h>
 #include <gfx/seadCamera.h>
 #include "KingSystem/System/CameraMgr.h"
+#include "KingSystem/ActorSystem/actChemicalElementHolder.h"
+#include "KingSystem/World/worldChemicalMgr.h"
 #include "KingSystem/GameData/gdtManager.h"
 #include "KingSystem/World/worldEnvMgr.h"
 #include "KingSystem/World/worldManager.h"
@@ -217,6 +219,15 @@ void WeatherMgr::x_12(const sead::Vector3f& position) {
         direction.set(1.0f, 0.0f, 0.0f);
     direction.y -= 0.6f;
     _2ac = direction;
+}
+
+// NON_MATCHING: source/output registers and request-record copy instructions differ.
+void WeatherMgr::x_11(const sead::Vector3f& position) {
+    x_12(position);
+    ElementLightningCreateArg arg{position, 1};
+    sub_71012FDA7C(arg, true);
+    sub_71012FDF24(&arg);
+    Manager::instance()->getChemicalMgrUnchecked()->m3(&position);
 }
 
 // NON_MATCHING: the original materializes the false result before the first branch and branches

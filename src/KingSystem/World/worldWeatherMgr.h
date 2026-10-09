@@ -50,6 +50,7 @@ public:
     WeatherType x_18(int climate) const;
     // 10ED7B8 receives the lightning position; D9C0CC passes a Vector3f temporary.
     void x_12(const sead::Vector3f& position);
+    void x_11(const sead::Vector3f& position);
     void x_13();
     void x_14();
     void sub_71010EDEBC(int value);
