@@ -46,10 +46,10 @@ void NPCRoot::loadParams_() {
     getStaticParam(&mStaggerUpperRunASName_s, "StaggerUpperRunASName");
 }
 
-// NON_MATCHING: scheduling (the original loads the name's first character and cNullChar before mActor)
 void NPCRoot::m34() {
     const sead::SafeString name = mActor->getASList()->sub_710115ECF4(59, 1);
-    mActor->getASList()->x_2(66, 35, name.isEmpty() && _201, false);
+    const bool is_name_empty = name.isEmpty();
+    mActor->getASList()->x_2(66, 35, is_name_empty && _201, false);
     changeChild("Timeline");
     _201 = false;
     mActor->getASList()->x_2(66, 35, false, false);
