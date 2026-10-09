@@ -2244,6 +2244,7 @@ struct ScreenAppPictureBookEntry {
     void sub_710093A5C0(sead::Heap* heap);
     void sub_710093A758();
     void sub_710093AC7C();
+    void sub_710093AF74();
     void sub_710093BB48();
     void sub_710093BDFC();
     void sub_710093C040();

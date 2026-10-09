@@ -108,6 +108,49 @@ void ScreenAppPictureBookEntry::sub_710093AC7C() {
         mGuideControl->sub_7100936BCC(mController->_40[2], mController->_40[3]);
 }
 
+// 0x710093af74
+void ScreenAppPictureBookEntry::sub_710093AF74() {
+    if (!mController)
+        return;
+    if (mIconControl) {
+        if (_38d) {
+            mIconControl->sub_7100988060(true);
+            return;
+        }
+        if (mIconControl->sub_710098807C()) {
+            if (_2f4 > 0)
+                mIconControl->sub_7100988060(false);
+        } else if (!mIconControl->sub_710098807C() && _2f4 < 1) {
+            mIconControl->sub_7100988060(true);
+        }
+        if (mIconControl->sub_710098807C())
+            return;
+    }
+    if (mPageControl) {
+        if (mController->_2e8 == _2f0)
+            mPageControl->sub_7100936A7C(mController->_2f0);
+        else
+            mPageControl->sub_7100936AD8();
+    }
+    if (mIconControl) {
+        if (!mIconControl->sub_7100988040()) {
+            if (mController->_2e8 == _2f0)
+                mIconControl->sub_710098802C(true);
+        } else if (mIconControl->sub_7100988040() && mController->_2e8 != _2f0) {
+            mIconControl->sub_710098802C(false);
+        }
+        if (!mIconControl->sub_7100988040())
+            return;
+    }
+    if (mGuideControl) {
+        if (mController)
+            mGuideControl->sub_7100936BD4((mController->_30 & 4) != 0,
+                                         (mController->_30 & 8) != 0);
+        else
+            mGuideControl->sub_7100936BD4(false, false);
+    }
+}
+
 // 0x710093a500
 void ScreenAppPictureBookEntry::sub_710093A500(sead::Heap* heap) {
     const s32 count = mParams._298;
