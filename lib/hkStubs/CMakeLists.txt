@@ -232,6 +232,7 @@ add_library(hkStubs OBJECT
   Havok/Physics2012/Dynamics/World/Memory/hkpWorldMemoryAvailableWatchDog.h
   Havok/Physics2012/Dynamics/World/Memory/Default/hkpDefaultWorldMemoryWatchDog.h
   Havok/Physics2012/Dynamics/World/Simulation/hkpSimulation.h
+  Havok/Physics2012/Dynamics/World/Util/hkpWorldConstraintUtil.cpp
   Havok/Physics2012/Dynamics/World/Util/hkpWorldConstraintUtil.h
 
   Havok/Physics2012/Internal/Collide/BvCompressedMesh/hkpBvCompressedMeshShape.h
