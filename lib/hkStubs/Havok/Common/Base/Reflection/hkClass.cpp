@@ -89,6 +89,25 @@ const hkClassMember& hkClass::getDeclaredMember(int i) const {
     return m_declaredMembers[i];
 }
 
+const hkClassMember& hkClass::getMember(int i) const {
+    int index = i - getNumMembers();
+    for (const hkClass* klass = this; klass; klass = klass->m_parent) {
+        index += klass->m_numDeclaredMembers;
+        if (index >= 0)
+            return klass->m_declaredMembers[index];
+    }
+    return *m_declaredMembers;
+}
+
+// NON_MATCHING: the name scan uses different saved registers.
+int hkClass::getDeclaredMemberIndexByName(const char* name) const {
+    for (int i = 0; i < m_numDeclaredMembers; ++i) {
+        if (hkString::strCmp(m_declaredMembers[i].getName(), name) == 0)
+            return i;
+    }
+    return -1;
+}
+
 int hkClass::getObjectSize() const {
     return m_objectSize;
 }
