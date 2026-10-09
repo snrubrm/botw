@@ -1,11 +1,37 @@
 #include <math/seadMathCalcCommon.h>
 #include "KingSystem/World/worldWindMgr.h"
+#include <cstring>
 
 namespace ksys::world {
 
-// 0x7102660d10 (placeholder name): two 64-entry tables filled at run time outside the decompiled code;
+// 0x7102660d10 (placeholder name): two 64-entry tables cleared by the render-wind constructor;
 // hidden visibility keeps the loads direct without folding them.
 KSYS_VISIBILITY_HIDDEN f32 sUnk_7102660D10[2][64];
+
+// NON_MATCHING: the two adjacent table clears merge into one memset.
+Unk_710251F868::Unk_710251F868()
+    : _8(0.0f), _c(0.0f), _10(4800.0f), _18(1280), _1c(16), _20(1280), _24(16),
+      _40(nullptr), _258(65.5f), _25c(0.07f), _260(0.062f), _264(0.5f) {
+    std::memset(sUnk_7102660D10[0], 0, sizeof(sUnk_7102660D10[0]));
+    std::memset(sUnk_7102660D10[1], 0, sizeof(sUnk_7102660D10[1]));
+}
+
+// NON_MATCHING: the existing TextureData destructor remains an out-of-line call.
+Unk_710251F868::~Unk_710251F868() {
+    if (_40) {
+        _28.deleteGPUMemBlock();
+        delete _40;
+        _40 = nullptr;
+        _28.invalidate();
+    }
+}
+
+void Unk_710251F868::sub_71012FEFF0(f32 delta) {
+    _c += delta;
+    if (_c >= _10 + _10)
+        _c -= _10 + _10;
+    _8 = _c / _10;
+}
 
 // NON_MATCHING: trigonometric result registers and table-index scheduling differ.
 f32 Unk_710251F868::sub_71012FF01C(const sead::Vector3f* position,
