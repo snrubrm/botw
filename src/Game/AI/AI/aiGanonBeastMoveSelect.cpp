@@ -45,13 +45,13 @@ void GanonBeastMoveSelect::loadParams_() {
     getStaticParam(&mWallDist_s, "WallDist");
 }
 
-// NON_MATCHING: center-coordinate scheduling and shared false-return branches differ.
 bool GanonBeastMoveSelect::sub_71003E51DC() {
-    const auto& position = mActor->getMtx().getTranslation();
-    sead::Vector3f outward(position.x - mCentralPoint_s->x, 0.0f,
-                            position.z - mCentralPoint_s->z);
-    outward.normalize();
-    if (outward.dot(mActor->getMtx().getBase(2)) > 0.0f)
+    const sead::Vector3f center = *mCentralPoint_s;
+    const auto position = mActor->getMtx().getTranslation();
+    sead::Vector3f outward(position.x - center.x, 0.0f, position.z - center.z);
+    const f32 distance = outward.normalize();
+    if (distance > *mWallDist_s - *mDist_s &&
+        outward.dot(mActor->getMtx().getBase(2)) > 0.0f)
         return false;
     auto* object = mActor->getMapObject();
     if (!object || !object->getRails_0())
