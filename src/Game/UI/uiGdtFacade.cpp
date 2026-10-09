@@ -148,6 +148,11 @@ bool sub_7100AA8F50() {
     return (Manager::instance()->_64c30 & 0x40000) != 0;
 }
 
+// 0x7100aa8f70
+bool sub_7100AA8F70() {
+    return isActiveEventDemo000Or001Or002();
+}
+
 // 0x7100aa948c (CSV uiManager::x_11) / 0x7100aa94a8 (placeholder name): the bytes at 0x64b14 / 0x64b15.
 u8 sub_7100AA948C() {
     return Manager::instance()->_64b14;

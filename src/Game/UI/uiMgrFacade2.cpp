@@ -29,6 +29,11 @@
 
 namespace uking::ui {
 
+// 0x7100aa9858: the native callers supply a float, which this query does not use.
+void sub_7100AA9858(f32) {
+    getHeap()->getMaxAllocatableSize(8);
+}
+
 // 0x7100aa9748
 void sub_7100AA9748(s32 index) {
     auto* screen = sead::DynamicCast<ScreenOPtext>(

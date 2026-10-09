@@ -391,6 +391,7 @@ const char* getDecimalSeparator(bool a1);
 
 // 0x7100a6d3dc (CSV ui::getHeap; declaration only)
 sead::Heap* getHeap();
+void sub_7100AA9858(f32 value);
 // 0x7100a6d344 (CSV ui::createUiHeap; defined in uiManagerSmall.cpp)
 void createUiHeap(sead::Heap* parent);
 
