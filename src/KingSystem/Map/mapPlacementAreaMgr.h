@@ -10,10 +10,6 @@
 #include "KingSystem/Map/mapTypes.h"
 #include "KingSystem/Utils/Types.h"
 
-namespace ksys::eft {
-class Unk_EffectActorTable;
-}
-
 namespace ksys::gdt {
 class Manager;
 }
@@ -25,9 +21,6 @@ class MubinIter;
 class Object;
 
 class PlacementAreaMgr {
-    // 0x7100da216c directly reads the placement state.
-    friend class ksys::eft::Unk_EffectActorTable;
-
     // not "Axis" and probably not in this class but I dunno what it does
     // contains + and - of each x, y, z as a vector
     class Axis {
