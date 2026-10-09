@@ -1,6 +1,9 @@
 #include "Game/AI/Action/actionForkGanonBeastWeakPointCheck.h"
 #include "Game/Damage/dmgDamageManager.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/AI/aiUnk_710070284C.h"
 #include "KingSystem/ActorSystem/actTag.h"
 
 // Full native helper uses the signed AS slot as an animation-slot offset; namespace unknown.
@@ -15,6 +18,30 @@ void Unk_710238b040::call(s32* damage, s32*, u32*, u32*, s32*,
     auto* manager = sead::DynamicCast<dmg::DamageManager>(mDamageManager);
     if (manager && !ksys::act::hasTag(manager->getAttacker(), ksys::act::tags::AffectBeastGanon))
         *damage = 0;
+}
+
+void Unk_710238b0b0::call(s32* damage, s32*, u32*, u32*, s32* reaction,
+                         dmg::DamageCallbackInfo*) {
+    mWeakPoint = 18;
+    if (*damage <= 0)
+        return;
+    const auto position = mOwner->getActor()->getMtx().getTranslation();
+    const auto& player_position = getPlayerPosition();
+    const sead::Vector2f offset(position.x - player_position.x,
+                               position.z - player_position.z);
+    if (offset.length() > 220.0f) {
+        *damage = 0;
+        *reaction = 2;
+        return;
+    }
+    if (sead::DynamicCast<dmg::DamageManager>(mDamageManager)) {
+        if (sub_7100702894(mOwner->getActor())) {
+            *damage = 0;
+            *reaction = 2;
+        } else {
+            *damage = 1;
+        }
+    }
 }
 
 ForkGanonBeastWeakPointCheck::ForkGanonBeastWeakPointCheck(const InitArg& arg)
