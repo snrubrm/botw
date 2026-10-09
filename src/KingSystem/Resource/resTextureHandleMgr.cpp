@@ -1,6 +1,8 @@
 #include "KingSystem/Resource/resTextureHandleMgr.h"
 #include "KingSystem/Resource/resEntryFactory.h"
 #include "KingSystem/Resource/resUnk_710251A740.h"
+#include "KingSystem/Resource/resBfRes.h"
+#include <g3d/aglNW4FToNN.h>
 #include "Game/gameUnkRttiClasses.h"
 #include "KingSystem/Utils/Thread/TaskMgr.h"
 #include "KingSystem/Resource/resSystem.h"
@@ -10,6 +12,28 @@
 Unk_71024f9bb8::~Unk_71024f9bb8() = default;
 
 namespace ksys::res {
+
+bool Unk_71024f9a70::sub_7100FE15D8() const {
+    return mFlags.isOn(1);
+}
+
+bool Unk_71024f9a70::sub_7100FE1AF0() const {
+    return mFlags.isOn(2);
+}
+
+s32 Unk_71024f9a70::getTextureCount() const {
+    if (!mFlags.isOn(2))
+        return 0;
+    return agl::g3d::ResFile::GetTextureCount(mResFile);
+}
+
+sead::SafeString Unk_71024f9a70::getTextureName(s32 index) const {
+    return agl::g3d::ResFile::GetTextureName(mResFile, index);
+}
+
+bool Unk_71024f9a70::hasTexture(const sead::SafeString& name) const {
+    return agl::g3d::ResFile::sub_7100B33BF0(mResFile, name.cstr()) != nullptr;
+}
 
 // Full native initializer FE2398 and loader FE1630 prove this separate factory.
 // NON_MATCHING: namespace linkage uses GOT addressing instead of the native direct address.

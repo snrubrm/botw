@@ -1,24 +1,59 @@
 #pragma once
 
+#include <container/seadBuffer.h>
 #include <container/seadListImpl.h>
 #include <container/seadPtrArray.h>
 #include <container/seadOffsetList.h>
 #include <container/seadTList.h>
 #include <thread/seadCriticalSection.h>
 #include "KingSystem/Resource/resResource.h"
+#include "KingSystem/Resource/resHandle.h"
 #include "KingSystem/Resource/resUnk_710251A700.h"
 
 namespace nn::gfx {
 class ResTexture;
+}
+namespace nn::g3d {
+class ResFile;
 }
 
 namespace ksys::res {
 
 class BfRes;
 class Unk_71024f9958;
-// Native constructor FE1310 installs vtable 24F9A70. Dragon E500 and BfRes afterParse
-// pass that same whole stack object to the texture loader paths; its layout remains undeclared.
-class Unk_71024f9a70;
+// Native FE1310 constructs the path, load parameters and handle; FE1630 fills the
+// ResFile and FileDevice pointers. BfRes1200038 consumes this whole loader object.
+class Unk_71024f9a70 {
+public:
+    Unk_71024f9a70();
+    virtual ~Unk_71024f9a70();
+
+    bool sub_7100FE15D8() const;
+    bool sub_7100FE1AF0() const;
+    s32 getTextureCount() const;
+    sead::SafeString getTextureName(s32 index) const;
+    bool hasTexture(const sead::SafeString& name) const;
+
+private:
+    sead::BitFlag8 mFlags;
+    nn::g3d::ResFile* mResFile;
+    sead::FileDevice* mFileDevice;
+    sead::Resource* mResource;
+    sead::FixedSafeString<128> mPath;
+    struct LoadParams {
+        bool _0;
+        sead::SafeString mPath;
+        sead::FileDevice* mFileDevice;
+    } mLoadParams;
+    Handle mHandle;
+    // FE1AFC reads eight-byte hash/flag records from this buffer.
+    struct TextureFlag {
+        u32 hash;
+        u8 flag;
+    };
+    sead::Buffer<TextureFlag> mTextureFlags;
+};
+KSYS_CHECK_SIZE_NX150(Unk_71024f9a70, 0x140);
 struct Unk_BfResNode;  // element type of the lists at 0x138 / 0x150 (unknown)
 
 // Vtable 0x71024f9d68 (GOT 0x259ed88): abstract callback interface (D1 0x7100fe85a4 is a shared `ret`, D0 0x7100fe85a8,
