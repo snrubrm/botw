@@ -405,7 +405,6 @@ void Unk_7102477508::sub_7100989A80(eui::LayoutEx* layout) {
     }
 }
 
-// NON_MATCHING: the heart-mark branch canonicalizes value > 0 to a compare against 1.
 void Unk_7102477508::sub_7100989AF0(s32 category, s32 value, s32 number) {
     if (mLayout) {
         if (category == -1) {
@@ -434,10 +433,10 @@ void Unk_7102477508::sub_7100989AF0(s32 category, s32 value, s32 number) {
         }
     } else if (category == 4 || category == 5) {
         if (mHeartMarkOffAnimator) {
-            if (value > 0)
-                mHeartMarkOffAnimator->StopAtMin();
-            else
+            if (value <= 0)
                 mHeartMarkOffAnimator->StopAtMax();
+            else
+                mHeartMarkOffAnimator->StopAtMin();
         }
     }
 }
