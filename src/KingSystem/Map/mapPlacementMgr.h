@@ -158,6 +158,13 @@ public:
     // 0x71011eb2ac / 0x71011eb460 (CSV x_8 / x_7; placeholder names): forward to the mass / forest renderers.
     void sub_71011EB2AC();
     u32 sub_71011EB460() const;
+    // Native 0x71011ec098 searches all groups under the placement actor read lock.
+    // Event actor producer 0x7100da9d3c supplies its name/subname strings and consumes Object*.
+    Object* sub_71011EC098(const sead::SafeString& name, const sead::SafeString& unique_name);
+    // 0x71011ec130 searches one group with the same name and unique-name filters.
+    Object* sub_71011EC130(s32 group, const sead::SafeString& name,
+                          const sead::SafeString& unique_name);
+
     // Native camera caller924078 passes both names and the origin; the callee returns the nearest Object.
     Object* sub_71011EC398(const sead::SafeString& name, const sead::SafeString& unique_name,
                            const sead::Vector3f& origin);

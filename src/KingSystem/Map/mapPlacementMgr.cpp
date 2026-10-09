@@ -500,3 +500,45 @@ const RailConnectablePoint* PlacementMgr::__auto10(const sead::SafeString& point
 }
 
 }  // namespace ksys::map
+
+namespace ksys::map {
+
+Object* PlacementMgr::sub_71011EC098(const sead::SafeString& name,
+                                  const sead::SafeString& unique_name) {
+    auto& lock = mPlacementActors->mLock;
+    lock.readLock();
+    Object* result = nullptr;
+    for (s32 group = 0; group < mPlacementActors->getNumGroups(); ++group) {
+        result = sub_71011EC130(group, name, unique_name);
+        if (result)
+            break;
+    }
+    lock.readUnlock();
+    return result;
+}
+
+// NON_MATCHING: loop return/continue lowering adds state spills and branch/select sequences.
+Object* PlacementMgr::sub_71011EC130(s32 group, const sead::SafeString& name,
+                                  const sead::SafeString& unique_name) {
+    const s32 count = mPlacementActors->getNumObjs(group);
+    for (s32 index = 0; index < count; ++index) {
+        Object* obj = mPlacementActors->getObj(group, index);
+        const auto& actor_name = mPlacementActors->mActorData[obj->getActorDataIdx()].mActorName;
+        if (!name.isEqual(actor_name))
+            continue;
+        if (unique_name.isEmpty()) {
+            if (!obj->getFlags().isOn(Object::Flag::HasUniqueName))
+                return obj;
+            continue;
+        }
+        if (!obj->getFlags().isOn(Object::Flag::HasUniqueName))
+            continue;
+        const char* object_unique_name;
+        obj->getUniqueName(&object_unique_name);
+        if (unique_name.isEqual(sead::SafeString(object_unique_name)))
+            return obj;
+    }
+    return nullptr;
+}
+
+}  // namespace ksys::map
