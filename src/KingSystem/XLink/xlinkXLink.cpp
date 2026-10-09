@@ -1,6 +1,7 @@
 #include "KingSystem/XLink/xlinkXLink.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Sound/sndMiiSound.h"
+#include "KingSystem/Sound/sndMgr.h"
 #include "KingSystem/XLink/xlinkManager.h"
 #include "KingSystem/XLink/xlinkUser.h"
 #include "Game/gameScene.h"
@@ -80,6 +81,16 @@ bool XLink::sub_7101233168() {
     if (_cc.isOn(0x800))
         return true;
     return mActor && mActor->getActorFlags2().isOn(act::Actor::ActorFlag2::_40);
+}
+
+// Sound consumer12D03E8 uses the return as a multiplicative floating-point volume.
+f32 XLink::sub_71012342A0() {
+    if (_cc.isOn(0x4000)) {
+        auto* manager = snd::SoundMgr::instance()->_a8;
+        if (manager && manager->_49)
+            return manager->sub_710104B558(mActor);
+    }
+    return -1.0f;
 }
 
 void XLink::sub_71012342D8(bool value) {

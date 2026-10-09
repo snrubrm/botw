@@ -109,6 +109,7 @@ public:
     void silenceFootsteps();
     void unsilenceFootsteps();
     bool sub_7101233168();
+    f32 sub_71012342A0();
     void sub_71012342D8(bool value);
     bool sub_71012342F8();
     act::ai::RootAi* getRootAi() const;
