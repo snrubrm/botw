@@ -21,6 +21,8 @@ public:
     // 0x710066e15c (declared only; unnamed in the CSV): registers this object with a manager's list
     // (instance pointer at GOT 0x7102579100, member at +0xb90).
     void sub_710066E15C();
+    // 0x710066e134: Guardian prepareInit_ passes its s32 controller type and one flag bit.
+    void sub_710066E134(s32 controller_type, bool enabled);
 
     /* 0x08 */ void* _8 = nullptr;
     /* 0x10 */ void* _10 = nullptr;
