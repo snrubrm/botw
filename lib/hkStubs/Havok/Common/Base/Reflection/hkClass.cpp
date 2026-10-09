@@ -27,6 +27,28 @@ bool hkClass::equals(const hkClass* other) const {
     return hkString::strCmp(m_name, other->m_name) == 0;
 }
 
+const hkClass* hkClass::getParent() const {
+    return m_parent;
+}
+
+hkClass* hkClass::getParent() {
+    return const_cast<hkClass*>(m_parent);
+}
+
+hkBool hkClass::isSuperClass(const hkClass& k) const {
+    const hkClass* derived = &k;
+    do {
+        if (hkString::strCmp(derived->m_name, m_name) == 0)
+            return true;
+        derived = derived->m_parent;
+    } while (derived);
+    return false;
+}
+
+const hkClass::Flags& hkClass::getFlags() const {
+    return m_flags;
+}
+
 // NON_MATCHING: the parent-chain loop has a separate initial load and null branch.
 int hkClass::getNumInterfaces() const {
     int count = m_numImplementedInterfaces;
