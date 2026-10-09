@@ -1,5 +1,6 @@
 #include "KingSystem/XLink/xlinkXLink.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Sound/sndMiiSound.h"
 #include <aal/aalGroup.h>
 #include <aal/aalGroupMgr.h>
 #include <aal/aalSystemAccessor.h>
@@ -198,6 +199,22 @@ void XLink::setMask(MaskBit bit) {
         sleep_();
     }
     _73.setBit(bit);
+}
+
+void XLink::sleep_() {
+    if (_73.isZero())
+        return;
+    if (_48 && !_48->getBitFlag().isOnBit(1)) {
+        _48->postCalc();
+        _48->sleep();
+    }
+    if (!_50 || _50->getBitFlag().isOnBit(1))
+        return;
+    sub_71012305AC();
+    _50->postCalc();
+    _50->sleep();
+    if (mMiiSound && mMiiSound->hasRequestedLoad())
+        mMiiSound->requestUnloadMaybe();
 }
 
 void XLink::sleepELink() {
