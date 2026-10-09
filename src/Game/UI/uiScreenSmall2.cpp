@@ -465,6 +465,33 @@ bool ScreenMainScreen::sub_7100A1E28C(const ksys::qst::Quest* quest) {
     return true;
 }
 
+// 0x7100a1e454
+void ScreenMainScreen::sub_7100A1E454(const ksys::qst::Quest* quest) {
+    const sead::SafeString type(quest->mType);
+    if (type.isEmpty())
+        return;
+    sead::FixedSafeString<256> file("LayoutMsg/PauseMenu_00");
+    sead::FixedSafeString<256> label;
+    f32 frame;
+    if (type == "Main") {
+        label.copy("Pa_Quest_00-Pa_ChallengeCategory_00-T_CatName_00");
+        frame = 0.0f;
+    } else if (type == "Sub") {
+        label.copy("Pa_Quest_00-Pa_ChallengeCategory_01-T_CatName_00");
+        frame = 1.0f;
+    } else if (type == "Mini") {
+        label.copy("Pa_Quest_00-Pa_ChallengeCategory_02-T_CatName_00");
+        frame = 2.0f;
+    } else {
+        label.copy("Pa_Quest_00-Pa_ChallengeCategory_01-T_CatName_00");
+        frame = 1.0f;
+    }
+    eui::MessageString message;
+    getMessage(file, label, &message);
+    setWidgetString(_3ca8, "T_Category_00", message);
+    _3cb8->Stop(frame);
+}
+
 // 0x7100a1e1e0
 bool ScreenMainScreen::sub_7100A1E1E0() {
     if (!_3ca8)
