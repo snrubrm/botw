@@ -82,8 +82,25 @@ void ZoraSurfing::m34() {
 }
 
 void ZoraSurfing::m36() {
-    sub_7100EEF078(_20._8.rail, _20._30.progress);
-    sub_71002C2AD0();
+    sub_71002C2AD0(sub_7100EEF078(_20._8.rail, _20._30.progress));
+}
+
+// NON_MATCHING: the compiler hoists the current rail-position member address before the two rail branches.
+void ZoraSurfing::sub_71002C2AD0(f32 wait_time) {
+    if (_20._8.rail)
+        _20._8.rail->calcTranslate(&_88, s32(_20._30.progress));
+    else
+        _88 = _20._8.sub_7100EEB370();
+    if (_20._8.rail)
+        _20._8.rail->calcTranslate(&_94, s32(_20._30.progress));
+    else
+        _94 = _20._8.sub_7100EEB370();
+    _ac = wait_time;
+    sead::Vector3f direction = _20._8.sub_7100EEB370();
+    direction -= _20._30.sub_7100EEB370();
+    direction.normalize();
+    _a0 = direction;
+    _80 = 0;
 }
 
 bool ZoraSurfing::m37() {

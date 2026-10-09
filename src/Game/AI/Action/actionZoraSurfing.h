@@ -27,11 +27,20 @@ protected:
     virtual bool m37();
     virtual void m38();
     virtual const sead::SafeString* m39();
-    void sub_71002C2AD0();
+    void sub_71002C2AD0(f32 wait_time);
 
     // FIXME: remove this
     /* 0x20 */ Unk_71024f15c0 _20;
-    u8 pad_0x80[0x30];
+    // Constructor 0x71002c1354 and the adjacent movement transitions establish
+    // this state and the three position/direction vectors.
+    s32 _80;
+    bool _84;
+    bool _85;
+    u8 _86[2];
+    sead::Vector3f _88;
+    sead::Vector3f _94;
+    sead::Vector3f _a0;
+    f32 _ac;
     // static_param at offset 0xb0
     const float* mRotRadPerSec_s{};
     // static_param at offset 0xb8
