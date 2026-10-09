@@ -45,8 +45,8 @@ public:
 
         TYPE_OVERWRITE_PIVOT,
 
-        TYPE_WHEEL_FRICTION,  // 28
-        TYPE_ELLIPTICAL_LIMIT,  // 29
+        TYPE_WHEEL_FRICTION,   // 28
+        TYPE_ELLIPTICAL_LIMIT, // 29 (native reflected enum item 0x710256b000)
 
         TYPE_CONTACT,
 

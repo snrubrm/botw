@@ -17,6 +17,7 @@ add_library(hkStubs OBJECT
   Havok/Animation/Animation/Rig/hkaSkeleton.h
   Havok/Animation/Animation/Rig/hkaPose.h
   Havok/Animation/Physics2012Bridge/Controller/RigidBody/hkaKeyFrameHierarchyUtility.h
+  Havok/Animation/Physics2012Bridge/Controller/RigidBody/hkaRagdollRigidBodyController.cpp
   Havok/Animation/Physics2012Bridge/Controller/RigidBody/hkaRagdollRigidBodyController.h
   Havok/Animation/Physics2012Bridge/Instance/hkaRagdollInstance.h
 
@@ -187,6 +188,7 @@ add_library(hkStubs OBJECT
   Havok/Physics2012/Dynamics/Collide/ContactListener/hkpContactPointEvent.h
   Havok/Physics2012/Dynamics/Common/hkpMaterial.h
   Havok/Physics2012/Dynamics/Common/hkpProperty.h
+  Havok/Physics2012/Dynamics/Constraint/hkpConstraintInstance.cpp
   Havok/Physics2012/Dynamics/Constraint/hkpConstraintInstance.h
   Havok/Physics2012/Dynamics/Constraint/hkpConstraintOwner.h
   Havok/Physics2012/Dynamics/Constraint/Atom/hkpModifierConstraintAtom.h
