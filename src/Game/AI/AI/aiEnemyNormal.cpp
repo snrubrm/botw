@@ -1335,14 +1335,16 @@ bool EnemyNormal::sub_710039DB34(bool a1) {
     return m45(sub_71005D9330(mActor), sub_71005D94AC(mActor), a1);
 }
 
-// NON_MATCHING: info._8 (0 or 8) is computed with branches in the original (cset + lsl here)
 void EnemyNormal::m34() {
     auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
     sub_710039E76C();
 
     Unk2 target;
     Unk1 info;
-    info._8 = enemy->_e84.isOnBit(1) || !*mIsMindDoubtTarget_s ? 8 : 0;
+    if (enemy->_e84.isOnBit(1) || !*mIsMindDoubtTarget_s)
+        info._8 = 8;
+    else
+        info._8 = 0;
 
     if (m72(&target, &info)) {
         m57(0, &target);
