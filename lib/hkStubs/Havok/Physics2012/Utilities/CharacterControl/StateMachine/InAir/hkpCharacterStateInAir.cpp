@@ -17,3 +17,9 @@ void hkpCharacterStateInAir::m9(hkpCharacterContext& context, const hkpCharacter
 }
 
 void hkpCharacterStateInAir::sub_710167A220(hkReal speed) { mSpeed = speed; }
+
+void hkpCharacterStateInAir::sub_710167A218(hkReal gain) { mGain = gain; }
+
+void hkpCharacterStateInAir::sub_710167A228(hkReal acceleration) {
+    mMaximumAcceleration = acceleration;
+}

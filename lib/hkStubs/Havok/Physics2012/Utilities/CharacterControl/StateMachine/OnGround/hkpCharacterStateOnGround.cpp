@@ -23,3 +23,9 @@ void hkpCharacterStateOnGround::m9(hkpCharacterContext& context, const hkpCharac
 }
 
 void hkpCharacterStateOnGround::sub_7101674940(hkReal speed) { mSpeed = speed; }
+
+void hkpCharacterStateOnGround::sub_7101674938(hkReal gain) { mGain = gain; }
+
+void hkpCharacterStateOnGround::sub_7101674948(hkReal acceleration) {
+    mMaximumAcceleration = acceleration;
+}

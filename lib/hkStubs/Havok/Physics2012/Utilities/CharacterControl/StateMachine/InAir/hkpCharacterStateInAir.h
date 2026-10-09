@@ -11,7 +11,9 @@ public:
     hkpCharacterStateType m5() const override;
     void m8(hkpCharacterContext&, const hkpCharacterInput&, hkpCharacterOutput&) override;
     void m9(hkpCharacterContext&, const hkpCharacterInput&, hkpCharacterOutput&) override;
+    void sub_710167A218(hkReal gain);
     void sub_710167A220(hkReal speed);
+    void sub_710167A228(hkReal acceleration);
 
 protected:
     hkReal mGain;
