@@ -3,6 +3,8 @@
 #include <heap/seadDisposer.h>
 #include <container/seadSafeArray.h>
 #include <thread/seadCriticalSection.h>
+#include <math/seadVector.h>
+#include <xlink2/xlink2HandleELink.h>
 #include "KingSystem/Utils/Types.h"
 
 namespace ksys::act {
@@ -17,6 +19,7 @@ namespace ksys::eft {
 class Unk_EffectActorTable {
 public:
     void sub_7100DA2118();
+    bool sub_7100DA216C(act::Actor* actor, const sead::Vector3f& position);
     // 0x7100da2330 (placeholder name): clears the slot holding `actor` and decrements
     // the count; false when the actor is not in the table. LumberjackTree's destructor calls it.
     bool sub_7100DA2330(act::Actor* actor);
@@ -24,7 +27,9 @@ public:
 private:
     struct Entry {
         act::Actor* actor;
-        u8 _8[0x20];
+        sead::Vector3f position;
+        u8 _14[4];
+        xlink2::HandleELink handle;
         bool _28;
         u8 _29[7];
     };

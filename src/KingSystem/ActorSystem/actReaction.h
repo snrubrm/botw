@@ -15,7 +15,9 @@ public:
     void sub_7100EC29D0(Actor* actor);
 
     // EC04D0 stores an Actor cast from the released handle; EC0D20 deletes the same actor.
-    u8 _0[0x30];
+    // EC04D0 releases the first handle and dynamically casts it to Actor here.
+    u8 _0[0x28];
+    Actor* _28;
     Actor* _30;
     Actor* _38;
 };
