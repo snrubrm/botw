@@ -292,15 +292,12 @@ void GenGroup::sub_7100D510D0() {
     }
 }
 
-// NON_MATCHING: the original shares the false return of all three exits and keeps the true one last
 u8 GenGroup::sub_7100D510FC() {
-    if (!_1d)
-        return false;
-    auto* timers = SystemTimers::instance();
-    if (!timers)
-        return false;
-    if (timers->mFrameCounter != _28)
-        return true;
+    if (_1d) {
+        auto* timers = SystemTimers::instance();
+        if (timers && timers->mFrameCounter != _28)
+            return true;
+    }
     return false;
 }
 
