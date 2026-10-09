@@ -15,12 +15,9 @@ f32 innerProductTimesA3(sead::Vector3f* out, const sead::Vector3f& a, const sead
     return dot;
 }
 
-// NON_MATCHING: load / multiply scheduling only
 f32 perpendicularPart(sead::Vector3f* out, const sead::Vector3f& a, const sead::Vector3f& b) {
     const f32 dot = a.dot(b);
-    out->x = a.x - b.x * dot;
-    out->y = a.y - b.y * dot;
-    out->z = a.z - b.z * dot;
+    out->setSub(a, b * dot);
     return dot;
 }
 
