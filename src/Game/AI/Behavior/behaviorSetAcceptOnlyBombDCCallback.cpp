@@ -2,7 +2,6 @@
 
 namespace uking::behavior {
 
-// NON_MATCHING: store scheduling (params at 0x30 / the callback bools)
 SetAcceptOnlyBombDCCallback::SetAcceptOnlyBombDCCallback(const InitArg& arg)
     : SetDamageCallback(arg) {}
 
@@ -18,8 +17,8 @@ void SetAcceptOnlyBombDCCallback::m7() {
 
 void SetAcceptOnlyBombDCCallback::m8() {
     SetDamageCallback::m8();
-    _40._24 = *mIsThroughEffectiveDamage_s;
-    _40._25 = *mIsThroughDieAttribute_s;
+    _40._24 = *mParams.mIsThroughEffectiveDamage_s;
+    _40._25 = *mParams.mIsThroughDieAttribute_s;
 }
 
 void SetAcceptOnlyBombDCCallback::m9() {
@@ -28,8 +27,8 @@ void SetAcceptOnlyBombDCCallback::m9() {
 
 void SetAcceptOnlyBombDCCallback::loadParams() {
     SetDamageCallback::loadParams();
-    getStaticParam(&mIsThroughEffectiveDamage_s, "IsThroughEffectiveDamage");
-    getStaticParam(&mIsThroughDieAttribute_s, "IsThroughDieAttribute");
+    getStaticParam(&mParams.mIsThroughEffectiveDamage_s, "IsThroughEffectiveDamage");
+    getStaticParam(&mParams.mIsThroughDieAttribute_s, "IsThroughDieAttribute");
 }
 
 uking::dmg::DamageCallback* SetAcceptOnlyBombDCCallback::m14() {
