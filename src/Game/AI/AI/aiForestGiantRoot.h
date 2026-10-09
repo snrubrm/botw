@@ -1,5 +1,6 @@
 #pragma once
 
+#include <prim/seadBitFlag.h>
 #include "Game/AI/AI/aiEnemyRoot.h"
 #include "Game/AI/aiUnk_7102450390.h"
 #include "Game/AI/aiUnk_7102451120.h"
@@ -18,6 +19,7 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
 
@@ -26,6 +28,8 @@ public:
 protected:
     // 0x71003DA620 creates the weak point actors using the supplied heap; returns success.
     bool sub_71003DA620(sead::Heap* heap);
+    // 0x71003DAF1C updates the root flags and controller callbacks; called first by calc_.
+    void sub_71003DAF1C();
 
     // Deletes the parts actors "WeakPoint0" .. "WeakPoint3" (called by the destructor; name is a guess).
     void deleteWeakPoints();
@@ -41,7 +45,8 @@ protected:
     Unk_7102450390 _230{mActor};
     Unk_7102451120 _538;
     Unk_7102451148 _548;
-    u8 _558 = 0;
+    // calc_ tests and clears one byte-sized necklace bit per actor-parts slot.
+    sead::BitFlag8 _558;
     u8 _559 = 0xff;
 };
 KSYS_CHECK_SIZE_NX150(ForestGiantRoot, 0x560);

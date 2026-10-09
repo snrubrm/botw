@@ -37,6 +37,8 @@ public:
     bool sub_7100705CD0(sead::Heap* heap, ksys::act::Actor* actor);
 
     void sub_71007062D4();
+    // 0x71007063B8 updates the necklace composite; no argument beyond its receiver is consumed.
+    void sub_71007063B8();
     ksys::act::Actor* sub_7100706D0C(u32 slot);
 
     // 0x7100706c3c: called by leave_.

@@ -6,6 +6,7 @@
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "Game/Damage/dmgInfoManager.h"
+#include "KingSystem/Terrain/teraSystem.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
@@ -49,6 +50,30 @@ bool ForestGiantRoot::init_(sead::Heap* heap) {
 
 void ForestGiantRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     EnemyRoot::enter_(params);
+}
+
+void ForestGiantRoot::calc_() {
+    _230.sub_71007063B8();
+    sub_71003DAF1C();
+    if (!sub_71005DD798(mActor, 19, nullptr, 0, 0)) {
+        if (auto* terrain = ksys::tera::Terrain::instance()) {
+            f32 radius = 1.0f;
+            if (auto* controller = mActor->getCharacterController())
+                controller->sub_7100F62E74(&radius, 0);
+            auto* grass = terrain->sub_710114DE4C();
+            const sead::Vector3f position = mActor->getMtx().getTranslation();
+            grass->sub_710115101C(&position, radius);
+        }
+    }
+    for (s32 i = 0; i < sub_71005D7854(mActor); ++i) {
+        if (_558.isOnBit(i) && !sub_71005D83E8(mActor, i)) {
+            _558.resetBit(i);
+            if (auto* giant = sead::DynamicCast<act::GiantEnemy>(mActor))
+                giant->setNecklaceFlag(i);
+        }
+    }
+    EnemyRoot::calc_();
+    sub_71005E1D00(mActor);
 }
 
 void ForestGiantRoot::m37() {
