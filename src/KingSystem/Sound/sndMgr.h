@@ -408,6 +408,19 @@ public:
     void sub_710104FD4C();
     void sub_710104FD38(const xlink2::HandleSLink& handle);
     void sub_710104EA7C();
+    // CameraNotify2Sound whole initializer 791680 and whole m8/m9 consumers
+    // store and dispatch the eight nonvirtual member callbacks on this singleton.
+    void sub_710104F354();
+    void sub_710104F39C();
+    void sub_710104F3EC();
+    void sub_710104F404();
+    void sub_710104F420();
+    void sub_710104F438();
+    void sub_710104F454();
+    void sub_710104F46C();
+    void sub_710104F488();
+    void sub_710104F4A0();
+
     xlink2::HandleSLink sub_710104F30C(const sead::SafeString& label);
 
     u8 _0[0x28];

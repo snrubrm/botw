@@ -7,6 +7,52 @@ xlink2::HandleSLink Unk_710104e5b4::sub_710104F30C(const sead::SafeString& label
     return _28->searchAndEmit(label.cstr());
 }
 
+void Unk_710104e5b4::sub_710104F354() {
+    if (!_2a0.isOn(2)) {
+        SoundMgr::instance()->mDuckingMgr->sub_7101042024(DuckingMgr::DuckerType::cSquat);
+        _2a0.set(2);
+    }
+}
+
+void Unk_710104e5b4::sub_710104F39C() {
+    if (_2a0.isOn(2)) {
+        SoundMgr::instance()->mDuckingMgr->sub_7101042D6C(DuckingMgr::DuckerType::cSquat, false);
+        _2a0.reset(2);
+    }
+}
+
+void Unk_710104e5b4::sub_710104F3EC() {
+    SoundMgr::instance()->mDuckingMgr->sub_7101042024(DuckingMgr::DuckerType::cFocus);
+}
+
+void Unk_710104e5b4::sub_710104F404() {
+    SoundMgr::instance()->mDuckingMgr->sub_7101042D6C(DuckingMgr::DuckerType::cFocus, false);
+}
+
+void Unk_710104e5b4::sub_710104F420() {
+    SoundMgr::instance()->mDuckingMgr->sub_7101042024(DuckingMgr::DuckerType::cFocus);
+}
+
+void Unk_710104e5b4::sub_710104F438() {
+    SoundMgr::instance()->mDuckingMgr->sub_7101042D6C(DuckingMgr::DuckerType::cFocus, false);
+}
+
+void Unk_710104e5b4::sub_710104F454() {
+    SoundMgr::instance()->mDuckingMgr->sub_7101042024(DuckingMgr::DuckerType::cFocus);
+}
+
+void Unk_710104e5b4::sub_710104F46C() {
+    SoundMgr::instance()->mDuckingMgr->sub_7101042D6C(DuckingMgr::DuckerType::cFocus, false);
+}
+
+void Unk_710104e5b4::sub_710104F488() {
+    SoundMgr::instance()->mDuckingMgr->sub_7101042024(DuckingMgr::DuckerType::cFocus);
+}
+
+void Unk_710104e5b4::sub_710104F4A0() {
+    SoundMgr::instance()->mDuckingMgr->sub_7101042D6C(DuckingMgr::DuckerType::cFocus, false);
+}
+
 extern const f32 sUnk_7102502518[2];
 
 void Unk_710104e5b4::sub_710104FD38(const xlink2::HandleSLink& handle) {
