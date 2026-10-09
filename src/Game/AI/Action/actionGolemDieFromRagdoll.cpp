@@ -1,6 +1,10 @@
 #include "Game/AI/Action/actionGolemDieFromRagdoll.h"
 #include <prim/seadFormatPrint.h>
 #include <math/seadMathCalcCommon.h>
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/Physics/Ragdoll/physRagdollInstance.h"
+#include "KingSystem/Physics/Ragdoll/physRagdollRigidBody.h"
 
 namespace uking::action {
 
@@ -52,6 +56,30 @@ void GolemDieFromRagdoll::calc_() {
         sub_710018C3A4();
     else
         sub_710018C59C();
+}
+
+// NON_MATCHING: the preserved controller position is loaded from the stack instead of saved registers.
+void GolemDieFromRagdoll::sub_710018C27C() {
+    auto* controller = mActor->getCharacterController();
+    if (!controller)
+        return;
+    auto* ragdoll = mActor->getRagdollInstance();
+    if (!ragdoll)
+        return;
+    auto* body = ragdoll->getBoneRigidBodyByName(mPosBaseRagdollRbName_s);
+    if (!body)
+        return;
+    sead::Vector3f body_pos;
+    controller->sub_7100F5F6E0(&body_pos);
+    const sead::Vector3f controller_pos = body_pos;
+    body->getPosition(&body_pos);
+    if (!((body_pos - controller_pos).length() <= *mRagdollMoveLimitDist_s)) {
+        controller->sub_7100F5FBE0(controller_pos);
+        body->setPosition(controller_pos);
+        body->setLinearVelocity(sead::Vector3f::zero, sead::Mathf::epsilon());
+    } else {
+        controller->sub_7100F5FBE0(body_pos);
+    }
 }
 
 }  // namespace uking::action
