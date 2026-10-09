@@ -6,6 +6,7 @@
 
 namespace uking::action {
 
+// NON_MATCHING: existing stub leaves two native-cleared flag bytes uninitialized.
 FollowChallenge::FollowChallenge(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
 FollowChallenge::~FollowChallenge() = default;
