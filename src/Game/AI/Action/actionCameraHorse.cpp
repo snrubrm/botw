@@ -221,7 +221,6 @@ void CameraHorse::sub_710077066C(u8 previous_state) {
     _130 = 1.0f;
 }
 
-// NON_MATCHING: minimum and value loads are reversed.
 void CameraHorse::sub_7100771008(f32* out) {
     switch (_263) {
     case 0:
@@ -240,11 +239,13 @@ void CameraHorse::sub_7100771008(f32* out) {
         sub_71007712B0(out);
         break;
     }
-    if (*out < _58)
-        *out = _58;
-    else if (*out > _5c)
-        *out = _5c;
-    *out = angleStuff(*out);
+    const f32 minimum = _58;
+    f32 value = *out;
+    if (value < minimum)
+        value = minimum;
+    else if (value > _5c)
+        value = _5c;
+    *out = angleStuff(value);
 }
 
 void CameraHorse::sub_7100771480(f32* out) {
