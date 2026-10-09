@@ -28,6 +28,46 @@ bool PriestBossActorNormalMode::sub_710050B7A8() {
     return limiter->sub_7100671A74(&entry, sub_7100505BE4()->_98);
 }
 
+// NON_MATCHING: ObjList::front folds node/object null checks; enum reloads and branch ordering differ.
+// 0x710050b6cc
+s32 PriestBossActorNormalMode::sub_710050B6CC() {
+    Attack attack = Attack::_0;
+    _120->sub_710072B330();
+    if (auto* record = _120->mRecords.front())
+        attack = Attack(record->mIndex);
+    ++_e8[attack];
+    if ((!sub_7100505BE4() || sub_7100505BE4()->_3c != Unk_7102450fa8::Phase::_0) &&
+        u32(s32(attack) - 4) < 5 && attack != Attack::_5) {
+        if (auto* unit = sub_7100505BE4())
+            unit->sub_7100719D5C(mActor);
+    }
+    return attack;
+}
+
+// NON_MATCHING: the equipment-index choice emits boolean inversion instead of native conditional branches.
+// 0x710050bdcc
+void PriestBossActorNormalMode::sub_710050BDCC() {
+    auto* unit = sub_7100505BE4();
+    if (!unit || unit->_3c != Unk_7102450fa8::Phase::_3)
+        return;
+    if (!unit->sub_7100719978(_e4)) {
+        _130 = sub_710050B6CC();
+        sub_710050AE6C(1);
+    } else {
+        if (auto* current = sub_7100505BE4())
+            current->sub_7100719D5C(mActor);
+        if (sead::GlobalRandom::instance()->getBool()) {
+            auto* current = sub_7100505BE4();
+            *mEquipWeaponBufIndex_a = current && !current->sub_7100719B88(mActor) ? 1 : 0;
+        } else {
+            *mEquipWeaponBufIndex_a = 1;
+        }
+        sub_710050B7A8();
+        _130 = sub_710050B6CC();
+        sub_710050AE6C(12);
+    }
+}
+
 // 0x710050bb0c
 // NON_MATCHING: compiler reverses the two phase-test branches.
 void PriestBossActorNormalMode::sub_710050BB0C() {
