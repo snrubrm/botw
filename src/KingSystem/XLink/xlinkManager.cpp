@@ -8,6 +8,12 @@ namespace ksys::xlink {
 
 Manager* Manager::sInstance;
 
+void Manager::setGlobalPropPauseState(PauseState state) {
+    const s32 value = state;
+    xlink2::SystemELink::instance()->setGlobalPropertyValue(0, value);
+    xlink2::SystemSLink::instance()->setGlobalPropertyValue(0, value);
+}
+
 void Manager::setGlobalProperty(u32 property, f32 value) {
     xlink2::SystemELink::instance()->setGlobalPropertyValue(property, value);
     xlink2::SystemSLink::instance()->setGlobalPropertyValue(property, value);

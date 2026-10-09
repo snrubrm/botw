@@ -4,6 +4,7 @@
 #include <container/seadSafeArray.h>
 #include <heap/seadDisposer.h>
 #include <math/seadMatrix.h>
+#include <prim/seadEnum.h>
 #include <thread/seadCriticalSection.h>
 #include "KingSystem/Utils/Types.h"
 
@@ -19,6 +20,10 @@ class Manager {
     virtual ~Manager();
 
 public:
+    // Native 90B81C selects values 1, 2 or 3; 90BD3C restores 0. Semantic names are unknown.
+    // The by-value spill/reload in 12408F8 identifies the same enum-wrapper ABI as XLink::MaskBit.
+    SEAD_ENUM(PauseState, _0, _1, _2, _3)
+    void setGlobalPropPauseState(PauseState state);
     void setGlobalProperty(u32 property, f32 value);
     void queueSleep(XLink* xlink);
     void removeSleep(XLink* xlink);
