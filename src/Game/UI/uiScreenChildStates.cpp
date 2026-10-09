@@ -14,9 +14,47 @@
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "KingSystem/Event/evtManager.h"
 #include "KingSystem/World/worldManager.h"
+#include "KingSystem/Resource/resHandle.h"
+#include <nn/ui2d/Pane.h>
 #include <math/seadMathCalcCommon.h>
 
 namespace uking::ui {
+
+// 0x710098b59c
+ScreenMainScreenUnk3658::ScreenMainScreenUnk3658(eui::LayoutEx* layout) : ScreenChildEx(layout) {}
+
+// 0x710098b710
+void ScreenMainScreenUnk3658::m24(sead::Heap* heap) {
+    mChangeType = mLayout->tryCreateAnimatorAuto("ChangeType", false);
+    if (mChangeType)
+        mChangeType->StopAtMin();
+    mItemChange = mLayout->tryCreateAnimatorAuto("ItemChange", false);
+    if (mItemChange)
+        mItemChange->StopAtMin();
+    mItemCancel = mLayout->tryCreateAnimatorAuto("ItemCancel", false);
+    if (mItemCancel)
+        mItemCancel->StopAtMin();
+    mInvalid = mLayout->tryCreateAnimatorAuto("Invalid", false);
+    if (mInvalid)
+        mInvalid->StopAtMin();
+    mTextureHandle = new (heap, 8) ksys::res::Handle;
+    if (auto* pane = mLayout->mPane->FindPaneByName("P_Icon_00", true)) {
+        mMaterial = pane->GetMaterial();
+        if (mMaterial)
+            eui::SetTextureInfoFromTexMap(&mTexInfo, mMaterial->GetTexMapArray()[0]);
+    }
+}
+
+// 0x710098c048
+void ScreenMainScreenUnk3658::m21() {
+    if (mTextureHandle) {
+        mTextureHandle->requestUnload();
+        if (mMaterial)
+            mMaterial->GetTexMapArray()[0].ReplaceTextureInfo(&mTexInfo);
+    }
+    _150 = -1;
+    _154 = -1;
+}
 
 // 0x7100985eb4
 Unk_7102476db8::Unk_7102476db8(eui::LayoutEx* layout) : ScreenChildEx(layout) {}

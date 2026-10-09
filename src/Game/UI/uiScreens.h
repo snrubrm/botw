@@ -825,9 +825,21 @@ static_assert(sizeof(ScreenMainScreenUnk3648) == 0x390);
 struct ScreenMainScreenUnk3658 : ScreenChildEx {
     explicit ScreenMainScreenUnk3658(eui::LayoutEx* layout);
     ~ScreenMainScreenUnk3658() override;
-    u8 _130[0x150 - 0x130];
-    /* 0x150 */ s32 _150;
-    u8 _154[0x188 - 0x154];
+    NN_RUNTIME_TYPEINFO(ScreenChildEx)
+    void m21() override;
+    void m24(sead::Heap* heap) override;
+    void m25() override;
+    /* 0x130 */ eui::Animator* mChangeType = nullptr;
+    /* 0x138 */ eui::Animator* mItemChange = nullptr;
+    /* 0x140 */ eui::Animator* mItemCancel = nullptr;
+    /* 0x148 */ eui::Animator* mInvalid = nullptr;
+    /* 0x150 */ s32 _150 = -1;
+    /* 0x154 */ s32 _154 = -1;
+    /* 0x158 */ bool mPendingLoad = false;
+    u8 _159[7];
+    /* 0x160 */ ksys::res::Handle* mTextureHandle = nullptr;
+    /* 0x168 */ nn::ui2d::Material* mMaterial = nullptr;
+    /* 0x170 */ nn::ui2d::ExternalTextureInfo mTexInfo;
 };
 static_assert(sizeof(ScreenMainScreenUnk3658) == 0x188);
 

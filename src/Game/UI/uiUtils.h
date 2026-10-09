@@ -39,6 +39,12 @@ namespace nn::ui2d {
 class Pane;
 class Parts;
 class Layout;
+class TextureInfo;
+class TexMap;
+}
+
+namespace eui {
+void SetTextureInfoFromTexMap(nn::ui2d::TextureInfo* out, const nn::ui2d::TexMap& map);
 }
 
 namespace xlink2 {
