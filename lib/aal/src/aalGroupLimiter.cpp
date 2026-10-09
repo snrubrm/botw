@@ -223,13 +223,12 @@ void GroupDucker::calc() {
     }
 }
 
-// NON_MATCHING: same code; the load of the ducking source is hoisted in front of the state test here.
 // 0x7100b82c64
 void GroupDucker::updateStartEnd_() {
-    if (static_cast<u32>(mState) > 4)
-        return;
-
-    if ((1 << mState) & 0x19) {
+    switch (mState) {
+    case 0:
+    case 3:
+    case 4:
         // Not ducking (0), or ending (3, 4): start if the ducking source ducks.
         if (!mSource || !mSource->isOnDucking())
             return;
@@ -243,6 +242,11 @@ void GroupDucker::updateStartEnd_() {
             mState = 1;
         }
         _40 = 0.0f;
+        return;
+    case 1:
+    case 2:
+        break;
+    default:
         return;
     }
 
