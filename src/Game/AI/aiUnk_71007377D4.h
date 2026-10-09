@@ -147,8 +147,13 @@ bool sub_710072FEC4(ksys::act::Actor* actor, const sead::Vector3f& dir, f32 dist
 bool sub_710072F28C(ksys::act::Actor* actor, const sead::Vector3f& from, const sead::Vector3f& to,
                     sead::Vector3f* out_normal, sead::Vector3f* out_pos, s32 a5, bool a6, f32 a7,
                     f32 a8, f32 a9);
-/// 0x710072fd0c (lane1 s22): sub_710072F28C without the normal output and with `a6 = false`; the fourth
-/// float is not forwarded. Placeholder name.
+/// 0x710072edfc: direction/distance reachability check. The bool and third f32 are unused
+/// by the complete callee; FD0C/FD28 pass them through, while F28C/F99C/FAB0 pass false.
+bool sub_710072EDFC(ksys::act::Actor* actor, const sead::Vector3f& from,
+                    const sead::Vector3f& dir, sead::Vector3f* out_normal,
+                    sead::Vector3f* out_pos, s32 a5, bool a6, f32 distance, f32 radius,
+                    f32 a9, f32 tolerance);
+/// 0x710072fd0c: direction/distance check without the normal output and with a6 = false.
 bool sub_710072FD0C(ksys::act::Actor* actor, const sead::Vector3f& from, const sead::Vector3f& to,
                     sead::Vector3f* out_pos, s32 a5, f32 a6, f32 a7, f32 a8, f32 a9);
 /// 0x710072fd28 (lane1 s39; declared only): like sub_710072FD0C from the actor's own position (NaN `from`)
