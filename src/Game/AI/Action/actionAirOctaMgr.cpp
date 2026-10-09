@@ -33,7 +33,16 @@ void AirOctaMgr::loadParams_() {
 }
 
 void AirOctaMgr::calc_() {
-    ksys::act::ai::Action::calc_();
+    _354 &= ~0x80u;
+    if (!sub_7100085C28())
+        return;
+    if (auto* awareness = mActor->getAwareness()) {
+        sub_71000870E0(awareness);
+        sub_71000873F4(awareness);
+        sub_71000874E8(awareness);
+    }
+    sub_7100086168();
+    sub_7100086484();
 }
 
 }  // namespace uking::action

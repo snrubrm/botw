@@ -39,6 +39,13 @@ public:
 protected:
     void calc_() override;
 
+    // Complete native bodies use this action and its actor's awareness instance.
+    bool sub_7100085C28();
+    void sub_71000870E0(ksys::act::AwarenessInstance* awareness);
+    void sub_71000874E8(ksys::act::AwarenessInstance* awareness);
+    void sub_7100086168();
+    void sub_7100086484();
+
     // 0x71000873f4 (placeholder name): sets bit 0 of _354 when the first entry of the awareness sensor 1 of `awareness`
     // has a live actor and an interest (`_a4`) of at least 6.2, while bit 1 is set and ReactHorn is on.
     void sub_71000873F4(ksys::act::AwarenessInstance* awareness);
