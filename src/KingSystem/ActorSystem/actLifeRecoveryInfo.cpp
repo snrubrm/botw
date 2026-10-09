@@ -7,7 +7,6 @@ namespace ksys::act {
 
 LifeRecoverInfo::LifeRecoverInfo() : mTimer(0, 0), mTimer2(0, 0) {}
 
-// NON_MATCHING: the parameter's enabled byte is loaded after the enum temporary is initialized.
 bool LifeRecoverInfo::init(const LifeRecoverParams* params) {
     mExtraHp1 = sead::Mathf::min(f32(mExtraHp2), 0.0f);
     mExtraHp2 = params->_0;
@@ -15,18 +14,14 @@ bool LifeRecoverInfo::init(const LifeRecoverParams* params) {
     mRecoverFactor = params->_8;
     mField_28 = params->_c;
     mField_2C = params->_10;
-    const Flag enabled(0);
-    if (params->_14)
-        mFlags |= 1 << int(enabled);
-    else
-        mFlags &= ~(1 << int(enabled));
+    setFlag(Flag(0), params->_14);
     mTimer.value = mTimer.previous_value = mField_28;
     const Flag recovered(1);
     mFlags &= ~(1 << int(recovered));
     return true;
 }
 
-// NON_MATCHING: init() inlined; same difference as init (the enabled byte is loaded after the enum temporary).
+// NON_MATCHING: the inlined init omits the intermediate flag store before clearing the recovered bit.
 bool LifeRecoverInfo::sub_7100D68E54(const ksys::Message* message) {
     auto* params = static_cast<const LifeRecoverParams*>(message->getUserData());
     return params && init(params);

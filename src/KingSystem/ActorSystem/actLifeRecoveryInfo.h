@@ -58,6 +58,15 @@ public:
     // SEAD_ENUM in the original (stack round trip): bit index of the flag cleared by onApplyDamage_0.
     SEAD_ENUM(Flag, _0, _1)
 
+    // inline-only in the original; name is a guess. The indexed flag update repeats in init,
+    // sub_7100D68D54, sub_7100D68AD4 and onApplyDamage_0.
+    void setFlag(Flag flag, bool on) {
+        if (on)
+            mFlags |= 1 << int(flag);
+        else
+            mFlags &= ~(1 << int(flag));
+    }
+
     // D68B5C updates both timers through Timer::update.
     Timer mTimer;
     Timer mTimer2;
