@@ -25,6 +25,8 @@ public:
 
     void sub_710066E548(Unk_710243c250* entry);
     void sub_710066E648(Unk_710243c250* entry);
+    // 66E320 returns the nearest registered distance; postCalc compares it to the search radius.
+    f32 getNearestDistance(bool include_enabled);
 
     /* 0x008 */ sead::SafeArray<Unk_710243c2a0, 3> mBuckets;
     /* 0x140 */ u32 mSequence = 0;

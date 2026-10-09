@@ -29,6 +29,7 @@ public:
 // its entries. Methods are in the TU 0x7100667de4 - 0x7100668260 (dmgDamageReactionTable.cpp).
 struct DamageReactionTable {
     bool isReady();
+    void stubbed();
     // 0x71006681e4 (placeholder name): the index of the entry whose hash is calcHash(name), or -1.
     s32 sub_71006681E4(const sead::SafeString& name) const;
 
@@ -47,6 +48,7 @@ public:
     void postCalc();
     // Native readiness forwards to the reaction table at +0x5d0.
     bool isReady();
+    void stubbed();
 
     using DamageItem = dmg::DamageItem;
 

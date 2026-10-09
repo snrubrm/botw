@@ -3,6 +3,8 @@
 
 namespace uking::dmg {
 
+void DamageReactionTable::stubbed() {}
+
 bool DamageReactionTable::isReady() {
     return true;
 }

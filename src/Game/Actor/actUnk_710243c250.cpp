@@ -58,3 +58,19 @@ void Unk_710243c280::sub_710066E648(Unk_710243c250* entry) {
     }
     bucket.mEntries.erase(entry);
 }
+
+// NON_MATCHING: count comparisons and filtered-list null/flag branches are simplified.
+f32 Unk_710243c280::getNearestDistance(bool include_enabled) {
+    f32 nearest = std::numeric_limits<f32>::max();
+    for (auto& bucket : mBuckets) {
+        auto lock = sead::makeScopedLock(bucket.mLock);
+        auto* node = bucket.mEntries.front();
+        if (!include_enabled) {
+            while (node && node->mData && node->mData->_40.mEnabled)
+                node = bucket.mEntries.next(node);
+        }
+        if (node && node->mData)
+            nearest = sead::Mathf::min(node->mData->_38, nearest);
+    }
+    return nearest;
+}

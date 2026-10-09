@@ -10,6 +10,10 @@ namespace uking::dmg {
 
 SEAD_SINGLETON_DISPOSER_IMPL(DamageInfoMgr)
 
+void DamageInfoMgr::stubbed() {
+    mReactionTable.stubbed();
+}
+
 bool DamageInfoMgr::isReady() {
     return mReactionTable.isReady();
 }
