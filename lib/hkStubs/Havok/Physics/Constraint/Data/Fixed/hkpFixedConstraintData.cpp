@@ -88,12 +88,8 @@ void hkpFixedConstraintData::getRuntimeInfo(hkBool wantRuntime, RuntimeInfo& inf
 }
 
 // 0x71015F40D0
-// NON_MATCHING: the scalar clamp becomes fmax/fmin instead of the native lower-bound select.
 hkResult hkpFixedConstraintData::setInertiaStabilizationFactor(hkReal factor) {
-    if (factor < 0.0f)
-        factor = 0.0f;
-    if (factor > 1.0f)
-        factor = 1.0f;
+    factor = factor < 0.0f ? 0.0f : (factor > 1.0f ? 1.0f : factor);
     m_atoms.m_ballSocket.m_inertiaStabilizationFactor = factor;
     return HK_SUCCESS;
 }
