@@ -95,8 +95,17 @@ class Unk_7102479838 : public Unk_71024746d0 {
 public:
     explicit Unk_7102479838(eui::LayoutEx* layout);
     ~Unk_7102479838() override;
+    const nn::font::detail::RuntimeTypeInfo* GetRuntimeTypeInfo() const override;
+    void m24(sead::Heap* heap) override;
+    void m25() override;
+    void m39(void* button) override;
+    void sub_71009A4588();
 
-    u8 _138[0x158 - 0x138];
+    /* 0x138 */ sead::Vector2f mPosition{0.0f, 0.0f};
+    /* 0x140 */ f32 mAngle = 0.0f;
+    u8 _144[4];
+    /* 0x148 */ eui::Animator* mAngleAnimator = nullptr;
+    /* 0x150 */ ScreenAppMapWidget* mMapWidget = nullptr;
 };
 static_assert(sizeof(Unk_7102479838) == 0x158);
 

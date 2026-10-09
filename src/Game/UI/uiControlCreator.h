@@ -11,6 +11,8 @@ class Unk_71024746d0 : public ScreenChildEx {
 public:
     NN_RUNTIME_TYPEINFO(ScreenChildEx)
     explicit Unk_71024746d0(eui::LayoutEx* layout);
+    void sub_7100931DA0(bool enabled);
+    bool sub_7100931DBC() const;
     /* 0x130 */ eui::AnimButton* mButton = nullptr;
 };
 static_assert(sizeof(Unk_71024746d0) == 0x138);

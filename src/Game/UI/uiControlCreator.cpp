@@ -9,6 +9,20 @@ AnimButton* sub_7100A013E4(ControlBase* control);
 }
 
 namespace uking::ui {
+// 0x7100931d6c
+Unk_71024746d0::Unk_71024746d0(eui::LayoutEx* layout) : ScreenChildEx(layout) {}
+
+// 0x7100931da0
+void Unk_71024746d0::sub_7100931DA0(bool enabled) {
+    if (mButton)
+        mButton->setFlag10(enabled);
+}
+
+// 0x7100931dbc
+bool Unk_71024746d0::sub_7100931DBC() const {
+    return mButton && (mButton->mFlags & 0x10);
+}
+
 // 0x7100a0106c / 0x7100a01070
 // NON_MATCHING: the out-of-line eui base destructor is called.
 Unk_7102485000::~Unk_7102485000() = default;
