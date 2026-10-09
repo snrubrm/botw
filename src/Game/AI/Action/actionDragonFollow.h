@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Game/AI/Action/actionFollowChallenge.h"
+#include "Game/AI/aiUnk_7102357210.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 #include "KingSystem/ActorSystem/actModelBindInfo.h"
 
@@ -25,8 +26,8 @@ protected:
     // static_param at offset 0xab0
     sead::SafeString mDungeonName_s{};
 
-    // Members not recovered yet (class size from the factory).
-    u8 _ac0[0xb98 - 0xac0];
+    // F4534 constructs this listener; F460C and F4B64 use its complete native layout.
+    Unk_71024506a8 mListener;
     // F4534 constructs ModelBindInfo here; F460C destroys its bone key/link,
     // and F49B0 uses its ActorBind interface before leave_ unbinds it.
     ksys::act::ModelBindInfo mBindInfo;
