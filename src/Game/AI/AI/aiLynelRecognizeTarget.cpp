@@ -1,4 +1,8 @@
 #include "Game/AI/AI/aiLynelRecognizeTarget.h"
+#include <prim/seadFormatPrint.h>
+#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actTag.h"
 #include "Game/Actor/actEnemy.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/Damage/dmgDamageManagerBase.h"
@@ -16,6 +20,40 @@ namespace uking::ai {
 LynelRecognizeTarget::LynelRecognizeTarget(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
 LynelRecognizeTarget::~LynelRecognizeTarget() = default;
+
+void LynelRecognizeTarget::sub_71004963F8(u32 flag) {
+    if (auto* link = sub_71005D9050(mActor)) {
+        ksys::act::acc::PlayerBase player;
+        ksys::act::acquireActor(link, &player);
+        auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
+        if (enemy && enemy->_e84.isOffBit(1) && (_f4 || !sub_7100497978(&player))) {
+            if (auto* current_enemy = sead::DynamicCast<act::Enemy>(mActor))
+                current_enemy->_e84.setBit(1);
+        }
+    }
+    s32 score = sub_710049759C();
+    if ((flag & 1) && _f0 > score)
+        score = _f0;
+    _f0 = score;
+}
+
+bool LynelRecognizeTarget::sub_7100497978(const ksys::act::acc::PlayerBase* player) {
+    sead::FixedSafeString<32> mask;
+    player->getMaskType(&mask);
+    if (mask.isEmpty())
+        return false;
+    if (mask == "All") {
+        return ksys::act::hasTag(mActor, ksys::act::tags::TeamLynel) ||
+               ksys::act::hasTag(mActor, ksys::act::tags::TeamBokoblin) ||
+               ksys::act::hasTag(mActor, ksys::act::tags::TeamMoriblin) ||
+               ksys::act::hasTag(mActor, ksys::act::tags::TeamLizarfos);
+    }
+    if (mask == "PhantomGanon")
+        return ksys::act::hasTag(mActor, ksys::act::tags::TeamStalfos);
+    sead::FixedSafeString<32> team;
+    sead::StringCutOffPrintFormatter(&team) << "Team%s" << mask.cstr() << sead::flush;
+    return ksys::act::hasTag(mActor, team);
+}
 
 bool LynelRecognizeTarget::sub_7100497BE8(ksys::act::acc::PlayerOrEnemy* actor) {
     const s32 num_slots = actor->getNumWeaponSlots();
