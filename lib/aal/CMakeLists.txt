@@ -9,6 +9,7 @@ add_library(aal OBJECT
   include/aal/aalAuxBusMgr.h
   include/aal/aalBiquadFilterPreset.h
   include/aal/aalAudioMetaReader.h
+  include/aal/aalAudioResource.h
   include/aal/aalAttenuationComponentListReflexer.h
   include/aal/aalAttenuationCulling.h
   include/aal/aalAttenuationDirectivity.h
@@ -93,6 +94,7 @@ add_library(aal OBJECT
   src/aalAttenuationReader.cpp
   src/aalAssetInfo.cpp
   src/aalAudioMetaReader.cpp
+  src/aalAudioResource.cpp
   src/aalCone.cpp
   src/aalDebugDrawUtil.cpp
   src/aalDebuggerResult.cpp
