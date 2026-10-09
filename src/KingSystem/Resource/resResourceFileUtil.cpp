@@ -20,6 +20,34 @@ void sub_7100FDDB70(nn::g3d::ResFile* file) {
     file->Unrelocate();
 }
 
+void sub_7100FDDBD0(nn::gfx::ResTexture* texture) {
+    agl::g3d::ResTexture::sub_7100B3378C(texture);
+}
+
+void sub_7100FDDBD4(nn::gfx::ResTexture* texture) {
+    agl::g3d::ResTexture::Finalize(texture);
+}
+
+const nn::util::BinaryBlockHeader* sub_7100FDDBD8(const nn::gfx::ResTexture* texture) {
+    return texture->ToData().pResTextureContainerData.Get()->pTextureData.Get();
+}
+
+const void* sub_7100FDDBE4(const nn::gfx::ResTexture* texture) {
+    return texture->ToData().pMipPtrArray.Get()[0].Get();
+}
+
+void sub_7100FDDBF0(nn::gfx::ResTexture* texture, nn::util::BinaryBlockHeader* data) {
+    texture->ToData().pResTextureContainerData.Get()->pTextureData.Set(data);
+}
+
+u32 sub_7100FDDC04(const nn::gfx::ResTexture* texture) {
+    return 0;
+}
+
+nn::gfx::ResTexture* sub_7100FDDC24(nn::gfx::ResTexture* texture) {
+    return texture;
+}
+
 u32 sub_7100FDDBFC(const nn::gfx::ResTexture* texture) {
     return texture->ToData().textureDataSize;
 }
