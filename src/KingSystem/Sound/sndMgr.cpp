@@ -1,4 +1,5 @@
 #include "KingSystem/Sound/sndMgr.h"
+#include "KingSystem/Sound/sndSoundCalcThread.h"
 #include "KingSystem/Sound/sndFxMgr.h"
 #include "KingSystem/Physics/System/physSystem.h"
 #include <thread/seadThread.h>
@@ -14,6 +15,12 @@
 #include "KingSystem/Event/evtManager.h"
 
 namespace ksys::snd {
+
+sead::Thread* SoundMgr::sub_71011FC348() {
+    sead::Thread* thread = new (_278, 8) SoundCalcThread2(_278);
+    thread->start();
+    return thread;
+}
 
 void SoundMgr::sub_71011FC394(sead::Thread* thread) {
     thread->quitAndDestroySingleThread(false);

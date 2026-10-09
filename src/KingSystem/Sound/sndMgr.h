@@ -636,6 +636,7 @@ public:
     // 0x71011fb5ac (CSV Sound::calc2; declaration only): called by MCMgr::invoked4.
     void sub_71011FB5AC();
     void sub_71011FBDA8();
+    sead::Thread* sub_71011FC348();
     void sub_71011FC394(sead::Thread* thread);
 
     u8 _28[0x30 - 0x28];
@@ -668,6 +669,9 @@ public:
     u8 _238;
     u8 _239[0x270 - 0x239];
     AudioChannelType mAudioChannelType;
+    u8 _274[4];
+    // Whole allocator 11FC348 passes the heap at 278 to new and the thread constructor.
+    sead::Heap* _278;
 };
 
 }  // namespace ksys::snd
