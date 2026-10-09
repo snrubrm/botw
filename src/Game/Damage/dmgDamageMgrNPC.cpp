@@ -6,6 +6,13 @@
 
 namespace uking::dmg {
 
+DamageMgrNPC::DamageMgrNPC(ksys::act::Actor* actor)
+    : DamageManagerBase(actor), _68(actor, 0x80000b5), _80(sead::Vector3f::zero) {}
+
+void* Unk_71023cee50::m2() {
+    return nullptr;
+}
+
 // NON_MATCHING: the original shares one `str z` between the three copy paths (sunk into a common block); ours stores
 // z in each path.
 bool DamageMgrNPC::getAttackPos(sead::Vector3f* out) {

@@ -6,7 +6,7 @@
 
 namespace uking::dmg {
 
-// vtable 0x71023cee50 (DamageMgrNPC::_68): sends message 0x80000b5 (m2 at 0x71002c9ff4, declaration only).
+// vtable 0x71023cee60 (DamageMgrNPC::_68): sends message 0x80000b5 (m2 at 0x71002c9ff4).
 class Unk_71023cee50 : public Unk_7102357d20 {
 public:
     using Unk_7102357d20::Unk_7102357d20;
