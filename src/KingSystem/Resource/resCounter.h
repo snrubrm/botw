@@ -49,6 +49,9 @@ public:
     using CounterBase::CounterBase;
     ~Counter() override = default;
 
+    // inline-only in the original; name is a guess. FE5190 and FE5334 repeat this read.
+    void* getData() const { return mData; }
+
 private:
     bool doSetData_(const Data& data) override {
         mData = data.mData;

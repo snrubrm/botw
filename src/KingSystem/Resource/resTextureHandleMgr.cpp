@@ -1,5 +1,8 @@
 #include "KingSystem/Resource/resTextureHandleMgr.h"
 #include "KingSystem/Resource/resEntryFactory.h"
+#include "KingSystem/Resource/resCounter.h"
+#include "KingSystem/Resource/resArchiveWork.h"
+#include "KingSystem/Resource/resUnk_71024F9D48.h"
 #include "KingSystem/Resource/resUnk_710251A740.h"
 #include "KingSystem/Resource/resBfRes.h"
 #include "KingSystem/Resource/resResourceMgrTask.h"
@@ -90,6 +93,37 @@ void TextureHandleMgr::calc() {
 }
 
 void TextureHandleMgr::preCalc() {}
+
+
+// NON_MATCHING: resource iterator and heap use exchanged registers.
+void TextureHandleMgr::sub_7100FE5190() {
+    delete mArchiveWork;
+    mArchiveWork = nullptr;
+    stubbedLogFunction();
+    auto* counter = mHeapCounter;
+    counter->incrementRef();
+    if (mResources.begin() != mResources.end()) {
+        auto* heap = static_cast<CompactedHeap*>(counter->getData());
+        for (auto& resource : mResources)
+            resource.sub_7100FE10EC(heap);
+    }
+    mHeapCounter->decrementRef();
+    stubbedLogFunction();
+}
+
+// NON_MATCHING: resource iterator and heap use exchanged registers.
+void TextureHandleMgr::sub_7100FE5334() {
+    stubbedLogFunction();
+    auto* counter = mHeapCounter;
+    counter->incrementRef();
+    if (mResources.begin() != mResources.end()) {
+        auto* heap = static_cast<CompactedHeap*>(counter->getData());
+        for (auto& resource : mResources)
+            resource.sub_7100FE10EC(heap);
+    }
+    mHeapCounter->decrementRef();
+    stubbedLogFunction();
+}
 
 // 0x7100fe53bc (unnamed in the CSV): cancel everything queued on the loading thread and mark the
 // manager as stopped.

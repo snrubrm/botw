@@ -14,6 +14,7 @@ class ResTexture;
 namespace ksys::res {
 
 class Unk_71024f9a08;
+class CompactedHeap;
 
 // FE0144 constructs this key at 118; FE0348 writes its hash at 120.
 class Unk_71024f9a50 {
@@ -56,6 +57,7 @@ public:
     sead::SafeString sub_7100FE0DF0() const;
     sead::SafeString sub_7100FE10A8() const;
     void sub_7100FE10D8();
+    void sub_7100FE10EC(CompactedHeap* heap);
 
     u8 _8[0x18 - 0x8];
     sead::BitFlag8 mFlags;

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <container/seadOffsetList.h>
 #include <prim/seadBitFlag.h>
 #include <prim/seadDelegate.h>
 #include <time/seadTickTime.h>
@@ -14,6 +15,8 @@ class TaskMgr;
 namespace ksys::res {
 
 class ArchiveWork;
+class Counter;
+class Unk_71024f9a08;
 class Unk_71024F9D48;
 
 // TODO: very incomplete
@@ -59,14 +62,18 @@ private:
     u8 _a[2];
     // Native FE2534 zeroes +C; FE54C0 increments it modulo the signed maximum.
     s32 mGeneration;
-    u8 _10[0x30 - 0x10];
+    u8 _10[0x28 - 0x10];
+    Counter* mHeapCounter;
     util::Task* _30;
     u8 _38[0x48 - 0x38];
     util::TaskMgr* _48;
     util::TaskThread* _50;
     u8 _58[0xa0 - 0x58];
     sead::TickTime mTickTime;
-    u8 _a8[0x158 - 0xa8];
+    u8 _a8[0x118 - 0xa8];
+    // FE2534 sets the node offset to 8; FE3004 inserts texture resources here.
+    sead::OffsetList<Unk_71024f9a08> mResources;
+    u8 _130[0x158 - 0x130];
     sead::Delegate1R<TextureHandleMgr, void*, bool> _158{nullptr, nullptr};
     u8 _178[0x768 - 0x178];
     ArchiveWork* mArchiveWork;
