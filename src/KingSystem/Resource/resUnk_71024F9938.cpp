@@ -2,6 +2,7 @@
 #include <heap/seadHeapMgr.h>
 #include <gsys/gsysModel.h>
 #include <gsys/gsysModelNW.h>
+#include <codec/seadHashCRC32.h>
 #include "KingSystem/Resource/resSystem.h"
 #include "KingSystem/Resource/resBfRes.h"
 #include "Game/gameGraphics.h"
@@ -47,6 +48,30 @@ bool Unk_71024f9938::sub_7100FDD00C(const InitArg& arg) {
 
 bool Unk_71024f9938::sub_7100FDD0F0() const {
     return _8 != nullptr;
+}
+
+// NON_MATCHING: search control flow differs and the compiler removes the free-list null branch.
+nn::gfx::ResTexture* Unk_71024f9938::sub_7100FDD100(const sead::SafeString& name,
+                                                Unk_71024f9a70* loader) {
+    const u32 hash = sead::HashCRC32::calcStringHash(name.cstr());
+    u32* existing = nullptr;
+    const s32 count = _10.size();
+    for (s64 i = 0; i < count; ++i) {
+        auto* entry = _10.unsafeAt(i);
+        if (*entry == hash) {
+            existing = entry;
+            break;
+        }
+    }
+    if (existing)
+        return _8->sub_710120033C(hash);
+    auto* texture = _8->sub_7101200038(hash, name, loader);
+    if (texture && _10.size() < _10.capacity()) {
+        auto* entry = static_cast<u32*>(_20.alloc());
+        *entry = hash;
+        _10.pushBack(entry);
+    }
+    return texture;
 }
 
 Unk_71024f9958::InitArg::InitArg() = default;

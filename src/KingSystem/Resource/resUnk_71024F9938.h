@@ -20,6 +20,7 @@ class Model;
 namespace ksys::res {
 
 class BfRes;
+class Unk_71024f9a70;
 
 // Placeholder classes of the res TU at 0x7100fdc2a4 - 0x7100fddb70 (CSV StructB / StructA).
 // They are the members at ActorData + 0x58 and ActorData + 0x20 (constructed by PlacementActors' ctor, destroyed
@@ -37,6 +38,7 @@ public:
     };
     bool sub_7100FDD00C(const InitArg& arg);
     bool sub_7100FDD0F0() const;
+    nn::gfx::ResTexture* sub_7100FDD100(const sead::SafeString& name, Unk_71024f9a70* loader);
     // 0x7100fdcf20 (CSV StructB::x): releases texture hashes and resets the pool.
     void sub_7100FDCF20();
 

@@ -15,6 +15,9 @@ namespace ksys::res {
 
 class BfRes;
 class Unk_71024f9958;
+// Native constructor FE1310 installs vtable 24F9A70. Dragon E500 and BfRes afterParse
+// pass that same whole stack object to the texture loader paths; its layout remains undeclared.
+class Unk_71024f9a70;
 struct Unk_BfResNode;  // element type of the lists at 0x138 / 0x150 (unknown)
 
 // Vtable 0x71024f9d68 (GOT 0x259ed88): abstract callback interface (D1 0x7100fe85a4 is a shared `ret`, D0 0x7100fe85a8,
@@ -88,6 +91,11 @@ public:
     void sub_71011FFE74(sead::TListNode<Unk_71024f9958*>* node);
     // Native 12003D0 decrements a texture entry selected by its CRC32 key; callers do not consume a result.
     void sub_71012003D0(u32 hash);
+    // FDD100 forwards a SafeString and the native loader object; independent material-animation
+    // callers pass the returned texture to MaterialAnimObj::SetResTexture.
+    nn::gfx::ResTexture* sub_7101200038(u32 hash, const sead::SafeString& name,
+                                      Unk_71024f9a70* loader);
+    nn::gfx::ResTexture* sub_710120033C(u32 hash);
 
     sead::TList<Unk_71024f9958*> _60;
     sead::CriticalSection _78{nullptr, sead::IDisposer::HeapNullOption::DoNotAppendDisposerIfNoHeapSpecified};
