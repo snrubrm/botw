@@ -13,6 +13,7 @@ target_sources(uking PRIVATE
     Cloth/physClothSet.h
 
     Constraint/physConstraint.cpp
+    Constraint/physConstraintBreakable.cpp
     Constraint/physConstraint.h
 
     Ragdoll/physRagdollConfig.cpp

@@ -9,6 +9,8 @@
 #include "KingSystem/Physics/System/physUnk_71012a6844.h"
 
 class hkpConstraintInstance;
+class hkpConstraintData;
+class hkpBreakableConstraintData;
 
 namespace ksys::phys {
 
@@ -17,11 +19,26 @@ class StaticCompoundRigidBodyGroup;
 
 // Placeholder (the object at Constraint +0x18; its +8 is read by the two helpers).
 struct ConstraintUnk18 {
+    // 0x7100f6aca8 initializes this eight-byte argument with a bool at +0 and
+    // the make parameter's float at +4; 0x7100f6c5b4 consumes the float.
+    struct Param {
+        bool _0;
+        f32 mSolverResultLimit;
+    };
+    // Allocation at 0x7100f6c5b4 and vtable 0x71024f6340 prove this extent
+    // and the two empty destructor entries.
+    virtual ~ConstraintUnk18();
+    static ConstraintUnk18* sub_7100F6C5B4(hkpConstraintData* data, const Param& param,
+                                         sead::Heap* heap);
+    hkpBreakableConstraintData* _8 = nullptr;
+    hkpConstraintInstance* _10 = nullptr;
+
     // 0x7100f6c658
     bool sub_7100F6C658() const;
     // 0x7100f6c64c: stores `value` in the object at +8 (+0x44).
     void sub_7100F6C64C(f32 value);
 };
+KSYS_CHECK_SIZE_NX150(ConstraintUnk18, 0x18);
 
 class Constraint;
 
