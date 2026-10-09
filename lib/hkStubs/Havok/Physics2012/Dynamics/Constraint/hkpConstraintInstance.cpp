@@ -31,3 +31,12 @@ void hkpConstraintInstance::enable() {
 void hkpConstraintInstance::disable() {
     hkpResponseModifier::disableConstraint(this, *m_owner);
 }
+
+// NON_MATCHING: the existing reference-count helpers emit longer retry-loop branch layouts.
+void hkpConstraintInstance::replaceEntity(hkpEntity* oldEntity, hkpEntity* newEntity) {
+    const int index = oldEntity == m_entities[0] ? 0 : 1;
+    newEntity->addReference();
+    if (oldEntity)
+        oldEntity->removeReference();
+    m_entities[index] = newEntity;
+}
