@@ -1078,9 +1078,8 @@ void CharacterController::sub_7100F5FD40(const sead::Quatf& rotation) {
         _114 |= 0x20;
 }
 
-// NON_MATCHING: the original stores and reloads the state query results on the stack.
 void CharacterController::sub_7100F60274(const sead::Vector3f& delta) {
-    if (_28->sub_710167785C() == 3 || _28->sub_710167785C() == 2) {
+    if (int(sub_7100F5F0E4()) == 3 || int(sub_7100F5F0E4()) == 2) {
         sead::Vector3f velocity;
         mRigidBody->getLinearVelocity(&velocity);
         velocity += delta;
