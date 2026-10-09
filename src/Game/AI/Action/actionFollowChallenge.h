@@ -26,6 +26,7 @@ protected:
     void sub_710004D950(s32 index, const char* name);
     // Complete native geometry update receives one of this action's paired handles.
     void sub_710004D9FC(Unk_71012419b4* handle);
+    void sub_710004DF70();
     void sub_710004DFF4();
     void sub_710004E0A4();
     void sub_710004E754();

@@ -109,6 +109,16 @@ void FollowChallenge::sub_710004D950(s32 index, const char* name) {
     (&_4d8[index])->operator=(sead::SafeString(name));
 }
 
+void FollowChallenge::sub_710004DF70() {
+    if (_4bb)
+        return;
+    _4bb = true;
+    // called through a pointer in the original (not devirtualised)
+    xlinkSearchAndEmit(mActor, (&_4d8[15])->cstr(), 2, &_3d8);
+    // called through a pointer in the original (not devirtualised)
+    xlinkSearchAndEmit(mActor, (&_4d8[16])->cstr(), 2, &_3f8);
+}
+
 void FollowChallenge::sub_710004DFF4() {
     for (auto& effect : mEffects)
         effect.handle.fadeXLink();
