@@ -66,3 +66,10 @@ void hkClass::setObjectSize(int size) {
 int hkClass::getDescribedVersion() const {
     return m_describedVersion;
 }
+
+hkBool hkClass::hasVtable() const {
+    const hkClass* base = this;
+    while (base->m_parent)
+        base = base->m_parent;
+    return base->m_numImplementedInterfaces != 0;
+}
