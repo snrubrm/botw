@@ -1680,6 +1680,47 @@ void ScreenMainScreenMS::m93(sead::Heap* heap) {
     _3628 = findPane_("Pa_HeartGauge_00");
 }
 
+// 0x7100a16df0
+void ScreenMainScreenMS::sub_7100A16DF0() {
+    if (!_3620)
+        return;
+    _3620->set948(sub_7100949D18(Unk_71025d6578::instance()->_2c));
+    _3620->set944(_3620->get948());
+    const s32 count = sead::Mathi::min(sub_7100949CE8(Unk_71025d6578::instance()->_30), 30);
+    _3620->sub_71009358CC(count, false);
+    if (_3618 && _3628) {
+        _3618->Stop(count);
+        _3630 = 1;
+    }
+}
+
+// NON_MATCHING: the position-copy receiver load is scheduled before the coordinates.
+// 0x7100a16e98
+void ScreenMainScreenMS::m94() {
+    if (_3630 == 1) {
+        _3630 = 2;
+    } else if (_3630 == 2) {
+        if (auto* pane = mLayout->GetPane()->FindPaneByName("N_Pos_00", true)) {
+            const auto& position = pane->GetPosition();
+            _3628->SetPosition(nn::util::Float3{position.x, position.y, 0.0f});
+        }
+        _3630 = 0;
+    }
+    if (Unk_71025d6578::instance()->_38 & 0x2000) {
+        sub_7100A16DF0();
+        return;
+    }
+    if (mState != 1 && mState != 2)
+        return;
+    _3620->set948(sub_7100949D18(Unk_71025d6578::instance()->_2c));
+    if (Unk_71025d6578::instance()->_38 & 0x1000)
+        invokeSoundLink2Event_("mc_HeartDown");
+    if (Unk_71025d6578::instance()->_38 & 2)
+        _3620->playAnimator918();
+    if (_3620)
+        _3620->sub_710093515C(getAnimationStep_());
+}
+
 // 0x7100a16828
 void ScreenMainScreenHeartIchigekiDLC::m93(sead::Heap* heap) {
     _3610 = mLayout->createAnimatorAuto("CenterHeart", true);
@@ -1700,6 +1741,21 @@ void ScreenMainScreenHeartIchigekiDLC::m93(sead::Heap* heap) {
 void ScreenMainScreenMS::m100() {
     _3620->set944(_3620->get948());
     _3620->sub_710093515C(getAnimationStep_());
+}
+
+// 0x7100a168f0
+void ScreenMainScreenHeartIchigekiDLC::sub_7100A168F0() {
+    if (!_3618)
+        return;
+    _3618->set948(sub_7100949D18(Unk_71025d6578::instance()->_2c));
+    _3618->set944(_3618->get948());
+    auto* info = Unk_71025d6578::instance();
+    const s32 count = sead::Mathi::min(sub_7100949CE8(info->_30 - info->_34), 30);
+    _3618->sub_71009358CC(count, false);
+    if (_3610 && _3620) {
+        _3610->Stop(count);
+        _3628 = 1;
+    }
 }
 
 // 0x7100a16aec

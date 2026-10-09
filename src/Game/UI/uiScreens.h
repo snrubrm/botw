@@ -2745,6 +2745,8 @@ public:
     void sub_7100A16FF4();
     void m93(sead::Heap* heap) override;
     void m100() override;
+    void m94() override;
+    void sub_7100A16DF0();
     /* 0x3610 */ eui::Animator* _3610{};
     /* 0x3618 */ eui::Animator* _3618{};
     /* 0x3620 */ Unk_7102474be8* _3620{};
