@@ -3188,6 +3188,7 @@ public:
     ~ScreenChallengeWin() override;
     SEAD_RTTI_OVERRIDE(ScreenChallengeWin, ScreenEx)
 
+    bool sub_7100A007F4(const ksys::qst::Quest* quest);
     void m93(sead::Heap* heap) override;
     // Slots 83 / 86 / 91 (0x7100a00b68 / 0x7100a00af8 / 0x7100a00bfc): clear both strings, restart the timer and close
     // the layout and the screen; m83 and m91 do it only while the layout's byte at +0x91 is 1 or 2.

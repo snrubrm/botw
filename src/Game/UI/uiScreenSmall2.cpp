@@ -1043,6 +1043,27 @@ void ScreenShopBtnList5::m93(sead::Heap*) {
         _3620->StopAtMin();
 }
 
+// 0x7100a007f4
+bool ScreenChallengeWin::sub_7100A007F4(const ksys::qst::Quest* quest) {
+    if (!quest || !_3610)
+        return false;
+    quest->sub_7100FDA570(&_3618);
+    quest->formatQLNameKey(&_3730);
+    eui::MessageString message;
+    getMessage(_3618, _3730, &message);
+    setWidgetString(_3610, "T_Name_00", message);
+    _3848.init(ScreenMainScreen::sub_7100A1E44C());
+    if (_3868) {
+        if (_3860)
+            _3868->StopAtMax();
+        else
+            _3868->StopAtMin();
+    }
+    _3860 = 0;
+    open(1);
+    return true;
+}
+
 // 0x7100a00948
 void ScreenChallengeWin::m93(sead::Heap*) {
     _3610 = sub_7100BEAFB0("Pa_ChallengeWin_00");
