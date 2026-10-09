@@ -42,4 +42,9 @@ s32 ModelAnimation::getMaterialAnmNum(MaterialAnmType type) const {
     return num;
 }
 
+// 0x7100bff2a0
+bool ModelAnimation::sub_7100BFF2A0() {
+    return false;
+}
+
 }  // namespace gsys
