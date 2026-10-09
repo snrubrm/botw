@@ -144,7 +144,13 @@ public:
     /* 0x1f70 */ sead::BitFlag32 _1f70;  // ~45 AI accesses
     // B214 stores capacity 16 at +1f88 and the buffer pointer +1f8c at +1f80.
     /* 0x1f78 */ sead::FixedSafeString<16> _1f78;
-    /* 0x1fa0 */ u8 _1fa0[0x30];
+    // DragonItemRoot 36CE54 copies these f32 values to the TransOffset Vector3f.
+    /* 0x1fa0 */ u8 _1fa0[0xc];
+    /* 0x1fac */ f32 _1fac;
+    /* 0x1fb0 */ u8 _1fb0[0xc];
+    /* 0x1fbc */ f32 _1fbc;
+    /* 0x1fc0 */ u8 _1fc0[0xc];
+    /* 0x1fcc */ f32 _1fcc;
     // object with ctor 0x710000b9b0(this + 0x1fd0)
     /* 0x1fd0 */ u8 _1fd0[0x2270 - 0x1fd0];
     /* 0x2270 */ u8 _2270[0x22c0 - 0x2270];
