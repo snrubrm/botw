@@ -1,5 +1,7 @@
 #include "Game/AI/AI/aiBowShoot.h"
 #include "Game/Actor/actWeapon.h"
+#include "KingSystem/ActorSystem/Profiles/actBullet.h"
+#include "KingSystem/ActorSystem/actChemical.h"
 #include "Game/UI/uiUtils.h"
 #include "Game/UI/uiPauseMenuDataMgr.h"
 #include "Game/Damage/dmgInfoManager.h"
@@ -16,6 +18,60 @@ void sub_7100A94AA8(bool value);
 }
 
 namespace uking::ai {
+
+// NON_MATCHING: stack layout and the chemical-state branch differ.
+void BowShoot::sub_7100339D04() {
+    _18c = 0;
+    _190 = sub_710033C41C() - 1;
+    _180.reset(*mActor->getParam()->getRes().mGParamList->getBow()->mLeadShotInterval);
+    _1ba = 0xff;
+    auto* bullet = sead::DynamicCast<ksys::act::Bullet>(mActor->getConnectedCalcChild());
+    if (bullet) {
+        if (auto* chemical = bullet->getChemicalStuff(); chemical && chemical->_c0 == 2)
+            _1ba = (chemical->_c & 0x100000) != 0;
+    }
+    if (auto* weapon = sead::DynamicCast<act::Weapon>(mActor)) {
+        _1a0 = *weapon->sub_71002EE46C();
+        if (weapon->isParentPlayer()) {
+            _194 = *weapon->getAttackPosMaybe();
+            weapon->getMtx().getTranslation(_1ac);
+        } else {
+            weapon->getMtx().getTranslation(_194);
+        }
+        _1b8 = weapon->_af8._0 == 7;
+    }
+    sub_710033BF8C(2);
+    if (bullet) {
+        sub_710033C2C0(bullet->getName(), 1);
+        _1b9 = (bullet->_cf4 & 2) != 0;
+    }
+    sub_710033BDB4("発射");
+}
+
+// NON_MATCHING: timer stores are reordered and the repeated chemical-state test is folded.
+void BowShoot::sub_7100339F94() {
+    _180.reset(*mActor->getParam()->getRes().mGParamList->getBow()->mRapidFireInterval);
+    _18c = 0;
+    _190 = sub_710033C41C() - 1;
+    if (auto* weapon = sead::DynamicCast<act::Weapon>(mActor)) {
+        _1a0 = *weapon->sub_71002EE46C();
+        if (weapon->isParentPlayer()) {
+            _194 = *weapon->getAttackPosMaybe();
+            weapon->getMtx().getTranslation(_1ac);
+        } else {
+            weapon->getMtx().getTranslation(_194);
+        }
+        _1b8 = weapon->_af8._0 == 7;
+    }
+    sub_710033BF8C(3);
+    if (auto* bullet = sead::DynamicCast<ksys::act::Bullet>(mActor->getConnectedCalcChild())) {
+        sub_710033C2C0(bullet->getName(), 1);
+        _1b9 = (bullet->_cf4 & 2) != 0;
+        if (auto* chemical = bullet->getChemicalStuff(); chemical && chemical->_c0 == 2)
+            _1ba = (chemical->_c & 0x100000) != 0;
+    }
+    sub_710033BDB4("発射");
+}
 
 void BowShoot::sub_710033A1F0() {
     if (dmg::DamageInfoMgr::sub_710067476C()) {
@@ -72,7 +128,8 @@ BowShoot::~BowShoot() {
 void BowShoot::enter_(ksys::act::ai::InlineParamPack* params) {
     sub_710033BDB4("リロード");
     _38 = false;
-    _1b8 = 0;
+    _1b8 = false;
+    _1b9 = false;
     _1ba = 0xff;
     bool arrow_changed = false;
     if (auto* weapon = sead::DynamicCast<act::Weapon>(mActor)) {

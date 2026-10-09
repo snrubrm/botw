@@ -27,7 +27,7 @@ protected:
 
     // 0x7100338f38 (declaration only): `a1` = the equipped arrow differs from the remembered one.
     void sub_7100338F38(bool a1);
-    // 0x7100339d04 / 0x7100339f94 / 0x710033a1f0 / 0x710033a350 / 0x710033a690 (declaration only).
+    // Shot-state setup and transition helpers.
     void sub_7100339D04();
     void sub_7100339F94();
     void sub_710033A1F0();
@@ -57,7 +57,8 @@ protected:
     /* 0x194 */ sead::Vector3f _194{0, 0, 0};
     /* 0x1a0 */ sead::Vector3f _1a0{0, 0, 0};
     /* 0x1ac */ sead::Vector3f _1ac{0, 0, 0};
-    /* 0x1b8 */ u16 _1b8{};
+    /* 0x1b8 */ bool _1b8{};
+    /* 0x1b9 */ bool _1b9{};
     /* 0x1ba */ u8 _1ba = 0xff;
     /* 0x1c0 */ sead::FixedSafeString<32> mArrowName{sead::SafeString::cEmptyString};
 };
