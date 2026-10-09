@@ -12,6 +12,24 @@ class MessageString;
 
 namespace uking::ui {
 
+// Temperature child: factory a1764c, full ctor 9c81cc and D1 9c8248.
+class Unk_710247e0c8 : public ScreenChildEx {
+public:
+    explicit Unk_710247e0c8(eui::LayoutEx* layout);
+    ~Unk_710247e0c8() override;
+    u8 _130[0x1e8 - 0x130];
+};
+static_assert(sizeof(Unk_710247e0c8) == 0x1e8);
+
+// Hero-soul child: factory a17844, full ctor 9c37f8 and D1 9c3890.
+class Unk_710247d580 : public ScreenChildEx {
+public:
+    explicit Unk_710247d580(eui::LayoutEx* layout);
+    ~Unk_710247d580() override;
+    u8 _130[0x1d8 - 0x130];
+};
+static_assert(sizeof(Unk_710247d580) == 0x1d8);
+
 // MainScreen arrow child: factory a17160, full ctor 985eb4 and D1 985ef0.
 class Unk_7102476db8 : public ScreenChildEx {
 public:
@@ -255,6 +273,8 @@ extern const ksys::StateBase sUnk_71025da220;
 
 class Unk_710247e468 : public ScreenChildEx {
 public:
+    // Factory a17748 and full ctor 9c96a4/D1 9c9700 establish the 0x190 extent.
+    explicit Unk_710247e468(eui::LayoutEx* layout);
     ~Unk_710247e468() override;
 
     virtual void m105();
@@ -269,6 +289,8 @@ public:
     // The members used so far (state callbacks m109 / m111 play the animator, m110 waits for it to stop).
     u8 _130[0x138 - 0x130];
     /* 0x138 */ eui::Animator* _138;
+    u8 _140[0x190 - 0x140];
 };
+static_assert(sizeof(Unk_710247e468) == 0x190);
 
 }  // namespace uking::ui

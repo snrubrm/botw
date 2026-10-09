@@ -804,11 +804,15 @@ struct ScreenMainScreenUnk3648 : ScreenChildEx {
 };
 static_assert(sizeof(ScreenMainScreenUnk3648) == 0x390);
 
-// Placeholder for the object ScreenMainScreen keeps at 0x3658 (the int at 0x150 is written by sub_7100A1AB58).
+// Item-pointer child at 0x3658: factory a17550, ctor 98b59c and D1 98b600.
 struct ScreenMainScreenUnk3658 : ScreenChildEx {
+    explicit ScreenMainScreenUnk3658(eui::LayoutEx* layout);
+    ~ScreenMainScreenUnk3658() override;
     u8 _130[0x150 - 0x130];
     /* 0x150 */ s32 _150;
+    u8 _154[0x188 - 0x154];
 };
+static_assert(sizeof(ScreenMainScreenUnk3658) == 0x188);
 
 class ScreenMainScreen : public ScreenEx {
 public:
