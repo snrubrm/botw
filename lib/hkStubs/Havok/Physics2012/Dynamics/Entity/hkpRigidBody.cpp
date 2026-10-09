@@ -19,3 +19,21 @@ void hkpRigidBody::setInertiaLocal(const hkMatrix3& inertia) {
 void hkpRigidBody::setInertiaInvLocal(const hkMatrix3& inverseInertia) {
     getRigidMotion()->setInertiaInvLocal(inverseInertia);
 }
+
+// 0x7101612cbc
+void hkpRigidBody::setPosition(const hkVector4& position) {
+    getRigidMotion()->setPosition(position);
+    updateBroadphaseAndResetCollisionInformationOfWarpedBody(this);
+}
+
+// 0x7101612cec
+void hkpRigidBody::setPositionAndRotation(const hkVector4& position, const hkQuaternion& rotation) {
+    getRigidMotion()->setPositionAndRotation(position, rotation);
+    updateBroadphaseAndResetCollisionInformationOfWarpedBody(this);
+}
+
+// 0x7101612d1c
+void hkpRigidBody::setTransform(const hkTransform& transform) {
+    getRigidMotion()->setTransform(transform);
+    updateBroadphaseAndResetCollisionInformationOfWarpedBody(this);
+}
