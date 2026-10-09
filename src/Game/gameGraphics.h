@@ -150,6 +150,7 @@ public:
     // Only a pointer to the (separately allocated) shadow settings is modeled.
     Unk_a98* getUnk_a98() const { return _a98; }
     Unk_ab0* getUnk_ab0() const { return _ab0; }
+    Unk_71012a20e0* getUnk_ab8() const { return _ab8; }
 
 private:
     u8 _0[0x150];
