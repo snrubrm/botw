@@ -42,7 +42,6 @@ void ItemRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     m34();
 }
 
-// NON_MATCHING: the contact-layer comparison omits the original temporary stack copy.
 void ItemRoot::calc_() {
     auto* actor = mActor;
     auto* object = actor->m128();
@@ -53,7 +52,7 @@ void ItemRoot::calc_() {
 
     auto* body = actor->getMainBody();
     if (!body || body->getMotionType() == ksys::phys::MotionType::Dynamic || !_48 ||
-        body->getContactLayer() == ksys::phys::ContactLayer::EntityNoHit) {
+        int(body->getContactLayer()) == ksys::phys::ContactLayer::EntityNoHit) {
         return;
     }
     body->changeMotionType(ksys::phys::MotionType::Dynamic);
