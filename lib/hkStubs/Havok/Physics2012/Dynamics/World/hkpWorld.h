@@ -549,3 +549,13 @@ public:
 inline hkpSolverInfo* hkpWorld::getSolverInfo() {
     return &m_dynamicsStepInfo.m_solverInfo;
 }
+
+// Inline in hkpConstraintInstance::isConstrainedToWorld (0x7101616168)
+// and setFixedRigidBodyPointersToZero (0x7101616740).
+inline hkpRigidBody* hkpWorld::getFixedRigidBody() {
+    return m_fixedRigidBody;
+}
+
+inline const hkpRigidBody* hkpWorld::getFixedRigidBody() const {
+    return m_fixedRigidBody;
+}

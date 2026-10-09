@@ -3,6 +3,7 @@
 #include <prim/seadMemUtil.h>
 #include <prim/seadScopedLock.h>
 #include "gsys/gsysModel.h"
+#include "gsys/gsysModelUnit.h"
 
 namespace gsys {
 
@@ -58,6 +59,18 @@ BoneAccessKeyEx::~BoneAccessKeyEx() {
 
 void BoneAccessKeyEx::removeImpl_() {
     mKey.reset();
+}
+
+// 0x7100bf9fc0
+bool BoneAccessKeyEx::search(const Model* p_model, const BoneAccessKey& key) {
+    return IModelAccesssHandle::search(
+        p_model, p_model->getUnits()(key.model_unit_index)->mModelUnit->getBoneName(key.bone_index));
+}
+
+// 0x7100bfa020
+bool BoneAccessKeyEx::searchImpl_() {
+    mKey = mModel->searchBone(mName);
+    return mKey.isValid();
 }
 
 // NON_MATCHING: same as BoneAccessKeyEx::BoneAccessKeyEx() (the key halves are stored separately,

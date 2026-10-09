@@ -1,5 +1,6 @@
 #include "aal/aalCustomCurve.h"
 #include <basis/seadNew.h>
+#include <math/seadMathCalcCommon.h>
 #include "aal/aalCurveReader.h"
 
 namespace aal {
@@ -54,6 +55,65 @@ bool CustomCurve::addSegment(CustomCurveSegment* segment) {
         return lhs->mPosition > rhs->mPosition;
     });
     return true;
+}
+
+// NON_MATCHING: the list traversal and interpolation branches have different layouts and register allocation.
+// 0x7100ba2d80
+f32 CustomCurve::interpolate(f32 x) const {
+    if (!(x >= 0.0f))
+        return 0.0f;
+
+    const CustomCurveSegment* segment = mSegments.back();
+    while (segment && !(segment->mPosition <= x))
+        segment = mSegments.prev(segment);
+    if (!segment)
+        return 0.0f;
+
+    const CustomCurveSegment* next = mSegments.next(segment);
+    if (!next)
+        return segment->mValue;
+    const f32 coefficient = segment->mCoefficient;
+    if (!(coefficient >= 0.0f))
+        return 0.0f;
+
+    const f32 distance = x - segment->mPosition;
+    const f32 value = segment->mValue;
+    if (distance == 0.0f)
+        return value;
+    const f32 width = next->mPosition - segment->mPosition;
+    if (width == 0.0f)
+        return next->mValue;
+
+    const f32 t = distance / width;
+    const f32 delta = next->mValue - value;
+    f32 factor;
+    switch (segment->mType.value()) {
+    case CustomCurveType::Linear:
+        factor = t;
+        break;
+    case CustomCurveType::Exp:
+        factor = sead::Mathf::powTable(t, coefficient);
+        break;
+    case CustomCurveType::Log:
+        factor = sead::Mathf::powTable(t, 1.0f / coefficient);
+        break;
+    case CustomCurveType::Sin:
+        factor = sead::Mathf::sin(t * sead::Mathf::piHalf());
+        if (coefficient != 1.0f)
+            factor = sead::Mathf::powTable(factor, coefficient);
+        break;
+    case CustomCurveType::Cos:
+        factor = sead::Mathf::cos(t * sead::Mathf::piHalf());
+        if (coefficient > 1.0f)
+            factor = sead::Mathf::powTable(factor, coefficient);
+        factor = 1.0f - factor;
+        break;
+    case CustomCurveType::Const:
+        return value;
+    default:
+        return 0.0f;
+    }
+    return value + delta * factor;
 }
 
 }  // namespace aal

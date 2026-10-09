@@ -2,6 +2,20 @@
 #include <Havok/Physics2012/Dynamics/World/Util/hkpWorldConstraintUtil.h>
 #include <Havok/Physics2012/Dynamics/Entity/hkpEntity.h>
 #include <Havok/Physics2012/Dynamics/Collide/hkpResponseModifier.h>
+#include <Havok/Physics2012/Dynamics/Entity/hkpRigidBody.h>
+#include <Havok/Physics2012/Dynamics/World/hkpWorld.h>
+
+// 0x7101615e6c. The data and entity pointers are supplied by the embedded-instance owner.
+hkpConstraintInstance::hkpConstraintInstance(ConstraintPriority priority)
+    : m_owner(nullptr), m_constraintModifiers(nullptr), m_priority(priority), m_wantRuntime(true),
+      m_destructionRemapInfo(ON_DESTRUCTION_REMAP), m_userData(0), m_internal(nullptr),
+      m_uid(0xfffffff0) {}
+
+// 0x7101615f08
+void hkpConstraintInstance::entityAddedCallback(hkpEntity*) {}
+
+// 0x7101615f0c
+void hkpConstraintInstance::entityDeletedCallback(hkpEntity*) {}
 
 // 0x7101615ED8
 void hkpConstraintInstance::setPriority(ConstraintPriority priority) {
@@ -39,4 +53,37 @@ void hkpConstraintInstance::replaceEntity(hkpEntity* oldEntity, hkpEntity* newEn
     if (oldEntity)
         oldEntity->removeReference();
     m_entities[index] = newEntity;
+}
+
+// NON_MATCHING: the original shares the true return path and uses different register allocation.
+// 0x7101616168
+hkBool hkpConstraintInstance::isConstrainedToWorld() const {
+    if (!m_entities[1])
+        return true;
+    hkpWorld* world = m_entities[0]->getWorld();
+    return world && m_entities[1] == world->getFixedRigidBody();
+}
+
+// NON_MATCHING: the existing reference-count helper emits longer retry-loop branch layouts.
+// 0x7101616740
+void hkpConstraintInstance::setFixedRigidBodyPointersToZero(hkpWorld* world) {
+    for (hkpEntity*& entity : m_entities) {
+        if (entity == world->getFixedRigidBody()) {
+            entity->removeReference();
+            entity = nullptr;
+        }
+    }
+}
+
+// NON_MATCHING: the search index and not-found branch use different register allocation and layout.
+// 0x710161647c
+void hkpConstraintInstance::removeConstraintListener(hkpConstraintListener* listener) {
+    int index = -1;
+    for (int i = 0; i < m_listeners.getSize(); ++i) {
+        if (m_listeners[i] == listener) {
+            index = i;
+            break;
+        }
+    }
+    m_listeners[index] = nullptr;
 }

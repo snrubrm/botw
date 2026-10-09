@@ -170,4 +170,12 @@ void ModelUnit::sub_7100C3EE8C(u8 depth_shadow_cascade) {
     }
 }
 
+// 0x7100c3e974
+void ModelUnit::calcBoundAABB(sead::BoundBox3f* aabb, bool) const {
+    const f32 radius = _50->getRadius();
+    const sead::Vector3f extent(radius, radius, radius);
+    aabb->setMin(_50->getCenter() - extent);
+    aabb->setMax(_50->getCenter() + extent);
+}
+
 }  // namespace gsys
