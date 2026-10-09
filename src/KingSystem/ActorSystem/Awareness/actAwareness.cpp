@@ -7,12 +7,33 @@
 #include <utility/aglResParameter.h>
 #include "KingSystem/ActorSystem/Awareness/actAwarenessDefs.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
+#include "KingSystem/ActorSystem/actGlobalParameter.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectGlobal.h"
+#include "KingSystem/World/worldManager.h"
+#include "KingSystem/World/worldWeatherMgr.h"
 #include "KingSystem/Resource/resHandle.h"
 #include "KingSystem/Resource/resLoadRequest.h"
 
 namespace ksys::act {
 
 SEAD_SINGLETON_DISPOSER_IMPL(Awareness)
+
+// NON_MATCHING: the index comparison is hoisted before the singleton and weather-array checks.
+f32 sub_7100D7AA24(s32 idx) {
+    if (auto* manager = world::Manager::instance()) {
+        if (idx == 1) {
+            if (auto* weather = manager->getWeatherMgr()) {
+                if (weather->isRaining()) {
+                    if (auto* global = GlobalParameter::instance()) {
+                        if (auto* params = global->getGlobalParam())
+                            return *params->mRainyAwnHearingLevel;
+                    }
+                }
+            }
+        }
+    }
+    return 1.0f;
+}
 
 bool Awareness::Instances::registerInstance(AwarenessInstance* instance) {
     auto lock = sead::makeScopedLock(critical_section);

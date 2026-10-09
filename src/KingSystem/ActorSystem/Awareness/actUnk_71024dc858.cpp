@@ -1,5 +1,6 @@
 #include "KingSystem/ActorSystem/Awareness/actAITerror.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
+#include "KingSystem/ActorSystem/Awareness/actAwarenessDefs.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 
@@ -15,6 +16,12 @@ Unk_71024dc858::Unk_71024dc858(Actor* actor) {
 
 Unk_71024dc858::~Unk_71024dc858() {
     mLink.reset();
+}
+
+f32 Unk_71024dc858::m4(int idx) {
+    if (_50 || _51)
+        return 0.0f;
+    return _18[idx] * _28[idx] * sub_7100D7AA24(idx);
 }
 
 bool Unk_71024dc858::m5(int bit) const {
