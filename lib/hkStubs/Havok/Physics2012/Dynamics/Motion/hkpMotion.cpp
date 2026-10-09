@@ -23,3 +23,26 @@ void hkpMotion::setMassInv(hkReal inverseMass) {
 void hkpMotion::setDeactivationClass(int deactivationClass) {
     m_motionState.m_deactivationClass = deactivationClass;
 }
+
+// 0x7101606898
+void hkpMotion::setLinearVelocity(const hkVector4& velocity) {
+    m_linearVelocity = velocity;
+}
+
+// 0x71016068a4
+void hkpMotion::setAngularVelocity(const hkVector4& velocity) {
+    m_angularVelocity = velocity;
+}
+
+// 0x71016068b0
+void hkpMotion::applyLinearImpulse(const hkVector4& impulse) {
+    m_linearVelocity.addMul(getMassInv(), impulse);
+}
+
+// 0x71016068c8
+void hkpMotion::getMotionStateAndVelocitiesAndDeactivationType(hkpMotion* motionOut) {
+    motionOut->m_motionState = m_motionState;
+    motionOut->m_linearVelocity = m_linearVelocity;
+    motionOut->m_angularVelocity = m_angularVelocity;
+    motionOut->m_deactivationIntegrateCounter = m_deactivationIntegrateCounter;
+}
