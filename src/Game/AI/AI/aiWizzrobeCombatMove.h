@@ -49,7 +49,9 @@ protected:
     sead::Vector3f* mAttPos_d{};
     // aitree_variable at offset 0x90
     bool* mIsWizzrobeInBattleAreaFlag_a{};
-    u8 _98[0xb0 - 0x98];
+    // Native 5FCB74 copies TargetPos to +98; 5FD564 computes a Vector3f offset at +a4.
+    sead::Vector3f mTargetPosition;
+    sead::Vector3f mMoveOffset;
     // Native 5FCB74 stores the actor position here; calc compares the saved position.
     sead::Vector3f mStartPosition{0, 0, 0};
     s32 _bc = 0;
