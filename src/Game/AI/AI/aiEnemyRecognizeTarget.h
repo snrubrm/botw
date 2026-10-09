@@ -12,6 +12,7 @@ public:
     ~EnemyRecognizeTarget() override;
 
     void loadParams_() override;
+    bool m34() override;
 
 protected:
     // map_unit_param at offset 0x128
