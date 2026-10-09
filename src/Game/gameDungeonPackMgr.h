@@ -25,6 +25,8 @@ public:
     bool isResReady() const;
     void sub_71008A5ADC();
     bool startedLoadAndFailed() const;
+    // GameScene 7AC7D0 calls this on the singleton after requesting pack unload.
+    void sub_71008A5B1C();
 
 private:
     ksys::res::EntryFactory<ksys::res::Archive> mFactory;

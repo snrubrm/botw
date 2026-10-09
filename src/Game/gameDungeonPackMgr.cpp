@@ -97,3 +97,11 @@ void DungeonPackMgr::waitAndSetResMgrPack() {
             uking::aoc::Manager::instance()->registerAocPack(&mHandle);
     }
 }
+
+void DungeonPackMgr::sub_71008A5B1C() {
+    ksys::res::ResourceMgrTask::instance()->waitForTaskQueuesToEmpty();
+    ksys::res::ResourceMgrTask::instance()->waitForTaskQueuesToEmpty();
+    ksys::res::ResourceMgrTask::instance()->waitForTaskQueuesToEmpty();
+    ksys::res::ResourceMgrTask::instance()->waitForTaskQueuesToEmpty();
+    ksys::res::ResourceMgrTask::instance()->waitForTaskQueuesToEmpty();
+}
