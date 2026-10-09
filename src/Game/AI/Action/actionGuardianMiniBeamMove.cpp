@@ -2,6 +2,7 @@
 #include "KingSystem/XLink/xlinkActorUtil.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/Utils/MathUtil.h"
 
 namespace uking::action {
@@ -29,7 +30,30 @@ void GuardianMiniBeamMove::loadParams_() {
 }
 
 void GuardianMiniBeamMove::calc_() {
-    BeamMove::calc_();
+    if (BeamMove::m38())
+        return;
+    if (hasAttackInfo(mActor)) {
+        auto* info = getAttackInfo(mActor, 0);
+        if (info->_18 & 0xa) {
+            m33(info);
+            sub_71001943F0();
+            xlinkSearchAndEmit(mActor, "Beam", 2, &_78);
+        } else {
+            m36(info);
+        }
+        return;
+    }
+    if (sub_7100193EB4())
+        return;
+    sub_71000C1258();
+    sub_71001940D0();
+    if (_98 == 0) {
+        if (auto* body = mActor->getMainBody())
+            body->setLinearVelocity(sead::Vector3f::zero);
+        if (auto* body = mActor->findPhysicsBodyByName("Atk", "AtkBody"))
+            body->setLinearVelocity(sead::Vector3f::zero);
+        _98 = 1;
+    }
 }
 
 
