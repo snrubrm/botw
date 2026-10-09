@@ -268,7 +268,6 @@ void CameraHorse::sub_7100771480(f32* out) {
     }
 }
 
-// NON_MATCHING: the vertical special case uses a constant selection table.
 void CameraHorse::sub_71007712B0(f32* out) {
     auto* camera = getCamera();
     if (!camera || !camera->_860._260.hasProc())
@@ -280,10 +279,17 @@ void CameraHorse::sub_71007712B0(f32* out) {
         ksys::act::PlayerInfo::instance()->getHorseLink().getProc(nullptr, nullptr));
     if (!player)
         return;
-    const sead::Vector3f direction = player->getMtx().getTranslation() - target->getMtx().getTranslation();
+    const sead::Vector3f target_position = target->getMtx().getTranslation();
+    const sead::Vector3f player_position = player->getMtx().getTranslation();
+    const sead::Vector3f direction = player_position - target_position;
     f32 latitude;
-    if (direction.x == 0.0f && direction.z == 0.0f)
-        latitude = direction.y < 0.0f ? -180.0f : 180.0f;
+    if (direction.x == 0.0f && direction.z == 0.0f) {
+        if (direction.y < 0.0f) {
+            *out = angleStuff(-180.0f);
+            return;
+        }
+        latitude = 180.0f;
+    }
     else
         latitude = sead::Mathf::rad2deg(std::atan2(direction.y, std::sqrt(direction.x * direction.x + direction.z * direction.z)));
     *out = angleStuff(latitude);
