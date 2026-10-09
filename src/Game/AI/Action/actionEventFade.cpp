@@ -11,31 +11,38 @@ bool EventFade::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }
 
-// NON_MATCHING: frame and color validation branches are arranged differently.
 void EventFade::enter_(ksys::act::ai::InlineParamPack* params) {
     auto* mgr = eui::ScreenMgr::instance();
     if (mgr) {
         auto* screen = sead::DynamicCast<ui::ScreenFadeDemo>(mgr->getScreen(ui::ScreenId::FadeDemo));
         if (screen) {
-            if (*mFrame_d == 2)
-                screen->sub_71010A01F8(2);
-            else if (*mFrame_d == 1)
-                screen->sub_71010A01F8(0);
-            else if (*mFrame_d == 0)
+            switch (*mFrame_d) {
+            case 0:
                 screen->sub_71010A01F8(1);
-            else {
+                break;
+            case 1:
+                screen->sub_71010A01F8(0);
+                break;
+            case 2:
+                screen->sub_71010A01F8(2);
+                break;
+            default:
                 setFailed();
                 mFlags.set(Flag::Changeable);
                 return;
             }
 
-            if (*mColor_d == 1)
-                screen->sub_71010A01A8(0);
-            else if (*mColor_d == 0)
+            switch (*mColor_d) {
+            case 0:
                 screen->sub_71010A01A8(1);
-            else {
+                break;
+            case 1:
+                screen->sub_71010A01A8(0);
+                break;
+            default:
                 setFailed();
                 mFlags.set(Flag::Changeable);
+                break;
             }
             return;
         }
