@@ -29,17 +29,13 @@ void XLinkCreateToParts::m9() {
     XLinkCreate::m9();
 }
 
-// NON_MATCHING: the original keeps the translation in registers (loaded once, interleaved with the
-// copy to *out) and adds it last: `((x*m00 + y*m01) + z*m02) + t`; ours rebuilds the sum differently
 void XLinkCreateToParts::m15(sead::Vector3f* out) {
-    sead::Vector3f trans;
-    mActor->getMtx().getTranslation(trans);
-    *out = trans;
-    if (*mOffset_s != sead::Vector3f(0, 0, 0)) {
-        sead::Vector3f pos = *mOffset_s;
+    mActor->getMtx().getTranslation(*out);
+    const sead::Vector3f offset = *mOffset_s;
+    if (offset != sead::Vector3f(0, 0, 0)) {
+        sead::Vector3f pos = offset;
         pos.rotate(mActor->getMtx());
-        pos += trans;
-        *out = pos;
+        out->setAdd(pos, *out);
     }
 }
 
