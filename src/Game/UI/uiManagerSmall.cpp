@@ -1,4 +1,5 @@
 #include "Game/UI/uiManager.h"
+#include "KingSystem/XLink/xlinkManager.h"
 #include "Game/UI/uiScreens.h"
 #include "KingSystem/System/SeadController.h"
 #include "Game/UI/uiUnkSingletons.h"
@@ -157,6 +158,56 @@ void Manager::sub_7100A7F8D4() {
 // 0x7100a7f918
 bool Manager::sub_7100A7F918() const {
     return _651f8 > 0;
+}
+
+void Unk_71025d6ac0::sub_710096809C() {
+    ksys::xlink::Manager::instance()->setGlobalProperty(26, 10000.0f);
+    ksys::xlink::Manager::instance()->setGlobalProperty(27, 0.0f);
+}
+
+void Unk_71025d6ac0::sub_71009682A4() {
+    _29 = false;
+    _4c = 1.0f;
+}
+
+void Unk_71025d6ac0::sub_71009684A0() {
+    _4c = 1.0f;
+    _29 = false;
+    _2a = false;
+    _58.reset();
+}
+
+// Const spelling is source inference from the read-only native bodies and callers.
+bool Unk_71025d6ac0::sub_71009684C4() const {
+    return _28;
+}
+
+void Unk_71025d6ac0::sub_71009684CC(bool value) {
+    _28 = value;
+}
+
+bool Unk_71025d6ac0::sub_7100968550() const {
+    return _2b;
+}
+
+bool Unk_71025d6ac0::sub_71009685BC() const {
+    return _54;
+}
+
+void Unk_71025d6ac0::sub_710096867C(bool value) {
+    _54 = value;
+}
+
+void Unk_71025d6ac0::sub_7100968688() {
+    _58.reset();
+}
+
+void Unk_71025d6ac0::sub_7100968690() {
+    _58.reset();
+}
+
+bool Unk_71025d6ac0::sub_7100968698() {
+    return _58.updateAndCheckEnded();
 }
 
 f32 Unk_71025d6ac0::sub_7100968558() const {

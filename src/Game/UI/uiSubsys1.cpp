@@ -703,7 +703,7 @@ s32 UiSubsys1::get38a4() const {
 }
 
 // 0x71009674fc
-u8 UiSubsys1::get29() const {
+u8 Unk_71025d6ac0::get29() const {
     return _29;
 }
 

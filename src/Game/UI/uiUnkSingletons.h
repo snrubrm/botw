@@ -49,6 +49,20 @@ class Unk_71025d6ac0 {
 public:
     static Unk_71025d6ac0* instance() { return sInstance; }
 
+    // Child m29 9C0770 passes this singleton; the native body leaves its receiver unused.
+    void sub_710096809C();
+    u8 get29() const;
+    void sub_71009682A4();
+    void sub_71009684A0();
+    bool sub_71009684C4() const;
+    void sub_71009684CC(bool value);
+    bool sub_7100968550() const;
+    bool sub_71009685BC() const;
+    void sub_710096867C(bool value);
+    void sub_7100968688();
+    void sub_7100968690();
+    bool sub_7100968698();
+
     f32 sub_7100968558() const;
     bool sub_71009685AC(s32 value) const;
     bool sub_71009686E8() const;
@@ -65,9 +79,19 @@ public:
     u8 get88() const;
     void clear88();
 
-    u8 _0[0x29];
+    // Full createInstance 967E78 and child consumers identify flags, scale and timer.
+    u8 _0[0x28];
+    /* 0x28 */ bool _28;
     /* 0x29 */ bool _29;
-    u8 _2a[0x74 - 0x2a];
+    /* 0x2a */ bool _2a;
+    /* 0x2b */ bool _2b;
+    u8 _2c[0x4c - 0x2c];
+    /* 0x4c */ f32 _4c;
+    u8 _50[4];
+    /* 0x54 */ bool _54;
+    u8 _55[3];
+    /* 0x58 */ UiTimer _58;
+    u8 _70[4];
     /* 0x74 */ s32 _74;
     u8 _78[0x80 - 0x78];
     /* 0x80 */ s32 _80;
@@ -403,7 +427,6 @@ public:
     // 0x7100966de0 / 0x7100966e8c / 0x71009674fc / 0x7100967514 - 0x7100967594 / 0x710096876c (placeholder names)
     void set3888(s32 value);
     s32 get38a4() const;
-    u8 get29() const;
     s32 get38e0() const;
     void set38e0(s32 value);
     s32 get38e8() const;
