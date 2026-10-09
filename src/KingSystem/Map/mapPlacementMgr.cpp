@@ -541,4 +541,44 @@ Object* PlacementMgr::sub_71011EC130(s32 group, const sead::SafeString& name,
     return nullptr;
 }
 
+// NON_MATCHING: name-filter paths share the distance calculation; native duplicates it.
+Object* PlacementMgr::sub_71011EC398(const sead::SafeString& name,
+                                  const sead::SafeString& unique_name,
+                                  const sead::Vector3f& origin) {
+    auto& lock = mPlacementActors->mLock;
+    lock.readLock();
+    Object* result = nullptr;
+    f32 nearest_distance = sead::Mathf::maxNumber();
+    for (s32 group = 0; group < mPlacementActors->getNumGroups(); ++group) {
+        const s32 count = mPlacementActors->getNumObjs(group);
+        for (s32 index = 0; index < count; ++index) {
+            Object* obj = mPlacementActors->getObj(group, index);
+            const auto& actor_name = mPlacementActors->mActorData[obj->getActorDataIdx()].mActorName;
+            if (!name.isEqual(actor_name))
+                continue;
+            if (unique_name.isEmpty()) {
+                if (obj->getFlags().isOn(Object::Flag::HasUniqueName))
+                    continue;
+            } else {
+                if (!obj->getFlags().isOn(Object::Flag::HasUniqueName))
+                    continue;
+                const char* object_unique_name;
+                obj->getUniqueName(&object_unique_name);
+                if (!unique_name.isEqual(sead::SafeString(object_unique_name)))
+                    continue;
+            }
+            const auto position = obj->getTranslate();
+            const f32 dx = position.x - origin.x;
+            const f32 dz = position.z - origin.z;
+            const f32 distance = dx * dx + dz * dz;
+            if (distance < nearest_distance) {
+                result = obj;
+                nearest_distance = distance;
+            }
+        }
+    }
+    lock.readUnlock();
+    return result;
+}
+
 }  // namespace ksys::map
