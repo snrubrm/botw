@@ -37,29 +37,30 @@ void SpatialPlayingParamPool::initialize(s32 num, sead::Heap* heap) {
     mSearchStart = 0;
 }
 
-// NON_MATCHING: same code, but the original shares the final `at(index)` + activate() between the two search loops
 // 0x7100b915f4
 SpatialPlayingParam* SpatialPlayingParamPool::alloc() {
     if (!mParams.isBufferReady())
         return nullptr;
 
     const s32 size = mParams.size();
-    sead::ScopedLock<sead::CriticalSection> lock(&mCS);
-    const s32 start = mSearchStart;
-    for (s32 i = start; i < size; ++i) {
-        if (!mParams[i]->isActivated()) {
-            mSearchStart = i + 1 < mParams.size() ? i + 1 : 0;
-            SpatialPlayingParam* param = mParams[i];
-            param->activate();
-            return param;
+    {
+        sead::ScopedLock<sead::CriticalSection> lock(&mCS);
+        const s32 start = mSearchStart;
+        for (s32 i = start; i < size; ++i) {
+            if (!mParams[i]->isActivated()) {
+                mSearchStart = i + 1 < mParams.size() ? i + 1 : 0;
+                SpatialPlayingParam* param = mParams[i];
+                param->activate();
+                return param;
+            }
         }
-    }
-    for (s32 i = 0; i < start; ++i) {
-        if (!mParams[i]->isActivated()) {
-            mSearchStart = i + 1 < mParams.size() ? i + 1 : 0;
-            SpatialPlayingParam* param = mParams[i];
-            param->activate();
-            return param;
+        for (s32 i = 0; i < start; ++i) {
+            if (!mParams[i]->isActivated()) {
+                mSearchStart = i + 1 < mParams.size() ? i + 1 : 0;
+                SpatialPlayingParam* param = mParams[i];
+                param->activate();
+                return param;
+            }
         }
     }
     return nullptr;
