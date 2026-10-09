@@ -59,6 +59,18 @@ u32 Unk_71024F9D48::sub_7100FE8330() {
     return _1c;
 }
 
+bool Unk_71024F9D48::sub_7100FE83CC() {
+    if (_28)
+        return sub_7100FE0F14(_28);
+    return false;
+}
+
+bool Unk_71024F9D48::sub_7100FE83DC() {
+    if (_28)
+        return sub_7100FE0F44(_28);
+    return false;
+}
+
 nn::gfx::ResTexture* Unk_71024F9D48::sub_7100FE83EC() {
     if (!_20)
         return sUnk_710260EAD0;
