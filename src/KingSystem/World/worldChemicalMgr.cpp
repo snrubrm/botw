@@ -4,6 +4,7 @@
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actChemicalElementHolder.h"
 #include "KingSystem/Terrain/teraSystem.h"
+#include "KingSystem/System/VFR.h"
 
 // The original keeps the vtable store that an empty destructor would drop: `{ ; }` as in upstream's
 // GameDataFlagSelector::~GameDataFlagSelector() { ; } (commit 96101229).
@@ -125,6 +126,10 @@ void ChemicalMgr::sub_71010CBEAC(act::Chemical* chemical) {
         if (pair->first == chemical || pair->second == chemical)
             mChemicalPairs.erase(pair);
     }
+}
+
+void ChemicalMgr::sub_71010CE760() {
+    sub_71010CE7DC(VFR::instance() ? VFR::instance()->getDeltaFrame() : 1.0f);
 }
 
 }  // namespace ksys::world

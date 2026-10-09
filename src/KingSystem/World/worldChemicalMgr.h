@@ -74,6 +74,8 @@ public:
     void sub_71010CC5AC();
     void sub_71010CC5B4();
     void sub_71010CE760();
+    // Pair-processing helper at 0x71010CE7DC consumes the current VFR delta frame.
+    void sub_71010CE7DC(f32 delta_frame);
     void sub_71010CB5C0();
     // Original 0x71010cbdcc: enqueue a unique chemical pair and event type under the pool lock.
     void sub_71010CBDCC(act::Chemical* first, act::Chemical* second, s32 type);
