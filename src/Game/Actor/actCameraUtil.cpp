@@ -5,6 +5,8 @@
 #include "Game/Actor/actCamera.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/Event/evtEventSystem.h"
+#include "KingSystem/Event/evtManager.h"
+#include "KingSystem/Event/evtEventFlow.h"
 #include "KingSystem/Event/evtUnk_7100dc816c.h"
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
@@ -589,6 +591,40 @@ void Unk_71009241ac::sub_710092464C() {
     matrix = mtx;
     previousPos = mtx.getTranslation();
     position = mtx.getTranslation();
+}
+
+// NON_MATCHING: vector load/store grouping and local delegate stack placement differ.
+void sub_7100924A4C(ksys::act::Actor* actor, const sead::SafeString& name,
+                    const sead::SafeString& unique_name, CameraTargetResult* result) {
+    if (!actor)
+        return;
+    auto& named_link = ksys::evt::sub_7100DC8630(name, unique_name);
+    if (named_link.hasProc()) {
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::acquireActor(&named_link, &accessor);
+        result->sub_7100923ECC(&accessor);
+        return;
+    }
+    sead::Vector3f origin = sead::Vector3f::zero;
+    auto& actor_link = ksys::evt::sub_7100DC85D4(actor);
+    if (actor_link.hasProc()) {
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::acquireActor(&actor_link, &accessor);
+        origin = accessor.getActorMtx().getTranslation();
+    } else {
+        auto* manager = ksys::evt::Manager::instance();
+        if (!manager)
+            return;
+        auto* event = manager->getActiveEvent();
+        if (!event)
+            return;
+        origin = event->mStartTransform.getTranslation();
+    }
+    sead::Delegate1<CameraTargetResult, ksys::act::ActorConstDataAccess*> on_actor(
+        result, &CameraTargetResult::sub_7100923ECC);
+    sead::Delegate1<CameraTargetResult, ksys::map::Object*> on_object(
+        result, &CameraTargetResult::sub_7100923F0C);
+    sub_7100923F44(name, unique_name, origin, &on_actor, &on_object);
 }
 
 // NON_MATCHING: clang duplicates the player branch and shares different branch/destructor tails.

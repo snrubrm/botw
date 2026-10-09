@@ -5,6 +5,7 @@
 #include <math/seadMatrix.h>
 #include <math/seadVector.h>
 #include <prim/seadSafeString.h>
+#include <prim/seadDelegate.h>
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Utils/MathUtil.h"
 #include "KingSystem/Utils/Types.h"
