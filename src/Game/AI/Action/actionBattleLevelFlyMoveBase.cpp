@@ -7,7 +7,6 @@
 
 namespace uking::action {
 
-// NON_MATCHING: scheduling only (the vtable address add and the VFRVec3f address are ordered differently)
 BattleLevelFlyMoveBase::BattleLevelFlyMoveBase(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
 BattleLevelFlyMoveBase::~BattleLevelFlyMoveBase() = default;
@@ -42,14 +41,14 @@ void BattleLevelFlyMoveBase::leave_() {
 }
 
 void BattleLevelFlyMoveBase::loadParams_() {
-    getStaticParam(&mSpeed_s, "Speed");
-    getStaticParam(&mRotSpd_s, "RotSpd");
-    getStaticParam(&mFinRotate_s, "FinRotate");
-    getStaticParam(&mFinRadius_s, "FinRadius");
-    getStaticParam(&mTargetHeightOffset_s, "TargetHeightOffset");
-    getStaticParam(&mRotRatio_s, "RotRatio");
-    getStaticParam(&mCheckStopSpeed_s, "CheckStopSpeed");
-    getDynamicParam(&mTargetPos_d, "TargetPos");
+    getStaticParam(&mParams.mSpeed_s, "Speed");
+    getStaticParam(&mParams.mRotSpd_s, "RotSpd");
+    getStaticParam(&mParams.mFinRotate_s, "FinRotate");
+    getStaticParam(&mParams.mFinRadius_s, "FinRadius");
+    getStaticParam(&mParams.mTargetHeightOffset_s, "TargetHeightOffset");
+    getStaticParam(&mParams.mRotRatio_s, "RotRatio");
+    getStaticParam(&mParams.mCheckStopSpeed_s, "CheckStopSpeed");
+    getDynamicParam(&mParams.mTargetPos_d, "TargetPos");
 }
 
 void BattleLevelFlyMoveBase::calc_() {

@@ -21,22 +21,25 @@ public:
 protected:
     void calc_() override;
 
-    // static_param at offset 0x20
-    const float* mSpeed_s{};
-    // static_param at offset 0x28
-    const float* mRotSpd_s{};
-    // static_param at offset 0x30
-    const float* mFinRotate_s{};
-    // static_param at offset 0x38
-    const float* mFinRadius_s{};
-    // static_param at offset 0x40
-    const float* mTargetHeightOffset_s{};
-    // static_param at offset 0x48
-    const float* mRotRatio_s{};
-    // static_param at offset 0x50
-    const float* mCheckStopSpeed_s{};
-    // dynamic_param at offset 0x58
-    sead::Vector3f* mTargetPos_d{};
+    struct Params {
+        // static_param at offset 0x20
+        const float* mSpeed_s{};
+        // static_param at offset 0x28
+        const float* mRotSpd_s{};
+        // static_param at offset 0x30
+        const float* mFinRotate_s{};
+        // static_param at offset 0x38
+        const float* mFinRadius_s{};
+        // static_param at offset 0x40
+        const float* mTargetHeightOffset_s{};
+        // static_param at offset 0x48
+        const float* mRotRatio_s{};
+        // static_param at offset 0x50
+        const float* mCheckStopSpeed_s{};
+        // dynamic_param at offset 0x58
+        sead::Vector3f* mTargetPos_d{};
+    };
+    Params mParams;
     ksys::VFRVec3f _60;
     sead::Vector3f _84{0, 0, 0};
     sead::Vector3f _90{0, 0, 0};
