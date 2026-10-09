@@ -6,6 +6,11 @@
 #include <nn/gfx/gfx_ResTexture.h>
 #include <nn/gfx/gfx_MemoryPoolInfo.h>
 #include <nn/ui2d/ArcExtractor.h>
+#include <nn/gfx/gfx_ResShader.h>
+#include <nn/gfx/gfx_ResShaderData-api.nvn.h>
+#include <nn/gfx/gfx_Shader.h>
+#include <nn/gfx/detail/gfx_ResShaderImpl.h>
+#include <cstring>
 
 namespace eui {
 
@@ -123,6 +128,36 @@ void ArcResourceMgr::unloadAllArchives() {
         u8* data = archive.mData;
         delete &archive;
         sead::FileDeviceMgr::instance()->unload(data);
+    }
+}
+
+void ArcResourceMgr::finalizeInitializedShaderResource(void* data) {
+    nn::ui2d::ArcExtractor archive(data);
+    auto* device = sead::GraphicsNvn::instance()->getNnDevice();
+    const s32 count = archive.GetFileCount();
+    for (s32 i = 0; i < count; ++i) {
+        const void* file_data = archive.GetFileFast(nullptr, i);
+        u32 signature;
+        std::memcpy(&signature, file_data, sizeof(signature));
+        if (signature != nn::gfx::ResShaderFile::Signature)
+            continue;
+        auto* file = nn::gfx::ResShaderFile::ResCast(const_cast<void*>(file_data));
+        const s32 variations = file->GetShaderContainer()->GetShaderVariationCount();
+        auto* container = file->GetShaderContainer();
+        for (s32 j = 0; j < variations; ++j) {
+            nn::gfx::detail::ShaderImpl<nn::gfx::DefaultApi>* shader =
+                container->GetResShaderVariation(j)
+                    ->GetResShaderProgram(nn::gfx::ShaderCodeType_Binary)
+                    ->GetShader();
+            if (shader->ToData()->state)
+                shader->Finalize(device);
+            container = file->GetShaderContainer();
+        }
+        auto* pool = static_cast<nn::gfx::NvnShaderPool*>(container->ToData().pShaderBinaryPool.Get());
+        auto* memory_pool = static_cast<nn::gfx::detail::MemoryPoolImpl<nn::gfx::DefaultApi>*>(
+            pool->pMemoryPool.Get());
+        if (memory_pool->ToData()->state == 1)
+            nn::gfx::detail::ResShaderContainerImpl::Finalize<nn::gfx::DefaultApi>(container, device);
     }
 }
 
