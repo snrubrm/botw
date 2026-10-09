@@ -33,6 +33,10 @@ void Unk_71024f9a08::sub_7100FE0850() {
     mFlags.reset(1);
 }
 
+bool Unk_71024f9a08::sub_7100FE0C38(const LoadArg& arg) {
+    return true;
+}
+
 bool Unk_71024f9a08::sub_7100FE0CF8() const {
     return mStatus >= 6 && mStatus <= 8;
 }

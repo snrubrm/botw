@@ -54,6 +54,21 @@ KSYS_CHECK_SIZE_NX150(Unk_71024f9a28, 0x38);
 class Unk_71024f9a08 {
 public:
     virtual ~Unk_71024f9a08();
+    // Whole FE3004 and FE6134 produce this 38-byte request; FE0584 only reads it.
+    struct LoadArg {
+        bool _0 = false;
+        bool _1 = false;
+        u8 _2 = 0;
+        sead::SafeString path;
+        sead::FileDevice* device = nullptr;
+        CompactedHeap* heap = nullptr;
+        CompactedHeap* mipHeap = nullptr;
+        nn::gfx::ResTexture* texture = nullptr;
+    };
+    KSYS_CHECK_SIZE_NX150(LoadArg, 0x38);
+    bool sub_7100FE0C38(const LoadArg& arg);
+    bool sub_7100FE0584(const LoadArg& arg);
+    bool sub_7100FE0860(const LoadArg& arg);
     bool sub_7100FE0F38() const;
     void sub_7100FE0850();
     bool sub_7100FE0CF8() const;
