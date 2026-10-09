@@ -1,6 +1,8 @@
 #include "Game/AI/Action/actionPriestBossFastWarpMove.h"
+#include "Game/AI/aiUnk_710073fa90.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/Utils/MathUtil.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
@@ -44,8 +46,52 @@ bool PriestBossFastWarpMove::init_(sead::Heap* heap) {
     return PriestBossWarpOrVanish::init_(heap);
 }
 
+// NON_MATCHING: horizontal vector arithmetic and translation stores have different scheduling.
 void PriestBossFastWarpMove::enter_(ksys::act::ai::InlineParamPack* params) {
     PriestBossWarpOrVanish::enter_(params);
+    auto* controller = mActor->getCharacterController();
+    if (!controller) {
+        setFailed();
+        return;
+    }
+    controller->enableContactLayer(ksys::phys::ContactLayer::EntityNPC);
+    controller->enableContactLayer(ksys::phys::ContactLayer::EntityNPC_NoHitPlayer);
+    controller->enableContactLayer(ksys::phys::ContactLayer::EntityObject);
+    controller->enableContactLayer(ksys::phys::ContactLayer::EntityGroundObject);
+    controller->sub_7100F5E764(false);
+    controller->sub_7100F62CA8(false);
+
+    const auto& matrix = mActor->getMtx();
+    sead::Vector3f horizontal;
+    matrix.getBase(horizontal, 2);
+    horizontal.y = 0.0f;
+    const sead::Vector3f position = matrix.getTranslation();
+    // The original computes this length and retains sqrtf only for NaN.
+    horizontal.normalize();
+    const sead::Vector3f up = sead::Vector3f::ey;
+    sead::Vector3f direction = *mMoveDstPos_d;
+    direction -= position;
+    ksys::util::sub_71011EFA00(&direction, direction, up);
+    direction.normalize();
+    playAS(mASName_s.cstr(), false, 0, 0, -1.0f);
+    sub_710073FA90(&_238, mActor);
+    _204.value = *mCurrentFrame_d;
+    _204.previous_value = _204.value;
+    _204.rate = 1.0f;
+    _210.value = *mAfterImage0AppearFrame_s;
+    _210.previous_value = _210.value;
+    _210.rate = -1.0f;
+    _21c.reset(*mAfterImage1AppearFrame_s);
+    _228 = 0;
+    sub_71007A3540(mActor);
+    if (*mCurrentFrame_d < *mAfterImage0AppearFrame_s) {
+        if (*mIsCloseMove_d)
+            sub_7100222070(0, position, position, 0.0f);
+        else
+            sub_7100222070(5, position, position, 0.0f);
+    }
+    _22c = position;
+    _200 = 2;
 }
 
 void PriestBossFastWarpMove::leave_() {
