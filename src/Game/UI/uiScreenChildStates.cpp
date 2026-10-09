@@ -317,6 +317,36 @@ void Unk_710247e468::m27() {
         sub_71009C9A88();
 }
 
+// 0x71009c9bec
+// NON_MATCHING: lookup/return folding, register allocation and static x_7 receiver elision (372 vs 364 bytes).
+bool Unk_710247e468::sub_71009C9BEC() {
+    for (s32 i = 0; i < 5; ++i) {
+        if (!mTexPatterns[i])
+            return true;
+        const u8 weather = ksys::world::Manager::instance()->getWeatherMgr()->x_6(i);
+        bool found = false;
+        f32 frame = 0.0f;
+        for (s32 j = 0; j < sUnk_71025dbcc8.size(); ++j) {
+            const auto& record = sUnk_71025dbcc8[j];
+            if (record.weather == weather) {
+                frame = record.frame;
+                found = true;
+                break;
+            }
+        }
+        if (!found)
+            return false;
+        if (sead::Mathf::equalsEpsilon(frame, 2.0f) &&
+            ksys::world::Manager::instance()->getWeatherMgr()->x_7())
+            frame = 4.0f;
+        else if (frame < 0.0f)
+            return false;
+        if (mTexPatterns[i]->mFrame != frame)
+            return false;
+    }
+    return true;
+}
+
 // 0x71009c9f20
 // NON_MATCHING: condition folding, flag-store scheduling and register allocation (600 vs 700 bytes).
 bool Unk_710247e468::sub_71009C9F20() {
