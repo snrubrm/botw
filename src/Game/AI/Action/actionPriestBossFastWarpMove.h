@@ -2,6 +2,10 @@
 
 #include "Game/AI/Action/actionPriestBossWarpOrVanish.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/System/Timer.h"
+#include "KingSystem/Utils/Thread/MessageTransceiverId.h"
+#include <container/seadSafeArray.h>
+#include <math/seadMatrix.h>
 
 namespace uking::action {
 
@@ -16,7 +20,7 @@ public:
     void leave_() override;
     void loadParams_() override;
     bool isFinished() const override {
-        if (_204 >= *mAppearFrame_s)
+        if (_204.value >= *mAppearFrame_s)
             return true;
         return mFlags.isOn(Flag::Finished);
     }
@@ -44,12 +48,30 @@ protected:
     sead::Vector3f* mAfterImage0Pos_d{};
     // dynamic_param at offset 0x78
     sead::Vector3f* mAfterImage1Pos_d{};
-    // Not decompiled yet (the ctor / calc_ are W).
-    u8 _80[0x204 - 0x80];
-    f32 _204 = 0.0f;
-
-    // Members not recovered yet (class size from the factory).
-    u8 _208[0x260 - 0x208];
+    // Whole 222070 copies getMessageTransceiverId() into each destination;
+    // whole 2224ec passes that destination and the +20 payload to Actor::sendMessage.
+    struct Entry {
+        struct Payload {
+            ksys::act::Actor* actor = nullptr;
+            sead::Vector3f position{0.0f, 0.0f, 0.0f};
+            f32 time = 0.0f;
+            bool _18 = false;
+            bool _19 = false;
+            u16 _1a = 0;
+        };
+        ksys::MesTransceiverId destination;
+        bool pending = false;
+        Payload payload{};
+    };
+    static_assert(sizeof(Entry) == 0x40);
+    sead::SafeArray<Entry, 6> _80{};
+    s32 _200 = 0;
+    ksys::Timer _204;
+    ksys::Timer _210;
+    ksys::Timer _21c;
+    u8 _228 = 0;
+    sead::Vector3f _22c{0.0f, 0.0f, 0.0f};
+    sead::Matrix33f _238;
 };
 KSYS_CHECK_SIZE_NX150(PriestBossFastWarpMove, 0x260);
 

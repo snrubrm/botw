@@ -4,6 +4,8 @@
 
 namespace uking::action {
 
+// NON_MATCHING: the compiler removes redundant record zero stores after the bulk clear;
+// default and explicit payload value initialization produce the same result.
 PriestBossFastWarpMove::PriestBossFastWarpMove(const InitArg& arg) : PriestBossWarpOrVanish(arg) {}
 
 PriestBossFastWarpMove::~PriestBossFastWarpMove() = default;
