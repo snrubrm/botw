@@ -61,20 +61,17 @@ void CameraEventPolarCoordPlayerRel::m49() {
     CameraEventPolarCoordPlayer::m49();
 }
 
-// NON_MATCHING: the original does not sink the two read-modify-writes of _818 into one
 void CameraEventPolarCoordPlayerRel::m50() {
     auto* camera = getCamera();
     if (!camera)
         return;
 
-    switch (_1e8) {
-    case 2:
-        camera->_860._818 |= 1;
-        break;
-    case 0:
+    if (_1e8 == 0) {
         camera->_860._818 |= 2;
-        break;
+        return;
     }
+    if (_1e8 == 2)
+        camera->_860._818 |= 1;
 }
 
 float CameraEventPolarCoordPlayerRel::m51() {
