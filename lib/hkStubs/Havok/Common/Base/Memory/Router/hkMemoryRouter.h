@@ -6,6 +6,12 @@
 #include <Havok/Common/Base/Thread/Thread/hkThreadLocalData.h>
 #include <type_traits>
 
+// Full native heap wrappers 158B834/158B870 and allocation/deletion consumers
+// 15898A0/15898D0/1782388 establish size_t byte counts and owned block pointers. Native retains
+// counts in X registers before narrowing them to the allocator int API.
+void* sub_710158B834(hk_size_t numBytes);
+void sub_710158B870(void* block, hk_size_t numBytes);
+
 class hkLifoAllocator;
 
 class hkOstream;
