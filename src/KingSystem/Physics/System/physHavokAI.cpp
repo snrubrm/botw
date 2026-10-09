@@ -145,6 +145,10 @@ void HavokAI::sub_7100F857F4(Unk_NavMeshCallback* callback, const sead::BoundBox
     }
 }
 
+void HavokAI::sub_7100F81854() {
+    _38->sub_7100F8962C();
+}
+
 bool HavokAI::startNavMeshSystemThread() {
     return _38->start();
 }

@@ -49,6 +49,8 @@ public:
 
     // 0x7100f895fc (placeholder name): unless stopped (_10c), accumulates `dt` in _108 and sends the 'step' message.
     void sub_7100F895FC(f32 dt);
+    // Whole F8962C stops stepping, drains the message queue and restores Thread priority.
+    void sub_7100F8962C();
 
     u8 _pad[0x100 - sizeof(sead::Thread)];
     /* 0x100 */ HavokAI* _100;
@@ -329,6 +331,7 @@ public:
 
     // 0x7100f8183c: starts the navmesh system thread (_38->start()).
     bool startNavMeshSystemThread();
+    void sub_7100F81854();
 
     // 0x7100f88fd0 (unnamed in the CSV; declaration only): NavMeshCharacter::sub_7100F760F0 forwards here.
     Unk_7100f7e9f0 sub_7100F88FD0(NavMeshCharacter* nav, sead::Vector3f* out, const sead::Vector3f& to);
