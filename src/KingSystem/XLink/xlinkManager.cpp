@@ -1,10 +1,17 @@
 #include "KingSystem/XLink/xlinkManager.h"
 #include <prim/seadScopedLock.h>
+#include <xlink2/xlink2SystemELink.h>
+#include <xlink2/xlink2SystemSLink.h>
 #include "KingSystem/XLink/xlinkXLink.h"
 
 namespace ksys::xlink {
 
 Manager* Manager::sInstance;
+
+void Manager::setGlobalProperty(u32 property, f32 value) {
+    xlink2::SystemELink::instance()->setGlobalPropertyValue(property, value);
+    xlink2::SystemSLink::instance()->setGlobalPropertyValue(property, value);
+}
 
 void Manager::queueSleep(XLink* xlink) {
     sead::ScopedLock<sead::CriticalSection> lock(&mSleepLock);

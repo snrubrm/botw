@@ -19,6 +19,7 @@ class Manager {
     virtual ~Manager();
 
 public:
+    void setGlobalProperty(u32 property, f32 value);
     void queueSleep(XLink* xlink);
     void removeSleep(XLink* xlink);
     void queueTransform(XLink* xlink, const sead::Matrix34f& matrix, bool flag);
