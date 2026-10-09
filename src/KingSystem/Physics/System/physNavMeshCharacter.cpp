@@ -9,6 +9,19 @@ const f32 sUnk_7101ec27f4 = 1000000.0f;
 // Counter at 0x710260ddd8 (placeholder name; used for the request ids stored in NavMeshCharacter::_290).
 sead::Atomic<u32> sUnk_710260ddd8;
 
+// 0x7100f809bc initializes this counter to 1. The allocator below is its only reader.
+sead::Atomic<u32> sUnk_710260de50{1};
+
+// NON_MATCHING: the compiler compares the bounded low half in 32-bit registers; the native comparison is 64-bit.
+u32 sub_7100F7F92C() {
+    while (true) {
+        const u32 id = sUnk_710260de50.fetchAdd(1);
+        if (u16(id) < 0x7fff)
+            return id;
+        sUnk_710260de50 = 1;
+    }
+}
+
 NavMeshCharacter::~NavMeshCharacter() {
     finalize();
 }
