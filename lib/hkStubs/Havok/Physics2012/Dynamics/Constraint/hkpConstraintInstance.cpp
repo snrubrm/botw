@@ -133,3 +133,8 @@ void hkpConstraintInstance::addConstraintListener(hkpConstraintListener* listene
     else
         m_listeners[index] = listener;
 }
+
+void hkpConstraintInstance::entityRemovedCallback(hkpEntity* entity) {
+    if (m_owner)
+        entity->getWorld()->sub_710160956C(this, true);
+}

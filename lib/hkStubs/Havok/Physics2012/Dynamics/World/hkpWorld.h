@@ -143,6 +143,9 @@ public:
 
     hkpConstraintInstance* addConstraint(hkpConstraintInstance* constraint);
     hkBool removeConstraint(hkpConstraintInstance* constraint);
+    // Full native 160956C and callers 16024C4 / 1623504 remove an instance
+    // immediately, with a 32-bit flag controlling listener callbacks.
+    void sub_710160956C(hkpConstraintInstance* constraint, hkBool32 fireCallbacks);
     hkpConstraintInstance* createAndAddConstraintInstance(hkpRigidBody* bodyA, hkpRigidBody* bodyB,
                                                           hkpConstraintData* constraintData);
 

@@ -105920,7 +105920,7 @@ Address,Quality,Size,Name
 0x0000007101609430,U,000080,
 0x0000007101609480,U,000064,
 0x00000071016094c0,L,000172,hkpWorldOperationUtil::addConstraintImmediately
-0x000000710160956c,U,000232,
+0x000000710160956c,U,000232,_ZN8hkpWorld14sub_710160956CEP21hkpConstraintInstancei
 0x0000007101609654,U,005768,
 0x000000710160acdc,U,000400,
 0x000000710160ae6c,U,000140,
@@ -106088,7 +106088,7 @@ Address,Quality,Size,Name
 0x0000007101615eec,O,000028,_ZN21hkpConstraintInstance19getSimulationIslandEv
 0x0000007101615f08,O,000004,_ZN21hkpConstraintInstance19entityAddedCallbackEP9hkpEntity
 0x0000007101615f0c,O,000004,_ZN21hkpConstraintInstance21entityDeletedCallbackEP9hkpEntity
-0x0000007101615f10,U,000032,_ZN21hkpConstraintInstance21entityRemovedCallbackEP9hkpEntity
+0x0000007101615f10,O,000032,_ZN21hkpConstraintInstance21entityRemovedCallbackEP9hkpEntity
 0x0000007101615f30,U,000568,
 0x0000007101616168,m,000052,_ZNK21hkpConstraintInstance20isConstrainedToWorldEv
 0x000000710161619c,U,000504,_ZN21hkpConstraintInstanceD1Ev
@@ -106102,7 +106102,7 @@ Address,Quality,Size,Name
 0x0000007101616648,O,000032,_ZN21hkpConstraintInstance9isEnabledEv
 0x0000007101616668,m,000216,_ZN21hkpConstraintInstance13replaceEntityEP9hkpEntityS1_
 0x0000007101616740,m,000240,_ZN21hkpConstraintInstance31setFixedRigidBodyPointersToZeroEP8hkpWorld
-0x0000007101616830,U,000008,_ZN21hkpConstraintInstance7getTypeEv
+0x0000007101616830,U,000008,_ZNK21hkpConstraintInstance7getTypeEv
 0x0000007101616838,U,000316,
 0x0000007101616974,U,000084,
 0x00000071016169c8,U,000252,
