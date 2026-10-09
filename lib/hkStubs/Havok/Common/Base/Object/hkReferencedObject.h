@@ -26,6 +26,10 @@ public:
     inline void addReference() const;
     inline void removeReference() const;
 
+    // Full native pair 0x7101585c84/0x7101585cfc and world initMtStep 0x7101603790.
+    static void lockAll();
+    static void unlockAll();
+
     inline int getAllocatedSize() const;
     inline int getMemorySizeAndFlags() const;
     inline void setMemorySizeAndFlags(int newMemSizeAndFlags);

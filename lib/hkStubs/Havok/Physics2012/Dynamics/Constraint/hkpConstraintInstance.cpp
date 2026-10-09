@@ -4,6 +4,25 @@
 #include <Havok/Physics2012/Dynamics/Collide/hkpResponseModifier.h>
 #include <Havok/Physics2012/Dynamics/Entity/hkpRigidBody.h>
 #include <Havok/Physics2012/Dynamics/World/hkpWorld.h>
+#include <Havok/Physics/Constraint/Data/hkpConstraintData.h>
+
+// NON_MATCHING: the second entity reference uses a longer existing atomic retry-loop branch layout.
+// 0x7101615d30
+hkpConstraintInstance::hkpConstraintInstance(hkpEntity* entityA, hkpEntity* entityB,
+                                           hkpConstraintData* data, ConstraintPriority priority)
+    : m_owner(nullptr), m_data(data), m_priority(priority), m_wantRuntime(true),
+      m_destructionRemapInfo(ON_DESTRUCTION_REMAP), m_userData(0), m_internal(nullptr),
+      m_uid(0xfffffff0) {
+    m_entities[0] = entityA;
+    m_entities[1] = entityB;
+    m_constraintModifiers = nullptr;
+    hkReferencedObject::lockAll();
+    m_entities[0]->addReference();
+    if (m_entities[1])
+        m_entities[1]->addReference();
+    m_data->addReference();
+    hkReferencedObject::unlockAll();
+}
 
 // 0x7101615e6c. The data and entity pointers are supplied by the embedded-instance owner.
 hkpConstraintInstance::hkpConstraintInstance(ConstraintPriority priority)
