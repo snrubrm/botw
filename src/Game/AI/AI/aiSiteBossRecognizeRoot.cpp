@@ -61,12 +61,11 @@ void SiteBossRecognizeRoot::m34(bool on) {
         boss->_14c8._30.change(0x40, on);
 }
 
-// NON_MATCHING: the original keeps the "ret = false" branch; we get cset + and
 bool SiteBossRecognizeRoot::m35() {
     bool ret = SiteBossRecognizeRootBase::m35();
     if (testRootAiFlag2(ksys::act::ai::RootAiFlag2::_0)) {
         if (++_94 < *mIgnoreWaprDistMax_s)
-            ret = false;
+            return false;
     }
     return ret;
 }
