@@ -45,15 +45,13 @@ void AnimalEscapeAI::leave_() {
     }
 }
 
-// NON_MATCHING: the original keeps the escape distance `_148` in a callee-saved register from before the length
-// computation (frame 0x80 instead of 0x70).
 void AnimalEscapeAI::changeToEscape() {
     sead::Vector3f target;
     if (*mIsSendGoalPos_s) {
         if (m35()) {
             auto* nav = mActor->m45();
             auto lock = sead::makeScopedLock(nav->_1e0);
-            target = nav->_194;
+            target.set(nav->_194);
         } else {
             const sead::Vector3f position = mActor->getMtx().getTranslation();
             sead::Vector3f direction = position - *mTargetPos_d;
