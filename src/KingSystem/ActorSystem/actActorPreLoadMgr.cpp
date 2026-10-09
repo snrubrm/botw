@@ -45,7 +45,7 @@ void ActorPreLoadMgr::preloadActorMaybe(Entry* entry, const sead::SafeString& na
     }
     if (entry->mNumNames >= 16 || entry->mActive)
         return;
-    // Called through a pointer in the original, retaining virtual string assignment.
+    // called through a pointer in the original (not devirtualised)
     (&entry->mNames[entry->mNumNames])->operator=(name);
     ++entry->mNumNames;
 }
