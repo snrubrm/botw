@@ -106,6 +106,14 @@ void Unk_710247bcb8::m24() {
     mEffectIcons[2].sub_7100988EF0(mLayout->findPartsLayout("Pa_SpIcon_02"));
 }
 
+// 0x71009bcff8: MainScreen 0x7100a1adc4 resets the status child before the next update.
+void Unk_710247bcb8::sub_71009BCFF8() {
+    _188 = -1;
+    _18c = 0;
+    _190 = -1;
+    m78();
+}
+
 // 0x71009bd010
 // NON_MATCHING: the compiler hoists the argument null check before the layout load.
 void Unk_710247bcb8::sub_71009BD010(const eui::Animator* animator) {

@@ -73,6 +73,7 @@ public:
     ~Unk_710247bcb8() override;
     void m24() override;
     void m29() override;
+    void sub_71009BCFF8();
     void sub_71009BD010(const eui::Animator* animator);
     eui::Animator* sub_71009BD02C() const;
 
