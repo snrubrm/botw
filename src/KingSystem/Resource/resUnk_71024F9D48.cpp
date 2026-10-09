@@ -10,6 +10,31 @@ bool Unk_71024f9a08::sub_7100FE0F38() const {
     return mFlags.isOn(1);
 }
 
+void Unk_71024f9a08::sub_7100FE0850() {
+    mFlags.reset(1);
+}
+
+bool Unk_71024f9a08::sub_7100FE0CF8() const {
+    return mStatus >= 6 && mStatus <= 8;
+}
+
+bool Unk_71024f9a08::sub_7100FE0D1C() const {
+    return mStatus == 4 || mStatus == 8;
+}
+
+u16 Unk_71024f9a08::sub_7100FE0DE8() const {
+    return _1a;
+}
+
+void Unk_71024f9a08::sub_7100FE0EC8() {
+    mTaskHandle.finalize();
+}
+
+void Unk_71024f9a08::sub_7100FE10D8() {
+    if (_1a)
+        --_1a;
+}
+
 // FE852C receives the fallback ResTexture from TextureHandleMgr::xx; FE83EC consumes it.
 nn::gfx::ResTexture* sUnk_710260EAD0;
 
