@@ -7,12 +7,48 @@
 #include "Game/AI/aiUnk_7102357d20.h"
 #include "Game/Actor/actModelMaterialUtil.h"
 #include "Game/Actor/actEnemy.h"
+#include "Game/Actor/actWeapon.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectGuardianMini.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectGuardianMiniWeapon.h"
 
-void sub_7100428358(ksys::act::Actor* actor, bool enabled, s32 slot);
+void sub_7100428358(ksys::act::Actor* actor, bool enabled, s32 slot) {
+    auto* model = actor->getModel();
+    if (!model)
+        return;
+    const sead::SafeString* names = &sead::SafeString::cEmptyString;
+    if (sead::IsDerivedFrom<uking::act::Enemy>(actor)) {
+        if (auto* weapon = sub_71005D83E8(actor, slot)) {
+            if (const auto* params = weapon->getParam()->getRes().mGParamList->getGuardianMiniWeapon()) {
+                switch (slot) {
+                case 0:
+                    names = &params->mVisibleMatNameR.ref();
+                    break;
+                case 1:
+                    names = &params->mVisibleMatNameL.ref();
+                    break;
+                case 2:
+                    names = &params->mVisibleMatNameB.ref();
+                    break;
+                }
+            }
+        }
+    }
+    const sead::SafeString materials = *names;
+    if (materials.isEmpty())
+        return;
+    for (auto it = materials.tokenBegin(","); materials.tokenEnd(",") != it; ++it) {
+        sead::FixedSafeString<32> material;
+        it.get(&material);
+        if (!material.isEmpty()) {
+            const auto key = model->searchMaterial(material);
+            if (key.isValid())
+                uking::act::setMaterialVisible(model, key, enabled);
+        }
+    }
+}
 
 void* Unk_71023f94f8::m2() {
     return &_18;
