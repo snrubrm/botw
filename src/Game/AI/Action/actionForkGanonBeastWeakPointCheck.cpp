@@ -1,9 +1,21 @@
 #include "Game/AI/Action/actionForkGanonBeastWeakPointCheck.h"
+#include "Game/Damage/dmgDamageManager.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actTag.h"
 
 // Full native helper uses the signed AS slot as an animation-slot offset; namespace unknown.
 void sub_7100703904(ksys::act::Actor* actor, s32 slot);
 
 namespace uking::action {
+
+void Unk_710238b040::call(s32* damage, s32*, u32*, u32*, s32*,
+                         dmg::DamageCallbackInfo*) {
+    if (*damage <= 0)
+        return;
+    auto* manager = sead::DynamicCast<dmg::DamageManager>(mDamageManager);
+    if (manager && !ksys::act::hasTag(manager->getAttacker(), ksys::act::tags::AffectBeastGanon))
+        *damage = 0;
+}
 
 ForkGanonBeastWeakPointCheck::ForkGanonBeastWeakPointCheck(const InitArg& arg)
     : ksys::act::ai::Action(arg) {}
