@@ -43,7 +43,9 @@ public:
 
     IMessageBroker();
     virtual ~IMessageBroker();
-    virtual void setId(const SetIdArg& arg) = 0;
+    // DebugBoard broker 89B6B0 accepts null and reports whether the RTTI argument
+    // was accepted; it reads the ID at 8 and stores it in the owned register.
+    virtual bool setId(const SetIdArg* arg) = 0;
     virtual IMessageBrokerRegister* getRegister() = 0;
     bool registerTransceiver(const MessageTransceiverBase& transceiver);
     void deregisterTransceiver(const MessageTransceiverBase& transceiver);

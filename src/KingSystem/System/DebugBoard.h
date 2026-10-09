@@ -35,7 +35,7 @@ static_assert(sizeof(Unk_DebugBoardRegister) == 0x12d0);
 class Unk_DebugBoardBroker final : public ksys::IMessageBroker {
 public:
     ~Unk_DebugBoardBroker() override;
-    void setId(const SetIdArg& arg) override;
+    bool setId(const SetIdArg* arg) override;
     ksys::IMessageBrokerRegister* getRegister() override;
 
     Unk_DebugBoardRegister mRegister;
