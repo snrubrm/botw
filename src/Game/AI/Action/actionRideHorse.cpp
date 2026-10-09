@@ -93,12 +93,15 @@ void RideHorse::sub_710023A6B0(f32 rate, ksys::phys::CharacterController* contro
     sub_7100740E04(_6c, controller);
 }
 
-// NON_MATCHING: only the load order of the two operands of the subtraction (the original derefs
-// `mLoopASInterpolateTime_s` before loading `_170`).
 void RideHorse::sub_7100239F8C(ksys::phys::CharacterController* controller,
                                ksys::act::ActorLinkConstDataAccess* accessor) {
     if (_68 != 2) {
-        if (isFinishedAS(0, 0) || _170 - *mLoopASInterpolateTime_s <= _174) {
+        bool should_play = isFinishedAS(0, 0);
+        if (!should_play) {
+            const f32 interpolate_time = *mLoopASInterpolateTime_s;
+            should_play = _170 - interpolate_time <= _174;
+        }
+        if (should_play) {
             playAS("HorseRideonMove", false, 0, 0, -1.0f);
             _68 = 2;
         }
