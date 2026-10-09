@@ -105755,7 +105755,7 @@ Address,Quality,Size,Name
 0x00000071015fe09c,L,000144,
 0x00000071015fe12c,m,000028,_ZNK9hkpEntity8isActiveEv
 0x00000071015fe148,L,000144,hkpEntity::activate
-0x00000071015fe1d8,L,000040,hkpEntity::requestDeactivation
+0x00000071015fe1d8,O,000040,_ZN9hkpEntity19requestDeactivationEv
 0x00000071015fe200,L,000220,hkpEntity::deactivate
 0x00000071015fe2dc,L,001056,hkpEntity::deallocateInternalArrays
 0x00000071015fe6fc,O,000016,_ZNK9hkpEntity17getNumConstraintsEv
@@ -105876,7 +105876,7 @@ Address,Quality,Size,Name
 0x00000071016068b0,O,000024,_ZN9hkpMotion18applyLinearImpulseERK10hkVector4f
 0x00000071016068c8,O,000156,_ZN9hkpMotion46getMotionStateAndVelocitiesAndDeactivationTypeEPS_
 0x0000007101606964,O,000008,_ZN9hkpMotion20setDeactivationClassEi
-0x000000710160696c,L,000136,hkpMotion::requestDeactivation
+0x000000710160696c,L,000136,_ZN9hkpMotion19requestDeactivationEv
 0x00000071016069f4,L,000084,hkpMotion::dtorDelete
 0x0000007101606a48,L,000132,
 0x0000007101606acc,L,000256,hkpWorldObject::hkpWorldObject

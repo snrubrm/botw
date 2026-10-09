@@ -11,3 +11,9 @@ int hkpEntity::getNumConstraints() const {
 hkBool hkpEntity::isActive() const {
     return m_simulationIsland && m_simulationIsland->m_activeMark;
 }
+
+// 0x71015fe1d8
+void hkpEntity::requestDeactivation() {
+    if (isActive() && m_motion.isDeactivationEnabled())
+        m_motion.requestDeactivation();
+}
