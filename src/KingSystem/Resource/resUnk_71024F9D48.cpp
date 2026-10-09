@@ -33,6 +33,10 @@ bool Unk_71024f9a08::sub_7100FE0CF8() const {
     return mStatus >= 6 && mStatus <= 8;
 }
 
+bool Unk_71024f9a08::sub_7100FE0D0C() const {
+    return _60 != nullptr;
+}
+
 bool Unk_71024f9a08::sub_7100FE0D1C() const {
     return mStatus == 4 || mStatus == 8;
 }
@@ -58,6 +62,10 @@ sead::SafeString Unk_71024f9a08::sub_7100FE0DF0() const {
 
 sead::SafeString Unk_71024f9a08::sub_7100FE10A8() const {
     return sead::SafeString(_29a);
+}
+
+s64 Unk_71024f9a08::sub_7100FE10C0() const {
+    return _60 ? _78 : 0;
 }
 
 void Unk_71024f9a08::sub_7100FE10D8() {

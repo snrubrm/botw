@@ -54,6 +54,8 @@ public:
     void sub_7100FE0850();
     bool sub_7100FE0CF8() const;
     bool sub_7100FE0D1C() const;
+    bool sub_7100FE0D0C() const;
+    s64 sub_7100FE10C0() const;
     u16 sub_7100FE0DE8() const;
     void sub_7100FE0EC8();
     sead::SafeString sub_7100FE0DF0() const;
@@ -68,7 +70,12 @@ public:
     u16 _1a;
     u8 _1c[4];
     util::Event mEvent;
-    u8 _60[0xa0 - 0x60];
+    // FE0144 clears this allocation pointer; FE0348 passes its record to CompactedHeap.
+    void* _60;
+    u8 _68[0x78 - 0x68];
+    // Native FE10C0 sign-extends this stored word when the allocation exists.
+    s32 _78;
+    u8 _7c[0xa0 - 0x7c];
     // FE0144 initializes offset 8; FE0D38/FE0D98 insert and erase texture handles.
     sead::OffsetList<Unk_71024F9D48> mHandles;
     sead::CriticalSection mCS;
