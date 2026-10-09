@@ -23,6 +23,9 @@ public:
     Unk_710243c280();
     virtual ~Unk_710243c280();
 
+    void sub_710066E548(Unk_710243c250* entry);
+    void sub_710066E648(Unk_710243c250* entry);
+
     /* 0x008 */ sead::SafeArray<Unk_710243c2a0, 3> mBuckets;
     /* 0x140 */ u32 mSequence = 0;
 };

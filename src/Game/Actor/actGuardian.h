@@ -28,8 +28,16 @@ public:
 
     /* 0x28 */ ksys::act::BaseProcLink _28;
     /* 0x38 */ f32 _38 = std::numeric_limits<f32>::max();
-    /* 0x3c */ u32 _3c;
-    /* 0x40 */ s32 _40;
+    // Rank is updated as a byte in 66E548/648/710. The next three bytes are unknown.
+    /* 0x3c */ u8 _3c;
+    u8 _3d[3];
+    struct State {
+        u8 mControllerType;
+        u8 mSequence;
+        u8 mBucketSequence;
+        u8 mEnabled;
+    };
+    /* 0x40 */ State _40;
 };
 KSYS_CHECK_SIZE_NX150(Unk_710243c250, 0x48);
 

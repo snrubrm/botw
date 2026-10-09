@@ -145,6 +145,8 @@ public:
     KSYS_CHECK_SIZE_NX150(Unk450, 0xa8);
     Unk28& get28() { return _28; }
     Unk450& get450() { return _450; }
+    // Inline-only in the original; name is a guess. 66E134/15C/178 address this registry.
+    Unk_710243c280& getGuardianRegistry() { return mGuardianRegistry; }
 
     sead::Buffer<DamageItem>& getDamagesArray() { return mReactionTable.mItems; }
     const sead::Buffer<DamageItem>& getDamagesArray() const { return mReactionTable.mItems; }
