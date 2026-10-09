@@ -19,21 +19,21 @@ void ForceFallCliffEdgeChanger::loadParams() {
     getStaticParam(&mState_s, "State");
 }
 
-// NON_MATCHING: the original computes the set (orr) before the reset (and) value
 void ForceFallCliffEdgeChanger::m8() {
     auto* cc = mActor->getCharacterController();
     if (!cc)
         return;
     _30 = cc->mFlags.isOn(0x4000);
-    cc->mFlags.change(0x4000, *mState_s);
+    cc->mFlags.setDirect(*mState_s ? (cc->mFlags.getDirect() | 0x4000) :
+                                    (cc->mFlags.getDirect() & ~0x4000));
 }
 
-// NON_MATCHING: the original computes the set (orr) before the reset (and) value
 void ForceFallCliffEdgeChanger::m9() {
     auto* cc = mActor->getCharacterController();
     if (!cc)
         return;
-    cc->mFlags.change(0x4000, _30);
+    cc->mFlags.setDirect(_30 ? (cc->mFlags.getDirect() | 0x4000) :
+                             (cc->mFlags.getDirect() & ~0x4000));
 }
 
 }  // namespace uking::behavior
