@@ -3,14 +3,11 @@
 #include "Game/UI/uiUnkSingletons.h"
 #include "Game/UI/uiUtils.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
-#include "KingSystem/Utils/Types.h"
 
 namespace uking::ui {
 
 // 0x71025d6ab0: bypass for the sensor availability check.
-// The original reads this external flag directly without folding it, as with
-// ShootingStarMgr::sUnk_71026200E8: its linkage is hidden.
-KSYS_VISIBILITY_HIDDEN bool sUnk_71025d6ab0 = false;
+bool sUnk_71025d6ab0 = false;
 
 bool sub_7100A9C110(s32 value);
 
@@ -804,6 +801,7 @@ void UiSubsys1::updateCompletionCount() {
 
 namespace uking::ui {
 
+// NON_MATCHING: the original accesses the bypass flag directly; this declaration uses the GOT.
 bool UiSubsys1::sub_7100968BD8() {
     if (sUnk_71025d6ab0)
         return true;
