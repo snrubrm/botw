@@ -92,3 +92,70 @@ int hkClassMember::getArrayMemberSize() const {
         return getClassMemberTypeProperties(m_subtype).m_size;
     }
 }
+
+// NON_MATCHING: scalar and enum array-size branches merge and use different result registers.
+int hkClassMember::getSizeInBytes() const {
+    switch (m_type) {
+    case TYPE_BOOL:
+    case TYPE_CHAR:
+    case TYPE_INT8:
+    case TYPE_UINT8:
+    case TYPE_INT16:
+    case TYPE_UINT16:
+    case TYPE_INT32:
+    case TYPE_UINT32:
+    case TYPE_INT64:
+    case TYPE_UINT64:
+    case TYPE_REAL:
+    case TYPE_VECTOR4:
+    case TYPE_QUATERNION:
+    case TYPE_MATRIX3:
+    case TYPE_ROTATION:
+    case TYPE_QSTRANSFORM:
+    case TYPE_MATRIX4:
+    case TYPE_TRANSFORM:
+    case TYPE_POINTER:
+    case TYPE_FUNCTIONPOINTER:
+    case TYPE_ARRAY:
+    case TYPE_SIMPLEARRAY:
+    case TYPE_HOMOGENEOUSARRAY:
+    case TYPE_VARIANT:
+    case TYPE_CSTRING:
+    case TYPE_ULONG:
+    case TYPE_HALF:
+    case TYPE_STRINGPTR:
+    case TYPE_RELARRAY:
+        return getClassMemberTypeProperties(m_type).m_size * (m_cArraySize ? m_cArraySize : 1);
+    case TYPE_ENUM:
+    case TYPE_FLAGS:
+        return getClassMemberTypeProperties(m_subtype).m_size * (m_cArraySize ? m_cArraySize : 1);
+    case TYPE_STRUCT: {
+        const int numElements = m_cArraySize ? m_cArraySize : 1;
+        return m_class->getObjectSize() * numElements;
+    }
+    default:
+        return -1;
+    }
+}
+
+int hkClassMember::getAlignment() const {
+    Type type = m_type;
+    if (type == TYPE_ENUM || type == TYPE_FLAGS)
+        type = m_subtype;
+    int alignment = 1;
+    if (type == TYPE_STRUCT) {
+        for (int i = 0; i < m_class->getNumMembers(); ++i) {
+            if (m_class->getMember(i).getAlignment() > alignment)
+                alignment = m_class->getMember(i).getAlignment();
+        }
+    } else {
+        alignment = getClassMemberTypeProperties(type).m_align;
+    }
+    if (m_flags.anyIsSet(ALIGN_8 | ALIGN_16 | ALIGN_32)) {
+        int forcedAlignment = m_flags.anyIsSet(ALIGN_32) ? 32 :
+                              m_flags.anyIsSet(ALIGN_16) ? 16 : 8;
+        if (forcedAlignment > alignment)
+            alignment = forcedAlignment;
+    }
+    return alignment;
+}
