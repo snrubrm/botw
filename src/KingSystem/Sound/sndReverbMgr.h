@@ -2,6 +2,8 @@
 
 #include "KingSystem/Utils/Types.h"
 #include <container/seadListImpl.h>
+#include <container/seadOffsetList.h>
+#include <thread/seadCriticalSection.h>
 
 namespace sead {
 class PrimitiveDrawer;
@@ -39,5 +41,26 @@ protected:
     sead::ListNode _28;
 };
 KSYS_CHECK_SIZE_NX150(Unk_7101059828, 0x38);
+
+// Whole FxMgr::init 10504fc allocates 98 bytes and constructs this manager at +50.
+// Own complete table 2502bd8 has D1/D0; ctor and cleanup establish list and lock.
+class Unk_7101059888 {
+public:
+    Unk_7101059888();
+    virtual ~Unk_7101059888();
+    void sub_710105999C(sead::Heap* heap);
+    void sub_7101059B14(Unk_7101059828* controller);
+    void sub_7101059B8C(Unk_7101059828* controller);
+
+private:
+    sead::OffsetList<Unk_7101059828> _8;
+    sead::CriticalSection _20;
+    f32 _60[5]{};
+    u32 _74 = 0;
+    f32 _78[5]{};
+    f32 _8c = 100.0f;
+    f32 _90 = 600.0f;
+};
+KSYS_CHECK_SIZE_NX150(Unk_7101059888, 0x98);
 
 }  // namespace ksys::snd
