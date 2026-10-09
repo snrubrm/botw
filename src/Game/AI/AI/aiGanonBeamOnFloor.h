@@ -21,7 +21,7 @@ public:
 
     bool m38() override;
 
-    // 0x71003e4208 (not decompiled): turns `_298` towards the target.
+    // 0x71003e4208: turns `_298` towards the target.
     void sub_71003E4208();
 
 protected:

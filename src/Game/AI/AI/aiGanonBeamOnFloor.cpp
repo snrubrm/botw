@@ -4,6 +4,10 @@
 #include "Game/AI/aiUnk_710073fa90.h"
 #include "Game/Actor/actLastBoss.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/Utils/MathUtil.h"
+#include <math/seadMathCalcCommon.h>
+#include <cfloat>
 
 namespace uking::ai {
 
@@ -58,6 +62,46 @@ void GanonBeamOnFloor::calc_() {
     } else if (was_turning) {
         changeAS("Attack_Eye_Loop", true, 0, 0);
     }
+}
+
+// NON_MATCHING: stack/vector scheduling and the native duplicated angle-test shape differ.
+void GanonBeamOnFloor::sub_71003E4208() {
+    sub_710073FA94(&_298, mActor);
+    auto* controller = mActor->getCharacterController();
+    if (!controller)
+        return;
+    const sead::Vector3f gravity = controller->get70();
+    const f32 length = gravity.length();
+    sead::Vector3f up = -gravity;
+    if (length > 0.0f)
+        up *= 1.0f / length;
+    if (length < FLT_EPSILON)
+        up = sead::Vector3f::ey;
+    sead::Vector3f target;
+    m37(&target);
+    target -= mActor->getMtx().getTranslation();
+    ksys::util::sub_71011EFA00(&target, target, up);
+    target.normalize();
+    sead::Vector3f forward = mActor->getMtx().getBase(2);
+    ksys::util::sub_71011EFA00(&forward, forward, up);
+    forward.normalize();
+    _2bc.lerp(0.16f, 0.16f, 0.016f);
+    _2bc.updateStats();
+    const f32 start_angle = *mTurnStartAng_s;
+    if (start_angle != 0.0f) {
+        const f32 threshold = _2d4 ? start_angle * 0.1f : start_angle;
+        if (forward.dot(target) >= sead::Mathf::cos(threshold)) {
+            _2d4 = false;
+            _2bc.lerp(0.0f, 0.16f, 0.016f);
+            return;
+        }
+    }
+    sub_710074006C(&_298, target, up, true, *mTurnRate_s, _2bc.value, _2bc.value * 0.1f);
+    sead::Vector3f axis;
+    f32 angle;
+    ksys::util::sub_71011EEB08(&axis, &angle, forward, target, sead::Vector3f::ey);
+    mActor->getASList()->x_6(9, 0, (angle * 57.295776f) * axis.y);
+    _2d4 = true;
 }
 
 void GanonBeamOnFloor::leave_() {
