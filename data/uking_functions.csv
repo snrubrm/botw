@@ -48942,7 +48942,7 @@ Address,Quality,Size,Name
 0x00000071007a8014,U,002052,GameScene::initialize
 0x00000071007a8818,O,000020,_ZN5uking33setForceEnableGlidingSurfingRupeeEb
 0x00000071007a882c,U,001444,GameScene::initializeGraphicsLayer_
-0x00000071007a8dd0,U,000196,GameScene::initGlobalParamE3TipsActorAndPlacement
+0x00000071007a8dd0,m,000196,_ZN5uking9GameScene38initGlobalParamE3TipsActorAndPlacementEv
 0x00000071007a8e94,U,000212,
 0x00000071007a8f68,U,000352,
 0x00000071007a90c8,U,001340,GameScene::preCalc

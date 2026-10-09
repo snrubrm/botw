@@ -47,6 +47,7 @@ class DamageInfoMgr {
 public:
     // 0x710067428c (CSV DamageInfoMgr::postCalc; declared only).
     void postCalc();
+    void sub_7100673D8C();
     // Native readiness forwards to the reaction table at +0x5d0.
     bool isReady();
     void stubbed();

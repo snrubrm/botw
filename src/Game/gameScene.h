@@ -126,6 +126,7 @@ public:
 
     // 0x71007b0d88 (CSV GameScene::commonRun, declared only): shared body of the Run states.
     void commonRun(bool a1, bool a2);
+    void initGlobalParamE3TipsActorAndPlacement();
 
     void setFadeType(s32 type);
     bool hasStageBinder() const;
@@ -193,7 +194,8 @@ private:
     /* 0x1d0 */ ksys::StateMachine _1d0;
     u8 _1f8[0x279 - 0x1f8];
     u8 _279;
-    u8 _27a[0x288 - 0x27a];
+    u8 _27a[0x280 - 0x27a];
+    /* 0x280 */ sead::Heap* _280;
     /* 0x288 */ sead::Heap* _288;
     u8 _290[0x2a8 - 0x290];
     StageBinder* _2a8;

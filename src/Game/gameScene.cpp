@@ -1,4 +1,12 @@
 #include "Game/gameScene.h"
+#include "Game/E3Mgr.h"
+#include "Game/gameTipsMgr.h"
+#include "Game/gameResidentActorMgr.h"
+#include "Game/Damage/dmgInfoManager.h"
+#include "KingSystem/ActorSystem/actGlobalParameter.h"
+#include "KingSystem/Map/mapAutoPlacementFlowMgr.h"
+#include "KingSystem/System/StarterPackMgr.h"
+#include "KingSystem/Utils/HeapUtil.h"
 #include "KingSystem/System/GameTool.h"
 #include "KingSystem/System/MoviePlayer.h"
 #include <layer/aglLayer.h>
@@ -350,6 +358,24 @@ void gameSceneSetFlag(bool value) {
 void setForceEnableGlidingSurfingRupee(bool value) {
     sForceEnableGlidingSurfingRupee = value;
 }
+
+// NON_MATCHING: the existing Damage interface consumes no heap argument; the native caller loads one.
+void GameScene::initGlobalParamE3TipsActorAndPlacement() {
+    if (ksys::util::getDebugHeap())
+        ksys::StarterPackMgr::instance()->loadTitlePack();
+    ksys::act::GlobalParameter::createInstance(_280);
+    if (auto* parameters = ksys::act::GlobalParameter::instance()) {
+        parameters->init(_280);
+        parameters->loadActorPack(_280);
+    }
+    E3Mgr::instance()->loadBuildTimeStubbed();
+    TipsMgr::instance()->loadTipFiles();
+    ResidentActorMgr::instance()->loadByml();
+    ksys::map::AutoPlacementFlowMgr::instance()->loadEventFlows();
+    if (dmg::DamageInfoMgr::instance())
+        dmg::DamageInfoMgr::instance()->sub_7100673D8C();
+}
+
 
 }  // namespace uking
 
