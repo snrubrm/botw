@@ -1828,22 +1828,32 @@ struct ScreenAppMapUnk3c98 {
     /* 0x104 */ s32 _104;
 };
 
-// The AppMap animation controller at +0x3c90; only its animation state is recovered.
-struct ScreenAppMapUnk3c90 {
+// Map animation child: full ctor 9c0ebc, vtable 247c6c0 and independent 9c1474 / 9c1814 consumers.
+struct ScreenAppMapUnk3c90 : ScreenChildEx {
+    NN_RUNTIME_TYPEINFO(ScreenChildEx)
+    explicit ScreenAppMapUnk3c90(eui::LayoutEx* layout);
+    ~ScreenAppMapUnk3c90() override;
+    void m24() override;
+    void m27() override;
+    void m31() override;
+    void m34() override;
+    void sub_71009C1080();
+    void sub_71009C117C();
+    void sub_71009C1900();
     void sub_71009C1474(f32 speed, s32 type);
     void sub_71009C1530(s32 state);
     bool sub_71009C1814(s32 type) const;
 
-    u8 _0[0x130];
-    /* 0x130 */ s32 _130;
-    /* 0x134 */ bool _134;
+    /* 0x130 */ s32 _130 = 2;
+    /* 0x134 */ bool _134 = false;
     u8 _135[3];
-    /* 0x138 */ eui::Animator* _138;
-    /* 0x140 */ eui::Animator* _140;
-    /* 0x148 */ eui::Animator* _148;
-    u8 _150[8];
-    /* 0x158 */ eui::Animator* _158;
+    /* 0x138 */ eui::Animator* _138 = nullptr;
+    /* 0x140 */ eui::Animator* _140 = nullptr;
+    /* 0x148 */ eui::Animator* _148 = nullptr;
+    /* 0x150 */ eui::Animator* _150 = nullptr;
+    /* 0x158 */ eui::Animator* _158 = nullptr;
 };
+static_assert(sizeof(ScreenAppMapUnk3c90) == 0x160);
 
 // Placeholder for the map widget the AppMap screen owns (byte 0xb33a is set by ScreenAppMap::mainEnter).
 struct ScreenAppMapWidget : public ScreenChildEx {

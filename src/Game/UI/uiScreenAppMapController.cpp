@@ -1,8 +1,42 @@
 #include "Game/UI/uiScreens.h"
 #include "Game/UI/uiUnkSingletons.h"
 #include "Game/UI/euiAnimator.h"
+#include "Game/UI/euiLayoutEx.h"
 
 namespace uking::ui {
+
+// 0x71009c0ebc
+ScreenAppMapUnk3c90::ScreenAppMapUnk3c90(eui::LayoutEx* layout) : ScreenChildEx(layout) {}
+
+// 0x71009c117c
+void ScreenAppMapUnk3c90::sub_71009C117C() {
+    _130 = 2;
+    _134 = false;
+    _140->StopAtMin();
+}
+
+// 0x71009c18fc / 0x71009c1a5c: native forwarding hooks, callees remain undecompiled.
+void ScreenAppMapUnk3c90::m24() {
+    sub_71009C1900();
+}
+
+void ScreenAppMapUnk3c90::m31() {
+    sub_71009C1080();
+}
+
+// 0x71009c1a60: the native repeats the small reset helper.
+void ScreenAppMapUnk3c90::m34() {
+    _130 = 2;
+    _134 = false;
+    _140->StopAtMin();
+}
+
+// 0x71009c1a7c
+void ScreenAppMapUnk3c90::m27() {
+    if (_130 == 2)
+        return;
+    mLayout->startAnimCloseImpl_(false, true);
+}
 
 // 0x71009c1474
 void ScreenAppMapUnk3c90::sub_71009C1474(f32 speed, s32 type) {

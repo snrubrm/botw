@@ -154,15 +154,8 @@ public:
 };
 static_assert(sizeof(Unk_710247c010) == 0x480);
 
-// Full ctor 9c0ebc/dtor 9c0f04 and factory 9de4f0 establish the base, vtable and size.
-class Unk_710247c6c0 : public ScreenChildEx {
-public:
-    explicit Unk_710247c6c0(eui::LayoutEx* layout);
-    ~Unk_710247c6c0() override;
-
-    u8 _130[0x160 - 0x130];
-};
-static_assert(sizeof(Unk_710247c6c0) == 0x160);
+// The factory placeholder and existing map controller describe the same native child.
+using Unk_710247c6c0 = ScreenAppMapUnk3c90;
 
 // Full ctor 98fc08/dtor 98fc90 and factory 9e805c prove this 0x450-byte child.
 class Unk_7102478048 : public ScreenChildEx {
