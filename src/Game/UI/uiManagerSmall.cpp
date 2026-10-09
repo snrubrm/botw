@@ -13,6 +13,7 @@
 #include <devenv/seadEnvUtil.h>
 #include <heap/seadExpHeap.h>
 #include <math/seadMathCalcCommon.h>
+#include "KingSystem/Resource/resLoadRequest.h"
 
 namespace uking::ui {
 
@@ -30,11 +31,40 @@ void Manager::sub_7100A7FE9C() {
 }
 
 // 0x7100a7f0d0
-// NON_MATCHING: the original omits the unused this argument of checkLoadResource.
 void Manager::sub_7100A7F0D0() {
     mLocationResource.unload();
     if (checkLoadResource(&mLocationResource, "Map/MainField/Location.mubin"))
         parseLocations();
+}
+
+// 0x7100a7f13c
+bool Manager::checkLoadResource(ksys::res::Handle* handle, const sead::SafeString& path) {
+    if (handle->requestedLoad())
+        handle->requestUnload2();
+    if (handle->requestedLoad()) {
+        handle->checkLoadStatus();
+        return handle->isSuccess();
+    }
+
+    ksys::res::Handle::Status status = ksys::res::Handle::Status::NoFile;
+    ksys::res::LoadRequest request;
+    request.mRequester = "uiManager";
+    request._22 = true;
+    request._26 = false;
+    sead::DynamicCast<sead::DirectResource>(handle->load(path, &request, &status));
+    switch (status) {
+    case ksys::res::Handle::Status::_1:
+    case ksys::res::Handle::Status::SizeZero:
+    case ksys::res::Handle::Status::_3:
+        return false;
+    case ksys::res::Handle::Status::_4:
+    case ksys::res::Handle::Status::_5:
+    case ksys::res::Handle::Status::_6:
+    case ksys::res::Handle::Status::_7:
+        return true;
+    default:
+        return false;
+    }
 }
 
 // UI heap storage; the name is a placeholder.
