@@ -56,12 +56,16 @@ bool Unk_71024e6428::m19() const {
     return mActor && mActor->isSleep();
 }
 
-// NON_MATCHING: layer comparison shape (the original selects both results with csel)
 bool Unk_71024e6428::m20() const {
     for (const auto& entry : _278) {
         if (entry.body) {
-            const auto layer = entry.body->getContactLayer();
-            return layer == phys::ContactLayer::SensorHitOnlyInDoor || layer == phys::ContactLayer::SensorNoHit;
+            switch (entry.body->getContactLayer()) {
+            case phys::ContactLayer::SensorHitOnlyInDoor:
+            case phys::ContactLayer::SensorNoHit:
+                return true;
+            default:
+                return false;
+            }
         }
     }
     return true;
