@@ -26,9 +26,9 @@ void BeltConveyor::enter_(ksys::act::ai::InlineParamPack* params) {
     auto* unk = sead::DynamicCast<ksys::act::Unk_7102459df8>(mActor->m126());
     if (unk && unk->_20)
         unk->_20->_588 = sub_71000C4560;
-    playAS(mASName_s.cstr(), false, 0, 0, -1.0f);
+    playAS(mParams.mASName_s.cstr(), false, 0, 0, -1.0f);
     mActor->getASList()->x_3(0, 0, &ksys::as::ASList::Unk2::sub_7101163100,
-                             *mRotateSpeed_m * *mASRate_s);}
+                             *mParams.mRotateSpeed_m * *mParams.mASRate_s);}
 
 void BeltConveyor::leave_() {
     auto* unk = sead::DynamicCast<ksys::act::Unk_7102459df8>(mActor->m126());
@@ -37,10 +37,10 @@ void BeltConveyor::leave_() {
 }
 
 void BeltConveyor::loadParams_() {
-    getStaticParam(&mASRate_s, "ASRate");
-    getStaticParam(&mIsReverse_s, "IsReverse");
-    getStaticParam(&mASName_s, "ASName");
-    getMapUnitParam(&mRotateSpeed_m, "RotateSpeed");
+    getStaticParam(&mParams.mASRate_s, "ASRate");
+    getStaticParam(&mParams.mIsReverse_s, "IsReverse");
+    getStaticParam(&mParams.mASName_s, "ASName");
+    getMapUnitParam(&mParams.mRotateSpeed_m, "RotateSpeed");
 }
 
 void BeltConveyor::sub_71000C48C0() {
@@ -48,7 +48,7 @@ void BeltConveyor::sub_71000C48C0() {
     _1c.normalize();
     mActor->getMtx().getBase(_34, 1);
     _34.normalize();
-    const f32 rate = (*mIsReverse_s ? -*mRotateSpeed_m : *mRotateSpeed_m) / 30;
+    const f32 rate = (*mParams.mIsReverse_s ? -*mParams.mRotateSpeed_m : *mParams.mRotateSpeed_m) / 30;
     _1c *= rate;
     _28 = _1c * ksys::VFR::instance()->getRawDeltaFrame();
 }

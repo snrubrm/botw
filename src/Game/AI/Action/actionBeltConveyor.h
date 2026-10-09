@@ -37,14 +37,17 @@ protected:
     sead::Vector3f _28{0, 0, 0};
     sead::Vector3f _34{0, 0, 0};
     f32 _40 = 0;
-    // static_param at offset 0x48
-    const float* mASRate_s{};
-    // static_param at offset 0x50
-    const bool* mIsReverse_s{};
-    // static_param at offset 0x58
-    sead::SafeString mASName_s{};
-    // map_unit_param at offset 0x68
-    const float* mRotateSpeed_m{};
+    struct Params {
+        // static_param at offset 0x48
+        const float* mASRate_s{};
+        // static_param at offset 0x50
+        const bool* mIsReverse_s{};
+        // static_param at offset 0x58
+        sead::SafeString mASName_s{};
+        // map_unit_param at offset 0x68
+        const float* mRotateSpeed_m{};
+    };
+    Params mParams;
 };
 
 }  // namespace uking::action
