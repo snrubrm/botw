@@ -112,4 +112,32 @@ ScreenChild* sub_71009E805C(const nn::ui2d::ControlSrc&, eui::LayoutEx* layout) 
     return new (layout_ex->mScreen->mInitializeHeap, 8) Unk_7102478048(layout_ex);
 }
 
+ScreenChild* sub_71009E8158(const nn::ui2d::ControlSrc&, eui::LayoutEx* layout) {
+    auto* layout_ex = nn::font::DynamicCast<eui::LayoutEx>(layout);
+    if (!layout_ex || !layout_ex->mScreen || !layout_ex->mScreen->mInitializeHeap)
+        return nullptr;
+    return new (layout_ex->mScreen->mInitializeHeap, 8) Unk_7102479838(layout_ex);
+}
+
+ScreenChild* sub_71009E8254(const nn::ui2d::ControlSrc&, eui::LayoutEx* layout) {
+    auto* layout_ex = nn::font::DynamicCast<eui::LayoutEx>(layout);
+    if (!layout_ex || !layout_ex->mScreen || !layout_ex->mScreen->mInitializeHeap)
+        return nullptr;
+    return new (layout_ex->mScreen->mInitializeHeap, 8) Unk_710247d8f8(layout_ex);
+}
+
+ScreenChild* sub_71009E8350(const nn::ui2d::ControlSrc&, eui::LayoutEx* layout) {
+    auto* layout_ex = nn::font::DynamicCast<eui::LayoutEx>(layout);
+    if (!layout_ex || !layout_ex->mScreen || !layout_ex->mScreen->mInitializeHeap)
+        return nullptr;
+    return new (layout_ex->mScreen->mInitializeHeap, 8) Unk_710247c368(layout_ex);
+}
+
+ScreenChild* sub_71009E844C(const nn::ui2d::ControlSrc&, eui::LayoutEx* layout) {
+    auto* layout_ex = nn::font::DynamicCast<eui::LayoutEx>(layout);
+    if (!layout_ex || !layout_ex->mScreen || !layout_ex->mScreen->mInitializeHeap)
+        return nullptr;
+    return new (layout_ex->mScreen->mInitializeHeap, 8) Unk_7102477c30(layout_ex);
+}
+
 }  // namespace uking::ui

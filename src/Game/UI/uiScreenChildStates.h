@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Game/UI/uiScreens.h"
+#include "Game/UI/uiControlCreator.h"
 
 // ScreenChildEx-derived classes (their constructors call ScreenChildEx's) with their own state callback slots (105+, groups of four: void, void, void, s32).
 // Placeholder names after the vtable; their destructors / RTTI are not decompiled yet.
@@ -10,6 +11,46 @@ class MessageString;
 }
 
 namespace uking::ui {
+
+// Full ctor 9a4330 calls the existing button-child base; factory 9e8158 allocates 0x158.
+// Native vtable 2479838 shares D1 931ddc with the base and has D0 9a49e0.
+class Unk_7102479838 : public Unk_71024746d0 {
+public:
+    explicit Unk_7102479838(eui::LayoutEx* layout);
+    ~Unk_7102479838() override;
+
+    u8 _138[0x158 - 0x138];
+};
+static_assert(sizeof(Unk_7102479838) == 0x158);
+
+// Full ctor 9c54e4/D1 9c55b8 and factory 9e8254 prove the base and 0x408 extent.
+// The native embedded dc50 and d8d8 lifetimes are not defined here.
+class Unk_710247d8f8 : public ScreenChildEx {
+public:
+    explicit Unk_710247d8f8(eui::LayoutEx* layout);
+    ~Unk_710247d8f8() override;
+
+    u8 _130[0x408 - 0x130];
+};
+static_assert(sizeof(Unk_710247d8f8) == 0x408);
+
+// Full ctor 9bf770/D1 9bf7e4 and factory 9e8350 prove this 0x1a0-byte child.
+class Unk_710247c368 : public ScreenChildEx {
+public:
+    explicit Unk_710247c368(eui::LayoutEx* layout);
+    ~Unk_710247c368() override;
+
+    u8 _130[0x1a0 - 0x130];
+};
+static_assert(sizeof(Unk_710247c368) == 0x1a0);
+
+// Full ctor 98c278/D1 98c2a8 and factory 9e844c prove this child has no added storage.
+class Unk_7102477c30 : public ScreenChildEx {
+public:
+    explicit Unk_7102477c30(eui::LayoutEx* layout);
+    ~Unk_7102477c30() override;
+};
+static_assert(sizeof(Unk_7102477c30) == 0x130);
 
 // Factory 9d7294 allocates 0x708 bytes; full ctor 9c69a4 and dtor 9c6a2c
 // establish ScreenChildEx and native vtable 247dc90. Lifetime bodies remain undecompiled.
