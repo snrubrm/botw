@@ -4,7 +4,7 @@
 
 namespace uking::action {
 
-WaitBase::WaitBase(const InitArg& arg) : ActionWithPosAngReduce(arg) {}
+WaitBase::WaitBase(const InitArg& arg) : ActionWithPosAngReduce(arg), mTimer(0.0f, 0.0f) {}
 
 void WaitBase::enter_(ksys::act::ai::InlineParamPack* params) {
     ActionWithPosAngReduce::enter_(params);
