@@ -12,6 +12,7 @@
 #include "Game/UI/euiAlignPane.h"
 #include "Game/UI/euiButton.h"
 #include "Game/UI/euiLayoutEx.h"
+#include "Game/UI/euiCapturePane.h"
 #include "Game/UI/uiScreens.h"
 #include "Game/UI/uiPauseMenuDataMgr.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
@@ -36,6 +37,25 @@
 #include <nn/os.h>
 
 namespace uking::ui {
+
+Unk_710248ea70::~Unk_710248ea70() {
+    if (mTextureHandle) {
+        mTextureHandle->requestUnload();
+        const auto* fallback_texture = &mTexInfo;
+        if (mMaterials[0])
+            mMaterials[0]->GetTexMapArray()[0].ReplaceTextureInfo(fallback_texture);
+        if (mMaterials[1])
+            mMaterials[1]->GetTexMapArray()[0].ReplaceTextureInfo(fallback_texture);
+    }
+    _38 = -1;
+    _40 = -1;
+    if (mTextureHandle) {
+        delete mTextureHandle;
+        mTextureHandle = nullptr;
+    }
+}
+
+
 
 // 0x71009d656c
 void ScreenAppAlbum::m174() {

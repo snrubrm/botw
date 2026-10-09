@@ -843,6 +843,26 @@ struct ScreenMainScreenUnk3658 : ScreenChildEx {
 };
 static_assert(sizeof(ScreenMainScreenUnk3658) == 0x188);
 
+// Embedded MainScreen gauge helper at 3CE8, with two destructor slots at 248EA70.
+class Unk_710248ea70 {
+public:
+    virtual ~Unk_710248ea70();
+    void sub_7100A1964C(eui::LayoutEx* layout, sead::Heap* heap);
+    /* 0x08 */ eui::LayoutEx* mLayout = nullptr;
+    /* 0x10 */ eui::Animator* mGauge = nullptr;
+    /* 0x18 */ eui::Animator* mIconOff = nullptr;
+    /* 0x20 */ eui::Animator* mFull = nullptr;
+    /* 0x28 */ eui::Animator* mOut = nullptr;
+    u8 _30[8];
+    /* 0x38 */ s64 _38 = -1;
+    /* 0x40 */ s64 _40 = -1;
+    /* 0x48 */ ksys::res::Handle* mTextureHandle = nullptr;
+    /* 0x50 */ nn::ui2d::Material* mMaterials[2]{};
+    /* 0x60 */ eui::CapturePane* mCapturePane = nullptr;
+    /* 0x68 */ nn::ui2d::ExternalTextureInfo mTexInfo;
+};
+static_assert(sizeof(Unk_710248ea70) == 0x80);
+
 class ScreenMainScreen : public ScreenEx {
 public:
     void m85() override;
@@ -882,7 +902,8 @@ public:
     /* 0x3cc8 */ u8 _3cc8;
     u8 _pad_3cc9[3];
     /* 0x3ccc */ UiTimer _3ccc;
-    u8 _pad_3ce4[0x3d68 - 0x3ce4];
+    u8 _pad_3ce4[4];
+    /* 0x3ce8 */ Unk_710248ea70 mGaugeHelper;
     // Full ctor A17AF8 and setup A18464 group 7 cast through native RTTI 25DAC48.
     /* 0x3d68 */ Unk_710247c368* _3d68;
 
