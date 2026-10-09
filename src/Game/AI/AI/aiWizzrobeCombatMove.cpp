@@ -163,7 +163,7 @@ void WizzrobeCombatMove::sub_71005FD564() {
     const sead::Vector3f ray_start{actor_position.x, actor_position.y + 0.1f, actor_position.z};
     mMoveOffset = sead::Vector3f::zero;
     if (_bc < _c0) {
-        const f32 angle = static_cast<s32>(sead::GlobalRandom::instance()->getU32(360)) / 360.0f *
+        const f32 angle = sead::GlobalRandom::instance()->getS32Range(0, 360) / 360.0f *
                           (2.0f * sead::Mathf::pi());
         const f32 distance = sead::GlobalRandom::instance()->getF32Range(*mMinDistXZ_s,
                                                                        *mMaxDistXZ_s + 1.0f);
