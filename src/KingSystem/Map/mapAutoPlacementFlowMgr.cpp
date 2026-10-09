@@ -74,6 +74,18 @@ void AutoPlacementFlowMgr::loadEventFlows() {
     }
 }
 
+bool AutoPlacementFlowMgr::resAreReady() {
+    for (int i = 0; i < mFlowArray.size(); ++i) {
+        if (!mFlowArray[i].load(i, mHeap))
+            return false;
+    }
+    for (int i = 0; i < mFlowNearArray.size(); ++i) {
+        if (!mFlowNearArray[i].load(i, mHeap))
+            return false;
+    }
+    return true;
+}
+
 AutoPlacementFlowRes* AutoPlacementFlowMgr::getResource1(int idx) {
     if (idx >= mFlowArray.size())
         return nullptr;

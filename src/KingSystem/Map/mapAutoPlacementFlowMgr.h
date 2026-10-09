@@ -17,6 +17,7 @@ void* autoPlacementBfevflAlloc(size_t size, size_t alignment, void* userdata);
 void autoPlacementBfevflFree(void* ptr, void* userdata);
 
 struct AutoPlacementFlowRes {
+    bool load(int idx, sead::Heap* heap);
     void start(AutoPlacement* placement, const sead::SafeString& unit_name, int*);
 
     res::Handle handle;

@@ -4,9 +4,12 @@
 
 namespace ksys::qst {
 
-// chunks missing
 Quest::~Quest() {
     mSteps.freeBuffer();
+    if (mDataIter) {
+        delete mDataIter;
+        mDataIter = nullptr;
+    }
 }
 
 // NON_MATCHING

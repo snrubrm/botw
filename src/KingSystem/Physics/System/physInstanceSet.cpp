@@ -1088,3 +1088,14 @@ sead::Buffer<InstanceSet::Unk2>* InstanceSet::sub_7100FC0124() {
 }
 
 }  // namespace ksys::phys
+
+namespace ksys::phys {
+
+void InstanceSet::sub_7100FBBEC0() {}
+
+void InstanceSet::sub_7100FBDA08(const sead::Vector3f& translation) {
+    if (_f0)
+        _f0->mTranslate = translation;
+}
+
+}  // namespace ksys::phys

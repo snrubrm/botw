@@ -1,5 +1,7 @@
 #include "KingSystem/Quest/qstStep.h"
 #include <memory>
+#include "Game/DLC/aocManager.h"
+#include "KingSystem/ActorSystem/actSchedule.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Quest/qstActorData.h"
 #include "KingSystem/Quest/qstIndicator.h"
@@ -140,6 +142,26 @@ bool Step::sub_7100FDC2A4(al::ByamlIter* iter) {
         }
     }
     return false;
+}
+
+}  // namespace ksys::qst
+
+namespace ksys::qst {
+
+void Step::ActLink::sub_71012B4274() {
+    const auto* aoc = uking::aoc::Manager::instance();
+    if ((!aoc || aoc->getVersion() == 0) && _1d != 0)
+        return;
+    if (link.hasProc()) {
+        auto* actor = sead::DynamicCast<act::Actor>(link.getProc(nullptr));
+        if (actor && actor->getSchedule()) {
+            actor->getSchedule()->sub_7100D192C0(nullptr, &sead::SafeString::cNullChar, false);
+            actor->getSchedule()->_2ec = actor->getSchedule()->_2f0;
+            actor->x_6();
+            actor->getActorFlags2().reset(act::Actor::ActorFlag2::_100);
+        }
+    }
+    link.reset();
 }
 
 }  // namespace ksys::qst

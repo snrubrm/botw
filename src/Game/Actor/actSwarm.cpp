@@ -128,6 +128,33 @@ void Swarm::m74() {
     }
 }
 
+void Swarm::m114(bool update, bool) {
+    if (auto* list = _14d8) {
+        list->sub_710115C634(isSpecialJobTypesMaskOverride0());
+        list->sub_710115C6F0();
+        list->sub_710115C7A8(false);
+        list->sub_710115C8D8(update, false);
+    }
+    if (auto* list = _14e0) {
+        list->sub_710115C634(isSpecialJobTypesMaskOverride0());
+        list->sub_710115C6F0();
+        list->sub_710115C7A8(false);
+        list->sub_710115C8D8(update, false);
+    }
+    if (auto* list = _14e8) {
+        list->sub_710115C634(isSpecialJobTypesMaskOverride0());
+        list->sub_710115C6F0();
+        list->sub_710115C7A8(false);
+        list->sub_710115C8D8(update, false);
+    }
+    if (auto* list = _14f0) {
+        list->sub_710115C634(isSpecialJobTypesMaskOverride0());
+        list->sub_710115C6F0();
+        list->sub_710115C7A8(false);
+        list->sub_710115C8D8(update, false);
+    }
+}
+
 void Swarm::m63() {
     Enemy::m63();
     if (_14d8)
