@@ -3,6 +3,10 @@
 #include "aal/aalRollOffCurve.h"
 #include "aal/aalUnitDistanceCurve.h"
 
+namespace sead {
+class XmlDocument;
+}
+
 namespace aal {
 
 // Constructor bb3f8c and independent full caller ba52f8 establish these
@@ -52,5 +56,27 @@ private:
     f32 mCullingStartDistance = 0.0f;
 };
 static_assert(sizeof(UnitDistanceCurveXmlReader) == 0x28);
+
+// 0x7100BB4244 stores the document pointer. The independent curve save caller
+// passes XmlDocument::create's result, and the full writer consumes this pointer.
+class RollOffCurveXmlWriter {
+public:
+    explicit RollOffCurveXmlWriter(sead::XmlDocument* document);
+
+private:
+    sead::XmlDocument* mDocument;
+};
+static_assert(sizeof(RollOffCurveXmlWriter) == sizeof(void*));
+
+// 0x7100BB5DF4 stores the document pointer. The independent curve save caller
+// passes XmlDocument::create's result, and the full writer consumes this pointer.
+class UnitDistanceCurveXmlWriter {
+public:
+    explicit UnitDistanceCurveXmlWriter(sead::XmlDocument* document);
+
+private:
+    sead::XmlDocument* mDocument;
+};
+static_assert(sizeof(UnitDistanceCurveXmlWriter) == sizeof(void*));
 
 }  // namespace aal

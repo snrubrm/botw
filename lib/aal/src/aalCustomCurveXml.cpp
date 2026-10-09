@@ -36,4 +36,7 @@ f32 CustomCurveXmlReader::getSegmentCoef(s32 index) const {
     return segment ? segment->mCoefficient : 1.0f;
 }
 
+// 0x7100BA9054
+CustomCurveXmlWriter::CustomCurveXmlWriter(sead::XmlDocument* document) : mDocument(document) {}
+
 }  // namespace aal

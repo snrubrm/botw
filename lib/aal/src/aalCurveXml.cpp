@@ -21,4 +21,10 @@ UnitDistanceCurveXmlReader::UnitDistanceCurveXmlReader(const sead::SafeString& c
 // 0x7100BB5DEC / 0x7100BB5DF0
 UnitDistanceCurveXmlReader::~UnitDistanceCurveXmlReader() {}
 
+// 0x7100BB4244
+RollOffCurveXmlWriter::RollOffCurveXmlWriter(sead::XmlDocument* document) : mDocument(document) {}
+
+// 0x7100BB5DF4
+UnitDistanceCurveXmlWriter::UnitDistanceCurveXmlWriter(sead::XmlDocument* document) : mDocument(document) {}
+
 }  // namespace aal

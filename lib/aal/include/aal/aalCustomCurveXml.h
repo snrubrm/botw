@@ -3,6 +3,10 @@
 #include <container/seadOffsetList.h>
 #include "aal/aalCustomCurve.h"
 
+namespace sead {
+class XmlDocument;
+}
+
 namespace aal {
 
 // Constructor ba8cac establishes validity at8 and the OffsetList at10,
@@ -29,5 +33,16 @@ private:
     sead::OffsetList<CustomCurveSegment> mSegments;
 };
 static_assert(sizeof(CustomCurveXmlReader) == 0x28);
+
+// 0x7100BA9054 stores the document pointer. The independent curve save caller
+// passes XmlDocument::create's result, and the full writer consumes this pointer.
+class CustomCurveXmlWriter {
+public:
+    explicit CustomCurveXmlWriter(sead::XmlDocument* document);
+
+private:
+    sead::XmlDocument* mDocument;
+};
+static_assert(sizeof(CustomCurveXmlWriter) == sizeof(void*));
 
 }  // namespace aal
