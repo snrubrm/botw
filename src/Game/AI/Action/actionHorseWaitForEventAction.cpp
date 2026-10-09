@@ -1,5 +1,6 @@
 #include "Game/AI/Action/actionHorseWaitForEventAction.h"
 #include "Game/Actor/actRideable.h"
+#include "Game/Actor/actHorseStrings.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
@@ -14,8 +15,27 @@ bool HorseWaitForEventAction::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }
 
+// NON_MATCHING: scheduling differs in the no-rideable animation start arguments.
 void HorseWaitForEventAction::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    if (!*mHasToCue_d && mActor->getASList()->x_1(0, 0) == act::sUnk_7102603110)
+        return;
+
+    sub_7100E5AD10();
+    auto* rideable = mActor->m132();
+    if (*mHasToCue_d && *mIsNoMorph_d) {
+        mActor->getASList()->sub_710115B01C(0, 0, true);
+        mActor->getASList()->startAnimationMaybe(0.0f, -1.0f, act::sUnk_7102603110, 0, 0, true);
+    } else if (rideable) {
+        auto* list = mActor->getASList();
+        const s32 bank = rideable->_18._9 ? rideable->_18._2e : rideable->_18.sub_7100E76CEC();
+        list->sub_710115B140(act::sUnk_7102603110, 0, 0, 0, bank);
+    } else {
+        mActor->getASList()->startAnimationMaybe(-1.0f, -1.0f, act::sUnk_7102603110, 0, 0, true);
+    }
+    if (rideable) {
+        rideable->_18.sub_7100E770C4(false);
+        rideable->sub_7100E633AC();
+    }
 }
 
 void HorseWaitForEventAction::leave_() {
