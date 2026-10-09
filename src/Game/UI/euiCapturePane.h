@@ -57,7 +57,7 @@ public:
     /* 0xe0 */ sead::Color4f* mClearColor = nullptr;
     /* 0xe8 */ agl::utl::MultiFilter* mMultiFilter = nullptr;
     /* 0xf0 */ nn::ui2d::ExternalTextureInfo mTextureInfo;
-    /* 0x108 */ const agl::TextureData* mTexture = nullptr;  // freed by sub_7100BF1E64
+    /* 0x108 */ agl::TextureData* mTexture = nullptr;  // allocator BF166C produces the mutable capture destination
     /* 0x110 */ agl::RenderBuffer mRenderBuffer;
     /* 0x178 */ agl::RenderTargetColor mRenderTarget;
 

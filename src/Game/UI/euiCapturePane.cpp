@@ -3,6 +3,7 @@
 #include "Game/UI/euiFrameBufferMultiFilter.h"
 #include "Game/UI/euiPartsEx.h"
 #include "Game/UI/euiScreen.h"
+#include "Game/UI/euiTypes.h"
 
 #include <cstring>
 #include <gfx/seadProjection.h>
@@ -81,6 +82,78 @@ void CapturePane::Calculate(nn::ui2d::DrawInfo& info, nn::ui2d::Pane::CalculateC
         mCaptureFlags.setBit(5);
     else
         mCaptureFlags.resetBit(5);
+}
+
+// NON_MATCHING: the allocator name SafeString temporary occupies a different stack slot.
+// 0x7100bf166c
+void CapturePane::initializeCaptureTextureData_(const char* layout_name) {
+    if (mTexture)
+        return;
+    const sead::SafeString type(FindExtUserDataByName("CaptureOn")->GetString());
+    auto format = agl::TextureFormat::cTextureFormat_R8_G8_B8_A8_uNorm;
+    bool alpha_only = false;
+    if (type == "RGBA8") {
+        format = agl::TextureFormat::cTextureFormat_R8_G8_B8_A8_uNorm;
+    } else if (type == "BC3") {
+        format = agl::TextureFormat::cTextureFormat_BC3_uNorm;
+    } else if (type == "BC1") {
+        format = agl::TextureFormat::cTextureFormat_BC1_uNorm;
+    } else if (type == "RGB565") {
+        // Native bf1908 selects RGBA8 for this resource value too.
+        format = agl::TextureFormat::cTextureFormat_R8_G8_B8_A8_uNorm;
+    } else if (type == "R10G10B10A2") {
+        format = agl::TextureFormat::cTextureFormat_R10_G10_B10_A2_uNorm;
+    } else if (type == "L8") {
+        format = agl::TextureFormat::cTextureFormat_R8_uNorm;
+    } else if (type == "A8") {
+        format = agl::TextureFormat::cTextureFormat_R8_uNorm;
+        alpha_only = true;
+    } else if (type == "LA8") {
+        format = agl::TextureFormat::cTextureFormat_R8_G8_uNorm;
+    } else if (type == "BC4L") {
+        format = agl::TextureFormat::cTextureFormat_BC4_uNorm;
+    } else if (type == "BC4A") {
+        format = agl::TextureFormat::cTextureFormat_BC4_uNorm;
+        alpha_only = true;
+    } else if (type == "BC5") {
+        format = agl::TextureFormat::cTextureFormat_BC5_uNorm;
+    }
+    f32 width = GetSize().width;
+    f32 height = GetSize().height;
+    if (const auto* data = FindExtUserDataByName("CaptureScale")) {
+        const f32 scale = data->GetFloatArray()[0];
+        if (scale > 0.0f && scale < 1.0f) {
+            width *= scale;
+            height *= scale;
+        }
+    }
+    mTexture = agl::utl::DynamicTextureAllocator::instance()->sub_7100B46FC8(
+        nullptr, layout_name, format, sead::Mathf::round(width), sead::Mathf::round(height), 1,
+        nullptr, static_cast<agl::utl::DynamicTextureAllocator::AllocateType>(1), true, false);
+    auto red = mTexture->getCompSelRed();
+    auto green = mTexture->getCompSelGreen();
+    auto blue = mTexture->getCompSelBlue();
+    auto alpha = mTexture->getCompSelAlpha();
+    if (format == agl::TextureFormat::cTextureFormat_R8_uNorm ||
+        format == agl::TextureFormat::cTextureFormat_BC4_uNorm) {
+        red = alpha_only ? agl::TextureCompSel::cTextureCompSel_One :
+                           agl::TextureCompSel::cTextureCompSel_Red;
+        green = red;
+        blue = red;
+        alpha = alpha_only ? agl::TextureCompSel::cTextureCompSel_Red :
+                             agl::TextureCompSel::cTextureCompSel_One;
+    } else if (format == agl::TextureFormat::cTextureFormat_R8_G8_uNorm ||
+               format == agl::TextureFormat::cTextureFormat_BC5_uNorm) {
+        red = agl::TextureCompSel::cTextureCompSel_Red;
+        green = red;
+        blue = red;
+        alpha = agl::TextureCompSel::cTextureCompSel_Green;
+    }
+    if (mCaptureFlags.isOnBit(3))
+        alpha = agl::TextureCompSel::cTextureCompSel_One;
+    mTexture->setCompSel(red, green, blue, alpha);
+    SetupTextureInfoByAglTextureData(&mTextureInfo, *mTexture, nullptr);
+    _db = true;
 }
 
 // 0x7100bf1e64
