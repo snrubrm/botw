@@ -2,6 +2,7 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/Event/evtManager.h"
+#include "KingSystem/System/VFR.h"
 
 namespace uking::action {
 
@@ -54,6 +55,35 @@ void FollowChallenge::calc_() {
         _4b9 = true;
     else
         _4b9 = false;
+}
+
+// NON_MATCHING: float register allocation and index-conversion scheduling.
+bool FollowChallenge::m32() {
+    if (!_4b9)
+        _4bc -= ksys::VFR::instance()->getDeltaTime();
+
+    const f32 limit = *mGimmickTimeLimit_m;
+    if (_4bc + limit * _4c8 <= 0.0f) {
+        sub_710004E2B4(false);
+        // called through a pointer in the original (not devirtualised)
+        xlinkSearchAndEmit(mActor, (&_4d8[14])->cstr(), 2, &_498);
+        sub_710004D9FC(&_498);
+        return true;
+    }
+
+    const f32 elapsed = 1.0f - _4bc / limit;
+    while (_4c4 < 10.0f) {
+        const f32 next = _4c4 + 1.0f;
+        const f32 start = _4c4 * _4c8;
+        const s32 index = s32(_4c4);
+        auto& effect = mEffects[u32(index) < 10 ? index : 0];
+        effect.scale = 1.0f - (elapsed - start) / (next * _4c8 - start);
+        if (!(next * _4c8 <= elapsed))
+            break;
+        effect.handle.fadeXLink();
+        _4c4 += 1.0f;
+    }
+    return false;
 }
 
 void FollowChallenge::sub_710004E108() {
