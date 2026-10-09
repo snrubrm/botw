@@ -17,13 +17,20 @@ public:
     ~CameraMotorcycleLockOnEmpty() override;
 
 protected:
-    // 0x710077b570 / 0x710077b8dc (not decompiled yet).
     void m33() override;
     void m34() override;
     void m35() override;
     void m36() override;
 
     void sub_710077B7DC();
+    void sub_710077BD98();
+    void sub_710077BED8();
+    void sub_710077C7A4();
+    void sub_710077C8A8();
+    void sub_710077CA0C();
+    void sub_710077CC90();
+    void sub_710077CDA4();
+
 
     // static_param at offset 0x50
     const float* mSpeedMax_s{};
