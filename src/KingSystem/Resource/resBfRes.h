@@ -90,8 +90,11 @@ public:
     };
     void sub_7100FE85AC(const CallbackArg* arg);
     void sub_7100FE85B8(const CallbackArg* arg);
+    void sub_7100FE85DC();
 
-    u64 _8;
+    // FE8584 initializes both words; FE85DC resets only the first one.
+    s32 _8;
+    s32 _c;
     s32 _10;
 };
 

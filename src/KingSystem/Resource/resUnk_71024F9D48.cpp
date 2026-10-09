@@ -80,7 +80,11 @@ void sub_7100FE852C(nn::gfx::ResTexture* texture) {
     sUnk_710260EAD0 = texture;
 }
 
-Unk_71024f9d68::Unk_71024f9d68() : _8(u64(-1)), _10(-1) {}
+Unk_71024f9d68::Unk_71024f9d68() : _8(-1), _c(-1), _10(-1) {}
+
+void Unk_71024f9d68::sub_7100FE85DC() {
+    _8 = -1;
+}
 
 Unk_71024f9d68::~Unk_71024f9d68() = default;
 
