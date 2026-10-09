@@ -86,6 +86,28 @@ ScreenAppPictureBookEntry::~ScreenAppPictureBookEntry() {
     }
 }
 
+// NON_MATCHING: empty-string comparison loads and page-count branches are scheduled differently.
+// 0x710093ac7c
+void ScreenAppPictureBookEntry::sub_710093AC7C() {
+    sub_710093BB48();
+    sub_710093BDFC();
+    if (mParams._d8.isEmpty()) {
+        _2f4 = mParams._29c;
+    } else if (mParams._29c == 0) {
+        _2f4 = 0;
+    } else {
+        const s32 count = mParams._2a0 * mParams._2a4;
+        _2f4 = mParams._29c < count ? 1 : sead::Mathf::ceil(f32(mParams._29c) / f32(count));
+    }
+    sub_710093C040();
+    if (mIconControl)
+        mIconControl->sub_7100988010(mParams._238);
+    if (mPageControl)
+        mPageControl->sub_7100936A28(_2f4);
+    if (mGuideControl)
+        mGuideControl->sub_7100936BCC(mController->_40[2], mController->_40[3]);
+}
+
 // 0x710093a500
 void ScreenAppPictureBookEntry::sub_710093A500(sead::Heap* heap) {
     const s32 count = mParams._298;
