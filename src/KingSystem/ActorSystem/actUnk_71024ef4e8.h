@@ -10,6 +10,7 @@
 namespace ksys::phys {
 class CharacterController;
 class Constraint;
+class InstanceSet;
 class RagdollInstance;
 class RigidBody;
 }
@@ -25,6 +26,16 @@ class Unk_71024ef620;
 // TODO: incomplete.
 class Unk_71024ef4e8 {
 public:
+    // Seven 0x28-byte records initialized by EB5D34 and selected by EB4814.
+    struct AttachConfig {
+        const char* name;
+        sead::Vector3f inertia;
+        f32 _14;
+        f32 linear_damping;
+        f32 angular_damping;
+        f32 _20;
+        f32 _24;
+    };
     // Placeholder: the object at `_b0` (a BaseProcLink of the attached actor lives at +0x158, a Constraint* at +8).
     struct AttachInfo {
         // 0x7100eb0d30 (out of line; defined in its own file so that the caller does not inline it).
@@ -108,7 +119,7 @@ public:
     void sub_7100EB56B4(bool a);
     void sub_7100EB56E8();
 
-    /* 0x008 */ u8 _8[8];
+    /* 0x008 */ phys::InstanceSet* _8;
     /* 0x010 */ phys::CharacterController* _10;
     /* 0x018 */ phys::RagdollInstance* _18;
     /* 0x020 */ phys::RigidBody* _20;
@@ -130,18 +141,23 @@ public:
         /* 0x110 */ sead::BitFlag32 _110;  // flags
     /* 0x114 */ sead::Vector3f _114;
     /* 0x120 */ sead::Vector3f _120;
-    u8 _12c[4];
+    /* 0x12c */ f32 _12c;
     /* 0x130 */ u32 _130;
     u8 _134[0x144 - 0x134];
     /* 0x144 */ f32 _144;
     /* 0x148 */ u64 _148;
     /* 0x150 */ u32 _150;
-    u8 _154[0x188 - 0x154];
+    /* 0x154 */ f32 _154;
+    /* 0x158 */ f32 _158;
+    /* 0x15c */ f32 _15c;
+    u8 _160[0x188 - 0x160];
     /* 0x188 */ sead::Matrix34f _188;
     /* 0x1b8 */ f32 _1b8;
     /* 0x1bc */ f32 _1bc;
     /* 0x1c0 */ f32 _1c0;
-    u8 _1c4[0x1e8 - 0x1c4];
+    u8 _1c4[4];
+    /* 0x1c8 */ AttachConfig* _1c8;
+    u8 _1d0[0x1e8 - 0x1d0];
     /* 0x1e8 */ u32 _1e8;
     /* 0x1ec */ sead::Vector3f _1ec;
     /* 0x1f8 */ u32 _1f8;

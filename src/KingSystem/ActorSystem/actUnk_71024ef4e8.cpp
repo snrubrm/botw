@@ -8,8 +8,60 @@
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodyFromResource.h"
 #include "KingSystem/Physics/System/physRayCastBodyQuery.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
+#include "KingSystem/Utils/InitTimeInfo.h"
 
 namespace ksys::act {
+
+namespace {
+// NON_MATCHING: the static initializer schedules the timestamp and record stores differently.
+util::InitTimeInfoEx sInitTimeInfo;
+Unk_71024ef4e8::AttachConfig sAttachConfigs[] = {
+    {"FallDown", {4.0f, 0.5f, 4.0f}, 20.0f, 0.2f, 0.8f, -0.7f, -0.7f},
+    {"Dead", {4.0f, 0.5f, 4.0f}, 20.0f, 1.0f, 1.0f, 1.0f, -0.85f},
+    {"DeadDirect", {4.0f, 0.5f, 4.0f}, 1.0f, 1.0f, 1.0f, -0.5f, -0.85f},
+    {"Climb", {4.0f, 0.5f, 4.0f}, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f},
+    {"Glide", {4.0f, 0.5f, 4.0f}, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f},
+    {"DeadMotorcycleSync", {4.0f, 0.5f, 4.0f}, 0.2f, 1.0f, 1.0f, 1.0f, 1.0f},
+    {"DeadMotorcycle", {4.0f, 0.5f, 4.0f}, 0.2f, 1.0f, 1.0f, -0.85f, -0.85f},
+};
+static_assert(sizeof(Unk_71024ef4e8::AttachConfig) == 0x28);
+}  // namespace
+
+// NON_MATCHING: scalar scheduling and flag-test register allocation differ.
+void Unk_71024ef4e8::sub_7100EB4814(int type, int a2, f32 f) {
+    auto& config = sAttachConfigs[u32(type)];
+    _1c8 = &config;
+    _20->setInertiaLocal(config.inertia);
+    _20->setLinearDamping(config.linear_damping);
+    _20->setAngularDamping(config.angular_damping);
+    f32 value;
+    f32 change = 0.0f;
+    if (a2 & 1) {
+        value = 1.0f;
+    } else {
+        value = _1c8->_24;
+        if (!(f <= 0.0f)) {
+            change = -((_1c8->_20 - value) / f);
+            value = _1c8->_20;
+        }
+    }
+    _154 = _158 = value;
+    _15c = change;
+    _8->sub_7100FBDB90(_8->get112(), value);
+    const f32 scale = _1c8->_14;
+    const f32 inverse_scale = 1.0f / scale;
+    _12c = scale;
+    f32 factor = 1.0f;
+    if (a2 & 1) {
+        _20->setGravityFactor(0.0f);
+        if (type != 5)
+            factor = 0.001f;
+    } else {
+        _20->setGravityFactor(1.0f);
+    }
+    _38->sub_7100F6A0FC(factor, inverse_scale);
+}
 
 void Unk_71024ef4e8::sub_7100EB480C(sead::Vector3f* out) const {
     _20->getCenterOfMassInWorld(out);
