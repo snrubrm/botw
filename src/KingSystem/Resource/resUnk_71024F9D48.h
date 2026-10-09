@@ -57,14 +57,14 @@ public:
     virtual ~Unk_71024f9a08();
     // Whole FE3004 and FE6134 produce this 38-byte request; FE0584 only reads it.
     struct LoadArg {
-        bool _0 = false;
-        bool _1 = false;
-        u8 _2 = 0;
+        bool _0;
+        bool _1;
+        u8 _2;
         sead::SafeString path;
-        sead::FileDevice* device = nullptr;
-        CompactedHeap* heap = nullptr;
-        CompactedHeap* mipHeap = nullptr;
-        nn::gfx::ResTexture* texture = nullptr;
+        sead::FileDevice* device;
+        CompactedHeap* heap;
+        CompactedHeap* mipHeap;
+        nn::gfx::ResTexture* texture;
     };
     KSYS_CHECK_SIZE_NX150(LoadArg, 0x38);
     // Complete FE0584 and FE0860 independently produce the record consumed by FE09EC.
