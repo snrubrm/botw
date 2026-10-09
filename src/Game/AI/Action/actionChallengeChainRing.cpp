@@ -146,4 +146,94 @@ void ChallengeChainRing::m33() {
     _b8c = ksys::Timer(3.0f, 3.0f);
 }
 
+// NON_MATCHING: register allocation, clamp scheduling and shared branch layout differ.
+bool ChallengeChainRing::sub_7100051DF4(ksys::map::Rail* rail, sead::Vector3f* pos,
+                                       sead::Vector3f* direction, f32 progress) {
+    if (!rail || rail->getNumPoints() < 2)
+        return false;
+
+    if (rail->getNumPoints() < 1) {
+        progress = 0.0f;
+    } else {
+        const bool closed = rail->isClosed();
+        const f32 count = rail->getNumPoints();
+        if (closed) {
+            const f32 max = sead::Mathf::clampMin(count - FLT_EPSILON, 0.0f);
+            if (progress < 0.0f) {
+                do {
+                    progress += max;
+                } while (progress < 0.0f);
+            } else {
+                while (max < progress)
+                    progress -= max;
+            }
+        } else if (progress < 0.0f) {
+            progress = 0.0f;
+        } else {
+            const f32 max = sead::Mathf::clampMin(count - 1.0f, 0.0f);
+            if (max < progress)
+                progress = max;
+        }
+    }
+    rail->calcTranslate(pos, progress);
+    f32 next_progress = progress + 0.1f;
+    bool forward = rail->isClosed();
+    if (!forward) {
+        const bool closed = rail->isClosed();
+        const s32 count = rail->getNumPoints();
+        const f32 max = sead::Mathf::clampMin(
+            closed ? f32(count) - FLT_EPSILON : f32(count - 1), 0.0f);
+        forward = !(next_progress < 0.0f || max < next_progress);
+    }
+    sead::Vector3f dir;
+    if (forward) {
+        if (rail->getNumPoints() < 1) {
+            next_progress = 0.0f;
+        } else {
+            const bool closed = rail->isClosed();
+            const f32 count = rail->getNumPoints();
+            if (closed) {
+                const f32 max = sead::Mathf::clampMin(count - FLT_EPSILON, 0.0f);
+                if (next_progress < 0.0f) {
+                    do {
+                        next_progress += max;
+                    } while (next_progress < 0.0f);
+                } else {
+                    while (max < next_progress)
+                        next_progress -= max;
+                }
+            } else if (next_progress < 0.0f) {
+                next_progress = 0.0f;
+            } else {
+                const f32 max = sead::Mathf::clampMin(count - 1.0f, 0.0f);
+                if (max < next_progress)
+                    next_progress = max;
+            }
+        }
+        dir = rail->calcTranslate(next_progress) - *pos;
+        dir.normalize();
+    } else {
+        progress -= 0.1f;
+        const bool closed = rail->isClosed();
+        const s32 count = rail->getNumPoints();
+        const f32 max = sead::Mathf::clampMin(
+            closed ? f32(count) - FLT_EPSILON : f32(count - 1), 0.0f);
+        if (progress < 0.0f || max < progress) {
+            const sead::Vector3f first = rail->calcTranslate(0.0f);
+            dir = rail->calcTranslate(rail->getNumPoints() - 1) - first;
+            dir.normalize();
+        } else {
+            dir = *pos - rail->calcTranslate(progress);
+            dir.normalize();
+        }
+    }
+    *direction = dir;
+    if (std::isnan(dir.x) || std::isnan(dir.y) || std::isnan(dir.z) ||
+        (dir.x == 0.0f && dir.y == 0.0f && dir.z == 0.0f)) {
+        *direction = mActor->getMtx().getBase(2);
+        return false;
+    }
+    return true;
+}
+
 }  // namespace uking::action

@@ -6,6 +6,7 @@
 #include <math/seadVector.h>
 
 class Unk_71024f15c0;
+namespace ksys::map { class Rail; }
 
 namespace uking::action {
 
@@ -42,6 +43,9 @@ protected:
     ksys::Timer _b8c;
 
     virtual void m35(sead::Vector3f* pos);
+    // Complete enter_ passes the rail, position output, direction output and progress.
+    bool sub_7100051DF4(ksys::map::Rail* rail, sead::Vector3f* pos,
+                       sead::Vector3f* direction, f32 progress);
 };
 
 }  // namespace uking::action
