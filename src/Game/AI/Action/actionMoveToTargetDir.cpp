@@ -34,8 +34,6 @@ void MoveToTargetDir::loadParams_() {
     getMapUnitParam(&mRailMoveSpeed_m, "RailMoveSpeed");
 }
 
-// NON_MATCHING: the original loads *mDynTargetPos_d before _60 for `_60 - *mDynTargetPos_d`; ours loads
-// _60 first (rest identical).
 void MoveToTargetDir::calc_() {
     MoveToTargetBase::calc_();
     auto* body = mActor->getMainBody();
@@ -49,7 +47,8 @@ void MoveToTargetDir::calc_() {
     sead::Matrix34f mtx;
     body->getTransform(&mtx);
     mtx.getBase(front, 2);
-    dir = _60 - *mDynTargetPos_d;
+    const sead::Vector3f target = *mDynTargetPos_d;
+    dir = _60 - target;
     dir.normalize();
     ksys::util::sub_71011EEB08(&axis, &angle, front, dir, sead::Vector3f::ey);
     body->setAngularVelocity(axis * angle * 30.0f, sead::Mathf::epsilon());
