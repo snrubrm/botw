@@ -144,6 +144,10 @@ public:
     void m2() override;
     void m3(const void* arg) override;
 
+    // 12007B8 forwards the texture from its callback argument; 11FFD28 updates
+    // resource state and invalidates this texture in linked model bindings.
+    void sub_71011FFD28(nn::gfx::ResTexture* texture);
+
     // 0x71011ffecc: invalidates queued textures in all linked model bindings.
     void sub_71011FFECC();
 

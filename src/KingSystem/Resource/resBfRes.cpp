@@ -2,6 +2,7 @@
 #include <nn/g3d/ResFile.h>
 #include <prim/seadScopedLock.h>
 #include "KingSystem/Resource/resResourceFileUtil.h"
+#include "KingSystem/Resource/resResourceMgrTask.h"
 #include "KingSystem/Resource/resUnk_71024F9938.h"
 #include "KingSystem/Resource/resSystem.h"
 
@@ -77,6 +78,37 @@ void BfRes::sub_71011FFECC() {
             owner->sub_7100FDDA60(&_198);
     }
     _198.clear();
+}
+
+void Unk_71025149d0::m2(const void* arg) {
+    mOwner->sub_71011FFD28(static_cast<const CallbackArg*>(arg)->mHandle->sub_7100FE83EC());
+}
+
+void Unk_71025149d0::m3(const void* arg) {
+    auto* owner = mOwner;
+    auto* texture = static_cast<const CallbackArg*>(arg)->mHandle->sub_7100FE83EC();
+    if (!owner->_50) {
+        stubbedLogFunction();
+        return;
+    }
+    owner->_198.pushBack(texture);
+    if (!owner->mListNode.isLinked())
+        ResourceMgrTask::instance()->registerBfRes(owner);
+}
+
+void Unk_71025149d0::m4(const void* arg) {
+    auto* owner = mOwner;
+    auto* texture = static_cast<const CallbackArg*>(arg)->mHandle->sub_7100FE83EC();
+    if (!owner->_50) {
+        stubbedLogFunction();
+        return;
+    }
+    owner->_40 = (owner->_40 & ~7) | 4;
+    auto lock = sead::makeScopedLock(owner->_b8);
+    for (auto* binding : owner->_60) {
+        if (binding)
+            binding->sub_7100FDD9C0(texture);
+    }
 }
 
 }  // namespace ksys::res
