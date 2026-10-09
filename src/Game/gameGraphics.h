@@ -11,6 +11,13 @@
 #include <thread/seadCriticalSection.h>
 #include <gsys/gsysModelScene.h>
 
+namespace nn::gfx {
+class ResTexture;
+}
+namespace gsys {
+class ModelNW;
+}
+
 namespace ksys::act {
 class PlayerLink;
 }
@@ -78,6 +85,10 @@ public:
     // Original instance pointer 0x710260b060 (GOT 0x7102579d58).
     static Graphics* instance() { return sInstance; }
     static Graphics* sInstance;
+
+    // Native F2E0F4 compares MaterialObj texture resources, or dirties all when texture is null.
+    // Texture identity is also proved by initializer 128F724 and native finalizer FE0FE4.
+    void sub_7100F2E0F4(gsys::ModelNW* model, const nn::gfx::ResTexture* texture);
 
     // 0x7100f2ddf0: declaration only; selects a lens-flare preset, negative disables it.
     void sub_7100F2DDF0(s32 preset);

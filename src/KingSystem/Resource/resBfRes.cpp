@@ -1,6 +1,8 @@
 #include "KingSystem/Resource/resBfRes.h"
 #include <nn/g3d/ResFile.h>
+#include <prim/seadScopedLock.h>
 #include "KingSystem/Resource/resResourceFileUtil.h"
+#include "KingSystem/Resource/resUnk_71024F9938.h"
 #include "KingSystem/Resource/resSystem.h"
 
 namespace ksys::res {
@@ -35,6 +37,25 @@ void BfRes::doCreate_(u8* buffer, u32 buffer_size, sead::Heap* heap) {
 
 void BfRes::onDestroy_() {
     sub_7100FDDB70(sub_7100FDDB40(mRawData));
+}
+
+void BfRes::sub_71011FFDF4(sead::TListNode<Unk_71024f9958*>* node) {
+    auto lock = sead::makeScopedLock(_b8);
+    _60.pushBack(node);
+}
+
+void BfRes::sub_71011FFE74(sead::TListNode<Unk_71024f9958*>* node) {
+    auto lock = sead::makeScopedLock(_b8);
+    _60.erase(node);
+}
+
+void BfRes::sub_71011FFECC() {
+    auto lock = sead::makeScopedLock(_b8);
+    for (auto* owner : _60) {
+        if (owner)
+            owner->sub_7100FDDA60(&_198);
+    }
+    _198.clear();
 }
 
 }  // namespace ksys::res

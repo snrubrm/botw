@@ -1,14 +1,20 @@
 #pragma once
 
 #include <container/seadListImpl.h>
+#include <container/seadPtrArray.h>
 #include <container/seadOffsetList.h>
 #include <container/seadTList.h>
 #include <thread/seadCriticalSection.h>
 #include "KingSystem/Resource/resResource.h"
 
+namespace nn::gfx {
+class ResTexture;
+}
+
 namespace ksys::res {
 
 class BfRes;
+class Unk_71024f9958;
 struct Unk_BfResNode;  // element type of the lists at 0x138 / 0x150 (unknown)
 
 // Vtable 0x71024f9d68 (GOT 0x259ed88): abstract callback interface (D1 0x7100fe85a4 is a shared `ret`, D0 0x7100fe85a8,
@@ -74,10 +80,16 @@ public:
     void m2() override;
     void m3(const void* arg) override;
 
-    // 0x71011ffecc (declared only)
+    // 0x71011ffecc: invalidates queued textures in all linked model bindings.
     void sub_71011FFECC();
 
-    sead::TList<void*> _60;
+    // Native FDD4A8 produces owner-bearing nodes; 11FFDF4 / 11FFE74 link/unlink them.
+    void sub_71011FFDF4(sead::TListNode<Unk_71024f9958*>* node);
+    void sub_71011FFE74(sead::TListNode<Unk_71024f9958*>* node);
+    // Native 12003D0 decrements a texture entry selected by its CRC32 key; callers do not consume a result.
+    void sub_71012003D0(u32 hash);
+
+    sead::TList<Unk_71024f9958*> _60;
     sead::CriticalSection _78{nullptr, sead::IDisposer::HeapNullOption::DoNotAppendDisposerIfNoHeapSpecified};
     sead::CriticalSection _b8{nullptr, sead::IDisposer::HeapNullOption::DoNotAppendDisposerIfNoHeapSpecified};
     sead::CriticalSection _f8{nullptr, sead::IDisposer::HeapNullOption::DoNotAppendDisposerIfNoHeapSpecified};
@@ -86,8 +98,8 @@ public:
     Unk_71025149d0 _168{this};
     // The node of ResourceMgrTask::mBfResList.
     sead::ListNode mListNode;
-    void* _198;
-    void* _1a0;
+    // Native ctor zeroes the array; 12007E4 appends texture resources, 11FFECC clears it.
+    sead::PtrArray<nn::gfx::ResTexture> _198;
 };
 
 KSYS_CHECK_SIZE_NX150(BfRes, 0x1a8);
