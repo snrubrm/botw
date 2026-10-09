@@ -21,6 +21,9 @@
 #include "KingSystem/ActorSystem/actImpulseBaseProcLink.h"
 #include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/AS/asElement.h"
+#include <gsys/gsysModelAnimation.h>
+#include <nn/g3d/ResSkeletalAnim.h>
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorCreator.h"
 #include "KingSystem/XLink/xlinkXLink.h"
@@ -57,6 +60,61 @@
 #include "KingSystem/Physics/System/physSystem.h"
 
 namespace ksys::act {
+
+// NON_MATCHING: typed key comparison and forwarding, stack placement and loop scheduling differ.
+void Actor::swordBlurStuff() {
+    if (mASList == &as::sNullASListMaybe || !mASList)
+        return;
+
+    s32 range_counts[512]{};
+    const res::AS* resources[512];
+    as::Element* elements[512];
+    sead::Buffer<const res::AS*> resource_buffer(512, resources);
+    sead::Buffer<as::Element*> element_buffer(512, elements);
+    as::Element::EventRanges ranges;
+    as::Element::EventRanges previous_ranges;
+    auto* model = mModel;
+    const s32 count = mASList->sub_7101160A70(&resource_buffer, &element_buffer, 48);
+    if (!model || count <= 0)
+        return;
+
+    for (s32 i = 0; i < count; ++i) {
+        element_buffer[i]->sub_71011655A0(&ranges, 48, resource_buffer[i]);
+        s32 previous;
+        for (previous = 0; previous < i; ++previous) {
+            element_buffer[previous]->sub_71011655A0(&previous_ranges, 48,
+                                                    resource_buffer[previous]);
+            if (!range_counts[previous])
+                continue;
+            // ASList1160A70 accepts only SkeltalAsset via its RTTI before filling this buffer.
+            const auto key = static_cast<as::SkeltalAsset*>(element_buffer[i])->mKey;
+            const auto previous_key =
+                static_cast<as::SkeltalAsset*>(element_buffer[previous])->mKey;
+            if (key.type != previous_key.type || key.index != previous_key.index)
+                continue;
+            const s32 start = ranges.ranges[0].start;
+            const s32 end = ranges.ranges[0].end;
+            const s32 previous_start = previous_ranges.ranges[0].start;
+            const s32 previous_end = previous_ranges.ranges[0].end;
+            if (start != previous_start || end != previous_end) {
+                model->getAnimation()->setSkeletalAnmByKey(0, key, nullptr);
+                auto* animation = model->getAnimation();
+                const auto& resource = animation->mSkeletalResources[
+                    animation->mSkeletalAnms[0].key.index];
+                const auto* skeletal =
+                    static_cast<const nn::g3d::ResSkeletalAnim*>(resource.resource->resource);
+                sead::FormatFixedSafeString<128> error(
+                    "SwordBlurFrmErr[%s:%d/%d/%d/%d]", skeletal->GetName(), start, end,
+                    previous_start, previous_end);
+            }
+            range_counts[i] = 0;
+            break;
+        }
+        if (previous == i && ranges.count > 0)
+            range_counts[i] += ranges.count < 2 ? 1 : ranges.count;
+    }
+}
+
 
 phys::RigidBody* Actor::sub_71011DB364(phys::RigidBody* body) {
     if (body->isSensor())

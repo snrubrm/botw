@@ -92677,7 +92677,7 @@ Address,Quality,Size,Name
 0x00000071011d31e8,U,000900,Actor::initPhysics
 0x00000071011d356c,U,002192,Actor::loadModelAndAnimationMaybe
 0x00000071011d3dfc,U,001820,Actor::createModel
-0x00000071011d4518,U,000748,Actor::swordBlurStuff
+0x00000071011d4518,m,000748,_ZN4ksys3act5Actor14swordBlurStuffEv
 0x00000071011d4804,U,000272,Actor::initPhysicsConstraints
 0x00000071011d4914,U,000180,Actor::initChemicals
 0x00000071011d49c8,U,000276,_ZN4ksys3act5Actor14sub_71011D49C8Ev

@@ -289,6 +289,7 @@ public:
     const map::MubinIter& getMapObjIter() const { return mMapObjIter; }
     f32 get6f4() const { return _6f4; }
     as::ASList* getASList() const { return mASList; }
+    void swordBlurStuff();
     // 0x71011c9a88: `mASList`, or null if it is the shared null list (sNullASListMaybe).
     as::ASList* sub_71011C9A88() const;
     xlink::XLink* getXLink() const { return mXLink; }
