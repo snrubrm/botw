@@ -86,6 +86,7 @@ add_library(hkStubs OBJECT
   Havok/Common/Base/Object/hkReferencedObject.cpp
   Havok/Common/Base/Object/hkReferencedObject.h
 
+  Havok/Common/Base/Reflection/hkClass.cpp
   Havok/Common/Base/Reflection/hkClass.h
   Havok/Common/Base/Reflection/hkClassEnum.h
   Havok/Common/Base/Reflection/hkClassMember.h
