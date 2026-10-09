@@ -60,6 +60,20 @@ bool RootAi::init_(sead::Heap* heap) {
     return false;
 }
 
+void RootAi::leave_() {
+    for (auto* behavior = _138; behavior; behavior = behavior->sub_7100D24B94()) {
+    }
+    auto* behavior = _138;
+    while (behavior) {
+        auto* next = behavior->sub_7100D24BD4();
+        behavior->_20 = nullptr;
+        behavior = next;
+    }
+    _138 = nullptr;
+    if (mI == 5)
+        mI = 0;
+}
+
 bool RootAi::loadMapUnitParams(const AIDef& def, sead::Heap* heap) {
     return mMapUnitParams.load(*mActor, def, heap, AIDefInstParamKind::MapUnit);
 }
