@@ -51,6 +51,12 @@ void FollowChallenge::sub_710004D9A4() {
     sub_710004D9FC(&_458);
 }
 
+// NON_MATCHING: the native index is spilled before string assignment.
+void FollowChallenge::sub_710004D950(s32 index, const char* name) {
+    // called through a pointer in the original (not devirtualised)
+    (&_4d8[index])->operator=(sead::SafeString(name));
+}
+
 void FollowChallenge::sub_710004DFF4() {
     for (auto& effect : mEffects)
         effect.handle.fadeXLink();

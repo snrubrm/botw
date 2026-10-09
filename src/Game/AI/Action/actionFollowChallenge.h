@@ -1,5 +1,6 @@
 #pragma once
 
+#include <container/seadSafeArray.h>
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
@@ -22,6 +23,7 @@ protected:
     // Native table 235BD60 ends with this bool slot; DragonFollow calls it virtually.
     virtual bool m32();
     void sub_710004D9A4();
+    void sub_710004D950(s32 index, const char* name);
     // Complete native geometry update receives one of this action's paired handles.
     void sub_710004D9FC(Unk_71012419b4* handle);
     void sub_710004DFF4();
@@ -64,7 +66,7 @@ protected:
     f32 _4c8;
     sead::Vector3f _4cc;
     // Native 4D2CC constructs 17 strings; enter_ assigns each through its virtual string slot.
-    sead::FixedSafeString<64> _4d8[17];
+    sead::SafeArray<sead::FixedSafeString<64>, 17> _4d8;
 };
 
 }  // namespace uking::action
