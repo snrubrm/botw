@@ -119,17 +119,11 @@ void PlacementActors::placeObject(Object* obj) {
     }
 }
 
-// NON_MATCHING: only the loop bound (`cmp x9, #0x80; b.lt` in the original, `cmp x9, #0x7f; b.le` here: clang canonicalises
-// the exit test)
 void PlacementActors::sub_7100D52CA4(Object* obj) {
     mMutex.lock();
-    for (int i = 0; i < 128; i += 2) {
+    for (int i = 0; i < 128; ++i) {
         if (!_f8[i]) {
             _f8[i] = obj;
-            break;
-        }
-        if (!_f8[i + 1]) {
-            _f8[i + 1] = obj;
             break;
         }
     }
