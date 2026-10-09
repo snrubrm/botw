@@ -2,6 +2,8 @@
 #include <filedevice/seadFileDeviceMgr.h>
 #include <filedevice/seadPath.h>
 #include <new>
+#include <gfx/nin/seadGraphicsNvn.h>
+#include <nn/gfx/gfx_ResTexture.h>
 
 namespace eui {
 
@@ -39,6 +41,18 @@ void ArcResourceMgr::loadArchive(sead::Heap* heap, const sead::SafeString& path)
         auto* archive = new (heap, 8) ArcResource(this, name, resource->getRawData());
         mArchives.pushBack(archive);
     }
+}
+
+ArcResourceMgr::ArcResource::~ArcResource() {
+    if (mTextureResource) {
+        auto& texture = mTextureResource->ToData().textureContainerData;
+        if (texture.pCurrentMemoryPool.Get() == texture.pTextureMemoryPool.Get())
+            texture.pCurrentMemoryPool.Get()->Finalize(sead::GraphicsNvn::instance()->getNnDevice());
+        texture.pCurrentMemoryPool.Set(nullptr);
+    }
+    if (mData)
+        finalizeInitializedShaderResource(mData);
+    mMgr->eraseArchiveFromList(this);
 }
 
 // 0x7101407a40
