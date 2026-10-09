@@ -44,11 +44,10 @@ void CameraEventLook::m47() {
     }
 }
 
-// NON_MATCHING: reference lookup and argument scheduling differ.
 void CameraEventLook::m48(sead::Matrix34f* out) {
     s32 index = _140;
     if (auto* object = ksys::act::findLinkReferenceObj(
-            &_120, sead::SafeString::cEmptyString, mTargetUniqueName_d, &index)) {
+            &_120, "", mTargetUniqueName_d, &index)) {
         if (auto* actor = object->tryGetActor(false))
             sub_71009258B0(actor, out);
         else
