@@ -20,6 +20,9 @@ public:
 
 protected:
     void calc_() override;
+    s32 m32(RandomMovePoints* points) override;
+    // Full 10BF08 returns bool and consumes the update flag plus this action state.
+    bool sub_710010BF08(bool update);
 
     // static_param at offset 0x38
     const int* mUpdateTargetPosInterval_s{};

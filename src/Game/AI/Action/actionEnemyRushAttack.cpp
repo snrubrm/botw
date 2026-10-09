@@ -36,6 +36,12 @@ void EnemyRushAttack::leave_() {
     RandomMoveAction::leave_();
 }
 
+s32 EnemyRushAttack::m32(RandomMovePoints* points) {
+    sub_710010BF08(false);
+    points->add(_ac);
+    return *mUpdateTargetPosInterval_s;
+}
+
 void EnemyRushAttack::loadParams_() {
     RandomMoveAction::loadParams_();
     getStaticParam(&mUpdateTargetPosInterval_s, "UpdateTargetPosInterval");
