@@ -13,9 +13,9 @@ bool Unk_7102450648::m2(const ksys::Message& message) {
     return true;
 }
 
-// NON_MATCHING: the original compares the type value as signed (b.le/b.ge)
+// Signed IDs below this range are rejected before the second type query.
 bool Unk_7102450648::sub_710070A674(const ksys::Message& message) {
-    if (message.getType() >= 0x1800000 && message.getType() < 0x180002a) {
+    if (s32(message.getType()) >= 0x1800000 && s32(message.getType()) < 0x180002a) {
         _8 = ksys::act::PlayerInfo::getSomeProcLink();
         _30 = true;
         _18 = message.getSource();
