@@ -85,7 +85,6 @@ void ShockWave::loadParams_() {
     getMapUnitParam(&mIsReuseActor_m, "IsReuseActor");
 }
 
-// NON_MATCHING: the original pairs stores of the copied actor position; ours copies each component separately.
 void ShockWave::calc_() {
     auto* actor = mActor;
     if (actor->getScale().x >= _4c) {
@@ -97,8 +96,7 @@ void ShockWave::calc_() {
     if (auto* terrain = ksys::tera::Terrain::instance()) {
         if (terrain->isGrassEnabled()) {
             auto* grass = terrain->sub_710114DE4C();
-            sead::Vector3f pos;
-            actor->getMtx().getTranslation(pos);
+            const sead::Vector3f pos = actor->getMtx().getTranslation();
             grass->sub_7101150A7C(&pos, actor->getScale().x, 0.0f);
         }
     }
