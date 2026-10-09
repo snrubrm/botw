@@ -1758,6 +1758,33 @@ void ScreenMainScreenHeartIchigekiDLC::sub_7100A168F0() {
     }
 }
 
+// NON_MATCHING: the position-copy receiver load is scheduled before the coordinates.
+// 0x7100a1699c
+void ScreenMainScreenHeartIchigekiDLC::m94() {
+    if (_3628 == 1) {
+        _3628 = 2;
+    } else if (_3628 == 2) {
+        if (auto* pane = mLayout->GetPane()->FindPaneByName("N_Pos_00", true)) {
+            const auto& position = pane->GetPosition();
+            _3620->SetPosition(nn::util::Float3{position.x, position.y, 0.0f});
+        }
+        _3628 = 0;
+    }
+    if (Unk_71025d6578::instance()->_38 & 0x2000) {
+        sub_7100A168F0();
+        return;
+    }
+    if (mState != 1 && mState != 2)
+        return;
+    _3618->set948(sub_7100949D18(Unk_71025d6578::instance()->_2c));
+    if (Unk_71025d6578::instance()->_38 & 0x1000)
+        invokeSoundLink2Event_("mc_HeartDown");
+    if (Unk_71025d6578::instance()->_38 & 2)
+        _3618->playAnimator918();
+    if (_3618)
+        _3618->sub_710093515C(getAnimationStep_());
+}
+
 // 0x7100a16aec
 void ScreenMainScreenHeartIchigekiDLC::m100() {
     _3618->set944(_3618->get948());

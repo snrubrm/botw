@@ -2762,6 +2762,7 @@ public:
     ~ScreenMainScreenHeartIchigekiDLC() override;
     void m93(sead::Heap* heap) override;
     void m100() override;
+    void m94() override;
     // 0x7100a168f0 (declared only)
     void sub_7100A168F0();
     // 0x7100a16adc (placeholder name): forwards to the gauge's playAnimator8e0
