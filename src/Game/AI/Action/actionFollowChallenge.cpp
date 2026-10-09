@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionFollowChallenge.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/Event/evtManager.h"
 
 namespace uking::action {
@@ -14,7 +16,27 @@ bool FollowChallenge::init_(sead::Heap* heap) {
 }
 
 void FollowChallenge::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    ksys::act::acquireActor(&ksys::act::PlayerInfo::instance()->getPlayerLink(), &_30);
+    _4cc.set(mActor->getMtx().getTranslation());
+    _4d8[0] = sead::SafeString("SheikerRingNo_00");
+    _4d8[1] = sead::SafeString("SheikerRingNo_01");
+    _4d8[2] = sead::SafeString("SheikerRingNo_02");
+    _4d8[3] = sead::SafeString("SheikerRingNo_03");
+    _4d8[4] = sead::SafeString("SheikerRingNo_04");
+    _4d8[5] = sead::SafeString("SheikerRingNo_05");
+    _4d8[6] = sead::SafeString("SheikerRingNo_06");
+    _4d8[7] = sead::SafeString("SheikerRingNo_07");
+    _4d8[8] = sead::SafeString("SheikerRingNo_08");
+    _4d8[9] = sead::SafeString("SheikerRingNo_09");
+    _4d8[10] = sead::SafeString("SheikerRingPoint");
+    _4d8[11] = sead::SafeString("SheikerTarget");
+    _4d8[12] = sead::SafeString("SheikerTargetAppear");
+    _4d8[13] = sead::SafeString("SheikerTargetSuccess");
+    _4d8[14] = sead::SafeString("SheikerTargetFailed");
+    _4d8[15] = sead::SafeString("SheikerRingConvergence");
+    _4d8[16] = sead::SafeString("SheikerRingConvergenceTwinkle");
+    for (auto& effect : mEffects)
+        effect.scale = 1.0f;
 }
 
 void FollowChallenge::leave_() {
