@@ -6,7 +6,6 @@ namespace uking::ui {
 // 0x7100939bd8
 Unk_7102474e38::Unk_7102474e38() {}
 
-// NON_MATCHING: vector assignment and flag-store scheduling differ.
 // 0x7100939c18
 Unk_7102474e38::~Unk_7102474e38() {
     _8 = 0;
@@ -15,7 +14,7 @@ Unk_7102474e38::~Unk_7102474e38() {
     _20 = nullptr;
     _28 = nullptr;
     _30 = 0;
-    _34 = sead::Vector2f::zero;
+    _34.set(sead::Vector2f::zero);
     _3c = -1;
     _40 = -1;
     _44 = -1;
