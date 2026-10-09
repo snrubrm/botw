@@ -74,6 +74,9 @@ public:
     bool sub_710000FF60(int idx);
     // 0x710000f70c (lane4 s46, unnamed in the CSV): `_1f70` has the bit `idx + 4`.
     bool sub_710000F70C(int idx);
+    // Full F654 / FC70 bodies and independent DragonIceRoot / DragonRoot callers prove these arguments.
+    void sub_710000F654(s32 idx);
+    void sub_710000FC70(s32 idx, bool start, bool secondary);
     bool getGameDataFlag(const sead::SafeString& name, int idx);  // CSV name
     // 0x710000bc38 (CSV name; lane1 s45): sets the game data flag `name` of the dragon (`idx` -1: the dragon's own).
     void setGameDataFlag(bool value, const sead::SafeString& name, int idx);

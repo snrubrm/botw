@@ -34,6 +34,18 @@ void DragonIceRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     }
 }
 
+void DragonIceRoot::sub_7100368FCC(bool enabled) {
+    auto* dragon = sead::DynamicCast<act::Dragon>(mActor);
+    if (!dragon)
+        return;
+    for (s32 i = 0; i < 4; ++i)
+        dragon->sub_710000F654(i);
+    for (s32 i = 0; i < 4; ++i) {
+        if (dragon->sub_710000F70C(i) && !dragon->getGameDataFlagGrudgeAlive(i))
+            dragon->sub_710000FC70(i, enabled, false);
+    }
+}
+
 void DragonIceRoot::leave_() {
     DragonRoot::leave_();
     auto* dragon = sead::DynamicCast<act::Dragon>(mActor);
