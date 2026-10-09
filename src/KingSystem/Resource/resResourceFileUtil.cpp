@@ -1,6 +1,7 @@
 #include "KingSystem/Resource/resResourceFileUtil.h"
 #include <g3d/aglNW4FToNN.h>
 #include <nn/g3d/ResFile.h>
+#include <nn/g3d/ResMaterialAnim.h>
 #include <nn/gfx/gfx_ResTexture.h>
 
 namespace ksys::res {
@@ -18,6 +19,14 @@ void sub_7100FDDB70(nn::g3d::ResFile* file) {
             table->Unrelocate();
     }
     file->Unrelocate();
+}
+
+s32 sub_7100FDDBA4(const nn::g3d::ResFile* file) {
+    return file->mMatAnimCount;
+}
+
+nn::g3d::ResMaterialAnim* sub_7100FDDBAC(nn::g3d::ResFile* file, s32 index) {
+    return &file->mMatAnims[index];
 }
 
 void sub_7100FDDBD0(nn::gfx::ResTexture* texture) {
