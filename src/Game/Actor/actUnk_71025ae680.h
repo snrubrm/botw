@@ -70,6 +70,17 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(Unk_71025ae680, 0x20);
 
+// Declaration only: Enemy::m178 builds this 0x70-byte controller (vtable 0x710244edc0).
+// RTTI6E9910 / 6E99DC establish the base; FishRoot3CC69C writes the Boolean at +0x68.
+// The callback and other derived state between +0x1c and +0x68 remain opaque.
+class Unk_710244edc0 : public Unk_71025ae680 {
+    SEAD_RTTI_OVERRIDE(Unk_710244edc0, Unk_71025ae680)
+public:
+    /* 0x1c */ u8 _1c[0x68 - 0x1c];
+    /* 0x68 */ bool _68;
+};
+KSYS_CHECK_SIZE_NX150(Unk_710244edc0, 0x70);
+
 // Placeholder name (vtable 0x710244dd20; ctor 0x71006cef7c, size 0x140). Horse::_1028 and the
 // second kind of object created by Enemy vtable slot 178. Has a second base (vtable 0x710244dd20 +
 // 0xc8) at 0x20.

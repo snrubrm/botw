@@ -46,6 +46,7 @@ public:
 
 protected:
     // Declaration only; original method names and void returns are inferred.
+    void sub_71003CC69C();
     void sub_71003CC878();
     // 0x71003ce608 (placeholder name): submits a downward ground ray cast from `start` as tall as the actor.
     bool sub_71003CE608(const sead::Vector3f& start);
