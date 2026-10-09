@@ -1,6 +1,8 @@
 #pragma once
 
 #include <math/seadVector.h>
+#include <container/seadPtrArray.h>
+#include "Game/AI/Action/actionCameraLockOnCallbacks.h"
 #include "Game/AI/Action/actionCameraAction.h"
 #include "Game/Actor/actCameraUtil.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
@@ -16,9 +18,8 @@ public:
     // three values (the last two angles in degrees).
     struct Unk88 {
         sead::Vector3f _0 = sead::Vector3f::zero;
-        f32 _c = 0;
-        f32 _10 = angleStuff(0.0f);
-        f32 _14 = angleStuff(0.0f);
+        // Native m52 calls the polar Cartesian method on this contiguous radius/angle member.
+        act::Unk_7100922700 _c;
     };
 
     explicit CameraLockOnBase(const InitArg& arg);
@@ -35,10 +36,10 @@ protected:
     virtual float m45();
     // 0x71007864a8 (declared only): updates the angles from `polar`.
     virtual void m46(act::Unk_7100922700* polar, bool b);
-    virtual void* m47() { return nullptr; }
-    virtual void* m48() { return nullptr; }
-    virtual void* m49() { return nullptr; }
-    virtual void* m50() { return nullptr; }
+    virtual sead::PtrArray<Unk_7102457a80>* m47() { return nullptr; }
+    virtual const sead::PtrArray<Unk_7102457a80>* m48() { return nullptr; }
+    virtual sead::PtrArray<Unk_7102457b00>* m49() { return nullptr; }
+    virtual const sead::PtrArray<Unk_7102457b00>* m50() { return nullptr; }
     virtual bool m51();
     virtual void m52();
     virtual void m53() {}
@@ -53,6 +54,7 @@ protected:
 
     // 0x7100786cc0: m60(_f4).
     bool sub_7100786CC0();
+    void sub_71007866C4(f32* out);
     // 0x7100786974: `*out` = the longitude from LngNear / LngFar blended by _b8, negated when the camera's
     // azimuth is more than _a0._14 degrees ahead.
     void sub_7100786974(f32* out);

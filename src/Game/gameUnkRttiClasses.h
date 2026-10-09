@@ -1,6 +1,12 @@
 #pragma once
 
 #include <prim/seadRuntimeTypeInfo.h>
+#include <prim/seadDelegate.h>
+#include "Game/Actor/actCameraUtil.h"
+
+namespace uking::action {
+class CameraLockOnBase;
+}
 #include "KingSystem/Utils/Thread/Task.h"
 #include "KingSystem/Utils/Thread/TaskData.h"
 
@@ -224,18 +230,41 @@ public:
 class Unk_7102457a80 {
     SEAD_RTTI_BASE(Unk_7102457a80)
 public:
+    struct InitArg {
+        SEAD_RTTI_BASE(InitArg)
+        explicit InitArg(uking::action::CameraLockOnBase* owner) : _8(owner) {}
+        uking::action::CameraLockOnBase* _8;
+    };
+
     virtual ~Unk_7102457a80();
-    virtual void m4();
+    // Native 0x7100786d08 copies the owner from this typed context when it is non-null.
+    virtual void m4(const InitArg* arg);
     virtual void m5() {}
+
+    // Native 0x7100786d18 and the camera array readers establish these fields.
+    uking::action::CameraLockOnBase* _8 = nullptr;
+    uking::act::Unk_71009214b8 _10;
 };
 
 // vtable 0x7102457ac0 (6 slots)
 class Unk_7102457ac0 : public Unk_7102457a80 {
     SEAD_RTTI_OVERRIDE(Unk_7102457ac0, Unk_7102457a80)
 public:
+    struct InitArg : Unk_7102457a80::InitArg {
+        SEAD_RTTI_OVERRIDE(InitArg, Unk_7102457a80::InitArg)
+        InitArg(uking::action::CameraLockOnBase* owner,
+                sead::IDelegate1<uking::act::Unk_71009214b8*>* callback)
+            : Unk_7102457a80::InitArg(owner), _10(callback) {}
+        sead::IDelegate1<uking::act::Unk_71009214b8*>* _10;
+    };
+
+    Unk_7102457ac0();
     ~Unk_7102457ac0() override;
-    void m4() override;
+    void m4(const Unk_7102457a80::InitArg* arg) override;
     void m5() override;
+
+    // Set by m4 at 0x7100786e00 and invoked with &_10 by m5.
+    sead::IDelegate1<uking::act::Unk_71009214b8*>* _48 = nullptr;
 };
 
 // vtable 0x7102499a68 (6 slots)

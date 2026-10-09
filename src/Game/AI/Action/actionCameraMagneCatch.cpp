@@ -5,9 +5,56 @@
 
 namespace uking::action {
 
-CameraMagneCatch::CameraMagneCatch(const InitArg& arg) : CameraLockOnBase(arg) {}
+// NON_MATCHING: native pre-construction array zeroing is not emitted by the typed array.
+CameraMagneCatch::CameraMagneCatch(const InitArg& arg) : CameraLockOnBase(arg), _338(this), _388(this), _3d8(this) {}
 
+// NON_MATCHING: out-of-line callback destructors remain to preserve their existing native identities.
 CameraMagneCatch::~CameraMagneCatch() = default;
+
+// NON_MATCHING: callback context stores and pointer-array register allocation differ.
+bool CameraMagneCatch::m42(sead::Heap* heap) {
+    _1c0.bind(this, &CameraMagneCatch::sub_7100775B78);
+    _1e0.bind(this, &CameraMagneCatch::sub_7100775B80);
+    _200.bind(this, &CameraMagneCatch::sub_7100775B88);
+    {
+        const Unk_7102457ac0::InitArg arg(this, &_1c0);
+        // called through a pointer in the original (not devirtualised)
+        (&_220[0])->m4(&arg);
+    }
+    {
+        const Unk_7102457ac0::InitArg arg(this, &_1e0);
+        // called through a pointer in the original (not devirtualised)
+        (&_220[1])->m4(&arg);
+    }
+    {
+        const Unk_7102457ac0::InitArg arg(this, &_200);
+        // called through a pointer in the original (not devirtualised)
+        (&_220[2])->m4(&arg);
+    }
+    _310.pushBack(&_220[0]);
+    _310.pushBack(&_220[1]);
+    _310.pushBack(&_220[2]);
+    _428.pushBack(&_338);
+    _428.pushBack(&_388);
+    _428.pushBack(&_3d8);
+    return true;
+}
+
+sead::PtrArray<Unk_7102457a80>* CameraMagneCatch::m47() {
+    return &_310;
+}
+
+const sead::PtrArray<Unk_7102457a80>* CameraMagneCatch::m48() {
+    return &_310;
+}
+
+sead::PtrArray<Unk_7102457b00>* CameraMagneCatch::m49() {
+    return &_428;
+}
+
+const sead::PtrArray<Unk_7102457b00>* CameraMagneCatch::m50() {
+    return &_428;
+}
 
 void CameraMagneCatch::m43() {
     _454 = 0.0f;
@@ -21,6 +68,56 @@ bool CameraMagneCatch::m51() {
     _70 = camera->_860._4cc;
     _7c = camera->_860._4cc;
     return true;
+}
+
+// NON_MATCHING: angular chase and polar field scheduling differ.
+void CameraMagneCatch::m52() {
+    const f32 rate = sub_7100791E44(0.15f);
+    _a0._c._4 = angleStuff(angleStuff(rate * angleStuff(_88._c._4 - _a0._c._4)) + _a0._c._4);
+    _a0._c._0 += rate * (_88._c._0 - _a0._c._0);
+    const f32 difference = angleStuff(_88._c._8 - _a0._c._8);
+    const f32 longitude_rate = sub_7100791E44(sub_7100922330());
+    const f32 step = angleStuff(difference * longitude_rate);
+    f32 offset = angleStuff(0);
+    const f32 magnitude = difference > 0 ? difference : -difference;
+    if (magnitude > 5.0f) {
+        offset = difference;
+        sead::Mathf::chase(&offset, 0.0f, 5.0f);
+    }
+    const f32 step_magnitude = step > 0 ? step : -step;
+    const f32 offset_magnitude = offset > 0 ? offset : -offset;
+    const f32 adjustment = offset_magnitude > step_magnitude ? offset : step;
+    _a0._c._8 = angleStuff(adjustment + _a0._c._8);
+    _a0._0 = _a0._c.sub_7100923254();
+}
+
+// NON_MATCHING: callback state loads and angle scheduling differ.
+void CameraMagneCatch::m46(act::Unk_7100922700* polar, bool reset) {
+    f32 longitude = angleStuff(0);
+    sub_71007866C4(&longitude);
+    if (reset) {
+        _450 = longitude;
+    } else {
+        const f32 rate = sub_7100791E44(0.1f);
+        _450 = angleStuff(angleStuff(rate * angleStuff(longitude - _450)) + _450);
+    }
+    longitude = angleStuff(sub_7100922530(_a0._c._8) + _450);
+    const f32 longitude_rate = sub_7100791E44(*mLngCus_s);
+    f32 longitude_delta = angleStuff(longitude_rate * angleStuff(longitude - polar->_8));
+    longitude_delta = angleStuff(longitude_delta * _c4);
+    longitude_delta = angleStuff(longitude_delta * (_b8 * -0.5f + 1.0f));
+    polar->_8 = angleStuff(longitude_delta + polar->_8);
+    f32 latitude = angleStuff(0);
+    const auto* states = m47();
+    if (sub_7100786CC0() && states) {
+        const auto* state = states->at(_f4);
+        const act::Unk_7100922700 direction(state->_10._0 - state->_10._c);
+        latitude = direction._4;
+    }
+    const f32 latitude_rate = sub_7100791E44(*mLatCus_s);
+    f32 latitude_delta = angleStuff(latitude_rate * angleStuff(latitude - polar->_4));
+    latitude_delta = angleStuff(latitude_delta * _c4);
+    polar->_4 = angleStuff(latitude_delta + polar->_4);
 }
 
 void CameraMagneCatch::sub_7100775B78(act::Unk_71009214b8* out) {
@@ -66,8 +163,8 @@ void CameraMagneCatch::sub_7100775F84(act::Unk_71009214b8* out, f32 rate) {
     *out = camera->_860._0;
     f32 longitude = 0.0f;
     sub_7100786974(&longitude);
-    longitude = angleStuff(longitude + sub_7100922530(_a0._14));
-    const f32 current = angleStuff(-_88._10);
+    longitude = angleStuff(longitude + sub_7100922530(_a0._c._8));
+    const f32 current = angleStuff(-_88._c._4);
     f32 latitude = *mLatOffsetNear_s + (*mLatOffsetFar_s - *mLatOffsetNear_s) * _b8;
     if (angleStuff(current) > angleStuff(latitude))
         latitude += angleStuff(current - latitude);
