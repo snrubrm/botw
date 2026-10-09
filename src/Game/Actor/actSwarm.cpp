@@ -8,6 +8,7 @@
 #include "KingSystem/ActorSystem/actDebug.h"
 #include "KingSystem/Physics/RigidBody/Shape/Sphere/physSphereRigidBody.h"
 #include "KingSystem/Physics/System/physCollisionInfo.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
 
 namespace uking::act {
 
@@ -18,6 +19,33 @@ bool Swarm::sub_71002D47D8(s32 idx) const {
     if (auto* info = body._18->getCollisionInfo())
         return info->getCollidingBodies().size() != 0;
     return false;
+}
+
+bool Swarm::BodyInfo::sub_71002D56B4(Actor* actor, sead::Heap* heap,
+                                      ksys::phys::InstanceSet* instance,
+                                      ksys::phys::RigidBodyFromShape* shape) {
+    _20 = actor;
+    _18 = sead::DynamicCast<ksys::phys::SphereRigidBody>(instance->sub_7100FC0580(shape, heap));
+    if (!_18)
+        return false;
+    _18->setSystemGroupHandler(instance->get188(int(_18->getLayerType())));
+    _18->setContactAll();
+    _18->setFlag1000000();
+    _28 = ksys::phys::CollisionInfo::make(heap, actor->getName());
+    _18->setCollisionInfo(_28);
+    if (auto* info = _18->getCollisionInfo()) {
+        info->disableLayer(ksys::phys::ContactLayer::EntityPlayer);
+        info->disableLayer(ksys::phys::ContactLayer::EntityNPC);
+        info->disableLayer(ksys::phys::ContactLayer::EntityNPC_NoHitPlayer);
+        info->disableLayer(ksys::phys::ContactLayer::EntityRope);
+        info->enableLayer(ksys::phys::ContactLayer::EntityObject);
+        info->enableLayer(ksys::phys::ContactLayer::EntityGround);
+        info->enableLayer(ksys::phys::ContactLayer::EntityWater);
+        info->enableLayer(ksys::phys::ContactLayer::EntityGroundObject);
+        info->enableLayer(ksys::phys::ContactLayer::EntityGroundRough);
+        info->enableLayer(ksys::phys::ContactLayer::EntityTree);
+    }
+    return true;
 }
 
 bool Swarm::BodyInfo::sub_71002D481C() const {

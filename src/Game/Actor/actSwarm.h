@@ -8,6 +8,8 @@ namespace ksys::phys {
 class RigidBody;
 class SphereRigidBody;
 class CollisionInfo;
+class InstanceSet;
+class RigidBodyFromShape;
 }
 
 namespace gsys {
@@ -111,6 +113,8 @@ public:
     // 0x71002d56b4 constructs the sphere body and its collision information. The four
     // records are indexed with a 0x30 stride by 0x71002d47d8.
     struct BodyInfo {
+        bool sub_71002D56B4(Actor* actor, sead::Heap* heap, ksys::phys::InstanceSet* instance,
+                            ksys::phys::RigidBodyFromShape* shape);
         bool sub_71002D481C() const;
         f32 sub_71002D5F30() const;
         void sub_71002D5F44(const sead::Vector3f& position);
