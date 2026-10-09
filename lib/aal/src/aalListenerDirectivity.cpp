@@ -35,7 +35,6 @@ void ListenerDirectivity::setParams(const Settings& settings) {
     mRateRange = settings.max_rate - settings.min_rate;
 }
 
-// NON_MATCHING: calcDistRateLocal is inlined; the block layout of the early returns differs
 // 0x7100b84b24
 f32 ListenerDirectivity::calcDistRate(const sead::Vector3f& position) const {
     if (!mEnabled)
@@ -45,7 +44,6 @@ f32 ListenerDirectivity::calcDistRate(const sead::Vector3f& position) const {
     return calcDistRateLocal(position - cone_position);
 }
 
-// NON_MATCHING: block layout of the early `return mMinRate` paths differs
 // 0x7100b84c74
 f32 ListenerDirectivity::calcDistRateLocal(const sead::Vector3f& local) const {
     if (!mEnabled)
@@ -54,16 +52,16 @@ f32 ListenerDirectivity::calcDistRateLocal(const sead::Vector3f& local) const {
         return mMinRate;
 
     f32 distance = local.length();
-    if (mStartDistance >= distance)
-        return mMinRate;
     f32 distance_rate;
-    if (mEndDistance < distance) {
+    if (mStartDistance >= distance) {
+        distance_rate = 0.0f;
+    } else if (mEndDistance < distance) {
         distance_rate = 1.0f;
     } else {
         distance_rate = (distance - mStartDistance) / mDistanceRange;
-        if (distance_rate == 0.0f)
-            return mMinRate;
     }
+    if (distance_rate == 0.0f)
+        return mMinRate;
 
     f32 cone_rate = mCone.calcRateOriginShiftPos(local);
     if (cone_rate == 0.0f)
