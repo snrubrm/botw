@@ -52,3 +52,18 @@ void Graphics::sub_7100F32AC8(sead::Camera* camera, void* unk) {
     _e08 = camera;
     _e10 = unk;
 }
+
+void Graphics::sub_7100F2F1C8(Unk_7100f35df8* settings) {
+    if (_ae0)
+        return;
+    _ae0 = settings;
+    settings->_0 = false;
+    _b38->sub_71012920C4(0);
+}
+
+void Graphics::sub_7100F2F1E8(Unk_7100f35df8* settings) {
+    if (!_ae0 || _ae0 == settings) {
+        _ae0 = nullptr;
+        _b38->sub_71012920C4(0);
+    }
+}

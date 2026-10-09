@@ -56,6 +56,13 @@ public:
     void sub_71012A2268(u32 mode);
 };
 
+// Declaration only: F2C140 constructs a 0x268-byte object at 129175C and stores it at B38.
+// 12920C4 selects a signed buffer index and sets byte 1FF4 in its record.
+class Unk_710129175c {
+public:
+    void sub_71012920C4(s32 index);
+};
+
 // Partial declaration: name from the CSV Graphics::createInstance (0x7100f2a1d0).
 // Source namespace remains unknown; global spelling follows the existing scene placeholders.
 // No instance layout or construction is modeled here.
@@ -104,6 +111,9 @@ public:
 
     // 0x7100f2ddf0: declaration only; selects a lens-flare preset, negative disables it.
     void sub_7100F2DDF0(s32 preset);
+
+    void sub_7100F2F1C8(Unk_7100f35df8* settings);
+    void sub_7100F2F1E8(Unk_7100f35df8* settings);
 
 
     // 0x7100f2af70 (placeholder name; CSV Graphics::__auto0): stores the map kind (byte at +0xf59) under
@@ -186,7 +196,9 @@ private:
     Unk_71012a20e0* _ab8;
     u8 _ac0[0xae0 - 0xac0];
     Unk_7100f35df8* _ae0;
-    u8 _ae8[0xe08 - 0xae8];
+    u8 _ae8[0xb38 - 0xae8];
+    Unk_710129175c* _b38;
+    u8 _b40[0xe08 - 0xb40];
 
 public:
     // 0xe08 (lane1 s44): the camera of the graphics system (read by SkyMgr::sub_71010E4EE0).
