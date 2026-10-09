@@ -5,6 +5,8 @@
 #include "KingSystem/Map/mapMubinIter.h"
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Map/mapRail.h"
+#include <math/seadMathCalcCommon.h>
+#include <cfloat>
 
 Unk_71024f15c0::Unk_71024f15c0() = default;
 
@@ -238,4 +240,166 @@ s32 sub_7100EEB610(const ksys::map::RailConnectablePoint* point) {
             return i;
     }
     return -1;
+}
+
+// NON_MATCHING: the closed-rail previous-point branch duplicates the index subtraction.
+void Unk_71024f15c0::Data::sub_7100EEB7A4(const ksys::map::RailPoint** previous,
+                                        const ksys::map::RailPoint** next) const {
+    *next = nullptr;
+    const auto* previous_rail = rail;
+    s32 index = s32(progress);
+    if (index < 0) {
+        *previous = nullptr;
+    } else if (index != 0) {
+        *previous = previous_rail->getPoint(index - 1);
+    } else if (previous_rail->isClosed() && (index = previous_rail->getNumPoints()) != 0) {
+        *previous = previous_rail->getPoint(index - 1);
+    } else {
+        *previous = nullptr;
+    }
+    index = s32(progress);
+    if (index < 0) {
+        *next = nullptr;
+        return;
+    }
+    const auto* current_rail = rail;
+    if (index < current_rail->getNumPoints() - 1) {
+        *next = previous_rail->getPoint(index + 1);
+    } else if (current_rail->isClosed()) {
+        *next = previous_rail->getPoint(0);
+    } else {
+        *next = nullptr;
+    }
+}
+
+// NON_MATCHING: backward integer-index adjustment is scheduled across the point-count calls.
+f32 Unk_71024f15c0::Data::sub_7100EEB868(f32 distance, s32 direction, u32* flags,
+                                        bool check_end) {
+    u32 local_flags = 0;
+    if (!flags)
+        flags = &local_flags;
+    f32 old_progress = progress;
+    s32 index = s32(old_progress);
+    const auto* old_rail = rail;
+    if (direction < 0 && old_progress == f32(index)) {
+        --index;
+        if (index < 0) {
+            if (!old_rail->isClosed())
+                return 0.0f;
+            index = old_rail->getNumPoints() - 1;
+            old_progress = f32(old_rail->getNumPoints());
+        }
+    }
+    if (!rail)
+        return 0.0f;
+    const auto* current_rail = rail;
+    const auto* point = current_rail->getPoint(index);
+    if (!point)
+        return 0.0f;
+    const f32 length = point->getNextDistance();
+    if (length <= 0.0f)
+        return 0.0f;
+    const f32 fraction = distance / length;
+    const f32 new_progress = old_progress + f32(direction) * sead::Mathf::clampMax(fraction, 1.0f);
+    const s32 new_index = new_progress < 0.0f ? -1 : s32(new_progress);
+    if (!(fraction >= 1.0f) && new_index == index) {
+        if (rail) {
+            progress = new_progress;
+            sub_7100EEB6D0();
+            rail->calcTranslateRotate(&pos, &rot, progress);
+        }
+        return 0.0f;
+    }
+    *flags |= 1;
+    index = sead::Mathi::max(index, new_index);
+    if (index < old_rail->getNumPoints()) {
+        if (rail) {
+            progress = f32(index);
+            sub_7100EEB6D0();
+            rail->calcTranslateRotate(&pos, &rot, progress);
+        }
+        if (index == 0 && check_end)
+            *flags |= 2;
+    } else if (old_rail->isClosed()) {
+        if (rail) {
+            progress = 0.0f;
+            sub_7100EEB6D0();
+            rail->calcTranslateRotate(&pos, &rot, progress);
+        }
+    } else {
+        --index;
+        if (rail) {
+            progress = f32(index);
+            sub_7100EEB6D0();
+            rail->calcTranslateRotate(&pos, &rot, progress);
+        }
+        if (check_end)
+            *flags |= 2;
+    }
+    return sead::Mathf::clampMin(distance - length * (f32(direction) * (f32(index) - old_progress)), 0.0f);
+}
+
+// NON_MATCHING: local flags stack placement and the Data copy load/store grouping differ.
+void Unk_71024f15c0::m4(f32 distance, void*, u32* flags) {
+    _8.sub_7100EEB6D0();
+    _30.sub_7100EEB6D0();
+    u32 local_flags = 0;
+    if (!flags)
+        flags = &local_flags;
+    *flags = 0;
+    if (!_30.rail) {
+        m2();
+        return;
+    }
+    if (distance == 0.0f)
+        return;
+    _8 = _30;
+    if (distance < 0.0f) {
+        _30.sub_7100EEB868(FLT_MAX, _58, flags, true);
+    } else {
+        while (distance > 0.001f)
+            distance = _30.sub_7100EEB868(distance, _58, flags, true);
+    }
+}
+
+bool Unk_71024f15c0::Data::sub_7100EEB3B4(const ksys::map::RailConnectablePoint* point) {
+    if (point->getJunctionPoint())
+        return sub_7100EEB514(point);
+    rail = point->getJunctionRail();
+    const s32 point_index = sub_7100EEB610(point);
+    if (rail) {
+        progress = f32(point_index);
+        sub_7100EEB6D0();
+        rail->calcTranslateRotate(&pos, &rot, progress);
+    }
+    if (rail->getNumPoints() != 1 || point->getJunctionPoint())
+        return true;
+    // The native body calls this even though the following reset clears the position.
+    point->getTranslate();
+    progress = 0.0f;
+    rail = nullptr;
+    pos = sead::Vector3f::zero;
+    rot = sead::Vector3f::zero;
+    return false;
+}
+
+// NON_MATCHING: the cached const Rail view changes load scheduling and register allocation.
+bool Unk_71024f15c0::Data::sub_7100EEB514(const ksys::map::RailConnectablePoint* point) {
+    rail = point->getJunctionRail();
+    const ksys::map::Rail* current_rail = rail;
+    const f32 endpoint = current_rail->getPoint(0) == point ? 0.0f : f32(current_rail->getNumPoints() - 1);
+    if (rail) {
+        progress = endpoint;
+        sub_7100EEB6D0();
+        rail->calcTranslateRotate(&pos, &rot, progress);
+    }
+    if (rail->getNumPoints() != 1 || point->getJunctionPoint())
+        return true;
+    // The native body calls this even though the following reset clears the position.
+    point->getTranslate();
+    progress = 0.0f;
+    rail = nullptr;
+    pos = sead::Vector3f::zero;
+    rot = sead::Vector3f::zero;
+    return false;
 }

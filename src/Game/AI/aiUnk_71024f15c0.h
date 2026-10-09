@@ -11,6 +11,7 @@ class Actor;
 namespace ksys::map {
 class Rail;
 class RailConnectablePoint;
+class RailPoint;
 }
 
 // Unnamed rail follower embedded in uking::ai::RailMove (vtable 0x71024f15c0, size 0x60; CSV names
@@ -27,6 +28,11 @@ public:
 
         const sead::Vector3f& sub_7100EEB370() const;
         void sub_7100EEB6D0();
+        bool sub_7100EEB3B4(const ksys::map::RailConnectablePoint* point);
+        bool sub_7100EEB514(const ksys::map::RailConnectablePoint* point);
+        void sub_7100EEB7A4(const ksys::map::RailPoint** previous,
+                          const ksys::map::RailPoint** next) const;
+        f32 sub_7100EEB868(f32 distance, s32 direction, u32* flags, bool check_end);
         // 0x7100eeb374 (lane4 s45): `rail` if it is a route (Rail::x_20), else null.
         ksys::map::Rail* sub_7100EEB374() const;
     };
