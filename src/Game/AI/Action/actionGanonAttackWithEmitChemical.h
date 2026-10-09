@@ -3,6 +3,7 @@
 #include <math/seadMatrix.h>
 #include "Game/AI/Action/actionGanonWeaponNearAttack.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
 
 namespace uking::action {
 
@@ -75,10 +76,7 @@ protected:
     u8 _17b;
     sead::Matrix34f _17c;
     u8 _1ac[4];
-    u64 _1b0 = 0;
-    u64 _1b8 = 0;
-    u64 _1c0 = 0;
-    u64 _1c8 = 0;
+    Unk_71012419b4 mEffectHandle;
 };
 KSYS_CHECK_SIZE_NX150(GanonAttackWithEmitChemical, 0x1d0);
 

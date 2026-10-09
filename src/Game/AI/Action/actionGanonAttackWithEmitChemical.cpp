@@ -2,6 +2,7 @@
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "Game/Actor/actEnemy.h"
+#include <cstring>
 
 namespace uking::action {
 
@@ -18,7 +19,10 @@ int GanonAttackWithEmitChemical::m34() {
 }
 
 GanonAttackWithEmitChemical::GanonAttackWithEmitChemical(const InitArg& arg)
-    : GanonWeaponNearAttack(arg) {}
+    : GanonWeaponNearAttack(arg) {
+    // 1727FC clears all 32 bytes of the paired effect handles, including their padding.
+    std::memset(&mEffectHandle, 0, sizeof(mEffectHandle));
+}
 
 GanonAttackWithEmitChemical::~GanonAttackWithEmitChemical() {
     if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
@@ -65,6 +69,22 @@ void GanonAttackWithEmitChemical::leave_() {
             return;
     }
     sub_7100172FA8();
+}
+
+void GanonAttackWithEmitChemical::sub_7100172FA8() {
+    if (auto* enemy = sead::DynamicCast<uking::act::Enemy>(mActor)) {
+        for (s32 i = 0; i < *mEmitNum_s * 2; ++i) {
+            const sead::FormatFixedSafeString<32> name("%s%d", mEmitPartsName_s.cstr(), i);
+            if (enemy->getActorPartsActor(name).hasProc()) {
+                ksys::act::ActorConstDataAccess accessor;
+                ksys::act::acquireActor(&enemy->getActorPartsActor(name), &accessor);
+                if (accessor.isStateCalc())
+                    accessor.sleep(ksys::act::BaseProc::SleepWakeReason::_0);
+            }
+        }
+    }
+    if (!mCallSEKeyAtAtOn_s.isEmpty() && _17a && mEffectHandle.sub_7101241AD8(1))
+        mEffectHandle.fadeXLink();
 }
 
 void GanonAttackWithEmitChemical::loadParams_() {
