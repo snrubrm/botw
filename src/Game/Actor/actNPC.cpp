@@ -204,3 +204,9 @@ const sead::Vector3f& ActorConstDataAccess::sub_710002354C() const {
 }
 
 }  // namespace ksys::act
+
+namespace uking::act {
+void NPC::m61(f32 rate) {
+    sub_71000217F8(rate);
+}
+}  // namespace uking::act

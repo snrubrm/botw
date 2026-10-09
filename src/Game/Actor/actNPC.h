@@ -53,6 +53,8 @@ protected:
 
 public:
     void m61(f32 rate) override;
+    // Slot61 tails to217F8; it reads NPC1074/1078 and consumes the same float rate.
+    void sub_71000217F8(f32 rate);
     void m63() override;
     void initMaybe() override;
     void calcMaybe() override;
