@@ -79,7 +79,7 @@ void CameraAiming2::m33() {
         sead::Mathf::square(displacement.z - previous_displacement.z));
     const f32 horizontal_phase = std::min(sead::Mathf::abs(horizontal_speed), 0.5f) *
                                  2.0f * sead::Mathf::pi() - sead::Mathf::pi() * 0.5f;
-    const f32 horizontal_blend = (std::cos(horizontal_phase) + 1.0f) * 0.5f;
+    const f32 horizontal_blend = (std::sin(horizontal_phase) + 1.0f) * 0.5f;
     _170 = _160 + horizontal_blend * (_164 - _160);
     _174 = 0.1f + std::min(sead::Mathf::abs(horizontal_acceleration), 0.05f) / 0.05f *
                         (0.9f - 0.1f);
@@ -88,7 +88,7 @@ void CameraAiming2::m33() {
     const f32 vertical_speed = inv_elapsed * sead::Mathf::abs(displacement.y);
     const f32 vertical_phase = std::min(sead::Mathf::abs(vertical_speed), 1.0f) *
                                sead::Mathf::pi() - sead::Mathf::pi() * 0.5f;
-    const f32 vertical_blend = (std::cos(vertical_phase) + 1.0f) * 0.5f;
+    const f32 vertical_blend = (std::sin(vertical_phase) + 1.0f) * 0.5f;
     _178 = _168 + vertical_blend * (_16c - _168);
     _17c = 0.1f + std::min(sead::Mathf::abs(vertical_acceleration), 0.05f) / 0.05f *
                         (0.9f - 0.1f);
@@ -267,7 +267,7 @@ void CameraAiming2::m34() {
     _174 += motion_rate * (acceleration_rate - _174);
     const f32 horizontal_phase = std::min(sead::Mathf::abs(horizontal_speed), 0.5f) *
                                  2.0f * sead::Mathf::pi() - sead::Mathf::pi() * 0.5f;
-    const f32 horizontal_blend = (std::cos(horizontal_phase) + 1.0f) * 0.5f;
+    const f32 horizontal_blend = (std::sin(horizontal_phase) + 1.0f) * 0.5f;
     const f32 horizontal_response = _160 + horizontal_blend * (_164 - _160);
     const f32 horizontal_rate = sub_7100791E44(_174);
     _170 += horizontal_rate * (horizontal_response - _170);
@@ -281,7 +281,7 @@ void CameraAiming2::m34() {
     _17c += vertical_motion_rate * (vertical_acceleration_rate - _17c);
     const f32 vertical_phase = std::min(sead::Mathf::abs(vertical_speed), 1.0f) *
                                sead::Mathf::pi() - sead::Mathf::pi() * 0.5f;
-    const f32 vertical_blend = (std::cos(vertical_phase) + 1.0f) * 0.5f;
+    const f32 vertical_blend = (std::sin(vertical_phase) + 1.0f) * 0.5f;
     const f32 vertical_response = _168 + vertical_blend * (_16c - _168);
     const f32 vertical_rate = sub_7100791E44(_17c);
     _178 += vertical_rate * (vertical_response - _178);
