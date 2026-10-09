@@ -88,16 +88,16 @@ void ObjBoardWoodTriangle01::calc_() {
     sub_71002FF594(mActor);
 }
 
-// NON_MATCHING: the original selects between `flags | 0x40` and `flags & ~0x40` with a csel (one load of the
-// flags); BitFlag32::change() branches.
 bool ObjBoardWoodTriangle01::handleMessage_(const ksys::Message* message) {
     if (message->getType() != 0x80000c8)
         return false;
 
     const auto* data = static_cast<const Unk_80000c8_Payload*>(message->getUserData());
     if (data && data->_0 == 1) {
-        if (auto* lod = mActor->getLodState())
-            lod->mFlags10.change(1 << 6, data->_8);
+        if (auto* lod = mActor->getLodState()) {
+            lod->mFlags10.setDirect(data->_8 ? lod->mFlags10.getDirect() | (1 << 6) :
+                                             lod->mFlags10.getDirect() & ~(1 << 6));
+        }
     }
     return true;
 }
