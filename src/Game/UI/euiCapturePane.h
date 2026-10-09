@@ -24,6 +24,13 @@ namespace eui {
 
 class LayoutEx;
 
+// Native shared capture renderer at bf2530; called out-of-line by both
+// CapturePane bf210c and DynamicCapturePane bf2f90 with their owned render objects.
+const agl::TextureData* sub_7100BF2530(nn::ui2d::Pane*, nn::ui2d::DrawInfo&,
+                                      sead::BitFlag<u8>*, agl::utl::MultiFilter*,
+                                      agl::RenderBuffer*, agl::RenderTargetColor*,
+                                      const sead::Color4f*, nn::gfx::CommandBuffer&);
+
 // The layout and virtual overrides mirror DynamicCapturePane (vtable 0x71024c9758: dtor, GetRuntimeTypeInfo,
 // Calculate, Draw). The RTTI static is at 0x71025d6530 (guard 0x71025d6538): a Pane subclass, DynamicCast'ed by the pane walks
 // sub_7100BEE240 / sub_7100BEE3C8 / sub_7100BEE564.

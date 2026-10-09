@@ -7,6 +7,13 @@
 
 #include <cstring>
 #include <gfx/seadProjection.h>
+#include <gfx/seadGraphicsContext.h>
+#include <gfx/seadViewport.h>
+#include <common/aglDrawContext.h>
+#include <common/aglTextureSampler.h>
+#include <common/aglTextureFormatInfo.h>
+#include <utility/aglImageFilter2D.h>
+#include <utility/aglMultiFilter.h>
 #include <nn/ui2d/BuildTypes.h>
 #include <nn/ui2d/DrawInfo.h>
 #include <nn/ui2d/Pane.h>
@@ -82,6 +89,84 @@ void CapturePane::Calculate(nn::ui2d::DrawInfo& info, nn::ui2d::Pane::CalculateC
         mCaptureFlags.setBit(5);
     else
         mCaptureFlags.resetBit(5);
+}
+
+// NON_MATCHING: texture copy/destruction calls, framebuffer copies, graphics-state stores and branch scheduling differ.
+// 0x7100bf20a0
+void CapturePane::Draw(nn::ui2d::DrawInfo& info, nn::gfx::CommandBuffer& command_buffer) {
+    auto& draw_info = static_cast<DrawInfoEx&>(info);
+    if (!_dd || draw_info._100 || !draw_info._f8)
+        return;
+    const auto* render_info = draw_info._f8;
+    const auto* work = sub_7100BF2530(this, info, &mCaptureFlags, mMultiFilter, &mRenderBuffer,
+                                     &mRenderTarget, mClearColor, command_buffer);
+    const auto format = mTexture->getFormat();
+    const auto alpha = mTexture->getCompSelAlpha();
+    if (agl::TextureFormatInfo::sub_7100B3B86C(format)) {
+        if (((format == agl::TextureFormat::cTextureFormat_R8_uNorm ||
+              format == agl::TextureFormat::cTextureFormat_BC4_uNorm) &&
+             alpha == agl::TextureCompSel::cTextureCompSel_Red) ||
+            format == agl::TextureFormat::cTextureFormat_R8_G8_uNorm ||
+            format == agl::TextureFormat::cTextureFormat_BC5_uNorm) {
+            agl::TextureData copy(*work);
+            copy.setCompSel(alpha == agl::TextureCompSel::cTextureCompSel_Red ?
+                                agl::TextureCompSel::cTextureCompSel_Alpha :
+                                agl::TextureCompSel::cTextureCompSel_Red,
+                            alpha == agl::TextureCompSel::cTextureCompSel_Red ?
+                                agl::TextureCompSel::cTextureCompSel_One :
+                                agl::TextureCompSel::cTextureCompSel_Alpha,
+                            agl::TextureCompSel::cTextureCompSel_One,
+                            agl::TextureCompSel::cTextureCompSel_One);
+            copy.sub_7100B39774(render_info->mDrawContext, mTexture, 0, 0);
+        } else {
+            work->sub_7100B39774(render_info->mDrawContext, mTexture, 0, 0);
+        }
+    } else {
+        const u32 width = sead::Mathu::max(mTexture->getWidth(), 1u);
+        const u32 height = sead::Mathu::max(mTexture->getHeight(), mTexture->getMinHeight_());
+        mRenderTarget.applyTextureData(*mTexture, mRenderTarget.getMipLevel(), mRenderTarget.getLayer());
+        mRenderBuffer.setVirtualSize({f32(width), f32(height)});
+        mRenderBuffer.setPhysicalArea(0.0f, 0.0f, width, height);
+        mRenderBuffer.bind(render_info->mDrawContext);
+        sead::GraphicsContext context;
+        context.setDepthTestEnable(false);
+        context.setDepthWriteEnable(false);
+        context.setStencilTestEnable(false);
+        context.setBlendEnable(false, 0);
+        context.apply(render_info->mDrawContext);
+        agl::TextureSampler sampler(*work);
+        if ((format == agl::TextureFormat::cTextureFormat_R8_uNorm ||
+             format == agl::TextureFormat::cTextureFormat_BC4_uNorm) &&
+            alpha == agl::TextureCompSel::cTextureCompSel_Red) {
+            sampler.setCompSel(agl::TextureCompSel::cTextureCompSel_Alpha,
+                               agl::TextureCompSel::cTextureCompSel_One,
+                               agl::TextureCompSel::cTextureCompSel_One,
+                               agl::TextureCompSel::cTextureCompSel_One);
+        } else if (format == agl::TextureFormat::cTextureFormat_R8_G8_uNorm ||
+                   format == agl::TextureFormat::cTextureFormat_BC5_uNorm) {
+            sampler.setCompSel(agl::TextureCompSel::cTextureCompSel_Red,
+                               agl::TextureCompSel::cTextureCompSel_Alpha,
+                               agl::TextureCompSel::cTextureCompSel_One,
+                               agl::TextureCompSel::cTextureCompSel_One);
+        }
+        if (sead::Mathu::max(work->getWidth(), 1u) != sead::Mathu::max(mTexture->getWidth(), 1u) ||
+            sead::Mathu::max(work->getHeight(), work->getMinHeight_()) !=
+                sead::Mathu::max(mTexture->getHeight(), mTexture->getMinHeight_())) {
+            sead::Viewport viewport(mRenderBuffer);
+            viewport.apply(render_info->mDrawContext, mRenderBuffer);
+        }
+        agl::utl::ImageFilter2D::drawTextureQuadTriangle(render_info->mDrawContext, sampler);
+    }
+    if (mMultiFilter && mMultiFilter->getResultTexture())
+        mMultiFilter->freeResultTexture();
+    else
+        agl::utl::DynamicTextureAllocator::instance()->free(work);
+    mRenderTarget.invalidateGPUCache(render_info->mDrawContext);
+    DrawInfoEx::applyRenderBufferInfo(render_info);
+    info._eb[4] = 1;
+    mCaptureFlags.setBit(0);
+    _db = mCaptureFlags.isOnBit(5);
+    _dd = false;
 }
 
 // NON_MATCHING: the allocator name SafeString temporary occupies a different stack slot.
