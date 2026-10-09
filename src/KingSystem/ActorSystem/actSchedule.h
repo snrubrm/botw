@@ -5,6 +5,10 @@
 #include <thread/seadAtomic.h>
 #include "KingSystem/Utils/Byaml/Byaml.h"
 
+namespace al {
+class ByamlIter;
+}
+
 namespace ksys::act {
 
 // Actor::mSchedule (the actor's schedule; the CSV has no names for it). TODO: incomplete (size unknown).
