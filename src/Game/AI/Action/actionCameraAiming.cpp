@@ -9,6 +9,30 @@ CameraAiming::CameraAiming(const InitArg& arg) : CameraAction(arg) {}
 
 CameraAiming::~CameraAiming() = default;
 
+// NON_MATCHING: polar and displacement value lifetimes differ.
+void CameraAiming::sub_710074C97C() {
+    auto* camera = getCamera();
+    if (!camera)
+        return;
+    const act::Unk_7100922700 polar(camera->_860._0._0 - camera->_860._0._c);
+    _150 = angleStuff(sead::Mathf::clamp(angleStuff(polar._4 + *mLatOffset_s), _280, _284));
+    _158 = _150;
+    _15c = angleStuff(polar._4 - _150);
+    _154 = polar._8;
+    f32 radius = 0.0f;
+    sub_710074D4A4(&radius);
+    _4c = radius;
+    _50 = (camera->_860._0._c - camera->_860._0._0).length() - _4c;
+    const sead::Vector3f translation = camera->_860._270.getTranslation();
+    const sead::Vector3f displacement = translation - sub_7100928868(camera->_860._164);
+    _54 = _170 - displacement;
+    _60 = (displacement + camera->_860._0._c) - _170;
+    _6c = sead::Mathf::deg2rad(*mFovy_s);
+    _70 = camera->_860._0._24 - _6c;
+    _288 = u32(*mConnectType_s) < 2 ? *mConnectType_s : 0;
+    sub_710074D9EC();
+}
+
 void CameraAiming::sub_710074D4A4(f32* out) {
     auto* camera = getCamera();
     if (!camera)
@@ -52,6 +76,20 @@ void CameraAiming::m36() {
     getStaticParam(&mGyro_s, "gyro");
     getStaticParam(&mConnectType_s, "ConnectType");
     getStaticParam(&mConnect_s, "Connect");
+}
+
+// NON_MATCHING: interpolation and transform scalar scheduling differ.
+void CameraAiming::sub_710074D598(const act::Unk_7100922700& polar) {
+    sead::Matrix34f transform = sead::Matrix34f::ident;
+    sub_710074DAE8(&transform);
+    sead::Vector3f target = sead::Vector3f::zero;
+    sub_710074DBD0(transform, &target);
+    const f32 rate = sub_7100791E44(0.1f);
+    _17c += (target - _17c) * rate;
+    _170.setMul(transform, _17c);
+    sead::Vector3f offset = sead::Vector3f::zero;
+    sub_710074DD28(polar, &offset);
+    _170 += offset;
 }
 
 void CameraAiming::sub_710074D9EC() {
