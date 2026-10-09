@@ -35,6 +35,7 @@ KSYS_CHECK_SIZE_NX150(Unk_710238b040, 0x28);
 
 class ForkGanonBeastWeakPointCheck : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ForkGanonBeastWeakPointCheck, ksys::act::ai::Action)
+    friend class Unk_710238b078;
 public:
     explicit ForkGanonBeastWeakPointCheck(const InitArg& arg);
     ~ForkGanonBeastWeakPointCheck() override;
