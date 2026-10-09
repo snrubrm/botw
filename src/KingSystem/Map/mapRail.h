@@ -131,7 +131,7 @@ class RailConnectablePoint : public RailPoint {
     friend class RailConnectable;
 
 public:
-    RailConnectablePoint();
+    explicit RailConnectablePoint(Rail* rail);
     ~RailConnectablePoint() override;
 
     bool parse(MubinIter* iter, sead::Heap* heap) override;
@@ -149,6 +149,7 @@ class RailConnectable : public Rail {
 public:
     RailConnectable();
     ~RailConnectable() override;
+    RailPoint* allocPoint(sead::Heap* heap) override;
 
     s32 x_18() override { return 1; }
     bool x_20() override { return true; }
@@ -159,7 +160,7 @@ class RailRoutePoint : public RailConnectablePoint {
     friend class RailRoute;
 
 public:
-    RailRoutePoint();
+    explicit RailRoutePoint(Rail* rail);
     ~RailRoutePoint() override;
 
     bool parse(MubinIter* iter, sead::Heap* heap) override;
@@ -174,6 +175,7 @@ class RailRoute : public RailConnectable {
 public:
     RailRoute();
     ~RailRoute() override;
+    RailPoint* allocPoint(sead::Heap* heap) override;
 
     bool parse(MubinIter* iter) override;
 
@@ -185,7 +187,7 @@ public:
     const char* getCheckPointName(s32 idx) const;
 
 protected:
-    const char* mRouteId;
+    const char* mRouteId{};
 };
 
 }  // namespace ksys::map

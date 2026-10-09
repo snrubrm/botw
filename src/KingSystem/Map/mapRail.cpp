@@ -259,6 +259,10 @@ RailPoint* RailGuide::allocPoint(sead::Heap* heap) {
     return new (heap) RailGuidePoint;
 }
 
+RailRemainGuidePoint::RailRemainGuidePoint() : mMoveSpeed(0.0f) {}
+
+RailRemainGuidePoint::~RailRemainGuidePoint() = default;
+
 bool RailRemainGuidePoint::parse(MubinIter* iter, sead::Heap* heap) {
     bool success = true;
     success &= RailGuidePoint::parse(iter, heap);
@@ -266,6 +270,7 @@ bool RailRemainGuidePoint::parse(MubinIter* iter, sead::Heap* heap) {
     return success;
 }
 
+// NON_MATCHING: the shared hash initializer is accessed through the GOT.
 RailRemainGuide::RailRemainGuide() = default;
 
 RailRemainGuide::~RailRemainGuide() = default;
@@ -274,7 +279,8 @@ RailPoint* RailRemainGuide::allocPoint(sead::Heap* heap) {
     return new (heap) RailRemainGuidePoint;
 }
 
-RailConnectablePoint::RailConnectablePoint() = default;
+RailConnectablePoint::RailConnectablePoint(Rail* rail)
+    : mJunctionRail(rail), mJunctionPoint(nullptr) {}
 
 RailConnectablePoint::~RailConnectablePoint() {
     sead::HeapMgr::instance()->getCurrentHeap();
@@ -295,7 +301,17 @@ bool RailConnectablePoint::parse(MubinIter* iter, sead::Heap* heap) {
     return RailPoint::parse(iter, heap);
 }
 
-RailRoutePoint::RailRoutePoint() = default;
+// NON_MATCHING: the shared hash initializer is accessed through the GOT.
+RailConnectable::RailConnectable() = default;
+
+RailConnectable::~RailConnectable() = default;
+
+RailPoint* RailConnectable::allocPoint(sead::Heap* heap) {
+    return new (heap) RailConnectablePoint(this);
+}
+
+RailRoutePoint::RailRoutePoint(Rail* rail)
+    : RailConnectablePoint(rail), mEntryPointName(nullptr), mCheckPointName(nullptr) {}
 
 RailRoutePoint::~RailRoutePoint() = default;
 
@@ -311,13 +327,19 @@ bool RailRoutePoint::parse(MubinIter* iter, sead::Heap* heap) {
     return success;
 }
 
+// NON_MATCHING: the shared hash uses the GOT, and the flag updates combine differently.
 RailRoute::RailRoute() {
+    mFlags.reset(Flag::RenderEnabled);
     mFlags.set(Flag::AutoPlacementEnabled);
     mFlags.set(Flag::EnableHorseTrace);
     mFlags.set(Flag::Walkable);
 }
 
 RailRoute::~RailRoute() = default;
+
+RailPoint* RailRoute::allocPoint(sead::Heap* heap) {
+    return new (heap) RailRoutePoint(this);
+}
 
 bool RailRoute::isRenderEnabled() const {
     return mFlags.isOn(Flag::RenderEnabled);
