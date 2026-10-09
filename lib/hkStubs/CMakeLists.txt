@@ -217,6 +217,7 @@ add_library(hkStubs OBJECT
   Havok/Physics2012/Dynamics/Motion/Rigid/hkpKeyframedRigidMotion.cpp
   Havok/Physics2012/Dynamics/Motion/Rigid/hkpKeyframedRigidMotion.h
   Havok/Physics2012/Dynamics/Motion/Rigid/hkpSphereMotion.h
+  Havok/Physics2012/Dynamics/Phantom/hkpAabbPhantom.cpp
   Havok/Physics2012/Dynamics/Phantom/hkpAabbPhantom.h
   Havok/Physics2012/Dynamics/Phantom/hkpCachingShapePhantom.h
   Havok/Physics2012/Dynamics/Phantom/hkpPhantom.h
