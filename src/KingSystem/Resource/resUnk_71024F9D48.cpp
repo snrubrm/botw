@@ -1,9 +1,14 @@
 #include "KingSystem/Resource/resUnk_71024F9D48.h"
+#include "KingSystem/Resource/resBfRes.h"
 #include "KingSystem/Resource/resTextureHandleMgr.h"
 #include "KingSystem/Resource/resSystem.h"
 #include <thread/seadAtomic.h>
 
 namespace ksys::res {
+
+Unk_71024f9d68::Unk_71024f9d68() : _8(u64(-1)), _10(-1) {}
+
+Unk_71024f9d68::~Unk_71024f9d68() = default;
 
 static sead::Atomic<s32> sUnk_710260EAE0;
 
