@@ -7,8 +7,6 @@
 
 namespace uking::action {
 
-// NON_MATCHING: ours keeps `this + 0x70` (first VFRValue) in a callee-saved register across the memset call; the
-// original recomputes it after the call (regalloc only).
 BattleCloseLevelFlyMoveBase::BattleCloseLevelFlyMoveBase(const InitArg& arg)
     : ksys::act::ai::Action(arg) {}
 
@@ -49,16 +47,16 @@ void BattleCloseLevelFlyMoveBase::leave_() {
 }
 
 void BattleCloseLevelFlyMoveBase::loadParams_() {
-    getStaticParam(&mXZSpeed_s, "XZSpeed");
-    getStaticParam(&mRotSpd_s, "RotSpd");
-    getStaticParam(&mFinRotate_s, "FinRotate");
-    getStaticParam(&mHorizontalFinRadius_s, "HorizontalFinRadius");
-    getStaticParam(&mVerticalFinLength_s, "VerticalFinLength");
-    getStaticParam(&mTargetHeightOffset_s, "TargetHeightOffset");
-    getStaticParam(&mRotRatio_s, "RotRatio");
-    getStaticParam(&mRiseSpeed_s, "RiseSpeed");
-    getStaticParam(&mDownSpeed_s, "DownSpeed");
-    getDynamicParam(&mTargetPos_d, "TargetPos");
+    getStaticParam(&mParams.mXZSpeed_s, "XZSpeed");
+    getStaticParam(&mParams.mRotSpd_s, "RotSpd");
+    getStaticParam(&mParams.mFinRotate_s, "FinRotate");
+    getStaticParam(&mParams.mHorizontalFinRadius_s, "HorizontalFinRadius");
+    getStaticParam(&mParams.mVerticalFinLength_s, "VerticalFinLength");
+    getStaticParam(&mParams.mTargetHeightOffset_s, "TargetHeightOffset");
+    getStaticParam(&mParams.mRotRatio_s, "RotRatio");
+    getStaticParam(&mParams.mRiseSpeed_s, "RiseSpeed");
+    getStaticParam(&mParams.mDownSpeed_s, "DownSpeed");
+    getDynamicParam(&mParams.mTargetPos_d, "TargetPos");
     _d0.sub_71006F3DF8();
 }
 

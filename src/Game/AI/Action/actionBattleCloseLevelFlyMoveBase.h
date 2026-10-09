@@ -22,26 +22,29 @@ public:
 protected:
     void calc_() override;
 
-    // static_param at offset 0x20
-    const float* mXZSpeed_s{};
-    // static_param at offset 0x28
-    const float* mRotSpd_s{};
-    // static_param at offset 0x30
-    const float* mFinRotate_s{};
-    // static_param at offset 0x38
-    const float* mHorizontalFinRadius_s{};
-    // static_param at offset 0x40
-    const float* mVerticalFinLength_s{};
-    // static_param at offset 0x48
-    const float* mTargetHeightOffset_s{};
-    // static_param at offset 0x50
-    const float* mRotRatio_s{};
-    // static_param at offset 0x58
-    const float* mRiseSpeed_s{};
-    // static_param at offset 0x60
-    const float* mDownSpeed_s{};
-    // dynamic_param at offset 0x68
-    sead::Vector3f* mTargetPos_d{};
+    struct Params {
+        // static_param at offset 0x20
+        const float* mXZSpeed_s{};
+        // static_param at offset 0x28
+        const float* mRotSpd_s{};
+        // static_param at offset 0x30
+        const float* mFinRotate_s{};
+        // static_param at offset 0x38
+        const float* mHorizontalFinRadius_s{};
+        // static_param at offset 0x40
+        const float* mVerticalFinLength_s{};
+        // static_param at offset 0x48
+        const float* mTargetHeightOffset_s{};
+        // static_param at offset 0x50
+        const float* mRotRatio_s{};
+        // static_param at offset 0x58
+        const float* mRiseSpeed_s{};
+        // static_param at offset 0x60
+        const float* mDownSpeed_s{};
+        // dynamic_param at offset 0x68
+        sead::Vector3f* mTargetPos_d{};
+    };
+    Params mParams;
     /* 0x70 */ ksys::VFRValue _70;
     /* 0x7c */ ksys::VFRValue _7c;
     /* 0x88 */ sead::Matrix33f _88;
