@@ -3,6 +3,18 @@
 
 namespace uking::act {
 
+void Rope::initMaybe() {
+    RopeBase::initMaybe();
+}
+
+void Rope::updatePositionMaybe() {
+    RopeBase::updatePositionMaybe();
+}
+
+ksys::act::Unk_71025ae640* Rope::getAtk() {
+    return &_c30;
+}
+
 void Rope::m149() {
     if (GameSceneSubsys5::instance() == nullptr)
         return;
