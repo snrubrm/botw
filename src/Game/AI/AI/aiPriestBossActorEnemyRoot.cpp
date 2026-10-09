@@ -73,6 +73,20 @@ Unk_7102450fa8* PriestBossActorEnemyRoot::sub_7100506A40() {
         *static_cast<Unk_71025afb58**>(mPriestBossMetaAIUnit_a));
 }
 
+// NON_MATCHING: function-argument evaluation caches the actor before the unit RTTI check.
+// 0x7100506ed8
+bool PriestBossActorEnemyRoot::m35() {
+    if (*mIsReactionOnDead_s) {
+        if (mActor->getActorFlags2().isOn(ksys::act::Actor::ActorFlag2::Alive))
+            return true;
+        if (auto* life = mActor->getLife(); life && *life < 1)
+            return true;
+    }
+    return sub_710071E64C(
+        mActor,
+        sead::DynamicCast<Unk_7102450fa8>(*static_cast<Unk_71025afb58**>(mPriestBossMetaAIUnit_a)));
+}
+
 bool PriestBossActorEnemyRoot::m45() {
     return false;
 }

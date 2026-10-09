@@ -39,3 +39,8 @@ void sub_710071EB3C(ksys::act::Actor* actor);
 
 // 0x710071e600: XZ distance from the recovered stage center, scaled stage radius.
 bool sub_710071E600(const sead::Vector3f* pos, f32 radius_rate);
+
+class Unk_7102450fa8;
+// 0x710071e64c: actor damage-state predicate; PriestBossActorEnemyRoot::m35
+// passes the RTTI-checked battle unit, whose flags+78 are also read by this callee.
+bool sub_710071E64C(ksys::act::Actor* actor, Unk_7102450fa8* unit);

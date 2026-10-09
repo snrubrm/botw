@@ -24,6 +24,7 @@ public:
     void calc_() override;
 
     void m34(ksys::act::ai::InlineParamPack* params) override;
+    bool m35() override;
     virtual bool m45();
     virtual bool m46();
     virtual bool m47();
