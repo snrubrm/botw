@@ -30,3 +30,17 @@ int hkStringPtr::getLength() const {
         return hkString::strLen(string);
     return 0;
 }
+
+hkStringPtr::~hkStringPtr() {
+    // Native 158DA80 treats 0/1 as empty tagged states and frees only owned
+    // strings. Setter 158D970 allocates writable bytes and stores their pointer + 1.
+    const uintptr_t taggedString = uintptr_t(m_stringAndFlag);
+    if (taggedString > OWNED_FLAG) {
+        if (taggedString & OWNED_FLAG) {
+            // Keep the owned allocation address while looking up its heap (158DA80).
+            char* ownedString = const_cast<char*>(m_stringAndFlag - OWNED_FLAG);
+            hkMemoryRouter::easyFree(hkMemoryRouter::getInstance().heap(), ownedString);
+        }
+        m_stringAndFlag = nullptr;
+    }
+}
