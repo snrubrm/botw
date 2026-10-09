@@ -1,6 +1,8 @@
 #include "Game/AI/AI/aiForestGiantRoot.h"
 #include <prim/seadFormatPrint.h>
+#include <cmath>
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "Game/Actor/actEnemy.h"
 #include "Game/Actor/actGiantEnemy.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
@@ -16,6 +18,9 @@
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
+
+// 0x71023EFFE0
+static const sead::SafeString sUnk_71023EFFE0[] = {"_Sleep", "_Far", "_Awake"};
 
 // NON_MATCHING: register allocation only: the original keeps the two vtable addresses of _538 / _548 in x8 / x9
 // and stores them after the second float; ours reuses x8.
@@ -109,6 +114,54 @@ void ForestGiantRoot::calc_() {
     sub_71005E1D00(mActor);
 }
 
+// NON_MATCHING: the two XZ distance calculations use different float loads and registers.
+void ForestGiantRoot::sub_71003DAF1C() {
+    if (sub_71005DD798(mActor, 19, nullptr, 0, 0)) {
+        if (_559 & 4) {
+            if (auto* controller = mActor->getCharacterController())
+                sub_71005DC158(controller);
+            const auto& player_pos = getPlayerPosition();
+            const f32 dx = player_pos.x - mActor->getMtx().getTranslation().x;
+            const f32 dz = player_pos.z - mActor->getMtx().getTranslation().z;
+            if (std::sqrt(dx * dx + dz * dz) > 50.0f) {
+                _559 = (_559 & ~7) | 2;
+                sub_71003DB978(sUnk_71023EFFE0[2], sUnk_71023EFFE0[1],
+                              sUnk_71023EFFE0[0], sead::SafeString::cEmptyString);
+            } else {
+                _559 = (_559 & ~7) | 1;
+                sub_71003DB978(sUnk_71023EFFE0[2], sUnk_71023EFFE0[0],
+                              sUnk_71023EFFE0[1], sead::SafeString::cEmptyString);
+            }
+        } else {
+            const u8 flags = _559;
+            const auto& player_pos = getPlayerPosition();
+            const f32 dx = player_pos.x - mActor->getMtx().getTranslation().x;
+            const f32 dz = player_pos.z - mActor->getMtx().getTranslation().z;
+            if (std::sqrt(dx * dx + dz * dz) > 50.0f) {
+                if (!(flags & 2)) {
+                    _559 = (_559 & ~3) | 2;
+                    sub_71003DB978(sUnk_71023EFFE0[0], sUnk_71023EFFE0[1],
+                                  sead::SafeString::cEmptyString, sead::SafeString::cEmptyString);
+                }
+            } else if (!(flags & 1)) {
+                _559 = (_559 & ~3) | 1;
+                sub_71003DB978(sUnk_71023EFFE0[1], sUnk_71023EFFE0[0],
+                              sead::SafeString::cEmptyString, sead::SafeString::cEmptyString);
+            }
+        }
+    } else if (!(_559 & 4)) {
+        _559 = (_559 & ~7) | 4;
+        sub_71003DB978(sUnk_71023EFFE0[0], sUnk_71023EFFE0[2], sUnk_71023EFFE0[1],
+                      sead::SafeString::cEmptyString);
+        if (auto* controller = mActor->getCharacterController())
+            sub_71005DBE1C(controller, 0, 0, true, false, false, true);
+    } else if (_559 & 3) {
+        _559 = (_559 & ~7) | 4;
+        sub_71003DB978(sUnk_71023EFFE0[0], sUnk_71023EFFE0[2], sUnk_71023EFFE0[1],
+                      sead::SafeString::cEmptyString);
+    }
+}
+
 void ForestGiantRoot::m37() {
     bool is_sleep;
     auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
@@ -135,6 +188,27 @@ bool ForestGiantRoot::handleMessage_(const ksys::Message* message) {
 
 bool ForestGiantRoot::handleAck_(const ksys::MessageAck* ack) {
     return _230.sub_71007073D0(ack);
+}
+
+// NON_MATCHING: the suffix tests occupy different basic-block positions.
+void ForestGiantRoot::sub_71003DB978(const sead::SafeString& add_suffix1,
+                                        const sead::SafeString& add_suffix2,
+                                        const sead::SafeString& remove_suffix1,
+                                        const sead::SafeString& remove_suffix2) {
+    auto* set = mActor->getRigidBodyByName(ksys::act::getStr_Body().cstr());
+    if (!set)
+        return;
+    for (s32 i = 0; i < set->getRigidBodies().size(); ++i) {
+        auto* body = set->getRigidBodies().at(i);
+        if (!body)
+            continue;
+        const auto name = body->getHkBodyName();
+        if (name.endsWith(add_suffix2) || name.endsWith(add_suffix1))
+            body->addToWorld();
+        else if ((!remove_suffix1.isEmpty() && name.endsWith(remove_suffix1)) ||
+                 (!remove_suffix2.isEmpty() && name.endsWith(remove_suffix2)))
+            body->removeFromWorld();
+    }
 }
 
 // NON_MATCHING: register allocation only: the original computes &mIsDamageToEnemy_s into x20 before the fourth

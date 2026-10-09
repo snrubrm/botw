@@ -445,3 +445,8 @@ void sub_71005DDF80(sead::Vector3f* out, const sead::Vector3f* target, const sea
 void sub_71005DFAE0(ksys::act::BaseProcHandle* handle, ksys::act::Actor* actor,
                     const sead::Vector3f* pos, const sead::Matrix33f* rot,
                     const sead::Vector3f* vel, const sead::Vector3f* ang_vel);
+
+// Controller user-tag mode setters, declaration only.
+void sub_71005DBE1C(ksys::phys::CharacterController* controller, s32 mode, u8 value,
+                    bool a3, bool a4, bool a5, bool a6);
+void sub_71005DC158(ksys::phys::CharacterController* controller);

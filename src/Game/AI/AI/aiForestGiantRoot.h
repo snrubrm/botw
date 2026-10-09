@@ -31,6 +31,9 @@ protected:
     // 0x71003DAF1C updates the root flags and controller callbacks; called first by calc_.
     void sub_71003DAF1C();
 
+    void sub_71003DB978(const sead::SafeString& add_suffix1, const sead::SafeString& add_suffix2,
+                       const sead::SafeString& remove_suffix1, const sead::SafeString& remove_suffix2);
+
     // Deletes the parts actors "WeakPoint0" .. "WeakPoint3" (called by the destructor; name is a guess).
     void deleteWeakPoints();
 
