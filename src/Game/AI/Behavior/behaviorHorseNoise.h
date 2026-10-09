@@ -15,15 +15,18 @@ public:
     void loadParams() override;
     void m7() override;  // not decompiled yet (0x7100628fe8)
 
-    /* 0x28 */ const float* mNoiseWait_s{};
-    /* 0x30 */ const float* mNoiseCourbette_s{};
-    /* 0x38 */ const float* mNoiseDamage_s{};
-    /* 0x40 */ const float* mNoiseMoveShift_s{};
-    /* 0x48 */ const float* mNoiseMoveBack_s{};
-    /* 0x50 */ const float* mNoiseGear1_s{};
-    /* 0x58 */ const float* mNoiseGear2_s{};
-    /* 0x60 */ const float* mNoiseGear3_s{};
-    /* 0x68 */ const float* mNoiseGearTop_s{};
+    struct Params {
+        const float* mNoiseWait_s{};
+        const float* mNoiseCourbette_s{};
+        const float* mNoiseDamage_s{};
+        const float* mNoiseMoveShift_s{};
+        const float* mNoiseMoveBack_s{};
+        const float* mNoiseGear1_s{};
+        const float* mNoiseGear2_s{};
+        const float* mNoiseGear3_s{};
+        const float* mNoiseGearTop_s{};
+    };
+    /* 0x28 */ Params mParams;
 };
 KSYS_CHECK_SIZE_NX150(HorseNoise, 0x70);
 
