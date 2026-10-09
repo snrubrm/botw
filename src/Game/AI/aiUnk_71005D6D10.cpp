@@ -36,6 +36,7 @@
 #include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/ActorSystem/actDropData.h"
 #include "KingSystem/ActorSystem/actUnk_7100e4e084.h"
+#include "KingSystem/ActorSystem/actUnk_71006ecc78.h"
 #include "KingSystem/Map/mapAutoPlacementMgr.h"
 #include "KingSystem/ActorSystem/LOD/actLodState.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
@@ -1305,6 +1306,13 @@ bool sub_71005DD5B0(ksys::act::Actor* actor, int a1, ksys::as::ASList::Unk4* que
     if (!as_list->x_7(0, 0, &ksys::as::ASList::Unk2::sub_7101163940))
         return false;
     return as_list->x(a1, query, slot, bank, &ksys::as::ASList::Unk2::sub_71011638DC, true);
+}
+
+void sub_71005E1AE8(ksys::act::Actor* actor) {
+    if (auto* dynamic_actor = sead::DynamicCast<ksys::act::DynamicActor>(actor)) {
+        if (auto* handler = dynamic_actor->_868)
+            handler->_d2.set(0x40);
+    }
 }
 
 void sub_71005E1B7C(ksys::act::Actor* actor, bool enable) {

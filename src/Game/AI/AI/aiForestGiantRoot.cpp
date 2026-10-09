@@ -4,10 +4,14 @@
 #include "Game/Actor/actEnemy.h"
 #include "Game/Actor/actGiantEnemy.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/ActorSystem/actAttackSensor.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "Game/Damage/dmgInfoManager.h"
 #include "KingSystem/Terrain/teraSystem.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 
@@ -48,7 +52,36 @@ bool ForestGiantRoot::init_(sead::Heap* heap) {
     return true;
 }
 
+// NON_MATCHING: actor loads move across the necklace-count checks in the scan loop.
 void ForestGiantRoot::enter_(ksys::act::ai::InlineParamPack* params) {
+    if (auto* set = mActor->getRigidBodyByName(ksys::act::getStr_EntitySensor().cstr())) {
+        for (s32 i = 0; i < set->getRigidBodies().size(); ++i) {
+            auto* body = set->getRigidBodies().at(i);
+            if (body && !body->isAddedToWorld() && !body->isAddingBodyToWorld())
+                body->addToWorld();
+        }
+    }
+    if (auto* set = mActor->getRigidBodyByName(ksys::act::getStr_Body().cstr())) {
+        for (s32 i = 0; i < set->getRigidBodies().size(); ++i) {
+            if (auto* body = set->getRigidBodies().at(i))
+                body->clearEntityMotionFlag10(false);
+        }
+    }
+    if (*mIsDamageToEnemy_s)
+        getActorAttackSensor(mActor)->_20 |= 0x18;
+    if (auto* sensor = sub_71007A2844(mActor))
+        sensor->_18 |= 0x800;
+    _558.makeAllZero();
+    for (s32 i = 0; i < sub_71005D7854(mActor); ++i) {
+        if (sub_71005D83E8(mActor, i))
+            _558.setBit(i);
+    }
+    if (auto* controller = mActor->getCharacterController())
+        controller->enableContactLayer(ksys::phys::ContactLayer::EntityGroundObject);
+    _230.sub_71007062D4();
+    sub_71007214A0(&_538, mActor, "DynamicBody", "Body", sead::SafeString::cEmptyString,
+                  sead::Mathf::infinity());
+    sub_71005E1AE8(mActor);
     EnemyRoot::enter_(params);
 }
 

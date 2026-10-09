@@ -43,8 +43,8 @@ protected:
     // aitree_variable at offset 0x228
     void* mGiantNecklaceUnit_a{};
     Unk_7102450390 _230{mActor};
-    Unk_7102451120 _538;
-    Unk_7102451148 _548;
+    // enter_ passes this exact adjacent callback pair to sub_71007214A0.
+    Unk_71007214A0 _538;
     // calc_ tests and clears one byte-sized necklace bit per actor-parts slot.
     sead::BitFlag8 _558;
     u8 _559 = 0xff;

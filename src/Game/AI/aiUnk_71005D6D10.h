@@ -423,6 +423,8 @@ bool sub_71005E2684(ksys::act::Actor* actor, const sead::SafeString& body_name,
                    sead::Vector3f* normal);
 
 // Updates the character controller velocity from the actor contact points.
+// 0x71005E1AE8 consumes an Actor receiver and sets its DynamicActor ragdoll-handler flag.
+void sub_71005E1AE8(ksys::act::Actor* actor);
 void sub_71005E1D00(ksys::act::Actor* actor);
 
 // 0x71005ddc98 (declared only; lane3 s46): camera vibration for DungeonMoveAlwaysVibrateCam::leave_.
