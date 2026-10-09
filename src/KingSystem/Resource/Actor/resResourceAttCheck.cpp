@@ -269,7 +269,6 @@ bool AttCheckGrab::check(act::Actor* actor, const act::ActorConstDataAccess&,
     return !info->_bc;
 }
 
-// NON_MATCHING: scheduling only (the original computes `activated != 0` before `ok ^ 1`)
 bool AttCheckBootFirstTower::check(act::Actor*, const act::ActorConstDataAccess&,
                                    const sead::Matrix34f*, const sead::Vector3f&,
                                    const AttCheck_Unk1*, bool, bool) {
@@ -278,7 +277,9 @@ bool AttCheckBootFirstTower::check(act::Actor*, const act::ActorConstDataAccess&
         return true;
     bool activated = false;
     const bool ok = gdt::getBoolByName(mgr, &activated, "FindDungeon_Activated");
-    return activated || !ok;
+    if (!ok)
+        return true;
+    return activated;
 }
 
 bool AttCheckFireContact::check(act::Actor*, const act::ActorConstDataAccess&,
