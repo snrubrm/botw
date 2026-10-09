@@ -7,6 +7,7 @@
 #include "KingSystem/Utils/Thread/TaskThread.h"
 #include "Game/UI/euiUIController.h"
 #include "Game/gameGraphics.h"
+#include "Game/gameRadarMgr.h"
 #include "Game/gameRoot38.h"
 #include "Game/UI/uiUtils.h"
 #include <devenv/seadEnvUtil.h>
@@ -158,6 +159,38 @@ void Manager::sub_7100A7F8D4() {
 // 0x7100a7f918
 bool Manager::sub_7100A7F918() const {
     return _651f8 > 0;
+}
+
+void Unk_71025d6ac0::sub_7100968040() {
+    _30.init(_48);
+    _58.init(_70);
+    ksys::xlink::Manager::instance()->setGlobalProperty(26, 10000.0f);
+    ksys::xlink::Manager::instance()->setGlobalProperty(27, 0.0f);
+}
+
+void Unk_71025d6ac0::sub_71009680DC() {
+    ksys::xlink::Manager::instance()->setGlobalProperty(26, 10000.0f);
+    ksys::xlink::Manager::instance()->setGlobalProperty(27, 0.0f);
+}
+
+// Complete child 9BFCC4 passes this singleton and consumes the two bool predicates.
+bool Unk_71025d6ac0::sub_71009684B4() const {
+    return true;
+}
+
+bool Unk_71025d6ac0::sub_71009684BC() const {
+    return false;
+}
+
+void Unk_71025d6ac0::sub_71009684D8() {
+    _2a = _29;
+    _29 = _4c < 1.0f && _4c >= 0.0f;
+    if (_2c)
+        _30.update();
+    else
+        _30.reset();
+    _2c = false;
+    _2b = RadarMgr::instance() ? RadarMgr::instance()->_52 : false;
 }
 
 void Unk_71025d6ac0::sub_710096809C() {

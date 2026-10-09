@@ -50,7 +50,12 @@ public:
     static Unk_71025d6ac0* instance() { return sInstance; }
 
     // Child m29 9C0770 passes this singleton; the native body leaves its receiver unused.
+    void sub_7100968040();
     void sub_710096809C();
+    void sub_71009680DC();
+    bool sub_71009684B4() const;
+    bool sub_71009684BC() const;
+    void sub_71009684D8();
     bool get29() const;
     // Complete MainScreen and child callers pass this singleton; bodies read UiSubsys1.
     bool sub_710096828C() const;
@@ -90,13 +95,16 @@ public:
     /* 0x29 */ bool _29;
     /* 0x2a */ bool _2a;
     /* 0x2b */ bool _2b;
-    u8 _2c[0x4c - 0x2c];
+    /* 0x2c */ bool _2c;
+    u8 _2d[3];
+    /* 0x30 */ UiTimer _30;
+    /* 0x48 */ f32 _48;
     /* 0x4c */ f32 _4c;
     u8 _50[4];
     /* 0x54 */ bool _54;
     u8 _55[3];
     /* 0x58 */ UiTimer _58;
-    u8 _70[4];
+    /* 0x70 */ f32 _70;
     /* 0x74 */ s32 _74;
     u8 _78[0x80 - 0x78];
     /* 0x80 */ s32 _80;
