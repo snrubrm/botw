@@ -21,8 +21,6 @@
 
 namespace uking::ai {
 
-// NON_MATCHING: the original branches `if (_148 > _144) lerp(...); else if (_148 < _144) lerp(...);` (identical calls,
-// NaN-safe), ours folds the test into `!=`.
 void IceMakerBlock::sub_7100447F20() {
     if (auto* as_list = mActor->getASList()) {
         ksys::as::ASList::Unk4 query;
@@ -32,7 +30,9 @@ void IceMakerBlock::sub_7100447F20() {
             _148 = value;
         }
     }
-    if (_148 != _144)
+    if (_148 > _144)
+        ksys::VFR::lerp(&_144, _148, 0.5f, 2.0f, 0.1f);
+    else if (_148 < _144)
         ksys::VFR::lerp(&_144, _148, 0.5f, 2.0f, 0.1f);
 }
 
