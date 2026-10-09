@@ -1,5 +1,6 @@
 #include "Game/AI/Action/actionGolemDieFromRagdoll.h"
 #include <prim/seadFormatPrint.h>
+#include <math/seadMathCalcCommon.h>
 
 namespace uking::action {
 
@@ -40,7 +41,17 @@ void GolemDieFromRagdoll::loadParams_() {
 }
 
 void GolemDieFromRagdoll::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (!(mTimer.value <= sead::Mathf::epsilon())) {
+        ++_120;
+        mTimer.update();
+    } else {
+        setFinished();
+    }
+    sub_710018C27C();
+    if (_120 == 2 && (*mBlownHeight_s > 0.0f || *mBlownSpeed_s > 0.0f))
+        sub_710018C3A4();
+    else
+        sub_710018C59C();
 }
 
 }  // namespace uking::action

@@ -24,6 +24,10 @@ public:
 
 protected:
     void calc_() override;
+    // Complete native bodies use this action receiver and consume no return value.
+    void sub_710018C27C();
+    void sub_710018C3A4();
+    void sub_710018C59C();
 
     // static_param at offset 0x20
     const int* mTime_s{};
