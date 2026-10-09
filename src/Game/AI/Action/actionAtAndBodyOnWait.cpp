@@ -1,6 +1,7 @@
 #include "Game/AI/Action/actionAtAndBodyOnWait.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
@@ -38,16 +39,14 @@ void AtAndBodyOnWait::calc_() {
     AtOnWait::calc_();
 }
 
-// NON_MATCHING: the instructions up to the name comparison match; the original compares the names with a plain
-// per-character loop (bound 0x80000, true when the bound is reached), sead's SafeString::isEqual gives the 3x unrolled form
 ksys::phys::RigidBody* AtAndBodyOnWait::sub_71000504E8(const sead::SafeString& name) {
-    auto* set = mActor->getRigidBodyByName(ksys::act::getStr_Body().cstr());
+    auto* set = mActor->getRigidBodyByName(sub_71007A24E4()->cstr());
     if (!set)
         return nullptr;
     auto& bodies = set->getRigidBodies();
     for (s32 i = 0; i < bodies.size(); ++i) {
         if (auto* body = bodies[i]) {
-            if (body->getHkBodyName() == name)
+            if (body->getHkBodyName().comparen(name, sead::SafeString::cMaximumLength) == 0)
                 return body;
         }
     }
