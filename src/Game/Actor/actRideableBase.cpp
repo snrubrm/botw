@@ -30,14 +30,10 @@ void RideableBase::m9() {
     _8 |= 0x40;
 }
 
-// NON_MATCHING: flag-set and flag-clear operations are scheduled differently.
 void RideableBase::sub_7100E63424() {
     const auto* animal = mActor->getParam()->getRes().mGParamList->getAnimalUnit();
     if (animal) {
-        if (animal->mIsSetWaitASAtGear0.ref())
-            _18._52 |= 2;
-        else
-            _18._52 &= ~2;
+        _18._52 = animal->mIsSetWaitASAtGear0.ref() ? (_18._52 | 2) : (_18._52 & ~2);
     }
 }
 
