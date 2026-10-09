@@ -3119,12 +3119,14 @@ public:
     void m102(eui::AnimButton*) override;
     void m107(eui::AnimButton* button) override;
     // 0x7100a4c9e0 (slot 98)
+    void m94() override;
     void m98() override;
     // 0x7100a4cd5c / 0x7100a4cd70 / 0x7100a4ce28 (placeholder names): forward to the picture book controller
     void sub_7100A4CD5C(bool value);
     void sub_7100A4CCB0(s32 category, s32 first, s32 last);
     void sub_7100A4CD80(s32 index);
     void sub_7100A4CC28(s32 mode);
+    void sub_7100A4CC98();
     void sub_7100A4CD70();
     s32 sub_7100A4CE28();
     // 0x7100a4ce68 (placeholder name): plays the sound event of a carry action (0: decide, 1: prohibited, 2: sort, 3: carry,

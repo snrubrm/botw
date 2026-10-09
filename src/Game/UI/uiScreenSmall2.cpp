@@ -3,6 +3,7 @@
 #include "Game/UI/euiTagProcessor.h"
 #include "Game/UI/euiMessageMgr.h"
 #include "Game/UI/euiAnimator.h"
+#include "Game/UI/euiAlignPane.h"
 #include "Game/UI/euiButton.h"
 #include "Game/UI/euiLayoutEx.h"
 #include "Game/UI/uiScreens.h"
@@ -1298,6 +1299,32 @@ void ScreenShopBtnList5::m100() {
 void ScreenShopBtnList5::m99() {
     if (_3610)
         _3610->sub_710093E428(0);
+}
+
+// 0x7100a4c8fc
+void ScreenShopBtnList20::m94() {
+    if (_3860 == -1 || !_3848 || _3848->_104 != 0 || !_3850 || _3850->_104 != 0 ||
+        !_3858 || _3858->_104 != 0)
+        return;
+    if (_3860 == 3) {
+        _3850->m5(true);
+    } else {
+        _3858->m5(true);
+        if (_3860 == 0)
+            _3848->m5(true);
+        if (_3860 != 2)
+            _3850->m5(true);
+    }
+    _3860 = -1;
+    if (auto* pane = sub_71009B0B44(mLayout, "N_Align_00"))
+        pane->mNeedsAlignment = true;
+    eui::Screen::x_2();
+}
+
+// 0x7100a4cc98
+void ScreenShopBtnList20::sub_7100A4CC98() {
+    if (_3840)
+        _3840->StopAtMax();
 }
 
 // 0x7100a4c9e0

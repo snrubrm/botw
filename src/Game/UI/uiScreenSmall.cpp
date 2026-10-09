@@ -1,5 +1,6 @@
 #include "Game/UI/uiScreenControlCreators.h"
 #include "Game/UI/euiLayoutEx.h"
+#include "Game/UI/euiAlignPane.h"
 #include "Game/UI/uiScreens.h"
 #include "Game/UI/uiScreenChildStates.h"
 #include <container/seadBuffer.h>
@@ -274,6 +275,11 @@ void ScreenMessageTipsRunTime::m101() {
         _3660 = -1;
 }
 
+
+// 0x71009b0b44
+eui::AlignPane* sub_71009B0B44(eui::LayoutEx* layout, const char* name) {
+    return nn::font::DynamicCast<eui::AlignPane>(layout->mPane->FindPaneByName(name, true));
+}
 
 // ScreenPauseMenu creator; native getter/D0 precede its screen constructor.
 static const ChildControlCreatorEntry sUnk_71024934b0[] = {
