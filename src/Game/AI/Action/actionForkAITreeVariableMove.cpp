@@ -15,17 +15,17 @@ bool ForkAITreeVariableMove::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }
 
-// NON_MATCHING: the original loads the main body (actor + 0x190) before testing the character controller; with
-// `auto* body = actor->getMainBody();` declared before the branch it matches (borderline, not applied)
 void ForkAITreeVariableMove::enter_(ksys::act::ai::InlineParamPack* params) {
     auto* actor = mActor;
     *mDestinationPos_a = actor->getMtx().getTranslation();
     sub_710005BE70();
     if (*mIsChangeable_s)
         mFlags.set(Flag::Changeable);
-    if (actor->getCharacterController())
+    auto* controller = actor->getCharacterController();
+    auto* body = actor->getMainBody();
+    if (controller)
         _ac = 1;
-    else if (actor->getMainBody())
+    else if (body)
         _ac = 2;
     _88.set(*mDestinationPos_a);
     *mIsArrivedAtDestination_a = false;
