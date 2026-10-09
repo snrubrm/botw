@@ -58,7 +58,6 @@ void GolemDieFromRagdoll::calc_() {
         sub_710018C59C();
 }
 
-// NON_MATCHING: the preserved controller position is loaded from the stack instead of saved registers.
 void GolemDieFromRagdoll::sub_710018C27C() {
     auto* controller = mActor->getCharacterController();
     if (!controller)
@@ -71,7 +70,7 @@ void GolemDieFromRagdoll::sub_710018C27C() {
         return;
     sead::Vector3f body_pos;
     controller->sub_7100F5F6E0(&body_pos);
-    const sead::Vector3f controller_pos = body_pos;
+    const sead::Vector3f controller_pos(body_pos.x, body_pos.y, body_pos.z);
     body->getPosition(&body_pos);
     if ((body_pos - controller_pos).length() > *mRagdollMoveLimitDist_s) {
         controller->sub_7100F5FBE0(controller_pos);
