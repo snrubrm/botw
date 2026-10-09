@@ -19,19 +19,19 @@ void DgnObj_DLC_SliderBlock::enter_(ksys::act::ai::InlineParamPack* params) {
     mActor->sub_71011DA824(this);
 }
 
-// NON_MATCHING: the original selects 1.0f / 200.0f with branches (the else arm loads the constant
-// from the literal pool); we get an fcsel.
 void DgnObj_DLC_SliderBlock::calc_() {
     if (!mActor)
         return;
     auto* body = mActor->getMainBody();
     if (!body)
         return;
-    f32 max = 200.0f;
-    if (ksys::VFR::instance()->hasCustomTimeMultiplier())
-        max = 1.0f;
-    body->setMaxLinearVelocity(max);
-    body->setMaxAngularVelocity(max);
+    if (ksys::VFR::instance()->hasCustomTimeMultiplier()) {
+        body->setMaxLinearVelocity(1.0f);
+        body->setMaxAngularVelocity(1.0f);
+    } else {
+        body->setMaxLinearVelocity(200.0f);
+        body->setMaxAngularVelocity(200.0f);
+    }
 }
 
 bool DgnObj_DLC_SliderBlock::handleMessage_(const ksys::Message* message) {
