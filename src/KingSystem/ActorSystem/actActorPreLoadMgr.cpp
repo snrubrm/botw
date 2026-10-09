@@ -3,6 +3,24 @@
 
 namespace ksys::act {
 
+// NON_MATCHING: instruction scheduling differs while constructing the second fixed pool.
+ActorPreLoadMgr::ActorPreLoadMgr()
+    : mTaskDelegate(this, &ActorPreLoadMgr::invoked1),
+      mPostRunCallback(this, &ActorPreLoadMgr::invoked2) {}
+
+// NON_MATCHING: the task constructor is outlined instead of the native resource-array constructor.
+ActorPreLoadTask* ActorPreLoadMgr::makeTaskMaybe() {
+    return mTasks.emplaceBack();
+}
+
+bool ActorPreLoadMgr::invoked1(void* data) {
+    auto* task = sead::DynamicCast<ActorPreLoadTask>(static_cast<util::TaskData*>(data));
+    if (!task)
+        return false;
+    task->run();
+    return true;
+}
+
 ActorPreLoadTask::~ActorPreLoadTask() {
     if (mRefCount) {
         mRefCount = 0;
