@@ -167,7 +167,6 @@ void* Weapon::m221() {
     return _fd0;
 }
 
-// NON_MATCHING: the linear-velocity scaling loads and stores are scheduled differently.
 void Weapon::updateMtxFromPhysics() {
     if (!_fd0 || !_fd0->isAddedToWorld()) {
         Actor::updateMtxFromPhysics();
@@ -176,7 +175,7 @@ void Weapon::updateMtxFromPhysics() {
 
     sead::Vector3f velocity;
     _fd0->getRigidBodyAccessor()->getLinearVelocity(&velocity);
-    velocity *= 1.0f / 30.0f;
+    velocity = velocity * (1.0f / 30.0f);
     sead::Vector3f angular_velocity;
     _fd0->getRigidBodyAccessor()->getAngularVelocity(&angular_velocity);
     angular_velocity *= 1.0f / 30.0f;
