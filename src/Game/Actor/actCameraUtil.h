@@ -11,6 +11,10 @@
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include <prim/seadSafeString.h>
 
+namespace ksys::map {
+class Object;
+}
+
 // Camera utility code (0x71009212d0-0x710092e000): camera states, angle and polar-coordinate
 // helpers, camera parameters and player-state queries used by the camera actor and the camera
 // AI / action classes. Function names are placeholders (`sub_<address>`) unless the CSV names them.

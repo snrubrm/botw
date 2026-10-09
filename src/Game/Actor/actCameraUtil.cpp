@@ -2,10 +2,17 @@
 #include <cmath>
 #include <math/seadMathCalcCommon.h>
 #include "Game/Actor/actHorseBase.h"
+#include "Game/Actor/actCamera.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/Event/evtEventSystem.h"
+#include "KingSystem/Event/evtUnk_7100dc816c.h"
+#include "KingSystem/Map/mapObject.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/Utils/MathUtil.h"
+
+bool sub_7100EE7168(const ksys::map::Object* obj, sead::Matrix34f* out);
 
 // Camera parameter globals (in .data / .bss). Nothing in the binary writes them or takes their
 // address, yet the loads are not folded and do not go through the GOT: hidden visibility (as for
@@ -482,15 +489,202 @@ f32 sub_71009226EC(const f32& deg) {
 
 namespace uking::act {
 
+void CameraTargetResult::sub_7100923ECC(ksys::act::ActorConstDataAccess* accessor) {
+    if (accessor && accessor->getProc()) {
+        accessor->linkAcquire(&link);
+        object = nullptr;
+        kind = 1;
+    }
+}
+
+void CameraTargetResult::sub_7100923F0C(ksys::map::Object* target) {
+    if (target) {
+        link.reset();
+        object = target;
+        kind = 2;
+    }
+}
+
+void CameraTargetLink::sub_71009240C0(CameraTargetResult* result) {
+    if (kind == 1) {
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::acquireActor(&link, &accessor);
+        if (accessor.getProc()) {
+            accessor.linkAcquire(&result->link);
+            result->object = nullptr;
+            result->kind = 1;
+        }
+    } else if (kind == 2) {
+        s32 resolved_index = index;
+        auto* object = ksys::act::findLinkReferenceObj(&link, "", "", &resolved_index);
+        if (object && resolved_index == index) {
+            result->link.reset();
+            result->object = object;
+            result->kind = 2;
+        }
+    }
+}
+
+// NON_MATCHING: temporary stack placement and matrix/translation copy scheduling differ.
+void Unk_71009241ac::sub_71009242AC(Camera* camera) {
+    CameraTargetResult result;
+    CameraTargetLink target_link;
+    sub_71009243FC(camera, selector, actorName, uniqueName, &result, &target_link);
+    if (result.kind == 1) {
+        bool valid;
+        {
+            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::acquireActor(&result.link, &accessor);
+            valid = sub_710092479C(accessor);
+        }
+        if (!valid)
+            return;
+        status = 1;
+    } else if (result.kind == 2) {
+        if (!result.object)
+            return;
+        sead::Matrix34f mtx = sead::Matrix34f::ident;
+        if (!sub_7100EE7168(result.object, &mtx) || ksys::util::sub_71011F10F4(mtx))
+            return;
+        matrix = mtx;
+        previousPos = mtx.getTranslation();
+        position = mtx.getTranslation();
+        status = 2;
+    } else {
+        return;
+    }
+    targetLink.link = target_link.link;
+    targetLink.index = target_link.index;
+    targetLink.kind = target_link.kind;
+}
+
+// NON_MATCHING: the kind snapshot stays in a register; stack placement and copy scheduling differ.
+void Unk_71009241ac::sub_710092464C() {
+    if (targetLink.kind == 0)
+        return;
+    CameraTargetResult result;
+    targetLink.sub_71009240C0(&result);
+    const s32 kind = result.kind;
+    if (kind == 0)
+        return;
+    if (selector == 4) {
+        if (!result.object)
+            return;
+        if (auto* actor = result.object->tryGetActor(false)) {
+            ksys::act::ActorConstDataAccess accessor(actor);
+            sub_710092479C(accessor);
+            return;
+        }
+    } else if (kind == 1) {
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::acquireActor(&result.link, &accessor);
+        sub_710092479C(accessor);
+        return;
+    } else if (kind != 2) {
+        return;
+    }
+    if (!result.object)
+        return;
+    sead::Matrix34f mtx = sead::Matrix34f::ident;
+    if (!sub_7100EE7168(result.object, &mtx) || ksys::util::sub_71011F10F4(mtx))
+        return;
+    matrix = mtx;
+    previousPos = mtx.getTranslation();
+    position = mtx.getTranslation();
+}
+
+// NON_MATCHING: clang duplicates the player branch and shares different branch/destructor tails.
+void sub_71009243FC(ksys::act::Actor* actor, s32 selector, const sead::SafeString& name,
+                    const sead::SafeString& unique_name, CameraTargetResult* result,
+                    CameraTargetLink* target_link) {
+    if (!actor)
+        return;
+    switch (selector) {
+    case 0: {
+        auto& actor_link = ksys::evt::sub_7100DC85D4(actor);
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::acquireActor(&actor_link, &accessor);
+        if (accessor.getProc()) {
+            accessor.linkAcquire(&result->link);
+            result->object = nullptr;
+            result->kind = 1;
+        }
+        target_link->link = actor_link;
+        target_link->kind = 1;
+        break;
+    }
+    case 1: {
+        ksys::act::ActorConstDataAccess accessor;
+        if (auto* info = ksys::act::PlayerInfo::instance())
+            ksys::act::acquireActor(&info->getPlayerLink(), &accessor);
+        if (accessor.getProc()) {
+            accessor.linkAcquire(&result->link);
+            result->object = nullptr;
+            result->kind = 1;
+        }
+        accessor.linkAcquire(&target_link->link);
+        target_link->kind = 1;
+        break;
+    }
+    case 2: {
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::evt::EventSystem::instance()->sub_71008ABF38(&accessor);
+        if (!accessor.getProc()) {
+            auto& actor_link = ksys::evt::sub_7100DC85D4(actor);
+            if (actor_link.hasProc())
+                ksys::act::acquireActor(&actor_link, &accessor);
+        }
+        if (accessor.getProc()) {
+            accessor.linkAcquire(&result->link);
+            result->object = nullptr;
+            result->kind = 1;
+        }
+        accessor.linkAcquire(&target_link->link);
+        target_link->kind = 1;
+        break;
+    }
+    case 3:
+        sub_7100924A4C(actor, name, unique_name, result);
+        if (result->kind == 1) {
+            target_link->link = result->link;
+            target_link->kind = 1;
+        }
+        break;
+    case 4: {
+        auto& actor_link = ksys::evt::sub_7100DC85D4(actor);
+        s32 index = 0;
+        auto* object = ksys::act::findLinkReferenceObj(&actor_link, name, unique_name, &index);
+        if (!object)
+            return;
+        if (auto* target = object->tryGetActor(false)) {
+            ksys::act::ActorConstDataAccess accessor(target);
+            if (accessor.getProc()) {
+                accessor.linkAcquire(&result->link);
+                result->object = nullptr;
+                result->kind = 1;
+            }
+        } else {
+            result->link.reset();
+            result->object = object;
+            result->kind = 2;
+        }
+        target_link->link = actor_link;
+        target_link->index = index;
+        target_link->kind = 2;
+        break;
+    }
+    }
+}
+
 Unk_71009241ac::Unk_71009241ac()
     : selector(-1), matrix(sead::Matrix34f::ident), previousPos(sead::Vector3f::zero),
-      position(sead::Vector3f::zero), linkIndex(-1), linkKind(0), status(0) {}
+      position(sead::Vector3f::zero), status(0) {}
 
 void Unk_71009241ac::sub_7100924238(const Params& params) {
     selector = -1;
-    link.reset();
-    linkIndex = -1;
-    linkKind = 0;
+    targetLink.link.reset();
+    targetLink.index = -1;
+    targetLink.kind = 0;
     status = 0;
     if (params.selector) {
         selector = u32(*params.selector) + 1 < 6 ? *params.selector : -1;
