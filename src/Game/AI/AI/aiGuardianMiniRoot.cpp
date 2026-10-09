@@ -18,10 +18,12 @@
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/LOD/actLodState.h"
 #include "KingSystem/ActorSystem/actPhysicsConstraints.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayerOrEnemy.h"
 #include "KingSystem/Physics/Constraint/physConstraint.h"
 #include "KingSystem/System/StageInfo.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectGuardianMini.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectGeneral.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectGuardianMiniWeapon.h"
 
 void sub_7100428358(ksys::act::Actor* actor, bool enabled, s32 slot) {
@@ -326,6 +328,83 @@ void GuardianMiniRoot::stopXLinks() {
         handles.mELink.kill();
         handles.mSLink.fade();
         _393[i++] = false;
+    }
+}
+
+// NON_MATCHING: loop addressing and RTTI scheduling differ from the native body.
+void GuardianMiniRoot::sub_7100427EB4(s32 slot, bool all) {
+    if (_398._20)
+        return;
+    if (auto* as_list = mActor->getASList()) {
+        if (as_list->x_1(0, 0) == "BeamStart") {
+            _398._20 = true;
+            return;
+        }
+    }
+    switch (slot) {
+    case 0:
+        if (_390[0] == *mJustGuardNumForBreak_s) {
+            xlinkSearchAndEmit(mActor, "Broken_UFR", 2, &_330[0]);
+            _393[0] = true;
+        } else if (_390[0] == 1) {
+            xlinkSearchAndEmit(mActor, "Sign_UFR", 2, &_330[0]);
+        }
+        return;
+    case 1:
+        if (_390[1] == *mJustGuardNumForBreak_s) {
+            xlinkSearchAndEmit(mActor, "Broken_UFL", 2, &_330[1]);
+            _393[1] = true;
+        } else if (_390[1] == 1) {
+            xlinkSearchAndEmit(mActor, "Sign_UFL", 2, &_330[1]);
+        }
+        return;
+    case 2:
+        if (_390[2] == *mJustGuardNumForBreak_s) {
+            xlinkSearchAndEmit(mActor, "Broken_UB", 2, &_330[2]);
+            _393[2] = true;
+        } else if (_390[2] == 1) {
+            xlinkSearchAndEmit(mActor, "Sign_UB", 2, &_330[2]);
+        }
+        return;
+    }
+    if (!all)
+        return;
+    for (s32 i = 0; i < 3; ++i) {
+        const auto* life = mActor->getLife();
+        const s32 current_life = life ? *life : 1;
+        if (current_life <= mActor->getParam()->getRes().mGParamList->getGeneral()->mLife.ref() &&
+            !_330[i].sub_7101241B6C()) {
+            switch (i) {
+            case 0:
+                xlinkSearchAndEmit(mActor, "Sign_UFR", 2, &_330[i]);
+                break;
+            case 1:
+                xlinkSearchAndEmit(mActor, "Sign_UFL", 2, &_330[i]);
+                break;
+            case 2:
+                xlinkSearchAndEmit(mActor, "Sign_UB", 2, &_330[i]);
+                break;
+            }
+        }
+        auto* actor = sead::DynamicCast<ksys::act::PlayerOrEnemy>(mActor);
+        if (!actor)
+            continue;
+        if (sead::DynamicCast<act::Weapon>(actor->getWeapons()->getEquippedWeapon(i)))
+            continue;
+        if (_393[i])
+            continue;
+        switch (i) {
+        case 0:
+            xlinkSearchAndEmit(mActor, "Broken_UFR", 2, &_330[i]);
+            break;
+        case 1:
+            xlinkSearchAndEmit(mActor, "Broken_UFL", 2, &_330[i]);
+            break;
+        case 2:
+            xlinkSearchAndEmit(mActor, "Broken_UB", 2, &_330[i]);
+            break;
+        }
+        _393[i] = true;
     }
 }
 

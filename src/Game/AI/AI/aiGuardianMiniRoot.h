@@ -78,6 +78,8 @@ protected:
     void sub_7100427338();
     void sub_7100427574();
     void sub_7100427940();
+    // 0x7100427eb4: slot-specific or all-slot weapon XLink updates.
+    void sub_7100427EB4(s32 slot, bool all);
 };
 
 }  // namespace uking::ai
