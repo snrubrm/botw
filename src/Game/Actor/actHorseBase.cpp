@@ -3,6 +3,8 @@
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/ActorSystem/LOD/actLodState.h"
 #include <math/seadMathCalcCommon.h>
+#include <gsys/gsysModel.h>
+#include <gsys/gsysModelUnitGroup.h>
 #include <prim/seadScopedLock.h>
 #include "Game/Actor/actHorseObject.h"
 #include "Game/Actor/actRideable.h"
@@ -20,6 +22,19 @@
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectHorseUnit.h"
 
 namespace uking::act {
+
+bool HorseBase::m67(sead::Heap* heap) {
+    auto* model = getModel();
+    _b90 = 0;
+    if (model && model->getUnits().size() >= 2) {
+        gsys::ModelUnitGroup::CreateArg arg("Horse_Link", "Horse_Link_Reduction");
+        _b20 = model->createUnitGroup(arg, heap);
+        if (_b20)
+            _b20->setCurrent(_b90);
+    }
+    return true;
+}
+
 
 // NON_MATCHING: the select of the first free slot is inverted (csel operands) and the last slot is handled separately in
 // the original

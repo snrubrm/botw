@@ -14,6 +14,10 @@
 #include "KingSystem/Utils/Thread/MessageTransceiverId.h"
 #include "KingSystem/Utils/Types.h"
 
+namespace gsys {
+class ModelUnitGroup;
+}
+
 namespace ksys::act {
 class ActorConstDataAccess;
 }  // namespace ksys::act
@@ -194,7 +198,7 @@ public:
     /* 0xb08 */ ksys::phys::Constraint* _b08 = nullptr;
     /* 0xb10 */ Rideable* _b10 = nullptr;  // getHorseOptionsMaybe (RideableHorse, ctor 0x7100e7c688)
     /* 0xb18 */ Unk_71024eb548* _b18 = nullptr;
-    /* 0xb20 */ void* _b20 = nullptr;
+    /* 0xb20 */ gsys::ModelUnitGroup* _b20 = nullptr;
     /* 0xb28 */ void* _b28 = nullptr;
     /* 0xb30 */ ksys::act::BaseProcLink _b30;
     /* 0xb40 */ ksys::map::Rail* _b40 = nullptr;  // the rail of the horse (HorseLoopTargetAndWaitAI::m34)
