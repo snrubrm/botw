@@ -45,9 +45,10 @@ void FootstepReactionChanger::loadParams() {
     _54 = scale < 5 ? scale : 0;
 }
 
-// NON_MATCHING: reaction/scale fields are loaded before the duration parameter.
 void FootstepReactionChanger::m8() {
-    mActor->getXLink()->_a0->sub_7101236520(_50, _54, *mChangeDuration_s);
+    auto* xlink = mActor->getXLink();
+    const int duration = *mChangeDuration_s;
+    xlink->_a0->sub_7101236520(_50, _54, duration);
 }
 
 void FootstepReactionChanger::m9() {
