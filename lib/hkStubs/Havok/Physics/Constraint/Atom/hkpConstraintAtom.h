@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Havok/Common/Base/hkBase.h>
+#include <Havok/Common/Base/Types/hkUFloat8.h>
 
 struct hkpConstraintAtom {
 public:
@@ -88,3 +89,41 @@ protected:
 public:
     hkEnum<AtomType, hkUint16> m_type;
 };
+
+// Native atom reflection initializer 0x71017BD944 establishes these names,
+// extents and fields. Constructors are left undecompiled; no defaults are added.
+struct hkpSetLocalTransformsConstraintAtom : hkpConstraintAtom {
+    hkpSetLocalTransformsConstraintAtom();
+    hkUint8 m_padding[14];
+    hkTransform m_transformA;
+    hkTransform m_transformB;
+};
+static_assert(sizeof(hkpSetLocalTransformsConstraintAtom) == 0x90);
+
+struct hkpSetupStabilizationAtom : hkpConstraintAtom {
+    hkpSetupStabilizationAtom();
+    hkBool m_enabled;
+    hkUint8 m_padding[1];
+    hkReal m_maxLinImpulse;
+    hkReal m_maxAngImpulse;
+    hkReal m_maxAngle;
+};
+static_assert(sizeof(hkpSetupStabilizationAtom) == 0x10);
+
+struct hkpBallSocketConstraintAtom : hkpConstraintAtom {
+    hkpBallSocketConstraintAtom();
+    hkEnum<SolvingMethod, hkUint8> m_solvingMethod;
+    hkUint8 m_bodiesToNotify;
+    hkUFloat8 m_velocityStabilizationFactor;
+    hkBool m_enableLinearImpulseLimit;
+    hkUint8 _6[2];
+    hkReal m_breachImpulse;
+    hkReal m_inertiaStabilizationFactor;
+};
+static_assert(sizeof(hkpBallSocketConstraintAtom) == 0x10);
+
+struct hkp3dAngConstraintAtom : hkpConstraintAtom {
+    hkp3dAngConstraintAtom();
+    hkUint8 m_padding[14];
+};
+static_assert(sizeof(hkp3dAngConstraintAtom) == 0x10);
