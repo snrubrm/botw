@@ -141,6 +141,8 @@ target_sources(uking PRIVATE
     actActorParam.h
     actActorParamMgr.cpp
     actActorParamMgr.h
+    actActorPreLoadMgr.cpp
+    actActorPreLoadMgr.h
     actActorSensorUtil.cpp
     actActorSensorUtil.h
     actActorSystem.cpp
