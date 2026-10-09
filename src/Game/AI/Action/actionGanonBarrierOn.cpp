@@ -4,6 +4,8 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Map/mapObject.h"
 #include "Game/Actor/actLastBoss.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
 namespace uking::action {
 
@@ -40,7 +42,30 @@ void GanonBarrierOn::loadParams_() {
 }
 
 void GanonBarrierOn::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (auto* controller = mActor->getCharacterController()) {
+        controller->sub_7100F5F6FC(sead::Vector3f::zero);
+        controller->sub_7100F5FB24(sead::Vector3f::zero);
+    }
+    ksys::as::ASList::Unk4 query;
+    if (sub_71005DD780(mActor, 59, &query, 0, 0)) {
+        if (auto* boss = sead::DynamicCast<act::LastBoss>(mActor)) {
+            boss->_14e8.set(2);
+            boss->_14f8._30.set(2);
+            if (!boss->_14e8.isOn(4))
+                boss->_14e8.set(4);
+            boss->_14f8._30.set(1);
+            boss->stunEnd();
+            boss->x();
+        }
+    }
+    if (isFinishedAS(1, 0)) {
+        if (auto* as_list = mActor->getASList()) {
+            if (as_list->x_1(1, 0) == "Damage")
+                as_list->startAnimationMaybe(-1.0f, -1.0f, "Wait_Battle_Material", 1, 0, true);
+        }
+    }
+    if (isFinishedAS(0, 0))
+        setFinished();
 }
 
 bool GanonBarrierOn::isFinished() const {
