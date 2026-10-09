@@ -28,6 +28,13 @@ public:
     Unk_71024f9a70();
     virtual ~Unk_71024f9a70();
 
+    struct InitArg {
+        bool _0 = true;
+        sead::SafeString mPath;
+        sead::FileDevice* mFileDevice = nullptr;
+    };
+    bool init(const InitArg& arg);
+    bool load();
     bool sub_7100FE15D8() const;
     bool sub_7100FE1AF0() const;
     s32 getTextureCount() const;
@@ -45,6 +52,12 @@ private:
         sead::SafeString mPath;
         sead::FileDevice* mFileDevice = nullptr;
     } mLoadParams;
+    struct LoadStatus {
+        bool success = false;
+        bool _1 = false;
+    };
+    // FE15E4 supplies two output bytes and the native parameters at +C0.
+    void sub_7100FE1630(LoadStatus* status, const LoadParams& params);
     Handle mHandle;
     // FE1AFC reads eight-byte hash/flag records from this buffer.
     struct TextureFlag {

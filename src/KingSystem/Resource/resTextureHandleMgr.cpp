@@ -30,6 +30,24 @@ bool Unk_71024f9a70::sub_7100FE15D8() const {
     return mFlags.isOn(1);
 }
 
+bool Unk_71024f9a70::init(const InitArg& arg) {
+    mLoadParams.mFileDevice = arg.mFileDevice;
+    mLoadParams._0 = arg._0;
+    mLoadParams.mPath = mPath;
+    mPath = arg.mPath;
+    mFlags.set(1);
+    return true;
+}
+
+bool Unk_71024f9a70::load() {
+    LoadStatus status;
+    sub_7100FE1630(&status, mLoadParams);
+    if (!status.success)
+        return false;
+    mFlags.set(2);
+    return true;
+}
+
 bool Unk_71024f9a70::sub_7100FE1AF0() const {
     return mFlags.isOn(2);
 }
