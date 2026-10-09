@@ -2,6 +2,18 @@
 
 namespace ksys::snd {
 
+// Whole 1056A68 reads this writable float; native initial bits are 3e4ccccd.
+f32 sUnk_710250294C = 0.2f;
+
+f32 OcclusionMgr::sub_7101056A4C() const {
+    return _24 == 3 ? _20 : _1c;
+}
+
+// NON_MATCHING: the global float access has an extra GOT load and different register allocation.
+f32 OcclusionMgr::sub_7101056A68() const {
+    return _24 == 2 ? sUnk_710250294C : 0.0f;
+}
+
 void OcclusionMgr::sub_71010560D4(sead::Heap* heap) {}
 
 void OcclusionMgr::sub_7101056868() {

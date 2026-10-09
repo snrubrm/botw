@@ -27,6 +27,8 @@ public:
     OcclusionMgr();
     void sub_71010560D4(sead::Heap* heap);
     void sub_7101056868();
+    f32 sub_7101056A4C() const;
+    f32 sub_7101056A68() const;
     // 0x7101055ffc (D1) / 0x7101056068 (D0)
     virtual ~OcclusionMgr();
 
