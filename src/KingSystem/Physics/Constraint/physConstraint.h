@@ -28,6 +28,8 @@ struct ConstraintUnk18 {
     // Allocation at 0x7100f6c5b4 and vtable 0x71024f6340 prove this extent
     // and the two empty destructor entries.
     virtual ~ConstraintUnk18();
+    // Full Constraint destructor passes its +0x18 holder to 0x7100f6c718.
+    static void destroy(ConstraintUnk18* holder);
     static ConstraintUnk18* sub_7100F6C5B4(hkpConstraintData* data, const Param& param,
                                          sead::Heap* heap);
     hkpBreakableConstraintData* _8 = nullptr;

@@ -10,6 +10,10 @@ u32 sub_7100F6C5AC() {
 
 ConstraintUnk18::~ConstraintUnk18() = default;
 
+void ConstraintUnk18::destroy(ConstraintUnk18* holder) {
+    delete holder;
+}
+
 ConstraintUnk18* ConstraintUnk18::sub_7100F6C5B4(hkpConstraintData* data, const Param& param,
                                                 sead::Heap* heap) {
     auto* holder = new (heap->alloc(sizeof(ConstraintUnk18), 16)) ConstraintUnk18;
