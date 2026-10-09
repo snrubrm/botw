@@ -9,8 +9,6 @@ namespace uking::ai {
 
 // 0x710041d304 (placeholder name): whether the weapons in both slots selected by sub_71007091AC are of
 // type 4 (or are no weapons); false without the slots / for non-enemies.
-// NON_MATCHING: the final `return true` is a `cset eq` in ours (select) but separate return blocks in the
-// original; everything else (incl. reading the slot before the getWeapons() call) matches.
 bool sub_710041D304(ksys::act::Actor* actor) {
     if (!sead::IsDerivedFrom<uking::act::Enemy>(actor))
         return false;
@@ -21,11 +19,7 @@ bool sub_710041D304(ksys::act::Actor* actor) {
     if (a == -1 || b == -1)
         return false;
     auto* enemy = static_cast<uking::act::Enemy*>(actor);
-    if (hasNonType4Weapon(enemy, a))
-        return false;
-    if (hasNonType4Weapon(enemy, b))
-        return false;
-    return true;
+    return !hasNonType4Weapon(enemy, a) && !hasNonType4Weapon(enemy, b);
 }
 
 GuardianMiniNoWeaponSelect::GuardianMiniNoWeaponSelect(const InitArg& arg)
