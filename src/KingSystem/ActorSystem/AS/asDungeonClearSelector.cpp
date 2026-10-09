@@ -11,14 +11,15 @@ DungeonClearSelector::DungeonClearSelector(const CreateArg&, s32, const res::ASR
 DungeonClearSelector::~DungeonClearSelector() = default;
 
 
-// NON_MATCHING: boolean result combination uses a direct conjunction.
 int DungeonClearSelector::m39(Context* ctx, u32, const res::ASResource* resource) {
     if (mChildren.size() != 2)
         return 0;
     if (_18 == gdt::InvalidHandle)
         sub_710131A940(ctx, resource);
     bool value = false;
-    return gdt::Manager::instance()->getBool(_18, &value) && value;
+    if (gdt::Manager::instance()->getBool(_18, &value) && value)
+        return 1;
+    return 0;
 }
 
 // NON_MATCHING: the destination string address is computed earlier.
