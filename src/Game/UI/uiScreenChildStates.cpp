@@ -82,6 +82,21 @@ void Unk_7102476db8::sub_7100986580() {
     mNumOff->StopAtMin();
 }
 
+// 0x7100986aac / 0x7100986ab4 / 0x7100986ac0
+// UiSubsys1 0x71009645d0 uses these no-argument values to clamp effect scale.
+// The UI namespace is source inference from that caller and the address neighbors.
+f32 sub_7100986AAC() {
+    return 1.0f;
+}
+
+f32 sub_7100986AB4() {
+    return 0.1f;
+}
+
+f32 sub_7100986AC0() {
+    return 1200.0f;
+}
+
 // 0x710098c278
 Unk_7102477c30::Unk_7102477c30(eui::LayoutEx* layout) : ScreenChildEx(layout) {}
 

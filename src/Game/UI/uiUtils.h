@@ -54,6 +54,12 @@ namespace uking::ui {
 // Native 986160; the UI callers pass LayoutEx and a name, then use CapturePane fields.
 eui::CapturePane* sub_7100986160(eui::LayoutEx* layout, const char* name);
 
+// Native no-argument scale values used by UiSubsys1 0x71009645d0.
+// Namespace is inferred from the UI caller and neighboring child functions.
+f32 sub_7100986AAC();
+f32 sub_7100986AB4();
+f32 sub_7100986AC0();
+
 // 0x7100aa0700: E3 demo mode flag
 bool isE3DemoMode();
 
