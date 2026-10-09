@@ -18,7 +18,6 @@ public:
 
 protected:
     void calc_() override;
-    // 0x710018e0f4 (declared only)
     void m32(sead::Vector3f* linear_velocity, sead::Vector3f* angular_velocity, sead::Matrix34f* mtx,
              ksys::phys::RigidBody* body) override;
 
