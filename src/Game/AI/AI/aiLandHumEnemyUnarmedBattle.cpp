@@ -41,6 +41,30 @@ void LandHumEnemyUnarmedBattle::changeToFindItem() {
     changeChild("アイテム発見", &pack);
 }
 
+// NON_MATCHING: the link assignment remains a call before the return rather than a tail call;
+// register allocation also differs.
+void LandHumEnemyUnarmedBattle::sub_710046FC10() {
+    const auto* link = sub_7100471E98();
+    if (!link->hasProcInCalcState())
+        return;
+    switch (_148) {
+    case 0:
+        if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
+            enemy->sub_7100019D38(_108);
+            enemy->sub_7100019A9C(*link);
+        }
+        _108 = *link;
+        break;
+    case 1:
+        if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
+            enemy->sub_7100019D38(_118);
+            enemy->sub_7100019A9C(*link);
+        }
+        _118 = *link;
+        break;
+    }
+}
+
 void LandHumEnemyUnarmedBattle::changeToAvoidDanger() {
     if (_138.hasProcInCalcState()) {
         ksys::act::ai::InlineParamPack pack;

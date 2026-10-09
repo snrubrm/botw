@@ -29,7 +29,7 @@ public:
     void changeToAvoidDanger();
     // 0x710046fa70 (placeholder name)
     void changeToFindItem();
-    // 0x710046fc10 (declaration only; placeholder name): called by m35.
+    // 0x710046fc10 (placeholder name): called by m35.
     void sub_710046FC10();
     // 0x710046ec44 (placeholder name; CSV landHumEnemyStuff): tells the actor of _118 that we let go and starts the
     // "戦闘" child.
