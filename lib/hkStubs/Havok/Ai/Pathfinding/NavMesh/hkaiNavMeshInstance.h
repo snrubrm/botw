@@ -18,7 +18,10 @@ public:
 
     // hkReferencedObject's data ends at0xc; derived storage reuses its
     // tail padding. Preserve that unidentified interval explicitly.
-    hkUint8 _c[0x20 - 0xc];
+    hkUint8 _c[0x10 - 0xc];
+    // Reflected kind 26 at 255dbd0 and finish constructor 152e4ec
+    // establish this borrowed face pointer/count view.
+    hkSimpleArray<hkaiNavMesh::Face> m_originalFaces;
     // Finish constructor 152e4ec copies these pointer/count views from the
     // original mesh. Reflected kind 26 is TYPE_SIMPLEARRAY with ignored
     // serialization; there is no capacity or ownership field. Game
@@ -29,9 +32,12 @@ public:
     // Reflected records 255dd38 / 255ddb0 / 255de00 / 255de28 identify
     // these actual hkArray fields and their element types.
     hkArray<hkInt32> m_edgeMap;
-    hkUint8 _e0[0x100 - 0xe0];
+    // Reflected records 255dd60 / 255dd88 / 255ddd8, independently
+    // selected by signed face index in area calculation 15214b0.
+    hkArray<hkInt32> m_faceMap;
+    hkArray<hkaiNavMesh::Face> m_instancedFaces;
     hkArray<hkaiNavMesh::Edge> m_instancedEdges;
-    hkUint8 _110[0x120 - 0x110];
+    hkArray<hkaiNavMesh::Face> m_ownedFaces;
     hkArray<hkaiNavMesh::Edge> m_ownedEdges;
     hkArray<hkVector4> m_ownedVertices;
     hkUint8 _140[0x1a0 - 0x140];
@@ -45,3 +51,8 @@ static_assert(offsetof(hkaiNavMeshInstance, m_edgeMap) == 0xd0);
 static_assert(offsetof(hkaiNavMeshInstance, m_instancedEdges) == 0x100);
 static_assert(offsetof(hkaiNavMeshInstance, m_ownedEdges) == 0x120);
 static_assert(offsetof(hkaiNavMeshInstance, m_ownedVertices) == 0x130);
+
+static_assert(offsetof(hkaiNavMeshInstance, m_originalFaces) == 0x10);
+static_assert(offsetof(hkaiNavMeshInstance, m_faceMap) == 0xe0);
+static_assert(offsetof(hkaiNavMeshInstance, m_instancedFaces) == 0xf0);
+static_assert(offsetof(hkaiNavMeshInstance, m_ownedFaces) == 0x110);

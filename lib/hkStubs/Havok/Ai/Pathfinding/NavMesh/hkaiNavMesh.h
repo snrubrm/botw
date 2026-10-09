@@ -9,6 +9,18 @@ public:
     HK_DECLARE_CLASS_ALLOCATOR(hkaiNavMesh)
     ~hkaiNavMesh() override;
 
+    // Native reflection 152ce18 / member records 2538c78 establish
+    // the 0x10-byte face. Area calculation 15214b0 independently uses
+    // its signed start edge and signed edge count.
+    struct Face {
+        hkInt32 m_startEdgeIndex;
+        hkInt32 m_startUserEdgeIndex;
+        hkInt16 m_numEdges;
+        hkInt16 m_numUserEdges;
+        hkInt16 m_clusterIndex;
+        hkUint16 m_padding;
+    };
+
     enum EdgeFlagBits {
         EDGE_SILHOUETTE = 1,
         EDGE_RETRIANGULATED = 2,
@@ -39,3 +51,6 @@ static_assert(sizeof(hkaiNavMesh) == 0xb0);
 static_assert(sizeof(hkaiNavMesh::Edge) == 0x14);
 static_assert(offsetof(hkaiNavMesh::Edge, m_oppositeEdge) == 0x8);
 static_assert(offsetof(hkaiNavMesh::Edge, m_userEdgeCost) == 0x12);
+
+static_assert(sizeof(hkaiNavMesh::Face) == 0x10);
+static_assert(offsetof(hkaiNavMesh::Face, m_numEdges) == 0x8);
