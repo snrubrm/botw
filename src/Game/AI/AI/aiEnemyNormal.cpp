@@ -1277,10 +1277,11 @@ bool EnemyNormal::sub_71003A34D0(Unk2* out, s32 type, Unk1* info) {
         ksys::act::acquireActor(link, &accessor);
         out->_8 = accessor.getActorMtx();
     }
-    if (info->_8 & 5)
+    if (info->_8 & 5) {
         out->_44 |= 1;
-    else
-        out->_44 &= ~1;
+        return true;
+    }
+    out->_44 &= ~1;
     return true;
 }
 
