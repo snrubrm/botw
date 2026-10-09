@@ -80,6 +80,8 @@ void BfRes::sub_71011FFECC() {
     _198.clear();
 }
 
+Unk_71025149d0::~Unk_71025149d0() = default;
+
 void Unk_71025149d0::m2(const void* arg) {
     mOwner->sub_71011FFD28(static_cast<const CallbackArg*>(arg)->mHandle->sub_7100FE83EC());
 }
