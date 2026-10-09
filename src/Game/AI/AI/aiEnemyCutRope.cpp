@@ -29,22 +29,25 @@ bool EnemyCutRope::sub_7100386374() {
     return to_target.dot(forward) >= std::cos(*mCutAngle_s);
 }
 
-// NON_MATCHING: the original selects the 0.7 / 1.0 ratio with a branch (the constant load is not speculated), ours
-// with fcsel
 void EnemyCutRope::changeToCut() {
     ksys::act::acc::RopeBase rope;
     ksys::act::acquireActor(mTargetActor_d, &rope);
     ksys::act::ai::InlineParamPack pack;
-    pack.addVec3(rope.sub_7100ED8440(*mCutFlyAttack_s ? 0.7f : 1.0f), "TargetPos", -1);
+    if (*mCutFlyAttack_s)
+        pack.addVec3(rope.sub_7100ED8440(0.7f), "TargetPos", -1);
+    else
+        pack.addVec3(rope.sub_7100ED8440(1.0f), "TargetPos", -1);
     changeChild("カット", &pack);
 }
 
-// NON_MATCHING: same as changeToCut
 void EnemyCutRope::changeToRotate() {
     ksys::act::acc::RopeBase rope;
     ksys::act::acquireActor(mTargetActor_d, &rope);
     ksys::act::ai::InlineParamPack pack;
-    pack.addVec3(rope.sub_7100ED8440(*mCutFlyAttack_s ? 0.7f : 1.0f), "TargetPos", -1);
+    if (*mCutFlyAttack_s)
+        pack.addVec3(rope.sub_7100ED8440(0.7f), "TargetPos", -1);
+    else
+        pack.addVec3(rope.sub_7100ED8440(1.0f), "TargetPos", -1);
     changeChild("回転", &pack);
 }
 
