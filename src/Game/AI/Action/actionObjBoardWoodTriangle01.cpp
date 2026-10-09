@@ -9,6 +9,9 @@
 #include "KingSystem/Map/mapObjectLink.h"
 #include "KingSystem/Utils/Thread/Message.h"
 
+// Full 0x71002ff594 applies an impulse from the actor's chemical motion.
+void sub_71002FF594(ksys::act::Actor* actor);
+
 namespace uking::action {
 
 namespace {
@@ -68,7 +71,21 @@ void ObjBoardWoodTriangle01::leave_() {
 void ObjBoardWoodTriangle01::loadParams_() {}
 
 void ObjBoardWoodTriangle01::calc_() {
-    ksys::act::ai::Action::calc_();
+    sub_710020D9B4();
+    if (_460)
+        return;
+    int count = 0;
+    for (int i = 0; i < _20.size(); ++i) {
+        ksys::act::ActorConstDataAccess accessor;
+        if (ksys::act::acquireActor(_20.at(i), &accessor))
+            count += accessor.isStateCalc();
+    }
+    if (count < 1) {
+        if (auto* chemical = mActor->sub_71011D8A44(0))
+            chemical->_14c = _3f8;
+        _460 = true;
+    }
+    sub_71002FF594(mActor);
 }
 
 // NON_MATCHING: the original selects between `flags | 0x40` and `flags & ~0x40` with a csel (one load of the

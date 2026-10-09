@@ -21,6 +21,8 @@ public:
 
 protected:
     void calc_() override;
+    // Full 0x710020d9b4 tracks links and updates this action's message senders.
+    void sub_710020D9B4();
 
     sead::FixedObjArray<ksys::act::BaseProcLink, 4> _20;
     // The original has another fixed object array and message senders in this block.
