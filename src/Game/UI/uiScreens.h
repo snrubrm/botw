@@ -62,6 +62,7 @@ extern bool sForceEnableGlidingSurfingRupee;
 namespace uking::ui {
 
 class TagProcessor;
+class Unk_710247bcb8;
 
 // The game's UI screen classes (CSV: ScreenBase / Screen / ScreenEx / Screen<Name>, IDA placeholder
 // names; the namespace is a guess). The chain eui::Screen <- ScreenBase <- Screen <- ScreenEx <-
@@ -685,7 +686,10 @@ public:
     /* 0x38f0 */ f32 _38f0;
     u8 _pad_38f4[0x3904 - 0x38f4];
     /* 0x3904 */ u8 _3904;
-    u8 _pad_3905[0x391c - 0x3905];
+    u8 _pad_3905[3];
+    // Setup 0x7100a2ce68 casts child 1 to Unk_710247bcb8 before storing this pointer.
+    /* 0x3908 */ Unk_710247bcb8* _3908;
+    u8 _pad_3910[0x391c - 0x3910];
     /* 0x391c */ u8 _391c;
     u8 _pad_391d[0x39e8 - 0x391d];
     /* 0x39e8 */ eui::ControlBase* _39e8;  // the control whose layout shows the number (T_Num_00)
@@ -697,6 +701,8 @@ public:
     void sub_7100A31BE0();
     // 0x7100a31c64: forwards to the existing gauge-frame getter.
     f32 sub_7100A31C64() const;
+    // 0x7100a31c74: read-only forwarding query; const spelling is inferred.
+    eui::Animator* sub_7100A31C74() const;
     bool sub_7100A31C1C() const;
     // 0x7100a31988 (placeholder name): forwards to the member at 0x39f8
     void sub_7100A31988(bool flag);
