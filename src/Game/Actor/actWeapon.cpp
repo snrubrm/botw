@@ -1347,7 +1347,8 @@ void Weapon::sub_71002EDA38(const Unk_71002eda38& arg) {
     _af8._38 = arg._38;
     _af8._8 = arg._8;
     _af8._14 = arg._14;
-    _af8._20 = arg._20;
+    // C++14 evaluation order: the original evaluates the destination first
+    _af8._20.operator=(arg._20);
     _af8._3c = arg._3c;
     _af8._40 = arg._40;
     _b40 = true;
