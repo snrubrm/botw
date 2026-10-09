@@ -26,6 +26,8 @@
 #include "KingSystem/Resource/resUnitPool.h"
 #include "KingSystem/System/OverlayArena.h"
 
+class DungeonPackMgr;
+
 namespace sead {
 class Heap;
 class Resource;
@@ -338,6 +340,7 @@ private:
     };
 
     friend bool isCompactionStopped();
+    friend class ::DungeonPackMgr;
     friend sead::TaskBase* sead::TTaskFactory<ResourceMgrTask>(const sead::TaskConstructArg&);
 
     explicit ResourceMgrTask(const sead::TaskConstructArg& arg);

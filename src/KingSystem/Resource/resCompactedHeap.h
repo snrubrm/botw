@@ -5,6 +5,8 @@
 #include <thread/seadCriticalSection.h>
 #include "KingSystem/Utils/Types.h"
 
+class DungeonPackMgr;
+
 namespace ksys::res {
 
 // TODO: very incomplete
@@ -62,13 +64,15 @@ public:
     void x_5();
 
 private:
+    friend class ::DungeonPackMgr;
     virtual ~CompactedHeap();
 
     u8 _8[0x5c90 - 0x8];
     s32 _5c90;
     sead::Atomic<s32> mCompactionCount;
     void* _5c98;
-    u32 _5ca0;
+    // 8A5700 adds these sizes after widening each signed word.
+    s32 _5ca0;
     u8 _5ca4[0x5cb8 - 0x5ca4];
     s32 _5cb8;
     u8 _5cbc[0x5cf8 - 0x5cbc];
