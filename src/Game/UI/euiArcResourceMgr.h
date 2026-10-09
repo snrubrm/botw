@@ -39,6 +39,9 @@ public:
         /* 0x98 */ nn::gfx::ResTextureFile* mTextureResource;
     };
 
+    // 0x710140818c: finalizes initialized shaders in an archive.
+    static void finalizeInitializedShaderResource(void* data);
+
     ArcResourceMgr();
     virtual ~ArcResourceMgr();
     virtual void loadArchivesInDirectory(sead::Heap* heap, const sead::SafeString& path);
