@@ -43,9 +43,8 @@ struct Unk_SandwormTackleTarget {
 };
 KSYS_CHECK_SIZE_NX150(Unk_SandwormTackleTarget, 0x60);
 
-// Actor plus a two-element list of targets (names are guesses). The member functions are
-// declared only (0x71f6dc, 0x71f858, 0x71fefc, 0x71ff70); SandwormJumpTackle has the same object
-// at 0xc0.
+// Actor plus a two-element list of targets (names are guesses). SandwormJumpTackle has
+// the same object at 0xc0.
 struct Unk_SandwormTackleMoveList {
     explicit Unk_SandwormTackleMoveList(ksys::act::Actor* actor) : mActor(actor) {}
 

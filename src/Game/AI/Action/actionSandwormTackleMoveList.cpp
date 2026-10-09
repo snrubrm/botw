@@ -1,9 +1,33 @@
 #include "Game/AI/Action/actionSandwormTackleMove.h"
+#include "Game/Actor/actEnemy.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
+
+const sead::SafeString& sub_71002CCC20(s32 idx);
 
 // Out of line in the original (a TU of its own around 0x71f6dc); kept apart from the actions so that their destructors
 // do not inline these helpers.
 namespace uking::action {
+
+bool Unk_SandwormTackleMoveList::sub_71F6DC(sead::Heap* heap) {
+    auto* enemy = sead::DynamicCast<uking::act::Enemy>(mActor);
+    if (!enemy)
+        return false;
+
+    auto* target = new (heap, 8) Unk_SandwormTackleTarget(enemy);
+    if (!target)
+        return false;
+    mTargets.pushBack(target);
+    target->_48 = sub_71002CCC20(0);
+    if (!target->sub_710073E45C(heap, sead::SafeString::cEmptyString))
+        return false;
+
+    auto* target2 = new (heap, 8) Unk_SandwormTackleTarget(enemy);
+    if (!target2)
+        return false;
+    mTargets.pushBack(target2);
+    target2->_48 = sub_71002CCC20(1);
+    return target2->sub_710073E45C(heap, sead::SafeString::cEmptyString);
+}
 
 // Deletes all targets (called from the owners' destructors).
 void Unk_SandwormTackleMoveList::sub_71F858() {
