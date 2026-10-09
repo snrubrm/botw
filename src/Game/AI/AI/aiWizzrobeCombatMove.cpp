@@ -1,5 +1,9 @@
 #include "Game/AI/AI/aiWizzrobeCombatMove.h"
 #include "Game/AI/aiUnk_71007377D4.h"
+#include "Game/AI/aiUnk_71007368A4.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include <math/seadBoundBox.h>
+#include <cmath>
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/AI/aiUnk_71006F5B14.h"
 #include "Game/Actor/actEnemy.h"
@@ -151,6 +155,64 @@ void WizzrobeCombatMove::sub_71005FD0AC() {
     if (sead::IsDerivedFrom<uking::dmg::DamageManager>(damage))
         static_cast<uking::dmg::DamageManager*>(damage)->_212 &= ~0x10;
     _c8 = false;
+}
+
+// NON_MATCHING: vector copies, ray argument scheduling and terminal-hit branches differ.
+void WizzrobeCombatMove::sub_71005FD564() {
+    const sead::Vector3f actor_position = mActor->getMtx().getTranslation();
+    const sead::Vector3f ray_start{actor_position.x, actor_position.y + 0.1f, actor_position.z};
+    mMoveOffset = sead::Vector3f::zero;
+    if (_bc < _c0) {
+        const f32 angle = static_cast<s32>(sead::GlobalRandom::instance()->getU32(360)) / 360.0f *
+                          (2.0f * sead::Mathf::pi());
+        const f32 distance = sead::GlobalRandom::instance()->getF32Range(*mMinDistXZ_s,
+                                                                       *mMaxDistXZ_s + 1.0f);
+        mMoveOffset.x = cosf(angle) * distance;
+        mMoveOffset.z = sinf(angle) * distance;
+        mMoveOffset.y = *mDistY_s;
+        sead::Vector3f hit;
+        if (sub_71005FD24C(&hit, ray_start, mTargetPosition + mMoveOffset))
+            mMoveOffset = hit - mTargetPosition;
+        if (sead::Vector2f{mTargetPosition.x + mMoveOffset.x - actor_position.x,
+                           mTargetPosition.z + mMoveOffset.z - actor_position.z}.length() <
+            *mRetryLength_s) {
+            mMoveOffset.x = distance * cosf(angle + sead::Mathf::pi());
+            mMoveOffset.z = distance * sinf(angle + sead::Mathf::pi());
+            mMoveOffset.y = *mDistY_s;
+            if (sub_71005FD24C(&hit, ray_start, mTargetPosition + mMoveOffset))
+                mMoveOffset = hit - mTargetPosition;
+            if (sead::Vector2f{mTargetPosition.x + mMoveOffset.x - actor_position.x,
+                               mTargetPosition.z + mMoveOffset.z - actor_position.z}.length() <
+                *mRetryLength_s) {
+                mTargetPosition = actor_position;
+                mMoveOffset = {0, 2, 0};
+            }
+        }
+    } else {
+        mTargetPosition = actor_position;
+        f32 height = 0.0f;
+        if (auto* body = sub_71007394DC(mActor)) {
+            sead::BoundBox3f box;
+            body->getAabbInLocal(&box);
+            height = box.getSizeY();
+        }
+        mMoveOffset = {0, 2, 0};
+        sead::Vector3f upper_hit;
+        if (sub_71005FD24C(&upper_hit, ray_start,
+                          {mTargetPosition.x + mMoveOffset.x,
+                           height + mTargetPosition.y + mMoveOffset.y,
+                           mTargetPosition.z + mMoveOffset.z})) {
+            upper_hit.y -= height;
+            mMoveOffset = {0, -2, 0};
+            sead::Vector3f lower_hit;
+            if (sub_71005FD24C(&lower_hit, ray_start, mTargetPosition + mMoveOffset)) {
+                if ((upper_hit - actor_position).length() > (lower_hit - actor_position).length())
+                    mMoveOffset = upper_hit;
+                else
+                    mMoveOffset = lower_hit;
+            }
+        }
+    }
 }
 
 // 0x71005fd24c
