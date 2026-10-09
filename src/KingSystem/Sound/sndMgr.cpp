@@ -22,6 +22,10 @@ sead::Thread* SoundMgr::sub_71011FC348() {
     return thread;
 }
 
+xlink2::HandleSLink sub_710105DF10(const sead::SafeString& label) {
+    return SoundMgr::instance()->_90->sub_710104F30C(label);
+}
+
 void SoundMgr::sub_71011FC394(sead::Thread* thread) {
     thread->quitAndDestroySingleThread(false);
     if (auto* system = phys::System::instance())

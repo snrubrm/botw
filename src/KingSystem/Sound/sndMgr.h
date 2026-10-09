@@ -674,4 +674,7 @@ public:
     sead::Heap* _278;
 };
 
+// Sound helper 105DF10 forwards a label to the dialogue sound user instance.
+xlink2::HandleSLink sub_710105DF10(const sead::SafeString& label);
+
 }  // namespace ksys::snd
