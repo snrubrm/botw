@@ -18,6 +18,51 @@ bool CameraLockOnBase::m32(sead::Heap* heap) {
     return m42(heap);
 }
 
+// NON_MATCHING: scalar/vector copies and parameter-load scheduling differ.
+void CameraLockOnBase::m33() {
+    _1b0 = sead::Mathf::clampMin(*mDistMin_s, 0.0f);
+    const f32 far_distance = *mDistMax_s;
+    _1b4 = far_distance < _1b0 ? _1b0 : far_distance;
+    const f32 effect = *mLatVDiffEffect_s;
+    _1b8 = !std::isnan(effect) && effect >= 0.0f ? sead::Mathf::clampMax(effect, 1.0f) : 0.0f;
+    _e4 = sub_7100924D40(*mRadiusNear_s);
+    _e8 = sub_7100924D40(*mRadiusFar_s);
+    _1bd = _1bc;
+    _f4 = -1;
+    _f8 = -1;
+    if (auto* camera = getCamera()) {
+        const sead::Vector3f delta = camera->_860._0._0 - camera->_860._0._c;
+        _bc = 0.0f;
+        _c0 = 0.0f;
+        _c4 = 0.0f;
+        _c8 = -90.0f;
+        _cc = angleStuff(sead::Mathf::rad2deg(std::atan2(delta.y,
+            std::sqrt(delta.x * delta.x + delta.z * delta.z))));
+        _d0 = angleStuff(sead::Mathf::rad2deg(std::atan2(delta.x, delta.z)));
+        _ec = delta.length();
+        _1be = 2;
+        _f0 = 0.0f;
+        m43();
+        camera->_860._7f8.reset(1);
+    }
+}
+
+// NON_MATCHING: variation and scalar load scheduling differ.
+void CameraLockOnBase::sub_7100786830(f32* out) {
+    f32 scale = 1.0f;
+    f32 offset = 1.0f;
+    const bool varied = m55(&scale, &offset);
+    f32 latitude = _a0._10 + sead::lerp(*mLatOffsetNear_s, *mLatOffsetFar_s, _b8);
+    if (varied) {
+        const f32 sign = latitude > 0.0f ? 1.0f : -1.0f;
+        latitude = sign * (offset + sead::Mathf::abs(scale) * sead::Mathf::abs(latitude));
+    }
+    latitude -= _88._10;
+    f32 min = 0.0f, max = 0.0f;
+    sub_7100924CDC(*mLatMin_s, *mLatMax_s, &min, &max);
+    *out = angleStuff(sead::Mathf::clamp(latitude, min, max));
+}
+
 void CameraLockOnBase::m36() {
     getStaticParam(&mDistMin_s, "distMin");
     getStaticParam(&mDistMax_s, "distMax");
