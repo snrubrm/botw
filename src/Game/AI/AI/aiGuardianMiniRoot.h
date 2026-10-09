@@ -13,6 +13,7 @@ namespace uking::ai {
 bool sub_71004282EC(ksys::act::Actor* actor);
 
 // Placeholder name (vtable 0x71023f94c0; D1 is the base's, D0 0x7100428da0). GuardianMiniRoot::_398.
+// NON_MATCHING: the implicit deleting destructor calls the existing out-of-line base cleanup.
 class Unk_71023f94c0 : public Unk_7102366570 {
 public:
     // 0x7100428c74 (declaration only)

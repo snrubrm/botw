@@ -308,6 +308,16 @@ public:
     Unk_71023f83e8_Payload _18;
 };
 
+// vtable 0x71023f94f8 (GuardianMiniRoot); message 0x8000047
+class Unk_71023f94f8 : public Unk_7102357d20 {
+public:
+    using Unk_7102357d20::Unk_7102357d20;
+    void* m2() override;
+
+    Unk_7102450738_Payload _18;
+};
+KSYS_CHECK_SIZE_NX150(Unk_71023f94f8, 0x20);
+
 // vtable 0x71023b1608 (PullOut); message 0x800001b
 class Unk_71023b1608 : public Unk_7102357d20 {
 public:

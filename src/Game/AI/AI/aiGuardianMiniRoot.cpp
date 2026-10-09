@@ -3,7 +3,61 @@
 #include "KingSystem/ActorSystem/actAiRoot.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/AI/aiUnk_7102357d20.h"
+#include "Game/Actor/actModelMaterialUtil.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/Resource/Actor/resResourceGParamList.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectGuardianMini.h"
+
+void sub_7100428358(ksys::act::Actor* actor, bool enabled, s32 slot);
+
+void* Unk_71023f94f8::m2() {
+    return &_18;
+}
+
+void sub_7100428738(ksys::act::Actor* actor, bool visible) {
+    auto* model = actor->getModel();
+    if (!model)
+        return;
+    const auto* mini = actor->getParam()->getRes().mGParamList->getGuardianMini();
+    const sead::SafeString materials = mini ? mini->mBodyMatName.ref() : sead::SafeString::cEmptyString;
+    if (materials.isEmpty())
+        return;
+    for (auto it = materials.tokenBegin(","); materials.tokenEnd(",") != it; ++it) {
+        sead::FixedSafeString<32> material;
+        it.get(&material);
+        if (!material.isEmpty()) {
+            const auto key = model->searchMaterial(material);
+            if (key.isValid())
+                uking::act::setMaterialVisible(model, key, visible);
+        }
+    }
+}
+
 namespace uking::ai {
+
+void Unk_71023f94c0::call(ksys::act::Actor* actor) {
+    auto* model = actor->getModel();
+    if (!model)
+        return;
+    model->setMaterialVisibleAll(false);
+    const bool special = sub_71005D8B60(actor);
+    sub_7100428738(actor, true);
+    if (!special) {
+        sub_7100428358(actor, true, 0);
+        sub_7100428358(actor, true, 1);
+        sub_7100428358(actor, true, 2);
+    }
+    auto* as_list = actor->getASList();
+    if (!as_list)
+        return;
+    as_list->startAnimationMaybe(-1.0f, -1.0f, "ChangeColor", 0, 2, true);
+    if (const auto* mini = actor->getParam()->getRes().mGParamList->getGuardianMini())
+        as_list->x_3(0, 2, &ksys::as::ASList::Unk2::sub_7101163298, mini->mColorType.ref());
+    as_list->x_3(0, 2, &ksys::as::ASList::Unk2::sub_7101163100, 0.0f);
+}
 
 GuardianMiniRoot::GuardianMiniRoot(const InitArg& arg) : EnemyRoot(arg) {}
 
