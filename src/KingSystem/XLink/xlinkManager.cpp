@@ -19,6 +19,18 @@ void Manager::setGlobalProperty(u32 property, f32 value) {
     xlink2::SystemSLink::instance()->setGlobalPropertyValue(property, value);
 }
 
+s32 Manager::getNumSubMaterials() {
+    return mNumSubMaterials;
+}
+
+const char* Manager::getSubMaterialName(s32 index) {
+    return mSubMaterialNames[index].cstr();
+}
+
+s32 Manager::getSubMaterialIndex(s32 material, s32 subMaterial) {
+    return mSubMaterialOffsets[material] + subMaterial;
+}
+
 void Manager::queueSleep(XLink* xlink) {
     sead::ScopedLock<sead::CriticalSection> lock(&mSleepLock);
     if (!xlink->mSleepNode.isLinked())
