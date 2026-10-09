@@ -9,8 +9,26 @@ class ResFile;
 }
 
 namespace gsys {
-class IModelResourceCallback;
 class ModelShaderArchive;
+
+// BfRes +38 is a borrowed callback receiver (11FE614); its constructor and
+// destructor install four-slot tables with no virtual destructor slots.
+class IModelResourceCallback {
+public:
+    // Reconstructed names for native argument records; their layouts stay opaque.
+    // C0B778/C0C024 produce {ResFile*, ModelResource*} for slots 0/1.
+    struct ResourceArg;
+    // C6F5EC produces a variation key, two selectors, model, material and shape
+    // for slot 2; 1200AC0 consumes the same record.
+    struct ShaderAssignArg;
+    // C811C0 produces {G3dResMaterialEx*, render-info receiver} for slot 3.
+    struct MaterialArg;
+
+    virtual void m0(const ResourceArg& arg, sead::Heap* heap);
+    virtual void m1(const ResourceArg& arg);
+    virtual void m2(const ShaderAssignArg& arg);
+    virtual void m3(const MaterialArg& arg);
+};
 
 // Constructor c0b778 and the secondary host-I/O vtable establish these bases.
 // Only the independently recovered resource prefix is modeled here.
