@@ -1,6 +1,10 @@
 #include "Game/gameStageBinder.h"
+#include "Game/gameStageFactory.h"
 
 namespace uking {
+
+StageFactory::StageFactory() = default;
+StageFactory::~StageFactory() = default;
 
 StageBinder::StageBinder() : mStage(nullptr) {}
 
