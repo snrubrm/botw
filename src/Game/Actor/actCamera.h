@@ -460,6 +460,7 @@ public:
 
     // 0x71007953c8: moves _860._0._28 towards 0 (unless sub_7100922078()).
     void sub_71007953C8();
+    void setSunazarashiTurnParam(const f32& value);
     // 0x71007929e0: copies camera state _860._e0 into _860._0 / _38 / _70 / _a8 (and its look-at
     // point into _860._150), resets _1240, _860 and some flags, and the unused _860._7c0 link.
     void sub_71007929E0();
