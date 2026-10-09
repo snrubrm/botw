@@ -6,6 +6,10 @@ class hkSweptTransformf {
 public:
     hkSweptTransformf() {}
 
+    // Native 0x710177ED10 reads this swept transform and writes only transformOut.
+    // Full motion forwarder 0x7101606890 passes time and the output transform.
+    void sub_710177ED10(hkTime time, hkTransformf& transformOut) const;
+
     HK_FORCE_INLINE hkTime getBaseTime() const;
     HK_FORCE_INLINE hkSimdFloat32 getBaseTimeSr() const;
 

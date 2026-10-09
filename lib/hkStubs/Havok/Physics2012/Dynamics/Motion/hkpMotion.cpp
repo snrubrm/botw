@@ -14,10 +14,9 @@ hkReal hkpMotion::getMass() const {
     return inverseMass.isEqualZero() ? 0.0f : inverseMass.reciprocal().val();
 }
 
-// NON_MATCHING: vector component setter stores the complete vector.
 // 0x7101606820
 void hkpMotion::setMassInv(hkReal inverseMass) {
-    m_inertiaAndMassInv.setW(inverseMass);
+    m_inertiaAndMassInv(3) = inverseMass;
 }
 
 // 0x7101606964
@@ -71,4 +70,14 @@ void hkpMotion::setPositionAndRotation(const hkVector4& position, const hkQuater
 // 0x7101606880
 void hkpMotion::setTransform(const hkTransform& transform) {
     hkSweptTransformUtil::sub_7101582984(transform, m_motionState);
+}
+
+// 0x7101606828
+void hkpMotion::setMassInv(hkSimdRealParameter inverseMass) {
+    m_inertiaAndMassInv.setW(inverseMass);
+}
+
+// 0x7101606890
+void hkpMotion::approxTransformAt(hkTime time, hkTransform& transform) {
+    m_motionState.getSweptTransform().sub_710177ED10(time, transform);
 }
