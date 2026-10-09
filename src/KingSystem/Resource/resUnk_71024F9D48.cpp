@@ -39,8 +39,7 @@ bool Unk_71024f9a08::sub_7100FE0C38(const LoadArg& arg) {
 }
 
 
-// NON_MATCHING: the existing SDK StringBuilder reverse-search inline differs,
-// and the transfer record uses separate field stores instead of a native halfword clear.
+// NON_MATCHING: reverse-search loop induction/branch layout and stack record allocation.
 bool Unk_71024f9a08::sub_7100FE0860(const LoadArg& arg) {
     auto* texture = arg.texture;
     if (sub_7100FDDBFC(texture) == 0)
