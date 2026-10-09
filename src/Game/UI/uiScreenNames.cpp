@@ -1,5 +1,7 @@
 #include "Game/UI/uiScreens.h"
 #include "Game/UI/euiLayoutEx.h"
+#include "Game/UI/euiTagProcessor.h"
+#include "Game/UI/uiUtils.h"
 
 // Slot 15 of the leaf classes: the name of the layout resource (<Name>_00).
 namespace uking::ui {
@@ -147,6 +149,22 @@ const char* ScreenMainDungeon::getLayoutName_() const {
 // 0x71010a8afc
 const char* ScreenMessageTips::getLayoutName_() const {
     return "MessageTips_00";
+}
+
+// 0x71010a4f8c
+void ScreenMainDungeon::m93(sead::Heap* heap) {
+    _2fc = 3;
+    _300 = 3;
+    _9d0 = sub_7100BEAFB0("Pa_Message_00");
+    _9d8 = sub_7100BEAFB0("Pa_Title_00");
+    _9e0 = sub_7100BEAFB0("Pa_LocationNameS_00");
+    _9e8 = ScreenBase::doCreateTagProcessor_(heap);
+    _9e8->setRubyEnabled(true);
+    _9d0->SetTagProcessor(_9e8);
+    _9f0 = sub_7100986160(_9d0, "N_Capture_00");
+    _9f8 = sub_7100986160(_9d0, "N_Capture_01");
+    _a00 = sub_7100986160(_9d8, "N_Capture_00");
+    _a08 = sub_7100986160(_9e0, "N_Capture_00");
 }
 
 // 0x71010a53f0

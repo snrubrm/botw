@@ -30,6 +30,10 @@
 #include "KingSystem/Utils/StateMachine.h"
 #include "KingSystem/Utils/Thread/ActorMessageTransceiver.h"
 
+namespace eui {
+class CapturePane;
+}
+
 namespace sead {
 class Thread;
 }
@@ -1162,6 +1166,7 @@ public:
     SEAD_RTTI_OVERRIDE(ScreenMainDungeon, Screen)
     // 0x71010a486c
     const char* getLayoutName_() const override;
+    void m93(sead::Heap* heap) override;
     eui::TagProcessor* doCreateTagProcessor_(sead::Heap* heap) override;
 
     // 0x71010a4f24 / 0x71010a4f3c / 0x71010a4f64 (placeholder names): state changes that close the screen
@@ -1179,6 +1184,12 @@ public:
     /* 0x9d0 */ eui::LayoutEx* _9d0;
     /* 0x9d8 */ eui::LayoutEx* _9d8;
     /* 0x9e0 */ eui::LayoutEx* _9e0;
+    // 0x71010a4560 initializes these pointers; setup 10a4f8c and update 10a506c use them.
+    /* 0x9e8 */ eui::TagProcessor* _9e8;
+    /* 0x9f0 */ eui::CapturePane* _9f0;
+    /* 0x9f8 */ eui::CapturePane* _9f8;
+    /* 0xa00 */ eui::CapturePane* _a00;
+    /* 0xa08 */ eui::CapturePane* _a08;
 };
 
 // The fade screen (id 78): a full-screen fade that can also show a loading tip; its tip texts are queued in a ring
