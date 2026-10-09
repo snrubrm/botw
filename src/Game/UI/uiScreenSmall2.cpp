@@ -181,8 +181,6 @@ void ScreenDoCommand::m100() {
 
 bool sub_7100AA8F50();
 
-// NON_MATCHING: the `closing` flag is or-ed into the camera check here; the original tests the camera rune first and
-// or-s `closing` with the remote bomb bit.
 // 0x7100a081f8: closes the screen when the camera rune is selected, the gamedata check fails while it is closing, or the
 // remote bomb state bit is set
 void ScreenDoCommand::m130() {
@@ -190,7 +188,7 @@ void ScreenDoCommand::m130() {
     const bool camera = (RuneMgr::instance()->_94 & 0x20) && (RuneMgr::instance()->_90 & 0x10) &&
                         RuneMgr::instance()->isSelectedRune(5);
     if (camera ||
-        (closing || ((RuneMgr::instance()->_94 & 0x80) && (RuneMgr::instance()->_90 & 0x20)))) {
+        (closing | ((RuneMgr::instance()->_94 & 0x80) && (RuneMgr::instance()->_90 & 0x20)))) {
         close(-4);
         sub_7100AA9808(mLayout->GetPane());
     }
