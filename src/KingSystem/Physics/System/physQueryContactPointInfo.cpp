@@ -18,13 +18,10 @@ void QueryContactPointInfo::free(QueryContactPointInfo* info) {
 
 QueryContactPointInfo::~QueryContactPointInfo() = default;
 
-// NON_MATCHING: reordering
 void QueryContactPointInfo::Iterator::getHitPosition(sead::Vector3f* out,
                                                      const ShapeCast& shape_cast) const {
     float distance = getPoint()->separating_distance;
-    auto start = shape_cast.getStart();
-    auto end = shape_cast.getEnd();
-    *out = start + (end - start) * distance;
+    out->setScaleAdd(distance, shape_cast.getEnd() - shape_cast.getStart(), shape_cast.getStart());
 }
 
 sead::Vector3f QueryContactPointInfo::Iterator::getHitPosition(const ShapeCast& shape_cast) const {
