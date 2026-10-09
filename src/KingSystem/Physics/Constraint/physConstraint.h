@@ -58,8 +58,10 @@ public:
     // because 0x7100f6a69c spills its index parameter like SEAD_ENUM parameters do).
     SEAD_ENUM(BodyIndex, _0, _1)
 
-    // FIXME: types
-    Constraint();
+    // Whole FixedCs factory 0x7100f6d070 supplies the instance, resolved bodies,
+    // a word argument by reference, and the optional breakable holder.
+    Constraint(hkpConstraintInstance* instance, RigidBody* body_a, RigidBody* body_b,
+               const u32& value, ConstraintUnk18* breakable);
     virtual ~Constraint();
 
     /// No-op if instance is null.

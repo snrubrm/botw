@@ -9,6 +9,21 @@
 
 namespace ksys::phys {
 
+Constraint::Constraint(hkpConstraintInstance* instance, RigidBody* body_a, RigidBody* body_b,
+                       const u32& value, ConstraintUnk18* breakable)
+    : mConstraintInstance(instance), _10(value), _18(breakable), _20(nullptr), _28(nullptr),
+      _50(0), _52(0), _98(1.0f), _9c(1.0f), _a0(nullptr) {
+    mCurrentBodies[0] = System::instance()->get190();
+    mCurrentBodies[1] = nullptr;
+    mPendingBodies[0] = body_a;
+    mPendingBodies[1] = body_b;
+    mConstraintInstance->setUserData(reinterpret_cast<hkUlong>(this));
+    if (mConstraintInstance->getPriority() == hkpConstraintInstance::PRIORITY_TOI)
+        _50 |= 0x10;
+    if (_18)
+        _18->_10 = mConstraintInstance;
+}
+
 // NON_MATCHING: regalloc (this and &mCS swap x19 / x20); same with a ScopedLock
 void Constraint::sub_7100F6A228() {
     mCS.lock();
