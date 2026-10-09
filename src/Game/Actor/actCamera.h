@@ -150,6 +150,15 @@ public:
         /* 0x04 */ SavePoint _4;
     };
 
+    // 79A884 updates the 8-byte listener-state subobject passed by Camera::x_1.
+    struct ListenerState {
+        void sub_710079A884();
+        s32 mode = 0;
+        bool _4 = false;
+        bool valid = false;
+        u8 _6[2]{};
+    };
+
     Unk_710079a8e8();
     // 0x7100792408
     ~Unk_710079a8e8();
@@ -270,10 +279,7 @@ public:
     /* 0x6f0 */ sead::SafeArray<f32, 3> _6f0{};
     /* 0x6fc */ sead::Matrix34f _6fc = sead::Matrix34f::ident;
     /* 0x72c */ Unk72c _72c{};
-    /* 0x7b4 */ u32 _7b4 = 0;
-    /* 0x7b8 */ u8 _7b8 = 0;
-    /* 0x7b9 */ u8 _7b9 = 0;
-    /* 0x7ba */ u8 _7ba[2]{};
+    /* 0x7b4 */ ListenerState _7b4;
     // Indexed by _81a (current) and (_81a + 1) % 2 (with the SafeArray bounds clamp).
     /* 0x7c0 */ sead::SafeArray<ksys::act::BaseProcLink, 2> _7c0{};
     /* 0x7e0 */ f32 _7e0 = -1.0;

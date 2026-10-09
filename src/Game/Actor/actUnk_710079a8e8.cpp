@@ -6,8 +6,21 @@
 #include <mc/seadCoreInfo.h>
 #include "Game/Actor/actCamera.h"
 #include "KingSystem/Utils/MathUtil.h"
+#include "KingSystem/Sound/sndMgr.h"
 
 namespace uking::act {
+
+void Unk_710079a8e8::ListenerState::sub_710079A884() {
+    auto* sound = ksys::snd::SoundMgr::instance();
+    if (!sound)
+        return;
+    auto* poser = sound->_58;
+    if (!poser)
+        return;
+    mode = poser->_78;
+    _4 = !poser->_70;
+    valid = true;
+}
 
 void Unk_710079a8e8::SavePoint::save(const Unk_710079a8e8& camera) {
     _0 = camera._0;
@@ -176,7 +189,7 @@ void Unk_710079a8e8::sub_710079BEA8() {
 }
 
 void Unk_710079a8e8::sub_710079BEB4() {
-    _7b9 = 0;
+    _7b4.valid = false;
 }
 
 bool Unk_710079a8e8::sub_710079BEBC() const {

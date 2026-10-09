@@ -120,6 +120,11 @@ void Camera::m157(void* a1, const sead::Matrix34f& mtx) {
     _1090 = mtx;
 }
 
+void Camera::x_1(u8) {
+    _860._72c._4.save(_860);
+    _860._7b4.sub_710079A884();
+}
+
 void Camera::setSunazarashiTurnParam(const f32& value) {
     _860.sub_710079BDC4(value);
 }
