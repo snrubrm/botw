@@ -10,6 +10,15 @@ class CameraLockOnBase;
 #include "KingSystem/Utils/Thread/Task.h"
 #include "KingSystem/Utils/Thread/TaskData.h"
 
+namespace sead {
+class Heap;
+}
+
+namespace uking {
+class Stage;
+class StageBinder;
+}
+
 // Placeholder classes (lane4 s47) for vtables of the original that have no name: every class here has only trivial
 // virtual functions (the destructor is empty, the other slots are constant results). The name is the address of
 // the vtable; the class is only defined so that its RTTI functions, destructors and stubs can be matched.
@@ -70,12 +79,19 @@ public:
     virtual ~Unk_710245a578();
 };
 
-// vtable 0x710245bee0 (4 slots)
+// Vtable 0x710245bee0 (4 slots). StageBinder::createStage at 7CBC5C constructs this request;
+// StageFactory::create at 7CBEAC reads its heap/binder and writes the stage output.
 class Unk_710245bee0 {
     SEAD_RTTI_BASE(Unk_710245bee0)
 public:
     virtual ~Unk_710245bee0();
+
+    /* 0x08 */ bool _8;
+    /* 0x10 */ sead::Heap* mHeap;
+    /* 0x18 */ uking::Stage** mStage;
+    /* 0x20 */ uking::StageBinder* mBinder;
 };
+static_assert(sizeof(Unk_710245bee0) == 0x28);
 
 // vtable 0x710245c6b8 (4 slots)
 class Unk_710245c6b8 {
