@@ -36,6 +36,17 @@ bool HorseRide::sub_71001ADA78() const {
     return true;
 }
 
+void HorseRide::sub_71001AD8A0(const char* name, bool a2) {
+    auto* as_list = mActor->getASList();
+    if (!as_list)
+        return;
+    if (a2 && as_list->x_1(*mUpperBodyASSlot_s, 0) == name)
+        return;
+    as_list->startAnimationMaybe(-1.0f, -1.0f, name, *mUpperBodyASSlot_s, 0, true);
+    if (as_list->x_1(*mLowerBodyASSlot_s, 0) == name)
+        as_list->sub_710115F158(as_list, *mUpperBodyASSlot_s, *mLowerBodyASSlot_s, 0, 0);
+}
+
 void HorseRide::sub_71001ADAA0(const sead::Vector3f& target) {
     sub_71005D73F8(mActor, target);
 }
