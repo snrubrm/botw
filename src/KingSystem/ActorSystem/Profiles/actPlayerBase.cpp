@@ -589,14 +589,14 @@ bool PlayerBase::x_2() const {
     return false;
 }
 
-// NON_MATCHING: the original calls the virtual operator=(const SafeStringBase&); lib/sead's
-// BufferedSafeStringBase has no copy assignment forwarding to it, so ours is the implicit memberwise one
 bool PlayerBase::getLastDamageAttacker(sead::BufferedSafeString* name) const {
     auto* player = getPlayerBase();
     if (!player)
         return false;
     debugLog(0, "getLastDamageAttacker");
-    *name = player->_da0;
+    // Use the virtual text-copy overload rather than BufferedSafeString member assignment.
+    // C++14 evaluation order: the original evaluates the destination first.
+    name->operator=(static_cast<const sead::SafeString&>(player->_da0));
     return true;
 }
 
