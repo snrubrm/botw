@@ -12,17 +12,16 @@ bool LynelArrowAttackSelectBase::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
 }
 
-// NON_MATCHING: the target duplicates the flag-set + changeChild block into both predecessors
 void LynelArrowAttackSelectBase::enter_(ksys::act::ai::InlineParamPack* params) {
-    if (!(*mLynelAIFlags_a & 0x20)) {
-        const s32 state = sub_71005D9744(mActor);
-        if (state == 2 || state == 3) {
-            changeChild("通常撃ち", params);
-            return;
-        }
+    if (*mLynelAIFlags_a & 0x20) {
+        changeToShootUp(params);
+        return;
     }
-    *mLynelAIFlags_a |= 0x20;
-    changeChild("上空撃ち", params);
+    const s32 state = sub_71005D9744(mActor);
+    if (state == 2 || state == 3)
+        changeChild("通常撃ち", params);
+    else
+        changeToShootUp(params);
 }
 
 void LynelArrowAttackSelectBase::changeToShootUp(ksys::act::ai::InlineParamPack* params) {
