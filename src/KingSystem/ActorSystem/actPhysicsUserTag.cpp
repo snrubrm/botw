@@ -1,4 +1,5 @@
 #include "KingSystem/ActorSystem/actPhysicsUserTag.h"
+#include <math/seadMathCalcCommon.h>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
@@ -12,6 +13,20 @@ namespace ksys::act {
 PhysicsUserTag::PhysicsUserTag(Actor* actor) : mActor(actor) {}
 
 PhysicsUserTag::~PhysicsUserTag() = default;
+
+// NON_MATCHING: equivalent branches and float comparisons; the original schedules the saved factor
+// load and store within the type branches, while ours shares them.
+void PhysicsUserTag::m5(Unk5* arg) {
+    if (arg->_20->getType() == phys::RigidBody::Type::Ragdoll)
+        return;
+    auto* actor = mActor;
+    const f32 previous_factor = actor->_6f4;
+    if (arg->_20->getType() != phys::RigidBody::Type::CharacterController || arg->_d != 4) {
+        actor->_6f8 = previous_factor;
+        actor->_6f4 = sead::Mathf::equalsEpsilon(arg->_44, 1.0f) ? 1.0f : arg->_44;
+    }
+    actor->sub_71011D587C(arg, previous_factor);
+}
 
 void PhysicsUserTag::onBodyShapeChanged(phys::RigidBody* body) {
     if (auto* physics = mActor->getPhysics())

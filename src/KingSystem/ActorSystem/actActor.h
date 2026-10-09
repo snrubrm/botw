@@ -431,6 +431,8 @@ public:
     void sub_71011CCB38();
     bool sub_71011D7194(s32 index);
     void sub_71011D7EC4(phys::RigidBody* body);
+    // D40620 passes the collision record and previous Actor6F4 factor; full3652B callee is void.
+    void sub_71011D587C(phys::UserTag::Unk5* arg, f32 previous_factor);
     // Sets mModelBindInfo (ignored while ActorFlag::_5 is set).
     void sub_71011DA824(ActorBind* info);
     // Clears mModelBindInfo (ignored while ActorFlag::_5 is set). `info` (the object passed to
@@ -843,6 +845,7 @@ protected:
     friend class ActorSystem;
     friend class ActorBind;  // sub_7100D3C5E0 reads _738 and mSpecialJobTypesMaskOverride
     friend class acc::WeaponBase;  // acc::WeaponBase::sub_7100EFA6B8 reads mSpecialJobTypesMaskOverride
+    friend class PhysicsUserTag;  // D40620 writes Actor6F4/6F8 before forwarding its collision record.
     friend struct ActorBindEntry;  // writes mMtx / mScale
     friend class uking::act::Unk_71024e8738;  // writes mMtx / mScale (ActorBind subclass copying a pose)
     friend class uking::action::KokkoCreateDrop;  // checks ActorX6A0 flags
