@@ -106024,10 +106024,10 @@ Address,Quality,Size,Name
 0x0000007101612cbc,L,000048,hkpRigidBody::setPosition
 0x0000007101612cec,L,000048,hkpRigidBody::setPositionAndRotation
 0x0000007101612d1c,L,000048,_ZN12hkpRigidBody12setTransformERK12hkTransformf
-0x0000007101612d4c,L,000020,hkpRigidBody::setMass
-0x0000007101612d60,L,000020,
-0x0000007101612d74,L,000020,
-0x0000007101612d88,L,000020,hkpRigidBody::setInertiaInvLocal
+0x0000007101612d4c,O,000020,_ZN12hkpRigidBody7setMassEf
+0x0000007101612d60,O,000020,_ZN12hkpRigidBody10setMassInvEf
+0x0000007101612d74,O,000020,_ZN12hkpRigidBody15setInertiaLocalERK10hkMatrix3f
+0x0000007101612d88,O,000020,_ZN12hkpRigidBody18setInertiaInvLocalERK10hkMatrix3f
 0x0000007101612d9c,L,000076,hkpKeyframedRigidMotion::hkpKeyframedRigidMotion
 0x0000007101612de8,L,000112,_ZN23hkpKeyframedRigidMotionD2Ev
 0x0000007101612e58,U,000192,

@@ -199,6 +199,7 @@ add_library(hkStubs OBJECT
   Havok/Physics2012/Dynamics/Constraint/Contact/hkpSimpleContactConstraintData.h
   Havok/Physics2012/Dynamics/Entity/hkpEntity.cpp
   Havok/Physics2012/Dynamics/Entity/hkpEntity.h
+  Havok/Physics2012/Dynamics/Entity/hkpRigidBody.cpp
   Havok/Physics2012/Dynamics/Entity/hkpRigidBody.h
   Havok/Physics2012/Dynamics/Entity/hkpRigidBodyCinfo.h
   Havok/Physics2012/Dynamics/Inertia/hkpInertiaTensorComputer.h
