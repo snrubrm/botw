@@ -81,4 +81,10 @@ void Unk_710251b6f0::requestUnloadMaybe() {
     mState = 0;
 }
 
+Unk_710251b710::Unk_710251b710() = default;
+
+Unk_710251b710::~Unk_710251b710() {
+    mQueue.freeBuffer();
+}
+
 }  // namespace ksys::snd
