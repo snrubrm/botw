@@ -1,7 +1,9 @@
 #include "Game/gameTipsMgr.h"
+#include <evfl/Action.h>
 #include <heap/seadExpHeap.h>
 #include "KingSystem/ActorSystem/actBaseProc.h"
 #include "KingSystem/Utils/HeapUtil.h"
+#include "KingSystem/GameData/gdtManager.h"
 #include "KingSystem/Resource/resLoadRequest.h"
 #include "KingSystem/Resource/resResourceMgrTask.h"
 
@@ -9,6 +11,31 @@
 const char* getTipString(s32 index);
 
 SEAD_SINGLETON_DISPOSER_IMPL(TipsMgr)
+
+void handler_TipsDisplayOK(const evfl::ActionArg& arg, evfl::ActionDoneHandler done) {
+    // 92026C binds the address of its bool result as actor user data.
+    if (auto* result = static_cast<bool*>(arg.actor_user_data))
+        *result = true;
+    done.Invoke();
+}
+
+void handler_TipsDisplayNG(const evfl::ActionArg& arg, evfl::ActionDoneHandler done) {
+    if (auto* result = static_cast<bool*>(arg.actor_user_data))
+        *result = false;
+    done.Invoke();
+}
+
+void handler_FlagOn(const evfl::ActionArg& arg, evfl::ActionDoneHandler done) {
+    ore::StringView flag;
+    arg.param_accessor.FindString(&flag, "FlagName");
+    if (auto* manager = ksys::gdt::Manager::instance())
+        manager->setBoolNoCheck(true, flag.data());
+    done.Invoke();
+}
+
+void handler_UnknownTipsAction(const evfl::ActionArg& arg, evfl::ActionDoneHandler done) {
+    done.Invoke();
+}
 
 TipsMgr::~TipsMgr() = default;
 
