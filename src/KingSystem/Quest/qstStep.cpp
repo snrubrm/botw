@@ -164,4 +164,43 @@ void Step::ActLink::sub_71012B4274() {
     link.reset();
 }
 
+// NON_MATCHING: order and register allocation of the _18 and Schedule pointer loads.
+void Step::ActLink::sub_71012B44F4(const sead::SafeString& name) {
+    const auto* aoc = uking::aoc::Manager::instance();
+    if ((!aoc || aoc->getVersion() == 0) && _1d != 0)
+        return;
+    if (!link.hasProc())
+        return;
+    auto* actor = sead::DynamicCast<act::Actor>(link.getProc(nullptr));
+    if (!actor || !actor->getSchedule())
+        return;
+    if (_30)
+        actor->getSchedule()->_f0 = *_30;
+    actor->getSchedule()->sub_7100D192C0(_40, name.cstr(), false);
+    actor->getSchedule()->_2ec = _18;
+    actor->getSchedule()->_12a = true;
+    actor->x_6();
+    actor->getActorFlags2().change(act::Actor::ActorFlag2::_100, _1c != 0);
+}
+
+bool Step::ActLink::sub_71012B43D0(act::Actor* actor, const sead::SafeString& name) {
+    if (link.hasProc()) {
+        sub_71012B44F4(name);
+        return link.hasProcById(actor);
+    }
+    if (!actor)
+        return false;
+    const char* unique = actor->getUniqueName();
+    if (unique) {
+        if (sead::SafeString(unique_name) != unique)
+            return false;
+    } else if (unique_name[0] != sead::SafeString::cNullChar) {
+        return false;
+    }
+    if (!link.acquire(actor, false))
+        return false;
+    sub_71012B44F4(name);
+    return true;
+}
+
 }  // namespace ksys::qst

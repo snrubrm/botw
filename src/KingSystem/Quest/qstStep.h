@@ -36,7 +36,8 @@ struct Step {
 
         // 0x00000071012b4274: releases the linked actor (clears the quest-link state of its schedule)
         void sub_71012B4274();
-        bool sub_71012B43D0(act::Actor* actor, const sead::SafeString& name) const;
+        bool sub_71012B43D0(act::Actor* actor, const sead::SafeString& name);
+        void sub_71012B44F4(const sead::SafeString& name);
 
         act::BaseProcLink link;
         u32 _18;

@@ -1,4 +1,13 @@
 #include "KingSystem/XLink/xlinkXLink.h"
+#include <aal/aalGroup.h>
+#include <aal/aalGroupMgr.h>
+#include <aal/aalSystemAccessor.h>
+#include <aal/aalSoundSource.h>
+#include <prim/seadScopedLock.h>
+#include <xlink2/xlink2AssetExecutorSLink.h>
+#include <xlink2/xlink2Event.h>
+#include <xlink2/xlink2SystemSLink.h>
+#include <xlink2/xlink2ResourceAccessorSLink.h>
 #include <xlink2/xlink2UserInstanceELink.h>
 #include <xlink2/xlink2UserInstanceSLink.h>
 
@@ -7,6 +16,58 @@ namespace ksys::xlink {
 void XLink::sub_710123051C(aal::IAssetInfoReadable* reader) {
     if (_50)
         _50->setAssetInfoReader(reader);
+}
+
+// NON_MATCHING: fading-list bound scheduling and loop register allocation.
+void XLink::sub_71012305AC() {
+    for (auto& event : *_50->getEventList()) {
+        for (auto& executor : event.getAliveAssetExecutors()) {
+            auto* handle = static_cast<xlink2::AssetExecutorSLink&>(executor).getHandle();
+            if (!handle->isPaused() && !handle->isVirtualized()) {
+                auto* source = handle->getSoundSource();
+                if (!source || !source->isInnerPaused())
+                    continue;
+            }
+            handle->stop(-1.0f, 0.0f);
+        }
+        for (auto& executor : event.getFadeBySystemExecutors()) {
+            auto* handle = static_cast<xlink2::AssetExecutorSLink&>(executor).getHandle();
+            if (!handle->isPaused() && !handle->isVirtualized()) {
+                auto* source = handle->getSoundSource();
+                if (!source || !source->isInnerPaused())
+                    continue;
+            }
+            handle->stop(-1.0f, 0.0f);
+        }
+    }
+}
+
+// NON_MATCHING: fading-list bound scheduling, loop registers and lock stack slot.
+void XLink::sub_7101230968() {
+    auto* user = _50;
+    if (!user)
+        return;
+    sead::ScopedLock<xlink2::ILockProxy> lock(xlink2::SystemSLink::sLockProxy);
+    for (auto& event : *user->getEventList()) {
+        for (auto& executor : event.getAliveAssetExecutors()) {
+            auto* handle = static_cast<xlink2::AssetExecutorSLink&>(executor).getHandle();
+            if (handle->getSoundGroupName().findIndex("Voice") != -1)
+                handle->stop(-1.0f, 0.0f);
+        }
+        for (auto& executor : event.getFadeBySystemExecutors()) {
+            auto* handle = static_cast<xlink2::AssetExecutorSLink&>(executor).getHandle();
+            if (handle->getSoundGroupName().findIndex("Voice") != -1)
+                handle->stop(-1.0f, 0.0f);
+        }
+    }
+}
+
+void XLink::sub_7101230E18() {
+    if (_50) {
+        _50->searchAndEmit("Disappear_Ancient");
+        sub_7101230968();
+        _cc.setBit(25);
+    }
 }
 
 bool XLink::sub_7101230714() {
@@ -42,6 +103,38 @@ bool XLink::x_2() {
     if (_50 && _50->getEventList()->size() != 0)
         return false;
     return true;
+}
+
+void XLink::sub_7101230FC8(bool paused, bool skip_environment) {
+    if (!_73.isZero())
+        return;
+    auto* user = _50;
+    if (!user || user->getEventList()->size() == 0)
+        return;
+    auto* groups = aal::SystemAccessor::getGroupMgr();
+    if (!groups)
+        return;
+    auto* world = groups->findGroup("World");
+    aal::Group* env = nullptr;
+    aal::Group* chemical = nullptr;
+    if (skip_environment) {
+        env = groups->findGroup("Env");
+        chemical = groups->findGroup("Chemical");
+    }
+    sead::ScopedLock<xlink2::ILockProxy> lock(xlink2::SystemSLink::sLockProxy);
+    for (auto& event : *user->getEventList()) {
+        for (auto& executor : event.getAliveAssetExecutors()) {
+            auto* handle = static_cast<xlink2::AssetExecutorSLink&>(executor).getHandle();
+            auto* group = handle->getSoundGroup();
+            if (aal::GroupMgr::isUnderAncestorOrSelf(group, env) ||
+                aal::GroupMgr::isUnderAncestorOrSelf(group, chemical) ||
+                !aal::GroupMgr::isUnderAncestorOrSelf(group, world))
+                continue;
+            if (_50->getResourceAccessor().getCustomParamValueBool(12, *executor.getAssetCallTable()))
+                continue;
+            handle->pause(sead::BitFlag8(2), paused, 0.1f);
+        }
+    }
 }
 
 void XLink::sub_71012311D8(bool paused) {

@@ -57,7 +57,7 @@ public:
     bool x_2();
     void x_4(bool paused);
     // 0x7101230fc8: pauses selected sound groups.
-    void sub_7101230FC8(bool paused, bool include_music);
+    void sub_7101230FC8(bool paused, bool skip_environment);
     // 0x71012311d8 (placeholder name): `sub_7101230FC8(paused, false)`.
     void sub_71012311D8(bool paused);
     // 0x7101230dac (CSV ActorEffects::setMask; declaration only, lane2 s21): PriestBossAfterImageRoot::calc_
@@ -79,6 +79,8 @@ public:
     void sub_7101230E18();
     // 0x710123051c (placeholder name): sets the asset info reader of the SLink user instance (if any).
     void sub_710123051C(aal::IAssetInfoReadable* reader);
+    void sub_71012305AC();
+    void sub_7101230968();
     // 0x7101230714 (placeholder name): fades the looping effects and post-calcs the ELink user instance while it has
     // events (false); true otherwise.
     bool sub_7101230714();
