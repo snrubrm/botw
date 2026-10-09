@@ -20,12 +20,9 @@ void HorseRideEnemyBattle::enter_(ksys::act::ai::InlineParamPack* params) {
     EnemyBattle::enter_(params);
 }
 
-// NON_MATCHING: only the child's vtable load: the original hoists `load vtable` above the branches that follow the
-// isFinished() / isFailed() calls (one `ldr x8, [child]` shared by the isFailed() / isChangeable() arms); ours loads it
-// in each arm (same family as EnemyMoveToGround / ForestGiantChanceWait)
 void HorseRideEnemyBattle::calc_() {
     auto* child = getCurrentChild();
-    if (child->isFinished() || child->isFailed()) {
+    if (child->isFinishedOrFailed()) {
         if (child->isFailed()) {
             setFailed();
             return;
