@@ -9,6 +9,7 @@
 namespace eui {
 class LetterAnimControl;
 class MessageString;
+class CapturePane;
 }
 
 namespace uking::ui {
@@ -34,9 +35,23 @@ static_assert(sizeof(Unk_710247d580) == 0x1d8);
 // MainScreen arrow child: factory a17160, full ctor 985eb4 and D1 985ef0.
 class Unk_7102476db8 : public ScreenChildEx {
 public:
+    NN_RUNTIME_TYPEINFO(ScreenChildEx)
     explicit Unk_7102476db8(eui::LayoutEx* layout);
     ~Unk_7102476db8() override;
-    u8 _130[0x160 - 0x130];
+    void m24() override;
+    void m25() override;
+    void m27() override;
+    void sub_7100986268();
+    void sub_7100986480(s32 count);
+    void sub_7100986580();
+
+    // Setup 986068 and independent hooks 98640c / 986480 / 986580 use these controls.
+    eui::Animator* mDisable = nullptr;
+    eui::Animator* mZoom = nullptr;
+    eui::Animator* mInvalid = nullptr;
+    eui::Animator* mNumOff = nullptr;
+    eui::Animator* mGanon = nullptr;
+    eui::CapturePane* mCapture = nullptr;
 };
 static_assert(sizeof(Unk_7102476db8) == 0x160);
 

@@ -1,5 +1,7 @@
 #include "Game/UI/uiScreenChildStates.h"
 #include "Game/UI/euiAnimator.h"
+#include "Game/UI/euiCapturePane.h"
+#include "KingSystem/GameData/gdtSpecialFlags.h"
 #include "Game/UI/euiLayoutEx.h"
 #include "Game/UI/euiLetterAnimControl.h"
 #include "Game/UI/euiMessageString.h"
@@ -13,6 +15,72 @@
 #include <math/seadMathCalcCommon.h>
 
 namespace uking::ui {
+
+// 0x7100985eb4
+Unk_7102476db8::Unk_7102476db8(eui::LayoutEx* layout) : ScreenChildEx(layout) {}
+
+// 0x7100986068
+void Unk_7102476db8::m24() {
+    mDisable = mLayout->createAnimatorAuto("Disable", false);
+    if (mDisable)
+        mDisable->StopAtMin();
+    mZoom = mLayout->createAnimatorAuto("Zoom", false);
+    if (mZoom)
+        mZoom->StopAtMin();
+    mInvalid = mLayout->createAnimatorAuto("InValid", false);
+    if (mInvalid)
+        mInvalid->StopAtMin();
+    mNumOff = mLayout->createAnimatorAuto("NumOff", false);
+    if (mNumOff)
+        mNumOff->StopAtMin();
+    mGanon = mLayout->createAnimatorAuto("Ganon", false);
+    if (mGanon)
+        mGanon->StopAtMin();
+    mCapture = sub_7100986160(mLayout, "N_Capture_00");
+}
+
+// 0x7100986160
+// Namespace is inferred from the address-neighbor UI child and its UI consumers.
+eui::CapturePane* sub_7100986160(eui::LayoutEx* layout, const char* name) {
+    return nn::font::DynamicCast<eui::CapturePane>(layout->mPane->FindPaneByName(name, true));
+}
+
+// 0x7100986240
+// NON_MATCHING: the compiler combines the odd state tests into one bitset.
+void Unk_7102476db8::m25() {
+    if (_104 == 7 || _104 == 1 || _104 == 3 || _104 == 5)
+        sub_7100986268();
+}
+
+// 0x710098640c
+void Unk_7102476db8::m27() {
+    if (mGanon) {
+        if (ksys::gdt::getBoolByKey("IsPlayed_Demo146_0", false))
+            mGanon->StopAtMax();
+        else
+            mGanon->StopAtMin();
+    }
+}
+
+// 0x7100986480
+void Unk_7102476db8::sub_7100986480(s32 count) {
+    if (mNumOff && mNumOff->mFrame != mNumOff->GetFrameSize())
+        mNumOff->StopAtMax();
+    sead::FixedSafeString<32> text;
+    text.format("%d", count);
+    setWidgetString(mLayout, "T_BowNum_00", text);
+    if (mCapture)
+        mCapture->_db = true;
+}
+
+// 0x7100986580
+void Unk_7102476db8::sub_7100986580() {
+    if (!mNumOff)
+        return;
+    if (mNumOff->mFrame == 0.0f)
+        return;
+    mNumOff->StopAtMin();
+}
 
 // 0x710098c278
 Unk_7102477c30::Unk_7102477c30(eui::LayoutEx* layout) : ScreenChildEx(layout) {}

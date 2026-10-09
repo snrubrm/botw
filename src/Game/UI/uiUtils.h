@@ -10,6 +10,7 @@ namespace eui {
 class LayoutEx;
 class Animator;
 class AlignPane;
+class CapturePane;
 class Screen;
 }
 
@@ -49,6 +50,9 @@ class NpcShopData;
 }
 
 namespace uking::ui {
+
+// Native 986160; the UI callers pass LayoutEx and a name, then use CapturePane fields.
+eui::CapturePane* sub_7100986160(eui::LayoutEx* layout, const char* name);
 
 // 0x7100aa0700: E3 demo mode flag
 bool isE3DemoMode();
