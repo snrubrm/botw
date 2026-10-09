@@ -9,6 +9,11 @@ namespace ksys::map {
 
 class Rail;
 class RailConnectablePoint;
+class RailRoute;
+
+// 0x7100eec698 supplies the route and its SafeString filter; the two route
+// scans at 0x7100d49324 inline this same route-id substring test.
+bool sub_7100D4953C(const RailRoute* route, const sead::SafeString& route_ids);
 
 // TODO: incomplete
 class Placement18 {
