@@ -1,5 +1,6 @@
 #pragma once
 
+#include <math/seadMatrix.h>
 #include <math/seadVector.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
@@ -70,8 +71,13 @@ protected:
     const sead::Vector3f* mHeadShotAddVec_s{};
     // static_param at offset 0x128
     const sead::Vector3f* mHeadRotateOffset_s{};
-    // Not decompiled yet (see the ctor at 0x71002734c8): 0x130-0x154 are zeroed together with the static params.
-    u8 _130[0x154 - 0x130]{};
+    f32 _130 = 0.0f;
+    f32 _134 = 0.0f;
+    f32 _138 = 0.0f;
+    f32 _13c = 0.0f;
+    f32 _140 = 0.0f;
+    f32 _144 = 0.0f;
+    u8 _148[0xc]{};
     s32 _154 = -1;
     s32 _158 = 0;
     s32 _15c = 1;
@@ -81,7 +87,8 @@ protected:
     bool _16c = false;
     bool _16d = false;
     bool _16e = false;
-    u8 _16f[0x194 - 0x16f];
+    u8 _16f;
+    sead::Matrix33f _170;
     sead::Vector3f _194 = sead::Vector3f::zero;
     sead::Vector3f _1a0 = sead::Vector3f::zero;
     sead::Vector3f _1ac = sead::Vector3f::zero;
@@ -92,6 +99,8 @@ protected:
     ksys::act::BaseProcLink _1d8;
     ksys::act::CCAccessor _1e8;
 
+    // 0x7100273888: initializes the blown-off state and controller motion.
+    void sub_7100273888();
     // 0x71002749b4 (placeholder name): raises the character controller's `_110` by the frame time.
     void sub_71002749B4();
     // 0x7100274d98 (placeholder name): tilts the character controller to the ragdoll's pose.

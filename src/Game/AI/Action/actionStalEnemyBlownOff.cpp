@@ -1,5 +1,10 @@
 #include "Game/AI/Action/actionStalEnemyBlownOff.h"
 #include <math/seadMathCalcCommon.h>
+#include "Game/AI/aiUnk_7100724C64.h"
+#include "Game/AI/aiUnk_710073fa90.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
 #include "KingSystem/ActorSystem/Profiles/actDynamicActor.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actCCAccessor.h"
@@ -83,7 +88,58 @@ void StalEnemyBlownOff::sub_7100274D98() {
 }
 
 void StalEnemyBlownOff::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    auto* actor = mActor;
+    _16e = sub_71007271D4(actor);
+    _1d8.reset();
+    _160 = -1;
+    if (auto* ragdoll = mActor->getRagdollInstance())
+        _160 = ragdoll->getBoneIndexByName(mPosBaseRagdollRbName_s);
+    if (auto* physics = actor->getPhysics()) {
+        const int index = physics->sub_7100FBDA2C(mUseRagConName_s);
+        if (index >= 0)
+            _15c = index;
+    }
+    if (auto* dynamic_actor = sead::DynamicCast<ksys::act::DynamicActor>(actor)) {
+        if (dynamic_actor->_868)
+            dynamic_actor->_868->sub_71006ED484();
+    }
+    if (!mBlownOffASName_s.isEmpty())
+        playAS(mBlownOffASName_s.cstr(), true, 0, 0, -1.0f);
+    if (auto* controller = actor->getCharacterController()) {
+        _1e8.sub_710072AD1C(controller);
+        _1e8._4.setDirect(0xe);
+        _1e8.sub_710072AE20(controller);
+        controller->sub_7100F60AE0();
+        controller->sub_7100F62CA8(false);
+        controller->sub_7100F63554(false);
+        controller->mFlags.reset(8);
+        if (!_16e) {
+            controller->enableContactLayer(ksys::phys::ContactLayer::EntityPlayer);
+            controller->enableContactLayer(ksys::phys::ContactLayer::EntityObject);
+            controller->enableContactLayer(ksys::phys::ContactLayer::EntitySmallObject);
+        }
+    }
+    _16c = true;
+    _16d = false;
+    ksys::act::disableAttClient(actor, "LockOn");
+    ksys::act::disableAttClient(actor, "Grab");
+    _1a0 = sead::Vector3f::zero;
+    _13c = 5.0f;
+    _140 = 5.0f;
+    _158 = 0;
+    _144 = -1.0f;
+    sub_7100273888();
+    sub_710073FA90(&_170, actor);
+    sub_71007A397C(actor);
+    if (auto* physics = mActor->getPhysics()) {
+        if (auto* ragdoll = physics->getRagdollInstance()) {
+            ragdoll->setContactLayer(ksys::phys::ContactLayer::EntityRagdoll);
+            ragdoll->enableContactLayer(ksys::phys::ContactLayer::EntityPlayer);
+            ragdoll->enableContactLayer(ksys::phys::ContactLayer::EntityNPC);
+            ragdoll->enableContactLayer(ksys::phys::ContactLayer::EntityRagdoll);
+            ragdoll->enableContactLayer(ksys::phys::ContactLayer::EntityNPC_NoHitPlayer);
+        }
+    }
 }
 
 void StalEnemyBlownOff::leave_() {
