@@ -1,4 +1,6 @@
 #include "KingSystem/Resource/resTextureHandleMgr.h"
+#include "KingSystem/Resource/resEntryFactory.h"
+#include "KingSystem/Resource/resUnk_710251A740.h"
 #include "Game/gameUnkRttiClasses.h"
 #include "KingSystem/Utils/Thread/TaskMgr.h"
 #include "KingSystem/Resource/resSystem.h"
@@ -8,6 +10,10 @@
 Unk_71024f9bb8::~Unk_71024f9bb8() = default;
 
 namespace ksys::res {
+
+// Full native initializer FE2398 and loader FE1630 prove this separate factory.
+// NON_MATCHING: namespace linkage uses GOT addressing instead of the native direct address.
+EntryFactory<Unk_710251A740> sUnk_710260E8A0;
 
 TextureHandleMgr* TextureHandleMgr::sInstance;
 
