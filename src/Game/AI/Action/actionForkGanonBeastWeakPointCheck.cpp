@@ -1,5 +1,8 @@
 #include "Game/AI/Action/actionForkGanonBeastWeakPointCheck.h"
 
+// Full native helper uses the signed AS slot as an animation-slot offset; namespace unknown.
+void sub_7100703904(ksys::act::Actor* actor, s32 slot);
+
 namespace uking::action {
 
 ForkGanonBeastWeakPointCheck::ForkGanonBeastWeakPointCheck(const InitArg& arg)
@@ -12,7 +15,16 @@ bool ForkGanonBeastWeakPointCheck::init_(sead::Heap* heap) {
 }
 
 void ForkGanonBeastWeakPointCheck::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    _200 = *mIsWeakPointAppearMode_a;
+    if (isRootAiParamINot5())
+        sub_7100703904(mActor, 0);
+    if (!mDamageCallback.mDamageManager)
+        setDamageCallbackTiming(mActor, 0, &mDamageCallback);
+    if (!mLastWeakPointDamageCallback.mDamageManager)
+        setDamageCallbackTiming(mActor, 5, &mLastWeakPointDamageCallback);
+    _1f8 = 0.0f;
+    _1fc = 0.0f;
+    _201 = false;
 }
 
 void ForkGanonBeastWeakPointCheck::leave_() {

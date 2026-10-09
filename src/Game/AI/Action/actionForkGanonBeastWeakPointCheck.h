@@ -72,7 +72,9 @@ protected:
     Unk_710238b0b0 mLastWeakPointDamageCallback{this};
     Unk_710238b040 mDamageCallback;
     Unk_71012419b4 _1d8;
-    u8 _1f8[8];
+    // Full 1556D4 updates the two independent countdowns using Timer::update.
+    f32 _1f8 = 0.0f;
+    f32 _1fc = 0.0f;
     bool _200 = false;
     bool _201 = false;
 };
