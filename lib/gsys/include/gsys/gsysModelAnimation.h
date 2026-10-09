@@ -111,6 +111,9 @@ public:
     // The original named interface returns a signed integer, converted to float by GraphicsAsset.
     s32 isMaterialAnmLooped(AnimationAccessKey<MaterialAnmType> key) const;
     bool sub_7100BFF158(AnimationAccessKey<MaterialAnmType> key) const;
+    // Native 0x7100bff2a0 returns false. Independent Model+D0 callers
+    // branch on bit 0 of its result; Model::createAnimation produces that pointer.
+    bool sub_7100BFF2A0();
 
     sead::Buffer<MaterialAnm>& getMaterialAnms() { return mMaterialAnms; }
     const sead::Buffer<MaterialAnm>& getMaterialAnms() const { return mMaterialAnms; }
