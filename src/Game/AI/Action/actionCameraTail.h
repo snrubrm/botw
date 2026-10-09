@@ -23,6 +23,8 @@ protected:
     // 0x71007830fc: smooths _134 towards the player's rotation.
     void sub_71007830FC();
     void sub_71007831EC();
+    void sub_7100783380(f32 angle, bool move, sead::Vector3f* out);
+    void sub_7100783CA4();
     void sub_7100783578();
     void sub_7100783688(bool chase);
     void sub_7100783A0C();
@@ -42,16 +44,33 @@ protected:
     // _12c < 20, else distance / frame delta, at most _124.
     f32 sub_7100784940();
 
-    sead::Vector3f _4c = sead::Vector3f::zero;
-    sead::Vector3f _58 = sead::Vector3f::zero;
-    sead::Vector3f _64 = sead::Vector3f::zero;
-    sead::Vector3f _70 = {0, 0, 6.0};
-    f32 _7c = 1.0;
-    f32 _80 = 0;
-    f32 _84 = 0;
-    f32 _88 = 0;
-    f32 _8c = 2.0;
-    f32 _90 = 0.5;
+    // 0x7100783380 passes this subobject at CameraTail + 0x4c to 0x7100784a20.
+    struct PanState {
+        struct Params {
+            f32 speed;
+            f32 direction;
+            f32 radius;
+            f32 angle;
+            f32 follow_rate;
+            f32 distance;
+            f32 exponent;
+            f32 damping;
+        };
+        void sub_7100784A20(const Params& params, sead::Vector3f* out);
+        void sub_7100784D38(f32 speed, f32 direction);
+        sead::Vector3f _0 = sead::Vector3f::zero;
+        sead::Vector3f _c = sead::Vector3f::zero;
+        sead::Vector3f _18 = sead::Vector3f::zero;
+        sead::Vector3f _24 = {0.0f, 0.0f, 6.0f};
+        f32 _30 = 1.0f;
+        f32 _34 = 0.0f;
+        f32 _38 = 0.0f;
+        f32 _3c = 0.0f;
+        f32 _40 = 2.0f;
+        f32 _44 = 0.5f;
+    };
+    static_assert(sizeof(PanState) == 0x48);
+    PanState mPan;
     f32 _94 = 0;
     sead::Vector3f _98 = sead::Vector3f::zero;
     sead::Vector3f _a4 = sead::Vector3f::zero;

@@ -95,17 +95,17 @@ void CameraTail::sub_71007821D0() {
     }
 }
 
-// NON_MATCHING: the original stores _7c / _80 as two 32-bit stores (stp)
+// NON_MATCHING: the original stores mPan._30 / mPan._34 as two 32-bit stores (stp)
 bool CameraTail::m32(sead::Heap* heap) {
     const f32 angle = sead::Mathf::deg2rad(*mDstAngle_s);
-    _70.z = sead::Mathf::clampMin(_1c8, 0.1f);
-    _84 = sead::Mathf::clamp(angle, 0.0f, 1.569051f);
-    const f32 tan = std::tan(_84);
-    _7c = 0.6;
-    _80 = 0.1;
-    _88 = tan * _70.z;
-    _8c = 1.0;
-    _90 = 0.8;
+    mPan._24.z = sead::Mathf::clampMin(_1c8, 0.1f);
+    mPan._38 = sead::Mathf::clamp(angle, 0.0f, 1.569051f);
+    const f32 tan = std::tan(mPan._38);
+    mPan._30 = 0.6;
+    mPan._34 = 0.1;
+    mPan._3c = tan * mPan._24.z;
+    mPan._40 = 1.0;
+    mPan._44 = 0.8;
     return true;
 }
 
@@ -193,16 +193,16 @@ void CameraTail::sub_710078441C() {
     _c0 = 0.0f;
     _c4 = angleStuff(polar._8 - _bc);
     _f8.sub_710079C384(10.0f, 0.0f);
-    _4c = sead::Vector3f::zero;
-    _58 = sead::Vector3f::zero;
-    _64 = sead::Vector3f::zero;
-    _70 = sead::Vector3f(0.0f, 0.0f, sead::Mathf::clampMin(_1c8, 0.1f));
-    _84 = sead::Mathf::clamp(sead::Mathf::deg2rad(*mDstAngle_s), 0.0f, 1.569051f);
-    _88 = std::tan(_84) * _70.z;
-    _7c = 0.6f;
-    _80 = 0.1f;
-    _8c = 1.0f;
-    _90 = 0.8f;
+    mPan._0 = sead::Vector3f::zero;
+    mPan._c = sead::Vector3f::zero;
+    mPan._18 = sead::Vector3f::zero;
+    mPan._24 = sead::Vector3f(0.0f, 0.0f, sead::Mathf::clampMin(_1c8, 0.1f));
+    mPan._38 = sead::Mathf::clamp(sead::Mathf::deg2rad(*mDstAngle_s), 0.0f, 1.569051f);
+    mPan._3c = std::tan(mPan._38) * mPan._24.z;
+    mPan._30 = 0.6f;
+    mPan._34 = 0.1f;
+    mPan._40 = 1.0f;
+    mPan._44 = 0.8f;
 }
 
 f32 CameraTail::sub_7100784288() {
@@ -237,7 +237,7 @@ void CameraTail::sub_710078483C(sead::Vector3f* out) {
         f32 min = 0.0f;
         sub_7100924CDC(*mLatMin_s, *mLatMax_s, &min, &max);
         if (min != max) {
-            const act::Unk_7100922700 polar(_70 - _64);
+            const act::Unk_7100922700 polar(mPan._24 - mPan._18);
             out->y += *mOffsetYMin_s + ((_b0 + _b4 + polar._4) - max) / (min - max) *
                 (*mOffsetYMax_s - *mOffsetYMin_s);
         }
@@ -391,20 +391,20 @@ void CameraTail::sub_7100783A0C() {
     _c4 = angleStuff(polar._8 - _bc);
     _f8.sub_710079C384(10.0f, 0.0f);
     const f32 angle = *mDstAngle_s * 0.017453292f;
-    _4c = sead::Vector3f::zero;
-    _64 = sead::Vector3f::zero;
-    _70.set(0.0f, 0.0f, sead::Mathf::clampMin(_1c8, 0.1f));
-    _58 = sead::Vector3f::zero;
-    _84 = angle;
-    if (_84 < 0.0f)
-        _84 = 0.0f;
-    else if (_84 > 1.569051f)
-        _84 = 1.569051f;
-    _88 = std::tan(_84) * _70.z;
-    _7c = 0.6f;
-    _80 = 0.1f;
-    _8c = 1.0f;
-    _90 = 0.8f;
+    mPan._0 = sead::Vector3f::zero;
+    mPan._18 = sead::Vector3f::zero;
+    mPan._24.set(0.0f, 0.0f, sead::Mathf::clampMin(_1c8, 0.1f));
+    mPan._c = sead::Vector3f::zero;
+    mPan._38 = angle;
+    if (mPan._38 < 0.0f)
+        mPan._38 = 0.0f;
+    else if (mPan._38 > 1.569051f)
+        mPan._38 = 1.569051f;
+    mPan._3c = std::tan(mPan._38) * mPan._24.z;
+    mPan._30 = 0.6f;
+    mPan._34 = 0.1f;
+    mPan._40 = 1.0f;
+    mPan._44 = 0.8f;
     _130 = 0.0f;
 }
 
@@ -423,20 +423,160 @@ void CameraTail::sub_71007840E0() {
     _c0 = _c4 = 0.0f;
     _bc = polar._8;
     const f32 angle = *mDstAngle_s * 0.017453292f;
-    _4c = sead::Vector3f::zero;
-    _64 = sead::Vector3f::zero;
-    _70.set(0.0f, 0.0f, sead::Mathf::clampMin(_1c8, 0.1f));
-    _58 = sead::Vector3f::zero;
-    _84 = angle;
-    if (_84 < 0.0f)
-        _84 = 0.0f;
-    else if (_84 > 1.569051f)
-        _84 = 1.569051f;
-    _88 = std::tan(_84) * _70.z;
-    _7c = 0.6f;
-    _80 = 0.1f;
-    _8c = 1.0f;
-    _90 = 0.8f;
+    mPan._0 = sead::Vector3f::zero;
+    mPan._18 = sead::Vector3f::zero;
+    mPan._24.set(0.0f, 0.0f, sead::Mathf::clampMin(_1c8, 0.1f));
+    mPan._c = sead::Vector3f::zero;
+    mPan._38 = angle;
+    if (mPan._38 < 0.0f)
+        mPan._38 = 0.0f;
+    else if (mPan._38 > 1.569051f)
+        mPan._38 = 1.569051f;
+    mPan._3c = std::tan(mPan._38) * mPan._24.z;
+    mPan._30 = 0.6f;
+    mPan._34 = 0.1f;
+    mPan._40 = 1.0f;
+    mPan._44 = 0.8f;
+    _f8.sub_710079C384(sub_7100784288(), 0.0f);
+    sub_710074BCB4();
+}
+
+// NON_MATCHING: scalar and vector copies have different scheduling.
+void CameraTail::PanState::sub_7100784D38(f32 speed, f32 direction) {
+    if (speed > 0.0f)
+        _0 += sead::Vector3f(-std::sin(direction), std::cos(direction), 0.0f) * speed;
+    _c += (_0 - _c) * _30;
+    const sead::Vector3f delta = _18 - _c;
+    const f32 length = delta.length();
+    if (_34 < length) {
+        sead::Vector3f offset = (delta * (1.0f / length)) * _34;
+        offset.z = 0.0f;
+        _18 = _c + offset;
+    }
+}
+
+// NON_MATCHING: bound loads, overshoot correction and vector copies differ.
+void CameraTail::PanState::sub_7100784A20(const Params& params, sead::Vector3f* out) {
+    const f32 radius = sead::Mathf::clampMin(params.radius, 0.1f);
+    if (radius != _24.z) {
+        const f32 scale = radius / _24.z;
+        _24.x = _18.x + scale * (_24.x - _18.x);
+        _24.y = _18.y + scale * (_24.y - _18.y);
+        _24.z = radius;
+    }
+    _38 += (sead::Mathf::clamp(params.angle, 0.0f, 1.569051f) - _38) * 0.1f;
+    _3c = std::tan(_38) * _24.z;
+    _34 += (std::fmax(params.distance, 0.0f) - _34) * 0.1f;
+    _30 = sead::Mathf::clamp(params.follow_rate, 0.0f, 1.0f);
+    _40 = std::fmax(params.exponent, 0.0f);
+    _44 = std::fmax(params.damping, 0.0f);
+    const sead::Vector3f previous = _18;
+    sub_7100784D38(params.speed, params.direction);
+    const f32 old_x = previous.x - _24.x;
+    const f32 new_x = _18.x - _24.x;
+    const f32 old_y = previous.y - _24.y;
+    const f32 new_y = _18.y - _24.y;
+    f32 correction_x = 0.0f;
+    if (!(old_x * new_x <= 0.0f) && _3c != 0.0f) {
+        const f32 old_abs = old_x > 0.0f ? old_x : -old_x;
+        const f32 new_abs = new_x > 0.0f ? new_x : -new_x;
+        if (!(old_abs <= new_abs))
+            correction_x = (old_x - new_x) * _44 * std::pow(new_abs / _3c, _40);
+    }
+    _24.x += correction_x;
+    f32 correction_y = 0.0f;
+    if (!(old_y * new_y <= 0.0f) && _3c != 0.0f) {
+        const f32 old_abs = old_y > 0.0f ? old_y : -old_y;
+        const f32 new_abs = new_y > 0.0f ? new_y : -new_y;
+        if (!(old_abs <= new_abs))
+            correction_y = (old_y - new_y) * _44 * std::pow(new_abs / _3c, _40);
+    }
+    _24.y += correction_y;
+    const sead::Vector3f center(_18.x, _18.y, _24.z);
+    const sead::Vector3f delta = _24 - center;
+    const f32 length = delta.length();
+    if (_3c < length) {
+        sead::Vector3f offset = (delta * (1.0f / length)) * _3c;
+        offset.z = 0.0f;
+        _24 = center + offset;
+    }
+    const sead::Vector3f origin = _0;
+    _0 -= origin;
+    _c -= origin;
+    _18 -= origin;
+    _24 -= origin;
+    *out = _24 - _18;
+}
+
+// NON_MATCHING: chase branches, scalar/vector copies and parameter stores differ.
+void CameraTail::sub_7100783380(f32 angle, bool move, sead::Vector3f* out) {
+    if (_cc >= -1.1920929e-7f && _cc <= 1.1920929e-7f)
+        ksys::VFR::chase(&_94, 1.0f, 0.05f);
+    else
+        _94 = 0.35f;
+    PanState::Params params{0.0f, angle, _1c8, sead::Mathf::deg2rad(*mDstAngle_s),
+                            0.6f, 0.1f, 1.0f, 0.8f};
+    const f32 speed = sub_7100784940();
+    const sead::Vector3f velocity(speed * 0.0f, speed * std::sin(angle),
+                                  speed * std::cos(angle) * _94);
+    if (move && velocity != sead::Vector3f::zero) {
+        params.speed = velocity.length();
+        params.direction = std::atan2(-velocity.y, velocity.z);
+    }
+    mPan.sub_7100784A20(params, out);
+}
+
+// NON_MATCHING: polar/vector copies, bound loads and scalar scheduling differ.
+void CameraTail::sub_7100783CA4() {
+    auto* camera = getCamera();
+    if (!camera)
+        return;
+    const act::Unk_7100922700 polar(camera->_860._0._0 - camera->_860._0._c);
+    const sead::Vector3f forward = _134.getBase(2);
+    const f32 elevation = std::atan2(-forward.y, std::sqrt(forward.x * forward.x +
+                                                        forward.z * forward.z)) * 57.295776f;
+    const f32 latitude = elevation < _d4 ? _d4 : elevation;
+    f32 min = 0.0f;
+    f32 max = 0.0f;
+    sub_7100924CDC(*mLatMin_s, *mLatMax_s, &min, &max);
+    _b0 = sead::Mathf::clamp(latitude, min, max);
+    sub_7100924CDC(*mLatMin_s, *mLatMax_s, &min, &max);
+    _b8 = angleStuff(polar._4 - sead::Mathf::clamp(polar._4, min, max));
+    f32 yaw = 0.0f;
+    if (auto* player = sub_7100926A14()) {
+        const sead::Vector3f player_forward = player->getMtx().getBase(2);
+        if (player_forward.x != 0.0f || player_forward.z != 0.0f)
+            yaw = std::atan2(player_forward.x, player_forward.z) * 57.295776f;
+    }
+    yaw = angleStuff(yaw);
+    _bc = sub_7100922530(yaw);
+    _c4 = 0.0f;
+    mPan._0 = sead::Vector3f::zero;
+    mPan._18 = sead::Vector3f::zero;
+    mPan._24.set(0.0f, 0.0f, sead::Mathf::clampMin(_1c8, 0.1f));
+    mPan._c = sead::Vector3f::zero;
+    mPan._38 = sead::Mathf::clamp(sead::Mathf::deg2rad(*mDstAngle_s), 0.0f, 1.569051f);
+    mPan._3c = std::tan(mPan._38) * mPan._24.z;
+    mPan._30 = 0.6f;
+    mPan._34 = 0.1f;
+    mPan._40 = 1.0f;
+    mPan._44 = 0.8f;
+    const f32 pitch_delta = sead::Mathf::deg2rad(angleStuff(polar._4 - _b0));
+    const f32 yaw_delta = sead::Mathf::deg2rad(angleStuff(polar._8 - _bc));
+    mPan._24.x = std::tan(sead::Mathf::clamp(yaw_delta, -mPan._38, mPan._38)) * mPan._24.z;
+    mPan._24.y = std::tan(sead::Mathf::clamp(pitch_delta, -mPan._38, mPan._38)) * mPan._24.z;
+    const sead::Vector3f center(mPan._18.x, mPan._18.y, mPan._24.z);
+    const sead::Vector3f delta = mPan._24 - center;
+    const f32 length = delta.length();
+    if (mPan._3c < length) {
+        sead::Vector3f offset = (delta * (1.0f / length)) * mPan._3c;
+        offset.z = 0.0f;
+        mPan._24 = center + offset;
+    }
+    const act::Unk_7100922700 pan(mPan._24 - mPan._18);
+    sub_7100924CDC(*mLatMin_s, *mLatMax_s, &min, &max);
+    _b4 = angleStuff(angleStuff(sead::Mathf::clamp(polar._4, min, max) - _b0) - pan._4);
+    _c0 = angleStuff(angleStuff(polar._8 - _bc) - pan._8);
     _f8.sub_710079C384(sub_7100784288(), 0.0f);
     sub_710074BCB4();
 }
