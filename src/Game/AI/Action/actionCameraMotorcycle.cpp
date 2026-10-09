@@ -24,7 +24,6 @@ void CameraMotorcycle::sub_710077A5A4(f32* out) {
     }
 }
 
-// NON_MATCHING: load order only (the original loads *mLatitudeMin_s before *out).
 void CameraMotorcycle::sub_710077A648(f32* out) {
     switch (_518) {
     case 0:
@@ -40,7 +39,8 @@ void CameraMotorcycle::sub_710077A648(f32* out) {
         *out = angleStuff(*out + _270);
         break;
     }
-    *out = angleStuff(sead::Mathf::clamp(*out, *mLatitudeMin_s, *mLatitudeMax_s));
+    const f32 latitude_min = *mLatitudeMin_s;
+    *out = angleStuff(sead::Mathf::clamp(*out, latitude_min, *mLatitudeMax_s));
 }
 
 // NON_MATCHING: the original merges the 0 and angle results through a general register (mov w8, wzr / fmov w8, s0 and one
