@@ -9,13 +9,8 @@ MarkerController::MarkerController()
 
 // 0x7100b9f408
 void MarkerController::setup(SoundSource* sound_source) {
-    mCallbackUserData = nullptr;
-    mCallbackParam = 0;
-    _8 = nullptr;
-    mCallback = nullptr;
+    reset();
     mSoundSource = sound_source;
-    _28 = -1;
-    _2c = 0;
 }
 
 // 0x7100b9f424
