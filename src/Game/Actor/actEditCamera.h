@@ -50,6 +50,16 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(EditCamera, 0x8b8);
 
+// inline-only in the original; name is a guess. The proc-null/type-check sequence
+// at 0x7100791a0c repeats in acc::Weapon::isShield (0x71002efb9c) and
+// acc::Armor::getArmorDefenceAddLevel (0x7100e2bcc4).
+static inline ksys::act::BaseProc* getProcIfActor(ksys::act::BaseProc* proc) {
+    if (proc && sead::IsDerivedFrom<ksys::act::Actor>(proc))
+        return proc;
+    return nullptr;
+}
+
+
 // 0x7100791a0c / 0x7100791b00 (placeholder names): the accessor's actor as an EditCamera, and its sub_71007917C4().
 EditCamera* sub_7100791A0C(const ksys::act::ActorConstDataAccess& accessor);
 EditCamera::CameraNames* sub_7100791B00(const ksys::act::ActorConstDataAccess& accessor);
