@@ -76,7 +76,14 @@ protected:
     f32 _f8 = 1.0f;
     bool _fc = false;
     ksys::act::BaseProcLink _100;
-    u8 _110[0x354 - 0x110];
+    u8 _110[0x128 - 0x110];
+    // FE85354 clears these; FE874E8 updates the matched balloon height and deltas.
+    f32 _128 = 0;
+    f32 _12c = 0;
+    f32 _130 = 0;
+    u8 _134[0x1c0 - 0x134];
+    bool _1c0 = false;
+    u8 _1c1[0x354 - 0x1c1];
     u32 _354;
     Unk_7102362e80 _358{mActor, 0x80000cc};
 };

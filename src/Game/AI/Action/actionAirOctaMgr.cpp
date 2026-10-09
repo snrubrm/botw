@@ -54,6 +54,34 @@ void AirOctaMgr::calc_() {
     sub_7100086484();
 }
 
+// NON_MATCHING: the existing filter vtable uses GOT addressing instead of a direct address.
+void AirOctaMgr::sub_71000874E8(ksys::act::AwarenessInstance* awareness) {
+    if (!awareness)
+        return;
+    Unk_7102362ed0 filter;
+    f32 height = -10000.0f;
+    bool found = false;
+    for (auto* entry = ksys::act::sub_7100D7EEE8(&awareness->_8, &filter); entry;
+         entry = ksys::act::sub_7100D7EEE8(&awareness->_8, &filter)) {
+        ksys::act::ActorConstDataAccess accessor;
+        if (ksys::act::acquireActor(&entry->_0.mLink, &accessor) &&
+            _70.getId() == accessor.getBalloonHungActorBaseProcID()) {
+            const f32 y = accessor.getActorMtx()(1, 3);
+            if (y > height)
+                height = y;
+            found = true;
+        }
+    }
+    if (!_1c0) {
+        _128 = height;
+        _130 = 0.0f;
+    }
+    _1c0 = found;
+    _12c = height - _128;
+    _128 = height;
+    _130 += _12c;
+}
+
 }  // namespace uking::action
 
 Unk_7102362e80::~Unk_7102362e80() = default;
