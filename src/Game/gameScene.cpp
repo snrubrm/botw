@@ -26,6 +26,8 @@
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Event/evtManager.h"
+#include "KingSystem/Event/evtEventFlow.h"
+#include "Game/gameStage.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/Resource/resResource.h"
 #include "Game/UI/euiScreen.h"
@@ -218,6 +220,13 @@ struct SceneStatics {
     s32 _60;  // cleared by sub_71007B4C28
 };
 KSYS_VISIBILITY_HIDDEN SceneStatics sSceneStatics;
+
+// The scene initializer builds the LunchTitle state with GameScene callbacks.
+extern GameSceneStateBase sUnk_71025cb210;
+
+// Set after genStage starts Demo169_0; cleared by the final stage step.
+// The original addresses this scene global directly, like sSceneStatics.
+KSYS_VISIBILITY_HIDDEN bool sUnk_71025cb0d8;
 
 bool GameScene::getIsFirstLaunch() {
     return sSceneStatics.isFirstLaunch;
@@ -579,6 +588,27 @@ void GameScene::LunchTitleRun() {
     if (sSceneStatics.newSaveState_2c == 10)
         createTitleStageBinder(true, true);
     commonRun(false, false);
+}
+
+void GameScene::NewSaveRun() {
+    if (++sSceneStatics.newSaveState_5c <= 90) {
+        sSceneStatics.newSaveState_2c = 0;
+        if (_320._8) {
+            _320.sub_71008979E4();
+            if (_320.sub_7100897A60())
+                _1d0.changeState(&sUnk_71025cb210);
+        }
+        return;
+    }
+    if (sSceneStatics.newSaveState_2c == 9)
+        ui::ScreenTitle::sub_7100A6B178(false);
+    else if (sSceneStatics.newSaveState_2c == 10)
+        calledFromNewSaveRun_10();
+    if (sUnk_71025cb0d8 && ksys::evt::Manager::instance()->getActiveEvent()) {
+        // The original retains the string's two termination calls, discarding the comparison.
+        ksys::evt::Manager::instance()->getActiveEvent()->mEventName == "Demo169_0";
+    }
+    commonRun(true, false);
 }
 
 void GameScene::NewSaveLeave() {

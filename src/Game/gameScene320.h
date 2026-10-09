@@ -3,6 +3,10 @@
 #include <basis/seadTypes.h>
 #include "KingSystem/Utils/Types.h"
 
+namespace uking {
+class GameScene;
+}
+
 namespace sead {
 class Controller;
 }
@@ -25,6 +29,9 @@ public:
     bool sub_7100897A60() const;
 
 private:
+    // NewSaveRun directly tests the embedded controller before updating the sequence.
+    friend class uking::GameScene;
+
     // NewSaveEnter passes MaskController::getController(2); update reads Controller::getTrigMask().
     sead::Controller* _8 = nullptr;
     s32 _10 = -1;
