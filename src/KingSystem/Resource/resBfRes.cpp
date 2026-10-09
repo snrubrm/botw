@@ -7,6 +7,15 @@
 
 namespace ksys::res {
 
+nn::gfx::ResTexture* BfRes::sub_710120033C(u32 hash) {
+    auto lock = sead::makeScopedLock(_f8);
+    for (auto& entry : _150) {
+        if (entry.hash == hash)
+            return entry.handle.sub_7100FE83EC();
+    }
+    return nullptr;
+}
+
 // NON_MATCHING: the original stores _41 right after Resource::Resource() and _40 later (ours merges the two bytes into
 // one halfword store) and schedules the 0x48 / 0x58 / 0x180 / 0x190 stores differently.
 BfRes::BfRes() {

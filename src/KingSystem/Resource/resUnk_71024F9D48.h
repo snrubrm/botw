@@ -3,6 +3,10 @@
 #include "KingSystem/Utils/Thread/ManagedTaskHandle.h"
 #include <prim/seadBitFlag.h>
 
+namespace nn::gfx {
+class ResTexture;
+}
+
 namespace ksys::res {
 
 // Texture-handle helper; vtable 0x71024f9d48, constructor 0x7100fe7e94.
@@ -14,6 +18,9 @@ public:
     bool sub_7100FE7FBC(void* arg);
     void sub_7100FE8328(u32 value);
     u32 sub_7100FE8330();
+    // The returned texture is consumed by BfRes11FF1B8 ForceBindTexture and
+    // independent material-animation SetResTexture calls.
+    nn::gfx::ResTexture* sub_7100FE83EC();
     void sub_7100FE8414(void* resource);
     void sub_7100FE8474(void* resource, u32 status);
 

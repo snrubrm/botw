@@ -30,7 +30,7 @@ static_assert(sizeof(Unk_71024ef4e8::AttachConfig) == 0x28);
 
 // NON_MATCHING: scalar scheduling and flag-test register allocation differ.
 void Unk_71024ef4e8::sub_7100EB4814(int type, int a2, f32 f) {
-    auto& config = sAttachConfigs[u32(type)];
+    auto& config = sAttachConfigs[type];
     _1c8 = &config;
     _20->setInertiaLocal(config.inertia);
     _20->setLinearDamping(config.linear_damping);
@@ -67,7 +67,6 @@ void Unk_71024ef4e8::sub_7100EB480C(sead::Vector3f* out) const {
     _20->getCenterOfMassInWorld(out);
 }
 
-// NON_MATCHING: vector copies, ray query lifetime and branch layout differ.
 void Unk_71024ef4e8::sub_7100EB4680() {
     if (!_110.isOnBit(23))
         return;

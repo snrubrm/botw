@@ -6,6 +6,7 @@
 #include <container/seadTList.h>
 #include <thread/seadCriticalSection.h>
 #include "KingSystem/Resource/resResource.h"
+#include "KingSystem/Resource/resUnk_710251A700.h"
 
 namespace nn::gfx {
 class ResTexture;
@@ -102,7 +103,7 @@ public:
     sead::CriticalSection _b8{nullptr, sead::IDisposer::HeapNullOption::DoNotAppendDisposerIfNoHeapSpecified};
     sead::CriticalSection _f8{nullptr, sead::IDisposer::HeapNullOption::DoNotAppendDisposerIfNoHeapSpecified};
     sead::OffsetList<Unk_BfResNode> _138;
-    sead::OffsetList<Unk_BfResNode> _150;
+    sead::OffsetList<Unk_710251A700::Entry> _150;
     Unk_71025149d0 _168{this};
     // The node of ResourceMgrTask::mBfResList.
     sead::ListNode mListNode;
