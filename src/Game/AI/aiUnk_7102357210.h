@@ -47,8 +47,9 @@ public:
 
     bool sub_710070A674(const ksys::Message& message);
     void sub_710070AE18(ksys::act::Actor* actor);
-    // 0x710070aee4 (declared only): `b` defaults to `a`, then forwards to 0x710070aef4.
+    // 0x710070aee4: `b` defaults to `a`, then forwards to 0x710070aef4.
     bool sub_710070AEE4(const ksys::Message& message, ksys::act::Actor* a, ksys::act::Actor* b);
+    bool sub_710070AEF4(const ksys::Message& message, ksys::act::Actor* a, ksys::act::Actor* b);
 
     u32 _34;
     u8 _38;

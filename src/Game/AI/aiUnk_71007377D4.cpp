@@ -166,6 +166,12 @@ bool sub_710072FD0C(ksys::act::Actor* actor, const sead::Vector3f& from, const s
     return sub_710072EDFC(actor, from, to, nullptr, out_pos, a5, false, a6, a7, a8, a9);
 }
 
+f32 sub_710072FD7C(ksys::act::Actor* actor) {
+    if (auto* nav = actor->m45())
+        return nav->_2a8 * nav->_2ac;
+    return 0.0f;
+}
+
 bool sub_710072FD28(ksys::act::Actor* actor, const sead::Vector3f& dir, sead::Vector3f* out_pos,
                     s32 a4, f32 a5, f32 a6, f32 a7, f32 a8) {
     const sead::Vector3f from{std::numeric_limits<f32>::quiet_NaN(),

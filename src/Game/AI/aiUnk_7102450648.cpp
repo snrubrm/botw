@@ -23,3 +23,10 @@ bool Unk_7102450648::sub_710070A674(const ksys::Message& message) {
     }
     return false;
 }
+
+bool Unk_7102450648::sub_710070AEE4(const ksys::Message& message, ksys::act::Actor* a,
+                                     ksys::act::Actor* b) {
+    if (b)
+        return sub_710070AEF4(message, a, b);
+    return sub_710070AEF4(message, a, a);
+}

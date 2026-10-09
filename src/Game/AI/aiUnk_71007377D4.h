@@ -156,6 +156,8 @@ bool sub_710072EDFC(ksys::act::Actor* actor, const sead::Vector3f& from,
 /// 0x710072fd0c: direction/distance check without the normal output and with a6 = false.
 bool sub_710072FD0C(ksys::act::Actor* actor, const sead::Vector3f& from, const sead::Vector3f& to,
                     sead::Vector3f* out_pos, s32 a5, f32 a6, f32 a7, f32 a8, f32 a9);
+// 0x710072fd7c: the actor's navmesh radius, or zero without a navmesh character.
+f32 sub_710072FD7C(ksys::act::Actor* actor);
 /// 0x710072fd28 (lane1 s39; declared only): like sub_710072FD0C from the actor's own position (NaN `from`)
 /// along `dir`. Placeholder name.
 bool sub_710072FD28(ksys::act::Actor* actor, const sead::Vector3f& dir, sead::Vector3f* out_pos, s32 a4,
