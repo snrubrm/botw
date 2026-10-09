@@ -14,6 +14,14 @@ class UserInstanceELink;
 class UserInstanceSLink;
 }  // namespace xlink2
 
+namespace ksys::act {
+class Actor;
+}
+
+namespace ksys::as {
+class ASList;
+}
+
 namespace ksys::xlink {
 
 // Placeholder name (result of 0x710123830c, created from the actor's footstep proc type name in
@@ -85,7 +93,13 @@ public:
     // events (false); true otherwise.
     bool sub_7101230714();
 
-    /* 0x00 */ u8 _0[0x48];
+    // 0x7101232318: the linked actor's AS list, or null.
+    as::ASList* getASList() const;
+
+    /* 0x00 */ u8 _0[0x8];
+    // 0x710122fce0 stores the Actor from its creation argument at +0x8.
+    /* 0x08 */ act::Actor* mActor;
+    /* 0x10 */ u8 _10[0x48 - 0x10];
     /* 0x48 */ xlink2::UserInstanceELink* _48;
     /* 0x50 */ xlink2::UserInstanceSLink* _50;
     /* 0x58 */ u8 _58[0x73 - 0x58];

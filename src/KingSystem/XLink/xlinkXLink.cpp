@@ -1,4 +1,5 @@
 #include "KingSystem/XLink/xlinkXLink.h"
+#include "KingSystem/ActorSystem/actActor.h"
 #include <aal/aalGroup.h>
 #include <aal/aalGroupMgr.h>
 #include <aal/aalSystemAccessor.h>
@@ -12,6 +13,10 @@
 #include <xlink2/xlink2UserInstanceSLink.h>
 
 namespace ksys::xlink {
+
+as::ASList* XLink::getASList() const {
+    return mActor ? mActor->getASList() : nullptr;
+}
 
 void XLink::sub_710123051C(aal::IAssetInfoReadable* reader) {
     if (_50)
