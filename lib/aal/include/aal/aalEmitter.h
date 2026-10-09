@@ -15,6 +15,7 @@
 
 namespace ksys::snd {
 class Unk_SoundMgr48;
+class Unk_710105abc0;
 }
 
 namespace aal {
@@ -31,6 +32,8 @@ class Emitter : public sead::hostio::Node {
     friend class SoundSource;
     // Original 105590c initializes this emitter's SpatialSetting at +a8 directly.
     friend class ksys::snd::Unk_SoundMgr48;
+    // Native ctor 105abc0 sets SpatialSetting +a8 after allocEmitter.
+    friend class ksys::snd::Unk_710105abc0;
 
 public:
     Emitter();
