@@ -19,6 +19,8 @@ class ResFile;
 
 namespace ksys::res {
 
+void setUseTex2(bool use);
+
 class BfRes;
 class Unk_71024F9D48;
 class Unk_71024f9958;

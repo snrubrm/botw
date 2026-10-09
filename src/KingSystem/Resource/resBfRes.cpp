@@ -7,6 +7,18 @@
 
 namespace ksys::res {
 
+// Native 25149C8 starts true; setUseTex2 writes it and BfRes::afterParse selects
+// the texture suffix with it. Keep this texture choice within the BfRes family.
+static bool sUseTex2 = true;
+
+void setUseTex2(bool use) {
+    if (sUseTex2 == use)
+        return;
+    sUseTex2 = use;
+    clearAllCaches();
+    stubbedLogFunction();
+}
+
 nn::gfx::ResTexture* BfRes::sub_710120033C(u32 hash) {
     auto lock = sead::makeScopedLock(_f8);
     for (auto& entry : _150) {
