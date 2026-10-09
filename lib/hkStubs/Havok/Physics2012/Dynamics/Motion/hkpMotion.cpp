@@ -1,4 +1,5 @@
 #include <Havok/Physics2012/Dynamics/Motion/hkpMotion.h>
+#include <Havok/Common/Base/Math/SweptTransform/hkSweptTransformfUtil.h>
 
 // NON_MATCHING: virtual target load and zero-mass branch placement.
 // 0x710160677c
@@ -45,4 +46,29 @@ void hkpMotion::getMotionStateAndVelocitiesAndDeactivationType(hkpMotion* motion
     motionOut->m_linearVelocity = m_linearVelocity;
     motionOut->m_angularVelocity = m_angularVelocity;
     motionOut->m_deactivationIntegrateCounter = m_deactivationIntegrateCounter;
+}
+
+// 0x710160683c
+void hkpMotion::setCenterOfMassInLocal(const hkVector4& centerOfMass) {
+    hkSweptTransformUtil::sub_7101582B14(centerOfMass, m_motionState);
+}
+
+// 0x710160684c
+void hkpMotion::setPosition(const hkVector4& position) {
+    hkSweptTransformUtil::sub_7101582A2C(position, m_motionState);
+}
+
+// 0x710160685c
+void hkpMotion::setRotation(const hkQuaternion& rotation) {
+    hkSweptTransformUtil::sub_7101582A8C(rotation, m_motionState);
+}
+
+// 0x710160686c
+void hkpMotion::setPositionAndRotation(const hkVector4& position, const hkQuaternion& rotation) {
+    hkSweptTransformUtil::sub_71015828F0(position, rotation, m_motionState);
+}
+
+// 0x7101606880
+void hkpMotion::setTransform(const hkTransform& transform) {
+    hkSweptTransformUtil::sub_7101582984(transform, m_motionState);
 }
