@@ -26,6 +26,75 @@ void Unk_7102474c08::sub_7100935F98(sead::Heap* heap, eui::LayoutEx* layout) {
     _1c.init(0.3f);
 }
 
+// NON_MATCHING: state-load reuse and switch/branch scheduling differ.
+// 0x7100936034
+void Unk_7102474c08::sub_7100936034(f32 step) {
+    if (!_10 || !mGauge)
+        return;
+    if (_10->_38 & 0x2000) {
+        sub_7100936254(step, false);
+        return;
+    }
+    if (mGauge->_8->_91 == 0 || mGauge->_8->_91 == 3)
+        return;
+    bool track = true;
+    if (_18) {
+        if (_10->_3c == 0)
+            return;
+        if ((_10->_3c == 10 || _10->_3c == 13) && !(_10->_38 & 0x800)) {
+            if (_10->_38 & 0x20) {
+                _19 = 1;
+            } else if (_19 == 2) {
+                if (_1c.updateAndCheckEnded()) {
+                    _19 = 0;
+                    track = false;
+                }
+            } else if (_19 == 1 && mGauge->_944 == mGauge->_948) {
+                _19 = 2;
+                _1c.reset();
+            }
+        } else if (_19 != 0) {
+            _19 = 0;
+            track = false;
+        }
+    }
+    sub_71009364AC(true);
+    sub_7100936590(track);
+    if (_10->_38 & 6)
+        mGauge->playAnimator918();
+    sub_710093666C();
+    if (!_18) {
+        if (_10->_38 & 0x100) {
+            mGauge->playAnimator910();
+        } else if (!(_10->_38 & 0x80) && mGauge->isAnimator910Playing()) {
+            mGauge->stopAnimator910(0.0f);
+        }
+    }
+    if (mGauge)
+        mGauge->sub_710093515C(step);
+    if (_18) {
+        switch (_10->_3c) {
+        case 5:
+        case 9:
+        case 11:
+            _10->_48 = true;
+            break;
+        case 7:
+            if (!mGauge || mGauge->_944 == mGauge->_948)
+                _10->_48 = true;
+            break;
+        case 8:
+            if (!mGauge->_95d && !mGauge->_95e)
+                _10->_48 = true;
+            break;
+        case 10:
+            if ((!mGauge || mGauge->_944 == mGauge->_948) && !_19)
+                _10->_48 = true;
+            break;
+        }
+    }
+}
+
 // NON_MATCHING: the gauge receiver is cached across the quarter-heart lookup.
 // 0x7100936254
 void Unk_7102474c08::sub_7100936254(f32 step, bool first) {

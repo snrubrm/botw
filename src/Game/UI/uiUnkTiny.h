@@ -172,6 +172,7 @@ public:
     Unk_7102474c08();
     virtual ~Unk_7102474c08();
     void sub_7100935F98(sead::Heap* heap, eui::LayoutEx* layout);
+    void sub_7100936034(f32 step);
     void sub_71009364AC(bool first);
     void sub_7100936590(bool first);
     void sub_710093666C();

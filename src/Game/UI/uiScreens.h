@@ -667,7 +667,9 @@ public:
     SEAD_RTTI_OVERRIDE(ScreenPauseMenuInfo, ScreenEx)
     eui::TagProcessor* doCreateTagProcessor_(sead::Heap* heap) override;
 
-    u8 _pad_3610[0x3904 - 0x3610];
+    u8 _pad_3610[0x3618 - 0x3610];
+    /* 0x3618 */ Unk_7102474c08 _3618;
+    u8 _pad_3650[0x3904 - 0x3650];
     /* 0x3904 */ u8 _3904;
     u8 _pad_3905[0x391c - 0x3905];
     /* 0x391c */ u8 _391c;
