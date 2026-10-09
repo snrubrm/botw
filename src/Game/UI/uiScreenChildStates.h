@@ -38,7 +38,7 @@ public:
     NN_RUNTIME_TYPEINFO(ScreenChildEx)
     explicit Unk_7102476db8(eui::LayoutEx* layout);
     ~Unk_7102476db8() override;
-    void m24() override;
+    void m24(sead::Heap* heap) override;
     void m25() override;
     void m27() override;
     void sub_7100986268();
@@ -71,7 +71,7 @@ public:
     NN_RUNTIME_TYPEINFO(ScreenChildEx)
     explicit Unk_710247bcb8(eui::LayoutEx* layout);
     ~Unk_710247bcb8() override;
-    void m24() override;
+    void m24(sead::Heap* heap) override;
     void m29() override;
     void sub_71009BCFF8();
     void sub_71009BD010(const eui::Animator* animator);
@@ -117,7 +117,7 @@ public:
     explicit Unk_710247c368(eui::LayoutEx* layout);
     ~Unk_710247c368() override;
     void m14() override;
-    void m24() override;
+    void m24(sead::Heap* heap) override;
     void m25() override;
     void m27() override;
     void m29() override;
@@ -146,7 +146,7 @@ public:
     NN_RUNTIME_TYPEINFO(ScreenChildEx)
     explicit Unk_7102477c30(eui::LayoutEx* layout);
     ~Unk_7102477c30() override;
-    void m24() override;
+    void m24(sead::Heap* heap) override;
     void m25() override;
 };
 static_assert(sizeof(Unk_7102477c30) == 0x130);
@@ -325,7 +325,7 @@ public:
     // Factory a17748 and full ctor 9c96a4/D1 9c9700 establish the 0x190 extent.
     explicit Unk_710247e468(eui::LayoutEx* layout);
     ~Unk_710247e468() override;
-    void m24() override;
+    void m24(sead::Heap* heap) override;
     void m25() override;
     void m27() override;
     void m31() override;

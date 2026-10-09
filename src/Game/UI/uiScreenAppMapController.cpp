@@ -16,7 +16,7 @@ void ScreenAppMapUnk3c90::sub_71009C117C() {
 }
 
 // 0x71009c18fc / 0x71009c1a5c: native forwarding hooks, callees remain undecompiled.
-void ScreenAppMapUnk3c90::m24() {
+void ScreenAppMapUnk3c90::m24(sead::Heap*) {
     sub_71009C1900();
 }
 

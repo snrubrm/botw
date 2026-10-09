@@ -125,7 +125,8 @@ public:
     virtual void m21();
     virtual void m22();
     virtual void m23(void* a1);
-    virtual void m24();
+    // Complete initialization chain 10AB2DC -> 9B06A8 -> 10A90C4 passes the heap to slot 24.
+    virtual void m24(sead::Heap* heap);
     virtual void m25();
     virtual void m26();
     virtual void m27();
@@ -155,7 +156,7 @@ public:
     virtual void m51();
     virtual void m52();
     virtual void m53(void* a1);
-    virtual void m54();
+    virtual void m54(sead::Heap* heap);
     virtual void m55();
     virtual void m56();
     virtual void m57();
@@ -233,6 +234,7 @@ public:
     NN_RUNTIME_TYPEINFO(ScreenChild)
     // 0x71009b0618 (27 leaf constructors call it, e.g. 0x7100931d6c / 0x71009d7198)
     explicit ScreenChildEx(eui::LayoutEx* layout);
+    void m54(sead::Heap* heap) override;
 
     /* 0x128 */ eui::Screen* _128;  // Unk_710247af10::m110 calls eui::Screen::sub_7100BEB70C on it
 };
@@ -1841,7 +1843,7 @@ struct ScreenAppMapUnk3c90 : ScreenChildEx {
     NN_RUNTIME_TYPEINFO(ScreenChildEx)
     explicit ScreenAppMapUnk3c90(eui::LayoutEx* layout);
     ~ScreenAppMapUnk3c90() override;
-    void m24() override;
+    void m24(sead::Heap* heap) override;
     void m27() override;
     void m31() override;
     void m34() override;

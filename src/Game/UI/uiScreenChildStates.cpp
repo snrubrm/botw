@@ -22,7 +22,7 @@ namespace uking::ui {
 Unk_7102476db8::Unk_7102476db8(eui::LayoutEx* layout) : ScreenChildEx(layout) {}
 
 // 0x7100986068
-void Unk_7102476db8::m24() {
+void Unk_7102476db8::m24(sead::Heap*) {
     mDisable = mLayout->createAnimatorAuto("Disable", false);
     if (mDisable)
         mDisable->StopAtMin();
@@ -103,7 +103,7 @@ f32 sub_7100986AC0() {
 Unk_7102477c30::Unk_7102477c30(eui::LayoutEx* layout) : ScreenChildEx(layout) {}
 
 // 0x710098c688 / 0x710098c68c: the native table overrides only these two update hooks.
-void Unk_7102477c30::m24() {}
+void Unk_7102477c30::m24(sead::Heap*) {}
 void Unk_7102477c30::m25() {}
 
 
@@ -111,7 +111,7 @@ void Unk_7102477c30::m25() {}
 Unk_710247bcb8::Unk_710247bcb8(eui::LayoutEx* layout) : ScreenChildEx(layout) {}
 
 // 0x71009bcbdc
-void Unk_710247bcb8::m24() {
+void Unk_710247bcb8::m24(sead::Heap*) {
     mNumber = mLayout->createAnimatorAuto("Num", true);
     if (mNumber)
         mNumber->StopAtMin();
@@ -424,7 +424,7 @@ void Unk_710247b428::m151() {}
 s32 Unk_710247b428::m152() { return 0; }
 
 // 0x71009c9878
-void Unk_710247e468::m24() {
+void Unk_710247e468::m24(sead::Heap*) {
     _130 = mLayout->tryCreateAnimatorAuto("Scroll", false);
     if (_130)
         _130->StopAtMin();

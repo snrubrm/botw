@@ -114,7 +114,7 @@ void ScreenChild::m22() {}
 void ScreenChild::m23(void* a1) {}
 
 // 0x7100931f88
-void ScreenChild::m24() {}
+void ScreenChild::m24(sead::Heap*) {}
 
 // 0x7100931f8c
 void ScreenChild::m25() {}
