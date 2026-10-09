@@ -11,6 +11,7 @@ class Actor;
 
 namespace ksys::phys {
 class Constraint;
+class FixedCs;
 class RigidBody;
 }
 
@@ -18,8 +19,8 @@ namespace sead {
 class Heap;
 }
 
-// 0x7100f6d358 (declared only; placeholder name): creates a physics constraint on `heap` (nullptr on failure).
-ksys::phys::Constraint* sub_7100F6D358(sead::Heap* heap);
+// 0x7100f6d358 creates a FixedCs on `heap` (nullptr on failure).
+ksys::phys::FixedCs* sub_7100F6D358(sead::Heap* heap);
 
 // Unnamed carried-actor helper objects embedded in the AddCarriedBase family. Layouts come from the
 // constructors (the classes have ~30 virtual / helper functions that are not decompiled).
@@ -109,7 +110,8 @@ public:
     // 0x71006f8f40: moves the constraint to the actor's matrix and `body`'s transform.
     void x_22(ksys::phys::RigidBody* body);
 
-    ksys::phys::Constraint* _30 = nullptr;
+    // The factory at 0x7100F6D358 and init at 0x71006F8A58 prove the concrete receiver.
+    ksys::phys::FixedCs* _30 = nullptr;
     f32 _38 = 1.0f;
     f32 _3c = 1.0f;
     f32 _40 = 1.0f;

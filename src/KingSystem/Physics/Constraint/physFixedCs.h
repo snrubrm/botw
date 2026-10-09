@@ -37,6 +37,9 @@ public:
 
     static FixedCs* make(const Param& param, sead::Heap* heap);
 
+    // 0x7100f6d420 converts three frames and passes them to the concrete Havok data.
+    void sub_7100F6D420(const sead::Matrix34f& a, const sead::Matrix34f& b, const sead::Matrix34f& c);
+
     // 0x7100f6d6d8 (placeholder name): sets the frames in the space of body_a / body_b.
     void sub_7100F6D6D8(const sead::Matrix34f& mtx_a, const sead::Matrix34f& mtx_b);
 

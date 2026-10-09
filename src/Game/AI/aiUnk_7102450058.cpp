@@ -6,7 +6,7 @@
 #include "KingSystem/ActorSystem/actDropData.h"
 #include "KingSystem/ActorSystem/actUnk_7100e4e084.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
-#include "KingSystem/Physics/Constraint/physConstraint.h"
+#include "KingSystem/Physics/Constraint/physFixedCs.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"

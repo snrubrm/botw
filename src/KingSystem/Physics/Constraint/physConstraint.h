@@ -111,7 +111,6 @@ public:
     bool sub_7100F6AC68() const;
     // 0x7100f6d420 (lane4 s49; declared only, 696 B): sets the pivot transforms (the matrices are converted to
     // quaternions and positions).
-    void sub_7100F6D420(const sead::Matrix34f& a, const sead::Matrix34f& b, const sead::Matrix34f& c);
 
     // inline-only in the original; see physConstraint.cpp.
     bool setBodyAndRequest_(BodyIndex idx, RigidBody* body);

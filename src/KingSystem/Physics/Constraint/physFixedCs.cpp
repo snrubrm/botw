@@ -10,6 +10,17 @@ u32 sub_7100F6D3DC(bool breakable) {
 
 FixedCs::~FixedCs() = default;
 
+void FixedCs::sub_7100F6D420(const sead::Matrix34f& a, const sead::Matrix34f& b,
+                              const sead::Matrix34f& c) {
+    hkTransform frame_a;
+    hkTransform frame_b;
+    hkTransform frame_c;
+    toHkTransform(&frame_a, a);
+    toHkTransform(&frame_b, b);
+    toHkTransform(&frame_c, c);
+    mData->sub_71015F3C84(frame_a, frame_b, frame_c);
+}
+
 void FixedCs::sub_7100F6D6D8(const sead::Matrix34f& mtx_a, const sead::Matrix34f& mtx_b) {
     hkTransform frame_a;
     hkTransform frame_b;

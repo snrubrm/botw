@@ -6,7 +6,7 @@
 #include "Game/AI/aiUnk_71007377D4.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/Physics/Constraint/physConstraint.h"
+#include "KingSystem/Physics/Constraint/physFixedCs.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
