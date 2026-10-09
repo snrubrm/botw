@@ -7,6 +7,9 @@
 #include "KingSystem/XLink/xlinkActorUtil.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
+class Unk_71023f83e8;
+class Unk_71023f94f8;
+
 namespace uking::ai {
 
 // Returns the root AI's "IsAnnihilateDungeonEnemy" map unit parameter (false if missing).
@@ -57,8 +60,8 @@ protected:
     bool _21c = true;
     u32 _220 = 0;
     Unk_7102450498 _228;
-    void* _278 = nullptr;
-    void* _280 = nullptr;
+    Unk_71023f83e8* _278 = nullptr;
+    Unk_71023f94f8* _280 = nullptr;
     ksys::act::BoneHandle _288;
     // Three pairs (ELink, SLink) of xlink handles (the six {pointer, id} pairs initialised by the constructor).
     Unk_71012419b4 _330[3];

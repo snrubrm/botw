@@ -98,10 +98,37 @@ void Unk_71023f94c0::call(ksys::act::Actor* actor) {
 
 GuardianMiniRoot::GuardianMiniRoot(const InitArg& arg) : EnemyRoot(arg) {}
 
-GuardianMiniRoot::~GuardianMiniRoot() = default;
+// NON_MATCHING: the existing callback and BoneHandle cleanup stays out of line.
+GuardianMiniRoot::~GuardianMiniRoot() {
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor))
+        enemy->_1148.erase(&_398);
+    if (_278) {
+        delete _278;
+        _278 = nullptr;
+    }
+    if (_280) {
+        delete _280;
+        _280 = nullptr;
+    }
+    stopXLinks();
+}
 
 bool GuardianMiniRoot::init_(sead::Heap* heap) {
-    return EnemyRoot::init_(heap);
+    if (!EnemyRoot::init_(heap))
+        return false;
+    _278 = new (heap, 8) Unk_71023f83e8(mActor, 0x8000021);
+    if (!_278)
+        return false;
+    _280 = new (heap, 8) Unk_71023f94f8(mActor, 0x8000047);
+    if (!_280)
+        return false;
+    for (s32 i = 0; i < 3; ++i) {
+        _390[i] = 0;
+        _393[i] = false;
+    }
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor))
+        enemy->_1148.append(&_398);
+    return true;
 }
 
 void GuardianMiniRoot::sub_71004267E4() {

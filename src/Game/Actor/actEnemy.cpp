@@ -506,6 +506,7 @@ ksys::act::LifeRecoverInfo* Enemy::getLifeRecoverInfo() {
 }
 
 void Enemy::m114(bool, bool) {
+void Enemy::m114() {
     if (_1168) {
         _1168->m9();
         if (_1170)
