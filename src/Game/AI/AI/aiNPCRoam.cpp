@@ -44,12 +44,12 @@ void NPCRoam::loadParams_() {
     getDynamicParam(&mBasisPos_d, "BasisPos");
 }
 
-// NON_MATCHING: only the order of the sead::GlobalRandom singleton load differs (the original loads the two static
-// params first)
 // 0x71004d8644
 void NPCRoam::sub_71004D8644() {
+    const s32 base_frame = *mWaitFrame_s;
+    const s32 random_frame = *mWaitFrameRand_s;
     const f32 wait_frame =
-        sead::GlobalRandom::instance()->getS32Range(*mWaitFrame_s, *mWaitFrame_s + *mWaitFrameRand_s);
+        sead::GlobalRandom::instance()->getS32Range(base_frame, base_frame + random_frame);
     ksys::act::ai::InlineParamPack pack;
     pack.addInt(wait_frame, "DynWaitFrame", -1);
     pack.addString(mWaitASName_d, "DynASName", -1);
