@@ -5,6 +5,11 @@
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Physics/System/physContactPointInfo.h"
+#include "Game/AI/aiUnk_71007377D4.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/Utils/MathUtil.h"
+#include <cfloat>
+#include <utility>
 
 namespace uking::ai {
 
@@ -45,6 +50,76 @@ void FlyInsectRoam::calc_() {
         _a0 = true;
         changeChild("着地");
     }
+}
+
+// NON_MATCHING: vector homes, random-range arithmetic and saved registers differ.
+void FlyInsectRoam::sub_71003D38B4() {
+    const sead::Vector3f position = mActor->getMtx().getTranslation();
+    sead::Vector3f direction = mActor->getMtx().getBase(2);
+    const f32 radius = _9c;
+    if (_a0) {
+        if (isLandedMaybe(mActor, false) || isBgGroundHit(mActor, false)) {
+            sead::Vector3f gravity;
+            sub_710072DC50(&gravity, mActor);
+            const f32 length = gravity.length();
+            sead::Vector3f up = -gravity;
+            if (length > 0.0f)
+                up *= 1.0f / length;
+            if (length < FLT_EPSILON)
+                up = sead::Vector3f::ey;
+            if (sub_71007A47C4(mActor) > 0) {
+                ksys::util::sub_71011EFA00(&direction, sub_71007A471C(mActor, 0)->_c, up);
+            } else {
+                sub_71007A49F0(mActor);
+                ksys::util::sub_71011EFA00(&direction, sub_71007A4948(mActor, 0)->_c, up);
+            }
+        } else {
+            ksys::util::sub_71011EF010(&direction, ksys::util::sub_71011EF0CC(3.1415927f));
+        }
+    } else {
+        const sead::Vector3f offset = position - *mTargetPos_d;
+        const f32 distance = sead::Mathf::sqrt(offset.x * offset.x + offset.z * offset.z);
+        if (distance > radius) {
+            direction = -offset;
+        } else {
+            f32 angle;
+            if (!(distance > radius * 0.5f)) {
+                const f32 range = *mMaxRotRand_s;
+                angle = ksys::util::sub_71011EF0CC((range + range) *
+                            sead::GlobalRandom::instance()->getF32() - range);
+            } else {
+                angle = ksys::util::sub_71011EF0CC(*mMaxRotRandOuter_s *
+                            sead::GlobalRandom::instance()->getF32() + 0.17453292f);
+                if (!(offset.z * direction.x - offset.x * direction.z > 0.0f))
+                    angle = -angle;
+            }
+            ksys::util::sub_71011EF010(&direction, angle);
+        }
+    }
+    direction.normalize();
+    const f32 distance = *mRePathDist_s + *mRePathDistRand_s *
+                         sead::GlobalRandom::instance()->getF32();
+    sead::Vector3f target = direction * distance + position;
+    sead::Vector3f offset = target - *mTargetPos_d;
+    const f32 target_distance = offset.normalize();
+    if (target_distance > radius)
+        target = offset * (radius * 0.8f) + *mTargetPos_d;
+    f32 low = mTargetPos_d->y + *mMinHeight_s;
+    f32 high = mTargetPos_d->y + *mMaxHeight_s;
+    if (low > high)
+        std::swap(low, high);
+    low = sead::Mathf::max(low, position.y - *mRePathYDistRand_s);
+    high = sead::Mathf::min(high, position.y + *mRePathYDistRand_s);
+    target.y = low;
+    if (low != high) {
+        if (low > high)
+            std::swap(low, high);
+        target.y = sead::GlobalRandom::instance()->getF32Range(low, high);
+    }
+    _a0 = false;
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(target, "TargetPos", -1);
+    changeChild("徘徊飛行", &pack);
 }
 
 bool FlyInsectRoam::sub_71003D3F7C() {
