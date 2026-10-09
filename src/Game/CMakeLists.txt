@@ -84,6 +84,8 @@ target_sources(uking PRIVATE
   gameStageStateMaybe.cpp
   gameStageStateMaybe.h
   gameSceneSubsys13.cpp
+  gameDungeonPackMgr.cpp
+  gameDungeonPackMgr.h
   gameSceneSubsys7.cpp
   gameSceneSubsys14.cpp
   gameSceneSubsysMisc.cpp
