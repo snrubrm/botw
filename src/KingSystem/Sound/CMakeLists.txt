@@ -12,6 +12,7 @@ target_sources(uking PRIVATE
   sndMusicDefinition.h
   sndMusicInfo.cpp
   sndMusicInfo.h
+  sndMiiSound.cpp
   sndResource.cpp
   sndResourceManager.cpp
   sndResource.h
