@@ -28,6 +28,26 @@ bool PriestBossActorNormalMode::sub_710050B7A8() {
     return limiter->sub_7100671A74(&entry, sub_7100505BE4()->_98);
 }
 
+// 0x710050bb0c
+// NON_MATCHING: compiler reverses the two phase-test branches.
+void PriestBossActorNormalMode::sub_710050BB0C() {
+    if (!sub_7100505BE4())
+        return;
+    _e4 = sub_7100505BE4()->sub_7100719534(mActor);
+    auto* unit = sub_7100505BE4();
+    if (unit->_3c == Unk_7102450fa8::Phase::_3) {
+        sub_710050BDCC();
+    } else if (unit->_3c == Unk_7102450fa8::Phase::_1) {
+        sub_710050BBC0();
+    } else {
+        _12c = *mReturnFromBananaMode_a ? 1 : 2;
+        _130 = sub_710050B6CC();
+        sub_710050AE6C(_12c);
+    }
+    _b0 = sub_7100505BE4()->_3c;
+    *mReturnFromBananaMode_a = false;
+}
+
 // NON_MATCHING: the original uses separate scalar stores where the natural constructor merges them.
 PriestBossActorNormalMode::PriestBossActorNormalMode(const InitArg& arg) : PriestBossMode(arg) {}
 

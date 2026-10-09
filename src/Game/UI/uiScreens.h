@@ -2239,6 +2239,11 @@ struct ScreenAppPictureBookEntry {
         void* _2d0 = nullptr;
     };
 
+    // Same-owner native setup chain; later stages remain declaration only.
+    void sub_710093A500(sead::Heap* heap);
+    void sub_710093A5C0(sead::Heap* heap);
+    void sub_710093A758();
+    void sub_710093AC7C();
     ScreenAppPictureBookEntry() = default;
     virtual ~ScreenAppPictureBookEntry();
 
@@ -2280,10 +2285,10 @@ static_assert(sizeof(ScreenAppPictureBookEntry) == 0x398);
 // writes its entry and list controller, and93C660 attaches its units.
 struct PictureBookGroupRecord {
     u32 _0;
-    f32 _4;
-    f32 _8;
+    sead::Vector2f mPosition;
     s32 _c;
 };
+static_assert(sizeof(PictureBookGroupRecord) == 0x10);
 class Unk_7102474f10 {
 public:
     SEAD_RTTI_BASE(Unk_7102474f10)

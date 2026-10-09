@@ -84,6 +84,19 @@ ScreenAppPictureBookEntry::~ScreenAppPictureBookEntry() {
     }
 }
 
+// 0x710093a500
+void ScreenAppPictureBookEntry::sub_710093A500(sead::Heap* heap) {
+    const s32 count = mParams._298;
+    if (count > 0) {
+        mRecords.allocBuffer(count, heap, 8);
+        for (s32 i = 0; i < count; ++i)
+            mRecords.pushBack(new (heap, 8) PictureBookGroupRecord{0, sead::Vector2f::zero, -1});
+    }
+    sub_710093A5C0(heap);
+    sub_710093A758();
+    sub_710093AC7C();
+}
+
 // 0x7100939f68 (D1) / 0x7100939fb8 (D0)
 Unk_7102474f10::~Unk_7102474f10() {
     _8 = nullptr;

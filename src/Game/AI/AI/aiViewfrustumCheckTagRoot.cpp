@@ -2,6 +2,7 @@
 #include <math/seadMathCalcCommon.h>
 #include "Game/AI/aiUnk_7100D8C538.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/System/CameraMgr.h"
 
 namespace uking::ai {
@@ -16,6 +17,33 @@ bool ViewfrustumCheckTagRoot::init_(sead::Heap* heap) {
 
 void ViewfrustumCheckTagRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
+}
+
+// 0x71005e47a0
+// NON_MATCHING: position-load scheduling across the player lookup and stack placement differ.
+void ViewfrustumCheckTagRoot::calc_() {
+    auto* actor = mActor;
+    auto* child = getCurrentChild();
+    if (!actor || !child)
+        return;
+    actor->m107();
+    if (!_48 || actor->checkBasicSig()) {
+        const sead::Vector3f pos = mActor->getMtx().getTranslation();
+        bool visible = visibilityCheckMaybe(pos, mActor->getScale().x);
+        if (!visible && *mAllwaysOnDisFromPlayer_m != -1.0f) {
+            const auto& matrix = mActor->getMtx();
+            const auto& player = getPlayerPosition();
+            visible = sead::Vector2f(matrix.m[0][3] - player.x, matrix.m[2][3] - player.z).length() <
+                      *mAllwaysOnDisFromPlayer_m;
+        }
+        if (visible || sub_71005E4698()) {
+            if (isCurrentChild("Off"))
+                changeChild("On");
+            return;
+        }
+    }
+    if (isCurrentChild("On"))
+        changeChild("Off");
 }
 
 void ViewfrustumCheckTagRoot::leave_() {

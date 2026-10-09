@@ -38,6 +38,10 @@ protected:
     SEAD_ENUM(Attack, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12)
 
     void sub_710050BB0C();
+    void sub_710050BBC0();
+    void sub_710050BDCC();
+    s32 sub_710050B6CC();
+    void sub_710050AE6C(s32 mode);
     bool sub_710050B7A8();
     // inline-only in the original; name is a guess. Evidence: the same tail (`std::pow(0.9f, count)` scaled into
     // a random weight, the by-value enum going through the stack) is inlined into m39 / m40 / m41.
