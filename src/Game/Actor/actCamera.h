@@ -265,8 +265,10 @@ public:
     /* 0x4f8 */ sead::FixedSafeString<32> _4f8;
     /* 0x530 */ Unk_7100791b1c _530;
     /* 0x5a0 */ Unk_7100791b1c _5a0[3]{};
-    /* 0x6f0 */ void* _6f0 = nullptr;
-    /* 0x6f8 */ u32 _6f8 = 0;
+    // Per-core scalar values: 79BDC4 writes one 4-byte slot; BE40 chooses its signed maximum magnitude.
+    /* 0x6f0 */ f32 _6f0 = 0;
+    /* 0x6f4 */ f32 _6f4 = 0;
+    /* 0x6f8 */ f32 _6f8 = 0;
     /* 0x6fc */ sead::Matrix34f _6fc = sead::Matrix34f::ident;
     /* 0x72c */ Unk72c _72c{};
     /* 0x7b4 */ u32 _7b4 = 0;

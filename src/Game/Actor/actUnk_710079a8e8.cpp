@@ -144,8 +144,27 @@ bool Unk_710079a8e8::sub_710079BDA4() const {
 }
 
 void Unk_710079a8e8::sub_710079BE34() {
-    _6f0 = nullptr;
+    _6f0 = 0;
+    _6f4 = 0;
     _6f8 = 0;
+}
+
+f32 Unk_710079a8e8::sub_710079BE40() const {
+    f32 result = 0;
+    f32 maximum = -1.0f;
+    const f32 a = sead::Mathf::abs(_6f0);
+    if (a > maximum) {
+        maximum = a;
+        result = _6f0;
+    }
+    const f32 b = sead::Mathf::abs(_6f4);
+    if (b > maximum) {
+        maximum = b;
+        result = _6f4;
+    }
+    if (sead::Mathf::abs(_6f8) > maximum)
+        result = _6f8;
+    return result;
 }
 
 void Unk_710079a8e8::sub_710079BEA8() {
