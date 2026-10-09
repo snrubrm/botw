@@ -8,6 +8,15 @@
 void sub_71005DF820(f32* out, f32 velY, f32 depth, f32 floatDepth, f32 inWaterDepth,
                     f32 floatRadius, f32 floatCycleTime, f32 changeDepthSpeed);
 
+extern const f32 sUnk_7101EC1934;
+extern const f32 sUnk_7101EC1938;
+extern const f32 sUnk_7101EC193C;
+
+static const f32 sUnk_7101E79B54 = 0.6f;
+static const f32 sUnk_7101E79B58 = 0.15f;
+static const f32 sUnk_7101E79B5C = 0.002f;
+static const f32 sUnk_7101E79B60 = 0.4f;
+
 namespace uking::action {
 
 void NpcSwimMove::m32() {
@@ -16,7 +25,12 @@ void NpcSwimMove::m32() {
     playAS(m33().cstr(), true, 0, 0, -1.0f);
 }
 
-NpcSwimMove::NpcSwimMove(const InitArg& arg) : ksys::act::ai::Action(arg) {}
+NpcSwimMove::NpcSwimMove(const InitArg& arg)
+    : ksys::act::ai::Action(arg),
+      _a0{&sUnk_7101E79B54, &sUnk_7101E79B58, &sUnk_7101E79B5C,
+            &sUnk_7101EC1934, &sUnk_7101EC1938, &sUnk_7101EC193C, 0.0f, 0.0f, 0.0f},
+      _e0{&sUnk_7101E79B60, 0.0f}, _f0(0.0f, 0.0f, 0.0f),
+      _108(1.309f), _10c(1.0f), _110(0.0f), _114(true) {}
 
 NpcSwimMove::~NpcSwimMove() = default;
 

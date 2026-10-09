@@ -90,6 +90,7 @@ target_sources(uking PRIVATE
   StringUtil.cpp
   StringUtil.h
   Unk_7100e7277c.cpp
+  Unk_7100e726a8.h
   Unk_7100e7277c.h
   TypeTraits.h
   Types.h

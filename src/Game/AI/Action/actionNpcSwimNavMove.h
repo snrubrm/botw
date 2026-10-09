@@ -3,6 +3,8 @@
 #include "Game/AI/Action/actionRandomMoveAction.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 #include "KingSystem/ActorSystem/actCCAccessor.h"
+#include "KingSystem/Utils/Unk_7100e726a8.h"
+#include "KingSystem/Utils/Unk_7100e7277c.h"
 
 namespace uking::action {
 
@@ -56,10 +58,14 @@ protected:
     const sead::Vector3f* mAddCalcStickX_s{};
     // dynamic_param at offset 0xb0
     sead::Vector3f* mTargetPos_d{};
-    // Constants / pointers set by the ctor (not decompiled yet).
-    u8 _b8[0x128 - 0xb8];
+    Unk_7100e726a8 _b8;
+    Unk_7100e7277c _f8;
+    sead::Vector3f _108;
+    u8 _114[0xc];
+    f32 _120;
+    f32 _124;
     f32 _128;
-    u8 _12c[0x130 - 0x12c];
+    bool _12c;
     ksys::act::CCAccessor _130;
 };
 

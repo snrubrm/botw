@@ -2,6 +2,8 @@
 
 #include "KingSystem/ActorSystem/actAiAction.h"
 #include "KingSystem/ActorSystem/actCCAccessor.h"
+#include "KingSystem/Utils/Unk_7100e726a8.h"
+#include "KingSystem/Utils/Unk_7100e7277c.h"
 
 namespace uking::action {
 
@@ -51,11 +53,14 @@ protected:
     // dynamic_param at offset 0x90
     sead::Vector3f* mTargetPos_d{};
     ksys::act::CCAccessor _98;
-    // Pairs of constants / pointers set by the ctor (default values of the dynamic state); not
-    // decompiled yet.
-    u8 _a0[0x110 - 0xa0];
+    Unk_7100e726a8 _a0;
+    Unk_7100e7277c _e0;
+    sead::Vector3f _f0;
+    u8 _fc[0xc];
+    f32 _108;
+    f32 _10c;
     f32 _110;
-    u8 _114[0x118 - 0x114];
+    bool _114;
 
     // 0x71002001a4 (placeholder name): sets _110 to the vertical speed that keeps the actor floating.
     void sub_71002001A4();

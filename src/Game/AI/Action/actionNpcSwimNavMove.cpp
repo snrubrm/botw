@@ -8,6 +8,15 @@
 void sub_71005DF820(f32* out, f32 velY, f32 depth, f32 floatDepth, f32 inWaterDepth,
                     f32 floatRadius, f32 floatCycleTime, f32 changeDepthSpeed);
 
+extern const f32 sUnk_7101EC1934;
+extern const f32 sUnk_7101EC1938;
+extern const f32 sUnk_7101EC193C;
+
+static const f32 sUnk_7101E79B64 = 0.6f;
+static const f32 sUnk_7101E79B68 = 0.15f;
+static const f32 sUnk_7101E79B6C = 0.002f;
+static const f32 sUnk_7101E79B70 = 0.4f;
+
 namespace uking::action {
 
 void NpcSwimNavMove::sub_7100201974() {
@@ -39,7 +48,12 @@ void NpcSwimNavMove::m34() {
     playAS(m35().cstr(), true, 0, 0, -1.0f);
 }
 
-NpcSwimNavMove::NpcSwimNavMove(const InitArg& arg) : RandomMoveAction(arg) {}
+NpcSwimNavMove::NpcSwimNavMove(const InitArg& arg)
+    : RandomMoveAction(arg),
+      _b8{&sUnk_7101E79B64, &sUnk_7101E79B68, &sUnk_7101E79B6C,
+            &sUnk_7101EC1934, &sUnk_7101EC1938, &sUnk_7101EC193C, 0.0f, 0.0f, 0.0f},
+      _f8{&sUnk_7101E79B70, 0.0f}, _108(0.0f, 0.0f, 0.0f),
+      _120(1.309f), _124(1.0f), _128(0.0f), _12c(true) {}
 
 NpcSwimNavMove::~NpcSwimNavMove() = default;
 
