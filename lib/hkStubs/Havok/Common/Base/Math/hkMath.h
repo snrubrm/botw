@@ -34,6 +34,7 @@ using hkQuaternionfParameter = const hkQuaternionf&;
 #include <Havok/Common/Base/Math/Matrix/hkMatrix3.h>
 #include <Havok/Common/Base/Math/Matrix/hkRotation.h>
 #include <Havok/Common/Base/Math/Matrix/hkTransform.h>
+#include <Havok/Common/Base/Math/QTransform/hkQTransform.h>
 #include <Havok/Common/Base/Math/QsTransform/hkQsTransform.h>
 #include <Havok/Common/Base/Math/Matrix/hkMatrix4.h>
 

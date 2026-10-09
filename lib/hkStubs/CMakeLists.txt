@@ -2,6 +2,9 @@ project(hkStubs CXX ASM)
 
 add_library(hkStubs OBJECT
   Havok/Ai/Pathfinding/NavMesh/hkaiNavMeshInstance.h
+  Havok/Ai/Pathfinding/Silhouette/hkaiConvexSilhouetteSet.h
+  Havok/Ai/Pathfinding/Silhouette/hkaiSilhouetteGenerationParameters.h
+  Havok/Ai/Pathfinding/Silhouette/hkaiSilhouetteReferenceFrame.h
   Havok/Ai/Pathfinding/Streaming/hkaiStreamingCollection.cpp
   Havok/Ai/Pathfinding/Streaming/hkaiStreamingCollection.h
   Havok/Ai/Pathfinding/Utilities/hkaiUserEdgeUtils.h
@@ -47,6 +50,8 @@ add_library(hkStubs OBJECT
   Havok/Common/Base/Math/Matrix/hkRotationf.h
   Havok/Common/Base/Math/Matrix/hkTransform.h
   Havok/Common/Base/Math/Matrix/hkTransformf.h
+  Havok/Common/Base/Math/QTransform/hkQTransform.h
+  Havok/Common/Base/Math/QTransform/hkQTransformf.h
   Havok/Common/Base/Math/QsTransform/hkQsTransform.h
   Havok/Common/Base/Math/QsTransform/hkQsTransformf.h
   Havok/Common/Base/Math/QsTransform/hkQsTransformf.inl
