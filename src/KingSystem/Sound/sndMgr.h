@@ -178,6 +178,8 @@ public:
     bool sub_7101029BB0(uking::act::EnvSeEmitPoint* point);
     // 0x7101029c98 (declared only; lane1 s47): removes `point` from the list of its kind.
     void sub_7101029C98(uking::act::EnvSeEmitPoint* point);
+    // 0x71010299ac and 0x7101029aa0 pass their respective emit-point lists.
+    void sub_7101029D3C(sead::OffsetList<uking::act::EnvSeEmitPoint>* points);
 
     /* 0x08 */ sead::OffsetList<uking::act::EnvSeEmitPoint> _8[2];
     /* 0x38 */ sead::CriticalSection mCS;

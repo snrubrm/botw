@@ -33,6 +33,40 @@ void Unk_SoundMgr38_20::sub_7101029970() {
     }
 }
 
+void Unk_SoundMgr38_20::sub_71010299AC() {
+    auto lock = sead::makeScopedLock(mCS);
+    if (_8[0].size() == 0)
+        return;
+    sub_7101029D3C(&_8[0]);
+    s32 index = 0;
+    for (auto& point : _8[0]) {
+        if (index <= 3)
+            point.sub_7101029620(false);
+        else
+            point.sub_7101029620(true);
+        ++index;
+    }
+    for (auto& point : _8[0])
+        point.sub_71010296B0();
+}
+
+void Unk_SoundMgr38_20::sub_7101029AA0() {
+    auto lock = sead::makeScopedLock(mCS);
+    if (_8[1].size() == 0)
+        return;
+    sub_7101029D3C(&_8[1]);
+    s32 index = 0;
+    for (auto& point : _8[1]) {
+        if (index <= 5)
+            point.sub_7101029620(false);
+        else
+            point.sub_7101029620(true);
+        ++index;
+    }
+    for (auto& point : _8[1])
+        point.sub_71010296B0();
+}
+
 void Unk_SoundMgr38_20::sub_7101029B94() { _78 = true; }
 void Unk_SoundMgr38_20::sub_7101029BA0() { _78 = false; }
 void Unk_SoundMgr38_20::sub_7101029BA8() { _78 = false; }
@@ -64,6 +98,17 @@ void Unk_SoundMgr38_20::sub_7101029C98(uking::act::EnvSeEmitPoint* point) {
         point->_84d = 0;
         _8[kind].erase(point);
     }
+}
+
+// NON_MATCHING: the existing list API uses a different offset-negation instruction and address-load order.
+void Unk_SoundMgr38_20::sub_7101029D3C(sead::OffsetList<uking::act::EnvSeEmitPoint>* points) {
+    for (auto& point : *points)
+        point.sub_7101029658();
+    // The native insertion comparison includes unordered float values.
+    points->insertionSort([](const uking::act::EnvSeEmitPoint* a,
+                             const uking::act::EnvSeEmitPoint* b) {
+        return !(a->_840 <= b->_840);
+    });
 }
 
 Unk_SoundMgr38_28* Unk_SoundMgr38::sub_710102C104() const {
