@@ -68,9 +68,22 @@ static_assert(sizeof(Unk_7102477110) == 0x400);
 // Player status: factory a17454, full ctor 9bc9bc and D1 9bca14.
 class Unk_710247bcb8 : public ScreenChildEx {
 public:
+    NN_RUNTIME_TYPEINFO(ScreenChildEx)
     explicit Unk_710247bcb8(eui::LayoutEx* layout);
     ~Unk_710247bcb8() override;
-    u8 _130[0x198 - 0x130];
+    void m24() override;
+    void m29() override;
+    void sub_71009BD010(const eui::Animator* animator);
+    eui::Animator* sub_71009BD02C() const;
+
+    // Constructor and independent setup/update/reset consumers identify these controls.
+    eui::Animator* mNumber = nullptr;
+    eui::Animator* mAttention = nullptr;
+    Unk_71024774c8 mEffectIcons[3];
+    s32 _188 = -1;
+    s32 _18c = 0;
+    s32 _190 = -1;
+    u8 _194[4];
 };
 static_assert(sizeof(Unk_710247bcb8) == 0x198);
 

@@ -90,6 +90,48 @@ void Unk_7102477c30::m24() {}
 void Unk_7102477c30::m25() {}
 
 
+// 0x71009bc9bc
+Unk_710247bcb8::Unk_710247bcb8(eui::LayoutEx* layout) : ScreenChildEx(layout) {}
+
+// 0x71009bcbdc
+void Unk_710247bcb8::m24() {
+    mNumber = mLayout->createAnimatorAuto("Num", true);
+    if (mNumber)
+        mNumber->StopAtMin();
+    mAttention = mLayout->createAnimatorAuto("Attention", true);
+    if (mAttention)
+        mAttention->StopAtMin();
+    mEffectIcons[0].sub_7100988EF0(mLayout->findPartsLayout("Pa_SpIcon_00"));
+    mEffectIcons[1].sub_7100988EF0(mLayout->findPartsLayout("Pa_SpIcon_01"));
+    mEffectIcons[2].sub_7100988EF0(mLayout->findPartsLayout("Pa_SpIcon_02"));
+}
+
+// 0x71009bd010
+// NON_MATCHING: the compiler hoists the argument null check before the layout load.
+void Unk_710247bcb8::sub_71009BD010(const eui::Animator* animator) {
+    if (!mLayout || !animator)
+        return;
+    if (mLayout->_70)
+        mLayout->_70->ContinueFrom(*animator);
+}
+
+// 0x71009bd02c
+// The const spelling is inferred from this read-only loop animator query.
+eui::Animator* Unk_710247bcb8::sub_71009BD02C() const {
+    if (!mLayout)
+        return nullptr;
+    return mLayout->_70;
+}
+
+// 0x71009bd044
+void Unk_710247bcb8::m29() {
+    if (_190 == 0)
+        _128->invokeSoundLink2Event_("mc_PlayerStatusUpEnd");
+    _188 = -1;
+    _18c = 0;
+    _190 = -1;
+}
+
 // 0x71009b9b38
 Unk_710247b428::Unk_710247b428(eui::LayoutEx* layout)
     : ScreenChildEx(layout), _130{}, _1a8(nullptr), _1b0{} {}
