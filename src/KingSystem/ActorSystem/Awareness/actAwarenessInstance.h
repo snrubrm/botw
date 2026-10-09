@@ -114,10 +114,7 @@ public:
     void m9(int idx, f32 value) override;
     void m10(int bit, bool on) override;
 
-    // Slots 11-18. 0x7100d7774c: unless inactive (_50) or the world manager's (GOT 0x7102590c10)
-    // byte 0x128 has bits 4 / 1 set: clears _1c/_20/_3c/_48, calls m10(1, 0) / m10(2, 0)... (not
-    // decompiled). 0x7100d77854: takes a pointer (not decompiled). 0x7100d77530: copies an entry
-    // (`other` is a Unk_71024dc858; returns whether it was one; not decompiled).
+    // Clears pending entry levels unless inactive or Awareness is paused/event-active.
     void m11() override;
     void m12(void* arg) override;
     f32 m13() override { return _4c; }

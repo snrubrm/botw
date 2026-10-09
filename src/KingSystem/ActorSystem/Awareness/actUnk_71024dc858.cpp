@@ -1,4 +1,5 @@
 #include "KingSystem/ActorSystem/Awareness/actAITerror.h"
+#include "KingSystem/ActorSystem/Awareness/actAwareness.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessDefs.h"
 #include "KingSystem/ActorSystem/actActor.h"
@@ -59,6 +60,28 @@ void Unk_71024dc858::m9(int idx, f32 value) {
     } else {
         _18[idx] = value;
     }
+}
+
+// NON_MATCHING: the final flag OR has its commutative operands reversed.
+void Unk_71024dc858::m11() {
+    if (_50)
+        return;
+    auto* awareness = Awareness::instance();
+    if (!awareness || awareness->checkFlag(Awareness::Flag::EventActive) ||
+        awareness->checkFlag(Awareness::Flag::Paused))
+        return;
+    _18[1] = 0.0f;
+    _18[2] = 0.0f;
+    _3c = 0;
+    m10(1, false);
+    m10(2, false);
+    _48 = 0;
+    if (m5(10))
+        _40 = -1;
+    else if (!(_40 & 0x100))
+        return;
+    if (Awareness::instance())
+        Awareness::instance()->setFlag(Awareness::Flag::_0);
 }
 
 // NON_MATCHING: store merging (the original merges only the _18[1] / _18[2] zeros into one 64-bit

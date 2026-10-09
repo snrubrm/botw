@@ -1065,6 +1065,19 @@ void CharacterController::sub_7100F5FBE0(const sead::Vector3f& pos) {
         _114 |= 0x20;
 }
 
+void CharacterController::sub_7100F5FD40(const sead::Quatf& rotation) {
+    sead::Vector3f velocity;
+    if (mFlags.isOn(0x10000))
+        _298->computeAngularVelocity(&velocity, rotation);
+    else
+        mRigidBody->computeAngularVelocity(&velocity, rotation);
+    mRigidBody->setAngularVelocity(velocity, 1.1920929e-7f);
+    if (mFlags.isOn(0x10000))
+        _298->setAngularVelocity(velocity, 1.1920929e-7f);
+    if (velocity.x != 0.0f || velocity.y != 0.0f || velocity.z != 0.0f)
+        _114 |= 0x20;
+}
+
 // NON_MATCHING: the original stores and reloads the state query results on the stack.
 void CharacterController::sub_7100F60274(const sead::Vector3f& delta) {
     if (_28->sub_710167785C() == 3 || _28->sub_710167785C() == 2) {

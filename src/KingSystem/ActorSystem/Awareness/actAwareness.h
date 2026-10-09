@@ -45,6 +45,7 @@ public:
 
 private:
     friend class AwarenessInstance;
+    friend class Unk_71024dc858;
     friend class AITerror;
 
     SEAD_ENUM(Flag, _0, Paused, _2, _3, EventActive, _5, _6)
