@@ -76,6 +76,10 @@ public:
                const u32& value, ConstraintUnk18* breakable);
     virtual ~Constraint();
 
+    // Whole FixedCs factory passes its constructed receiver and allocation heap.
+    // Listener registration implementation remains undecompiled.
+    void sub_7100F6A180(sead::Heap* heap);
+
     /// No-op if instance is null.
     static void destroy(Constraint* instance);
 

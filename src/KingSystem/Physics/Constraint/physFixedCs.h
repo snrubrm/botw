@@ -38,6 +38,10 @@ public:
     void sub_7100F6D6D8(const sead::Matrix34f& mtx_a, const sead::Matrix34f& mtx_b);
 
 private:
+    FixedCs(hkpConstraintInstance* instance, RigidBody* body_a, RigidBody* body_b,
+            ConstraintUnk18* breakable, hkpFixedConstraintData* data)
+        : Constraint(instance, body_a, body_b, 0, breakable), mData(data) {}
+
     // make at 0x7100F6D070 stores the data pointer here after allocating 0xc0.
     // The independent frame setter at 0x7100F6D6D8 uses this same receiver.
     hkpFixedConstraintData* mData;
