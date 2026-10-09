@@ -9,6 +9,10 @@ namespace ksys::snd {
 
 ListenerPoser::ListenerPoser() = default;
 
+void ListenerPoser::sub_7101055100() {
+    _a8.moveTo(1.0f, 0.5f);
+}
+
 void ListenerPoser::init(sead::Heap* heap) {
     mPoser = sub_71012C5810("snd::ListenerPoser", heap);
     mListener = aal::SystemAccessor::getListenerMgr()->createListener("デフォルトリスナー");

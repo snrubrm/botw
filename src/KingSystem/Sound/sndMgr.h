@@ -458,6 +458,7 @@ public:
     // 0x7101054a88 (D1) / 0x7101054adc (D0)
     virtual ~ListenerPoser();
 
+    void sub_7101055100();
     // 0x7101055538 (CSV unnamed): if `_70` is clear, sets it and stores `value` in `_74`.
     void sub_7101055538(s32 value);
     // 0x7101054b30 (declaration only): creates the poser (in `heap`) and the default listener.
