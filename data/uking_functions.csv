@@ -106093,7 +106093,7 @@ Address,Quality,Size,Name
 0x0000007101616168,m,000052,_ZNK21hkpConstraintInstance20isConstrainedToWorldEv
 0x000000710161619c,U,000504,_ZN21hkpConstraintInstanceD1Ev
 0x0000007101616394,U,000088,_ZN21hkpConstraintInstanceD0Ev
-0x00000071016163ec,U,000144,_ZN21hkpConstraintInstance21addConstraintListenerEP21hkpConstraintListener
+0x00000071016163ec,m,000144,_ZN21hkpConstraintInstance21addConstraintListenerEP21hkpConstraintListener
 0x000000710161647c,m,000072,_ZN21hkpConstraintInstance24removeConstraintListenerEP21hkpConstraintListener
 0x00000071016164c4,m,000188,_ZN21hkpConstraintInstance26pointNullsToFixedRigidBodyEv
 0x0000007101616580,U,000184,_ZN21hkpConstraintInstance21setVirtualMassInverseERK10hkVector4fS2_
@@ -110989,7 +110989,7 @@ Address,Quality,Size,Name
 0x000000710177ed10,U,000216,
 0x000000710177ede8,L,000052,hkSweptTransform::set
 0x000000710177ee1c,U,000192,
-0x000000710177eedc,U,000208,
+0x000000710177eedc,U,000208,_Z14sub_710177EEDCPvi
 0x000000710177efac,L,000004,nullsub_5844
 0x000000710177efb0,L,000580,
 0x000000710177f1f4,L,000004,nullsub_5845

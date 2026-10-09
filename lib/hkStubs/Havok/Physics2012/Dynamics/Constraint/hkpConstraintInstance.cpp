@@ -123,3 +123,13 @@ void hkpConstraintInstance::pointNullsToFixedRigidBody() {
         m_entities[i]->addReference();
     }
 }
+
+// NON_MATCHING: the search branch, packed count/capacity loads and append stores have different layouts.
+// 0x71016163ec
+void hkpConstraintInstance::addConstraintListener(hkpConstraintListener* listener) {
+    const int index = m_listeners.indexOf(nullptr);
+    if (index < 0)
+        m_listeners.pushBack(listener);
+    else
+        m_listeners[index] = listener;
+}
