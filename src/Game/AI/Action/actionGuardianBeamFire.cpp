@@ -29,9 +29,9 @@ void GuardianBeamFire::calc_() {
     BeamMove::calc_();
 }
 
-// NON_MATCHING: scheduling only (the original loads the three integers, computes the length, then stores them).
 void GuardianBeamFire::m40() {
-    mActor->getMtx().getBase(_40, 2);
+    const sead::Vector3f front = mActor->getMtx().getBase(2);
+    _40 = front;
     _40.normalize();
     _4c = *mSpeed_s;
 }
