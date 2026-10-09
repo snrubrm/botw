@@ -11,6 +11,14 @@ public:
     ConstraintType getType() const override;
     void getConstraintInfo(ConstraintInfo& infoOut) const override;
     hkBool isValid() const override;
+    void setMaximumLinearImpulse(hkReal maxLinearImpulse) override;
+    void setMaximumAngularImpulse(hkReal maxAngularImpulse) override;
+    hkReal getMaximumLinearImpulse() const override;
+    hkReal getMaximumAngularImpulse() const override;
+    void setBodyToNotify(int bodyIndex) override;
+    hkUint8 getNotifiedBodyIndex() const override;
+    void setSolvingMethod(hkpConstraintAtom::SolvingMethod method) override;
+    hkResult getInertiaStabilizationFactor(hkReal& factorOut) const override;
     // Declared for the native bool/output pair only. The unresolved base
     // runtime slot order is not repaired by this derived declaration.
     void getRuntimeInfo(hkBool wantRuntime, RuntimeInfo& infoOut) const override;
