@@ -313,16 +313,17 @@ void Weapon::m206(bool play_sound) {
     ksys::act::disableAllAttClients(this);
 }
 
-// NON_MATCHING: the invalid-slot result joins the shared return path earlier.
 bool Weapon::m153() {
     if (m189())
         return (_e50 & 4) != 0;
     if (!getParentActor())
         return false;
     auto* weapons = getParentActorWeapons();
-    if (!weapons || _9f0 < 0 || _9f0 > 5)
-        return false;
-    return weapons->mWeapons[_9f0]._10;
+    if (weapons) {
+        if (_9f0 >= 0 && _9f0 <= 5)
+            return weapons->mWeapons[_9f0]._10;
+    }
+    return false;
 }
 
 void Weapon::m240(sead::Vector3f* out) {
