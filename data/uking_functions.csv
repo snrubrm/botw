@@ -105742,8 +105742,8 @@ Address,Quality,Size,Name
 0x00000071015fd110,L,000360,
 0x00000071015fd278,L,000460,_ZN19hkpResponseModifier27setInvMassScalingForContactEP21hkpDynamicsContactMgrP12hkpRigidBodyR18hkpConstraintOwnerRK10hkVector4f
 0x00000071015fd444,L,000320,_ZN19hkpResponseModifier27setImpulseScalingForContactEP21hkpDynamicsContactMgrP12hkpRigidBodyS3_R18hkpConstraintOwnerff
-0x00000071015fd584,L,000272,
-0x00000071015fd694,L,000280,
+0x00000071015fd584,L,000272,_ZN19hkpResponseModifier17disableConstraintEP21hkpConstraintInstanceR18hkpConstraintOwner
+0x00000071015fd694,L,000280,_ZN19hkpResponseModifier16enableConstraintEP21hkpConstraintInstanceR18hkpConstraintOwner
 0x00000071015fd7ac,L,000240,hkpEntity::hkpEntity
 0x00000071015fd89c,L,000288,
 0x00000071015fd9bc,L,000276,hkpEntity::setCachedShapeData
@@ -106097,8 +106097,8 @@ Address,Quality,Size,Name
 0x000000710161647c,U,000072,
 0x00000071016164c4,L,000188,hkpConstraintInstance::pointNullsToFixedRigidBody
 0x0000007101616580,U,000184,
-0x0000007101616638,U,000008,
-0x0000007101616640,U,000008,
+0x0000007101616638,O,000008,_ZN21hkpConstraintInstance6enableEv
+0x0000007101616640,O,000008,_ZN21hkpConstraintInstance7disableEv
 0x0000007101616648,O,000032,_ZN21hkpConstraintInstance9isEnabledEv
 0x0000007101616668,U,000216,
 0x0000007101616740,U,000240,

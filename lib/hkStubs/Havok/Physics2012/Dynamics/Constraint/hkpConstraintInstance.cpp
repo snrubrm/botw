@@ -1,6 +1,7 @@
 #include <Havok/Physics2012/Dynamics/Constraint/hkpConstraintInstance.h>
 #include <Havok/Physics2012/Dynamics/World/Util/hkpWorldConstraintUtil.h>
 #include <Havok/Physics2012/Dynamics/Entity/hkpEntity.h>
+#include <Havok/Physics2012/Dynamics/Collide/hkpResponseModifier.h>
 
 // 0x7101615ED8
 void hkpConstraintInstance::setPriority(ConstraintPriority priority) {
@@ -21,4 +22,12 @@ hkpSimulationIsland* hkpConstraintInstance::getSimulationIsland() {
 hkBool hkpConstraintInstance::isEnabled() {
     return hkpWorldConstraintUtil::findModifier(
                this, hkpConstraintAtom::TYPE_MODIFIER_IGNORE_CONSTRAINT) == nullptr;
+}
+
+void hkpConstraintInstance::enable() {
+    hkpResponseModifier::enableConstraint(this, *m_owner);
+}
+
+void hkpConstraintInstance::disable() {
+    hkpResponseModifier::disableConstraint(this, *m_owner);
 }
