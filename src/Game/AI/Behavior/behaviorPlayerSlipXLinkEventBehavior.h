@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiBehavior.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
 
 namespace uking::behavior {
 
@@ -15,12 +16,10 @@ public:
     void m9() override;
     void loadParams() override;
 
-    /* 0x28 */ void* _28 = nullptr;
-    /* 0x30 */ u32 _30 = 0;
-    /* 0x38 */ void* _38 = nullptr;
-    /* 0x40 */ u32 _40 = 0;
-    /* 0x48 */ void* _48 = nullptr;
-    /* 0x50 */ bool _50 = false;
+    /* 0x28 */ Unk_71012419b4 _28;
+    /* 0x48 */ u32 _48 = 0;
+    /* 0x4c */ u32 _4c = 0;
+    /* 0x50 */ u8 _50 = 0;
     /* 0x51 */ bool _51 = false;
 };
 KSYS_CHECK_SIZE_NX150(PlayerSlipXLinkEventBehavior, 0x58);

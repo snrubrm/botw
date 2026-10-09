@@ -3,7 +3,6 @@
 
 namespace uking::behavior {
 
-// NON_MATCHING: the original stores _48 after _50 (field types not known yet)
 PlayerSlipXLinkEventBehavior::PlayerSlipXLinkEventBehavior(const InitArg& arg)
     : ksys::act::ai::Behavior(arg) {}
 
@@ -18,7 +17,8 @@ void PlayerSlipXLinkEventBehavior::loadParams() {
 }
 
 void PlayerSlipXLinkEventBehavior::m8() {
-    _48 = nullptr;
+    _48 = 0;
+    _4c = 0;
     _51 = false;
 }
 
