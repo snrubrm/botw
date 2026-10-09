@@ -65,6 +65,25 @@ bool Unk_71024F9D48::sub_7100FE83CC() {
     return false;
 }
 
+bool Unk_71024F9D48::sub_7100FE8338() {
+    if (_38.hasTask()) {
+        _38.removeTaskFromQueue();
+        const auto status = _38.getStatus();
+        _38.finalize();
+        if (status == util::ManagedTaskHandle::Status::TaskRemoved) {
+            stubbedLogFunction();
+            return true;
+        }
+    }
+    if (_18.isOn(1)) {
+        TextureHandleMgr::InvalidateArg request;
+        request._0 = false;
+        request._8 = this;
+        return TextureHandleMgr::instance()->invalidateUser(request);
+    }
+    return true;
+}
+
 bool Unk_71024F9D48::sub_7100FE83DC() {
     if (_28)
         return sub_7100FE0F44(_28);
@@ -82,6 +101,15 @@ nn::gfx::ResTexture* Unk_71024F9D48::sub_7100FE83EC() {
 void Unk_71024F9D48::sub_7100FE8414(Unk_71024f9a08* resource) {
     _28 = resource;
     _18.set(1);
+}
+
+void Unk_71024F9D48::sub_7100FE8428() {
+    if (_10 || _8)
+        sub_7100FE0D98(_28, this);
+    _18.reset(1);
+    _1c = 0;
+    _28 = nullptr;
+    _30 = nullptr;
 }
 
 void Unk_71024F9D48::sub_7100FE8474(Unk_71024f9a08* resource, u32 status) {
