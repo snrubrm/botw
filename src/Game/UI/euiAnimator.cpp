@@ -37,15 +37,12 @@ void Animator::SetupWithGroupAll(const nn::ui2d::AnimResource& res, LayoutEx* la
     SetEnabled(enabled);
 }
 
+// NON_MATCHING: range/wait predicates and the starting-frame selection compile differently.
 // 0x7100be7588
 void Animator::Play(PlayType type, f32 speed) {
-    if (!(-f32(GetFrameSize()) <= speed) || !(GetFrameSize() >= speed)) {
+    if (!(speed >= -f32(GetFrameSize())) || !(speed <= GetFrameSize())) {
         const bool wait = IsWaitData();
-        if (type != 0) {
-            IsWaitData();
-            return;
-        }
-        if (!wait) {
+        if (type != 0 || !wait) {
             IsWaitData();
             return;
         }
@@ -54,10 +51,7 @@ void Animator::Play(PlayType type, f32 speed) {
     mRate = speed;
     mFlags &= 0xf0;
     if (speed >= 0.0f) {
-        if (!(mFlags & 0x10) || GetFrameSize() == 0)
-            mFrame = 0.0f;
-        else
-            mFrame = speed;
+        mFrame = (mFlags & 0x10) && GetFrameSize() != 0 ? speed : 0.0f;
     } else {
         if ((mFlags & 0x10) && GetFrameSize() != 0)
             mFrame = GetFrameSize() + speed;
@@ -74,15 +68,12 @@ void Animator::PlayAuto(f32 speed) {
     Play(PlayType(IsLoopData()), speed);
 }
 
+// NON_MATCHING: range and wait predicates compile differently.
 // 0x7100be7734
 void Animator::PlayFromCurrent(PlayType type, f32 speed) {
-    if (!(-f32(GetFrameSize()) <= speed) || !(GetFrameSize() >= speed)) {
+    if (!(speed >= -f32(GetFrameSize())) || !(speed <= GetFrameSize())) {
         const bool wait = IsWaitData();
-        if (type != 0) {
-            IsWaitData();
-            return;
-        }
-        if (!wait) {
+        if (type != 0 || !wait) {
             IsWaitData();
             return;
         }
