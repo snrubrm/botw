@@ -68,4 +68,7 @@ protected:
 
 EntryFactory<Resource>& getDefaultResourceFactory();
 
+// FE8A74 has no arguments in the full 8AEB3C caller and returns the stop query bit.
+bool sub_7100FE8A74();
+
 }  // namespace ksys::res

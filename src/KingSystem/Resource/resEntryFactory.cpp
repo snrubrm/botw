@@ -4,6 +4,7 @@
 #include "KingSystem/Resource/resUnk_710251A740.h"
 #include "KingSystem/Resource/resResourceJpg.h"
 #include "KingSystem/Resource/resBfRes.h"
+#include "KingSystem/Resource/resResourceMgrTask.h"
 #include "KingSystem/Resource/resResourceGameSaveData.h"
 
 namespace ksys::res {
@@ -42,6 +43,11 @@ u32 EntryFactoryBase::getLoadDataAlignment() const {
 
 EntryFactory<Resource>& getDefaultResourceFactory() {
     return sDefaultEntryFactory;
+}
+
+bool sub_7100FE8A74() {
+    auto* task = ResourceMgrTask::instance();
+    return task ? task->x_2() : false;
 }
 
 }  // namespace ksys::res
