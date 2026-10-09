@@ -4,6 +4,7 @@
 #include "KingSystem/World/worldEnvMgr.h"
 #include "KingSystem/World/worldManager.h"
 #include "KingSystem/World/worldTempMgr.h"
+#include "KingSystem/World/worldTimeMgr.h"
 
 namespace ksys::world {
 
@@ -11,6 +12,21 @@ WeatherMgr::~WeatherMgr() = default;
 
 WeatherType WeatherMgr::getWeather() const {
     return WeatherType(weather);
+}
+
+float WeatherMgr::getTime() const {
+    float time = Manager::instance()->getTimeMgr()->getTime();
+    if (time >= 60.0f && time < 120.0f)
+        return (time - 60.0f) / 60.0f;
+    if (time >= 120.0f && time < 180.0f)
+        return (time - 120.0f) / 60.0f;
+    if (time >= 180.0f && time < 240.0f)
+        return (time - 180.0f) / 60.0f;
+    if (time >= 240.0f && time < 300.0f)
+        return (time - 240.0f) / 60.0f;
+    if (time >= 300.0f && time < 360.0f)
+        time -= 300.0f;
+    return time / 60.0f;
 }
 
 u8 WeatherMgr::x_6(int idx) const {
