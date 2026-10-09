@@ -311,6 +311,32 @@ void Unk_710247e468::m31() {
     sub_71009C9A88();
 }
 
+// 0x71009c9a88
+// NON_MATCHING: bool spill normalization, call scheduling and static x_7 receiver elision.
+void Unk_710247e468::sub_71009C9A88() {
+    if (_130) {
+        const f32 time = ksys::world::Manager::instance()->getWeatherMgr()->getTime();
+        const auto frame_size = _130->GetFrameSize();
+        _130->Stop(time * frame_size);
+    }
+    sub_71009C9D5C(false);
+    if (_138)
+        _138->StopAtMin();
+    if (_140)
+        _140->StopAtMax();
+    if (_148)
+        _148->StopAtMax();
+    auto* weather = ksys::world::Manager::instance()->getWeatherMgr();
+    const auto climate = ksys::world::Manager::instance()->getCurrentClimate();
+    const bool state = weather->x_8();
+    weather->x_7();
+    _180 = climate;
+    _184 = climate;
+    _188 = state;
+    _189 = state;
+    mStateMachine.changeState(&sUnk_71025dbb28);
+}
+
 // 0x71009c9bb8
 void Unk_710247e468::m27() {
     if (!sub_71009C9BEC())
@@ -374,6 +400,25 @@ bool Unk_710247e468::sub_71009C9F20() {
 
 // 0x71009ca1dc
 void Unk_710247e468::m105() {}
+
+// 0x71009ca1e0
+void Unk_710247e468::m106() {
+    if (sub_71009C9F20()) {
+        mStateMachine.changeState(&sUnk_71025dbb88);
+        return;
+    }
+    if (!_130)
+        return;
+    const f32 previous_frame = _130->mFrame;
+    const f32 time = ksys::world::Manager::instance()->getWeatherMgr()->getTime();
+    const f32 frame = time * _130->GetFrameSize();
+    _130->Stop(frame);
+    if (frame < previous_frame) {
+        sub_71009C9D5C(true);
+        if (_140)
+            _140->Play(eui::Animator::PlayType(0), 1.0f);
+    }
+}
 
 // 0x71009ca2c8
 void Unk_710247e468::m107() {}

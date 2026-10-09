@@ -33,6 +33,8 @@ public:
     bool x_0();
     WeatherType getWeather() const;
 
+    // UI weather setup/frame callbacks pass the WeatherMgr receiver and use a float result.
+    float getTime() const;
     u8 x_6(int idx) const;
     bool x_8() const;
     static bool x_7();

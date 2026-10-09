@@ -319,6 +319,7 @@ static_assert(sizeof(Unk_710247e468) == 0x190);
 
 // Native state descriptors initialized by 9ca8ac with this child's member callbacks.
 extern ksys::StateTemplate<Unk_710247e468> sUnk_71025dbb28;
+extern ksys::StateTemplate<Unk_710247e468> sUnk_71025dbb88;
 
 // 9ca8ac initializes this Buffer with nine records at 247e420. Both 9c9bec
 // and 9c9d5c compare the byte with WeatherMgr::x_6 and read the float at +4.
