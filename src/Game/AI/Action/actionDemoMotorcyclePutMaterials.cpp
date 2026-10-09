@@ -5,6 +5,8 @@
 #include <prim/seadSafeString.h>
 #include "Game/Actor/actMotorcycle.h"
 #include "Game/gameSceneSubsys12.h"
+#include "Game/gameMotorcycleMgr.h"
+#include "KingSystem/System/Timer.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
@@ -152,8 +154,40 @@ void DemoMotorcyclePutMaterials::sub_7100055160(GameSceneSubsys12* scene, bool p
     }
 }
 
+// NON_MATCHING: close/finish/frame register allocation differs.
 void DemoMotorcyclePutMaterials::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (_60 < 0.0f) {
+        _60 = 0.0f;
+        return;
+    }
+    auto* manager = MotorcycleMgr::instance();
+    auto* scene = GameSceneSubsys12::instance();
+    f32 progress = mActor->getASList()->sub_710115F3F0(1, 0, false);
+    if (scene) {
+        sub_7100055160(scene, mActor->getASList()->x_4(1, 0));
+        if (progress < 0.0f)
+            progress = 0.0f;
+        else if (progress > 1.0f)
+            progress = 1.0f;
+        scene->_d0 = progress;
+    }
+    const f32 previous_frame = _60;
+    ksys::Timer::update(&_60, 1.0f);
+    const f32 close_frame = _68 > 0 ? *mCloseSaddleFramesSincePutFairy_s :
+                                    *mCloseSaddleFramesSincePut_s;
+    const f32 finish_frame = _68 > 0 ? *mFinishCookFramesSincePutFairy_s :
+                                     *mFinishCookFramesSincePut_s;
+    const f32 frame = _60;
+    if (close_frame <= frame)
+        playAS("Close", true, 0, 0, -1.0f);
+    if (previous_frame < finish_frame && finish_frame <= frame) {
+        if (manager)
+            manager->sub_710067AB8C();
+        mActor->getASList()->sub_710115B01C(1, 0, true);
+        mActor->getASList()->sub_710115B01C(2, 0, true);
+    }
+    if (close_frame <= frame && finish_frame <= frame)
+        setFinished();
 }
 
 }  // namespace uking::action
