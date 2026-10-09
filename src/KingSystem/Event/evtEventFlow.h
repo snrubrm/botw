@@ -4,6 +4,7 @@
 #include <evfl/Param.h>
 #include <evfl/TimelineObj.h>
 #include <heap/seadHeap.h>
+#include <math/seadMatrix.h>
 #include <container/seadPtrArray.h>
 #include <prim/seadEnum.h>
 #include <prim/seadRuntimeTypeInfo.h>
@@ -201,7 +202,11 @@ public:
     /* 0x118 */ EventFlowActorInfo* _118;
     u8 _120[8];
     /* 0x128 */ evfl::MetaDataPack mMetaData;
-    u8 _148[0x208 - 0x148];
+    u8 _148[0x1d8 - 0x148];
+    // x_2 (db6d0c) copies Actor::mMtx / getActorMtx here and builds a
+    // rotation plus translation for the location modes. Camera924a4c reads
+    // this matrix's translation independently at 1e4/1f4/204.
+    /* 0x1d8 */ sead::Matrix34f mStartTransform;
     /* 0x208 */ EventFlowType mType;
     /* 0x20c */ f32 _20c;
     /* 0x210 */ EventFlow* mSlot;    u8 _218[0x2c8 - 0x218];
