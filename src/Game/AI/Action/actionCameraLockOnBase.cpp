@@ -1,9 +1,17 @@
 #include "Game/AI/Action/actionCameraLockOnBase.h"
+#include "KingSystem/System/VFR.h"
 
 #include <cmath>
 #include <math/seadMathCalcCommon.h>
 
 namespace uking::action {
+
+// NON_MATCHING: the chase completion branches test one bit instead of the full boolean register.
+void CameraLockOnBase::sub_7100785FCC() {
+    if (sead::Mathf::chase(&_c8, 90.0f, ksys::VFR::instance()->getDeltaFrame() * 30.0f))
+        sub_710074BCB4();
+    _c4 = (std::sin(sead::Mathf::deg2rad(_c8)) + 1.0f) * 0.5f;
+}
 
 bool sub_7100786CF4(const u8* flags, u8 mask) {
     return (*flags & mask) != 0;

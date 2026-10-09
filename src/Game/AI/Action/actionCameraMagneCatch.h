@@ -26,6 +26,7 @@ protected:
     bool m51() override;
     void m52() override;
     bool m55(f32* out0, f32* out1) override;
+    int m59() override;
     bool m60(int idx) override { return u32(idx) < 3; }
 
     int sub_71007761FC();

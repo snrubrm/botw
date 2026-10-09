@@ -54,6 +54,7 @@ protected:
 
     // 0x7100786cc0: m60(_f4).
     bool sub_7100786CC0();
+    void sub_7100785FCC();
     void sub_71007866C4(f32* out);
     // 0x7100786974: `*out` = the longitude from LngNear / LngFar blended by _b8, negated when the camera's
     // azimuth is more than _a0._14 degrees ahead.

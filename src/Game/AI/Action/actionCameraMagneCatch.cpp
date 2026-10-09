@@ -2,6 +2,7 @@
 
 #include <cmath>
 #include <math/seadMathCalcCommon.h>
+#include "KingSystem/System/VFR.h"
 
 namespace uking::action {
 
@@ -74,6 +75,15 @@ int CameraMagneCatch::sub_71007761FC() {
             return i;
     }
     return -1;
+}
+
+int CameraMagneCatch::m59() {
+    const int state = sub_71007761FC();
+    if (state == _f8)
+        sead::Mathf::chase(&_454, 3000.0f, ksys::VFR::instance()->getDeltaFrame());
+    else
+        _454 = 0.0f;
+    return state;
 }
 
 sead::PtrArray<Unk_7102457a80>* CameraMagneCatch::m47() {
