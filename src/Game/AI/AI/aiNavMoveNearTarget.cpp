@@ -34,8 +34,6 @@ void NavMoveNearTarget::calc_() {
     }
 }
 
-// NON_MATCHING: the original copies the vector into *out as one 8 + 4 byte block (ldr x / ldr w) while
-// `_390 = pos` stays member-wise; ours assigns *out member-wise too (sead::Vector3f::operator=)
 void NavMoveNearTarget::m35(sead::Vector3f* out) {
     f32 radius = 0;
     if (!m38(&radius))
@@ -53,9 +51,9 @@ void NavMoveNearTarget::m35(sead::Vector3f* out) {
     if (*mTargetVMin_s <= dy && dy < *mTargetVMax_s && found) {
         _390 = pos;
         if (out)
-            *out = pos;
+            out->set(pos);
     } else if (out) {
-        *out = _390;
+        out->set(_390);
     }
 }
 
