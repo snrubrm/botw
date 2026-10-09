@@ -1,5 +1,6 @@
 #include "KingSystem/World/worldEnvMgr.h"
 #include "Game/UI/uiScreens.h"
+#include "Game/gameGraphics.h"
 #include "KingSystem/Event/evtManager.h"
 #include "KingSystem/GameData/gdtManager.h"
 #include "KingSystem/System/VFR.h"
@@ -240,6 +241,13 @@ void EnvMgr::init_(sead::Heap* heap) {
     mBloodMoonEndState = {};
     mBloodMoonStartState = {};
     mBloodMoonProgress = 1.0;
+}
+
+void EnvMgr::sub_71010DB0B0(u32 mode) {
+    if (auto* graphics = Graphics::instance()) {
+        if (graphics->_ab8)
+            graphics->_ab8->sub_71012A2268(mode);
+    }
 }
 
 void EnvMgr::calc_() {}
@@ -498,6 +506,49 @@ bool EnvMgr::isPaletteSetTransitionDone() const {
 }
 
 void EnvMgr::worldMgrCalc2() {}
+
+void EnvMgr::x_8() {
+    if (evt::Manager::instance()->sub_7100DB19DC()) {
+        if (mPaletteSetOverrideTimer)
+            --mPaletteSetOverrideTimer;
+        else {
+            mPaletteSetOverride = -1;
+            _6b5c8 = 1;
+            mBlockPaletteSetOverride = false;
+        }
+    }
+    if (_6b5d0)
+        --_6b5d0;
+    if (_6b5d4)
+        --_6b5d4;
+    if (mPaletteSetForClimateTimer)
+        --mPaletteSetForClimateTimer;
+    else
+        mPaletteSetForClimate = -1;
+    if (mPaletteSelSpeedTimer)
+        --mPaletteSelSpeedTimer;
+    else if (mPaletteSelSpeed) {
+        if (auto* graphics = Graphics::instance()) {
+            if (graphics->_ab8)
+                graphics->_ab8->sub_71012A2268(0);
+        }
+        mPaletteSelSpeed = 0;
+    }
+    if (mCharAmbientScaleTimer)
+        --mCharAmbientScaleTimer;
+    if (mCharMainLightScaleTimer)
+        --mCharMainLightScaleTimer;
+    if (mWarpMistTimer)
+        --mWarpMistTimer;
+    else {
+        VFR::lerp(&mWarpMistIntensity, 0.0f, 0.1f, 0.1f, 0.01f);
+        _6b60e = false;
+        _6b60f = false;
+        _6b610 = false;
+    }
+    if (mFogSetDirectTimer)
+        --mFogSetDirectTimer;
+}
 
 int EnvMgr::getPaletteSet() const {
     if (mPaletteSetOverride >= 0)

@@ -177,6 +177,7 @@ public:
 
     // 0x71010dc2cc: updates the environment override timers.
     void x_8();
+    void sub_71010DB0B0(u32 mode);
     // 0x71010db9fc: checks the Fade and FadeDemo screens through the UI manager.
     bool isFadeOrFadeDemoScreenOpened() const;
 

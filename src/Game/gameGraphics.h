@@ -21,6 +21,9 @@ class ModelNW;
 namespace ksys::act {
 class PlayerLink;
 }
+namespace ksys::world {
+class EnvMgr;
+}
 
 // Settings registered at Graphics + 0xae0, embedded in RuneMgr + 0x250 and GameSceneSubsys5 + 0x58.
 // Constructor 0x7100f35df8; the bounds and result fields are copied by Graphics::sub_7100F2E2A4.
@@ -43,6 +46,15 @@ public:
     f32 _4c = 0;
 };
 KSYS_CHECK_SIZE_NX150(Unk_7100f35df8, 0x50);
+
+// Declaration only: Graphics initializer F2C140 allocates 0x4a8 bytes, constructs this
+// object at 12A20E0 and stores it at Graphics + 0xab8. Its source name is unknown.
+class Unk_71012a20e0 {
+public:
+    // 12A2268 stores the low byte of mode at 0x1b0; the full word is tested for mode 2.
+    // EnvMgr reset 10D326C, doCalc 10D62C0 and wrapper 10DB0B0 call this same receiver.
+    void sub_71012A2268(u32 mode);
+};
 
 // Partial declaration: name from the CSV Graphics::createInstance (0x7100f2a1d0).
 // Source namespace remains unknown; global spelling follows the existing scene placeholders.
@@ -169,7 +181,10 @@ private:
     u8 _aa0[0xaa8 - 0xaa0];
     Unk_aa8* _aa8;
     Unk_ab0* _ab0;
-    u8 _ab8[0xae0 - 0xab8];
+    // EnvMgr reset/update and mode dispatch access this native field directly.
+    friend class ksys::world::EnvMgr;
+    Unk_71012a20e0* _ab8;
+    u8 _ac0[0xae0 - 0xac0];
     Unk_7100f35df8* _ae0;
     u8 _ae8[0xe08 - 0xae8];
 

@@ -1,5 +1,6 @@
 #include "KingSystem/World/worldWindMgr.h"
 #include "KingSystem/World/worldManager.h"
+#include <utility/aglPrimitiveTexture.h>
 #include <layer/aglRenderer.h>
 #include <layer/aglLayer.h>
 
@@ -12,6 +13,18 @@ void WindMgr::sub_71010EEBE4(sead::Vector3f* out, const sead::Vector3f* position
         return;
     }
     *out = _34;
+}
+
+agl::TextureSampler* WindMgr::sub_71010EEE94() {
+    if (!(_28 & 0x40))
+        return &_20->_48;
+    return agl::utl::PrimitiveTexture::instance()->mSamplers[2];
+}
+
+agl::TextureData* WindMgr::sub_71010EEEBC() {
+    if (!(_28 & 0x40))
+        return _20->_40;
+    return &agl::utl::PrimitiveTexture::instance()->mSamplers[2]->mTextureData;
 }
 
 nn::gfx::ResTextureData* WindMgr::sub_71010EEEE8() {
