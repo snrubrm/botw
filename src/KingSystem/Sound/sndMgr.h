@@ -196,6 +196,11 @@ public:
 struct Unk_SoundMgr38 {
     // 0x710102c104: returns `_28`.
     Unk_SoundMgr38_28* sub_710102C104() const;
+    // 0x710102c10c: unavailable while the manager's mode byte is set.
+    Unk_SoundMgr38_28* sub_710102C10C() const;
+    // 0x710102b11c: forwards to the cleanup operation.
+    void sub_710102B11C();
+    void sub_710102AF84();
 
     u8 _0[0x20];
     /* 0x20 */ Unk_SoundMgr38_20* _20;
@@ -203,6 +208,9 @@ struct Unk_SoundMgr38 {
     /* 0x30 */ SpeakerBalanceUnifierMgr* _30;
     u8 _38[0x48 - 0x38];
     /* 0x48 */ Unk_SoundMgr38_48* _48;
+    u8 _50[0x70 - 0x50];
+    // Read by 0x710102c10c and the cleanup operation 0x710102af84.
+    /* 0x70 */ bool _70;
 };
 
 // Name from the CSV (snd::DuckingMgr::startDucking 0x7101042078; ctor 0x710103e404, init 0x710103e58c).
