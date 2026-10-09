@@ -1,6 +1,10 @@
 project(hkStubs CXX ASM)
 
 add_library(hkStubs OBJECT
+  Havok/Ai/Pathfinding/NavMesh/hkaiNavMeshInstance.h
+  Havok/Ai/Pathfinding/Streaming/hkaiStreamingCollection.cpp
+  Havok/Ai/Pathfinding/Streaming/hkaiStreamingCollection.h
+  Havok/Ai/Pathfinding/Utilities/hkaiUserEdgeUtils.h
   Havok/Animation/Animation/Animation/hkaAnimation.h
   Havok/Animation/Animation/Animation/hkaAnimationBinding.h
   Havok/Animation/Animation/Animation/hkaAnnotationTrack.h
