@@ -1772,6 +1772,15 @@ bool Actor::sub_71011D7194(s32 index) {
     return true;
 }
 
+void Actor::sub_71011D8AFC(s32 a1, s32 a2, s32 message, void* user_data,
+                          const sead::SafeString* target) {
+    if (!mMapObject || !mMapObject->getLinkData())
+        return;
+    const s32 core = sead::CoreInfo::getCurrentCoreId();
+    sActorListsMaybe[core].clear();
+    sub_71011D8BCC(core, &mMsgTransceiver, a1, a2, message, user_data, target);
+}
+
 void Actor::sub_71011CCB38() {
     if (!_68e)
         return;
@@ -1909,4 +1918,3 @@ void sub_71011D76E0(ksys::act::Actor* actor, const ksys::act::ActorConstDataAcce
     else
         transceiver->sendMessage(*actor->getMesTransceiverId(), ksys::MessageType(0x3000013), reinterpret_cast<void*>(uintptr_t(accessor.getId())), true);
 }
-

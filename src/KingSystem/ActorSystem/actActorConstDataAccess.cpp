@@ -1414,6 +1414,20 @@ void ActorConstDataAccess::sub_7100D15038(Actor* other) const {
     }
 }
 
+void ActorConstDataAccess::sub_7100D150E8(Actor* owner) {
+    auto* actor = getActor();
+    if (!actor)
+        return;
+    if (owner->get1a0()) {
+        sub_71011D7650(actor, owner);
+        return;
+    }
+    if (auto* object = owner->getMapObject()) {
+        if (object->getFlags0().isOn(map::Object::Flag0::_20000))
+            sub_71011D7650(actor, owner);
+    }
+}
+
 // 0x7100d137c0
 s32 ActorConstDataAccess::sub_7100D137C0(const sead::SafeString& name) const {
     auto* actor = getActor();

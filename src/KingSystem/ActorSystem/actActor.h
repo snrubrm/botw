@@ -451,6 +451,8 @@ public:
     // 0x71011d8afc (declaration only; lane4 s64, placeholder name; 208 B): sub_7100EE3CAC calls it with (1, 3, message,
     // user_data, nullptr); sub_7100EE2050 / sub_7100EE20A4 pass the SafeString "EventTag" as `a5`.
     void sub_71011D8AFC(s32 a1, s32 a2, s32 message, void* user_data, const sead::SafeString* a5);
+    void sub_71011D8BCC(s32 core, MessageTransceiverBase* sender, s32 a1, s32 a2, s32 message,
+                       void* user_data, const sead::SafeString* target);
     // The spine controller of the bone control (BoneControl::_0->_10), if any.
     Unk_7100d860d8* sub_71011D8A10();
     Unk_7100d8557c* sub_71011D89F8();
