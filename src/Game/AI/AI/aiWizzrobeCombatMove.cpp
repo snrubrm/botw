@@ -81,9 +81,8 @@ bool WizzrobeCombatMove::isFinished() const {
     return ksys::act::ai::Ai::isFinished();
 }
 
-// NON_MATCHING: vector assignment copies components separately instead of the native grouped copy.
 void WizzrobeCombatMove::sub_71005FCB74() {
-    mTargetPosition = *mTargetPos_d;
+    mTargetPosition.set(*mTargetPos_d);
     if (_bc == 0)
         mStartPosition = mActor->getMtx().getTranslation();
     sub_71005FD564();
