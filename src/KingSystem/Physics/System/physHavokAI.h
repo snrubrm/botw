@@ -30,6 +30,7 @@ class Handle;
 namespace ksys::phys {
 
 class HavokAI;
+class RigidBody;
 class NavMeshCharacter;
 class Unk_7100f7e9f0;
 
@@ -160,6 +161,8 @@ KSYS_CHECK_SIZE_NX150(Unk_RequestQueue<void>, 0x18);
 // the next request (exchanged with ldxr/stxr, compared against `this | 1`), `_a8` request flags (ldxr/stxr
 // and / orr in those functions: sead::Atomic).
 struct NavMeshObjMaybe {
+    // 0x7100f7f428 forwards the rigid body's Havok body to the next native method.
+    bool sub_7100F7F428(RigidBody* body);
     // 0x7100f7f430 returns whether the body change queued a HavokAI update.
     bool sub_7100F7F430(hkpRigidBody* body);
     void sub_7100F7FAC8(bool on);

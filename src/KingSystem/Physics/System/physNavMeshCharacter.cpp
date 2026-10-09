@@ -1,6 +1,7 @@
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
 #include <prim/seadScopedLock.h>
 #include "KingSystem/Physics/System/physHavokAI.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace ksys::phys {
 
@@ -275,6 +276,10 @@ void NavMeshCharacter::sub_7100F75F3C(u8 value) {
     auto lock = sead::makeScopedLock(_1e0);
     _1d9 = value;
     _220 |= 8;
+}
+
+bool NavMeshObjMaybe::sub_7100F7F428(RigidBody* body) {
+    return sub_7100F7F430(body->getHkBody());
 }
 
 void NavMeshObjMaybe::sub_7100F7FAC8(bool on) {
