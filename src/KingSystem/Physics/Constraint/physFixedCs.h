@@ -4,6 +4,8 @@
 #include <prim/seadRuntimeTypeInfo.h>
 #include "KingSystem/Physics/Constraint/physConstraint.h"
 
+class hkpFixedConstraintData;
+
 namespace sead {
 class Heap;
 }
@@ -14,7 +16,6 @@ class RigidBody;
 
 // Name from the CSV ("FixedCs::make", 0x7100f6d070): a fixed constraint between two rigid bodies
 // (a Constraint subclass of size 0xc0 whose Havok constraint data is at +0xb8).
-// TODO: incomplete (only what AI classes need).
 class FixedCs : public Constraint {
     SEAD_RTTI_OVERRIDE(FixedCs, Constraint)
 public:
@@ -38,6 +39,12 @@ public:
 
     // 0x7100f6d6d8 (placeholder name): sets the frames in the space of body_a / body_b.
     void sub_7100F6D6D8(const sead::Matrix34f& mtx_a, const sead::Matrix34f& mtx_b);
+
+private:
+    // make at 0x7100F6D070 stores the data pointer here after allocating 0xc0.
+    // The independent frame setter at 0x7100F6D6D8 uses this same receiver.
+    hkpFixedConstraintData* mData;
 };
+KSYS_CHECK_SIZE_NX150(FixedCs, 0xc0);
 
 }  // namespace ksys::phys
