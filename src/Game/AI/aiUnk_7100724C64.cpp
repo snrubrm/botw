@@ -209,6 +209,25 @@ bool sub_71007271D4(ksys::act::Actor* actor) {
     return stal_unit->_8.isOnBit(1);
 }
 
+void sub_71007282F8(ksys::act::Actor* actor,
+                    const uking::action::GolemDieFromRagdoll::RagdollBody& body) {
+    auto* ragdoll = actor->getRagdollInstance();
+    if (!ragdoll)
+        return;
+    const int bone = ragdoll->getBoneIndexByName(body.mRagdollBodyName_s);
+    if (bone < 0)
+        return;
+    auto* unit = actor->getModel()->getUnits().unsafeAt(0)->mModelUnit;
+    if (unit) {
+        const int material = unit->searchMaterialIndex(body.mMaterialName_s);
+        if (material >= 0 && unit->isMaterialVisible(material)) {
+            ragdoll->setContactNone(bone);
+            return;
+        }
+    }
+    ragdoll->setContactAll(bone);
+}
+
 bool sub_7100728640(ksys::act::Actor* actor) {
     auto* unit = sub_7100726628(actor);
     if (unit && unit->_8.isOnBit(1)) {

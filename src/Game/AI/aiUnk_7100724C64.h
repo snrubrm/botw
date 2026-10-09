@@ -2,6 +2,7 @@
 
 #include <basis/seadTypes.h>
 #include <prim/seadSafeString.h>
+#include "Game/AI/Action/actionGolemDieFromRagdoll.h"
 
 namespace sead {
 class Heap;
@@ -87,3 +88,7 @@ bool sub_71007271D4(ksys::act::Actor* actor);
 // 0x7100728640 (CSV aiStalPartStuff): whether the StalEnemyUnit has flag bit 1 and any of the parts
 // StalLeftArm..StalRib4 (table entries 1-6) of the Stalfos actor is present.
 bool sub_7100728640(ksys::act::Actor* actor);
+
+// GolemDieFromRagdoll::enter_ passes its paired body/material record.
+void sub_71007282F8(ksys::act::Actor* actor,
+                    const uking::action::GolemDieFromRagdoll::RagdollBody& body);
