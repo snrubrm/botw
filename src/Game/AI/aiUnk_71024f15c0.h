@@ -10,6 +10,7 @@ class Actor;
 
 namespace ksys::map {
 class Rail;
+class RailConnectablePoint;
 }
 
 // Unnamed rail follower embedded in uking::ai::RailMove (vtable 0x71024f15c0, size 0x60; CSV names
@@ -25,6 +26,7 @@ public:
         ksys::map::Rail* rail = nullptr;
 
         const sead::Vector3f& sub_7100EEB370() const;
+        void sub_7100EEB6D0();
         // 0x7100eeb374 (lane4 s45): `rail` if it is a route (Rail::x_20), else null.
         ksys::map::Rail* sub_7100EEB374() const;
     };
@@ -45,6 +47,8 @@ public:
     // Inline only (no out-of-line copy in the executable); placeholder name.
     void x(f32 distance) { m4(distance, nullptr, nullptr); }
     void sub_7100EEBE9C(s32 direction);
+    void sub_7100EEBBD0(sead::Vector3f* out) const;
+    void sub_7100EEBC44(sead::Vector3f* out) const;
 
     Data _8;
     Data _30;
@@ -73,3 +77,6 @@ const char* sub_7100EEF4FC(const ksys::map::Rail* rail, s32 idx);
 bool sub_7100EEF588(const ksys::map::Rail* rail, s32 idx);
 // 0x7100eebe90: the minimum rail-step distance (0.001f from rodata).
 f32 sub_7100EEBE90();
+
+// Index of the connectable point in its junction rail, or -1.
+s32 sub_7100EEB610(const ksys::map::RailConnectablePoint* point);

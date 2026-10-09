@@ -18,6 +18,60 @@ ksys::map::Rail* Unk_71024f15c0::Data::sub_7100EEB374() const {
     return nullptr;
 }
 
+// NON_MATCHING: integer bound checks and the shared zero-progress store are scheduled differently.
+void Unk_71024f15c0::Data::sub_7100EEB6D0() {
+    if (!rail)
+        return;
+    if (progress <= 0.0f) {
+        progress = 0.0f;
+        return;
+    }
+    const bool closed = rail->isClosed();
+    const s32 num_points = rail->getNumPoints();
+    if (closed) {
+        if (num_points > 0) {
+            if (!(progress >= f32(num_points)))
+                return;
+            do {
+                progress -= f32(num_points);
+            } while (progress >= f32(num_points));
+        } else {
+            if (!rail)
+                return;
+            progress = 0.0f;
+        }
+    } else {
+        if (num_points > 0) {
+            if (!(progress > f32(num_points - 1)))
+                return;
+            if (!rail)
+                return;
+            progress = f32(num_points - 1);
+        } else {
+            if (!rail)
+                return;
+            progress = 0.0f;
+        }
+    }
+    if (rail) {
+        sub_7100EEB6D0();
+        rail->calcTranslateRotate(&pos, &rot, progress);
+    }
+}
+
+void Unk_71024f15c0::sub_7100EEBAE0(ksys::map::Rail* rail, f32 progress) {
+    _8.rail = rail;
+    if (rail) {
+        _8.progress = progress;
+        _8.sub_7100EEB6D0();
+        _8.rail->calcTranslateRotate(&_8.pos, &_8.rot, _8.progress);
+    }
+    _30.progress = _8.progress;
+    _30.rail = _8.rail;
+    _30.pos = _8.pos;
+    _30.rot = _8.rot;
+}
+
 bool Unk_71024f15c0::m3() {
     if (_30.progress == 0)
         return true;
@@ -160,4 +214,28 @@ f32 sub_7100EEF60C(const ksys::map::Rail* rail, s32 idx) {
 
 f32 sub_7100EEBE90() {
     return 0.001f;
+}
+
+// NON_MATCHING: the three final negated-component stores are scheduled differently.
+void Unk_71024f15c0::sub_7100EEBBD0(sead::Vector3f* out) const {
+    *out = _8.rot;
+    if (out->dot(_30.pos - _8.pos) < 0.0f)
+        *out = -*out;
+}
+
+// NON_MATCHING: the three final negated-component stores are scheduled differently.
+void Unk_71024f15c0::sub_7100EEBC44(sead::Vector3f* out) const {
+    *out = _30.rot;
+    if (out->dot(_30.pos - _8.pos) < 0.0f)
+        *out = -*out;
+}
+
+s32 sub_7100EEB610(const ksys::map::RailConnectablePoint* point) {
+    const auto* rail = point->getJunctionRail();
+    const s32 num_points = rail->getNumPoints();
+    for (s32 i = 0; i < num_points; ++i) {
+        if (rail->getPoint(i) == point)
+            return i;
+    }
+    return -1;
 }
