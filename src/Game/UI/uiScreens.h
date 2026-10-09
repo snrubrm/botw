@@ -30,6 +30,10 @@
 #include "KingSystem/Utils/StateMachine.h"
 #include "KingSystem/Utils/Thread/ActorMessageTransceiver.h"
 
+namespace sead {
+class Thread;
+}
+
 namespace ksys {
 class SeadController;
 }
@@ -3807,6 +3811,8 @@ extern const ksys::StateBase sUnk_71025f2360;
 extern const ksys::StateBase sUnk_71025f2540;
 extern const ksys::StateBase sUnk_71025f25a0;
 extern const ksys::StateBase sUnk_71025f2720;
+// Constructed by the SaveTransfer state initializer at a471bc (four member callbacks).
+extern const ksys::StateBase sUnk_71025f2780;
 extern const ksys::StateBase sUnk_71025f2960;
 extern const ksys::StateBase sUnk_71025f2b40;
 extern const ksys::StateBase sUnk_71025f2c60;
@@ -3867,6 +3873,8 @@ public:
     void sub_7100A44458();
     void sub_7100A44878();
     void sub_7100A45080();
+    // NetworkCalcThread's Delegate2 callback (a44a34); its arguments are unused.
+    void sub_7100A44B80(sead::Thread* thread, s64 message);
     /* 0x3610 */ eui::Animator* _3610;
     /* 0x3618 */ eui::Animator* _3618;
     /* 0x3620 */ eui::Animator* _3620;

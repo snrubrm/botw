@@ -1,4 +1,8 @@
 #include <algorithm>
+#include <thread/seadThread.h>
+#include <thread/seadDelegateThread.h>
+#include <prim/seadDelegate.h>
+#include "Game/UI/uiSwkbdMgr.h"
 #include "KingSystem/Quest/qstQuest.h"
 #include "Game/UI/uiScreenControlCreators.h"
 #include "Game/UI/uiScreenChildStates.h"
@@ -2557,6 +2561,23 @@ void ScreenSaveTransferWindow::m235() {
         mStateMachine.changeState(&sUnk_71025f2d20);
         break;
     }
+}
+
+// 0x7100a44a34
+// NON_MATCHING: enum temporary stack placement and state-selection branch layout.
+void ScreenSaveTransferWindow::m239() {
+    sead::Delegate2<ScreenSaveTransferWindow, sead::Thread*, s64> delegate(
+        this, &ScreenSaveTransferWindow::sub_7100A44B80);
+    auto* thread = new (nullptr, 8) sead::DelegateThread(
+        "NetworkCalcThread", &delegate, nullptr, sead::Thread::cDefaultPriority,
+        sead::MessageQueue::BlockType::NonBlocking, 0x7fffffff, 0x4000, 0x20);
+    thread->start();
+    SwkbdMgr::instance()->show(2, true);
+    _3678 |= 1 << Flag(Flag::_0);
+    thread->quitAndWaitDoneSingleThread(false);
+    delete thread;
+    mStateMachine.changeState(SwkbdMgr::instance()->x() ? &sUnk_71025f2780 :
+                                                        &sUnk_71025f2d20);
 }
 
 // 0x7100a45130
