@@ -1,6 +1,7 @@
 #include <Havok/Common/Base/Container/String/hkString.h>
 
 #include <cstring>
+#include <Havok/Common/Base/Memory/Router/hkMemoryRouter.h>
 
 namespace hkString {
 
@@ -26,6 +27,23 @@ const char* strStr(const char* str, const char* substring) {
 
 const char* strChr(const char* str, int character) {
     return std::strchr(str, character);
+}
+
+char* strDup(const char* str, hkMemoryAllocator* allocator) {
+    char* duplicate = static_cast<char*>(hkMemoryRouter::easyAlloc(*allocator, strLen(str) + 1));
+    std::strcpy(duplicate, str);
+    return duplicate;
+}
+
+char* strDup(const char* str) {
+    hkMemoryAllocator& allocator = hkMemoryRouter::getInstance().heap();
+    char* duplicate = static_cast<char*>(hkMemoryRouter::easyAlloc(allocator, strLen(str) + 1));
+    std::strcpy(duplicate, str);
+    return duplicate;
+}
+
+void strFree(char* str, hkMemoryAllocator* allocator) {
+    hkMemoryRouter::easyFree(*allocator, str);
 }
 
 // NON_MATCHING: return branches and loop register allocation differ.

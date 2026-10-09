@@ -3,6 +3,8 @@
 #include <Havok/Common/Base/Types/hkBaseDefs.h>
 #include <Havok/Common/Base/Types/hkBaseTypes.h>
 
+class hkMemoryAllocator;
+
 namespace hkString {
 
 int strCmp(const char* s1, const char* s2);
@@ -17,6 +19,11 @@ int memCmp(const void* buffer1, const void* buffer2, hkUint32 numBytes);
 // within the source string, which they use for offsets and subsequent searches.
 const char* strStr(const char* str, const char* substring);
 const char* strChr(const char* str, int character);
+// Native allocation/copy wrappers and consumers 16A2344/16AD9A0 establish
+// writable duplicate strings, with explicit allocator or the router heap.
+char* strDup(const char* str, hkMemoryAllocator* allocator);
+char* strDup(const char* str);
+void strFree(char* str, hkMemoryAllocator* allocator);
 hkBool beginsWith(const char* str, const char* prefix);
 hkBool endsWith(const char* str, const char* suffix);
 
