@@ -70,6 +70,16 @@ Unk_SoundMgr38_28* Unk_SoundMgr38::sub_710102C104() const {
     return _28;
 }
 
+Unk_SoundMgr38_28* Unk_SoundMgr38::sub_710102C10C() const {
+    if (_70)
+        return nullptr;
+    return _28;
+}
+
+void Unk_SoundMgr38::sub_710102B11C() {
+    sub_710102AF84();
+}
+
 // NON_MATCHING: only the schedule (the original loads both vectors up front and keeps the six results in
 // registers before the stores).
 void Unk_SoundMgr38_28::sub_7101037ED8(const sead::Vector3f* pos, const sead::Vector3f* size) {
