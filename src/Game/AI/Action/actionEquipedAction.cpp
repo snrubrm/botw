@@ -6,7 +6,10 @@
 
 namespace uking::action {
 
-EquipedAction::EquipedAction(const InitArg& arg) : ksys::act::ai::Action(arg) {}
+EquipedAction::EquipedAction(const InitArg& arg) : ksys::act::ai::Action(arg) {
+    if (auto* weapon = sead::DynamicCast<ksys::act::WeaponBase>(mActor))
+        weapon->_a00._98 = 0;
+}
 
 void EquipedAction::enter_(ksys::act::ai::InlineParamPack* params) {
     mFlags.set(Flag::Changeable);
