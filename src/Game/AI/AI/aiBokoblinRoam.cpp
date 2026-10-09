@@ -47,15 +47,12 @@ void BokoblinRoam::loadParams_() {
     getStaticParam(&mTurnCheckHeight_s, "TurnCheckHeight");
 }
 
-// NON_MATCHING: the original loads the player's x and z before the actor's x (ours interleaves the loads x, x, z, z
-// differently) and so numbers the registers differently; the load-order-only locals of earlier sessions were removed
 bool BokoblinRoam::sub_7100333E68() {
     ksys::act::ActorConstDataAccess accessor;
     ksys::act::acquireActor(&ksys::act::PlayerInfo::getSomeProcLink(), &accessor);
-    const sead::Matrix34f& player_mtx = accessor.getActorMtx();
-    const sead::Vector2f diff(player_mtx(0, 3) - mActor->getMtx()(0, 3),
-                              player_mtx(2, 3) - mActor->getMtx()(2, 3));
-    sead::Vector3f dir(diff.x, 0.0f, diff.y);
+    const sead::Vector3f player_position = accessor.getActorMtx().getTranslation();
+    sead::Vector3f dir = player_position - mActor->getMtx().getTranslation();
+    dir.y = 0.0f;
     const f32 dist = dir.normalize();
     if (dist > *mSpAttackServiceDist_s)
         return false;
