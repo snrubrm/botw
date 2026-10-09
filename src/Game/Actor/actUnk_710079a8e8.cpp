@@ -144,9 +144,9 @@ bool Unk_710079a8e8::sub_710079BDA4() const {
     return _190 >= 0.0f && _190 <= 1.0f;
 }
 
+// NON_MATCHING: C++17 assignment evaluates the value before the core-index getter calls.
 void Unk_710079a8e8::sub_710079BDC4(const f32& value) {
-    const auto core = sead::CoreInfo::getPlatformCoreId(sead::CoreInfo::getCurrentCoreId());
-    _6f0[core] = value;
+    _6f0[sead::CoreInfo::getPlatformCoreId(sead::CoreInfo::getCurrentCoreId())] = value;
 }
 
 void Unk_710079a8e8::sub_710079BE34() {
