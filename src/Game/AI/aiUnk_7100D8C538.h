@@ -12,6 +12,11 @@ bool sub_7100D8C538(const sead::Vector3f& pos, f32 a2, f32 a3);
 // CameraMgr's look-at camera (false when there is none).
 bool visibilityCheckMaybe(const sead::Vector3f& pos, f32 radius);
 
+// 0x7100d8c5e8 (declaration only): sphere/clip view test using the look-at camera.
+// Wrapper d8c5fc..640 preserves position and three floats; independent caller
+// OutOfScreen4f41b8..41d0 passes center, radius, 0.01 and DeleteDistance.
+bool sub_7100D8C5E8(const sead::Vector3f& pos, f32 radius, f32 near_clip, f32 far_clip);
+
 namespace cam {
 // 0x7100d8c6ac (CSV name; declared only): writes the look-at camera's position (or the default position when
 // there is no camera) to `out`; returns whether a camera exists.

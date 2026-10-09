@@ -1,6 +1,8 @@
 #include "Game/UI/uiScreens.h"
 #include <limits>
 #include "Game/UI/euiBoxCursor.h"
+#include "Game/UI/euiButton.h"
+#include "Game/UI/euiPartsEx.h"
 #include "Game/UI/euiLayoutEx.h"
 #include "Game/UI/uiUtils.h"
 
@@ -95,6 +97,41 @@ void ScreenAppPictureBookEntry::sub_710093A500(sead::Heap* heap) {
     sub_710093A5C0(heap);
     sub_710093A758();
     sub_710093AC7C();
+}
+
+// 0x710093a5c0
+void ScreenAppPictureBookEntry::sub_710093A5C0(sead::Heap* heap) {
+    eui::LayoutEx* page = nullptr;
+    eui::LayoutEx* guide = nullptr;
+    if (!mParams._188.isEmpty()) {
+        auto* button = nn::font::DynamicCast<eui::UniteButton>(
+            mController->mScreen->sub_7100A480B4(mParams._188));
+        if (button) {
+            mIconControl = new (heap, 8) Unk_7102477468;
+            if (mIconControl)
+                mIconControl->sub_7100987FBC(button);
+            page = button->mLayout->findPartsLayout("Pa_Scroll_00");
+            guide = button->mLayout->findPartsLayout("Pa_Rstick_00");
+        }
+    }
+    if (!mParams._1e0.isEmpty()) {
+        // Native93A6C8..D0 treats this optional named pane as Parts and uses
+        // its established layout link at +f0, without a runtime type test.
+        auto* parts = static_cast<nn::ui2d::Parts*>(
+            mController->mScreen->sub_7100A48104(mParams._1e0, nullptr));
+        if (parts)
+            page = static_cast<eui::LayoutEx*>(parts->mPartsLayoutLink.layout);
+    }
+    if (page) {
+        mPageControl = new (heap, 8) Unk_7102474c28;
+        if (mPageControl)
+            mPageControl->sub_7100936998(page);
+    }
+    if (guide) {
+        mGuideControl = new (heap, 8) Unk_7102474c48;
+        if (mGuideControl)
+            mGuideControl->sub_7100936B18(guide);
+    }
 }
 
 // 0x7100939f68 (D1) / 0x7100939fb8 (D0)
