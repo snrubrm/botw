@@ -1,6 +1,8 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <math/seadMatrix.h>
+#include <math/seadVector.h>
 #include <prim/seadBitFlag.h>
 #include <prim/seadEnum.h>
 #include "KingSystem/Utils/Types.h"
@@ -47,6 +49,16 @@ struct Unk_710123830c {
 // TODO: incomplete. Only the user instances read by the actor xlink helpers are declared.
 class XLink {
 public:
+    // Camera7963AC constructs this record;1230100 forwards each pointer to UserInstance.
+    struct RebuildArg {
+        RebuildArg();
+        const sead::Matrix34f* rootMtx = nullptr;
+        sead::Vector3f* rootPos = nullptr;
+        sead::Vector3f* _10 = nullptr;
+    };
+    KSYS_CHECK_SIZE_NX150(RebuildArg, 0x18);
+    void sub_7101230100(const RebuildArg& arg);
+
     // Placeholder (values unknown): the bit index argument of toggle / sleep / setMask (bit `1 << value` of _73).
     // An enum wrapper: the three functions spill it to the stack and reload it for each use, like SEAD_ENUM
     // parameters.

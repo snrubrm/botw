@@ -14,6 +14,25 @@
 
 namespace ksys::xlink {
 
+XLink::RebuildArg::RebuildArg() = default;
+
+void XLink::sub_7101230100(const RebuildArg& arg) {
+    if (_48) {
+        xlink2::UserInstance::RebuildArg rebuild_arg;
+        rebuild_arg.rootMtx.setRawMtx(arg.rootMtx, 0);
+        rebuild_arg.rootPos = arg.rootPos;
+        rebuild_arg._18 = arg._10;
+        _48->rebuild(rebuild_arg);
+    }
+    if (_50) {
+        xlink2::UserInstance::RebuildArg rebuild_arg;
+        rebuild_arg.rootMtx.setRawMtx(arg.rootMtx, 0);
+        rebuild_arg.rootPos = arg.rootPos;
+        rebuild_arg._18 = arg._10;
+        _50->rebuild(rebuild_arg);
+    }
+}
+
 as::ASList* XLink::getASList() const {
     return mActor ? mActor->getASList() : nullptr;
 }
