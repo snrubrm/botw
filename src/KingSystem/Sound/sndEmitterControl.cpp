@@ -25,6 +25,16 @@ Unk_710105abc0::~Unk_710105abc0() {
     }
 }
 
+void Unk_710105abc0::sub_710105B37C() {
+    SoundMgr::instance()->mDuckingMgr->sub_7101042024(DuckingMgr::DuckerType::cTmlnMovie);
+}
+
+void Unk_710105abc0::sub_710105B8EC() {
+    if (_10.isPaused(0x40))
+        _10.pause(0x40, false, 0.0f);
+    _10.attachSoundSource(nullptr);
+}
+
 bool Unk_710105abc0::sub_710105B090() {
     if (_38.isOn(1) && SoundMgr::instance()->_30->_60.getValue() !=
                            SoundMgr::instance()->_30->_60.getTarget())

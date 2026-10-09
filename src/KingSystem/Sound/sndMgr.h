@@ -327,6 +327,9 @@ public:
     explicit Unk_710105abc0(sead::Heap* heap);
     virtual ~Unk_710105abc0();
     bool sub_710105B090();
+    void sub_710105B37C();
+    void sub_710105B394(const sead::SafeString& type);
+    void sub_710105B8EC();
 
     aal::Emitter* _8;
     aal::Handle _10;
@@ -349,6 +352,9 @@ struct UiSoundKind {
 class Unk_710103b704 {
 public:
     explicit Unk_710103b704(sead::Heap* heap);
+    // Whole 103BDD8 / 103BDE0 operate on the embedded control at +5e0.
+    bool isBgmReady();
+    void setWorldMuteType(bool movie, const sead::SafeString& type);
     virtual ~Unk_710103b704();
     struct StartParam {
         sead::SafeString _0;
