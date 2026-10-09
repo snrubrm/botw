@@ -5,13 +5,12 @@
 
 namespace ksys::act {
 
-// NON_MATCHING: the compiler folds the positive countdown test into the decrement.
 void ClusteredRenderer::requestDraw() {
     if ((_c9c & 0x22) == 0x22) {
-        if (_c44 > 0)
-            --_c44;
-        else
+        if (_c44 <= 0)
             _108->requestDraw();
+        else
+            --_c44;
     }
     _c3c = _c38;
 }
