@@ -1,5 +1,6 @@
 #include "KingSystem/ActorSystem/actActorSystem.h"
 #include <heap/seadExpHeap.h>
+#include <mc/seadCoreInfo.h>
 #include <thread/seadThread.h>
 #include "KingSystem/ActorSystem/Profiles/actPlayerLink.h"
 #include "KingSystem/Resource/resResourceMgrTask.h"
@@ -12,6 +13,18 @@
 namespace ksys::act {
 
 SEAD_SINGLETON_DISPOSER_IMPL(ActorSystem)
+
+// NON_MATCHING: switch branch layout.
+MessageTransceiverBase* ActorSystem::sub_7100D5D80C() {
+    switch (sead::CoreInfo::getCurrentCoreId()) {
+    case 1:
+        return &_1c8;
+    case 2:
+        return &_220;
+    default:
+        return &_170;
+    }
+}
 
 bool ActorSystem::callAutoPlacementMgrPreCalcFn(void*) {
     if (_298)
