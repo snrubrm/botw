@@ -73,10 +73,9 @@ void BackStepAndAttack::enter_(ksys::act::ai::InlineParamPack* params) {
     }
 }
 
-// NON_MATCHING: the original hoists the child vtable load above the isFinished()/isFailed() branches.
 void BackStepAndAttack::calc_() {
     auto* child = getCurrentChild();
-    if (child->isFinished() || child->isFailed()) {
+    if (child->isFinishedOrFailed()) {
         if (child->isFailed()) {
             setFailed();
             return;
