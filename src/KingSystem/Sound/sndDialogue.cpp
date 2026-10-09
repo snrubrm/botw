@@ -53,6 +53,11 @@ void Unk_710104e5b4::sub_710104F4A0() {
     SoundMgr::instance()->mDuckingMgr->sub_7101042D6C(DuckingMgr::DuckerType::cFocus, false);
 }
 
+void Unk_710104e5b4::sub_710104EE50() {
+    if (_30 != 2)
+        sub_710104EE64();
+}
+
 extern const f32 sUnk_7102502518[2];
 
 void Unk_710104e5b4::sub_710104FD38(const xlink2::HandleSLink& handle) {

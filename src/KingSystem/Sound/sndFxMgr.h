@@ -25,6 +25,7 @@ public:
     void sub_7101050348();
     // Whole 105034C updates effect state using only this.
     void sub_710105034C();
+    void sub_7101051078();
     void sub_71010511D4();
     void sub_71010514F4(sead::DrawContext* context, const sead::Camera& camera,
                       const sead::Projection& projection, const sead::Viewport& viewport);

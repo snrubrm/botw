@@ -212,6 +212,7 @@ struct Unk_SoundMgr38 {
     void sub_710102B11C();
     void sub_710102AF84();
     void sub_710102B4B8();
+    void sub_710102AEC4();
 
     u8 _0[0x20];
     /* 0x20 */ Unk_SoundMgr38_20* _20;
@@ -355,6 +356,7 @@ public:
     // Whole 103BDD8 / 103BDE0 operate on the embedded control at +5e0.
     bool isBgmReady();
     void setWorldMuteType(bool movie, const sead::SafeString& type);
+    void sub_710103BD3C();
     virtual ~Unk_710103b704();
     struct StartParam {
         sead::SafeString _0;
@@ -387,7 +389,9 @@ public:
     /* 0x5d4 */ int _5d4;
     // Set by SceneSoundSetEndProcAction ("SkipAll"); name unknown.
     /* 0x5d8 */ bool _5d8;
-    u8 _5d9[0x5e0 - 0x5d9];
+    // Whole constructor clears the pair at +5d8; BD3C clears this control byte.
+    bool _5d9;
+    u8 _5da[0x5e0 - 0x5da];
     /* 0x5e0 */ Unk_710105abc0 _5e0;
     /* 0x620 */ u32 _620;
 };
@@ -414,6 +418,8 @@ public:
     void sub_710104FD4C();
     void sub_710104FD38(const xlink2::HandleSLink& handle);
     void sub_710104EA7C();
+    void sub_710104EE50();
+    void sub_710104EE64();
     // CameraNotify2Sound whole initializer 791680 and whole m8/m9 consumers
     // store and dispatch the eight nonvirtual member callbacks on this singleton.
     void sub_710104F354();
@@ -432,7 +438,9 @@ public:
     u8 _0[0x28];
     // The SLink user instance the sound triggers (SoundTrigger / SoundTriggerFadeAction) fall back to.
     /* 0x28 */ xlink2::UserInstanceSLink* _28;
-    u8 _30[0x250 - 0x30];
+    // Whole factory 104E5B4 initializes 2; whole EE64 reads and sets the state.
+    s32 _30;
+    u8 _34[0x250 - 0x34];
     /* 0x250 */ u32 _250;
     u8 _254[4];
     /* 0x258 */ aal::SimpleTimedFader _258;
@@ -623,6 +631,7 @@ public:
     void sub_71011FC17C(UiSoundKind kind, s32 bit);
     // 0x71011fb5ac (CSV Sound::calc2; declaration only): called by MCMgr::invoked4.
     void sub_71011FB5AC();
+    void sub_71011FBDA8();
 
     u8 _28[0x30 - 0x28];
     /* 0x30 */ Unk_SoundMgr30* _30;
@@ -643,7 +652,10 @@ public:
     u8 _b0[0xd8 - 0xb0];
     // Created by 0x71011fab7c and queried through the Heap virtual interface.
     sead::Heap* mSLinkUserCreateHeap;
-    u8 _e0[0xec - 0xe0];
+    u8 _e0[4];
+    // Whole factory 11FA364 sets 3; whole 11FB748 tests state 2.
+    u32 _e4;
+    u8 _e8[4];
     u32 _ec;
     u8 _f0[8];
     sead::BitFlag8 _f8;

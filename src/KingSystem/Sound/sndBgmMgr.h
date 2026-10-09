@@ -210,6 +210,7 @@ struct Unk_SoundMgr30_18;
 struct Unk_SoundMgr30 {
     // 0x7100ff8804 (declared only; 164 B): called by SoundMgr::sub_71011FC288.
     void sub_7100FF8804();
+    void sub_7100FF85E0();
 
     u8 _0[0x8];
     /* 0x08 */ Unk_SoundMgr30_8* _8;

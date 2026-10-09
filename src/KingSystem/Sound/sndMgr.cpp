@@ -1,4 +1,5 @@
 #include "KingSystem/Sound/sndMgr.h"
+#include "KingSystem/Sound/sndFxMgr.h"
 #include "KingSystem/Sound/sndBgmMgr.h"
 #include <prim/seadScopedLock.h>
 #include <heap/seadHeap.h>
@@ -155,6 +156,16 @@ void SoundMgr::sub_71011FC17C(UiSoundKind kind, s32 bit) {
 void Unk_SoundMgr48::sub_7101055B44() {
     if (_18.isEnabled())
         _18.stop(0.1f, 0.0f);
+}
+
+void SoundMgr::sub_71011FBDA8() {
+    _50->sub_7101051078();
+    _30->sub_7100FF85E0();
+    _38->sub_710102AEC4();
+    _90->sub_710104EE50();
+    _98->sub_710103BD3C();
+    _e4 = 2;
+    _238 |= 4;
 }
 
 void Unk_710104e5b4::sub_710104F86C() {

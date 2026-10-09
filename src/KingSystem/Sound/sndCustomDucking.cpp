@@ -16,6 +16,12 @@ void Unk_710103b704::setWorldMuteType(bool movie, const sead::SafeString& type) 
     _5e0.sub_710105B8EC();
 }
 
+void Unk_710103b704::sub_710103BD3C() {
+    _5e0._10.stop(1.0f, 0.0f);
+    SoundMgr::instance()->mDuckingMgr->sub_7101042D6C(DuckingMgr::DuckerType::cTmlnLoading, false);
+    _5d9 = false;
+}
+
 void Unk_710103b704::sub_710103CFE8(int bgm_type, int se_type) {
     _5d0 = bgm_type;
     _5d4 = se_type;
