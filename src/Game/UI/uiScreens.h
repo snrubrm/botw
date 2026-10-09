@@ -3350,6 +3350,8 @@ public:
 class ScreenTitle : public ScreenEx {
 public:
     ScreenTitle();
+    // 0x7100A6B178 consumes a bool in w0 and no receiver; NewSaveRun calls it directly.
+    static void sub_7100A6B178(bool value);
     s32 m141(const ksys::Message& message) override;
     s32 m142(const ksys::Message& message) override;
     void m96() override;
