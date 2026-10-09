@@ -7,6 +7,7 @@
 #include "Game/Actor/actGiantEnemy.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actAttackSensor.h"
+#include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
@@ -160,6 +161,38 @@ void ForestGiantRoot::sub_71003DAF1C() {
         sub_71003DB978(sUnk_71023EFFE0[0], sUnk_71023EFFE0[2], sUnk_71023EFFE0[1],
                       sead::SafeString::cEmptyString);
     }
+}
+
+bool ForestGiantRoot::m35() {
+    if (EnemyRoot::m35())
+        return true;
+    if (auto* damage = mActor->getDamageMgr()) {
+        if (damage->getField54() != -1 && sub_71005DD798(mActor, 19, nullptr, 0, 0))
+            return true;
+    }
+    auto* giant = sead::DynamicCast<act::GiantEnemy>(mActor);
+    if (!giant)
+        return false;
+    if (giant->_e84.isOnBit(8)) {
+        if (auto* manager = mActor->getDamageMgr()) {
+            // The original tests the damage getter's value as a signed number.
+            const s32 damage = manager->getDamage();
+            if (damage > 0)
+                return true;
+        }
+    }
+    if (*mIgnoreGiantArmorCondition_a)
+        return false;
+    for (s32 i = 0; i < 4; ++i) {
+        if (auto* actor = sead::DynamicCast<ksys::act::Actor>(
+                giant->_14c8._8[i].getProc(nullptr, nullptr))) {
+            if (auto* chemical = actor->getChemicalStuff()) {
+                if (chemical->_c0 == 2 || chemical->_1b8 > 0.0f)
+                    return true;
+            }
+        }
+    }
+    return false;
 }
 
 void ForestGiantRoot::m37() {
