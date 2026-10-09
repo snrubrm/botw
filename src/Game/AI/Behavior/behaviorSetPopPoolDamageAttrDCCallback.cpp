@@ -2,7 +2,6 @@
 
 namespace uking::behavior {
 
-// NON_MATCHING: store scheduling (params at 0x30 stored after 0x50)
 SetPopPoolDamageAttrDCCallback::SetPopPoolDamageAttrDCCallback(const InitArg& arg)
     : SetDamageCallback(arg) {}
 
@@ -17,7 +16,7 @@ void SetPopPoolDamageAttrDCCallback::m7() {
 }
 
 void SetPopPoolDamageAttrDCCallback::m8() {
-    switch (*mAttrForSmall_s) {
+    switch (*mParams.mAttrForSmall_s) {
     case -1:
         _40._24 = -1;
         break;
@@ -43,7 +42,7 @@ void SetPopPoolDamageAttrDCCallback::m8() {
         _40._24 = -1;
         break;
     }
-    switch (*mAttrForFinish_s) {
+    switch (*mParams.mAttrForFinish_s) {
     case -1:
         _40._28 = -1;
         break;
@@ -78,8 +77,8 @@ void SetPopPoolDamageAttrDCCallback::m9() {
 
 void SetPopPoolDamageAttrDCCallback::loadParams() {
     SetDamageCallback::loadParams();
-    getStaticParam(&mAttrForSmall_s, "AttrForSmall");
-    getStaticParam(&mAttrForFinish_s, "AttrForFinish");
+    getStaticParam(&mParams.mAttrForSmall_s, "AttrForSmall");
+    getStaticParam(&mParams.mAttrForFinish_s, "AttrForFinish");
 }
 
 uking::dmg::DamageCallback* SetPopPoolDamageAttrDCCallback::m14() {
