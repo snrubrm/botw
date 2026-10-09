@@ -26,6 +26,7 @@ public:
     }
 
 protected:
+    void sub_7100222070(s32 idx, const sead::Vector3f& start, const sead::Vector3f& end, f32 delay);
     void calc_() override;
 
     // static_param at offset 0x28
