@@ -55,10 +55,10 @@ void SiteBossRecognizeRoot::loadParams_() {
     getStaticParam(&mChaseDistOffset_s, "ChaseDistOffset");
 }
 
-// NON_MATCHING: the original computes both values and uses csel; we branch
 void SiteBossRecognizeRoot::m34(bool on) {
     if (auto* boss = sead::DynamicCast<act::SiteBoss>(mActor))
-        boss->_14c8._30.change(0x40, on);
+        boss->_14c8._30.setDirect(on ? (boss->_14c8._30.getDirect() | 0x40) :
+                                     (boss->_14c8._30.getDirect() & ~0x40));
 }
 
 bool SiteBossRecognizeRoot::m35() {
