@@ -2,6 +2,7 @@
 
 #include <basis/seadTypes.h>
 #include "KingSystem/Utils/Thread/MessageBroker.h"
+#include "KingSystem/Utils/Thread/MessageTransceiverId.h"
 #include "KingSystem/Utils/Types.h"
 
 namespace ksys {
@@ -13,13 +14,31 @@ class MessageTransceiverBase;
 // OpenWorldStage family, ...) register a transceiver with one of them. Names are placeholders; the namespace is a
 // guess.
 
+// The broker's register at +8 has 200 IDs: manager construction at 899FE0 initializes
+// every ID, and the complete register methods at 89C060..89C254 use this same array.
+class Unk_DebugBoardRegister final : public ksys::IMessageBrokerRegister {
+public:
+    ~Unk_DebugBoardRegister() override;
+    bool registerTransceiver(const ksys::MesTransceiverId& id) override;
+    void deregisterTransceiver(const ksys::MesTransceiverId& id) override;
+    void forEachRegistered(IForEachContext& context) override;
+    void setId(const u32& id) override;
+    const u32& getId() const override;
+    int countTransceivers() const override;
+
+    u32 mId = 0xffffffff;
+    ksys::MesTransceiverId mIds[200];
+};
+static_assert(sizeof(Unk_DebugBoardRegister) == 0x12d0);
+
 // A debug message broker embedded in the manager (placeholder: only what the vtable needs; 0x12d8 bytes each).
 class Unk_DebugBoardBroker final : public ksys::IMessageBroker {
 public:
+    ~Unk_DebugBoardBroker() override;
     void setId(const SetIdArg& arg) override;
     ksys::IMessageBrokerRegister* getRegister() override;
 
-    u8 _[0x12d8 - sizeof(ksys::IMessageBroker)];
+    Unk_DebugBoardRegister mRegister;
 };
 static_assert(sizeof(Unk_DebugBoardBroker) == 0x12d8);
 
