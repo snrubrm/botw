@@ -40,7 +40,6 @@ void GuardianRoot::leave_() {
     GuardianAI::leave_();
 }
 
-// NON_MATCHING: the two flag updates merge into a shared OR operation.
 bool GuardianRoot::handleMessage_(const ksys::Message* message) {
     auto* guardian = sub_710040DA6C();
     if (!message || !guardian)
@@ -49,8 +48,10 @@ bool GuardianRoot::handleMessage_(const ksys::Message* message) {
         return true;
     if (message->getType() == 0x800004b) {
         _48 |= 1;
+        return true;
     } else if (message->getType() == 0x800004c) {
         _48 |= 2;
+        return true;
     } else if (message->getType() == 0x3000003) {
         auto* life = guardian->getLife();
         if (life && *life < 1)
