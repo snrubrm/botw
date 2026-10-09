@@ -261,6 +261,12 @@ inline bool Constraint::setBodyAndRequest_(BodyIndex idx, RigidBody* body) {
     return true;
 }
 
+bool Constraint::sub_7100F6AAA4(RigidBody* a, RigidBody* b) {
+    const bool success_a = setBodyAndRequest_(BodyIndex::_0, a);
+    const bool success_b = setBodyAndRequest_(BodyIndex::_1, b);
+    return success_a && success_b;
+}
+
 bool Constraint::sub_7100F6A88C(RigidBody* body) {
     return setBodyAndRequest_(BodyIndex::_0, body);
 }

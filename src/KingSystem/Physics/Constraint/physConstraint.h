@@ -67,7 +67,7 @@ public:
     // 0x7100f6a6f8
     void sub_7100F6A6F8(bool a1, bool a2);
     // 0x7100f6aaa4 (lane4 s49; declared only, 308 B): attaches the constraint to the two bodies.
-    void sub_7100F6AAA4(RigidBody* a, RigidBody* b);
+    bool sub_7100F6AAA4(RigidBody* a, RigidBody* b);
     // 0x7100f6a228 (placeholder name): under mCS, applies the pending bodies (if _50 bit 0), then the bit 0 and
     // bit 2 requests, and clears _52.
     void sub_7100F6A228();
