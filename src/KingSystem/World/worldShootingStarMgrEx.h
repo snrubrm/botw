@@ -11,6 +11,8 @@ class InstParamPack;
 
 namespace ksys::world {
 
+bool sub_71010D103C();
+
 // One "FldObj_DLC_ShootingStarCollaborationAnchor" entry of the map static mubin (0x90 bytes, constructed inline
 // in ShootingStarMgrEx::sub_71010CFE18; the name is a guess after the byml key). Both destructors are emitted
 // in ShootingStarMgr's translation unit.

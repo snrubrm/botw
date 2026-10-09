@@ -1,4 +1,5 @@
 #include "KingSystem/World/worldShootingStarMgrEx.h"
+#include "Game/gameGraphics.h"
 #include <cmath>
 #include <cstring>
 #include <math/seadQuat.h>
@@ -12,6 +13,17 @@
 #include "KingSystem/World/worldManager.h"
 
 namespace ksys::world {
+
+// NON_MATCHING: the TU local-static base differs and index arithmetic is promoted to 64 bits.
+bool sub_71010D103C() {
+    static const sead::Vector2i coords[3]{{0, 0}, {1, 0}, {2, 0}};
+    const auto* grid = Graphics::instance()->_378;
+    f32 sum = 0.0f;
+    for (const auto& coord : coords)
+        sum += grid->_18->_12a8[coord.x + grid->_268 * coord.y]._18;
+    return sum / 3.0f < -20000.0f;
+}
+
 
 // NON_MATCHING: quaternion/vector temporaries and component-copy scheduling differ.
 void ShootingStarAnchor::sub_71010D0814(act::InstParamPack* pack, sead::Vector3f* out_position) {

@@ -2,6 +2,7 @@
 
 #include <basis/seadTypes.h>
 #include <container/seadPtrArray.h>
+#include <container/seadBuffer.h>
 #include <math/seadVector.h>
 #include <math/seadBoundBox.h>
 #include "KingSystem/Utils/Types.h"
@@ -54,13 +55,24 @@ public:
     // Placeholder names (lane4 s64): the object at Graphics + 0x378 points (+0x18) to a block that holds two floats
     // at 0x1520 / 0x1524 (read by Camera::updateMatrix and sub_710079AE60 as clip distances).
     struct Unk_378_18 {
-        u8 _0[0x1520];
+        struct Cell {
+            u8 _0[0x18];
+            f32 _18;
+            u8 _1c[4];
+        };
+        static_assert(sizeof(Cell) == 0x20);
+        u8 _0[0x12a8];
+        // 10D103C indexes 0x20-byte cells with Buffer's bounds fallback and reads f32 +0x18.
+        /* 0x12a8 */ sead::Buffer<Cell> _12a8;
+        u8 _12b8[0x1520 - 0x12b8];
         /* 0x1520 */ f32 _1520;
         /* 0x1524 */ f32 _1524;
     };
     struct Unk_378 {
         u8 _0[0x18];
         /* 0x18 */ Unk_378_18* _18;
+        u8 _20[0x268 - 0x20];
+        /* 0x268 */ s32 _268;  // grid row width used by 10D103C
     };
 
     // Original instance pointer 0x710260b060 (GOT 0x7102579d58).
@@ -135,7 +147,12 @@ public:
 
 private:
     u8 _368[0x378 - 0x368];
+
+public:
+    // Read by the shooting-star grid predicate at 10D103C.
     Unk_378* _378;
+
+private:
     u8 _380[0xa98 - 0x380];
     Unk_a98* _a98;
     u8 _aa0[0xaa8 - 0xaa0];
