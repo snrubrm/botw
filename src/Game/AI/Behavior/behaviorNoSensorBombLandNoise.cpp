@@ -30,11 +30,11 @@ void NoSensorBombLandNoise::m7() {
     _60 = landed;
 }
 
-// NON_MATCHING: the _61 store is scheduled before the parameter load
 void NoSensorBombLandNoise::m8() {
     sub_710062E9F0();
+    const int no_noise_frame = *mNoNoiseFrame_s;
     _61 = false;
-    _58 = *mNoNoiseFrame_s;
+    _58 = no_noise_frame;
 }
 
 void NoSensorBombLandNoise::m9() {
