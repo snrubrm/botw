@@ -7,6 +7,36 @@
 
 namespace uking::ai {
 
+// 0x7100528b5c: publish the next phase and its life threshold to the shared unit.
+// NON_MATCHING: enum temporary stack placement and phase/threshold local layout differ.
+void PriestBossPhase::sub_7100528B5C() {
+    Flag phase = m38();
+    if (_60.isOnBit(Flag(Flag::_0))) {
+        switch (phase) {
+        case Flag::_0:
+            phase = Flag::_1;
+            break;
+        case Flag::_1:
+            phase = Flag::_2;
+            break;
+        case Flag::_2:
+            phase = Flag::_3;
+            break;
+        case Flag::_3:
+            phase = Flag::_4;
+            break;
+        }
+    }
+    f32 percent;
+    if (!m37(&percent))
+        percent = sub_7100525A88()->_40;
+    auto* unit = sub_7100525A88();
+    unit->_3c = phase;
+    unit->_40 = percent;
+    if (unit->_38 == Flag::_4)
+        unit->_38 = phase;
+}
+
 // NON_MATCHING: native string-comparison and loop cleanup scheduling differ.
 // 0x7100528c48
 bool PriestBossPhase::sub_7100528C48() {
