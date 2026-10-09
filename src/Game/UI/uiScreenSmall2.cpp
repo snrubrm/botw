@@ -434,6 +434,24 @@ void ScreenMainScreen::sub_7100A1957C(s32 count) {
         static_cast<Unk_7102476db8*>(_3638)->sub_7100986480(count);
 }
 
+// 0x7100a1af60
+void ScreenMainScreen::sub_7100A1AF60() {
+    if (_3d68)
+        _3d68->sub_71009C0310();
+}
+
+// 0x7100a1e958
+void ScreenMainScreen::sub_7100A1E958(s32 state) {
+    if (_3d68)
+        _3d68->sub_71009C07FC(state);
+}
+
+// 0x7100a1e968
+void ScreenMainScreen::sub_7100A1E968() {
+    if (_3d68)
+        _3d68->sub_71009C082C();
+}
+
 // 0x7100a1ab48
 void ScreenMainScreen::sub_7100A1AB48() {
     if (_3638)

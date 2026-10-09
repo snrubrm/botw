@@ -63,6 +63,7 @@ namespace uking::ui {
 
 class TagProcessor;
 class Unk_710247bcb8;
+class Unk_710247c368;
 
 // The game's UI screen classes (CSV: ScreenBase / Screen / ScreenEx / Screen<Name>, IDA placeholder
 // names; the namespace is a guess). The chain eui::Screen <- ScreenBase <- Screen <- ScreenEx <-
@@ -867,6 +868,13 @@ public:
     /* 0x3cc8 */ u8 _3cc8;
     u8 _pad_3cc9[3];
     /* 0x3ccc */ UiTimer _3ccc;
+    u8 _pad_3ce4[0x3d68 - 0x3ce4];
+    // Full ctor A17AF8 and setup A18464 group 7 cast through native RTTI 25DAC48.
+    /* 0x3d68 */ Unk_710247c368* _3d68;
+
+    void sub_7100A1AF60();
+    void sub_7100A1E958(s32 state);
+    void sub_7100A1E968();
 
     bool sub_7100A1A1C4(s32 a1, bool a2);
     // 0x7100a1a3c8 / 0x7100a1a460 (placeholder names): open / close request (ScreenChild::m6) and "state 7" check of
