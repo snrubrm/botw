@@ -112,6 +112,10 @@ public:
         ~Unk868();
         void sub_71006682C0();
         void sub_71006685C0();
+        void sub_7100668468();
+        bool sub_71006685C4(s32 group, const ksys::act::BaseProcLink& link, f32 countdown);
+        bool sub_71006686D0(s32 group, const ksys::act::BaseProcLink& link);
+        bool sub_710066885C(s32 group, const ksys::act::BaseProcLink& link);
         u8 _0[0x20];
         sead::SafeArray<Bucket, 2> mBuckets;
         sead::JobQueueLock mLock;
@@ -183,6 +187,9 @@ public:
     // Inline-only in the original; name is a guess. 7062D4/7063B8/706818/706C3C use this owner.
     Unk11f0& get11f0() { return _11f0; }
 
+    // Inline-only in the original; name is a guess. Registration/query callers
+    // 3B6B68, 3B7354, 46D9FC, 46E088, 4FEC88 and 500808 all address manager +868.
+    Unk868& get868() { return _868; }
     Unk28& get28() { return _28; }
     Unk450& get450() { return _450; }
     // Inline-only in the original; name is a guess. 66E134/15C/178 address this registry.
