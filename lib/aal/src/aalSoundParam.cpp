@@ -146,7 +146,7 @@ void SoundParam::setBusVolume(BusType bus, f32 volume) {
     mBusVolume[bus] = volume;
 }
 
-// 0x7100b763d8: NON_MATCHING (the original converts through a signed 64-bit register: fcvtzs x8)
+// 0x7100b763d8
 void SoundParam::setAngle(f32 angle) {
     mAngleIdx = sead::Mathf::rad2idx(angle);
 }
