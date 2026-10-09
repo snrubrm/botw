@@ -15,11 +15,13 @@ public:
 
 protected:
     void m46() override;
+    void m47() override;
+    void m48(sead::Matrix34f* out) override;
 
     ksys::act::BaseProcLink _120;
     // dynamic_param at offset 0x130
     sead::SafeString mTargetUniqueName_d;
-    u32 _140 = 0;
+    s32 _140 = 0;
 };
 
 }  // namespace uking::action

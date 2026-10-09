@@ -127,6 +127,7 @@ class Viewport;
 }
 
 namespace ksys::act {
+class Actor;
 class ActorConstDataAccess;
 class ActorLinkConstDataAccess;
 class BaseProcLink;
@@ -181,6 +182,10 @@ bool sub_7100925110(const sead::Matrix33f& mtx, int axis);
 f32 sub_71009251C4(const uking::act::Camera* camera);
 // 0x710092523c: 1 - (1 - t)^exponent.
 f32 sub_710092523C(f32 exponent, f32 t);
+// 0x71009258b0: writes the actor transform when its twelve components are valid; returns success.
+// Callers pass Actor* in x0 and Matrix34f* in x1; the native function returns bool.
+bool sub_71009258B0(ksys::act::Actor* actor, sead::Matrix34f* out);
+
 // Camera player-state helpers (TU 0x7100926430-).
 // 0x7100926430: searches the ground / water height below `pos` (`count` probes); a4-a6 are distances
 // (parameter order between the floats and the others is a guess).
