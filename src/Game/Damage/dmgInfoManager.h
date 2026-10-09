@@ -145,6 +145,20 @@ public:
     KSYS_CHECK_SIZE_NX150(Unk28, 0x428);
     KSYS_CHECK_SIZE_NX150(Unk450::Entry, 0x28);
     KSYS_CHECK_SIZE_NX150(Unk450, 0xa8);
+    struct Unk11f0 {
+        bool sub_7100674A94(ksys::act::Actor* actor);
+        void sub_7100674B30(ksys::act::Actor* actor);
+        bool sub_7100674BC0(ksys::act::Actor* actor);
+        void sub_710067446C();
+
+        /* 0x00 */ sead::SafeArray<ksys::act::BaseProcLink, 4> mLinks;
+        /* 0x40 */ sead::ReadWriteLock mLock;
+        /* 0xf8 */ s32 mSelectedIndex = -1;
+    };
+    KSYS_CHECK_SIZE_NX150(Unk11f0, 0x100);
+    // Inline-only in the original; name is a guess. 7062D4/7063B8/706818/706C3C use this owner.
+    Unk11f0& get11f0() { return _11f0; }
+
     Unk28& get28() { return _28; }
     Unk450& get450() { return _450; }
     // Inline-only in the original; name is a guess. 66E134/15C/178 address this registry.
@@ -197,12 +211,7 @@ public:
     /* 0x11eb */ sead::SafeArray<s8, 4> _11eb;  // per-core counters (ForceConfront behavior; Player::sub_710086C928 reads [3] signed)
 
 private:
-    /* 0x11f0 */ ksys::act::BaseProcLink _11f0;
-    /* 0x1200 */ ksys::act::BaseProcLink _1200;
-    /* 0x1210 */ ksys::act::BaseProcLink _1210;
-    /* 0x1220 */ ksys::act::BaseProcLink _1230;
-    /* 0x1230 */ sead::ReadWriteLock mProcLinkLock;
-    /* 0x12e8 */ void* _12e8;
+    /* 0x11f0 */ Unk11f0 _11f0;
 };
 KSYS_CHECK_SIZE_NX150(DamageInfoMgr, 0x12F0);
 

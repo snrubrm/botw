@@ -1,4 +1,8 @@
 #include "Game/Damage/dmgInfoManager.h"
+#include <limits>
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "Game/AI/aiUnk_71007130BC.h"
 #include "Game/gameScene.h"
 #include "KingSystem/ActorSystem/actGlobalParameter.h"
@@ -118,6 +122,60 @@ bool DamageInfoMgr::isTrueFormMasterSword() const {
         return true;
 
     return mMasterSwordDetectedEvil;
+}
+
+
+bool DamageInfoMgr::Unk11f0::sub_7100674A94(ksys::act::Actor* actor) {
+    bool registered = false;
+    mLock.writeLock();
+    for (auto& link : mLinks) {
+        if (!link.hasProc()) {
+            link.acquire(actor, false);
+            registered = true;
+            break;
+        }
+    }
+    mLock.writeUnlock();
+    return registered;
+}
+
+void DamageInfoMgr::Unk11f0::sub_7100674B30(ksys::act::Actor* actor) {
+    mLock.writeLock();
+    for (auto& link : mLinks) {
+        if (link.hasProcById(actor)) {
+            link.reset();
+            break;
+        }
+    }
+    mLock.writeUnlock();
+}
+
+bool DamageInfoMgr::Unk11f0::sub_7100674BC0(ksys::act::Actor* actor) {
+    mLock.readLock();
+    bool selected = false;
+    if (u32(mSelectedIndex) < mLinks.size())
+        selected = mLinks[mSelectedIndex].hasProcById(actor);
+    mLock.readUnlock();
+    return selected;
+}
+
+void DamageInfoMgr::Unk11f0::sub_710067446C() {
+    const sead::Vector3f player_pos = getPlayerPosition();
+    mLock.writeLock();
+    mSelectedIndex = -1;
+    f32 nearest = std::numeric_limits<f32>::infinity();
+    for (s32 i = 0; i < mLinks.size(); ++i) {
+        if (!mLinks[i].hasProc())
+            continue;
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::acquireActor(&mLinks[i], &accessor);
+        const f32 distance = (accessor.getActorMtx().getTranslation() - player_pos).length();
+        if (distance < nearest) {
+            nearest = distance;
+            mSelectedIndex = i;
+        }
+    }
+    mLock.writeUnlock();
 }
 
 }  // namespace uking::dmg
