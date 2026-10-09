@@ -3,6 +3,39 @@
 
 namespace ksys::res {
 
+TextureHandleList::Entry::Entry() : _8(false), _10(nullptr), _18(nullptr) {}
+
+TextureHandleList::Entry::~Entry() {
+    if (_40.sub_7100FE7FB0()) {
+        stubbedLogFunction();
+        sub_71012BD338();
+    }
+}
+
+void TextureHandleList::Entry::Callback::m2(const void* arg) {
+    Entry* entry = mOwner;
+    if (!entry->isLinked()) {
+        entry->_8 = true;
+        TextureHandleList::sInstance->add(entry);
+    }
+}
+
+void TextureHandleList::Entry::Callback::m3(const void* arg) {
+    Entry* entry = mOwner;
+    if (!entry->isLinked()) {
+        entry->_8 = true;
+        TextureHandleList::sInstance->add(entry);
+    }
+}
+
+void TextureHandleList::Entry::Callback::m4(const void* arg) {
+    Entry* entry = mOwner;
+    if (!entry->isLinked()) {
+        entry->_8 = true;
+        TextureHandleList::sInstance->add(entry);
+    }
+}
+
 TextureHandleList* TextureHandleList::sInstance;
 
 void TextureHandleList::setInstance(TextureHandleList* list) {

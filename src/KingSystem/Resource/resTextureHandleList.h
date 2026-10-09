@@ -5,6 +5,7 @@
 #include <thread/seadCriticalSection.h>
 #include "KingSystem/Utils/Types.h"
 #include "KingSystem/Resource/resUnk_71024F9D48.h"
+#include "KingSystem/Resource/resBfRes.h"
 
 namespace ksys::res {
 
@@ -15,10 +16,12 @@ public:
     explicit TextureHandleList(sead::Heap* heap);
     virtual ~TextureHandleList();
 
-    // Placeholder: the elements of the list (the list node is at +0xa0; its functions live in the TU
-    // before TextureHandleList's).
+    // Vtable 0x710251aa90; the list node is at +0xa0.
     class Entry {
     public:
+        Entry();
+        virtual ~Entry();
+
         static constexpr size_t getListNodeOffset() { return 0xa0; }
 
         // 0x71012bd52c whether the list node is linked.
@@ -35,12 +38,22 @@ public:
             virtual void m0(Entry* entry) = 0;
         };
 
-        u8 _0[8];
+        // Native ctor 12BD24C constructs this callback at +20 and stores the owner at +38.
+        class Callback : public Unk_71024f9d68 {
+        public:
+            explicit Callback(Entry* owner) : mOwner(owner) {}
+            ~Callback() override = default;
+            void m2(const void* arg) override;
+            void m3(const void* arg) override;
+            void m4(const void* arg) override;
+            Entry* mOwner;
+        };
+
         bool _8;
         u8 _9[7];
         void* _10;
         Unk18* _18;
-        u8 _20[0x40 - 0x20];
+        Callback _20{this};
         Unk_71024F9D48 _40;
         sead::ListNode mListNode;
     };
