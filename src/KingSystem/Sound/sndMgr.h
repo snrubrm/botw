@@ -60,6 +60,7 @@ s32 sub_710105E6CC(s32 position, const aal::AssetInfo* asset);
 s32 sub_710105E75C(const aal::AssetInfo::LoopInfo* loop, s32 position, s32 offset);
 
 struct Unk_SoundMgr30;
+class OcclusionMgr;
 
 // Only the interface needed by the UI sound wrapper is recovered.
 class UiSoundMgr {
@@ -593,7 +594,8 @@ public:
     u8 _50[0x58 - 0x50];
     ListenerPoser* _58;
     /* 0x60 */ Unk_SoundMgr60* _60;
-    u8 _68[0x80 - 0x68];
+    u8 _68[0x78 - 0x68];
+    /* 0x78 */ OcclusionMgr* mOcclusionMgr;
     /* 0x80 */ DuckingMgr* mDuckingMgr;
     u8 _88[8];
     /* 0x90 */ Unk_710104e5b4* _90;

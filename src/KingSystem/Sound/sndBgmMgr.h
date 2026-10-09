@@ -6,8 +6,13 @@
 #include <prim/seadSafeString.h>
 #include <prim/seadRuntimeTypeInfo.h>
 #include <thread/seadCriticalSection.h>
+#include "KingSystem/Utils/Types.h"
 
 struct Unk_SpotBgmHandle;
+
+namespace uking::action {
+class SoundOcclusionTagAction;
+}
 
 namespace ksys::snd {
 
@@ -26,7 +31,11 @@ class Bgm {
 public:
     virtual ~Bgm();
     SEAD_RTTI_BASE(Bgm)
+
+protected:
+    u8 _8[0x20 - 0x8];
 };
+KSYS_CHECK_SIZE_NX150(Bgm, 0x20);
 
 // Intermediate BGM RTTI typeInfo 0x71025ce380, derived from Bgm.
 class Unk_71025ce380 : public Bgm {
@@ -46,7 +55,15 @@ class Unk_710260f2a8 : public Bgm {
 // RTTI typeInfo 0x71025ce350, derived from Bgm (sub_7100FFDC80 casts BGM kind 0 to it).
 class Unk_71025ce350 : public Bgm {
     SEAD_RTTI_OVERRIDE(Unk_71025ce350, Bgm)
+    friend class uking::action::SoundOcclusionTagAction;
+
+    u8 _20[0x3c - 0x20];
+    bool _3c;
+    u8 _3d;
+    bool _3e;
+    u8 _3f;
 };
+KSYS_CHECK_SIZE_NX150(Unk_71025ce350, 0x40);
 
 // RTTI typeInfo 0x710260f288, derived from Unk_71025ce380 (sub_7100FFDDF0 casts BGM kind 6 to it).
 class Unk_710260f288 : public Unk_71025ce380 {
