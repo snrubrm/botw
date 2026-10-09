@@ -623,6 +623,47 @@ void sub_7100923F44(const sead::SafeString& name, const sead::SafeString& unique
     }
 }
 
+void sub_710092486C(ksys::act::Actor* actor, ksys::act::ActorConstDataAccess* accessor) {
+    if (!accessor)
+        return;
+    ksys::evt::EventSystem::instance()->sub_71008ABF38(accessor);
+    if (accessor->hasProc())
+        return;
+    auto& link = ksys::evt::sub_7100DC85D4(actor);
+    if (link.hasProc())
+        ksys::act::acquireActor(&link, accessor);
+}
+
+// NON_MATCHING: translation loads are grouped before the paired destination store.
+void sub_71009248D4(ksys::act::Actor* actor, const sead::SafeString& name,
+                    const sead::SafeString& unique_name,
+                    sead::IDelegate1<ksys::act::ActorConstDataAccess*>* on_actor,
+                    sead::IDelegate1<ksys::map::Object*>* on_object) {
+    if (!actor || !on_actor || !on_object)
+        return;
+    auto& named_link = ksys::evt::sub_7100DC8630(name, unique_name);
+    if (named_link.hasProc()) {
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::acquireActor(&named_link, &accessor);
+        on_actor->invoke(&accessor);
+        return;
+    }
+    sead::Vector3f origin = sead::Vector3f::zero;
+    auto* camera = sead::DynamicCast<Camera>(actor);
+    if (camera && camera->_860._220.hasProc()) {
+        origin = camera->_860._324.getTranslation();
+    } else {
+        auto* manager = ksys::evt::Manager::instance();
+        if (!manager)
+            return;
+        auto* event = manager->getActiveEvent();
+        if (!event)
+            return;
+        origin = event->mStartTransform.getTranslation();
+    }
+    sub_7100923F44(name, unique_name, origin, on_actor, on_object);
+}
+
 // NON_MATCHING: vector load/store grouping and local delegate stack placement differ.
 void sub_7100924A4C(ksys::act::Actor* actor, const sead::SafeString& name,
                     const sead::SafeString& unique_name, CameraTargetResult* result) {
