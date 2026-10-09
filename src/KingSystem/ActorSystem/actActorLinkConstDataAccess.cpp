@@ -9,9 +9,7 @@
 
 namespace ksys::act {
 
-namespace {
 MesTransceiverId sDefaultMesTransceiverId;
-}
 
 ActorLinkConstDataAccess::~ActorLinkConstDataAccess() {
     if (mAcquired && mProc)
@@ -40,7 +38,6 @@ const Actor* ActorLinkConstDataAccess::getActor() const {
 }
 
 const MesTransceiverId* ActorLinkConstDataAccess::getMessageTransceiverId() const {
-    // NON_MATCHING: the local default object's address uses ADRP/ADD instead of a GOT load.
     const auto* actor = getActor();
     if (!actor || actor->checkFlag(Actor::ActorFlag::_2e))
         return &sDefaultMesTransceiverId;
