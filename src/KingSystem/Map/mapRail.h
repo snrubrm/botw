@@ -12,14 +12,11 @@ class RailPoint {
     friend class Rail;
 
 public:
-    RailPoint() {
-        mSRT.scale = sead::Vector3f::ones;
-        mSRT.rotate = sead::Vector3f::zero;
-        mSRT.translate = sead::Vector3f::zero;
-        mCtrlPoints[0] = sead::Vector3f::zero;
-        mCtrlPoints[1] = sead::Vector3f::zero;
-        mPrevDistance = 0.0;
-        mNextDistance = 0.0;
+    RailPoint()
+        : mSRT{sead::Vector3f::ones, sead::Vector3f::zero, sead::Vector3f::zero},
+          mCtrlPoints{{sead::Vector3f::zero, sead::Vector3f::zero}} {
+        mPrevDistance = 0.0f;
+        mNextDistance = 0.0f;
     }
     virtual ~RailPoint();
     virtual bool parse(MubinIter* iter, sead::Heap* heap);
@@ -79,7 +76,8 @@ public:
     };
 
 protected:
-    static constexpr u32 sHashBase = 0;
+    // Constructors load the shared value at 0x7102600398.
+    static u32 sHashBase;
 
     sead::TypedBitFlag<Flag> mFlags{};
     u32 mHashId = sHashBase;
@@ -92,8 +90,8 @@ class RailGuidePoint : public RailPoint {
     friend class RailGuide;
 
 public:
-    RailGuidePoint();
-    ~RailGuidePoint() override;
+    RailGuidePoint() : mWaitFrame(0.0f) {}
+    ~RailGuidePoint() override = default;
 
     bool parse(MubinIter* iter, sead::Heap* heap) override;
 
@@ -118,6 +116,7 @@ class RailGuide : public Rail {
 public:
     RailGuide();
     ~RailGuide() override;
+    RailPoint* allocPoint(sead::Heap* heap) override;
 };
 
 class RailRemainGuide : public RailGuide {

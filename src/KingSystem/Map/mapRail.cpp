@@ -5,6 +5,8 @@
 
 namespace ksys::map {
 
+u32 Rail::sHashBase;
+
 static bool isNearZero(const sead::Vector3f& v) {
     return v.x <= 0.01f && v.x >= -0.01f && v.y <= 0.01f && v.y >= -0.01f && v.z <= 0.01f &&
            v.z >= -0.01f;
@@ -65,9 +67,13 @@ bool RailPoint::parse(MubinIter* iter, sead::Heap* heap) {
     return success;
 }
 
+// NON_MATCHING: the shared hash initializer is accessed through the GOT.
 Rail::Rail() = default;
 
 Rail::~Rail() {
+    const s32 num_points = mRailPoints.size();
+    for (s32 i = 0; i < num_points; ++i)
+        delete mRailPoints[i];
     mRailPoints.freeBuffer();
 }
 
@@ -244,9 +250,14 @@ bool RailGuidePoint::parse(MubinIter* iter, sead::Heap* heap) {
     return success;
 }
 
+// NON_MATCHING: the shared hash initializer is accessed through the GOT.
 RailGuide::RailGuide() = default;
 
 RailGuide::~RailGuide() = default;
+
+RailPoint* RailGuide::allocPoint(sead::Heap* heap) {
+    return new (heap) RailGuidePoint;
+}
 
 bool RailRemainGuidePoint::parse(MubinIter* iter, sead::Heap* heap) {
     bool success = true;
