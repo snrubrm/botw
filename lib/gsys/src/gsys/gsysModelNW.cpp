@@ -58,4 +58,8 @@ void ModelNW::clearBoneLocalMatrix() {
     mModelObj.GetSkeleton()->ClearLocalMtx();
 }
 
+void ModelNW::safeGetBoneWorldMatrix(sead::Matrix34f* matrix, int bone_idx) const {
+    getBoneWorldMatrix(matrix, bone_idx);
+}
+
 }  // namespace gsys

@@ -67,6 +67,10 @@ public:
     // ModelUnit overrides (0x7100c06d30 / 0x7100c06dd8).
     sead::SafeString getBoneName(int bone_idx) const override;
     void clearBoneLocalMatrix() override;
+    // Native vtable AP24ca120 +70 is c04df8; +80 is c04e48, which
+    // dispatches to +70. Both are distinct from the pointer-return slot +78.
+    void getBoneWorldMatrix(sead::Matrix34f* matrix, int bone_idx) const override;
+    void safeGetBoneWorldMatrix(sead::Matrix34f* matrix, int bone_idx) const override;
 
 protected:
     virtual void drawDetail(agl::DrawContext* context) const;
