@@ -44,6 +44,8 @@ KSYS_CHECK_SIZE_NX150(CharacterControllerShape, 0x30);
 
 // Placeholder: object at CharacterController::_30.
 struct CharacterControllerShapes {
+    void sub_7100F66D34(s32 index);
+
     /* 0x00 */ void* _0;
     /* 0x08 */ sead::Buffer<CharacterControllerShape> mShapes;
 };
@@ -1126,6 +1128,41 @@ u32 CharacterControllerRigidBody::getCollisionMasks(CollisionMasks* masks, const
 
 float CharacterControllerRigidBody::getVolume() {
     return mController ? mController->sub_7100F62F58() : 1.0f;
+}
+
+// NON_MATCHING: controller factor, flag and velocity accessors are inlined from this TU.
+bool CharacterControllerRigidBody::setTimeFactor(float) {
+    const float system_factor = System::instance()->getTimeFactor();
+    const float old_factor = mController->sub_7100F5EEF8();
+    float factor;
+    bool changed;
+    if (mController->sub_7100F60840()) {
+        factor = 1.0f;
+        changed = system_factor != 0.0f && old_factor != 1.0f;
+        if (changed) {
+            sead::Vector3f velocity;
+            mController->sub_7100F5F598(&velocity);
+            velocity *= 1.0f / old_factor;
+            mController->sub_7100F5F6FC(velocity);
+        }
+    } else {
+        factor = system_factor == 0.0f ? 1.0f : 1.0f / system_factor;
+        changed = !sead::Mathf::equalsEpsilon(factor, old_factor);
+    }
+    if (changed) {
+        mController->sub_7100F5EEF0(factor);
+        mController->sub_7100F5EF30(factor);
+    }
+    return RigidBody::setTimeFactor(system_factor);
+}
+
+// NON_MATCHING: the controller's shape-state update is inlined from this TU.
+const hkpShape* CharacterControllerRigidBody::getNewHavokShape_() {
+    auto* shapes = mController->_30;
+    const s32 index = mController->_224;
+    shapes->sub_7100F66D34(index);
+    mController->sub_7100F5E898();
+    return shapes->mShapes[index]._0;
 }
 
 void CharacterControllerUnk38::sub_7100F652F8(const sead::Vector3f& velocity) {
