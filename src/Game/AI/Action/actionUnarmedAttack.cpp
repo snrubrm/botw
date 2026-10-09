@@ -10,10 +10,8 @@
 
 namespace uking::action {
 
-// NON_MATCHING: store scheduling (the damage callback member's zero stores are ordered differently)
 UnarmedAttack::UnarmedAttack(const InitArg& arg) : ActionEx(arg) {}
 
-// NON_MATCHING: one store/fsub pair of the target direction is scheduled in the other order.
 void UnarmedAttack::enter_(ksys::act::ai::InlineParamPack* params) {
     playAS(mParams.mASName_s, false, 0, 0, -1.0f);
     m34();
@@ -27,7 +25,8 @@ void UnarmedAttack::enter_(ksys::act::ai::InlineParamPack* params) {
     }
     _c8 = *mParams.mTargetPos_d;
     const sead::Vector3f pos = mActor->getMtx().getTranslation();
-    _c8 = {_c8.x - pos.x, 0.0f, _c8.z - pos.z};
+    _c8 -= pos;
+    _c8.y = 0.0f;
     _c8.normalize();
     _dc = 0;
     if (*mParams.mIsIgnoreSmallHit_s)
