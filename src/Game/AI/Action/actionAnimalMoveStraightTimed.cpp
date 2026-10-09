@@ -14,11 +14,12 @@ bool AnimalMoveStraightTimed::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }
 
-// NON_MATCHING: the original loads the two range params before the GlobalRandom instance pointer.
 void AnimalMoveStraightTimed::enter_(ksys::act::ai::InlineParamPack* params) {
     _68.reset(*mFramesUntilFinish_s);
     if (auto* rideable = mActor->m132()) {
-        const s32 gear = sead::GlobalRandom::instance()->getS32Range(*mMinUseGear_s, *mMaxUseGear_s);
+        const s32 min_gear = *mMinUseGear_s;
+        const s32 max_gear = *mMaxUseGear_s;
+        const s32 gear = sead::GlobalRandom::instance()->getS32Range(min_gear, max_gear);
         rideable->sub_7100E63224(u32(*mUseGearType_s), u32(gear));
     } else {
         setFailed();
