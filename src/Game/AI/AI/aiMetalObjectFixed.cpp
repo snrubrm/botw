@@ -18,12 +18,12 @@ bool MetalObjectFixed::init_(sead::Heap* heap) {
     return true;
 }
 
-// NON_MATCHING: the original loads mActor after reading *mIsFixedPlace_m (scheduling)
 void MetalObjectFixed::enter_(ksys::act::ai::InlineParamPack* params) {
     if (_40) {
         _40 = false;
+        const bool fixed_place = *mIsFixedPlace_m;
         auto* actor = mActor;
-        if (*mIsFixedPlace_m) {
+        if (fixed_place) {
             ksys::act::disableAllAttClients(actor);
             if (auto* body = actor->getMainBody())
                 body->changeMotionType(ksys::phys::MotionType::Keyframed);
@@ -32,8 +32,9 @@ void MetalObjectFixed::enter_(ksys::act::ai::InlineParamPack* params) {
         }
         ksys::act::enableAllAttClients(actor);
     } else {
+        const bool fixed_place = *mIsFixedPlace_m;
         auto* actor = mActor;
-        if (*mIsFixedPlace_m) {
+        if (fixed_place) {
             if (auto* physics = actor->getPhysics())
                 physics->sub_7100FBADDC();
         }
