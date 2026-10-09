@@ -6,7 +6,7 @@ void sub_7100D2D424(uking::dmg::DamageManagerBase* manager);
 
 namespace uking::act {
 
-void Rope::preDelete1_() {
+void Rope::onPreDeleteStart_(PrepareArg& arg) {
     sub_7100D2D424(&_a00);
     // called through a pointer in the original (not devirtualised)
     (&_a00)->preDelete1();
