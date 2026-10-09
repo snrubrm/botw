@@ -34,6 +34,8 @@ public:
     const char* x_11();
     // 0x0000007100fda5b8
     void formatQLNameKey(sead::BufferedSafeString* out) const;
+    // 0x7100fda570: formats the QuestMsg/QL_ message file path.
+    void sub_7100FDA570(sead::BufferedSafeString* out) const;
     // 0x0000007100fda734: the name of the current step, or an empty string
     sead::SafeString sub_7100FDA734() const;
     // 0x0000007100fda78c: whether the current step is named "Ready"

@@ -22,6 +22,10 @@ class Screen;
 class ScreenChildEx;
 }
 
+namespace ksys::qst {
+struct Quest;
+}
+
 namespace ksys::act {
 class Actor;
 }
@@ -135,6 +139,8 @@ s32 sub_7100AA6F90(const PouchItem& item);
 
 // 0x7100aa248c (CSV: ui::getMessage): looks up `label` in the message set `message_set`; returns 0
 // if found.
+// 0x7100aa33bc: looks up the quest name message, or returns status 3 for a null quest.
+int sub_7100AA33BC(const ksys::qst::Quest* quest, eui::MessageString* out);
 int getMessage(const sead::SafeString& message_set, const sead::SafeString& label,
                eui::MessageString* out);
 

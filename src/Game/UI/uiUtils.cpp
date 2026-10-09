@@ -1,3 +1,4 @@
+#include "KingSystem/Quest/qstQuest.h"
 #include "Game/UI/uiUtils.h"
 #include "Game/UI/uiUnkSingletons.h"
 #include "Game/UI/euiLayoutEx.h"
@@ -179,6 +180,17 @@ s32 getScreenIdxByName(const char* name) {
 static eui::MessageString sUnk_71025F6930(2, u"");
 static eui::MessageString sUnk_71025F6940(2, u"");
 static eui::MessageString sUnk_71025F6950(2, u"");
+
+// 0x7100aa33bc
+int sub_7100AA33BC(const ksys::qst::Quest* quest, eui::MessageString* out) {
+    if (!quest)
+        return 3;
+    sead::FixedSafeString<256> file;
+    quest->sub_7100FDA570(&file);
+    sead::FixedSafeString<256> label;
+    quest->formatQLNameKey(&label);
+    return getMessage(file, label, out);
+}
 
 int getMessage(const sead::SafeString& message_set, const sead::SafeString& label,
                eui::MessageString* out) {
