@@ -109,8 +109,6 @@ public:
     void sub_7100F6AC04(bool toi);
     // 0x7100f6ac68: true when the body 1 (x_0(1)) is null or System's `_190` object.
     bool sub_7100F6AC68() const;
-    // 0x7100f6d420 (lane4 s49; declared only, 696 B): sets the pivot transforms (the matrices are converted to
-    // quaternions and positions).
 
     // inline-only in the original; see physConstraint.cpp.
     bool setBodyAndRequest_(BodyIndex idx, RigidBody* body);

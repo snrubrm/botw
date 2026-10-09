@@ -23,6 +23,10 @@ u32 sub_7100F7F92C() {
     }
 }
 
+void NavMeshCharacter::init(const InitArg& arg, sead::Heap* heap, HavokAI* havok_ai) {
+    sub_7100F75680(arg, heap, havok_ai);
+}
+
 NavMeshCharacter::~NavMeshCharacter() {
     finalize();
 }

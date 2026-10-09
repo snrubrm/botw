@@ -14,6 +14,10 @@
 
 class hkaiStreamingCollection;
 
+namespace sead {
+class Heap;
+}
+
 namespace ksys::phys {
 
 class HavokAI;
@@ -94,7 +98,12 @@ public:
     virtual ~NavMeshCharacter();
 
     void finalize();
-    void init();
+    // Placeholder type: the initialization packet built by 0x710128247C and 0x7100041784.
+    // Its vectors and scalar settings are consumed by 0x7100F750BC / 0x7100F75680.
+    struct InitArg;
+    void init(const InitArg& arg, sead::Heap* heap, HavokAI* havok_ai);
+    // Actual implementation reached by the original init tail call (declared only).
+    void sub_7100F75680(const InitArg& arg, sead::Heap* heap, HavokAI* havok_ai);
 
     void sub_7100F75AB8();
     // 0x7100f75af0 (placeholder name): hands the query `_2e0` to HavokAI::sub_7100F83A9C.
