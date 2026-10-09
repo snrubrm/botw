@@ -24,8 +24,27 @@ bool ForkSeparateThreeASPart::init_(sead::Heap* heap) {
     return true;
 }
 
+// NON_MATCHING: the compiler unrolls the two-slot loop.
 void ForkSeparateThreeASPart::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    if (_50.isValid()) {
+        auto* list = mActor->getASList();
+        list->sub_710115C9E0(0);
+        list->mSlots[0].sub_7101165008(_50.getKey(), 0, true);
+        list->mSlots[0].sub_7101165008(_88[0].getKey(), 3, true);
+        list->mSlots[0].sub_7101165008(_88[1].getKey(), 3, true);
+        list->mSlots[0].sub_7101164E38(false);
+    }
+    for (s32 slot = 1; slot < 3; ++slot) {
+        auto* list = mActor->getASList();
+        list->sub_710115C9E0(slot);
+        list->mSlots[slot].sub_7101165008(_50.getKey(), 3, true);
+        if (_88[0].isValid())
+            list->mSlots[slot].sub_7101165008(_88[0].getKey(), slot == 1 ? 0 : 3, true);
+        if (_88[1].isValid())
+            list->mSlots[slot].sub_7101165008(_88[1].getKey(), slot == 2 ? 0 : 3, true);
+        list->mSlots[slot].sub_7101164E38(false);
+    }
+    mFlags.set(Flag::Changeable);
 }
 
 void ForkSeparateThreeASPart::leave_() {
