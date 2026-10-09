@@ -26,6 +26,8 @@ public:
 protected:
     // 0x71003ba1c4 (declared only): searches a rideable horse into `link` (false without one).
     bool sub_71003BA1C4(ksys::act::BaseProcLink* link);
+    // Full native body acquires the linked actor and returns a rideability/distance predicate.
+    bool sub_71003BA2C4(const ksys::act::BaseProcLink* link);
     void sub_71003B9624();
     void sub_71003B977C();
     void sub_71003B9A48();

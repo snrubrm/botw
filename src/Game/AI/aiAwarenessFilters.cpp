@@ -52,6 +52,8 @@ bool Unk_7102451538::m2(Unk_71024dc978* entry) {
     return ksys::act::hasTag(&target->mLink, ksys::act::tags::ExplosivesEnemyAI);
 }
 
+Unk_7102451588::Unk_7102451588() = default;
+
 bool Unk_7102451588::m2(Unk_71024dc978* entry) {
     auto* target = sead::DynamicCast<Unk_71024dc858>(entry);
     if (!target)

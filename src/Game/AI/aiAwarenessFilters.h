@@ -127,6 +127,7 @@ public:
 // vtable 0x7102451588 (m2 0x71007464d4, D0 0x7100746604)
 class Unk_7102451588 : public ksys::act::Unk_71024dccf8 {
 public:
+    Unk_7102451588();
     bool m2(ksys::act::Unk_71024dc978* entry) override;
 };
 

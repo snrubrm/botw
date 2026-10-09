@@ -1,4 +1,7 @@
 #include "Game/AI/AI/aiEnemySearchHorse.h"
+#include "Game/AI/aiAwarenessFilters.h"
+#include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
+#include "Game/Actor/actEnemy.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/AI/aiUnk_71007377D4.h"
 #include <math/seadMathCalcCommon.h>
@@ -9,6 +12,24 @@
 #include "KingSystem/Resource/Actor/resResourceAttCheck.h"
 
 namespace uking::ai {
+
+bool EnemySearchHorse::sub_71003BA1C4(ksys::act::BaseProcLink* link) {
+    auto* awareness = mActor->getAwareness();
+    if (!awareness || !sead::DynamicCast<act::Enemy>(mActor))
+        return false;
+
+    Unk_7102451588 filter;
+    while (awareness->_260[0]) {
+        auto* entry = ksys::act::sub_7100D7EEE8(&awareness->_260[0]->_8, &filter);
+        if (!entry)
+            break;
+        if (sub_71003BA2C4(&entry->_0.mLink)) {
+            *link = entry->_0.mLink;
+            return true;
+        }
+    }
+    return false;
+}
 
 EnemySearchHorse::EnemySearchHorse(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
