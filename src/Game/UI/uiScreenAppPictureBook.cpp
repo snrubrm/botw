@@ -108,6 +108,33 @@ void ScreenAppPictureBookEntry::sub_710093AC7C() {
         mGuideControl->sub_7100936BCC(mController->_40[2], mController->_40[3]);
 }
 
+// NON_MATCHING: vector copies and bound-check branches are scheduled differently.
+// 0x710093ae60
+void ScreenAppPictureBookEntry::sub_710093AE60(const sead::Vector2f& position) {
+    const auto low = position + _368;
+    const auto high = position + _370;
+    switch (mController->_c8) {
+    case 0:
+        _378 = low.y > 0.0f ? low : high.y < 0.0f ? high : sead::Vector2f::zero;
+        break;
+    case 1:
+        _378 = low.y < 0.0f ? low : high.y > 0.0f ? high : sead::Vector2f::zero;
+        break;
+    case 2:
+        _378 = low.x < 0.0f ? low : high.x > 0.0f ? high : sead::Vector2f::zero;
+        break;
+    case 3:
+        _378 = low.x > 0.0f ? low : high.x < 0.0f ? high : sead::Vector2f::zero;
+        break;
+    }
+    // Native 93af30..6c uses ordered lower/upper tests: unordered values
+    // choose the upper bound, unlike Mathf::clamp's unordered pass-through.
+    _380.x = low.x < _358.getMin().x ? _358.getMin().x :
+             low.x <= _358.getMax().x ? low.x : _358.getMax().x;
+    _380.y = low.y < _358.getMin().y ? _358.getMin().y :
+             low.y <= _358.getMax().y ? low.y : _358.getMax().y;
+}
+
 // 0x710093af74
 void ScreenAppPictureBookEntry::sub_710093AF74() {
     if (!mController)
