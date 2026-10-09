@@ -322,13 +322,12 @@ bool WeaponBase::m174() {
     return true;
 }
 
-// NON_MATCHING: the compiler copies the position components separately.
 bool WeaponBase::m178(const sead::Vector3f& pos) {
     const auto lock = sead::makeScopedLock(_840);
     _880.reset();
     _91c = -1;
     _920 = 2;
-    _910 = pos;
+    _910.set(pos);
     _922 = true;
     _923 = false;
     _924 = 0;
