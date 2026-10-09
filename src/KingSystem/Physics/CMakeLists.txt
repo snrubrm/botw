@@ -14,6 +14,7 @@ target_sources(uking PRIVATE
 
     Constraint/physBAndSCs.cpp
     Constraint/physBAndSCs.h
+    Constraint/physBAndSLimitAngYCs.h
     Constraint/physConstraint.cpp
     Constraint/physConstraintCallbacks.h
     Constraint/physFixedCs.cpp
