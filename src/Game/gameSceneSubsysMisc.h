@@ -121,6 +121,9 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(Unk_7100905034, 0x1c8);
 
+// 0x71009059fc: query used by the magnesis actor component to accept metal rigid bodies.
+bool sub_71009059FC(const ksys::phys::RigidBody* body);
+
 // GameSceneSubsys5: CSV createInstance 0x71009052fc, init 0x7100905468, postCalc 0x71009054bc.
 class GameSceneSubsys5 {
     SEAD_SINGLETON_DISPOSER(GameSceneSubsys5)

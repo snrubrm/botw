@@ -8,6 +8,9 @@
 #include "Game/AI/aiXlinkHandle.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/Physics/System/physRayCastBodyQuery.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodyFromShape.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodyFromResource.h"
+#include "KingSystem/Physics/physMaterialMask.h"
 #include "KingSystem/ActorSystem/actReaction.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
 
@@ -84,6 +87,17 @@ void GameSceneSubsys5::init() {
     _58._44 = 1;
     _58._34 = 0.5f;
     _58._38 = 0.5f;
+}
+
+bool sub_71009059FC(const ksys::phys::RigidBody* body) {
+    if (const auto* shape = sead::DynamicCast<const ksys::phys::RigidBodyFromShape>(body)) {
+        if (shape->tryGetMaterialMask()->getMaterial() == ksys::phys::Material::Metal)
+            return true;
+    } else if (const auto* resource = sead::DynamicCast<const ksys::phys::RigidBodyFromResource>(body)) {
+        if (resource->isMaterial(ksys::phys::Material::Metal))
+            return true;
+    }
+    return false;
 }
 
 bool GameSceneSubsys5::sub_71009059D4() const {
