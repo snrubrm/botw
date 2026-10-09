@@ -36,14 +36,14 @@ public:
 
 private:
     sead::BitFlag8 mFlags;
-    nn::g3d::ResFile* mResFile;
-    sead::FileDevice* mFileDevice;
-    sead::Resource* mResource;
+    nn::g3d::ResFile* mResFile = nullptr;
+    sead::FileDevice* mFileDevice = nullptr;
+    sead::Resource* mResource = nullptr;
     sead::FixedSafeString<128> mPath;
     struct LoadParams {
-        bool _0;
+        bool _0 = true;
         sead::SafeString mPath;
-        sead::FileDevice* mFileDevice;
+        sead::FileDevice* mFileDevice = nullptr;
     } mLoadParams;
     Handle mHandle;
     // FE1AFC reads eight-byte hash/flag records from this buffer.

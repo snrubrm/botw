@@ -2,6 +2,7 @@
 #include "KingSystem/Resource/resEntryFactory.h"
 #include "KingSystem/Resource/resUnk_710251A740.h"
 #include "KingSystem/Resource/resBfRes.h"
+#include "KingSystem/Resource/resResourceMgrTask.h"
 #include <g3d/aglNW4FToNN.h>
 #include "Game/gameUnkRttiClasses.h"
 #include "KingSystem/Utils/Thread/TaskMgr.h"
@@ -12,6 +13,18 @@
 Unk_71024f9bb8::~Unk_71024f9bb8() = default;
 
 namespace ksys::res {
+
+Unk_71024f9a70::Unk_71024f9a70() = default;
+
+Unk_71024f9a70::~Unk_71024f9a70() {
+    mResFile = nullptr;
+    mFileDevice = nullptr;
+    if (mResource)
+        ResourceMgrTask::instance()->unloadSeadResource(mResource);
+    mHandle.requestUnload();
+    mPath.clear();
+    mFlags.reset(3);
+}
 
 bool Unk_71024f9a70::sub_7100FE15D8() const {
     return mFlags.isOn(1);
