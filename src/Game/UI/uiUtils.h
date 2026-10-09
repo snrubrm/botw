@@ -8,6 +8,7 @@
 
 namespace eui {
 class LayoutEx;
+class Animator;
 class Screen;
 }
 
@@ -164,6 +165,7 @@ bool sub_7100AA6C84(const sead::SafeString& name);
 // 0x7100aa170c (uiUtils.cpp)
 void sub_7100AA170C(const nn::ui2d::Pane* pane, sead::Vector2f* scale, f32* rotation, sead::Vector2f* position);
 // 0x7100aa20f0 (uiUtils.cpp)
+bool sub_7100AA205C(eui::Animator* animator, nn::ui2d::Pane* pane);
 bool sub_7100AA20F0(eui::Screen* screen, f32* value, f32 target, f32 speed);
 // 0x7100aa7a50: the guard power (`is_shield`) or the attack power of the actor `name` (0 without actor info).
 int sub_7100AA7A50(const sead::SafeString& name, bool is_shield);

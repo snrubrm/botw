@@ -484,6 +484,23 @@ void sub_7100AA170C(const nn::ui2d::Pane* pane, sead::Vector2f* scale, f32* rota
         *position = pos;
 }
 
+// 0x7100aa205c
+// NON_MATCHING: resource-relative pointer additions have commuted operands.
+bool sub_7100AA205C(eui::Animator* animator, nn::ui2d::Pane* pane) {
+    const auto* resource = animator->mRes;
+    const u16 count = resource->contentCount;
+    if (count == 0)
+        return false;
+    const auto* offsets = resource->GetContentOffsets();
+    for (u32 i = 0; i < count; ++i) {
+        const auto* content = resource->GetContentAtOffset(offsets[i]);
+        auto* found = animator->mLayout->mPane->FindPaneByName(content->name, true);
+        if (found && found == pane)
+            return true;
+    }
+    return false;
+}
+
 // NON_MATCHING: the original shares the second (overshoot) compare between the two branches; here each branch has
 // both compares.
 // 0x7100aa20f0 (placeholder name): moves `*value` towards `target` by the screen's animation step times `speed`;
