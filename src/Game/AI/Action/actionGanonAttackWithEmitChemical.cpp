@@ -56,6 +56,15 @@ void GanonAttackWithEmitChemical::enter_(ksys::act::ai::InlineParamPack* params)
 
 void GanonAttackWithEmitChemical::leave_() {
     GanonWeaponNearAttack::leave_();
+    auto* enemy = sead::DynamicCast<uking::act::Enemy>(mActor);
+    if (!enemy)
+        return;
+    if (!enemy->m172()) {
+        const auto* life = enemy->getLife();
+        if ((!life || *life != 0) && !isActorGoingBackToRootAi())
+            return;
+    }
+    sub_7100172FA8();
 }
 
 void GanonAttackWithEmitChemical::loadParams_() {

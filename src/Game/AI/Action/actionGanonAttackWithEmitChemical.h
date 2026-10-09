@@ -19,6 +19,8 @@ public:
 
 protected:
     void calc_() override;
+    // Complete native helper sleeps emitted actor parts and fades this action's sound effect.
+    void sub_7100172FA8();
     virtual void m32(sead::Vector3f* pos);
     virtual float m33();
     virtual int m34();
