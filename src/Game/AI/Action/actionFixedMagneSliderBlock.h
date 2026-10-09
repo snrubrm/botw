@@ -18,6 +18,7 @@ public:
 
 protected:
     void calc_() override;
+    void m34(ksys::act::ActorConstDataAccess& accessor, f32 distance) override;
 };
 
 }  // namespace uking::action
