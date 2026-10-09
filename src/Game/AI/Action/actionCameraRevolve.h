@@ -16,7 +16,7 @@ public:
     ~CameraRevolve() override;
 
 protected:
-    // 0x710077d4f8 / 0x710077d774 (not decompiled yet).
+    // Native initialization/update at 0x710077d4f8 / 0x710077d774.
     void m33() override;
     void m34() override;
     void m35() override;

@@ -3,6 +3,7 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Utils/Thread/Message.h"
+#include "KingSystem/Utils/MathUtil.h"
 
 namespace uking::action {
 
@@ -17,6 +18,30 @@ bool CameraEventAnimBase::handleMessage_(const ksys::Message* message) {
             sub_7100757C24();
     }
     return true;
+}
+
+// NON_MATCHING: matrix rotation copying and accessor lifetime scheduling differ.
+void CameraEventAnimBase::sub_7100757C24() {
+    if (!_50.hasProc())
+        return;
+    sead::Matrix34f transform;
+    sub_7100925AB8(_50, &transform);
+    if (ksys::util::sub_71011F10F4(transform)) {
+        ksys::act::ActorConstDataAccess target;
+        ksys::act::acquireActor(&_50, &target);
+        return;
+    }
+    if (!(_17a & 1)) {
+        _60 = transform;
+    } else {
+        if (m58() != 2) {
+            for (s32 axis = 0; axis < 3; ++axis)
+                _60.setBase(axis, transform.getBase(axis));
+        }
+        if (m56() != 2)
+            _60.setTranslation(transform.getTranslation());
+    }
+    _17a |= 1;
 }
 
 // NON_MATCHING: the no-target sentinel compare uses an unsigned byte instead of sign extension.

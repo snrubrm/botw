@@ -273,6 +273,9 @@ ksys::util::Unk_7101EC6BAC sub_710092DBA4();
 // 0x710092dc00: Camera::_860.sub_710079C120(1) (false without camera).
 bool sub_710092DC00();
 
+// 0x7100925ab8: writes the linked actor matrix if the link resolves and its components are not NaN.
+bool sub_7100925AB8(const ksys::act::BaseProcLink& link, sead::Matrix34f* out);
+
 // 0x71009238f8: replaces matrix with inverse(basis) * matrix.
 void sub_71009238F8(sead::Matrix33f* matrix, const sead::Matrix33f& basis);
 
