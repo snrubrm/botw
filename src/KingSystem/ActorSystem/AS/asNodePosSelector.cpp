@@ -58,7 +58,6 @@ bool NodePosSelector::m8(const InitArg& arg) {
     return true;
 }
 
-// NON_MATCHING: transpose-vector arithmetic scheduling and paired loads/stores differ.
 int NodePosSelector::m39(Context* ctx, u32 a2, const res::ASResource* resource) {
     if (!ctx->sub_7101258E2C())
         return -1;
@@ -77,8 +76,10 @@ int NodePosSelector::m39(Context* ctx, u32 a2, const res::ASResource* resource) 
             &bone_matrix, key.bone_index);
         const auto delta = bone_matrix.getTranslation() - translation;
         const auto& matrix = model->getMatrix();
-        const sead::Vector3f position(delta.dot(matrix.getBase(0)), delta.dot(matrix.getBase(1)),
-                                     delta.dot(matrix.getBase(2)));
+        sead::Vector3f position;
+        position.x = delta.x * matrix(0, 0) + delta.y * matrix(1, 0) + delta.z * matrix(2, 0);
+        position.y = delta.x * matrix(0, 1) + delta.y * matrix(1, 1) + delta.z * matrix(2, 1);
+        position.z = delta.x * matrix(0, 2) + delta.y * matrix(1, 2) + delta.z * matrix(2, 2);
         if (highest < it->_90(position)) {
             highest = it->_90(position);
             index = it.getIndex();
