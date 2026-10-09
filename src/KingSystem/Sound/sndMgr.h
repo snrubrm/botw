@@ -56,6 +56,7 @@ void sub_710105E5CC(sead::PtrArray<aal::Group>* groups,
                    const sead::PtrArray<aal::Group>* excluded, aal::Group* root);
 void sub_710105E614(sead::PtrArray<aal::Group>* groups,
                    const sead::PtrArray<aal::Group>* excluded, aal::Group* group);
+s32 sub_710105E6CC(s32 position, const aal::AssetInfo* asset);
 s32 sub_710105E75C(const aal::AssetInfo::LoopInfo* loop, s32 position, s32 offset);
 
 struct Unk_SoundMgr30;

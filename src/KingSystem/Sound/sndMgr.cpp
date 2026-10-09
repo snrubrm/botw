@@ -67,6 +67,25 @@ void sub_710105E614(sead::PtrArray<aal::Group>* groups,
     groups->pushBack(group);
 }
 
+// NON_MATCHING: loop-info loads and the result branches are scheduled differently.
+s32 sub_710105E6CC(s32 position, const aal::AssetInfo* asset) {
+    if (!asset)
+        return position;
+    aal::AssetInfo::LoopInfo loop;
+    if (!asset->getLoopInfo(&loop))
+        return position;
+    constexpr u32 samples_per_frame = 1152;
+    u32 padding = loop.loop_start % samples_per_frame;
+    if (padding != 0)
+        padding = samples_per_frame - padding;
+    const s32 remaining = loop.loop_end + padding - position;
+    if (remaining < 0)
+        return 0;
+    if (remaining < 1152)
+        return loop.loop_start + padding;
+    return position;
+}
+
 // NON_MATCHING: the final additions in the two wrap branches are tail merged.
 s32 sub_710105E75C(const aal::AssetInfo::LoopInfo* loop, s32 position, s32 offset) {
     s32 result = position + offset;
