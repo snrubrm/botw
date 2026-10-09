@@ -56,10 +56,6 @@ void GrabAttack::loadParams_() {
     getStaticParam(&mAtRigidBodyName_s, "AtRigidBodyName");
 }
 
-// NON_MATCHING: scheduling only — the original loads the Atk string top into x21 before
-// the member vtable (pre-indexed) load; ours loads the member vtable first and the Atk top
-// straight into x1. Forcing the order needs a single-use local for the Atk top (borderline,
-// not applied). All calls, branches and constants match.
 void GrabAttack::calc_() {
     ksys::as::ASList::Unk4 query;
     if (sub_71005DD66C(mActor, &query, 0, 0)) {
@@ -67,10 +63,9 @@ void GrabAttack::calc_() {
     } else if (sub_71005DD74C(mActor, nullptr, 0, 0)) {
         auto* actor = mActor;
         auto* atk = sub_71007A24BC();
-        atk->cstr();
-        mAtRigidBodyName_s.cstr();
-        if (auto* body = actor->findPhysicsBodyByName(atk->getStringTop(),
-                                                      mAtRigidBodyName_s.getStringTop())) {
+        const char* attack_name = atk->cstr();
+        const char* body_name = mAtRigidBodyName_s.cstr();
+        if (auto* body = actor->findPhysicsBodyByName(attack_name, body_name)) {
             sub_71007A3258(body, nullptr);
         }
     }
