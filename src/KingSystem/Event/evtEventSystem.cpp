@@ -126,15 +126,13 @@ bool EventSystem::sub_71008AC118() const {
     return flow->byte3FlagIsSet();
 }
 
-// NON_MATCHING: everything else matches, but the original tests bit 7 of the Manager flag byte as `ldrb; tbnz #7` (ours:
-// `ldrsb; tbnz #0x1f`; a bool bitfield view gives the same)
 // 0x71008ac078
 void EventSystem::x_2(s32 value) {
     _140 = value;
     uking::Root38::instance()->setFlag(3, value != 0);
     if (_140)
         _13c = 0;
-    if (!(Manager::instance()->_1d2f4_bytes[0] & 0x80))
+    if (!(Manager::instance()->_1d2f4 & 0x80))
         uking::ui::showLoadSaveIcon(_140 ? getSceneStatus() != 4 : false);
 }
 
