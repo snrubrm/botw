@@ -130,8 +130,6 @@ void CapturePane::Draw(nn::ui2d::DrawInfo& info, nn::gfx::CommandBuffer& command
         mRenderBuffer.bind(render_info->mDrawContext);
         sead::GraphicsContext context;
         context.setDepthTestEnable(false);
-        context.setDepthWriteEnable(false);
-        context.setStencilTestEnable(false);
         context.setBlendEnable(false, 0);
         context.apply(render_info->mDrawContext);
         agl::TextureSampler sampler(*work);
