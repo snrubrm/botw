@@ -25,4 +25,15 @@ struct Unk_71024f65c8 : Unk_71012a6844::ItemA {
 };
 KSYS_CHECK_SIZE_NX150(Unk_71024f65c8, 0x20);
 
+// Whole SliderCs factory 0x7100f70d60 constructs ItemA in a 0x20 allocation
+// and installs its complete seven-slot table 0x71024f6730.
+struct Unk_71024f6730 : Unk_71012a6844::ItemA {
+    SEAD_RTTI_OVERRIDE(Unk_71024f6730, Unk_71012a6844::ItemA)
+    ~Unk_71024f6730() override;
+    // The two library data consumers remain declarations only.
+    bool m0() const override;
+    void sub_7100F6EC20(sead::Vector3f* a, sead::Vector3f* b) const override;
+};
+KSYS_CHECK_SIZE_NX150(Unk_71024f6730, 0x20);
+
 }  // namespace ksys::phys
