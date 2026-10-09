@@ -10,8 +10,6 @@ extern const f32 sUnk_7101e79ee8;
 
 namespace uking::ai {
 
-// NON_MATCHING: register numbering of the two xz differences (the original loads both target components before
-// the first subtraction).
 void GanonStateChangeRoot::sub_71003EEE18() {
     sead::Vector3f destination;
     {
@@ -19,7 +17,8 @@ void GanonStateChangeRoot::sub_71003EEE18() {
         mActor->getHomePos(&home);
     }
     const sead::Vector3f position = mActor->getMtx().getTranslation();
-    sead::Vector3f direction(position.x - mTargetPos_d->x, 0.0f, position.z - mTargetPos_d->z);
+    const sead::Vector3f target = *mTargetPos_d;
+    sead::Vector3f direction(position.x - target.x, 0.0f, position.z - target.z);
     direction.normalize();
     destination = position + direction * (sUnk_7101e79ee8 * sUnk_7101e79ee8);
     ksys::act::ai::InlineParamPack pack;
