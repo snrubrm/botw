@@ -5,6 +5,9 @@
 #include <prim/seadSafeString.h>
 #include <thread/seadCriticalSection.h>
 
+class ElementSpark;
+struct ElementSparkCreateArg;
+
 namespace sead {
 class Heap;
 }
@@ -28,6 +31,8 @@ public:
     virtual ~Unk_71024dd490();
     void sub_7100D9AA84();
     void sub_7100D9AAE4();
+    // 10C74A0 constructs a 0x90-byte ElementSpark with this holder and the request.
+    ElementSpark* sub_71010C74A0(const ElementSparkCreateArg* arg);
 
     u8 _8[0x48 - 0x8];
     sead::CriticalSection _48;

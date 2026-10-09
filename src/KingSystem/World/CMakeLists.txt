@@ -5,6 +5,8 @@ target_sources(uking PRIVATE
   worldDefines.h
   worldDofMgr.cpp
   worldDofMgr.h
+  worldElementSpark.cpp
+  worldElementSpark.h
   worldEnvMgr.cpp
   worldEnvMgr.h
   worldJob.cpp
