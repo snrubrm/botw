@@ -208,7 +208,9 @@ void CameraLockOnAimingAt::sub_7100774AF4() {
             _16c.y += sub_71009221DC();
     }
     const f32 angle = sead::Mathf::deg2rad(angleStuff(_168 + 90.0f));
-    const sead::Vector3f offset(std::sin(angle), sead::Vector3f::zero.y, std::cos(angle));
+    sead::Vector3f offset = sead::Vector3f::zero;
+    offset.x = std::sin(angle);
+    offset.z = std::cos(angle);
     _16c += offset * *mOffsetX_s;
 }
 
