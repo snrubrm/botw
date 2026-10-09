@@ -83,3 +83,22 @@ void Graphics::sub_7100F2F1E8(Unk_7100f35df8* settings) {
         _b38->sub_71012920C4(0);
     }
 }
+
+// NON_MATCHING: the mode byte store is scheduled before the comparisons.
+void Unk_71012a20e0::sub_71012A2268(u32 mode) {
+    const bool reset = _1b0 == 2 || mode == 2;
+    _1b0 = mode;
+    switch (_1b0) {
+    case 0:
+        _194 = 0.2f;
+        break;
+    case 1:
+        _194 = 0.4f;
+        break;
+    case 2:
+        _194 = 0.0f;
+        break;
+    }
+    if (reset)
+        _190 = _194;
+}

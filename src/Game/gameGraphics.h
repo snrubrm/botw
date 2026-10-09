@@ -53,11 +53,21 @@ KSYS_CHECK_SIZE_NX150(Unk_7100f35df8, 0x50);
 
 // Declaration only: Graphics initializer F2C140 allocates 0x4a8 bytes, constructs this
 // object at 12A20E0 and stores it at Graphics + 0xab8. Its source name is unknown.
-class Unk_71012a20e0 {
+class Unk_71012a20e0 : public sead::hostio::Node {
 public:
     // 12A2268 stores the low byte of mode at 0x1b0; the full word is tested for mode 2.
     // EnvMgr reset 10D326C, doCalc 10D62C0 and wrapper 10DB0B0 call this same receiver.
     void sub_71012A2268(u32 mode);
+
+private:
+    // Complete constructor 12A20E0 and cleanup 12A22B0 establish the Node prefix.
+    // 12A2768 consumes these two floats and the low mode byte independently.
+    // Texture objects and the rest of the lifetime remain undeclared; do not allocate this prefix.
+    u8 _8[0x190 - 0x8];
+    f32 _190;
+    f32 _194;
+    u8 _198[0x1b0 - 0x198];
+    u8 _1b0;
 };
 
 // Declaration only: F2C140 constructs a 0x268-byte object at 129175C and stores it at B38.
