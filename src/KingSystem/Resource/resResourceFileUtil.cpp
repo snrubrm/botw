@@ -20,4 +20,20 @@ void sub_7100FDDB70(nn::g3d::ResFile* file) {
     file->Unrelocate();
 }
 
+u32 sub_7100FDDBFC(const nn::gfx::ResTexture* texture) {
+    return texture->ToData().textureDataSize;
+}
+
+s32 sub_7100FDDC0C(const nn::gfx::ResTexture* texture) {
+    return texture->GetTextureInfo()->GetWidth();
+}
+
+s32 sub_7100FDDC14(const nn::gfx::ResTexture* texture) {
+    return texture->GetTextureInfo()->GetHeight();
+}
+
+u32 sub_7100FDDC1C(const nn::gfx::ResTexture* texture) {
+    return texture->ToData().alignment;
+}
+
 }  // namespace ksys::res
