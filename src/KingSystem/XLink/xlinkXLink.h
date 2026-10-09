@@ -4,6 +4,7 @@
 #include <math/seadMatrix.h>
 #include <math/seadVector.h>
 #include <prim/seadBitFlag.h>
+#include <container/seadListImpl.h>
 #include <prim/seadEnum.h>
 #include "KingSystem/Utils/Types.h"
 
@@ -130,7 +131,8 @@ public:
     // actor; AI code sets 0x200 (IbutsuWaterFallRoot::enter_) and clears 0x80000
     // (AppearFromTargetFrontAfterChase::m37) directly).
     /* 0xcc */ sead::BitFlag32 _cc;
-    /* 0xd0 */ u8 _d0[0x110 - 0xd0];
+    /* 0xd0 */ u8 _d0[0x100 - 0xd0];
+    /* 0x100 */ sead::ListNode mSleepNode;
 };
 KSYS_CHECK_SIZE_NX150(XLink, 0x110);
 

@@ -1,6 +1,8 @@
 #include "KingSystem/XLink/xlinkXLink.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Sound/sndMiiSound.h"
+#include "KingSystem/XLink/xlinkManager.h"
+#include "Game/gameScene.h"
 #include <aal/aalGroup.h>
 #include <aal/aalGroupMgr.h>
 #include <aal/aalSystemAccessor.h>
@@ -197,6 +199,20 @@ void XLink::setMask(MaskBit bit) {
     if (_73.isZero()) {
         _73.setDirect(sead::BitFlag8::makeMask(bit));
         sleep_();
+    }
+    _73.setBit(bit);
+}
+
+void XLink::sleep(MaskBit bit) {
+    if (_73.isOnBit(bit))
+        return;
+    if (_73.isZero()) {
+        if (getSceneStatus() == 4) {
+            _73.setBit(bit);
+            sleep_();
+        } else {
+            Manager::instance()->queueSleep(this);
+        }
     }
     _73.setBit(bit);
 }

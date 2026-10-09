@@ -5,6 +5,8 @@ target_sources(uking PRIVATE
   xlinkInfoData.cpp
   xlinkInfoData.h
   xlinkUnk_710123830c.cpp
+  xlinkManager.h
+  xlinkManager.cpp
   xlinkXLink.h
   xlinkXLink.cpp
 )
