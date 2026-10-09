@@ -1,4 +1,5 @@
 #include "Game/UI/uiUnkTiny.h"
+#include "Game/gameMotorcycleMgr.h"
 #include "Game/UI/euiLayoutEx.h"
 #include "Game/UI/euiScreen.h"
 #include "Game/UI/euiTextBoxEx.h"
@@ -737,6 +738,31 @@ void Unk_71024774a8::sub_7100988DA0(s32 index, f32 speed) {
 }
 
 void Unk_71024774a8::sub_7100988DC4() { _58 = 100.0f; }
+
+// NON_MATCHING: position reset uses immediate zeroes rather than a vector constant load.
+// 0x7100988df4
+void Unk_71024774a8::sub_7100988DF4() {
+    auto* mgr = MotorcycleMgr::instance();
+    if (!mgr)
+        return;
+    const f32 energy = mgr->mEnergy;
+    if (mAnimators[1]) {
+        if (_58 < 0.0f) {
+            mAnimators[1]->StopAtMax();
+            _58 = 100.0f;
+        } else {
+            mAnimators[1]->Stop(_58);
+            _5c |= 4;
+        }
+    }
+    if (mAnimators[2]) {
+        if (energy / 1000.0f == 0.0f)
+            mAnimators[2]->StopAtMin();
+        else
+            mAnimators[2]->StopAtMax();
+    }
+    mLayout->GetPane()->SetPosition(nn::util::Float3{0.0f, 0.0f, 0.0f});
+}
 
 // 0x71009888d4
 void Unk_71024774a8::sub_71009888D4() {

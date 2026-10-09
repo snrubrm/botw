@@ -343,6 +343,12 @@ void ScreenAppTool::m167() {
     }
 }
 
+// 0x7100a31c1c
+bool ScreenPauseMenuInfo::sub_7100A31C1C() const {
+    const f32 difference = _38f0 - sub_7100A9B6F0();
+    return difference <= 0.01f && difference >= -0.01f;
+}
+
 // 0x7100a31c64
 f32 ScreenPauseMenuInfo::sub_7100A31C64() const {
     return _3618.sub_710093695C();

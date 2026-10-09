@@ -53,6 +53,27 @@ void ScreenEnergyMeterDLC::m93(sead::Heap*) {
         _36e8->StopAtMin();
 }
 
+// 0x7100a088e8
+void ScreenEnergyMeterDLC::m98() {
+    auto* mgr = MotorcycleMgr::instance();
+    if (!mgr)
+        return;
+    if (mgr->_180) {
+        const f32 x = mgr->_184.x;
+        const f32 y = mgr->_184.y;
+        _3618.sub_7100988D84(0, 0.0f);
+        _3618.sub_7100988D84(1, x);
+        _3618.sub_7100988D84(4, x);
+        _3618.sub_7100988D84(5, y);
+        _3618.sub_7100988D84(8, 4.0f);
+        _3618._58 = x;
+        mgr->_180 = 0;
+    } else {
+        _3618.sub_7100988DC4();
+        _3618.sub_7100988DF4();
+    }
+}
+
 // 0x7100a094f8
 void ScreenEnergyMeterDLC::sub_7100A094F8() {
     if (auto* mgr = MotorcycleMgr::instance()) {

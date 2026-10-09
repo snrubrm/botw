@@ -669,7 +669,9 @@ public:
 
     u8 _pad_3610[0x3618 - 0x3610];
     /* 0x3618 */ Unk_7102474c08 _3618;
-    u8 _pad_3650[0x3904 - 0x3650];
+    u8 _pad_3650[0x38f0 - 0x3650];
+    /* 0x38f0 */ f32 _38f0;
+    u8 _pad_38f4[0x3904 - 0x38f4];
     /* 0x3904 */ u8 _3904;
     u8 _pad_3905[0x391c - 0x3905];
     /* 0x391c */ u8 _391c;
@@ -683,6 +685,7 @@ public:
     void sub_7100A31BE0();
     // 0x7100a31c64: forwards to the existing gauge-frame getter.
     f32 sub_7100A31C64() const;
+    bool sub_7100A31C1C() const;
     // 0x7100a31988 (placeholder name): forwards to the member at 0x39f8
     void sub_7100A31988(bool flag);
 };
@@ -3346,6 +3349,7 @@ public:
     void m93(sead::Heap*) override;
     // 0x7100a094f8 (placeholder name): copies two values of _3618 into the motorcycle manager's energy position
     void sub_7100A094F8();
+    void m98() override;
 
     /* 0x3610 */ u8 _3610 = 0;
     u8 _3611[7];
