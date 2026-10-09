@@ -331,6 +331,27 @@ void GuardianMiniRoot::stopXLinks() {
     }
 }
 
+// NON_MATCHING: native string comparison bounds and the unused w3 call setup differ.
+void GuardianMiniRoot::sub_7100427128() {
+    auto* as_list = mActor->getASList();
+    if (!as_list || !sub_710072BA90(mActor))
+        return;
+    const bool transformed = *mIsTransformedGuardianMini_a && as_list->x_1(0, 0) != "Transform";
+    ksys::as::ASList::Unk4 event;
+    if (as_list->x(0x3b, &event, 0, 0, &ksys::as::ASList::Unk2::sub_71011637EC, true)) {
+        if (event.name == "On") {
+            sub_7100427EB4(-1, true);
+            return;
+        }
+        if (event.name == "Off") {
+            stopXLinks();
+            return;
+        }
+    }
+    if (transformed)
+        sub_7100427EB4(-1, true);
+}
+
 // NON_MATCHING: loop addressing and RTTI scheduling differ from the native body.
 void GuardianMiniRoot::sub_7100427EB4(s32 slot, bool all) {
     if (_398._20)
