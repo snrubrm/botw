@@ -15,6 +15,7 @@ public:
     void calc_() override;
     void leave_() override;
     void loadParams_() override;
+    void sub_71004B56B4();
 
 protected:
     // static_param at offset 0x38
