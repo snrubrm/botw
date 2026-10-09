@@ -48,6 +48,8 @@ public:
     void m116() override;
     void m117(Unk117* arg) override;
     void m147() override;
+    // 0x7100007e08: no active equipped actor derives from uking::act::Weapon.
+    bool hasNoWeaponActors();
 
     void m149(int) override;
     void m150() override;

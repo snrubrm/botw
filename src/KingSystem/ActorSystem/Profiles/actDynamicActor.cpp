@@ -130,6 +130,17 @@ bool DynamicActor::initField868(sead::Heap* heap) {
 // NON_MATCHING: most member types are still unknown (placeholders)
 DynamicActor::~DynamicActor() = default;
 
+void DynamicActor::initMaybe() {
+    if (_a50)
+        _a50->m5(this);
+    if (isTagProfileMaybe(this)) {
+        getJobHandler(JobType::Calc2) = nullptr;
+        bindCalc1ToJob1_2();
+    }
+    if (auto* object = m159())
+        object->sub_71006DFA04(checkFlag(ActorFlag::_25));
+}
+
 void DynamicActor::calcMaybe() {
     if (auto* unk = m159())
         unk->sub_71006DFA04(checkFlag(ActorFlag::_25));

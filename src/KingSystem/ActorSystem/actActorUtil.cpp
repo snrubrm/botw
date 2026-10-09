@@ -405,6 +405,15 @@ static bool isProfile(const ActorConstDataAccess& accessor, const sead::SafeStri
     return accessor.hasProc() && accessor.getProfile() == profile;
 }
 
+bool isTagProfileMaybe(const sead::SafeString& profile) {
+    return profile == "ComplexTag" || profile == "SoleTag" || profile == "SpotBgmTag" ||
+           profile == "EventTag";
+}
+
+bool isTagProfileMaybe(Actor* actor) {
+    return actor && isTagProfileMaybe(actor->getProfile());
+}
+
 bool isPlayerProfile(const ActorConstDataAccess& accessor) {
     return isProfile(accessor, "Player");
 }

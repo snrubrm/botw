@@ -18,6 +18,16 @@ uking::act::Weapon* PlayerOrEnemy::getWeaponActor(s32 idx) {
     return sead::DynamicCast<uking::act::Weapon>(sead::DynamicCast<WeaponBase>(proc));
 }
 
+bool PlayerOrEnemy::hasNoWeaponActors() {
+    // The first virtual weapon-container query is discarded in the original at 0x7100007e28.
+    getWeapons();
+    for (int i = 0; i < 6; ++i) {
+        if (sead::IsDerivedFrom<uking::act::Weapon>(getWeapons()->getEquippedWeapon(i)))
+            return false;
+    }
+    return true;
+}
+
 void PlayerOrEnemy::m160() {
     auto* damage_mgr = sead::DynamicCast<uking::dmg::DamageManager>(getDamageMgr());
     if (!damage_mgr)

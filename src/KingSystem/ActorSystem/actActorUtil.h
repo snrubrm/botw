@@ -132,6 +132,9 @@ bool isPlayerProfile(Actor* actor);
 bool isPlayerProfile(BaseProcLink* link);
 
 bool isCameraProfile(Actor* actor);
+// Native profile query at 0x7100ee1b60; descriptive name is a guess.
+bool isTagProfileMaybe(const sead::SafeString& profile);
+bool isTagProfileMaybe(Actor* actor);
 
 bool isNPCProfile(const ActorConstDataAccess& accessor);
 bool isNPCProfile(Actor* actor);
