@@ -44,6 +44,11 @@ hkBool hkpFixedConstraintData::isValid() const {
            m_atoms.m_setupStabilization.m_enabled;
 }
 
+// 0x71015F408C
+hkpConstraintData::ConstraintType hkpFixedConstraintData::getType() const {
+    return CONSTRAINT_TYPE_FIXED;
+}
+
 // 0x71015F4094
 // NON_MATCHING: the compiler merges the two cases' stores into a common block.
 void hkpFixedConstraintData::setSolvingMethod(hkpConstraintAtom::SolvingMethod method) {
