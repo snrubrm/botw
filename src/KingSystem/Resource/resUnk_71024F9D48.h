@@ -12,6 +12,10 @@ namespace nn::gfx {
 class ResTexture;
 }
 
+namespace sead {
+class FileDevice;
+}
+
 namespace ksys::res {
 
 class Unk_71024f9a08;
@@ -62,6 +66,7 @@ public:
     sead::SafeString sub_7100FE10A8() const;
     void sub_7100FE10D8();
     void sub_7100FE10EC(CompactedHeap* heap);
+    sead::FileDevice* sub_7100FE0E08() const;
 
     u8 _8[0x18 - 0x8];
     sead::BitFlag8 mFlags;
@@ -82,7 +87,9 @@ public:
     Unk_71024f9a28 mNode{this};
     // FE0144 constructs this, and FE028C/FE02F0 destroy it.
     util::ManagedTaskHandle mTaskHandle;
-    u8 _158[0x168 - 0x158];
+    u8 _158[0x160 - 0x158];
+    // FE0584 copies the load device here; FE3760 forwards it to getUncompressedSize.
+    sead::FileDevice* mFileDevice;
     // FE0144 points this at its initialized character buffer at 178.
     char* _168;
     u8 _170[0x29a - 0x170];

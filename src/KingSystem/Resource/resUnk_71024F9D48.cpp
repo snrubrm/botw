@@ -25,6 +25,10 @@ bool Unk_71024f9a08::sub_7100FE0F38() const {
     return mFlags.isOn(1);
 }
 
+sead::FileDevice* Unk_71024f9a08::sub_7100FE0E08() const {
+    return mFileDevice;
+}
+
 void Unk_71024f9a08::sub_7100FE0850() {
     mFlags.reset(1);
 }
