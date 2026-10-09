@@ -60,11 +60,11 @@ void ForkNoWeaponAttackBase::calc_() {
     ForkAttackWithWeaponOrWithout::calc_();
 }
 
-// NON_MATCHING: the original loads mActor after the flag byte (hoisted out of both arms); ours loads it first
 int ForkNoWeaponAttackBase::m33() {
+    const bool use_attack_param = *mIsUseAttackParam_s;
     auto* actor = mActor;
     s32 power;
-    if (*mIsUseAttackParam_s)
+    if (use_attack_param)
         power = actor->getParam()->getRes().mGParamList->getAttack()->mPower.ref();
     else
         power = std::max(static_cast<ksys::act::PlayerOrEnemy*>(actor)->getEnemyAtkPower(), 1);
