@@ -12,6 +12,9 @@ bool DamageInfoMgr::Unk790::sub_7100672B1C(ksys::act::Actor* actor) const {
     return mStatus == 1 && mLink.hasProcById(actor);
 }
 
+void DamageInfoMgr::Unk28::sub_710065CB68() {}
+void DamageInfoMgr::Unk450::sub_710065D134() {}
+
 DamageInfoMgr::Unk28::Unk28() = default;
 DamageInfoMgr::Unk28::~Unk28() = default;
 

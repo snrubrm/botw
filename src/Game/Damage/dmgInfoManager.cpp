@@ -14,6 +14,18 @@ namespace uking::dmg {
 
 SEAD_SINGLETON_DISPOSER_IMPL(DamageInfoMgr)
 
+void DamageInfoMgr::sub_7100673D8C() {
+    mReactionTable.sub_71006681D4();
+}
+
+void DamageInfoMgr::sub_7100674058() {
+    _11eb.fill(0);
+    _868.sub_71006685C0();
+    _28.sub_710065CB68();
+    _450.sub_710065D134();
+    mMasterSwordDisableTrueForm = false;
+}
+
 void DamageInfoMgr::stubbed() {
     mReactionTable.stubbed();
 }

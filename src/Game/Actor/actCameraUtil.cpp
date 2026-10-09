@@ -553,9 +553,7 @@ void Unk_71009241ac::sub_71009242AC(Camera* camera) {
     } else {
         return;
     }
-    targetLink.link = target_link.link;
-    targetLink.index = target_link.index;
-    targetLink.kind = target_link.kind;
+    targetLink = target_link;
 }
 
 // NON_MATCHING: the kind snapshot stays in a register; stack placement and copy scheduling differ.

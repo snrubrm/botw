@@ -28,6 +28,7 @@ public:
 // Name from the CSV (DamageReactionTable::load 0x7100667de4): DamageInfoMgr + 0x5d0, the reaction table resource and
 // its entries. Methods are in the TU 0x7100667de4 - 0x7100668260 (dmgDamageReactionTable.cpp).
 struct DamageReactionTable {
+    void sub_71006681D4();
     bool isReady();
     void stubbed();
     // 0x71006681e4 (placeholder name): the index of the entry whose hash is calcHash(name), or -1.
@@ -49,6 +50,8 @@ public:
     // Native readiness forwards to the reaction table at +0x5d0.
     bool isReady();
     void stubbed();
+    void sub_7100673D8C();
+    void sub_7100674058();
 
     using DamageItem = dmg::DamageItem;
 
@@ -75,6 +78,7 @@ public:
         // 0x710065ce14 (BattleTensionUp::m8) / 0x710065cf08 (BattleTensionUp::m9)
         void sub_710065CE14(ksys::act::Actor* actor);
         void sub_710065CF08(ksys::act::Actor* actor);
+        void sub_710065CB68();
         Unk28();
         ~Unk28();
         // 2026-10-07: 32 entries constructed at 0x710065c96c; link/reset, countdown,
@@ -97,6 +101,25 @@ public:
         bool _422 = false;
         bool _423 = false;
     };
+    // Native 668260 owner at +868, with two 16-entry groups and a JobQueueLock.
+    struct Unk868 {
+        struct Entry {
+            ksys::act::BaseProcLink mLink;
+            f32 mCountdown = 0.0f;
+        };
+        using Bucket = sead::SafeArray<Entry, 16>;
+        Unk868();
+        ~Unk868();
+        void sub_71006682C0();
+        void sub_71006685C0();
+        u8 _0[0x20];
+        sead::SafeArray<Bucket, 2> mBuckets;
+        sead::JobQueueLock mLock;
+    };
+    KSYS_CHECK_SIZE_NX150(Unk868::Entry, 0x18);
+    KSYS_CHECK_SIZE_NX150(Unk868::Bucket, 0x180);
+    KSYS_CHECK_SIZE_NX150(Unk868, 0x328);
+
     // 2026-10-07: original constructor 0x71006737f4 initializes the prefix at +0x790;
     // its next independent member starts at +0x868. Remaining nested lifetime is unresolved.
     struct Unk790 {
@@ -120,6 +143,7 @@ public:
         // 0x710065d674 (lane4 s50; BossBgmDamaged::m7): stores the arguments in the slot of `actor`'s entry (slots at
         // +0x18 / +0x40 / +0x68 / +0x90, stride 0x28; `a` at +0x1c, the bools at +0x24 / +0x25, `d` at +0x14).
         void sub_710065D674(ksys::act::Actor* actor, s32 a, bool b, bool c, s32 d);
+        void sub_710065D134();
         Unk450();
         ~Unk450();
         void sub_710065D0A8();
@@ -194,7 +218,7 @@ private:
     /* 0x05d0 */ DamageReactionTable mReactionTable;
     /* 0x0630 */ u8 TEMP_630[0x790 - 0x630];
     /* 0x0790 */ Unk790 _790;
-    /* 0x0868 */ u8 TEMP_868[0xb90 - 0x868];
+    /* 0x0868 */ Unk868 _868;
     /* 0x0b90 */ Unk_710243c280 mGuardianRegistry;
     /* 0x0cd8 */ u8 TEMP_cd8[0xd00 - 0xcd8];
     /* 0x0d00 */ sead::ReadWriteLock mLock;
