@@ -19,14 +19,14 @@ HiddenKorokRoot::~HiddenKorokRoot() {
     }
 }
 
-// NON_MATCHING: the original clears both layer masks of _78 with one 8-byte store
 bool HiddenKorokRoot::init_(sead::Heap* heap) {
     if (auto* npc = sead::DynamicCast<act::NPC>(mActor))
         npc->_fe8 |= 0x20000000;
 
-    _78 = ksys::phys::CollisionInfo::make(heap, mActor->getName());
-    _78->getLayerMask(ksys::phys::ContactLayerType::Entity).makeAllZero();
-    _78->getLayerMask(ksys::phys::ContactLayerType::Sensor).makeAllZero();
+    auto* info = ksys::phys::CollisionInfo::make(heap, mActor->getName());
+    _78 = info;
+    info->getLayerMask(ksys::phys::ContactLayerType::Entity).makeAllZero();
+    info->getLayerMask(ksys::phys::ContactLayerType::Sensor).makeAllZero();
     _78->enableLayer(ksys::phys::ContactLayer::EntityObject);
     _78->enableLayer(ksys::phys::ContactLayer::EntitySmallObject);
     _78->enableLayer(ksys::phys::ContactLayer::EntityGroundObject);
