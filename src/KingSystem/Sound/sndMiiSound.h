@@ -31,10 +31,6 @@ public:
     bool sub_71012CDA58(const sead::SafeString& name) const;
     // 0x71012cda30 requests unload on the handle at +0xc0 and clears the state at +8.
     void requestUnloadMaybe();
-    // inline-only in the original; name is a guess. The handle query repeats in
-    // 0x7101230d20, 0x71012cd614 and 0x71012cdac4.
-    bool hasRequestedLoad() const { return mHandle.requestedLoad(); }
-
 private:
     friend class Unk_710251b710;
     // XLink 0x7101232084, 0x7101234334 and 0x710123445c use this sound

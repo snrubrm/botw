@@ -37,6 +37,7 @@ class Unk_710251b6f0;
 }
 
 namespace ksys::xlink {
+class Unk_71025168a0;
 
 // Placeholder name (result of 0x710123830c, created from the actor's footstep proc type name in
 // ActorEffects::init; the XLink member at +0xa0 points to it): footstep settings. The FootstepSilencer
@@ -104,6 +105,7 @@ public:
     bool x_1();
     bool x_2();
     void x_5();
+    void setExtraLabels(const char* const* labels, s32 count);
     void silenceFootsteps();
     void unsilenceFootsteps();
     bool sub_7101233168();
@@ -153,7 +155,8 @@ public:
     /* 0x10 */ u8 _10[0x48 - 0x10];
     /* 0x48 */ xlink2::UserInstanceELink* _48;
     /* 0x50 */ xlink2::UserInstanceSLink* _50;
-    /* 0x58 */ u8 _58[0x73 - 0x58];
+    /* 0x58 */ Unk_71025168a0* mUser;
+    /* 0x60 */ u8 _60[0x73 - 0x60];
     /* 0x73 */ sead::BitFlag8 _73;
     /* 0x74 */ u8 _74[0xa0 - 0x74];
     /* 0xa0 */ Unk_710123830c* _a0;

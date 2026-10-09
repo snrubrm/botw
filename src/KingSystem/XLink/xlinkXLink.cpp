@@ -2,6 +2,7 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Sound/sndMiiSound.h"
 #include "KingSystem/XLink/xlinkManager.h"
+#include "KingSystem/XLink/xlinkUser.h"
 #include "Game/gameScene.h"
 #include <gsys/gsysModel.h>
 #include <aal/aalGroup.h>
@@ -42,7 +43,7 @@ void XLink::sub_7101230100(const RebuildArg& arg) {
 void XLink::sub_710123445C(const char* name, bool a, bool b) {
     if (!mMiiSound)
         return;
-    if (!mMiiSound->hasRequestedLoad()) {
+    if (!mMiiSound->mHandle.requestedLoad()) {
         mMiiSound->sub_71012CD7A4();
         if (mMiiSound->mHandle.isBusy()) {
             mMiiSound->mPendingName.copy(name);
@@ -52,6 +53,11 @@ void XLink::sub_710123445C(const char* name, bool a, bool b) {
     }
     if (mMiiSound->mHandle.isSuccess())
         sub_7101234334(name, a, false, b);
+}
+
+void XLink::setExtraLabels(const char* const* labels, s32 count) {
+    if (mUser)
+        mUser->setExtraLabels(labels, count);
 }
 
 void XLink::x_5() {
@@ -288,7 +294,7 @@ void XLink::sleep_() {
     sub_71012305AC();
     _50->postCalc();
     _50->sleep();
-    if (mMiiSound && mMiiSound->hasRequestedLoad())
+    if (mMiiSound && mMiiSound->mHandle.requestedLoad())
         mMiiSound->requestUnloadMaybe();
 }
 
