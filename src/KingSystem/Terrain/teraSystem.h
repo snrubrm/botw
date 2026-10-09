@@ -147,7 +147,9 @@ public:
     Core* _360;
     u8 _368[0x60];
     f32 _3c8;
-    u8 _3cc[0x680 - 0x3cc];
+    u8 _3cc[0x400 - 0x3cc];
+    f32 _400;
+    u8 _404[0x680 - 0x404];
     sead::Matrix44f mProjectionMatrix;
     sead::Matrix34f mViewMatrix;
     u8 _6f0[0xa48 - 0x6f0];

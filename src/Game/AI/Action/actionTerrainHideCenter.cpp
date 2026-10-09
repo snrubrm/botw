@@ -1,8 +1,14 @@
 #include "Game/AI/Action/actionTerrainHideCenter.h"
+#include "KingSystem/Terrain/teraSystem.h"
 
 namespace uking::action {
 
-TerrainHideCenter::TerrainHideCenter(const InitArg& arg) : ksys::act::ai::Action(arg) {}
+static f32 sUnk_71024e1a40 = 0.01f;
+
+TerrainHideCenter::TerrainHideCenter(const InitArg& arg) : ksys::act::ai::Action(arg) {
+    if (sUnk_71024e1a40 > 0.0f)
+        sUnk_71024e1a40 = ksys::tera::Terrain::instance()->_400;
+}
 
 // NON_MATCHING: same instructions; the original does not re-materialise `this` (`mov x0, x19`) for the call
 // to sub_7100E179A4
