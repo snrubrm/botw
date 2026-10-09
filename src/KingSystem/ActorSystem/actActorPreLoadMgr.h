@@ -27,6 +27,7 @@ public:
     ~ActorPreLoadTask() override;
 
     bool sub_7100D59608();
+    bool sub_7100D5947C(const sead::SafeString& name);
     bool run();
 
 private:
@@ -56,6 +57,7 @@ class ActorPreLoadMgr {
 public:
     struct Entry {
         explicit Entry(Actor* actor) : mActor(actor) {}
+        void sub_7100D58B54(ActorPreLoadMgr* mgr);
 
         Actor* mActor;
         sead::SafeArray<sead::SafeString, 16> mNames;
@@ -68,9 +70,12 @@ public:
     Entry* x(Actor* actor);
     void preloadActorMaybe(Entry* entry, const sead::SafeString& name);
     void sub_7100D58F28(Actor* actor);
+    void update();
 
 private:
     ActorPreLoadTask* makeTaskMaybe();
+    void makeTaskMaybe(const sead::SafeString& name);
+    void cleanupTasks();
     bool invoked1(void* data);
     void invoked2(util::TaskPostRunResult* result, const util::TaskPostRunContext& context);
 
