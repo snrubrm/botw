@@ -21,6 +21,12 @@ protected:
     void m34() override;
     void m36() override;
 
+    void sub_710078B134();
+    void sub_710078B26C();
+    f32 sub_710078B398();
+    void sub_710078B5C0();
+    void sub_710078B89C();
+
     s32 _4c = 3;
     sead::Vector3f _50 = sead::Vector3f::zero;
     sead::Vector3f _5c = sead::Vector3f::zero;

@@ -73,7 +73,7 @@ void CameraTail::m34() {
     } else {
         _1cc &= ~2;
     }
-    if (_1cd < 6 && ((1 << _1cd) & 0x31)) {
+    if (_1cd == 0 || _1cd == 4 || _1cd == 5) {
         if (auto* current_player = sub_7100926A14()) {
             sead::Matrix33CalcCommon<f32>::copy(_134, current_player->getMtx());
             _1cc |= 1;
