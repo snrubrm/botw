@@ -2,11 +2,23 @@
 
 #include <container/seadPtrArray.h>
 #include <hostio/seadHostIONode.h>
+#include <math/seadVector.h>
 #include <prim/seadSafeString.h>
 #include <thread/seadCriticalSection.h>
+#include "KingSystem/Utils/Types.h"
 
 class ElementSpark;
 struct ElementSparkCreateArg;
+class ElementLightningFire;
+class ElementLightningShockwave;
+
+// Weather 10ED67C / 10ED894 build this trivial record. Both complete element
+// factories 12FE4B4 / 12FE6E0 copy xyz and the byte at C into their objects.
+struct ElementLightningCreateArg {
+    sead::Vector3f position;
+    u8 flags;
+};
+KSYS_CHECK_SIZE_NX150(ElementLightningCreateArg, 0x10);
 
 namespace sead {
 class Heap;
@@ -46,3 +58,16 @@ public:
 Unk_71024dd490* sub_7100D9A1D0(const Unk_71024dd490::CreateArg& arg, sead::Heap* heap);
 
 }  // namespace ksys::act
+
+namespace ksys::world {
+
+// Full 12FDA7C receives the record in x0/x1 and bool in w2, then forwards the
+// local record's address to the Shockwave factory. The return pointer follows
+// the child allocation result and the null-holder path.
+ElementLightningShockwave* sub_71012FDA7C(ElementLightningCreateArg arg, bool check_collision);
+// CSV label ElementLightningFire::create. The source owner is still unknown;
+// this narrow wrapper follows the existing Spark dispatch spelling. Native
+// 12FDF24 forwards an address to 12FE6E0, with a null allocation result when no holder exists.
+ElementLightningFire* sub_71012FDF24(const ElementLightningCreateArg* arg);
+
+}  // namespace ksys::world
