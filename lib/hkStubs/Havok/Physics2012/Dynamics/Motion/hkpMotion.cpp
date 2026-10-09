@@ -1,10 +1,14 @@
 #include <Havok/Physics2012/Dynamics/Motion/hkpMotion.h>
 #include <Havok/Common/Base/Math/SweptTransform/hkSweptTransformfUtil.h>
 
-// NON_MATCHING: virtual target load and zero-mass branch placement.
 // 0x710160677c
 void hkpMotion::setMass(hkReal mass) {
-    setMassInv(mass == 0.0f ? 0.0f : 1.0f / mass);
+    hkReal inverseMass;
+    if (mass == 0.0f)
+        inverseMass = 0.0f;
+    else
+        inverseMass = 1.0f / mass;
+    setMassInv(inverseMass);
 }
 
 // NON_MATCHING: reciprocal and zero-mass selection scheduling.

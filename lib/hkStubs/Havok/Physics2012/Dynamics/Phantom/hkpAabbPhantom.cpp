@@ -86,3 +86,10 @@ void hkpAabbPhantom::ensureDeterministicOrder() {
         m_orderDirty = false;
     }
 }
+
+// NON_MATCHING: native combines the size and capacity load; existing array API loads them separately.
+void hkpAabbPhantom::deallocateInternalArrays() {
+    if (m_overlappingCollidables.isEmpty())
+        m_overlappingCollidables.clearAndDeallocate();
+    hkpPhantom::deallocateInternalArrays();
+}
