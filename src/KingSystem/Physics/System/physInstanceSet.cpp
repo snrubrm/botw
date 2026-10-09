@@ -610,11 +610,8 @@ void InstanceSet::sub_7100FBC838(s32 idx) {
     _112 = idx;
 }
 
-// NON_MATCHING: the original loads the controller index (_112) before the size and clamps with two csel
 void InstanceSet::sub_7100FBDB5C() {
-    s32 idx = _112 > _98.size() - 1 ? _98.size() - 1 : _112;
-    idx = _112 < 0 ? 0 : idx;
-    _98[idx]->reset();
+    _98[sead::Mathi::clamp(_112, 0, _98.size() - 1)]->reset();
 }
 
 bool InstanceSet::sub_7100FBDB90(s32 idx, f32 factor) {
