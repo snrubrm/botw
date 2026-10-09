@@ -193,6 +193,7 @@ static_assert(sizeof(Unk_71009cb0c8) == 0x2e8);
 // Factory 9de3f4 and full ctor/D1 9bd404 / 9bd470 place the controller at 0x198.
 class Unk_710247c010 : public ScreenChildEx {
 public:
+    NN_RUNTIME_TYPEINFO(ScreenChildEx)
     explicit Unk_710247c010(eui::LayoutEx* layout);
     ~Unk_710247c010() override;
     void m30() override;

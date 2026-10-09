@@ -1844,11 +1844,9 @@ public:
 extern const ksys::StateBase sUnk_71025df180;
 extern const ksys::StateBase sUnk_71025df1e0;
 
-// Placeholder for the object ScreenAppMap keeps at 0x3c98 (its state at 0x104 decides which animators play).
-struct ScreenAppMapUnk3c98 {
-    u8 _0[0x104];
-    /* 0x104 */ s32 _104;
-};
+// Full setup 9eab28 casts child group 5 to the same RTTI as Unk_710247c010 (9bf07c).
+class Unk_710247c010;
+using ScreenAppMapUnk3c98 = Unk_710247c010;
 
 // Map animation child: full ctor 9c0ebc, vtable 247c6c0 and independent 9c1474 / 9c1814 consumers.
 struct ScreenAppMapUnk3c90 : ScreenChildEx {
@@ -1955,6 +1953,7 @@ static_assert(offsetof(ScreenAppMapWidget, _b290) == 0xb290);
 
 class ScreenAppMap : public ScreenEx {
 public:
+    bool sub_71009EA030() const;
     bool sub_71009EECD0() const;
     s32 sub_71009EED10() const;
     void m92(sead::Heap*) override;
@@ -3743,6 +3742,7 @@ public:
 
 class ScreenAppMapDungeon : public ScreenEx {
 public:
+    bool sub_71009E0DF8() const;
     void m100() override;
     bool isEnableControl() const override;
     const char* getLayoutName_() const override;
@@ -3762,7 +3762,13 @@ public:
     virtual void m163();
     virtual void m164();
     virtual s32 m165();
+
+    // Full ctor 9e00b0 and setup helper 9e2584; factory a81f34 allocates 0x11938 bytes.
+    u8 _3610[0x11520 - 0x3610];
+    /* 0x11520 */ Unk_710247c010* mSensorChild;
+    u8 _11528[0x11938 - 0x11528];
 };
+static_assert(sizeof(ScreenAppMapDungeon) == 0x11938);
 
 class ScreenPickUp : public ScreenEx {
 public:

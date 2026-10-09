@@ -7,6 +7,21 @@
 
 namespace uking::ui {
 
+// 0x71009ea030
+bool ScreenAppMap::sub_71009EA030() const {
+    if (_3c98)
+        return _3c98->mController.sub_71009CBFA4();
+    return true;
+}
+
+// 0x71009e0df8
+bool ScreenAppMapDungeon::sub_71009E0DF8() const {
+    if (mSensorChild)
+        return mSensorChild->mController.sub_71009CBFA4();
+    return true;
+}
+
+
 // 0x71009ef488
 // NON_MATCHING: position load and negation order.
 void ScreenAppMap::sub_71009EF488(const sead::Vector3f* pos, s32 scale_level) {
