@@ -3,6 +3,10 @@
 #include <basis/seadTypes.h>
 #include "KingSystem/Utils/Types.h"
 
+// 0x7100e72498 consumes three mutable scalar states and seven float settings.
+f32 sub_7100E72498(f32* state_a, f32* state_b, f32* state_c, f32 value, f32 a, f32 b,
+                    f32 c, f32 d, f32 e, f32 f);
+
 // The full 0x7100e726a8 receiver reads six float parameter pointers and passes
 // its three scalar state fields to 0x7100e72498. NpcSwimMove::calc_ passes +0xa0.
 struct Unk_7100e726a8 {
