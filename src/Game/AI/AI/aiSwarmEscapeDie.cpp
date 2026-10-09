@@ -16,9 +16,9 @@ bool SwarmEscapeDie::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
 }
 
-// NON_MATCHING: the position copy combines stores and schedules its component loads differently.
 void SwarmEscapeDie::enter_(ksys::act::ai::InlineParamPack* params) {
-    const sead::Vector3f pos = mActor->getMtx().getTranslation();
+    sead::Vector3f pos;
+    mActor->getMtx().getTranslation(pos);
     if (ksys::sub_7100D8C4F8(pos))
         sub_71005B1464();
     else
