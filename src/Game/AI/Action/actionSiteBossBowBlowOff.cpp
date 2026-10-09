@@ -68,8 +68,6 @@ void SiteBossBowBlowOff::calc_() {
     SiteBossBlowOff::calc_();
 }
 
-// NON_MATCHING: the original returns `!within` (`eor w8, w0, #1`) in the within-range path and loads ForceRecoverDist.y
-// before ForceRecoverOffset.y.
 bool SiteBossBowBlowOff::sub_7100256C34() {
     sead::Vector3f home;
     mActor->getHomePos(&home);
@@ -78,9 +76,13 @@ bool SiteBossBowBlowOff::sub_7100256C34() {
     actor->getMtx().getTranslation(pos);
     auto* boss = sead::DynamicCast<act::SiteBoss>(actor);
     const bool is_kind_4 = boss && (boss->_1534 & ~3) == 4;
-    if (sub_71002D17D4(mActor, &home, &pos, mForceRecoverDist_s, mForceRecoverOffset_s, is_kind_4))
-        return false;
-    return (mForceRecoverOffset_s->y - mForceRecoverDist_s->y) + home.y > pos.y;
+    bool outside = !sub_71002D17D4(mActor, &home, &pos, mForceRecoverDist_s,
+                                  mForceRecoverOffset_s, is_kind_4);
+    if (outside) {
+        const sead::Vector3f recovery_dist = *mForceRecoverDist_s;
+        outside = (mForceRecoverOffset_s->y - recovery_dist.y) + home.y > pos.y;
+    }
+    return outside;
 }
 
 bool SiteBossBowBlowOff::m36() {
