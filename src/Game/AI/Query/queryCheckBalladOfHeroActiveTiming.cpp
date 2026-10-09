@@ -1,6 +1,9 @@
 #include "Game/AI/Query/queryCheckBalladOfHeroActiveTiming.h"
 #include <evfl/Query.h>
 
+// The adjacent original helper takes no arguments and returns query results 0, 1 or 2.
+int getBalladOfHeroActiveTiming();
+
 namespace uking::query {
 
 CheckBalladOfHeroActiveTiming::CheckBalladOfHeroActiveTiming(const InitArg& arg)
@@ -8,9 +11,8 @@ CheckBalladOfHeroActiveTiming::CheckBalladOfHeroActiveTiming(const InitArg& arg)
 
 CheckBalladOfHeroActiveTiming::~CheckBalladOfHeroActiveTiming() = default;
 
-// FIXME: implement
 int CheckBalladOfHeroActiveTiming::doQuery() {
-    return -1;
+    return getBalladOfHeroActiveTiming();
 }
 
 void CheckBalladOfHeroActiveTiming::loadParams(const evfl::QueryArg& arg) {}
