@@ -45,6 +45,8 @@ bool sub_71002EFEC0(const ksys::act::ActorConstDataAccess& accessor);
 f32 sub_71002F000C(const ksys::act::ActorConstDataAccess& accessor);
 f32 sub_71002F034C(const ksys::act::ActorConstDataAccess& accessor);
 s32 sub_7100A95214();
+bool sub_710084BD40(ksys::act::Actor* actor);
+ksys::act::ActorAtk::Unk_710079e64c::Unk1* sub_710084BE2C(ksys::act::Actor* actor);
 
 namespace uking::ui {
 bool sub_7100A991C0();
@@ -1217,11 +1219,10 @@ f32 Player::getArmorChargeAttackAddLevel() {
     return sub_7100885630(_2044);
 }
 
-// NON_MATCHING: uses the established sensor functions directly instead of the original forwarding wrappers.
 bool Player::m303() {
-    if (!sub_71007A2604(this))
+    if (!sub_710084BD40(this))
         return false;
-    auto* info = sub_71007A255C(this, 0);
+    auto* info = sub_710084BE2C(this);
     return info && info->sub_71007A1F78(0x40) && _cf0.isOnBit(1);
 }
 
