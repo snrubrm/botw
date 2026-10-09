@@ -36,6 +36,7 @@ add_library(hkStubs OBJECT
   Havok/Common/Base/Container/Array/hkSmallArray.h
   Havok/Common/Base/Container/String/hkString.cpp
   Havok/Common/Base/Container/String/hkString.h
+  Havok/Common/Base/Container/String/hkStringPtr.cpp
   Havok/Common/Base/Container/String/hkStringPtr.h
 
   Havok/Common/Base/DebugUtil/MultiThreadCheck/hkMultiThreadCheck.h
