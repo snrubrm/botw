@@ -126,3 +126,24 @@ hkBool hkClass::hasVtable() const {
         base = base->m_parent;
     return base->m_numImplementedInterfaces != 0;
 }
+
+const hkClassMember* hkClass::getMemberByName(const char* name) const {
+    for (int i = 0; i < getNumMembers(); ++i) {
+        const hkClassMember& member = getMember(i);
+        if (hkString::strCmp(member.getName(), name) == 0)
+            return &member;
+    }
+    return nullptr;
+}
+
+// NON_MATCHING: the inherited member scan has different loop layout and saved registers.
+int hkClass::getMemberIndexByName(const char* name) const {
+    int i = 0;
+    while (i < getNumMembers()) {
+        const hkClassMember& member = getMember(i);
+        if (hkString::strCmp(member.getName(), name) == 0)
+            return i;
+        ++i;
+    }
+    return -1;
+}
