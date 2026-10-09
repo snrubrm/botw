@@ -1,4 +1,5 @@
 #include "Game/UI/uiUnkTiny.h"
+#include "KingSystem/Quest/qstQuest.h"
 #include "Game/gameMotorcycleMgr.h"
 #include "Game/UI/euiLayoutEx.h"
 #include "Game/UI/euiScreen.h"
@@ -592,6 +593,21 @@ Unk_710247ae08::~Unk_710247ae08() = default;
 
 // 0x71009b2ee8
 Unk_710247ae28::~Unk_710247ae28() = default;
+
+// 0x71009b2ef0
+void Unk_710247ae28::sub_71009B2EF0() {
+    if (!mQuest || !mQuest->mType)
+        return;
+    const sead::SafeString type(mQuest->mType);
+    if (type == "Main")
+        mCategory = 0;
+    else if (type == "Sub")
+        mCategory = 1;
+    else if (type == "Mini")
+        mCategory = 2;
+    else
+        mCategory = 1;
+}
 
 // 0x71009c5098
 Unk_710247d8d8::~Unk_710247d8d8() = default;

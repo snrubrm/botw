@@ -434,6 +434,7 @@ public:
 class Unk_710247ae28 {
 public:
     virtual ~Unk_710247ae28();
+    void sub_71009B2EF0();
 
     /* 0x8 */ ksys::qst::Quest* mQuest;
     /* 0x10 */ u32 mCategory;
