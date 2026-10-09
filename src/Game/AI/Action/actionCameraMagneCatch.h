@@ -28,6 +28,8 @@ protected:
     bool m55(f32* out0, f32* out1) override;
     bool m60(int idx) override { return u32(idx) < 3; }
 
+    int sub_71007761FC();
+
     void sub_7100775B78(act::Unk_71009214b8* out);
     void sub_7100775B80(act::Unk_71009214b8* out);
     void sub_7100775B88(act::Unk_71009214b8* out);

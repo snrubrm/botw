@@ -40,6 +40,42 @@ bool CameraMagneCatch::m42(sead::Heap* heap) {
     return true;
 }
 
+// NON_MATCHING: the native first-state search is unrolled separately from the current-state search.
+int CameraMagneCatch::sub_71007761FC() {
+    auto* states = m47();
+    if (!states)
+        return -1;
+    auto* checkers = m49();
+    if (!checkers)
+        return -1;
+    const int current = _f8;
+    if (current != -1 && _454 > 90.0f && current >= 1) {
+        for (int i = 0; i < current; ++i) {
+            auto* state = states->at(i);
+            if (!state)
+                continue;
+            auto* checker = checkers->at(i);
+            if (!checker)
+                continue;
+            state->m5();
+            if (checker->sub_7100786E14(state->_10) != 2)
+                return i;
+        }
+    }
+    for (int i = current == -1 ? 0 : current; i < 3; ++i) {
+        auto* state = states->at(i);
+        if (!state)
+            continue;
+        auto* checker = checkers->at(i);
+        if (!checker)
+            continue;
+        state->m5();
+        if (checker->sub_7100786E14(state->_10) != 2)
+            return i;
+    }
+    return -1;
+}
+
 sead::PtrArray<Unk_7102457a80>* CameraMagneCatch::m47() {
     return &_310;
 }
