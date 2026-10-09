@@ -81,12 +81,11 @@ bool EnemyBaseFindPlayer::sub_710037EEAC() {
     return m42(state);
 }
 
-// NON_MATCHING: the original loads the GlobalRandom GOT entry after the _e8 store and the
-// SurpriseAttackTime value before the instance
 void EnemyBaseFindPlayer::sub_71003803E8() {
     _e8.set(2);
-    _e0 = sead::GlobalRandom::instance()->getS32Range(
-        *mSurpriseAttackTime_s, *mSurpriseAttackTime_s + *mSurpriseAttackTimeRand_s);
+    const s32 time = *mSurpriseAttackTime_s;
+    const s32 random_time = *mSurpriseAttackTimeRand_s;
+    _e0 = sead::GlobalRandom::instance()->getS32Range(time, time + random_time);
     if (sub_710037EEAC())
         sub_710037E9A4();
     sub_710037EDA4();
