@@ -36,6 +36,23 @@ void XLink::sub_7101230100(const RebuildArg& arg) {
     }
 }
 
+void XLink::silenceFootsteps() {
+    if (_a0)
+        _a0->_1c.set(0x10);
+}
+
+void XLink::unsilenceFootsteps() {
+    if (_a0)
+        _a0->_1c.reset(0x10);
+}
+
+// NON_MATCHING: the final actor-flag Boolean return uses bit extraction instead of native branch returns.
+bool XLink::sub_7101233168() {
+    if (_cc.isOn(0x800))
+        return true;
+    return mActor && mActor->getActorFlags2().isOn(act::Actor::ActorFlag2::_40);
+}
+
 as::ASList* XLink::getASList() const {
     return mActor ? mActor->getASList() : nullptr;
 }

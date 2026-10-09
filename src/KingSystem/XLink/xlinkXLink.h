@@ -80,6 +80,9 @@ public:
     // 0x7101232e88 / 0x7101232f2c: actor-job effect activity queries.
     bool x_1();
     bool x_2();
+    void silenceFootsteps();
+    void unsilenceFootsteps();
+    bool sub_7101233168();
     void x_4(bool paused);
     // 0x7101230fc8: pauses selected sound groups.
     void sub_7101230FC8(bool paused, bool skip_environment);
