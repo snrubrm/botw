@@ -1,5 +1,6 @@
 #include "Game/AI/Action/actionGolemThrowPartsToTargetBase.h"
 #include "Game/Damage/dmgDamageCallback.h"
+#include "Game/AI/aiUnk_7100724C64.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
@@ -58,6 +59,24 @@ void GolemThrowPartsToTargetBase::m32(sead::Vector3f* linear_velocity,
         body->getTransform(mtx);
         *angular_velocity = body->getAngularVelocity() * (1.0f / 30.0f);
         *linear_velocity = body->getLinearVelocity() * (1.0f / 30.0f);
+    }
+}
+
+// NON_MATCHING: the compiler reloads the empty-string byte for each part instead of sharing it.
+void GolemThrowPartsToTargetBase::sub_710018D8DC() {
+    if (_e0) {
+        _e0 = false;
+        if (!_60._30.isEmpty()) {
+            sub_7100725960(mActor, _60._30, false);
+            sub_71007259CC(mActor, _60._30, false);
+        }
+    }
+    if (_e1) {
+        _e1 = false;
+        if (!_a0._30.isEmpty()) {
+            sub_7100725960(mActor, _a0._30, false);
+            sub_71007259CC(mActor, _a0._30, false);
+        }
     }
 }
 

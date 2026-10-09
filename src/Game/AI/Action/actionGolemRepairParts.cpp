@@ -5,6 +5,10 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "Game/Damage/dmgDamageCallback.h"
+#include "Game/AI/aiUnk_7102450410.h"
+#include "Game/AI/aiUnk_7100724C64.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
 
 namespace uking::action {
 
@@ -69,6 +73,46 @@ void GolemRepairParts::sub_710018CED4() {
             if (accessor.hasProc() && accessor.isStateCalc())
                 _e8.sub_710070DBB0(*accessor.getMessageTransceiverId(), true);
         }
+    }
+}
+
+void GolemRepairParts::sub_710018D09C() {
+    auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
+    if (!enemy)
+        return;
+
+    if (auto* instance = enemy->getPhysics()) {
+        sub_710018D2EC(enemy, _60);
+        sub_710018D2EC(enemy, _a0);
+        if (auto* body = instance->findX(*sub_71007A24D0(), mTgtBodyName_s))
+            instance->sub_7100FBAF18(body);
+    }
+    if (auto* controller = sead::DynamicCast<Unk_7102450410>(*mGolemChemicalController_a)) {
+        if (auto* entry = controller->sub_7100708D6C(mChmObjectName_s))
+            entry->sub_71007089BC();
+    }
+}
+
+void GolemRepairParts::sub_710018D2EC(act::Enemy* enemy, const Unk_71005e1be8& part) {
+    const auto& link = enemy->_1128.getActorPartsActor(part._0);
+    if (!link.hasProc())
+        return;
+
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(&link, &accessor);
+    if (!accessor.isStateSleep())
+        accessor.sleep(ksys::act::BaseProc::SleepWakeReason::_0);
+
+    auto* body = enemy->findPhysicsBodyByName(sub_71007A24E4()->cstr(), part._10.cstr());
+    auto* instance = enemy->getPhysics();
+    if (body && instance)
+        instance->sub_7100FBAF18(body);
+    body = enemy->findPhysicsBodyByName(sub_71007A250C()->cstr(), part._20.cstr());
+    if (instance && body)
+        instance->sub_7100FBAF18(body);
+    if (!part._30.isEmpty()) {
+        sub_7100725960(enemy, part._30, true);
+        sub_71007259CC(enemy, part._30, true);
     }
 }
 
