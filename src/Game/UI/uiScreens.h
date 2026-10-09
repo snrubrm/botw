@@ -791,13 +791,18 @@ public:
     bool sub_7100A11D34(s32);
 };
 
-// Placeholder for the info overlay object ScreenMainScreen keeps at 0x3648.
+// Information child: factory a17358, full ctor 98a1f4 and D1 98a2c8.
 struct ScreenMainScreenUnk3648 : ScreenChildEx {
+    explicit ScreenMainScreenUnk3648(eui::LayoutEx* layout);
+    ~ScreenMainScreenUnk3648() override;
+
     // 0x710098a93c (CSV unnamed; declared only)
     void sub_710098A93C(s32 type, const sead::SafeString& text);
     // 0x710098ae8c (declared only)
     void sub_710098AE8C(s32 a1);
+    u8 _130[0x390 - 0x130];
 };
+static_assert(sizeof(ScreenMainScreenUnk3648) == 0x390);
 
 // Placeholder for the object ScreenMainScreen keeps at 0x3658 (the int at 0x150 is written by sub_7100A1AB58).
 struct ScreenMainScreenUnk3658 : ScreenChildEx {

@@ -12,6 +12,34 @@ class MessageString;
 
 namespace uking::ui {
 
+// MainScreen arrow child: factory a17160, full ctor 985eb4 and D1 985ef0.
+class Unk_7102476db8 : public ScreenChildEx {
+public:
+    explicit Unk_7102476db8(eui::LayoutEx* layout);
+    ~Unk_7102476db8() override;
+    u8 _130[0x160 - 0x130];
+};
+static_assert(sizeof(Unk_7102476db8) == 0x160);
+
+// Camera pointer: factory a1725c, full ctor 986868 and D1 9868f4.
+// Embedded event links and control lifetimes remain undecompiled.
+class Unk_7102477110 : public ScreenChildEx {
+public:
+    explicit Unk_7102477110(eui::LayoutEx* layout);
+    ~Unk_7102477110() override;
+    u8 _130[0x400 - 0x130];
+};
+static_assert(sizeof(Unk_7102477110) == 0x400);
+
+// Player status: factory a17454, full ctor 9bc9bc and D1 9bca14.
+class Unk_710247bcb8 : public ScreenChildEx {
+public:
+    explicit Unk_710247bcb8(eui::LayoutEx* layout);
+    ~Unk_710247bcb8() override;
+    u8 _130[0x198 - 0x130];
+};
+static_assert(sizeof(Unk_710247bcb8) == 0x198);
+
 // Full ctor 9a4330 calls the existing button-child base; factory 9e8158 allocates 0x158.
 // Native vtable 2479838 shares D1 931ddc with the base and has D0 9a49e0.
 class Unk_7102479838 : public Unk_71024746d0 {

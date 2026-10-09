@@ -1,6 +1,7 @@
 #include <algorithm>
 #include "KingSystem/Quest/qstQuest.h"
 #include "Game/UI/uiScreenControlCreators.h"
+#include "Game/UI/uiScreenChildStates.h"
 #include "Game/UI/euiTagProcessor.h"
 #include "Game/UI/euiMessageMgr.h"
 #include "Game/UI/euiAnimator.h"
@@ -2660,6 +2661,34 @@ const sead::Buffer<const ChildControlCreatorEntry>* Unk_710248e4e0::getEntries()
 }
 // 0x7100a1713c
 Unk_710248e4e0::~Unk_710248e4e0() = default;
+
+ScreenChild* sub_7100A17160(const nn::ui2d::ControlSrc&, eui::LayoutEx* layout) {
+    auto* layout_ex = nn::font::DynamicCast<eui::LayoutEx>(layout);
+    if (!layout_ex || !layout_ex->mScreen || !layout_ex->mScreen->mInitializeHeap)
+        return nullptr;
+    return new (layout_ex->mScreen->mInitializeHeap, 8) Unk_7102476db8(layout_ex);
+}
+
+ScreenChild* sub_7100A1725C(const nn::ui2d::ControlSrc&, eui::LayoutEx* layout) {
+    auto* layout_ex = nn::font::DynamicCast<eui::LayoutEx>(layout);
+    if (!layout_ex || !layout_ex->mScreen || !layout_ex->mScreen->mInitializeHeap)
+        return nullptr;
+    return new (layout_ex->mScreen->mInitializeHeap, 8) Unk_7102477110(layout_ex);
+}
+
+ScreenChild* sub_7100A17358(const nn::ui2d::ControlSrc&, eui::LayoutEx* layout) {
+    auto* layout_ex = nn::font::DynamicCast<eui::LayoutEx>(layout);
+    if (!layout_ex || !layout_ex->mScreen || !layout_ex->mScreen->mInitializeHeap)
+        return nullptr;
+    return new (layout_ex->mScreen->mInitializeHeap, 8) ScreenMainScreenUnk3648(layout_ex);
+}
+
+ScreenChild* sub_7100A17454(const nn::ui2d::ControlSrc&, eui::LayoutEx* layout) {
+    auto* layout_ex = nn::font::DynamicCast<eui::LayoutEx>(layout);
+    if (!layout_ex || !layout_ex->mScreen || !layout_ex->mScreen->mInitializeHeap)
+        return nullptr;
+    return new (layout_ex->mScreen->mInitializeHeap, 8) Unk_710247bcb8(layout_ex);
+}
 
 // ScreenMainShortCut creator; native getter/D0 precede its screen constructor.
 // 0x7100a1ec24
