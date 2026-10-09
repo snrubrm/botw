@@ -171,6 +171,10 @@ class Unk_7102474c08 {
 public:
     Unk_7102474c08();
     virtual ~Unk_7102474c08();
+    void sub_7100935F98(sead::Heap* heap, eui::LayoutEx* layout);
+    void sub_71009364AC(bool first);
+    void sub_7100936590(bool first);
+    void sub_710093666C();
     void sub_71009367C4(bool first);
     void sub_7100936830(bool first);
     bool sub_71009368A4() const;
@@ -178,7 +182,7 @@ public:
     void sub_71009368EC(f32 step);
     void sub_710093694C();
     f32 sub_710093695C() const;
-    // 0x7100936254 (declared only): the per-frame update of the gauge (600 bytes)
+    // 0x7100936254: the per-frame update of the gauge
     void sub_7100936254(f32 step, bool first);
 
 private:

@@ -679,6 +679,8 @@ public:
     // 0x7100a30380 (placeholder name): shows `value` in the number pane of the control at 0x39e8
     void sub_7100A30380(s32 value);
     void sub_7100A31BE0();
+    // 0x7100a31c64: forwards to the existing gauge-frame getter.
+    f32 sub_7100A31C64() const;
     // 0x7100a31988 (placeholder name): forwards to the member at 0x39f8
     void sub_7100A31988(bool flag);
 };
@@ -851,6 +853,8 @@ public:
     static f32 sub_7100A1E44C();
     // 0x7100a1ab68 (placeholder name; called by Unk_7102474c08::sub_7100936254): the value of the gauge member
     f32 sub_7100A1AB68() const;
+    // 0x7100a1de08: sends the native heart-alert message to the player.
+    void sub_7100A1DE08();
     // 0x7100a1ab94 (placeholder name): runs the gauge update with this screen's animation step
     void sub_7100A1AB94();
 };
