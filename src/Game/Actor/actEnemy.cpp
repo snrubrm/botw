@@ -51,19 +51,15 @@ Unk_7102357908::Unk50::Unk50(ksys::phys::CharacterController* controller)
                            std::numeric_limits<f32>::quiet_NaN(),
                            std::numeric_limits<f32>::quiet_NaN()) {}
 
-// NON_MATCHING: Vector3f assignment copies components individually instead of the original whole-vector copies.
 bool Unk_7102357908::Unk50::sub_71006F0800(const CalcArg& arg) {
     if (!mController)
         return false;
     mController->mFlags.set(0x10);
-    mPosteriorLimbOffset = arg.posterior_limb_offset;
+    mPosteriorLimbOffset.set(arg.posterior_limb_offset);
     mRayCastLength = arg.ray_cast_length;
-    mPriorLimbOffset = arg.prior_limb_offset;
+    mPriorLimbOffset.set(arg.prior_limb_offset);
     mPriorRayCastLength = arg.prior_ray_cast_length;
-    if (arg.enabled)
-        _28 |= 1;
-    else
-        _28 &= ~1;
+    _28 = arg.enabled ? (_28 | 1) : (_28 & ~1);
     return true;
 }
 
