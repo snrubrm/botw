@@ -22,6 +22,11 @@ protected:
 
     // 0x71007830fc: smooths _134 towards the player's rotation.
     void sub_71007830FC();
+    void sub_71007831EC();
+    void sub_7100783578();
+    void sub_7100783688(bool chase);
+    void sub_7100783A0C();
+    void sub_71007840E0();
     // 0x71007837d8: whether the point at polar (r, a, b) from `base` is below the ground / water
     // height plus the camera's near radius.
     bool sub_71007837D8(const sead::Vector3f& base, f32 a, f32 b, f32 r);

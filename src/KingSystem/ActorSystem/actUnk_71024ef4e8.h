@@ -41,7 +41,10 @@ public:
         /* 0x50 */ phys::RigidBody* mBody;
         u8 _58[0xc0 - 0x58];
         /* 0xc0 */ phys::RigidBody* _c0;
-        u8 _c8[0x140 - 0xc8];
+        u8 _c8[0x138 - 0xc8];
+        // Attachment state, written by 0x7100eac434 and reset by 0x7100eac3e0.
+        /* 0x138 */ u32 _138;
+        u8 _13c[0x140 - 0x13c];
         /* 0x140 */ sead::Vector3f _140;
         u8 _14c[0x158 - 0x14c];
         BaseProcLink mTargetLink;

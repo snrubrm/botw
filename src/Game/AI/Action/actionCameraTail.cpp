@@ -4,6 +4,8 @@
 #include <math/seadMatrixCalcCommon.h>
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/System/Timer.h"
+#include "KingSystem/System/VFR.h"
+#include "KingSystem/ActorSystem/actUnk_71024ef4e8.h"
 
 namespace uking::action {
 
@@ -288,6 +290,155 @@ f32 CameraTail::sub_7100784940() {
         }
     }
     return speed;
+}
+
+// NON_MATCHING: state branches, camera getter scheduling and chase scalar loads differ.
+void CameraTail::sub_71007831EC() {
+    sead::Vector2f stick(0.0f, 0.0f);
+    sub_7100924F08(&stick);
+    if (stick.x != 0.0f || stick.y != 0.0f) {
+        _1cd = 4;
+        return;
+    }
+    if (sub_7100927110()) {
+        _1cd = 2;
+        return;
+    }
+    if (_1cd == 1 || _1cd == 2) {
+        if (!(_f8._18 >= 1.0f))
+            return;
+    } else if (_1cd == 5) {
+        _1cd = 1;
+        auto* player = sub_7100926A14();
+        if (!player)
+            return;
+        auto* attachment = player->getAttachedTargetActor();
+        if (!attachment || !attachment->mAttachInfo)
+            return;
+        if (attachment->mAttachInfo->_138 == 1)
+            _1cd = 0;
+        return;
+    } else if (_1cd == 0) {
+        if (!(_130 > 0.0f)) {
+            auto* player = sub_7100926A14();
+            if (!player)
+                return;
+            auto* attachment = player->getAttachedTargetActor();
+            if (!attachment || !attachment->mAttachInfo || attachment->mAttachInfo->_138 == 1)
+                return;
+            _130 = 20.0f;
+            return;
+        }
+        if (!sead::Mathf::chase(&_130, 0.0f, sub_71009251C4(getCamera())))
+            return;
+    } else {
+        return;
+    }
+    _1cd = 3;
+}
+
+// NON_MATCHING: player position capture, frame and bound scalar scheduling differ.
+void CameraTail::sub_7100783578() {
+    _128 = 0.0f;
+    if (!(_12c >= 20.0f))
+        return;
+    auto* camera = getCamera();
+    if (!camera)
+        return;
+    auto* player = sub_7100926A14();
+    if (!player)
+        return;
+    const sead::Vector3f position = player->getMtx().getTranslation();
+    f32 frame = 0.0f;
+    ksys::Timer::update(&frame, 1.0f);
+    if (frame != 0.0f) {
+        _128 = ((position - sub_7100928868(camera->_860._164)).length() / frame - 0.05f) / 0.05f;
+        if (_128 < 0.0f)
+            _128 = 0.0f;
+        else if (_128 > 1.0f)
+            _128 = 1.0f;
+    }
+}
+
+// NON_MATCHING: chase branches and scalar scheduling differ.
+void CameraTail::sub_7100783688(bool chase) {
+    _e4 = _e0;
+    if (_e4 < _e8)
+        _e4 = _e8;
+    else if (_e4 > _ec)
+        _e4 = _ec;
+    if (chase)
+        ksys::VFR::chase(&_e4, _ec, _f0);
+    else
+        ksys::VFR::lerp(&_e4, _e8, _f4);
+}
+
+// NON_MATCHING: prepared-field loads, vector resets and float scheduling differ.
+void CameraTail::sub_7100783A0C() {
+    auto* camera = getCamera();
+    if (!camera)
+        return;
+    const act::Unk_7100922700 polar(camera->_860._0._0 - camera->_860._0._c);
+    _b0 = _b4 = 0.0f;
+    _b8 = angleStuff(polar._4);
+    sub_7100784288();
+    _bc = _158;
+    if (auto* player = sub_7100926A14()) {
+        if (player->m187())
+            _bc = player->_e50;
+    }
+    _c0 = 0.0f;
+    _c4 = angleStuff(polar._8 - _bc);
+    _f8.sub_710079C384(10.0f, 0.0f);
+    const f32 angle = *mDstAngle_s * 0.017453292f;
+    _4c = sead::Vector3f::zero;
+    _64 = sead::Vector3f::zero;
+    _70.set(0.0f, 0.0f, sead::Mathf::clampMin(_1c8, 0.1f));
+    _58 = sead::Vector3f::zero;
+    _84 = angle;
+    if (_84 < 0.0f)
+        _84 = 0.0f;
+    else if (_84 > 1.569051f)
+        _84 = 1.569051f;
+    _88 = std::tan(_84) * _70.z;
+    _7c = 0.6f;
+    _80 = 0.1f;
+    _8c = 1.0f;
+    _90 = 0.8f;
+    _130 = 0.0f;
+}
+
+// NON_MATCHING: bound and prepared-field loads, vector resets and float scheduling differ.
+void CameraTail::sub_71007840E0() {
+    auto* camera = getCamera();
+    if (!camera)
+        return;
+    const act::Unk_7100922700 polar(camera->_860._0._0 - camera->_860._0._c);
+    f32 min = 0.0f;
+    f32 max = 0.0f;
+    sub_7100924CDC(*mLatMin_s, *mLatMax_s, &min, &max);
+    _b0 = sead::Mathf::clamp(polar._4, min, max);
+    _b4 = 0.0f;
+    _b8 = angleStuff(polar._4 - _b0);
+    _c0 = _c4 = 0.0f;
+    _bc = polar._8;
+    const f32 angle = *mDstAngle_s * 0.017453292f;
+    _4c = sead::Vector3f::zero;
+    _64 = sead::Vector3f::zero;
+    _70.set(0.0f, 0.0f, sead::Mathf::clampMin(_1c8, 0.1f));
+    _58 = sead::Vector3f::zero;
+    _84 = angle;
+    if (_84 < 0.0f)
+        _84 = 0.0f;
+    else if (_84 > 1.569051f)
+        _84 = 1.569051f;
+    _88 = std::tan(_84) * _70.z;
+    _7c = 0.6f;
+    _80 = 0.1f;
+    _8c = 1.0f;
+    _90 = 0.8f;
+    _f8.sub_710079C384(sub_7100784288(), 0.0f);
+    sub_710074BCB4();
 }
 
 }  // namespace uking::action
