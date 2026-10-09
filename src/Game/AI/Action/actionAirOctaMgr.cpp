@@ -2,6 +2,8 @@
 #include "Game/AI/aiUnk_7102357d20.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/Map/mapObject.h"
+#include "KingSystem/Map/mapObjectLink.h"
 
 namespace uking::action {
 
@@ -12,7 +14,14 @@ AirOctaMgr::~AirOctaMgr() {
 }
 
 bool AirOctaMgr::init_(sead::Heap* heap) {
-    return ksys::act::ai::Action::init_(heap);
+    mActor->mDrawDistanceFlags.set(2);
+    if (!mActor || !mActor->getMapObject())
+        return true;
+    auto* links = mActor->getMapObject()->getLinkData();
+    if (!links)
+        return true;
+    _60.tryAllocBuffer(links->mObjects.size(), heap);
+    return true;
 }
 
 void AirOctaMgr::enter_(ksys::act::ai::InlineParamPack* params) {

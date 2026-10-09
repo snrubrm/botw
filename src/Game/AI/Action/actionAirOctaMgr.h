@@ -64,10 +64,10 @@ protected:
     const bool* mReactHorn_m{};
 
     // The members from 0x50 follow the constructor 0x7100085354 / destructor 0x7100085618; the types of the
-    // elements of _60 (0x18 bytes, a link first) and of the members in the padding are unknown.
+    // elements of _60 follow init_ and sub_7100085C28; the members in the padding are unknown.
     struct Unk60 {
         ksys::act::BaseProcLink link;
-        u64 _10;
+        bool _10 = false;
     };
     sead::Vector3f _50 = sead::Vector3f::zero;
     sead::Buffer<Unk60> _60;
