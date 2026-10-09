@@ -30,15 +30,15 @@ void SwarmGullMove::leave_() {
 }
 
 void SwarmGullMove::loadParams_() {
-    getStaticParam(&mASName_s, "ASName");
-    getMapUnitParam(&mSubUnitNum_m, "SubUnitNum");
-    getMapUnitParam(&mCreateMaxRadius_m, "CreateMaxRadius");
-    getMapUnitParam(&mCreateMinRadius_m, "CreateMinRadius");
-    getMapUnitParam(&mCreateHeightRange_m, "CreateHeightRange");
-    getMapUnitParam(&mRoundMaxRadius_m, "RoundMaxRadius");
-    getMapUnitParam(&mRoundMinRadius_m, "RoundMinRadius");
-    getMapUnitParam(&mCrySoundIntervalMin_m, "CrySoundIntervalMin");
-    getMapUnitParam(&mCrySoundIntervalMax_m, "CrySoundIntervalMax");
+    getStaticParam(&mParams.mASName_s, "ASName");
+    getMapUnitParam(&mParams.mSubUnitNum_m, "SubUnitNum");
+    getMapUnitParam(&mParams.mCreateMaxRadius_m, "CreateMaxRadius");
+    getMapUnitParam(&mParams.mCreateMinRadius_m, "CreateMinRadius");
+    getMapUnitParam(&mParams.mCreateHeightRange_m, "CreateHeightRange");
+    getMapUnitParam(&mParams.mRoundMaxRadius_m, "RoundMaxRadius");
+    getMapUnitParam(&mParams.mRoundMinRadius_m, "RoundMinRadius");
+    getMapUnitParam(&mParams.mCrySoundIntervalMin_m, "CrySoundIntervalMin");
+    getMapUnitParam(&mParams.mCrySoundIntervalMax_m, "CrySoundIntervalMax");
 }
 
 void SwarmGullMove::calc_() {

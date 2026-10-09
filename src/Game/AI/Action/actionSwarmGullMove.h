@@ -43,24 +43,28 @@ protected:
     // 0x7100287830 (declared only; 488 B): releases the gull's resources before its object is told to stop.
     void sub_7100287830(Gull* gull);
 
-    // static_param at offset 0x20
-    sead::SafeString mASName_s{};
-    // map_unit_param at offset 0x30
-    const int* mSubUnitNum_m{};
-    // map_unit_param at offset 0x38
-    const float* mCreateMaxRadius_m{};
-    // map_unit_param at offset 0x40
-    const float* mCreateMinRadius_m{};
-    // map_unit_param at offset 0x48
-    const float* mCreateHeightRange_m{};
-    // map_unit_param at offset 0x50
-    const float* mRoundMaxRadius_m{};
-    // map_unit_param at offset 0x58
-    const float* mRoundMinRadius_m{};
-    // map_unit_param at offset 0x60
-    const float* mCrySoundIntervalMin_m{};
-    // map_unit_param at offset 0x68
-    const float* mCrySoundIntervalMax_m{};
+    struct Params {
+        // static_param at offset 0x20
+        sead::SafeString mASName_s{};
+        // map_unit_param at offset 0x30
+        const int* mSubUnitNum_m{};
+        // map_unit_param at offset 0x38
+        const float* mCreateMaxRadius_m{};
+        // map_unit_param at offset 0x40
+        const float* mCreateMinRadius_m{};
+        // map_unit_param at offset 0x48
+        const float* mCreateHeightRange_m{};
+        // map_unit_param at offset 0x50
+        const float* mRoundMaxRadius_m{};
+        // map_unit_param at offset 0x58
+        const float* mRoundMinRadius_m{};
+        // map_unit_param at offset 0x60
+        const float* mCrySoundIntervalMin_m{};
+        // map_unit_param at offset 0x68
+        const float* mCrySoundIntervalMax_m{};
+
+    };
+    Params mParams;
     struct Gull {
         ksys::act::BaseProcHandle _0;
         Unk_SwarmGullObject* _10 = nullptr;
