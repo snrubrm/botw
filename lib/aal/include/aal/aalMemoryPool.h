@@ -2,6 +2,7 @@
 
 #include <basis/seadTypes.h>
 #include <container/seadListImpl.h>
+#include <nn/audio.h>
 #include <prim/seadSafeString.h>
 
 namespace aal {
@@ -9,10 +10,11 @@ namespace aal {
 /// A block of memory that is attached to the audio hardware (through MemoryPoolManager::requestAttachMemoryPool): a
 /// name, the memory and a node for the list of the pools of the manager (0x68 bytes).
 struct MemoryPool {
-    MemoryPool() : _38(0), memory(nullptr), size(0), _50(false) {}
+    MemoryPool() : mPoolType{nullptr}, memory(nullptr), size(0), _50(false) {}
 
     sead::FixedSafeString<32> name;
-    u64 _38;
+    // Native attach/detach routines pass this exact member to the audio APIs.
+    nn::audio::MemoryPoolType mPoolType;
     void* memory;
     size_t size;
     bool _50;
