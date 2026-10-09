@@ -454,7 +454,7 @@ void ScreenMainScreen::sub_7100A1957C(s32 count) {
         static_cast<Unk_7102476db8*>(_3638)->sub_7100986480(count);
 }
 
-// 0x7100a1af60
+// 0x7100a1ac14
 void ScreenMainScreen::sub_7100A1AC14() {
     _3678.sub_710093694C();
 }
