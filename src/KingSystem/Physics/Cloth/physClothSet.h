@@ -20,6 +20,8 @@ public:
 
     // 0x7101218a90 (declared only): called by GelEnemy::m79.
     void sub_7101218A90();
+    // 0x71012189b8: updates each cloth entry's enabled flags.
+    void sub_71012189B8(bool enabled);
 
     /* 0x00 */ u8 _0[0x8];
     /* 0x08 */ void* _8;  // tested by ClothStiffnessMgr::sub_7100665A84
