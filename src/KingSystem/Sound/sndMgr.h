@@ -21,6 +21,7 @@
 #include <xlink2/xlink2HandleSLink.h>
 #include "KingSystem/ActorSystem/actBaseProcHandle.h"
 #include "KingSystem/System/DebugMessage.h"
+#include "KingSystem/Sound/sndMiiSound.h"
 
 namespace aal {
 class Shape;
@@ -472,6 +473,8 @@ static_assert(sizeof(ListenerPoser) == 0xe0);
 struct Unk_SoundMgr60 {
     u8 _0[0x28];
     u8 mSlinkResources[8];
+    u8 _30[0xe0];
+    Unk_710251b710 mMiiSoundRequests;
 };
 
 // Placeholder name: the sound instances the AreaTagAction family (Shielding / Occlusion / Reverb) get from
