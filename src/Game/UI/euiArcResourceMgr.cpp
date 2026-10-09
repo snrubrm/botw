@@ -4,6 +4,8 @@
 #include <new>
 #include <gfx/nin/seadGraphicsNvn.h>
 #include <nn/gfx/gfx_ResTexture.h>
+#include <nn/gfx/gfx_MemoryPoolInfo.h>
+#include <nn/ui2d/ArcExtractor.h>
 
 namespace eui {
 
@@ -41,6 +43,33 @@ void ArcResourceMgr::loadArchive(sead::Heap* heap, const sead::SafeString& path)
         auto* archive = new (heap, 8) ArcResource(this, name, resource->getRawData());
         mArchives.pushBack(archive);
     }
+}
+
+// NON_MATCHING: local object stack placement and memory-pool pointer reloads differ.
+ArcResourceMgr::ArcResource::ArcResource(ArcResourceMgr* mgr, const sead::SafeString& name,
+                                       void* data)
+    : mMgr(mgr), mName(name), mData(static_cast<u8*>(data)), mTextureResource(nullptr) {
+    nn::ui2d::ArcExtractor archive(data);
+    nn::ui2d::ArcFileInfo info{};
+    const s32 entry = archive.ConvertPathToEntryId("timg/__Combined.bntx");
+    if (entry < 0)
+        return;
+    const void* texture_data = archive.GetFileFast(&info, entry);
+    if (!texture_data || info.size == 0)
+        return;
+    mTextureResource = nn::gfx::ResTextureFile::ResCast(const_cast<void*>(texture_data));
+    auto& texture = mTextureResource->ToData().textureContainerData;
+    auto* pool = texture.pTextureMemoryPool.Get();
+    if (pool->ToData()->state != 0)
+        return;
+    auto* device = sead::GraphicsNvn::instance()->getNnDevice();
+    nn::gfx::MemoryPoolInfo pool_info;
+    pool_info.SetMemoryPoolProperty(33);
+    auto* block = texture.pTextureData.Get();
+    pool_info.SetPoolMemory(block + 1, block->GetBlockSize() - sizeof(*block));
+    pool->Initialize(device, pool_info);
+    texture.pCurrentMemoryPool.Set(pool);
+    texture.memoryPoolOffsetBase = 0;
 }
 
 ArcResourceMgr::ArcResource::~ArcResource() {

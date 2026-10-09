@@ -16,8 +16,13 @@ public:
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
+    void calc_() override;
     void loadParams_() override;
     void sub_71005FD0AC();
+    // Native enter/calc call these same-owner helpers with only this.
+    void sub_71005FC9C0();
+    void sub_71005FCB74();
+    void sub_71005FD564();
     // 0x71005fd24c: two by-value Vector3f arguments are passed in s0-s5.
     bool sub_71005FD24C(sead::Vector3f* hit_position, sead::Vector3f start, sead::Vector3f end);
 
@@ -45,11 +50,10 @@ protected:
     // aitree_variable at offset 0x90
     bool* mIsWizzrobeInBattleAreaFlag_a{};
     u8 _98[0xb0 - 0x98];
-    f32 _b0 = 0;
-    f32 _b4 = 0;
-    f32 _b8 = 0;
-    u32 _bc = 0;
-    u32 _c0 = 0;
+    // Native 5FCB74 stores the actor position here; calc compares the saved position.
+    sead::Vector3f mStartPosition{0, 0, 0};
+    s32 _bc = 0;
+    s32 _c0 = 0;
     u32 _c4 = 0;
     bool _c8 = false;
 };
