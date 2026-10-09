@@ -76,9 +76,6 @@ void ForkASTrgRemainsHowl::enter_(ksys::act::ai::InlineParamPack* params) {
     sub_7100143180();
 }
 
-// NON_MATCHING: one vtable slot — the original calls ModelUnit slot 0x70, ours resolves
-// safeGetBoneWorldMatrix to slot 0x80 (gsysModelUnit.h carries two extra virtuals before it;
-// libwork request in lane3-log session 52). Everything else matches.
 void ForkASTrgRemainsHowl::sub_7100143180() {
     ksys::act::acc::Camera accessor;
     sub_710092DAE8(&accessor);
@@ -94,7 +91,7 @@ void ForkASTrgRemainsHowl::sub_7100143180() {
         if (key.isValid()) {
             sead::Matrix34f bone_mtx;
             model->getUnits()(key.model_unit_index)
-                ->mModelUnit->safeGetBoneWorldMatrix(&bone_mtx, key.bone_index);
+                ->mModelUnit->getBoneWorldMatrix(&bone_mtx, key.bone_index);
             pos.x = bone_mtx(0, 3);
             pos.y = bone_mtx(1, 3);
             pos.z = bone_mtx(2, 3);
