@@ -1126,4 +1126,14 @@ void InstanceSet::sub_7100FC01B0() {
     }
 }
 
+// NON_MATCHING: support-bone pointer load order and branch/register allocation.
+void InstanceSet::sub_7100FBA508() {
+    const bool ragdoll_active = mRagdollInstance &&
+        mRagdollInstance->getWorldState() == RagdollInstance::WorldState::AddedToWorld;
+    if ((_e8 || ragdoll_active) && _f0) {
+        _f0->copyModelPoseToHavok(ragdoll_active ? ModelBoneAccessor::EnableScale::No :
+                                                ModelBoneAccessor::EnableScale::Yes);
+    }
+}
+
 }  // namespace ksys::phys
