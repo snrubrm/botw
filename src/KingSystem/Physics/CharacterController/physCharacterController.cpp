@@ -1137,6 +1137,10 @@ CharacterControllerRigidBody::CharacterControllerRigidBody(CharacterController* 
 
 CharacterControllerRigidBody::~CharacterControllerRigidBody() = default;
 
+void CharacterControllerRigidBody::sub_7100F6391C(UserTag::Unk5* arg) {
+    mController->sub_7100F62790(arg);
+}
+
 u32 CharacterControllerRigidBody::getCollisionMasks(CollisionMasks* masks, const u32* shape_key,
                                                    const sead::Vector3f& contact_point) {
     masks->ignored_layers = ~mContactMask.getDirect();

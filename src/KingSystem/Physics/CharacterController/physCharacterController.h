@@ -11,6 +11,7 @@
 #include "Havok/Physics2012/Utilities/CharacterControl/StateMachine/hkpCharacterState.h"
 #include "Havok/Physics2012/Utilities/CharacterControl/StateMachine/hkpCharacterStateManager.h"
 #include "KingSystem/Physics/physDefines.h"
+#include "KingSystem/Physics/System/physUserTag.h"
 #include "KingSystem/Utils/Types.h"
 
 namespace ksys::act {
@@ -116,6 +117,9 @@ public:
     void enableContactLayer(ContactLayer);
     void disableContactLayer(ContactLayer);
     void sub_7100F605F0();
+    // RigidBodyRequestMgr FA7CA4 builds this collision record and dispatches it
+    // through CharacterControllerRigidBody F6391C; F62790 passes it to UserTag::m5.
+    void sub_7100F62790(UserTag::Unk5* arg);
     // 0x7100f63604: sets the collision info of every body of _288 (if _114 has 0x2000).
     void sub_7100F63604(CollisionInfo* info);
     // 0x7100f6367c: the collision info of the first body of _288 (null without 0x2000 / a body).

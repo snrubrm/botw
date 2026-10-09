@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/System/physUserTag.h"
 
 namespace ksys::phys {
 
@@ -12,6 +13,8 @@ public:
     CharacterControllerRigidBody(CharacterController* controller, hkpRigidBody* body,
                                  sead::Heap* heap, const sead::SafeString& name);
     ~CharacterControllerRigidBody() override;
+
+    void sub_7100F6391C(UserTag::Unk5* arg);
 
     float getVolume() override;
     bool setTimeFactor(float value) override;
