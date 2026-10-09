@@ -6,6 +6,8 @@
 #include <prim/seadSafeString.h>
 #include "KingSystem/Utils/Types.h"
 
+class Unk_710245a578;
+
 namespace uking {
 
 void createTitleStageBinder(bool a1, bool a2);
@@ -95,6 +97,9 @@ public:
     virtual const sead::SafeString& m10() = 0;
     virtual s32 m11() = 0;
     virtual bool m12() = 0;
+
+    // 0x71007cbc5c: constructs the request consumed by the supplied factory.
+    Stage* createStage(Unk_710245a578* arg);
 
     // 0x71007cbcb8: deletes the stage (if any).
     void destroyStage();
