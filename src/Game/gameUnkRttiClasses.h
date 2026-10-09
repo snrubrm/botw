@@ -400,4 +400,21 @@ class Unk_71024f9e28 : public ksys::util::TaskData {
     SEAD_RTTI_OVERRIDE(Unk_71024f9e28, ksys::util::TaskData)
 public:
     ~Unk_71024f9e28() override;
+
+    // FE85E8 initializes this whole 0x80-byte data; FE86BC copies request fields here.
+    u32 _8 = 0x01000001;
+    bool _c = false;
+    void* _10 = nullptr;
+    void* _18 = nullptr;
+    void* _20 = nullptr;
+    sead::SafeString _28;
+    u32 _38 = 0;
+    sead::SafeString _40;
+    u32 _50 = 0;
+    void* _58 = nullptr;
+    void* _60 = nullptr;
+    void* _68 = nullptr;
+    sead::SafeString _70;
 };
+
+KSYS_CHECK_SIZE_NX150(Unk_71024f9e28, 0x80);

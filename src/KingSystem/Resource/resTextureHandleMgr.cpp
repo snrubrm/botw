@@ -12,10 +12,28 @@
 #include "KingSystem/Resource/resSystem.h"
 #include "KingSystem/Utils/Thread/Task.h"
 #include "KingSystem/Utils/Thread/TaskThread.h"
+#include "KingSystem/Utils/Thread/ManagedTask.h"
 
 Unk_71024f9bb8::~Unk_71024f9bb8() = default;
 
 namespace ksys::res {
+
+// FE2890 allocates 0x140 bytes; FE85E8 constructs ManagedTask and the 0x80-byte data.
+class Unk_71024f9da0 : public util::ManagedTask {
+    SEAD_RTTI_OVERRIDE(Unk_71024f9da0, util::ManagedTask)
+public:
+    explicit Unk_71024f9da0(sead::Heap* heap);
+    ~Unk_71024f9da0() override;
+
+protected:
+    void prepareImpl_(util::TaskRequest* request) override;
+
+    ::Unk_71024f9e28 mData;
+};
+KSYS_CHECK_SIZE_NX150(Unk_71024f9da0, 0x140);
+
+// NON_MATCHING: the existing task-data destructor is called out of line.
+Unk_71024f9da0::~Unk_71024f9da0() = default;
 
 Unk_71024f9a70::Unk_71024f9a70() = default;
 
