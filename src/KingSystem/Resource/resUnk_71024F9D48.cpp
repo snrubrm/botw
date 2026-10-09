@@ -6,6 +6,13 @@
 
 namespace ksys::res {
 
+// FE852C receives the fallback ResTexture from TextureHandleMgr::xx; FE83EC consumes it.
+nn::gfx::ResTexture* sUnk_710260EAD0;
+
+void sub_7100FE852C(nn::gfx::ResTexture* texture) {
+    sUnk_710260EAD0 = texture;
+}
+
 Unk_71024f9d68::Unk_71024f9d68() : _8(u64(-1)), _10(-1) {}
 
 Unk_71024f9d68::~Unk_71024f9d68() = default;
@@ -52,12 +59,20 @@ u32 Unk_71024F9D48::sub_7100FE8330() {
     return _1c;
 }
 
-void Unk_71024F9D48::sub_7100FE8414(void* resource) {
+nn::gfx::ResTexture* Unk_71024F9D48::sub_7100FE83EC() {
+    if (!_20)
+        return sUnk_710260EAD0;
+    if (_28)
+        return sub_7100FE0F8C(_28);
+    return nullptr;
+}
+
+void Unk_71024F9D48::sub_7100FE8414(Unk_71024f9a08* resource) {
     _28 = resource;
     _18.set(1);
 }
 
-void Unk_71024F9D48::sub_7100FE8474(void* resource, u32 status) {
+void Unk_71024F9D48::sub_7100FE8474(Unk_71024f9a08* resource, u32 status) {
     _28 = resource;
     _1c = status;
     _18.set(1);
