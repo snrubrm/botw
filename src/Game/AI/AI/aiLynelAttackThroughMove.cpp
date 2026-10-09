@@ -61,11 +61,10 @@ void LynelAttackThroughMove::sub_710048BF14() {
     changeChild("近づき", &pack);
 }
 
-// NON_MATCHING: the original loads the actor position before the target position and stores the y component of
-// the direction last (load / store order only).
 bool LynelAttackThroughMove::sub_710048C58C(const sead::Vector3f& target) {
-    sead::Vector3f to_target(target.x - mActor->getMtx().m[0][3], 0.0f,
-                             target.z - mActor->getMtx().m[2][3]);
+    const sead::Vector3f position = mActor->getMtx().getTranslation();
+    sead::Vector3f to_target = target - position;
+    to_target.y = 0.0f;
     const f32 dist = to_target.normalize();
     sead::Vector3f forward;
     mActor->getMtx().getBase(forward, 2);
