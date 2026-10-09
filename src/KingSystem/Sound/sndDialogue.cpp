@@ -1,6 +1,11 @@
 #include "KingSystem/Sound/sndMgr.h"
+#include <xlink2/xlink2UserInstanceSLink.h>
 
 namespace ksys::snd {
+
+xlink2::HandleSLink Unk_710104e5b4::sub_710104F30C(const sead::SafeString& label) {
+    return _28->searchAndEmit(label.cstr());
+}
 
 extern const f32 sUnk_7102502518[2];
 

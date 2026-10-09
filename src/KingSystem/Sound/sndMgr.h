@@ -408,6 +408,7 @@ public:
     void sub_710104FD4C();
     void sub_710104FD38(const xlink2::HandleSLink& handle);
     void sub_710104EA7C();
+    xlink2::HandleSLink sub_710104F30C(const sead::SafeString& label);
 
     u8 _0[0x28];
     // The SLink user instance the sound triggers (SoundTrigger / SoundTriggerFadeAction) fall back to.
