@@ -6,6 +6,8 @@
 #include <math/seadVector.h>
 #include "KingSystem/Utils/MathUtil.h"
 #include "KingSystem/Utils/Types.h"
+#include "KingSystem/ActorSystem/actBaseProcLink.h"
+#include <prim/seadSafeString.h>
 
 // Camera utility code (0x71009212d0-0x710092e000): camera states, angle and polar-coordinate
 // helpers, camera parameters and player-state queries used by the camera actor and the camera
@@ -280,6 +282,37 @@ f32 sub_7100923E2C();
 bool sub_710092732C();
 
 namespace uking::act {
+
+class Camera;
+
+// Native 0x90-byte camera target record, constructed by 9241AC and resolved by 9242AC.
+struct Unk_71009241ac {
+    struct Params {
+        s32* selector = nullptr;
+        sead::SafeString actorName;
+        sead::SafeString uniqueName;
+    };
+
+    Unk_71009241ac();
+    void sub_7100924238(const Params& params);
+    void sub_71009242AC(Camera* camera);
+    void sub_710092464C();
+
+    s32 selector;
+    sead::SafeString actorName;
+    sead::SafeString uniqueName;
+    sead::Matrix34f matrix;
+    sead::Vector3f previousPos;
+    sead::Vector3f position;
+    ksys::act::BaseProcLink link;
+    // 9243FC produces the index via findLinkReferenceObj(int*); 9240C0 reuses it.
+    s32 linkIndex;
+    // -1 on construction/reset, 1 for actor links, 2 for map reference links.
+    s32 linkKind;
+    u32 status;
+};
+KSYS_CHECK_SIZE_NX150(Unk_71009241ac, 0x90);
+KSYS_CHECK_SIZE_NX150(Unk_71009241ac::Params, 0x28);
 
 // Placeholder name (out-of-line ctor 0x71009214b8, in the camera utility code): a camera state
 // (position, look-at, up and four parameters). Camera embeds many of them (Camera::_860 starts with

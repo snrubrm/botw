@@ -7,14 +7,7 @@
 
 namespace uking::action {
 
-// Placeholder for the 0x90-byte elements at CameraEventMultiTalk + 0xb0 (constructed by 0x71009241ac, three of them
-// are cleared with one memset of 0x1b0 bytes); the destructor resets the link at +0x70.
-struct Unk_CameraEventMultiTalkElem {
-    u8 _0[0x70];
-    ksys::act::BaseProcLink mLink;
-    u8 _80[0x10];
-};
-static_assert(sizeof(Unk_CameraEventMultiTalkElem) == 0x90);
+using Unk_CameraEventMultiTalkElem = act::Unk_71009241ac;
 
 class CameraEventMultiTalk : public CameraEvent {
     SEAD_RTTI_OVERRIDE(CameraEventMultiTalk, CameraEvent)
@@ -23,15 +16,44 @@ public:
     ~CameraEventMultiTalk() override;
 
 protected:
+    void m43() override;
+    void m44() override;
     void m45() override;
+    void m46() override;
+    void sub_7100765C78();
+    void sub_7100765D60();
+    void sub_7100765E84();
+    void sub_7100765FA8();
 
-    // The members from 0x4c to 0x90 (Vector3f copies at 0x4c / 0x60 / 0x6c, zeroes at 0x58 / 0x78 / 0x80 / 0x88) and
-    // from 0x260 to 0x328 (pointers and SafeStrings of the params) are not modelled yet (see the constructor
-    // 0x7100765618).
-    u8 _4c[0x90 - 0x4c];
+    sead::Vector3f _4c = sead::Vector3f::zero;
+    f32 _58 = 0.0f;
+    f32 _5c = 0.0f;
+    sead::Vector3f _60 = sead::Vector3f::zero;
+    sead::Vector3f _6c = sead::Vector3f::zero;
+    f32 _78 = 0.0f;
+    f32 _7c = 0.0f;
+    f32 _80 = 0.0f;
+    f32 _84 = 0.0f;
+    f32 _88 = 0.0f;
     uking::act::Unk_7102459dd8 _90;
     Unk_CameraEventMultiTalkElem _b0[3];
-    u8 _260[0x330 - 0x260];
+    s32 _260 = 0;
+    const f32* mLatMin_s = nullptr;
+    const f32* mLatMax_s = nullptr;
+    const f32* mLatStickScale_s = nullptr;
+    const f32* mLngStickScale_s = nullptr;
+    const f32* mRadiusOffset_s = nullptr;
+    const f32* mConnect_s = nullptr;
+    f32* mFovy_d = nullptr;
+    act::Unk_71009241ac::Params mTargets_d[3];
+    f32 _318 = 0.0f;
+    f32 _31c = 0.0f;
+    f32 _320 = 0.0f;
+    f32 _324 = 0.0f;
+    f32 _328 = 0.0f;
+    sead::BitFlag8 _32c;
 };
+
+KSYS_CHECK_SIZE_NX150(CameraEventMultiTalk, 0x330);
 
 }  // namespace uking::action
