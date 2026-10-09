@@ -11,7 +11,6 @@ namespace ksys::res {
 
 // CSV name; vtable 0x710247eae0, constructor 0x71009ccff8.
 class ResourceJpg : public Resource {
-    // NON_MATCHING: the inherited Resource RTTI check is inlined rather than the original tail call.
     SEAD_RTTI_OVERRIDE(ResourceJpg, Resource)
 public:
     ResourceJpg();

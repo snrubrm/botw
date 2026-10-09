@@ -1,6 +1,7 @@
 #include "KingSystem/Resource/resEntryFactory.h"
 #include "KingSystem/Resource/resUnk_71024F97F8.h"
 #include "KingSystem/Resource/resUnk_71024F9898.h"
+#include "KingSystem/Resource/resUnk_710251A740.h"
 #include "KingSystem/Resource/resResourceJpg.h"
 #include "KingSystem/Resource/resBfRes.h"
 #include "KingSystem/Resource/resResourceGameSaveData.h"
@@ -21,6 +22,8 @@ template class EntryFactory<Unk_71024F97F8>;
 template class EntryFactory<Unk_71024F9898>;
 template class EntryFactory<ResourceJpg>;
 template class EntryFactory<GameSaveData>;
+// Native factory 0x71024F9B38 constructs this resource in 0x7100FE22F0.
+template class EntryFactory<Unk_710251A740>;
 
 template <>
 u32 EntryFactory<BfRes>::getLoadDataAlignment() const {

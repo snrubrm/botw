@@ -23,6 +23,9 @@ public:
         return getRuntimeTypeInfoStatic();
     }
 
+    // Native factory alignment getter 0x7100FE2390 returns 4.
+    static constexpr size_t cLoadDataAlignment = 4;
+
     Unk_710251A740();
     ~Unk_710251A740() override;
     bool needsParse() const override;
