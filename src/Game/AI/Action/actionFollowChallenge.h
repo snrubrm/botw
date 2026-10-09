@@ -22,6 +22,8 @@ protected:
     // Native table 235BD60 ends with this bool slot; DragonFollow calls it virtually.
     virtual bool m32();
     void sub_710004D9A4();
+    // Complete native geometry update receives one of this action's paired handles.
+    void sub_710004D9FC(Unk_71012419b4* handle);
     void sub_710004DFF4();
     void sub_710004E754();
     bool sub_710004F8A4();
@@ -43,7 +45,13 @@ protected:
     };
     static_assert(sizeof(EffectEntry) == 0x30);
     EffectEntry mEffects[19];
-    u8 _3d8[0x4b8 - 0x3d8];
+    Unk_71012419b4 _3d8;
+    Unk_71012419b4 _3f8;
+    Unk_71012419b4 _418;
+    Unk_71012419b4 _438;
+    Unk_71012419b4 _458;
+    Unk_71012419b4 _478;
+    Unk_71012419b4 _498;
     bool _4b8 = false;
     bool _4b9 = false;
     bool _4ba;
@@ -51,7 +59,9 @@ protected:
     f32 _4bc;
     u8 _4c0[0x4c8 - 0x4c0];
     f32 _4c8;
-    u8 _4cc[0xab0 - 0x4cc];
+    sead::Vector3f _4cc;
+    // Native 4D2CC constructs 17 strings; enter_ assigns each through its virtual string slot.
+    sead::FixedSafeString<64> _4d8[17];
 };
 
 }  // namespace uking::action
