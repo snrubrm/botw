@@ -6,6 +6,7 @@
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
 #include "KingSystem/Physics/System/physHavokAI.h"
 #include "KingSystem/Mii/miiHylianInfo.h"
+#include "KingSystem/Mii/miiUMii.h"
 #include "Game/gameEventMgr1.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/System/VFR.h"
@@ -1117,6 +1118,48 @@ void Actor::sub_71011C75D4() {
         _4f8 = 1.0f;
     else
         _4f8 = 10.0f;
+}
+
+void Actor::x_42(bool flag, bool reset_bones) {
+    m114(flag, reset_bones);
+    auto* as_list = sub_71011C9A88();
+    if (as_list) {
+        as_list->sub_710115C634(mSpecialJobTypesMaskOverride.isOnBit(0));
+        as_list->sub_710115C6F0();
+    }
+    m115();
+    if (as_list)
+        as_list->sub_710115C7A8(false);
+    if (mPhysics) {
+        mPhysics->sub_7100FBA7BC(!flag, _598);
+        if (_598) {
+            const bool active = _598->mFlags8.isOn(6);
+            reset_bones |= mActorFlags.isOnBit(ActorFlag::_d) && !active;
+            mActorFlags.changeBit(ActorFlag::_d, active);
+        }
+        mPhysics->sub_7100FBBEC0();
+    }
+    if (as_list && mModel) {
+        if (reset_bones) {
+            auto* unit = mModel->getUnits().unsafeAt(0)->mModelUnit;
+            if (unit)
+                unit->clearBoneLocalMatrix();
+        }
+        if (mActorFlags.isOnBit(ActorFlag::_8) &&
+            *mUMii->getBody().race == mii::UMii::Body::Race_Hylian) {
+            auto* unit = mModel->getUnits().unsafeAt(0)->mModelUnit;
+            if (unit)
+                unit->clearBoneLocalMatrix();
+            if (mUMiiHylianInfo) {
+                mUMiiHylianInfo->sub_71012A5418(as_list);
+                if (mModel->getAnimation())
+                    mUMiiHylianInfo->sub_71012A56FC(mModel->getAnimation());
+            }
+        }
+        as_list->sub_710115C8D8(flag, false);
+        // 11C77DC reloads this relaxed atomic flags word after the AS-list update.
+        mActorFlags.getWord(ActorFlag::_8).load();
+    }
 }
 
 void Actor::setVelocity(const sead::Vector3f* vel, const sead::Vector3f* ang_vel) {

@@ -176,6 +176,7 @@ public:
         _8 = 0x8,
         _9 = 0x9,
         _a = 0xa,
+        _d = 0xd,
         _e = 0xe,
         _f = 0xf,
         _10 = 0x10,
@@ -722,6 +723,8 @@ public:
     // 0x71011c75d4 (placeholder name): with ActorSystem::_139 set, _4f8 = 1 if the actor has a character controller or
     // m31() returns an actor, else 10.
     void sub_71011C75D4();
+    // 0x71011c7638: updates AS, physics LOD state and the model's local animation state.
+    void x_42(bool flag, bool reset_bones);
     // 0x71011db1e4 / 0x71011db280 (placeholder names): the Grab param SlotNNode name of `slot` (0-5) / the bone name
     // of the last spine node of the BoneControl resource (empty string without them).
     const sead::SafeString& sub_71011DB1E4(int slot);
