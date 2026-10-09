@@ -160,6 +160,61 @@ bool Unk_7100f7e9f0::sub_7100F7EB40() const {
     return _0 && _8 != -1;
 }
 
+// NON_MATCHING: face/edge selection, loop induction and vector store scheduling differ.
+bool Unk_7100f7e9f0::sub_7100F7EB60(sead::Vector3f* position_out) const {
+    if (!_0 || _8 == -1)
+        return false;
+    auto* instance = _0->m_instances[u32(_8) >> 22].m_instancePtr;
+    if (!instance)
+        return false;
+    const s32 face_index = _8 & 0x3fffff;
+    const hkaiNavMesh::Face* face;
+    if (face_index >= instance->m_originalFaces.m_size) {
+        face = &instance->m_ownedFaces[face_index - instance->m_originalFaces.m_size];
+    } else if (instance->m_faceMap.isEmpty()) {
+        face = &instance->m_instancedFaces[face_index];
+    } else {
+        const s32 mapped_index = instance->m_faceMap[face_index];
+        if (mapped_index == -1)
+            face = &instance->m_originalFaces.m_data[face_index];
+        else
+            face = &instance->m_instancedFaces[mapped_index];
+    }
+    hkVector4 sum;
+    sum.setZero();
+    for (s32 edge_index = face->m_startEdgeIndex;
+         edge_index < face->m_startEdgeIndex + face->m_numEdges; ++edge_index) {
+        const hkaiNavMesh::Edge* edge;
+        if (edge_index >= instance->m_originalEdges.m_size) {
+            edge = &instance->m_ownedEdges[edge_index - instance->m_originalEdges.m_size];
+        } else if (instance->m_edgeMap.isEmpty()) {
+            edge = &instance->m_instancedEdges[edge_index];
+        } else {
+            const s32 mapped_index = instance->m_edgeMap[edge_index];
+            if (mapped_index == -1)
+                edge = &instance->m_originalEdges.m_data[edge_index];
+            else
+                edge = &instance->m_instancedEdges[mapped_index];
+        }
+        const hkVector4& vertex_a = edge->m_a < instance->m_originalVertices.m_size ?
+                                       instance->m_originalVertices.m_data[edge->m_a] :
+                                       instance->m_ownedVertices[edge->m_a - instance->m_originalVertices.m_size];
+        const hkVector4& vertex_b = edge->m_b < instance->m_originalVertices.m_size ?
+                                       instance->m_originalVertices.m_data[edge->m_b] :
+                                       instance->m_ownedVertices[edge->m_b - instance->m_originalVertices.m_size];
+        hkVector4 world_a;
+        hkVector4 world_b;
+        world_a._setTransformedPos(instance->m_referenceFrame.m_transform, vertex_a);
+        world_b._setTransformedPos(instance->m_referenceFrame.m_transform, vertex_b);
+        if (edge_index == face->m_startEdgeIndex)
+            sum.add(world_a);
+        sum.add(world_b);
+    }
+    sum.store<3>(position_out->e.data());
+    *position_out *= 1.0f / (face->m_numEdges + 1);
+    return true;
+}
+
 f32 Unk_7100f7e9f0::sub_7100F7ED6C(sead::Vector3f* normal_out) const {
     auto* instance = _0->m_instances[u32(_8) >> 22].m_instancePtr;
     if (!instance)

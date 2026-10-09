@@ -35,6 +35,8 @@ public:
     ~Unk_7100f7e9f0();
 
     bool sub_7100F7EB40() const;
+    // Complete 0x7100f7eb60 and callers 0x71005e11ac/0x71002c071c establish world-position output.
+    bool sub_7100F7EB60(sead::Vector3f* position_out) const;
     // 0x7100f7ed6c returns the packed face's area and optionally writes its world normal.
     f32 sub_7100F7ED6C(sead::Vector3f* normal_out) const;
     // 0x7100f7eee4 (declared only): compared with 5 by PriestBossMove::m35.
