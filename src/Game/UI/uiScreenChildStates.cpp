@@ -23,6 +23,11 @@ namespace uking::ui {
 // 0x71009a4330
 Unk_7102479838::Unk_7102479838(eui::LayoutEx* layout) : Unk_71024746d0(layout) {}
 
+// 0x71009b30ec
+void Unk_710247ae48::m7() {
+    sub_71009B30F0();
+}
+
 // 0x71009cbe38
 void Unk_71009cb0c8::sub_71009CBE38() {
     if (mApplied)

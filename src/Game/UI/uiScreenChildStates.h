@@ -253,6 +253,7 @@ public:
     void m13() override;
     void m15(eui::AnimButton* button) override;
     void m19(eui::AnimButton* button) override;
+    void sub_71009B30F0();
 
     /* 0x48 */ void* _48{};
     /* 0x50 */ void* _50{};
