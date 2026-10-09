@@ -9,10 +9,21 @@
 
 namespace ksys::act {
 
+SEAD_SINGLETON_DISPOSER_IMPL(ActorPreLoadMgr)
+
 // NON_MATCHING: instruction scheduling differs while constructing the second fixed pool.
 ActorPreLoadMgr::ActorPreLoadMgr()
     : mTaskDelegate(this, &ActorPreLoadMgr::invoked1),
       mPostRunCallback(this, &ActorPreLoadMgr::invoked2) {}
+
+ActorPreLoadMgr::~ActorPreLoadMgr() {
+    for (auto& task : mTasks) {
+        if (task.mState != 0 && task.mRefCount != 0) {
+            task.mRefCount = 0;
+            task.sub_7100D59608();
+        }
+    }
+}
 
 // NON_MATCHING: the task constructor is outlined instead of the native resource-array constructor.
 ActorPreLoadTask* ActorPreLoadMgr::makeTaskMaybe() {
