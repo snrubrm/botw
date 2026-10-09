@@ -12,6 +12,8 @@
 #include <thread/seadCriticalSection.h>
 #include "KingSystem/Utils/Types.h"
 
+class hkaiStreamingCollection;
+
 namespace ksys::phys {
 
 class HavokAI;
@@ -23,13 +25,16 @@ class Unk_7100f7e9f0Event;
 class Unk_7100f7e9f0 {
 public:
     Unk_7100f7e9f0();
+    // 0x7100f87760 passes hkaiWorld +0x20, the packed face key and its event.
+    Unk_7100f7e9f0(hkaiStreamingCollection* collection, s32 key, Unk_7100f7e9f0Event* event);
+    Unk_7100f7e9f0& operator=(const Unk_7100f7e9f0& other);
     ~Unk_7100f7e9f0();
 
     bool sub_7100F7EB40() const;
     // 0x7100f7eee4 (declared only): compared with 5 by PriestBossMove::m35.
     s32 sub_7100F7EEE4() const;
 
-    /* 0x00 */ void* _0;
+    /* 0x00 */ hkaiStreamingCollection* _0;
     /* 0x08 */ s32 _8;
     /* 0x10 */ Unk_7100f7e9f0Event* _10;
 };
