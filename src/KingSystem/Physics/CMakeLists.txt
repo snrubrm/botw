@@ -23,6 +23,7 @@ target_sources(uking PRIVATE
     Constraint/physPulleyCs.h
     Constraint/physRackAndPinionCs.cpp
     Constraint/physRackAndPinionCs.h
+    Constraint/physUnk_71024f6640.h
     Constraint/physConstraintBreakable.cpp
     Constraint/physConstraint.h
 
