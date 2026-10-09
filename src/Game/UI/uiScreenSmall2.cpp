@@ -433,6 +433,20 @@ void ScreenMainScreen::sub_7100A1958C() {
     _3cc8 = 0;
 }
 
+// 0x7100a1e214
+bool ScreenMainScreen::sub_7100A1E214(const ksys::qst::Quest* quest) {
+    if (_3cb0)
+        _3cb0->Stop(0.0f);
+    if (_3cc0) {
+        if (_3cc8)
+            _3cc0->StopAtMax();
+        else
+            _3cc0->StopAtMin();
+    }
+    _3cc8 = 0;
+    return sub_7100A1E28C(quest);
+}
+
 // 0x7100a1e28c
 bool ScreenMainScreen::sub_7100A1E28C(const ksys::qst::Quest* quest) {
     if (!quest || !_3ca8)

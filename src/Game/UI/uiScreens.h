@@ -865,6 +865,7 @@ public:
     void sub_7100A1A518(s64 a1, bool a2);
     void sub_7100A1958C();
     bool sub_7100A1E28C(const ksys::qst::Quest* quest);
+    bool sub_7100A1E214(const ksys::qst::Quest* quest);
     // 0x7100a1e454: updates the quest category message and animation.
     void sub_7100A1E454(const ksys::qst::Quest* quest);
     bool sub_7100A1E1E0();
