@@ -51,7 +51,7 @@ void FixedMagneSliderBlock::m34(ksys::act::ActorConstDataAccess& accessor, f32 d
                          target_position.y * inverse.m[2][1] +
                          target_position.z * inverse.m[2][2]);
     sead::Vector3f z_axis = sead::Vector3f::ez;
-    if (!(local_z <= 0.0f))
+    if (local_z > 0.0f)
         z_axis = -z_axis;
     sead::Matrix34f actor_frame;
     actor_frame.setBase(0, sead::Vector3f::ex);

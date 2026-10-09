@@ -41,7 +41,7 @@ void Unk_71024ef4e8::sub_7100EB4814(int type, int a2, f32 f) {
         value = 1.0f;
     } else {
         value = _1c8->_24;
-        if (!(f <= 0.0f)) {
+        if (f > 0.0f) {
             change = -((_1c8->_20 - value) / f);
             value = _1c8->_20;
         }
