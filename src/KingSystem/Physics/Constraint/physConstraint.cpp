@@ -86,6 +86,38 @@ void Constraint::sub_7100F6A1D8() {
         sub_7100F6A6F8(true, true);
 }
 
+// NON_MATCHING: request-manager argument loads and the shared return block are reordered.
+void Constraint::sub_7100F6A6F8(bool activate, bool replace_body) {
+    _52 &= ~8;
+    mPendingBodies[1] = nullptr;
+    if ((_50 & 1) && mConstraintInstance->getOwner()) {
+        System::instance()->lockWorld(ContactLayerType::Entity);
+        _a8.lock();
+        if (activate) {
+            if (mCurrentBodies[0])
+                mCurrentBodies[0]->getHkBody()->activate();
+            if (mCurrentBodies[1])
+                mCurrentBodies[1]->getHkBody()->activate();
+        }
+        System::instance()->getRigidBodyRequestMgr()->removeConstraintFromWorld(mConstraintInstance);
+        if (_20)
+            System::instance()->sub_7101216AB0(_20);
+        _50 = (_50 & ~9) | 8;
+        _a8.unlock();
+        System::instance()->unlockWorld(ContactLayerType::Entity);
+    } else if (replace_body && mCurrentBodies[1] != System::instance()->get190()) {
+        const bool added = _50 & 1;
+        if (added)
+            System::instance()->lockWorld(ContactLayerType::Entity);
+        _a8.lock();
+        if (mCurrentBodies[1])
+            sub_7100F6A300(mCurrentBodies[1], System::instance()->get190());
+        _a8.unlock();
+        if (added)
+            System::instance()->unlockWorld(ContactLayerType::Entity);
+    }
+}
+
 void Constraint::sub_7100F6A21C() {
     sub_7100F6A6F8(true, true);
 }
