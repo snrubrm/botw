@@ -1,6 +1,7 @@
 #pragma once
 
 #include <container/seadBuffer.h>
+#include <container/seadTList.h>
 #include <gsys/gsysModelAccessKey.h>
 #include <limits>
 #include <prim/seadBitFlag.h>
@@ -13,7 +14,8 @@
 // (global namespace, like the other Unk_<vtable> helpers)
 // Placeholder name (vtable 0x710243c250, ctor 0x710066e07c, D2 0x710066e0ec). Guardian::_1908
 // (onPreDeleteStart_ forwards to 0x710066e15c on it).
-class Unk_710243c250 {
+// The null-preserving node conversions in 66E548 and 66E710 prove a TListNode base.
+class Unk_710243c250 : public sead::TListNode<Unk_710243c250*> {
 public:
     explicit Unk_710243c250(ksys::act::Actor* owner);
     virtual ~Unk_710243c250();
@@ -24,10 +26,6 @@ public:
     // 0x710066e134: Guardian prepareInit_ passes its s32 controller type and one flag bit.
     void sub_710066E134(s32 controller_type, bool enabled);
 
-    /* 0x08 */ void* _8 = nullptr;
-    /* 0x10 */ void* _10 = nullptr;
-    /* 0x18 */ Unk_710243c250* _18 = this;
-    /* 0x20 */ void* _20 = nullptr;
     /* 0x28 */ ksys::act::BaseProcLink _28;
     /* 0x38 */ f32 _38 = std::numeric_limits<f32>::max();
     /* 0x3c */ u32 _3c;

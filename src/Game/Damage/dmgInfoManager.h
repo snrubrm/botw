@@ -6,6 +6,7 @@
 #include <heap/seadDisposer.h>
 #include <mc/seadJobQueue.h>
 #include <thread/seadReadWriteLock.h>
+#include "Game/Actor/actGuardianRegistry.h"
 #include "Game/Damage/dmgClothStiffnessMgr.h"
 #include "Game/Damage/dmgUnk_7100671794.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
@@ -175,7 +176,9 @@ private:
     /* 0x05d0 */ DamageReactionTable mReactionTable;
     /* 0x0630 */ u8 TEMP_630[0x790 - 0x630];
     /* 0x0790 */ Unk790 _790;
-    /* 0x0868 */ u8 TEMP_868[0xd00 - 0x868];
+    /* 0x0868 */ u8 TEMP_868[0xb90 - 0x868];
+    /* 0x0b90 */ Unk_710243c280 mGuardianRegistry;
+    /* 0x0cd8 */ u8 TEMP_cd8[0xd00 - 0xcd8];
     /* 0x0d00 */ sead::ReadWriteLock mLock;
     /* 0x0db8 */ u8 TEMP_db8[0xe98 - 0xdb8];
     /* 0x0e98 */ ClothStiffnessMgr mClothStiffnessMgr;
