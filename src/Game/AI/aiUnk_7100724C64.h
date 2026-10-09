@@ -54,7 +54,7 @@ bool sub_71007256A4(ksys::act::Actor* actor, ksys::act::BaseProc* proc);
 bool sub_7100725790(ksys::act::Actor* actor, const ksys::act::BaseProcLink& link);
 bool sub_710072587C(ksys::act::Actor* actor);
 
-// Declared only: first ModelUnit material lookup and setMaterialVisible (slots 24 and 54).
+// First ModelUnit material lookup and setMaterialVisible (slots 24 and 54).
 // GolemThrowParts 0x710018d8dc and AI 0x71003ff79c pass Actor*, SafeString and bool.
 bool sub_7100725960(ksys::act::Actor* actor, const sead::SafeString& material, bool visible);
 // The same operation on the formatted "%s_Seal" material name (native 0x7101dc12a6).
