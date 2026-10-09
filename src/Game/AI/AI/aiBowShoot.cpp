@@ -1,6 +1,9 @@
 #include "Game/AI/AI/aiBowShoot.h"
 #include "Game/Actor/actWeapon.h"
 #include "Game/UI/uiUtils.h"
+#include "Game/UI/uiPauseMenuDataMgr.h"
+#include "Game/Damage/dmgInfoManager.h"
+#include <prim/seadFormatPrint.h>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
@@ -14,6 +17,18 @@ void sub_7100A94AA8(bool value);
 
 namespace uking::ai {
 
+void BowShoot::sub_710033A1F0() {
+    if (dmg::DamageInfoMgr::sub_710067476C()) {
+        if (auto* weapon = sead::DynamicCast<act::Weapon>(mActor)) {
+            sead::FormatFixedSafeString<64> message("引き絞り度合： %f ", weapon->_d04);
+        }
+    }
+    sub_710033BF8C(1);
+    if (auto* actor = sead::DynamicCast<ksys::act::Actor>(mActor->getConnectedCalcChild()))
+        sub_710033C2C0(actor->getName(), 1);
+    sub_710033BDB4("発射");
+}
+
 void BowShoot::sub_710033BDB4(const sead::SafeString& name) {
     if (auto* weapon = sead::DynamicCast<act::Weapon>(mActor)) {
         ksys::act::ai::InlineParamPack params;
@@ -26,6 +41,17 @@ void BowShoot::sub_710033BDB4(const sead::SafeString& name) {
         params.addVec3(translation, "TransOffset", -1);
         changeChild(name.cstr(), &params);
     }
+}
+
+void BowShoot::sub_710033C2C0(const sead::SafeString& arrow_name, s32 count) {
+    auto* weapon = sead::DynamicCast<act::Weapon>(mActor);
+    if (!weapon || !weapon->isParentPlayer() || weapon->bowIsUsedByPlayerAndHasArrowName())
+        return;
+    auto* current_weapon = sead::DynamicCast<act::Weapon>(mActor);
+    if (current_weapon && !current_weapon->bowIsUsedByPlayerAndHasArrowName() &&
+        sub_710033C684() < 1)
+        return;
+    ui::PauseMenuDataMgr::instance()->removeArrow(arrow_name, count);
 }
 
 bool BowShoot::sub_710033C888() {

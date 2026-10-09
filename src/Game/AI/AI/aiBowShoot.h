@@ -38,6 +38,9 @@ protected:
     void sub_710033B16C(f32 value);
     // 0x710033bdb4 (declaration only): changes the child to `name` (resets the shot state).
     void sub_710033BDB4(const sead::SafeString& name);
+    // Native mode dispatcher at 0x710033BF8C consumes the low byte (modes 0 to 3).
+    void sub_710033BF8C(u8 mode);
+    void sub_710033C2C0(const sead::SafeString& arrow_name, s32 count);
     // 0x710033c888 (declaration only).
     s32 sub_710033C684();
     bool sub_710033C888();
