@@ -2,6 +2,7 @@
 
 #include <basis/seadTypes.h>
 #include <container/seadBuffer.h>
+#include <prim/seadRuntimeTypeInfo.h>
 #include <nn/ui2d/AnimTransform.h>
 #include <nn/ui2d/Group.h>
 #include "Game/UI/euiControlBase.h"
@@ -64,6 +65,9 @@ static_assert(sizeof(Animator) == 0x68);
 
 // A group of animators (one per button state); `mCurrent` is the selected one.
 class AnimatorSet {
+    // Native VT 24c8e30 has RTTI at +10/+18 before the two destructors.
+    // be80f0/be8160 use RuntimeTypeInfo::Root at 25fcb28 (guard 25fcb30).
+    SEAD_RTTI_BASE(AnimatorSet)
 public:
     AnimatorSet();
     AnimatorSet(const AnimatorSet& other, LayoutEx* layout, sead::Heap* heap);
