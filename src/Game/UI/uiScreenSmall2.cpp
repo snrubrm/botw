@@ -512,6 +512,42 @@ void ScreenMainScreen::sub_7100A1AF60() {
 }
 
 // 0x7100a1e958
+bool ScreenMainScreen::sub_7100A1E3EC(const ksys::qst::Quest* quest) {
+    if (_3cb0)
+        _3cb0->Stop(1.0f);
+    if (_3cc0)
+        _3cc0->StopAtMin();
+    _3cc8 = false;
+    mPreviousQuestFrame = 0.0f;
+    return sub_7100A1E28C(quest);
+}
+
+// NON_MATCHING: the four demo states use a bit-mask test instead of the native zero / range branches.
+void ScreenMainScreen::sub_7100A1E978() {
+    if (ksys::gdt::getFlag_MiniMapSensor_Demo()) {
+        switch (_3d68->_104) {
+        case 0:
+        case 2:
+        case 4:
+        case 6:
+            _3d68->m5(true);
+            break;
+        }
+        return;
+    }
+    if (Unk_71025d6ac0::instance()->sub_710096828C() && sub_7100AA948C() &&
+        (!getMainScreenOnOff() || Unk_71025d6ac0::instance()->get29())) {
+        if (Unk_71025d6ac0::instance()->sub_71009682B4()) {
+            if (_3d68->_104 == 0)
+                _3d68->m5(true);
+        } else if (_3d68->_104 == 7) {
+            _3d68->m6(false);
+        }
+    } else {
+        _3d68->m6(false);
+    }
+}
+
 void ScreenMainScreen::sub_7100A1E958(s32 state) {
     if (_3d68)
         _3d68->sub_71009C07FC(state);

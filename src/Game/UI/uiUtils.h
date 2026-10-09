@@ -184,6 +184,7 @@ extern s32 sUnk_710249a788;
 // 0x7100aa16e8 (uiUtils.cpp)
 bool sub_7100AA16E8(const nn::ui2d::Pane* pane);
 // 0x7100aa2350 (uiUtils.cpp)
+bool sub_7100AA2418(f32 previous, f32 current, f32 target, bool ascending);
 bool sub_7100AA2350(eui::Screen* screen, f32* value, f32 target, f32 rate, f32 max_step, f32 min_step);
 // 0x7100aa6c84 (uiUtils.cpp)
 bool sub_7100AA6C84(const sead::SafeString& name);
@@ -334,6 +335,7 @@ bool uiManagerInitialised();
 
 // 0x7100aa8f10 (placeholder name): bit 12 of the UI manager's flag word.
 bool sub_7100AA8F10();
+bool getMainScreenOnOff();
 
 // 0x7100aa34a4 (placeholder name; declared only, 760 B): sets the button icon `icon` (a UI button id; 28 / 29 depend on
 // the JumpButtonChange flag) on the parts pane `parts`; `name` is the icon pane's name.

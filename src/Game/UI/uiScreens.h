@@ -908,7 +908,7 @@ public:
     /* 0x3cc8 */ u8 _3cc8;
     u8 _pad_3cc9[3];
     /* 0x3ccc */ UiTimer _3ccc;
-    u8 _pad_3ce4[4];
+    /* 0x3ce4 */ f32 mPreviousQuestFrame;
     /* 0x3ce8 */ Unk_710248ea70 mGaugeHelper;
     // Full ctor A17AF8 and setup A18464 group 7 cast through native RTTI 25DAC48.
     /* 0x3d68 */ Unk_710247c368* _3d68;
@@ -921,6 +921,8 @@ public:
     void sub_7100A1AF60();
     void sub_7100A1E958(s32 state);
     void sub_7100A1E968();
+    void sub_7100A1E978();
+    bool sub_7100A1E3EC(const ksys::qst::Quest* quest);
 
     bool sub_7100A1A1C4(s32 a1, bool a2);
     // 0x7100a1a3c8 / 0x7100a1a460 (placeholder names): open / close request (ScreenChild::m6) and "state 7" check of

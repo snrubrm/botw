@@ -562,6 +562,19 @@ bool sub_7100AA2350(eui::Screen* screen, f32* value, f32 target, f32 rate, f32 m
     return false;
 }
 
+bool sub_7100AA2418(f32 previous, f32 current, f32 target, bool ascending) {
+    if (ascending) {
+        if (previous < current &&
+            (target == current || (previous - target) * (current - target) < 0.0f))
+            return true;
+    } else {
+        if (current < previous &&
+            (target == current || (previous - target) * (current - target) < 0.0f))
+            return true;
+    }
+    return false;
+}
+
 // 0x7100aa6c84 (placeholder name): a weapon / bow / shield that can burn (has burnable params and is not a
 // MagicFireObj)
 bool sub_7100AA6C84(const sead::SafeString& name) {
