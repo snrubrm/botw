@@ -350,6 +350,20 @@ void InstanceSet::sub_7100FB9E90(bool on) {
         mRagdollInstance->setEntityMotionFlag200(on);
 }
 
+void InstanceSet::sub_7100FB9F30(bool clear) {
+    if (mCharacterController)
+        mCharacterController->sub_7100F60850(clear);
+
+    for (auto& rb : mRigidBodySets)
+        rb.clearFlag400000(clear);
+
+    for (auto* body : mList)
+        body->clearFlag400000(clear);
+
+    if (mRagdollInstance)
+        mRagdollInstance->clearFlag400000(clear);
+}
+
 void InstanceSet::sub_7100FBAA3C() {
     for (auto& rb : mRigidBodySets) {
         rb.removeFromWorld();

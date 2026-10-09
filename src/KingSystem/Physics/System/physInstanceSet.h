@@ -119,6 +119,7 @@ public:
     void sub_7100FB9D24();
     // 0x7100fb9e90 (CSV ActorPhysics::calledIfStopTimerSmallMass): setEntityMotionFlag200.
     void sub_7100FB9E90(bool on);
+    void sub_7100FB9F30(bool clear);
     // 0x7100fbaa3c: removeFromWorld.
     void sub_7100FBAA3C();
     // 0x7100fbaac8: removeFromWorldAndResetLinks (true if all succeeded).
