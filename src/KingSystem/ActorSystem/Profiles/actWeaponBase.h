@@ -212,6 +212,7 @@ protected:
     void onSleepRequested_(SleepWakeReason reason) override;
     void onWakeUpRequested_(SleepWakeReason reason) override;
     void onDeleteRequested_(DeleteReason reason) override;
+    void onEnterDelete_() override;
 
     // TODO
     sead::CriticalSection _840;

@@ -32,6 +32,8 @@ class PouchItem;
 
 namespace uking::act {
 
+struct Unk_Enemy1250;
+
 enum class WeaponModifier : u32 {
     None = 0,
     /// Attack Up (swords and bows)
@@ -232,6 +234,8 @@ class Weapon : public ksys::act::WeaponBase {
     SEAD_RTTI_OVERRIDE(Weapon, ksys::act::WeaponBase)
 public:
     void sub_71002EE8B0();
+    void onEnterDelete_() override;
+    void lifePhysicsStuff();
     // 0x71002e1748 (placeholder name; called by m63): moves the main body to the actor's matrix, makes it collide with the
     // ragdoll layer, adds it to the world and refreshes the nav mesh cut.
     void sub_71002E1748();
@@ -472,7 +476,9 @@ public:
     /* 0xfc9 */ u8 _fc9[0xfd0 - 0xfc9];  // TODO
     /* 0xfd0 */ ksys::phys::RigidBody* _fd0;
     /* 0xfd8 */ bool _fd8;
-    /* 0xfd9 */ u8 _fd9[0x1008 - 0xfd9];  // TODO
+    /* 0xfd9 */ u8 _fd9[0xfe0 - 0xfd9];
+    /* 0xfe0 */ Unk_Enemy1250* _fe0;
+    /* 0xfe8 */ u8 _fe8[0x1008 - 0xfe8];
     /* 0x1008 */ ksys::act::Actor::Unk3 _1008;
     /* 0x1010 */ u8 _1010[0x1014 - 0x1010];
     /* 0x1014 */ u8 _1014;

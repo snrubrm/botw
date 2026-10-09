@@ -1,4 +1,5 @@
 #include "Game/Actor/actWeapon.h"
+#include "Game/Actor/actEnemy.h"
 #include "Game/Actor/actArmorBase.h"
 #include "Game/Actor/actNPC.h"
 #include <algorithm>
@@ -1583,4 +1584,22 @@ bool Weapon::sub_71002E4374() {
     return isWeaponType3() && getConnectedCalcChild();
 }
 
+}  // namespace uking::act
+
+namespace uking::act {
+void Weapon::onEnterDelete_() {
+    if (_fe0)
+        _fe0->sub_71006F81F0();
+    WeaponBase::onEnterDelete_();
+}
+
+void Weapon::lifePhysicsStuff() {
+    if (hasParentActor())
+        getMainBody();
+    auto* life = getLife();
+    if (!life || *life > 0)
+        return;
+    if (_fd0 && _fd0->isAddedToWorld())
+        _fd0->removeFromWorld();
+}
 }  // namespace uking::act

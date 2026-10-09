@@ -700,3 +700,9 @@ bool WeaponBase::sub_7100EFB798() const {
 }
 
 }  // namespace ksys::act::acc
+
+namespace ksys::act {
+void WeaponBase::onEnterDelete_() {
+    Actor::onEnterDelete_();
+}
+}  // namespace ksys::act

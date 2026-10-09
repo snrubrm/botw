@@ -42,6 +42,9 @@ struct Unk_Enemy1250Sub {
     virtual void m1();
 };
 struct Unk_Enemy1250 {
+    // Weapon FE0 and Enemy1250 share the result of ClothReactionUnit::make at6F78A4.
+    // 6F81F0 detaches the four child bone handles; no child layout is declared here.
+    void sub_71006F81F0();
     u8 _0[0x18];
     Unk_Enemy1250Sub* _18;
 };
