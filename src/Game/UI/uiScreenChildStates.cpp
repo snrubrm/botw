@@ -283,6 +283,15 @@ void Unk_710247e468::m109() {
         _138->Play(eui::Animator::PlayType(0), 1.0f);
 }
 
+// 0x71009ca2ec
+// NON_MATCHING: return block placement and branch polarity.
+void Unk_710247e468::m110() {
+    if (_138 && _138->mRate == 0.0f) {
+        sub_71009C9D5C(false);
+        mStateMachine.changeState(&sUnk_71025dbb28);
+    }
+}
+
 // 0x71009ca340
 void Unk_710247e468::m111() {
     _138->Play(eui::Animator::PlayType(0), -1.0f);

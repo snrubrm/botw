@@ -286,11 +286,17 @@ public:
     virtual void m111();
     virtual s32 m112();
 
+    // Native weather-frame updater; independently called by setup and state callbacks.
+    void sub_71009C9D5C(bool update);
+
     // The members used so far (state callbacks m109 / m111 play the animator, m110 waits for it to stop).
     u8 _130[0x138 - 0x130];
     /* 0x138 */ eui::Animator* _138;
     u8 _140[0x190 - 0x140];
 };
 static_assert(sizeof(Unk_710247e468) == 0x190);
+
+// Native state descriptors initialized by 9ca8ac with this child's member callbacks.
+extern ksys::StateTemplate<Unk_710247e468> sUnk_71025dbb28;
 
 }  // namespace uking::ui

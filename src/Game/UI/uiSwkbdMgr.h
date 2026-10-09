@@ -6,6 +6,7 @@
 #include "KingSystem/Utils/Types.h"
 
 namespace uking::ui {
+class ScreenKeyBoradTextArea;
 
 // Placeholder declaration (names from the CSV: SwkbdMgr::createInstance 0x71009857f0 and show / x / x_0 /
 // x_1 at 0x71009859c8-0x7100985ca8; instance pointer at 0x71025d7d00; the namespace is a guess, as for
@@ -39,7 +40,7 @@ public:
     /* 0x28 */ char16 _28 = 0;  // the first character of the entered text (the buffer extends to 0x78)
     u8 _2a[0x58 - 0x2a];
     /* 0x58 */ u64 _58 = 0;
-    /* 0x60 */ u64 _60 = 0;
+    /* 0x60 */ ScreenKeyBoradTextArea* _60 = nullptr;
     /* 0x68 */ s32 _68 = 0;
     /* 0x6c */ s32 _6c = 10;
     /* 0x70 */ s32 _70 = -1;
