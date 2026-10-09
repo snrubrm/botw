@@ -1,5 +1,7 @@
 #include "KingSystem/Sound/sndMgr.h"
 #include "KingSystem/Sound/sndFxMgr.h"
+#include "KingSystem/Physics/System/physSystem.h"
+#include <thread/seadThread.h>
 #include "KingSystem/Sound/sndBgmMgr.h"
 #include <prim/seadScopedLock.h>
 #include <heap/seadHeap.h>
@@ -12,6 +14,13 @@
 #include "KingSystem/Event/evtManager.h"
 
 namespace ksys::snd {
+
+void SoundMgr::sub_71011FC394(sead::Thread* thread) {
+    thread->quitAndDestroySingleThread(false);
+    if (auto* system = phys::System::instance())
+        system->sub_71012157B4(thread, false);
+    delete thread;
+}
 
 void SoundMgr::sub_71011FBECC() {
     if (_38)

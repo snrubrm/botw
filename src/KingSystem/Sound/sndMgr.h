@@ -23,6 +23,10 @@
 #include "KingSystem/System/DebugMessage.h"
 #include "KingSystem/Sound/sndMiiSound.h"
 
+namespace sead {
+class Thread;
+}
+
 namespace aal {
 class Shape;
 class Emitter;
@@ -632,6 +636,7 @@ public:
     // 0x71011fb5ac (CSV Sound::calc2; declaration only): called by MCMgr::invoked4.
     void sub_71011FB5AC();
     void sub_71011FBDA8();
+    void sub_71011FC394(sead::Thread* thread);
 
     u8 _28[0x30 - 0x28];
     /* 0x30 */ Unk_SoundMgr30* _30;
