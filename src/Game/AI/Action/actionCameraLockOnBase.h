@@ -7,6 +7,8 @@
 
 namespace uking::action {
 
+bool sub_7100786CF4(const u8* flags, u8 mask);
+
 class CameraLockOnBase : public CameraAction {
     SEAD_RTTI_OVERRIDE(CameraLockOnBase, CameraAction)
 public:

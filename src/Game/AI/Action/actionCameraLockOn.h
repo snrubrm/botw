@@ -13,6 +13,8 @@ public:
 protected:
     float m44() override;
     float m45() override;
+    bool m51() override;
+    void m57() override;
     bool m58() override;
     void m56(bool x) override;
 
