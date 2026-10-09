@@ -63,6 +63,8 @@ bool sub_71007259CC(ksys::act::Actor* actor, const sead::SafeString& material, b
 // Whether the Stalfos part `part` still has its parts actor (true if the actor isn't a Stalfos-parts
 // Enemy). CSV aiStalEnemyRootStuff_1.
 bool sub_7100726004(ksys::act::Actor* actor, u32 part);
+// 0x71007260f4: clear/set flag 0x1000000 on the actor's ragdoll bone bodies.
+void sub_71007260F4(ksys::act::Actor* actor, bool clear);
 // sub_7100726004(actor, 0) (StalHead).
 bool sub_7100726620(ksys::act::Actor* actor);
 // The actor's "StalEnemyUnit" AI tree variable object (two identical out-of-line copies:

@@ -6,6 +6,9 @@
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
 #include "KingSystem/ActorSystem/actTag.h"
+#include "KingSystem/Physics/Ragdoll/physRagdollInstance.h"
+#include "KingSystem/Physics/Ragdoll/physRagdollRigidBody.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
 
 // 0x71024511f8
 static const char* const sUnk_71024511f8[] = {
@@ -138,6 +141,26 @@ bool sub_7100726004(ksys::act::Actor* actor, u32 part) {
     if (!enemy)
         return true;
     return enemy->getActorPartsActor(sUnk_71024511f8[part]).hasProc();
+}
+
+// 0x71007260f4
+void sub_71007260F4(ksys::act::Actor* actor, bool clear) {
+    auto* physics = actor->getPhysics();
+    if (!physics)
+        return;
+    auto* ragdoll = physics->getRagdollInstance();
+    if (!ragdoll)
+        return;
+    auto& bodies = ragdoll->getRigidBodies_();
+    const s32 count = bodies.size();
+    for (s32 i = 0; i < count; ++i) {
+        if (auto* body = bodies[i]) {
+            if (clear)
+                body->resetFlag1000000();
+            else
+                body->setFlag1000000();
+        }
+    }
 }
 
 bool sub_7100726620(ksys::act::Actor* actor) {
