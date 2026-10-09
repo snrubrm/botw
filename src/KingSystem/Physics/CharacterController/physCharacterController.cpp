@@ -13,6 +13,8 @@
 #include "KingSystem/Physics/physMaterialMask.h"
 #include <Havok/Physics2012/Collide/Shape/Convex/Capsule/hkpCapsuleShape.h>
 #include <Havok/Physics2012/Dynamics/Entity/hkpRigidBody.h>
+#include <Havok/Physics2012/Dynamics/World/hkpPhysicsSystem.h>
+#include <Havok/Physics2012/Utilities/Dynamics/ScaleSystem/hkpSystemScalingUtility.h>
 
 namespace ksys::phys {
 
@@ -1159,6 +1161,22 @@ bool CharacterControllerRigidBody::setTimeFactor(float) {
         mController->sub_7100F5EF30(factor);
     }
     return RigidBody::setTimeFactor(system_factor);
+}
+
+float CharacterControllerRigidBody::updateScale_(float scale, float old_scale) {
+    const hkTransformf saved_transform = getHkBody()->getTransform();
+    hkTransformf identity;
+    identity.setIdentity();
+    getHkBody()->setTransform(identity);
+    hkpPhysicsSystem system;
+    system.addRigidBody(getHkBody());
+    hkpSystemScalingUtility::scaleSystem(&system, scale / old_scale);
+    getHkBody()->setTransform(saved_transform);
+    hkMatrix3 inertia;
+    inertia.setZero();
+    getHkBody()->setInertiaInvLocal(inertia);
+    updateShape();
+    return scale;
 }
 
 // NON_MATCHING: the controller's shape-state update is inlined from this TU.
