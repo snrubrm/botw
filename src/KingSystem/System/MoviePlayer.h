@@ -12,7 +12,12 @@ public:
     static MoviePlayer* instance() { return sInstance; }
     static MoviePlayer* sInstance;
 
-    u8 _0[0x3d8];
+    // Native cleanup clears +0x31/+0x32; start sets +0x31 and StageMgrRun tests it.
+    void sub_71010B9C04();
+
+    u8 _0[0x31];
+    bool _31;
+    u8 _32[0x3d8 - 0x32];
     /* 0x3d8 */ s32 mFrameCount;
     /* 0x3dc */ bool _3dc;  // set while a movie event is being played (S7Movie::x)
 };

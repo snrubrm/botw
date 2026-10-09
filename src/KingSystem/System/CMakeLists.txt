@@ -47,6 +47,8 @@ target_sources(uking PRIVATE
     PosTrackerUploadJob.h
     OcclusionQueryCylinder.cpp
     OcclusionQueryCylinder.h
+    GameTool.cpp
+    GameTool.h
     MoviePlayer.cpp
     MoviePlayer.h
     OverlayArena.cpp

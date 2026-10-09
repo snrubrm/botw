@@ -203,7 +203,8 @@ private:
     /* 0x320 */ GameScene320 _320;
     u8 _348[0x6e0 - 0x348];
     /* 0x6e0 */ s32 _6e0;
-    u8 _6e4[0x6e6 - 0x6e4];
+    /* 0x6e4 */ bool _6e4;
+    u8 _6e5;
     /* 0x6e6 */ bool _6e6;
     /* 0x6e7 */ bool _6e7;
     u8 _6e8;

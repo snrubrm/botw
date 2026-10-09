@@ -1,4 +1,6 @@
 #include "Game/gameScene.h"
+#include "KingSystem/System/GameTool.h"
+#include "KingSystem/System/MoviePlayer.h"
 #include <layer/aglLayer.h>
 #include "Game/gameDebugStatus.h"
 #include "Game/gameSceneStatusMgr.h"
@@ -77,6 +79,9 @@ bool sIsRestartStageFromGameOver;
 // 0x710245a360 (also addressed through the GOT; unnamed). Written by setIsRestartStageFromGameOver and read /
 // written by many of the stage generation functions.
 bool sUnk_710245a360;
+
+// External-linkage flag: initialize clears it, preCalcStageMgrOrSelectHandleStageChanges sets it.
+bool sUnk_71025cb0ed;
 
 bool GameScene::sIsOpenWorldDemo{};
 GameScene* GameScene::sInstance;
@@ -426,6 +431,27 @@ bool GameScene::ret0(void*) {
 void GameScene::m11_null(void*) {}
 
 void GameScene::StageMgrEnter() {}
+
+void GameScene::StageMgrRun() {
+    bool flag;
+    if (auto* tool = ksys::GameTool::instance(); tool && tool->_54.isOnBit(0))
+        flag = true;
+    else
+        flag = sUnk_71025cb0ed;
+
+    if ((_279 & 1) == 0)
+        return;
+    _279 &= ~1;
+    _6e0 = 1;
+    _6e4 = flag;
+
+    if (auto* movie = ksys::MoviePlayer::instance(); movie && movie->_31)
+        movie->sub_71010B9C04();
+    if (auto* actors = ksys::act::ActorSystem::instance()) {
+        actors->invokeAutoPlacementMgrInvoker3();
+        actors->invokeRadarMgrInvoker();
+    }
+}
 
 void GameScene::StageMgrLeave() {}
 
