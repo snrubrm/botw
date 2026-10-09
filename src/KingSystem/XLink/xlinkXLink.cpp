@@ -121,6 +121,22 @@ void XLink::sub_710123051C(aal::IAssetInfoReadable* reader) {
         _50->setAssetInfoReader(reader);
 }
 
+void XLink::prepareDelete() {
+    _cc.setBit(10);
+    mUser->mXLink = nullptr;
+    if (_48) {
+        _48->fadeIfLoopEffect();
+        _48->mBitFlag.setBit(3);
+    }
+    if (_50) {
+        _50->fadeIfLoopSound();
+        sub_71012305AC();
+        _50->mBitFlag.setBit(3);
+    } else {
+        _cc.setBit(21);
+    }
+}
+
 // NON_MATCHING: fading-list bound scheduling and loop register allocation.
 void XLink::sub_71012305AC() {
     for (auto& event : *_50->getEventList()) {

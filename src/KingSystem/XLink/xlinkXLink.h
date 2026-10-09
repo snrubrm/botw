@@ -144,6 +144,7 @@ public:
     void sub_7101230E18();
     // 0x710123051c (placeholder name): sets the asset info reader of the SLink user instance (if any).
     void sub_710123051C(aal::IAssetInfoReadable* reader);
+    void prepareDelete();
     void sub_71012305AC();
     void sub_7101230968();
     // 0x7101230714 (placeholder name): fades the looping effects and post-calcs the ELink user instance while it has
