@@ -73,6 +73,9 @@ protected:
     void stopXLinks();
     void sub_71004267E4();
     bool sub_710042699C();
+    void sub_7100427338();
+    void sub_7100427574();
+    void sub_7100427940();
 };
 
 }  // namespace uking::ai

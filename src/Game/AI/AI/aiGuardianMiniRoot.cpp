@@ -3,7 +3,12 @@
 #include "KingSystem/ActorSystem/actAiRoot.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
+#include <cfloat>
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/AI/aiUnk_710072BA90.h"
+#include "Game/Damage/dmgDamageManager.h"
+#include "KingSystem/ActorSystem/actChemical.h"
+#include "KingSystem/System/VFR.h"
 #include "Game/AI/aiUnk_7102357d20.h"
 #include "Game/Actor/actModelMaterialUtil.h"
 #include "Game/Actor/actEnemy.h"
@@ -157,6 +162,105 @@ bool GuardianMiniRoot::sub_710042699C() {
             return true;
     }
     return false;
+}
+
+// NON_MATCHING: the axis-vector load order and scalar register allocation differ.
+void GuardianMiniRoot::sub_7100427338() {
+    ksys::VFR::lerp(&_210, _214, *mNeckRotRatio_s, _20c, _20c * 0.1f);
+    _288._68.makeRT(sead::Vector3f::ex * _210, sead::Vector3f::zero);
+    if (_21c)
+        return;
+    const f32 difference = _210 - _214;
+    if (!(difference <= FLT_EPSILON))
+        return;
+    if (!(difference >= -FLT_EPSILON))
+        return;
+    _210 = f32(_218) * 0.017453292f;
+    _214 = _210;
+    _21c = true;
+    {
+        auto& payload = _278->_18;
+        sead::ScopedLock<sead::JobQueueLock> lock(&payload.mLock);
+        payload._0 = sead::Vector3f::zero;
+        payload._c = 0.0f;
+        payload._10 = true;
+    }
+    _278->sub_710070DBB0(*mActor->getMesTransceiverId(), true);
+}
+
+void GuardianMiniRoot::sub_7100427574() {
+    auto* as_list = mActor->getASList();
+    if (!as_list)
+        return;
+    if (auto* life = mActor->getLife()) {
+        if (*life <= 0) {
+            as_list->sub_710115B01C(0, 1, true);
+            return;
+        }
+    }
+    const sead::SafeString animation = as_list->x_1(0, 1);
+    if (animation == "RestartShader")
+        return;
+    if (as_list->x_4(0, 1) || animation == "DemoFindShader") {
+        auto* target = sub_71005D9050(mActor);
+        if (target && target->hasProc()) {
+            f32 frame = 0.0f;
+            if (animation == "DemoFindShader")
+                frame = as_list->x_5(0, 1, &ksys::as::ASList::Unk2::sub_71011632F8);
+            as_list->sub_710115B140("WaitBattleShader", 0, 0, 1, 1);
+            as_list->x_3(0, 1, &ksys::as::ASList::Unk2::sub_7101163298, frame);
+        } else {
+            as_list->sub_710115B140("WaitShader", 0, 0, 1, 1);
+        }
+    } else if (animation == "WaitBattleShader") {
+        auto* target = sub_71005D9050(mActor);
+        if (!target || !target->hasProc())
+            as_list->sub_710115B140("WaitShader", 0, 0, 1, 1);
+    } else if (animation == "WaitShader") {
+        auto* target = sub_71005D9050(mActor);
+        if (target && target->hasProc())
+            as_list->sub_710115B140("FindShader", 0, 0, 1, 1);
+    } else if (animation.isEmpty()) {
+        as_list->sub_710115B140("WaitShader", 0, 0, 1, 1);
+    }
+}
+
+void GuardianMiniRoot::sub_7100427940() {
+    auto* as_list = mActor->getASList();
+    if (!as_list)
+        return;
+    auto* manager = sub_710072BA90(mActor);
+    if (!manager)
+        return;
+    if (auto* life = mActor->getLife()) {
+        if (*life <= 0) {
+            as_list->sub_710115B01C(0, 1, true);
+            return;
+        }
+    }
+    if (as_list->x_1(0, 1) == "ChanceWaitShader")
+        return;
+    if (as_list->x_1(0, 1) == "RestartShader")
+        return;
+    switch (manager->getField54()) {
+    case -1:
+    case 1:
+    case 3:
+    case 4:
+    case 9:
+    case 10:
+    case 11:
+    case 12:
+    case 14:
+        return;
+    case 20: {
+        auto* chemical = mActor->getChemicalStuff();
+        if (!chemical || chemical->_c0 == 1)
+            return;
+        break;
+    }
+    }
+    as_list->startAnimationMaybe(-1.0f, -1.0f, "DamageColor", 0, 1, true);
 }
 
 void GuardianMiniRoot::enter_(ksys::act::ai::InlineParamPack* params) {
