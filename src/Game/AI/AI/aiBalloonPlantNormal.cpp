@@ -49,7 +49,6 @@ void BalloonPlantNormal::leave_() {
         _50.deleteProc();
 }
 
-// NON_MATCHING: vector reset copies and neighboring stores are scheduled differently.
 void BalloonPlantNormal::calc_() {
     if (isFinished() || isFailed())
         return;
@@ -57,7 +56,7 @@ void BalloonPlantNormal::calc_() {
     if (child->isFinished() || child->isFailed()) {
         if (isCurrentChild("準備待機")) {
             _c4 = false;
-            _b8 = sead::Vector3f::zero;
+            _b8.set(sead::Vector3f::zero);
             _60.clear();
             _c8 = 0;
             mActor->resetConnectedCalcChild(false);
@@ -70,12 +69,12 @@ void BalloonPlantNormal::calc_() {
             if (sub_7100327B54()) {
                 sub_7100327C24();
                 _c4 = false;
-                _b8 = sead::Vector3f::zero;
+                _b8.set(sead::Vector3f::zero);
                 _60.clear();
                 _c8 = 0;
             } else {
                 _c4 = false;
-                _b8 = sead::Vector3f::zero;
+                _b8.set(sead::Vector3f::zero);
                 _60.clear();
                 _c8 = 0;
                 sub_7100327D48();
