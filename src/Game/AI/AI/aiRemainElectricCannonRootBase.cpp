@@ -55,8 +55,6 @@ void RemainElectricCannonRootBase::loadParams_() {
     getStaticParam(&mSearchDistMargin_s, "SearchDistMargin");
 }
 
-// NON_MATCHING: the original evaluates both range tests unconditionally (cset + and; the min distance
-// is loaded up front); `&&` gives a branch
 bool RemainElectricCannonRootBase::m35() {
     const f32 dist = sead::Mathf::sqrt(
         ksys::util::sqXZDistance(getPlayerPosition(), mActor->getMtx().getTranslation()));
@@ -64,7 +62,7 @@ bool RemainElectricCannonRootBase::m35() {
     if (isCurrentChild("攻撃"))
         max_dist += *mSearchDistMargin_s;
     const f32 min_dist = *mSearchMinDist_s;
-    _51 = dist <= max_dist && min_dist <= dist;
+    _51 = (dist <= max_dist) & (min_dist <= dist);
     return _51;
 }
 
