@@ -226,4 +226,35 @@ f32 Unk_7100f7e9f0::sub_7100F7ED6C(sead::Vector3f* normal_out) const {
     return area;
 }
 
+// NON_MATCHING: selected storage/index branches and register assignment differ.
+s32 Unk_7100f7e9f0::sub_7100F7EEE4() const {
+    if (!_0 || _8 == -1)
+        return 0;
+    auto* instance = _0->m_instances[u32(_8) >> 22].m_instancePtr;
+    if (!instance || instance->m_faceDataStriding == 0)
+        return 0;
+    const s32 face_index = _8 & 0x3fffff;
+    const hkInt32* data;
+    s32 data_index;
+    if (face_index >= instance->m_originalFaces.m_size) {
+        data = instance->m_ownedFaceData.data();
+        data_index = face_index - instance->m_originalFaces.m_size;
+    } else if (instance->m_faceMap.isEmpty()) {
+        data = instance->m_instancedFaceData.data();
+        data_index = face_index;
+    } else {
+        const s32 mapped_index = instance->m_faceMap[face_index];
+        if (mapped_index == -1) {
+            // Reflection 2538e08, mesh destructor 1520ec8 and instance init
+            // 152ea04 establish this borrowed pointer's int32 storage/lifetime.
+            data = static_cast<const hkInt32*>(instance->m_originalFaceData);
+            data_index = face_index;
+        } else {
+            data = instance->m_instancedFaceData.data();
+            data_index = mapped_index;
+        }
+    }
+    return data[data_index * instance->m_faceDataStriding] & 0xffff;
+}
+
 }  // namespace ksys::phys
