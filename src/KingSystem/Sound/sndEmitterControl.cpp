@@ -1,9 +1,20 @@
 #include "KingSystem/Sound/sndMgr.h"
 #include "KingSystem/Sound/sndBgmMgr.h"
 #include <aal/aalArbiter.h>
+#include <aal/aalEmitter.h>
 #include <aal/aalSystemAccessor.h>
 
 namespace ksys::snd {
+
+Unk_710105abc0::Unk_710105abc0(sead::Heap* heap)
+    : _8(nullptr), _38(0), _39(false), _3c(0.891f) {
+    if (auto* arbiter = aal::SystemAccessor::getArbiter()) {
+        _8 = arbiter->allocEmitter(nullptr, "Emitter");
+        if (_8)
+            _8->mSpatialSetting.setPositioned(false);
+    }
+}
+
 
 Unk_710105abc0::~Unk_710105abc0() {
     if (_8) {

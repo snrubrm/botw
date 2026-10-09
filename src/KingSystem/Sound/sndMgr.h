@@ -316,7 +316,9 @@ public:
     aal::Handle _10;
     aal::SimpleTimedFader _20{1.0f};
     sead::BitFlag8 _38;
-    u8 _39[3];
+    // 0x710105abc0 clears this byte alongside _38.
+    bool _39;
+    u8 _3a[2];
     f32 _3c;
 };
 KSYS_CHECK_SIZE_NX150(Unk_710105abc0, 0x40);
