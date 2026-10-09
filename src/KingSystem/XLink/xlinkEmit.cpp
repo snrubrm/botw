@@ -3,6 +3,8 @@
 #include <xlink2/xlink2AssetExecutorSLink.h>
 #include <aal/aalSoundSource.h>
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorUnk6b8.h"
+#include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
 #include "KingSystem/XLink/xlinkXLink.h"
@@ -100,6 +102,41 @@ f32 sub_710105E0AC(xlink2::HandleSLink& handle) {
         }
     }
     return time;
+}
+
+xlink::XLink* sub_710105E100(const xlink2::UserInstanceSLink* user) {
+    if (user) {
+        if (auto* xlink = static_cast<xlink::XLink*>(user->getUserData()))
+            return xlink;
+    }
+    return nullptr;
+}
+
+void sub_710105E114(xlink2::HandleSLink* handle, act::Actor* actor) {
+    if (!handle)
+        return;
+    sead::FixedPtrArray<aal::Handle, 8> handles;
+    auto* event = static_cast<xlink2::EventSLink*>(handle->getEvent());
+    if (!event || event->getCreateId() != handle->getCreateId())
+        return;
+    const u32 count = event->getSoundHandle(&handles);
+    if (!count)
+        return;
+    auto* chemical = actor->getChemicalStuff();
+    if (!chemical)
+        return;
+    if (auto* state = actor->get6b8()) {
+        if (state->_7a < 2)
+            return;
+    }
+    const u64 mask = (chemical->_bc & u64(0x100)) >> 7;
+    for (u32 i = 0; i < count; ++i) {
+        auto* source = handles[i]->getSoundSource();
+        if (!source)
+            return;
+        auto& setting = source->mSpatialSetting;
+        setting.setUserParam((setting.getCalculatorSetting().user_param & ~u64(7)) | 1 | mask);
+    }
 }
 
 void sub_710105E214(xlink2::HandleSLink* handle, bool enabled) {

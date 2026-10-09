@@ -6,6 +6,10 @@
 #include <xlink2/xlink2HandleELink.h>
 #include <xlink2/xlink2HandleSLink.h>
 
+namespace xlink2 {
+class UserInstanceSLink;
+}
+
 namespace ksys::act {
 class Actor;
 class BaseProcLink;
@@ -77,6 +81,8 @@ void sub_710105DFA4(act::Actor* actor, u8 a, bool b, bool c);
 bool sub_710105E000(act::Actor* actor, u32 idx, f32 value);
 void sub_710105E060(xlink2::HandleSLink* handle, const sead::Matrix34f& matrix);
 f32 sub_710105E0AC(xlink2::HandleSLink& handle);
+xlink::XLink* sub_710105E100(const xlink2::UserInstanceSLink* user);
+void sub_710105E114(xlink2::HandleSLink* handle, act::Actor* actor);
 void sub_710105E214(xlink2::HandleSLink* handle, bool enabled);
 void sub_710105E2E8(xlink2::HandleSLink* handle);
 /// 0x710105e030 (declaration only; lane2 s21): sets property `idx` of the actor's SLink user instance (XLink::_50);
