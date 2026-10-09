@@ -1,5 +1,6 @@
 #include "KingSystem/ActorSystem/actActorPreLoadMgr.h"
 #include "KingSystem/ActorSystem/actBaseProcMgr.h"
+#include "KingSystem/Event/evtEventResource.h"
 
 namespace ksys::act {
 
@@ -19,6 +20,35 @@ bool ActorPreLoadMgr::invoked1(void* data) {
         return false;
     task->run();
     return true;
+}
+
+// NON_MATCHING: request stack layout and field-store scheduling differ.
+void ActorPreLoadMgr::invoked2(util::TaskPostRunResult* result,
+                              const util::TaskPostRunContext& context) {
+    auto* task = sead::DynamicCast<ActorPreLoadTask>(
+        static_cast<util::TaskData*>(context.mUserData));
+    if (!task)
+        return;
+    const bool run_again = task->mRunAgain;
+    task->mRunAgain = false;
+    if (run_again && context.mUserData) {
+        util::LowPrioThreadMgr::Request request;
+        request.lane_id = 1;
+        request.flags.setDirect(6);
+        request.delegate = &mTaskDelegate;
+        request.user_data = task;
+        request.post_callback = &mPostRunCallback;
+        // LowPrioThreadMgr initializes its task pools with ManagedTask elements.
+        request.task = static_cast<util::ManagedTask*>(context.mTask);
+        request.handle = &task->mTaskHandle;
+        request.name = "";
+        if (task->mState >= 2 && task->mState <= 4)
+            request.lane_id = 2;
+        evt::submitLowPriorityRequest(request);
+        result->setResult(true);
+    } else {
+        task->mTaskHandle.finalize();
+    }
 }
 
 ActorPreLoadTask::~ActorPreLoadTask() {
