@@ -331,6 +331,84 @@ void GuardianMiniRoot::stopXLinks() {
     }
 }
 
+// NON_MATCHING: stack layout and floating-point call argument scheduling differ.
+void GuardianMiniRoot::calc_() {
+    if (!_209 && _208) {
+        if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
+            if (!enemy->hasNoWeaponActors()) {
+                auto* actor = mActor;
+                if (actor && actor->getModel()) {
+                    _209 = true;
+                    sub_7100428358(actor, true, 0);
+                    sub_7100428358(actor, true, 1);
+                    sub_7100428358(actor, true, 2);
+                }
+                sub_7100428738(mActor, true);
+            }
+        }
+    }
+    sub_7100427128();
+    if (_208)
+        mActor->getASList()->goLimpFromHeadShotMaybe(0x2c, "WeaponSmallSword", 0);
+    if (_209 && !_20a) {
+        if (auto* life = mActor->getLife()) {
+            if (*life <= 0) {
+                if (auto* actor = sead::DynamicCast<ksys::act::PlayerOrEnemy>(mActor)) {
+                    if (!actor->m151(3) && !actor->m151(4)) {
+                        _20a = true;
+                        auto* actor = mActor;
+                        if (actor && actor->getModel()) {
+                            _209 = true;
+                            sub_7100428358(actor, false, 0);
+                            sub_7100428358(actor, false, 1);
+                            sub_7100428358(actor, false, 2);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    if (auto* manager = sub_710072BA90(mActor)) {
+        if (manager->_216.isOn(2) && manager->getField54() != 12 &&
+            u32(manager->getField50()) < 3)
+            ++*mDamagedCount_a;
+    }
+    sub_7100427338();
+    sead::Vector3f pos = mActor->getMtx().getTranslation() + mActor->getMtx().getBase(2);
+    pos.y = mActor->getPreviousPos().y;
+    sub_71005DB068(mActor, pos);
+    f32 rotation = _210;
+    ksys::VFR::lerp(&rotation, _214, *mNeckRotRatio_s, _20c, _20c * 0.1f);
+    sub_71005DB51C(mActor, -rotation, true);
+    sub_71004267E4();
+    sub_7100427574();
+    sub_7100427940();
+    if (mActor) {
+        const bool* annihilate = nullptr;
+        if (auto* root_ai = mActor->getRootAi()) {
+            if (root_ai->getMapUnitParam(&annihilate, "IsAnnihilateDungeonEnemy") && *annihilate) {
+                if (auto* lod = mActor->getLodState()) {
+                    if (!lod->mFlags26.isOn(1))
+                        lod->mFlags26.set(1);
+                    else if (lod->mFlags14.isOnBit(25))
+                        lod->mFlags14.resetBit(25);
+                }
+            }
+        }
+    }
+    auto* child = getCurrentChild();
+    if ((child->isFinished() || child->isFailed()) && isCurrentChild("リアクション")) {
+        const f32 difference = _210 - _214;
+        if (!(difference <= FLT_EPSILON))
+            return;
+        if (!(difference >= -FLT_EPSILON))
+            return;
+        m38();
+        return;
+    }
+    EnemyRoot::calc_();
+}
+
 // NON_MATCHING: native string comparison bounds and the unused w3 call setup differ.
 void GuardianMiniRoot::sub_7100427128() {
     auto* as_list = mActor->getASList();
