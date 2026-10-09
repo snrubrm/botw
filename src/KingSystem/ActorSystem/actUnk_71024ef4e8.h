@@ -81,6 +81,7 @@ public:
     void sub_7100EB480C(sead::Vector3f* out) const;
     // 0x7100eb2448: `if (mAttachInfo) mAttachInfo->sub_7100EB0D30()` (calls Constraint::sub_7100F6A074 on the attach constraint).
     void sub_7100EB2448();
+    void sub_7100EB4680();
     // 0x7100eb5784 (placeholder name): flag query over _110, the attach info flags, _b8->_74 and _c0->_60.
     bool sub_7100EB5784() const;
     // 0x7100eb57f0: stores `mtx` into _e0 / _188 (resets the scale at _1b8 to 1) and updates the flags at _110.

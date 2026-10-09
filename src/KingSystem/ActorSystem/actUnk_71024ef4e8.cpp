@@ -67,6 +67,34 @@ void Unk_71024ef4e8::sub_7100EB480C(sead::Vector3f* out) const {
     _20->getCenterOfMassInWorld(out);
 }
 
+// NON_MATCHING: vector copies, ray query lifetime and branch layout differ.
+void Unk_71024ef4e8::sub_7100EB4680() {
+    if (!_110.isOnBit(23))
+        return;
+    _110.resetBit(23);
+    sead::Vector3f position;
+    _10->sub_7100F5F6E0(&position);
+    if ((position - _200).length() > 20.0f)
+        return;
+    phys::RayCastBodyQuery query(nullptr, phys::GroundHit::Player);
+    query.setNormalCheckingMode(phys::RayCast::NormalCheckingMode::_1);
+    query.enableLayer(phys::ContactLayer::EntityGroundObject);
+    query.enableLayer(phys::ContactLayer::EntityGround);
+    query.enableLayer(phys::ContactLayer::EntityGroundSmooth);
+    query.enableLayer(phys::ContactLayer::EntityTree);
+    query.enableLayer(phys::ContactLayer::EntityAirWall);
+    sead::Vector3f start = position;
+    sead::Vector3f end = _200;
+    start.y += 0.15f;
+    end.y += 0.15f;
+    query.setStartAndEnd(start, end);
+    if (query.worldRayCast(phys::ContactLayerType::Entity)) {
+        _10->warpActorToPosition(_200);
+        _10->sub_7100F5F6FC(sead::Vector3f::zero);
+        _10->sub_7100F5FB24(sead::Vector3f::zero);
+    }
+}
+
 void Unk_71024ef4e8::sub_7100EB5950(sead::Vector3f* out, phys::RigidBody* body, f32 height) {
     sead::Matrix34f transform;
     body->getTransform(&transform);

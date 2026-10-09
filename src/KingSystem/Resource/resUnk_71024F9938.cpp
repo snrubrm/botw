@@ -56,7 +56,7 @@ nn::gfx::ResTexture* Unk_71024f9938::sub_7100FDD100(const sead::SafeString& name
     const u32 hash = sead::HashCRC32::calcStringHash(name.cstr());
     u32* existing = nullptr;
     const s32 count = _10.size();
-    for (s64 i = 0; i < count; ++i) {
+    for (s32 i = 0; i < count; ++i) {
         auto* entry = _10.unsafeAt(i);
         if (*entry == hash) {
             existing = entry;
