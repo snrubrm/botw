@@ -6,14 +6,12 @@
 
 namespace uking::ai {
 
-// NON_MATCHING: the original keeps the loop index as a 32-bit value (`sxtw` at the access, `cbz` on the count) instead of
-// a widened 64-bit induction variable.
 void BossBattleRoomRoot::sub_7100336B84(xlink2::HandleSLink* handle) {
     if (handle && handle->isActive()) {
         sead::FixedPtrArray<aal::Handle, 8> handles;
         if (handle->isActive()) {
-            const s32 count = static_cast<xlink2::EventSLink*>(handle->getEvent())->getSoundHandle(&handles);
-            for (s32 i = 0; i < count; ++i) {
+            const u32 count = static_cast<xlink2::EventSLink*>(handle->getEvent())->getSoundHandle(&handles);
+            for (u32 i = 0; i < count; ++i) {
                 if (auto* source = handles[i]->getSoundSource()) {
                     if (source->mState <= 2)
                         source->mSpatialSetting.setShape(_1f0);
