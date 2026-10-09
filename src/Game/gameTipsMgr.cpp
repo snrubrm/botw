@@ -1,7 +1,9 @@
 #include "Game/gameTipsMgr.h"
 #include <evfl/Action.h>
+#include <evfl/Query.h>
 #include <heap/seadExpHeap.h>
 #include "KingSystem/ActorSystem/actBaseProc.h"
+#include "KingSystem/ActorSystem/actAiQuery.h"
 #include "KingSystem/Utils/HeapUtil.h"
 #include "KingSystem/GameData/gdtManager.h"
 #include "KingSystem/Resource/resLoadRequest.h"
@@ -11,6 +13,15 @@
 const char* getTipString(s32 index);
 
 SEAD_SINGLETON_DISPOSER_IMPL(TipsMgr)
+
+// 92026C binds the Tips heap as both EventFlow allocator user data pointers.
+void* sub_7100921090(size_t size, size_t alignment, void* user_data) {
+    return static_cast<sead::Heap*>(user_data)->alloc(size, alignment);
+}
+
+void sub_71009210B0(void* ptr, void* user_data) {
+    static_cast<sead::Heap*>(user_data)->free(ptr);
+}
 
 void handler_TipsDisplayOK(const evfl::ActionArg& arg, evfl::ActionDoneHandler done) {
     // 92026C binds the address of its bool result as actor user data.
@@ -35,6 +46,19 @@ void handler_FlagOn(const evfl::ActionArg& arg, evfl::ActionDoneHandler done) {
 
 void handler_UnknownTipsAction(const evfl::ActionArg& arg, evfl::ActionDoneHandler done) {
     done.Invoke();
+}
+
+int sub_71009212D0(const evfl::QueryArg& arg) {
+    // 92026C binds the Query found by name as each matching query's user data.
+    if (auto* query = static_cast<ksys::act::ai::Query*>(arg.query_user_data)) {
+        query->loadParams(arg);
+        return query->doQuery();
+    }
+    return 0;
+}
+
+int sub_7100921324(const evfl::QueryArg& arg) {
+    return 0;
 }
 
 TipsMgr::~TipsMgr() = default;
