@@ -34,28 +34,25 @@ void WillBallRoot::loadParams_() {
     getMapUnitParam(&mCount_m, "Count");
 }
 
-// NON_MATCHING: block layout only (the original shares one `return false` block between the early exits and
-// branches back to it; ours duplicates it)
 bool WillBallRoot::handleMessage_(const ksys::Message* message) {
     if (message->getType() == 0x3000007) {
         mActor->sleep(ksys::act::BaseProc::SleepWakeReason::_0);
         return true;
     }
 
-    if (isCurrentChild("待機")) {
-        if (_90._30)
-            return false;
-        if (auto* grab = mActor->m128(); grab && grab->m2())
-            return false;
-        if (!_90.m2(*message))
-            return false;
-        if (_90._38._48 == 2 || _90._38._48 == 3) {
-            _90.x();
-            return false;
-        }
-        return true;
+    if (!isCurrentChild("待機"))
+        return _120.m2(*message);
+    if (_90._30)
+        return false;
+    if (auto* grab = mActor->m128(); grab && grab->m2())
+        return false;
+    if (!_90.m2(*message))
+        return false;
+    if (_90._38._48 == 2 || _90._38._48 == 3) {
+        _90.x();
+        return false;
     }
-    return _120.m2(*message);
+    return true;
 }
 
 // 0x71005f5cec
