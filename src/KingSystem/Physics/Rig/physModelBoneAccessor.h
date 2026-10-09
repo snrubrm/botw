@@ -18,6 +18,8 @@ class ModelSkeleton;
 }
 
 class ModelBoneAccessor : public BoneAccessor {
+    friend class InstanceSet;
+
 public:
     enum class EnableScale : bool { Yes = true, No = false };
 
