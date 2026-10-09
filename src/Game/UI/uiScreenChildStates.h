@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Game/UI/uiScreens.h"
+#include <container/seadSafeArray.h>
 #include "Game/UI/uiControlCreator.h"
 #include "KingSystem/World/worldDefines.h"
 
@@ -204,7 +205,15 @@ public:
     void m34() override;
     void m82() override;
 
-    u8 _130[0x198 - 0x130];
+    void m39(void* button) override;
+    void sub_71009BE260(eui::ButtonBase* button);
+    void sub_71009BE4E8(eui::ButtonBase* button);
+
+    /* 0x130 */ eui::Animator* mModeAnimator;
+    /* 0x138 */ eui::Animator* mStateAnimator;
+    /* 0x140 */ sead::SafeArray<Unk_7102477488, 3> mButtons;
+    /* 0x188 */ eui::Animator* mThirdButtonAnimator = nullptr;
+    /* 0x190 */ eui::ButtonBase* mDescriptionButton = nullptr;
     /* 0x198 */ Unk_71009cb0c8 mController;
 };
 static_assert(sizeof(Unk_710247c010) == 0x480);

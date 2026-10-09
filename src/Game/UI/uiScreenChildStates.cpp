@@ -73,6 +73,23 @@ bool Unk_71009cb0c8::sub_71009CBFA4() const {
     return mQueueState == 13;
 }
 
+// 0x71009bd404
+Unk_710247c010::Unk_710247c010(eui::LayoutEx* layout)
+    : ScreenChildEx(layout), mButtons() {
+    mModeAnimator = nullptr;
+    mStateAnimator = nullptr;
+}
+
+// 0x71009be238
+void Unk_710247c010::m39(void* button) {
+    if (!_128)
+        return;
+    if (_128->mId == 42)
+        sub_71009BE260(static_cast<eui::ButtonBase*>(button));
+    else if (_128->mId == 34)
+        sub_71009BE4E8(static_cast<eui::ButtonBase*>(button));
+}
+
 // 0x71009bdd54
 void Unk_710247c010::m34() {
     mController.sub_71009CC3A0();
