@@ -15,6 +15,7 @@
 #include "Game/Actor/actWeapon.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectGuardianMini.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectGuardianMiniWeapon.h"
@@ -284,6 +285,45 @@ void GuardianMiniRoot::stopXLinks() {
         handles.mSLink.fade();
         _393[i++] = false;
     }
+}
+
+void GuardianMiniRoot::m37() {
+    const f32 difference = _210 - _214;
+    if (!(difference <= FLT_EPSILON && difference >= -FLT_EPSILON)) {
+        const s32 degrees = s32(_210 * 57.295776f);
+        const s32 remainder = degrees % 120;
+        bool snap_down = false;
+        if (mActor) {
+            if (auto* as_list = mActor->getASList()) {
+                if (auto* manager = sub_710072BA90(mActor)) {
+                    const s32 kind = manager->getField54();
+                    if (as_list->x_1(1, 0) == "AttackSpin" && kind >= 6 && kind <= 8)
+                        snap_down = true;
+                }
+            }
+        }
+        if (snap_down)
+            _214 = f32(degrees - remainder) * 0.017453292f;
+        else if (_214 - _210 < 0.0f)
+            _214 = _210 + f32(remainder) * -0.017453292f;
+        else
+            _214 = f32(degrees + 120 - remainder) * 0.017453292f;
+        _20c = _20c < 0.0f ? -*mRotStopSpeed_s : *mRotStopSpeed_s;
+    }
+    if (auto* manager = sub_710072BA90(mActor)) {
+        const s32 kind = manager->getField54();
+        if (kind == 7 || kind == 8) {
+            if (auto* manager = sub_710072BA90(mActor)) {
+                if (ksys::act::isPlayerProfile(manager->getAttacker()))
+                    ++_220;
+            }
+        }
+    }
+    if (auto* life = mActor->getLife()) {
+        if (*life <= 0)
+            mActor->emitDeadUpLifeZeroAndSetRevival();
+    }
+    EnemyRoot::m37();
 }
 
 void GuardianMiniRoot::loadParams_() {
