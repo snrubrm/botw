@@ -2,6 +2,7 @@
 #include "KingSystem/XLink/xlinkActorUtil.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Utils/MathUtil.h"
 
 namespace uking::action {
 
@@ -29,6 +30,30 @@ void GuardianMiniBeamMove::loadParams_() {
 
 void GuardianMiniBeamMove::calc_() {
     BeamMove::calc_();
+}
+
+
+// NON_MATCHING: vector stack allocation and scalar multiplication scheduling.
+void GuardianMiniBeamMove::sub_71001940D0() {
+    auto* body = mActor->getMainBody();
+    if (!body)
+        return;
+    sead::Matrix34f transform;
+    body->getTransform(&transform);
+    sead::Vector3f forward = transform.getBase(2);
+    sead::Vector3f velocity;
+    body->getLinearVelocity(&velocity);
+    forward.normalize();
+    velocity.normalize();
+    sead::Vector3f axis;
+    f32 angle;
+    ksys::util::sub_71011EEB08(&axis, &angle, forward, velocity, sead::Vector3f::ey);
+    body->setAngularVelocity(axis * angle * 30.0f);
+}
+
+void GuardianMiniBeamMove::sub_71001943F0() {
+    _78.mELink.kill();
+    _78.mSLink.fade();
 }
 
 }  // namespace uking::action

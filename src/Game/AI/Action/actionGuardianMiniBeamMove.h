@@ -19,6 +19,9 @@ public:
 protected:
     int m43() override { return 1; }
     void calc_() override;
+    // Directly called by complete calc_193D90; absent from whole VT2398560.
+    void sub_71001940D0();
+    void sub_71001943F0();
     f32 m37() override { return *mReboundDeccel_s; }
 
     // static_param at offset 0x70
