@@ -1,6 +1,8 @@
 #include <Havok/Common/Base/Reflection/hkClassMember.h>
 
 #include <Havok/Common/Base/Reflection/hkClass.h>
+#include <Havok/Common/Base/Container/String/hkString.h>
+#include <Havok/Common/Base/Reflection/hkCustomAttributes.h>
 
 namespace {
 
@@ -65,6 +67,17 @@ const hkClass& hkClassMember::getStructClass() const {
 
 const hkClassEnum& hkClassMember::getEnumClass() const {
     return *m_enum;
+}
+
+const hkVariant* hkClassMember::getAttribute(const char* id) const {
+    const hkCustomAttributes* attributes = m_attributes;
+    if (attributes) {
+        for (int i = 0; i < attributes->m_attributes.m_size; ++i) {
+            if (hkString::strCmp(attributes->m_attributes.m_data[i].m_name, id) == 0)
+                return &attributes->m_attributes.m_data[i].m_value;
+        }
+    }
+    return nullptr;
 }
 
 // NON_MATCHING: the enum/flags guards combine and the type branches use different register allocation.

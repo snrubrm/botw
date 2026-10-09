@@ -2,6 +2,7 @@
 
 #include <Havok/Common/Base/Container/String/hkString.h>
 #include <Havok/Common/Base/Reflection/hkClassMember.h>
+#include <Havok/Common/Base/Reflection/hkCustomAttributes.h>
 
 hkClass::hkClass(const char* className, const hkClass* parentClass, int objectSizeInBytes,
                  const hkClass** implementedInterfaces, int numImplementedInterfaces,
@@ -47,6 +48,17 @@ hkBool hkClass::isSuperClass(const hkClass& k) const {
 
 const hkClass::Flags& hkClass::getFlags() const {
     return m_flags;
+}
+
+const hkVariant* hkClass::getAttribute(const char* id) const {
+    const hkCustomAttributes* attributes = m_attributes;
+    if (attributes) {
+        for (int i = 0; i < attributes->m_attributes.m_size; ++i) {
+            if (hkString::strCmp(attributes->m_attributes.m_data[i].m_name, id) == 0)
+                return &attributes->m_attributes.m_data[i].m_value;
+        }
+    }
+    return nullptr;
 }
 
 // NON_MATCHING: the parent-chain loop has a separate initial load and null branch.
