@@ -1,6 +1,9 @@
 #include "KingSystem/XLink/xlinkUser.h"
 #include <cfloat>
 #include <gsys/gsysModel.h>
+#include <gsys/gsysModelAnimation.h>
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actAiRoot.h"
 #include "KingSystem/System/CameraMgr.h"
 #include "KingSystem/XLink/xlinkXLink.h"
 
@@ -30,6 +33,30 @@ void Unk_71025168a0::getReservedAssetName(xlink2::ToolConnectionContext* ctx) co
 
 u32 Unk_71025168a0::getNumBone() const {
     return mXLink && mXLink->mModel ? mXLink->mModel->getTotalBoneNum() : 0;
+}
+
+u32 Unk_71025168a0::getNumAction(s32 index) const {
+    if (!mXLink)
+        return 0;
+    if (index >= mXLink->_70 + mXLink->_71 + mXLink->_72) {
+        const auto* root_ai = mXLink->getRootAi();
+        return root_ai ? root_ai->getActions().getClasses().size() : 0;
+    }
+    if (index >= mXLink->_70 + mXLink->_71) {
+        const auto* animation = mXLink->getModelAnimation();
+        if (!animation)
+            return 0;
+        s32 count = 0;
+        for (s32 type = 0; type < 6; ++type)
+            count += animation->getMaterialAnmNum(static_cast<gsys::MaterialAnmType>(type));
+        return count;
+    }
+    if (index >= mXLink->_70) {
+        const auto* animation = mXLink->getModelAnimation();
+        return animation ? animation->mSkeletalResources.size() : 0;
+    }
+    const auto* as_list = mXLink->getASList();
+    return as_list ? as_list->_138.size() : 0;
 }
 
 f32 Unk_71025168a0::getSortKey(const sead::Vector3f& position) const {

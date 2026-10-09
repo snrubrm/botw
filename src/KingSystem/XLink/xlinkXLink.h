@@ -161,7 +161,11 @@ public:
     /* 0x48 */ xlink2::UserInstanceELink* _48;
     /* 0x50 */ xlink2::UserInstanceSLink* _50;
     /* 0x58 */ Unk_71025168a0* mUser;
-    /* 0x60 */ u8 _60[0x73 - 0x60];
+    /* 0x60 */ u8 _60[0x70 - 0x60];
+    // Initializer122EDB0 allocates the corresponding slot arrays using signed byte counts.
+    /* 0x70 */ s8 _70;
+    /* 0x71 */ s8 _71;
+    /* 0x72 */ s8 _72;
     /* 0x73 */ sead::BitFlag8 _73;
     /* 0x74 */ u8 _74[0xa0 - 0x74];
     /* 0xa0 */ Unk_710123830c* _a0;
