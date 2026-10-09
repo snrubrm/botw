@@ -420,6 +420,18 @@ void ScreenMainScreen::sub_7100A1A4E4(s64 a1) {
         _3720 = -99.0f;
 }
 
+// 0x7100a1957c
+void ScreenMainScreen::sub_7100A1957C(s32 count) {
+    if (_3638)
+        static_cast<Unk_7102476db8*>(_3638)->sub_7100986480(count);
+}
+
+// 0x7100a1ab48
+void ScreenMainScreen::sub_7100A1AB48() {
+    if (_3638)
+        static_cast<Unk_7102476db8*>(_3638)->sub_7100986580();
+}
+
 // 0x7100a1958c
 void ScreenMainScreen::sub_7100A1958C() {
     _3ca8 = sub_7100BEAFB0("Pa_QuestName_00");

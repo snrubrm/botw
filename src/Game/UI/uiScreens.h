@@ -876,6 +876,8 @@ public:
     void sub_7100A1ABF8();
     // 0x7100a1a518 (CSV unnamed; declared only; the types are guesses)
     void sub_7100A1A518(s64 a1, bool a2);
+    void sub_7100A1957C(s32 count);
+    void sub_7100A1AB48();
     void sub_7100A1958C();
     bool sub_7100A1E28C(const ksys::qst::Quest* quest);
     bool sub_7100A1E214(const ksys::qst::Quest* quest);
