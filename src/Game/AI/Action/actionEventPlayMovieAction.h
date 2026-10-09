@@ -28,7 +28,7 @@ protected:
     sead::FixedSafeString<32> _38;
     // Assigned in the ctor body as integers (the stores are mov/movk-built u64/u32 merged
     // into stp/str, after the string copy, so not NSDMIs). Bit patterns read as floats are
-    // 474.498|1.5, -300.0 and 50.06|0.0.
+    // 474.0|1.5, 0.0|-300.0 and 50.0|206.0.
     u64 _70;
     u64 _78;
     u64 _80;
