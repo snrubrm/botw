@@ -20,6 +20,24 @@
 
 namespace uking::ui {
 
+// 0x71009cbe38
+void Unk_71009cb0c8::sub_71009CBE38() {
+    if (mApplied)
+        return;
+    if (mQueueCount != 0)
+        return;
+    if (mQueueState != 5)
+        return;
+    auto* texture_info = sub_71009CBECC();
+    if (!texture_info)
+        return;
+    if (mMaterial)
+        mMaterial->GetTexMapArray()[0].ReplaceTextureInfo(texture_info);
+    if (mAnimator)
+        mAnimator->PlayAuto(1.0f);
+    mApplied = true;
+}
+
 // 0x71009cbd48
 void Unk_71009cb0c8::sub_71009CBD48(sead::Heap* heap, eui::LayoutEx* layout,
                                     const sead::SafeString& name) {

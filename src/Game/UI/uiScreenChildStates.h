@@ -172,6 +172,10 @@ public:
     void sub_71009CC970();
     bool sub_71009CBFA4() const;
     bool sub_71009CBEAC() const;
+    void sub_71009CBE38();
+    // Full 216-byte native returns one of the resource's two texture records under the controller lock.
+    // Declaration only: resource access remains with its owner.
+    nn::ui2d::TextureInfo* sub_71009CBECC();
     void sub_71009CBD48(sead::Heap* heap, eui::LayoutEx* layout, const sead::SafeString& name);
     void sub_71009CBDE8(eui::LayoutEx* layout, const sead::SafeString& name);
 
