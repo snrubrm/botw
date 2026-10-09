@@ -127,8 +127,6 @@ void ArrowShootMove::sub_71000A5604() {
     _a8 = *mAtRange_d;
 }
 
-// NON_MATCHING: scheduling only (the original loads *mRelativeVel_d z before the adds and adds the squares of the
-// normalisation in the other operand order)
 void ArrowShootMove::m37() {
     auto* body = mActor->getMainBody();
     if (!body)
@@ -144,8 +142,10 @@ void ArrowShootMove::m37() {
     sead::Vector3f dir;
     m39(&dir);
     sead::Vector3f velocity = dir * _b4.value;
-    if (dmg::DamageInfoMgr::sub_7100674764())
-        velocity += *mRelativeVel_d;
+    if (dmg::DamageInfoMgr::sub_7100674764()) {
+        const sead::Vector3f relative_velocity = *mRelativeVel_d;
+        velocity += relative_velocity;
+    }
     if (_140 == -1) {
         velocity.normalize();
         velocity *= 0.01f;
