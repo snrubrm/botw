@@ -38,6 +38,10 @@ namespace ksys::res {
 class Handle;
 }
 
+namespace ksys {
+class OverlayArena;
+}
+
 namespace ksys::act {
 class Actor;
 class ActorCreator;
@@ -471,7 +475,8 @@ static_assert(sizeof(ListenerPoser) == 0xe0);
 // Placeholder name (SoundMgr::_60): `_28` is the address of the xlink2 SLink resource list the UI screens
 // (uking::ui::ScreenBase::getSlink2ResourceList_) hand to their sound link users.
 struct Unk_SoundMgr60 {
-    u8 _0[0x28];
+    u8 _0[0x20];
+    OverlayArena* mArena;
     u8 mSlinkResources[8];
     u8 _30[0xe0];
     Unk_710251b710 mMiiSoundRequests;
