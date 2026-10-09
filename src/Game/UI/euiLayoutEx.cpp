@@ -74,7 +74,6 @@ s32 LayoutEx::setMessageStringForEachIdWithPage(const char* id, const MessageStr
     return count;
 }
 
-// NON_MATCHING: the bounded identifier comparison tests its loop bound in a different order.
 // 0x7100bdda00
 s32 LayoutEx::setMessageStringForEachIdRecursive_(nn::ui2d::Pane* pane, const char* id,
                                                  const MessageString& message, bool* has_next_page,
@@ -83,14 +82,15 @@ s32 LayoutEx::setMessageStringForEachIdRecursive_(nn::ui2d::Pane* pane, const ch
     auto* text_box = sub_7100933580(pane);
     if (text_box && text_box->mTextId && text_box->mTextId[0] == '@') {
         bool matches = true;
-        for (s32 i = 0; i < 24; ++i) {
+        s32 i = 0;
+        do {
             if (id[i] != text_box->mTextId[i + 1]) {
                 matches = false;
                 break;
             }
             if (id[i] == '\0')
                 break;
-        }
+        } while (++i < 24);
         if (matches) {
             if (page < 0)
                 text_box->setMessageString(message, user_data);
