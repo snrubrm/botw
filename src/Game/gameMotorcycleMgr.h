@@ -44,6 +44,8 @@ public:
 
     // 0x7100678b28: clamps the energy to [0, 1000] (or resets it to 1000 without the flag).
     void clampMotorcycleEnergy();
+    // 67AB8C consumes only the receiver, applies pending energy and clearsC8.
+    void sub_710067AB8C();
 
     // 0x7100679ad0: whether `actor` is the actor riding the motorcycle.
     bool checkIsActorRidingMotorcycle(ksys::act::Actor* actor);
