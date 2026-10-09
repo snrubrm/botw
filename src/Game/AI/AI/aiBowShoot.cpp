@@ -133,6 +133,28 @@ void BowShoot::sub_710033BB98() {
     } while (_18c < _190 && ++shot < _190);
 }
 
+s32 BowShoot::sub_710033C41C() {
+    s32 count = 0;
+    if (auto* weapon = sead::DynamicCast<act::Weapon>(mActor);
+        weapon && weapon->sub_71002EA0D4()) {
+        if (auto* current_weapon = sead::DynamicCast<act::Weapon>(mActor))
+            count = current_weapon->sub_71002EA124();
+        else
+            count = 1;
+    } else if (auto* weapon = sead::DynamicCast<act::Weapon>(mActor);
+               weapon && weapon->sub_71002EA16C()) {
+        if (auto* current_weapon = sead::DynamicCast<act::Weapon>(mActor))
+            count = current_weapon->sub_71002EA1A8();
+        else
+            count = 1;
+    }
+    if (auto* weapon = sead::DynamicCast<act::Weapon>(mActor)) {
+        weapon->isParentPlayer();
+        return count < 10 ? count : 10;
+    }
+    return 0;
+}
+
 s32 BowShoot::sub_710033C684() {
     auto* weapon = sead::DynamicCast<act::Weapon>(mActor);
     if (!weapon || weapon->bowHasArrowName())

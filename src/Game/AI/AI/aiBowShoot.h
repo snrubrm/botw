@@ -42,6 +42,7 @@ protected:
     void sub_710033BF8C(u8 mode);
     void sub_710033C2C0(const sead::SafeString& arrow_name, s32 count);
     // 0x710033c888 (declaration only).
+    s32 sub_710033C41C();
     s32 sub_710033C684();
     bool sub_710033C888();
 
