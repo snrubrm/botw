@@ -490,10 +490,13 @@ bool Weapon::isThrowingBreakWeapon() {
     return param && param->mIsThrowingBreakWeapon.ref();
 }
 
-// NON_MATCHING: empty-name result branches and load scheduling differ.
 bool Weapon::bowHasArrowName() {
     const auto* param = getParam()->getRes().mGParamList->getBow();
-    return param && !param->mArrowName.ref().isEmpty();
+    if (param) {
+        if (!param->mArrowName.ref().isEmpty())
+            return true;
+    }
+    return false;
 }
 
 bool Weapon::bowIsUsedByPlayerAndHasArrowName() {
