@@ -78,7 +78,7 @@ void CameraMagneCatch::sub_7100775F84(act::Unk_71009214b8* out, f32 rate) {
     sub_7100924CDC(*mLatMin_s, *mLatMax_s, &min, &max);
     if (latitude < min)
         latitude = min;
-    else if (!(latitude <= max))
+    else if (latitude > max)
         latitude = max;
     const f32 clamped_latitude = angleStuff(latitude);
     sub_7100786A44(out, &clamped_latitude, &longitude);

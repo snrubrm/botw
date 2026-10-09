@@ -130,7 +130,7 @@ void CameraClimbObj::m34() {
         f32 latitude = _84;
         if (latitude < _114)
             latitude = _114;
-        else if (!(latitude <= _118))
+        else if (latitude > _118)
             latitude = _118;
         _84 = angleStuff(latitude);
     }
@@ -144,7 +144,7 @@ void CameraClimbObj::m34() {
     }
     polar._8 = angleStuff(angleStuff(remaining * _90) + _8c);
     _94 = _11c;
-    if (!(camera->_860._498 <= 0.0f))
+    if (camera->_860._498 > 0.0f)
         _94 *= camera->_860._498 * 0.33333334f;
     polar._0 = sub_7100924D40(_94 + remaining * _98);
     _4c += sub_7100791E44(sub_710092239C()) * (_68 - _4c);
@@ -181,28 +181,28 @@ void CameraClimbObj::sub_7100755F70() {
     _84 = angleStuff(_110);
     _88 = angleStuff(polar._4 - _84);
     f32 duration;
-    if (sub_71009226D8(_88) <= 0.0f)
-        duration = 0.0f;
-    else
+    if (sub_71009226D8(_88) > 0.0f)
         duration = std::fmax(sub_71009226D8(_88), 0.0f);
+    else
+        duration = 0.0f;
     _8c = _c8;
     _90 = angleStuff(polar._8 - _8c);
-    if (!(sub_71009226D8(_90) <= 0.0f)) {
+    if (sub_71009226D8(_90) > 0.0f) {
         const f32 yaw_duration = sub_71009226D8(_90) * 0.2f;
         if (yaw_duration > duration)
             duration = yaw_duration;
     }
     _94 = _11c;
-    if (!(camera->_860._498 <= 0.0f))
+    if (camera->_860._498 > 0.0f)
         _94 *= camera->_860._498 * 0.33333334f;
     _98 = polar._0 - _94;
     const f32 radius_distance = _98 > 0.0f ? _98 : -_98;
-    if (!(radius_distance <= 0.0f) && radius_distance * 1.5f > duration)
+    if (radius_distance > 0.0f && radius_distance * 1.5f > duration)
         duration = radius_distance * 1.5f;
     _4c = _68;
     _58 = camera->_860._0._c - _68;
     const f32 target_distance = _58.length();
-    if (!(target_distance <= 0.0f) && target_distance * 2.0f > duration)
+    if (target_distance > 0.0f && target_distance * 2.0f > duration)
         duration = target_distance * 2.0f;
     _9c = _120;
     _a0 = camera->_860._0._24 - _120;
@@ -222,28 +222,28 @@ void CameraClimbObj::sub_7100756190() {
     _84 = angleStuff(_110);
     _88 = angleStuff(polar._4 - _84);
     f32 duration;
-    if (sub_71009226D8(_88) <= 0.0f)
-        duration = 0.0f;
-    else
+    if (sub_71009226D8(_88) > 0.0f)
         duration = std::fmax(sub_71009226D8(_88), 0.0f);
+    else
+        duration = 0.0f;
     _8c = _c8;
     _90 = angleStuff(polar._8 - _8c);
-    if (!(sub_71009226D8(_90) <= 0.0f)) {
+    if (sub_71009226D8(_90) > 0.0f) {
         const f32 yaw_duration = sub_71009226D8(_90) * 0.2f;
         if (yaw_duration > duration)
             duration = yaw_duration;
     }
     _94 = _11c;
-    if (!(camera->_860._498 <= 0.0f))
+    if (camera->_860._498 > 0.0f)
         _94 *= camera->_860._498 * 0.33333334f;
     _98 = polar._0 - _94;
     const f32 radius_distance = _98 > 0.0f ? _98 : -_98;
-    if (!(radius_distance <= 0.0f) && radius_distance * 1.5f > duration)
+    if (radius_distance > 0.0f && radius_distance * 1.5f > duration)
         duration = radius_distance * 1.5f;
     _4c = _68;
     _58 = camera->_860._0._c - _68;
     const f32 target_distance = _58.length();
-    if (!(target_distance <= 0.0f) && target_distance * 2.0f > duration)
+    if (target_distance > 0.0f && target_distance * 2.0f > duration)
         duration = target_distance * 2.0f;
     _9c = _120;
     _a0 = camera->_860._0._24 - _120;
@@ -263,33 +263,33 @@ void CameraClimbObj::sub_71007563AC() {
     f32 latitude = polar._4;
     if (latitude < _114)
         latitude = _114;
-    else if (!(latitude <= _118))
+    else if (latitude > _118)
         latitude = _118;
     _84 = angleStuff(latitude);
     _88 = angleStuff(polar._4 - _84);
     f32 duration;
-    if (sub_71009226D8(_88) <= 0.0f)
-        duration = 0.0f;
-    else
+    if (sub_71009226D8(_88) > 0.0f)
         duration = std::fmax(sub_71009226D8(_88), 0.0f);
+    else
+        duration = 0.0f;
     _8c = polar._8;
     _90 = angleStuff(polar._8 - _8c);
-    if (!(sub_71009226D8(_90) <= 0.0f)) {
+    if (sub_71009226D8(_90) > 0.0f) {
         const f32 yaw_duration = sub_71009226D8(_90) * 0.2f;
         if (yaw_duration > duration)
             duration = yaw_duration;
     }
     _94 = _11c;
-    if (!(camera->_860._498 <= 0.0f))
+    if (camera->_860._498 > 0.0f)
         _94 *= camera->_860._498 * 0.33333334f;
     _98 = polar._0 - _94;
     const f32 radius_distance = _98 > 0.0f ? _98 : -_98;
-    if (!(radius_distance <= 0.0f) && radius_distance * 1.5f > duration)
+    if (radius_distance > 0.0f && radius_distance * 1.5f > duration)
         duration = radius_distance * 1.5f;
     _4c = _68;
     _58 = camera->_860._0._c - _68;
     const f32 target_distance = _58.length();
-    if (!(target_distance <= 0.0f) && target_distance * 2.0f > duration)
+    if (target_distance > 0.0f && target_distance * 2.0f > duration)
         duration = target_distance * 2.0f;
     _9c = _120;
     _a0 = camera->_860._0._24 - _120;

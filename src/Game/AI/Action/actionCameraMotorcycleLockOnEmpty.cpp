@@ -25,7 +25,7 @@ void CameraMotorcycleLockOnEmpty::sub_710077B7DC() {
                 f32 speed = velocity.length();
                 if (speed < min)
                     speed = min;
-                else if (!(speed <= max))
+                else if (speed > max)
                     speed = max;
                 _108 = (speed - min) / (max - min);
             }

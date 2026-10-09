@@ -29,7 +29,7 @@ void CameraShieldSurfing::m33() {
     sub_710077EBEC();
     f32 frame = 0.0f;
     ksys::Timer::update(&frame, 1.0f);
-    if (frame <= 0.0f) {
+    if (!(frame > 0.0f)) {
         _10c = 0.01f;
         _110 = 100.0f;
     } else {
@@ -84,7 +84,7 @@ void CameraShieldSurfing::m33() {
             f32 value = polar._4;
             if (value < _228)
                 value = _228;
-            else if (!(value <= _22c))
+            else if (value > _22c)
                 value = _22c;
             value = angleStuff(value);
             {
@@ -132,7 +132,7 @@ void CameraShieldSurfing::m34() {
     const f32 stick_length = stick.length();
     const f32 stick_angle = std::atan2(stick.y, stick.x);
     const u8 previous_state = _286;
-    if (!(stick_length <= 0.0f)) {
+    if (stick_length > 0.0f) {
         _286 = 5;
     } else if (_286 < 2) {
         if (_70._18 == 1.0f) {
@@ -163,7 +163,7 @@ void CameraShieldSurfing::m34() {
     const f32 progress = _70._18;
     f32 frame = 0.0f;
     ksys::Timer::update(&frame, 1.0f);
-    if (frame <= 0.0f) {
+    if (!(frame > 0.0f)) {
         _10c = 0.01f;
         _110 = 100.0f;
     } else {
@@ -270,12 +270,12 @@ void CameraShieldSurfing::m34() {
         f32 dot = forward.dot(direction);
         if (dot < -1.0f)
             dot = -1.0f;
-        else if (!(dot <= 1.0f))
+        else if (dot > 1.0f)
             dot = 1.0f;
         const f32 rate = sub_7100791E44(_244);
         f32 first;
         f32 second;
-        if (dot <= 0.0f) {
+        if (!(dot > 0.0f)) {
             first = sead::lerp(0.6f, 1.0f, dot + 1.0f);
             second = sead::lerp(1.0f, 1.0f, dot + 1.0f);
         } else {
@@ -284,11 +284,11 @@ void CameraShieldSurfing::m34() {
         }
         if (first < 0.0f)
             first = 0.0f;
-        else if (!(first <= 1.0f))
+        else if (first > 1.0f)
             first = 1.0f;
         if (second < 0.0f)
             second = 0.0f;
-        else if (!(second <= 1.0f))
+        else if (second > 1.0f)
             second = 1.0f;
         const sead::Vector3f player_pos = player->getMtx().getTranslation();
         const sead::Vector3f& old_pos = sub_7100928868(camera->_860._164);
@@ -452,7 +452,7 @@ void CameraShieldSurfing::sub_71007817A0(f32 latitude, f32* out) {
     f32 value = angleStuff(latitude);
     if (value < _228)
         value = _228;
-    else if (!(value <= _22c))
+    else if (value > _22c)
         value = _22c;
     value = angleStuff(value);
     {
@@ -515,7 +515,7 @@ void CameraShieldSurfing::sub_7100781548() {
     f32 value = angleStuff(*mLat_s);
     if (value < _228)
         value = _228;
-    else if (!(value <= _22c))
+    else if (value > _22c)
         value = _22c;
     _240 = angleStuff(value);
 }
@@ -577,7 +577,7 @@ void CameraShieldSurfing::sub_7100780ED0(bool clamp_latitude) {
         f32 latitude = polar._4;
         if (latitude < _228)
             latitude = _228;
-        else if (!(latitude <= _22c))
+        else if (latitude > _22c)
             latitude = _22c;
         _dc = angleStuff(latitude);
     } else {
@@ -687,7 +687,7 @@ void CameraShieldSurfing::sub_7100780AD8() {
         value = polar._0;
         if (value < min)
             value = min;
-        else if (!(value <= max))
+        else if (value > max)
             value = max;
     }
     _100 = value;
@@ -699,7 +699,7 @@ void CameraShieldSurfing::sub_7100780AD8() {
     if (_a0 != sead::Vector3f(0.0f, 0.0f, 0.0f)) {
         const f32 length = _a0.length();
         duration = sead::Mathf::clampMin(duration, 10.0f);
-        if (!(length <= 5.0f))
+        if (length > 5.0f)
             duration = sead::Mathf::clampMin(duration, (length > 0.0f ? length : -length) * 2.5f);
     }
     _108 = camera->_860._0._24 - _27c;
@@ -741,16 +741,16 @@ void CameraShieldSurfing::sub_71007812B8() {
     sub_710078105C();
     if (_a0 != sead::Vector3f(0.0f, 0.0f, 0.0f)) {
         const f32 length = _a0.length();
-        if (!(length <= 5.0f))
+        if (length > 5.0f)
             duration = sead::Mathf::clampMin(duration, (length > 0.0f ? length : -length) * 2.5f);
     }
     _108 = camera->_860._0._24 - _27c;
     const f32 degrees = _108 * 57.295776f;
     duration = sead::Mathf::clampMin(duration, (degrees > 0.0f ? degrees : -degrees) * 0.5f);
-    if (!(duration <= 0.0f)) {
+    if (duration > 0.0f) {
         if (duration < 10.0f)
             duration = 10.0f;
-        else if (!(duration <= 90.0f))
+        else if (duration > 90.0f)
             duration = 90.0f;
     }
     if (!_284.isOn(1))
@@ -853,7 +853,7 @@ void CameraShieldSurfing::sub_710077FFA0() {
     value = angleStuff(_f0 + _dc);
     if (value < _228)
         value = _228;
-    else if (!(value <= _22c))
+    else if (value > _22c)
         value = _22c;
     value = angleStuff(value);
     {
@@ -877,7 +877,7 @@ void CameraShieldSurfing::sub_710077FFA0() {
     value = _25c;
     if (value < min)
         value = min;
-    else if (!(value <= max))
+    else if (value > max)
         value = max;
     {
         act::Unk_71024741b8 curve;

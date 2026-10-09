@@ -29,7 +29,7 @@ void CameraWakeboard::m33() {
     sub_7100787C08();
     f32 frame = 0.0f;
     ksys::Timer::update(&frame, 1.0f);
-    if (frame <= 0.0f) {
+    if (!(frame > 0.0f)) {
         _114 = 0.01f;
         _118 = 100.0f;
     } else {
@@ -88,7 +88,7 @@ void CameraWakeboard::m33() {
             f32 value = polar._4;
             if (value < _258)
                 value = _258;
-            else if (!(value <= _25c))
+            else if (value > _25c)
                 value = _25c;
             value = angleStuff(value);
             {
@@ -136,7 +136,7 @@ void CameraWakeboard::m34() {
     const f32 stick_length = stick.length();
     const f32 stick_angle = std::atan2(stick.y, stick.x);
     const u8 previous_state = _2c2;
-    if (!(stick_length <= 0.0f)) {
+    if (stick_length > 0.0f) {
         _2c2 = 4;
     } else if (_2c2 == 2) {
         if (sub_7100927110())
@@ -167,7 +167,7 @@ void CameraWakeboard::m34() {
     const f32 progress = _70._18;
     f32 frame = 0.0f;
     ksys::Timer::update(&frame, 1.0f);
-    if (frame <= 0.0f) {
+    if (!(frame > 0.0f)) {
         _114 = 0.01f;
         _118 = 100.0f;
     } else {
@@ -269,12 +269,12 @@ void CameraWakeboard::m34() {
         f32 dot = forward.dot(direction);
         if (dot < -1.0f)
             dot = -1.0f;
-        else if (!(dot <= 1.0f))
+        else if (dot > 1.0f)
             dot = 1.0f;
         const f32 rate = sub_7100791E44(_274);
         f32 first;
         f32 second;
-        if (dot <= 0.0f) {
+        if (!(dot > 0.0f)) {
             first = sead::lerp(0.6f, 1.0f, dot + 1.0f);
             second = sead::lerp(1.0f, 1.0f, dot + 1.0f);
         } else {
@@ -283,11 +283,11 @@ void CameraWakeboard::m34() {
         }
         if (first < 0.0f)
             first = 0.0f;
-        else if (!(first <= 1.0f))
+        else if (first > 1.0f)
             first = 1.0f;
         if (second < 0.0f)
             second = 0.0f;
-        else if (!(second <= 1.0f))
+        else if (second > 1.0f)
             second = 1.0f;
         const sead::Vector3f player_pos = player->getMtx().getTranslation();
         const sead::Vector3f& old_pos = sub_7100928868(camera->_860._164);
@@ -370,7 +370,7 @@ void CameraWakeboard::m34() {
         side = camera_actor->_860.sub_710079BE40() * 28.571428f;
         if (side < -1.0f)
             side = -1.0f;
-        else if (!(side <= 1.0f))
+        else if (side > 1.0f)
             side = 1.0f;
     }
     _bc += sub_7100791E44(_2a8) * (-(side * *mSideOffset_s) - _bc);
@@ -480,7 +480,7 @@ void CameraWakeboard::sub_710078A818(f32 latitude, f32* out) {
     f32 value = angleStuff(latitude);
     if (value < _258)
         value = _258;
-    else if (!(value <= _25c))
+    else if (value > _25c)
         value = _25c;
     value = angleStuff(value);
     {
@@ -743,7 +743,7 @@ void CameraWakeboard::sub_7100789098() {
     value = angleStuff(_ec + _d8);
     if (value < _258)
         value = _258;
-    else if (!(value <= _25c))
+    else if (value > _25c)
         value = _25c;
     value = angleStuff(value);
     {
@@ -767,7 +767,7 @@ void CameraWakeboard::sub_7100789098() {
     value = _28c;
     if (value < min)
         value = min;
-    else if (!(value <= max))
+    else if (value > max)
         value = max;
     {
         act::Unk_71024741b8 curve;
@@ -845,7 +845,7 @@ void CameraWakeboard::sub_7100789C50() {
         value = polar._0;
         if (value < min)
             value = min;
-        else if (!(value <= max))
+        else if (value > max)
             value = max;
     }
     _fc = value;
@@ -860,7 +860,7 @@ void CameraWakeboard::sub_7100789C50() {
     if (_a0 != sead::Vector3f(0.0f, 0.0f, 0.0f)) {
         const f32 length = _a0.length();
         duration = sead::Mathf::clampMin(duration, 10.0f);
-        if (!(length <= 5.0f))
+        if (length > 5.0f)
             duration = sead::Mathf::clampMin(duration, (length > 0.0f ? length : -length) * 2.5f);
     }
     if (auto* current_camera = getCamera())

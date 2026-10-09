@@ -242,7 +242,7 @@ void CameraHorse::sub_7100771008(f32* out) {
     }
     if (*out < _58)
         *out = _58;
-    else if (!(*out <= _5c))
+    else if (*out > _5c)
         *out = _5c;
     *out = angleStuff(*out);
 }
