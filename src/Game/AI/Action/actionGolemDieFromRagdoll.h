@@ -16,6 +16,12 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    // The contact helper consumes the paired body/material names populated by loadParams_.
+    struct RagdollBody {
+        sead::SafeString mRagdollBodyName_s;
+        sead::SafeString mMaterialName_s;
+    };
+
 protected:
     void calc_() override;
 
@@ -31,10 +37,6 @@ protected:
     const float* mPosReduceRatio_s{};
     // static_param at offset 0x48
     const float* mRotReduceRatio_s{};
-    struct RagdollBody {
-        sead::SafeString mRagdollBodyName_s;
-        sead::SafeString mMaterialName_s;
-    };
     // static_params at offset 0x50 (RagdollBodyName1-4, MaterialName1-4 interleaved)
     RagdollBody mRagdollBodies_s[4];
     // static_param at offset 0xd0
