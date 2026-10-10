@@ -106,8 +106,6 @@ bool DamageMgrNPC::m35(sead::Matrix34f* out) {
     }
 }
 
-// NON_MATCHING: same structure; the original merges the z store of all paths (sunk) and negates z as an integer
-// (eor with the sign bit) in the last path.
 bool DamageMgrNPC::m31(sead::Vector3f* out) {
     switch (getDamageType()) {
     case 0: {
@@ -123,7 +121,7 @@ bool DamageMgrNPC::m31(sead::Vector3f* out) {
             *out = _80;
         } else {
             const auto& mtx = mActor->getMtx();
-            out->set(-mtx(0, 2), -mtx(1, 2), -mtx(2, 2));
+            *out = -mtx.getBase(2);
         }
         return true;
     }
@@ -131,7 +129,7 @@ bool DamageMgrNPC::m31(sead::Vector3f* out) {
         auto* link = mActor->getImpulseBaseProcLink();
         const sead::Vector3f* src;
         if (!link)
-            src = &sead::Vector3f::zero;
+            src = &sead::Vector3f::ez;
         else
             src = &link->_10._10;
         *out = *src;
