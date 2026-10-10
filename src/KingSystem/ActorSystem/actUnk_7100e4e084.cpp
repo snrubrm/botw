@@ -189,7 +189,6 @@ bool Unk_7100e4e084::sub_7100E50390(Actor* actor) {
     return result;
 }
 
-// NON_MATCHING: same operations, but the original loads the matrix rows in another order (scheduling)
 // Placeholder name: the correction `scale * offset - mtx * (scale * offset)` of the Liftable LiftCenterOffset for a
 // rotation `mtx` (zero without the parameter).
 void Unk_7100e4e084::sub_7100E4FF1C(sead::Vector3f* out, const sead::Matrix34f& mtx) const {
@@ -202,18 +201,9 @@ void Unk_7100e4e084::sub_7100E4FF1C(sead::Vector3f* out, const sead::Matrix34f& 
 
     const f32 scale = mActor->getScale().y;
     const sead::Vector3f& offset = liftable->mLiftCenterOffset.ref();
-    const f32 nx = -(scale * offset.x);
-    const f32 sy = scale * offset.y;
-    const f32 sz = scale * offset.z;
-    const f32 ny = -(scale * offset.y);
-    const f32 nz = -(scale * offset.z);
-    out->set(nx, ny, nz);
-    out->x = mtx(0, 0) * nx - mtx(0, 1) * sy - mtx(0, 2) * sz;
-    out->y = mtx(1, 0) * nx - mtx(1, 1) * sy - mtx(1, 2) * sz;
-    out->z = mtx(2, 0) * nx - mtx(2, 1) * sy - mtx(2, 2) * sz;
-    out->x += scale * offset.x;
-    out->y += scale * offset.y;
-    out->z += scale * offset.z;
+    *out = -(offset * scale);
+    out->rotate(mtx);
+    *out += offset * scale;
 }
 
 }  // namespace ksys::act
