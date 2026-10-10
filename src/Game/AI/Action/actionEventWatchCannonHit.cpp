@@ -27,11 +27,6 @@ void EventWatchCannonHit::loadParams_() {
     getDynamicParam(&mXLinkKey_d, "XLinkKey");
 }
 
-// NON_MATCHING: the original tests the == case with `b.le` reusing the outer fcmp's flags (no
-// second compare); ours emits a second fcmp for `else if (current <= target)` (b.ls). All other
-// instructions match, including the VFR::getDeltaFrame() step, the (new >= target)/(new <= target)
-// Yoda inner tests, the getField50()==4 / s32(getDamage())>=1 gates and the
-// !isEmpty+cstr/xlinkSearchAndEmit tail.
 void EventWatchCannonHit::calc_() {
     auto* watch = mWatchFrame_d;
     const f32 step = ksys::VFR::instance()->getDeltaFrame();
@@ -46,7 +41,7 @@ void EventWatchCannonHit::calc_() {
         } else {
             _38 = new_value;
         }
-    } else if (current <= target) {
+    } else if (!(current > target)) {
         reached = true;
     } else {
         const f32 new_value = current - step;
