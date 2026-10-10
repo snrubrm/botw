@@ -57,10 +57,9 @@ void CollaboShootingStarBrightTower::calc_() {
     if (anchor != nullptr && !anchor->sub_71010D0734())
         setFailed();
     const sead::Vector3f& player_pos = getPlayerPosition();
-    // NON_MATCHING: the original loads the actor matrix X/Z before the player position;
-    // ours loads them in the opposite order. Values, branches and calls are identical.
-    const f32 dx = player_pos.x - mActor->getMtx().m[0][3];
-    const f32 dz = player_pos.z - mActor->getMtx().m[2][3];
+    const sead::Vector3f position = mActor->getMtx().getTranslation();
+    const f32 dx = player_pos.x - position.x;
+    const f32 dz = player_pos.z - position.z;
     if (!((dx * dx + dz * dz) < 625.0f))
         return;
     setFinished();
