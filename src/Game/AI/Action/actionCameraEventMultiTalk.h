@@ -1,5 +1,7 @@
 #pragma once
 
+#include <container/seadSafeArray.h>
+
 #include "Game/AI/Action/actionCameraEvent.h"
 #include "Game/Actor/actCamera.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
@@ -36,7 +38,8 @@ protected:
     f32 _84 = 0.0f;
     f32 _88 = 0.0f;
     uking::act::Unk_7102459dd8 _90;
-    Unk_CameraEventMultiTalkElem _b0[3];
+    sead::SafeArray<Unk_CameraEventMultiTalkElem, 3> _b0 =
+        sead::SafeArray<Unk_CameraEventMultiTalkElem, 3>();
     s32 _260 = 0;
     const f32* mLatMin_s = nullptr;
     const f32* mLatMax_s = nullptr;

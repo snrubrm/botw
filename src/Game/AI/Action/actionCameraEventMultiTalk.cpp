@@ -5,7 +5,6 @@
 
 namespace uking::action {
 
-// NON_MATCHING: the native pre-construction array memset is absent from natural member initialization.
 CameraEventMultiTalk::CameraEventMultiTalk(const InitArg& arg) : CameraEvent(arg) {}
 
 CameraEventMultiTalk::~CameraEventMultiTalk() = default;
