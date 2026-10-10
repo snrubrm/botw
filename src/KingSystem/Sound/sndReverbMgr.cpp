@@ -5,7 +5,6 @@
 namespace ksys::snd {
 
 Unk_7101059828::Unk_7101059828() = default;
-Unk_7101059828::~Unk_7101059828() = default;
 void Unk_7101059828::draw(sead::PrimitiveDrawer* drawer, bool a, bool b) {}
 
 void Unk_7101059828::sub_7101059848(f32 value) { _8 = value; }

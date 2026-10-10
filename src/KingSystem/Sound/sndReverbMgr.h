@@ -21,7 +21,9 @@ namespace ksys::snd {
 class Unk_7101059828 {
 public:
     Unk_7101059828();
-    virtual ~Unk_7101059828();
+    // Inline in the original: SoundReverbAreaTagAction's own destructor only stores this subobject's vtable
+    // and never calls the 4-byte out-of-line copy at 0x7101059cfc / 0x7101059d00.
+    virtual ~Unk_7101059828() = default;
     virtual void draw(sead::PrimitiveDrawer* drawer, bool a, bool b);
 
     void sub_7101059848(f32 value);
