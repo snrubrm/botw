@@ -34,12 +34,8 @@ void AssassinCallSelect::m34() {
     }
 }
 
-// NON_MATCHING: stack slots of the SafeString temporaries (the original keeps the isCurrentChild name and the two
-// event-name temporaries in three separate slots) and the boolean return is masked with `and`
 bool AssassinCallSelect::m35() {
-    if (!isCurrentChild("変身デモ"))
-        return false;
-    if (isChangeDemoActive())
+    if (isCurrentChild("変身デモ") && isChangeDemoActive())
         return true;
     return false;
 }
