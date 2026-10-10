@@ -1430,10 +1430,9 @@ void Motorcycle::applyPitchDamping() {
     addAngularVelocity(_bb8, damping.x, damping.y, damping.z);
 }
 
-// NON_MATCHING: operand order of the first fadd of the length and the store grouping of the velocity
 void Motorcycle::applyDragMaybe() {
-    sead::Vector3f velocity =
-        _bb8->getLinearVelocity() + sead::Vector3f(0.010255f, -0.666032f, 0.09355f);
+    sead::Vector3f velocity = _bb8->getLinearVelocity();
+    velocity += sead::Vector3f(0.010255f, -0.666032f, 0.09355f);
     const f32 factor = velocity.length() * -0.432f;
     velocity *= factor * ksys::VFR::instance()->getDeltaFrame();
     _bb8->applyLinearImpulse(velocity);
