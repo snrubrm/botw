@@ -13,10 +13,45 @@
 #include "KingSystem/Utils/Thread/Task.h"
 #include "KingSystem/Utils/Thread/TaskThread.h"
 #include "KingSystem/Utils/Thread/ManagedTask.h"
+#include "KingSystem/Resource/resResourceFileUtil.h"
 
 Unk_71024f9bb8::~Unk_71024f9bb8() = default;
 
 namespace ksys::res {
+
+void sub_7100FE0D98(Unk_71024f9a08* resource, Unk_71024F9D48* handle) {
+    resource->mCS.lock();
+    resource->mHandles.erase(handle);
+    resource->mCS.unlock();
+}
+
+bool sub_7100FE0F14(Unk_71024f9a08* resource) {
+    if (resource->mStatus == 2 || resource->mStatus == 5)
+        return true;
+    return resource->mFlags.isOnBit(2);
+}
+
+// NON_MATCHING: the original lowers this switch to a seven-entry jump table over mStatus 2..8
+// (cases 3, 5, 7 and the default all share the `mStatus == 5` block); clang 4 folds the
+// 2/4/8 cluster into a 0x134 bit test instead. Both case orders were tried; both give the bit test.
+bool sub_7100FE0F44(Unk_71024f9a08* resource) {
+    switch (resource->mStatus) {
+    case 2:
+    case 4:
+    case 8:
+        return true;
+    case 6:
+        return resource->mFlags.isOnBit(1);
+    default:
+        return resource->mStatus == 5;
+    }
+}
+
+nn::gfx::ResTexture* sub_7100FE0F8C(Unk_71024f9a08* resource) {
+    return sub_7100FDDC24(&resource->_1f8);
+}
+
+
 
 // FE2890 allocates 0x140 bytes; FE85E8 constructs ManagedTask and the 0x80-byte data.
 class Unk_71024f9da0 : public util::ManagedTask {

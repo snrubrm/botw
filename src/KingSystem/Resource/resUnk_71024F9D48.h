@@ -8,10 +8,7 @@
 #include <container/seadOffsetList.h>
 #include <thread/seadCriticalSection.h>
 #include "KingSystem/Utils/Thread/Event.h"
-
-namespace nn::gfx {
-class ResTexture;
-}
+#include <nn/gfx/gfx_ResTexture.h>
 
 namespace sead {
 class FileDevice;
@@ -122,7 +119,9 @@ public:
     // Whole FE0144 sets buffer 178, length 0 and capacity 80; FE0584/FE0860 use
     // StringBuilder::copy/copyAt and its reverse search on the same object.
     sead::FixedStringBuilder<128> mPath;
-    u8 _1f8[0x29a - 0x1f8];
+    // FE0F8C hands &this member to the ResTexture placeholder sub_7100FDDC24.
+    nn::gfx::ResTexture _1f8;
+    u8 _298[2];
     // FE0348 assigns the path using a BufferedSafeString with capacity 126.
     char _29a[0x7e];
     u8 _318[0x618 - 0x318];
