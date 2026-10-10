@@ -19,22 +19,23 @@ ksys::act::BaseProc* MergedDungeonParts::construct(const CreateArg& arg, sead::H
     return new (heap, std::nothrow) MergedDungeonParts(arg);
 }
 
-// NON_MATCHING: the loop uses a separate matrix pointer and compares the index with 17.
 void MergedDungeonParts::updatePositionMaybe() {
     auto* mgr = ksys::phys::System::instance()->getStaticCompoundMgr();
     if (mgr) {
         ksys::phys::StaticCompoundRigidBodyGroup* group = nullptr;
         sead::Matrix34f transform = sead::Matrix34f::ident;
         sead::FixedSafeString<32> name;
-        for (int i = 0; i < 17; ++i) {
+        int i = 0;
+        for (const auto& matrix : _850) {
             group = mgr->getBodyGroup(i - 1);
             if (group)
-                transform = mgr->getTransformedMatrix(group, _850[i]);
+                transform = mgr->getTransformedMatrix(group, matrix);
             if (_b80[i] >= 0) {
                 auto* unit = mModel->getUnits().unsafeAt(_b80[i])->mModelUnit;
                 if (unit)
                     unit->setBoneLocalMatrix(transform, sead::Vector3f::ones, 0);
             }
+            ++i;
         }
     }
     MapConstActiveOrMergedDungeonParts::updatePositionMaybe();
