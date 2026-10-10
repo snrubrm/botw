@@ -5,6 +5,7 @@
 #include "Game/AI/Action/actionWaterFloatBase.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 #include "KingSystem/System/VFRValue.h"
+#include "KingSystem/System/Timer.h"
 #include "KingSystem/Utils/Types.h"
 
 namespace uking::action {
@@ -47,9 +48,8 @@ protected:
     ksys::VFRValue _a8;
     ksys::VFRValue _b4;
     sead::Matrix33f _c0;
-    sead::Vector2f _e4{0, 0};
-    sead::Vector2f _ec{0, 0};
-    sead::Vector2f _f4{0, 0};
+    ksys::Timer _e4;
+    ksys::Timer _f0;
 };
 KSYS_CHECK_SIZE_NX150(BackSwim, 0x100);
 

@@ -7,7 +7,6 @@
 
 namespace uking::action {
 
-// NON_MATCHING: the original computes this + 0xa8 after the memset (hoisted into x20 here)
 BackSwim::BackSwim(const InitArg& arg) : WaterFloatBase(arg) {}
 
 BackSwim::~BackSwim() = default;
@@ -16,7 +15,6 @@ bool BackSwim::init_(sead::Heap* heap) {
     return WaterFloatBase::init_(heap);
 }
 
-// NON_MATCHING: the original stores _f4 as one 64-bit immediate (two 32-bit stores here)
 void BackSwim::enter_(ksys::act::ai::InlineParamPack* params) {
     WaterFloatBase::enter_(params);
     auto* controller = mActor->getCharacterController();
@@ -24,9 +22,8 @@ void BackSwim::enter_(ksys::act::ai::InlineParamPack* params) {
         return;
 
     const f32 time = *mParams.mTime_s;
-    _ec.set(-1.0f, 20.0f);
-    _f4 = _ec;
-    _e4 = {time, time};
+    _e4 = ksys::Timer(time, time);
+    _f0 = ksys::Timer(20.0f, 20.0f);
 
     const f32 speed = mActor->getVelocity().length();
     _a8.value = speed;
