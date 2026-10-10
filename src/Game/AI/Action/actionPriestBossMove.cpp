@@ -147,11 +147,10 @@ bool PriestBossMove::m36(const sead::Vector3f& dir) {
     return dir.dot(contact->_c) < 0;
 }
 
-// NON_MATCHING: the original loads the actor and `_114` x / z in a different order for the distance.
 bool PriestBossMove::m37() {
     if (!_130 && sub_71007A4178(mActor, false) && !(*mNotMoveDistanceThreshold_s < 0)) {
-        const f32 dist = sead::Vector2f(mActor->getMtx().m[0][3] - _114.x,
-                                        mActor->getMtx().m[2][3] - _114.z)
+        const sead::Vector3f position = mActor->getMtx().getTranslation();
+        const f32 dist = sead::Vector2f(position.x - _114.x, position.z - _114.z)
                              .length();
         if (dist < ksys::VFR::instance()->getDeltaFrame() * *mNotMoveDistanceThreshold_s) {
             _e4.update();
