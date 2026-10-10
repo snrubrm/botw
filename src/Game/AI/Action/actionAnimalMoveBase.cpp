@@ -15,8 +15,6 @@ bool AnimalMoveBase::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }
 
-// NON_MATCHING: the original loads the max-gear param first and computes the range size as (max + 1) - min (we
-// get 1 - min + max).
 void AnimalMoveBase::enter_(ksys::act::ai::InlineParamPack* params) {
     mFlags.set(Flag::Changeable);
     auto* rideable = mActor->m132();
@@ -24,10 +22,12 @@ void AnimalMoveBase::enter_(ksys::act::ai::InlineParamPack* params) {
         setFailed();
         return;
     }
-    s32 gear = *mMinUseGear_s;
     const s32 max = *mMaxUseGear_s;
-    if (max >= gear)
-        gear = sead::GlobalRandom::instance()->getS32Range(gear, max + 1);
+    s32 gear = *mMinUseGear_s;
+    if (max >= gear) {
+        auto* random = sead::GlobalRandom::instance();
+        gear += random->getU32((max + 1) - gear);
+    }
     _68 = gear;
     if (*mCanUseHorseGearInput_s) {
         const act::Rideable::Gear input_gear(rideable->_134);
