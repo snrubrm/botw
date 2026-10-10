@@ -96,13 +96,12 @@ void GameSceneSubsys14::init() {
     initCurrentLocation();
 }
 
-// NON_MATCHING: the active slot lookup retains an additional checked-array access.
 void GameSceneSubsys14::sub_7100904DD4(const Unk_7100903948::Slot& slot) {
     const int count = mActiveSlots.size();
     for (int i = 0; i < count; ++i) {
         if (mActiveSlots[i]->id != slot.id || !(mActiveSlots[i]->link == slot.link))
             continue;
-        auto* active = mActiveSlots[i];
+        auto* active = mActiveSlots(i);
         active->id = -1;
         active->link.reset();
         mFreeSlots.pushBack(mActiveSlots[i]);
