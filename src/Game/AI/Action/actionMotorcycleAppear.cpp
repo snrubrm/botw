@@ -37,6 +37,8 @@ void MotorcycleAppear::loadParams_() {
 }
 
 void MotorcycleAppear::calc_() {
+    // NON_MATCHING: the original loads mHideFrames_s once for the compare and the sum, and reloads
+    // mActor / the flags before the second compare (load scheduling differs)
     auto* actor = mActor;
     auto* motorcycle = sead::DynamicCast<uking::act::Motorcycle>(actor);
     if (!motorcycle) {
@@ -48,15 +50,14 @@ void MotorcycleAppear::calc_() {
     motorcycle->setLeftStickX(0.0f);
     motorcycle->setLeftStickY(0.0f);
     const f32 time = _38;
-    const f32 hide_frames = *mHideFrames_s;
-    if (time < hide_frames) {
+    if (time < *mHideFrames_s) {
         mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_20);
     } else {
-        const f32 warp_frames = *mModelWarpEffectFrames_s;
         mActor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_20);
-        if (time < hide_frames + warp_frames) {
-            mActor->x_3(sead::Mathf::clamp(
-                1.0f - (time - *mHideFrames_s) / *mModelWarpEffectFrames_s, 0.0f, 1.0f));
+        if (time < *mHideFrames_s + *mModelWarpEffectFrames_s) {
+            const f32 ratio = sead::Mathf::clamp(
+                1.0f - (time - *mHideFrames_s) / *mModelWarpEffectFrames_s, 0.0f, 1.0f);
+            mActor->x_3(ratio);
         } else {
             mActor->x_3(0.0f);
             setFinished();

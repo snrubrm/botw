@@ -15,16 +15,12 @@ bool ForkSandwormAtkCol::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }
 
+// NON_MATCHING: max selects the minimum damage without the original duplicated bool branches.
 void ForkSandwormAtkCol::enter_(ksys::act::ai::InlineParamPack* params) {
     mFlags.set(Flag::Changeable);
     auto* actor = mActor;
     sub_710072022C(actor);
-    const int min_damage = *mMinDamage_s;
-    const bool use_toss = *mIsUseTossAt_s;
-    if (min_damage >= 1)
-        sub_710072027C(actor, use_toss, min_damage);
-    else
-        sub_710072027C(actor, use_toss, 1);
+    sub_710072027C(actor, *mIsUseTossAt_s, sead::Mathi::max(1, *mMinDamage_s));
     if (*mIsColNoHitPlayer_s)
         sub_7100720814(actor, 0);
 }

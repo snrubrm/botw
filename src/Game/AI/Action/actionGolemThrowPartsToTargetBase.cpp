@@ -68,18 +68,18 @@ void GolemThrowPartsToTargetBase::m32(sead::Vector3f* linear_velocity,
     }
 }
 
+// NON_MATCHING: the compiler reloads the empty-string byte for each part instead of sharing it.
 void GolemThrowPartsToTargetBase::sub_710018D8DC() {
-    const char null_char = sead::SafeString::cNullChar;
     if (_e0) {
         _e0 = false;
-        if (*_60._30.getStringTop() != null_char) {
+        if (!_60._30.isEmpty()) {
             sub_7100725960(mActor, _60._30, false);
             sub_71007259CC(mActor, _60._30, false);
         }
     }
     if (_e1) {
         _e1 = false;
-        if (*_a0._30.getStringTop() != null_char) {
+        if (!_a0._30.isEmpty()) {
             sub_7100725960(mActor, _a0._30, false);
             sub_71007259CC(mActor, _a0._30, false);
         }
