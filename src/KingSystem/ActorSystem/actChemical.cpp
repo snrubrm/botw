@@ -222,6 +222,20 @@ void Chemical::sub_7100D8EAB4(int value) {
     _10 = value;
 }
 
+void Chemical::sub_7100D8EA50(sead::Heap* heap) {
+    auto* data = new (heap, 0x20, std::nothrow) Unk_ChemicalData[1];
+    if (data) {
+        _80 = sizeof(Unk_ChemicalData);
+        _88 = data;
+    }
+    _90 = _88;
+}
+
+void Chemical::sub_7100D8EA9C() {
+    if (_60)
+        sub_7100D9B158(_60, this);
+}
+
 void Chemical::sub_7100D8F194() {
     if (_8 & 0xa)
         _8 |= 0x10;

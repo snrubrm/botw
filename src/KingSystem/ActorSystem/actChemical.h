@@ -5,6 +5,7 @@
 #include <hostio/seadHostIONode.h>
 #include <math/seadMatrix.h>
 #include <math/seadVector.h>
+#include <heap/seadHeap.h>
 #include "KingSystem/Chemical/chmSystemConfig.h"
 #include "KingSystem/Utils/Types.h"
 
@@ -49,6 +50,7 @@ struct Unk_ChemicalData {
     /* 0x13 */ u8 _13[0x7c - 0x13];
     /* 0x7c */ f32 _7c;
 };
+KSYS_CHECK_SIZE_NX150(Unk_ChemicalData, 0x80);  // new[] size in Chemical::sub_7100D8EA50
 
 // Placeholder (lane4 s50): the sub-object Chemical::_1c8 points to (sub_7100D91360 reads its byte 0x1a).
 struct Unk_Chemical1c8 {
@@ -72,6 +74,10 @@ public:
 
     void sub_7100D8EAB4(int value);
     void sub_7100D8EEE0();
+    // 0x7100d8ea50: allocates the 0x80-byte _88 element buffer on `heap` and points _90 at it.
+    void sub_7100D8EA50(sead::Heap* heap);
+    // 0x7100d8ea9c: `sub_7100D9B158(_60, this)` when there is a chemical world.
+    void sub_7100D8EA9C();
     // 0x7100d945bc (declaration only, lane1 s39; placeholder name): ChemicalGiantArmorRoot passes the charge
     // rate, _1b8 and the delta frame. Returns a float (SwitchElectricOn::calc_ compares it with MinEnergyRate).
     f32 sub_7100D945BC(f32 rate, f32 value, f32 delta_frame);
@@ -116,6 +122,8 @@ public:
     // 0x7100d9cb54 (declared only): `world->...(chemical)`: whether `chemical` is one the chemical world watches
     // (`world` is `_60`).
     static bool sub_7100D9CB54(void* world, const Chemical* chemical);
+    // 0x7100d9b158 (declaration only): removes `chemical` from `world`'s list and hash.
+    static void sub_7100D9B158(void* world, Chemical* chemical);
     // 0x7100d8cd24 (declared only): releases the sub-object `_1c8` / `_1d0` points to.
     static void sub_7100D8CD24(void* object, bool a2);
     // 0x7100d9472c (CSV: gsys::ModelSceneBuffer::isDeferredShadingEnabled, a mislabeled ICF body; AI code calls it on
@@ -155,8 +163,10 @@ public:
     /* 0x060 */ void* _60 = nullptr;  // chemical world object (methods 0x7100d9cb54, 0x7100d9a1c4, ...)
     /* 0x068 */ void* _68 = nullptr;
     // object with vtables 0x71024dd218 / 0x71024dd238 (D1 0x7100d8e968) and a 0x80-byte buffer
-    /* 0x070 */ u8 _70[0x90 - 0x70];
-    /* 0x090 */ Unk_ChemicalData* _90 = nullptr;  // read by ChmCheck (lane1 s22)
+    /* 0x070 */ u8 _70[0x80 - 0x70];
+    /* 0x080 */ u32 _80 = 0;  // sizeof the _88 array, set to 0x80 by sub_7100D8EA50
+    /* 0x088 */ Unk_ChemicalData* _88 = nullptr;  // one 0x80-byte element (memset by sub_7100D8EAB4)
+    /* 0x090 */ Unk_ChemicalData* _90 = nullptr;  // == _88; read by ChmCheck (lane1 s22)
     /* 0x098 */ const char* _98;
     /* 0x0a0 */ u8 _a0 = 1;
     /* 0x0a1 */ u8 _a1 = 0;
