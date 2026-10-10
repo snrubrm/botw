@@ -6,7 +6,6 @@
 
 namespace uking::action {
 
-// NON_MATCHING: native pre-construction array zeroing is not emitted by the typed array.
 CameraMagneCatch::CameraMagneCatch(const InitArg& arg) : CameraLockOnBase(arg), _338(this), _388(this), _3d8(this) {}
 
 // NON_MATCHING: out-of-line callback destructors remain to preserve their existing native identities.

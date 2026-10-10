@@ -40,7 +40,7 @@ protected:
     sead::Delegate1<CameraMagneCatch, act::Unk_71009214b8*> _1c0;
     sead::Delegate1<CameraMagneCatch, act::Unk_71009214b8*> _1e0;
     sead::Delegate1<CameraMagneCatch, act::Unk_71009214b8*> _200;
-    sead::SafeArray<Unk_7102457ac0, 3> _220{};
+    sead::SafeArray<Unk_7102457ac0, 3> _220 = sead::SafeArray<Unk_7102457ac0, 3>();
     sead::FixedPtrArray<Unk_7102457a80, 3> _310;
     Unk_7102457b50 _338;
     Unk_7102457b50 _388;
