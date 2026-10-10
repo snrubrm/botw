@@ -52,14 +52,14 @@ bool Unk_SoundInstance::sub_710104ACF8(map::Object* object) {
     return true;
 }
 
-// NON_MATCHING: actor ID and pool-pointer loads use swapped registers.
 bool Unk_SoundInstance::sub_710104B10C(act::Actor* actor) {
     if (!actor || actor->getXLink()->_bc >= u32(_494))
         return false;
     auto* object = actor->getMapObject();
     if (!object) {
+        const u32 actor_id = actor->getId();
         for (auto id : _220) {
-            if (id == actor->getId()) {
+            if (id == actor_id) {
                 auto lock = sead::makeScopedLock(mCS);
                 ++_488;
                 return true;
@@ -77,14 +77,14 @@ bool Unk_SoundInstance::sub_710104B10C(act::Actor* actor) {
     return false;
 }
 
-// NON_MATCHING: the actor ID and pool-pointer loads use swapped registers.
 bool Unk_SoundInstance::sub_710104B1D8(act::Actor* actor) {
     if (!actor)
         return false;
     auto* object = actor->getMapObject();
     if (!object) {
+        const u32 actor_id = actor->getId();
         for (auto id : _220) {
-            if (id == actor->getId())
+            if (id == actor_id)
                 return true;
         }
     } else if (object->getHashId() != 0xffffffff) {
@@ -147,14 +147,14 @@ bool Unk_SoundInstance::sub_710104AE6C(int id) {
     return false;
 }
 
-// NON_MATCHING: actor ID and array-pointer loads use swapped registers in the non-map path.
 f32 Unk_SoundInstance::sub_710104AC00(ksys::act::Actor* actor) {
     if (actor) {
         auto* object = actor->getMapObject();
         if (!object) {
             if (_490 && _440 >= 0.0f) {
+                const u32 actor_id = actor->getId();
                 for (auto id : _220) {
-                    if (id == actor->getId())
+                    if (id == actor_id)
                         return 1.0f - _440;
                 }
             }
