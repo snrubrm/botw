@@ -59,8 +59,13 @@ void Unk_71024f9da0::prepareImpl_(util::TaskRequest* request) {
         setUserData(&mData);
 }
 
-// NON_MATCHING: the existing task-data destructor is called out of line.
 Unk_71024f9da0::~Unk_71024f9da0() = default;
+
+}  // namespace ksys::res
+
+Unk_71024f9e28::~Unk_71024f9e28() = default;
+
+namespace ksys::res {
 
 Unk_71024f9a70::Unk_71024f9a70() = default;
 
