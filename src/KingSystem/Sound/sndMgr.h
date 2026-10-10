@@ -451,7 +451,9 @@ public:
     u8 _34[0xa8 - 0x34];
     // 0x710104f4c4 / 0x710104f614 / 0x710104f740 store searchAndEmit("Filter") here; the larger
     // 0x710104f518 family reads the resource and create id back.
-    /* 0xa8 */ xlink2::HandleSLink mFilter;
+    /* 0xa8 */ xlink2::HandleSLink mFilter;  // 16 bytes
+    // 0x710104e0a0 / 0x710104e004 / 0x710104df54 (declared only) read the listeners at
+    // 0x548 / 0x550 / 0x558 and store a four-level value through 0x528 / 0x530 / 0xc0 / 0x200.
     u8 _b8[0x250 - 0xb8];
     /* 0x250 */ u32 _250;
     u8 _254[4];
