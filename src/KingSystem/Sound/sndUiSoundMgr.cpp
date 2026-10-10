@@ -56,7 +56,6 @@ void UiSoundMgr::sub_710105D844(const s32* mode) {
 
 void UiSoundMgr::sub_710105D0E4(sead::Heap* heap) {}
 
-// NON_MATCHING: the two flag selections allocate their temporary values in a different order.
 void UiSoundMgr::sub_710105D0E8() {
     if (_8.isAllocatedOrFailed() && _8.isProcReady()) {
         _18 = static_cast<act::Actor*>(_8.getProc());
@@ -72,14 +71,8 @@ void UiSoundMgr::sub_710105D0E8() {
         user->preCalc();
         user->postCalc();
     }
-    if (_80 & 1)
-        _80 |= 2;
-    else
-        _80 &= ~2;
-    if (_80 & 4)
-        _80 |= 8;
-    else
-        _80 &= ~0xd;
+    _80 = (_80 & 1) ? _80 | 2 : _80 & ~2;
+    _80 = (_80 & 4) ? _80 | 8 : _80 & ~0xd;
     _80 &= ~5;
 }
 
