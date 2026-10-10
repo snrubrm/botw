@@ -436,6 +436,10 @@ public:
     void sub_710104F46C();
     void sub_710104F488();
     void sub_710104F4A0();
+    // 0x710104f4c4 also sets mask 8 of `_2a0`.
+    void sub_710104F4C4();
+    void sub_710104F614();
+    void sub_710104F740();
 
     xlink2::HandleSLink sub_710104F30C(const sead::SafeString& label);
 
@@ -444,7 +448,11 @@ public:
     /* 0x28 */ xlink2::UserInstanceSLink* _28;
     // Whole factory 104E5B4 initializes 2; whole EE64 reads and sets the state.
     s32 _30;
-    u8 _34[0x250 - 0x34];
+    u8 _34[0xa8 - 0x34];
+    // 0x710104f4c4 / 0x710104f614 / 0x710104f740 store searchAndEmit("Filter") here; the larger
+    // 0x710104f518 family reads the resource and create id back.
+    /* 0xa8 */ xlink2::HandleSLink mFilter;
+    u8 _b8[0x250 - 0xb8];
     /* 0x250 */ u32 _250;
     u8 _254[4];
     /* 0x258 */ aal::SimpleTimedFader _258;

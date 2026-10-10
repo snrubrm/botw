@@ -188,6 +188,19 @@ void SoundMgr::sub_71011FBDA8() {
     _238 |= 4;
 }
 
+void Unk_710104e5b4::sub_710104F4C4() {
+    mFilter = _28->searchAndEmit("Filter");
+    _2a0.set(8);
+}
+
+void Unk_710104e5b4::sub_710104F614() {
+    mFilter = _28->searchAndEmit("Filter");
+}
+
+void Unk_710104e5b4::sub_710104F740() {
+    mFilter = _28->searchAndEmit("Filter");
+}
+
 void Unk_710104e5b4::sub_710104F86C() {
     if (evt::Manager::instance()->hasActiveEvent() && !_2a0.isOn(4))
         SoundMgr::instance()->mDuckingMgr->sub_7101042024(0x10);
