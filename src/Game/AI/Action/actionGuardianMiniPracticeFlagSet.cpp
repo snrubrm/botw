@@ -16,7 +16,6 @@ bool GuardianMiniPracticeFlagSet::init_(sead::Heap* heap) {
     return true;
 }
 
-// NON_MATCHING: compiler orders the three state comparisons differently.
 void GuardianMiniPracticeFlagSet::enter_(ksys::act::ai::InlineParamPack* params) {
     mFlags.set(Flag::Changeable);
     auto* damage = mActor->getDamageMgr();
@@ -26,12 +25,19 @@ void GuardianMiniPracticeFlagSet::enter_(ksys::act::ai::InlineParamPack* params)
     auto* bgm = ksys::snd::sub_7100FFDA7C();
     if (!bgm)
         return;
-    if (*mGuardianMiniPracticeState_a == 1)
-        bgm->sub_7100FFC934();
-    else if (*mGuardianMiniPracticeState_a == 2)
-        bgm->sub_7100FFC894();
-    else if (*mGuardianMiniPracticeState_a == 3)
+    switch (*mGuardianMiniPracticeState_a) {
+    case 3:
         bgm->sub_7100FFC7F4();
+        break;
+    case 2:
+        bgm->sub_7100FFC894();
+        break;
+    case 1:
+        bgm->sub_7100FFC934();
+        break;
+    default:
+        break;
+    }
 }
 
 void GuardianMiniPracticeFlagSet::leave_() {
