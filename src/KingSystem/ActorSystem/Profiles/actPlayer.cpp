@@ -919,25 +919,34 @@ void Player::updateStatusEffectAttackUp() {
     _208c = info.val._f32;
 }
 
-// NON_MATCHING: the compiler uses csel for all three tip choices; the original branches.
 void Player::showRuntimeTipForColdHotStatusEffects() {
     if (m151(1)) {
         eco::StatusEffectInfo info;
         eco::Ecosystem::instance()->getStatusEffectInfo(eco::StatusEffect_ResistCold, 1, &info);
         auto* chemical = getChemicalStuff();
         const f32 temperature = chemical ? chemical->sub_7100D91958() : 0.0f;
-        uking::ui::showRuntimeTip(info.val._f32 > temperature ? 18 : 5);
+        if (info.val._f32 > temperature)
+            uking::ui::showRuntimeTip(18);
+        else
+            uking::ui::showRuntimeTip(5);
     }
     if (m151(0)) {
         eco::StatusEffectInfo info;
         eco::Ecosystem::instance()->getStatusEffectInfo(eco::StatusEffect_ResistHot, 1, &info);
         auto* chemical = getChemicalStuff();
         const f32 temperature = chemical ? chemical->sub_7100D91958() : 0.0f;
-        uking::ui::showRuntimeTip(info.val._f32 < temperature ? 19 : 6);
+        if (info.val._f32 < temperature)
+            uking::ui::showRuntimeTip(19);
+        else
+            uking::ui::showRuntimeTip(6);
     }
     if (auto* chemical = getChemicalStuff()) {
-        if ((chemical->_bc & 0x30) == 0x10)
-            uking::ui::showRuntimeTip(chemical->sub_7100D914C0() < 2 ? 10 : 20);
+        if ((chemical->_bc & 0x30) == 0x10) {
+            if (chemical->sub_7100D914C0() >= 2)
+                uking::ui::showRuntimeTip(20);
+            else
+                uking::ui::showRuntimeTip(10);
+        }
     }
 }
 
