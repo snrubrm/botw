@@ -54,7 +54,6 @@ bool ChemicalStayObject::init_(sead::Heap* heap) {
     return true;
 }
 
-// NON_MATCHING: one negative-epsilon branch uses mi instead of lt.
 void ChemicalStayObject::enter_(ksys::act::ai::InlineParamPack* params) {
     auto* actor = mActor;
     _a4 = actor->getScale().x;
@@ -106,7 +105,7 @@ void ChemicalStayObject::enter_(ksys::act::ai::InlineParamPack* params) {
         ((reduce_range + reduce_range) * sead::GlobalRandom::instance()->getF32() - reduce_range),
         0.1f, 0.99f);
     const f32 curve_angle = *mCurveAng_s;
-    if (!(curve_angle <= sead::Mathf::epsilon()) || curve_angle < -sead::Mathf::epsilon()) {
+    if (!(curve_angle <= sead::Mathf::epsilon()) || !(curve_angle >= -sead::Mathf::epsilon())) {
         const f32 curve_range = *mCurveAngRandomRange_s;
         _b0 = curve_angle +
             ((curve_range + curve_range) * sead::GlobalRandom::instance()->getF32() - curve_range);
