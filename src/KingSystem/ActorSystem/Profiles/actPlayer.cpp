@@ -1523,18 +1523,15 @@ bool Player::sub_710087394C() {
     }
 }
 
-// NON_MATCHING: the original keeps the three string selections in separate blocks; we get a select between two of them.
 void Player::sub_710087B6A8() {
-    const char* name;
     if (gdt::getFlag_Fire_Relic_YunboStopGo(false)) {
         if (gdt::getFlag_Fire_Relic_NPC020_Follow(false))
-            name = "CallStay";
+            x_23("CallStay", false, -1.0f);
         else
-            name = "CallComeon";
+            x_23("CallComeon", false, -1.0f);
     } else {
-        name = "HorseCall";
+        x_23("HorseCall", false, -1.0f);
     }
-    x_23(name, false, -1.0f);
 }
 
 bool Player::sub_710088D484() {
