@@ -90,8 +90,6 @@ void FishRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     SimpleWildlifeRoot::enter_(params);
 }
 
-// NON_MATCHING: the two child-name temporaries share stack storage instead of occupying
-// separate slots, and the frame layout differs.
 void FishRoot::sub_71003CC69C() {
     auto* actor = sead::DynamicCast<ksys::act::PlayerOrEnemy>(mActor);
     if (!actor)
@@ -99,10 +97,7 @@ void FishRoot::sub_71003CC69C() {
     auto* controller = sead::DynamicCast<act::Unk_710244edc0>(actor->m159());
     if (!controller)
         return;
-    if (isCurrentChild("地上待機"))
-        controller->_68 = false;
-    else
-        controller->_68 = !isCurrentChild("死亡");
+    controller->_68 = !isCurrentChild("地上待機") && !isCurrentChild("死亡");
 }
 
 void FishRoot::calc_() {
