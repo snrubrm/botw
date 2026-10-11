@@ -294,4 +294,15 @@ Unk_7102478850::~Unk_7102478850() = default;
 
 Unk_71024788e8::~Unk_71024788e8() = default;
 
+Unk_7102478980::~Unk_7102478980() = default;
+
+void Unk_7102478980::m12() {
+    if (!_10 || _2c || !_18 || !_18->_8 || _18->_40 < 0 || _10->_230[_18->_40] != 0)
+        return;
+    if (auto* entry = UiSubsys1::instance()->findListEntry(_18))
+        UiSubsys1::instance()->freeListEntry(entry);
+    _18->m24(false);
+    _18->m22();
+}
+
 }  // namespace uking::ui

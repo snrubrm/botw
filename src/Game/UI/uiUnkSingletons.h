@@ -661,6 +661,14 @@ public:
     void m11() override;
 };
 
+// Native VT2478980, with RTTI 25D9230; complete seventeen-slot interface.
+class Unk_7102478980 : public Unk_71025d9170 {
+    SEAD_RTTI_OVERRIDE(Unk_7102478980, Unk_71025d9170)
+public:
+    ~Unk_7102478980() override;
+    void m12() override;
+};
+
 class UiSubsys1 {
     // Native singleton forwarders 96828C / 9682B4 / 9682CC read these UI fields directly.
     friend class Unk_71025d6ac0;
