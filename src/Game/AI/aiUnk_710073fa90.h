@@ -19,6 +19,18 @@ class RigidBody;
 // with identical interfaces; the second group passes `true` to the shared basis builders (0x71011efe58,
 // 0x71011effa8). Names are placeholders (address of the function).
 
+// Shared angle/axis steps; declaration-only bodies retain their original external calls.
+bool sub_710073FC58(sead::Matrix33f* mtx, const sead::Matrix33f& target,
+                    const sead::Vector3f& axis, f32 angle, f32 a, f32 b, f32 c);
+bool sub_7100740570(sead::Matrix33f* mtx, const sead::Matrix33f& target,
+                    const sead::Vector3f& axis, f32 angle, f32 a);
+bool sub_7100740C10(sead::Matrix33f* mtx, const sead::Matrix33f& target,
+                    const sead::Vector3f& axis, bool flag, f32 a);
+bool sub_7100741164(sead::Matrix33f* mtx, const sead::Matrix33f& target,
+                    const sead::Vector3f& axis, f32 angle, f32 a, f32 b, f32 c);
+bool sub_710074169C(sead::Matrix33f* mtx, const sead::Matrix33f& target,
+                    const sead::Vector3f& axis, f32 angle, f32 a);
+
 // --- Group A ---
 
 // Copies the rotation part of the actor's transform (character controller, else main rigid body,
