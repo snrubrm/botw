@@ -27,6 +27,7 @@ public:
     void sub_71004703E8();
     // 0x710046fd74 (placeholder name)
     void changeToAvoidDanger();
+    bool sub_710046F50C();
     // 0x710046fa70 (placeholder name)
     void changeToFindItem();
     // 0x710046fc10 (placeholder name): called by m35.

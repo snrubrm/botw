@@ -5,6 +5,9 @@
 #include "Game/Actor/actEnemy.h"
 #include "Game/Actor/actWeapon.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/Resource/Actor/resResourceGParamList.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectEnemyLevel.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
@@ -63,6 +66,28 @@ void LandHumEnemyUnarmedBattle::sub_710046FC10() {
         _118 = *link;
         break;
     }
+}
+
+// NON_MATCHING: scalar argument loads are scheduled differently before the explosive search.
+bool LandHumEnemyUnarmedBattle::sub_710046F50C() {
+    if (isCurrentChild("危険回避"))
+        return false;
+    auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
+    if (!enemy)
+        return false;
+    const auto* level = enemy->getParam()->getRes().mGParamList->getEnemyLevel();
+    if (!level || !(level->mIsEscapeBomb.ref() || level->mIsKickBomb.ref() ||
+                    level->mIsAvoidDanger.ref()))
+        return false;
+    _138.reset();
+    const auto& link = sub_71005DE7F4(mActor, *mParams.mExplosivesAvoidDist_s - 2.0f,
+                                    *mParams.mExplosivesAvoidSpeed_s,
+                                    *mParams.mExplosivesAvoidAng_s, true);
+    if (!link.hasProcInCalcState())
+        return false;
+    _138 = link;
+    changeToAvoidDanger();
+    return true;
 }
 
 void LandHumEnemyUnarmedBattle::changeToAvoidDanger() {
