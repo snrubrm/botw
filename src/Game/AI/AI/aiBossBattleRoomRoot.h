@@ -34,6 +34,8 @@ public:
     void sub_7100335B74();
     void sub_7100335C38();
     void sub_7100335DA8();
+    void sub_710033519C(const sead::Vector2f& direction);
+    void sub_710033529C();
 
 protected:
     // The command of the 0x80000d7 message payload (a SEAD_ENUM in the original: the value goes through
@@ -70,7 +72,7 @@ protected:
     sead::Matrix34f _e0 = sead::Matrix34f::ident;
     Unk_71023dbd40 _110{mActor, 0x80000d7};
     Unk_71024509a8 _140;
-    void* _188 = nullptr;
+    sead::Vector2f _188{0, 0};
     f32 _190 = 0;
     f32 _194 = 0;
     f32 _198 = 0;

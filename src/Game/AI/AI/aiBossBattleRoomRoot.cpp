@@ -3,9 +3,29 @@
 #include <aal/aalSoundSource.h>
 #include <container/seadPtrArray.h>
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace uking::ai {
+
+// NON_MATCHING: Vector2 assignment and flag/handle stack allocation differ.
+void BossBattleRoomRoot::sub_710033519C(const sead::Vector2f& direction) {
+    if (_1e8->getMotionType() != ksys::phys::MotionType::Keyframed)
+        _1e8->changeMotionType(ksys::phys::MotionType::Keyframed);
+    if (_1e0->getMotionType() != ksys::phys::MotionType::Keyframed)
+        _1e0->changeMotionType(ksys::phys::MotionType::Keyframed);
+    _1e0->getTransform(&_80);
+    _1b4.setBit(Flag(Flag::_0));
+    _1b4.setBit(Flag(Flag::_4));
+    _1b4.resetBit(Flag(Flag::_5));
+    ksys::gdt::setFlag_FinalTrial_BossField_Rotate(true, false);
+    _188 = direction;
+    sub_710033529C();
+    _1d0 = 0.0f;
+    _208 = true;
+    auto handle = ksys::eft::searchAndEmitSLink(mActor, "Start", false);
+    sub_7100336B84(&handle);
+}
 
 void BossBattleRoomRoot::sub_7100335B74() {
     if (_1e8->getMotionType() != ksys::phys::MotionType::Fixed)
