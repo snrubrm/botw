@@ -5,6 +5,7 @@
 #include <container/seadPtrArray.h>
 #include <container/seadSafeArray.h>
 #include <math/seadVector.h>
+#include <math/seadBoundBox.h>
 #include <prim/seadEnum.h>
 #include <prim/seadSafeString.h>
 #include "Game/UI/uiTimer.h"
@@ -376,10 +377,23 @@ public:
 };
 static_assert(sizeof(Unk_7102477508) == 0x28);
 
+// Native 9A5930 initializes 120 map entries with stride 0x28; 9A5CFC supplies grid IDs and bounds.
 class Unk_7102479bb0 {
 public:
     virtual ~Unk_7102479bb0();
+
+    /* 0x08 */ char mColumn = -1;
+    /* 0x09 */ char mRow = -1;
+    /* 0x0a */ u16 _a = 0;
+    /* 0x0c */ u8 _c = 0;
+    /* 0x0d */ bool _d = false;
+    /* 0x0e */ u16 _e = 0;
+    /* 0x10 */ sead::BoundBox2f mBounds;
+    /* 0x20 */ u16 _20 = 0;
+    /* 0x22 */ bool _22 = false;
+    u8 _23[5];
 };
+static_assert(sizeof(Unk_7102479bb0) == 0x28);
 
 class Unk_7102479f90 {
 public:

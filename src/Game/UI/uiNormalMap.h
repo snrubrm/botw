@@ -2,6 +2,7 @@
 
 #include <basis/seadTypes.h>
 #include <prim/seadSafeString.h>
+#include "Game/UI/uiUnkTiny.h"
 
 namespace ksys::res {
 class Handle;
@@ -14,7 +15,6 @@ class LayoutEx;
 }
 
 namespace uking::ui {
-class Unk_7102479bb0;
 
 // Texture loader embedded at +0x10 of each 0xa0-byte map tile (9A5930 / 9A62C0).
 class Unk_7102479bd0 {
@@ -45,5 +45,18 @@ public:
     /* 0x98 */ Unk_7102479bb0* mMapEntry = nullptr;
 };
 static_assert(sizeof(Unk_7102479bf0) == 0xa0);
+
+// Embedded at ScreenAppMapWidget +0x8f0; its next field starts at +0xb338 (9A863C).
+// Native 9A5930 owns 120 map entries and 240 texture tiles; 9A5BC8 destroys the tiles.
+class Unk_7102479c10 {
+public:
+    virtual ~Unk_7102479c10();
+
+    u8 _8[0x28 - 8];
+    /* 0x28 */ Unk_7102479bb0 mEntries[120];
+    /* 0x12e8 */ Unk_7102479bf0 mTiles[240];
+    u8 _a8e8[0xaa48 - 0xa8e8];
+};
+static_assert(sizeof(Unk_7102479c10) == 0xaa48);
 
 }  // namespace uking::ui

@@ -454,9 +454,6 @@ void Unk_7102477508::sub_7100989C0C(s32 value) {
 
 Unk_7102477508::~Unk_7102477508() = default;
 
-// 0x71009a4d24
-Unk_7102479bb0::~Unk_7102479bb0() = default;
-
 // 0x71009a7fa0
 Unk_7102479f90::~Unk_7102479f90() = default;
 
