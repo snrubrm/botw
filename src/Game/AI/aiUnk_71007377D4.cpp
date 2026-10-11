@@ -29,12 +29,24 @@
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
 #include "KingSystem/Physics/System/physRayCastBodyQuery.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/Resource/Actor/resResourceDamageParam.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectGiantArmorSlot.h"
 #include <math/seadMathCalcCommon.h>
 
 void sub_710072C1B4(ksys::phys::CharacterController* controller, const sead::Vector3f& up) {
     ksys::act::sub_7100EE60AC(controller, up);
+}
+
+f32 sub_710073768C(ksys::act::Actor* actor, ksys::act::BaseProcLink* link) {
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(link, &accessor);
+    const f32 ratio = actor->getParam()->getRes().mDamageParam->mSpAffectRatio.ref();
+    return ratio * accessor.getAttackSpHitRatio();
+}
+
+s32 sub_71007376F8(ksys::act::Actor* actor, ksys::act::BaseProcLink*) {
+    return actor->getParam()->getRes().mDamageParam->mSpAffectDamage.ref();
 }
 
 void sub_7100737708(ksys::phys::CharacterController* controller, f32 value) {

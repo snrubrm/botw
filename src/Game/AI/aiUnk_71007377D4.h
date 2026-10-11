@@ -36,6 +36,9 @@ class SystemGroupHandler;
 // character controller or its main rigid body, Actor+0x190). The f32 argument is a ratio that makes
 // the helper return early when it equals 1.0. Names are placeholders.
 
+f32 sub_710073768C(ksys::act::Actor* actor, ksys::act::BaseProcLink* link);
+s32 sub_71007376F8(ksys::act::Actor* actor, ksys::act::BaseProcLink* link);
+
 // 0x7100737708-0x710073771c: forwarders to the ksys::act per-frame velocity setters
 // (actActorUtil.h, 0x7100ee60a0-0x7100ee62b0). Defined in aiUnk_71007377D4.cpp.
 void sub_7100737708(ksys::phys::CharacterController* controller, f32 value);
