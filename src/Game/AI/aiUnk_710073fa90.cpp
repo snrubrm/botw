@@ -16,7 +16,7 @@ void sub_7100741034(sead::Matrix33f* mtx, ksys::act::Actor* actor) {
 }
 
 bool sub_7100740118(sead::Matrix33f* mtx, const sead::Vector3f& target, f32 a, f32 b,
-                    f32 c) {
+                   f32 c) {
     sead::Vector3f up;
     mtx->getBase(up, 1);
     const bool reached = sub_710002F6D8(&up, target, a, b, c);
@@ -26,7 +26,7 @@ bool sub_7100740118(sead::Matrix33f* mtx, const sead::Vector3f& target, f32 a, f
 }
 
 bool sub_710074018C(sead::Matrix33f* mtx, const sead::Vector3f& target, f32 a, f32 b,
-                    f32 c) {
+                   f32 c) {
     sead::Vector3f forward;
     mtx->getBase(forward, 2);
     const bool reached = sub_710002F6D8(&forward, target, a, b, c);
@@ -36,7 +36,7 @@ bool sub_710074018C(sead::Matrix33f* mtx, const sead::Vector3f& target, f32 a, f
 }
 
 bool sub_7100741628(sead::Matrix33f* mtx, const sead::Vector3f& target, f32 a, f32 b,
-                    f32 c) {
+                   f32 c) {
     sead::Vector3f up;
     mtx->getBase(up, 1);
     const bool reached = sub_710002F6D8(&up, target, a, b, c);
