@@ -4,7 +4,16 @@
 #include <container/seadTreeNode.h>
 #include <controller/seadController.h>
 #include <prim/seadSafeString.h>
+#include "KingSystem/System/Controller.h"
 #include "KingSystem/Utils/Types.h"
+
+// Complete root lifetime interface at 0x71024dd588. SeadController's producer
+// embeds this object at +0x1d0, immediately before Unk_71024dd5a8 at +0x1d8.
+class Unk_71024dd588 {
+public:
+    virtual ~Unk_71024dd588();
+};
+KSYS_CHECK_SIZE_NX150(Unk_71024dd588, 0x8);
 
 namespace ksys {
 
@@ -12,10 +21,12 @@ namespace ksys {
 // KingSystem calc (0x7100d9db20) / calcImpl_ (0x7100d9ddf4). Size from the subclass ctor
 // 0x71008bf5dc, whose first member is at 0x1f0. Not decompiled: the ctor takes one 4-byte value
 // passed in a 64-bit register (SEAD_ENUM-like, stored at 0x19c) and gets the sead::ControllerMgr
-// from a global; the members (a sead::TreeNode at 0x1a8, ...) are not declared yet.
+// from a global. Its constructor remains undecompiled pending that value's type.
 class SeadController : public sead::Controller {
     SEAD_RTTI_OVERRIDE(SeadController, sead::Controller)
 public:
+    ~SeadController() override;
+
     // 0x71011f931c / 0x71011f9328 (CSV SeadController::getInstance / setInstance; the instance pointer is a file-local
     // global at 0x7102652558)
     static SeadController* getInstance();
@@ -27,6 +38,7 @@ public:
     void sub_7100D9D8DC(u32 value);  // _190
     void sub_7100D9D8E4();  // accumulates controller masks, then applies them
     void sub_7100D9DAC8(u32 value);  // _194
+    Unk_71024dd588* sub_7100D9DAD0();
     void sub_7100D9DAD8();           // clears flag 0x1
     void sub_7100D9DAE8();           // clears flag 0x2
     void sub_7100D9DB04(bool on);   // flag 0x10
@@ -41,7 +53,7 @@ public:
     void sub_7100D9DAF8(SeadController* child);
 
 private:
-    u8 _178[0x188 - 0x178];
+    sead::ListNode mControllerNode;
     u32 _188;
     u8 _18c[4];
     u32 _190;
@@ -49,7 +61,9 @@ private:
     u8 _198[0x1a4 - 0x198];
     u32 _1a4;
     sead::TTreeNode<SeadController*> mTreeNode;
-    u8 _1d0[0x1f0 - 0x1d0];
+    Unk_71024dd588 _1d0;
+    Unk_71024dd5a8 _1d8;
+    u8 _1e0[0x1f0 - 0x1e0];
 };
 KSYS_CHECK_SIZE_NX150(SeadController, 0x1f0);
 

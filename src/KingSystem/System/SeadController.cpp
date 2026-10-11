@@ -6,6 +6,18 @@ namespace ksys {
 
 static SeadController* sInstance;
 
+SeadController::~SeadController() {
+    if (mTreeNode.parent())
+        mTreeNode.detachSubTree();
+    for (auto* child = mTreeNode.child(); child; child = child->next())
+        child->detachSubTree();
+
+    if (mControllerNode.isLinked()) {
+        if (::Controller::instance())
+            ::Controller::instance()->sub_7100D9F838(this);
+    }
+}
+
 // 0x71011f931c
 SeadController* SeadController::getInstance() {
     return sInstance;
@@ -30,6 +42,10 @@ void SeadController::sub_7100D9D8DC(u32 value) {
 
 void SeadController::sub_7100D9DAC8(u32 value) {
     _194 = value;
+}
+
+Unk_71024dd588* SeadController::sub_7100D9DAD0() {
+    return &_1d0;
 }
 
 void SeadController::sub_7100D9DAD8() {
@@ -89,3 +105,4 @@ const sead::Vector2f& Unk_71024dd5c8::sub_7100D9E498() const {
 }
 
 Unk_71024dd5a8::~Unk_71024dd5a8() = default;
+Unk_71024dd588::~Unk_71024dd588() = default;
