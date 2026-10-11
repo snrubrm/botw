@@ -13,6 +13,7 @@
 
 namespace ksys::map {
 class Object;
+class PlacementMgr;
 }
 
 namespace ksys::act {
@@ -81,6 +82,7 @@ protected:
 
 private:
     friend class BaseProcCreateTaskSelector;
+    friend class map::PlacementMgr;
 
     bool onTaskDelegateInvoked(void* arg);
     void doPrepare(const BaseProcCreateTaskData* data);

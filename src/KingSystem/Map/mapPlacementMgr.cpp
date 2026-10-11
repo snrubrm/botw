@@ -4,6 +4,7 @@
 #include <time/seadTickTime.h>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorCreator.h"
+#include "KingSystem/ActorSystem/actBaseProcCreateTask.h"
 #include "KingSystem/ActorSystem/actClusteredRenderer.h"
 #include "KingSystem/ActorSystem/actInfoData.h"
 #include "KingSystem/ActorSystem/actInstParamPack.h"
@@ -12,6 +13,7 @@
 #include "Game/gameVillagerMgr.h"
 #include "KingSystem/Graphics/gfxForestRenderer.h"
 #include "KingSystem/Map/mapObject.h"
+#include "KingSystem/Map/mapObjectLink.h"
 #include "KingSystem/Map/mapStagePreActorCache.h"
 #include "KingSystem/Physics/System/physSystem.h"
 #include "KingSystem/System/OverlayArenaSystem.h"
@@ -39,7 +41,9 @@ s32 sub_7100EDB6E0(bool* out_below, f32* out_height, tera::System* system,
 
 SEAD_SINGLETON_DISPOSER_IMPL(PlacementMgr)
 
-PlacementMgr::PlacementMgr() : mThreadParams(this, &PlacementMgr::threadFn) {}
+PlacementMgr::PlacementMgr()
+    : mThreadParams(this, &PlacementMgr::threadFn), mInvoker(this, &PlacementMgr::invoked1),
+      mInvoker2(this, &PlacementMgr::invoked2) {}
 
 PlacementMgr::~PlacementMgr() {
     mThreadHeap->destroy();
@@ -218,8 +222,20 @@ void PlacementMgr::sub_71011EB46C(Object* obj) {
     mPlacementActors->sub_7100D52CA4(obj);
 }
 
+bool PlacementMgr::invoked1(util::Task* task) {
+    auto* create_task = sead::DynamicCast<act::BaseProcCreateTask>(task);
+    if (!create_task)
+        return false;
+    auto* object = create_task->mMapObject;
+    if (!object || object->getId() == _1e4)
+        return false;
+    if (object->getLinkData() && !object->getLinkData()->x_0())
+        return false;
+    return true;
+}
+
 bool PlacementMgr::invoked2(void* arg) {
-    invoked2_();
+    invoked2_(static_cast<ActorData*>(arg));
     return true;
 }
 

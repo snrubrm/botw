@@ -24,10 +24,15 @@ namespace ksys::tera {
 class System;
 }
 
+namespace ksys::util {
+class Task;
+}
+
 namespace ksys::map {
 
 class Object;
 class PlacementMgr;
+class ActorData;
 
 s32 sub_7100EDB6E0(bool* out_below, f32* out_height, tera::System* system,
                    const sead::Vector3f* pos);
@@ -119,8 +124,10 @@ public:
     // 0x71011eb46c (CSV __auto19; placeholder name): PlacementActors::sub_7100D52CA4(obj).
     void sub_71011EB46C(Object* obj);
     // 0x71011e4da8 (CSV invoked2): runs invoked2_ (0x71011ea4c8, declaration only) and returns true.
+    bool invoked1(util::Task* task);
     bool invoked2(void* arg);
-    void invoked2_();
+    // Whole 11EA4C8 reads ActorData::mActorName at +0x148 and returns true.
+    bool invoked2_(ActorData* data);
     // 0x71011e54e8 (CSV initBeforeStageGenB)
     void initBeforeStageGenB();
     // 0x71011e6ee0 (CSV x; placeholder name): the per-frame update of the placement helpers.
@@ -318,14 +325,13 @@ public:
     u32 mMassRendererReqCount = 0;
     u32 mMassRendererStatus = 0;
 
-    // fix these
-    sead::DelegateFunc mInvoker{};
-    u8 TEMP4[0x10];
+    // Passed to BaseProcMgr::removeInitializerTasksIf at 0x71011e70ec.
+    sead::Delegate1R<PlacementMgr, util::Task*, bool> mInvoker;
 
     s32 _7f0 = -1;
 
-    sead::DelegateFunc mInvoker2{};
-    u8 TEMP5[0x10];
+    // LowPrioThreadMgr request delegate in 0x71011ea1fc (void* user data).
+    sead::Delegate1R<PlacementMgr, void*, bool> mInvoker2;
 };
 KSYS_CHECK_SIZE_NX150(PlacementMgr, 0x818);
 static_assert(offsetof(PlacementMgr, mThreadStarted) == 0x688);
