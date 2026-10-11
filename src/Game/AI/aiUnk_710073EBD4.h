@@ -59,6 +59,9 @@ public:
     void sub_710073F040();
     // 0x710073f14c (declared only).
     void sub_710073F14C(const sead::Vector3f* a1);
+    // 0x710073f3fc: predicts the target position with an additional flight lead time.
+    // Complete callee and the shoot-step caller establish the Vector3f output.
+    void sub_710073F3FC(sead::Vector3f* out, f32 lead_time);
 
     /* 0x00 */ const s32* mSeqBank_s{};
     /* 0x08 */ const s32* mTargetBone_s{};

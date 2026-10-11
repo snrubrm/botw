@@ -1,6 +1,8 @@
 #include "Game/AI/Action/actionPredictVacuumShoot.h"
 #include "Game/AI/aiUnk_71007377D4.h"
 #include "Game/AI/aiUnk_710073fa90.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 void sub_710072DC54(sead::Vector3f* out, ksys::act::Actor* actor);
 
@@ -37,8 +39,42 @@ void PredictVacuumShoot::loadParams_() {
     _78.sub_710073EEE4(this);
 }
 
+// NON_MATCHING: target selection, vector temporaries and the shared virtual call use different
+// registers and stack slots.
 void PredictVacuumShoot::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (isFinishedAS(0, 0))
+        setFinished();
+    ksys::as::ASList::Unk4 query;
+    if (sub_71005DD5B0(mActor, 0x22, &query, 0, 0)) {
+        _78.sub_710073F3FC(&_124, query._10);
+        _121 = true;
+    }
+    if (_78.sub_710073FA54()) {
+        sead::Vector3f predicted;
+        const sead::Vector3f* target = &_124;
+        if (!_121) {
+            _78.sub_710073F3FC(&predicted, 0.0f);
+            target = &predicted;
+        }
+        m33(target);
+        _120 = true;
+    }
+    m32();
+    if (!_120) {
+        sead::Vector3f target;
+        if (_121)
+            target = _124;
+        else
+            _78.sub_710073F3FC(&target, 0.0f);
+        sead::Vector3f direction = target - mActor->getMtx().getTranslation();
+        direction.normalize();
+        sub_710073FA94(&_50, mActor);
+        sub_710074006C(&_50, direction, sead::Vector3f::ey, true, 0.16f, *mRotSpd_s,
+                       *mRotSpd_s * 0.1f);
+        sub_7100740F1C(_50, mActor);
+    } else {
+        sub_7100738AA8(mActor, *mAngReduceRatio_s);
+    }
 }
 
 void PredictVacuumShoot::m32() {
