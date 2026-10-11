@@ -153,6 +153,16 @@ bool sub_71007399B4(ksys::act::Actor* actor, const ksys::act::ActorConstDataAcce
 
 }
 
+bool sub_7100739D74(ksys::act::Actor* actor, ksys::act::BaseProcLink* link) {
+    ksys::act::ActorConstDataAccess accessor;
+    if (!ksys::act::acquireActor(link, &accessor))
+        return false;
+    if (actor->getParam()->getRes().mGParamList->getEnemyRace()->mIsUseTargetTag.ref() &&
+        accessor.hasTag(ksys::act::tags::EnemyTarget))
+        return true;
+    return sub_7100739A10(actor, accessor.getProfile());
+}
+
 bool sub_7100739E24(ksys::act::Actor* actor, ksys::act::BaseProcLink* link, int kind) {
     ksys::act::ActorConstDataAccess accessor;
     ksys::act::acquireActor(link, &accessor);

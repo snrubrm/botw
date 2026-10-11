@@ -671,6 +671,14 @@ void sub_7100739168(ksys::act::AttackSensor2* sensor) {
         sensor->_1c = 4;
 }
 
+void sub_71007393EC(ksys::act::Actor* actor) {
+    const auto* body_name = sub_71007A24E4();
+    if (!actor->getActorFlags2().isOn(ksys::act::Actor::ActorFlag2::_200))
+        ksys::act::sub_7100EE5330(actor, *body_name);
+    if (auto* controller = actor->getCharacterController())
+        controller->sub_7100F5EC30();
+}
+
 const ksys::act::ActorAtk::Unk_710079e64c::Unk1* sub_7100739578(ksys::act::Actor* actor) {
     auto* manager = sead::DynamicCast<uking::dmg::DamageManager>(actor->getDamageMgr());
     if (manager && manager->_6c >= 0)

@@ -382,6 +382,8 @@ void sub_7100739138(ksys::act::AttackSensor2* sensor);
 void sub_7100739148(ksys::act::AttackSensor2* sensor);
 void sub_7100739158(ksys::act::AttackSensor2* sensor);
 void sub_7100739168(ksys::act::AttackSensor2* sensor);
+// 0x71007393ec: sets up the actor's controller and default body.
+void sub_71007393EC(ksys::act::Actor* actor);
 // Declared only: sets up the actor's target and chemical physics bodies.
 void sub_71007394E8(ksys::act::Actor* actor);
 

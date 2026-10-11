@@ -71,6 +71,8 @@ bool sub_7100739930(ksys::act::Actor* actor, ksys::act::BaseProcLink* link);
 /// 0x71007399b4: the actor's EnemyRace parameters use target tags (IsUseTargetTag) and the
 /// accessed actor has the EnemyTarget tag.
 bool sub_71007399B4(ksys::act::Actor* actor, const ksys::act::ActorConstDataAccess& accessor);
+// 0x7100739d74: checks target tags, then the target actor's profile.
+bool sub_7100739D74(ksys::act::Actor* actor, ksys::act::BaseProcLink* link);
 /// 0x7100739a10: `name` is one of the actor's EnemyRace TargetActorType entries.
 bool sub_7100739A10(ksys::act::Actor* actor, const sead::SafeString& name);
 /// 0x7100739e24: the linked actor is something the actor eats: it has one of the EatTarget
