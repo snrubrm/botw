@@ -1,11 +1,13 @@
 #include "KingSystem/Physics/RigidBody/physRigidBodyRequestMgr.h"
 #include <Havok/Physics2012/Dynamics/World/hkpWorld.h>
+#include <Havok/Physics2012/Dynamics/World/hkpSimulationIsland.h>
 #include <prim/seadScopedLock.h>
 #include "KingSystem/Physics/Constraint/physConstraint.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/System/physSystem.h"
 #include "KingSystem/Physics/System/physUserTag.h"
 #include "KingSystem/Physics/physMaterialMask.h"
+#include "KingSystem/Physics/physConversions.h"
 
 namespace ksys::phys {
 
@@ -232,6 +234,33 @@ bool RigidBodyRequestMgr::x_8(RigidBody* body, u8 type) {
     entry->body->setAngularVelocity(sead::Vector3f::zero, sead::Mathf::epsilon());
     static_cast<void>(_c8.push(entry));
     return true;
+}
+
+// NON_MATCHING: bool conversion and virtual call argument scheduling.
+void RigidBodyRequestMgr::x_9(bool x) {
+    ScopedWorldLock lock{ContactLayerType(x)};
+    auto* world = System::instance()->getHavokWorld(ContactLayerType(x));
+    const auto& active_islands = world->getActiveSimulationIslands();
+    const int active_count = active_islands.getSize();
+    for (int i = 0; i < active_count; ++i) {
+        const auto& entities = active_islands[i]->getEntities();
+        const int entity_count = entities.getSize();
+        for (int j = 0; j < entity_count; ++j) {
+            if (auto* body = getRigidBody(*entities[j]))
+                body->setTimeFactor(body->hasFlag(RigidBody::Flag::UseSystemTimeFactor) ? _218 : 1.0f);
+        }
+    }
+    world = System::instance()->getHavokWorld(ContactLayerType(x));
+    const auto& inactive_islands = world->getInactiveSimulationIslands();
+    const int inactive_count = inactive_islands.getSize();
+    for (int i = 0; i < inactive_count; ++i) {
+        const auto& entities = inactive_islands[i]->getEntities();
+        const int entity_count = entities.getSize();
+        for (int j = 0; j < entity_count; ++j) {
+            if (auto* body = getRigidBody(*entities[j]))
+                body->setTimeFactor(body->hasFlag(RigidBody::Flag::UseSystemTimeFactor) ? _218 : 1.0f);
+        }
+    }
 }
 
 void RigidBodyRequestMgr::x_10(float a, float b) {
