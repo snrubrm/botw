@@ -7,6 +7,8 @@ add_library(aal OBJECT
   include/aal/aalAudioFrameProcessMgr.h
   include/aal/aalAssetInfo.h
   include/aal/aalAuxBusMgr.h
+  include/aal/aalAuxBusDataCtrl.h
+  include/aal/aalAuxBusDataSerialCtrl.h
   include/aal/aalBiquadFilterPreset.h
   include/aal/aalAudioMetaReader.h
   include/aal/aalAudioResource.h
@@ -121,6 +123,7 @@ add_library(aal OBJECT
   src/aalArbiter.cpp
   src/aalAudioFrameProcessMgr.cpp
   src/aalAuxBusMgr.cpp
+  src/aalAuxBusDataSerialCtrl.cpp
   src/aalBiquadFilterPreset.cpp
   src/aalEmitter.cpp
   src/aalFinalFxCtrl.cpp
