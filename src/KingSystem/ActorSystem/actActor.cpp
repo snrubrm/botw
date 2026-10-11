@@ -1,4 +1,5 @@
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorAtk.h"
 #include "KingSystem/Utils/Thread/Message.h"
 #include "KingSystem/Utils/Thread/MessageDispatcher.h"
 #include <container/seadPtrArray.h>
@@ -567,6 +568,14 @@ phys::RagdollInstance* Actor::getRagdollInstance() {
     return mPhysics->getRagdollInstance();
 }
 
+void Actor::sub_71011CEA10() {
+    if (auto* atk = getAtk()) {
+        atk->m9();
+        if (atk->m10() || atk->hasAttackInfoMaybe())
+            m107();
+    }
+}
+
 bool Actor::sub_71011CEA90() const {
     if (!mPhysics)
         return false;
@@ -830,9 +839,9 @@ void Actor::fadeOutWakeUp(SleepWakeReason reason) {
     if (!isDeletedOrDeleting()) {
         if (mFadeOutSleepFlags.setBitOff(int(reason)))
             m60();
+        if (!isAwakeMaybe())
+            wakeUp(reason);
     }
-    if (!isAwakeMaybe())
-        wakeUp(reason);
 }
 
 // NON_MATCHING: the original keeps the 1/30 constant in a callee-saved register across the calls
