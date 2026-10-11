@@ -1,10 +1,18 @@
 #include "gsys/gsysMemBuffer.h"
+#include "gsys/gsysMemAllocator.h"
 
 #include <basis/seadNew.h>
 #include <heap/seadHeapMgr.h>
 #include <math/seadMathCalcCommon.h>
 
 namespace gsys {
+
+void* MemAllocator::tryAlloc(size_t size, u32 alignment) {
+    void* buffer = mHeap->tryAlloc(size, static_cast<s32>(alignment));
+    if (!buffer)
+        mHeap = nullptr;
+    return buffer;
+}
 
 MemBuffer::MemBuffer() = default;
 MemBuffer::~MemBuffer() = default;
