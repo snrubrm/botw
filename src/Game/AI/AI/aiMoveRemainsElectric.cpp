@@ -40,6 +40,27 @@ void MoveRemainsElectric::enter_(ksys::act::ai::InlineParamPack* params) {
     }
 }
 
+// NON_MATCHING: the repeated name search retains different SafeString setup.
+bool MoveRemainsElectric::reenter_(ksys::act::ai::ActionBase* other, bool x) {
+    if (!RailMoveRemains::reenter_(other, true))
+        return false;
+    if (!sead::DynamicCast<MoveRemainsElectric>(other))
+        return false;
+    if (mActor->getName().findIndex("_Far") == -1 && !_318) {
+        _320.sub_7100720AF4();
+        _320._10 = 4;
+        _320._8 = 100;
+        _318 = true;
+    }
+    sub_71004B2288();
+    if (mActor->getName().findIndex("_Far") == -1 &&
+        !ksys::gdt::getFlag_Enter_RemainsElectric(false) && *mIsJoinRemainsBattle_m) {
+        _370.initWithName(mActor, "Demo347_3", "Demo");
+        _370.loadEvent();
+    }
+    return true;
+}
+
 void MoveRemainsElectric::leave_() {
     for (auto& part : _a8)
         part.mHandle.fadeXLink();
