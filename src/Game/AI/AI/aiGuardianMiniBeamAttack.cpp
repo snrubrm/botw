@@ -163,6 +163,57 @@ void GuardianMiniBeamAttack::enter_(ksys::act::ai::InlineParamPack* params) {
     }
 }
 
+// NON_MATCHING: SafeString reference comparison keeps extra termination calls; timer pointer retention differs.
+void GuardianMiniBeamAttack::calc_() {
+    if (isCurrentChild("ビーム準備")) {
+        const sead::Vector3f target = _2b8;
+        sub_71005DB1D8(mActor, target);
+        getCurrentChild()->setDynamicParam(_2b8, "TargetPos");
+        sead::Vector3f new_target;
+        m46(&new_target);
+        if (sub_710041740C(new_target))
+            _2b8 = new_target;
+        else if (!sub_710041760C())
+            return;
+        _2d0 = sub_71005DB4DC(mActor);
+        if (!mPreLaunchEffectName_s.isEmpty())
+            xlinkSearchAndEmit(mActor, mPreLaunchEffectName_s.cstr(), 2, nullptr);
+        MiniBeamAttack::m37();
+        return;
+    }
+    auto* child = getCurrentChild();
+    if (!child->isFinished() && !child->isFailed() && isCurrentChild("戦闘攻撃")) {
+        if (*mIsFinalBattle_s) {
+            sub_7100417800();
+        } else {
+            const sead::Vector3f target = sub_71005D9330(mActor);
+            getCurrentChild()->setDynamicParam(target, "TargetPos");
+            sub_71004179D4(target);
+        }
+        return;
+    }
+    if (isCurrentChild("戦闘準備")) {
+        if (getCurrentChild()->isFailed() && !*mIsChangeable_s) {
+            changeToPrepareBattle();
+            return;
+        }
+        if (!(_2c4.value <= sead::Mathf::epsilon()))
+            _2c4.update();
+        if (!(_2c4.value > *mEndShaderASFrame_s)) {
+            if (auto* as_list = mActor->getASList()) {
+                if (as_list->x_1(0, 1) == mLoopShaderASName_s) {
+                    if (auto* as_list = mActor->getASList()) {
+                        if (!mEndShaderASName_s.isEmpty())
+                            as_list->startAnimationMaybe(-1.0f, -1.0f,
+                                                        mEndShaderASName_s.cstr(), 0, 1, true);
+                    }
+                }
+            }
+        }
+    }
+    MiniBeamAttack::calc_();
+}
+
 void GuardianMiniBeamAttack::leave_() {
     sub_71005DB498(mActor);
     MiniBeamAttack::leave_();

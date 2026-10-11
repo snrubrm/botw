@@ -13,7 +13,6 @@ public:
     ~GuardianMiniBeamAttack() override;
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;
-    // 0x710041705c: not defined yet (calls several unnamed helpers of this TU).
     void calc_() override;
     void leave_() override;
     void loadParams_() override;
