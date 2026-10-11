@@ -130,7 +130,7 @@ bool ArmorBase::sub_7100E2B3D0(sead::Vector3f* out) {
                 sead::Vector3f offset;
                 sub_7100E2B524(&offset);
                 *out += offset;
-                    *out *= sead::Mathf::deg2rad(1.0f);
+                *out *= sead::Mathf::deg2rad(1.0f);
                 return true;
             }
         }
@@ -192,6 +192,23 @@ bool ArmorBase::sub_7100E2B524(sead::Vector3f* out) {
     }
     *out = sead::Vector3f::zero;
     return false;
+}
+
+bool ArmorBase::sub_7100E2B948() {
+    if (getProfile() != "ArmorExtra2")
+        return false;
+    const sead::SafeString* name = &sead::SafeString::cEmptyString;
+    {
+        ksys::act::ActorConstDataAccess accessor;
+        if (auto* owner = getOwner()) {
+            if (auto* armors = owner->getArmors()) {
+                ksys::act::acquireActor(&armors->getPartsLink(1), &accessor);
+                if (accessor.hasProc())
+                    name = &accessor.getName();
+            }
+        }
+    }
+    return sead::SafeString(name->getStringTop()) != _998;
 }
 
 bool ArmorBase::sub_7100E29B8C() {
