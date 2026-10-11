@@ -6,6 +6,7 @@
 #include <thread/seadCriticalSection.h>
 #include "KingSystem/ActorSystem/actBaseProcHandle.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
+#include "KingSystem/Event/evtEventMgrStruct3.h"
 #include "KingSystem/Utils/Byaml/Byaml.h"
 #include "KingSystem/Utils/Types.h"
 
@@ -73,6 +74,8 @@ extern EventFlow* sUnk_7102601530;
 // used so far is declared.
 class EventFlowMgr {
 public:
+    // 0x7100dbe600; native vtable 0x71024de180 has only D1/D0.
+    virtual ~EventFlowMgr();
     // 0x7100dbeb4c (CSV EventFlowMgr::loadSimple): forwards to load() with flags false and no extra argument
     EventFlow* loadSimple(const sead::SafeString& event_name, const sead::SafeString& entry_point);
     // 0x7100dbf048
@@ -94,13 +97,18 @@ public:
     bool loadEventResourceForAllEventFlows(bool a1);
 
 private:
-    u8 _0[8];
     /* 0x08 */ sead::Buffer<EventFlow> mSlots;
-    u8 _18[0x20 - 0x18];
+    /* 0x18 */ sead::Heap* mHeap;
     /* 0x20 */ s32 mCalcCount;
-    u8 _24[0x78 - 0x24];
+    /* 0x28 */ sead::Buffer<EventMgrStruct3A> _28;
+    /* 0x38 */ sead::Buffer<EventMgrStruct3A> _38;
+    /* 0x48 */ sead::Buffer<EventMgrStruct3B> _48;
+    /* 0x58 */ sead::Buffer<EventMgrStruct3B> _58;
+    /* 0x68 */ sead::Buffer<EventMgrStruct3B> _68;
     /* 0x78 */ sead::CriticalSection mCS;
     /* 0xb8 */ bool _b8;
 };
+
+static_assert(sizeof(EventFlowMgr) == 0xc0);
 
 }  // namespace ksys::evt

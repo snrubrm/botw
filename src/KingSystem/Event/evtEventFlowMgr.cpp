@@ -5,6 +5,16 @@
 
 namespace ksys::evt {
 
+// 0x7100dbe600
+EventFlowMgr::~EventFlowMgr() {
+    mSlots.freeBuffer();
+    _28.freeBuffer();
+    _48.freeBuffer();
+    _58.freeBuffer();
+    _38.freeBuffer();
+    _68.freeBuffer();
+}
+
 // 0x7100dbf588
 bool EventFlowMgr::areAllEventFlowsReady() const {
     for (s32 i = 0, n = mSlots.size(); i < n; ++i) {
