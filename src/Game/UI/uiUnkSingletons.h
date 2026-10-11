@@ -711,6 +711,20 @@ public:
 };
 static_assert(sizeof(Unk_7102478b48) == 0x50);
 
+// Native factory 99C470 allocates 0x38 bytes and initializes the added animator fields.
+class Unk_7102478be0 : public Unk_7102477fc0 {
+    SEAD_RTTI_OVERRIDE(Unk_7102478be0, Unk_7102477fc0)
+public:
+    ~Unk_7102478be0() override;
+    void m8() override;
+    void m11() override;
+    void setMapMarkerAncientText();
+    void sub_710098EAB8();
+
+    eui::Animator* _30;
+};
+static_assert(sizeof(Unk_7102478be0) == 0x38);
+
 class UiSubsys1 {
     // Native singleton forwarders 96828C / 9682B4 / 9682CC read these UI fields directly.
     friend class Unk_71025d6ac0;

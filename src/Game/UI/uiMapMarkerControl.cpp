@@ -348,4 +348,16 @@ void Unk_7102478b48::m11() {
     _48->Stop(WolfLinkMgr::instance()->sub_7100682CB4() ? 1.0f : 0.0f);
 }
 
+Unk_7102478be0::~Unk_7102478be0() {
+    _30 = nullptr;
+}
+
+void Unk_7102478be0::m8() {
+    Unk_7102477fc0::m8();
+    if (_18 && (_18->_3c & 1)) {
+        setMapMarkerAncientText();
+        sub_710098EAB8();
+    }
+}
+
 }  // namespace uking::ui
