@@ -176,12 +176,12 @@ public:
     virtual void m70();
     virtual void m71();
     virtual void m72();
-    virtual void m73();
-    virtual void m74();
+    virtual void m73(bool instant);
+    virtual bool m74();
     virtual void m75();
     virtual void m76();
-    virtual void m77();
-    virtual void m78();
+    virtual void m77(bool instant);
+    virtual bool m78();
     virtual void m79();
     virtual void m80();
 
@@ -194,7 +194,7 @@ public:
     u8 _28[0x80 - 0x28];
     /* 0x80 */ ksys::StateMachine mStateMachine;
     u8 _a8[0x100 - 0xa8];
-    /* 0x100 */ bool _100;
+    /* 0x100 */ u8 _100;  // lifecycle event flags, cleared by the update method
     /* 0x104 */ s32 _104;  // open / close state (7: ScreenMainScreen::sub_7100A1A460 checks it)
     /* 0x108 */ u16 _108;
     /* 0x110 */ void* _110;

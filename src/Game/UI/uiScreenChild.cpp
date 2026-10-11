@@ -255,6 +255,56 @@ void ScreenChild::m71() { m29(); }
 // 0x7100932118
 void ScreenChild::m72() { m30(); }
 
+// 0x71010a92ac
+// NON_MATCHING: boolean argument setup is folded into a mask instead of two native branches.
+void ScreenChild::m73(bool instant) {
+    _100 |= 1;
+    mLayout->sub_7100BDDE7C(false, instant, true);
+    _104 = 5;
+    m69();
+}
+
+// 0x71010a9310
+bool ScreenChild::m74() { return _104 == 5 && mLayout->isAnimOpenEnd(false); }
+
+// 0x71010a9330
+void ScreenChild::m75() {
+    _100 |= 2;
+    _104 = 7;
+    m70();
+}
+
+// 0x71010a9350
+void ScreenChild::m76() {
+    m73(true);
+    m75();
+}
+
+// 0x71010a9388
+// NON_MATCHING: boolean argument setup is folded into a mask instead of two native branches.
+void ScreenChild::m77(bool instant) {
+    _100 |= 4;
+    mLayout->startAnimCloseImpl_(false, instant);
+    _104 = 6;
+    m71();
+}
+
+// 0x71010a93e4
+bool ScreenChild::m78() { return _104 == 6 && mLayout->isAnimCloseEnd(false); }
+
+// 0x71010a9404
+void ScreenChild::m79() {
+    _100 |= 8;
+    _104 = 0;
+    m72();
+}
+
+// 0x71010a9420
+void ScreenChild::m80() {
+    m77(true);
+    m79();
+}
+
 // 0x7100932124
 void ScreenChildEx::m81() {}
 
