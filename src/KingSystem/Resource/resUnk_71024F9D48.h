@@ -3,6 +3,7 @@
 #include "KingSystem/Utils/Thread/ManagedTaskHandle.h"
 #include "KingSystem/Resource/resCompactedHeap.h"
 #include <prim/seadBitFlag.h>
+#include <prim/seadRuntimeTypeInfo.h>
 #include <prim/seadSafeString.h>
 #include <prim/seadStringBuilder.h>
 #include <container/seadTreeMap.h>
@@ -152,6 +153,25 @@ bool sub_7100FE0F14(Unk_71024f9a08* resource);
 bool sub_7100FE0F44(Unk_71024f9a08* resource);
 nn::gfx::ResTexture* sub_7100FE0F8C(Unk_71024f9a08* resource);
 void sub_7100FE852C(nn::gfx::ResTexture* texture);
+
+// Texture-loading arguments: complete FE6FC8 constructor and FE7190 consumer.
+// The final virtual slot selects path, model or material-animation texture loading.
+class Unk_71024f9cf0 {
+    SEAD_RTTI_BASE(Unk_71024f9cf0)
+public:
+    Unk_71024f9cf0();
+    virtual ~Unk_71024f9cf0();
+    virtual s32 getType() const = 0;
+
+    u8 _8 = 0;
+    u8 _9 = 0;
+    u8 _a = 1;
+    sead::SafeString mPath;
+    sead::Heap* mHeap = nullptr;
+    sead::FileDevice* mFileDevice = nullptr;
+    Unk_71024f9d68* mCallback = nullptr;
+};
+KSYS_CHECK_SIZE_NX150(Unk_71024f9cf0, 0x38);
 
 // Texture-handle helper; vtable 0x71024f9d48, constructor 0x7100fe7e94.
 class Unk_71024F9D48 {

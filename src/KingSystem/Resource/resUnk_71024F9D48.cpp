@@ -16,6 +16,10 @@ struct Unk_710260E880 {
 };
 KSYS_CHECK_SIZE_NX150(Unk_710260E880, 0x20);
 extern Unk_710260E880 sUnk_710260E880;
+Unk_71024f9cf0::Unk_71024f9cf0() = default;
+
+// NON_MATCHING: native retains a base vtable store in the empty destructor.
+Unk_71024f9cf0::~Unk_71024f9cf0() {}
 
 Unk_71024f9a08::~Unk_71024f9a08() = default;
 

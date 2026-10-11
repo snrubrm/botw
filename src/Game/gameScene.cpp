@@ -41,6 +41,13 @@ Unk_71025d1740* Unk_71025d1740::sInstance;
 
 namespace uking {
 
+Unk_710245a528::~Unk_710245a528() = default;
+
+// NON_MATCHING: the inferred s32 category return clears W0; native clears X0.
+s32 Unk_710245a528::getType() const {
+    return 0;
+}
+
 // NON_MATCHING: the base zero stores are ordered differently around the vtable initialization.
 GameScene::sb::sb() = default;
 

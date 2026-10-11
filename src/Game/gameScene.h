@@ -33,6 +33,16 @@ public:
 
 namespace uking {
 
+// Vtable 245A528: path-based texture request used during title background loading.
+class Unk_710245a528 : public ksys::res::Unk_71024f9cf0 {
+    SEAD_RTTI_OVERRIDE(Unk_710245a528, ksys::res::Unk_71024f9cf0)
+public:
+    ~Unk_710245a528() override;
+    s32 getType() const override;
+};
+KSYS_CHECK_SIZE_NX150(Unk_710245a528, 0x38);
+
+
 // Vtable 0x710245b4d8: the single-entry draw pool embedded in OpenWorldStage and ViewerStage.
 class Unk_710245b4d8;
 
