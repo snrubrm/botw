@@ -41,6 +41,7 @@ namespace ksys::phys {
 class Constraint;
 class ContactLayer;
 class NavMeshCharacter;
+class MaterialMask;
 class StaticCompoundRigidBodyGroup;
 class SystemGroupHandler;
 }
@@ -71,6 +72,14 @@ public:
 
     // 0x7100d114a4: main-body center of mass, or matrix translation.
     bool getMtxPos(sead::Vector3f* out) const;
+    // D11E54 writes a scale / position matrix, or identity without an Actor.
+    bool sub_7100D11E54(sead::Matrix34f* out) const;
+    // D116B4 copies the shape body's material data and resets the output mask cache.
+    bool sub_7100D116B4(phys::MaterialMask* out) const;
+    // D119A8 resolves a named Body rigid body; both position queries fall back to the actor matrix.
+    bool sub_7100D119A8(sead::Matrix34f* out, const sead::SafeString& name) const;
+    bool sub_7100D11B14(sead::Vector3f* out) const;
+    bool sub_7100D11D14(sead::Vector3f* out) const;
 
     bool hasProc() const { return ActorLinkConstDataAccess::hasProc(); }
 

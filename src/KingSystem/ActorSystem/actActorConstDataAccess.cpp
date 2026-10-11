@@ -15,6 +15,8 @@
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Physics/Constraint/physConstraint.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodyFromShape.h"
+#include "KingSystem/Physics/physMaterialMask.h"
 #include "KingSystem/Physics/physDefines.h"
 #include "KingSystem/Physics/System/physSystem.h"
 #include "KingSystem/Resource/Actor/resResourceDrop.h"
@@ -1549,6 +1551,56 @@ bool ActorConstDataAccess::getMtxPos(sead::Vector3f* out) const {
             body->getCenterOfMassInWorld(out);
             return true;
         }
+    }
+    getActorMtx().getTranslation(*out);
+    return false;
+}
+
+bool ActorConstDataAccess::sub_7100D11E54(sead::Matrix34f* out) const {
+    if (auto* actor = getActor()) {
+        sub_7100D36FA0(out, actor);
+        return true;
+    }
+    out->makeIdentity();
+    return false;
+}
+
+bool ActorConstDataAccess::sub_7100D116B4(phys::MaterialMask* out) const {
+    if (auto* actor = getActor()) {
+        if (auto* body = sead::DynamicCast<phys::RigidBodyFromShape>(actor->getMainBody())) {
+            out->set(body->tryGetMaterialMask()->getData());
+            return true;
+        }
+    }
+    return false;
+}
+
+// NON_MATCHING: the native fallback matrix getter is inlined; the sibling TU keeps a call.
+bool ActorConstDataAccess::sub_7100D119A8(sead::Matrix34f* out,
+                                        const sead::SafeString& name) const {
+    if (auto* actor = getActor()) {
+        if (auto* body = actor->findPhysicsBodyByName("Body", name.cstr())) {
+            body->getRigidBodyAccessor()->getTransform(out);
+            return true;
+        }
+    }
+    *out = getActorMtx();
+    return false;
+}
+
+// NON_MATCHING: the native fallback matrix getter is inlined; the sibling TU keeps a call.
+bool ActorConstDataAccess::sub_7100D11B14(sead::Vector3f* out) const {
+    if (auto* actor = getActor())
+        return actor->x_18(out);
+    getActorMtx().getTranslation(*out);
+    return false;
+}
+
+// NON_MATCHING: the native fallback matrix getter is inlined; the sibling TU keeps a call.
+bool ActorConstDataAccess::sub_7100D11D14(sead::Vector3f* out) const {
+    if (auto* actor = getActor()) {
+        sub_7100D36EE0(out, actor);
+        return true;
     }
     getActorMtx().getTranslation(*out);
     return false;
