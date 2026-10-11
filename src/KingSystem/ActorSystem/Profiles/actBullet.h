@@ -119,8 +119,7 @@ public:
     void setAttackDirType(s32 value, BaseProc* owner);   // AttackDirType
     void setGolemPartInitialIceMagic(bool value, BaseProc* owner);  // GolemPartInitialIceMagic
     void setGolemPartInitialBurn(bool value, BaseProc* owner);  // GolemPartInitialBurn
-    // 0x7100005fd0 (declared only): starts xlink event 0x19 with `value` (after updating the model's xlink
-    // scale).
+    // 0x7100005fd0: updates the model materials, then starts xlink event 0x19 with `value`.
     void startXLinkEvent19Maybe(u32 value, BaseProc* owner);
     // 0x7100006144 / 0x71000061a8: read a map unit parameter of the Bullet owned by `owner`.
     bool getMapUnitParamF32(f32* out, const sead::SafeString& key, BaseProc* owner);

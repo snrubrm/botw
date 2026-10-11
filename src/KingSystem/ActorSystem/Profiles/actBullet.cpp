@@ -4,9 +4,12 @@
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actTag.h"
+#include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/ActorSystem/actAiParam.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Graphics/gfxUnk_710260af28.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
 
 namespace ksys::act {
 
@@ -213,6 +216,17 @@ bool Bullet::isReflectThrownBullet() const {
     return false;
 }
 
+void Bullet::startXLinkEvent19Maybe(u32 value, BaseProc* owner) {
+    auto* bullet = getBulletOwnedByMaybe(owner);
+    if (!bullet)
+        return;
+    auto* model = bullet->getModel();
+    if (!model)
+        return;
+    Unk_710260af28::instance()->sub_7100F1E4DC(model, value);
+    xlinkEventOn(bullet, 0x19, value, false);
+}
+
 void Bullet::sub_710000634C(BaseProc* proc, BaseProc* owner) {
     if (auto* bullet = getBulletOwnedByMaybe(owner))
         bullet->_b90.acquire(proc, false);
@@ -233,6 +247,24 @@ void Bullet::sub_71000063F4(f32 factor, BaseProc* owner) {
         if (auto* body = bullet->getMainBody())
             body->setGravityFactor(factor);
     }
+}
+
+bool Bullet::isHold() const {
+    auto* bullet = sead::DynamicCast<act::Bullet>(static_cast<Actor*>(getProcIfActor(mProc)));
+    if (!bullet)
+        return false;
+    debugLog(0, "isHold");
+    return (bullet->_cf4 & 0x80) != 0;
+}
+
+bool Bullet::isFittingOrShootingArrow() const {
+    auto* bullet = sead::DynamicCast<act::Bullet>(static_cast<Actor*>(getProcIfActor(mProc)));
+    if (!bullet)
+        return false;
+    debugLog(0, "isFittingOrShootingArrow");
+    if (auto* chemical = bullet->sub_71011D8A34(0))
+        return (chemical->_c & 0x4000) != 0;
+    return false;
 }
 
 }  // namespace acc
