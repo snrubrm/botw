@@ -54,6 +54,7 @@ public:
     void x_13();
     void x_14();
     void sub_71010EDEBC(int value);
+    f32 sub_71010ED5B4(const sead::Vector3f& position);
     int x() const;
     bool isRaining();
     bool isSnowing();

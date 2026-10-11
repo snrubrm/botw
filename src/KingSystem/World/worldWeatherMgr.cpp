@@ -2,6 +2,8 @@
 #include <random/seadGlobalRandom.h>
 #include <gfx/seadCamera.h>
 #include "KingSystem/System/CameraMgr.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/Physics/System/physRayCastBodyQuery.h"
 #include "KingSystem/ActorSystem/actChemicalElementHolder.h"
 #include "KingSystem/World/worldChemicalMgr.h"
 #include "KingSystem/GameData/gdtManager.h"
@@ -13,6 +15,23 @@
 namespace ksys::world {
 
 WeatherMgr::~WeatherMgr() = default;
+
+f32 WeatherMgr::sub_71010ED5B4(const sead::Vector3f& position) {
+    sead::Vector3f start = position;
+    start.y = 2000.0f;
+    sead::Vector3f end = position;
+    end.y = -500.0f;
+    phys::RayCastBodyQuery query(nullptr, phys::GroundHit::HitAll);
+    act::sub_7100EEACE8(&query);
+    query.enableLayer(phys::ContactLayer::EntityWater);
+    query.setStartAndEnd(start, end);
+    if (query.worldRayCast(phys::ContactLayerType::Entity)) {
+        sead::Vector3f hit(0.0f, 0.0f, 0.0f);
+        query.getHitPosition(&hit);
+        return hit.y;
+    }
+    return 0.0f;
+}
 
 WeatherType WeatherMgr::getWeather() const {
     return WeatherType(weather);
