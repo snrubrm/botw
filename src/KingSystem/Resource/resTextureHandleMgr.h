@@ -83,6 +83,7 @@ public:
     void repairAllHandlesForSync();
     bool invoked5(void*);
     void invoked7(util::TaskPostRunResult* result, const util::TaskPostRunContext& context);
+    void repairExecute(util::TaskPostRunResult* result, const util::TaskPostRunContext& context);
     void invoked8(const util::TaskRemoveCallbackContext& context);
     void invoked9(const util::TaskRemoveCallbackContext& context);
     bool repairTexture(Unk_71024f9a08* resource);
@@ -139,9 +140,12 @@ private:
     util::TaskPostRunCallbackT<TextureHandleMgr> _218{nullptr, nullptr};
     // Complete FE2890 initializes this post-run callback for FE4918.
     util::TaskPostRunCallbackT<TextureHandleMgr> _238{nullptr, nullptr};
-    u8 _258[0x278 - 0x258];
+    // Complete FE2890 initializes this removal callback for FE4B6C.
+    util::TaskRemoveCallbackT<TextureHandleMgr> _258{nullptr, nullptr};
     util::TaskRemoveCallbackT<TextureHandleMgr> _278{nullptr, nullptr};
-    u8 _298[0x5e0 - 0x298];
+    // Complete FE2890 initializes this task delegate for FE43B8.
+    util::TaskDelegateT<TextureHandleMgr> _298{nullptr, nullptr};
+    u8 _2b8[0x5e0 - 0x2b8];
     // Complete FE2534 constructs this loader; independent FE4B6C unloads it.
     TempResourceLoader mLoader;
     ArchiveWork* mArchiveWork;

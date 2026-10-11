@@ -13,6 +13,7 @@
 #include "KingSystem/Resource/resSystem.h"
 #include "KingSystem/Utils/Thread/Task.h"
 #include "KingSystem/Utils/Thread/TaskThread.h"
+#include "KingSystem/Utils/Thread/TaskQueueBase.h"
 #include "KingSystem/Utils/Thread/ManagedTask.h"
 #include "KingSystem/Resource/resResourceFileUtil.h"
 
@@ -372,6 +373,59 @@ bool TextureHandleMgr::invalidateUser(const InvalidateArg& arg) {
         return true;
     handle->sub_7100FE8474(resource, status);
     return false;
+}
+
+// NON_MATCHING: native request setup and loader cleanup branch layout differ.
+void TextureHandleMgr::repairExecute(util::TaskPostRunResult* result,
+                                     const util::TaskPostRunContext& context) {
+    auto* data = sead::DynamicCast<::Unk_71024f9e28>(
+        static_cast<util::TaskData*>(context.mUserData));
+    if (!data)
+        return;
+    auto* resource = static_cast<Unk_71024f9a08*>(data->_60);
+    if (context.mCancelled) {
+        if (mLoader.isLoading() || mLoader.isSuccess())
+            mLoader.unload();
+        resource->sub_7100FE0EC8();
+        resource->sub_7100FE0850();
+        return;
+    }
+    const auto path = resource->sub_7100FE0DF0();
+    bool repair;
+    if (path.findIndex(".Tex1.") != -1) {
+        auto* queue = _50->getTaskQueue();
+        repair = (!queue || queue->countTasksInLane(1) < 1) && mFlags.isOnAll(3);
+    } else {
+        repair = mFlags.isOnBit(0);
+    }
+    const bool can_submit = repair && resource->sub_7100FE0ED0();
+    if (mLoader.isLoading() || mLoader.isSuccess()) {
+        if (can_submit) {
+            Unk_71024f9bb8 request;
+            request.mName = resource->sub_7100FE0CF8() ? "toTex1Execute" : "RepairExecute";
+            request.mSynchronous = false;
+            request.mLaneId = 3;
+            request.mThread = _50;
+            request.mDelegate = &_298;
+            request.mPostRunCallback = &_218;
+            request.mRemoveCallback = &_258;
+            request._a8 = resource;
+            util::TaskMgrRequest manager_request;
+            manager_request.task = static_cast<util::ManagedTask*>(context.mTask);
+            manager_request.request = &request;
+            manager_request.handle = &resource->mTaskHandle;
+            const bool submitted = _48->trySubmitRequest(manager_request);
+            if (!submitted) {
+                resource->sub_7100FE0EC8();
+                resource->sub_7100FE0850();
+            }
+            result->setResult(submitted);
+            return;
+        }
+        mLoader.unload();
+    }
+    resource->sub_7100FE0EC8();
+    resource->sub_7100FE0850();
 }
 
 // NON_MATCHING: native retains the address of the task data repair fields.
