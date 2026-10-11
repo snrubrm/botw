@@ -9,6 +9,7 @@
 #include <math/seadVector.h>
 #include "KingSystem/ActorSystem/actActorAtk.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
+#include "KingSystem/Physics/physMaterialMask.h"
 #include "KingSystem/Utils/Types.h"
 
 namespace sead {
@@ -57,16 +58,27 @@ public:
     // vtable 0x7102459e60 (derived: 0x710245a0e0); 8 entries of 0x58 bytes at +0x8
     struct Unk_7102459e60 {
         struct Unk1 {
-            sead::Vector3f _0;  // position (SunazarashiRoot::sub_71005AF91C)
-            sead::Vector3f _c;  // dotted with the actor's front (BattleCloseAction::m39)
-            u8 _18[0x58 - 0x18];
+            void sub_710079F508(const sead::Vector3f& position, const sead::Vector3f& normal,
+                              const ActorConstDataAccess* actor,
+                              const phys::MaterialMask& material1,
+                              const phys::MaterialMask& material2);
+
+            // Native array constructor 79D0F0 initializes all eight records.
+            sead::Vector3f _0 = sead::Vector3f::zero;
+            sead::Vector3f _c = sead::Vector3f::ez;
+            BaseProcLink _18;
+            phys::MaterialMask _28;
+            phys::MaterialMask _40;
         };
 
-        virtual ~Unk_7102459e60();
+        // Empty-body precedent: GameDataFlagSelector::~GameDataFlagSelector(), commit 96101229.
+        // The native lifetime bodies retain this base table before array destruction.
+        virtual ~Unk_7102459e60() { ; }
+        virtual void m2(Actor* actor) = 0;
         void sub_71007A5318();
 
         sead::SafeArray<Unk1, 8> mEntries;
-        s32 mNum;
+        s32 mNum = 0;
     };
     // vtable 0x7102459e88 (derived: 0x710245a028, 0x710245a000); 8 entries of 0x58 bytes at +0x8
     struct Unk_7102459e88 {
@@ -137,5 +149,21 @@ public:
     /* 0x38 */ sead::Buffer<u8> _38;
 };
 KSYS_CHECK_SIZE_NX150(Unk_7102459df8, 0x48);
+KSYS_CHECK_SIZE_NX150(Unk_7102459df8::Unk_7102459e60::Unk1, 0x58);
+KSYS_CHECK_SIZE_NX150(Unk_7102459df8::Unk_7102459e60, 0x2d0);
+
+// The complete producer 79C5F8 allocates 0x2d0 for both variants, constructs
+// the Unk_7102459e60 base and selects these three-slot tables.
+class Unk_710245a0b8 : public Unk_7102459df8::Unk_7102459e60 {
+public:
+    ~Unk_710245a0b8() override;
+    void m2(Actor* actor) override;
+};
+
+class Unk_710245a0e0 : public Unk_7102459df8::Unk_7102459e60 {
+public:
+    ~Unk_710245a0e0() override;
+    void m2(Actor* actor) override;
+};
 
 }  // namespace ksys::act
