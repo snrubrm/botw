@@ -48,6 +48,44 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(Unk_7102514a08, 8);
 
+class Unk_71024f9d68;
+
+// Root typeinfo 260E960. Both complete four-slot child tables and FE8074
+// establish its RTTI/lifetime interface and common borrowed callback at +8.
+class Unk_710260e960 {
+    SEAD_RTTI_BASE(Unk_710260e960)
+public:
+    virtual ~Unk_710260e960() = default;
+    Unk_71024f9d68* mCallback = nullptr;
+};
+KSYS_CHECK_SIZE_NX150(Unk_710260e960, 0x10);
+
+// FE7190 places this 0x40-byte record immediately before the path request.
+// FE1AFC independently supplies a ResTexture from AGL ResFile::sub_7100B33BF0.
+class Unk_71024f9a90 : public Unk_710260e960 {
+    SEAD_RTTI_OVERRIDE(Unk_71024f9a90, Unk_710260e960)
+public:
+    ~Unk_71024f9a90() override;
+    bool _10 = false;
+    bool _11 = false;
+    bool _12 = false;
+    nn::gfx::ResTexture* mTexture = nullptr;
+    sead::FileDevice* mFileDevice = nullptr;
+    sead::SafeString mRequester;
+    u32 mTextureFlags = 0;
+};
+KSYS_CHECK_SIZE_NX150(Unk_71024f9a90, 0x40);
+
+// FE7190 and BfRes11FF1B8 independently construct this path/hash request.
+class Unk_71024f9ad8 : public Unk_710260e960 {
+    SEAD_RTTI_OVERRIDE(Unk_71024f9ad8, Unk_710260e960)
+public:
+    ~Unk_71024f9ad8() override;
+    sead::SafeString mPath;
+    u32 mHash = 0;
+};
+KSYS_CHECK_SIZE_NX150(Unk_71024f9ad8, 0x28);
+
 class BfRes;
 class Unk_71024F9D48;
 class Unk_71024f9958;
