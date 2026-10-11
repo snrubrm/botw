@@ -84,6 +84,7 @@ target_sources(uking PRIVATE
   uiManagerSmall.cpp
   uiLowPrioThreadMgr.cpp
   uiMapMarker.cpp
+  uiMapMarkerControl.cpp
   uiNormalMap.cpp
   uiNormalMap.h
   uiOnUiActorMgr.cpp

@@ -24,6 +24,13 @@ class ManagedTaskHandle;
 class ManagedTask;
 }
 
+namespace eui {
+class LayoutEx;
+}
+namespace nn::ui2d {
+class Pane;
+}
+
 namespace uking::ui {
 
 // UI singletons whose classes are not identified yet. Placeholder names after the address of the
@@ -386,6 +393,8 @@ struct UiSubsys1Marker {
 
 // Element of UiSubsys1's table at 0x658; native base vtable 0x71024753c8.
 // Virtual 25 is called by 951388, whose existing users read the position at +0x28.
+class Unk_7102477fc0;
+
 struct UiSubsys1Entry {
     SEAD_RTTI_BASE(UiSubsys1Entry)
     virtual ~UiSubsys1Entry();
@@ -417,8 +426,9 @@ struct UiSubsys1Entry {
 
     // 0x7100951388: sets flag 8, then forwards to the virtual control update.
     void sub_7100951388(bool enabled);
+    bool sub_7100951048() const;
 
-    /* 0x08 */ void* _8;
+    /* 0x08 */ Unk_7102477fc0* _8;
     /* 0x10 */ void* _10;
     /* 0x18 */ f32 _18;
     /* 0x1c */ s32 _1c;
@@ -465,11 +475,41 @@ public:
     virtual void m31();
     virtual void m32();
 
-    /* 0x50 */ void* _50;
+    /* 0x50 */ Unk_7102477fc0* _50;
     /* 0x58 */ Unk_710095192c* _58;
     /* 0x60 */ s32 _60;
 };
 static_assert(sizeof(Unk_71024754c0) == 0x68);
+
+// Native vtable 2477FC0 has fifteen slots; reset 98C7A4 establishes the 0x30-byte layout.
+class Unk_7102477fc0 {
+    SEAD_RTTI_BASE(Unk_7102477fc0)
+public:
+    virtual ~Unk_7102477fc0();
+    virtual void m4();
+    virtual void m5();
+    virtual void m6(eui::LayoutEx* layout);
+    virtual void m7();
+    virtual void m8();
+    virtual void m9();
+    virtual void m10();
+    virtual void m11();
+    virtual void m12();
+    virtual void m13();
+    virtual bool m14() const;
+    void sub_710098CB98(bool enabled);
+    void sub_710098CF9C();
+    void sub_710098CFC4();
+    void sub_710098CFC8();
+
+    eui::LayoutEx* _8;
+    void* _10;
+    UiSubsys1Entry* _18;
+    nn::ui2d::Pane* _20;
+    s32 _28;
+    bool _2c;
+};
+static_assert(sizeof(Unk_7102477fc0) == 0x30);
 
 class UiSubsys1 {
     // Native singleton forwarders 96828C / 9682B4 / 9682CC read these UI fields directly.

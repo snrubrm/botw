@@ -118,4 +118,29 @@ void Unk_71024754c0::m32() {
         _3c = _60 > 0 ? _3c | 0x8000 : _3c & ~0x8000;
 }
 
+bool UiSubsys1Entry::sub_7100951048() const {
+    return _24 == 0;
+}
+
+// NON_MATCHING: cleanup keeps an extra address register across the control call.
+void UiSubsys1Entry::m22() {
+    if (_8) {
+        _8->_18 = nullptr;
+        _8->sub_710098CF9C();
+    }
+    _8 = nullptr;
+    _10 = nullptr;
+    _18 = -1.0f;
+}
+
+// NON_MATCHING: inlined base cleanup keeps an extra address register.
+void Unk_71024754c0::m22() {
+    UiSubsys1Entry::m22();
+    if (_50) {
+        _50->_18 = nullptr;
+        _50->sub_710098CF9C();
+    }
+    _50 = nullptr;
+}
+
 }  // namespace uking::ui
