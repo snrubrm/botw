@@ -360,6 +360,12 @@ int MainFieldDungeonStage::m0() {
     return 2;
 }
 
+ViewerStage::ViewerStage() = default;
+
+ViewerStage::~ViewerStage() {
+    mHeap->destroy();
+}
+
 s32 ViewerStage::getType() {
     return 5;
 }

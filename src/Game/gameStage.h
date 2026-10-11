@@ -3,6 +3,7 @@
 #include <heap/seadHeap.h>
 #include <math/seadBoundBox.h>
 #include "Game/gameDebugStatus.h"
+#include "Game/gameScene.h"
 #include "Game/gameStageBinder.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Event/evtBaseProcLinkForEvent.h"
@@ -193,8 +194,12 @@ public:
     void m13() override {}
 
 private:
-    /* 0x10 */ sead::Heap* mHeap;
-    u8 _18[0x150 - 0x18];
+    /* 0x10 */ sead::Heap* mHeap = nullptr;
+    /* 0x18 */ void* _18 = nullptr;
+    /* 0x20 */ void* _20 = nullptr;
+    /* 0x28 */ bool _28 = false;
+    /* 0x30 */ Unk_710245b4d8 _30;
+    /* 0xc0 */ Unk_710245b4d8 _c0;
 };
 
 }  // namespace uking

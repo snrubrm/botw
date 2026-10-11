@@ -33,6 +33,9 @@ public:
 
 namespace uking {
 
+// Vtable 0x710245b4d8: the single-entry draw pool embedded in OpenWorldStage and ViewerStage.
+class Unk_710245b4d8;
+
 class OpenWorldStageBinder;
 class StageBinder;
 
@@ -59,6 +62,7 @@ public:
     public:
         sb();
         virtual ~sb();
+        void init(s32 count, void* buffer);
         void x(s32 index, agl::lyr::Layer* layer, s32 step);
     };
     static_assert(sizeof(sb) == 0x28);
@@ -256,6 +260,19 @@ void setForceEnableGlidingSurfingRupee(bool value);
 extern bool sIsRestartStageFromGameOver;
 // 0x710245a360 (see gameScene.cpp).
 extern bool sUnk_710245a360;
+
+// One DrawMethod and its pointer slot occupy the inline work buffer.
+class Unk_710245b4d8 : public GameScene::sb {
+public:
+    Unk_710245b4d8() { init(1, &mWork); }
+    ~Unk_710245b4d8() override = default;
+
+private:
+    std::aligned_storage_t<sead::ObjArray<agl::lyr::DrawMethod>::calculateWorkBufferSize(1),
+                           alignof(agl::lyr::DrawMethod)>
+        mWork;
+};
+static_assert(sizeof(Unk_710245b4d8) == 0x90);
 
 }  // namespace uking
 

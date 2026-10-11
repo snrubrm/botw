@@ -103,7 +103,7 @@ protected:
         const float* mIgnoreFoodAfterSuccessRand_s{};
     };
     Params mParams{};
-    // 0x160 .. 0x1b4: vector / counters (not decompiled)
+    // Remaining opaque ranges: 0x16c .. 0x183 and parts of 0x19c .. 0x1b7.
     ksys::act::BaseProcLink _150;  // the target of interest
     ksys::Timer _160{};
     u8 _16c[0x184 - 0x16c]{};
