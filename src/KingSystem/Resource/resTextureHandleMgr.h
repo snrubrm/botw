@@ -5,6 +5,7 @@
 #include <prim/seadBitFlag.h>
 #include <prim/seadDelegate.h>
 #include <time/seadTickTime.h>
+#include "KingSystem/Resource/resResource.h"
 
 namespace ksys::util {
 class Task;
@@ -13,6 +14,18 @@ class TaskMgr;
 }  // namespace ksys::util
 
 namespace ksys::res {
+
+// Native table 24F9B08 and the complete FE43B8 stack producer establish a
+// Context containing a borrowed FileDevice and path, with extent 0x20.
+class Unk_71024f9b08 : public Context {
+    SEAD_RTTI_OVERRIDE(Unk_71024f9b08, Context)
+public:
+    ~Unk_71024f9b08() override;
+
+    sead::FileDevice* mFileDevice;
+    sead::SafeString mPath;
+};
+KSYS_CHECK_SIZE_NX150(Unk_71024f9b08, 0x20);
 
 class ArchiveWork;
 class Counter;

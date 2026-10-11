@@ -19,6 +19,8 @@ Unk_71024f9bb8::~Unk_71024f9bb8() = default;
 
 namespace ksys::res {
 
+Unk_71024f9b08::~Unk_71024f9b08() = default;
+
 void sub_7100FE0D98(Unk_71024f9a08* resource, Unk_71024F9D48* handle) {
     resource->mCS.lock();
     resource->mHandles.erase(handle);
