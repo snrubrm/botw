@@ -8,6 +8,7 @@
 #include "Game/AI/aiXlinkHandle.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/Physics/System/physHavokAI.h"
+#include "KingSystem/Physics/System/physNavMeshEdgeResult.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/Physics/System/physRayCastBodyQuery.h"
@@ -56,6 +57,34 @@ void GameSceneSubsys4::sub_710066B8C0(ksys::act::BaseProc* actor) {
             break;
         }
     }
+}
+
+// NON_MATCHING: initial target-direction coordinate registers differ.
+bool Unk_710243c238::m0(const void* node) {
+    const auto* edge = static_cast<const ksys::phys::Unk_7100f7e64c*>(node);
+    if (edge->mEdge->m_oppositeEdge != 0xffffffff)
+        return false;
+    sead::Vector3f start, end, midpoint, direction, side;
+    f32 length;
+    edge->sub_7100F7E754(&start, &end, &midpoint, &direction, &length, &side, nullptr);
+    sead::Vector3f target_direction = mTarget - midpoint;
+    target_direction.y = 0.0f;
+    target_direction.normalize();
+    if (length <= mNav->getRadiusMaybe() * 1.3f)
+        return false;
+    const f32 dot = target_direction.dot(side);
+    if (dot >= 0.0f || dot > -0.766044438f)
+        return false;
+    midpoint += side * 3.0f;
+    if (target_direction.dot(-side) <= 0.939692616f) {
+        if (target_direction.cross(-side).y < 0.0f)
+            midpoint -= direction * 0.5f;
+        else
+            midpoint += direction * 0.5f;
+    }
+    if ((mPosition - midpoint).length() >= 1.0f)
+        mList->emplaceBack(midpoint);
+    return mList->isFull();
 }
 
 void GameSceneSubsys4::sub_710066B5B8(f32 radius, ksys::act::Actor* actor,
