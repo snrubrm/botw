@@ -92,6 +92,7 @@ target_sources(uking PRIVATE
   uiScreenFadeDemo.cpp
   uiScreenMainDungeon.cpp
   uiScreenMessageTips.cpp
+  uiScreenChangeControllerNN.cpp
   uiScreenCtors.cpp
   uiScreenDLCNum.cpp
   uiScreenDtors.cpp

@@ -6,7 +6,7 @@
 namespace uking::ui {
 
 
-ScreenChangeControllerNN::~ScreenChangeControllerNN() = default;
+
 ScreenHomeNixSign::~ScreenHomeNixSign() = default;
 ScreenLoadSaveIcon::~ScreenLoadSaveIcon() = default;
 

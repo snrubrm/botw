@@ -15,8 +15,7 @@ ScreenPauseMenuMantan::ScreenPauseMenuMantan() : ScreenEx() { sResult = 5; }
 
 
 
-// 0x710109de68
-ScreenChangeControllerNN::ScreenChangeControllerNN() : Screen() {}
+
 
 // 0x71010a2114
 ScreenHomeNixSign::ScreenHomeNixSign() : Screen() {}

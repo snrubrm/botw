@@ -149,16 +149,9 @@ const char* ScreenHomeMenuCapture::getLayoutName_() const {
 
 
 
-// 0x710109deac
-void ScreenChangeControllerNN::m94() {
-    if (isOpened())
-        close(-4);
-}
 
-// 0x710109df74
-const char* ScreenChangeControllerNN::getLayoutName_() const {
-    return "ChangeControllerNN_00";
-}
+
+
 
 
 
