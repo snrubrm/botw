@@ -74259,8 +74259,8 @@ Address,Quality,Size,Name
 0x0000007100d4736c,U,000392,PlacementMapMgr::parseRoute
 0x0000007100d474f4,O,000172,_ZN4ksys3map15PlacementMapMgr25postPlaceActorsRouteStuffEPv
 0x0000007100d475a0,U,000172,PlacementMapMgr::routeStuff
-0x0000007100d4764c,U,000480,Placement18::ctor
-0x0000007100d4782c,U,000860,Placement18::dtor
+0x0000007100d4764c,O,000480,_ZN4ksys3map11Placement18C1EPN4sead4HeapE
+0x0000007100d4782c,U,000860,_ZN4ksys3map11Placement18D1Ev
 0x0000007100d47b88,U,000876,Placement18::parseRail
 0x0000007100d47ef4,U,000320,Placement18::x
 0x0000007100d48034,U,000004,Placement18::nullsub_3771
@@ -74616,8 +74616,8 @@ Address,Quality,Size,Name
 0x0000007100d5ccf4,U,000152,
 0x0000007100d5cd8c,U,000056,
 0x0000007100d5cdc4,U,000092,
-0x0000007100d5ce20,U,000120,Placement18a::createInstance
-0x0000007100d5ce98,U,000080,
+0x0000007100d5ce20,U,000120,_ZN4ksys3map12Placement18a14createInstanceEPN4sead4HeapE
+0x0000007100d5ce98,U,000080,_ZN4ksys3map12Placement18a14deleteInstanceEv
 0x0000007100d5cee8,U,000324,
 0x0000007100d5d02c,O,000136,_ZN4ksys3act11ActorSystem18SingletonDisposer_D1Ev
 0x0000007100d5d0b4,O,000144,_ZN4ksys3act11ActorSystem18SingletonDisposer_D0Ev

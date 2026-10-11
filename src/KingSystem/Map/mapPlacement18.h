@@ -1,6 +1,8 @@
 #pragma once
 
 #include <container/seadPtrArray.h>
+#include <container/seadTreeMap.h>
+#include <heap/seadDisposer.h>
 #include <math/seadVector.h>
 
 #include <prim/seadSafeString.h>
@@ -11,14 +13,23 @@ namespace ksys::map {
 class Rail;
 class RailConnectablePoint;
 class RailRoute;
+class Unk_7100D49894;
 
 // 0x7100eec698 supplies the route and its SafeString filter; the two route
 // scans at 0x7100d49324 inline this same route-id substring test.
 bool sub_7100D4953C(const RailRoute* route, const sead::SafeString& route_ids);
 
-// TODO: incomplete
+// Singleton factory used by Placement18's native construction and destruction.
+class Placement18a {
+    SEAD_SINGLETON_DISPOSER(Placement18a)
+public:
+    Placement18a();
+};
+KSYS_CHECK_SIZE_NX150(Placement18a, 0x20);
+
 class Placement18 {
 public:
+    Placement18(sead::Heap* heap);
     // 0x0000007100d4782c
     ~Placement18();
 
@@ -40,7 +51,9 @@ public:
     Rail* sub_7100D48254(const sead::SafeString& unique_name);
 
 private:
-    void* _0;
+    // Native outer keys are unsigned hashes; the inner key interface is unresolved.
+    using RailTypeMap = sead::TreeMap<u32, Unk_7100D49894*>;
+    RailTypeMap* _0;
     sead::PtrArray<sead::PtrArray<Rail>>* _8;
     sead::PtrArray<sead::PtrArray<Rail>>* _10;
 };

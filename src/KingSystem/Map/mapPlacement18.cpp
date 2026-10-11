@@ -7,6 +7,26 @@ namespace ksys::map {
 extern u32 sRailTypeRouteHash;
 extern u32 sRailTypeConnectableHash;
 
+Placement18::Placement18(sead::Heap* heap) : _0(nullptr), _8(nullptr), _10(nullptr) {
+    if (!Placement18a::instance())
+        Placement18a::createInstance(heap);
+
+    _0 = new (heap, 8) RailTypeMap;
+    _0->allocBuffer(8, heap);
+    _8 = new (heap, 8) sead::PtrArray<sead::PtrArray<Rail>>;
+    _10 = new (heap, 8) sead::PtrArray<sead::PtrArray<Rail>>;
+    _8->allocBuffer(80, heap);
+    _10->allocBuffer(80, heap);
+    for (s32 i = 0; i < 80; ++i) {
+        auto* routes = new (heap, 8) sead::PtrArray<Rail>;
+        routes->allocBuffer(80, heap);
+        _8->pushBack(routes);
+        auto* connectable = new (heap, 8) sead::PtrArray<Rail>;
+        connectable->allocBuffer(16, heap);
+        _10->pushBack(connectable);
+    }
+}
+
 bool sub_7100D4953C(const RailRoute* route, const sead::SafeString& route_ids) {
     if (route_ids.isEmpty())
         return true;
