@@ -727,6 +727,34 @@ public:
 };
 static_assert(sizeof(Unk_7102476640) == 0x88);
 
+// Factory 0x95C0A8 allocates 0x50 bytes for this complete 29-slot leaf.
+class Unk_7102476738 : public UiSubsys1Entry {
+    SEAD_RTTI_OVERRIDE(Unk_7102476738, UiSubsys1Entry)
+public:
+    ~Unk_7102476738() override;
+    s32 m10() override;
+    void m19() override;
+    void m24(bool enabled) override;
+    void m25(bool enabled) override;
+};
+static_assert(sizeof(Unk_7102476738) == 0x50);
+
+// Factory 0x95C0A8 allocates 0x80 bytes and initializes the two UiTimer members.
+class Unk_7102476830 : public UiSubsys1Entry {
+    SEAD_RTTI_OVERRIDE(Unk_7102476830, UiSubsys1Entry)
+public:
+    ~Unk_7102476830() override;
+    void m5() override;
+    s32 m10() override;
+    void m19() override;
+    void m24(bool enabled) override;
+    void m25(bool enabled) override;
+
+    UiTimer _50;
+    UiTimer _68;
+};
+static_assert(sizeof(Unk_7102476830) == 0x80);
+
 // Native vtable 2477FC0 has fifteen slots; reset 98C7A4 establishes the 0x30-byte layout.
 class Unk_7102477fc0 {
     SEAD_RTTI_BASE(Unk_7102477fc0)
@@ -1077,6 +1105,7 @@ class UiSubsys1 {
     // Native 955964/9559D8/955BE4 read the map mode at 0x848 directly.
     friend class Unk_7102475c68;
     friend class Unk_7102476350;
+    friend class Unk_7102476830;
 public:
     static UiSubsys1* instance() { return sInstance; }
 
@@ -1291,7 +1320,9 @@ private:
     u8 _620[0x650 - 0x620];
     /* 0x650 */ UiSubsys1Entry* _650;
     /* 0x658 */ sead::PtrArray<UiSubsys1Entry> _658;
-    u8 _668[0x6e4 - 0x668];
+    u8 _668[0x698 - 0x668];
+    /* 0x698 */ UiSubsys1Entry* _698;
+    u8 _6a0[0x6e4 - 0x6a0];
     /* 0x6e4 */ s32 _6e4;
     u8 _6e8[0x6ec - 0x6e8];
     /* 0x6ec */ bool _6ec;

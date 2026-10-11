@@ -786,4 +786,34 @@ bool Unk_7102476640::sub_7100958D38() const {
     return u32(_80) - 1 < 2;
 }
 
+s32 Unk_7102476738::m10() {
+    return 5;
+}
+
+// NON_MATCHING: horizontal coordinate loads and subtraction scheduling differ.
+void Unk_7102476830::m5() {
+    m12();
+    m13();
+    if (!Manager::instance()->isPausedMaybe()) {
+        auto* entry = UiSubsys1::instance()->_478;
+        const f32 dx = _28.x - entry->_28.x;
+        const f32 dz = _28.z - entry->_28.z;
+        if (dx * dx + dz * dz < 400.0f) {
+            const f32 height = entry->_28.y - _28.y;
+            if (height > -25.0f && height < 30.0f && _50.updateAndCheckEnded())
+                m25(false);
+        } else {
+            _50.init(3.0f);
+        }
+    }
+    if (UiSubsys1::instance()->_698 != this)
+        _68.init(0.0f);
+    else
+        _68.update();
+}
+
+s32 Unk_7102476830::m10() {
+    return 4;
+}
+
 }  // namespace uking::ui
