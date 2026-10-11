@@ -98,4 +98,27 @@ void TimedFader::calc() {
     mCurvedNextValue = next;
 }
 
+// NON_MATCHING: curve conversion and the immediate-value path inline differently.
+// 0x7100b7ce6c
+void TimedFader::moveTo(f32 target, f32 time) {
+    if (time >= 0.0f) {
+        mNextValue = target;
+        if (time != 0.0f && mValue != target) {
+            mCurvedTargetValue = toCurvedDomain_(target);
+            mCurvedStep = (mCurvedTargetValue - mCurvedValue) / time;
+            f32 next = mCurvedValue + mCurvedStep * System::sInstance->mSettings->mCalcTimeStep;
+            if (mCurvedStep >= 0.0f) {
+                if (next > mCurvedTargetValue)
+                    next = mCurvedTargetValue;
+            } else {
+                if (next < mCurvedTargetValue)
+                    next = mCurvedTargetValue;
+            }
+            mCurvedNextValue = next;
+        } else {
+            setValueImmediate(target);
+        }
+    }
+}
+
 }  // namespace aal
