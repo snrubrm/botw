@@ -38,6 +38,15 @@ public:
             virtual void m0(Entry* entry) = 0;
         };
 
+        // Complete 1146CB8 produces this 0x20-byte record; 12BD420 consumes it.
+        struct LoadArg {
+            void* mUserData = nullptr;
+            sead::SafeString mPath;
+            Unk18* mOwner = nullptr;
+        };
+        KSYS_CHECK_SIZE_NX150(LoadArg, 0x20);
+        bool sub_71012BD420(const LoadArg& arg);
+
         // Native ctor 12BD24C constructs this callback at +20 and stores the owner at +38.
         class Callback : public Unk_71024f9d68 {
         public:

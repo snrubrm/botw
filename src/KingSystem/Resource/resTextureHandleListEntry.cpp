@@ -46,6 +46,21 @@ bool TextureHandleList::Entry::isLinked() const {
     return mListNode.isLinked();
 }
 
+// NON_MATCHING: the path request destructor remains an out-of-line call.
+bool TextureHandleList::Entry::sub_71012BD420(const LoadArg& arg) {
+    if (_40.sub_7100FE7FB0())
+        return false;
+    _18 = arg.mOwner;
+    _10 = arg.mUserData;
+    Unk_71024f9ad8 request;
+    request.mCallback = &_20;
+    request.mPath = arg.mPath;
+    if (_40.sub_7100FE8074(&request))
+        return true;
+    stubbedLogFunction();
+    return false;
+}
+
 void TextureHandleList::Entry::sub_71012BD4E0() {
     if (_8) {
         if (!_18) {
