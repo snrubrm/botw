@@ -14,6 +14,7 @@ class AttackSensor;
 
 namespace ksys::act {
 class Actor;
+class ActorConstDataAccess;
 class BaseProcLink;
 struct Struct8Base;
 class Unk_7100d860d8;
@@ -38,6 +39,11 @@ class SystemGroupHandler;
 
 f32 sub_710073768C(ksys::act::Actor* actor, ksys::act::BaseProcLink* link);
 s32 sub_71007376F8(ksys::act::Actor* actor, ksys::act::BaseProcLink* link);
+const s32& sub_7100730FD0(const ksys::act::ActorConstDataAccess* accessor);
+void sub_7100733E24(ksys::act::Actor* actor, const sead::Vector3f& impulse,
+                    const sead::Vector3f& position,
+                    ksys::act::ActorAtk::Unk_710079e64c::Unk1* attack_info);
+void sub_7100734228(ksys::act::Actor* actor);
 
 // 0x7100737708-0x710073771c: forwarders to the ksys::act per-frame velocity setters
 // (actActorUtil.h, 0x7100ee60a0-0x7100ee62b0). Defined in aiUnk_71007377D4.cpp.

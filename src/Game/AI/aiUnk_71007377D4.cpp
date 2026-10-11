@@ -31,6 +31,7 @@
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/Resource/Actor/resResourceDamageParam.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectItem.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectGiantArmorSlot.h"
 #include <math/seadMathCalcCommon.h>
 
@@ -47,6 +48,15 @@ f32 sub_710073768C(ksys::act::Actor* actor, ksys::act::BaseProcLink* link) {
 
 s32 sub_71007376F8(ksys::act::Actor* actor, ksys::act::BaseProcLink*) {
     return actor->getParam()->getRes().mDamageParam->mSpAffectDamage.ref();
+}
+
+const s32& sub_7100730FD0(const ksys::act::ActorConstDataAccess* accessor) {
+    return accessor->getGParamList()->getItem()->mBuyingPrice.ref();
+}
+
+void sub_7100734228(ksys::act::Actor* actor) {
+    if (auto* info = sub_71007A255C(actor, 0))
+        sub_7100733E24(actor, info->_a0, info->_0, info);
 }
 
 void sub_7100737708(ksys::phys::CharacterController* controller, f32 value) {

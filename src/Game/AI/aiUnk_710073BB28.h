@@ -12,6 +12,9 @@ namespace ksys::act {
 class Actor;
 }
 
+bool actorHasTagCanGetPouch(const sead::SafeString& actor_name);
+bool sub_710073BB80(ksys::act::Actor* actor);
+
 // 0x710073bce4 (CSV weaponBroken): removes the actor's weapon from the equipment and refreshes the
 // main screen 3D view. 0x710073bd0c (CSV removeFromInventory) does the same for a weapon name.
 void weaponBroken(ksys::act::Actor* actor);

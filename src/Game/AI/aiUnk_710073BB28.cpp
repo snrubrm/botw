@@ -14,6 +14,10 @@ bool sub_710073BB54() {
     return !uking::ui::sub_7100A94E08();
 }
 
+bool sub_710073BB80(ksys::act::Actor* actor) {
+    return actorHasTagCanGetPouch(actor->getName());
+}
+
 void sub_710073BADC() {
     uking::ui::playSound("mc_DoUnable", nullptr);
 }
