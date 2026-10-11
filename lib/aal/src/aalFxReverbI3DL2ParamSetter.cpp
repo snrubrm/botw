@@ -1,6 +1,11 @@
 #include "aal/aalFxReverbI3DL2InitializeArg.h"
 #include "aal/aalFxReverbI3DL2ParamSetter.h"
 
+#include <prim/seadStringUtil.h>
+#include <prim/seadXmlDocument.h>
+#include <prim/seadXmlElement.h>
+#include "aal/aalXmlUtil.h"
+
 namespace aal {
 
 FxReverbI3DL2InitializeArg::FxReverbI3DL2InitializeArg()
@@ -52,6 +57,124 @@ void FxReverbI3DL2ParamSetter::setReverb(s32 reverb) {
 void FxReverbI3DL2ParamSetter::setEarlyReflectionFeedback(f32 feedback) {
     mEarlyReflectionFeedback = feedback;
     setModifiedFlagBit_(12);
+}
+
+void FxReverbI3DL2ParamSetter::setupByXmlDocument(sead::XmlDocument* document) {
+    auto* root = document->getRoot();
+    if (!root || root->getName() != "FxReverbI3DL2ExpParam")
+        return;
+
+    {
+        const auto text = XmlUtil::getElementContentString(root, "Room");
+        s32 value;
+        if (!text.isEmpty() && sead::StringUtil::tryParseS32(&value, text, sead::StringUtil::CardinalNumber::BaseAuto)) {
+            setRoom(value, 0.0f);
+        }
+    }
+
+    {
+        const auto text = XmlUtil::getElementContentString(root, "RoomHf");
+        s32 value;
+        if (!text.isEmpty() && sead::StringUtil::tryParseS32(&value, text, sead::StringUtil::CardinalNumber::BaseAuto)) {
+            setRoomHf(value);
+        }
+    }
+
+    {
+        const auto text = XmlUtil::getElementContentString(root, "DecayTime");
+        f32 value;
+        if (!text.isEmpty() && sead::StringUtil::tryParseF32(&value, text)) {
+            setDecayTime(value);
+        }
+    }
+
+    {
+        const auto text = XmlUtil::getElementContentString(root, "DecayHfRatio");
+        f32 value;
+        if (!text.isEmpty() && sead::StringUtil::tryParseF32(&value, text)) {
+            mDecayHfRatio = value;
+            setModifiedFlagBit_(3);
+        }
+    }
+
+    {
+        const auto text = XmlUtil::getElementContentString(root, "Reflections");
+        s32 value;
+        if (!text.isEmpty() && sead::StringUtil::tryParseS32(&value, text, sead::StringUtil::CardinalNumber::BaseAuto)) {
+            mReflections = value;
+            setModifiedFlagBit_(4);
+        }
+    }
+
+    {
+        const auto text = XmlUtil::getElementContentString(root, "ReflectionsDelay");
+        f32 value;
+        if (!text.isEmpty() && sead::StringUtil::tryParseF32(&value, text)) {
+            mReflectionsDelay = value;
+            setModifiedFlagBit_(5);
+        }
+    }
+
+    {
+        const auto text = XmlUtil::getElementContentString(root, "Reverb");
+        s32 value;
+        if (!text.isEmpty() && sead::StringUtil::tryParseS32(&value, text, sead::StringUtil::CardinalNumber::BaseAuto)) {
+            setReverb(value);
+        }
+    }
+
+    {
+        const auto text = XmlUtil::getElementContentString(root, "ReverbDelay");
+        f32 value;
+        if (!text.isEmpty() && sead::StringUtil::tryParseF32(&value, text)) {
+            mReverbDelay = value;
+            setModifiedFlagBit_(7);
+        }
+    }
+
+    {
+        const auto text = XmlUtil::getElementContentString(root, "Diffusion");
+        f32 value;
+        if (!text.isEmpty() && sead::StringUtil::tryParseF32(&value, text)) {
+            mDiffusion = value;
+            setModifiedFlagBit_(8);
+        }
+    }
+
+    {
+        const auto text = XmlUtil::getElementContentString(root, "Density");
+        f32 value;
+        if (!text.isEmpty() && sead::StringUtil::tryParseF32(&value, text)) {
+            mDensity = value;
+            setModifiedFlagBit_(9);
+        }
+    }
+
+    {
+        const auto text = XmlUtil::getElementContentString(root, "HfReference");
+        f32 value;
+        if (!text.isEmpty() && sead::StringUtil::tryParseF32(&value, text)) {
+            mHfReference = value;
+            setModifiedFlagBit_(10);
+        }
+    }
+
+    {
+        const auto text = XmlUtil::getElementContentString(root, "EarlyReflectionDelay");
+        f32 value;
+        if (!text.isEmpty() && sead::StringUtil::tryParseF32(&value, text)) {
+            mEarlyReflectionDelay = value;
+            setModifiedFlagBit_(11);
+        }
+    }
+
+    {
+        const auto text = XmlUtil::getElementContentString(root, "EarlyReflectionFeedback");
+        f32 value;
+        if (!text.isEmpty() && sead::StringUtil::tryParseF32(&value, text)) {
+            setEarlyReflectionFeedback(value);
+        }
+    }
 }
 
 }  // namespace aal
