@@ -714,6 +714,7 @@ public:
     void m25(bool enabled) override;
     void m27(bool enabled) override;
     void m28(bool enabled) override;
+    s32 sub_7100957A64();
     s32 sub_7100958408(bool enabled);
     void sub_7100958C7C();
     bool sub_7100958D38() const;
@@ -1338,7 +1339,8 @@ private:
     /* 0x6f0 */ UiTimer _6f0;
     u8 _708[0x7c4 - 0x708];
     /* 0x7c4 */ sead::SafeArray<s32, 15> _7c4;
-    u8 _800[0x808 - 0x800];
+    /* 0x800 */ s32 _800;
+    u8 _804[0x808 - 0x804];
     /* 0x808 */ sead::CriticalSection _808;
     /* 0x848 */ s32 _848;
     // 0x850 .. 0x870: a 0x20 byte object (UiSubsys1::sub_7100965E58 returns its address)

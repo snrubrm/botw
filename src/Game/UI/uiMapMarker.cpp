@@ -819,6 +819,60 @@ s32 Unk_7102476640::sub_7100958408(bool enabled) {
     return result;
 }
 
+// NON_MATCHING: compiler merges the native false-result tail-call setup paths.
+s32 Unk_7102476640::sub_7100957A64() {
+    bool enabled = false;
+    if (_50) {
+        if (Manager::instance()->_64c30_bytes[2] & 0x40)
+            return 0;
+        if (UiSubsys1::instance()->_800 == 2) {
+            enabled = true;
+        } else {
+            auto* entry = UiSubsys1::instance()->_478;
+            if (entry && entry->_50 != -1 &&
+                (entry->_44 == 0xff || (UiSubsys1::instance()->_120 & (1u << entry->_50)))) {
+                enabled = _60.hasProc();
+                if (!enabled && _58 != -1) {
+                    entry = UiSubsys1::instance()->_478;
+                    if (_58 == (entry ? entry->_50 : 0)) {
+                        if (!_50)
+                            return 0;
+                        enabled = true;
+                    }
+                }
+            }
+        }
+    }
+    return sub_7100958408(enabled);
+}
+
+void Unk_7102476640::m12() {
+    if (_50) {
+        if (Manager::instance()->_64c30_bytes[2] & 0x40)
+            return;
+        if (UiSubsys1::instance()->_800 == 2) {
+            m25(true);
+            return;
+        }
+        auto* entry = UiSubsys1::instance()->_478;
+        if (entry && entry->_50 != -1 &&
+            (entry->_44 == 0xff || (UiSubsys1::instance()->_120 & (1u << entry->_50)))) {
+            bool enabled = _60.hasProc();
+            if (!enabled && _58 != -1) {
+                entry = UiSubsys1::instance()->_478;
+                if (_58 == (entry ? entry->_50 : 0)) {
+                    if (!_50)
+                        return;
+                    enabled = true;
+                }
+            }
+            sub_7100958408(enabled);
+            return;
+        }
+    }
+    m25(false);
+}
+
 void Unk_7102476640::m27(bool enabled) {
     _3c = (enabled != ((_3c & 0x10) != 0)) ? _3c | 0x20 : _3c & ~0x20;
     _3c = enabled ? _3c | 0x10 : _3c & ~0x10;
