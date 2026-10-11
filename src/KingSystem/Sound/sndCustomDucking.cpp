@@ -27,27 +27,28 @@ void Unk_710103b704::sub_710103BA44() {
     }
 }
 
+// NON_MATCHING: native zero fade-kind arguments use full-register moves.
 void Unk_710103b704::sub_710103BB00(BgmCtrlType bgm_type, SeCtrlType se_type) {
     switch (bgm_type) {
     case BgmCtrlType::_1:
-        SoundMgr::instance()->_30->sub_7100FF8780(Unk_7100FF8684{0});
-        SoundMgr::instance()->_30->sub_7100FF88A8(Unk_7100FF8684{0});
+        SoundMgr::instance()->_30->sub_7100FF8780(0);
+        SoundMgr::instance()->_30->sub_7100FF88A8(0);
         break;
     case BgmCtrlType::_2:
-        SoundMgr::instance()->_30->sub_7100FF8780(Unk_7100FF8684{1});
-        SoundMgr::instance()->_30->sub_7100FF88A8(Unk_7100FF8684{1});
+        SoundMgr::instance()->_30->sub_7100FF8780(1);
+        SoundMgr::instance()->_30->sub_7100FF88A8(1);
         break;
     case BgmCtrlType::_3:
-        SoundMgr::instance()->_30->sub_7100FF8684(Unk_7100FF8684{0});
-        SoundMgr::instance()->_30->sub_7100FF8AC4(Unk_7100FF8684{0});
+        SoundMgr::instance()->_30->sub_7100FF8684(0);
+        SoundMgr::instance()->_30->sub_7100FF8AC4(0);
         break;
     case BgmCtrlType::_4:
-        SoundMgr::instance()->_30->sub_7100FF8684(Unk_7100FF8684{1});
-        SoundMgr::instance()->_30->sub_7100FF8AC4(Unk_7100FF8684{1});
+        SoundMgr::instance()->_30->sub_7100FF8684(1);
+        SoundMgr::instance()->_30->sub_7100FF8AC4(1);
         break;
     case BgmCtrlType::_5:
-        SoundMgr::instance()->_30->sub_7100FF8684(Unk_7100FF8684{2});
-        SoundMgr::instance()->_30->sub_7100FF8AC4(Unk_7100FF8684{2});
+        SoundMgr::instance()->_30->sub_7100FF8684(2);
+        SoundMgr::instance()->_30->sub_7100FF8AC4(2);
         break;
     case BgmCtrlType::_6:
         SoundMgr::instance()->mDuckingMgr->sub_7101042024(DuckingMgr::DuckerType::cEvtBgmReduce);

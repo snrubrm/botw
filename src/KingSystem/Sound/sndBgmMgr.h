@@ -224,21 +224,15 @@ Unk_710260f1a8* sub_7100FFE14C();
 struct Unk_SoundMgr30_8;
 struct Unk_SoundMgr30_18;
 
-// Four-byte fade-kind argument, passed in a full register by scene-control calls.
-// Native FF8684/FF8780/FF88A8/FF8AC4 compare its low word against 1 and 2.
-struct Unk_7100FF8684 {
-    s32 value;
-};
-
 // Placeholder name (SoundMgr::_30): the BGM side of the sound manager.
 struct Unk_SoundMgr30 {
     // 0x7100ff8804 (declared only; 164 B): called by SoundMgr::sub_71011FC288.
     void sub_7100FF8804();
     void sub_7100FF85E0();
-    void sub_7100FF8684(Unk_7100FF8684 fade_type);
-    void sub_7100FF8780(Unk_7100FF8684 fade_type);
-    void sub_7100FF88A8(Unk_7100FF8684 fade_type);
-    void sub_7100FF8AC4(Unk_7100FF8684 fade_type);
+    void sub_7100FF8684(s32 fade_type);
+    void sub_7100FF8780(s32 fade_type);
+    void sub_7100FF88A8(s32 fade_type);
+    void sub_7100FF8AC4(s32 fade_type);
 
     u8 _0[0x8];
     /* 0x08 */ Unk_SoundMgr30_8* _8;
