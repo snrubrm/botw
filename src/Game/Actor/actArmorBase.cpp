@@ -208,7 +208,7 @@ bool ArmorBase::sub_7100E2B948() {
             }
         }
     }
-    return sead::SafeString(name->getStringTop()) != _998;
+    return sead::SafeString(*name) != _998;
 }
 
 bool ArmorBase::sub_7100E29B8C() {
