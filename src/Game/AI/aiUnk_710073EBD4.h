@@ -1,6 +1,7 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <math/seadMatrix.h>
 #include <math/seadVector.h>
 #include <prim/seadSafeString.h>
 #include "KingSystem/Utils/Types.h"
@@ -55,10 +56,15 @@ public:
     bool sub_710073EF50(const ksys::act::ai::ActionBase* action);
     // 0x710073fa54: starts the shoot AS (ASList::x(0x47, ...)).
     bool sub_710073FA54();
-    // 0x710073f040: the shoot step of the actions' m32 (declared only).
+    // 0x710073f040: the shoot step of the actions' m32.
     void sub_710073F040();
-    // 0x710073f14c (declared only).
+    void sub_710073F0C8(sead::Matrix34f* mtx, sead::Vector3f* vel, sead::Vector3f* ang_vel,
+                      bool actor_space, const sead::Vector3f* direction, f32 scale);
     void sub_710073F14C(const sead::Vector3f* a1);
+    // Complete callee and ForkLynelBreathShoot's property consumer establish these outputs.
+    void sub_710073F1BC(sead::Matrix34f* mtx, sead::Vector3f* vel, sead::Vector3f* ang_vel,
+                      const sead::Vector3f* target, bool actor_space,
+                      const sead::Vector3f* direction, f32 scale);
     // 0x710073f3fc: predicts the target position with an additional flight lead time.
     // Complete callee and the shoot-step caller establish the Vector3f output.
     void sub_710073F3FC(sead::Vector3f* out, f32 lead_time);

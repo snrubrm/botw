@@ -83,6 +83,34 @@ bool Unk_710073ebd4::sub_710073EF50(const ksys::act::ai::ActionBase*) {
     return false;
 }
 
+void Unk_710073ebd4::sub_710073F040() {
+    if (!mDynTargetPos_d)
+        return;
+    sead::Vector3f target;
+    sub_710073F3FC(&target, 0.0f);
+    sead::Matrix34f mtx;
+    sead::Vector3f vel;
+    sead::Vector3f ang_vel;
+    sub_710073F1BC(&mtx, &vel, &ang_vel, &target, true, &sead::Vector3f::ez, 1.0f);
+    sub_710073EA44(mActor, mWork, mtx, &vel, &ang_vel, !mIsReuseBullet);
+}
+
+void Unk_710073ebd4::sub_710073F0C8(sead::Matrix34f* mtx, sead::Vector3f* vel,
+                                  sead::Vector3f* ang_vel, bool actor_space,
+                                  const sead::Vector3f* direction, f32 scale) {
+    sead::Vector3f target;
+    sub_710073F3FC(&target, 0.0f);
+    sub_710073F1BC(mtx, vel, ang_vel, &target, actor_space, direction, scale);
+}
+
+void Unk_710073ebd4::sub_710073F14C(const sead::Vector3f* target) {
+    sead::Matrix34f mtx;
+    sead::Vector3f vel;
+    sead::Vector3f ang_vel;
+    sub_710073F1BC(&mtx, &vel, &ang_vel, target, true, &sead::Vector3f::ez, 1.0f);
+    sub_710073EA44(mActor, mWork, mtx, &vel, &ang_vel, !mIsReuseBullet);
+}
+
 bool Unk_710073ebd4::sub_710073FA54() {
     if (auto* as_list = mActor->getASList())
         return as_list->x(0x47, nullptr, *mTargetBone_s, *mSeqBank_s,
