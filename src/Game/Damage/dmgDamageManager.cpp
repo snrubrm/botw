@@ -5,17 +5,38 @@
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/ActorSystem/Profiles/actDynamicActor.h"
+#include "KingSystem/ActorSystem/actUnk_71006ecc78.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerOrEnemy.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actImpulseBaseProcLink.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
 #include "KingSystem/Resource/Actor/resResourceDamageParam.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 
 namespace uking::dmg {
+
+void DamageManager::sub_71006D32F8() {
+    auto* actor = sead::DynamicCast<ksys::act::DynamicActor>(mActor);
+    if (!actor)
+        return;
+    _84 = actor->m148();
+    if (!sub_71007A40A8(actor))
+        return;
+    bool ragdoll_grounded = false;
+    if (actor->_868 && actor->_868->sub_71006ED9EC()) {
+        if (auto* physics = mActor->getPhysics())
+            ragdoll_grounded = physics->sub_7100FBB4B4();
+    }
+    const bool grounded = isBgGroundHit(actor, false);
+    if (ragdoll_grounded || grounded)
+        _216.set(0x10);
+    else
+        _216.reset(0x10);
+}
 
 ksys::phys::RigidBody* DamageManager::sub_71006D69F8() {
     switch (getDamageType()) {

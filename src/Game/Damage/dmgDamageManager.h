@@ -120,6 +120,7 @@ public:
     // controller to `_80` times the first non-negative impulse threshold of the actor's damage param (-1 if none),
     // unless the param has IsCommonCalcImpuleDamage; the second one first stores `value` in `_80`.
     void sub_71006D27BC();
+    void sub_71006D32F8();
     void sub_71006D81D8(f32 value);
     // 0x71006d8130 (lane4 s48; placeholder name): `_f8` of the attack info index `_6c` for damage kinds 2 / 10 / 6 (6 needs
     // bit 8 of `_216`), -1 otherwise.
@@ -152,7 +153,7 @@ public:
     f32 _78;
     u8 _7c[0x80 - 0x7c];
     f32 _80;  // multiplier of the impulse threshold (sub_71006D27BC)
-    u8 _84[0x88 - 0x84];
+    f32 _84;  // DynamicActor::m148 result (0x71006d32f8).
     s32 _88;  // attack info index of damage kind 6 (DamageManager::getAttackInfo_)
     s32 _8c;  // WeakPointRoot::m35
     sead::Vector3f _90;  // position of damage kind 9 (getPosition)
