@@ -93,6 +93,7 @@ target_sources(uking PRIVATE
   uiScreenMainDungeon.cpp
   uiScreenMessageTips.cpp
   uiScreenChangeControllerNN.cpp
+  uiScreenHomeNixSign.cpp
   uiScreenCtors.cpp
   uiScreenDLCNum.cpp
   uiScreenDtors.cpp

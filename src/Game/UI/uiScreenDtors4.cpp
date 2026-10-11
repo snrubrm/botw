@@ -7,7 +7,7 @@ namespace uking::ui {
 
 
 
-ScreenHomeNixSign::~ScreenHomeNixSign() = default;
+
 ScreenLoadSaveIcon::~ScreenLoadSaveIcon() = default;
 
 
