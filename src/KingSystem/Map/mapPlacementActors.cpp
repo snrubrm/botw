@@ -12,6 +12,21 @@
 
 namespace ksys::map {
 
+s32 ActorData::sub_7100D4DF48() const {
+    if (mFlags.isOnBit(Flag::_4) || mFlags.isOnBit(Flag::_7))
+        return -1;
+    if (mFlags.isOnBit(Flag::_1) || mFlags.isOnBit(Flag::_2)) {
+        if (mFlags.isOnBit(Flag::IgnoreBoundingAtAreaCulling))
+            return 0;
+        if (mFlags.isOnBit(Flag::_40) &&
+            PlacementMgr::instance()->mFlags.isOn(PlacementMgr::MgrFlag::_1000000))
+            return 0;
+        return 1;
+    }
+    return mFlags.isOnBit(Flag::_5) ? 2 : -1;
+}
+
+
 PlacementActors::~PlacementActors() {
     for (int i = 0; i < mActorData.size(); ++i)
         deleteActorData(&mActorData[i]);

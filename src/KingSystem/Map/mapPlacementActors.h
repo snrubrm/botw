@@ -104,6 +104,9 @@ public:
         _63 = 63,
     };
 
+    // D4DF48; the load/unload worker passes this record at PlacementActors + 538 + index * 1A0.
+    s32 sub_7100D4DF48() const;
+
     sead::TypedLongBitFlag<64, Flag, sead::Atomic<u32>> mFlags;
     sead::TypedBitFlag<ActorFlag8, u8> mActorFlags8;
     u8 _9 = 0;

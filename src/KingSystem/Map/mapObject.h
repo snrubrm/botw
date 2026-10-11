@@ -173,7 +173,6 @@ public:
 
     bool x_18() const;
     bool x_20() const;
-    s32 x_22() const;
 
     bool hasGenGroup() const;
     void spawnGenGroupActorsIfNeeded(Object* obj);
