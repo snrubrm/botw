@@ -2,6 +2,7 @@
 
 #include <basis/seadTypes.h>
 #include "KingSystem/System/SeadController.h"
+#include "Game/gameRoot4.h"
 #include "KingSystem/Utils/Types.h"
 
 namespace uking {
@@ -10,9 +11,21 @@ namespace uking {
 // Not decompiled: the ctor passes a zero 4-byte value to SeadController and stores its argument in
 // _1f8.
 class Unk_710246d448 : public ksys::SeadController {
+    SEAD_RTTI_OVERRIDE(Unk_710246d448, ksys::SeadController)
+public:
+    ~Unk_710246d448() override;
+
+    // Complete table 0x710246d448 overrides the three SeadController slots,
+    // then adds the no-argument callback called by sub_71008BF664.
+    sead::SafeString sub_7100D9DF34() const override;
+    void sub_7100D9DF54() override;
+    bool sub_7100D9DF58() override;
+    virtual void sub_71008BF838();
+
 protected:
     void* _1f0;
-    s32 _1f8;
+    // sub_7100D9DF58 passes this value to Root4::checkFlag.
+    Root4::FlagIdx _1f8;
 };
 KSYS_CHECK_SIZE_NX150(Unk_710246d448, 0x200);
 

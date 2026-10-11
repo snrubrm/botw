@@ -5,6 +5,20 @@
 
 namespace uking {
 
+Unk_710246d448::~Unk_710246d448() = default;
+
+sead::SafeString Unk_710246d448::sub_7100D9DF34() const {
+    return sead::SafeString::cEmptyString;
+}
+
+bool Unk_710246d448::sub_7100D9DF58() {
+    if (Root4::instance())
+        return Root4::instance()->checkFlag(_1f8);
+    return false;
+}
+
+void Unk_710246d448::sub_71008BF838() {}
+
 namespace {
 
 // Button mask for each key index (0x710246cfb0).

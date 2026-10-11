@@ -27,6 +27,10 @@ class SeadController : public sead::Controller {
 public:
     ~SeadController() override;
 
+    // Native slots 4 and 6 in table 0x71024dd518.
+    void calc() override;
+    void calcImpl_() override;
+
     // 0x71011f931c / 0x71011f9328 (CSV SeadController::getInstance / setInstance; the instance pointer is a file-local
     // global at 0x7102652558)
     static SeadController* getInstance();
