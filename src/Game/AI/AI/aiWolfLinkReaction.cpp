@@ -4,6 +4,7 @@
 #include "Game/Actor/actWolfLink.h"
 #include "Game/Damage/dmgDamageManager.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actAiRoot.h"
 
 namespace uking::ai {
 
@@ -19,6 +20,38 @@ bool WolfLinkReaction::init_(sead::Heap* heap) {
 void WolfLinkReaction::enter_(ksys::act::ai::InlineParamPack* params) {
     m34();
     _38 = true;
+}
+
+// 0x710060a49c
+void WolfLinkReaction::calc_() {
+    if (_38) {
+        if (isCurrentChild("大ダメージ") || isCurrentChild("小ダメージ") || isCurrentChild("炎上") ||
+            isCurrentChild("凍結") || isCurrentChild("痺れ") || isCurrentChild("突風")) {
+            _40->sub_71002F3148(1, true);
+            setRootAiFlag(ksys::act::ai::RootAiFlag::_0);
+        }
+    }
+    if (_38) {
+        _38 = false;
+        return;
+    }
+    auto* actor = mActor;
+    auto* enemy = sead::DynamicCast<act::Enemy>(actor);
+    auto* manager = sub_710072BA90(actor);
+    if (!enemy || !manager)
+        return;
+    const s32 kind = manager->getField54();
+    if (actor->getActorFlags2().isOn(ksys::act::Actor::ActorFlag2::Alive))
+        return;
+    if (isCurrentChild("凍結")) {
+        if (kind == 23)
+            changeChild("小ダメージ");
+    } else if (isCurrentChild("痺れ")) {
+        if (enemy->m151(3))
+            changeChild("凍結");
+    } else if (!m35()) {
+        _38 = false;
+    }
 }
 
 void WolfLinkReaction::leave_() {}
