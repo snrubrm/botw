@@ -124,6 +124,8 @@ public:
     static bool sub_7100D9CB54(void* world, const Chemical* chemical);
     // 0x7100d9b158 (declaration only): removes `chemical` from `world`'s list and hash.
     static void sub_7100D9B158(void* world, Chemical* chemical);
+    // 0x7100d9b078: queues a chemical in the world pending-registration ring.
+    static bool sub_7100D9B078(void* world, Chemical* chemical);
     // 0x7100d8cd24 (declared only): releases the sub-object `_1c8` / `_1d0` points to.
     static void sub_7100D8CD24(void* object, bool a2);
     // 0x7100d9472c (CSV: gsys::ModelSceneBuffer::isDeferredShadingEnabled, a mislabeled ICF body; AI code calls it on

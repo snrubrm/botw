@@ -236,6 +236,18 @@ void Chemical::sub_7100D8EA9C() {
         sub_7100D9B158(_60, this);
 }
 
+bool Chemical::sub_7100D8F124(void* holder) {
+    if (_60)
+        return _60 == holder;
+    _8 |= 8;
+    _60 = holder;
+    if (sub_7100D9B078(holder, this))
+        return true;
+    _60 = nullptr;
+    _8 &= ~8;
+    return false;
+}
+
 void Chemical::sub_7100D8F194() {
     if (_8 & 0xa)
         _8 |= 0x10;
