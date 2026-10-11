@@ -374,6 +374,27 @@ bool TextureHandleMgr::invalidateUser(const InvalidateArg& arg) {
     return false;
 }
 
+void TextureHandleMgr::invoked8(const util::TaskRemoveCallbackContext& context) {
+    auto* data = sead::DynamicCast<::Unk_71024f9e28>(
+        static_cast<util::TaskData*>(context.mUserData));
+    if (!data)
+        return;
+    auto* resource = static_cast<Unk_71024f9a08*>(data->_60);
+    resource->sub_7100FE0EC8();
+    resource->sub_7100FE0850();
+}
+
+void TextureHandleMgr::invoked9(const util::TaskRemoveCallbackContext& context) {
+    auto* data = sead::DynamicCast<::Unk_71024f9e28>(
+        static_cast<util::TaskData*>(context.mUserData));
+    if (!data)
+        return;
+    auto* resource = static_cast<Unk_71024f9a08*>(data->_60);
+    mLoader.unload();
+    resource->sub_7100FE0EC8();
+    resource->sub_7100FE0850();
+}
+
 bool TextureHandleMgr::invoked5(void*) {
     mCS.lock();
     if (mResources.begin() != mResources.end()) {

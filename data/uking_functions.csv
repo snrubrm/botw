@@ -85261,8 +85261,8 @@ Address,Quality,Size,Name
 0x0000007100fe43b8,U,000588,TextureHandleMgr::invoked6
 0x0000007100fe4604,U,000788,TextureHandleMgr::repairExecute
 0x0000007100fe4918,U,000440,TextureHandleMgr::invoked7
-0x0000007100fe4ad0,U,000156,TextureHandleMgr::invoked8
-0x0000007100fe4b6c,U,000168,TextureHandleMgr::invoked9
+0x0000007100fe4ad0,O,000156,_ZN4ksys3res16TextureHandleMgr8invoked8ERKNS_4util25TaskRemoveCallbackContextE
+0x0000007100fe4b6c,O,000168,_ZN4ksys3res16TextureHandleMgr8invoked9ERKNS_4util25TaskRemoveCallbackContextE
 0x0000007100fe4c14,U,000224,
 0x0000007100fe4cf4,U,001180,TextureHandleMgr::xx
 0x0000007100fe5190,m,000164,_ZN4ksys3res16TextureHandleMgr14sub_7100FE5190Ev

@@ -7,6 +7,7 @@
 #include <time/seadTickTime.h>
 #include <thread/seadCriticalSection.h>
 #include "KingSystem/Resource/resResource.h"
+#include "KingSystem/Resource/resTempResourceLoader.h"
 #include "KingSystem/Utils/Thread/Task.h"
 
 namespace nn::gfx {
@@ -81,6 +82,8 @@ public:
     s32 getGeneration() const { return mGeneration; }
     void repairAllHandlesForSync();
     bool invoked5(void*);
+    void invoked8(const util::TaskRemoveCallbackContext& context);
+    void invoked9(const util::TaskRemoveCallbackContext& context);
     bool repairTexture(Unk_71024f9a08* resource);
     void repairHandleForSync(Unk_71024f9a08* resource);
     void clearAllCache();
@@ -134,7 +137,9 @@ private:
     util::TaskPostRunCallbackT<TextureHandleMgr> _218{nullptr, nullptr};
     u8 _238[0x278 - 0x238];
     util::TaskRemoveCallbackT<TextureHandleMgr> _278{nullptr, nullptr};
-    u8 _298[0x768 - 0x298];
+    u8 _298[0x5e0 - 0x298];
+    // Complete FE2534 constructs this loader; independent FE4B6C unloads it.
+    TempResourceLoader mLoader;
     ArchiveWork* mArchiveWork;
 };
 
