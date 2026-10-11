@@ -17,6 +17,12 @@ Unk_71024e6560::~Unk_71024e6560() {
     ;
 }
 
+void Unk_71024e6428::sub_7100E3E2E8() {
+    _30 |= 0x2000;
+    for (auto& entry : _278)
+        entry.body->resetLinkedRigidBody();
+}
+
 // NON_MATCHING: translation-only fallback stores are scheduled in a different order.
 void Unk_71024e6428::m4(sead::Matrix34f* out, Chemical* chemical) {
     if (_278.size() >= 1) {
