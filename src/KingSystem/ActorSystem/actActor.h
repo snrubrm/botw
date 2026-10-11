@@ -849,6 +849,7 @@ protected:
     friend class ActorConstDataAccess;
     friend class ActorSystem;
     friend class ActorBind;  // sub_7100D3C5E0 reads _738 and mSpecialJobTypesMaskOverride
+    friend class ModelBindInfo;  // copies the bound pose to mMtx.
     friend class evt::ActorBase;  // sub_7100DAB470 writes the event transform pointer to _7d0.
     friend class acc::WeaponBase;  // acc::WeaponBase::sub_7100EFA6B8 reads mSpecialJobTypesMaskOverride
     friend class PhysicsUserTag;  // D40620 writes Actor6F4/6F8 before forwarding its collision record.

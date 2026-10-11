@@ -21,6 +21,9 @@ public:
     bool m5(BaseProc* proc) override;
     void m10(BaseProcLink* link) override { _30.getKey().reset(); }
 
+    void sub_7100D3BDD8(Actor* actor, sead::Matrix34f* matrix,
+                       const sead::Matrix34f& fallback);
+
     /* 0x28 */ const char* _28 = nullptr;  // bone name (m4 searches _30 with it)
     /* 0x30 */ gsys::BoneAccessKeyEx _30;
     /* 0x68 */ sead::Matrix34f _68 = sead::Matrix34f::ident;
