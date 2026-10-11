@@ -129,4 +129,30 @@ void CustomCurve::saveToXmlDocument(bool save_as_host_file) {
     heap->destroy();
 }
 
+// NON_MATCHING: existing robust list traversal swaps the erased node address operands.
+void CustomCurve::loadFromXmlDocument(const sead::SafeString& path) {
+    for (auto& segment : mSegments.robustRange()) {
+        mSegments.erase(&segment);
+        delete &segment;
+    }
+    auto* heap = sead::ExpHeap::create(0x100000, "custom_curve_reader",
+                                       System::sInstance->mDebugHeap, 8,
+                                       sead::Heap::cHeapDirection_Reverse);
+    {
+        CustomCurveXmlReader reader(getObjName(), path, heap);
+        if (reader.mValid) {
+            const s32 count = reader.mSegments.size();
+            for (s32 index = 0; index < count; ++index) {
+                auto* segment = new (System::sInstance->mDebugHeap) CustomCurveSegment;
+                segment->mPosition = reader.getSegmentPos(index);
+                segment->mValue = reader.getSegmentValue(index);
+                segment->mType = reader.getSegmentType(index);
+                segment->mCoefficient = reader.getSegmentCoef(index);
+                addSegment(segment);
+            }
+        }
+    }
+    heap->destroy();
+}
+
 }  // namespace aal

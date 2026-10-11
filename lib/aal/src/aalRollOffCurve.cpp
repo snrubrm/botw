@@ -253,4 +253,29 @@ void RollOffCurve::saveToXmlDocument(bool save_as_host_file) {
     heap->destroy();
 }
 
+void RollOffCurve::loadFromXmlDocument(const sead::SafeString& path) {
+    auto* heap = sead::ExpHeap::create(0x100000, "rolloff_curve_reader",
+                                       System::sInstance->mDebugHeap, 8,
+                                       sead::Heap::cHeapDirection_Reverse);
+    {
+        RollOffCurveXmlReader reader(getObjName(), path, heap);
+        if (reader.mValid) {
+            setRefDistance(reader.mRefDistance);
+            setMaxDistance(reader.mMaxDistance);
+            setRollOffFactor(reader.mRollOffFactor);
+            if (reader.mVolumeScale >= 0.0f && reader.mVolumeScale <= 1.0f)
+                mVolumeScale = reader.mVolumeScale;
+            mFlipped = reader.mFlipped;
+            if (reader.mCullingStartDistance >= 0.0f)
+                mCullingStartDistance = reader.mCullingStartDistance;
+            if (mStrategy) {
+                delete mStrategy;
+                mStrategy = nullptr;
+            }
+            createAndSetStrategy(reader.mModel, System::sInstance->mDebugHeap);
+        }
+    }
+    heap->destroy();
+}
+
 }  // namespace aal

@@ -27,6 +27,7 @@ public:
     f32 getSegmentCoef(s32 index) const;
 
 private:
+    friend class CustomCurve;
     bool loadSettingByXml_(const sead::SafeString& category, const sead::SafeString& path,
                            sead::Heap* heap);
     bool mValid = false;

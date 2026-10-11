@@ -19,6 +19,7 @@ public:
     virtual ~RollOffCurveXmlReader();
 
 private:
+    friend class RollOffCurve;
     bool loadSettingByXml_(const sead::SafeString& category, const sead::SafeString& path,
                            sead::Heap* heap);
     bool mValid = false;
@@ -44,6 +45,7 @@ public:
     virtual ~UnitDistanceCurveXmlReader();
 
 private:
+    friend class UnitDistanceCurve;
     bool loadSettingByXml_(const sead::SafeString& category, const sead::SafeString& path,
                            sead::Heap* heap);
     bool mValid = false;

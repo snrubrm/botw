@@ -130,4 +130,41 @@ void UnitDistanceCurve::saveToXmlDocument(bool save_as_host_file) {
     heap->destroy();
 }
 
+// NON_MATCHING: existing culling API comparisons and arithmetic operands group differently.
+void UnitDistanceCurve::loadFromXmlDocument(const sead::SafeString& path) {
+    auto* heap = sead::ExpHeap::create(0x100000, "unit_distance_curve_reader",
+                                       System::sInstance->mDebugHeap, 8,
+                                       sead::Heap::cHeapDirection_Reverse);
+    {
+        UnitDistanceCurveXmlReader reader(getObjName(), path, heap);
+        if (reader.mValid) {
+            mCurveType = reader.mCurveType;
+            calcCullingDistance_();
+            if (reader.mStartValue >= 0.0f && reader.mStartValue <= 1.0f) {
+                mStartValue = reader.mStartValue;
+                calcCullingDistance_();
+            }
+            if (reader.mEndValue >= 0.0f && reader.mEndValue <= 1.0f) {
+                mEndValue = reader.mEndValue;
+                calcCullingDistance_();
+            }
+            if (reader.mHoldDistance >= 0.0f) {
+                mHoldDistance = reader.mHoldDistance;
+                calcCullingDistance_();
+            }
+            if (reader.mUnitDistance > 0.0f) {
+                mUnitDistance = reader.mUnitDistance;
+                calcCullingDistance_();
+            }
+            if (reader.mDecayRatio >= 0.0f && reader.mDecayRatio <= 1.0f) {
+                mDecayRatio = reader.mDecayRatio;
+                calcCullingDistance_();
+            }
+            if (reader.mCullingStartDistance >= 0.0f)
+                mCullingStartDistance = reader.mCullingStartDistance;
+        }
+    }
+    heap->destroy();
+}
+
 }  // namespace aal
