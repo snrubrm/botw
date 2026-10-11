@@ -1,5 +1,6 @@
 #include "Game/UI/uiUnkSingletons.h"
 #include "Game/gameMotorcycleMgr.h"
+#include "Game/gameWolfLinkMgr.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/GameData/gdtManager.h"
@@ -410,6 +411,35 @@ void Unk_7102476058::m16() {
         sead::Vector3f position{0.0f, 0.0f, 0.0f};
         if (MotorcycleMgr::instance()->sub_710067B63C(&position))
             updateDistrictFromPos(&position);
+    }
+}
+
+// NON_MATCHING: inherited entry destruction remains out of line.
+Unk_7102475f60::~Unk_7102475f60() = default;
+
+// NON_MATCHING: singleton and virtual-target loads are ordered differently.
+void Unk_7102475f60::m11() {
+    m25(WolfLinkMgr::instance() && WolfLinkMgr::instance()->_60 == 2);
+}
+
+// NON_MATCHING: singleton and virtual-target loads are ordered differently.
+void Unk_7102475f60::m12() {
+    m25(WolfLinkMgr::instance() && WolfLinkMgr::instance()->_60 == 2);
+}
+
+// NON_MATCHING: flag load width and virtual-target scheduling differ.
+void Unk_7102475f60::m14() {
+    if ((_3c & 0x10) && WolfLinkMgr::instance()) {
+        auto position = WolfLinkMgr::instance()->sub_71006831BC();
+        updateDistrictFromPos(&position);
+    }
+}
+
+// NON_MATCHING: flag load width and virtual-target scheduling differ.
+void Unk_7102475f60::m16() {
+    if ((_3c & 0x10) && WolfLinkMgr::instance()) {
+        auto position = WolfLinkMgr::instance()->sub_71006831BC();
+        updateDistrictFromPos(&position);
     }
 }
 
