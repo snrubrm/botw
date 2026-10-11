@@ -7,6 +7,17 @@
 
 namespace uking {
 
+class OpenWorldStage;
+
+// State descriptor table 0x710245b478. Its last two operations dispatch to the owner.
+class Unk_710245b478 : public ksys::StateTemplate<OpenWorldStage> {
+public:
+    using StateTemplate::StateTemplate;
+    bool return0(void* owner, void* arg) const override;
+    void null(void* owner, void* arg) const override;
+};
+KSYS_CHECK_SIZE_NX150(Unk_710245b478, 0x60);
+
 // OpenWorldStage binding at +0x38, established by constructor 7C428C and table 245B740.
 class Unk_710245b740 : public ksys::StateMachine::Unk2 {
 public:

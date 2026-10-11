@@ -71,6 +71,14 @@ bool OpenWorldStage::fieldReenter(void* arg) {
     return false;
 }
 
+bool Unk_710245b478::return0(void* owner, void* arg) const {
+    return static_cast<OpenWorldStage*>(owner)->ret0(arg);
+}
+
+void Unk_710245b478::null(void* owner, void* arg) const {
+    static_cast<OpenWorldStage*>(owner)->m27_null(arg);
+}
+
 const ksys::StateBase& Unk_710245b740::getState() const {
     return *mState;
 }
