@@ -20,6 +20,7 @@ target_sources(uking PRIVATE
     CameraPairSelector.cpp
     CameraS1.cpp
     CameraS1.h
+    CameraUtil.cpp
     CoreInfo.h
     DebugBoard.cpp
     DebugBoard.h
