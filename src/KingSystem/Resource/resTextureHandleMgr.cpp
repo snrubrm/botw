@@ -374,6 +374,18 @@ bool TextureHandleMgr::invalidateUser(const InvalidateArg& arg) {
     return false;
 }
 
+// NON_MATCHING: request initialization stores are scheduled differently.
+void TextureHandleMgr::repairAllHandlesForSync() {
+    Unk_71024f9bb8 request;
+    request.mLaneId = 6;
+    request.mThread = _50;
+    request.mDelegate = &_1f8;
+    request.mName = "RepairAllHandles(ForSync)";
+    util::TaskMgrRequest manager_request;
+    manager_request.request = &request;
+    _48->submitRequest(manager_request);
+}
+
 void TextureHandleMgr::clearAllCache() {
     Unk_71024f9bb8 request;
     request.mHasHandle = false;
