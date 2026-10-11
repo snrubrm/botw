@@ -2,6 +2,10 @@
 
 namespace ksys::util {
 
+bool sub_71011EE6FC(sead::Vector3f* a, sead::Vector3f* b, f32 ratio) {
+    return sub_71011EE70C(a, b, ratio, sead::Mathf::pi2(), 0.0f);
+}
+
 void sub_71011EF010(sead::Vector3f* vec, float angle) {
     const float c = std::cos(angle);
     const float s = std::sin(angle);

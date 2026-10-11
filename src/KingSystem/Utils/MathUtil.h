@@ -65,9 +65,12 @@ inline sead::Vector3f getCol(const sead::Matrix34f& mtx, int col) {
 // 0x71011ef010: rotates `vec` around the Y axis by `angle` (radians).
 void sub_71011EF010(sead::Vector3f* vec, float angle);
 
-// 0x71011ee6fc (declaration only; 16 B forwarder into 0x71011ee70c): called by
-// ForkFollowGround::m33 with an action member and a direction vector.
-void sub_71011EE6FC(sead::Vector3f* a, sead::Vector3f* b);
+// 0x71011ee6fc: interpolation with a full-turn maximum and zero minimum step.
+bool sub_71011EE6FC(sead::Vector3f* a, sead::Vector3f* b, f32 ratio);
+// 0x71011ee70c: interpolates the first vector toward the second and reports completion.
+// Declaration only; the complete native consumes all three scalar parameters.
+bool sub_71011EE70C(sead::Vector3f* a, sead::Vector3f* b, f32 ratio, f32 max_step,
+                   f32 min_step);
 
 // 0x71011ef0cc: wraps `angle` (radians) into [-pi, pi].
 float sub_71011EF0CC(float angle);

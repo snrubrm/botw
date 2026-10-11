@@ -77,8 +77,7 @@ void ForkFollowGround::m32(ksys::phys::CharacterController* controller) {
 }
 
 void ForkFollowGround::m33(ksys::phys::CharacterController* controller) {
-    // NON_MATCHING: the original reloads _48.z from memory for the final dot term; ours keeps it
-    // in a register. Everything else matches.
+    // NON_MATCHING: vector component loads and temporary register allocation differ.
     sead::Vector3f translation;
     mActor->getMtx().getTranslation(translation);
     const f32 dx = translation.x - _54.x;
@@ -127,15 +126,15 @@ void ForkFollowGround::m33(ksys::phys::CharacterController* controller) {
             vel.z = sead::Vector3f::ey.z;
         }
     }
-    if (*mParams.mUpdateTargetUpDirMinAngle_s > 0.0f) {
+    if (!(*mParams.mUpdateTargetUpDirMinAngle_s <= 0.0f)) {
         const f32 dot = _48.x * vel.x + _48.y * vel.y + _48.z * vel.z;
         if (dot >= cosf(*mParams.mUpdateTargetUpDirMinAngle_s))
             return;
-        if (!(*mParams.mUpdateTargetUpDirRatio_s < 0.9999999f)) {
-            _48 = vel;
-        } else {
-            ksys::util::sub_71011EE6FC(&_48, &vel);
-        }
+    }
+    if (!(*mParams.mUpdateTargetUpDirRatio_s < 0.9999999f)) {
+        _48 = vel;
+    } else {
+        ksys::util::sub_71011EE6FC(&_48, &vel, *mParams.mUpdateTargetUpDirRatio_s);
     }
 }
 
