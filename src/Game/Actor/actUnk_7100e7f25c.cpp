@@ -2,7 +2,21 @@
 #include "Game/Actor/actRideable.h"
 #include <math/seadMathCalcCommon.h>
 #include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
+
+void sub_7100E7F25C(ksys::as::ASList* list, ksys::act::Actor* actor, s32 slot, s32 bank,
+                   s32 other_bank) {
+    if (other_bank < 0) {
+        if (auto* rideable = actor->m132())
+            other_bank = rideable->_18._9 ? rideable->_18._2e : rideable->_18.sub_7100E76CEC();
+        else
+            other_bank = 0;
+    }
+    if (actor->getASList()->x_4(0, other_bank))
+        return;
+    list->sub_710115F158(actor->getASList(), slot, 0, bank, other_bank);
+}
 
 namespace uking::act {
 
