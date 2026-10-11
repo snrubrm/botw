@@ -183,7 +183,7 @@ void Unk_71024755d8::m31() {
         _3c = ksys::gdt::getFlagGenericBool(_84) ? _3c | 0x200000 : _3c & ~0x200000;
 }
 
-// NON_MATCHING: boolean flag refreshes are if-converted instead of keeping the native branches.
+// NON_MATCHING: changed-flag guards for bits 18/20 become selects and omit intermediate stores.
 void Unk_71024755d8::m32() {
     Unk_71024754c0::m32();
     if (!ksys::gdt::Manager::instance()->getParam().get().getBuffer0()->hasCopiedBoolFlags())

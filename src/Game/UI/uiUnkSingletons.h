@@ -580,6 +580,15 @@ public:
 };
 static_assert(sizeof(Unk_7102478428) == 0x48);
 
+// Native VT2478EC8 uses the animator-control interface and RTTI 25D92C0.
+class Unk_7102478ec8 : public Unk_71025d9170 {
+    SEAD_RTTI_OVERRIDE(Unk_7102478ec8, Unk_71025d9170)
+public:
+    ~Unk_7102478ec8() override;
+    void m8() override;
+    void m11() override;
+};
+
 class UiSubsys1 {
     // Native singleton forwarders 96828C / 9682B4 / 9682CC read these UI fields directly.
     friend class Unk_71025d6ac0;

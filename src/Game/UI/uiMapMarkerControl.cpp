@@ -268,4 +268,14 @@ void Unk_7102478428::m11() {
     }
 }
 
+Unk_7102478ec8::~Unk_7102478ec8() = default;
+
+void Unk_7102478ec8::m8() {
+    Unk_7102477fc0::m8();
+}
+
+void Unk_7102478ec8::m11() {
+    Unk_7102477fc0::m11();
+}
+
 }  // namespace uking::ui
