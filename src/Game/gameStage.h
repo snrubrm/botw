@@ -158,6 +158,8 @@ public:
     int m0() override;
 
 private:
+    void sub_71007C33AC();
+
     /* 0x18 */ sead::Heap* mHeap = nullptr;
     /* 0x20 */ void* _20 = nullptr;
     /* 0x28 */ void* _28 = nullptr;
@@ -172,9 +174,8 @@ private:
 };
 static_assert(sizeof(MainFieldDungeonStage) == 0x290);
 
-// Viewer stage (0x150 bytes): Stage + IHandler; two 0x90-byte `GameScene::sb` objects at +0x30 / +0xc0 (an
-// ObjArray-like helper with out-of-line ctor / init / dtor) are not modelled; its ctor, destructors, init, preCalc,
-// calc and unload are not decompiled.
+// Viewer stage (0x150 bytes): Stage + IHandler, with single-entry draw pools at +0x30 / +0xc0.
+// Its init, preCalc, calc and unload remain undecompiled.
 class ViewerStage : public Stage, public ksys::MessageTransceiverTxOnly::IHandler {
     SEAD_RTTI_OVERRIDE(ViewerStage, Stage)
 public:

@@ -326,6 +326,15 @@ void MainFieldDungeonStage::postInit(Unk_710245ac20* a, Unk_710245abf0* b) {
     mDebugStatus.clear();
 }
 
+void MainFieldDungeonStage::postCalc() {
+    sub_71007C33AC();
+    dmg::DamageInfoMgr::instance()->postCalc();
+    GameSceneSubsys4::instance()->m6();
+    GameSceneSubsys5::instance()->postCalc();
+    GameSceneSubsys14::instance()->postCalc();
+    GearMgr::instance()->postCalc();
+}
+
 void MainFieldDungeonStage::preCalc() {
     ksys::phys::HavokAI::instance()->_48->x(&sead::Vector3f::zero);
     GearMgr::instance()->sub_7100669ED8();
