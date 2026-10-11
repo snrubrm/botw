@@ -13,7 +13,17 @@ class MarkerInfo;
 /// the constructor / setup / reset initialise are modeled (names of the unknown ones start with an underscore).
 class MarkerController {
 public:
-    struct MarkerCallbackInfo;
+    struct MarkerCallbackInfo {
+        SoundSource* sound_source;
+        s32 type;
+        u32 id;
+        const char* name;
+        s32 sample_position;
+        u32 duration;
+        s32 offset;
+        bool initial;
+    };
+    static_assert(sizeof(MarkerCallbackInfo) == 0x28, "MarkerCallbackInfo size");
     using MarkerCallback = void (*)(const MarkerCallbackInfo& info, void* user_data);
 
     MarkerController();

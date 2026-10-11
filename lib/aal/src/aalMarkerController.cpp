@@ -64,6 +64,59 @@ void MarkerController::calcMarker(s32 sample_position, s32 loop_count) {
     _28 = sample_position;
 }
 
+// NON_MATCHING: crossing branches and callback-record stack placement differ.
+void MarkerController::checkMarkerInfo_(const MarkerInfo& markers, s32 previous_position,
+                                        s32 position, const AssetInfo::LoopInfo& loop_info,
+                                        bool initial) {
+    for (u32 i = 0; i < markers.mMarkerNum; ++i) {
+        const auto* marker = static_cast<const MarkerInfo::Marker*>(markers.getMetaData(i));
+        if (!marker)
+            continue;
+        const s32 start = marker->start_position;
+        bool crossed_start;
+        if (previous_position > position && loop_info.is_looped) {
+            crossed_start = (previous_position <= start && start <= loop_info.loop_end) ||
+                            (loop_info.loop_start <= start && start < position);
+        } else {
+            crossed_start = previous_position <= start && start < position;
+        }
+        s32 type = 0;
+        if (marker->_c == 0) {
+            if (crossed_start)
+                type = 1;
+        } else {
+            if (crossed_start)
+                type = 2;
+            const s32 end = start + marker->_c;
+            if (end > _2c) {
+                bool crossed_end;
+                if (previous_position > position && loop_info.is_looped) {
+                    crossed_end = (previous_position <= end && end <= loop_info.loop_end) ||
+                                  (loop_info.loop_start <= end && end < position);
+                } else {
+                    crossed_end = previous_position <= end && end < position;
+                }
+                if (crossed_end)
+                    type = 3;
+            }
+        }
+        if (type == 0)
+            continue;
+        MarkerCallbackInfo info;
+        info.sound_source = mSoundSource;
+        info.type = type;
+        info.id = marker->_0;
+        info.name = markers.getName(i);
+        info.sample_position = markers.getStartPos(i);
+        if (type == 3)
+            info.sample_position += marker->_c;
+        info.duration = marker->_c;
+        info.offset = position - start;
+        info.initial = initial;
+        mCallback(info, mCallbackUserData);
+    }
+}
+
 // 0x7100b9f8ac
 void MarkerController::setMarkerCallback(MarkerCallback callback, s32 param, void* user_data) {
     mCallback = callback;

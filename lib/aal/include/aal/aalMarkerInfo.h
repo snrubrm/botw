@@ -18,6 +18,8 @@ public:
     const char* mStringTable;
 
 private:
+    // Native checkMarkerInfo_ B9F5B8 consumes the record returned by getMetaData.
+    friend class MarkerController;
     struct Marker {
         u32 _0;
         u32 name_offset;
