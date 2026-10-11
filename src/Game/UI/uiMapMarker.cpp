@@ -1,4 +1,5 @@
 #include "Game/UI/uiUnkSingletons.h"
+#include "KingSystem/GameData/gdtManager.h"
 
 namespace uking::ui {
 
@@ -51,6 +52,70 @@ s32 UiSubsys1Entry::m10() {
 void UiSubsys1Entry::sub_7100951388(bool enabled) {
     _3c |= 8;
     m25(enabled);
+}
+
+// NON_MATCHING: the base reset remains out-of-line and its TU default objects are not modeled.
+Unk_71024754c0::~Unk_71024754c0() {
+    _50 = nullptr;
+    _58 = nullptr;
+    _60 = 0;
+}
+
+void Unk_71024754c0::m4() {
+    m31();
+    _3c &= ~0x777f;
+    m11();
+    m13();
+}
+
+void Unk_71024754c0::m5() {
+    m32();
+    m12();
+    m13();
+}
+
+void Unk_71024754c0::m9() {
+    if (!(_3c & 8))
+        _3c &= ~0x7566;
+    _3c &= ~0x10008;
+}
+
+void Unk_71024754c0::m11() {
+    if (!_58)
+        return;
+    _60 = _58->_1c;
+    _3c = _60 > 0 ? _3c | 0x8000 : _3c & ~0x8000;
+    m25((_3c & 0x8000) != 0);
+    _3c = (_3c & 0x8000) ? _3c | 0x80 : _3c & ~0x80;
+}
+
+void Unk_71024754c0::m12() {
+    _3c = (_3c & 0x8000) ? _3c | 0x80 : _3c & ~0x80;
+}
+
+void Unk_71024754c0::m30() {
+    auto* entry = _58;
+    if (entry && entry->_10 && *entry->_10)
+        entry->_18 = ksys::gdt::Manager::instance()->getS32Handle(entry->_10);
+}
+
+void Unk_71024754c0::m31() {
+    _3c &= ~0x10000;
+    if (!_58)
+        return;
+    _60 = _58->_1c;
+    _3c = _60 > 0 ? _3c | 0x8000 : _3c & ~0x8000;
+    m25((_3c & 0x8000) != 0);
+    _3c = (_3c & 0x8000) ? _3c | 0x80 : _3c & ~0x80;
+}
+
+void Unk_71024754c0::m32() {
+    if (!_58 || !ksys::gdt::Manager::instance()->getParam().get().getBuffer0()->hasCopiedS32Flags())
+        return;
+    _60 = _58->_1c;
+    _3c = ((_60 > 0) != ((_3c & 0x8000) != 0)) ? _3c | 0x10000 : _3c & ~0x10000;
+    if (_3c & 0x10000)
+        _3c = _60 > 0 ? _3c | 0x8000 : _3c & ~0x8000;
 }
 
 }  // namespace uking::ui

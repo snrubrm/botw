@@ -11,6 +11,7 @@
 #include "Game/UI/uiTimer.h"
 #include "KingSystem/Utils/Types.h"
 #include "KingSystem/Utils/Thread/Task.h"
+#include "KingSystem/GameData/gdtFlagHandle.h"
 
 namespace ksys::act {
 class Actor;
@@ -431,6 +432,44 @@ struct UiSubsys1Entry {
     /* 0x48 */ const char* _48;
 };
 static_assert(sizeof(UiSubsys1Entry) == 0x50);
+
+// Marker records referenced by native 95192C / 951A04 / 951B28.
+struct Unk_710095192c {
+    u8 _0[8];
+    const char* _8;
+    const char* _10;
+    ksys::gdt::FlagHandle _18;
+    s32 _1c;
+    u8 _20[0x38 - 0x20];
+    sead::Vector3f _38;
+    s32 _44;
+    s32 _48;
+};
+static_assert(sizeof(Unk_710095192c) == 0x50);
+
+// Native VT24754C0 adds four slots to the marker entry interface.
+class Unk_71024754c0 : public UiSubsys1Entry {
+    SEAD_RTTI_OVERRIDE(Unk_71024754c0, UiSubsys1Entry)
+public:
+    ~Unk_71024754c0() override;
+    void m4() override;
+    void m5() override;
+    void m9() override;
+    void m11() override;
+    void m12() override;
+    void m13() override;
+    void m22() override;
+    void m26() override;
+    virtual void m29(Unk_710095192c* entry);
+    virtual void m30();
+    virtual void m31();
+    virtual void m32();
+
+    /* 0x50 */ void* _50;
+    /* 0x58 */ Unk_710095192c* _58;
+    /* 0x60 */ s32 _60;
+};
+static_assert(sizeof(Unk_71024754c0) == 0x68);
 
 class UiSubsys1 {
     // Native singleton forwarders 96828C / 9682B4 / 9682CC read these UI fields directly.
