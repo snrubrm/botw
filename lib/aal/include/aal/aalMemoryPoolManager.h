@@ -19,6 +19,9 @@ public:
 
     // 0x7100B96F80; returns whether the pool was removed or queued for detachment.
     bool requestDetachMemoryPool(MemoryPool* pool);
+    void waitForDetachMemoryPool(MemoryPool* pool);
+    void flushMemoryPoolAcquireRequest();
+    void flushMemoryPoolReleaseRequest();
 
 private:
     // Constructor 0x7100B96DB4 initializes both node offsets to 0x58.
