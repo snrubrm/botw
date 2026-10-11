@@ -5,6 +5,10 @@
 #include "KingSystem/Utils/Types.h"
 #include "KingSystem/World/worldShootingStarMgr.h"
 
+namespace al {
+class ByamlIter;
+}
+
 namespace ksys::act {
 class InstParamPack;
 }
@@ -23,6 +27,7 @@ public:
     // 0x71010cf868 (CSV wm::calcShootingStarDLC; declaration only)
     void calcShootingStarDLC();
     void sub_71010D00B0();
+    bool sub_71010D02C0(const al::ByamlIter& iter);
 
     bool sub_71010D0734() const;
     bool sub_71010D07A4() const;
@@ -42,13 +47,14 @@ public:
 
     void sub_71010D0814(act::InstParamPack* pack, sead::Vector3f* out_position);
 
-    u8 _8[0x2c - 0x8];
+    char mIdBuffer[32];
+    u32 _28;
     f32 _2c;
     Identifier mIdentifier;
     sead::Vector3f _48;
     s32 mStartHour;
     s32 mEndHour;
-    u8 _5c[4];
+    s32 mDirection;
     f32 _60;
     u8 _64[4];
     const char* _68;

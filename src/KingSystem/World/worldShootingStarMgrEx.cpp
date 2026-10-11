@@ -2,6 +2,9 @@
 #include "Game/gameGraphics.h"
 #include <cmath>
 #include <cstring>
+#include <cstdio>
+#include <codec/seadHashCRC32.h>
+#include "KingSystem/Utils/Byaml/Byaml.h"
 #include <math/seadQuat.h>
 #include <gfx/seadCamera.h>
 #include <random/seadGlobalRandom.h>
@@ -13,6 +16,26 @@
 #include "KingSystem/World/worldManager.h"
 
 namespace ksys::world {
+
+bool ShootingStarAnchor::sub_71010D02C0(const al::ByamlIter& iter) {
+    if (!iter.tryGetIntByKey(&mStartHour, "CollaboShootingStarStartHour") ||
+        !iter.tryGetIntByKey(&mEndHour, "CollaboShootingStarEndHour") ||
+        !iter.tryGetIntByKey(&mDirection, "CollaboShootingStarDirection") ||
+        !al::tryGetByamlV3f(&_48, iter, "Translate") ||
+        !iter.tryGetStringByKey(&_68, "collaboSSFalloutFlagName") ||
+        !iter.tryGetStringByKey(&_70, "collaboSSOpenFlagName") ||
+        !iter.tryGetStringByKey(&_78, "collaboSSQuestFlag"))
+        return false;
+    if (u32(mStartHour) >= 24 || u32(mEndHour) >= 24 || u32(mDirection) >= 8)
+        return false;
+    if (!_68[0] || !_70[0] || !_78[0])
+        return false;
+    std::sprintf(mIdBuffer, "%lx", reinterpret_cast<uintptr_t>(this));
+    const sead::SafeString name(mIdBuffer);
+    mIdentifier.name = name;
+    mIdentifier.hash = sead::HashCRC32::calcStringHash(name.cstr());
+    return true;
+}
 
 // NON_MATCHING: the TU local-static base differs and index arithmetic is promoted to 64 bits.
 bool sub_71010D103C() {
