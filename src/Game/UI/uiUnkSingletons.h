@@ -612,18 +612,8 @@ static_assert(sizeof(Unk_7102476150) == 0x60);
 
 // Native factory 0x95C0A8 allocates 0x60 bytes and installs all 30 slots.
 class Unk_7102476250 : public UiSubsys1Entry {
+    SEAD_RTTI_OVERRIDE(Unk_7102476250, UiSubsys1Entry)
 public:
-    static const sead::RuntimeTypeInfo::Interface* getRuntimeTypeInfoStatic() {
-        static const sead::RuntimeTypeInfo::Derive<UiSubsys1Entry> typeInfo;
-        return &typeInfo;
-    }
-    static bool checkDerivedRuntimeTypeInfoStatic(
-        const sead::RuntimeTypeInfo::Interface* typeInfo) {
-        return typeInfo == getRuntimeTypeInfoStatic() ||
-               UiSubsys1Entry::checkDerivedRuntimeTypeInfoStatic(typeInfo);
-    }
-    bool checkDerivedRuntimeTypeInfo(const sead::RuntimeTypeInfo::Interface* typeInfo) const override;
-    const sead::RuntimeTypeInfo::Interface* getRuntimeTypeInfo() const override;
     ~Unk_7102476250() override;
     void m11() override;
     void m12() override;
@@ -647,18 +637,8 @@ struct Unk_7100956bac {
 
 // Both list loops in factory 0x95C0A8 allocate 0x60 bytes for VT 0x2476350.
 class Unk_7102476350 : public UiSubsys1Entry {
+    SEAD_RTTI_OVERRIDE(Unk_7102476350, UiSubsys1Entry)
 public:
-    static const sead::RuntimeTypeInfo::Interface* getRuntimeTypeInfoStatic() {
-        static const sead::RuntimeTypeInfo::Derive<UiSubsys1Entry> typeInfo;
-        return &typeInfo;
-    }
-    static bool checkDerivedRuntimeTypeInfoStatic(
-        const sead::RuntimeTypeInfo::Interface* typeInfo) {
-        return typeInfo == getRuntimeTypeInfoStatic() ||
-               UiSubsys1Entry::checkDerivedRuntimeTypeInfoStatic(typeInfo);
-    }
-    bool checkDerivedRuntimeTypeInfo(const sead::RuntimeTypeInfo::Interface* typeInfo) const override;
-    const sead::RuntimeTypeInfo::Interface* getRuntimeTypeInfo() const override;
     ~Unk_7102476350() override;
     void m11() override;
     void m12() override;
@@ -677,18 +657,8 @@ static_assert(sizeof(Unk_7102476350) == 0x60);
 
 // Native factory 0x95C0A8 allocates 0x50 bytes for the complete 29-slot table.
 class Unk_7102476450 : public UiSubsys1Entry {
+    SEAD_RTTI_OVERRIDE(Unk_7102476450, UiSubsys1Entry)
 public:
-    static const sead::RuntimeTypeInfo::Interface* getRuntimeTypeInfoStatic() {
-        static const sead::RuntimeTypeInfo::Derive<UiSubsys1Entry> typeInfo;
-        return &typeInfo;
-    }
-    static bool checkDerivedRuntimeTypeInfoStatic(
-        const sead::RuntimeTypeInfo::Interface* typeInfo) {
-        return typeInfo == getRuntimeTypeInfoStatic() ||
-               UiSubsys1Entry::checkDerivedRuntimeTypeInfoStatic(typeInfo);
-    }
-    bool checkDerivedRuntimeTypeInfo(const sead::RuntimeTypeInfo::Interface* typeInfo) const override;
-    const sead::RuntimeTypeInfo::Interface* getRuntimeTypeInfo() const override;
     ~Unk_7102476450() override;
     void m11() override;
     void m12() override;

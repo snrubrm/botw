@@ -623,23 +623,7 @@ void Unk_7102476350::m17() {
     UiSubsys1Entry::m17();
 }
 
-bool Unk_7102476250::checkDerivedRuntimeTypeInfo(
-    const sead::RuntimeTypeInfo::Interface* typeInfo) const {
-    return checkDerivedRuntimeTypeInfoStatic(typeInfo);
-}
 
-const sead::RuntimeTypeInfo::Interface* Unk_7102476250::getRuntimeTypeInfo() const {
-    return getRuntimeTypeInfoStatic();
-}
-
-bool Unk_7102476350::checkDerivedRuntimeTypeInfo(
-    const sead::RuntimeTypeInfo::Interface* typeInfo) const {
-    return checkDerivedRuntimeTypeInfoStatic(typeInfo);
-}
-
-const sead::RuntimeTypeInfo::Interface* Unk_7102476350::getRuntimeTypeInfo() const {
-    return getRuntimeTypeInfoStatic();
-}
 
 void Unk_7102476450::m11() {
     if (GameSceneSubsys13::instance()->_38 > _40) {
@@ -659,13 +643,5 @@ void Unk_7102476450::m12() {
     }
 }
 
-bool Unk_7102476450::checkDerivedRuntimeTypeInfo(
-    const sead::RuntimeTypeInfo::Interface* typeInfo) const {
-    return checkDerivedRuntimeTypeInfoStatic(typeInfo);
-}
-
-const sead::RuntimeTypeInfo::Interface* Unk_7102476450::getRuntimeTypeInfo() const {
-    return getRuntimeTypeInfoStatic();
-}
 
 }  // namespace uking::ui
