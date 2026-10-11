@@ -29,8 +29,7 @@ ScreenLoadSaveIcon::ScreenLoadSaveIcon() : Screen() {}
 // 0x7100a53dc0
 ScreenSousaGuide::ScreenSousaGuide() : ScreenEx() {}
 
-// 0x71010a8454
-ScreenMessageTips::ScreenMessageTips() : Screen() {}
+
 
 // 0x7100a4ad38
 ScreenShopBtnList15::ScreenShopBtnList15() : ScreenEx() {}

@@ -91,6 +91,7 @@ target_sources(uking PRIVATE
   uiScreenErrorViewer.cpp
   uiScreenFadeDemo.cpp
   uiScreenMainDungeon.cpp
+  uiScreenMessageTips.cpp
   uiScreenCtors.cpp
   uiScreenDLCNum.cpp
   uiScreenDtors.cpp

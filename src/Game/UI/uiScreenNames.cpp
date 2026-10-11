@@ -137,10 +137,7 @@ const char* ScreenHomeMenuCapture::getLayoutName_() const {
 
 
 
-// 0x71010a8afc
-const char* ScreenMessageTips::getLayoutName_() const {
-    return "MessageTips_00";
-}
+
 
 
 
