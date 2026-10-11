@@ -3,6 +3,7 @@
 #include <basis/seadTypes.h>
 #include <aal/aalTimedFader.h>
 #include <container/seadOffsetList.h>
+#include <container/seadObjList.h>
 #include <prim/seadSafeString.h>
 #include <prim/seadRuntimeTypeInfo.h>
 #include <thread/seadCriticalSection.h>
@@ -148,10 +149,29 @@ struct Unk_7100FF7BE0 {
 
 class Unk_7100ff7444 {
 public:
+    Unk_7100ff7444();
+    ~Unk_7100ff7444();
+    void sub_7100FF74D0();
+    void sub_7100FF75DC(s32 capacity, sead::Heap* heap);
+    void sub_7100FF7830(f32 fade_sec);
+    void sub_7100FF78A8(f32 fade_sec);
     void sub_7100FF7BE0(Unk_7100FF7BE0 state);
     Bgm* sub_7100FF7C74(s32 kind);
-    u8 _0[0x88];
+
+private:
+    // FF79D8 constructs 0x10-byte values in the 0x20-byte ObjList nodes.
+    struct Entry {
+        Bgm* bgm;
+        u32 refs;
+    };
+    sead::ObjList<Entry> mEntries;
+    void* _30 = nullptr;
+    void* _38 = nullptr;
+    sead::CriticalSection mCS;
+    bool _80 = false;
+    bool _81 = false;
 };
+KSYS_CHECK_SIZE_NX150(Unk_7100ff7444, 0x88);
 
 // The RTTI root of the BGM controller family (vtable 0x71024fca78). `_8` is common to the family: the helpers
 // sub_7100FFDD38 etc. call `_48->_8.sub_7100FF7C74()` on the base pointer without a cast.
