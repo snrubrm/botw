@@ -278,4 +278,6 @@ void Unk_7102478ec8::m11() {
     Unk_7102477fc0::m11();
 }
 
+Unk_71024784c0::~Unk_71024784c0() = default;
+
 }  // namespace uking::ui
