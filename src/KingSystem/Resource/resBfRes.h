@@ -108,6 +108,16 @@ public:
     s32 getTextureCount() const;
     sead::SafeString getTextureName(s32 index) const;
     bool hasTexture(const sead::SafeString& name) const;
+    // Complete BfRes1200038 produces this 0x28-byte loader request.
+    struct TextureLoadArg {
+        bool _0 = true;
+        bool _1 = false;
+        Unk_71024f9d68* mCallback = nullptr;
+        Unk_71024F9D48* mHandle = nullptr;
+        sead::SafeString mName;
+    };
+    KSYS_CHECK_SIZE_NX150(TextureLoadArg, 0x28);
+    bool sub_7100FE1AFC(const TextureLoadArg& arg);
 
 private:
     sead::BitFlag8 mFlags;

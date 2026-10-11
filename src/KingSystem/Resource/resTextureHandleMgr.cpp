@@ -168,6 +168,47 @@ bool Unk_71024f9a70::hasTexture(const sead::SafeString& name) const {
     return agl::g3d::ResFile::sub_7100B33BF0(mResFile, name.cstr()) != nullptr;
 }
 
+// NON_MATCHING: request construction and binary-search comparison branch layout.
+bool Unk_71024f9a70::sub_7100FE1AFC(const TextureLoadArg& arg) {
+    auto* texture = agl::g3d::ResFile::sub_7100B33BF0(mResFile, arg.mName.cstr());
+    bool success;
+    if (texture) {
+        const u32 hash = sead::HashCRC32::calcStringHash(texture->GetName());
+        const s32 index = mTextureFlags.binarySearch<u32>(hash, [](const TextureFlag& item,
+                                                                  const u32& key) -> s32 {
+            if (item.hash > key)
+                return 1;
+            if (item.hash < key)
+                return -1;
+            return 0;
+        });
+        u32 flags = 0;
+        if (index != -1)
+            flags = mTextureFlags[index].flag;
+        Unk_71024f9a90 request;
+        request._12 = arg._0;
+        request._11 = arg._1;
+        request.mRequester = mPath;
+        request.mFileDevice = mFileDevice;
+        request.mCallback = arg.mCallback;
+        request.mTexture = texture;
+        request.mTextureFlags = flags;
+        success = arg.mHandle->sub_7100FE8074(&request);
+    } else {
+        Unk_71024f9ad8 request;
+        request.mCallback = arg.mCallback;
+        request.mPath = arg.mName;
+        if (!arg.mHandle->sub_7100FE8074(&request)) {
+            stubbedLogFunction();
+            return false;
+        }
+        success = true;
+    }
+    if (arg.mHandle->sub_7100FE8330() == 4 || arg.mHandle->sub_7100FE8330() == 3)
+        stubbedLogFunction();
+    return success;
+}
+
 // Full native initializer FE2398 and loader FE1630 prove this separate factory.
 // NON_MATCHING: namespace linkage uses GOT addressing instead of the native direct address.
 EntryFactory<Unk_710251A740> sUnk_710260E8A0;
