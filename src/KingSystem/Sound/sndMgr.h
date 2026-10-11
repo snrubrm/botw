@@ -262,6 +262,7 @@ public:
         virtual void v1();
         // 0x7101042f18
         virtual bool isActive() const;
+        bool sub_710103E368() const;
 
         u8 _8[0x60];
         /* 0x68 */ aal::GroupDucker mDucker;
@@ -380,6 +381,8 @@ public:
     bool isBgmReady();
     void setWorldMuteType(bool movie, const sead::SafeString& type);
     void sub_710103BD3C();
+    bool sub_710103CE1C();
+    void sub_710103C5F4(bool defer_bgm);
     virtual ~Unk_710103b704();
     struct StartParam {
         sead::SafeString _0;

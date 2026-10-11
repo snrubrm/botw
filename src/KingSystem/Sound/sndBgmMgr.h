@@ -30,6 +30,8 @@ public:
     void sub_7101007904(f32 fade_sec, const sead::SafeString& name);
     void sub_7101007A08(f32 fade_sec);
     void sub_7101007AA0(f32 fade_sec);
+    bool sub_7101007C14();
+    bool sub_7101007C90();
 };
 
 // RTTI root at 0x71025ce360; primary vtable at 0x71024fc8a0.
