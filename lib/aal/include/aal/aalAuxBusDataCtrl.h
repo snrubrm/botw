@@ -35,7 +35,6 @@ public:
 
 protected:
     u32 mState = 0;
-    bool mIsConnected = false;
 };
 static_assert(sizeof(AuxBusDataCtrl) == 0x10, "AuxBusDataCtrl size");
 

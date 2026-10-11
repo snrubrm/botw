@@ -21,6 +21,7 @@ public:
                        SampleFormat format, f32 sample_rate, DeviceType device) override;
 
 protected:
+    bool mIsConnected = false;
     AuxBusDataCtrl* mChild = nullptr;
     bool mHasPendingChild = false;
     AuxBusDataCtrl* mPendingChild = nullptr;
