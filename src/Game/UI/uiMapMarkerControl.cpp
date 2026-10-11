@@ -66,7 +66,6 @@ void Unk_7102477fc0::m7() {
     }
 }
 
-// NON_MATCHING: the byte store masks the virtual bool result; native stores it directly.
 void Unk_7102477fc0::m8() {
     if (_10) {
         if (_18) {
@@ -149,8 +148,8 @@ void Unk_7102477fc0::m13() {
         _20->AppendChild(pane);
 }
 
-bool Unk_7102477fc0::m14() const {
-    return false;
+s32 Unk_7102477fc0::m14() const {
+    return 0;
 }
 
 void Unk_7102477fc0::sub_710098CF9C() {
@@ -303,6 +302,13 @@ void Unk_7102478980::m12() {
         UiSubsys1::instance()->freeListEntry(entry);
     _18->m24(false);
     _18->m22();
+}
+
+Unk_7102478d98::~Unk_7102478d98() = default;
+
+// NON_MATCHING: native spills an enum conversion; the entry kind is still declared as an integer.
+s32 Unk_7102478d98::m14() const {
+    return _18->_1c - 27;
 }
 
 }  // namespace uking::ui

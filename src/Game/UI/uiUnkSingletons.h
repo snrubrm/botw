@@ -521,7 +521,7 @@ public:
     virtual void m11();
     virtual void m12();
     virtual void m13();
-    virtual bool m14() const;
+    virtual s32 m14() const;
     void sub_710098CB98(bool enabled);
     void sub_710098CF9C();
 
@@ -667,6 +667,15 @@ class Unk_7102478980 : public Unk_71025d9170 {
 public:
     ~Unk_7102478980() override;
     void m12() override;
+};
+
+// Native VT2478D98 supplies an integer marker-style index in slot fourteen.
+class Unk_7102478d98 : public Unk_71025d9170 {
+    SEAD_RTTI_OVERRIDE(Unk_7102478d98, Unk_71025d9170)
+public:
+    ~Unk_7102478d98() override;
+    void m12() override;
+    s32 m14() const override;
 };
 
 class UiSubsys1 {
