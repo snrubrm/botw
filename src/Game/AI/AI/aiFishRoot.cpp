@@ -1,6 +1,7 @@
 #include "Game/AI/AI/aiFishRoot.h"
 #include <gsys/gsysModel.h>
 #include <gsys/gsysModelUnit.h>
+#include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "Game/Actor/actUnk_71025ae680.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerOrEnemy.h"
@@ -8,6 +9,7 @@
 #include "KingSystem/Physics/System/physInstanceSet.h"
 #include "KingSystem/Physics/System/physRayCastForRequest.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
@@ -111,8 +113,53 @@ bool FishRoot::sub_71003CE608(const sead::Vector3f& start) {
     return true;
 }
 
+// NON_MATCHING: stack/register allocation and buffer cleanup block placement differ.
 bool FishRoot::init_(sead::Heap* heap) {
-    return SimpleWildlifeRoot::init_(heap);
+    if (!SimpleWildlifeRoot::init_(heap))
+        return false;
+    auto* model = mActor->getModel();
+    if (!model)
+        return true;
+    s32 spine_count = 0;
+    for (s32 i = 1;; ++i) {
+        sead::FixedSafeString<32> name;
+        name.format("Spine_%d", i);
+        if (!model->searchBone(name).isValid())
+            break;
+        ++spine_count;
+    }
+    s32 tail_count = 0;
+    for (s32 i = 1;; ++i) {
+        sead::FixedSafeString<32> name;
+        name.format("tail%02d", i);
+        if (!model->searchBone(name).isValid())
+            break;
+        ++tail_count;
+    }
+    if (spine_count + tail_count <= 0)
+        return true;
+    _1d0.tryAllocBuffer(spine_count + tail_count + 1, heap);
+    if (!_1d0.getBufferPtr())
+        return false;
+    const auto* params = mActor->getParam()->getRes().mGParamList->getFish();
+    if (!params) {
+        _1d0.freeBuffer();
+        return false;
+    }
+    for (s32 i = 0; i < spine_count; ++i) {
+        sead::FixedSafeString<32> name;
+        name.format("Spine_%d", i + 1);
+        _1d0[i].sub_71003CC014(params, model, name.cstr(), i);
+    }
+    for (s32 i = 0; i < tail_count; ++i) {
+        sead::FixedSafeString<32> name;
+        name.format("tail%02d", i + 1);
+        _1d0[spine_count + i].sub_71003CC014(params, model, name.cstr(), spine_count + i);
+    }
+    _1d0[spine_count + tail_count].sub_71003CC014(params, model, sead::SafeString::cEmptyString,
+                                               spine_count + tail_count);
+    sub_71003CC1AC(model);
+    return true;
 }
 
 void FishRoot::enter_(ksys::act::ai::InlineParamPack* params) {

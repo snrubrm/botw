@@ -7,6 +7,10 @@
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
+namespace ksys::res {
+class GParamListObjectFish;
+}
+
 namespace ksys::phys {
 class RayCastForRequest;
 }
@@ -15,6 +19,9 @@ namespace uking::ai {
 
 // Placeholder name: the 0xe8-byte bone animation entry in FishRoot::_1d0.
 struct FishRootBoneEntry {
+    void sub_71003CC014(const ksys::res::GParamListObjectFish* params, gsys::Model* model,
+                       const sead::SafeString& name, s32 index);
+
     ~FishRootBoneEntry() {
         if (_0.isValid())
             _0.remove();
