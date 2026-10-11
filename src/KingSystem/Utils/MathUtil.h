@@ -77,6 +77,11 @@ float sub_71011EF0CC(float angle);
 void sub_71011EEB08(sead::Vector3f* axis, f32* angle, const sead::Vector3f& from,
                     const sead::Vector3f& to, const sead::Vector3f& default_axis);
 
+// 0x71011eecac: turns from towards to by at most max_angle radians; returns true when to is reached.
+// Declaration only; complete callee and independent 740884 use Vector3f values and a Boolean result.
+bool sub_71011EECAC(sead::Vector3f* out, const sead::Vector3f& from,
+                    const sead::Vector3f& to, f32 max_angle);
+
 // 0x71011ef51c: relative rotation axis/angle between two matrices; default_axis handles zero angle.
 // Declaration only; the original reads all five arguments.
 void sub_71011EF51C(sead::Vector3f* axis, f32* angle, const sead::Matrix34f& from,
