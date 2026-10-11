@@ -395,6 +395,22 @@ void Chemical::sub_7100D8F454() {
     }
 }
 
+bool Chemical::sub_7100D94628(f32 value) {
+    if (_18 && _18->m28())
+        return false;
+    _1c4 = value;
+    _bc |= 1;
+    return true;
+}
+
+bool Chemical::sub_7100D94684(bool force) {
+    notifyWatch_();
+    if (!force && _18 && _18->m28())
+        return false;
+    _bc |= 4;
+    return true;
+}
+
 void Chemical::sub_7100D943F4(f32 value, f32 offset, f32 rate, u8 flags) {
     notifyWatch_();
     if (_18 && !_18->m18())

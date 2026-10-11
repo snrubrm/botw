@@ -163,6 +163,8 @@ public:
     f32 sub_7100D945AC() const;
     void sub_7100D943F4(f32 value, f32 offset, f32 rate, u8 flags);
     void sub_7100D944DC();
+    bool sub_7100D94628(f32 value);
+    bool sub_7100D94684(bool force);
     // 2026-10-07: clears the two charge values at 0x1b4 / 0x1b8.
     void sub_7100D93B84();
     bool sub_7100D93B90(Unk_71024dd1c8* holder);
@@ -250,7 +252,9 @@ public:
     /* 0x1b4 */ f32 _1b4;
     /* 0x1b8 */ f32 _1b8;
     /* 0x1bc */ f32 _1bc;
-    /* 0x1c0 */ u8 _1c0[0x1c8 - 0x1c0];
+    /* 0x1c0 */ u8 _1c0[4];
+    /* 0x1c4 */ f32 _1c4;  // D94628 value from world +0x194
+
     /* 0x1c8 */ Unk_Chemical1c8* _1c8;
     /* 0x1d0 */ void* _1d0;
     /* 0x1d8 */ u8 _1d8[0x1e8 - 0x1d8];
