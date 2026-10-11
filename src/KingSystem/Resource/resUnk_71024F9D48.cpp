@@ -4,6 +4,7 @@
 #include "KingSystem/Resource/resResourceFileUtil.h"
 #include "KingSystem/Resource/resSystem.h"
 #include <thread/seadAtomic.h>
+#include <codec/seadHashCRC32.h>
 
 namespace ksys::res {
 
@@ -68,6 +69,32 @@ sead::FileDevice* Unk_71024f9a08::sub_7100FE0E08() const {
 
 void Unk_71024f9a08::sub_7100FE0850() {
     mFlags.reset(1);
+}
+
+bool Unk_71024f9a08::sub_7100FE0348(const sead::SafeString& path, bool reset,
+                                      CompactedHeap* mipHeap, CompactedHeap* heap) {
+    if (reset) {
+        if (mTaskHandle.hasTask()) {
+            mTaskHandle.removeTaskFromQueue();
+            mTaskHandle.finalize();
+        }
+        if (mFlags.isOnBit(5)) {
+            sub_7100FDDBD4(sub_7100FDDC24(&_1f8));
+            mFlags.resetBit(5);
+        }
+        if (mMipAllocation.mData)
+            mipHeap->x_21(&mMipAllocation);
+        if (mAllocation.mData)
+            heap->x_21(&mAllocation);
+    }
+    sub_7100FE04D0();
+    mStatus = 1;
+    sead::BufferedSafeString requester(_29a, sizeof(_29a));
+    requester = path;
+    mRequesterLength = requester.calcLength();
+    mFlags.setDirect(0x80);
+    mNode.key().mHash = sead::HashCRC32::calcHash(_29a, mRequesterLength);
+    return true;
 }
 
 bool Unk_71024f9a08::sub_7100FE0C38(const LoadArg& arg) {

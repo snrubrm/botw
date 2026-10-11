@@ -82,6 +82,10 @@ public:
     };
     KSYS_CHECK_SIZE_NX150(UnloadArg, 0x10);
     void sub_7100FE0C40(const UnloadArg& arg);
+    bool sub_7100FE0348(const sead::SafeString& path, bool reset,
+                          CompactedHeap* mipHeap, CompactedHeap* heap);
+    // Complete FE04D0 waits for the event and allocation records; declared only.
+    void sub_7100FE04D0();
     void sub_7100FE09EC(bool* success, const TransferArg& arg);
     bool sub_7100FE0C38(const LoadArg& arg);
     bool sub_7100FE0584(const LoadArg& arg);
@@ -131,7 +135,8 @@ public:
     sead::FixedStringBuilder<128> mPath;
     // FE0F8C hands &this member to the ResTexture placeholder sub_7100FDDC24.
     nn::gfx::ResTexture _1f8;
-    u8 _298[2];
+    // Complete FE0348 stores the bounded requester path length here.
+    u16 mRequesterLength;
     // FE0348 assigns the path using a BufferedSafeString with capacity 126.
     char _29a[0x7e];
     u8 _318[0x618 - 0x318];
