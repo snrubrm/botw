@@ -197,6 +197,9 @@ public:
     void initForStageGen() override;
     void m13() override {}
 
+    void draw3D(const agl::lyr::RenderInfo& info);
+    void draw2D(const agl::lyr::RenderInfo& info);
+
 private:
     /* 0x10 */ sead::Heap* mHeap = nullptr;
     /* 0x18 */ void* _18 = nullptr;

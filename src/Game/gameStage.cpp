@@ -392,6 +392,10 @@ ViewerStage::~ViewerStage() {
     mHeap->destroy();
 }
 
+void ViewerStage::draw3D(const agl::lyr::RenderInfo& info) {}
+
+void ViewerStage::draw2D(const agl::lyr::RenderInfo& info) {}
+
 s32 ViewerStage::getType() {
     return 5;
 }
