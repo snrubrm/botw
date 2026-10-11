@@ -173,6 +173,25 @@ void AnimalEscapeAI::m36() {
     sub_7100306664(direction);
 }
 
+// NON_MATCHING: normalized-vector registers, NaN check order and position stack allocation differ.
+void AnimalEscapeAI::sub_7100306664(const sead::Vector3f& direction) {
+    auto* controller = mActor->getCharacterController();
+    if (!controller) {
+        setFailed();
+        return;
+    }
+    sead::Vector3f horizontal(direction.x, 0.0f, direction.z);
+    horizontal.normalize();
+    if (horizontal.isNan() || horizontal == sead::Vector3f(0.0f, 0.0f, 0.0f))
+        horizontal = controller->get64();
+    sead::Vector3f position;
+    controller->sub_7100F5F6E0(&position);
+    const sead::Vector3f target = position + horizontal * 5.0f;
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(target, "TargetPos", -1);
+    changeChild("逃走前", &pack);
+}
+
 bool AnimalEscapeAI::m37() {
     return isCurrentChild("逃走前");
 }
