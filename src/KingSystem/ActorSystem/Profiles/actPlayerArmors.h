@@ -12,6 +12,7 @@
 namespace ksys::act {
 
 class Actor;
+class Player;
 struct Unk117;
 
 // Placeholder name (CSV: PlayerArmors::x_3 / x_4 / x_5 and unnamed methods in the TU
@@ -149,6 +150,8 @@ public:
     BaseProcLink& getPartsLink(int idx) { return _10[idx]; }
 
 private:
+    friend class Player;
+
     sead::SafeArray<BaseProcLink, 6> _10;
     sead::SafeArray<BaseProcHandle, 6> _70;
     u8 _d0 = 0;

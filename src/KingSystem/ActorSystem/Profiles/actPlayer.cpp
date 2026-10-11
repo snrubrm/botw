@@ -315,6 +315,10 @@ bool Player::m183() {
     return mASList->x_1(1, 1) == "HorseBowEndUpper";
 }
 
+void Player::getArmorSeriesType(sead::BufferedSafeString* out) {
+    out->copy(_23e0._138);
+}
+
 bool Player::m225() {
     return mASList->x_1(2, 0) == "WeaponEquipOn" || mASList->x_1(2, 0) == "WeaponEquipOff" ||
            mASList->x_1(2, 0) == "WeaponEquipNG";
