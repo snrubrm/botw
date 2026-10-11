@@ -21,6 +21,10 @@ protected:
     // 0x7100263c64 (declared only): out of line in the original.
     void sub_7100263C64();
     void calc_() override;
+    // Native slots 0x100 and 0x108; complete 263C64 producer supplies the typed values.
+    virtual void m32(sead::BufferedSafeString* bone_name);
+    virtual void m33(const sead::Vector3f& pos, const sead::Matrix33f& rotation,
+                     const sead::Vector3f& velocity);
 
     // static_param at offset 0x20
     const float* mInitSpeed_s{};

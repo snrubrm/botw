@@ -18,6 +18,9 @@ public:
 
 protected:
     void calc_() override;
+    void m33(const sead::Vector3f& pos, const sead::Matrix33f& rotation,
+             const sead::Vector3f& velocity) override;
+    ksys::act::BaseProcLink* sub_7100262BCC();
 
     // static_param at offset 0xe8
     const int* mArrowType_s{};

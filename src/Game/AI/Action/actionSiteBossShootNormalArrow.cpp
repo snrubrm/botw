@@ -55,4 +55,15 @@ bool SiteBossShootNormalArrow::isFinished() const {
     return isFinishedAS(0, 0);
 }
 
+// NON_MATCHING: token iterator registers and stack layout.
+void SiteBossShootNormalArrow::m32(sead::BufferedSafeString* bone_name) {
+    if (!mBaseNode_s.isEmpty() && mBaseNode_s.findIndex(",") != -1) {
+        auto it = mBaseNode_s.tokenBegin(",");
+        for (s32 i = 0; i <= *mIndex_d; ++i)
+            it.getAndForward(bone_name);
+    } else {
+        bone_name->copy(mBaseNode_s);
+    }
+}
+
 }  // namespace uking::action
