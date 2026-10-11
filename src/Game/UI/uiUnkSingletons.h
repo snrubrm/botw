@@ -1106,6 +1106,7 @@ class UiSubsys1 {
     friend class Unk_7102475c68;
     friend class Unk_7102476350;
     friend class Unk_7102476830;
+    friend class Unk_7102476738;
 public:
     static UiSubsys1* instance() { return sInstance; }
 
@@ -1322,7 +1323,11 @@ private:
     /* 0x658 */ sead::PtrArray<UiSubsys1Entry> _658;
     u8 _668[0x698 - 0x668];
     /* 0x698 */ UiSubsys1Entry* _698;
-    u8 _6a0[0x6e4 - 0x6a0];
+    u8 _6a0[0x6d4 - 0x6a0];
+    /* 0x6d4 */ f32 _6d4;
+    /* 0x6d8 */ f32 _6d8;
+    /* 0x6dc */ f32 _6dc;
+    /* 0x6e0 */ f32 _6e0;
     /* 0x6e4 */ s32 _6e4;
     u8 _6e8[0x6ec - 0x6e8];
     /* 0x6ec */ bool _6ec;
