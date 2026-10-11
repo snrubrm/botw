@@ -427,6 +427,7 @@ struct UiSubsys1Entry {
 
     // 0x7100951388: sets flag 8, then forwards to the virtual control update.
     void sub_7100951388(bool enabled);
+    void sub_710095156C(bool enabled);
     bool sub_7100951048() const;
 
     /* 0x08 */ Unk_7102477fc0* _8;
@@ -481,6 +482,28 @@ public:
     /* 0x60 */ s32 _60;
 };
 static_assert(sizeof(Unk_71024754c0) == 0x68);
+
+// Native VT24755D8 and the allocation in 95C0A8 establish the 0x88-byte layout.
+class Unk_71024755d8 : public Unk_71024754c0 {
+    SEAD_RTTI_OVERRIDE(Unk_71024755d8, Unk_71024754c0)
+public:
+    ~Unk_71024755d8() override;
+    void m9() override;
+    void m11() override;
+    void m12() override;
+    void m21() override;
+    void m29(Unk_710095192c* entry) override;
+    void m30() override;
+    void m31() override;
+    void m32() override;
+
+    sead::SafeString _68;
+    ksys::gdt::FlagHandle _78;
+    ksys::gdt::FlagHandle _7c;
+    ksys::gdt::FlagHandle _80;
+    ksys::gdt::FlagHandle _84;
+};
+static_assert(sizeof(Unk_71024755d8) == 0x88);
 
 // Native vtable 2477FC0 has fifteen slots; reset 98C7A4 establishes the 0x30-byte layout.
 class Unk_7102477fc0 {
