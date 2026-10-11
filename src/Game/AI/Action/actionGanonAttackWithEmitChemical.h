@@ -23,6 +23,9 @@ protected:
     void calc_() override;
     // Complete native helper sleeps emitted actor parts and fades this action's sound effect.
     void sub_7100172FA8();
+    // Full native 173138 uses an unsigned emission index for distance/rotation
+    // and wakes an available actor part. Declaration only; body stays native.
+    void sub_7100173138(u32 index);
     virtual void m32(sead::Vector3f* pos);
     virtual float m33();
     virtual int m34();

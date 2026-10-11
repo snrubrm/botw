@@ -2,6 +2,11 @@
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "Game/Actor/actEnemy.h"
+#include "Game/Actor/actLastBoss.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include <math/seadMathCalcCommon.h>
 #include <cstring>
 
 namespace uking::action {
@@ -112,8 +117,50 @@ void GanonAttackWithEmitChemical::loadParams_() {
     getStaticParam(&mEmitBoneRotateOffset_s, "EmitBoneRotateOffset");
 }
 
+// NON_MATCHING: the stop-query/attack loop joins and Timer reset store grouping
+// differ from the original.
 void GanonAttackWithEmitChemical::calc_() {
     GanonWeaponNearAttack::calc_();
+    auto* boss = sead::DynamicCast<act::LastBoss>(mActor);
+    if (!boss || !boss->_14e8.isOnBit(8))
+        return;
+    ksys::as::ASList::Unk4 query;
+    if (sub_71005DD66C(mActor, &query, 0, 0) && !_178) {
+        _178 = true;
+        _168.reset(*mEmitStartFrame_s);
+        if (!mCallSEKeyAtAtOn_s.isEmpty()) {
+            xlinkSearchAndEmit(mActor, mCallSEKeyAtAtOn_s.cstr(), 1, &mEffectHandle);
+            _17a = true;
+        }
+    }
+    bool stop = sub_710072B7C4();
+    if (!stop) {
+        const s32 count = getNumAttackInfoMaybe(mActor);
+        for (s32 i = 0; i < count; ++i) {
+            auto* info = getAttackInfo(mActor, i);
+            if (info && (info->_18 & 2)) {
+                stop = true;
+                break;
+            }
+        }
+    }
+    if (stop) {
+        _179 = true;
+        sub_7100172FA8();
+    }
+    if (!_178)
+        return;
+    _168.update();
+    if (_168.value <= sead::Mathf::epsilon()) {
+        if (*mEmitInterval_s >= 1 && *mEmitNum_s > _174) {
+            sub_7100173138(_174);
+            _168.reset(*mEmitInterval_s);
+            ++_174;
+        } else if (_174 < *mEmitNum_s && *mEmitNum_s != 0) {
+            for (u32 i = 0; i < *mEmitNum_s; ++i)
+                sub_7100173138(i);
+        }
+    }
 }
 
 }  // namespace uking::action
