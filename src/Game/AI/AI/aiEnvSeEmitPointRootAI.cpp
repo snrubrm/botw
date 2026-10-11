@@ -43,6 +43,38 @@ void EnvSeEmitPointRootAI::enter_(ksys::act::ai::InlineParamPack* params) {
     }
 }
 
+// NON_MATCHING: vector component loads and temporary register allocation differ.
+void EnvSeEmitPointRootAI::calc_() {
+    f32 distance = std::numeric_limits<f32>::max();
+    {
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorSystem::instance()->getPlayer(&accessor);
+        if (accessor.hasProc()) {
+            const auto& mtx = accessor.getActorMtx();
+            if (auto* actor = mActor) {
+                const sead::Vector3f diff{actor->getMtx().m[0][3] - mtx.m[0][3], 0.0f,
+                                          actor->getMtx().m[2][3] - mtx.m[2][3]};
+                distance = diff.length();
+            }
+        }
+    }
+
+    if (isCurrentChild("待機")) {
+        if (!(*mInvalidatePlayDistance_s + 3.0f <= distance &&
+              distance <= *mPlayDistance_s - 3.0f))
+            return;
+        changeChild("再生", nullptr);
+        if (auto* point = sead::DynamicCast<act::EnvSeEmitPoint>(mActor))
+            ksys::snd::SoundMgr::instance()->_38->_20->sub_7101029BB0(point);
+    } else if (isCurrentChild("再生")) {
+        if (distance < *mInvalidatePlayDistance_s || distance > *mPlayDistance_s) {
+            changeChild("待機", nullptr);
+            if (auto* point = sead::DynamicCast<act::EnvSeEmitPoint>(mActor))
+                ksys::snd::SoundMgr::instance()->_38->_20->sub_7101029C98(point);
+        }
+    }
+}
+
 void EnvSeEmitPointRootAI::leave_() {
     if (auto* point = sead::DynamicCast<act::EnvSeEmitPoint>(mActor))
         ksys::snd::SoundMgr::instance()->_38->_20->sub_7101029C98(point);
