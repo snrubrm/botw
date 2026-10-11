@@ -39,6 +39,8 @@ target_sources(uking PRIVATE
 
     Ragdoll/physRagdollConfig.cpp
     Ragdoll/physRagdollConfig.h
+    Ragdoll/physUnk_7102519b90.cpp
+    Ragdoll/physUnk_7102519b90.h
     Ragdoll/physRagdollController.cpp
     Ragdoll/physRagdollController.h
     Ragdoll/physRagdollControllerKeyList.h
