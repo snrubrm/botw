@@ -23,6 +23,13 @@ namespace uking::ui {
 // 0x71009a4330
 Unk_7102479838::Unk_7102479838(eui::LayoutEx* layout) : Unk_71024746d0(layout) {}
 
+// 0x71009a4928
+void Unk_7102479838::m39(void* button) {
+    if (mButton == button && mMapWidget)
+        mMapWidget->_b33c = 1;
+}
+
+
 // 0x71009b30ec
 void Unk_710247ae48::m7() {
     sub_71009B30F0();

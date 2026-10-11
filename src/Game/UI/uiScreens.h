@@ -1955,7 +1955,9 @@ struct ScreenAppMapWidget : public ScreenChildEx {
     /* 0xb290 */ UiTimer _b290;
     u8 _b2a8[0xb33a - 0xb2a8];
     /* 0xb33a */ u8 _b33a;
-    u8 _b33b[0xb34c - 0xb33b];
+    u8 _b33b;
+    /* 0xb33c */ u8 _b33c;  // button callback sets it; constructor and update clear it
+    u8 _b33d[0xb34c - 0xb33d];
     /* 0xb34c */ u8 _b34c;
     u8 _b34d[0xb350 - 0xb34d];
     /* 0xb350 */ s32 _b350;
