@@ -14,8 +14,25 @@
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actChemical.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectFish.h"
 
 namespace uking::ai {
+
+// NON_MATCHING: the bone-key search is out of line in the current library.
+void FishRootBoneEntry::sub_71003CC014(const ksys::res::GParamListObjectFish* params,
+                                    gsys::Model* model, const sead::SafeString& name, s32 index) {
+    if (!model)
+        return;
+
+    if (name.isEmpty())
+        _0.getKey().reset();
+    else
+        _0.search(model, model->searchBone(name));
+
+    _38.copy(name);
+    _dc = params->mRestoreSpeedRate.ref() + index * params->mRestoreSpeedRateAdd.ref();
+    _e0 = params->mLimitAngle.ref() + index * params->mLimitAngleAdd.ref();
+}
 
 // NON_MATCHING: previous-entry index arithmetic and the model load schedule differ.
 void FishRoot::sub_71003CC1AC(gsys::Model* model) {
