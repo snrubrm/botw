@@ -1,5 +1,7 @@
 #include "KingSystem/Physics/System/physHavokAI.h"
 #include <thread/seadThreadUtil.h>
+#include <prim/seadNamable.h>
+#include "KingSystem/Physics/System/physSystem.h"
 
 namespace ksys::phys {
 
@@ -23,6 +25,21 @@ void NavMeshSystemThread::sub_7100F895FC(f32 dt) {
     _108 += dt;
     // 'step'
     sendMessage(0x73746570, sead::MessageQueue::BlockType::NonBlocking);
+}
+
+// NON_MATCHING: INamable setup precedes the System singleton load in the init branch.
+void NavMeshSystemThread::calc_(sead::MessageQueue::Element msg) {
+    if (msg == 0x696e6974) {
+        sead::INamable name("navmesh_system");
+        System::instance()->runJobsMaybe(&name);
+        return;
+    }
+    if (!_10c) {
+        const f32 dt = _108;
+        _108 = 0.0f;
+        if (dt > 0.0f)
+            _100->sub_7100F81550(dt);
+    }
 }
 
 }  // namespace ksys::phys

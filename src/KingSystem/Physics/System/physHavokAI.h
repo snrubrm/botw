@@ -44,7 +44,6 @@ class Unk_7100f7e9f0;
 class NavMeshSystemThread : public sead::Thread {
 public:
     NavMeshSystemThread(HavokAI* system, sead::Heap* heap);
-    // 0x7100f8972c (declaration only).
     void calc_(sead::MessageQueue::Element msg) override;
 
     // 0x7100f895fc (placeholder name): unless stopped (_10c), accumulates `dt` in _108 and sends the 'step' message.
@@ -326,6 +325,8 @@ public:
 
     // 0x7100f8184c (CSV name): _38->sub_7100F895FC(dt).
     void sendStepMessageToNavMeshSysThread(f32 dt);
+    // F81550 is the full locked navmesh step; the worker supplies its accumulated time.
+    void sub_7100F81550(f32 dt);
     // 0x7100f8185c (placeholder name): clears the thread's stop flag (_38->_10c).
     void sub_7100F8185C();
 
