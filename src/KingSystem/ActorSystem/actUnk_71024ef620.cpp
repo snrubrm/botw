@@ -6,6 +6,8 @@
 
 namespace ksys::act {
 
+Unk_71024ef620::~Unk_71024ef620() = default;
+
 void Unk_71024ef620::sub_7100EBB518() {
     _60.reset(1);
     if (_8) {
@@ -19,7 +21,7 @@ void Unk_71024ef620::sub_7100EBB518() {
     _10->setInertiaLocal(_4c);
     _10->setLinearDamping(_58);
     _10->removeFromWorld();
-    _30 = 0;
+    _30 = nullptr;
     _18->sub_7100F5F458(MotionType::_0);
 }
 

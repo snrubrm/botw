@@ -66,6 +66,7 @@ class Actor;
 class Chemical;
 class Schedule;
 class Unk_71024dc978;
+class Unk_71024ef620;
 
 class ActorConstDataAccess : public ActorLinkConstDataAccess {
 public:
@@ -88,6 +89,7 @@ public:
     bool sub_7100D112FC(sead::Matrix34f* out) const;
     bool sub_7100D12FCC(const Chemical* other) const;
     bool sub_7100D122EC(phys::NavMeshCharacter* character) const;
+    void sub_7100D14F94(Unk_71024ef620* out) const;
     // RideHorse constructs a BoneAccessKeyEx and consumes its key after D1288C.
     void sub_7100D1288C(gsys::BoneAccessKeyEx* out, const sead::SafeString& name) const;
 

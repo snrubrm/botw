@@ -46,7 +46,7 @@ public:
     /* 0x10 */ phys::RigidBody* _10;
     /* 0x18 */ phys::CharacterController* _18;
     u8 _20[0x30 - 0x20];
-    /* 0x30 */ u64 _30 = 0;
+    /* 0x30 */ phys::RigidBody* _30 = nullptr;
     u64 _38 = 0;
     /* 0x40 */ sead::Vector3f _40;
     /* 0x4c */ sead::Vector3f _4c;

@@ -25,6 +25,7 @@
 #include "KingSystem/Resource/Actor/resResourceDrop.h"
 #include "KingSystem/Resource/Actor/resResourceModelList.h"
 #include "KingSystem/ActorSystem/actUnk_7100e4e084.h"
+#include "KingSystem/ActorSystem/actUnk_71024ef620.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
 #include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/Map/mapObject.h"
@@ -1608,6 +1609,13 @@ bool ActorConstDataAccess::sub_7100D11D14(sead::Vector3f* out) const {
     }
     getActorMtx().getTranslation(*out);
     return false;
+}
+
+void ActorConstDataAccess::sub_7100D14F94(Unk_71024ef620* out) const {
+    if (auto* actor = getActor()) {
+        if (auto* body = actor->findPhysicsBodyByName("Body", "ConnectRope"))
+            out->_30 = body;
+    }
 }
 
 // NON_MATCHING: the boolean return is merged with the fallback instead of using the native tail.
