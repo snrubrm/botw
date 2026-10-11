@@ -260,4 +260,80 @@ void Unk_7102475d70::m16() {
     updateDistrictFromPos(&position);
 }
 
+// NON_MATCHING: direct list search removes the nullable-find guard and changes argument setup.
+void UiSubsys1Entry::sub_710095156C(bool enabled) {
+    _3c = (enabled != ((_3c & 0x200) != 0)) ? _3c | 0x400 : _3c & ~0x400;
+    _3c = enabled ? _3c | 0x200 : _3c & ~0x200;
+    if (!(_3c & 0x400))
+        return;
+    auto& list = UiSubsys1::instance()->_2b0;
+    for (auto& entry : list) {
+        if (entry == this) {
+            list.erase(&entry);
+            break;
+        }
+    }
+    if (!UiSubsys1::instance()->_2b0.isFull()) {
+        if (auto* entry = UiSubsys1::instance()->_2b0.emplaceBack(nullptr))
+            *entry = this;
+    }
+}
+
+// NON_MATCHING: direct list search removes the nullable-find guard and changes argument setup.
+void UiSubsys1Entry::m24(bool enabled) {
+    m28(enabled);
+    if ((_3c & 3) != 3)
+        return;
+    auto& list = UiSubsys1::instance()->_280;
+    for (auto& entry : list) {
+        if (entry == this) {
+            list.erase(&entry);
+            break;
+        }
+    }
+    if (!UiSubsys1::instance()->_280.isFull()) {
+        if (auto* entry = UiSubsys1::instance()->_280.emplaceBack(nullptr))
+            *entry = this;
+    }
+}
+
+// NON_MATCHING: direct list search removes the nullable-find guard and changes argument setup.
+void UiSubsys1Entry::m27(bool enabled) {
+    _3c = (enabled != ((_3c & 0x10) != 0)) ? _3c | 0x20 : _3c & ~0x20;
+    _3c = enabled ? _3c | 0x10 : _3c & ~0x10;
+    if ((_3c & 0x28) != 0x20)
+        return;
+    auto& list = UiSubsys1::instance()->_2b0;
+    for (auto& entry : list) {
+        if (entry == this) {
+            list.erase(&entry);
+            break;
+        }
+    }
+    if (!UiSubsys1::instance()->_2b0.isFull()) {
+        if (auto* entry = UiSubsys1::instance()->_2b0.emplaceBack(nullptr))
+            *entry = this;
+    }
+}
+
+// NON_MATCHING: direct list search removes the nullable-find guard and changes argument setup.
+void UiSubsys1Entry::m28(bool enabled) {
+    _3c = (enabled != ((_3c & 1) != 0)) ? _3c | 2 : _3c & ~2;
+    _3c = enabled ? _3c | 1 : _3c & ~1;
+    _3c |= (_3c & 2) << 13;
+    if (!(_3c & 2))
+        return;
+    auto& list = UiSubsys1::instance()->_2b0;
+    for (auto& entry : list) {
+        if (entry == this) {
+            list.erase(&entry);
+            break;
+        }
+    }
+    if (!UiSubsys1::instance()->_2b0.isFull()) {
+        if (auto* entry = UiSubsys1::instance()->_2b0.emplaceBack(nullptr))
+            *entry = this;
+    }
+}
+
 }  // namespace uking::ui
