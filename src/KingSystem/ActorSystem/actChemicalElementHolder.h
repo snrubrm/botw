@@ -48,6 +48,9 @@ public:
     f32 sub_7100D9A18C() const;
     // 10C74A0 constructs a 0x90-byte ElementSpark with this holder and the request.
     ElementSpark* sub_71010C74A0(const ElementSparkCreateArg* arg);
+    // Full factories 12FE4B4 / 12FE6E0 return the allocated lightning element.
+    ElementLightningShockwave* sub_71012FE4B4(const ElementLightningCreateArg* arg);
+    ElementLightningFire* sub_71012FE6E0(const ElementLightningCreateArg* arg);
 
     u8 _8[0x48 - 0x8];
     sead::CriticalSection _48;
