@@ -52,6 +52,8 @@ public:
     // 0x71002c5b3c / 0x71002c6a78 (placeholder names): set / clear Unk_710244eb48::_1c on the controller (m159).
     void sub_71002C5B3C();
     void sub_71002C6A78();
+    // 0x71002c5e58: leaves the slow-time state; true retains the slow effect.
+    void sub_71002C5E58(bool keep_effect);
     void update();
     // 0x71002c5f18 (CSV LastBoss::x; declaration only): called by GanonShockRoot::leave_.
     void x();
