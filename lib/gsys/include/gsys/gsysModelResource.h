@@ -10,17 +10,33 @@ class ResFile;
 
 namespace gsys {
 class ModelShaderArchive;
+class ModelShaderVariationKey;
+class G3dResModelEx;
+class G3dResMaterialEx;
+class G3dResShapeEx;
+namespace ModelEnum {
+enum class ShaderAssignType;
+}
 
 // BfRes +38 is a borrowed callback receiver (11FE614); its constructor and
 // destructor install four-slot tables with no virtual destructor slots.
 class IModelResourceCallback {
 public:
-    // Reconstructed names for native argument records; their layouts stay opaque.
+    // Reconstructed names for native argument records. ResourceArg and
+    // MaterialArg remain opaque.
     // C0B778/C0C024 produce {ResFile*, ModelResource*} for slots 0/1.
     struct ResourceArg;
     // C6F5EC produces a variation key, two selectors, model, material and shape
     // for slot 2; 1200AC0 consumes the same record.
-    struct ShaderAssignArg;
+    struct ShaderAssignArg {
+        ModelShaderVariationKey* variation_key;
+        ModelEnum::ShaderAssignType assign_type;
+        s32 variation;
+        const G3dResModelEx* model;
+        const G3dResMaterialEx* material;
+        const G3dResShapeEx* shape;
+    };
+    static_assert(sizeof(ShaderAssignArg) == 0x28);
     // C811C0 produces {G3dResMaterialEx*, render-info receiver} for slot 3.
     struct MaterialArg;
 
