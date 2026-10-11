@@ -9,6 +9,70 @@
 
 namespace ksys::as {
 
+ASList::Unk1::Unk1()
+    : _0(nullptr), _8(), _20(), _30(nullptr), _38(), _48(0.0f), _4c(0), _4d(false), _4e(0) {}
+
+ASList::Unk1::~Unk1() {
+    if (_30) {
+        delete _30;
+        _30 = nullptr;
+    }
+    _20.freeBuffer();
+    _38.freeBuffer();
+}
+
+// NON_MATCHING: entry request loads and array allocation size registers differ.
+bool ASList::Unk1::sub_7101164600(const InitArg& arg, sead::Heap* heap) {
+    _0 = arg.state->mModel;
+    const s32 slot = arg.slot;
+    const auto* model_list = arg.modelList;
+    auto* actor = arg.state->mList->_d8;
+    s32 banks;
+    s32 partials = 0;
+    s32 extra_bones = 0;
+    if (model_list) {
+        _4e = *model_list->getAnmTargets()[slot].target_type;
+        partials = model_list->getNumPartials(slot);
+        if (_4e != 2 && actor->sub_71011C7A98() &&
+            *actor->getUMii()->getBody().race == mii::UMii::Body::Race_Hylian) {
+            extra_bones = 23;
+        }
+        banks = model_list->getNumASSlot(slot);
+        if (banks < 1)
+            return true;
+        if (!_20.tryAllocBuffer(banks, heap))
+            return false;
+    } else {
+        banks = 1;
+        if (!_20.tryAllocBuffer(1, heap))
+            return false;
+    }
+    Unk2::InitArg entry_arg{this, arg.bank, arg.state};
+    for (s32 i = 0; i < banks; ++i) {
+        if (!_20[i].sub_71011617A8(entry_arg, heap))
+            return false;
+        ++entry_arg.index;
+    }
+    const s32 bones = partials * 2 + extra_bones;
+    if (bones > 0 && _0) {
+        _30 = new (heap, 8) gsys::PartialSkeletalAnmEx;
+        if (!_30)
+            return false;
+        _30->initialize(bones, heap);
+        const s32 units = _0->getUnits().size();
+        if (units < 1)
+            return false;
+        auto* masks = new (heap, 8, std::nothrow) BitRow[units]();
+        if (!masks)
+            return false;
+        _38.setBuffer(units, masks);
+        sub_7101164900(model_list, slot, actor);
+    } else {
+        _30 = nullptr;
+    }
+    return true;
+}
+
 // (in this file so that the callers in ASList.cpp cannot see that `a5` is unused here)
 // NON_MATCHING: when the define is not found and `a5` is false the original calls
 // `as_list->getPath().findIndex("Dummy.baslist")` and drops the result (a stripped diagnostic); the compiler removes
@@ -109,15 +173,15 @@ void ASList::Unk1::sub_7101164B24() {
 }
 
 bool ASList::Unk1::sub_71011653A4() const {
-    return _4e[0] == 2;
+    return _4e == 2;
 }
 
 bool ASList::Unk1::sub_71011653B4() const {
-    return _4e[0] == 1;
+    return _4e == 1;
 }
 
 bool ASList::Unk1::sub_71011653C4() const {
-    return _4e[0] == 0;
+    return _4e == 0;
 }
 
 // NON_MATCHING: selected entry/index updates use conditional selects instead of a branch.
@@ -288,7 +352,7 @@ void ASList::Unk1::sub_7101164900(const res::ModelList* model_list, int idx, act
         else
             _30->sub_7100BFF8E4(_0, info.bone, info.bind_flag);
     }
-    if (_4e[0] != 2 && actor->sub_71011C7A98() &&
+    if (_4e != 2 && actor->sub_71011C7A98() &&
         *actor->getUMii()->getBody().race == mii::UMii::Body::Race_Hylian) {
         for (s32 i = 6; i < 23; ++i)
             _30->sub_7100BFF8E4(_0, sPartialBoneNames[i], 3);

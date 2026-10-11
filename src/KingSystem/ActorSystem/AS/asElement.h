@@ -127,7 +127,7 @@ public:
         // Sizes of the buffers of a frame (a part of the AS resource).
         struct Sizes {
             ASList* mList;
-            u8 _8[0x10 - 0x8];
+            gsys::Model* mModel;  // ASList initialization writes this; slot initialization reads it.
             s32 mNumRecords;
             s32 mNumIndices;
             s32 mNumEntries;

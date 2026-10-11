@@ -15,8 +15,78 @@
 #include "KingSystem/Resource/Actor/resResourceASList.h"
 #include "KingSystem/Resource/Actor/resResourceASResource.h"
 
-
 namespace ksys::as {
+
+ASList::InitArg::InitArg(act::Actor* actor, gsys::Model* model) : actor(actor), model(model) {}
+
+// NON_MATCHING: slot entry loop peeling and accessor register allocation differ.
+bool ASList::sub_710115A0D4(const InitArg& arg, sead::Heap* heap) {
+    auto* actor = arg.actor;
+    _d8 = actor;
+    _8 = arg.model;
+    auto* param = actor->getParam();
+    s32 count = 0;
+    InitState state{this, _8, 0, 0, 0, 0};
+    if (param) {
+        const bool initialized = sub_710115A33C(&state, param, heap);
+        if (state.mNumRecords > 255 || !initialized)
+            return false;
+        if (!sub_710115A858(&count, param, &state, heap))
+            return false;
+    }
+    if (_8) {
+        _b0 = new (heap, 8) Unk5;
+        if (!_b0)
+            return false;
+    } else {
+        _b0 = nullptr;
+    }
+    if (param) {
+        if (_b0 && (arg.flags & 0x100) != 0) {
+            if (!_b0->sub_7100D68270(_8, &mSlots, heap))
+                return false;
+        }
+        if (count > 0) {
+            if (!_c8.tryAllocBuffer(count, heap))
+                return false;
+            s32 entry = 0;
+            for (s32 i = 0; i < mSlots.size(); ++i) {
+                const s32 banks = mSlots[i]._20.size();
+                if (banks > 0) {
+                    for (s32 j = 0; j < banks; ++j)
+                        _c8[entry + j] = &mSlots[i]._20[j];
+                    entry += banks;
+                }
+            }
+        }
+    }
+    _80.makeIdentity();
+    return true;
+}
+
+// NON_MATCHING: initial slot request stores are grouped differently.
+bool ASList::sub_710115A858(s32* count, const act::ActorParam* param, const InitState* state,
+                          sead::Heap* heap) {
+    const auto* model_list = param->getRes().mModelList;
+    const s32 slots = model_list->getNumAnmTargets();
+    Unk1::InitArg arg;
+    arg.modelList = model_list;
+    arg.state = state;
+    if (slots > 0) {
+        if (!mSlots.tryAllocBuffer(slots, heap))
+            return false;
+        for (s32 i = 0; i < slots; ++i) {
+            auto& slot = mSlots[i];
+            if (!slot.sub_7101164600(arg, heap))
+                return false;
+            ++arg.slot;
+            arg.bank += slot._20.size();
+            slot.sub_71011653B4();
+        }
+    }
+    *count = arg.bank;
+    return true;
+}
 
 void ASList::sub_710115A9C0() {
     const s32 count = mSlots.size();
@@ -276,12 +346,6 @@ void ASList::startAnimationMaybe(f32 a2, f32 a3, const sead::SafeString& animati
         sub_710115AE2C(request);
 }
 
-struct ASList::Unk2::InitArg {
-    Unk1* slot;
-    s32 index;
-    const Context::Frame::Sizes* sizes;
-};
-
 static const char* const sUnk_710250FFE0[] = {"0Gear", "1Gear", "2Gear", "3Gear", "TopGear"};
 
 ASList::Unk2::~Unk2() {
@@ -534,9 +598,8 @@ void ASList::Unk2::sub_71011623DC(Unk2* other) {
     }
 }
 
-// NON_MATCHING: compiler converts bit 7 to bool with a signed byte load and comparison.
 bool ASList::Unk2::sub_7101163940() {
-    return _0->_920 >> 7;
+    return _0->mFlags & 0x80;
 }
 
 bool ASList::sub_710115AD68(const sead::SafeString& name) {

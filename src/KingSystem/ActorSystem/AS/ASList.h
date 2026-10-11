@@ -30,6 +30,23 @@ const nn::g3d::ResBoneAnim* sub_710115D55C(const nn::g3d::ResSkeletalAnim* resou
 
 class ASList {
 public:
+    // 11599A0 initializes this request; 115A0D4 consumes actor/model and byte +0x11.
+    // Actor prepare initialization and Remains pass their actor and model to it.
+    struct InitArg {
+        InitArg(act::Actor* actor, gsys::Model* model);
+
+        act::Actor* actor;
+        gsys::Model* model;
+        s32 flags = -1;
+    };
+    static_assert(sizeof(InitArg) == 0x18);
+    bool sub_710115A0D4(const InitArg& arg, sead::Heap* heap);
+    // Transient counters written by 115A33C and read by 115A858 / 1164600.
+    using InitState = Context::Frame::Sizes;
+    bool sub_710115A33C(InitState* state, const act::ActorParam* param, sead::Heap* heap);
+    bool sub_710115A858(s32* count, const act::ActorParam* param, const InitState* state,
+                      sead::Heap* heap);
+
     struct Unk1;
     // Bone transform snapshot at ASList::_b0 (vtable 0x71024dc608, size 0x28).
     struct Unk5 {
@@ -93,7 +110,11 @@ public:
         };
         static_assert(sizeof(PlaybackRequest) == 0x38);
         void sub_7101161824(const PlaybackRequest& request);
-        struct InitArg;
+        struct InitArg {
+            Unk1* slot;
+            s32 index;
+            const Context::Frame::Sizes* sizes;
+        };
         bool sub_71011617A8(const InitArg& arg, sead::Heap* heap);
         // 0x7101163998 (declaration only): modifies the actual SDK blend-weight callback argument.
         bool sub_7101163998(nn::g3d::ICalculateBlendWeightCallback::CallbackArg& arg,
@@ -215,6 +236,16 @@ public:
 
     // Placeholder: 0x50-byte slot.
     struct Unk1 {
+        Unk1();
+        ~Unk1();
+        // 115A858 accumulates slot/bank counts; 1164600 reads model-list and AS init state.
+        struct InitArg {
+            s32 slot = 0;
+            s32 bank = 0;
+            const res::ModelList* modelList;
+            const InitState* state;
+        };
+        bool sub_7101164600(const InitArg& arg, sead::Heap* heap);
         // 0x7101164f3c: calls Unk2::sub_7101162DE4 on every entry of _20 (unless the bit `key` selects is
         // clear or _4d is set).
         void sub_7101164F3C(sead::Vector3f* a1, sead::Vector3f* a2, const gsys::BoneAccessKey* key);
@@ -287,7 +318,8 @@ public:
         f32 _48;
         u8 _4c;
         bool _4d;
-        u8 _4e[0x50 - 0x4e];
+        u8 _4e;  // 1164600 writes ModelList animation-target type
+        u8 _4f;
     };
 
     // Placeholder: 0x18-byte entry of the define table (`_138`) that sub_710115AABC returns; the nodes of the chain at
