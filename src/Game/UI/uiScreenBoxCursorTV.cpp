@@ -4,6 +4,7 @@
 
 namespace uking::ui {
 
+// 0x710109da7c
 ScreenBoxCursorTV::ScreenBoxCursorTV() : Screen() {}
 ScreenBoxCursorTV::~ScreenBoxCursorTV() = default;
 

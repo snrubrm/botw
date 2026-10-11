@@ -14,7 +14,7 @@ ScreenMessage3D::~ScreenMessage3D() = default;
 // The original D1 keeps the vtable stores (upstream GameDataFlagSelector::~GameDataFlagSelector() { ; }, commit 96101229).
 ScreenMainDungeon::~ScreenMainDungeon() { ; }
 ScreenErrorViewer::~ScreenErrorViewer() = default;
-ScreenDemoMessage::~ScreenDemoMessage() = default;
+
 ScreenMessageDialog::~ScreenMessageDialog() = default;
 
 }  // namespace uking::ui

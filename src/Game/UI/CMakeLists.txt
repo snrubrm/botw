@@ -87,6 +87,7 @@ target_sources(uking PRIVATE
   uiPauseMenuDataMgr.h
   uiPouchFacade.cpp
   uiScreenBoxCursorTV.cpp
+  uiScreenDemoMessage.cpp
   uiScreenCtors.cpp
   uiScreenDLCNum.cpp
   uiScreenDtors.cpp
