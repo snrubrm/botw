@@ -241,4 +241,23 @@ void Unk_7102475808::m32() {
     }
 }
 
+// NON_MATCHING: inherited entry destruction remains out of line.
+Unk_7102475d70::~Unk_7102475d70() = default;
+
+s32 Unk_7102475d70::m10() {
+    return 2;
+}
+
+void Unk_7102475d70::m14() {
+    sead::Vector3f position{0.0f, 0.0f, 0.0f};
+    ksys::gdt::getFlag_Horse_Pos_For_Map(&position);
+    updateDistrictFromPos(&position);
+}
+
+void Unk_7102475d70::m16() {
+    sead::Vector3f position{0.0f, 0.0f, 0.0f};
+    ksys::gdt::getFlag_Horse_Pos_For_Map(&position);
+    updateDistrictFromPos(&position);
+}
+
 }  // namespace uking::ui
