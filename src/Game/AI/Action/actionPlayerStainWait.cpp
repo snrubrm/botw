@@ -5,6 +5,8 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/Utils/Thread/Message.h"
+#include "KingSystem/System/SeadController.h"
+#include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 
 namespace uking::action {
 
@@ -35,8 +37,28 @@ void PlayerStainWait::leave_() {
     }
 }
 
+// NON_MATCHING: matrix multiplication schedules translation lanes in different registers.
 void PlayerStainWait::calc_() {
-    PlayerAction::calc_();
+    f32 angle = 0.0f;
+    if (auto* controller = ksys::SeadController::getInstance())
+        angle = controller->getRightStick().x * 0.15f;
+    sead::Matrix34f rotation;
+    rotation.makeR({0.0f, angle, 0.0f});
+    sead::Matrix34f mtx;
+    mtx.setMul(mActor->getMtx(), rotation);
+    mActor->setMtx(mtx, false, false);
+    const s32 material = ksys::gdt::getFlag_ColorChange_MaterialIndex(false);
+    if (material > 0 && _20 != material) {
+        ksys::act::ActorConstDataAccess accessor;
+        auto* armors = mActor->getArmors();
+        for (int i = 0; i < 3; ++i) {
+            ksys::act::acquireActor(&armors->getPartsLink(i), &accessor);
+            _28.sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x80000b9),
+                            nullptr, true);
+        }
+        _20 = material;
+    }
+    setFinished();
 }
 
 bool PlayerStainWait::isChangeable() const {
