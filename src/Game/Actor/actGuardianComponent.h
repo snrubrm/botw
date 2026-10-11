@@ -45,6 +45,7 @@ class GuardianComponent : public ksys::act::DynamicActor {
 public:
     explicit GuardianComponent(const CreateArg& arg);
     ~GuardianComponent() override;
+    ksys::act::Actor* m31() override;
 
     // 0x710003d2b4 (placeholder name): the Guardian that owns this component (`_b90.getProc()` cast).
     Guardian* sub_710003D2B4();

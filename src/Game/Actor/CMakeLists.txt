@@ -33,6 +33,7 @@ target_sources(uking PRIVATE
   actGiantEnemy.h
   actGuardian.cpp
   actGuardian.h
+  actGuardianComponent.cpp
   actGuardianComponent.h
   actGuardianUnk1.cpp
   actHorse.cpp
