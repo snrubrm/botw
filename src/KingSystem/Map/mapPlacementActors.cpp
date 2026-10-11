@@ -74,6 +74,16 @@ int PlacementActors::getNumGroups() const {
 
 void PlacementActors::sub_7100D52C0C() {}
 
+void PlacementActors::sub_7100D58028(ActorData* data) {
+    if (!data->mActorFlags8.isOn(ActorFlag8::_8))
+        return;
+
+    data->mEffectEntry = new (mEffectHeap, 8) Unk_7100D4D998(data, mEffectHeap);
+    _2a8078.lock();
+    _2a8060.pushBack(data->mEffectEntry);
+    _2a8078.unlock();
+}
+
 void PlacementActors::x_7() {
     _2a8078.lock();
     for (auto& obj : _2a8060)

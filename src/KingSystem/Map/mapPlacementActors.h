@@ -113,7 +113,9 @@ public:
     res::Unk_71024f9958 _20;
     res::Unk_71024f9938 _58;
     res::ResDerived mRes;
-    u8 _d8[0x148 - 0xd8];
+    u8 _d8[0xf0 - 0xd8];
+    Unk_7100D4D998* mEffectEntry;
+    u8 _f8[0x148 - 0xf8];
     sead::FixedSafeString<64> mActorName;
 };
 KSYS_CHECK_SIZE_NX150(ActorData, 0x1A0);
@@ -170,6 +172,7 @@ public:
     void placeObject(Object* obj);
     // 0x7100d580dc (CSV x_7): calls Unk_7100D4D998::sub_7100D4DB08 on each object of `_2a8060`, under the mutex `_2a8078`.
     void x_7();
+    void sub_7100D58028(ActorData* data);
     // 0x7100d52ca4 (declared; unnamed in the CSV): adds `obj` to the first free slot of `_f8` (the list x_9 handles).
     void sub_7100D52CA4(Object* obj);
     // 0x0000007100d53788 (CSV name; declared only): spawns the actor of `obj` for the generation group `other`
@@ -201,7 +204,9 @@ public:
     // 0x0000007100d53d18
     void initActorDataEntry(ActorData* data, const char* name);
 
-    u8 _8[0x28 - 0x8];
+    u8 _8[8];
+    sead::Heap* mEffectHeap;
+    u8 _18[0x28 - 0x18];
     sead::ReadWriteLock mLock;
     PlacementAreaMgr* mStruct1;
     u32 _e8;
@@ -215,7 +220,7 @@ public:
     u8 _2a805c[0x2a8060 - 0x2a805c];
     // The object list walked by x_7 (its link offset is the list's own mOffset).
     sead::OffsetList<Unk_7100D4D998> _2a8060;
-    // The mutex guarding `_2a8060` (used by x_7 only).
+    // The mutex guarding `_2a8060`.
     sead::Mutex _2a8078;
     u8 _2a80a0[0x2a80d0 - 0x2a8078 - sizeof(sead::Mutex)];
 };
