@@ -132,45 +132,4 @@ const char* ScreenHomeMenuCapture::getLayoutName_() const {
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }  // namespace uking::ui

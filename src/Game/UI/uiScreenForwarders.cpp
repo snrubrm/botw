@@ -45,7 +45,6 @@ u32 ScreenShopInfo::sub_7100A51790(const sead::MessageSet<char16>::TagInfo* tag,
 }
 
 
-
 // 0x7100a0ff60
 void ScreenMainHardMode::close(s32 option) {
     Screen::close(option);

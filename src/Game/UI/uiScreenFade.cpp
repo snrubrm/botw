@@ -112,19 +112,6 @@ void Fade::m74(f32 progress) {
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 // 0x71010a1f58
 f32 Unk_7102507f38::m29() const {
     return UI::instance()->sub_71010A71A8();
@@ -275,9 +262,6 @@ void Fade::clearSomeTipsField() {
 }  // namespace uking::ui
 
 namespace uking::ui {
-
-
-
 
 
 }  // namespace uking::ui

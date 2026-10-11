@@ -6,6 +6,49 @@
 
 namespace uking::ui {
 
+// 0x7100a477dc
+ScreenEx::~ScreenEx() = default;
+
+void ScreenEx::m127() {}
+
+void ScreenEx::m128() {}
+
+void ScreenEx::m129() {}
+
+void ScreenEx::m130() {}
+
+void ScreenEx::m131(void*) {}
+
+void ScreenEx::m132(void*) {}
+
+void ScreenEx::m133(void*, void*) {}
+
+void ScreenEx::m134(void*, void*) {}
+
+void ScreenEx::m135(void*, void*) {}
+
+void ScreenEx::m136(void*, void*) {}
+
+void ScreenEx::m137(void*, void*) {}
+
+void ScreenEx::m138(void*, void*) {}
+
+void ScreenEx::m139(void*, void*) {}
+
+void ScreenEx::m140(void*, void*) {}
+
+s32 ScreenEx::m141(const ksys::Message&) {
+    return 0;
+}
+
+s32 ScreenEx::m142(const ksys::Message&) {
+    return 0;
+}
+
+void* ScreenEx::m143() {
+    return nullptr;
+}
+
 // 0x7100a486a8 (primary); secondary RxOnly thunk0x7100a48728.
 int ScreenEx::handleMessage(const ksys::Message& message) {
     switch (message.getBrokerId()) {

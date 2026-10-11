@@ -56,7 +56,6 @@ Unk_710248ea70::~Unk_710248ea70() {
 }
 
 
-
 // 0x71009d656c
 void ScreenAppAlbum::m174() {
     _3a9c = Unk_71025d1740::instance()->sub_7100901A90(false) ? 0 : -1;
@@ -937,23 +936,6 @@ void ScreenMessageDialog::sub_71010B307C() {
         }
     } while (q[2] - 1u < 3);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 // 0x7100a00e74
@@ -2007,11 +1989,6 @@ void ScreenWolfLinkHeartGauge::sub_7100A6BE1C() {
     if (_3610)
         _3610->sub_71009359E8();
 }
-
-
-
-
-
 
 
 // 0x7100a22124

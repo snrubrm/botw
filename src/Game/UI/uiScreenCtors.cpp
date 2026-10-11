@@ -8,24 +8,13 @@ namespace uking::ui {
 Unk_7101EC39D4 sUnk_7101EC39D4;
 
 
-
 ScreenEnergyMeterDLC::ScreenEnergyMeterDLC() : ScreenEx() {}
 
 ScreenPauseMenuMantan::ScreenPauseMenuMantan() : ScreenEx() { sResult = 5; }
 
 
-
-
-
-
-
-
-
-
-
 // 0x7100a53dc0
 ScreenSousaGuide::ScreenSousaGuide() : ScreenEx() {}
-
 
 
 // 0x7100a4ad38
@@ -193,7 +182,6 @@ ScreenPickUp::ScreenPickUp() : ScreenEx() {
 }
 
 
-
 // 0x71009dc30c
 // NON_MATCHING: init scheduling only (original hoists the memset args before the vtable stores and
 // keeps &_36a0 in x20 across the memset call; ours uses a smaller frame without x20). All stores,
@@ -249,8 +237,6 @@ ScreenStaffRollDLC::ScreenStaffRollDLC() : ScreenEx() {
 ScreenShopInfo::ScreenShopInfo() : ScreenEx(), _3768(this, &ScreenShopInfo::sub_7100A51790) {
     memset(_pad_3610, 0, 0x68);
 }
-
-
 
 
 // ScreenAppHome creator; native getter/D0 precede its screen constructor.

@@ -473,9 +473,6 @@ void ScreenDLCSinJuAkashiNum::m100() {
 }
 
 
-
-
-
 // 0x7100a3d64c
 void ScreenPauseMenu::m160() {
     _3618 = 15;
@@ -646,13 +643,6 @@ void ScreenAppHome::sub_71009DE1C8() {
 }  // namespace uking::ui
 
 namespace uking::ui {
-
-
-
-
-
-
-
 
 
 }  // namespace uking::ui

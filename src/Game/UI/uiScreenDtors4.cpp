@@ -6,14 +6,6 @@
 namespace uking::ui {
 
 
-
-
-
-
-
-
-
-
 ScreenMessageDialog::~ScreenMessageDialog() = default;
 
 }  // namespace uking::ui
