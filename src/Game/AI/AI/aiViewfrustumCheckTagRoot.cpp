@@ -16,7 +16,26 @@ bool ViewfrustumCheckTagRoot::init_(sead::Heap* heap) {
 }
 
 void ViewfrustumCheckTagRoot::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    auto* actor = mActor;
+    if (!actor)
+        return;
+    _48 = actor->hasPlacementLinkForBasicSig();
+    if (_48 && !actor->checkBasicSig()) {
+        changeChild("Off");
+        return;
+    }
+    const sead::Vector3f pos = mActor->getMtx().getTranslation();
+    bool visible = visibilityCheckMaybe(pos, mActor->getScale().x);
+    if (!visible && *mAllwaysOnDisFromPlayer_m != -1.0f) {
+        const sead::Vector3f actor_pos = mActor->getMtx().getTranslation();
+        const auto& player = getPlayerPosition();
+        visible = sead::Vector2f(actor_pos.x - player.x, actor_pos.z - player.z).length() <
+                  *mAllwaysOnDisFromPlayer_m;
+    }
+    if (visible || sub_71005E4698())
+        changeChild("On");
+    else
+        changeChild("Off");
 }
 
 // 0x71005e47a0
