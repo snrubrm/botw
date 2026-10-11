@@ -18,7 +18,6 @@ public:
 protected:
     void calc_() override;
     void sub_7100807630();
-    // Declared only: locates the sword-pull actor.
     void sub_71008077FC();
 
     u64 _20 = 0;
