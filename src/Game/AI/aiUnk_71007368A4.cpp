@@ -115,6 +115,13 @@ ksys::act::Unk_7100d8557c* sub_71007398A8(ksys::act::Actor* actor) {
     return bone_control->_0;
 }
 
+void sub_71007398E4(ksys::act::Actor* actor, bool reset) {
+    if (auto* bone_control = actor->getBoneControl()) {
+        if (auto* controller = bone_control->_0)
+            controller->sub_7100D860AC(reset);
+    }
+}
+
 void sub_7100739900(ksys::act::Actor* actor) {
     if (auto* bone_control = actor->getBoneControl()) {
         if (auto* unk = bone_control->_0)

@@ -58,6 +58,8 @@ bool sub_7100739178(ksys::act::Actor* actor, const sead::SafeString* bone, sead:
 ksys::phys::RigidBody* sub_71007394DC(ksys::act::Actor* actor);
 /// 0x71007398a8 (lane1 s21): the actor's BoneControl::_0 object (nullptr without a bone control).
 ksys::act::Unk_7100d8557c* sub_71007398A8(ksys::act::Actor* actor);
+// 0x71007398e4: forwards to the actor's bone controller if present.
+void sub_71007398E4(ksys::act::Actor* actor, bool reset);
 /// 0x7100739900 / 0x7100739918: call Unk_7100d8557c::sub_7100D85794 / sub_7100D857B0 on it, if any.
 void sub_7100739900(ksys::act::Actor* actor);
 void sub_7100739918(ksys::act::Actor* actor);
