@@ -28,6 +28,10 @@ public:
 // Name from the CSV (DamageReactionTable::load 0x7100667de4): DamageInfoMgr + 0x5d0, the reaction table resource and
 // its entries. Methods are in the TU 0x7100667de4 - 0x7100668260 (dmgDamageReactionTable.cpp).
 struct DamageReactionTable {
+    DamageReactionTable();
+    ~DamageReactionTable();
+    // 0x71006681a4: frees the reaction entries (DamageInfoMgr destruction).
+    void sub_71006681A4();
     void sub_71006681D4();
     bool isReady();
     void stubbed();

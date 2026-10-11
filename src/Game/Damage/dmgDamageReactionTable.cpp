@@ -8,6 +8,13 @@
 
 namespace uking::dmg {
 
+DamageReactionTable::DamageReactionTable() = default;
+DamageReactionTable::~DamageReactionTable() = default;
+
+void DamageReactionTable::sub_71006681A4() {
+    mItems.freeBuffer();
+}
+
 void DamageReactionTable::sub_71006681D4() {}
 
 void DamageReactionTable::stubbed() {}
