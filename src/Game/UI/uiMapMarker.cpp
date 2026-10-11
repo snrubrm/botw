@@ -16,6 +16,25 @@ namespace uking::ui {
 static sead::Vector3f sUnk_71025d6cf4{0.2f, 0.0f, -0.2f};
 static sead::Vector3f sUnk_71025d6d00{2.0f, 0.0f, -2.0f};
 
+static sead::Vector2f sUnk_71025d6a88{-100000.0f, 0.0f};
+static sead::Vector3f sUnk_71025d6d0c{-100000.0f, 0.0f, 0.0f};
+
+// NON_MATCHING: vector assignments use component copies instead of the native paired loads/stores.
+UiSubsys1Entry::~UiSubsys1Entry() {
+    _8 = nullptr;
+    _10 = nullptr;
+    _18 = -1.0f;
+    _1c = 45;
+    _20 = 25;
+    _24 = 33;
+    _28 = sUnk_71025d6d0c;
+    _34 = sUnk_71025d6a88;
+    _3c = 0;
+    _40 = -1;
+    _44 = -1;
+    _48 = nullptr;
+}
+
 // 0x71009504f8
 void UiSubsys1Entry::m4() {
     _3c &= ~0x777f;
@@ -67,7 +86,7 @@ void UiSubsys1Entry::sub_7100951388(bool enabled) {
     m25(enabled);
 }
 
-// NON_MATCHING: the base reset remains out-of-line and its TU default objects are not modeled.
+// NON_MATCHING: base vector reset uses component copies instead of the native paired loads/stores.
 Unk_71024754c0::~Unk_71024754c0() {
     _50 = nullptr;
     _58 = nullptr;
@@ -156,7 +175,7 @@ void Unk_71024754c0::m22() {
     _50 = nullptr;
 }
 
-// NON_MATCHING: inherited resets remain out-of-line and their TU defaults are not modeled.
+// NON_MATCHING: inherited vector resets use component copies; SafeString empty text uses a direct address.
 Unk_71024755d8::~Unk_71024755d8() {
     _68 = "";
     _78 = ksys::gdt::InvalidHandle;
@@ -216,7 +235,7 @@ void Unk_71024755d8::m32() {
         _3c = ksys::gdt::getFlagGenericBool(_84) ? _3c | 0x200000 : _3c & ~0x200000;
 }
 
-// NON_MATCHING: inherited resets remain out-of-line and their TU defaults are not modeled.
+// NON_MATCHING: inherited vector resets use component copies; SafeString empty text uses a direct address.
 Unk_7102475808::~Unk_7102475808() {
     _64 = false;
     _68 = ksys::gdt::InvalidHandle;
@@ -253,7 +272,6 @@ void Unk_7102475808::m32() {
     }
 }
 
-// NON_MATCHING: inherited entry destruction remains out of line.
 Unk_7102475d70::~Unk_7102475d70() = default;
 
 s32 Unk_7102475d70::m10() {
@@ -383,7 +401,6 @@ void Unk_7102475c68::m17() {
 
 void Unk_7102475c68::m26() {}
 
-// NON_MATCHING: inherited entry destruction remains out of line.
 Unk_7102476058::~Unk_7102476058() = default;
 
 void Unk_7102476058::m11() {
@@ -422,7 +439,6 @@ void Unk_7102476058::m16() {
     }
 }
 
-// NON_MATCHING: inherited entry destruction remains out of line.
 Unk_7102475f60::~Unk_7102475f60() = default;
 
 // NON_MATCHING: singleton and virtual-target loads are ordered differently.
