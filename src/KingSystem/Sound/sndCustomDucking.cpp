@@ -1,8 +1,97 @@
 #include "KingSystem/Sound/sndMgr.h"
+#include "KingSystem/Sound/sndBgmMgr.h"
+#include <aal/aalGroup.h>
+#include <aal/aalGroupMgr.h>
+#include <aal/aalSystemAccessor.h>
 
 namespace ksys::snd {
 
+Unk_710103b704::Unk_710103b704(sead::Heap* heap)
+    : _5c8(-1), _5cc(false), _5d0(6), _5d4(3), _5d8(false), _5d9(false), _5e0(heap), _620(0) {}
+
 Unk_710103b704::~Unk_710103b704() = default;
+
+void Unk_710103b704::sub_710103BA44() {
+    if (_5cc && --_5cc == 0)
+        sub_710103BB00(_5d0, _5d4);
+    _5e0.sub_710105ACEC();
+    if (_620 > 0.0f) {
+        _620 -= sub_710105E3A4();
+        if (_620 <= 0.0f) {
+            if (auto* mgr = aal::SystemAccessor::getGroupMgr()) {
+                if (auto* group = mgr->findGroup("NpcVoice"))
+                    group->allowEmit(sead::BitFlag8(0x20), true);
+            }
+            _620 = 0.0f;
+        }
+    }
+}
+
+void Unk_710103b704::sub_710103BB00(BgmCtrlType bgm_type, SeCtrlType se_type) {
+    switch (bgm_type) {
+    case BgmCtrlType::_1:
+        SoundMgr::instance()->_30->sub_7100FF8780(Unk_7100FF8684{0});
+        SoundMgr::instance()->_30->sub_7100FF88A8(Unk_7100FF8684{0});
+        break;
+    case BgmCtrlType::_2:
+        SoundMgr::instance()->_30->sub_7100FF8780(Unk_7100FF8684{1});
+        SoundMgr::instance()->_30->sub_7100FF88A8(Unk_7100FF8684{1});
+        break;
+    case BgmCtrlType::_3:
+        SoundMgr::instance()->_30->sub_7100FF8684(Unk_7100FF8684{0});
+        SoundMgr::instance()->_30->sub_7100FF8AC4(Unk_7100FF8684{0});
+        break;
+    case BgmCtrlType::_4:
+        SoundMgr::instance()->_30->sub_7100FF8684(Unk_7100FF8684{1});
+        SoundMgr::instance()->_30->sub_7100FF8AC4(Unk_7100FF8684{1});
+        break;
+    case BgmCtrlType::_5:
+        SoundMgr::instance()->_30->sub_7100FF8684(Unk_7100FF8684{2});
+        SoundMgr::instance()->_30->sub_7100FF8AC4(Unk_7100FF8684{2});
+        break;
+    case BgmCtrlType::_6:
+        SoundMgr::instance()->mDuckingMgr->sub_7101042024(DuckingMgr::DuckerType::cEvtBgmReduce);
+        break;
+    case BgmCtrlType::_7:
+        SoundMgr::instance()->mDuckingMgr->sub_7101042D6C(DuckingMgr::DuckerType::cEvtBgmReduce, false);
+        break;
+    case BgmCtrlType::_8:
+        SoundMgr::instance()->mDuckingMgr->sub_7101042024(DuckingMgr::DuckerType::cEvtBgmMute);
+        break;
+    case BgmCtrlType::_9:
+        SoundMgr::instance()->mDuckingMgr->sub_7101042D6C(DuckingMgr::DuckerType::cEvtBgmMute, false);
+        break;
+    default:
+        break;
+    }
+    switch (se_type) {
+    case SeCtrlType::_1:
+        SoundMgr::instance()->mDuckingMgr->sub_7101042024(DuckingMgr::DuckerType::cEvtWorldMute);
+        break;
+    case SeCtrlType::_2:
+        SoundMgr::instance()->mDuckingMgr->sub_7101042D6C(DuckingMgr::DuckerType::cEvtWorldMute, false);
+        break;
+    case SeCtrlType::_3:
+        SoundMgr::instance()->mDuckingMgr->sub_7101042024(DuckingMgr::DuckerType::cEvtEnvReduce);
+        break;
+    case SeCtrlType::_4:
+        SoundMgr::instance()->mDuckingMgr->sub_7101042D6C(DuckingMgr::DuckerType::cEvtEnvReduce, false);
+        break;
+    case SeCtrlType::_5:
+        SoundMgr::instance()->mDuckingMgr->sub_7101042024(DuckingMgr::DuckerType::cTitleMute);
+        break;
+    default:
+        break;
+    }
+}
+
+void Unk_710103b704::sub_710103BD88(const sead::SafeString& name, bool skip_event_info) {
+    if (_5cc) {
+        sub_710103BB00(_5d0, _5d4);
+        _5cc = 0;
+    }
+    _5e0.sub_710105AF00(name, skip_event_info);
+}
 
 bool Unk_710103b704::isBgmReady() {
     return _5e0.sub_710105B090();

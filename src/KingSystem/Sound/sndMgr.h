@@ -332,6 +332,8 @@ class Unk_710105abc0 {
 public:
     explicit Unk_710105abc0(sead::Heap* heap);
     virtual ~Unk_710105abc0();
+    void sub_710105ACEC();
+    void sub_710105AF00(const sead::SafeString& name, bool skip_event_info);
     bool sub_710105B090();
     void sub_710105B37C();
     void sub_710105B394(const sead::SafeString& type);
@@ -348,6 +350,16 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(Unk_710105abc0, 0x40);
 
+// Embedded record constructed at +8 by 0x710103b704. Its native constructor
+// initializes the fixed strings; the remaining layout is still opaque.
+class Unk_710103b76c {
+public:
+    Unk_710103b76c();
+private:
+    u8 _0[0x5c0];
+};
+KSYS_CHECK_SIZE_NX150(Unk_710103b76c, 0x5c0);
+
 // Placeholder (lane2 s46): the sound kind (0..5) the UI hands to SoundMgr (a 4-byte class: passed in a full register).
 struct UiSoundKind {
     s32 value;
@@ -357,7 +369,13 @@ struct UiSoundKind {
 // of the DuckingMgr). Used by CustomDuckingStartAction / CustomDuckingEndAction.
 class Unk_710103b704 {
 public:
+    // Native scene-control switches spill/reload these four-byte enum wrappers.
+    // Enumerator names are unknown; the switches cover 0..9 and 0..5.
+    SEAD_ENUM(BgmCtrlType, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9)
+    SEAD_ENUM(SeCtrlType, _0, _1, _2, _3, _4, _5)
     explicit Unk_710103b704(sead::Heap* heap);
+    void sub_710103BA44();
+    void sub_710103BD88(const sead::SafeString& name, bool skip_event_info);
     // Whole 103BDD8 / 103BDE0 operate on the embedded control at +5e0.
     bool isBgmReady();
     void setWorldMuteType(bool movie, const sead::SafeString& type);
@@ -383,12 +401,13 @@ public:
     void sub_710103D418();
 
     // 0x710103bb00 (declared only; CSV unnamed): applies the scene sound controls (bgm type, se type) now.
-    void sub_710103BB00(int bgm_type, int se_type);
+    void sub_710103BB00(BgmCtrlType bgm_type, SeCtrlType se_type);
     // 0x710103cfe8: stores the two types in _5d0 / _5d4 for later (used while _5cc is set).
     void sub_710103CFE8(int bgm_type, int se_type);
 
-    u8 _8[0x5cc - 8];
-    /* 0x5cc */ bool _5cc;
+    /* 0x8 */ Unk_710103b76c _8;
+    /* 0x5c8 */ s32 _5c8;
+    /* 0x5cc */ u8 _5cc;
     u8 _5cd[0x5d0 - 0x5cd];
     /* 0x5d0 */ int _5d0;
     /* 0x5d4 */ int _5d4;
@@ -398,7 +417,7 @@ public:
     bool _5d9;
     u8 _5da[0x5e0 - 0x5da];
     /* 0x5e0 */ Unk_710105abc0 _5e0;
-    /* 0x620 */ u32 _620;
+    /* 0x620 */ f32 _620;
 };
 KSYS_CHECK_SIZE_NX150(Unk_710103b704, 0x628);
 
