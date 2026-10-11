@@ -68,11 +68,6 @@ void sub_71011EF010(sead::Vector3f* vec, float angle);
 // 0x71011ee4c0: magnitude of an angle-index difference within a half turn.
 s64 sub_71011EE4C0(s64 difference);
 
-// 0x71011eecac: rotates from toward target by at most step and reports completion.
-// Declaration only.
-bool sub_71011EECAC(sead::Vector3f* out, const sead::Vector3f& from,
-                   const sead::Vector3f& target, f32 step);
-
 // 0x71011ee6fc: interpolation with a full-turn maximum and zero minimum step.
 bool sub_71011EE6FC(sead::Vector3f* a, sead::Vector3f* b, f32 ratio);
 // 0x71011ee70c: interpolates the first vector toward the second and reports completion.
@@ -92,6 +87,17 @@ void sub_71011EEB08(sead::Vector3f* axis, f32* angle, const sead::Vector3f& from
 // Declaration only; complete callee and independent 740884 use Vector3f values and a Boolean result.
 bool sub_71011EECAC(sead::Vector3f* out, const sead::Vector3f& from,
                     const sead::Vector3f& to, f32 max_angle);
+
+// Relative rotation vectors: the unit axis multiplied by its angle.
+void sub_71011EF168(sead::Vector3f* out, const sead::Matrix33f& from,
+                    const sead::Matrix33f& to, const sead::Vector3f& default_axis);
+void sub_71011EF4C0(sead::Vector3f* out, const sead::Matrix34f& from,
+                    const sead::Matrix34f& to, const sead::Vector3f& default_axis);
+
+// 0x71011ef1c4: axis and angle of inverse(from) * to; default_axis is used for zero rotation.
+// Matrix33 counterpart of sub_71011EF51C; declaration only.
+void sub_71011EF1C4(sead::Vector3f* axis, f32* angle, const sead::Matrix33f& from,
+                    const sead::Matrix33f& to, const sead::Vector3f& default_axis);
 
 // 0x71011ef51c: relative rotation axis/angle between two matrices; default_axis handles zero angle.
 // Declaration only; the original reads all five arguments.
