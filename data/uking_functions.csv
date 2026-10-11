@@ -85252,9 +85252,9 @@ Address,Quality,Size,Name
 0x0000007100fe286c,U,000036,TextureHandleMgr::dtorDelete
 0x0000007100fe2890,U,001432,TextureHandleMgr::init
 0x0000007100fe2e28,U,000304,TextureHandleMgr::doCalc
-0x0000007100fe2f58,U,000172,TextureHandleMgr::invoked2
+0x0000007100fe2f58,O,000172,_ZN4ksys3res16TextureHandleMgr8invoked2EPv
 0x0000007100fe3004,U,001572,TextureHandleMgr::invoked3
-0x0000007100fe3628,U,000312,TextureHandleMgr::invoked4
+0x0000007100fe3628,m,000312,_ZN4ksys3res16TextureHandleMgr8invoked4EPv
 0x0000007100fe3760,U,001632,TextureHandleMgr::bfres_file_stuff
 0x0000007100fe3dc0,U,001368,TextureHandleMgr::bfres_file_stuff_2
 0x0000007100fe4318,O,000160,_ZN4ksys3res16TextureHandleMgr8invoked5EPv
@@ -85273,7 +85273,7 @@ Address,Quality,Size,Name
 0x0000007100fe54bc,O,000004,_ZN4ksys3res16TextureHandleMgr7preCalcEv
 0x0000007100fe54c0,U,000536,TextureHandleMgr::d
 0x0000007100fe56d8,O,000124,_ZN4ksys3res16TextureHandleMgr9isTooSlowEi
-0x0000007100fe5754,U,000232,TextureHandleMgr::x
+0x0000007100fe5754,U,000232,_ZN4ksys3res16TextureHandleMgr1xEPNS0_14Unk_71024f9a08E
 0x0000007100fe583c,U,000368,TextureHandleMgr::x_1
 0x0000007100fe59ac,m,000404,_ZN4ksys3res16TextureHandleMgr12validateUserERKNS1_11ValidateArgE
 0x0000007100fe5b40,O,000004,_ZN14Unk_71024f9bb8D1Ev

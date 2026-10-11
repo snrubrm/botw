@@ -536,6 +536,44 @@ bool TextureHandleMgr::invoked6(void* user_data) {
     return true;
 }
 
+bool TextureHandleMgr::invoked2(void*) {
+    mCS.lock();
+    stubbedLogFunction();
+    while (!mPendingRemoval.isEmpty()) {
+        auto* resource = mPendingRemoval.popFront();
+        if (!resource)
+            break;
+        x(resource);
+    }
+    stubbedLogFunction();
+    mCS.unlock();
+    return true;
+}
+
+// NON_MATCHING: the status query is inlined and the u16 result is masked.
+bool TextureHandleMgr::invoked4(void* data) {
+    auto* task_data = sead::DynamicCast<::Unk_71024f9e28>(static_cast<util::TaskData*>(data));
+    if (!task_data)
+        return false;
+    auto* resource = static_cast<Unk_71024f9a08*>(task_data->_58);
+    if (!resource)
+        return false;
+    mCS.lock();
+    resource->sub_7100FE10D8();
+    const u16 count = resource->sub_7100FE0DE8();
+    mCS.unlock();
+    if (count == 0) {
+        if (sub_7100FE0F14(resource)) {
+            mCS.lock();
+            x(resource);
+            mCS.unlock();
+        } else if (!mPendingRemoval.isFull()) {
+            mPendingRemoval.emplaceBack(resource);
+        }
+    }
+    return true;
+}
+
 bool TextureHandleMgr::invoked5(void*) {
     mCS.lock();
     if (mResources.begin() != mResources.end()) {

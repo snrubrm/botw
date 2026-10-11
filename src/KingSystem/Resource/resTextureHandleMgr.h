@@ -2,6 +2,7 @@
 
 #include <basis/seadTypes.h>
 #include <container/seadOffsetList.h>
+#include <container/seadObjList.h>
 #include <prim/seadBitFlag.h>
 #include <prim/seadDelegate.h>
 #include <time/seadTickTime.h>
@@ -85,6 +86,11 @@ public:
     // inline-only in the original; name is a guess. FE848C and FE84D4 repeat this read.
     s32 getGeneration() const { return mGeneration; }
     void repairAllHandlesForSync();
+    bool invoked2(void* data);
+    bool invoked4(void* data);
+    // Complete FE5754 removes this resource from the manager and frees its allocations.
+    // Declared only until the compacted-heap allocation record is established.
+    void x(Unk_71024f9a08* resource);
     bool invoked5(void*);
     bool invoked6(void* data);
     // Complete FE6134 and independent FE3760 establish this native helper.
@@ -129,7 +135,11 @@ private:
     sead::CriticalSection mCS;
     sead::TickTime _98;
     sead::TickTime mTickTime;
-    u8 _a8[0x118 - 0xa8];
+    u8 _a8[0xb8 - 0xa8];
+    // Complete FE2890 allocates 24-byte pointer nodes for each of these lists.
+    // Independent FE5754 recycles resources; FE3628 / FE2F58 queue and pop them.
+    sead::ObjList<Unk_71024f9a08*> mFreeResources;
+    sead::ObjList<Unk_71024f9a08*> mPendingRemoval;
     // FE2534 sets the node offset to 8; FE3004 inserts texture resources here.
     sead::OffsetList<Unk_71024f9a08> mResources;
     u8 _130[0x158 - 0x130];
