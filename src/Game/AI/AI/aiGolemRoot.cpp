@@ -22,13 +22,13 @@ bool sub_71005E0904(ksys::act::Actor* actor, f32 height);
 
 namespace uking::ai {
 
+// NON_MATCHING: short-circuit contact/timer test and timer reloads differ from the native schedule.
 void Unk_71003ffbf0::sub_71003FFBF0() {
     if (!_0 || !_20 || !_10 || !_18)
         return;
     const bool contact = sub_71003FFD3C() || sub_71005E0904(_0, *_20);
-    auto* timer = _10;
-    if (contact | (timer ? *timer > 0.0f : false)) {
-        *timer += ksys::VFR::instance()->getDeltaFrame();
+    if (contact || (_10 ? *_10 > 0.0f : false)) {
+        *_10 += ksys::VFR::instance()->getDeltaFrame();
         if (contact)
             _8 = _10 ? *_10 : 0.0f;
         if ((_10 ? *_10 : 0.0f) - _8 > (_18 ? f32(*_18) : 0.0f))
