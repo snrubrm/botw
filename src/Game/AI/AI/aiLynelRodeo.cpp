@@ -2,7 +2,9 @@
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/Actor/actEnemy.h"
 #include "Game/Actor/actRideable.h"
+#include "Game/Damage/dmgDamageManagerBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
@@ -85,6 +87,37 @@ void LynelRodeo::calc_() {
              act::Unk_7100e8b2b8::Unk8::_1)) {
         sub_7100499E08();
     }
+}
+
+void LynelRodeo::sub_7100499E08() {
+    auto* actor = mActor;
+    if (act::Unk_7100e8b2b8* rideable = actor->getHorseOptionsMaybe()) {
+        rideable->m43();
+        rideable->_c = 0;
+    }
+    if (auto* child = sead::DynamicCast<ksys::act::Actor>(actor->getConnectedCalcChild())) {
+        if (auto* manager = child->getDamageMgr()) {
+            dmg::Struct20_2 damage;
+            damage.mField_18 = 22;
+            damage.mField_14 = 5;
+            damage.mField_8 = 1;
+            damage.mField_30 = true;
+            damage.mField_2C = 0.1f;
+            sead::Vector3f direction(actor->getMtx().m[0][2], 0.0f,
+                                     actor->getMtx().m[2][2]);
+            direction.negate();
+            direction.normalize();
+            damage.mField_20 = direction;
+            if (manager->mStruct20_a) {
+                manager->mField_30.lock();
+                manager->mStruct20_a->combineMaybe(&damage);
+                manager->mField_30.unlock();
+            }
+        }
+    }
+    ksys::act::ai::InlineParamPack params;
+    params.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+    changeChild("振り落す", &params);
 }
 
 void LynelRodeo::loadParams_() {
