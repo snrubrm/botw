@@ -8,6 +8,15 @@
 
 namespace ksys::world {
 
+Unk_710250D258::~Unk_710250D258() = default;
+
+WindMgr::WindMgr()
+    : _20(nullptr), _28(0x18), _2c(15.0f), _30(0.0f), _34(1.0f, 0.0f, 0.0f),
+      _40(1.0f, 0.0f, 0.0f), _4c(15.0f), _50(0.0f, 0.0f),
+      _58(0.0f, 0.0f), _60(0.0f), _64(0.0f), _68(0.0f), _6c(0.0f) {
+    std::memset(&_98, 0, sizeof(_98));
+}
+
 WindMgr::~WindMgr() = default;
 
 void WindMgr::init_(sead::Heap* heap) {
@@ -51,7 +60,7 @@ f32 WindMgr::sub_71010EEF48() const {
 // NON_MATCHING: the constant load, multiplication schedule and upper clamp differ.
 f32 WindMgr::sub_71010EEF04() const {
     // The original constant at 0x710250d250 is 12.0f.
-    const f32 strength = _80 * ((_68 / 12.0f) * 15.0f);
+    const f32 strength = _70._10 * ((_68 / 12.0f) * 15.0f);
     if (strength < 0.0f)
         return 0.0f;
     if (strength > 1.0f)
@@ -99,7 +108,7 @@ f32 WindMgr::sub_71010EEC04() {
     auto* manager = Manager::instance();
     if ((!manager || manager->mManualWindTimer == 0) && !(_28 & 0x20)) {
         if (_28 & 8)
-            return _2c * _80;
+            return _2c * _70._10;
     }
     if (_28 & 6)
         return _4c;
@@ -118,7 +127,7 @@ f32 WindMgr::sub_71010EECF8(const sead::Vector3f* position, f32 value) {
     auto* manager = Manager::instance();
     f32 speed;
     if ((!manager || manager->mManualWindTimer == 0) && !(_28 & 0x20) && (_28 & 8))
-        speed = _2c * _80;
+        speed = _2c * _70._10;
     else if (_28 & 6)
         speed = _4c;
     else

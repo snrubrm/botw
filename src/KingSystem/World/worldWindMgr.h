@@ -19,7 +19,7 @@ struct Unk_710251F868 {
     f32 sub_71012FF2B0(f32 strength);
     f32 sub_71012FF268(f32 strength);
     f32 sub_71012FF01C(const sead::Vector3f* position, const sead::Vector2f* direction,
-                        f32 strength, f32 value) const;
+                          f32 strength, f32 value) const;
     f32 _8;
     f32 _c;
     f32 _10;
@@ -38,6 +38,20 @@ struct Unk_710251F868 {
     f32 _264;
 };
 KSYS_CHECK_SIZE_NX150(Unk_710251F868, 0x268);
+
+// Embedded wind-transition state; vtable 0x710250d258.
+// Constructor 10EE15C and update 10EE904 establish these four fields.
+class Unk_710250D258 {
+public:
+    Unk_710250D258() : _8(false), _c(0), _10(1.0f), _14(0.0f) {}
+    virtual ~Unk_710250D258();
+    void sub_71010EE904(f32 delta, f32 speed);
+    bool _8;
+    s32 _c;
+    f32 _10;
+    f32 _14;
+};
+KSYS_CHECK_SIZE_NX150(Unk_710250D258, 0x18);
 
 class WindMgr : public Job {
     SEAD_RTTI_OVERRIDE(WindMgr, Job)
@@ -70,15 +84,18 @@ public:
     u8 _28;
     u8 _29[3];
     f32 _2c;
-    u8 _30[4];
+    f32 _30;
     sead::Vector3f _34;
     sead::Vector3f _40;
     f32 _4c;
-    u8 _50[0x68 - 0x50];
+    sead::Vector2f _50;
+    sead::Vector2f _58;
+    f32 _60;
+    f32 _64;
     f32 _68;
-    u8 _6c[0x80 - 0x6c];
-    f32 _80;
-    u8 _84[0x98 - 0x84];
+    f32 _6c;
+    Unk_710250D258 _70;
+    sead::Vector3f _88;
     nn::gfx::ResTextureData _98;
 };
 KSYS_CHECK_SIZE_NX150(WindMgr, 0x138);
