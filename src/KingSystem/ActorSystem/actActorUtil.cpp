@@ -104,6 +104,11 @@ void getNameAndUniqueName(const ksys::map::Object* object, sead::BufferedSafeStr
 // 2026-10-07: original 0x7100ee9efc reads a bool game-data result; declaration only.
 bool checkIsGet(const sead::SafeString& name, bool mode);
 
+// Source owner unknown: the event-flow caller uses this string prefix.
+const char* sub_7100EE9E80() {
+    return "IsGet_";
+}
+
 // NON_MATCHING: the same-group lookup is inlined from this TU instead of retaining its original call.
 bool checkIsGetSameGroupActorName(const sead::SafeString& actor_name, bool mode) {
     sead::SafeString group_name;
@@ -1485,6 +1490,20 @@ bool attentionStuff_0(Actor* actor) {
         }
     }
     return result;
+}
+
+bool sub_7100EE9A14(phys::RigidBody* body) {
+    auto* tag = body->getUserTag();
+    if (!tag)
+        return false;
+    auto* user_tag = sead::DynamicCast<PhysicsUserTag>(tag);
+    if (!user_tag)
+        return false;
+    ActorConstDataAccess accessor;
+    user_tag->acquireActor(&accessor);
+    if (!accessor.hasProc() || !accessor.isPlayerProfile())
+        return false;
+    return body->getHkBodyName() != "SensorForArea";
 }
 
 void sub_7100EE9B68(Actor* actor, VFR::ScopedDeltaSetter* setter) {
