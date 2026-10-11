@@ -9,7 +9,7 @@
 
 namespace ksys::res {
 
-// Complete FE126C produces the 20-byte native settings; FE04D0 reads only the span.
+// Complete FE126C produces the 0x20-byte native settings; FE04D0 reads only the span.
 struct Unk_710260E880 {
     u8 _0[0x18];
     sead::TickSpan sleep;
