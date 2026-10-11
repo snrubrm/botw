@@ -1,4 +1,6 @@
 #include "Game/Damage/dmgDamageMgrPlayer.h"
+#include "Game/AI/AI/aiPlayerNormal.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
@@ -106,3 +108,17 @@ void DamageMgrPlayer::m55() {
 }
 
 }  // namespace uking::dmg
+
+// 0x7100852110
+void Unk_710246ac48::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
+                          uking::dmg::DamageCallbackInfo* a6) {
+    if (!mDamageManager)
+        return;
+    auto* actor = mDamageManager->mActor;
+    if (!sub_71007A2604(actor))
+        return;
+    auto* attack = sub_71007A255C(actor, 0);
+    if (attack && attack->sub_71007A1F68(0x4000))
+        *a1 = 0;
+}
+
