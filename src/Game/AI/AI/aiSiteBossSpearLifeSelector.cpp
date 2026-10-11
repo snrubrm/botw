@@ -33,6 +33,43 @@ void SiteBossSpearLifeSelector::enter_(ksys::act::ai::InlineParamPack* params) {
     sub_710058C948();
 }
 
+// 0x710058c948
+void SiteBossSpearLifeSelector::sub_710058C948() {
+    auto* boss = sead::DynamicCast<act::SiteBoss>(mActor);
+    if (!boss)
+        return;
+    switch (_48) {
+    case 0: {
+        ksys::act::ai::InlineParamPack pack;
+        pack.addBool(false, "IsAttackPatternFixed", -1);
+        changeChild("パターン0", &pack);
+        break;
+    }
+    case 1:
+        if (checkHpRate(mActor, *mPatternChangeLife3_s)) {
+            sub_710058CC54();
+            _48 = 3;
+        } else if (checkHpRate(mActor, *mPatternChangeLife2_s) || boss->_1558.isOn(8)) {
+            sub_710058CD94();
+            _48 = 2;
+        } else {
+            sub_710058CED4();
+        }
+        break;
+    case 2:
+        if (checkHpRate(mActor, *mPatternChangeLife3_s) || boss->_1558.isOn(8)) {
+            sub_710058CC54();
+            _48 = 3;
+        } else {
+            sub_710058CD94();
+        }
+        break;
+    default:
+        sub_710058CC54();
+        break;
+    }
+}
+
 void SiteBossSpearLifeSelector::leave_() {
     ksys::act::ai::Ai::leave_();
 }
