@@ -3,6 +3,7 @@
 #include "Game/AI/AI/aiSimpleWildlifeRoot.h"
 #include <container/seadBuffer.h>
 #include <gsys/gsysModelAccessKey.h>
+#include <math/seadMatrix.h>
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
@@ -12,8 +13,7 @@ class RayCastForRequest;
 
 namespace uking::ai {
 
-// Placeholder name: the 0xe8-byte element of FishRoot::_1d0 (a bone key and data that is not recovered yet); its
-// destructor removes the bone key first.
+// Placeholder name: the 0xe8-byte bone animation entry in FishRoot::_1d0.
 struct FishRootBoneEntry {
     ~FishRootBoneEntry() {
         if (_0.isValid())
@@ -21,7 +21,13 @@ struct FishRootBoneEntry {
     }
 
     gsys::BoneAccessKeyEx _0;
-    u8 _38[0xe8 - 0x38];
+    sead::FixedSafeString<32> _38;
+    sead::Matrix34f _70 = sead::Matrix34f::ident;
+    sead::Matrix34f _a0 = sead::Matrix34f::ident;
+    sead::Vector3f _d0{};
+    f32 _dc = 0.0f;
+    f32 _e0 = 0.5f;
+    f32 _e4 = 1.0471976f;
 };
 KSYS_CHECK_SIZE_NX150(FishRootBoneEntry, 0xe8);
 
@@ -45,6 +51,7 @@ public:
     void m39() override;
 
 protected:
+    void sub_71003CC1AC(gsys::Model* model);
     // Declaration only; original method names and void returns are inferred.
     void sub_71003CC69C();
     void sub_71003CC878();

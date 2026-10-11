@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiFishRoot.h"
+#include <gsys/gsysModel.h>
+#include <gsys/gsysModelUnit.h>
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "Game/Actor/actUnk_71025ae680.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerOrEnemy.h"
@@ -12,6 +14,33 @@
 #include "KingSystem/ActorSystem/actChemical.h"
 
 namespace uking::ai {
+
+// NON_MATCHING: previous-entry index arithmetic and the model load schedule differ.
+void FishRoot::sub_71003CC1AC(gsys::Model* model) {
+    if (!model)
+        return;
+    const int last = _1d0.size() - 1;
+    for (int i = 0; i <= last; ++i) {
+        auto& entry = _1d0[i];
+        if (i == last) {
+            const auto& previous = _1d0[last - 1];
+            entry._0.getKey().reset();
+            entry._38.clear();
+            entry._a0 = previous._a0;
+            entry._70 = previous._70;
+            entry._d0.set(0.0f, 0.0f, 0.0f);
+            entry._e4 = previous._e4;
+        } else if (entry._0.isValid()) {
+            sead::Vector3f scale;
+            model->getUnits()(entry._0.getKey().model_unit_index)->mModelUnit->getBoneLocalMatrix(
+                &entry._a0, &scale, entry._0.getKey().bone_index);
+            model->getUnits()(entry._0.getKey().model_unit_index)->mModelUnit->getBoneWorldMatrix(
+                &entry._70, entry._0.getKey().bone_index);
+            entry._d0.set(0.0f, 0.0f, 0.0f);
+            entry._e4 = entry._a0.getTranslation().length();
+        }
+    }
+}
 
 // NON_MATCHING: interpolation registers and the final minimum-step branch differ.
 void FishRoot::sub_71003CC878() {
