@@ -1085,6 +1085,25 @@ void Player::sub_7100867FE0(const Unk1& angle) {
     sub_7100867DEC(rotation);
 }
 
+// NON_MATCHING: the movement temporary shares the output stack slot, reducing the frame by 16 bytes.
+void Player::sub_7100877F00(const sead::Vector3f& dir) {
+    auto* controller = getCharacterController();
+    if (!controller)
+        return;
+
+    sead::Vector3f forward;
+    _1b18.getBase(forward, 2);
+    forward.normalize();
+    const f32 angle = sead::Mathf::atan2(forward.x, forward.z);
+    sead::Vector3f movement = mASList->sub_710115D2D4();
+    util::sub_71011EF010(&movement, angle);
+    movement += dir;
+    movement *= 30.0f;
+    controller->sub_7100F5F6FC(movement);
+    sub_710086800C(mASList->sub_710115D3B8().y);
+    controller->sub_7100F5FC8C(_1b18);
+}
+
 void Player::sub_7100857390() {
     Unk1 target = ::sub_710092DBA4();
     sub_7100857014(-1.0f, &target, -1, -1);
