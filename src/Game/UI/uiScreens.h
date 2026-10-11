@@ -98,8 +98,8 @@ public:
     void sub_71010A9B44(bool flag);
 };
 
-// Base class of the screens' child components (elements of Screen::mChildren at 0x250; the 24 classes with a
-// 105-slot vtable derive from it). Slots 43-52 etc. are the ones Screen::m117 - m126 call. The first slots belong to
+// Base class of the screens' child components (elements of Screen::mChildren at 0x250), with 81 virtual slots.
+// ScreenChildEx extends it to 105 slots. Slots 43-52 are the ones Screen::m117 - m126 call. The first slots belong to
 // eui::ControlBase in the original (0 / 4); slots 2 / 3 are the destructor. Most default implementations are empty or
 // forward to another slot of the same object (the argument types of the forwarded slots are unknown).
 class ScreenChild : public eui::ControlBase {
@@ -184,30 +184,7 @@ public:
     virtual void m78();
     virtual void m79();
     virtual void m80();
-    virtual void m81();
-    virtual void m82();
-    virtual void m83();
-    virtual void m84();
-    virtual void m85(void* a1);
-    virtual void m86(void* a1);
-    virtual void m87(void* a1, void* a2);
-    virtual void m88(void* a1, void* a2);
-    virtual void m89(void* a1, void* a2);
-    virtual void m90(void* a1, void* a2);
-    virtual void m91(void* a1, void* a2);
-    virtual void m92(void* a1, void* a2);
-    virtual void m93(void* a1, void* a2);
-    virtual void m94(void* a1, void* a2);
-    virtual void m95(void* a1);
-    virtual void m96(void* a1);
-    virtual void m97(void* a1, void* a2);
-    virtual void m98(void* a1, void* a2);
-    virtual void m99(void* a1, void* a2);
-    virtual void m100(void* a1, void* a2);
-    virtual void m101(void* a1, void* a2);
-    virtual void m102(void* a1, void* a2);
-    virtual void m103(void* a1, void* a2);
-    virtual void m104(void* a1, void* a2);
+
 
     // 0x71010a8cec (CSV ksys::ui::Control::ctor; declared only): builds the message transceiver at 0x38, the state
     // machine at 0x80 and the receiver at 0xa8 / adapter at 0xc8, then mName = the layout's root pane name and
@@ -237,6 +214,31 @@ public:
     explicit ScreenChildEx(eui::LayoutEx* layout);
     void m54(sead::Heap* heap) override;
     ScreenChildEx* sub_71009B064C(s32 group, s32 index);
+
+    virtual void m81();
+    virtual void m82();
+    virtual void m83();
+    virtual void m84();
+    virtual void m85(void* a1);
+    virtual void m86(void* a1);
+    virtual void m87(void* a1, void* a2);
+    virtual void m88(void* a1, void* a2);
+    virtual void m89(void* a1, void* a2);
+    virtual void m90(void* a1, void* a2);
+    virtual void m91(void* a1, void* a2);
+    virtual void m92(void* a1, void* a2);
+    virtual void m93(void* a1, void* a2);
+    virtual void m94(void* a1, void* a2);
+    virtual void m95(void* a1);
+    virtual void m96(void* a1);
+    virtual void m97(void* a1, void* a2);
+    virtual void m98(void* a1, void* a2);
+    virtual void m99(void* a1, void* a2);
+    virtual void m100(void* a1, void* a2);
+    virtual void m101(void* a1, void* a2);
+    virtual void m102(void* a1, void* a2);
+    virtual void m103(void* a1, void* a2);
+    virtual void m104(void* a1, void* a2);
 
     /* 0x128 */ ScreenEx* _128;  // Unk_710247af10::m110 calls eui::Screen::sub_7100BEB70C on it
 };

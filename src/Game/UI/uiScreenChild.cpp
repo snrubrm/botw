@@ -2,7 +2,7 @@
 #include "Game/UI/euiLayoutEx.h"
 #include "Game/UI/uiScreenChildMessage.h"
 
-// Default implementations of ScreenChild's virtual slots (0x7100931dd8 - 0x71009321c8, ...): empty or
+// Default implementations of ScreenChild and ScreenChildEx virtual slots (0x7100931dd8 - 0x71009321c8, ...): empty or
 // forwarding to another slot of the same object.
 namespace uking::ui {
 
@@ -256,76 +256,76 @@ void ScreenChild::m71() { m29(); }
 void ScreenChild::m72() { m30(); }
 
 // 0x7100932124
-void ScreenChild::m81() {}
+void ScreenChildEx::m81() {}
 
 // 0x7100932128
-void ScreenChild::m82() {}
+void ScreenChildEx::m82() {}
 
 // 0x710093212c
-void ScreenChild::m83() {}
+void ScreenChildEx::m83() {}
 
 // 0x7100932130
-void ScreenChild::m84() {}
+void ScreenChildEx::m84() {}
 
 // 0x7100932134
-void ScreenChild::m85(void* a1) {}
+void ScreenChildEx::m85(void* a1) {}
 
 // 0x7100932138
-void ScreenChild::m86(void* a1) {}
+void ScreenChildEx::m86(void* a1) {}
 
 // 0x710093213c
-void ScreenChild::m87(void* a1, void* a2) {}
+void ScreenChildEx::m87(void* a1, void* a2) {}
 
 // 0x7100932140
-void ScreenChild::m88(void* a1, void* a2) {}
+void ScreenChildEx::m88(void* a1, void* a2) {}
 
 // 0x7100932144
-void ScreenChild::m89(void* a1, void* a2) {}
+void ScreenChildEx::m89(void* a1, void* a2) {}
 
 // 0x7100932148
-void ScreenChild::m90(void* a1, void* a2) {}
+void ScreenChildEx::m90(void* a1, void* a2) {}
 
 // 0x710093214c
-void ScreenChild::m91(void* a1, void* a2) {}
+void ScreenChildEx::m91(void* a1, void* a2) {}
 
 // 0x7100932150
-void ScreenChild::m92(void* a1, void* a2) {}
+void ScreenChildEx::m92(void* a1, void* a2) {}
 
 // 0x7100932154
-void ScreenChild::m93(void* a1, void* a2) {}
+void ScreenChildEx::m93(void* a1, void* a2) {}
 
 // 0x7100932158
-void ScreenChild::m94(void* a1, void* a2) {}
+void ScreenChildEx::m94(void* a1, void* a2) {}
 
 // 0x710093215c
-void ScreenChild::m95(void* a1) { m85(a1); }
+void ScreenChildEx::m95(void* a1) { m85(a1); }
 
 // 0x7100932168
-void ScreenChild::m96(void* a1) { m86(a1); }
+void ScreenChildEx::m96(void* a1) { m86(a1); }
 
 // 0x7100932174
-void ScreenChild::m97(void* a1, void* a2) { m87(a1, a2); }
+void ScreenChildEx::m97(void* a1, void* a2) { m87(a1, a2); }
 
 // 0x7100932180
-void ScreenChild::m98(void* a1, void* a2) { m88(a1, a2); }
+void ScreenChildEx::m98(void* a1, void* a2) { m88(a1, a2); }
 
 // 0x710093218c
-void ScreenChild::m99(void* a1, void* a2) { m89(a1, a2); }
+void ScreenChildEx::m99(void* a1, void* a2) { m89(a1, a2); }
 
 // 0x7100932198
-void ScreenChild::m100(void* a1, void* a2) { m90(a1, a2); }
+void ScreenChildEx::m100(void* a1, void* a2) { m90(a1, a2); }
 
 // 0x71009321a4
-void ScreenChild::m101(void* a1, void* a2) { m91(a1, a2); }
+void ScreenChildEx::m101(void* a1, void* a2) { m91(a1, a2); }
 
 // 0x71009321b0
-void ScreenChild::m102(void* a1, void* a2) { m92(a1, a2); }
+void ScreenChildEx::m102(void* a1, void* a2) { m92(a1, a2); }
 
 // 0x71009321bc
-void ScreenChild::m103(void* a1, void* a2) { m93(a1, a2); }
+void ScreenChildEx::m103(void* a1, void* a2) { m93(a1, a2); }
 
 // 0x71009321c8
-void ScreenChild::m104(void* a1, void* a2) { m94(a1, a2); }
+void ScreenChildEx::m104(void* a1, void* a2) { m94(a1, a2); }
 
 
 // NON_MATCHING: the state wrapper destructor remains out-of-line.
