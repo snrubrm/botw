@@ -14,7 +14,6 @@ public:
     s32 getLoadDataAlignment() const override;
 
 protected:
-    // Native 1271C50, declared only pending the SDK Unrelocate interface audit.
     void onDestroy_() override;
 };
 KSYS_CHECK_SIZE_NX150(Unk_7102518018, 0x38);
