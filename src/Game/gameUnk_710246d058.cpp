@@ -1,4 +1,5 @@
 #include "Game/gameUnk_710246d058.h"
+#include "Game/gameUnk_71024739f8.h"
 #include <container/seadBuffer.h>
 #include <cmath>
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
@@ -9,6 +10,28 @@ Unk_710246d448::~Unk_710246d448() = default;
 
 sead::SafeString Unk_710246d448::sub_7100D9DF34() const {
     return sead::SafeString::cEmptyString;
+}
+
+void Unk_710246d448::sub_7100D9DF54() {
+    auto* input = _1f0;
+    if (input) {
+        input->update();
+        mPadHold.set(input->getHold());
+        if (input->sub_710090DD88()) {
+            mPointer = input->getPointerState().position;
+            setPointerWithBound_(input->getPointerState()._0, input->getPointerState()._1,
+                                 input->getPointerState().position);
+        }
+        if (input->sub_710090DD9C()) {
+            if (input->getSticks()[0].length() > mLeftStick.length())
+                mLeftStick = input->getSticks()[0];
+            if (input->getSticks()[1].length() > mLeftStick.length())
+                mRightStick = input->getSticks()[1];
+        }
+        mLeftAnalogTrigger = 0.0f;
+        mRightAnalogTrigger = 0.0f;
+    }
+    sub_71008BF838();
 }
 
 bool Unk_710246d448::sub_7100D9DF58() {

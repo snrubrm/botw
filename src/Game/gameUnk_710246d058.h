@@ -7,6 +7,8 @@
 
 namespace uking {
 
+class Unk_71024739f8;
+
 // Placeholder name (vtable 0x710246d448; ctor 0x71008bf5dc, D1 0x71008bf61c, D0 0x71008bf620).
 // Not decompiled: the ctor passes a zero 4-byte value to SeadController and stores its argument in
 // _1f8.
@@ -23,7 +25,7 @@ public:
     virtual void sub_71008BF838();
 
 protected:
-    void* _1f0;
+    Unk_71024739f8* _1f0;
     // sub_7100D9DF58 passes this value to Root4::checkFlag.
     Root4::FlagIdx _1f8;
 };

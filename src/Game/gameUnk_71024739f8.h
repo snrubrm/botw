@@ -40,6 +40,9 @@ public:
     u32 getHold() const;
     const sead::Vector2f* getSticks() const;
     const PointerState& getPointerState() const;
+    // Complete 90DD88 / 90DD9C bodies query the callback's isNoDummy slot.
+    bool sub_710090DD88() const;
+    bool sub_710090DD9C() const;
 
 private:
     u32 mHold;
