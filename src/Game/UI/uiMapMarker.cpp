@@ -1,4 +1,7 @@
 #include "Game/UI/uiUnkSingletons.h"
+#include "Game/gameMotorcycleMgr.h"
+#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/GameData/gdtManager.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 
@@ -370,5 +373,44 @@ void Unk_7102475c68::m17() {
 }
 
 void Unk_7102475c68::m26() {}
+
+// NON_MATCHING: inherited entry destruction remains out of line.
+Unk_7102476058::~Unk_7102476058() = default;
+
+void Unk_7102476058::m11() {
+    auto* manager = MotorcycleMgr::instance();
+    auto* player = ksys::act::PlayerInfo::instance()->getPlayer_();
+    if (!manager || !player || manager->checkIsActorRidingMotorcycle(player))
+        m25(false);
+    else
+        m25(manager->x_0());
+}
+
+void Unk_7102476058::m12() {
+    auto* manager = MotorcycleMgr::instance();
+    auto* player = ksys::act::PlayerInfo::instance()->getPlayer_();
+    if (!manager || !player || manager->checkIsActorRidingMotorcycle(player))
+        m25(false);
+    else
+        m25(manager->x_0());
+}
+
+// NON_MATCHING: the flag test uses a word load instead of the native byte load.
+void Unk_7102476058::m14() {
+    if ((_3c & 0x10) && MotorcycleMgr::instance()) {
+        sead::Vector3f position{0.0f, 0.0f, 0.0f};
+        if (MotorcycleMgr::instance()->sub_710067B63C(&position))
+            updateDistrictFromPos(&position);
+    }
+}
+
+// NON_MATCHING: the flag test uses a word load instead of the native byte load.
+void Unk_7102476058::m16() {
+    if ((_3c & 0x10) && MotorcycleMgr::instance()) {
+        sead::Vector3f position{0.0f, 0.0f, 0.0f};
+        if (MotorcycleMgr::instance()->sub_710067B63C(&position))
+            updateDistrictFromPos(&position);
+    }
+}
 
 }  // namespace uking::ui
