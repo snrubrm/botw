@@ -20,6 +20,7 @@
 #include "Game/E3Mgr.h"
 #include "Game/gameSceneSubsys14.h"
 #include "Game/gameUnk_710246d058.h"
+#include "Game/gameMaskController.h"
 #include "Game/UI/uiPauseMenuDataMgr.h"
 #include "Game/UI/uiUtils.h"
 #include "Game/gameUnk_71024739d0.h"
@@ -1595,6 +1596,15 @@ void Player::sub_71008695A8(const sead::Vector3f& offset) {
     translation += offset;
     mtx.setTranslation(translation);
     mASList->_b0->sub_7100D68544(&mtx, &_19f0[1]);
+}
+
+}  // namespace ksys::act
+
+namespace ksys::act {
+
+void Player::initControllerMaybe() {
+    _17d0 = sead::DynamicCast<uking::Unk_710246d058>(
+        uking::MaskController::instance()->getController(uking::MaskController::ControllerIdx::_1));
 }
 
 }  // namespace ksys::act

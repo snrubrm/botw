@@ -42,7 +42,11 @@ public:
 // sead::Controller part is the secondary base at +8. Not decompiled yet: only the members that
 // AI/action code calls are declared (members at 0x208 and 0x220 are destroyed by 0x71008be9dc).
 class Unk_710246d058 : public Unk_710246d058Base, public Unk_710246d448 {
+    SEAD_RTTI_OVERRIDE(Unk_710246d058, Unk_710246d448)
 public:
+    // Primary slot 4 and secondary slot 12 share the native no-argument update.
+    void sub_71008BF838() override;
+
     // 0x71008bd3bc (CSV name): whether the button mapped to `key` is held. The key -> button mask
     // table is at 0x710246cfa0 (sead::Buffer<u32>, 41 entries); B and X are swapped when the
     // JumpButtonChange flag is set.

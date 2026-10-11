@@ -33,6 +33,9 @@ namespace ksys::act {
 class Player : public PlayerBase {
     SEAD_RTTI_OVERRIDE(Player, PlayerBase)
 public:
+    // 0x710084aad8: selects the player controller and checks its descendant RTTI.
+    void initControllerMaybe();
+
     // CSV Player::RideInfo (ctor 0x852aa0, vtable 0x710246ad80): a HorseRideInfo subclass with an
     // intermediate base (vtable 0x710244eaa0) in between; embedded at +0x26b0. TODO: incomplete.
     class RideInfo : public uking::act::Unk_710244eaa0 {
