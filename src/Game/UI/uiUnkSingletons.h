@@ -6,9 +6,11 @@
 #include <heap/seadDisposer.h>
 #include <container/seadPtrArray.h>
 #include <math/seadVector.h>
+#include <mc/seadCoreInfo.h>
 #include <container/seadSafeArray.h>
 #include "Game/UI/uiTimer.h"
 #include "KingSystem/Utils/Types.h"
+#include "KingSystem/Utils/Thread/Task.h"
 
 namespace ksys::act {
 class Actor;
@@ -18,6 +20,7 @@ namespace ksys::util {
 class TaskThread;
 class TaskMgr;
 class ManagedTaskHandle;
+class ManagedTask;
 }
 
 namespace uking::ui {
@@ -35,6 +38,18 @@ class UiLowPrioThreadMgr {
 public:
     // D1 0x7100a6d5bc, D0 0x7100a6d654
     virtual ~UiLowPrioThreadMgr();
+
+    void start(const sead::SafeString& name, sead::Heap* heap, sead::CoreId core, s32 priority);
+
+    struct Request {
+        ksys::util::TaskDelegate* delegate;
+        void* user_data;
+        ksys::util::TaskRemoveCallback* remove_callback;
+        ksys::util::TaskPostRunCallback* post_run_callback;
+        ksys::util::ManagedTaskHandle* handle;
+        ksys::util::ManagedTask* task;
+    };
+    ksys::util::ManagedTaskHandle* submitRequest(const Request& request);
 
     // 0x7100a6d978 / 0x7100a6d988 / 0x7100a6d998
     void pause();
