@@ -80,8 +80,7 @@ public:
     bool sub_7100FE0860(const LoadArg& arg);
     bool sub_7100FE0F38() const;
     bool sub_7100FE0ED0() const;
-    // Complete FE0E64 and independent FE4318 establish the receiver and void result.
-    // Declared only: its manager alias storage remains unresolved.
+    void sub_7100FE0E10();
     void sub_7100FE0E64();
     void sub_7100FE0850();
     bool sub_7100FE0CF8() const;

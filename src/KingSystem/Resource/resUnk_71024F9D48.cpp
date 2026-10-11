@@ -22,6 +22,24 @@ void Unk_71024f9a28::erase_() {
     mRight = nullptr;
 }
 
+void Unk_71024f9a08::sub_7100FE0E10() {
+    if (mFlags.isOffBit(0)) {
+        mFlags.setBit(0);
+        if (sUnk_710260E858 && !sUnk_710260E858->repairTexture(this))
+            mFlags.resetBit(0);
+    }
+}
+
+void Unk_71024f9a08::sub_7100FE0E64() {
+    mFlags.setBit(0);
+    mTaskHandle.removeTaskFromQueue();
+    mTaskHandle.finalize();
+    if (sUnk_710260E858) {
+        sUnk_710260E858->repairHandleForSync(this);
+        mTaskHandle.finalize();
+    }
+}
+
 // NON_MATCHING: clang lowers the native jump table to bit tests.
 bool Unk_71024f9a08::sub_7100FE0ED0() const {
     switch (mStatus) {

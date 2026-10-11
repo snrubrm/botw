@@ -218,6 +218,11 @@ bool Unk_71024f9a70::sub_7100FE1AFC(const TextureLoadArg& arg) {
 EntryFactory<Unk_710251A740> sUnk_710260E8A0;
 
 TextureHandleMgr* TextureHandleMgr::sInstance;
+TextureHandleMgr* sUnk_710260E858;
+
+void sub_7100FE11CC(TextureHandleMgr* manager) {
+    sUnk_710260E858 = manager;
+}
 
 void TextureHandleMgr::setInstance(TextureHandleMgr* mgr) {
     sInstance = mgr;
