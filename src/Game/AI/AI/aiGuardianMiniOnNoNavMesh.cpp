@@ -1,5 +1,10 @@
 #include "Game/AI/AI/aiGuardianMiniOnNoNavMesh.h"
 #include <math/seadMathCalcCommon.h>
+#include "Game/AI/AI/aiGuardianMiniRoot.h"
+#include "KingSystem/ActorSystem/actPhysicsUserTag.h"
+#include "KingSystem/ActorSystem/actTag.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/System/physRayCastBodyQuery.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/Utils/Thread/Message.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
@@ -34,6 +39,49 @@ void GuardianMiniOnNoNavMesh::changeToOnIceMaker() {
     ksys::act::ai::InlineParamPack pack;
     pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
     changeChild("アイスメーカー上", &pack);
+}
+
+// NON_MATCHING: vector temporaries and loop register allocation differ.
+bool GuardianMiniOnNoNavMesh::sub_710041DBE0() {
+    auto* actor = mActor;
+    if (!actor || !sub_71004282EC(actor))
+        return false;
+    for (s32 i = 0; i < 5; ++i) {
+        sead::Vector3f offset = sead::Vector3f::zero;
+        switch (i) {
+        case 1:
+            offset.setRotated(actor->getMtx(), sead::Vector3f::ez);
+            break;
+        case 2:
+            offset.setRotated(actor->getMtx(), -sead::Vector3f::ez);
+            break;
+        case 3:
+            offset.setRotated(actor->getMtx(), sead::Vector3f::ex);
+            break;
+        case 4:
+            offset.setRotated(actor->getMtx(), -sead::Vector3f::ex);
+            break;
+        }
+        const auto position = offset + actor->getMtx().getTranslation();
+        const sead::Vector3f start{position.x, position.y + 1.0f, position.z};
+        const sead::Vector3f end{position.x, position.y - 5.0f, position.z};
+        ksys::phys::RayCastBodyQuery query(nullptr, ksys::phys::GroundHit::HitAll);
+        query.setStartAndEnd(start, end);
+        query.enableLayer(ksys::phys::ContactLayer::EntityGroundObject);
+        if (query.worldRayCast(ksys::phys::ContactLayerType::Entity)) {
+            if (auto* body = query.getHitRigidBody()) {
+                if (auto* tag = sead::DynamicCast<ksys::act::PhysicsUserTag>(body->getUserTag())) {
+                    ksys::act::ActorConstDataAccess accessor;
+                    tag->acquireActor(&accessor);
+                    if (accessor.hasTag(ksys::act::tags::IsIceMakerBlock)) {
+                        accessor.linkAcquire(&_40);
+                        break;
+                    }
+                }
+            }
+        }
+    }
+    return _40.hasProc();
 }
 
 void GuardianMiniOnNoNavMesh::sub_710041E15C() {
