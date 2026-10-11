@@ -689,6 +689,17 @@ public:
 };
 static_assert(sizeof(Unk_7102478a18) == 0x50);
 
+// Native factory 99AE94 allocates 0x50 bytes and creates the State animator at +0x48.
+class Unk_7102478ab0 : public Unk_71025d9170 {
+    SEAD_RTTI_OVERRIDE(Unk_7102478ab0, Unk_71025d9170)
+public:
+    ~Unk_7102478ab0() override;
+    void m11() override;
+
+    eui::Animator* _48;
+};
+static_assert(sizeof(Unk_7102478ab0) == 0x50);
+
 class UiSubsys1 {
     // Native singleton forwarders 96828C / 9682B4 / 9682CC read these UI fields directly.
     friend class Unk_71025d6ac0;

@@ -318,6 +318,10 @@ Unk_7102478a18::~Unk_7102478a18() {
     _48 = nullptr;
 }
 
+Unk_7102478ab0::~Unk_7102478ab0() {
+    _48 = nullptr;
+}
+
 // NON_MATCHING: the animator receiver loads before the predicate call, and frame selection uses conditional selects.
 void Unk_7102478a18::m11() {
     Unk_7102477fc0::m11();
