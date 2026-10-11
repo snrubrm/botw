@@ -16,6 +16,11 @@ public:
 
     bool ParamIO_m0(char* data) override { return true; }
 
+    // Complete EE1D48 and EE1E94 pass the existing weather/time parameter buffers.
+    bool sub_710109A1F4(
+        const sead::SafeString& name,
+        const sead::Buffer<agl::utl::Parameter<sead::SafeString>>& values) const;
+
 private:
     void doCreate_(u8*, u32, sead::Heap*) override {}
     void parseArray(const agl::utl::ResParameterObj* data, agl::utl::IParameterObj* obj,

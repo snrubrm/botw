@@ -56,6 +56,16 @@ bool LifeCondition::parse_(u8* data, size_t, sead::Heap* heap) {
     return true;
 }
 
+bool LifeCondition::sub_710109A1F4(
+    const sead::SafeString& name,
+    const sead::Buffer<agl::utl::Parameter<sead::SafeString>>& values) const {
+    for (const auto& value : values) {
+        if (name == value.ref())
+            return true;
+    }
+    return false;
+}
+
 void LifeCondition::parseArray(const agl::utl::ResParameterObj* data, agl::utl::IParameterObj* obj,
                                sead::Buffer<agl::utl::Parameter<sead::SafeString>>* buffer,
                                const sead::SafeString& key, const sead::SafeString& desc,
