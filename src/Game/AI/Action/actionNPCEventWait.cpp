@@ -2,6 +2,8 @@
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "Game/Actor/actRideable.h"
+#include "Game/Actor/actNPC.h"
+#include "KingSystem/Physics/System/physNavMeshCharacter.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
 #include "KingSystem/Event/evtManager.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
@@ -20,7 +22,22 @@ bool NPCEventWait::init_(sead::Heap* heap) {
 }
 
 void NPCEventWait::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    const sead::SafeString name = mActor->getASList()->x_1(0, 0);
+    if (name == "GuardEquip") {
+        if (auto* npc = sead::DynamicCast<act::NPC>(mActor))
+            npc->_1060 = 0;
+    } else if (name == "GuardUnequip") {
+        if (auto* npc = sead::DynamicCast<act::NPC>(mActor))
+            npc->_1060 = 1;
+    }
+    if (sub_7100712AD8(mActor) &&
+        !mActor->getASList()->x(0x16, nullptr, 0, 0, &ksys::as::ASList::Unk2::sub_71011638DC, true))
+        playAS("Move_End", false, 0, 0, -1.0f);
+    _20.copy(mActor->getASList()->sub_710115ECF4(0x37, 1));
+    mActor->getASList()->goLimpFromHeadShotMaybe(0x37, "Normal", 1);
+    if (auto* nav = mActor->m45())
+        nav->sub_7100F76778();
+    _1c = 0;
 }
 
 void NPCEventWait::leave_() {
