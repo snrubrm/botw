@@ -1,5 +1,6 @@
 #include "Game/AI/aiUnk_710073EBD4.h"
 #include <gsys/gsysModel.h>
+#include <gsys/gsysModelUnit.h>
 #include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
@@ -109,6 +110,25 @@ void Unk_710073ebd4::sub_710073F14C(const sead::Vector3f* target) {
     sead::Vector3f ang_vel;
     sub_710073F1BC(&mtx, &vel, &ang_vel, target, true, &sead::Vector3f::ez, 1.0f);
     sub_710073EA44(mActor, mWork, mtx, &vel, &ang_vel, !mIsReuseBullet);
+}
+
+// NON_MATCHING: The base orientation copy stays after the transform math instead of across the
+// trigonometric calls, changing stack size and register allocation.
+void Unk_710073ebd4::sub_710073F7F0(sead::Matrix34f* out, sead::Matrix33f* base_rotation) {
+    sead::Matrix34f base;
+    if (mBone.isValid()) {
+        mActor->getModel()
+            ->getUnits()
+            .unsafeAt(mBone.model_unit_index)
+            ->mModelUnit->getBoneWorldMatrix(&base, mBone.bone_index);
+    } else {
+        base = mActor->getMtx();
+    }
+    sead::Matrix34f offset;
+    offset.makeRT(*mShootRotate_s, *mShootOffset_s);
+    out->setMul(base, offset);
+    if (base_rotation)
+        *base_rotation = sead::Matrix33f(base);
 }
 
 bool Unk_710073ebd4::sub_710073FA54() {

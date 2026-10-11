@@ -68,6 +68,8 @@ public:
     // 0x710073f3fc: predicts the target position with an additional flight lead time.
     // Complete callee and the shoot-step caller establish the Vector3f output.
     void sub_710073F3FC(sead::Vector3f* out, f32 lead_time);
+    // Produces the shoot pose and optionally its unmodified base orientation.
+    void sub_710073F7F0(sead::Matrix34f* out, sead::Matrix33f* base_rotation);
 
     /* 0x00 */ const s32* mSeqBank_s{};
     /* 0x08 */ const s32* mTargetBone_s{};
