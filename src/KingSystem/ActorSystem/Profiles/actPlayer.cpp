@@ -1085,6 +1085,20 @@ void Player::sub_7100867FE0(const Unk1& angle) {
     sub_7100867DEC(rotation);
 }
 
+// NON_MATCHING: the two magnitude comparisons share a branch before selecting the signed angle side.
+u8 Player::sub_7100869814(Unk1 a, Unk1 b) {
+    const s64 magnitude_a = util::sub_71011EE4C0(a.value);
+    const s64 magnitude_b = util::sub_71011EE4C0(b.value);
+    const s64 opposite_b = util::sub_71011EE4C0(s64(b.value) - 0x80000000LL);
+    if (magnitude_a > opposite_b)
+        return 1;
+    if (magnitude_a >= magnitude_b && s32(a.value) >= 0)
+        return 2;
+    if (magnitude_a >= magnitude_b && s32(a.value) < 0)
+        return 3;
+    return 0;
+}
+
 // NON_MATCHING: the movement temporary shares the output stack slot, reducing the frame by 16 bytes.
 void Player::sub_7100877F00(const sead::Vector3f& dir) {
     auto* controller = getCharacterController();
