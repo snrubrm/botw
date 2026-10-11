@@ -81,6 +81,7 @@ target_sources(uking PRIVATE
   uiGdtFacade.cpp
   uiManagerFacade.cpp
   uiManagerSmall.cpp
+  uiMapMarker.cpp
   uiNormalMap.cpp
   uiNormalMap.h
   uiOnUiActorMgr.cpp

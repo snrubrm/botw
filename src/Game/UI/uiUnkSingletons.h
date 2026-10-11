@@ -2,6 +2,7 @@
 
 #include <container/seadOffsetList.h>
 #include <prim/seadEnum.h>
+#include <prim/seadRuntimeTypeInfo.h>
 #include <heap/seadDisposer.h>
 #include <container/seadPtrArray.h>
 #include <math/seadVector.h>
@@ -365,15 +366,54 @@ struct UiSubsys1Marker {
     /* 0x44 */ s32 _44;
 };
 
-// Element of UiSubsys1's table at 0x658 (placeholder; flags at 0x3c).
+// Element of UiSubsys1's table at 0x658; native base vtable 0x71024753c8.
+// Virtual 25 is called by 951388, whose existing users read the position at +0x28.
 struct UiSubsys1Entry {
+    SEAD_RTTI_BASE(UiSubsys1Entry)
+    virtual ~UiSubsys1Entry();
+    virtual void m4();
+    virtual void m5();
+    virtual void m6();
+    virtual void m7();
+    virtual void m8();
+    virtual void m9();
+    virtual s32 m10();
+    virtual void m11();
+    virtual void m12();
+    virtual void m13();
+    virtual void m14();
+    virtual void m15();
+    virtual void m16();
+    virtual void m17();
+    virtual void m18();
+    virtual void m19();
+    virtual void m20();
+    virtual void m21();
+    virtual void m22();
+    virtual void updateDistrictFromPos(const sead::Vector3f* pos);
+    virtual void m24(bool enabled);
+    virtual void m25(bool enabled);
+    virtual void m26();
+    virtual void m27(bool enabled);
+    virtual void m28(bool enabled);
+
     // 0x7100951388: sets flag 8, then forwards to the virtual control update.
     void sub_7100951388(bool enabled);
-    u8 _0[0x28];
+
+    /* 0x08 */ void* _8;
+    /* 0x10 */ void* _10;
+    /* 0x18 */ f32 _18;
+    /* 0x1c */ s32 _1c;
+    /* 0x20 */ s32 _20;
+    /* 0x24 */ s32 _24;
     /* 0x28 */ sead::Vector3f _28;  // map pin position (CopyMapPinPosition::oneShot_)
-    u8 _34[0x3c - 0x34];
+    /* 0x34 */ sead::Vector2f _34;
     /* 0x3c */ u32 _3c;
+    /* 0x40 */ s32 _40;
+    /* 0x44 */ s32 _44;
+    /* 0x48 */ const char* _48;
 };
+static_assert(sizeof(UiSubsys1Entry) == 0x50);
 
 class UiSubsys1 {
     // Native singleton forwarders 96828C / 9682B4 / 9682CC read these UI fields directly.
@@ -533,7 +573,7 @@ public:
     bool sub_7100963538(s32 value) const;
     bool sub_7100963560(s32 value) const;
     // 0x710096357c / 0x7100963590 / 0x710096371c / 0x71009638e8 (placeholder names)
-    u8* sub_710096357C() const;
+    sead::Vector2f* sub_710096357C() const;
     s32 returnFF() const;
     u8 get12c() const;
     void set6e4(s32 value);

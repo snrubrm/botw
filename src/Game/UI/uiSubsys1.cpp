@@ -608,8 +608,8 @@ bool UiSubsys1::sub_7100963560(s32 value) const {
 }
 
 // 0x710096357c
-u8* UiSubsys1::sub_710096357C() const {
-    return _478 ? _478->_34 : nullptr;
+sead::Vector2f* UiSubsys1::sub_710096357C() const {
+    return _478 ? &_478->_34 : nullptr;
 }
 
 // 0x7100963590
