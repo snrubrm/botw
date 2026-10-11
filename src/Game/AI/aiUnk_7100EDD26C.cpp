@@ -4,6 +4,10 @@
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectGrab.h"
 
+const sead::SafeString& sub_7100EDD258(ksys::act::Actor* actor, int index) {
+    return actor->sub_71011DB1E4(index);
+}
+
 // 0x7100edd26c
 // NON_MATCHING: each arm emits the param-address add and the value add separately; the original folds
 // them into a single add (same shape as sub_710072D608 and sub_710072D53C).
