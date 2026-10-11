@@ -1,6 +1,14 @@
 #include "Game/gameOpenWorldStage.h"
 #include "Game/gameOpenWorldStageMessage.h"
 #include "Game/gameStage.h"
+#include "Game/Damage/dmgInfoManager.h"
+#include "Game/gameHorseMgr.h"
+#include "Game/gameLastBossMgr.h"
+#include "Game/gameMotorcycleMgr.h"
+#include "Game/gameScene.h"
+#include "Game/gameSceneSubsys14.h"
+#include "Game/gameSceneSubsysMisc.h"
+#include "Game/gameWolfLinkMgr.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/World/worldManager.h"
 #include "KingSystem/System/CameraMgr.h"
@@ -44,6 +52,22 @@ bool OpenWorldStage::m2(sead::BufferedSafeString* out) {
     else
         r = row;
     return getMapName(out, c, r);
+}
+
+void OpenWorldStage::postCalc() {
+    dmg::DamageInfoMgr::instance()->postCalc();
+    GameSceneSubsys4::instance()->m6();
+    GameSceneSubsys5::instance()->postCalc();
+    LastBossMgr::instance()->postCalc();
+    GameSceneSubsys14::instance()->postCalc();
+    if (GameScene::getCurrentMapType() != "AocField") {
+        if (auto* mgr = HorseMgr::instance())
+            mgr->postCalc();
+    }
+    if (auto* mgr = WolfLinkMgr::instance())
+        mgr->postCalc();
+    if (auto* mgr = MotorcycleMgr::instance())
+        mgr->sub_7100678BD4();
 }
 
 void OpenWorldStage::initForStageGen() {

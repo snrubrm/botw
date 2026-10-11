@@ -34,6 +34,9 @@ class HorseMgr {
     ~HorseMgr();
 
 public:
+    // 0x7100E8789C: updates the owned-horse state after stage calculation.
+    void postCalc();
+
     // Placeholder (bits of _228; callers convert through the stack like a SEAD_ENUM). _0: the game data
     // handles are initialised; _9 / _10: set by sub_7100E8612C (a horse was found / none).
     SEAD_ENUM(Flag, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10)

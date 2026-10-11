@@ -36,6 +36,9 @@ class MotorcycleMgr {
     virtual ~MotorcycleMgr();
 
 public:
+    // 0x7100678BD4: updates spawn state, energy and motorcycle effects.
+    void sub_7100678BD4();
+
     // 0x7100678954
     void init(sead::Heap* heap);
 

@@ -22,6 +22,9 @@ class WolfLinkMgr {
     virtual ~WolfLinkMgr();
 
 public:
+    // 0x71006836D0: updates the registered Wolf Link state.
+    void postCalc();
+
     // 0x7100682cb4: registered state 2 and the linked actor flag at 0x1699 bit 6.
     bool sub_7100682CB4() const;
     sead::Vector3f sub_71006831BC() const;
