@@ -204,4 +204,41 @@ void Unk_71024755d8::m32() {
         _3c = ksys::gdt::getFlagGenericBool(_84) ? _3c | 0x200000 : _3c & ~0x200000;
 }
 
+// NON_MATCHING: inherited resets remain out-of-line and their TU defaults are not modeled.
+Unk_7102475808::~Unk_7102475808() {
+    _64 = false;
+    _68 = ksys::gdt::InvalidHandle;
+}
+
+void Unk_7102475808::m9() {
+    if (!(_3c & 8))
+        _3c &= ~0x7566;
+    _3c &= ~0x50008;
+}
+
+void Unk_7102475808::m21() {
+    if (_3c & 1)
+        sub_710095156C(_64);
+}
+
+void Unk_7102475808::m31() {
+    Unk_71024754c0::m31();
+    _3c &= ~0x40000;
+    if (u32(_44) < 15 && _68 != ksys::gdt::InvalidHandle)
+        _3c = ksys::gdt::getFlagGenericBool(_68) ? _3c | 0x20000 : _3c & ~0x20000;
+}
+
+// NON_MATCHING: the changed-flag guard becomes selects and omits the intermediate store.
+void Unk_7102475808::m32() {
+    Unk_71024754c0::m32();
+    if (!ksys::gdt::Manager::instance()->getParam().get().getBuffer0()->hasCopiedBoolFlags())
+        return;
+    if (u32(_44) < 15 && _68 != ksys::gdt::InvalidHandle) {
+        bool value = ksys::gdt::getFlagGenericBool(_68);
+        _3c = (value != ((_3c & 0x20000) != 0)) ? _3c | 0x40000 : _3c & ~0x40000;
+        if (_3c & 0x40000)
+            _3c = value ? _3c | 0x20000 : _3c & ~0x20000;
+    }
+}
+
 }  // namespace uking::ui

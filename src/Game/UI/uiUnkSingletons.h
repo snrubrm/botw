@@ -506,6 +506,24 @@ public:
 };
 static_assert(sizeof(Unk_71024755d8) == 0x88);
 
+
+// Factory 95C0A8 case3 allocates 0x70 bytes and installs VT2475808.
+class Unk_7102475808 : public Unk_71024754c0 {
+    SEAD_RTTI_OVERRIDE(Unk_7102475808, Unk_71024754c0)
+public:
+    ~Unk_7102475808() override;
+    void m9() override;
+    void m21() override;
+    void m29(Unk_710095192c* entry) override;
+    void m30() override;
+    void m31() override;
+    void m32() override;
+
+    bool _64;
+    ksys::gdt::FlagHandle _68;
+};
+static_assert(sizeof(Unk_7102475808) == 0x70);
+
 // Native vtable 2477FC0 has fifteen slots; reset 98C7A4 establishes the 0x30-byte layout.
 class Unk_7102477fc0 {
     SEAD_RTTI_BASE(Unk_7102477fc0)
