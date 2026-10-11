@@ -20,6 +20,7 @@ public:
 
 protected:
     void calc_() override;
+    void sub_7100FF3E48();
     // The original (placeholder) name was m32: this overrides ActorObserver::m15 (primary slot 32, with a
     // this-adjusting thunk in the ActorObserver vtable group that returns the constant true).
     bool m15(const ksys::act::ActorConstDataAccess& accessor) override;
@@ -30,7 +31,8 @@ protected:
     // map_unit_param at offset 0x40
     const bool* mIsShieldChemicalWind_m{};
     sead::Buffer<Payload> _48;
-    u8 _58[0x40]{};
+    // FF4040 caches one maximum contact separation for each of the 16 area indices.
+    f32 _58[16]{};
     f32 _98 = 0.0f;
     u32 _9c = 0;
     ksys::snd::Unk_SoundInstance* _a0 = nullptr;
