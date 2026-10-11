@@ -596,7 +596,11 @@ void Unk_7102476350::m29() {
         record->_30 = ksys::gdt::Manager::instance()->getS32Handle(record->_28);
 }
 
-// NON_MATCHING: the existing mask declaration uses a halfword load; the bool branch precedes virtual-target loads.
+bool UiSubsys1::sub_7100956C10(u32 index) const {
+    return index == 0xff || (_120 & (1u << index));
+}
+
+// NON_MATCHING: the bool branch precedes native virtual-target loads.
 void Unk_7102476350::m11() {
     if ((_44 == 0xff || (UiSubsys1::instance()->_120 & (1u << _44))) && sub_7100956C34())
         m25(true);
@@ -604,7 +608,7 @@ void Unk_7102476350::m11() {
         m25(false);
 }
 
-// NON_MATCHING: the existing mask declaration uses a halfword load; the bool branch precedes virtual-target loads.
+// NON_MATCHING: the bool branch precedes native virtual-target loads.
 void Unk_7102476350::m12() {
     if ((_44 == 0xff || (UiSubsys1::instance()->_120 & (1u << _44))) && sub_7100956C34())
         m25(true);

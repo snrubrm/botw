@@ -1029,6 +1029,7 @@ public:
     static UiSubsys1* instance() { return sInstance; }
 
     bool sub_7100960DF8();
+    bool sub_7100956C10(u32 index) const;
     // 0x710096023c (CSV uiSubsys1::__auto3; placeholder name): ends the timer at 0x6f0 and clears the flag at 0x6ec
     void sub_710096023C();
     // 0x71009512f8 / 0x7100951338 (CSV uiSubsys1::__auto41 / __auto42; placeholder names)
@@ -1206,8 +1207,8 @@ private:
     u8 _2a[0x88 - 0x2a];
     /* 0x88 */ bool _88;
     u8 _89[0x120 - 0x89];
-    /* 0x120 */ u16 _120;
-    u8 _122[0x128 - 0x122];
+    /* 0x120 */ u32 _120;
+    /* 0x124 */ u32 _124;
     /* 0x128 */ s32 _128;
     /* 0x12c */ u8 _12c;
     u8 _12d[0x250 - 0x12d];

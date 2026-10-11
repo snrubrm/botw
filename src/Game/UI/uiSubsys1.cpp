@@ -803,7 +803,7 @@ bool UiSubsys1::sub_7100968BD8() {
         return true;
     if (ksys::gdt::getFlag_IsGet_Obj_SheikSensor())
         return false;
-    return sead::BitFlagUtil::countOnBit(_120) == 2;
+    return sead::BitFlagUtil::countOnBit(u16(_120)) == 2;
 }
 
 }  // namespace uking::ui
