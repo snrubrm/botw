@@ -63,6 +63,7 @@ class RollOffCurveXmlWriter {
 public:
     explicit RollOffCurveXmlWriter(sead::XmlDocument* document);
     void write(const RollOffCurve& curve, sead::Heap* heap);
+    bool saveToHostFile(const sead::SafeString& name, sead::Heap* heap, bool save_as_host_file);
 
 private:
     sead::XmlDocument* mDocument;
@@ -75,6 +76,7 @@ class UnitDistanceCurveXmlWriter {
 public:
     explicit UnitDistanceCurveXmlWriter(sead::XmlDocument* document);
     void write(const UnitDistanceCurve& curve, sead::Heap* heap);
+    bool saveToHostFile(const sead::SafeString& name, sead::Heap* heap, bool save_as_host_file);
 
 private:
     sead::XmlDocument* mDocument;

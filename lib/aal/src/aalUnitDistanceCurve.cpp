@@ -1,4 +1,8 @@
 #include "aal/aalUnitDistanceCurve.h"
+#include "aal/aalCurveXml.h"
+#include "aal/aalSystem.h"
+#include <heap/seadExpHeap.h>
+#include <prim/seadXmlDocument.h>
 #include "aal/aalCurveReader.h"
 #include <algorithm>
 #include <cfloat>
@@ -115,6 +119,15 @@ void UnitDistanceCurve::setupFromResourceReader(const UnitDistanceCurveReader& r
     const f32 culling_start_distance = reader.getCullingStartDistance();
     if (culling_start_distance >= 0.0f)
         mCullingStartDistance = culling_start_distance;
+}
+
+void UnitDistanceCurve::saveToXmlDocument(bool save_as_host_file) {
+    auto* heap = sead::ExpHeap::create(0, "unit_distance_curve_xml", System::sInstance->mDebugHeap);
+    auto* document = sead::XmlDocument::create(nullptr, heap, false, 0x4000);
+    UnitDistanceCurveXmlWriter writer(document);
+    writer.write(*this, heap);
+    writer.saveToHostFile(getObjName(), heap, save_as_host_file);
+    heap->destroy();
 }
 
 }  // namespace aal

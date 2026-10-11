@@ -40,6 +40,7 @@ class CustomCurveXmlWriter {
 public:
     explicit CustomCurveXmlWriter(sead::XmlDocument* document);
     void write(const CustomCurve& curve, sead::Heap* heap);
+    bool saveToHostFile(const sead::SafeString& name, sead::Heap* heap, bool save_as_host_file);
 
 private:
     sead::XmlDocument* mDocument;

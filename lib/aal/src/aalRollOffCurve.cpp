@@ -1,4 +1,8 @@
 #include "aal/aalRollOffCurve.h"
+#include "aal/aalCurveXml.h"
+#include "aal/aalSystem.h"
+#include <heap/seadExpHeap.h>
+#include <prim/seadXmlDocument.h>
 #include <algorithm>
 #include <cfloat>
 #include <basis/seadNew.h>
@@ -238,6 +242,15 @@ f32 RollOffCurveStrategyExp::calcDistance(f32 gain, f32 ref_distance, f32 roll_o
         return -1.0f;
     gain = std::max(gain, cMinGain);
     return sead::Mathf::powTable(1.0f / gain, 1.0f / roll_off_factor) * ref_distance;
+}
+
+void RollOffCurve::saveToXmlDocument(bool save_as_host_file) {
+    auto* heap = sead::ExpHeap::create(0, "rolloff_curve_xml", System::sInstance->mDebugHeap);
+    auto* document = sead::XmlDocument::create(nullptr, heap, false, 0x4000);
+    RollOffCurveXmlWriter writer(document);
+    writer.write(*this, heap);
+    writer.saveToHostFile(getObjName(), heap, save_as_host_file);
+    heap->destroy();
 }
 
 }  // namespace aal

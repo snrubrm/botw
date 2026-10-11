@@ -1,4 +1,8 @@
 #include "aal/aalCustomCurve.h"
+#include "aal/aalCustomCurveXml.h"
+#include "aal/aalSystem.h"
+#include <heap/seadExpHeap.h>
+#include <prim/seadXmlDocument.h>
 #include <basis/seadNew.h>
 #include <math/seadMathCalcCommon.h>
 #include "aal/aalCurveReader.h"
@@ -114,6 +118,15 @@ f32 CustomCurve::interpolate(f32 x) const {
         return 0.0f;
     }
     return value + delta * factor;
+}
+
+void CustomCurve::saveToXmlDocument(bool save_as_host_file) {
+    auto* heap = sead::ExpHeap::create(0, "custom_curve_xml", System::sInstance->mDebugHeap);
+    auto* document = sead::XmlDocument::create(nullptr, heap, false, 0x4000);
+    CustomCurveXmlWriter writer(document);
+    writer.write(*this, heap);
+    writer.saveToHostFile(getObjName(), heap, save_as_host_file);
+    heap->destroy();
 }
 
 }  // namespace aal

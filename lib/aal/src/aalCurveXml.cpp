@@ -105,4 +105,14 @@ void UnitDistanceCurveXmlWriter::write(const UnitDistanceCurve& curve, sead::Hea
     }
 }
 
+// Host file output is compiled out in the native retail build.
+bool RollOffCurveXmlWriter::saveToHostFile(const sead::SafeString&, sead::Heap*, bool) {
+    return false;
+}
+
+// Host file output is compiled out in the native retail build.
+bool UnitDistanceCurveXmlWriter::saveToHostFile(const sead::SafeString&, sead::Heap*, bool) {
+    return false;
+}
+
 }  // namespace aal

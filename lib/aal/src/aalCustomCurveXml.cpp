@@ -75,4 +75,9 @@ void CustomCurveXmlWriter::write(const CustomCurve& curve, sead::Heap* heap) {
     }
 }
 
+// Host file output is compiled out in the native retail build.
+bool CustomCurveXmlWriter::saveToHostFile(const sead::SafeString&, sead::Heap*, bool) {
+    return false;
+}
+
 }  // namespace aal
