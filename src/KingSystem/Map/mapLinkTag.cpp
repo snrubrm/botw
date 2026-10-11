@@ -11,6 +11,10 @@
 
 namespace ksys::map {
 
+bool setS32ByIdxForLinkTag(gdt::Manager* mgr, s32 value, gdt::FlagHandle handle) {
+    return mgr->setS32(value, handle, true, false);
+}
+
 // NON_MATCHING: only the block order of the getS32 buffer 1 path (same instructions; the original tests the 0x8000 flag with the
 // opposite polarity there).
 bool isFlagSet(bool* value, bool a, const Object* obj) {
@@ -202,7 +206,7 @@ void LinkTag::calcCount(bool frame_changed) {
     _1e0 &= ~0x10;
     if (count != _1e2) {
         _1e2 = count;
-        setS32ByIdxForLinkTag(gdt::Manager::instance(), count, mObj->getRevivalGameDataFlagHash());
+        setS32ByIdxForLinkTag(gdt::Manager::instance(), s8(count), mObj->getRevivalGameDataFlagHash());
         updateIsFlagSetFlag(s8(_1e2) > 0, false, frame_changed);
     }
 }

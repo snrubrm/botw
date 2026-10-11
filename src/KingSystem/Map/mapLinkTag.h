@@ -22,9 +22,9 @@ namespace ksys::map {
 class Object;
 struct ObjectLink;
 
-// 0x7100d39c9c (CSV GameDataMgr::setS32ByIdxForLinkTag; declaration only; it is called out of line with the game data manager
-// as its first argument, so probably gdt::Manager::setS32NoCheck(s32, FlagHandle)): stores `value` in the flag `handle`.
-bool setS32ByIdxForLinkTag(gdt::Manager* mgr, s8 value, gdt::FlagHandle handle);
+// 0x7100d39c9c passes the full integer value to TriggerParam::setS32 through the permission-bypass
+// reference. calcCount at 0x7100d383f4 sign-extends its byte count before this call.
+bool setS32ByIdxForLinkTag(gdt::Manager* mgr, s32 value, gdt::FlagHandle handle);
 
 // 0x7100d38070 (CSV isLinkTagNAndOrNOr): whether `name` is "LinkTagNAnd" or "LinkTagNOr".
 bool isLinkTagNAndOrNOr(const sead::SafeString& name);
