@@ -141,6 +141,15 @@ bool Unk_71024e6428::m36() {
 
 ActorChemicals::ActorChemicals() = default;
 
+// NON_MATCHING: the loop-end element count is widened before addition.
+void ActorChemicals::init2(Unk_7101265a6c* state) {
+    const auto lock = sead::makeScopedLock(mCS);
+    for (int i = 0; i < _58.size() + _80; ++i) {
+        if (auto* element = getElement_(i))
+            element->mChemical._68 = state;
+    }
+}
+
 Unk_71024e6428* ActorChemicals::sub_7100E3718C(int idx) {
     const auto lock = sead::makeScopedLock(mCS);
     if (_58.size() + _80 < 1)

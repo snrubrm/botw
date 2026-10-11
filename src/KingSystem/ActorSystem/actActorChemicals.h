@@ -146,6 +146,8 @@ class ActorChemicals : public sead::hostio::Node {
 public:
     ActorChemicals();
     virtual ~ActorChemicals();
+    // 0x7100e37eb0: binds ActorX6A0's state to each chemical element.
+    void init2(Unk_7101265a6c* state);
 
     // 0x7100e39458: checks the current chemical elements (declaration only).
     bool sub_7100E39458();
