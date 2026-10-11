@@ -1,5 +1,6 @@
 #include "KingSystem/ActorSystem/actActorChemicals.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Chemical/chmShape.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
 
@@ -207,6 +208,18 @@ Chemical* ActorChemicals::sub_7100E381DC(const sead::SafeString& name) {
     if (idx == -1)
         return nullptr;
     return getStuff(idx);
+}
+
+// NON_MATCHING: the ordinary loop omits the original callback result flags and uses a wider end-count sum.
+s32 ActorChemicals::sub_7100E382C4(const sead::SafeString& name) {
+    const auto lock = sead::makeScopedLock(mCS);
+    for (s32 i = 0; i < _58.size() + _80; ++i) {
+        if (auto* element = getElement_(i)) {
+            if (element->mChemical.mShape->getName() == name)
+                return i;
+        }
+    }
+    return -1;
 }
 
 // NON_MATCHING: the original keeps the null check of the element and loads the body count without sign extension
