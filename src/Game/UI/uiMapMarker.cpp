@@ -1,4 +1,5 @@
 #include "Game/UI/uiUnkSingletons.h"
+#include "Game/UI/uiManager.h"
 #include "KingSystem/Quest/qstIndicator.h"
 #include "Game/gameMotorcycleMgr.h"
 #include "Game/gameWolfLinkMgr.h"
@@ -7,6 +8,7 @@
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/GameData/gdtManager.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
+#include "KingSystem/Map/mapObject.h"
 
 namespace uking::ui {
 
@@ -665,6 +667,86 @@ void Unk_7102476548::m11() {
 
 void Unk_7102476548::m21() {
     sub_710095156C(true);
+}
+
+void Unk_7102476640::m4() {
+    _3c &= ~0x777f;
+    m11();
+    m14();
+    _80 = 0;
+    _84 = 0;
+}
+
+void Unk_7102476640::m5() {
+    m12();
+    UiSubsys1Entry::m13();
+}
+
+void Unk_7102476640::m6() {
+    m15();
+}
+
+void Unk_7102476640::m7() {
+    m16();
+    m17();
+}
+
+void Unk_7102476640::m11() {
+    m25(false);
+}
+
+void Unk_7102476640::m14() {}
+
+// NON_MATCHING: translation assignment pairs two stack stores that are separate in the native.
+void Unk_7102476640::m16() {
+    if (Manager::instance()->_64c38 != 5 || (Manager::instance()->_64c30_bytes[2] & 0x20))
+        return;
+    sead::Vector3f position(0.0f, 0.0f, 0.0f);
+    if (_60.hasProc()) {
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::acquireActor(&_60, &accessor);
+        position = accessor.getActorMtx().getTranslation();
+        _74 = position;
+    } else if (_50) {
+        position = _50->getTranslate();
+    }
+    updateDistrictFromPos(&position);
+}
+
+void Unk_7102476640::m21() {
+    if (_3c & 1)
+        sub_710095156C(false);
+}
+
+void Unk_7102476640::m27(bool enabled) {
+    _3c = (enabled != ((_3c & 0x10) != 0)) ? _3c | 0x20 : _3c & ~0x20;
+    _3c = enabled ? _3c | 0x10 : _3c & ~0x10;
+}
+
+void Unk_7102476640::m28(bool enabled) {
+    _3c = (enabled != ((_3c & 1) != 0)) ? _3c | 2 : _3c & ~2;
+    _3c = enabled ? _3c | 1 : _3c & ~1;
+    _3c |= (_3c & 2) << 13;
+}
+
+void Unk_7102476640::sub_7100958C7C() {
+    _71 = _70;
+    if (_50 && !_60.hasProc()) {
+        auto* actor = _50->tryGetActor(false);
+        const bool has_proc = _60.hasProc();
+        if (actor) {
+            if (has_proc)
+                _60.reset();
+            _60.acquire(actor, false);
+        } else if (has_proc) {
+            _60.reset();
+        }
+    }
+    _70 = _60.hasProc();
+}
+
+bool Unk_7102476640::sub_7100958D38() const {
+    return u32(_80) - 1 < 2;
 }
 
 }  // namespace uking::ui

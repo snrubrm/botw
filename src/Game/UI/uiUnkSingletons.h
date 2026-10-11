@@ -11,12 +11,17 @@
 #include <container/seadSafeArray.h>
 #include "Game/UI/uiTimer.h"
 #include "KingSystem/Utils/Types.h"
+#include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Utils/Thread/Task.h"
 #include "KingSystem/GameData/gdtFlagHandle.h"
 #include "KingSystem/GameData/gdtFlag.h"
 
 namespace ksys::qst {
 struct IndicatorActor;
+}
+
+namespace ksys::map {
+class Object;
 }
 
 namespace ksys::act {
@@ -688,6 +693,39 @@ public:
     s32 _54;
 };
 static_assert(sizeof(Unk_7102476548) == 0x58);
+
+// Factory 0x95C0A8 allocates 0x88 bytes and constructs the actor link at 0x60.
+class Unk_7102476640 : public UiSubsys1Entry {
+    SEAD_RTTI_OVERRIDE(Unk_7102476640, UiSubsys1Entry)
+public:
+    ~Unk_7102476640() override;
+    void m4() override;
+    void m5() override;
+    void m6() override;
+    void m7() override;
+    void m11() override;
+    void m12() override;
+    void m14() override;
+    void m16() override;
+    void m17() override;
+    void m21() override;
+    void m24(bool enabled) override;
+    void m25(bool enabled) override;
+    void m27(bool enabled) override;
+    void m28(bool enabled) override;
+    void sub_7100958C7C();
+    bool sub_7100958D38() const;
+
+    ksys::map::Object* _50;
+    s32 _58;
+    ksys::act::BaseProcLink _60;
+    bool _70;
+    bool _71;
+    sead::Vector3f _74;
+    s32 _80;
+    s32 _84;
+};
+static_assert(sizeof(Unk_7102476640) == 0x88);
 
 // Native vtable 2477FC0 has fifteen slots; reset 98C7A4 establishes the 0x30-byte layout.
 class Unk_7102477fc0 {
