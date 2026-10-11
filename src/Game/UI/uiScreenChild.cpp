@@ -204,6 +204,14 @@ void ScreenChild::m52() { m22(); }
 // 0x710093204c
 void ScreenChild::m53(void* a1) { m23(a1); }
 
+// 0x71010a90c4
+void ScreenChild::m54(sead::Heap* heap) {
+    _120 = sead::DynamicCast<Screen>(mLayout->mScreen);
+    _110 = mLayout->mOpenAnimator;
+    _118 = mLayout->mCloseAnimator;
+    m24(heap);
+}
+
 // 0x7100932058
 void ScreenChild::m56() { m26(); }
 

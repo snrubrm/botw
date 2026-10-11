@@ -197,9 +197,9 @@ public:
     /* 0x100 */ u8 _100;  // lifecycle event flags, cleared by the update method
     /* 0x104 */ s32 _104;  // open / close state (7: ScreenMainScreen::sub_7100A1A460 checks it)
     /* 0x108 */ u16 _108;
-    /* 0x110 */ void* _110;
-    /* 0x118 */ void* _118;
-    /* 0x120 */ void* _120;
+    /* 0x110 */ eui::Animator* _110;
+    /* 0x118 */ eui::Animator* _118;
+    /* 0x120 */ Screen* _120;
 };
 static_assert(sizeof(ScreenChild) == 0x128);
 
