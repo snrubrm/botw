@@ -715,6 +715,7 @@ public:
     void m28(bool enabled) override;
     void sub_7100958C7C();
     bool sub_7100958D38() const;
+    void sub_7100958D4C();
 
     ksys::map::Object* _50;
     s32 _58;

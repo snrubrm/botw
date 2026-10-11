@@ -1,5 +1,6 @@
 #include "Game/UI/uiUnkSingletons.h"
 #include "Game/UI/uiManager.h"
+#include "Game/Actor/actGuardian.h"
 #include "KingSystem/Quest/qstIndicator.h"
 #include "Game/gameMotorcycleMgr.h"
 #include "Game/gameWolfLinkMgr.h"
@@ -791,6 +792,21 @@ bool UiSubsys1::sub_7100958D18() const {
 
 bool Unk_7102476640::sub_7100958D38() const {
     return u32(_80) - 1 < 2;
+}
+
+void Unk_7102476640::sub_7100958D4C() {
+    if (Manager::instance()->_64c38 == 5 && !(Manager::instance()->_64c30_bytes[2] & 0x20)) {
+        _84 = _80;
+        if (_60.hasProc()) {
+            ksys::act::ActorConstDataAccess accessor;
+            if (ksys::act::acquireActor(&_60, &accessor) && sub_710003B738(accessor)) {
+                const u32 state = sub_710003B71C(accessor);
+                _80 = state == 6 || state == 7 ? 1 : (state == 5 ? 2 : 0);
+            }
+        } else {
+            _80 = 0;
+        }
+    }
 }
 
 s32 Unk_7102476738::m10() {
