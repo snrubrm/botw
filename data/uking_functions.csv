@@ -85253,7 +85253,7 @@ Address,Quality,Size,Name
 0x0000007100fe2890,U,001432,TextureHandleMgr::init
 0x0000007100fe2e28,U,000304,TextureHandleMgr::doCalc
 0x0000007100fe2f58,O,000172,_ZN4ksys3res16TextureHandleMgr8invoked2EPv
-0x0000007100fe3004,U,001572,TextureHandleMgr::invoked3
+0x0000007100fe3004,m,001572,_ZN4ksys3res16TextureHandleMgr8invoked3EPv
 0x0000007100fe3628,m,000312,_ZN4ksys3res16TextureHandleMgr8invoked4EPv
 0x0000007100fe3760,U,001632,TextureHandleMgr::bfres_file_stuff
 0x0000007100fe3dc0,U,001368,TextureHandleMgr::bfres_file_stuff_2
@@ -85299,7 +85299,7 @@ Address,Quality,Size,Name
 0x0000007100fe670c,U,000048,
 0x0000007100fe673c,U,000092,
 0x0000007100fe6798,m,000060,_ZN4ksys4util7TaskMgr13makeTaskType_INS_3res14Unk_71024f9da0EEEvPPNS0_11ManagedTaskE
-0x0000007100fe67d4,U,000412,
+0x0000007100fe67d4,m,000412,_ZN4sead11TreeMapImplIN4ksys3res14Unk_71024f9a50EE6insertEPNS_11TreeMapNodeIS3_EES7_
 0x0000007100fe6970,m,000888,_ZN4sead11TreeMapImplIN4ksys3res14Unk_71024f9a50EE5eraseEPNS_11TreeMapNodeIS3_EERKS3_
 0x0000007100fe6ce8,m,000436,_ZN4sead11TreeMapImplIN4ksys3res14Unk_71024f9a50EE8eraseMinEPNS_11TreeMapNodeIS3_EE
 0x0000007100fe6e9c,U,000300,

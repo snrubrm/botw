@@ -735,6 +735,123 @@ bool TextureHandleMgr::invoked2(void*) {
     return true;
 }
 
+// NON_MATCHING: typed key lifetimes and structured allocation / retry paths alter code layout.
+bool TextureHandleMgr::invoked3(void* user_data) {
+    auto* data = sead::DynamicCast<::Unk_71024f9e28>(static_cast<util::TaskData*>(user_data));
+    if (!data)
+        return false;
+    auto* handle = static_cast<Unk_71024F9D48*>(data->_18);
+    mCS.lock();
+    const u32 hash = data->_c ? data->_50 : sead::HashCRC32::calcStringHash(
+        static_cast<nn::gfx::ResTexture*>(data->_10)->GetName());
+    mCS.lock();
+    Unk_71024f9a50 key;
+    key.mHash = hash;
+    auto* node = mResourceMap.find(key);
+    auto* resource = node ? node->key().mOwner : nullptr;
+    mCS.unlock();
+    if (!resource && data->_c) {
+        mCS.unlock();
+        return false;
+    }
+    bool reset = false;
+    bool load = false;
+    if (resource) {
+        if (resource->sub_7100FE0DE8() == 0) {
+            Unk_71024f9a08** pending = nullptr;
+            for (auto* item = mPendingRemoval.front(); item; item = mPendingRemoval.next(item)) {
+                if (*item == resource) {
+                    pending = item;
+                    break;
+                }
+            }
+            mPendingRemoval.erase(pending);
+        }
+        load = data->_a;
+    } else {
+        resource = mFreeResources.popFront();
+        if (!resource) {
+            resource = mPendingRemoval.popFront();
+            if (!resource) {
+                stubbedLogFunction();
+                mCS.unlock();
+                return false;
+            }
+            mCS.lock();
+            mResourceMap.erase(resource->mNode.key());
+            mResources.erase(resource);
+            mCS.unlock();
+            reset = true;
+        }
+        sead::SafeString path = data->_c ? data->_40 :
+            data->_10 ? sead::SafeString(static_cast<nn::gfx::ResTexture*>(data->_10)->GetName()) :
+                        sead::SafeString::cEmptyString;
+        auto* counter = mHeapCounter;
+        counter->incrementRef();
+        resource->sub_7100FE0348(path, reset, static_cast<CompactedHeap*>(counter->getData()),
+                               mTextureHeap);
+        mHeapCounter->decrementRef();
+        mCS.lock();
+        if (resource->mNode.key().mOwner) {
+            mResources.pushBack(resource);
+            mResourceMap.insert(&resource->mNode);
+        }
+        mCS.unlock();
+        load = true;
+    }
+    sub_7100FE0D38(resource, handle);
+    handle->sub_7100FE8414(resource);
+    mCS.unlock();
+    if (!load)
+        return true;
+    auto* counter = mHeapCounter;
+    counter->incrementRef();
+    auto* mip_heap = static_cast<CompactedHeap*>(counter->getData());
+    Unk_71024f9a08::LoadArg arg;
+    arg._0 = data->_9;
+    arg._1 = data->_a;
+    arg._2 = 0;
+    arg.texture = static_cast<nn::gfx::ResTexture*>(data->_10);
+    arg.heap = mTextureHeap;
+    arg.mipHeap = mip_heap;
+    if (data->_c) {
+        arg.path = "_";
+        arg.device = nullptr;
+    } else {
+        arg.path = data->_28;
+        arg.device = static_cast<sead::FileDevice*>(data->_20);
+        arg._2 = data->_38;
+    }
+    bool force = reset || data->_a;
+    s32 removed = 0;
+    while (true) {
+        if (!force && resource->sub_7100FE0D0C())
+            break;
+        resource->sub_7100FE0584(arg);
+        force = false;
+        if (resource->sub_7100FE0D0C())
+            continue;
+        mCS.lock();
+        auto* pending = mPendingRemoval.popFront();
+        if (!pending) {
+            stubbedLogFunction();
+            mCS.unlock();
+            break;
+        }
+        x(pending);
+        ++removed;
+        sead::SafeString path = data->_c ? data->_40 :
+            data->_10 ? sead::SafeString(static_cast<nn::gfx::ResTexture*>(data->_10)->GetName()) :
+                        sead::SafeString::cEmptyString;
+        resource->sub_7100FE0348(path, true, mip_heap, mTextureHeap);
+        mCS.unlock();
+    }
+    if (removed > 0)
+        stubbedLogFunction();
+    mHeapCounter->decrementRef();
+    return true;
+}
+
 // NON_MATCHING: the status query is inlined and the u16 result is masked.
 bool TextureHandleMgr::invoked4(void* data) {
     auto* task_data = sead::DynamicCast<::Unk_71024f9e28>(static_cast<util::TaskData*>(data));

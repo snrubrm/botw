@@ -94,6 +94,7 @@ public:
     s32 getGeneration() const { return mGeneration; }
     void repairAllHandlesForSync();
     bool invoked2(void* data);
+    bool invoked3(void* data);
     bool invoked4(void* data);
     // Complete FE5754 removes this resource from the manager and frees its allocations.
     void x(Unk_71024f9a08* resource);
