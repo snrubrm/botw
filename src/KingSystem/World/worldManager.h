@@ -225,6 +225,7 @@ public:
     void sub_71010F78A4();
     void sub_71010F78C4();
     void sub_71010F78E4();
+    void sub_71010F7904(bool enabled);
     void sub_71010F7940();
 
     bool worldInfoLoaded() const { return mWorldInfoLoadStatus != WorldInfoLoadStatus::NotLoaded; }

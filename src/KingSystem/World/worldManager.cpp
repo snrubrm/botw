@@ -5,6 +5,7 @@
 #include <math/seadMathCalcCommon.h>
 #include <mc/seadWorkerMgr.h>
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actChemicalElementHolder.h"
 #include "Game/gameGraphics.h"
 #include "KingSystem/ActorSystem/actActorSystem.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerLink.h"
@@ -1018,6 +1019,12 @@ u8 Manager::sub_71010F3308() const {
 
 act::Unk_71024dd490* Manager::getChemicalMgrFieldAE8() const {
     return static_cast<ChemicalMgr*>(mMgrs.unsafeAt(8))->_ae8;
+}
+
+void Manager::sub_71010F7904(bool enabled) {
+    if (auto* holder = getChemicalMgrUnchecked()->_ae8) {
+        holder->_c8 = enabled ? holder->_c8 | 0x200000 : holder->_c8 & ~0x200000;
+    }
 }
 
 act::Unk_71024dd490* Manager::getElementHolderMaybe() const {
