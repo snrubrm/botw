@@ -1,5 +1,7 @@
 #include "KingSystem/ActorSystem/actActorWeapons.h"
 #include "Game/AI/aiUnk_7100EDD26C.h"
+#include "Game/gameGraphics.h"
+#include <gsys/gsysModel.h>
 #include "KingSystem/ActorSystem/Profiles/actWeaponBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
@@ -240,3 +242,13 @@ void ActorWeapons::sub_7100EFD458(Unk117* arg) {
 }
 
 }  // namespace ksys::act
+
+// Source owner unknown: the OptionalWeapon caller passes an Actor.
+void sub_7100EFD980(ksys::act::Actor* actor) {
+    if (!actor)
+        return;
+    if (auto* model = actor->getModel()) {
+        if (auto* scene = Graphics::instance()->mModelScenes[1])
+            model->bind(scene);
+    }
+}
