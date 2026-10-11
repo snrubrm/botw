@@ -120,6 +120,9 @@ bool sub_710072CF4C(f32 vertical_speed, f32* speed, f32* time, const sead::Vecto
                     const sead::Vector3f* target, const sead::Vector3f* gravity);
 /// 0x710072d068 (declaration only, placeholder name): sqrt(2 * |gravity| * height).
 f32 sub_710072D068(const sead::Vector3f* gravity, f32 height);
+// Complete native 0x72D344 writes the launch velocity and forwards the angle solver success.
+bool sub_710072D344(sead::Vector3f* velocity, const sead::Vector3f& start,
+                    const sead::Vector3f& target, f32 speed, f32 gravity);
 
 /// 0x71000891c8 (the one out-of-line copy of an inline function of the original; it sits in the
 /// AirOctaFloatBase TU, ~35 callers): the actor's forward direction (matrix Z axis) with the

@@ -1,5 +1,8 @@
 #include "Game/AI/AI/aiReflectableThrown.h"
 #include "Game/Damage/dmgDamageManagerBase.h"
+#include "Game/AI/aiUnk_71007377D4.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 
@@ -93,6 +96,28 @@ bool ReflectableThrown::sub_710053DA04(int* out) const {
     if (out)
         *out = 2;
     return true;
+}
+
+// NON_MATCHING: stack/register allocation and mass conversion scheduling differ.
+void ReflectableThrown::sub_710053DBA0(int type) {
+    auto* actor = mActor;
+    sub_71007A3634(actor, mHitColName_s);
+    sead::Vector3f position;
+    actor->getMtx().getTranslation(position);
+    f32 speed = m35();
+    if (type == 2)
+        speed *= *mRefSpeedRatioByJustGuard_s;
+    sead::Vector3f gravity;
+    sub_710072DC50(&gravity, mActor);
+    sead::Vector3f velocity;
+    sub_710072D344(&velocity, position, _60, speed, gravity.y * (1.0f / 900.0f));
+    sead::Vector3f direction = velocity;
+    const f32 length = direction.normalize();
+    const f32 mass = ksys::act::sub_7100EDD218(actor);
+    ksys::act::ai::InlineParamPack params;
+    params.addFloat(length * mass, "Power", -1);
+    params.addVec3(direction, "TargetDir", -1);
+    changeChild("反射", &params);
 }
 
 void ReflectableThrown::m34() {
