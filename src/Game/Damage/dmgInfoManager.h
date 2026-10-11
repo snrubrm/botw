@@ -131,6 +131,8 @@ public:
     // 2026-10-07: original constructor 0x71006737f4 initializes the prefix at +0x790;
     // its next independent member starts at +0x868. Remaining nested lifetime is unresolved.
     struct Unk790 {
+        // 0x71006726dc; declaration only, weather availability test.
+        bool sub_71006726DC(s32 weather);
         bool sub_7100672B00(ksys::act::Actor* actor) const;
         bool sub_7100672B1C(ksys::act::Actor* actor) const;
         void sub_7100672888(ksys::act::Actor* actor);
