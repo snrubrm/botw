@@ -5,11 +5,81 @@
 #include "KingSystem/Effect/eftEffect.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 // 0x71001c2c68 (declared only; an unnamed free function in the ItemConductorDemoBind TU, takes the player).
 bool sub_71001C2C68(ksys::act::PlayerBase* player);
 
 namespace uking::ai {
+
+// NON_MATCHING: shared effect emission schedules argument setup after the rune branches.
+void ItemConductor::runeEmitItemEffect() {
+    const char* effect;
+    if (!RuneMgr::instance())
+        return;
+    if (RuneMgr::instance()->isSelectedRune(3)) {
+        effect = "Item_BitaLock";
+    } else {
+        if (!RuneMgr::instance())
+            return;
+        if (RuneMgr::instance()->isSelectedRune(4)) {
+            effect = "Item_IceMaker";
+        } else {
+            if (!RuneMgr::instance())
+                return;
+            if (RuneMgr::instance()->isSelectedRune(2)) {
+                effect = "Item_Magne";
+            } else {
+                if (!RuneMgr::instance())
+                    return;
+                if (RuneMgr::instance()->isSelectedRune(7)) {
+                    effect = "Item_Amiibo";
+                } else {
+                    if (!RuneMgr::instance() || !RuneMgr::instance()->isSelectedRune(6))
+                        return;
+                    effect = "Item_Bike";
+                }
+            }
+        }
+    }
+    xlinkSearchAndEmit(mActor, effect, 2, &_58);
+}
+
+void ItemConductor::sub_710044EF44() {
+    sead::SafeString bone_name;
+    sead::Vector3f pos_offset;
+    sead::Vector3f rot_offset;
+    if (auto* armor = sead::DynamicCast<act::ArmorBase>(mActor)) {
+        bone_name = armor->sub_7100E2AEF4();
+        armor->sub_7100E2B094(&pos_offset);
+        armor->sub_7100E2B3D0(&rot_offset);
+    }
+    ksys::act::ai::InlineParamPack pack;
+    pack.addString(bone_name, "BoneName", -1);
+    pack.addVec3(pos_offset, "PosOffset", -1);
+    pack.addVec3(rot_offset, "RotOffsetXyz", -1);
+    changeChild("通常", &pack);
+}
+
+void ItemConductor::sub_710044ED64() {
+    if (_78) {
+        runeEmitItemEffect();
+        _78 = false;
+    }
+    sead::SafeString bone_name;
+    sead::Vector3f pos_offset;
+    sead::Vector3f rot_offset;
+    if (auto* armor = sead::DynamicCast<act::ArmorBase>(mActor)) {
+        bone_name = armor->sub_7100E2AFC4();
+        armor->sub_7100E2B718(&pos_offset);
+        armor->sub_7100E2B820(&rot_offset);
+    }
+    ksys::act::ai::InlineParamPack pack;
+    pack.addString(bone_name, "BoneName", -1);
+    pack.addVec3(pos_offset, "PosOffset", -1);
+    pack.addVec3(rot_offset, "RotOffsetXyz", -1);
+    changeChild("持たれる", &pack);
+}
 
 bool ItemConductor::sub_710044EC60() {
     auto* armor = sead::DynamicCast<act::ArmorBase>(mActor);
