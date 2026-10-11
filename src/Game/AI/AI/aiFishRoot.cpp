@@ -1,6 +1,8 @@
 #include "Game/AI/AI/aiFishRoot.h"
 #include <gsys/gsysModel.h>
 #include <gsys/gsysModelUnit.h>
+#include <random/seadGlobalRandom.h>
+#include <limits>
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "Game/Actor/actUnk_71025ae680.h"
@@ -128,6 +130,44 @@ bool FishRoot::sub_71003CE608(const sead::Vector3f& start) {
         _1c0->submitRequest(ksys::phys::ContactLayerType::Entity);
     }
     return true;
+}
+
+// NON_MATCHING: common timer reset and vector snapshots retain different branches and stores.
+bool FishRoot::sub_71003CD93C() {
+    _160.update();
+    if (!(_160.value <= std::numeric_limits<f32>::epsilon()))
+        return false;
+
+    bool clear = false;
+    if (_1b8) {
+        if (_1b8->get70() != 1)
+            return false;
+        clear = !_1b8->hasHit();
+        _1b8->release();
+        _1b8 = nullptr;
+    } else {
+        _1b8 = ksys::phys::RayCastForRequest::allocRequest(mActor->getPhysics()->get188(0),
+                                                         ksys::phys::GroundHit::HitAll);
+        if (_1b8) {
+            const sead::Vector3f start = mActor->getMtx().getTranslation();
+            _1b8->enableLayer(ksys::phys::ContactLayer::EntityObject);
+            _1b8->enableLayer(ksys::phys::ContactLayer::EntityGroundObject);
+            _1b8->enableLayer(ksys::phys::ContactLayer::EntityGround);
+            _1b8->enableLayer(ksys::phys::ContactLayer::EntityGroundSmooth);
+            _1b8->enableLayer(ksys::phys::ContactLayer::EntityGroundRough);
+            const sead::Vector3f direction = mActor->getMtx().getBase(2);
+            _1b8->setStartAndDisplacementScaled(start, direction, 3.5f);
+            _1b8->submitRequest(ksys::phys::ContactLayerType::Entity);
+            return false;
+        }
+    }
+
+    const f32 base = *mParams.mNextJumpTimeBase_s;
+    if (base < 0.0f)
+        _160.reset(1.0f, 0.0f);
+    else
+        _160.reset(base + *mParams.mNextJumpTimeRand_s * sead::GlobalRandom::instance()->getF32());
+    return clear;
 }
 
 // NON_MATCHING: stack/register allocation and buffer cleanup block placement differ.

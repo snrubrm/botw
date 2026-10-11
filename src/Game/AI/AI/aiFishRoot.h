@@ -68,6 +68,8 @@ protected:
     // 0x71003ce608 (placeholder name): submits a downward ground ray cast from `start` as tall as the actor.
     bool sub_71003CE608(const sead::Vector3f& start);
     void sub_71003CCA34();
+    // Updates the jump timer and checks the asynchronous forward ground cast.
+    bool sub_71003CD93C();
     // 0x71003cd730 (placeholder name)
     void changeToReturn();
     // 0x71003cde1c (placeholder name)
@@ -103,7 +105,8 @@ protected:
     Params mParams{};
     // 0x160 .. 0x1b4: vector / counters (not decompiled)
     ksys::act::BaseProcLink _150;  // the target of interest
-    u8 _160[0x184 - 0x160]{};
+    ksys::Timer _160{};
+    u8 _16c[0x184 - 0x16c]{};
     sead::Vector3f _184{};
     sead::Vector3f _190{};
     u8 _19c[4]{};
