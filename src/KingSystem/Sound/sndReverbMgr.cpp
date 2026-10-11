@@ -1,6 +1,9 @@
 #include "KingSystem/Sound/sndReverbMgr.h"
 #include <prim/seadScopedLock.h>
 #include <cstring>
+#include <aal/aalDebugDrawUtil.h>
+#include <gfx/seadGraphicsContext.h>
+#include <gfx/seadPrimitiveRenderer.h>
 
 namespace ksys::snd {
 
@@ -47,6 +50,25 @@ void Unk_7101059888::sub_7101059B8C(Unk_7101059828* controller) {
     auto lock = sead::makeScopedLock(_20);
     if (_8.isNodeLinked(controller))
         _8.erase(controller);
+}
+
+void Unk_7101059888::sub_7101059C00(sead::DrawContext* context, const sead::Camera& camera,
+                                  const sead::Projection& projection,
+                                  const sead::Viewport& viewport) {
+    if (!(_74 & 1))
+        return;
+    if (_74 & 0x10) {
+        sead::GraphicsContext graphics;
+        graphics.setCullFace(2);
+        graphics.setDepthTestEnable(true);
+        graphics.setDepthWriteEnable(true);
+        graphics.apply(context);
+    }
+    sead::PrimitiveDrawer drawer(context);
+    aal::DebugDrawUtil::initializePrimitiveDrawer(&drawer, camera, projection);
+    auto lock = sead::makeScopedLock(_20);
+    for (auto& controller : _8)
+        controller.draw(&drawer, (_74 & 4) != 0, (_74 & 8) != 0);
 }
 
 }  // namespace ksys::snd
