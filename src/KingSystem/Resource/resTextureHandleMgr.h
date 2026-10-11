@@ -163,5 +163,7 @@ private:
 // Native 260E858 is distinct from sInstance at 260EAC8.
 extern TextureHandleMgr* sUnk_710260E858;
 void sub_7100FE11CC(TextureHandleMgr* manager);
+void sub_7100FE11F0(nn::gfx::ResTexture* texture, nn::gfx::ResTexture* fallback);
+nn::gfx::ResTexture* sub_7100FE124C();
 
 }  // namespace ksys::res

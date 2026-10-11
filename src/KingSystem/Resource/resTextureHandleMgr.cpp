@@ -224,6 +224,23 @@ void sub_7100FE11CC(TextureHandleMgr* manager) {
     sUnk_710260E858 = manager;
 }
 
+// Complete FE4CF4 supplies converted textures; 12A5304 consumes the fallback.
+nn::gfx::ResTexture* sUnk_710260E868;
+const nn::util::BinaryBlockHeader* sUnk_710260E870;
+const nn::util::BinaryBlockHeader* sUnk_710260E878;
+nn::gfx::ResTexture* sUnk_710260E860;
+
+void sub_7100FE11F0(nn::gfx::ResTexture* texture, nn::gfx::ResTexture* fallback) {
+    sUnk_710260E868 = texture;
+    sUnk_710260E870 = sub_7100FDDBD8(texture);
+    sUnk_710260E878 = sub_7100FDDBD8(texture);
+    sUnk_710260E860 = fallback;
+}
+
+nn::gfx::ResTexture* sub_7100FE124C() {
+    return sUnk_710260E860;
+}
+
 void TextureHandleMgr::setInstance(TextureHandleMgr* mgr) {
     sInstance = mgr;
 }
