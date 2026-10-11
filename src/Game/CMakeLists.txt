@@ -101,8 +101,7 @@ target_sources(uking PRIVATE
   gameStage.cpp
   gameOpenWorldStage.cpp
   gameOpenWorldStageMessage.h
-  gameOpenWorldStageMapProps.cpp
-  gameOpenWorldStageMapProps.h
+  gameOpenWorldStage.h
   gameStageBinderCreate.cpp
   gameStage.h
   gameStageBinder.h

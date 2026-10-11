@@ -1,8 +1,75 @@
+#include "Game/gameOpenWorldStage.h"
 #include "Game/gameOpenWorldStageMessage.h"
+#include "Game/gameStage.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/World/worldManager.h"
 #include "KingSystem/Utils/Thread/MessageDispatcherBase.h"
 #include "KingSystem/Utils/Thread/MessageBroker.h"
 
 namespace uking {
+
+bool OpenWorldStage::getMapName(sead::BufferedSafeString* out, int col, int row) {
+    out->format("%c-%d/%c-%d", col + 'A', row + 1, col + 'A', row + 1);
+    return true;
+}
+
+void OpenWorldStage::m4(int* col, int* row, const sead::SafeString& name) {
+    *col = name[0] - 'A';
+    *row = name[2] - '1';
+}
+
+void OpenWorldStage::getMapType(sead::BufferedSafeString* out) {
+    out->copy(mMapType);
+}
+
+bool OpenWorldStage::m2(sead::BufferedSafeString* out) {
+    ksys::act::Actor* actor = mPlayer;
+    const float x = actor->getMtx().m[0][3];
+    const float z = actor->getMtx().m[2][3];
+    const int ix = int(x) + 5000;
+    int col = ix / 1000;
+    const int iz = int(z) + 4000;
+    int row = iz / 1000;
+    col = sead::Mathi::min(col, 9);
+    int c;
+    if (ix <= -1000)
+        c = 0;
+    else
+        c = col;
+    row = sead::Mathi::min(row, 7);
+    int r;
+    if (iz <= -1000)
+        r = 0;
+    else
+        r = row;
+    return getMapName(out, c, r);
+}
+
+void OpenWorldStage::initForStageGen() {
+    ksys::world::sub_71010D6094(ksys::world::Manager::instance()->getEnvMgr());
+}
+
+s32 OpenWorldStage::getType() {
+    return 0;
+}
+
+bool OpenWorldStage::unloadOk() {
+    return true;
+}
+
+bool OpenWorldStage::ret0(void* arg) {
+    return false;
+}
+
+void OpenWorldStage::m27_null(void* arg) {}
+
+void OpenWorldStage::fieldRun() {}
+
+void OpenWorldStage::fieldLeave() {}
+
+bool OpenWorldStage::fieldReenter(void* arg) {
+    return false;
+}
 
 const ksys::StateBase& Unk_710245b740::getState() const {
     return *mState;
