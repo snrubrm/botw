@@ -2,6 +2,7 @@
 #include "KingSystem/ActorSystem/actActorNameSearch.h"
 #include "Game/gameGraphics.h"
 #include <gsys/gsysModel.h>
+#include <gsys/gsysModelUnit.h>
 #include "Game/AI/aiUnk_7100EE53C4.h"
 #include "Game/UI/uiUI.h"
 #include "KingSystem/System/DebugMessage.h"
@@ -64,6 +65,31 @@ void sub_7100D36EE0(sead::Vector3f* out, ksys::act::Actor* actor) {
     sead::Matrix34f result;
     sub_7100EE6D1C(&result, mtx, actor->getScale(), locator);
     result.getTranslation(*out);
+}
+
+// NON_MATCHING: makeS shares its scaled and unscaled stores, and the stack temporaries use other slots.
+void sub_7100D36FA0(sead::Matrix34f* out, ksys::act::Actor* actor) {
+    sead::Vector3f position;
+    actor->m56(&position);
+    if (const auto* param = actor->getParam()) {
+        if (const auto* model_list = param->getRes().mModelList) {
+            ksys::act::InfoData::Locator locator;
+            if (model_list->getLocatorInfo(&locator, ksys::act::InfoData::Locator::Type::StopTimerPos)) {
+                sead::Matrix34f mtx = actor->getMtx();
+                mtx.setTranslation(position);
+                sead::Matrix34f result;
+                sub_7100EE6D1C(&result, mtx, actor->getScale(), locator);
+                result.getTranslation(position);
+            }
+        }
+    }
+    sead::Vector3f scale = actor->getScale();
+    if (auto* model = actor->getModel()) {
+        if (auto* unit = model->getUnits().unsafeAt(0)->mModelUnit)
+            scale *= unit->getBoundSphere()->getRadius();
+    }
+    out->makeS(scale);
+    out->setTranslation(position);
 }
 
 extern ksys::DebugMessage sUnk_7102601328;
