@@ -69,6 +69,8 @@ target_sources(uking PRIVATE
     ProductReporter.h
     Revision.cpp
     Revision.h
+    Controller.cpp
+    Controller.h
     SeadController.cpp
     SeadController.h
     StageInfo.cpp

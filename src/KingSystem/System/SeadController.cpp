@@ -1,4 +1,5 @@
 #include "KingSystem/System/SeadController.h"
+#include "KingSystem/System/Controller.h"
 #include "KingSystem/System/ControllerSnapshot.h"
 
 namespace ksys {
@@ -86,3 +87,5 @@ const sead::Vector2f& Unk_71024dd5c8::sub_7100D9E498() const {
         return _40;
     return sead::ControllerBase::cInvalidPointer;
 }
+
+Unk_71024dd5a8::~Unk_71024dd5a8() = default;

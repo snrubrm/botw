@@ -19,6 +19,8 @@ public:
     const sead::Vector2f& sub_7100D9E498() const;
 
 private:
+    friend class Controller;
+
     bool _8;
     u32 _c;
     u32 _10;
