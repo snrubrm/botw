@@ -13,6 +13,7 @@
 #include "KingSystem/Utils/Types.h"
 #include "KingSystem/Utils/Thread/Task.h"
 #include "KingSystem/GameData/gdtFlagHandle.h"
+#include "KingSystem/GameData/gdtFlag.h"
 
 namespace ksys::qst {
 struct IndicatorActor;
@@ -608,6 +609,24 @@ public:
     ksys::gdt::FlagHandle _58;
 };
 static_assert(sizeof(Unk_7102476150) == 0x60);
+
+// Native factory 0x95C0A8 allocates 0x60 bytes and installs all 30 slots.
+class Unk_7102476250 : public UiSubsys1Entry {
+    SEAD_RTTI_OVERRIDE(Unk_7102476250, UiSubsys1Entry)
+public:
+    ~Unk_7102476250() override;
+    void m11() override;
+    void m12() override;
+    void m14() override;
+    void m16() override;
+    virtual void m29();
+
+    ksys::gdt::FlagHandle _50;
+    ksys::gdt::FlagType _54;
+    ksys::gdt::FlagHandle _58;
+    ksys::gdt::FlagType _5c;
+};
+static_assert(sizeof(Unk_7102476250) == 0x60);
 
 // Native vtable 2477FC0 has fifteen slots; reset 98C7A4 establishes the 0x30-byte layout.
 class Unk_7102477fc0 {

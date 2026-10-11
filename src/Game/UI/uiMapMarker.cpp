@@ -525,4 +525,69 @@ void UiSubsys1Entry::m25(bool enabled) {
     }
 }
 
+void Unk_7102476250::m11() {
+    bool visible = false;
+    if (_50 != ksys::gdt::InvalidHandle && _40 != -1) {
+        if (_54 == ksys::gdt::FlagType::Bool)
+            visible = ksys::gdt::getFlagGenericBool(_50);
+        else if (_54 == ksys::gdt::FlagType::S32)
+            visible = ksys::gdt::getFlagGenericS32(_50) > 0;
+    }
+    if (_58 != ksys::gdt::InvalidHandle && _40 != -1) {
+        if (_5c == ksys::gdt::FlagType::Bool)
+            visible &= !ksys::gdt::getFlagGenericBool(_58);
+        else if (_5c == ksys::gdt::FlagType::S32)
+            visible &= ksys::gdt::getFlagGenericS32(_58) <= 0;
+    }
+    m25(visible);
+}
+
+void Unk_7102476250::m12() {
+    const auto* param = ksys::gdt::Manager::instance()->getParam().get().getBuffer0();
+    if (!param->hasCopiedBoolFlags() && !param->hasCopiedS32Flags())
+        return;
+    bool visible = false;
+    if (_50 != ksys::gdt::InvalidHandle && _40 != -1) {
+        if (_54 == ksys::gdt::FlagType::Bool)
+            visible = ksys::gdt::getFlagGenericBool(_50);
+        else if (_54 == ksys::gdt::FlagType::S32)
+            visible = ksys::gdt::getFlagGenericS32(_50) > 0;
+    }
+    if (_58 != ksys::gdt::InvalidHandle && _40 != -1) {
+        if (_5c == ksys::gdt::FlagType::Bool)
+            visible &= !ksys::gdt::getFlagGenericBool(_58);
+        else if (_5c == ksys::gdt::FlagType::S32)
+            visible &= ksys::gdt::getFlagGenericS32(_58) <= 0;
+    }
+    m25(visible);
+}
+
+// NON_MATCHING: SafeString setup is reordered and handle-prefix combination is duplicated across type branches.
+void Unk_7102476250::m29() {
+    if (_40 < 0)
+        return;
+    const char* key = nullptr;
+    ksys::gdt::getFlag_MapApp_PointGuideVisibleKey(&key, _40);
+    if (key && *key) {
+        _54 = ksys::gdt::Manager::instance()->getParam().get1().getBuffer()->getFlagType(key);
+        if (_54 == ksys::gdt::FlagType::Bool)
+            _50 = ksys::gdt::Manager::instance()->getBoolHandle(key);
+        else if (_54 == ksys::gdt::FlagType::S32)
+            _50 = ksys::gdt::Manager::instance()->getS32Handle(key);
+        else
+            _50 = ksys::gdt::InvalidHandle;
+    }
+    key = nullptr;
+    ksys::gdt::getFlag_MapApp_PointGuideInvisibleKey(&key, _40);
+    if (key && *key) {
+        _5c = ksys::gdt::Manager::instance()->getParam().get1().getBuffer()->getFlagType(key);
+        if (_5c == ksys::gdt::FlagType::Bool)
+            _58 = ksys::gdt::Manager::instance()->getBoolHandle(key);
+        else if (_5c == ksys::gdt::FlagType::S32)
+            _58 = ksys::gdt::Manager::instance()->getS32Handle(key);
+        else
+            _58 = ksys::gdt::InvalidHandle;
+    }
+}
+
 }  // namespace uking::ui
