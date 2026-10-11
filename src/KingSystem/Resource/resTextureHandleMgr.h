@@ -7,6 +7,10 @@
 #include <time/seadTickTime.h>
 #include "KingSystem/Resource/resResource.h"
 
+namespace nn::gfx {
+class ResTexture;
+}
+
 namespace ksys::util {
 class Task;
 class TaskThread;
@@ -44,6 +48,29 @@ public:
         Unk_71024F9D48* _8;
     };
     bool invalidateUser(const InvalidateArg& arg);
+
+    // Complete FE8074 produces this 0x50-byte record; FE59AC independently
+    // copies its fields into a texture validation task request.
+    struct ValidateArg {
+        void setPath(const sead::SafeString& path);
+        void setHash(u32 hash);
+
+        bool _0 = true;
+        bool _1 = false;
+        bool _2 = false;
+        bool _3 = true;
+        bool _4 = true;
+        nn::gfx::ResTexture* mTexture = nullptr;
+        Unk_71024F9D48* mHandle = nullptr;
+        sead::FileDevice* mFileDevice = nullptr;
+        sead::SafeString mRequester;
+        u32 mTextureFlags = 0;
+        sead::SafeString mPath;
+        u32 mHash = 0;
+    };
+    KSYS_CHECK_SIZE_NX150(ValidateArg, 0x50);
+    // Native FE59AC, declared only.
+    bool validateUser(const ValidateArg& arg);
 
     void preCalc();
     void calc();

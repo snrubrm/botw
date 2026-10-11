@@ -159,6 +159,60 @@ bool Unk_71024F9D48::sub_7100FE7FBC(void* arg) {
     return true;
 }
 
+// NON_MATCHING: the original constructs separate request records in each type branch.
+bool Unk_71024F9D48::sub_7100FE8074(const Unk_710260e960* arg) {
+    if (_28)
+        return true;
+    _1c = 1;
+    const auto* texture_arg = sead::DynamicCast<const Unk_71024f9a90>(arg);
+    TextureHandleMgr::ValidateArg request;
+    request.mHandle = this;
+    if (texture_arg) {
+        _30 = texture_arg->mCallback;
+        request._1 = texture_arg->_10;
+        request._2 = texture_arg->_11;
+        request._3 = texture_arg->_12;
+        request._4 = false;
+        request.mTexture = texture_arg->mTexture;
+        request.mFileDevice = texture_arg->mFileDevice;
+        request.mRequester = texture_arg->mRequester;
+        request.mTextureFlags = texture_arg->mTextureFlags;
+    } else {
+        const auto* path_arg = sead::DynamicCast<const Unk_71024f9ad8>(arg);
+        if (!path_arg)
+            return false;
+        if (!path_arg->mPath.cstr()) {
+            _1c = 3;
+            return false;
+        }
+        _30 = path_arg->mCallback;
+        request.mRequester = sead::SafeString::cEmptyString;
+        if (path_arg->mHash)
+            request.setHash(path_arg->mHash);
+        else
+            request.setPath(path_arg->mPath);
+    }
+    const bool success = TextureHandleMgr::instance()->validateUser(request);
+    if (texture_arg) {
+        if (success) {
+            _20 = 1;
+            _1c = 2;
+        } else if (_1c == 1) {
+            _1c = 3;
+        }
+    } else {
+        if (_18.isOn(1)) {
+            _20 = 1;
+            _1c = 2;
+        } else {
+            _20 = 0;
+            if (_1c == 1)
+                _1c = 3;
+        }
+    }
+    return success;
+}
+
 void Unk_71024F9D48::sub_7100FE8328(u32 value) {
     _1c = value;
 }

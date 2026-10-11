@@ -18,6 +18,7 @@ namespace ksys::res {
 
 class Unk_71024f9a08;
 class CompactedHeap;
+class Unk_710260e960;
 class Unk_71024F9D48;
 
 // FE0144 constructs this key at 118; FE0348 writes its hash at 120.
@@ -145,6 +146,7 @@ public:
     virtual ~Unk_71024F9D48();
     bool sub_7100FE7FB0() const;
     bool sub_7100FE7FBC(void* arg);
+    bool sub_7100FE8074(const Unk_710260e960* arg);
     void sub_7100FE8328(u32 value);
     u32 sub_7100FE8330();
     bool sub_7100FE8338();
