@@ -825,6 +825,14 @@ public:
 };
 static_assert(sizeof(Unk_7102479348) == 0x48);
 
+// Native VT24793E0 has seventeen slots; its factory allocates 0x48 bytes.
+class Unk_71024793e0 : public Unk_71025d9170 {
+    SEAD_RTTI_OVERRIDE(Unk_71024793e0, Unk_71025d9170)
+public:
+    ~Unk_71024793e0() override;
+};
+static_assert(sizeof(Unk_71024793e0) == 0x48);
+
 class UiSubsys1 {
     // Native singleton forwarders 96828C / 9682B4 / 9682CC read these UI fields directly.
     friend class Unk_71025d6ac0;
