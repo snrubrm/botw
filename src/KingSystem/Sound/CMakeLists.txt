@@ -3,6 +3,7 @@ target_sources(uking PRIVATE
   sndBgm.cpp
   sndBgmList.cpp
   sndBgmMgr.h
+  sndBgmMgr.cpp
   sndDuckingMgr.cpp
   sndInfoData.cpp
   sndListenerPoser.cpp

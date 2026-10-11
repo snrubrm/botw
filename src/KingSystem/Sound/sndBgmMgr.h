@@ -28,6 +28,8 @@ public:
     void sub_71010078A0(const sead::SafeString& name);
     // 0x7101007904 (92 B): stops the BGM `name` with a fade of `fade_sec` seconds.
     void sub_7101007904(f32 fade_sec, const sead::SafeString& name);
+    void sub_7101007A08(f32 fade_sec);
+    void sub_7101007AA0(f32 fade_sec);
 };
 
 // RTTI root at 0x71025ce360; primary vtable at 0x71024fc8a0.
@@ -240,9 +242,16 @@ struct Unk_SoundMgr30 {
     /* 0x18 */ Unk_SoundMgr30_18* _18;
     u8 _20[0x28];
     /* 0x48 */ Unk_71024fca78* _48;
-    u8 _50[0x10];
+    // Native constructor FF7D08 and fade controls independently establish these floats.
+    f32 _50;
+    f32 _54;
+    f32 _58;
+    u8 _5c[4];
     /* 0x60 */ aal::SimpleTimedFader _60;
     /* 0x78 */ Unk_SoundMgr30_78* _78;
+    u8 _80[8];
+    u8 _88;
+    u8 _89[7];
 };
 
 // 0x7100ffd71c (32 B): `SoundMgr::instance()->_30`, or null without a SoundMgr. Placeholder name.
