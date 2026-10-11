@@ -9,6 +9,8 @@
 #include "KingSystem/Chemical/chmSystemConfig.h"
 #include "KingSystem/Utils/Types.h"
 
+class Element;
+
 namespace ksys::chm {
 class IShape;
 }
@@ -32,22 +34,41 @@ struct Unk_ChemicalWatch {
 
 // Declaration only: chemical holder with vtable 0x71024dd1c8 (ctor 0x7100d8cbec).
 // 2026-10-07: sub_7100D8D1E0 returns its owner's position reference, or Vector3f::zero;
-// its complete layout and separate owner interface are not recovered yet.
+// D8CBEC / D8CFF0 establish the fields below; the separate Element owner interface is incomplete.
 class Unk_71024dd1c8 {
 public:
+    Unk_71024dd1c8();
+    virtual ~Unk_71024dd1c8();
     const sead::Vector3f& sub_7100D8D1E0() const;
     // D8CBEC / Element::emitWrap construct this holder; collision10CD440 supplies both vectors.
     void sub_7100D8D3F4(Chemical* chemical, bool a, bool b, bool c, f32 delta_frame,
                        const sead::Vector3f& position, const sead::Vector3f& normal);
+
+    /* 0x08 */ const chm::SystemConfig::Element* _8;
+    /* 0x10 */ ::Element* _10;
+    /* 0x18 */ u16 _18;
+    /* 0x1a */ u8 _1a;
+    /* 0x1b */ u8 _1b;
+    /* 0x1c */ sead::Vector3f _1c;
+    /* 0x28 */ u8 _28[0x78 - 0x28];
+    /* 0x78 */ u32 _78;
+    /* 0x7c */ u8 _7c[4];
+    /* 0x80 */ Chemical* _80;
+    /* 0x88 */ void* _88;
+    /* 0x90 */ s32 _90;
+    /* 0x94 */ u8 _94[0xa0 - 0x94];
 };
+KSYS_CHECK_SIZE_NX150(Unk_71024dd1c8, 0xa0);
 
 // Placeholder (lane1 s22): the object Chemical::_90 points to; fields read by ChmCheck / ViewWaitRiskAvoid.
 struct Unk_ChemicalData {
     // 2026-10-07: ViewWaitRiskAvoid::m43 loads this pointer before 0x7100d8d1e0.
     /* 0x00 */ Unk_71024dd1c8* _0;
-    /* 0x08 */ u8 _8[0x12 - 0x8];
-    /* 0x12 */ u8 _12;
-    /* 0x13 */ u8 _13[0x7c - 0x13];
+    // D8E448 copies Chemical::_1e8 here; D8F454 clears the same object pointer.
+    /* 0x08 */ Unk_71024dd1c8* _8;
+    // D944DC, D93EAC and D936DC update this complete flags word.
+    /* 0x10 */ u32 _10;
+    /* 0x14 */ u8 _14[0x7c - 0x14];
     /* 0x7c */ f32 _7c;
 };
 KSYS_CHECK_SIZE_NX150(Unk_ChemicalData, 0x80);  // new[] size in Chemical::sub_7100D8EA50
@@ -84,6 +105,7 @@ public:
     // 0x7100d8f124: associates a chemical world holder (same incomplete type as _60).
     bool sub_7100D8F124(void* holder);
     void sub_7100D8F194();
+    void sub_7100D8F454();
     void sub_7100D907A8();
     void sub_7100D90858(bool a1, int a2, bool a3, bool a4, bool a5);
     void sub_7100D909A4();
@@ -114,6 +136,7 @@ public:
     f32 sub_7100D911F8() const;
     void sub_7100D91390(f32 value);
     bool sub_7100D913A8() const;
+    bool sub_7100D913BC(const Chemical& other);
     int sub_7100D914C0() const;
     bool sub_7100D91508() const;
     // 0x7100d91360: `_1c8->_1a`, or byte 0x182 while _c0 is 2, else 0.
@@ -138,8 +161,14 @@ public:
     f32 sub_7100D91A10(int a1, int a2) const;
     f32 sub_7100D91BE4(int a1, int a2) const;
     f32 sub_7100D945AC() const;
+    void sub_7100D943F4(f32 value, f32 offset, f32 rate, u8 flags);
+    void sub_7100D944DC();
     // 2026-10-07: clears the two charge values at 0x1b4 / 0x1b8.
     void sub_7100D93B84();
+    bool sub_7100D93B90(Unk_71024dd1c8* holder);
+    bool sub_7100D936DC(Unk_71024dd1c8* holder);
+    void sub_7100D93EAC(Unk_71024dd1c8* holder);
+    void sub_7100D9427C(Unk_71024dd1c8* holder);
     // Original D8F0FC resets the chemical state after D8EEE0; called by its holder.
     void sub_7100D8F0FC();
     // 0x7100d9153c (declared only): forwards to the owner (_18) with the matrix to fill.
@@ -188,7 +217,8 @@ public:
     /* 0x0c2 */ u8 _c2 = 0;
     /* 0x0c3 */ u8 _c3 = 0;
     /* 0x0c4 */ f32 _c4 = 1.0;
-    /* 0x0c8 */ u8 _c8[8];
+    // D943F4 stores two float arguments here; D948D0 consumes the cached values.
+    /* 0x0c8 */ f32 _c8[2];
     /* 0x0d0 */ f32 _d0;
     /* 0x0d4 */ u8 _d4;
     /* 0x0d5 */ u8 _d5[3];
@@ -213,7 +243,10 @@ public:
     /* 0x194 */ f32 _194;
     /* 0x198 */ f32 _198;
     /* 0x19c */ f32 _19c;
-    /* 0x1a0 */ u8 _1a0[0x1b4 - 0x1a0];
+    /* 0x1a0 */ u8 _1a0[0x1a8 - 0x1a0];
+    // D913BC compares this state identifier with -1; D8E448 copies it into the data record.
+    /* 0x1a8 */ s32 _1a8;
+    /* 0x1ac */ u8 _1ac[0x1b4 - 0x1ac];
     /* 0x1b4 */ f32 _1b4;
     /* 0x1b8 */ f32 _1b8;
     /* 0x1bc */ f32 _1bc;
@@ -222,7 +255,10 @@ public:
     /* 0x1d0 */ void* _1d0;
     /* 0x1d8 */ u8 _1d8[0x1e8 - 0x1d8];
     /* 0x1e8 */ Unk_71024dd1c8* _1e8;
-    /* 0x1f0 */ u8 _1f0[0x238 - 0x1f0];
+    /* 0x1f0 */ u8 _1f0[0x200 - 0x1f0];
+    // D93EAC compares this holder with its incoming holder argument.
+    /* 0x200 */ Unk_71024dd1c8* _200;
+    /* 0x208 */ u8 _208[0x238 - 0x208];
 
     // Unused legacy declaration; the single emitted global is chm::Chemical::sInstance.
     static Unk_ChemicalWatch* sUnk_7102600e50;

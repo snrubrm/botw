@@ -23,7 +23,7 @@ void ChmCheck::enter_(ksys::act::ai::InlineParamPack* params) {
             on = chemical->_90->_7c > 0;
             break;
         case 2:
-            on = (chemical->_bc & 8) || (chemical->_90->_12 & 2);
+            on = (chemical->_bc & 8) || (chemical->_90->_10 & 0x20000);
             break;
         }
     }
@@ -45,7 +45,7 @@ void ChmCheck::calc_() {
             on = chemical->_90->_7c > 0;
             break;
         case 2:
-            on = (chemical->_bc & 8) || (chemical->_90->_12 & 2);
+            on = (chemical->_bc & 8) || (chemical->_90->_10 & 0x20000);
             break;
         }
     }

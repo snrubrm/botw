@@ -1,5 +1,7 @@
 #include "KingSystem/ActorSystem/actChemical.h"
 #include <math/seadMathCalcCommon.h>
+#include <cstring>
+#include <limits>
 #include <thread/seadThread.h>
 #include "KingSystem/ActorSystem/actActorChemicals.h"
 #include "KingSystem/Chemical/chmChemical.h"
@@ -9,10 +11,122 @@ namespace ksys::act {
 
 void Chemical::sub_7100D8F0FC() {
     sub_7100D8EEE0();
-    for (auto& byte : _c8)
-        byte = 0;
+    for (auto& value : _c8)
+        value = 0.0f;
     _d0 = 0.0f;
     _d4 = 0;
+}
+
+
+bool Chemical::sub_7100D93B90(Unk_71024dd1c8* holder) {
+    notifyWatch_();
+    if (!(_8 & 2))
+        return false;
+    if (_18 && !_18->m18())
+        return false;
+    if (_be & 0x20)
+        return false;
+    if (holder && holder->_80 && (holder->_80->_be & 0x40))
+        return false;
+    if (_c & 0x40000000)
+        return false;
+    if (holder && holder->_80 && (holder->_80->_c & 0x40000000))
+        return false;
+    if (_18 && _18->m17()) {
+        if (!holder || !holder->_8 || holder->_8->type.ref() != 4)
+            return false;
+    }
+    if (_c & 0x10000000)
+        return false;
+    return sub_7100D936DC(holder);
+}
+
+void Chemical::sub_7100D93EAC(Unk_71024dd1c8* holder) {
+    notifyWatch_();
+    if (!(_8 & 2))
+        return;
+    if (_18 && !_18->m18())
+        return;
+    if (_be & 0x20)
+        return;
+    if (holder && holder->_80 && (holder->_80->_be & 0x40))
+        return;
+    if (_c & 0x40000000)
+        return;
+    if (holder && holder->_80 && (holder->_80->_c & 0x40000000))
+        return;
+    if (_18 && _18->m17()) {
+        if (!holder || !holder->_8 || holder->_8->type.ref() != 4)
+            return;
+    }
+    if (!holder->_80 || !(holder->_80->_c & 0x40))
+        return;
+    if (_a0 & 1) {
+        if (_a0 & 2) {
+            _90->_8 = nullptr;
+            _90->_0 = nullptr;
+        } else {
+            std::memset(_88, 0, _80);
+            _a2 = 0xff;
+            _a8 = -std::numeric_limits<f32>::max();
+            _ac = std::numeric_limits<f32>::max();
+            _b0 = std::numeric_limits<f32>::max();
+        }
+    }
+    _a0 &= ~3;
+    _90->_10 |= 0x200;
+    if (_200 != holder) {
+        if (_a0 & 1) {
+            if (_a0 & 2) {
+                _90->_8 = nullptr;
+                _90->_0 = nullptr;
+            } else {
+                std::memset(_88, 0, _80);
+                _a2 = 0xff;
+                _a8 = -std::numeric_limits<f32>::max();
+                _ac = std::numeric_limits<f32>::max();
+                _b0 = std::numeric_limits<f32>::max();
+            }
+        }
+        _a0 &= ~3;
+        _90->_10 |= 0x8000;
+    }
+}
+
+void Chemical::sub_7100D9427C(Unk_71024dd1c8* holder) {
+    notifyWatch_();
+    if (!(_8 & 2))
+        return;
+    if (_18 && !_18->m18())
+        return;
+    if (_be & 0x20)
+        return;
+    if (holder && holder->_80 && (holder->_80->_be & 0x40))
+        return;
+    if (_c & 0x40000000)
+        return;
+    if (holder && holder->_80 && (holder->_80->_c & 0x40000000))
+        return;
+    if (_18 && _18->m17()) {
+        if (!holder || !holder->_8 || holder->_8->type.ref() != 4)
+            return;
+    }
+    if (_c & 0x28000)
+        return;
+    if (_a0 & 1) {
+        if (_a0 & 2) {
+            _90->_8 = nullptr;
+            _90->_0 = nullptr;
+        } else {
+            std::memset(_88, 0, _80);
+            _a2 = 0xff;
+            _a8 = -std::numeric_limits<f32>::max();
+            _ac = std::numeric_limits<f32>::max();
+            _b0 = std::numeric_limits<f32>::max();
+        }
+    }
+    _a0 &= ~3;
+    _90->_10 |= 0x400;
 }
 
 
@@ -246,6 +360,101 @@ bool Chemical::sub_7100D8F124(void* holder) {
     _60 = nullptr;
     _8 &= ~8;
     return false;
+}
+
+// NON_MATCHING: the 16-bit flag mask narrows and the final owner predicate folds to a select.
+void Chemical::sub_7100D8F454() {
+    if (_a0 & 1) {
+        if (_a0 & 2) {
+            _90->_8 = nullptr;
+            _90->_0 = nullptr;
+        } else {
+            std::memset(_88, 0, _80);
+            _a2 = 0xff;
+            _a8 = -std::numeric_limits<f32>::max();
+            _ac = std::numeric_limits<f32>::max();
+            _b0 = std::numeric_limits<f32>::max();
+        }
+    }
+    _a0 &= ~3;
+    auto* owner = _18;
+    if (owner) {
+        owner->m7();
+        if (owner->m16())
+            _bc |= 0x400;
+        else
+            _bc &= ~0x400;
+        if (!(_bc & 0x400)) {
+            _c &= ~0x11;
+            _bc &= ~0x1800;
+            if (owner->m21())
+                _c |= 0x40000000;
+            else
+                _c &= ~0x40000000;
+        }
+    }
+}
+
+void Chemical::sub_7100D943F4(f32 value, f32 offset, f32 rate, u8 flags) {
+    notifyWatch_();
+    if (_18 && !_18->m18())
+        return;
+    if (_be & 0x20)
+        return;
+    if (_c & 0x40000000)
+        return;
+    if (_18 && _18->m17())
+        return;
+    _c |= 8;
+    _c8[0] = value;
+    _c8[1] = offset;
+    _d0 = rate;
+    _d4 = flags;
+}
+
+// NON_MATCHING: the material result sinks past the first flags test; later bit tests reorder.
+bool Chemical::sub_7100D913BC(const Chemical& other) {
+    if (sub_7100D9CB54(_60, &other)) {
+        if (chm::Chemical::instance()->_84 & 1) {
+            sead::ThreadMgr::instance()->getCurrentThread();
+            if (static_cast<const void*>(chm::Chemical::instance()) != this)
+                chm::Chemical::instance()->_85 = 100;
+        }
+    }
+    if (_1a8 == -1)
+        return _18->m29(&other);
+    const u32 attribute = mMaterial->attribute.ref();
+    bool result = !(attribute & 0x800000);
+    if ((attribute & 0x4000) && (_c & 0x5800)) {
+        result = (_c >> 6) & 1;
+    } else {
+        const u32 other_attribute = other.mMaterial->attribute.ref();
+        if (!(other_attribute & 0x10000) && !(other._c & 0x7800)) {
+            if ((other_attribute & 0x108) == 0x108 && !(other._be & 4) && (other._c & 0x40))
+                result = false;
+            else
+                result = true;
+        }
+    }
+    return result;
+}
+
+void Chemical::sub_7100D944DC() {
+    notifyWatch_();
+    if (_a0 & 1) {
+        if (_a0 & 2) {
+            _90->_8 = nullptr;
+            _90->_0 = nullptr;
+        } else {
+            std::memset(_88, 0, _80);
+            _a2 = 0xff;
+            _a8 = -std::numeric_limits<f32>::max();
+            _ac = std::numeric_limits<f32>::max();
+            _b0 = std::numeric_limits<f32>::max();
+        }
+    }
+    _a0 &= ~3;
+    _90->_10 |= 0x20000;
 }
 
 void Chemical::sub_7100D8F194() {
