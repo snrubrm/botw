@@ -1,4 +1,7 @@
 #include "Game/AI/AI/aiNPCTravelBase.h"
+#include "Game/AI/aiAwarenessFilters.h"
+#include "KingSystem/ActorSystem/actGlobalParameter.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectGlobal.h"
 #include "Game/AI/aiUnk_71007130BC.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "Game/Actor/actNPC.h"
@@ -36,6 +39,31 @@ void NPCTravelBase::leave_() {
 }
 
 void NPCTravelBase::loadParams_() {}
+
+// NON_MATCHING: the native second distance threshold is a GOT-loaded readonly float.
+ksys::act::Unk_7100d78e50* NPCTravelBase::sub_71004DFA90() {
+    if (_68.value <= sead::Mathf::epsilon())
+        mActor->setFlag(ksys::act::Actor::ActorFlag::_34, false);
+    auto* awareness = mActor->getAwareness();
+    if (!awareness)
+        return nullptr;
+    Unk_71024513d0 filter;
+    f32 distance = 5.0f;
+    auto* global = ksys::act::GlobalParameter::instance();
+    if (global && global->getGlobalParam())
+        distance = global->getGlobalParam()->mNPCOpenDoorDistance.ref();
+    auto* entry = ksys::act::sub_7100D7EEE8(&awareness->_8, &filter);
+    if (entry) {
+        if (entry->_a8 < distance) {
+            mActor->setFlag(ksys::act::Actor::ActorFlag::_34, true);
+        } else {
+            if (entry->_a8 <= 4.0f)
+                mActor->setFlag(ksys::act::Actor::ActorFlag::_34, true);
+            entry = nullptr;
+        }
+    }
+    return entry;
+}
 
 // 0x71004dfb9c: send this actor's link to the selected awareness entry.
 // NON_MATCHING: actor load timing, awareness-link address scheduling and return register differ.
