@@ -153,6 +153,8 @@ target_sources(uking PRIVATE
     actActorUnk117.h
     actActorUtil.cpp
     actActorUtil.h
+    actActorUniqueNameSearch.cpp
+    actActorUniqueNameSearch.h
     actActorWeapons.cpp
     actActorWeapons.h
     actAiAction.cpp

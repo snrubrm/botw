@@ -3,7 +3,11 @@
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorUniqueNameSearch.h"
+#include "KingSystem/ActorSystem/actBaseProcMgr.h"
+#include "KingSystem/Event/evtUnk_7100dc816c.h"
 #include "KingSystem/Map/mapObject.h"
+#include <prim/seadDelegate.h>
 
 namespace ksys::act {
 // 0x7100ee25f0 (declared only): findLinkReferenceObj for a link (acquires the actor first).
@@ -54,6 +58,31 @@ void PlayerDestinationTurnRefActor::calc_() {
     player->_20bc.value = 0;
     player->_20bc.prev_value = 0;
     static_cast<ksys::act::Player*>(mActor)->actionCommon();
+}
+
+// NON_MATCHING: stack slot allocation places the delegate before the search and accessor records.
+void PlayerDestinationTurnRefActor::sub_71007E95E0() {
+    _38.reset();
+    _48.reset();
+    _38 = ksys::evt::sub_7100DC85D4(mActor);
+    if (!_38.hasProc())
+        return;
+    _58 = 0;
+    if (auto* obj = ksys::act::findLinkReferenceObj(&_38, "", mUniqName_d, &_58)) {
+        ksys::act::ActorConstDataAccess accessor;
+        obj->getActorWithAccessor(accessor);
+        if (accessor.hasProc())
+            accessor.linkAcquire(&_48);
+    } else if (!mUniqName_d.isEmpty()) {
+        if (auto* mgr = ksys::act::BaseProcMgr::instance()) {
+            ksys::act::ActorUniqueNameSearch search(mUniqName_d);
+            sead::Delegate1<ksys::act::ActorUniqueNameSearch, ksys::act::BaseProc*> callback(
+                &search, &ksys::act::ActorUniqueNameSearch::sub_7100EDCC10);
+            mgr->forEachProc(callback, ksys::act::BaseProcMgr::ProcFilters(0xd));
+            if (search.mLink.hasProc())
+                _48 = search.mLink;
+        }
+    }
 }
 
 void PlayerDestinationTurnRefActor::sub_71007E974C(sead::Matrix34f* out) {
