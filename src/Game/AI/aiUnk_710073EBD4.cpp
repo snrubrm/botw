@@ -1,6 +1,8 @@
 #include "Game/AI/aiUnk_710073EBD4.h"
 #include <gsys/gsysModel.h>
 #include <gsys/gsysModelUnit.h>
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/AI/aiUnk_71007377D4.h"
 #include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
@@ -110,6 +112,38 @@ void Unk_710073ebd4::sub_710073F14C(const sead::Vector3f* target) {
     sead::Vector3f ang_vel;
     sub_710073F1BC(&mtx, &vel, &ang_vel, target, true, &sead::Vector3f::ez, 1.0f);
     sub_710073EA44(mActor, mWork, mtx, &vel, &ang_vel, !mIsReuseBullet);
+}
+
+// NON_MATCHING: The same-TU parts lookup is inlined; vector output scheduling also differs.
+void Unk_710073ebd4::sub_710073F1BC(sead::Matrix34f* mtx, sead::Vector3f* vel,
+                                  sead::Vector3f* ang_vel, const sead::Vector3f* target,
+                                  bool actor_space, const sead::Vector3f* direction, f32 scale) {
+    sead::Matrix34f pose;
+    sead::Matrix33f base_rotation;
+    sub_710073F7F0(&pose, &base_rotation);
+    const sead::Vector3f position = pose.getTranslation();
+    f32 gravity;
+    {
+        auto& link = sub_710073E9A8(mActor, mWork);
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::acquireActor(&link, &accessor);
+        sead::Vector3f gravity_vector;
+        sub_710072DC50(&gravity_vector, mActor);
+        gravity = gravity_vector.y * (1.0f / 900.0f);
+    }
+    sead::Vector3f front;
+    if (actor_space)
+        front.setRotated(mActor->getMtx(), *direction);
+    else
+        front.setRotated(base_rotation, *direction);
+    sead::Vector3f velocity;
+    sub_71005DDF80(&velocity, target, &position, &front, mDirMinAngle_s, mDirMaxAngle_s,
+                   *mShootSpeed_s, gravity * scale, *mMaxNoiseDist_s);
+    sead::Vector3f angular_velocity;
+    angular_velocity.setRotated(base_rotation, *mShootRotSpeed_s);
+    *mtx = pose;
+    *vel = velocity;
+    *ang_vel = angular_velocity;
 }
 
 // NON_MATCHING: The base orientation copy stays after the transform math instead of across the
