@@ -122,6 +122,18 @@ bool sub_7100740200(sead::Matrix33f* mtx, const sead::Vector3f& front, f32 a, f3
     return sub_710073FC58(mtx, target, axis, angle, a, b, c);
 }
 
+// NON_MATCHING: the builder-choice boolean uses a bit test rather than a zero comparison.
+bool sub_7100740464(sead::Matrix33f* mtx, const sead::Vector3f& front,
+                   const sead::Vector3f& up, const sead::Vector3f& axis, s32 direction,
+                   bool use_front, f32 a, f32 b, f32 c) {
+    sead::Matrix33f target;
+    if (use_front)
+        ksys::util::sub_71011EFE58(&target, front, up, false);
+    else
+        ksys::util::sub_71011EFFA8(&target, front, up, false);
+    return sub_71007402F4(mtx, target, axis, direction, a, b, c);
+}
+
 bool sub_71007404F0(sead::Matrix33f* mtx, const sead::Matrix33f& target, f32 a) {
     sead::Vector3f axis = sead::Vector3f::ey;
     f32 angle = 0;

@@ -53,6 +53,12 @@ bool sub_710074006C(sead::Matrix33f* mtx, const sead::Vector3f& v1, const sead::
 bool sub_7100740118(sead::Matrix33f* mtx, const sead::Vector3f& v, f32 a, f32 b, f32 c);
 bool sub_710074018C(sead::Matrix33f* mtx, const sead::Vector3f& v, f32 a, f32 b, f32 c);
 bool sub_7100740200(sead::Matrix33f* mtx, const sead::Vector3f& v, f32 a, f32 b, f32 c);
+// Selects the turn direction using the supplied axis. The shared step body is declaration only.
+bool sub_71007402F4(sead::Matrix33f* mtx, const sead::Matrix33f& target,
+                   const sead::Vector3f& axis, s32 direction, f32 a, f32 b, f32 c);
+bool sub_7100740464(sead::Matrix33f* mtx, const sead::Vector3f& front,
+                   const sead::Vector3f& up, const sead::Vector3f& axis, s32 direction,
+                   bool use_front, f32 a, f32 b, f32 c);
 bool sub_71007404F0(sead::Matrix33f* mtx, const sead::Matrix33f& target, f32 a);
 bool sub_71007407F0(sead::Matrix33f* mtx, const sead::Vector3f& v1, const sead::Vector3f& v2, bool flag,
                     f32 a);
