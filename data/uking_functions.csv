@@ -85255,8 +85255,8 @@ Address,Quality,Size,Name
 0x0000007100fe2f58,O,000172,_ZN4ksys3res16TextureHandleMgr8invoked2EPv
 0x0000007100fe3004,m,001572,_ZN4ksys3res16TextureHandleMgr8invoked3EPv
 0x0000007100fe3628,m,000312,_ZN4ksys3res16TextureHandleMgr8invoked4EPv
-0x0000007100fe3760,U,001632,TextureHandleMgr::bfres_file_stuff
-0x0000007100fe3dc0,U,001368,TextureHandleMgr::bfres_file_stuff_2
+0x0000007100fe3760,m,001632,_ZN4ksys3res16TextureHandleMgr16bfres_file_stuffEPv
+0x0000007100fe3dc0,m,001368,_ZN4ksys3res16TextureHandleMgr18bfres_file_stuff_2EPv
 0x0000007100fe4318,O,000160,_ZN4ksys3res16TextureHandleMgr8invoked5EPv
 0x0000007100fe43b8,m,000588,_ZN4ksys3res16TextureHandleMgr8invoked6EPv
 0x0000007100fe4604,m,000788,_ZN4ksys3res16TextureHandleMgr13repairExecuteEPNS_4util17TaskPostRunResultERKNS2_18TaskPostRunContextE
@@ -96116,8 +96116,8 @@ Address,Quality,Size,Name
 0x00000071012b6bb4,U,000484,CompactedHeap::x_15
 0x00000071012b6d98,U,000688,CompactedHeap::x_18
 0x00000071012b7048,U,000780,CompactedHeap::x_16
-0x00000071012b7354,U,000244,CompactedHeap::x_17
-0x00000071012b7448,U,000176,CompactedHeap::x_19
+0x00000071012b7354,U,000244,_ZN4ksys3res13CompactedHeap4x_17Ejiib
+0x00000071012b7448,U,000176,_ZN4ksys3res13CompactedHeap4x_19EPvb
 0x00000071012b74f8,U,000660,CompactedHeap::x_7
 0x00000071012b778c,O,000028,_ZN4ksys3res13CompactedHeap24incrementCompactionCountEv
 0x00000071012b77a8,U,000276,CompactedHeap::x_20

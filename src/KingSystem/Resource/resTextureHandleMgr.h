@@ -47,6 +47,8 @@ class Unk_710251A740;
 template <typename T>
 class EntryFactory;
 extern EntryFactory<Unk_710251A740> sUnk_710260E8A0;
+// Complete FE6E9C constructs this native factory within its global state.
+extern EntryFactory<Unk_710251A740> sUnk_710260EA08;
 class Unk_71024f9a08;
 class Unk_71024f9a50;
 class Unk_71024F9D48;
@@ -102,6 +104,8 @@ public:
     void x(Unk_71024f9a08* resource);
     bool invoked5(void*);
     bool invoked6(void* data);
+    bool bfres_file_stuff(void* data);
+    bool bfres_file_stuff_2(void* data);
     // Complete FE6134 and independent FE3760 establish this native helper.
     bool x_0(nn::g3d::ResFile* file, bool tex1, Unk_71024f9a08** resource);
     void invoked7(util::TaskPostRunResult* result, const util::TaskPostRunContext& context);

@@ -61,6 +61,10 @@ public:
     };
     KSYS_CHECK_SIZE_NX150(Allocation, 0x20);
     void x_21(Allocation* allocation);
+    // Complete 12B7354 / 12B7448 and archive callers establish these raw helpers.
+    // Bodies remain undecompiled because their tagged allocation headers are opaque.
+    void* x_17(u32 size, s32 alignment, s32 mode, bool sync);
+    void x_19(void* data, bool sync);
 
     void destroy();
     void incrementCompactionCount();

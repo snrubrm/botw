@@ -20,6 +20,8 @@
 #include "KingSystem/Utils/HeapUtil.h"
 #include <filedevice/seadFileDeviceMgr.h>
 #include <thread/seadThread.h>
+#include <resource/seadParallelSZSDecompressor.h>
+#include <nn/g3d/ResFile.h>
 
 Unk_71024f9bb8::~Unk_71024f9bb8() = default;
 
@@ -878,6 +880,191 @@ bool TextureHandleMgr::doCalc() {
         _98.setNow();
         x_1(&count);
     }
+    return true;
+}
+
+// NON_MATCHING: structured archive loading and diagnostic / request lifetimes differ.
+bool TextureHandleMgr::bfres_file_stuff(void* user_data) {
+    auto* data = sead::DynamicCast<::Unk_71024f9e28>(static_cast<util::TaskData*>(user_data));
+    if (!data)
+        return false;
+    auto* resource = static_cast<Unk_71024f9a08*>(data->_60);
+    const bool tex1 = resource->sub_7100FE0DF0().findIndex(".Tex1.") != -1;
+    if (tex1) {
+        auto* queue = _50->getTaskQueue();
+        if (queue && queue->countTasksInLane(1) > 0)
+            return false;
+        if (mFlags.isOffBit(0) || mFlags.isOffBit(1))
+            return false;
+    } else if (mFlags.isOffBit(0)) {
+        return false;
+    }
+    if (!resource->sub_7100FE0ED0())
+        return true;
+    auto* counter = mHeapCounter;
+    counter->incrementRef();
+    auto* heap = static_cast<CompactedHeap*>(counter->getData());
+    u32 size = ResourceMgrTask::instance()->getResourceSize(resource->sub_7100FE0DF0(), nullptr);
+    if (size == 0)
+        ResourceMgrTask::instance()->getUncompressedSize(&size, resource->sub_7100FE0DF0(),
+                                                        resource->sub_7100FE0E08());
+    void* buffer = nullptr;
+    nn::g3d::ResFile* file = nullptr;
+    if (mArchiveWork->getHeapSize() < size) {
+        sead::FixedStringBuilder<256> path;
+        path.copy(resource->sub_7100FE0DF0().cstr());
+        const s32 extension = path.rfindIndex(".bfres");
+        if (extension != -1)
+            path.copyAtWithTerminate(extension, ".sbfres");
+        const bool compressed = path.findIndex(".sbfres") != -1;
+        buffer = heap->x_17(size, -0x2000, 0, true);
+        auto* device = resource->sub_7100FE0E08();
+        if (!device)
+            device = sead::FileDeviceMgr::instance()->getDefaultFileDevice();
+        if (compressed) {
+            auto* decompressor = ResourceMgrTask::instance()->getSzsDecompressor();
+            sead::ResourceMgr::LoadArg arg;
+            arg.path = path.cstr();
+            arg.load_data_buffer = static_cast<u8*>(buffer);
+            arg.load_data_buffer_size = size;
+            arg.device = device;
+            arg.assert_on_alloc_fail = false;
+            decompressor->tryDecompFromDevice(arg, nullptr, nullptr, nullptr, nullptr);
+            ResourceMgrTask::instance()->unlockSzsDecompressorCS();
+        } else {
+            sead::FileDevice::LoadArg arg;
+            arg.path = path.cstr();
+            arg.buffer = static_cast<u8*>(buffer);
+            arg.buffer_size = size;
+            arg.check_read_entire_file = false;
+            device->tryLoad(arg);
+        }
+        if (!buffer) {
+            resource->sub_7100FE0850();
+            mHeapCounter->decrementRef();
+            return false;
+        }
+        file = nn::g3d::ResFile::ResCast(buffer);
+    } else {
+        const auto path = resource->sub_7100FE0DF0();
+        if (!mLoader.isLoading()) {
+            TempResourceLoader::LoadArg arg;
+            arg.load_req.mLoadDataAlignment = 0x2000;
+            arg.load_req._21 = false;
+            arg.load_req._22 = true;
+            arg.load_req._26 = true;
+            arg.load_req._8 = true;
+            arg.load_req.mLoadCompressed = true;
+            arg.load_req._28 = false;
+            arg.load_req.mEntryFactory = &sUnk_710260EA08;
+            arg.load_req.mAocFileDevice = nullptr;
+            arg.load_req.mPath = path;
+            mLoader.requestLoad(arg);
+        }
+        Unk_71024f9b08 context;
+        context.mFileDevice = resource->sub_7100FE0E08();
+        context.mPath = path;
+        if (!mLoader.getResourceForLoadRequest(&context)) {
+            mLoader.checkLoadStatus();
+            mHeapCounter->decrementRef();
+            return false;
+        }
+        file = static_cast<Unk_710251A740*>(mLoader.getResource())->_38;
+    }
+    const bool matched = x_0(file, tex1, &resource);
+    mLoader.unload();
+    if (resource && !matched) {
+        const auto name = resource->sub_7100FE10A8();
+        const auto path = resource->sub_7100FE0DF0();
+        sead::FormatFixedSafeString<256>(
+            "↓↓↓\nベーステクスチャ名               : %s\n修復に用いる予定だったアーカイブ : %s\n↑↑↑\n",
+            name.cstr(), path.cstr());
+    }
+    if (buffer)
+        heap->x_19(buffer, true);
+    mHeapCounter->decrementRef();
+    return true;
+}
+
+// NON_MATCHING: structured archive loading and request / context lifetimes differ.
+bool TextureHandleMgr::bfres_file_stuff_2(void* user_data) {
+    auto* data = sead::DynamicCast<::Unk_71024f9e28>(static_cast<util::TaskData*>(user_data));
+    if (!data)
+        return false;
+    sead::SafeString path = data->_70;
+    auto* device = static_cast<sead::FileDevice*>(data->_68);
+    if (!device)
+        device = sead::FileDeviceMgr::instance()->getDefaultFileDevice();
+    auto* counter = mHeapCounter;
+    counter->incrementRef();
+    auto* heap = static_cast<CompactedHeap*>(counter->getData());
+    u32 size = ResourceMgrTask::instance()->getResourceSize(path, nullptr);
+    if (size == 0)
+        ResourceMgrTask::instance()->getUncompressedSize(&size, path, device);
+    void* buffer = nullptr;
+    nn::g3d::ResFile* file = nullptr;
+    if (mArchiveWork->getHeapSize() < size) {
+        sead::FixedStringBuilder<256> archive_path;
+        archive_path.copy(path.cstr());
+        const s32 extension = archive_path.rfindIndex(".bfres");
+        if (extension != -1)
+            archive_path.copyAtWithTerminate(extension, ".sbfres");
+        const bool compressed = archive_path.findIndex(".sbfres") != -1;
+        buffer = heap->x_17(size, -0x2000, 0, true);
+        if (compressed) {
+            auto* decompressor = ResourceMgrTask::instance()->getSzsDecompressor();
+            sead::ResourceMgr::LoadArg arg;
+            arg.path = archive_path.cstr();
+            arg.load_data_buffer = static_cast<u8*>(buffer);
+            arg.load_data_buffer_size = size;
+            arg.device = device;
+            arg.assert_on_alloc_fail = false;
+            decompressor->tryDecompFromDevice(arg, nullptr, nullptr, nullptr, nullptr);
+            ResourceMgrTask::instance()->unlockSzsDecompressorCS();
+        } else {
+            sead::FileDevice::LoadArg arg;
+            arg.path = archive_path.cstr();
+            arg.buffer = static_cast<u8*>(buffer);
+            arg.buffer_size = size;
+            arg.check_read_entire_file = false;
+            device->tryLoad(arg);
+        }
+        if (!buffer) {
+            mHeapCounter->decrementRef();
+            return false;
+        }
+        file = nn::g3d::ResFile::ResCast(buffer);
+    } else {
+        if (!mLoader.isLoading()) {
+            TempResourceLoader::LoadArg arg;
+            arg.load_req.mLoadDataAlignment = 0x2000;
+            arg.load_req._21 = false;
+            arg.load_req._22 = true;
+            arg.load_req._26 = true;
+            arg.load_req._8 = true;
+            arg.load_req.mLoadCompressed = true;
+            arg.load_req._28 = false;
+            arg.load_req.mEntryFactory = &sUnk_710260EA08;
+            arg.load_req.mAocFileDevice = nullptr;
+            arg.load_req.mPath = path;
+            mLoader.requestLoad(arg);
+        }
+        Unk_71024f9b08 context;
+        context.mFileDevice = device;
+        context.mPath = path;
+        if (!mLoader.getResourceForLoadRequest(&context)) {
+            mLoader.checkLoadStatus();
+            mHeapCounter->decrementRef();
+            return false;
+        }
+        file = static_cast<Unk_710251A740*>(mLoader.getResource())->_38;
+    }
+    Unk_71024f9a08* resource = nullptr;
+    x_0(file, path.findIndex(".Tex1.") != -1, &resource);
+    mLoader.unload();
+    if (buffer)
+        heap->x_19(buffer, true);
+    mHeapCounter->decrementRef();
     return true;
 }
 
