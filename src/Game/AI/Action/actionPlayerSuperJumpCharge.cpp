@@ -11,6 +11,28 @@ PlayerSuperJumpCharge::PlayerSuperJumpCharge(const InitArg& arg) : PlayerAction(
 
 void PlayerSuperJumpCharge::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
+    static_cast<ksys::act::Player*>(mActor)->_cec.set(4);
+    static_cast<ksys::act::Player*>(mActor)->_cf0.set(4);
+    static_cast<ksys::act::Player*>(mActor)->_cf0.set(0x1000);
+    static_cast<ksys::act::Player*>(mActor)->switchToAnimSequenceMaybe("SquatWait", true, -1.0f);
+
+    auto* player = static_cast<ksys::act::Player*>(mActor);
+    if (player->_d30 == player->getEquipmentTypeName(1))
+        static_cast<ksys::act::Player*>(mActor)->x_23("SquatWaitUpper", false, -1.0f);
+
+    player = static_cast<ksys::act::Player*>(mActor);
+    player->_20bc.value = 0;
+    player->_20bc.prev_value = 0;
+    static_cast<ksys::act::Player*>(mActor)->_1844 = ksys::Timer(0, 0, 1.0f);
+    player = static_cast<ksys::act::Player*>(mActor);
+    player->_1810 = player->_1770;
+    static_cast<ksys::act::Player*>(mActor)->_1cbe = 0;
+
+    player = static_cast<ksys::act::Player*>(mActor);
+    if (player->_c40.isOnBit(3) && player->_d30 != player->getEquipmentTypeName(1))
+        static_cast<ksys::act::Player*>(mActor)->sub_710088B2EC();
+    if (auto* controller = mActor->getCharacterController())
+        controller->sub_7100F5F270(static_cast<ksys::act::Player*>(mActor)->_1cd8);
 }
 
 void PlayerSuperJumpCharge::leave_() {

@@ -314,6 +314,8 @@ public:
     // All callers pass -1.0f in s0 (unused, like x_19).
     void x_24(f32 a1);                                                  // 0x855e24
     void x_25();                                                        // 0x8551fc
+    // 0x710088b2ec: resets the held equipment animation state for squat actions.
+    void sub_710088B2EC();
     // A 4-byte angle index (sead::Mathf::atan2Idx result) returned through x8, so not trivially
     // copyable in the original; the same type as 0x710092dba4's result (ksys::util placeholder).
     using Unk1 = util::Unk_7101EC6BAC;

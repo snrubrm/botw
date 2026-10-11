@@ -88,7 +88,29 @@ void PlayerGuardSlip::loadParams_() {
 }
 
 void PlayerGuardSlip::calc_() {
-    PlayerAction::calc_();
+    if (static_cast<ksys::act::Player*>(mActor)->isSurfingOnGround()) {
+        auto* player = static_cast<ksys::act::Player*>(mActor);
+        if (player->_cec.isOnBit(1)) {
+            player->_cec.reset(2);
+            if (mActor->getASList()->x_1(0, 0) != "StepLand")
+                mActor->getASList()->startAnimationMaybe(-1.0f, -1.0f, "StepLand", 0, 0, true);
+        }
+    }
+    auto* player = static_cast<ksys::act::Player*>(mActor);
+    player->_20bc.chase(0.0f, player->_1800);
+    if (mActor->getASList()->x_1(0, 0) == "StepLand") {
+        if (mActor->getASList()->x_4(0, 0)) {
+            setFinished();
+        } else if (mActor->getASList()->x(2, nullptr, 0, 0,
+                                       &ksys::as::ASList::Unk2::sub_710116383C, true)) {
+            static_cast<ksys::act::Player*>(mActor)->_cec.set(0x8000000);
+            static_cast<ksys::act::Player*>(mActor)->_cec.set(0x10000000);
+            _1c = true;
+        }
+    } else {
+        m32();
+    }
+    static_cast<ksys::act::Player*>(mActor)->actionCommon();
 }
 
 bool PlayerGuardSlip::isChangeable() const {
