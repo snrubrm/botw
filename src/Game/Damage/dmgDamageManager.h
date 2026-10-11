@@ -68,6 +68,7 @@ public:
     bool isSlowTime() override;
     bool m40(s32* out) override;
     bool m41() override;
+    bool m38(ksys::phys::RigidBody* body) override;
     // Slots 29 / 30 (CSV DamageMgr::m29 / m30): the normalised `_cc` for damage kind 7 when bit 6 of `_216` is set,
     // else the base class.
     bool m29(sead::Vector3f* out) override;

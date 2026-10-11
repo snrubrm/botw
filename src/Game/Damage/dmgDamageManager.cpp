@@ -61,6 +61,12 @@ ksys::phys::RigidBody* DamageManager::sub_71006D69F8() {
     }
 }
 
+// NON_MATCHING: inlining the existing body getter merges the two attack-info calls.
+bool DamageManager::m38(ksys::phys::RigidBody* body) {
+    auto* damage_body = sub_71006D69F8();
+    return damage_body && damage_body == body;
+}
+
 // NON_MATCHING: the original duplicates accessor cleanup in its true / false return paths.
 bool DamageManager::m51(const ksys::act::BaseProcLink* link) {
     const auto* param = getActorDamageParam();
