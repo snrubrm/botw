@@ -10,6 +10,7 @@ namespace ksys::act {
 ModelBindInfo::ModelBindInfo() = default;
 
 // NON_MATCHING: branch hoisting, axis registers and quaternion temporary stores differ.
+// The existing SEAD Matrix33 x Matrix34 multiply also emits a non-matching template.
 void ModelBindInfo::sub_7100D3BDD8(Actor* actor, sead::Matrix34f* matrix,
                                 const sead::Matrix34f& fallback) {
     if (_98 == 3) {

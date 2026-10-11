@@ -17,20 +17,30 @@ namespace gsys {
 struct BoneAccessKey;
 }
 
+namespace ksys::phys {
+class RagdollInstance;
+}
+
 namespace ksys::act {
 
 class Actor;
-// Placeholder name (the ragdoll controller created by Unk_71006ecc78::sub_71006ECC78; size unknown):
-// only the vector at +0xc4 is modelled so far.
+// Placeholder name: the ragdoll controller created by Unk_71006ecc78::sub_71006ECC78.
+// The full allocation producer at 6ECC78 establishes the 0xe8-byte extent.
 class Unk_7100e9d810 {
 public:
+    Unk_7100e9d810();
+    bool sub_7100E9D8B0(Actor* actor, phys::RagdollInstance* ragdoll, sead::Heap* heap);
+    void sub_7100E9DAC8();
+
     /* 0x00 */ u8 _0[0xc4];
     /* 0xc4 */ sead::Vector3f _c4;
     u8 _d0[4];
     /* 0xd4 */ f32 _d4;  // lane4 s64: sub_71006EE148 returns it / 30
     u8 _d8[4];
     /* 0xdc */ u8 _dc;  // sub_71006EE274
+    /* 0xdd */ u8 _dd[0xe8 - 0xdd];
 };
+KSYS_CHECK_SIZE_NX150(Unk_7100e9d810, 0xe8);
 
 // Placeholder name (functions at 0x71006ecc78-0x71006ee3e0; ctor inlined into DynamicActor::initField868
 // 0x71006dc5d4): the ragdoll handler of a DynamicActor (DynamicActor::_868, size 0xd8). Only the members
@@ -40,11 +50,11 @@ public:
     // Inlined into DynamicActor::initField868 (0x71006dc5d4) and Horse's constructor (embedded at 0xf50).
     explicit Unk_71006ecc78(Actor* actor) : mActor(actor) {}
 
-    // 0x71006ecc78 (declaration only): creates `_8` in `heap` and applies the ragdoll gravity factor.
+    // 0x71006ecc78: creates `_8` in `heap` and applies the ragdoll gravity factor.
     bool sub_71006ECC78(sead::Heap* heap);
-    // 0x71006ecd08 (declaration only): removes the ragdoll and releases its controller.
+    // 0x71006ecd08: removes the ragdoll and releases its controller.
     void sub_71006ECD08();
-    // 0x71006ecd6c (declaration only): sets the contact layer of the actor's rigid bodies.
+    // 0x71006ecd6c: sets the contact layer of the actor's rigid bodies.
     void sub_71006ECD6C(bool a1);
 
     // 0x71006ed484

@@ -10,6 +10,44 @@
 
 namespace ksys::act {
 
+bool Unk_71006ecc78::sub_71006ECC78(sead::Heap* heap) {
+    auto* ragdoll = mActor->getRagdollInstance();
+    if (!ragdoll)
+        return true;
+    ragdoll->setGravityFactor(1.25f);
+    _8 = new (heap, 8) Unk_7100e9d810;
+    if (!_8)
+        return false;
+    return _8->sub_7100E9D8B0(mActor, ragdoll, heap);
+}
+
+void Unk_71006ecc78::sub_71006ECD08() {
+    auto* ragdoll = mActor->getRagdollInstance();
+    if (ragdoll && ragdoll->isAddedToWorld()) {
+        ragdoll->removeFromWorldImmediately();
+        return;
+    }
+    if (_8) {
+        _8->sub_7100E9DAC8();
+        delete _8;
+        _8 = nullptr;
+    }
+}
+
+// NON_MATCHING: the contact-layer selection is hoisted out of the body loop.
+void Unk_71006ecc78::sub_71006ECD6C(bool a1) {
+    auto& bodies = mActor->getPhysics()->getRagdollInstance()->getRigidBodies_();
+    for (s32 i = 0; i < bodies.size(); ++i) {
+        auto* body = bodies[i];
+        if (!body)
+            continue;
+        const auto name = body->getHkBodyName();
+        if (name.startsWith("Ragdoll_Arm") || name.startsWith("Ragdoll_Wrist"))
+            body->setContactLayer(a1 ? phys::ContactLayer::EntityNoHit :
+                                      phys::ContactLayer::EntityRagdoll);
+    }
+}
+
 // NON_MATCHING: temporary matrix and vector storage is allocated differently; the physics calls and values agree.
 void Unk_71006ecc78::sub_71006EDE54(sead::Matrix34f* out, const sead::SafeString& name) {
     const s32 index = mActor->getRagdollInstance()->getBoneIndexByName(name);
