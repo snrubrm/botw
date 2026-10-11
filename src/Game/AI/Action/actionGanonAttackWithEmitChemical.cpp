@@ -157,7 +157,7 @@ void GanonAttackWithEmitChemical::calc_() {
             _168.reset(*mEmitInterval_s);
             ++_174;
         } else if (_174 < *mEmitNum_s && *mEmitNum_s != 0) {
-            for (u32 i = 0; i < *mEmitNum_s; ++i)
+            for (s32 i = 0; i < *mEmitNum_s; ++i)
                 sub_7100173138(i);
         }
     }
