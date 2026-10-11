@@ -562,3 +562,13 @@ inline hkpRigidBody* hkpWorld::getFixedRigidBody() {
 inline const hkpRigidBody* hkpWorld::getFixedRigidBody() const {
     return m_fixedRigidBody;
 }
+
+// Inline in 0x7100FA76D8; world finish construction (0x71015FEAA0) and
+// addEntitySI (0x71016088F8) independently establish these two owned arrays.
+inline const hkArray<hkpSimulationIsland*>& hkpWorld::getActiveSimulationIslands() const {
+    return m_activeSimulationIslands;
+}
+
+inline const hkArray<hkpSimulationIsland*>& hkpWorld::getInactiveSimulationIslands() const {
+    return m_inactiveSimulationIslands;
+}
