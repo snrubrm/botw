@@ -641,6 +641,31 @@ void sub_71007390F8(ksys::act::AttackSensor* sensor) {
         sensor->_20 = 0x1;
 }
 
+void sub_7100739118(ksys::act::AttackSensor2* sensor) {
+    if (sensor)
+        sensor->_1c = 1;
+}
+
+void sub_7100739128(ksys::act::AttackSensor2* sensor) {
+    if (sensor)
+        sensor->_1c = 8;
+}
+
+void sub_7100739138(ksys::act::AttackSensor2* sensor) {
+    if (sensor)
+        sensor->_1c = 2;
+}
+
+void sub_7100739148(ksys::act::AttackSensor2* sensor) {
+    if (sensor)
+        sensor->_1c = 16;
+}
+
+void sub_7100739158(ksys::act::AttackSensor2* sensor) {
+    if (sensor)
+        sensor->_1c = 16;
+}
+
 void sub_7100739168(ksys::act::AttackSensor2* sensor) {
     if (sensor)
         sensor->_1c = 4;

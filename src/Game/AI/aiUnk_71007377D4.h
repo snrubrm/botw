@@ -375,7 +375,12 @@ void sub_71007390D8(ksys::act::AttackSensor* sensor);
 void sub_71007390E8(ksys::act::AttackSensor* sensor);
 void sub_71007390F8(ksys::act::AttackSensor* sensor);
 void sub_7100739108(ksys::act::AttackSensor* sensor);
-// Declared only: sets the target sensor's halfword mask (AttackSensor2::_1c).
+// Sets the target sensor halfword mask. DynamicActor::m63 passes sub_71007A2844 results.
+void sub_7100739118(ksys::act::AttackSensor2* sensor);
+void sub_7100739128(ksys::act::AttackSensor2* sensor);
+void sub_7100739138(ksys::act::AttackSensor2* sensor);
+void sub_7100739148(ksys::act::AttackSensor2* sensor);
+void sub_7100739158(ksys::act::AttackSensor2* sensor);
 void sub_7100739168(ksys::act::AttackSensor2* sensor);
 // Declared only: sets up the actor's target and chemical physics bodies.
 void sub_71007394E8(ksys::act::Actor* actor);
