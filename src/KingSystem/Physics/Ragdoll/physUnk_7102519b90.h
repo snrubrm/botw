@@ -5,7 +5,22 @@
 
 namespace ksys::phys {
 
-class Unk_71012a6f50;
+// Root table 0x7102519a98 contains only the two destructor slots. Native parse
+// allocates entries at stride 0xa8; the resource lifecycle tests pointers +8/+28.
+class Unk_7102519a98 {
+public:
+    explicit Unk_7102519a98(s32 value);
+    virtual ~Unk_7102519a98();
+    void sub_71012A734C();
+    void sub_71012A7544();
+    bool sub_71012A7738();
+
+    void* _8;
+    u8 _10[0x28 - 0x10];
+    void* _28;
+    u8 _30[0xa8 - 0x30];
+};
+KSYS_CHECK_SIZE_NX150(Unk_7102519a98, 0xa8);
 
 // Resource built at 0x71012aa370, with vtable 0x7102519b90 and entries of stride 0xa8.
 class Unk_7102519b90 : public res::Resource {
@@ -22,7 +37,7 @@ protected:
     bool m7_() override;
 
 private:
-    sead::Buffer<Unk_71012a6f50> mEntries;
+    sead::Buffer<Unk_7102519a98> mEntries;
 };
 KSYS_CHECK_SIZE_NX150(Unk_7102519b90, 0x48);
 
