@@ -7,11 +7,16 @@
 #include "KingSystem/Quest/qstQuest.h"
 #include "KingSystem/Resource/resHandle.h"
 
+namespace uking::action {
+class SetChallengeIcon;
+}
+
 namespace ksys::qst {
 
 struct Quest;
 
 class Manager {
+    friend class uking::action::SetChallengeIcon;
     SEAD_SINGLETON_DISPOSER(Manager)
 public:
     Manager();

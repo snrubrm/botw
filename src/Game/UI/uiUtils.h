@@ -57,6 +57,9 @@ class NpcShopData;
 
 namespace uking::ui {
 
+// Native A9A6C4 updates the quest point guide; a null quest clears it.
+void sub_7100A9A6C4(ksys::qst::Quest* quest);
+
 // Native 986160; the UI callers pass LayoutEx and a name, then use CapturePane fields.
 eui::CapturePane* sub_7100986160(eui::LayoutEx* layout, const char* name);
 
