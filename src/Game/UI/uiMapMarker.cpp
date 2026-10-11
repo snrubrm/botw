@@ -19,8 +19,6 @@ static sead::Vector3f sUnk_71025d6d00{2.0f, 0.0f, -2.0f};
 static sead::Vector2f sUnk_71025d6a88{-100000.0f, 0.0f};
 static sead::Vector3f sUnk_71025d6d0c{-100000.0f, 0.0f, 0.0f};
 
-// Updated by the native marker mode producers at 0x960AD8 and 0x961FA0.
-bool sUnk_71025d6a98 = false;
 
 // NON_MATCHING: vector assignments use component copies instead of the native paired loads/stores.
 UiSubsys1Entry::~UiSubsys1Entry() {
@@ -799,14 +797,6 @@ s32 Unk_7102476738::m10() {
     return 5;
 }
 
-// NON_MATCHING: virtual-target loading and boolean-setup branches differ; leaf flag uses GOT.
-void Unk_7102476738::m19() {
-    m24(UiSubsys1::instance()->_6d4 <= _28.x && _28.x <= UiSubsys1::instance()->_6dc &&
-        UiSubsys1::instance()->_6d8 <= _28.z && _28.z <= UiSubsys1::instance()->_6e0);
-    if (sUnk_71025d6a98)
-        m24(false);
-}
-
 // NON_MATCHING: horizontal coordinate loads and subtraction scheduling differ.
 void Unk_7102476830::m5() {
     m12();
@@ -831,14 +821,6 @@ void Unk_7102476830::m5() {
 
 s32 Unk_7102476830::m10() {
     return 4;
-}
-
-// NON_MATCHING: virtual-target loading and boolean-setup branches differ; leaf flag uses GOT.
-void Unk_7102476830::m19() {
-    m24(UiSubsys1::instance()->_6d4 <= _28.x && _28.x <= UiSubsys1::instance()->_6dc &&
-        UiSubsys1::instance()->_6d8 <= _28.z && _28.z <= UiSubsys1::instance()->_6e0);
-    if (sUnk_71025d6a98)
-        m24(false);
 }
 
 }  // namespace uking::ui
