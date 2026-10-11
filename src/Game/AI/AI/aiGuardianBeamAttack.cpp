@@ -53,6 +53,17 @@ void GuardianBeamAttack::sub_710040F7C0(bool prepare) {
     }
 }
 
+void GuardianBeamAttack::calc_() {
+    GuardianBeamAttackBase::calc_();
+    if (auto* component = sub_7100411E74()) {
+        if (auto* bind = sead::DynamicCast<act::Unk_710235b408>(component->_ba8)) {
+            sub_710040EFDC(&bind->_30);
+            return;
+        }
+    }
+    setFailed();
+}
+
 void GuardianBeamAttack::sub_710040F8B8() {
     auto* guardian = sub_7100411DE0();
     if (guardian && guardian->sub_710003B2A8()) {

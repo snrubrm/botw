@@ -32,12 +32,15 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
     bool handleMessage_(const ksys::Message* message) override;
 
     // 0x710040fc24 (2.8 KB, not decompiled): called by Unk_71023f6f80::m5.
     void sub_710040FC24();
+    // 0x710040EFDC reads and writes the bind object's scalar at +0x30.
+    void sub_710040EFDC(f32* value);
     // 0x710040f7c0 (placeholder name): the pack passes the Guardian's `_15a8->_18` as `TargetPos` to the child
     // (aiming preparation / aiming).
     void sub_710040F7C0(bool prepare);
