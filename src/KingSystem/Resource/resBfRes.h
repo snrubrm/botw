@@ -6,6 +6,7 @@
 #include <container/seadOffsetList.h>
 #include <container/seadTList.h>
 #include <thread/seadCriticalSection.h>
+#include <gsys/gsysModelResource.h>
 #include "KingSystem/Resource/resResource.h"
 #include "KingSystem/Resource/resHandle.h"
 #include "KingSystem/Resource/resUnk_710251A700.h"
@@ -37,6 +38,15 @@ public:
     sead::SafeString _10;
 };
 KSYS_CHECK_SIZE_NX150(Unk_71025148b8, 0x20);
+
+// Complete four-slot table 2514A08 inherits slots 0/1 and overrides 2/3.
+// Singleton 2514A38 contains only the vptr; BfRes::parse uses it for Terrain.bfres.
+class Unk_7102514a08 : public gsys::IModelResourceCallback {
+public:
+    void m2(const ShaderAssignArg& arg) override;
+    void m3(const MaterialArg& arg) override;
+};
+KSYS_CHECK_SIZE_NX150(Unk_7102514a08, 8);
 
 class BfRes;
 class Unk_71024F9D48;

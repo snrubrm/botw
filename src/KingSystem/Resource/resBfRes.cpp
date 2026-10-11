@@ -1,5 +1,11 @@
 #include "KingSystem/Resource/resBfRes.h"
 #include <nn/g3d/ResFile.h>
+#include <nn/g3d/ResModel.h>
+#include <nn/g3d/ResShape.h>
+#include <gsys/gsysG3dResModelEx.h>
+#include <gsys/gsysG3dResShapeEx.h>
+#include <gsys/gsysModelShaderVariationKey.h>
+#include "KingSystem/Terrain/teraSystem.h"
 #include <prim/seadScopedLock.h>
 #include "KingSystem/Resource/resResourceFileUtil.h"
 #include "KingSystem/Resource/resResourceMgrTask.h"
@@ -115,6 +121,70 @@ void Unk_71025149d0::m4(const void* arg) {
         if (binding)
             binding->sub_7100FDD9C0(texture);
     }
+}
+
+}  // namespace ksys::res
+
+namespace ksys::res {
+
+Unk_7102514a08 sUnk_7102514a38;
+
+void Unk_7102514a08::m3(const MaterialArg&) {}
+
+// NON_MATCHING: string comparison register allocation and the common render-type
+// selection tail differ from the original.
+void Unk_7102514a08::m2(const ShaderAssignArg& arg) {
+    const sead::SafeString model_name = arg.model->getResModel()->GetName();
+    const sead::SafeString shape_name = arg.shape->getResShape()->GetName();
+    u32 index;
+    const char* render_type;
+    if (model_name == "TeraTerrain") {
+        if (shape_name == "NormalNear") {
+            index = 0;
+            render_type = "0";
+        } else if (shape_name == "NormalMiddle") {
+            index = 1;
+            render_type = "0";
+        } else if (shape_name == "NormalFar") {
+            index = 2;
+            render_type = "0";
+        } else if (shape_name == "DegeneracyX") {
+            index = 3;
+            render_type = "2";
+        } else if (shape_name == "DegeneracyY") {
+            index = 4;
+            render_type = "1";
+        } else {
+            return;
+        }
+    } else if (model_name == "TeraWater") {
+        if (shape_name == "Normal") {
+            index = 5;
+            render_type = "0";
+        } else if (shape_name == "DegeneracyX") {
+            index = 6;
+            render_type = "2";
+        } else if (shape_name == "DegeneracyY") {
+            index = 7;
+            render_type = "1";
+        } else {
+            return;
+        }
+    } else if (model_name == "TeraRoute") {
+        if (shape_name == "Dependence") {
+            index = 8;
+            render_type = "0";
+        } else if (shape_name == "Independence") {
+            index = 9;
+            render_type = "1";
+        } else {
+            return;
+        }
+    } else {
+        return;
+    }
+    sub_7100F3F84C(index);
+    arg.variation_key->pushBack("tera_render_type", render_type);
 }
 
 }  // namespace ksys::res

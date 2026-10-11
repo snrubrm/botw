@@ -192,3 +192,7 @@ bool checkTeraSystemStatus();
 void sub_71011190C8(void* tera_system, void* route);
 
 }  // namespace ksys::tera
+
+// Full native 0x7100F3F84C (28 bytes) records terrain bit indices 0..9 from
+// callback 0x7101200AC0. Declaration only; terrain storage ownership stays unresolved.
+void sub_7100F3F84C(u32 index);
