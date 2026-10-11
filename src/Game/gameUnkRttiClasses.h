@@ -11,6 +11,10 @@ class CameraLockOnBase;
 #include "KingSystem/Utils/Thread/Task.h"
 #include "KingSystem/Utils/Thread/TaskData.h"
 
+namespace ksys::act {
+class Actor;
+}
+
 namespace sead {
 class Heap;
 }
@@ -160,6 +164,12 @@ public:
 class Unk_71024efd58 {
     SEAD_RTTI_BASE(Unk_71024efd58)
 public:
+    struct InitArg {
+        ksys::act::Actor* actor;
+        u32 _8;
+    };
+
+    explicit Unk_71024efd58(const InitArg& arg);
     virtual ~Unk_71024efd58();
     virtual bool m4() { return true; }
     virtual void m5() {}
@@ -168,7 +178,11 @@ public:
     virtual void m8() {}
     virtual void m9() {}
     virtual void m10() {}
+
+    ksys::act::Actor* _8;
+    u16 _10;
 };
+KSYS_CHECK_SIZE_NX150(Unk_71024efd58, 0x18);
 
 // vtable 0x710250dcd8 (4 slots)
 class Unk_710250dcd8 {
