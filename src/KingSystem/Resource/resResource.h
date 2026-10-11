@@ -11,6 +11,8 @@ public:
 };
 
 class Context {
+    // BfRes context RTTI (1200990) derives from this root, typeinfo 25DBCD8.
+    SEAD_RTTI_BASE(Context)
 public:
     virtual ~Context() = default;
 };

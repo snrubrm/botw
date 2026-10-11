@@ -12,6 +12,10 @@ namespace ksys::res {
 // the texture suffix with it. Keep this texture choice within the BfRes family.
 static bool sUseTex2 = true;
 
+Unk_71025148b8::Unk_71025148b8() = default;
+
+Unk_71025148b8::Unk_71025148b8(const sead::SafeString& name) : _10(name.cstr()) {}
+
 void setUseTex2(bool use) {
     if (sUseTex2 == use)
         return;

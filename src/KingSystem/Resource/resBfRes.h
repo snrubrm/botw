@@ -21,6 +21,23 @@ namespace ksys::res {
 
 void setUseTex2(bool use);
 
+// Native constructors 11FE260/11FE2A0 and the four-slot table 25148B8.
+// ModelCreator::createInstance embeds this at +28, with a Handle at +48.
+class Unk_71025148b8 : public Context {
+    SEAD_RTTI_OVERRIDE(Unk_71025148b8, Context)
+public:
+    Unk_71025148b8();
+    explicit Unk_71025148b8(const sead::SafeString& name);
+    ~Unk_71025148b8() override = default;
+
+    bool _8 = true;
+    bool _9 = true;
+    bool _a = false;
+    bool _b = true;
+    sead::SafeString _10;
+};
+KSYS_CHECK_SIZE_NX150(Unk_71025148b8, 0x20);
+
 class BfRes;
 class Unk_71024F9D48;
 class Unk_71024f9958;
