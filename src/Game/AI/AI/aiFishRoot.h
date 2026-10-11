@@ -24,10 +24,10 @@ struct FishRootBoneEntry {
     sead::FixedSafeString<32> _38;
     sead::Matrix34f _70 = sead::Matrix34f::ident;
     sead::Matrix34f _a0 = sead::Matrix34f::ident;
-    sead::Vector3f _d0{};
-    f32 _dc = 0.0f;
-    f32 _e0 = 0.5f;
-    f32 _e4 = 1.0471976f;
+    sead::Vector3f _d0{0.0f, 0.0f, 0.0f};
+    f32 _dc = 0.5f;
+    f32 _e0 = 1.0471976f;
+    f32 _e4 = 0.0f;
 };
 KSYS_CHECK_SIZE_NX150(FishRootBoneEntry, 0xe8);
 
