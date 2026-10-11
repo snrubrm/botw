@@ -348,6 +348,32 @@ bool TextureHandleMgr::validateUser(const ValidateArg& arg) {
     return handle.didTaskCompleteSuccessfully();
 }
 
+// NON_MATCHING: status is retained in a 32-bit register rather than the native 64-bit copy.
+bool TextureHandleMgr::invalidateUser(const InvalidateArg& arg) {
+    auto* handle = arg._8;
+    auto* resource = handle->_28;
+    const u32 status = handle->sub_7100FE8330();
+    handle->sub_7100FE8428();
+    Unk_71024f9bb8 request;
+    request.mHasHandle = arg._1;
+    request.mSynchronous = arg._1;
+    request.mLaneId = 5;
+    request.mThread = _50;
+    request.mDelegate = &_198;
+    request._a0 = resource;
+    request.mName = "Texture::InvalidateUser";
+    util::TaskMgrRequest manager_request;
+    manager_request.request = &request;
+    if (arg._0) {
+        _48->submitRequest(manager_request);
+        return true;
+    }
+    if (_48->trySubmitRequest(manager_request))
+        return true;
+    handle->sub_7100FE8474(resource, status);
+    return false;
+}
+
 void TextureHandleMgr::clearAllCache() {
     Unk_71024f9bb8 request;
     request.mHasHandle = false;

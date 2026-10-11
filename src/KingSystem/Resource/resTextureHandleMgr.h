@@ -116,7 +116,9 @@ private:
     sead::Delegate1R<TextureHandleMgr, void*, bool> _158{nullptr, nullptr};
     // Complete FE2890 initializes this task delegate for FE3004; FE59AC uses it.
     sead::Delegate1R<TextureHandleMgr, void*, bool> _178{nullptr, nullptr};
-    u8 _198[0x768 - 0x198];
+    // Complete FE2890 initializes this delegate for FE3628; FE5B44 uses it.
+    sead::Delegate1R<TextureHandleMgr, void*, bool> _198{nullptr, nullptr};
+    u8 _1b8[0x768 - 0x1b8];
     ArchiveWork* mArchiveWork;
 };
 

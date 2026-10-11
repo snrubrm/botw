@@ -19,6 +19,7 @@ namespace ksys::res {
 class Unk_71024f9a08;
 class CompactedHeap;
 class Unk_710260e960;
+class TextureHandleMgr;
 class Unk_71024F9D48;
 
 // FE0144 constructs this key at 118; FE0348 writes its hash at 120.
@@ -141,6 +142,7 @@ void sub_7100FE852C(nn::gfx::ResTexture* texture);
 
 // Texture-handle helper; vtable 0x71024f9d48, constructor 0x7100fe7e94.
 class Unk_71024F9D48 {
+    friend class TextureHandleMgr;
 public:
     Unk_71024F9D48();
     virtual ~Unk_71024F9D48();
