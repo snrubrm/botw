@@ -5,6 +5,7 @@
 
 namespace uking {
 class StateMachineWrapper;
+class Unk_710245b690;
 }
 
 namespace uking::ui {
@@ -116,6 +117,7 @@ public:
 
 private:
     friend class ::uking::StateMachineWrapper;
+    friend class ::uking::Unk_710245b690;
     friend class ::uking::ui::Unk_7102474a70;
     friend class ::uking::ui::Unk_71025098d0;
 
