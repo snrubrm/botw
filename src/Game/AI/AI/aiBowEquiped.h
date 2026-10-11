@@ -5,6 +5,10 @@
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Physics/physDefines.h"
 
+namespace ksys::act {
+class InstParamPack;
+}
+
 namespace uking::ai {
 
 class BowEquiped : public ksys::act::ai::Ai {
@@ -19,6 +23,8 @@ public:
     void leave_() override;
 
 protected:
+    bool sub_7100337C40();
+    void sub_7100337F48(sead::BufferedSafeString* name, ksys::act::InstParamPack* pack);
     void sub_7100337E2C(ksys::phys::ContactLayer first, ksys::phys::ContactLayer second);
     // 0x710033788c (not decompiled): checks the actor (DynamicCast) and its state (_af8 == 2 / 3).
     bool sub_710033788C();

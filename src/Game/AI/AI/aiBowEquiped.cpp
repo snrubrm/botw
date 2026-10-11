@@ -1,6 +1,9 @@
 #include "Game/AI/AI/aiBowEquiped.h"
 #include "Game/Actor/actWeapon.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorCreator.h"
+#include "KingSystem/ActorSystem/actActorHeapUtil.h"
+#include "KingSystem/ActorSystem/actInstParamPack.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
@@ -10,6 +13,30 @@ namespace uking::ai {
 
 BowEquiped::BowEquiped(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
+// NON_MATCHING: the shared failure copy differs from native duplicated failure blocks.
+void BowEquiped::sub_7100337F48(sead::BufferedSafeString* name, ksys::act::InstParamPack* pack) {
+    if (auto* weapon = sead::DynamicCast<act::Weapon>(mActor)) {
+        if (weapon->bowGetArrowName(name)) {
+            pack->getBuffer().addDeleteDistanceSq(998001.0f);
+            pack->getBuffer().addPosition(weapon->getMtx().getTranslation());
+            if (weapon->getActorFlags2().isOn(ksys::act::Actor::ActorFlag2::_200))
+                pack->getBuffer().addPlayerControl();
+            return;
+        }
+    }
+    name->copy(sead::SafeString::cEmptyString);
+}
+
+bool BowEquiped::sub_7100337C40() {
+    sead::FixedSafeString<32> name;
+    ksys::act::InstParamPack pack;
+    sub_7100337F48(&name, &pack);
+    if (name.isEmpty())
+        return false;
+    ksys::act::ActorCreator::instance()->requestCreateActor(
+        name.cstr(), ksys::act::ActorHeapUtil::instance()->getBaseProcHeap(), &_38, &pack, nullptr, 1);
+    return true;
+}
 
 bool BowEquiped::isChangeable() const {
     return !_38.isAllocatedOrFailed();
