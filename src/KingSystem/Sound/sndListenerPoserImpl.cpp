@@ -14,6 +14,12 @@ ksys::snd::Unk_710251b1f0* sub_71012C5810(const sead::SafeString& name, sead::He
 
 namespace ksys::snd {
 
+Unk_710251b1f0::~Unk_710251b1f0() {
+    // Preserve the native vtable stores before member destruction, as in
+    // GameDataFlagSelector's empty-statement destructor (upstream 96101229).
+    ;
+}
+
 void Unk_710251b1f0::reset() {
     mTarget = nullptr;
     _70 = sead::Vector3f::zero;
