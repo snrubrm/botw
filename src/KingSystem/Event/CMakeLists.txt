@@ -33,6 +33,8 @@ target_sources(uking PRIVATE
   evtEventFlowSlot.cpp
   evtEventMgrStruct1.cpp
   evtEventMgrStruct1.h
+  evtEventMgrStruct3.cpp
+  evtEventMgrStruct3.h
   evtEventResource.cpp
   evtEventResource.h
   evtEventSpeaker.cpp
