@@ -1,6 +1,7 @@
 #include "Game/UI/uiUnkSingletons.h"
 #include "Game/UI/euiLayoutEx.h"
 #include "Game/UI/euiMessageString.h"
+#include "Game/UI/euiMassDrawPane.h"
 #include "Game/UI/uiUtils.h"
 #include <nn/ui2d/Pane.h>
 
@@ -50,6 +51,72 @@ void Unk_7102477fc0::m6(eui::LayoutEx* layout) {
         _20 = layout->mPane->GetParent();
         if (_20)
             _20->RemoveChild(layout->mPane);
+    }
+}
+
+// NON_MATCHING: pane lookup precedes the position load in the layout path.
+void Unk_7102477fc0::m7() {
+    if (_10) {
+        if (_18 && _18->_40 >= 0 && (_18->_3c & 1))
+            _10->_250[_18->_40] = {_18->_34.x / _10->GetScale().x,
+                                  _18->_34.y / _10->GetScale().y};
+    } else if (_18 && (_18->_3c & 1) && _8) {
+        _8->mPane->SetPosition(nn::util::Float3{_18->_34.x, _18->_34.y, 0.0f});
+    }
+}
+
+// NON_MATCHING: the byte store masks the virtual bool result; native stores it directly.
+void Unk_7102477fc0::m8() {
+    if (_10) {
+        if (_18) {
+            const s32 index = _18->_40;
+            if (index >= 0) {
+                if (_18->_3c & 1) {
+                    _10->_230[index] = 255;
+                    _2c = true;
+                    if (_18->_3c & 0x100) {
+                        _10->_230[index] = 0;
+                        _18->_3c &= ~0x100;
+                    }
+                } else {
+                    _10->_230[index] = 0;
+                    _2c = false;
+                }
+            }
+        } else {
+            _2c = false;
+        }
+        if (_18 && (_18->_3c & 1)) {
+            auto* pane = _10;
+            if (pane) {
+                const s32 index = _18->_40;
+                if (index >= 0)
+                    pane->_240[index] = m14();
+            }
+        }
+        return;
+    }
+    if (!_8)
+        return;
+    if (_18 && (_18->_3c & 1)) {
+        _8->sub_7100BDDE7C(false, 1, true);
+        if (_18->_3c & 0x100) {
+            _8->mPane->Hide();
+            _18->_3c &= ~0x100;
+        }
+    } else {
+        _8->startAnimCloseImpl_(false, true);
+    }
+}
+
+// NON_MATCHING: pane lookup precedes the position load in the layout path.
+void Unk_7102477fc0::m10() {
+    if (_10) {
+        if (_18 && _18->_40 >= 0 && (_18->_3c & 0x4001) == 0x4001)
+            _10->_250[_18->_40] = {_18->_34.x / _10->GetScale().x,
+                                  _18->_34.y / _10->GetScale().y};
+    } else if (_18 && (_18->_3c & 0x4001) == 0x4001 && _8) {
+        _8->mPane->SetPosition(nn::util::Float3{_18->_34.x, _18->_34.y, 0.0f});
     }
 }
 

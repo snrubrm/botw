@@ -26,6 +26,7 @@ class ManagedTask;
 
 namespace eui {
 class LayoutEx;
+class MassDrawPane;
 }
 namespace nn::ui2d {
 class Pane;
@@ -501,7 +502,7 @@ public:
     void sub_710098CF9C();
 
     eui::LayoutEx* _8;
-    void* _10;
+    eui::MassDrawPane* _10;
     UiSubsys1Entry* _18;
     nn::ui2d::Pane* _20;
     s32 _28;
@@ -509,7 +510,7 @@ public:
 };
 static_assert(sizeof(Unk_7102477fc0) == 0x30);
 
-// Native VT24783B0 overrides the marker control update and pane methods.
+// Native VT24783A0 (address point 24783B0) overrides the marker update and pane methods.
 class Unk_71024783b0 : public Unk_7102477fc0 {
     SEAD_RTTI_OVERRIDE(Unk_71024783b0, Unk_7102477fc0)
 public:
