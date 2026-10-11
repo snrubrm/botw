@@ -182,7 +182,7 @@ f32 AttClient::sub_7100D729FC(const ActorConstDataAccess& accessor) const {
     sead::Vector3f facing = forward;
     if (forward.x == 0.0f && forward.z == 0.0f) {
         facing = accessor.getActorMtx().getBase(1);
-        if (forward.y > 0.0f)
+        if (!(forward.y <= 0.0f))
             facing = -facing;
     }
     facing.y = 0.0f;
