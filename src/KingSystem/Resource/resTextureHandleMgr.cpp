@@ -472,6 +472,48 @@ void TextureHandleMgr::invoked9(const util::TaskRemoveCallbackContext& context) 
     resource->sub_7100FE0850();
 }
 
+// NON_MATCHING: resource reloads around the diagnostic string arguments differ.
+bool TextureHandleMgr::invoked6(void* user_data) {
+    auto* data = sead::DynamicCast<::Unk_71024f9e28>(static_cast<util::TaskData*>(user_data));
+    if (!data)
+        return false;
+    auto* resource = static_cast<Unk_71024f9a08*>(data->_60);
+    const s32 tex1_index = resource->sub_7100FE0DF0().findIndex(".Tex1.");
+    if (tex1_index != -1) {
+        auto* queue = _50->getTaskQueue();
+        if (queue && queue->countTasksInLane(1) > 0)
+            return false;
+        if (!mFlags.isOnAll(3)) {
+            mLoader.unload();
+            return false;
+        }
+    } else if (!mFlags.isOnBit(0)) {
+        mLoader.unload();
+        return false;
+    }
+    if (!resource->sub_7100FE0ED0()) {
+        mLoader.unload();
+        return true;
+    }
+    const auto load_path = resource->sub_7100FE0DF0();
+    Unk_71024f9b08 context;
+    context.mFileDevice = resource->sub_7100FE0E08();
+    context.mPath = load_path;
+    if (!mLoader.getResourceForLoadRequest(&context)) {
+        mLoader.checkLoadStatus();
+        return false;
+    }
+    auto* loaded = static_cast<Unk_710251A740*>(mLoader.getResource());
+    const bool success = x_0(loaded->_38, tex1_index != -1, &resource);
+    mLoader.unload();
+    if (!success && resource) {
+        sead::FormatFixedSafeString<256> message(
+            "↓↓↓\nベーステクスチャ名               : %s\n修復に用いる予定だったアーカイブ : %s\n↑↑↑\n",
+            resource->sub_7100FE10A8().cstr(), resource->sub_7100FE0DF0().cstr());
+    }
+    return true;
+}
+
 bool TextureHandleMgr::invoked5(void*) {
     mCS.lock();
     if (mResources.begin() != mResources.end()) {

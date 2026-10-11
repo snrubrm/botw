@@ -10,6 +10,8 @@ namespace ksys::res {
 
 // Resource carrying a ResFile pointer; vtable 0x710251a740, constructor 0x71012bad10.
 class Unk_710251A740 : public Resource {
+    // FE43B8 / FE3760 read the parsed file directly after loading through this factory.
+    friend class TextureHandleMgr;
 public:
     static const sead::RuntimeTypeInfo::Interface* getRuntimeTypeInfoStatic() {
         static const sead::RuntimeTypeInfo::Derive<Resource> typeInfo;

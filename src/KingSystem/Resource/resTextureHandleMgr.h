@@ -10,6 +10,10 @@
 #include "KingSystem/Resource/resTempResourceLoader.h"
 #include "KingSystem/Utils/Thread/Task.h"
 
+namespace nn::g3d {
+class ResFile;
+}
+
 namespace nn::gfx {
 class ResTexture;
 }
@@ -82,6 +86,10 @@ public:
     s32 getGeneration() const { return mGeneration; }
     void repairAllHandlesForSync();
     bool invoked5(void*);
+    bool invoked6(void* data);
+    // Complete FE6134 and independent FE3760 establish this native helper.
+    // Declared only: its resource tree and eviction lists remain unresolved.
+    bool x_0(nn::g3d::ResFile* file, bool tex1, Unk_71024f9a08** resource);
     void invoked7(util::TaskPostRunResult* result, const util::TaskPostRunContext& context);
     void repairExecute(util::TaskPostRunResult* result, const util::TaskPostRunContext& context);
     void invoked8(const util::TaskRemoveCallbackContext& context);
