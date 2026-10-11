@@ -10,7 +10,7 @@ class Terminal : public sead::hostio::Node {
     SEAD_SINGLETON_DISPOSER(Terminal)
 
     Terminal() = default;
-    virtual ~Terminal() = default;
+    virtual ~Terminal();
 
 public:
     u32 mFlag = 0;
