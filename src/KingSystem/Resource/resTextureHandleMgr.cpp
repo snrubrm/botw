@@ -549,3 +549,9 @@ void TextureHandleMgr::clearAllCache() {
 }
 
 }  // namespace ksys::res
+
+// NON_MATCHING: makeTaskType_ inlines the texture ManagedTask constructor.
+// Complete FE4C14 and FE6798, independently called by FE2890, instantiate the
+// existing task manager factory for the 0x140-byte texture ManagedTask.
+template void ksys::util::TaskMgr::initAndCheckType<ksys::res::Unk_71024f9da0>(
+    s32 num_tasks, sead::Heap* heap);
