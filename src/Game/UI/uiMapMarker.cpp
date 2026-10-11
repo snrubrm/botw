@@ -499,4 +499,30 @@ void Unk_7102476150::m29() {
         _58 = ksys::gdt::Manager::instance()->getBoolHandle(_50->off_flag);
 }
 
+// NON_MATCHING: direct search removes nullable-find guards and merges the two native insertion paths.
+void UiSubsys1Entry::m25(bool enabled) {
+    m27(enabled);
+    if ((_3c & 0x30) == 0x30) {
+        auto& list = UiSubsys1::instance()->_250;
+        for (auto& entry : list) {
+            if (entry == this) {
+                list.erase(&entry);
+                break;
+            }
+        }
+        if (!UiSubsys1::instance()->_250.isFull()) {
+            if (auto* entry = UiSubsys1::instance()->_250.emplaceBack(nullptr))
+                *entry = this;
+        }
+    } else if ((_3c & 0x31) == 0x20) {
+        auto& list = UiSubsys1::instance()->_250;
+        for (auto& entry : list) {
+            if (entry == this) {
+                list.erase(&entry);
+                break;
+            }
+        }
+    }
+}
+
 }  // namespace uking::ui
