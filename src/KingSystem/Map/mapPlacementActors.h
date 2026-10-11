@@ -17,6 +17,7 @@
 namespace ksys::map {
 
 class Object;
+class Unk_7100D4D998;
 class PlacementMap;
 class PlacementAreaMgr;
 class PlacementTree;
@@ -167,7 +168,7 @@ public:
     void sub_7100D52C0C();
     // 0x7100d53558 (CSV placeObject; declaration only)
     void placeObject(Object* obj);
-    // 0x7100d580dc (CSV x_7): calls Object::sub_7100D4DB08 on each object of `_2a8060`, under the mutex `_2a8078`.
+    // 0x7100d580dc (CSV x_7): calls Unk_7100D4D998::sub_7100D4DB08 on each object of `_2a8060`, under the mutex `_2a8078`.
     void x_7();
     // 0x7100d52ca4 (declared; unnamed in the CSV): adds `obj` to the first free slot of `_f8` (the list x_9 handles).
     void sub_7100D52CA4(Object* obj);
@@ -213,7 +214,7 @@ public:
     u32 mActorDataMapSize;
     u8 _2a805c[0x2a8060 - 0x2a805c];
     // The object list walked by x_7 (its link offset is the list's own mOffset).
-    sead::OffsetList<Object> _2a8060;
+    sead::OffsetList<Unk_7100D4D998> _2a8060;
     // The mutex guarding `_2a8060` (used by x_7 only).
     sead::Mutex _2a8078;
     u8 _2a80a0[0x2a80d0 - 0x2a8078 - sizeof(sead::Mutex)];

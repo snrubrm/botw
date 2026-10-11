@@ -4,6 +4,7 @@
 #include <time/seadTickTime.h>
 #include "KingSystem/ActorSystem/actInfoData.h"
 #include "KingSystem/Map/mapObject.h"
+#include "KingSystem/Map/mapObjectEffect.h"
 #include "KingSystem/Map/mapObjectLink.h"
 #include "KingSystem/Map/mapPlacementAreaMgr.h"
 #include "KingSystem/Map/mapPlacementMgr.h"

@@ -1,4 +1,7 @@
 #include "KingSystem/Map/mapObject.h"
+#include <cfloat>
+#include "KingSystem/Map/mapObjectEffect.h"
+#include "KingSystem/XLink/xlinkXLink.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actBaseProcMgr.h"
@@ -590,6 +593,26 @@ void Object::incrementLinkNum() {
 void Object::decrementLinkNum() {
     if (mNumLinksPointingToMe != 0)
         --mNumLinksPointingToMe;
+}
+
+void Unk_7100D4D998::sub_7100D4DB08() {
+    if (!mXLink)
+        return;
+
+    if (!mInitialized) {
+        mXLink->sub_7101230198();
+        mInitialized = true;
+    }
+    mXLink->sub_7101231500();
+
+    if (mObject) {
+        mXLink->sub_7101231468(0, mValue, false);
+        const auto scale = mObject->getScale();
+        const auto rotate = mObject->getRotate();
+        mMatrix.makeSRT(scale, rotate, mObject->getTranslate());
+        mObject = nullptr;
+        mValue = FLT_MAX;
+    }
 }
 
 sead::Vector3f Object::getRotate() const {

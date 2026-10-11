@@ -130,6 +130,8 @@ public:
     void sleep_();
     // 0x7101231500 (CSV ActorEffects::x_3; declared only): called by Actor::m75.
     void sub_7101231500();
+    // 0x7101230198: resets both user instances and clears their asset state.
+    void sub_7101230198();
     // 0x71012311e4 (CSV ActorEffects::prepareAIChangeMaybe; declared only): called by Actor::onAiEnter.
     void prepareAIChangeMaybe(const char* name, const char* context);
     void sleepELink();
