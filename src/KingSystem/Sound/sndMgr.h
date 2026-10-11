@@ -8,6 +8,7 @@
 #include <container/seadPtrArray.h>
 #include <container/seadOffsetList.h>
 #include <container/seadObjArray.h>
+#include <container/seadObjList.h>
 #include <aal/aalHandle.h>
 #include <thread/seadCriticalSection.h>
 #include <container/seadBuffer.h>
@@ -443,6 +444,8 @@ public:
     void sub_710104F788();
     void sub_710104F614();
     void sub_710104F740();
+    void sub_710104FA78(const xlink2::HandleSLink& handle);
+    void sub_710104FB40(xlink2::HandleSLink* handle);
 
     xlink2::HandleSLink sub_710104F30C(const sead::SafeString& label);
 
@@ -458,7 +461,12 @@ public:
     // 0x710104e0a0 / 0x710104e004 / 0x710104df54 (declared only) read the listeners at
     // 0x548 / 0x550 / 0x558 and store a four-level value through 0x528 / 0x530 / 0xc0 / 0x200.
     s32 _b8;
-    u8 _bc[0x250 - 0xbc];
+    u8 _bc[4];
+    // Native 104FA78 emplaces a 16-byte handle and links its +0x10 list node.
+    // Whole constructor initializes ObjList at +0xc0 and CriticalSection at +0xf0.
+    sead::ObjList<xlink2::HandleSLink> mHandles;
+    sead::CriticalSection mHandleCS;
+    u8 _130[0x250 - 0x130];
     /* 0x250 */ u32 _250;
     u8 _254[4];
     /* 0x258 */ aal::SimpleTimedFader _258;

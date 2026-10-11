@@ -7,6 +7,7 @@
 #include <prim/seadScopedLock.h>
 #include <heap/seadHeap.h>
 #include <aal/aalSettings.h>
+#include <aal/aalSystem.h>
 #include <aal/aalSystemAccessor.h>
 #include <aal/aalGroup.h>
 #include <aal/aalGroupMgr.h>
@@ -216,6 +217,16 @@ void Unk_710104e5b4::sub_710104F614() {
 
 void Unk_710104e5b4::sub_710104F740() {
     mFilter = _28->searchAndEmit("Filter");
+}
+
+// NON_MATCHING: ObjList pushBack address calculation is scheduled three stores early.
+void Unk_710104e5b4::sub_710104FA78(const xlink2::HandleSLink& handle) {
+    if (!aal::System::sInstance->mEnabled)
+        return;
+    auto lock = sead::makeScopedLock(mHandleCS);
+    auto* entry = mHandles.emplaceBack(handle);
+    if (entry && _30 != 2)
+        sub_710104FB40(entry);
 }
 
 void Unk_710104e5b4::sub_710104F86C() {
