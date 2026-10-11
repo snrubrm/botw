@@ -7,6 +7,7 @@
 #include <time/seadTickTime.h>
 #include <thread/seadCriticalSection.h>
 #include "KingSystem/Resource/resResource.h"
+#include "KingSystem/Utils/Thread/Task.h"
 
 namespace nn::gfx {
 class ResTexture;
@@ -80,6 +81,8 @@ public:
     s32 getGeneration() const { return mGeneration; }
     void repairAllHandlesForSync();
     bool invoked5(void*);
+    bool repairTexture(Unk_71024f9a08* resource);
+    void repairHandleForSync(Unk_71024f9a08* resource);
     void clearAllCache();
     void sub_7100FE60B0(bool on);
     void sub_7100FE60DC(bool on);
@@ -122,10 +125,16 @@ private:
     sead::Delegate1R<TextureHandleMgr, void*, bool> _178{nullptr, nullptr};
     // Complete FE2890 initializes this delegate for FE3628; FE5B44 uses it.
     sead::Delegate1R<TextureHandleMgr, void*, bool> _198{nullptr, nullptr};
-    u8 _1b8[0x1f8 - 0x1b8];
+    // Complete FE2890 initializes this delegate for FE3760.
+    util::TaskDelegateT<TextureHandleMgr> _1b8{nullptr, nullptr};
+    u8 _1d8[0x1f8 - 0x1d8];
     // Complete FE2890 initializes this delegate for FE4318; FE5C98 uses it.
     sead::Delegate1R<TextureHandleMgr, void*, bool> _1f8{nullptr, nullptr};
-    u8 _218[0x768 - 0x218];
+    // FE5D84 / FE5EC4 independently supply these as the native task callbacks.
+    util::TaskPostRunCallbackT<TextureHandleMgr> _218{nullptr, nullptr};
+    u8 _238[0x278 - 0x238];
+    util::TaskRemoveCallbackT<TextureHandleMgr> _278{nullptr, nullptr};
+    u8 _298[0x768 - 0x298];
     ArchiveWork* mArchiveWork;
 };
 

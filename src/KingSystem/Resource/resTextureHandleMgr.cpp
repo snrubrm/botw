@@ -391,6 +391,40 @@ bool TextureHandleMgr::invoked5(void*) {
     return true;
 }
 
+// NON_MATCHING: request initialization and branch argument setup are scheduled differently.
+bool TextureHandleMgr::repairTexture(Unk_71024f9a08* resource) {
+    Unk_71024f9bb8 request;
+    request.mLaneId = !resource->sub_7100FE0CF8();
+    request.mName = request.mLaneId ? "RepairTexture" : "toTex1";
+    request.mSynchronous = false;
+    request.mThread = _50;
+    request.mDelegate = &_1b8;
+    request.mPostRunCallback = &_218;
+    request.mRemoveCallback = &_278;
+    request._a8 = resource;
+    util::TaskMgrRequest manager_request;
+    manager_request.request = &request;
+    manager_request.handle = &resource->mTaskHandle;
+    return _48->trySubmitRequest(manager_request);
+}
+
+// NON_MATCHING: request initialization stores are scheduled differently.
+void TextureHandleMgr::repairHandleForSync(Unk_71024f9a08* resource) {
+    Unk_71024f9bb8 request;
+    request.mLaneId = 6;
+    request.mThread = _50;
+    request.mDelegate = &_1b8;
+    request.mPostRunCallback = &_218;
+    request.mRemoveCallback = &_278;
+    request._a8 = resource;
+    request.mName = "RepairHandle(ForSync)";
+    util::TaskMgrRequest manager_request;
+    manager_request.request = &request;
+    manager_request.handle = &resource->mTaskHandle;
+    _48->submitRequest(manager_request);
+    stubbedLogFunction();
+}
+
 // NON_MATCHING: request initialization stores are scheduled differently.
 void TextureHandleMgr::repairAllHandlesForSync() {
     Unk_71024f9bb8 request;
