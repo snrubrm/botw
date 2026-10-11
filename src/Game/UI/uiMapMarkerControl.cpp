@@ -292,4 +292,6 @@ Unk_71024787b8::~Unk_71024787b8() = default;
 
 Unk_7102478850::~Unk_7102478850() = default;
 
+Unk_71024788e8::~Unk_71024788e8() = default;
+
 }  // namespace uking::ui
