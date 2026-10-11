@@ -256,6 +256,21 @@ f32 ShootingStarMgrEx::sub_71010D05F0() {
     return 20.0f;
 }
 
+ShootingStarAnchor* ShootingStarMgrEx::sub_71010D0464(const ShootingStarAnchor::Identifier& id) {
+    auto* manager = Manager::instance();
+    if (!manager)
+        return nullptr;
+    auto* stars = sead::DynamicCast<ShootingStarMgrEx>(manager->getShootingStarMgr());
+    if (!stars)
+        return nullptr;
+    for (u32 i = 0; i < stars->mAnchors.size(); ++i) {
+        auto* anchor = stars->mAnchors.unsafeAt(i);
+        if (anchor->mIdentifier.hash == id.hash && anchor->mIdentifier.name == id.name)
+            return anchor;
+    }
+    return nullptr;
+}
+
 const sead::SafeString& ShootingStarMgrEx::sub_71010D05F8() {
     auto* mgr = Manager::instance();
     if (!mgr)
