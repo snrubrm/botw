@@ -1,4 +1,8 @@
 #include "aal/aalCustomCurveXml.h"
+#include "aal/aalAttenuationXml.h"
+#include "aal/aalXmlUtil.h"
+#include <prim/seadXmlDocument.h>
+#include <prim/seadXmlElement.h>
 
 namespace aal {
 
@@ -38,5 +42,37 @@ f32 CustomCurveXmlReader::getSegmentCoef(s32 index) const {
 
 // 0x7100BA9054
 CustomCurveXmlWriter::CustomCurveXmlWriter(sead::XmlDocument* document) : mDocument(document) {}
+
+// NON_MATCHING: enum dispatch and string construction are grouped differently.
+void CustomCurveXmlWriter::write(const CustomCurve& curve, sead::Heap* heap) {
+    sead::XmlElement* root = mDocument->getRoot();
+    root->setName("CustomCurve");
+    sead::XmlElement* segments = XmlUtil::addChild(root, "Segments", heap);
+    for (const auto& segment : curve.mSegments) {
+        sead::XmlElement* element = XmlUtil::addChild(segments, "Segment", heap);
+        for (s32 index = 0; index < AttenuationXml::CustomCurveSegmentElmType::size(); ++index) {
+            AttenuationXml::CustomCurveSegmentElmType type(index);
+            const sead::SafeString name = type.text();
+            f32 value;
+            switch (type.value()) {
+            case AttenuationXml::CustomCurveSegmentElmType::Pos:
+                value = segment.mPosition;
+                break;
+            case AttenuationXml::CustomCurveSegmentElmType::Value:
+                value = segment.mValue;
+                break;
+            case AttenuationXml::CustomCurveSegmentElmType::Type:
+                XmlUtil::addString(element, name, segment.mType.text(), heap);
+                continue;
+            case AttenuationXml::CustomCurveSegmentElmType::Coef:
+                value = segment.mCoefficient;
+                break;
+            default:
+                continue;
+            }
+            XmlUtil::addF32(element, name, value, heap);
+        }
+    }
+}
 
 }  // namespace aal

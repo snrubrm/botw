@@ -39,6 +39,7 @@ static_assert(sizeof(CustomCurveXmlReader) == 0x28);
 class CustomCurveXmlWriter {
 public:
     explicit CustomCurveXmlWriter(sead::XmlDocument* document);
+    void write(const CustomCurve& curve, sead::Heap* heap);
 
 private:
     sead::XmlDocument* mDocument;

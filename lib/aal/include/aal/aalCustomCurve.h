@@ -51,6 +51,7 @@ public:
     bool addSegment(CustomCurveSegment* segment);
 
 private:
+    friend class CustomCurveXmlWriter;
     sead::OffsetList<CustomCurveSegment> mSegments;
     void* _80 = nullptr;
     f32 _88 = 1.0f;

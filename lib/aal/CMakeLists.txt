@@ -16,6 +16,7 @@ add_library(aal OBJECT
   include/aal/aalAttenuationMgr.h
   include/aal/aalAttenuator.h
   include/aal/aalCurve.h
+  include/aal/aalAttenuationXml.h
   include/aal/aalCurveXml.h
   include/aal/aalCustomCurve.h
   include/aal/aalCustomCurveXml.h

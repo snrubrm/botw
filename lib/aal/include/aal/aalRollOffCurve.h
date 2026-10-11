@@ -8,7 +8,8 @@
 namespace aal {
 
 /// The roll off model of a RollOffCurve (the strategy that is used).
-SEAD_ENUM(RollOffModel, None, Inverse, Linear, Exp);
+// The native text table preserves this macro argument spelling.
+SEAD_ENUM(RollOffModel, None,Inverse,Linear,Exp);
 
 /// A roll off model (distance attenuation) as in OpenAL: gain 1 up to the reference distance, then falling to the
 /// maximum distance. All functions of the models are const.
@@ -87,6 +88,7 @@ public:
     void setRollOffFactor(f32 factor);
 
 private:
+    friend class RollOffCurveXmlWriter;
     IRollOffCurveStrategy* mStrategy = nullptr;
     f32 mRefDistance = 1.0f;
     f32 mMaxDistance = 0.0f;

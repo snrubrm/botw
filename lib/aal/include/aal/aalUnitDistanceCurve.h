@@ -18,7 +18,8 @@ class UnitDistanceCurveReader;
 class UnitDistanceCurve : public Curve {
     SEAD_RTTI_OVERRIDE(UnitDistanceCurve, Curve)
 public:
-    SEAD_ENUM(CurveType, Log, Linear)
+    // The native text table preserves this macro argument spelling.
+    SEAD_ENUM(CurveType, Log,Linear)
 
     explicit UnitDistanceCurve(const sead::SafeString& name);
     ~UnitDistanceCurve() override;
@@ -34,6 +35,7 @@ public:
     void setupFromResourceReader(const UnitDistanceCurveReader& reader, sead::Heap* heap);
 
 private:
+    friend class UnitDistanceCurveXmlWriter;
     /// The distance after which the curve is practically zero.
     void calcCullingDistance_();
 

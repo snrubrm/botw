@@ -62,6 +62,7 @@ static_assert(sizeof(UnitDistanceCurveXmlReader) == 0x28);
 class RollOffCurveXmlWriter {
 public:
     explicit RollOffCurveXmlWriter(sead::XmlDocument* document);
+    void write(const RollOffCurve& curve, sead::Heap* heap);
 
 private:
     sead::XmlDocument* mDocument;
@@ -73,6 +74,7 @@ static_assert(sizeof(RollOffCurveXmlWriter) == sizeof(void*));
 class UnitDistanceCurveXmlWriter {
 public:
     explicit UnitDistanceCurveXmlWriter(sead::XmlDocument* document);
+    void write(const UnitDistanceCurve& curve, sead::Heap* heap);
 
 private:
     sead::XmlDocument* mDocument;
