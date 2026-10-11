@@ -148,6 +148,8 @@ target_sources(uking PRIVATE
   resTextureHandleList.h
   resTextureHandleMgr.cpp
   resTextureHandleMgr.h
+  resVfxResourceMgr.cpp
+  resVfxResourceMgr.h
   resUnit.cpp
   resUnit.h
   resUnitPool.cpp
