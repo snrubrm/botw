@@ -18,7 +18,39 @@ bool RailMoveRemains::init_(sead::Heap* heap) {
 }
 
 void RailMoveRemains::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _60 = m45();
+    if (!_60) {
+        setFailed();
+        return;
+    }
+    auto* rail = m34();
+    if (!rail) {
+        m36();
+        return;
+    }
+    f32 progress = m42();
+    if (!(progress < 0.0f) || rail != _60->_8.rail) {
+        if (progress < 0.0f) {
+            sead::Vector3f position;
+            mActor->getMtx().getTranslation(position);
+            progress = sub_7100EEF7AC(rail, position, false, 0.1f, -0.0f);
+        }
+        // Both calls are present in the native entry even though their results are discarded.
+        rail->isClosed();
+        rail->getNumPoints();
+        sead::Vector3f position;
+        if (!sub_7100535684(rail, &position, &_68, progress)) {
+            setFailed();
+            return;
+        }
+        _60->sub_7100EEBAE0(rail, progress);
+        _60->sub_7100EEBE9C(1);
+        m46(position, _68);
+    }
+    if (m39())
+        m35();
+    else
+        m37();
 }
 
 void RailMoveRemains::calc_() {

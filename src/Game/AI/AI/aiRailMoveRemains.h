@@ -36,6 +36,9 @@ public:
     virtual void m47(sead::Vector3f* out);
 
 protected:
+    // Full native 535684 samples position and direction from the supplied rail progress.
+    bool sub_7100535684(ksys::map::Rail* rail, sead::Vector3f* position,
+                        sead::Vector3f* direction, f32 progress);
     // static_param at offset 0x38
     const float* mReactivateTime_s{};
     // static_param at offset 0x40
