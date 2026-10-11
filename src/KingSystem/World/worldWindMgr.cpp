@@ -6,6 +6,8 @@
 
 namespace ksys::world {
 
+WindMgr::~WindMgr() = default;
+
 void WindMgr::sub_71010EEBE4(sead::Vector3f* out, const sead::Vector3f* position) {
     if (!(_28 & 8)) {
         sub_71010EEA98(out, position);

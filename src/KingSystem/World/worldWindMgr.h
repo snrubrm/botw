@@ -39,8 +39,16 @@ struct Unk_710251F868 {
 KSYS_CHECK_SIZE_NX150(Unk_710251F868, 0x268);
 
 class WindMgr : public Job {
+    SEAD_RTTI_OVERRIDE(WindMgr, Job)
 public:
     WindMgr();
+    ~WindMgr() override;
+
+    void init_(sead::Heap* heap) override;
+    void calc_() override {}
+    void calcType1_() override {}
+    void calcType2_() override;
+    void m10() override;
 
     JobType getType() const override { return JobType::Wind; }
 
