@@ -1,5 +1,6 @@
 #include "KingSystem/Quest/qstIndicator.h"
 #include "KingSystem/Quest/qstStep.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 
 namespace ksys::qst {
 
@@ -111,6 +112,7 @@ bool Indicator::init(al::ByamlIter* iter, sead::BufferedSafeString* out_message)
                 actor->location = location;
                 actor->name = name;
                 actor->off_flag = off_flag;
+                actor->kind = 1;
                 actor->is_remains = is_remains;
                 actor->hash_instance_name = sead::HashCRC32::calcStringHash(instance_name);
                 actor->hash_name = sead::HashCRC32::calcStringHash(name);
@@ -155,7 +157,7 @@ void Indicator::acquireActors() {
 
         act::BaseProc* proc = Manager::sub_7100FD5848(actor->name, actor->instance_name);
         if (proc != nullptr) {
-            if (actor->is_remains == 1) {
+            if (actor->kind == 1) {
                 actor->link.acquire(proc, false);
             }
             continue;
@@ -166,7 +168,7 @@ void Indicator::acquireActors() {
             s.append("_Far");
             proc = Manager::sub_7100FD5848(s, actor->instance_name);
             if (proc != nullptr) {
-                if (actor->is_remains == 1) {
+                if (actor->kind == 1) {
                     actor->link.acquire(proc, false);
                 }
             }
@@ -187,5 +189,15 @@ const IndicatorActor* Indicator::sub_7100FD5518(int idx) const {
 }
 
 IndicatorActor::~IndicatorActor() = default;
+
+sead::Vector3f IndicatorActor::getPosition() const {
+    if (kind == 1) {
+        act::ActorConstDataAccess accessor;
+        act::acquireActor(&link, &accessor);
+        if (accessor.hasProc())
+            return accessor.getActorMtx().getTranslation();
+    }
+    return location;
+}
 
 }  // namespace ksys::qst

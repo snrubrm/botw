@@ -12,17 +12,22 @@ struct IndicatorActor {
     IndicatorActor();
     virtual ~IndicatorActor();
 
+    sead::Vector3f getPosition() const;
+
     act::BaseProcLink link;
     bool has_far;
     const char* instance_name;
     sead::Vector3f location;
     const char* name;
     const char* off_flag;
-    u32 is_remains;
-    u32 hash_name = 0;
+    // Native init copies kind 1 for actors and 0 for locations; UI reads IsRemains separately.
+    u32 kind;
+    bool is_remains;
+    u8 _4d[3];
     u32 hash_instance_name = 0;
-    void* _58;
+    u32 hash_name = 0;
 };
+KSYS_CHECK_SIZE_NX150(IndicatorActor, 0x58);
 
 struct Indicator {
     Indicator(Step* step, sead::Heap* heap);
