@@ -1,6 +1,8 @@
 #include "Game/gameMotorcycleMgr.h"
+#include <algorithm>
 #include <math/seadMathCalcCommon.h>
 #include "Game/Actor/actHorseRideInfo.h"
+#include "Game/gameSceneSubsys12.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorSystem.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerLink.h"
@@ -143,6 +145,17 @@ void MotorcycleMgr::clampMotorcycleEnergy() {
         return;
     }
     mEnergy = sead::Mathf::clamp(mEnergy, 0.0f, 1000.0f);
+}
+
+// NON_MATCHING: std::min uses stack temporaries and pointer selection instead of FMIN.
+void MotorcycleMgr::sub_710067AB8C() {
+    if (_c8 > 0.0f) {
+        if (auto* scene = GameSceneSubsys12::instance()) {
+            mEnergy = std::min(mEnergy + _c8, 1000.0f);
+            _c8 = 0.0f;
+            scene->sub_7100665360();
+        }
+    }
 }
 
 bool MotorcycleMgr::checkIsActorRidingMotorcycle(ksys::act::Actor* actor) {
