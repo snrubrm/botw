@@ -196,11 +196,6 @@ void ScreenMainDungeon::sub_71010A4F64() {
     }
 }
 
-// 0x710109db4c
-const char* ScreenBoxCursorTV::getLayoutName_() const {
-    return "Cursor_00";
-}
-
 // 0x710109deac
 void ScreenChangeControllerNN::m94() {
     if (isOpened())

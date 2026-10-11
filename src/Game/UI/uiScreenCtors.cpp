@@ -32,7 +32,6 @@ ScreenChangeControllerNN::ScreenChangeControllerNN() : Screen() {}
 ScreenHomeNixSign::ScreenHomeNixSign() : Screen() {}
 
 // 0x710109da7c
-ScreenBoxCursorTV::ScreenBoxCursorTV() : Screen() {}
 
 // 0x71010a3ea8
 ScreenLoadSaveIcon::ScreenLoadSaveIcon() : Screen() {}

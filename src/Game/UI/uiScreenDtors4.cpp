@@ -8,7 +8,6 @@ namespace uking::ui {
 ScreenFadeDemo::~ScreenFadeDemo() = default;
 ScreenChangeControllerNN::~ScreenChangeControllerNN() = default;
 ScreenHomeNixSign::~ScreenHomeNixSign() = default;
-ScreenBoxCursorTV::~ScreenBoxCursorTV() = default;
 ScreenLoadSaveIcon::~ScreenLoadSaveIcon() = default;
 ScreenMessageTips::~ScreenMessageTips() = default;
 ScreenMessage3D::~ScreenMessage3D() = default;

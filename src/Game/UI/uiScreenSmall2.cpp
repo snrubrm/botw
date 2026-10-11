@@ -1523,15 +1523,6 @@ void ScreenMainShortCut::m167() {
         mStateMachine.changeState(&sUnk_71025ef170);
 }
 
-// 0x710109db58
-void ScreenBoxCursorTV::m93(sead::Heap*) {
-    if (eui::LayoutEx* layout = sub_7100BEAFB0("Pa_Cursor_00")) {
-        _300 = layout->tryCreateAnimatorAuto("Type", true);
-        if (_300)
-            _300->StopAtMin();
-    }
-}
-
 // 0x7100a4b344
 void ScreenShopBtnList15::m100() {
     if (eui::LayoutEx* layout = sub_7100BEAFB0("Pa_GuideA_00")) {
