@@ -3,6 +3,7 @@
 #include <container/seadPtrArray.h>
 #include <heap/seadDisposer.h>
 #include <hostio/seadHostIONode.h>
+#include <math/seadVector.h>
 #include <thread/seadCriticalSection.h>
 #include <thread/seadAtomic.h>
 #include "KingSystem/Utils/Types.h"
@@ -10,6 +11,9 @@
 namespace ksys::act { class Chemical; }
 
 namespace ksys::chm {
+
+// D997B4 combines each component, keeping the larger magnitude when the signs agree.
+void sub_7100D997B4(sead::Vector3f* out, const sead::Vector3f& value);
 
 // Name from Chemical::createInstance in the CSV. Allocation and both destructors prove this layout.
 class Chemical : public sead::hostio::Node {

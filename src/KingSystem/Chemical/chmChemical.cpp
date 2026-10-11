@@ -4,6 +4,18 @@
 
 namespace ksys::chm {
 
+void sub_7100D997B4(sead::Vector3f* out, const sead::Vector3f& value) {
+    for (s32 i = 0; i < 3; ++i) {
+        const f32 sign = out->e[i] >= 0.0f ? 1.0f : -1.0f;
+        if (sign == (value.e[i] >= 0.0f ? 1.0f : -1.0f)) {
+            out->e[i] = sign * sead::Mathf::max(sead::Mathf::abs(out->e[i]),
+                                               sead::Mathf::abs(value.e[i]));
+        } else {
+            out->e[i] += value.e[i];
+        }
+    }
+}
+
 SEAD_SINGLETON_DISPOSER_IMPL(Chemical)
 
 Chemical::~Chemical() {
