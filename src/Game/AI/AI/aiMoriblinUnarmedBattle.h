@@ -14,10 +14,13 @@ public:
     bool isChangeable() const override;
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
 
     void sub_71004AC4F8();
+    bool sub_71004ACA10();
+    bool sub_71004ACC4C();
     // 0x71004ace74 (placeholder name)
     void changeToAttack();
     // 0x71004acf98 (placeholder name)
