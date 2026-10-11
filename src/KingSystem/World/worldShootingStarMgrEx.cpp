@@ -3,6 +3,7 @@
 #include <cmath>
 #include <cstring>
 #include <cstdio>
+#include <resource/seadResource.h>
 #include <codec/seadHashCRC32.h>
 #include "KingSystem/Utils/Byaml/Byaml.h"
 #include <math/seadQuat.h>
@@ -13,9 +14,47 @@
 #include "KingSystem/ActorSystem/actInstParamPack.h"
 #include "KingSystem/GameData/gdtManagerInline.h"
 #include "KingSystem/System/CameraMgr.h"
+#include "KingSystem/Resource/resHandle.h"
 #include "KingSystem/World/worldManager.h"
 
+// E8DCA8 returns the matching map record's resource handle at +0x58.
+ksys::res::Handle* getMapStaticMubin(const sead::SafeString& name);
+
 namespace ksys::world {
+
+ShootingStarAnchor::ShootingStarAnchor()
+    : mIdentifier{sead::HashCRC32::calcStringHash("default"), "default"} {
+    std::memset(mIdBuffer, 0, sizeof(mIdBuffer));
+}
+
+bool ShootingStarMgrEx::sub_71010CFE18() {
+    auto* handle = getMapStaticMubin(mMapName);
+    if (!handle || !handle->requestedLoad() || !handle->isSuccess())
+        return false;
+    auto* resource = sead::DynamicCast<sead::DirectResource>(handle->getResource());
+    if (!resource)
+        return false;
+    al::ByamlIter root(resource->getRawData());
+    if (!root.isValid())
+        return false;
+    al::ByamlIter anchors;
+    root.tryGetIterByKey(&anchors, "FldObj_DLC_ShootingStarCollaborationAnchor");
+    if (!anchors.isValid())
+        return false;
+    const u32 count = anchors.getSize();
+    if (count > 32)
+        return false;
+    for (u32 i = 0; i < count; ++i) {
+        al::ByamlIter entry;
+        anchors.tryGetIterByIndex(&entry, i);
+        if (!entry.isValid())
+            continue;
+        auto* anchor = mAnchors.emplaceBack();
+        if (!anchor->sub_71010D02C0(entry))
+            mAnchors.erase(mAnchors.size() - 1);
+    }
+    return true;
+}
 
 bool ShootingStarAnchor::sub_71010D02C0(const al::ByamlIter& iter) {
     if (!iter.tryGetIntByKey(&mStartHour, "CollaboShootingStarStartHour") ||

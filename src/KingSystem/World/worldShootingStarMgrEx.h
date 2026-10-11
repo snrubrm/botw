@@ -22,6 +22,7 @@ bool sub_71010D103C();
 // in ShootingStarMgr's translation unit.
 class ShootingStarAnchor {
 public:
+    ShootingStarAnchor();
     virtual ~ShootingStarAnchor();
 
     // 0x71010cf868 (CSV wm::calcShootingStarDLC; declaration only)
@@ -48,22 +49,22 @@ public:
     void sub_71010D0814(act::InstParamPack* pack, sead::Vector3f* out_position);
 
     char mIdBuffer[32];
-    u32 _28;
-    f32 _2c;
+    u32 _28 = 0;
+    f32 _2c = 10.0f;
     Identifier mIdentifier;
-    sead::Vector3f _48;
-    s32 mStartHour;
-    s32 mEndHour;
-    s32 mDirection;
-    f32 _60;
+    sead::Vector3f _48 = sead::Vector3f::zero;
+    s32 mStartHour = 0;
+    s32 mEndHour = 0;
+    s32 mDirection = 0;
+    f32 _60 = 0.0f;
     u8 _64[4];
-    const char* _68;
-    const char* _70;
-    const char* _78;
-    u8 _80[4];
-    s32 _84;
-    bool _88;
-    bool _89;
+    const char* _68 = nullptr;
+    const char* _70 = nullptr;
+    const char* _78 = nullptr;
+    u8 _80[4]{};
+    s32 _84 = 10;
+    bool _88 = false;
+    bool _89 = false;
     u8 _8a[6];
 };
 KSYS_CHECK_SIZE_NX150(ShootingStarAnchor, 0x90);
