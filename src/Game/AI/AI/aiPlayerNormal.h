@@ -2,6 +2,8 @@
 
 #include "KingSystem/ActorSystem/actAiAi.h"
 #include "Game/Damage/dmgDamageCallback.h"
+#include "Game/AI/aiUnkDamageCallbacks.h"
+#include "Game/AI/aiUnk_7102357210.h"
 
 // Native PlayerNormal constructor 82E794 embeds this callback at +0x1b8.
 // Its complete five-slot vtable is 0x710246ac48; D1 is DamageCallback's D2.
@@ -72,8 +74,18 @@ protected:
     // static_param at offset 0x108
     const float* mToFallHeightForJustRush_s{};
 
-    // Members not recovered yet (class size from the factory).
-    u8 _110[0x238 - 0x110];
+    // Native member lifetimes and vtables from 82E794 / 83E5CC.
+    /* 0x110 */ Unk_71024507c8 _110{0x1800004};
+    /* 0x150 */ Unk_7102450a68 _150;
+    /* 0x1a8 */ bool _1a8 = false;
+    /* 0x1a9 */ bool _1a9 = false;
+    u8 _1aa[2];
+    u8 _1ac[8];
+    /* 0x1b4 */ f32 _1b4 = -1;
+    /* 0x1b8 */ Unk_710246ac48 _1b8;
+    /* 0x1e0 */ Unk_7102451900 _1e0;
+    /* 0x208 */ Unk_7102451af8 _208;
+    /* 0x230 */ f32 _230 = -1;
 };
 KSYS_CHECK_SIZE_NX150(PlayerNormal, 0x238);
 

@@ -2,6 +2,7 @@
 
 namespace uking::ai {
 
+// NON_MATCHING: scalar initialization at +0x38..0x68 and +0x1ac is not modeled yet.
 PlayerNormal::PlayerNormal(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
 PlayerNormal::~PlayerNormal() = default;
