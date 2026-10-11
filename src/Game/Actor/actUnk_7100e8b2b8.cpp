@@ -9,6 +9,8 @@
 #include "KingSystem/ActorSystem/Attention/actAttClient.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectHorseUnit.h"
+#include <gsys/gsysModel.h>
+#include <gsys/gsysModelAccessKey.h>
 
 namespace uking::act {
 
@@ -72,6 +74,16 @@ void Unk_7100e8b2b8::sub_7100E8BE10() {
 
 // 0x71024ec700: two SafeStrings in read-only data.
 static const sead::SafeString sRiderBoneNames[] = {"Saddle_Root", "Root"};
+
+// NON_MATCHING: bone-key validity and enum flag scheduling differ.
+bool Unk_7100e8b2b8::m4(ksys::act::Actor* actor, sead::Heap*) {
+    mActor = actor;
+    if (auto* model = actor->getModel()) {
+        if (model->searchBone(sRiderBoneNames[0].cstr()).isValid())
+            _10 |= 1u << Flag10(Flag10::_7);
+    }
+    return true;
+}
 
 // NON_MATCHING: the original loads _10 after reloading the spilled flag (ours before)
 const sead::SafeString& Unk_7100e8b2b8::sub_7100E8B524() const {
