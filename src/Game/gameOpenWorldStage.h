@@ -3,6 +3,10 @@
 #include "Game/gameStageBinder.h"
 #include "KingSystem/Map/mapMapProperties.h"
 
+namespace ksys {
+class Unk_71024dd110;
+}
+
 namespace ksys::act {
 class Actor;
 }
@@ -46,7 +50,9 @@ private:
     /* 0xe0 */ ksys::act::Actor* mPlayer;
     u8 _e8[0x1a0 - 0xe8];
     /* 0x1a0 */ sead::FixedSafeString<32> mMapType;
-    u8 _1d8[0x310 - 0x1d8];
+    /* 0x1d8 */ ksys::Unk_71024dd110* mCamera;
+    /* 0x1e0 */ u8 _1e0;
+    u8 _1e1[0x310 - 0x1e1];
 };
 static_assert(sizeof(OpenWorldStage) == 0x310);
 

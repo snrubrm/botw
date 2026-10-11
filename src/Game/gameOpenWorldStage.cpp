@@ -3,6 +3,7 @@
 #include "Game/gameStage.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/World/worldManager.h"
+#include "KingSystem/System/CameraMgr.h"
 #include "KingSystem/Utils/Thread/MessageDispatcherBase.h"
 #include "KingSystem/Utils/Thread/MessageBroker.h"
 
@@ -62,6 +63,12 @@ bool OpenWorldStage::ret0(void* arg) {
 }
 
 void OpenWorldStage::m27_null(void* arg) {}
+
+void OpenWorldStage::fieldEnter() {
+    callRoot4Stuff();
+    ksys::CameraMgr::instance()->sub_7100D8C488(0, mCamera);
+    _1e0 = 0;
+}
 
 void OpenWorldStage::fieldRun() {}
 
