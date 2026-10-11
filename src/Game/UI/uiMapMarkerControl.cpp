@@ -360,4 +360,16 @@ void Unk_7102478be0::m8() {
     }
 }
 
+Unk_7102478e30::~Unk_7102478e30() {
+    _48 = nullptr;
+    _50 = nullptr;
+}
+
+// NON_MATCHING: native spills an enum conversion; the entry kind is still declared as an integer.
+void Unk_7102478e30::m8() {
+    Unk_7102477fc0::m8();
+    if (_18 && (_18->_3c & 1) && _48)
+        _48->Stop(_18->_1c - 37);
+}
+
 }  // namespace uking::ui
