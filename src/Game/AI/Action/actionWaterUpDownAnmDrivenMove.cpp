@@ -1,6 +1,12 @@
 #include "Game/AI/Action/actionWaterUpDownAnmDrivenMove.h"
 #include "Game/AI/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/System/VFR.h"
+#include <prim/seadStringUtil.h>
+#include <limits>
+#include <cmath>
 #include "KingSystem/Physics/System/physRayCastBodyQuery.h"
 
 namespace uking::action {
@@ -54,8 +60,56 @@ void WaterUpDownAnmDrivenMove::loadParams_() {
     getStaticParam(&mASName_s, "ASName");
 }
 
+// NON_MATCHING: query and velocity temporaries have different stack slots; clamp lowering and
+// parse-fallback blocks differ. The redundant native velocity reload/store is omitted.
 void WaterUpDownAnmDrivenMove::calc_() {
-    ksys::act::ai::Action::calc_();
+    auto* as_list = mActor->getASList();
+    ksys::phys::CharacterController* controller;
+    if (!as_list || !(controller = mActor->getCharacterController())) {
+        setFailed();
+        return;
+    }
+
+    ksys::as::ASList::Unk4 query;
+    if (as_list->x(0x2f, &query, 0, 0, &ksys::as::ASList::Unk2::sub_710116383C, true)) {
+        f32 scale = 1.0f;
+        constexpr f32 epsilon = std::numeric_limits<f32>::epsilon();
+        if (!sead::StringUtil::tryParseF32(&scale, query.name) ||
+            (scale <= epsilon && scale >= -epsilon))
+            scale = 1.0f;
+        f32 depth;
+        if (mActor->getDepthInWater() > 0.0f)
+            depth = mActor->getDepthInWater();
+        else
+            depth = sub_71002B7EEC() - mActor->getMtx()(1, 3);
+        f32 movement = ((depth - *mInWaterDepth_s) - *mTargetDepth_s) / scale;
+        if (movement <= 0.0f)
+            movement = 0.0f;
+        _50 = movement;
+    }
+
+    if (as_list->x(0x2f, nullptr, 0, 0, &ksys::as::ASList::Unk2::sub_71011638DC, true)) {
+        sead::Vector3f velocity;
+        controller->sub_7100F5F598(&velocity);
+        velocity.y = as_list->sub_710115D2D4().y * 30.0f * _50;
+        const f32 x_ratio = *mPosReduceRatio_s;
+        if (x_ratio >= 0.0f)
+            velocity.x *= std::pow(x_ratio, ksys::VFR::instance()->getDeltaFrame());
+        else
+            velocity.x *= -std::pow(-x_ratio, ksys::VFR::instance()->getDeltaFrame());
+        const f32 z_ratio = *mPosReduceRatio_s;
+        if (z_ratio >= 0.0f)
+            velocity.z *= std::pow(z_ratio, ksys::VFR::instance()->getDeltaFrame());
+        else
+            velocity.z *= -std::pow(-z_ratio, ksys::VFR::instance()->getDeltaFrame());
+        controller->sub_7100F5F6FC(velocity);
+    } else {
+        sub_7100738428(mActor, *mPosReduceRatio_s);
+    }
+    m32(controller);
+    if (isFinishedAS(0, 0))
+        setFinished();
+    _5c.sub_7100700640(mActor);
 }
 
 void WaterUpDownAnmDrivenMove::m32(ksys::phys::CharacterController* controller) {
