@@ -44,6 +44,10 @@
 #include "KingSystem/Utils/Byaml/Byaml.h"
 #include "KingSystem/World/worldManager.h"
 
+// Source owner unknown: full sensor utility and SystemHide callers establish the Actor input.
+// Declaration only.
+void sub_7100EE54E8(ksys::act::Actor* actor);
+
 // Source owner unknown: the complete native helper and both locator consumers establish these types.
 // Declaration only.
 void sub_7100EE6D1C(sead::Matrix34f* out, const sead::Matrix34f& mtx,
@@ -552,6 +556,14 @@ void sub_7100EE5408(Actor* actor) {
         controller->sub_7100F5EC44();
     else if (auto* body = actor->getMainBody())
         body->removeFromWorld();
+}
+
+void sub_7100EE544C(Actor* actor) {
+    if (auto* set = actor->getRigidBodyByName(sStr_Tgt.cstr())) {
+        for (s32 i = 0, n = set->getRigidBodies().size(); i < n; ++i)
+            set->getRigidBodies()[i]->addToWorld();
+    }
+    ::sub_7100EE54E8(actor);
 }
 
 void sub_7100EE5624(Actor* actor) {
