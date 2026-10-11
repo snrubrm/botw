@@ -1,6 +1,7 @@
 #include "Game/AI/aiUnk_710073fa90.h"
 #include "KingSystem/Utils/MathUtil.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
@@ -189,4 +190,18 @@ bool sub_710074191C(sead::Matrix33f* mtx, const sead::Vector3f& front,
     f32 angle = 0;
     ksys::util::sub_71011EF1C4(&axis, &angle, *mtx, target, sead::Vector3f::ey);
     return sub_710074169C(mtx, target, axis, angle, a);
+}
+
+void sub_7100740F1C(const sead::Matrix33f& mtx, ksys::act::Actor* actor) {
+    if (auto* controller = actor->getCharacterController())
+        sub_7100740E04(mtx, controller);
+    else if (auto* body = actor->getMainBody())
+        sub_7100740E8C(mtx, body);
+}
+
+void sub_7100741B0C(const sead::Matrix33f& mtx, ksys::act::Actor* actor) {
+    if (auto* controller = actor->getCharacterController())
+        sub_71007419F4(mtx, controller);
+    else if (auto* body = actor->getMainBody())
+        sub_7100741A7C(mtx, body);
 }
