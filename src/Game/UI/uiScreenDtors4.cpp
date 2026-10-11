@@ -8,7 +8,7 @@ namespace uking::ui {
 
 
 
-ScreenLoadSaveIcon::~ScreenLoadSaveIcon() = default;
+
 
 
 

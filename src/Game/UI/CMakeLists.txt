@@ -94,6 +94,7 @@ target_sources(uking PRIVATE
   uiScreenMessageTips.cpp
   uiScreenChangeControllerNN.cpp
   uiScreenHomeNixSign.cpp
+  uiScreenLoadSaveIcon.cpp
   uiScreenCtors.cpp
   uiScreenDLCNum.cpp
   uiScreenDtors.cpp

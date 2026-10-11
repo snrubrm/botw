@@ -19,8 +19,7 @@ ScreenPauseMenuMantan::ScreenPauseMenuMantan() : ScreenEx() { sResult = 5; }
 
 
 
-// 0x71010a3ea8
-ScreenLoadSaveIcon::ScreenLoadSaveIcon() : Screen() {}
+
 
 
 
