@@ -220,9 +220,6 @@ const char* ScreenLoadSaveIcon::getLayoutName_() const {
     return "LoadSaveIcon_00";
 }
 
-// 0x71010af818
-const char* ScreenMessage3D::getLayoutName_() const {
-    return "Message3D_00";
-}
+
 
 }  // namespace uking::ui

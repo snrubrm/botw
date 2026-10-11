@@ -10,7 +10,7 @@ ScreenChangeControllerNN::~ScreenChangeControllerNN() = default;
 ScreenHomeNixSign::~ScreenHomeNixSign() = default;
 ScreenLoadSaveIcon::~ScreenLoadSaveIcon() = default;
 
-ScreenMessage3D::~ScreenMessage3D() = default;
+
 
 
 

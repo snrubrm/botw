@@ -472,10 +472,7 @@ void ScreenDLCSinJuAkashiNum::m100() {
     mStateMachine.changeState(&sUnk_71025ecb40);
 }
 
-// 0x71010af810
-bool ScreenMessage3D::isEnableControl() const {
-    return true;
-}
+
 
 
 

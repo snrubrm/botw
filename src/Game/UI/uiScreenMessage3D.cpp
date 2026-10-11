@@ -6,6 +6,33 @@
 
 namespace uking::ui {
 
+// 0x71010ad85c
+// NON_MATCHING: call/store scheduling only (the original sinks the MessageString constructor call below
+// the chain and tail-calls the CriticalSection constructor last; ours keeps both member constructor
+// calls first). All stores and calls are present and natural.
+ScreenMessage3D::ScreenMessage3D() : Screen() {
+    _320[0].mNext = &_320[1];
+    _310 = &_320[0];
+    _318 = &_320[0];
+    _320[1].mNext = &_320[2];
+    _320[2].mNext = &_320[3];
+    _320[3].mNext = nullptr;
+    _300.setBuffer(4, _660);
+    _690 = 0;
+}
+
+ScreenMessage3D::~ScreenMessage3D() = default;
+
+// 0x71010af810
+bool ScreenMessage3D::isEnableControl() const {
+    return true;
+}
+
+// 0x71010af818
+const char* ScreenMessage3D::getLayoutName_() const {
+    return "Message3D_00";
+}
+
 // File-static message block for the Entry tag processing (0x710261ef20 in the original; the two
 // SafeStrings carry the "T_Message_00" IDs, with the assure-termination virtual calls and string
 // accesses below reproducing).

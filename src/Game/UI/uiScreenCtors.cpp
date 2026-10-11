@@ -195,20 +195,7 @@ ScreenPickUp::ScreenPickUp() : ScreenEx() {
     _3650.setBuffer(7, _3cc8);
 }
 
-// 0x71010ad85c
-// NON_MATCHING: call/store scheduling only (the original sinks the MessageString constructor call below
-// the chain and tail-calls the CriticalSection constructor last; ours keeps both member constructor
-// calls first). All stores and calls are present and natural.
-ScreenMessage3D::ScreenMessage3D() : Screen() {
-    _320[0].mNext = &_320[1];
-    _310 = &_320[0];
-    _318 = &_320[0];
-    _320[1].mNext = &_320[2];
-    _320[2].mNext = &_320[3];
-    _320[3].mNext = nullptr;
-    _300.setBuffer(4, _660);
-    _690 = 0;
-}
+
 
 // 0x71009dc30c
 // NON_MATCHING: init scheduling only (original hoists the memset args before the vtable stores and
