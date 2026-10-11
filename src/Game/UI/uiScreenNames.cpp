@@ -201,10 +201,7 @@ const char* ScreenChangeControllerNN::getLayoutName_() const {
     return "ChangeControllerNN_00";
 }
 
-// 0x71010a076c
-const char* ScreenFadeDemo::getLayoutName_() const {
-    return "FadeDemo_00";
-}
+
 
 // 0x71010a215c
 void ScreenHomeNixSign::m98() {

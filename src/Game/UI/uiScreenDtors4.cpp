@@ -5,7 +5,7 @@
 // inline parent RTTI chain of those changes).
 namespace uking::ui {
 
-ScreenFadeDemo::~ScreenFadeDemo() = default;
+
 ScreenChangeControllerNN::~ScreenChangeControllerNN() = default;
 ScreenHomeNixSign::~ScreenHomeNixSign() = default;
 ScreenLoadSaveIcon::~ScreenLoadSaveIcon() = default;

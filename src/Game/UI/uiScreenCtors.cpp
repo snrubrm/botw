@@ -13,8 +13,7 @@ ScreenEnergyMeterDLC::ScreenEnergyMeterDLC() : ScreenEx() {}
 
 ScreenPauseMenuMantan::ScreenPauseMenuMantan() : ScreenEx() { sResult = 5; }
 
-// 0x71010a0138
-ScreenFadeDemo::ScreenFadeDemo() : Screen() {}
+
 
 // 0x710109de68
 ScreenChangeControllerNN::ScreenChangeControllerNN() : Screen() {}
