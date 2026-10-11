@@ -156,8 +156,7 @@ bool FishRoot::init_(sead::Heap* heap) {
         name.format("tail%02d", i + 1);
         _1d0[spine_count + i].sub_71003CC014(params, model, name.cstr(), spine_count + i);
     }
-    _1d0[spine_count + tail_count].sub_71003CC014(params, model, sead::SafeString::cEmptyString,
-                                               spine_count + tail_count);
+    _1d0[spine_count + tail_count].sub_71003CC014(params, model, "", spine_count + tail_count);
     sub_71003CC1AC(model);
     return true;
 }

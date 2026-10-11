@@ -19,6 +19,7 @@ namespace uking::ai {
 
 // Placeholder name: the 0xe8-byte bone animation entry in FishRoot::_1d0.
 struct FishRootBoneEntry {
+    // 3CC014 initializes the bone/name and per-entry restore speed and angle from Fish parameters.
     void sub_71003CC014(const ksys::res::GParamListObjectFish* params, gsys::Model* model,
                        const sead::SafeString& name, s32 index);
 
