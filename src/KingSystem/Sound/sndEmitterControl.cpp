@@ -3,6 +3,7 @@
 #include <aal/aalArbiter.h>
 #include <aal/aalEmitter.h>
 #include <aal/aalSystemAccessor.h>
+#include "KingSystem/Event/evtInfoData.h"
 
 namespace ksys::snd {
 
@@ -22,6 +23,32 @@ Unk_710105abc0::~Unk_710105abc0() {
             arbiter->freeEmitter(_8);
             _8 = nullptr;
         }
+    }
+}
+
+// NON_MATCHING: the comparison result is materialized after the string loop instead of before it,
+// and the original uses full-width moves when forwarding that Boolean fade choice.
+void Unk_710105abc0::sub_710105AF00(const sead::SafeString& name, bool skip_event_info) {
+    if (_38.isOn(1) || _39)
+        return;
+    const char* stop_type = "StopWithFade";
+    if (!skip_event_info) {
+        al::ByamlIter iter;
+        if (evt::InfoData::instance()->getEntry(&iter, name, name))
+            iter.tryGetStringByKey(&stop_type, "bgm_stop");
+    }
+    const sead::SafeString type(stop_type);
+    if (type == "NotStop")
+        return;
+    const bool fade_type = type != "StopNotFade";
+    auto* bgm = SoundMgr::instance()->_30;
+    if (bgm->_88 & 3) {
+        bgm->sub_7100FF8684(fade_type);
+        _38.set(1);
+    }
+    if (bgm->_78->sub_7101007C14() || (bgm->_88 & 4)) {
+        bgm->sub_7100FF8AC4(fade_type);
+        _38.set(2);
     }
 }
 
