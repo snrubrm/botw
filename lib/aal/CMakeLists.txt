@@ -36,6 +36,10 @@ add_library(aal OBJECT
   include/aal/aalEmitter.h
   include/aal/aalFadeCurveType.h
   include/aal/aalFinalFxMgr.h
+  include/aal/aalFxInitializeArg.h
+  include/aal/aalFxDelayInitializeArg.h
+  include/aal/aalFxReverbI3DL2InitializeArg.h
+  include/aal/aalFxReverbI3DL2ParamSetter.h
   include/aal/aalFxDelayParamSetter.h
   include/aal/aalFxParamSetter.h
   include/aal/aalGroup.h
@@ -119,6 +123,7 @@ add_library(aal OBJECT
   src/aalFinalFxCtrl.cpp
   src/aalFinalFxMgr.cpp
   src/aalFinalOutputMeasure.cpp
+  src/aalFxReverbI3DL2ParamSetter.cpp
   src/aalFxDelayParamSetter.cpp
   src/aalFxParamSetter.cpp
   src/aalGroup.cpp

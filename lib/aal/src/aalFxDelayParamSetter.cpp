@@ -1,6 +1,9 @@
 #include "aal/aalFxDelayParamSetter.h"
+#include "aal/aalFxDelayInitializeArg.h"
 
 namespace aal {
+
+FxDelayInitializeArg::FxDelayInitializeArg() : mMaxDelay(0.1f) {}
 
 // 0x71012cbdd8
 FxDelayParamSetter::FxDelayParamSetter() {
