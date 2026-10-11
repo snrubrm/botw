@@ -28,7 +28,7 @@ namespace ksys::act {
 class Chemical;
 
 // 2026-10-07: D9A1D0 constructs a 0x290-byte Node with vtable24DD490; D9A970/D9AA0C
-// are its original own D1/D0. Only the prefix used by D9AA84 is recovered; do not allocate it.
+// are its original own D1/D0. Only the used prefix is recovered; do not allocate it.
 class Unk_71024dd490 : public sead::hostio::Node {
 public:
     struct CreateArg {
@@ -43,6 +43,7 @@ public:
     virtual ~Unk_71024dd490();
     void sub_7100D9AA84();
     void sub_7100D9AAE4();
+    s32 sub_7100D9A1C4() const;
     // 10C74A0 constructs a 0x90-byte ElementSpark with this holder and the request.
     ElementSpark* sub_71010C74A0(const ElementSparkCreateArg* arg);
 
@@ -53,6 +54,11 @@ public:
     u8 _cc[0xd8 - 0xcc];
     // D9A384 allocates this Chemical array; D9AA84/D9AAE4 dispatch Chemical methods on it.
     sead::PtrArray<Chemical> mChemicals;
+    u8 _e8[0x198 - 0xe8];
+    // D9A1D0 clears these; D9C0CC selects a Chemical and activates the request.
+    bool _198;
+    u8 _199[0x1b0 - 0x199];
+    Chemical* _1b0;
 };
 
 Unk_71024dd490* sub_7100D9A1D0(const Unk_71024dd490::CreateArg& arg, sead::Heap* heap);

@@ -4,6 +4,8 @@
 #include <limits>
 #include <thread/seadThread.h>
 #include "KingSystem/ActorSystem/actActorChemicals.h"
+#include "KingSystem/ActorSystem/actActorX6A0.h"
+#include "KingSystem/ActorSystem/actChemicalElementHolder.h"
 #include "KingSystem/Chemical/chmChemical.h"
 #include "KingSystem/Chemical/chmSystemConfig.h"
 
@@ -350,7 +352,7 @@ void Chemical::sub_7100D8EA9C() {
         sub_7100D9B158(_60, this);
 }
 
-bool Chemical::sub_7100D8F124(void* holder) {
+bool Chemical::sub_7100D8F124(Unk_71024dd490* holder) {
     if (_60)
         return _60 == holder;
     _8 |= 8;
@@ -360,6 +362,16 @@ bool Chemical::sub_7100D8F124(void* holder) {
     _60 = nullptr;
     _8 &= ~8;
     return false;
+}
+
+int Chemical::sub_7100D914C0() const {
+    const int local = _68 ? _68->_24 : 0;
+    const int world = _60 ? _60->sub_7100D9A1C4() : 0;
+    return sead::Mathi::max(local, world);
+}
+
+bool Chemical::sub_7100D9472C() const {
+    return _60->_198 && _60->_1b0 == this;
 }
 
 // NON_MATCHING: the 16-bit flag mask narrows and the final owner predicate folds to a select.

@@ -18,6 +18,8 @@ class IShape;
 namespace ksys::act {
 
 class Unk_71024e6560;
+class Unk_71024dd490;
+class Unk_7101265a6c;
 class Chemical;
 
 // Legacy declaration kept for shared-header compatibility. The object at 0x7102600e50
@@ -103,7 +105,7 @@ public:
     // rate, _1b8 and the delta frame. Returns a float (SwitchElectricOn::calc_ compares it with MinEnergyRate).
     f32 sub_7100D945BC(f32 rate, f32 value, f32 delta_frame);
     // 0x7100d8f124: associates a chemical world holder (same incomplete type as _60).
-    bool sub_7100D8F124(void* holder);
+    bool sub_7100D8F124(Unk_71024dd490* holder);
     void sub_7100D8F194();
     void sub_7100D8F454();
     void sub_7100D907A8();
@@ -152,7 +154,7 @@ public:
     // 0x7100d8cd24 (declared only): releases the sub-object `_1c8` / `_1d0` points to.
     static void sub_7100D8CD24(void* object, bool a2);
     // 0x7100d9472c (CSV: gsys::ModelSceneBuffer::isDeferredShadingEnabled, a mislabeled ICF body; AI code calls it on
-    // getChemicalStuff()): `_60->byte 0x198 && _60->_1b0 == this`. Declared only.
+    // getChemicalStuff()): `_60->byte 0x198 && _60->_1b0 == this`.
     bool sub_7100D9472C() const;
     bool sub_7100D915A8() const;
     void sub_7100D91614(const Chemical& other);
@@ -193,8 +195,8 @@ public:
     /* 0x050 */ f32 _50;
     /* 0x054 */ f32 _54;
     /* 0x058 */ f32 _58;
-    /* 0x060 */ void* _60 = nullptr;  // chemical world object (methods 0x7100d9cb54, 0x7100d9a1c4, ...)
-    /* 0x068 */ void* _68 = nullptr;
+    /* 0x060 */ Unk_71024dd490* _60 = nullptr;
+    /* 0x068 */ Unk_7101265a6c* _68 = nullptr;
     // object with vtables 0x71024dd218 / 0x71024dd238 (D1 0x7100d8e968) and a 0x80-byte buffer
     /* 0x070 */ u8 _70[0x80 - 0x70];
     /* 0x080 */ u32 _80 = 0;  // sizeof the _88 array, set to 0x80 by sub_7100D8EA50
