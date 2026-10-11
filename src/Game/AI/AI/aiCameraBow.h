@@ -10,6 +10,7 @@ class CameraBow : public CameraAI {
 public:
     explicit CameraBow(const InitArg& arg);
     bool m34(sead::Heap* heap) override;
+    void m36() override;
 
 protected:
 };
