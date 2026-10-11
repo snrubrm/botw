@@ -621,6 +621,9 @@ public:
     }
 
 protected:
+    // FA742C enqueues and FA6438 independently drains requests while maintaining mFlags.
+    friend class RigidBodyRequestMgr;
+
     void createMotionAccessor(sead::Heap* heap);
     void assertLayerType(ContactLayer layer) const;
     void onInvalidParameter(int code = 0);

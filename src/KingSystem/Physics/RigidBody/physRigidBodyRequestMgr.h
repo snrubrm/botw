@@ -84,8 +84,14 @@ private:
     struct Unk1;
     struct Unk3;
 
+    // FA742C produces these 0x10-byte queue records. FA6438 independently
+    // reads the body, advances both frame bytes and restores the saved gravity.
     struct Unk4 {
-        u8 _0[0x10];
+        RigidBody* body;
+        u8 frames;
+        u8 duration;
+        u8 _a[2];
+        f32 gravity_factor;
     };
     KSYS_CHECK_SIZE_NX150(Unk4, 0x10);
 

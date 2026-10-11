@@ -215,6 +215,25 @@ void RigidBodyRequestMgr::removeConstraint(Constraint* constraint) {
     _38.erase(constraint);
 }
 
+// NON_MATCHING: queue pop loop and return block placement.
+bool RigidBodyRequestMgr::x_8(RigidBody* body, u8 type) {
+    if (body->hasFlag(RigidBody::Flag::_400) || body->isSensor())
+        return false;
+    auto* entry = _e0.pop();
+    if (!entry)
+        return false;
+    entry->body = body;
+    body->mFlags.set(RigidBody::Flag::_400);
+    entry->gravity_factor = body->getGravityFactor();
+    entry->frames = 0;
+    entry->duration = type;
+    entry->body->setGravityFactor(0.0f);
+    entry->body->setLinearVelocity(sead::Vector3f::zero, sead::Mathf::epsilon());
+    entry->body->setAngularVelocity(sead::Vector3f::zero, sead::Mathf::epsilon());
+    static_cast<void>(_c8.push(entry));
+    return true;
+}
+
 void RigidBodyRequestMgr::x_10(float a, float b) {
     _218 = a;
     _220 = _21c;
