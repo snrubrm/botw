@@ -98,7 +98,7 @@ void DemoCookPotCook::enter_(ksys::act::ai::InlineParamPack* params) {
     _208 = 0;
     _20c = 0;
     if (auto* scene = GameSceneSubsys12::instance()) {
-        _208 = scene->sub_7100664D24();
+        _208 = scene->sub_710066358C();
         _20c = scene->sub_7100664D64();
         if (!*mIsSuccess_d)
             _20c = 0;
