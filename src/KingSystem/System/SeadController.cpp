@@ -40,6 +40,18 @@ void SeadController::sub_7100D9D8DC(u32 value) {
     _190 = value;
 }
 
+// NON_MATCHING: the second stick-mask OR has its two source registers exchanged.
+void SeadController::sub_7100D9D8E4() {
+    _198 |= getHoldMask();
+    if (_190 & 0x10000000)
+        _198 |= 0x10000000;
+    if (_190 & 0x20000000)
+        _198 |= 0x20000000;
+    _198 &= _190;
+    _188 |= 4;
+    sub_7100D9D92C(_198);
+}
+
 void SeadController::sub_7100D9DAC8(u32 value) {
     _194 = value;
 }

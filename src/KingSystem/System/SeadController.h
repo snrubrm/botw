@@ -41,6 +41,8 @@ public:
     void sub_7100D9D8C0(bool on);   // flag 0x80
     void sub_7100D9D8DC(u32 value);  // _190
     void sub_7100D9D8E4();  // accumulates controller masks, then applies them
+    // D9D92C masks buttons, sticks, triggers and pointer, then updates controller wrappers.
+    void sub_7100D9D92C(u32 mask);
     void sub_7100D9DAC8(u32 value);  // _194
     Unk_71024dd588* sub_7100D9DAD0();
     void sub_7100D9DAD8();           // clears flag 0x1
@@ -62,7 +64,9 @@ private:
     u8 _18c[4];
     u32 _190;
     u32 _194;
-    u8 _198[0x1a4 - 0x198];
+    // D9D628 zeros this word; D9D8E4 and D9DB20 accumulate the input mask here.
+    u32 _198;
+    u8 _19c[0x1a4 - 0x19c];
     u32 _1a4;
     sead::TTreeNode<SeadController*> mTreeNode;
     Unk_71024dd588 _1d0;
