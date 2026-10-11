@@ -23,6 +23,7 @@
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectArmorHead.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectArmorUpper.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectSeriesArmor.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectShiekerStone.h"
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
 #include "KingSystem/Utils/Thread/Message.h"
@@ -50,6 +51,57 @@ ArmorBase::ArmorBase(const CreateArg& arg) : Actor(arg) {
 }
 
 ArmorBase::~ArmorBase() = default;
+
+const sead::SafeString& ArmorBase::sub_7100E2AEF4() {
+    if (getProfile() == "ArmorExtra2") {
+        if (const auto* params = getParam()->getRes().mGParamList) {
+            if (const auto* stone = params->getShiekerStone())
+                return stone->mNodeNameWithWaist.ref();
+        }
+    }
+    return sead::SafeString::cEmptyString;
+}
+
+const sead::SafeString& ArmorBase::sub_7100E2AFC4() {
+    if (getProfile() == "ArmorExtra2") {
+        if (const auto* params = getParam()->getRes().mGParamList) {
+            if (const auto* stone = params->getShiekerStone())
+                return stone->mNodeNameWithHand.ref();
+        }
+    }
+    return sead::SafeString::cEmptyString;
+}
+
+// NON_MATCHING: return-value setup is scheduled after the vector stores.
+bool ArmorBase::sub_7100E2B718(sead::Vector3f* out) {
+    if (getProfile() == "ArmorExtra2") {
+        if (const auto* params = getParam()->getRes().mGParamList) {
+            if (const auto* stone = params->getShiekerStone()) {
+                *out = stone->mTransOffsetWithHand.ref();
+                return true;
+            }
+        }
+    } else {
+        *out = sead::Vector3f::zero;
+    }
+    return false;
+}
+
+// NON_MATCHING: return-value setup is scheduled after the vector stores.
+bool ArmorBase::sub_7100E2B820(sead::Vector3f* out) {
+    if (getProfile() == "ArmorExtra2") {
+        if (const auto* params = getParam()->getRes().mGParamList) {
+            if (const auto* stone = params->getShiekerStone()) {
+                *out = stone->mRotOffsetWithHand.ref();
+            *out *= sead::Mathf::deg2rad(1.0f);
+                return true;
+            }
+        }
+    } else {
+        *out = sead::Vector3f::zero;
+    }
+    return false;
+}
 
 bool ArmorBase::sub_7100E29B8C() {
     bool attack = false;
