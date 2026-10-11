@@ -11,6 +11,7 @@
 namespace ksys::map {
 
 class Rail;
+class RailPoint;
 class RailConnectablePoint;
 class RailRoute;
 class Unk_7100D49894;
@@ -49,6 +50,9 @@ public:
 
     // 0x7100d48254 (declared only)
     Rail* sub_7100D48254(const sead::SafeString& unique_name);
+
+    void sub_7100D49784(f32* min_dist, const RailPoint** closest, const RailRoute* route,
+                         const sead::Vector3f* pos, const sead::SafeString& route_ids);
 
 private:
     // Native outer keys are unsigned hashes; the inner key interface is unresolved.

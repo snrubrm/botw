@@ -1,5 +1,6 @@
 #include "KingSystem/Map/mapPlacement18.h"
 #include "KingSystem/Map/mapRail.h"
+#include <random/seadGlobalRandom.h>
 
 namespace ksys::map {
 
@@ -67,6 +68,77 @@ Rail* Placement18::sub_7100D487BC(s32 cell_idx, u32 rail_type_hash, const u32& h
         }
     }
     return nullptr;
+}
+
+// NON_MATCHING: the second route scan schedules the selection arithmetic and loop registers differently.
+const RailConnectablePoint* Placement18::sub_7100D49324(const sead::SafeString& route_ids) {
+    s32 total = 0;
+    for (s32 i = 0; i < 80; ++i) {
+        const s32 count = _8->unsafeAt(i)->size();
+        for (s32 j = 0; j < count; ++j) {
+            const auto* route = static_cast<const RailRoute*>(_8->at(i)->at(j));
+            if (route && sub_7100D4953C(route, route_ids)) {
+                const s32 num_points = route->getNumPoints();
+                if (num_points > 1)
+                    total += num_points;
+            }
+        }
+    }
+    s32 index = sead::GlobalRandom::instance()->getU32(total);
+    for (s32 i = 0; i < 80; ++i) {
+        const s32 count = _8->unsafeAt(i)->size();
+        for (s32 j = 0; j < count; ++j) {
+            const auto* route = static_cast<const RailRoute*>(_8->unsafeAt(i)->at(j));
+            if (route && sub_7100D4953C(route, route_ids)) {
+                const s32 num_points = route->getNumPoints();
+                if (num_points >= 2) {
+                    const s32 remaining = index - num_points;
+                    if (remaining <= 0)
+                        return static_cast<const RailConnectablePoint*>(route->getPoint(sead::GlobalRandom::instance()->getU32(index)));
+                    index = remaining;
+                }
+            }
+        }
+    }
+    return nullptr;
+}
+
+const RailConnectablePoint* Placement18::sub_7100D495B0(const sead::SafeString& point_name) {
+    for (s32 i = 0; i < 80; ++i) {
+        const s32 count = _8->unsafeAt(i)->size();
+        for (s32 j = 0; j < count; ++j) {
+            const auto* route = static_cast<const RailRoute*>(_8->at(i)->at(j));
+            if (!route)
+                continue;
+            const s32 num_points = route->getNumPoints();
+            for (s32 k = 0; k < num_points; ++k) {
+                const char* name = route->getCheckPointName(k);
+                if (name && point_name.isEqual(sead::SafeString(name)))
+                    return static_cast<const RailConnectablePoint*>(route->getPoint(k));
+            }
+        }
+    }
+    return nullptr;
+}
+
+void Placement18::sub_7100D49784(f32* min_dist, const RailPoint** closest, const RailRoute* route,
+                                   const sead::Vector3f* pos, const sead::SafeString& route_ids) {
+    if (!sub_7100D4953C(route, route_ids))
+        return;
+    const s32 count = route->getNumPoints();
+    for (s32 i = 0; i < count; ++i) {
+        const auto* point = route->getPoint(i);
+        if (point) {
+            const auto& translate = point->getTranslate();
+            const f32 dx = translate.x - pos->x;
+            const f32 dz = translate.z - pos->z;
+            const f32 dist = dx * dx + dz * dz;
+            if (dist < *min_dist) {
+                *min_dist = dist;
+                *closest = point;
+            }
+        }
+    }
 }
 
 }  // namespace ksys::map
