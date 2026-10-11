@@ -271,6 +271,19 @@ extern bool sIsRestartStageFromGameOver;
 // 0x710245a360 (see gameScene.cpp).
 extern bool sUnk_710245a360;
 
+// Three DrawMethods and their pointer slots occupy the scene's inline work buffer.
+class Unk_710245a980 : public GameScene::sb {
+public:
+    Unk_710245a980() { init(3, &mWork); }
+    ~Unk_710245a980() override;
+
+private:
+    std::aligned_storage_t<sead::ObjArray<agl::lyr::DrawMethod>::calculateWorkBufferSize(3),
+                           alignof(agl::lyr::DrawMethod)>
+        mWork;
+};
+static_assert(sizeof(Unk_710245a980) == 0x160);
+
 // One DrawMethod and its pointer slot occupy the inline work buffer.
 class Unk_710245b4d8 : public GameScene::sb {
 public:

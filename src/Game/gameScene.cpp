@@ -747,6 +747,9 @@ void GameScene::setStageBinder(StageBinder* binder) {
     _279 |= 1;
 }
 
+// NON_MATCHING: the base pool cleanup inlines instead of remaining a separate call.
+Unk_710245a980::~Unk_710245a980() = default;
+
 }  // namespace uking
 
 // A function-pointer delegate on a BaseProc (CSV BaseProcInvoker; vtable 0x710245a5d8: invoke 0x7b66ac, clone 0x7b66c0,
