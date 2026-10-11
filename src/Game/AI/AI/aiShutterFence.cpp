@@ -25,6 +25,29 @@ void ShutterFence::enter_(ksys::act::ai::InlineParamPack* params) {
         changeChild("クローズ待機");
 }
 
+// 0x710056b7e0
+void ShutterFence::calc_() {
+    auto* actor = mActor;
+    auto* child = getCurrentChild();
+    if (isCurrentChild("クローズ待機") && (child->isChangeable() || child->isFinished()) &&
+        actor->checkBasicSig()) {
+        if (!mASKeyName_On_s.isEmpty())
+            changeAS(mASKeyName_On_s.cstr(), true, 0, 0);
+        changeChild("オープン");
+    } else if (isCurrentChild("オープン待機") && (child->isChangeable() || child->isFinished()) &&
+               !actor->checkBasicSig()) {
+        if (!mASKeyName_On_s.isEmpty())
+            changeAS(mASKeyName_On_s.cstr(), true, 0, 0);
+        changeChild("クローズ");
+    } else if (isCurrentChild("クローズ") && child->isFinished()) {
+        actor->sub_7100EE20A4();
+        changeChild("クローズ待機");
+    } else if ((isCurrentChild("プリオープン") || isCurrentChild("オープン")) && child->isFinished()) {
+        actor->sub_7100EE2050();
+        changeChild("オープン待機");
+    }
+}
+
 void ShutterFence::leave_() {
     ksys::act::ai::Ai::leave_();
 }
