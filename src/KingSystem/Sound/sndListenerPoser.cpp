@@ -1,9 +1,7 @@
 #include "KingSystem/Sound/sndMgr.h"
+#include "KingSystem/Sound/sndListenerPoserImpl.h"
 #include <aal/aalListenerMgr.h>
 #include <aal/aalSystemAccessor.h>
-
-// Address placeholder: the original factory returns a concrete aal::ListenerPoser subclass.
-aal::ListenerPoser* sub_71012C5810(const sead::SafeString& name, sead::Heap* heap);
 
 namespace ksys::snd {
 
@@ -18,6 +16,23 @@ void ListenerPoser::init(sead::Heap* heap) {
     mListener = aal::SystemAccessor::getListenerMgr()->createListener("デフォルトリスナー");
     mListener->setPoser(mPoser);
     mListener->_f0 = true;
+}
+
+void ListenerPoser::sub_7101055538(s32 value) {
+    if (!_70) {
+        _70 = true;
+        _74 = value;
+    }
+}
+
+void ListenerPoser::sub_71010554C8() {
+    if (mPoser)
+        mPoser->_d8 = 1;
+    if (!_85)
+        _a8.moveTo(0.0f, 0.5f);
+    sub_7101055538(15);
+    if (_78 == 5 || _78 == 6)
+        _78 = 0;
 }
 
 ListenerPoser::~ListenerPoser() {

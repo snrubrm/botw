@@ -479,6 +479,8 @@ enum class AudioChannelType {
 // in SoundMgr's init (CSV Sound::init) and stored in SoundMgr::_58. It owns an aal::Listener and the aal::ListenerPoser
 // that positions it (named "snd::ListenerPoser"; the listener is the default listener).
 // TODO: incomplete.
+class Unk_710251b1f0;
+
 class ListenerPoser {
 public:
     // 0x71010549d8
@@ -487,13 +489,14 @@ public:
     virtual ~ListenerPoser();
 
     void sub_7101055100();
+    void sub_71010554C8();
     // 0x7101055538 (CSV unnamed): if `_70` is clear, sets it and stores `value` in `_74`.
     void sub_7101055538(s32 value);
     // 0x7101054b30 (declaration only): creates the poser (in `heap`) and the default listener.
     void init(sead::Heap* heap);
 
     /* 0x08 */ aal::Listener* mListener = nullptr;
-    /* 0x10 */ aal::ListenerPoser* mPoser = nullptr;
+    /* 0x10 */ Unk_710251b1f0* mPoser = nullptr;
     /* 0x18 */ f32 _18 = 22.5f;
     /* 0x1c */ f32 _1c = 45.0f;
     /* 0x20 */ f32 _20 = 1.0f;
@@ -509,7 +512,8 @@ public:
     /* 0x7c */ u32 _7c = 0;
     // set to 1 / 0 by uking::action::CameraAction enter_ / leave_
     /* 0x80 */ u32 _80 = 0;
-    /* 0x84 */ u16 _84 = 0;
+    /* 0x84 */ u8 _84 = 0;
+    /* 0x85 */ bool _85 = false;
     /* 0x88 */ u32 _88 = 1;
     /* 0x90 */ aal::SimpleTimedFader _90{1.0f};
     /* 0xa8 */ aal::SimpleTimedFader _a8{0.0f};

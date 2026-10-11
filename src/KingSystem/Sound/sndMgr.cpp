@@ -314,13 +314,6 @@ f32 Unk_SoundMgra8::sub_710104B558(ksys::act::Actor* actor) {
     return volume;
 }
 
-void ListenerPoser::sub_7101055538(s32 value) {
-    if (!_70) {
-        _70 = true;
-        _74 = value;
-    }
-}
-
 aal::Listener* SoundMgr::sub_71011FC2D0() { return _58->mListener; }
 
 bool SoundMgr::sub_71011FC2DC() { return mSLinkUserCreateHeap->getFreeSize() > 0x4000; }

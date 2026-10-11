@@ -6,6 +6,7 @@ target_sources(uking PRIVATE
   sndDuckingMgr.cpp
   sndInfoData.cpp
   sndListenerPoser.cpp
+  sndListenerPoserImpl.cpp
   sndInfoData.h
   sndMusicDefinition.cpp
   sndOcclusionMgr.cpp
