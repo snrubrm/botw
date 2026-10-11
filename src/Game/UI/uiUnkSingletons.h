@@ -522,6 +522,32 @@ public:
 static_assert(sizeof(Unk_7102475808) == 0x70);
 
 
+
+// Observed prefix of the Manager record used by 955900 and factory 95C0A8.
+struct Unk_7100955900 {
+    const char* _0;
+    ksys::gdt::FlagHandle _8;
+    sead::Vector3f _c;
+};
+
+// Factory 95C0A8 allocates 0x58-byte entries and installs VT2475C68.
+class Unk_7102475c68 : public UiSubsys1Entry {
+    SEAD_RTTI_OVERRIDE(Unk_7102475c68, UiSubsys1Entry)
+public:
+    ~Unk_7102475c68() override;
+    void m11() override;
+    void m12() override;
+    void m13() override;
+    void m15() override;
+    void m17() override;
+    void m26() override;
+    virtual void m29();
+    virtual void m30();
+
+    Unk_7100955900* _50;
+};
+static_assert(sizeof(Unk_7102475c68) == 0x58);
+
 // Factory 95C0A8 retains its final 0x58-byte allocation for native VT2475D70.
 class Unk_7102475d70 : public UiSubsys1Entry {
     SEAD_RTTI_OVERRIDE(Unk_7102475d70, UiSubsys1Entry)
@@ -885,6 +911,8 @@ class UiSubsys1 {
     // Native singleton forwarders 96828C / 9682B4 / 9682CC read these UI fields directly.
     friend class Unk_71025d6ac0;
     friend struct UiSubsys1Entry;
+    // Native 955964/9559D8/955BE4 read the map mode at 0x848 directly.
+    friend class Unk_7102475c68;
 public:
     static UiSubsys1* instance() { return sInstance; }
 

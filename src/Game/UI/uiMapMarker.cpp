@@ -336,4 +336,39 @@ void UiSubsys1Entry::m28(bool enabled) {
     }
 }
 
+// NON_MATCHING: inherited entry resets and their TU defaults remain out of line.
+Unk_7102475c68::~Unk_7102475c68() {
+    _50 = nullptr;
+}
+
+void Unk_7102475c68::m29() {
+    auto* record = _50;
+    if (record && record->_0 && *record->_0)
+        record->_8 = ksys::gdt::Manager::instance()->getBoolHandle(record->_0);
+}
+
+void Unk_7102475c68::m11() {
+    if (UiSubsys1::instance()->_848 == 0) {
+        _3c &= ~0x80;
+    } else if (_50 && _50->_8 != ksys::gdt::InvalidHandle) {
+        _3c = ksys::gdt::getFlagGenericBool(_50->_8) ? _3c | 0x80 : _3c & ~0x80;
+    }
+}
+
+void Unk_7102475c68::m12() {
+    if (UiSubsys1::instance()->_848 == 0) {
+        _3c &= ~0x80;
+    } else if (_50 && _50->_8 != ksys::gdt::InvalidHandle) {
+        _3c = ksys::gdt::getFlagGenericBool(_50->_8) ? _3c | 0x80 : _3c & ~0x80;
+    }
+}
+
+void Unk_7102475c68::m17() {
+    if (!(_3c & 0x10) && UiSubsys1::instance()->_848 == 0)
+        m24(false);
+    UiSubsys1Entry::m17();
+}
+
+void Unk_7102475c68::m26() {}
+
 }  // namespace uking::ui
