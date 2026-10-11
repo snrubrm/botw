@@ -10,6 +10,10 @@
 
 struct Unk_SpotBgmHandle;
 
+namespace sead {
+class TextWriter;
+}
+
 namespace uking::action {
 class SoundOcclusionTagAction;
 }
@@ -26,16 +30,30 @@ public:
     void sub_7101007904(f32 fade_sec, const sead::SafeString& name);
 };
 
-// CSV Bgm RTTI root (typeInfo 0x71025ce360). The remaining interface and layout are not modeled.
+// RTTI root at 0x71025ce360; primary vtable at 0x71024fc8a0.
 class Bgm {
 public:
-    virtual ~Bgm();
+    virtual ~Bgm() = default;
     SEAD_RTTI_BASE(Bgm)
 
+    virtual void m4();
+    virtual void m5() = 0;
+    virtual void m6(f32 fade_sec);
+    virtual void m7(f32 fade_sec);
+    virtual void m8(bool active);
+    virtual bool m9() = 0;
+    virtual bool m10();
+    virtual bool m11();
+    virtual void m12(f32 fade_sec);
+    virtual void m13(f32 fade_sec);
+    virtual void m14(sead::TextWriter& writer);
+
 protected:
-    u8 _8[0x20 - 0x8];
+    bool mActive;
+    u8 _9[3];
+    s32 _c;
 };
-KSYS_CHECK_SIZE_NX150(Bgm, 0x20);
+KSYS_CHECK_SIZE_NX150(Bgm, 0x10);
 
 // Intermediate BGM RTTI typeInfo 0x71025ce380, derived from Bgm.
 class Unk_71025ce380 : public Bgm {
@@ -57,7 +75,7 @@ class Unk_71025ce350 : public Bgm {
     SEAD_RTTI_OVERRIDE(Unk_71025ce350, Bgm)
     friend class uking::action::SoundOcclusionTagAction;
 
-    u8 _20[0x3c - 0x20];
+    u8 _10[0x3c - 0x10];
     bool _3c;
     u8 _3d;
     bool _3e;
