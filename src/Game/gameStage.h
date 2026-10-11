@@ -27,6 +27,9 @@ extern bool sIsTitleStageActive;
 // 0x71007D4228 prepares the Demo102_0 stage change used by NewSaveRun.
 void calledFromNewSaveRun_10();
 
+void callRoot4Stuff();
+void sub_71007D10B0();
+
 // OpenWorldStage initialization and both teardown paths maintain the TeraWaterDisable region.
 // Other readers use the same XZ bounds and maximum height; storage remains in the original data.
 extern sead::BoundBox2f sTeraWaterDisableBounds;

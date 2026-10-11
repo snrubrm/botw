@@ -1,4 +1,5 @@
 #include "Game/gameStage.h"
+#include "Game/gameRoot4.h"
 #include "KingSystem/ksys.h"
 #include "Game/gamePlayReport.h"
 #include "Game/Damage/dmgInfoManager.h"
@@ -23,6 +24,22 @@
 namespace uking {
 
 bool eventMgrHasActiveEvent();
+
+void callRoot4Stuff() {
+    Root4::instance()->sub_71008BCE5C(Root4::FlagIdx::_1, true, 2);
+    Root4::instance()->sub_71008BCE5C(Root4::FlagIdx::_3, true, 2);
+    Root4::instance()->sub_71008BCE5C(Root4::FlagIdx::_0, true, 2);
+    Root4::instance()->sub_71008BCE5C(Root4::FlagIdx::_4, true, 2);
+    Root4::instance()->sub_71008BCE5C(Root4::FlagIdx::_6, true, 2);
+}
+
+void sub_71007D10B0() {
+    Root4::instance()->sub_71008BCE5C(Root4::FlagIdx::_1, false, 2);
+    Root4::instance()->sub_71008BCE5C(Root4::FlagIdx::_3, false, 2);
+    Root4::instance()->sub_71008BCE5C(Root4::FlagIdx::_0, false, 2);
+    Root4::instance()->sub_71008BCE5C(Root4::FlagIdx::_4, false, 2);
+    Root4::instance()->sub_71008BCE5C(Root4::FlagIdx::_6, false, 2);
+}
 
 // (defined in a different file than GameScene::m1: its caller does not inline it in the original)
 void GameScene::sub_71007B7D78() {
