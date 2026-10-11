@@ -1,5 +1,6 @@
 #include "Game/Actor/actRideable.h"
 #include "Game/gameHorseMgr.h"
+#include "Game/gameStatisticsMgr.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
 #include "KingSystem/Utils/Thread/Message.h"
 #include "KingSystem/ActorSystem/actActor.h"
@@ -11,6 +12,7 @@
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectHorseUnit.h"
 #include <gsys/gsysModel.h>
 #include <gsys/gsysModelAccessKey.h>
+#include <gsys/gsysModelUnit.h>
 
 namespace uking::act {
 
@@ -83,6 +85,24 @@ bool Unk_7100e8b2b8::m4(ksys::act::Actor* actor, sead::Heap*) {
             _10 |= 1u << Flag10(Flag10::_7);
     }
     return true;
+}
+
+// NON_MATCHING: temporary stack layout, enum load order and boolean branching differ.
+void Unk_7100e8b2b8::m6() {
+    _30 = StatisticsMgr::instance()->getStatsPointer("player_safety_restart");
+    if (auto* model = mActor->getModel()) {
+        if (_10 & (1u << Flag10(Flag10::_7))) {
+            const auto key = model->searchBone(sRiderBoneNames[0]);
+            sead::Matrix34f matrix;
+            model->getUnits()(key.model_unit_index)->mModelUnit->getBoneWorldMatrix(
+                &matrix, key.bone_index);
+            _38 = matrix(1, 3) - mActor->getMtx()(1, 3);
+        }
+    }
+    auto* mgr = HorseMgr::instance();
+    _8 = 0;
+    _c = mgr && (mgr->sub_7100E84AB8(mActor) || mgr->isLinkedToActor(mActor) ||
+                 mgr->_60.hasProcById(mActor));
 }
 
 // NON_MATCHING: the original loads _10 after reloading the spilled flag (ours before)
