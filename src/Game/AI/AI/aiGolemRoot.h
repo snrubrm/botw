@@ -33,7 +33,7 @@ struct Unk_71003ffbf0 {
     bool sub_71003FFD3C();
 
     ksys::act::Actor* _0 = nullptr;
-    u32 _8 = 0;
+    f32 _8 = 0;
     float* _10 = nullptr;
     const int* _18 = nullptr;
     const float* _20 = nullptr;

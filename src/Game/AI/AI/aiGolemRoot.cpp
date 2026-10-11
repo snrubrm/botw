@@ -15,8 +15,26 @@
 #include "KingSystem/Physics/System/physInstanceSet.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
+#include "KingSystem/System/VFR.h"
+
+// 5E0904 tests actor contact height against its float argument.
+bool sub_71005E0904(ksys::act::Actor* actor, f32 height);
 
 namespace uking::ai {
+
+void Unk_71003ffbf0::sub_71003FFBF0() {
+    if (!_0 || !_20 || !_10 || !_18)
+        return;
+    const bool contact = sub_71003FFD3C() || sub_71005E0904(_0, *_20);
+    auto* timer = _10;
+    if (contact | (timer ? *timer > 0.0f : false)) {
+        *timer += ksys::VFR::instance()->getDeltaFrame();
+        if (contact)
+            _8 = _10 ? *_10 : 0.0f;
+        if ((_10 ? *_10 : 0.0f) - _8 > (_18 ? f32(*_18) : 0.0f))
+            *_10 = 0.0f;
+    }
+}
 
 // NON_MATCHING: the original keeps the bounds check of the outer rigid body set lookup (and reloads the
 // set table pointer in the loop); the compiler folds it away
