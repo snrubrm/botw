@@ -18,6 +18,11 @@ public:
     Unk_71024dd110();
     ~Unk_71024dd110() override;
     bool sub_7100D8AFCC(const sead::Vector3f& pos);
+    // Native view tests build a frustum from this camera and the selected projection.
+    bool sub_7100D8B080(const sead::Vector3f& pos, f32 near_clip, f32 far_clip) const;
+    bool sub_7100D8B138(const sead::Vector3f& pos, f32 radius, f32 near_clip, f32 far_clip) const;
+    bool sub_7100D8B1F4(const sead::Vector3f& pos, f32 radius) const;
+    bool sub_7100D8B2AC(const sead::Vector3f& pos, f32 radius) const;
     void sub_7100D8B364(bool active);
     void sub_7100D8B380(s32 id, s32 index);
     void sub_7100D8B3E8(s32 id);

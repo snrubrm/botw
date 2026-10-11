@@ -26,6 +26,10 @@ bool sub_7100D8C78C(sead::Vector3f* out);
 bool sub_7100D8C7FC(sead::Vector3f* out);
 // 0x7100d8c8fc: aspect ratio of the CameraMgr viewport (1 without one). Placeholder name.
 f32 sub_7100D8C8FC();
+bool sub_7100D8C658(const sead::Vector3f& pos, f32 radius);
+// Native camera +0x74 is the vertical field of view in radians.
+f32 sub_7100D8C888();
+f32 sub_7100D8C8BC();
 
 class CameraMgr : public sead::hostio::Node {
     SEAD_SINGLETON_DISPOSER(CameraMgr)
