@@ -759,6 +759,66 @@ void Unk_7102476640::m21() {
         sub_710095156C(false);
 }
 
+// NON_MATCHING: direct search removes nullable-find guards and merges the native insertion paths.
+void Unk_7102476640::m25(bool enabled) {
+    m27(enabled);
+    UiSubsys1::instance()->_808.lock();
+    if ((_3c & 0x30) == 0x30) {
+        auto& list = UiSubsys1::instance()->_5a8;
+        for (auto& entry : list) {
+            if (entry == this) {
+                list.erase(&entry);
+                break;
+            }
+        }
+        if (!UiSubsys1::instance()->_5a8.isFull()) {
+            if (auto* entry = UiSubsys1::instance()->_5a8.emplaceBack(nullptr))
+                *entry = this;
+        }
+    } else if ((_3c & 0x31) == 0x20) {
+        auto& list = UiSubsys1::instance()->_5a8;
+        for (auto& entry : list) {
+            if (entry == this) {
+                list.erase(&entry);
+                break;
+            }
+        }
+    }
+    UiSubsys1::instance()->_808.unlock();
+}
+
+// NON_MATCHING: direct search removes nullable-find guards and merges the native insertion paths.
+s32 Unk_7102476640::sub_7100958408(bool enabled) {
+    m27(enabled);
+    UiSubsys1::instance()->_808.lock();
+    s32 result = 0;
+    if ((_3c & 0x30) == 0x30) {
+        auto& list = UiSubsys1::instance()->_5a8;
+        for (auto& entry : list) {
+            if (entry == this) {
+                list.erase(&entry);
+                break;
+            }
+        }
+        if (!UiSubsys1::instance()->_5a8.isFull()) {
+            if (auto* entry = UiSubsys1::instance()->_5a8.emplaceBack(nullptr))
+                *entry = this;
+        }
+        result = 1;
+    } else if ((_3c & 0x31) == 0x20) {
+        auto& list = UiSubsys1::instance()->_5a8;
+        for (auto& entry : list) {
+            if (entry == this) {
+                list.erase(&entry);
+                result = -1;
+                break;
+            }
+        }
+    }
+    UiSubsys1::instance()->_808.unlock();
+    return result;
+}
+
 void Unk_7102476640::m27(bool enabled) {
     _3c = (enabled != ((_3c & 0x10) != 0)) ? _3c | 0x20 : _3c & ~0x20;
     _3c = enabled ? _3c | 0x10 : _3c & ~0x10;
