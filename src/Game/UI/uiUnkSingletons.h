@@ -675,6 +675,28 @@ public:
 };
 static_assert(sizeof(Unk_7102476350) == 0x60);
 
+// Native factory 0x95C0A8 allocates 0x50 bytes for the complete 29-slot table.
+class Unk_7102476450 : public UiSubsys1Entry {
+public:
+    static const sead::RuntimeTypeInfo::Interface* getRuntimeTypeInfoStatic() {
+        static const sead::RuntimeTypeInfo::Derive<UiSubsys1Entry> typeInfo;
+        return &typeInfo;
+    }
+    static bool checkDerivedRuntimeTypeInfoStatic(
+        const sead::RuntimeTypeInfo::Interface* typeInfo) {
+        return typeInfo == getRuntimeTypeInfoStatic() ||
+               UiSubsys1Entry::checkDerivedRuntimeTypeInfoStatic(typeInfo);
+    }
+    bool checkDerivedRuntimeTypeInfo(const sead::RuntimeTypeInfo::Interface* typeInfo) const override;
+    const sead::RuntimeTypeInfo::Interface* getRuntimeTypeInfo() const override;
+    ~Unk_7102476450() override;
+    void m11() override;
+    void m12() override;
+    void m14() override;
+    void m16() override;
+};
+static_assert(sizeof(Unk_7102476450) == 0x50);
+
 // Native vtable 2477FC0 has fifteen slots; reset 98C7A4 establishes the 0x30-byte layout.
 class Unk_7102477fc0 {
     SEAD_RTTI_BASE(Unk_7102477fc0)

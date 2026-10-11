@@ -5,10 +5,15 @@
 #include <math/seadVector.h>
 #include "KingSystem/Utils/Types.h"
 
+namespace uking::ui {
+class Unk_7102476450;
+}
+
 // Name from the CSV (GameSceneSubsys13::createInstance 0x71008a52e0, init 0x71008a53d8,
 // setGameOverPosition 0x71008a53f0). A small polymorphic sead singleton (the CSV name has no namespace).
 // TODO: incomplete (the members at 0x28-0x38 are only partially understood).
 class GameSceneSubsys13 {
+    friend class uking::ui::Unk_7102476450;
     SEAD_SINGLETON_DISPOSER(GameSceneSubsys13)
     GameSceneSubsys13() = default;
     virtual ~GameSceneSubsys13();

@@ -2,6 +2,7 @@
 #include "KingSystem/Quest/qstIndicator.h"
 #include "Game/gameMotorcycleMgr.h"
 #include "Game/gameWolfLinkMgr.h"
+#include "Game/gameSceneSubsys13.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/GameData/gdtManager.h"
@@ -637,6 +638,33 @@ bool Unk_7102476350::checkDerivedRuntimeTypeInfo(
 }
 
 const sead::RuntimeTypeInfo::Interface* Unk_7102476350::getRuntimeTypeInfo() const {
+    return getRuntimeTypeInfoStatic();
+}
+
+void Unk_7102476450::m11() {
+    if (GameSceneSubsys13::instance()->_38 > _40) {
+        m25(true);
+        updateDistrictFromPos(&GameSceneSubsys13::instance()->_28);
+    } else {
+        m25(false);
+    }
+}
+
+void Unk_7102476450::m12() {
+    if (GameSceneSubsys13::instance()->_38 > _40) {
+        m25(true);
+        updateDistrictFromPos(&GameSceneSubsys13::instance()->_28);
+    } else {
+        m25(false);
+    }
+}
+
+bool Unk_7102476450::checkDerivedRuntimeTypeInfo(
+    const sead::RuntimeTypeInfo::Interface* typeInfo) const {
+    return checkDerivedRuntimeTypeInfoStatic(typeInfo);
+}
+
+const sead::RuntimeTypeInfo::Interface* Unk_7102476450::getRuntimeTypeInfo() const {
     return getRuntimeTypeInfoStatic();
 }
 
