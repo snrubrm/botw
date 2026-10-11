@@ -1082,6 +1082,9 @@ public:
 
     bool sub_7100960DF8();
     bool sub_7100956C10(u32 index) const;
+    UiSubsys1ListEntry* sub_71009580A4(void* key);
+    bool sub_71009580E4(UiSubsys1ListEntry* entry);
+    bool sub_7100958D18() const;
     // 0x710096023c (CSV uiSubsys1::__auto3; placeholder name): ends the timer at 0x6f0 and clears the flag at 0x6ec
     void sub_710096023C();
     // 0x71009512f8 / 0x7100951338 (CSV uiSubsys1::__auto41 / __auto42; placeholder names)
@@ -1272,13 +1275,18 @@ private:
     u8 _320[0x378 - 0x320];
     /* 0x378 */ UiSubsys1Unk378* _378;
     u8 _380[0x478 - 0x380];
-    /* 0x478 */ UiSubsys1Entry* _478;
+    /* 0x478 */ Unk_7102476548* _478;
     u8 _480[0x4bc - 0x480];
     /* 0x4bc */ sead::Vector3f _4bc;
     /* 0x4c8 */ bool _4c8;
     u8 _4c9[0x4cc - 0x4c9];
     /* 0x4cc */ bool _4cc = false;  // set by S7EventFlow::m9
-    u8 _4cd[0x610 - 0x4cd];
+    u8 _4cd[0x598 - 0x4cd];
+    /* 0x598 */ sead::PtrArray<Unk_7102476640> _598;
+    /* 0x5a8 */ sead::ObjList<void*> _5a8;
+    /* 0x5d8 */ sead::ObjList<void*> _5d8;
+    /* 0x608 */ bool _608;
+    u8 _609[0x610 - 0x609];
     /* 0x610 */ sead::PtrArray<UiSubsys1Entry> _610;
     u8 _620[0x650 - 0x620];
     /* 0x650 */ UiSubsys1Entry* _650;

@@ -691,6 +691,23 @@ void Unk_7102476640::m7() {
     m17();
 }
 
+UiSubsys1ListEntry* UiSubsys1::sub_71009580A4(void* key) {
+    if (!key)
+        return nullptr;
+    for (auto& entry : _5d8) {
+        if (entry == key)
+            return &entry;
+    }
+    return nullptr;
+}
+
+bool UiSubsys1::sub_71009580E4(UiSubsys1ListEntry* entry) {
+    if (!entry)
+        return false;
+    _5d8.erase(entry);
+    return true;
+}
+
 void Unk_7102476640::m11() {
     m25(false);
 }
@@ -743,6 +760,10 @@ void Unk_7102476640::sub_7100958C7C() {
         }
     }
     _70 = _60.hasProc();
+}
+
+bool UiSubsys1::sub_7100958D18() const {
+    return _478 && _478->_50 != _478->_54;
 }
 
 bool Unk_7102476640::sub_7100958D38() const {
