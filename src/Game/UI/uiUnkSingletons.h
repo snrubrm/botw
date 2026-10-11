@@ -1,6 +1,7 @@
 #pragma once
 
 #include <container/seadOffsetList.h>
+#include <container/seadObjList.h>
 #include <prim/seadEnum.h>
 #include <prim/seadRuntimeTypeInfo.h>
 #include <heap/seadDisposer.h>
@@ -359,12 +360,8 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(Unk_71025d69f0, 0x48);
 
-// Element of UiSubsys1's list at 0x280 (placeholder: the first word is compared with a key, the list node is at +8; erased
-// entries are chained through the first word on a free list at 0x298).
-struct UiSubsys1ListEntry {
-    void* _0;
-    sead::ListNode _8;
-};
+// ObjList stores the pointer item before its ListNode; native queue handles address the item.
+using UiSubsys1ListEntry = void*;
 
 // Placeholder for the object UiSubsys1 keeps at 0x378 (byte 0x50 is set by sub_7100963C78).
 struct UiSubsys1Unk378 {
@@ -887,6 +884,7 @@ static_assert(sizeof(Unk_7102479510) == 0x48);
 class UiSubsys1 {
     // Native singleton forwarders 96828C / 9682B4 / 9682CC read these UI fields directly.
     friend class Unk_71025d6ac0;
+    friend struct UiSubsys1Entry;
 public:
     static UiSubsys1* instance() { return sInstance; }
 
@@ -1072,10 +1070,11 @@ private:
     u8 _122[0x128 - 0x122];
     /* 0x128 */ s32 _128;
     /* 0x12c */ u8 _12c;
-    u8 _12d[0x280 - 0x12d];
-    /* 0x280 */ sead::OffsetList<UiSubsys1ListEntry> _280;
-    /* 0x298 */ UiSubsys1ListEntry* _298;
-    u8 _2a0[0x310 - 0x2a0];
+    u8 _12d[0x250 - 0x12d];
+    /* 0x250 */ sead::ObjList<void*> _250;
+    /* 0x280 */ sead::ObjList<void*> _280;
+    /* 0x2b0 */ sead::ObjList<void*> _2b0;
+    u8 _2e0[0x310 - 0x2e0];
     /* 0x310 */ sead::PtrArray<UiSubsys1Marker> _310;
     u8 _320[0x378 - 0x320];
     /* 0x378 */ UiSubsys1Unk378* _378;
