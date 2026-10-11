@@ -14,6 +14,7 @@
 #include "KingSystem/Utils/Thread/Task.h"
 #include "KingSystem/Utils/Thread/TaskThread.h"
 #include "KingSystem/Utils/Thread/TaskQueueBase.h"
+#include "KingSystem/Utils/Thread/TaskQueueLock.h"
 #include "KingSystem/Utils/Thread/ManagedTask.h"
 #include "KingSystem/Resource/resResourceFileUtil.h"
 #include "KingSystem/Utils/HeapUtil.h"
@@ -850,6 +851,44 @@ bool TextureHandleMgr::invoked3(void* user_data) {
         stubbedLogFunction();
     mHeapCounter->decrementRef();
     return true;
+}
+
+// NON_MATCHING: status-query inlining and resource-list loop induction differ.
+void TextureHandleMgr::x_1(s32* count) {
+    mCS.lock();
+    if (*count < 100) {
+        util::TaskQueueLock queue_lock;
+        _50->lock(&queue_lock);
+        s32 repaired = 0;
+        for (auto* resource = mResources.front(); resource; resource = mResources.next(resource)) {
+            if (!resource->sub_7100FE0ED0() || !sub_7100FE0F14(resource))
+                continue;
+            ++*count;
+            if (repaired == 0) {
+                stubbedLogFunction();
+                stubbedLogFunction();
+                _50->getTaskQueue()->cancelTasks(0);
+                stubbedLogFunction();
+            }
+            ++repaired;
+            if (!resource->sub_7100FE0F38()) {
+                resource->sub_7100FE0E10();
+                resource->sub_7100FE0F38();
+            }
+            if (*count >= 100)
+                break;
+        }
+        if (repaired == 0) {
+            mFlags2.resetBit(2);
+        } else {
+            stubbedLogFunction();
+            if (mFlags2.isOffBit(2)) {
+                mTickTime.setNow();
+                mFlags2.setBit(2);
+            }
+        }
+    }
+    mCS.unlock();
 }
 
 // NON_MATCHING: the status query is inlined and the u16 result is masked.
