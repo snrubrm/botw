@@ -5,6 +5,7 @@
 #include "Game/UI/euiMassDrawPane.h"
 #include "Game/UI/uiUtils.h"
 #include "Game/gameHorseMgr.h"
+#include "Game/gameWolfLinkMgr.h"
 #include "Game/Actor/actHorseBase.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include <nn/ui2d/Pane.h>
@@ -322,6 +323,10 @@ Unk_7102478ab0::~Unk_7102478ab0() {
     _48 = nullptr;
 }
 
+Unk_7102478b48::~Unk_7102478b48() {
+    _48 = nullptr;
+}
+
 // NON_MATCHING: the animator receiver loads before the predicate call, and frame selection uses conditional selects.
 void Unk_7102478a18::m11() {
     Unk_7102477fc0::m11();
@@ -333,6 +338,14 @@ void Unk_7102478a18::m11() {
     ksys::act::ActorConstDataAccess accessor;
     ksys::act::acquireActor(&link, &accessor);
     _48->Stop(uking::act::sub_7100E6ED04(accessor) ? 1.0f : 0.0f);
+}
+
+// NON_MATCHING: the animator receiver loads before the predicate call, and frame selection uses conditional selects.
+void Unk_7102478b48::m11() {
+    Unk_7102477fc0::m11();
+    if (!_18 || !(_18->_3c & 1) || !WolfLinkMgr::instance())
+        return;
+    _48->Stop(WolfLinkMgr::instance()->sub_7100682CB4() ? 1.0f : 0.0f);
 }
 
 }  // namespace uking::ui

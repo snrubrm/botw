@@ -22,6 +22,8 @@ class WolfLinkMgr {
     virtual ~WolfLinkMgr();
 
 public:
+    // 0x7100682cb4: registered state 2 and the linked actor flag at 0x1699 bit 6.
+    bool sub_7100682CB4() const;
     // 2026-10-07: original WolfLink pre-delete call passes this actor and true.
     bool sub_7100682F80(ksys::act::Actor* actor, bool deleting);
     // 0x7100682ce8 (declared only; WolfLinkAmiiboRegister::enter_): registers the amiibo Wolf Link at `pos`.
