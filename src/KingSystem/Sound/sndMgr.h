@@ -438,6 +438,9 @@ public:
     void sub_710104F4A0();
     // 0x710104f4c4 also sets mask 8 of `_2a0`.
     void sub_710104F4C4();
+    void sub_710104F518();
+    void sub_710104F65C();
+    void sub_710104F788();
     void sub_710104F614();
     void sub_710104F740();
 
@@ -454,7 +457,8 @@ public:
     /* 0xa8 */ xlink2::HandleSLink mFilter;  // 16 bytes
     // 0x710104e0a0 / 0x710104e004 / 0x710104df54 (declared only) read the listeners at
     // 0x548 / 0x550 / 0x558 and store a four-level value through 0x528 / 0x530 / 0xc0 / 0x200.
-    u8 _b8[0x250 - 0xb8];
+    s32 _b8;
+    u8 _bc[0x250 - 0xbc];
     /* 0x250 */ u32 _250;
     u8 _254[4];
     /* 0x258 */ aal::SimpleTimedFader _258;

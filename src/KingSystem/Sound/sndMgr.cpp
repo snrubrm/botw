@@ -193,6 +193,23 @@ void Unk_710104e5b4::sub_710104F4C4() {
     _2a0.set(8);
 }
 
+void Unk_710104e5b4::sub_710104F518() {
+    mFilter.fade();
+    _28->searchAndEmit("Filter_Stop");
+    _2a0.reset(8);
+    _b8 = 60;
+}
+
+void Unk_710104e5b4::sub_710104F65C() {
+    mFilter.fade();
+    _28->searchAndEmit("Filter_Stop");
+}
+
+void Unk_710104e5b4::sub_710104F788() {
+    mFilter.fade();
+    _28->searchAndEmit("Filter_Stop");
+}
+
 void Unk_710104e5b4::sub_710104F614() {
     mFilter = _28->searchAndEmit("Filter");
 }
