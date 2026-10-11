@@ -63,6 +63,15 @@ ScreenChildEx::ScreenChildEx(eui::LayoutEx* layout) : ScreenChild(layout) {
     _128 = nullptr;
 }
 
+ScreenChildEx* ScreenChildEx::sub_71009B064C(s32 group, s32 index) {
+    return nn::font::DynamicCast<ScreenChildEx>(_128->getChild(group, index));
+}
+
+void ScreenChildEx::m54(sead::Heap* heap) {
+    _128 = sead::DynamicCast<ScreenEx>(mLayout->mScreen);
+    ScreenChild::m54(heap);
+}
+
 // 0x71009b5fc8
 void ScreenPauseMenuUnk3b98::sub_71009B5FC8(bool active) {
     if (active) {

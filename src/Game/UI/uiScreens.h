@@ -62,6 +62,7 @@ extern bool sForceEnableGlidingSurfingRupee;
 namespace uking::ui {
 
 class TagProcessor;
+class ScreenEx;
 class Unk_710247bcb8;
 class Unk_710247c368;
 
@@ -235,8 +236,9 @@ public:
     // 0x71009b0618 (27 leaf constructors call it, e.g. 0x7100931d6c / 0x71009d7198)
     explicit ScreenChildEx(eui::LayoutEx* layout);
     void m54(sead::Heap* heap) override;
+    ScreenChildEx* sub_71009B064C(s32 group, s32 index);
 
-    /* 0x128 */ eui::Screen* _128;  // Unk_710247af10::m110 calls eui::Screen::sub_7100BEB70C on it
+    /* 0x128 */ ScreenEx* _128;  // Unk_710247af10::m110 calls eui::Screen::sub_7100BEB70C on it
 };
 static_assert(sizeof(ScreenChildEx) == 0x130);
 
