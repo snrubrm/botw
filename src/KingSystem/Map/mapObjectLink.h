@@ -6,6 +6,10 @@
 #include "KingSystem/Map/mapMubinIter.h"
 #include "KingSystem/Utils/Types.h"
 
+namespace ksys {
+class MessageTransceiverBase;
+}
+
 namespace ksys::act {
 class Actor;
 class ActorConstDataAccess;
@@ -92,6 +96,8 @@ KSYS_CHECK_SIZE_NX150(ObjectLinkArray, 0x10);
 
 class ObjectLinkData {
 public:
+    void sub_7100D4F1D0(s32 core, MessageTransceiverBase* sender, s32 a1, s32 a2, s32 message,
+                       void* user_data, const sead::SafeString* target);
     ObjectLinkData();
 
     void deleteArrays();

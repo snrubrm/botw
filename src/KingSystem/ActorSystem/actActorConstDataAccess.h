@@ -12,6 +12,10 @@
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Utils/Types.h"
 
+namespace ksys {
+class MessageTransceiverBase;
+}
+
 namespace ksys::act {
 class ActorConstDataAccess;
 }
@@ -65,7 +69,7 @@ public:
 
     bool acquireActor(const ActorLinkConstDataAccess& other);
 
-    // 0x7100d114a4 (declaration only): main-body center of mass, or matrix translation.
+    // 0x7100d114a4: main-body center of mass, or matrix translation.
     bool getMtxPos(sead::Vector3f* out) const;
 
     bool hasProc() const { return ActorLinkConstDataAccess::hasProc(); }
@@ -134,6 +138,9 @@ public:
     s32 getAttackPower() const;
 
     bool checkLinkTagActivated(bool a, bool b);
+    bool sub_7100D1584C(s32 index) const;
+    void sub_7100D15964(s32 core, MessageTransceiverBase* sender, s32 a1, s32 a2, s32 message,
+                       void* user_data, const sead::SafeString* target) const;
     void triggerLink();
     map::ObjectLinkData* getMapObjectLinkData() const;
     map::Object* getMapObject() const;

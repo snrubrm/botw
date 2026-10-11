@@ -1890,14 +1890,14 @@ void Actor::sub_71011C5630(gsys::Model* model) {
     Unk_710260af28::instance()->sub_7100F1CACC(model, mStasisFlags.isOn(StasisFlag(0x800)));
 }
 
-// sinit_actor initializes three inline buffers of 256 actor pointers at 0x7102650688.
-sead::SafeArray<sead::FixedPtrArray<Actor, 256>, 3> sActorListsMaybe;
+// sinit_actor initializes three inline buffers of 256 process pointers at 0x7102650688.
+sead::SafeArray<sead::FixedPtrArray<BaseProc, 256>, 3> sActorListsMaybe;
 
-bool Actor::sub_71011D7194(s32 index) {
+bool sub_71011D7194(BaseProc* proc, s32 index) {
     auto& actors = sActorListsMaybe[index];
-    if (actors.indexOf(this) >= 0)
+    if (actors.indexOf(proc) >= 0)
         return false;
-    actors.pushBack(this);
+    actors.pushBack(proc);
     return true;
 }
 

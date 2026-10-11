@@ -435,7 +435,6 @@ public:
     // 0x71011ccbd0: applies changed opacity to the model and animation (called by Swarm::m74).
     void sub_710011CCBD0();
     void sub_71011CCB38();
-    bool sub_71011D7194(s32 index);
     void sub_71011D7EC4(phys::RigidBody* body);
     // D40620 passes the collision record and previous Actor6F4 factor; full3652B callee is void.
     void sub_71011D587C(phys::UserTag::Unk5* arg, f32 previous_factor);
@@ -1087,6 +1086,8 @@ private:
     HandleMessageResult doHandleMessage_(const Message& message);
 };
 KSYS_CHECK_SIZE_NX150(Actor, 0x840);
+
+bool sub_71011D7194(BaseProc* proc, s32 index);
 
 BaseProcLink& getDummyBaseProcLink();
 

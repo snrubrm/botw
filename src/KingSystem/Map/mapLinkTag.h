@@ -9,6 +9,10 @@
 #include "KingSystem/Map/mapMubinIter.h"
 #include "KingSystem/Utils/Types.h"
 
+namespace ksys::act {
+class ActorConstDataAccess;
+}
+
 namespace ksys::gdt {
 class Manager;
 }
@@ -82,6 +86,7 @@ public:
 private:
     // GenGroup::sub_7100D507F8 directly marks the pre-delete flag at +0x1de.
     friend class GenGroup;
+    friend class act::ActorConstDataAccess;
     // 0x7100d383f4 / 0x7100d38534 / 0x7100d38820 (CSV calcCount / calcPulse / calcOther; declaration only): `frame_changed`
     // is whether the frame counter changed since the last calc.
     void calcCount(bool frame_changed);

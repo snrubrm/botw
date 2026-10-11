@@ -23,6 +23,8 @@
 #include "KingSystem/ActorSystem/actAiRoot.h"
 #include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/Map/mapObject.h"
+#include "KingSystem/Map/mapLinkTag.h"
+#include "KingSystem/Map/mapObjectLink.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectAttack.h"
@@ -1483,3 +1485,73 @@ const sead::SafeString& golemWeakPointGetOneDrop(const ksys::act::ActorConstData
     }
     return sead::SafeString::cEmptyString;
 }
+
+namespace ksys::act {
+
+bool ActorConstDataAccess::checkLinkTagActivated(bool a, bool b) {
+    auto* proc = mProc;
+    if (!proc)
+        return false;
+    auto* tag = sead::DynamicCast<map::LinkTag>(proc);
+    if (!tag)
+        return false;
+    if (a)
+        return (tag->_1e0 & 8) != 0;
+    return tag->sub_7100D39420(b);
+}
+
+bool ActorConstDataAccess::sub_7100D1584C(s32 index) const {
+    auto* proc = mProc;
+    if (!proc)
+        return false;
+    if (auto* tag = sead::DynamicCast<map::LinkTag>(proc))
+        return tag->sub_7100D39420(index == 9);
+    if (auto* actor = sead::DynamicCast<Actor>(proc))
+        return actor->mSignals.isOnBit(index);
+    return false;
+}
+
+void ActorConstDataAccess::sub_7100D15964(s32 core, MessageTransceiverBase* sender, s32 a1,
+                                         s32 a2, s32 message, void* user_data,
+                                         const sead::SafeString* target) const {
+    auto* proc = mProc;
+    if (!proc)
+        return;
+    if (auto* tag = sead::DynamicCast<map::LinkTag>(proc)) {
+        if (!sub_71011D7194(tag, core))
+            return;
+        if (tag->mObj) {
+            if (auto* links = tag->mObj->getLinkData())
+                links->sub_7100D4F1D0(core, sender, a1, a2, message, user_data, target);
+        }
+        return;
+    }
+    if (auto* actor = sead::DynamicCast<Actor>(proc))
+        actor->sub_71011D8BCC(core, sender, a1, a2, message, user_data, target);
+}
+
+void ActorConstDataAccess::triggerLink() {
+    auto* proc = mProc;
+    if (!proc)
+        return;
+    if (auto* tag = sead::DynamicCast<map::LinkTag>(proc)) {
+        tag->sub_7100D39120();
+        return;
+    }
+    if (auto* actor = sead::DynamicCast<Actor>(proc))
+        actor->m107();
+}
+
+// NON_MATCHING: the native matrix getter is inlined; it lives in the sibling accessor TU here.
+bool ActorConstDataAccess::getMtxPos(sead::Vector3f* out) const {
+    if (auto* actor = getActor()) {
+        if (auto* body = actor->getMainBody()) {
+            body->getCenterOfMassInWorld(out);
+            return true;
+        }
+    }
+    getActorMtx().getTranslation(*out);
+    return false;
+}
+
+}  // namespace ksys::act
