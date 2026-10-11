@@ -588,6 +588,23 @@ public:
 };
 static_assert(sizeof(Unk_7102476058) == 0x50);
 
+// Factory 0x95C0A8 allocates 0x60 bytes and installs the complete 30-slot table.
+class Unk_7102476150 : public UiSubsys1Entry {
+    SEAD_RTTI_OVERRIDE(Unk_7102476150, UiSubsys1Entry)
+public:
+    ~Unk_7102476150() override;
+    void m11() override;
+    void m12() override;
+    void m14() override;
+    void m16() override;
+    void m21() override;
+    virtual void m29();
+
+    void* _50;
+    ksys::gdt::FlagHandle _58;
+};
+static_assert(sizeof(Unk_7102476150) == 0x60);
+
 // Native vtable 2477FC0 has fifteen slots; reset 98C7A4 establishes the 0x30-byte layout.
 class Unk_7102477fc0 {
     SEAD_RTTI_BASE(Unk_7102477fc0)

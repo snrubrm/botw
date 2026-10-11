@@ -443,4 +443,21 @@ void Unk_7102475f60::m16() {
     }
 }
 
+// NON_MATCHING: inherited entry reset defaults remain unmodeled.
+Unk_7102476150::~Unk_7102476150() {
+    _50 = nullptr;
+    _58 = ksys::gdt::InvalidHandle;
+}
+
+void Unk_7102476150::m11() {
+    if (_58 != ksys::gdt::InvalidHandle)
+        m25(!ksys::gdt::getFlagGenericBool(_58));
+    else if (_50)
+        m25(true);
+}
+
+void Unk_7102476150::m21() {
+    sub_710095156C(true);
+}
+
 }  // namespace uking::ui
