@@ -17,6 +17,22 @@ Unk_71024e6560::~Unk_71024e6560() {
     ;
 }
 
+// NON_MATCHING: translation-only fallback stores are scheduled in a different order.
+void Unk_71024e6428::m4(sead::Matrix34f* out, Chemical* chemical) {
+    if (_278.size() >= 1) {
+        if (auto* body = _278[0].body) {
+            body->getTransform(out);
+            sead::Matrix34f offset;
+            offset.makeT(body->getCenterOfMassInLocal());
+            out->setMul(*out, offset);
+        }
+    } else if (mActor) {
+        out->makeT(mActor->getMtx().getTranslation());
+    } else {
+        out->makeZero();
+    }
+}
+
 const sead::Vector3f& Unk_71024e6428::m5() const {
     return _2a4;
 }
