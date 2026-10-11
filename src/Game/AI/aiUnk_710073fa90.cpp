@@ -45,6 +45,11 @@ bool sub_7100741628(sead::Matrix33f* mtx, const sead::Vector3f& target, f32 a, f
     return reached;
 }
 
+void sub_7100740DC4(sead::Matrix33f* mtx, const sead::Vector3f& up) {
+    const sead::Vector3f forward = mtx->getBase(2);
+    ksys::util::sub_71011EFE58(mtx, forward, up, false);
+}
+
 void sub_71007419B4(sead::Matrix33f* mtx, const sead::Vector3f& up) {
     const sead::Vector3f z{mtx->m[0][2], mtx->m[1][2], mtx->m[2][2]};
     ksys::util::sub_71011EFE58(mtx, z, up, true);

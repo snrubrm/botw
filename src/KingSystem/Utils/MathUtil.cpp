@@ -28,6 +28,20 @@ void sub_71011EEB08(sead::Vector3f* axis, float* angle, const sead::Vector3f& fr
     *angle = sead::Mathf::abs(sub_71011EF0CC(std::atan2(sin, from.dot(to))));
 }
 
+void sub_71011EF168(sead::Vector3f* out, const sead::Matrix33f& from,
+                    const sead::Matrix33f& to, const sead::Vector3f& default_axis) {
+    f32 angle;
+    sub_71011EF1C4(out, &angle, from, to, default_axis);
+    *out *= angle;
+}
+
+void sub_71011EF4C0(sead::Vector3f* out, const sead::Matrix34f& from,
+                    const sead::Matrix34f& to, const sead::Vector3f& default_axis) {
+    f32 angle;
+    sub_71011EF51C(out, &angle, from, to, default_axis);
+    *out *= angle;
+}
+
 void sub_71011EFA00(sead::Vector3f* out, const sead::Vector3f& vec, const sead::Vector3f& axis) {
     *out = -(axis * vec.dot(axis) - vec);
 }

@@ -31,6 +31,8 @@ bool sub_7100741164(sead::Matrix33f* mtx, const sead::Matrix33f& target,
 bool sub_710074169C(sead::Matrix33f* mtx, const sead::Matrix33f& target,
                     const sead::Vector3f& axis, f32 angle, f32 a);
 
+void sub_7100740DC4(sead::Matrix33f* mtx, const sead::Vector3f& up);
+
 // --- Group A ---
 
 // Copies the rotation part of the actor's transform (character controller, else main rigid body,
