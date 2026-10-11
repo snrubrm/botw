@@ -209,6 +209,16 @@ int getMessage(const sead::SafeString& message_set, const sead::SafeString& labe
     return 0;
 }
 
+// NON_MATCHING: message-set selection and SafeString temporaries are scheduled differently.
+int getLocationMarker(const sead::SafeString& name, eui::MessageString* out) {
+    bool dungeon = false;
+    if (name.findIndex("Dungeon") != -1) {
+        const char character = name[7];
+        dungeon = character >= '0' && character <= '9';
+    }
+    return getMessage(dungeon ? "StaticMsg/Dungeon" : "StaticMsg/LocationMarker", name, out);
+}
+
 void playSound(const sead::SafeString& label, xlink2::HandleSLink* handle) {
     ksys::snd::SoundMgr::instance()->mUiSoundMgr->playSound(label, handle);
 }

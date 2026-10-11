@@ -499,8 +499,6 @@ public:
     virtual bool m14() const;
     void sub_710098CB98(bool enabled);
     void sub_710098CF9C();
-    void sub_710098CFC4();
-    void sub_710098CFC8();
 
     eui::LayoutEx* _8;
     void* _10;
@@ -510,6 +508,25 @@ public:
     bool _2c;
 };
 static_assert(sizeof(Unk_7102477fc0) == 0x30);
+
+// Native VT24783B0 overrides the marker control update and pane methods.
+class Unk_71024783b0 : public Unk_7102477fc0 {
+    SEAD_RTTI_OVERRIDE(Unk_71024783b0, Unk_7102477fc0)
+public:
+    ~Unk_71024783b0() override;
+    void m4() override;
+    void m5() override;
+    void m7() override;
+    void m8() override;
+    void m9() override;
+    void m10() override;
+    void m11() override;
+    void m13() override;
+    void sub_710098D2B0();
+
+    sead::Vector2f _30;
+};
+static_assert(sizeof(Unk_71024783b0) == 0x38);
 
 class UiSubsys1 {
     // Native singleton forwarders 96828C / 9682B4 / 9682CC read these UI fields directly.

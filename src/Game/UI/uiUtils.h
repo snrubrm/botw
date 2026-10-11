@@ -160,6 +160,8 @@ s32 sub_7100AA6F90(const PouchItem& item);
 // if found.
 // 0x7100aa33bc: looks up the quest name message, or returns status 3 for a null quest.
 int sub_7100AA33BC(const ksys::qst::Quest* quest, eui::MessageString* out);
+// 0x7100aa3294: chooses the dungeon or location-marker message set.
+int getLocationMarker(const sead::SafeString& name, eui::MessageString* out);
 int getMessage(const sead::SafeString& message_set, const sead::SafeString& label,
                eui::MessageString* out);
 
