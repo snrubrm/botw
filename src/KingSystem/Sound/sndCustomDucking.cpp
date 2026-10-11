@@ -112,7 +112,7 @@ void Unk_710103b704::sub_710103BD3C() {
     _5d9 = false;
 }
 
-// NON_MATCHING: boolean setup and deferred flag stores differ; zero fade arguments use w1 instead of x1.
+// NON_MATCHING: boolean setup differs; zero fade arguments use w1 instead of x1.
 void Unk_710103b704::sub_710103C5F4(bool defer_bgm) {
     if (_5d8 || (SoundMgr::instance()->_e4 & ~1) == 2)
         return;
@@ -131,18 +131,16 @@ void Unk_710103b704::sub_710103C5F4(bool defer_bgm) {
     Unk_710104e5b4::instance()->sub_710104F904();
     Unk_710104e5b4::instance()->sub_710104F8C4(false);
     Unk_710104e5b4::instance()->sub_710104F920(false);
-    if (bgm->_78->sub_7101007C90()) {
+    if (!bgm->_78->sub_7101007C90()) {
         if (defer_bgm)
-            bgm->_88 |= 4;
+            bgm->_88 |= 2;
         else
-            bgm->sub_7100FF88A8(0);
-    } else if (defer_bgm) {
-        bgm->_88 |= 2;
-        bgm->_88 |= 4;
-    } else {
-        bgm->sub_7100FF8780(0);
-        bgm->sub_7100FF88A8(0);
+            bgm->sub_7100FF8780(0);
     }
+    if (defer_bgm)
+        bgm->_88 |= 4;
+    else
+        bgm->sub_7100FF88A8(0);
 }
 
 bool Unk_710103b704::sub_710103CE1C() {
