@@ -1,4 +1,5 @@
 #include "KingSystem/System/SeadController.h"
+#include "KingSystem/System/ControllerSnapshot.h"
 
 namespace ksys {
 
@@ -61,3 +62,27 @@ bool SeadController::sub_7100D9DF58() {
 }
 
 }  // namespace ksys
+
+Unk_71024dd5c8::Unk_71024dd5c8()
+    : _8(false), _c(0), _10(0), _14(0.0f), _18(0.0f), _1c(0), _20(0), _24(0),
+      _28(sead::Vector2f::zero), _30(sead::Vector2f::zero),
+      _38(sead::ControllerBase::cInvalidPointer), _40(sead::ControllerBase::cInvalidPointer),
+      _48(sead::ControllerBase::cInvalidPointer), _50(sead::ControllerBase::cInvalidPointer) {}
+
+Unk_71024dd5c8::~Unk_71024dd5c8() = default;
+
+bool Unk_71024dd5c8::sub_7100D9E148() {
+    return true;
+}
+
+bool Unk_71024dd5c8::sub_7100D9E48C() const {
+    return _c & 0x80;
+}
+
+const sead::Vector2f& Unk_71024dd5c8::sub_7100D9E498() const {
+    if (_24 == 1)
+        return _38;
+    if (_24 == 2)
+        return _40;
+    return sead::ControllerBase::cInvalidPointer;
+}

@@ -3,6 +3,7 @@
 #include <prim/seadRuntimeTypeInfo.h>
 #include <prim/seadDelegate.h>
 #include "Game/Actor/actCameraUtil.h"
+#include "KingSystem/System/ControllerSnapshot.h"
 
 namespace uking::action {
 class CameraLockOnBase;
@@ -139,16 +140,6 @@ class Unk_71024dcf80 {
     SEAD_RTTI_BASE(Unk_71024dcf80)
 public:
     virtual ~Unk_71024dcf80();
-};
-
-// vtable 0x71024dd5c8 (4 slots)
-class Unk_71024dd5c8 {
-    SEAD_RTTI_BASE(Unk_71024dd5c8)
-public:
-    virtual ~Unk_71024dd5c8();
-
-    // 0x7100d9e148 (placeholder name): always true.
-    bool sub_7100D9E148();
 };
 
 // vtable 0x71024e8128 (4 slots)
