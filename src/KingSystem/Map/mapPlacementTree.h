@@ -15,6 +15,14 @@ class Object;
 
 // FIXME
 class PlacementTree {
+    // The 0x10-byte free-list values hold an Object and the next value; insertion
+    // at 11ED9EC and the independent traversal at 11EDD98 use both pointers.
+    struct Node {
+        Object* object;
+        Node* next;
+    };
+    static_assert(sizeof(Node) == 0x10);
+
     struct TreeObject {
         u32 _0;
         u32 _4;
@@ -39,17 +47,17 @@ public:
         f32 cell_size;
         u32 num_nodes;
     };
-    // 0x71011ed47c (declaration only)
     void sub_71011ED47C(const InitArg& arg);
 
     void resetPlacementObjPtrs();
-    // 0x71011ed9ec (CSV PlacementTree::calledForPlaceActor1; declared only; lane4 s45)
     void calledForPlaceActor1(Object* obj);
+    // 11EDD98 passes two Vector2f outputs, a cell index and the expansion distance.
+    u32 sub_71011EDB78(sead::Vector2f* min, sead::Vector2f* max, u32 cell, f32 distance) const;
     u32 x_1(const sead::Vector3f& pos, int level) const;
     int sub_71011ED960(f32 distance) const;
 
     sead::Buffer<TreeObject> mBuffer{};
-    sead::Buffer<u32*> mObjects{};
+    sead::Buffer<Node*> mObjects{};
     sead::FreeList mFreeList;
     u32 _30{};
     f32 _34 = F32Limits::max();
