@@ -64,9 +64,7 @@ public:
     f32 getDeltaAndSetMin(f32* raw_delta_frames, u32 include_mask, u32 exclude_mask);
     void resetTimeMultipliers();
     bool hasCustomTimeMultiplier() const;
-    // TODO: requires ksys::Sound
     void setTimeMultiplier(u32 idx, f32 multiplier);
-    // TODO: requires ksys::Sound
     void resetTimeMultiplier(u32 idx);
 
     f32 getDeltaFrame(u32 core) const { return *mDeltaFrames[core]; }

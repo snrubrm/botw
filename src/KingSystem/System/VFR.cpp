@@ -1,5 +1,6 @@
 #include "KingSystem/System/VFR.h"
 #include <mc/seadCoreInfo.h>
+#include "KingSystem/Sound/sndMgr.h"
 
 namespace ksys {
 
@@ -44,6 +45,27 @@ void VFR::resetTimeMultipliers() {
         entry.is_custom = false;
     }
     setMinDelta();
+}
+
+// NON_MATCHING: Clang combines the index checks and schedules the sound state argument later.
+void VFR::setTimeMultiplier(u32 idx, f32 multiplier) {
+    if (idx == 0 || idx == 4) {
+        auto* sound = snd::SoundMgr::instance()->_90;
+        if (sound->_30 == 2)
+            sound->sub_710104F1B8(idx == 4 ? 1 : 0);
+    }
+    if (!(multiplier <= 0.0f))
+        mTimeSpeedMultipliers[idx].target_value = multiplier;
+}
+
+// NON_MATCHING: the native caller sets an unused sound argument before the no-argument call.
+void VFR::resetTimeMultiplier(u32 idx) {
+    if (idx == 0 || idx == 4) {
+        auto* sound = snd::SoundMgr::instance()->_90;
+        if (sound->_30 != 2)
+            sound->sub_710104EE64();
+    }
+    mTimeSpeedMultipliers[idx].target_value = 1.0f;
 }
 
 void VFR::setMinDelta() {

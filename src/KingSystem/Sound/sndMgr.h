@@ -447,6 +447,9 @@ public:
     void sub_710104EA7C();
     void sub_710104EE50();
     void sub_710104EE64();
+    // Whole F1B8 transitions from state 2 to the supplied scalar after emitting sound;
+    // VFR 11C16EC supplies 0 for index 0 and 1 for index 4. Factory E5B4 starts at 2.
+    void sub_710104F1B8(s32 state);
     // CameraNotify2Sound whole initializer 791680 and whole m8/m9 consumers
     // store and dispatch the eight nonvirtual member callbacks on this singleton.
     void sub_710104F354();
