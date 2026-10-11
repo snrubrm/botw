@@ -95,26 +95,8 @@ void createUiHeap(sead::Heap* parent) {
 // 0x7100a6d3ec
 void sub_7100A6D3EC() {}
 
-SEAD_SINGLETON_DISPOSER_IMPL(UiLowPrioThreadMgr)
 SEAD_SINGLETON_DISPOSER_IMPL(Manager)
 
-// 0x7100a6d978
-void UiLowPrioThreadMgr::pause() {
-    if (_28)
-        _28->pause();
-}
-
-// 0x7100a6d988
-void UiLowPrioThreadMgr::resume() {
-    if (_28)
-        _28->resume();
-}
-
-// 0x7100a6d998
-void UiLowPrioThreadMgr::clearQueue() {
-    if (_28)
-        _28->clearQueue();
-}
 
 // 0x71009452d0
 // NON_MATCHING: Mathf::min lowers to fminnm instead of the native fmin.

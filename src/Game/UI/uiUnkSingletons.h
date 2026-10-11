@@ -16,6 +16,8 @@ class Actor;
 
 namespace ksys::util {
 class TaskThread;
+class TaskMgr;
+class ManagedTaskHandle;
 }
 
 namespace uking::ui {
@@ -31,7 +33,7 @@ class UiLowPrioThreadMgr {
     UiLowPrioThreadMgr() = default;
 
 public:
-    // D1 0x7100a6d5bc, D0 0x7100a6d654 (not decompiled)
+    // D1 0x7100a6d5bc, D0 0x7100a6d654
     virtual ~UiLowPrioThreadMgr();
 
     // 0x7100a6d978 / 0x7100a6d988 / 0x7100a6d998
@@ -40,8 +42,8 @@ public:
     void clearQueue();
 
     /* 0x28 */ ksys::util::TaskThread* _28 = nullptr;
-    /* 0x30 */ void* _30 = nullptr;
-    /* 0x38 */ void* _38[100]{};
+    /* 0x30 */ ksys::util::TaskMgr* _30 = nullptr;
+    /* 0x38 */ ksys::util::ManagedTaskHandle* _38[100]{};
 };
 KSYS_CHECK_SIZE_NX150(UiLowPrioThreadMgr, 0x358);
 
