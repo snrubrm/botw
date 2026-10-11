@@ -60,6 +60,7 @@ void ScreenBase::registerController_() {
 }
 
 // 0x71010aa54c
+// NON_MATCHING: the original destructor destroys members that are not modeled yet.
 Screen::~Screen() = default;
 
 
