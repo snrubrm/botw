@@ -16,6 +16,9 @@
 #include "KingSystem/Utils/Thread/TaskQueueBase.h"
 #include "KingSystem/Utils/Thread/ManagedTask.h"
 #include "KingSystem/Resource/resResourceFileUtil.h"
+#include "KingSystem/Utils/HeapUtil.h"
+#include <filedevice/seadFileDeviceMgr.h>
+#include <thread/seadThread.h>
 
 Unk_71024f9bb8::~Unk_71024f9bb8() = default;
 
@@ -170,6 +173,100 @@ sead::SafeString Unk_71024f9a70::getTextureName(s32 index) const {
 
 bool Unk_71024f9a70::hasTexture(const sead::SafeString& name) const {
     return agl::g3d::ResFile::sub_7100B33BF0(mResFile, name.cstr()) != nullptr;
+}
+
+// NON_MATCHING: native request initialization, context lifetimes and failure cleanup differ.
+void Unk_71024f9a70::sub_7100FE1630(LoadStatus* status, const LoadParams& params) {
+    TempResourceLoader loader;
+    TempResourceLoader::InitArg init_arg{nullptr};
+    ResourceMgrTask::instance()->initTempResourceLoader(&loader, init_arg);
+    u32 resource_size = 0;
+    if (ResourceMgrTask::instance()->returnTrue()) {
+        resource_size = ResourceMgrTask::instance()->getResourceSize(params.mPath, nullptr);
+    } else {
+        sead::FixedStringBuilder<129> path;
+        path.copy(params.mPath.cstr());
+        ResourceMgrTask::instance()->addSExtensionPrefix(path);
+        if (!ResourceMgrTask::instance()->getUncompressedSize(&resource_size, path.cstr(),
+                                                             params.mFileDevice))
+            stubbedLogFunction();
+    }
+    auto* thread = sead::ThreadMgr::instance()->getCurrentThread();
+    const bool resource_thread =
+        thread == ResourceMgrTask::instance()->getResourceMemoryThread() ||
+        thread == ResourceMgrTask::instance()->getResourceLoadingThread();
+    const u32 work_size = loader.getWorkHeapSize();
+    if (resource_thread || work_size < resource_size) {
+        stubbedLogFunction();
+        if (!resource_thread)
+            sead::FormatFixedSafeString<256>("↓↓↓\nテクスチャアーカイブサイズ : %u MB\n↑↑↑\n",
+                                             resource_size >> 20);
+        Unk_71024f9b08 context;
+        context.mFileDevice = params.mFileDevice;
+        context.mPath = params.mPath;
+        ResourceMgrTask::DirectLoadArg arg;
+        if (ResourceMgrTask::instance()->returnTrue())
+            arg.heap = ResourceMgrTask::instance()->getArenaForResourceL()->getHeap();
+        else
+            arg.heap = util::getDebugHeap();
+        arg.req._21 = false;
+        arg.req._22 = true;
+        arg.req._28 = false;
+        arg.req.mPath = params.mPath;
+        arg.req.mEntryFactory = &sUnk_710260E8A0;
+        arg.req.mAocFileDevice = params.mFileDevice;
+        arg.req._20 = false;
+        arg.req.mLoadDataAlignment = 0x2000;
+        arg.req.mRequester = params.mPath;
+        arg.req._68 = &context;
+        mResource = ResourceMgrTask::instance()->load(arg);
+        if (!mResource) {
+            status->success = false;
+            return;
+        }
+    } else {
+        Unk_71024f9b08 context;
+        context.mFileDevice = params.mFileDevice;
+        context.mPath = params.mPath;
+        TempResourceLoader::LoadArg arg;
+        arg.load_req._21 = false;
+        arg.load_req._22 = true;
+        arg.load_req._26 = params._0;
+        arg.load_req.mLoadDataAlignment = 0x2000;
+        arg.load_req._8 = true;
+        arg.load_req.mLoadCompressed = true;
+        arg.load_req._28 = false;
+        arg.load_req.mEntryFactory = &sUnk_710260E8A0;
+        arg.load_req.mAocFileDevice = params.mFileDevice;
+        arg.load_req.mPath = params.mPath;
+        arg.load_req.mRequester = params.mPath;
+        arg.load_req._68 = &context;
+        auto* loaded = sead::DynamicCast<sead::DirectResource>(loader.load(arg));
+        if (!loaded) {
+            stubbedLogFunction();
+            status->success = false;
+            status->_1 = loader.getHandleStatus() != Handle::Status::_1;
+            return;
+        }
+        SimplePackedLoadRequest request;
+        request._8 = true;
+        request.mRequester = params.mPath;
+        request.mLaneId = 2;
+        request.mPack = loader.getHandle();
+        if (!mHandle.load(params.mPath, &request)) {
+            status->success = false;
+            status->_1 = loader.getHandleStatus() != Handle::Status::_1;
+            return;
+        }
+    }
+    auto* resource = mResource ? mResource : mHandle.getResourceUnchecked();
+    mResFile = static_cast<Unk_710251A740*>(resource)->_38;
+    if (loader.getHandleFileDevice())
+        mFileDevice = loader.getHandleFileDevice();
+    else
+        mFileDevice = sead::FileDeviceMgr::instance()->getDefaultFileDevice();
+    status->success = true;
+    status->_1 = true;
 }
 
 // NON_MATCHING: request construction and binary-search comparison branch layout.
@@ -494,7 +591,6 @@ void TextureHandleMgr::invoked9(const util::TaskRemoveCallbackContext& context) 
     resource->sub_7100FE0850();
 }
 
-// NON_MATCHING: resource reloads around the diagnostic string arguments differ.
 // NON_MATCHING: typed hash-key lifetime and structured retry / eviction change code layout.
 bool TextureHandleMgr::x_0(nn::g3d::ResFile* file, bool tex1, Unk_71024f9a08** resource) {
     const s32 texture_count = agl::g3d::ResFile::GetTextureCount(file);
@@ -567,6 +663,7 @@ bool TextureHandleMgr::x_0(nn::g3d::ResFile* file, bool tex1, Unk_71024f9a08** r
     return matched;
 }
 
+// NON_MATCHING: resource reloads around the diagnostic string arguments differ.
 bool TextureHandleMgr::invoked6(void* user_data) {
     auto* data = sead::DynamicCast<::Unk_71024f9e28>(static_cast<util::TaskData*>(user_data));
     if (!data)

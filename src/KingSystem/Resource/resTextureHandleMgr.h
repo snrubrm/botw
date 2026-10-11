@@ -43,6 +43,10 @@ KSYS_CHECK_SIZE_NX150(Unk_71024f9b08, 0x20);
 class ArchiveWork;
 class Counter;
 class CompactedHeap;
+class Unk_710251A740;
+template <typename T>
+class EntryFactory;
+extern EntryFactory<Unk_710251A740> sUnk_710260E8A0;
 class Unk_71024f9a08;
 class Unk_71024f9a50;
 class Unk_71024F9D48;

@@ -12,6 +12,8 @@ namespace ksys::res {
 class Unk_710251A740 : public Resource {
     // FE43B8 / FE3760 read the parsed file directly after loading through this factory.
     friend class TextureHandleMgr;
+    // Complete FE1630 loads through the same native factory and reads the parsed file.
+    friend class Unk_71024f9a70;
 public:
     static const sead::RuntimeTypeInfo::Interface* getRuntimeTypeInfoStatic() {
         static const sead::RuntimeTypeInfo::Derive<Resource> typeInfo;
