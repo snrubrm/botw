@@ -460,4 +460,13 @@ void Unk_7102476150::m21() {
     sub_710095156C(true);
 }
 
+void Unk_7102476150::m12() {
+    if (!ksys::gdt::Manager::instance()->getParam().get().getBuffer0()->hasCopiedBoolFlags() ||
+        _58 == ksys::gdt::InvalidHandle)
+        return;
+    bool visible = !ksys::gdt::getFlagGenericBool(_58);
+    if (visible != ((_3c & 0x10) != 0))
+        m25(visible);
+}
+
 }  // namespace uking::ui
