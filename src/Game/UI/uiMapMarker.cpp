@@ -691,7 +691,7 @@ void Unk_7102476640::m7() {
     m17();
 }
 
-UiSubsys1ListEntry* UiSubsys1::sub_71009580A4(void* key) {
+Unk_7102476640** UiSubsys1::sub_71009580A4(Unk_7102476640* key) {
     if (!key)
         return nullptr;
     for (auto& entry : _5d8) {
@@ -701,7 +701,7 @@ UiSubsys1ListEntry* UiSubsys1::sub_71009580A4(void* key) {
     return nullptr;
 }
 
-bool UiSubsys1::sub_71009580E4(UiSubsys1ListEntry* entry) {
+bool UiSubsys1::sub_71009580E4(Unk_7102476640** entry) {
     if (!entry)
         return false;
     _5d8.erase(entry);
