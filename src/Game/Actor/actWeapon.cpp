@@ -1,5 +1,9 @@
 #include "Game/Actor/actWeapon.h"
 #include "Game/Actor/actEnemy.h"
+#include "Game/gameUnk_71008ba8d8.h"
+#include "KingSystem/Event/evtOrderParam.h"
+#include "KingSystem/ActorSystem/actAiParam.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "Game/Actor/actArmorBase.h"
 #include "Game/Actor/actNPC.h"
 #include <algorithm>
@@ -957,6 +961,23 @@ void WeaponModifierInfo::addModifierParams(ksys::act::InstParamPack& params) con
 void WeaponModifierInfo::set(u32 type_, u32 value_) {
     flags.setDirect(type_);
     value = value_;
+}
+
+// NON_MATCHING: the two zero values in the null case are written in the opposite order.
+void WeaponModifierInfo::addModifierParams(WeaponModifierInfo* self, ksys::evt::OrderParam& params) {
+    const u32 type = self ? self->flags.getDirect() : 0;
+    const s32 value = self ? self->value : 0;
+    params.addParamInt(value, getStr_SharpWeaponAddValue());
+    params.addParamInt(type, getStr_SharpWeaponAddType());
+}
+
+// NON_MATCHING: the two zero values in the null case are written in the opposite order.
+void WeaponModifierInfo::addModifierParams(WeaponModifierInfo* self,
+                                         ksys::act::ai::InlineParamPack& params) {
+    const u32 type = self ? self->flags.getDirect() : 0;
+    const s32 value = self ? self->value : 0;
+    params.addInt(value, getStr_SharpWeaponAddValue(), -1);
+    params.addInt(type, getStr_SharpWeaponAddType(), -1);
 }
 
 bool WeaponModifierRanges::loadTierBlue(const sead::SafeString& actor) {
