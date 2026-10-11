@@ -33,7 +33,7 @@ public:
 
     // FIXME: figure out return types, parameters and names
     virtual void m0();
-    // CSV ActorWeapons::equipWeapon (not decompiled): PlayerOrEnemy::m164 forwards its arguments here.
+    // PlayerOrEnemy::m164 forwards its arguments here.
     virtual bool equipWeapon(s32 idx, Actor* weapon, bool a3, bool a4);
     // Called by Enemy::m177 before it records the weapon.
     virtual bool m2(s32 idx, Actor* weapon);

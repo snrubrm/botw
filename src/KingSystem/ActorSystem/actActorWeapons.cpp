@@ -1,4 +1,5 @@
 #include "KingSystem/ActorSystem/actActorWeapons.h"
+#include "Game/AI/aiUnk_7100EDD26C.h"
 #include "KingSystem/ActorSystem/Profiles/actWeaponBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
@@ -10,6 +11,50 @@ namespace ksys::act {
 ActorWeapons::ActorWeapons(Actor* actor) : mActor(actor) {}
 
 ActorWeapons::~ActorWeapons() = default;
+
+// NON_MATCHING: the inlined reset keeps the link address instead of recomputing it after m174.
+bool ActorWeapons::equipWeapon(s32 idx, Actor* weapon, bool a3, bool a4) {
+    if (!weapon)
+        return false;
+    if (!static_cast<WeaponBase*>(weapon)->m173(idx, mActor,
+                                              ::sub_7100EDD258(mActor, idx).cstr(),
+                                              ::sub_7100EDD26C(mActor, idx)->cstr(), a3, a4))
+        return false;
+    if (getEquippedWeapon(idx))
+        resetWeaponBaseProcLink(idx);
+    mWeapons[idx].link.acquire(weapon, false);
+    ActorConstDataAccess accessor(weapon);
+    accessor.sub_7100D150E8(mActor);
+    return true;
+}
+
+// NON_MATCHING: the inlined reset keeps the link address instead of recomputing it after m174.
+bool ActorWeapons::m2(s32 idx, Actor* weapon) {
+    if (!weapon)
+        return false;
+    static_cast<WeaponBase*>(weapon)->m180(idx, mActor, ::sub_7100EDD258(mActor, idx).cstr(),
+                                         ::sub_7100EDD26C(mActor, idx)->cstr());
+    if (getEquippedWeapon(idx))
+        resetWeaponBaseProcLink(idx);
+    mWeapons[idx].link.acquire(weapon, false);
+    ActorConstDataAccess accessor(weapon);
+    accessor.sub_7100D150E8(mActor);
+    return true;
+}
+
+// NON_MATCHING: the SafeArray iterator keeps an index; the original advances the link address.
+void ActorWeapons::m3() {
+    for (auto& entry : mWeapons) {
+        auto* weapon = sead::DynamicCast<WeaponBase>(entry.link.getProc(nullptr, nullptr));
+        if (weapon && weapon->isCalc() && weapon->get920() == 0xff) {
+            Actor* owner = mActor;
+            if (owner && !weapon->get921() && weapon->getParentLink().hasProcById(owner)) {
+                weapon->m229(owner);
+                weapon->_9f4.set(8);
+            }
+        }
+    }
+}
 
 WeaponBase* ActorWeapons::getEquippedWeapon(int idx) const {
     auto* weapon = sead::DynamicCast<WeaponBase>(mWeapons[idx].link.getProc(nullptr, nullptr));

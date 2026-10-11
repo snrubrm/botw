@@ -309,6 +309,15 @@ bool WeaponBase::m173(s32 index, Actor* actor, const char* name, const char* oth
     return true;
 }
 
+void WeaponBase::m180(s32 index, Actor* actor, const char* name, const char* other_name) {
+    const auto lock = sead::makeScopedLock(_840);
+    _880.acquire(actor, false);
+    _91c = index;
+    _8a0.copy(name);
+    _8d8.copy(other_name);
+    _920 = 4;
+}
+
 bool WeaponBase::m174() {
     const auto lock = sead::makeScopedLock(_840);
     _880.reset();

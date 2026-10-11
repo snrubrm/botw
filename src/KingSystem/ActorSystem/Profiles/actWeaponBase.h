@@ -107,7 +107,7 @@ public:
     virtual bool m178(const sead::Vector3f& pos);
     // 0x7100ef669c: resets the links and sets _920 = 3 (drops the optional weapon).
     virtual void m179();
-    virtual void m180();
+    virtual void m180(s32 index, Actor* actor, const char* name, const char* other_name);
     virtual void m181() {}
     virtual bool m182();
     virtual bool m183() { return false; }
@@ -208,6 +208,7 @@ protected:
     // EquipedAction binds the weapon through `_a00` (lane3 s23).
     friend class uking::action::EquipedAction;
     friend class acc::WeaponBase;
+    friend class ActorWeapons;
 
     // lane4 s30: BaseProc / Actor overrides of the weapon (slots 22, 23, 12, 13).
     IsSpecialJobTypeResult isSpecialJobType_(JobType type) override;
