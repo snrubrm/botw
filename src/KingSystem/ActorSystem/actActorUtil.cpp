@@ -34,6 +34,7 @@
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Resource/Actor/resResourceActorLink.h"
+#include "KingSystem/Resource/Actor/resResourceModelList.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectLiftable.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectNpc.h"
@@ -41,6 +42,29 @@
 #include <cfloat>
 #include "KingSystem/Utils/Byaml/Byaml.h"
 #include "KingSystem/World/worldManager.h"
+
+// Source owner unknown: the complete native helper and both locator consumers establish these types.
+// Declaration only.
+void sub_7100EE6D1C(sead::Matrix34f* out, const sead::Matrix34f& mtx,
+                    const sead::Vector3f& scale, const ksys::act::InfoData::Locator& locator);
+
+void sub_7100D36EE0(sead::Vector3f* out, ksys::act::Actor* actor) {
+    actor->m56(out);
+    const auto* param = actor->getParam();
+    if (!param)
+        return;
+    const auto* model_list = param->getRes().mModelList;
+    if (!model_list)
+        return;
+    ksys::act::InfoData::Locator locator;
+    if (!model_list->getLocatorInfo(&locator, ksys::act::InfoData::Locator::Type::StopTimerPos))
+        return;
+    sead::Matrix34f mtx = actor->getMtx();
+    mtx.setTranslation(*out);
+    sead::Matrix34f result;
+    sub_7100EE6D1C(&result, mtx, actor->getScale(), locator);
+    result.getTranslation(*out);
+}
 
 extern ksys::DebugMessage sUnk_7102601328;
 
