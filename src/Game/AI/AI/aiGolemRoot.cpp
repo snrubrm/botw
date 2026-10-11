@@ -3,8 +3,10 @@
 #include "Game/Actor/actUnk_7100d3cd74.h"
 #include "KingSystem/Utils/Thread/Message.h"
 #include "Game/Actor/actEnemy.h"
+#include "Game/Actor/actGiantEnemy.h"
 #include "Game/Damage/dmgDamageManagerBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actModelBindInfo.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
@@ -94,6 +96,19 @@ void Unk_71023f5460::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
     }
 }
 
+void GolemRoot::sub_7100400C40(ksys::act::Actor* actor, const sead::SafeString& bone) {
+    if (bone.isEmpty())
+        return;
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(actor)) {
+        auto* binding = enemy->_f38;
+        if (!binding)
+            return;
+        binding->x(mActor);
+        binding->_28 = bone.cstr();
+        binding->_30.getKey().reset();
+    }
+}
+
 bool GolemRoot::handleMessage_(const ksys::Message* message) {
     if (message->getType() == 0x3000003 || message->getType() == 0x3000004) {
         if (auto* parts = mActor->m101()) {
@@ -127,8 +142,36 @@ GolemRoot::~GolemRoot() {
     sub_710040007C();
 }
 
+// NON_MATCHING: the contact timer pointer initialization is scheduled differently.
 bool GolemRoot::init_(sead::Heap* heap) {
-    return GolemRootBase::init_(heap);
+    if (!GolemRootBase::init_(heap))
+        return false;
+    if (!sub_71004003E4(heap) && !sub_71005D6D10())
+        return false;
+
+    _360._0 = mActor;
+    _360._10 = mGolemClimbedTime_a;
+    _360._18 = mClimbFinishTime_s;
+    _360._20 = mStandContactHeight_s;
+    if (auto* physics = mActor->getPhysics()) {
+        if (auto* set = physics->findBodyByName(ksys::act::getStr_Tgt())) {
+            for (s32 i = 0; i < set->getRigidBodies().size(); ++i) {
+                if (auto* body = set->getRigidBody(i))
+                    body->setFlag200();
+            }
+        }
+    }
+    if (*mIsBreakContactTree_s) {
+        if (auto* set = mActor->getRigidBodyByName(ksys::act::getStr_Body().cstr())) {
+            for (s32 i = 0; i < set->getRigidBodies().size(); ++i) {
+                if (auto* body = set->getRigidBody(i))
+                    sub_71005DBF28(body, 0, 0, false, false, false, true);
+            }
+        }
+    }
+    if (auto* giant = sead::DynamicCast<act::GiantEnemy>(mActor))
+        giant->_1560 = mActor->findPhysicsBodyByName(sub_71007A24D0()->cstr(), "TgtBody");
+    return true;
 }
 
 void GolemRoot::enter_(ksys::act::ai::InlineParamPack* params) {

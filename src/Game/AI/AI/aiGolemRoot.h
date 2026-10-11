@@ -52,6 +52,8 @@ public:
     bool handleMessage_(const ksys::Message* message) override;
 
     void sub_710040007C();
+    bool sub_71004003E4(sead::Heap* heap);
+    void sub_7100400C40(ksys::act::Actor* actor, const sead::SafeString& bone);
 
 protected:
     // static_param at offset 0x310
