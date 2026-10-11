@@ -3,6 +3,7 @@
 #include <math/seadMatrix.h>
 #include "Game/AI/Action/actionGanonWeaponNearAttack.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/System/Timer.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
 
 namespace uking::action {
@@ -66,10 +67,9 @@ protected:
     const sead::Vector3f* mEmitActorSpeed_s{};
     // static_param at offset 0x160
     const sead::Vector3f* mEmitBoneRotateOffset_s{};
-    f32 _168 = 0.0f;
-    f32 _16c = 0.0f;
-    f32 _170 = 0.0f;
-    f32 _174 = 0.0f;
+    // Native calc 172D64 updates Timer +168 and separately counts with s32 +174.
+    ksys::Timer _168;
+    s32 _174 = 0;
     bool _178 = false;
     bool _179 = false;
     bool _17a = false;

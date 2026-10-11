@@ -45,16 +45,17 @@ bool GanonAttackWithEmitChemical::init_(sead::Heap* heap) {
 }
 
 // NON_MATCHING: the stores of 0x170..0x17a are merged (str xzr / strh) in ours; the original stores them one by one
-// (probably members of a type whose stores LLVM does not combine)
+// even with the native Timer and separate integer counter modeled.
 void GanonAttackWithEmitChemical::enter_(ksys::act::ai::InlineParamPack* params) {
     GanonWeaponNearAttack::enter_(params);
     const f32 start_frame = *mEmitStartFrame_s;
-    _170 = _174 = 0.0f;
+    _168.rate = 0.0f;
+    _174 = 0;
     _178 = false;
     _179 = false;
     _17a = false;
-    _168 = start_frame;
-    _16c = start_frame;
+    _168.value = start_frame;
+    _168.previous_value = start_frame;
     _17c.makeIdentity();
 }
 
