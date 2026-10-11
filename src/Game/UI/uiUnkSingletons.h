@@ -26,6 +26,7 @@ class ManagedTask;
 
 namespace eui {
 class LayoutEx;
+class Animator;
 class MassDrawPane;
 }
 namespace nn::ui2d {
@@ -551,6 +552,33 @@ public:
     sead::Vector2f _30;
 };
 static_assert(sizeof(Unk_71024783b0) == 0x38);
+
+// RTTI 25D9170 is the intermediate parent of the 17-slot marker controls.
+// Native 9998BC allocates 0x48-byte leaves and fills the animator pointers at 0x30/0x38.
+class Unk_71025d9170 : public Unk_7102477fc0 {
+    SEAD_RTTI_OVERRIDE(Unk_71025d9170, Unk_7102477fc0)
+public:
+    ~Unk_71025d9170() override;
+    void m8() override;
+    void m11() override;
+    virtual void m15();
+    virtual void m16();
+
+    eui::Animator* _30;
+    eui::Animator* _38;
+    eui::Animator* _40;
+};
+static_assert(sizeof(Unk_71025d9170) == 0x48);
+
+// Native VT2478428 has seventeen slots and RTTI 25D91A0.
+class Unk_7102478428 : public Unk_71025d9170 {
+    SEAD_RTTI_OVERRIDE(Unk_7102478428, Unk_71025d9170)
+public:
+    ~Unk_7102478428() override;
+    void m8() override;
+    void m11() override;
+};
+static_assert(sizeof(Unk_7102478428) == 0x48);
 
 class UiSubsys1 {
     // Native singleton forwarders 96828C / 9682B4 / 9682CC read these UI fields directly.

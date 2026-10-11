@@ -1,5 +1,6 @@
 #include "Game/UI/uiUnkSingletons.h"
 #include "Game/UI/euiLayoutEx.h"
+#include "Game/UI/euiAnimator.h"
 #include "Game/UI/euiMessageString.h"
 #include "Game/UI/euiMassDrawPane.h"
 #include "Game/UI/uiUtils.h"
@@ -157,7 +158,6 @@ void Unk_7102477fc0::sub_710098CF9C() {
         _20->RemoveChild(_8->mPane);
 }
 
-
 Unk_71024783b0::~Unk_71024783b0() {
     _30 = {0.0f, 0.0f};
 }
@@ -222,6 +222,49 @@ void Unk_71024783b0::sub_710098D2B0() {
         eui::MessageString message;
         getLocationMarker(entry->_58->_8, &message);
         setWidgetString(_8, "T_Name_00", message);
+    }
+}
+
+Unk_71025d9170::~Unk_71025d9170() {
+    _30 = nullptr;
+    _38 = nullptr;
+    _40 = nullptr;
+}
+
+void Unk_71025d9170::m8() {
+    Unk_7102477fc0::m8();
+}
+
+void Unk_71025d9170::m11() {
+    Unk_7102477fc0::m11();
+}
+
+void Unk_71025d9170::m15() {}
+
+void Unk_71025d9170::m16() {}
+
+Unk_7102478428::~Unk_7102478428() = default;
+
+// NON_MATCHING: frame selection uses conditional selects instead of native branches.
+void Unk_7102478428::m8() {
+    Unk_7102477fc0::m8();
+    if (!_18 || !(_18->_3c & 1))
+        return;
+    if (auto* entry = sead::DynamicCast<Unk_71024755d8>(_18)) {
+        if (_40)
+            _40->Stop((entry->_3c & 0x80000) ? 2.0f : (entry->_3c & 0x20000) ? 1.0f : 0.0f);
+    }
+}
+
+// NON_MATCHING: combined flag tests and frame selection are if-converted.
+void Unk_7102478428::m11() {
+    Unk_7102477fc0::m11();
+    if (!(_18->_3c & 1) ||
+        (!(_18->_3c & 0x4000) && (_18->_3c & 3) != 3 && (_18->_3c & 0x30) != 0x30))
+        return;
+    if (auto* entry = sead::DynamicCast<Unk_71024755d8>(_18)) {
+        if (_40)
+            _40->Stop((entry->_3c & 0x80000) ? 2.0f : (entry->_3c & 0x20000) ? 1.0f : 0.0f);
     }
 }
 
