@@ -44,6 +44,8 @@ public:
     void sub_7100D9AA84();
     void sub_7100D9AAE4();
     s32 sub_7100D9A1C4() const;
+    f32 sub_7100D9A17C() const;
+    f32 sub_7100D9A18C() const;
     // 10C74A0 constructs a 0x90-byte ElementSpark with this holder and the request.
     ElementSpark* sub_71010C74A0(const ElementSparkCreateArg* arg);
 

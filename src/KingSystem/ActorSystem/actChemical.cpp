@@ -554,6 +554,22 @@ f32 Chemical::sub_7100D912AC() const {
     return value;
 }
 
+// NON_MATCHING: the conditional field selection uses different registers and _188 loads later.
+f32 Chemical::sub_7100D911F8() const {
+    const u32 attribute = mMaterial->attribute.ref();
+    f32 value;
+    if (attribute & 0x10000) {
+        value = _188 / _60->sub_7100D9A17C();
+    } else {
+        if (!(attribute & 1) || (_be & 1))
+            return 0.0f;
+        value = ((_b8 & 4) ? _178 : _174) / mMaterial->ignition_point.ref();
+        if (_188 > 0.0f)
+            value = sead::Mathf::max(value, _188 / _60->sub_7100D9A18C());
+    }
+    return sead::Mathf::clamp(value, 0.0f, 1.0f);
+}
+
 bool Chemical::sub_7100D90B14() const {
     return mMaterial && mMaterial->id.ref().startsWith("Animal_");
 }
