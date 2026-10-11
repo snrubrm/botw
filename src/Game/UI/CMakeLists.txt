@@ -90,6 +90,7 @@ target_sources(uking PRIVATE
   uiScreenDemoMessage.cpp
   uiScreenErrorViewer.cpp
   uiScreenFadeDemo.cpp
+  uiScreenMainDungeon.cpp
   uiScreenCtors.cpp
   uiScreenDLCNum.cpp
   uiScreenDtors.cpp

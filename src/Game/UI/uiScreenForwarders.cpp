@@ -44,10 +44,7 @@ u32 ScreenShopInfo::sub_7100A51790(const sead::MessageSet<char16>::TagInfo* tag,
     return sub_7100AA5140(&_3788, out);
 }
 
-// 0x710010a5068
-eui::TagProcessor* ScreenMainDungeon::doCreateTagProcessor_(sead::Heap* heap) {
-    return ScreenBase::doCreateTagProcessor_(heap);
-}
+
 
 // 0x7100a0ff60
 void ScreenMainHardMode::close(s32 option) {
