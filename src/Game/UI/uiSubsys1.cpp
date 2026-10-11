@@ -17,6 +17,21 @@ void UiSubsys1::sub_710096023C() {
     _6ec = false;
 }
 
+// NON_MATCHING: raw marker-kind copying omits the native spill; empty-list loops merge.
+void UiSubsys1::sub_71009637D4() {
+    auto* entry = _6a0.front();
+    for (s32 i = 0; i < _6d0; ++i) {
+        if (entry) {
+            ksys::gdt::setFlag_MapApp_MapIconNo((*entry)->_1c, i, false);
+            ksys::gdt::setFlag_MapApp_MapIconPos((*entry)->_28, i, false);
+            entry = _6a0.next(entry);
+        } else {
+            ksys::gdt::resetFlag_MapApp_MapIconNo(i, false);
+            ksys::gdt::resetFlag_MapApp_MapIconPos(i, false);
+        }
+    }
+}
+
 // 0x710096310c: the marker nearest to `pos` (in the XZ plane, within `radius`); writes its index to `out_index`
 bool UiSubsys1::sub_710096310C(s32* out_index, const sead::Vector3f* pos, f32 radius) {
     bool found = false;

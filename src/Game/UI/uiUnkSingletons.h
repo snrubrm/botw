@@ -759,6 +759,15 @@ public:
 };
 static_assert(sizeof(Unk_7102476830) == 0x80);
 
+// Factory 0x95C0A8 allocates 0x50 bytes and installs this complete 29-slot leaf table.
+class Unk_7102476928 : public UiSubsys1Entry {
+    SEAD_RTTI_OVERRIDE(Unk_7102476928, UiSubsys1Entry)
+public:
+    ~Unk_7102476928() override;
+    void m25(bool enabled) override;
+};
+static_assert(sizeof(Unk_7102476928) == 0x50);
+
 // Native vtable 2477FC0 has fifteen slots; reset 98C7A4 establishes the 0x30-byte layout.
 class Unk_7102477fc0 {
     SEAD_RTTI_BASE(Unk_7102477fc0)
@@ -1112,6 +1121,7 @@ class UiSubsys1 {
     friend class Unk_7102476640;
     friend class Unk_7102476830;
     friend class Unk_7102476738;
+    friend class Unk_7102476928;
 public:
     static UiSubsys1* instance() { return sInstance; }
 
@@ -1121,6 +1131,7 @@ public:
     bool sub_71009580E4(Unk_7102476640** entry);
     bool sub_7100958134(Unk_7102476640* entry);
     bool sub_7100958D18() const;
+    void sub_71009637D4();
     // 0x710096023c (CSV uiSubsys1::__auto3; placeholder name): ends the timer at 0x6f0 and clears the flag at 0x6ec
     void sub_710096023C();
     // 0x71009512f8 / 0x7100951338 (CSV uiSubsys1::__auto41 / __auto42; placeholder names)
@@ -1325,12 +1336,13 @@ private:
     /* 0x608 */ bool _608;
     u8 _609[0x610 - 0x609];
     /* 0x610 */ sead::PtrArray<UiSubsys1Entry> _610;
-    u8 _620[0x650 - 0x620];
+    /* 0x620 */ sead::ObjList<UiSubsys1Entry*> _620;
     /* 0x650 */ UiSubsys1Entry* _650;
     /* 0x658 */ sead::PtrArray<UiSubsys1Entry> _658;
-    u8 _668[0x698 - 0x668];
+    /* 0x668 */ sead::ObjList<UiSubsys1Entry*> _668;
     /* 0x698 */ UiSubsys1Entry* _698;
-    u8 _6a0[0x6d4 - 0x6a0];
+    /* 0x6a0 */ sead::ObjList<UiSubsys1Entry*> _6a0;
+    /* 0x6d0 */ s32 _6d0;
     /* 0x6d4 */ f32 _6d4;
     /* 0x6d8 */ f32 _6d8;
     /* 0x6dc */ f32 _6dc;

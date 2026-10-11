@@ -989,4 +989,130 @@ s32 Unk_7102476830::m10() {
     return 4;
 }
 
+// NON_MATCHING: direct search removes the native nullable-find guard.
+void Unk_7102476738::m24(bool enabled) {
+    m28(enabled);
+    if ((_3c & 3) == 3) {
+        auto& list = UiSubsys1::instance()->_620;
+        for (auto& entry : list) {
+            if (entry == this) {
+                list.erase(&entry);
+                break;
+            }
+        }
+        if (!UiSubsys1::instance()->_620.isFull()) {
+            if (auto* entry = UiSubsys1::instance()->_620.emplaceBack(nullptr))
+                *entry = this;
+        }
+    }
+}
+
+// NON_MATCHING: direct search removes the native nullable-find guard.
+void Unk_7102476830::m24(bool enabled) {
+    m28(enabled);
+    if ((_3c & 3) == 3) {
+        auto& list = UiSubsys1::instance()->_668;
+        for (auto& entry : list) {
+            if (entry == this) {
+                list.erase(&entry);
+                break;
+            }
+        }
+        if (!UiSubsys1::instance()->_668.isFull()) {
+            if (auto* entry = UiSubsys1::instance()->_668.emplaceBack(nullptr))
+                *entry = this;
+        }
+    }
+}
+
+// NON_MATCHING: direct searches remove the native nullable-find guards.
+void Unk_7102476738::m25(bool enabled) {
+    m27(enabled);
+    if ((_3c & 0x30) == 0x30) {
+        auto* subsys = UiSubsys1::instance();
+        auto& list = subsys->_6a0;
+        for (auto& entry : list) {
+            if (entry == this) {
+                list.erase(&entry);
+                subsys->sub_71009637D4();
+                break;
+            }
+        }
+        subsys = UiSubsys1::instance();
+        if (!subsys->_6a0.isFull()) {
+            if (auto* entry = subsys->_6a0.emplaceBack(nullptr)) {
+                *entry = this;
+                subsys->sub_71009637D4();
+            }
+        }
+    } else if ((_3c & 0x30) == 0x20) {
+        auto* subsys = UiSubsys1::instance();
+        auto& list = subsys->_6a0;
+        for (auto& entry : list) {
+            if (entry == this) {
+                list.erase(&entry);
+                subsys->sub_71009637D4();
+                break;
+            }
+        }
+    }
+}
+
+// NON_MATCHING: direct searches remove the native nullable-find guards.
+void Unk_7102476830::m25(bool enabled) {
+    m27(enabled);
+    if ((_3c & 0x30) == 0x30) {
+        _50.init(3.0f);
+        auto* subsys = UiSubsys1::instance();
+        auto& list = subsys->_6a0;
+        for (auto& entry : list) {
+            if (entry == this) {
+                list.erase(&entry);
+                subsys->sub_71009637D4();
+                break;
+            }
+        }
+        subsys = UiSubsys1::instance();
+        if (!subsys->_6a0.isFull()) {
+            if (auto* entry = subsys->_6a0.emplaceBack(nullptr)) {
+                *entry = this;
+                subsys->sub_71009637D4();
+            }
+        }
+    } else if ((_3c & 0x30) == 0x20) {
+        auto* subsys = UiSubsys1::instance();
+        auto& list = subsys->_6a0;
+        for (auto& entry : list) {
+            if (entry == this) {
+                list.erase(&entry);
+                subsys->sub_71009637D4();
+                break;
+            }
+        }
+        _68.init(0.0f);
+    }
+}
+// NON_MATCHING: direct search removes the native nullable-find guard.
+void Unk_7102476928::m25(bool enabled) {
+    UiSubsys1Entry::m25(enabled);
+    if ((_3c & 0x30) == 0x30) {
+        auto* subsys = UiSubsys1::instance();
+        auto& list = subsys->_6a0;
+        for (auto& entry : list) {
+            if (entry == this) {
+                list.erase(&entry);
+                subsys->sub_71009637D4();
+                break;
+            }
+        }
+        subsys = UiSubsys1::instance();
+        if (!subsys->_6a0.isFull()) {
+            if (auto* entry = subsys->_6a0.emplaceBack(nullptr)) {
+                *entry = this;
+                subsys->sub_71009637D4();
+            }
+        }
+    }
+}
+
 }  // namespace uking::ui
