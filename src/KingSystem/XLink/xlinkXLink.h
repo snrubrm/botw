@@ -136,6 +136,10 @@ public:
     void prepareAIChangeMaybe(const char* name, const char* context);
     void sleepELink();
     void resetELinkEvents();
+    // 12303EC sets up the user instances; map entry D4D998 supplies the construction heap.
+    void initAfterActorConstruct(sead::Heap* heap);
+    // 1230B18 releases owned user instances and resources; D4DAB8 calls it before deleting XLink.
+    void sub_7101230B18();
     void sub_71012313DC(u32 property, s32 value, bool force);
     void sub_7101231468(u32 property, f32 value, bool force);
     // 0x7101232fb4 (declared only): called by eft::sub_710105DF6C.

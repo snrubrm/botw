@@ -1,5 +1,6 @@
 #include "KingSystem/Map/mapObject.h"
 #include <cfloat>
+#include <gsys/gsysModel.h>
 #include "KingSystem/Map/mapObjectEffect.h"
 #include "KingSystem/XLink/xlinkXLink.h"
 #include "KingSystem/ActorSystem/actActor.h"
@@ -593,6 +594,19 @@ void Object::incrementLinkNum() {
 void Object::decrementLinkNum() {
     if (mNumLinksPointingToMe != 0)
         --mNumLinksPointingToMe;
+}
+
+Unk_7100D4D998::~Unk_7100D4D998() {
+    if (mXLink) {
+        mXLink->resetELinkEvents();
+        mXLink->sub_7101230B18();
+        delete mXLink;
+        mXLink = nullptr;
+    }
+    if (mModel) {
+        gsys::Model::sub_7100BF69F8(mModel);
+        mModel = nullptr;
+    }
 }
 
 void Unk_7100D4D998::sub_7100D4DB08() {
