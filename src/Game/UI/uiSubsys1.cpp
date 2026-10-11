@@ -400,6 +400,10 @@ void* UiSubsys1::sub_7100965E58() {
     return &_84c[0x850 - 0x84c];
 }
 
+f32 UiSubsys1::sub_7100965EE0(f32 angle) const {
+    return sub_7100AA0B6C(_87c + angle);
+}
+
 // NON_MATCHING: float register allocation and the order of the fnmul / fmul pair (target: s2 = 1 / _8b0, y computed before x)
 // 0x7100965d10
 void UiSubsys1::sub_7100965D10(sead::Vector2f* out) const {

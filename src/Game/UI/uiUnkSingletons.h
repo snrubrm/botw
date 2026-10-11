@@ -1255,6 +1255,7 @@ public:
     bool is898Positive() const;
     // 0x7100965fec (placeholder name): 6.0 / 7.5 / 8.5 / 9.5 for `_898` 0 .. 3 (6.0 otherwise)
     f32 sub_7100965FEC() const;
+    f32 sub_7100965EE0(f32 angle) const;
     // 0x7100966de8 (placeholder name): the group of the s32 `value` (0-5 and 11-13: 5, 6-10: 4, else -1)
     s32 sub_7100966DE8(s32 value) const;
     bool sub_7100967498() const;
