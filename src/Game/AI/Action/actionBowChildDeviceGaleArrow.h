@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::action {
 
@@ -42,8 +43,8 @@ protected:
     f32 _6c = 0.0f;
     f32 _70 = 0.0f;
     f32 _74 = 0.0f;
-    u64 _78 = 0;
-    s32 _80 = 0;
+    // Native calc CF5AC updates Timer at +78 and resets all three float fields.
+    ksys::Timer _78;
     u8 _84[0x4];
 };
 KSYS_CHECK_SIZE_NX150(BowChildDeviceGaleArrow, 0x88);
