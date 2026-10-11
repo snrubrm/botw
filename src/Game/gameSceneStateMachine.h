@@ -20,6 +20,7 @@ KSYS_CHECK_SIZE_NX150(GameSceneStateBase, 0x60);
 // StateMachine::Unk2 in the GameScene TU; CSV StateMachineWrapper__, 0x71007b705c-0x71007b7138; name is a guess).
 class StateMachineOwnerBinding : public ksys::StateMachine::Unk2 {
 public:
+    explicit StateMachineOwnerBinding(void* owner) : mOwner(owner), mState(nullptr), mRunCount(0) {}
     ~StateMachineOwnerBinding() override;
     // (the first out-of-line virtual: the vtable is emitted with it)
     const ksys::StateBase& getState() const override;
@@ -39,6 +40,7 @@ public:
 // Hands out the embedded binding for a state (CSV GameScene::StateMachineWrapper_, 0x71007b7044; name is a guess).
 class StateMachineOwnerBindingHolder : public ksys::StateMachine::Unk1 {
 public:
+    explicit StateMachineOwnerBindingHolder(void* owner) : mBinding(owner) {}
     // (the first out-of-line virtual)
     ksys::StateMachine::Unk2* setState(const ksys::StateBase* state) override;
     void m3(ksys::StateMachine::Unk2** wrapper) override { *wrapper = nullptr; }
@@ -50,11 +52,18 @@ public:
 // +0x30 uses the Holder at +8). Method names are the CSV names.
 class StateMachineWrapper {
 public:
-    virtual ~StateMachineWrapper();
+    StateMachineWrapper(void* owner, const ksys::StateBase& state)
+        : mHolder(owner), mMachine(&mHolder, state) {}
+    // The native base destructor follows the slot methods and is inlined into receiver lifetimes.
+    // NON_MATCHING: the final cleanup argument is scheduled before the frame restore.
+    virtual ~StateMachineWrapper() {
+        mMachine._0->m3(&mMachine.mPrevious);
+        mMachine._0->m3(&mMachine.mCurrent);
+    }
     // Enters the pending state (if any).
     virtual void replaceState();
-    // Enters the pending state without checking that there is one.
-    virtual void changeStateFast();
+    // Enters the supplied state immediately.
+    virtual void changeStateFast(const ksys::StateBase* state);
     virtual void run();
     virtual void leaveState();
     virtual void enterState();

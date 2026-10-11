@@ -17,6 +17,7 @@
 #include <prim/seadDelegate.h>
 #include "KingSystem/ActorSystem/actBaseProc.h"
 #include "Game/gameSceneStateMachine.h"
+#include "Game/gameSceneMessage.h"
 #include "Game/gamePlayerResetPosMgr.h"
 #include "Game/gameStageInfo.h"
 #include "Game/gameStageBinder.h"
@@ -34,6 +35,7 @@
 #include "Game/UI/uiScreens.h"
 #include "Game/UI/uiPauseMenuDataMgr.h"
 #include "KingSystem/System/UI/LayoutResourceMgr.h"
+#include "KingSystem/Utils/Thread/MessageBroker.h"
 
 Unk_71025d1740* Unk_71025d1740::sInstance;
 
@@ -114,6 +116,83 @@ const ksys::StateBase& StateMachineOwnerBinding::getState() const {
 
 StateMachineOwnerBinding::~StateMachineOwnerBinding() = default;
 
+// NON_MATCHING: the adapter address is computed before the dispatcher call.
+Unk_710245a688::~Unk_710245a688() {
+    deregisterReceiver(mAdapter);
+}
+
+bool Unk_710245a688::sendMessage(const ksys::MesTransceiverId& dest,
+                                const ksys::MessageType& type, void* user_data, bool ack) {
+    const bool sent = getDispatcher()->sendMessage(*mAdapter.MessageReceiver::getId(), dest, type,
+                                                  user_data, ack, false);
+    if (sent)
+        mAdapter.setFlag(ack);
+    return sent;
+}
+
+bool Unk_710245a688::sendMessageOnProcessingThread(const ksys::MesTransceiverId& dest,
+                                                 const ksys::MessageType& type, void* user_data,
+                                                 bool ack) {
+    const bool sent = getDispatcher()->sendMessageOnProcessingThread(
+        *mAdapter.MessageReceiver::getId(), dest, type, user_data, ack, false);
+    if (sent)
+        mAdapter.setFlag(ack);
+    return sent;
+}
+
+bool Unk_710245a688::sendMessage(ksys::IMessageBroker& broker, const ksys::MessageType& type,
+                                void* user_data, bool ack) {
+    const bool sent = getDispatcher()->sendMessage(*mAdapter.MessageReceiver::getId(),
+                                                  *getRegister(broker), type, user_data, ack, false);
+    if (sent) {
+        int count = broker.countTransceivers();
+        if (count > 0) {
+            do {
+                mAdapter.setFlag(ack);
+            } while (--count);
+        }
+    }
+    return sent;
+}
+
+bool Unk_710245a688::sendMessageOnProcessingThread(ksys::IMessageBroker& broker,
+                                                 const ksys::MessageType& type, void* user_data,
+                                                 bool ack) {
+    const bool sent = getDispatcher()->sendMessageOnProcessingThread(
+        *mAdapter.MessageReceiver::getId(), *getRegister(broker), type, user_data, ack, false);
+    if (sent) {
+        int count = broker.countTransceivers();
+        if (count > 0) {
+            do {
+                mAdapter.setFlag(ack);
+            } while (--count);
+        }
+    }
+    return sent;
+}
+
+ksys::MessageReceiverEx* Unk_710245a688::getReceiver() {
+    return &mAdapter;
+}
+
+// NON_MATCHING: the final state cleanup argument is scheduled before the frame restore.
+Unk_710245a6d0::~Unk_710245a6d0() = default;
+
+void Unk_710245a6d0::run() {
+    mMachine.run();
+}
+
+// NON_MATCHING: the bool state callback result requires conversion to the receiver's int result.
+int Unk_710245a6d0::receive(const ksys::Message& message) {
+    if (StateMachineWrapper::reenter(const_cast<ksys::Message*>(&message)))
+        return 1;
+    return StateMachineWrapper::exec5(const_cast<ksys::Message*>(&message));
+}
+
+void Unk_710245a6d0::receive(const ksys::MessageAck& ack) {
+    StateMachineWrapper::exec6(const_cast<ksys::MessageAck*>(&ack));
+}
+
 void StateMachineOwnerBinding::enter() {
     mRunCount = 0;
     mState->enter(mOwner);
@@ -135,13 +214,6 @@ ksys::StateMachine::Unk2* StateMachineOwnerBindingHolder::setState(const ksys::S
     return &mBinding;
 }
 
-// NON_MATCHING: only instruction scheduling of the final tail call differs (the original puts `add x1` after the frame
-// restore). D0 (the deleting variant) matches.
-StateMachineWrapper::~StateMachineWrapper() {
-    mMachine._0->m3(&mMachine.mPrevious);
-    mMachine._0->m3(&mMachine.mCurrent);
-}
-
 void StateMachineWrapper::replaceState() {
     if (mMachine.mNextState) {
         mMachine.mCurrent = mMachine._0->setState(mMachine.mNextState);
@@ -150,10 +222,8 @@ void StateMachineWrapper::replaceState() {
     }
 }
 
-// NON_MATCHING: the original calls setState() without loading an argument (x1 is left as it was on entry), so the
-// source passed an uninitialised value; passing mNextState adds `ldp x0, x1`.
-void StateMachineWrapper::changeStateFast() {
-    mMachine.mCurrent = mMachine._0->setState(mMachine.mNextState);
+void StateMachineWrapper::changeStateFast(const ksys::StateBase* state) {
+    mMachine.mCurrent = mMachine._0->setState(state);
     mMachine.mCurrent->enter();
 }
 
