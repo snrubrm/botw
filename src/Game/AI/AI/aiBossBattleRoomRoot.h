@@ -30,6 +30,10 @@ public:
     // 0x7100336b84 (placeholder name): gives the sound sources of the handle's event (before playback starts) the
     // room shape `_1f0`.
     void sub_7100336B84(xlink2::HandleSLink* handle);
+    // Native calc helpers change the room bodies and send rotation commands.
+    void sub_7100335B74();
+    void sub_7100335C38();
+    void sub_7100335DA8();
 
 protected:
     // The command of the 0x80000d7 message payload (a SEAD_ENUM in the original: the value goes through
@@ -75,7 +79,7 @@ protected:
     sead::BitFlag32 _1b4;
     ksys::MesTransceiverId _1b8;
     f32 _1d0 = 0;
-    u32 _1d4 = 0;
+    s32 _1d4 = 0;
     u32 _1d8 = 0;
     ksys::phys::RigidBody* _1e0 = nullptr;
     ksys::phys::RigidBody* _1e8 = nullptr;

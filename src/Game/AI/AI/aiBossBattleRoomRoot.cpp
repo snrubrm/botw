@@ -2,9 +2,70 @@
 #include <aal/aalHandle.h>
 #include <aal/aalSoundSource.h>
 #include <container/seadPtrArray.h>
+#include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace uking::ai {
+
+void BossBattleRoomRoot::sub_7100335B74() {
+    if (_1e8->getMotionType() != ksys::phys::MotionType::Fixed)
+        _1e8->changeMotionType(ksys::phys::MotionType::Fixed);
+    if (_1e0->getMotionType() != ksys::phys::MotionType::Fixed)
+        _1e0->changeMotionType(ksys::phys::MotionType::Fixed);
+    _1b4.resetBit(Flag(Flag::_0));
+    {
+        sead::ScopedLock<sead::JobQueueLock> lock(&_110._18.mLock);
+        _110._18._c = false;
+        _110._18._8 = 3;
+    }
+    _110.sub_710070DBB0(_1b8, true);
+}
+
+// NON_MATCHING: SEAD_ENUM temporary stack slots and counter reset scheduling differ.
+void BossBattleRoomRoot::sub_7100335C38() {
+    if (_1e8->getMotionType() != ksys::phys::MotionType::Fixed)
+        _1e8->changeMotionType(ksys::phys::MotionType::Fixed);
+    if (_1e0->getMotionType() != ksys::phys::MotionType::Fixed)
+        _1e0->changeMotionType(ksys::phys::MotionType::Fixed);
+    _1b4.resetBit(Flag(Flag::_2));
+    const s32 count = _1d4++;
+    if (count >= *mParams.mNumTimesRoll_s) {
+        _1d4 = 0;
+        _1b4.resetBit(Flag(Flag::_3));
+        _19c.previous_value = _19c.value = *mParams.mFramesDelayRoll_s;
+        {
+            sead::ScopedLock<sead::JobQueueLock> lock(&_110._18.mLock);
+            _110._18._c = false;
+            _110._18._8 = 6;
+        }
+        _110.sub_710070DBB0(_1b8, true);
+    } else {
+        const s32 frames =
+            count == 0 ? *mParams.mFramesRollKeepFirst_s : *mParams.mFramesRollKeepSecond_s;
+        _1a8.previous_value = _1a8.value = frames;
+        _1b4.setBit(Flag(Flag::_3));
+    }
+}
+
+// NON_MATCHING: SEAD_ENUM temporary stack slots differ.
+void BossBattleRoomRoot::sub_7100335DA8() {
+    if (_1e8->getMotionType() != ksys::phys::MotionType::Fixed)
+        _1e8->changeMotionType(ksys::phys::MotionType::Fixed);
+    if (_1e0->getMotionType() != ksys::phys::MotionType::Fixed)
+        _1e0->changeMotionType(ksys::phys::MotionType::Fixed);
+    _1b4.setBit(Flag(Flag::_5));
+    _1b4.resetBit(Flag(Flag::_1));
+    _1b4.resetBit(Flag(Flag::_4));
+    {
+        sead::ScopedLock<sead::JobQueueLock> lock(&_110._18.mLock);
+        _110._18._c = false;
+        _110._18._8 = 5;
+    }
+    _110.sub_710070DBB0(_1b8, true);
+    ksys::gdt::setFlag_FinalTrial_BossField_Rotate(false, false);
+    _1d4 = 0;
+    _1e0->setContactNone();
+}
 
 void BossBattleRoomRoot::sub_7100336B84(xlink2::HandleSLink* handle) {
     if (handle && handle->isActive()) {
