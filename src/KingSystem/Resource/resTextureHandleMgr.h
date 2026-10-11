@@ -82,6 +82,7 @@ public:
     s32 getGeneration() const { return mGeneration; }
     void repairAllHandlesForSync();
     bool invoked5(void*);
+    void invoked7(util::TaskPostRunResult* result, const util::TaskPostRunContext& context);
     void invoked8(const util::TaskRemoveCallbackContext& context);
     void invoked9(const util::TaskRemoveCallbackContext& context);
     bool repairTexture(Unk_71024f9a08* resource);
@@ -130,12 +131,15 @@ private:
     sead::Delegate1R<TextureHandleMgr, void*, bool> _198{nullptr, nullptr};
     // Complete FE2890 initializes this delegate for FE3760.
     util::TaskDelegateT<TextureHandleMgr> _1b8{nullptr, nullptr};
-    u8 _1d8[0x1f8 - 0x1d8];
+    // Complete FE2890 initializes this delegate for FE3DC0.
+    util::TaskDelegateT<TextureHandleMgr> _1d8{nullptr, nullptr};
     // Complete FE2890 initializes this delegate for FE4318; FE5C98 uses it.
     sead::Delegate1R<TextureHandleMgr, void*, bool> _1f8{nullptr, nullptr};
     // FE5D84 / FE5EC4 independently supply these as the native task callbacks.
     util::TaskPostRunCallbackT<TextureHandleMgr> _218{nullptr, nullptr};
-    u8 _238[0x278 - 0x238];
+    // Complete FE2890 initializes this post-run callback for FE4918.
+    util::TaskPostRunCallbackT<TextureHandleMgr> _238{nullptr, nullptr};
+    u8 _258[0x278 - 0x258];
     util::TaskRemoveCallbackT<TextureHandleMgr> _278{nullptr, nullptr};
     u8 _298[0x5e0 - 0x298];
     // Complete FE2534 constructs this loader; independent FE4B6C unloads it.

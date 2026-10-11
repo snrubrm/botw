@@ -374,6 +374,29 @@ bool TextureHandleMgr::invalidateUser(const InvalidateArg& arg) {
     return false;
 }
 
+// NON_MATCHING: native retains the address of the task data repair fields.
+void TextureHandleMgr::invoked7(util::TaskPostRunResult* result,
+                               const util::TaskPostRunContext& context) {
+    auto* data = sead::DynamicCast<::Unk_71024f9e28>(
+        static_cast<util::TaskData*>(context.mUserData));
+    if (!data)
+        return;
+    if (!mLoader.isLoading() && !mLoader.isSuccess())
+        return;
+    Unk_71024f9bb8 request;
+    request.mSynchronous = false;
+    request.mLaneId = 3;
+    request.mThread = _50;
+    request.mDelegate = &_1d8;
+    request.mPostRunCallback = &_238;
+    request._a8 = data->_60;
+    request._b0 = data->_68;
+    request._b8 = data->_70;
+    request.mName = "RepairHandles(HighPrio)";
+    context.mTask->submitRequest(request);
+    result->setResult(true);
+}
+
 void TextureHandleMgr::invoked8(const util::TaskRemoveCallbackContext& context) {
     auto* data = sead::DynamicCast<::Unk_71024f9e28>(
         static_cast<util::TaskData*>(context.mUserData));
