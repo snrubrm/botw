@@ -4,7 +4,7 @@ namespace ksys::as {
 
 ElementParams::ElementParams() {}
 
-// NON_MATCHING: only the branch of the last test (`end < 0`: the original skips with `b.ge`, ours with `b.pl`)
+// NON_MATCHING: the unordered-aware end test changes conditional-compare selection.
 s32 ElementParams::sub_7101302A70(f32 dt, f32 position) {
     f32 new_position = _c * dt + position;
     const f32 end = _1c;
@@ -26,7 +26,7 @@ s32 ElementParams::sub_7101302A70(f32 dt, f32 position) {
         wraps = 0;
     }
     _4 = new_position;
-    if (end < 0)
+    if (!(end >= 0))
         _18 = new_position;
     return wraps;
 }
