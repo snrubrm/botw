@@ -570,6 +570,31 @@ f32 Chemical::sub_7100D911F8() const {
     return sead::Mathf::clamp(value, 0.0f, 1.0f);
 }
 
+f32 Chemical::sub_7100D91BE4(int a1, int a2) const {
+    const f32 base = sub_7100D91A10(a1, a2);
+    f32 value = base;
+    if (!(_c & 0x1000000) && _190 > 0.0f)
+        value = sead::Mathf::min(18.0f, base);
+    if (sub_7100D914C0() > 0)
+        value = 39.0f;
+    if (_d0 > 0.0f) {
+        f32 target;
+        switch (_d4) {
+        case 1:
+            target = 39.0f;
+            break;
+        case 2:
+            target = 2000.0f;
+            break;
+        default:
+            target = sead::Mathf::min(base, 18.0f);
+            break;
+        }
+        value = sead::lerp(value, target, sead::Mathf::clamp(_d0 * 2.0f, 0.0f, 1.0f));
+    }
+    return value;
+}
+
 bool Chemical::sub_7100D90B14() const {
     return mMaterial && mMaterial->id.ref().startsWith("Animal_");
 }
