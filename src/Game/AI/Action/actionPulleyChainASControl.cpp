@@ -1,6 +1,7 @@
 #include "Game/AI/Action/actionPulleyChainASControl.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/Physics/Constraint/physPulleyCs.h"
 
 namespace uking::action {
 
@@ -21,13 +22,28 @@ void PulleyChainASControl::enter_(ksys::act::ai::InlineParamPack* params) {
         const f32 length = as_list->x_5(*mTargetIdx_s, *mSeqBankIdx_s,
                                         &ksys::as::ASList::Unk2::sub_710116323C);
         const sead::Vector3f& pos = mActor->getMtx().getTranslation();
-        const f32 px = pos.x;
-        const f32 py = pos.y;
-        const f32 pz = pos.z;
-        const sead::Vector3f diff(_40 - px, _44 - py, _48 - pz);
+        const sead::Vector3f diff = mStartPosition - pos;
         const f32 dist = diff.length();
         const f32 value = sead::Mathf::clamp(length - dist, 0.0f, length);
         as_list->x_3(*mTargetIdx_s, *mSeqBankIdx_s, &ksys::as::ASList::Unk2::sub_7101163298, value);
+    }
+}
+
+// NON_MATCHING: matrix/vector evaluation and the constraint loop use different scheduling.
+void PulleyChainASControl::sub_7100223114() {
+    const auto& constraints = mActor->getConstraints().mConstraints;
+    const s32 count = constraints.size();
+    for (s32 i = 0; i < count; ++i) {
+        auto* pulley = sead::DynamicCast<ksys::phys::PulleyCs>(constraints[i]);
+        if (!pulley)
+            continue;
+        sead::Matrix34f home;
+        mActor->getHomeMtx(&home);
+        mStartPosition.set(0.0f, pulley->sub_7100F71034(), 0.0f);
+        const f32 height = pulley->sub_7100F71040();
+        mStartPosition *= home;
+        mEndPosition = home * sead::Vector3f(0.0f, height, 0.0f);
+        return;
     }
 }
 
@@ -49,7 +65,7 @@ void PulleyChainASControl::calc_() {
         as_list->x_3(*mTargetIdx_s, *mSeqBankIdx_s,
                      &ksys::as::ASList::Unk2::sub_7101163298,
                      sead::Mathf::clamp(
-                         length - (sead::Vector3f(_40, _44, _48) -
+                         length - (mStartPosition -
                                    mActor->getMtx().getTranslation()).length(),
                          0.0f, length));
     }

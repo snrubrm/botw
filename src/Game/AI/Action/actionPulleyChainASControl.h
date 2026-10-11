@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include <math/seadVector.h>
 
 namespace uking::action {
 
@@ -26,11 +27,9 @@ protected:
     const int* mSeqBankIdx_s{};
     // static_param at offset 0x30
     sead::SafeString mASName_s{};
-    float _40 = 0.0f;
-    float _44 = 0.0f;
-    float _48 = 0.0f;
-    int _4c = 0;
-    void* _50{};
+    // 223060 zeros both vectors; 223114 transforms two pulley heights by the home matrix.
+    sead::Vector3f mStartPosition{0.0f, 0.0f, 0.0f};
+    sead::Vector3f mEndPosition{0.0f, 0.0f, 0.0f};
 };
 
 }  // namespace uking::action
