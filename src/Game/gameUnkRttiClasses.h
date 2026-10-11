@@ -370,7 +370,11 @@ public:
 
     // TextureHandleMgr::clearAllCache (0x7100fe5fcc) and invalidateUser (0x7100fe5b44)
     // initialize this 0xc8-byte request, including three additional SafeStrings.
-    u32 _50 = 0x01000001;
+    // FE8074 produces these bools; FE86BC transfers them to task data.
+    bool _50 = true;
+    bool _51 = false;
+    bool _52 = false;
+    bool _53 = true;
     bool _54 = false;
     void* _58 = nullptr;
     void* _60 = nullptr;
@@ -393,7 +397,11 @@ public:
     ~Unk_71024f9e28() override;
 
     // FE85E8 initializes this whole 0x80-byte data; FE86BC copies request fields here.
-    u32 _8 = 0x01000001;
+    // FE3004 consumes individual bools and FE4918 sets the first byte true.
+    bool _8 = true;
+    bool _9 = false;
+    bool _a = false;
+    bool _b = true;
     bool _c = false;
     void* _10 = nullptr;
     void* _18 = nullptr;

@@ -69,7 +69,6 @@ public:
         u32 mHash = 0;
     };
     KSYS_CHECK_SIZE_NX150(ValidateArg, 0x50);
-    // Native FE59AC, declared only.
     bool validateUser(const ValidateArg& arg);
 
     void preCalc();
@@ -115,7 +114,9 @@ private:
     sead::OffsetList<Unk_71024f9a08> mResources;
     u8 _130[0x158 - 0x130];
     sead::Delegate1R<TextureHandleMgr, void*, bool> _158{nullptr, nullptr};
-    u8 _178[0x768 - 0x178];
+    // Complete FE2890 initializes this task delegate for FE3004; FE59AC uses it.
+    sead::Delegate1R<TextureHandleMgr, void*, bool> _178{nullptr, nullptr};
+    u8 _198[0x768 - 0x198];
     ArchiveWork* mArchiveWork;
 };
 

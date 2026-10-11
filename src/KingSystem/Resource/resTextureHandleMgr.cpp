@@ -93,6 +93,9 @@ void Unk_71024f9da0::prepareImpl_(util::TaskRequest* request) {
     mData._10 = req->_58;
     mData._c = req->_54;
     mData._8 = req->_50;
+    mData._9 = req->_51;
+    mData._a = req->_52;
+    mData._b = req->_53;
     // C++14 evaluation order: the original evaluates the destination first.
     mData._28.operator=(req->_70);
     mData._38 = req->_80;
@@ -311,6 +314,38 @@ bool TextureHandleMgr::sub_7100FE6120() const {
 
 ArchiveWork* TextureHandleMgr::getArchiveWork() const {
     return mArchiveWork;
+}
+
+// NON_MATCHING: bool fields are copied separately instead of the native eight-byte block.
+bool TextureHandleMgr::validateUser(const ValidateArg& arg) {
+    Unk_71024f9bb8 request;
+    request.mLaneId = 4;
+    request.mThread = _50;
+    request.mDelegate = &_178;
+    request._50 = arg._0;
+    request._51 = arg._1;
+    request._52 = arg._2;
+    request._53 = arg._3;
+    request._54 = arg._4;
+    request._58 = arg.mTexture;
+    request._60 = arg.mHandle;
+    request._68 = arg.mFileDevice;
+    request._70 = arg.mRequester;
+    request._80 = arg.mTextureFlags;
+    request._88 = arg.mPath;
+    request._98 = arg.mHash;
+    request.mName = "Texture::ValidateUser";
+    util::ManagedTaskHandle handle;
+    util::TaskMgrRequest manager_request;
+    manager_request.request = &request;
+    manager_request.handle = &handle;
+    _48->submitRequest(manager_request);
+    if (handle.getStatus() == util::ManagedTaskHandle::Status::TaskRemoved) {
+        stubbedLogFunction();
+        arg.mHandle->sub_7100FE8328(4);
+        return false;
+    }
+    return handle.didTaskCompleteSuccessfully();
 }
 
 void TextureHandleMgr::clearAllCache() {
