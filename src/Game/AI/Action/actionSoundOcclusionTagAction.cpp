@@ -4,6 +4,7 @@
 #include "KingSystem/Sound/sndBgmMgr.h"
 #include "KingSystem/Sound/sndMgr.h"
 #include "KingSystem/Sound/sndOcclusionMgr.h"
+#include "KingSystem/System/StageInfo.h"
 
 namespace uking::action {
 
@@ -18,8 +19,27 @@ SoundOcclusionTagAction::~SoundOcclusionTagAction() {
     _38.freeBuffer();
 }
 
+// NON_MATCHING: common return and final layer stores use a different block layout.
 bool SoundOcclusionTagAction::init_(sead::Heap* heap) {
-    return AreaTagAction::init_(heap);
+    const auto& map_type = ksys::StageInfo::getCurrentMapType();
+    if (map_type == "MainField" || map_type == "AocField" || map_type == "GameTestField") {
+        _38.tryAllocBuffer(1, heap);
+        if (!_38.getBufferPtr())
+            return false;
+        _38[0]._0 = ksys::phys::ContactLayer::SensorPlayer;
+        _50 = 0;
+    } else if (map_type == "CDungeon") {
+        _38.tryAllocBuffer(5, heap);
+        if (!_38.getBufferPtr())
+            return false;
+        _38[0]._0 = ksys::phys::ContactLayer::SensorObject;
+        _38[1]._0 = ksys::phys::ContactLayer::SensorSmallObject;
+        _38[2]._0 = ksys::phys::ContactLayer::SensorPlayer;
+        _38[3]._0 = ksys::phys::ContactLayer::SensorEnemy;
+        _38[4]._0 = ksys::phys::ContactLayer::SensorNPC;
+        _50 = 1;
+    }
+    return true;
 }
 
 void SoundOcclusionTagAction::enter_(ksys::act::ai::InlineParamPack* params) {
