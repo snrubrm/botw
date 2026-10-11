@@ -925,6 +925,102 @@ void Unk_71024741b8::set(f32 p0, f32 p1, f32 p2, f32 p3, f32 w1, f32 w2) {
     _1c = sead::Mathf::clampMin(w2, 0.0f);
 }
 
+// NON_MATCHING: branch selection and trigonometric value scheduling differ.
+void Unk_71009214b8::sub_71009237BC() {
+    const sead::Vector3f direction = _c - _0;
+    f32 pitch;
+    f32 yaw;
+    if (direction.x == 0.0f && direction.z == 0.0f) {
+        yaw = 0.0f;
+        pitch = direction.y > 0.0f ? -sead::Mathf::piHalf() : sead::Mathf::piHalf();
+    } else {
+        pitch = -std::atan2(direction.y, direction.length());
+        yaw = std::atan2(direction.x, direction.z);
+    }
+    const f32 sin_pitch = std::sin(pitch);
+    const f32 sin_yaw = std::sin(yaw);
+    const f32 sin_roll = std::sin(-_28);
+    const f32 cos_pitch = std::cos(pitch);
+    const f32 cos_yaw = std::cos(yaw);
+    const f32 cos_roll = std::cos(_28);
+    _18.set(sin_yaw * cos_roll * sin_pitch - sin_roll * cos_yaw,
+            cos_pitch * cos_roll,
+            sin_yaw * sin_roll + sin_pitch * (cos_yaw * cos_roll));
+}
+
+// NON_MATCHING: the natural coefficient loop differs from the native unrolled arithmetic.
+f32 Unk_71024741b8::eval(f32 t) const {
+    t = sead::Mathf::clamp(t, 0.0f, 1.0f);
+    const f32 values[] = {_8, _c, _10, _14};
+    const f32 weights[] = {1.0f, _18, _1c, 1.0f};
+    f32 sum = 0.0f;
+    f32 weighted_sum = 0.0f;
+    for (s32 i = 0; i < 4; ++i) {
+        const s32 denominator = sub_7100923494(i) * sub_7100923494(3 - i);
+        f32 coefficient = 1.0f;
+        if (denominator != 0)
+            coefficient = std::pow(t, f32(i)) * f32(sub_7100923494(3)) *
+                          std::pow(1.0f - t, f32(3 - i)) / f32(denominator);
+        const f32 weighted_coefficient = coefficient * weights[i];
+        sum += weighted_coefficient;
+        weighted_sum += weighted_coefficient * values[i];
+    }
+    return sum != 0.0f ? weighted_sum / sum : _8;
+}
+
+// NON_MATCHING: the bisection loop and endpoint interpolation compile with different scheduling.
+f32 Unk_71024741b8::sub_71009234D8(f32 value, int iterations) const {
+    f32 low_value = eval(0.0f);
+    if (low_value == value)
+        return 0.0f;
+    f32 high_value = eval(1.0f);
+    if (high_value == value)
+        return 1.0f;
+    if (low_value < high_value) {
+        if (low_value > value)
+            return 0.0f;
+        if (high_value < value)
+            return 1.0f;
+    } else {
+        if (high_value > value)
+            return 1.0f;
+        if (low_value < value)
+            return 0.0f;
+    }
+    f32 low = 0.0f;
+    f32 high = 1.0f;
+    do {
+        const f32 middle = (low + high) * 0.5f;
+        const f32 middle_value = eval(middle);
+        if (middle_value == value)
+            return middle;
+        if (iterations > 0)
+            --iterations;
+        const f32 maximum = middle_value > low_value ? middle_value : low_value;
+        const f32 minimum = middle_value > low_value ? low_value : middle_value;
+        if (maximum >= value && minimum <= value) {
+            high = middle;
+            high_value = middle_value;
+            if (iterations <= 0) {
+                const f32 difference = middle_value - low_value;
+                if (difference == 0.0f)
+                    return 1.0f;
+                return low + (middle - low) * ((value - low_value) / difference);
+            }
+        } else {
+            low = middle;
+            low_value = middle_value;
+            if (iterations <= 0) {
+                const f32 difference = middle_value - high_value;
+                if (difference == 0.0f)
+                    return high;
+                return high + (middle - high) * ((value - high_value) / difference);
+            }
+        }
+    } while (iterations > 0);
+    return low;
+}
+
 }  // namespace uking::act
 
 bool sub_7100926210(const ksys::act::ActorConstDataAccess& accessor, sead::Vector3f* out) {
