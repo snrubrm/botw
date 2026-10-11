@@ -70,6 +70,18 @@ ksys::res::DamageParam* DamageManagerBase::getActorDamageParam() {
     return param->getRes().mDamageParam;
 }
 
+void DamageManagerBase::calcMaybe() {
+    if (mStruct20_a && mStruct20_b) {
+        mField_30.lock();
+        mStruct20_b->combineMaybe(mStruct20_a);
+        mStruct20_a->reset();
+        mField_30.unlock();
+    }
+    m22();
+    if (mStruct20_b)
+        mStruct20_b->reset();
+}
+
 void DamageManagerBase::clearCallbacks() {
     if (mCallbacks.isBufferReady()) {
         for (s32 i = 0, n = mCallbacks.size(); i < n; ++i)
