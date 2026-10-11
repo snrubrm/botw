@@ -52,6 +52,8 @@ public:
     // Complete 12B77A8 produces this record; 12B78BC releases it.
     // The tagged heap word is opaque until its native helpers are established.
     struct Allocation {
+        // Complete 12B8C7C clears tag bit 0 under the owning heap lock; declaration only.
+        void sub_71012B8C7C();
         void* mData;
         u32 _8;
         u64 mTaggedHeap;

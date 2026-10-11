@@ -103,6 +103,72 @@ bool Unk_71024f9a08::sub_7100FE0C38(const LoadArg& arg) {
 
 
 // NON_MATCHING: reverse-search loop induction/branch layout and stack record allocation.
+// NON_MATCHING: structured dummy-texture handling and heap argument reloads change layout.
+bool Unk_71024f9a08::sub_7100FE0584(const LoadArg& arg) {
+    const bool dummy = arg._1 && sub_7100FDDC0C(arg.texture) == 1 &&
+                       sub_7100FDDC14(arg.texture) == 1;
+    if (dummy) {
+        stubbedLogFunction();
+        if (mStatus != 1)
+            return true;
+    } else {
+        if (arg._1) {
+            if (mAllocation.mData || mMipAllocation.mData) {
+                stubbedLogFunction();
+                mFlags.resetBit(0);
+                if (mFlags.isOnBit(5)) {
+                    sub_7100FDDBD4(sub_7100FDDC24(&_1f8));
+                    mFlags.resetBit(5);
+                }
+                if (mMipAllocation.mData)
+                    arg.mipHeap->x_21(&mMipAllocation);
+                if (mAllocation.mData)
+                    arg.heap->x_21(&mAllocation);
+                sub_7100FE04D0();
+            } else {
+                if (mFlags.isOnBit(5)) {
+                    sub_7100FDDBD4(sub_7100FDDC24(&_1f8));
+                    mFlags.resetBit(5);
+                    if (mMipAllocation.mData)
+                        arg.mipHeap->x_21(&mMipAllocation);
+                }
+                if (mAllocation.mData)
+                    arg.heap->x_21(&mAllocation);
+                stubbedLogFunction();
+            }
+        }
+        _158 = arg._2;
+        _159 = 0;
+        mPath.copy(arg.path.cstr());
+        mFileDevice = arg.device;
+        sub_7100FDDC04(arg.texture);
+        mStatus = 1;
+        if (arg.path.findIndex(".Tex2.") == -1) {
+            mFlags.setBit(1);
+            const TransferArg transfer{true, false, arg.texture, arg.heap};
+            bool success = false;
+            sub_7100FE09EC(&success, transfer);
+            mStatus = success ? 4 : 2;
+            _159 = success ? 0 : 3;
+        } else {
+            sub_7100FE0860(arg);
+        }
+        if (arg._1) {
+            stubbedLogFunction();
+            mCS.lock();
+            for (auto& handle : mHandles)
+                handle.sub_7100FE84D4();
+            mCS.unlock();
+        }
+    }
+    if (mMipAllocation.mData)
+        mMipAllocation.sub_71012B8C7C();
+    if (mAllocation.mData && mFlags.isOffBit(6))
+        mAllocation.sub_71012B8C7C();
+    mEvent.setSignal();
+    return true;
+}
+
 bool Unk_71024f9a08::sub_7100FE0860(const LoadArg& arg) {
     auto* texture = arg.texture;
     if (sub_7100FDDBFC(texture) == 0)
