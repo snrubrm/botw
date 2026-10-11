@@ -20,7 +20,7 @@ public:
     void m10() override;
 
     // The base ends at +0x12; this member reuses its tail padding.
-    u8 _14[0x58 - 0x14];
+    u8 _12[0x58 - 0x12];
     phys::MaterialMask _58;
     u8 _70[0x7a - 0x70];
     // 0x710105e114: values below 2 skip the chemical sound spatial flags.
