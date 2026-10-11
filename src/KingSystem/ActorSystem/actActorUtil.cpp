@@ -109,6 +109,19 @@ const char* sub_7100EE9E80() {
     return "IsGet_";
 }
 
+// Source owner unknown: the independent controller consumer uses this bool setting.
+bool sub_7100EE9CE8() {
+    bool value = false;
+    if (auto* mgr = ksys::gdt::Manager::instance())
+        mgr->getParam().get().getBool(&value, "GyroOnOff");
+    return value;
+}
+
+// Source owner unknown: CameraEventMove supplies an acquired actor accessor.
+bool sub_7100EE1D34(const ksys::act::ActorConstDataAccess& accessor) {
+    return ksys::act::isTagProfileMaybe(accessor.getProfile());
+}
+
 // NON_MATCHING: the same-group lookup is inlined from this TU instead of retaining its original call.
 bool checkIsGetSameGroupActorName(const sead::SafeString& actor_name, bool mode) {
     sead::SafeString group_name;
