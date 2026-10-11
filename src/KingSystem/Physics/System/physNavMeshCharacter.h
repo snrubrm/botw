@@ -21,6 +21,7 @@ class Heap;
 namespace ksys::phys {
 
 class HavokAI;
+struct NavMeshObjMaybe;
 class Unk_7102372790;
 class Unk_7100f7e9f0Event;
 
@@ -155,6 +156,7 @@ public:
     // when out of range).
     void sub_7100F7D1B4(const NavMeshCharacter* other);
     s32 sub_7100F7D1CC(const NavMeshCharacter* other);
+    s32 sub_7100F7D234(const NavMeshObjMaybe* other);
     void sub_7100F7D298(s32 index, const NavMeshCharacter* other);
 
     // Inline-only in the original (no out-of-line copy; inlined at ~45 call sites: enemy / animal /

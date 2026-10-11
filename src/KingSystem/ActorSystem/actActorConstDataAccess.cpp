@@ -1,5 +1,8 @@
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include <prim/seadRuntimeTypeInfo.h>
+#include <gsys/gsysModelAccessKey.h>
+#include <gsys/gsysModel.h>
+#include <gsys/gsysModelUnit.h>
 #include "Game/Actor/actHorseRideInfo.h"
 #include "Game/Actor/actRideable.h"
 #include "Game/Actor/actEnemy.h"
@@ -28,6 +31,7 @@
 #include "KingSystem/Map/mapLinkTag.h"
 #include "KingSystem/Map/mapObjectLink.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
+#include "KingSystem/Physics/System/physNavMeshCharacter.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectAttack.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectEnemy.h"
@@ -1603,6 +1607,83 @@ bool ActorConstDataAccess::sub_7100D11D14(sead::Vector3f* out) const {
         return true;
     }
     getActorMtx().getTranslation(*out);
+    return false;
+}
+
+// NON_MATCHING: the boolean return is merged with the fallback instead of using the native tail.
+bool ActorConstDataAccess::sub_7100D122EC(phys::NavMeshCharacter* character) const {
+    if (auto* actor = getActor()) {
+        if (auto* physics = actor->getPhysics()) {
+            if (auto* objects = physics->sub_7100FC0124()) {
+                if (auto* data = objects->getBufferPtr())
+                    return character->sub_7100F7D234(data) >= 0;
+            }
+        }
+    }
+    return false;
+}
+
+// NON_MATCHING: the final DynamicCast keeps a null branch and the matrix copy is scheduled differently.
+bool ActorConstDataAccess::sub_7100D112FC(sead::Matrix34f* out) const {
+    if (auto* actor = getActor()) {
+        if (sead::DynamicCast<Actor>(actor->getConnectedCalcParent())) {
+            *out = sead::DynamicCast<Actor>(actor->getConnectedCalcParent())->getMtx();
+            return true;
+        }
+    }
+    out->makeIdentity();
+    return false;
+}
+
+// NON_MATCHING: the RTTI/input guards are merged differently and the chemical call is not a tail call.
+bool ActorConstDataAccess::sub_7100D12FCC(const Chemical* other) const {
+    if (auto* actor = getActor()) {
+        if (other) {
+            if (auto* chemical = actor->getChemicalStuff())
+                return chemical->sub_7100D913BC(*other);
+        }
+    }
+    return false;
+}
+
+// NON_MATCHING: the name and output use opposite saved registers.
+void ActorConstDataAccess::sub_7100D1288C(gsys::BoneAccessKeyEx* out,
+                                       const sead::SafeString& name) const {
+    if (auto* actor = getActor()) {
+        if (auto* model = actor->getModel()) {
+            out->search(model, name);
+            return;
+        }
+    }
+    out->getKey().reset();
+}
+
+// NON_MATCHING: the lowercase loop uses wider indices and different branch scheduling.
+bool ActorConstDataAccess::sub_7100D12944(sead::Matrix34f* out,
+                                       const sead::SafeString& name) const {
+    if (auto* actor = getActor()) {
+        isRope(actor);
+        if (auto* model = actor->getModel()) {
+            auto key = model->searchBone(name);
+            if (!key.isValid()) {
+                sead::FixedSafeString<128> lower_name;
+                const s32 length = name.calcLength() + 1;
+                for (s32 i = 0; i < length; ++i) {
+                    if (name[i] >= 'A' && name[i] <= 'Z')
+                        lower_name.append(name[i] + ('a' - 'A'));
+                    else
+                        lower_name.append(name[i]);
+                }
+                key = model->searchBone(lower_name);
+            }
+            if (key.isValid()) {
+                model->getUnits()(key.model_unit_index)->mModelUnit->getBoneWorldMatrix(
+                    out, key.bone_index);
+                return true;
+            }
+        }
+    }
+    out->makeIdentity();
     return false;
 }
 

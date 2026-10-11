@@ -16,6 +16,10 @@ namespace ksys {
 class MessageTransceiverBase;
 }
 
+namespace gsys {
+class BoneAccessKeyEx;
+}
+
 namespace ksys::act {
 class ActorConstDataAccess;
 }
@@ -80,6 +84,12 @@ public:
     bool sub_7100D119A8(sead::Matrix34f* out, const sead::SafeString& name) const;
     bool sub_7100D11B14(sead::Vector3f* out) const;
     bool sub_7100D11D14(sead::Vector3f* out) const;
+    // D112FC copies the connected Actor parent's matrix, or identity.
+    bool sub_7100D112FC(sead::Matrix34f* out) const;
+    bool sub_7100D12FCC(const Chemical* other) const;
+    bool sub_7100D122EC(phys::NavMeshCharacter* character) const;
+    // RideHorse constructs a BoneAccessKeyEx and consumes its key after D1288C.
+    void sub_7100D1288C(gsys::BoneAccessKeyEx* out, const sead::SafeString& name) const;
 
     bool hasProc() const { return ActorLinkConstDataAccess::hasProc(); }
 
