@@ -7,6 +7,8 @@
 #include <prim/seadBitFlag.h>
 #include "KingSystem/ActorSystem/Attention/actAttention.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
+#include "KingSystem/Utils/Thread/MessageTransceiverTxOnly.h"
+#include "KingSystem/Utils/Types.h"
 
 namespace ksys::act {
 
@@ -52,11 +54,17 @@ public:
     void sub_7100D744B8(const BaseProcLink& link);
     // 0x7100d74d78 (CSV Attention::x_1): updates the target lists with `client` (calls the four operations below).
     void sub_7100D74D78(AttClient* client);
+    // D74920 inserts a scored client into the current core's attention lists.
+    void sub_7100D74920(AttClient* client);
+    // D74BDC receives one of the fixed arrays as a PtrArray reference and an insertion index.
+    void sub_7100D74BDC(AttClient* client, sead::PtrArray<AttClient>& list, u32 index);
     // 0x7100d74dd4 / 0x7100d74fec / 0x7100d750e0 / 0x7100d751d4 (CSV Attention::x_2 .. x_5; declared only).
     void sub_7100D74DD4(AttClient* client);
     void sub_7100D74FEC(AttClient* client);
     void sub_7100D750E0(AttClient* client);
     void sub_7100D751D4(AttClient* client);
+    // D7704C removes and returns a scored client from the three backup lists.
+    AttClient* sub_7100D7704C();
     // 0x7100d7457c (declaration only): the client to use among the target lists; `filter` selects whether
     // `code` (an AttActionCode, None for any) has to match.
     AttClient* sub_7100D7457C(bool filter, AttActionCodeValue code) const;
@@ -107,15 +115,11 @@ public:
     // 0x7100d7565c (CSV Attention::setPauseState): bit 0 of the flag byte at +0xe22.
     void setPauseState(bool paused);
 
-    // lane4 s30: partial layout (the CSV's 8 target lists, one per AttType; list 1 = Lock is the current target).
-    struct TargetList {
-        /* 0x00 */ s32 mCount;
-        /* 0x08 */ AttClient** mEntries;
-        /* 0x10 */ u8 _10[0x40];
-    };
-
-    /* 0x028 */ u8 _28[0x7a8 - 0x28];
-    /* 0x7a8 */ sead::SafeArray<TargetList, 8> mLists;
+    // D73B28 constructs every 0x50-byte entry with PtrArrayImpl::setBuffer(8, this + 0x10).
+    // D74DD4 walks the three pending groups; D74920 chooses a group by core and attention type.
+    using TargetList = sead::FixedPtrArray<AttClient, 8>;
+    /* 0x028 */ sead::SafeArray<sead::SafeArray<TargetList, 8>, 3> _28{};
+    /* 0x7a8 */ sead::SafeArray<TargetList, 8> mLists{};
     // Six more target lists after mLists (0x50 bytes each: a fixed pointer array of 8 clients); sub_7100D74FEC removes a
     // client from the first three, sub_7100D750E0 from the last three.
     /* 0xa28 */ sead::FixedPtrArray<AttClient, 8> _a28;
@@ -124,7 +128,9 @@ public:
     /* 0xb18 */ sead::FixedPtrArray<AttClient, 8> _b18;
     /* 0xb68 */ sead::FixedPtrArray<AttClient, 8> _b68;
     /* 0xbb8 */ sead::FixedPtrArray<AttClient, 8> _bb8;
-    /* 0xc08 */ u8 _c08[0xc18 - 0xc08];
+    /* 0xc08 */ AttClient* _c08;
+    /* 0xc10 */ AttActionCodeValue _c10;
+    /* 0xc14 */ f32 _c14;
     /* 0xc18 */ void* _c18;  // set by setController (RootTask::calc)
     /* 0xc20 */ PlayerLink* _c20;
     /* 0xc28 */ void* _c28;  // set by setSomeFn
@@ -132,21 +138,29 @@ public:
     /* 0xc34 */ f32 _c34;
     /* 0xc38 */ f32 _c38;
     /* 0xc3c */ f32 _c3c;
-    /* 0xc40 */ u8 _c40[0xc4c - 0xc40];
+    /* 0xc40 */ u8 _c40[4];
+    // D75680 updates the floating timer at C44 and reloads its duration from C48.
+    /* 0xc44 */ f32 _c44;
+    /* 0xc48 */ f32 _c48;
     /* 0xc4c */ u32 _c4c;
     /* 0xc50 */ u8 _c50[0xd88 - 0xc50];
     /* 0xd88 */ f32 _d88;  // centre / width of the random delay AttClient's constructor picks
     /* 0xd8c */ f32 _d8c;
     /* 0xd90 */ u8 _d90[0xd98 - 0xd90];
     /* 0xd98 */ BaseProcLink mRequestedTarget;
-    /* 0xda8 */ u8 _da8[0xdb8 - 0xda8];
+    // D73B28 constructs this second BaseProcLink; D74920 queries it.
+    /* 0xda8 */ BaseProcLink _da8;
     /* 0xdb8 */ AttActionCodeValue _db8;
     /* 0xdbc */ u8 _dbc[0xdc0 - 0xdbc];
     /* 0xdc0 */ void* _dc0;
-    /* 0xdc8 */ u8 _dc8[0xe20 - 0xdc8];
-    /* 0xe20 */ bool mEnabled;
+    // D73B28 passes the IHandler at DC8 to the transceiver at DD0; D74084 destroys it.
+    /* 0xdc8 */ MessageTransceiverTxOnly::IHandler _dc8;
+    /* 0xdd0 */ MessageTransceiverTxOnly _dd0;
+    // D75680 writes states 0, 1, 2 and 3; D751D4 switches on the whole byte.
+    /* 0xe20 */ u8 mEnabled;
     /* 0xe21 */ u8 mFlagsE21;
     /* 0xe22 */ sead::BitFlag8 mFlagsE22;
 };
+KSYS_CHECK_SIZE_NX150(Attention, 0xe28);
 
 }  // namespace ksys::act

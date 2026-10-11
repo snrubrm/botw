@@ -23,6 +23,8 @@ public:
     ~AttClient();
 
     const sead::SafeString& getName() const;
+    // Inline-only in the original: D74920 and D74BDC read +0x14 directly; name is a guess.
+    f32 getScore() const { return _14; }
     void resetEnabled();
     void enable();
     void disable();
