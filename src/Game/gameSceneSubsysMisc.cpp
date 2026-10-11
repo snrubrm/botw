@@ -6,6 +6,9 @@
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "Game/AI/aiXlinkHandle.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "KingSystem/Physics/System/physHavokAI.h"
+#include "KingSystem/Physics/System/physNavMeshCharacter.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/Physics/System/physRayCastBodyQuery.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodyFromShape.h"
@@ -51,6 +54,24 @@ void GameSceneSubsys4::sub_710066B8C0(ksys::act::BaseProc* actor) {
         if (it->mLink.hasProcById(actor) || !it->mLink.hasProc()) {
             mRequests.erase(&*it);
             break;
+        }
+    }
+}
+
+void GameSceneSubsys4::sub_710066B5B8(f32 radius, ksys::act::Actor* actor,
+                                     ksys::phys::NavMeshCharacter* nav,
+                                     sead::ObjList<sead::Vector3f>* points) {
+    if (!actor || !nav)
+        return;
+    const sead::Vector3f target = sub_71005D9330(actor);
+    mPoints.clear();
+    const f32 height = sead::Mathf::sqrt(radius * radius + radius * radius) * 0.320040375f;
+    const sead::Vector3f extent(radius, height, radius);
+    for (auto it = points->begin(); it != points->end(); ++it) {
+        const sead::BoundBox3f bounds(*it - extent, *it + extent);
+        if (nav->_18) {
+            Unk_710243c238 callback(&mPoints, nav, actor->getMtx().getTranslation(), target);
+            nav->_18->sub_7100F857F4(&callback, &bounds);
         }
     }
 }

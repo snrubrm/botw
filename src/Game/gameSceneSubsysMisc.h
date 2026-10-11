@@ -11,6 +11,7 @@
 #include <xlink2/xlink2HandleSLink.h>
 #include "Game/gameGraphics.h"
 #include "Game/AI/aiUnk_7102357210.h"
+#include "Game/AI/aiUnk_NavMeshCallback.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Utils/Types.h"
 
@@ -47,6 +48,21 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(Unk_710243c208, 0x18);
 
+// Vtable 0x710243c238: the point-query callback constructed by 0x710066b5b8.
+class Unk_710243c238 : public Unk_NavMeshCallback {
+public:
+    Unk_710243c238(sead::ObjList<sead::Vector3f>* list, ksys::phys::NavMeshCharacter* nav,
+                   const sead::Vector3f& position, const sead::Vector3f& target)
+        : mList(list), mNav(nav), mPosition(position), mTarget(target) {}
+    bool m0(const void* node) override;
+
+    sead::ObjList<sead::Vector3f>* mList;
+    ksys::phys::NavMeshCharacter* mNav;
+    sead::Vector3f mPosition;
+    sead::Vector3f mTarget;
+};
+KSYS_CHECK_SIZE_NX150(Unk_710243c238, 0x30);
+
 // GameSceneSubsys4: the path request manager (CSV createInstance 0x710066a204, ctor 0x710066a598). Only the members
 // the AI code calls are declared (declaration only; the name follows the CSV).
 class GameSceneSubsys4 {
@@ -70,6 +86,9 @@ public:
     // 0x710066b1bc (declaration only): path request using the points in `points`; the result is written to `out`.
     s32 sub_710066B1BC(f32 time, ksys::act::Actor* actor, ksys::phys::NavMeshCharacter* nav,
                        sead::ObjList<sead::Vector3f>* points, sead::ObjList<sead::Vector3f>* out);
+
+    void sub_710066B5B8(f32 radius, ksys::act::Actor* actor, ksys::phys::NavMeshCharacter* nav,
+                       sead::ObjList<sead::Vector3f>* points);
 
     // A request of an actor to reach `mPos` (BaseProcLink at 0, Vector3f at 0x10; the list node follows at 0x20).
     struct Request {
