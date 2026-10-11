@@ -382,4 +382,16 @@ void Unk_7102478c68::m6(eui::LayoutEx* layout) {
     Unk_7102477fc0::m6(layout);
 }
 
+Unk_7102478d00::~Unk_7102478d00() {
+    _48 = nullptr;
+}
+
+void Unk_7102478d00::m13() {
+    if (_18 && _8) {
+        auto* pane = _8->mPane;
+        if (!pane->GetParent() && _20)
+            _20->AppendChild(pane);
+    }
+}
+
 }  // namespace uking::ui
