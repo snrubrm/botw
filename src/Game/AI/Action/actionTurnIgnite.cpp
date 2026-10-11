@@ -2,6 +2,7 @@
 #include "Game/AI/aiUnk_71007377D4.h"
 #include "Game/AI/aiUnk_710073fa90.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Utils/MathUtil.h"
 
@@ -17,6 +18,31 @@ bool TurnIgnite::init_(sead::Heap* heap) {
 
 void TurnIgnite::enter_(ksys::act::ai::InlineParamPack* params) {
     StopASIgnite::enter_(params);
+    auto* controller = mActor->getCharacterController();
+    if (!controller)
+        return;
+    const sead::Vector3f up = getUpDir(controller->get70());
+    sead::Vector3f velocity = mActor->getVelocity();
+    ksys::util::sub_71011EFA00(&velocity, velocity, up);
+    _c0.value = velocity.normalize();
+    _c0.prev_value = _c0.value;
+    sub_710072C1B4(controller, velocity);
+    _90.value = mActor->getAngVelocity().length();
+    _90.prev_value = _90.value;
+    sub_710073FA90(&_9c, mActor);
+    sead::Vector3f target = *mTargetPos_d;
+    target -= mActor->getMtx().getTranslation();
+    ksys::util::sub_71011EFA00(&target, target, up);
+    target.normalize();
+    sead::Vector3f forward;
+    mActor->getMtx().getBase(forward, 2);
+    ksys::util::sub_71011EFA00(&forward, forward, up);
+    forward.normalize();
+    sead::Vector3f axis;
+    f32 angle;
+    ksys::util::sub_71011EEB08(&axis, &angle, forward, target, sead::Vector3f::ey);
+    mActor->getASList()->x_6(9, 0, sead::Mathf::rad2deg(angle) * axis.y);
+    mFlags.set(Flag::Changeable);
 }
 
 void TurnIgnite::leave_() {
