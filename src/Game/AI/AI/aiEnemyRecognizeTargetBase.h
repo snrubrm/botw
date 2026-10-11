@@ -29,6 +29,7 @@ public:
     void changeToDiscover();
     // 0x71003b1178 (placeholder name)
     void changeToActivateTrap();
+    bool sub_71003B12A4();
 
 protected:
     // static_param at offset 0x38

@@ -74,6 +74,7 @@ public:
     explicit ActorConstDataAccess(BaseProc* proc) : ActorLinkConstDataAccess(proc) {}
 
     bool acquireActor(const ActorLinkConstDataAccess& other);
+    void sub_7100D14F94(Unk_71024ef620* out) const;
 
     // 0x7100d114a4: main-body center of mass, or matrix translation.
     bool getMtxPos(sead::Vector3f* out) const;

@@ -20,6 +20,7 @@ public:
 
     bool m34(const sead::Vector3f* pos) override;
     virtual void m36();
+    void sub_7100306664(const sead::Vector3f& direction);
     virtual bool m37();
     virtual void m38(ksys::act::ai::InlineParamPack* params) {}
 

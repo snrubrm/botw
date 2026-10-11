@@ -1,7 +1,11 @@
 #include "Game/AI/AI/aiGerudoQueenBattle.h"
+#include <math/seadMathCalcCommon.h>
+#include <prim/seadDelegate.h>
 #include "Game/AI/aiUnk_710073033C.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorNameSearch.h"
+#include "KingSystem/ActorSystem/actBaseProcMgr.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/World/worldEnvMgr.h"
 #include "KingSystem/World/worldManager.h"
@@ -46,6 +50,26 @@ bool GerudoQueenBattle::sub_71003F4648() {
     player.getPlayerFromPlayerInfo();
     const bool riding = player.isRidingSandSeal();
     return in_range && riding;
+}
+
+// NON_MATCHING: the separate-TU search destructor call changes stack storage and return scheduling.
+bool GerudoQueenBattle::sub_71003F3E44(ksys::act::BaseProcMgr* mgr) {
+    ksys::act::BaseProc* result = nullptr;
+    ksys::act::ActorNearestSearch search("RougeSuna", mActor, &result, sead::Vector3f::zero);
+    sead::Delegate1<ksys::act::ActorNearestSearch, ksys::act::BaseProc*> callback(
+        &search, &ksys::act::ActorNearestSearch::sub_7100EDC9E8);
+    mgr->forEachProc("Animal_SunazarashiSP_B", callback,
+                    ksys::act::BaseProcMgr::ProcFilter::SkipAccessCheck);
+    if (!result)
+        return false;
+    _60.acquire(result, false);
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(&_60, &accessor);
+    accessor.sub_7100D14F94(_80);
+    const sead::Vector3f direction =
+        accessor.getActorMtx().getTranslation() - mActor->getMtx().getTranslation();
+    sub_71003F4910(sead::Mathf::atan2Idx(direction.x, direction.z));
+    return true;
 }
 
 bool GerudoQueenBattle::init_(sead::Heap* heap) {

@@ -11,6 +11,7 @@
 
 namespace ksys::act {
 class Unk_71024ef620;
+class BaseProcMgr;
 }
 
 namespace uking::ai {
@@ -29,6 +30,8 @@ public:
     // 0x71003f4648 (placeholder name): the bait `_70` is in range and the player rides a sand seal while the
     // "雷攻撃無効化" child runs.
     bool sub_71003F4648();
+    bool sub_71003F3E44(ksys::act::BaseProcMgr* mgr);
+    void sub_71003F4910(u32 angle);
 
 protected:
     // static_param at offset 0x38

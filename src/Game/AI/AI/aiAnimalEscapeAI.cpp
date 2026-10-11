@@ -158,6 +158,21 @@ bool AnimalEscapeAI::sub_7100306890(sead::Vector3f* out_dir) {
     return true;
 }
 
+// NON_MATCHING: distance argument evaluation and normalized-vector registers differ.
+void AnimalEscapeAI::m36() {
+    sead::Vector3f direction = _108 - *mTargetPos_d;
+    direction.y = 0.0f;
+    direction.normalize();
+    _114.set(0.0f, 0.0f, 0.0f);
+    sub_71007428DC(*mShouldEscapeDistance_s, 10.0f, &_114, mActor->m45(), &direction, 8);
+    if (!_114.isNan()) {
+        direction = _114 - _108;
+        direction.y = 0.0f;
+        direction.normalize();
+    }
+    sub_7100306664(direction);
+}
+
 bool AnimalEscapeAI::m37() {
     return isCurrentChild("逃走前");
 }

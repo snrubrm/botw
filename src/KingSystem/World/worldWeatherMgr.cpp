@@ -14,6 +14,27 @@
 
 namespace ksys::world {
 
+// NON_MATCHING: the camera origin x component stays in a register instead of spilling to the stack.
+sead::Vector3f sub_71010ED450(f32 distance, f32 angle) {
+    const auto* camera = CameraMgr::instance()->getLookAtCamera();
+    if (!camera)
+        return sead::Vector3f::zero;
+    const sead::Vector3f origin = camera->getPos();
+    sead::Vector3f direction = camera->getAt() - origin;
+    const f32 length = direction.length();
+    if (length != 0.0f)
+        direction *= 1.0f / length;
+    else
+        direction.set(1.0f, 0.0f, 0.0f);
+    direction.normalize();
+    if (angle != 0.0f) {
+        const f32 yaw = sead::Mathf::atan2(direction.x, direction.z) - angle;
+        direction.x = sead::Mathf::sin(yaw);
+        direction.z = sead::Mathf::cos(yaw);
+    }
+    return origin + direction * distance;
+}
+
 WeatherMgr::~WeatherMgr() = default;
 
 f32 WeatherMgr::sub_71010ED5B4(const sead::Vector3f& position) {
