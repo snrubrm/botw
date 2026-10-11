@@ -57,6 +57,7 @@ namespace ksys::world {
 
 // TODO
 class ChemicalMgr : public Job, public Unk_710250cac8 {
+    SEAD_RTTI_OVERRIDE(ChemicalMgr, Job)
 public:
     ChemicalMgr();
     ~ChemicalMgr() override;
@@ -68,6 +69,14 @@ public:
     void* m2(void* arg) override;
 
     JobType getType() const override { return JobType::Chemical; }
+
+    void init_(sead::Heap* heap) override;
+    void calc_() override {}
+    void calcType1_() override {}
+    void calcType2_() override {}
+    void m9() override {}
+    void m10() override {}
+    void m11() override {}
 
     void initBeforeStageGen();
     void sub_71010CB39C();
