@@ -2,7 +2,9 @@
 #include "Game/AI/aiUnk_710073033C.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 
 namespace uking::ai {
 
@@ -11,15 +13,78 @@ MoveRemainsElectric::MoveRemainsElectric(const InitArg& arg) : RailMoveRemains(a
 MoveRemainsElectric::~MoveRemainsElectric() = default;
 
 bool MoveRemainsElectric::init_(sead::Heap* heap) {
-    return RailMoveRemains::init_(heap);
+    if (!RailMoveRemains::init_(heap))
+        return false;
+    if (mActor->getName().findIndex("_Far") == -1) {
+        sub_71004B1A00();
+        if (!ksys::gdt::getFlag_Enter_RemainsElectric(false) && *mIsJoinRemainsBattle_m)
+            sub_71004B1C40(heap);
+    }
+    return true;
 }
 
+// NON_MATCHING: the repeated name search retains different SafeString setup.
 void MoveRemainsElectric::enter_(ksys::act::ai::InlineParamPack* params) {
     RailMoveRemains::enter_(params);
+    if (mActor->getName().findIndex("_Far") == -1 && !_318) {
+        _320.sub_7100720AF4();
+        _320._10 = 4;
+        _320._8 = 100;
+        _318 = true;
+    }
+    sub_71004B2288();
+    if (mActor->getName().findIndex("_Far") == -1 &&
+        !ksys::gdt::getFlag_Enter_RemainsElectric(false) && *mIsJoinRemainsBattle_m) {
+        _370.initWithName(mActor, "Demo347_3", "Demo");
+        _370.loadEvent();
+    }
 }
 
 void MoveRemainsElectric::leave_() {
+    for (auto& part : _a8)
+        part.mHandle.fadeXLink();
+    if (_370.mEventFlow)
+        _370.unloadEvent();
     RailMoveRemains::leave_();
+}
+
+// NON_MATCHING: the native branches acquire the actor separately.
+void MoveRemainsElectric::calc_() {
+    sub_71004B2718();
+    const bool moving = isCurrentChild("移動");
+    if (_308.hasProc()) {
+        ksys::act::ActorConstDataAccess actor;
+        ksys::act::acquireActor(&_308, &actor);
+        if (moving) {
+            if (actor.isStateSleep())
+                actor.wakeUp(ksys::act::BaseProc::SleepWakeReason::_0);
+        } else {
+            if (actor.isStateCalc())
+                actor.sleep(ksys::act::BaseProc::SleepWakeReason::_0);
+        }
+    }
+    if (mActor->getName().findIndex("_Far") == -1)
+        _320.sub_7100720B28();
+    if (_370.mEventFlow && _370.mLink._8 && isCurrentChild("一時停止")) {
+        if (_31c > 0.0f)
+            ksys::Timer::update(&_31c, -1.0f);
+        if (_31c <= 0.0f)
+            _370.sendMessageToEventMgrActor(mActor);
+    }
+    RailMoveRemains::calc_();
+}
+
+bool MoveRemainsElectric::m39() {
+    if (mActor->getName().endsWith("_Far") || ksys::gdt::getFlag_Enter_RemainsElectric(false) ||
+        !*mIsJoinRemainsBattle_m || !ksys::gdt::getFlag_Electric_Relic_Battle(false) ||
+        !mActor->m101())
+        return false;
+    for (const auto& part : _a8) {
+        if (part.mLife > 0)
+            return false;
+    }
+    _31c = *mDemoCallWaitTime_s;
+    return true;
 }
 
 void MoveRemainsElectric::loadParams_() {
