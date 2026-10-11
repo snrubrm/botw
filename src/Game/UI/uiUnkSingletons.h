@@ -667,6 +667,28 @@ public:
 };
 static_assert(sizeof(Unk_7102476450) == 0x50);
 
+// Factory 0x95C0A8 allocates 0x58 bytes and initializes the two added indices to -1.
+class Unk_7102476548 : public UiSubsys1Entry {
+    SEAD_RTTI_OVERRIDE(Unk_7102476548, UiSubsys1Entry)
+public:
+    ~Unk_7102476548() override;
+    void m4() override;
+    void m5() override;
+    void m6() override;
+    void m7() override;
+    void m11() override;
+    void m12() override;
+    void m14() override;
+    void m16() override;
+    void m20() override;
+    void m21() override;
+    void updateDistrictFromPos(const sead::Vector3f* pos) override;
+
+    s32 _50;
+    s32 _54;
+};
+static_assert(sizeof(Unk_7102476548) == 0x58);
+
 // Native vtable 2477FC0 has fifteen slots; reset 98C7A4 establishes the 0x30-byte layout.
 class Unk_7102477fc0 {
     SEAD_RTTI_BASE(Unk_7102477fc0)

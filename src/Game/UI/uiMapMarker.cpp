@@ -644,4 +644,27 @@ void Unk_7102476450::m12() {
 }
 
 
+void Unk_7102476548::m4() {
+    _3c &= ~0x777f;
+    m11();
+    m14();
+}
+
+void Unk_7102476548::m5() {
+    UiSubsys1Entry::m13();
+    m16();
+}
+
+void Unk_7102476548::m7() {
+    UiSubsys1Entry::m17();
+}
+
+void Unk_7102476548::m11() {
+    m25(true);
+}
+
+void Unk_7102476548::m21() {
+    sub_710095156C(true);
+}
+
 }  // namespace uking::ui
