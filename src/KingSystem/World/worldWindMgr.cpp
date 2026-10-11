@@ -1,12 +1,22 @@
 #include "KingSystem/World/worldWindMgr.h"
 #include "KingSystem/World/worldManager.h"
 #include <utility/aglPrimitiveTexture.h>
+#include <g3d/aglTextureUtilG3D.h>
+#include <cstring>
 #include <layer/aglRenderer.h>
 #include <layer/aglLayer.h>
 
 namespace ksys::world {
 
 WindMgr::~WindMgr() = default;
+
+void WindMgr::init_(sead::Heap* heap) {
+    _20 = new (heap, 8) Unk_710251F868;
+    _20->sub_71012FEAA8(heap);
+    std::memset(&_98, 0, sizeof(_98));
+    agl::g3d::TextureUtilG3D::convertToResTexture(
+        &_98, agl::utl::PrimitiveTexture::instance()->mSamplers[2]->mTextureData, nullptr);
+}
 
 void WindMgr::sub_71010EEBE4(sead::Vector3f* out, const sead::Vector3f* position) {
     if (!(_28 & 8)) {

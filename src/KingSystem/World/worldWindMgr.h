@@ -14,6 +14,7 @@ namespace ksys::world {
 struct Unk_710251F868 {
     Unk_710251F868();
     virtual ~Unk_710251F868();
+    void sub_71012FEAA8(sead::Heap* heap);
     void sub_71012FEFF0(f32 delta);
     f32 sub_71012FF2B0(f32 strength);
     f32 sub_71012FF268(f32 strength);
