@@ -7,6 +7,8 @@
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "KingSystem/System/Timer.h"
+#include "KingSystem/ActorSystem/actActorWeapons.h"
+#include "KingSystem/Sound/sndUnk_7102502138.h"
 
 namespace uking::action {
 
@@ -88,6 +90,37 @@ void PlayerParashawlGlide::loadParams_() {
 
 void PlayerParashawlGlide::calc_() {
     PlayerGlide::calc_();
+    auto* player = static_cast<ksys::act::Player*>(mActor);
+    if (player->_cf0.isOnBit(23)) {
+        const s32 slot = player->playerWeapons_return1();
+        if (!player->getWeapons()->mWeapons[slot].link.hasProc()) {
+            static_cast<ksys::act::Player*>(mActor)->sub_710088A854();
+            ksys::snd::Unk_7102502138::instance()->sub_710103B428("None", mActor->getXLink());
+            static_cast<ksys::act::Player*>(mActor)->_cf0.reset(0x800000);
+        }
+    }
+    static_cast<ksys::act::Player*>(mActor)->x_34(*mEnergyGlide_s, false);
+    if (mActor->getASList()->x_1(0, 0) == "ParaEquipOn") {
+        static_cast<ksys::act::Player*>(mActor)->_1804 = 0.0f;
+        static_cast<ksys::act::Player*>(mActor)->_1808 = 0.0f;
+        if (mActor->getASList()->x_4(0, 0)) {
+            static_cast<ksys::act::Player*>(mActor)->switchToAnimSequenceMaybe("ParashawlGlide", true,
+                                                                               -1.0f);
+            _1c = true;
+        } else if (!mActor->getASList()->x(2, nullptr, 0, 0,
+                                         &ksys::as::ASList::Unk2::sub_71011638DC, true)) {
+            player = static_cast<ksys::act::Player*>(mActor);
+            player->_20d0 = player->_1770.y;
+            return;
+        }
+    }
+    player = static_cast<ksys::act::Player*>(mActor);
+    if (player->_1844.value <= sead::Mathf::epsilon()) {
+        if (player->x_44())
+            _a0 = true;
+    } else {
+        player->_1844.update();
+    }
 }
 
 bool PlayerParashawlGlide::isChangeable() const {
