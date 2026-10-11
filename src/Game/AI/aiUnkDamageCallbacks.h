@@ -22,6 +22,14 @@ public:
               uking::dmg::DamageCallbackInfo* a6) override;
 };
 
+// vtable 0x7102451900; also embedded in PlayerNormal (82E794).
+class Unk_7102451900 : public uking::dmg::DamageCallback {
+    SEAD_RTTI_OVERRIDE(Unk_7102451900, uking::dmg::DamageCallback)
+public:
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
+              uking::dmg::DamageCallbackInfo* a6) override;
+};
+
 // vtable 0x7102451938
 class Unk_7102451938 : public uking::dmg::DamageCallback {
     SEAD_RTTI_OVERRIDE(Unk_7102451938, uking::dmg::DamageCallback)
@@ -98,6 +106,14 @@ public:
               uking::dmg::DamageCallbackInfo* a6) override;
 
     u32 _24 = 0;
+};
+
+// vtable 0x7102451af8; also embedded in PlayerNormal (82E794).
+class Unk_7102451af8 : public uking::dmg::DamageCallback {
+    SEAD_RTTI_OVERRIDE(Unk_7102451af8, uking::dmg::DamageCallback)
+public:
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
+              uking::dmg::DamageCallbackInfo* a6) override;
 };
 
 // vtable 0x7102451bd8

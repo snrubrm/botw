@@ -1,6 +1,7 @@
 #include "Game/AI/aiUnkDamageCallbacks.h"
 #include "Game/Damage/dmgDamageManager.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
@@ -234,4 +235,30 @@ void Unk_7102451ba0::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
     if (damage_manager && damage_manager->sub_71006D8534() > 0)
         return;
     *a5 = 2;
+}
+
+// 0x71002c802c (defined in actMotorcycleAccessors.cpp)
+bool sub_71002C802C(const ksys::act::ActorConstDataAccess& accessor);
+
+// 0x7100747f84
+void Unk_7102451900::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
+                          uking::dmg::DamageCallbackInfo* a6) {
+    auto* manager = sead::DynamicCast<uking::dmg::DamageManager>(mDamageManager);
+    if (manager && (manager->_8c & 0x20) && *a5 == 3)
+        *a5 = 22;
+}
+
+// 0x7100748ff8
+void Unk_7102451af8::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
+                          uking::dmg::DamageCallbackInfo* a6) {
+    auto* manager = sead::DynamicCast<uking::dmg::DamageManager>(mDamageManager);
+    ksys::act::ActorConstDataAccess attacker;
+    if (manager && manager->getDamageType() == 4 &&
+        ksys::act::acquireActor(manager->getAttacker(), &attacker) && sub_71002C802C(attacker)) {
+        *a1 = 0;
+        *a5 = -1;
+        *a4 = -1;
+        *a2 = 0;
+        *a3 = 0;
+    }
 }
