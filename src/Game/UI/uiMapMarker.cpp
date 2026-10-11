@@ -1,4 +1,5 @@
 #include "Game/UI/uiUnkSingletons.h"
+#include "KingSystem/Quest/qstIndicator.h"
 #include "Game/gameMotorcycleMgr.h"
 #include "Game/gameWolfLinkMgr.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
@@ -7,6 +8,10 @@
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 
 namespace uking::ui {
+
+// Written by the native marker initializer at 0x94F9E4.
+static sead::Vector3f sUnk_71025d6cf4{0.2f, 0.0f, -0.2f};
+static sead::Vector3f sUnk_71025d6d00{2.0f, 0.0f, -2.0f};
 
 // 0x71009504f8
 void UiSubsys1Entry::m4() {
@@ -467,6 +472,31 @@ void Unk_7102476150::m12() {
     bool visible = !ksys::gdt::getFlagGenericBool(_58);
     if (visible != ((_3c & 0x10) != 0))
         m25(visible);
+}
+
+// NON_MATCHING: vector addition uses one selected pointer and paired loads instead of component selections.
+void Unk_7102476150::m14() {
+    if (_50) {
+        auto position = _50->getPosition();
+        if (_50->kind == 1)
+            position += _50->is_remains ? sUnk_71025d6d00 : sUnk_71025d6cf4;
+        updateDistrictFromPos(&position);
+    }
+}
+
+// NON_MATCHING: vector addition uses one selected pointer and paired loads instead of component selections.
+void Unk_7102476150::m16() {
+    if (_50) {
+        auto position = _50->getPosition();
+        if (_50->kind == 1)
+            position += _50->is_remains ? sUnk_71025d6d00 : sUnk_71025d6cf4;
+        updateDistrictFromPos(&position);
+    }
+}
+
+void Unk_7102476150::m29() {
+    if (_50 && _50->off_flag && *_50->off_flag)
+        _58 = ksys::gdt::Manager::instance()->getBoolHandle(_50->off_flag);
 }
 
 }  // namespace uking::ui

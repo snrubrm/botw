@@ -14,6 +14,10 @@
 #include "KingSystem/Utils/Thread/Task.h"
 #include "KingSystem/GameData/gdtFlagHandle.h"
 
+namespace ksys::qst {
+struct IndicatorActor;
+}
+
 namespace ksys::act {
 class Actor;
 }
@@ -600,7 +604,7 @@ public:
     void m21() override;
     virtual void m29();
 
-    void* _50;
+    const ksys::qst::IndicatorActor* _50;
     ksys::gdt::FlagHandle _58;
 };
 static_assert(sizeof(Unk_7102476150) == 0x60);
