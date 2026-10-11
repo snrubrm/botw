@@ -739,6 +739,21 @@ public:
 };
 static_assert(sizeof(Unk_7102478e30) == 0x58);
 
+// Native factory 99CCA0 allocates 0x60 bytes; VT2478C68 has seventeen slots.
+class Unk_7102478c68 : public Unk_71025d9170 {
+    SEAD_RTTI_OVERRIDE(Unk_7102478c68, Unk_71025d9170)
+public:
+    ~Unk_7102478c68() override;
+    void m6(eui::LayoutEx* layout) override;
+    void m8() override;
+    void m11() override;
+
+    nn::ui2d::Pane* _48;
+    nn::ui2d::Pane* _50;
+    eui::Animator* _58;
+};
+static_assert(sizeof(Unk_7102478c68) == 0x60);
+
 class UiSubsys1 {
     // Native singleton forwarders 96828C / 9682B4 / 9682CC read these UI fields directly.
     friend class Unk_71025d6ac0;

@@ -372,4 +372,14 @@ void Unk_7102478e30::m8() {
         _48->Stop(_18->_1c - 37);
 }
 
+Unk_7102478c68::~Unk_7102478c68() = default;
+
+void Unk_7102478c68::m6(eui::LayoutEx* layout) {
+    if (layout) {
+        _48 = layout->mPane->FindPaneByName("N_PlayerRotate_00", true);
+        _50 = layout->mPane->FindPaneByName("P_Light_00", true);
+    }
+    Unk_7102477fc0::m6(layout);
+}
+
 }  // namespace uking::ui
