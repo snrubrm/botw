@@ -612,8 +612,18 @@ static_assert(sizeof(Unk_7102476150) == 0x60);
 
 // Native factory 0x95C0A8 allocates 0x60 bytes and installs all 30 slots.
 class Unk_7102476250 : public UiSubsys1Entry {
-    SEAD_RTTI_OVERRIDE(Unk_7102476250, UiSubsys1Entry)
 public:
+    static const sead::RuntimeTypeInfo::Interface* getRuntimeTypeInfoStatic() {
+        static const sead::RuntimeTypeInfo::Derive<UiSubsys1Entry> typeInfo;
+        return &typeInfo;
+    }
+    static bool checkDerivedRuntimeTypeInfoStatic(
+        const sead::RuntimeTypeInfo::Interface* typeInfo) {
+        return typeInfo == getRuntimeTypeInfoStatic() ||
+               UiSubsys1Entry::checkDerivedRuntimeTypeInfoStatic(typeInfo);
+    }
+    bool checkDerivedRuntimeTypeInfo(const sead::RuntimeTypeInfo::Interface* typeInfo) const override;
+    const sead::RuntimeTypeInfo::Interface* getRuntimeTypeInfo() const override;
     ~Unk_7102476250() override;
     void m11() override;
     void m12() override;
@@ -627,6 +637,43 @@ public:
     ksys::gdt::FlagType _5c;
 };
 static_assert(sizeof(Unk_7102476250) == 0x60);
+
+// Observed prefix of the Manager record used by native 0x956BAC.
+struct Unk_7100956bac {
+    u8 _0[0x28];
+    const char* _28;
+    ksys::gdt::FlagHandle _30;
+};
+
+// Both list loops in factory 0x95C0A8 allocate 0x60 bytes for VT 0x2476350.
+class Unk_7102476350 : public UiSubsys1Entry {
+public:
+    static const sead::RuntimeTypeInfo::Interface* getRuntimeTypeInfoStatic() {
+        static const sead::RuntimeTypeInfo::Derive<UiSubsys1Entry> typeInfo;
+        return &typeInfo;
+    }
+    static bool checkDerivedRuntimeTypeInfoStatic(
+        const sead::RuntimeTypeInfo::Interface* typeInfo) {
+        return typeInfo == getRuntimeTypeInfoStatic() ||
+               UiSubsys1Entry::checkDerivedRuntimeTypeInfoStatic(typeInfo);
+    }
+    bool checkDerivedRuntimeTypeInfo(const sead::RuntimeTypeInfo::Interface* typeInfo) const override;
+    const sead::RuntimeTypeInfo::Interface* getRuntimeTypeInfo() const override;
+    ~Unk_7102476350() override;
+    void m11() override;
+    void m12() override;
+    void m14() override;
+    void m15() override;
+    void m16() override;
+    void m17() override;
+    void m26() override;
+    virtual void m29();
+    bool sub_7100956C34();
+
+    void* _50;
+    Unk_7100956bac* _58;
+};
+static_assert(sizeof(Unk_7102476350) == 0x60);
 
 // Native vtable 2477FC0 has fifteen slots; reset 98C7A4 establishes the 0x30-byte layout.
 class Unk_7102477fc0 {
@@ -977,6 +1024,7 @@ class UiSubsys1 {
     friend struct UiSubsys1Entry;
     // Native 955964/9559D8/955BE4 read the map mode at 0x848 directly.
     friend class Unk_7102475c68;
+    friend class Unk_7102476350;
 public:
     static UiSubsys1* instance() { return sInstance; }
 

@@ -590,4 +590,50 @@ void Unk_7102476250::m29() {
     }
 }
 
+void Unk_7102476350::m29() {
+    auto* record = _58;
+    if (record && record->_28 && *record->_28)
+        record->_30 = ksys::gdt::Manager::instance()->getS32Handle(record->_28);
+}
+
+// NON_MATCHING: the existing mask declaration uses a halfword load; the bool branch precedes virtual-target loads.
+void Unk_7102476350::m11() {
+    if ((_44 == 0xff || (UiSubsys1::instance()->_120 & (1u << _44))) && sub_7100956C34())
+        m25(true);
+    else
+        m25(false);
+}
+
+// NON_MATCHING: the existing mask declaration uses a halfword load; the bool branch precedes virtual-target loads.
+void Unk_7102476350::m12() {
+    if ((_44 == 0xff || (UiSubsys1::instance()->_120 & (1u << _44))) && sub_7100956C34())
+        m25(true);
+    else
+        m25(false);
+}
+
+void Unk_7102476350::m17() {
+    if (!(_3c & 0x10) && UiSubsys1::instance()->_848 == 0)
+        m24(false);
+    UiSubsys1Entry::m17();
+}
+
+bool Unk_7102476250::checkDerivedRuntimeTypeInfo(
+    const sead::RuntimeTypeInfo::Interface* typeInfo) const {
+    return checkDerivedRuntimeTypeInfoStatic(typeInfo);
+}
+
+const sead::RuntimeTypeInfo::Interface* Unk_7102476250::getRuntimeTypeInfo() const {
+    return getRuntimeTypeInfoStatic();
+}
+
+bool Unk_7102476350::checkDerivedRuntimeTypeInfo(
+    const sead::RuntimeTypeInfo::Interface* typeInfo) const {
+    return checkDerivedRuntimeTypeInfoStatic(typeInfo);
+}
+
+const sead::RuntimeTypeInfo::Interface* Unk_7102476350::getRuntimeTypeInfo() const {
+    return getRuntimeTypeInfoStatic();
+}
+
 }  // namespace uking::ui
