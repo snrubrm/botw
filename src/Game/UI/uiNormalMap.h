@@ -33,6 +33,8 @@ static_assert(sizeof(Unk_7102479bd0) == 0x78);
 class Unk_7102479bf0 {
 public:
     virtual ~Unk_7102479bf0();
+    // 0x71009a55a0: advances a completed texture request, or prepares its path for another request.
+    void sub_71009A55A0(u32 level);
 
     /* 0x08 */ s32 mType = -1;
     u8 _c[4];
@@ -45,6 +47,9 @@ public:
     /* 0x98 */ Unk_7102479bb0* mMapEntry = nullptr;
 };
 static_assert(sizeof(Unk_7102479bf0) == 0xa0);
+
+// Native 9A5670 accepts a nullable map entry and writes its texture path.
+void sub_71009A5670(const Unk_7102479bb0* entry, u32 level, sead::BufferedSafeString* path);
 
 // Embedded at ScreenAppMapWidget +0x8f0; its next field starts at +0xb338 (9A863C).
 // Native 9A5930 owns 120 map entries and 240 texture tiles; 9A5BC8 destroys the tiles.
