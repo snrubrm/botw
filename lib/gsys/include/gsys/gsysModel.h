@@ -23,6 +23,7 @@ struct MaterialAccessKey;
 class ModelAnimation;
 class ModelBone;
 class Model;
+class ModelResource;
 
 // Interface of the object at Model +0xd8 (names are placeholders): slot 0 is called before animations are applied
 // to a model, slots 1 / 2 around the world matrix update of the model units, slot 3 after the material parameters
@@ -53,6 +54,28 @@ public:
 // TODO
 class Model : public sead::IDisposer, public sead::hostio::Node {
 public:
+    struct CreateArg {
+        CreateArg();
+
+        // Native BF63F0 passes these two counts to initialize_, then reads
+        // the four individual flags and copies the final word to Model+108.
+        s32 _0;
+        s32 _4;
+        bool _8;
+        bool _9;
+        bool _a;
+        bool _b;
+        u64 _10;
+    };
+    static_assert(sizeof(CreateArg) == 0x18, "Model::CreateArg size");
+
+    static Model* create_(const sead::SafeString& name, const CreateArg& arg, sead::Heap* heap);
+    static Model* postCreateModel_(Model* model, ModelResource* resource, sead::Heap* heap,
+                                  bool success);
+    // Native BF69F8 performs null-safe virtual deletion. The model manager
+    // and effect draw manager independently pass their owned Model pointers.
+    static void sub_7100BF69F8(Model* model);
+
     Model();
     // Native 0x7100bf738c creates and appends a 0x30-byte unit group.
     ModelUnitGroup* createUnitGroup(const ModelUnitGroup::CreateArg& arg, sead::Heap* heap);

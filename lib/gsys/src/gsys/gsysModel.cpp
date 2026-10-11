@@ -11,6 +11,20 @@
 
 namespace gsys {
 
+Model::CreateArg::CreateArg() : _0(64), _4(1), _8(true), _9(true), _a(true), _b(true), _10(0) {}
+
+Model* Model::postCreateModel_(Model* model, ModelResource*, sead::Heap*, bool success) {
+    if (model && !success) {
+        delete model;
+        return nullptr;
+    }
+    return model;
+}
+
+void Model::sub_7100BF69F8(Model* model) {
+    delete model;
+}
+
 ModelUnit* Model::sub_7100BF7114(ModelUnit* unit, bool flag, sead::Heap* heap) {
     sub_7100BF6EBC(unit, flag, heap);
     return unit;
