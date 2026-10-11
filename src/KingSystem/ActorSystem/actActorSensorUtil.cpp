@@ -33,6 +33,10 @@ AttackSensor2::~AttackSensor2() {
 
 }  // namespace ksys::act
 
+bool sub_71007A40A8(Actor* actor) {
+    return actor && actor->m126();
+}
+
 const sead::SafeString* sub_71007A24BC() {
     return &ksys::act::getStr_Atk();
 }

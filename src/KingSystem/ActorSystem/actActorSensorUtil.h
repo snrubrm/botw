@@ -122,6 +122,8 @@ void sub_71007A458C(ksys::act::Actor* actor, bool on);
 bool sub_71007A4064(s32 type);
 
 // --- Unk_7102459df8 (Actor::m126) ---
+// 0x71007a40a8: whether the actor has the ground/contact sensor returned by m126.
+bool sub_71007A40A8(ksys::act::Actor* actor);
 // 0x71007a40d0 (CSV PlayerOrEnemy::x_24)
 ksys::act::Unk_7102459df8::Unk_710079d5a0::Unk1* sub_71007A40D0(ksys::act::Actor* actor, int idx);
 // 0x71007a4178: Unk_7102459df8::sub_710079CEE8() (false when `ignore_creator` and the first contact
