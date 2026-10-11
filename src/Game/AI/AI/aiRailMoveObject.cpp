@@ -8,6 +8,8 @@
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actAttackSensor.h"
 #include "KingSystem/Map/mapRail.h"
+#include "KingSystem/Physics/StaticCompound/physStaticCompoundMgr.h"
+#include "KingSystem/Physics/System/physSystem.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectAttack.h"
@@ -109,6 +111,38 @@ void RailMoveObject::sub_7100533C58() {
         _6c = 0;
         _70 = 1.0f;
     }
+}
+
+// NON_MATCHING: direction branches are reordered and the actor pointer load is scheduled later.
+void RailMoveObject::sub_7100533DB0() {
+    if (!_60)
+        return;
+    auto* actor = mActor;
+    f32 start_progress = 0.0f;
+    if (_74 == 0)
+        start_progress = sead::Mathf::floor(_6c);
+    else if (_74 == 1)
+        start_progress = sead::Mathf::ceil(_6c);
+    const sead::Vector3f start = _60->calcTranslate(start_progress);
+    const f32 distance = (_60->calcTranslate(_70) - start).length();
+    sead::Vector3f position = actor->getMtx().getTranslation();
+    if (actor->getFieldBodyGroup()) {
+        if (auto* mgr = ksys::phys::System::instance()->getStaticCompoundMgr()) {
+            sead::Matrix34f mtx;
+            mtx.makeT(position);
+            position = mgr->getInvTransformedMatrix(actor->getFieldBodyGroup(), mtx).getTranslation();
+        }
+    }
+    const f32 ratio = sead::Mathf::clamp((position - start).length() / distance, 0.0f, 1.0f);
+    switch (_74) {
+    case 0:
+        start_progress += ratio;
+        break;
+    case 1:
+        start_progress -= ratio;
+        break;
+    }
+    _6c = start_progress;
 }
 
 void RailMoveObject::leave_() {
