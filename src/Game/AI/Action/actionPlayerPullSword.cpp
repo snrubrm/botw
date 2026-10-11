@@ -202,7 +202,7 @@ void PlayerPullSword::sub_7100807630() {
     player->_1850.previous_value = time - interval;
 }
 
-// NON_MATCHING: stack records and delegate setup use different allocation and store order.
+// NON_MATCHING: stack/delegate setup differs and the separate-TU helper destructor remains a call.
 void PlayerPullSword::sub_71008077FC() {
     auto* mgr = ksys::act::BaseProcMgr::instance();
     if (!mgr)
