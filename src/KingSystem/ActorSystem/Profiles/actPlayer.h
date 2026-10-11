@@ -328,6 +328,8 @@ public:
     Unk1 sub_71008569B8();                                                         // 0x85ed1c
     // 0x8679fc: takes an angle index (the stack temporary is at sp+8: a struct in the original).
     void x_53(const Unk1& angle);
+    // 0x7100867dec: applies a rotation in unsigned angle-index units. Declaration only.
+    void sub_7100867DEC(const sead::Vector3<u32>& rotation);
     // 0x7100867fe0: applies a relative Y rotation in angle-index units.
     // PlayerSitStart and PlayerDoorPushOpen pass the difference from x_5().
     void sub_7100867FE0(const Unk1& angle);

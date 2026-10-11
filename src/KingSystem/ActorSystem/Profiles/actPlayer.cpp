@@ -1080,6 +1080,11 @@ f32 Player::sub_7100867D68() {
     return sead::Mathf::atan2(dir.x, dir.z);
 }
 
+void Player::sub_7100867FE0(const Unk1& angle) {
+    const sead::Vector3<u32> rotation(0, angle.value, 0);
+    sub_7100867DEC(rotation);
+}
+
 void Player::sub_7100857390() {
     Unk1 target = ::sub_710092DBA4();
     sub_7100857014(-1.0f, &target, -1, -1);
