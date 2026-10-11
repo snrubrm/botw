@@ -396,4 +396,6 @@ void Unk_7102478d00::m13() {
 
 Unk_7102479050::~Unk_7102479050() = default;
 
+Unk_71024790e8::~Unk_71024790e8() = default;
+
 }  // namespace uking::ui
