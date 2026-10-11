@@ -88,6 +88,7 @@ target_sources(uking PRIVATE
   uiPouchFacade.cpp
   uiScreenBoxCursorTV.cpp
   uiScreenDemoMessage.cpp
+  uiScreenErrorViewer.cpp
   uiScreenCtors.cpp
   uiScreenDLCNum.cpp
   uiScreenDtors.cpp
