@@ -49,6 +49,17 @@ public:
     };
     KSYS_CHECK_SIZE_NX150(Unk3, 0x2000);
 
+    // Complete 12B77A8 produces this record; 12B78BC releases it.
+    // The tagged heap word is opaque until its native helpers are established.
+    struct Allocation {
+        void* mData;
+        u32 _8;
+        u64 mTaggedHeap;
+        s32 mSize;
+    };
+    KSYS_CHECK_SIZE_NX150(Allocation, 0x20);
+    void x_21(Allocation* allocation);
+
     void destroy();
     void incrementCompactionCount();
     bool setBuffer(void* buffer, size_t size);

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/Utils/Thread/ManagedTaskHandle.h"
+#include "KingSystem/Resource/resCompactedHeap.h"
 #include <prim/seadBitFlag.h>
 #include <prim/seadSafeString.h>
 #include <prim/seadStringBuilder.h>
@@ -74,6 +75,13 @@ public:
         CompactedHeap* heap = nullptr;
     };
     KSYS_CHECK_SIZE_NX150(TransferArg, 0x18);
+    // Complete FE5754 produces this pair for release FE0C40.
+    struct UnloadArg {
+        CompactedHeap* heap;
+        CompactedHeap* mipHeap;
+    };
+    KSYS_CHECK_SIZE_NX150(UnloadArg, 0x10);
+    void sub_7100FE0C40(const UnloadArg& arg);
     void sub_7100FE09EC(bool* success, const TransferArg& arg);
     bool sub_7100FE0C38(const LoadArg& arg);
     bool sub_7100FE0584(const LoadArg& arg);
@@ -102,12 +110,9 @@ public:
     u16 _1a;
     u8 _1c[4];
     util::Event mEvent;
-    // FE0144 clears this allocation pointer; FE0348 passes its record to CompactedHeap.
-    void* _60;
-    u8 _68[0x78 - 0x68];
-    // Native FE10C0 sign-extends this stored word when the allocation exists.
-    s32 _78;
-    u8 _7c[0xa0 - 0x7c];
+    // Complete FE0144 constructs both 0x20-byte allocation records.
+    CompactedHeap::Allocation mAllocation;
+    CompactedHeap::Allocation mMipAllocation;
     // FE0144 initializes offset 8; FE0D38/FE0D98 insert and erase texture handles.
     sead::OffsetList<Unk_71024F9D48> mHandles;
     sead::CriticalSection mCS;

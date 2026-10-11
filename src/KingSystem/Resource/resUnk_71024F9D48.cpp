@@ -102,12 +102,31 @@ bool Unk_71024f9a08::sub_7100FE0860(const LoadArg& arg) {
     return true;
 }
 
+// NON_MATCHING: heap arguments reload at their uses and final byte stores reverse order.
+void Unk_71024f9a08::sub_7100FE0C40(const UnloadArg& arg) {
+    mFlags.setBit(3);
+    if (mTaskHandle.hasTask()) {
+        mTaskHandle.removeTaskFromQueue();
+        mTaskHandle.finalize();
+    }
+    if (mFlags.isOnBit(5)) {
+        sub_7100FDDBD4(sub_7100FDDC24(&_1f8));
+        mFlags.resetBit(5);
+    }
+    if (mMipAllocation.mData)
+        arg.mipHeap->x_21(&mMipAllocation);
+    if (mAllocation.mData)
+        arg.heap->x_21(&mAllocation);
+    mFlags.reset(0x88);
+    mStatus = 0;
+}
+
 bool Unk_71024f9a08::sub_7100FE0CF8() const {
     return mStatus >= 6 && mStatus <= 8;
 }
 
 bool Unk_71024f9a08::sub_7100FE0D0C() const {
-    return _60 != nullptr;
+    return mAllocation.mData != nullptr;
 }
 
 bool Unk_71024f9a08::sub_7100FE0D1C() const {
@@ -138,7 +157,7 @@ sead::SafeString Unk_71024f9a08::sub_7100FE10A8() const {
 }
 
 s64 Unk_71024f9a08::sub_7100FE10C0() const {
-    return _60 ? _78 : 0;
+    return mAllocation.mData ? mAllocation.mSize : 0;
 }
 
 void Unk_71024f9a08::sub_7100FE10D8() {

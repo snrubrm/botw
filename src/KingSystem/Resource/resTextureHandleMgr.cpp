@@ -536,6 +536,22 @@ bool TextureHandleMgr::invoked6(void* user_data) {
     return true;
 }
 
+// NON_MATCHING: the heap counter and argument fields reload separately.
+// The existing TreeMapImpl erase / eraseMin instantiations at FE6970 / FE6CE8
+// also retain an extra comparison and differ in the recursive result-store schedule.
+void TextureHandleMgr::x(Unk_71024f9a08* resource) {
+    mCS.lock();
+    mResourceMap.erase(resource->mNode.key());
+    mResources.erase(resource);
+    mCS.unlock();
+    mHeapCounter->incrementRef();
+    const Unk_71024f9a08::UnloadArg arg{mTextureHeap, static_cast<CompactedHeap*>(mHeapCounter->getData())};
+    resource->sub_7100FE0C40(arg);
+    mHeapCounter->decrementRef();
+    if (!mFreeResources.isFull())
+        mFreeResources.emplaceBack(resource);
+}
+
 bool TextureHandleMgr::invoked2(void*) {
     mCS.lock();
     stubbedLogFunction();

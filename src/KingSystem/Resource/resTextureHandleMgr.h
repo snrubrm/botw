@@ -3,6 +3,7 @@
 #include <basis/seadTypes.h>
 #include <container/seadOffsetList.h>
 #include <container/seadObjList.h>
+#include <container/seadTreeMap.h>
 #include <prim/seadBitFlag.h>
 #include <prim/seadDelegate.h>
 #include <time/seadTickTime.h>
@@ -41,7 +42,9 @@ KSYS_CHECK_SIZE_NX150(Unk_71024f9b08, 0x20);
 
 class ArchiveWork;
 class Counter;
+class CompactedHeap;
 class Unk_71024f9a08;
+class Unk_71024f9a50;
 class Unk_71024F9D48;
 
 // TODO: very incomplete
@@ -89,12 +92,11 @@ public:
     bool invoked2(void* data);
     bool invoked4(void* data);
     // Complete FE5754 removes this resource from the manager and frees its allocations.
-    // Declared only until the compacted-heap allocation record is established.
     void x(Unk_71024f9a08* resource);
     bool invoked5(void*);
     bool invoked6(void* data);
     // Complete FE6134 and independent FE3760 establish this native helper.
-    // Declared only: its resource tree and eviction lists remain unresolved.
+    // Declared only: its resource loading dependencies remain unresolved.
     bool x_0(nn::g3d::ResFile* file, bool tex1, Unk_71024f9a08** resource);
     void invoked7(util::TaskPostRunResult* result, const util::TaskPostRunContext& context);
     void repairExecute(util::TaskPostRunResult* result, const util::TaskPostRunContext& context);
@@ -125,7 +127,8 @@ private:
     u8 _a[2];
     // Native FE2534 zeroes +C; FE54C0 increments it modulo the signed maximum.
     s32 mGeneration;
-    u8 _10[0x28 - 0x10];
+    u8 _10[0x20 - 0x10];
+    CompactedHeap* mTextureHeap;
     Counter* mHeapCounter;
     util::Task* _30;
     u8 _38[0x48 - 0x38];
@@ -142,7 +145,8 @@ private:
     sead::ObjList<Unk_71024f9a08*> mPendingRemoval;
     // FE2534 sets the node offset to 8; FE3004 inserts texture resources here.
     sead::OffsetList<Unk_71024f9a08> mResources;
-    u8 _130[0x158 - 0x130];
+    sead::TreeMapImpl<Unk_71024f9a50> mResourceMap;
+    u8 _138[0x158 - 0x138];
     sead::Delegate1R<TextureHandleMgr, void*, bool> _158{nullptr, nullptr};
     // Complete FE2890 initializes this task delegate for FE3004; FE59AC uses it.
     sead::Delegate1R<TextureHandleMgr, void*, bool> _178{nullptr, nullptr};
