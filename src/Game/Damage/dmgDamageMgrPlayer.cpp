@@ -121,4 +121,3 @@ void Unk_710246ac48::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
     if (attack && attack->sub_71007A1F68(0x4000))
         *a1 = 0;
 }
-
