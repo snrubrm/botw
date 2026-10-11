@@ -680,6 +680,7 @@ public:
     void sub_71011FC17C(UiSoundKind kind, s32 bit);
     // 0x71011fb5ac (CSV Sound::calc2; declaration only): called by MCMgr::invoked4.
     void sub_71011FB5AC();
+    bool calc();
     void sub_71011FBDA8();
     sead::Thread* sub_71011FC348();
     void sub_71011FC394(sead::Thread* thread);
