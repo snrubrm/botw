@@ -39,6 +39,8 @@ public:
     s32 sub_7100D72534() const;
     // 0x7100d721c0: declaration-only attention update operation.
     void sub_7100D721C0();
+    // D729FC: distance and facing weight relative to the supplied actor accessor.
+    f32 sub_7100D729FC(const ActorConstDataAccess& accessor) const;
     // 0x7100d72178 (CSV AttClient::x_3; declaration only): copies the matrix data of the resource client (reads the
     // Attention singleton) into `_48..` and runs AttClient::checkM4.
     void sub_7100D72178();
@@ -69,7 +71,8 @@ private:
     Actor* mActor = nullptr;
     res::AttClientList::Client* mClient = nullptr;
     int _10 = 3;
-    int _14 = 0;
+    // D721C0 stores the float result of D729FC; D74920 compares it as a float.
+    f32 _14 = 0.0f;
     f32 _18 = 0.0;
     f32 _1c = 1.0;
     f32 _20 = 0.0f;

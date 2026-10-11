@@ -1,5 +1,6 @@
 #include "KingSystem/ActorSystem/Attention/actAttClient.h"
 #include <gfx/seadCamera.h>
+#include <cmath>
 #include <math/seadMathCalcCommon.h>
 #include <random/seadGlobalRandom.h>
 #include "KingSystem/ActorSystem/Attention/actAttentionSingleton.h"
@@ -164,6 +165,33 @@ bool AttClient::sub_7100D72554(BaseProc* proc, const res::AttCheck_Unk1* arg, bo
         return mClient->client->check(mActor, accessor, _38, _48, arg, a3, false) == -1;
     }
     }
+}
+
+}  // namespace ksys::act
+
+namespace ksys::act {
+
+// NON_MATCHING: facing sign selection and interpolation field-load scheduling.
+f32 AttClient::sub_7100D729FC(const ActorConstDataAccess& accessor) const {
+    if (!mClient || !mClient->client || !mActor)
+        return -1.0f;
+
+    sead::Vector3f diff = mActor->getPreviousPos() - accessor.getPreviousPos();
+    const f32 distance_weight = std::exp2(-diff.length());
+    const sead::Vector3f forward = accessor.getActorMtx().getBase(2);
+    sead::Vector3f facing = forward;
+    if (forward.x == 0.0f && forward.z == 0.0f) {
+        facing = accessor.getActorMtx().getBase(1);
+        if (forward.y > 0.0f)
+            facing = -facing;
+    }
+    facing.y = 0.0f;
+    diff.y = 0.0f;
+    const f32 dot = diff.dot(facing);
+    const sead::Vector3f cross = facing.cross(diff);
+    const f32 angle = std::atan2(cross.length(), dot);
+    return sead::lerp(_18, _1c,
+                            distance_weight * ((std::cos(angle) + 1.0f) * 0.5f * 0.9f + 0.1f));
 }
 
 }  // namespace ksys::act
