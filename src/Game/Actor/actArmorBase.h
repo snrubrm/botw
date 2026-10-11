@@ -85,12 +85,14 @@ public:
     // 0x7100e2b948 / 0x7100e2b094 / 0x7100e2b3d0 (lane1 s41, declaration only; placeholder names): whether the armor is
     // bound to its owner; the bind position offset / rotation offset (ItemConductor's "PosOffset" / "RotOffsetXyz").
     bool sub_7100E2B948();
-    void sub_7100E2B094(sead::Vector3f* out);
-    void sub_7100E2B3D0(sead::Vector3f* out);
+    bool sub_7100E2B094(sead::Vector3f* out);
+    bool sub_7100E2B3D0(sead::Vector3f* out);
     const sead::SafeString& sub_7100E2AEF4();
     const sead::SafeString& sub_7100E2AFC4();
     bool sub_7100E2B718(sead::Vector3f* out);
     bool sub_7100E2B820(sead::Vector3f* out);
+    bool sub_7100E2B1DC(sead::Vector3f* out);
+    bool sub_7100E2B524(sead::Vector3f* out);
 
     // 0x7100e29b8c: whether one of the gdt flags "Guide_Attack", "Guide_Bow" and "Guide_Shield" is set.
     static bool sub_7100E29B8C();

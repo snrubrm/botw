@@ -93,13 +93,104 @@ bool ArmorBase::sub_7100E2B820(sead::Vector3f* out) {
         if (const auto* params = getParam()->getRes().mGParamList) {
             if (const auto* stone = params->getShiekerStone()) {
                 *out = stone->mRotOffsetWithHand.ref();
-            *out *= sead::Mathf::deg2rad(1.0f);
+                *out *= sead::Mathf::deg2rad(1.0f);
                 return true;
             }
         }
     } else {
         *out = sead::Vector3f::zero;
     }
+    return false;
+}
+
+// NON_MATCHING: return-value setup is scheduled after the vector stores.
+bool ArmorBase::sub_7100E2B094(sead::Vector3f* out) {
+    if (getProfile() == "ArmorExtra2") {
+        if (const auto* params = getParam()->getRes().mGParamList) {
+            if (const auto* stone = params->getShiekerStone()) {
+                *out = stone->mTransOffsetWithWaist.ref();
+                sead::Vector3f offset;
+                sub_7100E2B1DC(&offset);
+                *out += offset;
+                return true;
+            }
+        }
+    } else {
+        *out = sead::Vector3f::zero;
+    }
+    return false;
+}
+
+// NON_MATCHING: return-value setup is scheduled after the vector stores.
+bool ArmorBase::sub_7100E2B3D0(sead::Vector3f* out) {
+    if (getProfile() == "ArmorExtra2") {
+        if (const auto* params = getParam()->getRes().mGParamList) {
+            if (const auto* stone = params->getShiekerStone()) {
+                *out = stone->mRotOffsetWithWaist.ref();
+                sead::Vector3f offset;
+                sub_7100E2B524(&offset);
+                *out += offset;
+                    *out *= sead::Mathf::deg2rad(1.0f);
+                return true;
+            }
+        }
+    } else {
+        *out = sead::Vector3f::zero;
+    }
+    return false;
+}
+
+bool ArmorBase::sub_7100E2B1DC(sead::Vector3f* out) {
+    if (getProfile() != "ArmorExtra2") {
+        *out = sead::Vector3f::zero;
+        return false;
+    }
+    ksys::act::ActorConstDataAccess accessor;
+    if (auto* owner = getOwner()) {
+        if (auto* armors = owner->getArmors()) {
+            ksys::act::acquireActor(&armors->getPartsLink(1), &accessor);
+            if (accessor.hasProc()) {
+                const sead::Vector3f* offset = &sead::Vector3f::zero;
+                auto* upper = static_cast<Actor*>(accessor.getProc());
+                if (sead::IsDerivedFrom<Actor>(upper)) {
+                    if (const auto* params = upper->getParam()->getRes().mGParamList) {
+                        if (const auto* object = params->getArmorUpper())
+                            offset = &object->mShiekerStoneTransOffset.ref();
+                    }
+                }
+                *out = *offset;
+                return true;
+            }
+        }
+    }
+    *out = sead::Vector3f::zero;
+    return false;
+}
+
+bool ArmorBase::sub_7100E2B524(sead::Vector3f* out) {
+    if (getProfile() != "ArmorExtra2") {
+        *out = sead::Vector3f::zero;
+        return false;
+    }
+    ksys::act::ActorConstDataAccess accessor;
+    if (auto* owner = getOwner()) {
+        if (auto* armors = owner->getArmors()) {
+            ksys::act::acquireActor(&armors->getPartsLink(1), &accessor);
+            if (accessor.hasProc()) {
+                const sead::Vector3f* offset = &sead::Vector3f::zero;
+                auto* upper = static_cast<Actor*>(accessor.getProc());
+                if (sead::IsDerivedFrom<Actor>(upper)) {
+                    if (const auto* params = upper->getParam()->getRes().mGParamList) {
+                        if (const auto* object = params->getArmorUpper())
+                            offset = &object->mShiekerStoneRotOffset.ref();
+                    }
+                }
+                *out = *offset;
+                return true;
+            }
+        }
+    }
+    *out = sead::Vector3f::zero;
     return false;
 }
 
