@@ -1,7 +1,12 @@
 #include "KingSystem/ActorSystem/actUnk_7102459df8.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actPhysicsUserTag.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/System/physContactPointInfo.h"
+#include "KingSystem/Physics/System/physSystem.h"
+#include <math/seadMathCalcCommon.h>
 
 namespace ksys::act {
 
@@ -137,6 +142,53 @@ void Unk_710245a0e0::m2(Actor* actor) {
     const phys::MaterialMask material1(2u);
     mEntries[0].sub_710079F508(controller->sub_7100F5F134(), controller->sub_7100F5F140(),
                              nullptr, material1, material2);
+}
+
+}  // namespace ksys::act
+
+namespace ksys::act {
+
+// The initialized word at 0x7102459fd0 is the contact-layer selection mask.
+u32 sUnk_7102459fd0 = 0x1504;
+
+// NON_MATCHING: global mask address and load scheduling.
+bool sub_710079F598(phys::RigidBody* body) {
+    if (!body || body->getContactLayer() > phys::ContactLayer::EntityForbidden30)
+        return false;
+    return (sUnk_7102459fd0 & (1 << body->getContactLayer())) != 0;
+}
+
+}  // namespace ksys::act
+
+namespace ksys::act {
+
+// NON_MATCHING: the layer helper and record setter inline in this translation unit.
+void Unk_710245a0b8::m2(Actor* actor) {
+    auto* body = actor->getMainBody();
+    if (!body)
+        return;
+    auto* contacts = body->getContactPointInfo();
+    auto it = contacts->begin();
+    const auto end = contacts->end();
+    for (; it != end; ++it) {
+        if (!sub_710079F598(it.getPoint()->body_b))
+            continue;
+        sead::Vector3f normal = -it.getPoint()->separating_normal;
+        if (phys::System::instance())
+            phys::System::instance()->getField48().length();
+        auto* tag = sead::DynamicCast<PhysicsUserTag>(it.getPoint()->body_b->getUserTag());
+        ActorConstDataAccess accessor;
+        if (tag)
+            tag->acquireActor(&accessor);
+        if (sead::Mathf::abs(sead::Mathf::acos(sead::Mathf::clamp(normal.y, -1.0f, 1.0f))) >=
+            sead::Mathf::deg2rad(70.0f)) {
+            mEntries[mNum].sub_710079F508(
+                it.getPointPosition(phys::ContactPointInfo::Iterator::Point::BodyA), normal,
+                &accessor, it.getPoint()->material_mask_b, it.getPoint()->material_mask_a);
+            if (mNum++ >= 7)
+                break;
+        }
+    }
 }
 
 }  // namespace ksys::act
