@@ -1,5 +1,6 @@
 #pragma once
 
+#include <container/seadPtrArray.h>
 #include <math/seadVector.h>
 
 #include <prim/seadSafeString.h>
@@ -24,6 +25,8 @@ public:
     // 0x7100d48744 (a stub that tail-calls 0x7100d48254): finds a rail by its unique name
     // (inlined string compare against Rail::getUniqueName; null when there is none). Used by RailMove::enter_.
     Rail* sub_7100D48744(const sead::SafeString& unique_name);
+    Rail* sub_7100D48748(s32 cell_idx, u32 rail_type_hash, const u32& hash_id);
+    Rail* sub_7100D487BC(s32 cell_idx, u32 rail_type_hash, const u32& hash_id);
     RailConnectablePoint* sub_7100D488A0(const sead::Vector3f* pos, s32 x, s32 z);
     Rail* sub_7100D48DE0(const sead::SafeString& name, const sead::Vector3f* pos);
     RailConnectablePoint* sub_7100D49000(const sead::Vector3f* pos,
@@ -38,8 +41,8 @@ public:
 
 private:
     void* _0;
-    void* _8;
-    void* _10;
+    sead::PtrArray<sead::PtrArray<Rail>>* _8;
+    sead::PtrArray<sead::PtrArray<Rail>>* _10;
 };
 KSYS_CHECK_SIZE_NX150(Placement18, 0x18);
 
