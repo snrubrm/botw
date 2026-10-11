@@ -853,6 +853,34 @@ bool TextureHandleMgr::invoked3(void* user_data) {
     return true;
 }
 
+bool TextureHandleMgr::doCalc() {
+    if (mTextureHeap->getState() == 3) {
+        const s32 available = mTextureHeap->_5dbc;
+        if (available >= 0 && available < 15 * 1024 * 1024) {
+            u64 free_size = available;
+            mCS.lock();
+            while (!mPendingRemoval.isEmpty()) {
+                auto* resource = mPendingRemoval.popFront();
+                if (!resource)
+                    break;
+                free_size += resource->sub_7100FE10C0();
+                x(resource);
+                if (free_size >= 15 * 1024 * 1024)
+                    break;
+            }
+            mCS.unlock();
+        }
+    }
+    s32 count = 0;
+    if (mFlags.isOffBit(0)) {
+        mFlags2.resetBit(2);
+    } else if (_98.diffToNow().toSeconds() >= 2) {
+        _98.setNow();
+        x_1(&count);
+    }
+    return true;
+}
+
 // NON_MATCHING: status-query inlining and resource-list loop induction differ.
 void TextureHandleMgr::x_1(s32* count) {
     mCS.lock();

@@ -85251,7 +85251,7 @@ Address,Quality,Size,Name
 0x0000007100fe26e4,U,000392,TextureHandleMgr::dtor
 0x0000007100fe286c,U,000036,TextureHandleMgr::dtorDelete
 0x0000007100fe2890,U,001432,TextureHandleMgr::init
-0x0000007100fe2e28,U,000304,TextureHandleMgr::doCalc
+0x0000007100fe2e28,O,000304,_ZN4ksys3res16TextureHandleMgr6doCalcEv
 0x0000007100fe2f58,O,000172,_ZN4ksys3res16TextureHandleMgr8invoked2EPv
 0x0000007100fe3004,m,001572,_ZN4ksys3res16TextureHandleMgr8invoked3EPv
 0x0000007100fe3628,m,000312,_ZN4ksys3res16TextureHandleMgr8invoked4EPv

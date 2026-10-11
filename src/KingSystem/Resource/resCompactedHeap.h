@@ -78,6 +78,8 @@ public:
 
 private:
     friend class ::DungeonPackMgr;
+    // Complete FE2E28 reads the signed free-size field directly.
+    friend class TextureHandleMgr;
     virtual ~CompactedHeap();
 
     u8 _8[0x5c90 - 0x8];
@@ -93,7 +95,8 @@ private:
     sead::CriticalSection _5d38;
     sead::CriticalSection _5d78;
     u32 _5db8;
-    u32 _5dbc;
+    // FE2E28 sign-extends this; complete 12B7448 adds each released block size.
+    s32 _5dbc;
     sead::SafeString _5dc0;
 };
 KSYS_CHECK_SIZE_NX150(CompactedHeap, 0x5dd0);

@@ -86,6 +86,7 @@ public:
     KSYS_CHECK_SIZE_NX150(ValidateArg, 0x50);
     bool validateUser(const ValidateArg& arg);
 
+    bool doCalc();
     void preCalc();
     void calc();
 
