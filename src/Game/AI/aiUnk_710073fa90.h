@@ -31,6 +31,9 @@ bool sub_7100741164(sead::Matrix33f* mtx, const sead::Matrix33f& target,
 bool sub_710074169C(sead::Matrix33f* mtx, const sead::Matrix33f& target,
                     const sead::Vector3f& axis, f32 angle, f32 a);
 
+// Rotates the up direction toward target by a VFR-scaled step and rebuilds the basis.
+bool sub_7100740884(sead::Matrix33f* mtx, const sead::Vector3f& target, f32 step);
+
 void sub_7100740DC4(sead::Matrix33f* mtx, const sead::Vector3f& up);
 
 // --- Group A ---

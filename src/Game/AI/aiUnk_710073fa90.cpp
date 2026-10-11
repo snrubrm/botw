@@ -1,5 +1,6 @@
 #include "Game/AI/aiUnk_710073fa90.h"
 #include "KingSystem/Utils/MathUtil.h"
+#include "KingSystem/System/VFR.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
@@ -204,4 +205,14 @@ void sub_7100741B0C(const sead::Matrix33f& mtx, ksys::act::Actor* actor) {
         sub_71007419F4(mtx, controller);
     else if (auto* body = actor->getMainBody())
         sub_7100741A7C(mtx, body);
+}
+
+bool sub_7100740884(sead::Matrix33f* mtx, const sead::Vector3f& target, f32 step) {
+    sead::Vector3f up;
+    mtx->getBase(up, 1);
+    const bool reached = ksys::util::sub_71011EECAC(
+        &up, up, target, step * ksys::VFR::instance()->getDeltaFrame());
+    const sead::Vector3f forward = mtx->getBase(2);
+    ksys::util::sub_71011EFE58(mtx, forward, up, false);
+    return reached;
 }

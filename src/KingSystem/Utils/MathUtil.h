@@ -65,6 +65,14 @@ inline sead::Vector3f getCol(const sead::Matrix34f& mtx, int col) {
 // 0x71011ef010: rotates `vec` around the Y axis by `angle` (radians).
 void sub_71011EF010(sead::Vector3f* vec, float angle);
 
+// 0x71011ee4c0: magnitude of an angle-index difference within a half turn.
+s64 sub_71011EE4C0(s64 difference);
+
+// 0x71011eecac: rotates from toward target by at most step and reports completion.
+// Declaration only.
+bool sub_71011EECAC(sead::Vector3f* out, const sead::Vector3f& from,
+                   const sead::Vector3f& target, f32 step);
+
 // 0x71011ee6fc: interpolation with a full-turn maximum and zero minimum step.
 bool sub_71011EE6FC(sead::Vector3f* a, sead::Vector3f* b, f32 ratio);
 // 0x71011ee70c: interpolates the first vector toward the second and reports completion.

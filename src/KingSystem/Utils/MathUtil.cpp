@@ -1,6 +1,12 @@
 #include "KingSystem/Utils/MathUtil.h"
+#include <cstdlib>
 
 namespace ksys::util {
+
+s64 sub_71011EE4C0(s64 difference) {
+    const s64 magnitude = std::abs(difference);
+    return magnitude > 0x80000000LL ? 0x100000000LL - magnitude : magnitude;
+}
 
 bool sub_71011EE6FC(sead::Vector3f* a, sead::Vector3f* b, f32 ratio) {
     return sub_71011EE70C(a, b, ratio, sead::Mathf::pi2(), 0.0f);
