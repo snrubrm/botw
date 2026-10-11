@@ -8,6 +8,10 @@ namespace ksys::act {
 
 Unk_71024ef620::~Unk_71024ef620() = default;
 
+void sub_7100EBA4AC(Unk_71024ef620* body) {
+    delete body;
+}
+
 void Unk_71024ef620::sub_7100EBB518() {
     _60.reset(1);
     if (_8) {

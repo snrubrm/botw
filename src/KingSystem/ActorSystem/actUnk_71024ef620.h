@@ -25,9 +25,11 @@ class Actor;
 // PlayerShieldRideMove and GerudoQueenBattle.
 // TODO: incomplete (only the functions the actions use are decompiled).
 class Unk_71024ef620 {
-    SEAD_RTTI_BASE(Unk_71024ef620)
 public:
     virtual ~Unk_71024ef620();
+
+    SEAD_RTTI_BASE(Unk_71024ef620)
+public:
 
     // 0x7100ebb518: stops the surfing (the rope the player holds goes to sleep and the body is removed from
     // the world; the character controller goes back to its default motion type).
