@@ -1,19 +1,71 @@
 #include "Game/UI/uiStateMachineWrapper.h"
+#include "Game/UI/uiScreenChildMessage.h"
+#include "KingSystem/Utils/Thread/MessageBroker.h"
 
 namespace uking::ui {
+
+// NON_MATCHING: the receiver and state cleanup remain out-of-line.
+Unk_7102474a28::~Unk_7102474a28() {
+    deregisterReceiver(mAdapter);
+}
+
+bool Unk_7102474a28::sendMessage(const ksys::MesTransceiverId& dest,
+                                const ksys::MessageType& type, void* user_data, bool ack) {
+    const bool sent = getDispatcher()->sendMessage(*mAdapter.MessageReceiver::getId(), dest,
+                                                   type, user_data, ack, false);
+    if (sent)
+        mAdapter.setFlag(ack);
+    return sent;
+}
+
+bool Unk_7102474a28::sendMessageOnProcessingThread(const ksys::MesTransceiverId& dest,
+                                                  const ksys::MessageType& type,
+                                                  void* user_data, bool ack) {
+    const bool sent = getDispatcher()->sendMessageOnProcessingThread(
+        *mAdapter.MessageReceiver::getId(), dest, type, user_data, ack, false);
+    if (sent)
+        mAdapter.setFlag(ack);
+    return sent;
+}
+
+bool Unk_7102474a28::sendMessage(ksys::IMessageBroker& broker,
+                                const ksys::MessageType& type, void* user_data, bool ack) {
+    const bool sent = getDispatcher()->sendMessage(*mAdapter.MessageReceiver::getId(),
+                                                   *getRegister(broker), type, user_data, ack, false);
+    if (sent) {
+        int count = broker.countTransceivers();
+        if (count > 0) {
+            do {
+                mAdapter.setFlag(ack);
+            } while (--count);
+        }
+    }
+    return sent;
+}
+
+bool Unk_7102474a28::sendMessageOnProcessingThread(ksys::IMessageBroker& broker,
+                                                  const ksys::MessageType& type,
+                                                  void* user_data, bool ack) {
+    const bool sent = getDispatcher()->sendMessageOnProcessingThread(
+        *mAdapter.MessageReceiver::getId(), *getRegister(broker), type, user_data, ack, false);
+    if (sent) {
+        int count = broker.countTransceivers();
+        if (count > 0) {
+            do {
+                mAdapter.setFlag(ack);
+            } while (--count);
+        }
+    }
+    return sent;
+}
+
+ksys::MessageReceiverEx* Unk_7102474a28::getReceiver() { return &mAdapter; }
+
 
 // NON_MATCHING: the natural destructor schedules its final argument before the virtual load.
 Unk_7102474a70::~Unk_7102474a70() {
     mMachine._0->m3(&mMachine.mPrevious);
     mMachine._0->m3(&mMachine.mCurrent);
-}
-
-void Unk_7102474a70::replaceState() {
-    if (mMachine.mNextState) {
-        mMachine.mCurrent = mMachine._0->setState(mMachine.mNextState);
-        mMachine.mCurrent->enter();
-        mMachine.mNextState = nullptr;
-    }
 }
 
 void Unk_7102474a70::changeStateFast(const ksys::StateBase* state) {

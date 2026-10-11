@@ -1,5 +1,6 @@
 target_sources(uking PRIVATE
   uiStateMachineWrapper.cpp
+  uiScreenChildMessage.h
   uiStateMachineWrapper.h
   euiAnimButton.cpp
   euiAlignPane.cpp
@@ -180,6 +181,7 @@ target_sources(uking PRIVATE
   uiScreens.h
   uiShopFacade.cpp
   uiShopItemElement.cpp
+  uiShopItemElementChildren.h
   uiShopSmall.cpp
   uiShopTagHelpers.cpp
   uiScreenSmall.cpp

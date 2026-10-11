@@ -7,7 +7,10 @@ namespace uking {
 class StateMachineWrapper;
 }
 
-namespace uking::ui { class Unk_7102474a70; }
+namespace uking::ui {
+class Unk_7102474a70;
+class Unk_71025098d0;
+}
 
 namespace ksys {
 
@@ -114,6 +117,7 @@ public:
 private:
     friend class ::uking::StateMachineWrapper;
     friend class ::uking::ui::Unk_7102474a70;
+    friend class ::uking::ui::Unk_71025098d0;
 
     Unk1* _0;
     const StateBase* mNextState = nullptr;

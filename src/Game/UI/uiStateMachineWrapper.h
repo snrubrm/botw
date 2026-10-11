@@ -9,7 +9,14 @@ namespace uking::ui {
 class Unk_7102474a70 {
 public:
     virtual ~Unk_7102474a70();
-    virtual void replaceState();
+    // The native receiver message path also inlines this state transition.
+    virtual void replaceState() {
+        if (mMachine.mNextState) {
+            mMachine.mCurrent = mMachine._0->setState(mMachine.mNextState);
+            mMachine.mCurrent->enter();
+            mMachine.mNextState = nullptr;
+        }
+    }
     virtual void changeStateFast(const ksys::StateBase* state);
     virtual void run();
     virtual void leaveState();
@@ -21,7 +28,7 @@ public:
     virtual bool reenter(void* arg);
     virtual bool exec5(void* arg);
     virtual void exec6(void* arg);
-private:
+protected:
     u64 _8[0x28 / sizeof(u64)];
     ksys::StateMachine mMachine;
 };

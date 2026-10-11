@@ -1,5 +1,6 @@
 #include "Game/UI/uiScreens.h"
 #include "Game/UI/euiLayoutEx.h"
+#include "Game/UI/uiScreenChildMessage.h"
 
 // Default implementations of ScreenChild's virtual slots (0x7100931dd8 - 0x71009321c8, ...): empty or
 // forwarding to another slot of the same object.
@@ -325,5 +326,28 @@ void ScreenChild::m103(void* a1, void* a2) { m93(a1, a2); }
 
 // 0x71009321c8
 void ScreenChild::m104(void* a1, void* a2) { m94(a1, a2); }
+
+
+// NON_MATCHING: the state wrapper destructor remains out-of-line.
+Unk_71025098d0::~Unk_71025098d0() = default;
+
+
+void Unk_71025098d0::run() { mMachine.run(); }
+
+// NON_MATCHING: the bool state callback result requires conversion to the receiver's int result.
+int Unk_71025098d0::receive(const ksys::Message& message) {
+    if (!mMachine.mCurrent)
+        Unk_7102474a70::replaceState();
+    if (mMachine.mCurrent && mMachine.mCurrent->reenter(const_cast<ksys::Message*>(&message)))
+        return 1;
+    if (mMachine.mCurrent)
+        return mMachine.mCurrent->exec5(const_cast<ksys::Message*>(&message));
+    return 0;
+}
+
+void Unk_71025098d0::receive(const ksys::MessageAck& ack) {
+    if (mMachine.mCurrent)
+        mMachine.mCurrent->exec6(const_cast<ksys::MessageAck*>(&ack));
+}
 
 }  // namespace uking::ui
