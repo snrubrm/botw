@@ -3,6 +3,8 @@
 #include "Game/AI/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/Utils/MathUtil.h"
 
 namespace uking::action {
 
@@ -52,6 +54,31 @@ void SwimNoticeTurn::calc_() {
     }
     if (isFinishedAS(0, 0))
         setFinished();
+}
+
+// NON_MATCHING: gravity normalization scheduling, registers and stack layout.
+void SwimNoticeTurn::sub_710028AFE0(ksys::act::Actor* actor, f32 value) {
+    sead::Vector3f up;
+    sub_710072DC50(&up, actor);
+    up = -up;
+    const f32 length = up.normalize();
+    if (length < sead::Mathf::epsilon())
+        up = sead::Vector3f::ey;
+
+    sead::Vector3f target = *mTargetPos_d;
+    target -= actor->getMtx().getTranslation();
+    ksys::util::sub_71011EFA00(&target, target, up);
+    target.normalize();
+
+    sead::Vector3f forward = actor->getMtx().getBase(2);
+    ksys::util::sub_71011EFA00(&forward, forward, up);
+    forward.normalize();
+
+    sead::Vector3f axis;
+    f32 angle;
+    ksys::util::sub_71011EEB08(&axis, &angle, forward, target, sead::Vector3f::ey);
+    angle = angle * 1.05f / value;
+    ksys::act::sub_7100EE5A14(actor, angle * axis);
 }
 
 }  // namespace uking::action
