@@ -495,6 +495,78 @@ void TextureHandleMgr::invoked9(const util::TaskRemoveCallbackContext& context) 
 }
 
 // NON_MATCHING: resource reloads around the diagnostic string arguments differ.
+// NON_MATCHING: typed hash-key lifetime and structured retry / eviction change code layout.
+bool TextureHandleMgr::x_0(nn::g3d::ResFile* file, bool tex1, Unk_71024f9a08** resource) {
+    const s32 texture_count = agl::g3d::ResFile::GetTextureCount(file);
+    if (texture_count == 0) {
+        stubbedLogFunction();
+        return false;
+    }
+    mCS.lock();
+    bool matched = false;
+    for (s32 i = 0; i < texture_count; ++i) {
+        const u32 hash = sead::HashCRC32::calcStringHash(agl::g3d::ResFile::GetTextureName(file, i));
+        mCS.lock();
+        Unk_71024f9a50 key;
+        key.mHash = hash;
+        auto* node = mResourceMap.find(key);
+        auto* found = node ? node->key().mOwner : nullptr;
+        mCS.unlock();
+        matched |= found == *resource;
+        if (!found || !found->sub_7100FE0ED0())
+            continue;
+        auto* counter = mHeapCounter;
+        counter->incrementRef();
+        Unk_71024f9a08::LoadArg arg;
+        // Native FE6134 sets only byte 0; FE0C38 does not read bytes 1 / 2.
+        arg._0 = tex1;
+        arg.device = nullptr;
+        arg.mipHeap = static_cast<CompactedHeap*>(counter->getData());
+        arg.texture = agl::g3d::ResFile::GetTexture(file, i);
+        arg.heap = mTextureHeap;
+        bool changed = false;
+        s32 removed = 0;
+        while (found->sub_7100FE0ED0() && found->sub_7100FE0C38(arg)) {
+            if (!found->sub_7100FE0ED0()) {
+                changed = true;
+                continue;
+            }
+            mCS.lock();
+            auto* pending = mPendingRemoval.popFront();
+            if (!pending) {
+                mCS.unlock();
+                break;
+            }
+            if (pending == *resource) {
+                pending->sub_7100FE0EC8();
+                pending->sub_7100FE0850();
+                stubbedLogFunction();
+            } else if (pending == found) {
+                stubbedLogFunction();
+            }
+            x(pending);
+            if (pending == *resource) {
+                *resource = nullptr;
+                mHeapCounter->decrementRef();
+                mCS.unlock();
+                mCS.unlock();
+                return true;
+            }
+            mCS.unlock();
+            if (pending == found)
+                break;
+            ++removed;
+        }
+        if (removed > 0)
+            stubbedLogFunction();
+        mHeapCounter->decrementRef();
+        if (changed)
+            found->sub_7100FE0ED0();
+    }
+    mCS.unlock();
+    return matched;
+}
+
 bool TextureHandleMgr::invoked6(void* user_data) {
     auto* data = sead::DynamicCast<::Unk_71024f9e28>(static_cast<util::TaskData*>(user_data));
     if (!data)

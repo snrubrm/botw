@@ -96,7 +96,6 @@ public:
     bool invoked5(void*);
     bool invoked6(void* data);
     // Complete FE6134 and independent FE3760 establish this native helper.
-    // Declared only: its resource loading dependencies remain unresolved.
     bool x_0(nn::g3d::ResFile* file, bool tex1, Unk_71024f9a08** resource);
     void invoked7(util::TaskPostRunResult* result, const util::TaskPostRunContext& context);
     void repairExecute(util::TaskPostRunResult* result, const util::TaskPostRunContext& context);
