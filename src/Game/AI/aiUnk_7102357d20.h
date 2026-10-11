@@ -611,6 +611,48 @@ public:
     Unk_71023e7bc0_Payload _18;
 };
 
+// vtable 0x71023e7b98 (Unk_710038ffb8 + 0x300); message 0x80000a3.
+class Unk_71023e7b98 : public Unk_7102357d20 {
+public:
+    Unk_71023e7b98(ksys::act::Actor* actor, u32 type) : Unk_7102357d20(actor, type) {
+        sead::ScopedLock<sead::JobQueueLock> lock(&_18.mLock);
+        _18.mLink.acquire(actor, false);
+    }
+    ~Unk_71023e7b98() override;
+    void* m2() override { return &_18; }
+
+    Unk_71023799b0_Payload _18;
+};
+KSYS_CHECK_SIZE_NX150(Unk_71023e7b98, 0x30);
+
+// vtable 0x71023e7be8 (Unk_710038ffb8 + 0x1d0); message 0x800009f.
+class Unk_71023e7be8 : public Unk_7102357d20 {
+public:
+    Unk_71023e7be8(ksys::act::Actor* actor, u32 type) : Unk_7102357d20(actor, type) {
+        sead::ScopedLock<sead::JobQueueLock> lock(&_18.mLock);
+        _18.mLink.acquire(actor, false);
+    }
+    ~Unk_71023e7be8() override;
+    void* m2() override { return &_18; }
+
+    Unk_7102379b00_Payload _18;
+};
+KSYS_CHECK_SIZE_NX150(Unk_71023e7be8, 0x30);
+
+// vtable 0x71023e7c10 (Unk_710038ffb8 + 0x150); message 0x80000a0.
+class Unk_71023e7c10 : public Unk_7102357d20 {
+public:
+    Unk_71023e7c10(ksys::act::Actor* actor, u32 type) : Unk_7102357d20(actor, type) {
+        sead::ScopedLock<sead::JobQueueLock> lock(&_18.mLock);
+        _18.mLink.acquire(actor, false);
+    }
+    ~Unk_71023e7c10() override;
+    void* m2() override { return &_18; }
+
+    Unk_7102379b30_Payload _18;
+};
+KSYS_CHECK_SIZE_NX150(Unk_71023e7c10, 0x30);
+
 // vtable 0x7102368740 (functions in the AssassinBossIronBallAppear TU, 0x71000aa480..); message
 // 0x8000037
 class Unk_7102368740 : public Unk_7102357d20 {
