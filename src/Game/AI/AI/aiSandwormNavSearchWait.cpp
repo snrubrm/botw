@@ -18,6 +18,39 @@ void SandwormNavSearchWait::enter_(ksys::act::ai::InlineParamPack* params) {
     changeChild("見まわす");
 }
 
+// 0x710055b120
+// NON_MATCHING: XZ distance register allocation differs.
+void SandwormNavSearchWait::calc_() {
+    if (isFinished() || isFailed())
+        return;
+    auto* child = getCurrentChild();
+    if (!child->isFinished() && !child->isFailed()) {
+        child->isChangeable();
+        return;
+    }
+    if (isCurrentChild("見まわす")) {
+        sub_710055B34C();
+        return;
+    }
+    if (child->isFinished()) {
+        setFinished();
+        return;
+    }
+    sead::Matrix34f mtx = mActor->getMtx();
+    sead::Vector3f pos = *mTargetPos_d;
+    if (auto* sandworm = sead::DynamicCast<act::Sandworm>(mActor)) {
+        if (mActor->getMtx().m[1][3] + 5.0f > sandworm->_1644.y) {
+            const f32 dx = mActor->getMtx().m[0][3] - sandworm->_1644.x;
+            const f32 dz = mActor->getMtx().m[2][3] - sandworm->_1644.z;
+            if (std::sqrt(dx * dx + dz * dz) > 1.0f)
+                pos.set(sandworm->_1644);
+        }
+    }
+    mtx.setTranslation(pos);
+    mActor->setMtx(mtx, false, true);
+    setFailed();
+}
+
 void SandwormNavSearchWait::leave_() {
     ksys::act::ai::Ai::leave_();
 }
