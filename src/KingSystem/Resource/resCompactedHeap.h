@@ -54,6 +54,8 @@ public:
     struct Allocation {
         // Complete 12B8C7C clears tag bit 0 under the owning heap lock; declaration only.
         void sub_71012B8C7C();
+        // Complete 12B8C10 sets tag bit 0 and returns true; declaration only.
+        bool sub_71012B8C10();
         void* mData;
         u32 _8;
         u64 mTaggedHeap;

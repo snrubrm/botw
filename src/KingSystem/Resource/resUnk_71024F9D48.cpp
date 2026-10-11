@@ -5,8 +5,17 @@
 #include "KingSystem/Resource/resSystem.h"
 #include <thread/seadAtomic.h>
 #include <codec/seadHashCRC32.h>
+#include <thread/seadThread.h>
 
 namespace ksys::res {
+
+// Complete FE126C produces the 20-byte native settings; FE04D0 reads only the span.
+struct Unk_710260E880 {
+    u8 _0[0x18];
+    sead::TickSpan sleep;
+};
+KSYS_CHECK_SIZE_NX150(Unk_710260E880, 0x20);
+extern Unk_710260E880 sUnk_710260E880;
 
 Unk_71024f9a08::~Unk_71024f9a08() = default;
 
@@ -101,6 +110,22 @@ bool Unk_71024f9a08::sub_7100FE0C38(const LoadArg& arg) {
     return true;
 }
 
+
+// NON_MATCHING: structured event and allocation wait loops differ.
+void Unk_71024f9a08::sub_7100FE04D0() {
+    if (!mEvent.wait(sead::TickSpan::makeFromSeconds(10)))
+        return;
+    // Full FE04D0 tests allocation +10 bit 0; complete 12B8C10 sets that same bit.
+    // The tagged heap address remains opaque and is never decoded here.
+    if (mAllocation.mData && (mAllocation.mTaggedHeap & 1) == 0) {
+        while (!mAllocation.sub_71012B8C10())
+            sead::Thread::sleep(sUnk_710260E880.sleep);
+    }
+    if (mMipAllocation.mData) {
+        while (!mMipAllocation.sub_71012B8C10())
+            sead::Thread::sleep(sUnk_710260E880.sleep);
+    }
+}
 
 // NON_MATCHING: structured dummy-texture handling and heap argument reloads change layout.
 bool Unk_71024f9a08::sub_7100FE0584(const LoadArg& arg) {
@@ -212,6 +237,26 @@ void Unk_71024f9a08::sub_7100FE0C40(const UnloadArg& arg) {
         arg.heap->x_21(&mAllocation);
     mFlags.reset(0x88);
     mStatus = 0;
+}
+
+// NON_MATCHING: final status byte stores and handle-list loop induction differ.
+void Unk_71024f9a08::sub_7100FE10EC(CompactedHeap* heap) {
+    stubbedLogFunction();
+    mFlags.setBit(3);
+    if (mMipAllocation.mData)
+        heap->x_21(&mMipAllocation);
+    mFlags.resetBit(3);
+    if (mStatus == 4) {
+        mStatus = 3;
+        _159 = 3;
+    } else if (mStatus == 8) {
+        mStatus = 7;
+        _159 = 2;
+    }
+    mCS.lock();
+    for (auto* handle = mHandles.front(); handle; handle = mHandles.next(handle))
+        handle->sub_7100FE84D4();
+    mCS.unlock();
 }
 
 bool Unk_71024f9a08::sub_7100FE0CF8() const {

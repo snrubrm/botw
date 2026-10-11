@@ -84,7 +84,7 @@ public:
     void sub_7100FE0C40(const UnloadArg& arg);
     bool sub_7100FE0348(const sead::SafeString& path, bool reset,
                           CompactedHeap* mipHeap, CompactedHeap* heap);
-    // Complete FE04D0 waits for the event and allocation records; declared only.
+    // Complete FE04D0 waits for the event and allocation records.
     void sub_7100FE04D0();
     void sub_7100FE09EC(bool* success, const TransferArg& arg);
     bool sub_7100FE0C38(const LoadArg& arg);
