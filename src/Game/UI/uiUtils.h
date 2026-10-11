@@ -492,6 +492,7 @@ void sub_7100A9F27C(bool a1);
 bool sub_7100A9EBEC();
 bool sub_7100A9A3F8();
 bool sub_7100A94AC8();
+void sub_7100A94C74(bool a, bool b);
 bool sub_7100A94E08();
 bool sub_7100A990BC();
 void sub_7100A9E5F8(s32 category);
