@@ -759,6 +759,42 @@ void Unk_7102476640::m21() {
         sub_710095156C(false);
 }
 
+// NON_MATCHING: direct search removes the native nullable-find guard.
+void Unk_7102476640::m24(bool enabled) {
+    m28(enabled);
+    if ((_3c & 3) == 3) {
+        auto& list = UiSubsys1::instance()->_5d8;
+        for (auto& entry : list) {
+            if (entry == this) {
+                list.erase(&entry);
+                break;
+            }
+        }
+        UiSubsys1::instance()->sub_7100958134(this);
+    }
+}
+
+// NON_MATCHING: iterator traversal keeps object-pointer adjustments outside the native node loop.
+bool UiSubsys1::sub_7100958134(Unk_7102476640* entry) {
+    if (!entry || _5d8.isFull())
+        return false;
+    auto* item = _5d8.emplaceBack(nullptr);
+    if (!item)
+        return false;
+    *item = entry;
+    for (auto it = _5d8.begin(); it != _5d8.end(); ++it) {
+        auto next = it;
+        ++next;
+        while (next != _5d8.end()) {
+            auto current = next;
+            ++next;
+            if (*current == *it)
+                _5d8.erase(&*current);
+        }
+    }
+    return true;
+}
+
 // NON_MATCHING: direct search removes nullable-find guards and merges the native insertion paths.
 void Unk_7102476640::m25(bool enabled) {
     m27(enabled);

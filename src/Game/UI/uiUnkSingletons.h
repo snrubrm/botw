@@ -1119,6 +1119,7 @@ public:
     bool sub_7100956C10(u32 index) const;
     Unk_7102476640** sub_71009580A4(Unk_7102476640* key);
     bool sub_71009580E4(Unk_7102476640** entry);
+    bool sub_7100958134(Unk_7102476640* entry);
     bool sub_7100958D18() const;
     // 0x710096023c (CSV uiSubsys1::__auto3; placeholder name): ends the timer at 0x6f0 and clears the flag at 0x6ec
     void sub_710096023C();
