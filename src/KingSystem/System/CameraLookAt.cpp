@@ -1,5 +1,6 @@
 #include "KingSystem/System/CameraS1.h"
 #include "KingSystem/System/CameraMgr.h"
+#include <geom/seadFrustum.h>
 
 namespace ksys {
 
@@ -30,6 +31,44 @@ Unk_71024dd110::~Unk_71024dd110() {
 
 void Unk_71024dd110::sub_7100D8B364(bool active) {
     _68.changeBit(0, active);
+}
+
+bool Unk_71024dd110::sub_7100D8AFCC(const sead::Vector3f& pos) {
+    return sub_7100D8B080(pos, _6c, _70);
+}
+
+bool Unk_71024dd110::sub_7100D8B080(const sead::Vector3f& pos, f32 near_clip,
+                                  f32 far_clip) const {
+    if (_74 >= sead::Mathf::pi())
+        return false;
+    const f32 aspect = CameraMgr::instance()->sub_7100D8C4E8()->getAspect();
+    sead::Frustum frustum;
+    frustum.set(getMatrix(), _74, aspect, near_clip, far_clip);
+    return frustum.isInside(pos, 0.0f, frustum.getNear(), frustum.getFar());
+}
+
+bool Unk_71024dd110::sub_7100D8B138(const sead::Vector3f& pos, f32 radius,
+                                  f32 near_clip, f32 far_clip) const {
+    if (_74 >= sead::Mathf::pi())
+        return false;
+    const f32 aspect = CameraMgr::instance()->sub_7100D8C4E8()->getAspect();
+    sead::Frustum frustum;
+    frustum.set(getMatrix(), _74, aspect, near_clip, far_clip);
+    return frustum.isInside(pos, radius, frustum.getNear(), frustum.getFar());
+}
+
+bool Unk_71024dd110::sub_7100D8B1F4(const sead::Vector3f& pos, f32 radius) const {
+    return sub_7100D8B138(pos, radius, _6c, _70);
+}
+
+// NON_MATCHING: the camera clip fields load after the aspect query and frustum construction.
+bool Unk_71024dd110::sub_7100D8B2AC(const sead::Vector3f& pos, f32 radius) const {
+    if (_74 >= sead::Mathf::pi())
+        return false;
+    const f32 aspect = CameraMgr::instance()->sub_7100D8C4F0()->getAspect();
+    sead::Frustum frustum;
+    frustum.set(getMatrix(), _74, aspect, _6c, _70);
+    return frustum.isInside(pos, radius, frustum.getNear(), frustum.getFar());
 }
 
 void Unk_71024dd110::sub_7100D8B380(s32 id, s32 index) {
