@@ -31,6 +31,8 @@ public:
     // room shape `_1f0`.
     void sub_7100336B84(xlink2::HandleSLink* handle);
     // Native calc helpers change the room bodies and send rotation commands.
+    void sub_71003355E8();
+    void sub_7100335710();
     void sub_7100335B74();
     void sub_7100335C38();
     void sub_7100335DA8();
@@ -82,7 +84,7 @@ protected:
     ksys::MesTransceiverId _1b8;
     f32 _1d0 = 0;
     s32 _1d4 = 0;
-    u32 _1d8 = 0;
+    s32 _1d8 = 0;
     ksys::phys::RigidBody* _1e0 = nullptr;
     ksys::phys::RigidBody* _1e8 = nullptr;
     aal::ShapeCylinder* _1f0 = nullptr;

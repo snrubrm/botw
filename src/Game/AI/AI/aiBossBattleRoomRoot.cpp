@@ -2,6 +2,7 @@
 #include <aal/aalHandle.h>
 #include <aal/aalSoundSource.h>
 #include <container/seadPtrArray.h>
+#include <random/seadGlobalRandom.h>
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
@@ -21,6 +22,28 @@ void BossBattleRoomRoot::sub_710033519C(const sead::Vector2f& direction) {
     ksys::gdt::setFlag_FinalTrial_BossField_Rotate(true, false);
     _188 = direction;
     sub_710033529C();
+    _1d0 = 0.0f;
+    _208 = true;
+    auto handle = ksys::eft::searchAndEmitSLink(mActor, "Start", false);
+    sub_7100336B84(&handle);
+}
+
+// NON_MATCHING: SEAD_ENUM temporary stack slots differ.
+void BossBattleRoomRoot::sub_71003355E8() {
+    if (_1e8->getMotionType() != ksys::phys::MotionType::Keyframed)
+        _1e8->changeMotionType(ksys::phys::MotionType::Keyframed);
+    if (_1e0->getMotionType() != ksys::phys::MotionType::Keyframed)
+        _1e0->changeMotionType(ksys::phys::MotionType::Keyframed);
+    if (_1d4 == 0) {
+        _1e0->getTransform(&_e0);
+        _1d8 = (sead::GlobalRandom::instance()->getU32() & 2) - 1;
+    }
+    _1e0->getTransform(&_80);
+    sub_7100335710();
+    _1b4.setBit(Flag(Flag::_2));
+    _1b4.setBit(Flag(Flag::_4));
+    _1b4.resetBit(Flag(Flag::_3));
+    _1b4.resetBit(Flag(Flag::_5));
     _1d0 = 0.0f;
     _208 = true;
     auto handle = ksys::eft::searchAndEmitSLink(mActor, "Start", false);
