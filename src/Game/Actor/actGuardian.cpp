@@ -191,3 +191,14 @@ bool Guardian::sub_71000370B4() const {
 }
 
 }  // namespace uking::act
+
+// NON_MATCHING: the first cast initializes RTTI before the null guard and selects its result.
+uking::act::Guardian* sub_710003B738(const ksys::act::ActorConstDataAccess& accessor) {
+    auto* actor = sead::DynamicCast<ksys::act::Actor>(accessor.getProc());
+    return sead::DynamicCast<uking::act::Guardian>(actor);
+}
+
+u32 sub_710003B71C(const ksys::act::ActorConstDataAccess& accessor) {
+    auto* guardian = sub_710003B738(accessor);
+    return guardian ? guardian->_14d8 : 0;
+}

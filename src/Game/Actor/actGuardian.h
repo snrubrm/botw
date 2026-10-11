@@ -226,3 +226,7 @@ public:
 KSYS_CHECK_SIZE_NX150(Guardian, 0x1950);
 
 }  // namespace uking::act
+
+// Source owner unknown. Guardian accessor wrappers in the native Guardian family.
+uking::act::Guardian* sub_710003B738(const ksys::act::ActorConstDataAccess& accessor);
+u32 sub_710003B71C(const ksys::act::ActorConstDataAccess& accessor);
