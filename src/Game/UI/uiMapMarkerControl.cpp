@@ -4,6 +4,9 @@
 #include "Game/UI/euiMessageString.h"
 #include "Game/UI/euiMassDrawPane.h"
 #include "Game/UI/uiUtils.h"
+#include "Game/gameHorseMgr.h"
+#include "Game/Actor/actHorseBase.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include <nn/ui2d/Pane.h>
 
 namespace uking::ui {
@@ -309,6 +312,23 @@ Unk_7102478d98::~Unk_7102478d98() = default;
 // NON_MATCHING: native spills an enum conversion; the entry kind is still declared as an integer.
 s32 Unk_7102478d98::m14() const {
     return _18->_1c - 27;
+}
+
+Unk_7102478a18::~Unk_7102478a18() {
+    _48 = nullptr;
+}
+
+// NON_MATCHING: the animator receiver loads before the predicate call, and frame selection uses conditional selects.
+void Unk_7102478a18::m11() {
+    Unk_7102477fc0::m11();
+    if (!_18 || !(_18->_3c & 1) || !HorseMgr::instance())
+        return;
+    auto& link = HorseMgr::instance()->mOwnedHorse;
+    if (!link.hasProc())
+        return;
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(&link, &accessor);
+    _48->Stop(uking::act::sub_7100E6ED04(accessor) ? 1.0f : 0.0f);
 }
 
 }  // namespace uking::ui
