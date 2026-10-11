@@ -386,6 +386,16 @@ Unk_7102478d00::~Unk_7102478d00() {
     _48 = nullptr;
 }
 
+void Unk_7102478d00::m12() {
+    if (_18 && ((_18->_3c & 0x41) == 0x40 || (_18->_3c & 5) == 4)) {
+        if (auto* entry = sead::DynamicCast<Unk_7102476640>(_18)) {
+            if (auto* item = UiSubsys1::instance()->sub_71009580A4(entry))
+                UiSubsys1::instance()->sub_71009580E4(item);
+        }
+        _18->m22();
+    }
+}
+
 void Unk_7102478d00::m13() {
     if (_18 && _8) {
         auto* pane = _8->mPane;
