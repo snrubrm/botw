@@ -5,6 +5,7 @@
 #include <prim/seadBitFlag.h>
 #include <prim/seadDelegate.h>
 #include <time/seadTickTime.h>
+#include <thread/seadCriticalSection.h>
 #include "KingSystem/Resource/resResource.h"
 
 namespace nn::gfx {
@@ -78,6 +79,7 @@ public:
     // inline-only in the original; name is a guess. FE848C and FE84D4 repeat this read.
     s32 getGeneration() const { return mGeneration; }
     void repairAllHandlesForSync();
+    bool invoked5(void*);
     void clearAllCache();
     void sub_7100FE60B0(bool on);
     void sub_7100FE60DC(bool on);
@@ -107,7 +109,9 @@ private:
     u8 _38[0x48 - 0x38];
     util::TaskMgr* _48;
     util::TaskThread* _50;
-    u8 _58[0xa0 - 0x58];
+    // Complete FE2534 constructs this lock; FE4318 holds it during repair.
+    sead::CriticalSection mCS;
+    sead::TickTime _98;
     sead::TickTime mTickTime;
     u8 _a8[0x118 - 0xa8];
     // FE2534 sets the node offset to 8; FE3004 inserts texture resources here.

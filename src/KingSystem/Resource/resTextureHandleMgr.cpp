@@ -374,6 +374,23 @@ bool TextureHandleMgr::invalidateUser(const InvalidateArg& arg) {
     return false;
 }
 
+bool TextureHandleMgr::invoked5(void*) {
+    mCS.lock();
+    if (mResources.begin() != mResources.end()) {
+        s32 count = 0;
+        for (auto& resource : mResources) {
+            if (resource.sub_7100FE0ED0()) {
+                resource.sub_7100FE0E64();
+                ++count;
+            }
+        }
+        if (count > 0)
+            stubbedLogFunction();
+    }
+    mCS.unlock();
+    return true;
+}
+
 // NON_MATCHING: request initialization stores are scheduled differently.
 void TextureHandleMgr::repairAllHandlesForSync() {
     Unk_71024f9bb8 request;

@@ -22,6 +22,24 @@ void Unk_71024f9a28::erase_() {
     mRight = nullptr;
 }
 
+// NON_MATCHING: clang lowers the native jump table to bit tests.
+bool Unk_71024f9a08::sub_7100FE0ED0() const {
+    switch (mStatus) {
+    case 0:
+    case 1:
+        return false;
+    case 3:
+    case 6:
+    case 7:
+        if (!mFlags.isOnBit(1))
+            return true;
+        break;
+    case 5:
+        return true;
+    }
+    return mStatus == 2;
+}
+
 bool Unk_71024f9a08::sub_7100FE0F38() const {
     return mFlags.isOn(1);
 }
