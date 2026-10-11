@@ -53,7 +53,6 @@ void DamageInfoMgr::Unk28::sub_710065CF08(ksys::act::Actor* actor) {
     }
 }
 
-// NON_MATCHING: adjacent zero and actor-ID stores are coalesced with a shifted -1 constant.
 DamageInfoMgr::Unk450::Unk450() = default;
 DamageInfoMgr::Unk450::~Unk450() = default;
 
@@ -61,7 +60,7 @@ DamageInfoMgr::Unk450::~Unk450() = default;
 void DamageInfoMgr::Unk450::sub_710065D0A8() {
     for (auto& entry : mEntries) {
         entry.mLink.reset();
-        entry._10 = 0.0f;
+        entry._10 = 0;
         entry._14 = 0;
         entry.mActorId = -1;
         entry._1c = 0;
@@ -70,6 +69,42 @@ void DamageInfoMgr::Unk450::sub_710065D0A8() {
         entry._25 = false;
         entry.mRemove = false;
     }
+}
+
+// NON_MATCHING: selected-slot bounds checks and index registers differ after the unrolled search.
+void DamageInfoMgr::Unk450::sub_710065D428(ksys::act::Actor* actor, const s32& value) {
+    sead::ScopedLock<sead::JobQueueLock> lock(&mLock);
+    s32 index = -1;
+    s32 free_index = -1;
+    for (s32 i = 0; i < 4; ++i) {
+        auto& entry = mEntries[i];
+        if (entry.mLink.hasProcById(actor)) {
+            index = i;
+            break;
+        }
+        if (free_index < 0 && !entry.mLink.hasProc())
+            free_index = i;
+    }
+    if (index >= 0) {
+        mEntries[index].mRemove = false;
+    } else if (free_index >= 0) {
+        index = free_index;
+        auto& entry = mEntries[index];
+        entry.mLink.reset();
+        entry._10 = 0;
+        entry._14 = 0;
+        entry.mActorId = -1;
+        entry._1c = 0;
+        entry._20 = 0;
+        entry._24 = false;
+        entry._25 = false;
+        entry.mRemove = false;
+        entry.mLink.acquire(actor, false);
+        entry._10 = value;
+        entry.mActorId = actor->getId();
+    }
+    if (index >= 0)
+        mEntries[index]._20 = ++_a4;
 }
 
 void DamageInfoMgr::Unk450::sub_710065D5D4(ksys::act::Actor* actor) {

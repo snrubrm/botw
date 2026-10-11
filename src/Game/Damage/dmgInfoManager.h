@@ -160,7 +160,7 @@ public:
         struct Entry {
             Entry() { mLink.reset(); }
             ksys::act::BaseProcLink mLink;
-            f32 _10 = 0.0f;
+            s32 _10 = 0;  // BGM selection ID (BossBgm registration and 0x710065d138).
             s32 _14 = 0;
             s32 mActorId = -1;
             s32 _1c = 0;
