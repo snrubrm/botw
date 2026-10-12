@@ -97,12 +97,12 @@ bool RuneMgr::sub_710067525C() const {
 }
 
 bool RuneMgr::__auto15(int idx) {
-    s64 i = (u32)idx < 2 ? idx : 0;
+    s64 i = u32(idx) < 2 ? idx : 0;
     return !_3c8[i].isDone();
 }
 
 f32 RuneMgr::sub_710067582C(int idx) const {
-    s64 i = (u32)idx < 2 ? idx : 0;
+    s64 i = u32(idx) < 2 ? idx : 0;
     return _3c8[i].getProgress();
 }
 

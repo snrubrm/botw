@@ -91,11 +91,11 @@ void LynelRecognizeTarget::enter_(ksys::act::ai::InlineParamPack* params) {
     }
     if (actor->getActorFlags2().isOn(ksys::act::Actor::ActorFlag2::_2000000)) {
         sub_71004963F8(1);
-        if ((f32)_f0 >= (f32)*mObserveEndPoint_s)
+        if (static_cast<f32>(_f0) >= static_cast<f32>(*mObserveEndPoint_s))
             sub_7100496564();
     } else if (actor->getActorFlags2().isOn(ksys::act::Actor::ActorFlag2::_1000000)) {
         sub_71004963F8(1);
-        if ((f32)_f0 >= (f32)*mAttensionStartPoint_s)
+        if (static_cast<f32>(_f0) >= static_cast<f32>(*mAttensionStartPoint_s))
             changeToAlert();
         else
             changeToObserve();
@@ -126,7 +126,7 @@ bool LynelRecognizeTarget::sub_7100496EE4() {
     if (!isCurrentChild("観察") && !isCurrentChild("警戒")) {
         if (!isCurrentChild("帰還"))
             return false;
-    } else if (_100.mValue >= (f32)*mTiredTime_s) {
+    } else if (_100.mValue >= static_cast<f32>(*mTiredTime_s)) {
         // Reached the tired threshold: skip the 帰還 check below.
     } else if (!isCurrentChild("帰還")) {
         return false;
@@ -292,11 +292,11 @@ void LynelRecognizeTarget::calc_() {
             return;
         }
         if (isCurrentChild("気づき")) {
-            if ((f32)_f0 >= (f32)*mObserveEndPoint_s) {
+            if (static_cast<f32>(_f0) >= static_cast<f32>(*mObserveEndPoint_s)) {
                 changeToStartBattle();
                 return;
             }
-            if ((f32)_f0 >= (f32)*mAttensionStartPoint_s) {
+            if (static_cast<f32>(_f0) >= static_cast<f32>(*mAttensionStartPoint_s)) {
                 changeToAlert();
                 return;
             }
@@ -316,11 +316,11 @@ void LynelRecognizeTarget::calc_() {
     }
     if (changeable) {
         if (isCurrentChild("観察")) {
-            if ((f32)_f0 >= (f32)*mObserveEndPoint_s) {
+            if (static_cast<f32>(_f0) >= static_cast<f32>(*mObserveEndPoint_s)) {
                 changeToStartBattle();
                 return;
             }
-            if ((f32)_f0 < (f32)*mAttensionStartPoint_s) {
+            if (static_cast<f32>(_f0) < static_cast<f32>(*mAttensionStartPoint_s)) {
                 if (sub_7100496EE4()) {
                     changeToReturn();
                     return;
@@ -332,7 +332,7 @@ void LynelRecognizeTarget::calc_() {
                 return;
             }
         } else if (isCurrentChild("警戒")) {
-            if ((f32)_f0 >= (f32)*mObserveEndPoint_s) {
+            if (static_cast<f32>(_f0) >= static_cast<f32>(*mObserveEndPoint_s)) {
                 changeToStartBattle();
                 return;
             }

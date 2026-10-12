@@ -67,7 +67,7 @@ void DemoMotorcyclePutMaterials::enter_(ksys::act::ai::InlineParamPack* params) 
                 sead::FormatFixedSafeString<32> name(fmt, n);
                 _4c[i < 5 ? i : 0] = model->searchBone(name);
                 ++i;
-            } while (i < (s64)_64 + _68);
+            } while (i < s64(_64) + _68);
         }
     }
     _60 = -1.0f;

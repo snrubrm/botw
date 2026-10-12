@@ -37,8 +37,8 @@ CharacterPrismShape* CharacterPrismShape::make(const CharacterPrismShapeParam& p
     polytope_shape->setVertex(0, sOrigin + param.offset);
 
     for (int i = 0, vertex_idx = 1; i < RING_VERTEX_NUM; i++, vertex_idx += 2) {
-        float ring_x = param.radius * sin((float)i * (float)M_PI_4);
-        float ring_z = param.radius * cos((float)i * (float)M_PI_4);
+        float ring_x = param.radius * sin(static_cast<float>(i) * static_cast<float>(M_PI_4));
+        float ring_z = param.radius * cos(static_cast<float>(i) * static_cast<float>(M_PI_4));
 
         // First ring
         polytope_shape->setVertex(vertex_idx, sead::Vector3f(ring_x, param.ring0_distance, ring_z) +
@@ -73,8 +73,8 @@ CharacterPrismShape* CharacterPrismShape::make(const CharacterPrismShapeParam& p
     polytope_shape->setVertex(0, sOrigin + param.offset - min_vertex_y * sead::Vector3f::ey);
 
     for (int i = 0, vertex_idx = 1; i < RING_VERTEX_NUM; i++, vertex_idx += 2) {
-        float ring_x = param.radius * sin((float)i * (float)M_PI_4);
-        float ring_z = param.radius * cos((float)i * (float)M_PI_4);
+        float ring_x = param.radius * sin(static_cast<float>(i) * static_cast<float>(M_PI_4));
+        float ring_z = param.radius * cos(static_cast<float>(i) * static_cast<float>(M_PI_4));
 
         // First ring
         polytope_shape->setVertex(vertex_idx, sead::Vector3f(ring_x, param.ring0_distance, ring_z) +
@@ -154,8 +154,8 @@ void CharacterPrismShape::setScale(float scale) {
 
     for (int i = 0, vertex_idx = 1; i < RING_VERTEX_NUM; i++, vertex_idx += 2) {
         // For some reason `sin` is used for x and `cos` is used for z.
-        float ring_x = scaled_radius * sin((float)i * (float)M_PI_4);
-        float ring_z = scaled_radius * cos((float)i * (float)M_PI_4);
+        float ring_x = scaled_radius * sin(static_cast<float>(i) * static_cast<float>(M_PI_4));
+        float ring_z = scaled_radius * cos(static_cast<float>(i) * static_cast<float>(M_PI_4));
 
         // First ring
         mShape->setVertex(vertex_idx, sead::Vector3f{ring_x, ring_y0, ring_z} + scaled_offset);

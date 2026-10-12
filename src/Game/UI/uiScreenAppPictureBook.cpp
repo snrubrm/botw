@@ -380,7 +380,7 @@ void ScreenAppPictureBookUnk::sub_710093F670() {
     if ((_2c & 1) == 0)
         return;
     u32 n = _298;
-    if ((s32)n < 1)
+    if (s32(n) < 1)
         return;
     u64 count298 = n;
     u32 lim = n;
@@ -390,7 +390,7 @@ void ScreenAppPictureBookUnk::sub_710093F670() {
             PictureBookGroupList* group = _2a0[i];
             if (group && group->_0 >= 1) {
                 u32 count = group->_0;
-                u64 last = (u64)count - 1;
+                u64 last = u64(count) - 1;
                 u64 j = 0;
                 while (true) {
                     if (count > j) {
@@ -567,12 +567,12 @@ void ScreenAppPictureBookUnk::sub_710093F924(bool flag) {
     eui::LayoutEx* layout_b;
     u32 mask_b;
     u32 mask_a;
-    if ((u32)c <= 3) {
+    if (u32(c) <= 3) {
         s64 idx = sUnk_7101E79C80[c];
         mask_a = sUnk_7101E794A8[c];
         mask_b = sUnk_7101E794B8[c];
         layout_a = _40[idx];
-        layout_b = _40[(u32)c];
+        layout_b = _40[u32(c)];
     } else {
         layout_a = nullptr;
         layout_b = nullptr;
@@ -590,7 +590,7 @@ void ScreenAppPictureBookUnk::sub_710093F924(bool flag) {
         if (_2f0 <= 0) {
             bool found_back = false;
             if (_2e8 >= 1) {
-                s64 i = (s64)_2e8 - 1;
+                s64 i = s64(_2e8) - 1;
                 while (true) {
                     ScreenAppPictureBookEntry* e = mEntries.data()[i];
                     if (e->mParams._29c > 0 && !e->_38c && !e->_38d) {
@@ -615,8 +615,8 @@ void ScreenAppPictureBookUnk::sub_710093F924(bool flag) {
         if (entry->_2f4 - 1 <= _2f0) {
             found_fwd = true;
         } else {
-            s64 last = (s64)mEntries.size() - 1;
-            if ((s32)_2e8 < (s32)last) {
+            s64 last = s64(mEntries.size()) - 1;
+            if (s32(_2e8) < s32(last)) {
                 s64 i = _2e8;
                 while (true) {
                     ScreenAppPictureBookEntry* e = mEntries.data()[i + 1];

@@ -719,7 +719,7 @@ bool createEquipmentFromItem(const ui::PouchItem* item, const sead::SafeString& 
 
     auto type = item->getType();
     auto slot = getCreateEquipmentSlot(type);
-    int slot_idx = (int)slot;
+    int slot_idx = int(slot);
 
     if (slot <= act::CreateEquipmentSlot::WeaponBow) {
         act::WeaponModifierInfo modifier(*item);

@@ -193,7 +193,7 @@ void Ecosystem::getAreaItems(s32 areaNum, AreaItemType type, AreaItemSet* out) c
 void Ecosystem::getAreaNameByNum(s32 areaNum, const char** out) const {
     *out = nullptr;
 
-    if (areaNum < 0 || (s32)mAreaDataSize <= areaNum)
+    if (areaNum < 0 || s32(mAreaDataSize) <= areaNum)
         return;
 
     al::ByamlIter iter;
@@ -266,7 +266,7 @@ void Ecosystem::getStatusEffectInfo(StatusEffect statusEffectIdx, s32 idx,
 void Ecosystem::getClimateNameByNum(s32 areaNum, const char** out) const {
     *out = nullptr;
 
-    if (areaNum < 0 || (s32)mAreaDataSize <= areaNum)
+    if (areaNum < 0 || s32(mAreaDataSize) <= areaNum)
         return;
 
     al::ByamlIter iter;
@@ -278,7 +278,7 @@ void Ecosystem::getClimateNameByNum(s32 areaNum, const char** out) const {
 void Ecosystem::getEnvSoundNameByNum(s32 areaNum, const char** out) const {
     *out = nullptr;
 
-    if (areaNum < 0 || (s32)mAreaDataSize <= areaNum)
+    if (areaNum < 0 || s32(mAreaDataSize) <= areaNum)
         return;
 
     al::ByamlIter iter;
@@ -290,7 +290,7 @@ void Ecosystem::getEnvSoundNameByNum(s32 areaNum, const char** out) const {
 void Ecosystem::getEcoTraitsByNum(s32 areaNum, EcosystemTraits* out) const {
     out->idx = 0;
 
-    if (areaNum < 0 || (s32)mAreaDataSize <= areaNum)
+    if (areaNum < 0 || s32(mAreaDataSize) <= areaNum)
         return;
 
     al::ByamlIter areaIter;

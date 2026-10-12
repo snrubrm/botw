@@ -102,10 +102,10 @@ private:
     bool hasMonsterExtract(const IngredientArray& ingredients) const;
 
     CookingEffectEntry& getCookingEffectEntry(CookEffectId id) {
-        return mCookingEffectEntries[(int)id];
+        return mCookingEffectEntries[int(id)];
     }
     const CookingEffectEntry& getCookingEffectEntry(CookEffectId id) const {
-        return mCookingEffectEntries[(int)id];
+        return mCookingEffectEntries[int(id)];
     }
 
     CookEffectId getCookEffectId(u32 name_hash) const;

@@ -37,9 +37,9 @@ enum class CreateEquipmentSlot : u8 {
 };
 
 inline bool isArmorCreateEquipmentSlot(s32 slot) {
-    return slot == (s32)CreateEquipmentSlot::ArmorHead ||
-           slot == (s32)CreateEquipmentSlot::ArmorUpper ||
-           slot == (s32)CreateEquipmentSlot::ArmorLower;
+    return slot == s32(CreateEquipmentSlot::ArmorHead) ||
+           slot == s32(CreateEquipmentSlot::ArmorUpper) ||
+           slot == s32(CreateEquipmentSlot::ArmorLower);
 }
 
 // Used in both CreatePlayerEquipActorMgr and CreatePlayerTrashActorMgr,
@@ -100,7 +100,7 @@ private:
     template <typename T>
     class Slots {
     private:
-        sead::SafeArray<T, (s32)CreateEquipmentSlot::Length> mArray;
+        sead::SafeArray<T, s32(CreateEquipmentSlot::Length)> mArray;
 
     public:
         T& operator[](s32 idx) { return mArray[idx]; }

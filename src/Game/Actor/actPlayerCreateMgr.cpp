@@ -62,7 +62,7 @@ void CreatePlayerEquipActorMgr::postCalc() {
         return;
     }
     auto* handle = &mProcHandles[0];
-    for (s32 i = 0; i < (s32)CreateEquipmentSlot::Length; ++i, ++handle) {
+    for (s32 i = 0; i < s32(CreateEquipmentSlot::Length); ++i, ++handle) {
         if (!isSlotLoading(i)) {
             continue;
         }
@@ -85,7 +85,7 @@ void CreatePlayerEquipActorMgr::postCalc() {
 }
 
 void CreatePlayerEquipActorMgr::resetAll() {
-    for (s32 i = 0; i < (s32)CreateEquipmentSlot::Length; ++i) {
+    for (s32 i = 0; i < s32(CreateEquipmentSlot::Length); ++i) {
         reset(i);
     }
     mIsLoading.makeAllZero();
@@ -105,8 +105,8 @@ bool CreatePlayerEquipActorMgr::areAllWeaponActorsReady() const {
         return true;
     }
     auto* handle = &mProcHandles[0];
-    for (u32 i = 0; i < (u32)CreateEquipmentSlot::Length; ++i, ++handle) {
-        if (isSlotLoading((s32)i)) {
+    for (u32 i = 0; i < u32(CreateEquipmentSlot::Length); ++i, ++handle) {
+        if (isSlotLoading(s32(i))) {
             return false;
         }
         auto* weapon = sead::DynamicCast<Weapon>(handle->getProc());
@@ -187,7 +187,7 @@ void CreatePlayerEquipActorMgr::requestCreateWeapon(const sead::SafeString& name
         slot = CreateEquipmentSlot::WeaponShield;
     }
 
-    requestCreateWeapon((s32)slot, name, value, modifier, caller);
+    requestCreateWeapon(s32(slot), name, value, modifier, caller);
 }
 
 void CreatePlayerEquipActorMgr::requestCreateArmor(s32 slot_idx, const sead::SafeString& name,
@@ -240,19 +240,19 @@ void CreatePlayerEquipActorMgr::requestCreateArmor(const sead::SafeString& name,
         slot = CreateEquipmentSlot::ArmorLower;
     }
 
-    requestCreateArmor((s32)slot, name, dye_color, caller);
+    requestCreateArmor(s32(slot), name, dye_color, caller);
 }
 
 void CreatePlayerEquipActorMgr::requestCreateDefaultArmor(s32 slot,
                                                           const sead::SafeString& caller) {
     switch (slot) {
-    case (s32)CreateEquipmentSlot::ArmorHead:
+    case s32(CreateEquipmentSlot::ArmorHead):
         requestCreateArmor(slot, "Armor_Default_Head", -1, caller);
         break;
-    case (s32)CreateEquipmentSlot::ArmorUpper:
+    case s32(CreateEquipmentSlot::ArmorUpper):
         requestCreateArmor(slot, "Armor_Default_Upper", -1, caller);
         break;
-    case (s32)CreateEquipmentSlot::ArmorLower:
+    case s32(CreateEquipmentSlot::ArmorLower):
         requestCreateArmor(slot, "Armor_Default_Lower", -1, caller);
         break;
     default:
@@ -265,7 +265,7 @@ void CreatePlayerEquipActorMgr::requestCreateArmorHeadB(const sead::SafeString& 
     sead::FixedStringBuilder<0x40> s;
     s.copy(name.cstr());
     s.append("_B", -1);
-    requestCreateArmor((s32)CreateEquipmentSlot::ArmorHead, s, dye_color, caller);
+    requestCreateArmor(s32(CreateEquipmentSlot::ArmorHead), s, dye_color, caller);
 }
 
 bool CreatePlayerEquipActorMgr::isSlotLoading(s32 slot_idx) const {

@@ -103,7 +103,7 @@ u32 sub_7100AA4B4C(ShopInfoTagData* data, u32 selector, sead::WBufferedSafeStrin
         // return value).
         ui::getMessage("StaticMsg/CookEffect", label, &msg2);
         const char16* str = msg2.getString();
-        s32 len = (s32)msg2.getLength();
+        s32 len = s32(msg2.getLength());
         char16* dst = const_cast<char16*>(out->getStringTop());
         if (dst == str)
             return msg2.getLength();
@@ -171,7 +171,7 @@ u32 sub_7100AA4E70(ShopInfoTagData* data, u32 sel_lo, u32 sel_hi, sead::WBuffere
         // Discarded call that really is in the target asm (as in sub_7100AA4B4C).
         ui::getMessage("StaticMsg/CookEffect", label, &msg);
         const char16* str = msg.getString();
-        s32 len = (s32)msg.getLength();
+        s32 len = s32(msg.getLength());
         char16* dst = const_cast<char16*>(out->getStringTop());
         if (dst == str)
             return msg.getLength();

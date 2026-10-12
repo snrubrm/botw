@@ -604,10 +604,10 @@ bool GuardianMiniRoot::handleMessage_(const ksys::Message* message) {
     const s32 r2 = deg2 % 120;
     _218 = deg2;
     if (r2 != 0) {
-        const f32 fr = r2 > 0 ? (f32)r2 : -(f32)r2;
+        const f32 fr = r2 > 0 ? static_cast<f32>(r2) : -static_cast<f32>(r2);
         const s32 q = deg2 / 120;
-        const f32 fq = deg2 > 119 ? (f32)q : -(f32)q;
-        const s32 qi = (s32)fq;
+        const f32 fq = deg2 > 119 ? static_cast<f32>(q) : -static_cast<f32>(q);
+        const s32 qi = s32(fq);
         s32 snapA, snapB;
         if (deg2 < 0) {
             snapA = qi * -120;

@@ -20,7 +20,7 @@ u32 ScreenAppPictureBookUnk::sub_710093E784(s32 index) {
     }
     s32 total;
     u64 count = mEntries.size();
-    if ((s32)count < 1) {
+    if (s32(count) < 1) {
         total = -1;
     } else {
         ScreenAppPictureBookEntry** entries = mEntries.data();

@@ -90,10 +90,10 @@ void ScreenMessage3D::sub_71010AE190(ksys::act::Actor* actor, f32 x, u32 flags) 
     _698.lock();
     Entry* raw0 = _300.data()[0];
     u32 state0 = raw0->_48;
-    if (((u32)_300.size() == 0 ? nullptr : raw0)->m38.hasProc()) {
+    if ((u32(_300.size()) == 0 ? nullptr : raw0)->m38.hasProc()) {
         state0 -= 5;
         Entry* entry0;
-        if ((u32)_300.size() == 0)
+        if (u32(_300.size()) == 0)
             entry0 = nullptr;
         else
             entry0 = _300.data()[0];
@@ -107,9 +107,9 @@ void ScreenMessage3D::sub_71010AE190(ksys::act::Actor* actor, f32 x, u32 flags) 
     }
     Entry* raw1 = _300.data()[1];
     u32 state1 = raw1->_48;
-    if (((u32)_300.size() > 1 ? raw1 : nullptr)->m38.hasProc()) {
+    if ((u32(_300.size()) > 1 ? raw1 : nullptr)->m38.hasProc()) {
         state1 -= 5;
-        Entry* entry1 = (u32)_300.size() >= 2 ? _300.data()[1] : nullptr;
+        Entry* entry1 = u32(_300.size()) >= 2 ? _300.data()[1] : nullptr;
         bool by_id1 = entry1->m38.hasProcById(actor);
         if (state1 >= 2) {
             if (by_id1) {
@@ -120,9 +120,9 @@ void ScreenMessage3D::sub_71010AE190(ksys::act::Actor* actor, f32 x, u32 flags) 
     }
     Entry* raw2 = _300.data()[2];
     u32 state2 = raw2->_48;
-    if (((u32)_300.size() > 2 ? raw2 : nullptr)->m38.hasProc()) {
+    if ((u32(_300.size()) > 2 ? raw2 : nullptr)->m38.hasProc()) {
         state2 -= 5;
-        Entry* entry2 = (u32)_300.size() >= 3 ? _300.data()[2] : nullptr;
+        Entry* entry2 = u32(_300.size()) >= 3 ? _300.data()[2] : nullptr;
         bool by_id2 = entry2->m38.hasProcById(actor);
         if (state2 >= 2) {
             if (by_id2) {
@@ -133,9 +133,9 @@ void ScreenMessage3D::sub_71010AE190(ksys::act::Actor* actor, f32 x, u32 flags) 
     }
     Entry* raw3 = _300.data()[3];
     u32 state3 = raw3->_48;
-    if (((u32)_300.size() > 3 ? raw3 : nullptr)->m38.hasProc()) {
+    if ((u32(_300.size()) > 3 ? raw3 : nullptr)->m38.hasProc()) {
         state3 -= 5;
-        Entry* entry3 = (u32)_300.size() >= 4 ? _300.data()[3] : nullptr;
+        Entry* entry3 = u32(_300.size()) >= 4 ? _300.data()[3] : nullptr;
         bool by_id3 = entry3->m38.hasProcById(actor);
         if (state3 >= 2) {
             if (by_id3) {
@@ -148,22 +148,22 @@ void ScreenMessage3D::sub_71010AE190(ksys::act::Actor* actor, f32 x, u32 flags) 
         open(1);
     u32 idx;
     Entry* check0 = _300.data()[0];
-    if (check0->_48 == 6 && !(0u < (u32)_300.size() ? check0 : nullptr)->m38.hasProc())
+    if (check0->_48 == 6 && !(0u < u32(_300.size()) ? check0 : nullptr)->m38.hasProc())
         idx = 0;
     else if (_300.data()[1]->_48 == 6 &&
-             !(1u < (u32)_300.size() ? _300.data()[1] : nullptr)->m38.hasProc())
+             !(1u < u32(_300.size()) ? _300.data()[1] : nullptr)->m38.hasProc())
         idx = 1;
     else if (_300.data()[2]->_48 == 6 &&
-             !(2u < (u32)_300.size() ? _300.data()[2] : nullptr)->m38.hasProc())
+             !(2u < u32(_300.size()) ? _300.data()[2] : nullptr)->m38.hasProc())
         idx = 2;
     else if (_300.data()[3]->_48 != 6 ||
-             (3u < (u32)_300.size() ? _300.data()[3] : nullptr)->m38.hasProc()) {
+             (3u < u32(_300.size()) ? _300.data()[3] : nullptr)->m38.hasProc()) {
         _698.unlock();
         return;
     } else {
         idx = 3;
     }
-    Entry* entry = (u32)_300.size() <= idx ? nullptr : _300.data()[idx];
+    Entry* entry = u32(_300.size()) <= idx ? nullptr : _300.data()[idx];
     entry->_60.assign(_680);
     _300.data()[idx]->_50 = _690;
     _300.data()[idx]->_54 = 0;
@@ -190,11 +190,11 @@ void ScreenMessage3D::m101() {
     else
         e0 = _300.data()[0];
     e0->sub_71010AEB60();
-    Entry* e1 = (u32)_300.size() >= 2 ? _300.data()[1] : nullptr;
+    Entry* e1 = u32(_300.size()) >= 2 ? _300.data()[1] : nullptr;
     e1->sub_71010AEB60();
-    Entry* e2 = (u32)_300.size() >= 3 ? _300.data()[2] : nullptr;
+    Entry* e2 = u32(_300.size()) >= 3 ? _300.data()[2] : nullptr;
     e2->sub_71010AEB60();
-    Entry* e3 = (u32)_300.size() >= 4 ? _300.data()[3] : nullptr;
+    Entry* e3 = u32(_300.size()) >= 4 ? _300.data()[3] : nullptr;
     e3->sub_71010AEB60();
 }
 
@@ -206,11 +206,11 @@ void ScreenMessage3D::m83() {
     else
         e0 = _300.data()[0];
     e0->sub_71010AEB60();
-    Entry* e1 = (u32)_300.size() >= 2 ? _300.data()[1] : nullptr;
+    Entry* e1 = u32(_300.size()) >= 2 ? _300.data()[1] : nullptr;
     e1->sub_71010AEB60();
-    Entry* e2 = (u32)_300.size() >= 3 ? _300.data()[2] : nullptr;
+    Entry* e2 = u32(_300.size()) >= 3 ? _300.data()[2] : nullptr;
     e2->sub_71010AEB60();
-    Entry* e3 = (u32)_300.size() >= 4 ? _300.data()[3] : nullptr;
+    Entry* e3 = u32(_300.size()) >= 4 ? _300.data()[3] : nullptr;
     e3->sub_71010AEB60();
 }
 
@@ -234,24 +234,24 @@ void ScreenMessage3D::sub_71010AE548(ksys::act::Actor* actor, bool flag) {
     _698.lock();
     if (actor) {
         s32 idx;
-        if (((u64)(u32)_300.size() <= 0 ? nullptr : _300.data()[0])->m38.hasProc() &&
-            (((u64)(u32)_300.size() <= 0) ? nullptr : _300.data()[0])->m38.hasProcById(actor))
+        if ((u64(u32(_300.size())) <= 0 ? nullptr : _300.data()[0])->m38.hasProc() &&
+            ((u64(u32(_300.size())) <= 0) ? nullptr : _300.data()[0])->m38.hasProcById(actor))
             idx = 0;
-        else if ((((u64)(u32)_300.size() <= 1) ? nullptr : _300.data()[1])->m38.hasProc() &&
-                 (((u64)(u32)_300.size() <= 1) ? nullptr : _300.data()[1])->m38.hasProcById(actor))
+        else if (((u64(u32(_300.size())) <= 1) ? nullptr : _300.data()[1])->m38.hasProc() &&
+                 ((u64(u32(_300.size())) <= 1) ? nullptr : _300.data()[1])->m38.hasProcById(actor))
             idx = 1;
-        else if ((((u64)(u32)_300.size() <= 2) ? nullptr : _300.data()[2])->m38.hasProc() &&
-                 (((u64)(u32)_300.size() <= 2) ? nullptr : _300.data()[2])->m38.hasProcById(actor))
+        else if (((u64(u32(_300.size())) <= 2) ? nullptr : _300.data()[2])->m38.hasProc() &&
+                 ((u64(u32(_300.size())) <= 2) ? nullptr : _300.data()[2])->m38.hasProcById(actor))
             idx = 2;
-        else if ((((u64)(u32)_300.size() <= 3) ? nullptr : _300.data()[3])->m38.hasProc() &&
-                 (((u64)(u32)_300.size() <= 3) ? nullptr : _300.data()[3])->m38.hasProcById(actor))
+        else if (((u64(u32(_300.size())) <= 3) ? nullptr : _300.data()[3])->m38.hasProc() &&
+                 ((u64(u32(_300.size())) <= 3) ? nullptr : _300.data()[3])->m38.hasProcById(actor))
             idx = 3;
         else {
             _698.unlock();
             return;
         }
-        Entry* entry = ((u64)(u32)_300.size() <= (u64)idx) ? nullptr : _300.data()[idx];
-        if ((u32)(entry->_48 - 5) >= 2) {
+        Entry* entry = (u64(u32(_300.size())) <= u64(idx)) ? nullptr : _300.data()[idx];
+        if (u32(entry->_48 - 5) >= 2) {
             eui::LayoutEx* layout = entry->_8;
             eui::Animator* animator = layout->mOpenAnimator;
             if (animator) {
@@ -273,7 +273,7 @@ void ScreenMessage3D::sub_71010AE548(ksys::act::Actor* actor, bool flag) {
         }
         if (flag) {
             Entry* target =
-                ((u64)(u32)_300.size() <= (u64)idx) ? nullptr : _300.data()[idx];
+                (u64(u32(_300.size())) <= u64(idx)) ? nullptr : _300.data()[idx];
             target->m38.reset();
         }
     }
@@ -289,10 +289,10 @@ void ScreenMessage3D::sub_71010AE7C0(bool flag) {
     u32 v = 0x47c35000;
     if (flag) {
         for (u64 i = 0; i != 4; ++i) {
-            if (!(((u64)(u32)_300.size() <= i) ? nullptr : _300.data()[i])->m38.hasProc())
+            if (!((u64(u32(_300.size())) <= i) ? nullptr : _300.data()[i])->m38.hasProc())
                 continue;
-            Entry* entry = ((u64)(u32)_300.size() <= i) ? nullptr : _300.data()[i];
-            if ((u32)(entry->_48 - 5) >= 2) {
+            Entry* entry = (u64(u32(_300.size())) <= i) ? nullptr : _300.data()[i];
+            if (u32(entry->_48 - 5) >= 2) {
                 eui::LayoutEx* layout = entry->_8;
                 eui::Animator* animator = layout->mOpenAnimator;
                 if (animator) {
@@ -312,14 +312,14 @@ void ScreenMessage3D::sub_71010AE7C0(bool flag) {
                     }
                 }
             }
-            (((u64)(u32)_300.size() <= i) ? nullptr : _300.data()[i])->m38.reset();
+            ((u64(u32(_300.size())) <= i) ? nullptr : _300.data()[i])->m38.reset();
         }
     } else {
         for (u64 i = 0; i != 4; ++i) {
-            if (!(((u64)(u32)_300.size() <= i) ? nullptr : _300.data()[i])->m38.hasProc())
+            if (!((u64(u32(_300.size())) <= i) ? nullptr : _300.data()[i])->m38.hasProc())
                 continue;
-            Entry* entry = ((u64)(u32)_300.size() <= i) ? nullptr : _300.data()[i];
-            if ((u32)(entry->_48 - 5) >= 2) {
+            Entry* entry = (u64(u32(_300.size())) <= i) ? nullptr : _300.data()[i];
+            if (u32(entry->_48 - 5) >= 2) {
                 eui::LayoutEx* layout = entry->_8;
                 eui::Animator* animator = layout->mOpenAnimator;
                 if (animator) {
@@ -351,25 +351,25 @@ void ScreenMessage3D::sub_71010AE7C0(bool flag) {
 void ScreenMessage3D::m94() {
     if (isOpened()) {
         Entry* e0;
-        if ((u32)_300.size() == 0)
+        if (u32(_300.size()) == 0)
             e0 = nullptr;
         else
             e0 = _300.data()[0];
         if (e0->_48 == 6 && !e0->m38.hasProc()) {
             Entry* e1;
-            if ((u32)_300.size() <= 1)
+            if (u32(_300.size()) <= 1)
                 e1 = nullptr;
             else
                 e1 = _300.data()[1];
             if (e1->_48 == 6 && !e1->m38.hasProc()) {
                 Entry* e2;
-                if ((u32)_300.size() < 3)
+                if (u32(_300.size()) < 3)
                     e2 = nullptr;
                 else
                     e2 = _300.data()[2];
                 if (e2->_48 == 6 && !e2->m38.hasProc()) {
                     Entry* e3;
-                    if ((u32)_300.size() < 4)
+                    if (u32(_300.size()) < 4)
                         e3 = nullptr;
                     else
                         e3 = _300.data()[3];
@@ -382,52 +382,52 @@ void ScreenMessage3D::m94() {
         }
     }
     Entry* e0;
-    if ((u32)_300.size() == 0)
+    if (u32(_300.size()) == 0)
         e0 = nullptr;
     else
         e0 = _300.data()[0];
     e0->_b4 = getAnimationStep_();
     Entry* a0;
-    if ((u32)_300.size() == 0)
+    if (u32(_300.size()) == 0)
         a0 = nullptr;
     else
         a0 = _300.data()[0];
     a0->sub_71010ADE64();
     u32 mask = _300.data()[0]->_59;
     Entry* e1;
-    if ((u32)_300.size() <= 1)
+    if (u32(_300.size()) <= 1)
         e1 = nullptr;
     else
         e1 = _300.data()[1];
     e1->_b4 = getAnimationStep_();
     Entry* a1;
-    if ((u32)_300.size() < 2)
+    if (u32(_300.size()) < 2)
         a1 = nullptr;
     else
         a1 = _300.data()[1];
     a1->sub_71010ADE64();
     mask |= _300.data()[1]->_59;
     Entry* e2;
-    if ((u32)_300.size() < 3)
+    if (u32(_300.size()) < 3)
         e2 = nullptr;
     else
         e2 = _300.data()[2];
     e2->_b4 = getAnimationStep_();
     Entry* a2;
-    if ((u32)_300.size() < 3)
+    if (u32(_300.size()) < 3)
         a2 = nullptr;
     else
         a2 = _300.data()[2];
     a2->sub_71010ADE64();
     mask |= _300.data()[2]->_59;
     Entry* e3;
-    if ((u32)_300.size() < 4)
+    if (u32(_300.size()) < 4)
         e3 = nullptr;
     else
         e3 = _300.data()[3];
     e3->_b4 = getAnimationStep_();
     Entry* a3;
-    if ((u32)_300.size() < 4)
+    if (u32(_300.size()) < 4)
         a3 = nullptr;
     else
         a3 = _300.data()[3];

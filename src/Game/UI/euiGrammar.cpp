@@ -109,9 +109,9 @@ void Grammar::setWordAttrFromTag(WordAttr* attr, const sead::MessageSet<char16>:
 // 0xe/0xf tests swapped (same as sub_71010B307C).
 bool Grammar::sub_7100BE39DC(WordAttr* attr, const MessageString& message) {
     const char16* text = message.getString();
-    if (text == nullptr || (s32)message.getLength() < 1)
+    if (text == nullptr || s32(message.getLength()) < 1)
         return false;
-    const char16* end = text + (s32)message.getLength();
+    const char16* end = text + s32(message.getLength());
     const char16* p = text;
     do {
         char16 head = *p;

@@ -1395,7 +1395,7 @@ void Weapon::sub_71002EDB3C(const Unk3& value) {
 static const u32 sUnk_7101E79FEC[3] = {1, 2, 4};
 
 u32 Weapon::sub_71002ECB78() {
-    if ((u32)_cf0 <= 2)
+    if (u32(_cf0) <= 2)
         return sUnk_7101E79FEC[_cf0];
     return 1;
 }

@@ -718,8 +718,8 @@ void ScreenMessageDialog::sub_71010B3294() {
             result = 2;
         } else {
             result = 0;
-            if ((s32)_3a0.getLength() >= 1) {
-                const char16* end = _3a0.getString() + (s32)_3a0.getLength();
+            if (s32(_3a0.getLength()) >= 1) {
+                const char16* end = _3a0.getString() + s32(_3a0.getLength());
                 const char16* p = _3a0.getString();
                 while (true) {
                     const char16 head = *p;
@@ -837,12 +837,12 @@ void sub_71010B3188(const sead::MessageSet<char16>::TagInfo* tag, ksys::act::Act
                 return;
             arg = sUnk_710261EF90._28[mapped < 6 ? mapped : 0];
             if (out != nullptr) {
-                *out = (s16)(s8)arg;
+                *out = s16(s8(arg));
                 return;
             }
         } else {
             if (out != nullptr) {
-                *out = (u16)(v9 - 2);
+                *out = u16(v9 - 2);
                 return;
             }
             arg = v9 - 2;

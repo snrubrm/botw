@@ -1476,7 +1476,7 @@ void PauseMenuDataMgr::createPlayerEquipment() {
         return;
     }
 
-    std::array<PouchItem*, (u64)act::CreateEquipmentSlot::Length> equipment_items{};
+    std::array<PouchItem*, u64(act::CreateEquipmentSlot::Length)> equipment_items{};
 
     const auto& items = getItems();
     PouchItem* item = items.isEmpty() ? nullptr : items.nth(0);
@@ -1489,17 +1489,17 @@ void PauseMenuDataMgr::createPlayerEquipment() {
                 break;
             }
             if (item->isInInventory() && item->isEquipped()) {
-                u64 slot = (u64)getCreateEquipmentSlot(type);
+                u64 slot = u64(getCreateEquipmentSlot(type));
                 if (slot < equipment_items.size()) {
                     equipment_items[slot] = item;
                 }
             }
         }
-        const auto* head = equipment_items[(u64)act::CreateEquipmentSlot::ArmorHead];
-        if (head && equipment_items[(u64)act::CreateEquipmentSlot::ArmorUpper]) {
+        const auto* head = equipment_items[u64(act::CreateEquipmentSlot::ArmorHead)];
+        if (head && equipment_items[u64(act::CreateEquipmentSlot::ArmorUpper)]) {
             need_head_b = act::needsArmorHeadB(
                 head->getName(),
-                equipment_items[(u64)act::CreateEquipmentSlot::ArmorUpper]->getName());
+                equipment_items[u64(act::CreateEquipmentSlot::ArmorUpper)]->getName());
         }
     }
 
@@ -1508,7 +1508,7 @@ void PauseMenuDataMgr::createPlayerEquipment() {
     s32 slot = 0;  // <- this is required to match
     for (u64 i = 0; i != equipment_items.size(); slot = s32(++i)) {
         if (equipment_items[i]) {
-            if (!need_head_b || i != (u64)act::CreateEquipmentSlot::ArmorHead) {
+            if (!need_head_b || i != u64(act::CreateEquipmentSlot::ArmorHead)) {
                 createEquipmentFromItem(equipment_items[i], Caller);
             } else {
                 create_mgr->requestCreateArmorHeadB(equipment_items[i]->getName(),
@@ -1516,7 +1516,7 @@ void PauseMenuDataMgr::createPlayerEquipment() {
             }
             continue;
         }
-        if (i > (u64)act::CreateEquipmentSlot::WeaponBow) {
+        if (i > u64(act::CreateEquipmentSlot::WeaponBow)) {
             create_mgr->requestCreateDefaultArmor(slot, Caller);
             continue;
         }

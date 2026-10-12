@@ -63,7 +63,7 @@ const u32 sAttackAttrBits[] = {1, 2, 4};
 ksys::act::BaseProc* ForkASTrgEmitShockWave::sub_710014F4BC() {
     const s32 idx = *mAttackIntensity_s - 1;
     u32 mask = 0;
-    if ((u32)idx <= 2)
+    if (u32(idx) <= 2)
         mask = sAttackAttrBits[idx];
     const f32 scale_time = *mMaxScale_s;
     mask = *mIsGuardPierce_s ? (mask | 0x8) : mask;
@@ -130,7 +130,7 @@ bool ForkASTrgEmitShockWave::sub_710014F780(ksys::act::Actor* actor) {
     const s32 attr = *mAttackIntensity_s;
     const s32 idx = attr - 1;
     u32 mask = 0;
-    if ((u32)idx <= 2)
+    if (u32(idx) <= 2)
         mask = sAttackAttrBits[idx];
     mask = *mIsGuardPierce_s ? (mask | 0x8) : mask;
     mask = *mIsIniviciblePierce_s ? (mask | 0x40) : mask;
