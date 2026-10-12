@@ -11,7 +11,7 @@ class Actor;
 }
 
 // Placeholder name (first method 0x7100715960 = the out-of-line constructor; no name known): the "leg turn" state of
-// the Giant*WithLegTurn actions (embedded at +0x180 of GiantOneHandActionWithLegTurn). Like Unk_710070e434 it lets a
+// the Giant*WithLegTurn actions (embedded at +0x180 of OneHandActionWithLegTurn). Like Unk_710070e434 it lets a
 // bone of the actor's model follow a target; `_40` is the BoneHandle applied to the model every frame, `_18` / `_24`
 // the rotation offset limits (the actions copy `RotOffsetMin` / `RotOffsetMax` / `BaseTargetPos` into it) and
 // `_e8` - `_f4` the trace angle / distance limits.

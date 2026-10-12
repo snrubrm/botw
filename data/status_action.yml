@@ -2,7 +2,7 @@ action::ActionEx:
   status: pending
 action::ActionWithAS:
   status: pending
-action::ActionWithPosAngReduce:
+action::StopBase:
   status: pending
 action::ActivateAttackSensor:
   status: pending
@@ -60,7 +60,7 @@ action::AnimalElectricParalysis:
   status: pending
 action::AnimalFollow:
   status: pending
-action::AnimalFollowBase:
+action::HorseFollowBase:
   status: pending
 action::AnimalFreeze:
   status: pending
@@ -138,7 +138,7 @@ action::AppearNumKorokNuts:
   status: pending
 action::AppearNumTargets:
   status: pending
-action::ApplyDamageForPlayer:
+action::DemoApplyDamageBase:
   status: pending
 action::ApplyHorizontalImpulse:
   status: pending
@@ -158,7 +158,7 @@ action::AreaBottomTag:
   status: pending
 action::AreaFireObserve:
   status: pending
-action::AreaFireObserveBase:
+action::FireObserveBase:
   status: pending
 action::AreaHorseSpeedLimitAction:
   status: pending
@@ -216,13 +216,13 @@ action::AtOnWaitNoHitRope:
   status: pending
 action::Attack:
   status: pending
-action::AttackBase:
+action::StoppingAttackBase:
   status: pending
 action::AttackJumpToTarget:
   status: pending
 action::AttackPartBind:
   status: pending
-action::AttackPowerExplode:
+action::EitherSideExplode:
   status: pending
 action::AwarenessShareOnePartsASPlay:
   status: pending
@@ -250,7 +250,7 @@ action::BackWalk:
   status: pending
 action::BackWalkBase:
   status: pending
-action::BackWalkEx:
+action::NormalBackWalk:
   status: pending
 action::BackWalkWithAS:
   status: pending
@@ -292,7 +292,7 @@ action::BattleCloseMove:
   status: pending
 action::BattleCloseMoveAction:
   status: pending
-action::BattleCloseMoveActionBase:
+action::AvoidingCloseMoveActionBase:
   status: pending
 action::BattleCloseSlippedWalk:
   status: pending
@@ -570,11 +570,11 @@ action::ChuchuCommonDownTimer:
   status: pending
 action::ChuchuDissappearEscape:
   status: pending
-action::ChuchuDissappearEscapeBase:
+action::DisappearAndEscapeBase:
   status: pending
 action::ChuchuPreAttack:
   status: pending
-action::ChuchuPreAttackBase:
+action::GelJumpBase:
   status: pending
 action::CloseArmorProcessing:
   status: pending
@@ -842,7 +842,7 @@ action::EnemyFortressChatTalk:
   status: pending
 action::EnemyFortressChatTurn:
   status: pending
-action::EnemyFortressChatTurnBase:
+action::EnemyFortressChatLookBase:
   status: pending
 action::EnemyFortressSimpleAction:
   status: pending
@@ -974,7 +974,7 @@ action::EventFlagONAction:
   status: pending
 action::EventHoverNullASPlay:
   status: done
-action::EventHoverNullASPlayBase:
+action::EventNullASPlayBase:
   status: done
 action::EventIncreaseFameAction:
   status: pending
@@ -1144,7 +1144,7 @@ action::FallAttackWithAtAttr:
   status: pending
 action::FireWood:
   status: pending
-action::FireWoodBase:
+action::FireBurnBase:
   status: pending
 action::FirstRunelGrudgeDemo:
   status: pending
@@ -1174,7 +1174,7 @@ action::FlyingCharacterBlownOffDie:
   status: pending
 action::FlyingCharacterDamage:
   status: pending
-action::FlyingCharacterDamageBase:
+action::FlyingActorDamageBase:
   status: pending
 action::FlyingCharacterDie:
   status: pending
@@ -1212,7 +1212,7 @@ action::ForbidComeback:
   status: pending
 action::ForbidSettingInstEventFlag:
   status: pending
-action::ForbidTag:
+action::BasicSignalForbidTag:
   status: pending
 action::ForceChangeAction:
   status: pending
@@ -1378,11 +1378,11 @@ action::ForkDrownTimer:
   status: pending
 action::ForkDynActorNoTargetSelf:
   status: pending
-action::ForkDynActorNoTargetSelfBase:
+action::ForkEndByConditionBase:
   status: pending
 action::ForkDynASPlay:
   status: pending
-action::ForkEmitChmField:
+action::ForkTrgEmitChmFieldBase:
   status: pending
 action::ForkEmitChmFieldByContact:
   status: pending
@@ -1444,7 +1444,7 @@ action::ForkHover:
   status: pending
 action::ForkHoverKeepRotateTurn:
   status: pending
-action::ForkHoverKeepRotateTurnBase:
+action::ForkKeepRotateTurn:
   status: pending
 action::ForkIgniteCarriedActor:
   status: pending
@@ -1502,9 +1502,9 @@ action::ForkOnEnterCharCtrlInvalid:
   status: pending
 action::ForkOnEnterDropWeaponWithSpeed:
   status: pending
-action::ForkOnEnterSwapDropTableActor:
+action::OnEnterSwapDropTable:
   status: pending
-action::ForkOnEnterSwapDropTableActorBase:
+action::OnEnterSwapActorBase:
   status: pending
 action::ForkOnEnterWeaponUse:
   status: pending
@@ -1540,7 +1540,7 @@ action::ForkSetSwarmMaterialAnimByDist:
   status: pending
 action::ForkSimpleGrab:
   status: pending
-action::ForkSimpleGrabBase:
+action::ForkGrabBase:
   status: pending
 action::ForkSlipAndStop:
   status: pending
@@ -1726,9 +1726,9 @@ action::GiantArmorElectric:
   status: pending
 action::GiantArmorEquip:
   status: pending
-action::GiantAttack:
+action::TurnGiantAttack:
   status: pending
-action::GiantAttackWithAS:
+action::AttackWithAS:
   status: pending
 action::GiantBattleCloseAction:
   status: pending
@@ -1744,15 +1744,15 @@ action::GiantDownSwingAttack:
   status: pending
 action::GiantEnemyWalk:
   status: pending
-action::GiantEnemyWalkWithVibration:
+action::GiantEnemyMoveWithVibration:
   status: pending
 action::GiantHandClapToTarget:
   status: pending
 action::GiantNavMeshWalk:
   status: pending
-action::GiantNavMeshWalkWithVibration:
+action::GiantNavMeshMoveWithVibration:
   status: pending
-action::GiantOneHandActionWithLegTurn:
+action::OneHandActionWithLegTurn:
   status: pending
 action::GiantOneHandAttackWithLegTurn:
   status: pending
@@ -1840,7 +1840,7 @@ action::GuardianMiniPracticeFlagSet:
   status: pending
 action::GuardianMiniWait:
   status: pending
-action::GuardianMoveTo:
+action::GuardianActionBase:
   status: pending
 action::GuardianMoveToPosition:
   status: pending
@@ -1880,7 +1880,7 @@ action::HopFlyByTriggers:
   status: pending
 action::HornUse:
   status: pending
-action::HornUseBase:
+action::EquipHornUseBase:
   status: pending
 action::HorseDie:
   status: pending
@@ -1916,7 +1916,7 @@ action::HorseReturnToSafePos:
   status: pending
 action::HorseRiddenByPlayer:
   status: pending
-action::HorseRide:
+action::HorseRideBase:
   status: pending
 action::HorseRideAngryGear1Coomand:
   status: pending
@@ -1932,7 +1932,7 @@ action::HorseRideChaseCommand:
   status: pending
 action::HorseRideCommand:
   status: pending
-action::HorseRideCommandBase:
+action::HorseRideOneTimeCommandBase:
   status: pending
 action::HorseRideDynSetGearCommand:
   status: pending
@@ -2078,11 +2078,11 @@ action::KillSelectActor:
   status: pending
 action::KillUIScreenAction:
   status: pending
-action::KnockBackShock:
+action::SimpleKnockBackShock:
   status: pending
 action::KokkoCreateDrop:
   status: pending
-action::KokkoCreateDropBase:
+action::CreateDropBase:
   status: pending
 action::KokkoMove:
   status: pending
@@ -2168,7 +2168,7 @@ action::LoadSaveDataFromGameOver:
   status: pending
 action::LookAtObject:
   status: pending
-action::LookAtObjectBase:
+action::TurnAndLookToObjBase:
   status: pending
 action::LookAtObjectSeachAwareness:
   status: pending
@@ -2224,7 +2224,7 @@ action::MotorcycleWaitUntilFellOver:
   status: pending
 action::Move2HomePos:
   status: pending
-action::Move2HomePosBase:
+action::MoveHomePosBase:
   status: pending
 action::MoveBase:
   status: pending
@@ -2248,7 +2248,7 @@ action::MoveToTargetBase:
   status: pending
 action::MoveToTargetCurve:
   status: pending
-action::MoveToTargetCurveBase:
+action::CurveMoveToTargetBase:
   status: pending
 action::MoveToTargetDir:
   status: pending
@@ -2266,13 +2266,13 @@ action::Msg2CameraResetNoConnect:
   status: pending
 action::MultiVacuumRotScaleTimeByDist:
   status: pending
-action::MultiVacuumRotScaleTimeByDistWithTgt:
+action::MultiVacuumRotBase:
   status: pending
-action::MultiVacuumRotScaleTimeByDistWithTgtBase:
+action::MultiVacuumBase:
   status: pending
 action::MusicianSpotBgmTriggerAction:
   status: pending
-action::NavMeshAction:
+action::NavMeshMoveBase:
   status: pending
 action::NavMeshBattleWalk:
   status: pending
@@ -2308,7 +2308,7 @@ action::NearHomePosTeleport:
   status: pending
 action::NeckSpin:
   status: pending
-action::NeckSpinBeam:
+action::BeamNeckSpin:
   status: pending
 action::NoAtTackleMove:
   status: pending
@@ -2478,7 +2478,7 @@ action::OctarockBulletLExplode:
   status: pending
 action::OctarockReloadWig:
   status: pending
-action::OctarockReloadWigBase:
+action::IgniteActorReloadBase:
   status: pending
 action::Off:
   status: pending
@@ -2856,9 +2856,9 @@ action::PlayerStepMove:
   status: pending
 action::PlayerStoleOpen:
   status: pending
-action::PlayerStoleOpenBase:
+action::BindPlayerNodeBase:
   status: pending
-action::PlayerStoleOpenEx:
+action::BindPlayerNodeEx:
   status: pending
 action::PlayerStopInAir:
   status: pending
@@ -2986,7 +2986,7 @@ action::RagdollFreeze:
   status: pending
 action::RailMove:
   status: pending
-action::RailMoveBase:
+action::DestPointMoveBase:
   status: pending
 action::RandomJump:
   status: pending
@@ -3002,13 +3002,13 @@ action::RecoverMasterSword:
   status: pending
 action::ReflectThrown:
   status: pending
-action::RegistedActorActionBase:
+action::RegistedActorSetActionBase:
   status: pending
 action::RegistedActorBroadCastMessage:
   status: pending
 action::RegistedActorDeadCheck:
   status: pending
-action::RegistedActorDeadCheckBase:
+action::RegistedActorAllDeadCheckBase:
   status: pending
 action::ReloadArrow:
   status: pending
@@ -3150,11 +3150,11 @@ action::SendMessage4YunBoCannon:
   status: pending
 action::SendMessageBroadCast:
   status: pending
-action::SendMessageToTargetActor:
+action::SendTargetActorMessageBase:
   status: pending
 action::SendPlayerNoticeMessage:
   status: pending
-action::SendPlayerNoticeMessageBase:
+action::SendNoticeMessageBase:
   status: pending
 action::SendSignalAction:
   status: pending
@@ -3280,13 +3280,13 @@ action::SideStepWait:
   status: pending
 action::SideWalk:
   status: pending
-action::SideWalkBase:
+action::SideMoveBase:
   status: pending
 action::SilentKilled:
   status: pending
 action::SimpleGrabWithAS:
   status: pending
-action::SimpleGrabWithASBase:
+action::SimpleGrabBase:
   status: pending
 action::SimpleLineBeam:
   status: pending
@@ -3388,7 +3388,7 @@ action::SiteBossSwordWhirlSlash:
   status: pending
 action::SiteBossSwordWhirlSlashCharge:
   status: pending
-action::SiteBossSwordWhirlSlashChargeBase:
+action::LastBossSwordWhirlSlashChargeBase:
   status: pending
 action::SiteBossThrowParts:
   status: pending
@@ -3402,11 +3402,11 @@ action::SlippedBackWalkBase:
   status: pending
 action::SlippedCircleWalk:
   status: pending
-action::SlippedCircleWalkBase:
+action::SlippedCircleMoveBase:
   status: pending
 action::SlippedWalk:
   status: pending
-action::SlippedWalkBase:
+action::SlippedMoveBase:
   status: pending
 action::SmallDamage:
   status: pending
@@ -3522,7 +3522,7 @@ action::SweepCollision:
   status: pending
 action::SwimEnemyAnmBackBlownOff:
   status: pending
-action::SwimEnemyAnmBackBlownOffBase:
+action::SwimEnemyBlownOffBase:
   status: pending
 action::SwimEnemyAnmBackBlownOffFromPL:
   status: pending
@@ -3578,7 +3578,7 @@ action::SystemWarp:
   status: pending
 action::TackleMove:
   status: pending
-action::TakeHitImpactForce:
+action::KnockBackHitImpactForce:
   status: pending
 action::TakeoffFromCeilLook:
   status: pending
@@ -3740,7 +3740,7 @@ action::WarpPLAndResetGimmick:
   status: pending
 action::WarpPlayer:
   status: pending
-action::WarpPlayerBase:
+action::DestPlayerWarpBase:
   status: pending
 action::WarpPlayerToActor:
   status: pending
@@ -3806,7 +3806,7 @@ action::WeaponTrueFormEftCtrl:
   status: pending
 action::WildHorseCreate:
   status: pending
-action::WillBallAction:
+action::WillBallBase:
   status: pending
 action::WillBallAttack:
   status: pending

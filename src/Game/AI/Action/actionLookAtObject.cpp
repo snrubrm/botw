@@ -3,20 +3,20 @@
 
 namespace uking::action {
 
-LookAtObject::LookAtObject(const InitArg& arg) : LookAtObjectBase(arg) {}
+LookAtObject::LookAtObject(const InitArg& arg) : TurnAndLookToObjBase(arg) {}
 
 LookAtObject::~LookAtObject() = default;
 
 bool LookAtObject::init_(sead::Heap* heap) {
-    return LookAtObjectBase::init_(heap);
+    return TurnAndLookToObjBase::init_(heap);
 }
 
 void LookAtObject::loadParams_() {
-    LookAtObjectBase::loadParams_();
+    TurnAndLookToObjBase::loadParams_();
 }
 
 void LookAtObject::m33() {
-    LookAtObjectBase::m33();
+    TurnAndLookToObjBase::m33();
     --_30;
 }
 

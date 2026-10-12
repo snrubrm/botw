@@ -2,13 +2,13 @@
 
 #include <gfx/seadColor.h>
 
-#include "Game/AI/Action/actionPlayerStoleOpenEx.h"
+#include "Game/AI/Action/actionBindPlayerNodeEx.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class PlayerStoleOpen : public PlayerStoleOpenEx {
-    SEAD_RTTI_OVERRIDE(PlayerStoleOpen, PlayerStoleOpenEx)
+class PlayerStoleOpen : public BindPlayerNodeEx {
+    SEAD_RTTI_OVERRIDE(PlayerStoleOpen, BindPlayerNodeEx)
 public:
     explicit PlayerStoleOpen(const InitArg& arg);
 

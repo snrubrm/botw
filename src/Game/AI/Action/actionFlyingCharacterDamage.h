@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/AI/Action/actionFlyingCharacterDamageBase.h"
+#include "Game/AI/Action/actionFlyingActorDamageBase.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class FlyingCharacterDamage : public FlyingCharacterDamageBase {
-    SEAD_RTTI_OVERRIDE(FlyingCharacterDamage, FlyingCharacterDamageBase)
+class FlyingCharacterDamage : public FlyingActorDamageBase {
+    SEAD_RTTI_OVERRIDE(FlyingCharacterDamage, FlyingActorDamageBase)
 public:
     explicit FlyingCharacterDamage(const InitArg& arg);
 

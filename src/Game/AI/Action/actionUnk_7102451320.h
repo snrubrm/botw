@@ -6,7 +6,7 @@
 #include "KingSystem/ActorSystem/actBoneHandle.h"
 
 // Unnamed bone handle (vtable 0x7102451320; constructor 0x7100743334, D1 0x71007433a0, D0 0x71007433e0,
-// m2 0x710074344c, m3 0x7100743748) embedded in GiantAttack (+0x90). Searches the bone named _50 in
+// m2 0x710074344c, m3 0x7100743748) embedded in TurnGiantAttack (+0x90). Searches the bone named _50 in
 // the actor's model every frame and applies a rotation to it (m2 is not decompiled yet).
 // Placeholder name = vtable address.
 class Unk_7102451320 : public ksys::act::BoneHandleBase {

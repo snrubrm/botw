@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/AI/Action/actionAttackBase.h"
+#include "Game/AI/Action/actionStoppingAttackBase.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class Attack : public AttackBase {
-    SEAD_RTTI_OVERRIDE(Attack, AttackBase)
+class Attack : public StoppingAttackBase {
+    SEAD_RTTI_OVERRIDE(Attack, StoppingAttackBase)
 public:
     explicit Attack(const InitArg& arg);
     ~Attack() override = default;

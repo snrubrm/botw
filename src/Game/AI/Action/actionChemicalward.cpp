@@ -5,16 +5,16 @@
 
 namespace uking::action {
 
-Chemicalward::Chemicalward(const InitArg& arg) : ActionWithPosAngReduce(arg) {}
+Chemicalward::Chemicalward(const InitArg& arg) : StopBase(arg) {}
 
 Chemicalward::~Chemicalward() = default;
 
 bool Chemicalward::init_(sead::Heap* heap) {
-    return ActionWithPosAngReduce::init_(heap);
+    return StopBase::init_(heap);
 }
 
 void Chemicalward::enter_(ksys::act::ai::InlineParamPack* params) {
-    ActionWithPosAngReduce::enter_(params);
+    StopBase::enter_(params);
     playAS("Burnward", false, 0, 0, -1.0f);
     _13c = sead::Matrix34f::ident;
     auto* model = mActor->getModel();
@@ -35,13 +35,13 @@ void Chemicalward::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void Chemicalward::leave_() {
-    ActionWithPosAngReduce::leave_();
+    StopBase::leave_();
     _90._68 = sead::Matrix34f::ident;
     mActor->sub_71011DA868(&_90);
 }
 
 void Chemicalward::loadParams_() {
-    ActionWithPosAngReduce::loadParams_();
+    StopBase::loadParams_();
     getStaticParam(&mWeaponIdx_s, "WeaponIdx");
     getStaticParam(&mNodeAxisIdx_s, "NodeAxisIdx");
     getStaticParam(&mStableTime_s, "StableTime");
@@ -56,7 +56,7 @@ void Chemicalward::loadParams_() {
 }
 
 void Chemicalward::calc_() {
-    ActionWithPosAngReduce::calc_();
+    StopBase::calc_();
 }
 
 bool Chemicalward::isChangeable() const {

@@ -1,15 +1,15 @@
 #pragma once
 
 #include <container/seadBuffer.h>
-#include "Game/AI/Action/actionActionWithPosAngReduce.h"
+#include "Game/AI/Action/actionStopBase.h"
 #include "Game/AI/aiUnk_7102357d20.h"
 #include "KingSystem/ActorSystem/actBaseProcHandle.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class AnchorSummon : public ActionWithPosAngReduce {
-    SEAD_RTTI_OVERRIDE(AnchorSummon, ActionWithPosAngReduce)
+class AnchorSummon : public StopBase {
+    SEAD_RTTI_OVERRIDE(AnchorSummon, StopBase)
 public:
     explicit AnchorSummon(const InitArg& arg);
     ~AnchorSummon() override;

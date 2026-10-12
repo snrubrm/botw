@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/AI/Action/actionForbidTag.h"
+#include "Game/AI/Action/actionBasicSignalForbidTag.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class PlayerInAreaAutoEnemyForbidTag : public ForbidTag {
-    SEAD_RTTI_OVERRIDE(PlayerInAreaAutoEnemyForbidTag, ForbidTag)
+class PlayerInAreaAutoEnemyForbidTag : public BasicSignalForbidTag {
+    SEAD_RTTI_OVERRIDE(PlayerInAreaAutoEnemyForbidTag, BasicSignalForbidTag)
 public:
     explicit PlayerInAreaAutoEnemyForbidTag(const InitArg& arg);
     ~PlayerInAreaAutoEnemyForbidTag() override;

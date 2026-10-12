@@ -10,7 +10,7 @@
 
 
 // Placeholder name = constructor address (0x71006f3044; no real name known). Beam helper embedded in
-// NeckSpinBeam (+0xb8), BeamosStaticBeam (+0xa8) and ForkGanonBeastBeamShoot (+0x68): spawns the beam
+// BeamNeckSpin (+0xb8), BeamosStaticBeam (+0xa8) and ForkGanonBeastBeamShoot (+0x68): spawns the beam
 // actor (named by the actions' "BeamActorName" / "BeamActorKey" params) and keeps the BaseProcLink
 // to it in the shared "BeamActorLink" AI tree variable (Unk_71023da520). Only the constructor is
 // decompiled; the destructor (0x71006f3140, which releases `_80`) and the other methods below are

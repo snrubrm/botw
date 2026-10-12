@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/AI/Action/actionWarpPlayerBase.h"
+#include "Game/AI/Action/actionDestPlayerWarpBase.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class WarpPlayer : public WarpPlayerBase {
-    SEAD_RTTI_OVERRIDE(WarpPlayer, WarpPlayerBase)
+class WarpPlayer : public DestPlayerWarpBase {
+    SEAD_RTTI_OVERRIDE(WarpPlayer, DestPlayerWarpBase)
 public:
     explicit WarpPlayer(const InitArg& arg);
     ~WarpPlayer() override;

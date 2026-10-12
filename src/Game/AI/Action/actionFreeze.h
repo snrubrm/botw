@@ -1,14 +1,14 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actCCAccessor.h"
-#include "Game/AI/Action/actionActionWithPosAngReduce.h"
+#include "Game/AI/Action/actionStopBase.h"
 #include "Game/AI/aiUnk_7102384718.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class Freeze : public ActionWithPosAngReduce {
-    SEAD_RTTI_OVERRIDE(Freeze, ActionWithPosAngReduce)
+class Freeze : public StopBase {
+    SEAD_RTTI_OVERRIDE(Freeze, StopBase)
 public:
     explicit Freeze(const InitArg& arg);
     ~Freeze() override;

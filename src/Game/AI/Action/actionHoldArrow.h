@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/AI/Action/actionActionWithPosAngReduce.h"
+#include "Game/AI/Action/actionStopBase.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class HoldArrow : public ActionWithPosAngReduce {
-    SEAD_RTTI_OVERRIDE(HoldArrow, ActionWithPosAngReduce)
+class HoldArrow : public StopBase {
+    SEAD_RTTI_OVERRIDE(HoldArrow, StopBase)
 public:
     explicit HoldArrow(const InitArg& arg);
 

@@ -6,28 +6,28 @@
 namespace uking::action {
 
 SendPlayerNoticeMessage::SendPlayerNoticeMessage(const InitArg& arg)
-    : SendPlayerNoticeMessageBase(arg) {}
+    : SendNoticeMessageBase(arg) {}
 
 SendPlayerNoticeMessage::~SendPlayerNoticeMessage() = default;
 
 bool SendPlayerNoticeMessage::init_(sead::Heap* heap) {
-    return SendPlayerNoticeMessageBase::init_(heap);
+    return SendNoticeMessageBase::init_(heap);
 }
 
 void SendPlayerNoticeMessage::enter_(ksys::act::ai::InlineParamPack* params) {
-    SendPlayerNoticeMessageBase::enter_(params);
+    SendNoticeMessageBase::enter_(params);
 }
 
 void SendPlayerNoticeMessage::leave_() {
-    SendPlayerNoticeMessageBase::leave_();
+    SendNoticeMessageBase::leave_();
 }
 
 void SendPlayerNoticeMessage::loadParams_() {
-    SendPlayerNoticeMessageBase::loadParams_();
+    SendNoticeMessageBase::loadParams_();
 }
 
 void SendPlayerNoticeMessage::calc_() {
-    SendPlayerNoticeMessageBase::calc_();
+    SendNoticeMessageBase::calc_();
 }
 
 void SendPlayerNoticeMessage::m32() {

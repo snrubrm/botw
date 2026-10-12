@@ -8,24 +8,24 @@
 
 namespace uking::action {
 
-HornUse::HornUse(const InitArg& arg) : HornUseBase(arg) {}
+HornUse::HornUse(const InitArg& arg) : EquipHornUseBase(arg) {}
 
 HornUse::~HornUse() = default;
 
 bool HornUse::init_(sead::Heap* heap) {
-    if (!HornUseBase::init_(heap))
+    if (!EquipHornUseBase::init_(heap))
         return false;
     _f0.sub_7100D78564(heap);
     return true;
 }
 
 void HornUse::enter_(ksys::act::ai::InlineParamPack* params) {
-    HornUseBase::enter_(params);
+    EquipHornUseBase::enter_(params);
     _1a8 = f32(*mSpreadTime_s);
 }
 
 void HornUse::leave_() {
-    HornUseBase::leave_();
+    EquipHornUseBase::leave_();
     if (auto* owner = mActor->get548())
         owner->sub_7100D78444(&_f0);
 }
@@ -33,7 +33,7 @@ void HornUse::leave_() {
 // NON_MATCHING: the original keeps &mSpreadTime_s in a callee-saved register from the start
 // (known unexplained loadParams_ shape)
 void HornUse::loadParams_() {
-    HornUseBase::loadParams_();
+    EquipHornUseBase::loadParams_();
     getStaticParam(&mSpreadDist_s, "SpreadDist");
     getStaticParam(&mSpreadTime_s, "SpreadTime");
     getStaticParam(&mTerrorLevel_s, "TerrorLevel");
@@ -41,7 +41,7 @@ void HornUse::loadParams_() {
 }
 
 void HornUse::calc_() {
-    HornUseBase::calc_();
+    EquipHornUseBase::calc_();
 
     if (!(_1a8 >= 0.0f))
         return;

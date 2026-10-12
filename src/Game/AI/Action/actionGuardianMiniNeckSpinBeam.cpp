@@ -7,12 +7,12 @@
 
 namespace uking::action {
 
-GuardianMiniNeckSpinBeam::GuardianMiniNeckSpinBeam(const InitArg& arg) : NeckSpinBeam(arg) {}
+GuardianMiniNeckSpinBeam::GuardianMiniNeckSpinBeam(const InitArg& arg) : BeamNeckSpin(arg) {}
 
 GuardianMiniNeckSpinBeam::~GuardianMiniNeckSpinBeam() = default;
 
 void GuardianMiniNeckSpinBeam::enter_(ksys::act::ai::InlineParamPack* params) {
-    NeckSpinBeam::enter_(params);
+    BeamNeckSpin::enter_(params);
     _190 = 0;
     _194 = sead::Mathf::pi2();
     _194 *= *mSpinNum_s;
@@ -25,14 +25,14 @@ void GuardianMiniNeckSpinBeam::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void GuardianMiniNeckSpinBeam::loadParams_() {
-    NeckSpinBeam::loadParams_();
+    BeamNeckSpin::loadParams_();
     getStaticParam(&mSpinNum_s, "SpinNum");
     getStaticParam(&mMaxLengthTime_s, "MaxLengthTime");
     getStaticParam(&mIsStraight_s, "IsStraight");
 }
 
 void GuardianMiniNeckSpinBeam::calc_() {
-    NeckSpinBeam::calc_();
+    BeamNeckSpin::calc_();
     sead::Vector3f direction;
     if (sub_7100197BE4(&direction)) {
         _b8.sub_71006F3BC4(&direction);

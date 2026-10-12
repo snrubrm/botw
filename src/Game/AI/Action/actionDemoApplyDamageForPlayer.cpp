@@ -6,16 +6,16 @@
 namespace uking::action {
 
 DemoApplyDamageForPlayer::DemoApplyDamageForPlayer(const InitArg& arg)
-    : ApplyDamageForPlayer(arg) {}
+    : DemoApplyDamageBase(arg) {}
 
 DemoApplyDamageForPlayer::~DemoApplyDamageForPlayer() = default;
 
 bool DemoApplyDamageForPlayer::init_(sead::Heap* heap) {
-    return ApplyDamageForPlayer::init_(heap);
+    return DemoApplyDamageBase::init_(heap);
 }
 
 bool DemoApplyDamageForPlayer::oneShot_() {
-    if (!ApplyDamageForPlayer::oneShot_())
+    if (!DemoApplyDamageBase::oneShot_())
         return false;
 
     auto* info = ksys::act::PlayerInfo::instance();
@@ -35,7 +35,7 @@ bool DemoApplyDamageForPlayer::oneShot_() {
 }
 
 void DemoApplyDamageForPlayer::loadParams_() {
-    ApplyDamageForPlayer::loadParams_();
+    DemoApplyDamageBase::loadParams_();
 }
 
 }  // namespace uking::action

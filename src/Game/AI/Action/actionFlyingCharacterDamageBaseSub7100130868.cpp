@@ -1,4 +1,4 @@
-#include "Game/AI/Action/actionFlyingCharacterDamageBase.h"
+#include "Game/AI/Action/actionFlyingActorDamageBase.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Utils/MathUtil.h"
 
@@ -8,7 +8,7 @@ namespace uking::action {
 // original calls out of line.
 // NON_MATCHING: same arithmetic; ours keeps an extra 16-byte stack slot (stack frame 0x90 vs 0x80) and multiplies the
 // rise vector with the operands swapped.
-void FlyingCharacterDamageBase::sub_7100130868(ksys::phys::CharacterController* controller,
+void FlyingActorDamageBase::sub_7100130868(ksys::phys::CharacterController* controller,
                                               const sead::Vector3f& dir) {
     sead::Vector3f velocity;
     sead::Vector3f horizontal;

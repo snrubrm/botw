@@ -17,7 +17,7 @@ void Search::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void Search::loadParams_() {
-    ActionWithPosAngReduce::loadParams_();
+    StopBase::loadParams_();
     getStaticParam(&mNoChangeTime_s, "NoChangeTime");
 }
 

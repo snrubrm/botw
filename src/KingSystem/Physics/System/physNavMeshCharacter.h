@@ -194,8 +194,8 @@ public:
                  std::numeric_limits<f32>::quiet_NaN());
     }
 
-    // Inline-only in the original (lane5 s1 / lane4 s45; names are guesses): the setters used by the NavMeshAction
-    // family (NavMeshAction enter_ / leave_, also EnemyRushAttack, KokkoMove, AnimalFollowBase and
+    // Inline-only in the original (lane5 s1 / lane4 s45; names are guesses): the setters used by the NavMeshMoveBase
+    // family (NavMeshMoveBase enter_ / leave_, also EnemyRushAttack, KokkoMove, HorseFollowBase and
     // AnimalMoveStraightTimed use them). Both store a value under `_1e0` and set a bit of the flags `_220`.
     // `_2bc` (bit 0x400) is only changed for a valid value (checks in the original order: |v| <= FLT_MAX,
     // v >= 0, not NaN). `_2c0` (bit 0x800) is only changed if `value` is not below the initial limit

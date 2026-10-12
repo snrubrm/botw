@@ -2,18 +2,18 @@
 
 namespace uking::action {
 
-GuardianSearch::GuardianSearch(const InitArg& arg) : GuardianMoveTo(arg) {}
+GuardianSearch::GuardianSearch(const InitArg& arg) : GuardianActionBase(arg) {}
 
 GuardianSearch::~GuardianSearch() = default;
 
 bool GuardianSearch::init_(sead::Heap* heap) {
-    return GuardianMoveTo::init_(heap);
+    return GuardianActionBase::init_(heap);
 }
 
 // NON_MATCHING: the original keeps `state == _14d8` and the `*mLost_s` test as two separate compares (cmp + ccmp);
 // ours folds the second into the first.
 void GuardianSearch::enter_(ksys::act::ai::InlineParamPack* params) {
-    GuardianMoveTo::enter_(params);
+    GuardianActionBase::enter_(params);
     playAS("Wait", true, 0, 0, -1.0f);
     _28 = *mWaitFrame_s;
     mFlags.set(Flag::Changeable);
@@ -24,17 +24,17 @@ void GuardianSearch::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void GuardianSearch::leave_() {
-    GuardianMoveTo::leave_();
+    GuardianActionBase::leave_();
 }
 
 void GuardianSearch::loadParams_() {
-    GuardianMoveTo::loadParams_();
+    GuardianActionBase::loadParams_();
     getStaticParam(&mWaitFrame_s, "WaitFrame");
     getStaticParam(&mLost_s, "Lost");
 }
 
 void GuardianSearch::calc_() {
-    GuardianMoveTo::calc_();
+    GuardianActionBase::calc_();
     ksys::Timer::update(&_28, -1.0f);
     if (_28 <= 0.0f)
         setFinished();

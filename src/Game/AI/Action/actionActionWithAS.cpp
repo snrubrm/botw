@@ -2,15 +2,15 @@
 
 namespace uking::action {
 
-ActionWithAS::ActionWithAS(const InitArg& arg) : ActionWithPosAngReduce(arg) {}
+ActionWithAS::ActionWithAS(const InitArg& arg) : StopBase(arg) {}
 
 void ActionWithAS::enter_(ksys::act::ai::InlineParamPack* params) {
-    ActionWithPosAngReduce::enter_(params);
+    StopBase::enter_(params);
     mFlags.reset(Flag::Changeable);
 }
 
 void ActionWithAS::calc_() {
-    ActionWithPosAngReduce::calc_();
+    StopBase::calc_();
     if (isFinishedAS(0, 0))
         setFinished();
 }

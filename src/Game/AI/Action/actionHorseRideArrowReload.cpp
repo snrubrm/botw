@@ -5,7 +5,7 @@
 
 namespace uking::action {
 
-HorseRideArrowReload::HorseRideArrowReload(const InitArg& arg) : HorseRide(arg) {}
+HorseRideArrowReload::HorseRideArrowReload(const InitArg& arg) : HorseRideBase(arg) {}
 
 // Empty-statement body as in upstream's GameDataFlagSelector::~GameDataFlagSelector() (96101229):
 // the original keeps the vtable store that a defaulted destructor drops.
@@ -14,23 +14,23 @@ HorseRideArrowReload::~HorseRideArrowReload() {
 }
 
 bool HorseRideArrowReload::init_(sead::Heap* heap) {
-    return HorseRide::init_(heap);
+    return HorseRideBase::init_(heap);
 }
 
 void HorseRideArrowReload::enter_(ksys::act::ai::InlineParamPack* params) {
-    HorseRide::enter_(params);
+    HorseRideBase::enter_(params);
     sub_71001AD8A0(mASName_s.cstr(), true);
     sub_71005D787C(mActor, *mWeaponIdx_s, act::Unk_71002eda38(4));
 }
 
 void HorseRideArrowReload::leave_() {
-    HorseRide::leave_();
+    HorseRideBase::leave_();
     sub_71001ADAA8();
     sub_71005D787C(mActor, *mWeaponIdx_s, act::Unk_71002eda38(5));
 }
 
 void HorseRideArrowReload::loadParams_() {
-    HorseRide::loadParams_();
+    HorseRideBase::loadParams_();
     getStaticParam(&mWeaponIdx_s, "WeaponIdx");
     getStaticParam(&mRotRatio_s, "RotRatio");
     getStaticParam(&mASName_s, "ASName");
@@ -38,7 +38,7 @@ void HorseRideArrowReload::loadParams_() {
 }
 
 void HorseRideArrowReload::calc_() {
-    HorseRide::calc_();
+    HorseRideBase::calc_();
     sub_71005D787C(mActor, *mWeaponIdx_s, act::Unk_71002eda38(4));
     sub_71001ADAA0(*mTargetPos_d);
     if (sub_71001ADA78())

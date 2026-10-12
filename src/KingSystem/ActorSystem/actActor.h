@@ -401,7 +401,7 @@ public:
     // 0x7100ee788c (CSV Actor::createDrops): `DropMgr::instance()->createDrops(this, 0)` (both
     // parameters are ignored; killWithDropsAndEffects passes 1 / 0).
     void createDrops(int a1, int a2);
-    // 0x71011d49c8 (declared only; placeholder name): called by KokkoCreateDropBase::enter_ right after createDrops.
+    // 0x71011d49c8 (declared only; placeholder name): called by CreateDropBase::enter_ right after createDrops.
     void sub_71011D49C8();
     // CSV name.
     void clearFadeInCreate();

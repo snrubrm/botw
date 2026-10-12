@@ -8,7 +8,7 @@
 namespace uking::action {
 
 SwimEnemyAnmBackBlownOff::SwimEnemyAnmBackBlownOff(const InitArg& arg)
-    : SwimEnemyAnmBackBlownOffBase(arg) {}
+    : SwimEnemyBlownOffBase(arg) {}
 
 // Empty-statement body as in upstream's GameDataFlagSelector::~GameDataFlagSelector() (96101229):
 // the original keeps the vtable store that a defaulted destructor drops.
@@ -17,13 +17,13 @@ SwimEnemyAnmBackBlownOff::~SwimEnemyAnmBackBlownOff() {
 }
 
 bool SwimEnemyAnmBackBlownOff::init_(sead::Heap* heap) {
-    return SwimEnemyAnmBackBlownOffBase::init_(heap);
+    return SwimEnemyBlownOffBase::init_(heap);
 }
 
 void SwimEnemyAnmBackBlownOff::enter_(ksys::act::ai::InlineParamPack* params) {
     // NON_MATCHING: the original copies the character controller position into a second Vector3f before
     // the call (and reuses its stack slot for the matrix); the stack frame differs
-    SwimEnemyAnmBackBlownOffBase::enter_(params);
+    SwimEnemyBlownOffBase::enter_(params);
     sub_710073FA90(&_78, mActor);
     if (auto* cc = mActor->getCharacterController()) {
         const sead::Vector3f vel = cc->get64();
@@ -36,16 +36,16 @@ void SwimEnemyAnmBackBlownOff::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void SwimEnemyAnmBackBlownOff::leave_() {
-    SwimEnemyAnmBackBlownOffBase::leave_();
+    SwimEnemyBlownOffBase::leave_();
 }
 
 void SwimEnemyAnmBackBlownOff::loadParams_() {
-    SwimEnemyAnmBackBlownOffBase::loadParams_();
+    SwimEnemyBlownOffBase::loadParams_();
     getStaticParam(&mRotSpeed_s, "RotSpeed");
 }
 
 void SwimEnemyAnmBackBlownOff::calc_() {
-    SwimEnemyAnmBackBlownOffBase::calc_();
+    SwimEnemyBlownOffBase::calc_();
 }
 
 // NON_MATCHING: the original keeps `this + 0x9c` in a register (pre-indexed load) and reads _9c.z through it

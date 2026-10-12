@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/AI/Action/actionActionWithPosAngReduce.h"
+#include "Game/AI/Action/actionStopBase.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class Grab : public ActionWithPosAngReduce {
-    SEAD_RTTI_OVERRIDE(Grab, ActionWithPosAngReduce)
+class Grab : public StopBase {
+    SEAD_RTTI_OVERRIDE(Grab, StopBase)
 public:
     explicit Grab(const InitArg& arg);
 

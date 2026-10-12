@@ -6,16 +6,16 @@
 
 namespace uking::action {
 
-SiteBossChemicalPlus::SiteBossChemicalPlus(const InitArg& arg) : ActionWithPosAngReduce(arg) {}
+SiteBossChemicalPlus::SiteBossChemicalPlus(const InitArg& arg) : StopBase(arg) {}
 
 SiteBossChemicalPlus::~SiteBossChemicalPlus() = default;
 
 bool SiteBossChemicalPlus::init_(sead::Heap* heap) {
-    return ActionWithPosAngReduce::init_(heap);
+    return StopBase::init_(heap);
 }
 
 void SiteBossChemicalPlus::enter_(ksys::act::ai::InlineParamPack* params) {
-    ActionWithPosAngReduce::enter_(params);
+    StopBase::enter_(params);
     _60 = false;
     playAS(mChmicalPlusASName_s.cstr(), false, 0, 0, -1.0f);
     if (auto* as_list = mActor->getASList())
@@ -24,14 +24,14 @@ void SiteBossChemicalPlus::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void SiteBossChemicalPlus::leave_() {
-    ActionWithPosAngReduce::leave_();
+    StopBase::leave_();
     if (!_60)
         sub_7100257F80();
     sub_71005DB434(mActor);
 }
 
 void SiteBossChemicalPlus::loadParams_() {
-    ActionWithPosAngReduce::loadParams_();
+    StopBase::loadParams_();
     getStaticParam(&mIsDeleteAllChildDevice_s, "IsDeleteAllChildDevice");
     getStaticParam(&mIsSetCanGuardArrowFlag_s, "IsSetCanGuardArrowFlag");
     getStaticParam(&mChemicalLoopASName_s, "ChemicalLoopASName");
@@ -55,7 +55,7 @@ void SiteBossChemicalPlus::sub_7100257F80() {
 }
 
 void SiteBossChemicalPlus::calc_() {
-    ActionWithPosAngReduce::calc_();
+    StopBase::calc_();
     ksys::as::ASList::Unk4 query;
     if (sub_71005DD780(mActor, 81, &query, 0, 0)) {
         _60 = true;

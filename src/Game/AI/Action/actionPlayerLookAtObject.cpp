@@ -3,16 +3,16 @@
 
 namespace uking::action {
 
-PlayerLookAtObject::PlayerLookAtObject(const InitArg& arg) : LookAtObjectBase(arg) {}
+PlayerLookAtObject::PlayerLookAtObject(const InitArg& arg) : TurnAndLookToObjBase(arg) {}
 
 PlayerLookAtObject::~PlayerLookAtObject() = default;
 
 bool PlayerLookAtObject::init_(sead::Heap* heap) {
-    return LookAtObjectBase::init_(heap);
+    return TurnAndLookToObjBase::init_(heap);
 }
 
 void PlayerLookAtObject::m33() {
-    LookAtObjectBase::m33();
+    TurnAndLookToObjBase::m33();
     if (_30 == 4)
         _30 = 5;
 }
@@ -75,7 +75,7 @@ void PlayerLookAtObject::m38() {
 }
 
 void PlayerLookAtObject::loadParams_() {
-    LookAtObjectBase::loadParams_();
+    TurnAndLookToObjBase::loadParams_();
 }
 
 }  // namespace uking::action

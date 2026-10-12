@@ -2,10 +2,10 @@
 
 namespace uking::action {
 
-StopASPlay::StopASPlay(const InitArg& arg) : ActionWithPosAngReduce(arg) {}
+StopASPlay::StopASPlay(const InitArg& arg) : StopBase(arg) {}
 
 void StopASPlay::enter_(ksys::act::ai::InlineParamPack* params) {
-    ActionWithPosAngReduce::enter_(params);
+    StopBase::enter_(params);
     if (!mASName_s.isEmpty())
         playAS(mASName_s.cstr(), *mIsIgnoreSame_s, 0, 0, -1.0f);
 }
@@ -16,11 +16,11 @@ void StopASPlay::leave_() {}
 void StopASPlay::loadParams_() {
     getStaticParam(&mASName_s, "ASName");
     getStaticParam(&mIsIgnoreSame_s, "IsIgnoreSame");
-    ActionWithPosAngReduce::loadParams_();
+    StopBase::loadParams_();
 }
 
 void StopASPlay::calc_() {
-    ActionWithPosAngReduce::calc_();
+    StopBase::calc_();
 }
 
 }  // namespace uking::action

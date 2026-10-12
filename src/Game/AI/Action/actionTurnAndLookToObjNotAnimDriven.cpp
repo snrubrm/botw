@@ -11,7 +11,7 @@
 namespace uking::action {
 
 TurnAndLookToObjNotAnimDriven::TurnAndLookToObjNotAnimDriven(const InitArg& arg)
-    : LookAtObjectBase(arg) {}
+    : TurnAndLookToObjBase(arg) {}
 
 // Empty-statement body as in upstream's GameDataFlagSelector::~GameDataFlagSelector() (96101229):
 // the original keeps the vtable store that a defaulted destructor drops.
@@ -20,7 +20,7 @@ TurnAndLookToObjNotAnimDriven::~TurnAndLookToObjNotAnimDriven() {
 }
 
 bool TurnAndLookToObjNotAnimDriven::init_(sead::Heap* heap) {
-    return LookAtObjectBase::init_(heap);
+    return TurnAndLookToObjBase::init_(heap);
 }
 
 void TurnAndLookToObjNotAnimDriven::enter_(ksys::act::ai::InlineParamPack* params) {
@@ -69,13 +69,13 @@ void TurnAndLookToObjNotAnimDriven::enter_(ksys::act::ai::InlineParamPack* param
 }
 
 void TurnAndLookToObjNotAnimDriven::leave_() {
-    LookAtObjectBase::leave_();
+    TurnAndLookToObjBase::leave_();
     if (auto* cc = mActor->getCharacterController())
         cc->sub_7100F5FB24(sead::Vector3f::zero);
 }
 
 void TurnAndLookToObjNotAnimDriven::loadParams_() {
-    LookAtObjectBase::loadParams_();
+    TurnAndLookToObjBase::loadParams_();
     getDynamicParam(&mRotSpdMax_d, "RotSpdMax");
     getDynamicParam(&mRotSpdMin_d, "RotSpdMin");
     getDynamicParam(&mRotInitSpd_d, "RotInitSpd");
@@ -84,7 +84,7 @@ void TurnAndLookToObjNotAnimDriven::loadParams_() {
 }
 
 void TurnAndLookToObjNotAnimDriven::calc_() {
-    LookAtObjectBase::calc_();
+    TurnAndLookToObjBase::calc_();
     auto* controller = mActor->getCharacterController();
     if (!controller) {
         setFailed();

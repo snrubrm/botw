@@ -3,30 +3,30 @@
 namespace uking::action {
 
 GiantOneHandPunchWithLegTurn::GiantOneHandPunchWithLegTurn(const InitArg& arg)
-    : GiantOneHandActionWithLegTurn(arg) {}
+    : OneHandActionWithLegTurn(arg) {}
 
 GiantOneHandPunchWithLegTurn::~GiantOneHandPunchWithLegTurn() = default;
 
 bool GiantOneHandPunchWithLegTurn::init_(sead::Heap* heap) {
-    return GiantOneHandActionWithLegTurn::init_(heap);
+    return OneHandActionWithLegTurn::init_(heap);
 }
 
 void GiantOneHandPunchWithLegTurn::leave_() {
-    GiantOneHandActionWithLegTurn::leave_();
+    OneHandActionWithLegTurn::leave_();
 }
 
 void GiantOneHandPunchWithLegTurn::enter_(ksys::act::ai::InlineParamPack* params) {
-    GiantOneHandActionWithLegTurn::enter_(params);
+    OneHandActionWithLegTurn::enter_(params);
     _280.sub_7100704944();
 }
 
 void GiantOneHandPunchWithLegTurn::loadParams_() {
-    GiantOneHandActionWithLegTurn::loadParams_();
+    OneHandActionWithLegTurn::loadParams_();
     _280.sub_7100704D84(this);
 }
 
 void GiantOneHandPunchWithLegTurn::calc_() {
-    GiantOneHandActionWithLegTurn::calc_();
+    OneHandActionWithLegTurn::calc_();
     _280.sub_710070494C();
 }
 

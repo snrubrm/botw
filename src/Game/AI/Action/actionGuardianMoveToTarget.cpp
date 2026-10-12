@@ -4,16 +4,16 @@
 
 namespace uking::action {
 
-GuardianMoveToTarget::GuardianMoveToTarget(const InitArg& arg) : GuardianMoveTo(arg) {}
+GuardianMoveToTarget::GuardianMoveToTarget(const InitArg& arg) : GuardianActionBase(arg) {}
 
 GuardianMoveToTarget::~GuardianMoveToTarget() = default;
 
 bool GuardianMoveToTarget::init_(sead::Heap* heap) {
-    return GuardianMoveTo::init_(heap);
+    return GuardianActionBase::init_(heap);
 }
 
 void GuardianMoveToTarget::enter_(ksys::act::ai::InlineParamPack* params) {
-    GuardianMoveTo::enter_(params);
+    GuardianActionBase::enter_(params);
     mFlags.set(Flag::Changeable);
     _30 = 1.0f;
     if (auto* nav = mActor->m45()) {
@@ -25,18 +25,18 @@ void GuardianMoveToTarget::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void GuardianMoveToTarget::leave_() {
-    GuardianMoveTo::leave_();
+    GuardianActionBase::leave_();
     if (auto* nav = mActor->m45())
         nav->inlineReset();
 }
 
 void GuardianMoveToTarget::loadParams_() {
-    GuardianMoveTo::loadParams_();
+    GuardianActionBase::loadParams_();
     getStaticParam(&mSpeed_s, "Speed");
 }
 
 void GuardianMoveToTarget::calc_() {
-    GuardianMoveTo::calc_();
+    GuardianActionBase::calc_();
 }
 
 }  // namespace uking::action

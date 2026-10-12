@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/AI/Action/actionActionWithPosAngReduce.h"
+#include "Game/AI/Action/actionStopBase.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class GuardLoop : public ActionWithPosAngReduce {
-    SEAD_RTTI_OVERRIDE(GuardLoop, ActionWithPosAngReduce)
+class GuardLoop : public StopBase {
+    SEAD_RTTI_OVERRIDE(GuardLoop, StopBase)
 public:
     explicit GuardLoop(const InitArg& arg);
 

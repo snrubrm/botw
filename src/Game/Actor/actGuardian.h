@@ -41,7 +41,7 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(Unk_710243c250, 0x48);
 
-class Unk_7100041da4;  // actionGuardianMoveTo.h
+class Unk_7100041da4;  // actionGuardianActionBase.h
 
 namespace ksys::res {
 class GParamListObjectGuardian;
@@ -184,7 +184,7 @@ public:
         u8 _10[0x30 - 0x10];
         ksys::phys::NavMeshCharacter* _30;  // m45
         u8 _38[0x50 - 0x38];
-        // The movement provider (GuardianMoveTo's second base), set in GuardianMoveTo::enter_ and cleared
+        // The movement provider (GuardianActionBase's second base), set in GuardianActionBase::enter_ and cleared
         // in leave_.
         Unk_7100041da4* _50;
         u8 _58[0x64 - 0x58];

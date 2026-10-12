@@ -5,16 +5,16 @@
 namespace uking::action {
 
 ChuchuDissappearEscape::ChuchuDissappearEscape(const InitArg& arg)
-    : ChuchuDissappearEscapeBase(arg) {}
+    : DisappearAndEscapeBase(arg) {}
 
 ChuchuDissappearEscape::~ChuchuDissappearEscape() = default;
 
 bool ChuchuDissappearEscape::init_(sead::Heap* heap) {
-    return ChuchuDissappearEscapeBase::init_(heap);
+    return DisappearAndEscapeBase::init_(heap);
 }
 
 void ChuchuDissappearEscape::enter_(ksys::act::ai::InlineParamPack* params) {
-    ChuchuDissappearEscapeBase::enter_(params);
+    DisappearAndEscapeBase::enter_(params);
     if (auto* gel = sead::DynamicCast<act::GelEnemy>(mActor)) {
         gel->_1678 |= 1;
         gel->sub_71000269C8();
@@ -28,15 +28,15 @@ void ChuchuDissappearEscape::leave_() {
         gel->sub_7100026A38();
         gel->_1678 &= 0xfd;
     }
-    ChuchuDissappearEscapeBase::leave_();
+    DisappearAndEscapeBase::leave_();
 }
 
 void ChuchuDissappearEscape::loadParams_() {
-    ChuchuDissappearEscapeBase::loadParams_();
+    DisappearAndEscapeBase::loadParams_();
 }
 
 void ChuchuDissappearEscape::calc_() {
-    ChuchuDissappearEscapeBase::calc_();
+    DisappearAndEscapeBase::calc_();
     if (isFinishedAS(0, 0))
         mActor->deleteLater(ksys::act::BaseProc::DeleteReason::_0);
 }

@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/AI/Action/actionGuardianMoveTo.h"
+#include "Game/AI/Action/actionGuardianActionBase.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class GuardianSearch : public GuardianMoveTo {
-    SEAD_RTTI_OVERRIDE(GuardianSearch, GuardianMoveTo)
+class GuardianSearch : public GuardianActionBase {
+    SEAD_RTTI_OVERRIDE(GuardianSearch, GuardianActionBase)
 public:
     explicit GuardianSearch(const InitArg& arg);
     ~GuardianSearch() override;

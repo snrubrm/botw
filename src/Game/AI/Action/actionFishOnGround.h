@@ -1,13 +1,13 @@
 #pragma once
 
-#include "Game/AI/Action/actionActionWithPosAngReduce.h"
+#include "Game/AI/Action/actionStopBase.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 #include "KingSystem/ActorSystem/actCCAccessor.h"
 
 namespace uking::action {
 
-class FishOnGround : public ActionWithPosAngReduce {
-    SEAD_RTTI_OVERRIDE(FishOnGround, ActionWithPosAngReduce)
+class FishOnGround : public StopBase {
+    SEAD_RTTI_OVERRIDE(FishOnGround, StopBase)
 public:
     explicit FishOnGround(const InitArg& arg);
     ~FishOnGround() override;

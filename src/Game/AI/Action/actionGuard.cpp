@@ -5,21 +5,21 @@
 
 namespace uking::action {
 
-Guard::Guard(const InitArg& arg) : TakeHitImpactForce(arg) {}
+Guard::Guard(const InitArg& arg) : KnockBackHitImpactForce(arg) {}
 
 void Guard::enter_(ksys::act::ai::InlineParamPack* params) {
-    TakeHitImpactForce::enter_(params);
+    KnockBackHitImpactForce::enter_(params);
 }
 
 void Guard::loadParams_() {
-    TakeHitImpactForce::loadParams_();
+    KnockBackHitImpactForce::loadParams_();
     getStaticParam(&mRotSubsAngRate_s, "RotSubsAngRate");
 }
 
 void Guard::calc_() {
     if (auto* controller = mActor->getCharacterController()) {
         sub_7100738660(controller, 0.8f);
-        TakeHitImpactForce::calc_();
+        KnockBackHitImpactForce::calc_();
     }
 }
 

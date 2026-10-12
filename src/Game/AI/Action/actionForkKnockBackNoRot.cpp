@@ -20,7 +20,7 @@ void ForkKnockBackNoRot::leave_() {
 }
 
 void ForkKnockBackNoRot::loadParams_() {
-    TakeHitImpactForce::loadParams_();
+    KnockBackHitImpactForce::loadParams_();
 }
 
 void ForkKnockBackNoRot::calc_() {

@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/AI/Action/actionBackWalkEx.h"
+#include "Game/AI/Action/actionNormalBackWalk.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class GuardBackWalk : public BackWalkEx {
-    SEAD_RTTI_OVERRIDE(GuardBackWalk, BackWalkEx)
+class GuardBackWalk : public NormalBackWalk {
+    SEAD_RTTI_OVERRIDE(GuardBackWalk, NormalBackWalk)
 public:
     explicit GuardBackWalk(const InitArg& arg);
 

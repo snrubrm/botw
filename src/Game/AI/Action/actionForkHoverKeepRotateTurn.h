@@ -1,13 +1,13 @@
 #pragma once
 
-#include "Game/AI/Action/actionForkHoverKeepRotateTurnBase.h"
+#include "Game/AI/Action/actionForkKeepRotateTurn.h"
 #include "KingSystem/ActorSystem/actCCAccessor.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class ForkHoverKeepRotateTurn : public ForkHoverKeepRotateTurnBase {
-    SEAD_RTTI_OVERRIDE(ForkHoverKeepRotateTurn, ForkHoverKeepRotateTurnBase)
+class ForkHoverKeepRotateTurn : public ForkKeepRotateTurn {
+    SEAD_RTTI_OVERRIDE(ForkHoverKeepRotateTurn, ForkKeepRotateTurn)
 public:
     explicit ForkHoverKeepRotateTurn(const InitArg& arg);
     ~ForkHoverKeepRotateTurn() override;

@@ -11,7 +11,7 @@ class Actor;
 }
 
 // Attack helper (vtable 0x71023c8418, ctor 0x71002a6238): embedded in Attack (+0x40), FollowAttack
-// (+0x78) and returned by AttackBase::m32(). Loads the weapon / just-avoid / rod attack params and
+// (+0x78) and returned by StoppingAttackBase::m32(). Loads the weapon / just-avoid / rod attack params and
 // drives the weapon attack requests of the owner's actor.
 class Unk_71023c8418 : public Unk_71025afc58 {
     SEAD_RTTI_OVERRIDE(Unk_71023c8418, Unk_71025afc58)

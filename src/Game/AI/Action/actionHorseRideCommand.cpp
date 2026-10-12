@@ -4,12 +4,12 @@
 
 namespace uking::action {
 
-HorseRideCommand::HorseRideCommand(const InitArg& arg) : HorseRideCommandBase(arg) {}
+HorseRideCommand::HorseRideCommand(const InitArg& arg) : HorseRideOneTimeCommandBase(arg) {}
 
 HorseRideCommand::~HorseRideCommand() = default;
 
 bool HorseRideCommand::init_(sead::Heap* heap) {
-    return HorseRideCommandBase::init_(heap);
+    return HorseRideOneTimeCommandBase::init_(heap);
 }
 
 void HorseRideCommand::enter_(ksys::act::ai::InlineParamPack* params) {
@@ -19,7 +19,7 @@ void HorseRideCommand::enter_(ksys::act::ai::InlineParamPack* params) {
         setFinished();
         return;
     }
-    HorseRideCommandBase::enter_(params);
+    HorseRideOneTimeCommandBase::enter_(params);
     if (*mCommandTiming_s == 1) {
         if (auto* actor = sub_71005D7348(mActor))
             m32(actor);
@@ -27,16 +27,16 @@ void HorseRideCommand::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void HorseRideCommand::leave_() {
-    HorseRideCommandBase::leave_();
+    HorseRideOneTimeCommandBase::leave_();
 }
 
 void HorseRideCommand::loadParams_() {
-    HorseRideCommandBase::loadParams_();
+    HorseRideOneTimeCommandBase::loadParams_();
     getStaticParam(&mCommandTiming_s, "CommandTiming");
 }
 
 void HorseRideCommand::calc_() {
-    HorseRideCommandBase::calc_();
+    HorseRideOneTimeCommandBase::calc_();
     if (*mCommandTiming_s == 0 && sub_71001ADA78()) {
         if (auto* actor = sub_71005D7348(mActor))
             m32(actor);

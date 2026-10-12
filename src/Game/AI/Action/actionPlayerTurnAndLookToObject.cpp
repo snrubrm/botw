@@ -22,7 +22,7 @@ bool PlayerTurnAndLookToObject::init_(sead::Heap* heap) {
 
 void PlayerTurnAndLookToObject::enter_(ksys::act::ai::InlineParamPack* params) {
     const bool is_188 = static_cast<ksys::act::Player*>(mActor)->m188();
-    LookAtObjectBase::enter_(params);
+    TurnAndLookToObjBase::enter_(params);
     if (is_188)
         static_cast<ksys::act::Player*>(mActor)->_cec.set(0x400);
     m33();

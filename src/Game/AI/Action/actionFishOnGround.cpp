@@ -5,16 +5,16 @@
 
 namespace uking::action {
 
-FishOnGround::FishOnGround(const InitArg& arg) : ActionWithPosAngReduce(arg) {}
+FishOnGround::FishOnGround(const InitArg& arg) : StopBase(arg) {}
 
 FishOnGround::~FishOnGround() = default;
 
 bool FishOnGround::init_(sead::Heap* heap) {
-    return ActionWithPosAngReduce::init_(heap);
+    return StopBase::init_(heap);
 }
 
 void FishOnGround::enter_(ksys::act::ai::InlineParamPack* params) {
-    ActionWithPosAngReduce::enter_(params);
+    StopBase::enter_(params);
     if (auto* controller = mActor->getCharacterController()) {
         _40 = controller->sub_7100F5F0E4();
         controller->sub_7100F5F458(ksys::act::MotionType::_1);
@@ -25,18 +25,18 @@ void FishOnGround::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void FishOnGround::leave_() {
-    ActionWithPosAngReduce::leave_();
+    StopBase::leave_();
     if (auto* controller = mActor->getCharacterController())
         controller->sub_7100F5F458(_40);
 }
 
 void FishOnGround::loadParams_() {
-    ActionWithPosAngReduce::loadParams_();
+    StopBase::loadParams_();
     getStaticParam(&mASKey_s, "ASKey");
 }
 
 void FishOnGround::calc_() {
-    ActionWithPosAngReduce::calc_();
+    StopBase::calc_();
 }
 
 }  // namespace uking::action

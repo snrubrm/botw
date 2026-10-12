@@ -29,7 +29,7 @@ void SeqPunchByASEvent::leave_() {
 // NON_MATCHING: regalloc only (the original computes `this + 0x30` into a callee-saved register before the first
 // getStaticParam call).
 void SeqPunchByASEvent::loadParams_() {
-    ActionWithPosAngReduce::loadParams_();
+    StopBase::loadParams_();
     getStaticParam(&mASName_s, "ASName");
     getStaticParam(&mAttackIntensity_s, "AttackIntensity");
     getStaticParam(&mIsHammer_s, "IsHammer");

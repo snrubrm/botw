@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/AI/Action/actionActionWithPosAngReduce.h"
+#include "Game/AI/Action/actionStopBase.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class StalEnemyHideWait : public ActionWithPosAngReduce {
-    SEAD_RTTI_OVERRIDE(StalEnemyHideWait, ActionWithPosAngReduce)
+class StalEnemyHideWait : public StopBase {
+    SEAD_RTTI_OVERRIDE(StalEnemyHideWait, StopBase)
 public:
     explicit StalEnemyHideWait(const InitArg& arg);
     ~StalEnemyHideWait() override;

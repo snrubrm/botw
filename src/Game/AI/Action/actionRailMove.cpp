@@ -6,7 +6,7 @@
 
 namespace uking::action {
 
-RailMove::RailMove(const InitArg& arg) : RailMoveBase(arg) {}
+RailMove::RailMove(const InitArg& arg) : DestPointMoveBase(arg) {}
 
 // Empty-statement body as in upstream's GameDataFlagSelector::~GameDataFlagSelector() (96101229):
 // the original keeps the vtable store that a defaulted destructor drops.
@@ -15,7 +15,7 @@ RailMove::~RailMove() {
 }
 
 bool RailMove::init_(sead::Heap* heap) {
-    return RailMoveBase::init_(heap);
+    return DestPointMoveBase::init_(heap);
 }
 
 void RailMove::enter_(ksys::act::ai::InlineParamPack* params) {
@@ -28,20 +28,20 @@ void RailMove::enter_(ksys::act::ai::InlineParamPack* params) {
     _68.x(0.5f);
     const auto& position = _68._30.sub_7100EEB370();
     _1c = position - mActor->getMtx().getTranslation();
-    RailMoveBase::enter_(params);
+    DestPointMoveBase::enter_(params);
 }
 
 void RailMove::leave_() {
-    RailMoveBase::leave_();
+    DestPointMoveBase::leave_();
 }
 
 void RailMove::loadParams_() {
-    RailMoveBase::loadParams_();
+    DestPointMoveBase::loadParams_();
     getDynamicParam(&mRailName_d, "RailName");
 }
 
 void RailMove::calc_() {
-    RailMoveBase::calc_();
+    DestPointMoveBase::calc_();
 }
 
 void RailMove::m32() {

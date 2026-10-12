@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/AI/Action/actionGuardianMoveTo.h"
+#include "Game/AI/Action/actionGuardianActionBase.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class GuardianStopWait : public GuardianMoveTo {
-    SEAD_RTTI_OVERRIDE(GuardianStopWait, GuardianMoveTo)
+class GuardianStopWait : public GuardianActionBase {
+    SEAD_RTTI_OVERRIDE(GuardianStopWait, GuardianActionBase)
 public:
     explicit GuardianStopWait(const InitArg& arg);
     ~GuardianStopWait() override;

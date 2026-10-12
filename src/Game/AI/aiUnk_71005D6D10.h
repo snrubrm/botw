@@ -315,7 +315,7 @@ bool sub_71005E1630(ksys::act::Actor* actor, Unk_7102357d20* sender, const char*
 bool sub_71005E02E0(ksys::act::Actor* actor, Unk_7102357d20* sender, ksys::act::BaseProcLink* link);
 int sub_71005E2B28(int value);
 // 0x71005e2318 / 0x71005e242c (declarations only): write a hit direction to `out` from the damage
-// manager (DamageManagerBase::m30) or the actor's matrix (TakeHitImpactForce::m32 family).
+// manager (DamageManagerBase::m30) or the actor's matrix (KnockBackHitImpactForce::m32 family).
 void sub_71005E2318(sead::Vector3f* out, ksys::act::Actor* actor, uking::dmg::DamageManager* mgr);
 void sub_71005E242C(sead::Vector3f* out, ksys::act::Actor* actor, uking::dmg::DamageManager* mgr);
 void sub_71005E22D4(sead::Vector3f* out, ksys::act::Actor* actor, const sead::Vector3f& dir,

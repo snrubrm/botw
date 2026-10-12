@@ -4,7 +4,7 @@
 
 namespace uking::action {
 
-HorseRideLoopAttack::HorseRideLoopAttack(const InitArg& arg) : HorseRide(arg) {}
+HorseRideLoopAttack::HorseRideLoopAttack(const InitArg& arg) : HorseRideBase(arg) {}
 
 // Empty-statement body as in upstream's GameDataFlagSelector::~GameDataFlagSelector() (96101229):
 // the original keeps the vtable store that a defaulted destructor drops.
@@ -13,11 +13,11 @@ HorseRideLoopAttack::~HorseRideLoopAttack() {
 }
 
 bool HorseRideLoopAttack::init_(sead::Heap* heap) {
-    return HorseRide::init_(heap);
+    return HorseRideBase::init_(heap);
 }
 
 void HorseRideLoopAttack::enter_(ksys::act::ai::InlineParamPack* params) {
-    HorseRide::enter_(params);
+    HorseRideBase::enter_(params);
     if (!mASName_s.isEmpty())
         sub_71001AD8A0(mASName_s.cstr(), true);
     mFlags.reset(Flag::Changeable);
@@ -27,11 +27,11 @@ void HorseRideLoopAttack::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void HorseRideLoopAttack::leave_() {
     sub_71005D79AC(mActor, *mWeaponIdx_s, act::Unk_71002edaec(1));
-    HorseRide::leave_();
+    HorseRideBase::leave_();
 }
 
 void HorseRideLoopAttack::loadParams_() {
-    HorseRide::loadParams_();
+    HorseRideBase::loadParams_();
     getStaticParam(&mLoopAttackTime_s, "LoopAttackTime");
     getStaticParam(&mWeaponIdx_s, "WeaponIdx");
     getStaticParam(&mIsFinishByAtHit_s, "IsFinishByAtHit");
@@ -41,7 +41,7 @@ void HorseRideLoopAttack::loadParams_() {
 }
 
 void HorseRideLoopAttack::calc_() {
-    HorseRide::calc_();
+    HorseRideBase::calc_();
 }
 
 }  // namespace uking::action

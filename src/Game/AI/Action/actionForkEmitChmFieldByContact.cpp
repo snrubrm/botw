@@ -9,7 +9,7 @@ namespace uking::action {
 bool sub_7100EEB19C(ksys::phys::RigidBody* body, sead::Vector3f* a2, sead::Vector3f* a3,
                     sead::Vector3f* a4, void* a5, void* a6, void* a7);
 
-ForkEmitChmFieldByContact::ForkEmitChmFieldByContact(const InitArg& arg) : ForkEmitChmField(arg) {}
+ForkEmitChmFieldByContact::ForkEmitChmFieldByContact(const InitArg& arg) : ForkTrgEmitChmFieldBase(arg) {}
 
 // Empty-statement body as in upstream's GameDataFlagSelector::~GameDataFlagSelector() (96101229):
 // the original keeps the vtable store that a defaulted destructor drops.
@@ -18,24 +18,24 @@ ForkEmitChmFieldByContact::~ForkEmitChmFieldByContact() {
 }
 
 bool ForkEmitChmFieldByContact::init_(sead::Heap* heap) {
-    return ForkEmitChmField::init_(heap);
+    return ForkTrgEmitChmFieldBase::init_(heap);
 }
 
 void ForkEmitChmFieldByContact::enter_(ksys::act::ai::InlineParamPack* params) {
-    ForkEmitChmField::enter_(params);
+    ForkTrgEmitChmFieldBase::enter_(params);
 }
 
 void ForkEmitChmFieldByContact::leave_() {
-    ForkEmitChmField::leave_();
+    ForkTrgEmitChmFieldBase::leave_();
 }
 
 void ForkEmitChmFieldByContact::loadParams_() {
-    ForkEmitChmField::loadParams_();
+    ForkTrgEmitChmFieldBase::loadParams_();
     getStaticParam(&mRigidBodyName_s, "RigidBodyName");
 }
 
 void ForkEmitChmFieldByContact::calc_() {
-    ForkEmitChmField::calc_();
+    ForkTrgEmitChmFieldBase::calc_();
 }
 
 bool ForkEmitChmFieldByContact::m34(sead::Matrix34f* mtx) {

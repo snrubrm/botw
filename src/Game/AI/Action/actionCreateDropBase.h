@@ -1,0 +1,23 @@
+#pragma once
+
+#include "KingSystem/ActorSystem/actAiAction.h"
+
+namespace uking::action {
+
+class CreateDropBase : public ksys::act::ai::Action {
+    SEAD_RTTI_OVERRIDE(CreateDropBase, ksys::act::ai::Action)
+public:
+    explicit CreateDropBase(const InitArg& arg);
+    ~CreateDropBase() override;
+
+    bool init_(sead::Heap* heap) override;
+    void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void leave_() override;
+    void loadParams_() override;
+
+protected:
+    void calc_() override;
+    virtual bool m32();
+};
+
+}  // namespace uking::action

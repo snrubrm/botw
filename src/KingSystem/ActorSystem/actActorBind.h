@@ -40,7 +40,7 @@ public:
         _8.acquire(proc, false);
         m10(&_8);
     }
-    // Same with a link (PlayerStoleOpenBase::enter_).
+    // Same with a link (BindPlayerNodeBase::enter_).
     void x(const BaseProcLink& link) {
         _8 = link;
         m10(&_8);

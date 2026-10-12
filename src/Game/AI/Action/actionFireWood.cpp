@@ -16,16 +16,16 @@
 
 namespace uking::action {
 
-FireWood::FireWood(const InitArg& arg) : FireWoodBase(arg) {}
+FireWood::FireWood(const InitArg& arg) : FireBurnBase(arg) {}
 
 FireWood::~FireWood() = default;
 
 bool FireWood::init_(sead::Heap* heap) {
-    return FireWoodBase::init_(heap);
+    return FireBurnBase::init_(heap);
 }
 
 void FireWood::enter_(ksys::act::ai::InlineParamPack* params) {
-    FireWoodBase::enter_(params);
+    FireBurnBase::enter_(params);
     _40 = false;
     if (auto* damage_mgr = mActor->getDamageMgr())
         damage_mgr->mField_34 = 0;
@@ -46,17 +46,17 @@ void FireWood::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void FireWood::leave_() {
-    FireWoodBase::leave_();
+    FireBurnBase::leave_();
 }
 
 void FireWood::loadParams_() {
-    FireWoodBase::loadParams_();
+    FireBurnBase::loadParams_();
     mActor->getRootAi()->getAITreeVariable2(&mIsDrop_a, "IsDrop");
 }
 
 // NON_MATCHING: scheduling only (the original loads mActor and the SafeString vtable before the branch)
 void FireWood::m32(bool burning) {
-    FireWoodBase::m32(burning);
+    FireBurnBase::m32(burning);
     if (!burning) {
         ksys::act::disableAttClient(mActor, "KillTime");
         mActor->emitBasicSigOff();
@@ -106,11 +106,11 @@ bool FireWood::handleMessage_(const ksys::Message* message) {
             damage_mgr->mField_34 = 1;
         return true;
     }
-    return FireWoodBase::handleMessage_(message);
+    return FireBurnBase::handleMessage_(message);
 }
 
 void FireWood::calc_() {
-    FireWoodBase::calc_();
+    FireBurnBase::calc_();
     if (_40) {
         auto* manager = ksys::evt::Manager::instance();
         if (manager && !manager->_1d2b8 && !(manager->_1d2f4 & 0x100)) {

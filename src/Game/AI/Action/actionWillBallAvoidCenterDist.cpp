@@ -6,24 +6,24 @@
 
 namespace uking::action {
 
-WillBallAvoidCenterDist::WillBallAvoidCenterDist(const InitArg& arg) : WillBallAction(arg) {}
+WillBallAvoidCenterDist::WillBallAvoidCenterDist(const InitArg& arg) : WillBallBase(arg) {}
 
 WillBallAvoidCenterDist::~WillBallAvoidCenterDist() = default;
 
 bool WillBallAvoidCenterDist::init_(sead::Heap* heap) {
-    return WillBallAction::init_(heap);
+    return WillBallBase::init_(heap);
 }
 
 void WillBallAvoidCenterDist::enter_(ksys::act::ai::InlineParamPack* params) {
-    WillBallAction::enter_(params);
+    WillBallBase::enter_(params);
 }
 
 void WillBallAvoidCenterDist::leave_() {
-    WillBallAction::leave_();
+    WillBallBase::leave_();
 }
 
 void WillBallAvoidCenterDist::loadParams_() {
-    WillBallAction::loadParams_();
+    WillBallBase::loadParams_();
     getStaticParam(&mDist_s, "Dist");
     getStaticParam(&mMaxDist_s, "MaxDist");
     getStaticParam(&mMiddleDist_s, "MiddleDist");
@@ -32,7 +32,7 @@ void WillBallAvoidCenterDist::loadParams_() {
 
 // NON_MATCHING: the original loads the actor position before mCenterPos_d (scheduling)
 void WillBallAvoidCenterDist::calc_() {
-    WillBallAction::calc_();
+    WillBallBase::calc_();
     const sead::Vector3f pos = mActor->getMtx().getTranslation();
     const sead::Vector3f center = *mCenterPos_d;
     sead::Vector3f diff = center - pos;
@@ -60,11 +60,11 @@ void WillBallAvoidCenterDist::m32(sead::Vector3f* direction, f32* distance, f32*
 
     if (blocked || !(sead::Geometry::calcSquaredDistancePointToSegment(center, segment, nullptr) <
                      *mDist_s * *mDist_s)) {
-        WillBallAction::m32(direction, distance, progress);
+        WillBallBase::m32(direction, distance, progress);
         return;
     }
 
-    WillBallAction::m32(direction, distance, progress);
+    WillBallBase::m32(direction, distance, progress);
 
     sead::Vector3f from_pos = pos - center;
     from_pos.normalize();

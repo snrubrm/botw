@@ -7,16 +7,16 @@
 
 namespace uking::action {
 
-StalEnemyHideWait::StalEnemyHideWait(const InitArg& arg) : ActionWithPosAngReduce(arg) {}
+StalEnemyHideWait::StalEnemyHideWait(const InitArg& arg) : StopBase(arg) {}
 
 StalEnemyHideWait::~StalEnemyHideWait() = default;
 
 bool StalEnemyHideWait::init_(sead::Heap* heap) {
-    return ActionWithPosAngReduce::init_(heap);
+    return StopBase::init_(heap);
 }
 
 void StalEnemyHideWait::enter_(ksys::act::ai::InlineParamPack* params) {
-    ActionWithPosAngReduce::enter_(params);
+    StopBase::enter_(params);
     auto* actor = mActor;
     auto* controller = actor->getCharacterController();
     ksys::act::disableAllAttClients(actor);
@@ -33,7 +33,7 @@ void StalEnemyHideWait::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void StalEnemyHideWait::leave_() {
-    ActionWithPosAngReduce::leave_();
+    StopBase::leave_();
     auto* actor = mActor;
     auto* controller = actor->getCharacterController();
     ksys::act::enableAllAttClients(actor);
@@ -48,12 +48,12 @@ void StalEnemyHideWait::leave_() {
 }
 
 void StalEnemyHideWait::loadParams_() {
-    ActionWithPosAngReduce::loadParams_();
+    StopBase::loadParams_();
     getStaticParam(&mASName_s, "ASName");
 }
 
 void StalEnemyHideWait::calc_() {
-    ActionWithPosAngReduce::calc_();
+    StopBase::calc_();
 }
 
 }  // namespace uking::action

@@ -2,16 +2,16 @@
 
 namespace uking::action {
 
-GiantArmorAction::GiantArmorAction(const InitArg& arg) : ActionWithPosAngReduce(arg) {}
+GiantArmorAction::GiantArmorAction(const InitArg& arg) : StopBase(arg) {}
 
 GiantArmorAction::~GiantArmorAction() = default;
 
 bool GiantArmorAction::init_(sead::Heap* heap) {
-    return ActionWithPosAngReduce::init_(heap);
+    return StopBase::init_(heap);
 }
 
 void GiantArmorAction::enter_(ksys::act::ai::InlineParamPack* params) {
-    ActionWithPosAngReduce::enter_(params);
+    StopBase::enter_(params);
     _68 = 0;
     if (mStartAS_s.isEmpty())
         playAS(mLoopAS_s.cstr(), false, 0, 0, -1.0f);
@@ -20,11 +20,11 @@ void GiantArmorAction::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void GiantArmorAction::leave_() {
-    ActionWithPosAngReduce::leave_();
+    StopBase::leave_();
 }
 
 void GiantArmorAction::loadParams_() {
-    ActionWithPosAngReduce::loadParams_();
+    StopBase::loadParams_();
     getStaticParam(&mUseRestart_s, "UseRestart");
     getStaticParam(&mStartAS_s, "StartAS");
     getStaticParam(&mLoopAS_s, "LoopAS");
@@ -32,7 +32,7 @@ void GiantArmorAction::loadParams_() {
 }
 
 void GiantArmorAction::calc_() {
-    ActionWithPosAngReduce::calc_();
+    StopBase::calc_();
     switch (_68) {
     case 0:
         if (mStartAS_s.isEmpty()) {

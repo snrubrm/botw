@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/AI/Action/actionLookAtObjectBase.h"
+#include "Game/AI/Action/actionTurnAndLookToObjBase.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class LookAtObject : public LookAtObjectBase {
-    SEAD_RTTI_OVERRIDE(LookAtObject, LookAtObjectBase)
+class LookAtObject : public TurnAndLookToObjBase {
+    SEAD_RTTI_OVERRIDE(LookAtObject, TurnAndLookToObjBase)
 public:
     explicit LookAtObject(const InitArg& arg);
     ~LookAtObject() override;

@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/AI/Action/actionSiteBossSwordWhirlSlashChargeBase.h"
+#include "Game/AI/Action/actionLastBossSwordWhirlSlashChargeBase.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class SiteBossSwordWhirlSlashCharge : public SiteBossSwordWhirlSlashChargeBase {
-    SEAD_RTTI_OVERRIDE(SiteBossSwordWhirlSlashCharge, SiteBossSwordWhirlSlashChargeBase)
+class SiteBossSwordWhirlSlashCharge : public LastBossSwordWhirlSlashChargeBase {
+    SEAD_RTTI_OVERRIDE(SiteBossSwordWhirlSlashCharge, LastBossSwordWhirlSlashChargeBase)
 public:
     explicit SiteBossSwordWhirlSlashCharge(const InitArg& arg);
     ~SiteBossSwordWhirlSlashCharge() override;

@@ -28,7 +28,7 @@ void BattleCloseExplosivesAvoidRun::leave_() {
 }
 
 void BattleCloseExplosivesAvoidRun::loadParams_() {
-    BattleCloseMoveActionBase::loadParams_();
+    AvoidingCloseMoveActionBase::loadParams_();
     getStaticParam(&mDamageIgnoreDist_s, "DamageIgnoreDist");
 }
 

@@ -2,10 +2,10 @@
 
 namespace uking::action {
 
-Attack::Attack(const InitArg& arg) : AttackBase(arg) {}
+Attack::Attack(const InitArg& arg) : StoppingAttackBase(arg) {}
 
 void Attack::enter_(ksys::act::ai::InlineParamPack* params) {
-    AttackBase::enter_(params);
+    StoppingAttackBase::enter_(params);
     m33();
     if (auto* helper = m32())
         helper->_58 = m35();
@@ -13,7 +13,7 @@ void Attack::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void Attack::leave_() {
-    AttackBase::leave_();
+    StoppingAttackBase::leave_();
 }
 
 u32 Attack::m35() {
@@ -21,12 +21,12 @@ u32 Attack::m35() {
 }
 
 void Attack::loadParams_() {
-    AttackBase::loadParams_();
+    StoppingAttackBase::loadParams_();
     getStaticParam(&mASName_s, "ASName");
 }
 
 void Attack::calc_() {
-    AttackBase::calc_();
+    StoppingAttackBase::calc_();
     if (m34())
         setFinished();
 }

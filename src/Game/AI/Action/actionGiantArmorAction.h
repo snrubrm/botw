@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/AI/Action/actionActionWithPosAngReduce.h"
+#include "Game/AI/Action/actionStopBase.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class GiantArmorAction : public ActionWithPosAngReduce {
-    SEAD_RTTI_OVERRIDE(GiantArmorAction, ActionWithPosAngReduce)
+class GiantArmorAction : public StopBase {
+    SEAD_RTTI_OVERRIDE(GiantArmorAction, StopBase)
 public:
     explicit GiantArmorAction(const InitArg& arg);
     ~GiantArmorAction() override;

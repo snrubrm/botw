@@ -2,7 +2,7 @@
 
 namespace uking::action {
 
-NavMeshGrabRightWalk::NavMeshGrabRightWalk(const InitArg& arg) : NavMeshAction(arg) {}
+NavMeshGrabRightWalk::NavMeshGrabRightWalk(const InitArg& arg) : NavMeshMoveBase(arg) {}
 
 void NavMeshGrabRightWalk::m34() {
     playAS("GrabRightWalk", false, 0, 0, -1.0f);

@@ -17,7 +17,7 @@ class MessageAck;
 
 // Placeholder name: the non-polymorphic data class that Unk_71025b1808 holds at +8 (a member: the
 // vtable store comes before its constructor) (RTTI static 0x71025b1808; shared by the EnemyFortress AI/Action classes through the
-// "RegistedActorUnit" AI tree variable; RegistedActorActionBase embeds it at +0x20). It keeps up to 32
+// "RegistedActorUnit" AI tree variable; RegistedActorSetActionBase embeds it at +0x20). It keeps up to 32
 // registered actors, broadcasts a message (0x8000040) to them and registers new actors from
 // messages. Functions: 0x7100efe9c / 0x71006f0090 (ctors), 0x71006f0178 (dtor), 0x71006f0354..0x71006f0734.
 // Size 0x3e0.

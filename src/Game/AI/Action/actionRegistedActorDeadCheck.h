@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/AI/Action/actionRegistedActorDeadCheckBase.h"
+#include "Game/AI/Action/actionRegistedActorAllDeadCheckBase.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class RegistedActorDeadCheck : public RegistedActorDeadCheckBase {
-    SEAD_RTTI_OVERRIDE(RegistedActorDeadCheck, RegistedActorDeadCheckBase)
+class RegistedActorDeadCheck : public RegistedActorAllDeadCheckBase {
+    SEAD_RTTI_OVERRIDE(RegistedActorDeadCheck, RegistedActorAllDeadCheckBase)
 public:
     explicit RegistedActorDeadCheck(const InitArg& arg);
     ~RegistedActorDeadCheck() override;

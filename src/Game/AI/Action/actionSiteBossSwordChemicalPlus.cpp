@@ -7,16 +7,16 @@
 namespace uking::action {
 
 SiteBossSwordChemicalPlus::SiteBossSwordChemicalPlus(const InitArg& arg)
-    : ActionWithPosAngReduce(arg) {}
+    : StopBase(arg) {}
 
 SiteBossSwordChemicalPlus::~SiteBossSwordChemicalPlus() = default;
 
 bool SiteBossSwordChemicalPlus::init_(sead::Heap* heap) {
-    return ActionWithPosAngReduce::init_(heap);
+    return StopBase::init_(heap);
 }
 
 void SiteBossSwordChemicalPlus::enter_(ksys::act::ai::InlineParamPack* params) {
-    ActionWithPosAngReduce::enter_(params);
+    StopBase::enter_(params);
     _30 = false;
     _31 = 1;
     _32 = false;
@@ -31,11 +31,11 @@ void SiteBossSwordChemicalPlus::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void SiteBossSwordChemicalPlus::leave_() {
-    ActionWithPosAngReduce::leave_();
+    StopBase::leave_();
 }
 
 void SiteBossSwordChemicalPlus::loadParams_() {
-    ActionWithPosAngReduce::loadParams_();
+    StopBase::loadParams_();
 }
 
 void SiteBossSwordChemicalPlus::sub_7100268FCC() {
@@ -51,7 +51,7 @@ void SiteBossSwordChemicalPlus::sub_7100268FCC() {
 }
 
 void SiteBossSwordChemicalPlus::calc_() {
-    ActionWithPosAngReduce::calc_();
+    StopBase::calc_();
     ksys::as::ASList::Unk4 query;
     if (sub_71005DD780(mActor, 0x51, &query, 0, 0)) {
         _30 = true;

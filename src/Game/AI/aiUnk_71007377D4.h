@@ -94,7 +94,7 @@ void sub_710072DC54(sead::Vector3f* gravity, ksys::act::Actor* actor);
 ksys::act::Actor* sub_710072BB4C();
 
 /// inline-only in the original; name is a guess. Evidence: the same sequence (sub_710072DC50 into a
-/// stack vector, returned by value) repeats in SmallDamageBackwardBase::calc_, KnockBackShock::enter_,
+/// stack vector, returned by value) repeats in SmallDamageBackwardBase::calc_, SimpleKnockBackShock::enter_,
 /// FlyMoveBase::enter_, TargetCircle::enter_, ... and the callers keep the result in the stack slot
 /// of the gravity vector.
 inline sead::Vector3f getGravity(ksys::act::Actor* actor) {

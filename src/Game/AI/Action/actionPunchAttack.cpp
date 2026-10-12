@@ -29,11 +29,11 @@ void PunchAttack::leave_() {
         sub_71007A2D7C(actor, mAtkBodyName_s[i]);
     }
     sub_71005DA114(mActor, &_a8);
-    ActionWithPosAngReduce::leave_();
+    StopBase::leave_();
 }
 
 void PunchAttack::loadParams_() {
-    ActionWithPosAngReduce::loadParams_();
+    StopBase::loadParams_();
     getStaticParam(&mAttackIntensity_s, "AttackIntensity");
     getStaticParam(&mIsGuardPierce_s, "IsGuardPierce");
     getStaticParam(&mIsForceGuardBreak_s, "IsForceGuardBreak");

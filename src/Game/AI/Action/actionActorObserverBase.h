@@ -24,7 +24,7 @@ class ActionBase;
 // Observer of the actors that are inside the areas linked to the owner action's actor through
 // AreaCol map links (class names from the CSV; the classes have no RTTI). The functions live in
 // TU 0x7100e2814c-0x7100e29070 (ActorObserver's own functions are in the TU before it). Embedded
-// as the second base (at +0x20) of AreaTagAction (ActorObserver) and AreaFireObserveBase
+// as the second base (at +0x20) of AreaTagAction (ActorObserver) and FireObserveBase
 // (Unk_71024e5408).
 //
 // The virtual functions are called for each body colliding with an area (CollisionInfo of the area
@@ -139,9 +139,9 @@ protected:
 KSYS_CHECK_SIZE_NX150(ActorObserverBase, 0x18);
 
 // vtable 0x71024e5408 (TU 0x7100e28d58 for the ctor; the m3/m4/m7/m8 bodies live in the observer TU
-// 0x7100e28da8-0x7100e28fb8, the m15 default in AreaFireObserveBase's TU).
+// 0x7100e28da8-0x7100e28fb8, the m15 default in FireObserveBase's TU).
 //
-// Observer used as the second base (at +0x20) of AreaFireObserveBase. Overrides the m3/m4/m7/m8
+// Observer used as the second base (at +0x20) of FireObserveBase. Overrides the m3/m4/m7/m8
 // filters (they DynamicCast the observed actor to the Area actor class, which does not exist in the
 // repo yet, so they stay declared-only) and m6 (a 1-entry payload buffer with embedded storage),
 // and adds one new virtual (slot 15).
@@ -157,7 +157,7 @@ public:
     bool m7(const CollisionIterator& it) override;
     bool m8(const ContactIterator& it) override;
     // Slot 15: called by the m3/m4 filters with the observed actor's link data (nullable).
-    // 0x7100e23fa0 (defined in actionAreaFireObserveBase.cpp).
+    // 0x7100e23fa0 (defined in actionFireObserveBase.cpp).
     virtual bool m15(const void* data);
 
 protected:

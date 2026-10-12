@@ -23,7 +23,7 @@ void ScrapEquip::leave_() {
 }
 
 void ScrapEquip::loadParams_() {
-    ActionWithPosAngReduce::loadParams_();
+    StopBase::loadParams_();
     getStaticParam(&mWeaponIdx_s, "WeaponIdx");
     getStaticParam(&mDropSpd_s, "DropSpd");
 }

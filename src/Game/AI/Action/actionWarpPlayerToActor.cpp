@@ -2,7 +2,7 @@
 
 namespace uking::action {
 
-WarpPlayerToActor::WarpPlayerToActor(const InitArg& arg) : WarpPlayerBase(arg) {}
+WarpPlayerToActor::WarpPlayerToActor(const InitArg& arg) : DestPlayerWarpBase(arg) {}
 
 // Empty-statement body as in upstream's GameDataFlagSelector::~GameDataFlagSelector() (96101229):
 // the original keeps the vtable store that a defaulted destructor drops.
@@ -11,19 +11,19 @@ WarpPlayerToActor::~WarpPlayerToActor() {
 }
 
 bool WarpPlayerToActor::init_(sead::Heap* heap) {
-    return WarpPlayerBase::init_(heap);
+    return DestPlayerWarpBase::init_(heap);
 }
 
 void WarpPlayerToActor::enter_(ksys::act::ai::InlineParamPack* params) {
-    WarpPlayerBase::enter_(params);
+    DestPlayerWarpBase::enter_(params);
 }
 
 void WarpPlayerToActor::leave_() {
-    WarpPlayerBase::leave_();
+    DestPlayerWarpBase::leave_();
 }
 
 void WarpPlayerToActor::loadParams_() {
-    WarpPlayerBase::loadParams_();
+    DestPlayerWarpBase::loadParams_();
     getDynamicParam(&mDestinationX_d, "DestinationX");
     getDynamicParam(&mDestinationY_d, "DestinationY");
     getDynamicParam(&mDestinationZ_d, "DestinationZ");
@@ -37,7 +37,7 @@ void WarpPlayerToActor::loadParams_() {
 }
 
 void WarpPlayerToActor::calc_() {
-    WarpPlayerBase::calc_();
+    DestPlayerWarpBase::calc_();
 }
 
 }  // namespace uking::action

@@ -1,14 +1,14 @@
 #pragma once
 
-#include "Game/AI/Action/actionHornUseBase.h"
+#include "Game/AI/Action/actionEquipHornUseBase.h"
 #include "Game/AI/aiUnk_7102357d20.h"
 #include "KingSystem/ActorSystem/Awareness/actAITerror.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class HornUse : public HornUseBase {
-    SEAD_RTTI_OVERRIDE(HornUse, HornUseBase)
+class HornUse : public EquipHornUseBase {
+    SEAD_RTTI_OVERRIDE(HornUse, EquipHornUseBase)
 public:
     explicit HornUse(const InitArg& arg);
     ~HornUse() override;

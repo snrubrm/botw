@@ -31,11 +31,11 @@ void GolemThrowPartsToTargetBase::enter_(ksys::act::ai::InlineParamPack* params)
 void GolemThrowPartsToTargetBase::leave_() {
     sub_710018D8DC();
     sub_71005DA114(mActor, &_f0);
-    ActionWithPosAngReduce::leave_();
+    StopBase::leave_();
 }
 
 void GolemThrowPartsToTargetBase::loadParams_() {
-    ActionWithPosAngReduce::loadParams_();
+    StopBase::loadParams_();
     getStaticParam(&mASName_s, "ASName");
     getStaticParam(&mTgtBodyName_s, "TgtBodyName");
     getStaticParam(&mChmObjectName_s, "ChmObjectName");

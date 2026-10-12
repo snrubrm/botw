@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/AI/Action/actionTakeHitImpactForce.h"
+#include "Game/AI/Action/actionKnockBackHitImpactForce.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class SmallDamageBase : public TakeHitImpactForce {
-    SEAD_RTTI_OVERRIDE(SmallDamageBase, TakeHitImpactForce)
+class SmallDamageBase : public KnockBackHitImpactForce {
+    SEAD_RTTI_OVERRIDE(SmallDamageBase, KnockBackHitImpactForce)
 public:
     explicit SmallDamageBase(const InitArg& arg);
 

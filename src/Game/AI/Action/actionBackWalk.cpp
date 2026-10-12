@@ -2,11 +2,11 @@
 
 namespace uking::action {
 
-BackWalk::BackWalk(const InitArg& arg) : BackWalkEx(arg) {}
+BackWalk::BackWalk(const InitArg& arg) : NormalBackWalk(arg) {}
 
 void BackWalk::enter_(ksys::act::ai::InlineParamPack* params) {
     playAS("BackWalk", true, 0, 0, -1.0f);
-    BackWalkEx::enter_(params);
+    NormalBackWalk::enter_(params);
 }
 
 }  // namespace uking::action

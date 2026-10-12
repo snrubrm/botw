@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/AI/Action/actionActionWithPosAngReduce.h"
+#include "Game/AI/Action/actionStopBase.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class SiteBossChemicalPlus : public ActionWithPosAngReduce {
-    SEAD_RTTI_OVERRIDE(SiteBossChemicalPlus, ActionWithPosAngReduce)
+class SiteBossChemicalPlus : public StopBase {
+    SEAD_RTTI_OVERRIDE(SiteBossChemicalPlus, StopBase)
 public:
     explicit SiteBossChemicalPlus(const InitArg& arg);
     ~SiteBossChemicalPlus() override;

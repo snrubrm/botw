@@ -66,7 +66,7 @@ public:
     /* 0x08 */ Unk_7102384718Handle _8;
 };
 
-// Reference-counted object behind the "CRBOffsetUnit" AI tree variable (all ActionWithPosAngReduce
+// Reference-counted object behind the "CRBOffsetUnit" AI tree variable (all StopBase
 // subclasses: Freeze, Ragdoll, GetUpBase, ForkRagdollOff, ...). Placeholder name = vtable address
 // (0x7102384718; D0 0x7100138004, RTTI functions 0x7100137e88 / 0x7100137fa8); created inline by
 // Unk_71000b0800<Unk_7102384718>::acquire (0x7100137a28 is its out-of-line copy).

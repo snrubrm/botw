@@ -8,33 +8,33 @@ void sub_71005DF820(f32* out, f32 velY, f32 depth, f32 a, f32 b, f32 c, f32 d, f
 
 namespace uking::action {
 
-NavMeshSwim::NavMeshSwim(const InitArg& arg) : NavMeshAction(arg) {}
+NavMeshSwim::NavMeshSwim(const InitArg& arg) : NavMeshMoveBase(arg) {}
 
 NavMeshSwim::~NavMeshSwim() = default;
 
 bool NavMeshSwim::init_(sead::Heap* heap) {
-    return NavMeshAction::init_(heap);
+    return NavMeshMoveBase::init_(heap);
 }
 
 void NavMeshSwim::enter_(ksys::act::ai::InlineParamPack* params) {
-    NavMeshAction::enter_(params);
+    NavMeshMoveBase::enter_(params);
     _c8.changeMotionType(mActor->getCharacterController(), ksys::act::MotionType::Hover);
 }
 
 void NavMeshSwim::leave_() {
     _c8.resetMotionType(mActor->getCharacterController());
-    NavMeshAction::leave_();
+    NavMeshMoveBase::leave_();
 }
 
 void NavMeshSwim::loadParams_() {
-    NavMeshAction::loadParams_();
+    NavMeshMoveBase::loadParams_();
     getStaticParam(&mInWaterDepth_s, "InWaterDepth");
     getStaticParam(&mFloatDepth_s, "FloatDepth");
     getStaticParam(&mASName_s, "ASName");
 }
 
 void NavMeshSwim::calc_() {
-    NavMeshAction::calc_();
+    NavMeshMoveBase::calc_();
 }
 
 void NavMeshSwim::m34() {

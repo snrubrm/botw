@@ -1,13 +1,13 @@
 #pragma once
 
-#include "Game/AI/Action/actionActionWithPosAngReduce.h"
+#include "Game/AI/Action/actionStopBase.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 #include "KingSystem/System/Timer.h"
 
 namespace uking::action {
 
-class Mimic : public ActionWithPosAngReduce {
-    SEAD_RTTI_OVERRIDE(Mimic, ActionWithPosAngReduce)
+class Mimic : public StopBase {
+    SEAD_RTTI_OVERRIDE(Mimic, StopBase)
 public:
     explicit Mimic(const InitArg& arg);
     ~Mimic() override;

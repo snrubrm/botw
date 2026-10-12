@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/AI/Action/actionRegistedActorActionBase.h"
+#include "Game/AI/Action/actionRegistedActorSetActionBase.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class RegistedActorBroadCastMessage : public RegistedActorActionBase {
-    SEAD_RTTI_OVERRIDE(RegistedActorBroadCastMessage, RegistedActorActionBase)
+class RegistedActorBroadCastMessage : public RegistedActorSetActionBase {
+    SEAD_RTTI_OVERRIDE(RegistedActorBroadCastMessage, RegistedActorSetActionBase)
 public:
     explicit RegistedActorBroadCastMessage(const InitArg& arg);
     ~RegistedActorBroadCastMessage() override;

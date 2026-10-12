@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/AI/Action/actionAreaFireObserveBase.h"
+#include "Game/AI/Action/actionFireObserveBase.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class AreaFireObserve : public AreaFireObserveBase {
-    SEAD_RTTI_OVERRIDE(AreaFireObserve, AreaFireObserveBase)
+class AreaFireObserve : public FireObserveBase {
+    SEAD_RTTI_OVERRIDE(AreaFireObserve, FireObserveBase)
 public:
     explicit AreaFireObserve(const InitArg& arg);
 

@@ -7,17 +7,17 @@
 
 namespace uking::action {
 
-Move2HomePos::Move2HomePos(const InitArg& arg) : Move2HomePosBase(arg) {}
+Move2HomePos::Move2HomePos(const InitArg& arg) : MoveHomePosBase(arg) {}
 
 Move2HomePos::~Move2HomePos() = default;
 
 bool Move2HomePos::init_(sead::Heap* heap) {
-    return Move2HomePosBase::init_(heap);
+    return MoveHomePosBase::init_(heap);
 }
 
 // NON_MATCHING: instruction scheduling in the inlined matrix multiplication
 void Move2HomePos::enter_(ksys::act::ai::InlineParamPack* params) {
-    Move2HomePosBase::enter_(params);
+    MoveHomePosBase::enter_(params);
     auto* actor = mActor;
     _78 = -1;
     _44.set(sead::Vector3f::zero);
@@ -52,13 +52,13 @@ void Move2HomePos::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void Move2HomePos::leave_() {
-    Move2HomePosBase::leave_();
+    MoveHomePosBase::leave_();
     if (_78 >= 0)
         ksys::Vibration::instance()->sub_71010BB810(_78);
 }
 
 void Move2HomePos::loadParams_() {
-    Move2HomePosBase::loadParams_();
+    MoveHomePosBase::loadParams_();
     getStaticParam(&mVibDirection_s, "VibDirection");
     getStaticParam(&mVibPattern_s, "VibPattern");
     getStaticParam(&mVibPower_s, "VibPower");
@@ -67,7 +67,7 @@ void Move2HomePos::loadParams_() {
 }
 
 void Move2HomePos::calc_() {
-    Move2HomePosBase::calc_();
+    MoveHomePosBase::calc_();
 }
 
 bool Move2HomePos::handleMessage_(const ksys::Message* message) {

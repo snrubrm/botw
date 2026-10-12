@@ -1,13 +1,13 @@
 #pragma once
 
-#include "Game/AI/Action/actionSendMessageToTargetActor.h"
+#include "Game/AI/Action/actionSendTargetActorMessageBase.h"
 #include "Game/AI/aiUnk_7102357d20.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class SendTargetActorRequestShareAwn : public SendMessageToTargetActor {
-    SEAD_RTTI_OVERRIDE(SendTargetActorRequestShareAwn, SendMessageToTargetActor)
+class SendTargetActorRequestShareAwn : public SendTargetActorMessageBase {
+    SEAD_RTTI_OVERRIDE(SendTargetActorRequestShareAwn, SendTargetActorMessageBase)
 public:
     explicit SendTargetActorRequestShareAwn(const InitArg& arg);
     ~SendTargetActorRequestShareAwn() override;

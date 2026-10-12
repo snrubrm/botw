@@ -9,12 +9,12 @@ bool sub_71005DCD84(s32* material, ksys::act::Actor* actor, f32 range, bool unus
 
 namespace uking::action {
 
-Mimic::Mimic(const InitArg& arg) : ActionWithPosAngReduce(arg) {}
+Mimic::Mimic(const InitArg& arg) : StopBase(arg) {}
 
 Mimic::~Mimic() = default;
 
 void Mimic::enter_(ksys::act::ai::InlineParamPack* params) {
-    ActionWithPosAngReduce::enter_(params);
+    StopBase::enter_(params);
     *mIsStartResetMimicry_a = false;
     _80 = 0;
     playAS(mMimicStartASName_s.cstr(), false, 0, 0, -1.0f);
@@ -25,11 +25,11 @@ void Mimic::leave_() {
     if (*mMimicryMaterial_a >= 0)
         sub_71005DD27C(mActor, *mMimicryMaterial_a, 0.0f);
     sub_71005DD34C(mActor, true);
-    ActionWithPosAngReduce::leave_();
+    StopBase::leave_();
 }
 
 void Mimic::loadParams_() {
-    ActionWithPosAngReduce::loadParams_();
+    StopBase::loadParams_();
     getStaticParam(&mMimicTime_s, "MimicTime");
     getStaticParam(&mMimicRate_s, "MimicRate");
     getStaticParam(&mMimicStartASName_s, "MimicStartASName");
@@ -40,7 +40,7 @@ void Mimic::loadParams_() {
 }
 
 void Mimic::calc_() {
-    ActionWithPosAngReduce::calc_();
+    StopBase::calc_();
     sub_71001E669C();
 }
 

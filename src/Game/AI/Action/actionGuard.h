@@ -1,13 +1,13 @@
 #pragma once
 
-#include "Game/AI/Action/actionTakeHitImpactForce.h"
+#include "Game/AI/Action/actionKnockBackHitImpactForce.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 #include <math/seadVector.h>
 
 namespace uking::action {
 
-class Guard : public TakeHitImpactForce {
-    SEAD_RTTI_OVERRIDE(Guard, TakeHitImpactForce)
+class Guard : public KnockBackHitImpactForce {
+    SEAD_RTTI_OVERRIDE(Guard, KnockBackHitImpactForce)
 public:
     explicit Guard(const InitArg& arg);
 

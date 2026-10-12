@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/AI/Action/actionActionWithPosAngReduce.h"
+#include "Game/AI/Action/actionStopBase.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class Eat : public ActionWithPosAngReduce {
-    SEAD_RTTI_OVERRIDE(Eat, ActionWithPosAngReduce)
+class Eat : public StopBase {
+    SEAD_RTTI_OVERRIDE(Eat, StopBase)
 public:
     explicit Eat(const InitArg& arg);
     ~Eat() override;

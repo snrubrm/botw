@@ -18,7 +18,7 @@ void Angry::leave_() {
 }
 
 void Angry::loadParams_() {
-    ActionWithPosAngReduce::loadParams_();
+    StopBase::loadParams_();
 }
 
 void Angry::calc_() {

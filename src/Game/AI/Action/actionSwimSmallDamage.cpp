@@ -30,7 +30,7 @@ void SwimSmallDamage::leave_() {
 }
 
 void SwimSmallDamage::loadParams_() {
-    TakeHitImpactForce::loadParams_();
+    KnockBackHitImpactForce::loadParams_();
     getStaticParam(&mInWaterDepth_s, "InWaterDepth");
     getStaticParam(&mFloatDepth_s, "FloatDepth");
     getStaticParam(&mFloatRadius_s, "FloatRadius");
@@ -77,7 +77,7 @@ void SwimSmallDamage::m35() {
     } else {
         if (sub_71006F562C(controller))
             sub_71006F5538(controller);
-        TakeHitImpactForce::m35();
+        KnockBackHitImpactForce::m35();
         sub_710028BE2C(false);
     }
 }

@@ -1,13 +1,13 @@
 #pragma once
 
 #include <math/seadMatrix.h>
-#include "Game/AI/Action/actionSwimEnemyAnmBackBlownOffBase.h"
+#include "Game/AI/Action/actionSwimEnemyBlownOffBase.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class SwimEnemyAnmBackBlownOff : public SwimEnemyAnmBackBlownOffBase {
-    SEAD_RTTI_OVERRIDE(SwimEnemyAnmBackBlownOff, SwimEnemyAnmBackBlownOffBase)
+class SwimEnemyAnmBackBlownOff : public SwimEnemyBlownOffBase {
+    SEAD_RTTI_OVERRIDE(SwimEnemyAnmBackBlownOff, SwimEnemyBlownOffBase)
 public:
     explicit SwimEnemyAnmBackBlownOff(const InitArg& arg);
     ~SwimEnemyAnmBackBlownOff() override;

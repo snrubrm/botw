@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/AI/Action/actionGiantEnemyWalkWithVibration.h"
+#include "Game/AI/Action/actionGiantEnemyMoveWithVibration.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class GiantEnemyWalk : public GiantEnemyWalkWithVibration {
-    SEAD_RTTI_OVERRIDE(GiantEnemyWalk, GiantEnemyWalkWithVibration)
+class GiantEnemyWalk : public GiantEnemyMoveWithVibration {
+    SEAD_RTTI_OVERRIDE(GiantEnemyWalk, GiantEnemyMoveWithVibration)
 public:
     explicit GiantEnemyWalk(const InitArg& arg);
     ~GiantEnemyWalk() override;

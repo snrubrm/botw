@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/AI/Action/actionChuchuDissappearEscapeBase.h"
+#include "Game/AI/Action/actionDisappearAndEscapeBase.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class ChuchuDissappearEscape : public ChuchuDissappearEscapeBase {
-    SEAD_RTTI_OVERRIDE(ChuchuDissappearEscape, ChuchuDissappearEscapeBase)
+class ChuchuDissappearEscape : public DisappearAndEscapeBase {
+    SEAD_RTTI_OVERRIDE(ChuchuDissappearEscape, DisappearAndEscapeBase)
 public:
     explicit ChuchuDissappearEscape(const InitArg& arg);
     ~ChuchuDissappearEscape() override;

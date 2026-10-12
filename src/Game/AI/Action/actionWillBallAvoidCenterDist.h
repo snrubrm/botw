@@ -1,7 +1,7 @@
 #pragma once
 
 #include <math/seadBoundBox.h>
-#include "Game/AI/Action/actionWillBallAction.h"
+#include "Game/AI/Action/actionWillBallBase.h"
 #include "Game/AI/aiUnk_NavMeshCallback.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 #include "KingSystem/Physics/System/physHavokAI.h"
@@ -12,8 +12,8 @@ namespace uking::action {
 // is kept as an alias for its callers).
 using Unk_710260de68 = ksys::phys::HavokAI;
 
-class WillBallAvoidCenterDist : public WillBallAction {
-    SEAD_RTTI_OVERRIDE(WillBallAvoidCenterDist, WillBallAction)
+class WillBallAvoidCenterDist : public WillBallBase {
+    SEAD_RTTI_OVERRIDE(WillBallAvoidCenterDist, WillBallBase)
 public:
     explicit WillBallAvoidCenterDist(const InitArg& arg);
     ~WillBallAvoidCenterDist() override;

@@ -4,16 +4,16 @@
 
 namespace uking::action {
 
-HorseRideSearch::HorseRideSearch(const InitArg& arg) : HorseRide(arg) {}
+HorseRideSearch::HorseRideSearch(const InitArg& arg) : HorseRideBase(arg) {}
 
 HorseRideSearch::~HorseRideSearch() = default;
 
 bool HorseRideSearch::init_(sead::Heap* heap) {
-    return HorseRide::init_(heap);
+    return HorseRideBase::init_(heap);
 }
 
 void HorseRideSearch::enter_(ksys::act::ai::InlineParamPack* params) {
-    HorseRide::enter_(params);
+    HorseRideBase::enter_(params);
     _30 = ksys::Timer(5.0f, 5.0f);
     sub_71001AD8A0("HorseSearch", true);
     mFlags.reset(Flag::Changeable);
@@ -22,15 +22,15 @@ void HorseRideSearch::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void HorseRideSearch::leave_() {
-    HorseRide::leave_();
+    HorseRideBase::leave_();
 }
 
 void HorseRideSearch::loadParams_() {
-    HorseRide::loadParams_();
+    HorseRideBase::loadParams_();
 }
 
 void HorseRideSearch::calc_() {
-    HorseRide::calc_();
+    HorseRideBase::calc_();
     if (_30.value <= sead::Mathf::epsilon())
         mFlags.set(Flag::Changeable);
     else

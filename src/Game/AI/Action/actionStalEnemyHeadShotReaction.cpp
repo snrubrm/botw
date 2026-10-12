@@ -7,16 +7,16 @@
 namespace uking::action {
 
 StalEnemyHeadShotReaction::StalEnemyHeadShotReaction(const InitArg& arg)
-    : ActionWithPosAngReduce(arg) {}
+    : StopBase(arg) {}
 
 StalEnemyHeadShotReaction::~StalEnemyHeadShotReaction() = default;
 
 bool StalEnemyHeadShotReaction::init_(sead::Heap* heap) {
-    return ActionWithPosAngReduce::init_(heap);
+    return StopBase::init_(heap);
 }
 
 void StalEnemyHeadShotReaction::enter_(ksys::act::ai::InlineParamPack* params) {
-    ActionWithPosAngReduce::enter_(params);
+    StopBase::enter_(params);
     _90 = 0;
     auto* actor = mActor;
     if (*mIsTgOff_s)
@@ -31,7 +31,7 @@ void StalEnemyHeadShotReaction::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void StalEnemyHeadShotReaction::leave_() {
-    ActionWithPosAngReduce::leave_();
+    StopBase::leave_();
     auto* actor = mActor;
     if (_90 >= 1) {
         _90 = 0;
@@ -43,7 +43,7 @@ void StalEnemyHeadShotReaction::leave_() {
 }
 
 void StalEnemyHeadShotReaction::loadParams_() {
-    ActionWithPosAngReduce::loadParams_();
+    StopBase::loadParams_();
     getStaticParam(&mSpeed_s, "Speed");
     getStaticParam(&mRotSpd_s, "RotSpd");
     getStaticParam(&mUseAddVec_s, "UseAddVec");
@@ -57,7 +57,7 @@ void StalEnemyHeadShotReaction::loadParams_() {
 }
 
 void StalEnemyHeadShotReaction::calc_() {
-    ActionWithPosAngReduce::calc_();
+    StopBase::calc_();
     if (_90 > 0) {
         --_90;
         if (_90 == 0)

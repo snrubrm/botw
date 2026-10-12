@@ -5,10 +5,10 @@
 
 namespace uking::action {
 
-SmallDamageBase::SmallDamageBase(const InitArg& arg) : TakeHitImpactForce(arg) {}
+SmallDamageBase::SmallDamageBase(const InitArg& arg) : KnockBackHitImpactForce(arg) {}
 
 void SmallDamageBase::enter_(ksys::act::ai::InlineParamPack* params) {
-    TakeHitImpactForce::enter_(params);
+    KnockBackHitImpactForce::enter_(params);
 }
 
 void SmallDamageBase::calc_() {
@@ -16,7 +16,7 @@ void SmallDamageBase::calc_() {
         sub_7100738660(controller, 0.5f);
     else if (auto* body = mActor->getMainBody())
         sub_7100738898(body, 0.5f);
-    TakeHitImpactForce::calc_();
+    KnockBackHitImpactForce::calc_();
 }
 
 bool SmallDamageBase::isChangeable() const {

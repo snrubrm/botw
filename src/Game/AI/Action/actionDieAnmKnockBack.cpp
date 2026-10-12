@@ -25,7 +25,7 @@ void DieAnmKnockBack::leave_() {
 }
 
 void DieAnmKnockBack::loadParams_() {
-    TakeHitImpactForce::loadParams_();
+    KnockBackHitImpactForce::loadParams_();
     getStaticParam(&mWeaponDropSpeedY_s, "WeaponDropSpeedY");
     getStaticParam(&mIsDropWeapon_s, "IsDropWeapon");
     getStaticParam(&mASName_s, "ASName");

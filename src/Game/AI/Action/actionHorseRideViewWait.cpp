@@ -3,7 +3,7 @@
 
 namespace uking::action {
 
-HorseRideViewWait::HorseRideViewWait(const InitArg& arg) : HorseRide(arg) {}
+HorseRideViewWait::HorseRideViewWait(const InitArg& arg) : HorseRideBase(arg) {}
 
 // Empty-statement body as in upstream's GameDataFlagSelector::~GameDataFlagSelector() (96101229):
 // the original keeps the vtable store that a defaulted destructor drops.
@@ -12,30 +12,30 @@ HorseRideViewWait::~HorseRideViewWait() {
 }
 
 bool HorseRideViewWait::init_(sead::Heap* heap) {
-    return HorseRide::init_(heap);
+    return HorseRideBase::init_(heap);
 }
 
 void HorseRideViewWait::enter_(ksys::act::ai::InlineParamPack* params) {
-    HorseRide::enter_(params);
+    HorseRideBase::enter_(params);
     if (!mASName_s.isEmpty())
         sub_71001AD8A0(mASName_s.cstr(), true);
     mFlags.set(Flag::Changeable);
 }
 
 void HorseRideViewWait::leave_() {
-    HorseRide::leave_();
+    HorseRideBase::leave_();
     sub_71005DB3EC(mActor);
 }
 
 void HorseRideViewWait::loadParams_() {
-    HorseRide::loadParams_();
+    HorseRideBase::loadParams_();
     getStaticParam(&mRotRatio_s, "RotRatio");
     getStaticParam(&mASName_s, "ASName");
     getDynamicParam(&mTargetPos_d, "TargetPos");
 }
 
 void HorseRideViewWait::calc_() {
-    HorseRide::calc_();
+    HorseRideBase::calc_();
     sub_71005DB1D8(mActor, *mTargetPos_d);
 }
 

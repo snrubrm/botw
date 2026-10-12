@@ -1,13 +1,13 @@
 #pragma once
 
 #include "Game/AI/Action/actionUnk_7102451ba0.h"
-#include "Game/AI/Action/actionChuchuPreAttackBase.h"
+#include "Game/AI/Action/actionGelJumpBase.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class ChuchuPreAttack : public ChuchuPreAttackBase {
-    SEAD_RTTI_OVERRIDE(ChuchuPreAttack, ChuchuPreAttackBase)
+class ChuchuPreAttack : public GelJumpBase {
+    SEAD_RTTI_OVERRIDE(ChuchuPreAttack, GelJumpBase)
 public:
     explicit ChuchuPreAttack(const InitArg& arg);
     ~ChuchuPreAttack() override;

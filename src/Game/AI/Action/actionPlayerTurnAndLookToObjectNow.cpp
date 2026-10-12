@@ -19,7 +19,7 @@ bool PlayerTurnAndLookToObjectNow::init_(sead::Heap* heap) {
 }
 
 void PlayerTurnAndLookToObjectNow::enter_(ksys::act::ai::InlineParamPack* params) {
-    LookAtObjectBase::enter_(params);
+    TurnAndLookToObjBase::enter_(params);
     m33();
     ksys::act::BaseProcLink link;
     sead::Vector3f pos;

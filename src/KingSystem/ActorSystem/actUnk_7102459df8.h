@@ -83,7 +83,7 @@ public:
     // vtable 0x7102459e88 (derived: 0x710245a028, 0x710245a000); 8 entries of 0x58 bytes at +0x8
     struct Unk_7102459e88 {
         struct Unk1 {
-            sead::Vector3f _0;  // copied as a ground position by ForkOnEnterSwapDropTableActorBase
+            sead::Vector3f _0;  // copied as a ground position by OnEnterSwapActorBase
             sead::Vector3f _c;  // dotted with the gravity (KeeseDieSelect::m34)
             BaseProcLink _18;  // compared with Actor::getCreateArgBaseProcLink() (isBgGroundHit)
             u8 _28[0x58 - 0x28];

@@ -4,34 +4,34 @@
 
 namespace uking::action {
 
-HorseFollow::HorseFollow(const InitArg& arg) : AnimalFollowBase(arg) {}
+HorseFollow::HorseFollow(const InitArg& arg) : HorseFollowBase(arg) {}
 
 HorseFollow::~HorseFollow() = default;
 
 bool HorseFollow::init_(sead::Heap* heap) {
-    return AnimalFollowBase::init_(heap);
+    return HorseFollowBase::init_(heap);
 }
 
 void HorseFollow::enter_(ksys::act::ai::InlineParamPack* params) {
-    AnimalFollowBase::enter_(params);
+    HorseFollowBase::enter_(params);
     if (auto* rideable = mActor->getHorseOptionsMaybe())
         rideable->RideableBase::_8 &= ~0x200000;
 }
 
 void HorseFollow::leave_() {
-    AnimalFollowBase::leave_();
+    HorseFollowBase::leave_();
     if (auto* rideable = mActor->getHorseOptionsMaybe())
         rideable->RideableBase::_8 &= ~0x200000;
 }
 
 void HorseFollow::loadParams_() {
-    AnimalFollowBase::loadParams_();
+    HorseFollowBase::loadParams_();
     getDynamicParam(&mDistanceKept_d, "DistanceKept");
     getDynamicParam(&mTargetActor_d, "TargetActor");
 }
 
 void HorseFollow::calc_() {
-    AnimalFollowBase::calc_();
+    HorseFollowBase::calc_();
 }
 
 float HorseFollow::m32() {

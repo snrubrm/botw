@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Game/AI/Action/actionActionWithPosAngReduce.h"
+#include "Game/AI/Action/actionStopBase.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace ksys::phys {
@@ -9,8 +9,8 @@ class RigidBody;
 
 namespace uking::action {
 
-class HorseElectricParalysis : public ActionWithPosAngReduce {
-    SEAD_RTTI_OVERRIDE(HorseElectricParalysis, ActionWithPosAngReduce)
+class HorseElectricParalysis : public StopBase {
+    SEAD_RTTI_OVERRIDE(HorseElectricParalysis, StopBase)
 public:
     explicit HorseElectricParalysis(const InitArg& arg);
     ~HorseElectricParalysis() override;

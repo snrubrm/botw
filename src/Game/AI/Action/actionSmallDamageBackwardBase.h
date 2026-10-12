@@ -1,14 +1,14 @@
 #pragma once
 
 #include <math/seadMatrix.h>
-#include "Game/AI/Action/actionTakeHitImpactForce.h"
+#include "Game/AI/Action/actionKnockBackHitImpactForce.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 #include <math/seadVector.h>
 
 namespace uking::action {
 
-class SmallDamageBackwardBase : public TakeHitImpactForce {
-    SEAD_RTTI_OVERRIDE(SmallDamageBackwardBase, TakeHitImpactForce)
+class SmallDamageBackwardBase : public KnockBackHitImpactForce {
+    SEAD_RTTI_OVERRIDE(SmallDamageBackwardBase, KnockBackHitImpactForce)
 public:
     explicit SmallDamageBackwardBase(const InitArg& arg);
     ~SmallDamageBackwardBase() override;

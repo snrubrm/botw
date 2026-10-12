@@ -45,7 +45,7 @@ void SmallDamageDirectPreTargetBone::m38() {
 }
 
 void SmallDamageDirectPreTargetBone::loadParams_() {
-    TakeHitImpactForce::loadParams_();
+    KnockBackHitImpactForce::loadParams_();
     getStaticParam(&mPreTargetBone_s, "PreTargetBone");
     getStaticParam(&mASName_s, "ASName");
     getStaticParam(&mIsSetHitPosSelecter_s, "IsSetHitPosSelecter");

@@ -4,30 +4,30 @@
 
 namespace uking::action {
 
-SmallDamageBackwardBase::SmallDamageBackwardBase(const InitArg& arg) : TakeHitImpactForce(arg) {}
+SmallDamageBackwardBase::SmallDamageBackwardBase(const InitArg& arg) : KnockBackHitImpactForce(arg) {}
 
 SmallDamageBackwardBase::~SmallDamageBackwardBase() = default;
 
 bool SmallDamageBackwardBase::init_(sead::Heap* heap) {
-    return TakeHitImpactForce::init_(heap);
+    return KnockBackHitImpactForce::init_(heap);
 }
 
 void SmallDamageBackwardBase::enter_(ksys::act::ai::InlineParamPack* params) {
-    TakeHitImpactForce::enter_(params);
+    KnockBackHitImpactForce::enter_(params);
     _90.set(-_68.value.x, 0.0f, -_68.value.z);
     _90.normalize();
 }
 
 void SmallDamageBackwardBase::leave_() {
-    TakeHitImpactForce::leave_();
+    KnockBackHitImpactForce::leave_();
 }
 
 void SmallDamageBackwardBase::loadParams_() {
-    TakeHitImpactForce::loadParams_();
+    KnockBackHitImpactForce::loadParams_();
 }
 
 void SmallDamageBackwardBase::calc_() {
-    TakeHitImpactForce::calc_();
+    KnockBackHitImpactForce::calc_();
     sub_710073FA94(&_9c, mActor);
     sub_71007407F0(&_9c, _90, getUpDir(mActor), true, sead::Mathf::deg2rad(30.0f));
     sub_7100740F1C(_9c, mActor);

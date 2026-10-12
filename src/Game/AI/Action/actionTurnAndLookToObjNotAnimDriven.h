@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Game/AI/Action/actionLookAtObjectBase.h"
+#include "Game/AI/Action/actionTurnAndLookToObjBase.h"
 #include "KingSystem/System/VFRValue.h"
 #include <math/seadMatrix.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
@@ -11,8 +11,8 @@ class CharacterController;
 
 namespace uking::action {
 
-class TurnAndLookToObjNotAnimDriven : public LookAtObjectBase {
-    SEAD_RTTI_OVERRIDE(TurnAndLookToObjNotAnimDriven, LookAtObjectBase)
+class TurnAndLookToObjNotAnimDriven : public TurnAndLookToObjBase {
+    SEAD_RTTI_OVERRIDE(TurnAndLookToObjNotAnimDriven, TurnAndLookToObjBase)
 public:
     explicit TurnAndLookToObjNotAnimDriven(const InitArg& arg);
     ~TurnAndLookToObjNotAnimDriven() override;

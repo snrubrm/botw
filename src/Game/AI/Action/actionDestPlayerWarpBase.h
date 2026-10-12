@@ -1,0 +1,34 @@
+#pragma once
+
+#include <math/seadMatrix.h>
+#include "KingSystem/ActorSystem/actAiAction.h"
+
+namespace uking::action {
+
+class DestPlayerWarpBase : public ksys::act::ai::Action {
+    SEAD_RTTI_OVERRIDE(DestPlayerWarpBase, ksys::act::ai::Action)
+public:
+    explicit DestPlayerWarpBase(const InitArg& arg);
+    ~DestPlayerWarpBase() override;
+
+    bool init_(sead::Heap* heap) override;
+    void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void leave_() override;
+    void loadParams_() override;
+
+protected:
+    void calc_() override;
+    virtual void m32();
+    virtual bool m33();
+    virtual bool m34(const sead::Vector3f& pos);
+    virtual void m35(const sead::Vector3f& pos, f32 angle);
+    virtual void m36(const sead::Vector3f& pos, f32 angle);
+
+    sead::Matrix34f _1c = sead::Matrix34f::ident;
+    sead::Vector3f _4c = sead::Vector3f::ones;
+    bool _58 = false;
+    bool _59 = false;
+    f32 _5c = 0.0f;
+};
+
+}  // namespace uking::action

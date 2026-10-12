@@ -21,7 +21,7 @@ void AnmDamage::leave_() {
 }
 
 void AnmDamage::loadParams_() {
-    TakeHitImpactForce::loadParams_();
+    KnockBackHitImpactForce::loadParams_();
     getStaticParam(&mAS_s, "AS");
 }
 

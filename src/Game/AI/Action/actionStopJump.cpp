@@ -6,25 +6,25 @@
 
 namespace uking::action {
 
-StopJump::StopJump(const InitArg& arg) : ActionWithPosAngReduce(arg) {}
+StopJump::StopJump(const InitArg& arg) : StopBase(arg) {}
 
 StopJump::~StopJump() = default;
 
 bool StopJump::init_(sead::Heap* heap) {
-    return ActionWithPosAngReduce::init_(heap);
+    return StopBase::init_(heap);
 }
 
 void StopJump::enter_(ksys::act::ai::InlineParamPack* params) {
-    ActionWithPosAngReduce::enter_(params);
+    StopBase::enter_(params);
     _58 = 0;
 }
 
 void StopJump::leave_() {
-    ActionWithPosAngReduce::leave_();
+    StopBase::leave_();
 }
 
 void StopJump::loadParams_() {
-    ActionWithPosAngReduce::loadParams_();
+    StopBase::loadParams_();
     getStaticParam(&mJumpHeight_s, "JumpHeight");
     getStaticParam(&mJumpLoopAS_s, "JumpLoopAS");
     getStaticParam(&mLandingAS_s, "LandingAS");
@@ -32,7 +32,7 @@ void StopJump::loadParams_() {
 
 // NON_MATCHING: the SafeString `this` register setup of the second playAS (`ldr x8, [x0, #0x48]!`)
 void StopJump::calc_() {
-    ActionWithPosAngReduce::calc_();
+    StopBase::calc_();
     if (isFinished() || isFailed())
         return;
 

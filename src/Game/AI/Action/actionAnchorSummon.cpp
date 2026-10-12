@@ -10,7 +10,7 @@ static sead::Vector3f getPos(ksys::map::Object* o) {
     return o->getTranslate();
 }
 
-AnchorSummon::AnchorSummon(const InitArg& arg) : ActionWithPosAngReduce(arg) {}
+AnchorSummon::AnchorSummon(const InitArg& arg) : StopBase(arg) {}
 
 AnchorSummon::~AnchorSummon() {
     _70.freeBuffer();
@@ -41,7 +41,7 @@ bool AnchorSummon::init_(sead::Heap* heap) {
 }
 
 void AnchorSummon::enter_(ksys::act::ai::InlineParamPack* params) {
-    ActionWithPosAngReduce::enter_(params);
+    StopBase::enter_(params);
     playAS(mASName_s.cstr(), true, 0, 0, -1.0f);
     mFlags.reset(Flag::Changeable);
     _90 = false;
@@ -64,11 +64,11 @@ void AnchorSummon::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void AnchorSummon::leave_() {
-    ActionWithPosAngReduce::leave_();
+    StopBase::leave_();
 }
 
 void AnchorSummon::loadParams_() {
-    ActionWithPosAngReduce::loadParams_();
+    StopBase::loadParams_();
     getStaticParam(&mASName_s, "ASName");
     getDynamicParam(&mSummonActor_d, "SummonActor");
     getDynamicParam(&mSummonActorEquip1_d, "SummonActorEquip1");
@@ -76,7 +76,7 @@ void AnchorSummon::loadParams_() {
 }
 
 void AnchorSummon::calc_() {
-    ActionWithPosAngReduce::calc_();
+    StopBase::calc_();
     if (!isFinishedAS(0, 0))
         return;
 

@@ -1,13 +1,13 @@
 #pragma once
 
-#include "Game/AI/Action/actionGiantOneHandActionWithLegTurn.h"
+#include "Game/AI/Action/actionOneHandActionWithLegTurn.h"
 #include "Game/AI/aiUnk_7100704914.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class GiantOneHandPunchWithLegTurn : public GiantOneHandActionWithLegTurn {
-    SEAD_RTTI_OVERRIDE(GiantOneHandPunchWithLegTurn, GiantOneHandActionWithLegTurn)
+class GiantOneHandPunchWithLegTurn : public OneHandActionWithLegTurn {
+    SEAD_RTTI_OVERRIDE(GiantOneHandPunchWithLegTurn, OneHandActionWithLegTurn)
 public:
     explicit GiantOneHandPunchWithLegTurn(const InitArg& arg);
     ~GiantOneHandPunchWithLegTurn() override;

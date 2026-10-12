@@ -31,7 +31,7 @@ void BattleCloseMeanderRun::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void BattleCloseMeanderRun::loadParams_() {
-    BattleCloseMoveActionBase::loadParams_();
+    AvoidingCloseMoveActionBase::loadParams_();
     getStaticParam(&mMeanderWidth_s, "MeanderWidth");
     getStaticParam(&mMeanderSpeed_s, "MeanderSpeed");
     getStaticParam(&mJumpUpSpeedReduceRatio_s, "JumpUpSpeedReduceRatio");

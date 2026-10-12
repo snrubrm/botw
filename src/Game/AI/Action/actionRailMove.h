@@ -1,13 +1,13 @@
 #pragma once
 
-#include "Game/AI/Action/actionRailMoveBase.h"
+#include "Game/AI/Action/actionDestPointMoveBase.h"
 #include "Game/AI/aiUnk_71024f15c0.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class RailMove : public RailMoveBase {
-    SEAD_RTTI_OVERRIDE(RailMove, RailMoveBase)
+class RailMove : public DestPointMoveBase {
+    SEAD_RTTI_OVERRIDE(RailMove, DestPointMoveBase)
 public:
     explicit RailMove(const InitArg& arg);
     ~RailMove() override;

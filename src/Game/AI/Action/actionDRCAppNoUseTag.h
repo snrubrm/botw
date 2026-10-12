@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/AI/Action/actionForbidTag.h"
+#include "Game/AI/Action/actionBasicSignalForbidTag.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class DRCAppNoUseTag : public ForbidTag {
-    SEAD_RTTI_OVERRIDE(DRCAppNoUseTag, ForbidTag)
+class DRCAppNoUseTag : public BasicSignalForbidTag {
+    SEAD_RTTI_OVERRIDE(DRCAppNoUseTag, BasicSignalForbidTag)
 public:
     explicit DRCAppNoUseTag(const InitArg& arg);
     ~DRCAppNoUseTag() override;

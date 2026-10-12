@@ -1,13 +1,13 @@
 #pragma once
 
-#include "Game/AI/Action/actionHorseRide.h"
+#include "Game/AI/Action/actionHorseRideBase.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 #include "KingSystem/System/Timer.h"
 
 namespace uking::action {
 
-class HorseRideWait : public HorseRide {
-    SEAD_RTTI_OVERRIDE(HorseRideWait, HorseRide)
+class HorseRideWait : public HorseRideBase {
+    SEAD_RTTI_OVERRIDE(HorseRideWait, HorseRideBase)
 public:
     explicit HorseRideWait(const InitArg& arg);
     ~HorseRideWait() override;

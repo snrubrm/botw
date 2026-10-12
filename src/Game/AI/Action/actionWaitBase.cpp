@@ -4,10 +4,10 @@
 
 namespace uking::action {
 
-WaitBase::WaitBase(const InitArg& arg) : ActionWithPosAngReduce(arg), mTimer(0.0f, 0.0f) {}
+WaitBase::WaitBase(const InitArg& arg) : StopBase(arg), mTimer(0.0f, 0.0f) {}
 
 void WaitBase::enter_(ksys::act::ai::InlineParamPack* params) {
-    ActionWithPosAngReduce::enter_(params);
+    StopBase::enter_(params);
     const s32 base_time = *mTime_s;
     const u32 rand_time = *mTimeRand_s;
     const f32 time = base_time + s32(sead::GlobalRandom::instance()->getU32(rand_time));
@@ -16,13 +16,13 @@ void WaitBase::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void WaitBase::loadParams_() {
-    ActionWithPosAngReduce::loadParams_();
+    StopBase::loadParams_();
     getStaticParam(&mTime_s, "Time");
     getStaticParam(&mTimeRand_s, "TimeRand");
 }
 
 void WaitBase::calc_() {
-    ActionWithPosAngReduce::calc_();
+    StopBase::calc_();
     if (*mTime_s < 1)
         return;
     if (mTimer.value <= sead::Mathf::epsilon()) {

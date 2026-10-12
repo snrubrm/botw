@@ -4,7 +4,7 @@
 
 namespace uking::action {
 
-HoldArrow::HoldArrow(const InitArg& arg) : ActionWithPosAngReduce(arg) {}
+HoldArrow::HoldArrow(const InitArg& arg) : StopBase(arg) {}
 
 void HoldArrow::enter_(ksys::act::ai::InlineParamPack* params) {
     playAS("ArrowDraw", false, 0, 0, -1.0f);
@@ -13,17 +13,17 @@ void HoldArrow::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void HoldArrow::leave_() {
-    ActionWithPosAngReduce::leave_();
+    StopBase::leave_();
     sub_71005D787C(mActor, *mWeaponIdx_s, act::Unk_71002eda38(5));
 }
 
 void HoldArrow::loadParams_() {
-    ActionWithPosAngReduce::loadParams_();
+    StopBase::loadParams_();
     getStaticParam(&mWeaponIdx_s, "WeaponIdx");
 }
 
 void HoldArrow::calc_() {
-    ActionWithPosAngReduce::calc_();
+    StopBase::calc_();
     sub_71005D787C(mActor, *mWeaponIdx_s, act::Unk_71002eda38(4));
 }
 

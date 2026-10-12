@@ -6,7 +6,7 @@
 #include "KingSystem/Map/mapRail.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
-// 0x710003955c (declared only; same declaration as in actionGuardianMoveTo.cpp): reads the actor's parameters.
+// 0x710003955c (declared only; same declaration as in actionGuardianActionBase.cpp): reads the actor's parameters.
 struct Unk_710003955c {
     u8 _0[0x70];
     s32 _70;

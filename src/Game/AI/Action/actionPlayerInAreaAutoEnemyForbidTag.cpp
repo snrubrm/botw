@@ -4,28 +4,28 @@
 namespace uking::action {
 
 PlayerInAreaAutoEnemyForbidTag::PlayerInAreaAutoEnemyForbidTag(const InitArg& arg)
-    : ForbidTag(arg) {}
+    : BasicSignalForbidTag(arg) {}
 
 PlayerInAreaAutoEnemyForbidTag::~PlayerInAreaAutoEnemyForbidTag() = default;
 
 bool PlayerInAreaAutoEnemyForbidTag::init_(sead::Heap* heap) {
-    if (!ForbidTag::init_(heap))
+    if (!BasicSignalForbidTag::init_(heap))
         return false;
     _58 = false;
     return true;
 }
 
 void PlayerInAreaAutoEnemyForbidTag::enter_(ksys::act::ai::InlineParamPack* params) {
-    ForbidTag::enter_(params);
+    BasicSignalForbidTag::enter_(params);
 }
 
 void PlayerInAreaAutoEnemyForbidTag::leave_() {
-    ForbidTag::leave_();
+    BasicSignalForbidTag::leave_();
     m33();
 }
 
 void PlayerInAreaAutoEnemyForbidTag::loadParams_() {
-    ForbidTag::loadParams_();
+    BasicSignalForbidTag::loadParams_();
     getMapUnitParam(&mNonAutoPlacementAnimal_m, "NonAutoPlacementAnimal");
     getMapUnitParam(&mNonAutoPlacementBird_m, "NonAutoPlacementBird");
     getMapUnitParam(&mNonAutoPlacementEnemy_m, "NonAutoPlacementEnemy");
@@ -80,7 +80,7 @@ void PlayerInAreaAutoEnemyForbidTag::m33() {
 }
 
 void PlayerInAreaAutoEnemyForbidTag::calc_() {
-    ForbidTag::calc_();
+    BasicSignalForbidTag::calc_();
 }
 
 }  // namespace uking::action

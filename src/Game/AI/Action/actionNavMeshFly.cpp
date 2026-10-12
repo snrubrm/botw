@@ -3,31 +3,31 @@
 
 namespace uking::action {
 
-NavMeshFly::NavMeshFly(const InitArg& arg) : NavMeshAction(arg) {}
+NavMeshFly::NavMeshFly(const InitArg& arg) : NavMeshMoveBase(arg) {}
 
 NavMeshFly::~NavMeshFly() = default;
 
 bool NavMeshFly::init_(sead::Heap* heap) {
-    return NavMeshAction::init_(heap);
+    return NavMeshMoveBase::init_(heap);
 }
 
 void NavMeshFly::enter_(ksys::act::ai::InlineParamPack* params) {
-    NavMeshAction::enter_(params);
+    NavMeshMoveBase::enter_(params);
     _b8.changeMotionType(mActor->getCharacterController(), ksys::act::MotionType::Hover);
 }
 
 void NavMeshFly::leave_() {
     _b8.resetMotionType(mActor->getCharacterController());
-    NavMeshAction::leave_();
+    NavMeshMoveBase::leave_();
 }
 
 void NavMeshFly::loadParams_() {
-    NavMeshAction::loadParams_();
+    NavMeshMoveBase::loadParams_();
     getStaticParam(&mASName_s, "ASName");
 }
 
 void NavMeshFly::calc_() {
-    NavMeshAction::calc_();
+    NavMeshMoveBase::calc_();
 }
 
 void NavMeshFly::m34() {
