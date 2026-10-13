@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionForkCapsuleWindFollow.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -28,8 +29,11 @@ void ForkCapsuleWindFollow::loadParams_() {
     getStaticParam(&mDir_s, "Dir");
 }
 
+// NON_MATCHING: matrix-product loads, arithmetic and stores have different scheduling.
 void ForkCapsuleWindFollow::calc_() {
-    ksys::act::ai::Action::calc_();
+    sead::Matrix34f matrix;
+    sead::Matrix34CalcCommon<f32>::multiply(matrix, mActor->getMtx(), _c8);
+    _40.sub_71010C449C(*mSpeed_s, *mRadius_s * mActor->getScale().y, *mLength_s, matrix);
 }
 
 bool ForkCapsuleWindFollow::hasUpdateForPreDeleteCb() {
