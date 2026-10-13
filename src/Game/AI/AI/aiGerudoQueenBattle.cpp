@@ -72,6 +72,23 @@ bool GerudoQueenBattle::sub_71003F3E44(ksys::act::BaseProcMgr* mgr) {
     return true;
 }
 
+// NON_MATCHING: the matrix snapshot is scalarized; vector loads and float registers differ.
+void GerudoQueenBattle::sub_71003F4910(u32 angle) {
+    const sead::Matrix34f transform = mActor->getMtx();
+    sead::Vector3f forward = transform.getBase(2);
+    forward.normalize();
+    sead::Vector2f horizontal(forward.x, forward.z);
+    if (horizontal.length() == 0.0f) {
+        sead::Vector3f up = transform.getBase(1);
+        up.normalize();
+        horizontal.set(up.x, up.z);
+    }
+    sead::Matrix33f rotation;
+    rotation.makeRIdx(0, angle - sead::Mathf::atan2Idx(horizontal.x, horizontal.y), 0);
+    mActor->mMtx.setMul(rotation, transform);
+    mActor->nullsub_4648();
+}
+
 bool GerudoQueenBattle::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
 }

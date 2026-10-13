@@ -41,6 +41,7 @@ class IgnitedThrown;
 }  // namespace uking::action
 
 namespace uking::ai {
+class GerudoQueenBattle;
 class KokkoRoot;
 }  // namespace uking::ai
 
@@ -857,6 +858,7 @@ protected:
     friend class uking::act::Unk_71024e8738;  // writes mMtx / mScale (ActorBind subclass copying a pose)
     friend class uking::action::KokkoCreateDrop;  // checks ActorX6A0 flags
     friend class uking::ai::KokkoRoot;  // checks ActorX6A0 flags
+    friend class uking::ai::GerudoQueenBattle;  // updates mMtx before notifying the actor.
     friend class uking::action::ChemicalAttack;  // lerps mScale.x in place
     friend class uking::action::IgnitedThrown;  // writes mScale directly (enter_)
 
