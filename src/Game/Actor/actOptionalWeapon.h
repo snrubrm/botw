@@ -37,6 +37,9 @@ public:
 
     int handleMessage(const ksys::Message& message) override;
     Actor* m31() override;
+    bool shouldUnload(s32* value) override;
+    void calcMaybe() override;
+    f32 m139() override;
     void updatePositionMaybe() override;
     void m76(ksys::VFR::ScopedDeltaSetter* setter) override;
 

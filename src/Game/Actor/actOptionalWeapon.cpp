@@ -122,3 +122,29 @@ int uking::act::OptionalWeapon::handleMessage(const ksys::Message& message) {
     }
     return 1;
 }
+
+bool uking::act::OptionalWeapon::shouldUnload(s32* value) {
+    if (sead::DynamicCast<Actor>(_840.getProc(nullptr, nullptr)))
+        return false;
+    return shouldUnloadBecauseOfDistance(value);
+}
+
+void uking::act::OptionalWeapon::calcMaybe() {
+    if (_898._60 == 1) {
+        _850.reset();
+        _840.reset();
+        return;
+    }
+    if (_83e & 1) {
+        mActorFlags2.set(ActorFlag2::_20);
+    } else if (auto* parent = sead::DynamicCast<Actor>(_840.getProc(nullptr, nullptr))) {
+        x_57(parent);
+    }
+}
+
+f32 uking::act::OptionalWeapon::m139() {
+    if ((isPlayerProfile(sead::DynamicCast<Actor>(_840.getProc(nullptr, nullptr))) || m142()) &&
+        _4f0 < 1.0f)
+        return _4f0;
+    return Actor::m139();
+}
