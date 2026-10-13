@@ -26,7 +26,7 @@ size_t HavokMemoryAllocator::getHeapSize() const {
 }
 
 size_t HavokMemoryAllocator::getHeapFreeSize() const {
-    return sead::DynamicCast<util::DualHeap>(mHeap)->getFreeSize();
+    return sead::DynamicCast<util::DualHeap>(mHeap)->sub_71010BF054();
 }
 
 int HavokMemoryAllocator::getAllocatedSize(const void* obj, int nbytes) const {

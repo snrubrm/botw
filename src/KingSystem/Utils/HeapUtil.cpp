@@ -1,8 +1,98 @@
 #include "KingSystem/Utils/HeapUtil.h"
 #include <heap/seadHeapMgr.h>
+#include <math/seadMathCalcCommon.h>
 #include <thread/seadThread.h>
 
 namespace ksys::util {
+
+DualHeap* DualHeap::create(size_t size, const sead::SafeString& name, Heap* parent1,
+                           Heap* parent2, s32 alignment, HeapDirection direction, bool b) {
+    return tryCreate(size, name, parent1, parent2, alignment, direction, b);
+}
+
+void* DualHeap::tryAlloc(size_t size, s32 alignment) {
+    if (isLockEnabled())
+        mCS.lock();
+    void* ptr = sead::ExpHeap::tryAlloc(size, alignment);
+    if (!ptr && mHeap2) {
+        _118 += size;
+        ptr = mHeap2->tryAlloc(size, alignment);
+    }
+    if (isLockEnabled())
+        mCS.unlock();
+    return ptr;
+}
+
+size_t DualHeap::sub_71010BF054() const {
+    return sead::ExpHeap::getFreeSize();
+}
+
+size_t DualHeap::sub_71010BF058(s32 alignment) const {
+    return sead::ExpHeap::getMaxAllocatableSize(alignment);
+}
+
+DualHeap::~DualHeap() {
+    dispose_(nullptr, nullptr);
+}
+
+void DualHeap::free(void* ptr) {
+    if (sead::ExpHeap::isInclude(ptr)) {
+        sead::ExpHeap::free(ptr);
+        return;
+    }
+    if (mHeap2 && mHeap2->isInclude(ptr))
+        mHeap2->free(ptr);
+}
+
+void* DualHeap::resizeFront(void* ptr, size_t size) {
+    if (sead::ExpHeap::isInclude(ptr))
+        return sead::ExpHeap::resizeFront(ptr, size);
+    if (mHeap2 && mHeap2->isInclude(ptr))
+        return mHeap2->resizeFront(ptr, size);
+    return nullptr;
+}
+
+void* DualHeap::resizeBack(void* ptr, size_t size) {
+    if (sead::ExpHeap::isInclude(ptr))
+        return sead::ExpHeap::resizeBack(ptr, size);
+    if (mHeap2 && mHeap2->isInclude(ptr))
+        return mHeap2->resizeBack(ptr, size);
+    return nullptr;
+}
+
+// NON_MATCHING: the inherited getSize call is devirtualized.
+size_t DualHeap::getFreeSize() const {
+    const size_t own_size = sead::ExpHeap::getFreeSize();
+    const size_t other_size = mHeap2 ? mHeap2->getFreeSize() : 0;
+    return sead::MathCalcCommon<size_t>::min(own_size + other_size, getSize());
+}
+
+// NON_MATCHING: the inherited getSize call is devirtualized.
+size_t DualHeap::getMaxAllocatableSize(int alignment) const {
+    const size_t own_size = sead::ExpHeap::getMaxAllocatableSize(alignment);
+    const size_t other_size = mHeap2 ? mHeap2->getMaxAllocatableSize(alignment) : 0;
+    return sead::MathCalcCommon<size_t>::min(sead::MathCalcCommon<size_t>::max(own_size, other_size), getSize());
+}
+
+bool DualHeap::isResizable() const {
+    return false;
+}
+
+bool DualHeap::isAdjustable() const {
+    return false;
+}
+
+void DualHeap::genInformation_(sead::hostio::Context* context) {
+    if (isLockEnabled())
+        sead::ExpHeap::genInformation_(context);
+}
+
+void DualHeap::makeMetaString_(sead::BufferedSafeString* string) {
+    if (isLockEnabled())
+        sead::Heap::makeMetaString_(string);
+    else
+        string->copy("Icon=CIRCLE_BLACK");
+}
 
 // Name, layout and purpose unknown; this is stubbed in release builds
 class DebugHeapHolder {

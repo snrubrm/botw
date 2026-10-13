@@ -34,6 +34,10 @@ public:
     void genInformation_(sead::hostio::Context* context) override;
     void makeMetaString_(sead::BufferedSafeString* string) override;
 
+    // Native 12B184C and independent 11AB294 / FC9F40 query only the primary heap.
+    size_t sub_71010BF054() const;
+    size_t sub_71010BF058(s32 alignment) const;
+
     sead::Heap* getHeap2() const { return mHeap2; }
 
 protected:
@@ -42,7 +46,8 @@ protected:
     ~DualHeap() override;
 
     sead::Heap* mHeap2;
-    void* _118;
+    // Complete tryCreate 10BEC7C and tryAlloc 10BF05C count fallback-request bytes.
+    size_t _118;
     u8 _120;
     void* _128;
 };
@@ -106,10 +111,10 @@ KSYS_ALWAYS_INLINE inline sead::Heap* tryCreateDualHeap(sead::Heap* parent) {
     size_t size;
 
     if (const auto* parent_ex = sead::DynamicCast<DualHeap>(parent)) {
-        if (parent_ex->getMaxAllocatableSize(sizeof(void*)) < sizeof(DualFrameHeap))
+        if (parent_ex->sub_71010BF058(sizeof(void*)) < sizeof(DualFrameHeap))
             size = sizeof(DualFrameHeap);
         else
-            size = parent_ex->getMaxAllocatableSize(sizeof(void*));
+            size = parent_ex->sub_71010BF058(sizeof(void*));
 
         return tryCreateDualHeap(size, parent->getName(), parent, parent_ex->getHeap2(),
                                  sead::Heap::cHeapDirection_Forward, false);
