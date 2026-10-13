@@ -65,9 +65,8 @@ void LastBossWeaponAttackRoot::calc_() {
             if (auto* awareness = mActor->getAwareness()) {
                 Unk_7102451678 filter;
                 auto* entry = ksys::act::sub_7100D7EEE8(&awareness->_8, &filter);
-                auto* actor = mActor;
                 const auto& link = entry ? entry->_0.mLink : ksys::act::PlayerInfo::getSomeProcLink();
-                sub_71005D8DE8(actor, link, entry ? &entry->_58 : nullptr, nullptr);
+                sub_71005D8DE8(mActor, link, entry ? &entry->_58 : nullptr, nullptr);
             }
         }
         sub_710047EA10();
