@@ -62,6 +62,18 @@ f32 Unk_7102459708::sub_7100791E44(f32 t) const {
 
 namespace uking::act {
 
+// NON_MATCHING: vector arithmetic scheduling and the two stack temporaries use different slots.
+void Camera::sub_7100799770(const Unk_71009214b8& src, Unk_71009214b8* dst) {
+    // The native in-place callers require the direction before dst changes the source state.
+    const sead::Vector3f direction = src._0 - src._c;
+    dst->_c = src._c + _860._1a0;
+    Unk_7100922700 polar(direction);
+    polar._4 = angleStuff(sub_7100924CAC(angleStuff(_860._1b8 + polar._4)));
+    polar._8 = angleStuff(_860._1bc + polar._8);
+    polar._0 = sub_7100924D40(polar._0 + _860._1c0);
+    dst->_0 = dst->_c + polar.sub_7100923254();
+}
+
 void Camera::sub_7100795C44() {
     if (_860._1c8 != 0) {
         _860._0 = _860._38 = _860._70 = _860._a8 = _860._e0;
