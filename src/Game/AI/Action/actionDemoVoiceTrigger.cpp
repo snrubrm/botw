@@ -1,6 +1,7 @@
 #include "Game/AI/Action/actionDemoVoiceTrigger.h"
 #include <aal/aalArbiter.h>
 #include <aal/aalSystemAccessor.h>
+#include <devenv/seadEnvUtil.h>
 #include "Game/UI/uiUI.h"
 
 namespace uking::action {
@@ -47,6 +48,23 @@ void DemoVoiceTrigger::enter_(ksys::act::ai::InlineParamPack* params) {
 void DemoVoiceTrigger::leave_() {
     if (!_52)
         ui::UI::instance()->sub_71010A6D84();
+}
+
+void DemoVoiceTrigger::sub_7100E13B18(const aal::MarkerController::MarkerCallbackInfo& info,
+                                    void* user_data) {
+    const sead::SafeString marker(info.name);
+    sead::SafeString language(sead::EnvUtil::getRegionLanguage().text());
+    switch (sead::EnvUtil::getRegionLanguage().value()) {
+    case sead::RegionLanguageID::KRko:
+    case sead::RegionLanguageID::CNzh:
+    case sead::RegionLanguageID::TWzh:
+        language = sead::RegionLanguageID::text(sead::RegionLanguageID::JPja);
+        break;
+    default:
+        break;
+    }
+    if (marker.findIndex(language) != -1 || marker == "PageBreak")
+        static_cast<DemoVoiceTrigger*>(user_data)->_50 = true;
 }
 
 void DemoVoiceTrigger::loadParams_() {

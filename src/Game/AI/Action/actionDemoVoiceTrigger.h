@@ -1,6 +1,7 @@
 #pragma once
 
 #include <aal/aalHandle.h>
+#include <aal/aalMarkerController.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace aal {
@@ -24,6 +25,9 @@ public:
     // The middle int parameter is ignored by the callee (x2 is overwritten before any read);
     // our call passes 0, costing one extra mov.
     void sub_71000E13614(const sead::SafeString* label, int unused, bool hide_caption);
+    // E13614 registers this callback with the marker controller and passes this as user data.
+    static void sub_7100E13B18(const aal::MarkerController::MarkerCallbackInfo& info,
+                              void* user_data);
 
 protected:
     void calc_() override;
