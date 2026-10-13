@@ -6,10 +6,13 @@
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "KingSystem/ActorSystem/actAiRoot.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "KingSystem/Utils/Thread/Message.h"
+
+void sub_710073DCB4(ksys::act::Actor* actor, int type);
 
 bool sub_71005E19F8(ksys::act::Actor* actor, Unk_7102357d20* sender, const char* fortress_tag);
 
@@ -73,6 +76,33 @@ void EnemyRoot::enter_(ksys::act::ai::InlineParamPack* params) {
         _38->sub_7100702370();
     *mIsTrgChangeUnderWaterState_a = false;
     m34(params);
+}
+
+// NON_MATCHING: initial-state branches and water-height operand loads are reordered.
+void EnemyRoot::m34(ksys::act::ai::InlineParamPack* params) {
+    auto* actor = mActor;
+    auto* ride_info = actor->getPlayerRideInfo();
+    const u32 initial_state = actor->getRootAi()->getI();
+    actor = mActor;
+    if (actor->getRootAi()->getI() != 5 && *mIsNearCreate_m) {
+        sub_71005D8DE8(actor, ksys::act::PlayerInfo::getSomeProcLink(), nullptr, nullptr);
+        mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_2000000);
+        changeChild("近接湧出");
+    } else if (ride_info && (ride_info->_30 & 1)) {
+        if (auto* enemy = sead::DynamicCast<act::Enemy>(actor))
+            enemy->_e84.setBit(13);
+        changeToRide();
+    } else if (*mInWaterDepth_s > 0.0f && actor->get68f() &&
+               actor->get6f0() - actor->getMtx().m[1][3] > *mInWaterDepth_s) {
+        m39();
+    } else if (initial_state == 10) {
+        sub_710073DCB4(actor, *mCreateDeadConditionType_a);
+        changeChild("死亡生成");
+    } else if (initial_state == 6) {
+        changeChild("呼ばれ");
+    } else {
+        m38();
+    }
 }
 
 void EnemyRoot::leave_() {
