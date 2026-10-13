@@ -1,6 +1,7 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <heap/seadDisposer.h>
 #include "aal/aalDeviceType.h"
 #include "aal/aalTimedFader.h"
 
@@ -12,6 +13,17 @@ class AuxBusCtrl;
 /// before offset 0x48 are not modeled.
 class AuxBusMgr {
 public:
+    // The native singleton disposer has its own complete two-slot lifetime table.
+    // Its embedded storage remains in the opaque interval below.
+    class SingletonDisposer_ : public sead::IDisposer {
+    public:
+        using sead::IDisposer::IDisposer;
+        ~SingletonDisposer_() override;
+        static SingletonDisposer_* sStaticDisposer;
+    };
+
+    ~AuxBusMgr();
+    static void deleteInstance();
     static AuxBusMgr* sInstance;
 
     /// The duration of one audio frame in seconds.

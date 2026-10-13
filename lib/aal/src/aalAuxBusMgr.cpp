@@ -13,6 +13,17 @@ AuxBusCtrl* AuxBusMgr::getAuxBusCtrl(BusType bus, DeviceType device) const {
 
 
 AuxBusMgr* AuxBusMgr::sInstance = nullptr;
+AuxBusMgr::SingletonDisposer_* AuxBusMgr::SingletonDisposer_::sStaticDisposer = nullptr;
+
+AuxBusMgr::SingletonDisposer_::~SingletonDisposer_() {
+    if (this == sStaticDisposer) {
+        sStaticDisposer = nullptr;
+        AuxBusMgr::sInstance->~AuxBusMgr();
+        AuxBusMgr::sInstance = nullptr;
+    }
+}
+
+SEAD_DELETE_SINGLETON_INSTANCE(AuxBusMgr)
 
 // 0x7100b7a998
 f32 AuxBusMgr::getAudioFrameTime() const {
