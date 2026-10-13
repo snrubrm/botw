@@ -3,6 +3,8 @@
 #include "Game/Actor/actGuardian.h"
 #include "KingSystem/Quest/qstIndicator.h"
 #include "Game/gameMotorcycleMgr.h"
+#include "Game/gameHorseMgr.h"
+#include "Game/Actor/actHorseRideInfo.h"
 #include "Game/gameWolfLinkMgr.h"
 #include "Game/gameSceneSubsys13.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
@@ -284,6 +286,32 @@ Unk_7102475d70::~Unk_7102475d70() = default;
 
 s32 Unk_7102475d70::m10() {
     return 2;
+}
+
+void Unk_7102475d70::m11() {
+    if (auto* player = ksys::act::PlayerInfo::instance()->getPlayer())
+        _50 = player->isRidingHorse();
+    m25(!_50 && ksys::gdt::getFlag_Horse_ActiveIndex(false) != -1);
+}
+
+void Unk_7102475d70::m12() {
+    bool riding = false;
+    if (auto* player = ksys::act::PlayerInfo::instance()->getPlayer_()) {
+        if (auto* ride = player->getPlayerRideInfo()) {
+            if ((ride->_30 & 3) == 3 && ride->_18.hasProc()) {
+                if (auto* manager = HorseMgr::instance())
+                    riding = manager->sub_7100E85334(ride->_18);
+            }
+        }
+    }
+    if (riding != _50) {
+        m25(!riding && ksys::gdt::getFlag_Horse_ActiveIndex(false) != -1);
+    } else if (!riding) {
+        const bool active = ksys::gdt::getFlag_Horse_ActiveIndex(false) != -1;
+        if (active != ((_3c & 0x10) != 0))
+            m25(active);
+    }
+    _50 = riding;
 }
 
 void Unk_7102475d70::m14() {
