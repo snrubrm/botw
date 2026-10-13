@@ -16,6 +16,12 @@ class RigidBodyFromShape;
 
 namespace gsys {
 class Model;
+class ModelAnimation;
+}
+
+namespace ksys::res {
+class ResDerived;
+class Unk_71024f9958;
 }
 
 namespace uking::act {
@@ -49,7 +55,10 @@ public:
         /* 0x60 */ sead::Vector3f _60;
         /* 0x6c */ sead::Vector3f _6c;
         /* 0x78 */ gsys::Model* _78;  // effect model (m63 plays it for every unit)
-        u8 _80[0xb0 - 0x80];
+        /* 0x80 */ s32 _80;
+        /* 0x88 */ sead::Buffer<ksys::res::ResDerived> _88;
+        /* 0x98 */ sead::Buffer<ksys::res::Unk_71024f9958> _98;
+        /* 0xa8 */ gsys::ModelAnimation* _a8;
         /* 0xb0 */ Swarm* _b0;  // the owner (Swarm::sub_71002D484C)
         /* 0xb8 */ u16 _b8;  // state flags (bit 1: active; bits 1-3 are rewritten by the two functions below)
         /* 0xbc */ f32 _bc;  // model opacity, initialized to 1 by the unit constructor

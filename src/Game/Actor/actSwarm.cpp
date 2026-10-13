@@ -3,6 +3,8 @@
 #include <math/seadMatrixCalcCommon.h>
 #include "Game/gameStasisMgr.h"
 #include "KingSystem/Graphics/gfxUnk_710260af28.h"
+#include "KingSystem/Resource/resResDerived.h"
+#include "KingSystem/Resource/resUnk_71024F9938.h"
 #include "KingSystem/ActorSystem/actActorSystem.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actDebug.h"
@@ -322,4 +324,17 @@ Unk_71023d0e08::Unk_71023d0e08()
 bool uking::act::Swarm::Unit::m4(Swarm* owner, sead::Heap* heap) {
     _b0 = owner;
     return sub_71002D9588(heap);
+}
+
+void uking::act::Swarm::Unit::m5() {
+    for (s32 i = 0; i < _98.size(); ++i)
+        _98[i].sub_7100FDD264();
+    _98.freeBuffer();
+    if (_78) {
+        gsys::Model::sub_7100BF69F8(_78);
+        _78 = nullptr;
+    }
+    for (s32 i = 0; i < _88.size(); ++i)
+        _88[i].requestUnload2();
+    _88.freeBuffer();
 }
