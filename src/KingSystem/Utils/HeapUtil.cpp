@@ -1,6 +1,9 @@
 #include "KingSystem/Utils/HeapUtil.h"
+#include "KingSystem/System/PlayReportMgr.h"
 #include <heap/seadHeapMgr.h>
 #include <math/seadMathCalcCommon.h>
+#include <prim/seadScopedLock.h>
+#include <prim/seadPtrUtil.h>
 #include <thread/seadThread.h>
 
 namespace ksys::util {
@@ -88,6 +91,123 @@ void DualHeap::genInformation_(sead::hostio::Context* context) {
 }
 
 void DualHeap::makeMetaString_(sead::BufferedSafeString* string) {
+    if (isLockEnabled())
+        sead::Heap::makeMetaString_(string);
+    else
+        string->copy("Icon=CIRCLE_BLACK");
+}
+
+DualFrameHeap::~DualFrameHeap() {
+    dispose_(nullptr, nullptr);
+}
+
+inline void* DualFrameHeap::getAreaStart_() const {
+    return mDirection == cHeapDirection_Forward ?
+               sead::PtrUtil::addOffset(mStart, sizeof(DualFrameHeap)) : mStart;
+}
+
+inline void* DualFrameHeap::getAreaEnd_() const {
+    return sead::PtrUtil::addOffset(mStart, mDirection == cHeapDirection_Forward ?
+                                              mSize : mSize - sizeof(DualFrameHeap));
+}
+
+// NON_MATCHING: final-class devirtualization and the native size-update memory barrier.
+size_t DualFrameHeap::adjust() {
+    if (!mParent)
+        return mSize;
+    sead::ConditionalScopedLock<sead::CriticalSection> lock(&mCS, isLockEnabled());
+    Heap* parent = mParent;
+    if (parent->isLockEnabled())
+        parent->mCS.lock();
+    size_t size;
+    if (mDirection == cHeapDirection_Forward) {
+        size = mSize;
+        if (mState.mTailPtr == sead::PtrUtil::addOffset(mStart, size))
+            size = adjustBack_();
+    } else if (mState.mHeadPtr == mStart) {
+        const size_t new_size = getEndAddress() - reinterpret_cast<uintptr_t>(mState.mTailPtr);
+        if (mParent->resizeFront(mStart, new_size)) {
+            mSize = new_size;
+            mState.mHeadPtr = mState.mTailPtr;
+            mStart = mState.mTailPtr;
+            size = new_size;
+        } else {
+            size = mSize;
+        }
+    } else {
+        size = mSize;
+    }
+    if (parent->isLockEnabled())
+        parent->mCS.unlock();
+    return size;
+}
+
+void* DualFrameHeap::tryAlloc(size_t size, s32 alignment) {
+    if (isLockEnabled())
+        mCS.lock();
+    void* ptr = sead::FrameHeap::tryAlloc(size, alignment);
+    if (!ptr && mHeap2) {
+        if (_f8 == 0 && mHeap2->getName() == "EmergencyHeap" &&
+            PlayReportMgr::instance() && PlayReportMgr::instance()->getReporter())
+            reportEmergencyHeapUse(this);
+        _f8 += size;
+        ptr = mHeap2->tryAlloc(size, alignment);
+    }
+    if (isLockEnabled())
+        mCS.unlock();
+    return ptr;
+}
+
+// NON_MATCHING: the inherited getSize call is devirtualized.
+size_t DualFrameHeap::getFreeSize() const {
+    const size_t own_size = sead::FrameHeap::getFreeSize();
+    const size_t other_size = mHeap2 ? mHeap2->getFreeSize() : 0;
+    return sead::MathCalcCommon<size_t>::min(own_size + other_size, getSize());
+}
+
+// NON_MATCHING: the inherited getSize call is devirtualized.
+size_t DualFrameHeap::getMaxAllocatableSize(int alignment) const {
+    const size_t own_size = sead::FrameHeap::getMaxAllocatableSize(alignment);
+    const size_t other_size = mHeap2 ? mHeap2->getMaxAllocatableSize(alignment) : 0;
+    return sead::MathCalcCommon<size_t>::min(sead::MathCalcCommon<size_t>::max(own_size, other_size), getSize());
+}
+
+void DualFrameHeap::free(void* ptr) {
+    if (sead::FrameHeap::isInclude(ptr)) {
+        sead::FrameHeap::free(ptr);
+        return;
+    }
+    if (mHeap2 && mHeap2->isInclude(ptr))
+        mHeap2->free(ptr);
+}
+
+void DualFrameHeap::freeAll() {
+    sead::ConditionalScopedLock<sead::CriticalSection> lock(&mCS, isLockEnabled());
+    dispose_(nullptr, nullptr);
+    mState.mHeadPtr = getAreaStart_();
+    mState.mTailPtr = getAreaEnd_();
+}
+
+bool DualFrameHeap::isInclude(const void* ptr) const {
+    const void* start = getAreaStart_();
+    const void* end = getAreaEnd_();
+    return start <= ptr && ptr < end;
+}
+
+bool DualFrameHeap::isEmpty() const {
+    return mState.mHeadPtr == getAreaStart_() && mState.mTailPtr == getAreaEnd_();
+}
+
+bool DualFrameHeap::isAdjustable() const {
+    return false;
+}
+
+void DualFrameHeap::genInformation_(sead::hostio::Context* context) {
+    if (isLockEnabled())
+        sead::Heap::genInformation_(context);
+}
+
+void DualFrameHeap::makeMetaString_(sead::BufferedSafeString* string) {
     if (isLockEnabled())
         sead::Heap::makeMetaString_(string);
     else

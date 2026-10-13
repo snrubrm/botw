@@ -66,6 +66,7 @@ public:
     size_t adjust() override;
     void* tryAlloc(size_t size, s32 alignment) override;
     void free(void* ptr) override;
+    void freeAll() override;
     size_t getFreeSize() const override;
     size_t getMaxAllocatableSize(int alignment) const override;
     bool isInclude(const void* p_void) const override;
@@ -73,6 +74,7 @@ public:
     bool isAdjustable() const override;
     void genInformation_(sead::hostio::Context* context) override;
     void makeMetaString_(sead::BufferedSafeString* string) override;
+    void dumpYAML(sead::WriteStream& stream, int i) const override;
 
     sead::Heap* getHeap2() const { return mHeap2; }
 
@@ -81,8 +83,13 @@ protected:
                   s32 alignment, HeapDirection direction, bool b);
     ~DualFrameHeap() override;
 
+    // Same usable-area sequence in complete 10BDD10, 10BE3F8, 10BE3C0 and 10BE5A8.
+    void* getAreaStart_() const;
+    void* getAreaEnd_() const;
+
     sead::Heap* mHeap2;
-    void* _f8;
+    // Complete producer 10BDD10 and both fallback allocation paths count requested bytes.
+    size_t _f8;
     u8 _100;
 };
 KSYS_CHECK_SIZE_NX150(sead::FrameHeap, 0xf0);

@@ -52,6 +52,9 @@ private:
 };
 KSYS_CHECK_SIZE_NX150(PlayReportMgr, 0x40);
 
+// Complete 0x7100FD266C and independent DualFrameHeap allocation callers.
+void reportEmergencyHeapUse(sead::Heap* heap);
+
 class PlayReport {
 public:
     inline PlayReport(const sead::FixedSafeString<32>& event_id, s32 num_entries,
