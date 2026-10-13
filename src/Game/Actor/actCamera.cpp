@@ -74,6 +74,17 @@ void Camera::sub_7100799770(const Unk_71009214b8& src, Unk_71009214b8* dst) {
     dst->_0 = dst->_c + polar.sub_7100923254();
 }
 
+// NON_MATCHING: vector arithmetic scheduling and the two stack temporaries use different slots.
+void Camera::sub_710079984C(const Unk_71009214b8& src, Unk_71009214b8* dst) {
+    // The native in-place callers require the direction before dst changes the source state.
+    const sead::Vector3f direction = src._0 - src._c;
+    dst->_0 = src._0 + _860._1a0;
+    Unk_7100922700 polar(direction);
+    polar._4 = angleStuff(sub_7100924CAC(angleStuff(_860._1b8 + polar._4)));
+    polar._8 = angleStuff(_860._1bc + polar._8);
+    dst->_c = dst->_0 - polar.sub_7100923254();
+}
+
 void Camera::sub_7100795C44() {
     if (_860._1c8 != 0) {
         _860._0 = _860._38 = _860._70 = _860._a8 = _860._e0;
