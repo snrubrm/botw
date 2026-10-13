@@ -218,6 +218,8 @@ KSYS_CHECK_SIZE_NX150(NavMeshObjMaybe, 0xb0);
 // Placeholder (the object 0x7100f8b518 / 0x7100f8b538 pass to HavokAI 0x7100f83580 / 0x7100f8363c / 0x7100f83790):
 // same request scheme as NavMeshObjMaybe with the HavokAI at +0x70, the pending one at +0x78 and the flags at +0x80.
 struct NavMeshObj2Maybe {
+    // UserEdgeActor E8F95C submits its edge record with the fallback HavokAI.
+    void sub_7100F8B518(HavokAI* fallback);
     /* 0x00 */ u8 _0[0x70];
     /* 0x70 */ HavokAI* _70;
     /* 0x78 */ sead::Atomic<HavokAI*> _78;

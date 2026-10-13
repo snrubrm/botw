@@ -5,6 +5,13 @@
 
 namespace ksys::phys {
 
+void NavMeshObj2Maybe::sub_7100F8B518(HavokAI* fallback) {
+    if (_70)
+        _70->sub_7100F8363C(this);
+    else
+        fallback->sub_7100F83580(this);
+}
+
 // NON_MATCHING: boolean return materialization, tile-size loads and saved registers differ.
 bool NavMeshLoadMgr::x_0(const sead::Vector3f* pos) {
     if (_190)
