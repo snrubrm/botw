@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiNPCGerudoQueenRoot.h"
+#include "Game/AI/aiUnk_710070435C.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/GameData/gdtSpecialFlags.h"
 
@@ -23,7 +24,15 @@ NPCGerudoQueenRoot::~NPCGerudoQueenRoot() {
 }
 
 bool NPCGerudoQueenRoot::init_(sead::Heap* heap) {
-    return NPCRoot::init_(heap);
+    if (!NPCRoot::init_(heap))
+        return false;
+    _240 = new (heap, 8) ksys::act::BoneHandle[3];
+    sub_710070435C(_240);
+    mActor->boneHandleStuff(&_240[0], false);
+    mActor->boneHandleStuff(&_240[1], false);
+    mActor->boneHandleStuff(&_240[2], false);
+    sub_710070439C(mActor->getModel(), _240, *mIsOnHelmet_m);
+    return true;
 }
 
 void NPCGerudoQueenRoot::enter_(ksys::act::ai::InlineParamPack* params) {
