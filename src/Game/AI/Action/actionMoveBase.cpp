@@ -1,12 +1,27 @@
 #include "Game/AI/Action/actionMoveBase.h"
+#include "Game/AI/aiUnk_71007377D4.h"
+#include "Game/AI/aiUnk_710073fa90.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
 MoveBase::MoveBase(const InitArg& arg) : ActionEx(arg) {}
 
+// NON_MATCHING: target-vector copying and arithmetic register scheduling differ.
 void MoveBase::enter_(ksys::act::ai::InlineParamPack* params) {
-    ActionEx::enter_(params);
+    if (auto* controller = mActor->getCharacterController()) {
+        _98 = sead::Vector2f(mActor->getVelocity().x, mActor->getVelocity().z).length();
+        sub_7100741034(&_a8, mActor);
+        _d8 = sead::Mathf::clampMax(mActor->getAngVelocity().length(), *mRotSpd_s);
+        _cc = *mTargetPos_d;
+        _cc -= mActor->getMtx().getTranslation();
+        _cc.normalize();
+        controller->sub_7100F60AE0();
+        sub_7100737708(controller, _98);
+        _9c.reset(0.0f, 1.0f);
+        mFlags.set(Flag::Changeable);
+    }
 }
 
 void MoveBase::leave_() {
