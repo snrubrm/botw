@@ -215,6 +215,8 @@ target_sources(uking PRIVATE
     System/physRayCastForRequest.h
     System/physRayCastRequestMgr.cpp
     System/physRayCastRequestMgr.h
+    System/physRigidBodyDividedMeshShapeMgr.cpp
+    System/physRigidBodyDividedMeshShapeMgr.h
     System/physSensorContactListener.cpp
     System/physSensorContactListener.h
     System/physSensorGroupFilter.cpp
