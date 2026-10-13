@@ -32,6 +32,7 @@ bool isOneHitObliteratorActor(ksys::act::Actor* actor, bool a2);
 /// 0x7100736510 (CSV name; declared only).
 bool isOneHitObliteratorBaseProcLink(ksys::act::BaseProcLink* link, bool a2);
 bool isOneHitObliteratorActorAccessor(const ksys::act::ActorConstDataAccess& accessor, bool a2);
+bool isOneHitObliteratorActorActive(const ksys::act::ActorConstDataAccess& accessor);
 }
 
 /// 0x710073681c (CSV name): whether both the actor and the link have the AnimalTypeWolf tag, or both have the

@@ -1,4 +1,6 @@
 #include "Game/AI/aiUnk_7100736460.h"
+#include "Game/Actor/actWeapon.h"
+#include "KingSystem/System/StageInfo.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
@@ -31,6 +33,28 @@ bool isOneHitObliteratorActor(ksys::act::Actor* actor, bool a2) {
     ksys::act::BaseProcLink link;
     link.acquire(actor, false);
     return isOneHitObliteratorBaseProcLink(&link, a2);
+}
+
+bool isOneHitObliteratorActorAccessor(const ksys::act::ActorConstDataAccess& accessor,
+                                     bool check_active) {
+    const auto& name = accessor.getName();
+    if (name.isEmpty() || name != "Weapon_Sword_502")
+        return false;
+    return !check_active || isOneHitObliteratorActorActive(accessor);
+}
+
+// NON_MATCHING: failure paths share the scoped result instead of the native status flag.
+bool isOneHitObliteratorActorActive(const ksys::act::ActorConstDataAccess& accessor) {
+    bool active = false;
+    if (accessor.isWeaponProfile()) {
+        ksys::act::ActorConstDataAccess weapon;
+        weapon.acquireActor(accessor);
+        if (isPlayingOneHitObliteratorQuest() &&
+            (ksys::StageInfo::sIsCDungeon || !hasEscapedOneHitObliteratorQuest(false))) {
+            active = sub_71002F1000(weapon);
+        }
+    }
+    return active;
 }
 }  // namespace dlc
 
