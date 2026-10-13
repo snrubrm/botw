@@ -11,6 +11,12 @@
 #include <gsys/gsysModel.h>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "Game/Damage/dmgDamageManager.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/Resource/Actor/resResourceGParamList.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectGuardianMini.h"
 
 namespace uking::ai {
 
@@ -70,6 +76,48 @@ void GuardianMiniRollingAttackMove::sub_7100424760(f32* angle, s32 first, s32 se
         *angle = reverse ? sead::Mathf::deg2rad(120.0f) : sead::Mathf::deg2rad(240.0f);
     } else {
         *angle = reverse ? sead::Mathf::deg2rad(240.0f) : sead::Mathf::deg2rad(120.0f);
+    }
+}
+
+void Unk_71023f92d8::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
+                           dmg::DamageCallbackInfo* a6) {
+    if (!_28)
+        return;
+    if ((_28->isCurrentChild("回転後退") || _28->isCurrentChild("回転待機")) && *a5 == 6) {
+        *a5 = 1;
+        return;
+    }
+    if (*_28->mAttackType_s != 1 || !_28->isCurrentChild("戦闘歩行") ||
+        !(_28->_21c.value <= sead::Mathf::epsilon()))
+        return;
+    auto* manager = sead::DynamicCast<dmg::DamageManager>(mDamageManager);
+    if (!manager)
+        return;
+    auto* actor = manager->mActor;
+    if (!actor || !hasAttackInfo(actor))
+        return;
+    auto* attack = getAttackInfo(actor, 0);
+    if (!attack)
+        return;
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(&attack->_50, &accessor);
+    const sead::SafeString name = accessor.getName();
+    const sead::SafeString* guard_actors = &sead::SafeString::cEmptyString;
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(_28->getActor())) {
+        if (const auto* params = enemy->getParam()->getRes().mGParamList->getGuardianMini())
+            guard_actors = &params->mGuardJustActor.ref();
+    }
+    const sead::SafeString actors = *guard_actors;
+    for (auto it = actors.tokenBegin(","); actors.tokenEnd(",") != it; ++it) {
+        sead::FixedSafeString<32> token;
+        it.get(&token);
+        if (!token.isEmpty() && name == token) {
+            *a5 = 8;
+            *a1 += *_28->mCrashDamage_s;
+            if (accessor.hasTag(0x0f42c303))
+                _28->sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x8000004),
+                                 nullptr);
+        }
     }
 }
 
