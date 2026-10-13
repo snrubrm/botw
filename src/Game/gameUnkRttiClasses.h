@@ -4,6 +4,7 @@
 #include <prim/seadDelegate.h>
 #include "Game/Actor/actCameraUtil.h"
 #include "Game/gameEventMgrMiniGame.h"
+#include "Game/gameEventCounter.h"
 #include "KingSystem/System/ControllerSnapshot.h"
 
 namespace uking::action {
@@ -189,13 +190,6 @@ private:
 
     u32 _8;
     Unk1* _10;
-};
-
-// vtable 0x7102518b60 (4 slots)
-class Unk_7102518b60 {
-    SEAD_RTTI_BASE(Unk_7102518b60)
-public:
-    virtual ~Unk_7102518b60();
 };
 
 // vtable 0x710251b678 (6 slots)

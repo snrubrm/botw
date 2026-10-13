@@ -71,12 +71,6 @@ void Unk_710250dcd8::sub_710110DD3C() {
     _10 = nullptr;
 }
 
-// The body keeps the vtable store of the original, as in upstream's GameDataFlagSelector::~GameDataFlagSelector() { ; }
-// (commit 96101229).
-Unk_7102518b60::~Unk_7102518b60() {
-    ;
-}
-
 Unk_710251b678::~Unk_710251b678() = default;
 
 Unk_7102457a80::~Unk_7102457a80() = default;
