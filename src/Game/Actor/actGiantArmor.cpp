@@ -16,6 +16,13 @@ f32 GiantArmor::sub_7100029B54() const {
     return getParam()->getRes().mGParamList->getGiantArmor()->mDamageScale.ref();
 }
 
+bool GiantArmor::sub_7100029E7C(Actor* owner, s32 index) {
+    const auto lock = sead::makeScopedLock(_b90._0);
+    _b90._40.acquire(owner, false);
+    _be0 = index;
+    return true;
+}
+
 void GiantArmor::initMaybe() {
     _c18 = 0;
     _c08 = 0;

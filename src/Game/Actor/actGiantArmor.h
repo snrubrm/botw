@@ -25,6 +25,8 @@ public:
     Actor* m31() override;
     // 0x7100029b54 (unnamed in the CSV, placeholder name): the GiantArmor param's DamageScale.
     f32 sub_7100029B54() const;
+    // GiantEnemy::init_ passes its Actor owner and the armor index; stores the link under _b90.
+    bool sub_7100029E7C(Actor* owner, s32 index);
 
 protected:
     bool canWakeUp_() override;
