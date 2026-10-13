@@ -2,10 +2,24 @@
 #include "KingSystem/Physics/Constraint/physSliderCs.h"
 #include "KingSystem/Physics/Constraint/physUnk_71024f6778.h"
 #include "KingSystem/Physics/Constraint/physUnk_71024f67a8.h"
+#include <Havok/Physics/Constraint/Data/Prismatic/hkpPrismaticConstraintData.h>
 
 namespace ksys::phys {
 
 SliderCs::~SliderCs() = default;
+
+void SliderCs::setMinMaxLimit(f32 min, f32 max) {
+    mData->m_atoms.m_linLimit.m_min = min;
+    mData->m_atoms.m_linLimit.m_max = max;
+}
+
+f32 SliderCs::sub_7100F71034() {
+    return mData->m_atoms.m_linLimit.m_max;
+}
+
+f32 SliderCs::sub_7100F71040() {
+    return mData->m_atoms.m_linLimit.m_min;
+}
 Unk_71024f6730::~Unk_71024f6730() = default;
 Unk_71024f6778::~Unk_71024f6778() = default;
 Unk_71024f67a8::~Unk_71024f67a8() = default;
