@@ -40,9 +40,6 @@ class RigidBody;
 class SystemGroupHandler;
 }  // namespace ksys::phys
 
-// EnemyRoot::m34 and PreyRoot::enter_ pass the dead-condition parameter.
-void sub_710073DCB4(ksys::act::Actor* actor, int condition);
-
 // Velocity damping helpers of an unnamed AI utility translation unit (0x7100737000 - 0x7100738cb0).
 // Each one exists for a CharacterController, a RigidBody and an Actor (which dispatches to its
 // character controller or its main rigid body, Actor+0x190). The f32 argument is a ratio that makes
