@@ -49,6 +49,7 @@ add_library(hkStubs OBJECT
   Havok/Common/Base/Math/Header/hkMathHeaderConstants.h
   Havok/Common/Base/Math/Matrix/hkMatrix3.h
   Havok/Common/Base/Math/Matrix/hkMatrix3f.h
+  Havok/Common/Base/Math/Quaternion/hkQuaternionf.cpp
   Havok/Common/Base/Math/Matrix/hkMatrix3f.cpp
   Havok/Common/Base/Math/Matrix/hkMatrix3f.inl
   Havok/Common/Base/Math/Matrix/hkMatrix4.h
