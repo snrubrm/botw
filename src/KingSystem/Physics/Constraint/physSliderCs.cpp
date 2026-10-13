@@ -6,6 +6,9 @@
 #include <Havok/Physics2012/Dynamics/Constraint/hkpConstraintInstance.h>
 #include <Havok/Physics2012/Dynamics/Constraint/Breakable/hkpBreakableConstraintData.h>
 #include <heap/seadHeap.h>
+#include <gsys/gsysModel.h>
+#include <gsys/gsysModelNW.h>
+#include <nn/g3d/SkeletonObj.h>
 #include <Havok/Physics2012/Dynamics/Entity/hkpRigidBody.h>
 #include "KingSystem/Physics/physConversions.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
@@ -131,6 +134,17 @@ Unk_71024f6778* Unk_71024f6778::sub_7100F71854(const Param& param, sead::Heap* h
     auto* object = new (heap, 8) Unk_71024f6778;
     object->sub_7100F718B8(param);
     return object;
+}
+
+bool Unk_71024f6778::sub_7100F718B8(const Param& param) {
+    mModel = param.model;
+    _58 = param._10;
+    _5c = param._14;
+    mKey.search(mModel, param.bone_name);
+    auto* unit = sead::DynamicCast<gsys::ModelNW>(
+        mModel->getUnits().unsafeAt(mKey.getKey().model_unit_index)->mModelUnit);
+    mBoneIndex = unit->getSkeletonObj()->GetRes()->GetBone(mKey.getKey().bone_index)->GetIndex();
+    return true;
 }
 
 Unk_71024f6778::~Unk_71024f6778() = default;
