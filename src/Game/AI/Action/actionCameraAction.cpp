@@ -2,6 +2,7 @@
 #include "Game/AI/aiXlinkHandle.h"
 #include "Game/Actor/actCameraUtil.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
+#include "KingSystem/Sound/sndMgr.h"
 
 namespace uking::action {
 
@@ -13,8 +14,34 @@ bool CameraAction::init_(sead::Heap* heap) {
     return m32(heap);
 }
 
+// NON_MATCHING: matrix translation copy scheduling and the live-state null test differ.
 void CameraAction::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    sub_7100922070();
+    _48 = 0;
+    act::Unk_710079a8e8* state = nullptr;
+    if (auto* camera = getCamera()) {
+        state = &camera->_860;
+        if (!state->_170) {
+            state->_164 = state->_270.getTranslation();
+            state->_170 = true;
+        }
+        if (!state->_180) {
+            state->_180 = true;
+            state->_174 = state->_2c4;
+        }
+        state->_72c._0 = u32(m37());
+        if (m39())
+            state->_804.sub_710079AE20(0x4000);
+    }
+    if (m38() == 1) {
+        if (auto* sound = ksys::snd::SoundMgr::instance()) {
+            if (sound->_58)
+                sound->_58->_80 = 1;
+        }
+    }
+    if (state)
+        state->_804.sub_710079AE40(0x80000);
+    m33();
 }
 
 void CameraAction::leave_() {
