@@ -2047,3 +2047,9 @@ void sub_71011D76E0(ksys::act::Actor* actor, const ksys::act::ActorConstDataAcce
     else
         transceiver->sendMessage(*actor->getMesTransceiverId(), ksys::MessageType(0x3000013), reinterpret_cast<void*>(uintptr_t(accessor.getId())), true);
 }
+
+void ksys::act::Actor::sub_71011CED70(gsys::Model* model) {
+    const u32 flags = mStasisFlags.getDirect();
+    Unk_710260af28::instance()->sub_7100F1D058(model, flags);
+    Unk_710260af28::instance()->sub_7100F1C77C(model, (flags & ~0x7000u) == 0 ? nullptr : &mUnk1);
+}

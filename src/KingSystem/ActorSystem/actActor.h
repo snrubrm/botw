@@ -898,6 +898,8 @@ protected:
     void job4();
     // 0x71011c77f0: updates always-active actor effects.
     void xlinkAlwaysEffectStuff();
+    // 11CED70 forwards existing stasis flags and the actor record to the model manager.
+    void sub_71011CED70(gsys::Model* model);
 
     // Inline-only in the original (name is a guess): rebinds the Calc1 job's regular delegate to job1_2.
     // Evidence: the same stores (`this`, &Actor::job1_2 and an adjustment of 0 into mJob1's delegate at
