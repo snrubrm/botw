@@ -1,5 +1,9 @@
 #include "Game/AI/AI/aiGoronHeroDescendentRoot.h"
-#include "Game/Actor/actNPCBase.h"
+#include "Game/Actor/actNPC.h"
+#include "KingSystem/ActorSystem/Attention/actAttClient.h"
+#include "KingSystem/Event/evtBaseProcLinkForEvent.h"
+#include "KingSystem/Event/evtManager.h"
+#include "KingSystem/Event/evtMetadata.h"
 #include <gsys/gsysModel.h>
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
@@ -95,6 +99,30 @@ bool GoronHeroDescendentRoot::sub_71004091AC(sead::Vector3f* out) {
     }
     *out = nearest;
     return true;
+}
+
+void GoronHeroDescendentRoot::sub_7100406E90() {
+    if (auto* client = ksys::act::getAttClientByName(mActor, "Talk")) {
+        if (!client->isEnabled())
+            return;
+    }
+    auto* npc = sead::DynamicCast<act::NPC>(mActor);
+    if (!npc)
+        return;
+    sead::FixedSafeString<64> event;
+    sead::FixedSafeString<128> entry;
+    sead::FixedSafeString<32> type;
+    sub_710040A3BC(npc, &event, &entry, &type);
+    if (event.isEmpty() || entry.isEmpty())
+        return;
+    ksys::evt::Metadata metadata(event.cstr(), entry.cstr(), type.cstr());
+    ksys::evt::CallArg arg;
+    arg.proc = mActor;
+    arg.metadata = &metadata;
+    arg._31 = true;
+    if (auto* manager = ksys::evt::Manager::instance())
+        manager->callEvent(arg);
+    sendMessage(*mActor->getMesTransceiverId(), ksys::MessageType(0x8000034), nullptr);
 }
 
 void GoronHeroDescendentRoot::changeToStopCommand() {
