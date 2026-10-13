@@ -3,6 +3,8 @@
 #include "KingSystem/Physics/Constraint/physUnk_71024f6778.h"
 #include "KingSystem/Physics/Constraint/physUnk_71024f67a8.h"
 #include <Havok/Physics/Constraint/Data/Prismatic/hkpPrismaticConstraintData.h>
+#include <Havok/Physics2012/Dynamics/Constraint/hkpConstraintInstance.h>
+#include <Havok/Physics2012/Dynamics/Entity/hkpRigidBody.h>
 #include "KingSystem/Physics/physConversions.h"
 
 namespace ksys::phys {
@@ -50,6 +52,30 @@ void SliderCs::sub_7100F71058(const sead::Vector3f& pivot_a, const sead::Vector3
                           hk_perpendicular_a, hk_perpendicular_b);
 }
 Unk_71024f6730::~Unk_71024f6730() = default;
+
+// NON_MATCHING: limit/body loads and the Boolean OR operands use different scheduling/registers.
+bool Unk_71024f6730::m0() const {
+    const auto* instance = mConstraint->mConstraintInstance;
+    const auto* data = static_cast<const hkpPrismaticConstraintData*>(instance->getData());
+    const auto* body_a = instance->getRigidBodyA();
+    const auto* body_b = instance->getRigidBodyB();
+    const f32 min = data->m_atoms.m_linLimit.m_min + 0.1f;
+    const f32 max = data->m_atoms.m_linLimit.m_max;
+    const auto& transform_a = body_a ? body_a->getTransform() : hkTransform::getIdentity();
+    const auto& transform_b = body_b ? body_b->getTransform() : hkTransform::getIdentity();
+    hkVector4 pivot_a;
+    hkVector4 pivot_b;
+    hkVector4 axis;
+    pivot_a.setTransformedPos(transform_a, data->m_atoms.m_transforms.m_transformA.getTranslation());
+    pivot_b.setTransformedPos(transform_b, data->m_atoms.m_transforms.m_transformB.getTranslation());
+    axis.setRotatedDir(transform_b.getRotation(),
+                       data->m_atoms.m_transforms.m_transformB.getRotation().getColumn<0>());
+    hkVector4 difference;
+    difference.setSub(pivot_a, pivot_b);
+    const f32 distance = difference.dot<3>(axis).val();
+    return (distance <= min) | (distance >= max - 0.1f);
+}
+
 Unk_71024f6778::~Unk_71024f6778() = default;
 Unk_71024f67a8::~Unk_71024f67a8() = default;
 
