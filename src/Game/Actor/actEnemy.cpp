@@ -1,5 +1,6 @@
 #include "Game/Actor/actEnemy.h"
 #include <limits>
+#include <geom/seadGeometry.h>
 #include <math/seadMathCalcCommon.h>
 #include "KingSystem/ActorSystem/actInfoCommon.h"
 #include "KingSystem/ActorSystem/actInfoData.h"
@@ -34,6 +35,44 @@
 bool sub_71002F0924(const ksys::act::ActorConstDataAccess& accessor);
 
 namespace uking::act {
+
+// NON_MATCHING: the clearance comparison operands are reversed.
+bool Enemy::sub_710001A204(const sead::Vector3f& a, const sead::Vector3f& b,
+                          const sead::Vector3f& pos, f32 radius) {
+    if (radius <= 0.0f)
+        return true;
+    if (radius * radius < sead::Geometry::calcSquaredDistancePointToSegment(
+                              pos, sead::Segment3f(b, a), nullptr))
+        return sub_710001A2B0(a, b, radius);
+    return false;
+}
+
+// NON_MATCHING: stack temporary slots and early-return block placement differ.
+bool Enemy::sub_710001A2B0(const sead::Vector3f& target, const sead::Vector3f& origin,
+                          f32 distance) {
+    if (distance <= 0.0f)
+        return true;
+    const f32 squared_distance = distance * distance;
+    if (_c48._8.hasProc() &&
+        !(sead::Geometry::calcSquaredDistancePointToSegment(
+              _c48._18, sead::Segment3f(origin, target), nullptr) > squared_distance))
+        return false;
+    for (auto& entry : _d70.mEntries) {
+        if (!entry.link.hasProcInCalcState())
+            continue;
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::acquireActor(&entry.link, &accessor);
+        if (!(entry.link.hasProcInCalcState() && (entry.flags & 2)) &&
+            !ksys::act::isPlayerProfile(accessor) && accessor.getProfile() != "WolfLink")
+            continue;
+        sead::Vector3f position;
+        accessor.getActorMtx().getTranslation(position);
+        if (!(sead::Geometry::calcSquaredDistancePointToSegment(
+                  position, sead::Segment3f(origin, target), nullptr) > squared_distance))
+            return false;
+    }
+    return true;
+}
 
 void Enemy::sub_7100016494() {
     ++_11a0;
