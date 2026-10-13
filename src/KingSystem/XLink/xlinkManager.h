@@ -29,6 +29,8 @@ public:
     s32 getNumSubMaterials();
     const char* getSubMaterialName(s32 index);
     s32 getSubMaterialIndex(s32 material, s32 subMaterial);
+    const char* sub_7101240944() const;
+    const sead::SafeString& sub_7101240968() const;
     void queueSleep(XLink* xlink);
     void removeSleep(XLink* xlink);
     void queueTransform(XLink* xlink, const sead::Matrix34f& matrix, bool flag);
@@ -46,7 +48,11 @@ private:
     /* 0x01a8 */ s32 mNumSubMaterials;
     /* 0x01b0 */ sead::FixedSafeString<64>* mSubMaterialNames;
     /* 0x01b8 */ s32* mSubMaterialOffsets;
-    /* 0x01c0 */ u8 _1c0[0x1d0 - 0x1c0];
+    /* 0x01c0 */ u8 _1c0[8];
+    // Whole constructor clears this index; 1240944 selects the climate name,
+    // independently consumed by sound calculation 12BE808.
+    s32 _1c8;
+    u8 _1cc[4];
     /* 0x01d0 */ sead::OffsetList<XLink> mSleepQueue;
     /* 0x01e8 */ sead::CriticalSection mSleepLock;
     /* 0x0228 */ sead::SafeArray<TransformRequest, 64> mTransformRequests;

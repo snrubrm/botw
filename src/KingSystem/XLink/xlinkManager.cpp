@@ -6,6 +6,11 @@
 
 namespace ksys::xlink {
 
+static const char* const sUnk_7102516a10[] = {
+    "Temperate", "Subtoropical", "Tropical", "Subarctic",
+    "Arctic", "Ard", "WetTemperate", "WetSubtropical",
+};
+
 SEAD_SINGLETON_DISPOSER_IMPL(Manager)
 
 Manager::~Manager() = default;
@@ -31,6 +36,16 @@ const char* Manager::getSubMaterialName(s32 index) {
 
 s32 Manager::getSubMaterialIndex(s32 material, s32 subMaterial) {
     return mSubMaterialOffsets[material] + subMaterial;
+}
+
+const char* Manager::sub_7101240944() const {
+    if (u32(_1c8) > 7)
+        return nullptr;
+    return sUnk_7102516a10[_1c8];
+}
+
+const sead::SafeString& Manager::sub_7101240968() const {
+    return sead::SafeString::cEmptyString;
 }
 
 void Manager::queueSleep(XLink* xlink) {
