@@ -3,6 +3,7 @@
 #include <math/seadVector.h>
 #include <prim/seadSafeString.h>
 #include "KingSystem/Utils/Types.h"
+#include "KingSystem/Resource/resHandle.h"
 
 namespace sead {
 class Heap;
@@ -10,10 +11,6 @@ class Heap;
 
 namespace ksys::tera {
 class System;
-}
-
-namespace ksys::res {
-class Handle;
 }
 
 namespace ksys::phys {
@@ -35,15 +32,23 @@ public:
     };
     KSYS_CHECK_SIZE_NX150(Config, 0x148);
 
+    struct HandleInfo {
+        res::Handle handle;
+        sead::Vector2i coordinates;
+    };
+    KSYS_CHECK_SIZE_NX150(HandleInfo, 0x58);
+
     static RigidBodyDividedMeshShapeMgr* makeInstance(const Config& config, sead::Heap* heap);
     RigidBodyDividedMeshShapeMgr(const Config& config, sead::Heap* heap);
     virtual ~RigidBodyDividedMeshShapeMgr();
     void addToWorld();
     void sub_7100FC6F00(res::Handle* handle);
+    void loadTeraMeshRigidBody(HandleInfo* info);
 
 private:
     // Complete lifetime and the two-slot table establish the owner extent.
-    u8 _8[0x128];
+    /* 0x008 */ sead::FixedSafeString<256> mName;
+    u8 _120[0x10];
     /* 0x130 */ Unk_71025158e8* mBoundaryBodies[4];
     u8 _150[0x40];
 };
