@@ -89,6 +89,22 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(WorldMgrStruct0_8_a, 0x90);
 
+// Complete two-slot table at 250C530. ChemicalMgr::init_ allocates 0x30-byte objects.
+// Full creation 10C587C and activation 10C5A10 establish the body, position and float fields.
+class Unk_710250c530 {
+public:
+    Unk_710250c530();
+    virtual ~Unk_710250c530();
+
+    // Carried directional-wind element from 10C79DC; its interface remains opaque.
+    void* _8 = nullptr;
+    ksys::phys::RigidBody* _10 = nullptr;
+    sead::Vector3f _18;
+    f32 _24 = 1.0f;
+    f32 _28 = 1.0f;
+};
+KSYS_CHECK_SIZE_NX150(Unk_710250c530, 0x30);
+
 // Address placeholder for the 0x38-byte pooled entry (ctor 0x71010c5d04,
 // vtable header 0x710250c698). The complete two-slot table contains only the destructors.
 class Unk_710250c698 {

@@ -14,6 +14,17 @@
 #include "KingSystem/Terrain/teraSystem.h"
 #include "KingSystem/System/VFR.h"
 
+Unk_710250c530::Unk_710250c530() = default;
+
+Unk_710250c530::~Unk_710250c530() {
+    if (_10) {
+        if (_10->isAddedToWorld())
+            _10->removeFromWorldImmediately(nullptr);
+        delete _10;
+        _10 = nullptr;
+    }
+}
+
 Unk_710250c698::Unk_710250c698() = default;
 
 Unk_710250c698::~Unk_710250c698() {
