@@ -1,6 +1,7 @@
 #include "Game/AI/aiUnk_710038ffb8.h"
 #include "Game/AI/aiUnk_7102357d20.h"
 #include "Game/Actor/actEnemy.h"
+#include <random/seadGlobalRandom.h>
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 
@@ -72,6 +73,26 @@ void Unk_710038ffb8::sub_7100391A10() {
     accessor.getActorMtx().getTranslation(pos);
     pack.addVec3(pos, "TargetPos", -1);
     _10->changeChild("向き直り", &pack);
+}
+
+// NON_MATCHING: load order of the global random pointer and the upper bound.
+void Unk_710038ffb8::sub_7100391B5C() {
+    _3c8 |= 2;
+    *_8 = false;
+    s32 time = *_40;
+    if (time != *_20)
+        time = sead::GlobalRandom::instance()->getS32Range(time, *_48);
+    _3b0 = time;
+    if (auto* enemy = sead::DynamicCast<uking::act::Enemy>(_10->getActor()))
+        enemy->_e84.resetBit(12);
+    ksys::act::ai::InlineParamPack pack;
+    pack.addActor(_390, "TargetActor", -1);
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(&_390, &accessor);
+    sead::Vector3f pos;
+    accessor.getActorMtx().getTranslation(pos);
+    pack.addVec3(pos, "TargetPos", -1);
+    _10->changeChild("話す", &pack);
 }
 
 void Unk_710038ffb8::sub_7100392230() {

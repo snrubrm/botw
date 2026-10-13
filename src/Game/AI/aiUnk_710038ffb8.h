@@ -39,6 +39,7 @@ public:
     void sub_71003916F4();
     void sub_710039184C();
     void sub_7100391A10();
+    void sub_7100391B5C();
     // 0x710039235c: the message handler (2532 B).
     bool sub_710039235C(const ksys::Message& message);
 
@@ -73,7 +74,9 @@ private:
     /* 0x378 */ ksys::MesTransceiverId _378;
     /* 0x390 */ ksys::act::BaseProcLink _390;
     /* 0x3a0 */ ksys::act::BaseProcLink _3a0;
-    void* _3b0[(0x3c8 - 0x3b0) / sizeof(void*)];
+    f32 _3b0;
+    f32 _3b4;
+    u8 _3b8[0x3c8 - 0x3b8];
 
 public:
     // Flags written by sub_7100390A90 (= 0x10) and read by sub_7100390ABC (bits 2 and 4); the owners
