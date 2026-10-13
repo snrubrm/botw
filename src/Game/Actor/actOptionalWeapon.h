@@ -49,6 +49,8 @@ public:
     // RotOffset / TransOffset parameters. No object layout is added.
     void sub_7100EF13AC(sead::Vector3f* out);
     void sub_7100EF1680(sead::Vector3f* out);
+    // Declaration only: OptionalWeaponAI updates the existing links/name before reading offsets.
+    void sub_7100EF1BF4();
 
 protected:
     bool prepareInit_(sead::Heap* heap, PrepareArg& arg) override;
