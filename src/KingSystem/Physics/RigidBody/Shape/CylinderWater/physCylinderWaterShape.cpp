@@ -57,6 +57,7 @@ public:
         }
     }
 
+    // NON_MATCHING: dummy-vector constants and vector arithmetic use different registers/scheduling.
     void collideSpheres(const CollideSpheresInput& input,
                         SphereCollisionOutput* outputArray) const override {
         auto* sphere = input.m_spheres;
@@ -64,9 +65,21 @@ public:
 
         for (int i = input.m_numSpheres - 1; i >= 0; --i) {
             hkSphere out = dummy;
-
-            // FIXME: implement the rest of this function
-
+            const auto radius = sphere->getRadiusSimdReal() + hkSimdReal(input.m_tolerance);
+            hkVector4 half_extents(m_height * 0.5f, m_radius * 0.5f, m_radius * 0.5f);
+            half_extents.add(radius);
+            const hkVector4 center(0, m_radius * -0.5f, m_radius * 0.5f);
+            hkVector4 rel_pos;
+            rel_pos.setSub(sphere->getPositionAndRadius(), center);
+            rel_pos.setAbs(rel_pos);
+            if (!rel_pos.greater(half_extents).anyIsSet(hkVector4Comparison::MASK_XYZ)) {
+                hkVector4 normal = sphere->getPositionAndRadius();
+                normal(0) = 0.0f;
+                normal(1) += m_radius;
+                normal.setMax(hkVector4::zero(), normal);
+                const auto length = normal.normalizeWithLength<3>();
+                out.setPositionAndRadius(normal, length - radius - hkSimdReal(m_radius));
+            }
             *outputArray = out.getPositionAndRadius();
             ++sphere;
             ++outputArray;
