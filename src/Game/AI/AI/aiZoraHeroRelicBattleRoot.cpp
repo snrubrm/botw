@@ -23,8 +23,25 @@ bool ZoraHeroRelicBattleRoot::init_(sead::Heap* heap) {
     return true;
 }
 
-void ZoraHeroRelicBattleRoot::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+void ZoraHeroRelicBattleRoot::enter_(ksys::act::ai::InlineParamPack*) {
+    _40 = false;
+    _42 = ksys::gdt::getFlag_Water_Relic_BreakWeakPoint1();
+    _43 = ksys::gdt::getFlag_Water_Relic_BreakWeakPoint2();
+    _44 = ksys::gdt::getFlag_Water_Relic_BreakWeakPoint3();
+    _45 = ksys::gdt::getFlag_Water_Relic_BreakWeakPoint4();
+    if (auto** unit = static_cast<Unk_71025afb58**>(mZoraHeroShowMsgUnit_a)) {
+        if (!*unit)
+            *unit = &_48;
+    }
+    _48._8._13c = u8(_42 + _43 + _44 + _45);
+    auto* actor = mActor;
+    if (auto* awareness = actor->getAwareness())
+        awareness->enable();
+    _41 = false;
+    if (actor->getConnectedCalcChild())
+        sub_7100614738();
+    else
+        sub_7100614930();
 }
 
 void ZoraHeroRelicBattleRoot::calc_() {
