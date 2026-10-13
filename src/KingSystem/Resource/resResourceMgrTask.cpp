@@ -1354,3 +1354,11 @@ template void ksys::util::TaskMgr::initAndCheckType<ksys::res::ControlTask>(
     s32 num_tasks, sead::Heap* heap);
 template void ksys::util::TaskMgr::initAndCheckType<ksys::res::MemoryTask>(
     s32 num_tasks, sead::Heap* heap);
+
+// Complete prepare 120464C binds the compaction thread callback to this native delegate.
+template void sead::Delegate2<ksys::res::ResourceMgrTask, sead::Thread*,
+                              sead::MessageQueue::Element>::invoke(sead::Thread*,
+                                                                   sead::MessageQueue::Element);
+template sead::Delegate2<ksys::res::ResourceMgrTask, sead::Thread*, sead::MessageQueue::Element>*
+sead::Delegate2<ksys::res::ResourceMgrTask, sead::Thread*, sead::MessageQueue::Element>::clone(
+    sead::Heap*) const;
