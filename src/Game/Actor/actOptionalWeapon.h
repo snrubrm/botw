@@ -34,6 +34,7 @@ public:
     bool sub_7100EF1B90();
     bool sub_7100EF1B70();
     bool sub_7100EF1308();
+    bool sub_7100EF1EA4();
 
     Actor* m31() override;
     void updatePositionMaybe() override;
