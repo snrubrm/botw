@@ -22,6 +22,16 @@ void Unk_710079a8e8::ListenerState::sub_710079A884() {
     valid = true;
 }
 
+void Unk_710079a8e8::ListenerState::sub_710079A8BC() const {
+    if (!valid)
+        return;
+    auto* sound = ksys::snd::SoundMgr::instance();
+    if (!sound)
+        return;
+    if (auto* poser = sound->_58)
+        poser->_78 = mode;
+}
+
 void Unk_710079a8e8::SavePoint::save(const Unk_710079a8e8& camera) {
     _0 = camera._0;
     _38 = camera._72c._0;

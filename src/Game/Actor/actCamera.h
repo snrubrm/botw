@@ -154,6 +154,8 @@ public:
     // 79A884 updates the 8-byte listener-state subobject passed by Camera::x_1.
     struct ListenerState {
         void sub_710079A884();
+        // 79A8BC restores the saved mode to the sound listener when valid.
+        void sub_710079A8BC() const;
         s32 mode = 0;
         bool _4 = false;
         bool valid = false;
