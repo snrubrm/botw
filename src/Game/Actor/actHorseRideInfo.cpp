@@ -88,7 +88,6 @@ bool sub_7100E81568(ksys::as::ASList* list) {
     return list->x(22, nullptr, 0, 0, &ksys::as::ASList::Unk2::sub_71011638DC, true);
 }
 
-// NON_MATCHING: enable is tail-called instead of sharing the normalized Boolean return.
 bool sub_7100E815C8(ksys::act::AwarenessInstance* awareness) {
     if (awareness && !awareness->sub_7100D7E964() && awareness->enable())
         return true;
