@@ -20,6 +20,7 @@ class ChemicalMgr;
 namespace ksys::phys {
 class RigidBody;
 class SystemGroupHandler;
+class UserTag;
 }
 
 namespace ksys::act {
@@ -91,6 +92,7 @@ public:
     void sub_7100E3E2E8();
     // E3B79C: the parent actor chemical, consumed by the wind/rigid-body update.
     Chemical* sub_7100E3B79C() const;
+    void sub_7100E3B6D8(phys::UserTag* tag);
 
     // Slot numbering: mN is the virtual at vtable slot N + 2 (the first two are the RTTI functions), as in the CSV.
     void m4(sead::Matrix34f* out, Chemical* chemical) override;
@@ -120,7 +122,10 @@ public:
     // The rigid bodies of the element (stride 0x40; the entry's first member is the body).
     struct BodyEntry {
         phys::RigidBody* body;
-        u8 _8[0x24 - 0x8];
+        u8 _8[0x18 - 0x8];
+        // E3A570 sets this for a cloned body; E39A70 deletes only owned bodies.
+        /* 0x18 */ bool owns_body;
+        u8 _19[0x24 - 0x19];
         u8 _24[0x40 - 0x24];
     };
 
