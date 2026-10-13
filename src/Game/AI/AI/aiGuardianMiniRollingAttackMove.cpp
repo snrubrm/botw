@@ -1,8 +1,10 @@
 #include "Game/AI/AI/aiGuardianMiniRollingAttackMove.h"
 #include <math/seadMathCalcCommon.h>
+#include <random/seadGlobalRandom.h>
 #include "Game/Actor/actWeapon.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/AI/aiUnk_71007320F0.h"
+#include "Game/AI/aiUnk_71007091AC.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/actActorWeapons.h"
@@ -11,6 +13,65 @@
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
+
+// NON_MATCHING: random-call argument evaluation and vector retention differ.
+void GuardianMiniRollingAttackMove::sub_7100423BF0(f32 speed_ratio) {
+    const sead::Vector3f turns =
+        sead::Vector3f::ey *
+        static_cast<f32>(sead::GlobalRandom::instance()->getS32Range(
+            *mRollingNumMin_s, *mRollingNumMax_s)) *
+        sead::Mathf::pi2();
+    f32 angle = 0.0f;
+    s32 first;
+    s32 second;
+    s32 third = -1;
+    sub_71007091AC(mActor, &first, &second, &third);
+    sub_7100424760(&angle, first, second, third, false);
+    _250->_18.set(turns + sead::Vector3f::ey * angle, *mRotSpeed_s * speed_ratio);
+    _250->sub_710070DBB0(*mActor->getMesTransceiverId(), true);
+}
+
+// NON_MATCHING: vector loads and float registers differ.
+void GuardianMiniRollingAttackMove::sub_7100424414() {
+    const sead::Vector3f turns =
+        sead::Vector3f::ey * static_cast<f32>(*mStopRollingNum_s) * sead::Mathf::pi2();
+    f32 angle = 0.0f;
+    s32 first;
+    s32 second;
+    s32 third = -1;
+    sub_71007091AC(mActor, &first, &second, &third);
+    sub_7100424760(&angle, first, second, third, false);
+    _250->_18.set(turns + sead::Vector3f::ey * angle, *mRotSpeed_s);
+    _250->sub_710070DBB0(*mActor->getMesTransceiverId(), true);
+}
+
+// NON_MATCHING: the weapon-combination conditions are simplified differently.
+void GuardianMiniRollingAttackMove::sub_7100424760(f32* angle, s32 first, s32 second,
+                                                s32 third, bool reverse) {
+    auto* actor = mActor;
+    if (!sead::IsDerivedFrom<act::Enemy>(actor))
+        return;
+    auto* enemy = static_cast<act::Enemy*>(actor);
+    auto* first_weapon = sead::DynamicCast<act::Weapon>(enemy->getWeapons()->getEquippedWeapon(first));
+    const bool has_first = first_weapon && first_weapon->_cf0 != 4;
+    auto* second_weapon = sead::DynamicCast<act::Weapon>(enemy->getWeapons()->getEquippedWeapon(second));
+    const bool has_second = second_weapon && second_weapon->_cf0 != 4;
+    auto* third_weapon = sead::DynamicCast<act::Weapon>(enemy->getWeapons()->getEquippedWeapon(third));
+    const bool has_third = third_weapon && third_weapon->_cf0 != 4;
+    if (has_first && has_second && has_third) {
+        *angle = 0.0f;
+        return;
+    }
+    if (has_first && !has_third) {
+        *angle = 0.0f;
+        return;
+    }
+    if (!has_first && has_second) {
+        *angle = reverse ? sead::Mathf::deg2rad(120.0f) : sead::Mathf::deg2rad(240.0f);
+    } else {
+        *angle = reverse ? sead::Mathf::deg2rad(240.0f) : sead::Mathf::deg2rad(120.0f);
+    }
+}
 
 // NON_MATCHING: the original compares the animation name with "PreSpin" without the two assureTermination virtual calls
 // (inline loop over `mStringTop`)

@@ -59,11 +59,14 @@ public:
     void sub_71004219B8();
     void changeToBackStep();
     void sub_7100423A1C();
+    void sub_7100423BF0(f32 speed_ratio);
     void sub_7100423D68();
     void changeToRotateBack();
     void sub_7100424080();
+    void sub_7100424414();
     void sub_7100424554();
     void sub_7100424670();
+    void sub_7100424760(f32* angle, s32 first, s32 second, s32 third, bool reverse);
     void sub_7100424A3C();
     // 0x7100424f54 (changeChild "回転終了") / 0x7100425040 (changeChild "チャンス").
     void changeToRotateEnd();
