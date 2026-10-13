@@ -5,7 +5,12 @@
 #include <prim/seadRuntimeTypeInfo.h>
 #include "KingSystem/Utils/Types.h"
 
+namespace sead {
+class Heap;
+}
+
 namespace ksys::phys {
+class InstanceSet;
 class CharacterController;
 class RigidBody;
 }  // namespace ksys::phys
@@ -61,6 +66,9 @@ public:
     u8 _6c[0x90 - 0x6c];
 };
 KSYS_CHECK_SIZE_NX150(Unk_71024ef620, 0x90);
+
+// Full EBA300 creates the surfing body from InstanceSet; independent EB16A0 stores its return.
+Unk_71024ef620* sub_7100EBA300(phys::InstanceSet* physics, sead::Heap* heap);
 
 // 0x7100eba4ac (declared only; lane1 s46): `delete body` (null-checked virtual call of the deleting destructor), out of
 // line in the original.

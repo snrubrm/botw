@@ -1,6 +1,10 @@
 #include "Game/AI/AI/aiGerudoQueenBattle.h"
 #include <math/seadMathCalcCommon.h>
 #include <prim/seadDelegate.h>
+#include "Game/AI/aiUnk_710070435C.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "KingSystem/ActorSystem/actActorCreator.h"
+#include "KingSystem/ActorSystem/actActorHeapUtil.h"
 #include "Game/AI/aiUnk_710073033C.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
@@ -89,8 +93,29 @@ void GerudoQueenBattle::sub_71003F4910(u32 angle) {
     mActor->nullsub_4648();
 }
 
+// NON_MATCHING: the early false return is lowered before the surfing factory branch.
 bool GerudoQueenBattle::init_(sead::Heap* heap) {
-    return ksys::act::ai::Ai::init_(heap);
+    _118 = new (heap, 8) ksys::act::BoneHandle[3];
+    sub_710070435C(_118);
+    mActor->boneHandleStuff(&_118[0], false);
+    mActor->boneHandleStuff(&_118[1], false);
+    mActor->boneHandleStuff(&_118[2], false);
+    sub_710070439C(mActor->getModel(), _118, true);
+    mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_2000);
+    if (!sub_71005D6D10()) {
+        ksys::act::InstParamPack pack;
+        pack->addScale(sead::Vector3f(1.0f, 3.0f, 1.0f));
+        pack->addPosition(mActor->getMtx().getTranslation());
+        pack->addModelUser("WakeBoardGerudoQueen");
+        _50.acquire(ksys::act::ActorCreator::instance()->createActor(
+                        "WakeBoardRope", ksys::act::ActorHeapUtil::instance()->getBaseProcHeap(),
+                        &pack, true, false),
+                    false);
+        if (!_50.hasProc())
+            return false;
+    }
+    _80 = ksys::act::sub_7100EBA300(mActor->getPhysics(), heap);
+    return _80 != nullptr;
 }
 
 void GerudoQueenBattle::enter_(ksys::act::ai::InlineParamPack* params) {
