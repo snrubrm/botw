@@ -1494,3 +1494,7 @@ void sub_71005DE398(sead::Vector3f* out, ksys::act::BaseProcLink* link,
         blend = blend * mass_limit / mass;
     *out = direction * sead::Mathf::min(blend, 1.0f);
 }
+
+void sub_71005E00C8(ksys::act::Actor* actor) {
+    sub_71005DFF24(actor, 0, -1);
+}

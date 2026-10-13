@@ -457,3 +457,7 @@ bool sub_71005E2B48(ksys::act::Actor* actor);
 // Full73E8C4 and native5DE398 establish output/link/target and speed/ratio/mass floats.
 void sub_71005DE398(sead::Vector3f* out, ksys::act::BaseProcLink* link,
                     const sead::Vector3f* target, f32 speed, f32 ratio, f32 mass_limit);
+
+// Native Lumberjack caller selects model indices; source owner remains unknown.
+void sub_71005DFF24(ksys::act::Actor* actor, s32 new_index, s32 old_index);
+void sub_71005E00C8(ksys::act::Actor* actor);
