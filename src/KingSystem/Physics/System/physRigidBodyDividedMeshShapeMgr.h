@@ -14,6 +14,8 @@ class System;
 
 namespace ksys::phys {
 
+class Unk_71025158e8;
+
 class RigidBodyDividedMeshShapeMgr {
 public:
     // OpenWorldStage 7C4854 constructs this record; the full manager constructor
@@ -32,10 +34,13 @@ public:
     static RigidBodyDividedMeshShapeMgr* makeInstance(const Config& config, sead::Heap* heap);
     RigidBodyDividedMeshShapeMgr(const Config& config, sead::Heap* heap);
     virtual ~RigidBodyDividedMeshShapeMgr();
+    void addToWorld();
 
 private:
     // Complete lifetime and the two-slot table establish the owner extent.
-    u8 _8[0x188];
+    u8 _8[0x128];
+    /* 0x130 */ Unk_71025158e8* mBoundaryBodies[4];
+    u8 _150[0x40];
 };
 KSYS_CHECK_SIZE_NX150(RigidBodyDividedMeshShapeMgr, 0x190);
 
