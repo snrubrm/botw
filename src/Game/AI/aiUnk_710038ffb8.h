@@ -35,6 +35,10 @@ public:
     void sub_7100392044();
     // 0x7100392230: called by loadParams_.
     void sub_7100392230();
+    void sub_71003910E4();
+    void sub_71003916F4();
+    void sub_710039184C();
+    void sub_7100391A10();
     // 0x710039235c: the message handler (2532 B).
     bool sub_710039235C(const ksys::Message& message);
 

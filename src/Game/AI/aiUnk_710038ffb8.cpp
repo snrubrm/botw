@@ -1,5 +1,8 @@
 #include "Game/AI/aiUnk_710038ffb8.h"
 #include "Game/AI/aiUnk_7102357d20.h"
+#include "Game/Actor/actEnemy.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 
 Unk_710038ffb8::~Unk_710038ffb8() {
     // Keep the original vtable store, as in upstream GameDataFlagSelector::~GameDataFlagSelector()
@@ -18,6 +21,57 @@ s32 Unk_710038ffb8::sub_7100390A90() {
     *_8 = 0;
     _3a0.reset();
     return 0;
+}
+
+void Unk_710038ffb8::sub_71003910E4() {
+    _3c8 |= 2;
+    *_8 = false;
+    ksys::act::ai::InlineParamPack pack;
+    pack.addActor(_390, "TargetActor", -1);
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(&_390, &accessor);
+    sead::Vector3f pos;
+    accessor.getActorMtx().getTranslation(pos);
+    pack.addVec3(pos, "TargetPos", -1);
+    _10->changeChild("聞く", &pack);
+}
+
+void Unk_710038ffb8::sub_71003916F4() {
+    _3c8 |= 2;
+    *_8 = false;
+    if (auto* enemy = sead::DynamicCast<uking::act::Enemy>(_10->getActor()))
+        enemy->_e84.resetBit(12);
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(_330._34._0, "TargetPos", -1);
+    _10->changeChild("注意", &pack);
+}
+
+void Unk_710038ffb8::sub_710039184C() {
+    _3c8 |= 2;
+    *_8 = false;
+    if (auto* enemy = sead::DynamicCast<uking::act::Enemy>(_10->getActor()))
+        enemy->_e84.resetBit(12);
+    ksys::act::ai::InlineParamPack pack;
+    pack.addActor(_390, "TargetActor", -1);
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(&_390, &accessor);
+    sead::Vector3f pos;
+    accessor.getActorMtx().getTranslation(pos);
+    pack.addVec3(pos, "TargetPos", -1);
+    _10->changeChild("呼びかけ", &pack);
+}
+
+void Unk_710038ffb8::sub_7100391A10() {
+    _3c8 |= 2;
+    *_8 = false;
+    ksys::act::ai::InlineParamPack pack;
+    pack.addActor(_390, "TargetActor", -1);
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(&_390, &accessor);
+    sead::Vector3f pos;
+    accessor.getActorMtx().getTranslation(pos);
+    pack.addVec3(pos, "TargetPos", -1);
+    _10->changeChild("向き直り", &pack);
 }
 
 void Unk_710038ffb8::sub_7100392230() {
