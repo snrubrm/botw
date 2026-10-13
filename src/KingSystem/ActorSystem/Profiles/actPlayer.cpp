@@ -642,6 +642,17 @@ bool Player::isMasterSwordEquipped_() {
     return false;
 }
 
+bool Player::m227() {
+    if (_d24 != 1)
+        return false;
+    ActorConstDataAccess accessor;
+    const s32 slot = playerWeapons_return0();
+    auto& link = getWeapons()->mWeapons[slot].link;
+    if (link.hasProc())
+        acquireActor(&link, &accessor);
+    return sub_71002EF884(accessor) == "Katana";
+}
+
 void Player::x_40() {
     _1d6c = 1.0f;
     _c40.reset(0x1200000);
