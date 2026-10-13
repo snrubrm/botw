@@ -15,6 +15,18 @@
 
 namespace uking::act {
 
+// NON_MATCHING: the body pause helpers are inlined into the forwarding loops.
+void Swarm::m43(bool on) {
+    if (!on)
+        return;
+    for (s32 i = 0; i < _14f8.size(); ++i)
+        _14f8[i].sub_71002D71C8(true);
+    for (s32 i = 0, count = _15e8.size(); i < count; ++i)
+        _15e8[i]._8.sub_71002D7870(true);
+    for (s32 i = 0, count = _15f8.size(); i < count; ++i)
+        _15f8[i]._8.sub_71002D7870(true);
+}
+
 void Swarm::UnitBody::BodyState::sub_71002D782C() {
     if (_18)
         _18->changePositionAndRotation(_10 ? _10->_8 : _8 ? _8->getMtx() : sead::Matrix34f::ident);
