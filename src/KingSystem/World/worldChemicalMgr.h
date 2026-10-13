@@ -96,12 +96,13 @@ public:
     void sub_71010C8748(sead::Heap* heap, ksys::world::ChemicalMgr* mgr);
     u32 _8 = 0;
     ksys::act::ActorChemicals _10;
-    Unk_710250c8b0 _98;
+    Unk_710250c8b0 _98{};
     ksys::map::Object* _b0 = nullptr;
     ksys::phys::RigidBody* _b8 = nullptr;
     ChemicalUserTag _c0{&_10};
     ksys::act::ActorX6A0* _d0 = nullptr;
-    u8 _d8[8];
+    u8 _d8[3]{};
+    u8 _db[5];
 };
 KSYS_CHECK_SIZE_NX150(Unk_710250c840, 0xe0);
 

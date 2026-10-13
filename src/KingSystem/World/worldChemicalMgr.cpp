@@ -37,6 +37,15 @@ void Unk_71010c90f4::sub_71010C90F4() {
     _40.freeBuffer();
 }
 
+void Unk_71010c90f4::sub_71010C9274(s32 count, sead::Heap* heap) {
+    _40.tryAllocBuffer(count, heap, 8);
+    _50.allocBuffer(count, heap, 8);
+    _60.allocBuffer(count, heap, 8);
+    _70.allocBuffer(count, heap, 8);
+    for (s32 i = 0; i < count; ++i)
+        _50.pushBack(&_40[i]);
+}
+
 WorldMgrStruct0_8_a::WorldMgrStruct0_8_a() = default;
 
 WorldMgrStruct0_8_a::~WorldMgrStruct0_8_a() {
