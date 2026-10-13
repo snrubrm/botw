@@ -7,6 +7,7 @@
 #include <math/seadVector.h>
 #include <math/seadMatrix.h>
 #include <thread/seadAtomic.h>
+#include <heap/seadHeap.h>
 #include "KingSystem/Utils/Types.h"
 
 namespace gsys {
@@ -15,9 +16,14 @@ class Model;
 
 namespace sead {
 class Heap;
+class ExpHeap;
 }
 
 namespace ksys::tera {
+
+// ResourceHolder 1138A2C supplies a size, name, parent and heap direction.
+sead::ExpHeap* sub_7101120314(u32 size, const sead::SafeString& name, sead::Heap* parent,
+                            sead::Heap::HeapDirection direction);
 
 // TODO:
 class ApertureMaps {
