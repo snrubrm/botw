@@ -37,18 +37,18 @@ bool Resource::m7() {
     return m7_();
 }
 
-size_t sResLoadArgAllocSize;
+Context* sCurrentLoadContext;
 
-size_t getResLoadArgAllocSize() {
-    return sResLoadArgAllocSize;
+Context* getCurrentLoadContext() {
+    return sCurrentLoadContext;
 }
 
-void setResLoadArgAllocSize(size_t size) {
-    sResLoadArgAllocSize = size;
+void setCurrentLoadContext(Context* context) {
+    sCurrentLoadContext = context;
 }
 
-void clearResLoadArgAllocSize() {
-    sResLoadArgAllocSize = 0;
+void clearCurrentLoadContext() {
+    sCurrentLoadContext = nullptr;
 }
 
 }  // namespace ksys::res
