@@ -40,8 +40,8 @@ public:
     // C811C0 produces {G3dResMaterialEx*, render-info receiver} for slot 3.
     struct MaterialArg;
 
-    virtual void m0(const ResourceArg& arg, sead::Heap* heap);
-    virtual void m1(const ResourceArg& arg);
+    virtual void m0(const ResourceArg& arg, sead::Heap* heap) {}
+    virtual void m1(const ResourceArg& arg) {}
     virtual void m2(const ShaderAssignArg& arg);
     virtual void m3(const MaterialArg& arg);
 };
