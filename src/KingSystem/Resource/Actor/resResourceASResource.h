@@ -159,6 +159,7 @@ public:
     const auto& getResetMorph() const { return *mResetMorph; }
 
 protected:
+    int m4() override { return 1; }
     bool doParse(const ParseArgs& args) override;
 
     agl::utl::Parameter<int> mInitAnmDriven;

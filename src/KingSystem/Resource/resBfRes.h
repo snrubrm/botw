@@ -225,6 +225,9 @@ public:
     // 12007B8 forwards the texture from its callback argument; 11FFD28 updates
     // resource state and invalidates this texture in linked model bindings.
     void sub_71011FFD28(nn::gfx::ResTexture* texture);
+    // Complete callees and independent12003D0 establish resource-state query/refresh.
+    bool sub_71011FFF3C();
+    void sub_71011FF9B8();
 
     // 0x71011ffecc: invalidates queued textures in all linked model bindings.
     void sub_71011FFECC();

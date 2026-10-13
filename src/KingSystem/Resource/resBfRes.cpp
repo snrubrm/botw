@@ -100,6 +100,27 @@ void Unk_71025149d0::m2(const void* arg) {
     mOwner->sub_71011FFD28(static_cast<const CallbackArg*>(arg)->mHandle->sub_7100FE83EC());
 }
 
+void BfRes::sub_71011FFD28(nn::gfx::ResTexture* texture) {
+    if (!_50) {
+        stubbedLogFunction();
+        return;
+    }
+    if (sub_71011FFF3C()) {
+        if (!(_40 & 4))
+            _40 = (_40 & ~7) | 4;
+    } else if (!(_40 & 2)) {
+        _40 = (_40 & ~7) | 2;
+    }
+    sub_71011FF9B8();
+    if (!(_40 & 2))
+        _168.sub_7100FE85DC();
+    auto lock = sead::makeScopedLock(_b8);
+    for (auto* binding : _60) {
+        if (binding)
+            binding->sub_7100FDD9C0(texture);
+    }
+}
+
 void Unk_71025149d0::m3(const void* arg) {
     auto* owner = mOwner;
     auto* texture = static_cast<const CallbackArg*>(arg)->mHandle->sub_7100FE83EC();
