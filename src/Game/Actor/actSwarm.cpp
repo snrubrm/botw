@@ -16,6 +16,19 @@ void Swarm::Unit::sub_71002D93E8(const sead::Matrix33f& rotation) {
     sead::Matrix34CalcCommon<f32>::copy(_8, rotation, _8.getTranslation());
 }
 
+void Swarm::Unit::sub_71002D9434(const sead::Vector3f& position) {
+    sead::Vector3f world_position;
+    world_position.setMul(_b0->getMtx(), position);
+    _8.setTranslation(world_position);
+}
+
+void Swarm::Unit::sub_71002D94C8(sead::Vector3f* out) const {
+    if (out) {
+        _8.getTranslation(*out);
+        out->setMul(_b0->_15b8, *out);
+    }
+}
+
 bool Swarm::sub_71002D47D8(s32 idx) const {
     const auto& body = _14f8[idx];
     if (!body._18)
