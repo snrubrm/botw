@@ -10,6 +10,10 @@ void Unk_71024dc900::m6(Actor* actor) {
     Unk_71024dca28::m6(actor);
 }
 
+Unk_71024dc978* Unk_71024dc900::m8() {
+    return &_18;
+}
+
 void AwarenessInstance::disable() {
     if (auto* awareness = Awareness::instance()) {
         awareness->mInstances.deregisterInstance(this);
