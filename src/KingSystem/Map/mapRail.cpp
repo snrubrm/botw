@@ -8,6 +8,8 @@ namespace ksys::map {
 
 SEAD_SINGLETON_DISPOSER_IMPL(Placement18a)
 
+void Placement18::sub_7100D48034() {}
+
 u32 Rail::sHashBase;
 
 static bool isNearZero(const sead::Vector3f& v) {
