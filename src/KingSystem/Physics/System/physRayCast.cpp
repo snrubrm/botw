@@ -596,7 +596,7 @@ bool NormalCheckingRayHitCollector::checkNormal(
     }
 
     hkVector4f rotated_normal;
-    rotated_normal.setRotatedDir(rotation, hitInfo.m_normal);
+    rotated_normal.setRotatedInverseDir(rotation, hitInfo.m_normal);
 
     return checkDot<true>(mMode, triangle_normal.dot<3>(rotated_normal));
 }
