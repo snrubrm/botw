@@ -6,7 +6,10 @@
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
+#include "Game/AI/aiUnk_71007377D4.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
 #include "KingSystem/Utils/Thread/Message.h"
 
 namespace uking::ai {
@@ -89,6 +92,53 @@ void ZoraHeroRelicBattleRoot::sub_7100614C18() {
     _48._8._13c = _42 + _43 + _44 + _45;
     _48._8._140 = ksys::gdt::getFlag_Water_Relic_ChanceTime();
     _48._8._141 = mActor->getConnectedCalcChild() != nullptr;
+}
+
+void ZoraHeroRelicBattleRoot::sub_7100614738() {
+    auto* actor = mActor;
+    ksys::act::disableAllAttClients(actor);
+    if (auto* body = mActor->findPhysicsBodyByName(sub_71007A24D0()->cstr(), "Body")) {
+        body->enableContactLayer(ksys::phys::ContactLayer::SensorAttackEnemy);
+        body->enableContactLayer(ksys::phys::ContactLayer::SensorAttackPlayer);
+        body->enableContactLayer(ksys::phys::ContactLayer::SensorAttackCommon);
+    }
+    if (auto* child = sead::DynamicCast<ksys::act::Actor>(actor->getConnectedCalcChild()))
+        sub_7100738D28(actor, child);
+    if (auto* controller = mActor->getCharacterController())
+        controller->enableContactLayer(ksys::phys::ContactLayer::EntityPlayer);
+    actor->emitBasicSigOn();
+    if (auto* body = actor->findPhysicsBodyByName(sub_71007A24E4()->cstr(), "HeadSensor"))
+        body->addToWorld();
+    ksys::gdt::setFlag_Water_Relic_firstPrinceRide(true);
+    if (auto* set = mActor->getRigidBodyByName(sub_71007A24D0()->cstr())) {
+        auto* body = set->findBodyByHavokName("Body");
+        if (!body && set->getRigidBodies().size() > 0)
+            body = set->getRigidBody(0);
+        if (body)
+            body->setFlag200();
+    }
+    changeChild("騎乗中", nullptr);
+}
+
+void ZoraHeroRelicBattleRoot::sub_7100614930() {
+    auto* actor = mActor;
+    ksys::act::enableAllAttClients(actor);
+    if (auto* body = mActor->findPhysicsBodyByName(sub_71007A24D0()->cstr(), "Body"))
+        body->setContactNone();
+    sub_7100738DDC(actor);
+    if (auto* controller = mActor->getCharacterController())
+        controller->sub_7100F60604();
+    actor->emitBasicSigOff();
+    if (auto* set = mActor->getRigidBodyByName(sub_71007A24D0()->cstr())) {
+        auto* body = set->findBodyByHavokName("Body");
+        if (!body && set->getRigidBodies().size() > 0)
+            body = set->getRigidBody(0);
+        if (body)
+            body->resetFlag200();
+    }
+    if (auto* body = actor->findPhysicsBodyByName(sub_71007A24E4()->cstr(), "HeadSensor"))
+        body->removeFromWorld();
+    changeChild("騎乗待ち", nullptr);
 }
 
 void ZoraHeroRelicBattleRoot::leave_() {
