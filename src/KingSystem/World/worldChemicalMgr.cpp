@@ -43,6 +43,12 @@ WorldMgrStruct0_8_a::~WorldMgrStruct0_8_a() {
     _8.sub_71010C90F4();
 }
 
+void WorldMgrStruct0_8_a::sub_71010C9210(sead::Heap* heap, ksys::world::ChemicalMgr* mgr) {
+    _8.sub_71010C9274(80, heap);
+    for (auto& entry : _8._40)
+        entry.sub_71010C8748(heap, mgr);
+}
+
 Unk_710250c530::Unk_710250c530() = default;
 
 Unk_710250c530::~Unk_710250c530() {

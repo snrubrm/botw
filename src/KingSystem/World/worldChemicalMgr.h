@@ -14,6 +14,10 @@
 #include "KingSystem/Utils/Types.h"
 #include "KingSystem/World/worldJob.h"
 
+namespace ksys::world {
+class ChemicalMgr;
+}
+
 namespace aal {
 class Shape;
 }
@@ -88,6 +92,8 @@ class ActorX6A0;
 class Unk_710250c840 {
 public:
     virtual ~Unk_710250c840();
+    // Full 10C8748 receives the heap and owning ChemicalMgr from 10C9210 / ChemicalMgr::init_.
+    void sub_71010C8748(sead::Heap* heap, ksys::world::ChemicalMgr* mgr);
     u32 _8 = 0;
     ksys::act::ActorChemicals _10;
     Unk_710250c8b0 _98;
@@ -103,6 +109,8 @@ KSYS_CHECK_SIZE_NX150(Unk_710250c840, 0xe0);
 // WorldMgrStruct0_8_a destruction then destroys the CriticalSection normally.
 struct Unk_71010c90f4 {
     void sub_71010C90F4();
+    // Full 10C9274 allocates the record Buffer and three PtrArrays.
+    void sub_71010C9274(s32 count, sead::Heap* heap);
     sead::CriticalSection _0;
     sead::Buffer<Unk_710250c840> _40;
     sead::PtrArray<Unk_710250c840> _50;
@@ -118,6 +126,7 @@ class WorldMgrStruct0_8_a {
 public:
     WorldMgrStruct0_8_a();
     virtual ~WorldMgrStruct0_8_a();
+    void sub_71010C9210(sead::Heap* heap, ksys::world::ChemicalMgr* mgr);
     void sub_71010C9D00(ksys::act::Actor* actor);
     void sub_71010C9E48(ksys::act::Actor* actor);
     void sub_71010C9438();
