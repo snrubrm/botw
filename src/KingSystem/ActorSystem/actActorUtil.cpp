@@ -45,6 +45,25 @@
 #include <cfloat>
 #include "KingSystem/Utils/Byaml/Byaml.h"
 #include "KingSystem/World/worldManager.h"
+#include "KingSystem/Terrain/teraSystem.h"
+
+// Source owner unknown; the placement caller supplies a map object's position.
+bool sub_7100EE9BB8(const sead::Vector3f* pos) {
+    auto* terrain = ksys::tera::Terrain::instance();
+    if (!terrain || !terrain->isGrassEnabled())
+        return false;
+    auto* grass = terrain->sub_710114DE4C();
+    const sead::Vector3f center = *pos + sead::Vector3f(0.0f, 0.3f, 0.0f);
+    return grass->sub_7101150F88(&center, 16.0f, 8.0f, true);
+}
+
+// Source owner unknown; the placement caller supplies a map object's position.
+bool sub_7100EE9C40(const sead::Vector3f* pos) {
+    auto* terrain = ksys::tera::Terrain::instance();
+    if (!terrain || !terrain->isGrassEnabled())
+        return false;
+    return terrain->sub_710114DE4C()->sub_7101150BA4(pos, 16.0f);
+}
 
 // Source owner unknown: the full armor comparison consumer supplies a SafeString.
 bool sub_7100EE98F0(const sead::SafeString& actor) {

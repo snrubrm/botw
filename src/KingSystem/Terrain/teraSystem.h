@@ -49,6 +49,9 @@ public:
         bool sub_7101150F88(const sead::Vector3f* pos, f32 a, f32 b, bool flag);
         bool sub_7101150FD4(const sead::Vector3f* pos, f32 a, f32 b);
         bool sub_710115101C(const sead::Vector3f* pos, f32 radius);
+        // Position and radius from ActorUtil and the independent terrain-cull caller.
+        // Declaration only; the implementation remains with the Grass owner.
+        bool sub_7101150BA4(const sead::Vector3f* pos, f32 radius);
         // CutGrass and independent Motorcycle/Sandworm callers establish the position and flags.
         // Declaration only; the implementation remains with the Grass owner.
         bool sub_7101151064(const sead::Vector3f* pos, f32 radius, f32 intensity, bool call_effect,
