@@ -5,6 +5,7 @@
 
 namespace ksys::phys {
 class Constraint;
+class SliderCs;
 class RigidBody;
 }
 
@@ -40,7 +41,8 @@ protected:
     void sub_710028EE24();
     void sub_710028EE98();
 
-    ksys::phys::Constraint* _20{};
+    // Init 28E3C4 stores the SliderCs factory's result here.
+    ksys::phys::SliderCs* _20{};
     // static_param at offset 0x28
     const int* mTargetIdx_s{};
     // static_param at offset 0x30

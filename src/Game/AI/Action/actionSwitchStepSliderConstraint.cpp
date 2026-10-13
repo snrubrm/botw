@@ -1,11 +1,15 @@
 #include "Game/AI/Action/actionSwitchStepSliderConstraint.h"
 #include <limits>
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
 #include "KingSystem/Physics/Constraint/physConstraint.h"
+#include "KingSystem/Physics/Constraint/physSliderCs.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace uking::action {
+
+static const sead::SafeString sUnk_71023c3f28 = "Button";
 
 SwitchStepSliderConstraint::SwitchStepSliderConstraint(const InitArg& arg)
     : ksys::act::ai::Action(arg) {}
@@ -21,8 +25,39 @@ bool SwitchStepSliderConstraint::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }
 
+// NON_MATCHING: Timer reset stores differ, and the switch flag store precedes the parameter loads.
 void SwitchStepSliderConstraint::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    auto* actor = mActor;
+    _a8.mTimer.reset(6.0f);
+    sead::Matrix34f home;
+    home = actor->getHomeMtxRaw();
+    auto* body = actor->findPhysicsBodyByName(sub_71007A24E4()->cstr(), sUnk_71023c3f28.cstr());
+    if (body) {
+        body->setTransform(home);
+        body->enableContactLayer(ksys::phys::ContactLayer::EntityGround);
+        body->enableContactLayer(ksys::phys::ContactLayer::EntityGroundRough);
+        body->setGravityFactor(0.0f);
+        body->addToWorld();
+    }
+    if (_20 && !(_20->_50 & 1)) {
+        auto* main_body = actor->getMainBody();
+        _20->sub_7100F71058(sead::Vector3f::zero, sead::Vector3f::zero,
+                            home.getBase(1), home.getBase(1), home.getBase(2), home.getBase(2));
+        _20->setMinMaxLimit(*mMinLimit_s, *mMaxLimit_s);
+        _20->sub_7100F71028(*mFriction_s);
+        if (body && main_body)
+            _20->sub_7100F6AAA4(body, main_body);
+        _20->sub_7100F69FF0();
+    }
+    _e0 = 0;
+    _a0 = *mMaxLimit_s - *mMinLimit_s;
+    body = actor->findPhysicsBodyByName(sub_71007A24E4()->cstr(), sUnk_71023c3f28.cstr());
+    if (body) {
+        sead::Vector3f position;
+        body->getPosition(&position);
+        _d0 = (position - _94).length();
+    }
+    m34();
 }
 
 void SwitchStepSliderConstraint::leave_() {
