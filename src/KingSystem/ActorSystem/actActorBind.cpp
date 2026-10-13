@@ -1,7 +1,19 @@
 #include "KingSystem/ActorSystem/actActorBind.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
+#include "KingSystem/Resource/Actor/resResourceDamageParam.h"
+
+bool sub_71006E8610(ksys::act::Actor* actor) {
+    if (!actor)
+        return false;
+    auto* param = actor->getParam();
+    if (!param)
+        return false;
+    auto* damage = param->getRes().mDamageParam;
+    return damage && damage->mIsMetamorBurnout.ref();
+}
 
 namespace ksys::act {
 
