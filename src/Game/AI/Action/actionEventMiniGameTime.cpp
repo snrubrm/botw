@@ -12,8 +12,6 @@ bool EventMiniGameTime::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }
 
-// NON_MATCHING: the original lays out the switch on the count mode as compares 0 / 1 / 2 with the
-// setFailed() default falling through; ours (a switch or an if-chain) compares 2 / 1 and branches to the default
 void EventMiniGameTime::enter_(ksys::act::ai::InlineParamPack* params) {
     auto* mini_game = Unk_71024e80e0::instance();
     const s32 mode = *mCountMode_d;
