@@ -73,6 +73,19 @@ void WorldMgrStruct0_8_a::sub_71010C9210(sead::Heap* heap, ksys::world::Chemical
         entry.sub_71010C8748(heap, mgr);
 }
 
+// NON_MATCHING: indexOf uses a signed loop rather than the native pointer countdown.
+void WorldMgrStruct0_8_a::sub_71010C9A8C(Unk_710250c840* entry) {
+    entry->_10.sub_7100E37788(0)->sub_7100D8F194();
+    entry->_b8->removeFromWorld();
+    ++entry->_8;
+    sead::ScopedLock<sead::CriticalSection> lock(&_8._0);
+    const s32 index = _8._60.indexOf(entry);
+    if (index >= 0) {
+        _8._60.erase(index);
+        _8._70.pushBack(entry);
+    }
+}
+
 void WorldMgrStruct0_8_a::sub_71010C9B48() {
     sead::ScopedLock<sead::CriticalSection> lock(&_8._0);
     for (auto& entry : _8._60) {

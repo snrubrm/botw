@@ -128,6 +128,7 @@ public:
     WorldMgrStruct0_8_a();
     virtual ~WorldMgrStruct0_8_a();
     void sub_71010C9210(sead::Heap* heap, ksys::world::ChemicalMgr* mgr);
+    void sub_71010C9A8C(Unk_710250c840* entry);
     void sub_71010C9D00(ksys::act::Actor* actor);
     void sub_71010C9E48(ksys::act::Actor* actor);
     void sub_71010C9438();
