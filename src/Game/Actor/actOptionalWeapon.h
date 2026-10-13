@@ -45,6 +45,10 @@ public:
     void sub_7100EF10BC();
     // 0x7100ef13a4 (placeholder name): the string at `_860`.
     sead::FixedSafeString<32>& sub_7100EF13A4();
+    // Declaration only: full bodies write Vector3f outputs consumed by OptionalWeaponAI's
+    // RotOffset / TransOffset parameters. No object layout is added.
+    void sub_7100EF13AC(sead::Vector3f* out);
+    void sub_7100EF1680(sead::Vector3f* out);
 
 protected:
     bool prepareInit_(sead::Heap* heap, PrepareArg& arg) override;
