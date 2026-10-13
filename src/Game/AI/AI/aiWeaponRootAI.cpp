@@ -187,6 +187,28 @@ bool WeaponRootAI::m42() {
     return true;
 }
 
+void WeaponRootAI::sub_7100E20C2C() {
+    if (m41()) {
+        m43();
+        if (auto* chemical = mActor->getChemicalStuff())
+            chemical->_c |= 0x20;
+    } else if (m42()) {
+        m44();
+        if (auto* chemical = mActor->getChemicalStuff())
+            chemical->_c &= ~0x20;
+    }
+    if (isCurrentChild("装備")) {
+        if (auto* weapon = sead::DynamicCast<ksys::act::WeaponBase>(mActor)) {
+            if (weapon->m153() && weapon->m226()) {
+                if (auto* chemical = weapon->getChemicalStuff()) {
+                    if (chemical->_c0 == 2)
+                        chemical->sub_7100D8EEE0();
+                }
+            }
+        }
+    }
+}
+
 // 0x7100e1f3fc
 void WeaponRootAI::sub_7100E1F3FC() {
     _39 = false;
