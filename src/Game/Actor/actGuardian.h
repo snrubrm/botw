@@ -167,7 +167,12 @@ public:
         /* 0x24 */ u8 _24[0x30 - 0x24];
         /* 0x30 */ sead::Vector3f _30;
         /* 0x3c */ sead::Vector3f _3c;
+        // prepareInit_ allocates 0x4c; 38F60 sets this flag and 35C9C clears it.
+        /* 0x48 */ u8 _48;
+        /* 0x49 */ bool _49;
+        /* 0x4a */ u8 _4a[2];
     };
+    KSYS_CHECK_SIZE_NX150(Unk15a8, 0x4c);
     /* 0x15a8 */ Unk15a8* _15a8 = nullptr;
     struct Unk1 {
         // 0x7100042048: updates the navigation position (declaration only).

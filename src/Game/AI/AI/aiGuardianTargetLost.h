@@ -15,6 +15,7 @@ public:
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
+    void calc_() override;
     void loadParams_() override;
 
     // 0x710042be9c (placeholder name)
@@ -24,7 +25,8 @@ protected:
     sead::Vector3f _38 = sead::Vector3f::zero;
     sead::Vector3f _44 = sead::Vector3f::zero;
     s32 _50 = 0;
-    s32 _54 = 0;
+    // calc_ passes this to Timer::update(float*) and compares it with 300.0f.
+    f32 _54 = 0.0f;
     sead::Vector3f _58 = sead::Vector3f::zero;
     // static_param at offset 0x68
     const int* mLostCountMax_s{};
