@@ -67,6 +67,12 @@ bool OptionalWeapon::sub_7100EF1B90() {
     return result;
 }
 
+bool OptionalWeapon::sub_7100EF1EA4() {
+    ksys::act::acc::WeaponBase accessor;
+    ksys::act::acquireActor(&_850, &accessor);
+    return accessor.getProfile().findIndex("Bow") != -1 && accessor.m222();
+}
+
 void OptionalWeapon::updatePositionMaybe() {
     _83c &= ~1;
     sub_7100EF0D44();

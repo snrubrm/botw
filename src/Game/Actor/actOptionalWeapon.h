@@ -51,6 +51,7 @@ public:
     void sub_7100EF1680(sead::Vector3f* out);
     // Declaration only: OptionalWeaponAI updates the existing links/name before reading offsets.
     void sub_7100EF1BF4();
+    bool sub_7100EF1EA4();
 
 protected:
     bool prepareInit_(sead::Heap* heap, PrepareArg& arg) override;
