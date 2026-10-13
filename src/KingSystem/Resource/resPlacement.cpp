@@ -24,6 +24,3 @@ void Placement::doCreate_(u8* buffer, u32 bufferSize, sead::Heap* heap) {
 
 }  // namespace ksys::res
 
-// NON_MATCHING: placeholder destructor; the original (0x7100f42978) also destroys members or bases
-// this class does not declare yet.
-Unk_71024f51c0::~Unk_71024f51c0() = default;

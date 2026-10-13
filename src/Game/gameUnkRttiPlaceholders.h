@@ -2141,34 +2141,6 @@ public:
     ~Unk_710249c630() override;
 };
 
-// vtable 0x710249c6f0 (10 slots); placeholder generated from the vtable (genskel.py).
-class Unk_710249c6f0 : public ksys::res::EntryFactoryBase {
-    SEAD_RTTI_OVERRIDE(Unk_710249c6f0, ksys::res::EntryFactoryBase)
-public:
-    ~Unk_710249c6f0() override;
-};
-
-// vtable 0x710249c750 (10 slots); placeholder generated from the vtable (genskel.py).
-class Unk_710249c750 : public ksys::res::EntryFactoryBase {
-    SEAD_RTTI_OVERRIDE(Unk_710249c750, ksys::res::EntryFactoryBase)
-public:
-    ~Unk_710249c750() override;
-};
-
-// vtable 0x710249c7b0 (10 slots); placeholder generated from the vtable (genskel.py).
-class Unk_710249c7b0 : public ksys::res::EntryFactoryBase {
-    SEAD_RTTI_OVERRIDE(Unk_710249c7b0, ksys::res::EntryFactoryBase)
-public:
-    ~Unk_710249c7b0() override;
-};
-
-// vtable 0x710249c810 (10 slots); placeholder generated from the vtable (genskel.py).
-class Unk_710249c810 : public ksys::res::EntryFactoryBase {
-    SEAD_RTTI_OVERRIDE(Unk_710249c810, ksys::res::EntryFactoryBase)
-public:
-    ~Unk_710249c810() override;
-};
-
 // vtable 0x710249ce90 (127 slots); placeholder generated from the vtable (genskel.py).
 // checkDerivedRuntimeTypeInfo does not match yet: the original calls checkDerivedRuntimeTypeInfoStatic out of
 // line, so its parent chain is deeper than the one declared here.
@@ -2210,13 +2182,6 @@ public:
     virtual void m40() {}
     virtual void m41();
     virtual void m42();
-};
-
-// vtable 0x71024f51c0 (10 slots); placeholder generated from the vtable (genskel.py).
-class Unk_71024f51c0 : public ksys::res::EntryFactoryBase {
-    SEAD_RTTI_OVERRIDE(Unk_71024f51c0, ksys::res::EntryFactoryBase)
-public:
-    ~Unk_71024f51c0() override;
 };
 
 // vtable 0x71024f6f70 (10 slots); placeholder generated from the vtable (genskel.py).
