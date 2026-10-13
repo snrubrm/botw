@@ -163,6 +163,9 @@ public:
     Unk_71024e6428* sub_7100E37FA8(int idx);
     // 0x7100e39614 (lane1 s41, placeholder name): Chemical::sub_7100D91098(on) on every chemical.
     void sub_7100E39614(bool on);
+    // Full E38588 stores the value at +68 and propagates it to every active Chemical.
+    // GolemRoot 4003E4 and independent E37B10 pass existing u32 chemical state fields.
+    void sub_7100E38588(u32 value);
     // 0x7100e37788: same as getStuff (a separate copy in the binary; Actor::sub_71011D8A44).
     Chemical* sub_7100E37788(int idx);
     // 0x7100e380fc / 0x7100e3816c (placeholder names; two identical copies): the Chemical of entry `idx` of _70

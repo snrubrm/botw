@@ -21,6 +21,12 @@
 #include "Game/AI/aiUnk_71007377D4.h"
 #include "KingSystem/Terrain/teraSystem.h"
 #include "KingSystem/World/worldManager.h"
+#include "KingSystem/ActorSystem/actActorChemicals.h"
+#include "KingSystem/ActorSystem/actActorCreator.h"
+#include "KingSystem/ActorSystem/actActorHeapUtil.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/Resource/Actor/resResourceGParamList.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectGolem.h"
 
 // 5E0904 tests actor contact height against its float argument.
 bool sub_71005E0904(ksys::act::Actor* actor, f32 height);
@@ -137,6 +143,43 @@ void GolemRoot::calc_() {
         if (accessor.hasProc())
             _388.sub_710070DBB0(*accessor.getMessageTransceiverId(), true);
     }
+}
+
+// NON_MATCHING: the binding helper inlines here; stack/register allocation and return branches differ.
+bool GolemRoot::sub_71004003E4(sead::Heap* heap) {
+    auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
+    if (!enemy)
+        return true;
+
+    sead::Vector3f position = enemy->getMtx().getTranslation();
+    position.y += 1.0f;
+    const sead::SafeString part_name = "WeakPoint";
+    const sead::SafeString* actor_name = &mGolemWeakPointActor_m;
+    if (mGolemWeakPointActor_m.isEmpty())
+        actor_name = &mActor->getParam()->getRes().mGParamList->getGolem()->mDefaultWeakPointActor.ref();
+    if (actor_name->isEmpty())
+        return true;
+
+    ksys::act::InstParamPack pack;
+    pack->addPosition(position);
+    ksys::act::ActorCreator::setCreatePriorityState1(pack, mActor);
+    pack->addNoDisplay();
+    auto* actor = ksys::act::ActorCreator::instance()->createActor(
+        actor_name->cstr(), ksys::act::ActorHeapUtil::instance()->getBaseProcHeap(), &pack, false,
+        false);
+    if (!actor)
+        return false;
+
+    sub_7100400C40(actor, mGolemWeakPointLocation_m);
+    actor->setDeleteDistance(sead::Mathf::infinity());
+    sub_7100738C88(actor, mActor);
+    if (auto* chemical = actor->getChemicalContainer()) {
+        if (auto* parent_chemical = mActor->getChemicalContainer())
+            chemical->sub_7100E38588(parent_chemical->_68);
+    }
+    enemy->sub_7100D3CED8(part_name, heap);
+    enemy->sub_7100D3D108(part_name, actor);
+    return true;
 }
 
 void GolemRoot::sub_7100400C40(ksys::act::Actor* actor, const sead::SafeString& bone) {
