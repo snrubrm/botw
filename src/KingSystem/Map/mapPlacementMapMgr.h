@@ -55,6 +55,7 @@ public:
     void postPlaceActorsRouteStuff(void* tera_system);
     // 0x7100d46ef8 (CSV updateHkscLoadStatusesMaybe)
     void updateHkscLoadStatusesMaybe();
+    void unloadMapsThatAreTooFar();
 
 private:
     friend class res::CompactionMgr;

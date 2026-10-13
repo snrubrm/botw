@@ -52,6 +52,16 @@ void PlacementMapMgr::updateHkscLoadStatusesMaybe() {
     }
 }
 
+void PlacementMapMgr::unloadMapsThatAreTooFar() {
+    for (s32 i = 0; i < mMapArray.mMaps.size(); ++i) {
+        auto* map = mMapArray.mMaps.at(i);
+        if (map->mDistanceToCurrentMapUnit >= 2 && map->mDynamicGroupIdx >= 0) {
+            map->unload();
+            map->mInitStatus = PlacementMap::InitStatus::StaticLoaded;
+        }
+    }
+}
+
 void PlacementMapMgr::postPlaceActorsRouteStuff(void* tera_system) {
     for (s32 i = 0; i < mMaps.size(); ++i) {
         auto& map = mMaps[i];
