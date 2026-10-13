@@ -2,6 +2,7 @@
 
 #include <container/seadSafeArray.h>
 #include <math/seadVector.h>
+#include <prim/seadSafeString.h>
 #include "KingSystem/ActorSystem/actBaseProc.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 
@@ -40,6 +41,14 @@ public:
     virtual void m3();
 
     WeaponBase* getEquippedWeapon(int idx) const;
+    // EFCFE4 writes the name and byte +0x38; Weapon::m73 constructs this output and tests the byte.
+    struct Unk_7100EFCFE4 {
+        sead::FixedSafeString<32> name;
+        bool found = false;
+    };
+    KSYS_CHECK_SIZE_NX150(Unk_7100EFCFE4, 0x40);
+    // Declaration only. The integer weapon slot is forwarded unchanged by Weapon::m73.
+    void forestGiantStuff(Unk_7100EFCFE4* out, s32 weapon_slot, s32 as_slot);
     void resetBaseProcLinkForActor(BaseProc* proc);
     void sleep(BaseProc::SleepWakeReason reason);
     void wakeUp(BaseProc::SleepWakeReason reason);
