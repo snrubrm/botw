@@ -141,3 +141,22 @@ struct alignas(16) hkpLinLimitConstraintAtom : hkpConstraintAtom {
 static_assert(sizeof(hkpLinLimitConstraintAtom) == 0x10);
 static_assert(offsetof(hkpLinLimitConstraintAtom, m_min) == 4);
 static_assert(offsetof(hkpLinLimitConstraintAtom, m_max) == 8);
+
+// Full native atom reflection 17BD944 names these complete 0x10-byte
+// records. Prismatic construction 15F5E74 independently sets their fields.
+struct alignas(16) hkpLinFrictionConstraintAtom : hkpConstraintAtom {
+    hkUint8 m_isEnabled;
+    hkUint8 m_frictionAxis;
+    hkReal m_maxFrictionForce;
+    hkUint8 m_padding[8];
+};
+static_assert(sizeof(hkpLinFrictionConstraintAtom) == 0x10);
+static_assert(offsetof(hkpLinFrictionConstraintAtom, m_maxFrictionForce) == 4);
+
+struct alignas(16) hkpAngConstraintAtom : hkpConstraintAtom {
+    hkUint8 m_constrainedAxes[3];
+    hkUint8 m_numConstrainedAxes;
+    hkUint8 m_padding[10];
+};
+static_assert(sizeof(hkpAngConstraintAtom) == 0x10);
+static_assert(offsetof(hkpAngConstraintAtom, m_constrainedAxes) == 2);
