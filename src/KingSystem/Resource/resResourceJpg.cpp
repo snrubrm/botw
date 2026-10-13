@@ -3,6 +3,7 @@
 #include <common/aglTextureFormatInfo.h>
 #include <mc/seadCoreInfo.h>
 #include <g3d/aglNW4FToNN.h>
+#include <g3d/aglTextureDataInitializerG3D.h>
 #include <nn/g3d/ResFile.h>
 #include "Game/gameUnkRttiPlaceholders.h"
 #include "Game/UI/euiTypes.h"
@@ -136,6 +137,22 @@ Unk_710247ed28::~Unk_710247ed28() = default;
 Unk_710247edc8::~Unk_710247edc8() = default;
 
 Unk_710247ed28::Unk_710247ed28() = default;
+
+// NON_MATCHING: the pool query is inlined here; the native creation body retains its call.
+void Unk_710247ed28::doCreate_(u8* data, u32, sead::Heap*) {
+    _50 = nn::g3d::ResFile::ResCast(data);
+    auto* texture = uking::ui::Manager::instance()->_64b40.sub_71009CEA5C();
+    agl::g3d::TextureDataInitializerG3D::initialize(texture, data, 0);
+    if (u8(agl::TextureFormatInfo::sub_7100B3B814(texture->getFormat())) == 1) {
+        texture->setCompSel(agl::TextureCompSel::cTextureCompSel_One,
+                            agl::TextureCompSel::cTextureCompSel_One,
+                            agl::TextureCompSel::cTextureCompSel_One,
+                            agl::TextureCompSel::cTextureCompSel_Red);
+        texture->updateNVNtexture();
+    }
+    eui::SetupTextureInfoByAglTextureData(&_38, *texture, nullptr);
+    _58 = true;
+}
 
 s32 Unk_710247ed28::getLoadDataAlignment() const {
     return cLoadDataAlignment;
