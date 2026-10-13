@@ -309,6 +309,7 @@ public:
     f32 getBombReloadTime();
     // 0x8494c8: `_d00 = _cfc; _cfc = 0; _d04 = zero`.
     void sub_71008494C8();
+    bool sub_710084CD90();
     // RuneMgr flag reads (0x84cdd4: _90 bit 4, 0x84cdec: _94 bit 2, 0x84ce04: _94 bit 0).
     bool sub_710084CDD4();
     bool sub_710084CDEC();

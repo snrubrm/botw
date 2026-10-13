@@ -1452,6 +1452,13 @@ void PlayerBase::sub_71008494C8() {
     _d04.set(0.0f, 0.0f, 0.0f);
 }
 
+bool PlayerBase::sub_710084CD90() {
+    if (!_cf0.isOnBit(23))
+        return false;
+    auto* target = getAttachedTargetActor()->_b8;
+    return target && (target->_74 & 1);
+}
+
 bool PlayerBase::sub_710084CDD4() {
     return (uking::RuneMgr::instance()->_90 & 0x10) != 0;
 }
