@@ -1,5 +1,6 @@
 #include "Game/AI/aiUnk_7102433970.h"
 #include <random/seadGlobalRandom.h>
+#include <math/seadMathCalcCommon.h>
 #include <utility>
 
 Unk_7100743798::Unk_7100743798()
@@ -24,6 +25,28 @@ bool Unk_7100743798::sub_7100743814(ksys::act::Actor* actor) {
     for (s8 i = 0; i < mPermutations[6].mCount; ++i)
         mPermutations[6].mValues[i] = i;
     return true;
+}
+
+// NON_MATCHING: Boolean mode selection and timer store scheduling differ.
+void Unk_7100743798::sub_7100743A40() {
+    _8.sub_7100721C48();
+    if (!(_e0.value <= sead::Mathf::epsilon()))
+        _e0.update();
+    if (_0 == -1 || !(_e0.value <= sead::Mathf::epsilon()) || !_8._c9)
+        return;
+    bool skip = _13c >= 4 && (_0 == 6 || _0 == 1);
+    if (_140)
+        skip |= _0 == 1;
+    if (_141 || (_0 != 0 && _0 != 1 && _0 != 3)) {
+        if (!skip) {
+            sead::FixedSafeString<64> label;
+            sub_7100743BD4(_0, &label);
+            _8.set(5.0f, label);
+            const f32 time = _0 == 6 ? 100.0f : _0 == 1 ? 90.0f : 60.0f;
+            _e0.reset(time);
+        }
+    }
+    _0 = -1;
 }
 
 // NON_MATCHING: The original has a separate inlined shuffle in each mode case; this common
