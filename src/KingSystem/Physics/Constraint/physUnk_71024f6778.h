@@ -22,6 +22,8 @@ public:
     bool sub_7100F718B8(const Param& param);
     static void sub_7100F719B4(Unk_71024f6778* object);
     void sub_7100F71A10();
+    void sub_7100F71A18(f32 offset, bool valid, const sead::Vector3f* direction, bool smooth,
+                      bool immediate);
 
 private:
     Unk_71024f6778() = default;

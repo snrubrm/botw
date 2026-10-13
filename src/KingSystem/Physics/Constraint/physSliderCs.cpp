@@ -162,6 +162,44 @@ void Unk_71024f6778::sub_7100F71A10() {
     _50 = 0.0f;
 }
 
+// NON_MATCHING: scalar minimum selection and translation arithmetic differ.
+void Unk_71024f6778::sub_7100F71A18(f32 offset, bool valid, const sead::Vector3f* direction,
+                                  bool smooth, bool immediate) {
+    f32 value = 0.0f;
+    if (direction && (valid || immediate)) {
+        if (direction->y < -_5c) {
+            value = -_58 * sead::Mathf::min((sead::Mathf::abs(direction->y) - _5c) / (_58 - _5c),
+                                          1.0f);
+        } else if (direction->y > 0.0f) {
+            value = sead::Mathf::clampMax(direction->y, _58);
+        }
+    }
+
+    f32 factor = _54;
+    if (immediate) {
+        _50 = value;
+        factor = 1.0f;
+    } else {
+        f32 delta = value - _50;
+        if (smooth) {
+            if (sead::Mathf::abs(delta) > _58 * 0.02f &&
+                sead::Mathf::abs(delta * 0.25f) > _58 * 0.02f) {
+                delta = sead::Mathf::clampMin(delta * 0.25f, -_58 * 0.1f);
+            }
+            _50 += delta;
+        } else {
+            _50 += sead::Mathf::clampMin(delta * 0.25f, -_58 * 0.1f);
+        }
+    }
+
+    sead::Matrix34f matrix;
+    sead::Vector3f scale;
+    mModel->getUnits().unsafeAt(mKey.getKey().model_unit_index)->mModelUnit->getBoneLocalMatrix(
+        &matrix, &scale, mKey.getKey().bone_index);
+    matrix.setTranslation(matrix.getTranslation() + sead::Vector3f(0.0f, _50 * factor, offset));
+    mModel->setBoneLocalMatrix(mKey.getKey(), matrix, scale);
+}
+
 u32 sub_7100F70FB4(bool breakable, bool extra) {
     return sub_7100F6ACF4(breakable) + (extra ? 0x290 : 0x260);
 }
