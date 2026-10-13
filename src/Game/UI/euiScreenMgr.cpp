@@ -8,8 +8,8 @@
 
 namespace eui {
 
-// NON_MATCHING: final byte flags and null-pointer initialization store order differs.
-SEAD_CREATE_SINGLETON_INSTANCE(ScreenMgr)
+// NON_MATCHING: createInstance final byte flags and null-pointer initialization store order differs.
+SEAD_SINGLETON_DISPOSER_IMPL(ScreenMgr)
 
 ScreenMgr::ScreenMgr()
     : mTargetMgr(nullptr), mArcResourceMgr(nullptr), mBoxCursorMgr(nullptr), mAnimationStep(1.0f),
