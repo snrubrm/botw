@@ -18,6 +18,7 @@ add_library(aal OBJECT
   include/aal/aalAttenuationMgr.h
   include/aal/aalAttenuator.h
   include/aal/aalCurve.h
+  include/aal/aalCurve3DDraw.h
   include/aal/aalAttenuationXml.h
   include/aal/aalCurveXml.h
   include/aal/aalCustomCurve.h
@@ -113,6 +114,7 @@ add_library(aal OBJECT
   src/aalDebuggerResult.cpp
   src/aalDecibel.cpp
   src/aalCustomCurve.cpp
+  src/aalCurve3DDraw.cpp
   src/aalCustomCurveXml.cpp
   src/aalCurveXml.cpp
   src/aalUnitDistanceCurve.cpp
