@@ -861,6 +861,8 @@ protected:
     friend class uking::action::KokkoCreateDrop;  // checks ActorX6A0 flags
     friend class uking::ai::KokkoRoot;  // checks ActorX6A0 flags
     friend class uking::ai::GerudoQueenBattle;  // updates mMtx before notifying the actor.
+    friend class uking::action::DragonFixPlacement;  // F3AB8 writes translation before setMtx.
+    friend class uking::action::BrightBowSlowFall;  // D2674 copies the initial world matrix.
     friend class uking::action::ChemicalAttack;  // lerps mScale.x in place
     friend class uking::action::IgnitedThrown;  // writes mScale directly (enter_)
 
