@@ -62,6 +62,15 @@ f32 Unk_7102459708::sub_7100791E44(f32 t) const {
 
 namespace uking::act {
 
+void Camera::sub_7100795E08(const Unk_71009214b8& src, Unk_71009214b8* dst) {
+    *dst = src;
+    if (_860._1cc != 0)
+        sub_7100799770(src, dst);
+    else
+        sub_710079984C(src, dst);
+    dst->_24 = sub_7100924D50(src._24 + _860._1c4);
+}
+
 bool Camera::sub_7100792360(void*) {
     sub_7100793924();
     sub_7100793BD8();
