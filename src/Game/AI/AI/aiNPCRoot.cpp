@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiNPCRoot.h"
+#include "Game/AI/aiUnk_7102357210.h"
 #include <prim/seadSafeString.h>
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
@@ -19,10 +20,6 @@
 
 // Declaration only; the original source namespace of this actor cleanup helper is unknown.
 void sub_71007132E4(ksys::act::Actor* actor);
-
-// Declaration only: full native 40A3BC copies NPCBase event strings; independent Goron caller 406E90.
-void sub_710040A3BC(uking::act::NPCBase* actor, sead::BufferedSafeString* event,
-                    sead::BufferedSafeString* entry, sead::BufferedSafeString* type);
 
 namespace uking::ai {
 
