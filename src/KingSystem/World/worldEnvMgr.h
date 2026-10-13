@@ -8,12 +8,17 @@
 #include "KingSystem/Utils/Types.h"
 #include "KingSystem/World/worldJob.h"
 
+namespace uking::ai {
+class ChangeWeatherTagRoot;
+}
+
 namespace ksys::world {
 
 enum class Climate;
 
 // TODO
 class EnvMgr : public Job {
+    friend class uking::ai::ChangeWeatherTagRoot;
     SEAD_RTTI_OVERRIDE(EnvMgr, Job)
 public:
     struct EnvPaletteStatic {

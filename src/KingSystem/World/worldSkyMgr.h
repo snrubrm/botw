@@ -7,10 +7,15 @@
 #include "KingSystem/Utils/Types.h"
 #include "KingSystem/World/worldJob.h"
 
+namespace uking::ai {
+class ChangeWeatherTagRoot;
+}
+
 namespace ksys::world {
 
 // TODO
 class SkyMgr : public Job {
+    friend class uking::ai::ChangeWeatherTagRoot;
     SEAD_RTTI_OVERRIDE(SkyMgr, Job)
 public:
     struct PrCloud {

@@ -29,6 +29,10 @@ class Resource;
 class WorkerMgr;
 }
 
+namespace uking::ai {
+class ChangeWeatherTagRoot;
+}
+
 namespace ksys::world {
 
 struct ClimateInfo {
@@ -250,6 +254,7 @@ public:
     act::Unk_71024dd490* getChemicalMgrFieldAE8() const;
 
 private:
+    friend class uking::ai::ChangeWeatherTagRoot;
     friend class SkyMgr;  // SkyMgr::sub_71010E4FFC reads mTimer directly (0x71010e5068).
     friend class WindMgr;  // Wind speed selectors read the existing manual wind timer directly.
     friend class TempMgr;
