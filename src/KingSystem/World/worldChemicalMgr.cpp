@@ -73,6 +73,33 @@ void WorldMgrStruct0_8_a::sub_71010C9210(sead::Heap* heap, ksys::world::Chemical
         entry.sub_71010C8748(heap, mgr);
 }
 
+void WorldMgrStruct0_8_a::sub_71010C9B48() {
+    sead::ScopedLock<sead::CriticalSection> lock(&_8._0);
+    for (auto& entry : _8._60) {
+        if (entry._8 == 2 || entry._8 == 3) {
+            entry._10.sub_7100E37788(0)->sub_7100D8EA9C();
+            entry._b8->removeFromWorldImmediately(nullptr);
+            entry._10.sub_7100E37788(0)->sub_7100D8EEE0();
+            entry._8 = 1;
+        }
+    }
+    for (auto& entry : _8._70) {
+        if (entry._8 == 2 || entry._8 == 3) {
+            entry._10.sub_7100E37788(0)->sub_7100D8EA9C();
+            entry._b8->removeFromWorldImmediately(nullptr);
+            entry._10.sub_7100E37788(0)->sub_7100D8EEE0();
+            entry._8 = 1;
+        }
+    }
+    sead::ScopedLock<sead::CriticalSection> pool_lock(&_8._0);
+    for (auto& entry : _8._70)
+        _8._50.pushBack(&entry);
+    _8._70.clear();
+    for (auto& entry : _8._60)
+        _8._50.pushBack(&entry);
+    _8._60.clear();
+}
+
 Unk_710250c530::Unk_710250c530() = default;
 
 Unk_710250c530::~Unk_710250c530() {
