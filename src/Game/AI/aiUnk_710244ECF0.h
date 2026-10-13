@@ -18,6 +18,8 @@ public:
     ~Unk_710244ecf0() override = default;
 
     bool m4(ksys::act::BaseProc* proc) override;
+    // Native 6E80F0 is the explicit false query in ActorBind slot 5.
+    bool m5(ksys::act::BaseProc* proc) override;
 
     /* 0x28 */ sead::Matrix34f _28 = sead::Matrix34f::ident;
     /* 0x58 */ ksys::act::BaseProcLink _58;
