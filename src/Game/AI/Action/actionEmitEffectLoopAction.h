@@ -58,8 +58,7 @@ protected:
     // dynamic_param at offset 0xc8
     bool* mCutChangeReset_d{};
     xlink2::HandleELink _d0;
-    void* _e0{};
-    int _e8 = 0;
+    xlink2::HandleELink _e0;
 };
 
 }  // namespace uking::action

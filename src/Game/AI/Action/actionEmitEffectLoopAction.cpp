@@ -1,5 +1,6 @@
 #include "Game/AI/Action/actionEmitEffectLoopAction.h"
 #include "Game/AI/aiXlinkHandle.h"
+#include "KingSystem/Effect/eftEffect.h"
 
 namespace uking::action {
 
@@ -41,8 +42,16 @@ void EmitEffectLoopAction::loadParams_() {
     getDynamicParam(&mCutChangeReset_d, "CutChangeReset");
 }
 
+// NON_MATCHING: saved-handle addressing and create-id load scheduling differ.
 void EmitEffectLoopAction::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (*mCutChangeReset_d && ksys::eft::Effect::instance()->get193e0() == 2) {
+        _e0 = _d0;
+        doStuff();
+        if (ksys::eft::Effect::instance()->get193e0() == 2) {
+            _e0.kill();
+            _e0.reset();
+        }
+    }
 }
 
 }  // namespace uking::action
