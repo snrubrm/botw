@@ -39,6 +39,28 @@ u32 Unk_71025168a0::getNumBone() const {
     return mXLink && mXLink->mModel ? mXLink->mModel->getTotalBoneNum() : 0;
 }
 
+// NON_MATCHING: the flattened bone-index comparison and saved registers differ.
+const char* Unk_71025168a0::getBoneName(s32 index) const {
+    if (!mXLink)
+        return "";
+    auto* model = mXLink->mModel;
+    if (!model)
+        return "";
+    s32 offset = 0;
+    for (s32 i = 0; i < model->getUnits().size(); ++i) {
+        auto* unit = model->getUnits().unsafeAt(i)->mModelUnit;
+        s32 bone = 0;
+        for (; bone < unit->getBoneNum(); ++bone) {
+            if (bone == index - offset) {
+                const auto name = unit->getBoneName(bone);
+                return name.cstr();
+            }
+        }
+        offset += bone;
+    }
+    return "";
+}
+
 sead::Matrix34f* Unk_71025168a0::getBoneWorldMtxPtr(const char* name) const {
     if (!mXLink || !mXLink->mModel)
         return nullptr;
