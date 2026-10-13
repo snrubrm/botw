@@ -1023,6 +1023,11 @@ f32 Unk_71024741b8::sub_71009234D8(f32 value, int iterations) const {
 
 }  // namespace uking::act
 
+bool sub_7100926154(ksys::act::BaseProc* proc, sead::Vector3f* out) {
+    ksys::act::ActorConstDataAccess accessor(proc);
+    return sub_7100926210(accessor, out);
+}
+
 bool sub_7100926210(const ksys::act::ActorConstDataAccess& accessor, sead::Vector3f* out) {
     const sead::Vector3f* pos;
     if (accessor.isPlayerProfile()) {
