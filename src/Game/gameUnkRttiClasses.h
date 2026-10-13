@@ -207,39 +207,6 @@ public:
     virtual void m5() {}
 };
 
-// vtable 0x71023d0d70 (11 slots)
-class Unk_71023d0d70 {
-    SEAD_RTTI_BASE(Unk_71023d0d70)
-public:
-    virtual ~Unk_71023d0d70();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-};
-
-// vtable 0x71023d0d08 (11 slots)
-class Unk_71023d0d08 : public Unk_71023d0d70 {
-    SEAD_RTTI_OVERRIDE(Unk_71023d0d08, Unk_71023d0d70)
-public:
-    ~Unk_71023d0d08() override;
-};
-
-// vtable 0x71023d0e08 (11 slots)
-class Unk_71023d0e08 : public Unk_71023d0d70 {
-    SEAD_RTTI_OVERRIDE(Unk_71023d0e08, Unk_71023d0d70)
-public:
-    ~Unk_71023d0e08() override;
-    void m4() override;
-    void m6() override;
-    void m7() override;
-    void m8() override;
-    void m10() override;
-};
-
 // vtable 0x7102457a80 (6 slots)
 class Unk_7102457a80 {
     SEAD_RTTI_BASE(Unk_7102457a80)

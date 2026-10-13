@@ -79,24 +79,6 @@ Unk_7102518b60::~Unk_7102518b60() {
 
 Unk_710251b678::~Unk_710251b678() = default;
 
-// The body keeps the vtable store of the original, as in upstream's GameDataFlagSelector::~GameDataFlagSelector() { ; }
-// (commit 96101229).
-Unk_71023d0d70::~Unk_71023d0d70() {
-    ;
-}
-
-// The body keeps the vtable store of the original, as in upstream's GameDataFlagSelector::~GameDataFlagSelector() { ; }
-// (commit 96101229).
-Unk_71023d0d08::~Unk_71023d0d08() {
-    ;
-}
-
-// The body keeps the vtable store of the original, as in upstream's GameDataFlagSelector::~GameDataFlagSelector() { ; }
-// (commit 96101229).
-Unk_71023d0e08::~Unk_71023d0e08() {
-    ;
-}
-
 Unk_7102457a80::~Unk_7102457a80() = default;
 
 Unk_7102457ac0::~Unk_7102457ac0() = default;

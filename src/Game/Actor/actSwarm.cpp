@@ -279,3 +279,47 @@ void Swarm::sub_71002D484C(Unit* unit) {
 }
 
 }  // namespace uking::act
+
+// The body keeps the vtable store of the original, as in upstream's GameDataFlagSelector::~GameDataFlagSelector() { ; }
+// (commit 96101229).
+uking::act::Swarm::Unit::~Unit() {
+    ;
+}
+
+// The body keeps the vtable store of the original, as in upstream's GameDataFlagSelector::~GameDataFlagSelector() { ; }
+// (commit 96101229).
+Unk_71023d0d08::~Unk_71023d0d08() {
+    ;
+}
+
+// The body keeps the vtable store of the original, as in upstream's GameDataFlagSelector::~GameDataFlagSelector() { ; }
+// (commit 96101229).
+Unk_71023d0e08::~Unk_71023d0e08() {
+    ;
+}
+
+// NON_MATCHING: vector addition changes register allocation and load scheduling.
+void uking::act::Swarm::Unit::m8() {
+    _38.updateStats();
+    _8.setTranslation(_38.mean + _8.getTranslation());
+}
+
+// NON_MATCHING: the owner notification is inlined.
+void uking::act::Swarm::Unit::m10() {
+    _b0->sub_71002D484C(this);
+}
+
+// NON_MATCHING: the base update is inlined.
+void Unk_71023d0e08::m8() {
+    uking::act::Swarm::Unit::m8();
+}
+
+Unk_71023d0d08::Unk_71023d0d08() = default;
+
+Unk_71023d0e08::Unk_71023d0e08()
+    : _e0(30.0f), _e4(0.0f), _e8(0.0f), _ec(1.0f), _f0(0.0f), _f4(0) {}
+
+bool uking::act::Swarm::Unit::m4(Swarm* owner, sead::Heap* heap) {
+    _b0 = owner;
+    return sub_71002D9588(heap);
+}

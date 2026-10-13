@@ -3,6 +3,7 @@
 #include <container/seadBuffer.h>
 #include <math/seadVector.h>
 #include "Game/Actor/actEnemy.h"
+#include "KingSystem/System/Timer.h"
 #include "KingSystem/System/VFRValue.h"
 
 namespace ksys::phys {
@@ -28,18 +29,18 @@ class Swarm : public Enemy {
 public:
     // One member of the swarm (placeholder; the AI patterns write _60 / _68).
     struct Unit {
-        // Virtual slots 0-8 (the destructors and RTTI first; names unknown, declared only) up to slot 9 (0x48), called by
-        // Swarm::startPreparingForPreDelete_ (lane4 s50).
-        virtual void m0();
-        virtual void m1();
-        virtual void m2();
-        virtual void m3();
-        virtual void m4();
+        SEAD_RTTI_BASE(Unit)
+    public:
+        Unit();
+        virtual ~Unit();
+        virtual bool m4(Swarm* owner, sead::Heap* heap);
+        bool sub_71002D9588(sead::Heap* heap);
         virtual void m5();
         virtual void m6();
         virtual void m7();
         virtual void m8();
         virtual bool m9();
+        virtual void m10();
 
         /* 0x08 */ sead::Matrix34f _8;  // unit pose (SwarmFlyAttack reads the translation)
         // 2D9344 constructs VFRVec3f here; C37D4 writes value/prev_value, 729FAC reads mean.
@@ -51,7 +52,8 @@ public:
         u8 _80[0xb0 - 0x80];
         /* 0xb0 */ Swarm* _b0;  // the owner (Swarm::sub_71002D484C)
         /* 0xb8 */ u16 _b8;  // state flags (bit 1: active; bits 1-3 are rewritten by the two functions below)
-        /* 0xbc */ s32 _bc;
+        /* 0xbc */ f32 _bc;  // model opacity, initialized to 1 by the unit constructor
+        u8 _c0[0xd4 - 0xc0];
 
         // 0x71002daa98 (SwarmPatternMovingSphere::m8): unless bit 1 is set, replaces bits 2 / 3 with 8.
         void sub_71002DAA98();
@@ -69,6 +71,8 @@ public:
         // sub_710072A778.
         bool sub_71002DA3A0(f32 frame, const sead::SafeString& name);
     };
+
+    KSYS_CHECK_SIZE_NX150(Unit, 0xd8);
 
     // The "Tgt" rigid body of a swarm unit (0x28 bytes; placeholder; SetThroughArrow reads _20).
     struct UnitBody {
@@ -160,3 +164,34 @@ public:
 KSYS_CHECK_SIZE_NX150(Swarm, 0x1640);
 
 }  // namespace uking::act
+
+// The two unit variants allocated by Swarm::prepareInit_.
+class Unk_71023d0d08 : public uking::act::Swarm::Unit {
+    SEAD_RTTI_OVERRIDE(Unk_71023d0d08, uking::act::Swarm::Unit)
+public:
+    Unk_71023d0d08();
+    ~Unk_71023d0d08() override;
+};
+KSYS_CHECK_SIZE_NX150(Unk_71023d0d08, 0xd8);
+
+class Unk_71023d0e08 : public uking::act::Swarm::Unit {
+    SEAD_RTTI_OVERRIDE(Unk_71023d0e08, uking::act::Swarm::Unit)
+public:
+    Unk_71023d0e08();
+    ~Unk_71023d0e08() override;
+    bool m4(uking::act::Swarm* owner, sead::Heap* heap) override;
+    void m6() override;
+    void m7() override;
+    void m8() override;
+    void m10() override;
+
+    // The timer reuses the base's four bytes of tail padding.
+    /* 0xd4 */ ksys::Timer _d4;
+    /* 0xe0 */ f32 _e0;
+    /* 0xe4 */ f32 _e4;
+    /* 0xe8 */ f32 _e8;
+    /* 0xec */ f32 _ec;
+    /* 0xf0 */ f32 _f0;
+    /* 0xf4 */ s32 _f4;
+};
+KSYS_CHECK_SIZE_NX150(Unk_71023d0e08, 0xf8);
