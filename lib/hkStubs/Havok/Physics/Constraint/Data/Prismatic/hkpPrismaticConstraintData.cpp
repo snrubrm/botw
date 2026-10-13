@@ -8,6 +8,10 @@ void hkpPrismaticConstraintData::getConstraintInfo(ConstraintInfo& infoOut) cons
     getConstraintInfoUtil(&m_atoms.m_transforms, sizeof(m_atoms), infoOut);
 }
 
+void hkpPrismaticConstraintData::getRuntimeInfo(hkBool wantRuntime, RuntimeInfo& infoOut) const {
+    infoOut = {0x58, 10};
+}
+
 void hkpPrismaticConstraintData::setInBodySpace(
     const hkVector4& pivotA, const hkVector4& pivotB, const hkVector4& axisA,
     const hkVector4& axisB, const hkVector4& perpendicularA, const hkVector4& perpendicularB) {

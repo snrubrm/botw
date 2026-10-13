@@ -12,6 +12,9 @@ public:
     ConstraintType getType() const override;
     void getConstraintInfo(ConstraintInfo& infoOut) const override;
     hkBool isValid() const override;
+    // Native bool/output pair, independently dispatched by Breakable constructor
+    // 1618DC0. This does not repair the unresolved base runtime slot order.
+    void getRuntimeInfo(hkBool wantRuntime, RuntimeInfo& infoOut) const override;
 
     // Full native 15F632C and independent SliderCs factory F70D60 pass
     // both pivots, both axes and both perpendicular axes by reference.
@@ -22,8 +25,7 @@ public:
     // forwarding it through SliderCs F7104C to native 15F5F54.
     void setAllowRotation(bool allowRotation);
 
-    // The unresolved base runtime virtual domain is unchanged. Only the
-    // established low slots and reflected data are declared here.
+    // The unresolved base runtime virtual domain is unchanged.
     struct Atoms {
         hkpSetLocalTransformsConstraintAtom m_transforms;
         // Reflected motor +90 and lin0/lin1 +D0/+E0 stay opaque.
