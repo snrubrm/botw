@@ -29,6 +29,7 @@
 #include "KingSystem/Physics/System/physInstanceSet.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
 #include "KingSystem/Physics/System/physRayCastBodyQuery.h"
+#include "KingSystem/Physics/System/physRayCastForRequest.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actInfoData.h"
 #include "KingSystem/ActorSystem/actActorCreator.h"
@@ -86,6 +87,17 @@ bool sub_710073CD5C(const char* name, sead::Heap* heap) {
         return true;
     }
     return false;
+}
+
+bool sub_710072EC24(ksys::phys::RayCastForRequest* cast, const sead::Vector3f& start,
+                    const sead::Vector3f& end, ksys::phys::RayCast::NormalCheckingMode mode, f32) {
+    if (cast->isRequestQueued())
+        return false;
+    cast->setStartAndEnd(start, end);
+    ksys::act::sub_7100EEACE8(cast);
+    cast->setNormalCheckingMode(mode);
+    cast->submitRequest(ksys::phys::ContactLayerType::Entity);
+    return true;
 }
 
 void sub_7100737708(ksys::phys::CharacterController* controller, f32 value) {

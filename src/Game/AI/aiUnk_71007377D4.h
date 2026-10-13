@@ -30,6 +30,7 @@ namespace ksys::phys {
 class CharacterController;
 class MaterialMask;
 class NavMeshCharacter;
+class RayCastForRequest;
 class RigidBody;
 class SystemGroupHandler;
 }  // namespace ksys::phys
@@ -50,6 +51,10 @@ void sub_7100734228(ksys::act::Actor* actor);
 bool sub_710073DB94(const char* name, ksys::act::BaseProcHandle* handle,
                     ksys::act::InstParamPack* params, sead::Heap* heap);
 bool sub_710073CD5C(const char* name, sead::Heap* heap);
+// SiteBossApproachRoot and ChaseSound supply the unused float and normal-checking mode.
+bool sub_710072EC24(ksys::phys::RayCastForRequest* cast, const sead::Vector3f& start,
+                    const sead::Vector3f& end, ksys::phys::RayCast::NormalCheckingMode mode,
+                    f32 unused);
 
 // 0x7100737708-0x710073771c: forwarders to the ksys::act per-frame velocity setters
 // (actActorUtil.h, 0x7100ee60a0-0x7100ee62b0). Defined in aiUnk_71007377D4.cpp.
