@@ -3,6 +3,8 @@
 #include <math/seadMathCalcCommon.h>
 #include "Game/Actor/actSwarm.h"
 #include "Game/AI/aiUnk_71007368A4.h"
+#include "Game/AI/aiUnk_710073fa90.h"
+#include "KingSystem/Utils/MathUtil.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
 #include "KingSystem/Resource/Actor/resResourceDamageParam.h"
@@ -101,4 +103,32 @@ void swarmDropTableStuff(ksys::act::Actor* actor) {
     if (!drop || drop->findTableIndex(table) == -1)
         return;
     root->getMapUnitParams().setString(table, "DropTable");
+}
+
+void sub_710072A514(uking::act::Swarm* swarm, const sead::Vector3f& front,
+                        const sead::Vector3f& up) {
+    sead::Matrix34f transform;
+    ksys::util::sub_71011F00EC(&transform, front, up, sead::Vector3f::zero, true);
+    for (s32 i = 0, count = swarm->_14c8.size(); i < count; ++i) {
+        if (auto* unit = swarm->_14c8[i]) {
+            sead::Matrix33f rotation;
+            sub_7100741118(&rotation, unit->_8);
+            sub_710074191C(&rotation, front, up, true, sead::Mathf::deg2rad(30.0f));
+            unit->sub_71002D93E8(rotation);
+        }
+    }
+}
+
+void sub_710072A5F8(uking::act::Swarm* swarm, const sead::Vector3f& front,
+                        const sead::Vector3f& up) {
+    sead::Matrix34f transform;
+    ksys::util::sub_71011F0260(&transform, front, up, sead::Vector3f::zero, false);
+    for (s32 i = 0, count = swarm->_14c8.size(); i < count; ++i) {
+        if (auto* unit = swarm->_14c8[i]) {
+            sead::Matrix33f rotation;
+            sub_7100741118(&rotation, unit->_8);
+            sub_710074191C(&rotation, front, up, false, sead::Mathf::deg2rad(30.0f));
+            unit->sub_71002D93E8(rotation);
+        }
+    }
 }

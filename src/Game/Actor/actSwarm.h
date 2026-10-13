@@ -57,6 +57,8 @@ public:
         void sub_71002DAA58(f32 opacity);
         // 0x71002daa78 (SwarmPatternMovingSphere::m9): if bit 1 is set, replaces bits 1-3 with 4 and clears _bc.
         void sub_71002DAA78();
+        // Full 2D93E8 copies a Matrix33 into the pose rotation; 72A514 / 72A5F8 supply it.
+        void sub_71002D93E8(const sead::Matrix33f& rotation);
         // 0x71002da3a0 (declared only; 320 B): material animation (name, frame) of the unit; called for every unit by
         // sub_710072A778.
         bool sub_71002DA3A0(f32 frame, const sead::SafeString& name);
