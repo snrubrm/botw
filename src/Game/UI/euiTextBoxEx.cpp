@@ -18,6 +18,21 @@ namespace eui {
 void ProcessMessageAppTag(const MessageString& message,
                           sead::IDelegate1<const sead::MessageSet<char16>::TagInfo*>* callback);
 
+// Placeholder name after the complete one-slot table24C88B0. TextBoxEx::m42 constructs
+// this 16-byte stack callback with its TextWriterBase pointer; SDK132A3C0 invokes slot0.
+class Unk_71024c88b0 {
+public:
+    virtual const u16* invoke(const u16* begin, const u16* end);
+
+private:
+    nn::font::TextWriterBase<u16>* mWriter;
+};
+static_assert(sizeof(Unk_71024c88b0) == 0x10);
+
+const u16* Unk_71024c88b0::invoke(const u16* begin, const u16* end) {
+    return mWriter->FindPosOfWidthLimit(begin, s32(end - begin));
+}
+
 // 0x7100be21b0
 TextBoxEx::TextBoxEx(const nn::ui2d::ResTextBox* resource,
                      const nn::ui2d::ResTextBox* override_resource,
