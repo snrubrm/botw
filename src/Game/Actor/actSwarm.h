@@ -85,15 +85,26 @@ public:
 
     // The "Tgt" rigid body of a swarm unit (0x28 bytes; placeholder; SetThroughArrow reads _20).
     struct UnitBody {
+        // The owner passes this inner state to the pose and pause helpers.
+        struct BodyState {
+            void sub_71002D782C();
+            void sub_71002D7870(bool paused);
+
+            u8 _0[8];  // opaque interface prefix
+            /* 0x08 */ Actor* _8;
+            /* 0x10 */ Unit* _10;
+            /* 0x18 */ ksys::phys::RigidBody* _18;
+        };
+        KSYS_CHECK_SIZE_NX150(BodyState, 0x20);
+
         void sub_71002D79BC(ksys::phys::InstanceSet* instance);
         void sub_71002D79D8(Unit* unit);
         void sub_71002D7A54();
 
-        u8 _0[0x10];
-        /* 0x10 */ Actor* _10;
-        /* 0x18 */ Unit* _18;
-        /* 0x20 */ ksys::phys::RigidBody* _20;
+        u8 _0[8];  // opaque interface prefix
+        /* 0x08 */ BodyState _8;
     };
+    KSYS_CHECK_SIZE_NX150(UnitBody, 0x28);
 
     explicit Swarm(const CreateArg& arg);
     ~Swarm() override;

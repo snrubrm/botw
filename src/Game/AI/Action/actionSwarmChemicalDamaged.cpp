@@ -78,8 +78,8 @@ void SwarmChemicalDamaged::m34(dmg::DamageManager* mgr, sead::Vector3f* pos, sea
     }
 
     auto* swarm = static_cast<act::Swarm*>(mActor);
-    if (swarm && swarm->_15f8[_1d8]._20)
-        swarm->_15f8[_1d8]._20->getPosition(pos);
+    if (swarm && swarm->_15f8[_1d8]._8._18)
+        swarm->_15f8[_1d8]._8._18->getPosition(pos);
     else
         mgr->getPosition(pos);
     sub_71005E2318(dir, mActor, mgr);

@@ -18,7 +18,7 @@ void sub_710072A944(uking::act::Swarm* swarm, f32 min, f32 max) {
             unit->_5c = sead::GlobalRandom::instance()->getF32Range(min, max);
     }
     for (s32 i = 0; i < swarm->_15e8.size(); ++i) {
-        if (auto* unit = swarm->_15e8[i]._18)
+        if (auto* unit = swarm->_15e8[i]._8._10)
             unit->_5c = max;
     }
 }
@@ -26,16 +26,16 @@ void sub_710072A944(uking::act::Swarm* swarm, f32 min, f32 max) {
 void sub_7100729EA8(uking::act::Swarm* swarm) {
     for (s32 i = 0, n = swarm->_15e8.size(); i < n; ++i) {
         const auto& body = swarm->_15e8[i];
-        if (auto* unit = body._18)
-            sub_71007A2B64(body._20, &unit->_8);
+        if (auto* unit = body._8._10)
+            sub_71007A2B64(body._8._18, &unit->_8);
         else
-            sub_71007A2B64(body._20, &swarm->getMtx());
+            sub_71007A2B64(body._8._18, &swarm->getMtx());
     }
 }
 
 void sub_7100729F34(uking::act::Swarm* swarm) {
     for (s32 i = 0, n = swarm->_15e8.size(); i < n; ++i)
-        sub_71007A2D34(swarm->_15e8[i]._20);
+        sub_71007A2D34(swarm->_15e8[i]._8._18);
 }
 
 void sub_710072A778(uking::act::Swarm* swarm, const sead::SafeString& name, f32 frame) {
@@ -48,7 +48,7 @@ void sub_710072A778(uking::act::Swarm* swarm, const sead::SafeString& name, f32 
 void sub_710072ABB4(ksys::act::Actor* actor) {
     if (auto* swarm = sead::DynamicCast<uking::act::Swarm>(actor)) {
         for (s32 i = 0; i < swarm->_15f8.size(); ++i) {
-            if (auto* body = swarm->_15f8[i]._20)
+            if (auto* body = swarm->_15f8[i]._8._18)
                 body->addToWorld();
         }
     }
@@ -57,7 +57,7 @@ void sub_710072ABB4(ksys::act::Actor* actor) {
 void sub_710072AAE4(ksys::act::Actor* actor) {
     if (auto* swarm = sead::DynamicCast<uking::act::Swarm>(actor)) {
         for (s32 i = 0; i < swarm->_15f8.size(); ++i) {
-            if (auto* body = swarm->_15f8[i]._20)
+            if (auto* body = swarm->_15f8[i]._8._18)
                 body->removeFromWorld();
         }
     }

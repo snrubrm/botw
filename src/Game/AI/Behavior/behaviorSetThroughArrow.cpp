@@ -35,7 +35,7 @@ void SetThroughArrow::m8() {
     }
     if (auto* swarm = sead::DynamicCast<uking::act::Swarm>(mActor)) {
         for (int i = 0; i < swarm->_15f8.size(); ++i) {
-            if (auto* body = swarm->_15f8[i]._20)
+            if (auto* body = swarm->_15f8[i]._8._18)
                 body->setFlag200();
         }
     }
@@ -50,7 +50,7 @@ void SetThroughArrow::m9() {
     }
     if (auto* swarm = sead::DynamicCast<uking::act::Swarm>(mActor)) {
         for (int i = 0; i < swarm->_15f8.size(); ++i) {
-            if (auto* body = swarm->_15f8[i]._20)
+            if (auto* body = swarm->_15f8[i]._8._18)
                 body->resetFlag200();
         }
     }

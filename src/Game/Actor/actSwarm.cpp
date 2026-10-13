@@ -15,28 +15,44 @@
 
 namespace uking::act {
 
+void Swarm::UnitBody::BodyState::sub_71002D782C() {
+    if (_18)
+        _18->changePositionAndRotation(_10 ? _10->_8 : _8 ? _8->getMtx() : sead::Matrix34f::ident);
+}
+
+void Swarm::UnitBody::BodyState::sub_71002D7870(bool paused) {
+    if (paused) {
+        if (_18) {
+            _18->setLinearVelocity(sead::Vector3f::zero);
+            _18->setAngularVelocity(sead::Vector3f::zero);
+        }
+    } else if (_18 && _10) {
+        _18->changePositionAndRotation(_10->_8);
+    }
+}
+
 void Swarm::UnitBody::sub_71002D79BC(ksys::phys::InstanceSet* instance) {
-    auto* body = _20;
-    _18 = nullptr;
-    _20 = nullptr;
+    auto* body = _8._18;
+    _8._10 = nullptr;
+    _8._18 = nullptr;
     if (body)
         instance->sub_7100FC0600(body);
 }
 
 void Swarm::UnitBody::sub_71002D7A54() {
-    auto* body = _20;
-    _18 = nullptr;
+    auto* body = _8._18;
+    _8._10 = nullptr;
     if (body && body->isAddedToWorld())
         body->removeFromWorld();
 }
 
 void Swarm::UnitBody::sub_71002D79D8(Unit* unit) {
-    auto* body = _20;
-    _18 = unit;
+    auto* body = _8._18;
+    _8._10 = unit;
     if (!body || body->isAddedToWorld())
         return;
-    if (_20)
-        _20->setTransform(_18 ? _18->_8 : _10 ? _10->getMtx() : sead::Matrix34f::ident);
+    if (_8._18)
+        _8._18->setTransform(_8._10 ? _8._10->_8 : _8._8 ? _8._8->getMtx() : sead::Matrix34f::ident);
     body->addToWorld();
 }
 
