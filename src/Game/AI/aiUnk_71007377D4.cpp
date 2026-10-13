@@ -12,6 +12,9 @@
 #include "Game/Actor/actWolfLink.h"
 #include "Game/gameSceneSubsys14.h"
 #include "KingSystem/Map/mapPlacementActors.h"
+#include "KingSystem/Map/mapObject.h"
+#include "KingSystem/GameData/gdtManager.h"
+#include "Game/DLC/aocHardModeManager.h"
 #include "Game/Actor/actUnk_71025ae680.h"
 #include "Game/Actor/actHorseRideInfo.h"
 #include "KingSystem/ActorSystem/actDropData.h"
@@ -1037,4 +1040,46 @@ bool cannotUseWolfLinkAmiibo() {
     if (!location || location->sub_7100904ED4())
         return true;
     return location->sub_7100904F4C();
+}
+
+void sub_7100731A30(ksys::act::Actor* actor, s32 index) {
+    if (!actor)
+        return;
+    auto* gdt = ksys::gdt::Manager::instance();
+    if (!gdt)
+        return;
+    auto* object = actor->getMapObject();
+    if (!object)
+        return;
+    const auto& map = gdt->getMapName();
+    const u32 hash = object->getHashId();
+    sead::FormatFixedSafeString<128> name("%s_OreDrop%d_%s_%u", map.cstr(), index,
+                                          actor->getName().cstr(), hash);
+    auto* hard_mode = uking::aoc::HardModeManager::instance();
+    if (hard_mode && hard_mode->checkFlag(uking::aoc::HardModeManager::Flag::EnableHardMode))
+        name.format("%s_OreDrop%d_%s_%u", map.cstr(), index, object->getUnitConfigName(), hash);
+    gdt->setBool(true, name);
+}
+
+// NON_MATCHING: initial false return is shared after the null checks.
+bool sub_7100731B70(ksys::act::Actor* actor, s32 index) {
+    if (!actor)
+        return false;
+    auto* gdt = ksys::gdt::Manager::instance();
+    if (!gdt)
+        return false;
+    auto* object = actor->getMapObject();
+    if (!object)
+        return false;
+    const auto& map = gdt->getMapName();
+    const u32 hash = object->getHashId();
+    sead::FormatFixedSafeString<128> name("%s_OreDrop%d_%s_%u", map.cstr(), index,
+                                          actor->getName().cstr(), hash);
+    auto* hard_mode = uking::aoc::HardModeManager::instance();
+    if (hard_mode && hard_mode->checkFlag(uking::aoc::HardModeManager::Flag::EnableHardMode))
+        name.format("%s_OreDrop%d_%s_%u", map.cstr(), index, object->getUnitConfigName(), hash);
+    bool value = false;
+    auto& param = gdt->getParam();
+    param.get().getBuffer()->getBool(&value, name, param.shouldCheckPermissions(), false);
+    return value;
 }

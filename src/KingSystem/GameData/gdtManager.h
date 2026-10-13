@@ -655,6 +655,12 @@ private:
     }
 
 public:
+    // inline-only in the original; name is a guess. Same delegate/default sequence in
+    // complete AI utilities 0x7100731a30 / 0x7100731b70 and getRevivalFlagHandle 0x7100dd2d3c.
+    const sead::SafeString& getMapName() const {
+        return mGetMapNameDelegate ? mGetMapNameDelegate->invoke() : sead::SafeString::cEmptyString;
+    }
+
     // 0x7100237928 (RestartStageFromGameOver::enter_): the only inlined use of BitFlag 0x80000; name is a guess.
     void onRestartStageFromGameOverMaybe() { mBitFlags.set(BitFlag::_80000); }
 

@@ -468,3 +468,6 @@ bool sub_7100733360(ksys::act::Actor* actor);
 bool sub_7100733B84(ksys::act::Actor* actor);
 
 bool sub_7100733C24(ksys::act::Actor* actor);
+
+void sub_7100731A30(ksys::act::Actor* actor, s32 index);
+bool sub_7100731B70(ksys::act::Actor* actor, s32 index);
