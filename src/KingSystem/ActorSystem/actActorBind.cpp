@@ -5,6 +5,7 @@
 #include "KingSystem/Physics/System/physInstanceSet.h"
 #include "KingSystem/Resource/Actor/resResourceDamageParam.h"
 
+// Source owner unknown; these global helpers are adjacent to ActorBind in the original.
 bool sub_71006E8610(ksys::act::Actor* actor) {
     if (!actor)
         return false;
@@ -13,6 +14,22 @@ bool sub_71006E8610(ksys::act::Actor* actor) {
         return false;
     auto* damage = param->getRes().mDamageParam;
     return damage && damage->mIsMetamorBurnout.ref();
+}
+
+bool sub_71006E8644(ksys::act::Actor* actor) {
+    if (!actor)
+        return false;
+    auto* param = actor->getParam();
+    if (!param)
+        return false;
+    auto* damage = param->getRes().mDamageParam;
+    if (!damage)
+        return false;
+    return damage->mIsDeadBurnout.ref() || damage->mIsDeadIce.ref() ||
+           damage->mIsDeadElectric.ref() || damage->mIsMetamorBurnout.ref() ||
+           damage->mIsMetamorIce.ref() || damage->mIsMetamorElectric.ref() ||
+           damage->mColdWaterFrozenTime.ref() >= 0 || damage->mHeavySnowColdTime.ref() >= 0 ||
+           damage->mHotWaterBoiledTime.ref() >= 0;
 }
 
 namespace ksys::act {
