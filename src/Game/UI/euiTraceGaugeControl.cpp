@@ -6,6 +6,11 @@
 
 namespace eui {
 
+void TraceGaugeControl::set50(f32 value) {
+    _50 = value;
+    sub_7100BDA6CC();
+}
+
 // 0x7100bda170
 TraceGaugeControl::TraceGaugeControl() = default;
 

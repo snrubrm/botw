@@ -27,6 +27,11 @@ public:
 
     void Update(f32 dt) override;
 
+    // 0x7100bda89c: sets the displayed/trailing value and refreshes the animators.
+    void set50(f32 value);
+    // 0x7100bda6cc (declaration only): updates frames of the existing animator fields.
+    void sub_7100BDA6CC();
+
     // 0x7100bda308
     void initialize(const nn::ui2d::ControlSrc& src, LayoutEx* layout);
     // 0x7100bda840 / 0x7100bda880 (values outside [0, 100] / [0, 1] are ignored)
