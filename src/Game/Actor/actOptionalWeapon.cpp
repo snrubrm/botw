@@ -2,8 +2,11 @@
 #include <basis/seadNew.h>
 #include <prim/seadScopedLock.h>
 #include "KingSystem/ActorSystem/Profiles/actWeaponBase.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayerLink.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actActorSystem.h"
+#include "KingSystem/Graphics/gfxUnk_710260af28.h"
 #include "KingSystem/Utils/Thread/Message.h"
 
 // 0x71011d75cc (declaration only; sends message 0x12... through the actor system; name unknown).
@@ -36,6 +39,31 @@ void OptionalWeapon::initMaybe() {
     _938 = sead::Color4f(0.0f, 0.0f, 0.0f, 0.0f);
     _948 = 0.0f;
     _94c = 0;
+}
+
+void OptionalWeapon::sub_7100EF0D44() {
+    auto* model = mModel;
+    if (!model)
+        return;
+    if (isPlayerProfile(sead::DynamicCast<Actor>(_840.getProc(nullptr, nullptr)))) {
+        auto* player = ksys::act::ActorSystem::instance()->getPlayerLink();
+        if (!player)
+            return;
+        sub_71011CCB1C(player->m315());
+        x_3(player->m316());
+        const f32 value = player->m317();
+        if (_948 != value) {
+            Unk_710260af28::instance()->sub_7100F1EAF8(model, value);
+            _948 = value;
+        }
+        const sead::Color4f color = player->m314();
+        if (!(_938 == color)) {
+            Unk_710260af28::instance()->sub_7100F1E2F4(model, color);
+            _938 = color;
+        }
+    } else if (isNPCProfile(sead::DynamicCast<Actor>(_840.getProc(nullptr, nullptr)))) {
+        sub_7100EF1F30();
+    }
 }
 
 bool OptionalWeapon::sub_7100EF1ADC() {

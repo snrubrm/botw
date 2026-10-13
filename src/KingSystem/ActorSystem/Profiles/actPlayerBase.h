@@ -237,8 +237,8 @@ public:
     /* 311 */ virtual void m311() {}
     /* 312 */ virtual gsys::BoneAccessKey m312(int idx);
     /* 313 */ void getActorDirect() override;
-    /* 314 */ void* m314() override;
-    /* 315 */ void m315() override { m139(); }
+    /* 314 */ const sead::Color4f& m314() override;
+    /* 315 */ f32 m315() override { return m139(); }
     /* 316 */ f32 m316() override { return _1654; }
     /* 317 */ f32 m317() override;
     /* 318 */ virtual void m318(sead::Matrix34f* out) {}
@@ -433,7 +433,7 @@ public:  // read by PlayerCutTurnLSword::enter_ (lane5 request, s49)
 protected:
     /* 0xe58 */ f32 _e58;
     /* 0xe5c */ s32 _e5c;
-    /* 0xe60 */ u8 _e60[0xe70 - 0xe60];
+    /* 0xe60 */ sead::Color4f _e60{0.0f, 0.0f, 0.0f, 0.0f};
     /* 0xe70 */ sead::SafeArray<s32, 3> _e70;  // per core: life delta
     /* 0xe7c */ sead::SafeArray<f32, 3> _e7c;  // per core: stamina delta (setStaminaDelta)
     /* 0xe88 */ BaseProcLink _e88;

@@ -62,7 +62,7 @@ void Armor::m148() {
                 }
                 _9a8 = value;
             }
-            const sead::Color4f color = *static_cast<const sead::Color4f*>(player->m314());
+            const sead::Color4f color = player->m314();
             if (!(_9ac == color)) {
                 Unk_710260af28::instance()->sub_7100F1E2F4(mModel, color);
                 _9ac = color;

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <gfx/seadColor.h>
 #include <math/seadVector.h>
 
 namespace ksys {
@@ -101,8 +102,8 @@ public:
     /* 71 */ virtual void getActorDirect() = 0;
     /* 72 */ virtual void m308() = 0;
     /* 73 */ virtual f32 m319() = 0;
-    /* 74 */ virtual void* m314() = 0;
-    /* 75 */ virtual void m315() = 0;
+    /* 74 */ virtual const sead::Color4f& m314() = 0;
+    /* 75 */ virtual f32 m315() = 0;
     /* 76 */ virtual f32 m316() = 0;
     /* 77 */ virtual f32 m317() = 0;
     /* 78 */ virtual bool m353() = 0;

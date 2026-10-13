@@ -142,8 +142,8 @@ Unk_71024ef4e8* PlayerBase::getAttachedTargetActor() {
     return nullptr;
 }
 
-void* PlayerBase::m314() {
-    return &_e60;
+const sead::Color4f& PlayerBase::m314() {
+    return _e60;
 }
 
 gsys::BoneAccessKey PlayerBase::m312(int idx) {

@@ -57,6 +57,7 @@ public:
     // Declaration only: OptionalWeaponAI updates the existing links/name before reading offsets.
     void sub_7100EF1BF4();
     bool sub_7100EF1EA4();
+    void sub_7100EF1F30();
     void sub_7100EF2290(f32 value, bool use_parent);
 
 protected:
