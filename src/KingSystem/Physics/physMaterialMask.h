@@ -66,7 +66,9 @@ public:
     MaterialMask(Material mat, const char* submat_name, FloorCode floor, WallCode wall,
                  bool flag = false);
     MaterialMask(Material mat, int submat_idx, FloorCode floor, WallCode wall, bool flag = false);
-    MaterialMask(const MaterialMask& other) : mData(other.mData) {}
+    // Fresh local copies in 4466A8, 4468D0, 541C84 and ECBA6C preserve the cached name.
+    // Assignment below invalidates it after changing the destination's data.
+    MaterialMask(const MaterialMask& other) = default;
 
     // XXX: this doesn't need to be virtual.
     virtual ~MaterialMask();
