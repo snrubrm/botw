@@ -233,6 +233,15 @@ void sub_71002C64A0(sead::Vector3f* out, ksys::act::Actor* actor) {
     *out = pos + dir * 2.0f;
 }
 
+// Source owner unknown; this global helper is among LastBoss native neighbors.
+// NON_MATCHING: the optional parts value uses a floating-point select instead of branches.
+void sub_71002C67E8(f32 value, ksys::act::Actor* actor, bool sync_parts) {
+    actor->x_3(value);
+    if (!sync_parts)
+        value = 0.0f;
+    sub_71002C682C(actor, value);
+}
+
 void sub_71002C682C(ksys::act::Actor* actor, f32 value) {
     auto* enemy = sead::DynamicCast<uking::act::Enemy>(actor);
     if (!enemy)
