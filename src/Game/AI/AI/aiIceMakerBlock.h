@@ -8,6 +8,7 @@
 
 namespace ksys::phys {
 class RigidBody;
+class BoxRigidBody;
 }
 
 namespace uking::ai {
@@ -42,6 +43,7 @@ public:
     // 0x7100446b0c (placeholder name): flags the "Water" body and the three "Water_Break_%d" bodies
     // (stored in `_88`); false if one is missing.
     bool sub_7100446B0C();
+    bool sub_71004468D0();
     // 0x71004483e8 (placeholder name): whether every one of the three bodies `_88` has a contact point whose floor
     // code is not Fall.
     bool sub_71004483E8();
@@ -59,7 +61,7 @@ protected:
         const float* mSubRigidExOffset_s{};
     };
     Params mParams;
-    ksys::phys::RigidBody* _78[2];
+    ksys::phys::BoxRigidBody* _78[2];
     ksys::phys::RigidBody* _88[3];
     s32 _a0 = 0;
     bool _a4 = false;
@@ -69,12 +71,8 @@ protected:
     bool _a8 = false;
     gsys::BoneAccessKeyEx _b0;
     gsys::BoneAccessKeyEx _e8;
-    f32 _120 = 0.0f;
-    f32 _124 = -0.1f;
-    f32 _128 = 0.0f;
-    f32 _12c = 3.0f;
-    f32 _130 = 0.5f;
-    f32 _134 = 3.0f;
+    sead::Vector3f _120 = {0.0f, -0.1f, 0.0f};
+    sead::Vector3f _12c = {3.0f, 0.5f, 3.0f};
     sead::Vector3f _138 = {3.0f, 4.0f, 3.0f};
     f32 _144 = 1.0f;
     f32 _148 = 1.0f;

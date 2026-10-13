@@ -90,8 +90,64 @@ IceMakerBlock::~IceMakerBlock() {
     _88[2] = nullptr;
 }
 
+// NON_MATCHING: stack allocation of the mask, parameter strings and local message data.
 bool IceMakerBlock::init_(sead::Heap* heap) {
-    return ksys::act::ai::Ai::init_(heap);
+    auto* actor = mActor;
+    if (!actor->getPhysics())
+        return false;
+    auto* body = sead::DynamicCast<ksys::phys::BoxRigidBody>(actor->getMainBody());
+    if (!body)
+        return false;
+    _138.set(body->getExtents());
+    body->enableWaterCollision(false);
+    body->clearEntityMotionFlag4(false);
+    {
+        ksys::phys::MaterialMask mask = body->getMaterialMask();
+        mask.getData().raw |= 0x20000000;
+        body->setMaterialMask(mask);
+    }
+    if (!sub_71004468D0() || !sub_7100446B0C())
+        return false;
+    auto* model = actor->getModel();
+    if (!model || !_b0.search(model, "joint1") || !_e8.search(model, "Top"))
+        return false;
+    actor->sub_71011D0204(0x40);
+    Unk_71023b0898_Payload::Data data;
+    data._8.acquire(mActor, false);
+    data._0 = 0;
+    _150._18.x(data);
+    return true;
+}
+
+// NON_MATCHING: stack slots for the name, extents and material mask.
+bool IceMakerBlock::sub_71004468D0() {
+    _78[0] = nullptr;
+    _78[1] = nullptr;
+    auto* actor = mActor;
+    sead::FixedSafeString<128> name;
+    for (s32 i = 0; i < 2; ++i) {
+        name.format("Rigid_Up_%d", i);
+        auto* body = sead::DynamicCast<ksys::phys::BoxRigidBody>(
+            actor->findPhysicsBodyByName("Secure", name.cstr()));
+        if (!body)
+            return false;
+        if (i == 0) {
+            _120.set(body->getTranslate());
+            _12c.set(body->getExtents());
+        } else {
+            body->setTranslate(_120);
+        }
+        body->setExtents(sead::Vector3f(0.5f, _12c.y, 0.5f));
+        body->enableWaterCollision(false);
+        body->clearEntityMotionFlag4(false);
+        {
+            ksys::phys::MaterialMask mask = body->getMaterialMask();
+            mask.getData().raw |= 0x20000000;
+            body->setMaterialMask(mask);
+        }
+        _78[i] = body;
+    }
+    return true;
 }
 
 // NON_MATCHING: the original loads mActor once before the string for the three loop calls (and
