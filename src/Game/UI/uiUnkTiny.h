@@ -300,9 +300,17 @@ public:
     sead::BoundBox2f* get70();
     sead::BoundBox2f* get90();
     void set68(f32 width, f32 height);
+    void set50(const sead::Vector2f& value);
+    void set58(const sead::Vector2f& value);
+    sead::Vector2f* get58();
+    void set60(const sead::Vector2f& value);
+    void sub_7100950464(const sead::Vector3f& position, sead::Vector2f* result);
 
 private:
-    u8 _8[0x68 - 0x8];
+    u8 _8[0x50 - 0x8];
+    sead::Vector2f _50;
+    sead::Vector2f _58;
+    sead::Vector2f _60;
     f32 _68;
     f32 _6c;
     sead::BoundBox2f _70;

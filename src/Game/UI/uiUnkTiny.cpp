@@ -1186,6 +1186,26 @@ void Unk_71024753a8::set68(f32 width, f32 height) {
     _6c = height;
 }
 
+void Unk_71024753a8::set50(const sead::Vector2f& value) {
+    _50 = value;
+}
+
+void Unk_71024753a8::set58(const sead::Vector2f& value) {
+    _58 = value;
+}
+
+sead::Vector2f* Unk_71024753a8::get58() {
+    return &_58;
+}
+
+void Unk_71024753a8::set60(const sead::Vector2f& value) {
+    _60 = value;
+}
+
+void Unk_71024753a8::sub_7100950464(const sead::Vector3f& position, sead::Vector2f* result) {
+    result->set(position.x * _60.x, -position.z * _60.y);
+}
+
 // Unk_7102474be8 methods (placeholder names after the offsets)
 // 0x7100935930
 // NON_MATCHING: stack slot placement for the sound mode.
