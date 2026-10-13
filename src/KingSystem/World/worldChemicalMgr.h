@@ -8,6 +8,8 @@
 #include <prim/seadBitFlag.h>
 #include <xlink2/xlink2HandleELink.h>
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
+#include "KingSystem/ActorSystem/actActorChemicals.h"
+#include "KingSystem/ActorSystem/actChemicalUserTag.h"
 #include "KingSystem/Chemical/chmRoot.h"
 #include "KingSystem/Utils/Types.h"
 #include "KingSystem/World/worldJob.h"
@@ -74,7 +76,28 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(Unk_710250c8b0, 0x18);
 
-class Unk_710250c840;
+namespace ksys::map {
+class Object;
+}
+namespace ksys::act {
+class ActorX6A0;
+}
+
+// Complete E0-byte producer 10C9274 embeds the existing chemicals, root/shape and tag.
+// 10C8748 supplies the body and ActorX6A0; independent actor-copy/reset paths use them.
+class Unk_710250c840 {
+public:
+    virtual ~Unk_710250c840();
+    u32 _8 = 0;
+    ksys::act::ActorChemicals _10;
+    Unk_710250c8b0 _98;
+    ksys::map::Object* _b0 = nullptr;
+    ksys::phys::RigidBody* _b8 = nullptr;
+    ChemicalUserTag _c0{&_10};
+    ksys::act::ActorX6A0* _d0 = nullptr;
+    u8 _d8[8];
+};
+KSYS_CHECK_SIZE_NX150(Unk_710250c840, 0xe0);
 
 // Embedded pool begins with its CriticalSection. Full 10C90F4 explicitly frees its containers;
 // WorldMgrStruct0_8_a destruction then destroys the CriticalSection normally.

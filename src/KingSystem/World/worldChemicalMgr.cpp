@@ -12,11 +12,30 @@
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorChemicals.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorX6A0.h"
 #include "KingSystem/ActorSystem/actChemicalUserTag.h"
 #include "KingSystem/ActorSystem/actPhysicsUserTag.h"
 #include "KingSystem/ActorSystem/actChemicalElementHolder.h"
 #include "KingSystem/Terrain/teraSystem.h"
 #include "KingSystem/System/VFR.h"
+
+Unk_710250c840::~Unk_710250c840() {
+    if (_d0) {
+        delete _d0;
+        _d0 = nullptr;
+    }
+    if (_b8) {
+        delete _b8;
+        _b8 = nullptr;
+    }
+}
+
+void Unk_71010c90f4::sub_71010C90F4() {
+    _70.freeBuffer();
+    _60.freeBuffer();
+    _50.freeBuffer();
+    _40.freeBuffer();
+}
 
 WorldMgrStruct0_8_a::WorldMgrStruct0_8_a() = default;
 
