@@ -1,6 +1,7 @@
 #pragma once
 
 #include <container/seadPtrArray.h>
+#include <container/seadBuffer.h>
 #include <math/seadVector.h>
 #include <container/seadObjList.h>
 #include <thread/seadCriticalSection.h>
@@ -101,6 +102,17 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(Unk_710250c698, 0x38);
 
+// Complete 0x70 pool at ChemicalMgr +C10: constructor10CA1C0, init10CA680 and lifetime10CA33C.
+struct Unk_71010cb1f0 {
+    void sub_71010CB1F0(s32 count, sead::Heap* heap);
+
+    sead::CriticalSection lock;
+    sead::Buffer<Unk_710250c698> entries;
+    sead::PtrArray<Unk_710250c698> free;
+    sead::PtrArray<Unk_710250c698> used;
+};
+KSYS_CHECK_SIZE_NX150(Unk_71010cb1f0, 0x70);
+
 // Interface at ChemicalMgr + 0x20. Vtable 0x710250cac8 (GOT 0x25a0c20): D1 (stores the vptr only), D0, then
 // m2 (returns null), m3 and m4 (empty). ChemicalMgr overrides m2 / m3 / m4; as the overriders of this
 // non-primary base they also get slots 13 - 15 of ChemicalMgr's own vtable (in declaration order m3, m4, m2),
@@ -173,10 +185,7 @@ public:
     u8 _b11[3];
     sead::BitFlag32 _b14;
     u8 _b18[0xc10 - 0xb18];
-    sead::CriticalSection _c10;
-    u8 _c50[0xc60 - 0xc50];
-    sead::PtrArray<Unk_710250c698> _c60;
-    sead::PtrArray<Unk_710250c698> _c70;
+    Unk_71010cb1f0 _c10;
     u8 _c80[0xcf8 - 0xc80];
     WorldMgrStruct0_8_a _cf8;
     // The actor whose chemical state is put to sleep on unload (acquireActor in unload2).

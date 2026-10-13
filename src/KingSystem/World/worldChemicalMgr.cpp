@@ -22,6 +22,15 @@ Unk_710250c698::~Unk_710250c698() {
     }
 }
 
+// NON_MATCHING: the entry constructor inlines into allocation; loop registers differ.
+void Unk_71010cb1f0::sub_71010CB1F0(s32 count, sead::Heap* heap) {
+    entries.tryAllocBuffer(count, heap, 8);
+    free.allocBuffer(count, heap, 8);
+    used.allocBuffer(count, heap, 8);
+    for (auto& entry : entries)
+        free.pushBack(&entry);
+}
+
 f32 Unk_710250c880::getVolumeOccupancy() const {
     return 1.0f;
 }
@@ -109,21 +118,21 @@ void ChemicalMgr::x_7(ksys::act::Actor* actor) {
 }
 
 Unk_710250c698* ChemicalMgr::x_8() {
-    sead::ScopedLock<sead::CriticalSection> lock(&_c10);
-    auto* entry = _c60.popBack();
+    sead::ScopedLock<sead::CriticalSection> lock(&_c10.lock);
+    auto* entry = _c10.free.popBack();
     if (entry)
-        _c70.pushBack(entry);
+        _c10.used.pushBack(entry);
     return entry;
 }
 
 // NON_MATCHING: indexOf uses a signed count loop rather than the original pointer countdown.
 bool ChemicalMgr::x_9(Unk_710250c698* entry) {
     entry->_8 &= ~1u;
-    sead::ScopedLock<sead::CriticalSection> lock(&_c10);
-    const s32 index = _c70.indexOf(entry);
+    sead::ScopedLock<sead::CriticalSection> lock(&_c10.lock);
+    const s32 index = _c10.used.indexOf(entry);
     if (index >= 0) {
-        _c70.erase(index);
-        _c60.pushBack(entry);
+        _c10.used.erase(index);
+        _c10.free.pushBack(entry);
     }
     return true;
 }
