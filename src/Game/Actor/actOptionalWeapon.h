@@ -35,6 +35,7 @@ public:
     bool sub_7100EF1B70();
     bool sub_7100EF1308();
 
+    int handleMessage(const ksys::Message& message) override;
     Actor* m31() override;
     void updatePositionMaybe() override;
     void m76(ksys::VFR::ScopedDeltaSetter* setter) override;
@@ -52,6 +53,7 @@ public:
     // Declaration only: OptionalWeaponAI updates the existing links/name before reading offsets.
     void sub_7100EF1BF4();
     bool sub_7100EF1EA4();
+    void sub_7100EF2290(f32 value, bool use_parent);
 
 protected:
     bool prepareInit_(sead::Heap* heap, PrepareArg& arg) override;
@@ -71,8 +73,10 @@ public:
     /* 0x948 */ u32 _948 = 0;
     /* 0x94c */ u8 _94c = 0;
     /* 0x950 */ sead::CriticalSection _950;
-    /* 0x990 */ u32 _990 = 0;
-    /* 0x994 */ u16 _994 = 0;
+    // EF2290 writes these under _950; EF1F30 consumes the float and separate flags.
+    /* 0x990 */ f32 _990 = 0.0f;
+    /* 0x994 */ bool _994 = false;
+    /* 0x995 */ bool _995 = false;
 };
 KSYS_CHECK_SIZE_NX150(OptionalWeapon, 0x998);
 

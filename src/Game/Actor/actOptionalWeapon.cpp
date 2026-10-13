@@ -4,6 +4,7 @@
 #include "KingSystem/ActorSystem/Profiles/actWeaponBase.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/Utils/Thread/Message.h"
 
 // 0x71011d75cc (declaration only; sends message 0x12... through the actor system; name unknown).
 void sub_71011D75CC(ksys::act::Actor* actor);
@@ -99,3 +100,25 @@ sead::FixedSafeString<32>& OptionalWeapon::sub_7100EF13A4() {
 }
 
 }  // namespace uking::act
+
+void uking::act::OptionalWeapon::sub_7100EF2290(f32 value, bool use_parent) {
+    sead::ScopedLock<sead::CriticalSection> lock(&_950);
+    _990 = value;
+    _994 = use_parent;
+    _995 = true;
+}
+
+int uking::act::OptionalWeapon::handleMessage(const ksys::Message& message) {
+    if (isDelete() || isDeleteRequested())
+        return 0;
+    if (message.getType() == 0x3000001) {
+        _83e |= 1;
+        mActorFlags2.set(ActorFlag2::_20);
+    } else if (message.getType() == 0x3000002) {
+        _83e &= ~1;
+        mActorFlags2.reset(ActorFlag2::_20);
+    } else {
+        return Actor::handleMessage(message);
+    }
+    return 1;
+}
