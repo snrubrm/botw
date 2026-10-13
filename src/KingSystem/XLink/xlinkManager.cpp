@@ -6,7 +6,9 @@
 
 namespace ksys::xlink {
 
-Manager* Manager::sInstance;
+SEAD_SINGLETON_DISPOSER_IMPL(Manager)
+
+Manager::~Manager() = default;
 
 void Manager::setGlobalPropPauseState(PauseState state) {
     const s32 value = state;

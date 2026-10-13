@@ -52,7 +52,10 @@ private:
     /* 0x0228 */ sead::SafeArray<TransformRequest, 64> mTransformRequests;
     /* 0x1228 */ s32 mNumTransformRequests;
     /* 0x1230 */ sead::CriticalSection mTransformLock;
-    /* 0x1270 */ u8 _1270[0x52e8 - 0x1270];
+    /* 0x1270 */ u8 _1270[0x5278 - 0x1270];
+    // Whole constructor/destructor and independent 1240754 queue insertion use this lock.
+    /* 0x5278 */ sead::CriticalSection mResourceLock;
+    /* 0x52b8 */ u8 _52b8[0x52e8 - 0x52b8];
 };
 KSYS_CHECK_SIZE_NX150(Manager, 0x52e8);
 
