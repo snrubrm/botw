@@ -95,6 +95,7 @@ void ExpandSensorSlowly::leave_() {
     sub_710005A348();
 }
 
+// NON_MATCHING: the native call snapshots the first endpoint; the direct field argument uses less stack.
 void ExpandSensorSlowly::sub_710005A3DC(ksys::phys::CapsuleRigidBody* capsule) {
     const f32 step = *mAtExpandStep_s;
     if (_e4 < _e0) {
@@ -104,11 +105,8 @@ void ExpandSensorSlowly::sub_710005A3DC(ksys::phys::CapsuleRigidBody* capsule) {
     } else {
         _e4 = _e0;
     }
-    if (_e8) {
-        const auto vertex1 = _b8;
-        const auto vertex2 = _c4 * _e4;
-        capsule->setVertices(vertex1, vertex2);
-    }
+    if (_e8)
+        capsule->setVertices(_b8, _c4 * _e4);
     if (_e9) {
         const auto position = mActor->getMtx().getTranslation();
         sub_710005A4C8("", &position, &sead::Color4f::cGreen, "Scale: %.3f/%.3f /%.3f",
