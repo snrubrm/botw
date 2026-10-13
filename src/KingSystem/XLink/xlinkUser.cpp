@@ -2,9 +2,12 @@
 #include <cfloat>
 #include <gsys/gsysModel.h>
 #include <gsys/gsysModelAnimation.h>
+#include <gsys/gsysModelAccessKey.h>
+#include <gsys/gsysModelUnit.h>
 #include <utility/aglScreenShotMgr.h>
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
+#include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/System/CameraMgr.h"
 #include "KingSystem/XLink/xlinkXLink.h"
 
@@ -34,6 +37,24 @@ void Unk_71025168a0::getReservedAssetName(xlink2::ToolConnectionContext* ctx) co
 
 u32 Unk_71025168a0::getNumBone() const {
     return mXLink && mXLink->mModel ? mXLink->mModel->getTotalBoneNum() : 0;
+}
+
+sead::Matrix34f* Unk_71025168a0::getBoneWorldMtxPtr(const char* name) const {
+    if (!mXLink || !mXLink->mModel)
+        return nullptr;
+    auto* model = mXLink->mModel;
+    const auto key = model->searchBone(name);
+    if (!key.isValid())
+        return nullptr;
+    return model->getUnits().unsafeAt(key.model_unit_index)->mModelUnit->getBoneWorldMatrixPtr(
+        key.bone_index);
+}
+
+char* Unk_71025168a0::getDebugUserName() const {
+    if (!mXLink || !mXLink->mActor)
+        return nullptr;
+    // IUser's debug-name API returns a mutable pointer to the actor's existing name buffer.
+    return const_cast<char*>(mXLink->mActor->getName().cstr());
 }
 
 u32 Unk_71025168a0::getNumAction(s32 index) const {
