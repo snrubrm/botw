@@ -18,6 +18,9 @@
 #include "KingSystem/ActorSystem/actChemicalElementHolder.h"
 #include "KingSystem/Terrain/teraSystem.h"
 #include "KingSystem/System/VFR.h"
+#include "KingSystem/Map/mapObject.h"
+#include "KingSystem/Map/mapPlacementMgr.h"
+#include "KingSystem/Map/mapPlacementActors.h"
 
 Unk_710250c840::~Unk_710250c840() {
     if (_d0) {
@@ -109,6 +112,37 @@ void WorldMgrStruct0_8_a::sub_71010C9D00(ksys::act::Actor* actor) {
         sub_71010C9A8C(&*it);
         return;
     }
+}
+
+// NON_MATCHING: whole state assignment merges scalar loads; the state stack slot also differs.
+void WorldMgrStruct0_8_a::sub_71010C9E48(ksys::act::Actor* actor) {
+    sead::ScopedLock<sead::CriticalSection> lock(&_8._0);
+    auto* map_object = actor->getMapObject();
+    if (!map_object)
+        return;
+    for (auto& entry : _8._60) {
+        if (entry._b0 == map_object)
+            return;
+    }
+    auto* placement_mgr = ksys::map::PlacementMgr::instance();
+    if (!placement_mgr || !placement_mgr->mPlacementActors)
+        return;
+    auto* placement_actors = placement_mgr->mPlacementActors;
+    if (!actor->getChemicalContainer())
+        return;
+    auto* element = actor->getChemicalContainer()->sub_7100E3718C(0);
+    if (!element)
+        return;
+    const bool state = element->mChemical._c0 == 2;
+    auto* entry = sub_71010C9790(map_object,
+                               &placement_actors->mActorData[map_object->getActorDataIdx()], &state);
+    if (!entry || !actor->getChemicalContainer())
+        return;
+    entry->_10.sub_7100E37788(0)->sub_7100D91614(
+        *actor->getChemicalContainer()->sub_7100E37788(0));
+    entry->_d0->_10 = actor->_6a0->_10;
+    if (auto* other = entry->_10.sub_7100E3718C(0))
+        other->sub_7100E3B708(*element);
 }
 
 void WorldMgrStruct0_8_a::sub_71010C9B48() {

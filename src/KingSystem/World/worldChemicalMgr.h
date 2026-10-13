@@ -81,6 +81,7 @@ public:
 KSYS_CHECK_SIZE_NX150(Unk_710250c8b0, 0x18);
 
 namespace ksys::map {
+class ActorData;
 class Object;
 }
 namespace ksys::act {
@@ -128,6 +129,9 @@ public:
     WorldMgrStruct0_8_a();
     virtual ~WorldMgrStruct0_8_a();
     void sub_71010C9210(sead::Heap* heap, ksys::world::ChemicalMgr* mgr);
+    // Full query and both callers pass a map object, readonly ActorData and optional state byte.
+    Unk_710250c840* sub_71010C9790(ksys::map::Object* object,
+                                 const ksys::map::ActorData* data, const bool* state);
     void sub_71010C9A8C(Unk_710250c840* entry);
     void sub_71010C9D00(ksys::act::Actor* actor);
     void sub_71010C9E48(ksys::act::Actor* actor);
