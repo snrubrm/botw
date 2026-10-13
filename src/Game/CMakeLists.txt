@@ -17,6 +17,8 @@ target_sources(uking PRIVATE
   gameEventCounter.cpp
   gameEventCounter.h
   gameEventMiniGameTimer.cpp
+  gameEventMgr1.cpp
+  gameEventMgr1.h
   gameEventMgrMiniGame.cpp
   gameEventMgrMiniGame.h
   gameGearMgr.cpp
