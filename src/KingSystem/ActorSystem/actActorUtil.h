@@ -380,6 +380,11 @@ ksys::phys::RigidBody* sub_7100EE5FE4(ksys::act::Actor* actor);
 // 2026-10-07: EE427C stores this callback, installed by GameScene initialization with
 // getDemoHandler (73A2B8). Both actor arguments and the name are used by that handler.
 using GetDemoHandler = void (*)(ksys::act::Actor*, ksys::act::Actor*, const sead::SafeString&);
+// GameScene installs checkWeaponFreeSlotImpl in both slots; the query consumes its bool result.
+using CheckWeaponFreeSlotHandler = bool (*)(const sead::SafeString&, s32);
+void setCheckWeaponFreeSlotHandlerB(CheckWeaponFreeSlotHandler handler);
+void setCheckWeaponFreeSlotHandlerA(CheckWeaponFreeSlotHandler handler);
+bool callCheckWeaponFreeSlotHandler(const sead::SafeString& name, s32 count);
 void setGetDemoHandler(GetDemoHandler handler);
 void callGetDemoHandler(ksys::act::Actor* actor, const sead::SafeString& name);
 void callGetDemoHandler2(ksys::act::Actor* actor, ksys::act::Actor* item,

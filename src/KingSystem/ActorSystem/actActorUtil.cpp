@@ -178,6 +178,24 @@ void callGetDemoHandler2(ksys::act::Actor* actor, ksys::act::Actor* item,
         sGetDemoHandler(actor, item, name);
 }
 
+// Original callback slots are written together by GameScene initialization.
+CheckWeaponFreeSlotHandler sCheckWeaponFreeSlotHandlerB = nullptr;
+CheckWeaponFreeSlotHandler sCheckWeaponFreeSlotHandlerA = nullptr;
+
+void setCheckWeaponFreeSlotHandlerB(CheckWeaponFreeSlotHandler handler) {
+    sCheckWeaponFreeSlotHandlerB = handler;
+}
+
+void setCheckWeaponFreeSlotHandlerA(CheckWeaponFreeSlotHandler handler) {
+    sCheckWeaponFreeSlotHandlerA = handler;
+}
+
+bool callCheckWeaponFreeSlotHandler(const sead::SafeString& name, s32 count) {
+    if (sCheckWeaponFreeSlotHandlerA)
+        return sCheckWeaponFreeSlotHandlerB(name, count);
+    return false;
+}
+
 namespace ksys::act {
 
 void getPlacementNameAndUniqueName(Actor* actor, sead::BufferedSafeString* name,
