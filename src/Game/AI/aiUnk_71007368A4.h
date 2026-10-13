@@ -41,6 +41,10 @@ bool sub_7100736B94(int value);
 bool sub_7100736BBC(int value);
 /// `value` is 25 or 26.
 bool sub_7100736BD8(int value);
+// Full 736C18 and independent 6E37D4/736BE8 stack producers establish a 32-bit mask.
+// The original owning mask type is unknown; declaration only.
+bool sub_7100736C18(const u32* mask, sead::SafeString* out);
+
 /// The actor's damage manager reports damage type 2, 1 or 5 (DamageManagerBase::getField54).
 bool sub_7100736D98(ksys::act::Actor* actor);
 
