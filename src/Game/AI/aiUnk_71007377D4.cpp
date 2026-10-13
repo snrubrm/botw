@@ -1185,3 +1185,29 @@ const sead::SafeString& sub_710072D7A0(ksys::act::Actor* actor, s32 index) {
         return sead::SafeString::cEmptyString;
     }
 }
+
+bool sub_710072CF4C(f32 vertical_speed, f32* speed, f32* time, const sead::Vector3f* start,
+                    const sead::Vector3f* target, const sead::Vector3f* gravity) {
+    const f32 acceleration = gravity->length();
+    const sead::Vector2f displacement(target->x - start->x, target->z - start->z);
+    const f32 distance = displacement.length();
+    f32 height = start->y;
+    *time = 0.0f;
+    while (vertical_speed > 0.0f) {
+        height += vertical_speed;
+        vertical_speed -= acceleration;
+        *time += 1.0f;
+    }
+    bool success = true;
+    if (target->y >= height) {
+        success = false;
+    } else {
+        while (height > target->y) {
+            *time += 1.0f;
+            height += vertical_speed;
+            vertical_speed -= acceleration;
+        }
+    }
+    *speed = distance / *time;
+    return success;
+}
