@@ -110,21 +110,21 @@ void HavokAI::sub_7100F8363C(NavMeshObj2Maybe* obj) {
         _40->_168.push(obj);
 }
 
+// NON_MATCHING: the common cancellation block keeps owner presence across the calls;
+// the original duplicates cancellation in the owner and no-owner paths.
 void HavokAI::sub_7100F83790(NavMeshObj2Maybe* obj, bool queued) {
     auto lock = sead::makeScopedLock(_50);
-    if (obj->_70) {
-        if (obj->_70 != this)
-            return;
-        if (!queued) {
-            _40->sub_71012AA2F0(obj);
-            obj->_78.exchange(nullptr);
-        }
+    const bool has_owner = obj->_70 != nullptr;
+    if (has_owner && obj->_70 != this)
+        return;
+    if (!queued) {
+        _40->sub_71012AA2F0(obj);
+        obj->_78.exchange(nullptr);
+    }
+    if (has_owner) {
         sub_7100F83848(&obj->mPairs);
         mEdgeObjects.erase(obj);
         obj->_70 = nullptr;
-    } else if (!queued) {
-        _40->sub_71012AA2F0(obj);
-        obj->_78.exchange(nullptr);
     }
 }
 
