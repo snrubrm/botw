@@ -7,6 +7,7 @@
 #include "Game/gameSceneSubsys12.h"
 #include "Game/Actor/actDragon.h"
 #include "Game/Actor/actEnemy.h"
+#include "Game/Actor/actWeapon.h"
 #include "Game/Actor/actUnk_71025ae680.h"
 #include "Game/Actor/actHorseRideInfo.h"
 #include "KingSystem/ActorSystem/actDropData.h"
@@ -39,6 +40,11 @@
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectItem.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectGiantArmorSlot.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectSmallSword.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectLargeSword.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectSpear.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectBow.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectShield.h"
 #include <math/seadMathCalcCommon.h>
 
 void sub_710072C1B4(ksys::phys::CharacterController* controller, const sead::Vector3f& up) {
@@ -63,6 +69,32 @@ const s32& sub_7100730FD0(const ksys::act::ActorConstDataAccess* accessor) {
 void sub_7100734228(ksys::act::Actor* actor) {
     if (auto* info = sub_71007A255C(actor, 0))
         sub_7100733E24(actor, info->_a0, info->_0, info);
+}
+
+const sead::SafeString& sub_710072D96C(ksys::act::Actor* actor) {
+    if (auto* weapon = sead::DynamicCast<uking::act::Weapon>(actor)) {
+        switch (weapon->_cf0) {
+        case 0:
+            return weapon->getParam()->getRes().mGParamList->getSmallSword()->mWeaponSubType.ref();
+        case 1:
+            return weapon->getParam()->getRes().mGParamList->getLargeSword()->mWeaponSubType.ref();
+        case 2:
+            return weapon->getParam()->getRes().mGParamList->getSpear()->mWeaponSubType.ref();
+        case 3:
+            return weapon->getParam()->getRes().mGParamList->getBow()->mWeaponSubType.ref();
+        case 4:
+            return weapon->getParam()->getRes().mGParamList->getShield()->mWeaponSubType.ref();
+        default:
+            break;
+        }
+    }
+    return sead::SafeString::cEmptyString;
+}
+
+ksys::act::Unk_DynamicActorA58* sub_710073DC28(ksys::act::Actor* actor) {
+    if (auto* dynamic_actor = sead::DynamicCast<ksys::act::DynamicActor>(actor))
+        return dynamic_actor->_a58;
+    return nullptr;
 }
 
 bool sub_710073DB94(const char* name, ksys::act::BaseProcHandle* handle,

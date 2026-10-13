@@ -19,6 +19,7 @@ class BaseProcLink;
 class BaseProcHandle;
 class InstParamPack;
 struct Struct8Base;
+struct Unk_DynamicActorA58;
 class Unk_7100d860d8;
 }  // namespace ksys::act
 
@@ -57,6 +58,7 @@ bool sub_710073DB94(const char* name, ksys::act::BaseProcHandle* handle,
 bool sub_710073CD5C(const char* name, sead::Heap* heap);
 // EnemyRoot::m34 and PreyRoot::enter_ pass the dead-condition parameter.
 void sub_710073DCB4(ksys::act::Actor* actor, int condition);
+ksys::act::Unk_DynamicActorA58* sub_710073DC28(ksys::act::Actor* actor);
 // SiteBossApproachRoot and ChaseSound supply the unused float and normal-checking mode.
 bool sub_710072EC24(ksys::phys::RayCastForRequest* cast, const sead::Vector3f& start,
                     const sead::Vector3f& end, ksys::phys::RayCast::NormalCheckingMode mode,
