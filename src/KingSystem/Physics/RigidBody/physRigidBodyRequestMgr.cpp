@@ -15,6 +15,10 @@ Unk_71024f7df0::~Unk_71024f7df0() {
     flush();
 }
 
+Unk_71024f7e10::~Unk_71024f7e10() {
+    flush();
+}
+
 static RigidBodyRequestMgr::Config sRigidBodyRequestMgrConfig;
 static bool sEnableLinearVelocityChecks;
 

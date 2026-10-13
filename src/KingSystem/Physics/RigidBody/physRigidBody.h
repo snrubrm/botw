@@ -623,6 +623,8 @@ public:
 protected:
     // FA742C enqueues and FA6438 independently drains requests while maintaining mFlags.
     friend class RigidBodyRequestMgr;
+    // Complete removal-batch F96E84 uses the same Fixed bit as F8D840 and replaceMotionObject.
+    friend class Unk_71024f7e10;
 
     void createMotionAccessor(sead::Heap* heap);
     void assertLayerType(ContactLayer layer) const;

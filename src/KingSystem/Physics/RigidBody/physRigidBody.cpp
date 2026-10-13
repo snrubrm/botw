@@ -37,6 +37,34 @@ void Unk_71024f7df0::flush() {
     mEntities.clear();
 }
 
+// NON_MATCHING: saved registers and the second replacement-loop guard differ.
+void Unk_71024f7e10::flush() {
+    const s32 count = mEntities.size();
+    if (count < 1)
+        return;
+    System::instance()->isActorSystemIdle();
+    System::instance()->getHavokWorld(mLayerType)->removeEntityBatch(mEntities.data(), count);
+    mEntities.clear();
+    const s32 replacements = mMotionReplacements.size();
+    if (replacements < 1)
+        return;
+    for (s32 i = 0; i < replacements; ++i) {
+        getRigidBody(*mMotionReplacements.unsafeAt(i))->getEntityMotionAccessor()
+            ->updateRigidBodyMotionExceptStateAndVel();
+    }
+    System::instance()->getHavokWorld(mLayerType)->addEntityBatch(
+        mMotionReplacements.data(), replacements, HK_ENTITY_ACTIVATION_DO_ACTIVATE);
+    System::instance()->getHavokWorld(mLayerType)->removeEntityBatch(
+        mMotionReplacements.data(), replacements);
+    for (s32 i = 0; i < replacements; ++i) {
+        auto* body = getRigidBody(*mMotionReplacements.unsafeAt(i));
+        body->mMotionFlags.set(RigidBody::MotionFlag::Fixed);
+        body->replaceMotionObject();
+        body->mMotionFlags.reset(RigidBody::MotionFlag::Fixed);
+    }
+    mMotionReplacements.clear();
+}
+
 constexpr float MinInertia = 0.001;
 
 RigidBody::RigidBody(Type type, ContactLayerType layer_type, hkpRigidBody* hk_body,

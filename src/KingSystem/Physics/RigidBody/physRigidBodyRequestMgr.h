@@ -38,6 +38,21 @@ private:
 };
 KSYS_CHECK_SIZE_NX150(Unk_71024f7df0, 0x420);
 
+// Complete two-slot lifetime table 24F7E10. FA6438 constructs both fixed
+// arrays; independent F8D840 appends entities and optional motion replacements.
+class Unk_71024f7e10 {
+public:
+    explicit Unk_71024f7e10(ContactLayerType layer_type) : mLayerType(layer_type) {}
+    virtual ~Unk_71024f7e10();
+    void flush();
+
+private:
+    sead::FixedPtrArray<hkpEntity, 128> mEntities;
+    sead::FixedPtrArray<hkpEntity, 128> mMotionReplacements;
+    ContactLayerType mLayerType;
+};
+KSYS_CHECK_SIZE_NX150(Unk_71024f7e10, 0x830);
+
 class RigidBodyRequestMgr : public sead::hostio::Node {
 public:
     struct Config {
