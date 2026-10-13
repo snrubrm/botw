@@ -262,6 +262,21 @@ bool ActorChemicals::sub_7100E384C4(const phys::RigidBody* body, int idx) {
     return false;
 }
 
+// NON_MATCHING: existing getStuff null conversion, loop count width and register allocation differ.
+void ActorChemicals::sub_7100E38588(u32 value) {
+    const auto lock = sead::makeScopedLock(mCS);
+    _68 = value;
+    for (s32 i = 0; i < _58.size() + _80; ++i) {
+        auto* element = getElement_(i);
+        if (element) {
+            if (auto* chemical = getStuff(i)) {
+                if (!_50->isRigidAttribute13Set(element->_288))
+                    chemical->sub_7100D8EAB4(value);
+            }
+        }
+    }
+}
+
 // NON_MATCHING: same as getStuff (the original's null path of the inlined element lookup unlocks once and shares the
 // outer unlock; the loop counters also use other registers)
 void ActorChemicals::sub_7100E39614(bool on) {

@@ -193,7 +193,8 @@ public:
 
     /* 0x08 */ sead::CriticalSection mCS;
     /* 0x48 */ bool _48 = false;
-    /* 0x50 */ void* _50 = nullptr;
+    // E37224 stores Root's IRoot base; E38588 reads rigid attribute 13. Non-owning.
+    /* 0x50 */ const chm::IRoot* _50 = nullptr;
     /* 0x58 */ sead::Buffer<Unk_71024e6428> _58;
     /* 0x68 */ u32 _68 = 0;
     /* 0x6c */ u32 _6c = 0;
