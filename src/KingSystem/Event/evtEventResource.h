@@ -58,6 +58,8 @@ public:
 
     // 0x7100da3f00: polls the loading of the camera resources; true once they are loaded
     bool finishLoad();
+    // Constructor DA3B8C binds this member to LoadFn; finishLoad submits that callback.
+    bool sub_7100DA3D14(void* user_data);
 
     u8 _0[8];
     /* 0x08 */ s32 _8;  // 1: loading, 2: the low priority request has been submitted
