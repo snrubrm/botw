@@ -15,6 +15,19 @@ void OptionalWeaponAI::enter_(ksys::act::ai::InlineParamPack* params) {
         changeChild("非装備");
 }
 
+void OptionalWeaponAI::sub_7100E1A930() {
+    if (auto* weapon = sead::DynamicCast<act::OptionalWeapon>(mActor)) {
+        if (weapon->_83c & 1) {
+            sead::Vector3f rotation;
+            weapon->sub_7100EF13AC(&rotation);
+            getCurrentChild()->setDynamicParam(rotation, "RotOffset");
+            sead::Vector3f translation;
+            weapon->sub_7100EF1680(&translation);
+            getCurrentChild()->setDynamicParam(translation, "TransOffset");
+        }
+    }
+}
+
 void OptionalWeaponAI::loadParams_() {}
 
 void OptionalWeaponAI::calc_() {
