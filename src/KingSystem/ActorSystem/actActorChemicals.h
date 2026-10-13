@@ -87,6 +87,8 @@ class Unk_71024e6428 : public Unk_71024e6560 {
 public:
     Unk_71024e6428();
     ~Unk_71024e6428() override;
+    // Full E3B708 copies chemical event state; independent carried-record transfers supply both elements.
+    void sub_7100E3B708(const Unk_71024e6428& other);
 
     // 0x7100e3e2e8: marks the element and resets each linked rigid body.
     void sub_7100E3E2E8();

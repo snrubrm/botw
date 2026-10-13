@@ -86,6 +86,31 @@ void WorldMgrStruct0_8_a::sub_71010C9A8C(Unk_710250c840* entry) {
     }
 }
 
+// NON_MATCHING: the whole state assignment merges scalar loads; register allocation also differs.
+void WorldMgrStruct0_8_a::sub_71010C9D00(ksys::act::Actor* actor) {
+    sead::ScopedLock<sead::CriticalSection> lock(&_8._0);
+    auto* map_object = actor->getMapObject();
+    if (!map_object || !actor->getChemicalContainer())
+        return;
+    auto* element = actor->getChemicalContainer()->sub_7100E3718C(0);
+    if (!element)
+        return;
+    for (auto it = _8._60.begin(), end = _8._60.end(); it != end; ++it) {
+        if (it->_b0 != map_object)
+            continue;
+        auto* other = it->_10.sub_7100E3718C(0);
+        if (!other)
+            continue;
+        actor->getChemicalContainer()->sub_7100E37788(0)->sub_7100D91614(
+            *it->_10.sub_7100E37788(0));
+        actor->_6a0->_10 = it->_d0->_10;
+        element->sub_7100E3B708(*other);
+        element->_30 |= 0x10000;
+        sub_71010C9A8C(&*it);
+        return;
+    }
+}
+
 void WorldMgrStruct0_8_a::sub_71010C9B48() {
     sead::ScopedLock<sead::CriticalSection> lock(&_8._0);
     for (auto& entry : _8._60) {

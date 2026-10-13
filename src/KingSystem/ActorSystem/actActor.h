@@ -51,6 +51,8 @@ namespace uking::dmg {
 class DamageManagerBase;
 }  // namespace uking::dmg
 
+class WorldMgrStruct0_8_a;
+
 namespace ksys {
 
 namespace as {
@@ -860,6 +862,7 @@ protected:
     friend class uking::act::Unk_71024e8738;  // writes mMtx / mScale (ActorBind subclass copying a pose)
     friend class uking::action::KokkoCreateDrop;  // checks ActorX6A0 flags
     friend class uking::ai::KokkoRoot;  // checks ActorX6A0 flags
+    friend class ::WorldMgrStruct0_8_a;  // transfers the existing ActorX6A0 state to carried chemicals.
     friend class uking::ai::GerudoQueenBattle;  // updates mMtx before notifying the actor.
     friend class uking::action::DragonFixPlacement;  // F3AB8 writes translation before setMtx.
     friend class uking::action::BrightBowSlowFall;  // D2674 copies the initial world matrix.
