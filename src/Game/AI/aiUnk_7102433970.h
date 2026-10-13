@@ -21,20 +21,13 @@ public:
     bool sub_7100743814(ksys::act::Actor* actor);
     // Updates the message and mode timer; complete body and ZoraHeroRelicBattleRoot caller.
     void sub_7100743A40();
+    void sub_7100743BD4(s32 mode, sead::BufferedSafeString* label);
     void sub_7100744200(s32 mode, bool force);
 
     /* 0x000 */ s32 _0;
     /* 0x008 */ uking::Message3DText _8;
     /* 0x0e0 */ ksys::Timer _e0;
     struct Permutation {
-        // inline-only in the original; name is a guess. Initialization at 0x743814 repeats
-        // this count assignment and signed-byte index fill for all seven records.
-        void init(s8 count) {
-            mCount = count;
-            for (s8 i = 0; i < mCount; ++i)
-                mValues[i] = i;
-        }
-
         s8 mCount = 9;
         s8 mIndex = 0;
         sead::SafeArray<s8, 9> mValues;
