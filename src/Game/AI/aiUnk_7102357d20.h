@@ -829,3 +829,15 @@ public:
     using Unk_7102357d20::Unk_7102357d20;
     void* m2() override { return nullptr; }
 };
+
+// VT 0x2381468: RuneMgr::StructX embeds this sender at +0xf0.
+// Full producer/lifetimes establish the BaseProcLink payload at +0x18 and size 0x28.
+// The producer's constructor remains unmodeled; no RuneMgr storage is changed here.
+class Unk_7102381468 : public Unk_7102357d20 {
+public:
+    ~Unk_7102381468() override;
+    void* m2() override;
+
+    ksys::act::BaseProcLink _18;
+};
+static_assert(sizeof(Unk_7102381468) == 0x28);

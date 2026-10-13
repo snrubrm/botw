@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionExplodeReserved.h"
+#include "Game/AI/aiUnk_7102357d20.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
@@ -60,3 +61,10 @@ void ExplodeReserved::calc_() {
 }
 
 }  // namespace uking::action
+
+// Native sender copies follow ExplodeReserved in this translation unit.
+Unk_7102381468::~Unk_7102381468() = default;
+
+void* Unk_7102381468::m2() {
+    return &_18;
+}
