@@ -2,6 +2,7 @@
 
 #include "KingSystem/ActorSystem/actAiAction.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
+#include "KingSystem/World/worldShootingStarMgrEx.h"
 
 namespace uking::action {
 
@@ -27,8 +28,7 @@ protected:
     const float* mLookSuccessRate_s{};
     // aitree_variable at offset 0x38
     sead::SafeString* mCollaboShootingStarId_a{};
-    u32 _40 = 0;
-    sead::SafeString _48;
+    ksys::world::ShootingStarAnchor::Identifier mIdentifier;
     Unk_71012419b4 _58;
     f32 _78 = 0;
     f32 _7c = 0;
