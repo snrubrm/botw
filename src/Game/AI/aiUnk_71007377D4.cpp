@@ -46,6 +46,8 @@
 #include "KingSystem/ActorSystem/actBaseProcHandle.h"
 #include "KingSystem/Resource/Actor/resResourceDamageParam.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectGiantArmorSlot.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectNpcEquipment.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectItem.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectGiantArmorSlot.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectSmallSword.h"
@@ -1122,14 +1124,15 @@ bool sub_710073200C(ksys::act::Actor* actor, s32 index) {
     return (bits & (1u << index) & 0xff) != 0;
 }
 
+// NON_MATCHING: normal format arguments read the hash after map-name string termination.
 bool sub_7100731E70(const ksys::map::Object* object) {
     if (!object)
         return false;
     auto* gdt = ksys::gdt::Manager::instance();
     if (!gdt)
         return false;
-    const u32 hash_id = object->getHashId();
-    sead::FormatFixedSafeString<128> name("%s_WeaponDrop_%u", gdt->getMapName().cstr(), hash_id);
+    sead::FormatFixedSafeString<128> name("%s_WeaponDrop_%u", gdt->getMapName().cstr(),
+                                          object->getHashId());
     bool dropped = false;
     auto& param = gdt->getParam();
     param.get().getBuffer()->getBool(&dropped, name, param.shouldCheckPermissions(), false);
@@ -1149,4 +1152,36 @@ bool sub_7100735D2C(const ksys::act::BaseProcLink* link, ksys::act::Actor* actor
     ksys::act::acquireActor(link, &accessor);
     ksys::act::ActorConstDataAccess target(actor);
     return sub_7100735BF8(accessor, target);
+}
+
+// NON_MATCHING: Parameter::ref emits separate object/value address additions.
+const sead::SafeString& sub_710072D6D4(ksys::act::Actor* actor, s32 index) {
+    switch (index) {
+    case 0:
+        return actor->getParam()->getRes().mGParamList->getGiantArmorSlot()->mSlot0DefaultActorName.ref();
+    case 1:
+        return actor->getParam()->getRes().mGParamList->getGiantArmorSlot()->mSlot1DefaultActorName.ref();
+    case 2:
+        return actor->getParam()->getRes().mGParamList->getGiantArmorSlot()->mSlot2DefaultActorName.ref();
+    case 3:
+        return actor->getParam()->getRes().mGParamList->getGiantArmorSlot()->mSlot3DefaultActorName.ref();
+    default:
+        return sead::SafeString::cEmptyString;
+    }
+}
+
+// NON_MATCHING: Parameter::ref emits separate object/value address additions.
+const sead::SafeString& sub_710072D7A0(ksys::act::Actor* actor, s32 index) {
+    switch (index) {
+    case 0:
+        return actor->getParam()->getRes().mGParamList->getNpcEquipment()->mEquipName1.ref();
+    case 1:
+        return actor->getParam()->getRes().mGParamList->getNpcEquipment()->mEquipName2.ref();
+    case 2:
+        return actor->getParam()->getRes().mGParamList->getNpcEquipment()->mEquipName3.ref();
+    case 3:
+        return actor->getParam()->getRes().mGParamList->getNpcEquipment()->mEquipName4.ref();
+    default:
+        return sead::SafeString::cEmptyString;
+    }
 }
