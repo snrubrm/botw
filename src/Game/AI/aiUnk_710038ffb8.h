@@ -1,6 +1,8 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include "Game/AI/aiUnk_7102357210.h"
+#include "Game/AI/aiUnk_7102357d20.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Utils/Thread/Message.h"
@@ -12,12 +14,12 @@ class Heap;
 
 // Placeholder (size 0x3d0; embedded at EnemyFortressWait + 0x70 and EnemyFortressWatchKeepingWait + 0x80; ctor
 // 0x710038ffb8 (an owner pointer, the init arg and a set of message senders / listeners with BaseProcLinks), unnamed).
-// Only the members that those two classes call are declared (all declaration only).
+// Message subobjects follow the full constructor, destructor and independent message consumers.
 class Unk_710038ffb8 {
 public:
-    // 0x710038ffb8 (1136 B, declared only): the owner AI and the init arg of the owner are stored in the object.
+    // 0x710038ffb8 (1136 B, declared only): stores the owner and constructs actor message subobjects.
     Unk_710038ffb8(const ksys::act::ai::ActionBase::InitArg& arg, ksys::act::ai::Ai* owner);
-    // 0x7100390428 (540 B, declared only): resets the BaseProcLinks of the message senders / listeners.
+    // 0x7100390428: ordinary member destruction resets the message links and IDs.
     virtual ~Unk_710038ffb8();
 
     // 0x7100390930: called by init_ (352 B).
@@ -41,8 +43,31 @@ public:
 
 private:
     // A flag byte somewhere else that sub_7100390A90 clears (what it belongs to is unknown).
-    u8* _8;
-    void* _10[(0x3a0 - 0x10) / sizeof(void*)];
+    bool* _8;
+    ksys::act::ai::Ai* _10;
+    const s32* _18;
+    const s32* _20;
+    const s32* _28;
+    const s32* _30;
+    const s32* _38;
+    const s32* _40;
+    const s32* _48;
+    sead::SafeString _50;
+    // The complete constructor and lifetime pair identify these message subobjects.
+    /* 0x60 */ Unk_71023e7c38 _60;
+    /* 0xb0 */ Unk_71023e7c68 _b0;
+    /* 0x100 */ Unk_71023e7c98 _100;
+    /* 0x150 */ Unk_71023e7c10 _150;
+    /* 0x180 */ Unk_71023e7cc8 _180;
+    /* 0x1d0 */ Unk_71023e7be8 _1d0;
+    /* 0x200 */ Unk_7102450708 _200;
+    /* 0x250 */ Unk_710235aba0 _250;
+    /* 0x280 */ Unk_71023e7bc0 _280;
+    /* 0x2b0 */ Unk_71023e7cf8 _2b0;
+    /* 0x300 */ Unk_71023e7b98 _300;
+    /* 0x330 */ Unk_71023e7d28 _330;
+    /* 0x378 */ ksys::MesTransceiverId _378;
+    /* 0x390 */ ksys::act::BaseProcLink _390;
     /* 0x3a0 */ ksys::act::BaseProcLink _3a0;
     void* _3b0[(0x3c8 - 0x3b0) / sizeof(void*)];
 

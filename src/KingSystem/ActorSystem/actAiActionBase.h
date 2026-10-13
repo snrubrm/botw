@@ -7,6 +7,7 @@
 #include "KingSystem/ActorSystem/actAiParam.h"
 #include "KingSystem/Utils/Types.h"
 
+class Unk_710038ffb8;
 class Unk_71025afc58;
 class Unk_71025c89e8;
 class Unk_710070f974;
@@ -62,6 +63,7 @@ sead::FixedSafeString<32>* getDefaultString32();
 class ActionBase {
     SEAD_RTTI_BASE(ActionBase)
     // Helper objects owned by actions forward their param lookups to the owner.
+    friend class ::Unk_710038ffb8;
     friend class ::Unk_71025afc58;
     friend class ::Unk_71025c89e8;
     // 2026-10-07: 0x710070f984 reads LynelMoveParam through the original tree-variable API.
