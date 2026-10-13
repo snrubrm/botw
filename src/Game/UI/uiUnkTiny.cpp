@@ -1172,6 +1172,20 @@ u8* Unk_7102475368::get60() {
     return _60;
 }
 
+// Native map-parameter leaf accessors following the shared parameter helpers.
+sead::BoundBox2f* Unk_71024753a8::get70() {
+    return &_70;
+}
+
+sead::BoundBox2f* Unk_71024753a8::get90() {
+    return &_90;
+}
+
+void Unk_71024753a8::set68(f32 width, f32 height) {
+    _68 = width;
+    _6c = height;
+}
+
 // Unk_7102474be8 methods (placeholder names after the offsets)
 // 0x7100935930
 // NON_MATCHING: stack slot placement for the sound mode.

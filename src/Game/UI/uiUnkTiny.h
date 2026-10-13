@@ -291,10 +291,26 @@ public:
     virtual ~Unk_7102475388();
 };
 
+// UiSubsys1 constructs this map-parameter object at +0x850; the next object starts at +0x8f8.
+// Prefix ownership remains unmodeled. Bounds are initialized by the complete 95A59C producer
+// and independently consumed by the 9A69DC / 9A82B4 drawing path.
 class Unk_71024753a8 {
 public:
     virtual ~Unk_71024753a8();
+    sead::BoundBox2f* get70();
+    sead::BoundBox2f* get90();
+    void set68(f32 width, f32 height);
+
+private:
+    u8 _8[0x68 - 0x8];
+    f32 _68;
+    f32 _6c;
+    sead::BoundBox2f _70;
+    sead::BoundBox2f _80;
+    sead::BoundBox2f _90;
+    u8 _a0[8];
 };
+static_assert(sizeof(Unk_71024753a8) == 0xa8);
 
 class Unk_7102476a80 {
 public:
