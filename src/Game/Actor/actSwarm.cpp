@@ -30,6 +30,16 @@ void Swarm::UnitBody::sub_71002D7A54() {
         body->removeFromWorld();
 }
 
+void Swarm::UnitBody::sub_71002D79D8(Unit* unit) {
+    auto* body = _20;
+    _18 = unit;
+    if (!body || body->isAddedToWorld())
+        return;
+    if (_20)
+        _20->setTransform(_18 ? _18->_8 : _10 ? _10->getMtx() : sead::Matrix34f::ident);
+    body->addToWorld();
+}
+
 void Swarm::Unit::sub_71002D93E8(const sead::Matrix33f& rotation) {
     sead::Matrix34CalcCommon<f32>::copy(_8, rotation, _8.getTranslation());
 }

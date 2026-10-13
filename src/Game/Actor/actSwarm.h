@@ -86,9 +86,11 @@ public:
     // The "Tgt" rigid body of a swarm unit (0x28 bytes; placeholder; SetThroughArrow reads _20).
     struct UnitBody {
         void sub_71002D79BC(ksys::phys::InstanceSet* instance);
+        void sub_71002D79D8(Unit* unit);
         void sub_71002D7A54();
 
-        u8 _0[0x18];
+        u8 _0[0x10];
+        /* 0x10 */ Actor* _10;
         /* 0x18 */ Unit* _18;
         /* 0x20 */ ksys::phys::RigidBody* _20;
     };
