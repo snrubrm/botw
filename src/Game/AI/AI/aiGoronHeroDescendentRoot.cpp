@@ -122,7 +122,7 @@ void GoronHeroDescendentRoot::sub_7100406E90() {
     arg._31 = true;
     if (auto* manager = ksys::evt::Manager::instance())
         manager->callEvent(arg);
-    sendMessage(*mActor->getMesTransceiverId(), ksys::MessageType(0x8000034), nullptr);
+    sendMessage(*mActor->getMesTransceiverId(), static_cast<ksys::MessageType>(0x8000034), nullptr);
 }
 
 void GoronHeroDescendentRoot::changeToStopCommand() {

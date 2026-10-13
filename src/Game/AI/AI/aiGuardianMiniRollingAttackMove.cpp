@@ -115,7 +115,7 @@ void Unk_71023f92d8::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
             *a5 = 8;
             *a1 += *_28->mCrashDamage_s;
             if (accessor.hasTag(0x0f42c303))
-                _28->sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x8000004),
+                _28->sendMessage(*accessor.getMessageTransceiverId(), static_cast<ksys::MessageType>(0x8000004),
                                  nullptr);
         }
     }
