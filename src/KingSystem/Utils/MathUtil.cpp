@@ -1,5 +1,6 @@
 #include "KingSystem/Utils/MathUtil.h"
 #include <cstdlib>
+#include <math/seadQuat.h>
 
 namespace ksys::util {
 
@@ -135,6 +136,18 @@ bool sub_71011F10F4(const sead::Matrix34f& mtx) {
             return true;
     }
     return false;
+}
+
+void sub_71011EFCA8(sead::Matrix34f* matrix, const sead::Vector3f& rotation) {
+    sead::Vector3f axis = rotation;
+    const f32 angle = axis.normalize();
+    if (angle > 0.001f) {
+        sead::Quatf quaternion;
+        quaternion.setAxisRadian(axis, angle);
+        sead::Matrix34f rotation_matrix;
+        rotation_matrix.fromQuat(quaternion);
+        matrix->setMul(*matrix, rotation_matrix);
+    }
 }
 
 void sub_71011EFE58(sead::Matrix33f* mtx, const sead::Vector3f& front, const sead::Vector3f& up, bool unused) {

@@ -36,6 +36,8 @@ class Unk_7100e8b2b8;
 
 namespace uking::action {
 class ChemicalAttack;
+class DragonFixPlacement;
+class BrightBowSlowFall;
 class KokkoCreateDrop;
 class IgnitedThrown;
 }  // namespace uking::action

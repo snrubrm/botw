@@ -149,6 +149,9 @@ bool sub_71011F1040(const sead::Vector3f& vec);
 
 bool sub_71011F10F4(const sead::Matrix34f& mtx);
 
+// Complete 11EFCA8 and independent F3AB8 / D2674 apply a relative axis-angle rotation.
+void sub_71011EFCA8(sead::Matrix34f* matrix, const sead::Vector3f& rotation);
+
 // 0x71011efe58 / 0x71011effa8: Matrix33 versions of sub_71011F00EC / sub_71011F0260.
 // The fourth parameter is unused (callers of sub_71011EFE58 pass true, callers of sub_71011EFFA8 pass false, e.g.
 // GuardianMiniBeamAttackMove::sub_710041896C and 0x71000cd468).

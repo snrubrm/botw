@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionBrightBowSlowFall.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Utils/MathUtil.h"
 
 namespace uking::action {
 
@@ -11,7 +14,28 @@ bool BrightBowSlowFall::init_(sead::Heap* heap) {
 }
 
 void BrightBowSlowFall::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    auto* actor = mActor;
+    if (!actor)
+        return;
+    auto* body = actor->getMainBody();
+    if (!body)
+        return;
+    sead::Matrix34f matrix = sead::Matrix34f::ident;
+    ksys::util::sub_71011EFCA8(&matrix, *mInitRotate_s);
+    matrix.setTranslation(actor->getMtx().getTranslation());
+    actor->mMtx = matrix;
+    actor->nullsub_4648();
+    sead::Vector3f axis;
+    f32 angle;
+    ksys::util::sub_71011EF51C(&axis, &angle, mActor->getMainBody()->getTransform(), matrix,
+                             sead::Vector3f::ey);
+    if (angle > 0.1f)
+        body->setTransform(matrix);
+    _c8 = false;
+    _c9 = false;
+    _cc = 0.0f;
+    _d0 = 0.0f;
+    _bc = actor->getMtx().getTranslation();
 }
 
 void BrightBowSlowFall::leave_() {
