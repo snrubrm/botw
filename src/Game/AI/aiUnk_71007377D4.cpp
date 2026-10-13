@@ -964,3 +964,27 @@ bool sub_7100736384(ksys::act::Actor* actor) {
         return (npc->_fe8 & 4) != 0;
     return false;
 }
+
+bool sub_71007356EC(const ksys::act::BaseProcLink* link) {
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(link, &accessor);
+    return accessor.getName() == "Weapon_Sword_070";
+}
+
+bool sub_7100733360(ksys::act::Actor* actor) {
+    auto* data = sead::DynamicCast<ksys::act::DropData>(actor->getDropData());
+    if (data) {
+        if (data->_8 == 1)
+            return true;
+        if (data->_8 == 2)
+            return true;
+    }
+    return false;
+}
+
+bool sub_7100733B84(ksys::act::Actor* actor) {
+    auto* data = sead::DynamicCast<ksys::act::DropData>(actor->getDropData());
+    if (!data)
+        return false;
+    return data->_8 == 1;
+}
