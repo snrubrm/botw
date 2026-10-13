@@ -53,14 +53,12 @@ void SliderCs::sub_7100F71058(const sead::Vector3f& pivot_a, const sead::Vector3
 }
 Unk_71024f6730::~Unk_71024f6730() = default;
 
-// NON_MATCHING: limit/body loads and the Boolean OR operands use different scheduling/registers.
+// NON_MATCHING: limit loads occur after the vector calls and the comparisons short-circuit.
 bool Unk_71024f6730::m0() const {
     const auto* instance = mConstraint->mConstraintInstance;
     const auto* data = static_cast<const hkpPrismaticConstraintData*>(instance->getData());
     const auto* body_a = instance->getRigidBodyA();
     const auto* body_b = instance->getRigidBodyB();
-    const f32 min = data->m_atoms.m_linLimit.m_min + 0.1f;
-    const f32 max = data->m_atoms.m_linLimit.m_max;
     const auto& transform_a = body_a ? body_a->getTransform() : hkTransform::getIdentity();
     const auto& transform_b = body_b ? body_b->getTransform() : hkTransform::getIdentity();
     hkVector4 pivot_a;
@@ -73,7 +71,8 @@ bool Unk_71024f6730::m0() const {
     hkVector4 difference;
     difference.setSub(pivot_a, pivot_b);
     const f32 distance = difference.dot<3>(axis).val();
-    return (distance <= min) | (distance >= max - 0.1f);
+    return distance <= data->m_atoms.m_linLimit.m_min + 0.1f ||
+           distance >= data->m_atoms.m_linLimit.m_max - 0.1f;
 }
 
 Unk_71024f6778::~Unk_71024f6778() = default;
