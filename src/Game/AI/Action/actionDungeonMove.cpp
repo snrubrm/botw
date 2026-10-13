@@ -3,6 +3,8 @@
 #include <xlink2/xlink2HandleSLink.h>
 #include "Game/AI/aiXlinkHandle.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Map/mapObject.h"
+#include "KingSystem/Map/mapObjectLink.h"
 
 namespace uking::action {
 
@@ -41,6 +43,19 @@ void DungeonMove::loadParams_() {
     getMapUnitParam(&mMoveSpeed_m, "MoveSpeed");
     getMapUnitParam(&mCameraPower_m, "CameraPower");
     getMapUnitParam(&mCameraRange_m, "CameraRange");
+}
+
+ksys::map::Object* DungeonMove::sub_71000F9C9C() {
+    if (!mActor)
+        return nullptr;
+    auto* object = mActor->getMapObject();
+    if (!object || !object->getLinkData())
+        return nullptr;
+    for (auto* linked : object->getLinkData()->mObjects) {
+        if (linked && linked->getActorData().mActorName.findIndex("SoundProxy") != -1)
+            return linked;
+    }
+    return nullptr;
 }
 
 void DungeonMove::calc_() {
