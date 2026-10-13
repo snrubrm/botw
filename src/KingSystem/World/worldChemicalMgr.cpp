@@ -1,6 +1,8 @@
 #include "KingSystem/World/worldChemicalMgr.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include <aal/aalShape.h>
+#include "KingSystem/Physics/RigidBody/Shape/Sphere/physSphereRigidBody.h"
+#include "KingSystem/Physics/RigidBody/Shape/Sphere/physSphereShape.h"
 #include "KingSystem/Physics/RigidBody/Shape/Capsule/physCapsuleRigidBody.h"
 #include "KingSystem/Physics/RigidBody/Shape/Capsule/physCapsuleShape.h"
 #include <math/seadMatrix.h>
@@ -45,6 +47,16 @@ Unk_710250c820::~Unk_710250c820() {
         delete _10;
         _10 = nullptr;
     }
+}
+
+void Unk_710250c820::sub_71010C66E4(sead::Heap* heap) {
+    ksys::phys::SphereParam param;
+    param.translate = sead::Vector3f::zero;
+    param.radius = 1.0f;
+    param.name = "BurnDecorationGrasses";
+    param.contact_layer = ksys::phys::ContactLayer::SensorChemicalElement;
+    param.motion_type = ksys::phys::MotionType::Keyframed;
+    _10 = ksys::phys::SphereRigidBody::make(&param, heap);
 }
 
 Unk_710250c6b8::~Unk_710250c6b8() {

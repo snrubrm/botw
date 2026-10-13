@@ -129,6 +129,7 @@ class Unk_710250c820 {
 public:
     Unk_710250c820();
     virtual ~Unk_710250c820();
+    void sub_71010C66E4(sead::Heap* heap);
 
     void* _8 = nullptr;
     ksys::phys::RigidBody* _10 = nullptr;
