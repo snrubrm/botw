@@ -58,10 +58,8 @@ u32 TerrainHeightFieldRigidBody::getCollisionMasks(CollisionMasks* masks, const 
             submaterial = 0;
         material = Material::Undefined;
     }
-    {
-        MaterialMask mask(material, submaterial, FloorCode::None, WallCode::None, true);
-        masks->material_mask = mask.getRawData();
-    }
+    masks->material_mask =
+        MaterialMask(material, submaterial, FloorCode::None, WallCode::None, true).getRawData();
     masks->collision_filter_info = 8;
     masks->ignored_layers = getIgnoredLayers().getDirect();
     return 0;
