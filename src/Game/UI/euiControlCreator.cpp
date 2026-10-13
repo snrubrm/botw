@@ -6,6 +6,7 @@
 #include "Game/UI/euiBoxCursor.h"
 #include "Game/UI/euiLayoutEx.h"
 #include "Game/UI/euiTraceGaugeControl.h"
+#include "Game/gameUnkRttiPlaceholders.h"
 
 namespace eui {
 // 0x7100bd8808
@@ -93,3 +94,5 @@ void ControlCreator::registerButton(ButtonBase* button) {
     mButtons->mButtons.linkNext(&button->_8);
 }
 }  // namespace eui
+
+Unk_710252e4b8::~Unk_710252e4b8() = default;

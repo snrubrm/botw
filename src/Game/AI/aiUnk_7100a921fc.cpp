@@ -1,5 +1,6 @@
 #include <random/seadGlobalRandom.h>
 #include "Game/AI/aiUnk_71023f18e8.h"
+#include "Game/gameUnkRttiPlaceholders.h"
 
 Unk_7100a921fc::Unk_7100a921fc() = default;
 
@@ -19,3 +20,5 @@ bool Unk_7100a921fc::sub_7100A92248() {
         _0 = _4 = sead::GlobalRandom::instance()->getU32(count);
     return prev == count - 1;
 }
+
+Unk_710251d160::~Unk_710251d160() = default;

@@ -8,6 +8,7 @@
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectHorse.h"
+#include "Game/gameUnkRttiPlaceholders.h"
 
 namespace uking::action {
 
@@ -119,3 +120,5 @@ void HorseManeGrabbedAction::calc_() {
 }
 
 }  // namespace uking::action
+
+Unk_7102516f88::~Unk_7102516f88() = default;

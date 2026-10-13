@@ -3,6 +3,7 @@
 #include <aal/aalEmitter.h>
 #include <aal/aalSystemAccessor.h>
 #include <heap/seadHeap.h>
+#include "Game/gameUnkRttiPlaceholders.h"
 
 namespace ksys::snd {
 
@@ -39,3 +40,21 @@ void Unk_SoundMgr48::sub_710105590C(sead::Heap* heap) {
 }
 
 }  // namespace ksys::snd
+
+// NON_MATCHING: placeholder destructor; the original (0x710107e7cc) also destroys members or bases
+// this class does not declare yet.
+Unk_7102504260::~Unk_7102504260() = default;
+
+Unk_7102504470::~Unk_7102504470() = default;
+
+// NON_MATCHING: placeholder destructor; the original (0x7101087a7c) also destroys members or bases
+// this class does not declare yet.
+Unk_71025046d0::~Unk_71025046d0() = default;
+
+// NON_MATCHING: placeholder destructor; the original (0x7101087be4) also destroys members or bases
+// this class does not declare yet.
+Unk_7102504850::~Unk_7102504850() = default;
+
+// NON_MATCHING: placeholder destructor; the original (0x7101087d00) also destroys members or bases
+// this class does not declare yet.
+Unk_71025049d0::~Unk_71025049d0() = default;

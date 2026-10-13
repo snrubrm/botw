@@ -2,6 +2,7 @@
 #include "KingSystem/Physics/System/physRayCastBodyQuery.h"
 #include "KingSystem/World/worldChemicalMgr.h"
 #include "KingSystem/World/worldManager.h"
+#include "Game/gameUnkRttiPlaceholders.h"
 
 namespace ksys::world {
 
@@ -53,3 +54,7 @@ ElementLightningFire* sub_71012FDF24(const ElementLightningCreateArg* arg) {
 }
 
 }  // namespace ksys::world
+
+Unk_710251f5c8::~Unk_710251f5c8() = default;
+
+Unk_710251f710::~Unk_710251f710() = default;

@@ -1,4 +1,5 @@
 #include "KingSystem/Sound/sndOcclusionMgr.h"
+#include "Game/gameUnkRttiPlaceholders.h"
 
 namespace ksys::snd {
 
@@ -41,3 +42,7 @@ OcclusionMgr::~OcclusionMgr() {
 }
 
 }  // namespace ksys::snd
+
+// NON_MATCHING: placeholder destructor; the original (0x71010576a8) also destroys members or bases
+// this class does not declare yet.
+Unk_7102502978::~Unk_7102502978() = default;

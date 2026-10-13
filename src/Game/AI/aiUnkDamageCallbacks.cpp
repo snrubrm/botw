@@ -5,6 +5,7 @@
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/gameUnkRttiPlaceholders.h"
 
 void Unk_71024518c8::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
                           uking::dmg::DamageCallbackInfo* a6) {
@@ -262,3 +263,5 @@ void Unk_7102451af8::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
         *a3 = 0;
     }
 }
+
+Unk_7102451c48::~Unk_7102451c48() = default;

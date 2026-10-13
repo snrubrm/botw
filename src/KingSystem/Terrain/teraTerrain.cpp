@@ -1,4 +1,5 @@
 #include "KingSystem/Terrain/teraSystem.h"
+#include "Game/gameUnkRttiPlaceholders.h"
 
 namespace ksys::tera {
 
@@ -94,3 +95,9 @@ bool Core::Grass::sub_710115101C(const sead::Vector3f* pos, f32 radius) {
 }
 
 }  // namespace ksys::tera
+
+// NON_MATCHING: placeholder destructor; the original (0x7101149dcc) also destroys members or bases
+// this class does not declare yet.
+Unk_710250fb18::~Unk_710250fb18() = default;
+
+Unk_710250fdf8::~Unk_710250fdf8() = default;

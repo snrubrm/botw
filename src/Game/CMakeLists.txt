@@ -74,6 +74,7 @@ target_sources(uking PRIVATE
   gameUnkRttiClasses.cpp
   gameWolfLinkMgr.cpp
   gameUnkRttiClasses.h
+  gameUnkRttiPlaceholders.h
   gamePlayReport.cpp
   gamePlayReport.h
   gameScene.cpp

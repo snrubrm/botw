@@ -20,6 +20,7 @@
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/World/worldManager.h"
 #include "KingSystem/World/worldEnvMgr.h"
+#include "Game/gameUnkRttiPlaceholders.h"
 
 namespace uking {
 
@@ -410,3 +411,5 @@ void ViewerStage::initForStageGen() {
 bool isStageSelectState() {
     return uking::GameScene::sInstance2->sub_71007B0D3C();
 }
+
+Unk_710245c368::~Unk_710245c368() = default;

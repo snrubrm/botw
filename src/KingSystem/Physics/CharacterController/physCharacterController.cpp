@@ -15,6 +15,7 @@
 #include <Havok/Physics2012/Dynamics/Entity/hkpRigidBody.h>
 #include <Havok/Physics2012/Dynamics/World/hkpPhysicsSystem.h>
 #include <Havok/Physics2012/Utilities/Dynamics/ScaleSystem/hkpSystemScalingUtility.h>
+#include "Game/gameUnkRttiPlaceholders.h"
 
 namespace ksys::phys {
 
@@ -1292,3 +1293,11 @@ void CharacterController::sub_7100F6321C(bool on) {
 }
 
 }  // namespace ksys::phys
+
+// NON_MATCHING: placeholder destructor; the original (0x7100f66998) also destroys members or bases
+// this class does not declare yet.
+Unk_71024f5e40::~Unk_71024f5e40() = default;
+
+// NON_MATCHING: placeholder destructor; the original (0x7100f6741c) also destroys members or bases
+// this class does not declare yet.
+Unk_71024f5e90::~Unk_71024f5e90() = default;

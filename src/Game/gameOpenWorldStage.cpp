@@ -14,6 +14,7 @@
 #include "KingSystem/System/CameraMgr.h"
 #include "KingSystem/Utils/Thread/MessageDispatcherBase.h"
 #include "KingSystem/Utils/Thread/MessageBroker.h"
+#include "Game/gameUnkRttiPlaceholders.h"
 
 namespace uking {
 
@@ -275,3 +276,5 @@ void Unk_710245b690::exec6(void* arg) {
 }
 
 }  // namespace uking
+
+Unk_710245b3d8::~Unk_710245b3d8() = default;

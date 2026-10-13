@@ -35,7 +35,7 @@
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 #include <nn/os.h>
-#include <prim/seadRuntimeTypeInfo.h>
+#include "Game/gameUnkRttiPlaceholders.h"
 
 namespace uking::ui {
 
@@ -2835,35 +2835,14 @@ Unk_7102496f20::~Unk_7102496f20() = default;
 
 }  // namespace uking::ui
 
-// vtable 0x710247faf0 (23 slots); placeholder generated from the vtable (genskel.py).
-class Unk_710247faf0 : public uking::ui::Unk_7102474e38 {
-    SEAD_RTTI_OVERRIDE(Unk_710247faf0, uking::ui::Unk_7102474e38)
-public:
-    ~Unk_710247faf0() override;
-};
-
-// NON_MATCHING: placeholder; the original destructor (0x71009d1d08) also destroys members this class
-// does not declare yet.
+// NON_MATCHING: placeholder destructor; the original (0x71009d1d08) also destroys members or bases
+// this class does not declare yet.
 Unk_710247faf0::~Unk_710247faf0() = default;
 
-// vtable 0x710247fbc0 (23 slots); placeholder generated from the vtable (genskel.py).
-class Unk_710247fbc0 : public uking::ui::Unk_7102474e38 {
-    SEAD_RTTI_OVERRIDE(Unk_710247fbc0, uking::ui::Unk_7102474e38)
-public:
-    ~Unk_710247fbc0() override;
-};
-
-// NON_MATCHING: placeholder; the original destructor (0x71009d29a0) also destroys members this class
-// does not declare yet.
+// NON_MATCHING: placeholder destructor; the original (0x71009d29a0) also destroys members or bases
+// this class does not declare yet.
 Unk_710247fbc0::~Unk_710247fbc0() = default;
 
-// vtable 0x71024975d0 (23 slots); placeholder generated from the vtable (genskel.py).
-class Unk_71024975d0 : public uking::ui::Unk_7102474e38 {
-    SEAD_RTTI_OVERRIDE(Unk_71024975d0, uking::ui::Unk_7102474e38)
-public:
-    ~Unk_71024975d0() override;
-};
-
-// NON_MATCHING: placeholder; the original destructor (0x7100a4d220) also destroys members this class
-// does not declare yet.
+// NON_MATCHING: placeholder destructor; the original (0x7100a4d220) also destroys members or bases
+// this class does not declare yet.
 Unk_71024975d0::~Unk_71024975d0() = default;

@@ -1,6 +1,7 @@
 #include <math/seadMathCalcCommon.h>
 #include <prim/seadScopedLock.h>
 #include "KingSystem/Physics/System/physHavokAI.h"
+#include "Game/gameUnkRttiPlaceholders.h"
 
 namespace ksys::phys {
 
@@ -102,3 +103,7 @@ void NavMeshLoadMgr::x_2() {
 }
 
 }  // namespace ksys::phys
+
+// NON_MATCHING: placeholder destructor; the original (0x7100f8bba8) also destroys members or bases
+// this class does not declare yet.
+Unk_71024f7180::~Unk_71024f7180() = default;

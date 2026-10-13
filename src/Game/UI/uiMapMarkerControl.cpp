@@ -9,6 +9,7 @@
 #include "Game/Actor/actHorseBase.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include <nn/ui2d/Pane.h>
+#include "Game/gameUnkRttiPlaceholders.h"
 
 namespace uking::ui {
 
@@ -423,3 +424,11 @@ Unk_7102479478::~Unk_7102479478() = default;
 Unk_7102479510::~Unk_7102479510() = default;
 
 }  // namespace uking::ui
+
+Unk_71024795a8::~Unk_71024795a8() = default;
+
+Unk_7102479640::~Unk_7102479640() = default;
+
+Unk_71024796d8::~Unk_71024796d8() = default;
+
+Unk_7102479770::~Unk_7102479770() = default;

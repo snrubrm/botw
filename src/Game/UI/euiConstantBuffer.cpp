@@ -1,5 +1,6 @@
 #include "Game/UI/euiConstantBuffer.h"
 #include <nn/ui2d/DrawInfo.h>
+#include "Game/gameUnkRttiPlaceholders.h"
 
 namespace eui {
 
@@ -27,3 +28,19 @@ void ConstantBuffer::applyToDrawInfo(nn::ui2d::DrawInfo* draw_info) {
 }
 
 }  // namespace eui
+
+// NON_MATCHING: placeholder destructor; the original (0x7100c0f90c) also destroys members or bases
+// this class does not declare yet.
+Unk_71024ca688::~Unk_71024ca688() = default;
+
+// NON_MATCHING: placeholder destructor; the original (0x7100c66fb8) also destroys members or bases
+// this class does not declare yet.
+Unk_71024cffe8::~Unk_71024cffe8() = default;
+
+// NON_MATCHING: placeholder destructor; the original (0x7100c7fcb8) also destroys members or bases
+// this class does not declare yet.
+Unk_71024d1af8::~Unk_71024d1af8() = default;
+
+// NON_MATCHING: placeholder destructor; the original (0x7100f2b358) also destroys members or bases
+// this class does not declare yet.
+Unk_71024f4720::~Unk_71024f4720() = default;

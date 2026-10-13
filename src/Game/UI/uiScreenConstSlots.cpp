@@ -3,6 +3,7 @@
 #include "Game/gameRoot4.h"
 #include "Game/UI/uiSwkbdMgr.h"
 #include "Game/UI/uiUtils.h"
+#include "Game/gameUnkRttiPlaceholders.h"
 
 // Overrides that return a constant (slots 18, 72, 81, 141, 142) in the Screen<Name> classes.
 namespace uking::ui {
@@ -182,3 +183,7 @@ void ScreenShopHorse::sub_7100A503DC() {
 }
 
 }  // namespace uking::ui
+
+// NON_MATCHING: placeholder destructor; the original (0x7100a6bfd8) also destroys members or bases
+// this class does not declare yet.
+Unk_710249c338::~Unk_710249c338() = default;

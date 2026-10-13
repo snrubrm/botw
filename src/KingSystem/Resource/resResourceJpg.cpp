@@ -1,5 +1,6 @@
 #include "KingSystem/Resource/resResourceJpg.h"
 #include <common/aglTextureData.h>
+#include "Game/gameUnkRttiPlaceholders.h"
 
 // Native 9CDB18/9CDBF0 construct this RTTI interface; its sole slot is 9CDF60.
 template bool sead::RuntimeTypeInfo::Derive<ksys::res::ResourceJpg>::isDerived(
@@ -111,3 +112,9 @@ void Unk_710247eb88::sub_71009CDAE8() {
 }
 
 }  // namespace ksys::res
+
+Unk_710247ec28::~Unk_710247ec28() = default;
+
+Unk_710247ed28::~Unk_710247ed28() = default;
+
+Unk_710247edc8::~Unk_710247edc8() = default;

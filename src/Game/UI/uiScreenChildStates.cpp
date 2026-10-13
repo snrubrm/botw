@@ -17,6 +17,7 @@
 #include "KingSystem/Resource/resHandle.h"
 #include <nn/ui2d/Pane.h>
 #include <math/seadMathCalcCommon.h>
+#include "Game/gameUnkRttiPlaceholders.h"
 
 namespace uking::ui {
 
@@ -825,3 +826,13 @@ void Unk_710247c368::sub_71009C082C() {
 }
 
 }  // namespace uking::ui
+
+Unk_710247e8c0::~Unk_710247e8c0() = default;
+
+// NON_MATCHING: placeholder destructor; the original (0x71009cafd4) also destroys members or bases
+// this class does not declare yet.
+Unk_710247e960::~Unk_710247e960() = default;
+
+// NON_MATCHING: placeholder destructor; the original (0x71009cc7c4) also destroys members or bases
+// this class does not declare yet.
+Unk_710247e990::~Unk_710247e990() = default;

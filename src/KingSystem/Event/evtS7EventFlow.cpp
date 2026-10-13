@@ -6,6 +6,7 @@
 #include "KingSystem/Event/evtEventSystem.h"
 #include "KingSystem/Event/evtManager.h"
 #include "KingSystem/Physics/System/physSystem.h"
+#include "Game/gameUnkRttiPlaceholders.h"
 
 namespace ksys::evt {
 
@@ -95,3 +96,5 @@ const char* S7EventFlow::m7() {
 }
 
 }  // namespace ksys::evt
+
+Unk_710246cb78::~Unk_710246cb78() = default;

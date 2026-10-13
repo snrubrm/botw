@@ -1,5 +1,6 @@
 #include "Game/Actor/actUnk_71025ae680.h"
 #include "KingSystem/Resource/Actor/resResourceDamageParam.h"
+#include "Game/gameUnkRttiPlaceholders.h"
 
 namespace uking::act {
 
@@ -37,3 +38,7 @@ bool Unk_71008502cc::sub_7100850CF4() const {
 }
 
 }  // namespace uking::act
+
+// NON_MATCHING: placeholder destructor; the original (0x7100850314) also destroys members or bases
+// this class does not declare yet.
+Unk_710246a960::~Unk_710246a960() = default;

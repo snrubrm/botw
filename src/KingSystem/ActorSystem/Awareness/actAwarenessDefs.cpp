@@ -2,6 +2,7 @@
 #include <container/seadSafeArray.h>
 #include <utility/aglParameter.h>
 #include "KingSystem/ActorSystem/Awareness/actAwareness.h"
+#include "Game/gameUnkRttiPlaceholders.h"
 
 namespace ksys::act {
 
@@ -46,3 +47,7 @@ u32 getAwarenessSensorFlags(u32 hash) {
 }
 
 }  // namespace ksys::act
+
+// NON_MATCHING: placeholder destructor; the original (0x7101265168) also destroys members or bases
+// this class does not declare yet.
+Unk_7102517ab0::~Unk_7102517ab0() = default;

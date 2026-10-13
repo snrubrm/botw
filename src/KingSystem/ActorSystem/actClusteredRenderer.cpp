@@ -2,6 +2,7 @@
 #include <gsys/gsysModel.h>
 #include <math/seadMathCalcCommon.h>
 #include "KingSystem/Map/mapPlacementMgr.h"
+#include "Game/gameUnkRttiPlaceholders.h"
 
 namespace ksys::act {
 
@@ -26,3 +27,7 @@ void sub_7101249DF4(sead::Vector2<s32>* out, const sead::Vector3f* pos) {
 }
 
 }  // namespace ksys::map
+
+// NON_MATCHING: placeholder destructor; the original (0x7101242774) also destroys members or bases
+// this class does not declare yet.
+Unk_7102516b30::~Unk_7102516b30() = default;

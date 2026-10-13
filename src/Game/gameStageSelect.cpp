@@ -1,5 +1,6 @@
 #include "Game/gameStageSelect.h"
 #include "KingSystem/Utils/StateMachine.h"
+#include "Game/gameUnkRttiPlaceholders.h"
 
 // The state objects of the stage select menu are ksys::StateTemplate<StageSelect> (vtable 0x710245c000; the member
 // functions 0x7d06a4-0x7d0738).
@@ -28,3 +29,5 @@ bool StageSelect::moveReenter(void* arg) {
 }
 
 }  // namespace uking
+
+Unk_710245bf30::~Unk_710245bf30() = default;

@@ -11,6 +11,7 @@
 #include "KingSystem/World/worldManager.h"
 #include "KingSystem/World/worldTempMgr.h"
 #include "KingSystem/World/worldTimeMgr.h"
+#include "Game/gameUnkRttiPlaceholders.h"
 
 namespace ksys::world {
 
@@ -311,3 +312,5 @@ ksys::world::WeatherMgr* getWeatherMgr() {
 }
 
 }  // namespace wm
+
+Unk_710250cfd8::~Unk_710250cfd8() = default;

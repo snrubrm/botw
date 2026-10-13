@@ -3,6 +3,7 @@
 #include "Game/UI/uiUnkSingletons.h"
 #include "Game/UI/uiUtils.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
+#include "Game/gameUnkRttiPlaceholders.h"
 
 namespace uking::ui {
 
@@ -826,3 +827,23 @@ bool UiSubsys1::sub_7100968BD8() {
 }
 
 }  // namespace uking::ui
+
+// NON_MATCHING: placeholder destructor; the original (0x71009529f8) also destroys members or bases
+// this class does not declare yet.
+Unk_71024756f0::~Unk_71024756f0() = default;
+
+// NON_MATCHING: placeholder destructor; the original (0x710095394c) also destroys members or bases
+// this class does not declare yet.
+Unk_7102475920::~Unk_7102475920() = default;
+
+// NON_MATCHING: placeholder destructor; the original (0x71009540e4) also destroys members or bases
+// this class does not declare yet.
+Unk_7102475a38::~Unk_7102475a38() = default;
+
+// NON_MATCHING: placeholder destructor; the original (0x71009550f8) also destroys members or bases
+// this class does not declare yet.
+Unk_7102475b50::~Unk_7102475b50() = default;
+
+// NON_MATCHING: placeholder destructor; the original (0x710095606c) also destroys members or bases
+// this class does not declare yet.
+Unk_7102475e68::~Unk_7102475e68() = default;

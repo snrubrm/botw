@@ -15,6 +15,7 @@
 #include "KingSystem/Resource/resResource.h"
 #include "KingSystem/System/CameraMgr.h"
 #include "KingSystem/Utils/InitTimeInfo.h"
+#include "Game/gameUnkRttiPlaceholders.h"
 
 namespace ksys::world {
 
@@ -1032,3 +1033,9 @@ act::Unk_71024dd490* Manager::getElementHolderMaybe() const {
 }
 
 }  // namespace ksys::world
+
+Unk_710250db28::~Unk_710250db28() = default;
+
+Unk_710250dbc8::~Unk_710250dbc8() = default;
+
+Unk_710250dc50::~Unk_710250dc50() = default;

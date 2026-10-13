@@ -1,5 +1,6 @@
 #include "KingSystem/Physics/System/physUnk_71012a6844.h"
 #include <prim/seadScopedLock.h>
+#include "Game/gameUnkRttiPlaceholders.h"
 
 namespace ksys::phys {
 
@@ -26,3 +27,7 @@ void Unk_71012a6844::sub_71012A6AF8(ItemB* item) {
 }
 
 }  // namespace ksys::phys
+
+// NON_MATCHING: placeholder destructor; the original (0x71012a67c8) also destroys members or bases
+// this class does not declare yet.
+Unk_7102519a68::~Unk_7102519a68() = default;

@@ -14,6 +14,7 @@
 #include <heap/seadExpHeap.h>
 #include <math/seadMathCalcCommon.h>
 #include "KingSystem/Resource/resLoadRequest.h"
+#include "Game/gameUnkRttiPlaceholders.h"
 
 namespace uking::ui {
 
@@ -409,3 +410,23 @@ void Manager::sub_7100A7A4C0() {
 }
 
 }  // namespace uking::ui
+
+// NON_MATCHING: placeholder destructor; the original (0x71009453bc) also destroys members or bases
+// this class does not declare yet.
+Unk_7102474fd8::~Unk_7102474fd8() = default;
+
+// NON_MATCHING: placeholder destructor; the original (0x710094784c) also destroys members or bases
+// this class does not declare yet.
+Unk_7102475050::~Unk_7102475050() = default;
+
+// NON_MATCHING: placeholder destructor; the original (0x71009479d8) also destroys members or bases
+// this class does not declare yet.
+Unk_71024750c8::~Unk_71024750c8() = default;
+
+// NON_MATCHING: placeholder destructor; the original (0x7100a7f290) also destroys members or bases
+// this class does not declare yet.
+Unk_710249c5e8::~Unk_710249c5e8() = default;
+
+// NON_MATCHING: placeholder destructor; the original (0x7100a7ef58) also destroys members or bases
+// this class does not declare yet.
+Unk_710249c5b8::~Unk_710249c5b8() = default;

@@ -1,6 +1,5 @@
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
-#include "Game/gameUnkRttiClasses.h"
-#include <prim/seadRuntimeTypeInfo.h>
+#include "Game/gameUnkRttiPlaceholders.h"
 
 namespace ksys::act {
 
@@ -16,13 +15,6 @@ void Unk_71024dce08::m17() { _8.clear(); }
 
 }  // namespace ksys::act
 
-// vtable 0x71024dcf48 (4 slots); placeholder generated from the vtable (genskel.py).
-class Unk_71024dcf48 : public Unk_71024dcf80 {
-    SEAD_RTTI_OVERRIDE(Unk_71024dcf48, Unk_71024dcf80)
-public:
-    ~Unk_71024dcf48() override;
-};
-
-// NON_MATCHING: placeholder; the original destructor (0x7100d81f74) also destroys members this class
-// does not declare yet.
+// NON_MATCHING: placeholder destructor; the original (0x7100d81f74) also destroys members or bases
+// this class does not declare yet.
 Unk_71024dcf48::~Unk_71024dcf48() = default;

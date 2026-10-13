@@ -1,6 +1,7 @@
 #include "Game/AI/aiUnk_7102450fa8.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "Game/gameUnkRttiPlaceholders.h"
 
 sead::Vector3f sUnk_71025c8cf8(0, 0, 900);
 const f32 sUnk_7102450fa0 = 50.0f;
@@ -164,3 +165,7 @@ void Unk_7102450fa8::sub_7100719ED0() {
     sead::ScopedLock<sead::JobQueueLock> lock(&_9c);
     _a0.clear();
 }
+
+// NON_MATCHING: placeholder destructor; the original (0x710071ab84) also destroys members or bases
+// this class does not declare yet.
+Unk_7102450fe0::~Unk_7102450fe0() = default;

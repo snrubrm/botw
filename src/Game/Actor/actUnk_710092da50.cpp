@@ -3,6 +3,7 @@
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/System/CameraMgr.h"
+#include "Game/gameUnkRttiPlaceholders.h"
 
 const sead::Viewport* sub_710092DAB8() {
     if (auto* mgr = ksys::CameraMgr::instance())
@@ -64,3 +65,6 @@ bool sub_710092DC00() {
     return camera->_860.sub_710079C120(1);
 }
 
+// NON_MATCHING: placeholder destructor; the original (0x710092de00) also destroys members or bases
+// this class does not declare yet.
+Unk_71024742f0::~Unk_71024742f0() = default;

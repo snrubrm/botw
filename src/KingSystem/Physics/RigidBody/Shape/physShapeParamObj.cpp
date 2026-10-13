@@ -6,7 +6,7 @@
 #include "KingSystem/Physics/RigidBody/Shape/Polytope/physPolytopeShape.h"
 #include "KingSystem/Physics/RigidBody/Shape/Sphere/physSphereShape.h"
 #include "KingSystem/Physics/RigidBody/Shape/physShape.h"
-#include <prim/seadRuntimeTypeInfo.h>
+#include "Game/gameUnkRttiPlaceholders.h"
 
 namespace ksys::phys {
 
@@ -114,14 +114,42 @@ void ShapeParamObj::getCharacterPrism(CharacterPrismShapeParam* param) const {
 
 }  // namespace ksys::phys
 
-// vtable 0x7102519378 (5 slots); placeholder generated from the vtable (genskel.py).
-class Unk_7102519378 {
-    SEAD_RTTI_BASE(Unk_7102519378)
-public:
-    virtual ~Unk_7102519378();
-    virtual void m4() {}
-};
-
-// NON_MATCHING: placeholder; the original destructor (0x7101295ee4) also destroys members this class
-// does not declare yet.
+// NON_MATCHING: placeholder destructor; the original (0x7101295ee4) also destroys members or bases
+// this class does not declare yet.
 Unk_7102519378::~Unk_7102519378() = default;
+
+// NON_MATCHING: placeholder destructor; the original (0x7101296100) also destroys members or bases
+// this class does not declare yet.
+Unk_71025193e8::~Unk_71025193e8() = default;
+
+// NON_MATCHING: placeholder destructor; the original (0x7101296aac) also destroys members or bases
+// this class does not declare yet.
+Unk_7102519460::~Unk_7102519460() = default;
+
+// NON_MATCHING: placeholder destructor; the original (0x7101297acc) also destroys members or bases
+// this class does not declare yet.
+Unk_71025194d0::~Unk_71025194d0() = default;
+
+// NON_MATCHING: placeholder destructor; the original (0x7101298440) also destroys members or bases
+// this class does not declare yet.
+Unk_7102519540::~Unk_7102519540() = default;
+
+// NON_MATCHING: placeholder destructor; the original (0x7101299484) also destroys members or bases
+// this class does not declare yet.
+Unk_71025195b0::~Unk_71025195b0() = default;
+
+// NON_MATCHING: placeholder destructor; the original (0x710129a1a0) also destroys members or bases
+// this class does not declare yet.
+Unk_7102519620::~Unk_7102519620() = default;
+
+// NON_MATCHING: placeholder destructor; the original (0x710129ae9c) also destroys members or bases
+// this class does not declare yet.
+Unk_7102519690::~Unk_7102519690() = default;
+
+// NON_MATCHING: placeholder destructor; the original (0x710129b82c) also destroys members or bases
+// this class does not declare yet.
+Unk_7102519708::~Unk_7102519708() = default;
+
+// NON_MATCHING: placeholder destructor; the original (0x710129c7ac) also destroys members or bases
+// this class does not declare yet.
+Unk_7102519778::~Unk_7102519778() = default;

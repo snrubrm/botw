@@ -1,6 +1,7 @@
 #include "Game/AI/aiUnk_71010F122C.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/RigidBody/Shape/Box/physBoxRigidBody.h"
+#include "Game/gameUnkRttiPlaceholders.h"
 
 Unk_710250d530::Unk_710250d530() = default;
 
@@ -62,3 +63,7 @@ void Unk_710250d530::sub_71010F17FC(bool remove_links) {
         mBody->removeFromWorld();
     }
 }
+
+Unk_710250d2a0::~Unk_710250d2a0() = default;
+
+Unk_710250d3e8::~Unk_710250d3e8() = default;

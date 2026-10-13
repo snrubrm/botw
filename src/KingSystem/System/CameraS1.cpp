@@ -1,7 +1,7 @@
 #include "KingSystem/System/CameraS1.h"
 #include <layer/aglLayer.h>
 #include <layer/aglRenderer.h>
-#include <prim/seadRuntimeTypeInfo.h>
+#include "Game/gameUnkRttiPlaceholders.h"
 
 namespace ksys {
 
@@ -102,36 +102,6 @@ const sead::Viewport* CameraS1::getViewport() const {
 
 }  // namespace ksys
 
-// vtable 0x7102517b28 (29 slots); placeholder generated from the vtable (genskel.py).
-class Unk_7102517b28 {
-    SEAD_RTTI_BASE(Unk_7102517b28)
-public:
-    virtual ~Unk_7102517b28();
-    virtual void m4() {}
-    virtual void m5() {}
-    virtual void m6();
-    virtual void m7();
-    virtual void m8() {}
-    virtual void m9();
-    virtual s32 m10() { return 1; }
-    virtual void m11() {}
-    virtual void m12() {}
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual void m25();
-    virtual s32 m26() { return 1; }
-    virtual void m27();
-    virtual void m28();
-};
-
+// NON_MATCHING: placeholder destructor; the original (0x7101265984) also destroys members or bases
+// this class does not declare yet.
 Unk_7102517b28::~Unk_7102517b28() = default;

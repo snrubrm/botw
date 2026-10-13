@@ -4,6 +4,7 @@
 #include "KingSystem/Resource/resLoadRequest.h"
 #include "KingSystem/Sound/sndMgr.h"
 #include "KingSystem/Utils/InitTimeInfo.h"
+#include "Game/gameUnkRttiPlaceholders.h"
 
 namespace ksys::snd {
 
@@ -104,3 +105,57 @@ bool Unk_710251b710::sub_71012CE4D8(Unk_710251b6f0* sound) {
 }
 
 }  // namespace ksys::snd
+
+Unk_710251ba58::~Unk_710251ba58() = default;
+
+// NON_MATCHING: placeholder destructor; the original (0x71012d455c) also destroys members or bases
+// this class does not declare yet.
+Unk_710251bb98::~Unk_710251bb98() = default;
+
+// NON_MATCHING: placeholder destructor; the original (0x71012d9e94) also destroys members or bases
+// this class does not declare yet.
+Unk_710251bf80::~Unk_710251bf80() = default;
+
+// NON_MATCHING: placeholder destructor; the original (0x71012da034) also destroys members or bases
+// this class does not declare yet.
+Unk_710251c0b8::~Unk_710251c0b8() = default;
+
+// NON_MATCHING: placeholder destructor; the original (0x71012da1dc) also destroys members or bases
+// this class does not declare yet.
+Unk_710251c1f0::~Unk_710251c1f0() = default;
+
+// NON_MATCHING: placeholder destructor; the original (0x71012da37c) also destroys members or bases
+// this class does not declare yet.
+Unk_710251c328::~Unk_710251c328() = default;
+
+// NON_MATCHING: placeholder destructor; the original (0x71012da51c) also destroys members or bases
+// this class does not declare yet.
+Unk_710251c460::~Unk_710251c460() = default;
+
+// NON_MATCHING: placeholder destructor; the original (0x71012da74c) also destroys members or bases
+// this class does not declare yet.
+Unk_710251c598::~Unk_710251c598() = default;
+
+// NON_MATCHING: placeholder destructor; the original (0x71012da8ec) also destroys members or bases
+// this class does not declare yet.
+Unk_710251c6d0::~Unk_710251c6d0() = default;
+
+// NON_MATCHING: placeholder destructor; the original (0x71012daa8c) also destroys members or bases
+// this class does not declare yet.
+Unk_710251c808::~Unk_710251c808() = default;
+
+// NON_MATCHING: placeholder destructor; the original (0x71012dac2c) also destroys members or bases
+// this class does not declare yet.
+Unk_710251c940::~Unk_710251c940() = default;
+
+// NON_MATCHING: placeholder destructor; the original (0x71012dadcc) also destroys members or bases
+// this class does not declare yet.
+Unk_710251ca78::~Unk_710251ca78() = default;
+
+Unk_710251cbf0::~Unk_710251cbf0() = default;
+
+Unk_710251cd38::~Unk_710251cd38() = default;
+
+// NON_MATCHING: placeholder destructor; the original (0x71012e86e8) also destroys members or bases
+// this class does not declare yet.
+Unk_710251cf40::~Unk_710251cf40() = default;

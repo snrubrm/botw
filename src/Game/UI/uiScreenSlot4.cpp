@@ -2,6 +2,7 @@
 #include "Game/UI/uiUtils.h"
 #include "Game/UI/euiLayoutEx.h"
 #include "Game/gameMotorcycleMgr.h"
+#include "Game/gameUnkRttiPlaceholders.h"
 
 // Slot 4 of the leaf classes (overrides eui::Screen's, which returns 0).
 namespace uking::ui {
@@ -336,3 +337,7 @@ void ScreenMainScreen::sub_7100A1AB94() {
 }
 
 }  // namespace uking::ui
+
+// NON_MATCHING: placeholder destructor; the original (0x7100a4b6ac) also destroys members or bases
+// this class does not declare yet.
+Unk_7102496f70::~Unk_7102496f70() = default;

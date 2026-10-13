@@ -29,6 +29,7 @@
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectEnemy.h"
 #include "KingSystem/Map/mapObjectLink.h"
 #include "KingSystem/World/worldManager.h"
+#include "Game/gameUnkRttiPlaceholders.h"
 
 bool sub_71002F0924(const ksys::act::ActorConstDataAccess& accessor);
 
@@ -547,3 +548,7 @@ void Unk_7100013308::sub_71002DBC8C(const ksys::act::BaseProcLink& link, const s
 }
 
 }  // namespace uking::act
+
+// NON_MATCHING: placeholder destructor; the original (0x710001b33c) also destroys members or bases
+// this class does not declare yet.
+Unk_7102357ab0::~Unk_7102357ab0() = default;
