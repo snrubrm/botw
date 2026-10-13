@@ -2,6 +2,11 @@
 #include "Game/Actor/actEnemy.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/AI/aiUnk_710073033C.h"
+#include "Game/AI/aiUnk_71007302CC.h"
+#include "Game/AI/aiUnk_71007377D4.h"
+#include "Game/AI/aiAwarenessFilters.h"
+#include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "Game/Actor/actWeapon.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
@@ -27,6 +32,49 @@ bool EnemyShieldSearchOrBattle::sub_71003BBD1C(ksys::act::BaseProcLink* out) {
         }
     }
     return false;
+}
+
+bool EnemyShieldSearchOrBattle::sub_71003BC058(bool check_reach) {
+    bool result = false;
+    auto* actor = mActor;
+    if (auto* awareness = actor->getAwareness()) {
+        if (sead::IsDerivedFrom<act::Enemy>(actor)) {
+            _70.reset();
+            Unk_7102451808 filter;
+            for (auto* entry = ksys::act::sub_7100D7EEE8(&awareness->_8, &filter); entry;
+                 entry = awareness->_260[0] ?
+                             ksys::act::sub_7100D7EEE8(&awareness->_260[0]->_8, &filter) : nullptr) {
+                auto* weapon = sead::DynamicCast<act::Weapon>(sead::DynamicCast<ksys::act::Actor>(
+                    entry->_0.mLink.getProc(nullptr, nullptr)));
+                if (!weapon || weapon->_cf0 != 4 ||
+                    !sub_71007302CC(mActor, weapon, *mParams.mSearchShieldDist_s) ||
+                    weapon->sub_71002E9A50())
+                    continue;
+                if (check_reach && !sub_710072E154(mActor, entry->_88, nullptr, -1) &&
+                    entry->_a8 > *mParams.mShieldReachDist_s)
+                    continue;
+                if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
+                    bool in_range;
+                    {
+                        ksys::act::ActorConstDataAccess accessor;
+                        ksys::act::acquireActor(&entry->_0.mLink, &accessor);
+                        sead::Vector3f position;
+                        accessor.getActorMtx().getTranslation(position);
+                        const sead::Vector3f origin = enemy->getMtx().getTranslation();
+                        in_range = enemy->sub_710001A204(position, origin, *mParams.mTargetPos_d,
+                                                         *mParams.mNoShieldTargetNearDist_s);
+                    }
+                    if (!in_range)
+                        continue;
+                }
+                if (static_cast<act::Enemy*>(actor)->_f54.isOnBit(weapon->_cf0) &&
+                    !weapon->hasParentActor())
+                    _70.acquire(weapon, false);
+            }
+            result = _70.hasProc();
+        }
+    }
+    return result;
 }
 
 EnemyShieldSearchOrBattle::EnemyShieldSearchOrBattle(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
