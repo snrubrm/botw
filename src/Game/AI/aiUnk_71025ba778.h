@@ -55,6 +55,8 @@ public:
     // 0x710070f398 (declared only; lane1 s46): LynelRoot::leave_ calls it with the actor: detaches the bone handles
     // (`_18`, `_100`) that the flags `_8` bit 0 / 1 say are attached.
     void sub_710070F398(ksys::act::Actor* actor);
+    // Full 924-byte updater and LynelRoot::calc_ pass this body-control unit and its actor.
+    void sub_710070F400(ksys::act::Actor* actor);
 
     /* 0x08 */ u8 _8 = 0;  // flags; bit 1: body fitting to the ground normal enabled
     /* 0x09 */ u8 _9[0xc - 0x9];

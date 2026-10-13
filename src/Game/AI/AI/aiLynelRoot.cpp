@@ -1,6 +1,7 @@
 #include "Game/AI/AI/aiLynelRoot.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/AI/aiUnk_7102451120.h"
+#include "Game/Actor/actRideable.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
@@ -78,6 +79,55 @@ void LynelRoot::enter_(ksys::act::ai::InlineParamPack* params) {
         controller->sub_7100F631B8(true);
     sub_7100721670(&_4a0, mActor, "BodyFrontLeg");
     EnemyRoot::enter_(params);
+}
+
+// NON_MATCHING: the first riding-state enum temporary uses a different stack slot.
+void LynelRoot::calc_() {
+    sub_71003B5644();
+    sub_710049AEA0();
+    if (auto* as_list = mActor->getASList()) {
+        if (auto* rideable = mActor->getHorseOptionsMaybe()) {
+            const act::Rideable::Gear gear(rideable->_18._b == 0 ? rideable->_18._9 : rideable->_18._b);
+            as_list->x_6(10, 0, static_cast<f32>(int(gear)));
+        }
+    }
+    {
+        auto* actor = mActor;
+        if (auto* controller = actor->getCharacterController()) {
+            if (auto* as_list = actor->getASList()) {
+                sead::Vector3f velocity;
+                if (!controller->sub_7100F5F234(&velocity))
+                    velocity = sead::Vector3f::ey;
+                as_list->sub_710115F024(velocity, 0);
+            }
+        }
+    }
+    _2c8.sub_710070F400(mActor);
+    if (sub_71005DB904(mActor, *mBowIdx_s)) {
+        if (!_478.mDamageManager)
+            setDamageCallbackTiming(mActor, 0, &_478);
+    } else if (_478.mDamageManager) {
+        sub_71005DA114(mActor, &_478);
+    }
+    if (!isCurrentChild("ロデオ") &&
+        !mActor->getActorFlags2().isOn(ksys::act::Actor::ActorFlag2::Alive)) {
+        auto* rideable = mActor->getHorseOptionsMaybe();
+        if (rideable &&
+            int(act::Unk_7100e8b2b8::Unk8(rideable->act::Unk_7100e8b2b8::_8.load() & 0xff)) !=
+                act::Unk_7100e8b2b8::Unk8::_0 &&
+            (rideable->act::Unk_7100e8b2b8::_8.load() & 0xff) ==
+                act::Unk_7100e8b2b8::Unk8::_1) {
+            *mLynelAIFlags_a |= 1;
+            changeChild("ロデオ");
+            return;
+        }
+    }
+    EnemyRoot::calc_();
+    if (!isCurrentChild("ロデオ"))
+        *mLynelAIFlags_a &= ~1;
+    auto* child = getCurrentChild();
+    if (!child->isFinished() && !child->isFailed())
+        child->isChangeable();  // The original makes this virtual call and discards its result.
 }
 
 void LynelRoot::sub_710049AEA0() {

@@ -24,6 +24,7 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     // 0x710049aea0 (placeholder name): makes the AS list go limp (0x2c) with the profile of the first
     // linked weapon that is not exempt (ActorWeapons entry flag) and not a type-4 weapon, else with
     // an empty name.
