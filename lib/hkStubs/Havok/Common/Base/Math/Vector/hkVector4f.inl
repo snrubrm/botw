@@ -330,6 +330,17 @@ inline void hkVector4f::setAbs(hkVector4fParameter a) {
 #endif
 }
 
+// Inline-only in the original; name is a guess. Repeated in complete native
+// functions 152D164, 1593D8C and 161AA04, as well as FAED68.
+inline void hkVector4f::setMax(hkVector4fParameter a, hkVector4fParameter b) {
+#ifdef HK_VECTOR4F_AARCH64_NEON
+    v = vmaxq_f32(a.v, b.v);
+#else
+    for (int i = 0; i < 4; ++i)
+        v[i] = std::isnan(a[i]) || std::isnan(b[i]) ? a[i] + b[i] : std::fmax(a[i], b[i]);
+#endif
+}
+
 template <int N>
 inline void hkVector4f::setNeg(hkVector4fParameter a) {
     static_assert(1 <= N && N <= 4, "invalid N");
@@ -506,6 +517,16 @@ inline hkSimdFloat32 hkVector4f::lengthInverseUnsafe() const {
 template <int N>
 inline void hkVector4f::normalize() {
     mul(lengthInverse<N>());
+}
+
+// Inline-only in the original; name is a guess. Complete native functions
+// 170D248, 170D32C and 170D3F8 repeat this sequence, also present in FAED68.
+template <int N>
+inline hkSimdFloat32 hkVector4f::normalizeWithLength() {
+    const hkSimdFloat32 lengthSquared = this->lengthSquared<N>();
+    const hkSimdFloat32 inverseLength = lengthSquared.sqrtInverse();
+    mul(inverseLength);
+    return lengthSquared * inverseLength;
 }
 
 template <int N>

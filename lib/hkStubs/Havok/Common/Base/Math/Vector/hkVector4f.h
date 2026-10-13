@@ -101,6 +101,7 @@ public:
     // ========== Sign, comparisons, clamping
 
     HK_FORCE_INLINE void setAbs(hkVector4fParameter a);
+    HK_FORCE_INLINE void setMax(hkVector4fParameter a, hkVector4fParameter b);
     template <int N>
     HK_FORCE_INLINE void setNeg(hkVector4fParameter a);
 
@@ -167,6 +168,10 @@ public:
     /// Normalize this vector as if it had N components.
     template <int N>
     HK_FORCE_INLINE void normalize();
+
+    /// Normalize this vector and return its previous length.
+    template <int N>
+    HK_FORCE_INLINE hkSimdFloat32 normalizeWithLength();
 
     /// Normalize this vector as if it had N components.
     /// Does not check for negative sqrt values or divide-by-zero.
