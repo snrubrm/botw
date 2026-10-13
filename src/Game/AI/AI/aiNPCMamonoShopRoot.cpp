@@ -1,10 +1,15 @@
 #include "Game/AI/AI/aiNPCMamonoShopRoot.h"
 #include "Game/gameGraphics.h"
+#include "Game/Actor/actNPC.h"
 #include "KingSystem/GameData/gdtSpecialFlags.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "KingSystem/ActorSystem/actSchedule.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace uking::ai {
 
@@ -26,6 +31,29 @@ void NPCMamonoShopRoot::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void NPCMamonoShopRoot::leave_() {
     NPCRoot::leave_();
+}
+
+void NPCMamonoShopRoot::calc_() {
+    NPCRoot::calc_();
+    auto* schedule = mActor->getSchedule();
+    if (!schedule)
+        return;
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::findLinkedActor(&accessor, mActor, "TwnObj_MamonoShop_A_01");
+    if (_248 && schedule->_88 == "Action2" && accessor.hasProc() && !accessor.sub_7100D10E6C(5)) {
+        _248 = false;
+        mActor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_20);
+        mActor->x_6();
+        if (auto* controller = mActor->getCharacterController())
+            controller->sub_7100F60604();
+        if (auto* body = mActor->findPhysicsBodyByName(sub_71007A24D0()->cstr(), "Body"))
+            body->addToWorld();
+        if (auto* npc = sead::DynamicCast<act::NPC>(mActor))
+            npc->_fe8 &= ~0x20000000;
+        ksys::act::setEnabledTalkAndLockOn(mActor, true);
+        mActor->emitBasicSigOn();
+        ksys::gdt::setBoolByKey(true, "MamonoShop_Start");
+    }
 }
 
 // 0x71004cd790
