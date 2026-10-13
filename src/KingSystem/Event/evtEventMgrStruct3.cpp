@@ -4,6 +4,10 @@
 
 namespace ksys::evt {
 
+// 0x7100dc12a4
+// NON_MATCHING: FixedSafeString vptr lifetime and normal Vector2 copy initialization differ.
+EventMgrStruct3B::EventMgrStruct3B() = default;
+
 // 0x71012799c4
 EventMgrStruct3A::EventMgrStruct3A() = default;
 
