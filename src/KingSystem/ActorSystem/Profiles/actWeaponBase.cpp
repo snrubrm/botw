@@ -18,6 +18,7 @@
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectLargeSword.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectSmallSword.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectSpear.h"
+#include "KingSystem/Utils/Thread/Message.h"
 
 bool checkIsGetSameGroupActorName(const sead::SafeString& actor_name, bool a1);
 
@@ -170,6 +171,38 @@ bool WeaponBase::m86() {
     if (accessor.checkFlag2B())
         return false;
     return Actor::m86();
+}
+
+int WeaponBase::handleMessage(const Message& message) {
+    if (isDelete() || isDeleteRequested())
+        return 0;
+    if (message.getType() == 0x3000001) {
+        _9f4.set(2);
+        mActorFlags2.set(ActorFlag2::_20);
+        if (_958.hasProcInCalcState()) {
+            ActorConstDataAccess accessor;
+            acquireActor(&_958, &accessor);
+            MessageTransceiverBase& transceiver = getMessageTransceiver();
+            transceiver.sendMessageOnProcessingThread(*accessor.getMessageTransceiverId(),
+                                                      static_cast<MessageType>(0x3000001), nullptr,
+                                                      true);
+        }
+        return 1;
+    }
+    if (message.getType() == 0x3000002) {
+        _9f4.reset(2);
+        mActorFlags2.reset(ActorFlag2::_20);
+        if (_958.hasProcInCalcState()) {
+            ActorConstDataAccess accessor;
+            acquireActor(&_958, &accessor);
+            MessageTransceiverBase& transceiver = getMessageTransceiver();
+            transceiver.sendMessageOnProcessingThread(*accessor.getMessageTransceiverId(),
+                                                      static_cast<MessageType>(0x3000002), nullptr,
+                                                      true);
+        }
+        return 1;
+    }
+    return Actor::handleMessage(message);
 }
 
 void WeaponBase::m92(phys::RigidBody* body) {

@@ -47,6 +47,7 @@ public:
     void m70() override;
     void updatePositionMaybe() override;
     bool m86() override;
+    int handleMessage(const Message& message) override;
     void m92(phys::RigidBody* body) override;
     bool m142() override { return false; }
 
