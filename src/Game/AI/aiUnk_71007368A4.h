@@ -4,6 +4,7 @@
 #include <math/seadMatrix.h>
 #include <math/seadVector.h>
 #include <prim/seadSafeString.h>
+#include "KingSystem/ActorSystem/actActorAtk.h"
 
 namespace ksys::act {
 class Actor;
@@ -92,3 +93,10 @@ bool sub_710073A010(ksys::act::Actor* actor, ksys::act::BaseProc* proc);
 bool checkHpRate(ksys::act::Actor* actor, f32 rate);
 /// 0x710073d584 (CSV name; declared only).
 bool enemyTeamStuff(ksys::act::Actor* actor, ksys::act::BaseProcLink* link);
+
+// Full 736C18 and independent 6E37D4/736BE8 stack producers establish a 32-bit mask.
+// The original owning mask type is unknown; declaration only.
+bool sub_7100736C18(const u32* mask, sead::SafeString* out);
+// Source owner is unknown; native utility neighbors select this free placeholder.
+bool sub_7100736BE8(const ksys::act::ActorAtk::Unk_710079e64c::Unk1* attack,
+                    sead::SafeString* out);

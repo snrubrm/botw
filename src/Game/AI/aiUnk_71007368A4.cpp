@@ -255,3 +255,12 @@ void sub_7100736A84(ksys::act::Actor* actor) {
         ksys::act::disableAttClient(actor, "LockOnShort");
     }
 }
+
+// NON_MATCHING: the local 32-bit mask occupies a different stack slot.
+bool sub_7100736BE8(const ksys::act::ActorAtk::Unk_710079e64c::Unk1* attack,
+                    sead::SafeString* out) {
+    if (!attack)
+        return false;
+    const u32 mask = attack->_50;
+    return sub_7100736C18(&mask, out);
+}
