@@ -3,6 +3,9 @@
 #include <prim/seadScopedLock.h>
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorChemicals.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actChemicalUserTag.h"
+#include "KingSystem/ActorSystem/actPhysicsUserTag.h"
 #include "KingSystem/ActorSystem/actChemicalElementHolder.h"
 #include "KingSystem/Terrain/teraSystem.h"
 #include "KingSystem/System/VFR.h"
@@ -166,6 +169,17 @@ void ChemicalMgr::sub_71010CE7DC(f32 delta_frame) {
         }
     }
     mChemicalPairs.clear();
+}
+
+act::ActorChemicals* sub_71010CE968(const phys::UserTag* tag) {
+    if (sead::IsDerivedFrom<act::PhysicsUserTag>(tag)) {
+        auto* actor = static_cast<const act::PhysicsUserTag*>(tag)->getActor(nullptr, nullptr);
+        if (actor && actor->getChemicalContainer())
+            return actor->getChemicalContainer();
+    } else if (sead::IsDerivedFrom<ChemicalUserTag>(tag)) {
+        return static_cast<const ChemicalUserTag*>(tag)->mActorChemicals;
+    }
+    return nullptr;
 }
 
 }  // namespace ksys::world
