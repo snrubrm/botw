@@ -87,6 +87,25 @@ void ZoraHeroRelicBattleRidePlayer::sub_7100614194(const ksys::act::BaseProcLink
         _40 = link;
 }
 
+// NON_MATCHING: translation copies merge across the link/fallback branches; accessor register allocation differs.
+void ZoraHeroRelicBattleRidePlayer::sub_7100613E1C() {
+    if (!isCurrentChild("遺物に向かう")) {
+        if (auto** unit = static_cast<Unk_71025afb58**>(mZoraHeroShowMsgUnit_a)) {
+            if (auto* message = sead::DynamicCast<Unk_7102433970>(*unit))
+                message->_8.sub_7100744200(0, false);
+        }
+    }
+    ksys::act::ai::InlineParamPack params;
+    ksys::act::ActorConstDataAccess accessor;
+    sead::Vector3f position;
+    if (ksys::act::acquireActor(&_50, &accessor))
+        position = accessor.getActorMtx().getTranslation();
+    else
+        position = mActor->getMtx().getTranslation();
+    params.addVec3(position, "TargetPos", -1);
+    changeChild("遺物に向かう", &params);
+}
+
 // 0x7100613d60: takes over the candidate link _60 as _50 if the ray to it is free; clears both otherwise
 void ZoraHeroRelicBattleRidePlayer::sub_7100613D60() {
     if (_60.hasProc()) {

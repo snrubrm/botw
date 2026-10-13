@@ -25,6 +25,8 @@ protected:
     // 0x710061430c: true if nothing blocks the ray from the actor to `target` (ground / object layers)
     bool sub_710061430C(const sead::Vector3f& target);
     void sub_7100613D60();
+    // Full calc_613A28 calls this no-argument transition.
+    void sub_7100613E1C();
     // 0x7100613ff0: unless the relic chance time flag is set: mode 1 of the message unit; then the "周回" child
     void sub_7100613FF0();
     // aitree_variable at offset 0x38
