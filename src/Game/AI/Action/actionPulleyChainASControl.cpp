@@ -1,7 +1,7 @@
 #include "Game/AI/Action/actionPulleyChainASControl.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
-#include "KingSystem/Physics/Constraint/physPulleyCs.h"
+#include "KingSystem/Physics/Constraint/physSliderCs.h"
 
 namespace uking::action {
 
@@ -34,13 +34,13 @@ void PulleyChainASControl::sub_7100223114() {
     const auto& constraints = mActor->getConstraints().mConstraints;
     const s32 count = constraints.size();
     for (s32 i = 0; i < count; ++i) {
-        auto* pulley = sead::DynamicCast<ksys::phys::PulleyCs>(constraints[i]);
-        if (!pulley)
+        auto* slider = sead::DynamicCast<ksys::phys::SliderCs>(constraints[i]);
+        if (!slider)
             continue;
         sead::Matrix34f home;
         mActor->getHomeMtx(&home);
-        mStartPosition.set(0.0f, pulley->sub_7100F71034(), 0.0f);
-        const f32 height = pulley->sub_7100F71040();
+        mStartPosition.set(0.0f, slider->sub_7100F71034(), 0.0f);
+        const f32 height = slider->sub_7100F71040();
         mStartPosition *= home;
         mEndPosition = home * sead::Vector3f(0.0f, height, 0.0f);
         return;

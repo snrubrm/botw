@@ -11,11 +11,6 @@ class PulleyCs : public Constraint {
     SEAD_RTTI_OVERRIDE(PulleyCs, Constraint)
 public:
     ~PulleyCs() override;
-    // 223114 passes its independently typed PulleyCs receiver to these float queries.
-    // The complete 12-byte bodies read the library data; declarations only.
-    f32 sub_7100F71034();
-    f32 sub_7100F71040();
-
 private:
     // The factory stores its library data pointer here; its interface is unresolved.
     u8 _b8[8];

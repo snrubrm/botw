@@ -11,6 +11,9 @@ class SliderCs : public Constraint {
     SEAD_RTTI_OVERRIDE(SliderCs, Constraint)
 public:
     ~SliderCs() override;
+    // 223114 uses SliderCs's typeInfo at 0x71025b5228 before these data queries.
+    f32 sub_7100F71034();
+    f32 sub_7100F71040();
 
 private:
     u8 _b8[0x120 - 0xb8];
