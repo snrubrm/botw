@@ -18,8 +18,8 @@ namespace eui {
 void ProcessMessageAppTag(const MessageString& message,
                           sead::IDelegate1<const sead::MessageSet<char16>::TagInfo*>* callback);
 
-// Placeholder name after the complete one-slot table24C88B0. TextBoxEx::m42 constructs
-// this 16-byte stack callback with its TextWriterBase pointer; SDK132A3C0 invokes slot0.
+// Placeholder name after the complete one-slot table 24C88B0. TextBoxEx::m42 constructs
+// this 16-byte stack callback with its TextWriterBase pointer; SDK 132A3C0 invokes slot 0.
 class Unk_71024c88b0 {
 public:
     virtual const u16* invoke(const u16* begin, const u16* end);

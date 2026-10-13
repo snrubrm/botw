@@ -41,7 +41,7 @@ void masterSwordBroken() {
     uking::ui::mainScreen3DStuff();
 }
 
-// Declaration-only: full native620-byte item handler and332-byte event tail
+// Declaration-only: full native 620-byte item handler and 332-byte event tail
 // establish the side-effect-only return and these two inputs. Source namespace is unknown.
 void doGetItem(const sead::SafeString& name, const uking::act::WeaponModifierInfo* modifier);
 

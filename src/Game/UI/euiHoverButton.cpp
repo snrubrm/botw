@@ -23,7 +23,7 @@ void HoverButton::Initialize(sead::Heap* heap, nn::ui2d::Pane* pane, Animator* a
 }
 
 // Declaration-only: the complete native guard and both hover/tap factory callers
-// establish bool(Pane*). Its RTTI target25D2960 owner remains unmodeled.
+// establish bool(Pane*). Its RTTI target 25D2960 owner remains unmodeled.
 bool sub_7100BF00BC(nn::ui2d::Pane* pane);
 
 // 0x7100befe9c
