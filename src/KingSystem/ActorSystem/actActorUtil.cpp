@@ -1,5 +1,6 @@
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actActorNameSearch.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 #include "Game/gameGraphics.h"
 #include <gsys/gsysModel.h>
 #include <gsys/gsysModelUnit.h>
@@ -25,6 +26,7 @@
 #include "KingSystem/Physics/System/physSystem.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/ActorSystem/actInfoData.h"
+#include "KingSystem/ActorSystem/actInfoCommon.h"
 #include "KingSystem/ActorSystem/actTag.h"
 #include "KingSystem/Ecosystem/ecoSystem.h"
 #include "KingSystem/GameData/gdtManager.h"
@@ -43,6 +45,16 @@
 #include <cfloat>
 #include "KingSystem/Utils/Byaml/Byaml.h"
 #include "KingSystem/World/worldManager.h"
+
+// Source owner unknown: the full armor comparison consumer supplies a SafeString.
+bool sub_7100EE98F0(const sead::SafeString& actor) {
+    return ksys::act::getSeriesArmorEnableCompBonus(ksys::act::InfoData::instance(), actor.cstr());
+}
+
+// Source owner unknown: both native sound consumers pass their actor and test the result.
+bool sub_7100EE8974(ksys::act::Actor* actor) {
+    return actor && actor->getASList()->x_1(0, 0).findIndex("Sleep") != -1;
+}
 
 // Source owner unknown: full sensor utility and SystemHide callers establish the Actor input.
 // Declaration only.
