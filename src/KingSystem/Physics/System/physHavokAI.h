@@ -4,6 +4,7 @@
 #include <Havok/Ai/Pathfinding/Utilities/hkaiUserEdgeUtils.h>
 #include <limits>
 #include <basis/seadTypes.h>
+#include <container/seadOffsetList.h>
 #include <heap/seadDisposer.h>
 #include <math/seadMathCalcCommon.h>
 #include <math/seadVector.h>
@@ -222,6 +223,7 @@ KSYS_CHECK_SIZE_NX150(NavMeshObjMaybe, 0xb0);
 struct NavMeshObj2Maybe {
     // UserEdgeActor E8F95C submits its edge record with the fallback HavokAI.
     void sub_7100F8B518(HavokAI* fallback);
+    void sub_7100F8B538();
     void sub_7100F8B584(hkaiStreamingCollection* collection);
     // Full F8B59C appends the same reflected pairs to its optional output array.
     void sub_7100F8B59C(hkArray<hkaiUserEdgeUtils::UserEdgePair>* out_pairs,
@@ -232,7 +234,11 @@ struct NavMeshObj2Maybe {
     /* 0x70 */ HavokAI* _70;
     /* 0x78 */ sead::Atomic<HavokAI*> _78;
     /* 0x80 */ sead::Atomic<u32> _80;
+    u8 _84[4];
+    // F80B20 sets the edge list's node offset; E8F750 constructs A0-byte outer entries.
+    /* 0x88 */ sead::ListNode mNode;
 };
+KSYS_CHECK_SIZE_NX150(NavMeshObj2Maybe, 0x98);
 
 // Name from the CSV (NavMeshQueryRequestPool::ctor 0x71012a8ffc, heap name
 // "NavMeshQueryRequestPool"). Owns the request heap and lock-free request queues.
@@ -325,6 +331,8 @@ public:
     // 0x7100f83580 / 0x7100f8363c (placeholder names): the same for NavMeshObj2Maybe (bit 0 / bit 2).
     void sub_7100F83580(NavMeshObj2Maybe* obj);
     void sub_7100F8363C(NavMeshObj2Maybe* obj);
+    void sub_7100F83790(NavMeshObj2Maybe* obj, bool queued);
+    void sub_7100F83848(const hkArray<hkaiUserEdgeUtils::UserEdgePair>* pairs);
 
     // 0x7100f82c88 (placeholder name): resets the character's path state (inlineReset) and queues it with bit 1
     // (clearing bit 0), like sub_7100F82BCC.
@@ -407,7 +415,9 @@ public:
     /* 0x50 */ sead::CriticalSection _50;
     /* 0x90 */ SharedLock _90;
     /* 0xc8 */ SharedLock _c8;
-    u8 _100[0x178 - 0x100];
+    u8 _100[0x130 - 0x100];
+    /* 0x130 */ sead::OffsetList<NavMeshObj2Maybe> mEdgeObjects;
+    u8 _148[0x178 - 0x148];
 };
 KSYS_CHECK_SIZE_NX150(HavokAI, 0x178);
 

@@ -110,6 +110,24 @@ void HavokAI::sub_7100F8363C(NavMeshObj2Maybe* obj) {
         _40->_168.push(obj);
 }
 
+void HavokAI::sub_7100F83790(NavMeshObj2Maybe* obj, bool queued) {
+    auto lock = sead::makeScopedLock(_50);
+    if (obj->_70) {
+        if (obj->_70 != this)
+            return;
+        if (!queued) {
+            _40->sub_71012AA2F0(obj);
+            obj->_78.exchange(nullptr);
+        }
+        sub_7100F83848(&obj->mPairs);
+        mEdgeObjects.erase(obj);
+        obj->_70 = nullptr;
+    } else if (!queued) {
+        _40->sub_71012AA2F0(obj);
+        obj->_78.exchange(nullptr);
+    }
+}
+
 // NON_MATCHING: the original orders the two flag updates differently on each path (b: clear 0x10 first; !b: clear 8
 // first); matches with `if (on) { reset(_10); change(_8, on); } else { reset(_8); change(_10, !on); }`
 void HavokAI::sub_7100F831C0(NavMeshObjMaybe* obj, bool on) {

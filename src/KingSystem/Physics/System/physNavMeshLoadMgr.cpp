@@ -12,6 +12,17 @@ void NavMeshObj2Maybe::sub_7100F8B518(HavokAI* fallback) {
         fallback->sub_7100F83580(this);
 }
 
+void NavMeshObj2Maybe::sub_7100F8B538() {
+    // The pending pointer carries two request tag bits in F8B538 and the queue consumers.
+    auto* pending = reinterpret_cast<HavokAI*>(reinterpret_cast<uintptr_t>(_78.load()) & ~uintptr_t(3));
+    if (pending)
+        pending->sub_7100F83790(this, false);
+    if (_70)
+        _70->sub_7100F83790(this, false);
+    // The original also performs this discarded atomic load after removing both owners.
+    _78.load();
+}
+
 void NavMeshObj2Maybe::sub_7100F8B584(hkaiStreamingCollection* collection) {
     mPairs.clear();
     sub_7100F8B59C(nullptr, collection, -1);
