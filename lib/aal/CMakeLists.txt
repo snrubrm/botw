@@ -114,7 +114,9 @@ add_library(aal OBJECT
   src/aalDebuggerResult.cpp
   src/aalDecibel.cpp
   src/aalCustomCurve.cpp
-  src/aalCurve3DDraw.cpp
+  src/aalCustomCurve3DDraw.cpp
+  src/aalRollOffCurve3DDraw.cpp
+  src/aalUnitDistanceCurve3DDraw.cpp
   src/aalCustomCurveXml.cpp
   src/aalCurveXml.cpp
   src/aalUnitDistanceCurve.cpp
