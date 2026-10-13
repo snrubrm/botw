@@ -4,6 +4,10 @@
 #include "Game/AI/aiUnk_71010C3588.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
+namespace ksys::phys {
+class CapsuleRigidBody;
+}
+
 namespace uking::action {
 
 class ExpandSensorSlowly : public ksys::act::ai::Action {
@@ -22,6 +26,8 @@ protected:
     void sub_7100059988();
     // 0x710005a348 (declared only): the body of leave_ is out of line in the original.
     void sub_710005A348();
+    // Native calc 59A28 passes the CapsuleRigidBody found through its RTTI check.
+    void sub_710005A3DC(ksys::phys::CapsuleRigidBody* capsule);
     void calc_() override;
 
     // static_param at offset 0x20

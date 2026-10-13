@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionExpandSensorSlowly.h"
+#include <gfx/seadColor.h>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
@@ -8,6 +9,9 @@
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectAttack.h"
 #include "KingSystem/Physics/RigidBody/Shape/Capsule/physCapsuleRigidBody.h"
+
+// Native 5A4C8 is the variadic debug-print stub also called by SimpleLiftableDLC.
+void sub_710005A4C8(const char*, const sead::Vector3f*, const sead::Color4f*, const char*, ...);
 
 namespace uking::action {
 
@@ -89,6 +93,27 @@ void ExpandSensorSlowly::sub_710005A348() {
 
 void ExpandSensorSlowly::leave_() {
     sub_710005A348();
+}
+
+void ExpandSensorSlowly::sub_710005A3DC(ksys::phys::CapsuleRigidBody* capsule) {
+    const f32 step = *mAtExpandStep_s;
+    if (_e4 < _e0) {
+        _e4 += step;
+        if (_e4 > _e0)
+            _e4 = _e0;
+    } else {
+        _e4 = _e0;
+    }
+    if (_e8) {
+        const auto vertex1 = _b8;
+        const auto vertex2 = _c4 * _e4;
+        capsule->setVertices(vertex1, vertex2);
+    }
+    if (_e9) {
+        const auto position = mActor->getMtx().getTranslation();
+        sub_710005A4C8("", &position, &sead::Color4f::cGreen, "Scale: %.3f/%.3f /%.3f",
+                      _e4, _e0, step);
+    }
 }
 
 void ExpandSensorSlowly::loadParams_() {
