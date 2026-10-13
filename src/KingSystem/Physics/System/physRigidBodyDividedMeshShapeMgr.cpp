@@ -15,6 +15,25 @@ RigidBodyDividedMeshShapeMgr::makeInstance(const Config& config, sead::Heap* hea
     return mgr;
 }
 
+RigidBodyDividedMeshShapeMgr::~RigidBodyDividedMeshShapeMgr() {
+    for (auto*& body : mBoundaryBodies) {
+        if (body)
+            body->sub_7101223EC4();
+        delete body;
+    }
+    for (auto& info : mHandles) {
+        auto* resource = sead::DynamicCast<TeraMeshRigidBodyResource>(info.handle.getResource());
+        auto* body = resource ? resource->getRigidBody() : nullptr;
+        if (body && body->isAddedToWorld()) {
+            resource = sead::DynamicCast<TeraMeshRigidBodyResource>(info.handle.getResource());
+            body = resource ? resource->getRigidBody() : nullptr;
+            body->removeFromWorldImmediately(nullptr);
+        }
+    }
+    mHandles.freeBuffer();
+    System::instance()->setRigidBodyDividedMeshShapeMgr(nullptr);
+}
+
 void RigidBodyDividedMeshShapeMgr::addToWorld() {
     for (auto* body : mBoundaryBodies) {
         if (body)

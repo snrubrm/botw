@@ -1,5 +1,6 @@
 #pragma once
 
+#include <container/seadBuffer.h>
 #include <math/seadVector.h>
 #include <prim/seadSafeString.h>
 #include "KingSystem/Utils/Types.h"
@@ -48,7 +49,7 @@ public:
 private:
     // Complete lifetime and the two-slot table establish the owner extent.
     /* 0x008 */ sead::FixedSafeString<256> mName;
-    u8 _120[0x10];
+    /* 0x120 */ sead::Buffer<HandleInfo> mHandles;
     /* 0x130 */ Unk_71025158e8* mBoundaryBodies[4];
     u8 _150[0x40];
 };
