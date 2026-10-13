@@ -22,7 +22,19 @@ SwitchStepSliderConstraint::~SwitchStepSliderConstraint() {
 }
 
 bool SwitchStepSliderConstraint::init_(sead::Heap* heap) {
-    return ksys::act::ai::Action::init_(heap);
+    auto* actor = mActor;
+    _d8 = actor->getFieldBodyGroup();
+    auto* body = actor->findPhysicsBodyByName(sub_71007A24E4()->cstr(), sUnk_71023c3f28.cstr());
+    auto* main_body = actor->getMainBody();
+    if (body) {
+        body->setRestitutionScale(0.6f);
+        ksys::phys::SliderCs::Param param;
+        param.body_a = body;
+        if (main_body)
+            param.body_b = main_body;
+        _20 = ksys::phys::SliderCs::make(param, heap);
+    }
+    return true;
 }
 
 // NON_MATCHING: Timer reset stores differ, and the switch flag store precedes the parameter loads.
