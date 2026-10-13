@@ -1,6 +1,7 @@
 #include "Game/Actor/actSwarm.h"
 #include <basis/seadNew.h>
 #include <math/seadMatrixCalcCommon.h>
+#include <random/seadGlobalRandom.h>
 #include "Game/gameStasisMgr.h"
 #include "KingSystem/Graphics/gfxUnk_710260af28.h"
 #include "KingSystem/Resource/resResDerived.h"
@@ -337,4 +338,15 @@ void uking::act::Swarm::Unit::m5() {
     for (s32 i = 0; i < _88.size(); ++i)
         _88[i].requestUnload2();
     _88.freeBuffer();
+}
+
+void Unk_71023d0e08::sub_71002DAE8C() {
+    _f0 = sead::GlobalRandom::instance()->getF32() * sead::Mathf::pi2();
+}
+
+void Unk_71023d0e08::sub_71002DAEDC() {
+    _d4.reset(sead::GlobalRandom::instance()->getF32Range(150.0f, 450.0f));
+    _e8 = sead::GlobalRandom::instance()->getF32Range(-0.5f * _e0, 0.5f * _e0);
+    _ec = sead::GlobalRandom::instance()->getF32Range(0.15f, 0.25f);
+    _f4 = 0;
 }

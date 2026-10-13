@@ -195,6 +195,9 @@ public:
     void m10() override;
 
     // The timer reuses the base's four bytes of tail padding.
+    void sub_71002DAE8C();
+    void sub_71002DAEDC();
+
     /* 0xd4 */ ksys::Timer _d4;
     /* 0xe0 */ f32 _e0;
     /* 0xe4 */ f32 _e4;
