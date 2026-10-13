@@ -7,6 +7,7 @@
 #include <gsys/gsysModelShaderVariationKey.h>
 #include "KingSystem/Terrain/teraSystem.h"
 #include <prim/seadScopedLock.h>
+#include <heap/seadHeapMgr.h>
 #include "KingSystem/Resource/resResourceFileUtil.h"
 #include "KingSystem/Resource/resResourceMgrTask.h"
 #include "KingSystem/Resource/resUnk_71024F9938.h"
@@ -98,6 +99,59 @@ Unk_71025149d0::~Unk_71025149d0() = default;
 
 void Unk_71025149d0::m2(const void* arg) {
     mOwner->sub_71011FFD28(static_cast<const CallbackArg*>(arg)->mHandle->sub_7100FE83EC());
+}
+
+void BfRes::finalize_() {
+    if (_198.isBufferReady())
+        _198.freeBuffer();
+    for (auto& entry : _138)
+        entry.handle.~Unk_71024F9D48();
+    _138.clear();
+    if (_50) {
+        sead::ScopedCurrentHeapSetter heap_setter(_48);
+        gsys::ModelResource::sub_7100C0B764(_50);
+        _50 = nullptr;
+    }
+    if (_48) {
+        _48->destroy();
+        _48 = nullptr;
+    }
+}
+
+bool BfRes::sub_71011FFF3C() {
+    {
+        auto lock = sead::makeScopedLock(_f8);
+        for (auto& entry : _150) {
+            if (entry.handle.sub_7100FE7FB0() && !entry.handle.sub_7100FE83DC())
+                return true;
+        }
+    }
+    for (auto& entry : _138) {
+        if (entry.handle.sub_7100FE7FB0() && !entry.handle.sub_7100FE83DC())
+            return true;
+    }
+    return false;
+}
+
+// NON_MATCHING: the final flag store is merged into the common unlock tail.
+void BfRes::sub_71011FF9B8() {
+    auto lock = sead::makeScopedLock(_78);
+    {
+        auto entry_lock = sead::makeScopedLock(_f8);
+        for (auto& entry : _150) {
+            if (entry.handle.sub_7100FE7FB0() && entry.handle.sub_7100FE83CC()) {
+                _41 = 1;
+                return;
+            }
+        }
+    }
+    for (auto& entry : _138) {
+        if (entry.handle.sub_7100FE7FB0() && entry.handle.sub_7100FE83CC()) {
+            _41 = 1;
+            return;
+        }
+    }
+    _41 = 0;
 }
 
 void BfRes::sub_71011FFD28(nn::gfx::ResTexture* texture) {

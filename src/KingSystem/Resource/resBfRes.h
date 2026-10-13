@@ -145,7 +145,14 @@ private:
     sead::Buffer<TextureFlag> mTextureFlags;
 };
 KSYS_CHECK_SIZE_NX150(Unk_71024f9a70, 0x140);
-struct Unk_BfResNode;  // element type of the lists at 0x138 / 0x150 (unknown)
+// Complete independent producers11FE9F4/11FEB94 allocate78 bytes, zero hash/node,
+// construct the handle at18, then set the computed hash. Finalizer11FECFC destroys it.
+struct Unk_BfResNode {
+    u32 hash = 0;
+    sead::ListNode node;
+    Unk_71024F9D48 handle;
+};
+KSYS_CHECK_SIZE_NX150(Unk_BfResNode, 0x78);
 
 // Vtable 0x71024f9d68 (GOT 0x259ed88): abstract callback interface (D1 0x7100fe85a4 is a shared `ret`, D0 0x7100fe85a8,
 // then three pure virtuals); the constructor 0x7100fe8584 sets {vptr, -1, -1} out of line. Placeholder name.
@@ -197,8 +204,9 @@ public:
 
     u8 _40 = 1;
     u8 _41 = 0;
-    void* _48 = nullptr;
-    void* _50 = nullptr;
+    // Complete parse11FE614 creates the heap and ModelResource; finalize11FECFC consumes both.
+    sead::Heap* _48 = nullptr;
+    gsys::ModelResource* _50 = nullptr;
     void* _58 = nullptr;
 };
 
@@ -215,6 +223,7 @@ public:
     bool m2_() override;
     void doCreate_(u8* buffer, u32 buffer_size, sead::Heap* heap) override;
     void onDestroy_() override;
+    void finalize_() override;
 
     // Overriders of Unk_BfResBase3::m2 / m3 (CSV BfRes::h 0x71012005f8 and BfRes::i 0x7101200628, declared only; the
     // Thn56 thunks 0x7101200610 / 0x7101200680 hold inlined copies): `_58->vslot2()` and, after a call of
