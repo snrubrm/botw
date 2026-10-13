@@ -196,6 +196,7 @@ public:
 
     void sub_71002DAE8C();
     void sub_71002DAEDC();
+    void sub_71002DB2EC();
 
     // The timer reuses the base's four bytes of tail padding.
     /* 0xd4 */ ksys::Timer _d4;

@@ -350,3 +350,16 @@ void Unk_71023d0e08::sub_71002DAEDC() {
     _ec = sead::GlobalRandom::instance()->getF32Range(0.15f, 0.25f);
     _f4 = 0;
 }
+
+void Unk_71023d0e08::sub_71002DB2EC() {
+    _e4 = sead::Mathf::deg2rad(sead::Mathf::clamp(
+        60.0f - _e0 + sead::GlobalRandom::instance()->getF32Range(-5.0f, 5.0f), 3.0f, 60.0f));
+}
+
+void Unk_71023d0e08::m6() {
+    uking::act::Swarm::Unit::m6();
+    _e0 = 30.0f;
+    sub_71002DB2EC();
+    sub_71002DAE8C();
+    sub_71002DAEDC();
+}
