@@ -6,6 +6,7 @@
 #include <thread/seadCriticalSection.h>
 #include <prim/seadBitFlag.h>
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
+#include "KingSystem/Chemical/chmRoot.h"
 #include "KingSystem/Utils/Types.h"
 #include "KingSystem/World/worldJob.h"
 
@@ -14,6 +15,54 @@ class Actor;
 class Chemical;
 class Unk_71024dd490;
 }
+
+// Concrete shape/root adapters embedded at +A0 / +98 in the E0-byte records built by 10C9274.
+// The signed shape index is read by 10C8658; the next record field at +B0 is a map object.
+class Unk_710250c880 : public ksys::chm::IShape {
+public:
+    const sead::SafeString& getResTypeId() const override;
+    const sead::SafeString& getName() const override;
+    f32 getVolumeOccupancy() const override;
+    f32 getElementOcclusion() const override;
+
+    s32 _8 = 0;
+};
+KSYS_CHECK_SIZE_NX150(Unk_710250c880, 0x10);
+
+// Complete 23-slot table at 250C8B0. getShape returns this + 8; all other slots are constants.
+class Unk_710250c8b0 : public ksys::chm::IRoot {
+public:
+    int getNumShapes() const override { return 1; }
+    const ksys::chm::IShape& getShape(int idx) const override;
+    bool isRigidAttribute0Set(int idx) const override { return false; }
+    bool isRigidAttribute1Set(int idx) const override { return false; }
+    const sead::SafeString& getRigidSetName(int idx) const override {
+        return sead::SafeString::cEmptyString;
+    }
+    bool isRigidAttribute2Set(int idx) const override { return false; }
+    const sead::SafeString& getRigidName(int idx) const override {
+        return sead::SafeString::cEmptyString;
+    }
+    bool rigidHasBurnOutTime(int idx) const override { return false; }
+    f32 getRigidBurnOutTime(int idx) const override { return 0.0f; }
+    bool isRigidAttribute3Set(int idx) const override { return true; }
+    bool isRigidAttribute15Set(int idx) const override { return false; }
+    f32 getRigidVolume(int idx) const override { return 1.0f; }
+    bool isRigidAttribute9Set(int idx) const override { return true; }
+    bool isRigidAttribute10Set(int idx) const override { return false; }
+    f32 getRigidMass(int idx) const override { return 1.0f; }
+    bool isRigidAttribute6Or14Set(int idx) const override { return false; }
+    bool isRigidAttribute5Set(int idx) const override { return false; }
+    bool isRigidAttribute4Set(int idx) const override { return false; }
+    bool isRigidAttribute11Set(int idx) const override { return false; }
+    bool isRigidAttribute12Set(int idx) const override { return false; }
+    bool isRigidAttribute13Set(int idx) const override { return false; }
+    bool isRigidAttribute14Set(int idx) const override { return false; }
+    bool isRigidAttribute16Set(int idx) const override { return false; }
+
+    Unk_710250c880 _8;
+};
+KSYS_CHECK_SIZE_NX150(Unk_710250c8b0, 0x18);
 
 // Name from the CSV; partial declaration of ChemicalMgr's carried chemical-element pool.
 // Constructor 0x71010c9074, vtable address point 0x710250c870, size 0x90.

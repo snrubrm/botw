@@ -7,6 +7,18 @@
 #include "KingSystem/Terrain/teraSystem.h"
 #include "KingSystem/System/VFR.h"
 
+f32 Unk_710250c880::getVolumeOccupancy() const {
+    return 1.0f;
+}
+
+f32 Unk_710250c880::getElementOcclusion() const {
+    return 1.0f;
+}
+
+const ksys::chm::IShape& Unk_710250c8b0::getShape(int idx) const {
+    return _8;
+}
+
 // The original keeps the vtable store that an empty destructor would drop: `{ ; }` as in upstream's
 // GameDataFlagSelector::~GameDataFlagSelector() { ; } (commit 96101229).
 Unk_710250cac8::~Unk_710250cac8() {
