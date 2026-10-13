@@ -25,6 +25,8 @@ protected:
     bool sub_7100602654();
     bool sub_7100602CCC();
     bool sub_7100602E40();
+    // Complete neighboring predicate and its caller establish the bool result and no arguments.
+    bool sub_71006030BC();
 
     // static_param at offset 0x38
     const float* mAttackIntiationRange_s{};

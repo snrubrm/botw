@@ -1,6 +1,9 @@
 #include "Game/AI/AI/aiWolfLinkBattleRoot.h"
 #include <random/seadGlobalRandom.h>
 #include "Game/Actor/actWolfLink.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
@@ -79,6 +82,43 @@ void WolfLinkBattleRoot::loadParams_() {
     getStaticParam(&mChanceToBarkOnAttackFail_s, "ChanceToBarkOnAttackFail");
     getStaticParam(&mUseChainAttack_s, "UseChainAttack");
     getDynamicParam(&mKeepTargetRange_d, "KeepTargetRange");
+}
+
+bool WolfLinkBattleRoot::sub_7100602CCC() {
+    if (_60->_1698 & 4)
+        return false;
+    s32 life = 0;
+    {
+        const auto& link = _60->_c48._8;
+        ksys::act::ActorConstDataAccess accessor;
+        if (link.hasProc() && ksys::act::acquireActor(&link, &accessor))
+            life = accessor.getLife();
+    }
+    if (life < 1 || !sub_71006030BC())
+        return false;
+    const auto position = mActor->getMtx().getTranslation();
+    const auto& target = sub_71005D9330(mActor);
+    const f32 dx = position.x - target.x;
+    const f32 dz = position.z - target.z;
+    if (!(dx * dx + dz * dz < _58) || !(_60->_1698 & 0x2000))
+        return false;
+    auto* awareness = mActor->getAwareness();
+    if (!awareness)
+        return false;
+    auto* sensor = awareness->_260[0];
+    const u32 count = sensor ? sensor->_8.size() : 0;
+    for (u32 i = 0; i < count; ++i) {
+        ksys::act::Unk_7100d78e50* entry = nullptr;
+        if (auto* current_sensor = awareness->_260[0]) {
+            if (current_sensor->_8.size() > s32(i))
+                entry = ksys::act::sub_7100D78E30(&current_sensor->_8, i);
+        }
+        if (auto* link = sub_71005D9050(mActor)) {
+            if (*link == entry->_0.mLink)
+                return true;
+        }
+    }
+    return false;
 }
 
 }  // namespace uking::ai
