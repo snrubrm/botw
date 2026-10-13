@@ -1,5 +1,6 @@
 #include "KingSystem/Resource/resTextureHandleList.h"
 #include <prim/seadScopedLock.h>
+#include "Game/gameUnkRttiPlaceholders.h"
 
 namespace ksys::res {
 
@@ -32,3 +33,7 @@ void TextureHandleList::sub_71012BD6BC() {
 }
 
 }  // namespace ksys::res
+
+// NON_MATCHING: placeholder destructor; the original (0x71012bdc1c) also destroys members or bases
+// this class does not declare yet.
+Unk_710251ab30::~Unk_710251ab30() = default;

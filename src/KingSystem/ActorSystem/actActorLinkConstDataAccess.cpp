@@ -6,6 +6,7 @@
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Utils/Debug.h"
 #include "KingSystem/Utils/Thread/MessageTransceiverId.h"
+#include "Game/gameUnkRttiPlaceholders.h"
 
 namespace ksys::act {
 
@@ -85,3 +86,5 @@ bool acquireProc(ActorLinkConstDataAccess* accessor, BaseProc* proc, const sead:
 }
 
 }  // namespace ksys::act
+
+Unk_71024de830::~Unk_71024de830() = default;

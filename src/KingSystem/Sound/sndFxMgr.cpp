@@ -1,5 +1,6 @@
 #include "KingSystem/Sound/sndFxMgr.h"
 #include "KingSystem/Sound/sndReverbMgr.h"
+#include "Game/gameUnkRttiPlaceholders.h"
 
 namespace ksys::snd {
 
@@ -18,3 +19,5 @@ void FxMgr::sub_71010514F4(sead::DrawContext* context, const sead::Camera& camer
 }
 
 }  // namespace ksys::snd
+
+Unk_7102502640::~Unk_7102502640() = default;

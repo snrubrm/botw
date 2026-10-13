@@ -46,3 +46,7 @@ OcclusionMgr::~OcclusionMgr() {
 // NON_MATCHING: placeholder destructor; the original (0x71010576a8) also destroys members or bases
 // this class does not declare yet.
 Unk_7102502978::~Unk_7102502978() = default;
+
+// NON_MATCHING: placeholder destructor; the original (0x7101059518) also destroys members or bases
+// this class does not declare yet.
+Unk_7102502b50::~Unk_7102502b50() = default;

@@ -25,6 +25,14 @@
 #include "framework/seadSingleScreenMethodTreeMgr.h"
 #include "framework/seadTaskParameter.h"
 #include "resource/seadArchiveRes.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Resource/resEntryFactory.h"
+#include "KingSystem/Sound/sndBgmMgr.h"
+#include <aal/aalAuxBusDataSerialCtrl.h>
+#include "framework/nx/seadGameFrameworkNx.h"
+#include "framework/seadCalculateTask.h"
+#include "framework/seadTask.h"
+#include "framework/seadTaskBase.h"
 
 // Placeholder classes generated from the vtables of the original (genskel.py in the botw-tools scratch). Each class
 // is named after the address of its vtable and declares only what the vtable shows: the sead RTTI pair with the
@@ -2114,4 +2122,317 @@ class Unk_7102531f60 : public Unk_710250e490 {
     SEAD_RTTI_OVERRIDE(Unk_7102531f60, Unk_710250e490)
 public:
     ~Unk_7102531f60() override;
+};
+
+// vtable 0x710245b7a0 (24 slots); placeholder generated from the vtable (genskel.py).
+class Unk_710245b7a0 : public sead::Task {
+    SEAD_RTTI_OVERRIDE(Unk_710245b7a0, sead::Task)
+public:
+    ~Unk_710245b7a0() override;
+};
+
+// vtable 0x710249c630 (10 slots); placeholder generated from the vtable (genskel.py).
+class Unk_710249c630 : public ksys::res::EntryFactoryBase {
+    SEAD_RTTI_OVERRIDE(Unk_710249c630, ksys::res::EntryFactoryBase)
+public:
+    ~Unk_710249c630() override;
+};
+
+// vtable 0x710249c6f0 (10 slots); placeholder generated from the vtable (genskel.py).
+class Unk_710249c6f0 : public ksys::res::EntryFactoryBase {
+    SEAD_RTTI_OVERRIDE(Unk_710249c6f0, ksys::res::EntryFactoryBase)
+public:
+    ~Unk_710249c6f0() override;
+};
+
+// vtable 0x710249c750 (10 slots); placeholder generated from the vtable (genskel.py).
+class Unk_710249c750 : public ksys::res::EntryFactoryBase {
+    SEAD_RTTI_OVERRIDE(Unk_710249c750, ksys::res::EntryFactoryBase)
+public:
+    ~Unk_710249c750() override;
+};
+
+// vtable 0x710249c7b0 (10 slots); placeholder generated from the vtable (genskel.py).
+class Unk_710249c7b0 : public ksys::res::EntryFactoryBase {
+    SEAD_RTTI_OVERRIDE(Unk_710249c7b0, ksys::res::EntryFactoryBase)
+public:
+    ~Unk_710249c7b0() override;
+};
+
+// vtable 0x710249c810 (10 slots); placeholder generated from the vtable (genskel.py).
+class Unk_710249c810 : public ksys::res::EntryFactoryBase {
+    SEAD_RTTI_OVERRIDE(Unk_710249c810, ksys::res::EntryFactoryBase)
+public:
+    ~Unk_710249c810() override;
+};
+
+// vtable 0x710249ce90 (127 slots); placeholder generated from the vtable (genskel.py).
+// checkDerivedRuntimeTypeInfo does not match yet: the original calls checkDerivedRuntimeTypeInfoStatic out of
+// line, so its parent chain is deeper than the one declared here.
+class Unk_710249ce90 : public uking::ui::Screen {
+    SEAD_RTTI_OVERRIDE(Unk_710249ce90, uking::ui::Screen)
+public:
+    ~Unk_710249ce90() override;
+};
+
+// vtable 0x71024cfdf8 (22 slots); placeholder generated from the vtable (genskel.py).
+class Unk_71024cfdf8 : public sead::TaskBase {
+    SEAD_RTTI_OVERRIDE(Unk_71024cfdf8, sead::TaskBase)
+public:
+    ~Unk_71024cfdf8() override;
+};
+
+// vtable 0x71024d9160 (148 slots); placeholder generated from the vtable (genskel.py).
+class Unk_71024d9160 : public ksys::act::Actor {
+    SEAD_RTTI_OVERRIDE(Unk_71024d9160, ksys::act::Actor)
+public:
+    ~Unk_71024d9160() override;
+};
+
+// vtable 0x71024de2f0 (148 slots); placeholder generated from the vtable (genskel.py).
+class Unk_71024de2f0 : public ksys::act::Actor {
+    SEAD_RTTI_OVERRIDE(Unk_71024de2f0, ksys::act::Actor)
+public:
+    ~Unk_71024de2f0() override;
+};
+
+// vtable 0x71024de830 (43 slots); placeholder generated from the vtable (genskel.py).
+class Unk_71024de830 : public sead::GameFrameworkNx {
+    SEAD_RTTI_OVERRIDE(Unk_71024de830, sead::GameFrameworkNx)
+public:
+    ~Unk_71024de830() override;
+    virtual void m37();
+    virtual void m38();
+    virtual void m39();
+    virtual void m40() {}
+    virtual void m41();
+    virtual void m42();
+};
+
+// vtable 0x71024f51c0 (10 slots); placeholder generated from the vtable (genskel.py).
+class Unk_71024f51c0 : public ksys::res::EntryFactoryBase {
+    SEAD_RTTI_OVERRIDE(Unk_71024f51c0, ksys::res::EntryFactoryBase)
+public:
+    ~Unk_71024f51c0() override;
+};
+
+// vtable 0x71024f6f70 (10 slots); placeholder generated from the vtable (genskel.py).
+class Unk_71024f6f70 : public ksys::res::EntryFactoryBase {
+    SEAD_RTTI_OVERRIDE(Unk_71024f6f70, ksys::res::EntryFactoryBase)
+public:
+    ~Unk_71024f6f70() override;
+};
+
+// vtable 0x71024fd0a8 (15 slots); placeholder generated from the vtable (genskel.py).
+class Unk_71024fd0a8 : public ksys::snd::Bgm {
+    SEAD_RTTI_OVERRIDE(Unk_71024fd0a8, ksys::snd::Bgm)
+public:
+    ~Unk_71024fd0a8() override;
+};
+
+// vtable 0x71024fd188 (17 slots); placeholder generated from the vtable (genskel.py).
+// checkDerivedRuntimeTypeInfo does not match yet: the original calls checkDerivedRuntimeTypeInfoStatic out of
+// line, so its parent chain is deeper than the one declared here.
+class Unk_71024fd188 : public ksys::snd::Unk_71025ce380 {
+    SEAD_RTTI_OVERRIDE(Unk_71024fd188, ksys::snd::Unk_71025ce380)
+public:
+    ~Unk_71024fd188() override;
+};
+
+// vtable 0x71024fd318 (15 slots); placeholder generated from the vtable (genskel.py).
+class Unk_71024fd318 : public ksys::snd::Bgm {
+    SEAD_RTTI_OVERRIDE(Unk_71024fd318, ksys::snd::Bgm)
+public:
+    ~Unk_71024fd318() override;
+};
+
+// vtable 0x71024fd448 (17 slots); placeholder generated from the vtable (genskel.py).
+// checkDerivedRuntimeTypeInfo does not match yet: the original calls checkDerivedRuntimeTypeInfoStatic out of
+// line, so its parent chain is deeper than the one declared here.
+class Unk_71024fd448 : public ksys::snd::Unk_71025ce380 {
+    SEAD_RTTI_OVERRIDE(Unk_71024fd448, ksys::snd::Unk_71025ce380)
+public:
+    ~Unk_71024fd448() override;
+};
+
+// vtable 0x71024fd6c8 (17 slots); placeholder generated from the vtable (genskel.py).
+// checkDerivedRuntimeTypeInfo does not match yet: the original calls checkDerivedRuntimeTypeInfoStatic out of
+// line, so its parent chain is deeper than the one declared here.
+class Unk_71024fd6c8 : public ksys::snd::Unk_71025ce380 {
+    SEAD_RTTI_OVERRIDE(Unk_71024fd6c8, ksys::snd::Unk_71025ce380)
+public:
+    ~Unk_71024fd6c8() override;
+};
+
+// vtable 0x71024fd808 (17 slots); placeholder generated from the vtable (genskel.py).
+// checkDerivedRuntimeTypeInfo does not match yet: the original calls checkDerivedRuntimeTypeInfoStatic out of
+// line, so its parent chain is deeper than the one declared here.
+class Unk_71024fd808 : public ksys::snd::Unk_71025ce380 {
+    SEAD_RTTI_OVERRIDE(Unk_71024fd808, ksys::snd::Unk_71025ce380)
+public:
+    ~Unk_71024fd808() override;
+};
+
+// vtable 0x71024fd948 (17 slots); placeholder generated from the vtable (genskel.py).
+// checkDerivedRuntimeTypeInfo does not match yet: the original calls checkDerivedRuntimeTypeInfoStatic out of
+// line, so its parent chain is deeper than the one declared here.
+class Unk_71024fd948 : public ksys::snd::Unk_71025ce380 {
+    SEAD_RTTI_OVERRIDE(Unk_71024fd948, ksys::snd::Unk_71025ce380)
+public:
+    ~Unk_71024fd948() override;
+};
+
+// vtable 0x71024fe368 (19 slots); placeholder generated from the vtable (genskel.py).
+// checkDerivedRuntimeTypeInfo does not match yet: the original calls checkDerivedRuntimeTypeInfoStatic out of
+// line, so its parent chain is deeper than the one declared here.
+class Unk_71024fe368 : public ksys::snd::Unk_71025ce380 {
+    SEAD_RTTI_OVERRIDE(Unk_71024fe368, ksys::snd::Unk_71025ce380)
+public:
+    ~Unk_71024fe368() override;
+};
+
+// vtable 0x71024fe808 (19 slots); placeholder generated from the vtable (genskel.py).
+// checkDerivedRuntimeTypeInfo does not match yet: the original calls checkDerivedRuntimeTypeInfoStatic out of
+// line, so its parent chain is deeper than the one declared here.
+class Unk_71024fe808 : public ksys::snd::Unk_71025ce380 {
+    SEAD_RTTI_OVERRIDE(Unk_71024fe808, ksys::snd::Unk_71025ce380)
+public:
+    ~Unk_71024fe808() override;
+};
+
+// vtable 0x71024fe970 (17 slots); placeholder generated from the vtable (genskel.py).
+// checkDerivedRuntimeTypeInfo does not match yet: the original calls checkDerivedRuntimeTypeInfoStatic out of
+// line, so its parent chain is deeper than the one declared here.
+class Unk_71024fe970 : public ksys::snd::Unk_71025ce380 {
+    SEAD_RTTI_OVERRIDE(Unk_71024fe970, ksys::snd::Unk_71025ce380)
+public:
+    ~Unk_71024fe970() override;
+};
+
+// vtable 0x71024feae8 (17 slots); placeholder generated from the vtable (genskel.py).
+// checkDerivedRuntimeTypeInfo does not match yet: the original calls checkDerivedRuntimeTypeInfoStatic out of
+// line, so its parent chain is deeper than the one declared here.
+class Unk_71024feae8 : public ksys::snd::Unk_71025ce380 {
+    SEAD_RTTI_OVERRIDE(Unk_71024feae8, ksys::snd::Unk_71025ce380)
+public:
+    ~Unk_71024feae8() override;
+};
+
+// vtable 0x71024fec18 (17 slots); placeholder generated from the vtable (genskel.py).
+// checkDerivedRuntimeTypeInfo does not match yet: the original calls checkDerivedRuntimeTypeInfoStatic out of
+// line, so its parent chain is deeper than the one declared here.
+class Unk_71024fec18 : public ksys::snd::Unk_71025ce380 {
+    SEAD_RTTI_OVERRIDE(Unk_71024fec18, ksys::snd::Unk_71025ce380)
+public:
+    ~Unk_71024fec18() override;
+};
+
+// vtable 0x71024fed48 (17 slots); placeholder generated from the vtable (genskel.py).
+// checkDerivedRuntimeTypeInfo does not match yet: the original calls checkDerivedRuntimeTypeInfoStatic out of
+// line, so its parent chain is deeper than the one declared here.
+class Unk_71024fed48 : public ksys::snd::Unk_71025ce380 {
+    SEAD_RTTI_OVERRIDE(Unk_71024fed48, ksys::snd::Unk_71025ce380)
+public:
+    ~Unk_71024fed48() override;
+};
+
+// vtable 0x71024fee78 (17 slots); placeholder generated from the vtable (genskel.py).
+// checkDerivedRuntimeTypeInfo does not match yet: the original calls checkDerivedRuntimeTypeInfoStatic out of
+// line, so its parent chain is deeper than the one declared here.
+class Unk_71024fee78 : public ksys::snd::Unk_71025ce380 {
+    SEAD_RTTI_OVERRIDE(Unk_71024fee78, ksys::snd::Unk_71025ce380)
+public:
+    ~Unk_71024fee78() override;
+};
+
+// vtable 0x71024fefe8 (17 slots); placeholder generated from the vtable (genskel.py).
+// checkDerivedRuntimeTypeInfo does not match yet: the original calls checkDerivedRuntimeTypeInfoStatic out of
+// line, so its parent chain is deeper than the one declared here.
+class Unk_71024fefe8 : public ksys::snd::Unk_71025ce380 {
+    SEAD_RTTI_OVERRIDE(Unk_71024fefe8, ksys::snd::Unk_71025ce380)
+public:
+    ~Unk_71024fefe8() override;
+};
+
+// vtable 0x71024ff268 (17 slots); placeholder generated from the vtable (genskel.py).
+class Unk_71024ff268 : public ksys::snd::Unk_71025ce380 {
+    SEAD_RTTI_OVERRIDE(Unk_71024ff268, ksys::snd::Unk_71025ce380)
+public:
+    ~Unk_71024ff268() override;
+};
+
+// vtable 0x71025008d0 (17 slots); placeholder generated from the vtable (genskel.py).
+// checkDerivedRuntimeTypeInfo does not match yet: the original calls checkDerivedRuntimeTypeInfoStatic out of
+// line, so its parent chain is deeper than the one declared here.
+class Unk_71025008d0 : public ksys::snd::Unk_71025ce380 {
+    SEAD_RTTI_OVERRIDE(Unk_71025008d0, ksys::snd::Unk_71025ce380)
+public:
+    ~Unk_71025008d0() override;
+};
+
+// vtable 0x7102500a00 (17 slots); placeholder generated from the vtable (genskel.py).
+// checkDerivedRuntimeTypeInfo does not match yet: the original calls checkDerivedRuntimeTypeInfoStatic out of
+// line, so its parent chain is deeper than the one declared here.
+class Unk_7102500a00 : public ksys::snd::Unk_71025ce380 {
+    SEAD_RTTI_OVERRIDE(Unk_7102500a00, ksys::snd::Unk_71025ce380)
+public:
+    ~Unk_7102500a00() override;
+};
+
+// vtable 0x7102500e08 (15 slots); placeholder generated from the vtable (genskel.py).
+class Unk_7102500e08 : public ksys::snd::Bgm {
+    SEAD_RTTI_OVERRIDE(Unk_7102500e08, ksys::snd::Bgm)
+public:
+    ~Unk_7102500e08() override;
+};
+
+// vtable 0x7102502640 (18 slots); placeholder generated from the vtable (genskel.py).
+class Unk_7102502640 : public aal::AuxBusDataSerialCtrl {
+    SEAD_RTTI_OVERRIDE(Unk_7102502640, aal::AuxBusDataSerialCtrl)
+public:
+    ~Unk_7102502640() override;
+    virtual void m11();
+    virtual void m12();
+    virtual void m13();
+    virtual void m14();
+    virtual void m15() {}
+    virtual void m16();
+    virtual void m17() {}
+};
+
+// vtable 0x7102502b50 (10 slots); placeholder generated from the vtable (genskel.py).
+class Unk_7102502b50 : public ksys::res::EntryFactoryBase {
+    SEAD_RTTI_OVERRIDE(Unk_7102502b50, ksys::res::EntryFactoryBase)
+public:
+    ~Unk_7102502b50() override;
+};
+
+// vtable 0x71025136c8 (23 slots); placeholder generated from the vtable (genskel.py).
+class Unk_71025136c8 : public sead::CalculateTask {
+    SEAD_RTTI_OVERRIDE(Unk_71025136c8, sead::CalculateTask)
+public:
+    ~Unk_71025136c8() override;
+};
+
+// vtable 0x7102513c38 (23 slots); placeholder generated from the vtable (genskel.py).
+class Unk_7102513c38 : public sead::CalculateTask {
+    SEAD_RTTI_OVERRIDE(Unk_7102513c38, sead::CalculateTask)
+public:
+    ~Unk_7102513c38() override;
+};
+
+// vtable 0x710251ab30 (17 slots); placeholder generated from the vtable (genskel.py).
+// checkDerivedRuntimeTypeInfo does not match yet: the original calls checkDerivedRuntimeTypeInfoStatic out of
+// line, so its parent chain is deeper than the one declared here.
+class Unk_710251ab30 : public ksys::snd::Unk_71025ce380 {
+    SEAD_RTTI_OVERRIDE(Unk_710251ab30, ksys::snd::Unk_71025ce380)
+public:
+    ~Unk_710251ab30() override;
+};
+
+// vtable 0x710251b5c0 (18 slots); placeholder generated from the vtable (genskel.py).
+class Unk_710251b5c0 : public Unk_7102502640 {
+    SEAD_RTTI_OVERRIDE(Unk_710251b5c0, Unk_7102502640)
+public:
+    ~Unk_710251b5c0() override;
 };

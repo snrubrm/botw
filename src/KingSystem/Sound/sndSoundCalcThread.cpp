@@ -2,6 +2,7 @@
 #include "KingSystem/Sound/sndMgr.h"
 #include "KingSystem/Physics/System/physSystem.h"
 #include <prim/seadNamable.h>
+#include "Game/gameUnkRttiPlaceholders.h"
 
 namespace ksys::snd {
 
@@ -23,3 +24,5 @@ void SoundCalcThread2::calc_(sead::MessageQueue::Element msg) {
 }
 
 }  // namespace ksys::snd
+
+Unk_710251b5c0::~Unk_710251b5c0() = default;

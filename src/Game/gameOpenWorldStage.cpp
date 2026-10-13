@@ -280,3 +280,5 @@ void Unk_710245b690::exec6(void* arg) {
 Unk_710245b3d8::~Unk_710245b3d8() = default;
 
 Unk_710245b8a8::~Unk_710245b8a8() = default;
+
+Unk_710245b7a0::~Unk_710245b7a0() = default;

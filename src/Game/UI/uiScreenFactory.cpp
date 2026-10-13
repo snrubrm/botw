@@ -1,6 +1,7 @@
 #include "Game/UI/uiScreenFactory.h"
 #include <math/seadMathCalcCommon.h>
 #include "Game/UI/uiUtils.h"
+#include "Game/gameUnkRttiPlaceholders.h"
 
 namespace uking::ui {
 
@@ -22,3 +23,5 @@ eui::DrawTarget ScreenFactory::getDrawTarget(u8 index) const {
 }
 
 }  // namespace uking::ui
+
+Unk_710249ce90::~Unk_710249ce90() = default;

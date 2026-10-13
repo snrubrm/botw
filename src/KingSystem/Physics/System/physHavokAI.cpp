@@ -4,6 +4,7 @@
 #include <Havok/Ai/Pathfinding/World/hkaiWorld.h>
 #include <thread/seadThreadUtil.h>
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
+#include "Game/gameUnkRttiPlaceholders.h"
 
 namespace ksys::phys {
 
@@ -180,3 +181,7 @@ void HavokAI::sub_7100F8185C() {
 }
 
 }  // namespace ksys::phys
+
+// NON_MATCHING: placeholder destructor; the original (0x7100f83f48) also destroys members or bases
+// this class does not declare yet.
+Unk_71024f6f70::~Unk_71024f6f70() = default;

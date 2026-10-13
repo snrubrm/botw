@@ -1,5 +1,6 @@
 #include "Game/AI/Action/actionSpotBgmTriggerAction.h"
 #include "KingSystem/Sound/sndBgmMgr.h"
+#include "Game/gameUnkRttiPlaceholders.h"
 
 void Unk_SpotBgmHandle::sub_710101D970() {
     if (auto* mgr = ksys::snd::sub_7100FFD754())
@@ -24,3 +25,15 @@ void Unk_SpotBgmInstance::sub_71010242F0() {
     _368 |= 0x200;
     _310.setValueImmediate(0.0f);
 }
+
+// NON_MATCHING: placeholder destructor; the original (0x7101021558) also destroys members or bases
+// this class does not declare yet.
+Unk_71025008d0::~Unk_71025008d0() = default;
+
+// NON_MATCHING: placeholder destructor; the original (0x7101021db8) also destroys members or bases
+// this class does not declare yet.
+Unk_7102500a00::~Unk_7102500a00() = default;
+
+// NON_MATCHING: placeholder destructor; the original (0x7101025acc) also destroys members or bases
+// this class does not declare yet.
+Unk_7102500e08::~Unk_7102500e08() = default;

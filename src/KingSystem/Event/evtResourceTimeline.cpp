@@ -8,6 +8,7 @@
 #include "KingSystem/Resource/Event/resResourceEventFlow.h"
 #include "KingSystem/Resource/resLoadRequest.h"
 #include "KingSystem/Utils/Byaml/Byaml.h"
+#include "Game/gameUnkRttiPlaceholders.h"
 
 namespace ksys::evt {
 
@@ -170,3 +171,5 @@ bool ResourceTimeline::buildTimeline(evfl::TimelineObj* obj, int idx, sead::Heap
 }
 
 }  // namespace ksys::evt
+
+Unk_71024de2f0::~Unk_71024de2f0() = default;

@@ -5,6 +5,7 @@
 #include <prim/seadScopedLock.h>
 #include <prim/seadPtrUtil.h>
 #include <thread/seadThread.h>
+#include "Game/gameUnkRttiPlaceholders.h"
 
 namespace ksys::util {
 
@@ -285,3 +286,7 @@ sead::Heap* getDebugHeap2() {
 }
 
 }  // namespace ksys::util
+
+// NON_MATCHING: placeholder destructor; the original (0x71011f3674) also destroys members or bases
+// this class does not declare yet.
+Unk_7102513c38::~Unk_7102513c38() = default;
