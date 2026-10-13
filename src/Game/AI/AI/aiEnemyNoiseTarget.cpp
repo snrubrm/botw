@@ -2,6 +2,10 @@
 #include "Game/Actor/actEnemy.h"
 #include "Game/Actor/actWeapon.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/AI/aiUnk_71007377D4.h"
+#include "Game/AI/aiUnk_710073033C.h"
+#include "Game/AI/aiAwarenessFilters.h"
+#include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
@@ -52,6 +56,38 @@ void EnemyNoiseTarget::sub_710039B400() {
     pack.acquireActor(sead::DynamicCast<ksys::act::Actor>(_c8.getProc(nullptr, nullptr)),
                       "TargetWeapon", -1);
     changeChild("盾拾い", &pack);
+}
+
+// NON_MATCHING: accessor/vector stack slots and shared cleanup registers differ.
+bool EnemyNoiseTarget::sub_710039B54C() {
+    auto* actor = mActor;
+    auto* awareness = actor->getAwareness();
+    bool result = false;
+    if (awareness) {
+        if (auto* enemy = sead::DynamicCast<act::Enemy>(actor)) {
+            ksys::act::acc::Weapon accessor;
+            Unk_7102451808 filter;
+            while (auto* entry = ksys::act::sub_7100D7EEE8(&awareness->_8, &filter)) {
+                auto& link = entry->_0.mLink;
+                ksys::act::acquireActor(&link, &accessor);
+                if (!accessor.hasProc() || sub_71002F0258(accessor) != 4 ||
+                    !link.hasProcInCalcState() ||
+                    !sub_710073033C(mActor, &link, *mSearchShieldDist_s) ||
+                    accessor.sub_7100D13448(-1) ||
+                    !sub_710072E154(mActor, entry->_88, nullptr, -1) ||
+                    accessor.sub_71002EF980())
+                    continue;
+                ksys::act::acquireActor(&link, &accessor);
+                sead::Vector3f position;
+                accessor.getActorMtx().getTranslation(position);
+                if (enemy->sub_710001A2B0(position, enemy->getMtx().getTranslation(),
+                                         *mNoShieldSearchDist_s))
+                    _c8 = link;
+            }
+            result = _c8.hasProc();
+        }
+    }
+    return result;
 }
 
 EnemyNoiseTarget::EnemyNoiseTarget(const InitArg& arg) : ksys::act::ai::Ai(arg) {}

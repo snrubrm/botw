@@ -1,6 +1,7 @@
 #include "Game/AI/AI/aiEnemyRoot.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/AI/aiUnk_71007368A4.h"
+#include "Game/AI/aiUnk_71007377D4.h"
 #include "Game/Actor/actEnemy.h"
 #include "Game/Actor/actHorseRideInfo.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
@@ -11,8 +12,6 @@
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "KingSystem/Utils/Thread/Message.h"
-
-void sub_710073DCB4(ksys::act::Actor* actor, int type);
 
 bool sub_71005E19F8(ksys::act::Actor* actor, Unk_7102357d20* sender, const char* fortress_tag);
 

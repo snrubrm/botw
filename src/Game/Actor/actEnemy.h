@@ -238,6 +238,8 @@ public:
     // `pos` is farther than `radius` from the segment b-a, else the result of 0x710001a2b0.
     bool sub_710001A204(const sead::Vector3f& a, const sead::Vector3f& b, const sead::Vector3f& pos,
                         f32 radius);
+    // 0x710001a2b0: excludes nearby linked actors from the segment between the two positions.
+    bool sub_710001A2B0(const sead::Vector3f& target, const sead::Vector3f& origin, f32 distance);
 
 protected:
     InitResult init_() override;
