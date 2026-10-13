@@ -59,6 +59,7 @@ add_library(hkStubs OBJECT
   Havok/Common/Base/Math/QTransform/hkQTransformf.h
   Havok/Common/Base/Math/QsTransform/hkQsTransform.h
   Havok/Common/Base/Math/QsTransform/hkQsTransformf.h
+  Havok/Common/Base/Math/QsTransform/hkQsTransformf.cpp
   Havok/Common/Base/Math/QsTransform/hkQsTransformf.inl
   Havok/Common/Base/Math/Quaternion/hkQuaternion.h
   Havok/Common/Base/Math/Quaternion/hkQuaternionf.h

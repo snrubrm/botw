@@ -6,6 +6,9 @@ public:
     HK_FORCE_INLINE hkQuaternionf(const hkQuaternionf&) = default;
     HK_FORCE_INLINE hkQuaternionf(hkFloat32 ix, hkFloat32 iy, hkFloat32 iz, hkFloat32 r);
     HK_FORCE_INLINE void set(hkFloat32 ix, hkFloat32 iy, hkFloat32 iz, hkFloat32 r);
+    // Complete native 1595A80 and independent motion-state consumers convert
+    // an existing rotation matrix to the complete quaternion.
+    void set(const hkRotationf& rotation);
 
     HK_FORCE_INLINE hkQuaternionf& operator=(const hkQuaternionf& q);
 
