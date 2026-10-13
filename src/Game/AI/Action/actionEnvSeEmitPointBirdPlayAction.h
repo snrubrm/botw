@@ -19,8 +19,10 @@ public:
 
 protected:
     void calc_() override;
+    // Complete FEA4E4 and independent calc FEA288 return the playback rate.
+    f32 sub_7100FEA4E4();
     sead::TickTime _20;
-    s64 _28 = 0;
+    sead::TickSpan _28;
     sead::TickTime _30;
     s32 _38 = 0;
 };
