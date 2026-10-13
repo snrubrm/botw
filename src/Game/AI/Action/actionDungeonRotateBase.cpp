@@ -4,6 +4,8 @@
 #include "Game/AI/aiXlinkHandle.h"
 #include <math/seadMathCalcCommon.h>
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Map/mapObject.h"
+#include "KingSystem/Map/mapObjectLink.h"
 #include "KingSystem/System/VFR.h"
 
 namespace uking::action {
@@ -54,6 +56,22 @@ void DungeonRotateBase::loadParams_() {
     getMapUnitParam(&mCameraRange_m, "CameraRange");
     getMapUnitParam(&mVelocityControlRate_m, "VelocityControlRate");
     getMapUnitParam(&mAngleVelocityControlAccelDeg_m, "AngleVelocityControlAccelDeg");
+}
+
+ksys::map::Object* DungeonRotateBase::sub_71000FC4EC() {
+    if (!mActor)
+        return nullptr;
+    auto* object = mActor->getMapObject();
+    if (!object || !object->getLinkData())
+        return nullptr;
+    for (auto* linked : object->getLinkData()->mObjects) {
+        if (!linked)
+            continue;
+        const auto& name = linked->getActorData().mActorName;
+        if (name.findIndex("SoundProxy") != -1 && name.findIndex("Fixed") == -1)
+            return linked;
+    }
+    return nullptr;
 }
 
 void DungeonRotateBase::calc_() {

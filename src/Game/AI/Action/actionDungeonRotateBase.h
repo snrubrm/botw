@@ -3,6 +3,10 @@
 #include "KingSystem/ActorSystem/actAiAction.h"
 #include <math/seadVector.h>
 
+namespace ksys::map {
+class Object;
+}
+
 namespace ksys::phys {
 class StaticCompoundRigidBodyGroup;
 }
@@ -27,6 +31,7 @@ public:
 
 protected:
     void calc_() override;
+    ksys::map::Object* sub_71000FC4EC();
     void sub_71000FCCA4(const sead::Vector3f* rotation, bool reverse);
     void sub_71000FD51C();
     virtual float m32();
