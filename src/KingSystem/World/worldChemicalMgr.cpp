@@ -38,6 +38,15 @@ Unk_710250c698::~Unk_710250c698() {
     }
 }
 
+void Unk_710250c698::sub_71010C5DEC(sead::Heap* heap) {
+    ksys::phys::SphereParam param;
+    param.radius = 4.0f;
+    param.name = "EffectWind";
+    param.contact_layer = ksys::phys::ContactLayer::SensorChemicalElement;
+    param.motion_type = ksys::phys::MotionType::Keyframed;
+    _18 = ksys::phys::SphereRigidBody::make(&param, heap);
+}
+
 Unk_710250c820::Unk_710250c820() = default;
 
 Unk_710250c820::~Unk_710250c820() {

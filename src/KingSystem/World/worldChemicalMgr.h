@@ -112,6 +112,7 @@ class Unk_710250c698 {
 public:
     Unk_710250c698();
     virtual ~Unk_710250c698();
+    void sub_71010C5DEC(sead::Heap* heap);
     u32 _8 = 0;
     // Full 10C5F2C uses this as a carried radial-wind element; pointee interface remains opaque.
     void* _10 = nullptr;
