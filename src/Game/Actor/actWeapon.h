@@ -542,3 +542,5 @@ s32 sub_71002F0CB4(const ksys::act::ActorConstDataAccess& accessor);
 f32 sub_71002F0490(const ksys::act::ActorConstDataAccess& accessor);
 uking::act::WeaponModifierInfo* sub_71002F05D8(const ksys::act::ActorConstDataAccess& accessor);
 bool sub_71002F0EE0(const ksys::act::ActorConstDataAccess& accessor);
+// Source owner unknown; native Weapon neighbors wrap the AI weapon-subtype utility.
+const sead::SafeString& sub_71002EF884(const ksys::act::ActorConstDataAccess& accessor);

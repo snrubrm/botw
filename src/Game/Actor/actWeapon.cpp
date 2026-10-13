@@ -1,4 +1,5 @@
 #include "Game/Actor/actWeapon.h"
+#include "Game/AI/aiUnk_71007377D4.h"
 #include "Game/Actor/actEnemy.h"
 #include "Game/gameUnk_71008ba8d8.h"
 #include "KingSystem/Event/evtOrderParam.h"
@@ -1457,6 +1458,12 @@ bool Weapon::sub_71002F1228() const {
 static inline uking::act::Weapon* getWeaponOfAccessor(const ksys::act::ActorConstDataAccess& accessor) {
     auto* actor = static_cast<ksys::act::Actor*>(ksys::act::acc::getProcIfActor(accessor.getProc()));
     return sead::DynamicCast<uking::act::Weapon>(actor);
+}
+
+// Source owner unknown; this global accessor is among Weapon native neighbors.
+const sead::SafeString& sub_71002EF884(const ksys::act::ActorConstDataAccess& accessor) {
+    auto* weapon = getWeaponOfAccessor(accessor);
+    return weapon ? sub_710072D96C(weapon) : sead::SafeString::cEmptyString;
 }
 
 namespace ksys::act {

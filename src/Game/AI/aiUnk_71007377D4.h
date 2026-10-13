@@ -26,6 +26,10 @@ namespace uking::act {
 class Rideable;
 }
 
+// Declaration only: Weapon subtype selected from the actor's GParam list, or cEmptyString.
+// The native Weapon accessor and Player katana query consume the returned SafeString.
+const sead::SafeString& sub_710072D96C(ksys::act::Actor* actor);
+
 namespace ksys::phys {
 class CharacterController;
 class MaterialMask;
