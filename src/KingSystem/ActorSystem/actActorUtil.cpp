@@ -102,6 +102,10 @@ void sub_7100D36EE0(sead::Vector3f* out, ksys::act::Actor* actor) {
     result.getTranslation(*out);
 }
 
+bool sub_7100D36F90(sead::Vector3f* out, const ksys::act::ActorConstDataAccess& accessor) {
+    return accessor.sub_7100D11D14(out);
+}
+
 // NON_MATCHING: makeS shares its scaled and unscaled stores, and the stack temporaries use other slots.
 void sub_7100D36FA0(sead::Matrix34f* out, ksys::act::Actor* actor) {
     sead::Vector3f position;

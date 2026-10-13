@@ -410,6 +410,9 @@ void sub_71011D76E0(ksys::act::Actor* actor, const ksys::act::ActorConstDataAcce
 bool sub_710002F6D8(sead::Vector3f* value, const sead::Vector3f& target, f32 weight,
                    f32 max_step, f32 min_step);
 
+// Source owner unknown: full Stasis countdown passes a Vector3f output and an acquired accessor.
+bool sub_7100D36F90(sead::Vector3f* out, const ksys::act::ActorConstDataAccess& accessor);
+
 // Source owner unknown: D11E54 and Actor reaction pass a Matrix34f output and Actor.
 void sub_7100D36FA0(sead::Matrix34f* out, ksys::act::Actor* actor);
 
