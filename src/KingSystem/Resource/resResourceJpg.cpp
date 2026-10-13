@@ -76,7 +76,7 @@ Unk_710247eb88::~Unk_710247eb88() {
 }
 
 s32 Unk_710247eb88::getLoadDataAlignment() const {
-    return 0x2000;
+    return cLoadDataAlignment;
 }
 
 bool Unk_710247eb88::sub_71009CD734(s32 denominator) {

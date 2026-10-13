@@ -7,7 +7,6 @@
 #include "KingSystem/Resource/resResourceMgrTask.h"
 #include "KingSystem/Resource/resResourceGameSaveData.h"
 #include "Game/gameUnkRttiPlaceholders.h"
-#include "Game/gameUnkRttiPlaceholders.h"
 
 namespace ksys::res {
 
@@ -58,6 +57,21 @@ template bool EntryFactory<::Unk_710247edc8>::checkDerivedRuntimeTypeInfo(
     const sead::RuntimeTypeInfo::Interface*) const;
 template const sead::RuntimeTypeInfo::Interface*
 EntryFactory<::Unk_710247edc8>::getRuntimeTypeInfo() const;
+
+template sead::DirectResource* EntryFactory<Unk_710247eb88>::newResource_(sead::Heap*, s32);
+template u32 EntryFactory<Unk_710247eb88>::getResourceSize() const;
+template u32 EntryFactory<Unk_710247eb88>::getLoadDataAlignment() const;
+template bool EntryFactory<Unk_710247eb88>::checkDerivedRuntimeTypeInfo(
+    const sead::RuntimeTypeInfo::Interface*) const;
+template const sead::RuntimeTypeInfo::Interface*
+EntryFactory<Unk_710247eb88>::getRuntimeTypeInfo() const;
+
+template u32 EntryFactory<::Unk_710247ec28>::getResourceSize() const;
+template u32 EntryFactory<::Unk_710247ec28>::getLoadDataAlignment() const;
+template bool EntryFactory<::Unk_710247ec28>::checkDerivedRuntimeTypeInfo(
+    const sead::RuntimeTypeInfo::Interface*) const;
+template const sead::RuntimeTypeInfo::Interface*
+EntryFactory<::Unk_710247ec28>::getRuntimeTypeInfo() const;
 
 bool EntryFactoryBase::checkDerivedRuntimeTypeInfoStatic(const sead::RuntimeTypeInfo::Interface* typeInfo) {
     const sead::RuntimeTypeInfo::Interface* clsTypeInfo = EntryFactoryBase::getRuntimeTypeInfoStatic();

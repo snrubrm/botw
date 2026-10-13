@@ -41,6 +41,8 @@ public:
     Unk_710247eb88();
     ~Unk_710247eb88() override;
 
+    // Native resource and factory alignment queries both return 0x2000.
+    static constexpr size_t cLoadDataAlignment = 0x2000;
     s32 getLoadDataAlignment() const override;
     void sub_71009CD5F8();
     void sub_71009CD66C();
