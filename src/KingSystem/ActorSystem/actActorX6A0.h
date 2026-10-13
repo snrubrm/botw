@@ -35,6 +35,8 @@ public:
     virtual ~ActorX6A0();
     void sub_71010F21C4();
     void sub_71010F21E0();
+    // Full 60-byte wrapper and 1536-byte target update this state; record and actor callers agree.
+    void sub_71010F220C();
     void* sub_71010F2848();
 
     sead::BitFlag16 _8;

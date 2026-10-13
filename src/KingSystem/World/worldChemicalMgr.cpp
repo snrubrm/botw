@@ -48,6 +48,28 @@ void Unk_710250c840::sub_71010C8748(sead::Heap* heap, ksys::world::ChemicalMgr* 
     ++_8;
 }
 
+// NON_MATCHING: chemical lookup is hoisted from both branches; flag loads and branches differ.
+void Unk_710250c840::sub_71010C8E40() {
+    if (_d0)
+        _d0->sub_71010F220C();
+    if (_10.sub_7100E37788(0)->_40 != _b8->getVolume())
+        _10.sub_7100E37788(0)->sub_7100D97578();
+    if (_d8[2]) {
+        if (_10.sub_7100E37788(0)->_c0 != 2) {
+            _d8[2] = 0;
+            if (_d8[1])
+                _b0->setRevivalFlagValueIf(ksys::map::ActorData::Flag::RevivalForUsed, false);
+        }
+    } else {
+        auto* chemical = _10.sub_7100E37788(0);
+        if (chemical->_c0 == 2 && (!_d8[0] || (chemical->_c & 0x100000))) {
+            _d8[2] = 1;
+            if (_d8[1])
+                _b0->setRevivalFlagValueIf(ksys::map::ActorData::Flag::RevivalForUsed, true);
+        }
+    }
+}
+
 void Unk_71010c90f4::sub_71010C90F4() {
     _70.freeBuffer();
     _60.freeBuffer();

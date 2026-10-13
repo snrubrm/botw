@@ -95,6 +95,7 @@ public:
     virtual ~Unk_710250c840();
     // Full 10C8748 receives the heap and owning ChemicalMgr from 10C9210 / ChemicalMgr::init_.
     void sub_71010C8748(sead::Heap* heap, ksys::world::ChemicalMgr* mgr);
+    void sub_71010C8E40();
     u32 _8 = 0;
     ksys::act::ActorChemicals _10;
     Unk_710250c8b0 _98{};
