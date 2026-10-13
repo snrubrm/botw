@@ -139,6 +139,7 @@ target_sources(uking PRIVATE
     RigidBody/TeraMesh/physTeraMeshRigidBodyResource.cpp
     RigidBody/TeraMesh/physTeraMeshRigidBodyResource.h
 
+    RigidBody/TerrainHeightField/physTerrainHeightFieldRigidBody.cpp
     RigidBody/TerrainHeightField/physTerrainHeightFieldRigidBody.h
 
     StaticCompound/physStaticCompound.cpp
