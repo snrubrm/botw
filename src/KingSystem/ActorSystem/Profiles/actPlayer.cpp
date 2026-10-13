@@ -1084,6 +1084,16 @@ f32 Player::sub_7100867D68() {
     return sead::Mathf::atan2(dir.x, dir.z);
 }
 
+// NON_MATCHING: the Matrix33 multiplication is outlined instead of inlined.
+void Player::sub_7100867DEC(const sead::Vector3<u32>& rotation) {
+    const u32 factor = static_cast<u32>(_20f0);
+    sead::Matrix33f delta;
+    delta.makeRIdx(rotation.x * factor, rotation.y * factor, rotation.z * factor);
+    const sead::Vector3f translation = _1b18.getTranslation();
+    _1b18.setMul(delta, _1b18);
+    _1b18.setTranslation(translation);
+}
+
 void Player::sub_7100867FE0(const Unk1& angle) {
     const sead::Vector3<u32> rotation(0, angle.value, 0);
     sub_7100867DEC(rotation);
