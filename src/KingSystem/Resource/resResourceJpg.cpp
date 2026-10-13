@@ -1,8 +1,13 @@
 #include "KingSystem/Resource/resResourceJpg.h"
 #include <common/aglTextureData.h>
+#include <common/aglTextureFormatInfo.h>
+#include <mc/seadCoreInfo.h>
 #include <g3d/aglNW4FToNN.h>
 #include <nn/g3d/ResFile.h>
 #include "Game/gameUnkRttiPlaceholders.h"
+#include "Game/UI/euiTypes.h"
+#include "Game/UI/uiManager.h"
+#include "Game/UI/uiUtils.h"
 #include "KingSystem/Resource/resResourceFileUtil.h"
 
 // Native 9CDB18/9CDBF0 construct this RTTI interface; its sole slot is 9CDF60.
@@ -166,4 +171,23 @@ void Unk_710247edc8::onDestroy_() {
         ksys::res::sub_7100FDDB70(_50);
         _50 = nullptr;
     }
+}
+
+Unk_710247ee68::Unk_710247ee68() {
+    for (auto& texture : mTextures)
+        texture = new (uking::ui::getHeap(), 0x2000) agl::TextureData;
+}
+
+// NON_MATCHING: TextureData destruction stays emitted rather than its inlined NVNtexture body.
+Unk_710247ee68::~Unk_710247ee68() {
+    for (auto& texture : mTextures) {
+        delete texture;
+        texture = nullptr;
+    }
+}
+
+agl::TextureData* Unk_710247ee68::sub_71009CEA5C() {
+    const auto core = sead::CoreInfo::getCurrentCoreId();
+    const s32 index = core;
+    return mTextures[u32(index) < 3 ? index : 0];
 }

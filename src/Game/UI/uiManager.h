@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/Resource/resHandle.h"
+#include "KingSystem/Resource/resResourceJpg.h"
 
 #include <container/seadSafeArray.h>
 #include <heap/seadDisposer.h>
@@ -170,7 +171,11 @@ public:
     /* 0x64b10 */ u32 _64b10;
     /* 0x64b14 */ u8 _64b14;
     /* 0x64b15 */ bool _64b15;
-    u8 _64b16[0x64b80 - 0x64b16];
+    u8 _64b16[0x64b20 - 0x64b16];
+    // Constructor A6E0C4, destructor A6E76C and resource creators 9CE600 / 9CE27C / 9CAA34.
+    /* 0x64b20 */ Unk_710247ee68 _64b20;
+    /* 0x64b40 */ Unk_710247ee68 _64b40;
+    /* 0x64b60 */ Unk_710247ee68 _64b60;
     /* 0x64b80 */ ksys::res::Handle mLocationResource;
     u8 _64bd0[0x64c24 - 0x64bd0];
     /* 0x64c24 */ s32 _64c24;

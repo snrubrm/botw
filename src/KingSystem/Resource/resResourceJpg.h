@@ -7,6 +7,19 @@ namespace agl {
 class TextureData;
 }
 
+// Native 9CE8C4 / 9CE95C and UiManager's complete lifetime establish this 0x20 pool.
+// Three independent resource creators select its texture for the current core.
+class Unk_710247ee68 {
+public:
+    Unk_710247ee68();
+    virtual ~Unk_710247ee68();
+    agl::TextureData* sub_71009CEA5C();
+
+private:
+    agl::TextureData* mTextures[3];
+};
+KSYS_CHECK_SIZE_NX150(Unk_710247ee68, 0x20);
+
 namespace ksys::res {
 
 // CSV name; vtable 0x710247eae0, constructor 0x71009ccff8.
