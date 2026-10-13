@@ -57,7 +57,8 @@ protected:
     const sead::Vector3f* mFixPoint_s{};
     bool _40 = false;
     void* _48 = nullptr;
-    void* _50 = nullptr;
+    // Enter_ stores the tagged linked map object; both position and activation helpers use it.
+    ksys::map::Object* _50 = nullptr;
     ksys::phys::Constraint* _58 = nullptr;
     ksys::phys::RigidBody* _60 = nullptr;
     ksys::phys::RigidBody* _68 = nullptr;

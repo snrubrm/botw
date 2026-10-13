@@ -2,6 +2,7 @@
 #include "Game/gameGearMgr.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actTag.h"
+#include "KingSystem/Map/mapObject.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/Constraint/physConstraint.h"
 #include "KingSystem/Physics/Constraint/physFixedCs.h"
@@ -63,6 +64,24 @@ void StoneStickRoot::enter_(ksys::act::ai::InlineParamPack*) {
         sub_71005AB6B8();
     else
         changeChild("通常", nullptr);
+}
+
+// 0x71005ab83c
+// NON_MATCHING: the accessor and output matrix occupy opposite stack slots.
+bool StoneStickRoot::sub_71005AB83C() {
+    sead::Vector3f fixed_position;
+    fixed_position.setMul(mActor->getMtx(), *mFixPoint_s);
+    ksys::act::ActorConstDataAccess accessor;
+    bool near = false;
+    if (_50) {
+        _50->getActorWithAccessor(accessor);
+        if (accessor.hasProc()) {
+            sead::Matrix34f matrix;
+            accessor.sub_7100D105A8(&matrix);
+            near = (matrix.getTranslation() - fixed_position).squaredLength() < 0.0064f;
+        }
+    }
+    return near;
 }
 
 void StoneStickRoot::leave_() {
