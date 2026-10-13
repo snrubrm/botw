@@ -36,6 +36,17 @@ Unk_710250c698::~Unk_710250c698() {
     }
 }
 
+Unk_710250c820::Unk_710250c820() = default;
+
+Unk_710250c820::~Unk_710250c820() {
+    if (_10) {
+        if (_10->isAddedToWorld())
+            _10->removeFromWorldImmediately(nullptr);
+        delete _10;
+        _10 = nullptr;
+    }
+}
+
 Unk_710250c6b8::~Unk_710250c6b8() {
     if (_10) {
         if (_10->isAddedToWorld())

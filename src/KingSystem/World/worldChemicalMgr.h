@@ -6,6 +6,7 @@
 #include <container/seadObjList.h>
 #include <thread/seadCriticalSection.h>
 #include <prim/seadBitFlag.h>
+#include <xlink2/xlink2HandleELink.h>
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Chemical/chmRoot.h"
 #include "KingSystem/Utils/Types.h"
@@ -122,8 +123,23 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(Unk_710250c698, 0x38);
 
-// Complete two-slot lifetime table250C6B8. ChemicalMgr::init_ allocates0x58 and calls10C61F0.
-// Full6304 constructs the body at10 and shape at50; other field types remain opaque.
+// Complete two-slot table at 250C820; ChemicalMgr::init_ allocates 0x38 bytes.
+// Full activation 10C683C and cleanup 10C69C4 establish the effect handle and radius.
+class Unk_710250c820 {
+public:
+    Unk_710250c820();
+    virtual ~Unk_710250c820();
+
+    void* _8 = nullptr;
+    ksys::phys::RigidBody* _10 = nullptr;
+    sead::Vector3f _18;
+    f32 _24 = 1.0f;
+    xlink2::HandleELink _28;
+};
+KSYS_CHECK_SIZE_NX150(Unk_710250c820, 0x38);
+
+// Complete two-slot lifetime table 250C6B8. ChemicalMgr::init_ allocates 0x58 and calls 10C61F0.
+// Full 10C6304 constructs the body at +10 and shape at +50; other field types remain opaque.
 class Unk_710250c6b8 {
 public:
     Unk_710250c6b8();
@@ -137,7 +153,7 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(Unk_710250c6b8, 0x58);
 
-// Complete 0x70 pool at ChemicalMgr +C10: constructor10CA1C0, init10CA680 and lifetime10CA33C.
+// Complete 0x70 pool at ChemicalMgr + C10: constructor 10CA1C0, init 10CA680 and lifetime 10CA33C.
 struct Unk_71010cb1f0 {
     void sub_71010CB1F0(s32 count, sead::Heap* heap);
 
