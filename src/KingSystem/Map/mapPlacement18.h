@@ -24,7 +24,7 @@ bool sub_7100D4953C(const RailRoute* route, const sead::SafeString& route_ids);
 class Placement18a {
     SEAD_SINGLETON_DISPOSER(Placement18a)
 public:
-    Placement18a();
+    Placement18a() = default;
 };
 KSYS_CHECK_SIZE_NX150(Placement18a, 0x20);
 

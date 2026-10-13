@@ -1,9 +1,12 @@
 #include "KingSystem/Map/mapRail.h"
+#include "KingSystem/Map/mapPlacement18.h"
 #include <heap/seadHeapMgr.h>
 #include "KingSystem/Utils/MathUtil.h"
 #include "KingSystem/Utils/SafeDelete.h"
 
 namespace ksys::map {
+
+SEAD_SINGLETON_DISPOSER_IMPL(Placement18a)
 
 u32 Rail::sHashBase;
 
