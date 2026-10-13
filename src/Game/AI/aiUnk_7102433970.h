@@ -18,6 +18,8 @@ public:
     Unk_7100743798();
 
     bool sub_7100743814(ksys::act::Actor* actor);
+    // Updates the message and mode timer; complete body and ZoraHeroRelicBattleRoot caller.
+    void sub_7100743A40();
     void sub_7100744200(s32 mode, bool force);
 
     /* 0x000 */ s32 _0;

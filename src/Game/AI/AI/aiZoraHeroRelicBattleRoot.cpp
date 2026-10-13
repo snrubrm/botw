@@ -2,6 +2,8 @@
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Utils/Thread/Message.h"
 
@@ -18,6 +20,37 @@ bool ZoraHeroRelicBattleRoot::init_(sead::Heap* heap) {
 
 void ZoraHeroRelicBattleRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
+}
+
+void ZoraHeroRelicBattleRoot::calc_() {
+    sub_7100614C18();
+    if (!mActor->get1a0() &&
+        (!mActor->getMapObject() ||
+         !mActor->getMapObject()->getFlags0().isOn(ksys::map::Object::Flag0::_20000))) {
+        _48._8.sub_7100743A40();
+    }
+    auto* actor = mActor;
+    bool ride = false;
+    if (isCurrentChild("騎乗待ち")) {
+        auto* child = sead::DynamicCast<ksys::act::Actor>(actor->getConnectedCalcChild());
+        if (_41 && child) {
+            _41 = false;
+            ride = true;
+        } else if (child && ksys::act::isPlayerProfile(child)) {
+            ride = true;
+        }
+    } else {
+        isCurrentChild("騎乗中");
+    }
+    if (ride) {
+        sub_7100614738();
+        return;
+    }
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed())
+        sub_7100614930();
+    else
+        child->isChangeable();
 }
 
 void ZoraHeroRelicBattleRoot::leave_() {
