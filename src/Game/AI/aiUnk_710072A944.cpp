@@ -1,5 +1,6 @@
 #include "Game/AI/aiUnk_710072A944.h"
 #include <random/seadGlobalRandom.h>
+#include <math/seadMathCalcCommon.h>
 #include "Game/Actor/actSwarm.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
@@ -44,4 +45,29 @@ void sub_710072ABB4(ksys::act::Actor* actor) {
                 body->addToWorld();
         }
     }
+}
+
+void sub_710072AAE4(ksys::act::Actor* actor) {
+    if (auto* swarm = sead::DynamicCast<uking::act::Swarm>(actor)) {
+        for (s32 i = 0; i < swarm->_15f8.size(); ++i) {
+            if (auto* body = swarm->_15f8[i]._20)
+                body->removeFromWorld();
+        }
+    }
+}
+
+uking::act::Swarm::Unit* sub_710072A6DC(uking::act::Swarm* swarm, const sead::Vector3f& pos) {
+    uking::act::Swarm::Unit* nearest = nullptr;
+    f32 min_distance = sead::Mathf::infinity();
+    for (s32 i = 0, count = swarm->_14c8.size(); i < count; ++i) {
+        auto* unit = swarm->_14c8[i];
+        if (!unit || (unit->_b8 & 1))
+            continue;
+        const f32 distance = (pos - unit->_8.getTranslation()).squaredLength();
+        if (distance < min_distance) {
+            min_distance = distance;
+            nearest = unit;
+        }
+    }
+    return nearest;
 }

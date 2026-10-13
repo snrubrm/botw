@@ -26,10 +26,15 @@ void sub_7100729EA8(uking::act::Swarm* swarm);
 // 0x7100729f34 (declared only; 120 B): ForkSwarmAttack / SwarmFlyAttack leave_ (loops over the swarm's unit bodies
 // and calls sub_71007A2D34 on each).
 void sub_7100729F34(uking::act::Swarm* swarm);
-// 0x710072abb4 (declared only; 208 B): BeeDamaged::leave_.
+// Full 72AA48 and independent Bee reaction methods pass the signed damage type.
+s32 sub_710072AA48(ksys::act::Actor* actor, s32 type);
+// Full 72AAE4 and BeeDamaged::enter_ remove the swarm unit bodies from the world.
+void sub_710072AAE4(ksys::act::Actor* actor);
+
+// 0x710072abb4 (208 B): BeeDamaged::leave_.
 void sub_710072ABB4(ksys::act::Actor* actor);
 
-// 0x710072a6dc (declared only; 156 B): the swarm unit nearest to `pos` among those without state bit 0 (null if none);
+// 0x710072a6dc (156 B): the swarm unit nearest to `pos` among those without state bit 0 (null if none);
 // SwarmDamaged::m33.
 uking::act::Swarm::Unit* sub_710072A6DC(uking::act::Swarm* swarm, const sead::Vector3f& pos);
 
