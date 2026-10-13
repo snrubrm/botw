@@ -89,6 +89,8 @@ public:
 
     // 0x7100e3e2e8: marks the element and resets each linked rigid body.
     void sub_7100E3E2E8();
+    // E3B79C: the parent actor chemical, consumed by the wind/rigid-body update.
+    Chemical* sub_7100E3B79C() const;
 
     // Slot numbering: mN is the virtual at vtable slot N + 2 (the first two are the RTTI functions), as in the CSV.
     void m4(sead::Matrix34f* out, Chemical* chemical) override;

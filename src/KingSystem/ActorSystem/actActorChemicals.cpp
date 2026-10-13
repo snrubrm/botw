@@ -17,6 +17,12 @@ Unk_71024e6560::~Unk_71024e6560() {
     ;
 }
 
+Chemical* Unk_71024e6428::sub_7100E3B79C() const {
+    if (mActor && mActor->m48())
+        return mActor->m48()->getChemicalStuff();
+    return nullptr;
+}
+
 void Unk_71024e6428::sub_7100E3E2E8() {
     _30 |= 0x2000;
     for (auto& entry : _278)
