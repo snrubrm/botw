@@ -173,36 +173,30 @@ bool WeaponBase::m86() {
     return Actor::m86();
 }
 
+// NON_MATCHING: the common forwarding path changes block layout and register allocation.
 int WeaponBase::handleMessage(const Message& message) {
     if (isDelete() || isDeleteRequested())
         return 0;
+    MessageType outgoing_type;
     if (message.getType() == 0x3000001) {
         _9f4.set(2);
         mActorFlags2.set(ActorFlag2::_20);
-        if (_958.hasProcInCalcState()) {
-            ActorConstDataAccess accessor;
-            acquireActor(&_958, &accessor);
-            MessageTransceiverBase& transceiver = getMessageTransceiver();
-            transceiver.sendMessageOnProcessingThread(*accessor.getMessageTransceiverId(),
-                                                      static_cast<MessageType>(0x3000001), nullptr,
-                                                      true);
-        }
-        return 1;
-    }
-    if (message.getType() == 0x3000002) {
+        outgoing_type = static_cast<MessageType>(0x3000001);
+    } else if (message.getType() == 0x3000002) {
         _9f4.reset(2);
         mActorFlags2.reset(ActorFlag2::_20);
-        if (_958.hasProcInCalcState()) {
-            ActorConstDataAccess accessor;
-            acquireActor(&_958, &accessor);
-            MessageTransceiverBase& transceiver = getMessageTransceiver();
-            transceiver.sendMessageOnProcessingThread(*accessor.getMessageTransceiverId(),
-                                                      static_cast<MessageType>(0x3000002), nullptr,
-                                                      true);
-        }
-        return 1;
+        outgoing_type = static_cast<MessageType>(0x3000002);
+    } else {
+        return Actor::handleMessage(message);
     }
-    return Actor::handleMessage(message);
+    if (_958.hasProcInCalcState()) {
+        ActorConstDataAccess accessor;
+        acquireActor(&_958, &accessor);
+        MessageTransceiverBase& transceiver = getMessageTransceiver();
+        transceiver.sendMessageOnProcessingThread(*accessor.getMessageTransceiverId(), outgoing_type,
+                                                  nullptr, true);
+    }
+    return 1;
 }
 
 void WeaponBase::m92(phys::RigidBody* body) {
