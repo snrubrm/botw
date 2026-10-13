@@ -4,6 +4,7 @@
 #include <math/seadMathCalcCommon.h>
 #include "Game/Actor/actRideable.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 
 namespace uking::act {
@@ -85,6 +86,13 @@ bool sub_7100E81568(ksys::as::ASList* list) {
     if (list->x_4(0, 0))
         return false;
     return list->x(22, nullptr, 0, 0, &ksys::as::ASList::Unk2::sub_71011638DC, true);
+}
+
+// NON_MATCHING: enable is tail-called instead of sharing the normalized Boolean return.
+bool sub_7100E815C8(ksys::act::AwarenessInstance* awareness) {
+    if (awareness && !awareness->sub_7100D7E964() && awareness->enable())
+        return true;
+    return false;
 }
 
 }  // namespace uking::act

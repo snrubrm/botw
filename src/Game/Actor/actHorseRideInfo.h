@@ -9,6 +9,7 @@
 namespace ksys::act {
 class Actor;
 class ActorConstDataAccess;
+class AwarenessInstance;
 class BaseProc;
 struct Unk117;
 }  // namespace ksys::act
@@ -72,6 +73,8 @@ bool sub_7100E813B0(ksys::as::ASList* list);
 // 0x7100e81568 (placeholder name): false while `list->x_4(0, 0)` holds, else the AS list query 22 with
 // Unk2::sub_71011638DC.
 bool sub_7100E81568(ksys::as::ASList* list);
+// HorseNotRidden supplies its actor's awareness and tests whether this helper enabled it.
+bool sub_7100E815C8(ksys::act::AwarenessInstance* awareness);
 
 // Placeholder name (vtable 0x71023cee88). The HorseRideInfo embedded in NPC at 0xf28; its
 // functions sit at 0x71002c9ffc-0x71002ca1d8.
