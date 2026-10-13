@@ -10,6 +10,7 @@
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/ActorSystem/actActorChemicals.h"
 #include "KingSystem/ActorSystem/actChemicalUserTag.h"
+#include "KingSystem/ActorSystem/Awareness/actAITerror.h"
 #include "KingSystem/Chemical/chmRoot.h"
 #include "KingSystem/Utils/Types.h"
 #include "KingSystem/World/worldJob.h"
@@ -210,6 +211,27 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(Unk_710250c6b8, 0x58);
 
+// Full 10CB0B8 / 10CA680 build these 0x90-byte sensor records; 10CA33C destroys the tag.
+// The body owns the tag pointer at record +8, and reset 10CB39C removes the body from the world.
+struct Unk_71010cb0b8 {
+    struct Entry {
+        ksys::phys::RigidBody* _0;
+        ksys::act::DummyUserTag _8{nullptr};
+        sead::Vector3f _78;
+        f32 _84;
+        u32 _88 = 0;
+    };
+    KSYS_CHECK_SIZE_NX150(Entry, 0x90);
+
+    void sub_71010CB0B8(s32 count, sead::Heap* heap);
+    sead::CriticalSection lock;
+    sead::Buffer<Entry> entries;
+    sead::PtrArray<Entry> free;
+    sead::PtrArray<Entry> used;
+    u32 _70 = 0;
+};
+KSYS_CHECK_SIZE_NX150(Unk_71010cb0b8, 0x78);
+
 // Complete 0x70 pool at ChemicalMgr + C10: constructor 10CA1C0, init 10CA680 and lifetime 10CA33C.
 struct Unk_71010cb1f0 {
     void sub_71010CB1F0(s32 count, sead::Heap* heap);
@@ -292,7 +314,8 @@ public:
     u8 _b10;
     u8 _b11[3];
     sead::BitFlag32 _b14;
-    u8 _b18[0xc10 - 0xb18];
+    u8 _b18[0xb98 - 0xb18];
+    Unk_71010cb0b8 _b98;
     Unk_71010cb1f0 _c10;
     u8 _c80[0xcf8 - 0xc80];
     WorldMgrStruct0_8_a _cf8;

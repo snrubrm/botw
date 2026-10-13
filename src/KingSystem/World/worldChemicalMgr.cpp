@@ -291,6 +291,14 @@ void Unk_710250c6b8::sub_71010C6304(sead::Heap* heap) {
 }
 
 // NON_MATCHING: the entry constructor inlines into allocation; loop registers differ.
+void Unk_71010cb0b8::sub_71010CB0B8(s32 count, sead::Heap* heap) {
+    entries.tryAllocBuffer(count, heap, 8);
+    free.allocBuffer(count, heap, 8);
+    used.allocBuffer(count, heap, 8);
+    for (auto& entry : entries)
+        free.pushBack(&entry);
+}
+
 void Unk_71010cb1f0::sub_71010CB1F0(s32 count, sead::Heap* heap) {
     entries.tryAllocBuffer(count, heap, 8);
     free.allocBuffer(count, heap, 8);
