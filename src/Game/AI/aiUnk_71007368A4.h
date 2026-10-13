@@ -100,3 +100,7 @@ bool sub_7100736C18(const u32* mask, sead::SafeString* out);
 // Source owner is unknown; native utility neighbors select this free placeholder.
 bool sub_7100736BE8(const ksys::act::ActorAtk::Unk_710079e64c::Unk1* attack,
                     sead::SafeString* out);
+
+bool sub_7100736E24(const ksys::act::ActorAtk::Unk_710079e64c::Unk1* attack,
+                   sead::SafeString* out);
+bool sub_7100736EFC(const u32* mask, sead::SafeString* out);

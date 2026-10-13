@@ -290,3 +290,34 @@ bool sub_7100736C18(const u32* mask, sead::SafeString* out) {
         return false;
     return true;
 }
+
+bool sub_7100736E24(const ksys::act::ActorAtk::Unk_710079e64c::Unk1* attack,
+                   sead::SafeString* out) {
+    if (!attack)
+        return false;
+    if (attack->_54 & 0x20000000)
+        *out = "SuperBlow";
+    else if (attack->_54 & 4)
+        *out = "Huge";
+    else if (attack->_54 & 2)
+        *out = "Large";
+    else if (attack->_54 & 1)
+        *out = "Middle";
+    else
+        *out = "Small";
+    return true;
+}
+
+bool sub_7100736EFC(const u32* mask, sead::SafeString* out) {
+    if (*mask & 0x20000000)
+        *out = "SuperBlow";
+    else if (*mask & 4)
+        *out = "Huge";
+    else if (*mask & 2)
+        *out = "Large";
+    else if (*mask & 1)
+        *out = "Middle";
+    else
+        *out = "Small";
+    return true;
+}
