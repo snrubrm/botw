@@ -1048,6 +1048,18 @@ bool sub_7100926210(const ksys::act::ActorConstDataAccess& accessor, sead::Vecto
     return !invalid;
 }
 
+bool sub_71009262A8(const ksys::act::ActorConstDataAccess& accessor, sead::Matrix34f* out) {
+    const auto& mtx = accessor.getActorMtx();
+    if (ksys::util::sub_71011F10F4(mtx))
+        return false;
+    if (sead::Mathf::equalsEpsilon(mtx(0, 0), 0.0f) &&
+        sead::Mathf::equalsEpsilon(mtx(1, 0), 0.0f) &&
+        sead::Mathf::equalsEpsilon(mtx(2, 0), 0.0f))
+        return false;
+    *out = mtx;
+    return true;
+}
+
 bool sub_7100926DF0(const ksys::act::ActorConstDataAccess& accessor) {
     return uking::act::sub_7100E6ECC4(accessor) == 6;
 }
