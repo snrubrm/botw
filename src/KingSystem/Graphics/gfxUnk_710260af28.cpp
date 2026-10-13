@@ -1,7 +1,12 @@
 #include "KingSystem/Graphics/gfxUnk_710260af28.h"
 #include <gsys/gsysModel.h>
-#include <gsys/gsysModelUnit.h>
 #include <gsys/gsysModelNW.h>
+#include <gsys/gsysModelUnit.h>
+
+void Unk_710260af28::sub_7100F1ED28(gsys::Model* model, int mode) {
+    for (s32 i = 0; i < model->getUnits().size(); ++i)
+        sub_7100F1ED8C(model->getUnits()[i]->mModelUnit, mode);
+}
 
 void Unk_710260af28::sub_7100F1D058(gsys::Model* model, u32 flags) {
     for (s32 i = 0; i < model->getUnits().size(); ++i)

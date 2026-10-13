@@ -35,9 +35,10 @@ public:
 
     // 0x7100f1ece8: clears bit 2 of the flags halfword (+0x12) of every element of the model's list.
     void sub_7100F1ECE8(gsys::Model* model);
-    // 0x7100f1ed28 (declaration only; lane2 s21): calls the unnamed 0x7100f1ed8c with every element of the
-    // model's list and `a2` (SunAI::enter_ passes false).
-    void sub_7100F1ED28(gsys::Model* model, bool a2);
+    // Forwards the numeric render mode to every model unit (SunAI::enter_ passes 0).
+    void sub_7100F1ED28(gsys::Model* model, int mode);
+    // Full F1ED8C handles numeric modes; ForestRenderer also calls it for one unit.
+    void sub_7100F1ED8C(gsys::ModelUnit* unit, int mode);
     // 0x7100f1e2f4 (CSV: uk_damage_color_stuff; declaration only; lane4 s28): HorseReins::initMaybe
     // passes a zeroed 16 byte value (a colour) by reference.
     void sub_7100F1E2F4(gsys::Model* model, const sead::Color4f& color);
