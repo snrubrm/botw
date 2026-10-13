@@ -1,5 +1,8 @@
 #include "Game/AI/Action/actionApplyMoveTrigger.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/Map/mapObject.h"
+#include "KingSystem/Map/mapObjectLink.h"
 
 namespace uking::action {
 
@@ -44,8 +47,50 @@ void ApplyMoveTrigger::loadParams_() {
     getMapUnitParam(&mApplyForceValue_m, "ApplyForceValue");
 }
 
+// NON_MATCHING: common force mode logic changes the native switch and vector stack setup.
 void ApplyMoveTrigger::calc_() {
-    ksys::act::ai::Action::calc_();
+    auto* actor = mActor;
+    sead::Matrix34f home;
+    actor->getHomeMtx(&home);
+    const sead::Vector3f position = home.getTranslation();
+    sead::Vector3f force;
+    home.getBase(force, 2);
+    force *= *mApplyForceValue_m;
+
+    const int type = *mForceType_m;
+    if (type >= 0 && type <= 3) {
+        const bool convert = type < 2;
+        const bool use_position = type == 1 || type == 3;
+        if (convert)
+            force *= 1.0f / 30.0f;
+        _40.sub_7100D3D3C4(use_position ? 1 : 0, &force,
+                          use_position ? &position : nullptr, convert);
+    }
+
+    if (*mTriggerType_m == 0 && _60)
+        return;
+    if (!actor->checkBasicSig())
+        return;
+    // Discarded virtual call retained from native 9DE58.
+    actor->m107();
+    auto* object = actor->getMapObject();
+    if (!object)
+        return;
+    auto* links = object->getLinkData();
+    if (!links)
+        return;
+    const s32 count = links->mObjects.size();
+    for (s32 i = 0; i < count; ++i) {
+        auto* other = links->mObjects[i];
+        if (!other)
+            continue;
+        ksys::act::ActorConstDataAccess accessor;
+        other->getActorWithAccessor(accessor);
+        if (accessor.hasProc() && accessor.isStateCalc()) {
+            _40.sub_7100D3D49C(actor, &accessor, false);
+            _60 = true;
+        }
+    }
 }
 
 }  // namespace uking::action
