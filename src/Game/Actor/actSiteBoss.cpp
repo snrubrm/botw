@@ -352,3 +352,10 @@ int getNumberOfClearedRemains() {
         ++count;
     return count;
 }
+
+void uking::act::SiteBoss::m73() {
+    Enemy::m73();
+    if (static_cast<u32>(_1534) > 3 || (_1534 & ~3) == 8)
+        return;
+    _2390.sub_7100722764();
+}

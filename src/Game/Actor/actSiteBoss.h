@@ -52,6 +52,8 @@ struct Unk_7100722420 {
     void sub_71007224D4();
     // 2026-10-07: original 0x71007224dc receives three signed configuration values.
     void sub_71007224DC(s32 a1, s32 a2, s32 a3);
+    // 722764 updates this dialog owner; SiteBoss::m73 passes its existing member.
+    void sub_7100722764();
 
     // 2026-10-07: ctor 0x7100722420 stores its Actor* argument here, not a vtable.
     ksys::act::Actor* _0;
