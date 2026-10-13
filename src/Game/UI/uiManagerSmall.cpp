@@ -430,3 +430,11 @@ Unk_710249c5e8::~Unk_710249c5e8() = default;
 // NON_MATCHING: placeholder destructor; the original (0x7100a7ef58) also destroys members or bases
 // this class does not declare yet.
 Unk_710249c5b8::~Unk_710249c5b8() = default;
+
+// NON_MATCHING: placeholder destructor; the original (0x7100a800f0) also destroys members or bases
+// this class does not declare yet.
+Unk_710249c558::~Unk_710249c558() = default;
+
+// NON_MATCHING: placeholder destructor; the original (0x7100a80270) also destroys members or bases
+// this class does not declare yet.
+Unk_710249c588::~Unk_710249c588() = default;

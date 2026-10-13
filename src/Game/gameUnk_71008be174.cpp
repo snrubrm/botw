@@ -90,3 +90,11 @@ void Unk_71008be174::sub_71008BE778(bool* out) {
 // NON_MATCHING: placeholder destructor; the original (0x71008be9dc) also destroys members or bases
 // this class does not declare yet.
 Unk_710246d1e8::~Unk_710246d1e8() = default;
+
+// NON_MATCHING: placeholder destructor; the original (0x71008bde54) also destroys members or bases
+// this class does not declare yet.
+Unk_710246d140::~Unk_710246d140() = default;
+
+// NON_MATCHING: placeholder destructor; the original (0x71008bedc4) also destroys members or bases
+// this class does not declare yet.
+Unk_710246d258::~Unk_710246d258() = default;

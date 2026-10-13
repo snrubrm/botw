@@ -36,6 +36,7 @@
 #include "Game/UI/uiPauseMenuDataMgr.h"
 #include "KingSystem/System/UI/LayoutResourceMgr.h"
 #include "KingSystem/Utils/Thread/MessageBroker.h"
+#include "Game/gameUnkRttiPlaceholders.h"
 
 Unk_71025d1740* Unk_71025d1740::sInstance;
 
@@ -755,3 +756,5 @@ Unk_710245a980::~Unk_710245a980() = default;
 // A function-pointer delegate on a BaseProc (CSV BaseProcInvoker; vtable 0x710245a5d8: invoke 0x7b66ac, clone 0x7b66c0,
 // the shared isNoDummy 0xec4c0): its out-of-line copies are emitted in this TU.
 template class sead::Delegate1Func<ksys::act::BaseProc*>;
+
+Unk_7102513d70::~Unk_7102513d70() = default;

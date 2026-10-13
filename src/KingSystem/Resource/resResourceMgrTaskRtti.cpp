@@ -1,4 +1,5 @@
 #include "KingSystem/Resource/resResourceMgrTask.h"
+#include "Game/gameUnkRttiPlaceholders.h"
 
 namespace ksys::res {
 
@@ -18,3 +19,5 @@ namespace sead {
 template TaskBase* TTaskFactory<ksys::res::ResourceMgrTask>(const TaskConstructArg&);
 
 }  // namespace sead
+
+Unk_7102515058::~Unk_7102515058() = default;

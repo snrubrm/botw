@@ -20,6 +20,7 @@
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectHorse.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectHorseUnit.h"
+#include "Game/gameUnkRttiPlaceholders.h"
 
 namespace uking::act {
 
@@ -641,3 +642,5 @@ s32 sub_7100E6ECC4(const ksys::act::ActorConstDataAccess& accessor) {
 }
 
 }  // namespace uking::act
+
+Unk_71024eb480::~Unk_71024eb480() = default;

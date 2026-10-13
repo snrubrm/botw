@@ -1,4 +1,5 @@
 #include "KingSystem/System/DebugBoard.h"
+#include "Game/gameUnkRttiPlaceholders.h"
 
 DebugBoardMgr* DebugBoardMgr::sInstance;
 
@@ -74,3 +75,5 @@ Unk_DebugBoardBroker::~Unk_DebugBoardBroker() = default;
 ksys::IMessageBrokerRegister* Unk_DebugBoardBroker::getRegister() {
     return &mRegister;
 }
+
+Unk_710246c410::~Unk_710246c410() = default;

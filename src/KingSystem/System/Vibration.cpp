@@ -1,6 +1,7 @@
 #include "KingSystem/System/Vibration.h"
 #include <mc/seadCoreInfo.h>
 #include "KingSystem/Event/evtUnk_7100dc816c.h"
+#include "Game/gameUnkRttiPlaceholders.h"
 
 namespace ksys {
 
@@ -91,3 +92,5 @@ Vibration::Unk1::Unk1(s32 a1, const sead::Vector3f& a2, u8 a3, void* a4, f32 a5,
     : _0(a2), _10(a4), _18(a5), _1c(a6), _20(a1), _24(a7), _25(a3) {}
 
 }  // namespace ksys
+
+Unk_710250b7c0::~Unk_710250b7c0() = default;

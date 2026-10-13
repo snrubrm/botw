@@ -22,3 +22,13 @@ bool Unk_7100a921fc::sub_7100A92248() {
 }
 
 Unk_710251d160::~Unk_710251d160() = default;
+
+Unk_710249d608::~Unk_710249d608() = default;
+
+Unk_710251d0e0::~Unk_710251d0e0() = default;
+
+// NON_MATCHING: placeholder destructor; the original (0x71012e906c) also destroys members or bases
+// this class does not declare yet.
+Unk_710251d010::~Unk_710251d010() = default;
+
+Unk_710251cfa0::~Unk_710251cfa0() = default;

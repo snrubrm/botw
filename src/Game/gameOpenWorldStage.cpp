@@ -278,3 +278,5 @@ void Unk_710245b690::exec6(void* arg) {
 }  // namespace uking
 
 Unk_710245b3d8::~Unk_710245b3d8() = default;
+
+Unk_710245b8a8::~Unk_710245b8a8() = default;

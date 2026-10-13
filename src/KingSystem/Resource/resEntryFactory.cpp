@@ -6,6 +6,7 @@
 #include "KingSystem/Resource/resBfRes.h"
 #include "KingSystem/Resource/resResourceMgrTask.h"
 #include "KingSystem/Resource/resResourceGameSaveData.h"
+#include "Game/gameUnkRttiPlaceholders.h"
 
 namespace ksys::res {
 
@@ -78,3 +79,7 @@ bool sub_7100FE8A74() {
 }
 
 }  // namespace ksys::res
+
+// NON_MATCHING: placeholder destructor; the original (0x7100fe8fd8) also destroys members or bases
+// this class does not declare yet.
+Unk_71024f9e58::~Unk_71024f9e58() = default;

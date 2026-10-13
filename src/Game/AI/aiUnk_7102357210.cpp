@@ -12,6 +12,7 @@
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "Game/gameUnkRttiPlaceholders.h"
 
 bool Unk_7102450498::m2(const ksys::Message& message) {
     if (message.getType() != 0x8000021)
@@ -1022,3 +1023,7 @@ void Unk_7102450410::Entry::sub_71007083DC() {
     }
     sub_71007088C0();
 }
+
+Unk_710235a160::~Unk_710235a160() = default;
+
+Unk_710235a368::~Unk_710235a368() = default;

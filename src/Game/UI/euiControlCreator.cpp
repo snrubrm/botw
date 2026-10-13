@@ -96,3 +96,13 @@ void ControlCreator::registerButton(ButtonBase* button) {
 }  // namespace eui
 
 Unk_710252e4b8::~Unk_710252e4b8() = default;
+
+// NON_MATCHING: placeholder destructor; the original (0x7101367114) also destroys members or bases
+// this class does not declare yet.
+Unk_710252e510::~Unk_710252e510() = default;
+
+Unk_710252e558::~Unk_710252e558() = default;
+
+// NON_MATCHING: placeholder destructor; the original (0x7101367730) also destroys members or bases
+// this class does not declare yet.
+Unk_710252e590::~Unk_710252e590() = default;

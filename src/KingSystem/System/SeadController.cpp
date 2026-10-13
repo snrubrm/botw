@@ -1,6 +1,7 @@
 #include "KingSystem/System/SeadController.h"
 #include "KingSystem/System/Controller.h"
 #include "KingSystem/System/ControllerSnapshot.h"
+#include "Game/gameUnkRttiPlaceholders.h"
 
 namespace ksys {
 
@@ -118,3 +119,5 @@ const sead::Vector2f& Unk_71024dd5c8::sub_7100D9E498() const {
 
 Unk_71024dd5a8::~Unk_71024dd5a8() = default;
 Unk_71024dd588::~Unk_71024dd588() = default;
+
+Unk_7102514540::~Unk_7102514540() = default;

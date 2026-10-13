@@ -20,6 +20,11 @@
 #include "KingSystem/Utils/Thread/TaskData.h"
 #include <aal/aalSpatialCalculator.h>
 #include <gsys/gsysModelUnit.h>
+#include "Game/gameUnk_71024739f8.h"
+#include "controller/seadControllerAddon.h"
+#include "framework/seadSingleScreenMethodTreeMgr.h"
+#include "framework/seadTaskParameter.h"
+#include "resource/seadArchiveRes.h"
 
 // Placeholder classes generated from the vtables of the original (genskel.py in the botw-tools scratch). Each class
 // is named after the address of its vtable and declares only what the vtable shows: the sead RTTI pair with the
@@ -1647,4 +1652,432 @@ class Unk_710252e4b8 : public sead::Controller {
     SEAD_RTTI_OVERRIDE(Unk_710252e4b8, sead::Controller)
 public:
     ~Unk_710252e4b8() override;
+};
+
+// vtable 0x710235a160 (12 slots); placeholder generated from the vtable (genskel.py).
+class Unk_710235a160 : public sead::ControllerAddon {
+    SEAD_RTTI_OVERRIDE(Unk_710235a160, sead::ControllerAddon)
+public:
+    ~Unk_710235a160() override;
+};
+
+// vtable 0x710235a368 (12 slots); placeholder generated from the vtable (genskel.py).
+class Unk_710235a368 : public sead::ControllerAddon {
+    SEAD_RTTI_OVERRIDE(Unk_710235a368, sead::ControllerAddon)
+public:
+    ~Unk_710235a368() override;
+};
+
+// vtable 0x710245b8a8 (4 slots); placeholder generated from the vtable (genskel.py).
+class Unk_710245b8a8 : public sead::TaskParameter {
+    SEAD_RTTI_OVERRIDE(Unk_710245b8a8, sead::TaskParameter)
+public:
+    virtual ~Unk_710245b8a8();
+};
+
+// typeinfo 0x71025d0530; the original has no vtable for this class (an abstract base: only its RTTI
+// checks remain). Placeholder generated from its children (genskel.py).
+class Unk_71025d0530 {
+    SEAD_RTTI_BASE(Unk_71025d0530)
+public:
+    virtual ~Unk_71025d0530() = default;
+};
+
+// vtable 0x710246c410 (4 slots); placeholder generated from the vtable (genskel.py).
+class Unk_710246c410 : public Unk_71025d0530 {
+    SEAD_RTTI_OVERRIDE(Unk_710246c410, Unk_71025d0530)
+public:
+    ~Unk_710246c410() override;
+};
+
+// vtable 0x710246d140 (5 slots); placeholder generated from the vtable (genskel.py).
+class Unk_710246d140 : public uking::Unk_71024739f8 {
+    SEAD_RTTI_OVERRIDE(Unk_710246d140, uking::Unk_71024739f8)
+public:
+    ~Unk_710246d140() override;
+};
+
+// vtable 0x710246d258 (5 slots); placeholder generated from the vtable (genskel.py).
+class Unk_710246d258 : public uking::Unk_71024739f8 {
+    SEAD_RTTI_OVERRIDE(Unk_710246d258, uking::Unk_71024739f8)
+public:
+    ~Unk_710246d258() override;
+};
+
+// typeinfo 0x71025d9ad8; the original has no vtable for this class (an abstract base: only its RTTI
+// checks remain). Placeholder generated from its children (genskel.py).
+class Unk_71025d9ad8 {
+    SEAD_RTTI_BASE(Unk_71025d9ad8)
+public:
+    virtual ~Unk_71025d9ad8() = default;
+};
+
+// vtable 0x710247b2c8 (11 slots); placeholder generated from the vtable (genskel.py).
+class Unk_710247b2c8 : public Unk_71025d9ad8 {
+    SEAD_RTTI_OVERRIDE(Unk_710247b2c8, Unk_71025d9ad8)
+public:
+    ~Unk_710247b2c8() override;
+    virtual void m4();
+    virtual void m5();
+    virtual void m6() {}
+    virtual void m7();
+    virtual void m8();
+    virtual void m9();
+    virtual void m10();
+};
+
+// typeinfo 0x71025b1218; the original has no vtable for this class (an abstract base: only its RTTI
+// checks remain). Placeholder generated from its children (genskel.py).
+class Unk_71025b1218 {
+    SEAD_RTTI_BASE(Unk_71025b1218)
+public:
+    virtual ~Unk_71025b1218() = default;
+};
+
+// vtable 0x710249c558 (4 slots); placeholder generated from the vtable (genskel.py).
+class Unk_710249c558 : public Unk_71025b1218 {
+    SEAD_RTTI_OVERRIDE(Unk_710249c558, Unk_71025b1218)
+public:
+    ~Unk_710249c558() override;
+};
+
+// vtable 0x710249c588 (4 slots); placeholder generated from the vtable (genskel.py).
+class Unk_710249c588 : public Unk_71025b1218 {
+    SEAD_RTTI_OVERRIDE(Unk_710249c588, Unk_71025b1218)
+public:
+    ~Unk_710249c588() override;
+};
+
+// vtable 0x710249d608 (15 slots); placeholder generated from the vtable (genskel.py).
+// checkDerivedRuntimeTypeInfo does not match yet: the original calls checkDerivedRuntimeTypeInfoStatic out of
+// line, so its parent chain is deeper than the one declared here.
+class Unk_710249d608 : public sead::ArchiveRes {
+    SEAD_RTTI_OVERRIDE(Unk_710249d608, sead::ArchiveRes)
+public:
+    ~Unk_710249d608() override;
+};
+
+// typeinfo 0x71025f89a8; the original has no vtable for this class (an abstract base: only its RTTI
+// checks remain). Placeholder generated from its children (genskel.py).
+class Unk_71025f89a8 {
+    SEAD_RTTI_BASE(Unk_71025f89a8)
+public:
+    virtual ~Unk_71025f89a8() = default;
+};
+
+// vtable 0x71024bd4f0 (20 slots); placeholder generated from the vtable (genskel.py).
+class Unk_71024bd4f0 : public Unk_71025f89a8 {
+    SEAD_RTTI_OVERRIDE(Unk_71024bd4f0, Unk_71025f89a8)
+public:
+    ~Unk_71024bd4f0() override;
+    virtual void m4();
+    virtual void m5();
+    virtual void m6();
+    virtual void m7();
+    virtual void m8();
+    virtual void m9();
+    virtual void m10();
+    virtual void m11();
+    virtual void m12();
+    virtual void m13();
+    virtual void m14();
+    virtual void m15();
+    virtual void m16();
+    virtual void m17();
+    virtual void m18();
+    virtual void m19();
+};
+
+// typeinfo 0x71025d0328; the original has no vtable for this class (an abstract base: only its RTTI
+// checks remain). Placeholder generated from its children (genskel.py).
+class Unk_71025d0328 {
+    SEAD_RTTI_BASE(Unk_71025d0328)
+public:
+    virtual ~Unk_71025d0328() = default;
+};
+
+// vtable 0x71024bf6f8 (5 slots); placeholder generated from the vtable (genskel.py).
+class Unk_71024bf6f8 : public Unk_71025d0328 {
+    SEAD_RTTI_OVERRIDE(Unk_71024bf6f8, Unk_71025d0328)
+public:
+    ~Unk_71024bf6f8() override;
+    virtual void m4();
+};
+
+// typeinfo 0x71025f9c60; the original has no vtable for this class (an abstract base: only its RTTI
+// checks remain). Placeholder generated from its children (genskel.py).
+class Unk_71025f9c60 {
+    SEAD_RTTI_BASE(Unk_71025f9c60)
+public:
+    virtual ~Unk_71025f9c60() = default;
+};
+
+// vtable 0x71024bfe10 (5 slots); placeholder generated from the vtable (genskel.py).
+class Unk_71024bfe10 : public Unk_71025f9c60 {
+    SEAD_RTTI_OVERRIDE(Unk_71024bfe10, Unk_71025f9c60)
+public:
+    ~Unk_71024bfe10() override;
+    virtual void m4();
+};
+
+// typeinfo 0x71025fffa8; the original has no vtable for this class (an abstract base: only its RTTI
+// checks remain). Placeholder generated from its children (genskel.py).
+class Unk_71025fffa8 {
+    SEAD_RTTI_BASE(Unk_71025fffa8)
+public:
+    virtual ~Unk_71025fffa8() = default;
+};
+
+// vtable 0x71024d8fa8 (4 slots); placeholder generated from the vtable (genskel.py).
+class Unk_71024d8fa8 : public Unk_71025fffa8 {
+    SEAD_RTTI_OVERRIDE(Unk_71024d8fa8, Unk_71025fffa8)
+public:
+    ~Unk_71024d8fa8() override;
+};
+
+// vtable 0x71024d8ff0 (4 slots); placeholder generated from the vtable (genskel.py).
+class Unk_71024d8ff0 : public Unk_71025fffa8 {
+    SEAD_RTTI_OVERRIDE(Unk_71024d8ff0, Unk_71025fffa8)
+public:
+    ~Unk_71024d8ff0() override;
+};
+
+// vtable 0x71024eb480 (4 slots); placeholder generated from the vtable (genskel.py).
+class Unk_71024eb480 : public Unk_71025d0530 {
+    SEAD_RTTI_OVERRIDE(Unk_71024eb480, Unk_71025d0530)
+public:
+    ~Unk_71024eb480() override;
+};
+
+// typeinfo 0x710260dda0; the original has no vtable for this class (an abstract base: only its RTTI
+// checks remain). Placeholder generated from its children (genskel.py).
+class Unk_710260dda0 {
+    SEAD_RTTI_BASE(Unk_710260dda0)
+public:
+    virtual ~Unk_710260dda0() = default;
+};
+
+// vtable 0x71024f6670 (4 slots); placeholder generated from the vtable (genskel.py).
+class Unk_71024f6670 : public Unk_710260dda0 {
+    SEAD_RTTI_OVERRIDE(Unk_71024f6670, Unk_710260dda0)
+public:
+    ~Unk_71024f6670() override;
+};
+
+// vtable 0x710252e510 (7 slots); placeholder generated from the vtable (genskel.py).
+class Unk_710252e510 : public Unk_71024bf6f8 {
+    SEAD_RTTI_OVERRIDE(Unk_710252e510, Unk_71024bf6f8)
+public:
+    ~Unk_710252e510() override;
+    virtual void m5();
+    virtual void m6();
+};
+
+// vtable 0x71024f9e58 (7 slots); placeholder generated from the vtable (genskel.py).
+// checkDerivedRuntimeTypeInfo does not match yet: the original calls checkDerivedRuntimeTypeInfoStatic out of
+// line, so its parent chain is deeper than the one declared here.
+class Unk_71024f9e58 : public Unk_710252e510 {
+    SEAD_RTTI_OVERRIDE(Unk_71024f9e58, Unk_710252e510)
+public:
+    ~Unk_71024f9e58() override;
+};
+
+// vtable 0x710250b7c0 (4 slots); placeholder generated from the vtable (genskel.py).
+class Unk_710250b7c0 : public Unk_71025d0530 {
+    SEAD_RTTI_OVERRIDE(Unk_710250b7c0, Unk_71025d0530)
+public:
+    ~Unk_710250b7c0() override;
+};
+
+// typeinfo 0x71026205b8; the original has no vtable for this class (an abstract base: only its RTTI
+// checks remain). Placeholder generated from its children (genskel.py).
+class Unk_71026205b8 : public Unk_710251d230 {
+    SEAD_RTTI_OVERRIDE(Unk_71026205b8, Unk_710251d230)
+public:
+    ~Unk_71026205b8() override = default;
+};
+
+// vtable 0x710251d0e0 (14 slots); placeholder generated from the vtable (genskel.py).
+// checkDerivedRuntimeTypeInfo does not match yet: the original calls checkDerivedRuntimeTypeInfoStatic out of
+// line, so its parent chain is deeper than the one declared here.
+class Unk_710251d0e0 : public Unk_71026205b8 {
+    SEAD_RTTI_OVERRIDE(Unk_710251d0e0, Unk_71026205b8)
+public:
+    ~Unk_710251d0e0() override;
+    virtual void m7();
+    virtual void m8();
+    virtual void m9();
+    virtual void m10();
+    virtual void m11();
+    virtual void m12();
+    virtual void m13();
+};
+
+// vtable 0x710250f758 (14 slots); placeholder generated from the vtable (genskel.py).
+// checkDerivedRuntimeTypeInfo does not match yet: the original calls checkDerivedRuntimeTypeInfoStatic out of
+// line, so its parent chain is deeper than the one declared here.
+class Unk_710250f758 : public Unk_710251d0e0 {
+    SEAD_RTTI_OVERRIDE(Unk_710250f758, Unk_710251d0e0)
+public:
+    ~Unk_710250f758() override;
+};
+
+// vtable 0x710251d010 (14 slots); placeholder generated from the vtable (genskel.py).
+// checkDerivedRuntimeTypeInfo does not match yet: the original calls checkDerivedRuntimeTypeInfoStatic out of
+// line, so its parent chain is deeper than the one declared here.
+class Unk_710251d010 : public Unk_710251d0e0 {
+    SEAD_RTTI_OVERRIDE(Unk_710251d010, Unk_710251d0e0)
+public:
+    ~Unk_710251d010() override;
+};
+
+// vtable 0x710250f7d8 (14 slots); placeholder generated from the vtable (genskel.py).
+// checkDerivedRuntimeTypeInfo does not match yet: the original calls checkDerivedRuntimeTypeInfoStatic out of
+// line, so its parent chain is deeper than the one declared here.
+class Unk_710250f7d8 : public Unk_710251d010 {
+    SEAD_RTTI_OVERRIDE(Unk_710250f7d8, Unk_710251d010)
+public:
+    ~Unk_710250f7d8() override;
+};
+
+// vtable 0x71025138e8 (20 slots); placeholder generated from the vtable (genskel.py).
+class Unk_71025138e8 : public Unk_71024bd4f0 {
+    SEAD_RTTI_OVERRIDE(Unk_71025138e8, Unk_71024bd4f0)
+public:
+    ~Unk_71025138e8() override;
+};
+
+// vtable 0x7102513d70 (8 slots); placeholder generated from the vtable (genskel.py).
+class Unk_7102513d70 : public sead::SingleScreenMethodTreeMgr {
+    SEAD_RTTI_OVERRIDE(Unk_7102513d70, sead::SingleScreenMethodTreeMgr)
+public:
+    ~Unk_7102513d70() override;
+};
+
+// typeinfo 0x71025f64e8; the original has no vtable for this class (an abstract base: only its RTTI
+// checks remain). Placeholder generated from its children (genskel.py).
+class Unk_71025f64e8 {
+    SEAD_RTTI_BASE(Unk_71025f64e8)
+public:
+    virtual ~Unk_71025f64e8() = default;
+};
+
+// typeinfo 0x7102652580; the original has no vtable for this class (an abstract base: only its RTTI
+// checks remain). Placeholder generated from its children (genskel.py).
+class Unk_7102652580 : public Unk_71025f64e8 {
+    SEAD_RTTI_OVERRIDE(Unk_7102652580, Unk_71025f64e8)
+public:
+    ~Unk_7102652580() override = default;
+};
+
+// typeinfo 0x7102652570; the original has no vtable for this class (an abstract base: only its RTTI
+// checks remain). Placeholder generated from its children (genskel.py).
+class Unk_7102652570 : public Unk_7102652580 {
+    SEAD_RTTI_OVERRIDE(Unk_7102652570, Unk_7102652580)
+public:
+    ~Unk_7102652570() override = default;
+};
+
+// typeinfo 0x7102652590; the original has no vtable for this class (an abstract base: only its RTTI
+// checks remain). Placeholder generated from its children (genskel.py).
+class Unk_7102652590 : public Unk_7102652570 {
+    SEAD_RTTI_OVERRIDE(Unk_7102652590, Unk_7102652570)
+public:
+    ~Unk_7102652590() override = default;
+};
+
+// typeinfo 0x71026525a0; the original has no vtable for this class (an abstract base: only its RTTI
+// checks remain). Placeholder generated from its children (genskel.py).
+class Unk_71026525a0 : public Unk_7102652590 {
+    SEAD_RTTI_OVERRIDE(Unk_71026525a0, Unk_7102652590)
+public:
+    ~Unk_71026525a0() override = default;
+};
+
+// vtable 0x7102514540 (18 slots); placeholder generated from the vtable (genskel.py).
+// checkDerivedRuntimeTypeInfo does not match yet: the original calls checkDerivedRuntimeTypeInfoStatic out of
+// line, so its parent chain is deeper than the one declared here.
+class Unk_7102514540 : public Unk_71026525a0 {
+    SEAD_RTTI_OVERRIDE(Unk_7102514540, Unk_71026525a0)
+public:
+    ~Unk_7102514540() override;
+    virtual void m4();
+    virtual void m5() {}
+    virtual void m6() {}
+    virtual void m7() {}
+    virtual void m8();
+    virtual void m9();
+    virtual void m10();
+    virtual void m11();
+    virtual void m12();
+    virtual void m13();
+    virtual void m14();
+    virtual void m15();
+    virtual void m16();
+    virtual void m17();
+};
+
+// typeinfo 0x71026529f0; the original has no vtable for this class (an abstract base: only its RTTI
+// checks remain). Placeholder generated from its children (genskel.py).
+class Unk_71026529f0 {
+    SEAD_RTTI_BASE(Unk_71026529f0)
+public:
+    virtual ~Unk_71026529f0() = default;
+};
+
+// vtable 0x7102515058 (4 slots); placeholder generated from the vtable (genskel.py).
+class Unk_7102515058 : public Unk_71026529f0 {
+    SEAD_RTTI_OVERRIDE(Unk_7102515058, Unk_71026529f0)
+public:
+    ~Unk_7102515058() override;
+};
+
+// vtable 0x710251cfa0 (12 slots); placeholder generated from the vtable (genskel.py).
+class Unk_710251cfa0 : public Unk_71026205b8 {
+    SEAD_RTTI_OVERRIDE(Unk_710251cfa0, Unk_71026205b8)
+public:
+    ~Unk_710251cfa0() override;
+    virtual void m7();
+    virtual void m8();
+    virtual void m9();
+    virtual void m10();
+    virtual void m11();
+};
+
+// vtable 0x710252e558 (5 slots); placeholder generated from the vtable (genskel.py).
+class Unk_710252e558 : public Unk_71025d0328 {
+    SEAD_RTTI_OVERRIDE(Unk_710252e558, Unk_71025d0328)
+public:
+    ~Unk_710252e558() override;
+    virtual void m4();
+};
+
+// vtable 0x710252e590 (7 slots); placeholder generated from the vtable (genskel.py).
+class Unk_710252e590 : public Unk_71024bf6f8 {
+    SEAD_RTTI_OVERRIDE(Unk_710252e590, Unk_71024bf6f8)
+public:
+    ~Unk_710252e590() override;
+    virtual void m5() {}
+    virtual void m6() {}
+};
+
+// vtable 0x7102531eb0 (9 slots); placeholder generated from the vtable (genskel.py).
+class Unk_7102531eb0 : public Unk_710250e490 {
+    SEAD_RTTI_OVERRIDE(Unk_7102531eb0, Unk_710250e490)
+public:
+    ~Unk_7102531eb0() override;
+};
+
+// vtable 0x7102531f08 (9 slots); placeholder generated from the vtable (genskel.py).
+class Unk_7102531f08 : public Unk_710250e490 {
+    SEAD_RTTI_OVERRIDE(Unk_7102531f08, Unk_710250e490)
+public:
+    ~Unk_7102531f08() override;
+};
+
+// vtable 0x7102531f60 (9 slots); placeholder generated from the vtable (genskel.py).
+class Unk_7102531f60 : public Unk_710250e490 {
+    SEAD_RTTI_OVERRIDE(Unk_7102531f60, Unk_710250e490)
+public:
+    ~Unk_7102531f60() override;
 };

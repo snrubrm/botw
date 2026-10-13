@@ -1,6 +1,7 @@
 #include "KingSystem/Utils/MathUtil.h"
 #include <cstdlib>
 #include <math/seadQuat.h>
+#include "Game/gameUnkRttiPlaceholders.h"
 
 namespace ksys::util {
 
@@ -235,3 +236,5 @@ s32 sub_71011EE4B8(Unk_7101EC6BAC angle) {
 }
 
 }  // namespace ksys::util
+
+Unk_71025138e8::~Unk_71025138e8() = default;

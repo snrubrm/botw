@@ -1,6 +1,7 @@
 #include "KingSystem/Physics/Constraint/physRackAndPinionCs.h"
 #include "KingSystem/Physics/Constraint/physUnk_71024f6640.h"
 #include "KingSystem/Physics/System/physSystem.h"
+#include "Game/gameUnkRttiPlaceholders.h"
 
 namespace ksys::phys {
 
@@ -24,3 +25,5 @@ void Unk_71012a6844::ItemA::sub_7100F70C48(ItemA* item) {
 }
 
 }  // namespace ksys::phys
+
+Unk_71024f6670::~Unk_71024f6670() = default;
