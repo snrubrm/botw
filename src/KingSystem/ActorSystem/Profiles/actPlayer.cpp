@@ -534,6 +534,24 @@ bool Player::sub_710087F4F8(const sead::Vector3f& start, const sead::Vector3f& e
 
 namespace ksys::act {
 
+void Player::sub_710087F29C() {
+    auto* target = _1870->_c8;
+    if (!target)
+        return;
+    sead::Vector3f position;
+    if (!target->sub_7100EAB818(&position))
+        return;
+    const sead::Vector2f direction(_1770.x - position.x, _1770.z - position.z);
+    u32 angle;
+    if (direction.length() < sead::Mathf::epsilon()) {
+        angle = x_5().value ^ 0x80000000;
+        angle = util::sUnk_7101EC6BA0 & angle;
+    } else {
+        angle = sead::Mathf::atan2Idx(direction.x, direction.y);
+    }
+    _1c84 = angle;
+}
+
 // NON_MATCHING: the original selects the stored speed with an integer csel
 void Player::sub_7100877BD8() {
     const sead::Vector3f& translation = getASList()->sub_710115D2D4();

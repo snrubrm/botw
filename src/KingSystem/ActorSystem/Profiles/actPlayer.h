@@ -571,7 +571,7 @@ public:
     // 0x87f360: sub_710072E928(start, end, hit_pos, hit_normal, nullptr, 0).
     bool sub_710087F360(const sead::Vector3f& start, const sead::Vector3f& end,
                         sead::Vector3f* hit_pos, sead::Vector3f* hit_normal);
-    // 0x710087f29c (declared only; placeholder name, 196 B): sets _1c84 from the direction to the object at _1870->_c8.
+    // 0x710087f29c: sets _1c84 from the direction to the object at _1870->_c8.
     void sub_710087F29C();
     // 0x87f43c: ground and water layers.
     bool sub_710087F43C(const sead::Vector3f& start, const sead::Vector3f& end,

@@ -69,6 +69,9 @@ public:
     };
 
     struct Unk2 {
+        // EAB818: writes the target position when available; Player 87F29C consumes all three floats.
+        bool sub_7100EAB818(sead::Vector3f* out) const;
+
         u8 _0[0x1a8];
         /* 0x1a8 */ sead::Vector3f _1a8;
         u8 _1b4[0x1f0 - 0x1b4];
