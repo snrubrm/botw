@@ -43,6 +43,10 @@ class Unk_71025168a0;
 // ActorEffects::init; the XLink member at +0xa0 points to it): footstep settings. The FootstepSilencer
 // behavior sets / clears bit 4 of the flags.
 struct Unk_710123830c {
+    // Whole factory 123830C allocates E8; ctor 1234E78 and D1/D0 1234F40/1235020
+    // establish the complete two-slot table at 25162C8. Lifetime remains declaration only.
+    Unk_710123830c();
+    virtual ~Unk_710123830c();
     // 0x71012372ec: clears bit 0 of the flags (FootstepChanger::m9). Other methods of the TU
     // 0x7101236190-0x710123830c (not decompiled): 0x1236520 (FootstepReactionChanger::m8), 0x12370a8 (m9),
     // 0x12381a8 (FootstepChanger::m8).
@@ -53,12 +57,27 @@ struct Unk_710123830c {
     void sub_71012381A8(const char* key, s32 duration);
     void sub_710123827C(bool value);
 
-    /* 0x00 */ u8 _0[0x16];
+    u8 _8[0x12 - 0x8];
+    // Setter 12381A8 and independent emission 12367FC decrement this halfword counter.
+    u16 mOverrideDuration;
+    u8 _14[2];
     // Initializer1235044 copies the halfword at argument+58;1236520/70A8 manipulate its flags.
     /* 0x16 */ sead::BitFlag16 _16;
     /* 0x18 */ u8 _18[4];
     /* 0x1c */ sead::BitFlag16 _1c;
+    u8 _1e[0x34 - 0x1e];
+    // Initializer 1235044 supplies the signed reaction kind; updates restore it after an override.
+    s32 mDefaultReaction;
+    u8 _38[0x50 - 0x38];
+    s32 mReaction;
+    f32 mReactionScale;
+    // Ctor installs its buffer at 6C with capacity 32; 1235830 independently copies event names.
+    sead::FixedSafeString<32> mOverrideKey;
+    // Initializer 1235044 supplies the bone-name array; 1237654 indexes it for Model::searchBone.
+    const char* const* mBoneNames;
+    u8 _98[0xe8 - 0x98];
 };
+KSYS_CHECK_SIZE_NX150(Unk_710123830c, 0xe8);
 
 // The per-actor xlink object (Actor::mXLink; name from the existing forward declaration in
 // actActor.h). The CSV calls its functions ActorEffects::* (ctor 0x710122fce0, init 0x710122edb0;
