@@ -130,6 +130,8 @@ public:
     ~Unk_710244ed58() override = default;
 
     bool m4(ksys::act::BaseProc* proc) override;
+    // Final native table slot 6E8604 resets the existing node-key storage.
+    void m10(ksys::act::BaseProcLink* link) override;
 
     /* 0x28 */ const char* _28 = nullptr;  // name of the carried actor's node
     /* 0x30 */ const char* _30 = nullptr;  // own node name
