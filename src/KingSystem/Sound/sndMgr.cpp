@@ -14,6 +14,7 @@
 #include <aal/aalAssetInfo.h>
 #include <devenv/seadEnvUtil.h>
 #include "KingSystem/Event/evtManager.h"
+#include "Game/gameUnkRttiPlaceholders.h"
 
 namespace ksys::snd {
 
@@ -359,3 +360,5 @@ f32 SoundMgr::sub_71011FC31C() { return _ec == 2 ? 1.0f : 0.707f; }
 bool emitActorGetDemoSound(const sead::SafeString& name) {
     return ksys::snd::SoundMgr::instance()->mUiSoundMgr->emitGetItemSound(name);
 }
+
+Unk_71025028c0::~Unk_71025028c0() = default;

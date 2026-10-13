@@ -1,5 +1,6 @@
 #include "KingSystem/Sound/sndBgmMgr.h"
 #include <prim/seadScopedLock.h>
+#include "Game/gameUnkRttiPlaceholders.h"
 
 namespace ksys::snd {
 
@@ -44,3 +45,5 @@ void Unk_SoundMgr30::sub_7100FF8AC4(s32 fade_type) {
 }
 
 }  // namespace ksys::snd
+
+Unk_71024fc990::~Unk_71024fc990() = default;

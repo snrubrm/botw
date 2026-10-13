@@ -1,5 +1,6 @@
 #include "KingSystem/Physics/Ragdoll/physRagdollParam.h"
 #include <filedevice/seadPath.h>
+#include "Game/gameUnkRttiPlaceholders.h"
 
 namespace ksys::phys {
 
@@ -16,3 +17,5 @@ void RagdollParam::postRead_() {
 }
 
 }  // namespace ksys::phys
+
+Unk_71025159b0::~Unk_71025159b0() = default;

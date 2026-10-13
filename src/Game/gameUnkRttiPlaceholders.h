@@ -33,6 +33,9 @@
 #include "framework/seadCalculateTask.h"
 #include "framework/seadTask.h"
 #include "framework/seadTaskBase.h"
+#include "Game/Actor/actUnk_7102366570.h"
+#include "KingSystem/Physics/RigidBody/TerrainHeightField/physTerrainHeightFieldRigidBody.h"
+#include <aal/aalISpeakerBalanceSupplier.h>
 
 // Placeholder classes generated from the vtables of the original (genskel.py in the botw-tools scratch). Each class
 // is named after the address of its vtable and declares only what the vtable shows: the sead RTTI pair with the
@@ -2435,4 +2438,102 @@ class Unk_710251b5c0 : public Unk_7102502640 {
     SEAD_RTTI_OVERRIDE(Unk_710251b5c0, Unk_7102502640)
 public:
     ~Unk_710251b5c0() override;
+};
+
+// vtable 0x7102366538 (5 slots); placeholder generated from the vtable (genskel.py).
+// No RTTI of its own: the vtable reuses Unk_7102366570's RTTI functions.
+class Unk_7102366538 : public Unk_7102366570 {
+public:
+    ~Unk_7102366538() override;
+};
+
+// vtable 0x71024c0140 (26 slots); placeholder generated from the vtable (genskel.py).
+// No RTTI of its own: the vtable reuses sead::TaskBase's RTTI functions.
+class Unk_71024c0140 : public sead::TaskBase {
+public:
+    ~Unk_71024c0140() override;
+};
+
+// vtable 0x71024c0220 (5 slots); placeholder generated from the vtable (genskel.py).
+// No RTTI of its own: the vtable reuses sead::TaskBase's RTTI functions.
+class Unk_71024c0220 : public sead::TaskBase {
+public:
+    ~Unk_71024c0220() override;
+};
+
+// vtable 0x71024fc990 (11 slots); placeholder generated from the vtable (genskel.py).
+// No RTTI of its own: the vtable reuses aal::ISpeakerBalanceSupplier's RTTI functions.
+class Unk_71024fc990 : public aal::ISpeakerBalanceSupplier {
+public:
+    ~Unk_71024fc990() override;
+};
+
+// vtable 0x7102501910 (11 slots); placeholder generated from the vtable (genskel.py).
+// No RTTI of its own: the vtable reuses aal::ISpeakerBalanceSupplier's RTTI functions.
+class Unk_7102501910 : public aal::ISpeakerBalanceSupplier {
+public:
+    ~Unk_7102501910() override;
+};
+
+// vtable 0x7102501980 (11 slots); placeholder generated from the vtable (genskel.py).
+// No RTTI of its own: the vtable reuses aal::ISpeakerBalanceSupplier's RTTI functions.
+class Unk_7102501980 : public aal::ISpeakerBalanceSupplier {
+public:
+    ~Unk_7102501980() override;
+};
+
+// vtable 0x7102501f10 (11 slots); placeholder generated from the vtable (genskel.py).
+// No RTTI of its own: the vtable reuses aal::ISpeakerBalanceSupplier's RTTI functions.
+class Unk_7102501f10 : public aal::ISpeakerBalanceSupplier {
+public:
+    ~Unk_7102501f10() override;
+};
+
+// vtable 0x71025028c0 (11 slots); placeholder generated from the vtable (genskel.py).
+// No RTTI of its own: the vtable reuses aal::ISpeakerBalanceSupplier's RTTI functions.
+class Unk_71025028c0 : public aal::ISpeakerBalanceSupplier {
+public:
+    ~Unk_71025028c0() override;
+};
+
+// vtable 0x71025159b0 (15 slots); placeholder generated from the vtable (genskel.py).
+// No RTTI of its own: the vtable reuses ksys::phys::TerrainHeightFieldRigidBody's RTTI functions.
+class Unk_71025159b0 : public ksys::phys::TerrainHeightFieldRigidBody {
+public:
+    ~Unk_71025159b0() override;
+};
+
+// vtable 0x710251b810 (13 slots); placeholder generated from the vtable (genskel.py).
+// No RTTI of its own: the vtable reuses aal::ISpeakerBalanceSupplier's RTTI functions.
+class Unk_710251b810 : public aal::ISpeakerBalanceSupplier {
+public:
+    ~Unk_710251b810() override;
+};
+
+// vtable 0x710251b888 (11 slots); placeholder generated from the vtable (genskel.py).
+// No RTTI of its own: the vtable reuses aal::ISpeakerBalanceSupplier's RTTI functions.
+class Unk_710251b888 : public aal::ISpeakerBalanceSupplier {
+public:
+    ~Unk_710251b888() override;
+};
+
+// vtable 0x710251b900 (13 slots); placeholder generated from the vtable (genskel.py).
+// No RTTI of its own: the vtable reuses aal::ISpeakerBalanceSupplier's RTTI functions.
+class Unk_710251b900 : public aal::ISpeakerBalanceSupplier {
+public:
+    ~Unk_710251b900() override;
+};
+
+// vtable 0x710251b978 (13 slots); placeholder generated from the vtable (genskel.py).
+// No RTTI of its own: the vtable reuses aal::ISpeakerBalanceSupplier's RTTI functions.
+class Unk_710251b978 : public aal::ISpeakerBalanceSupplier {
+public:
+    ~Unk_710251b978() override;
+};
+
+// vtable 0x710251b9f0 (11 slots); placeholder generated from the vtable (genskel.py).
+// No RTTI of its own: the vtable reuses aal::ISpeakerBalanceSupplier's RTTI functions.
+class Unk_710251b9f0 : public aal::ISpeakerBalanceSupplier {
+public:
+    ~Unk_710251b9f0() override;
 };

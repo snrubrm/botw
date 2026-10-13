@@ -6,6 +6,7 @@
 #include "KingSystem/Map/mapPlacementMgr.h"
 #include "KingSystem/Terrain/teraSystem.h"
 #include <prim/seadScopedLock.h>
+#include "Game/gameUnkRttiPlaceholders.h"
 
 // Address placeholder for the original kind-name text lookup; its enum type is not recovered.
 const char* sub_7101029E34(u32 kind);
@@ -175,3 +176,9 @@ void Unk_SoundMgr38_28::sub_7101037F7C(bool value) {
 }
 
 }  // namespace ksys::snd
+
+Unk_7102501910::~Unk_7102501910() = default;
+
+Unk_7102501980::~Unk_7102501980() = default;
+
+Unk_7102501f10::~Unk_7102501f10() = default;

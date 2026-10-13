@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionAppearMagneForce.h"
+#include "Game/gameUnkRttiPlaceholders.h"
 
 namespace uking::action {
 
@@ -45,3 +46,7 @@ void AppearMagneForce::calc_() {
 }
 
 }  // namespace uking::action
+
+// NON_MATCHING: placeholder destructor; the original (0x710009c5b4) also destroys members or bases
+// this class does not declare yet.
+Unk_7102366538::~Unk_7102366538() = default;
