@@ -31,8 +31,10 @@ void Unk_71024f9f78::doCreate_(u8* buffer, u32 size, sead::Heap*) {
     buffer[size] = 0;
 }
 
-// Only the independently supported native resource-creation specialization.
+// Independently supported native creation, size, and alignment specializations.
 template sead::DirectResource* EntryFactory<Unk_71024f9f78>::newResource_(sead::Heap*, s32);
+template u32 EntryFactory<Unk_71024f9f78>::getResourceSize() const;
+template u32 EntryFactory<Unk_71024f9f78>::getLoadDataAlignment() const;
 
 bool EntryFactoryBase::checkDerivedRuntimeTypeInfoStatic(const sead::RuntimeTypeInfo::Interface* typeInfo) {
     const sead::RuntimeTypeInfo::Interface* clsTypeInfo = EntryFactoryBase::getRuntimeTypeInfoStatic();
