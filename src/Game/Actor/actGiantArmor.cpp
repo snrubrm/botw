@@ -33,6 +33,12 @@ ksys::act::Actor* GiantArmor::m31() {
     return sead::DynamicCast<Actor>(_be8.getProc(nullptr, nullptr));
 }
 
+void GiantArmor::updatePositionMaybe() {
+    DynamicActor::updatePositionMaybe();
+    if (auto* actor = sead::DynamicCast<Actor>(_be8.getProc(nullptr, this)))
+        sub_71011CCB1C(actor->m139());
+}
+
 void GiantArmor::m73() {
     DynamicActor::m73();
 }
