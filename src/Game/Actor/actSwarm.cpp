@@ -15,6 +15,21 @@
 
 namespace uking::act {
 
+void Swarm::UnitBody::sub_71002D79BC(ksys::phys::InstanceSet* instance) {
+    auto* body = _20;
+    _18 = nullptr;
+    _20 = nullptr;
+    if (body)
+        instance->sub_7100FC0600(body);
+}
+
+void Swarm::UnitBody::sub_71002D7A54() {
+    auto* body = _20;
+    _18 = nullptr;
+    if (body && body->isAddedToWorld())
+        body->removeFromWorld();
+}
+
 void Swarm::Unit::sub_71002D93E8(const sead::Matrix33f& rotation) {
     sead::Matrix34CalcCommon<f32>::copy(_8, rotation, _8.getTranslation());
 }
