@@ -1,5 +1,7 @@
 #include "Game/AI/Action/actionEventFadeOut.h"
 #include "Game/UI/uiScreens.h"
+#include "Game/gameScene.h"
+#include "KingSystem/Event/evtManager.h"
 
 namespace uking::action {
 
@@ -34,7 +36,24 @@ void EventFadeOut::loadParams_() {
 }
 
 void EventFadeOut::calc_() {
+    if (isFinished() || isFailed())
+        return;
     EventFade::calc_();
+    auto* screen = sub_7100119888();
+    if (screen->isOpened()) {
+        setFinished();
+        mFlags.set(Flag::Changeable);
+    } else if (!screen->isOpening()) {
+        if (getSceneStatus() != 4) {
+            sead::FixedSafeString<128> flow;
+            sead::FixedSafeString<128> entry;
+            getActiveEventFlowPath_0(mActor, &flow, &entry);
+            sead::FixedSafeString<128> path;
+            getActiveEventFlowPath(mActor, &path);
+        }
+        setFailed();
+        mFlags.set(Flag::Changeable);
+    }
 }
 
 }  // namespace uking::action
