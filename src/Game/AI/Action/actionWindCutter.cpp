@@ -1,7 +1,10 @@
 #include "Game/AI/Action/actionWindCutter.h"
+#include "Game/AI/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/Profiles/actBullet.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Terrain/teraSystem.h"
 #include "math/seadMathCalcCommon.h"
 
 namespace uking::action {
@@ -49,8 +52,37 @@ void WindCutter::loadParams_() {
     getAITreeVariable(&mAttackAttrEventKill_a, "AttackAttrEventKill");
 }
 
+// NON_MATCHING: vector projection temporaries and half-size arithmetic use different registers and scheduling.
 void WindCutter::calc_() {
     ChemicalAttack::calc_();
+    if (_c0) {
+        _c0 = false;
+        return;
+    }
+    auto* terrain = ksys::tera::Terrain::instance();
+    if (!terrain || !terrain->isGrassEnabled())
+        return;
+    auto* actor = mActor;
+    sead::Vector3f position;
+    actor->getMtx().getTranslation(position);
+    f32 radius = _7c;
+    if (auto* body = sub_71001055A4()) {
+        sead::BoundBox3f bounds;
+        body->getAabbInLocal(&bounds);
+        sead::Vector3f half_size = (bounds.getMax() - bounds.getMin()) * 0.5f;
+        const sead::Matrix33f rotation(actor->getMtx());
+        half_size.x = half_size.dot(rotation.getRow(0));
+        const f32 height = sead::Mathf::abs(rotation.getRow(1).dot(half_size));
+        position.y += height;
+        const f32 distance = height + height + 1.0f;
+        if (!somePositionCalc(&position, position, -sead::Vector3f::ey, distance))
+            position.y -= distance;
+        radius = half_size.x + 3.0f;
+    } else {
+        radius *= 0.5f;
+    }
+    terrain->sub_710114DE4C()->sub_7101151064(&position, radius, 8.0f, true, true, true);
+    terrain->sub_710114DE4C()->sub_7101150A7C(&position, radius + 1.0f, 0.0f);
 }
 
 int WindCutter::m39() {
