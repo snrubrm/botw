@@ -3,8 +3,8 @@
 namespace ksys::xlink {
 
 namespace {
-const char* const sUnk_71025162F8[] = {"Toe_L", "Toe_R", "Wrist_L", "Wrist_R", nullptr};
-const char* const sUnk_7102516328[] = {"Ankle_L", "Ankle_R", "Wrist_L", "Wrist_R", nullptr};
+const char* const sUnk_71025162F8[] = {"Toe_L", "Toe_R", "Wrist_L", "Wrist_R"};
+const char* const sUnk_7102516328[] = {"Ankle_L", "Ankle_R", "Wrist_L", "Wrist_R"};
 }  // namespace
 
 void Unk_710123830c::sub_71012372EC() {
