@@ -145,8 +145,8 @@ private:
     sead::Buffer<TextureFlag> mTextureFlags;
 };
 KSYS_CHECK_SIZE_NX150(Unk_71024f9a70, 0x140);
-// Complete independent producers11FE9F4/11FEB94 allocate78 bytes, zero hash/node,
-// construct the handle at18, then set the computed hash. Finalizer11FECFC destroys it.
+// Complete independent producers 11FE9F4 / 11FEB94 allocate 0x78 bytes, zero hash/node,
+// construct the handle at 0x18, then set the computed hash. Finalizer 11FECFC destroys it.
 struct Unk_BfResNode {
     u32 hash = 0;
     sead::ListNode node;

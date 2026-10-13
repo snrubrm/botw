@@ -9,6 +9,31 @@
 
 namespace ksys::res {
 
+// The hks/lua resource has two fieldless RTTI levels above Resource. Complete
+// registration F38D5C and factory F42AE8 construct 0x38-byte objects with this table.
+class Unk_710260ebd0 : public Resource {
+    SEAD_RTTI_OVERRIDE(Unk_710260ebd0, Resource)
+};
+KSYS_CHECK_SIZE_NX150(Unk_710260ebd0, 0x38);
+
+class Unk_71024f9f78 : public Unk_710260ebd0 {
+    SEAD_RTTI_OVERRIDE(Unk_71024f9f78, Unk_710260ebd0)
+public:
+    ~Unk_71024f9f78() override = default;
+
+protected:
+    void doCreate_(u8* buffer, u32 size, sead::Heap*) override;
+};
+KSYS_CHECK_SIZE_NX150(Unk_71024f9f78, 0x38);
+
+void Unk_71024f9f78::doCreate_(u8* buffer, u32 size, sead::Heap*) {
+    // Native FE9150: strb wzr, [x1, w2, uxtw]; ret.
+    buffer[size] = 0;
+}
+
+// Only the independently supported native resource-creation specialization.
+template sead::DirectResource* EntryFactory<Unk_71024f9f78>::newResource_(sead::Heap*, s32);
+
 bool EntryFactoryBase::checkDerivedRuntimeTypeInfoStatic(const sead::RuntimeTypeInfo::Interface* typeInfo) {
     const sead::RuntimeTypeInfo::Interface* clsTypeInfo = EntryFactoryBase::getRuntimeTypeInfoStatic();
     if (typeInfo == clsTypeInfo)
