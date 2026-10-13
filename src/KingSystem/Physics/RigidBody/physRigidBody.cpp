@@ -27,6 +27,16 @@
 
 namespace ksys::phys {
 
+void Unk_71024f7df0::flush() {
+    const s32 count = mEntities.size();
+    if (count < 1)
+        return;
+    System::instance()->isActorSystemIdle();
+    auto* world = System::instance()->getHavokWorld(mLayerType);
+    world->addEntityBatch(mEntities.data(), count, HK_ENTITY_ACTIVATION_DO_ACTIVATE);
+    mEntities.clear();
+}
+
 constexpr float MinInertia = 0.001;
 
 RigidBody::RigidBody(Type type, ContactLayerType layer_type, hkpRigidBody* hk_body,

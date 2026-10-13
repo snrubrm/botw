@@ -11,6 +11,10 @@
 
 namespace ksys::phys {
 
+Unk_71024f7df0::~Unk_71024f7df0() {
+    flush();
+}
+
 static RigidBodyRequestMgr::Config sRigidBodyRequestMgrConfig;
 static bool sEnableLinearVelocityChecks;
 

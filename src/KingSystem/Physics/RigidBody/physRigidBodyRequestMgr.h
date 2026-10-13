@@ -24,6 +24,20 @@ class Constraint;
 class MotionAccessor;
 class RigidBody;
 
+// Complete two-slot lifetime table 24F7DF0. FA6438 constructs the 0x420-byte
+// stack owner; independent F8E3FC appends entities and flushes the same array.
+class Unk_71024f7df0 {
+public:
+    explicit Unk_71024f7df0(ContactLayerType layer_type) : mLayerType(layer_type) {}
+    virtual ~Unk_71024f7df0();
+    void flush();
+
+private:
+    sead::FixedPtrArray<hkpEntity, 128> mEntities;
+    ContactLayerType mLayerType;
+};
+KSYS_CHECK_SIZE_NX150(Unk_71024f7df0, 0x420);
+
 class RigidBodyRequestMgr : public sead::hostio::Node {
 public:
     struct Config {
