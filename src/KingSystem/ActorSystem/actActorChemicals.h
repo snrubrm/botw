@@ -13,6 +13,10 @@
 #include "KingSystem/Chemical/chmRoot.h"
 #include "KingSystem/Utils/Types.h"
 
+namespace ksys::world {
+class ChemicalMgr;
+}
+
 namespace ksys::phys {
 class RigidBody;
 class SystemGroupHandler;
@@ -149,6 +153,10 @@ class ActorChemicals : public sead::hostio::Node {
 public:
     ActorChemicals();
     virtual ~ActorChemicals();
+    // Full E3742C initializes the supplied root/body with a heap and ChemicalMgr owner.
+    // World record 10C8748 and ChemicalMgr::init_ establish the independent owner input.
+    void sub_7100E3742C(chm::IRoot* root, phys::RigidBody* body, world::ChemicalMgr* mgr,
+                       sead::Heap* heap);
     // 0x7100e37eb0: binds ActorX6A0's state to each chemical element.
     void init2(Unk_7101265a6c* state);
 

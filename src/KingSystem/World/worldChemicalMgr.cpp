@@ -30,6 +30,21 @@ Unk_710250c840::~Unk_710250c840() {
     }
 }
 
+void Unk_710250c840::sub_71010C8748(sead::Heap* heap, ksys::world::ChemicalMgr* mgr) {
+    ksys::phys::SphereParam param;
+    param.name = "ChemicalFarObj";
+    param.contact_layer = ksys::phys::ContactLayer::SensorChemical;
+    param.radius = 0.5f;
+    param.motion_type = ksys::phys::MotionType::Keyframed;
+    param.mass = 15.0f;
+    _b8 = ksys::phys::SphereRigidBody::make(&param, heap);
+    _b8->setUserTag(&_c0);
+    _d0 = new (heap, 8) ksys::act::ActorX6A0;
+    _10.sub_7100E3742C(&_98, _b8, mgr, heap);
+    _10.init2(&_d0->_10);
+    ++_8;
+}
+
 void Unk_71010c90f4::sub_71010C90F4() {
     _70.freeBuffer();
     _60.freeBuffer();
