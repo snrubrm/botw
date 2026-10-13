@@ -14,6 +14,8 @@ public:
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
+    void calc_() override;
+    bool sub_71003BC058(bool check_reach);
     void loadParams_() override;
     // 0x71003bbf0c (placeholder name): picks up the shield (the target weapon `_70`).
     void changeToPickUpShield();
