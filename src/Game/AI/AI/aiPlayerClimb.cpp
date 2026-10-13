@@ -1,5 +1,9 @@
 #include "Game/AI/AI/aiPlayerClimb.h"
 #include "Game/gameUnk_710246d058.h"
+#include "Game/UI/uiUtils.h"
+#include "Game/AI/aiUnk_710073BB28.h"
+#include "KingSystem/ActorSystem/Attention/actAttentionSingleton.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/Utils/MathUtil.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 
@@ -34,6 +38,38 @@ void PlayerClimb::leave_() {
     static_cast<Player*>(mActor)->_1dd0 = ksys::Timer(*mNoClimbTime_s, *mNoClimbTime_s);
     if (static_cast<Player*>(mActor)->_c48.isOnBit(19))
         static_cast<Player*>(mActor)->switchToAnimSequenceMaybe("Fall", true, -1.0f);
+}
+
+bool PlayerClimb::sub_7100829F70() {
+    using Player = ksys::act::Player;
+    static_cast<Player*>(mActor)->sub_710086B834();
+    if (static_cast<Player*>(mActor)->_1cb0 == -1)
+        return false;
+    if (!static_cast<Player*>(mActor)->get17d0()->controllerCheckPressedMaybe(0))
+        return false;
+    ui::sub_7100A95F5C(static_cast<Player*>(mActor)->_1cb0);
+    const s32 type = static_cast<Player*>(mActor)->_1cb0;
+    switch (type) {
+    case 22:
+    case 23:
+    case 24:
+    case 25:
+        static_cast<Player*>(mActor)->sub_710086BCF8();
+        return true;
+    case 26:
+    case 27: {
+        ksys::act::BaseProcLink link;
+        ksys::act::Attention::instance()->sub_7100D747D8(&link);
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::acquireActor(&link, &accessor);
+        ui::showCannotPickupBuyAnyMoreMessageMaybe(accessor.getName(), false);
+        sub_710073BADC();
+        break;
+    }
+    default:
+        break;
+    }
+    return false;
 }
 
 void PlayerClimb::loadParams_() {
