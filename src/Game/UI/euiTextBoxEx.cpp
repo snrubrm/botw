@@ -182,6 +182,28 @@ u16 TextBoxEx::setStringWithPage(const char16* string, u16 length, bool* has_nex
     return m41(string, length, has_next_page, page, flag, user_data);
 }
 
+// 0x7100be27d4
+u16 TextBoxEx::m41(const char16* string, u16 length, bool* has_next_page, u32 page, bool flag,
+                   void* user_data) {
+    if (!string) {
+        if (has_next_page)
+            *has_next_page = false;
+        return nn::ui2d::TextBox::SetString(
+            reinterpret_cast<const u16*>(sead::WSafeString::cEmptyString.cstr()), 0, 0);
+    }
+    sead::WFixedSafeString<2048> processed;
+    u32 text_length = 0;
+    u32 character_count = 0;
+    const s32 status = m42(&processed, &text_length, &character_count, string, length, page, flag,
+                          user_data);
+    if (has_next_page)
+        *has_next_page = status == 1;
+    const u16 result = nn::ui2d::TextBox::SetString(
+        reinterpret_cast<const u16*>(processed.cstr()), 0, u16(text_length));
+    adjustText_(nullptr);
+    return result;
+}
+
 // NON_MATCHING: temporary stack placement and final size-update scheduling differ.
 // 0x7100be2ba4
 void TextBoxEx::adjustText_(LayoutEx* layout) {

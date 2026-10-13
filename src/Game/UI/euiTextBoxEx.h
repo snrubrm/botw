@@ -28,7 +28,7 @@ public:
     u16 SetString(const u16* string, u16 dst_index) override;
     u16 SetString(const u16* string, u16 dst_index, u16 length) override;
 
-    // Slots 40-47 (the two unnamed processing functions are not decompiled).
+    // Slots 40-47 (the page-processing helper m42 remains declaration only).
     virtual u16 setStringNoPreproces(const char16* string, u16 length);
     virtual u16 m41(const char16* string, u16 length, bool* has_next_page, u32 page, bool flag,
                     void* user_data);
