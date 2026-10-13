@@ -8,6 +8,7 @@
 #include <heap/seadHeap.h>
 #include <Havok/Physics2012/Dynamics/Entity/hkpRigidBody.h>
 #include "KingSystem/Physics/physConversions.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace ksys::phys {
 
@@ -111,6 +112,19 @@ bool Unk_71024f6730::m0() const {
     const f32 distance = difference.dot<3>(axis).val();
     return distance <= data->m_atoms.m_linLimit.m_min + 0.1f ||
            distance >= data->m_atoms.m_linLimit.m_max - 0.1f;
+}
+
+// NON_MATCHING: the body-index argument width and dot-product scheduling differ.
+void Unk_71024f6730::sub_7100F6EC20(sead::Vector3f* a, sead::Vector3f* b) const {
+    const auto* body_a = mConstraint->x_0(0);
+    const auto* body_b = mConstraint->x_0(1);
+    const auto* data = static_cast<const hkpPrismaticConstraintData*>(
+        mConstraint->mConstraintInstance->getData());
+    sead::Vector3f axis = toVec3(data->m_atoms.m_transforms.m_transformA.getRotation().getColumn<0>());
+    axis.rotate(body_a->getRotation());
+    *a = axis * body_a->getLinearVelocity().dot(axis);
+    if (body_b)
+        *b = axis * body_b->getLinearVelocity().dot(axis);
 }
 
 Unk_71024f6778::~Unk_71024f6778() = default;
