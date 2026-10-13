@@ -1,6 +1,7 @@
 #pragma once
 
 #include <aal/aalHandle.h>
+#include <aal/aalAssetInfo.h>
 #include <aal/aalMarkerController.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
 
@@ -9,6 +10,17 @@ class Emitter;
 }
 
 namespace uking::action {
+
+// Complete E131D0 callback, E13298 producer and the single-slot table at 24E0D08.
+// SoundController BA19FC independently consumes this existing AAL path interface.
+class Unk_71024e0d08 : public aal::Unk_7100BA1AEC {
+public:
+    bool sub_7100BA1AEC(sead::BufferedSafeString* path, aal::AssetInfo* info) override;
+
+private:
+    sead::FixedSafeString<128> _8;
+};
+KSYS_CHECK_SIZE_NX150(Unk_71024e0d08, 0xa0);
 
 class DemoVoiceTrigger : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(DemoVoiceTrigger, ksys::act::ai::Action)
@@ -45,7 +57,8 @@ protected:
     bool _50 = false;
     bool _51 = false;
     bool _52 = false;
-    u8 _53[0xf8 - 0x53];
+    u8 _53[0x58 - 0x53];
+    Unk_71024e0d08 _58;
     aal::Handle _f8;
 };
 

@@ -6,6 +6,15 @@
 
 namespace uking::action {
 
+bool Unk_71024e0d08::sub_7100BA1AEC(sead::BufferedSafeString* path, aal::AssetInfo* info) {
+    if (!path || !info)
+        return false;
+    path->clear();
+    const char* language = sead::EnvUtil::getRegionLanguage().text();
+    path->appendWithFormat("Voice/%s/%s/%s%s", language, _8.cstr(), info->getAssetName(), ".bfstm");
+    return true;
+}
+
 DemoVoiceTrigger::DemoVoiceTrigger(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
 DemoVoiceTrigger::~DemoVoiceTrigger() {
