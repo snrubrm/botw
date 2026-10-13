@@ -36,6 +36,10 @@ void Unk_71024f9f78::doCreate_(u8* buffer, u32 size, sead::Heap*) {
 template sead::DirectResource* EntryFactory<Unk_71024f9f78>::newResource_(sead::Heap*, s32);
 template u32 EntryFactory<Unk_71024f9f78>::getResourceSize() const;
 template u32 EntryFactory<Unk_71024f9f78>::getLoadDataAlignment() const;
+template bool EntryFactory<Unk_71024f9f78>::checkDerivedRuntimeTypeInfo(
+    const sead::RuntimeTypeInfo::Interface*) const;
+template const sead::RuntimeTypeInfo::Interface*
+EntryFactory<Unk_71024f9f78>::getRuntimeTypeInfo() const;
 
 bool EntryFactoryBase::checkDerivedRuntimeTypeInfoStatic(const sead::RuntimeTypeInfo::Interface* typeInfo) {
     const sead::RuntimeTypeInfo::Interface* clsTypeInfo = EntryFactoryBase::getRuntimeTypeInfoStatic();
