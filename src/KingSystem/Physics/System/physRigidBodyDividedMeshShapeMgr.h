@@ -12,6 +12,10 @@ namespace ksys::tera {
 class System;
 }
 
+namespace ksys::res {
+class Handle;
+}
+
 namespace ksys::phys {
 
 class Unk_71025158e8;
@@ -35,6 +39,7 @@ public:
     RigidBodyDividedMeshShapeMgr(const Config& config, sead::Heap* heap);
     virtual ~RigidBodyDividedMeshShapeMgr();
     void addToWorld();
+    void sub_7100FC6F00(res::Handle* handle);
 
 private:
     // Complete lifetime and the two-slot table establish the owner extent.
