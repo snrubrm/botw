@@ -29,8 +29,9 @@ KSYS_CHECK_SIZE_NX150(Unk_71024f65c8, 0x20);
 // and installs its complete seven-slot table 0x71024f6730.
 struct Unk_71024f6730 : Unk_71012a6844::ItemA {
     SEAD_RTTI_OVERRIDE(Unk_71024f6730, Unk_71012a6844::ItemA)
+    explicit Unk_71024f6730(Constraint* constraint) : ItemA(constraint) {}
     ~Unk_71024f6730() override;
-    // The two library data consumers remain declarations only.
+    // F71384 queries the limit; the projection callback remains declaration-only.
     bool m0() const override;
     void sub_7100F6EC20(sead::Vector3f* a, sead::Vector3f* b) const override;
 };

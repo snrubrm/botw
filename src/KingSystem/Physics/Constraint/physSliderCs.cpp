@@ -4,12 +4,50 @@
 #include "KingSystem/Physics/Constraint/physUnk_71024f67a8.h"
 #include <Havok/Physics/Constraint/Data/Prismatic/hkpPrismaticConstraintData.h>
 #include <Havok/Physics2012/Dynamics/Constraint/hkpConstraintInstance.h>
+#include <Havok/Physics2012/Dynamics/Constraint/Breakable/hkpBreakableConstraintData.h>
+#include <heap/seadHeap.h>
 #include <Havok/Physics2012/Dynamics/Entity/hkpRigidBody.h>
 #include "KingSystem/Physics/physConversions.h"
 
 namespace ksys::phys {
 
 SliderCs::~SliderCs() = default;
+
+// NON_MATCHING: the temporary Constraint type argument uses a different stack slot.
+SliderCs* SliderCs::make(const Param& param, sead::Heap* heap) {
+    auto* body_a = getPhysicsMemSysField190Or(param);
+    auto* body_b = sub_7100F69FAC(param);
+    auto* data = new (heap->alloc(sizeof(hkpPrismaticConstraintData), 16)) hkpPrismaticConstraintData;
+    data->m_atoms.m_linLimit.m_min = param.min;
+    data->m_atoms.m_linLimit.m_max = param.max;
+    data->m_atoms.m_friction.m_maxFrictionForce = param.friction;
+    hkVector4 pivot_a;
+    hkVector4 pivot_b;
+    hkVector4 axis_a;
+    hkVector4 axis_b;
+    hkVector4 perpendicular_a;
+    hkVector4 perpendicular_b;
+    loadFromVec3(&pivot_a, param.pivot_a);
+    loadFromVec3(&pivot_b, param.pivot_b);
+    loadFromVec3(&axis_a, param.axis_a);
+    loadFromVec3(&axis_b, param.axis_b);
+    loadFromVec3(&perpendicular_a, param.perpendicular_a);
+    loadFromVec3(&perpendicular_b, param.perpendicular_b);
+    data->setInBodySpace(pivot_a, pivot_b, axis_a, axis_b, perpendicular_a, perpendicular_b);
+    const auto priority = param._18 ? hkpConstraintInstance::PRIORITY_TOI :
+                                    hkpConstraintInstance::PRIORITY_PSI;
+    auto* breakable = sub_7100F6ACA8(data, param, heap);
+    hkpConstraintData* instance_data = data;
+    if (breakable)
+        instance_data = breakable->_8;
+    auto* instance = new (heap->alloc(sizeof(hkpConstraintInstance), 16))
+        hkpConstraintInstance(sub_7100F69FD8(), nullptr, instance_data, priority);
+    auto* constraint = new (heap, 8) SliderCs(instance, body_a, body_b, breakable, data);
+    if (param._20)
+        constraint->_20 = new (heap, 8) Unk_71024f6730(constraint);
+    constraint->sub_7100F6A180(heap);
+    return constraint;
+}
 
 void SliderCs::setMinMaxLimit(f32 min, f32 max) {
     mData->m_atoms.m_linLimit.m_min = min;

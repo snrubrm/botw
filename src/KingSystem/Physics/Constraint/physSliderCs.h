@@ -8,7 +8,7 @@ class hkpPrismaticConstraintData;
 namespace ksys::phys {
 
 // Whole factory 0x7100f70d60 allocates 0x120, constructs Constraint, and
-// installs the four-slot 0x71024f6700. Library data and frames stay opaque.
+// installs the four-slot 0x71024f6700. F7110C independently copies both frames.
 class SliderCs : public Constraint {
     SEAD_RTTI_OVERRIDE(SliderCs, Constraint)
 public:
@@ -41,9 +41,15 @@ public:
     f32 sub_7100F71040();
 
 private:
+    SliderCs(hkpConstraintInstance* instance, RigidBody* body_a, RigidBody* body_b,
+             ConstraintUnk18* breakable, hkpPrismaticConstraintData* data)
+        : Constraint(instance, body_a, body_b, 5, breakable), mData(data),
+          mFrameA(sead::Matrix34f::ident), mFrameB(sead::Matrix34f::ident) {}
+
     // Factory 0x7100f70d60 stores the independently constructed prismatic data here.
     hkpPrismaticConstraintData* mData;
-    u8 _c0[0x120 - 0xc0];
+    sead::Matrix34f mFrameA;
+    sead::Matrix34f mFrameB;
 };
 KSYS_CHECK_SIZE_NX150(SliderCs, 0x120);
 
