@@ -1,5 +1,6 @@
 #include "Game/AI/AI/aiMoveRemainsElectric.h"
 #include "Game/AI/aiUnk_710073033C.h"
+#include "Game/Actor/actRemains.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
@@ -10,7 +11,29 @@ namespace uking::ai {
 
 MoveRemainsElectric::MoveRemainsElectric(const InitArg& arg) : RailMoveRemains(arg) {}
 
-MoveRemainsElectric::~MoveRemainsElectric() = default;
+// NON_MATCHING: runtime-cast control flow is simplified before the unrolled part cleanup.
+MoveRemainsElectric::~MoveRemainsElectric() {
+    if (_308.hasProc()) {
+        ksys::act::ActorConstDataAccess actor;
+        ksys::act::acquireActor(&_308, &actor);
+        actor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+        _308.reset();
+    }
+    if (auto* remains = sead::DynamicCast<act::Remains>(mActor)) {
+        auto* parts = remains->m101();
+        for (auto& part : _a8) {
+            if (parts) {
+                auto& link = parts->getActorPartsActor(part.mActorName);
+                if (link.hasProc()) {
+                    ksys::act::ActorConstDataAccess actor;
+                    ksys::act::acquireActor(&link, &actor);
+                    actor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+                }
+            }
+            remains->_b98.sub_7100D3CFEC(part.mActorName);
+        }
+    }
+}
 
 bool MoveRemainsElectric::init_(sead::Heap* heap) {
     if (!RailMoveRemains::init_(heap))
