@@ -381,6 +381,10 @@ class Unk_710247ec28 : public ksys::res::ResourceJpg {
     SEAD_RTTI_OVERRIDE(Unk_710247ec28, ksys::res::ResourceJpg)
 public:
     ~Unk_710247ec28() override;
+
+protected:
+    // Native table 247EC28 overrides the JPEG denominator query with 9CD4A8.
+    u32 sub_71009CD408() override { return 1; }
 };
 
 // vtable 0x710247ed28 (14 slots); placeholder generated from the vtable (genskel.py).
