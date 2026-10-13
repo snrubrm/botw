@@ -501,3 +501,7 @@ bool sub_71007304CC(ksys::act::Actor* actor, const sead::Vector3f& target, f32 m
 // 0x710073068c: the same test against the player position.
 bool sub_710073068C(ksys::act::Actor* actor, f32 min_height, f32 max_height, f32 max_distance,
                     f32 angle, f32 ray_height);
+
+// Source owner is unknown; native AI utility neighbors select this free placeholder.
+void sub_710073278C(ksys::act::Actor* actor, ksys::act::BaseProcLink* link,
+                   ksys::phys::RigidBody* body, int flags, int index);

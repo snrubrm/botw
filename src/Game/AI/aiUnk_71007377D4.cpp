@@ -1223,3 +1223,20 @@ bool sub_7100735A6C(ksys::act::Actor* actor, const ksys::act::ActorConstDataAcce
     target_access.acquireActor(target);
     return !target_access.sub_7100D10FB8() && sub_710001A69C(&target_access, 0x100);
 }
+
+void sub_710073278C(ksys::act::Actor* actor, ksys::act::BaseProcLink* link,
+                   ksys::phys::RigidBody* body, int flags, int index) {
+    ksys::act::Chemical* chemical = nullptr;
+    if (body)
+        chemical = actor->sub_71011D8A54(body->getHkBodyName());
+    if (!chemical)
+        chemical = actor->getChemicalStuff();
+    if (!chemical || chemical->sub_7100D91080())
+        return;
+    ksys::act::ActorConstDataAccess target;
+    if (link->hasProc()) {
+        ksys::act::acquireActor(link, &target);
+        if (!target.sub_7100D12F08(-1))
+            target.sub_7100D12758(chemical, flags, index);
+    }
+}
