@@ -49,6 +49,9 @@ class SystemGroupHandler;
 // character controller or its main rigid body, Actor+0x190). The f32 argument is a ratio that makes
 // the helper return early when it equals 1.0. Names are placeholders.
 
+// PlayerSpAttack passes its actor and the attention target accessor.
+bool sub_7100735A6C(ksys::act::Actor* actor, const ksys::act::ActorConstDataAccess& target);
+
 f32 sub_710073768C(ksys::act::Actor* actor, ksys::act::BaseProcLink* link);
 s32 sub_71007376F8(ksys::act::Actor* actor, ksys::act::BaseProcLink* link);
 const s32& sub_7100730FD0(const ksys::act::ActorConstDataAccess* accessor);

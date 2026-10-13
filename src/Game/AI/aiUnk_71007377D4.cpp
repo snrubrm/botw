@@ -1,4 +1,6 @@
 #include <limits>
+#include "Game/AI/aiUnk_710001A69C.h"
+#include "KingSystem/ActorSystem/actTag.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/AI/aiUnk_71007377D4.h"
 #include "Game/Damage/dmgDamageManager.h"
@@ -1209,4 +1211,15 @@ bool sub_710072CF4C(f32 vertical_speed, f32* speed, f32* time, const sead::Vecto
     }
     *speed = distance / *time;
     return success;
+}
+
+// 0x7100735a6c
+// NON_MATCHING: the two scoped accessors occupy opposite stack slots.
+bool sub_7100735A6C(ksys::act::Actor* actor, const ksys::act::ActorConstDataAccess& target) {
+    ksys::act::ActorConstDataAccess actor_access(actor);
+    if (!target.hasTag(ksys::act::tags::AcceptSilentKill))
+        return false;
+    ksys::act::ActorConstDataAccess target_access;
+    target_access.acquireActor(target);
+    return !target_access.sub_7100D10FB8() && sub_710001A69C(&target_access, 0x100);
 }
