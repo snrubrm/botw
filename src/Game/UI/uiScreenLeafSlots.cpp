@@ -5,6 +5,7 @@
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "Game/UI/uiUnkSingletons.h"
 #include "Game/UI/uiUtils.h"
+#include <prim/seadRuntimeTypeInfo.h>
 
 // Trivial state-callback slots (154 and up) of the leaf screens that declare their own virtuals.
 namespace uking::ui {
@@ -263,3 +264,25 @@ ScreenChild* sub_71009DE4F0(const nn::ui2d::ControlSrc&, eui::LayoutEx* layout) 
 }
 
 }  // namespace uking::ui
+
+// vtable 0x71024826c0 (23 slots); placeholder generated from the vtable (genskel.py).
+class Unk_71024826c0 : public uking::ui::Unk_7102474e38 {
+    SEAD_RTTI_OVERRIDE(Unk_71024826c0, uking::ui::Unk_7102474e38)
+public:
+    ~Unk_71024826c0() override;
+};
+
+// NON_MATCHING: placeholder; the original destructor (0x71009f345c) also destroys members this class
+// does not declare yet.
+Unk_71024826c0::~Unk_71024826c0() = default;
+
+// vtable 0x7102482790 (23 slots); placeholder generated from the vtable (genskel.py).
+class Unk_7102482790 : public uking::ui::Unk_7102474e38 {
+    SEAD_RTTI_OVERRIDE(Unk_7102482790, uking::ui::Unk_7102474e38)
+public:
+    ~Unk_7102482790() override;
+};
+
+// NON_MATCHING: placeholder; the original destructor (0x71009f47f8) also destroys members this class
+// does not declare yet.
+Unk_7102482790::~Unk_7102482790() = default;

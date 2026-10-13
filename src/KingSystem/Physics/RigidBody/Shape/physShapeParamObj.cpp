@@ -6,6 +6,7 @@
 #include "KingSystem/Physics/RigidBody/Shape/Polytope/physPolytopeShape.h"
 #include "KingSystem/Physics/RigidBody/Shape/Sphere/physSphereShape.h"
 #include "KingSystem/Physics/RigidBody/Shape/physShape.h"
+#include <prim/seadRuntimeTypeInfo.h>
 
 namespace ksys::phys {
 
@@ -112,3 +113,15 @@ void ShapeParamObj::getCharacterPrism(CharacterPrismShapeParam* param) const {
 }
 
 }  // namespace ksys::phys
+
+// vtable 0x7102519378 (5 slots); placeholder generated from the vtable (genskel.py).
+class Unk_7102519378 {
+    SEAD_RTTI_BASE(Unk_7102519378)
+public:
+    virtual ~Unk_7102519378();
+    virtual void m4() {}
+};
+
+// NON_MATCHING: placeholder; the original destructor (0x7101295ee4) also destroys members this class
+// does not declare yet.
+Unk_7102519378::~Unk_7102519378() = default;

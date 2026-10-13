@@ -5,6 +5,8 @@
 #include "Game/AI/aiUnk_710070F974.h"
 #include <driver/aglNVNsampler.h>
 #include <driver/aglNVNtexture.h>
+#include "Game/AI/aiUnk_71025afb58.h"
+#include <prim/seadRuntimeTypeInfo.h>
 
 // Existing placeholder AI tree variable classes whose vtables had no key function so far (the original keeps one
 // out-of-line empty destructor per class).
@@ -121,3 +123,14 @@ Unk_710249a0e0::~Unk_710249a0e0() = default;
 Unk_710249a120::~Unk_710249a120() = default;
 
 Unk_710251d230::~Unk_710251d230() = default;
+
+// vtable 0x710238b148 (4 slots); placeholder generated from the vtable (genskel.py).
+class Unk_710238b148 : public Unk_71025afb58 {
+    SEAD_RTTI_OVERRIDE(Unk_710238b148, Unk_71025afb58)
+public:
+    ~Unk_710238b148() override;
+};
+
+// NON_MATCHING: placeholder; the original destructor (0x7100155198) also destroys members this class
+// does not declare yet.
+Unk_710238b148::~Unk_710238b148() = default;

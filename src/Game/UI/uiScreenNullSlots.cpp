@@ -1,4 +1,5 @@
 #include "Game/UI/uiScreens.h"
+#include <prim/seadRuntimeTypeInfo.h>
 
 // Empty overrides (CSV nullsub_NNNN / ScreenXxx::mNNN_null) of Screen / ScreenEx virtual slots in the leaf classes.
 namespace uking::ui {
@@ -162,3 +163,14 @@ void ScreenAppMenuBtn::m94() {}
 void ScreenAppMenuBtn::m98() {}
 
 }  // namespace uking::ui
+
+// vtable 0x71024855a8 (23 slots); placeholder generated from the vtable (genskel.py).
+class Unk_71024855a8 : public uking::ui::Unk_7102474e38 {
+    SEAD_RTTI_OVERRIDE(Unk_71024855a8, uking::ui::Unk_7102474e38)
+public:
+    ~Unk_71024855a8() override;
+};
+
+// NON_MATCHING: placeholder; the original destructor (0x7100a02f40) also destroys members this class
+// does not declare yet.
+Unk_71024855a8::~Unk_71024855a8() = default;

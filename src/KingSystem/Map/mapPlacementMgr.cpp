@@ -22,6 +22,7 @@
 #include "KingSystem/Map/mapPlacementTree.h"
 #include "KingSystem/System/VFR.h"
 #include "KingSystem/Terrain/teraSystem.h"
+#include <prim/seadRuntimeTypeInfo.h>
 
 namespace ksys::map {
 
@@ -598,3 +599,14 @@ Object* PlacementMgr::sub_71011EC398(const sead::SafeString& name,
 }
 
 }  // namespace ksys::map
+
+// vtable 0x71024f13f0 (4 slots); placeholder generated from the vtable (genskel.py).
+class Unk_71024f13f0 {
+    SEAD_RTTI_BASE(Unk_71024f13f0)
+public:
+    virtual ~Unk_71024f13f0();
+};
+
+// NON_MATCHING: placeholder; the original destructor (0x7100edc270) also destroys members this class
+// does not declare yet.
+Unk_71024f13f0::~Unk_71024f13f0() = default;
