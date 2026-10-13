@@ -35,6 +35,12 @@ bool isOneHitObliteratorActor(ksys::act::Actor* actor, bool a2) {
     return isOneHitObliteratorBaseProcLink(&link, a2);
 }
 
+bool isOneHitObliteratorBaseProcLink(ksys::act::BaseProcLink* link, bool check_active) {
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(link, &accessor);
+    return isOneHitObliteratorActorAccessor(accessor, check_active);
+}
+
 bool isOneHitObliteratorActorAccessor(const ksys::act::ActorConstDataAccess& accessor,
                                      bool check_active) {
     const auto& name = accessor.getName();
