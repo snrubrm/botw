@@ -11,8 +11,6 @@ void sub_71011D75CC(ksys::act::Actor* actor);
 
 namespace uking::act {
 
-// NON_MATCHING: store schedule only (the original loads the cElementMax address after the second string's
-// terminator store)
 OptionalWeapon::OptionalWeapon(const CreateArg& arg) : Actor(arg) {
     _83c = 0;
 }
@@ -23,6 +21,21 @@ ksys::act::BaseProc* OptionalWeapon::construct(const CreateArg& arg, sead::Heap*
 
 ksys::act::Actor* OptionalWeapon::m31() {
     return sead::DynamicCast<Actor>(_840.getProc(nullptr, nullptr));
+}
+
+void OptionalWeapon::initMaybe() {
+    if (_850.hasProc() && _840.hasProc()) {
+        _898._60 = 0;
+        if (auto* parent = sead::DynamicCast<Actor>(_840.getProc(nullptr, nullptr))) {
+            if (parent->isSleep())
+                sleep(SleepWakeReason::_0);
+        }
+    }
+    _83c = 0;
+    _83e = 0;
+    _938 = sead::Color4f(0.0f, 0.0f, 0.0f, 0.0f);
+    _948 = 0.0f;
+    _94c = 0;
 }
 
 bool OptionalWeapon::sub_7100EF1ADC() {

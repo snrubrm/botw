@@ -38,6 +38,7 @@ public:
     int handleMessage(const ksys::Message& message) override;
     Actor* m31() override;
     bool shouldUnload(s32* value) override;
+    void initMaybe() override;
     void calcMaybe() override;
     f32 m139() override;
     void updatePositionMaybe() override;
@@ -70,10 +71,9 @@ public:
     /* 0x860 */ sead::FixedSafeString<32> _860;
     /* 0x898 */ Unk898 _898;
     /* 0x900 */ sead::FixedSafeString<32> _900;
-    /* 0x938 */ u64 _938 = 0;
-    /* 0x940 */ u32 _940 = 0;
-    /* 0x944 */ f32 _944 = sead::Color4f::cElementMax;
-    /* 0x948 */ u32 _948 = 0;
+    // EF0D44 compares/copies the Color4f and independently compares/stores the float.
+    /* 0x938 */ sead::Color4f _938{0.0f, 0.0f, 0.0f, sead::Color4f::cElementMax};
+    /* 0x948 */ f32 _948 = 0.0f;
     /* 0x94c */ u8 _94c = 0;
     /* 0x950 */ sead::CriticalSection _950;
     // EF2290 writes these under _950; EF1F30 consumes the float and separate flags.
