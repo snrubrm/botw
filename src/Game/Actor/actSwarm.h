@@ -3,6 +3,7 @@
 #include <container/seadBuffer.h>
 #include <math/seadVector.h>
 #include "Game/Actor/actEnemy.h"
+#include "KingSystem/System/VFRValue.h"
 
 namespace ksys::phys {
 class RigidBody;
@@ -41,7 +42,8 @@ public:
         virtual bool m9();
 
         /* 0x08 */ sead::Matrix34f _8;  // unit pose (SwarmFlyAttack reads the translation)
-        u8 _38[0x5c - 0x38];
+        // 2D9344 constructs VFRVec3f here; C37D4 writes value/prev_value, 729FAC reads mean.
+        /* 0x38 */ ksys::VFRVec3f _38;
         /* 0x5c */ f32 _5c;  // random 0.1-0.2 set by BeeSwarmNormal::enter_
         /* 0x60 */ sead::Vector3f _60;
         /* 0x6c */ sead::Vector3f _6c;

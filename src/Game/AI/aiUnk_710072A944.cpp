@@ -162,3 +162,35 @@ void sub_710072A3BC(uking::act::Swarm* swarm, const sead::Vector3f& target,
         }
     }
 }
+
+// NON_MATCHING: direction and rotation use opposite stack slots.
+void sub_7100729FAC(uking::act::Swarm* swarm, const sead::Vector3f& up) {
+    for (s32 i = 0, count = swarm->_14c8.size(); i < count; ++i) {
+        if (auto* unit = swarm->_14c8[i]) {
+            sead::Vector3f direction = unit->_38.mean;
+            direction.normalize();
+            if (direction == sead::Vector3f(0.0f, 0.0f, 0.0f))
+                continue;
+            sead::Matrix33f rotation;
+            sub_7100741118(&rotation, unit->_8);
+            sub_710074191C(&rotation, direction, up, true, sead::Mathf::deg2rad(30.0f));
+            unit->sub_71002D93E8(rotation);
+        }
+    }
+}
+
+// NON_MATCHING: direction and rotation use opposite stack slots.
+void sub_710072A108(uking::act::Swarm* swarm, const sead::Vector3f& up) {
+    for (s32 i = 0, count = swarm->_14c8.size(); i < count; ++i) {
+        if (auto* unit = swarm->_14c8[i]) {
+            sead::Vector3f direction = unit->_38.mean;
+            direction.normalize();
+            if (direction == sead::Vector3f(0.0f, 0.0f, 0.0f))
+                continue;
+            sead::Matrix33f rotation;
+            sub_7100741118(&rotation, unit->_8);
+            sub_710074191C(&rotation, direction, up, false, sead::Mathf::deg2rad(30.0f));
+            unit->sub_71002D93E8(rotation);
+        }
+    }
+}

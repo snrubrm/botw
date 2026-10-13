@@ -48,9 +48,10 @@ uking::act::Swarm::Unit* sub_710072A6DC(uking::act::Swarm* swarm, const sead::Ve
 // the swarm movement step of the SwarmDamaged family's m32 (`speed`, the swarm, three optional arguments: the third is
 // a position, flag). The result is discarded by its callers.
 bool sub_7100729D5C(f32 speed, uking::act::Swarm* swarm, void* a, const sead::Vector3f* pos, void* b, bool flag);
-// 0x7100729fac (declared only; 348 B): SwarmAreaDamaged::m32.
+// 0x7100729fac (348 B): SwarmAreaDamaged::m32.
 void sub_7100729FAC(uking::act::Swarm* swarm, const sead::Vector3f& dir);
-// 0x710072a108 (declared only; 348 B): SwarmDamagedBase::m32.
+// 0x710072a108 (348 B): SwarmDamagedBase::m32.
 void sub_710072A108(uking::act::Swarm* swarm, const sead::Vector3f& dir);
 // 0x710072a778 (declared only; 148 B): SwarmLevelFlyMove::enter_ (swarm, material animation name, frame).
 void sub_710072A778(uking::act::Swarm* swarm, const sead::SafeString& name, f32 frame);
+
