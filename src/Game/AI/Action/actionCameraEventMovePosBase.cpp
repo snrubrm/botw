@@ -37,6 +37,22 @@ bool CameraEventMovePosBase::handleMessage_(const ksys::Message* message) {
     return true;
 }
 
+void CameraEventMovePosBase::sub_7100760DF8() {
+    _84 = _4c;
+    if (!_35c)
+        return;
+    // Discarded native save-point selection result retained.
+    act::sub_710079BE9C(0);
+    auto* camera = getCamera();
+    if (!camera || camera->_860._72c._4.restore(&_84))
+        return;
+    sead::FixedSafeString<128> flow;
+    sead::FixedSafeString<128> entry;
+    getActiveEventFlowPath_0(camera, &flow, &entry);
+    sead::FixedSafeString<128> path;
+    getActiveEventFlowPath(camera, &path);
+}
+
 void CameraEventMovePosBase::m43() {
     _356 = 0;
     _348 = sead::Mathf::clampMin(*mLatShiftRange_d, 0.0f);
