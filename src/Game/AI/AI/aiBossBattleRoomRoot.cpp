@@ -2,6 +2,7 @@
 #include <aal/aalHandle.h>
 #include <aal/aalSoundSource.h>
 #include <container/seadPtrArray.h>
+#include <math/seadQuat.h>
 #include <random/seadGlobalRandom.h>
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
@@ -48,6 +49,118 @@ void BossBattleRoomRoot::sub_71003355E8() {
     _208 = true;
     auto handle = ksys::eft::searchAndEmitSLink(mActor, "Start", false);
     sub_7100336B84(&handle);
+}
+
+// NON_MATCHING: vector load scheduling, float registers and final matrix stores differ.
+void BossBattleRoomRoot::sub_710033529C() {
+    sead::Vector3f direction(_188.x - mActor->getMtx().m[0][3], 0.0f,
+                            _188.y - mActor->getMtx().m[2][3]);
+    direction.normalize();
+    sead::Vector3f axis = sead::Vector3f::ey.cross(direction);
+    axis.normalize();
+    sead::Quatf rotation;
+    rotation.setAxisRadian(axis, *mParams.mTitleAngle_s);
+    sead::Matrix33f matrix;
+    matrix.fromQuat(rotation);
+    sead::Vector3f up = sead::Vector3f::ey;
+    up.mul(matrix);
+    up.normalize();
+    sead::Vector3f right = up.cross(sead::Vector3f::ez);
+    right.normalize();
+    sead::Vector3f forward = right.cross(up);
+    forward.normalize();
+    _b0.setBase(0, right);
+    _b0.setBase(1, up);
+    _b0.setBase(2, forward);
+    _b0.setTranslation({_190, _194, _198});
+}
+
+// NON_MATCHING: basis loads, float registers and final matrix stores differ.
+void BossBattleRoomRoot::sub_7100335710() {
+    sead::Vector3f up = _e0.getBase(1);
+    const sead::Vector3f forward = _e0.getBase(2);
+    sead::Vector3f axis(_188.x - mActor->getMtx().m[0][3], 0.0f,
+                       _188.y - mActor->getMtx().m[2][3]);
+    axis.normalize();
+    const f32 angle = *mParams.mRollAngle_s * static_cast<f32>(_1d8);
+    sead::Quatf rotation;
+    rotation.setAxisRadian(axis, (_1d4 & 1) ? angle : -angle);
+    sead::Matrix33f matrix;
+    matrix.fromQuat(rotation);
+    up.mul(matrix);
+    up.normalize();
+    sead::Vector3f right = up.cross(forward);
+    right.normalize();
+    sead::Vector3f front = right.cross(up);
+    front.normalize();
+    _b0.setBase(0, right);
+    _b0.setBase(1, up);
+    _b0.setBase(2, front);
+    _b0.setTranslation({_190, _194, _198});
+}
+
+// NON_MATCHING: enum temporary stack slots and identity/translation store scheduling differ.
+void BossBattleRoomRoot::sub_7100335A08(bool enable_contact) {
+    if (_1e8->getMotionType() != ksys::phys::MotionType::Keyframed)
+        _1e8->changeMotionType(ksys::phys::MotionType::Keyframed);
+    if (_1e0->getMotionType() != ksys::phys::MotionType::Keyframed)
+        _1e0->changeMotionType(ksys::phys::MotionType::Keyframed);
+    _1e0->getTransform(&_80);
+    _1b4.setBit(Flag(Flag::_1));
+    _1b4.setBit(Flag(Flag::_4));
+    _1b4.resetBit(Flag(Flag::_3));
+    _1b4.resetBit(Flag(Flag::_2));
+    _1b4.resetBit(Flag(Flag::_0));
+    _1d4 = 0;
+    _19c.previous_value = _19c.value = *mParams.mFramesDelayRoll_s;
+    _b0.makeIdentity();
+    _b0.setTranslation({_190, _194, _198});
+    _1d0 = 0.0f;
+    if (enable_contact) {
+        _208 = false;
+        _1e0->enableContactLayer(ksys::phys::ContactLayer::EntityPlayer);
+    } else {
+        _208 = true;
+    }
+    if (_208) {
+        auto handle = ksys::eft::searchAndEmitSLink(mActor, "Start", false);
+        sub_7100336B84(&handle);
+    }
+}
+
+// NON_MATCHING: enum stack slots and the existing bool payload's flag test differ.
+void BossBattleRoomRoot::sub_7100335EB0() {
+    switch (Command(_140._34._8)) {
+    case Command::_0:
+        if (!_1b4.isOnBit(Flag(Flag::_0))) {
+            _1b8 = _140._18;
+            sub_710033519C(_140._34._0);
+        }
+        break;
+    case Command::_1:
+        if (!_1b4.isOnBit(Flag(Flag::_1)) && !_1b4.isOnBit(Flag(Flag::_5))) {
+            _1b8 = _140._18;
+            sub_7100335A08(_140._34._c);
+        } else if (_1b4.isOnBit(Flag(Flag::_5))) {
+            {
+                sead::ScopedLock<sead::JobQueueLock> lock(&_110._18.mLock);
+                _110._18._c = false;
+                _110._18._8 = 5;
+            }
+            _110.sub_710070DBB0(_140._18, true);
+        }
+        break;
+    case Command::_2:
+        if (!_1b4.isOnBit(Flag(Flag::_2))) {
+            _1b8 = _140._18;
+            _19c.update();
+            if (!(_19c.value <= sead::Mathf::epsilon()))
+                return;
+            sub_71003355E8();
+        }
+        break;
+    }
+    _140.x();
 }
 
 void BossBattleRoomRoot::sub_7100335B74() {

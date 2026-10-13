@@ -33,6 +33,8 @@ public:
     // Native calc helpers change the room bodies and send rotation commands.
     void sub_71003355E8();
     void sub_7100335710();
+    void sub_7100335A08(bool enable_contact);
+    void sub_7100335EB0();
     void sub_7100335B74();
     void sub_7100335C38();
     void sub_7100335DA8();
