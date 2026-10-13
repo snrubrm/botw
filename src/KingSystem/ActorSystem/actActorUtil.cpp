@@ -1590,6 +1590,27 @@ ksys::map::Object* sub_7100EE5240(ksys::act::Actor* actor, const sead::SafeStrin
     return ksys::act::acc::findLinkReferenceObj(accessor, anchor, unique, nullptr);
 }
 
+// Source owner unknown; the full inventory consumers pass an actor accessor.
+bool sub_7100EE27B4(ksys::act::ActorLinkConstDataAccess* out,
+                   const ksys::act::ActorConstDataAccess& actor) {
+    if (auto* links = actor.getMapObjectLinkData()) {
+        if (auto* link = links->findLinkWithType(ksys::map::MapLinkDefType::ForSale))
+            return link->getObjectProcWithAccessor(*out);
+    }
+    return out->acquire(nullptr);
+}
+
+// Source owner unknown; AreaActor initialization and matrix queries use this helper.
+bool sub_7100EE3A88(ksys::act::ActorLinkConstDataAccess* out, ksys::act::Actor* actor) {
+    if (auto* object = actor->getMapObject()) {
+        if (auto* links = object->getLinkData()) {
+            if (auto* link = links->findLinkWithType(ksys::map::MapLinkDefType::SensorBlind))
+                return link->getObjectProcWithAccessor(*out);
+        }
+    }
+    return out->acquire(nullptr);
+}
+
 // 0x7100ee2800 (unnamed in the CSV, global namespace; declaration in actActorUtil.h): acquires the actor of the "ForSale"
 // link of the actor's map object into `accessor` (an empty accessor if there is none).
 bool sub_7100EE2800(ksys::act::ActorLinkConstDataAccess* accessor, ksys::act::Actor* actor) {

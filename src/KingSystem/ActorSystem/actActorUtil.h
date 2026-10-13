@@ -370,6 +370,11 @@ s32 actorAIGetInt(Actor* actor, const sead::SafeString& name, s32 default_value)
 
 }  // namespace ksys::act
 
+// Native EE27B4 / EE3A88 acquire ForSale / SensorBlind linked actors, or clear the output.
+bool sub_7100EE27B4(ksys::act::ActorLinkConstDataAccess* out,
+                   const ksys::act::ActorConstDataAccess& actor);
+bool sub_7100EE3A88(ksys::act::ActorLinkConstDataAccess* out, ksys::act::Actor* actor);
+
 // 0x7100ee2800 (lane4 s50, global namespace; placeholder name): acquires the actor of the ForSale link of the actor's
 // map object (an empty accessor if there is none).
 bool sub_7100EE2800(ksys::act::ActorLinkConstDataAccess* accessor, ksys::act::Actor* actor);
