@@ -12,7 +12,7 @@ public:
     ~EquipedQuiver() override;
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;
-    // Declaration only; the original also returns whether an arrow count was found.
+    // Returns whether an arrow count was found.
     bool sub_710010FD20(s32* count);
 
 protected:
