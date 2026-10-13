@@ -65,6 +65,11 @@ bool BfRes::m2_() {
     return _50 != nullptr;
 }
 
+void BfRes::m2(const ShaderAssignArg& arg) {
+    if (_58)
+        _58->m2(arg);
+}
+
 // NON_MATCHING: the alignment warning branch has a different block order.
 void BfRes::doCreate_(u8* buffer, u32 buffer_size, sead::Heap* heap) {
     u32 alignment = sub_7100FDDB40(buffer)->GetAlignment();
