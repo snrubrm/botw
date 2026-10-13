@@ -128,3 +128,16 @@ struct hkp3dAngConstraintAtom : hkpConstraintAtom {
     hkUint8 m_padding[14];
 };
 static_assert(sizeof(hkp3dAngConstraintAtom) == 0x10);
+
+// Reflection 17BE3E0 gives extent 0x10 and records 256A230..256A2A8
+// name axisIndex/min/max/padding at +2/+4/+8/+C. Prismatic construction
+// 15F5E74 and independent SliderCs factory F70D60 set both limits.
+struct alignas(16) hkpLinLimitConstraintAtom : hkpConstraintAtom {
+    hkUint8 m_axisIndex;
+    hkReal m_min;
+    hkReal m_max;
+    hkUint8 m_padding[4];
+};
+static_assert(sizeof(hkpLinLimitConstraintAtom) == 0x10);
+static_assert(offsetof(hkpLinLimitConstraintAtom, m_min) == 4);
+static_assert(offsetof(hkpLinLimitConstraintAtom, m_max) == 8);

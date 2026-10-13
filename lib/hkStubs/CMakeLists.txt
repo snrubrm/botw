@@ -26,6 +26,8 @@ add_library(hkStubs OBJECT
   Havok/Animation/Physics2012Bridge/Instance/hkaRagdollInstance.h
 
   Havok/Common/Base/hkBase.h
+  Havok/Physics/Constraint/Data/Prismatic/hkpPrismaticConstraintData.h
+  Havok/Physics/Constraint/Data/Prismatic/hkpPrismaticConstraintData.cpp
   Havok/Physics/Constraint/Data/hkpWrappedConstraintData.h
   Havok/Physics/Constraint/Data/hkpWrappedConstraintData.cpp
   Havok/Physics2012/Dynamics/Constraint/Breakable/hkpBreakableConstraintData.h
