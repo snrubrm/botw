@@ -11,6 +11,19 @@
 
 namespace uking::ai {
 
+class RemainsFireDroneNormal;
+
+// Native init 541C84 allocates 0xa8 bytes, constructs ModelBindInfo and stores the owner at 0xa0.
+// Table 24192E0 inherits the ModelBindInfo RTTI and all slots except m5 and the deleting destructor.
+class Unk_71024192e0 : public ksys::act::ModelBindInfo {
+public:
+    explicit Unk_71024192e0(RemainsFireDroneNormal* owner) : mOwner(owner) {}
+    bool m5(ksys::act::BaseProc* proc) override;
+
+    /* 0xa0 */ RemainsFireDroneNormal* mOwner;
+};
+KSYS_CHECK_SIZE_NX150(Unk_71024192e0, 0xa8);
+
 class RemainsFireDroneNormal : public RailMove {
     SEAD_RTTI_OVERRIDE(RemainsFireDroneNormal, RailMove)
 public:
@@ -31,6 +44,8 @@ public:
     // Unnamed in the binary (0x71005421fc): records this actor in the sender's payload and sends its message
     // to the actor linked by the "RegistedActorMessageBroadCastTag" link.
     void broadcastToLinkedActorMaybe();
+    // Complete 1740-byte bind callback 543C18 uses the bound Actor and returns success.
+    bool sub_7100543C18(ksys::act::Actor* actor);
 
 protected:
     // static_param at offset 0xa0

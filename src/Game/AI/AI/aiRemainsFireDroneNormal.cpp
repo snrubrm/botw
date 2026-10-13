@@ -11,6 +11,12 @@
 
 namespace uking::ai {
 
+// 0x7100544394
+bool Unk_71024192e0::m5(ksys::act::BaseProc* proc) {
+    return mOwner->sub_7100543C18(static_cast<ksys::act::Actor*>(proc));
+}
+
+
 
 RemainsFireDroneNormal::RemainsFireDroneNormal(const InitArg& arg) : RailMove(arg) {}
 
