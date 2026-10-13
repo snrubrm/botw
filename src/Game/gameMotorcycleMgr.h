@@ -59,6 +59,10 @@ public:
     // player (the default when `player` is null) passes PlayerLink::m211, otherwise depends on the climate at
     // `pos` (true without a world manager).
     bool isProhibited(const sead::Vector3f& pos, ksys::act::PlayerLink* player);
+    bool checkAndStartQueryNavMesh(ksys::act::PlayerLink* player);
+    // Declaration only: full callee reads position and PlayerLink slots 48 / 0; the independent
+    // PlayerNormal caller supplies the player's interface at +0xc38.
+    bool sub_7100679B30(const sead::Vector3f& pos, ksys::act::PlayerLink* player);
     // 0x7100679ed8 (CSV MotorcycleMgr::spawnMotorcycle_x; name of the parameters are guesses): ray casts down at
     // the nav mesh query result (_d8) and, if the hit surface is walkable (not water, not "Stone_DgnLight", slope
     // below 50 degrees), returns the hit position and normal.

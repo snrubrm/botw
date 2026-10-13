@@ -60,6 +60,12 @@ bool MotorcycleMgr::isProhibited(const sead::Vector3f& pos, ksys::act::PlayerLin
     }
 }
 
+bool MotorcycleMgr::checkAndStartQueryNavMesh(ksys::act::PlayerLink* player) {
+    if (_17f)
+        return false;
+    return sub_7100679B30(_12c, player);
+}
+
 // NON_MATCHING: the original re-reads the query position relative to `_d8` after every call; we keep
 // strength-reduced pointers into it in extra callee-saved registers (frame 0x50 instead of 0x40)
 bool MotorcycleMgr::spawnMotorcycle_x(sead::Vector3f* out_pos, sead::Vector3f* out_normal,
