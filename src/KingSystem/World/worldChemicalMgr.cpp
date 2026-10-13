@@ -18,6 +18,12 @@
 #include "KingSystem/Terrain/teraSystem.h"
 #include "KingSystem/System/VFR.h"
 
+WorldMgrStruct0_8_a::WorldMgrStruct0_8_a() = default;
+
+WorldMgrStruct0_8_a::~WorldMgrStruct0_8_a() {
+    _8.sub_71010C90F4();
+}
+
 Unk_710250c530::Unk_710250c530() = default;
 
 Unk_710250c530::~Unk_710250c530() {
