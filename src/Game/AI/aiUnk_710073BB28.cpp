@@ -6,6 +6,8 @@
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actTag.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "KingSystem/Event/evtManager.h"
+#include "KingSystem/Event/evtMetadata.h"
 
 void sub_710073BB28(bool a, bool b) {
     uking::ui::sub_7100A94AC8();
@@ -53,4 +55,16 @@ void setItemDataToPouch(const sead::SafeString& name,
         uking::reportGetItem(info ? info->getPlayerPos() : sead::Vector3f::zero, name);
     }
     doGetItem(name, modifier);
+}
+
+// NON_MATCHING: the native bool argument uses branch normalization instead of a mask.
+void getDemoGetAnotherActor(ksys::act::Actor* actor, const sead::SafeString& actor_name,
+                           bool can_get_pouch, bool option, uking::act::WeaponModifierInfo* modifier) {
+    if (auto* manager = ksys::evt::Manager::instance()) {
+        ksys::evt::Metadata metadata;
+        callGetAnotherItemDemo(&metadata, actor_name, can_get_pouch,
+                               ksys::act::hasTag(actor, ksys::act::tags::GetAnotherActor), option,
+                               modifier);
+        manager->callEvent(metadata, actor, nullptr);
+    }
 }

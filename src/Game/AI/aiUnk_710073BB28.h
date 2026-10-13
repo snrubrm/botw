@@ -26,3 +26,17 @@ void sub_710073BADC();
 namespace uking {
 void removeFromInventory(const sead::SafeString& name);
 }
+
+namespace ksys::evt {
+class Metadata;
+}
+namespace uking::act {
+struct WeaponModifierInfo;
+}
+
+// Original source namespace is unknown; native inventory utility neighbors select this TU.
+void callGetAnotherItemDemo(ksys::evt::Metadata* metadata, const sead::SafeString& actor_name,
+                           bool can_get_pouch, bool another_actor, bool option,
+                           uking::act::WeaponModifierInfo* modifier);
+void getDemoGetAnotherActor(ksys::act::Actor* actor, const sead::SafeString& actor_name,
+                           bool can_get_pouch, bool option, uking::act::WeaponModifierInfo* modifier);
