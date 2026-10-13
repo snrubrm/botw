@@ -219,6 +219,7 @@ target_sources(uking PRIVATE
     actUnk_710072AFD0.cpp
     actChemical.cpp
     actChemical.h
+    actChemicalUserTag.h
     actChemicalElementHolder.cpp
     actChemicalElementHolder.h
     actClusteredRenderer.cpp
