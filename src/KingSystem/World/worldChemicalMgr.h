@@ -152,6 +152,8 @@ public:
     Unk_710250c530();
     virtual ~Unk_710250c530();
     void sub_71010C587C(sead::Heap* heap);
+    // Full 96-byte deactivation and pool reset pass this directional-wind record.
+    void sub_71010C5B78();
 
     // Carried directional-wind element from 10C79DC; its interface remains opaque.
     void* _8 = nullptr;
@@ -210,6 +212,23 @@ public:
     aal::Shape* _50;
 };
 KSYS_CHECK_SIZE_NX150(Unk_710250c6b8, 0x58);
+
+// Full ChemicalMgr init builds 0x18-byte directional-wind records at B20; cleanup and reset agree.
+struct Unk_71010cb39c {
+    struct Entry {
+        Unk_710250c530* _0;
+        sead::Vector3f _8;
+        f32 _14;
+    };
+    KSYS_CHECK_SIZE_NX150(Entry, 0x18);
+
+    sead::CriticalSection lock;
+    sead::Buffer<Entry> entries;
+    sead::PtrArray<Entry> free;
+    sead::PtrArray<Entry> used;
+    u32 _70 = 0;
+};
+KSYS_CHECK_SIZE_NX150(Unk_71010cb39c, 0x78);
 
 // Full 10CB0B8 / 10CA680 build these 0x90-byte sensor records; 10CA33C destroys the tag.
 // The body owns the tag pointer at record +8, and reset 10CB39C removes the body from the world.
@@ -314,7 +333,8 @@ public:
     u8 _b10;
     u8 _b11[3];
     sead::BitFlag32 _b14;
-    u8 _b18[0xb98 - 0xb18];
+    u8 _b18[8];
+    Unk_71010cb39c _b20;
     Unk_71010cb0b8 _b98;
     Unk_71010cb1f0 _c10;
     u8 _c80[0xcf8 - 0xc80];

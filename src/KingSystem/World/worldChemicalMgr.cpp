@@ -290,7 +290,6 @@ void Unk_710250c6b8::sub_71010C6304(sead::Heap* heap) {
     }
 }
 
-// NON_MATCHING: the entry constructor inlines into allocation; loop registers differ.
 void Unk_71010cb0b8::sub_71010CB0B8(s32 count, sead::Heap* heap) {
     entries.tryAllocBuffer(count, heap, 8);
     free.allocBuffer(count, heap, 8);
@@ -299,6 +298,7 @@ void Unk_71010cb0b8::sub_71010CB0B8(s32 count, sead::Heap* heap) {
         free.pushBack(&entry);
 }
 
+// NON_MATCHING: the entry constructor inlines into allocation; loop registers differ.
 void Unk_71010cb1f0::sub_71010CB1F0(s32 count, sead::Heap* heap) {
     entries.tryAllocBuffer(count, heap, 8);
     free.allocBuffer(count, heap, 8);
@@ -357,6 +357,25 @@ void ChemicalMgr::initBeforeStageGen() {
     _ae8->sub_7100D9AA84();
     mChemicalPairs.clear();
     sub_71010CB39C();
+}
+
+void ChemicalMgr::sub_71010CB39C() {
+    for (auto& entry : _b20.used)
+        entry._0->sub_71010C5B78();
+    {
+        sead::ScopedLock<sead::CriticalSection> lock(&_b20.lock);
+        for (auto& entry : _b20.used)
+            _b20.free.pushBack(&entry);
+        _b20.used.clear();
+    }
+    for (auto& entry : _b98.used)
+        entry._0->removeFromWorld();
+    {
+        sead::ScopedLock<sead::CriticalSection> lock(&_b98.lock);
+        for (auto& entry : _b98.used)
+            _b98.free.pushBack(&entry);
+        _b98.used.clear();
+    }
 }
 
 void ChemicalMgr::unload2() {
