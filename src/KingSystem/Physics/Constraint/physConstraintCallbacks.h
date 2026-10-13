@@ -31,7 +31,7 @@ struct Unk_71024f6730 : Unk_71012a6844::ItemA {
     SEAD_RTTI_OVERRIDE(Unk_71024f6730, Unk_71012a6844::ItemA)
     explicit Unk_71024f6730(Constraint* constraint) : ItemA(constraint) {}
     ~Unk_71024f6730() override;
-    // F71384 queries the limit; the projection callback remains declaration-only.
+    // F71384 queries the limit; F71470 projects body velocities onto the Slider axis.
     bool m0() const override;
     void sub_7100F6EC20(sead::Vector3f* a, sead::Vector3f* b) const override;
 };

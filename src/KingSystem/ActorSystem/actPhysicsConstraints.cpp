@@ -32,4 +32,11 @@ bool PhysicsConstraints::sub_7100D40338() {
     return result;
 }
 
+void PhysicsConstraints::sub_7100D403A8() {
+    for (auto* constraint : mConstraints) {
+        if (constraint)
+            constraint->sub_7100F6A21C();
+    }
+}
+
 }  // namespace ksys::act

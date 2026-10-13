@@ -127,6 +127,12 @@ void Unk_71024f6730::sub_7100F6EC20(sead::Vector3f* a, sead::Vector3f* b) const 
         *b = axis * body_b->getLinearVelocity().dot(axis);
 }
 
+Unk_71024f6778* Unk_71024f6778::sub_7100F71854(const Param& param, sead::Heap* heap) {
+    auto* object = new (heap, 8) Unk_71024f6778;
+    object->sub_7100F718B8(param);
+    return object;
+}
+
 Unk_71024f6778::~Unk_71024f6778() = default;
 Unk_71024f67a8::~Unk_71024f67a8() = default;
 
