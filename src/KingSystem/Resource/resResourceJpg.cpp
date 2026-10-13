@@ -1,6 +1,10 @@
 #include "KingSystem/Resource/resResourceJpg.h"
 #include <common/aglTextureData.h>
 
+// Native 9CDB18/9CDBF0 construct this RTTI interface; its sole slot is 9CDF60.
+template bool sead::RuntimeTypeInfo::Derive<ksys::res::ResourceJpg>::isDerived(
+    const sead::RuntimeTypeInfo::Interface*) const;
+
 namespace ksys::res {
 
 ResourceJpg::ResourceJpg() = default;
