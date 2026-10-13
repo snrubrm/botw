@@ -11,6 +11,14 @@ namespace ksys::act {
 class Actor;
 }
 
+namespace uking::act {
+class NPCBase;
+}
+
+// Event metadata strings copied by GoronHeroDescendentRoot and NPCRoot.
+void sub_710040A3BC(uking::act::NPCBase* actor, sead::BufferedSafeString* first,
+                    sead::BufferedSafeString* second, sead::BufferedSafeString* third);
+
 // Unnamed message listener classes embedded in many AI classes. Placeholder names are the vtable
 // addresses (Unk_<vtable>); slot functions are named by slot index (mN) and unnamed non-virtual
 // functions by address (sub_<addr>).

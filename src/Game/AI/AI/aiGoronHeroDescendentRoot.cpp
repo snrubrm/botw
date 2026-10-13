@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiGoronHeroDescendentRoot.h"
+#include "Game/Actor/actNPCBase.h"
 #include <gsys/gsysModel.h>
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
@@ -13,6 +14,13 @@
 #include "KingSystem/Utils/MathUtil.h"
 #include "Game/AI/aiUnk_71024f15c0.h"
 #include "KingSystem/Map/mapRail.h"
+
+void sub_710040A3BC(uking::act::NPCBase* actor, sead::BufferedSafeString* first,
+                    sead::BufferedSafeString* second, sead::BufferedSafeString* third) {
+    first->copy(actor->_8c0);
+    second->copy(actor->_918);
+    third->copy(actor->_9b0);
+}
 
 namespace uking::ui {
 void sub_7100A9A694(const UiSubsys1PinArg* arg);
