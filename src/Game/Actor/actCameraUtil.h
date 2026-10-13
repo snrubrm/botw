@@ -443,6 +443,8 @@ public:
     Unk_7100922700* sub_7100922B1C();
     // 0x7100923254: the Cartesian vector.
     sead::Vector3f sub_7100923254() const;
+    // 9232D8 updates the radius, normalizes the polar state, and returns the resulting radius.
+    f32 sub_71009232D8(f32 radius);
 
     /* 0x0 */ f32 _0;
     /* 0x4 */ f32 _4 = 0;

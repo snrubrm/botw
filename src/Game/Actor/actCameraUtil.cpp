@@ -905,6 +905,11 @@ sead::Vector3f Unk_7100922700::sub_7100923254() const {
     return {sb * h, sa * _0, cb * h};
 }
 
+f32 Unk_7100922700::sub_71009232D8(f32 radius) {
+    _0 = radius;
+    return sub_7100922B1C()->_0;
+}
+
 s32 sub_7100923494(s32 n) {
     if (n >= 3)
         return n * sub_7100923494(n - 1);
