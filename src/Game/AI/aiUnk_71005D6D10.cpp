@@ -286,6 +286,11 @@ bool sub_71005E2128(ksys::act::Actor* actor) {
     return value >= f32(param->mEnemyForceWarpReturnLODCount.ref());
 }
 
+bool sub_71005E1800(ksys::act::Actor* actor, Unk_710235aba0* sender, const char* tag) {
+    sender->_18.y(actor);
+    return sub_71005E1884(actor, sender, tag);
+}
+
 // NON_MATCHING: same loop; the original keeps its three `return false` exits as separate blocks and numbers the loop
 // registers x21 (count) / x22 (found) / x23 (pointer)
 bool sub_71005E1884(ksys::act::Actor* actor, Unk_7102357d20* sender, const char* tag) {
@@ -310,6 +315,11 @@ bool sub_71005E1884(ksys::act::Actor* actor, Unk_7102357d20* sender, const char*
         }
     }
     return found;
+}
+
+bool sub_71005E1974(ksys::act::Actor* actor, Unk_71023e7bc0* sender, const char* tag) {
+    sender->_18.x(actor);
+    return sub_71005E1884(actor, sender, tag);
 }
 
 // NON_MATCHING: same loop; the original keeps its three `return false` exits as separate blocks and numbers the loop

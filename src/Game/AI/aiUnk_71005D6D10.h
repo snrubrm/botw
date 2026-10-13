@@ -41,6 +41,8 @@ struct Unk_71002edaec;
 }  // namespace uking::act
 
 class Unk_7102357d20;
+class Unk_710235aba0;
+class Unk_71023e7bc0;
 
 // Free helper functions of an unnamed AI utility translation unit (0x71005d6d10 - 0x71005e2f3c,
 // linked between aiUrbosasFuryDamageSelector and aiVacuumedBombDamageSelect). Most of them take an
@@ -398,7 +400,10 @@ void sub_71005DF270(sead::Vector3f* out, ksys::act::Actor* actor, const sead::Sa
 // 0x71005df024 (declared only): check used by Grab::m34. Placeholder name.
 bool sub_71005DF024(f32 a1, f32 a2, f32 a3, ksys::act::Actor* a4, ksys::act::Actor* a5);
 /// Sends `sender`'s message to the actors of the fortress tagged `tag` (no-op for an empty tag).
+bool sub_71005E1800(ksys::act::Actor* actor, Unk_710235aba0* sender, const char* tag);
 bool sub_71005E1884(ksys::act::Actor* actor, Unk_7102357d20* sender, const char* tag);
+
+bool sub_71005E1974(ksys::act::Actor* actor, Unk_71023e7bc0* sender, const char* tag);
 
 // Placeholder name (after its only method, 0x71005e1be8; no ctor/vtable): four static-param strings
 // of a Golem part (GolemRepairParts / GolemThrowPartsToTargetBase embed two, at +0x60 / +0xa0).
