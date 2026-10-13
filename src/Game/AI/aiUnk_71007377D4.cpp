@@ -49,7 +49,6 @@
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectGiantArmorSlot.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectNpcEquipment.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectItem.h"
-#include "KingSystem/Resource/GeneralParamList/resGParamListObjectGiantArmorSlot.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectSmallSword.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectLargeSword.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectSpear.h"
