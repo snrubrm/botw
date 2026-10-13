@@ -7,6 +7,7 @@
 #include "Game/gameSceneSubsys12.h"
 #include "Game/Actor/actDragon.h"
 #include "Game/Actor/actEnemy.h"
+#include "Game/Actor/actUnk_71025ae680.h"
 #include "Game/Actor/actHorseRideInfo.h"
 #include "KingSystem/ActorSystem/actDropData.h"
 #include "KingSystem/Utils/MathUtil.h"
@@ -607,6 +608,28 @@ bool sub_7100734270(ksys::act::Actor* actor, sead::Vector3f* out, const sead::Ve
         return true;
     }
     return false;
+}
+
+// NON_MATCHING: the grouped condition cases share the controller update instead of three native copies.
+void sub_710073DCB4(ksys::act::Actor* actor, int condition) {
+    if (auto* dynamic_actor = sead::DynamicCast<ksys::act::DynamicActor>(actor)) {
+        if (auto* life = dynamic_actor->getLife())
+            *life = 0;
+        switch (condition) {
+        case 2:
+        case 3:
+        case 4: {
+            auto* controller = dynamic_actor->m159();
+            if (!(controller->_a & 3)) {
+                controller->m12(condition);
+                controller->_a |= 4;
+            }
+            break;
+        }
+        default:
+            break;
+        }
+    }
 }
 
 void sub_710073DE08(ksys::act::Actor* actor) {
