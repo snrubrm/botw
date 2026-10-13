@@ -9,9 +9,13 @@
 #include "Game/Actor/actEnemy.h"
 #include "Game/Actor/actWeapon.h"
 #include "Game/Actor/actNPC.h"
+#include "Game/Actor/actWolfLink.h"
+#include "Game/gameSceneSubsys14.h"
+#include "KingSystem/Map/mapPlacementActors.h"
 #include "Game/Actor/actUnk_71025ae680.h"
 #include "Game/Actor/actHorseRideInfo.h"
 #include "KingSystem/ActorSystem/actDropData.h"
+#include "KingSystem/ActorSystem/actDropMgr.h"
 #include "KingSystem/Utils/MathUtil.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/Map/mapPlacementMgr.h"
@@ -987,4 +991,50 @@ bool sub_7100733B84(ksys::act::Actor* actor) {
     if (!data)
         return false;
     return data->_8 == 1;
+}
+
+bool sub_7100733C24(ksys::act::Actor* actor) {
+    auto* damage = sead::DynamicCast<uking::dmg::DamageManager>(actor->getDamageMgr());
+    if (!damage || damage->getField54() != 28)
+        return false;
+    *actor->getLife() = 0;
+    if (auto* state = actor->m135()) {
+        switch (damage->getFlags2() & 0xffff) {
+        case 1:
+            state->_4 = 13;
+            break;
+        case 3:
+            state->_4 = 6;
+            break;
+        case 5:
+            state->_4 = 5;
+            break;
+        case 6:
+            state->_4 = 7;
+            break;
+        default:
+            break;
+        }
+    }
+    actor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::Alive);
+    if (auto* data = sead::DynamicCast<ksys::act::DropData>(actor->getDropData())) {
+        data->sub_71006DA914(damage, false);
+        data->_8 = 1;
+        if (auto* mgr = ksys::act::DropMgr::instance()) {
+            mgr->sub_7100D2C024(actor);
+            return true;
+        }
+    }
+    callDeleteAndCreateDropAndEmit(actor, 0);
+    return true;
+}
+
+bool cannotUseWolfLinkAmiibo() {
+    auto* placement = ksys::map::PlacementMgr::instance();
+    if (!placement || !placement->mPlacementActors || !placement->mPlacementActors->mStruct1)
+        return false;
+    auto* location = GameSceneSubsys14::instance();
+    if (!location || location->sub_7100904ED4())
+        return true;
+    return location->sub_7100904F4C();
 }

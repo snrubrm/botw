@@ -466,3 +466,5 @@ bool sub_7100736384(ksys::act::Actor* actor);
 bool sub_71007356EC(const ksys::act::BaseProcLink* link);
 bool sub_7100733360(ksys::act::Actor* actor);
 bool sub_7100733B84(ksys::act::Actor* actor);
+
+bool sub_7100733C24(ksys::act::Actor* actor);
