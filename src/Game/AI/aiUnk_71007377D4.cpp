@@ -931,3 +931,29 @@ void sub_71007428DC(f32 distance, f32 radius, sead::Vector3f* out,
                    ksys::phys::NavMeshCharacter* character, const sead::Vector3f* axis, s32 count) {
     sub_71007428EC(distance, radius, out, character, axis, axis, count);
 }
+
+const sead::SafeString& sub_710072DAD0(const ksys::act::BaseProcLink* link) {
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(link, &accessor);
+    return sub_710072DB1C(accessor);
+}
+
+// NON_MATCHING: compiler shares the Parameter::ref offset across switch branches.
+const sead::SafeString& sub_710072DB1C(const ksys::act::ActorConstDataAccess& accessor) {
+    ksys::act::ActorConstDataAccess weapon;
+    weapon.acquireActor(accessor);
+    switch (sub_71002F0258(weapon)) {
+    case 0:
+        return accessor.getGParamList()->getSmallSword()->mWeaponSubType.ref();
+    case 1:
+        return accessor.getGParamList()->getLargeSword()->mWeaponSubType.ref();
+    case 2:
+        return accessor.getGParamList()->getSpear()->mWeaponSubType.ref();
+    case 3:
+        return accessor.getGParamList()->getBow()->mWeaponSubType.ref();
+    case 4:
+        return accessor.getGParamList()->getShield()->mWeaponSubType.ref();
+    default:
+        return sead::SafeString::cEmptyString;
+    }
+}
