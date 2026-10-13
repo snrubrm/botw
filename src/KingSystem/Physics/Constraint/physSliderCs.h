@@ -14,6 +14,12 @@ class SliderCs : public Constraint {
 public:
     ~SliderCs() override;
     void setMinMaxLimit(f32 min, f32 max);
+    void sub_7100F71028(f32 friction);
+    void sub_7100F7104C(bool allow_rotation);
+    // Independent factory and SwitchStepSliderConstraint supply both pivots and both frame axes.
+    void sub_7100F71058(const sead::Vector3f& pivot_a, const sead::Vector3f& pivot_b,
+                      const sead::Vector3f& axis_a, const sead::Vector3f& axis_b,
+                      const sead::Vector3f& perpendicular_a, const sead::Vector3f& perpendicular_b);
     // 223114 uses SliderCs's typeInfo at 0x71025b5228 before these data queries.
     f32 sub_7100F71034();
     f32 sub_7100F71040();

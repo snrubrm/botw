@@ -3,6 +3,7 @@
 #include "KingSystem/Physics/Constraint/physUnk_71024f6778.h"
 #include "KingSystem/Physics/Constraint/physUnk_71024f67a8.h"
 #include <Havok/Physics/Constraint/Data/Prismatic/hkpPrismaticConstraintData.h>
+#include "KingSystem/Physics/physConversions.h"
 
 namespace ksys::phys {
 
@@ -19,6 +20,34 @@ f32 SliderCs::sub_7100F71034() {
 
 f32 SliderCs::sub_7100F71040() {
     return mData->m_atoms.m_linLimit.m_min;
+}
+
+void SliderCs::sub_7100F71028(f32 friction) {
+    mData->m_atoms.m_friction.m_maxFrictionForce = friction;
+}
+
+void SliderCs::sub_7100F7104C(bool allow_rotation) {
+    mData->setAllowRotation(allow_rotation);
+}
+
+void SliderCs::sub_7100F71058(const sead::Vector3f& pivot_a, const sead::Vector3f& pivot_b,
+                            const sead::Vector3f& axis_a, const sead::Vector3f& axis_b,
+                            const sead::Vector3f& perpendicular_a,
+                            const sead::Vector3f& perpendicular_b) {
+    hkVector4 hk_pivot_a;
+    hkVector4 hk_pivot_b;
+    hkVector4 hk_axis_a;
+    hkVector4 hk_axis_b;
+    hkVector4 hk_perpendicular_a;
+    hkVector4 hk_perpendicular_b;
+    loadFromVec3(&hk_pivot_a, pivot_a);
+    loadFromVec3(&hk_pivot_b, pivot_b);
+    loadFromVec3(&hk_axis_a, axis_a);
+    loadFromVec3(&hk_axis_b, axis_b);
+    loadFromVec3(&hk_perpendicular_a, perpendicular_a);
+    loadFromVec3(&hk_perpendicular_b, perpendicular_b);
+    mData->setInBodySpace(hk_pivot_a, hk_pivot_b, hk_axis_a, hk_axis_b,
+                          hk_perpendicular_a, hk_perpendicular_b);
 }
 Unk_71024f6730::~Unk_71024f6730() = default;
 Unk_71024f6778::~Unk_71024f6778() = default;
