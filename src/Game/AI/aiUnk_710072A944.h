@@ -17,6 +17,8 @@ class Swarm;
 // names; not decompiled yet.
 
 void swarmDropTableStuff(ksys::act::Actor* actor);
+void sub_710072A264(uking::act::Swarm* swarm, const sead::Vector3f& target, const sead::Vector3f& up);
+void sub_710072A3BC(uking::act::Swarm* swarm, const sead::Vector3f& target, const sead::Vector3f& up);
 void sub_710072A514(uking::act::Swarm* swarm, const sead::Vector3f& front, const sead::Vector3f& up);
 void sub_710072A5F8(uking::act::Swarm* swarm, const sead::Vector3f& front, const sead::Vector3f& up);
 
