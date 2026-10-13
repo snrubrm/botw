@@ -7,6 +7,7 @@
 #include "KingSystem/Resource/resResourceMgrTask.h"
 #include "KingSystem/Resource/resResourceGameSaveData.h"
 #include "Game/gameUnkRttiPlaceholders.h"
+#include "Game/gameUnkRttiPlaceholders.h"
 
 namespace ksys::res {
 
@@ -40,6 +41,23 @@ template bool EntryFactory<Unk_71024f9f78>::checkDerivedRuntimeTypeInfo(
     const sead::RuntimeTypeInfo::Interface*) const;
 template const sead::RuntimeTypeInfo::Interface*
 EntryFactory<Unk_71024f9f78>::getRuntimeTypeInfo() const;
+
+// Native factories A80D08/A80F20 construct the complete 0x60-byte texture owners.
+template sead::DirectResource* EntryFactory<::Unk_710247ed28>::newResource_(sead::Heap*, s32);
+template u32 EntryFactory<::Unk_710247ed28>::getResourceSize() const;
+template u32 EntryFactory<::Unk_710247ed28>::getLoadDataAlignment() const;
+template bool EntryFactory<::Unk_710247ed28>::checkDerivedRuntimeTypeInfo(
+    const sead::RuntimeTypeInfo::Interface*) const;
+template const sead::RuntimeTypeInfo::Interface*
+EntryFactory<::Unk_710247ed28>::getRuntimeTypeInfo() const;
+
+template sead::DirectResource* EntryFactory<::Unk_710247edc8>::newResource_(sead::Heap*, s32);
+template u32 EntryFactory<::Unk_710247edc8>::getResourceSize() const;
+template u32 EntryFactory<::Unk_710247edc8>::getLoadDataAlignment() const;
+template bool EntryFactory<::Unk_710247edc8>::checkDerivedRuntimeTypeInfo(
+    const sead::RuntimeTypeInfo::Interface*) const;
+template const sead::RuntimeTypeInfo::Interface*
+EntryFactory<::Unk_710247edc8>::getRuntimeTypeInfo() const;
 
 bool EntryFactoryBase::checkDerivedRuntimeTypeInfoStatic(const sead::RuntimeTypeInfo::Interface* typeInfo) {
     const sead::RuntimeTypeInfo::Interface* clsTypeInfo = EntryFactoryBase::getRuntimeTypeInfoStatic();

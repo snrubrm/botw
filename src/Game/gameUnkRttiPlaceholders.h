@@ -395,6 +395,8 @@ class Unk_710247ed28 : public ksys::res::Resource {
 public:
     Unk_710247ed28();
     ~Unk_710247ed28() override;
+    // Native resource and factory alignment queries both return 0x2000.
+    static constexpr size_t cLoadDataAlignment = 0x2000;
     s32 getLoadDataAlignment() const override;
     bool m2_() override;
 
@@ -417,6 +419,8 @@ class Unk_710247edc8 : public ksys::res::Resource {
 public:
     Unk_710247edc8();
     ~Unk_710247edc8() override;
+    // Native resource and factory alignment queries both return 0x2000.
+    static constexpr size_t cLoadDataAlignment = 0x2000;
     s32 getLoadDataAlignment() const override;
     bool m2_() override;
 

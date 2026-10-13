@@ -133,7 +133,7 @@ Unk_710247edc8::~Unk_710247edc8() = default;
 Unk_710247ed28::Unk_710247ed28() = default;
 
 s32 Unk_710247ed28::getLoadDataAlignment() const {
-    return 0x2000;
+    return cLoadDataAlignment;
 }
 
 bool Unk_710247ed28::m2_() {
@@ -152,7 +152,7 @@ void Unk_710247ed28::onDestroy_() {
 Unk_710247edc8::Unk_710247edc8() = default;
 
 s32 Unk_710247edc8::getLoadDataAlignment() const {
-    return 0x2000;
+    return cLoadDataAlignment;
 }
 
 bool Unk_710247edc8::m2_() {
