@@ -1,6 +1,7 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <container/seadSafeArray.h>
 #include "Game/AI/aiMessage3DText.h"
 #include "Game/AI/aiUnk_71025afb58.h"
 #include "KingSystem/System/Timer.h"
@@ -25,7 +26,21 @@ public:
     /* 0x000 */ s32 _0;
     /* 0x008 */ uking::Message3DText _8;
     /* 0x0e0 */ ksys::Timer _e0;
-    /* 0x0ec */ u8 _ec[0x13c - 0xec];  // 7 entries of 0xb bytes (first byte 9, second 0)
+    struct Permutation {
+        // inline-only in the original; name is a guess. Initialization at 0x743814 repeats
+        // this count assignment and signed-byte index fill for all seven records.
+        void init(s8 count) {
+            mCount = count;
+            for (s8 i = 0; i < mCount; ++i)
+                mValues[i] = i;
+        }
+
+        s8 mCount = 9;
+        s8 mIndex = 0;
+        sead::SafeArray<s8, 9> mValues;
+    };
+    KSYS_CHECK_SIZE_NX150(Permutation, 0xb);
+    /* 0x0ec */ sead::SafeArray<Permutation, 7> mPermutations;
     /* 0x13c */ s32 _13c;
     // Separate boolean writers in ZoraHeroRelicBattleRoot; independent update tests each byte.
     /* 0x140 */ bool _140;
