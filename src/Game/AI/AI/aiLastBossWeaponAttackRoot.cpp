@@ -1,6 +1,8 @@
 #include "Game/AI/AI/aiLastBossWeaponAttackRoot.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/AI/aiUnk_710072BA90.h"
+#include "Game/AI/aiAwarenessFilters.h"
+#include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "Game/Damage/dmgDamageManager.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
@@ -41,6 +43,37 @@ void LastBossWeaponAttackRoot::enter_(ksys::act::ai::InlineParamPack* params) {
         sub_710047ED84();
     else
         changeToWait();
+}
+
+// NON_MATCHING: branch layout and string/awareness register allocation differ.
+void LastBossWeaponAttackRoot::calc_() {
+    auto* child = getCurrentChild();
+    child->setDynamicParam(*mIsAttackPatternFixed_d, "IsAttackPatternFixed");
+    if (child->isFinished() || child->isFailed()) {
+        if (isCurrentChild("発見中")) {
+            sub_71005D8E9C(mActor);
+            changeToWait();
+        } else if (isCurrentChild("ダメージ反応")) {
+            if (sub_710047F2B8())
+                sub_710047EA10();
+            else
+                changeToWait();
+        }
+    } else if (child->isChangeable() && isCurrentChild("ダメージ反応")) {
+        auto* target = sub_71005D9050(mActor);
+        if (!target || !target->hasProc()) {
+            if (auto* awareness = mActor->getAwareness()) {
+                Unk_7102451678 filter;
+                auto* entry = ksys::act::sub_7100D7EEE8(&awareness->_8, &filter);
+                auto* actor = mActor;
+                const auto& link = entry ? entry->_0.mLink : ksys::act::PlayerInfo::getSomeProcLink();
+                sub_71005D8DE8(actor, link, entry ? &entry->_58 : nullptr, nullptr);
+            }
+        }
+        sub_710047EA10();
+    }
+    if (isCurrentChild("待機") && sub_710047F2B8())
+        sub_710047EA10();
 }
 
 void LastBossWeaponAttackRoot::leave_() {

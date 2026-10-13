@@ -13,6 +13,9 @@ public:
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
+    void calc_() override;
+    // Full 436 B own helper and both calc call sites establish this bool predicate.
+    bool sub_710047F2B8();
     void loadParams_() override;
     // 0x710047efd4 (placeholder name)
     void changeToWait();
