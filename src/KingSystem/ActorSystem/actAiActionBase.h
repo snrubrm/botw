@@ -188,6 +188,10 @@ public:
         return setDynamicParamImpl(value, key, &ParamPack::setActor);
     }
 
+    // 39D2D0 receives BaseProc* by value; EnemyShieldSearchOrBattle passes ParamPack::getActor.
+    bool sub_710039D2D0(BaseProc* value, const sead::SafeString& key,
+                       bool (ParamPack::*setter)(BaseProc*, const sead::SafeString&) const);
+
     bool setDynamicParam(bool value, const sead::SafeString& key) {
         return setDynamicParamImpl(value, key, &ParamPack::setPtrGeneric<bool, AIDefParamType::Bool>);
     }

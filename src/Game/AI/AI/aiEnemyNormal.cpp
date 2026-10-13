@@ -562,6 +562,28 @@ bool EnemyNormal::handleMessage_(const ksys::Message* message) {
 
 }  // namespace uking::ai
 
+namespace ksys::act::ai {
+
+bool ActionBase::sub_710039D2D0(
+    BaseProc* value, const sead::SafeString& key,
+    bool (ParamPack::*setter)(BaseProc*, const sead::SafeString&) const) {
+    bool result = false;
+    auto* action = this;
+    while (action && action->mFlags.isOff(Flag::_80)) {
+        result |= (action->mParams.*setter)(value, key);
+        if (action->mFlags.isOff(Flag::DynamicParamChild))
+            return result;
+        action = action->getCurrentChild();
+        if (!action)
+            return result;
+    }
+    for (s32 i = 0, n = action->getNumChildren(); i < n; ++i)
+        result |= action->getChild(i)->sub_710039D2D0(value, key, setter);
+    return result;
+}
+
+}  // namespace ksys::act::ai
+
 bool Unk_71023e9028::m2(const ksys::Message& message) {
     if (message.getType() != 0x80000bf)
         return false;

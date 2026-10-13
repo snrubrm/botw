@@ -174,6 +174,83 @@ void EnemySearchShieldItemFindPlayer::leave_() {
     LandHumEnemyFindPlayer::leave_();
 }
 
+void EnemySearchShieldItemFindPlayer::calc_() {
+    auto* child = getCurrentChild();
+    bool find_player = false;
+    bool pick_up_shield = false;
+    if (child->isFinished() || child->isFailed()) {
+        if (isCurrentChild("アイテム発見")) {
+            if (!child->isFinished() && sub_71003BA99C())
+                return;
+        } else if (isCurrentChild("盾拾い")) {
+            if (child->isFinished()) {
+                find_player = true;
+            } else if (_108.mValue <= 0.0f) {
+                setFailed();
+                return;
+            }
+        } else {
+            LandHumEnemyFindPlayer::calc_();
+            return;
+        }
+        if (!find_player) {
+            auto* actor = mActor;
+            auto* target = sub_71005D9050(actor);
+            if ((!target || !sub_710073033C(actor, target, *mParams.mNoShieldSearchDist_s)) &&
+                sub_71003BADD8())
+                pick_up_shield = true;
+            else
+                find_player = true;
+        }
+    } else if (child->isChangeable()) {
+        if (isCurrentChild("アイテム発見")) {
+            if (_108.mValue <= 0.0f) {
+                setFailed();
+                return;
+            }
+        } else if (isCurrentChild("盾拾い")) {
+            if (_108.mValue <= 0.0f) {
+                setFailed();
+                return;
+            }
+            if (isCurrentChild("アイテム発見") || !sub_71003BA99C()) {
+                auto* actor = mActor;
+                auto* target = sub_71005D9050(actor);
+                if (target && sub_710073033C(actor, target, *mParams.mNoShieldSearchDist_s)) {
+                    find_player = true;
+                } else if (!_220.hasProc()) {
+                    if (sub_71003BADD8()) {
+                        auto* weapon = sead::DynamicCast<act::Weapon>(
+                            _220.getProc(nullptr, nullptr));
+                        child->sub_710039D2D0(weapon, "TargetWeapon",
+                                             &ksys::act::ai::ParamPack::getActor);
+                    } else {
+                        find_player = true;
+                    }
+                }
+            }
+        } else if (_240) {
+            if (sub_71003BA99C())
+                return;
+            auto* actor = mActor;
+            auto* target = sub_71005D9050(actor);
+            if ((!target || !sub_710073033C(actor, target, *mParams.mNoShieldSearchDist_s)) &&
+                sub_71003BADD8())
+                pick_up_shield = true;
+        }
+    }
+    if (pick_up_shield) {
+        sub_71003BAC8C();
+    } else if (find_player) {
+        if (m35())
+            m40();
+        else
+            sub_710037EDA4();
+    } else {
+        LandHumEnemyFindPlayer::calc_();
+    }
+}
+
 void EnemySearchShieldItemFindPlayer::loadParams_() {
     LandHumEnemyFindPlayer::loadParams_();
     getStaticParam(&mParams.mShieldIdx_s, "ShieldIdx");
