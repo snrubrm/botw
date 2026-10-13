@@ -96,6 +96,7 @@ class Unk_710250c530 {
 public:
     Unk_710250c530();
     virtual ~Unk_710250c530();
+    void sub_71010C587C(sead::Heap* heap);
 
     // Carried directional-wind element from 10C79DC; its interface remains opaque.
     void* _8 = nullptr;

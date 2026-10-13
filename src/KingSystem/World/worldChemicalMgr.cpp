@@ -5,6 +5,8 @@
 #include "KingSystem/Physics/RigidBody/Shape/Sphere/physSphereShape.h"
 #include "KingSystem/Physics/RigidBody/Shape/Capsule/physCapsuleRigidBody.h"
 #include "KingSystem/Physics/RigidBody/Shape/Capsule/physCapsuleShape.h"
+#include "KingSystem/Physics/RigidBody/Shape/Cylinder/physCylinderRigidBody.h"
+#include "KingSystem/Physics/RigidBody/Shape/Cylinder/physCylinderShape.h"
 #include <math/seadMatrix.h>
 #include <prim/seadScopedLock.h>
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
@@ -25,6 +27,18 @@ Unk_710250c530::~Unk_710250c530() {
         delete _10;
         _10 = nullptr;
     }
+}
+
+// NON_MATCHING: cylinder endpoint stores are paired differently.
+void Unk_710250c530::sub_71010C587C(sead::Heap* heap) {
+    ksys::phys::CylinderParam param;
+    param.vertex_a = sead::Vector3f::zero;
+    param.vertex_b = sead::Vector3f::ey;
+    param.radius = 4.0f;
+    param.contact_layer = ksys::phys::ContactLayer::SensorChemicalElement;
+    param.name = "Updraft";
+    param.motion_type = ksys::phys::MotionType::Keyframed;
+    _10 = ksys::phys::CylinderRigidBody::make(&param, heap);
 }
 
 Unk_710250c698::Unk_710250c698() = default;
