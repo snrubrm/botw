@@ -62682,9 +62682,9 @@ Address,Quality,Size,Name
 0x0000007100acb434,U,000072,_ZN2nn3vfx6detail6Random7SetSeedEj
 0x0000007100acb47c,U,000340,
 0x0000007100acb5d0,U,002984,
-0x0000007100acc178,U,000072,_ZN2nn3vfx6detail26CalculateAllocatedSizeHeap5AllocEmm
+0x0000007100acc178,O,000072,_ZN2nn3vfx6detail22CalculateAllocSizeHeap5AllocEmm
 0x0000007100acc1c0,U,000516,
-0x0000007100acc3c4,U,000028,_ZN2nn3vfx6detail26CalculateAllocatedSizeHeap4FreeEPv
+0x0000007100acc3c4,O,000028,_ZN2nn3vfx6detail22CalculateAllocSizeHeap4FreeEPv
 0x0000007100acc3e0,O,000004,_ZN2nn3vfx4HeapD2Ev
 0x0000007100acc3e4,U,000036,
 0x0000007100acc408,U,000124,
