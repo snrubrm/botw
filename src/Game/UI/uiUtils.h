@@ -8,6 +8,7 @@
 
 namespace eui {
 class LayoutEx;
+class ControlBase;
 class Animator;
 class AlignPane;
 class CapturePane;
@@ -62,6 +63,10 @@ void sub_7100A9A6C4(ksys::qst::Quest* quest);
 
 // Native 986160; the UI callers pass LayoutEx and a name, then use CapturePane fields.
 eui::CapturePane* sub_7100986160(eui::LayoutEx* layout, const char* name);
+
+// Native 986FFC: complete child consumers pass their control and a pane name.
+// Source owner is unknown; this free placeholder uses the existing ControlBase layout.
+eui::CapturePane* sub_7100986FFC(eui::ControlBase* control, const sead::SafeString& name);
 
 // Native no-argument scale values used by UiSubsys1 0x71009645d0.
 // Namespace is inferred from the UI caller and neighboring child functions.

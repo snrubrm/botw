@@ -186,6 +186,15 @@ eui::CapturePane* sub_7100986160(eui::LayoutEx* layout, const char* name) {
     return nn::font::DynamicCast<eui::CapturePane>(layout->mPane->FindPaneByName(name, true));
 }
 
+// 0x7100986ffc
+// NON_MATCHING: the layout pointer load follows cstr() instead of preceding it.
+// Source owner is unknown; address neighbors and complete callers place this UI helper here.
+eui::CapturePane* sub_7100986FFC(eui::ControlBase* control, const sead::SafeString& name) {
+    const char* pane_name = name.cstr();
+    return nn::font::DynamicCast<eui::CapturePane>(
+        control->mLayout->mPane->FindPaneByName(pane_name, true));
+}
+
 // 0x7100986240
 // NON_MATCHING: the compiler combines the odd state tests into one bitset.
 void Unk_7102476db8::m25() {
