@@ -1,4 +1,5 @@
 #include "Game/AI/aiUnk_71007368A4.h"
+#include "Game/gameSceneSubsys14.h"
 #include "Game/Damage/dmgDamageManagerBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
@@ -238,4 +239,19 @@ bool checkHpRate(ksys::act::Actor* actor, f32 rate) {
     if (auto* p = actor->getLife())
         life = *p;
     return actor->getMaxLife() * rate >= life;
+}
+
+void sub_7100736A84(ksys::act::Actor* actor) {
+    if (!ksys::act::getAttClientByName(actor, "LockOnShort"))
+        return;
+    if (!ksys::act::isAttClientEnabled(actor, "LockOn") &&
+        !ksys::act::isAttClientEnabled(actor, "LockOnShort"))
+        return;
+    if (GameSceneSubsys14::instance()->sub_7100904ED4()) {
+        ksys::act::disableAttClient(actor, "LockOn");
+        ksys::act::enableAttClient(actor, "LockOnShort");
+    } else {
+        ksys::act::enableAttClient(actor, "LockOn");
+        ksys::act::disableAttClient(actor, "LockOnShort");
+    }
 }
