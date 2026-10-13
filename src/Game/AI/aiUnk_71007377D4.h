@@ -16,6 +16,8 @@ namespace ksys::act {
 class Actor;
 class ActorConstDataAccess;
 class BaseProcLink;
+class BaseProcHandle;
+class InstParamPack;
 struct Struct8Base;
 class Unk_7100d860d8;
 }  // namespace ksys::act
@@ -44,6 +46,10 @@ void sub_7100733E24(ksys::act::Actor* actor, const sead::Vector3f& impulse,
                     const sead::Vector3f& position,
                     ksys::act::ActorAtk::Unk_710079e64c::Unk1* attack_info);
 void sub_7100734228(ksys::act::Actor* actor);
+// Full actor-creation helper and SiteBossSpearAttackVertical consumer establish these arguments.
+bool sub_710073DB94(const char* name, ksys::act::BaseProcHandle* handle,
+                    ksys::act::InstParamPack* params, sead::Heap* heap);
+bool sub_710073CD5C(const char* name, sead::Heap* heap);
 
 // 0x7100737708-0x710073771c: forwarders to the ksys::act per-frame velocity setters
 // (actActorUtil.h, 0x7100ee60a0-0x7100ee62b0). Defined in aiUnk_71007377D4.cpp.

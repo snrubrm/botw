@@ -4,6 +4,7 @@
 #include "Game/Damage/dmgDamageManager.h"
 #include "KingSystem/ActorSystem/actActorChemicals.h"
 #include "Game/gameUnk_71024739d0.h"
+#include "Game/gameSceneSubsys12.h"
 #include "Game/Actor/actDragon.h"
 #include "Game/Actor/actEnemy.h"
 #include "Game/Actor/actHorseRideInfo.h"
@@ -29,6 +30,9 @@
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
 #include "KingSystem/Physics/System/physRayCastBodyQuery.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/ActorSystem/actInfoData.h"
+#include "KingSystem/ActorSystem/actActorCreator.h"
+#include "KingSystem/ActorSystem/actBaseProcHandle.h"
 #include "KingSystem/Resource/Actor/resResourceDamageParam.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectItem.h"
@@ -57,6 +61,31 @@ const s32& sub_7100730FD0(const ksys::act::ActorConstDataAccess* accessor) {
 void sub_7100734228(ksys::act::Actor* actor) {
     if (auto* info = sub_71007A255C(actor, 0))
         sub_7100733E24(actor, info->_a0, info->_0, info);
+}
+
+bool sub_710073DB94(const char* name, ksys::act::BaseProcHandle* handle,
+                    ksys::act::InstParamPack* params, sead::Heap* heap) {
+    if (handle->isAllocatedOrFailed()) {
+        if (handle->isProcReady())
+            return true;
+        if (!handle->hasProcCreationFailed())
+            return false;
+        handle->deleteProcIfFailed();
+    }
+    ksys::act::ActorCreator::instance()->requestCreateActor(name, heap, handle, params, nullptr, 1);
+    return false;
+}
+
+bool sub_710073CD5C(const char* name, sead::Heap* heap) {
+    const char* profile;
+    ksys::act::InfoData::instance()->getActorProfile(&profile, name);
+    if (sead::SafeString(profile).findIndex("Weapon") != -1)
+        return false;
+    if (auto* subsystem = GameSceneSubsys12::instance()) {
+        subsystem->sub_7100662B58(name, heap);
+        return true;
+    }
+    return false;
 }
 
 void sub_7100737708(ksys::phys::CharacterController* controller, f32 value) {
