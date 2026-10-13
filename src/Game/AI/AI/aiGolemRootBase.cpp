@@ -6,6 +6,11 @@
 #include "KingSystem/ActorSystem/actReaction.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
+#include "Game/gameStatisticsMgr.h"
+#include "KingSystem/ActorSystem/Profiles/actBullet.h"
+#include "KingSystem/Graphics/gfxUnk_710260af28.h"
+#include "KingSystem/Terrain/teraSystem.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
 
 namespace uking::ai {
 
@@ -15,6 +20,56 @@ GolemRootBase::~GolemRootBase() {
     sub_71004012F8();
     sub_71004014A4();
     _2f0._8.freeBuffer();
+}
+
+// NON_MATCHING: output-slot placement, zero initialization and position-copy stores differ.
+void GolemRootBase::sub_7100402194() {
+    if (sub_71006F5694(mActor) != Unk_71006F5DB0::Normal)
+        return;
+
+    u32 texture = 0;
+    if (mGolemTextureName_m.isEmpty()) {
+        u32 value = 255;
+        auto* stats = StatisticsMgr::instance()->getStatsPointer("rock_distribution");
+        const sead::Vector3f position = mActor->getMtx().getTranslation();
+        if (!StatisticsMgr::instance()->sub_7100E33EA0(&value, 1, stats, &position) || value == 255)
+            return;
+        texture = value;
+    } else if (!ksys::tera::sub_710110C1E4(&texture, mGolemTextureName_m)) {
+        return;
+    }
+
+    if (auto* model = mActor->getModel())
+        Unk_710260af28::instance()->sub_7100F1E4DC(model, static_cast<f32>(texture));
+    xlinkEventOn(mActor, 25, s32(texture), false);
+    auto* parts = mActor->m101();
+    if (!parts)
+        return;
+
+    {
+        auto& link = parts->getActorPartsActor(mUpperArmL_PartsKey_s);
+        ksys::act::acc::Bullet accessor;
+        ksys::act::acquireActor(&link, &accessor);
+        accessor.startXLinkEvent19Maybe(texture, mActor);
+    }
+    {
+        auto& link = parts->getActorPartsActor(mLowerArmL_PartsKey_s);
+        ksys::act::acc::Bullet accessor;
+        ksys::act::acquireActor(&link, &accessor);
+        accessor.startXLinkEvent19Maybe(texture, mActor);
+    }
+    {
+        auto& link = parts->getActorPartsActor(mUpperArmR_PartsKey_s);
+        ksys::act::acc::Bullet accessor;
+        ksys::act::acquireActor(&link, &accessor);
+        accessor.startXLinkEvent19Maybe(texture, mActor);
+    }
+    {
+        auto& link = parts->getActorPartsActor(mLowerArmR_PartsKey_s);
+        ksys::act::acc::Bullet accessor;
+        ksys::act::acquireActor(&link, &accessor);
+        accessor.startXLinkEvent19Maybe(texture, mActor);
+    }
 }
 
 void GolemRootBase::sub_71004012F8() {

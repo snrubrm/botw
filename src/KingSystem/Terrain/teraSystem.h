@@ -1,5 +1,7 @@
 #pragma once
 
+#include <prim/seadSafeString.h>
+
 #include <basis/seadTypes.h>
 #include <container/seadBuffer.h>
 #include <math/seadVector.h>
@@ -191,6 +193,10 @@ u32 sub_710110B4A4(f32* out_height, const sead::Vector2f* xz, System* system);
 // Returns query status 0/1/2; the final argument preserves a full integer flag.
 u32 sub_71011094A0(f32* out_height, const sead::Vector2f* xz, System* system, s32 index,
                     s32 flag);
+
+// Full 110C1E4 looks up the texture name and writes its indexed 32-bit value.
+// GolemRootBase 402194 consumes the unsigned output for model and XLink state.
+bool sub_710110C1E4(u32* out, const sead::SafeString& name);
 
 bool checkTeraSystemStatus();
 
