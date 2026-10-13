@@ -56,6 +56,7 @@ public:
     // 0x7100d46ef8 (CSV updateHkscLoadStatusesMaybe)
     void updateHkscLoadStatusesMaybe();
     void unloadMapsThatAreTooFar();
+    void removeInnerData();
 
 private:
     friend class res::CompactionMgr;

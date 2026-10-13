@@ -8,6 +8,8 @@ target_sources(uking PRIVATE
   mapAutoPlacementMgr.h
   mapDebug.cpp
   mapDebug.h
+  mapFarActorMerge.cpp
+  mapFarActorMerge.h
   mapLazyTraverseList.cpp
   mapLinkTag.cpp
   mapLinkTag.h

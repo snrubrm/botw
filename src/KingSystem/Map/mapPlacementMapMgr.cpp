@@ -1,5 +1,6 @@
 #include "KingSystem/Map/mapPlacementMapMgr.h"
 #include "KingSystem/Map/mapMapProperties.h"
+#include "KingSystem/Map/mapFarActorMerge.h"
 #include "KingSystem/Map/mapPlacementMgr.h"
 #include "KingSystem/Terrain/teraSystem.h"
 
@@ -50,6 +51,17 @@ void PlacementMapMgr::updateHkscLoadStatusesMaybe() {
             }
         }
     }
+}
+
+void PlacementMapMgr::removeInnerData() {
+    for (s32 i = 0; i < mMaps.size(); ++i) {
+        mMaps[i].cleanupPhysics();
+        if (mMaps[i].mDynamicGroupIdx >= 0)
+            mMaps[i].unload();
+    }
+    mFarActorMerge->cleanup();
+    mNeedLoadDynMap = 0;
+    mNeedLoadDynMapPhysics = 0;
 }
 
 void PlacementMapMgr::unloadMapsThatAreTooFar() {
