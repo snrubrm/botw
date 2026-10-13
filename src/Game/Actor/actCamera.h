@@ -418,7 +418,7 @@ public:
 
     // 0x7100795e08: copies `src` to `dst` and adjusts dst._24 (in place when they are the same).
     void sub_7100795E08(const Unk_71009214b8& src, Unk_71009214b8* dst);
-    // Declaration only. Both Camera state-update paths pass a typed source and destination.
+    // Both Camera state-update paths pass a typed source and destination.
     void sub_7100799770(const Unk_71009214b8& src, Unk_71009214b8* dst);
     void sub_710079984C(const Unk_71009214b8& src, Unk_71009214b8* dst);
     explicit Camera(const CreateArg& arg);
