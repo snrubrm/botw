@@ -57,7 +57,7 @@ void NPCRoot::sub_71004D8C5C() {
     arg._31 = true;
     if (auto* manager = ksys::evt::Manager::instance())
         manager->callEvent(arg);
-    sendMessage(*mActor->getMesTransceiverId(), ksys::MessageType(0x8000034), nullptr);
+    sendMessage(*mActor->getMesTransceiverId(), static_cast<ksys::MessageType>(0x8000034), nullptr);
 }
 
 void NPCRoot::leave_() {
@@ -85,7 +85,7 @@ void NPCRoot::m34() {
 }
 
 bool NPCRoot::handleMessage_(const ksys::Message* message) {
-    if (message->getType() != ksys::MessageType(0x08000034))
+    if (message->getType() != static_cast<ksys::MessageType>(0x08000034))
         return false;
     if (_68) {
         if (isCurrentChild("Timeline") || isCurrentChild("Rest")) {

@@ -23,7 +23,6 @@ bool ZoraHeroRelicBattleRoot::init_(sead::Heap* heap) {
     return true;
 }
 
-// NON_MATCHING: the natural four-boolean sum omits the native byte narrowing.
 void ZoraHeroRelicBattleRoot::enter_(ksys::act::ai::InlineParamPack*) {
     _40 = false;
     _42 = ksys::gdt::getFlag_Water_Relic_BreakWeakPoint1();
