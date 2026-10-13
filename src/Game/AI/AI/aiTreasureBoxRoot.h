@@ -13,6 +13,7 @@ public:
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
+    void calc_() override;
     void loadParams_() override;
     bool handleMessage_(const ksys::Message* message) override;
 
@@ -21,6 +22,8 @@ protected:
     void enter_init();
     // Declaration only.
     void sub_71005CEA88();
+    bool sub_71005CEDD4(sead::Vector3f* position, sead::Vector3f* normal, bool upward,
+                        f32 offset, f32 distance);
 
     // static_param at offset 0x38
     const float* mInGroundOffsetY_s{};
