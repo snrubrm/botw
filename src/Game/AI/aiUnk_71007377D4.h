@@ -480,3 +480,5 @@ void sub_7100731F30(ksys::act::Actor* actor, s32 index);
 bool sub_710073200C(ksys::act::Actor* actor, s32 index);
 
 bool sub_7100731E70(const ksys::map::Object* object);
+
+f32 sub_710072D0D8(const sead::Vector3f& vector, f32 value);

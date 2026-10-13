@@ -1135,3 +1135,10 @@ bool sub_7100731E70(const ksys::map::Object* object) {
     param.get().getBuffer()->getBool(&dropped, name, param.shouldCheckPermissions(), false);
     return dropped;
 }
+
+f32 sub_710072D0D8(const sead::Vector3f& vector, f32 value) {
+    const f32 length = vector.length();
+    if (sead::Mathf::equalsEpsilon(length, 0.0f))
+        return sead::Mathf::infinity();
+    return sead::Mathf::sqrt(value * 8.0f / length);
+}
