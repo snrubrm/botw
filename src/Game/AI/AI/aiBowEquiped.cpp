@@ -1,5 +1,9 @@
 #include "Game/AI/AI/aiBowEquiped.h"
 #include "Game/Actor/actWeapon.h"
+#include "Game/gameGraphics.h"
+#include "KingSystem/ActorSystem/Profiles/actBullet.h"
+#include "KingSystem/ActorSystem/LOD/actLodState.h"
+#include <gsys/gsysModel.h>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorCreator.h"
 #include "KingSystem/ActorSystem/actActorHeapUtil.h"
@@ -25,6 +29,26 @@ void BowEquiped::sub_7100337F48(sead::BufferedSafeString* name, ksys::act::InstP
         }
     }
     name->copy(sead::SafeString::cEmptyString);
+}
+
+bool BowEquiped::sub_7100337AA4(ksys::act::BaseProc* proc) {
+    auto* weapon = sead::DynamicCast<act::Weapon>(mActor);
+    if (!weapon)
+        return false;
+    auto* bullet = sead::DynamicCast<ksys::act::Bullet>(proc);
+    if (!bullet)
+        return false;
+    bullet->sub_710000497C(weapon->getParentActor());
+    weapon->setConnectedCalcChild(bullet, true);
+    bullet->setMatrix(weapon->getMtx(), nullptr);
+    if (weapon->getActorFlags2().isOn(ksys::act::Actor::ActorFlag2::_200)) {
+        bullet->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_200);
+        if (auto* model = bullet->getModel())
+            model->bind(Graphics::instance()->mModelScenes[1]);
+        if (auto* lod = bullet->getLodState())
+            lod->mFlags26.setBit(0);
+    }
+    return true;
 }
 
 bool BowEquiped::sub_7100337C40() {

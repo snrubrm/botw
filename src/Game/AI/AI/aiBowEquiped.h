@@ -24,6 +24,7 @@ public:
 
 protected:
     bool sub_7100337C40();
+    bool sub_7100337AA4(ksys::act::BaseProc* proc);
     void sub_7100337F48(sead::BufferedSafeString* name, ksys::act::InstParamPack* pack);
     void sub_7100337E2C(ksys::phys::ContactLayer first, ksys::phys::ContactLayer second);
     // 0x710033788c (not decompiled): checks the actor (DynamicCast) and its state (_af8 == 2 / 3).
