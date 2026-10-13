@@ -1142,3 +1142,11 @@ f32 sub_710072D0D8(const sead::Vector3f& vector, f32 value) {
         return sead::Mathf::infinity();
     return sead::Mathf::sqrt(value * 8.0f / length);
 }
+
+// NON_MATCHING: the two accessor stack slots are reversed.
+bool sub_7100735D2C(const ksys::act::BaseProcLink* link, ksys::act::Actor* actor) {
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(link, &accessor);
+    ksys::act::ActorConstDataAccess target(actor);
+    return sub_7100735BF8(accessor, target);
+}

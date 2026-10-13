@@ -482,3 +482,8 @@ bool sub_710073200C(ksys::act::Actor* actor, s32 index);
 bool sub_7100731E70(const ksys::map::Object* object);
 
 f32 sub_710072D0D8(const sead::Vector3f& vector, f32 value);
+
+// Damage predicates compare the attacking link and the target actor through accessors.
+bool sub_7100735BF8(const ksys::act::ActorConstDataAccess& accessor,
+                    const ksys::act::ActorConstDataAccess& target);
+bool sub_7100735D2C(const ksys::act::BaseProcLink* link, ksys::act::Actor* actor);
