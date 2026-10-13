@@ -393,8 +393,21 @@ protected:
 class Unk_710247ed28 : public ksys::res::Resource {
     SEAD_RTTI_OVERRIDE(Unk_710247ed28, ksys::res::Resource)
 public:
+    Unk_710247ed28();
     ~Unk_710247ed28() override;
+    s32 getLoadDataAlignment() const override;
+    bool m2_() override;
+
+protected:
+    void doCreate_(u8* data, u32 size, sead::Heap* heap) override;
+    void onDestroy_() override;
+
+    // Complete 9CE1C8/A80F20 producers and A816D8 texture-info consumer.
+    nn::ui2d::ExternalTextureInfo _38;
+    nn::g3d::ResFile* _50 = nullptr;
+    bool _58 = false;
 };
+KSYS_CHECK_SIZE_NX150(Unk_710247ed28, 0x60);
 
 // vtable 0x710247edc8 (14 slots); placeholder generated from the vtable (genskel.py).
 // checkDerivedRuntimeTypeInfo does not match yet: the original calls checkDerivedRuntimeTypeInfoStatic out of
@@ -402,8 +415,21 @@ public:
 class Unk_710247edc8 : public ksys::res::Resource {
     SEAD_RTTI_OVERRIDE(Unk_710247edc8, ksys::res::Resource)
 public:
+    Unk_710247edc8();
     ~Unk_710247edc8() override;
+    s32 getLoadDataAlignment() const override;
+    bool m2_() override;
+
+protected:
+    void doCreate_(u8* data, u32 size, sead::Heap* heap) override;
+    void onDestroy_() override;
+
+    // Complete 9CE54C/A80D08 producers and A816D8/9A4DDC consumers.
+    nn::ui2d::ExternalTextureInfo _38;
+    nn::g3d::ResFile* _50 = nullptr;
+    bool _58 = false;
 };
+KSYS_CHECK_SIZE_NX150(Unk_710247edc8, 0x60);
 
 // vtable 0x7102496f70 (23 slots); placeholder generated from the vtable (genskel.py).
 class Unk_7102496f70 : public uking::ui::Unk_7102474e38 {

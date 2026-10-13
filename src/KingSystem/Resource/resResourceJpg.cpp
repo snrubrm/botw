@@ -1,6 +1,9 @@
 #include "KingSystem/Resource/resResourceJpg.h"
 #include <common/aglTextureData.h>
+#include <g3d/aglNW4FToNN.h>
+#include <nn/g3d/ResFile.h>
 #include "Game/gameUnkRttiPlaceholders.h"
+#include "KingSystem/Resource/resResourceFileUtil.h"
 
 // Native 9CDB18/9CDBF0 construct this RTTI interface; its sole slot is 9CDF60.
 template bool sead::RuntimeTypeInfo::Derive<ksys::res::ResourceJpg>::isDerived(
@@ -126,3 +129,41 @@ Unk_710247ec28::~Unk_710247ec28() = default;
 Unk_710247ed28::~Unk_710247ed28() = default;
 
 Unk_710247edc8::~Unk_710247edc8() = default;
+
+Unk_710247ed28::Unk_710247ed28() = default;
+
+s32 Unk_710247ed28::getLoadDataAlignment() const {
+    return 0x2000;
+}
+
+bool Unk_710247ed28::m2_() {
+    return _58;
+}
+
+void Unk_710247ed28::onDestroy_() {
+    if (_50) {
+        _50->ReleaseTexture();
+        agl::g3d::ResFile::Cleanup(_50);
+        ksys::res::sub_7100FDDB70(_50);
+        _50 = nullptr;
+    }
+}
+
+Unk_710247edc8::Unk_710247edc8() = default;
+
+s32 Unk_710247edc8::getLoadDataAlignment() const {
+    return 0x2000;
+}
+
+bool Unk_710247edc8::m2_() {
+    return _58;
+}
+
+void Unk_710247edc8::onDestroy_() {
+    if (_50) {
+        _50->ReleaseTexture();
+        agl::g3d::ResFile::Cleanup(_50);
+        ksys::res::sub_7100FDDB70(_50);
+        _50 = nullptr;
+    }
+}
