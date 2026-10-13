@@ -14,6 +14,7 @@
 #include "Game/UI/uiPauseMenuDataMgr.h"
 #include "Game/UI/uiUtils.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/Attention/actAttentionSingleton.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actUnk_71006e45c4.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerOrEnemy.h"
@@ -79,6 +80,23 @@ const sead::SafeString& Weapon::sub_71002EE5BC() {
     if (getActorFlags2().isOn(ActorFlag2::_200))
         return sWeaponBoneNames[0];
     return sWeaponBoneNames[1];
+}
+
+bool Weapon::sub_71002EE7E8(ksys::act::BaseProcLink* out) {
+    if (!isParentPlayer())
+        return false;
+    ksys::act::BaseProcLink target;
+    if (!ksys::act::Attention::instance()->sub_7100D74148(&target) ||
+        !ksys::act::isEnemyProfile(&target) || !_af8._20.hasProc())
+        return false;
+    if (_af8._20 == target) {
+        *out = target;
+        return true;
+    }
+    if (!ksys::act::isEnemyProfile(&_af8._20))
+        return false;
+    *out = _af8._20;
+    return true;
 }
 
 void Weapon::sub_71002E1748() {
