@@ -1475,3 +1475,22 @@ void sub_71005DFAE0(ksys::act::BaseProcHandle* handle, ksys::act::Actor* actor,
     }
     handle->releaseAndWakeProc();
 }
+
+// NON_MATCHING: vector register allocation, stack slots and mass-condition scheduling differ.
+void sub_71005DE398(sead::Vector3f* out, ksys::act::BaseProcLink* link,
+                    const sead::Vector3f* target, f32 speed, f32 ratio, f32 mass_limit) {
+    if (!out)
+        return;
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(link, &accessor);
+    sead::Vector3f direction = *target - accessor.getActorMtx().getTranslation();
+    const f32 length = direction.length();
+    if (length > 0.0f)
+        direction *= speed / length;
+    direction -= accessor.getVelocity();
+    const f32 mass = accessor.sub_7100D14114();
+    f32 blend = ksys::VFR::instance()->getDeltaFrame() * ratio;
+    if (mass_limit > 0.0f && mass > 0.0f)
+        blend = blend * mass_limit / mass;
+    *out = direction * sead::Mathf::min(blend, 1.0f);
+}
