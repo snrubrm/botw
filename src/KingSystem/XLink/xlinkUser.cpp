@@ -2,6 +2,7 @@
 #include <cfloat>
 #include <gsys/gsysModel.h>
 #include <gsys/gsysModelAnimation.h>
+#include <utility/aglScreenShotMgr.h>
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
 #include "KingSystem/System/CameraMgr.h"
@@ -57,6 +58,11 @@ u32 Unk_71025168a0::getNumAction(s32 index) const {
     }
     const auto* as_list = mXLink->getASList();
     return as_list ? as_list->_138.size() : 0;
+}
+
+void Unk_71025168a0::captureScreen(const char* name) {
+    agl::utl::ScreenShotMgr::instance()->reserveCaptureWithDebugHeap(
+        true, agl::TextureDataSerializerTGA::TGAFormat::_1, name, false);
 }
 
 f32 Unk_71025168a0::getSortKey(const sead::Vector3f& position) const {
