@@ -61,6 +61,7 @@ struct Step {
     bool initActorData(u32 unused, sead::BufferedSafeString* out_message);
     bool initIndicator(u32 unused, sead::BufferedSafeString* out_message);
     bool sub_7100FDC2A4(al::ByamlIter* iter);
+    bool sub_7100FDB47C(bool value, const sead::SafeString& name, bool check_only, bool skip_read);
 
     sead::ObjArray<ActLink> links;
     u32 _28 = 0;

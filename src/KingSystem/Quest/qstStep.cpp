@@ -5,6 +5,7 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Quest/qstActorData.h"
 #include "KingSystem/Quest/qstIndicator.h"
+#include "KingSystem/GameData/gdtManager.h"
 
 namespace ksys::qst {
 
@@ -69,6 +70,19 @@ bool Step::sub_7100FDB89C(act::Actor* actor) const {
 bool Step::sub_7100FDB794(act::Actor* actor) const {
     if (indicator_info)
         return indicator_info->sub_7100FD4FC4(actor);
+    return false;
+}
+
+// NON_MATCHING: the compiler merges the boolean success returns differently.
+bool Step::sub_7100FDB47C(bool value, const sead::SafeString& name, bool check_only, bool skip_read) {
+    if (next_flag == gdt::InvalidHandle)
+        return false;
+    auto* manager = gdt::Manager::instance();
+    bool current = false;
+    if (!skip_read && manager->getBool(next_flag, &current, true) && current == value)
+        return true;
+    if (!check_only && manager->setBoolNoCheck(value, next_flag))
+        return true;
     return false;
 }
 
