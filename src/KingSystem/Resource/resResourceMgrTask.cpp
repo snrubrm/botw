@@ -1347,3 +1347,10 @@ void ResourceMgrTask::setPack(Handle* pack) {
 }
 
 }  // namespace ksys::res
+
+// Complete prepare 120464C calls the two checked task-manager specializations;
+// their delegate factories 120CEA0 / 120CEDC construct the existing resource task types.
+template void ksys::util::TaskMgr::initAndCheckType<ksys::res::ControlTask>(
+    s32 num_tasks, sead::Heap* heap);
+template void ksys::util::TaskMgr::initAndCheckType<ksys::res::MemoryTask>(
+    s32 num_tasks, sead::Heap* heap);
