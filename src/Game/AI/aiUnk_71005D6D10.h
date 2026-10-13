@@ -450,3 +450,6 @@ void sub_71005DFAE0(ksys::act::BaseProcHandle* handle, ksys::act::Actor* actor,
 void sub_71005DBE1C(ksys::phys::CharacterController* controller, s32 mode, u8 value,
                     bool a3, bool a4, bool a5, bool a6);
 void sub_71005DC158(ksys::phys::CharacterController* controller);
+
+// Full RemoteBomb calc_ and native helper establish the actor predicate.
+bool sub_71005E2B48(ksys::act::Actor* actor);

@@ -1383,6 +1383,21 @@ bool sub_71005DA304(ksys::act::BaseProcLink* link) {
     return exposure <= sead::Mathf::epsilon() && exposure >= -sead::Mathf::epsilon();
 }
 
+bool sub_71005E2B48(ksys::act::Actor* actor) {
+    if (sub_71007A2604(actor)) {
+        if (auto* attack = sub_71007A255C(actor, 0)) {
+            if (attack->sub_71007A1F68(0x1000) ||
+                ksys::act::hasTag(&attack->_e8, 0x3d2fc55b))
+                return true;
+        }
+    }
+    if (auto* chemical = actor->getChemicalStuff()) {
+        if (chemical->_b8 & 2)
+            return true;
+    }
+    return false;
+}
+
 Enemy::Unk_12d0* sub_71005E2BCC(ksys::act::Actor* actor) {
     if (!sead::IsDerivedFrom<Enemy>(actor))
         return nullptr;
