@@ -12,6 +12,10 @@ class Actor;
 
 namespace uking {
 
+namespace act {
+class WolfLink;
+}
+
 // Placeholder declaration (names from the CSV: WolfLinkMgr::createInstance 0x71006828a8, init_ 0x7100682b94,
 // postCalc 0x71006836d0; instance pointer at 0x71025c6ff8; namespace is a guess, like HorseMgr's). The manager of
 // the Wolf Link (amiibo) actor; only what the AI actions use is declared.
@@ -44,6 +48,8 @@ public:
     /* 0x60 */ s32 _60;  // 1: a Wolf Link is registered / spawned
     u8 _64[0x68 - 0x64];
     /* 0x68 */ ksys::MesTransceiverId _68;
+    // Registration 683970 stores the WolfLink cast from 683790; release 682F80 clears it.
+    /* 0x80 */ act::WolfLink* _80;
 };
 
 }  // namespace uking
