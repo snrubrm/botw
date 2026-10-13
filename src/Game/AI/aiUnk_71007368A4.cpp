@@ -264,3 +264,29 @@ bool sub_7100736BE8(const ksys::act::ActorAtk::Unk_710079e64c::Unk1* attack,
     const u32 mask = attack->_50;
     return sub_7100736C18(&mask, out);
 }
+
+bool sub_7100736C18(const u32* mask, sead::SafeString* out) {
+    if (*mask & 1)
+        *out = "Sword";
+    else if (*mask & 2)
+        *out = "LargeSword";
+    else if (*mask & 4)
+        *out = "Spear";
+    else if (*mask & 8)
+        *out = "Arrow";
+    else if (*mask & 0x10)
+        *out = "Bomb";
+    else if (*mask & 0x2000)
+        *out = "Body";
+    else if (*mask & 0x20)
+        *out = "MagneGlove";
+    else if (*mask & 0x1000)
+        *out = "Ancient";
+    else if (*mask & 0x8000)
+        *out = "ShockWave";
+    else if (*mask & 0x10000)
+        *out = "GanonBeam";
+    else
+        return false;
+    return true;
+}

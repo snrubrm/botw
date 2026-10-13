@@ -95,7 +95,7 @@ bool checkHpRate(ksys::act::Actor* actor, f32 rate);
 bool enemyTeamStuff(ksys::act::Actor* actor, ksys::act::BaseProcLink* link);
 
 // Full 736C18 and independent 6E37D4/736BE8 stack producers establish a 32-bit mask.
-// The original owning mask type is unknown; declaration only.
+// The original owning mask type is unknown.
 bool sub_7100736C18(const u32* mask, sead::SafeString* out);
 // Source owner is unknown; native utility neighbors select this free placeholder.
 bool sub_7100736BE8(const ksys::act::ActorAtk::Unk_710079e64c::Unk1* attack,
