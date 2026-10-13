@@ -27,7 +27,9 @@ public:
     /* 0x0e0 */ ksys::Timer _e0;
     /* 0x0ec */ u8 _ec[0x13c - 0xec];  // 7 entries of 0xb bytes (first byte 9, second 0)
     /* 0x13c */ s32 _13c;
-    /* 0x140 */ u16 _140;
+    // Separate boolean writers in ZoraHeroRelicBattleRoot; independent update tests each byte.
+    /* 0x140 */ bool _140;
+    /* 0x141 */ bool _141;
 };
 KSYS_CHECK_SIZE_NX150(Unk_7100743798, 0x148);
 
