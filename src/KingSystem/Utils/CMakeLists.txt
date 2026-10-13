@@ -78,6 +78,8 @@ target_sources(uking PRIVATE
   HashUtil.h
   HeapUtil.cpp
   HeapUtil.h
+  NinStandardAllocatorHeap.cpp
+  NinStandardAllocatorHeap.h
   InitTimeInfo.h
   IteratorUtil.h
   MathUtil.cpp
