@@ -1,5 +1,8 @@
 #include "KingSystem/World/worldChemicalMgr.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include <aal/aalShape.h>
+#include "KingSystem/Physics/RigidBody/Shape/Capsule/physCapsuleRigidBody.h"
+#include "KingSystem/Physics/RigidBody/Shape/Capsule/physCapsuleShape.h"
 #include <math/seadMatrix.h>
 #include <prim/seadScopedLock.h>
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
@@ -19,6 +22,38 @@ Unk_710250c698::~Unk_710250c698() {
             _18->removeFromWorldImmediately(nullptr);
         delete _18;
         _18 = nullptr;
+    }
+}
+
+Unk_710250c6b8::~Unk_710250c6b8() {
+    if (_10) {
+        if (_10->isAddedToWorld())
+            _10->removeFromWorldImmediately(nullptr);
+        delete _10;
+        _10 = nullptr;
+    }
+    if (_50) {
+        _50->destroy();
+        _50 = nullptr;
+    }
+}
+
+// NON_MATCHING: endpoint stores and parameter assignment scheduling differ.
+void Unk_710250c6b8::sub_71010C6304(sead::Heap* heap) {
+    ksys::phys::CapsuleParam param;
+    param.vertex_a = sead::Vector3f::zero;
+    param.vertex_b = sead::Vector3f::ey;
+    param.radius = 4.0f;
+    param.contact_layer = ksys::phys::ContactLayer::SensorChemicalElement;
+    param.name = "Tornado";
+    param.motion_type = ksys::phys::MotionType::Keyframed;
+    _10 = ksys::phys::CapsuleRigidBody::make(&param, heap);
+    if (_10) {
+        _50 = aal::ShapeCapsule::create("Updraft", heap);
+        if (_50) {
+            _50->mFlags.resetBit(aal::Shape::KeepPosition);
+            _50->mFlags.resetBit(aal::Shape::KeepRotation);
+        }
     }
 }
 

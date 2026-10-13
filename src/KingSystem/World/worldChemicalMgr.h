@@ -11,6 +11,10 @@
 #include "KingSystem/Utils/Types.h"
 #include "KingSystem/World/worldJob.h"
 
+namespace aal {
+class Shape;
+}
+
 namespace ksys::phys {
 class RigidBody;
 }
@@ -101,6 +105,21 @@ public:
     f32 _30 = 5.0f;
 };
 KSYS_CHECK_SIZE_NX150(Unk_710250c698, 0x38);
+
+// Complete two-slot lifetime table250C6B8. ChemicalMgr::init_ allocates0x58 and calls10C61F0.
+// Full6304 constructs the body at10 and shape at50; other field types remain opaque.
+class Unk_710250c6b8 {
+public:
+    Unk_710250c6b8();
+    virtual ~Unk_710250c6b8();
+    void sub_71010C6304(sead::Heap* heap);
+
+    u8 _8[0x10 - 0x8];
+    ksys::phys::RigidBody* _10;
+    u8 _18[0x50 - 0x18];
+    aal::Shape* _50;
+};
+KSYS_CHECK_SIZE_NX150(Unk_710250c6b8, 0x58);
 
 // Complete 0x70 pool at ChemicalMgr +C10: constructor10CA1C0, init10CA680 and lifetime10CA33C.
 struct Unk_71010cb1f0 {
