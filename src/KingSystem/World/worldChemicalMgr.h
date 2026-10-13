@@ -10,6 +10,10 @@
 #include "KingSystem/Utils/Types.h"
 #include "KingSystem/World/worldJob.h"
 
+namespace ksys::phys {
+class RigidBody;
+}
+
 namespace ksys::act {
 class Actor;
 class Chemical;
@@ -81,12 +85,19 @@ public:
 KSYS_CHECK_SIZE_NX150(WorldMgrStruct0_8_a, 0x90);
 
 // Address placeholder for the 0x38-byte pooled entry (ctor 0x71010c5d04,
-// vtable header 0x710250c698); remaining fields and virtuals are not recovered.
+// vtable header 0x710250c698). The complete two-slot table contains only the destructors.
 class Unk_710250c698 {
 public:
+    Unk_710250c698();
     virtual ~Unk_710250c698();
-    u32 _8;
-    u8 _c[0x38 - 0xc];
+    u32 _8 = 0;
+    // Full 10C5F2C uses this as a carried radial-wind element; pointee interface remains opaque.
+    void* _10 = nullptr;
+    ksys::phys::RigidBody* _18 = nullptr;
+    u8 _20[0x2c - 0x20];
+    // Constructor defaults; full update 10C5F2C reads both as floats and passes _30 to setRadius.
+    f32 _2c = 10.0f;
+    f32 _30 = 5.0f;
 };
 KSYS_CHECK_SIZE_NX150(Unk_710250c698, 0x38);
 

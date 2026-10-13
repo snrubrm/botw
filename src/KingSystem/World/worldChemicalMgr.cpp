@@ -1,4 +1,5 @@
 #include "KingSystem/World/worldChemicalMgr.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include <math/seadMatrix.h>
 #include <prim/seadScopedLock.h>
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
@@ -9,6 +10,17 @@
 #include "KingSystem/ActorSystem/actChemicalElementHolder.h"
 #include "KingSystem/Terrain/teraSystem.h"
 #include "KingSystem/System/VFR.h"
+
+Unk_710250c698::Unk_710250c698() = default;
+
+Unk_710250c698::~Unk_710250c698() {
+    if (_18) {
+        if (_18->isAddedToWorld())
+            _18->removeFromWorldImmediately(nullptr);
+        delete _18;
+        _18 = nullptr;
+    }
+}
 
 f32 Unk_710250c880::getVolumeOccupancy() const {
     return 1.0f;
