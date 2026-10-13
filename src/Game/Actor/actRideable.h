@@ -329,6 +329,8 @@ public:
 
     // 0x7100e7ef1c (placeholder name): emits the xlink events "Attached" and "mc_HorseSoothe" on the actor.
     void sub_7100E7EF1C();
+    // E7EF64: HorseRodeo compares its signed soothing count with HorseUnit CalmDownNum.
+    s32 getCalmDownNum() const;
     // 0x7100e7ead8 (placeholder name): debug log with a printf format (e.g. "[Horse] Reject: No NavMesh Face",
     // level 1, from 0x7100e7e85c); empty in the release build.
     void sub_7100E7EAD8(s32 level, const char* format, ...);

@@ -1,6 +1,9 @@
 #include <cstdarg>
 #include "Game/Actor/actRideable.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/Resource/Actor/resResourceGParamList.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectHorseUnit.h"
 #include "KingSystem/World/worldManager.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
 
@@ -9,6 +12,10 @@ namespace uking::act {
 Rideable::Rideable() = default;
 
 Rideable::~Rideable() = default;
+
+s32 Rideable::getCalmDownNum() const {
+    return RideableBase::mActor->getParam()->getRes().mGParamList->getHorseUnit()->mCalmDownNum.ref();
+}
 
 // NON_MATCHING: the original clears _1bc / _1c0 with one 8-byte store at a 4-aligned address
 void Rideable::m6() {
