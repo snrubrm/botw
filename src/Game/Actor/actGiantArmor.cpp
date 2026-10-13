@@ -23,6 +23,22 @@ bool GiantArmor::sub_7100029E7C(Actor* owner, s32 index) {
     return true;
 }
 
+void GiantArmor::sub_7100029AF8(f32* out_scale, s32* out_level,
+                              const ai::Unk_71023f36d8::Info* info) {
+    if (_c10) {
+        _c10->m4(out_scale, out_level, info);
+        return;
+    }
+    const f32 scale = getParam()->getRes().mGParamList->getGiantArmor()->mDamageScale.ref();
+    s32 level = info->level;
+    if (scale <= 0.0f)
+        level = 1;
+    if (out_scale)
+        *out_scale = scale;
+    if (out_level)
+        *out_level = level;
+}
+
 void GiantArmor::initMaybe() {
     _c18 = 0;
     _c08 = 0;

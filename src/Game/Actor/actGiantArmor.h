@@ -1,6 +1,7 @@
 #pragma once
 
 #include <thread/seadCriticalSection.h>
+#include "Game/AI/AI/aiGiantArmorAsWeakPoint.h"
 #include "KingSystem/ActorSystem/Profiles/actDynamicActor.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 
@@ -28,6 +29,8 @@ public:
     f32 sub_7100029B54() const;
     // GiantEnemy::init_ passes its Actor owner and the armor index; stores the link under _b90.
     bool sub_7100029E7C(Actor* owner, s32 index);
+    void sub_7100029AF8(f32* out_scale, s32* out_level,
+                       const ai::Unk_71023f36d8::Info* info);
 
 protected:
     bool canWakeUp_() override;
@@ -46,7 +49,7 @@ public:
     /* 0xc08 */ u16 _c08 = 0;
     // GiantArmorAsWeakPoint::enter_ stores a pointer to its member at +0x38 here (a two-level vtable
     // object), leave_ clears it.
-    /* 0xc10 */ void* _c10 = nullptr;
+    /* 0xc10 */ ai::Unk_71023f36d8* _c10 = nullptr;  // non-owning; enter_/leave_ bind and clear it
     /* 0xc18 */ u8 _c18 = 0;
 };
 KSYS_CHECK_SIZE_NX150(GiantArmor, 0xc20);
