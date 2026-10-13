@@ -1,10 +1,12 @@
 #pragma once
 
 #include <container/seadBuffer.h>
+#include <math/seadVector.h>
 #include "KingSystem/Utils/Types.h"
 
 namespace ksys::act {
 class Actor;
+class BaseProcLink;
 }
 struct Unk_7100d3d3a8;
 
@@ -14,6 +16,7 @@ public:
     Unk_710073e688();
     ~Unk_710073e688();
     bool sub_710073E730(sead::Heap* heap, s32 count, ksys::act::Actor* actor);
+    void sub_710073E8C4(ksys::act::BaseProcLink* link, const sead::Vector3f* target);
 
     /* 0x00 */ ksys::act::Actor* _0 = nullptr;
     /* 0x08 */ f32 _8 = 1.0f;

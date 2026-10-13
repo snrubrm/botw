@@ -453,3 +453,7 @@ void sub_71005DC158(ksys::phys::CharacterController* controller);
 
 // Full RemoteBomb calc_ and native helper establish the actor predicate.
 bool sub_71005E2B48(ksys::act::Actor* actor);
+
+// Full73E8C4 and native5DE398 establish output/link/target and speed/ratio/mass floats.
+void sub_71005DE398(sead::Vector3f* out, ksys::act::BaseProcLink* link,
+                    const sead::Vector3f* target, f32 speed, f32 ratio, f32 mass_limit);

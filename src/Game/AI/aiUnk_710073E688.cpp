@@ -1,5 +1,7 @@
 #include "Game/AI/aiUnk_710073E688.h"
 #include "Game/AI/aiUnk_7100D3D3A8.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 
 Unk_710073e688::Unk_710073e688() = default;
 
@@ -24,4 +26,17 @@ bool Unk_710073e688::sub_710073E730(sead::Heap* heap, s32 count,
             return false;
     }
     return true;
+}
+
+void Unk_710073e688::sub_710073E8C4(ksys::act::BaseProcLink* link,
+                                    const sead::Vector3f* target) {
+    if (_18.size() <= _28)
+        return;
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(link, &accessor);
+    sead::Vector3f acceleration;
+    sub_71005DE398(&acceleration, link, target, _c, _8, _10);
+    _18[_28]->sub_7100D3D3C4(0, &acceleration, nullptr, 1);
+    _18[_28]->sub_7100D3D49C(_0, &accessor, false);
+    ++_28;
 }
