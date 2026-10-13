@@ -12,9 +12,17 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
 #include "KingSystem/Utils/Thread/Message.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/Attention/actAttClient.h"
+#include "KingSystem/Event/evtBaseProcLinkForEvent.h"
+#include "KingSystem/Event/evtManager.h"
 
 // Declaration only; the original source namespace of this actor cleanup helper is unknown.
 void sub_71007132E4(ksys::act::Actor* actor);
+
+// Declaration only: full native 40A3BC copies NPCBase event strings; independent Goron caller 406E90.
+void sub_710040A3BC(uking::act::NPCBase* actor, sead::BufferedSafeString* event,
+                    sead::BufferedSafeString* entry, sead::BufferedSafeString* type);
 
 namespace uking::ai {
 
@@ -29,6 +37,30 @@ bool NPCRoot::init_(sead::Heap* heap) {
 
 void NPCRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
+}
+
+// NON_MATCHING: CallArg metadata and zero-pointer stores merge into one pair.
+void NPCRoot::sub_71004D8C5C() {
+    if (auto* attention = ksys::act::getAttClientByName(mActor, "Talk")) {
+        if (!attention->isEnabled())
+            return;
+    }
+    if (!_68)
+        return;
+    sead::FixedSafeString<64> event;
+    sead::FixedSafeString<128> entry;
+    sead::FixedSafeString<32> type;
+    sub_710040A3BC(_68, &event, &entry, &type);
+    if (event.isEmpty() || entry.isEmpty())
+        return;
+    ksys::evt::Metadata metadata(event.cstr(), entry.cstr(), type.cstr());
+    ksys::evt::CallArg arg;
+    arg.metadata = &metadata;
+    arg.proc = mActor;
+    arg._31 = true;
+    if (auto* manager = ksys::evt::Manager::instance())
+        manager->callEvent(arg);
+    sendMessage(*mActor->getMesTransceiverId(), ksys::MessageType(0x8000034), nullptr);
 }
 
 void NPCRoot::leave_() {
