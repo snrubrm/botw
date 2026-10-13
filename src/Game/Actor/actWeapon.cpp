@@ -69,6 +69,18 @@ void emitItemKirakira_Plus(sead::Vector3f position, bool flag);
 
 namespace uking::act {
 
+static const sead::SafeString sWeaponBoneNames[] = {"Weapon_R", "Weapon_L"};
+
+// Arrow initialization uses the returned string as its weapon binding name.
+// NON_MATCHING: the compiler shares the table address across the parent/flag branches.
+const sead::SafeString& Weapon::sub_71002EE5BC() {
+    if (isParentPlayer())
+        return sWeaponBoneNames[0];
+    if (getActorFlags2().isOn(ActorFlag2::_200))
+        return sWeaponBoneNames[0];
+    return sWeaponBoneNames[1];
+}
+
 void Weapon::sub_71002E1748() {
     auto* body = getMainBody();
     if (!body)

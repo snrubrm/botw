@@ -278,6 +278,8 @@ public:
     f32 sub_71002EE538();
     f32 sub_71002EE56C();
     f32 sub_71002EE594();
+    // 2EE5BC selects the Weapon_R / Weapon_L binding name for Arrow initialization.
+    const sead::SafeString& sub_71002EE5BC();
     // 0x71002ed8a0: WeaponCommon's IsThrowingWeapon (false without the param).
     bool sub_71002ED8A0();
     // 0x71002ed934 / 0x71002ed9b0 (placeholder names): for a master sword, whether the parent actor's life is at its
