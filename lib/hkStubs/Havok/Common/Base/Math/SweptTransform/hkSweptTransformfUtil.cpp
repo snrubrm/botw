@@ -3,6 +3,49 @@
 
 namespace hkSweptTransformUtil {
 
+// NON_MATCHING: vector zeroing, loads and preserved time-lane insertion differ.
+void sub_71015828F0(const hkVector4& position, const hkQuaternion& rotation,
+                    hkMotionState& motionState) {
+    hkSweptTransform& sweptTransform = motionState.getSweptTransform();
+    motionState.m_deltaAngle.setZero();
+    sweptTransform.m_rotation0 = rotation;
+    sweptTransform.m_rotation1 = rotation;
+    motionState.getTransform().getRotation().set(rotation);
+    motionState.getTransform().getTranslation() = position;
+    hkVector4 center;
+    center._setTransformedPos(motionState.getTransform(), sweptTransform.m_centerOfMassLocal);
+    sweptTransform.m_centerOfMass0.setXYZ(center);
+    sweptTransform.m_centerOfMass1.setXYZ_W(center, hkSimdReal(0.0f));
+}
+
+// NON_MATCHING: vector zeroing, loads and preserved time-lane insertion differ.
+void sub_7101582984(const hkTransform& transform, hkMotionState& motionState) {
+    hkSweptTransform& sweptTransform = motionState.getSweptTransform();
+    motionState.m_deltaAngle.setZero();
+    hkQuaternion rotation;
+    rotation.set(transform.getRotation());
+    motionState.getTransform() = transform;
+    sweptTransform.m_rotation0 = rotation;
+    sweptTransform.m_rotation1 = rotation;
+    hkVector4 center;
+    center._setTransformedPos(transform, sweptTransform.m_centerOfMassLocal);
+    sweptTransform.m_centerOfMass0.setXYZ(center);
+    sweptTransform.m_centerOfMass1.setXYZ_W(center, hkSimdReal(0.0f));
+}
+
+// NON_MATCHING: vector zeroing, loads and preserved time-lane insertion differ.
+void sub_7101582A8C(const hkQuaternion& rotation, hkMotionState& motionState) {
+    hkSweptTransform& sweptTransform = motionState.getSweptTransform();
+    motionState.m_deltaAngle.setZero();
+    sweptTransform.m_rotation0 = rotation;
+    sweptTransform.m_rotation1 = rotation;
+    motionState.getTransform().getRotation().set(rotation);
+    hkVector4 center;
+    center._setTransformedPos(motionState.getTransform(), sweptTransform.m_centerOfMassLocal);
+    sweptTransform.m_centerOfMass0.setXYZ(center);
+    sweptTransform.m_centerOfMass1.setXYZ_W(center, hkSimdReal(0.0f));
+}
+
 // NON_MATCHING: one add in the second center update uses commuted operands.
 void sub_7101582B14(const hkVector4& centerOfMass, hkMotionState& motionState) {
     hkSweptTransform& sweptTransform = motionState.getSweptTransform();
