@@ -1,5 +1,7 @@
 #include "Game/AI/AI/aiStoneStickRoot.h"
 #include "Game/gameGearMgr.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actTag.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/Constraint/physConstraint.h"
 #include "KingSystem/Physics/Constraint/physFixedCs.h"
@@ -9,6 +11,12 @@
 #include "KingSystem/Utils/Thread/Message.h"
 
 namespace uking::ai {
+
+// 0x71005abeec
+bool Unk_71024257f8::invoke(const ksys::act::ActorConstDataAccess& accessor) {
+    return accessor.hasTag(mTag);
+}
+
 
 StoneStickRoot::StoneStickRoot(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
@@ -40,8 +48,21 @@ bool StoneStickRoot::init_(sead::Heap* heap) {
     return true;
 }
 
-void StoneStickRoot::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+void StoneStickRoot::enter_(ksys::act::ai::InlineParamPack*) {
+    if (_60)
+        _60->addToWorld();
+    if (_68)
+        _68->addToWorld();
+    auto* actor = mActor;
+    if (!actor)
+        return;
+    s32 index = -1;
+    Unk_71024257f8 predicate(ksys::act::tags::IsMagneStickAcceptor);
+    _50 = sub_71005AB22C(actor, &index, &predicate);
+    if ((actor->hasPlacementLinkForBasicSig() && actor->checkBasicSig()) || sub_71005AB83C())
+        sub_71005AB6B8();
+    else
+        changeChild("通常", nullptr);
 }
 
 void StoneStickRoot::leave_() {
