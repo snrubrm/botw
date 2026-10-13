@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Havok/Common/Base/hkBase.h>
+#include <Havok/Ai/Pathfinding/Utilities/hkaiUserEdgeUtils.h>
 #include <limits>
 #include <basis/seadTypes.h>
 #include <heap/seadDisposer.h>
@@ -17,6 +18,7 @@
 #include "KingSystem/Utils/Types.h"
 
 class hkaiWorld;
+class hkaiStreamingCollection;
 class hkaiSilhouetteGenerator;
 class hkaiObstacleGenerator;
 class hkpRigidBody;
@@ -220,7 +222,13 @@ KSYS_CHECK_SIZE_NX150(NavMeshObjMaybe, 0xb0);
 struct NavMeshObj2Maybe {
     // UserEdgeActor E8F95C submits its edge record with the fallback HavokAI.
     void sub_7100F8B518(HavokAI* fallback);
-    /* 0x00 */ u8 _0[0x70];
+    void sub_7100F8B584(hkaiStreamingCollection* collection);
+    // Full F8B59C appends the same reflected pairs to its optional output array.
+    void sub_7100F8B59C(hkArray<hkaiUserEdgeUtils::UserEdgePair>* out_pairs,
+                      hkaiStreamingCollection* collection, s32 section);
+    /* 0x00 */ u8 _0[0x60];
+    // F8B59C produces 50-byte pairs; F8B9F0 filters UIDs. Outer E8FF20 clears and frees this array.
+    hkArray<hkaiUserEdgeUtils::UserEdgePair> mPairs;
     /* 0x70 */ HavokAI* _70;
     /* 0x78 */ sead::Atomic<HavokAI*> _78;
     /* 0x80 */ sead::Atomic<u32> _80;

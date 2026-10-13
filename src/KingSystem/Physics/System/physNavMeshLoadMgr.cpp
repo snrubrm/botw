@@ -12,6 +12,11 @@ void NavMeshObj2Maybe::sub_7100F8B518(HavokAI* fallback) {
         fallback->sub_7100F83580(this);
 }
 
+void NavMeshObj2Maybe::sub_7100F8B584(hkaiStreamingCollection* collection) {
+    mPairs.clear();
+    sub_7100F8B59C(nullptr, collection, -1);
+}
+
 // NON_MATCHING: boolean return materialization, tile-size loads and saved registers differ.
 bool NavMeshLoadMgr::x_0(const sead::Vector3f* pos) {
     if (_190)
