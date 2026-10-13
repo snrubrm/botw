@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionNPCTargetMove.h"
+#include <cfloat>
+#include "Game/AI/aiUnk_71007130BC.h"
+#include "KingSystem/ActorSystem/actActorX6A0.h"
 #include "Game/Actor/actNPC.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
@@ -78,6 +81,31 @@ void NPCTargetMove::loadParams_() {
 
 void NPCTargetMove::calc_() {
     RandomMoveAction::calc_();
+}
+
+void NPCTargetMove::sub_7100206280() {
+    if (!*mIsShelterFromRain_s || _98.isOff(4) ||
+        !wm::callIsRainingOrSnowingOrThunderStorm(false) || !_90 || _98.isOff(1) ||
+        uking::act::NPC::isZora(mActor))
+        return;
+
+    if (mActor->_6a0->_a.isOff(8)) {
+        _e4.reset(90.0f);
+        m34();
+    } else {
+        _e4.update();
+        if (_e4.value <= FLT_EPSILON)
+            playAS("Walk", true, 0, 0, -1.0f);
+    }
+}
+
+// NON_MATCHING: boolean negation and the common return are materialized differently.
+bool NPCTargetMove::sub_71002065FC() {
+    if (mActor->getASList()->sub_710115D2D4().length() < FLT_EPSILON || _98.isOff(1) ||
+        mActor->getASList()->x_1(0, 0) == "Move_End")
+        return false;
+
+    return !mActor->getASList()->x(26, nullptr, 0, 0, &ksys::as::ASList::Unk2::sub_71011638DC, true);
 }
 
 void NPCTargetMove::m34() {

@@ -35,6 +35,7 @@ class Unk_7100e8b2b8;
 }  // namespace uking::act
 
 namespace uking::action {
+class NPCTargetMove;
 class ChemicalAttack;
 class DragonFixPlacement;
 class BrightBowSlowFall;
@@ -861,6 +862,7 @@ protected:
     friend struct ActorBindEntry;  // writes mMtx / mScale
     friend class uking::act::Unk_71024e8738;  // writes mMtx / mScale (ActorBind subclass copying a pose)
     friend class uking::action::KokkoCreateDrop;  // checks ActorX6A0 flags
+    friend class uking::action::NPCTargetMove;  // checks ActorX6A0 flags.
     friend class uking::ai::KokkoRoot;  // checks ActorX6A0 flags
     friend class ::WorldMgrStruct0_8_a;  // transfers the existing ActorX6A0 state to carried chemicals.
     friend class uking::ai::GerudoQueenBattle;  // updates mMtx before notifying the actor.

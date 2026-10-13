@@ -2,6 +2,7 @@
 
 #include "Game/AI/Action/actionRandomMoveAction.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::act {
 class NPC;
@@ -29,6 +30,8 @@ protected:
     // 0x7100204e40 (placeholder name): plays the wait AS that fits the key of ASList slot 59 (Sit / SitOnObject /
     // Crouch / default).
     void sub_7100204E40();
+    void sub_7100206280();
+    bool sub_71002065FC();
 
     // static_param at offset 0x38
     const int* mUpdateTargetPosInterval_s{};
@@ -53,7 +56,10 @@ protected:
     // 0x98-0x178: state (not yet decompiled; enter_/calc_ use it)
     uking::act::NPC* _90;
     sead::BitFlag8 _98;
-    u8 _99[0xdf];
+    u8 _99[0xe4 - 0x99];
+    // Whole enter_ initializes all three fields; the rain helper resets and updates this timer.
+    ksys::Timer _e4;
+    u8 _f0[0x178 - 0xf0];
 };
 
 }  // namespace uking::action
