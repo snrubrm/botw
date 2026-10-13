@@ -33,6 +33,7 @@ add_library(aal OBJECT
   include/aal/aalResourceHeader.h
   include/aal/aalDebugDrawUtil.h
   include/aal/aalDebugDrawer.h
+  include/aal/aalDebugFileIOMgr.h
   include/aal/aalDebuggerResult.h
   include/aal/aalDecibel.h
   include/aal/aalMemoryPool.h
@@ -111,6 +112,7 @@ add_library(aal OBJECT
   src/aalCone.cpp
   src/aalDebugDrawUtil.cpp
   src/aalDebugDrawer.cpp
+  src/aalDebugFileIOMgr.cpp
   src/aalDebuggerResult.cpp
   src/aalDecibel.cpp
   src/aalCustomCurve.cpp
