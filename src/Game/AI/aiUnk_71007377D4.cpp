@@ -1083,3 +1083,55 @@ bool sub_7100731B70(ksys::act::Actor* actor, s32 index) {
     param.get().getBuffer()->getBool(&value, name, param.shouldCheckPermissions(), false);
     return value;
 }
+
+// NON_MATCHING: the inline hash getter is evaluated after string termination.
+void sub_7100731F30(ksys::act::Actor* actor, s32 index) {
+    if (!actor)
+        return;
+    auto* gdt = ksys::gdt::Manager::instance();
+    if (!gdt)
+        return;
+    auto* object = actor->getMapObject();
+    if (!object)
+        return;
+    sead::FormatFixedSafeString<128> name("%s_PartsDrop_%u", gdt->getMapName().cstr(),
+                                          object->getHashId());
+    s32 bits = 0;
+    auto& param = gdt->getParam();
+    if (param.get().getBuffer()->getS32(&bits, name, param.shouldCheckPermissions(), false))
+        gdt->setS32((bits | (1u << index)) & 0xff, name);
+}
+
+// NON_MATCHING: hash getter timing, initial false returns and register allocation differ.
+bool sub_710073200C(ksys::act::Actor* actor, s32 index) {
+    if (!actor)
+        return false;
+    auto* gdt = ksys::gdt::Manager::instance();
+    if (!gdt)
+        return false;
+    auto* object = actor->getMapObject();
+    if (!object)
+        return false;
+    sead::FormatFixedSafeString<128> name("%s_PartsDrop_%u", gdt->getMapName().cstr(),
+                                          object->getHashId());
+    s32 bits = 0;
+    auto& param = gdt->getParam();
+    param.get().getBuffer()->getS32(&bits, name, param.shouldCheckPermissions(), false);
+    if (!bits)
+        return false;
+    return (bits & (1u << index) & 0xff) != 0;
+}
+
+bool sub_7100731E70(const ksys::map::Object* object) {
+    if (!object)
+        return false;
+    auto* gdt = ksys::gdt::Manager::instance();
+    if (!gdt)
+        return false;
+    const u32 hash_id = object->getHashId();
+    sead::FormatFixedSafeString<128> name("%s_WeaponDrop_%u", gdt->getMapName().cstr(), hash_id);
+    bool dropped = false;
+    auto& param = gdt->getParam();
+    param.get().getBuffer()->getBool(&dropped, name, param.shouldCheckPermissions(), false);
+    return dropped;
+}

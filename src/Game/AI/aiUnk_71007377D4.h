@@ -7,6 +7,10 @@
 #include "KingSystem/ActorSystem/actActorAtk.h"
 #include <prim/seadSafeString.h>
 
+namespace ksys::map {
+class Object;
+}
+
 namespace ksys::act {
 class AttackSensor;
 }
@@ -471,3 +475,8 @@ bool sub_7100733C24(ksys::act::Actor* actor);
 
 void sub_7100731A30(ksys::act::Actor* actor, s32 index);
 bool sub_7100731B70(ksys::act::Actor* actor, s32 index);
+
+void sub_7100731F30(ksys::act::Actor* actor, s32 index);
+bool sub_710073200C(ksys::act::Actor* actor, s32 index);
+
+bool sub_7100731E70(const ksys::map::Object* object);
