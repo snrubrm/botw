@@ -21,6 +21,8 @@ public:
 
     void init(const InitArg& arg);
     bool x_a() const;
+    void sub_71012BBAF4(u32 value);
+    u32 sub_71012BBB70() const;
 
 private:
     bool sub_71012BBA50(void* userdata);
