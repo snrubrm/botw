@@ -76,6 +76,14 @@ s32 Unk_710247eb88::getLoadDataAlignment() const {
     return 0x2000;
 }
 
+bool Unk_710247eb88::sub_71009CD734(s32 denominator) {
+    return sub_71009CD73C(denominator, false);
+}
+
+bool Unk_710247eb88::sub_71009CDAE0(s32 denominator) {
+    return sub_71009CD73C(denominator, true);
+}
+
 // NON_MATCHING: TextureData destruction stays emitted instead of its inlined NVNtexture body.
 void Unk_710247eb88::sub_71009CD5F8() {
     _38 = false;

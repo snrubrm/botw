@@ -44,8 +44,12 @@ public:
     s32 getLoadDataAlignment() const override;
     void sub_71009CD5F8();
     void sub_71009CD66C();
+    // Complete decoder 9CD73C and independent load-state consumer 9CB188.
+    bool sub_71009CD734(s32 denominator);
+    bool sub_71009CDAE0(s32 denominator);
 
 protected:
+    bool sub_71009CD73C(s32 denominator, bool secondary);
     void sub_71009CDAE8();
 
     bool _38 = false;
