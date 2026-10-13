@@ -8,6 +8,11 @@
 
 namespace ksys::util {
 
+sead::Heap* tryCreateDualHeap(size_t size, const sead::SafeString& name, sead::Heap* heap1,
+                              sead::Heap* heap2, sead::Heap::HeapDirection direction, bool b) {
+    return sub_71010BDD10(size, name, heap1, heap2, direction, b);
+}
+
 DualHeap* DualHeap::create(size_t size, const sead::SafeString& name, Heap* parent1,
                            Heap* parent2, s32 alignment, HeapDirection direction, bool b) {
     return tryCreate(size, name, parent1, parent2, alignment, direction, b);

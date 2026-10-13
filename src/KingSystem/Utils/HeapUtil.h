@@ -95,6 +95,10 @@ protected:
 KSYS_CHECK_SIZE_NX150(sead::FrameHeap, 0xf0);
 KSYS_CHECK_SIZE_NX150(DualFrameHeap, 0x108);
 
+// Complete producer 10BDD10 takes six arguments and constructs a DualFrameHeap.
+DualFrameHeap* sub_71010BDD10(size_t size, const sead::SafeString& name, sead::Heap* heap1,
+                              sead::Heap* heap2, sead::Heap::HeapDirection direction, bool b);
+
 sead::Heap* tryCreateDualHeap(size_t size, const sead::SafeString& name, sead::Heap* heap1,
                               sead::Heap* heap2, sead::Heap::HeapDirection direction, bool b);
 
@@ -123,7 +127,7 @@ KSYS_ALWAYS_INLINE inline sead::Heap* tryCreateDualHeap(sead::Heap* parent) {
         else
             size = parent_ex->sub_71010BF058(sizeof(void*));
 
-        return tryCreateDualHeap(size, parent->getName(), parent, parent_ex->getHeap2(),
+        return sub_71010BDD10(size, parent->getName(), parent, parent_ex->getHeap2(),
                                  sead::Heap::cHeapDirection_Forward, false);
     }
 
@@ -132,7 +136,7 @@ KSYS_ALWAYS_INLINE inline sead::Heap* tryCreateDualHeap(sead::Heap* parent) {
     else
         size = parent->getMaxAllocatableSize(sizeof(void*));
 
-    return tryCreateDualHeap(size, parent->getName(), parent, getDebugHeap(),
+    return sub_71010BDD10(size, parent->getName(), parent, getDebugHeap(),
                              sead::Heap::cHeapDirection_Forward, false);
 }
 
