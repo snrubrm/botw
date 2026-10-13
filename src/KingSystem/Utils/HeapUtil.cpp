@@ -68,6 +68,15 @@ void* DualHeap::resizeBack(void* ptr, size_t size) {
     return nullptr;
 }
 
+// NON_MATCHING: the inherited isInclude call is devirtualized.
+void* DualHeap::tryRealloc(void* ptr, size_t size, s32 alignment) {
+    if (isInclude(ptr))
+        return sead::ExpHeap::tryRealloc(ptr, size, alignment);
+    if (mHeap2 && mHeap2->isInclude(ptr))
+        return mHeap2->tryRealloc(ptr, size, alignment);
+    return nullptr;
+}
+
 // NON_MATCHING: the inherited getSize call is devirtualized.
 size_t DualHeap::getFreeSize() const {
     const size_t own_size = sead::ExpHeap::getFreeSize();
