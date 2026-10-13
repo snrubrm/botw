@@ -2,6 +2,8 @@
 
 #include "KingSystem/ActorSystem/actAiAction.h"
 #include "Game/AI/Action/actionSandwormTackleMove.h"
+#include "Game/AI/aiUnk_710073E688.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::action {
 
@@ -19,6 +21,8 @@ public:
 
 protected:
     void calc_() override;
+    // Complete 1EE31C is the vacuum update used by calc_ 1EE164.
+    void sub_71001EE31C();
 
     // static_param at offset 0x20
     const int* mTime_s{};
@@ -53,9 +57,19 @@ protected:
     // static_param at offset 0xb0
     const sead::Vector3f* mVacuumPosOffset_s{};
     Unk_SandwormTackleTarget _b8;
-    u8 _118[0x1b8 - 0x118];
+    // Complete 1EDA44 constructs the vacuum state, then a 64-byte string buffer.
+    // Independent init 1EDD7C and enter 1EDFE8 pass both objects to their native APIs.
+    Unk_710073e688 _118;
+    sead::FixedSafeString<64> _148;
+    u32 _1a0 = 0;
+    s32 _1a4 = 0;
+    ksys::Timer _1a8;
+    bool _1b4 = false;
+    bool _1b5 = false;
     int _1b8 = 0;
     u8 _1bc[0x1c0 - 0x1bc];
 };
+
+KSYS_CHECK_SIZE_NX150(MultiVacuumBase, 0x1c0);
 
 }  // namespace uking::action
