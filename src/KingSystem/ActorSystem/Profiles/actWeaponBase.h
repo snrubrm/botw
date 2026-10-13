@@ -32,6 +32,10 @@ class WeaponBase;
 eco::WeaponModifier getRandomWeaponModifier(eco::WeaponModifier modifier,
                                             const sead::SafeString& actor_name);
 
+// EF28D4: NPC and the weapon utility supply name, pose, scale, heap, flags, life and optional params.
+Actor* createWeaponND(const char* name, const sead::Matrix34f& matrix, f32 scale, sead::Heap* heap,
+                      bool sleep_after_init, bool nd, s32 life, InstParamPack* params_in);
+
 // TODO
 class WeaponBase : public Actor {
     SEAD_RTTI_OVERRIDE(WeaponBase, Actor)

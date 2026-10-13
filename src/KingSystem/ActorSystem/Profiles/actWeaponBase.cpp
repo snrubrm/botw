@@ -536,6 +536,27 @@ bool WeaponBase::isWeaponType3() const {
     return getProfile() == "WeaponBow";
 }
 
+// NON_MATCHING: parameter-pack and SafeString temporary stack placement differs.
+Actor* createWeaponND(const char* name, const sead::Matrix34f& matrix, f32 scale, sead::Heap* heap,
+                      bool sleep_after_init, bool nd, s32 life, InstParamPack* params_in) {
+    InstParamPack params;
+    if (params_in)
+        params = *params_in;
+    ActorCreator::addScale(params, scale);
+    params->add(life, "Life");
+    if (nd)
+        params->add(true, "@ND");
+    auto* actor = ActorCreator::instance()->createActor(name, heap, &params, sleep_after_init, false);
+    if (sead::DynamicCast<Actor>(actor)) {
+        actor->setMatrix(matrix, nullptr);
+    } else {
+        if (actor)
+            actor->deleteLater(BaseProc::DeleteReason::_0);
+        actor = nullptr;
+    }
+    return actor;
+}
+
 void WeaponBase::requestCreateWeaponActor(const char* actor, const sead::Matrix34f& matrix,
                                           f32 scale, sead::Heap* heap,
                                           ksys::act::BaseProcHandle* handle, s32 life,
