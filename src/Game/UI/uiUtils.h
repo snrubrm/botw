@@ -345,6 +345,7 @@ bool uiManagerInitialised();
 
 // 0x7100aa8f10 (placeholder name): bit 12 of the UI manager's flag word.
 bool sub_7100AA8F10();
+bool sub_7100AA8F74();
 bool getMainScreenOnOff();
 
 // 0x7100aa34a4 (placeholder name; declared only, 760 B): sets the button icon `icon` (a UI button id; 28 / 29 depend on

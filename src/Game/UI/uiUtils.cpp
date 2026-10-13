@@ -1,6 +1,7 @@
 #include "KingSystem/Quest/qstQuest.h"
 #include "Game/UI/uiUtils.h"
 #include "Game/gameGraphics.h"
+#include "Game/gameUnk_71008ba8d8.h"
 #include "KingSystem/System/LayerMgrTask.h"
 #include <layer/aglRenderer.h>
 #include "Game/UI/uiUnkSingletons.h"
@@ -776,6 +777,10 @@ void sub_7100AA86EC(u32 index, bool flag) {
     if (!vlt::LayerMgrTask::sInstance)
         return;
     Graphics::instance()->sub_7100F35F50(agl::lyr::Renderer::instance()->mLayers[index], flag);
+}
+
+bool sub_7100AA8F74() {
+    return sub_71008BA778();
 }
 
 }  // namespace uking::ui

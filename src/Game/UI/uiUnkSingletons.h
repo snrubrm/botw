@@ -107,6 +107,7 @@ public:
     bool sub_71009684C4() const;
     void sub_71009684CC(bool value);
     bool sub_7100968550() const;
+    bool sub_7100968564() const;
     bool sub_71009685BC() const;
     void sub_710096867C(bool value);
     void sub_7100968688();

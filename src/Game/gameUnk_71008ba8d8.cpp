@@ -120,6 +120,12 @@ bool sub_71008BA760() {
     return false;
 }
 
+bool sub_71008BA778() {
+    if (auto* manager = ksys::evt::Manager::instance())
+        return manager->isActiveEventNameEqualTo("Demo006_0", "");
+    return false;
+}
+
 bool isActiveEventDemo000Or001Or002() {
     auto* manager = ksys::evt::Manager::instance();
     if (!manager)

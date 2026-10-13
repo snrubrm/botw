@@ -79,6 +79,7 @@ bool isDemo000Or002(const ksys::evt::BaseProcLinkForEvent& link);
 bool eventMgrHasActiveEvent();
 // 0x71008ba760 (placeholder name): the EventSystem's sub_71008AC118() (false without an EventSystem).
 bool sub_71008BA760();
+bool sub_71008BA778();
 // 0x71008ba8ac (placeholder name): sends `type` to `dest` through the Manager (nothing without one).
 void sub_71008BA8AC(const ksys::MesTransceiverId& dest, ksys::MessageType type);
 // 0x71008bacb8 (placeholder name): calls the Timeline event `event` without entry point or proc (false if empty).

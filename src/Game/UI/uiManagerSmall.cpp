@@ -248,6 +248,10 @@ bool Unk_71025d6ac0::sub_7100968550() const {
     return _2b;
 }
 
+bool Unk_71025d6ac0::sub_7100968564() const {
+    return RadarMgr::instance() && _4c != 1.0f && !sub_7100AA8F74();
+}
+
 bool Unk_71025d6ac0::sub_71009685BC() const {
     return _54;
 }
