@@ -34,6 +34,8 @@ target_sources(uking PRIVATE
     Hio.h
     KingEditor.cpp
     KingEditor.h
+    LayerMgrTask.cpp
+    LayerMgrTask.h
     MCMgr.cpp
     MCMgr.h
     MemoryProfiler.cpp

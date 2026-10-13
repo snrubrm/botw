@@ -1,5 +1,8 @@
 #include "KingSystem/Quest/qstQuest.h"
 #include "Game/UI/uiUtils.h"
+#include "Game/gameGraphics.h"
+#include "KingSystem/System/LayerMgrTask.h"
+#include <layer/aglRenderer.h>
 #include "Game/UI/uiUnkSingletons.h"
 #include "Game/UI/euiLayoutEx.h"
 #include <nn/ui2d/Pane.h>
@@ -766,6 +769,13 @@ void addItemForDebug(const sead::SafeString& name, int value) {
 
 bool sub_7100A9F458() {
     return Unk_71025d6ac0::instance()->sub_71009685AC(0);
+}
+
+// NON_MATCHING: the Graphics receiver load precedes the renderer argument lookup.
+void sub_7100AA86EC(u32 index, bool flag) {
+    if (!vlt::LayerMgrTask::sInstance)
+        return;
+    Graphics::instance()->sub_7100F35F50(agl::lyr::Renderer::instance()->mLayers[index], flag);
 }
 
 }  // namespace uking::ui
