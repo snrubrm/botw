@@ -490,3 +490,11 @@ bool sub_7100735D2C(const ksys::act::BaseProcLink* link, ksys::act::Actor* actor
 
 const sead::SafeString& sub_710072D6D4(ksys::act::Actor* actor, s32 index);
 const sead::SafeString& sub_710072D7A0(ksys::act::Actor* actor, s32 index);
+
+// 0x71007304cc (declaration only): tests actor-relative height, distance, angle and a world ray.
+// Complete callee and player-position wrapper establish all inputs; source name remains unknown.
+bool sub_71007304CC(ksys::act::Actor* actor, const sead::Vector3f& target, f32 min_height,
+                    f32 max_height, f32 max_distance, f32 angle, f32 ray_height);
+// 0x710073068c: the same test against the player position.
+bool sub_710073068C(ksys::act::Actor* actor, f32 min_height, f32 max_height, f32 max_distance,
+                    f32 angle, f32 ray_height);
