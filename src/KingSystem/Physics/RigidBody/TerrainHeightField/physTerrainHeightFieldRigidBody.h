@@ -2,6 +2,10 @@
 
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
+namespace ksys::tera {
+class System;
+}
+
 namespace ksys::phys {
 
 // Complete factory 1223864 allocates 18 bytes. Its two-slot table is 25158E8;
@@ -32,7 +36,7 @@ public:
     bool getD8() const { return _d8; }
 
 private:
-    void* _d0{};
+    tera::System* mTerrainSystem{};
     bool _d8 = false;
 };
 KSYS_CHECK_SIZE_NX150(TerrainHeightFieldRigidBody, 0xe0);

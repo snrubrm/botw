@@ -19,6 +19,10 @@ class Heap;
 class ExpHeap;
 }
 
+namespace ksys::phys {
+class Material;
+}
+
 namespace ksys::tera {
 
 // ResourceHolder 1138A2C supplies a size, name, parent and heap direction.
@@ -196,6 +200,9 @@ class Water {
 
 // CreateTeraSystem passes the System created at 0x71011113d4 to PlacementMgr.
 u32 sub_710110B4A4(f32* out_height, const sead::Vector2f* xz, System* system);
+// Full 110C02C writes material and submaterial; independent 1224C1C consumes both.
+u32 sub_710110C02C(phys::Material* material, s32* submaterial, const sead::Vector2f* xz,
+                    System* system, bool flag);
 // Returns query status 0/1/2; the final argument preserves a full integer flag.
 u32 sub_71011094A0(f32* out_height, const sead::Vector2f* xz, System* system, s32 index,
                     s32 flag);
