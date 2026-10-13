@@ -5,10 +5,36 @@
 #include <math/seadVector.h>
 #include <prim/seadTypedBitFlag.h>
 #include <thread/seadCriticalSection.h>
+#include "Game/AI/aiUnk_7102357210.h"
 #include "KingSystem/ActorSystem/actActorAtk.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem//ActorSystem/Profiles/actWeaponBase.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
+
+// Message listeners embedded in Weapon. Their four-slot tables share the existing base lifetime.
+class Unk_71023d2698 : public Unk_7102357210 {
+public:
+    ~Unk_71023d2698() override = default;
+    bool m2(const ksys::Message& message) override;
+    void m3() override {}
+};
+KSYS_CHECK_SIZE_NX150(Unk_71023d2698, 0x38);
+
+class Unk_71023d26c8 : public Unk_7102357210 {
+public:
+    ~Unk_71023d26c8() override = default;
+    bool m2(const ksys::Message& message) override;
+    void m3() override {}
+};
+KSYS_CHECK_SIZE_NX150(Unk_71023d26c8, 0x38);
+
+class Unk_71023d26f8 : public Unk_7102357210 {
+public:
+    ~Unk_71023d26f8() override = default;
+    bool m2(const ksys::Message& message) override;
+    void m3() override {}
+};
+KSYS_CHECK_SIZE_NX150(Unk_71023d26f8, 0x38);
 
 namespace ksys::act {
 class ActorConstDataAccess;
@@ -460,7 +486,10 @@ public:
     /* 0xe30 */ u8 _e30[0xe50 - 0xe30];  // TODO
     /* 0xe50 */ u16 _e50 = 0;  // flags (BowEquiped::leave_ uses 16-bit accesses)
     /* 0xe52 */ u16 _e52;
-    /* 0xe54 */ u8 _e54[0xf58 - 0xe54];  // TODO
+    /* 0xe54 */ u8 _e54[0xeb0 - 0xe54];  // TODO
+    /* 0xeb0 */ Unk_71023d2698 _eb0;
+    /* 0xee8 */ Unk_71023d26c8 _ee8;
+    /* 0xf20 */ Unk_71023d26f8 _f20;
     /* 0xf58 */ bool _f58;
     /* 0xf59 */ u8 _f59[0xf60 - 0xf59];  // TODO
     /* 0xf60 */ ksys::act::BaseProcLink _f60;

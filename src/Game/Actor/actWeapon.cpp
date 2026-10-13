@@ -52,6 +52,30 @@
 #include "KingSystem/Utils/Byaml/Byaml.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
 
+bool Unk_71023d2698::m2(const ksys::Message& message) {
+    if (message.getType() != 0x8000033)
+        return false;
+    _30 = true;
+    _18 = message.getSource();
+    return true;
+}
+
+bool Unk_71023d26c8::m2(const ksys::Message& message) {
+    if (message.getType() != 0x80000b5)
+        return false;
+    _30 = true;
+    _18 = message.getSource();
+    return true;
+}
+
+bool Unk_71023d26f8::m2(const ksys::Message& message) {
+    if (message.getType() != 0x80000bb)
+        return false;
+    _30 = true;
+    _18 = message.getSource();
+    return true;
+}
+
 // 0x71008ba7d8: declaration only; original source namespace is unknown.
 bool isActiveEventDemo000Or001Or002();
 
