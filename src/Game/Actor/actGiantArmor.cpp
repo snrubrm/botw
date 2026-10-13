@@ -24,7 +24,7 @@ bool GiantArmor::sub_7100029E7C(Actor* owner, s32 index) {
 }
 
 void GiantArmor::sub_7100029AF8(f32* out_scale, s32* out_level,
-                              const ai::Unk_71023f36d8::Info* info) {
+                                const ai::Unk_71023f36d8::Info* info) {
     if (_c10) {
         _c10->m4(out_scale, out_level, info);
         return;

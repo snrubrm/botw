@@ -30,7 +30,7 @@ public:
     // GiantEnemy::init_ passes its Actor owner and the armor index; stores the link under _b90.
     bool sub_7100029E7C(Actor* owner, s32 index);
     void sub_7100029AF8(f32* out_scale, s32* out_level,
-                       const ai::Unk_71023f36d8::Info* info);
+                        const ai::Unk_71023f36d8::Info* info);
 
 protected:
     bool canWakeUp_() override;

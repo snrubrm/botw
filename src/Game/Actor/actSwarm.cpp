@@ -12,6 +12,10 @@
 
 namespace uking::act {
 
+void Swarm::Unit::sub_71002D93E8(const sead::Matrix33f& rotation) {
+    sead::Matrix34CalcCommon<f32>::copy(_8, rotation, _8.getTranslation());
+}
+
 bool Swarm::sub_71002D47D8(s32 idx) const {
     const auto& body = _14f8[idx];
     if (!body._18)
