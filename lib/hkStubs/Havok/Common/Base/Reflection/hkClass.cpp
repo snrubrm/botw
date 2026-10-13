@@ -99,6 +99,11 @@ const hkClassMember& hkClass::getMember(int i) const {
     return *m_declaredMembers;
 }
 
+// NON_MATCHING: the inlined lookup duplicates the successful-return block.
+hkClassMember& hkClass::getMember(int i) {
+    return const_cast<hkClassMember&>(static_cast<const hkClass*>(this)->getMember(i));
+}
+
 // NON_MATCHING: the name scan uses different saved registers.
 int hkClass::getDeclaredMemberIndexByName(const char* name) const {
     for (int i = 0; i < m_numDeclaredMembers; ++i) {
