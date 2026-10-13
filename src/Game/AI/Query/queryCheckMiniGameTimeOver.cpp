@@ -9,7 +9,7 @@ CheckMiniGameTimeOver::CheckMiniGameTimeOver(const InitArg& arg) : ksys::act::ai
 CheckMiniGameTimeOver::~CheckMiniGameTimeOver() = default;
 
 int CheckMiniGameTimeOver::doQuery() {
-    auto* mini_game = EventMgrMiniGame::instance();
+    auto* mini_game = Unk_71024e80e0::instance();
     if (mini_game != nullptr)
         return mini_game->getMode() == 2;
     return 0;

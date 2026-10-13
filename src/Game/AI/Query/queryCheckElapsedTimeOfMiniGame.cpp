@@ -10,7 +10,7 @@ CheckElapsedTimeOfMiniGame::CheckElapsedTimeOfMiniGame(const InitArg& arg)
 CheckElapsedTimeOfMiniGame::~CheckElapsedTimeOfMiniGame() = default;
 
 int CheckElapsedTimeOfMiniGame::doQuery() {
-    if (auto* mini_game = EventMgrMiniGame::instance()) {
+    if (auto* mini_game = Unk_71024e80e0::instance()) {
         const s32 minutes = mini_game->getTimerMs() / 60000;
         const s32 seconds = mini_game->getTimerMs() / 1000 % 60;
         return minutes * 60 + seconds >= *mThreshold;

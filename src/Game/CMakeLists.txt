@@ -14,6 +14,9 @@ target_sources(uking PRIVATE
   gameDragonChallengeMgr.h
   gameEventDelegate.cpp
   gameEventDelegate.h
+  gameEventMiniGameTimer.cpp
+  gameEventMgrMiniGame.cpp
+  gameEventMgrMiniGame.h
   gameGearMgr.cpp
   gameGearMgr.h
   gameGraphics.cpp

@@ -52,10 +52,6 @@ Unk_71024dcf80::~Unk_71024dcf80() {
     ;
 }
 
-Unk_71024e8128::~Unk_71024e8128() = default;
-
-Unk_71024e80e0::~Unk_71024e80e0() = default;
-
 
 Unk_710250dcd8::~Unk_710250dcd8() = default;
 

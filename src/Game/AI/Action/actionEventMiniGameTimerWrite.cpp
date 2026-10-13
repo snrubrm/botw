@@ -20,7 +20,7 @@ void EventMiniGameTimerWrite::loadParams_() {
 
 // NON_MATCHING: the failure path sets the return value (mov w0, wzr) between the flag byte's orr and strb
 bool EventMiniGameTimerWrite::oneShot_() {
-    auto* mini_game = EventMgrMiniGame::instance();
+    auto* mini_game = Unk_71024e80e0::instance();
     if (mini_game) {
         if (auto* gdm = ksys::gdt::Manager::instance()) {
             const s32 minutes = mini_game->getTimerMs() / 60000;

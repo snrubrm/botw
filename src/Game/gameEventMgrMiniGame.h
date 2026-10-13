@@ -1,37 +1,44 @@
 #pragma once
 
-#include <basis/seadTypes.h>
 #include <heap/seadDisposer.h>
+#include <prim/seadRuntimeTypeInfo.h>
+#include "KingSystem/System/Timer.h"
 
-namespace uking {
-
-// Placeholder declaration (name from the CSV: EventMgrMiniGame::createInstance 0x7100e493f0, ctor
-// 0x7100e499c4, calc 0x7100e49490, startCountup 0x7100e49a9c, startCountdown 0x7100e49acc,
-// getTimerMs 0x7100e49b24; instance pointer at GOT 0x257d1d8; namespace is a guess). The event
-// mini game timer (size 0x40, polymorphic sead singleton with the disposer at +0x20). Only what the
-// AI actions use is declared.
-// TODO: incomplete.
-class EventMgrMiniGame {
-    u8 _8[0x1c - 0x8];
-    // 0 = stopped / disabled (EventDisableMiniGameTime), 1 = counting down (startCountdown),
-    // 2 = stopped by StopEventMiniGameTime
-    s32 mMode;
-
-    SEAD_SINGLETON_DISPOSER(EventMgrMiniGame)
-    EventMgrMiniGame();
-    virtual ~EventMgrMiniGame();
-
+// Native timer base: ctor E499C4 and independent Action/Query consumers establish extent 0x20.
+class Unk_71024e8128 {
+    SEAD_RTTI_BASE(Unk_71024e8128)
 public:
-    // 0x7100e49a9c: starts counting up from 0 (the argument is clamped to [0, 5999999] and is the
-    // maximum time in milliseconds).
+    Unk_71024e8128();
+    // Both native tables share the empty D1; Timer and POD need no owned cleanup.
+    virtual ~Unk_71024e8128() = default;
+
+    void reset();
     void startCountup(s32 max_time_ms);
-    // 0x7100e49acc: starts counting down from `start_time_ms` (clamped like startCountup).
     void startCountdown(s32 start_time_ms);
-    // 0x7100e49b24: the elapsed (or remaining) time in milliseconds.
     s32 getTimerMs() const;
+    // Full E499EC updater; the singleton calc calls this timer update.
+    void sub_7100E499EC();
 
     s32 getMode() const { return mMode; }
     void setMode(s32 mode) { mMode = mode; }
-};
 
-}  // namespace uking
+protected:
+    /* 0x08 */ ksys::Timer mTimer{0.0f, 0.0f, 0.0f};
+    /* 0x14 */ s32 mMaxTimeMs = 5999999;
+    /* 0x18 */ f32 mInitialTime = 0.0f;
+    /* 0x1c */ s32 mMode = 0;  // 0: disabled, 1: running, 2: stopped
+};
+static_assert(sizeof(Unk_71024e8128) == 0x20);
+
+// E493F0 allocates 0x40: base timer plus the standard raw singleton disposer buffer at 0x20.
+class Unk_71024e80e0 : public Unk_71024e8128 {
+    SEAD_RTTI_OVERRIDE(Unk_71024e80e0, Unk_71024e8128)
+    SEAD_SINGLETON_DISPOSER(Unk_71024e80e0)
+public:
+    Unk_71024e80e0() = default;
+    ~Unk_71024e80e0() override;
+    void init();
+    void initBeforeStageGenB();
+    void calc();
+};
+static_assert(sizeof(Unk_71024e80e0) == 0x40);

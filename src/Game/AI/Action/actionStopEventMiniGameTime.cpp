@@ -14,7 +14,7 @@ bool StopEventMiniGameTime::init_(sead::Heap* heap) {
 void StopEventMiniGameTime::loadParams_() {}
 
 bool StopEventMiniGameTime::oneShot_() {
-    EventMgrMiniGame::instance()->setMode(2);
+    Unk_71024e80e0::instance()->setMode(2);
     return true;
 }
 

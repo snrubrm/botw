@@ -3,6 +3,7 @@
 #include <prim/seadRuntimeTypeInfo.h>
 #include <prim/seadDelegate.h>
 #include "Game/Actor/actCameraUtil.h"
+#include "Game/gameEventMgrMiniGame.h"
 #include "KingSystem/System/ControllerSnapshot.h"
 
 namespace uking::action {
@@ -144,20 +145,6 @@ class Unk_71024dcf80 {
     SEAD_RTTI_BASE(Unk_71024dcf80)
 public:
     virtual ~Unk_71024dcf80();
-};
-
-// vtable 0x71024e8128 (4 slots)
-class Unk_71024e8128 {
-    SEAD_RTTI_BASE(Unk_71024e8128)
-public:
-    virtual ~Unk_71024e8128();
-};
-
-// vtable 0x71024e80e0 (4 slots)
-class Unk_71024e80e0 : public Unk_71024e8128 {
-    SEAD_RTTI_OVERRIDE(Unk_71024e80e0, Unk_71024e8128)
-public:
-    ~Unk_71024e80e0() override;
 };
 
 // vtable 0x71024efd58 (11 slots)

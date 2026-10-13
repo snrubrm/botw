@@ -16,7 +16,7 @@ bool EventDisableMiniGameTime::init_(sead::Heap* heap) {
 void EventDisableMiniGameTime::loadParams_() {}
 
 bool EventDisableMiniGameTime::oneShot_() {
-    auto* mini_game = EventMgrMiniGame::instance();
+    auto* mini_game = Unk_71024e80e0::instance();
     if (!mini_game)
         return false;
     mini_game->setMode(0);
