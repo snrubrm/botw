@@ -26,11 +26,15 @@ KSYS_CHECK_SIZE_NX150(Unk_71025158e8, 0x18);
 class TerrainHeightFieldRigidBody : public RigidBody {
     SEAD_RTTI_OVERRIDE(TerrainHeightFieldRigidBody, RigidBody)
 public:
+    ~TerrainHeightFieldRigidBody() override;
+    u32 getCollisionMasks(RigidBody::CollisionMasks* masks, const u32* shape_key,
+                          const sead::Vector3f& contact_point) override;
     bool getD8() const { return _d8; }
 
 private:
     void* _d0{};
     bool _d8 = false;
 };
+KSYS_CHECK_SIZE_NX150(TerrainHeightFieldRigidBody, 0xe0);
 
 }  // namespace ksys::phys

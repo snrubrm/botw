@@ -1,4 +1,5 @@
 #include "KingSystem/Physics/RigidBody/TerrainHeightField/physTerrainHeightFieldRigidBody.h"
+#include <Havok/Physics2012/Dynamics/Entity/hkpRigidBody.h>
 
 namespace ksys::phys {
 
@@ -35,6 +36,13 @@ bool Unk_71025158e8::sub_7101223FB4() const {
 void Unk_71025158e8::sub_7101223FC4(SystemGroupHandler* handler) {
     if (mRigidBody)
         mRigidBody->setSystemGroupHandler(handler);
+}
+
+TerrainHeightFieldRigidBody::~TerrainHeightFieldRigidBody() {
+    removeFromWorldImmediately(nullptr);
+    getHkBody()->setName(nullptr);
+    getHkBody()->deallocateInternalArrays();
+    getHkBody()->removeReference();
 }
 
 }  // namespace ksys::phys
