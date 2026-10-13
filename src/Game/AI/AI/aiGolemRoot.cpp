@@ -18,6 +18,9 @@
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
 #include "KingSystem/System/VFR.h"
+#include "Game/AI/aiUnk_71007377D4.h"
+#include "KingSystem/Terrain/teraSystem.h"
+#include "KingSystem/World/worldManager.h"
 
 // 5E0904 tests actor contact height against its float argument.
 bool sub_71005E0904(ksys::act::Actor* actor, f32 height);
@@ -93,6 +96,46 @@ void Unk_71023f5460::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
     if (found) {
         *a5 = -1;
         *a4 = -1;
+    }
+}
+
+// NON_MATCHING: life-stage branches and accessor stack/register allocation differ.
+void GolemRoot::calc_() {
+    GolemRootBase::calc_();
+    if (!sub_71005DD798(mActor, 19, nullptr, 0, 0)) {
+        if (auto* terrain = ksys::tera::Terrain::instance()) {
+            f32 radius = 1.0f;
+            if (auto* controller = mActor->getCharacterController())
+                controller->sub_7100F62E74(&radius, 0);
+            auto* grass = terrain->sub_710114DE4C();
+            const sead::Vector3f position = mActor->getMtx().getTranslation();
+            grass->sub_710115101C(&position, radius);
+        }
+    }
+    _360.sub_71003FFBF0();
+    if (ksys::world::Manager::instance()->isAocField())
+        return;
+    auto* damage_manager = mActor->getDamageMgr();
+    if (!damage_manager)
+        return;
+    const s32 damage = s32(damage_manager->getDamage());
+    if (damage < 1)
+        return;
+    const s32 quarter = mActor->getMaxLife() / 4;
+    auto* life = mActor->getLife();
+    const s32 stage = (life ? *life : 1) / quarter;
+    life = mActor->getLife();
+    if (u32(stage) > 2 || stage == ((life ? *life : 1) + damage) / quarter)
+        return;
+    if (sub_7100731B70(mActor, stage))
+        return;
+    sub_7100731A30(mActor, stage);
+    if (auto* parts = mActor->m101()) {
+        auto& link = parts->getActorPartsActor("WeakPoint");
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::acquireActor(&link, &accessor);
+        if (accessor.hasProc())
+            _388.sub_710070DBB0(*accessor.getMessageTransceiverId(), true);
     }
 }
 
