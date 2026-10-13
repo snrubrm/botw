@@ -1,4 +1,9 @@
 #include "Game/AI/Action/actionItemAmiiboSelectDropTable.h"
+#include "Game/gameAmiiboMgr.h"
+#include "Game/UI/uiUtils.h"
+#include "KingSystem/ActorSystem/actActorCreator.h"
+#include "KingSystem/ActorSystem/actActorHeapUtil.h"
+#include "KingSystem/ActorSystem/actInstParamPack.h"
 
 namespace uking::action {
 
@@ -11,8 +16,22 @@ bool ItemAmiiboSelectDropTable::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }
 
+// NON_MATCHING: whole AmiiboInfo assignment combines the ID/data copies; condition scheduling differs.
 void ItemAmiiboSelectDropTable::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    const bool new_day = AmiiboMgr::instance()->oneDayHasPassed();
+    AmiiboInfo info;
+    info = AmiiboMgr::instance()->_148.mInfo;
+    _1e0 = s32(info._0);
+    _1e4 = s32(info._4);
+    const bool unlimited = AmiiboMgr::instance()->noAmiiboUseLimit();
+    const s32 count = AmiiboMgr::instance()->queryHistoryToday(info, 0);
+    if (!new_day && count - s32(unlimited) > 0) {
+        ui::showInfoOverlay(25);
+        setFailed();
+        mFlags.set(Flag::Changeable);
+    } else {
+        AmiiboMgr::instance()->registerAmiibo(info);
+    }
 }
 
 void ItemAmiiboSelectDropTable::leave_() {
@@ -51,8 +70,19 @@ void ItemAmiiboSelectDropTable::loadParams_() {
     getMapUnitParam(&mAmiiboNumberingId_m, "AmiiboNumberingId");
 }
 
+// NON_MATCHING: native copied indices and InstParamPack use different stack offsets.
 void ItemAmiiboSelectDropTable::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (isFinished() || isFailed())
+        return;
+    const s32 character_id = _1e0;
+    const s32 numbering_id = _1e4;
+    const sead::SafeString actor_name = sub_71001C0E60(&character_id, &numbering_id);
+    ksys::act::InstParamPack pack;
+    pack->addPosition(AmiiboMgr::instance()->_9c);
+    ksys::act::ActorCreator::instance()->requestCreateActor(
+        actor_name.cstr(), ksys::act::ActorHeapUtil::instance()->getBaseProcHeap(), nullptr,
+        &pack, nullptr, 2);
+    setFinished();
 }
 
 }  // namespace uking::action

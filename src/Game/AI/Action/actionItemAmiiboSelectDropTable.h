@@ -17,6 +17,9 @@ public:
 
 protected:
     void calc_() override;
+    // Complete 1C0E60 returns a SafeString through x8 and reads the two signed index inputs.
+    // Caller 1C0D40 supplies copies of _1e0 and _1e4; the helper does not modify them.
+    sead::SafeString sub_71001C0E60(const s32* character_id, const s32* numbering_id);
 
     // static_param at offset 0x20
     sead::SafeString mTableCommon_s{};
