@@ -16,11 +16,12 @@ void OptionalWeaponAI::enter_(ksys::act::ai::InlineParamPack* params) {
         changeChild("非装備");
 }
 
+// NON_MATCHING: normal cstr() adds the string termination virtual call absent in native.
 void OptionalWeaponAI::sub_7100E1A544() {
     if (auto* weapon = sead::DynamicCast<act::OptionalWeapon>(mActor)) {
         weapon->sub_7100EF1BF4();
         ksys::act::ai::InlineParamPack params;
-        params.addString(weapon->sub_7100EF13A4().getStringTop(), "NodeName", -1);
+        params.addString(weapon->sub_7100EF13A4().cstr(), "NodeName", -1);
         sead::Vector3f rotation;
         weapon->sub_7100EF13AC(&rotation);
         params.addVec3(rotation, "RotOffset", -1);
