@@ -8,6 +8,7 @@
 #include "Game/Actor/actDragon.h"
 #include "Game/Actor/actEnemy.h"
 #include "Game/Actor/actWeapon.h"
+#include "Game/Actor/actNPC.h"
 #include "Game/Actor/actUnk_71025ae680.h"
 #include "Game/Actor/actHorseRideInfo.h"
 #include "KingSystem/ActorSystem/actDropData.h"
@@ -956,4 +957,10 @@ const sead::SafeString& sub_710072DB1C(const ksys::act::ActorConstDataAccess& ac
     default:
         return sead::SafeString::cEmptyString;
     }
+}
+
+bool sub_7100736384(ksys::act::Actor* actor) {
+    if (auto* npc = sead::DynamicCast<uking::act::NPC>(actor))
+        return (npc->_fe8 & 4) != 0;
+    return false;
 }

@@ -460,3 +460,5 @@ void sub_71007428DC(f32 distance, f32 radius, sead::Vector3f* out,
 
 const sead::SafeString& sub_710072DAD0(const ksys::act::BaseProcLink* link);
 const sead::SafeString& sub_710072DB1C(const ksys::act::ActorConstDataAccess& accessor);
+
+bool sub_7100736384(ksys::act::Actor* actor);
