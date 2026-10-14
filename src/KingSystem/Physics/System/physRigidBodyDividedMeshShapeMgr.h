@@ -35,7 +35,7 @@ public:
 
     struct HandleInfo {
         res::Handle handle;
-        sead::Vector2i coordinates;
+        sead::Vector2i coordinates{-1, -1};
     };
     KSYS_CHECK_SIZE_NX150(HandleInfo, 0x58);
 
@@ -50,8 +50,16 @@ private:
     // Complete lifetime and the two-slot table establish the owner extent.
     /* 0x008 */ sead::FixedSafeString<256> mName;
     /* 0x120 */ sead::Buffer<HandleInfo> mHandles;
-    /* 0x130 */ Unk_71025158e8* mBoundaryBodies[4];
-    u8 _150[0x40];
+    /* 0x130 */ Unk_71025158e8* mBoundaryBodies[4]{};
+    /* 0x150 */ sead::Vector3f _150 = sead::Vector3f::zero;
+    // From Config::origin, Config::tile_size and size / tile_size.
+    /* 0x15c */ sead::Vector2i mOrigin;
+    /* 0x164 */ sead::Vector2i mTileSize;
+    /* 0x16c */ sead::Vector2i mGridSize;
+    /* 0x174 */ sead::Vector2i _174{-1, -1};
+    /* 0x17c */ sead::Vector2i _17c{-1, -1};
+    /* 0x184 */ sead::Vector2i _184{-1, -1};
+    /* 0x18c */ bool _18c = false;
 };
 KSYS_CHECK_SIZE_NX150(RigidBodyDividedMeshShapeMgr, 0x190);
 

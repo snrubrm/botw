@@ -5,6 +5,14 @@
 
 namespace ksys::phys {
 
+// NON_MATCHING: the original loads `_34` before `_10` (argument scheduling).
+Unk_71025158e8* Unk_71025158e8::sub_7101223864(const Param& param, sead::Heap* heap) {
+    auto* wrapper = new (heap, 8) Unk_71025158e8;
+    wrapper->sub_71012238E4(param.system, heap, param._8, param.index, param._10, param.box,
+                            param.translation, param.scale, param._30, param._34);
+    return wrapper;
+}
+
 void Unk_71025158e8::sub_7101223EC4() {
     if (mRigidBody) {
         delete mRigidBody;
