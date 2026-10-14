@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Game/AI/aiRandomTimer.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 #include "KingSystem/System/Timer.h"
 
@@ -13,6 +14,7 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
     // 0x710049859c (placeholder name)
@@ -27,6 +29,8 @@ public:
     // a position, the other turns around the central position).
     void sub_7100498D14();
     void sub_7100498EF8();
+    // 0x71004990c8 (placeholder name; declared only): per-frame update while moving (RepathTime).
+    void sub_71004990C8();
 
 protected:
     bool sub_7100498398(sead::Vector3f* out);
@@ -62,9 +66,7 @@ protected:
     const float* mSpAttackServiceAngle_s{};
     // dynamic_param at offset 0xa8
     sead::Vector3f* mCentralPos_d{};
-    f32 _b0{};
-    s32 _b4{};
-    s32 _b8{};
+    RandomTimer _b0;  // spin attack service timer
     ksys::Timer _bc;
     ksys::Timer _c8;
     ksys::Timer _d4;

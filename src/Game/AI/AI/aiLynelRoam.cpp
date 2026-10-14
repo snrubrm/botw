@@ -127,11 +127,98 @@ bool LynelRoam::sub_7100498E54() {
     return true;
 }
 
+// NON_MATCHING: same control flow and calls; the spin-attack-service flag, the timer updates and several
+// stack / register choices are scheduled differently.
+void LynelRoam::calc_() {
+    const bool service = sub_7100498C00();
+    if (service)
+        _b0.update();
+    else
+        _b0.reset();
+    const bool in_service = service && !(_b0.value <= 0.0f);
+    if (!(_bc.value <= sead::Mathf::epsilon()))
+        _bc.update();
+    if (!(_c8.value <= sead::Mathf::epsilon()))
+        _c8.update();
+
+    bool moved = false;
+    bool turned = false;
+    auto* child = getCurrentChild();
+    if (!child->isFinished() && !child->isFailed()) {
+        if (child->isChangeable()) {
+            if (isCurrentChild("移動")) {
+                moved = !(_e0.value > sead::Mathf::epsilon());
+            } else if (!isCurrentChild("回転") && !isCurrentChild("暇つぶし") &&
+                       isCurrentChild("待機")) {
+                if (_bc.value <= sead::Mathf::epsilon() && _d4.value <= sead::Mathf::epsilon()) {
+                    sead::Vector3f pos;
+                    sub_7100498398(&pos);
+                    changeToMove(pos);
+                    return;
+                }
+                if (_c8.value <= sead::Mathf::epsilon()) {
+                    sead::Vector3f front;
+                    sub_71000891C8(&front, mActor);
+                    sead::Vector3f dir(mCentralPos_d->x - mActor->getMtx()(0, 3), 0.0f,
+                                       mCentralPos_d->z - mActor->getMtx()(2, 3));
+                    dir.normalize();
+                    if ((-front).dot(dir) < 0.8660254f) {
+                        if (sead::GlobalRandom::instance()->getS32Range(0, 100) < *mFreePer_s)
+                            changeChild("暇つぶし");
+                        else
+                            changeChild("索敵");
+                        return;
+                    }
+                    sub_7100498EF8();
+                    return;
+                }
+            }
+        }
+    } else if (isCurrentChild("移動")) {
+        moved = true;
+    } else if (isCurrentChild("回転")) {
+        turned = true;
+    } else if (!isCurrentChild("暇つぶし") && isCurrentChild("待機")) {
+        if (!(_bc.value <= sead::Mathf::epsilon() && sub_7100498E54()))
+            sub_7100498D14();
+    } else {
+        const s32 time =
+            sead::GlobalRandom::instance()->getS32Range(*mFreeIntervalMin_s, *mFreeIntervalMax_s);
+        _c8 = ksys::Timer(time, time);
+        if (!(_bc.value <= sead::Mathf::epsilon() && sub_7100498E54()))
+            changeChild("待機");
+    }
+
+    if (moved) {
+        _bc.reset(*mNoMoveTime_s);
+        sead::Vector3f front;
+        sub_71000891C8(&front, mActor);
+        if (sub_710072FEC4(mActor, front, *mTargetDistMin_s, nullptr, true, nullptr) &&
+            !in_service)
+            sub_7100498D14();
+        else
+            turned = true;
+    }
+    if (turned) {
+        if (!(_c8.value <= sead::Mathf::epsilon()))
+            changeChild("待機");
+        else if (sead::GlobalRandom::instance()->getS32Range(0, 100) < *mFreePer_s)
+            changeChild("暇つぶし");
+        else
+            changeChild("索敵");
+    }
+
+    if (isCurrentChild("移動")) {
+        _e0.update();
+        sub_71004990C8();
+    }
+}
+
 // NON_MATCHING: timer load scheduling differs.
 void LynelRoam::enter_(ksys::act::ai::InlineParamPack* params) {
     const s32 time = *mNoSpAttackMoveTime_s;
-    _b0 = time;
-    _b4 = _b8 = time;
+    _b0.value = time;
+    _b0.min = _b0.max = time;
     _c8.reset(sead::GlobalRandom::instance()->getS32Range(*mFreeIntervalMin_s,
                                                       *mFreeIntervalMax_s));
     _bc.reset(*mNoMoveTime_s);
