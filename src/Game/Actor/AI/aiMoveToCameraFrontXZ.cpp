@@ -1,5 +1,6 @@
 #include "Game/Actor/AI/aiMoveToCameraFrontXZ.h"
 #include <cmath>
+#include <geom/seadGeometry.h>
 #include <gsys/gsysModel.h>
 #include "Game/Actor/aiUnk_71005D6D10.h"
 #include "Game/Actor/aiUnk_7100D8C538.h"
@@ -25,8 +26,29 @@ bool MoveToCameraFrontXZ::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
 }
 
+// NON_MATCHING: the original builds the line with the raw direction and normalises it in the line object (sead::Line
+// here has no such setter), and keeps the actor position on the stack.
 void MoveToCameraFrontXZ::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _80 = 0;
+    _84 = 0;
+    const sead::Vector3f pos = mActor->getMtx().getTranslation();
+    _88 = pos;
+    sub_71004B33BC(&_88);
+
+    // Move straight unless the player is near the line from the actor to the destination, between the two.
+    const auto& player = sub_71005D9330(mActor);
+    const sead::Vector2f point(player.x, player.z);
+    sead::Vector2f dir(_88.x - pos.x, _88.z - pos.z);
+    dir.normalize();
+    const sead::Line2f line(sead::Vector2f(pos.x, pos.z), dir);
+    if (sead::Geometry::calcSquaredDistancePointToLine(point, line, nullptr) > *mAvoidPlayerDist_s + 0.1f ||
+        (_88 - pos).dot(sub_71005D9330(mActor) - pos) < 0.0f) {
+        ksys::act::ai::InlineParamPack pack;
+        pack.addVec3(_88, "TargetPos", -1);
+        changeChild("移動", &pack);
+    } else {
+        changeToAvoidPlayerMove(pos, _88);
+    }
 }
 
 void MoveToCameraFrontXZ::changeToAvoidPlayerMove(const sead::Vector3f& a, const sead::Vector3f& b) {

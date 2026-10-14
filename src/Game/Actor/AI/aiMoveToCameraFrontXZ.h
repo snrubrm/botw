@@ -19,6 +19,8 @@ public:
     void changeToAvoidPlayerMove(const sead::Vector3f& a, const sead::Vector3f& b);
 
 protected:
+    // 0x71004b33bc (placeholder name; declared only, 1260 B): the destination in front of the camera (in / out).
+    void sub_71004B33BC(sead::Vector3f* pos);
     // 0x71004b42f0 (placeholder name): whether the actor's model bounding sphere (in world space) is on screen.
     bool sub_71004B42F0();
     // 0x71004b4180 (placeholder name): whether `pos` (XZ) lies within `scale` times the camera's half field of view of its
