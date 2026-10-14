@@ -58,4 +58,46 @@ void RemainsWaterBulletShooter::calc_() {
     sub_71002311F0();
 }
 
+// NON_MATCHING: regalloc in the entry count.
+void RemainsWaterBulletShooter::sub_71002311F0() {
+    if (isFinished() || isFailed())
+        return;
+
+    if (_60.mTimer.value <= sead::Mathf::epsilon()) {
+        while (mRemainsWaterBattleInfo_a) {
+            if (auto* info = sead::DynamicCast<Unk_7102419cb0>(
+                    *static_cast<Unk_71025afb58**>(mRemainsWaterBattleInfo_a))) {
+                for (auto*& ptr : info->_8) {
+                    if (ptr) {
+                        auto* bullet = ptr;
+                        ptr = nullptr;
+                        sub_7100231540(bullet);
+                        break;
+                    }
+                }
+            }
+
+            if (!mRemainsWaterBattleInfo_a)
+                break;
+            auto* info = sead::DynamicCast<Unk_7102419cb0>(
+                *static_cast<Unk_71025afb58**>(mRemainsWaterBattleInfo_a));
+            if (!info)
+                break;
+            int count = 0;
+            for (auto* ptr : info->_8) {
+                if (ptr)
+                    ++count;
+            }
+            if (count == 0)
+                break;
+
+            const int reload = *mReloadCounter_s;
+            _60.mTimer.reset(reload);
+            if (reload >= 1)
+                return;
+        }
+        setFinished();
+    }
+}
+
 }  // namespace uking::action

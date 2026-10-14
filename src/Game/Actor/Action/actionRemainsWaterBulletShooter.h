@@ -17,8 +17,11 @@ public:
     void loadParams_() override;
 
 protected:
-    // 0x71002311f0 (declared only): out of line in the original.
+    // 0x71002311f0: shoots the next bullet of the battle info each time the reload timer has run out.
     void sub_71002311F0();
+    // 0x7100231540 (declared only; placeholder name): shoots `bullet` (an entry of the battle info; BaseProcHandle
+    // at +0x18).
+    void sub_7100231540(void* bullet);
     void calc_() override;
 
     // static_param at offset 0x20
