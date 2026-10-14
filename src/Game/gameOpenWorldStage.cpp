@@ -10,6 +10,9 @@
 #include "Game/gameSceneSubsysMisc.h"
 #include "Game/gameWolfLinkMgr.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/System/physHavokAI.h"
+#include "KingSystem/Physics/System/physRigidBodyDividedMeshShapeMgr.h"
+#include "KingSystem/Terrain/teraSystem.h"
 #include "KingSystem/World/worldManager.h"
 #include "KingSystem/Camera/CameraMgr.h"
 #include "KingSystem/Utils/Thread/MessageDispatcherBase.h"
@@ -53,6 +56,17 @@ bool OpenWorldStage::m2(sead::BufferedSafeString* out) {
     else
         r = row;
     return getMapName(out, c, r);
+}
+
+// NON_MATCHING: the original loads HavokAI::instance()->_48 before copying the player position (as if
+// NavMeshLoadMgr::x took the position by reference, built in the call)
+void OpenWorldStage::preCalc() {
+    if (ksys::tera::checkTeraSystemStatus())
+        return;
+    const sead::Vector3f pos = mPlayer->getMtx().getTranslation();
+    ksys::phys::HavokAI::instance()->_48->x(&pos);
+    if (mDividedMeshShapeMgr)
+        mDividedMeshShapeMgr->setPlayerPos(mPlayer->getMtx().getTranslation());
 }
 
 void OpenWorldStage::postCalc() {

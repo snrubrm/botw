@@ -14,6 +14,10 @@ namespace ksys::act {
 class Actor;
 }
 
+namespace ksys::phys {
+class RigidBodyDividedMeshShapeMgr;
+}
+
 namespace uking {
 
 // Vtable 0x710245b2c8: MapProperties at 0, Stage at 8. StageFactory allocates 0x310 bytes.
@@ -53,7 +57,9 @@ private:
     u8 _d8[0xe0 - 0xd8];
     /* 0xe0 */ ksys::act::Actor* mPlayer;
     /* 0xe8 */ GameScene::sb mDrawMethods;
-    u8 _110[0x1a0 - 0x110];
+    u8 _110[0x190 - 0x110];
+    /* 0x190 */ ksys::phys::RigidBodyDividedMeshShapeMgr* mDividedMeshShapeMgr;  // created by init
+    u8 _198[0x1a0 - 0x198];
     /* 0x1a0 */ sead::FixedSafeString<32> mMapType;
     /* 0x1d8 */ ksys::Unk_71024dd110* mCamera;
     /* 0x1e0 */ u8 _1e0;

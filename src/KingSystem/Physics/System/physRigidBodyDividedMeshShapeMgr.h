@@ -45,6 +45,8 @@ public:
     void addToWorld();
     void sub_7100FC6F00(res::Handle* handle);
     void loadTeraMeshRigidBody(HandleInfo* info);
+    // Inline in the original (OpenWorldStage::preCalc stores the player position; name is a guess).
+    void setPlayerPos(const sead::Vector3f& pos) { _150 = pos; }
 
 private:
     // Complete lifetime and the two-slot table establish the owner extent.
