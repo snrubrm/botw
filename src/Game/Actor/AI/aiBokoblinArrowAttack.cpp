@@ -14,6 +14,13 @@ namespace uking::ai {
 
 BokoblinArrowAttack::BokoblinArrowAttack(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
+inline void BokoblinArrowAttack::changeToStay() {
+    const sead::Vector3f target = *mTargetPos_d;
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(target, "TargetPos", -1);
+    changeChild("静止", &pack);
+}
+
 // NON_MATCHING: stack slots of the probe directions / positions and load scheduling (the flow and calls match).
 void BokoblinArrowAttack::enter_(ksys::act::ai::InlineParamPack* params) {
     // Back away when the target is close and there is no cliff behind.
@@ -77,10 +84,7 @@ void BokoblinArrowAttack::enter_(ksys::act::ai::InlineParamPack* params) {
         }
     }
 
-    const sead::Vector3f stay_pos = *mTargetPos_d;
-    ksys::act::ai::InlineParamPack pack;
-    pack.addVec3(stay_pos, "TargetPos", -1);
-    changeChild("静止", &pack);
+    changeToStay();
 }
 
 bool BokoblinArrowAttack::isChangeable() const {
@@ -97,6 +101,50 @@ void BokoblinArrowAttack::loadParams_() {
     getStaticParam(&mBackWalkEndDist_s, "BackWalkEndDist");
     getStaticParam(&mCliffCheckDist_s, "CliffCheckDist");
     getDynamicParam(&mTargetPos_d, "TargetPos");
+}
+
+// NON_MATCHING: stack slots of the probe direction and the target copies (shared with the param pack in the original).
+void BokoblinArrowAttack::calc_() {
+    getCurrentChild()->setDynamicParam(*mTargetPos_d, "TargetPos");
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed()) {
+        if (!(isCurrentChild("後ずさり") || isCurrentChild("前進")) || !getCurrentChild()->isFailed()) {
+            setFinished();
+            return;
+        }
+        changeToStay();
+    }
+
+    if (!getCurrentChild()->isChangeable())
+        return;
+
+    if (isCurrentChild("静止")) {
+        const sead::Vector3f target_pos = *mTargetPos_d;
+        if ((target_pos - mActor->getMtx().getTranslation()).length() <= *mBackWalkStartDist_s) {
+            auto* actor = mActor;
+            const sead::Vector3f& front = actor->getMtx().getBase(2);
+            const sead::Vector3f back = -sead::Vector3f(front.x, 0.0f, front.z);
+            if (!sub_710072FEC4(actor, back, 2.5f, nullptr, true, nullptr)) {
+                const sead::Vector3f target = *mTargetPos_d;
+                ksys::act::ai::InlineParamPack pack;
+                pack.addVec3(target, "TargetPos", -1);
+                changeChild("後ずさり", &pack);
+            }
+        }
+    } else if (isCurrentChild("後ずさり")) {
+        const sead::Vector3f target = *mTargetPos_d;
+        const sead::Vector3f& pos = mActor->getMtx().getTranslation();
+        if (sead::Vector2f(target.x - pos.x, target.z - pos.z).length() >= *mBackWalkEndDist_s)
+            changeToStay();
+    } else if (isCurrentChild("前進")) {
+        auto* actor = mActor;
+        const sead::Vector3f& front = actor->getMtx().getBase(2);
+        const sead::Vector3f dir(front.x, 0.0f, front.z);
+        if (sub_710072FEC4(actor, dir, 0.5f, nullptr, true, nullptr) || !sub_7100330328() ||
+            !sub_710072E1B4(mActor, false)) {
+            changeToStay();
+        }
+    }
 }
 
 // NON_MATCHING: the weapon position is kept in integer registers and stored to the stack late in the original (stack

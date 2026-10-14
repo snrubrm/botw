@@ -14,9 +14,13 @@ public:
     bool isChangeable() const override;
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void loadParams_() override;
 
 protected:
+    // inline-only in the original; name is a guess (enter_ and calc_ (three times) repeat it): 静止 with the target
+    // position.
+    void changeToStay();
     // 0x7100330328 (placeholder name): whether the ray from the equipped weapon to the target hits the ground.
     bool sub_7100330328();
 
