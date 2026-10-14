@@ -74951,7 +74951,7 @@ Address,Quality,Size,Name
 0x0000007100d71078,O,000248,_GLOBAL__sub_I_aocHardModeManager.cpp
 0x0000007100d71170,m,000216,_ZN4ksys3act9AttClientC1Ev
 0x0000007100d71248,O,000048,_ZN4ksys3act9AttClientD1Ev
-0x0000007100d71278,U,001692,AttClient::init
+0x0000007100d71278,U,001692,_ZN4ksys3act9AttClient4initEPNS0_5ActorEPKNS_3res13AttClientList6ClientEPN4sead4HeapE
 0x0000007100d71914,O,000012,_ZNK4ksys3act9AttClient7getNameEv
 0x0000007100d71920,U,000100,AttClient::x_1
 0x0000007100d71984,U,001984,AttClient::init_0
@@ -74984,8 +74984,8 @@ Address,Quality,Size,Name
 0x0000007100d72bb0,O,000008,_ZN4ksys3act9AttClient11setCallbackEPv
 0x0000007100d72bb8,O,000428,_ZN4ksys3act15AttPriorityType5text_Ei
 0x0000007100d72d64,O,000104,_ZN4ksys3act14ActorAttentionD1Ev
-0x0000007100d72dcc,U,000544,ActorAttention::make
-0x0000007100d72fec,U,000392,ActorAttention::init
+0x0000007100d72dcc,O,000544,_ZN4ksys3act14ActorAttention4makeERKNS1_9CreateArgE
+0x0000007100d72fec,O,000392,_ZN4ksys3act14ActorAttention4initEv
 0x0000007100d73174,O,000008,_ZNK4ksys3act14ActorAttention13getNumClientsEv
 0x0000007100d7317c,O,000328,_ZNK4ksys3act14ActorAttention15getClientByNameERKN4sead14SafeStringBaseIcEE
 0x0000007100d732c4,O,000328,_ZN4ksys3act14ActorAttention15getClientByNameERKN4sead14SafeStringBaseIcEE

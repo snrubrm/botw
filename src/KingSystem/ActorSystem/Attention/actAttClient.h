@@ -22,6 +22,9 @@ public:
     // 0x7100d71248
     ~AttClient();
 
+    // 0x7100d71278 (1692 B, not decompiled; CSV AttClient::init): sets the client up from the list entry.
+    bool init(Actor* actor, const res::AttClientList::Client* client, sead::Heap* heap);
+
     const sead::SafeString& getName() const;
     // Inline-only in the original: D74920 and D74BDC read +0x14 directly; name is a guess.
     f32 getScore() const { return _14; }
