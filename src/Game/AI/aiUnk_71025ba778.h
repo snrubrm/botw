@@ -15,6 +15,14 @@ class Actor;
 // Placeholder name (dtor 0x7100710078, deleting dtor 0x71007100d4; its other functions up to 0x71007107cc are not decompiled):
 // the 0xe8-byte BoneHandleBase subclass at Unk_71025ba778 + 0x18 (a bone key at +0x20, an owned object at +0x70). Only its
 // destructor is used (declared only; Unk_71025ba778's inline destructor calls it).
+// Object that Unk_7100710078::m3 creates (factory 0x7100f72bf8, which inlines the constructor; name: placeholder after it).
+// 0x18 bytes: a zeroed 8-byte field, then a sead::Buffer of 0xb0-byte elements with a gsys::BoneAccessKeyEx at +0x18.
+// Only its destructor (0x7100f72b94, which frees the buffer) is used here; declared only.
+class Unk_7100F72BF8 {
+public:
+    ~Unk_7100F72BF8();
+};
+
 class Unk_7100710078 : public ksys::act::BoneHandleBase {
 public:
     ~Unk_7100710078() override;
@@ -27,7 +35,7 @@ public:
     /* 0x20 */ gsys::BoneAccessKeyEx _20;
     /* 0x58 */ sead::SafeString _58;
     /* 0x68 */ s32 _68 = 0;
-    /* 0x70 */ void* _70 = nullptr;  // owned object (deleted by the destructor)
+    /* 0x70 */ Unk_7100F72BF8* _70 = nullptr;  // owned object (deleted by the destructor)
     /* 0x78 */ sead::Matrix34f _78 = sead::Matrix34f::ident;
     /* 0xa8 */ sead::Matrix34f _a8 = sead::Matrix34f::ident;
     /* 0xd8 */ sead::Vector3f _d8{0.0f, 1.0f, 0.0f};

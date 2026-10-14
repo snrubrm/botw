@@ -181,13 +181,6 @@ public:
     ~Unk_7102451c48() override;
 };
 
-// vtable 0x710245b3d8 (14 slots); placeholder generated from the vtable (genskel.py).
-class Unk_710245b3d8 : public uking::Stage {
-    SEAD_RTTI_OVERRIDE(Unk_710245b3d8, uking::Stage)
-public:
-    ~Unk_710245b3d8() override;
-};
-
 // vtable 0x710245bf30 (12 slots); placeholder generated from the vtable (genskel.py).
 class Unk_710245bf30 {
     SEAD_RTTI_BASE(Unk_710245bf30)

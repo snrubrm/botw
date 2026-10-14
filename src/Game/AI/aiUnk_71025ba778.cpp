@@ -34,4 +34,6 @@ void Unk_71025ba778::sub_710070F398(ksys::act::Actor* actor) {
     }
 }
 
-Unk_7100710078::~Unk_7100710078() = default;
+Unk_7100710078::~Unk_7100710078() {
+    delete _70;
+}

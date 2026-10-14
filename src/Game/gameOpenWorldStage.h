@@ -1,6 +1,9 @@
 #pragma once
 
+#include "Game/gameOpenWorldStageMessage.h"
+#include "Game/gameScene.h"
 #include "Game/gameStageBinder.h"
+#include "KingSystem/System/DebugBoard.h"
 #include "KingSystem/Map/mapMapProperties.h"
 
 namespace ksys {
@@ -46,13 +49,16 @@ public:
     void m4(int* col, int* row, const sead::SafeString& name) override;
 
 private:
-    u8 _10[0xe0 - 0x10];
+    /* 0x10 */ Unk_710245b4f8 mTransceiver;
+    u8 _d8[0xe0 - 0xd8];
     /* 0xe0 */ ksys::act::Actor* mPlayer;
-    u8 _e8[0x1a0 - 0xe8];
+    /* 0xe8 */ GameScene::sb mDrawMethods;
+    u8 _110[0x1a0 - 0x110];
     /* 0x1a0 */ sead::FixedSafeString<32> mMapType;
     /* 0x1d8 */ ksys::Unk_71024dd110* mCamera;
     /* 0x1e0 */ u8 _1e0;
-    u8 _1e1[0x310 - 0x1e1];
+    u8 _1e1[0x300 - 0x1e1];
+    /* 0x300 */ Unk_710246c458 _300;
 };
 static_assert(sizeof(OpenWorldStage) == 0x310);
 

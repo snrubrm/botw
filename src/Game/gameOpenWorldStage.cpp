@@ -103,7 +103,9 @@ bool OpenWorldStage::fieldReenter(void* arg) {
     return false;
 }
 
-OpenWorldStage::~OpenWorldStage() = default;
+OpenWorldStage::~OpenWorldStage() {
+    sIsTitleStageActive = false;
+}
 
 bool Unk_710245b478::return0(void* owner, void* arg) const {
     return static_cast<OpenWorldStage*>(owner)->ret0(arg);
@@ -119,9 +121,8 @@ const ksys::StateBase& Unk_710245b740::getState() const {
 
 Unk_710245b710::~Unk_710245b710() = default;
 
-// NON_MATCHING: the adapter address is computed before the dispatcher call.
 Unk_710245b4f8::~Unk_710245b4f8() {
-    deregisterReceiver(mAdapter);
+    getDispatcher()->deregisterTransceiver(mAdapter);
 }
 
 bool Unk_710245b4f8::sendMessage(const ksys::MesTransceiverId& dest,
@@ -278,8 +279,6 @@ void Unk_710245b690::exec6(void* arg) {
 }
 
 }  // namespace uking
-
-Unk_710245b3d8::~Unk_710245b3d8() = default;
 
 Unk_710245b8a8::~Unk_710245b8a8() = default;
 

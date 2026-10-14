@@ -166,7 +166,9 @@ void Unk_7102450fa8::sub_7100719ED0() {
     _a0.clear();
 }
 
-Unk_7102450fa8::~Unk_7102450fa8() = default;
+Unk_7102450fa8::~Unk_7102450fa8() {
+    _8.freeBuffer();
+}
 
 // NON_MATCHING: placeholder destructor; the original (0x710071ab84) also destroys members or bases
 // this class does not declare yet.

@@ -124,9 +124,8 @@ const ksys::StateBase& StateMachineOwnerBinding::getState() const {
 
 StateMachineOwnerBinding::~StateMachineOwnerBinding() = default;
 
-// NON_MATCHING: the adapter address is computed before the dispatcher call.
 Unk_710245a688::~Unk_710245a688() {
-    deregisterReceiver(mAdapter);
+    getDispatcher()->deregisterTransceiver(mAdapter);
 }
 
 bool Unk_710245a688::sendMessage(const ksys::MesTransceiverId& dest,
