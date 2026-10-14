@@ -1,6 +1,7 @@
 #include "Game/Actor/actLastBoss.h"
 #include <basis/seadNew.h>
 #include "Game/Actor/actSiteBoss.h"
+#include "KingSystem/Event/evtMetadata.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
@@ -55,6 +56,97 @@ void LastBoss::sub_71002C5B3C() {
 void LastBoss::sub_71002C6A78() {
     if (auto* controller = sead::DynamicCast<Unk_710244eb48>(m159()))
         controller->_1c = false;
+}
+
+void LastBoss::callHyruleCastleGanonDeadAndDemo145DemosIfDead() {
+    if (_14e8.isOnBit(16))
+        return;
+    _14e8.setBit(16);
+    ksys::evt::Metadata dead("HyruleCastle", "GanonDead");
+    _1ab8.initWithEvent_(this, &dead);
+    _1ab8.loadEvent();
+    ksys::evt::Metadata demo("Demo145_0");
+    _1c88.initWithEvent_(this, &demo);
+    _1c88.loadEvent();
+}
+
+// NON_MATCHING: stack slots of the accessors and the message type are swapped; one `mov w0, wzr` is scheduled
+// before the flag store.
+bool LastBoss::transitionToSecondHalf_(f32 life_ratio) {
+    const s32* life = getLife();
+    const f32 current_life = life ? f32(*life) : 1.0f;
+    const s32 max_life = getMaxLife();
+    const f32 threshold = f32(max_life - getNumberOfClearedRemains() * 1000);
+    if (!(threshold * life_ratio >= current_life))
+        return false;
+
+    if (_14e8.isOnBit(3)) {
+        _14e8.setBit(14);
+        return false;
+    }
+    if (_14e8.isOnBit(4))
+        return true;
+
+    ksys::evt::ResidentEvent* event;
+    if (_14f8._30.isOnBit(4))
+        event = &_18e8;
+    else if (_14e4 == 1)
+        event = &_1718;
+    else
+        event = &_1548;
+    if (!event->callEvent(true))
+        return false;
+
+    ksys::act::ActorLinkConstDataAccess accessor;
+    ksys::act::acquireActor(&PlayerInfo::getSomeProcLink(), &accessor);
+    sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x80000b2), nullptr, true);
+
+    for (auto* part : _1128.mList) {
+        if (!part->mLink.hasProcInCalcState())
+            continue;
+        ksys::act::ActorLinkConstDataAccess part_accessor;
+        ksys::act::acquireActor(&part->mLink, &part_accessor);
+        if (part_accessor.isStateCalc())
+            part_accessor.sleep(ksys::act::BaseProc::SleepWakeReason::_0);
+    }
+
+    if (auto* controller = sead::DynamicCast<Unk_710244eb48>(m159()))
+        controller->sub_71006E252C();
+    sub_71007A36BC(this);
+    _14f8._30.reset(0x300);
+    sub_71002C5A14();
+    callHyruleCastleGanonDeadAndDemo145DemosIfDead();
+    sub_71002C5B3C();
+    return true;
+}
+
+bool LastBoss::transitionToSecondHalf(f32 life_ratio, const sead::SafeString& event,
+                                      const sead::SafeString& entry1, const sead::SafeString& entry2,
+                                      const sead::SafeString& entry3) {
+    loadAuraResidentEventsIfNeeded(event, entry1, entry2, entry3);
+    if (_14e8.isOnBit(0))
+        return false;
+    if (!transitionToSecondHalf_(life_ratio))
+        return false;
+    _14e8.setBit(0);
+    return true;
+}
+
+void LastBoss::loadAuraResidentEventsIfNeeded(const sead::SafeString& event, const sead::SafeString& entry1,
+                                              const sead::SafeString& entry2,
+                                              const sead::SafeString& entry3) {
+    if (_14e8.isOnBit(15))
+        return;
+    _14e8.setBit(15);
+    ksys::evt::Metadata metadata1(event.cstr(), entry1.cstr());
+    _1548.initWithEvent_(this, &metadata1);
+    _1548.loadEvent();
+    ksys::evt::Metadata metadata2(event.cstr(), entry2.cstr());
+    _1718.initWithEvent_(this, &metadata2);
+    _1718.loadEvent();
+    ksys::evt::Metadata metadata3(event.cstr(), entry3.cstr());
+    _18e8.initWithEvent_(this, &metadata3);
+    _18e8.loadEvent();
 }
 
 void LastBoss::sub_71002C5A14() {

@@ -54,6 +54,17 @@ public:
     void sub_71002C6A78();
     // 0x71002c5e58: leaves the slow-time state; true retains the slow effect.
     void sub_71002C5E58(bool keep_effect);
+    // CSV names. 0x71002c5c30: loads the three aura resident events (_1548 / _1718 / _18e8: event `event`, entry
+    // points `entry1` - `entry3`) once (bit 15 of _14e8). 0x71002c5bd0: then runs transitionToSecondHalf_ once (bit 0).
+    // 0x71002c5670 (declared only): the life check and the aura event call.
+    void loadAuraResidentEventsIfNeeded(const sead::SafeString& event, const sead::SafeString& entry1,
+                                        const sead::SafeString& entry2, const sead::SafeString& entry3);
+    bool transitionToSecondHalf(f32 life_ratio, const sead::SafeString& event, const sead::SafeString& entry1,
+                                const sead::SafeString& entry2, const sead::SafeString& entry3);
+    bool transitionToSecondHalf_(f32 life_ratio);
+    // 0x71002c5a74 (CSV name): loads the HyruleCastle / GanonDead (_1ab8) and Demo145_0 (_1c88) resident events
+    // once (bit 16 of _14e8).
+    void callHyruleCastleGanonDeadAndDemo145DemosIfDead();
     void update();
     // 0x71002c5f18 (CSV LastBoss::x; declaration only): called by GanonShockRoot::leave_.
     void x();
