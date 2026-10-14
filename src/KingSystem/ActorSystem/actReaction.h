@@ -13,6 +13,10 @@ public:
     // argument is unused. Called by OctarockOptionRoot::calc_ when the player touches the rock.
     struct Unk1 {
         void sub_7100EC66FC(Actor* actor);
+        // Constant getters (0.7f / 7 / 5); placeholder names.
+        f32 sub_7100EC877C() const;
+        s32 sub_7100EC87A4() const;
+        s8 sub_7100EC89BC() const;
     };
 
     static Reaction* instance() { return sInstance; }
