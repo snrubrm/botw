@@ -22,7 +22,7 @@ public:
     void m38(sead::Vector3f* out, f32 angle, f32 radius) override;
 
 protected:
-    // Declaration only; the original method name and void return are inferred.
+    // 0x7100454c9c (placeholder name): adds the swarm at `angle` to the samples of _68 and smooths their neighbours.
     void sub_7100454C9C(f32 angle);
     // 0x7100455054 (placeholder name): the height offset of the swarm at `angle` (called by m38): periodic linear
     // interpolation of the ten samples of _68 over a full turn.
