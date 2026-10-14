@@ -15,6 +15,7 @@
 #include "KingSystem/Physics/Constraint/physConstraint.h"
 #include <random/seadGlobalRandom.h>
 #include "Game/Actor/actMotorcycleUtil.h"
+#include "KingSystem/Utils/MathUtil.h"
 
 namespace uking::ai {
 
@@ -315,6 +316,37 @@ bool AirOctaState::sub_71002FE954(f32 max_yaw, f32 max_pitch) {
     const f32 pitch =
         std::atan2(sead::Mathf::abs(dir.y), sead::Mathf::sqrt(dir.x * dir.x + dir.z * dir.z));
     return yaw <= max_yaw && pitch <= max_pitch;
+}
+
+// NON_MATCHING: one commuted fadd in the length of the flattened player direction.
+void AirOctaState::sub_71002FEF78(f32 angle) {
+    auto* body = mActor->getMainBody();
+    if (!body)
+        return;
+
+    const sead::Vector3f pos = mActor->getMtx().getTranslation();
+    sead::Vector3f front;
+    mActor->getMtx().getBase(front, 2);
+    front.normalize();
+    front.y = 0;
+    front.normalize();
+
+    sead::Vector3f to_player = getPlayerPosition() - pos;
+    to_player.y = 0;
+    to_player.normalize();
+
+    sead::Vector3f angles;
+    ksys::util::sub_71011EF10C(&angles, front, to_player, sead::Vector3f::ey);
+    angles.y = sead::Mathf::clamp(angles.y, -angle, angle);
+
+    sead::Matrix34f rotation;
+    const sead::Vector3f velocity = body->getAngularVelocity();
+    const sead::Matrix34f transform = body->getTransform();
+    rotation.makeR({0, angles.y, 0});
+    rotation.setMul(transform, rotation);
+    body->changeRotation(rotation, sead::Mathf::epsilon());
+    body->setAngularVelocity({velocity.x, body->getAngularVelocity().y, velocity.z},
+                             sead::Mathf::epsilon());
 }
 
 }  // namespace uking::ai
