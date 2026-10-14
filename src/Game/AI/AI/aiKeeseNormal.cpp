@@ -36,6 +36,67 @@ void KeeseNormal::enter_(ksys::act::ai::InlineParamPack* params) {
     setDamageCallbackTiming(mActor, 1, &_460);
 }
 
+// NON_MATCHING: the SafeString vtable address is kept in a callee-saved register (x22) instead of being recomputed.
+void KeeseNormal::calc_() {
+    if (!_448 && *mIsCreateOnFace_m) {
+        if (_44c.value > 8.0f && (!_458 || !_458->isRequestQueued())) {
+            if (!_458)
+                _458 = ksys::phys::RayCastForRequest::allocRequest();
+            if (_458) {
+                sead::Vector3f pos;
+                mActor->getMtx().getTranslation(pos);
+                sead::Vector3f top = pos;
+                top.y += 10.0f;
+                _43c = pos;
+                sub_710072EC24(_458, pos, top, ksys::phys::RayCast::NormalCheckingMode::_0, 0.0f);
+            }
+        } else if (_458 && _458->get70() == 1) {
+            if (_458->hasHit()) {
+                _458->getHitPosition(&_430);
+                _448 = true;
+            }
+            _458->release();
+            _458 = nullptr;
+            _44c = ksys::Timer(0, 0, 1);
+        } else {
+            _44c.update();
+        }
+    }
+
+    sub_710045328C();
+
+    bool landed = false;
+    if (isCurrentChild("天井近づき")) {
+        auto* child = getCurrentChild();
+        if (child->isFinished() || child->isFailed()) {
+            changeChild("ぶらさがり");
+            landed = true;
+        }
+    }
+    if (!landed) {
+        if (isCurrentChild("ぶらさがり") && getCurrentChild()->isFailed()) {
+            _448 = false;
+            m37();
+        } else if (isCurrentChild("連携")) {
+            EnemyNormal::calc_();
+        } else if (_448 && getCurrentChild()->isChangeable() && isCurrentChild("待機")) {
+            m37();
+        } else if (getCurrentChild()->isChangeable() && _3e0._30) {
+            changeToCooperate(_3e0._38.mLink);
+            _3e0.x();
+            return;
+        } else {
+            EnemyNormal::calc_();
+        }
+    }
+
+    if (isCurrentChild("待機")) {
+        sead::Vector3f pos;
+        m48(&pos);
+        getCurrentChild()->setDynamicParam(pos, "CentralPos");
+    }
+}
+
 void KeeseNormal::leave_() {
     if (_458) {
         _458->release();

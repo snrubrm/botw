@@ -18,6 +18,7 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
     void m34() override;
@@ -33,6 +34,9 @@ public:
     void changeToCooperate(const ksys::act::BaseProcLink& target);
 
 protected:
+    // 0x710045328c (placeholder name; declared only): updates _488, the nearest glow object around the home position.
+    void sub_710045328C();
+
     // static_param at offset 0x3d0
     const float* mRoamHeightFromGlowObj_s{};
     // map_unit_param at offset 0x3d8
