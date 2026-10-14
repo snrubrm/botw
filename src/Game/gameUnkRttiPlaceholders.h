@@ -2487,7 +2487,24 @@ public:
     void sub_71010122F0(bool value);
     void sub_7101012340(s32 value, bool flag);
     void m14(sead::TextWriter& writer) override {}
+    // 0x71010123ac / 0x71010124f4 (declared only)
+    void hm14() override;
+    void hm15() override;
+
+    // 64 entries allocated by the constructor 0x7101011b90 (same zeroing loop as Unk_71024feae8's).
+    struct Entry {
+        u32 _0 = 0;
+        u16 _4 = 0;
+    };
+
+    ksys::snd::MusicInfo* mInfo;
+    s32 mState;
+    aal::TimedFader _1a0{1.0, aal::FadeCurveType::Linear, 1.0};
+    sead::Buffer<Entry> mEntries;
+    // Not declared yet: fields up to 0x200, a FixedSafeString<8>-based object at 0x200 and fields to 0x240.
+    u8 _1d8[0x240 - 0x1d8];
 };
+KSYS_CHECK_SIZE_NX150(Unk_71024fefe8, 0x240);
 
 // vtable 0x71024ff268 (17 slots); placeholder generated from the vtable (genskel.py).
 class Unk_71024ff268 : public ksys::snd::Unk_71025ce380 {

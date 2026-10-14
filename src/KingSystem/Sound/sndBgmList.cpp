@@ -65,9 +65,10 @@ Unk_71024fed48::~Unk_71024fed48() = default;
 
 Unk_71024fee78::~Unk_71024fee78() = default;
 
-// NON_MATCHING: placeholder destructor; the original (0x7101011d4c) also destroys members or bases
-// this class does not declare yet.
-Unk_71024fefe8::~Unk_71024fefe8() = default;
+// NON_MATCHING: the two secondary-vtable thunks (0x7101011d98 / 0x7101011e3c) differ in register allocation.
+Unk_71024fefe8::~Unk_71024fefe8() {
+    mEntries.freeBuffer();
+}
 
 Unk_71024ff268::~Unk_71024ff268() = default;
 
