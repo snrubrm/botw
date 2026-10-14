@@ -1,5 +1,7 @@
 #include "Game/Actor/AI/aiHorse.h"
+#include "Game/Actor/actHorse.h"
 #include "Game/Actor/actHorseBase.h"
+#include "KingSystem/ActorSystem/actChemical.h"
 #include "Game/Actor/actRideable.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
@@ -20,6 +22,22 @@ void Horse::sub_7100435180(u64 value) {
     }
     if (auto* horse = sead::DynamicCast<act::HorseBase>(mActor))
         horse->sub_7100E6C0E0(true);
+}
+
+void Horse::sub_7100435260() {
+    _48.reset(0xb0);
+    _48.set(0xa0);
+    _4c = 0;
+    if (auto* chemical = mActor->getChemicalStuff())
+        chemical->sub_7100D8EEE0();
+    auto* horse = sead::DynamicCast<act::Horse>(mActor);
+    if (!horse)
+        return;
+    for (int i = 0; i < 12; ++i) {
+        // called through a pointer in the original (not devirtualised)
+        (&horse->_1028)->m13(i);
+    }
+    horse->sub_7100E67230();
 }
 
 void Horse::sub_7100435420() {

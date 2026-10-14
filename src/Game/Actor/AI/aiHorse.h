@@ -17,6 +17,9 @@ public:
     void sub_7100435420();
     // 0x7100435180 (placeholder name)
     void sub_7100435180(u64 value);
+    // 0x7100435260 (placeholder name): sets _48 bits 0x20 / 0x80 (clears 0x10), resets the chemicals and calls
+    // m13(0..11) on the horse's _1028, then HorseBase::sub_7100E67230.
+    void sub_7100435260();
 
 protected:
     // static_param at offset 0x38
