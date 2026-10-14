@@ -4,6 +4,9 @@
 #include "Game/Actor/actEnemy.h"
 #include "Game/Actor/actWeapon.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
+#include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
+#include "KingSystem/Physics/System/physNavMeshCharacter.h"
 
 namespace uking::ai {
 
@@ -56,6 +59,35 @@ void UnarmedEnemyNoiseTarget::sub_71005D4AB0() {
     auto* actor = sead::DynamicCast<ksys::act::Actor>(_d0.getProc(nullptr, nullptr));
     pack.acquireActor(actor, "TargetWeapon", -1);
     changeChild("武器発見", &pack);
+}
+
+// NON_MATCHING: scheduling of the accessor initialisation stores
+// Picks the awareness entry nearest to the navigation target as the new target link (the dummy link if none) and
+// moves the enemy's target from the old link to it.
+void UnarmedEnemyNoiseTarget::sub_71005D4C28() {
+    const ksys::act::BaseProcLink* nearest = nullptr;
+    if (auto* nav = mActor->m45()) {
+        const sead::Vector3f target = nav->_194;
+        f32 min_dist = sead::Mathf::maxNumber();
+        for (auto& entry : _100) {
+            auto& link = entry._0.mLink;
+            ksys::act::ActorLinkConstDataAccess accessor;
+            ksys::act::acquireActor(&link, &accessor);
+            const f32 dist = (target - accessor.getActorMtx().getTranslation()).length();
+            if (dist <= min_dist) {
+                min_dist = dist;
+                nearest = &link;
+            }
+        }
+    }
+    if (!nearest)
+        nearest = &ksys::act::getDummyBaseProcLink();
+
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
+        enemy->sub_7100019D38(_d0);
+        enemy->sub_7100019A9C(*nearest);
+    }
+    _d0 = *nearest;
 }
 
 }  // namespace uking::ai

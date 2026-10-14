@@ -36043,7 +36043,7 @@ Address,Quality,Size,Name
 0x00000071005d499c,O,000276,_ZN5uking2ai23UnarmedEnemyNoiseTarget6leave_Ev
 0x00000071005d4ab0,O,000332,_ZN5uking2ai23UnarmedEnemyNoiseTarget14sub_71005D4AB0Ev
 0x00000071005d4bfc,O,000044,_ZN5uking2ai23UnarmedEnemyNoiseTarget3m35ERKN4sead7Vector3IfEE
-0x00000071005d4c28,U,000424,_ZN5uking2ai23UnarmedEnemyNoiseTarget14sub_71005D4C28Ev
+0x00000071005d4c28,m,000424,_ZN5uking2ai23UnarmedEnemyNoiseTarget14sub_71005D4C28Ev
 0x00000071005d4dd0,U,000924,uking::ai::UnarmedEnemyNoiseTarget::m37
 0x00000071005d516c,U,000804,uking::ai::UnarmedEnemyNoiseTarget::m38
 0x00000071005d5490,U,000548,uking::ai::UnarmedEnemyNoiseTarget::m39
