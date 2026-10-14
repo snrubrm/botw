@@ -62,7 +62,8 @@ protected:
     void sub_71002FE55C(const Payload* payload);
     // 0x71002fe668 (placeholder name; declared only): message kind 2: the player is at `distance`.
     void sub_71002FE668(f32 distance);
-    // 0x71002fe954 (placeholder name; declared only): the check of message kind 7 with the two angle limits.
+    // 0x71002fe954 (placeholder name): whether the player's waist is within `a` (yaw) and `b` (pitch) of the actor's
+    // front (the check of message kind 7).
     bool sub_71002FE954(f32 a, f32 b);
 
     // static_param at offset 0x1d8

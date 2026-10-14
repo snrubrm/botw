@@ -14,6 +14,7 @@
 #include "KingSystem/Utils/Thread/Message.h"
 #include "KingSystem/Physics/Constraint/physConstraint.h"
 #include <random/seadGlobalRandom.h>
+#include "Game/Actor/actMotorcycleUtil.h"
 
 namespace uking::ai {
 
@@ -287,5 +288,33 @@ void AirOctaState::m38() {
 }
 
 void AirOctaState::m39() {}
+
+bool AirOctaState::sub_71002FE954(f32 max_yaw, f32 max_pitch) {
+    auto* player_info = ksys::act::PlayerInfo::instance();
+    if (!player_info)
+        return false;
+
+    ksys::act::ActorConstDataAccess accessor;
+    if (!ksys::act::acquireActor(&player_info->getPlayerLink(), &accessor))
+        return false;
+
+    sead::Matrix34f waist_mtx;
+    if (!accessor.sub_7100D12944(&waist_mtx, "Waist"))
+        return false;
+
+    sead::Vector3f front;
+    mActor->getMtx().getBase(front, 2);
+    front.normalize();
+    front.y = 0;
+    front.normalize();
+
+    sead::Vector3f dir = waist_mtx.getTranslation() - mActor->getMtx().getTranslation();
+    dir.normalize();
+
+    const f32 yaw = act::angleBetweenVectors(front, sead::Vector3f(dir.x, 0, dir.z));
+    const f32 pitch =
+        std::atan2(sead::Mathf::abs(dir.y), sead::Mathf::sqrt(dir.x * dir.x + dir.z * dir.z));
+    return yaw <= max_yaw && pitch <= max_pitch;
+}
 
 }  // namespace uking::ai
