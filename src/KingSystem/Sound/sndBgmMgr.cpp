@@ -204,6 +204,24 @@ void Unk_710260f0c0::m7(f32 fade_sec) {
     }
 }
 
+void Unk_710260f0c0::m9(const Unk_BgmControllerM8Arg& arg) {
+    auto* state = _90;
+    if (!state)
+        return;
+    state->_c = arg._0;
+    state->_14 = arg._8;
+    state->_10 = arg._4;
+    state->_18 = arg._c;
+}
+
+void Unk_710260f0c0::m10() {
+    _a8->_224 = true;
+    if (!_b0)
+        return;
+    if (_b0->m10() || (_c4 & 8))
+        _b0->sub_7101002194();
+}
+
 void Unk_710260f0c0::sub_7100FF9810(s32 id, bool use_a0) {
     if (use_a0) {
         if (_a0)

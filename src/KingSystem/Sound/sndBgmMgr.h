@@ -518,7 +518,14 @@ public:
     void sub_710100D860();
 
     bool _8;
-    u8 _9[0x88 - 0x9];
+    u8 _9[3];
+    // Copied from the controller m9 argument by Unk_710260f0c0::m9.
+    u32 _c;
+    s32 _10;
+    u16 _14;
+    u8 _16[2];
+    u32 _18;
+    u8 _1c[0x88 - 0x1c];
 };
 KSYS_CHECK_SIZE_NX150(Unk_71024fe948, 0x88);
 

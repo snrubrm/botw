@@ -2316,6 +2316,12 @@ class Unk_71024fe368 : public ksys::snd::Unk_71025ce380 {
 public:
     ~Unk_71024fe368() override;
     void m14(sead::TextWriter& writer) override {}
+    // 0x710100b30c (declared only): called by ksys::snd::Unk_710260f0c0::m8 on its kind 3 BGM.
+    void sub_710100B30C(const ksys::snd::Unk_BgmControllerM8Arg& arg);
+
+    u8 _190[0x224 - 0x190];
+    // Set by ksys::snd::Unk_710260f0c0::m10.
+    bool _224;
 };
 
 // vtable 0x71024fe808 (19 slots); placeholder generated from the vtable (genskel.py).
