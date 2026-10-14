@@ -10,6 +10,8 @@ public:
     explicit NPCSellHorse(const InitArg& arg);
     ~NPCSellHorse() override;
 
+    bool oneShot_() override;
+
 protected:
 };
 
