@@ -7,7 +7,7 @@ DummyDropTable::DummyDropTable(const InitArg& arg) : ksys::act::ai::DummyAction(
 DummyDropTable::~DummyDropTable() = default;
 
 bool DummyDropTable::init_(sead::Heap* heap) {
-    return DummyAction::init_(heap);
+    return ksys::act::ai::DummyAction::init_(heap);
 }
 
 void DummyDropTable::enter_(ksys::act::ai::InlineParamPack* params) {
