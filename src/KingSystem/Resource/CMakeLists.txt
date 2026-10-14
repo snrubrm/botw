@@ -99,8 +99,6 @@ target_sources(uking PRIVATE
   resControlTask.h
   resCounter.cpp
   resCounter.h
-  resCurrentResNameMgr.cpp
-  resCurrentResNameMgr.h
   resEntryFactory.cpp
   resEntryFactory.h
   resGameResourceSystem.cpp

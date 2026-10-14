@@ -33,8 +33,6 @@ target_sources(uking PRIVATE
     actActorCreator.h
     actActorEditorNode.cpp
     actActorEditorNode.h
-    actActorFactory.cpp
-    actActorFactory.h
     actActorHeapUtil.cpp
     actActorHeapUtil.h
     actActorLimiter.cpp

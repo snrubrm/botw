@@ -22,6 +22,8 @@ target_sources(uking PRIVATE
     Controller.cpp
     Controller.h
     CoreInfo.h
+    CurrentResNameMgr.cpp
+    CurrentResNameMgr.h
     DebugBoard.cpp
     DebugBoard.h
     DebugBoardMgr.cpp
