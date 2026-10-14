@@ -132,6 +132,8 @@ namespace ksys::act::acc {
 // 0x7100e26d04-0x7100e26eec).
 class AreaActor : public ActorLinkConstDataAccess {
 public:
+    using ActorLinkConstDataAccess::ActorLinkConstDataAccess;
+
     // 0x7100e26d04 / 0x7100e26df8: `_848` / `_850` (null without an AreaActor).
     phys::CollisionInfo* getField848() const;
     phys::ContactPointInfo* getField850() const;
