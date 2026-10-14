@@ -541,7 +541,7 @@ public:
     // Writes the position of `chemical`'s owner (the actor position when it is the actor's own chemical).
     virtual bool m52(sead::Vector3f* out, Chemical* chemical);
     virtual bool m53();
-    virtual void killWithDropsAndEffects(int a1);
+    virtual void killWithDropsAndEffects(int emit_type);
     virtual bool m55();
     // Writes the centre of mass (CSV: tail-calls the void Actor::x_18).
     virtual void m56(sead::Vector3f* pos);

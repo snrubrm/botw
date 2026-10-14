@@ -12,7 +12,7 @@ AreaObserveActorAction::~AreaObserveActorAction() {
     ;
 }
 
-void AreaObserveActorAction::m9() {
+void AreaObserveActorAction::applyParams() {
     if (mActor)
         mActor->setFlag(ksys::act::Actor::ActorFlag::_1c, *mForceCalcInEvent_m);
 }

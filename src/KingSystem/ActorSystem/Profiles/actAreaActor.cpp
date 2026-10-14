@@ -17,7 +17,7 @@ void AreaActor::preDelete2_(const PreDeleteArg& arg) {
     _878 = nullptr;
     if (_840) {
         if (_840->isAddedToWorld())
-            _840->x_10();
+            _840->removeFromWorldImmediatelyAndResetLinks();
         if (_840) {
             delete _840;
             _840 = nullptr;

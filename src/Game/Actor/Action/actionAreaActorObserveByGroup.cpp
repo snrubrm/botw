@@ -21,7 +21,7 @@ bool AreaActorObserveByGroup::init_(sead::Heap* heap) {
     return AreaActorObserve::init_(heap);
 }
 
-void AreaActorObserveByGroup::m9() {
+void AreaActorObserveByGroup::applyParams() {
     if (*mActorGroupForObserveTag_m != mGroup)
         mGroup = *mActorGroupForObserveTag_m;
 }

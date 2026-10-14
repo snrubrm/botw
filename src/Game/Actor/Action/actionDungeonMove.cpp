@@ -62,7 +62,7 @@ void DungeonMove::calc_() {
     ksys::act::ai::Action::calc_();
 }
 
-void DungeonMove::m9() {
+void DungeonMove::applyParams() {
     _80 = mActor->getFieldBodyGroup();
     _74 = *mMoveSpeed_m;
     _78 = *mInitDgnPriority_m;

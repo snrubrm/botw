@@ -1046,9 +1046,9 @@ void InstanceSet::sub_7100FBA0F4() {
 
 void InstanceSet::sub_7100FBD434(u8 type) {
     for (auto& set : mRigidBodySets)
-        set.callRigidBody_x_7(type);
+        set.requestSuspendGravity(type);
     for (auto* body : mList)
-        body->x_17(type);
+        body->requestSuspendGravity(type);
 }
 
 bool InstanceSet::sub_7100FBDE90(RigidBody* body) const {

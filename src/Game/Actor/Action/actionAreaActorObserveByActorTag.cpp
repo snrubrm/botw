@@ -20,7 +20,7 @@ bool AreaActorObserveByActorTag::init_(sead::Heap* heap) {
 }
 
 // NON_MATCHING: see init_
-void AreaActorObserveByActorTag::m9() {
+void AreaActorObserveByActorTag::applyParams() {
     _60 = sead::HashCRC32::calcStringHash(mActorTag_m);
 }
 

@@ -35,8 +35,8 @@ bool Ragdoll::init_(sead::Heap* heap) {
 void Ragdoll::enter_(ksys::act::ai::InlineParamPack* params) {
     if (auto* controller = mActor->getCharacterController()) {
         mCCAccessor.sub_710072AD1C(controller);
-        mCCAccessor._4.setDirect(0xc);
-        mCCAccessor.sub_710072AE20(controller);
+        mCCAccessor.mSavedFlagMask.setDirect(0xc);
+        mCCAccessor.saveFlags(controller);
         controller->mFlags.reset(8);
         controller->enableContactLayer(ksys::phys::ContactLayer::EntityPlayer);
         controller->enableContactLayer(ksys::phys::ContactLayer::EntityNPC);
@@ -92,7 +92,7 @@ void Ragdoll::leave_() {
     m39();
     if (auto* controller = mActor->getCharacterController()) {
         mCCAccessor.resetMotionType(controller);
-        mCCAccessor.sub_710072AEEC(controller);
+        mCCAccessor.restoreSavedFlags(controller);
         controller->sub_7100F60604();
     }
 }

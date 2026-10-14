@@ -155,7 +155,7 @@ void RailMoveObject::loadParams_() {
     getMapUnitParam(&mRailMoveSpeed_m, "RailMoveSpeed");
 }
 
-void RailMoveObject::m9() {
+void RailMoveObject::applyParams() {
     _60 = m34();
     if (_60) {
         _74 = 0;

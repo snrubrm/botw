@@ -135,7 +135,7 @@ void SwitchStepSliderConstraint::sub_710028EE98() {
         playAS(mOffASName_s.cstr(), *mIsIgnoreSame_s, *mTargetIdx_s, *mSeqBankIdx_s, -1.0f);
 }
 
-void SwitchStepSliderConstraint::m9() {
+void SwitchStepSliderConstraint::applyParams() {
     _d8 = mActor->getFieldBodyGroup();
 }
 

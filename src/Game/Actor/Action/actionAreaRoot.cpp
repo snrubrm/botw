@@ -39,7 +39,7 @@ void AreaRoot::calc_() {
     ksys::act::ai::Action::calc_();
 }
 
-void AreaRoot::m9() {
+void AreaRoot::applyParams() {
     if (mActor)
         mActor->setFlag(ksys::act::Actor::ActorFlag::_1c, *mForceCalcInEvent_m);
 }

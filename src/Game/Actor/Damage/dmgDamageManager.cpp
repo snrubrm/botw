@@ -1148,7 +1148,7 @@ bool DamageManager::m16(const ksys::Message& message) {
     return true;
 }
 
-void DamageManager::m45(const ConditionDamageInfo& info) {
+void DamageManager::applyRequestedDamage(const ConditionDamageInfo& info) {
     if ((_212 & 0x40) && !(info.mFlags & 1))
         return;
     if (mActor->getActorFlags2().isOn(ksys::act::Actor::ActorFlag2::Alive) && !(info.mFlags & 0x20))

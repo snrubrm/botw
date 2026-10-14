@@ -474,7 +474,7 @@ void RigidBody::replaceMotionObject() {
     }
 }
 
-void RigidBody::x_10() {
+void RigidBody::removeFromWorldImmediatelyAndResetLinks() {
     auto lock = makeScopedLock();
 
     if (isEntity()) {
@@ -569,7 +569,7 @@ void RigidBody::resetFrozenState() {
         mMotionAccessor->resetFrozenState();
 }
 
-void RigidBody::x_17(u8 type) {
+void RigidBody::requestSuspendGravity(u8 type) {
     if (isSensor())
         return;
 
@@ -1033,7 +1033,7 @@ void RigidBody::changeMotionType(MotionType motion_type) {
     mMotionFlags.set(MotionFlag::DirtyMaxVelOrTimeFactor);
     mMotionFlags.set(MotionFlag::DirtyDampingOrGravityFactor);
     mMotionFlags.set(MotionFlag::DirtyCenterOfMassLocal);
-    x_40();
+    processUpdateFlags();
 }
 
 void RigidBody::updateMotionTypeRelatedFlags() {
@@ -1928,8 +1928,8 @@ hkpMotion* RigidBody::getMotion() const {
     return getHkBody()->getMotion();
 }
 
-void RigidBody::x_123(bool unk) {
-    if (unk) {
+void RigidBody::setRequestMgrContactCallbackEnabled(bool enabled) {
+    if (enabled) {
         mContactCallback = &System::instance()->getRigidBodyRequestMgr()->_250;
     } else if (mContactCallback == &System::instance()->getRigidBodyRequestMgr()->_250) {
         mContactCallback = nullptr;

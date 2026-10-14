@@ -26,19 +26,19 @@ public:
     bool changeMotionType(phys::CharacterController* cc, MotionType motion_type);
     void resetMotionType(phys::CharacterController* cc);
     void resetRigidBodyMotion(Actor* actor);
-    void sub_710072AE20(phys::CharacterController* cc);
-    void sub_710072AEEC(phys::CharacterController* cc);
+    void saveFlags(phys::CharacterController* cc);
+    void restoreSavedFlags(phys::CharacterController* cc);
 
 private:
-    MotionType mMotionType{};
+    MotionType mSavedMotionType{};
 
 public:
-    // Which controller flags sub_710072AE20 saves / sub_710072AEEC restores (Ragdoll::enter_ sets it
+    // Which controller flags saveFlags saves / restoreSavedFlags restores (Ragdoll::enter_ sets it
     // directly).
-    sead::BitFlag8 _4;
+    sead::BitFlag8 mSavedFlagMask;
 
 private:
-    sead::BitFlag8 _5;
+    sead::BitFlag8 mSavedFlags;
 };
 
 // Unnamed CCAccessor extension (its functions follow CCAccessor's in the same TU): puts the actor into

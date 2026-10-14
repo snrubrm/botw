@@ -27,7 +27,7 @@ public:
     ~AreaActorObserveByGroup() override;
 
     bool init_(sead::Heap* heap) override;
-    void m9() override;
+    void applyParams() override;
 
 protected:
     void m32() override;

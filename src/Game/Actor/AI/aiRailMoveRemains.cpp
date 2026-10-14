@@ -109,7 +109,7 @@ void RailMoveRemains::loadParams_() {
     getStaticParam(&mInitPosByRailRatio_s, "InitPosByRailRatio");
 }
 
-void RailMoveRemains::m9() {}
+void RailMoveRemains::applyParams() {}
 
 bool RailMoveRemains::reenter_(ksys::act::ai::ActionBase* other, bool x) {
     if (!ksys::act::ai::ActionBase::reenter_(other, true))

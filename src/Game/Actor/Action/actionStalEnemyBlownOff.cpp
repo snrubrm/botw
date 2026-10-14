@@ -108,8 +108,8 @@ void StalEnemyBlownOff::enter_(ksys::act::ai::InlineParamPack* params) {
         playAS(mBlownOffASName_s.cstr(), true, 0, 0, -1.0f);
     if (auto* controller = actor->getCharacterController()) {
         _1e8.sub_710072AD1C(controller);
-        _1e8._4.setDirect(0xe);
-        _1e8.sub_710072AE20(controller);
+        _1e8.mSavedFlagMask.setDirect(0xe);
+        _1e8.saveFlags(controller);
         controller->sub_7100F60AE0();
         controller->sub_7100F62CA8(false);
         controller->sub_7100F63554(false);
@@ -184,7 +184,7 @@ void StalEnemyBlownOff::leave_() {
         controller->sub_7100F5EEB8(1.0f);
     if (auto* controller = actor->getCharacterController()) {
         _1e8.resetMotionType(controller);
-        _1e8.sub_710072AEEC(controller);
+        _1e8.restoreSavedFlags(controller);
         controller->sub_7100F60AE0();
         if (!_16e) {
             controller->disableContactLayer(ksys::phys::ContactLayer::EntityPlayer);

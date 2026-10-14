@@ -117,8 +117,6 @@ public:
 
     void setGenGroup(GenGroup* group);
 
-    void x_1(act::Actor* actor, Object* obj);
-
     // lane4 s30: forwarders to mGenGroup (names from the CSV; the GenGroup callees are placeholders).
     // 0x7100d4f7c8: allocates `mRails` (num + 1 pointers, the last one null).
     bool allocRails(s32 num, sead::Heap* heap);

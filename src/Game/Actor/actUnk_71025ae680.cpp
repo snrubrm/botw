@@ -25,7 +25,7 @@ bool sub_71006DF4F0(ksys::act::Actor* actor) {
 void Unk_71025ae680::sub_71006DF5CC(const act::ConditionDamageInfo& info) {
     auto* manager = sead::DynamicCast<act::DamageManagerBase>(_10->getDamageMgr());
     if (manager)
-        manager->m45(info);
+        manager->applyRequestedDamage(info);
 }
 
 void Unk_71025ae680::m6() {

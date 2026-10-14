@@ -61,7 +61,7 @@ void RailMoveObjectOneWay::loadParams_() {
     getStaticParam(&mASKeyName_Off_s, "ASKeyName_Off");
 }
 
-void RailMoveObjectOneWay::m9() {
+void RailMoveObjectOneWay::applyParams() {
     _58 = sub_7100EEF264(mActor, 0);
     if (_58)
         _60 = _58->getNumPoints();

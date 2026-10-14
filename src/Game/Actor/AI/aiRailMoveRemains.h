@@ -17,7 +17,7 @@ public:
     void calc_() override;
     void leave_() override;
     void loadParams_() override;
-    void m9() override;
+    void applyParams() override;
     bool reenter_(ksys::act::ai::ActionBase* other, bool x) override;
 
     virtual ksys::map::Rail* m34();

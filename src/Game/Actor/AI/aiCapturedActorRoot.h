@@ -33,7 +33,7 @@ public:
     explicit CapturedActorRoot(const InitArg& arg);
     ~CapturedActorRoot() override = default;
 
-    void m9() override;
+    void applyParams() override;
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void calc_() override;

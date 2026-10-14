@@ -37,7 +37,7 @@ void AITerror::sub_7100D786EC() {
     if (_80)
         _80->sub_7100D78444(this);
     if (_8) {
-        _8->x_10();
+        _8->removeFromWorldImmediatelyAndResetLinks();
         if (auto* actor = _10._8) {
             if (auto* physics = actor->getPhysics()) {
                 physics->sub_7100FC0600(_8);

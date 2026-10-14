@@ -102,7 +102,7 @@ public:
     bool m38(ksys::phys::RigidBody* body) override;
     // Slot 45 (0x71006d85a8): applies a condition damage (kind 2 / 4: m54 / m55, kind 3: sub_71006D888C, the others
     // through sub_71006D357C with event 5).
-    void m45(const ConditionDamageInfo& info) override;
+    void applyRequestedDamage(const ConditionDamageInfo& info) override;
     // Slot 46 (0x71006d6b5c): the base handling, then the flags, guard state and scaled direction (_cc) of the
     // Struct20_2 in mStruct20_b.
     void handleDamageForPlayer(u32* a2, u32* a3, u32* a4, u32* a5, u32* a6) override;
@@ -151,7 +151,7 @@ public:
     virtual bool m51(const ksys::act::BaseProcLink* link);
     virtual s32 m52() { return 40; }
     virtual s32 m53() { return 0; }
-    // Slots 54 / 55 (0x71006d8a54 / 0x71006d8be4; not decompiled): the condition damages of kind 2 / 4 (see m45).
+    // Slots 54 / 55 (0x71006d8a54 / 0x71006d8be4; not decompiled): the condition damages of kind 2 / 4 (see applyRequestedDamage).
     virtual void m54(const ConditionDamageInfo& info);
     virtual void m55(const ConditionDamageInfo& info);
     // Slot 56 (lane4 s50): returns bool (the result of DynamicActor::m154).
@@ -189,7 +189,7 @@ public:
     // DamageMgrPlayer::applyDamage and PlayerNormal::enter_): resets the damage indices, flags and direction.
     // Placeholder name.
     void sub_71006D276C();
-    // 0x71006d888c (placeholder name): condition damage of kind 3 (m45).
+    // 0x71006d888c (placeholder name): condition damage of kind 3 (applyRequestedDamage).
     void sub_71006D888C(const ConditionDamageInfo& info);
     bool sub_71006D357C(s32 type, s32 eventId, bool flag, s32 damage, s32 df48, u32 minDmg, u32 f50, s32 f54,
                         s32 f40);

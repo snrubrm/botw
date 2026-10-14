@@ -45,7 +45,7 @@ void DungeonRotateSymmetry::calc_() {
     ksys::act::ai::Action::calc_();
 }
 
-void DungeonRotateSymmetry::m9() {
+void DungeonRotateSymmetry::applyParams() {
     _78 = mActor->getFieldBodyGroup();
     _74 = sead::Mathf::deg2rad(*mTiltAngularSpeed_m);
 }

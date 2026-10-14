@@ -25,7 +25,7 @@ public:
 
 protected:
     void calc_() override;
-    void m9() override;
+    void applyParams() override;
 
     // map_unit_param at offset 0x20
     const int* mInitDgnPriority_m{};

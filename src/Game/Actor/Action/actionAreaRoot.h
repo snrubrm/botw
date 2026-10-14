@@ -12,7 +12,7 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void loadParams_() override;
-    void m9() override;
+    void applyParams() override;
 
 protected:
     void calc_() override;

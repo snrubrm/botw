@@ -28,7 +28,7 @@ PreyNormal::PreyNormal(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 PreyNormal::~PreyNormal() = default;
 
 bool PreyNormal::init_(sead::Heap* heap) {
-    m9();
+    applyParams();
     return true;
 }
 
@@ -66,7 +66,7 @@ bool PreyNormal::isChangeable() const {
     return !isCurrentChild("逃走") && !isCurrentChild("ダメージ逃走") && !isCurrentChild("戦闘");
 }
 
-void PreyNormal::m9() {
+void PreyNormal::applyParams() {
     _d0 = sead::DynamicCast<act::Enemy>(mActor);
     auto* root = mActor->getRootAi();
     _180 = (root && root->getI() == 4) || *mIsLocatorCreate_m;

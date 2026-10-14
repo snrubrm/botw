@@ -80,7 +80,7 @@ public:
     void leave_() override;
     void loadParams_() override;
     bool handleMessage_(const ksys::Message* message) override;
-    void m9() override;
+    void applyParams() override;
 
     virtual bool m34();
     virtual bool m35();
@@ -157,7 +157,7 @@ protected:
     const bool* mIsLocatorCreate_m{};
     // map_unit_param at offset 0xc8
     const bool* mEnableNoEntryAreaCheck_m{};
-    /* 0x0d0 */ act::Enemy* _d0 = nullptr;  // m9: DynamicCast<Enemy>(mActor)
+    /* 0x0d0 */ act::Enemy* _d0 = nullptr;  // applyParams: DynamicCast<Enemy>(mActor)
     /* 0x0d8 */ ksys::act::AwarenessInstance* _d8 = nullptr;
     /* 0x0e0 */ sead::Vector3f _e0;
     /* 0x0f0 */ void* _f0 = nullptr;

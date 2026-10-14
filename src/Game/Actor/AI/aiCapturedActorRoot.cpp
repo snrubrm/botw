@@ -17,7 +17,7 @@ namespace uking::ai {
 // NON_MATCHING: the original addresses everything from `this` (we keep this+0x38 in a register)
 CapturedActorRoot::CapturedActorRoot(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
-void CapturedActorRoot::m9() {
+void CapturedActorRoot::applyParams() {
     auto* root_ai = mActor->getRootAi();
     _f4 = (root_ai && root_ai->getI() == 4) || *mIsLocatorCreate_m;
     if (mActor->hasPlacementLinkWithTypeFreeze())
@@ -29,7 +29,7 @@ void CapturedActorRoot::m9() {
 }
 
 bool CapturedActorRoot::init_(sead::Heap* heap) {
-    m9();
+    applyParams();
     return true;
 }
 

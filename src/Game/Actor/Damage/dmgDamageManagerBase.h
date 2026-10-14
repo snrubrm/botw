@@ -39,10 +39,10 @@ class DamageCallbackInfo;
 // Placeholder name: a condition damage (burn / ice / electric ...) passed to slot 45, built on the stack by the
 // condition handlers of uking::act::Unk_71025ae680 and its subclasses (sent through Unk_71025ae680::sub_71006DF5CC).
 struct ConditionDamageInfo {
-    s32 mKind;    // DamageManager::m45 switches on it (0-11)
+    s32 mKind;    // DamageManager::applyRequestedDamage switches on it (0-11)
     s32 mDamage;
     u32 _8 = 0;       // bit 6: DamageManager::_8c |= 4
-    u32 mFlags = 0;   // bits 0-5, 8 tested by DamageManager::m45 / m54 / m55
+    u32 mFlags = 0;   // bits 0-5, 8 tested by DamageManager::applyRequestedDamage / m54 / m55
     s32 _10 = -1;     // copied to DamageManager::_88 with bit 3 of mFlags
 };
 
@@ -77,7 +77,7 @@ public:
     virtual bool applyDamage(s32& life);
     // Slot 16: message handler (DamageManager::m16 forwards to its listeners).
     virtual bool m16(const ksys::Message& message) { return false; }
-    virtual void m17() {}
+    virtual void accumulateStasisBlowVelocity() {}
     virtual s32 getNumCallbacks();
     virtual bool initCallbacks(sead::Heap* heap);
 
@@ -129,7 +129,7 @@ public:
     virtual bool m42() { return false; }
     virtual void m43() {}
     virtual bool canTakeDamage();
-    virtual void m45(const ConditionDamageInfo& info) {}
+    virtual void applyRequestedDamage(const ConditionDamageInfo& info) {}
     virtual void handleDamageForPlayer(u32* a2, u32* a3, u32* a4, u32* a5, u32* a6);
     virtual bool addDamage(s32 type, s32 damage, s32 df48, s32 minDmg, s32 f50, s32 f54, s32 f40);
     virtual void onApplyDamage() {}

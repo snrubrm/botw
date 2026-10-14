@@ -12,7 +12,7 @@ public:
     explicit AreaObserveActorAction(const InitArg& arg);
     ~AreaObserveActorAction() override;
 
-    void m9() override;
+    void applyParams() override;
 
 protected:
     void m32() override;

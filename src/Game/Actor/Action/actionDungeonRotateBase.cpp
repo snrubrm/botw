@@ -78,7 +78,7 @@ void DungeonRotateBase::calc_() {
     ksys::act::ai::Action::calc_();
 }
 
-void DungeonRotateBase::m9() {
+void DungeonRotateBase::applyParams() {
     _90 = mActor->getFieldBodyGroup();
     _7c = *mInitDgnPriority_m;
     _88 = sead::Mathf::deg2rad(*mTiltAngularSpeed_m);
