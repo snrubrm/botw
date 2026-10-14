@@ -328,3 +328,7 @@ void changeSceneForCDungeonToMainField(int type, sead::BufferedSafeString* map_n
                                        sead::BufferedSafeString* pos_name);
 void changeSceneForDungeonToMainField(int type, sead::BufferedSafeString* map_name,
                                       sead::BufferedSafeString* pos_name);
+// 0x71007bbd98 (CSV changeSceneImpl; declared only): requests the scene change to `map_name` / `pos_name`
+// (ToCDungeon::enter_ passes ChangeSceneBase::_48 and 0).
+void changeSceneImpl(const sead::SafeString& map_name, const sead::SafeString& pos_name, int type,
+                     int a4);
