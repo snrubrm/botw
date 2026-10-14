@@ -4,6 +4,37 @@
 
 namespace uking {
 
+// Flag names (initialised by the static initializer 0x7100683c6c; lane4 s85, placeholder names).
+sead::SafeString sWolfLink_CurrentLife = "WolfLink_CurrentLife";
+sead::SafeString sWolfLink_CurrentPos = "WolfLink_CurrentPos";
+sead::SafeString sWolfLink_MaxLife = "WolfLink_MaxLife";
+sead::SafeString sWolfLink_LastRecordedHearts = "WolfLink_LastRecordedHearts";
+sead::SafeString sWolfLink_TodayFirstDetectedUID = "WolfLink_TodayFirstDetectedUID";
+sead::SafeString sWolfLink_DiedToday = "WolfLink_DiedToday";
+sead::SafeString sWolfLink_HasBeenUsed = "WolfLink_HasBeenUsed";
+
+SEAD_SINGLETON_DISPOSER_IMPL(WolfLinkMgr)
+
+// NON_MATCHING: written to emit the vtable; the original also resets _68 from a static id, deletes the _38 proc
+// and disconnects mSlot explicitly
+WolfLinkMgr::~WolfLinkMgr() {
+    _28.reset();
+    _80 = nullptr;
+}
+
+void WolfLinkMgr::init() {
+    init_();
+    ksys::gdt::Manager::instance()->addReinitCallback(mSlot);
+}
+
+void WolfLinkMgr::init_() {
+    auto* gdm = ksys::gdt::Manager::instance();
+    mCurrentLifeHandle = gdm->getS32Handle(sWolfLink_CurrentLife);
+    mCurrentPosHandle = gdm->getVec3fHandle(sWolfLink_CurrentPos);
+    mMaxLifeHandle = gdm->getS32Handle(sWolfLink_MaxLife);
+    mDiedTodayHandle = gdm->getBoolHandle(sWolfLink_DiedToday);
+}
+
 bool WolfLinkMgr::sub_7100682CB4() const {
     return _60 == 2 && _80 && (_80->_1698 & 0x4000);
 }

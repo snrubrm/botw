@@ -1,9 +1,12 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <limits>
 #include <heap/seadDisposer.h>
 #include <math/seadVector.h>
+#include "KingSystem/ActorSystem/actBaseProcHandle.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
+#include "KingSystem/GameData/gdtManager.h"
 #include "KingSystem/Utils/Thread/MessageTransceiverId.h"
 
 namespace ksys::act {
@@ -22,10 +25,18 @@ class WolfLink;
 // TODO: incomplete.
 class WolfLinkMgr {
     SEAD_SINGLETON_DISPOSER(WolfLinkMgr)
-    WolfLinkMgr();
+    WolfLinkMgr() = default;
+    // 0x7100682a1c (D1) / 0x7100682b40 (D0)
     virtual ~WolfLinkMgr();
 
 public:
+    // 0x7100682b64 (CSV WolfLinkMgr::init)
+    void init();
+    // 0x7100682b94 (CSV WolfLinkMgr::init_): looks up the WolfLink_* flag handles.
+    void init_();
+    // 0x7100682a18 (CSV j_WolfLinkMgr::init_; placeholder name): the gdt reinit callback.
+    void onGdtReinit(ksys::gdt::Manager::ReinitEvent*) { init_(); }
+
     // 0x71006836D0: updates the registered Wolf Link state.
     void postCalc();
 
@@ -43,13 +54,22 @@ public:
     bool sub_7100683698();
 
     /* 0x28 */ ksys::act::BaseProcLink _28;  // the Wolf Link actor (sub_710068367C / sub_7100683698)
-    u8 _38[0x54 - 0x38];
-    /* 0x54 */ sead::Vector3f _54;  // warp destination (WolfLinkAmiiboWarp::enter_)
-    /* 0x60 */ s32 _60;  // 1: a Wolf Link is registered / spawned
-    u8 _64[0x68 - 0x64];
+    /* 0x38 */ ksys::act::BaseProcHandle _38;
+    /* 0x48 */ sead::Vector3f _48{std::numeric_limits<f32>::quiet_NaN(), std::numeric_limits<f32>::quiet_NaN(),
+                                  std::numeric_limits<f32>::quiet_NaN()};
+    /* 0x54 */ sead::Vector3f _54{std::numeric_limits<f32>::quiet_NaN(), std::numeric_limits<f32>::quiet_NaN(),
+                                  std::numeric_limits<f32>::quiet_NaN()};  // warp destination (WolfLinkAmiiboWarp::enter_)
+    /* 0x60 */ s32 _60 = 0;  // 1: a Wolf Link is registered / spawned
+    /* 0x64 */ u8 _64 = 0;
     /* 0x68 */ ksys::MesTransceiverId _68;
     // Registration 683970 stores the WolfLink cast from 683790; release 682F80 clears it.
-    /* 0x80 */ act::WolfLink* _80;
+    /* 0x80 */ act::WolfLink* _80 = nullptr;
+    /* 0x88 */ ksys::gdt::Manager::ReinitSignal::Slot mSlot{this, &WolfLinkMgr::onGdtReinit};
+    /* 0xf8 */ ksys::gdt::FlagHandle mCurrentLifeHandle = ksys::gdt::InvalidHandle;
+    /* 0xfc */ ksys::gdt::FlagHandle mCurrentPosHandle = ksys::gdt::InvalidHandle;
+    /* 0x100 */ ksys::gdt::FlagHandle mMaxLifeHandle = ksys::gdt::InvalidHandle;
+    /* 0x104 */ ksys::gdt::FlagHandle mDiedTodayHandle = ksys::gdt::InvalidHandle;
 };
+KSYS_CHECK_SIZE_NX150(WolfLinkMgr, 0x108);
 
 }  // namespace uking
