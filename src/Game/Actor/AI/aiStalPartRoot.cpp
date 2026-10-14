@@ -8,6 +8,8 @@
 #include "Game/Actor/aiUnk_71006F5B14.h"
 #include "Game/Actor/actUnk_71025ae680.h"
 #include "KingSystem/ActorSystem/actChemical.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "Game/Actor/Damage/dmgDamageCallback.h"
 
 namespace uking::ai {
 
@@ -87,6 +89,47 @@ bool StalPartRoot::handleMessage_(const ksys::Message* message) {
     if (message->getType() == 0x3000003)
         sub_71005A8A8C(false);
     return false;
+}
+
+void StalPartRoot::sub_71005A8A8C(bool enable) {
+    if (_a0 == enable)
+        return;
+
+    auto* actor = mActor;
+    auto* enemy = sead::DynamicCast<act::Enemy>(actor);
+    auto* body = actor->getMainBody();
+    if (enemy) {
+        auto* unit = enemy->m159();
+        if (enable) {
+            setDamageCallbackTiming(enemy, 4, &_38);
+            setDamageCallbackTiming(enemy, 5, &_60);
+            sub_71006F5940(enemy->getChemicalStuff());
+            if (body) {
+                body->enableContactLayer(ksys::phys::ContactLayer::EntityNPC);
+                body->enableContactLayer(ksys::phys::ContactLayer::EntityRagdoll);
+            }
+            if (unit)
+                unit->sub_71006DFA04(true);
+        } else {
+            sub_71005DA114(enemy, &_38);
+            sub_71005DA114(enemy, &_60);
+            if (auto* chemical = enemy->getChemicalStuff()) {
+                sub_71006F5A80(chemical);
+                chemical->sub_7100D8EEE0();
+            }
+            if (body) {
+                body->disableContactLayer(ksys::phys::ContactLayer::EntityNPC);
+                body->disableContactLayer(ksys::phys::ContactLayer::EntityRagdoll);
+            }
+            if (unit) {
+                unit->sub_71006DFA04(false);
+                for (int i = 0; i < 12; ++i)
+                    unit->m13(i);
+            }
+            _94.reset(-1.0f);
+        }
+    }
+    _a0 = enable;
 }
 
 }  // namespace uking::ai
