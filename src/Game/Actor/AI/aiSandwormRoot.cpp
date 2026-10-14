@@ -1,4 +1,5 @@
 #include "Game/Actor/AI/aiSandwormRoot.h"
+#include "Game/Actor/aiUnk_7102451120.h"
 #include "Game/Actor/actEnemy.h"
 #include "Game/Actor/actSandworm.h"
 #include "Game/Actor/Damage/dmgDamageManager.h"
@@ -85,6 +86,31 @@ void Unk_710241c6c0::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, act::Dama
                 info->mFlags |= 0x2001;
         }
     }
+}
+
+// NON_MATCHING: regalloc (ours keeps &_1e8._38.mLink in a callee-saved register; the original recomputes it)
+// A hit by a weak-point attack (message 0x8000042): remembers the attacker and applies its attack power as
+// damage type 22.
+bool SandwormRoot::handleMessage_(const ksys::Message* message) {
+    if (!_1e8.m2(*message))
+        return EnemyRoot::handleMessage_(message);
+
+    sub_7100720A00(mActor, nullptr);
+    if (auto* manager = mActor->getDamageMgr()) {
+        ksys::act::ActorLinkConstDataAccess accessor;
+        if (ksys::act::acquireActor(&_1e8._38.mLink, &accessor)) {
+            act::Struct20_2 damage;
+            damage.mField_8 = accessor.getAttackPower();
+            damage.mField_14 = 4;
+            damage.mField_18 = 22;
+            if (manager->mStruct20_a) {
+                manager->mField_30.lock();
+                manager->mStruct20_a->combineMaybe(&damage);
+                manager->mField_30.unlock();
+            }
+        }
+    }
+    return true;
 }
 
 }  // namespace uking::ai
