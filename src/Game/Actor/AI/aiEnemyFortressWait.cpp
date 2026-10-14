@@ -2,6 +2,11 @@
 #include "Game/Actor/actUnk_71002dccbc.h"
 #include "Game/Actor/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorCreator.h"
+#include "KingSystem/ActorSystem/actActorHeapUtil.h"
+#include "KingSystem/ActorSystem/actInstParamPack.h"
+#include <random/seadGlobalRandom.h>
 
 namespace uking::ai {
 
@@ -9,8 +14,38 @@ EnemyFortressWait::EnemyFortressWait(const InitArg& arg) : EnemyWaitViewItem(arg
 
 EnemyFortressWait::~EnemyFortressWait() = default;
 
+// NON_MATCHING: the original copies the translation to the stack word by word before the "@P" key setup.
 bool EnemyFortressWait::init_(sead::Heap* heap) {
-    return EnemyWaitViewItem::init_(heap);
+    if (!EnemyWaitViewItem::init_(heap) || !_70.sub_7100390930(heap))
+        return false;
+
+    if (!mFortressEatItem_m.isEmpty()) {
+        ksys::act::InstParamPack pack;
+        pack->addPosition(mActor->getMtx().getTranslation());
+        sead::Vector3f rotation;
+        mActor->getMtx().getRotation(rotation);
+        pack->addRotation(rotation);
+        pack->addNoDisplay();
+        ksys::act::ActorCreator::instance()->requestCreateActor(
+            mFortressEatItem_m.cstr(), ksys::act::ActorHeapUtil::instance()->getBaseProcHeap(), &_440, &pack, nullptr, 1);
+    } else if (!mEatItem_s.isEmpty()) {
+        const s32 fortress_eat_per = *mFortressEatPer_m;
+        const s32 eat_per = *mEatPer_s;
+        const s32 per = fortress_eat_per >= 0 ? fortress_eat_per : eat_per;
+        if (per > s32(sead::GlobalRandom::instance()->getU32(100))) {
+            ksys::act::InstParamPack pack;
+            pack->addPosition(mActor->getMtx().getTranslation());
+            sead::Vector3f rotation;
+            mActor->getMtx().getRotation(rotation);
+            pack->addRotation(rotation);
+            pack->addNoDisplay();
+            ksys::act::ActorCreator::instance()->requestCreateActor(
+                mEatItem_s.cstr(), ksys::act::ActorHeapUtil::instance()->getBaseProcHeap(), &_440, &pack, nullptr, 1);
+        }
+    }
+    _450 = false;
+    _451 = false;
+    return true;
 }
 
 inline void EnemyFortressWait::changeToEat() {
