@@ -23,6 +23,10 @@ class WolfLink;
 // postCalc 0x71006836d0; instance pointer at 0x71025c6ff8; namespace is a guess, like HorseMgr's). The manager of
 // the Wolf Link (amiibo) actor; only what the AI actions use is declared.
 // TODO: incomplete.
+// 0x7100683548 (308 B, declared only; placeholder name): checks the event manager (an active event that keeps the
+// Wolf Link in state 5).
+bool sub_7100683548();
+
 class WolfLinkMgr {
     SEAD_SINGLETON_DISPOSER(WolfLinkMgr)
     WolfLinkMgr() = default;
@@ -39,6 +43,12 @@ public:
 
     // 0x71006836D0: updates the registered Wolf Link state.
     void postCalc();
+
+    // 0x7100683410 / 0x7100683790 / 0x710068386c (312 / 220 / 260 B, declared only; placeholder names): the
+    // postCalc handlers of the states 7 (and 6), 1 and 2.
+    void sub_7100683410();
+    void sub_7100683790();
+    void sub_710068386C();
 
     // 0x7100682cb4: registered state 2 and the linked actor flag at 0x1699 bit 6.
     bool sub_7100682CB4() const;

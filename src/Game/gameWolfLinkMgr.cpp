@@ -1,6 +1,8 @@
 #include "Game/gameWolfLinkMgr.h"
 #include <limits>
 #include "Game/Actor/actWolfLink.h"
+#include "Game/gameRoot38.h"
+#include "Game/gameUnk_71008ba8d8.h"
 
 namespace uking {
 
@@ -81,6 +83,37 @@ bool WolfLinkMgr::sub_7100683698() {
     if (_60 == 1)
         return false;
     return !_28.hasProc();
+}
+
+void WolfLinkMgr::postCalc() {
+    if (Root38::instance()->doNotFreezeScene())
+        return;
+
+    switch (_60) {
+    case 1:
+        sub_7100683790();
+        break;
+    case 2:
+        sub_710068386C();
+        break;
+    case 5:
+        if (_80) {
+            if (sub_7100683548())
+                break;
+            _80->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_20);
+            _80->get68c() = false;
+            _60 = 2;
+        } else {
+            _60 = 0;
+        }
+        break;
+    case 7:
+        if (!eventMgrHasActiveEvent())
+            sub_7100683410();
+        break;
+    default:
+        break;
+    }
 }
 
 }  // namespace uking
