@@ -14,6 +14,7 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
 
@@ -29,7 +30,7 @@ protected:
     sead::Matrix34f _58 = sead::Matrix34f::ident;
     bool _88 = true;
     bool _89 = false;
-    u32 _8c = 0;
+    f32 _8c = 0;  // launch countdown
 };
 
 }  // namespace uking::ai
