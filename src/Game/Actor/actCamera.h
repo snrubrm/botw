@@ -489,6 +489,9 @@ public:
     void sub_7100795C44();
     // 0x7100795c08 (CSV name; `idx` is not used by the function itself).
     void x_1(u8 idx);
+    // 0x7100795c38 (`idx` is not used by the function itself): restores the saved listener state `_860._7b4`
+    // (SoundStateLoad::m8 passes 0; the counterpart of x_1).
+    void sub_7100795C38(u8 idx);
     // 0x7100799920 (CSV nullsub_6133): empty.
     void sub_7100799920();
     // 0x7100793924 (CSV x) / 0x7100793bd8 (CSV x_0): declared only (called by m160 / m161).

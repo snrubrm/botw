@@ -178,6 +178,10 @@ void Camera::x_1(u8) {
     _860._7b4.sub_710079A884();
 }
 
+void Camera::sub_7100795C38(u8) {
+    _860._7b4.sub_710079A8BC();
+}
+
 void Camera::setSunazarashiTurnParam(const f32& value) {
     _860.sub_710079BDC4(value);
 }
