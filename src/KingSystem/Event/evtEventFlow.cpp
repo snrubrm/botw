@@ -14,10 +14,28 @@ namespace ksys::evt {
 
 EventFlowBase* sUnk_7102601528;
 
-// NON_MATCHING (all four destructors below): the original destructors destroy members that are not modelled
-// yet (EventFlowBase::~EventFlowBase is 324 bytes). They are defaulted here so that the classes' vtables (and with them
-// the RTTI functions, which match) are emitted.
-EventFlowBase::~EventFlowBase() = default;
+// NON_MATCHING: the original ends with `mMetaData.m_entries_num = 0` (evfl::MetaDataPack's inline destructor,
+// missing from lib/EventFlow).
+EventFlowBase::~EventFlowBase() {
+    sUnk_7102601528 = this;
+    if (!(_340 & 2) && _108 && !(_108->_1e0 & 0x800))
+        delete _108;
+    if (!(_340 & 1))
+        delete _110;
+    delete _100;
+    delete[] _120;
+    sUnk_7102601528 = nullptr;
+
+    if (_340 & 0x100) {
+        Manager::instance()->sub_7100DB19C0();
+        _340 &= ~u64(0x100);
+    }
+    if (_340 & (u64(1) << 46))
+        act::Awareness::instance()->setEventActive(false);
+}
+
+// NON_MATCHING (the destructors below): the original destructors destroy members that are not modelled yet.
+// They are defaulted here so that the classes' vtables (and with them the RTTI functions, which match) are emitted.
 EventFlowTimeline::~EventFlowTimeline() = default;
 EventFlowMovie::~EventFlowMovie() = default;
 

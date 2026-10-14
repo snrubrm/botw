@@ -1,5 +1,6 @@
 #pragma once
 
+#include <evfl/Action.h>
 #include <evfl/Flowchart.h>
 #include <evfl/Param.h>
 #include <evfl/TimelineObj.h>
@@ -200,9 +201,11 @@ public:
     /* 0x108 */ EventResource* _108;
     /* 0x110 */ EventActorSet* _110;
     /* 0x118 */ EventFlowActorInfo* _118;
-    u8 _120[8];
+    /* 0x120 */ u8* _120;
     /* 0x128 */ evfl::MetaDataPack mMetaData;
-    u8 _148[0x1d8 - 0x148];
+    /* 0x148 */ evfl::ActionDoneHandler _148;
+    /* 0x178 */ evfl::ActionDoneHandler _178;
+    /* 0x1a8 */ evfl::ActionDoneHandler _1a8;
     // x_2 (db6d0c) copies Actor::mMtx / getActorMtx here and builds a
     // rotation plus translation for the location modes. Camera924a4c reads
     // this matrix's translation independently at 1e4/1f4/204.
@@ -212,7 +215,8 @@ public:
     /* 0x210 */ EventFlow* mSlot;    u8 _218[0x2c8 - 0x218];
     /* 0x2c8 */ s32 _2c8;
     u8 _2cc[0x2e8 - 0x2cc];
-    u8 _2e8[0x340 - 0x2e8];  // a res::Handle at 0x2e8
+    /* 0x2e8 */ res::Handle _2e8;
+    u8 _338[0x340 - 0x338];
     union {
         /* 0x340 */ u64 _340;
         u8 _340_bytes[8];
