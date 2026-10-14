@@ -17,6 +17,23 @@ void Unk_SpotBgmHandle::init(sead::Heap* heap, const sead::SafeString& name,
     }
 }
 
+void Unk_SpotBgmHandle::sub_710101D9D8() {
+    if (_124 == 0 && _179)
+        _124 = 1;
+}
+
+void Unk_SpotBgmHandle::sub_710101D9F4(f32 fade_sec) {
+    if (_124 == 0)
+        return;
+    sub_7101020C08(fade_sec);
+    sub_710101DA34();
+}
+
+void Unk_SpotBgmHandle::sub_710101DA34() {
+    if (_124 != 0 && _179)
+        _124 = 0;
+}
+
 void Unk_SpotBgmHandle::sub_710101D970() {
     if (auto* mgr = ksys::snd::sub_7100FFD754())
         mgr->sub_710101D5EC(this);

@@ -18,6 +18,8 @@
 #include <container/seadSafeArray.h>
 
 namespace xlink2 {
+class HandleSLink;
+class Locator;
 class PropertyDefinition;
 class UserInstanceSLink;
 }  // namespace xlink2
@@ -53,6 +55,8 @@ public:
     void sub_7100FF6A50(s32 index, f32 value);
     // 0x7100ff6a64 (declared only)
     void sub_7100FF6A64(f32 fade_sec);
+    // 0x7100ff6a18 (declared only): takes over the emitted handle for `owner`.
+    void sub_7100FF6A18(Unk_710260f248* owner, const xlink2::HandleSLink& handle);
 };
 
 // Argument of Unk_710260f248::m3 (callers unknown): only the handle pointer at +0x8 is read.
@@ -71,8 +75,12 @@ public:
 
 // Placeholder (vtable 0x7102502950; D1 0x7101056bc8, readAssetInfo 0x7101056cac): the asset info reader at +0x68 of
 // Unk_710260f248. The D1 frees a buffer of 0x50-byte res::Handle objects (`_8` count, `_10` pointer).
+struct Unk_SoundMgr30_80;
+
 class Unk_7102502950 : public aal::IAssetInfoReadable {
 public:
+    // 0x7101057258 (declared only; 712 B): loads the asset info for `name`; true when done.
+    bool sub_7101057258(const sead::SafeString& name, Unk_SoundMgr30_80* arg);
     bool readAssetInfo(aal::AssetInfo* asset_info, const sead::SafeString& name, bool flag) override;
     virtual ~Unk_7102502950();
 
@@ -118,13 +126,17 @@ public:
     // 0x7100ff6808
     virtual const sead::SafeString* getName() { return &mName; }
 
-    // 0x71010209fc (declared only): emits the asset `name` and returns its new entry (or null).
+    // 0x71010209fc: emits the asset `name` and returns its new entry (or null).
     Unk_710260f248Entry* sub_71010209FC(const sead::SafeString& name);
-    // 0x7101020bb0 (declared only): restarts the fader at 0 and moves it to 1 in `fade_sec` (nothing for 0).
+    // 0x7101020a88: emits `locator` and adds an entry for the handle.
+    Unk_710260f248Entry* sub_7101020A88(const xlink2::Locator& locator);
+    // 0x7101020b40 (declared only; needs the user header of xlink2::ResourceAccessor): emits the first call table.
+    Unk_710260f248Entry* sub_7101020B40();
+    // 0x7101020bb0: restarts the fader at 0 and moves it to 1 in `fade_sec` (nothing for 0).
     void sub_7101020BB0(f32 fade_sec);
     // 0x7101020cec (declared only): whether the object has finished (type 3, or its asset reader is done).
     bool sub_7101020CEC();
-    // 0x7101020c08 (declared only): fades out the entries that belong to this object.
+    // 0x7101020c08: fades out the entries that belong to this object.
     void sub_7101020C08(f32 fade_sec);
 
     sead::FixedSafeString<64> mName;
@@ -804,6 +816,8 @@ struct Unk_SoundMgr30 {
     void sub_7100FF8B94(Unk_710260f248* obj);
     // 0x7100ff8a24 (declared only)
     Unk_SoundMgr30_30* sub_7100FF8A24();
+    // 0x7100ff89a0 (declared only): a free entry of the buffer at +0x20.
+    Unk_710260f248Entry* sub_7100FF89A0();
 
     u8 _0[0x8];
     /* 0x08 */ MusicDefinition* _8;
@@ -820,7 +834,7 @@ struct Unk_SoundMgr30 {
     u8 _5c[4];
     /* 0x60 */ aal::SimpleTimedFader _60;
     /* 0x78 */ Unk_SoundMgr30_78* _78;
-    u8 _80[8];
+    /* 0x80 */ Unk_SoundMgr30_80* _80;
     u8 _88;
     // Skips the controller / _78 / _10 / fader updates in 0x7100ff88d0.
     bool _89;
