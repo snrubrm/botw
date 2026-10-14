@@ -20,7 +20,7 @@ public:
     void m37() override;
 
 protected:
-    // 0x7100429d14 (declaration only, 1012 B; placeholder name): arm bone setup for the weapon pair (a, b),
+    // 0x7100429d14 (placeholder name): arm bone setup for the weapon pair (a, b),
     // like GuardianMiniBattle::sub_7100415258.
     void sub_7100429D14(s32 a, s32 b);
 
