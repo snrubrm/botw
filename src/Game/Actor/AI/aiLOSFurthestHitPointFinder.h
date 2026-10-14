@@ -13,10 +13,17 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
 
     void sub_7100484D58(sead::Vector3f* out);
+
+    // inline-only in the original; name is a guess (enter_ and calc_ (twice) repeat it): `_38` is a valid point that
+    // is more than 0.01 away from the actor in x or z.
+    bool isTargetAwayFromActor() const;
+    // inline-only in the original; name is a guess (enter_ (twice) and calc_ (twice)): starts 行動A towards `_38`.
+    void changeToActionA();
 
 protected:
     sead::Vector3f _38{0, 0, 0};
