@@ -205,6 +205,33 @@ void WolfLinkMgr::sub_710068386C() {
     }
 }
 
+// NON_MATCHING: the _64 bit tests use `1 << n` with n read back from a stack slot in the original (see
+// sub_7100683088); the original also adds `hearts < 0 ? -6 : 0` before rounding up to a multiple of 4 (source form
+// not found: tried roundUp, % forms)
+void WolfLinkMgr::sub_7100683970(act::WolfLink* wolf_link) {
+    auto* gdm = ksys::gdt::Manager::instance();
+    if (!gdm)
+        return;
+
+    s32 hearts;
+    gdm->getParam().get().getS32(&hearts, sWolfLink_LastRecordedHearts);
+    const s32 max_life = sead::Mathi::clamp((hearts + 3) / 4 * 4, 12, 80);
+    gdm->setS32(max_life, mMaxLifeHandle);
+
+    s32 life = max_life;
+    if (!_64.isOnBit(1) && !_64.isOnBit(2))
+        gdm->getS32(mCurrentLifeHandle, &life);
+    if (life <= 0)
+        life = 12;
+    gdm->setS32(life, mCurrentLifeHandle);
+
+    wolf_link->_168c = life;
+    wolf_link->_1690 = sead::Mathi::clamp((hearts + 3) / 4 * 4, 12, 80);
+    _80 = wolf_link;
+    _68 = *wolf_link->getMesTransceiverId();
+    _28.acquire(wolf_link, false);
+}
+
 void WolfLinkMgr::postCalc() {
     if (Root38::instance()->doNotFreezeScene())
         return;

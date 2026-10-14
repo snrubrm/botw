@@ -86,7 +86,7 @@ public:
     /* 0x54 */ sead::Vector3f _54{std::numeric_limits<f32>::quiet_NaN(), std::numeric_limits<f32>::quiet_NaN(),
                                   std::numeric_limits<f32>::quiet_NaN()};  // warp destination (WolfLinkAmiiboWarp::enter_)
     /* 0x60 */ s32 _60 = 0;  // 1: a Wolf Link is registered / spawned
-    /* 0x64 */ u8 _64 = 0;
+    /* 0x64 */ sead::BitFlag8 _64;  // bit 1 / 2: start with full life (sub_7100683970)
     /* 0x68 */ ksys::MesTransceiverId _68;
     // Registration 683970 stores the WolfLink cast from 683790; release 682F80 clears it.
     /* 0x80 */ act::WolfLink* _80 = nullptr;
