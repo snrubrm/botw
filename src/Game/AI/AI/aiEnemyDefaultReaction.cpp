@@ -12,6 +12,8 @@
 #include "KingSystem/ActorSystem/Profiles/actPlayerOrEnemy.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/ActorSystem/actAiRoot.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectEnemyLevel.h"
 
@@ -29,6 +31,69 @@ void EnemyDefaultReaction::enter_(ksys::act::ai::InlineParamPack* params) {
     m44();
     sub_710038782C(params);
     _5c = *mSmallDamageCancelTimes_s;
+}
+
+// NON_MATCHING: the original calls getField54() before loading the m34 slot (C++14 order of the callee and its
+// arguments); only that load moves.
+void EnemyDefaultReaction::calc_() {
+    auto* child = getCurrentChild();
+    if (!_60) {
+        if (auto* manager = sub_710072BA90(mActor)) {
+            manager->getField54();
+            if (!m37()) {
+                if (m45()) {
+                    m42(nullptr);
+                    return;
+                }
+                if (m34(manager, manager->getField54()))
+                    return;
+            }
+        }
+    }
+
+    if (isCurrentChild("ジャストガード") && sub_71005D8F28(mActor))
+        child->setDynamicParam(sub_71005D9330(mActor), "TargetPos");
+    _60 = false;
+
+    if (!child->isFinished() && !child->isFailed())
+        return;
+
+    if (m37()) {
+        auto* actor = mActor;
+        sub_71007A3800(actor);
+        callDeleteAndCreateDropAndEmit(actor, 0);
+        return;
+    }
+
+    if (isCurrentChild("弾かれ") || isCurrentChild("ショック") || isCurrentChild("超ショック")) {
+        setRootAiFlag(ksys::act::ai::RootAiFlag::_4);
+    } else if (isCurrentChild("ガード") || isCurrentChild("ジャストガード")) {
+        setRootAiFlag(ksys::act::ai::RootAiFlag::_1);
+        if (_61)
+            setRootAiFlag(ksys::act::ai::RootAiFlag::_3);
+    } else {
+        if (isCurrentChild("凍結")) {
+            auto* actor = sead::DynamicCast<ksys::act::PlayerOrEnemy>(mActor);
+            if (actor && actor->m151(2)) {
+                changeChild("炎上");
+                return;
+            }
+        } else if (isCurrentChild("炎上")) {
+            auto* actor = sead::DynamicCast<ksys::act::PlayerOrEnemy>(mActor);
+            if (actor && actor->m151(3)) {
+                changeChild("凍結");
+                return;
+            }
+        } else if (isCurrentChild("ふっとび")) {
+            auto* actor = sead::DynamicCast<ksys::act::PlayerOrEnemy>(mActor);
+            if (actor && actor->m151(3)) {
+                changeChild("凍結");
+                return;
+            }
+        }
+        setRootAiFlag(ksys::act::ai::RootAiFlag::_0);
+    }
+    setFinished();
 }
 
 void EnemyDefaultReaction::leave_() {
