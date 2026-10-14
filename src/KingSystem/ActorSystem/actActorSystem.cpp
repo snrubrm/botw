@@ -7,6 +7,7 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/Framework/frmWorkerSupportThreadMgr.h"
+#include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Map/mapPlacementMgr.h"
 #include "KingSystem/Terrain/teraSystem.h"
 
@@ -170,6 +171,18 @@ bool ActorSystem::isPlacementMgrDynamicHeapOom() const {
 
 void ActorSystem::submitReqCallAutoPlacementMgrFn() {
     frm::WorkerSupportThreadMgr::instance()->submitRequest(7, &_2a0);
+}
+
+}  // namespace ksys::act
+
+namespace ksys::act {
+
+bool ActorSystem::isPlayerTurnedTowardsTurnActorBowChargeActor(const map::Object* object) const {
+    if (!object->getFlags().isOn(map::Object::Flag::IsTurnActorBowChargeAndHasBasicSigLink))
+        return false;
+    if (!(_e8 < 30.0f))
+        return false;
+    return _ec.dot(object->getTranslate() - _f8) > 0.0f;
 }
 
 }  // namespace ksys::act

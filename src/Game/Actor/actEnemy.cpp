@@ -29,6 +29,9 @@
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectEnemy.h"
 #include "KingSystem/Map/mapObjectLink.h"
+#include "Game/Actor/actUnk_71025ae680.h"
+#include "KingSystem/ActorSystem/actActorBind.h"
+
 #include "KingSystem/World/worldManager.h"
 #include "Game/gameUnkRttiPlaceholders.h"
 
@@ -72,6 +75,12 @@ bool Enemy::sub_710001A2B0(const sead::Vector3f& target, const sead::Vector3f& o
             return false;
     }
     return true;
+}
+
+Unk_71025ae680* Enemy::m178(sead::Heap* heap) {
+    if (sub_71006E8644(this))
+        return new (heap, 8) Unk_710244edc0(this);
+    return new (heap, 8) Unk_710244dd20(this);
 }
 
 void Enemy::sub_7100016494() {

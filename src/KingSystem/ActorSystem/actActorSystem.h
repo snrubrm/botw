@@ -24,6 +24,10 @@ namespace uking::act {
 class PlayerBase;
 }
 
+namespace ksys::map {
+class Object;
+}
+
 namespace ksys::act {
 
 class Actor;
@@ -39,6 +43,9 @@ public:
     // Selects the per-core transceiver through the polymorphic message interface.
     MessageTransceiverBase* sub_7100D5D80C();
     void onBaseProcMgrCalc();
+    // 0x7100d5dbd8 (CSV name): `object` is a TurnActorBowCharge object, _e8 < 30 and it is in front of the
+    // player (direction _ec, position _f8).
+    bool isPlayerTurnedTowardsTurnActorBowChargeActor(const map::Object* object) const;
 
     bool getPlayer(ActorLinkConstDataAccess* accessor);
     // 0x7100d5d4c0: the player actor (null without a player link). New virtual-slot-free
@@ -100,7 +107,7 @@ private:
     sead::Heap* mEmergencyHeap = nullptr;
     sead::Vector3f mPlayerPos = sead::Vector3f::zero;
     u32 _e4 = 0;
-    u32 _e8 = 0;
+    f32 _e8 = 0;
     sead::Vector3f _ec = sead::Vector3f::zero;
     sead::Vector3f _f8 = sead::Vector3f::zero;
     bool _104 = false;

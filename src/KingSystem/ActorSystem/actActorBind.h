@@ -58,3 +58,9 @@ public:
 KSYS_CHECK_SIZE_NX150(ActorBind, 0x28);
 
 }  // namespace ksys::act
+
+// Global helpers next to ActorBind in the original (source owner unknown): whether the actor's damage parameters
+// have IsMetamorBurnout set (0x71006e8610) / any of the IsDead* / IsMetamor* condition flags (0x71006e8644; Item and
+// Enemy create an Unk_710244edc0 controller when it is set).
+bool sub_71006E8610(ksys::act::Actor* actor);
+bool sub_71006E8644(ksys::act::Actor* actor);

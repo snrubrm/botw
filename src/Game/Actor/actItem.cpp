@@ -3,6 +3,7 @@
 #include "Game/Actor/Damage/dmgDamageManagerBase.h"
 #include "Game/Actor/actEnemy.h"
 #include "Game/Actor/actUnk_71025ae680.h"
+#include "KingSystem/ActorSystem/actActorBind.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actGlobalParameter.h"
@@ -14,7 +15,6 @@
 #include "KingSystem/System/StageInfo.h"
 #include "KingSystem/System/VFR.h"
 
-bool sub_71006E8644(ksys::act::Actor* actor);
 
 namespace uking::act {
 
