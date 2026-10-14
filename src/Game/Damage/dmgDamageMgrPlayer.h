@@ -26,7 +26,7 @@ public:
     explicit DamageMgrPlayer(ksys::act::Actor* actor);
 
     s32 m52() override;
-    void m55() override;
+    void m55(const ConditionDamageInfo& info) override;
 
     // Set by Player::sub_7100884578 (PlayerIce / PlayerElectric leave_) to the unnamed .rodata int 30.
     /* 0x22c */ f32 _22c = 0;

@@ -17,6 +17,10 @@ namespace ksys::res {
 class DamageParam;
 }
 
+namespace uking::dmg {
+struct ConditionDamageInfo;
+}
+
 namespace uking::act {
 
 // Placeholder name (RTTI static 0x71025ae680; vtable 0x710244e820, 14 slots: RTTI, dtor, 10 more).
@@ -61,6 +65,9 @@ public:
     // range [a, b]): called by SwarmChemicalDamaged::sub_71002831E4.
     void sub_71006EF05C();
     void sub_71006EEFB4(s32 a, s32 b);
+
+    // 0x71006df5cc (placeholder name): passes `info` to slot 45 of the actor's damage manager if it is a DamageManager.
+    void sub_71006DF5CC(const dmg::ConditionDamageInfo& info);
 
     // 0x71006df5a4: resolves the actor damage resource.
     ksys::res::DamageParam* sub_71006DF5A4();

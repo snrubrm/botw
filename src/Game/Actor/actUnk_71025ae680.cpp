@@ -1,4 +1,5 @@
 #include "Game/Actor/actUnk_71025ae680.h"
+#include "Game/Damage/dmgDamageManager.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actChemicalElementHolder.h"
@@ -7,6 +8,12 @@
 
 namespace uking::act {
 
+
+void Unk_71025ae680::sub_71006DF5CC(const dmg::ConditionDamageInfo& info) {
+    auto* manager = sead::DynamicCast<dmg::DamageManagerBase>(_10->getDamageMgr());
+    if (manager)
+        manager->m45(info);
+}
 
 void Unk_71025ae680::m6() {
     if (!(_a & 3))

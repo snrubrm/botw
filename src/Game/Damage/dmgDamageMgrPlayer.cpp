@@ -101,10 +101,10 @@ s32 DamageMgrPlayer::m52() {
     return 12;
 }
 
-void DamageMgrPlayer::m55() {
+void DamageMgrPlayer::m55(const ConditionDamageInfo& info) {
     if (_231)
         return;
-    DamageManager::m55();
+    DamageManager::m55(info);
 }
 
 }  // namespace uking::dmg

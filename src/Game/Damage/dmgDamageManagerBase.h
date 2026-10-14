@@ -34,6 +34,16 @@ class DamageCallbackInfo;
 // FIXME: Unknown base. This base seems to handle callbacks and messaging, so maybe a shared base?
 // The RTTI root of the damage managers: the original vtables start with checkDerivedRuntimeTypeInfo /
 // getRuntimeTypeInfo (slots 0-1), followed by the destructors (slots 2-3). RTTI static 0x71025ae5c0.
+// Placeholder name: a condition damage (burn / ice / electric ...) passed to slot 45, built on the stack by the
+// condition handlers of uking::act::Unk_71025ae680 and its subclasses (sent through Unk_71025ae680::sub_71006DF5CC).
+struct ConditionDamageInfo {
+    s32 mKind;    // DamageManager::m45 switches on it (0-11)
+    s32 mDamage;
+    u32 _8;       // bit 6: DamageManager::_8c |= 4
+    u32 mFlags;   // bits 0-5, 8 tested by DamageManager::m45 / m54 / m55
+    s32 _10;      // copied to DamageManager::_88 with bit 3 of mFlags
+};
+
 class DamageManagerBase_UnknownBase1 {
     SEAD_RTTI_BASE(DamageManagerBase_UnknownBase1)
 public:
@@ -140,7 +150,7 @@ public:
     virtual bool m42() { return false; }
     virtual void m43() {}
     virtual bool canTakeDamage();
-    virtual void m45() {}
+    virtual void m45(const ConditionDamageInfo& info) {}
     virtual void handleDamageForPlayer(u32* a2, u32* a3, u32* a4, u32* a5, u32* a6);
     virtual bool addDamage(s32 type, s32 damage, s32 df48, s32 minDmg, s32 f50, s32 f54, s32 f40);
     virtual void onApplyDamage() {}

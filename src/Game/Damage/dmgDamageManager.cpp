@@ -909,4 +909,162 @@ bool DamageManager::sub_71006D357C(s32 type, s32 eventId, bool flag, s32 damage,
     return true;
 }
 
+void DamageManager::m45(const ConditionDamageInfo& info) {
+    if ((_212 & 0x40) && !(info.mFlags & 1))
+        return;
+    if (mActor->getActorFlags2().isOn(ksys::act::Actor::ActorFlag2::Alive) && !(info.mFlags & 0x20))
+        return;
+    if (info._8 & 0x40)
+        _8c |= 4;
+    if (info.mFlags & 0x100)
+        _8c |= 0x400000;
+
+    s32 f50;
+    s32 f54;
+    switch (info.mKind) {
+    case 2:
+        m54(info);
+        return;
+    case 3:
+        sub_71006D888C(info);
+        return;
+    case 4:
+        m55(info);
+        return;
+    case 6: {
+        if (info.mFlags & 2)
+            f54 = 29;
+        else
+            f54 = (info.mFlags & 0x20) ? 28 : 1;
+        s32 damage = info.mDamage;
+        if (_214 & 0x40)
+            damage = (info.mFlags & 1) ? damage : 0;
+        if (!sub_71006D357C(6, 5, info.mFlags & 8, damage, 0, 0, 22, f54, 0))
+            return;
+        _216.change(0x100, info.mFlags & 8);
+        if (info.mFlags & 8)
+            _88 = info._10;
+        return;
+    }
+    default:
+        break;
+    }
+
+    // Kinds 7 to 10.
+    if ((1 << info.mKind) & 0x780) {
+        if (info.mFlags & 2) {
+            switch (info.mKind) {
+            case 7:
+                f50 = 13;
+                break;
+            case 8:
+                f50 = 20;
+                break;
+            case 9:
+                f50 = 19;
+                break;
+            default:
+                f50 = 22;
+                break;
+            }
+            _8c |= 0x1000;
+            f54 = 31;
+        } else if (info.mKind == 10) {
+            f50 = (info.mFlags & 4) ? 21 : 9;
+            f54 = (info.mFlags & 4) ? 33 : 0;
+        } else if (info.mFlags & 4) {
+            f54 = 30;
+            f50 = 21;
+        } else {
+            f54 = (info.mFlags & 0x20) ? 28 : 0;
+            switch (info.mKind) {
+            case 7:
+                f50 = 13;
+                break;
+            case 8:
+                f50 = 20;
+                break;
+            case 9:
+                f50 = 19;
+                break;
+            default:
+                f50 = 22;
+                break;
+            }
+        }
+        s32 damage = info.mDamage;
+        if (_214 & 0x40)
+            damage = (info.mFlags & 1) ? damage : 0;
+        sub_71006D357C(6, 5, false, damage, 0, 0, f50, f54, 0);
+    } else if (info.mKind == 0 || info.mKind == 1) {
+        f54 = (info.mFlags & 0x20) ? 28 : 0;
+        f50 = info.mKind == 1 ? 20 : 19;
+        s32 damage = info.mDamage;
+        if (_214 & 0x40)
+            damage = (info.mFlags & 1) ? damage : 0;
+        sub_71006D357C(6, 5, false, damage, 0, 0, f50, f54, 0);
+    } else if (info.mKind == 11) {
+        s32 damage = info.mDamage;
+        f54 = (info.mFlags & 0x20) ? 28 : 0;
+        if (_214 & 0x40)
+            damage = (info.mFlags & 1) ? damage : 0;
+        sub_71006D357C(6, 5, false, damage, 0, 0, 17, f54, 0);
+    }
+}
+
+// NON_MATCHING: stack layout only (the original puts the callback info and the callback values above `damage`, which
+// points at an inlined helper shared with sub_71006D357C and m22: save the damage type, run the callbacks with a
+// DamageCallbackInfo holding _8c, restore both).
+void DamageManager::sub_71006D888C(const ConditionDamageInfo& info) {
+    s32 f54;
+    if (info.mFlags & 2) {
+        _8c |= 0x1000;
+        f54 = 31;
+    } else if (info.mFlags & 0x20) {
+        f54 = 28;
+    } else if (info.mFlags & 0x10) {
+        auto* param = getActorDamageParam();
+        if (!param || !param->mProofIceAtSmallDamage.ref())
+            return;
+        f54 = 15;
+    } else {
+        f54 = s32(info.mFlags & 1) - 1;
+    }
+
+    s32 damage = info.mDamage;
+    if ((_214 & 0x40) && !(info.mFlags & 1))
+        damage = 0;
+
+    if (f54 != -1) {
+        if (!sub_71006D357C(6, 5, info.mFlags & 8, damage, 0, 0, 10, f54, 0))
+            return;
+        if (info.mFlags & 8)
+            _216.set(0x100);
+        else
+            _216.reset(0x100);
+        return;
+    }
+
+    s32 df48 = 0;
+    u32 minDmg = 0;
+    u32 f50 = 10;
+    s32 f54_ = 3;
+    const s32 prev_type = mDamageType;
+    mDamageType = 6;
+    DamageCallbackInfo cb_info;
+    cb_info.mFlags = _8c;
+    callDamageCallbacks(5, &damage, &df48, &minDmg, &f50, &f54_, &cb_info);
+    _8c = cb_info.mFlags;
+    mDamageType = prev_type;
+    mDamage += damage;
+    if (prev_type == -1) {
+        mField_50 = f50;
+        mDamageType = 6;
+    }
+    mField_54 = f54_;
+    _216.change(0x100, info.mFlags & 8);
+    if (info.mFlags & 8)
+        _88 = info._10;
+}
+
 }  // namespace uking::dmg

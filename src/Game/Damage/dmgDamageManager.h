@@ -86,6 +86,9 @@ public:
     bool m40(s32* out) override;
     bool m41() override;
     bool m38(ksys::phys::RigidBody* body) override;
+    // Slot 45 (0x71006d85a8): applies a condition damage (kind 2 / 4: m54 / m55, kind 3: sub_71006D888C, the others
+    // through sub_71006D357C with event 5).
+    void m45(const ConditionDamageInfo& info) override;
     // Slots 29 / 30 (CSV DamageMgr::m29 / m30): the normalised `_cc` for damage kind 7 when bit 6 of `_216` is set,
     // else the base class.
     bool m29(sead::Vector3f* out) override;
@@ -123,8 +126,9 @@ public:
     virtual bool m51(const ksys::act::BaseProcLink* link);
     virtual s32 m52() { return 40; }
     virtual s32 m53() { return 0; }
-    virtual void m54();
-    virtual void m55();
+    // Slots 54 / 55 (0x71006d8a54 / 0x71006d8be4; not decompiled): the condition damages of kind 2 / 4 (see m45).
+    virtual void m54(const ConditionDamageInfo& info);
+    virtual void m55(const ConditionDamageInfo& info);
     // Slot 56 (lane4 s50): returns bool (the result of DynamicActor::m154).
     virtual bool m56();
 
@@ -147,6 +151,8 @@ public:
     // lightning hit (LightningAffect with _78 < 1 and Actor::m50), of m50, or of a gust (GustAffect and the wind flag
     // of the actor's Chemical).
     bool sub_71006D33FC(s32* damage, s32* df48, u32* minDmg, u32* f50, s32* f54, s32* f40);
+    // 0x71006d888c (placeholder name): condition damage of kind 3 (m45).
+    void sub_71006D888C(const ConditionDamageInfo& info);
     bool sub_71006D357C(s32 type, s32 eventId, bool flag, s32 damage, s32 df48, u32 minDmg, u32 f50, s32 f54,
                         s32 f40);
     // 0x71006d8130 (lane4 s48; placeholder name): `_f8` of the attack info index `_6c` for damage kinds 2 / 10 / 6 (6 needs
