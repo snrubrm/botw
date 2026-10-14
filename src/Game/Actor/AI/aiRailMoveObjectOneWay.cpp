@@ -52,6 +52,77 @@ void RailMoveObjectOneWay::enter_(ksys::act::ai::InlineParamPack* params) {
     sub_71005348DC();
 }
 
+// NON_MATCHING: our build inlines sub_7100534F90 (the original calls it) and selects the _6c update with csinc;
+// the original reads _6c sign-extended (ldrsb)
+void RailMoveObjectOneWay::calc_() {
+    auto* actor = mActor;
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed()) {
+        _64 = _68;
+        sub_71005348DC();
+        return;
+    }
+    if (!child->isChangeable())
+        return;
+
+    if (_6d == actor->checkBasicSig()) {
+        if (!isCurrentChild("停止") || _6c == 0 || _6e)
+            return;
+        const s32 index = _64;
+        if (sead::Mathf::abs(_64 - index) <= 0.0f) {
+            _64 = _68;
+            if (_6c == 1)
+                _68 = _64 + 1.0f;
+            else if (_6c == 2)
+                _68 = _64 - 1.0f;
+        }
+        _64 = sead::Mathf::clamp(_64, 0.0f, _60 - 1.0f);
+        _68 = sead::Mathf::clamp(_68, 0.0f, _60 - 1.0f);
+        sub_7100534F90();
+        if (_6e)
+            return;
+        sub_710053479C();
+        return;
+    }
+
+    _6d = actor->checkBasicSig();
+    _6e = false;
+    switch (_6c) {
+    case 0:
+        if (actor->checkBasicSig())
+            _6c = 1;
+        else
+            _6c = 2;
+        if (auto* as_list = actor->getASList(); as_list && as_list->sub_710115AA68(mASKeyName_On_s))
+            changeAS(mASKeyName_On_s.cstr(), true, 0, 0);
+        break;
+    case 1:
+        _6c = 2;
+        break;
+    case 2:
+        _6c = 1;
+        break;
+    }
+
+    if (isCurrentChild("移動")) {
+        sub_7100534D4C();
+    } else if (isCurrentChild("停止")) {
+        const s32 index = _64;
+        if (sead::Mathf::abs(_64 - index) <= 0.0f) {
+            _64 = _68;
+            if (_6c == 1)
+                _68 = _64 + 1.0f;
+            else if (_6c == 2)
+                _68 = _64 - 1.0f;
+        }
+        _64 = sead::Mathf::clamp(_64, 0.0f, _60 - 1.0f);
+        _68 = sead::Mathf::clamp(_68, 0.0f, _60 - 1.0f);
+    } else {
+        return;
+    }
+    sub_710053479C();
+}
+
 void RailMoveObjectOneWay::leave_() {
     ksys::act::ai::Ai::leave_();
 }

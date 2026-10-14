@@ -16,6 +16,7 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
     void applyParams() override;
@@ -24,6 +25,8 @@ public:
     void sub_71005348DC();
 
 protected:
+    // 0x7100534d4c (declared only): moving update (called by calc_ while the "移動" child runs).
+    void sub_7100534D4C();
     // 0x7100534f90: at the first / last rail point: play the off AS
     void sub_7100534F90();
     // static_param at offset 0x38
