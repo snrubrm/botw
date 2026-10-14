@@ -28,7 +28,7 @@ protected:
     const bool* mOnlyCheckBehind_s{};
     // static_param at offset 0x60
     const bool* mUseActionB_s{};
-    bool _68 = false;
+    u8 _68 = 0;  // number of enters without a hit point
     bool _69 = false;
 };
 

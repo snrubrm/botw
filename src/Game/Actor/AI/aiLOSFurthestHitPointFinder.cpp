@@ -2,6 +2,7 @@
 #include "Game/Actor/aiUnk_71007377D4.h"
 #include "Game/Actor/aiUnk_7100742478.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
 
 namespace uking::ai {
@@ -15,7 +16,29 @@ bool LOSFurthestHitPointFinder::init_(sead::Heap* heap) {
 }
 
 void LOSFurthestHitPointFinder::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    const auto changeToActionA = [this] {
+        ksys::act::ai::InlineParamPack pack;
+        pack.addVec3(_38, "TargetPos", -1);
+        changeChild("行動A", &pack);
+    };
+
+    _68 = 0;
+    const sead::Vector3f front = mActor->getMtx().getTranslation() + mActor->getMtx().getBase(2);
+    _38 = front;
+    sub_7100484D58(&_38);
+    if (!_38.isNan()) {
+        const sead::Vector3f& pos = mActor->getMtx().getTranslation();
+        if (!(_38.x - pos.x <= 0.01f && _38.x - pos.x >= -0.01f && _38.z - pos.z >= -0.01f &&
+              _38.z - pos.z <= 0.01f)) {
+            changeToActionA();
+            _69 = true;
+            return;
+        }
+    }
+    _38 = front;
+    changeToActionA();
+    _69 = false;
+    ++_68;
 }
 
 // NON_MATCHING: vector temporary storage and argument load scheduling differ.
