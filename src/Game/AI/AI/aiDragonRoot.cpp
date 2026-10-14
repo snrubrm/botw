@@ -7,6 +7,8 @@
 #include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Map/mapRail.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Utils/Thread/Message.h"
 #include <gfx/seadCamera.h>
@@ -202,6 +204,36 @@ void DragonRoot::m38() {
     sead::Vector3f pos;
     sub_710035797C(nullptr, &pos, mActor->getMtx().getTranslation());
     m40(-1.0f);
+}
+
+void DragonRoot::m40(f32 start_progress) {
+    auto* dragon = sead::DynamicCast<act::Dragon>(mActor);
+    if (!dragon)
+        return;
+
+    f32 progress = start_progress;
+    if (progress < 0) {
+        const sead::Vector3f pos = dragon->getMtx().getTranslation();
+        sub_710035797C(&progress, nullptr, pos);
+    }
+    sub_7100356764(_38._8.rail, progress);
+
+    sead::Vector3f target;
+    sead::Vector3f dir;
+    _38._8.rail->calcTranslateRotate(&target, &dir, progress);
+    dir.normalize();
+    f32 distance = (dragon->getMtx().getTranslation() - target).length();
+    if (distance > 0) {
+        distance = sead::Mathf::max(distance, 100.0f);
+        dir *= distance;
+        target -= dir;
+        ksys::act::ai::InlineParamPack params;
+        params.addVec3(target, "TargetPos", -1);
+        params.addVec3(dir, "TargetVec", -1);
+        changeChild("レールに向かう", &params);
+    } else {
+        m41();
+    }
 }
 
 void DragonRoot::m41() {
