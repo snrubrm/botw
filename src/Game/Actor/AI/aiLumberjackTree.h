@@ -73,6 +73,9 @@ public:
     // 0x710048a190 (placeholder name): emits "Leaf", then drops the loot at the force-set drop position and
     // deletes the actor.
     void sub_710048A190();
+    // 0x7100489a18 (placeholder name; does not use `this`): the horizontal direction from `from` to `to`, or a random
+    // unit vector when the two are (nearly) above each other.
+    void sub_7100489A18(sead::Vector3f* out, const sead::Vector3f& from, const sead::Vector3f& to);
 
 protected:
     Unk_71024e1b58* _38 = nullptr;

@@ -1,4 +1,5 @@
 #include "Game/Actor/AI/aiLumberjackTree.h"
+#include <random/seadGlobalRandom.h>
 #include "Game/Actor/aiUnk_710072BA90.h"
 #include "Game/Actor/aiUnk_71005D6D10.h"
 #include "Game/Actor/Damage/dmgDamageManager.h"
@@ -70,6 +71,20 @@ LumberjackTree::~LumberjackTree() {
         ksys::phys::Constraint::destroy(_2e8);
         _2e8 = nullptr;
     }
+}
+
+void LumberjackTree::sub_7100489A18(sead::Vector3f* out, const sead::Vector3f& from,
+                                    const sead::Vector3f& to) {
+    sead::Vector3f dir = to - from;
+    dir.y = 0.0f;
+    dir.normalize();
+    if (dir.equals(sead::Vector3f::zero, 0.01f)) {
+        dir.x = sead::GlobalRandom::instance()->getF32Range(-1.0f, 1.0f);
+        dir.y = sead::GlobalRandom::instance()->getF32Range(-1.0f, 1.0f);
+        dir.z = sead::GlobalRandom::instance()->getF32Range(-1.0f, 1.0f);
+        dir.normalize();
+    }
+    out->set(dir);
 }
 
 void LumberjackTree::sub_710048A190() {
