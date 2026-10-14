@@ -115,6 +115,9 @@ public:
     sead::Heap* getEventHeap() const { return mEventHeap; }
 
     bool callEvent(const Metadata& metadata, act::Actor* actor = nullptr, void* x = nullptr);
+    // 0x7100db04cc (CSV EventMgr::__auto12; declared only; placeholder name): returns false. BeginObservation::calc_
+    // calls it after a failed callEvent and ignores the result.
+    bool sub_7100DB04CC();
     // 0x7100db0c44 (CSV EventMgr::callEvent)
     bool callEvent(const CallArg& arg);
 
