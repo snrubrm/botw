@@ -278,37 +278,37 @@ s32 ScreenAppMap::getSlink2LocalPropertyNum_() const {
 
 // 0x7100a438b8
 void ScreenSaveTransferWindow::m166() {
-    mStateMachine.changeState(&sUnk_71025f2de0);
+    getStateMachine().changeState(&sUnk_71025f2de0);
 }
 
 // 0x7100a438c8
 void ScreenSaveTransferWindow::m167() {
-    mStateMachine.changeState(&sUnk_71025f2de0);
+    getStateMachine().changeState(&sUnk_71025f2de0);
 }
 
 // 0x7100a438dc
 void ScreenSaveTransferWindow::m170() {
-    mStateMachine.changeState(&sUnk_71025f2de0);
+    getStateMachine().changeState(&sUnk_71025f2de0);
 }
 
 // 0x7100a438ec
 void ScreenSaveTransferWindow::m171() {
-    mStateMachine.changeState(&sUnk_71025f2de0);
+    getStateMachine().changeState(&sUnk_71025f2de0);
 }
 
 // 0x7100a43900
 void ScreenSaveTransferWindow::m174() {
-    mStateMachine.changeState(&sUnk_71025f2de0);
+    getStateMachine().changeState(&sUnk_71025f2de0);
 }
 
 // 0x7100a43910
 void ScreenSaveTransferWindow::m175() {
-    mStateMachine.changeState(&sUnk_71025f2de0);
+    getStateMachine().changeState(&sUnk_71025f2de0);
 }
 
 // 0x7100a44078
 void ScreenSaveTransferWindow::m195() {
-    mStateMachine.changeState(&sUnk_71025f2de0);
+    getStateMachine().changeState(&sUnk_71025f2de0);
 }
 
 // 0x7100a4362c
@@ -317,13 +317,13 @@ void ScreenSaveTransferWindow::m155() {
     case 0x8d: {
         auto* manager = aoc::Manager::instance();
         if (manager && manager->getVersion() != 0)
-            mStateMachine.changeState(&sUnk_71025f1fa0);
+            getStateMachine().changeState(&sUnk_71025f1fa0);
         else
-            mStateMachine.changeState(&sUnk_71025f2000);
+            getStateMachine().changeState(&sUnk_71025f2000);
         break;
     }
     case 0x8c:
-        mStateMachine.changeState(&sUnk_71025f2d80);
+        getStateMachine().changeState(&sUnk_71025f2d80);
         break;
     }
 }
@@ -332,10 +332,10 @@ void ScreenSaveTransferWindow::m155() {
 void ScreenSaveTransferWindow::m179() {
     switch (_366c) {
     case 0x8d:
-        mStateMachine.changeState(&sUnk_71025f2240);
+        getStateMachine().changeState(&sUnk_71025f2240);
         break;
     case 0x8c:
-        mStateMachine.changeState(&sUnk_71025f2d20);
+        getStateMachine().changeState(&sUnk_71025f2d20);
         break;
     }
 }
@@ -343,55 +343,55 @@ void ScreenSaveTransferWindow::m179() {
 // 0x7100a44160
 void ScreenSaveTransferWindow::m199() {
     if (_366c == 0x8b)
-        mStateMachine.changeState(&sUnk_71025f23c0);
+        getStateMachine().changeState(&sUnk_71025f23c0);
 }
 
 // 0x7100a44278
 void ScreenSaveTransferWindow::m203() {
     if (_366c == 0x8b)
-        mStateMachine.changeState(&sUnk_71025f2d80);
+        getStateMachine().changeState(&sUnk_71025f2d80);
 }
 
 // 0x7100a44370
 void ScreenSaveTransferWindow::m207() {
     if (_366c == 0x8b)
-        mStateMachine.changeState(&sUnk_71025f2480);
+        getStateMachine().changeState(&sUnk_71025f2480);
 }
 
 // 0x7100a44434
 void ScreenSaveTransferWindow::m211() {
     if (_366c == 0x8b)
-        mStateMachine.changeState(&sUnk_71025f2d80);
+        getStateMachine().changeState(&sUnk_71025f2d80);
 }
 
 // 0x7100a44830
 void ScreenSaveTransferWindow::m226() {
-    mStateMachine.changeState(&sUnk_71025f2de0);
+    getStateMachine().changeState(&sUnk_71025f2de0);
 }
 
 // 0x7100a44840
 void ScreenSaveTransferWindow::m227() {
-    mStateMachine.changeState(&sUnk_71025f2de0);
+    getStateMachine().changeState(&sUnk_71025f2de0);
 }
 
 // 0x7100a44854
 void ScreenSaveTransferWindow::m230() {
-    mStateMachine.changeState(&sUnk_71025f2de0);
+    getStateMachine().changeState(&sUnk_71025f2de0);
 }
 
 // 0x7100a44864
 void ScreenSaveTransferWindow::m231() {
-    mStateMachine.changeState(&sUnk_71025f2de0);
+    getStateMachine().changeState(&sUnk_71025f2de0);
 }
 
 // 0x7100a4505c
 void ScreenSaveTransferWindow::m254() {
-    mStateMachine.changeState(&sUnk_71025f2de0);
+    getStateMachine().changeState(&sUnk_71025f2de0);
 }
 
 // 0x7100a4506c
 void ScreenSaveTransferWindow::m255() {
-    mStateMachine.changeState(&sUnk_71025f2de0);
+    getStateMachine().changeState(&sUnk_71025f2de0);
 }
 
 // 0x7100a44db8
@@ -447,7 +447,7 @@ void ScreenMamoNum::m69() {
 
 // 0x7100a22d54
 void ScreenMamoNum::m100() {
-    mStateMachine.changeState(&sUnk_71025ef4b8);
+    getStateMachine().changeState(&sUnk_71025ef4b8);
 }
 
 // 0x7100a4185c
@@ -458,7 +458,7 @@ void ScreenRupee::m69() {
 
 // 0x7100a4184c
 void ScreenRupee::m100() {
-    mStateMachine.changeState(&sUnk_71025f1bf0);
+    getStateMachine().changeState(&sUnk_71025f1bf0);
 }
 
 // 0x7100a04c20
@@ -469,7 +469,7 @@ void ScreenDLCSinJuAkashiNum::m69() {
 
 // 0x7100a04c10
 void ScreenDLCSinJuAkashiNum::m100() {
-    mStateMachine.changeState(&sUnk_71025ecb40);
+    getStateMachine().changeState(&sUnk_71025ecb40);
 }
 
 
@@ -500,7 +500,7 @@ void ScreenPauseMenu::m171() {
     auto* screen = eui::ScreenMgr::instance()->getScreen(ScreenId::PauseMenuEiketsu);
     if (screen && screen->isClosedOrClosing()) {
         sub_7100A392D8();
-        mStateMachine.changeState(&sUnk_71025f0cf0);
+        getStateMachine().changeState(&sUnk_71025f0cf0);
     }
 }
 
@@ -574,7 +574,7 @@ void ScreenPauseMenu::m163() {
     auto* recipe = sead::DynamicCast<ScreenPauseMenuRecipe>(
         eui::ScreenMgr::instance()->getScreen(ScreenId::PauseMenuRecipe));
     if (!recipe || recipe->isClosedOrClosing()) {
-        mStateMachine.changeState(&sUnk_71025f0cf0);
+        getStateMachine().changeState(&sUnk_71025f0cf0);
         sub_7100A392D8();
     }
 }

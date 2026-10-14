@@ -11,7 +11,7 @@ namespace uking::ui {
 // 0x71009ced60
 void ScreenAkashNum::m93(sead::Heap*) {
     _361c.init(5.0f);
-    mStateMachine.startState(&sUnk_71025dbfd0);
+    getStateMachine().startState(&sUnk_71025dbfd0);
     _3638.sub_71009331C(sub_7100BEAFB0("Pa_PlusMinus_00"),
                         eui::sub_7100933580(mLayout->mPane->FindPaneByName("T_Num_00", true)));
     _3638.set30(mLayout->tryCreateAnimatorAuto("Flash", false));
@@ -29,7 +29,7 @@ void ScreenAkashNum::m94() {
         }
         return;
     }
-    mStateMachine.run();
+    getStateMachine().run();
 }
 
 // 0x71009cf0d0
@@ -70,14 +70,14 @@ void ScreenAkashNum::m159() {
     if (_3614 == _3618) {
         switch (_3634) {
         case 1:
-            mStateMachine.changeState(&sUnk_71025dc0f0);
+            getStateMachine().changeState(&sUnk_71025dc0f0);
             break;
         case 2:
             _3634 = 1;
-            mStateMachine.changeState(&sUnk_71025dc0f0);
+            getStateMachine().changeState(&sUnk_71025dc0f0);
             break;
         default:
-            mStateMachine.changeState(&sUnk_71025dc030);
+            getStateMachine().changeState(&sUnk_71025dc030);
             break;
         }
     }
@@ -91,7 +91,7 @@ void ScreenAkashNum::m162() {
 // 0x71009cf400
 void ScreenAkashNum::m163() {
     if (getFlagInt(&_3618, ksys::gdt::flagname::DungeonClearSealNum())) {
-        mStateMachine.changeState(&sUnk_71025dc090);
+        getStateMachine().changeState(&sUnk_71025dc090);
     } else if (_361c.updateAndCheckEnded()) {
         _3610 = 0;
         close(-1);
@@ -103,7 +103,7 @@ bool ScreenAkashNum::sub_71009CEF28() {
     if (_3634 != 0)
         return false;
     // called through a pointer in the original (not devirtualised)
-    if (_3610 || mStateMachine.getState()->getId() == (&sUnk_71025dc090)->getId()) {
+    if (_3610 || getStateMachine().getState()->getId() == (&sUnk_71025dc090)->getId()) {
         _3634 = 1;
         return false;
     }
@@ -116,7 +116,7 @@ bool ScreenAkashNum::sub_71009CEFBC() {
     if (_3610)
         return true;
     // called through a pointer in the original (not devirtualised)
-    return mStateMachine.getState()->getId() == (&sUnk_71025dc090)->getId();
+    return getStateMachine().getState()->getId() == (&sUnk_71025dc090)->getId();
 }
 
 // 0x71009ceee0
@@ -163,17 +163,17 @@ void ScreenAkashNum::m156() {
 void ScreenAkashNum::m99() {
     if (_3634 == 1) {
         _3618 = ksys::gdt::getFlag_DungeonClearSealNum(false);
-        mStateMachine.changeState(&sUnk_71025dc090);
+        getStateMachine().changeState(&sUnk_71025dc090);
     } else if (_3634 == 2) {
-        mStateMachine.changeState(&sUnk_71025dc090);
+        getStateMachine().changeState(&sUnk_71025dc090);
     } else {
-        mStateMachine.changeState(&sUnk_71025dc030);
+        getStateMachine().changeState(&sUnk_71025dc030);
     }
 }
 
 // 0x71009cf194
 void ScreenAkashNum::m100() {
-    mStateMachine.changeState(&sUnk_71025dbfd0);
+    getStateMachine().changeState(&sUnk_71025dbfd0);
 }
 
 // 0x71009cf1c0
@@ -182,7 +182,7 @@ void ScreenAkashNum::m155() {
     _3618 = count;
     if (_3634 != 0 || _3610) {
         if (_3614 != count)
-            mStateMachine.changeState(&sUnk_71025dc090);
+            getStateMachine().changeState(&sUnk_71025dc090);
     }
 }
 

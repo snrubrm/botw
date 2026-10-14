@@ -30,7 +30,7 @@ s32 ScreenDLCSinJuAkashiNum::sub_7100A0488C() {
 // 0x7100a04680
 void ScreenDLCSinJuAkashiNum::m93(sead::Heap*) {
     _3620.init(5.0f);
-    mStateMachine.startState(&sUnk_71025ecb40);
+    getStateMachine().startState(&sUnk_71025ecb40);
     _3640.sub_71009331C(sub_7100BEAFB0("Pa_PlusMinus_00"),
                         eui::sub_7100933580(mLayout->mPane->FindPaneByName("T_Num_00", true)));
     _3640.set30(mLayout->tryCreateAnimatorAuto("Flash", false));
@@ -51,7 +51,7 @@ void ScreenDLCSinJuAkashiNum::m94() {
         }
         return;
     }
-    mStateMachine.run();
+    getStateMachine().run();
 }
 
 // 0x7100a04b34
@@ -65,11 +65,11 @@ void ScreenDLCSinJuAkashiNum::m98() {
 void ScreenDLCSinJuAkashiNum::m99() {
     if (_3638 == 1) {
         _361c = sub_7100A0488C();
-        mStateMachine.changeState(&sUnk_71025ecc00);
+        getStateMachine().changeState(&sUnk_71025ecc00);
     } else if (_3638 == 2) {
-        mStateMachine.changeState(&sUnk_71025ecc00);
+        getStateMachine().changeState(&sUnk_71025ecc00);
     } else {
-        mStateMachine.changeState(&sUnk_71025ecba0);
+        getStateMachine().changeState(&sUnk_71025ecba0);
     }
 }
 
@@ -79,7 +79,7 @@ void ScreenDLCSinJuAkashiNum::m155() {
     _361c = count;
     if (_3638 != 0 || _3610) {
         if (_3614 != count)
-            mStateMachine.changeState(&sUnk_71025ecc00);
+            getStateMachine().changeState(&sUnk_71025ecc00);
     }
 }
 
@@ -120,14 +120,14 @@ void ScreenDLCSinJuAkashiNum::m159() {
     if (_3614 == _361c) {
         switch (_3638) {
         case 1:
-            mStateMachine.changeState(&sUnk_71025ecc60);
+            getStateMachine().changeState(&sUnk_71025ecc60);
             break;
         case 2:
             _3638 = 1;
-            mStateMachine.changeState(&sUnk_71025ecc60);
+            getStateMachine().changeState(&sUnk_71025ecc60);
             break;
         default:
-            mStateMachine.changeState(&sUnk_71025ecba0);
+            getStateMachine().changeState(&sUnk_71025ecba0);
             break;
         }
     }
@@ -147,7 +147,7 @@ void ScreenDLCSinJuAkashiNum::m163() {
         _361c = count;
     _3618 = count;
     if (changed) {
-        mStateMachine.changeState(&sUnk_71025ecc00);
+        getStateMachine().changeState(&sUnk_71025ecc00);
     } else if (_3620.updateAndCheckEnded()) {
         _3610 = 0;
         close(-1);
@@ -157,7 +157,7 @@ void ScreenDLCSinJuAkashiNum::m163() {
 // 0x7100a415b4
 void ScreenRupee::m93(sead::Heap*) {
     _361c.init(5.0f);
-    mStateMachine.startState(&sUnk_71025f1bf0);
+    getStateMachine().startState(&sUnk_71025f1bf0);
     _3638.sub_71009331C(sub_7100BEAFB0("Pa_PlusMinus_00"),
                         eui::sub_7100933580(mLayout->mPane->FindPaneByName("T_Rupee_00", true)));
     _3638.set30(mLayout->tryCreateAnimatorAuto("Flash", false));
@@ -169,11 +169,11 @@ void ScreenRupee::m93(sead::Heap*) {
 void ScreenRupee::m94() {
     if (sub_7100A98038(mId) && isOpened() &&
         // called through a pointer in the original (not devirtualised)
-        mStateMachine.getState()->getId() != (&sUnk_71025f1d70)->getId()) {
-        mStateMachine.changeState(&sUnk_71025f1d70);
+        getStateMachine().getState()->getId() != (&sUnk_71025f1d70)->getId()) {
+        getStateMachine().changeState(&sUnk_71025f1d70);
         return;
     }
-    mStateMachine.run();
+    getStateMachine().run();
 }
 
 // 0x7100a41788
@@ -185,7 +185,7 @@ void ScreenRupee::m98() {
 // 0x7100a417e8
 void ScreenRupee::m99() {
     // called through a pointer in the original (not devirtualised)
-    if (mStateMachine.getState()->getId() != (&sUnk_71025f1d10)->getId())
+    if (getStateMachine().getState()->getId() != (&sUnk_71025f1d10)->getId())
         sub_7100A41264(_3634);
 }
 
@@ -196,7 +196,7 @@ void ScreenRupee::m155() {
     const bool changed = _3614 != count;
     _3618 = count;
     if (changed)
-        mStateMachine.changeState(&sUnk_71025f1cb0);
+        getStateMachine().changeState(&sUnk_71025f1cb0);
 }
 
 // 0x7100a418e4
@@ -223,9 +223,9 @@ void ScreenRupee::m159() {
     if (value == target) {
         _3678.sub_7100933294();
         if (_3634 == 3)
-            mStateMachine.changeState(&sUnk_71025f1d10);
+            getStateMachine().changeState(&sUnk_71025f1d10);
         else
-            mStateMachine.changeState(&sUnk_71025f1c50);
+            getStateMachine().changeState(&sUnk_71025f1c50);
     } else if (_3638._3c) {
         _3678.sub_71009331E8(0);
     } else {
@@ -246,7 +246,7 @@ bool ScreenRupee::sub_7100A41354(bool flag) {
     if (_3634 != 1 && _3634 != 2)
         return false;
     // called through a pointer in the original (not devirtualised)
-    if (_3610 || mStateMachine.getState()->getId() == (&sUnk_71025f1cb0)->getId()) {
+    if (_3610 || getStateMachine().getState()->getId() == (&sUnk_71025f1cb0)->getId()) {
         _3634 = 3;
         return false;
     }
@@ -254,7 +254,7 @@ bool ScreenRupee::sub_7100A41354(bool flag) {
         close(-1);
         return true;
     }
-    mStateMachine.changeState(&sUnk_71025f1d10);
+    getStateMachine().changeState(&sUnk_71025f1d10);
     _3634 = 3;
     return true;
 }
@@ -264,7 +264,7 @@ bool ScreenRupee::sub_7100A41440() {
     if (_3610)
         return true;
     // called through a pointer in the original (not devirtualised)
-    return mStateMachine.getState()->getId() == (&sUnk_71025f1cb0)->getId();
+    return getStateMachine().getState()->getId() == (&sUnk_71025f1cb0)->getId();
 }
 
 // 0x7100a414a0
@@ -292,16 +292,16 @@ void ScreenRupee::sub_7100A410D8(s32 a1) {
             }
             if (cur >= a1) {
                 // called through a pointer in the original (not devirtualised)
-                const s32 state_id = mStateMachine.getState()->getId();
+                const s32 state_id = getStateMachine().getState()->getId();
                 if (state_id == (&sUnk_71025f1d10)->getId()) {
                     const s32 w = _3634;
                     if (w == 2) {
-                        mStateMachine.changeState(&sUnk_71025f1c50);
+                        getStateMachine().changeState(&sUnk_71025f1c50);
                     } else if (w == 3) {
                         if (a1 == 3) {
                             _361c.init(5.0f);
                         } else {
-                            mStateMachine.changeState(&sUnk_71025f1c50);
+                            getStateMachine().changeState(&sUnk_71025f1c50);
                         }
                     }
                 }
@@ -316,7 +316,7 @@ void ScreenRupee::sub_7100A410D8(s32 a1) {
         if (mode == 4) {
             open(1);
         } else {
-            mStateMachine.startState(&sUnk_71025f1bf0);
+            getStateMachine().startState(&sUnk_71025f1bf0);
             open(2);
         }
         _3634 = 0;
@@ -331,12 +331,12 @@ void ScreenRupee::sub_7100A41264(s32 mode) {
     if (mode == 3) {
         _3618 = _3634 == 0 ? ksys::gdt::getFlag_CurrentTotalGetRupeeInMiniGame(false) :
                              ksys::gdt::getFlag_CurrentRupee(false);
-        mStateMachine.changeState(&sUnk_71025f1cb0);
+        getStateMachine().changeState(&sUnk_71025f1cb0);
     } else {
-        const ksys::StateBase* state = mStateMachine.getState();
+        const ksys::StateBase* state = getStateMachine().getState();
         // called through a pointer in the original (not devirtualised)
         if (state->getId() != (&sUnk_71025f1c50)->getId() && state->getId() != (&sUnk_71025f1cb0)->getId())
-            mStateMachine.changeState(&sUnk_71025f1c50);
+            getStateMachine().changeState(&sUnk_71025f1c50);
     }
 }
 
@@ -377,7 +377,7 @@ void ScreenRupee::m162() {
 void ScreenRupee::m163() {
     if (getFlagInt(&_3618, _3634 == 0 ? ksys::gdt::flagname::CurrentTotalGetRupeeInMiniGame() :
                                         ksys::gdt::flagname::CurrentRupee())) {
-        mStateMachine.changeState(&sUnk_71025f1cb0);
+        getStateMachine().changeState(&sUnk_71025f1cb0);
     } else if (_361c.updateAndCheckEnded()) {
         close(-1);
     }
@@ -400,7 +400,7 @@ bool ScreenDLCSinJuAkashiNum::sub_7100A04978() {
     if (_3638 != 0)
         return false;
     // called through a pointer in the original (not devirtualised)
-    if (_3610 || mStateMachine.getState()->getId() == (&sUnk_71025ecc00)->getId()) {
+    if (_3610 || getStateMachine().getState()->getId() == (&sUnk_71025ecc00)->getId()) {
         _3638 = 1;
         return false;
     }
@@ -413,7 +413,7 @@ bool ScreenDLCSinJuAkashiNum::sub_7100A04A0C() {
     if (_3610)
         return true;
     // called through a pointer in the original (not devirtualised)
-    return mStateMachine.getState()->getId() == (&sUnk_71025ecc00)->getId();
+    return getStateMachine().getState()->getId() == (&sUnk_71025ecc00)->getId();
 }
 
 // 0x7100a04a6c

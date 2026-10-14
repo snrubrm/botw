@@ -9,7 +9,9 @@ class Unk_710245b690;
 }
 
 namespace uking::ui {
+template <typename Owner>
 class Unk_7102474a70;
+template <typename Owner>
 class Unk_71025098d0;
 }
 
@@ -118,7 +120,9 @@ public:
 private:
     friend class ::uking::StateMachineWrapper;
     friend class ::uking::Unk_710245b690;
+    template <typename Owner>
     friend class ::uking::ui::Unk_7102474a70;
+    template <typename Owner>
     friend class ::uking::ui::Unk_71025098d0;
 
     Unk1* _0;

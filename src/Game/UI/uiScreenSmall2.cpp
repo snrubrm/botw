@@ -68,7 +68,7 @@ bool ScreenAppAlbum::sub_71009D3DA0() const {
 
 bool ScreenAppAlbum::sub_71009D3DC0() const {
     // called through a pointer in the original (not devirtualised)
-    return mStateMachine.getState()->getId() == (&sUnk_71025dc3c0)->getId();
+    return getStateMachine().getState()->getId() == (&sUnk_71025dc3c0)->getId();
 }
 
 
@@ -88,16 +88,16 @@ void ScreenMainShortCut::m83() {
 
 bool ScreenMainShortCut::sub_7100A20DD0() {
     // called through a pointer in the original (not devirtualised)
-    if (mStateMachine.getState()->getId() == (&sUnk_71025ef170)->getId())
+    if (getStateMachine().getState()->getId() == (&sUnk_71025ef170)->getId())
         return false;
     // called through a pointer in the original (not devirtualised)
-    return mStateMachine.getState()->getId() != (&sUnk_71025ef290)->getId();
+    return getStateMachine().getState()->getId() != (&sUnk_71025ef290)->getId();
 }
 
 // 0x71009fd674
 bool ScreenAppTool::sub_71009FD674() {
     // called through a pointer in the original (not devirtualised)
-    return mStateMachine.getState()->getId() == (&sUnk_71025ec670)->getId();
+    return getStateMachine().getState()->getId() == (&sUnk_71025ec670)->getId();
 }
 
 // 0x7100a32d98
@@ -300,17 +300,17 @@ void sub_71009FD640(const AppToolState* state) {
 // 0x71009fe1dc
 void ScreenAppTool::m99() {
     if (sUnk_71025ec540._0 == -1)
-        mStateMachine.changeState(&sUnk_71025ec5b0);
+        getStateMachine().changeState(&sUnk_71025ec5b0);
     else if (sUnk_71025ec548)
-        mStateMachine.changeState(&sUnk_71025ec610);
+        getStateMachine().changeState(&sUnk_71025ec610);
     else
-        mStateMachine.changeState(&sUnk_71025ec550);
+        getStateMachine().changeState(&sUnk_71025ec550);
 }
 
 // NON_MATCHING: register allocation / scheduling only (the original materialises the -1 after the three global loads)
 // 0x71009fe22c
 void ScreenAppTool::m100() {
-    mStateMachine.changeState(&sUnk_710261ee98);
+    getStateMachine().changeState(&sUnk_710261ee98);
     sUnk_71025ec540._0 = -1;
     sUnk_71025ec540._4 = false;
     sUnk_71025ec540._5 = false;
@@ -342,14 +342,14 @@ void ScreenAppTool::m107(eui::AnimButton*) {
 // 0x71009ff6a8
 void ScreenAppTool::m155() {
     if (sUnk_71025ec548)
-        mStateMachine.changeState(&sUnk_71025ec610);
+        getStateMachine().changeState(&sUnk_71025ec610);
 }
 
 // 0x71009ffd30
 void ScreenAppTool::m163() {
     if (_3744 == 1 && _3620 && _3620->mFrame == static_cast<f32>(_3620->GetFrameSize())) {
         _3744 = 3;
-        mStateMachine.changeState(&sUnk_71025ec670);
+        getStateMachine().changeState(&sUnk_71025ec670);
     }
 }
 
@@ -363,7 +363,7 @@ void ScreenAppTool::m166() {
 void ScreenAppTool::m167() {
     if (Unk_71025d69f0::instance()->_36 && sUnk_71025ec549) {
         _3610 = 1;
-        mStateMachine.changeState(&sUnk_71025ec5b0);
+        getStateMachine().changeState(&sUnk_71025ec5b0);
     }
 }
 
@@ -1092,9 +1092,9 @@ void ScreenDLCWindow::m106(eui::AnimButton* button) {
 // 0x7100a205fc
 void ScreenMainShortCut::m99() {
     if (sub_7100AA948C())
-        mStateMachine.changeState(&sUnk_71025ef170);
+        getStateMachine().changeState(&sUnk_71025ef170);
     else
-        mStateMachine.changeState(&sUnk_71025ef290);
+        getStateMachine().changeState(&sUnk_71025ef290);
 }
 
 // 0x7100a0e054
@@ -1418,9 +1418,9 @@ void ScreenMainShortCut::m155() {
     if (player && player->_c48.isOnBit(28) && _3700.isOnBit(2))
         sub_7100A209E4();
     if (_38cc == 0) {
-        mStateMachine.changeState(&sUnk_71025ef1d0);
+        getStateMachine().changeState(&sUnk_71025ef1d0);
     } else if (!sub_7100AA948C()) {
-        mStateMachine.changeState(&sUnk_71025ef290);
+        getStateMachine().changeState(&sUnk_71025ef290);
     }
 }
 
@@ -1430,10 +1430,10 @@ void ScreenMainShortCut::m163() {
     case 1:
         _3798->PlayAuto(-1.0f);
         _37a0->PlayAuto(-1.0f);
-        mStateMachine.changeState(&sUnk_71025ef170);
+        getStateMachine().changeState(&sUnk_71025ef170);
         break;
     case 0:
-        mStateMachine.changeState(&sUnk_71025ef1d0);
+        getStateMachine().changeState(&sUnk_71025ef1d0);
         break;
     }
 }
@@ -1441,7 +1441,7 @@ void ScreenMainShortCut::m163() {
 // 0x7100a22134
 void ScreenMainShortCut::m167() {
     if (sub_7100AA948C())
-        mStateMachine.changeState(&sUnk_71025ef170);
+        getStateMachine().changeState(&sUnk_71025ef170);
 }
 
 // 0x7100a4b344
@@ -1707,7 +1707,7 @@ void ScreenShopBtnList15::sub_7100A4B10C(s32 index) {
 // 0x7100a0bae4
 void ScreenHardMode::sub_7100A0BAE4() {
     open(1);
-    mStateMachine.changeState(&sUnk_71025ee7b0);
+    getStateMachine().changeState(&sUnk_71025ee7b0);
 }
 
 // The message set of ScreenPauseMenuMantan (a constant object in the original, 0x71024929e8).
@@ -2014,7 +2014,7 @@ void ScreenSaveTransferWindow::m106(eui::AnimButton* button) {
 
 // 0x7100a4357c
 void ScreenSaveTransferWindow::m154() {
-    _3670 = mStateMachine.getState();
+    _3670 = getStateMachine().getState();
     _366c = -1;
     s32 old_index = _3668;
     _3668 = 1;
@@ -2031,7 +2031,7 @@ void ScreenSaveTransferWindow::m154() {
 
 // 0x7100a43924
 void ScreenSaveTransferWindow::m178() {
-    _3670 = mStateMachine.getState();
+    _3670 = getStateMachine().getState();
     _366c = -1;
     s32 old_index = _3668;
     _3668 = 1;
@@ -2048,7 +2048,7 @@ void ScreenSaveTransferWindow::m178() {
 
 // 0x7100a43a10
 void ScreenSaveTransferWindow::m182() {
-    _3670 = mStateMachine.getState();
+    _3670 = getStateMachine().getState();
     _366c = -1;
     s32 old_index = _3668;
     _3668 = 2;
@@ -2114,7 +2114,7 @@ void ScreenSaveTransferWindow::sub_7100A46268() {
 // 0x7100a45fd0
 void ScreenSaveTransferWindow::sub_7100A45FD0() {
     if ((SaveSystem::instance()->_3c | 1) != 7)
-        mStateMachine.changeState(&sUnk_71025f2de0);
+        getStateMachine().changeState(&sUnk_71025f2de0);
 }
 
 // 0x7100a46004
@@ -2151,7 +2151,7 @@ void ScreenSaveTransferWindow::sub_7100A44544() {
 
 // 0x7100a44458
 void ScreenSaveTransferWindow::sub_7100A44458() {
-    _3670 = mStateMachine.getState();
+    _3670 = getStateMachine().getState();
     _366c = -1;
     s32 old_index = _3668;
     _3668 = 1;
@@ -2168,7 +2168,7 @@ void ScreenSaveTransferWindow::sub_7100A44458() {
 
 // 0x7100a44878
 void ScreenSaveTransferWindow::sub_7100A44878() {
-    _3670 = mStateMachine.getState();
+    _3670 = getStateMachine().getState();
     _366c = -1;
     s32 old_index = _3668;
     _3668 = 1;
@@ -2185,7 +2185,7 @@ void ScreenSaveTransferWindow::sub_7100A44878() {
 
 // 0x7100a45080
 void ScreenSaveTransferWindow::sub_7100A45080() {
-    _3670 = mStateMachine.getState();
+    _3670 = getStateMachine().getState();
     _366c = -1;
     s32 old_index = _3668;
     _3668 = 1;
@@ -2236,10 +2236,10 @@ void ScreenSaveTransferWindow::m210() {
 void ScreenSaveTransferWindow::m159() {
     switch (_366c) {
     case 0x8d:
-        mStateMachine.changeState(&sUnk_71025f2000);
+        getStateMachine().changeState(&sUnk_71025f2000);
         break;
     case 0x8c:
-        mStateMachine.changeState(&sUnk_71025f2d80);
+        getStateMachine().changeState(&sUnk_71025f2d80);
         break;
     }
 }
@@ -2540,7 +2540,7 @@ void ScreenAppHome::sub_71009DC77C(s32 index, Unk_PaneTransform* value) {
 
 // 0x7100a432fc
 void ScreenSaveTransferWindow::m107(eui::AnimButton*) {
-    if (mStateMachine.getState()->getId() == (&sUnk_71025f2d80)->getId())
+    if (getStateMachine().getState()->getId() == (&sUnk_71025f2d80)->getId())
         _3678 |= 1 << Flag(Flag::_1);
 }
 
@@ -2548,17 +2548,17 @@ void ScreenSaveTransferWindow::m107(eui::AnimButton*) {
 void ScreenSaveTransferWindow::m183() {
     switch (_366c) {
     case 0x8b:
-        mStateMachine.changeState(&sUnk_71025f2240);
+        getStateMachine().changeState(&sUnk_71025f2240);
         break;
     case 0x8c:
-        mStateMachine.changeState(&sUnk_71025f2d20);
+        getStateMachine().changeState(&sUnk_71025f2d20);
         break;
     case 0x8d:
         if ((1 << Flag(Flag::_4)) & _3678) {
-            mStateMachine.changeState(&sUnk_71025f23c0);
+            getStateMachine().changeState(&sUnk_71025f23c0);
         } else {
             _3678 |= 1 << Flag(Flag::_5);
-            mStateMachine.changeState(&sUnk_71025f2300);
+            getStateMachine().changeState(&sUnk_71025f2300);
         }
         break;
     }
@@ -2568,10 +2568,10 @@ void ScreenSaveTransferWindow::m183() {
 void ScreenSaveTransferWindow::m215() {
     switch (_366c) {
     case 0x8d:
-        mStateMachine.changeState(&sUnk_71025f2540);
+        getStateMachine().changeState(&sUnk_71025f2540);
         break;
     case 0x8c:
-        mStateMachine.changeState(&sUnk_71025f2d80);
+        getStateMachine().changeState(&sUnk_71025f2d80);
         break;
     }
 }
@@ -2580,10 +2580,10 @@ void ScreenSaveTransferWindow::m215() {
 void ScreenSaveTransferWindow::m219() {
     switch (_366c) {
     case 0x8d:
-        mStateMachine.changeState(&sUnk_71025f25a0);
+        getStateMachine().changeState(&sUnk_71025f25a0);
         break;
     case 0x8c:
-        mStateMachine.changeState(&sUnk_71025f2d80);
+        getStateMachine().changeState(&sUnk_71025f2d80);
         break;
     }
 }
@@ -2592,10 +2592,10 @@ void ScreenSaveTransferWindow::m219() {
 void ScreenSaveTransferWindow::m235() {
     switch (_366c) {
     case 0x8d:
-        mStateMachine.changeState(&sUnk_71025f2720);
+        getStateMachine().changeState(&sUnk_71025f2720);
         break;
     case 0x8c:
-        mStateMachine.changeState(&sUnk_71025f2d20);
+        getStateMachine().changeState(&sUnk_71025f2d20);
         break;
     }
 }
@@ -2613,7 +2613,7 @@ void ScreenSaveTransferWindow::m239() {
     _3678 |= 1 << Flag(Flag::_0);
     thread->quitAndWaitDoneSingleThread(false);
     delete thread;
-    mStateMachine.changeState(SwkbdMgr::instance()->x() ? &sUnk_71025f2780 :
+    getStateMachine().changeState(SwkbdMgr::instance()->x() ? &sUnk_71025f2780 :
                                                         &sUnk_71025f2d20);
 }
 
@@ -2621,10 +2621,10 @@ void ScreenSaveTransferWindow::m239() {
 void ScreenSaveTransferWindow::m259() {
     switch (_366c) {
     case 0x8d:
-        mStateMachine.changeState(&sUnk_71025f2960);
+        getStateMachine().changeState(&sUnk_71025f2960);
         break;
     case 0x8c:
-        mStateMachine.changeState(&sUnk_71025f2d20);
+        getStateMachine().changeState(&sUnk_71025f2d20);
         break;
     }
 }
@@ -2649,7 +2649,7 @@ void ScreenSaveTransferWindow::m250() {
 // 0x7100a45b6c
 void ScreenSaveTransferWindow::m279() {
     if (SaveSystem::instance()->loadDone())
-        mStateMachine.changeState(&sUnk_71025f2b40);
+        getStateMachine().changeState(&sUnk_71025f2b40);
 }
 
 // 0x7100a45bb8
@@ -2662,7 +2662,7 @@ void ScreenSaveTransferWindow::m282() {
 void ScreenSaveTransferWindow::m287() {
     if (_366c == 0x8b) {
         _3678 |= 1 << Flag(Flag::_2);
-        mStateMachine.changeState(&sUnk_71025f2d80);
+        getStateMachine().changeState(&sUnk_71025f2d80);
     }
 }
 
@@ -2670,9 +2670,9 @@ void ScreenSaveTransferWindow::m287() {
 // NON_MATCHING: the original tests `_3760 == 0` then `== 4` with cmp / ccmp; clang folds the two tests into a different compare order
 void ScreenSaveTransferWindow::m291() {
     if (_3760 == 0 || _3760 == 4)
-        mStateMachine.changeState(&sUnk_71025f2de0);
+        getStateMachine().changeState(&sUnk_71025f2de0);
     else if (_3760 == 3)
-        mStateMachine.changeState(&sUnk_71025f2c60);
+        getStateMachine().changeState(&sUnk_71025f2c60);
 }
 
 // 0x7100a46234

@@ -42,7 +42,7 @@ void ScreenAppMap::demoLeave() {
 // 0x71009eaf40 (CSV ScreenAppMap::m83)
 void ScreenAppMap::m83() {
     sub_71009EACC0(0);
-    mStateMachine.changeState(&sUnk_71025df180);
+    getStateMachine().changeState(&sUnk_71025df180);
     if (_3638) {
         if (wm::isFindDungeonActivated())
             _3638->StopAtMin();
@@ -70,7 +70,7 @@ void ScreenAppMap::mainRun() {
     else if (UiSubsys1::instance()->is848Zero())
         sub_71009EB72C();
     if (sub_71009E9F48())
-        mStateMachine.changeState(&sUnk_71025df1e0);
+        getStateMachine().changeState(&sUnk_71025df1e0);
 }
 
 // 0x71009eb814 (CSV ScreenAppMap::subEnter)
@@ -133,7 +133,7 @@ void ScreenAppPictureBook::m100() {
 // ScreenAppCamera
 // 0x71009db72c (CSV ScreenAppCamera::m99)
 void ScreenAppCamera::m99() {
-    mStateMachine.changeState(&sUnk_71025dcca0);
+    getStateMachine().changeState(&sUnk_71025dcca0);
     ksys::gdt::setFlag_IsOpenAppCamera(true, false);
 }
 
@@ -141,7 +141,7 @@ void ScreenAppCamera::m99() {
 void ScreenAppCamera::m163() {
     if (_3610 && _3610->_104)
         return;
-    mStateMachine.changeState(&sUnk_71025dcca0);
+    getStateMachine().changeState(&sUnk_71025dcca0);
 }
 
 // 0x71009d92e4

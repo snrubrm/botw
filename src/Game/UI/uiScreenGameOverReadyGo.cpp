@@ -15,23 +15,23 @@ void ScreenGameOver::m93(sead::Heap*) {
         button->mFlags |= 0x20;
         button->setFlag10(false);
     }
-    mStateMachine.startState(&sUnk_710261ee98);
+    getStateMachine().startState(&sUnk_710261ee98);
 }
 
 // 0x7100a0a5ec
 void ScreenGameOver::m94() {
-    mStateMachine.run();
+    getStateMachine().run();
 }
 
 // 0x7100a0a71c
 void ScreenGameOver::m99() {
     moveBoxCursorByTag_(120);
-    mStateMachine.changeState(&sUnk_71025edda0);
+    getStateMachine().changeState(&sUnk_71025edda0);
 }
 
 // 0x7100a0a74c
 void ScreenGameOver::m100() {
-    mStateMachine.changeState(&sUnk_710261ee98);
+    getStateMachine().changeState(&sUnk_710261ee98);
 }
 
 // 0x7100a0a934
@@ -56,7 +56,7 @@ void ScreenGameOver::m106(eui::AnimButton* button) {
             b->setFlag10(false);
         break;
     case 121:
-        mStateMachine.changeState(&sUnk_71025ede00);
+        getStateMachine().changeState(&sUnk_71025ede00);
         break;
     }
 }
@@ -67,11 +67,11 @@ void ScreenGameOver::m159() {
     case 0:
         _3610 = 1;
         _3614 = 6;
-        mStateMachine.changeState(&sUnk_71025edda0);
+        getStateMachine().changeState(&sUnk_71025edda0);
         break;
     case 1:
         moveBoxCursorByTag_(121);
-        mStateMachine.changeState(&sUnk_71025edda0);
+        getStateMachine().changeState(&sUnk_71025edda0);
         break;
     }
 }

@@ -17,7 +17,7 @@ void ScreenHardMode::m93(sead::Heap*) {
     _3700 = -1;
     _3704 = 0;
     _3668.clear();
-    mStateMachine.startState(&sUnk_710261ee98);
+    getStateMachine().startState(&sUnk_710261ee98);
 }
 
 // 0x7100a0bb1c (CSV ScreenHardMode::m6)
@@ -81,14 +81,14 @@ void ScreenHardMode::m203() {
 
 // 0x7100a0cf90
 void ScreenHardMode::m210() {
-    _3710 = mStateMachine.getState();
+    _3710 = getStateMachine().getState();
     sub_7100A0BFC8(4);
     _371c = 0;
 }
 
 // 0x7100a0cfd0
 void ScreenHardMode::m214() {
-    _3710 = mStateMachine.getState();
+    _3710 = getStateMachine().getState();
     _3704 = _3708;
     x();
 }
@@ -108,10 +108,10 @@ void ScreenHardMode::m219() {
     switch (_3718) {
     case 0x90:
         _3704 = 5;
-        mStateMachine.changeState(&sUnk_71025ee930);
+        getStateMachine().changeState(&sUnk_71025ee930);
         break;
     case 0x8f:
-        mStateMachine.changeState(&sUnk_71025ee810);
+        getStateMachine().changeState(&sUnk_71025ee810);
         break;
     }
 }
@@ -121,7 +121,7 @@ void ScreenHardMode::m155() {
     switch (_3718) {
     case 0x90:
         _3708 = 3;
-        mStateMachine.changeState(&sUnk_71025ee750);
+        getStateMachine().changeState(&sUnk_71025ee750);
         break;
     case 0x8f:
         _3704 = 7;
@@ -135,7 +135,7 @@ void ScreenHardMode::m163() {
     switch (_3718) {
     case 0x90:
         _3708 = 3;
-        mStateMachine.changeState(&sUnk_71025ee750);
+        getStateMachine().changeState(&sUnk_71025ee750);
         break;
     case 0x8f:
         _3704 = 7;
@@ -149,7 +149,7 @@ void ScreenHardMode::m183() {
     switch (_3718) {
     case 0x90:
         _3708 = 3;
-        mStateMachine.changeState(&sUnk_71025ee750);
+        getStateMachine().changeState(&sUnk_71025ee750);
         break;
     case 0x8f:
         _3704 = 7;
@@ -162,7 +162,7 @@ void ScreenHardMode::m183() {
 void ScreenHardMode::m167() {
     switch (_3718) {
     case 0x90:
-        mStateMachine.changeState(&sUnk_71025ee330);
+        getStateMachine().changeState(&sUnk_71025ee330);
         break;
     case 0x8f:
         _3704 = 7;
@@ -175,7 +175,7 @@ void ScreenHardMode::m167() {
 void ScreenHardMode::m195() {
     switch (_3718) {
     case 0x90:
-        mStateMachine.changeState(&sUnk_71025ee5d0);
+        getStateMachine().changeState(&sUnk_71025ee5d0);
         break;
     case 0x8f:
         _3704 = 7;
@@ -186,55 +186,55 @@ void ScreenHardMode::m195() {
 
 // 0x7100a0c888
 void ScreenHardMode::m170() {
-    _3710 = mStateMachine.getState();
+    _3710 = getStateMachine().getState();
     sub_7100A0BFC8(1);
 }
 
 // 0x7100a0c9fc
 void ScreenHardMode::m178() {
-    _3710 = mStateMachine.getState();
+    _3710 = getStateMachine().getState();
     sub_7100A0BFC8(1);
 }
 
 // 0x7100a0cd44
 void ScreenHardMode::m198() {
-    _3710 = mStateMachine.getState();
+    _3710 = getStateMachine().getState();
     sub_7100A0BFC8(1);
 }
 
 // 0x7100a0ceb0
 void ScreenHardMode::m206() {
-    _3710 = mStateMachine.getState();
+    _3710 = getStateMachine().getState();
     sub_7100A0BFC8(1);
 }
 
 // 0x7100a0d0f4
 void ScreenHardMode::m222() {
-    _3710 = mStateMachine.getState();
+    _3710 = getStateMachine().getState();
     sub_7100A0BFC8(1);
 }
 
 // 0x7100a0d1c0
 void ScreenHardMode::m226() {
-    _3710 = mStateMachine.getState();
+    _3710 = getStateMachine().getState();
     sub_7100A0BFC8(1);
 }
 
 // 0x7100a0d294
 void ScreenHardMode::m230() {
-    _3710 = mStateMachine.getState();
+    _3710 = getStateMachine().getState();
     sub_7100A0BFC8(1);
 }
 
 // 0x7100a0d368
 void ScreenHardMode::m234() {
-    _3710 = mStateMachine.getState();
+    _3710 = getStateMachine().getState();
     sub_7100A0BFC8(4);
 }
 
 // 0x7100a0d3a0
 void ScreenHardMode::m238() {
-    _3710 = mStateMachine.getState();
+    _3710 = getStateMachine().getState();
     sub_7100A0BFC8(0);
 }
 

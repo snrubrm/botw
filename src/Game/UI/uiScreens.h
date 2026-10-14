@@ -193,8 +193,8 @@ public:
     // mLayout = layout
     explicit ScreenChild(eui::LayoutEx* layout);
 
-    /* 0x28 */ eui::ListNode _28;
-    /* 0x38 */ Unk_7102474a28 mTransceiver;  // the state machine is at 0x80, the receiver at 0xa8, its adapter at 0xc8
+    /* 0x28 */ nn::util::IntrusiveListNode _28;
+    /* 0x38 */ Unk_7102474a28<ScreenChild> mTransceiver;  // the state machine is at 0x80, the receiver at 0xa8, its adapter at 0xc8
     ksys::StateMachine& getStateMachine() { return mTransceiver.mReceiver.mMachine; }
 
     /* 0x100 */ u8 _100;  // lifecycle event flags, cleared by the update method
@@ -262,10 +262,16 @@ public:
     Screen();
     ~Screen() override;
     SEAD_RTTI_OVERRIDE(Screen, ScreenBase)
-    u8 _118[0x160 - 0x118];
-    // The screen's state machine (the leaf classes' own virtual slots 154+ are the callbacks of its states).
-    ksys::StateMachine mStateMachine;
-    u8 _188[0x250 - 0x188];
+    // The screen's state machine is mTransceiver.mReceiver.mMachine at 0x160 (the leaf classes' own virtual slots
+    // 154+ are the callbacks of its states).
+    ksys::StateMachine& getStateMachine() { return mTransceiver.mReceiver.mMachine; }
+    const ksys::StateMachine& getStateMachine() const { return mTransceiver.mReceiver.mMachine; }
+
+    /* 0x118 */ Unk_7102474a28<Screen> mTransceiver;
+    /* 0x1e0 */ ksys::ActorMessageTransceiver _1e0;
+    /* 0x238 */ nn::util::IntrusiveList<ScreenChild, nn::util::IntrusiveListMemberNodeTraits<ScreenChild, &ScreenChild::_28>>
+        mChildList;  // owned: the destructor deletes every child in it
+    u8 _248[0x250 - 0x248];
     /* 0x250 */ sead::PtrArray<ScreenChild> mChildren;
     /* 0x260 */ sead::Buffer<s32> mChildGroupSizes;  // the number of children of each group (the groups are consecutive in mChildren)
     /* 0x270 */ f32 _270;

@@ -11,7 +11,7 @@ namespace uking::ui {
 // 0x7100a0eddc
 void ScreenKologNum::m93(sead::Heap*) {
     _361c.init(5.0f);
-    mStateMachine.startState(&sUnk_71025eec50);
+    getStateMachine().startState(&sUnk_71025eec50);
     _3638.sub_71009331C(sub_7100BEAFB0("Pa_PlusMinus_00"),
                         eui::sub_7100933580(mLayout->mPane->FindPaneByName("T_Num_00", true)));
     _3638.set30(mLayout->tryCreateAnimatorAuto("Flash", false));
@@ -25,7 +25,7 @@ void ScreenKologNum::m162() {
 // 0x7100a0f48c
 void ScreenKologNum::m163() {
     if (getFlagInt(&_3618, ksys::gdt::flagname::KorokNutsNum())) {
-        mStateMachine.changeState(&sUnk_71025eed10);
+        getStateMachine().changeState(&sUnk_71025eed10);
     } else if (_361c.updateAndCheckEnded()) {
         close(-1);
     }
@@ -65,7 +65,7 @@ bool ScreenKologNum::sub_7100A0EFA4() {
     if (_3634 != 0)
         return false;
     // called through a pointer in the original (not devirtualised)
-    if (_3610 || mStateMachine.getState()->getId() == (&sUnk_71025eed10)->getId()) {
+    if (_3610 || getStateMachine().getState()->getId() == (&sUnk_71025eed10)->getId()) {
         _3634 = 1;
         return false;
     }
@@ -78,7 +78,7 @@ bool ScreenKologNum::sub_7100A0F038() {
     if (_3610)
         return true;
     // called through a pointer in the original (not devirtualised)
-    return mStateMachine.getState()->getId() == (&sUnk_71025eed10)->getId();
+    return getStateMachine().getState()->getId() == (&sUnk_71025eed10)->getId();
 }
 
 // 0x7100a0f220
@@ -99,7 +99,7 @@ void ScreenKologNum::m94() {
         }
         return;
     }
-    mStateMachine.run();
+    getStateMachine().run();
 }
 
 // 0x7100a0f14c
@@ -140,14 +140,14 @@ void ScreenKologNum::m159() {
             invokeSoundLink2Event_("mc_CountDownKorogNutEnd");
         switch (_3634) {
         case 1:
-            mStateMachine.changeState(&sUnk_71025eed70);
+            getStateMachine().changeState(&sUnk_71025eed70);
             break;
         case 2:
             _3634 = 1;
-            mStateMachine.changeState(&sUnk_71025eed70);
+            getStateMachine().changeState(&sUnk_71025eed70);
             break;
         default:
-            mStateMachine.changeState(&sUnk_71025eecb0);
+            getStateMachine().changeState(&sUnk_71025eecb0);
             break;
         }
     } else if (current < target) {
@@ -161,17 +161,17 @@ void ScreenKologNum::m159() {
 void ScreenKologNum::m99() {
     if (_3634 == 1) {
         _3618 = ksys::gdt::getFlag_KorokNutsNum(false);
-        mStateMachine.changeState(&sUnk_71025eed10);
+        getStateMachine().changeState(&sUnk_71025eed10);
     } else if (_3634 == 2) {
-        mStateMachine.changeState(&sUnk_71025eed10);
+        getStateMachine().changeState(&sUnk_71025eed10);
     } else {
-        mStateMachine.changeState(&sUnk_71025eecb0);
+        getStateMachine().changeState(&sUnk_71025eecb0);
     }
 }
 
 // 0x7100a0f210
 void ScreenKologNum::m100() {
-    mStateMachine.changeState(&sUnk_71025eec50);
+    getStateMachine().changeState(&sUnk_71025eec50);
 }
 
 // 0x7100a0f29c
@@ -185,7 +185,7 @@ void ScreenKologNum::m155() {
     _3618 = count;
     if (_3634 != 0 || _3610) {
         if (_3614 != count)
-            mStateMachine.changeState(&sUnk_71025eed10);
+            getStateMachine().changeState(&sUnk_71025eed10);
     }
 }
 

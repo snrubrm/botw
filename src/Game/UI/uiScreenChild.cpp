@@ -387,22 +387,6 @@ void ScreenChildEx::m104(void* a1, void* a2) { m94(a1, a2); }
 
 
 
-void Unk_71025098d0::run() { mMachine.run(); }
-
-// NON_MATCHING: the bool state callback result requires conversion to the receiver's int result.
-int Unk_71025098d0::receive(const ksys::Message& message) {
-    if (!mMachine.mCurrent)
-        Unk_7102474a70::replaceState();
-    if (mMachine.mCurrent && mMachine.mCurrent->reenter(const_cast<ksys::Message*>(&message)))
-        return 1;
-    if (mMachine.mCurrent)
-        return mMachine.mCurrent->exec5(const_cast<ksys::Message*>(&message));
-    return 0;
-}
-
-void Unk_71025098d0::receive(const ksys::MessageAck& ack) {
-    if (mMachine.mCurrent)
-        mMachine.mCurrent->exec6(const_cast<ksys::MessageAck*>(&ack));
-}
+template class Unk_71025098d0<ScreenChild>;
 
 }  // namespace uking::ui

@@ -60,8 +60,16 @@ void ScreenBase::registerController_() {
 }
 
 // 0x71010aa54c
-// NON_MATCHING: the original destructor destroys members that are not modeled yet.
-Screen::~Screen() = default;
+// NON_MATCHING: the inlined Unk_7102474a28 teardown takes the adapter address after getDispatcher().
+Screen::~Screen() {
+    for (auto it = mChildList.begin(); it != mChildList.end();) {
+        auto child = it++;
+        mChildList.erase(child);
+        delete &*child;
+    }
+    mChildren.freeBuffer();
+    mChildGroupSizes.freeBuffer();
+}
 
 
 }  // namespace uking::ui

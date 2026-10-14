@@ -10,7 +10,7 @@ namespace uking::ui {
 // 0x7100a22888
 void ScreenMamoNum::m93(sead::Heap*) {
     _3618.init(5.0f);
-    mStateMachine.startState(&sUnk_71025ef4b8);
+    getStateMachine().startState(&sUnk_71025ef4b8);
     _3638.sub_71009331C(sub_7100BEAFB0("Pa_PlusMinus_00"),
                         eui::sub_7100933580(mLayout->mPane->FindPaneByName("T_Num_00", true)));
     _3638.set30(mLayout->tryCreateAnimatorAuto("Flash", false));
@@ -30,7 +30,7 @@ void ScreenMamoNum::m94() {
         }
         return;
     }
-    mStateMachine.run();
+    getStateMachine().run();
 }
 
 // 0x7100a22c20
@@ -43,13 +43,13 @@ void ScreenMamoNum::m98() {
 void ScreenMamoNum::m99() {
     if (_3630 == 1) {
         _3614 = ksys::gdt::getFlag_CurrentMamo(false);
-        mStateMachine.changeState(&sUnk_71025ef578);
+        getStateMachine().changeState(&sUnk_71025ef578);
         return;
     }
-    const ksys::StateBase* state = mStateMachine.getState();
+    const ksys::StateBase* state = getStateMachine().getState();
     // called through a pointer in the original (not devirtualised)
     if (state->getId() != (&sUnk_71025ef518)->getId() && state->getId() != (&sUnk_71025ef578)->getId())
-        mStateMachine.changeState(&sUnk_71025ef518);
+        getStateMachine().changeState(&sUnk_71025ef518);
 }
 
 // 0x7100a22d80
@@ -58,7 +58,7 @@ void ScreenMamoNum::m155() {
     const bool changed = _3610 != count;
     _3614 = count;
     if (changed)
-        mStateMachine.changeState(&sUnk_71025ef578);
+        getStateMachine().changeState(&sUnk_71025ef578);
 }
 
 // 0x7100a22dd0
@@ -81,9 +81,9 @@ void ScreenMamoNum::m159() {
     if (_3610 == _3614) {
         _3678.sub_7100933294();
         if (_3630 == 1)
-            mStateMachine.changeState(&sUnk_71025ef5d8);
+            getStateMachine().changeState(&sUnk_71025ef5d8);
         else
-            mStateMachine.changeState(&sUnk_71025ef518);
+            getStateMachine().changeState(&sUnk_71025ef518);
     } else {
         if (_3638._3c)
             _3678.sub_71009331E8(0);
@@ -100,7 +100,7 @@ void ScreenMamoNum::m162() {
 // 0x7100a22f38
 void ScreenMamoNum::m163() {
     if (getFlagInt(&_3614, ksys::gdt::flagname::CurrentMamo())) {
-        mStateMachine.changeState(&sUnk_71025ef578);
+        getStateMachine().changeState(&sUnk_71025ef578);
     } else if (_3618.updateAndCheckEnded()) {
         close(-1);
     }
@@ -117,13 +117,13 @@ void ScreenMamoNum::sub_7100A22A80(s32 a1) {
     }
     if (a1 == 1) {
         _3614 = ksys::gdt::getFlag_CurrentMamo(false);
-        mStateMachine.changeState(&sUnk_71025ef578);
+        getStateMachine().changeState(&sUnk_71025ef578);
         return;
     }
-    const ksys::StateBase* state = mStateMachine.getState();
+    const ksys::StateBase* state = getStateMachine().getState();
     // called through a pointer in the original (not devirtualised)
     if (state->getId() != (&sUnk_71025ef518)->getId() && state->getId() != (&sUnk_71025ef578)->getId())
-        mStateMachine.changeState(&sUnk_71025ef518);
+        getStateMachine().changeState(&sUnk_71025ef518);
 }
 
 // 0x7100a22b98
@@ -131,7 +131,7 @@ bool ScreenMamoNum::sub_7100A22B98() {
     if (_3630 != 0)
         return false;
     // called through a pointer in the original (not devirtualised)
-    if (mStateMachine.getState()->getId() == (&sUnk_71025ef578)->getId()) {
+    if (getStateMachine().getState()->getId() == (&sUnk_71025ef578)->getId()) {
         _3630 = 1;
         return false;
     }
