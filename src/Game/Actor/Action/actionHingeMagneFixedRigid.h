@@ -18,6 +18,8 @@ public:
 
 protected:
     void calc_() override;
+    void m32(sead::Heap* heap) override;
+    void m34(ksys::act::ActorLinkConstDataAccess& accessor, f32 distance) override;
 };
 
 }  // namespace uking::action
