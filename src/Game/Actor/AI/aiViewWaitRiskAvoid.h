@@ -22,7 +22,8 @@ public:
 
     // Not decompiled (0x7100e63c8 / 0x71005e651c / 0x71005e66d0 / 0x71005e6ee0).
     virtual void m40();
-    virtual void m41();
+    // 0x71005e651c: starts (or retargets) the sideways avoid move; `dir` is -1 / 1 (RotDir).
+    virtual void m41(s8 dir);
     virtual bool m42();
     virtual bool m43(sead::Vector3f* out);
 

@@ -96,4 +96,17 @@ bool ViewWaitRiskAvoid::m43(sead::Vector3f* out) {
     return true;
 }
 
+void ViewWaitRiskAvoid::m41(s8 dir) {
+    _5c = false;
+    if (isCurrentChild("横移動回避")) {
+        getCurrentChild()->setDynamicParam(m34(), "TargetPos");
+        getCurrentChild()->setDynamicParam(s32(dir), "RotDir");
+    } else {
+        ksys::act::ai::InlineParamPack pack;
+        pack.addVec3(m34(), "TargetPos", -1);
+        pack.addInt(dir, "RotDir", -1);
+        changeChild("横移動回避", &pack);
+    }
+}
+
 }  // namespace uking::ai
