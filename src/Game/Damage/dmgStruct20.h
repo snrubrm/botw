@@ -21,16 +21,15 @@ class Struct20Base {
 public:
     virtual ~Struct20Base() { ; }
 
-    virtual void reset();
-    virtual void combineMaybe(Struct20Base* other);
+    // Both are empty in the original (nullsubs at 0x71006d9888 / 0x71006d988c in the vtable at 0x710244e0a0).
+    virtual void reset() {}
+    virtual void combineMaybe(Struct20Base* other) {}
 };
 
 class Struct20 : public Struct20Base {
     SEAD_RTTI_OVERRIDE(Struct20, Struct20Base)
 
 public:
-    ~Struct20() override { ; }
-
     void reset() override;
 
     __attribute__((noinline)) void combineMaybe(Struct20Base* other) override;
