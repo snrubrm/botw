@@ -92,6 +92,12 @@ public:
 
 // Placeholder name: the sound link user of a screen (`Screen::_f0`, created by createSoundLink2User_; the screen keeps a
 // pointer to its secondary base, so the slots below are those of the secondary vtable). Only slot 4 is used so far.
+// Item of Screen::_a0 (placeholder; only the field the destructor releases is known).
+struct ScreenUnkA0 {
+    u8 _0[0x10];
+    /* 0x10 */ ScreenUnkE8* _10;
+};
+
 class ScreenSoundLinkUser {
 public:
     virtual void m0();
@@ -285,8 +291,7 @@ public:
     /* 0x70 */ TagProcessor* mTagProcessor = nullptr;
     /* 0x78 */ ListNode mAnimators;  // the animators that are playing (Animator::_40 nodes)
     /* 0x88 */ sead::OffsetList<BoxCursorNode> mBoxCursorNodes;  // offset 8 (BoxCursorNode::mNode)
-    /* 0xa0 */ ListNode _a0;
-    /* 0xb0 */ u64 _b0 = 0;
+    /* 0xa0 */ sead::OffsetList<ScreenUnkA0> _a0;  // the destructor releases each item's _10
     /* 0xb8 */ sead::Heap* mInitializeHeap = nullptr;  // destroyed with the screen if it is owned (_107 bit 0)
     /* 0xc0 */ s32 mId = -1;
     /* 0xc8 */ sead::SafeString _c8;

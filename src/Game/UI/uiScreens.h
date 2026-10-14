@@ -77,7 +77,6 @@ class Unk_710247c368;
 class ScreenBase : public eui::Screen {
 public:
     ScreenBase();
-    ~ScreenBase() override;
     SEAD_RTTI_OVERRIDE(ScreenBase, eui::Screen)
 
     // 0x71010a9d9c (CSV ScreenBase::doInitialize_)

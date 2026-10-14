@@ -32,8 +32,6 @@ void ScreenBase::doSetupDrawInfo_() {
     mMgr->getConstantBuffer()->applyToDrawInfo(mDrawInfo);
 }
 
-// 0x71010aa230 (CSV ScreenBase::dtorDelete)
-ScreenBase::~ScreenBase() = default;
 
 // 0x71010a9f44 (CSV ScreenBase::getAnimationStep_)
 f32 ScreenBase::getAnimationStep_() const {

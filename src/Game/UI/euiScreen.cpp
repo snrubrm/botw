@@ -3,6 +3,7 @@
 #include "Game/UI/euiAnimator.h"
 #include "Game/UI/euiArcResourceMgr.h"
 #include "Game/UI/euiMultiArcResourceAccessor.h"
+#include "Game/UI/euiNwAllocator.h"
 #include "Game/UI/euiBoxCursor.h"
 #include "Game/UI/euiConstantBuffer.h"
 #include "Game/UI/euiLayoutEx.h"
@@ -33,11 +34,58 @@ void Screen::doBuildLayout_(const sead::SafeString& name, nn::ui2d::ResourceAcce
     mLayout->BuildWithName(&result, device, accessor, &creator, &searcher, options, name.cstr(), false);
 }
 
-// NON_MATCHING: only the order of the zero stores differs (the original stores 0xb8 first and 0xb0 late; we
-// pair them).
 // 0x7100be8f80
 Screen::Screen() {
     mBoxCursorNodes.initOffset(offsetof(BoxCursorNode, mNode));
+    _a0.initOffset(0);
+}
+
+// 0x7100be9050
+Screen::~Screen() {
+    if (mId != -1)
+        mMgr->resetScreenId(mId);
+
+    if (auto* box_cursor_mgr = mMgr->getBoxCursorMgr()) {
+        for (auto& node : mBoxCursorNodes)
+            box_cursor_mgr->eraseNodeLinks(&node);
+    }
+
+    for (ListNode* node = mControls.next; node != &mControls; node = node->next)
+        ControlBase::fromNode(node)->~ControlBase();
+    for (ListNode* node = _50.next; node != &_50; node = node->next)
+        ControlBase::fromNode(node)->~ControlBase();
+
+    if (_e8)
+        _e8->m2();
+    if (_f0)
+        _f0->m1();
+
+    if (mLayout && (_107 & 0x12) == 0x10 && !isClosed())
+        sub_7100BEE4D4(mLayout->GetPane(), mLayout);
+
+    for (auto& item : _a0) {
+        if (item._10)
+            item._10->m2();
+        item._10 = nullptr;
+    }
+
+    if (!mLayout)
+        return;
+    nn::ui2d::ResourceAccessor* accessor = mLayout->mResourceAccessor;
+    if ((_107 & 0xa) == 2) {
+        NwAllocator::initialize(mInitializeHeap);
+        mLayout->Finalize(sead::GraphicsNvn::instance()->getNnDevice());
+        delete mLayout;
+        NwAllocator::finalize();
+        mLayout = nullptr;
+    }
+    if (accessor) {
+        accessor->UnregisterTextureViewFromDescriptorPool(UnregisterSlotForTexture, nullptr);
+        NwAllocator::initialize(mInitializeHeap);
+        if (nn::font::DynamicCast<MultiArcResourceAccessor>(accessor))
+            accessor->Finalize(sead::GraphicsNvn::instance()->getNnDevice());
+        NwAllocator::finalize();
+    }
 }
 
 // 0x7100beaf8c
