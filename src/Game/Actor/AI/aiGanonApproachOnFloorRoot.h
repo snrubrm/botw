@@ -1,6 +1,7 @@
 #pragma once
 
 #include <gsys/gsysModelAccessKey.h>
+#include <container/seadSafeArray.h>
 #include <math/seadVector.h>
 #include "KingSystem/ActorSystem/actAiAi.h"
 #include "KingSystem/System/Timer.h"
@@ -23,6 +24,9 @@ public:
     void loadParams_() override;
     // 0x71003df5c4 (placeholder name)
     void changeToMove(const sead::Vector3f& pos, const sead::Vector3f& dst_pos);
+    // 0x71003e056c (placeholder name): stores the check origin (actor position + 1.2 up) and casts the five rays
+    // of length 20 in `dir` rotated by CheckPosAng0..4 around the Y axis, keeping their end points.
+    void sub_71003E056C(const sead::Vector3f& dir);
 
 protected:
     // static_param at offset 0x38
@@ -67,8 +71,8 @@ protected:
     ksys::Timer _e4;
     s32 _f0{};
     ksys::phys::RayCastForRequest* _f8[5];
-    sead::Vector3f _120[5];
-    sead::Vector3f _15c[15];
+    sead::SafeArray<sead::Vector3f, 5> _120;
+    sead::SafeArray<sead::Vector3f, 15> _15c;
     f32 _210[15];
     sead::Vector3f _24c;
     gsys::BoneAccessKeyEx _258;

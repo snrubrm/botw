@@ -1,6 +1,9 @@
 #include "Game/Actor/AI/aiGanonApproachOnFloorRoot.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "Game/Actor/aiUnk_71007377D4.h"
+#include <math/seadQuat.h>
+#include <math/seadMatrix.h>
 #include "KingSystem/Physics/System/physRayCastForRequest.h"
 
 namespace uking::ai {
@@ -22,6 +25,28 @@ bool GanonApproachOnFloorRoot::init_(sead::Heap* heap) {
 
 void GanonApproachOnFloorRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
+}
+
+// NON_MATCHING: operand order of the rotation products (the original multiplies matrix element * component) and
+// scheduling
+void GanonApproachOnFloorRoot::sub_71003E056C(const sead::Vector3f& dir) {
+    sead::Vector3f origin;
+    mActor->getMtx().getTranslation(origin);
+    origin.y += 1.2f;
+    _120[_f0] = origin;
+    const f32 angles[5] = {*mCheckPosAng0_s, *mCheckPosAng1_s, *mCheckPosAng2_s, *mCheckPosAng3_s,
+                           *mCheckPosAng4_s};
+    for (int i = 0; i < 5; ++i) {
+        sead::Quatf q;
+        q.setAxisRadian(sead::Vector3f::ey, angles[i]);
+        sead::Matrix34f mtx;
+        mtx.fromQuat(q);
+        sead::Vector3f rotated;
+        rotated.setRotated(mtx, dir);
+        sead::Vector3f end = origin + rotated * 20.0f;
+        sub_710072EC24(_f8[i], origin, end, ksys::phys::RayCast::NormalCheckingMode::_0, 0.5f);
+        _15c[_f0 * 5 + i] = end;
+    }
 }
 
 void GanonApproachOnFloorRoot::leave_() {
