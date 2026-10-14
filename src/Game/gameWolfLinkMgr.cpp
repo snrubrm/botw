@@ -54,6 +54,25 @@ bool WolfLinkMgr::sub_7100683088(bool a1) {
     return sub_7100682CE8(&pos, flags);
 }
 
+bool WolfLinkMgr::sub_7100682F80(ksys::act::Actor* actor, bool deleting) {
+    if (_80 != actor)
+        return false;
+    if (_28.hasProc() && _80) {
+        auto* gdm = ksys::gdt::Manager::instance();
+        const sead::Vector3f pos = _80->getMtx().getTranslation();
+        const s32* life_ptr = _80->getLife();
+        const s32 life = life_ptr ? *life_ptr : 1;
+        if (gdm->setS32(life, mCurrentLifeHandle) && gdm->setVec3f(pos, mCurrentPosHandle))
+            gdm->setBool(life < 1, mDiedTodayHandle);
+    }
+    if (!deleting)
+        _80->deleteEx(ksys::act::Actor::DeleteType::_1, ksys::act::BaseProc::DeleteReason(0));
+    _60 = 0;
+    _80 = nullptr;
+    _28.reset();
+    return true;
+}
+
 s32 WolfLinkMgr::sub_7100683120() {
     if (_28.hasProc() && _80) {
         if (auto* life = _80->getLife())
