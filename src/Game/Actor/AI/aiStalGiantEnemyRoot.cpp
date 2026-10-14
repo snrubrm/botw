@@ -1,4 +1,6 @@
 #include "Game/Actor/AI/aiStalGiantEnemyRoot.h"
+#include <prim/seadFormatPrint.h>
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "Game/Actor/aiUnk_7100724C64.h"
 #include "Game/Actor/aiUnk_71005D6D10.h"
 #include "KingSystem/Terrain/teraSystem.h"
@@ -152,6 +154,22 @@ bool StalGiantEnemyRoot::m34() {
             return true;
     }
     return false;
+}
+
+// NON_MATCHING: the accessor does not reuse the formatter temporary's stack slot in our build
+// Deletes the four "WeakPoint%d" part actors and releases their slots.
+void StalGiantEnemyRoot::sub_71005A3530() {
+    auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
+    if (!enemy)
+        return;
+    sead::FixedSafeString<16> name;
+    for (u32 i = 0; i < 4; i++) {
+        (sead::StringCutOffPrintFormatter(&name) << "WeakPoint%d", i) << sead::flush;
+        ksys::act::ActorLinkConstDataAccess accessor;
+        ksys::act::acquireActor(&enemy->getActorPartsActor(name), &accessor);
+        accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+        enemy->sub_7100D3CFEC(name);
+    }
 }
 
 }  // namespace uking::ai
