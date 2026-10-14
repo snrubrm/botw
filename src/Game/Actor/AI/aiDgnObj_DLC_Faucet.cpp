@@ -1,6 +1,8 @@
 #include "Game/Actor/AI/aiDgnObj_DLC_Faucet.h"
 #include <math/seadMathCalcCommon.h>
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorAtk.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
 
@@ -9,6 +11,29 @@ namespace uking::ai {
 DgnObj_DLC_Faucet::DgnObj_DLC_Faucet(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
 DgnObj_DLC_Faucet::~DgnObj_DLC_Faucet() = default;
+
+void DgnObj_DLC_Faucet::sub_710035FF4C(ksys::act::Unk_71006dc134* arg) {
+    arg->_21 = false;
+    if (!mActor->getActorFlags2().isOn(ksys::act::Actor::ActorFlag2::_40) && arg->_18)
+        return;
+
+    const auto& mtx = mActor->getMtx();
+    sead::Vector3f up;
+    mtx.getBase(up, 1);
+    sead::Vector3f pos;
+    mtx.getTranslation(pos);
+    sead::Vector3f impulse = arg->_0;
+    const f32 length = impulse.length();
+    if (arg->_18) {
+        ksys::act::ActorLinkConstDataAccess accessor;
+        if (ksys::act::acquireActor(&arg->_18->_d8, &accessor) && accessor.isPlayerProfile()) {
+            impulse = pos - arg->_18->_58.getTranslation();
+            impulse.normalize();
+            impulse *= length;
+        }
+    }
+    arg->_0 = up * up.dot(impulse);
+}
 
 bool DgnObj_DLC_Faucet::init_(sead::Heap* heap) {
     auto* tgt_body = mActor->getTgtBody();
@@ -38,7 +63,7 @@ void DgnObj_DLC_Faucet::calc_() {
     if (_58)
         sub_7100360230();
     else
-        sub_710036052C(nullptr);
+        sub_710036052C();
 }
 
 // NON_MATCHING: only the frame (0x90 instead of 0x80): since lib/xlink2's Handle has a user-provided destructor, the
@@ -97,7 +122,7 @@ void DgnObj_DLC_Faucet::sub_7100360230() {
         _84 = false;
 }
 
-void DgnObj_DLC_Faucet::sub_710036052C(ksys::act::Unk_71006dc134* arg) {
+void DgnObj_DLC_Faucet::sub_710036052C() {
     auto* body = mActor->getMainBody();
     if (!body)
         return;

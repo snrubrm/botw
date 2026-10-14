@@ -19,8 +19,11 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    // 0x710035ff4c: impulse callback (delegate _60): keeps only the part of the impulse along the actor's up axis;
+    // a hit by the player pushes away from the attacker with the impulse's length.
+    void sub_710035FF4C(ksys::act::Unk_71006dc134* arg);
     void sub_7100360230();
-    void sub_710036052C(ksys::act::Unk_71006dc134* arg);
+    void sub_710036052C();
 
 protected:
     sead::Vector3f _38 = sead::Vector3f::zero;
@@ -29,7 +32,7 @@ protected:
     s32 _54 = 0;
     bool _58 = false;
     sead::Delegate1<DgnObj_DLC_Faucet, ksys::act::Unk_71006dc134*> _60{
-        this, &DgnObj_DLC_Faucet::sub_710036052C};
+        this, &DgnObj_DLC_Faucet::sub_710035FF4C};
     f32 _80 = 0;
     bool _84 = false;
 };
