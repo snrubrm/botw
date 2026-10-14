@@ -34,6 +34,65 @@ void ZoraHeroRelicBattleRidePlayer::sub_71006138CC() {
     changeChild("待機", &pack);
 }
 
+void ZoraHeroRelicBattleRidePlayer::calc_() {
+    if (_c0) {
+        if (auto** unit = static_cast<Unk_71025afb58**>(mZoraHeroShowMsgUnit_a)) {
+            if (auto* message = sead::DynamicCast<Unk_7102433970>(*unit))
+                message->_8.sub_7100744200(4, false);
+        }
+        _c0 = false;
+        changeChild("跳ねあげる");
+        return;
+    }
+
+    auto* actor = mActor;
+    if (_50.hasProc() || _60.hasProc() || _40.hasProc()) {
+        if (!ksys::gdt::getFlag_Water_Relic_ChanceTime(false)) {
+            _50.reset();
+            _60.reset();
+            _40.reset();
+        }
+    }
+    if (_40.hasProc()) {
+        if (!_50.hasProc())
+            _50 = _40;
+        else if (!_60.hasProc())
+            _60 = _40;
+        _40.reset();
+    }
+
+    auto* child = getCurrentChild();
+    if (!actor->getConnectedCalcChild()) {
+        if (!isCurrentChild("跳ねあげる") || child->isFinished() || child->isFailed()) {
+            setFailed();
+            return;
+        }
+    }
+
+    if (child->isFinished() || child->isFailed()) {
+        if (!isCurrentChild("遺物に向かう")) {
+            sub_7100613FF0();
+            return;
+        }
+        sub_7100613D60();
+        if (_50.hasProc())
+            sub_7100613E1C();
+        else
+            changeChild("滝つぼ待機");
+        return;
+    }
+
+    if (!child->isChangeable())
+        return;
+
+    if (isCurrentChild("周回") || isCurrentChild("滝つぼ待機")) {
+        if (_50.hasProc())
+            sub_7100613E1C();
+    } else if (isCurrentChild("遺物に向かう") && !_50.hasProc()) {
+        sub_7100613FF0();
+    }
+}
+
 void ZoraHeroRelicBattleRidePlayer::leave_() {
     ksys::act::ai::Ai::leave_();
 }
