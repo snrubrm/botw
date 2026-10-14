@@ -3,6 +3,12 @@
 #include "KingSystem/ActorSystem/actActorCreator.h"
 #include "KingSystem/ActorSystem/actActorHeapUtil.h"
 #include "KingSystem/ActorSystem/actInstParamPack.h"
+#include "Game/Actor/aiUnk_71005D6D10.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Resource/Actor/resResourceGParamList.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectLiftable.h"
 
 namespace uking::action {
 
@@ -43,7 +49,34 @@ void PlayerIceGrabReady::enter_(ksys::act::ai::InlineParamPack* params) {
 void PlayerIceGrabReady::leave_() {}
 
 void PlayerIceGrabReady::calc_() {
-    PlayerAction::calc_();
+    static_cast<ksys::act::Player*>(mActor)->actionCommon();
+    if (static_cast<ksys::act::Player*>(mActor)->_17f0) {
+        static_cast<ksys::act::Player*>(mActor)->_17f0 = 0;
+        return;
+    }
+
+    if (auto* child = static_cast<ksys::act::Actor*>(mActor->getConnectedCalcChild())) {
+        if (!static_cast<ksys::act::Player*>(mActor)->_d11) {
+            static_cast<ksys::act::Player*>(mActor)->_d11 = 1;
+            static_cast<ksys::act::Player*>(mActor)->_20f8 = child->m38();
+            if (auto* body = child->getMainBody())
+                static_cast<ksys::act::Player*>(mActor)->_20fc = body->getVolume();
+            mActor->getASList()->x_6(25, 0, static_cast<ksys::act::Player*>(mActor)->_20f8);
+            mActor->getASList()->goLimpFromHeadShotMaybe(
+                49, child->getParam()->getRes().mGParamList->getLiftable()->mLiftType.ref(), 0);
+            mActor->getASList()->x_6(17, 0, 0.0f);
+            static_cast<ksys::act::Player*>(mActor)->x_23("GrabWait", false, -1.0f);
+            _20.releaseAndWakeProc();
+            sub_71005DC208(mActor, child, 0);
+            sub_71005DC41C(child);
+            mActor->sendMessage(*child->getMesTransceiverId(), ksys::MessageType(0x3000011), nullptr,
+                                true);
+        }
+        setFinished();
+    } else if (_20.isProcReady()) {
+        if (auto* actor = sead::DynamicCast<ksys::act::Actor>(_20.getProc()))
+            actor->setConnectedCalcParent(mActor, false);
+    }
 }
 
 bool PlayerIceGrabReady::isChangeable() const {
