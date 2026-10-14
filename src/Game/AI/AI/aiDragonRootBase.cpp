@@ -259,6 +259,78 @@ bool DragonRootBase::sub_710035797C(f32* out_progress, sead::Vector3f* out_pos,
     return true;
 }
 
+// NON_MATCHING: the original keeps an unused distance to the current rail point (its sqrtf NaN
+// call survives); ours drops it entirely.
+void DragonRootBase::m36() {
+    if (!_38.sub_7100EEBB74())
+        return;
+
+    if (!_38.sub_7100EEBE88() && _38.m3()) {
+        if (m39()) {
+            _38.sub_7100EEBE9C(-_38._58);
+        } else if (_38._30.progress != 0) {
+            if (_38._8.rail->x_18()) {
+                auto* point = static_cast<const ksys::map::RailConnectablePoint*>(
+                    _38._8.rail->getPoint(s32(_38._30.progress)));
+                if (point) {
+                    bool followed = false;
+                    auto** junction_point = point->getJunctionPoint();
+                    if (junction_point && *junction_point) {
+                        auto* junction_rail = (*junction_point)->getJunctionRail();
+                        const s32 num_points = junction_rail->getNumPoints();
+                        if (junction_rail && num_points >= 0) {
+                            const sead::Vector3f pos = mActor->getMtx().getTranslation();
+                            _38.sub_7100EEBAE0(junction_rail, sub_7100EEF7AC(junction_rail, pos,
+                                                                             false, 0.2f, -0.0f));
+                            followed = true;
+                        }
+                    }
+                    if (!followed)
+                        sub_7100357440(-1.0f);
+                }
+            }
+        } else if (auto* rail = _38._8.rail) {
+            const f32 distance = (rail->getPoint(s32(_38._30.progress))->getTranslate() -
+                                  mActor->getMtx().getTranslation())
+                                     .length();
+            static_cast<void>(distance);
+            m34();
+            _38.sub_7100EEBAE0(rail, 0.0f);
+        }
+    }
+
+    auto* rail = _38._8.rail;
+    if (!rail || !rail->isBezier()) {
+        _38.x(-1.0f);
+        return;
+    }
+
+    const f32 speed = m34();
+    const sead::Vector3f pos = mActor->getMtx().getTranslation();
+    for (s32 i = -1; i < 1000; ++i) {
+        _38.x(speed);
+        if ((pos - _38._30.sub_7100EEB370()).squaredLength() > speed * speed)
+            return;
+        if (_38.sub_7100EEBE88() || !_38.m3() || _38._30.progress == 0 || !_38._8.rail->x_18())
+            continue;
+        auto* point = static_cast<const ksys::map::RailConnectablePoint*>(
+            _38._8.rail->getPoint(s32(_38._30.progress)));
+        if (!point)
+            continue;
+        auto** junction_point = point->getJunctionPoint();
+        if (junction_point && *junction_point) {
+            auto* junction_rail = (*junction_point)->getJunctionRail();
+            const s32 num_points = junction_rail->getNumPoints();
+            if (junction_rail && num_points >= 0) {
+                _38.sub_7100EEBAE0(junction_rail, 0.0f);
+                continue;
+            }
+        }
+        if (!_38.sub_7100EEBE88() && _38.m3())
+            return;
+    }
+}
+
 void DragonRootBase::m37() {
     if (_38.sub_7100EEBB74()) {
         m36();

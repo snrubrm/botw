@@ -40,7 +40,8 @@ public:
     Rail();
     virtual ~Rail();
     virtual void init(MubinIter* iter, sead::Heap* heap);
-    virtual s32 x_18() { return 0; }
+    // Tested as a bool (DragonRootBase::m36 checks it before following a junction).
+    virtual bool x_18() { return false; }
     // Whether this is a route (RailRoute overrides it; tested as a bool by AI_Query_CheckRoad).
     virtual bool x_20() { return false; }
     virtual RailPoint* allocPoint(sead::Heap* heap);
@@ -151,7 +152,7 @@ public:
     ~RailConnectable() override;
     RailPoint* allocPoint(sead::Heap* heap) override;
 
-    s32 x_18() override { return 1; }
+    bool x_18() override { return true; }
     bool x_20() override { return true; }
     void x_38() override {}
 };
