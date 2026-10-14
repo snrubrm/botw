@@ -420,6 +420,7 @@ Unk_71024fd0a8::~Unk_71024fd0a8() = default;
 
 namespace {
 sead::SafeString sStr_BigMazeBgm = "BigMazeBgm";
+sead::SafeString sStr_maze = "maze";
 }  // namespace
 
 Unk_71024fd188::Unk_71024fd188(const ksys::snd::BgmInitArg& arg) : Unk_71025ce380(arg) {
@@ -429,6 +430,12 @@ Unk_71024fd188::Unk_71024fd188(const ksys::snd::BgmInitArg& arg) : Unk_71025ce38
 }
 
 Unk_71024fd188::~Unk_71024fd188() = default;
+
+void Unk_71024fd188::hm14() {
+    mEntry = sub_71010209FC(sStr_maze);
+    if (mEntry && mEntry->sub_7100FF6DF4(this))
+        _1a0.moveTo(1.0, *mInfo->mFadeInSec);
+}
 
 // NON_MATCHING: placeholder destructor; the original (0x7100fffde4) also destroys members or bases
 // this class does not declare yet.
@@ -476,6 +483,14 @@ Unk_71024fd6c8::Unk_71024fd6c8(const ksys::snd::BgmInitArg& arg) : Unk_71025ce38
 
 Unk_71024fd6c8::~Unk_71024fd6c8() = default;
 
+void Unk_71024fd6c8::hm15() {
+    if (mState != 1 && mState != 2)
+        return;
+    if (!mEntry || mEntry->sub_7100FF6DF4(this))
+        return;
+    hm14();
+}
+
 namespace {
 sead::SafeString sStr_DungeonNormalBgm = "DungeonNormalBgm";
 }  // namespace
@@ -489,6 +504,17 @@ Unk_71024fd808::Unk_71024fd808(const ksys::snd::BgmInitArg& arg) : Unk_71025ce38
 
 Unk_71024fd808::~Unk_71024fd808() = default;
 
+void Unk_71024fd808::hm14() {
+    _1bc = 0;
+    _1ac = 0;
+    _1a4 = 0;
+    _1a6 = 0;
+    _1a8 = 0;
+    _1aa = 0;
+    _19c = 0;
+    _1a0 = 0;
+}
+
 namespace {
 sead::SafeString sStr_DungeonRewardBgm = "DungeonRewardBgm";
 }  // namespace
@@ -501,3 +527,10 @@ Unk_71024fd948::Unk_71024fd948(const ksys::snd::BgmInitArg& arg) : Unk_71025ce38
 }
 
 Unk_71024fd948::~Unk_71024fd948() = default;
+
+void Unk_71024fd948::hm14() {
+    _19c = 0;
+    _1a0 = 0;
+    _1b0 = 0;
+    _1b4 = false;
+}

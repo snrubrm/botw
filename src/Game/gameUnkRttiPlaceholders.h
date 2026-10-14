@@ -2249,14 +2249,13 @@ class Unk_71024fd188 : public ksys::snd::Unk_71025ce380 {
 public:
     explicit Unk_71024fd188(const ksys::snd::BgmInitArg& arg);
     ~Unk_71024fd188() override;
-    // 0x7100fff420 / 0x7100fff4dc (declared only)
     void hm14() override;
-    void hm15() override;
+    void hm15() override {}
 
     ksys::snd::BigMazeBgmInfo* mInfo = nullptr;
     u64 _198 = 0;
     aal::TimedFader _1a0{1.0, aal::FadeCurveType::Linear, 1.0};
-    u64 _1c8 = 0;
+    ksys::snd::Unk_710260f248Entry* mEntry = nullptr;
 };
 KSYS_CHECK_SIZE_NX150(Unk_71024fd188, 0x1d0);
 
@@ -2297,16 +2296,16 @@ public:
     void sub_7101002194();
     void sub_7101002274();
     void m14(sead::TextWriter& writer) override {}
-    // 0x7101002290 / 0x71010024ac (declared only)
+    // 0x7101002290 (declared only)
     void hm14() override;
     void hm15() override;
 
     explicit Unk_71024fd6c8(const ksys::snd::BgmInitArg& arg);
 
     ksys::snd::MusicInfo* mInfo = nullptr;
-    u32 _198 = 0;
+    s32 mState = 0;
     aal::TimedFader _1a0{1.0, aal::FadeCurveType::Linear, 1.0};
-    u64 _1c8 = 0;
+    ksys::snd::Unk_710260f248Entry* mEntry = nullptr;
     u32 _1d0;
     u64 _1d8 = 0;
     u64 _1e0 = 0;
@@ -2326,8 +2325,8 @@ public:
     void sub_71010029B8();
     void sub_71010029CC();
     void m14(sead::TextWriter& writer) override {}
-    // 0x71010029ec / 0x7101002a24 (declared only)
     void hm14() override;
+    // 0x7101002a24 (declared only; 772 B)
     void hm15() override;
 
     // The dungeon BGM ("DungeonNormalBgm"; 0x1c0 bytes, constructor 0x7101002850).
@@ -2338,14 +2337,10 @@ public:
     u32 _19c = 0;
     u32 _1a0 = 0;
     u16 _1a4 = 0;
-    bool _1a6 = false;
-    bool _1a7 = false;
-    bool _1a8 = false;
-    bool _1a9 = false;
-    bool _1aa = false;
-    bool _1ab = false;
-    bool _1ac = false;
-    bool _1ad = false;
+    u16 _1a6 = 0;
+    u16 _1a8 = 0;
+    u16 _1aa = 0;
+    u16 _1ac = 0;
     u64 _1b0 = 0;
     f32 _1b8 = 0;
     u32 _1bc = 0;
@@ -2361,8 +2356,8 @@ public:
     void sub_71010038AC();
     void sub_71010038C0();
     void m14(sead::TextWriter& writer) override {}
-    // 0x71010038e4 / 0x710100390c (declared only)
     void hm14() override;
+    // 0x710100390c (declared only; 360 B)
     void hm15() override;
 
     // The dungeon reward BGM ("DungeonRewardBgm"; 0x1b8 bytes, constructor 0x7101003750).
@@ -2371,13 +2366,11 @@ public:
     ksys::snd::MusicInfo* mInfo = nullptr;
     f32 _198 = 0;
     u32 _19c = 0;
-    u64 _1a0 = 0;
+    u32 _1a0 = 0;
+    u32 _1a4 = 0;
     u32 _1a8 = 0;
     f32 _1ac = 0;
-    bool _1b0 = false;
-    bool _1b1 = false;
-    bool _1b2 = false;
-    bool _1b3 = false;
+    u32 _1b0 = 0;
     bool _1b4 = false;
 };
 KSYS_CHECK_SIZE_NX150(Unk_71024fd948, 0x1b8);
@@ -2422,7 +2415,6 @@ public:
     void sub_710100F8B0(bool value);
     void sub_710100F900(bool flag, s32 value);
     void m14(sead::TextWriter& writer) override {}
-    // 0x710100f950 / 0x710100f9d8 (declared only)
     void hm14() override;
     void hm15() override;
 
@@ -2435,7 +2427,7 @@ public:
     };
 
     ksys::snd::MusicInfo* mInfo = nullptr;
-    u32 _198 = 0;
+    s32 mState = 0;
     aal::TimedFader _1a0{1.0, aal::FadeCurveType::Linear, 1.0};
     sead::Buffer<Entry> mEntries;
     u32 _1d8 = 0;
@@ -2443,7 +2435,7 @@ public:
     u32 _1e0 = 0;
     u32 _1e4 = 0;
     u32 _1e8 = 0;
-    u64 _1f0 = 0;
+    ksys::snd::Unk_710260f248Entry* mMainEntry = nullptr;
     s32 _1f8 = -1;
 };
 KSYS_CHECK_SIZE_NX150(Unk_71024feae8, 0x200);
