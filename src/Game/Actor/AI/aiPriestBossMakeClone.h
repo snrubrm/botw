@@ -17,6 +17,9 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    // 0x7100524660 (placeholder name; not decompiled)
+    void sub_7100524660(bool a1);
+
 protected:
     // static_param at offset 0x38
     const int* mRespawnFrame_s{};

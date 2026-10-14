@@ -1,4 +1,5 @@
 #include "Game/Actor/AI/aiPriestBossMakeClone.h"
+#include "Game/Actor/aiUnk_7102450fa8.h"
 
 namespace uking::ai {
 
@@ -11,7 +12,14 @@ bool PriestBossMakeClone::init_(sead::Heap* heap) {
 }
 
 void PriestBossMakeClone::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    mCloneRecords.clear();
+    _54 = sUnk_71025c8cf8;
+    _60 = sead::Vector3f::zero;
+    _6c = sead::Vector3f::zero;
+    mRespawnStarted = false;
+    mRespawnTimer = 0.0f;
+    mState = 0;
+    sub_7100524660(true);
 }
 
 void PriestBossMakeClone::leave_() {
