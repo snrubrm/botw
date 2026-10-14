@@ -514,6 +514,14 @@ void ScreenMainScreen::sub_7100A1DE04() {
     eui::Screen::x_2();
 }
 
+// 0x7100a1de08
+void ScreenMainScreen::sub_7100A1DE08() {
+    auto* player = static_cast<ksys::act::PlayerBase*>(getPlayerActor(nullptr));
+    if (!player || player->_c44.isOnBit(29))
+        return;
+    _1e0.sendMessage(*player->getMesTransceiverId(), ksys::MessageType(0x800007a), nullptr, false);
+}
+
 // 0x7100a1e3ec
 bool ScreenMainScreen::sub_7100A1E3EC(const ksys::qst::Quest* quest) {
     if (_3cb0)
