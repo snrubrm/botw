@@ -15,7 +15,7 @@ class ActorNearestSearch {
 public:
     ActorNearestSearch(const char* unique_name, Actor* actor, BaseProc** result,
                        const sead::Vector3f& origin);
-    virtual ~ActorNearestSearch();
+    virtual ~ActorNearestSearch() = default;
     void sub_7100EDC810(BaseProc* proc);
     void sub_7100EDC9E8(BaseProc* proc);
 

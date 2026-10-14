@@ -56,7 +56,7 @@ bool GerudoQueenBattle::sub_71003F4648() {
     return in_range && riding;
 }
 
-// NON_MATCHING: the separate-TU search destructor call changes stack storage and return scheduling.
+// NON_MATCHING: stack slots of the search record and delegate differ.
 bool GerudoQueenBattle::sub_71003F3E44(ksys::act::BaseProcMgr* mgr) {
     ksys::act::BaseProc* result = nullptr;
     ksys::act::ActorNearestSearch search("RougeSuna", mActor, &result, sead::Vector3f::zero);

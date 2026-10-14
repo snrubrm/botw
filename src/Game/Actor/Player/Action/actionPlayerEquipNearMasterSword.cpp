@@ -19,7 +19,7 @@ bool PlayerEquipNearMasterSword::init_(sead::Heap* heap) {
 
 void PlayerEquipNearMasterSword::loadParams_() {}
 
-// NON_MATCHING: stack/delegate setup differs and the separate-TU search destructor remains a call.
+// NON_MATCHING: stack slots of the search record and delegate differ.
 bool PlayerEquipNearMasterSword::oneShot_() {
     auto* player = sead::DynamicCast<ksys::act::Player>(mActor);
     if (!player)

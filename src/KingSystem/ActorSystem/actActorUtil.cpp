@@ -1679,8 +1679,6 @@ ActorNearestSearch::ActorNearestSearch(const char* unique_name, Actor* actor, Ba
     mClosestDistance = FLT_MAX;
 }
 
-ActorNearestSearch::~ActorNearestSearch() = default;
-
 void ActorNearestSearch::sub_7100EDC9E8(BaseProc* proc) {
     if (!proc || !mResult)
         return;
