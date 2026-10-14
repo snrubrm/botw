@@ -2,7 +2,10 @@
 #include "Game/Actor/aiUnk_71005D6D10.h"
 #include "Game/Actor/actWeapon.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
+#include "Game/Actor/actEnemy.h"
+#include "Game/Actor/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorWeapons.h"
 
 namespace uking::action {
 
@@ -38,6 +41,35 @@ void ForkWeaponShockWave::calc_() {
     }
     const u32 value = 0;
     sub_71005D8C94(mActor, *mWeaponIdx_s, value);
+}
+
+// NON_MATCHING: stack slots (the original reuses the AABB vector slot for the ray start).
+// Ground position below the tip of the enemy's weapon (ray from 2 above the tip down to UnderRayLength
+// below it); zero while the AS trigger (m32) is off.
+bool ForkWeaponShockWave::sub_710016A388(sead::Vector3f* out) {
+    if (!out || !mActor)
+        return false;
+    if (!m32()) {
+        *out = sead::Vector3f::zero;
+        return false;
+    }
+    auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
+    if (!enemy)
+        return false;
+    const s32 weapon_idx = *mWeaponIdx_s;
+    auto* weapon = sead::DynamicCast<act::Weapon>(enemy->getWeapons()->getEquippedWeapon(weapon_idx));
+    if (!weapon)
+        return false;
+
+    sead::Vector3f size;
+    weapon->sub_71002E5DDC(&size);
+    const sead::Vector3f dir = weapon->getMtx().getBase(2);
+    const sead::Vector3f pos = weapon->getMtx().getTranslation();
+    sead::Vector3f tip = pos + dir * size.length();
+    const sead::Vector3f& up = sead::Vector3f::ey;
+    const sead::Vector3f from = up + up + tip;
+    tip -= up * *mUnderRayLength_s;
+    return sub_710072E928(from, tip, out, nullptr, nullptr, 0.0f);
 }
 
 bool ForkWeaponShockWave::m32() {
