@@ -3,6 +3,9 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
+#include "Game/Actor/aiUnk_71005D6D10.h"
+#include "Game/Actor/aiUnk_7100D8C538.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
@@ -18,6 +21,62 @@ void OctarockServiceHideWait::enter_(ksys::act::ai::InlineParamPack* params) {
     _68 = ksys::act::isAttClientEnabled(mActor, "AutoAim");
     _69 = ksys::act::isAttClientEnabled(mActor, "AutoAimHidden");
     sub_71004EF670();
+}
+
+// NON_MATCHING: stack slot order of the target position and the param pack
+void OctarockServiceHideWait::calc_() {
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed()) {
+        if (isCurrentChild("待機")) {
+            ksys::act::disableAttClient(mActor, "AutoAimHidden");
+            ksys::act::enableAttClient(mActor, "AutoAim");
+            changeChild("飛び出す");
+        } else if (isCurrentChild("飛び出す")) {
+            if (auto* awareness = mActor->getAwareness())
+                awareness->sub_7100D7E9BC(0);
+            changeChild("出現待機");
+        } else if (isCurrentChild("出現待機") || isCurrentChild("気づき")) {
+            mActor->m93(0, 0.0f);
+            if (auto* awareness = mActor->getAwareness())
+                awareness->sub_7100D7EAE4(0);
+            changeChild("隠れる");
+        } else {
+            sub_71004EF670();
+        }
+        return;
+    }
+
+    if (!child->isChangeable())
+        return;
+
+    if (isCurrentChild("待機")) {
+        if (_6c.value <= sead::Mathf::epsilon()) {
+            if (sub_71005D8F28(mActor)) {
+                const auto& pos = sub_71005D9330(mActor);
+                const auto& mtx = mActor->getMtx();
+                const f32 dx = pos.x - mtx(0, 3);
+                const f32 dz = pos.z - mtx(2, 3);
+                const f32 dist = sead::Mathf::sqrt(dx * dx + dz * dz);
+                if (*mSafeAreaDist_s > dist || dist >= *mSafeAreaDist_s + *mSafeAreaDistRange_s)
+                    return;
+            }
+            ksys::act::disableAttClient(mActor, "AutoAimHidden");
+            ksys::act::enableAttClient(mActor, "AutoAim");
+            changeChild("飛び出す");
+        } else {
+            _6c.update();
+        }
+    } else if (isCurrentChild("出現待機")) {
+        if (!visibilityCheckMaybe(mActor->getMtx().getTranslation(), 1.0f))
+            return;
+        sead::Vector3f target;
+        if (!sub_71004EFAE8(&target))
+            return;
+        mActor->m93(4, 0.0f);
+        ksys::act::ai::InlineParamPack pack;
+        pack.addVec3(target, "TargetPos", -1);
+        changeChild("気づき", &pack);
+    }
 }
 
 void OctarockServiceHideWait::leave_() {

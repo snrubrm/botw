@@ -15,11 +15,14 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
 
 protected:
     void sub_71004EF670();
+    // 0x71004efae8 (declared only): the position of the noticed target (false when there is none).
+    bool sub_71004EFAE8(sead::Vector3f* out);
 
     // static_param at offset 0x38
     const float* mSafeAreaDist_s{};
