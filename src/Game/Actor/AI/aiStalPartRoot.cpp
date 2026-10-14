@@ -3,6 +3,8 @@
 #include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/Utils/Thread/Message.h"
+#include "Game/Actor/aiUnk_71007377D4.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 
 namespace uking::ai {
 
@@ -24,7 +26,22 @@ bool StalPartRoot::init_(sead::Heap* heap) {
 }
 
 void StalPartRoot::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    auto* actor = mActor;
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(actor)) {
+        _90 = enemy->_e90;
+        if (auto* self = sead::DynamicCast<act::Enemy>(mActor))
+            self->_e90 = 3;
+        sub_71007A3540(enemy);
+        sub_71007A3800(enemy);
+        sub_710073DE44(enemy);
+    }
+    const f32 time = *mInvincibleTime_s;
+    if (time > 0) {
+        _94.reset(time);
+        sub_71005A8A8C(true);
+    }
+    mFlags.set(Flag::Changeable);
+    changeChild("通常");
 }
 
 void StalPartRoot::leave_() {
