@@ -55,6 +55,28 @@ void NPCTerrorAI::enter_(ksys::act::ai::InlineParamPack* params) {
     }
 }
 
+void NPCTerrorAI::calc_() {
+    getCurrentChild()->setDynamicParam(*mTargetPos_d, "TargetPos");
+    getCurrentChild()->setDynamicParam(*mIsTimeOver_d, "IsTimeOver");
+    getCurrentChild()->setDynamicParam(s32(*mTerrorLevel_d), "TerrorLevel");
+    getCurrentChild()->setDynamicParam(*mTargetVel_d, "TargetVel");
+    getCurrentChild()->setDynamicParam(*mIsNeedUnEquipWeapon_d, "IsNeedUnEquipWeapon");
+    getCurrentChild()->setDynamicParam(*mTerrorEmitter_d, "TerrorEmitter");
+    getCurrentChild()->setDynamicParam(*mTerrorLayer_d, "TerrorLayer");
+
+    if (auto* schedule = mActor->getSchedule())
+        schedule->_124 = true;
+
+    if (isFinished() || isFailed()) {
+        mFlags.set(Flag::Changeable);
+        setFinished();
+    }
+
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed())
+        setFinished();
+}
+
 void NPCTerrorAI::leave_() {
     ksys::act::x_6(mActor);
     if (auto* schedule = mActor->getSchedule())

@@ -198,6 +198,11 @@ public:
         return setDynamicParamImpl(value, key, &ParamPack::setPtrGeneric<bool, AIDefParamType::Bool>);
     }
 
+    // By value (NPCTerrorAI::calc_ copies the int to the stack after getting the child).
+    bool setDynamicParam(s32 value, const sead::SafeString& key) {
+        return setDynamicParamImpl(value, key, &ParamPack::setPtrGeneric<s32, AIDefParamType::Int>);
+    }
+
 protected:
     enum class Flag : u8 {
         Finished = 1,
