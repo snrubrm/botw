@@ -134,6 +134,7 @@ public:
 
 private:
     friend class ActorParamMgr;
+    friend class ActorPreLoadTask;  // run() clears _9 of a param that failed to load
 
     void deleteData();
     void deleteResHandles();

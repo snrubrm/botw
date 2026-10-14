@@ -29,6 +29,9 @@ public:
     bool sub_7100D59608();
     bool sub_7100D5947C(const sead::SafeString& name);
     bool run();
+    // 0x7100d59d18 (600 B, declared only; placeholder name): requests the resources of the loaded param; true while
+    // the task has to run again.
+    bool sub_7100D59D18();
 
 private:
     sead::FixedSafeString<64> mName;

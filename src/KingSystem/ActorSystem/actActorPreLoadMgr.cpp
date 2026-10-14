@@ -204,6 +204,98 @@ bool ActorPreLoadTask::sub_7100D5947C(const sead::SafeString& name) {
     return true;
 }
 
+// NON_MATCHING: the original funnels the mRunAgain stores of most exits through one store (value in w8); ours
+// keeps separate stores in a few exits
+bool ActorPreLoadTask::run() {
+    auto* mgr = ActorParamMgr::instance();
+    switch (mState) {
+    case 1: {
+        if (!mPackHandle.isReadyOrNeedsParse())
+            break;
+        mPackHandle.parseResource(nullptr);
+        bool allocated = false;
+        mActorParam = ActorParamMgr::instance()->loadParamAsync(mName.cstr(), &mPackHandle, &allocated,
+                                                                _ae8, 1);
+        if (!mActorParam) {
+            mState = 7;
+            mPackHandle.requestUnload();
+            mPackRequested = false;
+            mRunAgain = false;
+            return true;
+        }
+        mState = allocated ? 2 : 5;
+        break;
+    }
+    case 2:
+        if (!mgr->finishLoadingActorLink(mActorParam, _ae8))
+            break;
+        if (mActorParam->_a) {
+            mActorParam->_9 = 0;
+            mActorParam->setEventSignal();
+            if (mActorParam) {
+                BaseProcMgr::instance()->requestUnloadActorParam(mActorParam);
+                mActorParam = nullptr;
+            }
+            mPackHandle.requestUnload();
+            mPackRequested = false;
+            mState = 7;
+            mRunAgain = false;
+            return true;
+        }
+        mgr->loadParamAsyncStep2(mActorParam, &mPackHandle, _ae8, 1);
+        mState = 3;
+        break;
+    case 3:
+        if (!mgr->finishLoadingStep2(mActorParam, _ae8))
+            break;
+        mgr->loadExtraResAsync(mActorParam, &mPackHandle, _ae8, 1);
+        mState = 4;
+        break;
+    case 4:
+        if (!mgr->finishLoadingExtraRes(mActorParam, _ae8))
+            break;
+        if (sub_7100D59D18())
+            break;
+        mRunAgain = false;
+        return true;
+    case 5:
+        if (!mActorParam->isSignalSet())
+            break;
+        if (sub_7100D59D18())
+            break;
+        mRunAgain = false;
+        return true;
+    case 6:
+        for (s32 i = 0; i < mNumResources; ++i) {
+            const u32 bit = 1 << i;
+            if (mParsedResources & bit)
+                continue;
+            auto& res = mResources[i];
+            if (!res.isReadyOrNeedsParse()) {
+                mRunAgain = true;
+                return true;
+            }
+            res.parseResource(nullptr);
+            if (res.checkLoadStatus())
+                res.requestUnload();
+            mParsedResources |= bit;
+        }
+        mPackHandle.requestUnload();
+        mPackRequested = false;
+        if (mActorParam && mActorParam->_a) {
+            BaseProcMgr::instance()->requestUnloadActorParam(mActorParam);
+            mActorParam = nullptr;
+        }
+        mState = 7;
+        mRunAgain = false;
+        return true;
+    default:
+        return true;
+    }
+    mRunAgain = true;
+    return true;
+}
+
 bool ActorPreLoadTask::sub_7100D59608() {
     if (mState != 0 && mState != 7)
         return false;
