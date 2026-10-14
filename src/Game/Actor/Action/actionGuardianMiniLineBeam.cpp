@@ -1,5 +1,8 @@
 #include "Game/Actor/Action/actionGuardianMiniLineBeam.h"
+#include "Game/Actor/actBeamBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
+#include "KingSystem/ActorSystem/actTag.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actAttackSensor.h"
@@ -37,6 +40,30 @@ void GuardianMiniLineBeam::m32() {
         sensor->activateAttackSensor(0x1000, 0x302, attack->mPower.ref(), attack->mImpulse.ref(),
                                      0.0f, 0, 1, -1, false, 1, -1);
     }
+}
+
+void GuardianMiniLineBeam::sub_7100197660() {
+    auto* beam = sead::DynamicCast<act::LineBeam>(mActor);
+    if (!beam || !beam->_d30 || !beam->_d48.hasProc())
+        return;
+
+    ksys::act::ActorLinkConstDataAccess accessor;
+    ksys::act::acquireActor(&beam->_d48, &accessor);
+    if (accessor.hasTag(ksys::act::tags::IsIceMakerBlock)) {
+        if (_58.hasProc() && accessor.hasProc(_58)) {
+            _68.update();
+            if (_68.value <= sead::Mathf::epsilon()) {
+                sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x8000004),
+                            nullptr);
+                _58.reset();
+            }
+            return;
+        }
+        accessor.linkAcquire(&_58);
+    } else {
+        _58.reset();
+    }
+    _68.reset(*mIceBlockBreakTime_s);
 }
 
 }  // namespace uking::action
