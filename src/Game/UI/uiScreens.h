@@ -853,10 +853,11 @@ struct ScreenMainScreenUnk3648 : ScreenChildEx {
     // 0x710098ae8c (declared only)
     void sub_710098AE8C(s32 a1);
 
-    // Element of the three-entry list at 0x1f0 (0x78-byte list nodes); contents not known yet.
+    // Element of the three-entry list at 0x1f0 (0x78-byte list nodes), as constructed inline by 0x98ae8c.
     struct Entry {
-        s32 _0;  // type (8..13 are compared by slot 5)
-        u8 _4[0x68 - 0x4];
+        s32 _0 = -1;  // type (8..13 are compared by slot 5)
+        sead::FixedSafeString<64> _8;
+        bool _60 = false;
     };
 
     /* 0x130 */ UiTimer _130;
