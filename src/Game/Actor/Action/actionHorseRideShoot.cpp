@@ -1,8 +1,10 @@
 #include "Game/Actor/Action/actionHorseRideShoot.h"
+#include <random/seadGlobalRandom.h>
 #include "Game/Actor/aiUnk_71005D6D10.h"
 #include "Game/Actor/actEnemy.h"
 #include "Game/Actor/actWeapon.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Camera/CameraMgr.h"
 
 namespace uking::action {
 
@@ -69,6 +71,35 @@ void HorseRideShoot::calc_() {
 
     if (sub_71001ADA78())
         setFinished();
+}
+
+// NON_MATCHING: the original normalizes with fcsel after loading the params and the position (branch here).
+void HorseRideShoot::sub_71001B0E38(sead::Vector3f* out) {
+    if (!out)
+        return;
+
+    sead::Vector3f dir = *mTargetPos_d - mActor->getMtx().getTranslation();
+    const f32 dist = dir.length();
+    const f32 inv = 1.0f / dist;
+    f32 min = *mOffsetRangeMin_s;
+    f32 max = *mOffsetRangeMax_s;
+    const sead::Vector3f pos = mActor->getMtx().getTranslation();
+    if (dist > 0.0f)
+        dir *= inv;
+    const sead::Vector3f side = dir.cross(sead::Vector3f::ey);
+
+    if (ksys::sub_7100D8C4F8(pos)) {
+        const f32 rate = dist * *mOffsetRateByDist_s;
+        min *= rate;
+        max *= rate;
+    } else {
+        min = *mOffsetRangeMinOutOfScreen_s;
+        max = *mOffsetRangeMaxOutOfScreen_s;
+    }
+
+    const f32 offset = sead::GlobalRandom::instance()->getF32Range(min, max);
+    const f32 sign = f32(s32(sead::GlobalRandom::instance()->getU32() & 2) - 1);
+    *out = *mTargetPos_d + side * (sign * offset);
 }
 
 }  // namespace uking::action
