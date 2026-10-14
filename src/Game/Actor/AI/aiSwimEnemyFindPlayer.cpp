@@ -1,6 +1,7 @@
 #include "Game/Actor/AI/aiSwimEnemyFindPlayer.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include <math/seadMathCalcCommon.h>
+#include <cmath>
 #include "Game/Actor/aiUnk_71005D6D10.h"
 #include "Game/Actor/aiUnk_71007320F0.h"
 #include "Game/Actor/aiUnk_71007377D4.h"
@@ -113,6 +114,99 @@ bool SwimEnemyFindPlayer::sub_71005B3F30() {
         }
     }
     return result;
+}
+
+
+bool SwimEnemyFindPlayer::m48() {
+    if (!(*mNearScaffoldDist_s <= 0.0f)) {
+        auto* actor = mActor;
+        if (sub_71005D9744(actor) == 3) {
+            const sead::Vector3f& target = sub_71005D9330(actor);
+            const sead::Vector2f target_xz(target.x, target.z);
+            const sead::Vector2f pos_xz(actor->getMtx()(0, 3), actor->getMtx()(2, 3));
+            if ((target_xz - pos_xz).length() <= *mNearScaffoldDist_s) {
+                ksys::act::ai::InlineParamPack pack;
+                pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+                changeChild("対象見張り台", &pack);
+                return true;
+            }
+        }
+    }
+    if (sub_71005B3F30()) {
+        sub_71005B4054();
+        return true;
+    }
+    return false;
+}
+
+bool SwimEnemyFindPlayer::m49() {
+    if (!(*mNearScaffoldDist_s <= 0.0f)) {
+        auto* actor = mActor;
+        if (sub_71005D9744(actor) == 3) {
+            const sead::Vector3f& target = sub_71005D9330(actor);
+            const sead::Vector2f target_xz(target.x, target.z);
+            const sead::Vector2f pos_xz(actor->getMtx()(0, 3), actor->getMtx()(2, 3));
+            if ((target_xz - pos_xz).length() <= *mNearScaffoldDist_s) {
+                ksys::act::ai::InlineParamPack pack;
+                pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+                changeChild("対象見張り台", &pack);
+                return true;
+            }
+        }
+    }
+    if (sub_71005B3F30()) {
+        sub_71005B4054();
+        return true;
+    }
+    return false;
+}
+
+bool SwimEnemyFindPlayer::m51() {
+    if (!(*mNearScaffoldDist_s <= 0.0f)) {
+        auto* actor = mActor;
+        if (sub_71005D9744(actor) == 3) {
+            const sead::Vector3f& target = sub_71005D9330(actor);
+            const sead::Vector2f target_xz(target.x, target.z);
+            const sead::Vector2f pos_xz(actor->getMtx()(0, 3), actor->getMtx()(2, 3));
+            if ((target_xz - pos_xz).length() <= *mNearScaffoldDist_s) {
+                ksys::act::ai::InlineParamPack pack;
+                pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+                changeChild("対象見張り台", &pack);
+                return true;
+            }
+        }
+    }
+    if (sub_71005B3F30()) {
+        sub_71005B4054();
+        return true;
+    }
+    if (m38()) {
+        changeToNoNavMesh();
+        return true;
+    }
+    return false;
+}
+
+bool SwimEnemyFindPlayer::m52() {
+    if (!(*mNearScaffoldDist_s <= 0.0f)) {
+        auto* actor = mActor;
+        if (sub_71005D9744(actor) == 3) {
+            const sead::Vector3f& target = sub_71005D9330(actor);
+            const sead::Vector2f target_xz(target.x, target.z);
+            const sead::Vector2f pos_xz(actor->getMtx()(0, 3), actor->getMtx()(2, 3));
+            if ((target_xz - pos_xz).length() <= *mNearScaffoldDist_s) {
+                ksys::act::ai::InlineParamPack pack;
+                pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+                changeChild("対象見張り台", &pack);
+                return true;
+            }
+        }
+    }
+    if (sub_71005B3F30()) {
+        sub_71005B4054();
+        return true;
+    }
+    return false;
 }
 
 }  // namespace uking::ai

@@ -20,6 +20,10 @@ public:
     bool m36(bool b) override;
     bool m37() override;
     bool m38() override;
+    bool m48() override;
+    bool m49() override;
+    bool m51() override;
+    bool m52() override;
 
     // 0x71005b3f30: the player is swimming / diving and within the climb height range and horizontal distance
     bool sub_71005B3F30();
