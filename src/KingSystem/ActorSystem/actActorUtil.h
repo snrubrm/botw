@@ -3,6 +3,7 @@
 #include <math/seadMatrix.h>
 #include <math/seadVector.h>
 #include <prim/seadDelegate.h>
+#include <prim/seadLongBitFlag.h>
 #include <prim/seadSafeString.h>
 #include "KingSystem/System/VFR.h"
 
@@ -288,6 +289,9 @@ void setEnabledTalkAndLockOn(Actor* actor, bool enabled);
 // NPCClerkRoot.
 bool sub_7100EE2850(Actor* actor, BaseProcAccessor* accessor, bool a3,
                     BaseProcAccessor* a4, void* a5);
+// 0x7100ee2f2c (declaration only; placeholder name; callers: EventSetAttentionForbidSale::oneShot_): walks the
+// placement links of the actor; `flags` (bits indexed by link, below 256) may be null. Returns a state value.
+s32 sub_7100EE2F2C(Actor* actor, ActorLinkConstDataAccess* accessor, sead::LongBitFlag<256>* flags);
 // 0x7100ee5aa8 (placeholder name): applies a linear impulse through the character controller, or the main rigid body.
 void sub_7100EE5AA8(Actor* actor, const sead::Vector3f& impulse);
 // 0x7100ee5af8 (placeholder name): passes `mtx` to the actor's InstanceSet::setMtxAndScale with the scale x.
