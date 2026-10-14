@@ -47,7 +47,12 @@ public:
     // 0x7100683410 / 0x7100683790 / 0x710068386c (312 / 220 / 260 B, declared only; placeholder names): the
     // postCalc handlers of the states 7 (and 6), 1 and 2.
     void sub_7100683410();
+    // 0x71006833c8 (CSV WolfLinkMgr::__auto1; placeholder name): in state 6, moves to state 7 while an event is
+    // active, else runs sub_7100683410.
+    void sub_71006833C8();
     void sub_7100683790();
+    // 0x7100683970 (428 B, declared only; placeholder name): registers the created Wolf Link (stores it in _80).
+    void sub_7100683970(act::WolfLink* wolf_link);
     void sub_710068386C();
 
     // 0x7100682cb4: registered state 2 and the linked actor flag at 0x1699 bit 6.

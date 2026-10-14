@@ -85,6 +85,54 @@ bool WolfLinkMgr::sub_7100683698() {
     return !_28.hasProc();
 }
 
+void WolfLinkMgr::sub_71006833C8() {
+    if (_60 != 6)
+        return;
+    if (eventMgrHasActiveEvent()) {
+        _60 = 7;
+        return;
+    }
+    sub_7100683410();
+}
+
+void WolfLinkMgr::sub_7100683790() {
+    if (!_38.isAllocatedOrFailed())
+        return;
+    if (_38.isProcReady()) {
+        auto* proc = _38.releaseAndWakeProc();
+        if (auto* wolf_link = sead::DynamicCast<act::WolfLink>(proc)) {
+            sub_7100683970(wolf_link);
+            _60 = 2;
+        }
+    } else if (_38.hasProcCreationFailed()) {
+        _38.deleteProcIfFailed();
+        _60 = 3;
+    }
+}
+
+void WolfLinkMgr::sub_710068386C() {
+    if (!_80) {
+        _60 = 0;
+        return;
+    }
+    if (!_28.hasProc()) {
+        sub_7100682F80(_80, false);
+        return;
+    }
+    if (_80) {
+        auto* gdm = ksys::gdt::Manager::instance();
+        const sead::Vector3f pos = _80->getMtx().getTranslation();
+        const s32* life_ptr = _80->getLife();
+        const s32 life = life_ptr ? *life_ptr : 1;
+        if (gdm->setS32(life, mCurrentLifeHandle) && gdm->setVec3f(pos, mCurrentPosHandle))
+            gdm->setBool(life < 1, mDiedTodayHandle);
+    }
+    if (sub_7100683548()) {
+        _60 = 5;
+        _80->get68c() = true;
+    }
+}
+
 void WolfLinkMgr::postCalc() {
     if (Root38::instance()->doNotFreezeScene())
         return;
