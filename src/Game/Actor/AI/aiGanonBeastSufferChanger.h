@@ -16,6 +16,7 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
 
@@ -54,7 +55,7 @@ protected:
     // Holder of a ref-counted object stored in an AITree variable (see init_); type unknown.
     Unk_71000b0800<Unk_71025b2aa8> _c8;
     f32 _d0{};
-    bool _d4{};
+    u8 _d4{};
     bool _d5{};
 };
 

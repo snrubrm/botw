@@ -1,6 +1,7 @@
 #include "Game/Actor/AI/aiAssassinBossFirstBattleMove.h"
 #include <random/seadGlobalRandom.h>
 #include "KingSystem/Map/mapObjectLink.h"
+#include "KingSystem/System/Timer.h"
 #include "KingSystem/Map/mapObject.h"
 #include "Game/Actor/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actActor.h"
@@ -39,6 +40,56 @@ void AssassinBossFirstBattleMove::enter_(ksys::act::ai::InlineParamPack* params)
     ksys::act::ai::InlineParamPack pack;
     pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
     changeChild("直線接近可能", &pack);
+}
+
+// NON_MATCHING: our build hoists the shared sub_71005D9330 call above the child test; register choice.
+void AssassinBossFirstBattleMove::calc_() {
+    auto* child = getCurrentChild();
+    if (isCurrentChild("直線接近不能")) {
+        const sead::Vector3f target = sub_71005D9330(mActor);
+        sead::Vector3f direction = mActor->getMtx().getTranslation() - target;
+        direction.y = 0.0f;
+        direction.normalize();
+        const f32 check_dist = *mCheckTargetDist_s;
+        if (sead::Vector2f(_6c.x - (target.x + direction.x * check_dist),
+                           _6c.z - (target.z + direction.z * check_dist)).length() >= *mDistXZ_s) {
+            ksys::Timer::update(&_60, -1.0f);
+        } else {
+            _60 = f32(_64 == _68 ? _64 : sead::GlobalRandom::instance()->getS32Range(_64, _68));
+        }
+        const sead::Vector3f& pos = sub_71005D9330(mActor);
+        if (sead::Vector2f(pos.x - _6c.x, pos.z - _6c.z).length() > *mDistXZ_s) {
+            sead::Vector3f approach;
+            sub_7100317578(&approach);
+            child->setDynamicParam(approach, "TargetPos");
+        }
+    } else {
+        const sead::Vector3f& pos = sub_71005D9330(mActor);
+        if (sead::Vector2f(pos.x - _6c.x, pos.z - _6c.z).length() > *mDistXZ_s)
+            child->setDynamicParam(sub_71005D9330(mActor), "TargetPos");
+    }
+
+    if (!child->isChangeable())
+        return;
+
+    if (isCurrentChild("直線接近不能")) {
+        if (_60 <= 0.0f) {
+            ksys::act::ai::InlineParamPack pack;
+            pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+            changeChild("直線接近可能", &pack);
+        }
+        return;
+    }
+
+    const sead::Vector3f target = sub_71005D9330(mActor);
+    sead::Vector3f direction = mActor->getMtx().getTranslation() - target;
+    direction.y = 0.0f;
+    direction.normalize();
+    const f32 check_dist = *mCheckTargetDist_s;
+    if (!(sead::Vector2f(_6c.x - (target.x + direction.x * check_dist),
+                         _6c.z - (target.z + direction.z * check_dist)).length() >= *mDistXZ_s)) {
+        sub_710031704C();
+    }
 }
 
 // The approach position: next to the target, perpendicular to the direction from the anchor `_6c`; moved to the other
