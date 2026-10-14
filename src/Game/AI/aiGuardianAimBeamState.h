@@ -33,7 +33,7 @@ public:
               const sead::Vector3f& node_offset);
     // 0x71006f2240 (declaration only)
     void update(const sead::Vector3f& target_pos);
-    // 0x71006f2928 (declaration only)
+    // 0x71006f2928: fades the links and emits `elink_name` at _dc.
     void end(const sead::SafeString& elink_name);
     // 0x71006f2d08 (declaration only): fades the emitted ELinks.
     void sub_71006F2D08();

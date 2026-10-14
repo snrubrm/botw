@@ -45,6 +45,20 @@ bool GuardianAimBeamState::init(ksys::act::Actor* actor, const sead::SafeString&
     return true;
 }
 
+// NON_MATCHING: HandleELink::setPosition stores the 1.0f scale as one 64-bit constant plus a word; the
+// original stores it as word pairs (lib inline, see LIBWORK note in lane1-log).
+void GuardianAimBeamState::end(const sead::SafeString& elink_name) {
+    _38.fade();
+    _28.fade();
+    _48.fade();
+    ksys::eft::searchAndEmitSLink(_0, _8.cstr(), false);
+    _58.fade(0);
+    _68.fade(0);
+    _d8 = 0;
+    auto handle = ksys::eft::searchAndEmitELink(_0, elink_name.cstr());
+    handle.setPosition(_dc);
+}
+
 void GuardianAimBeamState::sub_71006F2D08() {
     _38.fade();
     _28.fade();
