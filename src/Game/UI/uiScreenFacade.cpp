@@ -930,7 +930,7 @@ bool sub_7100A95808() {
     if (!child)
         return false;
     // called through a pointer in the original (not devirtualised)
-    return child->mStateMachine.getState()->getId() == (&sUnk_71025d9960)->getId();
+    return child->getStateMachine().getState()->getId() == (&sUnk_71025d9960)->getId();
 }
 
 // NON_MATCHING: the original calls ScreenChildEx::GetRuntimeTypeInfoStatic out of line (its callers in the original TU are

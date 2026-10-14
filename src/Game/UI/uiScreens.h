@@ -28,6 +28,7 @@
 #include "KingSystem/Sound/sndMgr.h"
 #include "KingSystem/System/UIGlue.h"
 #include "KingSystem/Utils/StateMachine.h"
+#include "Game/UI/uiScreenChildMessage.h"
 #include "KingSystem/Utils/Thread/ActorMessageTransceiver.h"
 
 namespace eui {
@@ -191,9 +192,10 @@ public:
     // mLayout = layout
     explicit ScreenChild(eui::LayoutEx* layout);
 
-    u8 _28[0x80 - 0x28];
-    /* 0x80 */ ksys::StateMachine mStateMachine;
-    u8 _a8[0x100 - 0xa8];
+    /* 0x28 */ eui::ListNode _28;
+    /* 0x38 */ Unk_7102474a28 mTransceiver;  // the state machine is at 0x80, the receiver at 0xa8, its adapter at 0xc8
+    ksys::StateMachine& getStateMachine() { return mTransceiver.mReceiver.mMachine; }
+
     /* 0x100 */ u8 _100;  // lifecycle event flags, cleared by the update method
     /* 0x104 */ s32 _104;  // open / close state (7: ScreenMainScreen::sub_7100A1A460 checks it)
     /* 0x108 */ u16 _108;

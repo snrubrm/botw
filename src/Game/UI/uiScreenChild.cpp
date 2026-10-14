@@ -386,9 +386,6 @@ void ScreenChildEx::m103(void* a1, void* a2) { m93(a1, a2); }
 void ScreenChildEx::m104(void* a1, void* a2) { m94(a1, a2); }
 
 
-// NON_MATCHING: the state wrapper destructor remains out-of-line.
-Unk_71025098d0::~Unk_71025098d0() = default;
-
 
 void Unk_71025098d0::run() { mMachine.run(); }
 

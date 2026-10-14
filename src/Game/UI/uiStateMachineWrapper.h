@@ -8,7 +8,12 @@ namespace uking::ui {
 // remains opaque; the original virtual methods access StateMachine at +0x30.
 class Unk_7102474a70 {
 public:
-    virtual ~Unk_7102474a70();
+    // NON_MATCHING: the original schedules its final argument after the virtual load.
+    // Inline: ScreenChild subclass destructors in other TUs inline this teardown.
+    virtual ~Unk_7102474a70() {
+        mMachine._0->m3(&mMachine.mPrevious);
+        mMachine._0->m3(&mMachine.mCurrent);
+    }
     // The native receiver message path also inlines this state transition.
     virtual void replaceState() {
         if (mMachine.mNextState) {
@@ -28,7 +33,7 @@ public:
     virtual bool reenter(void* arg);
     virtual bool exec5(void* arg);
     virtual void exec6(void* arg);
-protected:
+public:
     u64 _8[0x28 / sizeof(u64)];
     ksys::StateMachine mMachine;
 };

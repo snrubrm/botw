@@ -4,11 +4,6 @@
 
 namespace uking::ui {
 
-// NON_MATCHING: the receiver and state cleanup remain out-of-line.
-Unk_7102474a28::~Unk_7102474a28() {
-    deregisterReceiver(mAdapter);
-}
-
 bool Unk_7102474a28::sendMessage(const ksys::MesTransceiverId& dest,
                                 const ksys::MessageType& type, void* user_data, bool ack) {
     const bool sent = getDispatcher()->sendMessage(*mAdapter.MessageReceiver::getId(), dest,
@@ -61,12 +56,6 @@ bool Unk_7102474a28::sendMessageOnProcessingThread(ksys::IMessageBroker& broker,
 
 ksys::MessageReceiverEx* Unk_7102474a28::getReceiver() { return &mAdapter; }
 
-
-// NON_MATCHING: the natural destructor schedules its final argument before the virtual load.
-Unk_7102474a70::~Unk_7102474a70() {
-    mMachine._0->m3(&mMachine.mPrevious);
-    mMachine._0->m3(&mMachine.mCurrent);
-}
 
 void Unk_7102474a70::changeStateFast(const ksys::StateBase* state) {
     mMachine.mCurrent = mMachine._0->setState(state);

@@ -161,6 +161,7 @@ void ScreenMainScreenUnk3658::m21() {
     _154 = -1;
 }
 
+// NON_MATCHING: the inlined ScreenChild member teardown differs in register allocation / scheduling only.
 ScreenMainScreenUnk3658::~ScreenMainScreenUnk3658() = default;
 
 // 0x7100985eb4
@@ -238,6 +239,7 @@ void Unk_7102476db8::sub_7100986580() {
     mNumOff->StopAtMin();
 }
 
+// NON_MATCHING: the inlined ScreenChild member teardown differs in register allocation / scheduling only.
 Unk_7102476db8::~Unk_7102476db8() = default;
 
 // 0x7100986aac / 0x7100986ab4 / 0x7100986ac0
@@ -262,6 +264,7 @@ Unk_7102477c30::Unk_7102477c30(eui::LayoutEx* layout) : ScreenChildEx(layout) {}
 void Unk_7102477c30::m24(sead::Heap*) {}
 void Unk_7102477c30::m25() {}
 
+// NON_MATCHING: the inlined ScreenChild member teardown differs in register allocation / scheduling only.
 Unk_7102477c30::~Unk_7102477c30() = default;
 
 
@@ -315,6 +318,7 @@ void Unk_710247bcb8::m29() {
     _190 = -1;
 }
 
+// NON_MATCHING: the inlined ScreenChild member teardown differs in register allocation / scheduling only.
 Unk_710247bcb8::~Unk_710247bcb8() = default;
 
 // 0x71009b9b38
@@ -399,7 +403,7 @@ void Unk_710247af10::m114() {
         return;
     _148->PlayAuto(-1.0f);
     _128->sub_7100BEB70C();
-    mStateMachine.changeState(&sUnk_71025d98a0);
+    getStateMachine().changeState(&sUnk_71025d98a0);
 }
 
 // 0x71009b8e64
@@ -423,7 +427,7 @@ void Unk_710247b428::m109() {}
 void Unk_710247b428::m110() {
     auto* screen = sead::DynamicCast<ScreenOptionWindow>(eui::ScreenMgr::instance()->getScreen(ScreenId::OptionWindow));
     if (!screen || screen->isOpened())
-        mStateMachine.changeState(&sUnk_71025d9ec0);
+        getStateMachine().changeState(&sUnk_71025d9ec0);
 }
 
 // 0x71009bb660
@@ -448,7 +452,7 @@ void Unk_710247b428::m114() {
         if (!screen->isClosed())
             return;
     }
-    mStateMachine.changeState(&sUnk_71025d9e00);
+    getStateMachine().changeState(&sUnk_71025d9e00);
 }
 
 // 0x71009bb768
@@ -482,7 +486,7 @@ void Unk_710247b428::m125() {}
 void Unk_710247b428::m126() {
     auto* screen = sead::DynamicCast<ScreenControllerWindow>(eui::ScreenMgr::instance()->getScreen(ScreenId::ControllerWindow));
     if (!screen || screen->isOpened())
-        mStateMachine.changeState(&sUnk_71025da040);
+        getStateMachine().changeState(&sUnk_71025da040);
 }
 
 // 0x71009bbba0
@@ -507,7 +511,7 @@ void Unk_710247b428::m133() {}
 void Unk_710247b428::m134() {
     auto* screen = sead::DynamicCast<ScreenDLCWindow>(eui::ScreenMgr::instance()->getScreen(ScreenId::DLCWindow));
     if (!screen || screen->isOpened())
-        mStateMachine.changeState(&sUnk_71025da100);
+        getStateMachine().changeState(&sUnk_71025da100);
 }
 
 // 0x71009bbd80
@@ -523,7 +527,7 @@ void Unk_710247b428::m137() {}
 void Unk_710247b428::m138() {
     auto* screen = sead::DynamicCast<ScreenDLCWindow>(eui::ScreenMgr::instance()->getScreen(ScreenId::DLCWindow));
     if (!screen || screen->isClosed())
-        mStateMachine.changeState(&sUnk_71025d9e00);
+        getStateMachine().changeState(&sUnk_71025d9e00);
 }
 
 // 0x71009bbe50
@@ -538,7 +542,7 @@ void Unk_710247b428::m141() {}
 // 0x71009bbe58
 void Unk_710247b428::m142() {
     if (_1c8.sub_7100A83EC0())
-        mStateMachine.changeState(&sUnk_71025d9e00);
+        getStateMachine().changeState(&sUnk_71025d9e00);
 }
 
 // 0x71009bbe98
@@ -554,7 +558,7 @@ void Unk_710247b428::m145() {}
 void Unk_710247b428::m146() {
     auto* screen = sead::DynamicCast<ScreenSystemWindow00>(eui::ScreenMgr::instance()->getScreen(ScreenId::SystemWindow00));
     if (!screen || screen->isOpened())
-        mStateMachine.changeState(&sUnk_71025da220);
+        getStateMachine().changeState(&sUnk_71025da220);
 }
 
 // 0x71009bbf68
@@ -570,7 +574,7 @@ void Unk_710247b428::m149() {}
 void Unk_710247b428::m150() {
     auto* screen = sead::DynamicCast<ScreenSystemWindow00>(eui::ScreenMgr::instance()->getScreen(ScreenId::SystemWindow00));
     if (!screen || screen->isClosed()) {
-        mStateMachine.changeState(&sUnk_71025d9e00);
+        getStateMachine().changeState(&sUnk_71025d9e00);
         return;
     }
     if (!sub_7100A64304())
@@ -608,7 +612,7 @@ void Unk_710247e468::m24(sead::Heap*) {
 
 // 0x71009c9a7c
 void Unk_710247e468::m25() {
-    mStateMachine.run();
+    getStateMachine().run();
 }
 
 // 0x71009c9a84
@@ -639,7 +643,7 @@ void Unk_710247e468::sub_71009C9A88() {
     _184 = climate;
     _188 = state;
     _189 = state;
-    mStateMachine.changeState(&sUnk_71025dbb28);
+    getStateMachine().changeState(&sUnk_71025dbb28);
 }
 
 // 0x71009c9bb8
@@ -709,7 +713,7 @@ void Unk_710247e468::m105() {}
 // 0x71009ca1e0
 void Unk_710247e468::m106() {
     if (sub_71009C9F20()) {
-        mStateMachine.changeState(&sUnk_71025dbb88);
+        getStateMachine().changeState(&sUnk_71025dbb88);
         return;
     }
     if (!_130)
@@ -739,7 +743,7 @@ void Unk_710247e468::m110() {
     if (!_138 || _138->mRate != 0.0f)
         return;
     sub_71009C9D5C(false);
-    mStateMachine.changeState(&sUnk_71025dbb28);
+    getStateMachine().changeState(&sUnk_71025dbb28);
 }
 
 // 0x71009ca340
@@ -850,6 +854,7 @@ void Unk_710247c368::sub_71009C082C() {
     _14c = 1;
 }
 
+// NON_MATCHING: the inlined ScreenChild member teardown differs in register allocation / scheduling only.
 Unk_710247c368::~Unk_710247c368() = default;
 
 Unk_7102477110::~Unk_7102477110() = default;

@@ -71,6 +71,7 @@ bool ScreenAppMapUnk3c90::sub_71009C1814(s32 type) const {
     return true;
 }
 
+// NON_MATCHING: the inlined ScreenChild member teardown differs in register allocation / scheduling only.
 ScreenAppMapUnk3c90::~ScreenAppMapUnk3c90() = default;
 
 }  // namespace uking::ui
