@@ -31,7 +31,7 @@ struct DamageManagerHit {
     /* 0x04 */ u8 _4[0xc];
     /* 0x10 */ s32 _10;
     /* 0x14 */ s32 _14;
-    /* 0x18 */ u32 _18;
+    /* 0x18 */ u32 _18 = 0;  // the only field DamageManagerUnk220's ctor (0x71006d99a8) initialises
     /* 0x1c */ u8 _1c[0x4c - 0x1c];
 };
 KSYS_CHECK_SIZE_NX150(DamageManagerHit, 0x4c);
@@ -45,11 +45,24 @@ struct DamageManagerUnk220 {
     f32 sub_71006D9A24(ksys::act::Actor* actor) const;
     f32 sub_71006D9B30(const ksys::act::ActorConstDataAccess& accessor) const;
 
-    /* 0x000 */ sead::RingBuffer<DamageManagerHit> mHits;
-    /* 0x018 */ u8 _18[0x27a - 0x18];
-    /* 0x27a */ bool _27a;
-    /* 0x27c */ sead::Vector3f _27c;
+    // 0x71006d99a8 (called by StasisMgr::__auto5, which allocates it for DamageManager::_220).
+    DamageManagerUnk220();
+    // 0x71006d99f4 (placeholder name; called by StasisMgr): clears the records and the state after them.
+    void sub_71006D99F4();
+
+    // Eight records; the storage starts in the tail padding of the RingBuffer header (0x14).
+    /* 0x000 */ sead::FixedRingBuffer<DamageManagerHit, 8> mHits;
+    /* 0x278 */ u16 _278 = 0;
+    /* 0x27a */ bool _27a = false;
+    /* 0x27b */ u8 _27b = 0;
+    /* 0x27c */ sead::Vector3f _27c{0, 0, 0};
+    /* 0x288 */ u32 _288 = 0;
+    /* 0x28c */ u32 _28c = 0;
+    /* 0x290 */ u16 _290 = 0;
+    /* 0x292 */ u16 _292 = 0;
+    /* 0x294 */ f32 _294 = -1.0f;
 };
+KSYS_CHECK_SIZE_NX150(DamageManagerUnk220, 0x298);
 
 // Message senders embedded in DamageManager (0xd8: message 0x800003e, 0x128: message 0x800003f; no payload, m2 returns
 // null). Placeholder names = vtables 0x710244e030 / 0x710244e058 (D0 0x71006d9664 / 0x71006d9670).

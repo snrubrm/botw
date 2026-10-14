@@ -149,6 +149,23 @@ bool DamageManager::allocStruct20(sead::Heap* heap) {
 
 // NON_MATCHING (also sub_71006D9B30): the original keeps a flag for "no speed limit scaling" (`w19`) across the accessor
 // destructor and applies the default 1.0 afterwards; ours materialises 1.0f in a register up front.
+DamageManagerUnk220::DamageManagerUnk220() = default;
+
+// NON_MATCHING: the original clears 0x27a-0x291 like a 0x18-byte memset with 2-byte alignment (three unaligned 8-byte
+// stores) between the stores of _278 / _294 / _292; the fields there are not known well enough to reproduce it.
+void DamageManagerUnk220::sub_71006D99F4() {
+    mHits.clear();
+    _278 = 0;
+    _27a = false;
+    _27b = 0;
+    _27c = {0, 0, 0};
+    _288 = 0;
+    _28c = 0;
+    _290 = 0;
+    _292 = 0;
+    _294 = -1.0f;
+}
+
 f32 DamageManagerUnk220::sub_71006D9A24(ksys::act::Actor* actor) const {
     f32 value = actor->m38();
     f32 ratio;
