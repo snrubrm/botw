@@ -7,6 +7,10 @@
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Physics/physDefines.h"
 
+namespace uking::action {
+class BalloonRopeBase;
+}
+
 namespace uking::ai {
 class RopeRoot;
 }
@@ -70,6 +74,7 @@ public:
 
     friend class acc::RopeBase;
     friend class uking::ai::RopeRoot;
+    friend class uking::action::BalloonRopeBase;
 
 protected:
     // TODO
@@ -100,7 +105,10 @@ protected:
     bool _971;
     u8 _972[0x974 - 0x972];
     s32 _974;
-    u8 _978[0x9d0 - 0x978];
+    u8 _978[0x98a - 0x978];
+    // BalloonRopeBase::enter_ clears this after attaching the rope (lane3 s70).
+    bool _98a;
+    u8 _98b[0x9d0 - 0x98b];
     BaseProcHandle _9d0;
     u8 _9e0[0xa00 - 0x9e0];
 };

@@ -26,6 +26,32 @@ bool BalloonRopeBase::init_(sead::Heap* heap) {
 
 void BalloonRopeBase::enter_(ksys::act::ai::InlineParamPack* params) {
     BalloonBase::enter_(params);
+    auto* actor = mActor;
+    sub_71000B8928(0.1f);
+    sub_71000B782C(actor->getMtx().m[1][3]);
+
+    auto* child = sead::DynamicCast<ksys::act::Actor>(actor->getConnectedCalcChild());
+    ksys::phys::RigidBody* body = nullptr;
+    if (child)
+        body = child->findPhysicsBodyByName("Body", mConnectRigidName_d.cstr());
+
+    auto* handle = *mRopeActorHandle_d;
+    if (handle) {
+        if (auto* rope = sead::DynamicCast<ksys::act::RopeBase>(handle->getProc())) {
+            sub_71000B8470(child, body, mConnectRigidOffset_d, rope);
+            rope->_98a = false;
+            handle->releaseAndWakeProc();
+            const f32 t = *mConnectReleaseTimer_s;
+            _128.value = t;
+            _128.previous_value = t;
+            _128.rate = -1.0f;
+            return;
+        }
+    }
+    _128.value = 0;
+    _128.previous_value = 0;
+    _128.rate = 0;
+    actor->resetConnectedCalcChild(false);
 }
 
 void BalloonRopeBase::leave_() {
