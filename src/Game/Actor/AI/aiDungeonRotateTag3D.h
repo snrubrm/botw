@@ -7,6 +7,10 @@
 #include <xlink2/xlink2HandleSLink.h>
 #include "KingSystem/ActorSystem/actAiAi.h"
 
+namespace ksys::map {
+class Object;
+}
+
 namespace ksys::phys {
 class StaticCompoundRigidBodyGroup;
 }
@@ -21,6 +25,7 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
 
@@ -29,6 +34,14 @@ public:
     virtual void m36();
 
 protected:
+    // inline-only in the original; name is a guess: the first linked object whose actor name contains "SoundProxy"
+    // (the same loop is inlined into enter_ and twice into calc_; DungeonMove::sub_71000F9C9C is an out-of-line copy).
+    ksys::map::Object* findSoundProxyObject() const;
+    // 0x7100377360 / 0x71003776a0 (placeholder names; declared only): per-frame rotation update while not waiting,
+    // and the rotation sound start.
+    void sub_7100377360();
+    void sub_71003776A0();
+
     // static_param at offset 0x38
     const float* mTargetRad_s{};
     // map_unit_param at offset 0x40
@@ -56,7 +69,7 @@ protected:
     f32 _f8 = 0;
     // xlink2 event handle (allocated in init_, faded in leave_)
     xlink2::HandleSLink* _100 = nullptr;
-    u32 _108 = 0;
+    s32 _108 = 0;
 };
 KSYS_CHECK_SIZE_NX150(DungeonRotateTag3D, 0x110);
 

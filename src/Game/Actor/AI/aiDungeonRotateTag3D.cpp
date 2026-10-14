@@ -46,20 +46,77 @@ void DungeonRotateTag3D::enter_(ksys::act::ai::InlineParamPack* params) {
     _108 = 0;
 
     auto* manager = ksys::snd::SoundMgr::instance()->_a0;
-    ksys::map::Object* proxy_object = nullptr;
-    if (mActor) {
-        auto* object = mActor->getMapObject();
-        if (object && object->getLinkData()) {
-            for (auto* linked : object->getLinkData()->mObjects) {
-                if (linked && linked->getActorData().mActorName.findIndex("SoundProxy") != -1) {
-                    proxy_object = linked;
-                    break;
-                }
-            }
-        }
-    }
-    if (auto* proxy = manager->sub_710105A830(proxy_object))
+    if (auto* proxy = manager->sub_710105A830(findSoundProxyObject()))
         proxy->_8b8 = true;
+}
+
+inline ksys::map::Object* DungeonRotateTag3D::findSoundProxyObject() const {
+    if (!mActor)
+        return nullptr;
+    auto* object = mActor->getMapObject();
+    if (!object || !object->getLinkData())
+        return nullptr;
+    for (auto* linked : object->getLinkData()->mObjects) {
+        if (linked && linked->getActorData().mActorName.findIndex("SoundProxy") != -1)
+            return linked;
+    }
+    return nullptr;
+}
+
+// NON_MATCHING: the countdown fade block is placed at the end, the camera arguments of sub_71005DDC98 are loaded
+// before the SoundProxy search (the original searches first), and _d8 is stored with one stp.
+void DungeonRotateTag3D::calc_() {
+    if (_108 > 0 && --_108 == 0 && _100)
+        xlink::fade(*_100, -1);
+
+    auto* actor = mActor;
+    sead::Matrix34f home_mtx;
+    actor->getHomeMtx(&home_mtx);
+    _f4 = true;
+    _f5 = false;
+    if (isCurrentChild("待機")) {
+        s32 axis = -1;
+        _f4 = m34(&axis);
+        if (_f4) {
+            _d8.set(home_mtx.m[0][axis], home_mtx.m[1][axis], home_mtx.m[2][axis]);
+            changeChild("回転");
+            return;
+        }
+    } else {
+        m35();
+        sub_7100377360();
+    }
+
+    if (_f4)
+        sub_71005DDE8C(actor, &_d8, *mRemainsPartType_m);
+
+    if (_f5) {
+        if (!isCurrentChild("待機")) {
+            if (_100)
+                xlink::fade(*_100, -1);
+            sub_71005DDC98(actor, *mCameraPattern_m, *mCameraPower_m, *mCameraRange_m, false,
+                           findSoundProxyObject());
+            _a8.setMul(_78, _a8);
+            _78 = sead::Matrix34f::ident;
+            _d8 = sead::Vector3f::zero;
+            _ec = 0;
+            m36();
+            changeChild("待機");
+            return;
+        }
+    } else if (isCurrentChild("回転")) {
+        if (!_100->isActive()) {
+            _108 = 0;
+            sub_71003776A0();
+        } else if (_108 < 1) {
+            sub_71003776A0();
+        }
+        _108 = 2;
+    }
+
+    auto* manager = ksys::snd::SoundMgr::instance()->_a0;
+    if (auto* proxy = manager->sub_710105A830(findSoundProxyObject()))
+        proxy->sub_710105A4FC();
 }
 
 void DungeonRotateTag3D::leave_() {
