@@ -44,6 +44,67 @@ void Unk_SoundMgr30::sub_7100FF8464(sead::Heap* heap, BgmControllerType type) {
     _88 &= ~7;
 }
 
+void Unk_SoundMgr30::sub_7100FF85E0() {
+    if (_48 && (_88 & 1)) {
+        const f32 fade_sec = _54;
+        _48->m7(fade_sec);
+        _60.setValueImmediate(0.0f);
+        _60.moveTo(1.0f, fade_sec);
+        _88 &= ~1;
+    }
+    _88 &= ~2;
+    if (_78)
+        _78->sub_7101007960(_54);
+    _88 &= ~4;
+}
+
+void Unk_SoundMgr30::sub_7100FF8684(s32 fade_type) {
+    if (_48 && (_88 & 1)) {
+        f32 fade_sec = 0.1f;
+        if (fade_type == 1)
+            fade_sec = _54;
+        else if (fade_type == 2)
+            fade_sec = _58;
+        _48->m7(fade_sec);
+        _60.setValueImmediate(0.0f);
+        _60.moveTo(1.0f, fade_sec);
+        _88 &= ~1;
+    }
+    _88 &= ~2;
+}
+
+void Unk_SoundMgr30::sub_7100FF8730() {
+    if (_48) {
+        delete _48;
+        _48 = nullptr;
+    }
+    if (_78)
+        _78->sub_7101007B44();
+    _40 = BgmControllerType::_0;
+}
+
+void Unk_SoundMgr30::sub_7100FF8780(s32 fade_type) {
+    if (_48 && !(_88 & 1)) {
+        const f32 fade_sec = fade_type == 1 ? _50 : 0.0f;
+        _48->m6(fade_sec);
+        _60.setValueImmediate(0.0f);
+        _60.moveTo(1.0f, fade_sec);
+        _88 |= 1;
+    }
+}
+
+// NON_MATCHING: the inlined sub_7100FF8780 tests _48 before the flag in the original.
+void Unk_SoundMgr30::sub_7100FF8804() {
+    if (_88 & 2) {
+        sub_7100FF8780(0);
+        _88 &= ~2;
+    }
+    if (_88 & 4) {
+        sub_7100FF88A8(0);
+        _88 &= ~4;
+    }
+}
+
 void Unk_SoundMgr30::sub_7100FF88A8(s32 fade_type) {
     if (_78)
         _78->sub_7101007AA0(fade_type == 1 ? _50 : 0.0f);

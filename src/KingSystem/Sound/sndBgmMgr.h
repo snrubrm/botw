@@ -38,8 +38,11 @@ public:
     void sub_71010078A0(const sead::SafeString& name);
     // 0x7101007904 (92 B): stops the BGM `name` with a fade of `fade_sec` seconds.
     void sub_7101007904(f32 fade_sec, const sead::SafeString& name);
+    // 0x7101007960 / 0x7101007b44 (declared only)
+    void sub_7101007960(f32 fade_sec);
     void sub_7101007A08(f32 fade_sec);
     void sub_7101007AA0(f32 fade_sec);
+    void sub_7101007B44();
     bool sub_7101007C14();
     bool sub_7101007C90();
 };
@@ -482,6 +485,8 @@ struct Unk_SoundMgr30 {
     void sub_7100FF8804();
     void sub_7100FF85E0();
     void sub_7100FF8684(s32 fade_type);
+    // 0x7100ff8730: deletes the controller and resets the controller type.
+    void sub_7100FF8730();
     void sub_7100FF8780(s32 fade_type);
     void sub_7100FF88A8(s32 fade_type);
     void sub_7100FF8AC4(s32 fade_type);
