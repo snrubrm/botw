@@ -1,4 +1,6 @@
 #include "Game/Actor/AI/aiLastBossBeamAttackRoot.h"
+#include <random/seadGlobalRandom.h>
+#include "KingSystem/System/VFR.h"
 #include <gsys/gsysModel.h>
 #include <gsys/gsysModelUnit.h>
 #include "Game/Actor/aiUnk_71005D6D10.h"
@@ -66,6 +68,7 @@ void LastBossBeamAttackRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     _cc.prev_value = *mInitSpeed_s;
     mActor->getMtx().getTranslation(_dc);
     _e8 = 0;
+    _ec = 0;
     _f0.reset(*mRandKeepFrame_s);
     _fc.reset(*mBrakeStartFrame_s);
 
@@ -180,6 +183,63 @@ void LastBossBeamAttackRoot::sub_7100475B28(sead::Vector3f* out) {
     if (sub_710072EB10(start, *out, ksys::phys::RayCast::NormalCheckingMode::_0, actor, &hit,
                        nullptr, nullptr, 0.0f))
         *out = hit;
+}
+
+// NON_MATCHING: the original shares the speed reset of the first and third branches and keeps the position in
+// integer registers (scheduling / register allocation).
+void LastBossBeamAttackRoot::sub_710047635C(sead::Vector3f* out, const sead::Vector3f& target) {
+    const sead::Vector3f pos = mActor->getMtx().getTranslation();
+    const sead::Vector3f moved = pos - _dc;
+    _fc.update();
+    const f32 moved_dist = moved.length();
+    if (moved_dist == 0.0f) {
+        _e8 = f32(s32(sead::GlobalRandom::instance()->getU32() & 2) - 1);
+        _cc.value = *mInitSpeed_s;
+        _cc.prev_value = *mInitSpeed_s;
+    } else if (moved_dist >= *mInitSpeed_s * 0.5f) {
+        _cc *= _fc.value <= sead::Mathf::epsilon() ? 0.9f : *mAccel_s;
+        _cc.setToMin(*mMoveSpeed_s);
+    } else {
+        // Blocked: turn around (or pick a side) and start over at the initial speed.
+        if (_e8 == 0.0f)
+            _e8 = f32(s32(sead::GlobalRandom::instance()->getU32() & 2) - 1);
+        else
+            _e8 = -_e8;
+        _cc.value = *mInitSpeed_s;
+        _cc.prev_value = *mInitSpeed_s;
+    }
+    _cc.updateStats();
+
+    sead::Vector3f dir(target.x - pos.x, 0.0f, target.z - pos.z);
+    dir.normalize();
+    sead::Matrix34f rot;
+    rot.makeR({0.0f, _e8 * sead::Mathf::piHalf(), 0.0f});
+    const f32 y_speed = *mMoveYSpeed_s;
+    const f32 speed = _cc.mean;
+    const f32 delta = ksys::VFR::instance()->getDeltaFrame();
+    _dc = pos;
+    sead::Vector3f side;
+    side.setRotated(rot, dir);
+    sead::Vector3f next = pos + side * speed;
+    next.y = pos.y + y_speed * delta * speed;
+    sead::Vector3f away = next - target;
+    away.normalize();
+
+    _f0.update();
+    f32 extra;
+    if (_f0.value <= sead::Mathf::epsilon()) {
+        extra = *mKeepDistanceRand_s * sead::GlobalRandom::instance()->getF32();
+        _ec = extra;
+        _f0 = ksys::Timer(*mRandKeepFrame_s, *mRandKeepFrame_s);
+    } else {
+        extra = _ec;
+    }
+    const f32 keep = *mKeepDistance_s + extra;
+    sead::Vector3f move = target + away * keep - pos;
+    f32 length = move.normalize();
+    if (_cc.mean <= length)
+        length = _cc.mean;
+    *out = pos + move * length;
 }
 
 void LastBossBeamAttackRoot::leave_() {

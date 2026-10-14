@@ -31,6 +31,9 @@ public:
     void sub_7100475B28(sead::Vector3f* out);
     // 0x710047679c (placeholder name)
     void changeToFire(const sead::Vector3f& target_pos);
+    // 0x710047635c (placeholder name): the next position while circling `target` (speed _cc, side _e8, keeping
+    // KeepDistance + a random extra from it).
+    void sub_710047635C(sead::Vector3f* out, const sead::Vector3f& target);
 
 protected:
     // Inline-only in the original (name guess; evidence: the param pack and name temporary sit above enter_'s target).
@@ -74,7 +77,8 @@ protected:
     ksys::VFRValue _cc;
     bool _d8 = false;
     sead::Vector3f _dc;
-    u64 _e8 = 0;
+    f32 _e8 = 0;  // side sign (-1 / +1, 0: none yet)
+    f32 _ec = 0;  // random extra keep distance
     ksys::Timer _f0;
     ksys::Timer _fc;
     sead::Matrix33f _108;
