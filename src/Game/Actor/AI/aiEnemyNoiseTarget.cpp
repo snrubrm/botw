@@ -5,6 +5,7 @@
 #include "Game/Actor/aiUnk_71007377D4.h"
 #include "Game/Actor/aiUnk_710073033C.h"
 #include "Game/Actor/aiUnk_71007320F0.h"
+#include "Game/gameUnk_71024739d0.h"
 #include <random/seadGlobalRandom.h>
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
 #include "Game/Actor/aiAwarenessFilters.h"
@@ -187,6 +188,24 @@ void EnemyNoiseTarget::loadParams_() {
     getStaticParam(&mNoShieldEquipWpIdx_s, "NoShieldEquipWpIdx");
     getStaticParam(&mTooFarPathDist_s, "TooFarPathDist");
     getAITreeVariable(&mIsTrgChangeUnderWaterState_a, "IsTrgChangeUnderWaterState");
+}
+
+// NON_MATCHING: the position / direction share the param pack slot in the original (scope), and the normalisation
+// multiplies in the other operand order.
+void EnemyNoiseTarget::sub_710039B770() {
+    const sead::Vector3f pos = mActor->getMtx().getTranslation();
+    sead::Vector3f dir = pos;
+    dir -= sub_71005D9330(mActor);
+    dir.normalize();
+    if (!sub_710090D904(pos, dir, 2.0f, 1.0f)) {
+        ksys::act::ai::InlineParamPack pack;
+        pack.addVec3(_ac, "TargetPos", -1);
+        changeChild("後退", &pack);
+    } else {
+        ksys::act::ai::InlineParamPack pack;
+        pack.addVec3(_ac, "TargetPos", -1);
+        changeChild("騒ぐ", &pack);
+    }
 }
 
 }  // namespace uking::ai

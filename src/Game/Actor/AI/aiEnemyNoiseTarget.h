@@ -25,7 +25,8 @@ public:
     // 0x710039b240 (placeholder name): the weapon of the shield slot can be picked up; stores its link in `out`.
     bool sub_710039B240(ksys::act::BaseProcLink* out);
     bool sub_710039B54C();
-    // 0x710039b770 (placeholder name; declared only, 556 B): the action when the noise is near.
+    // 0x710039b770 (placeholder name): near the noise: 後退 (back away) unless sub_710090D904 reports an obstacle 2 behind,
+    // else 騒ぐ.
     void sub_710039B770();
 
 protected:
