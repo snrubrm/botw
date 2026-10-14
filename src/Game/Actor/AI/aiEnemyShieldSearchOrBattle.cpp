@@ -1,6 +1,7 @@
 #include "Game/Actor/AI/aiEnemyShieldSearchOrBattle.h"
 #include "Game/Actor/actEnemy.h"
 #include "Game/Actor/aiUnk_71005D6D10.h"
+#include "Game/Actor/aiUnk_7100724C64.h"
 #include "Game/Actor/aiUnk_710073033C.h"
 #include "Game/Actor/aiUnk_71007302CC.h"
 #include "Game/Actor/aiUnk_71007377D4.h"
@@ -85,8 +86,48 @@ bool EnemyShieldSearchOrBattle::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
 }
 
+// NON_MATCHING: only the DynamicCast result test (the original re-tests the pointer after the RTTI call).
 void EnemyShieldSearchOrBattle::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    const auto changeToNormal = [this] {
+        ksys::act::ai::InlineParamPack pack;
+        pack.addVec3(*mParams.mTargetPos_d, "TargetPos", -1);
+        changeChild("通常", &pack);
+    };
+
+    if (!sub_7100726F20(mActor)) {
+        _80 = false;
+    } else {
+        const s32 idx = *mParams.mNoShieldEquipWpIdx_s;
+        _80 = idx < 0 || !sub_71005D83E8(mActor, idx);
+    }
+    _70.reset();
+    if (!_80) {
+        changeToNormal();
+        return;
+    }
+
+    ksys::act::BaseProcLink link;
+    if (!sub_71003BBD1C(&link)) {
+        changeToNormal();
+        return;
+    }
+
+    auto* actor = mActor;
+    auto* target = sub_71005D9050(actor);
+    if (!target || !target->hasProc() ||
+        !sub_710073033C(actor, target, *mParams.mNoShieldSearchDist_s)) {
+        auto* shield = sead::DynamicCast<ksys::act::Actor>(link.getProc(nullptr, nullptr));
+        if (shield && sub_71007302CC(mActor, shield, *mParams.mSearchShieldDist_s)) {
+            _70 = link;
+            changeToPickUpShield();
+            return;
+        }
+    }
+    if (!sub_71003BC058(false)) {
+        changeToNormal();
+        return;
+    }
+    changeToPickUpShield();
 }
 
 void EnemyShieldSearchOrBattle::leave_() {
