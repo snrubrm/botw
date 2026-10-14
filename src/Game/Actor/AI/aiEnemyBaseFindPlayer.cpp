@@ -64,6 +64,101 @@ void EnemyBaseFindPlayer::sub_710037EF30() {
     changeChild("威嚇", &params);
 }
 
+// NON_MATCHING: block layout (our build tests state 1 before 2 and places the reset copies differently).
+bool EnemyBaseFindPlayer::sub_71003806C8() {
+    auto* actor = mActor;
+    if (!actor || !_f0)
+        return false;
+
+    const auto resetNav = [this] {
+        _f0->_8 = -1;
+        if (auto* nav = _f0->_0)
+            nav->inlineReset();
+    };
+
+    if (*mNoSearchFromTiredDist_s > 0.0f && isCurrentChild("威嚇")) {
+        const auto& target = sub_71005D9330(mActor);
+        if (sead::Vector2f(_130.x - target.x, _130.z - target.z).length() < *mNoSearchFromTiredDist_s) {
+            resetNav();
+            return false;
+        }
+        _130 = {-100000.0f, 0.0f, 0.0f};
+    }
+
+    switch (_f0->_8) {
+    case 2:
+        resetNav();
+        return false;
+    case 1:
+        break;
+    case 0:
+        return false;
+    default:
+        if (!(_f8 <= 0.0f))
+            return false;
+        _f8 = _fc == _100 ? _fc : sead::GlobalRandom::instance()->getS32Range(_fc, _100);
+        if (auto* nav = _f0->_0) {
+            nav->sub_7100F75F8C(sub_71005D98D8(actor));
+            _f0->_8 = 0;
+        }
+        return false;
+    }
+
+    sead::Vector3f goal;
+    if (isCurrentChild("威嚇帰還")) {
+        auto* nav = _f0->_0;
+        if (!nav || (_f0->_8 != 1 && _f0->_8 != 3)) {
+            resetNav();
+            return false;
+        }
+        auto lock = sead::makeScopedLock(nav->_1e0);
+        goal = nav->_1ac;
+    } else {
+        auto* nav = _f0->_0;
+        if (!nav || (_f0->_8 != 1 && _f0->_8 != 3)) {
+            resetNav();
+            return false;
+        }
+        auto lock = sead::makeScopedLock(nav->_1e0);
+        goal = nav->_1a0;
+    }
+
+    auto* nav = _f0->_0;
+    if (!nav || _f0->_8 == -1) {
+        resetNav();
+        return false;
+    }
+    sead::Vector3f end;
+    {
+        auto lock = sead::makeScopedLock(nav->_1e0);
+        end = nav->_194;
+    }
+
+    if (*mPathTooLongDist_s > 0.0f) {
+        if (auto* actor_nav = mActor->m45()) {
+            f32 length;
+            {
+                auto lock = sead::makeScopedLock(actor_nav->_1e0);
+                length = actor_nav->_2cc;
+            }
+            if (length >= *mPathTooLongDist_s) {
+                resetNav();
+                return false;
+            }
+        }
+    }
+
+    const f32 dy = end.y - goal.y;
+    if (*mAttackVMin_s <= dy && dy <= *mAttackVMax_s) {
+        const f32 dx = end.x - goal.x;
+        const f32 dz = end.z - goal.z;
+        if (dx * dx + dz * dz <= m34())
+            return true;
+    }
+    resetNav();
+    return false;
+}
+
 void EnemyBaseFindPlayer::sub_710037EDA4() {
     _108.mValue = _118 == _11c ? _118 : sead::GlobalRandom::instance()->getS32Range(_118, _11c);
     ksys::act::ai::InlineParamPack params;

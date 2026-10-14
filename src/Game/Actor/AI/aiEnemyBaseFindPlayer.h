@@ -57,8 +57,9 @@ public:
     bool sub_7100380B50();
     // 0x710037ef30 (not decompiled; tail-called by enter_)
     void sub_710037EF30();
-    // 0x71003806c8 (not decompiled; called by sub_710037EF30)
-    void sub_71003806C8();
+    // 0x71003806c8 (called by sub_710037EF30, result unused there): whether the nav path goal is within attack range of
+    // the path end (height AttackVMin..Max, horizontal distance squared <= m34()); resets the nav request otherwise.
+    bool sub_71003806C8();
     // 0x7100380e90: TargetPos → 不意討ち.
     void changeToSurpriseAttack();
 
