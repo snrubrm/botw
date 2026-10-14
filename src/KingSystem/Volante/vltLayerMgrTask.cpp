@@ -1,4 +1,5 @@
 #include "KingSystem/Utils/HeapUtil.h"
+#include "KingSystem/System/LayerMgrTask.h"
 #include "KingSystem/System/PlayReportMgr.h"
 #include <heap/seadHeapMgr.h>
 #include <math/seadMathCalcCommon.h>
@@ -7,6 +8,9 @@
 #include <thread/seadThread.h>
 #include "Game/gameUnkRttiPlaceholders.h"
 
+// The heap helpers declared in HeapUtil.h are defined at the start of this TU in the original
+// binary: they follow a static initializer, their statics sit right before LayerMgrTask::sInstance
+// and they are out-of-line.
 namespace ksys::util {
 
 sead::Heap* tryCreateDualHeap(size_t size, const sead::SafeString& name, sead::Heap* heap1,
@@ -290,3 +294,7 @@ sead::Heap* getDebugHeap2() {
 // NON_MATCHING: placeholder destructor; the original (0x71011f3674) also destroys members or bases
 // this class does not declare yet.
 Unk_7102513c38::~Unk_7102513c38() = default;
+
+namespace vlt {
+LayerMgrTask* LayerMgrTask::sInstance = nullptr;
+}  // namespace vlt
