@@ -1,5 +1,8 @@
 #include "Game/Actor/Action/actionGuardianMiniLineBeam.h"
 #include "Game/Actor/actBeamBase.h"
+#include "Game/Actor/Player/actPlayerBase.h"
+#include "KingSystem/ActorSystem/actActorAtk.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actTag.h"
@@ -40,6 +43,24 @@ void GuardianMiniLineBeam::m32() {
         sensor->activateAttackSensor(0x1000, 0x302, attack->mPower.ref(), attack->mImpulse.ref(),
                                      0.0f, 0, 1, -1, false, 1, -1);
     }
+}
+
+void GuardianMiniLineBeam::sub_7100197468() {
+    auto* beam = sead::DynamicCast<act::BeamBase>(mActor);
+    if (!beam || !beam->_b90._40.hasProc() || !hasAttackInfo(beam))
+        return;
+    auto* info = getAttackInfo(beam, 0);
+    if (!info || !ksys::act::isPlayerProfile(&info->_50))
+        return;
+    auto* actor = sead::DynamicCast<ksys::act::Actor>(info->_50.getProc(nullptr, nullptr));
+    if (!actor)
+        return;
+    auto* player = sead::DynamicCast<act::PlayerBase>(actor);
+    if (!player || !player->_cf0.isOnBit(0))
+        return;
+    ksys::act::ActorLinkConstDataAccess accessor;
+    ksys::act::acquireActor(&beam->_b90._40, &accessor);
+    sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x8000043), beam);
 }
 
 void GuardianMiniLineBeam::sub_7100197660() {
