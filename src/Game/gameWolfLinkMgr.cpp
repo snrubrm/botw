@@ -3,6 +3,7 @@
 #include "Game/Actor/actWolfLink.h"
 #include "Game/gameRoot38.h"
 #include "Game/gameUnk_71008ba8d8.h"
+#include "KingSystem/Utils/MathUtil.h"
 
 namespace uking {
 
@@ -46,7 +47,9 @@ bool WolfLinkMgr::sub_7100682CB4() const {
 bool WolfLinkMgr::sub_7100683088(bool a1) {
     if (_60 != 2 || !_80 || !_28.hasProc())
         return false;
-    const u8 flags = a1 ? 1 << 1 : 0;
+    sead::BitFlag8 flags;
+    if (a1)
+        flags.setBit(1);
     const sead::Vector3f pos = _80->getMtx().getTranslation();
     return sub_7100682CE8(&pos, flags);
 }
@@ -83,6 +86,24 @@ bool WolfLinkMgr::sub_7100683698() {
     if (_60 == 1)
         return false;
     return !_28.hasProc();
+}
+
+bool WolfLinkMgr::sub_7100683410() {
+    auto* gdm = ksys::gdt::Manager::instance();
+    const f32 nan = std::numeric_limits<f32>::quiet_NaN();
+    sead::Vector3f pos{nan, nan, nan};
+    s32 life = -1;
+    if (!gdm)
+        return false;
+    if (!gdm->getVec3f(mCurrentPosHandle, &pos))
+        return false;
+    if (!gdm->getS32(mCurrentLifeHandle, &life))
+        return false;
+    if (ksys::util::isVectorInvalid(pos))
+        return false;
+    if (life < 1)
+        return false;
+    return sub_7100682CE8(&pos, {});
 }
 
 void WolfLinkMgr::sub_71006833C8() {

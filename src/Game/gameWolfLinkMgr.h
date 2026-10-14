@@ -3,6 +3,7 @@
 #include <basis/seadTypes.h>
 #include <limits>
 #include <heap/seadDisposer.h>
+#include <prim/seadBitFlag.h>
 #include <math/seadVector.h>
 #include "KingSystem/ActorSystem/actBaseProcHandle.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
@@ -45,8 +46,8 @@ public:
     void postCalc();
 
     // 0x7100683410 / 0x7100683790 / 0x710068386c (312 / 220 / 260 B, declared only; placeholder names): the
-    // postCalc handlers of the states 7 (and 6), 1 and 2.
-    void sub_7100683410();
+    // postCalc handlers of the states 7 (and 6), 1 and 2. sub_7100683410 respawns the Wolf Link at the saved position.
+    bool sub_7100683410();
     // 0x71006833c8 (CSV WolfLinkMgr::__auto1; placeholder name): in state 6, moves to state 7 while an event is
     // active, else runs sub_7100683410.
     void sub_71006833C8();
@@ -65,7 +66,7 @@ public:
     // 2026-10-07: original WolfLink pre-delete call passes this actor and true.
     bool sub_7100682F80(ksys::act::Actor* actor, bool deleting);
     // 0x7100682ce8 (declared only; WolfLinkAmiiboRegister::enter_): registers the amiibo Wolf Link at `pos`.
-    bool sub_7100682CE8(const sead::Vector3f* pos, u8 flags);
+    bool sub_7100682CE8(const sead::Vector3f* pos, sead::BitFlag8 flags);
     // 0x7100683088 (declared only; WolfLinkEvent::enter_ with 1).
     bool sub_7100683088(bool a1);
     // 0x710068367c / 0x7100683698 (declared only; WolfLinkAmiiboRegister::calc_).
