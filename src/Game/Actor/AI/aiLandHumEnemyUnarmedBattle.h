@@ -43,6 +43,16 @@ public:
     // 0x7100471e98 (placeholder name): the link of the nearest entry of `_150` to the navmesh position,
     // or the dummy link.
     const ksys::act::BaseProcLink* sub_7100471E98();
+    // 0x710046f0ac (placeholder name): refills `_150` (sub_71004717FC) and makes the first entry the nav mesh can
+    // reach the new _108 target (moving towards it unless going straight).
+    bool sub_710046F0AC();
+    // 0x71004717fc (not decompiled): refills `_150` from the awareness entries.
+    void sub_71004717FC();
+    // 0x710046f2b0 (placeholder name): same with sub_7100471B68, a radius margin of 1 and the _118 target; also
+    // sends message 0x80000c2 to the chosen actor.
+    bool sub_710046F2B0();
+    // 0x7100471b68 (not decompiled): refills `_150` (second filter).
+    void sub_7100471B68();
     // 0x7100472020 (placeholder name): Enemy::sub_710001A204 with the positions of the actor of `link`
     // and of our actor, sub_71005D9330 and SearchWeaponTargetDist; true when not an Enemy.
     bool sub_7100472020(const ksys::act::BaseProcLink* link);

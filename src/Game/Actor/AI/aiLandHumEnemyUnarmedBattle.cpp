@@ -1,5 +1,6 @@
 #include "Game/Actor/AI/aiLandHumEnemyUnarmedBattle.h"
 #include "Game/Actor/aiUnk_71005D6D10.h"
+#include "Game/Actor/aiUnk_71007377D4.h"
 #include "Game/Actor/aiUnk_71007368A4.h"
 #include "Game/Actor/aiUnk_7100724C64.h"
 #include "Game/Actor/actEnemy.h"
@@ -66,6 +67,66 @@ void LandHumEnemyUnarmedBattle::sub_710046FC10() {
         _118 = *link;
         break;
     }
+}
+
+// NON_MATCHING: scheduling only (loop setup and the accessor's zero stores). The original adds 0.0 to the radius.
+bool LandHumEnemyUnarmedBattle::sub_710046F0AC() {
+    _150.clear();
+    sub_71004717FC();
+    if (_150.size() == 0)
+        return false;
+    for (auto& entry : _150) {
+        auto& link = entry._0.mLink;
+        sead::Vector3f pos;
+        ksys::act::ActorLinkConstDataAccess accessor;
+        ksys::act::acquireActor(&link, &accessor);
+        accessor.getActorMtx().getTranslation(pos);
+        auto* actor = mActor;
+        auto* nav = actor->m45();
+        if (sub_710072F944(actor, pos, nullptr, (nav ? nav->getRadiusMaybe() : 0.0f) + 0.0f, 5.0f)) {
+            if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
+                enemy->sub_7100019D38(_108);
+                enemy->sub_7100019A9C(link);
+            }
+            _108 = link;
+            if (!isGoStraight())
+                startMoveToTargetMaybe(pos);
+            return true;
+        }
+    }
+    return false;
+}
+
+// NON_MATCHING: scheduling only, as sub_710046F0AC
+bool LandHumEnemyUnarmedBattle::sub_710046F2B0() {
+    _150.clear();
+    sub_7100471B68();
+    if (_150.size() == 0)
+        return false;
+    for (auto& entry : _150) {
+        auto& link = entry._0.mLink;
+        sead::Vector3f pos;
+        ksys::act::ActorLinkConstDataAccess accessor;
+        ksys::act::acquireActor(&link, &accessor);
+        accessor.getActorMtx().getTranslation(pos);
+        auto* character = mActor->m45();
+        character->sub_7100F7D350();
+        accessor.sub_7100D122EC(character);
+        auto* actor = mActor;
+        auto* nav = actor->m45();
+        if (sub_710072F944(actor, pos, nullptr, (nav ? nav->getRadiusMaybe() : 0.0f) + 1.0f, 5.0f)) {
+            if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
+                enemy->sub_7100019D38(_118);
+                enemy->sub_7100019A9C(link);
+            }
+            _118 = link;
+            sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x80000c2), mActor);
+            if (!isGoStraight())
+                startMoveToTargetMaybe(pos);
+            return true;
+        }
+    }
+    return false;
 }
 
 // NON_MATCHING: scalar argument loads are scheduled differently before the explosive search.
