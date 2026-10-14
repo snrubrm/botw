@@ -122,7 +122,8 @@ public:
         /* 0x8ac */ f32 _8ac;
         u8 _8b0[0x8b8 - 0x8b0];
         /* 0x8b8 */ f32 _8b8;  // Dragon + 0x1d80 (DragonPlayASForDemo: 0 on enter, 1 on leave)
-        u8 _8bc[0x930 - 0x8bc];
+        /* 0x8bc */ sead::Vector3f _8bc;  // Dragon + 0x1d84: offset added by DragonPlayASForDemo (flag 0x40)
+        u8 _8c8[0x930 - 0x8c8];
         /* 0x930 */ u16 _930;  // flags (Dragon + 0x1df8)
         u8 _932[0x938 - 0x932];
     };
