@@ -3,6 +3,7 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/Resource/Actor/resResourceAttCheck.h"
 
 namespace uking::ai {
 
@@ -21,6 +22,65 @@ void EnemyFindShootable::enter_(ksys::act::ai::InlineParamPack* params) {
     mActor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_1000000);
 
     changeToApproach();
+}
+
+// NON_MATCHING: stack slots of the two accessors, the original passes a stack copy of _68 to sub_71005DB1D8, and
+// the AttOffset matrix product is scheduled differently (as in LandHumEnemyUnarmedBattle::sub_7100470D54).
+void EnemyFindShootable::calc_() {
+    ksys::act::ActorConstDataAccess target;
+    ksys::act::acquireActor(mParams.mTargetActor_d, &target);
+    target.getActorMtx().getTranslation(_68);
+    _74 = target.sub_7100D10E6C(30);
+
+    if (isCurrentChild("接近"))
+        sub_71005DB1D8(mActor, _68);
+    else
+        sub_71005DB3EC(mActor);
+
+    // Whether the target can be grabbed from the AttOffset point (its "Grab" attention check).
+    const auto canGrab = [this] {
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::acquireActor(mParams.mTargetActor_d, &accessor);
+        auto* actor = mActor;
+        ksys::res::AttCheck_Unk1 arg;
+        arg._0 = actor->getMtx();
+        const auto& base_offset = *mParams.mAttOffset_s;
+        const auto& scale = actor->getScale();
+        const sead::Vector3f offset(base_offset.x * scale.x, base_offset.y * scale.y,
+                                    base_offset.z * scale.z);
+        sead::Vector3f position;
+        position.setMul(actor->getMtx(), offset);
+        arg._0.setTranslation(position);
+        arg._36 = false;
+        arg._35 = true;
+        arg._34 = *mParams.mCanGrabHeavy_s;
+        arg._30 = *mParams.mGrabCheckRadius_s;
+        return accessor.sub_7100D13AE4("Grab", mActor, &arg, false);
+    };
+
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed()) {
+        if (!isCurrentChild("接近")) {
+            setFinished();
+            return;
+        }
+        if (canGrab())
+            changeToAction();
+        else
+            setFailed();
+    } else if (getCurrentChild()->isChangeable() && isCurrentChild("接近")) {
+        if (!mParams.mTargetActor_d->hasProc() || _74 ||
+            sub_71005DEC08(mParams.mTargetActor_d, mActor, *mParams.mChaseItemDist_s,
+                           *mParams.mChaseItemSpeed_s, sead::Mathf::piHalf())) {
+            setFailed();
+            return;
+        }
+        if (canGrab())
+            changeToAction();
+    }
+
+    const bool approaching = isCurrentChild("接近");
+    getCurrentChild()->setDynamicParam(approaching ? _68 : sub_71005D9330(mActor), "TargetPos");
 }
 
 void EnemyFindShootable::leave_() {
