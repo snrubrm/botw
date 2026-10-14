@@ -51,8 +51,9 @@ public:
     // 0x710046f2b0 (placeholder name): same with sub_7100471B68, a radius margin of 1 and the _118 target; also
     // sends message 0x80000c2 to the chosen actor.
     bool sub_710046F2B0();
-    // 0x7100471b68 (not decompiled): refills `_150` (second filter).
-    void sub_7100471B68();
+    // 0x7100471b68 (placeholder name): refills `_150` with the grabbable items (filter Unk_71024516c8) within
+    // SearchObjectDist and slower than ItemChaseableSpd that sub_7100472020 accepts; false if none.
+    bool sub_7100471B68();
     // 0x7100472020 (placeholder name): Enemy::sub_710001A204 with the positions of the actor of `link`
     // and of our actor, sub_71005D9330 and SearchWeaponTargetDist; true when not an Enemy.
     bool sub_7100472020(const ksys::act::BaseProcLink* link);

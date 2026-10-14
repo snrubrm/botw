@@ -1,5 +1,6 @@
 #include "Game/Actor/AI/aiLandHumEnemyUnarmedBattle.h"
 #include "Game/Actor/aiUnk_71005D6D10.h"
+#include "Game/Actor/aiAwarenessFilters.h"
 #include "Game/Actor/aiUnk_71007377D4.h"
 #include "Game/Actor/aiUnk_71007368A4.h"
 #include "Game/Actor/aiUnk_7100724C64.h"
@@ -275,6 +276,47 @@ void LandHumEnemyUnarmedBattle::changeToBattle() {
 
 // The getName() call and the profile comparison results are unused in the original (their use was
 // compiled out); the calls remain.
+// NON_MATCHING: the copy into _150. The original copy-constructs Unk_7100d78e50 as: entry ctor, matrix / field
+// copies, then the entry's virtual m14(&other entry) (no such copy constructor declared yet); ours memcpys it.
+bool LandHumEnemyUnarmedBattle::sub_7100471B68() {
+    auto* awareness = mActor->getAwareness();
+    if (!awareness || !_798)
+        return false;
+
+    Unk_71024516c8 filter;
+    filter._28 = mActor;
+    filter._30 = *mParams.mCanGrabHeavy_s;
+    while (auto* sensor = awareness->_260[0]) {
+        auto* entry = ksys::act::sub_7100D7EEE8(&sensor->_8, &filter);
+        if (!entry)
+            break;
+        if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
+            const auto* level = enemy->getParam()->getRes().mGParamList->getEnemyLevel();
+            if (level &&
+                (level->mIsEscapeBomb.ref() || level->mIsKickBomb.ref() || level->mIsAvoidDanger.ref()) &&
+                ksys::act::hasTag(&entry->_0.mLink, 0xf3a5f416))
+                continue;
+        }
+        if (entry->_a8 > *mParams.mSearchObjectDist_s)
+            continue;
+        if (entry->_94.length() > *mParams.mItemChaseableSpd_s)
+            continue;
+
+        ksys::act::ActorLinkConstDataAccess accessor;
+        ksys::act::acquireActor(&entry->_0.mLink, &accessor);
+        if (accessor.sub_7100D10E6C(30))
+            continue;
+        if (!accessor.isAttClientEnabled("Grab") || accessor.sub_7100D12E64())
+            continue;
+        if (!sub_7100472020(&entry->_0.mLink))
+            continue;
+        _150.emplaceBack(*entry);
+        if (_150.isFull())
+            return true;
+    }
+    return _150.size() != 0;
+}
+
 // NON_MATCHING: scheduling only (loop setup order and the fcsel of min_dist).
 const ksys::act::BaseProcLink* LandHumEnemyUnarmedBattle::sub_7100471E98() {
     const ksys::act::BaseProcLink* nearest = nullptr;
