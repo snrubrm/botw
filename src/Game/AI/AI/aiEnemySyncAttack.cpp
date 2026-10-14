@@ -11,6 +11,7 @@
 #include <gsys/gsysModelAccessKey.h>
 #include <gsys/gsysModelUnit.h>
 #include <random/seadGlobalRandom.h>
+#include "Game/AI/aiUnk_71005D6D10.h"
 
 namespace uking::ai {
 
@@ -120,6 +121,82 @@ void EnemySyncAttack::enter_(ksys::act::ai::InlineParamPack* params) {
     const s32 time = s32(f32(interval) + interval_rand * r * -0.5f) + *mAttackIntervalRand_s;
     _c9 = false;
     _cc = ksys::Timer(f32(time), f32(time));
+}
+
+void EnemySyncAttack::calc_() {
+    if (sub_71005DAFB0(mActor)) {
+        setFailed();
+        return;
+    }
+    sub_71005DAB2C(mActor, *mJustAvoidCheckLength_s, *mJustAvoidCheckLength_s,
+                   *mJustAvoidCheckAngle_s, 0);
+
+    bool started = false;
+    if (auto* actor = mActor) {
+        const sead::Vector3f& target = sub_71005D9330(actor);
+        const sead::Vector2f target_xz(target.x, target.z);
+        const sead::Vector2f pos_xz(actor->getMtx()(0, 3), actor->getMtx()(2, 3));
+        const f32 dist = (target_xz - pos_xz).length();
+        if (!(dist < *mAttackDistMin_s) && !(dist > *mAttackDistMax_s) &&
+            _cc.value <= sead::Mathf::epsilon() && !_c8) {
+            _c8 = true;
+            sub_71003BEDD0(mAttackNodeName_s);
+            started = true;
+        }
+    }
+    if (!started) {
+        auto* as_list = mActor->getASList();
+        if (as_list && as_list->x_4(*mAttackASSlot_s, 0) && _c8) {
+            auto* actor = mActor;
+            _c8 = false;
+            if (actor && actor->getModel()) {
+                actor->getASList()->sub_710115B01C(*mAttackASSlot_s, 0, true);
+                actor->getASList()->sub_710115C11C();
+            }
+            const s32 interval = *mAttackInterval_s;
+            const f32 interval_rand = *mAttackIntervalRand_s;
+            const f32 r = sead::GlobalRandom::instance()->getF32();
+            const s32 time = s32(f32(interval) + interval_rand * r * -0.5f) + *mAttackIntervalRand_s;
+            _cc = ksys::Timer(f32(time), f32(time));
+        }
+    }
+
+    if (!_c8) {
+        if (!(_cc.value <= sead::Mathf::epsilon()))
+            _cc.update();
+    } else if (auto* as_list = mActor->getASList()) {
+        if (as_list->x(3, nullptr, *mAttackASSlot_s, 0, &ksys::as::ASList::Unk2::sub_710116383C,
+                       true)) {
+            if (auto* body =
+                    mActor->findPhysicsBodyByName(sub_71007A24BC()->cstr(), "AtkEnemyBody"))
+                sub_71007A2EB0(body, mActor, nullptr);
+        } else if (auto* list = mActor->getASList()) {
+            if (list->x(3, nullptr, *mAttackASSlot_s, 0, &ksys::as::ASList::Unk2::sub_710116388C,
+                        true)) {
+                if (auto* body =
+                        mActor->findPhysicsBodyByName(sub_71007A24BC()->cstr(), "AtkEnemyBody"))
+                    sub_71007A3258(body, nullptr);
+            }
+        }
+    }
+
+    sub_71003BEFB4();
+
+    auto* child = getCurrentChild();
+    if ((child->isFinished() || child->isFailed()) && isCurrentChild("行動")) {
+        if (_c8) {
+            _c9 = getCurrentChild()->isFinished();
+            sub_71003BEDD0(mAttackNodeNameWait_s);
+            changeChild("待機");
+        }
+        return;
+    }
+    if (isCurrentChild("待機") && !_c8) {
+        if (_c9)
+            setFinished();
+        else
+            setFailed();
+    }
 }
 
 void EnemySyncAttack::leave_() {
