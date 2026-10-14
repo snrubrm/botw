@@ -1,4 +1,8 @@
 #include "Game/Actor/AI/aiRemainsWaterChaseBulletRoot.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
+#include "KingSystem/ActorSystem/actTag.h"
+#include "Game/Actor/Damage/dmgDamageManager.h"
+#include "Game/Actor/aiUnk_710072BA90.h"
 #include "KingSystem/Physics/System/physCollisionInfo.h"
 #include "KingSystem/ActorSystem/actPhysicsUserTag.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
@@ -151,6 +155,45 @@ bool RemainsWaterChaseBulletRoot::sub_7100549F6C() {
     }
     info->unlock();
     return false;
+}
+
+// NON_MATCHING: the original tests bit 1 of _216 with ldrh / and / ccmp (ours narrows it to ldrb / tbz; same as
+// SiteBossIceSplinterRoot)
+// Damage handling: bursts (_39) on damage type 34 or a hit by an ice breaker / ancient weapon / another water
+// bullet; otherwise a non-burst hit emits "ArrowHit" and requests the damage child (_3b).
+void RemainsWaterChaseBulletRoot::sub_710054A100() {
+    auto* mgr = sub_710072BA90(mActor);
+    if (!mgr)
+        return;
+
+    const s32 field54 = mgr->getField54();
+    const s32 field50 = mgr->getField50();
+    const s32 damage = mgr->_7c;
+    if (field54 == 34)
+        _39 = true;
+    if (field50 != 6 && !mgr->_216.isOn(2))
+        return;
+
+    ksys::act::ActorLinkConstDataAccess accessor;
+    if (ksys::act::acquireActor(mgr->getAttacker(), &accessor)) {
+        if (accessor.hasTag(ksys::act::tags::CanBreakIceMakerBlock))
+            _39 = true;
+        if (accessor.hasTag(ksys::act::tags::AncientWeapon))
+            _39 = true;
+        if (accessor.hasTag(ksys::act::tags::IsRemainsWaterBullet)) {
+            if (!accessor.sub_7100D10FB8())
+                sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x8000004), nullptr);
+            _39 = true;
+        }
+    }
+
+    if (damage >= 1 && !_39) {
+        if (mgr->getField50() == 0 || mgr->getField50() == 2 || mgr->getField50() == 1 ||
+            mgr->getField50() == 3) {
+            xlinkSearchAndEmit(mActor, "ArrowHit", 0, nullptr);
+            _3b = true;
+        }
+    }
 }
 
 void RemainsWaterChaseBulletRoot::leave_() {
