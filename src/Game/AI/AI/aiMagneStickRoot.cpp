@@ -1,4 +1,7 @@
 #include "Game/AI/AI/aiMagneStickRoot.h"
+#include <math/seadQuat.h>
+#include "KingSystem/Utils/MathUtil.h"
+#include "KingSystem/System/VFR.h"
 #include "Game/gameGearMgr.h"
 #include <algorithm>
 #include <math/seadBoundBox.h>
@@ -416,6 +419,50 @@ bool MagneStickRoot::sub_71004A1138(ksys::phys::ShapeCast* cast) {
         }
     }
     return found;
+}
+
+void MagneStickRoot::m48(f32 radius, const sead::Matrix34f* mtx, const sead::Vector3f* a,
+                         const sead::Vector3f* b) {
+    auto* actor = mActor;
+    if (!actor)
+        return;
+    auto* body = actor->getMainBody();
+    if (!body)
+        return;
+
+    if ((sead::Vector3f::ez * a->z - *a).length() < radius) {
+        body->changeMotionType(ksys::phys::MotionType::Keyframed);
+        body->setMaxLinearVelocity(_80 * 0.1f);
+        body->setMaxAngularVelocity(_84 * 0.1f);
+
+        const f32 max_angle = ksys::VFR::instance()->getDeltaFrame() * 0.0523598790f;
+        sead::Vector3f axis = sead::Vector3f::ey;
+        sead::Matrix34f result;
+        sead::Vector3f pos;
+        sead::Matrix34f current = actor->getMtx();
+        f32 angle = 0;
+        ksys::util::sub_71011EF51C(&axis, &angle, current, *mtx, sead::Vector3f::ey);
+        const f32 abs_angle = sead::Mathf::abs(angle);
+        f32 step = angle;
+        // Ordered compare: the original keeps the full step when max_angle >= |angle| (b.ge).
+        if (!(max_angle >= abs_angle))
+            step = max_angle * angle / abs_angle;
+
+        sead::Quatf rotation;
+        rotation.setAxisRadian(axis, step);
+        sead::Matrix34f rotation_mtx;
+        rotation_mtx.fromQuat(rotation);
+        rotation_mtx.setTranslation(0.0f, 0.0f, 0.0f);
+        result.setMul(current, rotation_mtx);
+
+        m49(&pos, mtx->getTranslation(), *b);
+        result.setTranslation(pos);
+        body->changePositionAndRotation(result, sead::Mathf::epsilon());
+    } else {
+        body->changeMotionType(ksys::phys::MotionType::Dynamic);
+        body->setMaxLinearVelocity(_80);
+        body->setMaxAngularVelocity(_84);
+    }
 }
 
 }  // namespace uking::ai
