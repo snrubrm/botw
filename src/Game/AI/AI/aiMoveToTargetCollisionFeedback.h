@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
@@ -12,6 +13,7 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
 
@@ -36,12 +38,8 @@ protected:
     sead::Vector3f* mTargetPos_d{};
     // dynamic_param at offset 0x80
     sead::Vector3f* mMoveAwayFromPos_d{};
-    f32 _88{};
-    f32 _8c{};
-    f32 _90 = -1.0f;
-    f32 _94 = 1.0f;
-    f32 _98 = 1.0f;
-    f32 _9c = 0.0f;
+    ksys::Timer _88{0, 0};      // target adjust cooldown (CooldownFramesTargetAdjust)
+    ksys::Timer _94{1, 1, 0};   // retry timer (FramesUntilRetryOriginalPos)
     sead::Vector3f _a0 = {0, 0, 0};
     f32 _ac = 1.0f;
 };
