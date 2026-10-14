@@ -1,6 +1,7 @@
 #include "Game/Actor/AI/aiArrow.h"
 #include "Game/Actor/aiXlinkHandle.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actLodState.h"
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/Physics/System/physRayCastBodyQuery.h"
@@ -124,6 +125,54 @@ bool Arrow::sub_7100469628() {
         }
     }
     return false;
+}
+
+// NON_MATCHING: the original selects the address of the parameter value (+0x18) instead of the parameter
+void Arrow::sub_7100469074() {
+    bool with_chemical = false;
+    if (auto* chemical = mActor->getChemicalStuff()) {
+        with_chemical = chemical->_c0 == 2 || (chemical->mMaterial->attribute.ref() & 0x8000) ||
+                        ((chemical->mMaterial->attribute.ref() & 0x108) == 0x108 && !(chemical->_be & 4)) ||
+                        chemical->_1b8 > 0.0f;
+    }
+    auto* actor = mActor;
+    const auto* arrow = actor->getParam()->getRes().mGParamList->getArrow();
+    s32 time = with_chemical ? arrow->mDeleteTimeWithChemical.ref() : arrow->mDeleteTime.ref();
+    if (time == 0)
+        time = s32(*mGroundHitTime_s);
+    _6c = ksys::Timer(time, time);
+    if (auto* lod = actor->getLodState())
+        lod->mFlags26.reset(1);
+    if (auto* bullet = sead::DynamicCast<ksys::act::Bullet>(mActor))
+        bullet->_cf4 &= ~0x100;
+    mActor->setFlag(ksys::act::Actor::ActorFlag::_2c, false);
+    if (auto* chem = mActor->sub_71011D8A44(0))
+        chem->_c &= ~0x4000u;
+    if (auto* chemicals = mActor->getChemicalContainer())
+        chemicals->sub_7100E39614(false);
+    if (auto* chemicals = mActor->getChemicalContainer()) {
+        if (auto* element = chemicals->sub_7100E3718C(0))
+            element->_30 &= ~0x200;
+    }
+    sub_7100463940();
+    changeChild("接地");
+
+    bool burning = false;
+    if (auto* chemical = mActor->getChemicalStuff()) {
+        if (auto* chemicals = mActor->getChemicalContainer()) {
+            if (auto* element = chemicals->sub_7100E37FA8(0))
+                burning = element->_18->isRigidAttribute6Or14Set(element->_288);
+        }
+        burning = burning || (chemical->mMaterial->attribute.ref() & 0x8000) ||
+                  ((chemical->mMaterial->attribute.ref() & 0x108) == 0x108 && !(chemical->_be & 4)) ||
+                  chemical->_1b8 > 0.0f;
+    }
+    if (burning || _b9) {
+        mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_20);
+        ksys::act::disableAllAttClients(mActor);
+    } else {
+        ksys::act::enableAllAttClients(mActor);
+    }
 }
 
 void Arrow::sub_71004693A0() {

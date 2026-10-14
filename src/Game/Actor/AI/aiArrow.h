@@ -61,6 +61,10 @@ public:
     // StickActor / StickBodyName), disables the att clients while burning (or _b9), otherwise enables them and
     // follows the object's actor when it has tag 0x170cf1e2; without an object: m40(mActor).
     void sub_71004693A0();
+    // 0x7100469074 (placeholder name): lands on the ground (接地): delete timer _6c from the Arrow GParam
+    // DeleteTime(WithChemical) (GroundHitTime when 0), clears chemical / LOD / bullet state, then the att clients as
+    // in sub_71004693A0.
+    void sub_7100469074();
     // 0x71004692fc (placeholder name): the linked weapon's parent actor is the player.
     bool sub_71004692FC();
     // 0x7100467d20 / 0x7100467e24 / 0x7100467f28 (placeholder names): the Weapon the arrow is connected to as a
