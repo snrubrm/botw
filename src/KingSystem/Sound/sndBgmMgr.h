@@ -11,7 +11,17 @@
 #include <thread/seadCriticalSection.h>
 #include "KingSystem/Utils/Types.h"
 
-struct Unk_SpotBgmHandle;
+#include <aal/aalAssetInfo.h>
+#include <aal/aalHandle.h>
+#include <aal/aalISpeakerBalanceSupplier.h>
+#include <container/seadPtrArray.h>
+
+namespace xlink2 {
+class PropertyDefinition;
+class UserInstanceSLink;
+}  // namespace xlink2
+
+class Unk_SpotBgmHandle;
 
 namespace sead {
 class TextWriter;
@@ -29,6 +39,134 @@ class Unk_71024fd6c8;
 class Unk_71024fd948;
 
 namespace ksys::snd {
+
+class Unk_710260f248Entry;
+
+// Argument of Unk_710260f248::m3 (callers unknown): only the handle pointer at +0x8 is read.
+struct Unk_710260f248M3Arg {
+    u8 _0[8];
+    aal::Handle* handle;
+};
+
+// Placeholder: the 0x20-byte speaker balance suppliers in the buffer at Unk_SoundMgr30 +0x30 (0x7100ff8a24 returns the
+// first one whose handle at +0x10 is inactive). Declared only.
+class Unk_SoundMgr30_30 : public aal::ISpeakerBalanceSupplier {
+public:
+    // 0x7100ff8c74 (76 B): copies the handle and reads a byte of its asset info into `_c`.
+    void sub_7100FF8C74(const aal::Handle& handle);
+};
+
+// Placeholder (vtable 0x7102502950; D1 0x7101056bc8, readAssetInfo 0x7101056cac): the asset info reader at +0x68 of
+// Unk_710260f248. The D1 frees a buffer of 0x50-byte res::Handle objects (`_8` count, `_10` pointer).
+class Unk_7102502950 : public aal::IAssetInfoReadable {
+public:
+    bool readAssetInfo(aal::AssetInfo* asset_info, const sead::SafeString& name, bool flag) override;
+    virtual ~Unk_7102502950();
+
+    s32 _8 = 0;
+    void* _10 = nullptr;
+    // Bit 0 makes the owner pass this reader to its xlink2 user instance (0x7101020988).
+    u8 _18 = 0;
+};
+KSYS_CHECK_SIZE_NX150(Unk_7102502950, 0x20);
+
+// Type of an Unk_710260f248 (stored at +0xd0; the code tests 0, 1, 2 and 3). The constructors receive it as a
+// four-byte class in a full register (0x710101d7f8 masks it with 0xffffffff). Enumerator names are unknown.
+SEAD_ENUM(Unk_710260f248Type, _0, _1, _2, _3)
+
+// RTTI root typeInfo 0x710260f248 (vtable 0x7102500850, 14 slots, constructor 0x71010203ac, 0xe8 bytes): a sound
+// object with a name, an xlink2 SLink user instance and a list of playing entries (Unk_SoundMgr30 registers these
+// with ObjList functions 0x7100ff8b24 / 0x7100ff8b94). Base of Unk_SpotBgmHandle.
+class Unk_710260f248 {
+public:
+    explicit Unk_710260f248(Unk_710260f248Type type);
+
+    // 0x7100ff6628 / 0x7100ff6630 / 0x7100ff6634 (inline bodies emitted in the Bgm TU).
+    virtual bool m0() { return false; }
+    virtual void m1() {}
+    virtual bool m2() { return false; }
+    // 0x7101020c90: lets the first free speaker balance supplier of Unk_SoundMgr30 control the sound of `arg`.
+    virtual void m3(const Unk_710260f248M3Arg& arg);
+    virtual void m4() {}
+    virtual bool m5() { return false; }
+
+    SEAD_RTTI_BASE(Unk_710260f248)
+
+    virtual ~Unk_710260f248();
+    // 0x710102052c: copies `name`, reads the music definition and creates the xlink2 user instance.
+    virtual void m10(sead::Heap* heap, const sead::SafeString& name,
+                     const sead::PtrArray<const xlink2::PropertyDefinition>* properties);
+    // 0x7101020898
+    virtual void m11();
+    // 0x7101020e40
+    virtual f32 m12() { return _a0 * _a4 * _a8.getValue(); }
+    // 0x7100ff6808
+    virtual const sead::SafeString* m13() { return &mName; }
+
+    sead::FixedSafeString<64> mName;
+    xlink2::UserInstanceSLink* mUserInstance = nullptr;
+    Unk_7102502950 _68;
+    sead::OffsetList<Unk_710260f248Entry> mEntries;
+    f32 _a0 = 1.0;
+    f32 _a4 = 1.0;
+    aal::TimedFader _a8{1.0, aal::FadeCurveType(1), 1.0};
+    Unk_710260f248Type mType;
+    u8 _d4 = 0;
+    u64 _d8 = 0;
+    u64 _e0 = 0;
+};
+KSYS_CHECK_SIZE_NX150(Unk_710260f248, 0xe8);
+
+}  // namespace ksys::snd
+
+// typeInfo 0x710260f238 (vtable 0x7102500670, constructor 0x710101d7f8, 0xe8 + 0x98 bytes): a BGM handle. The spot BGM
+// instance (+0x8) and the Bgm children (+0x10, through Unk_71024fc7f8) contain one.
+class Unk_SpotBgmHandle : public ksys::snd::Unk_710260f248 {
+    SEAD_RTTI_OVERRIDE(Unk_SpotBgmHandle, ksys::snd::Unk_710260f248)
+public:
+    explicit Unk_SpotBgmHandle(ksys::snd::Unk_710260f248Type type);
+    ~Unk_SpotBgmHandle() override;
+    void m10(sead::Heap* heap, const sead::SafeString& name,
+             const sead::PtrArray<const xlink2::PropertyDefinition>* properties) override;
+    void m11() override;
+    // 0x7100ff67ec
+    f32 m12() override { return _138.getValue() * Unk_710260f248::m12(); }
+
+    // 0x710101d9a4
+    void sub_710101D9A4();
+    // 0x710101d970 (52 B)
+    void sub_710101D970();
+
+    sead::FixedSafeString<32> mCategory;
+    s32 mPriority = 0;
+    u32 _124 = 0;
+    u64 _128 = 0;
+    u64 _130 = 0;
+    aal::TimedFader _138{1.0, aal::FadeCurveType(1), 1.0};
+    u64 _160 = 0;
+    u64 _168 = 0;
+    u64 _170 = 0;
+    bool _178 = false;
+    bool _179 = true;
+    bool _17a = false;
+    u32 _17c = 0;
+};
+KSYS_CHECK_SIZE_NX150(Unk_SpotBgmHandle, 0x180);
+
+namespace ksys::snd {
+
+// The base at +0x10 of the Bgm children (Unk_71025ce380): Unk_SpotBgmHandle plus three virtuals. It has no vtable or
+// RTTI of its own in the original; its slots 14..16 come from the children's secondary vtables (e.g. 0x71024fc7f8 in
+// Unk_710260f048's, 0x7102500cb0 + 0x40 in Unk_SpotBgmInstance's): every child overrides 14 and 15, 16 is the empty
+// 0x7100ff6810.
+class Unk_71024fc7f8 : public Unk_SpotBgmHandle {
+public:
+    using Unk_SpotBgmHandle::Unk_SpotBgmHandle;
+    virtual void m14() = 0;
+    virtual void m15() = 0;
+    virtual void m16() {}
+};
+KSYS_CHECK_SIZE_NX150(Unk_71024fc7f8, 0x180);
 
 // Placeholder name (`SoundMgr::_30->_78`, see sub_7100FFD784; the BGM interface used by the EventBgm* actions). Only the
 // methods those actions call are declared (declaration only).
@@ -80,7 +218,7 @@ protected:
 KSYS_CHECK_SIZE_NX150(Bgm, 0x10);
 
 // Intermediate BGM RTTI typeInfo 0x71025ce380, derived from Bgm.
-class Unk_71025ce380 : public Bgm {
+class Unk_71025ce380 : public Bgm, public Unk_71024fc7f8 {
     SEAD_RTTI_OVERRIDE(Unk_71025ce380, Bgm)
 };
 
@@ -474,7 +612,7 @@ Unk_710260f048* sub_7100FFDFDC();
 Unk_710260f1a8* sub_7100FFE14C();
 
 // Placeholders (types unknown): SoundMgr::_30->_8 / _18 (returned by sub_7100FFD73C / sub_7100FFD76C).
-struct Unk_SoundMgr30_8;
+class MusicDefinition;
 struct Unk_SoundMgr30_18;
 
 // Placeholder name (SoundMgr::_30): the BGM side of the sound manager.
@@ -490,9 +628,14 @@ struct Unk_SoundMgr30 {
     void sub_7100FF8780(s32 fade_type);
     void sub_7100FF88A8(s32 fade_type);
     void sub_7100FF8AC4(s32 fade_type);
+    // 0x7100ff8b24 / 0x7100ff8b94 (declared only): add / remove a sound object from the ObjList at +0x90.
+    void sub_7100FF8B24(Unk_710260f248* obj);
+    void sub_7100FF8B94(Unk_710260f248* obj);
+    // 0x7100ff8a24 (declared only)
+    Unk_SoundMgr30_30* sub_7100FF8A24();
 
     u8 _0[0x8];
-    /* 0x08 */ Unk_SoundMgr30_8* _8;
+    /* 0x08 */ MusicDefinition* _8;
     /* 0x10 */ Unk_SoundMgr30_10* _10;
     /* 0x18 */ Unk_SoundMgr30_18* _18;
     u8 _20[0x20];
@@ -514,11 +657,19 @@ struct Unk_SoundMgr30 {
 // 0x7100ffd71c (32 B): `SoundMgr::instance()->_30`, or null without a SoundMgr. Placeholder name.
 Unk_SoundMgr30* sub_7100FFD71C();
 // 0x7100ffd73c / 0x7100ffd76c (24 B): `SoundMgr::instance()->_30->_8` / `->_18`. Placeholder names.
-Unk_SoundMgr30_8* sub_7100FFD73C();
+MusicDefinition* sub_7100FFD73C();
 Unk_SoundMgr30_18* sub_7100FFD76C();
 
 // 0x7100ffd754 (24 B): `SoundMgr::instance()->_30->_10`.
 Unk_SoundMgr30_10* sub_7100FFD754();
+
+struct Unk_SoundMgr30_240 {
+    // 0x71012be0a4 (400 B) / 0x71012be234 (96 B), declared only: register / unregister a sound object.
+    void sub_71012BE0A4(Unk_710260f248* obj);
+    void sub_71012BE234(Unk_710260f248* obj);
+};
+// 0x7100fff124 (24 B): `SoundMgr::instance()->_30->_240` (no null checks). Placeholder name; declared only.
+Unk_SoundMgr30_240* sub_7100FFF124();
 
 // 0x7100ffd784 (24 B): `SoundMgr::instance()->_30->_78`.
 Unk_SoundMgr30_78* sub_7100FFD784();

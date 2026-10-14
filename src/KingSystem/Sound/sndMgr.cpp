@@ -265,7 +265,7 @@ Unk_SoundMgr30* sub_7100FFD71C() {
     return nullptr;
 }
 
-Unk_SoundMgr30_8* sub_7100FFD73C() {
+MusicDefinition* sub_7100FFD73C() {
     return SoundMgr::instance()->_30->_8;
 }
 

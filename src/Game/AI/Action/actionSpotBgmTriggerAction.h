@@ -2,16 +2,7 @@
 
 #include <aal/aalTimedFader.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
-
-// Placeholder names (the objects live in the sound TUs around 0x710100000..0x710102400; declared only).
-struct Unk_SpotBgmHandle {
-    // 0x710101d9a4
-    void sub_710101D9A4();
-    // 0x710101d970 (declared only; 52 B)
-    void sub_710101D970();
-
-    u8 _0[8];
-};
+#include "KingSystem/Sound/sndBgmMgr.h"
 
 // The spot BGM instance a SpotBgmTriggerAction creates in init_ (size 0x3c0; its deleting destructor is vtable slot 1).
 class Unk_SpotBgmInstance {
@@ -28,8 +19,10 @@ public:
     // 0x71010233cc (declared only; 1500 B): `name` is the sound name parameter; `a3` is 1 for a box area, 0 otherwise.
     void sub_71010233CC(sead::Heap* heap, const sead::SafeString* name, u64 a3, ksys::act::Actor* actor);
 
+    // A base in the original (its vtable 0x7102500cb0 has the handle's slots at +0x40, plus Unk_71024fc7f8's three);
+    // declared as a member until the instance is decompiled.
     Unk_SpotBgmHandle _8;
-    u8 _10[0x260 - 0x10];
+    u8 _188[0x260 - 0x188];
     /* 0x260 */ f32 _260;
     u8 _264[0x308 - 0x264];
     /* 0x308 */ s32 _308;
