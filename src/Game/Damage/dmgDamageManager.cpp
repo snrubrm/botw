@@ -1,4 +1,5 @@
 #include "Game/Damage/dmgDamageManager.h"
+#include "Game/Damage/dmgStruct20.h"
 #include "Game/Actor/actHorseRideInfo.h"
 #include "Game/Damage/dmgDamageCallback.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
@@ -949,6 +950,16 @@ bool DamageManager::sub_71006D357C(s32 type, s32 eventId, bool flag, s32 damage,
     if (ride_info && ride_info->_30 & 1)
         _8c |= 0x20000;
     return true;
+}
+
+void DamageManager::handleDamageForPlayer(u32* a2, u32* a3, u32* a4, u32* a5, u32* a6) {
+    DamageManagerBase::handleDamageForPlayer(a2, a3, a4, a5, a6);
+    auto* info = sead::DynamicCast<Struct20_2>(mStruct20_b);
+    if (!info)
+        return;
+    _8c |= info->mField_1C;
+    _216.change(0x40, info->mField_30);
+    _cc = info->mField_20 * info->mField_2C;
 }
 
 bool DamageManager::m16(const ksys::Message& message) {

@@ -89,6 +89,9 @@ public:
     // Slot 45 (0x71006d85a8): applies a condition damage (kind 2 / 4: m54 / m55, kind 3: sub_71006D888C, the others
     // through sub_71006D357C with event 5).
     void m45(const ConditionDamageInfo& info) override;
+    // Slot 46 (0x71006d6b5c): the base handling, then the flags, guard state and scaled direction (_cc) of the
+    // Struct20_2 in mStruct20_b.
+    void handleDamageForPlayer(u32* a2, u32* a3, u32* a4, u32* a5, u32* a6) override;
     // Slot 16 (0x71006d8404): the listeners _f0, _140 and _1a8 (the last one inlined).
     bool m16(const ksys::Message& message) override;
     // Slots 29 / 30 (CSV DamageMgr::m29 / m30): the normalised `_cc` for damage kind 7 when bit 6 of `_216` is set,
