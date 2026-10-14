@@ -4,6 +4,9 @@
 #include "Game/Actor/aiUnk_71005D6D10.h"
 #include "Game/Actor/aiUnk_71007377D4.h"
 #include "Game/Actor/aiUnk_710073033C.h"
+#include "Game/Actor/aiUnk_71007320F0.h"
+#include <random/seadGlobalRandom.h>
+#include "KingSystem/Physics/System/physNavMeshCharacter.h"
 #include "Game/Actor/aiAwarenessFilters.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/ActorSystem/actActor.h"
@@ -99,7 +102,68 @@ bool EnemyNoiseTarget::init_(sead::Heap* heap) {
 }
 
 void EnemyNoiseTarget::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (auto* unk = sub_71005E2BCC(mActor)) {
+        unk->_8 = -1;
+        unk->_c = 0;
+    }
+    _b8 = 0;
+    _a4 = _a8 = *mLostTime_s;
+    _ac = sub_71005D9330(mActor);
+    _c8.reset();
+
+    if (!*mIsTrgChangeUnderWaterState_a &&
+        mActor->getActorFlags2().isOff(ksys::act::Actor::ActorFlag2::_1000000) &&
+        mActor->getActorFlags2().isOff(ksys::act::Actor::ActorFlag2::_2000000)) {
+        ksys::act::ai::InlineParamPack pack;
+        pack.addVec3(_ac, "TargetPos", -1);
+        changeChild("気づき", &pack);
+        return;
+    }
+
+    auto* nav = mActor->m45();
+    if (nav && (nav->_2a4 & 0xffff) == 0x17) {
+        sub_710039B064();
+        return;
+    }
+
+    if (sub_710039B164()) {
+        auto* target = sub_71005D9050(mActor);
+        if (!target || !sub_710073033C(mActor, target, *mNoShieldSearchDist_s)) {
+            ksys::act::BaseProcLink link;
+            if (sub_710039B240(&link) && link.hasProcInCalcState() &&
+                sub_710073033C(mActor, &link, *mSearchShieldDist_s)) {
+                _c8 = link;
+                sub_710039B400();
+                return;
+            }
+            if (sub_710039B54C() && _c8.hasProcInCalcState() &&
+                sub_710073033C(mActor, &_c8, *mSearchShieldDist_s)) {
+                sub_710039B400();
+                return;
+            }
+        }
+    }
+
+    _a0 = _a4 == _a8 ? _a4 : sead::GlobalRandom::instance()->getS32Range(_a4, _a8);
+    const sead::Vector3f target_pos = sub_71005D9330(mActor);
+    const sead::Vector3f diff = target_pos - mActor->getMtx().getTranslation();
+    const f32 far = *mFarDist_s + sub_71007320F0(mActor, *mWeaponIdx_s);
+    if (diff.squaredLength() < far * far) {
+        sub_710039B770();
+        return;
+    }
+    const sead::Vector3f target_pos2 = sub_71005D9330(mActor);
+    const sead::Vector3f diff2 = target_pos2 - mActor->getMtx().getTranslation();
+    const f32 near = *mNearDist_s + sub_71007320F0(mActor, *mWeaponIdx_s);
+    if (diff2.squaredLength() < near * near) {
+        ksys::act::ai::InlineParamPack pack;
+        pack.addVec3(_ac, "TargetPos", -1);
+        changeChild("騒ぐ", &pack);
+        return;
+    }
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(_ac, "TargetPos", -1);
+    changeChild("接近", &pack);
 }
 
 void EnemyNoiseTarget::leave_() {

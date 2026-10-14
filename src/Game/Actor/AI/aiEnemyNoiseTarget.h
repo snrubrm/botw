@@ -25,6 +25,8 @@ public:
     // 0x710039b240 (placeholder name): the weapon of the shield slot can be picked up; stores its link in `out`.
     bool sub_710039B240(ksys::act::BaseProcLink* out);
     bool sub_710039B54C();
+    // 0x710039b770 (placeholder name; declared only, 556 B): the action when the noise is near.
+    void sub_710039B770();
 
 protected:
     // aitree_variable at offset 0x38
