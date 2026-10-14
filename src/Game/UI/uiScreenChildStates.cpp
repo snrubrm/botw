@@ -982,6 +982,10 @@ Unk_710247d8f8::~Unk_710247d8f8() = default;
 
 Unk_710247dc90::~Unk_710247dc90() = default;
 
+// 0x71009c81cc
+// NON_MATCHING: the original stores 0x1ac / 0x1b4 before the memset of 0x130 and orders the later stores differently.
+Unk_710247e0c8::Unk_710247e0c8(eui::LayoutEx* layout) : ScreenChildEx(layout) {}
+
 Unk_710247e0c8::~Unk_710247e0c8() = default;
 
 }  // namespace uking::ui

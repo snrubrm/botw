@@ -20,7 +20,23 @@ class Unk_710247e0c8 : public ScreenChildEx {
 public:
     explicit Unk_710247e0c8(eui::LayoutEx* layout);
     ~Unk_710247e0c8() override;
-    u8 _130[0x1e8 - 0x130];
+
+    // Initial values from the ctor 0x9c81cc.
+    u8 _130[100]{};
+    /* 0x198 */ void* _198 = nullptr;
+    /* 0x1a0 */ void* _1a0 = nullptr;
+    /* 0x1a8 */ bool _1a8 = false;
+    /* 0x1ac */ sead::Vector2f _1ac{0, 0};
+    /* 0x1b4 */ sead::Vector2f _1b4{0, 0};
+    /* 0x1bc */ s32 _1bc = 2;
+    /* 0x1c0 */ s32 _1c0 = 0;
+    /* 0x1c4 */ bool _1c4 = false;
+    /* 0x1c8 */ void* _1c8 = nullptr;
+    /* 0x1d0 */ void* _1d0 = nullptr;
+    /* 0x1d8 */ s32 _1d8 = 2;
+    /* 0x1dc */ s32 _1dc = 0;
+    /* 0x1e0 */ bool _1e0 = false;
+    /* 0x1e4 */ s32 _1e4 = 0;
 };
 static_assert(sizeof(Unk_710247e0c8) == 0x1e8);
 
