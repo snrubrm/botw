@@ -233,6 +233,12 @@ KSYS_CHECK_SIZE_NX150(DamageManager, 0x230);
 
 }  // namespace uking::dmg
 
+namespace uking::dmg {
+// 0x71006d7038 (placeholder name): whether `actor` (with the SleepSilentKill or AwakeSilentKill AttClient) takes a
+// silent kill from the attack info `info` (flag 0x80000; its attacker link _d8 tested by 0x7100735ba8 / 0x7100735d2c).
+bool sub_71006D7038(ksys::act::Actor* actor, ksys::act::ActorAtk::Unk_710079e64c::Unk1* info);
+}  // namespace uking::dmg
+
 // 0x71006d28ac: actor attack info or a non-dummy damage resource requires a damage manager.
 // Declaration only; namespace unknown.
 bool sub_71006D28AC(ksys::act::Actor* actor);

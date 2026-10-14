@@ -490,6 +490,8 @@ f32 sub_710072D0D8(const sead::Vector3f& vector, f32 value);
 bool sub_7100735BF8(const ksys::act::ActorConstDataAccess& accessor,
                     const ksys::act::ActorConstDataAccess& target);
 bool sub_7100735D2C(const ksys::act::BaseProcLink* link, ksys::act::Actor* actor);
+// 0x7100735ba8 (declared only): acquires `link` and tests it against `actor` (via 0x7100735b10).
+bool sub_7100735BA8(const ksys::act::BaseProcLink* link, ksys::act::Actor* actor);
 
 const sead::SafeString& sub_710072D6D4(ksys::act::Actor* actor, s32 index);
 const sead::SafeString& sub_710072D7A0(ksys::act::Actor* actor, s32 index);

@@ -1,4 +1,5 @@
 #include "Game/Damage/dmgDamageManager.h"
+#include "Game/AI/aiUnk_71007377D4.h"
 #include "Game/Damage/dmgStruct20.h"
 #include "Game/Actor/actHorseRideInfo.h"
 #include "Game/Damage/dmgDamageCallback.h"
@@ -950,6 +951,18 @@ bool DamageManager::sub_71006D357C(s32 type, s32 eventId, bool flag, s32 damage,
     if (ride_info && ride_info->_30 & 1)
         _8c |= 0x20000;
     return true;
+}
+
+bool sub_71006D7038(ksys::act::Actor* actor, ksys::act::ActorAtk::Unk_710079e64c::Unk1* info) {
+    if (!ksys::act::isAttClientEnabled(actor, "SleepSilentKill") &&
+        !ksys::act::isAttClientEnabled(actor, "AwakeSilentKill")) {
+        return false;
+    }
+    if (!info->sub_71007A1F78(0x80000))
+        return false;
+    if (sub_7100735BA8(&info->_d8, actor))
+        return true;
+    return sub_7100735D2C(&info->_d8, actor);
 }
 
 void DamageManager::handleDamageForPlayer(u32* a2, u32* a3, u32* a4, u32* a5, u32* a6) {
