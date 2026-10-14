@@ -366,6 +366,10 @@ public:
     f32 sub_7100885818();
     // 0x710088755c (declared only; placeholder name; called by PlayerGrabReady::enter_).
     void sub_710088755C();
+    // 0x7100893f1c / 0x7100881dfc / 0x7100892f5c (declared only; placeholder names; PlayerCutAfterJump::calc_).
+    void sub_7100893F1C();
+    void sub_7100881DFC(f32 y, bool a2);
+    void sub_7100892F5C(ksys::as::ASList::Unk4* query);
     // 0x7100887b68 (lane4 s45, unnamed in the CSV): starts the animation sequence "GrabWait".
     void sub_7100887B68();
     // 0x710086cab8 / 0x71008697c0 (lane4 s45, unnamed in the CSV): !x_44() / |_20bc| < 0.01.
@@ -690,7 +694,9 @@ public:
     /* 0x1d7c */ f32 _1d7c;  // the BowSlowInvalidTime parameter (m229)
     /* 0x1d80 */ f32 _1d80;
     /* 0x1d84 */ f32 _1d84;
-    /* 0x1d88 */ u8 _1d88[0x1dd0 - 0x1d88];
+    /* 0x1d88 */ u8 _1d88[0x1db8 - 0x1d88];
+    /* 0x1db8 */ ksys::Timer _1db8;  // reset to HitSlowTimeS * HitSlowRate by PlayerCutAfterJump::calc_
+    /* 0x1dc4 */ u8 _1dc4[0x1dd0 - 0x1dc4];
     /* 0x1dd0 */ ksys::Timer _1dd0;  // set by PlayerFall::enter_
     /* 0x1ddc */ u8 _1ddc[0x1de8 - 0x1ddc];
     // Reset with Timer(5, 5) by PlayerCutTurnLSword::leave_.
