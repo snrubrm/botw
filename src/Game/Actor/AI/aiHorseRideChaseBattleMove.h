@@ -1,0 +1,29 @@
+#pragma once
+
+#include "Game/Actor/AI/aiHorseRideChaseBattleMoveBase.h"
+#include "KingSystem/ActorSystem/actAiAi.h"
+
+namespace uking::ai {
+
+class HorseRideChaseBattleMove : public HorseRideChaseBattleMoveBase {
+    SEAD_RTTI_OVERRIDE(HorseRideChaseBattleMove, HorseRideChaseBattleMoveBase)
+public:
+    explicit HorseRideChaseBattleMove(const InitArg& arg);
+    ~HorseRideChaseBattleMove() override;
+
+    bool init_(sead::Heap* heap) override;
+    void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void leave_() override;
+    void loadParams_() override;
+    void calc_() override;
+
+    void m34(int gear) override;
+    void m35() override;
+    bool m36() override;
+
+    void changeToGearCommand(int gear);
+
+protected:
+};
+
+}  // namespace uking::ai

@@ -4,7 +4,7 @@
 #include "Game/gameGraphics.h"
 #include <gsys/gsysModel.h>
 #include <gsys/gsysModelUnit.h>
-#include "Game/AI/aiUnk_7100EE53C4.h"
+#include "Game/Actor/aiUnk_7100EE53C4.h"
 #include "Game/UI/uiUI.h"
 #include "KingSystem/System/DebugMessage.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodySet.h"

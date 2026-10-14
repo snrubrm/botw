@@ -1,0 +1,95 @@
+#include "Game/Actor/Action/actionLookAtObject.h"
+#include "Game/Actor/actNPC.h"
+
+namespace uking::action {
+
+LookAtObject::LookAtObject(const InitArg& arg) : TurnAndLookToObjBase(arg) {}
+
+LookAtObject::~LookAtObject() = default;
+
+bool LookAtObject::init_(sead::Heap* heap) {
+    return TurnAndLookToObjBase::init_(heap);
+}
+
+void LookAtObject::loadParams_() {
+    TurnAndLookToObjBase::loadParams_();
+}
+
+void LookAtObject::m33() {
+    TurnAndLookToObjBase::m33();
+    --_30;
+}
+
+bool LookAtObject::oneShot_() {
+    m33();
+    ksys::act::BaseProcLink link;
+    sead::Vector3f pos;
+    pos = sead::Vector3f::zero;
+    switch (_30) {
+    case 0:
+        if (!m34(&link, &pos, _48, _58))
+            _34 = 0;
+        break;
+    case 4:
+        if (!m35(&link, &pos, _48, _58))
+            _34 = 0;
+        break;
+    default:
+        break;
+    }
+    if (link.hasProc())
+        m36(&link, sead::Vector3f::zero);
+    else
+        m36(nullptr, pos);
+    if (auto* npc = sead::DynamicCast<act::NPC>(mActor)) {
+        switch (_34) {
+        case 0:
+            npc->sub_7100022E3C(_45);
+            break;
+        case 1:
+            npc->sub_7100022D44(_45, 0, sead::Vector3f::zero, nullptr, sead::Vector3f::zero);
+            break;
+        default:
+            break;
+        }
+    } else {
+        setFailed();
+    }
+    return true;
+}
+
+void LookAtObject::m37(ksys::act::BaseProcLink* link, const sead::Vector3f* pos) {
+    auto* npc = sead::DynamicCast<act::NPC>(mActor);
+    if (!npc) {
+        setFailed();
+        return;
+    }
+    switch (_30) {
+    case -1:
+        npc->sub_7100022D44(_45, 1, _68, nullptr, sead::Vector3f::zero);
+        break;
+    case 0:
+    case 4: {
+        bool flag = _45 != 0;
+        if (link) {
+            npc->sub_7100022D44(flag, 2, _68, link, sead::Vector3f::zero);
+        } else {
+            npc->sub_7100022D44(flag, 3, sead::Vector3f::zero, nullptr, *pos);
+        }
+        break;
+    }
+    case 1:
+        npc->sub_7100022D44(_45, 3, sead::Vector3f::zero, nullptr, *pos);
+        break;
+    case 2:
+        npc->sub_7100022D44(_45, 4, sead::Vector3f::zero, nullptr, *pos);
+        break;
+    case 3:
+        npc->sub_7100022D44(_45, 2, _68, link, sead::Vector3f::zero);
+        break;
+    default:
+        break;
+    }
+}
+
+}  // namespace uking::action

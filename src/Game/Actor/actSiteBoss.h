@@ -9,9 +9,9 @@
 #include <xlink2/xlink2HandleELink.h>
 #include <xlink2/xlink2HandleSLink.h>
 #include "Game/Actor/actEnemy.h"
-#include "Game/AI/aiUnk_71025b2aa8.h"
+#include "Game/Actor/aiUnk_71025b2aa8.h"
 #include "KingSystem/Utils/Thread/MessageTransceiverId.h"
-#include "Game/Damage/dmgDamageCallback.h"
+#include "Game/Actor/Damage/dmgDamageCallback.h"
 #include "KingSystem/Event/evtResidentEvent.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/ActorSystem/actBaseProcHandle.h"

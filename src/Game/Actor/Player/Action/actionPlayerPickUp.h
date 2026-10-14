@@ -1,0 +1,26 @@
+#pragma once
+
+#include "Game/Actor/Player/Action/actionPlayerAction.h"
+#include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/ActorSystem/actModelBindInfo.h"
+
+namespace uking::action {
+
+class PlayerPickUp : public PlayerAction {
+    SEAD_RTTI_OVERRIDE(PlayerPickUp, PlayerAction)
+public:
+    explicit PlayerPickUp(const InitArg& arg);
+    ~PlayerPickUp() override;
+
+    bool init_(sead::Heap* heap) override;
+    void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void leave_() override;
+    bool isChangeable() const override;
+
+protected:
+    void calc_() override;
+
+    ksys::act::ModelBindInfo _20;
+};
+
+}  // namespace uking::action

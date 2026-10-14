@@ -1,0 +1,30 @@
+#include "Game/Actor/Action/actionCatch.h"
+
+namespace uking::action {
+
+Catch::Catch(const InitArg& arg) : ActionEx(arg) {}
+
+void Catch::enter_(ksys::act::ai::InlineParamPack* params) {
+    ActionEx::enter_(params);
+}
+
+void Catch::leave_() {
+    ActionEx::leave_();
+}
+
+void Catch::loadParams_() {
+    getStaticParam(&mWeaponIdx_s, "WeaponIdx");
+    getDynamicParam(&mTargetWeapon_d, "TargetWeapon");
+    getStaticParam(&mRotSpd_s, "RotSpd");
+    getStaticParam(&mASName_s, "ASName");
+}
+
+void Catch::calc_() {
+    ActionEx::calc_();
+}
+
+void Catch::m32() {
+    playAS(mASName_s.cstr(), false, 0, 0, -1.0f);
+}
+
+}  // namespace uking::action

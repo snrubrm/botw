@@ -1,5 +1,5 @@
 #include "KingSystem/ActorSystem/actActorWeapons.h"
-#include "Game/AI/aiUnk_7100EDD26C.h"
+#include "Game/Actor/aiUnk_7100EDD26C.h"
 #include "Game/gameGraphics.h"
 #include <gsys/gsysModel.h>
 #include "KingSystem/ActorSystem/Profiles/actWeaponBase.h"

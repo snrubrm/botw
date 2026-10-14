@@ -1,0 +1,53 @@
+#pragma once
+
+#include "Game/Actor/aiUnkDamageCallbacks.h"
+#include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/System/Timer.h"
+
+namespace uking::ai {
+
+class MoriblinUnarmedBattle : public ksys::act::ai::Ai {
+    SEAD_RTTI_OVERRIDE(MoriblinUnarmedBattle, ksys::act::ai::Ai)
+public:
+    explicit MoriblinUnarmedBattle(const InitArg& arg);
+    ~MoriblinUnarmedBattle() override;
+    bool isChangeable() const override;
+
+    void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
+    void leave_() override;
+    void loadParams_() override;
+
+    void sub_71004AC4F8();
+    bool sub_71004ACA10();
+    bool sub_71004ACC4C();
+    // 0x71004ace74 (placeholder name)
+    void changeToAttack();
+    // 0x71004acf98 (placeholder name)
+    void changeToWait();
+
+protected:
+    // static_param at offset 0x38
+    const float* mFarDist_s{};
+    // static_param at offset 0x40
+    const float* mOutDist_s{};
+    // static_param at offset 0x48
+    const float* mBaseDist_s{};
+    // static_param at offset 0x50
+    const int* mWeaponIdx_s{};
+    // dynamic_param at offset 0x58
+    sead::Vector3f* mTargetPos_d{};
+    // static_param at offset 0x60
+    const float* mAttackStartRotate_s{};
+    // static_param at offset 0x68
+    const float* mAttackIntervalIntensity_s{};
+    // static_param at offset 0x70
+    const int* mPursuingAttackInterval_s{};
+    // static_param at offset 0x78
+    const float* mPursuingAttackStartAng_s{};
+    ksys::Timer _80{0, 0};
+    Unk_7102451ba0 _90;
+    ksys::Timer _b8{0, 0};
+};
+
+}  // namespace uking::ai

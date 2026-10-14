@@ -20,7 +20,7 @@
 #include "KingSystem/ActorSystem/actTag.h"
 #include "KingSystem/System/PlayReportMgr.h"
 // For Enemy::m75: the callback element type (lane5 owns it; used, not modified).
-#include "Game/AI/Action/actionRemainElectricCannonBeamHerald.h"
+#include "Game/Actor/Action/actionRemainElectricCannonBeamHerald.h"
 #include "KingSystem/System/PlayReportMgr.h"
 #include "KingSystem/GameData/gdtSpecialFlags.h"
 #include "KingSystem/GameData/gdtManager.h"

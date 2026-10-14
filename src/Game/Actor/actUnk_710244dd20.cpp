@@ -1,7 +1,7 @@
 #include "Game/Actor/actUnk_71025ae680.h"
 #include "KingSystem/Resource/Actor/resResourceDamageParam.h"
 #include "Game/gameUnkRttiPlaceholders.h"
-#include "Game/Damage/dmgDamageManagerBase.h"
+#include "Game/Actor/Damage/dmgDamageManagerBase.h"
 #include "KingSystem/System/Timer.h"
 #include "KingSystem/Physics/physMaterialMask.h"
 #include <math/seadMathCalcCommon.h>

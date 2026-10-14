@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Game/Actor/actEnemy.h"
-#include "Game/Damage/dmgDamageCallback.h"
+#include "Game/Actor/Damage/dmgDamageCallback.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Physics/physMaterialMask.h"
 

@@ -1,7 +1,7 @@
 #include "KingSystem/System/CameraMgr.h"
 #include <gfx/seadCamera.h>
 #include <gfx/seadViewport.h>
-#include "Game/AI/aiUnk_7100D8C538.h"
+#include "Game/Actor/aiUnk_7100D8C538.h"
 
 bool sub_7100D8C538(const sead::Vector3f& pos, f32 near_clip, f32 far_clip) {
     auto* camera = ksys::CameraMgr::instance()->getLookAtCamera();

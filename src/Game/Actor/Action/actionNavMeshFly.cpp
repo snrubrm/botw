@@ -1,0 +1,37 @@
+#include "Game/Actor/Action/actionNavMeshFly.h"
+#include "KingSystem/ActorSystem/actActor.h"
+
+namespace uking::action {
+
+NavMeshFly::NavMeshFly(const InitArg& arg) : NavMeshMoveBase(arg) {}
+
+NavMeshFly::~NavMeshFly() = default;
+
+bool NavMeshFly::init_(sead::Heap* heap) {
+    return NavMeshMoveBase::init_(heap);
+}
+
+void NavMeshFly::enter_(ksys::act::ai::InlineParamPack* params) {
+    NavMeshMoveBase::enter_(params);
+    _b8.changeMotionType(mActor->getCharacterController(), ksys::act::MotionType::Hover);
+}
+
+void NavMeshFly::leave_() {
+    _b8.resetMotionType(mActor->getCharacterController());
+    NavMeshMoveBase::leave_();
+}
+
+void NavMeshFly::loadParams_() {
+    NavMeshMoveBase::loadParams_();
+    getStaticParam(&mASName_s, "ASName");
+}
+
+void NavMeshFly::calc_() {
+    NavMeshMoveBase::calc_();
+}
+
+void NavMeshFly::m34() {
+    playAS(mASName_s.cstr(), true, 0, 0, -1.0f);
+}
+
+}  // namespace uking::action

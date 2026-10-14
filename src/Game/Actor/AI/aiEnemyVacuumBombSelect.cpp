@@ -1,0 +1,34 @@
+#include "Game/Actor/AI/aiEnemyVacuumBombSelect.h"
+#include "Game/Actor/aiUnk_7100736460.h"
+
+namespace uking::ai {
+
+EnemyVacuumBombSelect::EnemyVacuumBombSelect(const InitArg& arg) : EnemyVacuumBombSelectBase(arg) {}
+
+EnemyVacuumBombSelect::~EnemyVacuumBombSelect() = default;
+
+bool EnemyVacuumBombSelect::init_(sead::Heap* heap) {
+    return EnemyVacuumBombSelectBase::init_(heap);
+}
+
+void EnemyVacuumBombSelect::enter_(ksys::act::ai::InlineParamPack* params) {
+    EnemyVacuumBombSelectBase::enter_(params);
+}
+
+void EnemyVacuumBombSelect::calc_() {
+    EnemyVacuumBombSelectBase::calc_();
+}
+
+void EnemyVacuumBombSelect::leave_() {
+    EnemyVacuumBombSelectBase::leave_();
+}
+
+void EnemyVacuumBombSelect::loadParams_() {
+    EnemyVacuumBombSelectBase::loadParams_();
+}
+
+bool EnemyVacuumBombSelect::m34(ksys::act::BaseProcLink* link) {
+    return sub_7100736460(link);
+}
+
+}  // namespace uking::ai

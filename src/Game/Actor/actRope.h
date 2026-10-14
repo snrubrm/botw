@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Game/AI/aiUnk_7102357d20.h"
-#include "Game/Damage/dmgDamageManager.h"
+#include "Game/Actor/aiUnk_7102357d20.h"
+#include "Game/Actor/Damage/dmgDamageManager.h"
 #include "KingSystem/ActorSystem/actActorAtk.h"
 #include "KingSystem/ActorSystem/Profiles/actRopeBase.h"
 

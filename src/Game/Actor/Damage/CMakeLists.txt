@@ -1,0 +1,25 @@
+target_sources(uking PRIVATE
+  dmgActorAccessors.cpp
+  dmgClothStiffnessMgr.cpp
+  dmgClothStiffnessMgr.h
+  dmgDamageCallback.h
+  dmgDamageManager.cpp
+  dmgDamageManagerBase.cpp
+  dmgDamageManagerBase.h
+  dmgDamageMgrBow.cpp
+  dmgDamageMgrNPC.cpp
+  dmgDamageMgrNPC.h
+  dmgDamageMgrPlayer.cpp
+  dmgDamageMgrPlayer.h
+  dmgDamageMgrShield.cpp
+  dmgDamageMgrSword.cpp
+  dmgDamageMgrWeapon.cpp
+  dmgDamageMgrWeapon.h
+  dmgDamageReactionTable.cpp
+  dmgInfoManager.cpp
+  dmgInfoManager.h
+  dmgInfoManagerActorLists.cpp
+  dmgStruct20.cpp
+  dmgStruct20.h
+  dmgUnk_7100671794.cpp
+)

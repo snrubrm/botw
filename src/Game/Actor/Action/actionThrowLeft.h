@@ -1,0 +1,17 @@
+#pragma once
+
+#include "Game/Actor/Action/actionThrow.h"
+#include "KingSystem/ActorSystem/actAiAction.h"
+
+namespace uking::action {
+
+class ThrowLeft : public Throw {
+    SEAD_RTTI_OVERRIDE(ThrowLeft, Throw)
+public:
+    explicit ThrowLeft(const InitArg& arg);
+
+protected:
+    void m32() override;
+};
+
+}  // namespace uking::action

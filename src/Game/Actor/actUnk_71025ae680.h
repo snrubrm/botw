@@ -2,7 +2,7 @@
 
 #include <prim/seadBitFlag.h>
 #include <prim/seadRuntimeTypeInfo.h>
-#include "Game/AI/aiUnk_7102357210.h"
+#include "Game/Actor/aiUnk_7102357210.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
 #include "KingSystem/Utils/Types.h"
 

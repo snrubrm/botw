@@ -1,0 +1,107 @@
+#include "Game/Actor/Damage/dmgDamageMgrPlayer.h"
+#include "Game/Actor/Player/AI/aiPlayerNormal.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
+#include "KingSystem/ActorSystem/actImpulseBaseProcLink.h"
+#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "KingSystem/System/Timer.h"
+
+namespace uking::act {
+
+DamageMgrPlayer::DamageMgrPlayer(ksys::act::Actor* actor) : DamageManager(actor) {}
+
+void DamageMgrPlayer::resetDamage() {
+    _22c = 0;
+    DamageManager::resetDamage();
+}
+
+void DamageMgrPlayer::m22() {
+    auto* actor = mActor;
+    if (sead::IsDerivedFrom<ksys::act::PlayerBase>(actor)) {
+        auto* player = static_cast<ksys::act::PlayerBase*>(actor);
+        if (_22c > 0.0f) {
+            if (!player->_cec.isOnBit(31))
+                ksys::Timer::update(&_22c, -1.0f);
+            _230 = 1;
+        } else {
+            _230 = 0;
+        }
+    }
+    DamageManager::m22();
+}
+
+bool DamageMgrPlayer::m50(s32*, s32*, u32*, u32*, s32*, s32*) {
+    // Discarded IsDerivedFrom (a real virtual call in the target asm); always false.
+    sead::IsDerivedFrom<ksys::act::PlayerBase>(mActor);
+    return false;
+}
+
+bool DamageMgrPlayer::m51(const ksys::act::BaseProcLink* link) {
+    bool result = false;
+    if (DamageManager::m51(link)) {
+        result = true;
+    } else if (isSlowTimeMaybe()) {
+        auto* actor = mActor;
+        if (sead::IsDerivedFrom<ksys::act::PlayerBase>(actor)) {
+            auto* player = static_cast<ksys::act::PlayerBase*>(actor);
+            ksys::act::BaseProcLink tmp;
+            if (player->sub_710084AA9C(&tmp) && link->hasProc())
+                result = *link == tmp;
+        }
+    }
+    return result;
+}
+
+s32 DamageMgrPlayer::m53() {
+    // NON_MATCHING: the original keeps the full sub_7100D13BB8 result (mov) and masks
+    // only at return; ours masks a bool at the save. The callee returns an integer in
+    // the original, but changing its shared bool declaration would regress its other
+    // (matching) callers, which test it with tst after the call.
+    ksys::act::ActorLinkConstDataAccess accessor;
+    const ksys::act::BaseProcLink* link;
+    if (auto* impulse = mActor->getImpulseBaseProcLink())
+        link = &impulse->mLink;
+    else
+        link = &ksys::act::getDummyBaseProcLink();
+    ksys::act::acquireActor(link, &accessor);
+    const bool result = accessor.sub_7100D13BB8();
+    return result;
+}
+
+
+bool DamageMgrPlayer::m56() {
+    auto* actor = mActor;
+    if (sead::IsDerivedFrom<ksys::act::PlayerBase>(actor)) {
+        auto* player = static_cast<ksys::act::PlayerBase*>(actor);
+        if (player->_cf0.isOnBit(8))
+            return false;
+    }
+    return DamageManager::m56();
+}
+
+s32 DamageMgrPlayer::m52() {
+    return 12;
+}
+
+void DamageMgrPlayer::m55(const ConditionDamageInfo& info) {
+    if (_231)
+        return;
+    DamageManager::m55(info);
+}
+
+}  // namespace uking::act
+
+// 0x7100852110
+void Unk_710246ac48::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
+                          uking::act::DamageCallbackInfo* a6) {
+    if (!mDamageManager)
+        return;
+    auto* actor = mDamageManager->mActor;
+    if (!sub_71007A2604(actor))
+        return;
+    auto* attack = sub_71007A255C(actor, 0);
+    if (attack && attack->sub_71007A1F68(0x4000))
+        *a1 = 0;
+}

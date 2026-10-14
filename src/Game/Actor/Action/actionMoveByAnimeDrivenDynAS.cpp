@@ -1,0 +1,38 @@
+#include "Game/Actor/Action/actionMoveByAnimeDrivenDynAS.h"
+
+namespace uking::action {
+
+MoveByAnimeDrivenDynAS::MoveByAnimeDrivenDynAS(const InitArg& arg) : MoveByAnimeDriven(arg) {}
+
+// Empty-statement body as in upstream's GameDataFlagSelector::~GameDataFlagSelector() (96101229):
+// the original keeps the vtable store that a defaulted destructor drops.
+MoveByAnimeDrivenDynAS::~MoveByAnimeDrivenDynAS() {
+    ;
+}
+
+bool MoveByAnimeDrivenDynAS::init_(sead::Heap* heap) {
+    return MoveByAnimeDriven::init_(heap);
+}
+
+void MoveByAnimeDrivenDynAS::enter_(ksys::act::ai::InlineParamPack* params) {
+    MoveByAnimeDriven::enter_(params);
+}
+
+void MoveByAnimeDrivenDynAS::leave_() {
+    MoveByAnimeDriven::leave_();
+}
+
+void MoveByAnimeDrivenDynAS::loadParams_() {
+    MoveByAnimeDriven::loadParams_();
+    getDynamicParam(&mDynASKeyName_d, "DynASKeyName");
+}
+
+void MoveByAnimeDrivenDynAS::calc_() {
+    MoveByAnimeDriven::calc_();
+}
+
+const char* MoveByAnimeDrivenDynAS::m32() {
+    return mDynASKeyName_d.cstr();
+}
+
+}  // namespace uking::action

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Game/AI/aiUnk_71010F122C.h"
+#include "Game/Actor/aiUnk_71010F122C.h"
 
 #include <math/seadMatrix.h>
 #include <math/seadVector.h>

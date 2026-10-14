@@ -1,0 +1,142 @@
+#include "Game/Actor/AI/aiTowing.h"
+#include <math/seadMathCalcCommon.h>
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actCCAccessor.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/ActorSystem/actActor.h"
+
+namespace uking::ai {
+
+Towing::Towing(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
+
+Towing::~Towing() = default;
+
+bool Towing::init_(sead::Heap* heap) {
+    return ksys::act::ai::Ai::init_(heap);
+}
+
+void Towing::enter_(ksys::act::ai::InlineParamPack* params) {
+    _38 = 0;
+    _40 = *mParams.mAddSpeed_s;
+    _3c = *mParams.mInitSpeed_s;
+    _44 = 0;
+    _74 = false;
+    _75 = false;
+    _50 = ksys::Timer(*mParams.mStopTowingDef_s, *mParams.mStopTowingDef_s);
+    _68 = ksys::Timer(30, 30);
+
+    sead::Vector3f dir = mActor->getMtx().getBase(2);
+    dir.normalize();
+    if (auto* controller = mActor->getCharacterController()) {
+        controller->sub_7100F5F458(ksys::act::MotionType::_1);
+        controller->sub_7100F5EDBC(dir);
+        controller->sub_7100F5E7F0(*mParams.mInitSpeed_s * 30.0f);
+        controller->sub_7100F5FDF0(dir);
+        controller->sub_7100F5EEB8(1.2f);
+    } else {
+        setFailed();
+    }
+    _48.set(0, 0);
+    m37();
+    changeChild("通常");
+}
+
+void Towing::m37() {
+    auto* as_list = mActor->sub_71011C9A88();
+    if (!as_list)
+        return;
+
+    as_list->x_6(10, 0, _3c);
+    auto* controller = mActor->getCharacterController();
+    if (!controller)
+        return;
+
+    const auto motion = controller->sub_7100F5F0E4();
+    f32 speed;
+    if (_74) {
+        speed = 0.0f;
+    } else if (motion != ksys::act::MotionType::_0) {
+        speed = _44 / (sead::Mathf::pi() / 60);
+    } else {
+        as_list->x_6(2, 0, _48.y);
+        speed = _48.x;
+    }
+    as_list->x_6(1, 0, speed);
+}
+
+void Towing::leave_() {
+    auto* controller = mActor->getCharacterController();
+    if (!controller)
+        return;
+    controller->sub_7100F5FB24(sead::Vector3f::zero);
+    controller->sub_7100F5E7F0(0.0f);
+    controller->sub_7100F5F458(ksys::act::MotionType(1));
+    controller->sub_7100F5EEB8(1.0f);
+}
+
+void Towing::loadParams_() {
+    getStaticParam(&mParams.mKeepMaxTime_s, "KeepMaxTime");
+    getStaticParam(&mParams.mStopTowingDef_s, "StopTowingDef");
+    getStaticParam(&mParams.mMaxSpeed_s, "MaxSpeed");
+    getStaticParam(&mParams.mInitSpeed_s, "InitSpeed");
+    getStaticParam(&mParams.mAddSpeed_s, "AddSpeed");
+    getStaticParam(&mParams.mStandardSpeed_s, "StandardSpeed");
+    getStaticParam(&mParams.mBrakeDecSpeed_s, "BrakeDecSpeed");
+    getStaticParam(&mParams.mAttFrontRate_s, "AttFrontRate");
+    getStaticParam(&mParams.mSandCheckLength_s, "SandCheckLength");
+    getStaticParam(&mParams.mSandCheckAngle_s, "SandCheckAngle");
+}
+
+void Towing::calc_() {
+    if (_75) {
+        _50.update();
+        if (_50.value <= sead::Mathf::epsilon())
+            setFinished();
+    }
+    m34();
+    m35();
+    m36();
+    m37();
+    m38();
+}
+
+void Towing::m34() {
+    switch (_38) {
+    case 1:
+        if (_3c >= *mParams.mMaxSpeed_s) {
+            _38 = 2;
+            _5c = ksys::Timer(*mParams.mKeepMaxTime_s, *mParams.mKeepMaxTime_s);
+        }
+        break;
+    case 2:
+        _5c.update();
+        if (_5c.value <= sead::Mathf::epsilon())
+            _38 = 3;
+        break;
+    case 3:
+        if (_3c <= *mParams.mStandardSpeed_s)
+            _38 = 0;
+        break;
+    default:
+        break;
+    }
+}
+
+void Towing::m38() {}
+
+// 0x71005cc384
+// NON_MATCHING: the original materialises `in_motion` (w8) and the `_3c >= limit && _38 == 0` term separately and
+// returns `!in_motion` / `_38 == 3` from two blocks; the natural expression is folded differently
+bool Towing::sub_71005CC40C() const {
+    return _68.hasEnded(26);
+}
+
+bool Towing::sub_71005CC384() {
+    auto* controller = mActor->getCharacterController();
+    const bool in_motion = controller ? controller->sub_7100F5F0E4() != ksys::act::MotionType::_0 : true;
+    if (in_motion || (_3c >= *mParams.mStandardSpeed_s && _38 == 0))
+        return !in_motion;
+    return _38 == 3;
+}
+
+}  // namespace uking::ai

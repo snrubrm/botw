@@ -1,0 +1,39 @@
+#include "Game/Actor/Action/actionSubAnmBlownOff.h"
+
+namespace uking::action {
+
+SubAnmBlownOff::SubAnmBlownOff(const InitArg& arg) : AnmBlownOff(arg) {}
+
+// Empty-statement body as in upstream's GameDataFlagSelector::~GameDataFlagSelector() (96101229):
+// the original keeps the vtable store that a defaulted destructor drops.
+SubAnmBlownOff::~SubAnmBlownOff() {
+    ;
+}
+
+bool SubAnmBlownOff::init_(sead::Heap* heap) {
+    return AnmBlownOff::init_(heap);
+}
+
+void SubAnmBlownOff::enter_(ksys::act::ai::InlineParamPack* params) {
+    AnmBlownOff::enter_(params);
+    playAS(mSubAS_s.cstr(), false, 0, *mSubASSlot_s, -1.0f);
+}
+
+void SubAnmBlownOff::leave_() {
+    if (!mLeaveSubAS_s.isEmpty())
+        playAS(mLeaveSubAS_s.cstr(), false, 0, *mSubASSlot_s, -1.0f);
+    AnmBlownOff::leave_();
+}
+
+void SubAnmBlownOff::loadParams_() {
+    AnmBlownOff::loadParams_();
+    getStaticParam(&mSubASSlot_s, "SubASSlot");
+    getStaticParam(&mSubAS_s, "SubAS");
+    getStaticParam(&mLeaveSubAS_s, "LeaveSubAS");
+}
+
+void SubAnmBlownOff::calc_() {
+    AnmBlownOff::calc_();
+}
+
+}  // namespace uking::action

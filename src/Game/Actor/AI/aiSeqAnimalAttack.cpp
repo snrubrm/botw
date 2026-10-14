@@ -1,0 +1,65 @@
+#include "Game/Actor/AI/aiSeqAnimalAttack.h"
+#include "Game/Actor/aiUnk_71005D6D10.h"
+#include "Game/Actor/aiUnk_71007398C0.h"
+#include "Game/Actor/actEnemy.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/ActorSystem/actBoneControl.h"
+
+namespace uking::ai {
+
+SeqAnimalAttack::SeqAnimalAttack(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
+
+SeqAnimalAttack::~SeqAnimalAttack() = default;
+
+bool SeqAnimalAttack::init_(sead::Heap* heap) {
+    return ksys::act::ai::Ai::init_(heap);
+}
+
+void SeqAnimalAttack::enter_(ksys::act::ai::InlineParamPack* params) {
+    _54 = false;
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
+        if (enemy->_c48._8.hasProc()) {
+            _48 = enemy->_c48._18;
+            {
+                ksys::act::ai::InlineParamPack pack;
+                pack.addVec3(_48, "TargetPos", -1);
+                changeChild("攻撃前", &pack);
+            }
+            if (auto* control = sub_71007398C0(mActor)) {
+                const f32 value = 0.7f;
+                control->sub_7100D8A9D0(value);
+            }
+            return;
+        }
+    }
+    setFailed();
+}
+
+void SeqAnimalAttack::leave_() {
+    _54 = false;
+    sub_71005DB3EC(mActor);
+    if (auto* control = sub_71007398C0(mActor))
+        control->_9c = control->_98;
+}
+
+void SeqAnimalAttack::loadParams_() {
+    getStaticParam(&mIsUseAfterAttackState_s, "IsUseAfterAttackState");
+    getDynamicParam(&mTargetPos_d, "TargetPos");
+}
+
+bool SeqAnimalAttack::isFailed() const {
+    return ksys::act::ai::Ai::isFailed() || getCurrentChild()->isFailed();
+}
+
+bool SeqAnimalAttack::isFinished() const {
+    if (ksys::act::ai::Ai::isFinished())
+        return true;
+    if (!getCurrentChild()->isFinished())
+        return false;
+    if (!*mIsUseAfterAttackState_s)
+        return isCurrentChild("攻撃");
+    return isCurrentChild("攻撃ヒット後") || isCurrentChild("攻撃ハズレ後");
+}
+
+}  // namespace uking::ai

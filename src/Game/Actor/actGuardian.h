@@ -5,10 +5,10 @@
 #include <gsys/gsysModelAccessKey.h>
 #include <limits>
 #include <prim/seadBitFlag.h>
-#include "Game/AI/aiUnk_7102357d20.h"
-#include "Game/AI/aiUnk_7102357210.h"
+#include "Game/Actor/aiUnk_7102357d20.h"
+#include "Game/Actor/aiUnk_7102357210.h"
 #include "Game/Actor/actEnemy.h"
-#include "Game/Damage/dmgDamageCallback.h"
+#include "Game/Actor/Damage/dmgDamageCallback.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 
 // (global namespace, like the other Unk_<vtable> helpers)

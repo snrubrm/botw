@@ -1,0 +1,48 @@
+#pragma once
+
+#include "Game/Actor/Action/actionStopBase.h"
+#include "KingSystem/ActorSystem/actAiAction.h"
+
+namespace uking::action {
+
+class StalEnemyHeadShotReaction : public StopBase {
+    SEAD_RTTI_OVERRIDE(StalEnemyHeadShotReaction, StopBase)
+public:
+    explicit StalEnemyHeadShotReaction(const InitArg& arg);
+    ~StalEnemyHeadShotReaction() override;
+
+    bool init_(sead::Heap* heap) override;
+    void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void leave_() override;
+    void loadParams_() override;
+
+protected:
+    void calc_() override;
+
+    // 0x7100277af4 (declaration only; placeholder name, 1220 B): starts the head shot reaction movement.
+    void sub_7100277AF4();
+
+    // static_param at offset 0x30
+    const float* mSpeed_s{};
+    // static_param at offset 0x38
+    const float* mRotSpd_s{};
+    // static_param at offset 0x40
+    const bool* mUseAddVec_s{};
+    // static_param at offset 0x48
+    const bool* mIsTgOff_s{};
+    // static_param at offset 0x50
+    const bool* mIsDropWeapon_s{};
+    // static_param at offset 0x58
+    const bool* mIsChangeable_s{};
+    // static_param at offset 0x60
+    sead::SafeString mASName_s{};
+    // static_param at offset 0x70
+    sead::SafeString mHeadBoneKey_s{};
+    // static_param at offset 0x80
+    const sead::Vector3f* mAddVec_s{};
+    // static_param at offset 0x88
+    const sead::Vector3f* mRotVec_s{};
+    int _90 = 0;
+};
+
+}  // namespace uking::action

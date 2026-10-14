@@ -1,5 +1,5 @@
 #include "Game/UI/uiUnkTiny.h"
-#include "Game/AI/aiUnk_7100736460.h"
+#include "Game/Actor/aiUnk_7100736460.h"
 #include "Game/UI/uiUtils.h"
 #include "Game/UI/euiLayoutEx.h"
 #include "Game/UI/euiScreen.h"

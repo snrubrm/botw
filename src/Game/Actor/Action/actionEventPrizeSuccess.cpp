@@ -1,0 +1,17 @@
+#include "Game/Actor/Action/actionEventPrizeSuccess.h"
+
+namespace uking::action {
+
+EventPrizeSuccess::EventPrizeSuccess(const InitArg& arg) : ksys::act::ai::Action(arg) {}
+
+EventPrizeSuccess::~EventPrizeSuccess() = default;
+
+bool EventPrizeSuccess::oneShot_() {
+    return true;
+}
+
+void EventPrizeSuccess::loadParams_() {
+    getDynamicParam(&mPrizeNumber_d, "PrizeNumber");
+}
+
+}  // namespace uking::action

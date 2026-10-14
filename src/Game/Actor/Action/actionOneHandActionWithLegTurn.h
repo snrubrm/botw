@@ -1,0 +1,43 @@
+#pragma once
+
+#include "Game/Actor/Action/actionAttackWithAS.h"
+#include "Game/Actor/aiUnk_7100715960.h"
+#include "KingSystem/ActorSystem/actAiAction.h"
+
+namespace uking::action {
+
+class OneHandActionWithLegTurn : public AttackWithAS {
+    SEAD_RTTI_OVERRIDE(OneHandActionWithLegTurn, AttackWithAS)
+public:
+    explicit OneHandActionWithLegTurn(const InitArg& arg);
+    ~OneHandActionWithLegTurn() override;
+
+    bool init_(sead::Heap* heap) override;
+    void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void leave_() override;
+    void loadParams_() override;
+
+protected:
+    void calc_() override;
+
+    // static_param at offset 0x138
+    const float* mTraceLRAngleMax_s{};
+    // static_param at offset 0x140
+    const float* mTraceLRAngleMin_s{};
+    // static_param at offset 0x148
+    const float* mTraceDistFar_s{};
+    // static_param at offset 0x150
+    const float* mTraceDistNear_s{};
+    // static_param at offset 0x158
+    sead::SafeString mShoulderBoneName_s{};
+    // static_param at offset 0x168
+    const sead::Vector3f* mRotOffsetMin_s{};
+    // static_param at offset 0x170
+    const sead::Vector3f* mRotOffsetMax_s{};
+    // static_param at offset 0x178
+    const sead::Vector3f* mBaseTargetPos_s{};
+    /* 0x180 */ Unk_7100715960 _180{mActor};
+};
+KSYS_CHECK_SIZE_NX150(OneHandActionWithLegTurn, 0x280);
+
+}  // namespace uking::action

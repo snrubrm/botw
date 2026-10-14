@@ -1,0 +1,41 @@
+#include "Game/Actor/Action/actionNPCWaitDynFrame.h"
+
+namespace uking::action {
+
+NPCWaitDynFrame::NPCWaitDynFrame(const InitArg& arg) : NPCWaitFrame(arg) {}
+
+// Empty-statement body as in upstream's GameDataFlagSelector::~GameDataFlagSelector() (96101229):
+// the original keeps the vtable store that a defaulted destructor drops.
+NPCWaitDynFrame::~NPCWaitDynFrame() {
+    ;
+}
+
+bool NPCWaitDynFrame::init_(sead::Heap* heap) {
+    return NPCWaitFrame::init_(heap);
+}
+
+void NPCWaitDynFrame::enter_(ksys::act::ai::InlineParamPack* params) {
+    NPCWaitFrame::enter_(params);
+    const f32 frames = *mDynWaitFrame_d;
+    _40 = ksys::Timer(frames, frames);
+}
+
+const sead::SafeString& NPCWaitDynFrame::m32() {
+    return mDynASName_d;
+}
+
+void NPCWaitDynFrame::leave_() {
+    NPCWaitFrame::leave_();
+}
+
+void NPCWaitDynFrame::loadParams_() {
+    NPCWaitFrame::loadParams_();
+    getDynamicParam(&mDynWaitFrame_d, "DynWaitFrame");
+    getDynamicParam(&mDynASName_d, "DynASName");
+}
+
+void NPCWaitDynFrame::calc_() {
+    NPCWaitFrame::calc_();
+}
+
+}  // namespace uking::action

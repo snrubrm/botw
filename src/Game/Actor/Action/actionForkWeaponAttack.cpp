@@ -1,0 +1,18 @@
+#include "Game/Actor/Action/actionForkWeaponAttack.h"
+
+namespace uking::action {
+
+ForkWeaponAttack::ForkWeaponAttack(const InitArg& arg) : ForkWeaponAttackBase(arg) {}
+
+ForkWeaponAttack::~ForkWeaponAttack() = default;
+
+void ForkWeaponAttack::loadParams_() {
+    ForkWeaponAttackBase::loadParams_();
+    getStaticParam(&mWeaponIdx_s, "WeaponIdx");
+}
+
+int ForkWeaponAttack::m36() {
+    return *mWeaponIdx_s;
+}
+
+}  // namespace uking::action

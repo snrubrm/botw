@@ -1,0 +1,35 @@
+#pragma once
+
+#include "Game/Actor/AI/aiEnemyNormal.h"
+#include "KingSystem/ActorSystem/actAiAi.h"
+
+namespace uking::ai {
+
+class GolemNormal : public EnemyNormal {
+    SEAD_RTTI_OVERRIDE(GolemNormal, EnemyNormal)
+public:
+    explicit GolemNormal(const InitArg& arg);
+    ~GolemNormal() override;
+
+    bool init_(sead::Heap* heap) override;
+    void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
+    void leave_() override;
+    void loadParams_() override;
+
+    void m58(s32 type, Unk2* target) override;
+    void m49(Unk1* out, s32 idx) override;
+    s32 m52(s32 idx) override;
+    s32 m53() override { return 10; }
+
+    void m34() override;
+    bool m54() override;
+    void m37() override;
+    void m38() override;
+
+    bool m56(Unk2* out, Unk1* info) override;
+    void m57(s32 type, Unk2* target) override;
+protected:
+};
+
+}  // namespace uking::ai

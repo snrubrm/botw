@@ -1,7 +1,7 @@
 #include "Game/gameAmiiboMgr.h"
 #include <nn/time.h>
 #include <time/seadDateTime.h>
-#include "Game/AI/aiXlinkHandle.h"
+#include "Game/Actor/aiXlinkHandle.h"
 #include "Game/gameNFP.h"
 #include "KingSystem/GameData/gdtManager.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodyCylinder.h"

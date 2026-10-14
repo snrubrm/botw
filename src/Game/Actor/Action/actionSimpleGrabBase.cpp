@@ -1,0 +1,25 @@
+#include "Game/Actor/Action/actionSimpleGrabBase.h"
+#include "Game/Actor/aiUnk_71007377D4.h"
+#include "KingSystem/ActorSystem/actActor.h"
+
+namespace uking::action {
+
+SimpleGrabBase::SimpleGrabBase(const InitArg& arg) : Grab(arg) {}
+
+SimpleGrabBase::~SimpleGrabBase() = default;
+
+void SimpleGrabBase::loadParams_() {
+    Grab::loadParams_();
+}
+
+bool SimpleGrabBase::m34() {
+    auto* target = sead::DynamicCast<ksys::act::Actor>(mActor->getConnectedCalcChild());
+    if (!target)
+        return false;
+    if (sub_7100738FA8(mActor, target))
+        return true;
+    return (mActor->getMtx().getTranslation() - target->getMtx().getTranslation()).length() <=
+           *mCheckRadius_s;
+}
+
+}  // namespace uking::action

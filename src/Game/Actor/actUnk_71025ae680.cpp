@@ -1,5 +1,5 @@
 #include "Game/Actor/actUnk_71025ae680.h"
-#include "Game/Damage/dmgDamageManager.h"
+#include "Game/Actor/Damage/dmgDamageManager.h"
 #include "KingSystem/Physics/physMaterialMask.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorParam.h"

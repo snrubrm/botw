@@ -1,7 +1,7 @@
 #include "Game/Actor/actMapConst.h"
 #include <basis/seadNew.h>
-#include "Game/AI/aiUnk_71007377D4.h"
-#include "Game/Damage/dmgDamageManager.h"
+#include "Game/Actor/aiUnk_71007377D4.h"
+#include "Game/Actor/Damage/dmgDamageManager.h"
 #include "KingSystem/ActorSystem/actActorAtk.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"

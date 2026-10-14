@@ -2,7 +2,7 @@
 #include "Game/Actor/actUnk_71025ae680.h"
 #include "Game/Actor/actWeapon.h"
 #include "KingSystem/ActorSystem/Profiles/actWeaponBase.h"
-#include "Game/Damage/dmgDamageManager.h"
+#include "Game/Actor/Damage/dmgDamageManager.h"
 #include "KingSystem/ActorSystem/actUnk_7102459df8.h"
 #include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"

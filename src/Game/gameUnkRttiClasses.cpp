@@ -1,8 +1,8 @@
 #include "Game/gameUnkRttiClasses.h"
-#include "Game/AI/aiUnk_71025b27b8.h"
-#include "Game/AI/aiUnk_71025b2aa8.h"
-#include "Game/AI/aiUnk_71025b2d88.h"
-#include "Game/AI/aiUnk_710070F974.h"
+#include "Game/Actor/aiUnk_71025b27b8.h"
+#include "Game/Actor/aiUnk_71025b2aa8.h"
+#include "Game/Actor/aiUnk_71025b2d88.h"
+#include "Game/Actor/aiUnk_710070F974.h"
 #include <driver/aglNVNsampler.h>
 #include <driver/aglNVNtexture.h>
 #include "Game/gameUnkRttiPlaceholders.h"

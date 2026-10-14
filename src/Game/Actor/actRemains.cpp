@@ -1,7 +1,7 @@
 #include "Game/Actor/actRemains.h"
 #include <basis/seadNew.h>
 #include <math/seadMathCalcCommon.h>
-#include "Game/AI/aiUnk_71024f15c0.h"
+#include "Game/Actor/aiUnk_71024f15c0.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"

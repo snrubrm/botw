@@ -1,7 +1,7 @@
 #include "Game/Actor/actBeamBase.h"
 #include <aal/aalShape.h>
 #include <prim/seadScopedLock.h>
-#include "Game/AI/aiUnk_71007377D4.h"
+#include "Game/Actor/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"

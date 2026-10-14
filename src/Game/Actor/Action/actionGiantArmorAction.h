@@ -1,0 +1,37 @@
+#pragma once
+
+#include "Game/Actor/Action/actionStopBase.h"
+#include "KingSystem/ActorSystem/actAiAction.h"
+
+namespace uking::action {
+
+class GiantArmorAction : public StopBase {
+    SEAD_RTTI_OVERRIDE(GiantArmorAction, StopBase)
+public:
+    explicit GiantArmorAction(const InitArg& arg);
+    ~GiantArmorAction() override;
+
+    bool init_(sead::Heap* heap) override;
+    void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void leave_() override;
+    void loadParams_() override;
+
+protected:
+    void calc_() override;
+    // Whether the armor effect is still active (the loop AS continues).
+    virtual bool m32() = 0;
+
+    // static_param at offset 0x30
+    const bool* mUseRestart_s{};
+    // static_param at offset 0x38
+    sead::SafeString mStartAS_s{};
+    // static_param at offset 0x48
+    sead::SafeString mLoopAS_s{};
+    // static_param at offset 0x58
+    sead::SafeString mEndAS_s{};
+    u32 _68 = 0;
+};
+
+KSYS_CHECK_SIZE_NX150(GiantArmorAction, 0x70);
+
+}  // namespace uking::action

@@ -1,5 +1,5 @@
 #include "KingSystem/ActorSystem/actIDamageManager.h"
-#include "Game/Damage/dmgDamageCallback.h"
+#include "Game/Actor/Damage/dmgDamageCallback.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
 namespace ksys::act {

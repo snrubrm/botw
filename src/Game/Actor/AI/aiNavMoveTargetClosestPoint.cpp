@@ -1,0 +1,19 @@
+#include "Game/Actor/AI/aiNavMoveTargetClosestPoint.h"
+
+namespace uking::ai {
+
+NavMoveTargetClosestPoint::NavMoveTargetClosestPoint(const InitArg& arg) : NavMoveNearTarget(arg) {}
+
+NavMoveTargetClosestPoint::~NavMoveTargetClosestPoint() = default;
+
+void NavMoveTargetClosestPoint::loadParams_() {
+    NavMoveNearTarget::loadParams_();
+    getStaticParam(&mSearchRadius_s, "SearchRadius");
+}
+
+bool NavMoveTargetClosestPoint::m38(f32* out) {
+    *out = *mSearchRadius_s;
+    return true;
+}
+
+}  // namespace uking::ai

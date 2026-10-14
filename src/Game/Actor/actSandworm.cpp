@@ -1,6 +1,6 @@
 #include "Game/Actor/actSandworm.h"
 #include <basis/seadNew.h>
-#include "Game/AI/aiUnk_7102451120.h"
+#include "Game/Actor/aiUnk_7102451120.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 

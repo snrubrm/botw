@@ -1,0 +1,27 @@
+#pragma once
+
+#include "Game/Actor/Action/actionForkTrgEmitChmFieldBase.h"
+#include "KingSystem/ActorSystem/actAiAction.h"
+
+namespace uking::action {
+
+class ForkEmitChmFieldByContact : public ForkTrgEmitChmFieldBase {
+    SEAD_RTTI_OVERRIDE(ForkEmitChmFieldByContact, ForkTrgEmitChmFieldBase)
+public:
+    explicit ForkEmitChmFieldByContact(const InitArg& arg);
+    ~ForkEmitChmFieldByContact() override;
+
+    bool init_(sead::Heap* heap) override;
+    void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void leave_() override;
+    void loadParams_() override;
+
+protected:
+    void calc_() override;
+    bool m34(sead::Matrix34f* mtx) override;
+
+    // static_param at offset 0xa8
+    sead::SafeString mRigidBodyName_s{};
+};
+
+}  // namespace uking::action

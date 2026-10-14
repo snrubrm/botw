@@ -1,0 +1,117 @@
+#include "Game/Actor/AI/aiGolemNoticeWorry.h"
+#include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "Game/Actor/aiUnk_71007377D4.h"
+#include <math/seadMathCalcCommon.h>
+
+namespace uking::ai {
+
+GolemNoticeWorry::GolemNoticeWorry(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
+
+GolemNoticeWorry::~GolemNoticeWorry() = default;
+
+bool GolemNoticeWorry::init_(sead::Heap* heap) {
+    return ksys::act::ai::Ai::init_(heap);
+}
+
+void GolemNoticeWorry::enter_(ksys::act::ai::InlineParamPack* params) {
+    bool in_front;
+    {
+        sead::Vector3f forward;
+        sub_71000891C8(&forward, mActor);
+        sead::Vector3f to_target = *mTargetPos_d - mActor->getMtx().getTranslation();
+        to_target.y = 0;
+        to_target.normalize();
+        const f32 angle = *mTurnStartAngle_s;
+        in_front = to_target.dot(forward) >= sead::Mathf::cos(angle);
+    }
+    if (in_front) {
+        ksys::act::ai::InlineParamPack pack;
+        pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+        changeChild("見まわす", &pack);
+    } else {
+        ksys::act::ai::InlineParamPack pack;
+        pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+        changeChild("回転", &pack);
+    }
+}
+
+inline void GolemNoticeWorry::changeToLookAround() {
+    ksys::act::ai::InlineParamPack params;
+    params.addVec3(*mTargetPos_d, "TargetPos", -1);
+    changeChild("見まわす", &params);
+}
+
+void GolemNoticeWorry::calc_() {
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed()) {
+        if (isCurrentChild("回転")) {
+            changeChild("待機");
+            return;
+        }
+        if (!isCurrentChild("待機")) {
+            changeChild("待機");
+            return;
+        }
+        bool found = false;
+        if (mTargetActor_d->hasProc()) {
+            if (auto* awareness = mActor->getAwareness()) {
+                if (auto* sensor = awareness->_260[3]) {
+                    const s32 num = sensor->_8.size();
+                    for (s32 i = 0; i < num; ++i) {
+                        auto* current = awareness->_260[3];
+                        if (!current || current->_8.size() <= i)
+                            continue;
+                        auto* entry = ksys::act::sub_7100D78E30(&current->_8, i);
+                        if (entry && entry->_0.mLink == *mTargetActor_d) {
+                            found = true;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        if (found) {
+            changeToLookAround();
+            return;
+        }
+        setFinished();
+    } else if (child->isChangeable()) {
+        if (isCurrentChild("待機"))
+            return;
+        bool found = false;
+        if (mTargetActor_d->hasProc()) {
+            if (auto* awareness = mActor->getAwareness()) {
+                if (auto* sensor = awareness->_260[3]) {
+                    const s32 num = sensor->_8.size();
+                    for (s32 i = 0; i < num; ++i) {
+                        auto* current = awareness->_260[3];
+                        if (!current || current->_8.size() <= i)
+                            continue;
+                        auto* entry = ksys::act::sub_7100D78E30(&current->_8, i);
+                        if (entry && entry->_0.mLink == *mTargetActor_d) {
+                            found = true;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        if (found)
+            return;
+        changeChild("待機");
+    }
+}
+
+void GolemNoticeWorry::leave_() {
+    ksys::act::ai::Ai::leave_();
+}
+
+void GolemNoticeWorry::loadParams_() {
+    getStaticParam(&mTurnStartAngle_s, "TurnStartAngle");
+    getDynamicParam(&mTargetPos_d, "TargetPos");
+    getDynamicParam(&mTargetActor_d, "TargetActor");
+}
+
+}  // namespace uking::ai

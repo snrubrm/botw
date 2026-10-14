@@ -2,7 +2,7 @@
 #include "Game/gameRoot4.h"
 #include "KingSystem/ksys.h"
 #include "Game/gamePlayReport.h"
-#include "Game/Damage/dmgInfoManager.h"
+#include "Game/Actor/Damage/dmgInfoManager.h"
 #include "Game/gameGearMgr.h"
 #include "Game/gameGraphics.h"
 #include "Game/gameSceneStatusMgr.h"

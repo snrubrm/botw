@@ -4,7 +4,7 @@
 #include <heap/seadDisposer.h>
 #include <container/seadPtrArray.h>
 #include <prim/seadSafeString.h>
-#include "Game/AI/aiUnk_7102357210.h"
+#include "Game/Actor/aiUnk_7102357210.h"
 #include "Game/gameUnk_710243c330.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Utils/Thread/ActorMessageTransceiver.h"

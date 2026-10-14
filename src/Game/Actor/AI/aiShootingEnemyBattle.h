@@ -1,0 +1,42 @@
+#pragma once
+
+#include "Game/Actor/AI/aiEnemyBattle.h"
+#include "KingSystem/ActorSystem/actAiAi.h"
+
+namespace uking::ai {
+
+class ShootingEnemyBattle : public EnemyBattle {
+    SEAD_RTTI_OVERRIDE(ShootingEnemyBattle, EnemyBattle)
+public:
+    explicit ShootingEnemyBattle(const InitArg& arg);
+    ~ShootingEnemyBattle() override;
+
+    bool init_(sead::Heap* heap) override;
+    void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
+    void leave_() override;
+    void loadParams_() override;
+    void m38() override;
+    bool m39() override;
+    bool m40() override;
+    // 0x7100569f34 (not decompiled: calls unnamed 0x7100d8c538): `!sub_7100D8C538(translation, ..., *mOutScreenDist_s)`.
+    virtual bool m44();
+
+    void sub_7100569CA0();
+    void sub_7100569DC8(sead::Vector3f* out);
+
+protected:
+    // static_param at offset 0x90
+    const int* mOutScreenAttackNum_s{};
+    // static_param at offset 0x98
+    const float* mOutScreenDist_s{};
+    // static_param at offset 0xa0
+    const float* mOutScrnAtkOffset_s{};
+    // static_param at offset 0xa8
+    const float* mOutScrnAtkOffsetY_s{};
+    int _b0{};
+    bool _b4{};
+    sead::Vector3f _b8;
+};
+
+}  // namespace uking::ai

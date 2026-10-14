@@ -4,7 +4,7 @@
 #include <container/seadSafeArray.h>
 #include <prim/seadEnum.h>
 #include "Game/Actor/actEnemy.h"
-#include "Game/AI/aiUnk_7102357d20.h"
+#include "Game/Actor/aiUnk_7102357d20.h"
 #include "KingSystem/System/Timer.h"
 
 // 2026-10-07: WolfLink's factory installs these two message senders at 0x1620 / 0x1638.

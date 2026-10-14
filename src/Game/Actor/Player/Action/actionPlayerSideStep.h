@@ -1,0 +1,43 @@
+#pragma once
+
+#include "Game/Actor/Player/Action/actionPlayerAction.h"
+#include "KingSystem/ActorSystem/actAiAction.h"
+
+namespace uking::action {
+
+class PlayerSideStep : public PlayerAction {
+    SEAD_RTTI_OVERRIDE(PlayerSideStep, PlayerAction)
+public:
+    explicit PlayerSideStep(const InitArg& arg);
+
+    void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void leave_() override;
+    bool isFinished() const override;
+    void loadParams_() override;
+    bool isChangeable() const override;
+
+protected:
+    void calc_() override;
+
+    // static_param at offset 0x20
+    const float* mSpeedF_s;
+    // static_param at offset 0x28
+    const float* mHeight_s;
+    // static_param at offset 0x30
+    const float* mFSpeedF_s;
+    // static_param at offset 0x38
+    const float* mFHeight_s;
+    // static_param at offset 0x40
+    const float* mUHeight_s;
+    // static_param at offset 0x48
+    const float* mNoDamageTime_s;
+    // static_param at offset 0x50
+    const float* mJustAvoidTime_s;
+    // static_param at offset 0x58
+    const float* mForceSlowTime_s;
+    // static_param at offset 0x60
+    const float* mMySlowStartFrame_s;
+};
+KSYS_CHECK_SIZE_NX150(PlayerSideStep, 0x68);
+
+}  // namespace uking::action

@@ -5,7 +5,7 @@
 #include <math/seadVector.h>
 #include <prim/seadTypedBitFlag.h>
 #include <thread/seadCriticalSection.h>
-#include "Game/AI/aiUnk_7102357210.h"
+#include "Game/Actor/aiUnk_7102357210.h"
 #include "KingSystem/ActorSystem/actActorAtk.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem//ActorSystem/Profiles/actWeaponBase.h"

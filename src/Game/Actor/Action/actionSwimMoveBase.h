@@ -1,0 +1,56 @@
+#pragma once
+
+#include <math/seadMatrix.h>
+#include "Game/Actor/Action/actionWaterFloatBase.h"
+#include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/System/Timer.h"
+#include "KingSystem/System/VFRValue.h"
+
+namespace uking::action {
+
+class SwimMoveBase : public WaterFloatBase {
+    SEAD_RTTI_OVERRIDE(SwimMoveBase, WaterFloatBase)
+public:
+    explicit SwimMoveBase(const InitArg& arg);
+    // The original keeps this destructor out of line next to the subclasses' inlined copies, which a
+    // defaulted destructor does not. Written like upstream's GameDataFlagSelector::~GameDataFlagSelector()
+    // { ; } (commit 96101229).
+    ~SwimMoveBase() override { ; }
+
+    bool init_(sead::Heap* heap) override;
+    void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void leave_() override;
+    void loadParams_() override;
+
+protected:
+    void calc_() override;
+    // Parameter names are guesses (the original is a speed-limiting helper using _98).
+    virtual void m32(f32 a, f32 b, f32 c, f32 d, f32 e);
+
+    struct Params {
+        // static_param at offset 0x60
+        const float* mSpeed_s{};
+        // static_param at offset 0x68
+        const float* mRotSpeed_s{};
+        // static_param at offset 0x70
+        const float* mFinRadius_s{};
+        // static_param at offset 0x78
+        const float* mFinRotate_s{};
+        // static_param at offset 0x80
+        const float* mBaseRotRatio_s{};
+        // static_param at offset 0x88
+        const int* mWeaponIdx_s{};
+        // dynamic_param at offset 0x90
+        sead::Vector3f* mTargetPos_d{};
+    };
+    Params mParams;
+    ksys::VFRValue _98;
+    ksys::Timer _a4;
+    sead::Matrix33f _b0;
+    sead::Vector3f _d4;
+    f32 _e0 = 0;
+};
+
+KSYS_CHECK_SIZE_NX150(SwimMoveBase, 0xe8);
+
+}  // namespace uking::action

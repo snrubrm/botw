@@ -1,0 +1,50 @@
+#pragma once
+
+#include "Game/Actor/Action/actionChemicalPhysBall.h"
+#include "Game/Actor/aiUnk_710244ECF0.h"
+#include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
+
+namespace uking::action {
+
+class RodMagicPhysBall : public ChemicalPhysBall {
+    SEAD_RTTI_OVERRIDE(RodMagicPhysBall, ChemicalPhysBall)
+public:
+    explicit RodMagicPhysBall(const InitArg& arg);
+    ~RodMagicPhysBall() override;
+
+    void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void leave_() override;
+    void loadParams_() override;
+
+protected:
+    void calc_() override;
+    bool m33() override;
+    f32 m40() override;
+    int m36() override;
+
+    // static_param at offset 0xb8
+    sead::SafeString mCreateActorName_s{};
+    // static_param at offset 0xc8
+    const int* mChemicalType_s{};
+    // static_param at offset 0xd0
+    const float* mBgCheckHeight_s{};
+    /* 0xd8 */ ksys::act::BaseProcLink _d8;
+    /* 0xe8 */ Unk_710244ecf0 _e8;
+    /* 0x160 */ bool _160 = false;
+    bool _161 = false;
+    /* 0x168 */ Unk_71012419b4 _168[2];
+    /* 0x1a8 */ struct Unk1a8 {
+        sead::Vector3f _0{0, 0, 0};
+        bool _c = false;
+        u8 _d[3]{};
+    } _1a8{};
+    // 0x710023b234 (declared only): out of line in the original.
+    bool sub_710023B234(Unk1a8* out);
+    // 0x710023b458 (declared only; 860 B): returns whether the ball is finished; the out flag is set when ... (guess).
+    bool sub_710023B458(bool* out);
+    // 0x710023b7b4 (declared only; 1492 B).
+    void sub_710023B7B4();
+};
+
+}  // namespace uking::action

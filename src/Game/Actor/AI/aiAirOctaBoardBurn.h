@@ -1,0 +1,26 @@
+#pragma once
+
+#include "Game/Actor/AI/aiSeqTwoAction.h"
+#include "Game/Actor/aiUnk_71025afb58.h"
+#include "KingSystem/ActorSystem/actAiAi.h"
+
+namespace uking::ai {
+
+class AirOctaBoardBurn : public SeqTwoAction {
+    SEAD_RTTI_OVERRIDE(AirOctaBoardBurn, SeqTwoAction)
+public:
+    explicit AirOctaBoardBurn(const InitArg& arg);
+    ~AirOctaBoardBurn() override;
+    void calc_() override;
+
+    bool init_(sead::Heap* heap) override;
+    void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void leave_() override;
+    void loadParams_() override;
+
+protected:
+    // aitree_variable at offset 0x50
+    Unk_71025afb58** mAirOctaDataMgr_a{};
+};
+
+}  // namespace uking::ai

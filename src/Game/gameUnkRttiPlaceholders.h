@@ -3,10 +3,10 @@
 #include <container/seadPtrArray.h>
 
 #include <prim/seadRuntimeTypeInfo.h>
-#include "Game/AI/aiUnk_71025afb58.h"
+#include "Game/Actor/aiUnk_71025afb58.h"
 #include "Game/Actor/actHorseRideInfo.h"
 #include "Game/Actor/actUnk_71025ae680.h"
-#include "Game/Damage/dmgDamageCallback.h"
+#include "Game/Actor/Damage/dmgDamageCallback.h"
 #include "Game/UI/uiScreens.h"
 #include "Game/UI/uiUnkSingletons.h"
 #include "Game/gameStageBinder.h"

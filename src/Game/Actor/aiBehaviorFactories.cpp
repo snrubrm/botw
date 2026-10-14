@@ -1,0 +1,464 @@
+#include "Game/Actor/aiBehaviorFactories.h"
+#include <iterator>
+#include "Game/Actor/Behavior/behaviorAcceptLSwordDamageDCCallback.h"
+#include "Game/Actor/Behavior/behaviorActorFlagSetterAttensionNotice.h"
+#include "Game/Actor/Behavior/behaviorAddRigidBodyToWorld.h"
+#include "Game/Actor/Behavior/behaviorAirWallCollisionSpecify.h"
+#include "Game/Actor/Behavior/behaviorAirWallMaterialSpecify.h"
+#include "Game/Actor/Behavior/behaviorAnimalAttack.h"
+#include "Game/Actor/Behavior/behaviorAnimalCounterFlagOn.h"
+#include "Game/Actor/Behavior/behaviorAnimalNeckRotate.h"
+#include "Game/Actor/Behavior/behaviorAnimalUnitIgnoreStickXLimit.h"
+#include "Game/Actor/Behavior/behaviorAssassinBossBgmControl.h"
+#include "Game/Actor/Behavior/behaviorAssassinBossBgmOnDelete.h"
+#include "Game/Actor/Behavior/behaviorAssassinBossBgmRegist.h"
+#include "Game/Actor/Behavior/behaviorAssassinBossBgmStop.h"
+#include "Game/Actor/Behavior/behaviorAwarenessDarkAreaIgnore.h"
+#include "Game/Actor/Behavior/behaviorAwarenessScale.h"
+#include "Game/Actor/Behavior/behaviorAwarenessScaleByASEvent.h"
+#include "Game/Actor/Behavior/behaviorAwnHearingParamChange.h"
+#include "Game/Actor/Behavior/behaviorBalloonBehavior.h"
+#include "Game/Actor/Behavior/behaviorBattleTensionUp.h"
+#include "Game/Actor/Behavior/behaviorBeastGanonBgmCtrl.h"
+#include "Game/Actor/Behavior/behaviorBeastGanonBgmStop.h"
+#include "Game/Actor/Behavior/behaviorBeastGanonLastBlowOffMes.h"
+#include "Game/Actor/Behavior/behaviorBeastGanonWPPrincessShout.h"
+#include "Game/Actor/Behavior/behaviorBgmCtrlBehavior.h"
+#include "Game/Actor/Behavior/behaviorBossBgm.h"
+#include "Game/Actor/Behavior/behaviorBossBgmDamaged.h"
+#include "Game/Actor/Behavior/behaviorBreakIceBlockAtAttackHit.h"
+#include "Game/Actor/Behavior/behaviorCameraIndoorFlag.h"
+#include "Game/Actor/Behavior/behaviorCameraNotify2Sound.h"
+#include "Game/Actor/Behavior/behaviorCameraTalkFlag.h"
+#include "Game/Actor/Behavior/behaviorCanRideAnimalTerror.h"
+#include "Game/Actor/Behavior/behaviorCancelMessageSendToParts.h"
+#include "Game/Actor/Behavior/behaviorCastleBarrierCollisionSpecify.h"
+#include "Game/Actor/Behavior/behaviorChangeCharacterStandingOnFlag.h"
+#include "Game/Actor/Behavior/behaviorChangeEnableNearTrigger.h"
+#include "Game/Actor/Behavior/behaviorChangeEnemyNoticeUIState.h"
+#include "Game/Actor/Behavior/behaviorCharacterControllerFormChange.h"
+#include "Game/Actor/Behavior/behaviorClearFadeInCreate.h"
+#include "Game/Actor/Behavior/behaviorCloseEye.h"
+#include "Game/Actor/Behavior/behaviorConditionReset.h"
+#include "Game/Actor/Behavior/behaviorCreateBgm.h"
+#include "Game/Actor/Behavior/behaviorCreateEasel.h"
+#include "Game/Actor/Behavior/behaviorCurseGanonBGMApplyLPF.h"
+#include "Game/Actor/Behavior/behaviorCutGrass.h"
+#include "Game/Actor/Behavior/behaviorDeleteConnectedCalcChild.h"
+#include "Game/Actor/Behavior/behaviorDieEye.h"
+#include "Game/Actor/Behavior/behaviorDisableBoneController.h"
+#include "Game/Actor/Behavior/behaviorDisableCloth.h"
+#include "Game/Actor/Behavior/behaviorDisableContactLayer.h"
+#include "Game/Actor/Behavior/behaviorDisableForbidJob.h"
+#include "Game/Actor/Behavior/behaviorDisableGiantArmorWeakPoint.h"
+#include "Game/Actor/Behavior/behaviorDisableSkipCalcCloth.h"
+#include "Game/Actor/Behavior/behaviorDisableWeakPointActor.h"
+#include "Game/Actor/Behavior/behaviorElevatorBaseEmitPassingSe.h"
+#include "Game/Actor/Behavior/behaviorEmitCreateDeleteEffect.h"
+#include "Game/Actor/Behavior/behaviorEmitGanonHalfLifeDamageSe.h"
+#include "Game/Actor/Behavior/behaviorEmitHalfLifeDamageSe.h"
+#include "Game/Actor/Behavior/behaviorEmitInterest.h"
+#include "Game/Actor/Behavior/behaviorEnemyFrontNeckRotate.h"
+#include "Game/Actor/Behavior/behaviorEnemyGanonBgmStop.h"
+#include "Game/Actor/Behavior/behaviorEnemyKeepAnimeDriven.h"
+#include "Game/Actor/Behavior/behaviorEnemyNeckRotate.h"
+#include "Game/Actor/Behavior/behaviorEnemyNeckRotateToOffsetAng.h"
+#include "Game/Actor/Behavior/behaviorEnemyNoticeMasqueradeFlagSetter.h"
+#include "Game/Actor/Behavior/behaviorEyeBlink.h"
+#include "Game/Actor/Behavior/behaviorFadeLeaf.h"
+#include "Game/Actor/Behavior/behaviorFootstepChanger.h"
+#include "Game/Actor/Behavior/behaviorFootstepReactionChanger.h"
+#include "Game/Actor/Behavior/behaviorFootstepSilencer.h"
+#include "Game/Actor/Behavior/behaviorForceConfront.h"
+#include "Game/Actor/Behavior/behaviorForceDispLifeGage.h"
+#include "Game/Actor/Behavior/behaviorForceFallCliffEdgeChanger.h"
+#include "Game/Actor/Behavior/behaviorForceFixed.h"
+#include "Game/Actor/Behavior/behaviorForceSealSilentKill.h"
+#include "Game/Actor/Behavior/behaviorGanonBeastFirstMessage.h"
+#include "Game/Actor/Behavior/behaviorGelDisableEyeControl.h"
+#include "Game/Actor/Behavior/behaviorGiantDownReaction.h"
+#include "Game/Actor/Behavior/behaviorGiantEyeBlink.h"
+#include "Game/Actor/Behavior/behaviorGiantGuardWeakPoint.h"
+#include "Game/Actor/Behavior/behaviorGiantWeaponGrabAS.h"
+#include "Game/Actor/Behavior/behaviorGreatGoddesStatueLightEffect.h"
+#include "Game/Actor/Behavior/behaviorGuardFrontBarrier.h"
+#include "Game/Actor/Behavior/behaviorGuardTgtControl.h"
+#include "Game/Actor/Behavior/behaviorGuardToTargetBarrier.h"
+#include "Game/Actor/Behavior/behaviorHideLifeGage.h"
+#include "Game/Actor/Behavior/behaviorHitIceBlockBreak.h"
+#include "Game/Actor/Behavior/behaviorHorseAttackBehavior.h"
+#include "Game/Actor/Behavior/behaviorHorseNoise.h"
+#include "Game/Actor/Behavior/behaviorHorseSetCollarBehavior.h"
+#include "Game/Actor/Behavior/behaviorHorseSlipBehavior.h"
+#include "Game/Actor/Behavior/behaviorHorseSwitchAttRideBehavior.h"
+#include "Game/Actor/Behavior/behaviorHorseTerrorBehavior.h"
+#include "Game/Actor/Behavior/behaviorIgnoreGiantArmorCondition.h"
+#include "Game/Actor/Behavior/behaviorInWaterNoise.h"
+#include "Game/Actor/Behavior/behaviorInterestNeckControl.h"
+#include "Game/Actor/Behavior/behaviorInvalidateCondition.h"
+#include "Game/Actor/Behavior/behaviorInvincible.h"
+#include "Game/Actor/Behavior/behaviorLookAtOwnedHorse.h"
+#include "Game/Actor/Behavior/behaviorLowCeilingController.h"
+#include "Game/Actor/Behavior/behaviorLynelBodyFitToGroundNormal.h"
+#include "Game/Actor/Behavior/behaviorLynelGearAttackCollision.h"
+#include "Game/Actor/Behavior/behaviorLynelStandBody.h"
+#include "Game/Actor/Behavior/behaviorNPCTerrorNeckControl.h"
+#include "Game/Actor/Behavior/behaviorNavMeshNonAvoidPlayer.h"
+#include "Game/Actor/Behavior/behaviorNeckBattleMode.h"
+#include "Game/Actor/Behavior/behaviorNeckParamChange.h"
+#include "Game/Actor/Behavior/behaviorNeckRotateToPlayer.h"
+#include "Game/Actor/Behavior/behaviorNeckRotateToPlayerAndNPC.h"
+#include "Game/Actor/Behavior/behaviorNoSensorBombLandNoise.h"
+#include "Game/Actor/Behavior/behaviorNoSensorHoldNoise.h"
+#include "Game/Actor/Behavior/behaviorNoSensorWaterInNoise.h"
+#include "Game/Actor/Behavior/behaviorNpcClerkCheck.h"
+#include "Game/Actor/Behavior/behaviorOctarockConstraint.h"
+#include "Game/Actor/Behavior/behaviorOctarockHideForm.h"
+#include "Game/Actor/Behavior/behaviorOctarockHideHPGage.h"
+#include "Game/Actor/Behavior/behaviorOffOcculutionCulling.h"
+#include "Game/Actor/Behavior/behaviorOffSmallRagdollReaction.h"
+#include "Game/Actor/Behavior/behaviorOnAnimalSupportNrmCalcFrontRay.h"
+#include "Game/Actor/Behavior/behaviorOnChangeXLinkCreate.h"
+#include "Game/Actor/Behavior/behaviorOnChangeXLinkCreateAtTarget.h"
+#include "Game/Actor/Behavior/behaviorOnChangeXLinkCreateForLocator.h"
+#include "Game/Actor/Behavior/behaviorOnChangeXLinkCreateTrgDrop.h"
+#include "Game/Actor/Behavior/behaviorOnLeaveResetAttackInterval.h"
+#include "Game/Actor/Behavior/behaviorOnStateXLinkCreate.h"
+#include "Game/Actor/Behavior/behaviorOnTrgGuardOffTargetXLinkCreate.h"
+#include "Game/Actor/Behavior/behaviorPartsMagneFollowRatioChanger.h"
+#include "Game/Actor/Behavior/behaviorPlayASWithBurnState.h"
+#include "Game/Actor/Behavior/behaviorPlayerEmitInterest.h"
+#include "Game/Actor/Behavior/behaviorPlayerHoldNoise.h"
+#include "Game/Actor/Behavior/behaviorPlayerLandNoise.h"
+#include "Game/Actor/Behavior/behaviorPlayerMoveNoise.h"
+#include "Game/Actor/Behavior/behaviorPlayerParasailAltitude.h"
+#include "Game/Actor/Behavior/behaviorPlayerSlipXLinkEventBehavior.h"
+#include "Game/Actor/Behavior/behaviorPlayerTriggerNoise.h"
+#include "Game/Actor/Behavior/behaviorPosControl.h"
+#include "Game/Actor/Behavior/behaviorPriestBossUrbosasFuryEShock.h"
+#include "Game/Actor/Behavior/behaviorRagdollSmallDamageIdxChanger.h"
+#include "Game/Actor/Behavior/behaviorReduceUpwardVelocity.h"
+#include "Game/Actor/Behavior/behaviorRemoveNavMeshObj.h"
+#include "Game/Actor/Behavior/behaviorRequestEventResident.h"
+#include "Game/Actor/Behavior/behaviorRumbleController.h"
+#include "Game/Actor/Behavior/behaviorSandwormBgmControl.h"
+#include "Game/Actor/Behavior/behaviorSandwormTeraPach.h"
+#include "Game/Actor/Behavior/behaviorSandwormTeraShapeChanger.h"
+#include "Game/Actor/Behavior/behaviorSandwormTeraUpdateTypeSetter.h"
+#include "Game/Actor/Behavior/behaviorSealNoPlayerNotice.h"
+#include "Game/Actor/Behavior/behaviorSealNoticePlayerSound.h"
+#include "Game/Actor/Behavior/behaviorSendControlFireMessage.h"
+#include "Game/Actor/Behavior/behaviorSetAcceptOnlyBombDCCallback.h"
+#include "Game/Actor/Behavior/behaviorSetAllNoDamageDCCallback.h"
+#include "Game/Actor/Behavior/behaviorSetAllOneDamageDCCallback.h"
+#include "Game/Actor/Behavior/behaviorSetAnimalSupportNormalCalc.h"
+#include "Game/Actor/Behavior/behaviorSetAttension.h"
+#include "Game/Actor/Behavior/behaviorSetAttensionASEvent.h"
+#include "Game/Actor/Behavior/behaviorSetBasicThrownEnemyDCCallback.h"
+#include "Game/Actor/Behavior/behaviorSetBattleNodeBasisSelfPosBattle.h"
+#include "Game/Actor/Behavior/behaviorSetBoneControlNoSlow.h"
+#include "Game/Actor/Behavior/behaviorSetChemicalOffensive.h"
+#include "Game/Actor/Behavior/behaviorSetCollisionImpulseScale.h"
+#include "Game/Actor/Behavior/behaviorSetDefenselessDCCallback.h"
+#include "Game/Actor/Behavior/behaviorSetDefenselessInAirDCCallback.h"
+#include "Game/Actor/Behavior/behaviorSetEnableResetToInitialState.h"
+#include "Game/Actor/Behavior/behaviorSetEnemyChemicalPower.h"
+#include "Game/Actor/Behavior/behaviorSetFixedNoActionDCCallBack.h"
+#include "Game/Actor/Behavior/behaviorSetForceSmallRagdoll.h"
+#include "Game/Actor/Behavior/behaviorSetGuardJustDamageCallback.h"
+#include "Game/Actor/Behavior/behaviorSetIgnoreDrownDCCallBack.h"
+#include "Game/Actor/Behavior/behaviorSetIgnoreGustDCCallback.h"
+#include "Game/Actor/Behavior/behaviorSetIgnoreHorseDamage.h"
+#include "Game/Actor/Behavior/behaviorSetIgnoreMultiDamageDCCallback.h"
+#include "Game/Actor/Behavior/behaviorSetIgnoreReboundDCCallback.h"
+#include "Game/Actor/Behavior/behaviorSetIgnoreSmallHitDCCallBack.h"
+#include "Game/Actor/Behavior/behaviorSetInfRotSpeedToSpineController.h"
+#include "Game/Actor/Behavior/behaviorSetIsAffectWeak.h"
+#include "Game/Actor/Behavior/behaviorSetIsCalcSkipProhibited.h"
+#include "Game/Actor/Behavior/behaviorSetJustAvoidHit1DamageDCCB.h"
+#include "Game/Actor/Behavior/behaviorSetLocalBoneOffset.h"
+#include "Game/Actor/Behavior/behaviorSetLocalBoneOffsetRandom.h"
+#include "Game/Actor/Behavior/behaviorSetMotionType.h"
+#include "Game/Actor/Behavior/behaviorSetNoReactionDCCallBack.h"
+#include "Game/Actor/Behavior/behaviorSetNoWeakHitReactionDCCallBack.h"
+#include "Game/Actor/Behavior/behaviorSetPlayerLargeAttackDeathDCCB.h"
+#include "Game/Actor/Behavior/behaviorSetPopPoolDamageAttrDCCallback.h"
+#include "Game/Actor/Behavior/behaviorSetRagdollBodyForceKeyframed.h"
+#include "Game/Actor/Behavior/behaviorSetReceivedImpulseRate.h"
+#include "Game/Actor/Behavior/behaviorSetStaticSystemGroupHandler.h"
+#include "Game/Actor/Behavior/behaviorSetThroughArrow.h"
+#include "Game/Actor/Behavior/behaviorSetThroughCloseWeapon.h"
+#include "Game/Actor/Behavior/behaviorSetTransBoneForAnimeDriven.h"
+#include "Game/Actor/Behavior/behaviorSetWindForceScale.h"
+#include "Game/Actor/Behavior/behaviorSetXLinkProperty.h"
+#include "Game/Actor/Behavior/behaviorShortRangeBattleAlignment.h"
+#include "Game/Actor/Behavior/behaviorShowConstStringBoard.h"
+#include "Game/Actor/Behavior/behaviorShowMessage3D.h"
+#include "Game/Actor/Behavior/behaviorShowRandomMessage3D.h"
+#include "Game/Actor/Behavior/behaviorSignalControl.h"
+#include "Game/Actor/Behavior/behaviorSimpleAtvUnitDlgStop.h"
+#include "Game/Actor/Behavior/behaviorSimpleAtvUnitOpDlgRestWpTimeR3.h"
+#include "Game/Actor/Behavior/behaviorSimpleAtvUnitOpenDlgRnd3.h"
+#include "Game/Actor/Behavior/behaviorSimpleAtvUnitOpenSimpleDialog.h"
+#include "Game/Actor/Behavior/behaviorSiteBossSetFlinchFlag.h"
+#include "Game/Actor/Behavior/behaviorSoundStateLoad.h"
+#include "Game/Actor/Behavior/behaviorSpeedEmitInterest.h"
+#include "Game/Actor/Behavior/behaviorSpeedTerror.h"
+#include "Game/Actor/Behavior/behaviorStopUpdateAwarenessBasePos.h"
+#include "Game/Actor/Behavior/behaviorSubAS.h"
+#include "Game/Actor/Behavior/behaviorSwarmPatternBeeAttack.h"
+#include "Game/Actor/Behavior/behaviorSwarmPatternCross.h"
+#include "Game/Actor/Behavior/behaviorSwarmPatternDisc.h"
+#include "Game/Actor/Behavior/behaviorSwarmPatternDoubleRing.h"
+#include "Game/Actor/Behavior/behaviorSwarmPatternHoldHomePos.h"
+#include "Game/Actor/Behavior/behaviorSwarmPatternMovingSphere.h"
+#include "Game/Actor/Behavior/behaviorSyncASFrameToAnimalUnit.h"
+#include "Game/Actor/Behavior/behaviorSyncBodyASAndAnimalUnitAS.h"
+#include "Game/Actor/Behavior/behaviorTargetFindSpreadToTag.h"
+#include "Game/Actor/Behavior/behaviorTerrorBehavior.h"
+#include "Game/Actor/Behavior/behaviorTriggerNoise.h"
+#include "Game/Actor/Behavior/behaviorUnderSelectedReactionNoAction.h"
+#include "Game/Actor/Behavior/behaviorViewLastAttackerPos.h"
+#include "Game/Actor/Behavior/behaviorWeaponChemicalReset.h"
+#include "Game/Actor/Behavior/behaviorXLinkCreateForSandworm.h"
+#include "Game/Actor/Behavior/behaviorXLinkCreateModelTracks.h"
+#include "Game/Actor/Behavior/behaviorXLinkCreateToParts.h"
+#include "Game/Actor/Behavior/behaviorYunBoIconInfo.h"
+#include "KingSystem/ActorSystem/actAiBehavior.h"
+
+namespace uking {
+
+using Factory = ksys::act::ai::BehaviorFactory;
+
+static ksys::act::ai::BehaviorFactory sBehaviorFactories[] = {
+    {0x019b65fc, Factory::make<behavior::SetEnableResetToInitialState>},
+    {0x025dc8da, Factory::make<behavior::SetWindForceScale>},
+    {0x02ab53c9, Factory::make<behavior::SetAnimalSupportNormalCalc>},
+    {0x03cb67f7, Factory::make<behavior::SetIgnoreReboundDCCallback>},
+    {0x03f2fbc5, Factory::make<behavior::AnimalCounterFlagOn>},
+    {0x05007958, Factory::make<behavior::XLinkCreateModelTracks>},
+    {0x0625934c, Factory::make<behavior::LynelGearAttackCollision>},
+    {0x06e7ae67, Factory::make<behavior::XLinkCreateToParts>},
+    {0x08a5e397, Factory::make<behavior::DieEye>},
+    {0x0a1e0b00, Factory::make<behavior::SetAllOneDamageDCCallback>},
+    {0x0b41e595, Factory::make<behavior::BossBgmDamaged>},
+    {0x0b53e120, Factory::make<behavior::PlayerSlipXLinkEventBehavior>},
+    {0x0b8f740f, Factory::make<behavior::EnemyFrontNeckRotate>},
+    {0x0c11cc3e, Factory::make<behavior::GuardTgtControl>},
+    {0x0c64f26b, Factory::make<behavior::RagdollSmallDamageIdxChanger>},
+    {0x0f631855, Factory::make<behavior::PlayerHoldNoise>},
+    {0x0fda21ab, Factory::make<behavior::SetThroughArrow>},
+    {0x0fe04e43, Factory::make<behavior::ChangeEnemyNoticeUIState>},
+    {0x104c8f7c, Factory::make<behavior::SetBasicThrownEnemyDCCallback>},
+    {0x104d5535, Factory::make<behavior::EyeBlink>},
+    {0x1117e2ed, Factory::make<behavior::SetIgnoreDrownDCCallBack>},
+    {0x127b69e4, Factory::make<behavior::ForceConfront>},
+    {0x13da44b8, Factory::make<behavior::PlayerTriggerNoise>},
+    {0x140a043a, Factory::make<behavior::SetIgnoreMultiDamageDCCallback>},
+    {0x1481b46c, Factory::make<behavior::SwarmPatternDisc>},
+    {0x1520d3b4, Factory::make<behavior::PlayASWithBurnState>},
+    {0x158ef287, Factory::make<behavior::DisableGiantArmorWeakPoint>},
+    {0x1707881b, Factory::make<behavior::SetForceSmallRagdoll>},
+    {0x1753cd39, Factory::make<behavior::OffSmallRagdollReaction>},
+    {0x182c44e9, Factory::make<behavior::SwarmPatternMovingSphere>},
+    {0x18711b18, Factory::make<behavior::SetJustAvoidHit1DamageDCCB>},
+    {0x1a032ae7, Factory::make<behavior::BossBgm>},
+    {0x1bea7028, Factory::make<behavior::SetLocalBoneOffsetRandom>},
+    {0x1beafbe4, Factory::make<behavior::InvalidateCondition>},
+    {0x1ed9aa44, Factory::make<behavior::SyncASFrameToAnimalUnit>},
+    {0x1f0aacf7, Factory::make<behavior::HideLifeGage>},
+    {0x1f1dbe32, Factory::make<behavior::SetAttension>},
+    {0x212eb1d8, Factory::make<behavior::FootstepSilencer>},
+    {0x221a0530, Factory::make<behavior::EmitCreateDeleteEffect>},
+    {0x224f96e6, Factory::make<behavior::FadeLeaf>},
+    {0x256eff67, Factory::make<behavior::OctarockHideForm>},
+    {0x2a556d39, Factory::make<behavior::NoSensorHoldNoise>},
+    {0x2ac9da50, Factory::make<behavior::SandwormTeraShapeChanger>},
+    {0x2c279740, Factory::make<behavior::CameraTalkFlag>},
+    {0x2c7862be, Factory::make<behavior::AcceptLSwordDamageDCCallback>},
+    {0x2e1acd6d, Factory::make<behavior::OnTrgGuardOffTargetXLinkCreate>},
+    {0x2e8f3bca, Factory::make<behavior::SetGuardJustDamageCallback>},
+    {0x2f85af3a, Factory::make<behavior::ForceSealSilentKill>},
+    {0x2fef44dd, Factory::make<behavior::RumbleController>},
+    {0x347acd02, Factory::make<behavior::CharacterControllerFormChange>},
+    {0x35d82707, Factory::make<behavior::SwarmPatternCross>},
+    {0x37366298, Factory::make<behavior::WeaponChemicalReset>},
+    {0x37900d93, Factory::make<behavior::RemoveNavMeshObj>},
+    {0x3882c78b, Factory::make<behavior::EmitInterest>},
+    {0x3b9b9250, Factory::make<behavior::NoSensorWaterInNoise>},
+    {0x3f661341, Factory::make<behavior::YunBoIconInfo>},
+    {0x3fcd935f, Factory::make<behavior::SetDefenselessDCCallback>},
+    {0x4073342d, Factory::make<behavior::PartsMagneFollowRatioChanger>},
+    {0x42ba848b, Factory::make<behavior::OnChangeXLinkCreateForLocator>},
+    {0x433dedd6, Factory::make<behavior::CutGrass>},
+    {0x44815fb6, Factory::make<behavior::SetThroughCloseWeapon>},
+    {0x4491fc91, Factory::make<behavior::PosControl>},
+    {0x4671dbd0, Factory::make<behavior::SetAttensionASEvent>},
+    {0x4816a7e3, Factory::make<behavior::TriggerNoise>},
+    {0x4880a216, Factory::make<behavior::DisableForbidJob>},
+    {0x48be86ea, Factory::make<behavior::SetCollisionImpulseScale>},
+    {0x499c20c5, Factory::make<behavior::SetMotionType>},
+    {0x4b1ab2ae, Factory::make<behavior::ViewLastAttackerPos>},
+    {0x4be83a97, Factory::make<behavior::SetTransBoneForAnimeDriven>},
+    {0x4d064d3f, Factory::make<behavior::PlayerMoveNoise>},
+    {0x4d401936, Factory::make<behavior::NoSensorBombLandNoise>},
+    {0x4e53334e, Factory::make<behavior::ChangeEnableNearTrigger>},
+    {0x4ec71fb7, Factory::make<behavior::AssassinBossBgmControl>},
+    {0x4f12f456, Factory::make<behavior::HorseSwitchAttRideBehavior>},
+    {0x502156c2, Factory::make<behavior::ActorFlagSetterAttensionNotice>},
+    {0x5101186c, Factory::make<behavior::ReduceUpwardVelocity>},
+    {0x52973a64, Factory::make<behavior::OnChangeXLinkCreateAtTarget>},
+    {0x546e50cd, Factory::make<behavior::SetAcceptOnlyBombDCCallback>},
+    {0x556c39aa, Factory::make<behavior::SetPopPoolDamageAttrDCCallback>},
+    {0x5635d355, Factory::make<behavior::SwarmPatternDoubleRing>},
+    {0x5710fa1a, Factory::make<behavior::BattleTensionUp>},
+    {0x58564721, Factory::make<behavior::SetInfRotSpeedToSpineController>},
+    {0x59a8c096, Factory::make<behavior::PlayerParasailAltitude>},
+    {0x59efc22b, Factory::make<behavior::SetStaticSystemGroupHandler>},
+    {0x5b6c5fc8, Factory::make<behavior::AirWallMaterialSpecify>},
+    {0x5d777aba, Factory::make<behavior::SetIsAffectWeak>},
+    {0x5fc4ad50, Factory::make<behavior::AwarenessScale>},
+    {0x60224409, Factory::make<behavior::OctarockConstraint>},
+    {0x60958d4a, Factory::make<behavior::EmitGanonHalfLifeDamageSe>},
+    {0x614a0137, Factory::make<behavior::ShowRandomMessage3D>},
+    {0x62371e8f, Factory::make<behavior::DisableBoneController>},
+    {0x63171f4f, Factory::make<behavior::StopUpdateAwarenessBasePos>},
+    {0x634e24d0, Factory::make<behavior::PlayerEmitInterest>},
+    {0x66920eb5, Factory::make<behavior::SyncBodyASAndAnimalUnitAS>},
+    {0x66928db9, Factory::make<behavior::SendControlFireMessage>},
+    {0x66cc19b3, Factory::make<behavior::ForceFixed>},
+    {0x690148dc, Factory::make<behavior::FootstepReactionChanger>},
+    {0x6a64f87e, Factory::make<behavior::SimpleAtvUnitOpenSimpleDialog>},
+    {0x6c567cb7, Factory::make<behavior::ShowMessage3D>},
+    {0x6ca41699, Factory::make<behavior::OnStateXLinkCreate>},
+    {0x6cac7c36, Factory::make<behavior::BeastGanonBgmCtrl>},
+    {0x6efa9e20, Factory::make<behavior::PriestBossUrbosasFuryEShock>},
+    {0x6f75ab23, Factory::make<behavior::LynelBodyFitToGroundNormal>},
+    {0x707a0414, Factory::make<behavior::CloseEye>},
+    {0x70f62763, Factory::make<behavior::SetLocalBoneOffset>},
+    {0x734c6e49, Factory::make<behavior::SetRagdollBodyForceKeyframed>},
+    {0x7414fa07, Factory::make<behavior::Invincible>},
+    {0x7420247f, Factory::make<behavior::GuardToTargetBarrier>},
+    {0x77c9d12f, Factory::make<behavior::AwarenessScaleByASEvent>},
+    {0x7952a0ef, Factory::make<behavior::GuardFrontBarrier>},
+    {0x7cbbedd5, Factory::make<behavior::HorseNoise>},
+    {0x7ffa0b53, Factory::make<behavior::SiteBossSetFlinchFlag>},
+    {0x8138255f, Factory::make<behavior::AnimalNeckRotate>},
+    {0x8142cd2e, Factory::make<behavior::InterestNeckControl>},
+    {0x81748c1e, Factory::make<behavior::SpeedTerror>},
+    {0x820669f9, Factory::make<behavior::SetAllNoDamageDCCallback>},
+    {0x82840187, Factory::make<behavior::CastleBarrierCollisionSpecify>},
+    {0x841f2a14, Factory::make<behavior::OnLeaveResetAttackInterval>},
+    {0x858ab67f, Factory::make<behavior::CreateEasel>},
+    {0x859fd867, Factory::make<behavior::HorseSlipBehavior>},
+    {0x861b2ce2, Factory::make<behavior::CanRideAnimalTerror>},
+    {0x8697f21b, Factory::make<behavior::OctarockHideHPGage>},
+    {0x877816c1, Factory::make<behavior::DisableWeakPointActor>},
+    {0x8912ce43, Factory::make<behavior::EnemyNeckRotate>},
+    {0x89473ec2, Factory::make<behavior::SetIgnoreSmallHitDCCallBack>},
+    {0x8959e034, Factory::make<behavior::InWaterNoise>},
+    {0x8a0b71b1, Factory::make<behavior::NeckParamChange>},
+    {0x8b7cdbc8, Factory::make<behavior::ForceDispLifeGage>},
+    {0x8b9c6e5a, Factory::make<behavior::DisableSkipCalcCloth>},
+    {0x8c894035, Factory::make<behavior::SimpleAtvUnitOpenDlgRnd3>},
+    {0x8ca8dd68, Factory::make<behavior::XLinkCreateForSandworm>},
+    {0x8e1537cc, Factory::make<behavior::OffOcculutionCulling>},
+    {0x8fb420d0, Factory::make<behavior::AssassinBossBgmOnDelete>},
+    {0x930fcb9a, Factory::make<behavior::AddRigidBodyToWorld>},
+    {0x947b2673, Factory::make<behavior::CameraIndoorFlag>},
+    {0x957e35df, Factory::make<behavior::SetPlayerLargeAttackDeathDCCB>},
+    {0x96322b75, Factory::make<behavior::CameraNotify2Sound>},
+    {0x96bce538, Factory::make<behavior::DisableCloth>},
+    {0x9844e306, Factory::make<behavior::BeastGanonLastBlowOffMes>},
+    {0x99dc2315, Factory::make<behavior::SwarmPatternBeeAttack>},
+    {0x99e680a1, Factory::make<behavior::AnimalUnitIgnoreStickXLimit>},
+    {0x9aeb8022, Factory::make<behavior::SetReceivedImpulseRate>},
+    {0x9b7c9ddc, Factory::make<behavior::SetChemicalOffensive>},
+    {0x9cc0ca73, Factory::make<behavior::GiantGuardWeakPoint>},
+    {0x9f4efa29, Factory::make<behavior::CreateBgm>},
+    {0x9fc86f3f, Factory::make<behavior::SandwormBgmControl>},
+    {0xa03143be, Factory::make<behavior::ElevatorBaseEmitPassingSe>},
+    {0xa1ede17f, Factory::make<behavior::GiantWeaponGrabAS>},
+    {0xa288867e, Factory::make<behavior::HorseTerrorBehavior>},
+    {0xa5ab581b, Factory::make<behavior::BreakIceBlockAtAttackHit>},
+    {0xaa0b05d3, Factory::make<behavior::ShowConstStringBoard>},
+    {0xab99fbb5, Factory::make<behavior::ChangeCharacterStandingOnFlag>},
+    {0xac87c404, Factory::make<behavior::EnemyKeepAnimeDriven>},
+    {0xadcf13af, Factory::make<behavior::DisableContactLayer>},
+    {0xafe307b6, Factory::make<behavior::IgnoreGiantArmorCondition>},
+    {0xb06ffde5, Factory::make<behavior::TargetFindSpreadToTag>},
+    {0xb2b527db, Factory::make<behavior::OnAnimalSupportNrmCalcFrontRay>},
+    {0xb3e9cdab, Factory::make<behavior::ConditionReset>},
+    {0xb444dd33, Factory::make<behavior::AssassinBossBgmRegist>},
+    {0xb49ff562, Factory::make<behavior::LookAtOwnedHorse>},
+    {0xb4b41267, Factory::make<behavior::SealNoPlayerNotice>},
+    {0xb52373ec, Factory::make<behavior::SubAS>},
+    {0xb6fa84e8, Factory::make<behavior::SetIgnoreGustDCCallback>},
+    {0xb78c5c63, Factory::make<behavior::ClearFadeInCreate>},
+    {0xbd4e34c2, Factory::make<behavior::NeckBattleMode>},
+    {0xbe299280, Factory::make<behavior::SetEnemyChemicalPower>},
+    {0xc18dae9e, Factory::make<behavior::BeastGanonWPPrincessShout>},
+    {0xc497cc7e, Factory::make<behavior::SetXLinkProperty>},
+    {0xc583c84b, Factory::make<behavior::GanonBeastFirstMessage>},
+    {0xc6d3f988, Factory::make<behavior::GreatGoddesStatueLightEffect>},
+    {0xc7156834, Factory::make<behavior::DeleteConnectedCalcChild>},
+    {0xc764812c, Factory::make<behavior::OnChangeXLinkCreateTrgDrop>},
+    {0xc7c87c57, Factory::make<behavior::AwarenessDarkAreaIgnore>},
+    {0xc82f65eb, Factory::make<behavior::HitIceBlockBreak>},
+    {0xcb54e035, Factory::make<behavior::SetIgnoreHorseDamage>},
+    {0xcb581666, Factory::make<behavior::SignalControl>},
+    {0xcbb90974, Factory::make<behavior::TerrorBehavior>},
+    {0xcc1bd1b0, Factory::make<behavior::CurseGanonBGMApplyLPF>},
+    {0xcc640875, Factory::make<behavior::FootstepChanger>},
+    {0xcde820fd, Factory::make<behavior::EnemyGanonBgmStop>},
+    {0xcdf39fc2, Factory::make<behavior::BalloonBehavior>},
+    {0xcfafa8d2, Factory::make<behavior::NeckRotateToPlayerAndNPC>},
+    {0xd01b8009, Factory::make<behavior::NpcClerkCheck>},
+    {0xd09a4a42, Factory::make<behavior::PlayerLandNoise>},
+    {0xd0ff3455, Factory::make<behavior::AssassinBossBgmStop>},
+    {0xd256c41c, Factory::make<behavior::OnChangeXLinkCreate>},
+    {0xd676e988, Factory::make<behavior::SandwormTeraPach>},
+    {0xd7d81bfa, Factory::make<behavior::BeastGanonBgmStop>},
+    {0xd83c8dc6, Factory::make<behavior::GelDisableEyeControl>},
+    {0xd8484731, Factory::make<behavior::SetBattleNodeBasisSelfPosBattle>},
+    {0xd9addc5d, Factory::make<behavior::SwarmPatternHoldHomePos>},
+    {0xdb4ad94a, Factory::make<behavior::HorseSetCollarBehavior>},
+    {0xdd2e498a, Factory::make<behavior::SetBoneControlNoSlow>},
+    {0xde31a985, Factory::make<behavior::GiantDownReaction>},
+    {0xe63b695a, Factory::make<behavior::LynelStandBody>},
+    {0xe6fc8d8c, Factory::make<behavior::SetDefenselessInAirDCCallback>},
+    {0xe72157e0, Factory::make<behavior::LowCeilingController>},
+    {0xe8f5fa1e, Factory::make<behavior::SetIsCalcSkipProhibited>},
+    {0xea8892e9, Factory::make<behavior::SimpleAtvUnitOpDlgRestWpTimeR3>},
+    {0xeb0c742b, Factory::make<behavior::SealNoticePlayerSound>},
+    {0xeb7eb8ae, Factory::make<behavior::HorseAttackBehavior>},
+    {0xeb9242a1, Factory::make<behavior::EmitHalfLifeDamageSe>},
+    {0xedb66de8, Factory::make<behavior::SandwormTeraUpdateTypeSetter>},
+    {0xee00f167, Factory::make<behavior::SoundStateLoad>},
+    {0xef8c0d2d, Factory::make<behavior::NavMeshNonAvoidPlayer>},
+    {0xf0522c49, Factory::make<behavior::SimpleAtvUnitDlgStop>},
+    {0xf249ce59, Factory::make<behavior::SetNoReactionDCCallBack>},
+    {0xf3732829, Factory::make<behavior::BgmCtrlBehavior>},
+    {0xf396c69d, Factory::make<behavior::AnimalAttack>},
+    {0xf45726cb, Factory::make<behavior::UnderSelectedReactionNoAction>},
+    {0xf4887e0a, Factory::make<behavior::CancelMessageSendToParts>},
+    {0xf50ccb5e, Factory::make<behavior::SetFixedNoActionDCCallBack>},
+    {0xf55634f4, Factory::make<behavior::SetNoWeakHitReactionDCCallBack>},
+    {0xf72fbb26, Factory::make<behavior::NPCTerrorNeckControl>},
+    {0xfa54d44d, Factory::make<behavior::EnemyNoticeMasqueradeFlagSetter>},
+    {0xfa920cc4, Factory::make<behavior::EnemyNeckRotateToOffsetAng>},
+    {0xfaafc5ac, Factory::make<behavior::AwnHearingParamChange>},
+    {0xfbde4ea9, Factory::make<behavior::SpeedEmitInterest>},
+    {0xfc25e256, Factory::make<behavior::GiantEyeBlink>},
+    {0xfd57c360, Factory::make<behavior::ForceFallCliffEdgeChanger>},
+    {0xfd99d00d, Factory::make<behavior::RequestEventResident>},
+    {0xfdf0c1af, Factory::make<behavior::NeckRotateToPlayer>},
+    {0xfdfd33c7, Factory::make<behavior::ShortRangeBattleAlignment>},
+    {0xff44c5ca, Factory::make<behavior::AirWallCollisionSpecify>},
+};
+
+void initBehaviorFactories() {
+    ksys::act::ai::Behaviors::setFactories(std::size(sBehaviorFactories), sBehaviorFactories);
+}
+
+}  // namespace uking

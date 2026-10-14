@@ -1,0 +1,18 @@
+#include "Game/Actor/Action/actionMsg2CameraReset.h"
+#include "Game/Actor/actCameraUtil.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
+#include "KingSystem/Utils/Thread/Message.h"
+
+namespace uking::action {
+
+Msg2CameraReset::Msg2CameraReset(const InitArg& arg) : ksys::act::ai::Action(arg) {}
+
+bool Msg2CameraReset::oneShot_() {
+    ksys::act::ActorLinkConstDataAccess accessor;
+    getRoot6SomeActor(&accessor);
+    if (accessor.hasProc())
+        sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x8800008), nullptr);
+    return true;
+}
+
+}  // namespace uking::action

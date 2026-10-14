@@ -1,0 +1,32 @@
+#pragma once
+
+#include "KingSystem/System/VFRValue.h"
+#include "Game/Actor/Action/actionFreeMoveToTarget.h"
+#include "KingSystem/ActorSystem/actAiAction.h"
+
+namespace uking::action {
+
+class FreeMoveToTargetWithBank : public FreeMoveToTarget {
+    SEAD_RTTI_OVERRIDE(FreeMoveToTargetWithBank, FreeMoveToTarget)
+public:
+    explicit FreeMoveToTargetWithBank(const InitArg& arg);
+    ~FreeMoveToTargetWithBank() override;
+
+    bool init_(sead::Heap* heap) override;
+    void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void leave_() override;
+    void loadParams_() override;
+
+protected:
+    void calc_() override;
+    void m33(ksys::phys::CharacterController* controller) override;
+
+    // static_param at offset 0xd0
+    const float* mBankAngleMax_s{};
+    // static_param at offset 0xd8
+    const float* mLimitMoveAngle4Bank_s{};
+    ksys::VFRValue _e0;
+    f32 _ec = 0;
+};
+
+}  // namespace uking::action

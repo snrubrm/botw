@@ -1,0 +1,94 @@
+#pragma once
+
+#include "Game/Actor/AI/aiPriestBossMode.h"
+#include "Game/Actor/aiPriestBossWeightedPool.h"
+#include <container/seadSafeArray.h>
+#include <prim/seadEnum.h>
+#include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/System/Timer.h"
+
+namespace uking::ai {
+
+class PriestBossActorNormalMode : public PriestBossMode {
+    SEAD_RTTI_OVERRIDE(PriestBossActorNormalMode, PriestBossMode)
+public:
+    explicit PriestBossActorNormalMode(const InitArg& arg);
+    ~PriestBossActorNormalMode() override;
+
+    bool init_(sead::Heap* heap) override;
+    void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void leave_() override;
+    void loadParams_() override;
+
+    virtual f32 m35();
+    virtual f32 m36();
+    virtual f32 m37();
+    virtual f32 m38();
+    virtual f32 m39();
+    virtual f32 m40();
+    virtual f32 m41();
+    virtual f32 m42();
+    virtual f32 m43();
+    virtual f32 m44();
+    virtual f32 m45();
+    virtual f32 m46();
+
+protected:
+    // Counter indices of `_e8` (a SEAD_ENUM in the original: the index goes through a stack round trip).
+    SEAD_ENUM(Attack, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12)
+
+    void sub_710050BB0C();
+    void sub_710050BBC0();
+    void sub_710050BDCC();
+    s32 sub_710050B6CC();
+    void sub_710050AE6C(s32 mode);
+    bool sub_710050B7A8();
+    // inline-only in the original; name is a guess. Evidence: the same tail (`std::pow(0.9f, count)` scaled into
+    // a random weight, the by-value enum going through the stack) is inlined into m39 / m40 / m41.
+    f32 getWeight(Attack attack);
+
+    // static_param at offset 0x40
+    const int* mApproachWarpRate_s{};
+    // static_param at offset 0x48
+    const float* mApproachStartDistance_s{};
+    // static_param at offset 0x50
+    const float* mLeaveStartDistance_s{};
+    // static_param at offset 0x58
+    const float* mLeaveStartTime_s{};
+    // static_param at offset 0x60
+    const float* mWaitMinTime_s{};
+    // static_param at offset 0x68
+    const float* mWaitMaxTime_s{};
+    // static_param at offset 0x70
+    const float* mSecondHalfLifePercent_s{};
+    // static_param at offset 0x78
+    const float* mFramesRestrictEarthRelease_s{};
+    // static_param at offset 0x80
+    const float* mWarpPosDistFromPlayer_s{};
+    // static_param at offset 0x88
+    const float* mStageMarginRateForEarthRelease_s{};
+    // static_param at offset 0x90
+    const bool* mIsManagedBtlMgr_s{};
+    // dynamic_param at offset 0x98
+    bool* mFromSyncMode_d{};
+    // aitree_variable at offset 0xa0
+    int* mEquipWeaponBufIndex_a{};
+    // aitree_variable at offset 0xa8
+    bool* mReturnFromBananaMode_a{};
+    s32 _b0 = 4;
+    ksys::Timer _b4{0, 0};
+    sead::Vector3f _c0;
+    sead::Vector3f _cc;
+    u64 _d8 = 0;
+    u32 _e0 = 0;
+    s32 _e4 = -1;
+    sead::SafeArray<u32, 13> _e8{};  // indexed by a SEAD_ENUM
+    Unk_7102451280* _120 = nullptr;
+    s32 _128 = 2;
+    s32 _12c = 2;
+    s32 _130 = 0;
+    s32 _134 = 0;
+};
+KSYS_CHECK_SIZE_NX150(PriestBossActorNormalMode, 0x138);
+
+}  // namespace uking::ai

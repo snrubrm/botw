@@ -7,7 +7,7 @@
 #include "Game/Actor/actNPCBase.h"
 #include "Game/Actor/actWeapon.h"
 #include "Game/gameNpcShopData.h"
-#include "Game/Damage/dmgDamageMgrNPC.h"
+#include "Game/Actor/Damage/dmgDamageMgrNPC.h"
 #include "Game/Actor/actUnk_71002dccbc.h"
 #include "Game/Actor/actUnk_7100d3cd74.h"
 #include "KingSystem/ActorSystem/actActorAtk.h"

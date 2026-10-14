@@ -1,0 +1,200 @@
+#include "Game/Actor/AI/aiGolemReaction.h"
+#include "Game/Actor/aiUnk_7102450410.h"
+#include <math/seadMathCalcCommon.h>
+#include "Game/Actor/aiUnk_71005D6D10.h"
+#include "Game/Actor/aiUnk_7102357210.h"
+#include "Game/Actor/Damage/dmgDamageManager.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorAtk.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include <prim/seadDelegate.h>
+
+namespace uking::ai {
+
+// Placeholder name for the original 16-byte callback constructed by the arm-contact query.
+// Its vtable has invoke, clone and isNoDummy slots of the IDelegate2R interface.
+class Unk_71023f52d0 : public sead::IDelegate2R<ksys::phys::RigidBody*, ksys::phys::RigidBody*, bool> {
+public:
+    explicit Unk_71023f52d0(ksys::act::ActorAtk::Unk_710079e64c::Unk1* entry) : mEntry(entry) {}
+    bool invoke(ksys::phys::RigidBody*, ksys::phys::RigidBody* other) override;
+private:
+    ksys::act::ActorAtk::Unk_710079e64c::Unk1* mEntry;
+};
+KSYS_CHECK_SIZE_NX150(Unk_71023f52d0, 0x10);
+
+// NON_MATCHING: the pointer equality compares its operands in the opposite order (both source orders
+// produce the same code).
+bool Unk_71023f52d0::invoke(ksys::phys::RigidBody*, ksys::phys::RigidBody* other) {
+    return other == mEntry->_c8;
+}
+
+// NON_MATCHING: the recovered callback vtable is loaded through the GOT rather than addressed directly.
+void GolemReaction::sub_71003FF3F8(bool* right, bool* left) {
+    if (!right || !left)
+        return;
+    auto* actor = mActor;
+    const s32 count = sub_71007A26AC(actor);
+    for (s32 i = 0; i < count; ++i) {
+        auto* entry = sub_71007A255C(actor, i);
+        if (!entry || !(entry->_50 & 0x10))
+            continue;
+        Unk_71023f52d0 filter(entry);
+        auto* right_body = mActor->findPhysicsBodyByName(ksys::act::getStr_Tgt().cstr(),
+                                                       mRightArmTgtBodyName_s.cstr());
+        if (right_body && ksys::act::sub_7100EEB078(right_body, nullptr, &filter)) {
+            *right = true;
+            return;
+        }
+        auto* left_body = mActor->findPhysicsBodyByName(ksys::act::getStr_Tgt().cstr(),
+                                                      mLeftArmTgtBodyName_s.cstr());
+        if (left_body && ksys::act::sub_7100EEB078(left_body, nullptr, &filter)) {
+            *left = true;
+            return;
+        }
+    }
+}
+
+GolemReaction::GolemReaction(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
+
+GolemReaction::~GolemReaction() = default;
+
+bool GolemReaction::init_(sead::Heap* heap) {
+    return ksys::act::ai::Ai::init_(heap);
+}
+
+// NON_MATCHING: the two damage type compares (0x1b / 0x16) are emitted in the opposite order
+void GolemReaction::enter_(ksys::act::ai::InlineParamPack* params) {
+    _120 = true;
+    _128.mTimer = ksys::Timer(0, 0);
+    mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_80000000);
+    if (*mGolemClimbedTime_a > 0.0f) {
+        *mGolemClimbedTime_a = sead::Mathf::clampMin(
+            *mGolemClimbedTime_a, f32(*mClimbLimitTime_s - *mClampRestClimbTime_s));
+    }
+
+    auto* actor = mActor;
+    auto* life = actor->getLife();
+    if (life && *life <= 0) {
+        mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::Alive);
+        changeChild("死亡");
+        return;
+    }
+
+    if (sub_71005DD798(mActor, 0x13, nullptr, 0, 0)) {
+        sub_71003FE9C4();
+        sub_7100708FF0(mActor, 30.0f);
+        changeChild("起き上がる");
+        return;
+    }
+
+    if (sead::DynamicCast<act::DamageManager>(actor->getDamageMgr())) {
+        if (sub_71003FEAB0())
+            return;
+
+        auto* damage_mgr = mActor->getDamageMgr();
+        if (damage_mgr && damage_mgr->getField54() <= 0x15 && *mGolemClimbedTime_a > 0.0f) {
+            changeChild("小ダメージ");
+            return;
+        }
+
+        damage_mgr = mActor->getDamageMgr();
+        const s32 type = damage_mgr ? damage_mgr->getField54() : -1;
+        if (type != 0x1b && type != 0x16 && !sub_71003FEC7C()) {
+            changeChild("小ダメージ");
+            return;
+        }
+    }
+
+    auto* damage_mgr = mActor->getDamageMgr();
+    if (damage_mgr && damage_mgr->getField50() == 4)
+        _128.mTimer.reset(*mIgnoreBombTime_s);
+    changeChild("ふっとび");
+}
+
+void GolemReaction::leave_() {
+    sub_7100708FF0(mActor, 200.0f);
+    mActor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_80000000);
+}
+
+void GolemReaction::loadParams_() {
+    getStaticParam(&mClimbLimitTime_s, "ClimbLimitTime");
+    getStaticParam(&mClampRestClimbTime_s, "ClampRestClimbTime");
+    getStaticParam(&mIgnoreBombTime_s, "IgnoreBombTime");
+    getStaticParam(&mRightArmTgtBodyName_s, "RightArmTgtBodyName");
+    getStaticParam(&mLeftArmTgtBodyName_s, "LeftArmTgtBodyName");
+    getStaticParam(&mBreakArmLXLinkKey_s, "BreakArmLXLinkKey");
+    getStaticParam(&mBodyArmLName1_s, "BodyArmLName1");
+    getStaticParam(&mBodyArmLName2_s, "BodyArmLName2");
+    getStaticParam(&mChmArmLName_s, "ChmArmLName");
+    getStaticParam(&mArmLMaterialName_s, "ArmLMaterialName");
+    getStaticParam(&mBreakArmRXLinkKey_s, "BreakArmRXLinkKey");
+    getStaticParam(&mBodyArmRName1_s, "BodyArmRName1");
+    getStaticParam(&mBodyArmRName2_s, "BodyArmRName2");
+    getStaticParam(&mChmArmRName_s, "ChmArmRName");
+    getStaticParam(&mArmRMaterialName_s, "ArmRMaterialName");
+    getAITreeVariable(&mGolemClimbedTime_a, "GolemClimbedTime");
+    getAITreeVariable(&mGolemChemicalController_a, "GolemChemicalController");
+}
+
+bool GolemReaction::sub_71003FEC7C() {
+    if (auto* damage_mgr = mActor->getDamageMgr()) {
+        if (damage_mgr->getField54() == 21 || damage_mgr->checkDamageFlags(0))
+            return true;
+    }
+    auto* controller = sead::DynamicCast<Unk_7102450410>(
+        *static_cast<Unk_71025afb58**>(mGolemChemicalController_a));
+    return sub_71007090F4(controller);
+}
+
+void GolemReaction::sub_71003FE9C4() {
+    auto* damage = mActor->getDamageMgr();
+    if (damage && damage->getField50() == 4) {
+        bool right = false;
+        bool left = false;
+        sub_71003FF3F8(&right, &left);
+        if (left) {
+            sub_71003FF79C(mBodyArmLName1_s, mBodyArmLName2_s, "", mLeftArmTgtBodyName_s,
+                           mChmArmLName_s, mArmLMaterialName_s, mBreakArmLXLinkKey_s);
+        }
+        if (right) {
+            sub_71003FF79C(mBodyArmRName1_s, mBodyArmRName2_s, "", mRightArmTgtBodyName_s,
+                           mChmArmRName_s, mArmRMaterialName_s, mBreakArmRXLinkKey_s);
+        }
+    }
+}
+
+bool GolemReaction::sub_71003FEAB0() {
+    auto* damage = mActor->getDamageMgr();
+    if (damage && damage->getField50() == 4) {
+        auto* actor = mActor;
+        const s32 num = sub_71007A26AC(actor);
+        for (s32 i = 0; i < num; ++i) {
+            auto* info = sub_71007A255C(actor, i);
+            if (info && (info->_50 & 0x10)) {
+                if (!(_140 == info->_d8) || _128.mTimer.value <= sead::Mathf::epsilon()) {
+                    _140 = info->_d8;
+                    bool right = false;
+                    bool left = false;
+                    sub_71003FF3F8(&right, &left);
+                    if (!right) {
+                        if (!left)
+                            return false;
+                        _128.mTimer.reset(f32(*mIgnoreBombTime_s));
+                        sub_71003FF79C(mBodyArmLName1_s, mBodyArmLName2_s, "", mLeftArmTgtBodyName_s,
+                                       mChmArmLName_s, mArmLMaterialName_s, mBreakArmLXLinkKey_s);
+                    } else {
+                        _128.mTimer.reset(f32(*mIgnoreBombTime_s));
+                        sub_71003FF79C(mBodyArmRName1_s, mBodyArmRName2_s, "", mRightArmTgtBodyName_s,
+                                       mChmArmRName_s, mArmRMaterialName_s, mBreakArmRXLinkKey_s);
+                    }
+                    changeChild("ふっとび");
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+}
+
+}  // namespace uking::ai

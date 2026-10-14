@@ -1,0 +1,21 @@
+#pragma once
+
+#include "Game/Actor/Player/Action/actionPlayerAction.h"
+#include "KingSystem/ActorSystem/actAiAction.h"
+
+namespace uking::action {
+
+class PlayerWait : public PlayerAction {
+    SEAD_RTTI_OVERRIDE(PlayerWait, PlayerAction)
+public:
+    explicit PlayerWait(const InitArg& arg);
+
+    void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void leave_() override;
+    bool isChangeable() const override;
+
+protected:
+    void calc_() override;
+};
+
+}  // namespace uking::action

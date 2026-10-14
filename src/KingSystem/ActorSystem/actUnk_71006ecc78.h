@@ -6,7 +6,7 @@
 #include <math/seadVector.h>
 #include <prim/seadSafeString.h>
 #include <prim/seadBitFlag.h>
-#include "Game/AI/aiUnk_71025b0578.h"
+#include "Game/Actor/aiUnk_71025b0578.h"
 #include "KingSystem/Utils/Types.h"
 
 namespace sead {

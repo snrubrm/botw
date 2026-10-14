@@ -1,0 +1,32 @@
+#pragma once
+
+#include "Game/Actor/Action/actionBackWalkBase.h"
+#include "KingSystem/ActorSystem/actAiAction.h"
+
+namespace ksys::phys {
+class CharacterController;
+}
+
+namespace uking::action {
+
+class SlippedBackWalkBase : public BackWalkBase {
+    SEAD_RTTI_OVERRIDE(SlippedBackWalkBase, BackWalkBase)
+public:
+    explicit SlippedBackWalkBase(const InitArg& arg);
+    ~SlippedBackWalkBase() override;
+
+    bool init_(sead::Heap* heap) override;
+    void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void leave_() override;
+    void loadParams_() override;
+
+protected:
+    void calc_() override;
+    virtual void m32(ksys::phys::CharacterController* controller);
+    virtual void m33(ksys::phys::CharacterController* controller);
+
+    // static_param at offset 0xb0
+    const float* mAccRatio_s{};
+};
+
+}  // namespace uking::action

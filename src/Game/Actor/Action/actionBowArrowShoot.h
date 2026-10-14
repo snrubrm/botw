@@ -1,0 +1,21 @@
+#pragma once
+
+#include "Game/Actor/Action/actionBindAction.h"
+#include "KingSystem/ActorSystem/actAiAction.h"
+
+namespace uking::action {
+
+class BowArrowShoot : public BindAction {
+    SEAD_RTTI_OVERRIDE(BowArrowShoot, BindAction)
+public:
+    explicit BowArrowShoot(const InitArg& arg);
+
+    void enter_(ksys::act::ai::InlineParamPack* params) override;
+
+protected:
+    void m32() override;
+    ksys::act::Actor* m33() override;
+    void calc_() override;
+};
+
+}  // namespace uking::action

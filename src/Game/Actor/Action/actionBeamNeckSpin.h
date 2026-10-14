@@ -1,0 +1,47 @@
+#pragma once
+
+#include "Game/Actor/Action/actionNeckSpin.h"
+#include "Game/Actor/aiUnk_71006F3044.h"
+#include "KingSystem/ActorSystem/actAiAction.h"
+
+namespace uking::action {
+
+class BeamNeckSpin : public NeckSpin {
+    SEAD_RTTI_OVERRIDE(BeamNeckSpin, NeckSpin)
+public:
+    explicit BeamNeckSpin(const InitArg& arg);
+    ~BeamNeckSpin() override = default;
+
+    bool init_(sead::Heap* heap) override;
+    void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void leave_() override;
+    void loadParams_() override;
+
+protected:
+    void calc_() override;
+    bool handleMessage_(const ksys::Message* message) override;
+    // inline in the original (emitted out of line in this TU); signature is a guess
+    virtual const sead::SafeString& m34() { return mBeamActorName_s; }
+    // inline in the original (emitted out of line in this TU); signature is a guess
+    virtual const sead::SafeString& m35() { return mBeamActorKey_s; }
+    // inline in the original (emitted out of line in this TU); signature is a guess
+    virtual int m36() { return -1; }
+
+    // static_param at offset 0x68
+    const float* mBeamRange_s{};
+    // static_param at offset 0x70
+    sead::SafeString mBeamBoneName_s{};
+    // static_param at offset 0x80
+    sead::SafeString mBeamActorKey_s{};
+    // static_param at offset 0x90
+    sead::SafeString mBeamActorName_s{};
+    // static_param at offset 0xa0
+    const sead::Vector3f* mMuzzleOffset_s{};
+    // static_param at offset 0xa8
+    const sead::Vector3f* mBeamDirection_s{};
+    // map_unit_param at offset 0xb0
+    const float* mBeamRange_m{};
+    /* 0xb8 */ Unk_71006f3044 _b8{mActor};
+};
+
+}  // namespace uking::action

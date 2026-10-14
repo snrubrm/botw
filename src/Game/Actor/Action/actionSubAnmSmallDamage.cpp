@@ -1,0 +1,38 @@
+#include "Game/Actor/Action/actionSubAnmSmallDamage.h"
+
+namespace uking::action {
+
+SubAnmSmallDamage::SubAnmSmallDamage(const InitArg& arg) : SmallDamage(arg) {}
+
+SubAnmSmallDamage::~SubAnmSmallDamage() = default;
+
+bool SubAnmSmallDamage::init_(sead::Heap* heap) {
+    return SmallDamage::init_(heap);
+}
+
+void SubAnmSmallDamage::enter_(ksys::act::ai::InlineParamPack* params) {
+    SmallDamage::enter_(params);
+    playAS(mSubAS_s.cstr(), false, 0, *mSubASSlot_s, -1.0f);
+}
+
+void SubAnmSmallDamage::leave_() {
+    if (!mLeaveSubAS_s.isEmpty())
+        playAS(mLeaveSubAS_s.cstr(), false, 0, *mSubASSlot_s, -1.0f);
+}
+
+void SubAnmSmallDamage::loadParams_() {
+    KnockBackHitImpactForce::loadParams_();
+    getStaticParam(&mSubASSlot_s, "SubASSlot");
+    getStaticParam(&mSubAS_s, "SubAS");
+    getStaticParam(&mLeaveSubAS_s, "LeaveSubAS");
+}
+
+void SubAnmSmallDamage::calc_() {
+    SmallDamage::calc_();
+}
+
+void SubAnmSmallDamage::m34() {
+    playAS(mSubAS_s.cstr(), false, 0, *mSubASSlot_s, -1.0f);
+}
+
+}  // namespace uking::action

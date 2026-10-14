@@ -1,0 +1,50 @@
+#include "KingSystem/ActorSystem/actActorAtk.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "Game/Actor/Action/actionForkDisableContactOnAtHitPlayer.h"
+#include "Game/Actor/aiUnk_71005D6D10.h"
+
+namespace uking::action {
+
+ForkDisableContactOnAtHitPlayer::ForkDisableContactOnAtHitPlayer(const InitArg& arg)
+    : ForkDisableContact(arg) {}
+
+ForkDisableContactOnAtHitPlayer::~ForkDisableContactOnAtHitPlayer() = default;
+
+bool ForkDisableContactOnAtHitPlayer::init_(sead::Heap* heap) {
+    return ForkDisableContact::init_(heap);
+}
+
+void ForkDisableContactOnAtHitPlayer::enter_(ksys::act::ai::InlineParamPack* params) {
+    ForkDisableContact::enter_(params);
+}
+
+void ForkDisableContactOnAtHitPlayer::leave_() {
+    ForkDisableContact::leave_();
+}
+
+void ForkDisableContactOnAtHitPlayer::loadParams_() {
+    ForkDisableContact::loadParams_();
+}
+
+void ForkDisableContactOnAtHitPlayer::calc_() {
+    ForkDisableContact::calc_();
+}
+
+bool ForkDisableContactOnAtHitPlayer::m32() {
+    if (hasAttackInfo(mActor)) {
+        const int num = getNumAttackInfoMaybe(mActor);
+        for (int i = 0; i < num; ++i) {
+            auto* info = getAttackInfo(mActor, i);
+            if (info && ksys::act::isPlayerProfile(&info->_50))
+                return true;
+        }
+    }
+    return false;
+}
+
+bool ForkDisableContactOnAtHitPlayer::m33() {
+    return sub_71005DD7B0(mActor, nullptr, 0, 0);
+}
+
+}  // namespace uking::action

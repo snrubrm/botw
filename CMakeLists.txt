@@ -64,6 +64,6 @@ add_subdirectory(src)
 # This audited translation unit uses the newer evidenced SafeString comparison;
 # other translation units retain the default historical implementation.
 set_source_files_properties(
-  src/Game/AI/AI/aiAirOctaState.cpp
+  src/Game/Actor/AI/aiAirOctaState.cpp
   src/KingSystem/World/worldShootingStarMgrEx.cpp # 0x71010D0464: strict bound, equality on exhaustion.
   PROPERTIES COMPILE_DEFINITIONS SEAD_SAFE_STRING_COMPARE_VERSION=2)

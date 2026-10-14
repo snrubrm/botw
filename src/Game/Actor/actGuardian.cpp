@@ -1,6 +1,6 @@
 #include "Game/Actor/actGuardian.h"
 #include <basis/seadNew.h>
-#include "Game/Damage/dmgDamageCallback.h"
+#include "Game/Actor/Damage/dmgDamageCallback.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "Game/gameLastBossMgr.h"
 #include "KingSystem/ActorSystem/actActorParam.h"

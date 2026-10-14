@@ -1,7 +1,7 @@
 #pragma once
 
 #include <thread/seadCriticalSection.h>
-#include "Game/AI/AI/aiGiantArmorAsWeakPoint.h"
+#include "Game/Actor/AI/aiGiantArmorAsWeakPoint.h"
 #include "KingSystem/ActorSystem/Profiles/actDynamicActor.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 

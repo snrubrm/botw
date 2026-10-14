@@ -1,0 +1,41 @@
+#pragma once
+
+#include <math/seadVector.h>
+#include "Game/Actor/AI/aiGuardianAI.h"
+#include "KingSystem/ActorSystem/actAiAi.h"
+
+namespace uking::ai {
+
+class GuardianTargetLost : public GuardianAI {
+    SEAD_RTTI_OVERRIDE(GuardianTargetLost, GuardianAI)
+public:
+    explicit GuardianTargetLost(const InitArg& arg);
+    ~GuardianTargetLost() override;
+
+    bool init_(sead::Heap* heap) override;
+    void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void leave_() override;
+    void calc_() override;
+    void loadParams_() override;
+
+    // 0x710042be9c (placeholder name)
+    void sub_710042BE9C();
+
+protected:
+    sead::Vector3f _38 = sead::Vector3f::zero;
+    sead::Vector3f _44 = sead::Vector3f::zero;
+    s32 _50 = 0;
+    // calc_ passes this to Timer::update(float*) and compares it with 300.0f.
+    f32 _54 = 0.0f;
+    sead::Vector3f _58 = sead::Vector3f::zero;
+    // static_param at offset 0x68
+    const int* mLostCountMax_s{};
+    // static_param at offset 0x70
+    const float* mMoveRange_s{};
+    // static_param at offset 0x78
+    const float* mBackOffset_s{};
+    // static_param at offset 0x80
+    const float* mAirThreshold_s{};
+};
+
+}  // namespace uking::ai

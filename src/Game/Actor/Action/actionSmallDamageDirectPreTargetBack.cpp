@@ -1,0 +1,21 @@
+#include "Game/Actor/Action/actionSmallDamageDirectPreTargetBack.h"
+#include "Game/Actor/aiUnk_71005D6D10.h"
+
+namespace uking::action {
+
+SmallDamageDirectPreTargetBack::SmallDamageDirectPreTargetBack(const InitArg& arg)
+    : SmallDamageDirectPreTargetBone(arg) {}
+
+SmallDamageDirectPreTargetBack::~SmallDamageDirectPreTargetBack() = default;
+
+void SmallDamageDirectPreTargetBack::m32(sead::Vector3f* dir, ksys::act::Actor* actor,
+                                         uking::act::DamageManager* mgr) {
+    sub_71005E242C(dir, actor, mgr);
+}
+
+bool SmallDamageDirectPreTargetBack::m33(sead::Vector3f* dir, uking::act::DamageManager* mgr) {
+    sub_71005E242C(dir, mActor, mgr);
+    return true;
+}
+
+}  // namespace uking::action

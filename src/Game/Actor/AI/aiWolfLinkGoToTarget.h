@@ -1,0 +1,29 @@
+#pragma once
+
+#include "Game/Actor/AI/aiHorseFollow.h"
+#include "KingSystem/ActorSystem/actAiAi.h"
+
+namespace uking::act {
+class WolfLink;
+}
+
+namespace uking::ai {
+
+class WolfLinkGoToTarget : public HorseFollow {
+    SEAD_RTTI_OVERRIDE(WolfLinkGoToTarget, HorseFollow)
+public:
+    explicit WolfLinkGoToTarget(const InitArg& arg);
+    ~WolfLinkGoToTarget() override;
+
+    bool init_(sead::Heap* heap) override;
+    void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
+    void leave_() override;
+    void loadParams_() override;
+
+protected:
+    act::WolfLink* _e0{};
+};
+KSYS_CHECK_SIZE_NX150(WolfLinkGoToTarget, 0xe8);
+
+}  // namespace uking::ai

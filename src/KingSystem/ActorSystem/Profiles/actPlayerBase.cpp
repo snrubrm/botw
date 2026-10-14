@@ -5,8 +5,8 @@
 #include <gsys/gsysModel.h>
 #include "Game/Actor/actHorseRideInfo.h"
 #include "Game/Actor/actWeapon.h"
-#include "Game/Damage/dmgDamageManagerBase.h"
-#include "Game/Damage/dmgDamageMgrPlayer.h"
+#include "Game/Actor/Damage/dmgDamageManagerBase.h"
+#include "Game/Actor/Damage/dmgDamageMgrPlayer.h"
 #include "KingSystem/ActorSystem/actChemical.h"
 #include "Game/gameRuneMgr.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"

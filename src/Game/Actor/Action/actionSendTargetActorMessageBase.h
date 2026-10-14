@@ -1,0 +1,32 @@
+#pragma once
+
+#include "Game/Actor/Action/actionSendMessage.h"
+#include "KingSystem/ActorSystem/actAiAction.h"
+
+class Unk_7102357d20;
+
+namespace uking::action {
+
+class SendTargetActorMessageBase : public SendMessage {
+    SEAD_RTTI_OVERRIDE(SendTargetActorMessageBase, SendMessage)
+public:
+    explicit SendTargetActorMessageBase(const InitArg& arg);
+    ~SendTargetActorMessageBase() override;
+
+    bool init_(sead::Heap* heap) override;
+    void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void leave_() override;
+    void loadParams_() override;
+
+protected:
+    void calc_() override;
+    void doSendMessage() override;
+    virtual void m33();
+    // inline in the original (emitted out of line in this TU); signature is a guess
+    virtual Unk_7102357d20* m34() { return nullptr; }
+
+    // dynamic_param at offset 0x28
+    ksys::act::BaseProcLink* mTargetActor_d{};
+};
+
+}  // namespace uking::action

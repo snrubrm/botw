@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Game/AI/aiUnk_71024f15c0.h"
+#include "Game/Actor/aiUnk_71024f15c0.h"
 #include <prim/seadSafeString.h>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Utils/Types.h"

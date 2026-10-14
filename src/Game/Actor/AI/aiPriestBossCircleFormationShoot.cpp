@@ -1,0 +1,114 @@
+#include "Game/Actor/AI/aiPriestBossCircleFormationShoot.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/aiRootAi.h"
+#include "KingSystem/System/VFR.h"
+#include "Game/Actor/actWeapon.h"
+#include "Game/Actor/aiUnk_71005D6D10.h"
+#include "Game/Actor/aiUnk_7102450fa8.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
+
+namespace uking::ai {
+
+PriestBossCircleFormationShoot::PriestBossCircleFormationShoot(const InitArg& arg)
+    : PriestBossFormation(arg) {}
+
+PriestBossCircleFormationShoot::~PriestBossCircleFormationShoot() = default;
+
+bool PriestBossCircleFormationShoot::init_(sead::Heap* heap) {
+    return PriestBossFormation::init_(heap);
+}
+
+void PriestBossCircleFormationShoot::enter_(ksys::act::ai::InlineParamPack* params) {
+    PriestBossFormation::enter_(params);
+    m43();
+}
+
+void PriestBossCircleFormationShoot::calc_() {
+    PriestBossFormation::calc_();
+
+    auto* child = getCurrentChild();
+    if (!child)
+        return;
+
+    if (isCurrentChild("攻撃")) {
+        if (*mHomingAttackTime_s >= 0) {
+            if (_88.value <= sead::Mathf::epsilon())
+                return;
+            _88.update();
+        }
+        child->setDynamicParam(sub_71005D93CC(mActor), "TargetPos");
+        return;
+    }
+
+    if (!isCurrentChild("陣形作成後待機"))
+        return;
+
+    auto* unit =
+        sead::DynamicCast<Unk_7102450fa8>(*static_cast<Unk_71025afb58**>(mPriestBossMetaAIUnit_a));
+    sead::Vector3f pos = sead::Vector3f::zero;
+    if (!unit || !unit->sub_710071A020(&pos, unit->sub_7100719534(mActor)))
+        return;
+
+    child->setDynamicParam(pos, "TargetPos");
+    if (child->isFinished() || child->isFailed()) {
+        if (auto* body = mActor->getPhysicsMainBody()) {
+            body->setLinearVelocity(sead::Vector3f::zero);
+            body->setAngularVelocity(sead::Vector3f::zero);
+        }
+        ksys::act::ai::InlineParamPack params;
+        params.addVec3(pos, "TargetPos", -1);
+        changeChild("陣形作成後待機", &params);
+    }
+}
+
+void PriestBossCircleFormationShoot::leave_() {
+    PriestBossFormation::leave_();
+}
+
+void PriestBossCircleFormationShoot::loadParams_() {
+    PriestBossFormation::loadParams_();
+    getStaticParam(&mHomingAttackTime_s, "HomingAttackTime");
+}
+
+bool PriestBossCircleFormationShoot::m36() {
+    if (isCurrentChild("陣形作成後待機"))
+        return false;
+    return PriestBossFormation::m36();
+}
+
+void PriestBossCircleFormationShoot::m43() {
+    if (isCurrentChild("陣形作成_現れる")) {
+        auto* unit = sead::DynamicCast<Unk_7102450fa8>(
+            *static_cast<Unk_71025afb58**>(mPriestBossMetaAIUnit_a));
+        if (unit) {
+            ksys::act::ai::InlineParamPack params;
+            sead::Vector3f pos = sead::Vector3f::zero;
+            unit->sub_710071A020(&pos, unit->sub_7100719534(mActor));
+            params.addVec3(pos, "TargetPos", -1);
+            changeChild("陣形作成後待機", &params);
+            return;
+        }
+    }
+    changeChild("待機");
+}
+
+// NON_MATCHING: stack layout only — the original puts the InlineParamPack at the lowest address and the
+// SafeString / Unk_71002eda38 temporaries above it (ours reversed); the Timer reset stores 0x88/0x8c with stp
+void PriestBossCircleFormationShoot::m39() {
+    ksys::act::ai::InlineParamPack params;
+    params.addVec3(sub_71005D93CC(mActor), "TargetPos", -1);
+
+    auto* unit =
+        sead::DynamicCast<Unk_7102450fa8>(*static_cast<Unk_71025afb58**>(mPriestBossMetaAIUnit_a));
+    if (unit) {
+        if (auto* root = mActor->getRootAi())
+            root->getMapUnitParams().setString(unit->_2b0, "ArrowName");
+    }
+
+    sub_71005D787C(mActor, 0, uking::act::Unk_71002eda38(2));
+    changeChild("攻撃", &params);
+    _88.reset(*mHomingAttackTime_s * f32(ksys::VFR::instance()->getFrameRate()));
+}
+
+}  // namespace uking::ai

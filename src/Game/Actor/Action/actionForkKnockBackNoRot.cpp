@@ -1,0 +1,34 @@
+#include "Game/Actor/Action/actionForkKnockBackNoRot.h"
+
+namespace uking::action {
+
+ForkKnockBackNoRot::ForkKnockBackNoRot(const InitArg& arg) : SmallDamageBase(arg) {}
+
+ForkKnockBackNoRot::~ForkKnockBackNoRot() = default;
+
+bool ForkKnockBackNoRot::init_(sead::Heap* heap) {
+    return SmallDamageBase::init_(heap);
+}
+
+void ForkKnockBackNoRot::enter_(ksys::act::ai::InlineParamPack* params) {
+    SmallDamageBase::enter_(params);
+    mFlags.set(Flag::Changeable);
+}
+
+void ForkKnockBackNoRot::leave_() {
+    SmallDamageBase::leave_();
+}
+
+void ForkKnockBackNoRot::loadParams_() {
+    KnockBackHitImpactForce::loadParams_();
+}
+
+void ForkKnockBackNoRot::calc_() {
+    SmallDamageBase::calc_();
+}
+
+bool ForkKnockBackNoRot::m37() {
+    return false;
+}
+
+}  // namespace uking::action

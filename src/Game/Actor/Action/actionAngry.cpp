@@ -1,0 +1,32 @@
+#include "Game/Actor/Action/actionAngry.h"
+
+namespace uking::action {
+
+Angry::Angry(const InitArg& arg) : ActionWithAS(arg) {}
+
+bool Angry::init_(sead::Heap* heap) {
+    return ActionWithAS::init_(heap);
+}
+
+void Angry::enter_(ksys::act::ai::InlineParamPack* params) {
+    playAS("Angry", false, 0, 0, -1.0f);
+    ActionWithAS::enter_(params);
+}
+
+void Angry::leave_() {
+    ActionWithAS::leave_();
+}
+
+void Angry::loadParams_() {
+    StopBase::loadParams_();
+}
+
+void Angry::calc_() {
+    ActionWithAS::calc_();
+}
+
+bool Angry::isChangeable() const {
+    return false;
+}
+
+}  // namespace uking::action

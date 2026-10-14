@@ -1,0 +1,32 @@
+#pragma once
+#include "KingSystem/XLink/xlinkActorUtil.h"
+
+#include "Game/Actor/Action/actionRemainsWaterBulletWait.h"
+#include "KingSystem/ActorSystem/actAiAction.h"
+
+namespace uking::action {
+
+class RemainsWaterBulletRevive : public RemainsWaterBulletWait {
+    SEAD_RTTI_OVERRIDE(RemainsWaterBulletRevive, RemainsWaterBulletWait)
+public:
+    explicit RemainsWaterBulletRevive(const InitArg& arg);
+    ~RemainsWaterBulletRevive() override;
+
+    bool init_(sead::Heap* heap) override;
+    void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void leave_() override;
+    void loadParams_() override;
+
+protected:
+    void calc_() override;
+    void sub_7100230AFC(sead::Matrix34f* out) const;
+    bool isFinished() const override;
+
+    // static_param at offset 0xa8
+    sead::SafeString mXLinkKey_s{};
+    // dynamic_param at offset 0xb8
+    sead::Vector3f* mTargetPos_d{};
+    Unk_71012419b4 _c0;
+};
+
+}  // namespace uking::action

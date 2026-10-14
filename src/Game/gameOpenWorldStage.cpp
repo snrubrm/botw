@@ -1,7 +1,7 @@
 #include "Game/gameOpenWorldStage.h"
 #include "Game/gameOpenWorldStageMessage.h"
 #include "Game/gameStage.h"
-#include "Game/Damage/dmgInfoManager.h"
+#include "Game/Actor/Damage/dmgInfoManager.h"
 #include "Game/gameHorseMgr.h"
 #include "Game/gameLastBossMgr.h"
 #include "Game/gameMotorcycleMgr.h"

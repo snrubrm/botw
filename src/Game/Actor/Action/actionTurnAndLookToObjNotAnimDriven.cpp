@@ -1,0 +1,158 @@
+#include "Game/Actor/Action/actionTurnAndLookToObjNotAnimDriven.h"
+#include "KingSystem/ActorSystem/actBaseProcLink.h"
+#include "KingSystem/ActorSystem/actBoneControl.h"
+#include "Game/Actor/aiUnk_71007368A4.h"
+#include "Game/Actor/aiUnk_710073fa90.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/Utils/MathUtil.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+
+namespace uking::action {
+
+TurnAndLookToObjNotAnimDriven::TurnAndLookToObjNotAnimDriven(const InitArg& arg)
+    : TurnAndLookToObjBase(arg) {}
+
+// Empty-statement body as in upstream's GameDataFlagSelector::~GameDataFlagSelector() (96101229):
+// the original keeps the vtable store that a defaulted destructor drops.
+TurnAndLookToObjNotAnimDriven::~TurnAndLookToObjNotAnimDriven() {
+    ;
+}
+
+bool TurnAndLookToObjNotAnimDriven::init_(sead::Heap* heap) {
+    return TurnAndLookToObjBase::init_(heap);
+}
+
+void TurnAndLookToObjNotAnimDriven::enter_(ksys::act::ai::InlineParamPack* params) {
+    m33();
+    ksys::act::BaseProcLink link;
+    sead::Vector3f pos;
+    pos = sead::Vector3f::zero;
+    bool found = true;
+    if (_30 == 0) {
+        found = m34(&link, &pos, _48, _58);
+    } else if (_30 == 4) {
+        found = m35(&link, &pos, _48, _58);
+    }
+    if (!found) {
+        _f1 = true;
+        _34 = 0;
+    } else {
+        _f1 = false;
+    }
+
+    if (link.hasProc())
+        m36(&link, sead::Vector3f::zero);
+    else
+        m36(nullptr, pos);
+
+    switch (_34) {
+    case 0:
+        sub_7100739900(mActor);
+        break;
+    case 1:
+        if (auto* bone_control = sub_71007398A8(mActor)) {
+            bone_control->sub_7100D85644();
+            bone_control->sub_7100D85794();
+        }
+        break;
+    case 2:
+        if (auto* bone_control = sub_71007398A8(mActor)) {
+            sead::Vector3f target;
+            mActor->getMtx().getTranslation(target);
+            target += _38;
+            bone_control->sub_7100D8571C(target);
+        }
+        break;
+    }
+    m40();
+}
+
+void TurnAndLookToObjNotAnimDriven::leave_() {
+    TurnAndLookToObjBase::leave_();
+    if (auto* cc = mActor->getCharacterController())
+        cc->sub_7100F5FB24(sead::Vector3f::zero);
+}
+
+void TurnAndLookToObjNotAnimDriven::loadParams_() {
+    TurnAndLookToObjBase::loadParams_();
+    getDynamicParam(&mRotSpdMax_d, "RotSpdMax");
+    getDynamicParam(&mRotSpdMin_d, "RotSpdMin");
+    getDynamicParam(&mRotInitSpd_d, "RotInitSpd");
+    getDynamicParam(&mRotAccel_d, "RotAccel");
+    getDynamicParam(&mRotRate_d, "RotRate");
+}
+
+void TurnAndLookToObjNotAnimDriven::calc_() {
+    TurnAndLookToObjBase::calc_();
+    auto* controller = mActor->getCharacterController();
+    if (!controller) {
+        setFailed();
+        return;
+    }
+    if (_f0 || _f1) {
+        controller->sub_7100F5FB24(sead::Vector3f::zero);
+        return;
+    }
+    m41(controller);
+}
+
+// NON_MATCHING: store / load scheduling of `front` and the operand order of the second normalisation's sum
+void TurnAndLookToObjNotAnimDriven::m40() {
+    sub_710073FA90(&_100, mActor);
+    _f4.value = *mRotInitSpd_d;
+    _f4.prev_value = *mRotInitSpd_d;
+    _f0 = false;
+    auto* controller = mActor->getCharacterController();
+    if (_f1) {
+        setFinished();
+        return;
+    }
+
+    _38.y = 0;
+    _38.normalize();
+    sead::Vector3f front;
+    mActor->getMtx().getBase(front, 2);
+    front.y = 0;
+    front.normalize();
+    sead::Vector3f axis;
+    f32 angle;
+    ksys::util::sub_71011EEB08(&axis, &angle, front, _38, sead::Vector3f::ey);
+    mActor->getASList()->x_6(9, 0, sead::Mathf::rad2deg(angle) * axis.y);
+    playAS("Turn", false, 0, 0, -1.0f);
+    if (controller) {
+        controller->sub_7100F5E7F0(0.0f);
+        controller->sub_7100F5FB24(sead::Vector3f::zero);
+    }
+}
+
+// NON_MATCHING: same as m40 (front stores) and `_f4.mean` is loaded earlier in the original
+void TurnAndLookToObjNotAnimDriven::m41(ksys::phys::CharacterController* controller) {
+    if (_f0) {
+        controller->sub_7100F5FB24(sead::Vector3f::zero);
+        setFinished();
+        return;
+    }
+
+    _f4.chase(*mRotSpdMax_d, *mRotAccel_d);
+    sub_710073FA94(&_100, mActor);
+    sead::Vector3f front;
+    mActor->getMtx().getBase(front, 2);
+    front.y = 0;
+    front.normalize();
+    sead::Vector3f axis;
+    f32 angle;
+    ksys::util::sub_71011EEB08(&axis, &angle, front, _38, sead::Vector3f::ey);
+    _f4.updateStats();
+    _38.normalize();
+    const f32 mean = _f4.mean;
+    sub_710074006C(&_100, _38, sead::Vector3f::ey, true, *mRotRate_d, mean, mean * 0.1f);
+    if (angle < sead::Mathf::abs(mean * 0.1f)) {
+        _f0 = true;
+        playAS("Wait", true, 0, 0, -1.0f);
+        setFinished();
+    }
+    sub_7100740E04(_100, controller);
+}
+
+}  // namespace uking::action

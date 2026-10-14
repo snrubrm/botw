@@ -1,0 +1,50 @@
+#pragma once
+
+#include "Game/Actor/Action/actionUnk_7102451ba0.h"
+#include "KingSystem/System/Timer.h"
+#include "Game/Actor/Action/actionRandomMoveAction.h"
+#include "KingSystem/ActorSystem/actAiAction.h"
+
+namespace uking::action {
+
+class EnemyRushAttack : public RandomMoveAction {
+    SEAD_RTTI_OVERRIDE(EnemyRushAttack, RandomMoveAction)
+public:
+    explicit EnemyRushAttack(const InitArg& arg);
+    ~EnemyRushAttack() override;
+
+    bool init_(sead::Heap* heap) override;
+    void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void leave_() override;
+    void loadParams_() override;
+
+protected:
+    void calc_() override;
+    s32 m32(RandomMovePoints* points) override;
+    // Full 10BF08 returns bool and consumes the update flag plus this action state.
+    bool sub_710010BF08(bool update);
+
+    // static_param at offset 0x38
+    const int* mUpdateTargetPosInterval_s{};
+    // static_param at offset 0x40
+    const float* mSpeed_s{};
+    // static_param at offset 0x48
+    const float* mDisableUpdateTargetRadius_s{};
+    // static_param at offset 0x50
+    const float* mGoalDistanceTolerance_s{};
+    // static_param at offset 0x58
+    const float* mMovePredictionRate_s{};
+    // static_param at offset 0x60
+    sead::SafeString mASKeyName_s{};
+    // dynamic_param at offset 0x70
+    sead::Vector3f* mTargetPos_d{};
+    Unk_7102451ba0 _78;
+    sead::Vector3f _a0 = sead::Vector3f::zero;
+    sead::Vector3f _ac = sead::Vector3f::zero;
+    sead::Vector3f _b8;
+    bool _c4 = true;
+    f32 _c8 = 0;
+    ksys::Timer _cc;
+};
+
+}  // namespace uking::action

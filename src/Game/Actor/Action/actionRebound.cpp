@@ -1,0 +1,16 @@
+#include "Game/Actor/Action/actionRebound.h"
+
+namespace uking::action {
+
+Rebound::Rebound(const InitArg& arg) : ActionWithAS(arg) {}
+
+void Rebound::enter_(ksys::act::ai::InlineParamPack* params) {
+    ActionWithAS::enter_(params);
+    playAS("Rebound", false, 0, 0, -1.0f);
+}
+
+bool Rebound::isChangeable() const {
+    return false;
+}
+
+}  // namespace uking::action

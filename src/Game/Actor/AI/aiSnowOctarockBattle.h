@@ -1,0 +1,31 @@
+#pragma once
+
+#include "Game/Actor/AI/aiEnemyBattle.h"
+#include "KingSystem/ActorSystem/actAiAi.h"
+
+namespace uking::ai {
+
+class SnowOctarockBattle : public EnemyBattle {
+    SEAD_RTTI_OVERRIDE(SnowOctarockBattle, EnemyBattle)
+public:
+    explicit SnowOctarockBattle(const InitArg& arg);
+    ~SnowOctarockBattle() override;
+
+    bool init_(sead::Heap* heap) override;
+    void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
+    void leave_() override;
+    void loadParams_() override;
+    void m38() override;
+    bool m41() override;
+    void m43(ksys::act::ai::InlineParamPack* params) override;
+
+protected:
+    // static_param at offset 0x90
+    sead::SafeString mVacuumPartsKey_s{};
+    // static_param at offset 0xa0
+    sead::SafeString mShootActorKey_s{};
+    int _b0 = 0;
+};
+
+}  // namespace uking::ai

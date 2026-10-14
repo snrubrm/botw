@@ -5,7 +5,7 @@
 #include <math/seadMathCalcCommon.h>
 #include <prim/seadScopedLock.h>
 #include "Game/Actor/actPlayerCreateMgr.h"
-#include "Game/Damage/dmgInfoManager.h"
+#include "Game/Actor/Damage/dmgInfoManager.h"
 #include "Game/UI/euiScreen.h"
 #include "Game/UI/uiManager.h"
 #include "Game/DLC/aocManager.h"

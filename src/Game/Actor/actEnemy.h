@@ -13,7 +13,7 @@
 #include <prim/seadEnum.h>
 #include <prim/seadSafeString.h>
 #include <thread/seadCriticalSection.h>
-#include "Game/AI/aiUnk_7102357210.h"
+#include "Game/Actor/aiUnk_7102357210.h"
 #include "Game/Actor/actExtendedEntity.h"
 #include "Game/Actor/actUnk_71002dccbc.h"
 #include "Game/Actor/actUnk_7100d3cd74.h"

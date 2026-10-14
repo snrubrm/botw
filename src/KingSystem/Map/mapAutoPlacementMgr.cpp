@@ -1,6 +1,6 @@
 #include "KingSystem/Map/mapAutoPlacementMgr.h"
 #include <prim/seadScopedLock.h>
-#include "Game/AI/aiUnk_7100736460.h"
+#include "Game/Actor/aiUnk_7100736460.h"
 #include "Game/gameStatisticsMgr.h"
 #include <thread/seadDelegateThread.h>
 #include "KingSystem/ActorSystem/actActor.h"

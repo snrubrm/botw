@@ -18,7 +18,7 @@
 #include "Game/Actor/actPlayerCreateMgr.h"
 #include "Game/Actor/actWeapon.h"
 #include "Game/DLC/aocHardModeManager.h"
-#include "Game/Damage/dmgInfoManager.h"
+#include "Game/Actor/Damage/dmgInfoManager.h"
 #include "Game/UI/uiManager.h"
 #include "Game/UI/uiPauseMenuDataMgr.h"
 #include "KingSystem/ActorSystem/actInfoCommon.h"

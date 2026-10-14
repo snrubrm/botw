@@ -1,0 +1,51 @@
+#include "Game/Actor/AI/aiStalGiantEnemyReaction.h"
+#include "Game/Actor/actEnemy.h"
+#include "Game/Actor/aiUnk_71005D6D10.h"
+#include "KingSystem/ActorSystem/actActor.h"
+
+namespace uking::ai {
+
+StalGiantEnemyReaction::StalGiantEnemyReaction(const InitArg& arg) : ForestGiantReaction(arg) {}
+
+StalGiantEnemyReaction::~StalGiantEnemyReaction() = default;
+
+bool StalGiantEnemyReaction::init_(sead::Heap* heap) {
+    return ForestGiantReaction::init_(heap);
+}
+
+void StalGiantEnemyReaction::enter_(ksys::act::ai::InlineParamPack* params) {
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor))
+        enemy->_e84.setBit(1);
+    ForestGiantReaction::enter_(params);
+}
+
+void StalGiantEnemyReaction::calc_() {
+    ForestGiantReaction::calc_();
+}
+
+void StalGiantEnemyReaction::leave_() {
+    ForestGiantReaction::leave_();
+}
+
+void StalGiantEnemyReaction::loadParams_() {
+    ForestGiantReaction::loadParams_();
+}
+
+bool StalGiantEnemyReaction::m37() {
+    if (isCurrentChild("ふっとび")) {
+        auto* child = getCurrentChild();
+        if (!child->isFinished() && !child->isFailed()) {
+            auto* life = mActor->getLife();
+            if (life && *life < 1)
+                return true;
+        }
+    }
+    return EnemyDefaultReaction::m37();
+}
+
+void StalGiantEnemyReaction::m40(ksys::act::ai::InlineParamPack* params) {
+    sub_71005D7014(mActor);
+    changeChild("ふっとび", params);
+}
+
+}  // namespace uking::ai

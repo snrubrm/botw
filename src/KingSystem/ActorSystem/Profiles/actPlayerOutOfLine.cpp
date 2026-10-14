@@ -6,8 +6,8 @@
 #include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 #include <math/seadMathCalcCommon.h>
 #include <prim/seadRuntimeTypeInfo.h>
-#include "Game/AI/aiUnk_7101E7C2B4.h"
-#include "Game/Damage/dmgDamageMgrPlayer.h"
+#include "Game/Actor/aiUnk_7101E7C2B4.h"
+#include "Game/Actor/Damage/dmgDamageMgrPlayer.h"
 #include "Game/gameRuneMgr.h"
 #include "KingSystem/ActorSystem/Attention/actAttentionSingleton.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"

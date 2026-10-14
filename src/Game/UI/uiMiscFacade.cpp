@@ -13,7 +13,7 @@
 #include "Game/gameUnk_71008ba8d8.h"
 #include "KingSystem/System/PlayReportMgr.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "Game/AI/AI/aiGoronHeroDescendentRoot.h"
+#include "Game/Actor/AI/aiGoronHeroDescendentRoot.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 
 // UI wrapper functions around unidentified UI singletons (the 0x7100a94000 TU).

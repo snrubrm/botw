@@ -1,6 +1,6 @@
 #include "Game/Actor/actNPC.h"
 #include <basis/seadNew.h>
-#include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/Actor/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actBoneControl.h"
 

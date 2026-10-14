@@ -1,7 +1,7 @@
 #include "Game/Actor/actGuardian.h"
 #include "Game/Actor/actGuardianRegistry.h"
 #include <prim/seadScopedLock.h>
-#include "Game/Damage/dmgInfoManager.h"
+#include "Game/Actor/Damage/dmgInfoManager.h"
 
 Unk_710243c250::Unk_710243c250(ksys::act::Actor* owner)
     : sead::TListNode<Unk_710243c250*>(this) {

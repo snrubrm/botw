@@ -1,0 +1,44 @@
+#pragma once
+
+#include "Game/Actor/Action/actionForkAttackWithWeaponOrWithout.h"
+#include "KingSystem/ActorSystem/actAiAction.h"
+
+namespace uking::action {
+
+class ForkNoWeaponAttackBase : public ForkAttackWithWeaponOrWithout {
+    SEAD_RTTI_OVERRIDE(ForkNoWeaponAttackBase, ForkAttackWithWeaponOrWithout)
+public:
+    explicit ForkNoWeaponAttackBase(const InitArg& arg);
+    ~ForkNoWeaponAttackBase() override;
+
+    bool init_(sead::Heap* heap) override;
+    void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void leave_() override;
+    void loadParams_() override;
+
+protected:
+    // 0x710015e71c (declared only): out of line in the original (called by the leave_ of the subclasses).
+    void sub_710015E71C();
+    // 0x710015e4e8: activates attack sensors using the direction string.
+    void sub_710015E4E8(const sead::SafeString& direction);
+    void calc_() override;
+    virtual int m32();
+    virtual int m33();
+    virtual int m34();
+    virtual int m35();
+
+    // static_param at offset 0x50
+    const int* mAttackType_s{};
+    // static_param at offset 0x58
+    const float* mAttackPowerScale_s{};
+    // static_param at offset 0x60
+    const bool* mIsImpulseLarge_s{};
+    // static_param at offset 0x68
+    const bool* mIsUseAttackParam_s{};
+    // static_param at offset 0x70 ("AtkBodyName%d", 1-3)
+    sead::SafeString mAtkBodyName_s[3]{};
+    // static_param at offset 0xa0
+    sead::SafeString mChmName1_s{};
+};
+
+}  // namespace uking::action

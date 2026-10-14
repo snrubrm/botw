@@ -1,0 +1,233 @@
+#include "Game/Actor/AI/aiAncientNecklaceBall.h"
+#include "Game/Actor/aiUnk_7100EDD26C.h"
+#include <math/seadMathCalcCommon.h>
+#include "Game/Actor/aiUnk_71007377D4.h"
+#include "Game/Actor/actWeapon.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/ActorSystem/aiRootAi.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
+#include "KingSystem/ActorSystem/actActorBind.h"
+#include "KingSystem/GameData/gdtSpecialFlags.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
+
+namespace uking::ai {
+
+// Re-enables the main body of the ball in the physics system (and the "Chemical" body); with
+// `restore_groups` also the system group handlers.
+void AncientNecklaceBall::sub_7100301D90(bool restore_groups) {
+    auto* physics = mActor->getPhysics();
+    if (!physics)
+        return;
+    if (auto* body = mActor->getMainBody()) {
+        physics->sub_7100FBAF18(body);
+        if (!body->isAddedToWorld()) {
+            body->addToWorld();
+            physics->sub_7100FC012C(nullptr);
+        }
+        body->setMaxAngularVelocity(_12c);
+        body->resetFlag1000000();
+        body->changeMotionType(ksys::phys::MotionType::Dynamic);
+        sead::Vector3f position;
+        mActor->getMtx().getTranslation(position);
+        body->setPosition(position);
+        sead::Vector3f velocity = body->getLinearVelocity();
+        if (velocity.length() > 10.0f) {
+            const f32 length = velocity.length();
+            if (length > 0.0f)
+                velocity *= 10.0f / length;
+            body->setLinearVelocity(velocity);
+        }
+        mActor->nullsub_4649();
+    }
+    if (restore_groups) {
+        physics->sub_7100FBDFA4(physics->get178(0));
+        physics->sub_7100FBDFA4(physics->get178(1));
+    }
+    if (auto* set = physics->findBodyByName("Chemical")) {
+        if (auto* body = set->getRigidBodies()[0]) {
+            if (!body->isAddedToWorld())
+                body->addToWorld();
+        }
+    }
+}
+
+void AncientNecklaceBall::sub_7100301A5C() {
+    if (auto* physics = mActor->getPhysics()) {
+        if (auto* body = mActor->getMainBody()) {
+            body->setContactLayerAndGroundHit(ksys::phys::ContactLayer::EntityHitOnlyWater,
+                                              ksys::phys::GroundHit::HitAll);
+            if (!body->isAddedToWorld()) {
+                body->addToWorld();
+                physics->sub_7100FC01B0();
+            }
+            body->setMaxAngularVelocity(6283.1855f);
+            body->setFlag1000000();
+            body->changeMotionType(ksys::phys::MotionType::Keyframed);
+        }
+        if (auto* handler = sub_7100738C18(&mActor->getCreateArgBaseProcLink(), 0))
+            physics->sub_7100FBDFA4(handler);
+        if (auto* set = physics->findBodyByName("Chemical")) {
+            if (auto* body = set->getRigidBodies()[0]) {
+                if (!body->isAddedToWorld())
+                    body->addToWorld();
+            }
+        }
+    }
+}
+
+AncientNecklaceBall::AncientNecklaceBall(const InitArg& arg) : AncientNecklaceBallBase(arg) {}
+
+AncientNecklaceBall::~AncientNecklaceBall() = default;
+
+bool AncientNecklaceBall::init_(sead::Heap* heap) {
+    if (!AncientNecklaceBallBase::init_(heap))
+        return false;
+
+    if (auto* body = mActor->getMainBody())
+        _12c = body->getMaxAngularVelocity();
+    _140._18.y(mActor);
+    return true;
+}
+
+void AncientNecklaceBall::enter_(ksys::act::ai::InlineParamPack* params) {
+    if (!mGiantNecklaceActiveSaveFlag_m.isEmpty())
+        ksys::gdt::setBoolByKey(true, mGiantNecklaceActiveSaveFlag_m);
+    _120 = ksys::Timer(1.0f, 1.0f, 0.0f);
+    AncientNecklaceBallBase::enter_(params);
+}
+
+void AncientNecklaceBall::leave_() {
+    if (isCurrentChild("吊るす")) {
+        if (auto* weapon = sead::DynamicCast<act::Weapon>(mActor)) {
+            weapon->m175(sead::Vector3f::zero, false, false, nullptr, false);
+            weapon->m199();
+            sub_7100301D90(true);
+        }
+    }
+    AncientNecklaceBallBase::leave_();
+    if (!mGiantNecklaceActiveSaveFlag_m.isEmpty())
+        ksys::gdt::setBoolByKey(false, mGiantNecklaceActiveSaveFlag_m);
+}
+
+void AncientNecklaceBall::calc_() {
+    if (isCurrentChild("吊るす")) {
+        auto* child = getCurrentChild();
+        if (child->isFinished() || child->isFailed() || _170._30) {
+            if (_170._38.mLink.hasProc()) {
+                ksys::act::ActorLinkConstDataAccess accessor;
+                ksys::act::acquireActor(&_170._38.mLink, &accessor);
+                sead::Vector3f position;
+                accessor.getMtxPos(&position);
+                sead::Vector3f from;
+                mActor->getMtx().getTranslation(from);
+                sead::Vector3f hit;
+                if (sub_710072EB10(from, position, ksys::phys::RayCast::NormalCheckingMode::_1,
+                                  mActor, &hit, nullptr, nullptr, 0.0f)) {
+                    _120.reset(3.0f);
+                    sub_7100301D90(false);
+                    auto* actor = mActor;
+                    if (auto* physics = actor->getPhysics()) {
+                        sead::Matrix34f matrix = actor->getMtx();
+                        matrix.setTranslation(position);
+                        physics->setMtxAndScale(matrix, false, false, actor->getScale().x);
+                    }
+                } else {
+                    sub_7100301D90(true);
+                }
+            } else {
+                sub_7100301D90(true);
+            }
+            _170.x();
+            SimpleLiftable::sub_710056E2B4();
+            return;
+        }
+    }
+    AncientNecklaceBallBase::calc_();
+    _120.update();
+    if (_120.value <= sead::Mathf::epsilon()) {
+        _120.reset(1.0f, 0.0f);
+        if (auto* physics = mActor->getPhysics()) {
+            physics->sub_7100FBDFA4(physics->get178(0));
+            physics->sub_7100FBDFA4(physics->get178(1));
+        }
+    }
+}
+
+void AncientNecklaceBall::loadParams_() {
+    AncientNecklaceBallBase::loadParams_();
+    getStaticParam(&mLandNoiseLevel_s, "LandNoiseLevel");
+    getMapUnitParam(&mGrabNodeIndex_m, "GrabNodeIndex");
+    getMapUnitParam(&mGiantNecklaceActiveSaveFlag_m, "GiantNecklaceActiveSaveFlag");
+}
+
+bool AncientNecklaceBall::handleMessage_(const ksys::Message* message) {
+    if (_170.m2(*message))
+        return true;
+    return AncientNecklaceBallBase::handleMessage_(message);
+}
+
+// NON_MATCHING: the original computes &_140 after the bind->sub_7100D3C5E0(mActor) argument call; ours
+// hoists it before (C++17 evaluates the member-call object expression first). A single-use local for either
+// side would fix it but is borderline, so not applied.
+void AncientNecklaceBall::m37() {
+    if (auto* weapon = sead::DynamicCast<act::Weapon>(mActor)) {
+        weapon->m175(sead::Vector3f::zero, false, false, nullptr, false);
+        weapon->m199();
+    }
+    if (auto* bind = mActor->getModelBindInfo())
+        _140.sub_710070DE98(bind->sub_7100D3C5E0(mActor), true);
+    sub_7100301D90(true);
+}
+
+bool AncientNecklaceBall::m36() {
+    if (SimpleLiftable::m36())
+        return true;
+    return isCurrentChild("吊るす");
+}
+
+// 0x71003017d0
+// NON_MATCHING: the NodeName key temp is built before the name's cstr() call in the original; ours
+// builds it after (a named key local would fix the order but is borderline). Head, GParam/pack calls,
+// tail (addBool/addVec3/changeChild/dtor loop, w20 -1 sharing) and the SimpleLiftable tail all match.
+void AncientNecklaceBall::m35() {
+    if (mActor->getRootAi()->getI() == 5 || !mActor->getCreateArgBaseProcLink().hasProc()) {
+        SimpleLiftable::m35();
+        return;
+    }
+    sub_7100301A5C();
+    mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_4000);
+
+    ksys::act::ai::InlineParamPack pack;
+    pack.addActor(mActor->getCreateArgBaseProcLink(), "ParentActor", -1);
+    auto* proc = mActor->getCreateArgBaseProcLink().getProc(nullptr, nullptr);
+    const char* node = "Root";
+    if (auto* owner = sead::DynamicCast<ksys::act::Actor>(proc)) {
+        if (*mGrabNodeIndex_m >= 0)
+            node = ::sub_7100EDD26C(owner, *mGrabNodeIndex_m)->cstr();
+    }
+    pack.addPointer(const_cast<char*>(node), "NodeName", ksys::AIDefParamType::String, -1);
+    pack.addBool(false, "IsKeepParentActor", -1);
+    pack.addVec3(sead::Vector3f::zero, "RotOffset", -1);
+    pack.addVec3(sead::Vector3f::zero, "TransOffset", -1);
+    changeChild("吊るす", &pack);
+}
+
+}  // namespace uking::ai
+
+// Defined in this TU in the original (inlined into AncientNecklaceBall::handleMessage_).
+bool Unk_71023d4c08::m2(const ksys::Message& message) {
+    if (message.getType() != 0x80000ab)
+        return false;
+
+    auto* payload = static_cast<Unk_71023d4bb0_Payload*>(message.getUserData());
+    if (!payload)
+        return false;
+
+    payload->x(&_38.mLink);
+    _30 = true;
+    _18 = message.getSource();
+    return true;
+}

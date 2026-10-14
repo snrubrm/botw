@@ -1,5 +1,5 @@
 #include "Game/Actor/actWolfLink.h"
-#include "Game/Damage/dmgDamageManagerBase.h"
+#include "Game/Actor/Damage/dmgDamageManagerBase.h"
 #include "Game/UI/uiUtils.h"
 #include "Game/gameWolfLinkMgr.h"
 #include "KingSystem/ActorSystem/actBoneControl.h"

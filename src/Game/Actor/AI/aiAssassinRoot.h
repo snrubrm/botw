@@ -1,0 +1,44 @@
+#pragma once
+
+#include "Game/Actor/AI/aiNPCRoot.h"
+#include "Game/Actor/aiUnk_71024f1658.h"
+#include "KingSystem/ActorSystem/actAiAi.h"
+
+namespace uking::ai {
+
+class AssassinRoot : public NPCRoot {
+    SEAD_RTTI_OVERRIDE(AssassinRoot, NPCRoot)
+public:
+    explicit AssassinRoot(const InitArg& arg);
+    ~AssassinRoot() override;
+
+    bool hasPreDeleteCb() override;
+    void onPreDelete() override;
+
+    bool init_(sead::Heap* heap) override;
+    void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void leave_() override;
+    void loadParams_() override;
+
+    virtual void m35();
+
+protected:
+    void calc_() override;
+
+    // static_param at offset 0x238
+    const float* mChangeDistance_s{};
+    // map_unit_param at offset 0x240
+    sead::SafeString mEquipItem1_m{};
+    // map_unit_param at offset 0x250
+    sead::SafeString mEquipItem2_m{};
+    // map_unit_param at offset 0x260
+    sead::SafeString mEquipItem3_m{};
+    // map_unit_param at offset 0x270
+    sead::SafeString mEquipItem4_m{};
+    // map_unit_param at offset 0x280
+    sead::SafeString mRideHorseName_m{};
+    Unk_71024f1658 _290;
+};
+KSYS_CHECK_SIZE_NX150(AssassinRoot, 0xa48);
+
+}  // namespace uking::ai

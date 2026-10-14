@@ -1,4 +1,4 @@
-#include "Game/AI/Action/actionSpotBgmTriggerAction.h"
+#include "Game/Actor/Action/actionSpotBgmTriggerAction.h"
 #include "KingSystem/Sound/sndBgmMgr.h"
 #include "KingSystem/Sound/sndSound.h"
 #include "KingSystem/Sound/sndMusicInfo.h"

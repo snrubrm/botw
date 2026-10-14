@@ -10,8 +10,8 @@
 #include <xlink2/xlink2HandleELink.h>
 #include <xlink2/xlink2HandleSLink.h>
 #include "Game/gameGraphics.h"
-#include "Game/AI/aiUnk_7102357210.h"
-#include "Game/AI/aiUnk_NavMeshCallback.h"
+#include "Game/Actor/aiUnk_7102357210.h"
+#include "Game/Actor/aiUnk_NavMeshCallback.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Utils/Types.h"
 

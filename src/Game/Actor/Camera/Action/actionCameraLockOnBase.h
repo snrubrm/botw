@@ -1,0 +1,143 @@
+#pragma once
+
+#include <math/seadVector.h>
+#include <container/seadPtrArray.h>
+#include "Game/Actor/Camera/Action/actionCameraLockOnCallbacks.h"
+#include "Game/Actor/Camera/Action/actionCameraAction.h"
+#include "Game/Actor/actCameraUtil.h"
+#include "KingSystem/ActorSystem/actAiAction.h"
+
+namespace uking::action {
+
+bool sub_7100786CF4(const u8* flags, u8 mask);
+
+class CameraLockOnBase : public CameraAction {
+    SEAD_RTTI_OVERRIDE(CameraLockOnBase, CameraAction)
+public:
+    // Placeholder (initialised member by member in the ctor, copied by m52): a position followed by
+    // three values (the last two angles in degrees).
+    struct Unk88 {
+        sead::Vector3f _0 = sead::Vector3f::zero;
+        // Native m52 calls the polar Cartesian method on this contiguous radius/angle member.
+        act::Unk_7100922700 _c;
+    };
+
+    explicit CameraLockOnBase(const InitArg& arg);
+    ~CameraLockOnBase() override;
+
+protected:
+    bool m32(sead::Heap* heap) override;
+    void m33() override;
+    void m36() override;
+
+    virtual bool m42(sead::Heap* heap);
+    virtual void m43();
+    virtual float m44();
+    virtual float m45();
+    // 0x71007864a8 (declared only): updates the angles from `polar`.
+    virtual void m46(act::Unk_7100922700* polar, bool b);
+    virtual sead::PtrArray<Unk_7102457a80>* m47() { return nullptr; }
+    virtual const sead::PtrArray<Unk_7102457a80>* m48() { return nullptr; }
+    virtual sead::PtrArray<Unk_7102457b00>* m49() { return nullptr; }
+    virtual const sead::PtrArray<Unk_7102457b00>* m50() { return nullptr; }
+    virtual bool m51();
+    virtual void m52();
+    virtual void m53() {}
+    virtual void m54() {}
+    // m55 (CameraMagneCatch) writes two floats through its parameters; this default ignores them.
+    virtual bool m55(f32* out0, f32* out1) { return false; }
+    virtual void m56(bool x) {}
+    virtual void m57() {}
+    virtual bool m58() { return false; }
+    virtual int m59() { return -1; }
+    virtual bool m60(int idx) { return false; }
+
+    // 0x7100786cc0: m60(_f4).
+    bool sub_7100786CC0();
+    void sub_7100785FCC();
+    void sub_71007866C4(f32* out);
+    // 0x7100786974: `*out` = the longitude from LngNear / LngFar blended by _b8, negated when the camera's
+    // azimuth is more than _a0._14 degrees ahead.
+    void sub_7100786974(f32* out);
+    void sub_7100786830(f32* out);
+    // Native helpers blend the viewing direction and adjust collision radius (0x71007860dc / 6a44).
+    void sub_71007860DC(const act::Unk_7100922700* polar, f32* out);
+    void sub_7100786A44(act::Unk_71009214b8* out, const f32* latitude, const f32* longitude);
+
+    sead::Vector3f _4c = sead::Vector3f::zero;
+    sead::Vector3f _58 = sead::Vector3f::zero;
+    sead::Vector3f _64 = sead::Vector3f::zero;
+    sead::Vector3f _70 = sead::Vector3f::zero;
+    sead::Vector3f _7c = sead::Vector3f::zero;
+    Unk88 _88;
+    Unk88 _a0;
+    f32 _b8 = 0;
+    f32 _bc = 0;
+    f32 _c0 = 0;
+    f32 _c4 = 0;
+    f32 _c8 = 0;
+    f32 _cc = 0;
+    f32 _d0 = 0;
+    f32 _d4 = 0;
+    f32 _d8 = 0;
+    f32 _dc = 0;
+    f32 _e0 = 0;
+    f32 _e4 = 0;
+    f32 _e8 = 0;
+    f32 _ec = 0;
+    f32 _f0 = 0;
+    s32 _f4 = -1;
+    s32 _f8 = -1;
+    // static_param at offset 0x100
+    const float* mDistMin_s{};
+    // static_param at offset 0x108
+    const float* mDistMax_s{};
+    // static_param at offset 0x110
+    const float* mAtOffsetVNear_s{};
+    // static_param at offset 0x118
+    const float* mAtOffsetVFar_s{};
+    // static_param at offset 0x120
+    const float* mAtCus_s{};
+    // static_param at offset 0x128
+    const float* mAtOffsetCus_s{};
+    // static_param at offset 0x130
+    const float* mLatVDiffEffect_s{};
+    // static_param at offset 0x138
+    const float* mLatOffsetNear_s{};
+    // static_param at offset 0x140
+    const float* mLatOffsetFar_s{};
+    // static_param at offset 0x148
+    const float* mLatMin_s{};
+    // static_param at offset 0x150
+    const float* mLatMax_s{};
+    // static_param at offset 0x158
+    const float* mLatCus_s{};
+    // static_param at offset 0x160
+    const float* mLngNear_s{};
+    // static_param at offset 0x168
+    const float* mLngFar_s{};
+    // static_param at offset 0x170
+    const float* mLngMax_s{};
+    // static_param at offset 0x178
+    const float* mLngCus_s{};
+    // static_param at offset 0x180
+    const float* mRadiusNear_s{};
+    // static_param at offset 0x188
+    const float* mRadiusFar_s{};
+    // static_param at offset 0x190
+    const float* mRadiusCus_s{};
+    // static_param at offset 0x198
+    const float* mFovyNear_s{};
+    // static_param at offset 0x1a0
+    const float* mFovyFar_s{};
+    // static_param at offset 0x1a8
+    const float* mFovyCus_s{};
+    f32 _1b0 = 0;
+    f32 _1b4 = 0;
+    f32 _1b8 = 0;
+    u8 _1bc = 0;
+    u8 _1bd = 0;
+    u8 _1be = 2;
+};
+
+}  // namespace uking::action

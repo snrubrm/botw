@@ -1,0 +1,19 @@
+#include "Game/Actor/Action/actionDummyTriggerAction.h"
+
+namespace uking::action {
+
+DummyTriggerAction::DummyTriggerAction(const InitArg& arg) : ksys::act::ai::Action(arg) {}
+
+DummyTriggerAction::~DummyTriggerAction() = default;
+
+bool DummyTriggerAction::init_(sead::Heap* heap) {
+    return ksys::act::ai::Action::init_(heap);
+}
+
+bool DummyTriggerAction::oneShot_() {
+    return true;
+}
+
+void DummyTriggerAction::loadParams_() {}
+
+}  // namespace uking::action

@@ -1,0 +1,18 @@
+#pragma once
+
+#include "Game/Actor/Action/actionThrowWeapon.h"
+#include "KingSystem/ActorSystem/actAiAction.h"
+
+namespace uking::action {
+
+class ThrowWeaponRight : public ThrowWeapon {
+    SEAD_RTTI_OVERRIDE(ThrowWeaponRight, ThrowWeapon)
+public:
+    explicit ThrowWeaponRight(const InitArg& arg);
+    ~ThrowWeaponRight() override;
+
+protected:
+    void m33() override;
+};
+
+}  // namespace uking::action

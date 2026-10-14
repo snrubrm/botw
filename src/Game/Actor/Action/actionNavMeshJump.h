@@ -1,0 +1,19 @@
+#pragma once
+
+#include "Game/Actor/Action/actionJumpTo.h"
+#include "KingSystem/ActorSystem/actAiAction.h"
+
+namespace uking::action {
+
+class NavMeshJump : public JumpTo {
+    SEAD_RTTI_OVERRIDE(NavMeshJump, JumpTo)
+public:
+    explicit NavMeshJump(const InitArg& arg);
+
+protected:
+    void m32() override;
+    void m33() override;
+    void m34() override;
+};
+
+}  // namespace uking::action

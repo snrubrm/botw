@@ -2,7 +2,7 @@
 #include "Game/E3Mgr.h"
 #include "Game/gameTipsMgr.h"
 #include "Game/gameResidentActorMgr.h"
-#include "Game/Damage/dmgInfoManager.h"
+#include "Game/Actor/Damage/dmgInfoManager.h"
 #include "KingSystem/ActorSystem/actGlobalParameter.h"
 #include "KingSystem/Map/mapAutoPlacementFlowMgr.h"
 #include "KingSystem/System/StarterPackMgr.h"

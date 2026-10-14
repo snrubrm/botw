@@ -1,0 +1,27 @@
+#pragma once
+
+#include "Game/Actor/AI/aiEnemyNoticeSound.h"
+#include "KingSystem/ActorSystem/actBaseProcLink.h"
+#include "KingSystem/ActorSystem/actAiAi.h"
+
+namespace uking::ai {
+
+class EnemyNoticeSoundWithUI : public EnemyNoticeSound {
+    SEAD_RTTI_OVERRIDE(EnemyNoticeSoundWithUI, EnemyNoticeSound)
+public:
+    explicit EnemyNoticeSoundWithUI(const InitArg& arg);
+    ~EnemyNoticeSoundWithUI() override;
+
+    bool init_(sead::Heap* heap) override;
+    void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
+    void leave_() override;
+    void loadParams_() override;
+
+protected:
+    // dynamic_param at offset 0x48
+    ksys::act::BaseProcLink* mTargetActor_d{};
+    ksys::act::BaseProcLink _50;
+};
+
+}  // namespace uking::ai

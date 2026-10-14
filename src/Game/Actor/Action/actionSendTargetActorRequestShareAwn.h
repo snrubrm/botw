@@ -1,0 +1,28 @@
+#pragma once
+
+#include "Game/Actor/Action/actionSendTargetActorMessageBase.h"
+#include "Game/Actor/aiUnk_7102357d20.h"
+#include "KingSystem/ActorSystem/actAiAction.h"
+
+namespace uking::action {
+
+class SendTargetActorRequestShareAwn : public SendTargetActorMessageBase {
+    SEAD_RTTI_OVERRIDE(SendTargetActorRequestShareAwn, SendTargetActorMessageBase)
+public:
+    explicit SendTargetActorRequestShareAwn(const InitArg& arg);
+    ~SendTargetActorRequestShareAwn() override;
+
+    bool init_(sead::Heap* heap) override;
+    void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void leave_() override;
+    void loadParams_() override;
+
+protected:
+    void calc_() override;
+    void m33() override;
+    Unk_7102357d20* m34() override;
+
+    Unk_71023b73c8 _30{mActor, 0x80000bf};
+};
+
+}  // namespace uking::action

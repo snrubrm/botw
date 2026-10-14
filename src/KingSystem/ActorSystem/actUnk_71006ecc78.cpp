@@ -1,5 +1,5 @@
 #include "KingSystem/ActorSystem/actUnk_71006ecc78.h"
-#include "Game/AI/aiUnk_71007377D4.h"
+#include "Game/Actor/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actBoneControl.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"

@@ -1,0 +1,19 @@
+#pragma once
+
+#include "Game/Actor/AI/aiPreyNormal.h"
+#include "KingSystem/ActorSystem/actAiAi.h"
+
+namespace uking::ai {
+
+class SunazarashiNormal : public PreyNormal {
+    SEAD_RTTI_OVERRIDE(SunazarashiNormal, PreyNormal)
+public:
+    explicit SunazarashiNormal(const InitArg& arg);
+    ~SunazarashiNormal() override;
+
+    bool m38() override { return false; }
+
+protected:
+};
+
+}  // namespace uking::ai

@@ -1,7 +1,7 @@
 #include "Game/Actor/actSiteBoss.h"
 #include <basis/seadNew.h>
-#include "Game/AI/aiUnk_71007368A4.h"
-#include "Game/Damage/dmgDamageManager.h"
+#include "Game/Actor/aiUnk_71007368A4.h"
+#include "Game/Actor/Damage/dmgDamageManager.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actChemical.h"

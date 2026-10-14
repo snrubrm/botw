@@ -1,5 +1,5 @@
 #include "Game/Actor/actWeapon.h"
-#include "Game/AI/aiUnk_71007377D4.h"
+#include "Game/Actor/aiUnk_71007377D4.h"
 #include "Game/Actor/actEnemy.h"
 #include "Game/gameUnk_71008ba8d8.h"
 #include "KingSystem/Event/evtOrderParam.h"
@@ -10,7 +10,7 @@
 #include <algorithm>
 #include <prim/seadScopedLock.h>
 #include <random/seadGlobalRandom.h>
-#include "Game/Damage/dmgInfoManager.h"
+#include "Game/Actor/Damage/dmgInfoManager.h"
 #include "Game/UI/uiPauseMenuDataMgr.h"
 #include "Game/UI/uiUtils.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"

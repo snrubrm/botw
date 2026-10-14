@@ -2,7 +2,7 @@
 
 #include <prim/seadBitFlag.h>
 #include "Game/Actor/actEnemy.h"
-#include "Game/Damage/dmgDamageCallback.h"
+#include "Game/Actor/Damage/dmgDamageCallback.h"
 #include <xlink2/xlink2HandleELink.h>
 #include "KingSystem/Event/evtResidentEvent.h"
 

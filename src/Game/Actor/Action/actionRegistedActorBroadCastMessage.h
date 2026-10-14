@@ -1,0 +1,24 @@
+#pragma once
+
+#include "Game/Actor/Action/actionRegistedActorSetActionBase.h"
+#include "KingSystem/ActorSystem/actAiAction.h"
+
+namespace uking::action {
+
+class RegistedActorBroadCastMessage : public RegistedActorSetActionBase {
+    SEAD_RTTI_OVERRIDE(RegistedActorBroadCastMessage, RegistedActorSetActionBase)
+public:
+    explicit RegistedActorBroadCastMessage(const InitArg& arg);
+    ~RegistedActorBroadCastMessage() override;
+
+    bool init_(sead::Heap* heap) override;
+    void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void leave_() override;
+    void loadParams_() override;
+    bool handleMessage_(const ksys::Message* message) override;
+
+protected:
+    void calc_() override;
+};
+
+}  // namespace uking::action

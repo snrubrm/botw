@@ -1,0 +1,25 @@
+#include "Game/Actor/Query/queryCheckEatActor.h"
+#include <evfl/Query.h>
+
+namespace uking::query {
+
+CheckEatActor::CheckEatActor(const InitArg& arg) : ksys::act::ai::Query(arg) {}
+
+CheckEatActor::~CheckEatActor() = default;
+
+int CheckEatActor::doQuery() {
+    if (mPrevEatActorName)
+        return mActorName == *mPrevEatActorName;
+    return 0;
+}
+
+void CheckEatActor::loadParams(const evfl::QueryArg& arg) {
+    loadString(arg.param_accessor, "ActorName");
+}
+
+void CheckEatActor::loadParams() {
+    getDynamicParam(&mActorName, "ActorName");
+    getAITreeVariable(&mPrevEatActorName, "PrevEatActorName");
+}
+
+}  // namespace uking::query

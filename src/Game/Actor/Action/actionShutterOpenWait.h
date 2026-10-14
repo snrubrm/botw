@@ -1,0 +1,34 @@
+#pragma once
+
+#include <math/seadVector.h>
+#include "Game/Actor/Action/actionActionEx.h"
+#include "KingSystem/ActorSystem/actAiAction.h"
+
+namespace uking::action {
+
+class ShutterOpenWait : public ActionEx {
+    SEAD_RTTI_OVERRIDE(ShutterOpenWait, ActionEx)
+public:
+    explicit ShutterOpenWait(const InitArg& arg);
+    ~ShutterOpenWait() override;
+
+    bool init_(sead::Heap* heap) override;
+    void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void leave_() override;
+    void loadParams_() override;
+
+protected:
+    void calc_() override;
+
+    // static_param at offset 0x20
+    sead::SafeString mASName_s{};
+    // map_unit_param at offset 0x30
+    const int* mMoveAxis_m{};
+    // map_unit_param at offset 0x38
+    const float* mMoveDis_m{};
+    sead::Vector3f _40 = sead::Vector3f::ey;
+    u8 _4c[0x4];
+};
+KSYS_CHECK_SIZE_NX150(ShutterOpenWait, 0x50);
+
+}  // namespace uking::action

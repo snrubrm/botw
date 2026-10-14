@@ -1,0 +1,47 @@
+#pragma once
+
+#include "Game/Actor/Action/actionStopBase.h"
+#include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/System/Timer.h"
+
+namespace uking::action {
+
+class SandwormASPlay : public StopBase {
+    SEAD_RTTI_OVERRIDE(SandwormASPlay, StopBase)
+public:
+    explicit SandwormASPlay(const InitArg& arg);
+    ~SandwormASPlay() override;
+
+    bool init_(sead::Heap* heap) override;
+    void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void leave_() override;
+    void loadParams_() override;
+
+protected:
+    void calc_() override;
+
+    // static_param at offset 0x30
+    const int* mChangeOffsetDelay_s{};
+    // static_param at offset 0x38
+    const float* mTargetSandOffset_s{};
+    // static_param at offset 0x40
+    const float* mSandOffsetSpeed_s{};
+    // static_param at offset 0x48
+    const bool* mWaitASFinish_s{};
+    // static_param at offset 0x50
+    const bool* mWaitSandOffset_s{};
+    // static_param at offset 0x58
+    const bool* mIsChangeable_s{};
+    // static_param at offset 0x60
+    const bool* mIsUseAtEvent_s{};
+    // static_param at offset 0x68
+    const bool* mIsUseTossAt_s{};
+    // static_param at offset 0x70
+    sead::SafeString mASName_s{};
+    // static_param at offset 0x80
+    sead::SafeString mTransBoneName_s{};
+    ksys::Timer _90;
+};
+KSYS_CHECK_SIZE_NX150(SandwormASPlay, 0xa0);
+
+}  // namespace uking::action
