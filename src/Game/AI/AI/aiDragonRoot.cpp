@@ -9,6 +9,13 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Utils/Thread/Message.h"
+#include <gfx/seadCamera.h>
+#include <gfx/seadProjection.h>
+#include <gfx/seadViewport.h>
+#include "KingSystem/System/CameraMgr.h"
+
+// 0x7100d8aed0: fills `projection` from the camera manager state (declared in actionShootingStartFlying.cpp too).
+void sub_7100D8AED0(sead::LookAtCamera* camera, sead::PerspectiveProjection* projection);
 
 namespace uking::ai {
 
@@ -223,6 +230,59 @@ void DragonRoot::m45(ksys::act::Actor* actor) {
     dragon->_1f70.setBit(29);
     _230 = 0.0f;
     spawnDrop(dragon, actor, sead::Vector3f::zero, sead::Vector3f::zero);
+}
+
+// NON_MATCHING: the four screen-bounds compares are chained in a different order (fccmp sequence).
+bool DragonRoot::m46() {
+    auto* camera = ksys::CameraMgr::instance()->getLookAtCamera();
+    if (!camera)
+        return false;
+
+    sead::Vector3f look;
+    camera->getLookVectorByMatrix(&look);
+    for (s32 i = 0; i < 5; ++i) {
+        sead::Matrix34f mtx = sead::Matrix34f::ident;
+        switch (i) {
+        case 0:
+            mActor->sub_71011D57F8(&mtx, "Head");
+            break;
+        case 1:
+            mActor->sub_71011D57F8(&mtx, "Wrist_A_L");
+            break;
+        case 2:
+            mActor->sub_71011D57F8(&mtx, "Wrist_B_L");
+            break;
+        case 3:
+            mActor->sub_71011D57F8(&mtx, "Wrist_C_L");
+            break;
+        case 4:
+            mActor->sub_71011D57F8(&mtx, "Spine_31");
+            break;
+        default:
+            break;
+        }
+
+        const sead::Vector3f pos = mtx.getTranslation();
+        if ((pos - camera->getPos()).dot(look) < 0) {
+            if (auto* viewport = ksys::CameraMgr::instance()->sub_7100D8C4C8()) {
+                f32 x;
+                f32 y;
+                {
+                    sead::PerspectiveProjection projection;
+                    sub_7100D8AED0(camera, &projection);
+                    sead::Vector2f screen;
+                    camera->projectByMatrix(&screen, pos, projection, *viewport);
+                    screen.x /= viewport->getSizeX();
+                    x = screen.x;
+                    screen.y /= viewport->getSizeY();
+                    y = screen.y;
+                }
+                if (x > -0.5f && x < 0.5f && y > -0.5f && y < 0.5f)
+                    return true;
+            }
+        }
+    }
+    return false;
 }
 
 bool DragonRoot::m47() {
