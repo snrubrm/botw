@@ -14,6 +14,7 @@ public:
     bool isChangeable() const override;
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
 
@@ -26,6 +27,8 @@ public:
     void changeToForcedSmallAttack();
     // 0x71004ab2f4 (placeholder name)
     void changeToMidRange();
+    // 0x71004ab0e0 (placeholder name; declared only): whether to change to 中距離.
+    bool sub_71004AB0E0();
 
 protected:
     // static_param at offset 0x38

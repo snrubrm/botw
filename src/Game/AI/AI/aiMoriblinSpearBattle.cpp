@@ -29,6 +29,82 @@ void MoriblinSpearBattle::enter_(ksys::act::ai::InlineParamPack* params) {
     sub_71004AA888();
 }
 
+// NON_MATCHING: as in enter_, clang inlines sub_71004AA888 / changeToWait here while the original calls them; the
+// direction test registers differ.
+void MoriblinSpearBattle::calc_() {
+    // The XZ distance to the target.
+    const auto calcTargetDist = [this] {
+        sead::Vector3f diff = sub_71005D9330(mActor);
+        diff -= mActor->getMtx().getTranslation();
+        diff.y = 0;
+        return diff.length();
+    };
+
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed()) {
+        if (isCurrentChild("中距離") || isCurrentChild("近距離") || isCurrentChild("強制小攻撃")) {
+            sub_71004AA888();
+            return;
+        }
+        if (isCurrentChild("待機") && getCurrentChild()->isFailed()) {
+            setFailed();
+            return;
+        }
+    }
+
+    if (isCurrentChild("待機")) {
+        if (calcTargetDist() >= sub_71007320F0(mActor, *mWeaponIdx_s) + *mBaseDist_s + *mOutDist_s)
+            _80.update();
+        else
+            _80 = ksys::Timer(10, 10);
+        getCurrentChild()->setDynamicParam(*mTargetPos_d, "TargetPos");
+        if (!getCurrentChild()->isChangeable())
+            return;
+        if (sub_71004AAEAC()) {
+            changeToShortRange();
+            return;
+        }
+        const sead::Vector3f& target = sub_71005D9330(mActor);
+        const sead::Vector2f diff(target.x - mActor->getMtx()(0, 3),
+                                  target.z - mActor->getMtx()(2, 3));
+        if (diff.length() <= *mForceAttackDist_s) {
+            sead::Vector3f dir = *mTargetPos_d - mActor->getMtx().getTranslation();
+            dir.y = 0;
+            const sead::Vector3f forward = mActor->getMtx().getBase(2);
+            dir.normalize();
+            if (forward.dot(dir) >= sead::Mathf::cos(*mAttackStartRotate_s)) {
+                changeToForcedSmallAttack();
+                return;
+            }
+        }
+        if (sub_71004AB0E0()) {
+            changeToMidRange();
+            return;
+        }
+    } else if (isCurrentChild("中距離")) {
+        getCurrentChild()->setDynamicParam(*mTargetPos_d, "TargetPos");
+        return;
+    } else if (isCurrentChild("近距離")) {
+        if (calcTargetDist() >= sub_71007320F0(mActor, *mWeaponIdx_s) + *mBaseDist_s + *mOutDist_s)
+            _80.update();
+        else
+            _80 = ksys::Timer(10, 10);
+        getCurrentChild()->setDynamicParam(*mTargetPos_d, "TargetPos");
+        if (!getCurrentChild()->isChangeable())
+            return;
+        if (calcTargetDist() > sub_71007320F0(mActor, *mWeaponIdx_s) + *mBaseDist_s) {
+            changeToWait();
+            return;
+        }
+    } else {
+        return;
+    }
+
+    if (_80.value > sead::Mathf::epsilon())
+        return;
+    setFailed();
+}
+
 bool MoriblinSpearBattle::isChangeable() const {
     return getCurrentChild()->isChangeable();
 }
