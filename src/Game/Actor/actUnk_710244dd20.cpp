@@ -3,6 +3,7 @@
 #include "Game/gameUnkRttiPlaceholders.h"
 #include "Game/Damage/dmgDamageManagerBase.h"
 #include "KingSystem/System/Timer.h"
+#include <math/seadMathCalcCommon.h>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/Utils/Thread/Message.h"
@@ -115,6 +116,147 @@ void Unk_710244dd20::m20() {
     if (_88._30)
         sub_71006D0AB8();
     _88.x();
+}
+
+void Unk_710244dd20::sub_71006CF770() {
+    if (!_8.isOn(0x780))
+        return;
+    if (_40 < 0.0f)
+        return;
+    if (m15())
+        return;
+
+    f32 rate;
+    if (_8.isOn(0x100))
+        rate = -sub_71006CFA80();
+    else if (_8.isOn(0x200))
+        rate = -sub_71006CFBA0();
+    else
+        rate = -1.0f;
+    ksys::Timer::update(&_40, rate);
+    if (!(_40 < 0.0f))
+        return;
+
+    if (_8.isOn(0x80)) {
+        auto* param = sub_71006DF5A4();
+        if (param && param->mPoisonBogDamage.ref() >= 1) {
+            dmg::ConditionDamageInfo info;
+            info.mKind = 7;
+            info.mDamage = param->mPoisonBogDamage.ref();
+            info.mFlags = 1;
+            sub_71006DF5CC(info);
+        }
+        param = sub_71006DF5A4();
+        _40 = param ? static_cast<f32>(param->mPoisonBogDamageInterval.ref()) : 0.0f;
+    } else if (_8.isOn(0x100)) {
+        auto* param = sub_71006DF5A4();
+        if (param && param->mColdWaterDamage.ref() >= 1) {
+            dmg::ConditionDamageInfo info;
+            info.mKind = 8;
+            info.mDamage = param->mColdWaterDamage.ref();
+            info.mFlags = 1;
+            sub_71006DF5CC(info);
+        }
+        param = sub_71006DF5A4();
+        _40 = param ? static_cast<f32>(param->mColdWaterDamageInterval.ref()) : 0.0f;
+    } else if (_8.isOn(0x200)) {
+        auto* param = sub_71006DF5A4();
+        if (param) {
+            const s32 heal = param->mHotWaterHeal.ref();
+            if (heal >= 1) {
+                const s32* life_ptr = _10->getLife();
+                const s32 life = life_ptr ? *life_ptr : 1;
+                if (life < _10->getMaxLife())
+                    xlinkSearchAndEmit(_10, "HotSpringRecovery", 2, nullptr);
+                sub_71006DF67C(heal);
+            }
+        }
+        param = sub_71006DF5A4();
+        _40 = param ? static_cast<f32>(param->mHotWaterHealInterval.ref()) : 0.0f;
+    } else if (_8.isOn(0x400)) {
+        auto* param = sub_71006DF5A4();
+        if (param && param->mLavaDamage.ref() >= 1) {
+            dmg::ConditionDamageInfo info;
+            info.mKind = 10;
+            info.mDamage = param->mLavaDamage.ref();
+            info.mFlags = 1;
+            sub_71006DF5CC(info);
+        }
+        param = sub_71006DF5A4();
+        _40 = param ? static_cast<f32>(param->mLavaDamageInterval.ref()) : 0.0f;
+    }
+}
+
+// NON_MATCHING: the original loads the actor's y before _6f0 for both depths (as `-y + _6f0` would) and keeps the
+// constant -1 in another register.
+f32 Unk_710244dd20::sub_71006CFA80() {
+    auto* actor = _10;
+    auto* param = sub_71006DF5A4();
+    if (!param)
+        return 0.0f;
+    if (!sub_71006DF43C(_10))
+        return 0.0f;
+    auto* param2 = sub_71006DF5A4();
+    if (!param2)
+        return 0.0f;
+    const f32 depth = _10->get68f() ? _10->get6f0() - _10->getMtx()(1, 3) : 0.0f;
+    if (!(depth > param2->mColdWaterDamageStartDepth.ref()))
+        return 0.0f;
+    if (_8.isOn(8))
+        return 0.0f;
+
+    const s32 interval_deep = param->mColdWaterDamageIntervalDeep.ref();
+    const s32 interval = param->mColdWaterDamageInterval.ref();
+    if (interval_deep < 0)
+        return interval < 0 ? 0.0f : 1.0f;
+    if (interval_deep == 0)
+        return 1.0f;
+    const f32 deep_depth = param->mColdWaterDamageDeepDepth.ref();
+    if (deep_depth <= 0.0f)
+        return 1.0f;
+    const f32 range = deep_depth - param->mColdWaterDamageStartDepth.ref();
+    if (range <= 0.0f)
+        return static_cast<f32>(interval_deep);
+    const f32 actor_depth = actor->get68f() ? actor->get6f0() - actor->getMtx()(1, 3) : 0.0f;
+    const f32 diff = actor_depth - param->mColdWaterDamageStartDepth.ref();
+    const f32 ratio = (diff < 0.0f ? 0.0f : diff) / range;
+    return (static_cast<f32>(interval / interval_deep) - 1.0f) * ratio + 1.0f;
+}
+
+// NON_MATCHING: the original loads the actor's y before _6f0 for both depths (as `-y + _6f0` would) and keeps the
+// constant -1 in another register.
+f32 Unk_710244dd20::sub_71006CFBA0() {
+    auto* actor = _10;
+    auto* param = sub_71006DF5A4();
+    if (!param)
+        return 0.0f;
+    if (!sub_71006DF4F0(_10))
+        return 0.0f;
+    auto* param2 = sub_71006DF5A4();
+    if (!param2)
+        return 0.0f;
+    const f32 depth = _10->get68f() ? _10->get6f0() - _10->getMtx()(1, 3) : 0.0f;
+    if (!(depth > param2->mHotWaterHealStartDepth.ref()))
+        return 0.0f;
+    if (_8.isOn(8))
+        return 0.0f;
+
+    const s32 interval_deep = param->mHotWaterHealIntervalDeep.ref();
+    const s32 interval = param->mHotWaterHealInterval.ref();
+    if (interval_deep < 0)
+        return interval < 0 ? 0.0f : 1.0f;
+    if (interval_deep == 0)
+        return 1.0f;
+    const f32 deep_depth = param->mHotWaterHealDeepDepth.ref();
+    if (deep_depth <= 0.0f)
+        return 1.0f;
+    const f32 range = deep_depth - param->mHotWaterHealStartDepth.ref();
+    if (range <= 0.0f)
+        return static_cast<f32>(interval_deep);
+    const f32 actor_depth = actor->get68f() ? actor->get6f0() - actor->getMtx()(1, 3) : 0.0f;
+    const f32 diff = actor_depth - param->mHotWaterHealStartDepth.ref();
+    const f32 ratio = (diff < 0.0f ? 0.0f : diff) / range;
+    return (static_cast<f32>(interval / interval_deep) - 1.0f) * ratio + 1.0f;
 }
 
 void Unk_710244dd20::sub_71006CF9B4() {

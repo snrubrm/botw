@@ -79,6 +79,11 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(Unk_71025ae680, 0x20);
 
+// 0x71006df43c / 0x71006df4f0 (placeholder names): whether `actor` is in water whose sub material is Water_Ice /
+// Water_Hot.
+bool sub_71006DF43C(ksys::act::Actor* actor);
+bool sub_71006DF4F0(ksys::act::Actor* actor);
+
 // Declaration only: Enemy::m178 builds this 0x70-byte controller (vtable 0x710244edc0).
 // RTTI6E9910 / 6E99DC establish the base; FishRoot3CC69C writes the Boolean at +0x68.
 // The callback and other derived state between +0x1c and +0x68 remain opaque.
@@ -131,13 +136,18 @@ public:
     void sub_71006D15EC();
     void sub_71006D19AC();
     void sub_71006D0AB8();
+    // 0x71006cfa80 / 0x71006cfba0 (not decompiled; placeholder names): the timer rates of the cold water / hot water
+    // damage (sub_71006CF770).
+    f32 sub_71006CFA80();
+    f32 sub_71006CFBA0();
     // 0x71006d1c34 (not decompiled; placeholder name): used by sub_71006D19AC.
     bool sub_71006D1C34();
 
     // New virtuals (slots 14-20, 0x71006d22ac / 0x71006cfcc0 / 0x71006d20cc / 0x71006d22b4 / 0x71006d094c /
     // 0x71006d0774 / 0x71006d0bdc); placeholder names, only m14 and m17 are decompiled.
     virtual bool m14() { return false; }
-    virtual void m15();
+    // Slot 15 (0x71006cfcc0, not decompiled): returns bool (sub_71006CF770 skips the timers when it is set).
+    virtual bool m15();
     // Slot 16 (0x71006d20cc): false only while the chemical state blocks the condition `kind` (3: bit 1 of the
     // Chemical's byte at 0xb9, 4: the value at 0x1b8 is positive); placeholder name.
     virtual bool m16(s32 kind);

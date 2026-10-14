@@ -1,5 +1,6 @@
 #include "Game/Actor/actUnk_71025ae680.h"
 #include "Game/Damage/dmgDamageManager.h"
+#include "KingSystem/Physics/physMaterialMask.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actChemicalElementHolder.h"
@@ -8,6 +9,18 @@
 
 namespace uking::act {
 
+
+bool sub_71006DF43C(ksys::act::Actor* actor) {
+    if (!actor->get68f() || int(ksys::phys::Material(actor->get6fc())) != ksys::phys::Material::Water)
+        return false;
+    return ksys::phys::MaterialMask::getSubMaterialName(ksys::phys::Material::Water, actor->get700()) == "Water_Ice";
+}
+
+bool sub_71006DF4F0(ksys::act::Actor* actor) {
+    if (!actor->get68f() || int(ksys::phys::Material(actor->get6fc())) != ksys::phys::Material::Water)
+        return false;
+    return ksys::phys::MaterialMask::getSubMaterialName(ksys::phys::Material::Water, actor->get700()) == "Water_Hot";
+}
 
 void Unk_71025ae680::sub_71006DF5CC(const dmg::ConditionDamageInfo& info) {
     auto* manager = sead::DynamicCast<dmg::DamageManagerBase>(_10->getDamageMgr());
