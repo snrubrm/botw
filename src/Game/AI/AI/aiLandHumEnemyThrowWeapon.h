@@ -13,6 +13,7 @@ public:
     bool isChangeable() const override;
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
 
@@ -26,6 +27,9 @@ public:
     // timer `_58` has run out.
     bool sub_710046C6E0();
     void sub_710046C574();
+    // 0x710046c8ec (placeholder name): changes to 武器取得 when the weapon in slot WeaponIdx lies within
+    // ThrowWeaponNearDist (XZ).
+    bool sub_710046C8EC();
     // 0x710046cc20 (placeholder name; declared only)
     bool sub_710046CC20();
 

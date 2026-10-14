@@ -5,6 +5,8 @@
 #include "Game/Actor/actEnemy.h"
 #include "Game/Actor/actWeapon.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actUnk_71006e45c4.h"
 
 namespace uking::ai {
@@ -15,6 +17,54 @@ LandHumEnemyThrowWeapon::~LandHumEnemyThrowWeapon() = default;
 
 void LandHumEnemyThrowWeapon::enter_(ksys::act::ai::InlineParamPack* params) {
     changeToThrowWeapon();
+}
+
+void LandHumEnemyThrowWeapon::calc_() {
+    auto* child = getCurrentChild();
+    if ((child->isFinished() || child->isFailed()) && isCurrentChild("武器投げ")) {
+        const f32 wait = static_cast<f32>(*mWaitTimeMax_s);
+        _58 = ksys::Timer(wait, wait);
+        ksys::act::ai::InlineParamPack pack;
+        pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+        changeChild("待機", &pack);
+        return;
+    }
+
+    child = getCurrentChild();
+    if ((child->isFinished() || child->isFailed()) &&
+        (isCurrentChild("武器取得") || isCurrentChild("怒り"))) {
+        setFinished();
+        return;
+    }
+
+    if (getCurrentChild()->isChangeable() && isCurrentChild("待機")) {
+        _58.update();
+        if (sub_710046C380()) {
+            sub_710046C574();
+            return;
+        }
+        if (sub_710046C6E0()) {
+            setFinished();
+            return;
+        }
+        if (!sub_710046C8EC()) {
+            if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
+                auto& link = enemy->_c38[*mWeaponIdx_s];
+                if (link.hasProc()) {
+                    ksys::act::ActorConstDataAccess acc;
+                    ksys::act::acquireActor(&link, &acc);
+                    sead::Vector3f pos;
+                    acc.getMtxPos(&pos);
+                    sub_71005DB1D8(mActor, pos);
+                }
+            }
+        }
+    } else if (isCurrentChild("怒り")) {
+        const sead::Vector3f target = *mTargetPos_d;
+        sub_71005DB1D8(mActor, target);
+    }
+
+    getCurrentChild()->setDynamicParam(*mTargetPos_d, "TargetPos");
 }
 
 void LandHumEnemyThrowWeapon::changeToThrowWeapon() {
@@ -63,6 +113,28 @@ bool LandHumEnemyThrowWeapon::sub_710046C6E0() {
         }
     }
     return _58.value <= std::numeric_limits<f32>::epsilon();
+}
+
+bool LandHumEnemyThrowWeapon::sub_710046C8EC() {
+    auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
+    if (!enemy)
+        return false;
+    auto* proc = enemy->_c38[*mWeaponIdx_s].getProc(nullptr, nullptr);
+    if (!sead::DynamicCast<act::Weapon>(proc) || !proc->isCalc())
+        return false;
+    auto* weapon = sead::DynamicCast<act::Weapon>(proc);
+    if (!weapon)
+        return false;
+    const sead::Vector2f pos(enemy->getMtx()(0, 3), enemy->getMtx()(2, 3));
+    const sead::Vector2f weapon_pos(weapon->getMtx()(0, 3), weapon->getMtx()(2, 3));
+    if ((pos - weapon_pos).squaredLength() <=
+        *mThrowWeaponNearDist_s * *mThrowWeaponNearDist_s) {
+        ksys::act::ai::InlineParamPack pack;
+        pack.acquireActor(weapon, "TargetWeapon", -1);
+        changeChild("武器取得", &pack);
+        return true;
+    }
+    return false;
 }
 
 void LandHumEnemyThrowWeapon::sub_710046C574() {
