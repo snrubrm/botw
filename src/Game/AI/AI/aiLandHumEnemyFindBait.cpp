@@ -39,6 +39,80 @@ void LandHumEnemyFindBait::changeToNotice() {
     changeChild("気づき", &params);
 }
 
+// NON_MATCHING: the bait accessor address is kept in a register for its destructor (two instructions).
+void LandHumEnemyFindBait::calc_() {
+    if (isCurrentChild("餌発見")) {
+        auto* child = sead::DynamicCast<ksys::act::Actor>(mActor->getConnectedCalcChild());
+        if (child) {
+            if (auto* unk = sub_71005D9D68(mActor))
+                unk->sub_71002DC3A8(child, 0x100);
+        }
+    } else {
+        UnarmedEnemySearch::calc_();
+    }
+
+    if (isGoStraightOrMove()) {
+        ksys::act::ActorConstDataAccess bait;
+        if (mTargetBait_d->hasProc()) {
+            ksys::act::acquireActor(mTargetBait_d, &bait);
+            sead::Vector3f pos;
+            bait.getActorMtx().getTranslation(pos);
+            sub_71005DB068(mActor, pos);
+        } else {
+            sub_71005DB3EC(mActor);
+        }
+    } else {
+        sub_71005DB3EC(mActor);
+    }
+
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed()) {
+        if (isCurrentChild("気づき")) {
+            m37();
+            return;
+        }
+        if (isCurrentChild("怒り")) {
+            setFinished();
+            return;
+        }
+        if (isCurrentChild("疑似餌発見") || isCurrentChild("餌発見")) {
+            if (auto* unit = ksys::act::sub_7100D82FFC(mActor->getBoneControl()))
+                unit->_8c &= 0xffcf;
+            sub_71005DB498(mActor);
+            if (getCurrentChild()->isFinished()) {
+                setFinished();
+                return;
+            }
+            if (sub_71005DEC08(mTargetBait_d, mActor, 999.0f, 999.0f, sead::Mathf::pi())) {
+                changeToAngry();
+                return;
+            }
+            m37();
+            return;
+        }
+    }
+
+    if (!getCurrentChild()->isChangeable())
+        return;
+
+    if (isCurrentChild("怒り") && _a0.hasProc()) {
+        ksys::act::ActorConstDataAccess target;
+        ksys::act::acquireActor(&_a0, &target);
+        const sead::Vector3f pos = target.getActorMtx().getTranslation();
+        getCurrentChild()->setDynamicParam(pos, "TargetPos");
+        return;
+    }
+
+    if (!isCurrentChild("餌発見"))
+        return;
+    ksys::act::ActorConstDataAccess bait;
+    ksys::act::acquireActor(mTargetBait_d, &bait);
+    const sead::Vector3f pos = bait.getActorMtx().getTranslation();
+    getCurrentChild()->setDynamicParam(pos, "TargetPos");
+    if (*mIsValidForceNeck_s)
+        sub_710045F398();
+}
+
 bool LandHumEnemyFindBait::isChangeable() const {
     return getCurrentChild()->isChangeable();
 }

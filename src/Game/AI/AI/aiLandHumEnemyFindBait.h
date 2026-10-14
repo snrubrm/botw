@@ -15,6 +15,7 @@ public:
     bool isChangeable() const override;
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
     void m38() override;
@@ -28,6 +29,8 @@ public:
     void changeToFindBait();
 
     bool sub_710045FC10();
+    // 0x710045f398 (placeholder name; declared only): neck control towards the bait (IsValidForceNeck).
+    void sub_710045F398();
 
 protected:
     // static_param at offset 0x68
