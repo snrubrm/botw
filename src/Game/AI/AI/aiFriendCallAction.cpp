@@ -3,7 +3,7 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 
 namespace uking::ai {
 
@@ -91,7 +91,7 @@ bool FriendCallAction::handleAck_(const ksys::MessageAck* ack) {
 
 void FriendCallAction::changeToCallOut() {
     sead::Vector3f target_pos;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(mTargetActor_d, &accessor);
     accessor.getActorMtx().getTranslation(target_pos);
     _60._18.x(mActor);

@@ -1,7 +1,7 @@
 #include "Game/AI/AI/aiPriestBossBananaMode.h"
 #include "Game/AI/aiUnk_7102450fa8.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
@@ -19,7 +19,7 @@ bool PriestBossBananaMode::init_(sead::Heap* heap) {
 
 void PriestBossBananaMode::enter_(ksys::act::ai::InlineParamPack* params) {
     if (sub_7100505BE4()->_28.hasProc()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&sub_7100505BE4()->_28, &accessor);
         accessor.getActorMtx().getTranslation(_a4);
     }
@@ -30,7 +30,7 @@ void PriestBossBananaMode::enter_(ksys::act::ai::InlineParamPack* params) {
     changeChild("バナナ夢中", &pack);
     mFlags.set(ksys::act::ai::ActionBase::Flag::Changeable);
 
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (sub_7100505BE4() && sub_7100505BE4()->sub_71007194CC(&accessor))
         _68 = *accessor.getMessageTransceiverId();
     {
@@ -131,7 +131,7 @@ void PriestBossBananaMode::calc_() {
         changeChild("解除");
     }
 
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (ksys::act::acquireActor(&sub_7100505BE4()->_28, &accessor) && accessor.hasProc()) {
         sead::Vector3f target_pos;
         accessor.getActorMtx().getTranslation(target_pos);

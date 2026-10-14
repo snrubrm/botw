@@ -1,12 +1,12 @@
 #include "Game/AI/AI/aiPriestBossPhaseFirst.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "Game/Damage/dmgDamageManagerBase.h"
 
 namespace uking::ai {
 
 // 0x7100529e70
-bool PriestBossPhaseFirst::sub_7100529E70(const ksys::act::ActorConstDataAccess& accessor) {
+bool PriestBossPhaseFirst::sub_7100529E70(const ksys::act::ActorLinkConstDataAccess& accessor) {
     ksys::act::BaseProcLink link;
     accessor.linkAcquire(&link);
     if (!link.hasProc())
@@ -22,7 +22,7 @@ bool PriestBossPhaseFirst::sub_7100529E70(const ksys::act::ActorConstDataAccess&
 // 0x710052a1c0
 void PriestBossPhaseFirst::calc_() {
     PriestBossPhase::calc_();
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (!sub_7100525B18(0, &accessor) || !accessor.isStateCalc())
         return;
     const s32 life = accessor.getLife();
@@ -65,7 +65,7 @@ bool PriestBossPhaseFirst::init_(sead::Heap* heap) {
 
 void PriestBossPhaseFirst::enter_(ksys::act::ai::InlineParamPack* params) {
     PriestBossPhase::enter_(params);
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (sub_7100525B18(0, &accessor))
         accessor.wakeUp(ksys::act::BaseProc::SleepWakeReason::_0);
     else
@@ -75,7 +75,7 @@ void PriestBossPhaseFirst::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void PriestBossPhaseFirst::leave_() {
     PriestBossPhase::leave_();
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (sub_7100525B18(0, &accessor))
         accessor.sleep(ksys::act::BaseProc::SleepWakeReason::_0);
 }
@@ -85,7 +85,7 @@ void PriestBossPhaseFirst::loadParams_() {
 }
 
 void PriestBossPhaseFirst::m39() {
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (sub_7100525B18(0, &accessor))
         accessor.sleep(ksys::act::BaseProc::SleepWakeReason::_0);
 }
@@ -106,7 +106,7 @@ bool PriestBossPhaseFirst::m37(f32* ratio) {
 }
 
 bool PriestBossPhaseFirst::m36() {
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (sub_7100525B18(0, &accessor))
         return accessor.getLife() == 0;
     return PriestBossPhase::m36();

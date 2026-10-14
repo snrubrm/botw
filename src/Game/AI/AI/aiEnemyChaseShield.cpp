@@ -3,7 +3,7 @@
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/AI/aiUnk_71007377D4.h"
@@ -41,7 +41,7 @@ void EnemyChaseShield::sub_71003843E4() {
     auto* link = mTargetWeapon_d;
     if (link && link->hasProc()) {
         sead::Vector3f position;
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(link, &accessor);
         accessor.getActorMtx().getTranslation(position);
         if (_58) {
@@ -62,7 +62,7 @@ void EnemyChaseShield::sub_7100383768() {
     bool reachable = false;
     auto* link = mTargetWeapon_d;
     if (link && link->hasProc()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(link, &accessor);
         sead::Vector3f position;
         accessor.getActorMtx().getTranslation(position);
@@ -75,7 +75,7 @@ void EnemyChaseShield::sub_7100383768() {
     sead::Vector3f target;
     auto* link2 = mTargetWeapon_d;
     if (link2 && link2->hasProc()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(link2, &accessor);
         accessor.getActorMtx().getTranslation(target);
     } else {
@@ -122,7 +122,7 @@ void EnemyChaseShield::changeToRotate() {
     sead::Vector3f pos;
     auto* link = mTargetWeapon_d;
     if (link && link->hasProc()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(link, &accessor);
         accessor.getActorMtx().getTranslation(pos);
     } else {
@@ -140,7 +140,7 @@ void EnemyChaseShield::sub_7100384290() {
     auto* link = mTargetWeapon_d;
     sead::Vector3f pos;
     if (link && link->hasProc()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(link, &accessor);
         accessor.getActorMtx().getTranslation(pos);
     } else {
@@ -157,7 +157,7 @@ void EnemyChaseShield::changeToAcquire() {
     auto* link = mTargetWeapon_d;
     if (link && link->hasProc()) {
         sead::Vector3f pos;
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(link, &accessor);
         accessor.getActorMtx().getTranslation(pos);
         pack.addVec3(pos, "TargetPos", -1);

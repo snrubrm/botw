@@ -2,7 +2,7 @@
 #include <random/seadGlobalRandom.h>
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/AI/aiUnk_7102450fa8.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
@@ -45,7 +45,7 @@ void PriestBossFormation::leave_() {
         return;
 
     _48._18.y(5, mActor);
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (getUnit()->sub_71007194CC(&accessor))
         _48.sub_710070DBB0(*accessor.getMessageTransceiverId(), true);
 }
@@ -84,7 +84,7 @@ void PriestBossFormation::m35(Unk_7102450fa8* unit) {
 
     _48._18.y(type, mActor);
 
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (unit->sub_71007194CC(&accessor))
         _48.sub_710070DBB0(*accessor.getMessageTransceiverId(), true);
 }

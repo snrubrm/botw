@@ -2,7 +2,7 @@
 #include "Game/Actor/actWolfLink.h"
 #include "Game/AI/aiAwarenessFilters.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 
 namespace uking::ai {
 
@@ -49,7 +49,7 @@ s32 WolfLinkChainAttack::sub_71006041A8() {
         auto* entry = ksys::act::sub_7100D7EEE8(&awareness->_8, &filter);
         if (!entry)
             break;
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         if (ksys::act::acquireActor(&entry->_0.mLink, &accessor) && accessor.getLife() > 0)
             ++num_alive;
     }

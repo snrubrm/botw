@@ -1,7 +1,7 @@
 #include "Game/AI/Action/actionWildHorseCreate.h"
 #include <random/seadGlobalRandom.h>
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/Map/mapPlacementActors.h"
 #include "KingSystem/Map/mapPlacementMgr.h"
 
@@ -44,7 +44,7 @@ void WildHorseCreate::leave_() {
     for (s32 i = _48.size() - 1; i >= 0; --i)
         _48[i].deleteProc();
     for (s32 i = 0; i < _38.size(); ++i) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         if (ksys::act::acquireActor(&_38[i], &accessor)) {
             mActor->sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x3800017),
                                 nullptr, true);

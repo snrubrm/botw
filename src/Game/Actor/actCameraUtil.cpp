@@ -13,7 +13,7 @@
 #include "KingSystem/Event/evtUnk_7100dc816c.h"
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/Utils/MathUtil.h"
 
@@ -503,7 +503,7 @@ bool sub_71009258B0(ksys::act::Actor* actor, sead::Matrix34f* out) {
             return false;
         matrix = actor->getMtx();
     } else {
-        ksys::act::ActorConstDataAccess accessor(actor);
+        ksys::act::ActorLinkConstDataAccess accessor(actor);
         matrix = accessor.getActorMtx();
     }
     // The native twelve scalar checks reject NaN while accepting infinities.
@@ -517,7 +517,7 @@ bool sub_71009258B0(ksys::act::Actor* actor, sead::Matrix34f* out) {
 
 namespace uking::act {
 
-void CameraTargetResult::sub_7100923ECC(ksys::act::ActorConstDataAccess* accessor) {
+void CameraTargetResult::sub_7100923ECC(ksys::act::ActorLinkConstDataAccess* accessor) {
     if (accessor && accessor->getProc()) {
         accessor->linkAcquire(&link);
         object = nullptr;
@@ -535,7 +535,7 @@ void CameraTargetResult::sub_7100923F0C(ksys::map::Object* target) {
 
 void CameraTargetLink::sub_71009240C0(CameraTargetResult* result) {
     if (kind == 1) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&link, &accessor);
         if (accessor.getProc()) {
             accessor.linkAcquire(&result->link);
@@ -561,7 +561,7 @@ void Unk_71009241ac::sub_71009242AC(Camera* camera) {
     if (result.kind == 1) {
         bool valid;
         {
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             ksys::act::acquireActor(&result.link, &accessor);
             valid = sub_710092479C(accessor);
         }
@@ -597,12 +597,12 @@ void Unk_71009241ac::sub_710092464C() {
         if (!result.object)
             return;
         if (auto* actor = result.object->tryGetActor(false)) {
-            ksys::act::ActorConstDataAccess accessor(actor);
+            ksys::act::ActorLinkConstDataAccess accessor(actor);
             sub_710092479C(accessor);
             return;
         }
     } else if (kind == 1) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&result.link, &accessor);
         sub_710092479C(accessor);
         return;
@@ -622,7 +622,7 @@ void Unk_71009241ac::sub_710092464C() {
 // NON_MATCHING: the empty-name constructor choice is folded to csel; local stack placement differs.
 void sub_7100923F44(const sead::SafeString& name, const sead::SafeString& unique_name,
                     const sead::Vector3f& origin,
-                    sead::IDelegate1<ksys::act::ActorConstDataAccess*>* on_actor,
+                    sead::IDelegate1<ksys::act::ActorLinkConstDataAccess*>* on_actor,
                     sead::IDelegate1<ksys::map::Object*>* on_object) {
     if (!on_actor || !on_object)
         return;
@@ -638,7 +638,7 @@ void sub_7100923F44(const sead::SafeString& name, const sead::SafeString& unique
         &search, &ksys::act::ActorNameSearch::sub_7100EDCED0);
     proc_manager->forEachProc(name, callback, ksys::act::BaseProcMgr::ProcFilters(5));
     if (search.mLink.hasProc()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&search.mLink, &accessor);
         on_actor->invoke(&accessor);
     } else if (auto* object = placement_manager->sub_71011EC398(name, unique_name, origin)) {
@@ -646,7 +646,7 @@ void sub_7100923F44(const sead::SafeString& name, const sead::SafeString& unique
     }
 }
 
-void sub_710092486C(ksys::act::Actor* actor, ksys::act::ActorConstDataAccess* accessor) {
+void sub_710092486C(ksys::act::Actor* actor, ksys::act::ActorLinkConstDataAccess* accessor) {
     if (!accessor)
         return;
     ksys::evt::EventSystem::instance()->sub_71008ABF38(accessor);
@@ -659,13 +659,13 @@ void sub_710092486C(ksys::act::Actor* actor, ksys::act::ActorConstDataAccess* ac
 
 void sub_71009248D4(ksys::act::Actor* actor, const sead::SafeString& name,
                     const sead::SafeString& unique_name,
-                    sead::IDelegate1<ksys::act::ActorConstDataAccess*>* on_actor,
+                    sead::IDelegate1<ksys::act::ActorLinkConstDataAccess*>* on_actor,
                     sead::IDelegate1<ksys::map::Object*>* on_object) {
     if (!actor || !on_actor || !on_object)
         return;
     auto& named_link = ksys::evt::sub_7100DC8630(name, unique_name);
     if (named_link.hasProc()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&named_link, &accessor);
         on_actor->invoke(&accessor);
         return;
@@ -693,7 +693,7 @@ void sub_7100924A4C(ksys::act::Actor* actor, const sead::SafeString& name,
         return;
     auto& named_link = ksys::evt::sub_7100DC8630(name, unique_name);
     if (named_link.hasProc()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&named_link, &accessor);
         result->sub_7100923ECC(&accessor);
         return;
@@ -701,7 +701,7 @@ void sub_7100924A4C(ksys::act::Actor* actor, const sead::SafeString& name,
     sead::Vector3f origin = sead::Vector3f::zero;
     auto& actor_link = ksys::evt::sub_7100DC85D4(actor);
     if (actor_link.hasProc()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&actor_link, &accessor);
         origin = accessor.getActorMtx().getTranslation();
     } else {
@@ -713,7 +713,7 @@ void sub_7100924A4C(ksys::act::Actor* actor, const sead::SafeString& name,
             return;
         origin = event->mStartTransform.getTranslation();
     }
-    sead::Delegate1<CameraTargetResult, ksys::act::ActorConstDataAccess*> on_actor(
+    sead::Delegate1<CameraTargetResult, ksys::act::ActorLinkConstDataAccess*> on_actor(
         result, &CameraTargetResult::sub_7100923ECC);
     sead::Delegate1<CameraTargetResult, ksys::map::Object*> on_object(
         result, &CameraTargetResult::sub_7100923F0C);
@@ -729,7 +729,7 @@ void sub_71009243FC(ksys::act::Actor* actor, s32 selector, const sead::SafeStrin
     switch (selector) {
     case 0: {
         auto& actor_link = ksys::evt::sub_7100DC85D4(actor);
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&actor_link, &accessor);
         if (accessor.getProc()) {
             accessor.linkAcquire(&result->link);
@@ -741,7 +741,7 @@ void sub_71009243FC(ksys::act::Actor* actor, s32 selector, const sead::SafeStrin
         break;
     }
     case 1: {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         if (auto* info = ksys::act::PlayerInfo::instance())
             ksys::act::acquireActor(&info->getPlayerLink(), &accessor);
         if (accessor.getProc()) {
@@ -754,7 +754,7 @@ void sub_71009243FC(ksys::act::Actor* actor, s32 selector, const sead::SafeStrin
         break;
     }
     case 2: {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::evt::EventSystem::instance()->sub_71008ABF38(&accessor);
         if (!accessor.getProc()) {
             auto& actor_link = ksys::evt::sub_7100DC85D4(actor);
@@ -784,7 +784,7 @@ void sub_71009243FC(ksys::act::Actor* actor, s32 selector, const sead::SafeStrin
         if (!object)
             return;
         if (auto* target = object->tryGetActor(false)) {
-            ksys::act::ActorConstDataAccess accessor(target);
+            ksys::act::ActorLinkConstDataAccess accessor(target);
             if (accessor.getProc()) {
                 accessor.linkAcquire(&result->link);
                 result->object = nullptr;
@@ -821,7 +821,7 @@ void Unk_71009241ac::sub_7100924238(const Params& params) {
 }
 
 
-bool Unk_71009241ac::sub_710092479C(const ksys::act::ActorConstDataAccess& accessor) {
+bool Unk_71009241ac::sub_710092479C(const ksys::act::ActorLinkConstDataAccess& accessor) {
     if (!accessor.getProc())
         return false;
     const auto& mtx = accessor.getActorMtx();
@@ -1029,11 +1029,11 @@ f32 Unk_71024741b8::sub_71009234D8(f32 value, int iterations) const {
 }  // namespace uking::act
 
 bool sub_7100926154(ksys::act::BaseProc* proc, sead::Vector3f* out) {
-    ksys::act::ActorConstDataAccess accessor(proc);
+    ksys::act::ActorLinkConstDataAccess accessor(proc);
     return sub_7100926210(accessor, out);
 }
 
-bool sub_7100926210(const ksys::act::ActorConstDataAccess& accessor, sead::Vector3f* out) {
+bool sub_7100926210(const ksys::act::ActorLinkConstDataAccess& accessor, sead::Vector3f* out) {
     const sead::Vector3f* pos;
     if (accessor.isPlayerProfile()) {
         ksys::act::acc::PlayerBase player;
@@ -1048,7 +1048,7 @@ bool sub_7100926210(const ksys::act::ActorConstDataAccess& accessor, sead::Vecto
     return !invalid;
 }
 
-bool sub_71009262A8(const ksys::act::ActorConstDataAccess& accessor, sead::Matrix34f* out) {
+bool sub_71009262A8(const ksys::act::ActorLinkConstDataAccess& accessor, sead::Matrix34f* out) {
     const auto& mtx = accessor.getActorMtx();
     if (ksys::util::sub_71011F10F4(mtx))
         return false;
@@ -1060,12 +1060,12 @@ bool sub_71009262A8(const ksys::act::ActorConstDataAccess& accessor, sead::Matri
     return true;
 }
 
-bool sub_7100926DF0(const ksys::act::ActorConstDataAccess& accessor) {
+bool sub_7100926DF0(const ksys::act::ActorLinkConstDataAccess& accessor) {
     return uking::act::sub_7100E6ECC4(accessor) == 6;
 }
 
 bool sub_7100926E0C() {
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     bool result = false;
     if (auto* info = ksys::act::PlayerInfo::instance()) {
         if (ksys::act::acquireActor(&info->getHorseLink(), &accessor))
@@ -1074,11 +1074,11 @@ bool sub_7100926E0C() {
     return result;
 }
 
-bool sub_7100926E7C(const ksys::act::ActorConstDataAccess& accessor) {
+bool sub_7100926E7C(const ksys::act::ActorLinkConstDataAccess& accessor) {
     return uking::act::sub_7100E6ECC4(accessor) == 8;
 }
 
-bool sub_710092634C(const ksys::act::ActorConstDataAccess& accessor, sead::Vector3f* out) {
+bool sub_710092634C(const ksys::act::ActorLinkConstDataAccess& accessor, sead::Vector3f* out) {
     const sead::Vector3f& pos = accessor.getPreviousPos2();
     const bool valid = !ksys::util::sub_71011F1040(pos);
     if (valid)
@@ -1086,7 +1086,7 @@ bool sub_710092634C(const ksys::act::ActorConstDataAccess& accessor, sead::Vecto
     return valid;
 }
 
-bool sub_7100926398(const ksys::act::ActorConstDataAccess& accessor, sead::Vector3f* out) {
+bool sub_7100926398(const ksys::act::ActorLinkConstDataAccess& accessor, sead::Vector3f* out) {
     const sead::Vector3f& pos = accessor.getField458_Vec3();
     const bool valid = !ksys::util::sub_71011F1040(pos);
     if (valid)
@@ -1094,7 +1094,7 @@ bool sub_7100926398(const ksys::act::ActorConstDataAccess& accessor, sead::Vecto
     return valid;
 }
 
-bool sub_71009263E4(const ksys::act::ActorConstDataAccess& accessor, sead::Vector3f* out) {
+bool sub_71009263E4(const ksys::act::ActorLinkConstDataAccess& accessor, sead::Vector3f* out) {
     const sead::Vector3f& pos = accessor.getVelocity();
     const bool valid = !ksys::util::sub_71011F1040(pos);
     if (valid)

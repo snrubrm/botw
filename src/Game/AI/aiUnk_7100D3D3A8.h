@@ -5,7 +5,7 @@
 
 namespace ksys::act {
 class Actor;
-class ActorConstDataAccess;
+class ActorLinkConstDataAccess;
 }  // namespace ksys::act
 
 // Placeholder name (0x7100d3d3a8, no name known): a 0x20-byte state struct embedded at the end of
@@ -18,7 +18,7 @@ struct Unk_7100d3d3a8 {
     // 0x7100d3d3c4: if `_3` is 0: `_0 = a`, `_2 = c`, `_8 = *vec` and, when `b` is given, `_14 = *b`.
     void sub_7100D3D3C4(int a, const sead::Vector3f* vec, const sead::Vector3f* b, u8 c);
     // 0x7100d3d49c: `_4 = flag`, sends message 0x3000014 (payload = this) from `actor` to the accessor's actor, sets `_3`.
-    void sub_7100D3D49C(ksys::act::Actor* actor, ksys::act::ActorConstDataAccess* accessor, bool flag);
+    void sub_7100D3D49C(ksys::act::Actor* actor, ksys::act::ActorLinkConstDataAccess* accessor, bool flag);
 
     u16 _0 = 0;
     u8 _2 = 1;

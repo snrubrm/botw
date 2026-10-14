@@ -4,7 +4,7 @@
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "Game/AI/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
@@ -77,7 +77,7 @@ bool EnemyBattle::sub_7100381D68() {
         return false;
     bool result;
     {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&enemy->_e08._0, &accessor);
         if (accessor.sub_7100D1463C()) {
             result = true;
@@ -194,7 +194,7 @@ void EnemyBattle::loadParams_() {
 }
 
 void EnemyBattle::m36(sead::Vector3f* pos) {
-    ksys::act::ActorConstDataAccess acc;
+    ksys::act::ActorLinkConstDataAccess acc;
     ksys::act::acquireActor(&m35(), &acc);
     acc.getActorMtx().getTranslation(*pos);
 }

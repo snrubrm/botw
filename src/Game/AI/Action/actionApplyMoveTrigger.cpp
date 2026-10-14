@@ -1,6 +1,6 @@
 #include "Game/AI/Action/actionApplyMoveTrigger.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Map/mapObjectLink.h"
 
@@ -84,7 +84,7 @@ void ApplyMoveTrigger::calc_() {
         auto* other = links->mObjects[i];
         if (!other)
             continue;
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         other->getActorWithAccessor(accessor);
         if (accessor.hasProc() && accessor.isStateCalc()) {
             _40.sub_7100D3D49C(actor, &accessor, false);

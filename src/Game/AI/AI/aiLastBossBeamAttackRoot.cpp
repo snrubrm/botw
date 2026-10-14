@@ -15,7 +15,7 @@
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actBoneControl.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 
 namespace uking::ai {
 
@@ -25,7 +25,7 @@ LastBossBeamAttackRoot::LastBossBeamAttackRoot(const InitArg& arg) : ksys::act::
 LastBossBeamAttackRoot::~LastBossBeamAttackRoot() {
     if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
         if (enemy->getActorPartsActor("Beam").hasProcInCalcState()) {
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             ksys::act::acquireActor(&enemy->getActorPartsActor("Beam"), &accessor);
             accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
         }

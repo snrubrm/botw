@@ -1,6 +1,6 @@
 #include "Game/AI/Action/actionEatForSunazarashiSPC.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/Event/evtBaseProcLinkForEvent.h"
 #include "KingSystem/Event/evtManager.h"
 #include "KingSystem/Event/evtMetadata.h"
@@ -19,7 +19,7 @@ void EatForSunazarashiSPC::enter_(ksys::act::ai::InlineParamPack* params) {
     HorseEatAction::enter_(params);
     auto* link = mTargetActor_d;
     if (link && mPrevEatActorName_a && link->hasProc()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         if (ksys::act::acquireActor(link, &accessor))
             static_cast<sead::BufferedSafeString*>(mPrevEatActorName_a)->copy(accessor.getName());
     }

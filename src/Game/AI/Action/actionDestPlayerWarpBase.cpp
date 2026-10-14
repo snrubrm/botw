@@ -43,7 +43,7 @@ void DestPlayerWarpBase::calc_() {
         if (auto* info = ksys::act::PlayerInfo::instance()) {
             f32 remaining = 0.0f;
             {
-                ksys::act::ActorConstDataAccess accessor;
+                ksys::act::ActorLinkConstDataAccess accessor;
                 ksys::act::acquireActor(&info->getPlayerLink(), &accessor);
                 const auto& matrix = accessor.getActorMtx();
                 const f32 dx = pos.x - matrix.m[0][3];

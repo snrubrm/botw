@@ -6,7 +6,7 @@
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actInstParamPack.h"
 #include "Game/AI/aiUnk_71007377D4.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actPhysicsUserTag.h"
 #include "KingSystem/ActorSystem/actTag.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
@@ -77,7 +77,7 @@ void BalloonPlantNormal::sub_7100327D48() {
         if (!body || body->getMotionType() != ksys::phys::MotionType::Dynamic)
             continue;
 
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         if (auto* tag = sead::DynamicCast<ksys::act::PhysicsUserTag>(body->getUserTag()))
             tag->acquireActor(&accessor);
         if (accessor.hasProc() && !accessor.hasConnectedCalcParent() &&

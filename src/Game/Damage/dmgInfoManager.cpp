@@ -1,7 +1,7 @@
 #include "Game/Damage/dmgInfoManager.h"
 #include <limits>
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "Game/AI/aiUnk_71007130BC.h"
 #include "Game/gameScene.h"
@@ -179,7 +179,7 @@ void DamageInfoMgr::Unk11f0::sub_710067446C() {
     for (s32 i = 0; i < mLinks.size(); ++i) {
         if (!mLinks[i].hasProc())
             continue;
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&mLinks[i], &accessor);
         const f32 distance = (accessor.getActorMtx().getTranslation() - player_pos).length();
         if (distance < nearest) {

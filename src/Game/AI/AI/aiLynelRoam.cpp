@@ -4,7 +4,7 @@
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include <cmath>
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/Utils/MathUtil.h"
 
@@ -62,7 +62,7 @@ bool LynelRoam::sub_710049951C(sead::Vector3f* out, const sead::Vector3f& direct
 }
 
 bool LynelRoam::sub_7100498C00() {
-    ksys::act::ActorConstDataAccess player;
+    ksys::act::ActorLinkConstDataAccess player;
     ksys::act::acquireActor(&ksys::act::PlayerInfo::getSomeProcLink(), &player);
     const auto& mtx = player.getActorMtx();
     const sead::Vector3f player_pos(mtx.m[0][3], 0.0f, mtx.m[2][3]);

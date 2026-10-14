@@ -3,7 +3,7 @@
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/AI/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 
@@ -26,7 +26,7 @@ s32 HorseRideChaseBattleMoveBase::sub_71004409D4() {
     auto* target = sub_71005D9050(mActor);
     if (!target)
         return 3;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(target, &accessor);
     const sead::Matrix34f& target_mtx = accessor.getActorMtx();
     const sead::Vector3f pos = mActor->getMtx().getTranslation();
@@ -71,7 +71,7 @@ void HorseRideChaseBattleMoveBase::calc_() {
     const Gear current(rideable ? (rideable->_18._b == 0 ? rideable->_18._9 : rideable->_18._b) : 0);
     u64 target_value = 0;
     if (auto* link = sub_71005D9050(mActor)) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(link, &accessor);
         target_value = accessor.sub_7100D142E0();
     }

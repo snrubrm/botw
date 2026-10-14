@@ -1,6 +1,6 @@
 #include "Game/AI/Action/actionNPCCheckHorseAssociated.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/GameData/gdtManager.h"
 
@@ -15,7 +15,7 @@ bool NPCCheckHorseAssociated::oneShot_() {
     if (!gdm->setBool(false, "Horse_IsAssociated"))
         return false;
     auto& horse_link = ksys::act::PlayerInfo::instance()->getHorseLink();
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (horse_link.hasProc() && ksys::act::acquireActor(&horse_link, &accessor)) {
         const sead::Vector3f horse_pos = accessor.getActorMtx().getTranslation();
         const sead::Vector3f pos = mActor->getMtx().getTranslation();

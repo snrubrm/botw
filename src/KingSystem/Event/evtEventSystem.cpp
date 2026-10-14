@@ -1,8 +1,8 @@
 #include "KingSystem/Event/evtEventSystem.h"
 #include <thread/seadCriticalSection.h>
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
+#include "KingSystem/ActorSystem/actBaseProcAccessor.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "Game/gameRoot1.h"
 #include "Game/gameRoot4.h"
@@ -147,7 +147,7 @@ void EventSystem::sub_71008ABF30() {
 }
 
 // 0x71008abf38
-void EventSystem::sub_71008ABF38(act::ActorConstDataAccess* accessor) {
+void EventSystem::sub_71008ABF38(act::ActorLinkConstDataAccess* accessor) {
     if (accessor)
         act::acquireActor(&mSpeaker.mLink, accessor);
 }

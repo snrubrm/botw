@@ -1,6 +1,6 @@
 #include "Game/AI/AI/aiRuinGuardianRoot.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actTag.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
@@ -33,7 +33,7 @@ void RuinGuardianRoot::calc_() {
                 auto* bodies = info->getCollidingBodies().front();
                 info->lock();
                 for (; bodies; bodies = info->getCollidingBodies().next(bodies)) {
-                    ksys::act::ActorConstDataAccess accessor;
+                    ksys::act::ActorLinkConstDataAccess accessor;
                     ksys::act::getCollidedActorMaybe(&accessor, bodies->bodies[1]);
                     if (accessor.hasTag(ksys::act::tags::IsIceMakerBlock))
                         actor->sendMessage(*accessor.getMessageTransceiverId(),

@@ -1,6 +1,6 @@
 #include "KingSystem/ActorSystem/actUnk_7100e4e084.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorChemicals.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
@@ -163,7 +163,7 @@ void Unk_7100e4e084::sub_7100E502EC(BaseProc* proc) {
     _170.acquire(proc, false);
 }
 
-bool Unk_7100e4e084::sub_7100E50334(ActorConstDataAccess* accessor) {
+bool Unk_7100e4e084::sub_7100E50334(ActorLinkConstDataAccess* accessor) {
     if (!accessor)
         return false;
     auto lock = sead::makeScopedLock(_130);
@@ -178,7 +178,7 @@ bool Unk_7100e4e084::sub_7100E50390(Actor* actor) {
         return false;
 
     auto lock = sead::makeScopedLock(_130);
-    ActorConstDataAccess accessor;
+    ActorLinkConstDataAccess accessor;
     acquireActor(&_170, &accessor);
     bool result = false;
     if (accessor.hasProc()) {

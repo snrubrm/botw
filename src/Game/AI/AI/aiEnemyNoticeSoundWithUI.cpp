@@ -1,5 +1,5 @@
 #include "Game/AI/AI/aiEnemyNoticeSoundWithUI.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "Game/Actor/actUnk_71002dccbc.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actActor.h"
@@ -40,7 +40,7 @@ void EnemyNoticeSoundWithUI::calc_() {
     if (!isCurrentChild("行動"))
         return;
 
-    ksys::act::ActorConstDataAccess acc;
+    ksys::act::ActorLinkConstDataAccess acc;
     ksys::act::acquireActor(mTargetActor_d, &acc);
     if (_50 == *mTargetActor_d)
         return;

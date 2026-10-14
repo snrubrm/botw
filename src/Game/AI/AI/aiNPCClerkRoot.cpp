@@ -1,7 +1,7 @@
 #include "Game/AI/AI/aiNPCClerkRoot.h"
 #include "Game/UI/uiShopMgr.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actTag.h"
 #include "KingSystem/Map/mapObject.h"
@@ -23,7 +23,7 @@ bool NPCClerkRoot::init_(sead::Heap* heap) {
 void NPCClerkRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     NPCRoot::enter_(params);
     {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         const bool grouping_item =
             ksys::act::hasTag(mActor, ksys::act::tags::GroupingDisplayItem);
         _238 = ksys::act::sub_7100EE2850(mActor, &accessor, grouping_item, nullptr, nullptr);
@@ -47,7 +47,7 @@ void NPCClerkRoot::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void NPCClerkRoot::calc_() {
     NPCRoot::calc_();
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     const bool grouping_item =
         ksys::act::hasTag(mActor, ksys::act::tags::GroupingDisplayItem);
     _238 = ksys::act::sub_7100EE2850(mActor, &accessor, grouping_item, nullptr, nullptr);

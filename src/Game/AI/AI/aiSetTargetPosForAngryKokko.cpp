@@ -1,7 +1,7 @@
 #include "Game/AI/AI/aiSetTargetPosForAngryKokko.h"
 #include <math/seadMathCalcCommon.h>
 #include <random/seadGlobalRandom.h>
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
@@ -45,7 +45,7 @@ bool SetTargetPosForAngryKokko::sub_7100568490(sead::Vector3f* pos) {
 
     sead::Vector3f actor_pos;
     mActor->getMtx().getTranslation(actor_pos);
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     sead::Vector3f target;
     if (ksys::act::acquireActor(mTargetActor_d, &accessor)) {
         if (ksys::act::isEnemyProfile(accessor))

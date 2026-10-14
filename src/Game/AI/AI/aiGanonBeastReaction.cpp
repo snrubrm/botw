@@ -3,7 +3,7 @@
 #include "Game/AI/aiUnk_710072BA90.h"
 #include "Game/Damage/dmgDamageManager.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 
@@ -20,7 +20,7 @@ bool GanonBeastReaction::init_(sead::Heap* heap) {
 void GanonBeastReaction::enter_(ksys::act::ai::InlineParamPack* params) {
     mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_80000000);
     if (sub_71007028CC(mActor)) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&ksys::act::PlayerInfo::getSomeProcLink(), &accessor);
         mActor->sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x80000c1),
                             nullptr, false);
@@ -40,7 +40,7 @@ void GanonBeastReaction::calc_() {
     } else if (child->isChangeable()) {
         auto* actor = mActor;
         if (!isCurrentChild("死亡") && sub_71007028CC(actor)) {
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             ksys::act::acquireActor(&ksys::act::PlayerInfo::getSomeProcLink(), &accessor);
             mActor->sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x80000c1),
                                 nullptr, false);

@@ -3,7 +3,7 @@
 #include "Game/Actor/actRemains.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 
@@ -14,7 +14,7 @@ MoveRemainsElectric::MoveRemainsElectric(const InitArg& arg) : RailMoveRemains(a
 // NON_MATCHING: runtime-cast control flow is simplified before the unrolled part cleanup.
 MoveRemainsElectric::~MoveRemainsElectric() {
     if (_308.hasProc()) {
-        ksys::act::ActorConstDataAccess actor;
+        ksys::act::ActorLinkConstDataAccess actor;
         ksys::act::acquireActor(&_308, &actor);
         actor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
         _308.reset();
@@ -25,7 +25,7 @@ MoveRemainsElectric::~MoveRemainsElectric() {
             if (parts) {
                 auto& link = parts->getActorPartsActor(part.mActorName);
                 if (link.hasProc()) {
-                    ksys::act::ActorConstDataAccess actor;
+                    ksys::act::ActorLinkConstDataAccess actor;
                     ksys::act::acquireActor(&link, &actor);
                     actor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
                 }
@@ -97,7 +97,7 @@ void MoveRemainsElectric::calc_() {
     sub_71004B2718();
     const bool moving = isCurrentChild("移動");
     if (_308.hasProc()) {
-        ksys::act::ActorConstDataAccess actor;
+        ksys::act::ActorLinkConstDataAccess actor;
         ksys::act::acquireActor(&_308, &actor);
         if (moving) {
             if (actor.isStateSleep())

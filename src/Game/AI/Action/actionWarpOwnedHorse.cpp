@@ -1,7 +1,7 @@
 #include "Game/AI/Action/actionWarpOwnedHorse.h"
 #include "Game/gameHorseMgr.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Map/mapObjectLink.h"
 #include "KingSystem/Utils/Thread/Message.h"
@@ -31,7 +31,7 @@ bool WarpOwnedHorse::oneShot_() {
         return false;
 
     auto* link = &manager->mOwnedHorse;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (link->hasProc()) {
         if (ksys::act::acquireActor(link, &accessor)) {
             const sead::Vector3f rotation = anchor->getRotate();

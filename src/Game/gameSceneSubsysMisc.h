@@ -17,7 +17,7 @@
 
 namespace ksys::act {
 class Actor;
-class ActorConstDataAccess;
+class ActorLinkConstDataAccess;
 class BaseProc;
 class Unk_71006e45c4;
 }  // namespace ksys::act
@@ -170,7 +170,7 @@ public:
     // 0x7100905f30 (placeholder name): emits the "MagneConnect" ELink on the Reaction singleton's actor `_30` unless `_48` is still active.
     void sub_7100905F30();
     // 0x71009059ec: acquires the actor of the link at +0xa8 into `accessor` (if given).
-    void sub_71009059EC(ksys::act::ActorConstDataAccess* accessor);
+    void sub_71009059EC(ksys::act::ActorLinkConstDataAccess* accessor);
     // 0x7100905c70: _fc[_144] = true
     void sub_7100905C70();
     // 0x7100905c8c: _fe[_144] = true
@@ -185,7 +185,7 @@ public:
     // of `_b8` into `accessor` (if given), `_138 = value`.
     void sub_7100905DEC(ksys::act::BaseProc* proc);
     void sub_7100905DF8();
-    void sub_7100905E00(ksys::act::ActorConstDataAccess* accessor);
+    void sub_7100905E00(ksys::act::ActorLinkConstDataAccess* accessor);
     void sub_7100905E10(f32 value);
     // 0x7100905f08 / 0x7100905f10 / 0x7100905f18 / 0x7100905f28: `_13c = value`, `_c8.hasProc()`, `_10c`, `_329`.
     void sub_7100905F08(f32 value);

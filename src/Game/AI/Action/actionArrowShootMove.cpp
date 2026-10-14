@@ -60,11 +60,11 @@ float ArrowShootMove::m32() {
     return 0.5f;
 }
 
-bool ArrowShootMove::m35(const ksys::act::ActorConstDataAccess& accessor) {
+bool ArrowShootMove::m35(const ksys::act::ActorLinkConstDataAccess& accessor) {
     return false;
 }
 
-void ArrowShootMove::m36(bool* out, const ksys::act::ActorConstDataAccess& accessor) {}
+void ArrowShootMove::m36(bool* out, const ksys::act::ActorLinkConstDataAccess& accessor) {}
 
 void ArrowShootMove::m39(sead::Vector3f* out) {
     *out = _e4;

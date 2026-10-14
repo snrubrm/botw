@@ -1,6 +1,6 @@
 #include "Game/AI/Action/actionThrowWeapon.h"
+#include "KingSystem/ActorSystem/actBaseProcAccessor.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "Game/Actor/actEnemy.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 
@@ -41,7 +41,7 @@ void ThrowWeapon::calc_() {
 }
 
 void ThrowWeapon::m32(sead::Vector3f* pos, uking::act::Enemy* enemy, int weapon_idx) {
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(&enemy->_c38[weapon_idx], &accessor);
     accessor.getActorMtx().getTranslation(*pos);
 }

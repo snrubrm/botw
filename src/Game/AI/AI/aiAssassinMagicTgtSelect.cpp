@@ -1,7 +1,7 @@
 #include "Game/AI/AI/aiAssassinMagicTgtSelect.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/AI/aiUnk_71007377D4.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 
 namespace uking::ai {
 
@@ -38,7 +38,7 @@ bool AssassinMagicTgtSelect::m34() {
         return false;
     bool result = false;
     {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(link, &accessor);
         if (accessor.isBgGroundHit()) {
             result = true;

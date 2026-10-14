@@ -7,7 +7,7 @@
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace uking::ai {
@@ -72,7 +72,7 @@ void PriestBossIronBall::calc_() {
 
     if (!_9b && unit->sub_710071A22C()) {
         _9b = true;
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         for (s32 i = 0; i < 8; ++i) {
             if (!unit->sub_71007194D4(i + 11, &accessor))
                 continue;
@@ -156,7 +156,7 @@ void PriestBossIronBall::leave_() {
     if (!unit)
         return;
 
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     for (s32 i = 11; i < 19; ++i) {
         if (unit->sub_71007194D4(i, &accessor))
             _620.sub_710070DD78(accessor, true);
@@ -174,7 +174,7 @@ void PriestBossIronBall::m34() {
     if (!unit)
         return;
 
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (_650 > 7)
         return;
     if (unit->sub_71007194D4(_650 + 11, &accessor)) {
@@ -229,7 +229,7 @@ bool PriestBossIronBall::sub_710051E678() {
     if (!unit)
         return false;
 
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     for (s32 i = 11; i < 19; ++i) {
         if (unit->sub_71007194D4(i, &accessor) && accessor.isStateCalc())
             return false;
@@ -243,7 +243,7 @@ void PriestBossIronBall::sub_710051E830() {
     if (!unit)
         return;
 
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     for (s32 i = 0; i < 8; ++i) {
         if (!unit->sub_71007194D4(i + 11, &accessor))
             continue;
@@ -266,7 +266,7 @@ void PriestBossIronBall::sub_710051EBDC() {
     if (!unit)
         return;
 
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     for (s32 i = _650; i < 8; ++i) {
         if (!unit->sub_71007194D4(i + 11, &accessor))
             continue;
@@ -298,7 +298,7 @@ void PriestBossIronBall::sub_710051EE40() {
         return;
 
     if (*mIronBallWaitThunderTime_s >= 0) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         if (unit->sub_71007194CC(&accessor)) {
             {
                 sead::ScopedLock<sead::JobQueueLock> lock(&_658._18.mLock);
@@ -311,7 +311,7 @@ void PriestBossIronBall::sub_710051EE40() {
         const f32 time = *mChangeEndAnime_s;
         unit->_35c = ksys::Timer(time, time);
     } else {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         if (unit->sub_71007194CC(&accessor)) {
             {
                 sead::ScopedLock<sead::JobQueueLock> lock(&_658._18.mLock);
@@ -350,7 +350,7 @@ void PriestBossIronBall::sub_710051F79C() {
     if (!unit)
         return;
 
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     unit->sub_71007194D4(1, &accessor);
     if (accessor.hasProc()) {
         _698.sub_710070E2BC(0, -1);

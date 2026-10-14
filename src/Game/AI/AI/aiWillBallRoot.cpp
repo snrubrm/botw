@@ -1,5 +1,5 @@
 #include "Game/AI/AI/aiWillBallRoot.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actUnk_71006e45c4.h"
@@ -58,7 +58,7 @@ bool WillBallRoot::handleMessage_(const ksys::Message* message) {
 // 0x71005f5cec
 void WillBallRoot::sub_71005F5CEC(s32 command, const sead::Vector3f& base_pos, s32 wait_time) {
     _120.x();
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(&_80, &accessor);
     accessor.getActorMtx();
     ksys::act::ai::InlineParamPack params;

@@ -21,7 +21,7 @@ public:
 protected:
     void calc_() override;
     void draw(sead::PrimitiveDrawer* drawer, bool a, bool b) override;
-    bool m15(const ksys::act::ActorConstDataAccess& accessor) override;
+    bool m15(const ksys::act::ActorLinkConstDataAccess& accessor) override;
     sead::Buffer<Payload>* m6() override { return &_a0; }
 
     // map_unit_param at offset 0x70

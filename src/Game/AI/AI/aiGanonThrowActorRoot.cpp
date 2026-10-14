@@ -4,7 +4,7 @@
 #include "Game/Actor/actLastBoss.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "Game/Actor/actSiteBoss.h"
 #include "KingSystem/ActorSystem/actActorCreator.h"
 #include "KingSystem/ActorSystem/actActorHeapUtil.h"
@@ -20,7 +20,7 @@ GanonThrowActorRoot::~GanonThrowActorRoot() {
     if (!enemy)
         return;
 
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(&enemy->getActorPartsActor(mRegisterPartsName_s), &accessor);
     if (accessor.hasProc())
         accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
@@ -52,7 +52,7 @@ void GanonThrowActorRoot::enter_(ksys::act::ai::InlineParamPack* params) {
         return;
     }
 
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(&enemy->getActorPartsActor(mRegisterPartsName_s), &accessor);
     if (!accessor.hasProc() || accessor.isStateCalc())
         changeChild("生成待ち");
@@ -71,7 +71,7 @@ void GanonThrowActorRoot::calc_() {
         if (!enemy)
             return;
 
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&enemy->getActorPartsActor(mRegisterPartsName_s),
                                 &accessor);
         if (!accessor.hasProc() || !accessor.isStateSleep())
@@ -147,7 +147,7 @@ bool GanonThrowActorRoot::isFinished() const {
 
 bool GanonThrowActorRoot::m34() const {
     if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&enemy->getActorPartsActor(mRegisterPartsName_s),
                                 &accessor);
         if (accessor.hasProc() && accessor.isStateSleep())
@@ -158,7 +158,7 @@ bool GanonThrowActorRoot::m34() const {
 
 bool GanonThrowActorRoot::m35() {
     if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&enemy->getActorPartsActor(mRegisterPartsName_s),
                                 &accessor);
         if (accessor.hasProc() && accessor.isStateSleep())
@@ -220,7 +220,7 @@ void GanonThrowActorRoot::m38() {
     if (!enemy)
         return;
 
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(&enemy->getActorPartsActor(mRegisterPartsName_s), &accessor);
     if (accessor.hasProc() && accessor.isStateCalc()) {
         if (*mIsSendDeleteMessageAtLeave_s)

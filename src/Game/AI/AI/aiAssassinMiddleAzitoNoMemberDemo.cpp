@@ -2,7 +2,7 @@
 #include <random/seadGlobalRandom.h>
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/System/Timer.h"
 
@@ -86,7 +86,7 @@ void AssassinMiddleAzitoNoMemberDemo::changeToNotice() {
     mActor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_1000000);
     _d0 = 20.0f;
 
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(&_48._38.mData._0, &accessor);
     sub_71005D8DE8(mActor, _48._38.mData._0, &accessor.getActorMtx(), nullptr);
 

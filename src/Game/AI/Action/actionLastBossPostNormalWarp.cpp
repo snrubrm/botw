@@ -5,7 +5,7 @@
 #include "KingSystem/ActorSystem/actCCAccessor.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/Actor/actEnemy.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/Attention/actActorAttention.h"
@@ -136,7 +136,7 @@ void LastBossPostNormalWarp::m32() {
         auto& link = part->mLink;
         if (!link.hasProc())
             continue;
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&link, &accessor);
         if (accessor.isStateCalc()) {
             mActor->sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x8000030), nullptr, true);

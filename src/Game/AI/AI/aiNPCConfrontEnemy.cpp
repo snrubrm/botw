@@ -5,7 +5,7 @@
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/LOD/actLodState.h"
 #include "KingSystem/ActorSystem/actActor.h"
@@ -48,7 +48,7 @@ bool NPCConfrontEnemy::sub_71004C83DC() {
     for (s32 i = 0; i < 10; ++i) {
         if (!_e8[i].hasProc())
             continue;
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&_e8[i], &accessor);
         const sead::Vector3f other_pos = accessor.getActorMtx().getTranslation();
         const sead::Vector3f diff = mActor->getMtx().getTranslation() - other_pos;
@@ -111,7 +111,7 @@ bool NPCConfrontEnemy::sub_71004C69B0(ksys::act::BaseProcLink* link) {
     if (auto* obj = mActor->getMapObject()) {
         if (auto* link_data = obj->getLinkData()) {
             for (s32 i = 0; i != link_data->mObjects.size(); ++i) {
-                ksys::act::ActorConstDataAccess accessor;
+                ksys::act::ActorLinkConstDataAccess accessor;
                 link_data->mObjects(i)->getActorWithAccessor(accessor);
                 if (accessor.isNPCProfile()) {
                     accessor.linkAcquire(link);

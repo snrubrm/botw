@@ -4,7 +4,7 @@
 #include "KingSystem/System/VFRValue.h"
 
 namespace ksys::act {
-class ActorConstDataAccess;
+class ActorLinkConstDataAccess;
 }
 
 namespace ksys::phys {
@@ -31,8 +31,8 @@ protected:
     virtual float m32();
     virtual void m33();
     virtual bool m34(sead::Vector3f* pos, bool* a, bool* b, sead::Vector3f* vel);
-    virtual bool m35(const ksys::act::ActorConstDataAccess& accessor);
-    virtual void m36(bool* out, const ksys::act::ActorConstDataAccess& accessor);
+    virtual bool m35(const ksys::act::ActorLinkConstDataAccess& accessor);
+    virtual void m36(bool* out, const ksys::act::ActorLinkConstDataAccess& accessor);
     virtual void m37();
     virtual void m38();
     virtual void m39(sead::Vector3f* out);

@@ -1,6 +1,6 @@
 #include "Game/AI/Action/actionControlBombEffect.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/Utils/Thread/Message.h"
 
 namespace uking::action {
@@ -33,7 +33,7 @@ void ControlBombEffect::calc_() {
     AreaTagAction::calc_();
 }
 
-bool ControlBombEffect::m15(const ksys::act::ActorConstDataAccess& accessor) {
+bool ControlBombEffect::m15(const ksys::act::ActorLinkConstDataAccess& accessor) {
     if (accessor.hasProc())
         mActor->sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x800000b), nullptr,
                             true);

@@ -1,7 +1,7 @@
 #include "Game/AI/AI/aiBreathEnemyRangeKeepMove.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/Actor/actEnemy.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorCreator.h"
 #include "KingSystem/ActorSystem/actActorHeapUtil.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
@@ -118,7 +118,7 @@ bool BreathEnemyRangeKeepMove::sub_710034076C() {
     bool is_state_calc = false;
     if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
         auto& link = enemy->getActorPartsActor(mBreathName_s.cstr());
-        ksys::act::ActorConstDataAccess acc;
+        ksys::act::ActorLinkConstDataAccess acc;
         ksys::act::acquireActor(&link, &acc);
         is_state_calc = acc.isStateCalc();
     }
@@ -128,7 +128,7 @@ bool BreathEnemyRangeKeepMove::sub_710034076C() {
 void BreathEnemyRangeKeepMove::sub_7100340570() {
     if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
         auto& link = enemy->getActorPartsActor(mBreathName_s.cstr());
-        ksys::act::ActorConstDataAccess acc;
+        ksys::act::ActorLinkConstDataAccess acc;
         ksys::act::acquireActor(&link, &acc);
         acc.sleep(ksys::act::BaseProc::SleepWakeReason::_0);
     }

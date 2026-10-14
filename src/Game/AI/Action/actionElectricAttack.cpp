@@ -7,7 +7,7 @@
 #include "KingSystem/ActorSystem/actInstParamPack.h"
 #include "Game/AI/aiUnk_710073D258.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include <algorithm>
 
 namespace uking::action {
@@ -115,7 +115,7 @@ void ElectricAttack::sub_71001034E0() {
 void ElectricAttack::sub_7100103830() {
     if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
         auto& link = enemy->getActorPartsActor(sead::SafeString(mElectricActorKey_s.cstr()));
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&link, &accessor);
         accessor.sleep(ksys::act::BaseProc::SleepWakeReason::_0);
     }

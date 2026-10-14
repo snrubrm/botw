@@ -13,7 +13,7 @@
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectMotorcycle.h"
 #include "KingSystem/System/VFR.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayer.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actTag.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
@@ -470,7 +470,7 @@ void MotorcycleUserTag::onImpulse(ksys::phys::RigidBody* body_a, ksys::phys::Rig
 
     if (impulse_a >= 100.0f) {
         if (auto* tag = sead::DynamicCast<ksys::act::PhysicsUserTag>(body_b->getUserTag())) {
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             tag->acquireActor(&accessor);
             if (accessor.hasTag(ksys::act::tags::TeamForestGiant) ||
                 accessor.hasTag(ksys::act::tags::TeamGolem)) {
@@ -1185,7 +1185,7 @@ bool Unk_71023618f8::invoke(ksys::phys::ContactPointInfo::ShouldDisableContact* 
                             const ksys::phys::ContactPointInfo::Event& event) {
     if (auto* user_tag = event.body->getUserTag()) {
         if (auto* tag = sead::DynamicCast<ksys::act::PhysicsUserTag>(user_tag)) {
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             tag->acquireActor(&accessor);
             if (accessor.hasTag(ksys::act::tags::IsDisableContactMotorcycle)) {
                 *disable = ksys::phys::ContactPointInfo::ShouldDisableContact::Yes;
@@ -1196,7 +1196,7 @@ bool Unk_71023618f8::invoke(ksys::phys::ContactPointInfo::ShouldDisableContact* 
     if (event.body->getContactLayer() == ksys::phys::ContactLayer::EntityRagdoll) {
         if (auto* user_tag = event.body->getUserTag()) {
             if (auto* tag = sead::DynamicCast<ksys::act::PhysicsUserTag>(user_tag)) {
-                ksys::act::ActorConstDataAccess accessor;
+                ksys::act::ActorLinkConstDataAccess accessor;
                 tag->acquireActor(&accessor);
                 if (!accessor.isPlayerProfile()) {
                     *disable = ksys::phys::ContactPointInfo::ShouldDisableContact::Yes;
@@ -1333,7 +1333,7 @@ bool Motorcycle::collisionStuff(ksys::phys::RigidBody* body) {
             auto* tag = sead::DynamicCast<ksys::act::PhysicsUserTag>(other->getUserTag());
             if (!tag)
                 continue;
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             tag->acquireActor(&accessor);
             if (other->getContactLayer() == ksys::phys::ContactLayer::EntityPlayer &&
                 accessor.isPlayerProfile() && other->getHkBodyName() == "Cleaning")

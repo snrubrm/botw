@@ -1,6 +1,6 @@
 #include "Game/AI/Action/actionSendMessageBroadCast.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 
@@ -47,7 +47,7 @@ void SendMessageBroadCast::doSendMessage() {
     switch (*mMsgType_s) {
     case 0:
         if (_30.hasProc()) {
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             ksys::act::acquireActor(&_30, &accessor);
             if (accessor.hasProc())
                 actor->sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x8000004), nullptr, true);
@@ -55,7 +55,7 @@ void SendMessageBroadCast::doSendMessage() {
         break;
     case 2:
         if (_30.hasProc()) {
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             ksys::act::acquireActor(&_30, &accessor);
             if (accessor.hasProc())
                 actor->sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x8000046), nullptr, true);

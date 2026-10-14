@@ -11,7 +11,7 @@
 #include "Game/Actor/actRideable.h"
 #include "Game/Actor/actWeapon.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
@@ -32,7 +32,7 @@
 #include "KingSystem/World/worldManager.h"
 #include "Game/gameUnkRttiPlaceholders.h"
 
-bool sub_71002F0924(const ksys::act::ActorConstDataAccess& accessor);
+bool sub_71002F0924(const ksys::act::ActorLinkConstDataAccess& accessor);
 
 namespace uking::act {
 
@@ -60,7 +60,7 @@ bool Enemy::sub_710001A2B0(const sead::Vector3f& target, const sead::Vector3f& o
     for (auto& entry : _d70.mEntries) {
         if (!entry.link.hasProcInCalcState())
             continue;
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&entry.link, &accessor);
         if (!(entry.link.hasProcInCalcState() && (entry.flags & 2)) &&
             !ksys::act::isPlayerProfile(accessor) && accessor.getProfile() != "WolfLink")
@@ -113,7 +113,7 @@ void Enemy::onDeleteRequested_(DeleteReason reason) {
     for (s32 i = 0; i < 6; ++i) {
         ksys::act::acc::Weapon weapon;
         if (!(_e82 & 0x80)) {
-            ksys::act::ActorConstDataAccess candidate;
+            ksys::act::ActorLinkConstDataAccess candidate;
             ksys::act::acquireActor(&_c38[i], &candidate);
             if (!sub_71002F0924(candidate))
                 weapon.acquireActor(candidate);
@@ -158,10 +158,10 @@ void Enemy::onEnterSleep_() {
     Actor::onEnterSleep_();
     if (_1190)
         _1190->sub_7100E64E60();
-    ksys::act::ActorConstDataAccess first;
+    ksys::act::ActorLinkConstDataAccess first;
     if (ksys::act::acquireActor(&_1180, &first))
         first.sleep(SleepWakeReason::_0);
-    ksys::act::ActorConstDataAccess second;
+    ksys::act::ActorLinkConstDataAccess second;
     if (ksys::act::acquireActor(&_1100, &second))
         second.sleep(SleepWakeReason::_0);
 }
@@ -422,12 +422,12 @@ bool Enemy::isGuard() {
 }
 
 void Enemy::onPreDeleteStart_(PrepareArg& arg) {
-    ksys::act::ActorConstDataAccess accessor1;
+    ksys::act::ActorLinkConstDataAccess accessor1;
     if (ksys::act::acquireActor(&_1180, &accessor1))
         accessor1.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
     _1180.reset();
 
-    ksys::act::ActorConstDataAccess accessor2;
+    ksys::act::ActorLinkConstDataAccess accessor2;
     if (ksys::act::acquireActor(&_1100, &accessor2))
         accessor2.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
     _1100.reset();
@@ -497,7 +497,7 @@ bool Enemy::sub_71000161A4(s32 idx) {
 void Enemy::sub_7100018A9C(f32 time) {
     _f50 = time;
     for (s32 i = 0; i < _c38.size(); ++i) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&_c38[i], &accessor);
         sub_71002F1400(accessor, s32(time));
     }
@@ -568,7 +568,7 @@ void Unk_7100013308::sub_71002DBC8C(const ksys::act::BaseProcLink& link, const s
     if (pos)
         _54 = *pos;
     else {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&_8, &accessor);
         _54 = accessor.getPreviousPos();
     }
@@ -576,7 +576,7 @@ void Unk_7100013308::sub_71002DBC8C(const ksys::act::BaseProcLink& link, const s
         mtx->getTranslation(_18);
         _24 = *mtx;
     } else {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&_8, &accessor);
         const sead::Matrix34f* m = &accessor.getActorMtx();
         _24 = *m;

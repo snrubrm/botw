@@ -1,7 +1,7 @@
 #pragma once
 
 #include <container/seadSafeArray.h>
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
 
@@ -40,7 +40,7 @@ protected:
     const float* mGimmickTimeLimit_m{};
     // map_unit_param at offset 0x28
     const bool* mIsBillboard_m{};
-    ksys::act::ActorConstDataAccess _30;
+    ksys::act::ActorLinkConstDataAccess _30;
     // Native constructor and effect updates use 19 records at 48, stride 30.
     struct EffectEntry {
         f32 scale;

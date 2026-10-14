@@ -1,7 +1,7 @@
 #include "KingSystem/Map/mapObjectLink.h"
 #include "KingSystem/Map/mapLinkTag.h"
 #include <container/seadBuffer.h>
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Map/mapObjectGenGroup.h"
 #include "KingSystem/Map/mapPlacementActors.h"
@@ -133,7 +133,7 @@ act::Actor* ObjectLink::getObjectActor() const {
     return other_obj->tryGetActor(false);
 }
 
-bool ObjectLink::getObjectProcWithAccessor(act::ActorLinkConstDataAccess& accessor) const {
+bool ObjectLink::getObjectProcWithAccessor(act::BaseProcAccessor& accessor) const {
     if (other_obj == nullptr)
         return accessor.acquire(nullptr);
     else
@@ -475,7 +475,7 @@ Object* ObjectLinkData::sub_7100D4EFA4(const sead::SafeString& name) {
     return nullptr;
 }
 
-bool ObjectLinkData::sub_7100D4EF30(const act::ActorConstDataAccess& accessor) {
+bool ObjectLinkData::sub_7100D4EF30(const act::ActorLinkConstDataAccess& accessor) {
     for (auto& link : mLinksOther.links) {
         if (link.type == MapLinkDefType::Recreate && link.other_obj == accessor.getMapObject()) {
             accessor.sub_7100D1525C();
@@ -496,7 +496,7 @@ bool ObjectLinkData::sub_7100D4F0F0(sead::Matrix34f* mtx) {
     return tag->sub_7100D39D60(mtx);
 }
 
-bool ObjectLinkData::sub_7100D4F6A4(act::ActorLinkConstDataAccess& accessor, MapLinkDefType type) {
+bool ObjectLinkData::sub_7100D4F6A4(act::BaseProcAccessor& accessor, MapLinkDefType type) {
     ObjectLink* link = findLinkWithType_0(type);
     if (link && link->other_obj)
         return link->other_obj->getActorWithAccessor(accessor);
@@ -557,7 +557,7 @@ bool ObjectLinkArray::checkLink(MapLinkDefType t, bool b) {
         return false;
 
 done:
-    act::ActorConstDataAccess acc{};
+    act::ActorLinkConstDataAccess acc{};
 
     if (link->other_obj != nullptr)
         link->other_obj->getActorWithAccessor(acc);

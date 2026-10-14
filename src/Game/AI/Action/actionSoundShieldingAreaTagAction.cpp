@@ -2,7 +2,7 @@
 #include "KingSystem/Sound/sndMgr.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorCreator.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/Profiles/actAreaActor.h"
 #include "KingSystem/Map/mapObject.h"
@@ -75,7 +75,7 @@ void SoundShieldingAreaTagAction::calc_() {
 }
 
 // NON_MATCHING: stack allocation and loop block layout differ.
-bool SoundShieldingAreaTagAction::m15(const ksys::act::ActorConstDataAccess& accessor) {
+bool SoundShieldingAreaTagAction::m15(const ksys::act::ActorLinkConstDataAccess& accessor) {
     ksys::act::acc::AreaActor area;
     f32 value = -1.0f;
     s32 index = getAreaCol(&area, -1);

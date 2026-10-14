@@ -17,7 +17,7 @@ public:
 
 protected:
     void calc_() override;
-    bool m15(const ksys::act::ActorConstDataAccess& accessor) override;
+    bool m15(const ksys::act::ActorLinkConstDataAccess& accessor) override;
     sead::Buffer<Payload>* m6() override { return &_48; }
 
     // map_unit_param at offset 0x38

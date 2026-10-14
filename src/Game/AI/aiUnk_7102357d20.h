@@ -17,7 +17,7 @@ struct MesTransceiverId;
 }  // namespace ksys
 
 namespace ksys::act {
-class ActorLinkConstDataAccess;
+class BaseProcAccessor;
 class BaseProcLink;
 }  // namespace ksys::act
 
@@ -48,11 +48,11 @@ public:
     bool sub_710070DBB0(const ksys::MesTransceiverId& dest, bool ack);
     bool sub_710070DC38(ksys::act::Actor* actor, bool ack);
     bool sub_710070DCC0(ksys::act::BaseProcLink* link, bool ack);
-    bool sub_710070DD78(const ksys::act::ActorLinkConstDataAccess& accessor, bool ack);
+    bool sub_710070DD78(const ksys::act::BaseProcAccessor& accessor, bool ack);
     bool sub_710070DE10(const ksys::MesTransceiverId& dest, bool ack);
     bool sub_710070DE98(ksys::act::Actor* actor, bool ack);
     bool sub_710070DF20(ksys::act::BaseProcLink* link, bool ack);
-    bool sub_710070DFD8(const ksys::act::ActorLinkConstDataAccess& accessor, bool ack);
+    bool sub_710070DFD8(const ksys::act::BaseProcAccessor& accessor, bool ack);
     bool sub_710070E070(const ksys::MessageAck& ack);
 
     ksys::MessageTransceiverBase* _8;

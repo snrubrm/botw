@@ -3,7 +3,7 @@
 #include "Game/AI/aiUnk_7102450fa8.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
 namespace uking::ai {
@@ -50,7 +50,7 @@ void PriestBossGiantDownSeq::loadParams_() {
 void PriestBossGiantDownSeq::sub_7100519264() {
     _b0.x();
     auto* unit = sub_7100505BE4();
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (unit->sub_71007194CC(&accessor)) {
         {
             sead::ScopedLock<sead::JobQueueLock> lock(&_80._18.mLock);

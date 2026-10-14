@@ -1,7 +1,7 @@
 #include "Game/Actor/actUnk_71002dccbc.h"
 #include <limits>
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 
 namespace uking::act {
@@ -54,7 +54,7 @@ ksys::act::BaseProcLink* Unk_71002dccbc::sub_71002DCEDC(u16 flags, const sead::V
     ksys::act::BaseProcLink* nearest = nullptr;
     for (auto& entry : mEntries) {
         if (entry.link.hasProcInCalcState() && static_cast<u16>(entry.flags & flags)) {
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             ksys::act::acquireActor(&entry.link, &accessor);
             const auto& mtx = accessor.getActorMtx();
             const f32 dx = pos.x - mtx(0, 3);

@@ -1,5 +1,5 @@
 #include "Game/AI/Action/actionDemoForceSetPlayerSavePosAngle.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/Event/evtUnk_7100dc816c.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "KingSystem/Map/mapObject.h"
@@ -43,7 +43,7 @@ void DemoForceSetPlayerSavePosAngle::m32() {
         name.appendWithFormat("%s", mAnchorName_d.cstr());
         if (!mUniqueName_d.isEmpty())
             name.appendWithFormat("(ユニーク名：%s)", mUniqueName_d.cstr());
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&link, &accessor);
     }
 }

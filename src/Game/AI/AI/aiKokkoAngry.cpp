@@ -1,7 +1,7 @@
 #include "Game/AI/AI/aiKokkoAngry.h"
 #include "Game/AI/aiActorLink.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
 #include "Game/AI/Action/actionSpotBgmTriggerAction.h"
 #include "Game/Actor/actEnemy.h"
@@ -89,7 +89,7 @@ void KokkoAngry::calc_() {
 
 // NON_MATCHING: see getKokkoTargetLink (entry-0 address computed as enemy + 0xd78)
 sead::Vector3f KokkoAngry::m35() {
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (ksys::act::acquireActor(getKokkoTargetLink(mActor), &accessor))
         return accessor.getActorMtx().getTranslation();
     const auto& mtx = mActor->getMtx();

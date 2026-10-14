@@ -12,7 +12,7 @@
 #include <thread/seadAtomic.h>
 #include "Game/Actor/actEditCamera.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "Game/Actor/actCameraUtil.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Utils/MathUtil.h"
@@ -578,11 +578,11 @@ public:
 
 namespace ksys::act::acc {
 
-// Access to a uking::act::Camera through an ActorConstDataAccess (CSV: act::acc::Camera; functions
+// Access to a uking::act::Camera through an ActorLinkConstDataAccess (CSV: act::acc::Camera; functions
 // 0x7100799f60-0x710079a6xx in the Camera TU). Namespace as for the other acc:: accessors.
 // TODO: incomplete (requestCameraPack, setSunazarashiTurnParam, setWaterRemainsData,
 // getPlayerAlphaRate not declared).
-class Camera : public ActorConstDataAccess {
+class Camera : public ActorLinkConstDataAccess {
 public:
     // 0x7100799f60 / 0x710079a05c / 0x710079a158: Camera::sub_710079614C / sub_7100796164 /
     // sub_7100794FD0 (false if the actor is no Camera).

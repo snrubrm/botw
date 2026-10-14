@@ -13,7 +13,7 @@
 
 namespace ksys::act {
 class Actor;
-class ActorConstDataAccess;
+class ActorLinkConstDataAccess;
 }  // namespace ksys::act
 
 namespace ksys::phys {
@@ -41,9 +41,9 @@ KSYS_CHECK_SIZE_NX150(DamageManagerHit, 0x4c);
 struct DamageManagerUnk220 {
     // 0x71006d9a24 / 0x71006d9b30 (lane4 s48; placeholder names): the fraction of the recorded hits (`size / capacity`),
     // or with `_27a` the stasis blow speed over the player's speed limit (clamped to 0.01 .. 1.0 in that case) for the
-    // `getter()` value of the actor (Actor::m38 / ActorConstDataAccess::sub_7100D14114).
+    // `getter()` value of the actor (Actor::m38 / ActorLinkConstDataAccess::sub_7100D14114).
     f32 sub_71006D9A24(ksys::act::Actor* actor) const;
-    f32 sub_71006D9B30(const ksys::act::ActorConstDataAccess& accessor) const;
+    f32 sub_71006D9B30(const ksys::act::ActorLinkConstDataAccess& accessor) const;
 
     // 0x71006d99a8 (called by StasisMgr::__auto5, which allocates it for DamageManager::_220).
     DamageManagerUnk220();

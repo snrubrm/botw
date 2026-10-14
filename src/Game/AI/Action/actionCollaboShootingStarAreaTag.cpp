@@ -1,5 +1,5 @@
 #include "Game/AI/Action/actionCollaboShootingStarAreaTag.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/World/worldManager.h"
 #include "KingSystem/World/worldShootingStarMgrEx.h"
@@ -34,7 +34,7 @@ void CollaboShootingStarAreaTag::calc_() {
     AreaTagAction::calc_();
 }
 
-bool CollaboShootingStarAreaTag::m15(const ksys::act::ActorConstDataAccess& accessor) {
+bool CollaboShootingStarAreaTag::m15(const ksys::act::ActorLinkConstDataAccess& accessor) {
     if (!accessor.hasProc())
         return false;
 

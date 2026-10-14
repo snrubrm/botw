@@ -6,7 +6,7 @@
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "Game/Actor/actRideable.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actSchedule.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
 
@@ -53,7 +53,7 @@ void NPCAnchorWait::loadParams_() {
 void NPCAnchorWait::sub_71001F3AE8() {
     if (!_40 || !(_40->_fe8 & 0x20000) || _48)
         return;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (!ksys::act::acquireActor(&_40->_f70, &accessor))
         return;
     auto* horse = static_cast<uking::act::RideableBase*>(accessor.getHorseOptions());

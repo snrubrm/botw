@@ -5,7 +5,7 @@
 #include "Game/AI/aiUnk_71006F1DF0.h"
 #include "Game/AI/aiUnk_7100736460.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
@@ -345,7 +345,7 @@ bool PreyNormal::sub_71004FF8A0() {
     if (!is_prey && !is_npc)
         return false;
     if (is_npc) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         if (!ksys::act::acquireActor(link, &accessor) || accessor.sub_7100022FD0())
             return false;
     }
@@ -360,7 +360,7 @@ bool PreyNormal::sub_71004FF740() {
         return false;
     const f32 x = mActor->getMtx().m[0][3];
     const f32 z = mActor->getMtx().m[2][3];
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(_d0 ? &_d0->_c48._8 : &ksys::act::sUnk_71026505e0, &accessor);
     const f32 distance = std::sqrt((_e0.x - x) * (_e0.x - x) + (_e0.z - z) * (_e0.z - z));
     f32 threshold;
@@ -427,7 +427,7 @@ bool Unk_7102410738::m2(Unk_71024dc978* entry) {
     auto* target = sead::DynamicCast<Unk_71024dc858>(entry);
     if (!target)
         return false;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (ksys::act::acquireActor(&target->mLink, &accessor)) {
         const auto& profile = accessor.getProfile();
         return !(profile == "Prey") && !(profile == "CapturedActor");
@@ -441,7 +441,7 @@ bool Unk_7102410760::m2(Unk_71024dc978* entry) {
     if (!target)
         return false;
     auto* link = &target->mLink;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (ksys::act::acquireActor(link, &accessor)) {
         if (ksys::act::isPlayerProfile(accessor))
             return true;
@@ -457,7 +457,7 @@ bool Unk_7102410788::m2(Unk_71024dc978* entry) {
     if (!target)
         return false;
     auto* link = &target->mLink;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (!ksys::act::acquireActor(link, &accessor))
         return (target->_3c & 0x1c30) != 0;
     return !(ksys::act::isNPCProfile(accessor) ||
@@ -471,7 +471,7 @@ bool Unk_71024107b0::m2(Unk_71024dc978* entry) {
     auto* target = sead::DynamicCast<Unk_71024dc858>(entry);
     if (!target)
         return false;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (!ksys::act::acquireActor(&target->mLink, &accessor))
         return (target->_3c & 0x1c30) != 0;
     return !(ksys::act::isNPCProfile(accessor) ||
@@ -483,7 +483,7 @@ bool Unk_71024107d8::m2(Unk_71024dc978* entry) {
     auto* target = sead::DynamicCast<Unk_71024dc858>(entry);
     if (!target)
         return false;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (!ksys::act::acquireActor(&target->mLink, &accessor))
         return (target->_3c & 0x1c30) != 0;
     return !ksys::act::isPreyOrSwarm(accessor) || ksys::act::isWolfOrBear(accessor);
@@ -494,7 +494,7 @@ bool Unk_7102410800::m2(Unk_71024dc978* entry) {
     auto* target = sead::DynamicCast<Unk_71024dc858>(entry);
     if (!target)
         return false;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (!ksys::act::acquireActor(&target->mLink, &accessor))
         return false;
     if (!accessor.sub_7100D10E6C(27) && !accessor.sub_7100D10E6C(26))
@@ -507,7 +507,7 @@ bool Unk_7102410828::m2(Unk_71024dc978* entry) {
     auto* target = sead::DynamicCast<Unk_71024dc858>(entry);
     if (!target)
         return false;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (!ksys::act::acquireActor(&target->mLink, &accessor))
         return false;
     if (ksys::act::isNPCProfile(accessor))

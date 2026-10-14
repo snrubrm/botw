@@ -1,7 +1,7 @@
 #include "Game/AI/AI/aiForestGiantRecognizeTarget.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 
@@ -52,7 +52,7 @@ void ForestGiantRecognizeTarget::calc_() {
     if (child->isChangeable()) {
         auto& link = sub_71005D94AC(mActor);
         if (link.hasProc()) {
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             ksys::act::acquireActor(&link, &accessor);
             if (accessor.sub_7100D10E6C(26)) {
                 setFinished();

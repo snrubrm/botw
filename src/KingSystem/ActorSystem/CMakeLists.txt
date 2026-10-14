@@ -123,8 +123,8 @@ target_sources(uking PRIVATE
     actActorBind.h
     actActorBindSet.cpp
     actActorBindSet.h
-    actActorConstDataAccess.cpp
-    actActorConstDataAccess.h
+    actActorLinkConstDataAccess.cpp
+    actActorLinkConstDataAccess.h
     actActorCreator.cpp
     actActorCreator.h
     actActorEditorNode.cpp
@@ -135,8 +135,8 @@ target_sources(uking PRIVATE
     actActorHeapUtil.h
     actActorLimiter.cpp
     actActorLimiter.h
-    actActorLinkConstDataAccess.cpp
-    actActorLinkConstDataAccess.h
+    actBaseProcAccessor.cpp
+    actBaseProcAccessor.h
     actActorParam.cpp
     actActorParam.h
     actActorParamMgr.cpp

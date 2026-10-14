@@ -3,7 +3,7 @@
 #include "Game/AI/aiUnk_71007320F0.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/Profiles/actRopeBase.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
@@ -133,7 +133,7 @@ void EnemyCutRope::calc_() {
 }
 
 void EnemyCutRope::leave_() {
-    ksys::act::ActorConstDataAccess acc;
+    ksys::act::ActorLinkConstDataAccess acc;
     ksys::act::acquireActor(mTargetActor_d, &acc);
 }
 

@@ -6,7 +6,7 @@
 #include "Game/Damage/dmgDamageManagerBase.h"
 #include "KingSystem/ActorSystem/Profiles/actBullet.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actActorX6A0.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
@@ -28,7 +28,7 @@ void Unk_71023fff70::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
     auto* manager = sead::DynamicCast<dmg::DamageManagerBase>(mDamageManager);
     if (!manager)
         return;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(manager->getAttacker(), &accessor);
     if (accessor.getName() == _28) {
         *a1 = 0;

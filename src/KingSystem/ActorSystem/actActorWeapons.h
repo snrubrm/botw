@@ -9,7 +9,7 @@
 namespace ksys::act {
 
 class Actor;
-class ActorConstDataAccess;
+class ActorLinkConstDataAccess;
 class WeaponBase;
 struct Unk117;
 
@@ -20,7 +20,7 @@ bool sub_7100EFD700(Actor* actor);
 bool sub_7100EFD8E4(Actor* actor);
 
 // 0x7100efa810 (unnamed in the CSV): calls WeaponBase::m215 on the weapon actor of `accessor`.
-void sub_7100EFA810(ActorConstDataAccess* accessor);
+void sub_7100EFA810(ActorLinkConstDataAccess* accessor);
 
 namespace acc {
 class PlayerOrEnemy;
@@ -77,7 +77,7 @@ public:
     bool dropWeaponM177(int idx, const sead::Vector3f& target, void* a2);
     bool dropWeaponM179(int idx);
     // 0x7100efd1f8 (unnamed in the CSV): whether any of the weapon actors reports true from Actor::m50
-    // (through ActorConstDataAccess::sub_7100D0FEAC).
+    // (through ActorLinkConstDataAccess::sub_7100D0FEAC).
     bool sub_7100EFD1F8();
     // 0x7100efd458: forwards the request to every weapon actor (Actor::x_17).
     void sub_7100EFD458(Unk117* arg);

@@ -1,6 +1,6 @@
 #include "Game/AI/Action/actionBalloonBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/ActorSystem/Profiles/actRopeBase.h"
@@ -15,7 +15,7 @@ BalloonBase::BalloonBase(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
 BalloonBase::~BalloonBase() {
     if (_20.hasProc()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&_20, &accessor);
         accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
     }
@@ -61,13 +61,13 @@ void BalloonBase::leave_() {
     }
 
     if (_20.hasProc()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&_20, &accessor);
         accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
     }
 
     if (_b8.hasProc()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         if (ksys::act::acquireActor(&_b8, &accessor)) {
             mActor->sendMessage(*accessor.getMessageTransceiverId(),
                                 ksys::MessageType(0x80000bd), nullptr, false);
@@ -145,7 +145,7 @@ void BalloonBase::sub_71000B7F94() {
     if (actor->get1a0() == nullptr && (!map_object || !map_object->getFlags0().isOn(ksys::map::Object::Flag0::_20000)))
         skip = true;
     if (_20.hasProc()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         if (ksys::act::acquireActor(&_20, &accessor)) {
             if (!accessor.sub_7100D10F0C() && !skip)
                 actor->sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x3000011), nullptr, true);
@@ -161,7 +161,7 @@ void BalloonBase::sub_71000B8054() {
         accessor.requestCutOffHungPoint(1);
     }
     if (_b8.hasProc()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         if (ksys::act::acquireActor(&_b8, &accessor)) {
             mActor->sendMessage(*accessor.getMessageTransceiverId(),
                                 ksys::MessageType(0x80000bd), nullptr, false);

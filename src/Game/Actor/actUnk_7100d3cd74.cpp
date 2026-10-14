@@ -2,7 +2,7 @@
 #include <basis/seadNew.h>
 #include <codec/seadHashCRC32.h>
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/Utils/Thread/Message.h"
 
@@ -22,7 +22,7 @@ Unk_7100d3cd74::Unk_7100d3cd74(ksys::act::Actor* actor) : mActor(actor) {}
 Unk_7100d3cd74::~Unk_7100d3cd74() {
     mActor = nullptr;
     for (auto& node : mList.robustRange()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&node.mData->mLink, &accessor);
         auto* data = node.mData;
         mList.erase(&node);
@@ -32,7 +32,7 @@ Unk_7100d3cd74::~Unk_7100d3cd74() {
 
 void Unk_7100d3cd74::sub_7100D3CE30() {
     for (auto& node : mList.robustRange()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&node.mData->mLink, &accessor);
         auto* data = node.mData;
         mList.erase(&node);
@@ -63,7 +63,7 @@ bool Unk_7100d3cd74::sub_7100D3CFEC(const sead::SafeString& name) {
         return false;
 
     if (--data->mRefCount == 0) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         if (ksys::act::acquireActor(&data->mLink, &accessor)) {
             mActor->sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x300000f),
                                 nullptr, false);
@@ -80,7 +80,7 @@ bool Unk_7100d3cd74::sub_7100D3D108(const sead::SafeString& name, ksys::act::Bas
         return false;
 
     if (data->mLink.hasProc() && !data->mLink.hasProcById(proc)) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&data->mLink, &accessor);
         return false;
     }
@@ -96,7 +96,7 @@ bool Unk_7100d3cd74::sub_7100D3D1E0(const sead::SafeString& name,
         return false;
 
     if (data->mLink.hasProc() && data->mLink != link) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&data->mLink, &accessor);
         return false;
     }

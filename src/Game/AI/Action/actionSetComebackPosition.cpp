@@ -28,7 +28,7 @@ void SetComebackPosition::calc_() {
     AreaTagAction::calc_();
 }
 
-bool SetComebackPosition::m15(const ksys::act::ActorConstDataAccess& accessor) {
+bool SetComebackPosition::m15(const ksys::act::ActorLinkConstDataAccess& accessor) {
     if (!accessor.isPlayerProfile())
         return false;
 

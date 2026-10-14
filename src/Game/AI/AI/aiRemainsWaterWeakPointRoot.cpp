@@ -2,7 +2,7 @@
 #include "Game/AI/aiUnk_710072BA90.h"
 #include "Game/Damage/dmgDamageManager.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Map/mapObjectLink.h"
 #include "KingSystem/Utils/Thread/Message.h"
@@ -71,7 +71,7 @@ bool RemainsWaterWeakPointRoot::isAttackedByElectricArrow() {
     auto* damage = sub_710072BA90(mActor);
     if (!damage || !damage->_216.isOn(2))
         return false;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (ksys::act::acquireActor(damage->getAttacker(), &accessor) &&
         accessor.getName() == "ElectricArrow")
         return true;
@@ -80,7 +80,7 @@ bool RemainsWaterWeakPointRoot::isAttackedByElectricArrow() {
 
 // NON_MATCHING: linked-object induction and temporary scheduling differ.
 void RemainsWaterWeakPointRoot::sub_710054C520() {
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     auto* object = mActor->getMapObject();
     if (!object || !object->getLinkData())
         return;

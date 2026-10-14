@@ -1,7 +1,7 @@
 #include "Game/AI/Action/actionSiteBossSwordCreateIronPile.h"
 #include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 
 namespace uking::action {
 
@@ -14,7 +14,7 @@ SiteBossSwordCreateIronPile::~SiteBossSwordCreateIronPile() {
             for (s32 i = 0; i <= *mCreateNum_s; ++i) {
                 const sead::FormatFixedSafeString<64> name("IronPile%d", i);
                 if (enemy->getActorPartsActor(name).hasProc()) {
-                    ksys::act::ActorConstDataAccess accessor;
+                    ksys::act::ActorLinkConstDataAccess accessor;
                     ksys::act::acquireActor(&enemy->getActorPartsActor(name), &accessor);
                     accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
                 }

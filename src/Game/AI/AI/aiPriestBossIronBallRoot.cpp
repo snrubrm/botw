@@ -3,7 +3,7 @@
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/Profiles/actBullet.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorCreator.h"
 #include "KingSystem/ActorSystem/actActorHeapUtil.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
@@ -26,7 +26,7 @@ PriestBossIronBallRoot::PriestBossIronBallRoot(const InitArg& arg) : PriestBossM
 
 PriestBossIronBallRoot::~PriestBossIronBallRoot() {
     if (_70.hasProc()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&_70, &accessor);
         accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
     }
@@ -85,7 +85,7 @@ bool PriestBossIronBallRoot::handleMessage_(const ksys::Message* message) {
         if (mActor->getConnectedCalcChild())
             mActor->resetConnectedCalcChild(false);
         {
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             ksys::act::acquireActor(&_70, &accessor);
             if (accessor.hasProc())
                 accessor.sleep(ksys::act::BaseProc::SleepWakeReason::_0);
@@ -112,7 +112,7 @@ bool PriestBossIronBallRoot::handleMessage_(const ksys::Message* message) {
                 if (_80.isOnBit(Flag(Flag::_7))) {
                     _80.resetBit(Flag(Flag::_7));
                     auto* unit = sub_7100505BE4();
-                    ksys::act::ActorConstDataAccess accessor;
+                    ksys::act::ActorLinkConstDataAccess accessor;
                     if (unit && unit->sub_71007194CC(&accessor)) {
                         {
                             sead::ScopedLock<sead::JobQueueLock> lock(&_1d0._18.mLock);
@@ -236,7 +236,7 @@ void PriestBossIronBallRoot::m39() {
     mActor->sleep(ksys::act::BaseProc::SleepWakeReason::_0);
     if (mActor->getConnectedCalcChild())
         mActor->resetConnectedCalcChild(false);
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(&_70, &accessor);
     if (accessor.hasProc())
         accessor.sleep(ksys::act::BaseProc::SleepWakeReason::_0);
@@ -247,7 +247,7 @@ void PriestBossIronBallRoot::m40() {
     mActor->sleep(ksys::act::BaseProc::SleepWakeReason::_0);
     if (mActor->getConnectedCalcChild())
         mActor->resetConnectedCalcChild(false);
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(&_70, &accessor);
     if (accessor.hasProc())
         accessor.sleep(ksys::act::BaseProc::SleepWakeReason::_0);
@@ -258,7 +258,7 @@ void PriestBossIronBallRoot::m41() {
     sead::Vector3f scale = sead::Vector3f::ones;
     if (_70.hasProc()) {
         scale *= 1.5f;
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&_70, &accessor);
         if (!accessor.isStateCalc()) {
             sead::Matrix34f mtx;
@@ -279,7 +279,7 @@ void PriestBossIronBallRoot::m42() {
 
 void PriestBossIronBallRoot::m43(s32 command, const sead::Vector3f& base_pos, s32 wait_time) {
     _120.x();
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(&_238, &accessor);
     accessor.getActorMtx();
     ksys::act::ai::InlineParamPack params;
@@ -294,7 +294,7 @@ void PriestBossIronBallRoot::sub_71005221EC(bool value) {
     auto* unit = sub_7100505BE4();
     if (!unit)
         return;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     unit->sub_71007194D4(1, &accessor);
     if (accessor.hasProc()) {
         const s32 idx = unit->sub_7100719534(mActor);

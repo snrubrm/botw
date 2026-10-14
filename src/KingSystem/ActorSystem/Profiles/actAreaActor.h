@@ -2,7 +2,7 @@
 
 #include <prim/seadDelegate.h>
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Physics/physDefines.h"
 #include "KingSystem/Utils/Types.h"
@@ -130,7 +130,7 @@ namespace ksys::act::acc {
 
 // Accessor for AreaActor (CSV act::acc::AreaActor::*; lane4 s44; the other names are guesses; functions
 // 0x7100e26d04-0x7100e26eec).
-class AreaActor : public ActorConstDataAccess {
+class AreaActor : public ActorLinkConstDataAccess {
 public:
     // 0x7100e26d04 / 0x7100e26df8: `_848` / `_850` (null without an AreaActor).
     phys::CollisionInfo* getField848() const;

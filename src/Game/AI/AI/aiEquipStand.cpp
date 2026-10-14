@@ -2,7 +2,7 @@
 #include <cstdarg>
 #include <gfx/seadColor.h>
 #include <math/seadVector.h>
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "Game/AI/aiUnk_71005E0420.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
@@ -20,7 +20,7 @@ EquipStand::EquipStand(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
 EquipStand::~EquipStand() {
     if (_b0.mLink.hasProc()) {
-        ksys::act::ActorConstDataAccess acc;
+        ksys::act::ActorLinkConstDataAccess acc;
         if (ksys::act::acquireActor(&_b0.mLink, &acc))
             acc.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
     }

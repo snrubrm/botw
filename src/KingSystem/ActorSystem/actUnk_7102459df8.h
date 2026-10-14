@@ -23,7 +23,7 @@ class RigidBody;
 namespace ksys::act {
 
 class Actor;
-class ActorConstDataAccess;
+class ActorLinkConstDataAccess;
 
 // Placeholder (RTTI static 0x71025ca5f8): the optional argument of Unk_71025b08f8::m4 (checked with
 // a DynamicCast; its member at +0x8 is compared with 1).
@@ -59,7 +59,7 @@ public:
     struct Unk_7102459e60 {
         struct Unk1 {
             void sub_710079F508(const sead::Vector3f& position, const sead::Vector3f& normal,
-                              const ActorConstDataAccess* actor,
+                              const ActorLinkConstDataAccess* actor,
                               const phys::MaterialMask& material1,
                               const phys::MaterialMask& material2);
 
@@ -116,7 +116,7 @@ public:
         u8 _582;
         // callback set by BeltConveyor::enter_ (0x71000c4560, the third argument is unused there),
         // cleared by BeltConveyor::leave_
-        using Callback = void (*)(Actor*, const ActorConstDataAccess*, void*, phys::RigidBody*);
+        using Callback = void (*)(Actor*, const ActorLinkConstDataAccess*, void*, phys::RigidBody*);
         Callback _588;
     };
 

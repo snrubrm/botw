@@ -4,7 +4,7 @@
 #include "KingSystem/System/Timer.h"
 
 namespace ksys::act {
-class ActorConstDataAccess;
+class ActorLinkConstDataAccess;
 }
 
 namespace uking::action {
@@ -24,7 +24,7 @@ protected:
     void calc_() override;
     s32 sub_71001788F4();
     bool sub_7100178AA0();
-    void sub_7100178DC4(s32 index, ksys::act::ActorConstDataAccess* accessor);
+    void sub_7100178DC4(s32 index, ksys::act::ActorLinkConstDataAccess* accessor);
 
     // static_param at offset 0x20
     const int* mAttackPower_s{};

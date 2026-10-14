@@ -14,7 +14,7 @@ class MessageTransceiverTxOnly;
 
 namespace ksys::act {
 class Actor;
-class ActorConstDataAccess;
+class ActorLinkConstDataAccess;
 }
 
 namespace ksys::evt {
@@ -79,7 +79,7 @@ public:
     void x_3(bool value);
     // 0x71008abf30 / 0x71008abf38 (placeholder names): release the speaker link / acquire the speaker actor
     void sub_71008ABF30();
-    void sub_71008ABF38(act::ActorConstDataAccess* accessor);
+    void sub_71008ABF38(act::ActorLinkConstDataAccess* accessor);
 
     // 0x71008ac1bc (CSV x?: __auto0; placeholder name): counts the event flow `flow` (by its flags), see S7
     void sub_71008AC1BC(EventFlowBase* flow);

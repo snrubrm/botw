@@ -4,7 +4,7 @@
 #include "Game/AI/aiUnk_710001A69C.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "Game/Actor/actEnemy.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 
@@ -31,7 +31,7 @@ bool EnemyRecognizeTargetBase::sub_71003B12A4() {
     Unk_7102451448 filter;
     while (auto* entry = ksys::act::sub_7100D7EEE8(entries, &filter)) {
         if (entry->_a8 < *mSpreadDist_s) {
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             ksys::act::acquireActor(&entry->_0.mLink, &accessor);
             if (accessor.hasTag(0x82ed5778) && !accessor.sub_7100D10E6C(25) &&
                 !accessor.sub_7100D10E6C(26) && !sub_710001A69C(&accessor, 0x10000))
@@ -115,7 +115,7 @@ void EnemyRecognizeTargetBase::changeToDiscover() {
 void EnemyRecognizeTargetBase::changeToActivateTrap() {
     ksys::act::ai::InlineParamPack pack;
     pack.addActor(_c0._38._0, "TargetActor", -1);
-    ksys::act::ActorConstDataAccess commander;
+    ksys::act::ActorLinkConstDataAccess commander;
     ksys::act::acquireActor(&_c0._38._10, &commander);
     _80 = _c0._38._0;
     pack.addMesTransceiverId(*commander.getMessageTransceiverId(), "CommanderID", -1);

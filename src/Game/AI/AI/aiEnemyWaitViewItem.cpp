@@ -1,11 +1,11 @@
 #include "Game/AI/AI/aiEnemyWaitViewItem.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 
-bool sub_71006DE574(const ksys::act::ActorConstDataAccess& accessor);
-bool sub_71006DE3D8(const ksys::act::ActorConstDataAccess& accessor);
-bool sub_71006DE4A4(const ksys::act::ActorConstDataAccess& accessor);
+bool sub_71006DE574(const ksys::act::ActorLinkConstDataAccess& accessor);
+bool sub_71006DE3D8(const ksys::act::ActorLinkConstDataAccess& accessor);
+bool sub_71006DE4A4(const ksys::act::ActorLinkConstDataAccess& accessor);
 
 namespace uking::ai {
 
@@ -49,7 +49,7 @@ void EnemyWaitViewItem::calc_() {
     if (child->isChangeable())
         sub_71003C3A2C(false);
 
-    ksys::act::ActorConstDataAccess acc;
+    ksys::act::ActorLinkConstDataAccess acc;
     ksys::act::acquireActor(mTargetActor_d, &acc);
     sead::Vector3f pos;
     acc.getActorMtx().getTranslation(pos);
@@ -65,7 +65,7 @@ void EnemyWaitViewItem::m36() {}
 // Picks the child from the EnemyShown params of the target (noise: cheer, happy: gather, sit: dejected,
 // else watch); unless `force` is set, the current child is kept.
 void EnemyWaitViewItem::sub_71003C3A2C(bool force) {
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(mTargetActor_d, &accessor);
     if (sub_71006DE574(accessor)) {
         if (force || !isCurrentChild("囃し立てる"))
@@ -83,13 +83,13 @@ void EnemyWaitViewItem::sub_71003C3A2C(bool force) {
 }
 
 bool EnemyWaitViewItem::sub_71003C3C68() {
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(mTargetActor_d, &accessor);
     return sub_71006DE3D8(accessor);
 }
 
 void EnemyWaitViewItem::changeToGather() {
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(mTargetActor_d, &accessor);
     sead::Vector3f pos;
     accessor.getActorMtx().getTranslation(pos);
@@ -100,7 +100,7 @@ void EnemyWaitViewItem::changeToGather() {
 }
 
 void EnemyWaitViewItem::changeToDejected() {
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(mTargetActor_d, &accessor);
     sead::Vector3f pos;
     accessor.getActorMtx().getTranslation(pos);
@@ -111,7 +111,7 @@ void EnemyWaitViewItem::changeToDejected() {
 }
 
 void EnemyWaitViewItem::changeToWatch() {
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(mTargetActor_d, &accessor);
     sead::Vector3f pos;
     accessor.getActorMtx().getTranslation(pos);
@@ -122,7 +122,7 @@ void EnemyWaitViewItem::changeToWatch() {
 }
 
 void EnemyWaitViewItem::changeToCheer() {
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(mTargetActor_d, &accessor);
     sead::Vector3f pos;
     accessor.getActorMtx().getTranslation(pos);

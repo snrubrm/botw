@@ -2,7 +2,7 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 
 namespace uking::ai {
 
@@ -43,7 +43,7 @@ void CalledEnemyMove::calc_() {
     } else if (child->isChangeable()) {
         sead::Vector2f target;
         {
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             ksys::act::acquireActor(mTargetActor_d, &accessor);
             const sead::Matrix34f& mtx = accessor.getActorMtx();
             target.set(mtx(0, 3), mtx(2, 3));
@@ -61,7 +61,7 @@ void CalledEnemyMove::calc_() {
     } else if (isCurrentChild("待機")) {
         sead::Vector3f pos;
         {
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             ksys::act::acquireActor(mTargetActor_d, &accessor);
             accessor.getActorMtx().getTranslation(pos);
         }
@@ -70,7 +70,7 @@ void CalledEnemyMove::calc_() {
 }
 
 void CalledEnemyMove::leave_() {
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(mTargetActor_d, &accessor);
     _50.x(mActor);
     _50.sub_710070DBB0(*accessor.getMessageTransceiverId(), true);
@@ -93,7 +93,7 @@ void CalledEnemyMove::changeToApproach() {
 void CalledEnemyMove::sub_7100341058(sead::Vector3f* out) {
     if (!out)
         return;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(mTargetActor_d, &accessor);
     accessor.getActorMtx().getTranslation(*out);
     sead::Vector3f dir;
@@ -105,7 +105,7 @@ void CalledEnemyMove::sub_7100341058(sead::Vector3f* out) {
 void CalledEnemyMove::changeToWait() {
     sead::Vector3f pos;
     {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(mTargetActor_d, &accessor);
         accessor.getActorMtx().getTranslation(pos);
     }

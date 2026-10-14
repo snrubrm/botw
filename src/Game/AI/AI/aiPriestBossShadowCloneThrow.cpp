@@ -2,7 +2,7 @@
 #include <cmath>
 #include "Game/AI/aiUnk_7102450fa8.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
@@ -62,7 +62,7 @@ void PriestBossShadowCloneThrow::m35() {
     if (!unit)
         return;
 
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     for (s32 i = _8c; i < 8; ++i) {
         const s32 idx = _94[i];
         if (idx < 0 || !unit->sub_71007194D4(25 + idx, &accessor) || !accessor.isStateCalc())
@@ -84,7 +84,7 @@ void PriestBossShadowCloneThrow::m39() {
     if (!unit)
         return;
 
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     for (s32 i = _8c; i < 8; ++i) {
         const s32 idx = _94[i];
         if (idx < 0 || !unit->sub_71007194D4(25 + idx, &accessor) || !accessor.isStateCalc())
@@ -107,7 +107,7 @@ void PriestBossShadowCloneThrow::m34() {
     for (auto& value : _94)
         value = -1;
 
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     s32 count = 0;
     if (unit->sub_71007194D4(25, &accessor)) {
         sead::Vector3f pos;
@@ -140,7 +140,7 @@ bool PriestBossShadowCloneThrow::m36() {
     if (!unit)
         return false;
 
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     for (s32 i = 25; i < 33; ++i) {
         if (unit->sub_71007194D4(i, &accessor) && accessor.isStateCalc())
             return false;
@@ -193,13 +193,13 @@ void PriestBossShadowCloneThrow::leave_() {
         return;
 
     for (s32 i = 25; i < 33; ++i) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         if (unit->sub_71007194D4(i, &accessor))
             accessor.sleep(ksys::act::BaseProc::SleepWakeReason(0));
     }
 
     setPayload(_3b0, mActor, 5);
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (unit->sub_71007194CC(&accessor))
         _3b0.sub_710070DBB0(*accessor.getMessageTransceiverId(), true);
 }

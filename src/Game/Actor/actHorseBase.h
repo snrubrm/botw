@@ -19,7 +19,7 @@ class ModelUnitGroup;
 }
 
 namespace ksys::act {
-class ActorConstDataAccess;
+class ActorLinkConstDataAccess;
 }  // namespace ksys::act
 
 namespace ksys::map {
@@ -245,28 +245,28 @@ KSYS_CHECK_SIZE_NX150(HorseBase, 0xc58);
 // Accessor-based wrappers in the HorseBase TU (0x7100e6dc50-0x7100e6f010; lane4 s44): they cast the accessor's proc to a
 // HorseBase (the default value without one) and read a member / forward to a virtual. Placeholder names.
 // 0x7100e6dc50 (CSV unnamed): whether the accessor's actor is a HorseBase.
-bool sub_7100E6DC50(const ksys::act::ActorConstDataAccess& accessor);
+bool sub_7100E6DC50(const ksys::act::ActorLinkConstDataAccess& accessor);
 // 0x7100e6dd40: `_b48`. 0x7100e6de34: `_b10->m31()`. 0x7100e6df38: `_b78`. 0x7100e6e02c: the Nature GParam (0 without a horse).
-void* sub_7100E6DD40(const ksys::act::ActorConstDataAccess& accessor);
-f32 sub_7100E6DE34(const ksys::act::ActorConstDataAccess& accessor);
-s32 sub_7100E6DF38(const ksys::act::ActorConstDataAccess& accessor);
-HorseBase::Nature sub_7100E6E02C(const ksys::act::ActorConstDataAccess& accessor);
+void* sub_7100E6DD40(const ksys::act::ActorLinkConstDataAccess& accessor);
+f32 sub_7100E6DE34(const ksys::act::ActorLinkConstDataAccess& accessor);
+s32 sub_7100E6DF38(const ksys::act::ActorLinkConstDataAccess& accessor);
+HorseBase::Nature sub_7100E6E02C(const ksys::act::ActorLinkConstDataAccess& accessor);
 // 0x7100e6e98c / 0x7100e6eba4: set / reset bit 1 / bit 3 of `_b70`. 0x7100e6ed04 / 0x7100e6eaac / 0x7100e6f010: bit 0 / 2 / 10.
-void sub_7100E6E98C(const ksys::act::ActorConstDataAccess& accessor, bool on);
-void sub_7100E6EBA4(const ksys::act::ActorConstDataAccess& accessor, bool on);
-bool sub_7100E6ED04(const ksys::act::ActorConstDataAccess& accessor);
-bool sub_7100E6F010(const ksys::act::ActorConstDataAccess& accessor);
+void sub_7100E6E98C(const ksys::act::ActorLinkConstDataAccess& accessor, bool on);
+void sub_7100E6EBA4(const ksys::act::ActorLinkConstDataAccess& accessor, bool on);
+bool sub_7100E6ED04(const ksys::act::ActorLinkConstDataAccess& accessor);
+bool sub_7100E6F010(const ksys::act::ActorLinkConstDataAccess& accessor);
 // 0x7100e6c360: HorseBase::sub_7100E6C12C(id) (false without a horse). 0x7100e6c5a4: HorseBase::sub_7100E6C464(id).
-bool sub_7100E6C360(const ksys::act::ActorConstDataAccess& accessor, s32 id);
-void sub_7100E6C5A4(const ksys::act::ActorConstDataAccess& accessor, s32 id);
+bool sub_7100E6C360(const ksys::act::ActorLinkConstDataAccess& accessor, s32 id);
+void sub_7100E6C5A4(const ksys::act::ActorLinkConstDataAccess& accessor, s32 id);
 // 0x7100e6e140 / 0x7100e6e404 / 0x7100e6e6c8: HorseBase::sub_7100E6E254 / E518 / E7DC.
-void sub_7100E6E140(const ksys::act::ActorConstDataAccess& accessor, const sead::SafeString& name, sead::Heap* heap);
-void sub_7100E6E404(const ksys::act::ActorConstDataAccess& accessor, const sead::SafeString& name, sead::Heap* heap);
-void sub_7100E6E6C8(const ksys::act::ActorConstDataAccess& accessor, const sead::SafeString& name, sead::Heap* heap);
+void sub_7100E6E140(const ksys::act::ActorLinkConstDataAccess& accessor, const sead::SafeString& name, sead::Heap* heap);
+void sub_7100E6E404(const ksys::act::ActorLinkConstDataAccess& accessor, const sead::SafeString& name, sead::Heap* heap);
+void sub_7100E6E6C8(const ksys::act::ActorLinkConstDataAccess& accessor, const sead::SafeString& name, sead::Heap* heap);
 // 0x7100e6edfc: `_c00` (the empty string without a horse). 0x7100e6ef00: `_8d0._40` read under the lock `_890`.
-const sead::SafeString& sub_7100E6EDFC(const ksys::act::ActorConstDataAccess& accessor);
-const sead::SafeString& sub_7100E6EF00(const ksys::act::ActorConstDataAccess& accessor);
+const sead::SafeString& sub_7100E6EDFC(const ksys::act::ActorLinkConstDataAccess& accessor);
+const sead::SafeString& sub_7100E6EF00(const ksys::act::ActorLinkConstDataAccess& accessor);
 // 0x7100e6ecc4 (CSV act::acc::Horse::getHorseUnitParamXXX): like HorseBase::x on an accessor.
-s32 sub_7100E6ECC4(const ksys::act::ActorConstDataAccess& accessor);
+s32 sub_7100E6ECC4(const ksys::act::ActorLinkConstDataAccess& accessor);
 
 }  // namespace uking::act

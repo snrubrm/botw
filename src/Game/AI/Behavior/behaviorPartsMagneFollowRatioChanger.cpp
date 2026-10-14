@@ -1,7 +1,7 @@
 #include "Game/AI/Behavior/behaviorPartsMagneFollowRatioChanger.h"
 #include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 
 namespace uking::behavior {
 
@@ -23,7 +23,7 @@ void PartsMagneFollowRatioChanger::m7() {
     if (auto* enemy = sead::DynamicCast<act::Enemy>(actor)) {
         auto& link = enemy->getActorPartsActor(mPartsName_s);
         if (link.hasProcInCalcState()) {
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             ksys::act::acquireActor(&link, &accessor);
             if (accessor.sub_7100D13BB8()) {
                 _40._18 = *mRatio_s;
@@ -40,7 +40,7 @@ void PartsMagneFollowRatioChanger::m9() {
     if (auto* enemy = sead::DynamicCast<act::Enemy>(actor)) {
         auto& link = enemy->getActorPartsActor(mPartsName_s);
         if (link.hasProcInCalcState()) {
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             ksys::act::acquireActor(&link, &accessor);
             if (accessor.sub_7100D13BB8()) {
                 _40._18 = 1.0f;

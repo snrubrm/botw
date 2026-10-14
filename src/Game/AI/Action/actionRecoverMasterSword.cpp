@@ -23,7 +23,7 @@ bool RecoverMasterSword::oneShot_() {
     ksys::act::acc::PlayerOrEnemy player;
     ksys::act::acquireActor(&ksys::act::PlayerInfo::getSomeProcLink(), &player);
     sendMessage(*player.getMessageTransceiverId(), ksys::MessageType(0x8000023), nullptr);
-    ksys::act::ActorConstDataAccess weapon;
+    ksys::act::ActorLinkConstDataAccess weapon;
     player.getWeapon(&weapon, 0);
     if (weapon.hasProc() && weapon.getGParamList()->getMasterSword()->mIsMasterSword.ref())
         sendMessage(*weapon.getMessageTransceiverId(), ksys::MessageType(0x8000022), nullptr);

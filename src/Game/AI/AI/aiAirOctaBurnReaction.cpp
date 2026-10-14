@@ -2,7 +2,7 @@
 #include <random/seadGlobalRandom.h>
 #include "Game/AI/AI/AirOcta/AirOctaDataMgr.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/System/VFR.h"
 
 namespace uking::ai {
@@ -16,7 +16,7 @@ bool AirOctaBurnReaction::init_(sead::Heap* heap) {
 }
 
 bool AirOctaBurnReaction::sub_71002FAA64() {
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     bool result = false;
     if (ksys::act::acquireActor(
             &sead::DynamicCast<AirOctaDataMgr>(*mAirOctaDataMgr_a)->mBaseProcLink2, &accessor) &&
@@ -32,7 +32,7 @@ void AirOctaBurnReaction::enter_(ksys::act::ai::InlineParamPack* params) {
     bool acquired;
     ksys::act::BaseProc* proc;
     {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         acquired = ksys::act::acquireActor(
             &sead::DynamicCast<AirOctaDataMgr>(*mAirOctaDataMgr_a)->mBaseProcLink2, &accessor);
         proc = accessor.getProc();
@@ -62,7 +62,7 @@ void AirOctaBurnReaction::calc_() {
         bool acquired;
         ksys::act::BaseProc* proc;
         {
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             acquired = ksys::act::acquireActor(
                 &sead::DynamicCast<AirOctaDataMgr>(*mAirOctaDataMgr_a)->mBaseProcLink2, &accessor);
             proc = accessor.getProc();

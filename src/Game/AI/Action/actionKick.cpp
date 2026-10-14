@@ -5,8 +5,8 @@
 #include "Game/AI/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
+#include "KingSystem/ActorSystem/actBaseProcAccessor.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Utils/MathUtil.h"
 
@@ -84,7 +84,7 @@ void Kick::sub_71001C8818() {
         return;
     sub_710073FA94(&_58, mActor);
     const sead::Vector3f up = getUpDir(controller->get70());
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(mTargetActor_d, &accessor);
     sead::Vector3f dir =
         accessor.getActorMtx().getTranslation() - mActor->getMtx().getTranslation();
@@ -110,7 +110,7 @@ void Kick::sub_71001C8A10() {
     impulse *= *mPower_s;
     const sead::Vector3f up = sead::Vector3f::ey * *mUpRate_s;
     impulse = up + impulse;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(mTargetActor_d, &accessor);
     _88.sub_7100D3D3C4(0, &impulse, nullptr, true);
     _88.sub_7100D3D49C(mActor, &accessor, 0);

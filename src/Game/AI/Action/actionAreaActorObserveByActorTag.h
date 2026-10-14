@@ -17,7 +17,7 @@ public:
 
 protected:
     void m32() override;
-    bool m37(const ksys::act::ActorConstDataAccess& accessor) override;
+    bool m37(const ksys::act::ActorLinkConstDataAccess& accessor) override;
 
     // Hash of the ActorTag map unit parameter.
     u32 _60 = 0;

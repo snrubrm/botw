@@ -1,7 +1,7 @@
 #include "Game/AI/aiUnk_7100711020.h"
 #include <limits>
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "Game/AI/aiAwarenessFilters.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/AI/aiUnk_71007377D4.h"
@@ -19,7 +19,7 @@ Unk_7100711020::Unk_7100711020(ksys::act::Actor* actor)
 
 Unk_7100711020::~Unk_7100711020() {
     if (_10.hasProc()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&_10, &accessor);
         mActor->sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x300000f),
                             nullptr, false);
@@ -34,7 +34,7 @@ void Unk_7100711020::sub_7100711450() {
     _8 = std::numeric_limits<f32>::infinity();
     _20 = 0;
     if (_10.hasProc()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&_10, &accessor);
         accessor.wakeUp(ksys::act::BaseProc::SleepWakeReason::_0);
     }
@@ -43,7 +43,7 @@ void Unk_7100711020::sub_7100711450() {
 void Unk_7100711020::sub_7100711BDC() {
     mActor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_2000);
     if (_10.hasProc()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&_10, &accessor);
         _28.sub_710070DBB0(*accessor.getMessageTransceiverId(), true);
     }
@@ -56,7 +56,7 @@ void Unk_7100711020::sub_7100711B14(bool update_pos) {
         _28._18._2c = pos;
     }
     if (_10.hasProc()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&_10, &accessor);
         _28.sub_710070DBB0(*accessor.getMessageTransceiverId(), true);
     }
@@ -80,7 +80,7 @@ void Unk_7100711020::sub_7100711C5C() {
             break;
 
         auto& link = entry->_0.mLink;
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&link, &accessor);
         if (link.hasProc() && _10 == link)
             continue;
@@ -98,7 +98,7 @@ void Unk_7100711020::sub_7100711C5C() {
         _100.value = 0;
         _100.previous_value = 0;
         if (_10.hasProc()) {
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             ksys::act::acquireActor(&_10, &accessor);
             _80.sub_710070DBB0(*accessor.getMessageTransceiverId(), true);
         }
@@ -172,7 +172,7 @@ void Unk_7100711020::sub_71007114DC() {
         const auto& target_pos = sub_71005D9330(actor);
         if ((actor->getMtx().getTranslation() - target_pos).length() > _8) {
             if (_10.hasProc()) {
-                ksys::act::ActorConstDataAccess accessor;
+                ksys::act::ActorLinkConstDataAccess accessor;
                 ksys::act::acquireActor(&_10, &accessor);
                 _d0.sub_710070DBB0(*accessor.getMessageTransceiverId(), true);
             }
@@ -181,7 +181,7 @@ void Unk_7100711020::sub_71007114DC() {
             _100.value = 0;
             _100.previous_value = 0;
             if (_10.hasProc()) {
-                ksys::act::ActorConstDataAccess accessor;
+                ksys::act::ActorLinkConstDataAccess accessor;
                 ksys::act::acquireActor(&_10, &accessor);
                 _80.sub_710070DBB0(*accessor.getMessageTransceiverId(), true);
             }
@@ -191,7 +191,7 @@ void Unk_7100711020::sub_71007114DC() {
     } else if (_20 >= 2) {
         _20 = 0;
         if (_10.hasProc()) {
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             ksys::act::acquireActor(&_10, &accessor);
             _d0.sub_710070DBB0(*accessor.getMessageTransceiverId(), true);
         }
@@ -227,7 +227,7 @@ void Unk_7100711020::sub_71007116E0() {
                 break;
 
             auto& link = entry->_0.mLink;
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             ksys::act::acquireActor(&link, &accessor);
             if (link.hasProc() && _10 == link)
                 continue;
@@ -291,7 +291,7 @@ void Unk_7100711020::sub_71007116E0() {
     _100.value = 0;
     _100.previous_value = 0;
     if (_10.hasProc()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&_10, &accessor);
         _80.sub_710070DBB0(*accessor.getMessageTransceiverId(), true);
     }

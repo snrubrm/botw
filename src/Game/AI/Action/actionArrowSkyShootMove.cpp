@@ -1,7 +1,7 @@
 #include "Game/AI/Action/actionArrowSkyShootMove.h"
 #include "Game/AI/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
@@ -62,7 +62,7 @@ void ArrowSkyShootMove::m33() {
             return;
         sead::Vector3f dir = -sead::Vector3f::ey;
         if (mTargetActor_d) {
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             ksys::act::acquireActor(mTargetActor_d, &accessor);
             if (accessor.hasProc()) {
                 sead::Vector3f pos;

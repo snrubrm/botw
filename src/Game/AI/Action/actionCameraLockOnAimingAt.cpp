@@ -8,7 +8,7 @@
 
 const sead::Vector2f& sub_7100A9B928();
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include <math/seadMathCalcCommon.h>
@@ -51,7 +51,7 @@ void CameraLockOnAimingAt::m34() {
             if (!ksys::util::sub_71011F1040(current_camera->_860._318)) {
                 _150 = current_camera->_860._318;
             } else {
-                ksys::act::ActorConstDataAccess accessor;
+                ksys::act::ActorLinkConstDataAccess accessor;
                 ksys::act::acquireActor(&_128, &accessor);
             }
         }
@@ -201,7 +201,7 @@ void CameraLockOnAimingAt::sub_7100774AF4() {
     _16c.y += *mOffsetY_s;
     auto* proc = ksys::act::PlayerInfo::instance()->getHorseLink().getProc(nullptr, nullptr);
     if (auto* actor = sead::DynamicCast<ksys::act::Actor>(proc)) {
-        ksys::act::ActorConstDataAccess accessor(actor);
+        ksys::act::ActorLinkConstDataAccess accessor(actor);
         if (sub_7100926DF0(accessor) || sub_7100926E7C(accessor))
             _16c.y += sub_71009221D4();
         else if (accessor.hasTag(0xffb635e5))

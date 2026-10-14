@@ -4,7 +4,7 @@
 #include "KingSystem/ActorSystem/actCCAccessor.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/Attention/actActorAttention.h"
@@ -87,7 +87,7 @@ void LastBossPreNormalWarp::m32() {
         auto& link = part->mLink;
         if (!link.hasProc())
             continue;
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&link, &accessor);
         if (accessor.isStateCalc()) {
             mActor->sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x800002f), nullptr, true);

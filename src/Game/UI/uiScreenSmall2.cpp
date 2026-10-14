@@ -527,7 +527,7 @@ void ScreenMainScreen::sub_7100A1DE60() {
     auto* player = static_cast<ksys::act::PlayerBase*>(getPlayerActor(nullptr));
     if (!player)
         return;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (player->isRevivalFairyActive(&accessor))
         _1e0.sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x800007b), nullptr, false);
     if (player->isZoraHeroActive(&accessor))

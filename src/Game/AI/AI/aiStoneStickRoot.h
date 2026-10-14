@@ -7,7 +7,7 @@ class Object;
 }
 
 namespace ksys::act {
-class ActorConstDataAccess;
+class ActorLinkConstDataAccess;
 }
 
 namespace ksys::phys {
@@ -22,7 +22,7 @@ namespace uking::ai {
 class Unk_71024257f8 {
 public:
     explicit Unk_71024257f8(u32 tag) : mTag(tag) {}
-    virtual bool invoke(const ksys::act::ActorConstDataAccess& accessor);
+    virtual bool invoke(const ksys::act::ActorLinkConstDataAccess& accessor);
 
 private:
     u32 mTag;

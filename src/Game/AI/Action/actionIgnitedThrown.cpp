@@ -3,8 +3,8 @@
 #include "Game/AI/aiUnk_71007377D4.h"
 #include "Game/AI/aiXlinkHandle.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
+#include "KingSystem/ActorSystem/actBaseProcAccessor.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
 #include "KingSystem/ActorSystem/actChemical.h"
@@ -91,7 +91,7 @@ void IgnitedThrown::enter_(ksys::act::ai::InlineParamPack* params) {
         mActor->clearFadeInCreate();
     _9e = false;
     if (unk) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         if (unk->sub_7100E50334(&accessor) && accessor.hasTag(0x5f20e8b5u))  // EnemyOctarock
             _9e = true;
     }

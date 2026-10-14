@@ -2,7 +2,7 @@
 #include "Game/Actor/actEnemy.h"
 #include "Game/Damage/dmgDamageManager.h"
 #include "Game/Damage/dmgDamageManagerBase.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/Resource/Actor/resResourceDamageParam.h"
@@ -117,7 +117,7 @@ void Unk_710242fcf0::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, dmg::Dama
         end.z = entry->_0.z;
         if (!entry->_d8.hasProc())
             return;
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&entry->_d8, &accessor);
         const sead::Matrix34f& mtx = accessor.getActorMtx();
         sead::Vector3f start;

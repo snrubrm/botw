@@ -2,7 +2,7 @@
 #include "Game/gameResidentActorMgr.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 
 namespace uking::ai {
@@ -57,7 +57,7 @@ void RitoHeroSoulGiftRoot::loadParams_() {
 }
 
 void RitoHeroSoulGiftRoot::m36() {
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (ksys::act::acquireActor(&_a8, &accessor))
         accessor.sleep(ksys::act::BaseProc::SleepWakeReason::_0);
     HeroSoulGiftRoot::m36();
@@ -83,7 +83,7 @@ void RitoHeroSoulGiftRoot::setPosition() {
     if (_b8 || !_a8.hasProc())
         return;
 
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (!ksys::act::acquireActor(&_a8, &accessor))
         return;
 

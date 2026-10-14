@@ -6,7 +6,7 @@
 #include "Game/Damage/dmgDamageManager.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 
 namespace uking::action {
 
@@ -61,7 +61,7 @@ void BattleCloseExplosivesAvoidRun::m32(sead::Vector3f* target_pos) {
     Unk_7102451538 filter;
     while (auto* entry = ksys::act::sub_7100D7EEE8(&awareness->_8, &filter)) {
         {
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             ksys::act::acquireActor(&entry->_0.mLink, &accessor);
             if (accessor.sub_7100D10E6C(30))
                 continue;
@@ -140,7 +140,7 @@ void Unk_710236b490::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
 
     const sead::Vector3f pos = mgr->mActor->getMtx().getTranslation();
     auto* attacker = mgr->m37();
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(attacker, &accessor);
     const sead::Vector3f diff = pos - accessor.getActorMtx().getTranslation();
     if (diff.length() >= *mOwner->mDamageIgnoreDist_s) {

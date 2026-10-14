@@ -7,8 +7,8 @@
 #include <gsys/gsysModelAccessKey.h>
 #include <gsys/gsysModelUnit.h>
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
+#include "KingSystem/ActorSystem/actBaseProcAccessor.h"
 
 namespace uking::action {
 
@@ -70,7 +70,7 @@ void ForkStalEnemyHeadShot::sub_7100164F64() {
         if (dmg->getField50() == 3 && dmg->checkDamageFlags(0)) {
             auto* link = dmg->m37();
             if (link->hasProc()) {
-                ksys::act::ActorConstDataAccess access;
+                ksys::act::ActorLinkConstDataAccess access;
                 ksys::act::acquireActor(link, &access);
                 sead::Vector3f vel = access.getVelocity();
                 vel.normalize();
@@ -105,7 +105,7 @@ void ForkStalEnemyHeadShot::sub_7100164F64() {
     sead::Vector3f ang;
     ang.setRotated(mtx, kv);
     auto& link = sub_7100725588(actor);
-    ksys::act::ActorConstDataAccess access;
+    ksys::act::ActorLinkConstDataAccess access;
     if (link.hasProc()) {
         ksys::act::acquireActor(&link, &access);
         if (access.isStateSleep()) {

@@ -6,7 +6,7 @@
 #include "KingSystem/GameData/gdtSpecialFlags.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Map/mapObjectLink.h"
@@ -51,7 +51,7 @@ sead::Vector3f NpcTebaFly::sub_710020827C() {
     if (auto* obj = mActor->getMapObject()) {
         if (auto* link_data = obj->getLinkData()) {
             if (auto* object = link_data->sub_7100D4EFA4("RemainsWind")) {
-                ksys::act::ActorConstDataAccess accessor;
+                ksys::act::ActorLinkConstDataAccess accessor;
                 object->getActorWithAccessor(accessor);
                 if (accessor.hasProc())
                     pos = accessor.getActorMtx().getTranslation();
@@ -98,7 +98,7 @@ bool NpcTebaFly::sub_7100208D90(sead::Vector3f* out) {
             continue;
         if (sead::SafeString(object->getUnitConfigName()) != "RemainsWind_Battery_A_01")
             continue;
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         object->getActorWithAccessor(accessor);
         if (!accessor.isStateCalc())
             continue;

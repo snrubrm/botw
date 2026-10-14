@@ -12,7 +12,7 @@
 #include "Game/UI/uiUnkSingletons.h"
 #include "KingSystem/GameData/gdtSpecialFlags.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/Utils/MathUtil.h"
@@ -200,7 +200,7 @@ void GoronHeroDescendentRoot::changeToWaitForPlayerApproach() {
 
 void GoronHeroDescendentRoot::sub_7100407988() {
     _160._18.y(mActor);
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::findLinkedActor(&accessor, mActor, "RegistedActorMessageBroadCastTag");
     if (accessor.hasProc() && accessor.isStateCalc()) {
         _200._38 = true;

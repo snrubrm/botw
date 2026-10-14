@@ -7,7 +7,7 @@
 #include "Game/Damage/dmgDamageManagerBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actModelBindInfo.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actActorSystem.h"
@@ -138,7 +138,7 @@ void GolemRoot::calc_() {
     sub_7100731A30(mActor, stage);
     if (auto* parts = mActor->m101()) {
         auto& link = parts->getActorPartsActor("WeakPoint");
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&link, &accessor);
         if (accessor.hasProc())
             _388.sub_710070DBB0(*accessor.getMessageTransceiverId(), true);
@@ -200,7 +200,7 @@ bool GolemRoot::handleMessage_(const ksys::Message* message) {
         if (auto* parts = mActor->m101()) {
             auto& link = parts->getActorPartsActor("WeakPoint");
             if (link.hasProc()) {
-                ksys::act::ActorConstDataAccess accessor;
+                ksys::act::ActorLinkConstDataAccess accessor;
                 ksys::act::acquireActor(&link, &accessor);
                 mActor->sendMessageOnProcessingThread(*accessor.getMessageTransceiverId(),
                                                       message->getType(), nullptr, true);
@@ -218,7 +218,7 @@ void GolemRoot::sub_710040007C() {
         return;
 
     auto& link = enemy->getActorPartsActor("WeakPoint");
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(&link, &accessor);
     accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
     enemy->sub_7100D3CFEC("WeakPoint");

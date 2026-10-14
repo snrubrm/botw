@@ -3,7 +3,7 @@
 #include "Game/Actor/actEnemy.h"
 #include "Game/Damage/dmgDamageCallback.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
@@ -97,7 +97,7 @@ bool MimicCliffStopEnemyNormal::sub_71004A69A4() {
         auto* contact = sub_71007A40D0(actor, i);
         if (!contact)
             continue;
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&contact->_50, &accessor);
         if (accessor.hasProc() && accessor.sub_7100D13BB8())
             return true;

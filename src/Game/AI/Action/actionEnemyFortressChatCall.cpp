@@ -1,5 +1,5 @@
 #include "Game/AI/Action/actionEnemyFortressChatCall.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/Utils/Thread/MessageAck.h"
 
 namespace uking::action {
@@ -44,7 +44,7 @@ void EnemyFortressChatCall::m32() {
 // NON_MATCHING: register allocation only (the original rematerialises &accessor, `mov w20, wzr` is hoisted
 // above the type check).
 bool EnemyFortressChatCall::m33(const ksys::MessageAck* ack) {
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(mTargetActor_d, &accessor);
     bool result = false;
     if (ack->getType() == 0x800009c) {

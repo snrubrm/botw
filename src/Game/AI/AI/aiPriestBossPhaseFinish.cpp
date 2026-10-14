@@ -1,7 +1,7 @@
 #include "Game/AI/AI/aiPriestBossPhaseFinish.h"
 #include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 
 // Declared only (placeholder names): the original calls two unnamed helpers (0x7100ffeb28 returns an object or null, 0x710100e0e0
@@ -56,7 +56,7 @@ void PriestBossPhaseFinish::sub_7100529AB0() {
         return;
 
     for (auto it = enemy->_1128.mList.begin(); it != enemy->_1128.mList.end(); ++it) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         if (ksys::act::acquireActor(&(*it)->mLink, &accessor))
             accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
     }

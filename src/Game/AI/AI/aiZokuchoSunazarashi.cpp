@@ -1,5 +1,5 @@
 #include "Game/AI/AI/aiZokuchoSunazarashi.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/LOD/actLodState.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Physics/System/physHavokAI.h"
@@ -17,7 +17,7 @@ bool ZokuchoSunazarashi::init_(sead::Heap* heap) {
 
 void ZokuchoSunazarashi::enter_(ksys::act::ai::InlineParamPack* params) {
     if (_70.hasProc()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&_70, &accessor);
         if (accessor.isStateSleep())
             accessor.wakeUp(ksys::act::BaseProc::SleepWakeReason(0));
@@ -49,7 +49,7 @@ void ZokuchoSunazarashi::leave_() {
     if (auto* nav = mActor->m45())
         nav->inlineReset();
     if (_70.hasProc()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&_70, &accessor);
         _b0.sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x8000090), nullptr,
                         false);
@@ -71,7 +71,7 @@ void ZokuchoSunazarashi::m34() {
         nav->inlineReset();
     changeChild("停止");
     if (_70.hasProc()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&_70, &accessor);
         _b0.sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x800008d), nullptr,
                         true);
@@ -83,7 +83,7 @@ void ZokuchoSunazarashi::m35() {
         return;
     changeChild("待機");
     if (_70.hasProc()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&_70, &accessor);
         _b0.sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x800008e), nullptr,
                         true);

@@ -1,7 +1,7 @@
 #include "Game/AI/Action/actionWarpMyHorse.h"
 #include "Game/gameHorseMgr.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/Utils/Thread/Message.h"
 
 namespace uking::action {
@@ -23,7 +23,7 @@ void WarpMyHorse::loadParams_() {
 
 bool WarpMyHorse::oneShot_() {
     auto& link = HorseMgr::instance()->mOwnedHorse;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(&link, &accessor);
     const sead::Vector3f rotation(0, sead::Mathf::deg2rad(*mDirection_d), 0);
     const sead::Vector3f translation(*mPositionX_d, *mPositionY_d, *mPositionZ_d);

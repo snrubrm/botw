@@ -1,6 +1,6 @@
 #include "Game/AI/Action/actionSandwichDetectionAreaTagSimple.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actTag.h"
 #include "KingSystem/Physics/physDefines.h"
 
@@ -39,7 +39,7 @@ void SandwichDetectionAreaTagSimple::calc_() {
     AreaTagAction::calc_();
 }
 
-bool SandwichDetectionAreaTagSimple::m15(const ksys::act::ActorConstDataAccess& accessor) {
+bool SandwichDetectionAreaTagSimple::m15(const ksys::act::ActorLinkConstDataAccess& accessor) {
     if (_48)
         return true;
 

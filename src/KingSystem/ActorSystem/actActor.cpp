@@ -25,7 +25,7 @@
 #include "KingSystem/ActorSystem/AS/asElement.h"
 #include <gsys/gsysModelAnimation.h>
 #include <nn/g3d/ResSkeletalAnim.h>
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorCreator.h"
 #include "KingSystem/XLink/xlinkXLink.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
@@ -250,7 +250,7 @@ void Actor::emitSignal(map::MapLinkDefType type, bool on) {
     for (auto& link : mMapObject->getLinkData()->mLinksOther.links) {
         if (link.type != type)
             continue;
-        ActorConstDataAccess accessor;
+        ActorLinkConstDataAccess accessor;
         link.getObjectProcWithAccessor(accessor);
         accessor.triggerLink();
     }
@@ -926,7 +926,7 @@ bool Actor::sub_71011D90B0() {
     return calc || flag6;
 }
 
-bool Actor::sub_71011DA808(const ActorConstDataAccess& accessor) {
+bool Actor::sub_71011DA808(const ActorLinkConstDataAccess& accessor) {
     if (mMapObject) {
         if (auto* link_data = mMapObject->getLinkData())
             return link_data->sub_7100D4EF30(accessor);
@@ -2038,7 +2038,7 @@ void sub_71011D7650(ksys::act::Actor* actor, ksys::act::BaseProc* proc) {
         transceiver->sendMessage(*actor->getMesTransceiverId(), ksys::MessageType(0x3000013), reinterpret_cast<void*>(uintptr_t(proc->getId())), true);
 }
 
-void sub_71011D76E0(ksys::act::Actor* actor, const ksys::act::ActorConstDataAccess& accessor) {
+void sub_71011D76E0(ksys::act::Actor* actor, const ksys::act::ActorLinkConstDataAccess& accessor) {
     const bool processing = ksys::MessageDispatcher::instance()->isProcessingOnCurrentThread();
     auto* transceiver = ksys::act::ActorSystem::instance()->sub_7100D5D80C();
     // The same message protocol accepts an ID obtained through an actor link.

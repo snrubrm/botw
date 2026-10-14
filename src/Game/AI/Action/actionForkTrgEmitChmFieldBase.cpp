@@ -1,5 +1,5 @@
 #include "Game/AI/Action/actionForkTrgEmitChmFieldBase.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 
 namespace uking::action {
 
@@ -50,7 +50,7 @@ bool ForkTrgEmitChmFieldBase::m33() {
     if (!link.hasProc())
         return false;
     {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&link, &accessor);
         if (accessor.isStateSleep())
             return true;

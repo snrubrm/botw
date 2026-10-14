@@ -1,7 +1,7 @@
 #include "Game/AI/Action/actionStick.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/Profiles/actWeaponBase.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actBaseProc.h"
 
 namespace uking::action {
@@ -46,7 +46,7 @@ bool Stick::sub_710027D3AC() {
         return false;
     if (!parent_link.isAccessingSpecifiedProcUnsafe(nullptr))
         return false;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(&parent_link, &accessor);
     if (accessor.isStateCalc()) {
         _48._58 = parent_link;
@@ -63,7 +63,7 @@ void Stick::calc_() {
     case 2:
     case 3: {
         {
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             ksys::act::acquireActor(&_48._58, &accessor);
             if (!accessor.hasProc() || !accessor.isStateCalc()) {
                 mActor->deleteLater(ksys::act::BaseProc::DeleteReason::_0);

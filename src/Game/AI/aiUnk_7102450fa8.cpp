@@ -1,6 +1,6 @@
 #include "Game/AI/aiUnk_7102450fa8.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "Game/gameUnkRttiPlaceholders.h"
 
 sead::Vector3f sUnk_71025c8cf8(0, 0, 900);
@@ -47,11 +47,11 @@ bool Unk_7102450fa8::sub_7100719978(s32 idx) const {
     return _80 >> idx & 1;
 }
 
-bool Unk_7102450fa8::sub_71007194CC(ksys::act::ActorConstDataAccess* accessor) {
+bool Unk_7102450fa8::sub_71007194CC(ksys::act::ActorLinkConstDataAccess* accessor) {
     return ksys::act::acquireActor(&_18, accessor);
 }
 
-bool Unk_7102450fa8::sub_71007194D4(int idx, ksys::act::ActorConstDataAccess* accessor) {
+bool Unk_7102450fa8::sub_71007194D4(int idx, ksys::act::ActorLinkConstDataAccess* accessor) {
     if (idx < 0 || idx >= _8.size())
         return false;
 
@@ -112,7 +112,7 @@ bool Unk_7102450fa8::sub_710071A200() const {
 }
 
 void Unk_7102450fa8::sub_710071A258() {
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (_8.size() > 1) {
         ksys::act::acquireActor(&_8[1]._e0, &accessor);
         if (accessor.hasProc() && !accessor.sub_7100D10FB8())
@@ -127,7 +127,7 @@ void Unk_7102450fa8::sub_710071A2E8() {
         return;
     }
 
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (_8.size() > 1) {
         ksys::act::acquireActor(&_8[1]._e0, &accessor);
         if (accessor.hasProc() && !accessor.sub_7100D10FB8())
@@ -135,13 +135,13 @@ void Unk_7102450fa8::sub_710071A2E8() {
     }
 }
 
-// NON_MATCHING: the original loads both procs before ~ActorConstDataAccess, compares after it and branches to the
+// NON_MATCHING: the original loads both procs before ~ActorLinkConstDataAccess, compares after it and branches to the
 // constant 1 (ours: cset after the destructor).
-bool Unk_7102450fa8::sub_710071A38C(const ksys::act::ActorConstDataAccess* accessor) {
+bool Unk_7102450fa8::sub_710071A38C(const ksys::act::ActorLinkConstDataAccess* accessor) {
     if (_3e0.value <= sead::Mathf::epsilon() || !_3d0.hasProc())
         return false;
 
-    ksys::act::ActorConstDataAccess other;
+    ksys::act::ActorLinkConstDataAccess other;
     ksys::act::acquireActor(&_3d0, &other);
     return other.getProc() == accessor->getProc();
 }

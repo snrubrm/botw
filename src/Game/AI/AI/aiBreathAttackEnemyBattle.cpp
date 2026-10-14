@@ -5,7 +5,7 @@
 #include "Game/AI/aiUnk_71007377D4.h"
 #include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorCreator.h"
 #include "KingSystem/ActorSystem/actActorHeapUtil.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
@@ -56,7 +56,7 @@ void BreathAttackEnemyBattle::sub_710033F27C(s32 time) {
 }
 
 void BreathAttackEnemyBattle::sub_710033EDD0(sead::Vector3f* out) {
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(&m34(), &accessor);
     accessor.getActorMtx().getTranslation(*out);
 }

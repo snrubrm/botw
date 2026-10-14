@@ -16,7 +16,7 @@ public:
 
 protected:
     void m32() override;
-    bool m37(const ksys::act::ActorConstDataAccess& accessor) override;
+    bool m37(const ksys::act::ActorLinkConstDataAccess& accessor) override;
 
     // map_unit_param (loaded by m32)
     sead::SafeString mActorName_m;

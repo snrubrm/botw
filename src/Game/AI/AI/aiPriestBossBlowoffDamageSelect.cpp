@@ -1,7 +1,7 @@
 #include "Game/AI/AI/aiPriestBossBlowoffDamageSelect.h"
 #include "Game/Damage/dmgDamageManager.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actCCAccessor.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
@@ -27,7 +27,7 @@ void PriestBossBlowoffDamageSelect::enter_(ksys::act::ai::InlineParamPack* param
         if (auto* mgr = sead::DynamicCast<uking::dmg::DamageManagerBase>(base)) {
             auto* attacker = mgr->getAttacker();
             if (attacker->hasProc()) {
-                ksys::act::ActorConstDataAccess accessor;
+                ksys::act::ActorLinkConstDataAccess accessor;
                 ksys::act::acquireActor(attacker, &accessor);
                 if (accessor.hasProc())
                     _40 = accessor.getName();

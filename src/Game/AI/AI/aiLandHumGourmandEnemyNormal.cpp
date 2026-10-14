@@ -5,7 +5,7 @@
 #include "Game/Actor/actEnemy.h"
 #include "Game/Actor/actUnk_71002dccbc.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
@@ -128,7 +128,7 @@ void LandHumGourmandEnemyNormal::m57(s32 type, Unk2* target) {
         return;
     }
     if (type == 10) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(target->_0, &accessor);
         const s32 id = accessor.getBalloonHungActorBaseProcID();
         if (id != -1) {
@@ -215,7 +215,7 @@ void LandHumGourmandEnemyNormal::m49(Unk1* out, s32 idx) {
             out->_0 = type;
             return;
         }
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         if (auto* bait = sead::DynamicCast<Unk_7102370e70>(
                 *static_cast<Unk_71025afb58**>(mTargetBaitActorLink_a))) {
             ksys::act::acquireActor(&bait->mLink, &accessor);
@@ -243,7 +243,7 @@ void LandHumGourmandEnemyNormal::m61(Unk3* out) {
             *static_cast<Unk_71025afb58**>(mTargetBaitActorLink_a));
         if (!bait)
             return;
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&bait->mLink, &accessor);
         if (accessor.sub_71006E3FB4())
             out->_0 = 1;
@@ -256,9 +256,9 @@ bool LandHumGourmandEnemyNormal::sub_71004726B4(ksys::act::BaseProcLink* link) {
     if (m45(mActor->getMtx().getTranslation(), *link, false))
         return true;
 
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(link, &accessor);
-    ksys::act::ActorConstDataAccess parent;
+    ksys::act::ActorLinkConstDataAccess parent;
     accessor.acquireConnectedCalcParent(&parent);
     if (!parent.hasProc(mActor) && accessor.sub_7100D10E6C(30))
         return true;
@@ -329,7 +329,7 @@ ksys::act::BaseProcLink& LandHumGourmandEnemyNormal::sub_7100472AE8() {
         mActor->getMtx().getTranslation(pos);
         auto* link = unk->sub_71002DCEDC(0x100, pos);
         if (link->hasProcInCalcState()) {
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             ksys::act::acquireActor(link, &accessor);
             sead::Vector3f target_pos;
             accessor.getActorMtx().getTranslation(target_pos);

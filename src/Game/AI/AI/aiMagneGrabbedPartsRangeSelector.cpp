@@ -1,6 +1,6 @@
 #include "Game/AI/AI/aiMagneGrabbedPartsRangeSelector.h"
 #include "Game/Actor/actEnemy.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 
 namespace uking::ai {
 
@@ -45,7 +45,7 @@ f32 MagneGrabbedPartsRangeSelector::m38() {
     if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
         auto& link = enemy->getActorPartsActor(mPartsName_s);
         if (link.hasProcInCalcState()) {
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             ksys::act::acquireActor(&link, &accessor);
             if (accessor.sub_7100D13BB8()) {
                 const sead::Vector3f partsPos = accessor.getActorMtx().getTranslation();

@@ -1,6 +1,6 @@
 #include "Game/AI/AI/aiPartsNoticeSelect.h"
 #include "Game/Actor/actEnemy.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 
 namespace uking::ai {
 
@@ -46,7 +46,7 @@ bool PartsNoticeSelect::sub_71004F4C38() {
     if (!enemy)
         return false;
 
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(&enemy->getActorPartsActor(mPartsName_s), &accessor);
     return accessor.isStateCalc() && accessor.sub_7100D10E6C(25);
 }

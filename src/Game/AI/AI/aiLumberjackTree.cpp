@@ -5,7 +5,7 @@
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "Game/AI/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actPhysicsUserTag.h"
 #include "KingSystem/Effect/eftEffect.h"
 #include "KingSystem/Physics/Constraint/physConstraint.h"
@@ -19,7 +19,7 @@
 namespace uking::act {
 // 0x71006e3ab0 (unnamed in the CSV; placeholder name, declaration only): a check on the accessor's actor
 // with two words of the contact info.
-bool sub_71006E3AB0(ksys::act::ActorLinkConstDataAccess* accessor, u32 a2, u32 a3);
+bool sub_71006E3AB0(ksys::act::BaseProcAccessor* accessor, u32 a2, u32 a3);
 }  // namespace uking::act
 
 namespace uking::ai {
@@ -44,7 +44,7 @@ bool Unk_7102404020::m0(void* a1, void*, void*, void*, void*, void*,
                         const ksys::act::Struct8Base* info, const ksys::act::PhysicsUserTag* tag) {
     if ((info->_18 & 8) != 0)
         return false;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     tag->acquireActor(&accessor);
     if (act::sub_71006E3AB0(&accessor, info->_18, info->_1c))
         return false;

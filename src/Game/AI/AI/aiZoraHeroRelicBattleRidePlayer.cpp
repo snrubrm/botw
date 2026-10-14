@@ -1,6 +1,6 @@
 #include "Game/AI/AI/aiZoraHeroRelicBattleRidePlayer.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "Game/AI/aiUnk_7102433970.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "KingSystem/ActorSystem/actActor.h"
@@ -64,7 +64,7 @@ void ZoraHeroRelicBattleRidePlayer::sub_7100614194(const ksys::act::BaseProcLink
     if (_50 == link || _60 == link || _40 == link)
         return;
 
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(&link, &accessor);
     sead::Vector3f target = accessor.getActorMtx().getTranslation();
     if (!_40.hasProc()) {
@@ -72,7 +72,7 @@ void ZoraHeroRelicBattleRidePlayer::sub_7100614194(const ksys::act::BaseProcLink
     } else {
         const f32 actor_x = mActor->getMtx().getTranslation().x;
         const f32 actor_z = mActor->getMtx().getTranslation().z;
-        ksys::act::ActorConstDataAccess current;
+        ksys::act::ActorLinkConstDataAccess current;
         ksys::act::acquireActor(&_40, &current);
         const sead::Vector3f current_pos = current.getActorMtx().getTranslation();
         const f32 current_dx = actor_x - current_pos.x;
@@ -96,7 +96,7 @@ void ZoraHeroRelicBattleRidePlayer::sub_7100613E1C() {
         }
     }
     ksys::act::ai::InlineParamPack params;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     sead::Vector3f position;
     if (ksys::act::acquireActor(&_50, &accessor))
         position = accessor.getActorMtx().getTranslation();
@@ -109,7 +109,7 @@ void ZoraHeroRelicBattleRidePlayer::sub_7100613E1C() {
 // 0x7100613d60: takes over the candidate link _60 as _50 if the ray to it is free; clears both otherwise
 void ZoraHeroRelicBattleRidePlayer::sub_7100613D60() {
     if (_60.hasProc()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         if (ksys::act::acquireActor(&_60, &accessor)) {
             const auto& mtx = accessor.getActorMtx();
             sead::Vector3f target;

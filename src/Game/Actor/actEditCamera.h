@@ -3,7 +3,7 @@
 #include "KingSystem/ActorSystem/actActor.h"
 
 namespace ksys::act {
-class ActorConstDataAccess;
+class ActorLinkConstDataAccess;
 }
 
 namespace uking::act {
@@ -61,7 +61,7 @@ static inline ksys::act::BaseProc* getProcIfActor(ksys::act::BaseProc* proc) {
 
 
 // 0x7100791a0c / 0x7100791b00 (placeholder names): the accessor's actor as an EditCamera, and its sub_71007917C4().
-EditCamera* sub_7100791A0C(const ksys::act::ActorConstDataAccess& accessor);
-EditCamera::CameraNames* sub_7100791B00(const ksys::act::ActorConstDataAccess& accessor);
+EditCamera* sub_7100791A0C(const ksys::act::ActorLinkConstDataAccess& accessor);
+EditCamera::CameraNames* sub_7100791B00(const ksys::act::ActorLinkConstDataAccess& accessor);
 
 }  // namespace uking::act

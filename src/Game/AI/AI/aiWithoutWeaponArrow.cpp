@@ -2,7 +2,7 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actTag.h"
@@ -174,7 +174,7 @@ bool WithoutWeaponArrow::m37(bool* broke_ice_block, bool* hit_player) {
 
         auto* link = &info->_50;
         if (*mIsBreakIceBlock_s && ksys::act::hasTag(link, ksys::act::tags::IsIceMakerBlock)) {
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             ksys::act::acquireActor(link, &accessor);
             mActor->sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x8000004),
                                 nullptr, true);

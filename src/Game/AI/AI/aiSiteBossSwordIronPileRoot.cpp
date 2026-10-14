@@ -1,7 +1,7 @@
 #include "Game/AI/AI/aiSiteBossSwordIronPileRoot.h"
 #include "KingSystem/Utils/Thread/Message.h"
 #include <random/seadGlobalRandom.h>
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorCreator.h"
@@ -16,7 +16,7 @@ SiteBossSwordIronPileRoot::SiteBossSwordIronPileRoot(const InitArg& arg)
 
 SiteBossSwordIronPileRoot::~SiteBossSwordIronPileRoot() {
     if (_b0.hasProc()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&_b0, &accessor);
         accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
     }
@@ -60,7 +60,7 @@ void SiteBossSwordIronPileRoot::leave_() {
         return;
     mActor->resetConnectedCalcChild(false);
     if (_b0.hasProc()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&_b0, &accessor);
         if (accessor.isStateCalc())
             accessor.sleep(ksys::act::BaseProc::SleepWakeReason::_0);

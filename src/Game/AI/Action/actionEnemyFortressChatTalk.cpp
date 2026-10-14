@@ -3,7 +3,7 @@
 #include "Game/AI/aiUnk_710001A69C.h"
 #include "Game/AI/aiUnk_71025b1808.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/System/Timer.h"
 #include "KingSystem/Utils/Thread/Message.h"
 #include "KingSystem/Utils/Thread/MessageAck.h"
@@ -137,7 +137,7 @@ ksys::act::BaseProcLink& EnemyFortressChatTalk::sub_7100108EC8() {
         for (auto& entry : unit->_8.mEntries) {
             if (entry.link == *mTargetActor_d)
                 continue;
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             ksys::act::acquireActor(&entry.link, &accessor);
             if (entry.link.hasProcInCalcState() && sub_710001A69C(&accessor, 0x1000)) {
                 if (sead::GlobalRandom::instance()->getU32(n) == 0)

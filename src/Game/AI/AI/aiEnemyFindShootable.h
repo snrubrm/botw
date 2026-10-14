@@ -19,7 +19,7 @@ public:
     void changeToAction();
 
 protected:
-    // Inline-only in the original (name guess; evidence: enter_'s ActorConstDataAccess sits below the param pack).
+    // Inline-only in the original (name guess; evidence: enter_'s ActorLinkConstDataAccess sits below the param pack).
     void changeToApproach() {
         ksys::act::ai::InlineParamPack pack;
         pack.addVec3(_68, "TargetPos", -1);

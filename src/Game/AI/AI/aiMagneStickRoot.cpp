@@ -7,8 +7,8 @@
 #include <math/seadBoundBox.h>
 #include "KingSystem/Utils/Thread/Message.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
+#include "KingSystem/ActorSystem/actBaseProcAccessor.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/Physics/System/physContactPointInfo.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
@@ -159,7 +159,7 @@ ksys::map::Object* MagneStickRoot::sub_71004A0174(ksys::act::BaseProc* proc, s32
             *idx = -1;
         return nullptr;
     }
-    ksys::act::ActorConstDataAccess accessor(proc);
+    ksys::act::ActorLinkConstDataAccess accessor(proc);
     s32 start = 0;
     bool has_idx = false;
     if (idx) {
@@ -175,7 +175,7 @@ ksys::map::Object* MagneStickRoot::sub_71004A0174(ksys::act::BaseProc* proc, s32
         auto* obj = link_data->mObjects.getBufferPtr()[i];
         if (!obj)
             continue;
-        ksys::act::ActorConstDataAccess obj_accessor;
+        ksys::act::ActorLinkConstDataAccess obj_accessor;
         obj->getActorWithAccessor(obj_accessor);
         if (!obj_accessor.hasProc())
             continue;
@@ -188,7 +188,7 @@ ksys::map::Object* MagneStickRoot::sub_71004A0174(ksys::act::BaseProc* proc, s32
     return nullptr;
 }
 
-void MagneStickRoot::sub_71004A0384(ksys::act::ActorConstDataAccess* out) {
+void MagneStickRoot::sub_71004A0384(ksys::act::ActorLinkConstDataAccess* out) {
     f32 min_dist = _88;
     s32 idx = 0;
     Unk_7102407060 filter(0x7fe6e43f);
@@ -197,7 +197,7 @@ void MagneStickRoot::sub_71004A0384(ksys::act::ActorConstDataAccess* out) {
         return;
     const sead::Vector3f pos = actor->getMtx().getTranslation();
     while (auto* obj = sub_71004A0174(actor, &idx, &filter)) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         obj->getActorWithAccessor(accessor);
         const f32 dist = (accessor.getActorMtx().getTranslation() - pos).length();
         if (dist < min_dist) {
@@ -263,12 +263,12 @@ bool MagneStickRoot::m41(const sead::Matrix34f* mtx, const sead::Vector3f* a,
     return false;
 }
 
-bool MagneStickRoot::m44(ksys::act::ActorLinkConstDataAccess* accessor, const sead::Vector3f* pos,
+bool MagneStickRoot::m44(ksys::act::BaseProcAccessor* accessor, const sead::Vector3f* pos,
                          const sead::BoundBox3f* bounds) {
     return m46(accessor, pos, bounds);
 }
 
-bool MagneStickRoot::m47(ksys::act::ActorLinkConstDataAccess* accessor, const sead::Vector3f* pos,
+bool MagneStickRoot::m47(ksys::act::BaseProcAccessor* accessor, const sead::Vector3f* pos,
                          const sead::BoundBox3f* bounds) {
     sead::Vector3f start;
     start = accessor->getActorMtx().getTranslation();
@@ -294,7 +294,7 @@ bool MagneStickRoot::m47(ksys::act::ActorLinkConstDataAccess* accessor, const se
 
 // NON_MATCHING: the original loads the actor matrix up front and copies rows 0-2 of it as 8-byte + 4-byte
 // pieces; ours reloads the elements (scheduling / load order only)
-bool MagneStickRoot::m45(ksys::act::ActorLinkConstDataAccess* accessor, const sead::Vector3f* pos,
+bool MagneStickRoot::m45(ksys::act::BaseProcAccessor* accessor, const sead::Vector3f* pos,
                          const sead::BoundBox3f* bounds) {
     bool result = false;
     if (_98) {
@@ -331,7 +331,7 @@ bool MagneStickRoot::m45(ksys::act::ActorLinkConstDataAccess* accessor, const se
 
 // NON_MATCHING: the original loads the actor matrix rows up front (8-byte pair loads) and builds the
 // rotation matrix from those registers; ours reloads the rows (scheduling / load order only)
-bool MagneStickRoot::m46(ksys::act::ActorLinkConstDataAccess* accessor, const sead::Vector3f* pos,
+bool MagneStickRoot::m46(ksys::act::BaseProcAccessor* accessor, const sead::Vector3f* pos,
                          const sead::BoundBox3f* bounds) {
     bool result = false;
     if (_98) {
@@ -381,7 +381,7 @@ f32 MagneStickRoot::m42() {
 
     const sead::SafeString slider_name("DgnObj_DLC_SliderBlockIron_A_01");
     for (auto it = info->begin(), end = info->end(); it != end; ++it) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::sub_7100EEAC50(&accessor, (*it)->body_b);
         if (accessor.hasProc() && accessor.getName() == slider_name)
             return factor * radius;
@@ -410,7 +410,7 @@ bool MagneStickRoot::sub_71004A1138(ksys::phys::ShapeCast* cast) {
 
     bool found = false;
     for (auto it = info->begin(), end = info->end(); it != end; ++it) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::sub_7100EEAC50(&accessor, it.getPoint()->body_b);
         if (accessor.hasProc() && !accessor.hasTag(ksys::act::tags::IgnoreMagneStickShapeCast)) {
             found = accessor.getId() != id;
@@ -473,7 +473,7 @@ bool MagneStickRoot::m40() {
     if (!actor)
         return false;
 
-    ksys::act::ActorConstDataAccess target;
+    ksys::act::ActorLinkConstDataAccess target;
     sub_71004A0384(&target);
     if (!target.hasProc())
         return false;

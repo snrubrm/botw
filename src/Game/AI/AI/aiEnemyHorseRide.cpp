@@ -3,7 +3,7 @@
 #include "Game/Actor/actEnemy.h"
 #include "Game/Actor/actHorseRideInfo.h"
 #include "Game/Actor/actRideable.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "Game/Damage/dmgDamageManagerBase.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
@@ -91,7 +91,7 @@ void EnemyHorseRide::calc_() {
                 changeChild("復帰");
                 return;
             }
-            ksys::act::ActorConstDataAccess horse;
+            ksys::act::ActorLinkConstDataAccess horse;
             ksys::act::acquireActor(&ride_info->_18, &horse);
             auto* options = horse.getHorseOptions();
             if (!options ||

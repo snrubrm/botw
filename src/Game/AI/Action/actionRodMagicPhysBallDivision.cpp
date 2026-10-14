@@ -1,6 +1,6 @@
 #include "Game/AI/Action/actionRodMagicPhysBallDivision.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/Profiles/actBullet.h"
 
 namespace uking::action {
@@ -10,7 +10,7 @@ RodMagicPhysBallDivision::RodMagicPhysBallDivision(const InitArg& arg) : RodMagi
 // Inline-only in the original (name is a guess; repeated three times in the destructor).
 static void deleteLinkedActor(ksys::act::BaseProcLink& link) {
     if (link.hasProc()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&link, &accessor);
         accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
     }

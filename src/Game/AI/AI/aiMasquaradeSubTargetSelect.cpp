@@ -2,7 +2,7 @@
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/Actor/actUnk_71002dccbc.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 
@@ -26,7 +26,7 @@ void MasquaradeSubTargetSelect::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::InlineParamPack pack;
     pack.addActor(*mTargetActor_d, "TargetActor", -1);
     sead::Vector3f pos;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(mTargetActor_d, &accessor);
     accessor.getActorMtx().getTranslation(pos);
     pack.addVec3(pos, "TargetPos", -1);

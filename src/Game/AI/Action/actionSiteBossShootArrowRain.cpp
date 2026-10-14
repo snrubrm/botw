@@ -1,6 +1,6 @@
 #include "Game/AI/Action/actionSiteBossShootArrowRain.h"
 #include "Game/Actor/actSiteBoss.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 
 namespace uking::action {
 
@@ -46,7 +46,7 @@ void SiteBossShootArrowRain::m33(const sead::Vector3f& pos, const sead::Matrix33
                                 const sead::Vector3f& velocity) {
     auto* link = sub_7100262BCC();
     if (link->hasProc()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(link, &accessor);
         if (!accessor.isStateCalc()) {
             sead::Matrix33f ignite_rotation;

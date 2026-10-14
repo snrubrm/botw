@@ -3,7 +3,7 @@
 #include <algorithm>
 #include <random/seadGlobalRandom.h>
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorCreator.h"
 #include "KingSystem/ActorSystem/actActorHeapUtil.h"
 #include "KingSystem/ActorSystem/actInstParamPack.h"
@@ -142,7 +142,7 @@ bool RemainsWaterBulletController::sub_7100548A38() {
         return false;
 
     {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         auto* bullet = _2d0.at(sead::GlobalRandom::instance()->getU32(num));
         if (bullet && !bullet->_28 &&
             ksys::act::acquireActor(&bullet->mLink.mLink, &accessor)) {
@@ -276,7 +276,7 @@ void RemainsWaterBulletController::sub_7100547FF4() {
 
 // NON_MATCHING: stack slot of the MessageType temporary (sp+4 in the original) and regalloc
 void RemainsWaterBulletController::sub_7100547D20(s32 type) {
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (type == -1 || type == 0) {
         for (auto& bullet : _f0) {
             if (ksys::act::acquireActor(&bullet.mLink.mLink, &accessor)) {
@@ -319,7 +319,7 @@ void RemainsWaterBulletController::sub_7100548638() {
             continue;
         }
 
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         if (ksys::act::acquireActor(&_330[i]->mLink.mLink, &accessor) &&
             accessor.isStateSleep()) {
             sub_7100549108(_330[i]);

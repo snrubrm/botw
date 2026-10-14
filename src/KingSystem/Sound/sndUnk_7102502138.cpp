@@ -1,6 +1,6 @@
 #include "KingSystem/Sound/sndUnk_7102502138.h"
 #include <prim/seadScopedLock.h>
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorSystem.h"
 #include "KingSystem/XLink/xlinkXLink.h"
 
@@ -34,7 +34,7 @@ void Unk_7102502138::sub_710103B234() {
     if (_68)
         _68->sub_710104BEF0();
 
-    act::ActorConstDataAccess accessor;
+    act::ActorLinkConstDataAccess accessor;
     act::ActorSystem::instance()->getPlayer(&accessor);
     auto* xlink = accessor.sub_7100D0F214();
     if (!xlink)

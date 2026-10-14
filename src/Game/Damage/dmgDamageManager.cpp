@@ -12,7 +12,7 @@
 #include "KingSystem/ActorSystem/Profiles/actDynamicActor.h"
 #include "KingSystem/ActorSystem/actUnk_71006ecc78.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerOrEnemy.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actImpulseBaseProcLink.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
@@ -127,7 +127,7 @@ bool DamageManager::m51(const ksys::act::BaseProcLink* link) {
         if (!param || param->mLightningAffect.ref())
             return false;
     }
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     // The original deliberately discards acquireActor's bool before the name lookup.
     ksys::act::acquireActor(link, &accessor);
     if (accessor.getName() == "Explode")
@@ -185,7 +185,7 @@ f32 DamageManagerUnk220::sub_71006D9A24(ksys::act::Actor* actor) const {
     return sead::Mathf::max(ratio, 0.01f);
 }
 
-f32 DamageManagerUnk220::sub_71006D9B30(const ksys::act::ActorConstDataAccess& accessor_) const {
+f32 DamageManagerUnk220::sub_71006D9B30(const ksys::act::ActorLinkConstDataAccess& accessor_) const {
     f32 value = accessor_.sub_7100D14114();
     f32 ratio;
     if (!_27a) {
@@ -234,7 +234,7 @@ void DamageManager::preDelete1() {
 f32 DamageManager::sub_71006D8DE8() {
     auto* link = m37();
     if (link->hasProc()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(link, &accessor);
         if (ksys::act::getWeaponCommonIsPikohan(accessor) ||
             dlc::isOneHitObliteratorActorAccessor(accessor, true))
@@ -311,7 +311,7 @@ void DamageManager::sub_71006D81D8(f32 value) {
 // NON_MATCHING: the original keeps the element state compares in source order (1, 6, 2); ours turns them into a switch
 // (6, 2, 1) and lays the blocks out differently
 s32 DamageManager::sub_71006D7FB0(ksys::act::ActorAtk::Unk_710079e64c::Unk1* info) {
-    ksys::act::ActorConstDataAccess attacker;
+    ksys::act::ActorLinkConstDataAccess attacker;
     ksys::act::acquireActor(&info->_e8, &attacker);
     auto* chemical = mActor->getChemicalStuff();
     if (!chemical)
@@ -778,7 +778,7 @@ bool DamageManager::m35(sead::Matrix34f* out) {
         auto* info = ::getAttackInfo(mActor, 0);
         if (!info)
             return false;
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&info->_50, &accessor);
         *out = accessor.getActorMtx();
         return true;

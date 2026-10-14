@@ -18,7 +18,7 @@
 #include "KingSystem/Terrain/teraSystem.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actActorCreator.h"
 #include "KingSystem/ActorSystem/actBaseProcHeapMgr.h"
@@ -45,7 +45,7 @@ void ForestGiantRoot::deleteWeakPoints() {
         sead::FixedSafeString<16> name;
         for (u32 i = 0; i < 4; ++i) {
             (sead::StringCutOffPrintFormatter(&name) << "WeakPoint%d", i) << sead::flush;
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             ksys::act::acquireActor(&enemy->getActorPartsActor(name), &accessor);
             accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
             enemy->sub_7100D3CFEC(name);
@@ -325,7 +325,7 @@ void Unk_7102450390::sub_71007062D4() {
     if (!_2c0)
         _2cc.reset(60.0f);
     if (_2d8.hasProc()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&_2d8, &accessor);
         accessor.wakeUp(ksys::act::BaseProc::SleepWakeReason::_0);
         mActor->sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x300000c),
@@ -348,7 +348,7 @@ ksys::act::Actor* Unk_7102450390::sub_7100706D0C(u32 slot) {
 void Unk_7102450390::sub_7100706C3C() {
     uking::dmg::DamageInfoMgr::instance()->get11f0().sub_7100674B30(mActor);
     if (_2d8.hasProc()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&_2d8, &accessor);
         mActor->sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x300000d),
                             nullptr, false);

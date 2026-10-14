@@ -4,7 +4,7 @@
 #include "Game/AI/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/Physics/System/physRayCastBodyQuery.h"
 
@@ -21,7 +21,7 @@ bool PriestBossFastWarpAttack::init_(sead::Heap* heap) {
 
 void PriestBossFastWarpAttack::enter_(ksys::act::ai::InlineParamPack* params) {
     _f0 = false;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (sub_71005D9050(mActor)) {
         if (ksys::act::acquireActor(sub_71005D9050(mActor), &accessor) && !accessor.isBgGroundHit())
             sub_710071E0D8(*mIsCloseMove_s, mActor);

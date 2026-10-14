@@ -1,6 +1,6 @@
 #include "Game/AI/AI/aiGuardianMiniBeamToExplosives.h"
 #include <math/seadMathCalcCommon.h>
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/AI/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
@@ -94,7 +94,7 @@ bool GuardianMiniBeamToExplosives::m46(sead::Vector3f* out) {
         return false;
     if (!mTargetActor_d)
         return false;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(mTargetActor_d, &accessor);
     accessor.getActorMtx().getTranslation(*out);
     return true;

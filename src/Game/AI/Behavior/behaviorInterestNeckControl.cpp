@@ -3,7 +3,7 @@
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/Actor/actNPC.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actBoneControl.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
@@ -100,7 +100,7 @@ void InterestNeckControl::m7() {
         _40 = ksys::Timer(_30, _30);
     }
 
-    ksys::act::ActorConstDataAccess entry_accessor;
+    ksys::act::ActorLinkConstDataAccess entry_accessor;
     ksys::act::acquireActor(&entry->_0.mLink, &entry_accessor);
     if (control) {
         control->sub_7100D8571C(entry_accessor.getPreviousPos2());

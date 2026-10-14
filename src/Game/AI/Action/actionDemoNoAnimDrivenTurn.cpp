@@ -1,7 +1,7 @@
 #include "Game/AI/Action/actionDemoNoAnimDrivenTurn.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/Map/mapObject.h"
 
@@ -47,7 +47,7 @@ void DemoNoAnimDrivenTurn::m36(sead::Vector3f* target) {
         break;
     }
     case 4: {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         if (auto* obj = ksys::act::findLinkReferenceObj(mActor, mActorName_d, mUniqueName_d,
                                                         nullptr)) {
             obj->getActorWithAccessor(accessor);

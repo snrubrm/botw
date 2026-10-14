@@ -5,7 +5,7 @@
 #include "Game/Actor/actUnk_71002dccbc.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
 
@@ -41,7 +41,7 @@ bool SandwormNormal::m72(Unk2* out, Unk1* info) {
 
     if (sub_71005D8F28(mActor)) {
         if (auto* link = sub_71005D9050(mActor)) {
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             if (ksys::act::acquireActor(link, &accessor) && accessor.isPlayerProfile()) {
                 out->sub_710039E308(link);
                 out->_44 |= 1;

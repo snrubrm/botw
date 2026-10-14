@@ -15,7 +15,7 @@ class Weapon;
 namespace ksys::act {
 
 class Actor;
-class ActorLinkConstDataAccess;
+class BaseProcAccessor;
 class PlayerBase;
 class Unk_71024ef4e8;
 
@@ -28,7 +28,7 @@ class Unk_71024ef4e8;
 // FIXME: figure out return types, parameters and names
 class PlayerLink {
 public:
-    /*  0 */ virtual bool getActorViaAccessor(ActorLinkConstDataAccess* accessor) = 0;
+    /*  0 */ virtual bool getActorViaAccessor(BaseProcAccessor* accessor) = 0;
     /*  1 */ virtual SeadController* m358() = 0;
     /*  2 */ virtual void m2() {}
     /*  3 */ virtual void m3() {}

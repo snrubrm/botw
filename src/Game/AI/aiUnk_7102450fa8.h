@@ -31,7 +31,7 @@ class Heap;
 
 namespace ksys::act {
 class Actor;
-class ActorConstDataAccess;
+class ActorLinkConstDataAccess;
 class BaseProc;
 }  // namespace ksys::act
 
@@ -118,8 +118,8 @@ public:
     void sub_71007190CC(const ksys::MesTransceiverId& dest);
     void sub_710071964C(const Unk3& arg);
 
-    bool sub_71007194CC(ksys::act::ActorConstDataAccess* accessor);
-    bool sub_71007194D4(int idx, ksys::act::ActorConstDataAccess* accessor);
+    bool sub_71007194CC(ksys::act::ActorLinkConstDataAccess* accessor);
+    bool sub_71007194D4(int idx, ksys::act::ActorLinkConstDataAccess* accessor);
     int sub_7100719534(ksys::act::BaseProc* proc);
     int sub_71007195B0(const ksys::act::BaseProcLink& link);
     // 0x710071a020: if the object at +0x88 exists, calls its vtable slot 7 with (out, idx) and returns
@@ -148,7 +148,7 @@ public:
     void sub_710071A2E8();
     // 0x710071a38c: true if `_3e0` has not run out and the actor of `_3d0` is the one held by `accessor`.
     // Placeholder name.
-    bool sub_710071A38C(const ksys::act::ActorConstDataAccess* accessor);
+    bool sub_710071A38C(const ksys::act::ActorLinkConstDataAccess* accessor);
 
     /* 0x008 */ sead::Buffer<Unk1> _8;
     /* 0x018 */ ksys::act::BaseProcLink _18;

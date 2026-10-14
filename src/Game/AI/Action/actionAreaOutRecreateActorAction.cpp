@@ -1,6 +1,6 @@
 #include "Game/AI/Action/actionAreaOutRecreateActorAction.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Map/mapObjectLink.h"
 
@@ -21,7 +21,7 @@ bool AreaOutRecreateActorAction::init_(sead::Heap* heap) {
     return true;
 }
 
-bool AreaOutRecreateActorAction::m15(const ksys::act::ActorConstDataAccess& accessor) {
+bool AreaOutRecreateActorAction::m15(const ksys::act::ActorLinkConstDataAccess& accessor) {
     if (!mActor)
         return true;
     auto* object = mActor->getMapObject();
@@ -62,7 +62,7 @@ void AreaOutRecreateActorAction::m5() {
         if (!other)
             continue;
 
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         other->getActorWithAccessor(accessor);
         if (!accessor.hasProc() || !accessor.isStateCalc())
             continue;

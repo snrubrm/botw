@@ -1,5 +1,5 @@
 #include "Game/AI/Action/actionGanonAttackWithEmitChemical.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "Game/Actor/actEnemy.h"
 #include "Game/Actor/actLastBoss.h"
@@ -35,7 +35,7 @@ GanonAttackWithEmitChemical::~GanonAttackWithEmitChemical() {
             for (s32 i = 0; i < *mEmitNum_s * 2; ++i) {
                 const sead::FormatFixedSafeString<32> name("%s%d", mEmitPartsName_s.cstr(), i);
                 if (enemy->getActorPartsActor(name).hasProc()) {
-                    ksys::act::ActorConstDataAccess accessor;
+                    ksys::act::ActorLinkConstDataAccess accessor;
                     ksys::act::acquireActor(&enemy->getActorPartsActor(name), &accessor);
                     accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
                 }
@@ -82,7 +82,7 @@ void GanonAttackWithEmitChemical::sub_7100172FA8() {
         for (s32 i = 0; i < *mEmitNum_s * 2; ++i) {
             const sead::FormatFixedSafeString<32> name("%s%d", mEmitPartsName_s.cstr(), i);
             if (enemy->getActorPartsActor(name).hasProc()) {
-                ksys::act::ActorConstDataAccess accessor;
+                ksys::act::ActorLinkConstDataAccess accessor;
                 ksys::act::acquireActor(&enemy->getActorPartsActor(name), &accessor);
                 if (accessor.isStateCalc())
                     accessor.sleep(ksys::act::BaseProc::SleepWakeReason::_0);

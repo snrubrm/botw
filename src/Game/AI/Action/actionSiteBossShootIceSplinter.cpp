@@ -2,7 +2,7 @@
 #include "Game/Actor/actSiteBoss.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 
 namespace uking::action {
 
@@ -55,7 +55,7 @@ void SiteBossShootIceSplinter::sub_710026354C(int idx) {
         entry._18 = *mTargetActor_d;
         entry._28 = *mInitVelocity_s;
         entry.mNodeName.clear();
-        ksys::act::ActorConstDataAccess actor;
+        ksys::act::ActorLinkConstDataAccess actor;
         ksys::act::acquireActor(&link, &actor);
         mActor->sendMessage(*actor.getMessageTransceiverId(), ksys::MessageType(0x800003a),
                             &entry, true);

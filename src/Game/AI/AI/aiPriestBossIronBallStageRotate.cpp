@@ -3,7 +3,7 @@
 #include "Game/AI/aiUnk_7102450fa8.h"
 #include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 
 namespace uking::ai {
 
@@ -47,7 +47,7 @@ void PriestBossIronBallStageRotate::m34() {
     if (!unit)
         return;
 
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     for (s32 i = 0; i < 8; ++i) {
         if (unit->sub_71007194D4(i + 11, &accessor)) {
             auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
@@ -77,7 +77,7 @@ void PriestBossIronBallStageRotate::m35(sead::Vector3f* out, s32 idx) {
     if (!unit)
         return;
 
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     const auto& mtx = mActor->getMtx();
     *out = mtx.getTranslation();
     const sead::Vector3f side = mtx.getBase(0);

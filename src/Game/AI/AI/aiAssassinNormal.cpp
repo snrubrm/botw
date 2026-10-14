@@ -7,7 +7,7 @@
 #include "Game/Actor/actUnk_71002dccbc.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
@@ -116,7 +116,7 @@ void AssassinNormal::m59() {
         return;
     }
 
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(&_400, &accessor);
     sead::Vector3f pos;
     accessor.getActorMtx().getTranslation(pos);
@@ -142,7 +142,7 @@ void AssassinNormal::m61(Unk3* out) {
         out->_0 = 3;
 
     auto* unk = sub_71005D9D68(mActor);
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(&_400, &accessor);
     if (accessor.sub_7100D10E6C(30)) {
         out->_0 = 3;
@@ -238,7 +238,7 @@ bool AssassinNormal::sub_710040D048(ksys::act::Unk_7100d78e50* entry) {
 
     bool invalid;
     {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&entry->_0.mLink, &accessor);
         invalid = accessor.sub_7100D10E6C(30) || accessor.checkFlag25();
     }

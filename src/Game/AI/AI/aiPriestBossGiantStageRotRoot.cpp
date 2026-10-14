@@ -4,7 +4,7 @@
 #include "Game/AI/aiUnk_7102450fa8.h"
 #include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
 
 namespace uking::ai {
@@ -126,7 +126,7 @@ void PriestBossGiantStageRotRoot::sub_710051D12C() {
     if (!unit)
         return;
 
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     for (s32 i = 0; i < 8; ++i) {
         if (!unit->sub_71007194D4(i + 11, &accessor))
             continue;
@@ -151,7 +151,7 @@ void PriestBossGiantStageRotRoot::sub_710051D234() {
     if (!unit)
         return;
 
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     for (s32 i = _464; i < 8; ++i) {
         if (!unit->sub_71007194D4(i + 11, &accessor))
             continue;
@@ -180,7 +180,7 @@ bool PriestBossGiantStageRotRoot::sub_710051D438() {
     if (!unit)
         return false;
 
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     for (s32 i = 0; i < _464; ++i) {
         s32 idx = i;
         if (_468)

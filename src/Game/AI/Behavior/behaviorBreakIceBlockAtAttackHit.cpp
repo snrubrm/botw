@@ -1,7 +1,7 @@
 #include "Game/AI/Behavior/behaviorBreakIceBlockAtAttackHit.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorAtk.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actTag.h"
@@ -35,7 +35,7 @@ void BreakIceBlockAtAttackHit::m7() {
             continue;
         if (!ksys::act::hasTag(&info->_50, ksys::act::tags::IsIceMakerBlock))
             continue;
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&info->_50, &accessor);
         mActor->sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x8000004),
                             nullptr, true);

@@ -2,7 +2,7 @@
 #include "KingSystem/System/Timer.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 
 namespace uking::action {
@@ -36,7 +36,7 @@ void BasicSignalEnemyForceNotice::calc_() {
 
 void BasicSignalEnemyForceNotice::sub_71000BA308() {
     auto& link = ksys::act::PlayerInfo::getSomeProcLink();
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(&link, &accessor);
     const sead::Vector3f pos = accessor.getActorMtx().getTranslation();
     auto* actor = mActor;

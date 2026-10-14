@@ -1,5 +1,5 @@
 #include "Game/AI/Action/actionEnemyAreaInOutSendMessage.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/Utils/Thread/Message.h"
 
 namespace uking::action {
@@ -36,12 +36,12 @@ void EnemyAreaInOutSendMessage::calc_() {
     ActorAreaInOutSendMessage::calc_();
 }
 
-void EnemyAreaInOutSendMessage::m32(const ksys::act::ActorConstDataAccess& accessor) {
+void EnemyAreaInOutSendMessage::m32(const ksys::act::ActorLinkConstDataAccess& accessor) {
     if (*mMessageID_s == 0)
         sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x3000015), nullptr);
 }
 
-void EnemyAreaInOutSendMessage::m33(const ksys::act::ActorConstDataAccess& accessor) {
+void EnemyAreaInOutSendMessage::m33(const ksys::act::ActorLinkConstDataAccess& accessor) {
     if (*mMessageID_s == 0)
         sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x3000016), nullptr);
 }

@@ -5,7 +5,7 @@
 #include "Game/Actor/actRideable.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
 #include "KingSystem/System/Timer.h"
@@ -26,7 +26,7 @@ void HorseFollow::enter_(ksys::act::ai::InlineParamPack* params) {
     _da.makeAllZero();
     if (!*mIsAvoidNavMeshActor_s) {
         if (auto* nav = mActor->m45()) {
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             ksys::act::acquireActor(mTargetActor_d, &accessor);
             if (auto* other = accessor.sub_7100D0F57C())
                 _d4 = nav->sub_7100F7D1CC(other);

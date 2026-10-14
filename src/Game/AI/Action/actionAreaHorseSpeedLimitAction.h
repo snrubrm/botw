@@ -14,7 +14,7 @@ public:
     bool init_(sead::Heap* heap) override;
 
 protected:
-    bool m15(const ksys::act::ActorConstDataAccess& accessor) override;
+    bool m15(const ksys::act::ActorLinkConstDataAccess& accessor) override;
     sead::Buffer<Payload>* m6() override { return &_38; }
 
     sead::Buffer<Payload> _38;

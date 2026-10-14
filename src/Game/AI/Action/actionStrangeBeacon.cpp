@@ -1,6 +1,6 @@
 #include "Game/AI/Action/actionStrangeBeacon.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/GameData/gdtSpecialFlags.h"
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Map/mapObjectLink.h"
@@ -21,7 +21,7 @@ void StrangeBeacon::enter_(ksys::act::ai::InlineParamPack* params) {
         auto* link_data = obj->getLinkData();
         if (link_data && link_data->mObjects.size() >= 1) {
             if (auto* linked = link_data->mObjects[0]) {
-                ksys::act::ActorConstDataAccess accessor;
+                ksys::act::ActorLinkConstDataAccess accessor;
                 linked->getActorWithAccessor(accessor);
                 linked_calc = accessor.hasProc() && accessor.isStateCalc();
             }
@@ -48,7 +48,7 @@ void StrangeBeacon::calc_() {
         auto* link_data = obj->getLinkData();
         if (link_data && link_data->mObjects.size() >= 1) {
             if (auto* linked = link_data->mObjects[0]) {
-                ksys::act::ActorConstDataAccess accessor;
+                ksys::act::ActorLinkConstDataAccess accessor;
                 linked->getActorWithAccessor(accessor);
                 linked_calc = accessor.hasProc() && accessor.isStateCalc();
             }

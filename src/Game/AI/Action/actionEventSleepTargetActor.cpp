@@ -1,5 +1,5 @@
 #include "Game/AI/Action/actionEventSleepTargetActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/Event/evtManager.h"
 
 namespace uking::action {
@@ -18,7 +18,7 @@ void EventSleepTargetActor::loadParams_() {
 }
 
 bool EventSleepTargetActor::oneShot_() {
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (auto* link = ksys::evt::Manager::instance()->getBaseProcLinkFromActiveEvent(
             mActorName_d, mInstanceName_d)) {
         ksys::act::acquireActor(link, &accessor);

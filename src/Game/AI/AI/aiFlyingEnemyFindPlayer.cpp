@@ -4,7 +4,7 @@
 #include "Game/AI/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/Profiles/actDynamicActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/Physics/System/physRayCastBodyQuery.h"
 
 namespace uking::ai {
@@ -47,7 +47,7 @@ bool FlyingEnemyFindPlayer::sub_71003D2E30(const sead::Vector3f& pos) {
     const sead::Vector3f end = pos;
 
     ksys::phys::RayCastBodyQuery query(sub_710072E804(actor, 0), ksys::phys::GroundHit::HitAll);
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(target, &accessor);
     if (auto* handler = sub_7100738C18(target, 0))
         query.addIgnoredGroup(handler);

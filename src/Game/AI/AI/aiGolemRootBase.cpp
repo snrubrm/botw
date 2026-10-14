@@ -1,7 +1,7 @@
 #include "Game/AI/AI/aiGolemRootBase.h"
 #include "Game/AI/aiUnk_71006F5B14.h"
 #include "Game/Actor/actEnemy.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actReaction.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
@@ -79,7 +79,7 @@ void GolemRootBase::sub_71004012F8() {
 
     {
         auto& link = enemy->_1128.getActorPartsActor(mUpperArmL_PartsKey_s);
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&link, &accessor);
         accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
         enemy->_1128.sub_7100D3CFEC(mUpperArmL_PartsKey_s);
@@ -87,7 +87,7 @@ void GolemRootBase::sub_71004012F8() {
 
     {
         auto& link = enemy->_1128.getActorPartsActor(mLowerArmL_PartsKey_s);
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&link, &accessor);
         accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
         enemy->_1128.sub_7100D3CFEC(mLowerArmL_PartsKey_s);
@@ -95,7 +95,7 @@ void GolemRootBase::sub_71004012F8() {
 
     {
         auto& link = enemy->_1128.getActorPartsActor(mUpperArmR_PartsKey_s);
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&link, &accessor);
         accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
         enemy->_1128.sub_7100D3CFEC(mUpperArmR_PartsKey_s);
@@ -103,7 +103,7 @@ void GolemRootBase::sub_71004012F8() {
 
     {
         auto& link = enemy->_1128.getActorPartsActor(mLowerArmR_PartsKey_s);
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&link, &accessor);
         accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
         enemy->_1128.sub_7100D3CFEC(mLowerArmR_PartsKey_s);
@@ -116,7 +116,7 @@ void GolemRootBase::sub_71004014A4() {
         return;
 
     auto& link = enemy->getActorPartsActor(mChemicalFieldKey_s);
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(&link, &accessor);
     accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
     enemy->sub_7100D3CFEC(mChemicalFieldKey_s);

@@ -1,5 +1,5 @@
 #include "Game/AI/Action/actionForceSetMtxFromPlayer.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
@@ -28,7 +28,7 @@ void ForceSetMtxFromPlayer::calc_() {
     auto* info = ksys::act::PlayerInfo::instance();
     if (!info)
         return;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(&info->getPlayerLink(), &accessor);
     if (!accessor.hasProc())
         return;

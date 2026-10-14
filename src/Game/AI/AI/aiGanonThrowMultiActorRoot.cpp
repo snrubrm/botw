@@ -2,7 +2,7 @@
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 
 namespace uking::ai {
 
@@ -12,7 +12,7 @@ GanonThrowMultiActorRoot::~GanonThrowMultiActorRoot() {
     auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
 
     if (!mPartsName1_s.isEmpty()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&enemy->getActorPartsActor(mPartsName1_s), &accessor);
         if (accessor.hasProc())
             accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
@@ -20,7 +20,7 @@ GanonThrowMultiActorRoot::~GanonThrowMultiActorRoot() {
     }
 
     if (!mPartsName2_s.isEmpty()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&enemy->getActorPartsActor(mPartsName2_s), &accessor);
         if (accessor.hasProc())
             accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
@@ -28,7 +28,7 @@ GanonThrowMultiActorRoot::~GanonThrowMultiActorRoot() {
     }
 
     if (!mPartsName3_s.isEmpty()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&enemy->getActorPartsActor(mPartsName3_s), &accessor);
         if (accessor.hasProc())
             accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
@@ -36,7 +36,7 @@ GanonThrowMultiActorRoot::~GanonThrowMultiActorRoot() {
     }
 
     if (!mPartsName4_s.isEmpty()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&enemy->getActorPartsActor(mPartsName4_s), &accessor);
         if (accessor.hasProc())
             accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
@@ -44,7 +44,7 @@ GanonThrowMultiActorRoot::~GanonThrowMultiActorRoot() {
     }
 
     if (!mPartsName5_s.isEmpty()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&enemy->getActorPartsActor(mPartsName5_s), &accessor);
         if (accessor.hasProc())
             accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
@@ -52,7 +52,7 @@ GanonThrowMultiActorRoot::~GanonThrowMultiActorRoot() {
     }
 
     if (!mPartsName6_s.isEmpty()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&enemy->getActorPartsActor(mPartsName6_s), &accessor);
         if (accessor.hasProc())
             accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
@@ -60,7 +60,7 @@ GanonThrowMultiActorRoot::~GanonThrowMultiActorRoot() {
     }
 
     if (!mPartsName7_s.isEmpty()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&enemy->getActorPartsActor(mPartsName7_s), &accessor);
         if (accessor.hasProc())
             accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
@@ -68,7 +68,7 @@ GanonThrowMultiActorRoot::~GanonThrowMultiActorRoot() {
     }
 
     if (!mPartsName8_s.isEmpty()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&enemy->getActorPartsActor(mPartsName8_s), &accessor);
         if (accessor.hasProc())
             accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
@@ -189,56 +189,56 @@ bool GanonThrowMultiActorRoot::m34() const {
 
     auto& parts = enemy->_1128;
     {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&parts.getActorPartsActor(mPartsName1_s), &accessor);
         if (accessor.hasProc() && accessor.isStateCalc())
             return false;
     }
 
     {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&parts.getActorPartsActor(mPartsName2_s), &accessor);
         if (accessor.hasProc() && accessor.isStateCalc())
             return false;
     }
 
     {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&parts.getActorPartsActor(mPartsName3_s), &accessor);
         if (accessor.hasProc() && accessor.isStateCalc())
             return false;
     }
 
     {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&parts.getActorPartsActor(mPartsName4_s), &accessor);
         if (accessor.hasProc() && accessor.isStateCalc())
             return false;
     }
 
     {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&parts.getActorPartsActor(mPartsName5_s), &accessor);
         if (accessor.hasProc() && accessor.isStateCalc())
             return false;
     }
 
     {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&parts.getActorPartsActor(mPartsName6_s), &accessor);
         if (accessor.hasProc() && accessor.isStateCalc())
             return false;
     }
 
     {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&parts.getActorPartsActor(mPartsName7_s), &accessor);
         if (accessor.hasProc() && accessor.isStateCalc())
             return false;
     }
 
     {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&parts.getActorPartsActor(mPartsName8_s), &accessor);
         if (accessor.hasProc() && accessor.isStateCalc())
             return false;
@@ -313,7 +313,7 @@ void GanonThrowMultiActorRoot::m38() {
 
 bool GanonThrowMultiActorRoot::sub_71003F18A4(act::Enemy* enemy, const sead::SafeString& name,
                                               bool stop) {
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(&enemy->getActorPartsActor(name), &accessor);
     if (accessor.hasProc() && accessor.isStateCalc()) {
         if (stop) {

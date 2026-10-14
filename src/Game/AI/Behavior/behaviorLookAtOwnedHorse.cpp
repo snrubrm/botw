@@ -1,6 +1,6 @@
 #include "Game/AI/Behavior/behaviorLookAtOwnedHorse.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actBoneControl.h"
 
@@ -24,7 +24,7 @@ void LookAtOwnedHorse::m7() {
         return;
     if (!_60)
         return;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (!ksys::act::acquireActor(&_60->_f70, &accessor))
         return;
     const sead::Vector3f horse_pos = accessor.getActorMtx().getTranslation();

@@ -1,6 +1,6 @@
 #include "Game/AI/Action/actionForceSetPlayerRestartPosAngle.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/Event/evtUnk_7100dc816c.h"
@@ -46,7 +46,7 @@ void ForceSetPlayerRestartPosAngle::sub_7100138D68() {
         name.appendWithFormat("%s", mAnchorName_d.cstr());
         if (!mUniqueName_d.isEmpty())
             name.appendWithFormat("(ユニーク名：%s)", mUniqueName_d.cstr());
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&link, &accessor);
     }
 }

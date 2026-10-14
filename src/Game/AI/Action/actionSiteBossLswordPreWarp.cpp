@@ -2,7 +2,7 @@
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 
 namespace uking::action {
 
@@ -37,7 +37,7 @@ void SiteBossLswordPreWarp::calc_() {
         if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
             if (!mSleepPartsName_s.isEmpty()) {
                 if (enemy->getActorPartsActor(mSleepPartsName_s).hasProc()) {
-                    ksys::act::ActorConstDataAccess accessor;
+                    ksys::act::ActorLinkConstDataAccess accessor;
                     ksys::act::acquireActor(&enemy->getActorPartsActor(mSleepPartsName_s),
                                             &accessor);
                     if (accessor.isStateCalc())

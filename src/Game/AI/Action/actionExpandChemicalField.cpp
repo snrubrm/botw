@@ -3,7 +3,7 @@
 #include "KingSystem/ActorSystem/LOD/actLodState.h"
 #include "KingSystem/ActorSystem/Profiles/actBullet.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
@@ -99,7 +99,7 @@ void ExpandChemicalField::sub_7100129760() {
         auto* bullet = sead::DynamicCast<ksys::act::Bullet>(mActor);
         auto* link = bullet ? &bullet->_bd0._0 : &mActor->getCreateArgBaseProcLink();
         if (link->hasProc()) {
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             ksys::act::acquireActor(link, &accessor);
             if (!accessor.isDeletedOrDeleting()) {
                 mActor->sleep(ksys::act::BaseProc::SleepWakeReason::_0);

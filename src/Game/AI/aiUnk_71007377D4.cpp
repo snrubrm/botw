@@ -27,7 +27,7 @@
 #include "KingSystem/Terrain/teraSystem.h"
 #include "KingSystem/ActorSystem/actAttackSensor.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
@@ -63,7 +63,7 @@ void sub_710072C1B4(ksys::phys::CharacterController* controller, const sead::Vec
 }
 
 f32 sub_710073768C(ksys::act::Actor* actor, ksys::act::BaseProcLink* link) {
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(link, &accessor);
     const f32 ratio = actor->getParam()->getRes().mDamageParam->mSpAffectRatio.ref();
     return ratio * accessor.getAttackSpHitRatio();
@@ -73,7 +73,7 @@ s32 sub_71007376F8(ksys::act::Actor* actor, ksys::act::BaseProcLink*) {
     return actor->getParam()->getRes().mDamageParam->mSpAffectDamage.ref();
 }
 
-const s32& sub_7100730FD0(const ksys::act::ActorConstDataAccess* accessor) {
+const s32& sub_7100730FD0(const ksys::act::ActorLinkConstDataAccess* accessor) {
     return accessor->getGParamList()->getItem()->mBuyingPrice.ref();
 }
 
@@ -387,7 +387,7 @@ ksys::phys::SystemGroupHandler* sub_710072E804(ksys::act::Actor* actor, int idx)
 ksys::phys::SystemGroupHandler* sub_7100738C18(ksys::act::BaseProcLink* link, int idx) {
     if (!link->hasProc())
         return nullptr;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(link, &accessor);
     return accessor.x(idx);
 }
@@ -606,7 +606,7 @@ uking::act::Rideable* sub_710073D3C8(ksys::act::Actor* actor) {
 
 const sead::Matrix34f& getPlayerPositionViaPlayerInfo() {
     if (auto* info = ksys::act::PlayerInfo::instance()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&info->getPlayerLink(), &accessor);
         return accessor.getActorMtx();
     }
@@ -852,7 +852,7 @@ void sub_7100738CB0(ksys::act::Actor* actor, ksys::act::BaseProcLink* link) {
         return;
     ksys::phys::SystemGroupHandler* handler;
     {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(link, &accessor);
         handler = accessor.x(0);
     }
@@ -865,7 +865,7 @@ void sub_7100738D50(ksys::act::Actor* actor, ksys::act::BaseProcLink* link) {
         return;
     ksys::phys::SystemGroupHandler* handler;
     {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(link, &accessor);
         handler = accessor.x(1);
     }
@@ -944,14 +944,14 @@ void sub_71007428DC(f32 distance, f32 radius, sead::Vector3f* out,
 }
 
 const sead::SafeString& sub_710072DAD0(const ksys::act::BaseProcLink* link) {
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(link, &accessor);
     return sub_710072DB1C(accessor);
 }
 
 // NON_MATCHING: compiler shares the Parameter::ref offset across switch branches.
-const sead::SafeString& sub_710072DB1C(const ksys::act::ActorConstDataAccess& accessor) {
-    ksys::act::ActorConstDataAccess weapon;
+const sead::SafeString& sub_710072DB1C(const ksys::act::ActorLinkConstDataAccess& accessor) {
+    ksys::act::ActorLinkConstDataAccess weapon;
     weapon.acquireActor(accessor);
     switch (sub_71002F0258(weapon)) {
     case 0:
@@ -976,7 +976,7 @@ bool sub_7100736384(ksys::act::Actor* actor) {
 }
 
 bool sub_71007356EC(const ksys::act::BaseProcLink* link) {
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(link, &accessor);
     return accessor.getName() == "Weapon_Sword_070";
 }
@@ -1149,9 +1149,9 @@ f32 sub_710072D0D8(const sead::Vector3f& vector, f32 value) {
 
 // NON_MATCHING: the two accessor stack slots are reversed.
 bool sub_7100735D2C(const ksys::act::BaseProcLink* link, ksys::act::Actor* actor) {
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(link, &accessor);
-    ksys::act::ActorConstDataAccess target(actor);
+    ksys::act::ActorLinkConstDataAccess target(actor);
     return sub_7100735BF8(accessor, target);
 }
 
@@ -1215,11 +1215,11 @@ bool sub_710072CF4C(f32 vertical_speed, f32* speed, f32* time, const sead::Vecto
 
 // 0x7100735a6c
 // NON_MATCHING: the two scoped accessors occupy opposite stack slots.
-bool sub_7100735A6C(ksys::act::Actor* actor, const ksys::act::ActorConstDataAccess& target) {
-    ksys::act::ActorConstDataAccess actor_access(actor);
+bool sub_7100735A6C(ksys::act::Actor* actor, const ksys::act::ActorLinkConstDataAccess& target) {
+    ksys::act::ActorLinkConstDataAccess actor_access(actor);
     if (!target.hasTag(ksys::act::tags::AcceptSilentKill))
         return false;
-    ksys::act::ActorConstDataAccess target_access;
+    ksys::act::ActorLinkConstDataAccess target_access;
     target_access.acquireActor(target);
     return !target_access.sub_7100D10FB8() && sub_710001A69C(&target_access, 0x100);
 }
@@ -1233,7 +1233,7 @@ void sub_710073278C(ksys::act::Actor* actor, ksys::act::BaseProcLink* link,
         chemical = actor->getChemicalStuff();
     if (!chemical || chemical->sub_7100D91080())
         return;
-    ksys::act::ActorConstDataAccess target;
+    ksys::act::ActorLinkConstDataAccess target;
     if (link->hasProc()) {
         ksys::act::acquireActor(link, &target);
         if (!target.sub_7100D12F08(-1))

@@ -96,12 +96,12 @@ KSYS_CHECK_SIZE_NX150(LastBoss, 0x1e58);
 
 // Accessor-based wrappers in the LastBoss TU (lane4 s44; placeholder names, the CSV has none).
 // 0x71002c6b30: the accessor's actor as a LastBoss (null otherwise). 0x71002c6b0c: `_14e4 == 1` (false without one).
-uking::act::LastBoss* sub_71002C6B30(const ksys::act::ActorConstDataAccess& accessor);
-bool sub_71002C6B0C(const ksys::act::ActorConstDataAccess& accessor);
+uking::act::LastBoss* sub_71002C6B30(const ksys::act::ActorLinkConstDataAccess& accessor);
+bool sub_71002C6B0C(const ksys::act::ActorLinkConstDataAccess& accessor);
 // 0x71002c64a0 (placeholder name): the point 2 units from the actor towards the up-axis component
 // perpendicular to its offset from the home position.
 void sub_71002C64A0(sead::Vector3f* out, ksys::act::Actor* actor);
-// 0x71002c682c (placeholder name): ActorConstDataAccess::sub_7100D153A4(value) on every part actor (Enemy::_1128) of
+// 0x71002c682c (placeholder name): ActorLinkConstDataAccess::sub_7100D153A4(value) on every part actor (Enemy::_1128) of
 // `actor` that is in its calc state.
 void sub_71002C682C(ksys::act::Actor* actor, f32 value);
 // 0x71002c6408 (placeholder name): the unit direction from `to` to `from` raised by `y_offset` (unchanged if zero).

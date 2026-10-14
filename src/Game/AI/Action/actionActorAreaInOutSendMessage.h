@@ -25,13 +25,13 @@ protected:
     void calc_() override;
 
     // Actor entered / left the area.
-    virtual void m32(const ksys::act::ActorConstDataAccess& accessor) {}
-    virtual void m33(const ksys::act::ActorConstDataAccess& accessor) {}
+    virtual void m32(const ksys::act::ActorLinkConstDataAccess& accessor) {}
+    virtual void m33(const ksys::act::ActorLinkConstDataAccess& accessor) {}
     // Whether the actor is ignored.
-    virtual bool m34(const ksys::act::ActorConstDataAccess& accessor) { return false; }
+    virtual bool m34(const ksys::act::ActorLinkConstDataAccess& accessor) { return false; }
     // Swaps the buffers.
     void m2() override;
-    bool m15(const ksys::act::ActorConstDataAccess& accessor) override;
+    bool m15(const ksys::act::ActorLinkConstDataAccess& accessor) override;
     // Compares the buffers.
     void m5() override;
 

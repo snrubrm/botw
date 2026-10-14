@@ -1,7 +1,7 @@
 #include "Game/AI/Behavior/behaviorXLinkCreateToParts.h"
 #include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 
 namespace uking::behavior {
 
@@ -44,7 +44,7 @@ void XLinkCreateToParts::m16(sead::Vector3f* out) {
     if (auto* enemy = sead::DynamicCast<act::Enemy>(actor)) {
         auto& link = enemy->getActorPartsActor(mPartsName_s);
         if (link.hasProcInCalcState()) {
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             ksys::act::acquireActor(&link, &accessor);
             accessor.getActorMtx().getTranslation(*out);
         }

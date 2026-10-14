@@ -6,7 +6,7 @@
 #include "Game/AI/aiUnk_71007377D4.h"
 #include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actBoneControl.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
@@ -33,7 +33,7 @@ void LandHumEnemyFindBait::enter_(ksys::act::ai::InlineParamPack* params) {
 void LandHumEnemyFindBait::changeToNotice() {
     sead::Vector3f pos = sead::Vector3f::zero;
     if (mTargetBait_d->hasProc()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(mTargetBait_d, &accessor);
         accessor.getActorMtx().getTranslation(pos);
     }
@@ -55,7 +55,7 @@ void LandHumEnemyFindBait::calc_() {
     }
 
     if (isGoStraightOrMove()) {
-        ksys::act::ActorConstDataAccess bait;
+        ksys::act::ActorLinkConstDataAccess bait;
         if (mTargetBait_d->hasProc()) {
             ksys::act::acquireActor(mTargetBait_d, &bait);
             sead::Vector3f pos;
@@ -99,7 +99,7 @@ void LandHumEnemyFindBait::calc_() {
         return;
 
     if (isCurrentChild("怒り") && _a0.hasProc()) {
-        ksys::act::ActorConstDataAccess target;
+        ksys::act::ActorLinkConstDataAccess target;
         ksys::act::acquireActor(&_a0, &target);
         const sead::Vector3f pos = target.getActorMtx().getTranslation();
         getCurrentChild()->setDynamicParam(pos, "TargetPos");
@@ -108,7 +108,7 @@ void LandHumEnemyFindBait::calc_() {
 
     if (!isCurrentChild("餌発見"))
         return;
-    ksys::act::ActorConstDataAccess bait;
+    ksys::act::ActorLinkConstDataAccess bait;
     ksys::act::acquireActor(mTargetBait_d, &bait);
     const sead::Vector3f pos = bait.getActorMtx().getTranslation();
     getCurrentChild()->setDynamicParam(pos, "TargetPos");
@@ -123,7 +123,7 @@ void LandHumEnemyFindBait::m37() {
         return;
     }
     _90.reset(*mRepathTime_s);
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(mTargetBait_d, &accessor);
     sead::Vector3f target;
     accessor.getActorMtx().getTranslation(target);
@@ -144,7 +144,7 @@ void LandHumEnemyFindBait::m37() {
 // Turns the neck towards the bait (yaw / pitch relative to the actor axes, smoothed by VFR::lerp); releases the
 // neck control when the bait is gone.
 void LandHumEnemyFindBait::sub_710045F398() {
-    ksys::act::ActorConstDataAccess bait;
+    ksys::act::ActorLinkConstDataAccess bait;
     ksys::act::acquireActor(mTargetBait_d, &bait);
     if (!bait.hasProc() || bait.sub_7100D10E6C(30)) {
         if (auto* unit = ksys::act::sub_7100D82FFC(mActor->getBoneControl()))
@@ -214,7 +214,7 @@ void LandHumEnemyFindBait::changeToAngry() {
 bool LandHumEnemyFindBait::sub_710045FC10() {
     if (sub_71005DEC08(mTargetBait_d, mActor, 999.0f, 999.0f, sead::Mathf::pi()))
         return false;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(mTargetBait_d, &accessor);
     const auto& target_pos = accessor.getActorMtx().getTranslation();
     const auto& pos = mActor->getMtx().getTranslation();
@@ -276,7 +276,7 @@ void LandHumEnemyFindBait::m39() {
 }
 
 void LandHumEnemyFindBait::changeToFindBait() {
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(mTargetBait_d, &accessor);
     sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x8000001), mActor);
     sead::Vector3f pos;

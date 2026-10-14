@@ -1,7 +1,7 @@
 #include "Game/AI/AI/aiForestGiantFindPlayer.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorWeapons.h"
 
 namespace uking::ai {
@@ -23,7 +23,7 @@ void ForestGiantFindPlayer::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void ForestGiantFindPlayer::calc_() {
     LargeEnemyFindPlayer::calc_();
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     auto& link = mActor->getWeapons()->mWeapons[0].link;
     if (link.hasProc()) {
         ksys::act::acquireActor(&link, &accessor);

@@ -1,7 +1,7 @@
 #include "Game/AI/Action/actionPlayerWakeBoard.h"
 #include "KingSystem/Utils/Thread/Message.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayer.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actUnk_71024ef620.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Event/evtManager.h"
@@ -23,7 +23,7 @@ void PlayerWakeBoard::enter_(ksys::act::ai::InlineParamPack* params) {
     if (mActor->getASList()->x_7(1, 1, &ksys::as::ASList::Unk2::sub_710002E82C))
         static_cast<ksys::act::Player*>(mActor)->x_18(true);
     if (!mActor->getConnectedCalcChild()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&static_cast<ksys::act::Player*>(mActor)->_2c38, &accessor);
         accessor.setThisActorAsChild(mActor, false);
         static_cast<ksys::act::Player*>(mActor)->_1870->_c0->_8 = mActor;

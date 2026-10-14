@@ -2,7 +2,7 @@
 #include "Game/AI/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorAtk.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorCreator.h"
 #include "KingSystem/ActorSystem/actActorHeapUtil.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
@@ -96,7 +96,7 @@ void GolemWeakPointRoot::calc_() {
 }
 
 bool GolemWeakPointRoot::m36() {
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (!ksys::act::acquireActor(&_60, &accessor))
         return false;
 
@@ -114,7 +114,7 @@ bool GolemWeakPointRoot::m36() {
 
 void GolemWeakPointRoot::m37() {
     for (auto& link : _180) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&link, &accessor);
         if (accessor.hasProc() && accessor.isStateSleep())
             accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
@@ -124,7 +124,7 @@ void GolemWeakPointRoot::m37() {
 void GolemWeakPointRoot::m38(s32 idx, const sead::Matrix34f& mtx) {
     if (u32(idx) > 2)
         return;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(&_180[idx], &accessor);
     if (accessor.hasProc() && accessor.isStateSleep())
         accessor.setProperties(mtx, nullptr, nullptr, nullptr, false, 0, -1);

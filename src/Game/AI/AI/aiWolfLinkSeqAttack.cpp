@@ -1,6 +1,6 @@
 #include "Game/AI/AI/aiWolfLinkSeqAttack.h"
 #include "Game/Actor/actWolfLink.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
 
@@ -18,7 +18,7 @@ bool WolfLinkSeqAttack::init_(sead::Heap* heap) {
 // NON_MATCHING: the navigation-result flag uses a separate null comparison.
 void WolfLinkSeqAttack::enter_(ksys::act::ai::InlineParamPack* params) {
     _68 = false;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (ksys::act::acquireActor(&_60->_c48._8, &accessor)) {
         auto* nav = mActor->m45();
         auto* other = accessor.sub_7100D0F57C();

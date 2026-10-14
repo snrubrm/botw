@@ -2,7 +2,7 @@
 #include "Game/Actor/actHorseBase.h"
 #include "Game/Actor/actRideable.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/Physics/System/physHavokAI.h"
@@ -34,7 +34,7 @@ void HorseMoveToPlayer::enter_(ksys::act::ai::InlineParamPack* params) {
     }
 
     if (auto* nav = mActor->m45()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         if (ksys::act::acquireActor(mTargetActor_d, &accessor)) {
             sead::Vector3f target;
             accessor.getActorMtx().getTranslation(target);
@@ -108,7 +108,7 @@ void HorseMoveToPlayer::calc_() {
         const sead::Vector2f pos{mActor->getMtx().m[0][3], mActor->getMtx().m[2][3]};
         f32 dist_sq;
         {
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             if (ksys::act::acquireActor(mTargetActor_d, &accessor)) {
                 const auto& target = accessor.getActorMtx();
                 const sead::Vector2f diff = pos - sead::Vector2f{target.m[0][3], target.m[2][3]};
@@ -188,7 +188,7 @@ void HorseMoveToPlayer::m34(sead::Vector3f* out, const sead::Vector3f& pos,
 
     const f32 sec = *mTargetVelocityDistanceSec_s;
     if (sec > 0.0f) {
-        ksys::act::ActorConstDataAccess acc;
+        ksys::act::ActorLinkConstDataAccess acc;
         if (ksys::act::acquireActor(mTargetActor_d, &acc) && acc.sub_7100D12E64())
             out->setScaleAdd(sec * -30.0f, target_velocity, *out);
     }

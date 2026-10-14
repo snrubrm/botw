@@ -5,7 +5,7 @@
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorWeapons.h"
 #include "KingSystem/ActorSystem/actCCAccessor.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
@@ -26,7 +26,7 @@ void PlayerClimbRest::enter_(ksys::act::ai::InlineParamPack* params) {
         auto* as_list = mActor->getASList();
         as_list->goLimpFromHeadShotMaybe(0x2c, weapon->getProfile(), 0);
         _28.acquire(weapon, false);
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&_28, &accessor);
         if (sub_71002EFC98(accessor)) {
             static_cast<ksys::act::Player*>(mActor)->switchToAnimSequenceMaybe("ClimbPegNG", true, -1.0f);

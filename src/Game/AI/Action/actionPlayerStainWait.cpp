@@ -3,7 +3,7 @@
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerArmors.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/Utils/Thread/Message.h"
 #include "KingSystem/System/SeadController.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
@@ -29,7 +29,7 @@ void PlayerStainWait::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void PlayerStainWait::leave_() {
     mActor->setMtx(_78, false, true);
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     auto* armors = mActor->getArmors();
     for (int i = 0; i < 3; ++i) {
         ksys::act::acquireActor(&armors->getPartsLink(i), &accessor);
@@ -49,7 +49,7 @@ void PlayerStainWait::calc_() {
     mActor->setMtx(mtx, false, false);
     const s32 material = ksys::gdt::getFlag_ColorChange_MaterialIndex(false);
     if (material > 0 && _20 != material) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         auto* armors = mActor->getArmors();
         for (int i = 0; i < 3; ++i) {
             ksys::act::acquireActor(&armors->getPartsLink(i), &accessor);

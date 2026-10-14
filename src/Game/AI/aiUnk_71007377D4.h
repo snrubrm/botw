@@ -18,7 +18,7 @@ class AttackSensor;
 
 namespace ksys::act {
 class Actor;
-class ActorConstDataAccess;
+class ActorLinkConstDataAccess;
 class BaseProcLink;
 class BaseProcHandle;
 class InstParamPack;
@@ -50,11 +50,11 @@ class SystemGroupHandler;
 // the helper return early when it equals 1.0. Names are placeholders.
 
 // PlayerSpAttack passes its actor and the attention target accessor.
-bool sub_7100735A6C(ksys::act::Actor* actor, const ksys::act::ActorConstDataAccess& target);
+bool sub_7100735A6C(ksys::act::Actor* actor, const ksys::act::ActorLinkConstDataAccess& target);
 
 f32 sub_710073768C(ksys::act::Actor* actor, ksys::act::BaseProcLink* link);
 s32 sub_71007376F8(ksys::act::Actor* actor, ksys::act::BaseProcLink* link);
-const s32& sub_7100730FD0(const ksys::act::ActorConstDataAccess* accessor);
+const s32& sub_7100730FD0(const ksys::act::ActorLinkConstDataAccess* accessor);
 void sub_7100733E24(ksys::act::Actor* actor, const sead::Vector3f& impulse,
                     const sead::Vector3f& position,
                     ksys::act::ActorAtk::Unk_710079e64c::Unk1* attack_info);
@@ -356,7 +356,7 @@ bool sub_710072EA18(const sead::Vector3f& from, const sead::Vector3f& to, int no
                     ksys::phys::MaterialMask* material_mask, f32 y_offset);
 /// 0x710072e804: group handler `idx` (0 / 1) of the actor's physics instance set (null without one).
 ksys::phys::SystemGroupHandler* sub_710072E804(ksys::act::Actor* actor, int idx);
-// 0x7100738c18 (lane1 s23): the physics group handler `idx` (ActorConstDataAccess::x) of the actor `link` points to
+// 0x7100738c18 (lane1 s23): the physics group handler `idx` (ActorLinkConstDataAccess::x) of the actor `link` points to
 // (nullptr without one).
 ksys::phys::SystemGroupHandler* sub_7100738C18(ksys::act::BaseProcLink* link, int idx);
 // 0x710073953c (lane1 s47, placeholder name): unless the actor has ActorFlag2 0x200, applies the actor's chemical named
@@ -466,7 +466,7 @@ void sub_71007428DC(f32 distance, f32 radius, sead::Vector3f* out,
                    ksys::phys::NavMeshCharacter* character, const sead::Vector3f* axis, s32 count);
 
 const sead::SafeString& sub_710072DAD0(const ksys::act::BaseProcLink* link);
-const sead::SafeString& sub_710072DB1C(const ksys::act::ActorConstDataAccess& accessor);
+const sead::SafeString& sub_710072DB1C(const ksys::act::ActorLinkConstDataAccess& accessor);
 
 bool sub_7100736384(ksys::act::Actor* actor);
 
@@ -487,8 +487,8 @@ bool sub_7100731E70(const ksys::map::Object* object);
 f32 sub_710072D0D8(const sead::Vector3f& vector, f32 value);
 
 // Damage predicates compare the attacking link and the target actor through accessors.
-bool sub_7100735BF8(const ksys::act::ActorConstDataAccess& accessor,
-                    const ksys::act::ActorConstDataAccess& target);
+bool sub_7100735BF8(const ksys::act::ActorLinkConstDataAccess& accessor,
+                    const ksys::act::ActorLinkConstDataAccess& target);
 bool sub_7100735D2C(const ksys::act::BaseProcLink* link, ksys::act::Actor* actor);
 // 0x7100735ba8 (declared only): acquires `link` and tests it against `actor` (via 0x7100735b10).
 bool sub_7100735BA8(const ksys::act::BaseProcLink* link, ksys::act::Actor* actor);

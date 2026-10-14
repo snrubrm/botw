@@ -4,7 +4,7 @@
 #include <math/seadMathCalcCommon.h>
 #include <mc/seadCoreInfo.h>
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actAiActionBase.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/Framework/frmWorkerSupportThreadMgr.h"
@@ -134,7 +134,7 @@ void Camera::sub_71007953C8() {
 EditCamera::CameraNames* Camera::sub_7100795414() {
     if (!_850.hasProc())
         return nullptr;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(&_850, &accessor);
     return sub_7100791B00(accessor);
 }
@@ -246,7 +246,7 @@ Camera::PreDeletePrepareResult Camera::prepareForPreDelete_() {
         root->sub_7100928854(this);
     ksys::sub_7100F40428(nullptr);
     if (_850.hasProc()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&_850, &accessor);
         accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
     }

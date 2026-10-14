@@ -9,7 +9,7 @@
 #include "Game/Damage/dmgDamageManagerBase.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
@@ -28,7 +28,7 @@ void Unk_71023d7c40::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
         *a5 = 0xc;
         return;
     }
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(manager->getAttacker(), &accessor);
     if (accessor.getName() == "AssassinIronBall") {
         *a5 = 0x16;
@@ -120,7 +120,7 @@ AssassinBossRoot::~AssassinBossRoot() {
         name.format("IronBall%d", i);
         auto& link = enemy->getActorPartsActor(name);
         if (link.hasProc()) {
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             ksys::act::acquireActor(&link, &accessor);
             accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
         }
@@ -129,7 +129,7 @@ AssassinBossRoot::~AssassinBossRoot() {
 
     auto& link = enemy->getActorPartsActor("SpareBall0");
     if (link.hasProc()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&link, &accessor);
         accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
     }

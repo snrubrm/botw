@@ -1,6 +1,6 @@
 #include "KingSystem/ActorSystem/actActorBind.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
 #include "KingSystem/Resource/Actor/resResourceDamageParam.h"
@@ -40,7 +40,7 @@ Actor* ActorBind::sub_7100D3C5E0(BaseProc* proc) {
     BaseProc* other = _20 ? _20 : proc;
     auto* actor = sead::DynamicCast<Actor>(_8.getProc(nullptr, other));
     if (actor && actor->_738.hasProc()) {
-        ActorConstDataAccess accessor;
+        ActorLinkConstDataAccess accessor;
         acquireActor(&actor->_738, &accessor);
         if (accessor.isStateCalc()) {
             _8 = actor->_738;

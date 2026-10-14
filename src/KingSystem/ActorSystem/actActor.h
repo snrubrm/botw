@@ -104,7 +104,7 @@ class RootAi;
 class LifeRecoverInfo;
 class Actor;
 class ActorAtk;
-class ActorConstDataAccess;
+class ActorLinkConstDataAccess;
 namespace acc {
 class WeaponBase;
 }
@@ -329,7 +329,7 @@ public:
     const sead::Vector3f& getScale() const { return mScale; }
     // Read by HorseObject::calcMaybe / Armor (inline in the original).
     f32 get4f4() const { return _4f4; }
-    // Actor::_454 (read by ActorConstDataAccess::getField44C_Vec3 and sub_71005E0AAC).
+    // Actor::_454 (read by ActorLinkConstDataAccess::getField44C_Vec3 and sub_71005E0AAC).
     const sead::Vector3f& get454() const { return _454; }
     const sead::BoundBox3f& getAabb() const { return mAabb; }
     // mScale and mStartModelOpacity are written inline (element-wise / single stores) by AI actions
@@ -452,7 +452,7 @@ public:
     // 0x71011da808 (declared only): forwards `accessor` to the map object's link data (0x7100d4ef30:
     // handles a Recreate link to the accessor's map object); false without a map object or link
     // data.
-    bool sub_71011DA808(const ActorConstDataAccess& accessor);
+    bool sub_71011DA808(const ActorLinkConstDataAccess& accessor);
     // CSV name: the physics rigid body set called `name` (null without physics).
     phys::RigidBodySet* getRigidBodyByName(const char* name);
     // Inline in the original (GolemPartRoot::enter_ reads the field directly).
@@ -854,7 +854,7 @@ public:
 
 protected:
     friend class ActorCreator;
-    friend class ActorConstDataAccess;
+    friend class ActorLinkConstDataAccess;
     friend class ActorSystem;
     friend class ActorBind;  // sub_7100D3C5E0 reads _738 and mSpecialJobTypesMaskOverride
     friend class ModelBindInfo;  // copies the bound pose to mMtx.
@@ -1021,7 +1021,7 @@ protected:
     /* 0x68a */ sead::Atomic<bool> _68a = false;
     /* 0x68b */ sead::Atomic<bool> mNoFadeInCreate = false;
     /* 0x68c */ sead::Atomic<bool> _68c = false;
-    /* 0x68d */ u8 _68d = 0;  // set to 1-4 by ActorConstDataAccess::sub_7100D15570 / 155F8 / 15680 / 15708
+    /* 0x68d */ u8 _68d = 0;  // set to 1-4 by ActorLinkConstDataAccess::sub_7100D15570 / 155F8 / 15680 / 15708
     /* 0x68e */ sead::Atomic<bool> _68e = false;
     // job1_1 independently clears bits 0 and 1 with separate reads and writes of this shared byte.
     /* 0x68f */ sead::Atomic<u8> _68f = 0;
@@ -1050,7 +1050,7 @@ protected:
     /* 0x714 */ float mLodLoadDistanceMultiplier = 1.0;
     /* 0x718 */ float _718 = 0.0;
     /* 0x71c */ sead::BitFlag32 mSignals;
-    /* 0x720 */ sead::Atomic<u32> _720 = 0;  // incremented / decremented by ActorConstDataAccess::sub_7100D15448 / 154DC
+    /* 0x720 */ sead::Atomic<u32> _720 = 0;  // incremented / decremented by ActorLinkConstDataAccess::sub_7100D15448 / 154DC
     /* 0x728 */ void* _728 = nullptr;
     /* 0x730 */ u16 _730 = 0;
 public:

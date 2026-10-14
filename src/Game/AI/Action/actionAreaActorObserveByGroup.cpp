@@ -1,7 +1,7 @@
 #include "Game/AI/Action/actionAreaActorObserveByGroup.h"
 #include "Game/Actor/actRideable.h"
 #include "KingSystem/ActorSystem/Profiles/actBullet.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actTag.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
@@ -26,19 +26,19 @@ void AreaActorObserveByGroup::m9() {
         mGroup = *mActorGroupForObserveTag_m;
 }
 
-bool AreaActorObserveByGroup::sub_710009E7AC(const ksys::act::ActorConstDataAccess& accessor) {
+bool AreaActorObserveByGroup::sub_710009E7AC(const ksys::act::ActorLinkConstDataAccess& accessor) {
     return accessor.hasTag(ksys::act::tags::Arrow);
 }
 
-bool AreaActorObserveByGroup::sub_710009E7C0(const ksys::act::ActorConstDataAccess& accessor) {
+bool AreaActorObserveByGroup::sub_710009E7C0(const ksys::act::ActorLinkConstDataAccess& accessor) {
     return accessor.isWeaponProfile();
 }
 
-bool AreaActorObserveByGroup::sub_710009E7C8(const ksys::act::ActorConstDataAccess& accessor) {
+bool AreaActorObserveByGroup::sub_710009E7C8(const ksys::act::ActorLinkConstDataAccess& accessor) {
     return accessor.sub_7100D0FEAC();
 }
 
-bool AreaActorObserveByGroup::sub_710009E7D0(const ksys::act::ActorConstDataAccess& accessor) {
+bool AreaActorObserveByGroup::sub_710009E7D0(const ksys::act::ActorLinkConstDataAccess& accessor) {
     auto* rideable = accessor.getHorseOptions();
     if (!rideable)
         return false;
@@ -57,7 +57,7 @@ bool AreaActorObserveByGroup::sub_710009E7D0(const ksys::act::ActorConstDataAcce
     }
 }
 
-bool AreaActorObserveByGroup::sub_710009E848(const ksys::act::ActorConstDataAccess& accessor) {
+bool AreaActorObserveByGroup::sub_710009E848(const ksys::act::ActorLinkConstDataAccess& accessor) {
     ksys::act::acc::Bullet bullet;
     bullet.acquireActor(accessor);
     return !bullet.isHold() && bullet.isFittingOrShootingArrow();
@@ -67,7 +67,7 @@ void AreaActorObserveByGroup::m32() {
     getMapUnitParam(&mActorGroupForObserveTag_m, "ActorGroupForObserveTag");
 }
 
-bool AreaActorObserveByGroup::m37(const ksys::act::ActorConstDataAccess& accessor) {
+bool AreaActorObserveByGroup::m37(const ksys::act::ActorLinkConstDataAccess& accessor) {
     if (u32(mGroup) > 4)
         return false;
     return mFilters[mGroup](accessor);

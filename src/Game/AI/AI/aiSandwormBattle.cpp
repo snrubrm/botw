@@ -52,7 +52,7 @@ void SandwormBattle::sub_7100557504() {
 }
 
 void SandwormBattle::getTargetPos(sead::Vector3f* out) {
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     auto* link = sub_71005D9050(mActor);
     ksys::act::acquireActor(link ? link : &ksys::act::getDummyBaseProcLink(), &accessor);
     accessor.getActorMtx().getTranslation(*out);

@@ -3,7 +3,7 @@
 #include "Game/UI/uiUtils.h"
 #include "Game/AI/aiUnk_710073BB28.h"
 #include "KingSystem/ActorSystem/Attention/actAttentionSingleton.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/Utils/MathUtil.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 
@@ -60,7 +60,7 @@ bool PlayerClimb::sub_7100829F70() {
     case 27: {
         ksys::act::BaseProcLink link;
         ksys::act::Attention::instance()->sub_7100D747D8(&link);
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&link, &accessor);
         ui::showCannotPickupBuyAnyMoreMessageMaybe(accessor.getName(), false);
         sub_710073BADC();

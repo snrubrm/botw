@@ -2,7 +2,7 @@
 #include <math/seadMathCalcCommon.h>
 #include <thread/seadCriticalSection.h>
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 
@@ -53,7 +53,7 @@ void LeadToTarget::calc_() {
         if (!isFinished() && !isFailed()) {
             bool ahead_check = true;
             {
-                ksys::act::ActorConstDataAccess accessor;
+                ksys::act::ActorLinkConstDataAccess accessor;
                 if (ksys::act::acquireActor(mLeaderActor_d, &accessor)) {
                     const auto& leader_mtx = accessor.getActorMtx();
                     const f32 lx = leader_mtx.m[0][3];
@@ -69,7 +69,7 @@ void LeadToTarget::calc_() {
                 }
             }
             if (ahead_check && *mDontWaitIfLeaderIsAhead_s) {
-                ksys::act::ActorConstDataAccess accessor;
+                ksys::act::ActorLinkConstDataAccess accessor;
                 if (ksys::act::acquireActor(mLeaderActor_d, &accessor)) {
                     const auto& leader_mtx = accessor.getActorMtx();
                     const f32 ax = mActor->getMtx().m[0][3];
@@ -92,7 +92,7 @@ void LeadToTarget::calc_() {
     } else if (isCurrentChild("誘導") || isCurrentChild("誘導(騎乗)")) {
         bool near_leader = true;
         {
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             if (ksys::act::acquireActor(mLeaderActor_d, &accessor)) {
                 const auto& leader_mtx = accessor.getActorMtx();
                 const f32 lx = leader_mtx.m[0][3];
@@ -116,7 +116,7 @@ void LeadToTarget::calc_() {
         } else if (!*mDontWaitIfLeaderIsAhead_s) {
             changeToWait();
         } else {
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             if (ksys::act::acquireActor(mLeaderActor_d, &accessor)) {
                 const auto& leader_mtx = accessor.getActorMtx();
                 const f32 ax = mActor->getMtx().m[0][3];
@@ -188,7 +188,7 @@ void LeadToTarget::loadParams_() {
 void LeadToTarget::sub_710047FE18() {
     ksys::act::ai::InlineParamPack params;
     params.addVec3(*mTargetPos_d, "TargetPos", -1);
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (ksys::act::acquireActor(mLeaderActor_d, &accessor)) {
         if (accessor.sub_7100D12E64())
             changeChild("誘導(騎乗)", &params);

@@ -1,6 +1,6 @@
 #include "Game/AI/AI/aiWaitPartsSleep.h"
 #include "Game/Actor/actEnemy.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 
 namespace uking::ai {
 
@@ -32,7 +32,7 @@ void WaitPartsSleep::calc_() {
             child->setFailed();
     } else if (child->isChangeable()) {
         if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             for (auto* part : enemy->_1128.mList) {
                 ksys::act::acquireActor(&part->mLink, &accessor);
                 if (accessor.isStateCalc())

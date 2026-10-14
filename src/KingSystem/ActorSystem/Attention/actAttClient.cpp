@@ -5,7 +5,7 @@
 #include <random/seadGlobalRandom.h>
 #include "KingSystem/ActorSystem/Attention/actAttentionSingleton.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/Resource/Actor/resResourceAttCheck.h"
 #include "KingSystem/System/CameraMgr.h"
 
@@ -55,7 +55,7 @@ f32 AttClient::sub_7100D72660() {
 
     f32 result = -1.0f;
     if (mClient && client && mActor) {
-        ActorConstDataAccess accessor;
+        ActorLinkConstDataAccess accessor;
         result = client->checkM6(accessor, mActor->getScale());
     }
     return result;
@@ -161,7 +161,7 @@ bool AttClient::sub_7100D72554(BaseProc* proc, const res::AttCheck_Unk1* arg, bo
         return diff.squaredLength() < 900.0f;
     }
     default: {
-        ActorConstDataAccess accessor{proc};
+        ActorLinkConstDataAccess accessor{proc};
         return mClient->client->check(mActor, accessor, _38, _48, arg, a3, false) == -1;
     }
     }
@@ -172,7 +172,7 @@ bool AttClient::sub_7100D72554(BaseProc* proc, const res::AttCheck_Unk1* arg, bo
 namespace ksys::act {
 
 // NON_MATCHING: facing sign selection and interpolation field-load scheduling.
-f32 AttClient::sub_7100D729FC(const ActorConstDataAccess& accessor) const {
+f32 AttClient::sub_7100D729FC(const ActorLinkConstDataAccess& accessor) const {
     if (!mClient || !mClient->client || !mActor)
         return -1.0f;
 

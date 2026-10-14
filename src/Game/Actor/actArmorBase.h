@@ -7,7 +7,7 @@
 #include <thread/seadCriticalSection.h>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorBind.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/ActorSystem/actModelBindInfo.h"
 
@@ -145,7 +145,7 @@ namespace ksys::act::acc {
 // act::acc::getArmorEffect*). Each getter reads the value from the actor's GeneralParamList (ArmorBase / Actor with
 // a valid param) or, for a dummy param, from the actor info byml (InfoData) by actor name; the Vector3f getters and
 // getArmorMaterialAnmFrameMaybe need an ArmorBase. Placeholder class name.
-class Armor : public ActorConstDataAccess {
+class Armor : public ActorLinkConstDataAccess {
 public:
     // 0x7100e2bcc4
     int getArmorDefenceAddLevel() const;

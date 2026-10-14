@@ -3,7 +3,7 @@
 #include "Game/AI/aiUnk_71007368A4.h"
 #include "Game/Damage/dmgDamageManager.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
@@ -229,7 +229,7 @@ void SiteBoss::x_2(Enemy* boss, ksys::act::Actor* sender) {
         auto& link = part->mLink;
         if (!link.hasProc())
             continue;
-        ksys::act::ActorConstDataAccess acc;
+        ksys::act::ActorLinkConstDataAccess acc;
         ksys::act::acquireActor(&link, &acc);
         sender->sendMessage(*acc.getMessageTransceiverId(), ksys::MessageType(0x800002f), nullptr, true);
     }
@@ -242,7 +242,7 @@ void SiteBoss::sub_71002D3498(Enemy* boss, ksys::act::Actor* sender) {
         auto& link = part->mLink;
         if (!link.hasProc())
             continue;
-        ksys::act::ActorConstDataAccess acc;
+        ksys::act::ActorLinkConstDataAccess acc;
         ksys::act::acquireActor(&link, &acc);
         if (acc.isStateCalc())
             sender->sendMessage(*acc.getMessageTransceiverId(), ksys::MessageType(0x8000030), nullptr, true);
@@ -254,7 +254,7 @@ void SiteBoss::sub_71002D355C(Enemy* boss, ksys::act::Actor* sender, const sead:
         return;
     if (!boss->getActorPartsActor(part).hasProc())
         return;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(&boss->getActorPartsActor(part), &accessor);
     if (accessor.isStateSleep()) {
         accessor.setProperties(boss->getMtx(), nullptr, nullptr, nullptr, false, 0, -1);
@@ -268,7 +268,7 @@ void SiteBoss::sub_71002D3624(SiteBoss* boss, const sead::SafeString& part) {
         return;
     if (!boss->_1128.getActorPartsActor(part).hasProc())
         return;
-    ksys::act::ActorConstDataAccess acc;
+    ksys::act::ActorLinkConstDataAccess acc;
     ksys::act::acquireActor(&boss->_1128.getActorPartsActor(part), &acc);
     boss->sendMessage(*acc.getMessageTransceiverId(), ksys::MessageType(0x8000004), nullptr, true);
 }
@@ -279,13 +279,13 @@ bool SiteBoss::sub_71002D3804(ksys::act::Actor* actor, const sead::SafeString& p
         return false;
     if (!boss->_1128.getActorPartsActor(part).hasProc())
         return false;
-    ksys::act::ActorConstDataAccess acc;
+    ksys::act::ActorLinkConstDataAccess acc;
     ksys::act::acquireActor(&boss->_1128.getActorPartsActor(part), &acc);
     return acc.isStateCalc();
 }
 
 namespace {
-// Same shape as getProcIfActor in actActorConstDataAccess.cpp (the original inlines ActorConstDataAccess::getActor()).
+// Same shape as getProcIfActor in actActorLinkConstDataAccess.cpp (the original inlines ActorLinkConstDataAccess::getActor()).
 ksys::act::BaseProc* getProcIfActor(ksys::act::BaseProc* proc) {
     if (proc && sead::IsDerivedFrom<ksys::act::Actor>(proc))
         return proc;
@@ -294,13 +294,13 @@ ksys::act::BaseProc* getProcIfActor(ksys::act::BaseProc* proc) {
 }  // namespace
 
 // 0x71002d3b20 (placeholder name): the accessor's proc as a SiteBoss (Actor check, then SiteBoss).
-SiteBoss* SiteBoss::sub_71002D3B20(const ksys::act::ActorConstDataAccess& accessor) {
+SiteBoss* SiteBoss::sub_71002D3B20(const ksys::act::ActorLinkConstDataAccess& accessor) {
     auto* actor = static_cast<ksys::act::Actor*>(getProcIfActor(accessor.getProc()));
     return sead::DynamicCast<SiteBoss>(actor);
 }
 
 // 0x71002d3a68 (placeholder name): the accessor's SiteBoss has a damage manager with pending damage.
-bool SiteBoss::sub_71002D3A68(const ksys::act::ActorConstDataAccess& accessor) {
+bool SiteBoss::sub_71002D3A68(const ksys::act::ActorLinkConstDataAccess& accessor) {
     auto* boss = sub_71002D3B20(accessor);
     if (!boss)
         return false;
@@ -311,7 +311,7 @@ bool SiteBoss::sub_71002D3A68(const ksys::act::ActorConstDataAccess& accessor) {
 }
 
 // 0x71002d3c14 (placeholder name): bit 9 of _14c8._30 of the accessor's SiteBoss.
-bool SiteBoss::sub_71002D3C14(const ksys::act::ActorConstDataAccess& accessor) {
+bool SiteBoss::sub_71002D3C14(const ksys::act::ActorLinkConstDataAccess& accessor) {
     auto* boss = sub_71002D3B20(accessor);
     return boss && boss->_14c8._30.isOnBit(9);
 }

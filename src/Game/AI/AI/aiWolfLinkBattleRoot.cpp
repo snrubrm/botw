@@ -3,7 +3,7 @@
 #include "Game/Actor/actWolfLink.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
@@ -90,7 +90,7 @@ bool WolfLinkBattleRoot::sub_7100602CCC() {
     s32 life = 0;
     {
         const auto& link = _60->_c48._8;
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         if (link.hasProc() && ksys::act::acquireActor(&link, &accessor))
             life = accessor.getLife();
     }

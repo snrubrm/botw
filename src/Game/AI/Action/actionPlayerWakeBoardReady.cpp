@@ -1,6 +1,6 @@
 #include "Game/AI/Action/actionPlayerWakeBoardReady.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayer.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actUnk_71024ef620.h"
 
 namespace uking::action {
@@ -14,7 +14,7 @@ void PlayerWakeBoardReady::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
     static_cast<ksys::act::Player*>(mActor)->switchToAnimSequenceMaybe("WakeBoarding", true, -1);
     if (!mActor->getConnectedCalcChild()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&static_cast<ksys::act::Player*>(mActor)->_2c38, &accessor);
         accessor.setThisActorAsChild(mActor, false);
         static_cast<ksys::act::Player*>(mActor)->_1870->_c0->_8 = mActor;

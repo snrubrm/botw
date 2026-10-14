@@ -1,7 +1,7 @@
 #include "Game/AI/Action/actionPriestBossClonesSpawn.h"
 #include "Game/AI/aiUnk_7102450fa8.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 
 namespace uking::action {
 
@@ -49,7 +49,7 @@ void PriestBossClonesSpawn::calc_() {
 void PriestBossClonesSpawn::sub_71002218D8() {
     if (_d8)
         return;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (sub_71000664E4()) {
         if (sub_71000664E4()->sub_71007194CC(&accessor)) {
             auto* actor = mActor;

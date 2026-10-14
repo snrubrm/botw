@@ -26,7 +26,7 @@
 #include "Game/gameUnk_71024739d0.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/Attention/actAttentionSingleton.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actChemical.h"
@@ -42,9 +42,9 @@
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
 void sub_7100D2D424(uking::dmg::DamageManagerBase* manager);
-bool sub_71002EFEC0(const ksys::act::ActorConstDataAccess& accessor);
-f32 sub_71002F000C(const ksys::act::ActorConstDataAccess& accessor);
-f32 sub_71002F034C(const ksys::act::ActorConstDataAccess& accessor);
+bool sub_71002EFEC0(const ksys::act::ActorLinkConstDataAccess& accessor);
+f32 sub_71002F000C(const ksys::act::ActorLinkConstDataAccess& accessor);
+f32 sub_71002F034C(const ksys::act::ActorLinkConstDataAccess& accessor);
 s32 sub_7100A95214();
 bool sub_710084BD40(ksys::act::Actor* actor);
 ksys::act::ActorAtk::Unk_710079e64c::Unk1* sub_710084BE2C(ksys::act::Actor* actor);
@@ -187,7 +187,7 @@ bool Player::sub_710086CA68() {
 // Placeholder name; static (no `this`), the second half of 0x710086c928 inlines the same code.
 bool Player::sub_710086C9E0() {
     auto* attention = Attention::instance();
-    ActorConstDataAccess accessor;
+    ActorLinkConstDataAccess accessor;
     bool result = false;
     if (!attention->sub_7100D742E8(1)) {
         if (attention->x_0(1, 0, &accessor) && accessor.getEnemyRank() != 0)
@@ -240,7 +240,7 @@ Actor* Player::m276(int idx) {
     return sead::DynamicCast<Actor>(_23e0.getPartsLink(idx).getProc(nullptr, nullptr));
 }
 
-void Player::m277(ActorConstDataAccess* accessor, int idx) {
+void Player::m277(ActorLinkConstDataAccess* accessor, int idx) {
     acquireActor(&_23e0.getPartsLink(idx), accessor);
 }
 
@@ -275,13 +275,13 @@ const sead::Vector3f* Player::m245() {
     return &_21b8.mPos;
 }
 
-bool Player::isRevivalFairyActive(ActorConstDataAccess* accessor) {
+bool Player::isRevivalFairyActive(ActorLinkConstDataAccess* accessor) {
     if (acquireActor(&_2c48, accessor) && accessor->isStateCalc())
         return true;
     return false;
 }
 
-bool Player::isZoraHeroActive(ActorConstDataAccess* accessor) {
+bool Player::isZoraHeroActive(ActorLinkConstDataAccess* accessor) {
     if (acquireActor(&_2c88, accessor) && accessor->isStateCalc())
         return true;
     return false;
@@ -649,7 +649,7 @@ bool Player::m261(f32* out) {
 }
 
 bool Player::isMasterSwordEquipped_() {
-    ActorConstDataAccess accessor;
+    ActorLinkConstDataAccess accessor;
     const s32 slot = playerWeapons_return0();
     auto& link = getWeapons()->mWeapons[slot].link;
     if (!link.hasProc())
@@ -663,7 +663,7 @@ bool Player::isMasterSwordEquipped_() {
 bool Player::m227() {
     if (_d24 != 1)
         return false;
-    ActorConstDataAccess accessor;
+    ActorLinkConstDataAccess accessor;
     const s32 slot = playerWeapons_return0();
     auto& link = getWeapons()->mWeapons[slot].link;
     if (link.hasProc())
@@ -815,7 +815,7 @@ s32 Player::m298(int a1) {
 }
 
 s32 Player::m291() {
-    ActorConstDataAccess accessor;
+    ActorLinkConstDataAccess accessor;
     s32 result = 0;
     if (acquireActor(&getPlayerRideInfo()->_18, &accessor))
         result = s32(accessor.sub_7100D14598());
@@ -1096,7 +1096,7 @@ Player::Unk1 Player::sub_71008569B8() {
     f32 x = sead::Vector3f::zero.x;
     f32 z = sead::Vector3f::zero.z;
     if (!Attention::instance()->sub_7100D742E8(1)) {
-        ActorConstDataAccess accessor;
+        ActorLinkConstDataAccess accessor;
         Attention::instance()->x_0(1, 0, &accessor);
         const auto& pos = accessor.getPreviousPos2();
         x = pos.x;
@@ -1388,7 +1388,7 @@ f32 Player::m248() {
 }
 
 f32 Player::m301() {
-    ActorConstDataAccess accessor;
+    ActorLinkConstDataAccess accessor;
     auto& link = getWeapons()->mWeapons[2].link;
     if (link.hasProc())
         acquireActor(&link, &accessor);
@@ -1402,7 +1402,7 @@ f32 Player::m301() {
 }
 
 bool Player::m304() {
-    ActorConstDataAccess accessor;
+    ActorLinkConstDataAccess accessor;
     const s32 slot = playerWeapons_return0();
     auto& link = getWeapons()->mWeapons[slot].link;
     if (!link.hasProc())
@@ -1414,7 +1414,7 @@ bool Player::m304() {
 }
 
 f32 Player::m305() {
-    ActorConstDataAccess accessor;
+    ActorLinkConstDataAccess accessor;
     const s32 slot = playerWeapons_return0();
     auto& link = getWeapons()->mWeapons[slot].link;
     if (!link.hasProc())
@@ -1515,7 +1515,7 @@ bool Player::sub_71008737E4(u32 a, u32 b) {
 }
 
 f32 Player::sub_7100883698() {
-    ActorConstDataAccess accessor;
+    ActorLinkConstDataAccess accessor;
     auto& link = getWeapons()->mWeapons[2].link;
     if (link.hasProc())
         acquireActor(&link, &accessor);

@@ -3,7 +3,7 @@
 #include <gsys/gsysModelUnit.h>
 #include <prim/seadSafeString.h>
 #include "Game/Actor/actEnemy.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 
 namespace uking::ai {
 
@@ -26,7 +26,7 @@ void LastBossShootGaleArrowRoot::enter_(ksys::act::ai::InlineParamPack* params) 
         return;
 
     sead::FormatFixedSafeString<32> name("%s%d", mPartsName_s.cstr(), _a0);
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(&enemy->getActorPartsActor(name), &accessor);
     if (!accessor.hasProc())
         return;
@@ -67,7 +67,7 @@ void LastBossShootGaleArrowRoot::leave_() {
     if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
         sead::FormatFixedSafeString<32> name("%s%d", mPartsName_s.cstr(), _a0);
         if (enemy->getActorPartsActor(name).hasProcInCalcState()) {
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             ksys::act::acquireActor(&enemy->getActorPartsActor(name), &accessor);
             accessor.sleep(ksys::act::BaseProc::SleepWakeReason::_0);
         }

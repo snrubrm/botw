@@ -3,7 +3,7 @@
 #include <math/seadQuat.h>
 #include "Game/gameSceneSubsysMisc.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
@@ -62,11 +62,11 @@ void MagneGearGrabbed::sub_71001E4DDC() {
     auto* actor = mActor;
     const sead::Vector3f position = actor->getMtx().getTranslation();
     s32 index = 0;
-    ksys::act::ActorConstDataAccess closest;
+    ksys::act::ActorLinkConstDataAccess closest;
     if (auto* object = ksys::act::findLinkReferenceObj(actor, "MagneGearAcceptor", "", &index)) {
         f32 closest_sq_distance = std::numeric_limits<f32>::max();
         do {
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             object->getActorWithAccessor(accessor);
             const f32 sq_distance = (accessor.getActorMtx().getTranslation() - position).squaredLength();
             if (sq_distance < closest_sq_distance) {

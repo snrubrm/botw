@@ -1,6 +1,6 @@
 #include "Game/Actor/actCamera.h"
 #include "Game/Actor/actCameraUtil.h"
-#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
+#include "KingSystem/ActorSystem/actBaseProcAccessor.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/System/CameraMgr.h"
 #include "Game/gameUnkRttiPlaceholders.h"
@@ -17,14 +17,14 @@ const sead::Viewport* sub_710092DAD0() {
     return nullptr;
 }
 
-void sub_710092DAE8(ksys::act::ActorLinkConstDataAccess* accessor) {
+void sub_710092DAE8(ksys::act::BaseProcAccessor* accessor) {
     if (!accessor)
         return;
     if (auto* root = uking::act::Root6::instance())
         root->sub_7100927198(accessor);
 }
 
-void getRoot6SomeActor(ksys::act::ActorLinkConstDataAccess* accessor) {
+void getRoot6SomeActor(ksys::act::BaseProcAccessor* accessor) {
     if (!accessor)
         return;
     if (auto* root = uking::act::Root6::instance())

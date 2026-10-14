@@ -2,7 +2,7 @@
 #include <math/seadMathCalcCommon.h>
 #include <random/seadGlobalRandom.h>
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
@@ -10,7 +10,7 @@
 namespace uking::ai {
 
 void FishGoToAndNibble::changeToFinalMove() {
-    ksys::act::ActorConstDataAccess target;
+    ksys::act::ActorLinkConstDataAccess target;
     if (ksys::act::acquireActor(mTargetActor_d, &target)) {
         _70 = mActor->getMtx().getTranslation();
         sead::Vector3f position;
@@ -24,7 +24,7 @@ void FishGoToAndNibble::changeToFinalMove() {
 }
 
 void FishGoToAndNibble::changeToMove() {
-    ksys::act::ActorConstDataAccess target;
+    ksys::act::ActorLinkConstDataAccess target;
     if (ksys::act::acquireActor(mTargetActor_d, &target)) {
         sead::Vector3f position;
         target.getActorMtx().getTranslation(position);
@@ -64,7 +64,7 @@ bool FishGoToAndNibble::init_(sead::Heap* heap) {
 // the min/max copy in integer registers and interleaves the _a0 loads; the math is the same)
 void FishGoToAndNibble::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::InlineParamPack pack;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (ksys::act::acquireActor(mTargetActor_d, &accessor)) {
         _88 = accessor.sub_7100D0FD54();
         const f32 half_x = (_88.getMax().x - _88.getMin().x) * 0.5f;
@@ -121,7 +121,7 @@ void FishGoToAndNibble::calc_() {
     }
 
     if (isCurrentChild("移動")) {
-        ksys::act::ActorConstDataAccess target;
+        ksys::act::ActorLinkConstDataAccess target;
         if (!ksys::act::acquireActor(mTargetActor_d, &target)) {
             setFailed();
             return;
@@ -135,7 +135,7 @@ void FishGoToAndNibble::calc_() {
         else
             child->setDynamicParam(position, "TargetPos");
     } else if (isCurrentChild("前進")) {
-        ksys::act::ActorConstDataAccess target;
+        ksys::act::ActorLinkConstDataAccess target;
         if (!ksys::act::acquireActor(mTargetActor_d, &target)) {
             setFailed();
             return;
@@ -144,7 +144,7 @@ void FishGoToAndNibble::calc_() {
         target.getActorMtx().getTranslation(position);
         child->setDynamicParam(position, "TargetPos");
         if ((position - mActor->getMtx().getTranslation()).squaredLength() <= _b8 * _b8) {
-            ksys::act::ActorConstDataAccess food;
+            ksys::act::ActorLinkConstDataAccess food;
             if (!ksys::act::acquireActor(mTargetActor_d, &food)) {
                 setFailed();
                 return;

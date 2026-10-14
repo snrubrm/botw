@@ -15,7 +15,7 @@
 
 namespace ksys::act {
 class Actor;
-class ActorConstDataAccess;
+class ActorLinkConstDataAccess;
 }  // namespace ksys::act
 
 namespace ksys::res {
@@ -41,12 +41,12 @@ public:
     // 0x71010945d4 (CSV res::AttClient::checkM4) / 0x7101094768 (CSV res::AttClient::checkM6): call AttCheck::m4 for every
     // check with its matrix of `mtxs`; the maximum of AttCheck::m6 over the checks (-1 without checks).
     void checkM4(act::Actor* actor, sead::Buffer<sead::Matrix34f>& mtxs) const;
-    float checkM6(const act::ActorConstDataAccess& accessor, const sead::Vector3f& scale) const;
+    float checkM6(const act::ActorLinkConstDataAccess& accessor, const sead::Vector3f& scale) const;
 
     // 0x7101094670 (CSV res::AttClient::check): runs every check with the matching matrix of
     // `mtxs`; returns the index of the first failing check, -1 if all pass, -2 if `mtxs` is too
     // small.
-    int check(act::Actor* actor, const act::ActorConstDataAccess& accessor,
+    int check(act::Actor* actor, const act::ActorLinkConstDataAccess& accessor,
               const sead::Buffer<sead::Matrix34f>& mtxs, const sead::Vector3f& pos,
               const AttCheck_Unk1* arg, bool a6, bool a7) const;
 

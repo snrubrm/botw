@@ -1,7 +1,7 @@
 #include "Game/AI/AI/aiReuseBulletPartsRoot.h"
 #include "KingSystem/ActorSystem/LOD/actLodState.h"
 #include "KingSystem/ActorSystem/Profiles/actBullet.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
 #include "KingSystem/ActorSystem/actChemical.h"
@@ -86,7 +86,7 @@ void ReuseBulletPartsRoot::sub_7100551DAC() {
         return;
     }
 
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(link, &accessor);
     if (accessor.isDeletedOrDeleting())
         mActor->deleteLater(ksys::act::BaseProc::DeleteReason::_0);

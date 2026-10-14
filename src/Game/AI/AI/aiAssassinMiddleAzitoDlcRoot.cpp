@@ -1,7 +1,7 @@
 #include "Game/AI/AI/aiAssassinMiddleAzitoDlcRoot.h"
 #include <prim/seadSafeString.h>
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/GameData/gdtManager.h"
 #include "KingSystem/Utils/InitTimeInfo.h"
 
@@ -54,7 +54,7 @@ bool Unk_71023d8428::m2(ksys::act::Unk_71024dc978* entry) {
     auto* target = sead::DynamicCast<ksys::act::Unk_71024dc858>(entry);
     if (!target)
         return false;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(&target->mLink, &accessor);
     return accessor.getName().findIndex("DgnObj_RemainsLithograghBall_AoC") != -1;
 }

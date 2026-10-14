@@ -1,6 +1,6 @@
 #include "Game/AI/Action/actionAreaObserveActorAction.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 
 namespace uking::action {
 
@@ -27,7 +27,7 @@ void AreaObserveActorAction::m32() {
         mActor->setFlag(ksys::act::Actor::ActorFlag::_1c, *mForceCalcInEvent_m);
 }
 
-bool AreaObserveActorAction::m37(const ksys::act::ActorConstDataAccess& accessor) {
+bool AreaObserveActorAction::m37(const ksys::act::ActorLinkConstDataAccess& accessor) {
     if (!accessor.hasProc())
         return false;
 

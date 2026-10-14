@@ -2,7 +2,7 @@
 #include <cmath>
 #include <limits>
 #include "Game/AI/aiUnk_71005D6D10.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
@@ -19,7 +19,7 @@ bool NeckRotateToPlayerAndNPC::m6(sead::Heap* heap) {
     return true;
 }
 
-// NON_MATCHING: instruction scheduling only: the original stores the three bytes / pointers of the ActorConstDataAccess together
+// NON_MATCHING: instruction scheduling only: the original stores the three bytes / pointers of the ActorLinkConstDataAccess together
 // before the acquireActor call, and loads `mLimitAngle_s` between the dot product's multiplies (we load it before them)
 void NeckRotateToPlayerAndNPC::sub_710062D70C() {
     if (auto* awareness = mActor->getAwareness()) {
@@ -42,7 +42,7 @@ void NeckRotateToPlayerAndNPC::sub_710062D70C() {
             if (limit_distance >= 0 && entry->_a8 > limit_distance)
                 break;
 
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             if (ksys::act::acquireActor(&entry->_0.mLink, &accessor) &&
                 (ksys::act::isPlayerProfile(accessor) || ksys::act::isNPCProfile(accessor))) {
                 sead::Vector3f actor_pos;
@@ -70,7 +70,7 @@ void NeckRotateToPlayerAndNPC::m7() {
     }
 
     if (_48.hasProc()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&_48, &accessor);
         sub_71005DB068(mActor, accessor.getPreviousPos2());
     } else {

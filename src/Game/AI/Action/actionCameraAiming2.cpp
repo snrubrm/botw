@@ -42,7 +42,7 @@ void CameraAiming2::m33() {
     sub_7100926A50(&player);
     if (!player.hasProc())
         return;
-    ksys::act::ActorConstDataAccess target;
+    ksys::act::ActorLinkConstDataAccess target;
     if (sub_7100926D24()) {
         sub_7100926A9C(&target);
     } else if (player.m193()) {
@@ -114,15 +114,15 @@ void CameraAiming2::m34() {
     sub_7100924BE4(&player);
     if (!player.hasProc())
         return;
-    ksys::act::ActorConstDataAccess target;
+    ksys::act::ActorLinkConstDataAccess target;
     target.acquireActor(player);
     if (sub_7100926D24()) {
-        ksys::act::ActorConstDataAccess horse;
+        ksys::act::ActorLinkConstDataAccess horse;
         sub_7100926A9C(&horse);
         if (horse.hasProc())
             target.acquireActor(horse);
     } else if (player.m193()) {
-        ksys::act::ActorConstDataAccess parent;
+        ksys::act::ActorLinkConstDataAccess parent;
         player.acquireConnectedCalcParent(&parent);
         // Native 74F2CC / 74F2E0 repeat the acquisition after checking the first result.
         if (parent.hasProc())
@@ -383,7 +383,7 @@ void CameraAiming2::sub_710074FDF0(sead::Vector3f* out) {
         ksys::act::acc::PlayerBase player;
         sub_7100926A50(&player);
         if (player.m193()) {
-            ksys::act::ActorConstDataAccess parent;
+            ksys::act::ActorLinkConstDataAccess parent;
             player.acquireConnectedCalcParent(&parent);
             parent.getActorMtx().getTranslation(*out);
         }

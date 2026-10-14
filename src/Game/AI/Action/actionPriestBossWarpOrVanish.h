@@ -3,7 +3,7 @@
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace ksys::act {
-class ActorConstDataAccess;
+class ActorLinkConstDataAccess;
 }
 
 namespace uking::action {
@@ -23,7 +23,7 @@ protected:
     void calc_() override;
 
     // 0x710022134c (placeholder name): Unk_7102450fa8::sub_71007194D4 on the meta AI unit.
-    bool sub_710022134C(int idx, ksys::act::ActorConstDataAccess* accessor);
+    bool sub_710022134C(int idx, ksys::act::ActorLinkConstDataAccess* accessor);
 
     // aitree_variable at offset 0x20
     void* mPriestBossMetaAIUnit_a{};

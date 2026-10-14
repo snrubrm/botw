@@ -1,6 +1,6 @@
 #include "Game/AI/AI/aiStoneStickRoot.h"
 #include "Game/gameGearMgr.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actTag.h"
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/ActorSystem/actActor.h"
@@ -14,7 +14,7 @@
 namespace uking::ai {
 
 // 0x71005abeec
-bool Unk_71024257f8::invoke(const ksys::act::ActorConstDataAccess& accessor) {
+bool Unk_71024257f8::invoke(const ksys::act::ActorLinkConstDataAccess& accessor) {
     return accessor.hasTag(mTag);
 }
 
@@ -71,7 +71,7 @@ void StoneStickRoot::enter_(ksys::act::ai::InlineParamPack*) {
 bool StoneStickRoot::sub_71005AB83C() {
     sead::Vector3f fixed_position;
     fixed_position.setMul(mActor->getMtx(), *mFixPoint_s);
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     bool near = false;
     if (_50) {
         _50->getActorWithAccessor(accessor);

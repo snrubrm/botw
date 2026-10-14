@@ -227,7 +227,7 @@ public:
     // 0x7100fbe7f0: CharacterControllerParam::findFormIdx(name) of the param data's character
     // controller param (`_18->_58`), or -1. Placeholder name (declaration only).
     s32 sub_7100FBE7F0(const sead::SafeString& name) const;
-    // Read inline by ActorConstDataAccess::sub_7100D10448 (index clamped like a sead::SafeArray)
+    // Read inline by ActorLinkConstDataAccess::sub_7100D10448 (index clamped like a sead::SafeArray)
     // and MagneShaftRoot::m51.
     SystemGroupHandler* get178(s32 idx) const { return _178[idx]; }
     // Read inline (DisableCloth behavior); null if the actor has no cloth.

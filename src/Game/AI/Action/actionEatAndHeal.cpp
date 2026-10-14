@@ -3,7 +3,7 @@
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "Game/Actor/actWolfLink.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectCureItem.h"
 
@@ -20,7 +20,7 @@ bool EatAndHeal::init_(sead::Heap* heap) {
 void EatAndHeal::enter_(ksys::act::ai::InlineParamPack* params) {
     AnimalEatAction::enter_(params);
     auto* target = mTargetActor_d;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (!ksys::act::acquireActor(target, &accessor))
         setFailed();
     if (!ksys::act::hasTag(target, ksys::act::tags::CureItem))
@@ -42,7 +42,7 @@ void EatAndHeal::calc_() {
 // NON_MATCHING: the original keeps the timer index in a register across sub_71002F2E78 and converts it
 // in a stack slot above the accessor (as if from an inlined WolfLink helper)
 int EatAndHeal::m32() {
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (!ksys::act::acquireActor(mTargetActor_d, &accessor))
         return 0;
 

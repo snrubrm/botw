@@ -17,7 +17,7 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorChemicals.h"
 #include "KingSystem/ActorSystem/actDropMgr.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
 #include "KingSystem/ActorSystem/actPhysicsUserTag.h"
@@ -102,7 +102,7 @@ void sub_7100D36EE0(sead::Vector3f* out, ksys::act::Actor* actor) {
     result.getTranslation(*out);
 }
 
-bool sub_7100D36F90(sead::Vector3f* out, const ksys::act::ActorConstDataAccess& accessor) {
+bool sub_7100D36F90(sead::Vector3f* out, const ksys::act::ActorLinkConstDataAccess& accessor) {
     return accessor.sub_7100D11D14(out);
 }
 
@@ -153,7 +153,7 @@ bool sub_7100EE9CE8() {
 }
 
 // Source owner unknown: CameraEventMove supplies an acquired actor accessor.
-bool sub_7100EE1D34(const ksys::act::ActorConstDataAccess& accessor) {
+bool sub_7100EE1D34(const ksys::act::ActorLinkConstDataAccess& accessor) {
     return ksys::act::isTagProfileMaybe(accessor.getProfile());
 }
 
@@ -214,7 +214,7 @@ void sub_7100EE3CAC(Actor* actor, s32 message, void* user_data) {
     actor->sub_71011D8AFC(1, 3, message, user_data, nullptr);
 }
 
-void sub_7100EE7854(const ActorConstDataAccess& accessor, sead::BufferedSafeString* name,
+void sub_7100EE7854(const ActorLinkConstDataAccess& accessor, sead::BufferedSafeString* name,
                     sead::BufferedSafeString* unique_name) {
     getNameAndUniqueName(accessor.getMapObject(), name, unique_name);
 }
@@ -237,7 +237,7 @@ void Actor::createDrops(int, int) {
 }
 
 
-void findLinkedActor(ActorLinkConstDataAccess* accessor, Actor* actor,
+void findLinkedActor(BaseProcAccessor* accessor, Actor* actor,
                      const sead::SafeString& link_name) {
     if (actor) {
         if (auto* map = actor->getMapObject()) {
@@ -257,7 +257,7 @@ void findLinkedActor(ActorLinkConstDataAccess* accessor, Actor* actor,
 map::Object* findLinkReferenceObj(Actor* actor, const sead::SafeString& unit_config_name,
                                   const sead::SafeString& a3, int* idx) {
     if (actor) {
-        ActorConstDataAccess accessor{actor};
+        ActorLinkConstDataAccess accessor{actor};
         return acc::findLinkReferenceObj(accessor, unit_config_name, a3, idx);
     }
     if (idx)
@@ -267,21 +267,21 @@ map::Object* findLinkReferenceObj(Actor* actor, const sead::SafeString& unit_con
 
 map::Object* findLinkReferenceObj(BaseProcLink* link, const sead::SafeString& unit_config_name,
                                   const sead::SafeString& a3, int* idx) {
-    ActorConstDataAccess accessor;
+    ActorLinkConstDataAccess accessor;
     acquireActor(link, &accessor);
     return acc::findLinkReferenceObj(accessor, unit_config_name, a3, idx);
 }
 
 namespace {
 
-ActorConstDataAccess getAccessor(BaseProcLink* link) {
-    ActorConstDataAccess accessor;
+ActorLinkConstDataAccess getAccessor(BaseProcLink* link) {
+    ActorLinkConstDataAccess accessor;
     acquireActor(link, &accessor);
     return accessor;
 }
 
-ActorConstDataAccess getAccessor(Actor* actor) {
-    ActorConstDataAccess accessor{actor};
+ActorLinkConstDataAccess getAccessor(Actor* actor) {
+    ActorLinkConstDataAccess accessor{actor};
     return accessor;
 }
 
@@ -320,7 +320,7 @@ bool hasTag(BaseProcLink* link, const sead::SafeString& tag) {
     return hasTag(getAccessor(link), tag);
 }
 
-bool hasTag(const ActorConstDataAccess& accessor, const sead::SafeString& tag) {
+bool hasTag(const ActorLinkConstDataAccess& accessor, const sead::SafeString& tag) {
     return accessor.hasTag(tag.cstr());
 }
 
@@ -337,7 +337,7 @@ bool hasTag(BaseProcLink* link, u32 tag) {
     return hasTag(getAccessor(link), tag);
 }
 
-bool hasTag(const ActorConstDataAccess& accessor, u32 tag) {
+bool hasTag(const ActorLinkConstDataAccess& accessor, u32 tag) {
     return accessor.hasTag(tag);
 }
 
@@ -366,7 +366,7 @@ bool hasOneTagAtLeast(BaseProcLink* link, const sead::SafeString& tags) {
     return false;
 }
 
-bool hasOneTagAtLeast(const ActorConstDataAccess& accessor, const sead::SafeString& tags) {
+bool hasOneTagAtLeast(const ActorLinkConstDataAccess& accessor, const sead::SafeString& tags) {
     sead::FixedSafeString<32> tag;
     for (auto it = tags.tokenBegin(","); tags.tokenEnd(",") != it; ++it) {
         it.get(&tag);
@@ -529,7 +529,7 @@ ZukanType getZukanType(Actor* actor) {
     return ZukanType::Invalid;
 }
 
-static bool isProfile(const ActorConstDataAccess& accessor, const sead::SafeString& profile) {
+static bool isProfile(const ActorLinkConstDataAccess& accessor, const sead::SafeString& profile) {
     return accessor.hasProc() && accessor.getProfile() == profile;
 }
 
@@ -542,7 +542,7 @@ bool isTagProfileMaybe(Actor* actor) {
     return actor && isTagProfileMaybe(actor->getProfile());
 }
 
-bool isPlayerProfile(const ActorConstDataAccess& accessor) {
+bool isPlayerProfile(const ActorLinkConstDataAccess& accessor) {
     return isProfile(accessor, "Player");
 }
 
@@ -649,7 +649,7 @@ bool isCameraProfile(Actor* actor) {
     return isProfile(getAccessor(actor), "Camera");
 }
 
-bool isNPCProfile(const ActorConstDataAccess& accessor) {
+bool isNPCProfile(const ActorLinkConstDataAccess& accessor) {
     return isProfile(accessor, "NPC");
 }
 
@@ -677,7 +677,7 @@ bool isDemoNPCProfile(Actor* actor) {
     return isProfile(getAccessor(actor), "DemoNPC");
 }
 
-bool isEnemyProfile(const ActorConstDataAccess& accessor) {
+bool isEnemyProfile(const ActorLinkConstDataAccess& accessor) {
     if (!accessor.hasProc())
         return false;
 
@@ -706,7 +706,7 @@ bool isGuardianProfile(BaseProcLink* link) {
     return profile == "Guardian" || profile == "GuardianComponent";
 }
 
-bool isLargeEnemy(const ActorConstDataAccess& accessor) {
+bool isLargeEnemy(const ActorLinkConstDataAccess& accessor) {
     if (!accessor.hasProc())
         return false;
 
@@ -719,7 +719,7 @@ bool isLargeEnemy(Actor* actor) {
     return isLargeEnemy(getAccessor(actor));
 }
 
-bool isGanonBeast(const ActorConstDataAccess& accessor) {
+bool isGanonBeast(const ActorLinkConstDataAccess& accessor) {
     return accessor.hasProc() && accessor.getName() == "Enemy_GanonBeast";
 }
 
@@ -731,7 +731,7 @@ bool isNotLivingCreature(Actor* actor) {
     return isNotLivingCreature(getAccessor(actor));
 }
 
-bool isNotLivingCreature(const ActorConstDataAccess& accessor) {
+bool isNotLivingCreature(const ActorLinkConstDataAccess& accessor) {
     if (isPlayerProfile(accessor))
         return false;
     if (isNPCProfile(accessor))
@@ -749,7 +749,7 @@ bool isNotLivingCreature(BaseProcLink* link) {
     return isNotLivingCreature(getAccessor(link));
 }
 
-bool isWeaponProfile(const ActorConstDataAccess& accessor) {
+bool isWeaponProfile(const ActorLinkConstDataAccess& accessor) {
     if (!accessor.hasProc())
         return false;
     return isWeaponProfile(accessor.getName());
@@ -769,7 +769,7 @@ bool isWeaponProfile(BaseProcLink* link) {
     return isWeaponProfile(getAccessor(link));
 }
 
-bool isWeaponOrArmor(const ActorConstDataAccess& accessor) {
+bool isWeaponOrArmor(const ActorLinkConstDataAccess& accessor) {
     if (!accessor.hasProc())
         return false;
 
@@ -786,7 +786,7 @@ bool isWeaponOrArmor(Actor* actor) {
     return isWeaponOrArmor(getAccessor(actor));
 }
 
-bool isBulletProfile(const ActorConstDataAccess& accessor) {
+bool isBulletProfile(const ActorLinkConstDataAccess& accessor) {
     return isProfile(accessor, "Bullet");
 }
 
@@ -798,7 +798,7 @@ bool isBulletProfile(BaseProcLink* link) {
     return isBulletProfile(getAccessor(link));
 }
 
-bool isHorseProfile(const ActorConstDataAccess& accessor) {
+bool isHorseProfile(const ActorLinkConstDataAccess& accessor) {
     return isProfile(accessor, "Horse");
 }
 
@@ -819,7 +819,7 @@ bool isStalfosParts(BaseProcLink* link) {
     return accessor.hasProc() && accessor.hasTag(tags::StalfosParts);
 }
 
-bool isDoor(const ActorConstDataAccess& accessor) {
+bool isDoor(const ActorLinkConstDataAccess& accessor) {
     return accessor.hasProc() && accessor.hasTag(tags::Door);
 }
 
@@ -827,7 +827,7 @@ bool isDoor(BaseProcLink* link) {
     return isDoor(getAccessor(link));
 }
 
-bool isPreyOrSwarm(const ActorConstDataAccess& accessor) {
+bool isPreyOrSwarm(const ActorLinkConstDataAccess& accessor) {
     if (!accessor.hasProc())
         return false;
     const auto& profile = accessor.getProfile();
@@ -842,7 +842,7 @@ bool isPreyOrSwarm(BaseProcLink* link) {
     return isPreyOrSwarm(getAccessor(link));
 }
 
-bool isWolfOrBear(const ActorConstDataAccess& accessor) {
+bool isWolfOrBear(const ActorLinkConstDataAccess& accessor) {
     if (!accessor.hasProc())
         return false;
     return accessor.hasTag(tags::AnimalTypeWolf) || accessor.hasTag(tags::AnimalTypeBear);
@@ -866,7 +866,7 @@ bool isRope(BaseProcLink* link) {
     return accessor.hasProc() && accessor.isDerivedFrom<RopeBase>();
 }
 
-bool isRope(const ActorConstDataAccess& accessor) {
+bool isRope(const ActorLinkConstDataAccess& accessor) {
     return accessor.hasProc() && accessor.isDerivedFrom<RopeBase>();
 }
 
@@ -1255,7 +1255,7 @@ void sub_7100EE62B0(phys::RigidBody* body, const sead::Vector3f& ang_vel) {
     body->setAngularVelocity(ang_vel * 30.0f);
 }
 
-void getCollidedActorMaybe(ActorLinkConstDataAccess* accessor, phys::RigidBody* body) {
+void getCollidedActorMaybe(BaseProcAccessor* accessor, phys::RigidBody* body) {
     if (!body)
         return;
     auto* tag = body->getUserTag();
@@ -1266,7 +1266,7 @@ void getCollidedActorMaybe(ActorLinkConstDataAccess* accessor, phys::RigidBody* 
 }
 
 void sub_7100EE67B0(sead::Vector3f* pos, BaseProcLink* link) {
-    ActorConstDataAccess accessor;
+    ActorLinkConstDataAccess accessor;
     acquireActor(link, &accessor);
     accessor.getActorMtx().getTranslation(*pos);
 }
@@ -1358,7 +1358,7 @@ const AttClient* sub_7100EE3E2C(Actor* actor, const sead::SafeString& name) {
     return attention->getClientByName(name);
 }
 
-void sub_7100EEAC50(ActorLinkConstDataAccess* accessor, phys::RigidBody* body) {
+void sub_7100EEAC50(BaseProcAccessor* accessor, phys::RigidBody* body) {
     if (auto* tag = sead::DynamicCast<PhysicsUserTag>(body->getUserTag()))
         tag->acquireActor(accessor);
 }
@@ -1487,7 +1487,7 @@ bool Object::getForSaleLink() {
 namespace ksys::act {
 
 bool isAlive(BaseProcLink* link) {
-    ActorConstDataAccess accessor;
+    ActorLinkConstDataAccess accessor;
     acquireActor(link, &accessor);
     if (accessor.hasProc())
         return accessor.getLife() > 0;
@@ -1538,7 +1538,7 @@ bool attentionStuff(Actor* actor) {
     bool result = false;
     if (actor) {
         if (auto* attention = Attention::instance()) {
-            ActorConstDataAccess accessor;
+            ActorLinkConstDataAccess accessor;
             if (attention->x(&accessor))
                 result = accessor.hasProc(actor);
         }
@@ -1550,7 +1550,7 @@ bool attentionStuff_0(Actor* actor) {
     bool result = false;
     if (actor) {
         if (auto* attention = Attention::instance()) {
-            ActorConstDataAccess accessor;
+            ActorLinkConstDataAccess accessor;
             if (attention->sub_7100D7482C(&accessor))
                 result = accessor.hasProc(actor);
         }
@@ -1565,7 +1565,7 @@ bool sub_7100EE9A14(phys::RigidBody* body) {
     auto* user_tag = sead::DynamicCast<PhysicsUserTag>(tag);
     if (!user_tag)
         return false;
-    ActorConstDataAccess accessor;
+    ActorLinkConstDataAccess accessor;
     user_tag->acquireActor(&accessor);
     if (!accessor.hasProc() || !accessor.isPlayerProfile())
         return false;
@@ -1589,14 +1589,14 @@ ksys::map::Object* sub_7100EE5240(ksys::act::Actor* actor, const sead::SafeStrin
     auto& link = ksys::evt::sub_7100DC85D4(actor);
     if (!link.hasProc())
         return nullptr;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(&link, &accessor);
     return ksys::act::acc::findLinkReferenceObj(accessor, anchor, unique, nullptr);
 }
 
 // Source owner unknown; the full inventory consumers pass an actor accessor.
-bool sub_7100EE27B4(ksys::act::ActorLinkConstDataAccess* out,
-                   const ksys::act::ActorConstDataAccess& actor) {
+bool sub_7100EE27B4(ksys::act::BaseProcAccessor* out,
+                   const ksys::act::ActorLinkConstDataAccess& actor) {
     if (auto* links = actor.getMapObjectLinkData()) {
         if (auto* link = links->findLinkWithType(ksys::map::MapLinkDefType::ForSale))
             return link->getObjectProcWithAccessor(*out);
@@ -1605,7 +1605,7 @@ bool sub_7100EE27B4(ksys::act::ActorLinkConstDataAccess* out,
 }
 
 // Source owner unknown; AreaActor initialization and matrix queries use this helper.
-bool sub_7100EE3A88(ksys::act::ActorLinkConstDataAccess* out, ksys::act::Actor* actor) {
+bool sub_7100EE3A88(ksys::act::BaseProcAccessor* out, ksys::act::Actor* actor) {
     if (auto* object = actor->getMapObject()) {
         if (auto* links = object->getLinkData()) {
             if (auto* link = links->findLinkWithType(ksys::map::MapLinkDefType::SensorBlind))
@@ -1617,7 +1617,7 @@ bool sub_7100EE3A88(ksys::act::ActorLinkConstDataAccess* out, ksys::act::Actor* 
 
 // 0x7100ee2800 (unnamed in the CSV, global namespace; declaration in actActorUtil.h): acquires the actor of the "ForSale"
 // link of the actor's map object into `accessor` (an empty accessor if there is none).
-bool sub_7100EE2800(ksys::act::ActorLinkConstDataAccess* accessor, ksys::act::Actor* actor) {
+bool sub_7100EE2800(ksys::act::BaseProcAccessor* accessor, ksys::act::Actor* actor) {
     if (auto* object = actor->getMapObject()) {
         if (auto* links = object->getLinkData()) {
             if (auto* link = links->findLinkWithType(ksys::map::MapLinkDefType::ForSale))

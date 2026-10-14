@@ -1,5 +1,5 @@
 #include "Game/AI/Action/actionGanonChemicalPillarAttack.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "Game/Actor/actEnemy.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
@@ -16,7 +16,7 @@ GanonChemicalPillarAttack::~GanonChemicalPillarAttack() {
             for (s32 i = 0; i <= *mPillarNum_s; ++i) {
                 const sead::FormatFixedSafeString<64> name("IronPile%d", i);
                 if (enemy->getActorPartsActor(name).hasProc()) {
-                    ksys::act::ActorConstDataAccess accessor;
+                    ksys::act::ActorLinkConstDataAccess accessor;
                     ksys::act::acquireActor(&enemy->getActorPartsActor(name), &accessor);
                     accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
                 }
@@ -35,7 +35,7 @@ s32 GanonChemicalPillarAttack::sub_71001788F4() {
         for (u32 i = start; i < 19; ++i) {
             const sead::FormatFixedSafeString<64> name("IronPile%d", i);
             if (enemy->getActorPartsActor(name).hasProc()) {
-                ksys::act::ActorConstDataAccess accessor;
+                ksys::act::ActorLinkConstDataAccess accessor;
                 ksys::act::acquireActor(&enemy->getActorPartsActor(name), &accessor);
                 if (accessor.sub_7100D13BB8()) {
                     const sead::Vector3f diff =
@@ -56,7 +56,7 @@ bool GanonChemicalPillarAttack::sub_7100178AA0() {
         for (u32 i = 0; i < 19; ++i) {
             const sead::FormatFixedSafeString<64> name("IronPile%d", i);
             if (enemy->getActorPartsActor(name).hasProc()) {
-                ksys::act::ActorConstDataAccess accessor;
+                ksys::act::ActorLinkConstDataAccess accessor;
                 ksys::act::acquireActor(&enemy->getActorPartsActor(name), &accessor);
                 if (accessor.isStateCalc() && !accessor.sub_7100D13BB8())
                     return false;
@@ -66,7 +66,7 @@ bool GanonChemicalPillarAttack::sub_7100178AA0() {
     return true;
 }
 
-void GanonChemicalPillarAttack::sub_7100178DC4(s32 index, ksys::act::ActorConstDataAccess* accessor) {
+void GanonChemicalPillarAttack::sub_7100178DC4(s32 index, ksys::act::ActorLinkConstDataAccess* accessor) {
     if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
         const sead::FormatFixedSafeString<64> name("IronPile%d", index);
         if (enemy->getActorPartsActor(name).hasProc())
@@ -92,7 +92,7 @@ void GanonChemicalPillarAttack::enter_(ksys::act::ai::InlineParamPack* params) {
         for (s32 i = 0; i <= *mPillarNum_s; ++i) {
             const sead::FormatFixedSafeString<64> name("IronPile%d", i);
             if (enemy->getActorPartsActor(name).hasProc()) {
-                ksys::act::ActorConstDataAccess accessor;
+                ksys::act::ActorLinkConstDataAccess accessor;
                 ksys::act::acquireActor(&enemy->getActorPartsActor(name), &accessor);
                 if (accessor.sub_7100D13BB8()) {
                     _c8 = i;

@@ -2,7 +2,7 @@
 #include <new>
 #include <math/seadMathCalcCommon.h>
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorCreator.h"
 #include "KingSystem/ActorSystem/actActorHeapUtil.h"
 #include "KingSystem/ActorSystem/actInstParamPack.h"
@@ -11,7 +11,7 @@
 void Unk_71007444acElem::sub_710074424C() {
     switch (_44) {
     case 1: {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&_0, &accessor);
         if (accessor.isStateSleep()) {
             accessor.setProperties(_14, nullptr, nullptr, nullptr, false, 0, -1);
@@ -81,7 +81,7 @@ void Unk_71007444ac::sub_71007444AC() {
     } else {
         auto* elem = _8;
         for (s32 i = 0; i != _0; ++i, ++elem) {
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             ksys::act::acquireActor(&elem->_0, &accessor);
             accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
         }
@@ -103,7 +103,7 @@ s32 Unk_71007444ac::sub_71007445BC(const sead::Matrix34f& mtx, s32 duration) {
         if (elem->_44 != 0) {
             f32 distance;
             {
-                ksys::act::ActorConstDataAccess accessor;
+                ksys::act::ActorLinkConstDataAccess accessor;
                 ksys::act::acquireActor(&elem->_0, &accessor);
                 const auto& actor_mtx = accessor.getActorMtx();
                 const f32 dx = actor_mtx(0, 3) - x;
@@ -119,7 +119,7 @@ s32 Unk_71007444ac::sub_71007445BC(const sead::Matrix34f& mtx, s32 duration) {
             if (elem->_44 == 0) {
                 elem->_44 = 1;
                 if (elem->_0.hasProcInCalcState()) {
-                    ksys::act::ActorConstDataAccess accessor;
+                    ksys::act::ActorLinkConstDataAccess accessor;
                     ksys::act::acquireActor(&elem->_0, &accessor);
                     accessor.sleep(ksys::act::BaseProc::SleepWakeReason::_0);
                 }
@@ -136,7 +136,7 @@ s32 Unk_71007444ac::sub_71007445BC(const sead::Matrix34f& mtx, s32 duration) {
         oldest->_10 = 0;
         oldest->_44 = 1;
         if (oldest->_0.hasProcInCalcState()) {
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             ksys::act::acquireActor(&oldest->_0, &accessor);
             accessor.sleep(ksys::act::BaseProc::SleepWakeReason::_0);
         }

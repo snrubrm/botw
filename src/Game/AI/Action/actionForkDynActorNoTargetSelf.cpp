@@ -1,9 +1,9 @@
 #include "Game/AI/Action/actionForkDynActorNoTargetSelf.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 
 // Source namespace is unknown; constness follows the read-only accessor use.
-bool sub_710001A9A4(const ksys::act::ActorConstDataAccess& accessor, ksys::act::BaseProc* proc);
+bool sub_710001A9A4(const ksys::act::ActorLinkConstDataAccess& accessor, ksys::act::BaseProc* proc);
 
 namespace uking::action {
 
@@ -34,7 +34,7 @@ void ForkDynActorNoTargetSelf::calc_() {
 }
 
 bool ForkDynActorNoTargetSelf::m32() {
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(mTargetActor_d, &accessor);
     return sub_710001A9A4(accessor, mActor);
 }

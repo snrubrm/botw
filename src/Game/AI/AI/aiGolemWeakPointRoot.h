@@ -8,12 +8,12 @@
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 
 namespace ksys::act {
-class ActorConstDataAccess;
+class ActorLinkConstDataAccess;
 }
 
 // 0x7100d15f1c (CSV name, global): a random drop of `table_name` from the drop table of the actor
 // `accessor` points to.
-const sead::SafeString& golemWeakPointGetOneDrop(const ksys::act::ActorConstDataAccess& accessor,
+const sead::SafeString& golemWeakPointGetOneDrop(const ksys::act::ActorLinkConstDataAccess& accessor,
                                                  const sead::SafeString& table_name);
 
 namespace uking::ai {

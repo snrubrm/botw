@@ -7,7 +7,7 @@
 #include "Game/DLC/aocHardModeManager.h"
 #include "Game/AI/aiAwarenessFilters.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/System/Timer.h"
@@ -35,7 +35,7 @@ bool EnemyWarnNoticeSelect::sub_71003C544C() {
             if (auto* sensor = awareness->_260[0])
                 sensor->m4(&request);
             const auto position = mActor->getMtx().getTranslation();
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             ksys::act::acquireActor(mTargetActor_d, &accessor);
             const auto target = accessor.getActorMtx().getTranslation();
             const f32 x = target.x - position.x;
@@ -97,7 +97,7 @@ void EnemyWarnNoticeSelect::sub_71003C4CB4(bool a1) {
     ksys::act::ai::InlineParamPack pack;
     pack.addActor(*mTargetActor_d, "TargetActor", -1);
     sead::Vector3f pos;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(mTargetActor_d, &accessor);
     accessor.getActorMtx().getTranslation(pos);
     pack.addVec3(pos, "TargetPos", -1);
@@ -149,7 +149,7 @@ void EnemyWarnNoticeSelect::sub_71003C5028() {
     ksys::act::ai::InlineParamPack pack;
     pack.addActor(*mTargetActor_d, "TargetActor", -1);
     sead::Vector3f pos;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(mTargetActor_d, &accessor);
     accessor.getActorMtx().getTranslation(pos);
     pack.addVec3(pos, "TargetPos", -1);
@@ -157,7 +157,7 @@ void EnemyWarnNoticeSelect::sub_71003C5028() {
 }
 
 void EnemyWarnNoticeSelect::sub_71003C5B04(sead::Vector3f* position) {
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(mTargetActor_d, &accessor);
     accessor.getActorMtx().getTranslation(*position);
 }
@@ -240,7 +240,7 @@ void EnemyWarnNoticeSelect::calc_() {
     }
 
     sead::Vector3f pos;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(mTargetActor_d, &accessor);
     accessor.getActorMtx().getTranslation(pos);
     child->setDynamicParam(pos, "TargetPos");

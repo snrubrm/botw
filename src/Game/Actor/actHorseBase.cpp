@@ -9,7 +9,7 @@
 #include "Game/Actor/actHorseObject.h"
 #include "Game/Actor/actRideable.h"
 #include "Game/gameHorseMgr.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorCreator.h"
 #include "KingSystem/ActorSystem/actInstParamPack.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
@@ -58,7 +58,7 @@ bool HorseBase::sub_7100E6C12C(s32 id) {
     }
     if (_b30.hasProcById(this))
         return true;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (!ksys::act::acquireActor(&_b30, &accessor))
         return true;
     return sub_7100E6C360(accessor, id);
@@ -78,7 +78,7 @@ void HorseBase::sub_7100E6C464(s32 id) {
         return;
     }
     if (!_b30.hasProcById(this)) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         if (ksys::act::acquireActor(&_b30, &accessor))
             sub_7100E6C5A4(accessor, id);
     }
@@ -136,27 +136,27 @@ void HorseBase::sub_7100E6E7DC(const sead::SafeString& name, sead::Heap* heap) {
 void HorseBase::onEnterSleep_() {
     Actor::onEnterSleep_();
     {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         if (ksys::act::acquireActor(&_840, &accessor))
             accessor.sleep(SleepWakeReason::_0);
     }
     {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         if (ksys::act::acquireActor(&_850, &accessor))
             accessor.sleep(SleepWakeReason::_0);
     }
     {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         if (ksys::act::acquireActor(&_860, &accessor))
             accessor.sleep(SleepWakeReason::_0);
     }
     {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         if (ksys::act::acquireActor(&_870, &accessor))
             accessor.sleep(SleepWakeReason::_0);
     }
     {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         if (ksys::act::acquireActor(&_880, &accessor))
             accessor.sleep(SleepWakeReason::_0);
     }
@@ -360,31 +360,31 @@ Unk_7100e8b2b8* HorseBase::getMotorcyclePriorityStuffMaybe() {
 // NON_MATCHING: store scheduling of the accessor init (strb [sp+0x18] hoisted) in blocks 2-5
 void HorseBase::onPreDeleteStart_(PrepareArg& arg) {
     {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         if (ksys::act::acquireActor(&_840, &accessor))
             accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_1a);
     }
     _840.reset();
     {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         if (ksys::act::acquireActor(&_850, &accessor))
             accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_1a);
     }
     _850.reset();
     {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         if (ksys::act::acquireActor(&_860, &accessor))
             accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_1a);
     }
     _860.reset();
     {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         if (ksys::act::acquireActor(&_870, &accessor))
             accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_1a);
     }
     _870.reset();
     {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         if (ksys::act::acquireActor(&_880, &accessor))
             accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_1a);
     }
@@ -406,27 +406,27 @@ ksys::act::Actor* HorseBase::m48() {
 void HorseBase::onDeleteRequested_(DeleteReason reason) {
     Actor::onDeleteRequested_(reason);
     {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         if (ksys::act::acquireActor(&_840, &accessor))
             accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_1a);
     }
     {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         if (ksys::act::acquireActor(&_850, &accessor))
             accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_1a);
     }
     {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         if (ksys::act::acquireActor(&_860, &accessor))
             accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_1a);
     }
     {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         if (ksys::act::acquireActor(&_870, &accessor))
             accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_1a);
     }
     {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         if (ksys::act::acquireActor(&_880, &accessor))
             accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_1a);
     }
@@ -437,27 +437,27 @@ void HorseBase::onDeleteRequested_(DeleteReason reason) {
 void HorseBase::onPreFadeOutDelete() {
     Actor::onPreFadeOutDelete();
     {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         if (ksys::act::acquireActor(&_840, &accessor))
             accessor.deleteEx(ksys::act::BaseProc::DeleteReason::_0);
     }
     {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         if (ksys::act::acquireActor(&_850, &accessor))
             accessor.deleteEx(ksys::act::BaseProc::DeleteReason::_0);
     }
     {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         if (ksys::act::acquireActor(&_860, &accessor))
             accessor.deleteEx(ksys::act::BaseProc::DeleteReason::_0);
     }
     {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         if (ksys::act::acquireActor(&_870, &accessor))
             accessor.deleteEx(ksys::act::BaseProc::DeleteReason::_0);
     }
     {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         if (ksys::act::acquireActor(&_880, &accessor))
             accessor.deleteEx(ksys::act::BaseProc::DeleteReason::_0);
     }
@@ -530,65 +530,65 @@ static ksys::act::BaseProc* getProcIfActor(ksys::act::BaseProc* proc) {
     return nullptr;
 }
 
-static inline HorseBase* getHorseBase(const ksys::act::ActorConstDataAccess& accessor) {
+static inline HorseBase* getHorseBase(const ksys::act::ActorLinkConstDataAccess& accessor) {
     auto* actor = static_cast<ksys::act::Actor*>(getProcIfActor(accessor.getProc()));
     return sead::DynamicCast<HorseBase>(actor);
 }
 
-bool sub_7100E6DC50(const ksys::act::ActorConstDataAccess& accessor) {
+bool sub_7100E6DC50(const ksys::act::ActorLinkConstDataAccess& accessor) {
     auto* actor = static_cast<ksys::act::Actor*>(getProcIfActor(accessor.getProc()));
     return sead::IsDerivedFrom<HorseBase>(actor);
 }
 
-bool sub_7100E6C360(const ksys::act::ActorConstDataAccess& accessor, s32 id) {
+bool sub_7100E6C360(const ksys::act::ActorLinkConstDataAccess& accessor, s32 id) {
     auto* horse = getHorseBase(accessor);
     return horse ? horse->sub_7100E6C12C(id) : false;
 }
 
-void sub_7100E6E140(const ksys::act::ActorConstDataAccess& accessor, const sead::SafeString& name,
+void sub_7100E6E140(const ksys::act::ActorLinkConstDataAccess& accessor, const sead::SafeString& name,
                     sead::Heap* heap) {
     if (auto* horse = getHorseBase(accessor))
         horse->sub_7100E6E254(name, heap);
 }
 
-void sub_7100E6E404(const ksys::act::ActorConstDataAccess& accessor, const sead::SafeString& name,
+void sub_7100E6E404(const ksys::act::ActorLinkConstDataAccess& accessor, const sead::SafeString& name,
                     sead::Heap* heap) {
     if (auto* horse = getHorseBase(accessor))
         horse->sub_7100E6E518(name, heap);
 }
 
-void sub_7100E6E6C8(const ksys::act::ActorConstDataAccess& accessor, const sead::SafeString& name,
+void sub_7100E6E6C8(const ksys::act::ActorLinkConstDataAccess& accessor, const sead::SafeString& name,
                     sead::Heap* heap) {
     if (auto* horse = getHorseBase(accessor))
         horse->sub_7100E6E7DC(name, heap);
 }
 
-void sub_7100E6C5A4(const ksys::act::ActorConstDataAccess& accessor, s32 id) {
+void sub_7100E6C5A4(const ksys::act::ActorLinkConstDataAccess& accessor, s32 id) {
     if (auto* horse = getHorseBase(accessor))
         horse->sub_7100E6C464(id);
 }
 
-void* sub_7100E6DD40(const ksys::act::ActorConstDataAccess& accessor) {
+void* sub_7100E6DD40(const ksys::act::ActorLinkConstDataAccess& accessor) {
     auto* horse = getHorseBase(accessor);
     return horse ? horse->_b48 : nullptr;
 }
 
-f32 sub_7100E6DE34(const ksys::act::ActorConstDataAccess& accessor) {
+f32 sub_7100E6DE34(const ksys::act::ActorLinkConstDataAccess& accessor) {
     auto* horse = getHorseBase(accessor);
     return horse ? horse->_b10->m31() : 0.0f;
 }
 
-s32 sub_7100E6DF38(const ksys::act::ActorConstDataAccess& accessor) {
+s32 sub_7100E6DF38(const ksys::act::ActorLinkConstDataAccess& accessor) {
     auto* horse = getHorseBase(accessor);
     return horse ? horse->_b78 : 0;
 }
 
-HorseBase::Nature sub_7100E6E02C(const ksys::act::ActorConstDataAccess& accessor) {
+HorseBase::Nature sub_7100E6E02C(const ksys::act::ActorLinkConstDataAccess& accessor) {
     auto* horse = getHorseBase(accessor);
     return horse ? horse->sub_7100E68298() : HorseBase::Nature(0);
 }
 
-void sub_7100E6E98C(const ksys::act::ActorConstDataAccess& accessor, bool on) {
+void sub_7100E6E98C(const ksys::act::ActorLinkConstDataAccess& accessor, bool on) {
     if (auto* horse = getHorseBase(accessor)) {
         if (on)
             horse->_b70.setBitOn(1);
@@ -597,7 +597,7 @@ void sub_7100E6E98C(const ksys::act::ActorConstDataAccess& accessor, bool on) {
     }
 }
 
-void sub_7100E6EBA4(const ksys::act::ActorConstDataAccess& accessor, bool on) {
+void sub_7100E6EBA4(const ksys::act::ActorLinkConstDataAccess& accessor, bool on) {
     if (auto* horse = getHorseBase(accessor)) {
         if (on)
             horse->_b70.setBitOn(3);
@@ -606,29 +606,29 @@ void sub_7100E6EBA4(const ksys::act::ActorConstDataAccess& accessor, bool on) {
     }
 }
 
-bool sub_7100E6EAAC(const ksys::act::ActorConstDataAccess& accessor) {
+bool sub_7100E6EAAC(const ksys::act::ActorLinkConstDataAccess& accessor) {
     auto* horse = getHorseBase(accessor);
     return horse ? horse->_b70.isBitOn(2) : false;
 }
 
-bool sub_7100E6ED04(const ksys::act::ActorConstDataAccess& accessor) {
+bool sub_7100E6ED04(const ksys::act::ActorLinkConstDataAccess& accessor) {
     auto* horse = getHorseBase(accessor);
     return horse ? horse->_b70.isBitOn(0) : false;
 }
 
-bool sub_7100E6F010(const ksys::act::ActorConstDataAccess& accessor) {
+bool sub_7100E6F010(const ksys::act::ActorLinkConstDataAccess& accessor) {
     auto* horse = getHorseBase(accessor);
     return horse ? horse->_b70.isBitOn(10) : false;
 }
 
 // NON_MATCHING: the original selects `horse + 0xc00` / the empty string directly on the RTTI result (one csel); ours
 // keeps the null test of the cast result (see acc::WeaponBase::getBindInfo)
-const sead::SafeString& sub_7100E6EDFC(const ksys::act::ActorConstDataAccess& accessor) {
+const sead::SafeString& sub_7100E6EDFC(const ksys::act::ActorLinkConstDataAccess& accessor) {
     auto* horse = getHorseBase(accessor);
     return horse ? horse->_c00 : sead::SafeString::cEmptyString;
 }
 
-const sead::SafeString& sub_7100E6EF00(const ksys::act::ActorConstDataAccess& accessor) {
+const sead::SafeString& sub_7100E6EF00(const ksys::act::ActorLinkConstDataAccess& accessor) {
     auto* horse = getHorseBase(accessor);
     if (!horse)
         return sead::SafeString::cEmptyString;
@@ -636,7 +636,7 @@ const sead::SafeString& sub_7100E6EF00(const ksys::act::ActorConstDataAccess& ac
     return horse->_8d0._40;
 }
 
-s32 sub_7100E6ECC4(const ksys::act::ActorConstDataAccess& accessor) {
+s32 sub_7100E6ECC4(const ksys::act::ActorLinkConstDataAccess& accessor) {
     const auto* unit = accessor.getGParamList()->getHorseUnit();
     return unit ? unit->mRiddenAnimalType.ref() : 1;
 }

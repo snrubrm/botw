@@ -2,7 +2,7 @@
 #include <math/seadVector.h>
 #include "KingSystem/ActorSystem/Profiles/actDynamicActor.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actPhysicsConstraints.h"
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Map/mapObjectLink.h"
@@ -66,7 +66,7 @@ void AirOctaWoodBridge::calc_() {
 
     f32 max_link_speed = 0.0f;
     for (int i = 0; i < _40.size(); ++i) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         if (ksys::act::acquireActor(_40[i], &accessor)) {
             const sead::Vector3f& link_velocity = accessor.getVelocity();
             const f32 link_speed = sead::Vector2f(link_velocity.x, link_velocity.z).length();
@@ -107,7 +107,7 @@ void AirOctaWoodBridge::sub_7100089F18() {
         if (link.type >= ksys::map::MapLinkDefType::FixedCs &&
             link.type <= ksys::map::MapLinkDefType::RackAndPinionCs) {
             if (auto* proc_link = _40.emplaceBack()) {
-                ksys::act::ActorConstDataAccess accessor;
+                ksys::act::ActorLinkConstDataAccess accessor;
                 link.getObjectProcWithAccessor(accessor);
                 if (accessor.hasProc())
                     accessor.linkAcquire(proc_link);

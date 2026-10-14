@@ -2,7 +2,7 @@
 #include <aal/aalShape.h>
 #include <prim/seadScopedLock.h>
 #include "Game/AI/aiUnk_71007377D4.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
@@ -99,30 +99,30 @@ static ksys::act::BaseProc* getProcIfActor(ksys::act::BaseProc* proc) {
     return nullptr;
 }
 
-static inline BeamBase* getBeamBase(const ksys::act::ActorConstDataAccess& accessor) {
+static inline BeamBase* getBeamBase(const ksys::act::ActorLinkConstDataAccess& accessor) {
     auto* actor = static_cast<ksys::act::Actor*>(getProcIfActor(accessor.getProc()));
     return sead::DynamicCast<BeamBase>(actor);
 }
 
-void sub_71000039E0(const ksys::act::ActorConstDataAccess& accessor, ksys::act::Actor* shooter,
+void sub_71000039E0(const ksys::act::ActorLinkConstDataAccess& accessor, ksys::act::Actor* shooter,
                     const sead::SafeString& bone) {
     if (auto* beam = getBeamBase(accessor))
         beam->sub_7100003804(shooter, bone);
 }
 
-void sub_7100003B1C(const ksys::act::ActorConstDataAccess& accessor, f32 value) {
+void sub_7100003B1C(const ksys::act::ActorLinkConstDataAccess& accessor, f32 value) {
     if (auto* beam = getBeamBase(accessor)) {
         auto lock = sead::makeScopedLock(beam->_b90._0);
         beam->_c24 = value;
     }
 }
 
-void sub_7100003C34(const ksys::act::ActorConstDataAccess& accessor) {
+void sub_7100003C34(const ksys::act::ActorLinkConstDataAccess& accessor) {
     if (auto* beam = getBeamBase(accessor))
         beam->_c84.setBitOn(0);
 }
 
-s32 sub_7100003D30(const ksys::act::ActorConstDataAccess& accessor) {
+s32 sub_7100003D30(const ksys::act::ActorLinkConstDataAccess& accessor) {
     auto* beam = getBeamBase(accessor);
     return beam ? beam->getParam()->getRes().mGParamList->getBeam()->mBeamLevel.ref() : 0x1ff;
 }

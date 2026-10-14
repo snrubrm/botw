@@ -2,7 +2,7 @@
 #include "Game/Damage/dmgDamageMgrWeapon.h"
 #include <prim/seadRuntimeTypeInfo.h>
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
@@ -11,7 +11,7 @@
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectWeaponCommon.h"
 
-bool sub_71006DE628(const ksys::act::ActorConstDataAccess& accessor, s32 type);
+bool sub_71006DE628(const ksys::act::ActorLinkConstDataAccess& accessor, s32 type);
 
 namespace uking::dmg {
 
@@ -141,7 +141,7 @@ bool DamageMgrSword::sub_71002F267C(s32* damage, s32* df48, u32* minDmg, u32* f5
         if (!info)
             return false;
 
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&info->_50, &accessor);
         if (!sub_71006DE628(accessor, _6c) && !(info->_18 & 1))
             return false;
@@ -173,7 +173,7 @@ bool DamageMgrSword::sub_71002F267C(s32* damage, s32* df48, u32* minDmg, u32* f5
 
     if (weapon && hasAttackInfo(weapon)) {
         if (auto* info = getAttackInfo(weapon, 0)) {
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             ksys::act::acquireActor(&info->_50, &accessor);
             if (!sub_71006DE628(accessor, _6c) && !(info->_18 & 1))
                 return false;

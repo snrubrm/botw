@@ -2,7 +2,7 @@
 #include <prim/seadScopedLock.h>
 #include "Game/AI/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actGlobalParameter.h"
@@ -100,7 +100,7 @@ void PullOutTree::calc_() {
 void PullOutTree::leave_() {
     _78.x();
     if (mTargetActor_d->hasProcInCalcState()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(mTargetActor_d, &accessor);
         mActor->sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x8000019),
                             nullptr, false);
@@ -117,7 +117,7 @@ bool PullOutTree::handleMessage_(const ksys::Message* message) {
 }
 
 void PullOutTree::getTargetPos(sead::Vector3f* out) const {
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(mTargetActor_d, &accessor);
     accessor.getActorMtx().getTranslation(*out);
 }
@@ -149,7 +149,7 @@ void PullOutTree::sub_7100533314() {
 void PullOutTree::sub_7100533178() {
     ksys::act::ai::InlineParamPack params;
     params.addActor(*mTargetActor_d, "TargetActor", -1);
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(mTargetActor_d, &accessor);
     sead::Vector3f pos;
     pos.setMul(accessor.getActorMtx(),

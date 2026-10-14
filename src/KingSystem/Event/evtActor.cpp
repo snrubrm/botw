@@ -2,7 +2,7 @@
 #include "KingSystem/Event/evtEventSystem.h"
 #include "Game/Actor/actHorseRideInfo.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 
 namespace ksys::evt {
 
@@ -15,7 +15,7 @@ void Actor::m12() {
     auto* ride = actor->getPlayerRideInfo();
     if (!ride)
         return;
-    act::ActorConstDataAccess accessor;
+    act::ActorLinkConstDataAccess accessor;
     if (act::acquireActor(&ride->_18, &accessor))
         accessor.wakeUp(act::BaseProc::SleepWakeReason::_0);
 }

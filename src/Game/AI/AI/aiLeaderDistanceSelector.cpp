@@ -1,7 +1,7 @@
 #include "Game/AI/AI/aiLeaderDistanceSelector.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 
 namespace uking::ai {
@@ -31,7 +31,7 @@ void LeaderDistanceSelector::calc_() {
     sead::Vector3f leader_pos;
     sead::Vector3f pos;
     {
-        ksys::act::ActorConstDataAccess acc;
+        ksys::act::ActorLinkConstDataAccess acc;
         ksys::act::acquireActor(mLeaderActor_d, &acc);
         const sead::Matrix34f& leader_mtx = acc.getActorMtx();
         leader_pos.set(leader_mtx.m[0][3], leader_mtx.m[1][3], leader_mtx.m[2][3]);
@@ -46,7 +46,7 @@ void LeaderDistanceSelector::calc_() {
 }
 
 void LeaderDistanceSelector::changeToOutside() {
-    ksys::act::ActorConstDataAccess acc;
+    ksys::act::ActorLinkConstDataAccess acc;
     ksys::act::acquireActor(mLeaderActor_d, &acc);
     sead::Vector3f pos;
     acc.getActorMtx().getTranslation(pos);
@@ -73,7 +73,7 @@ void LeaderDistanceSelector::loadParams_() {
 }
 
 void LeaderDistanceSelector::changeToInside() {
-    ksys::act::ActorConstDataAccess acc;
+    ksys::act::ActorLinkConstDataAccess acc;
     ksys::act::acquireActor(mLeaderActor_d, &acc);
     sead::Vector3f pos;
     acc.getActorMtx().getTranslation(pos);

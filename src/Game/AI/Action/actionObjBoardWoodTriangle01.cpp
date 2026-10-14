@@ -3,7 +3,7 @@
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actChemical.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/LOD/actLodState.h"
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Map/mapObjectLink.h"
@@ -56,7 +56,7 @@ void ObjBoardWoodTriangle01::enter_(ksys::act::ai::InlineParamPack* params) {
         auto* linked_object = link.other_obj;
         if (!linked_object)
             continue;
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         linked_object->getActorWithAccessor(accessor);
         if (accessor.isEnemyProfile())
             accessor.linkAcquire(_20.emplaceBack());
@@ -76,7 +76,7 @@ void ObjBoardWoodTriangle01::calc_() {
         return;
     int count = 0;
     for (int i = 0; i < _20.size(); ++i) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         if (ksys::act::acquireActor(_20.at(i), &accessor))
             count += accessor.isStateCalc();
     }

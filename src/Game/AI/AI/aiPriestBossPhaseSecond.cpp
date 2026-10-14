@@ -2,7 +2,7 @@
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "Game/AI/aiUnk_7102450fa8.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 
 namespace uking::ai {
 
@@ -50,7 +50,7 @@ void PriestBossPhaseSecond::loadParams_() {
 }
 
 void PriestBossPhaseSecond::m39() {
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     for (int i = 2; i <= 10; ++i) {
         if (sub_7100525B18(i, &accessor))
             accessor.sleep(ksys::act::BaseProc::SleepWakeReason::_0);

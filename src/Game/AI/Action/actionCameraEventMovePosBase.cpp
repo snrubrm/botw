@@ -2,8 +2,8 @@
 #include <math/seadMathCalcCommon.h>
 #include <prim/seadDelegate.h>
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
+#include "KingSystem/ActorSystem/actBaseProcAccessor.h"
 #include "KingSystem/Event/evtManager.h"
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/System/Timer.h"
@@ -19,14 +19,14 @@ bool CameraEventMovePosBase::handleMessage_(const ksys::Message* message) {
         return false;
 
     {
-        sead::Delegate1<CameraEventMovePosBase, ksys::act::ActorConstDataAccess*> on_actor(
+        sead::Delegate1<CameraEventMovePosBase, ksys::act::ActorLinkConstDataAccess*> on_actor(
             this, &CameraEventMovePosBase::sub_710076264C);
         sead::Delegate1<CameraEventMovePosBase, ksys::map::Object*> on_object(
             this, &CameraEventMovePosBase::sub_7100762698);
         sub_71007626AC(_164, mActorName1, mUniqueName1, &_168, &_357, 1, &on_actor, &on_object);
     }
     {
-        sead::Delegate1<CameraEventMovePosBase, ksys::act::ActorConstDataAccess*> on_actor(
+        sead::Delegate1<CameraEventMovePosBase, ksys::act::ActorLinkConstDataAccess*> on_actor(
             this, &CameraEventMovePosBase::sub_710076294C);
         sead::Delegate1<CameraEventMovePosBase, ksys::map::Object*> on_object(
             this, &CameraEventMovePosBase::sub_7100762998);
@@ -110,7 +110,7 @@ void CameraEventMovePosBase::m43() {
 
     if (!m48()) {
         {
-            sead::Delegate1<CameraEventMovePosBase, ksys::act::ActorConstDataAccess*> on_actor(
+            sead::Delegate1<CameraEventMovePosBase, ksys::act::ActorLinkConstDataAccess*> on_actor(
                 this, &CameraEventMovePosBase::sub_710076264C);
             sead::Delegate1<CameraEventMovePosBase, ksys::map::Object*> on_object(
                 this, &CameraEventMovePosBase::sub_7100762698);
@@ -118,7 +118,7 @@ void CameraEventMovePosBase::m43() {
                            &on_object);
         }
         {
-            sead::Delegate1<CameraEventMovePosBase, ksys::act::ActorConstDataAccess*> on_actor(
+            sead::Delegate1<CameraEventMovePosBase, ksys::act::ActorLinkConstDataAccess*> on_actor(
                 this, &CameraEventMovePosBase::sub_710076294C);
             sead::Delegate1<CameraEventMovePosBase, ksys::map::Object*> on_object(
                 this, &CameraEventMovePosBase::sub_7100762998);
@@ -168,7 +168,7 @@ void CameraEventMovePosBase::m44() {
         }
     } else {
         {
-            sead::Delegate1<CameraEventMovePosBase, ksys::act::ActorConstDataAccess*> on_actor(
+            sead::Delegate1<CameraEventMovePosBase, ksys::act::ActorLinkConstDataAccess*> on_actor(
                 this, &CameraEventMovePosBase::sub_710076264C);
             sead::Delegate1<CameraEventMovePosBase, ksys::map::Object*> on_object(
                 this, &CameraEventMovePosBase::sub_7100762698);
@@ -176,7 +176,7 @@ void CameraEventMovePosBase::m44() {
                            &on_object);
         }
         {
-            sead::Delegate1<CameraEventMovePosBase, ksys::act::ActorConstDataAccess*> on_actor(
+            sead::Delegate1<CameraEventMovePosBase, ksys::act::ActorLinkConstDataAccess*> on_actor(
                 this, &CameraEventMovePosBase::sub_710076294C);
             sead::Delegate1<CameraEventMovePosBase, ksys::map::Object*> on_object(
                 this, &CameraEventMovePosBase::sub_7100762998);
@@ -295,7 +295,7 @@ bool CameraEventMovePosBase::sub_71007624A8(s16 target, ksys::act::BaseProcLink*
     if (target == 1) {
         *state = 0;
         if (!(_356 & link_flag)) {
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             sub_7100924BE4(&accessor);
             accessor.linkAcquire(link);
             if (link->hasProc())
@@ -303,7 +303,7 @@ bool CameraEventMovePosBase::sub_71007624A8(s16 target, ksys::act::BaseProcLink*
         }
 
         if (link->hasProc() && (!(_356 & mtx_flag) || !*mStartCalcOnly)) {
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             ksys::act::acquireActor(link, &accessor);
             const auto& actor_mtx = accessor.getActorMtx();
             if (!ksys::util::sub_71011F10F4(actor_mtx)) {
@@ -323,7 +323,7 @@ bool CameraEventMovePosBase::sub_71007624A8(s16 target, ksys::act::BaseProcLink*
     return true;
 }
 
-void CameraEventMovePosBase::sub_710076264C(ksys::act::ActorConstDataAccess* accessor) {
+void CameraEventMovePosBase::sub_710076264C(ksys::act::ActorLinkConstDataAccess* accessor) {
     if (!accessor)
         return;
     accessor->linkAcquire(&_168);
@@ -337,7 +337,7 @@ void CameraEventMovePosBase::sub_7100762698(ksys::map::Object* object) {
     sub_7100762AB8(object, &_188, &_357, 1, 2);
 }
 
-void CameraEventMovePosBase::sub_710076294C(ksys::act::ActorConstDataAccess* accessor) {
+void CameraEventMovePosBase::sub_710076294C(ksys::act::ActorLinkConstDataAccess* accessor) {
     if (!accessor)
         return;
     accessor->linkAcquire(&_178);
@@ -385,7 +385,7 @@ void CameraEventMovePosBase::sub_7100762C2C(ksys::act::BaseProcLink* link, sead:
     if (!link->hasProc())
         return;
 
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(link, &accessor);
     const auto& actor_mtx = accessor.getActorMtx();
     if (ksys::util::sub_71011F10F4(actor_mtx))
@@ -521,7 +521,7 @@ bool CameraEventMovePosBase::sub_7100761F84(const act::Unk_71009214b8& prev,
 
     ksys::phys::SystemGroupHandler* handler = nullptr;
     if (link->hasProc()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(link, &accessor);
         handler = accessor.x(0);
     }

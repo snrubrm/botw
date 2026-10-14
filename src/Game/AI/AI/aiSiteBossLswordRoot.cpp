@@ -4,7 +4,7 @@
 #include "Game/Actor/actEnemy.h"
 #include "Game/Actor/actSiteBoss.h"
 #include "Game/Damage/dmgDamageManager.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
@@ -19,7 +19,7 @@ namespace {
 // inline-only in the original; name is a guess (repeated four times in the destructor)
 void deletePartsActor(act::Enemy* enemy, const char* name) {
     if (enemy->getActorPartsActor(name).hasProc()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&enemy->getActorPartsActor(name), &accessor);
         accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
     }
@@ -79,7 +79,7 @@ void SiteBossLswordRoot::leave_() {
             auto& link = part->mLink;
             if (!link.hasProcInCalcState())
                 continue;
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             ksys::act::acquireActor(&link, &accessor);
             if (accessor.hasTag(0u))
                 accessor.sleep(ksys::act::BaseProc::SleepWakeReason::_0);

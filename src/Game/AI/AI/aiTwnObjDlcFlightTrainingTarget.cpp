@@ -2,7 +2,7 @@
 #include <gsys/gsysModelAccessKey.h>
 #include <gsys/gsysModel.h>
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
@@ -59,7 +59,7 @@ void TwnObjDlcFlightTrainingTarget::sub_71005D35A8() {
             continue;
         if (!entry->_e8.hasProc())
             continue;
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&entry->_e8, &accessor);
         accessor.deleteEx(ksys::act::BaseProc::DeleteReason(0));
     }

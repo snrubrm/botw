@@ -3,7 +3,7 @@
 #include "KingSystem/ActorSystem/Profiles/actBullet.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorChemicals.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorCreator.h"
 #include "KingSystem/ActorSystem/actActorHeapUtil.h"
 #include "KingSystem/ActorSystem/actChemical.h"
@@ -15,7 +15,7 @@ EmitElectricWaterBall::EmitElectricWaterBall(const InitArg& arg) : ksys::act::ai
 
 EmitElectricWaterBall::~EmitElectricWaterBall() {
     if (_30.hasProc()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&_30, &accessor);
         if (accessor.hasProc() && accessor.isStateSleep())
             accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
@@ -60,7 +60,7 @@ bool EmitElectricWaterBall::sub_71001058D0() {
 
 void EmitElectricWaterBall::enter_(ksys::act::ai::InlineParamPack* params) {
     if (_30.hasProc()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&_30, &accessor);
         if (accessor.isStateSleep())
             accessor.setProperties(mActor->getMtx(), nullptr, nullptr, nullptr, false, 0, -1);

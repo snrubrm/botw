@@ -2,7 +2,7 @@
 #include <limits>
 #include <math/seadMathCalcCommon.h>
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
 
@@ -22,7 +22,7 @@ void HorseFollowBase::enter_(ksys::act::ai::InlineParamPack* params) {
     _b4 = 0.0f;
     if (auto* nav = mActor->m45()) {
         if (!*mIsAvoidNavMeshActor_s) {
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             ksys::act::acquireActor(m33(), &accessor);
             if (auto* other = accessor.sub_7100D0F57C())
                 _b0 = nav->sub_7100F7D1CC(other);

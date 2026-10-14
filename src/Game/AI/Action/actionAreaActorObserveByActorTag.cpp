@@ -1,6 +1,6 @@
 #include "Game/AI/Action/actionAreaActorObserveByActorTag.h"
 #include <codec/seadHashCRC32.h>
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 
 namespace uking::action {
 
@@ -28,7 +28,7 @@ void AreaActorObserveByActorTag::m32() {
     getMapUnitParam(&mActorTag_m, "ActorTag");
 }
 
-bool AreaActorObserveByActorTag::m37(const ksys::act::ActorConstDataAccess& accessor) {
+bool AreaActorObserveByActorTag::m37(const ksys::act::ActorLinkConstDataAccess& accessor) {
     return accessor.hasTag(_60);
 }
 

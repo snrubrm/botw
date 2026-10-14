@@ -4,7 +4,7 @@
 #include "Game/Actor/actEnemy.h"
 #include "Game/Actor/actLastBoss.h"
 #include <random/seadGlobalRandom.h>
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 
 namespace uking::ai {
 
@@ -21,7 +21,7 @@ bool GanonFarAttackRootOnWall::sub_71003E8F1C() {
                 ++i;
                 sead::FormatFixedSafeString<64> name("IronPile%d", i);
                 if (enemy->getActorPartsActor(name).hasProc()) {
-                    ksys::act::ActorConstDataAccess accessor;
+                    ksys::act::ActorLinkConstDataAccess accessor;
                     ksys::act::acquireActor(&enemy->getActorPartsActor(name), &accessor);
                     if (accessor.sub_7100D13BB8())
                         return true;
@@ -165,7 +165,7 @@ void GanonFarAttackRootOnWall::sub_71003E9150() {
     for (int i = 0; i <= max; ++i) {
         sead::FormatFixedSafeString<64> name("IronPile%d", i);
         if (enemy->getActorPartsActor(name).hasProc()) {
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             ksys::act::acquireActor(&enemy->getActorPartsActor(name), &accessor);
             mActor->sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x8000004),
                                 nullptr, true);

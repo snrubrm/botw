@@ -1,6 +1,6 @@
 #include "Game/AI/AI/aiSiteBossSpearThrow.h"
 #include "Game/Actor/actSiteBoss.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorCreator.h"
 #include "KingSystem/ActorSystem/actActorHeapUtil.h"
 #include "KingSystem/ActorSystem/actInstParamPack.h"
@@ -63,7 +63,7 @@ void SiteBossSpearThrow::leave_() {
 
     if (isActorGoingBackToRootAi()) {
         if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             ksys::act::acquireActor(&enemy->getActorPartsActor("Spear"), &accessor);
             if (accessor.hasProc() && accessor.isStateCalc())
                 accessor.sleep(ksys::act::BaseProc::SleepWakeReason::_0);

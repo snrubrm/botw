@@ -1,5 +1,5 @@
 #include "Game/AI/Action/actionGolemRepairParts.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "Game/Actor/actEnemy.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actActor.h"
@@ -61,14 +61,14 @@ void GolemRepairParts::sub_710018CED4() {
     if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
         {
             auto& link = enemy->_1128.getActorPartsActor(_60._0);
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             ksys::act::acquireActor(&link, &accessor);
             if (accessor.hasProc() && accessor.isStateCalc())
                 _e8.sub_710070DBB0(*accessor.getMessageTransceiverId(), true);
         }
         {
             auto& link = enemy->_1128.getActorPartsActor(_a0._0);
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             ksys::act::acquireActor(&link, &accessor);
             if (accessor.hasProc() && accessor.isStateCalc())
                 _e8.sub_710070DBB0(*accessor.getMessageTransceiverId(), true);
@@ -98,7 +98,7 @@ void GolemRepairParts::sub_710018D2EC(act::Enemy* enemy, const Unk_71005e1be8& p
     if (!link.hasProc())
         return;
 
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(&link, &accessor);
     if (!accessor.isStateSleep())
         accessor.sleep(ksys::act::BaseProc::SleepWakeReason::_0);

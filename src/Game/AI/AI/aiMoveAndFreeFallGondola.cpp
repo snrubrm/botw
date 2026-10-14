@@ -2,7 +2,7 @@
 #include "Game/AI/aiUnk_71024f15c0.h"
 #include "Game/gameStasisMgr.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorSystem.h"
 #include "KingSystem/System/VFR.h"
 #include "KingSystem/Utils/Thread/Message.h"
@@ -122,7 +122,7 @@ void MoveAndFreeFallGondola::sub_71004AF894(const ksys::Message* message) {
     if (!_b0.hasProc())
         return;
 
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(&_b0, &accessor);
     if (accessor.hasProc()) {
         const auto& source = message->getSource();

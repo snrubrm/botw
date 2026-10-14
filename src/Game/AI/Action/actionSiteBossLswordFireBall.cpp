@@ -3,7 +3,7 @@
 #include "Game/Actor/actSiteBoss.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 
 namespace uking::action {
 
@@ -54,7 +54,7 @@ void SiteBossLswordFireBall::calc_() {
         if (auto* boss = sead::DynamicCast<act::SiteBoss>(mActor)) {
             auto& child_devices = boss->_1560;
             for (s32 i = 0; i < 20; ++i) {
-                ksys::act::ActorConstDataAccess accessor;
+                ksys::act::ActorLinkConstDataAccess accessor;
                 ksys::act::acquireActor(&child_devices._1e0[i], &accessor);
                 if (!accessor.isStateCalc()) {
                     child_devices.sub_710066D708(i);

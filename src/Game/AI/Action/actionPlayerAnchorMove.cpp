@@ -1,6 +1,6 @@
 #include "Game/AI/Action/actionPlayerAnchorMove.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/Event/evtUnk_7100dc816c.h"
 #include "KingSystem/Map/mapObject.h"
 
@@ -48,7 +48,7 @@ bool PlayerAnchorMove::m33(sead::Vector3f* pos) {
         sead::FixedSafeString<128> name;
         if (!mUniqueName_d.isEmpty())
             name.appendWithFormat("(ユニーク名：%s)", mUniqueName_d.cstr());
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&link, &accessor);
         accessor.getActorMtx().getTranslation(*pos);
     }

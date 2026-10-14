@@ -3,7 +3,7 @@
 #include <random/seadGlobalRandom.h>
 #include "KingSystem/ActorSystem/LOD/actLodState.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 
 namespace uking::ai {
@@ -50,14 +50,14 @@ bool RupeeRabbitNormal::m42() {
     return false;
 }
 
-// NON_MATCHING: the original m2 spills the ActorConstDataAccess::sub_7100D1443C() result (a 32-bit value) to the stack
+// NON_MATCHING: the original m2 spills the ActorLinkConstDataAccess::sub_7100D1443C() result (a 32-bit value) to the stack
 // and reloads it
 // 0x7100554de8
 bool Unk_710241b1f8::m2(ksys::act::Unk_71024dc978* entry) {
     auto* target = sead::DynamicCast<ksys::act::Unk_71024dc858>(entry);
     if (!target)
         return false;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(&target->mLink, &accessor);
     const auto& profile = accessor.getProfile();
     if (profile == "Prey" || profile == "CapturedActor")

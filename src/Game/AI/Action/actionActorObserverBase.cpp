@@ -1,7 +1,7 @@
 #include "Game/AI/Action/actionActorObserverBase.h"
 #include <prim/seadSafeString.h>
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actAiActionBase.h"
 #include "KingSystem/Utils/Thread/Message.h"
@@ -14,7 +14,7 @@ void ActorObserverBase::sub_7100E28168() {
 }
 
 void ActorObserverBase::enter() {
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (getAreaCol(&accessor, -1) < 0 && mOwner) {
         auto* actor = mOwner->getActor();
         if (actor) {
@@ -44,7 +44,7 @@ void ActorObserverBase::calc() {
     if (!mOwner)
         return;
 
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     for (int idx = getAreaCol(&accessor, -1); idx >= 0; idx = getAreaCol(&accessor, idx)) {
         if (!accessor.hasProc())
             continue;

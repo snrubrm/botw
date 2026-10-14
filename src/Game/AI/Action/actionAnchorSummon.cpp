@@ -1,6 +1,6 @@
 #include "Game/AI/Action/actionAnchorSummon.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Map/mapObjectLink.h"
 
@@ -92,7 +92,7 @@ void AnchorSummon::calc_() {
                 if (links) {
                     auto objects = links->mObjects;
                     for (s32 j = 0; j < objects.size(); ++j) {
-                        ksys::act::ActorConstDataAccess accessor;
+                        ksys::act::ActorLinkConstDataAccess accessor;
                         objects(j)->getActorWithAccessor(accessor);
                         if (accessor.hasProc())
                             _70[i].sub_710070DD78(accessor, true);

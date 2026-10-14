@@ -3,7 +3,7 @@
 #include "Game/Actor/actNPC.h"
 #include "KingSystem/GameData/gdtSpecialFlags.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/ActorSystem/actSchedule.h"
@@ -38,7 +38,7 @@ void NPCMamonoShopRoot::calc_() {
     auto* schedule = mActor->getSchedule();
     if (!schedule)
         return;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::findLinkedActor(&accessor, mActor, "TwnObj_MamonoShop_A_01");
     if (_248 && schedule->_88 == "Action2" && accessor.hasProc() && !accessor.sub_7100D10E6C(5)) {
         _248 = false;
@@ -75,7 +75,7 @@ void NPCMamonoShopRoot::loadParams_() {
 
 // 0x71004cd42c
 bool NPCMamonoShopRoot::sub_71004CD42C() {
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::findLinkedActor(&accessor, mActor, "TwnObj_MamonoShop_A_01");
     if (accessor.hasProc()) {
         const sead::Vector3f shop_pos = accessor.getActorMtx().getTranslation();

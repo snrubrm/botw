@@ -1,6 +1,6 @@
 #include "Game/AI/Action/actionEnemyFortressChatLookBase.h"
 #include "Game/AI/aiUnk_71025b1808.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/Utils/Thread/Message.h"
 #include "KingSystem/Utils/Thread/MessageAck.h"
 
@@ -95,7 +95,7 @@ bool EnemyFortressChatLookBase::handleAck_(const ksys::MessageAck* ack) {
     int i = 0;
     for (auto& entry : unit->_8.mEntries) {
         {
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             ksys::act::acquireActor(&entry.link, &accessor);
             const auto* id = accessor.getMessageTransceiverId();
             const auto& dest = ack->getDestination();

@@ -1,6 +1,6 @@
 #include "Game/AI/AI/aiStopTimerObserver.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/Physics/System/physContactPointInfo.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
@@ -32,7 +32,7 @@ void StopTimerObserver::calc_() {
             if (info->getNumContactPoints() != 0) {
                 for (auto it = info->begin(); it != info->end(); ++it) {
                     {
-                        ksys::act::ActorConstDataAccess accessor;
+                        ksys::act::ActorLinkConstDataAccess accessor;
                         ksys::act::getCollidedActorMaybe(&accessor, (*it)->body_b);
                         if (!accessor.hasProc() || !accessor.sub_7100D10FB8())
                             continue;

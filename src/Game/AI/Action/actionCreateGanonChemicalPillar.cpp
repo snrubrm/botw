@@ -1,6 +1,6 @@
 #include "Game/AI/Action/actionCreateGanonChemicalPillar.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorCreator.h"
 #include "KingSystem/ActorSystem/actActorHeapUtil.h"
 #include "KingSystem/ActorSystem/actActor.h"
@@ -12,7 +12,7 @@ CreateGanonChemicalPillar::CreateGanonChemicalPillar(const InitArg& arg)
     : ksys::act::ai::Action(arg) {}
 
 CreateGanonChemicalPillar::~CreateGanonChemicalPillar() {
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(&_58, &accessor);
     accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
 }
@@ -68,7 +68,7 @@ void CreateGanonChemicalPillar::calc_() {
     // laid out differently; (ours uses 16-byte vector copies)
     if (!_58.hasProc())
         return;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(&_58, &accessor);
     sead::Matrix34f mtx = sead::Matrix34f::ident;
     const sead::Vector3f pos = mActor->getMtx().getTranslation();

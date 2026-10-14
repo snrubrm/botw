@@ -11,7 +11,7 @@
 #include <prim/seadSafeString.h>
 #include "KingSystem/ActorSystem/Profiles/actBullet.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/ActorSystem/actTag.h"
@@ -24,7 +24,7 @@ bool Unk_7102451358::m2(Unk_71024dc978* entry) {
     auto* target = sead::DynamicCast<Unk_71024dc858>(entry);
     if (!target)
         return false;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(&target->mLink, &accessor);
     return accessor.sub_7100D10FB8();
 }
@@ -58,7 +58,7 @@ bool Unk_7102451588::m2(Unk_71024dc978* entry) {
     auto* target = sead::DynamicCast<Unk_71024dc858>(entry);
     if (!target)
         return false;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(&target->mLink, &accessor);
     return accessor.getProfile() == "Horse";
 }
@@ -97,7 +97,7 @@ bool Unk_7102451768::m2(Unk_71024dc978* entry) {
     auto* target = sead::DynamicCast<Unk_71024dc858>(entry);
     if (!target)
         return false;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     return target->mLink.getId() == _28;
 }
 
@@ -116,7 +116,7 @@ bool Unk_7102451600::m2(Unk_71024dc978* entry) {
     auto* target = sead::DynamicCast<Unk_71024dc858>(entry);
     if (!target)
         return false;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(&target->mLink, &accessor);
     if (!accessor.isDerivedFrom<uking::act::NPC>())
         return false;
@@ -136,7 +136,7 @@ bool Unk_71024513f8::m2(Unk_71024dc978* entry) {
     auto* target = sead::DynamicCast<Unk_71024dc858>(entry);
     if (!target)
         return false;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(&target->mLink, &accessor);
     return sub_710073697C(&target->mLink, "IsPlayerPut") ||
            ksys::act::isWeaponProfile(&target->mLink) ||
@@ -163,7 +163,7 @@ bool Unk_7102451498::m2(Unk_71024dc978* entry) {
     auto* target = sead::DynamicCast<Unk_71024dc858>(entry);
     if (!target)
         return false;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(&target->mLink, &accessor);
     if (_30 && accessor.getProfile() == "Player")
         return true;
@@ -180,7 +180,7 @@ bool Unk_7102451560::m2(Unk_71024dc978* entry) {
         return false;
     if (_28 && _28->sub_71002DC9E8(target->mLink, 0x20, false))
         return false;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(&target->mLink, &accessor);
     return accessor.sub_7100D10E6C(25) && !accessor.sub_7100D10FB8();
 }
@@ -204,13 +204,13 @@ bool Unk_71024514c0::m2(Unk_71024dc978* entry) {
         if ((_30 & 4) && enemyTeamStuff(_28, link))
             return false;
     } else if (_30 & 2) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(link, &accessor);
         if (accessor.getProfile() != "WolfLink")
             return false;
     }
 
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(link, &accessor);
     if (sub_71007399B4(_28, accessor))
         return true;
@@ -268,7 +268,7 @@ bool Unk_71024514e8::m2(Unk_71024dc978* entry) {
         return false;
 
     {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(link, &accessor);
         if (uking::act::Unk_7100e8b2b8* rideable = accessor.getHorseOptions()) {
             const uking::act::Unk_7100e8b2b8::Unk8 type = rideable->_8 & 0xff;
@@ -359,7 +359,7 @@ bool Unk_71024516f0::m2(Unk_71024dc978* entry) {
     if (!target)
         return false;
     if (ksys::act::isStalfosParts(&target->mLink)) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         if (ksys::act::acquireActor(&target->mLink, &accessor)) {
             const sead::Vector3f pos = accessor.getActorMtx().getTranslation();
             if (sead::Mathf::abs(_34.y - pos.y) <= _30) {
@@ -379,7 +379,7 @@ bool Unk_71024515b0::m2(Unk_71024dc978* entry) {
     auto* target = sead::DynamicCast<Unk_71024dc858>(entry);
     if (!target)
         return false;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(&target->mLink, &accessor);
     return accessor.sub_7100D11F10();
 }
@@ -388,7 +388,7 @@ bool Unk_7102451380::m2(Unk_71024dc978* entry) {
     auto* target = sead::DynamicCast<Unk_71024dc858>(entry);
     if (!target)
         return false;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(&target->mLink, &accessor);
     if (!sub_7100739E24(_28, &target->mLink, -1))
         return false;
@@ -427,7 +427,7 @@ bool Unk_71024517b8::m2(Unk_71024dc978* entry) {
     }
 
     if (ksys::act::isGrabAttClientEnabled(_28, link)) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(link, &accessor);
         ksys::res::AttCheck_Unk1 arg;
         arg._35 = true;
@@ -440,7 +440,7 @@ bool Unk_71024517b8::m2(Unk_71024dc978* entry) {
 
     if (!_31)
         return false;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(link, &accessor);
     return accessor.sub_7100D10E6C(30);
 }
@@ -454,7 +454,7 @@ bool Unk_71024516c8::m2(Unk_71024dc978* entry) {
     if (!ksys::act::isGrabAttClientEnabled(_28, link))
         return false;
 
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(link, &accessor);
     if (accessor.sub_7100D10FB8())
         return false;

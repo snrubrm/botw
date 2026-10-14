@@ -14,7 +14,7 @@ class Message;
 }
 
 namespace ksys::act {
-class ActorConstDataAccess;
+class ActorLinkConstDataAccess;
 }
 
 namespace ksys::map {
@@ -65,14 +65,14 @@ protected:
     bool sub_71007624A8(s16 target, ksys::act::BaseProcLink* link, sead::Matrix34f* mtx,
                         sead::Vector3f* pos, u8* state, u8 link_flag, u8 mtx_flag);
     // Delegate callbacks for target 1 / 2.
-    void sub_710076264C(ksys::act::ActorConstDataAccess* accessor);
+    void sub_710076264C(ksys::act::ActorLinkConstDataAccess* accessor);
     void sub_7100762698(ksys::map::Object* object);
     void sub_71007626AC(s16 target, const sead::SafeString& actor_name,
                         const sead::SafeString& unique_name, ksys::act::BaseProcLink* link,
                         u8* state, u8 link_flag,
-                        sead::IDelegate1<ksys::act::ActorConstDataAccess*>* on_actor,
+                        sead::IDelegate1<ksys::act::ActorLinkConstDataAccess*>* on_actor,
                         sead::IDelegate1<ksys::map::Object*>* on_object);
-    void sub_710076294C(ksys::act::ActorConstDataAccess* accessor);
+    void sub_710076294C(ksys::act::ActorLinkConstDataAccess* accessor);
     void sub_7100762998(ksys::map::Object* object);
     // Appends "<flow><entry>" of the active event to `message`.
     void sub_71007629AC(sead::BufferedSafeString* message);

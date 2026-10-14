@@ -1,6 +1,6 @@
 #include "KingSystem/ActorSystem/Profiles/actBullet.h"
 #include <basis/seadNew.h>
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actTag.h"
@@ -15,7 +15,7 @@ namespace ksys::act {
 
 bool Bullet::m52(sead::Vector3f* out, Chemical* chemical) {
     if (_cf4 & 0x200) {
-        ActorConstDataAccess accessor;
+        ActorLinkConstDataAccess accessor;
         acquireActor(&_ba0, &accessor);
         const auto& mtx = accessor.getActorMtx();
         out->x = mtx(0, 3);

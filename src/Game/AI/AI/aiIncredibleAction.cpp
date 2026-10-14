@@ -1,7 +1,7 @@
 #include "Game/AI/AI/aiIncredibleAction.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "Game/Damage/dmgDamageManager.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
@@ -17,7 +17,7 @@ void Unk_71023fd380::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
         return;
 
     auto* attacker = manager->getAttacker();
-    ksys::act::ActorConstDataAccess acc;
+    ksys::act::ActorLinkConstDataAccess acc;
     if (attacker->hasProc())
         ksys::act::acquireActor(attacker, &acc);
 }

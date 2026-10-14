@@ -4,7 +4,7 @@
 #include <gsys/gsysModel.h>
 #include "KingSystem/ActorSystem/Profiles/actWeaponBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actBaseProcMgr.h"
 
@@ -25,7 +25,7 @@ bool ActorWeapons::equipWeapon(s32 idx, Actor* weapon, bool a3, bool a4) {
     if (getEquippedWeapon(idx))
         resetWeaponBaseProcLink(idx);
     mWeapons[idx].link.acquire(weapon, false);
-    ActorConstDataAccess accessor(weapon);
+    ActorLinkConstDataAccess accessor(weapon);
     accessor.sub_7100D150E8(mActor);
     return true;
 }
@@ -39,7 +39,7 @@ bool ActorWeapons::m2(s32 idx, Actor* weapon) {
     if (getEquippedWeapon(idx))
         resetWeaponBaseProcLink(idx);
     mWeapons[idx].link.acquire(weapon, false);
-    ActorConstDataAccess accessor(weapon);
+    ActorLinkConstDataAccess accessor(weapon);
     accessor.sub_7100D150E8(mActor);
     return true;
 }
@@ -106,7 +106,7 @@ bool ActorWeapons::dropWeapon(int idx, const sead::Vector3f& pos, bool a2, bool 
 
 void ActorWeapons::sleep(BaseProc::SleepWakeReason reason) {
     for (auto& weapon : mWeapons) {
-        ActorConstDataAccess accessor;
+        ActorLinkConstDataAccess accessor;
         acquireActor(&weapon.link, &accessor);
         accessor.sleep(reason);
     }
@@ -114,7 +114,7 @@ void ActorWeapons::sleep(BaseProc::SleepWakeReason reason) {
 
 void ActorWeapons::wakeUp(BaseProc::SleepWakeReason reason) {
     for (auto& weapon : mWeapons) {
-        ActorConstDataAccess accessor;
+        ActorLinkConstDataAccess accessor;
         acquireActor(&weapon.link, &accessor);
         accessor.wakeUp(reason);
     }
@@ -122,7 +122,7 @@ void ActorWeapons::wakeUp(BaseProc::SleepWakeReason reason) {
 
 // NON_MATCHING: the original keeps the first cast as a branch to a shared `x19 = null` block; ours
 // if-converts it to a csel
-void sub_7100EFA810(ActorConstDataAccess* accessor) {
+void sub_7100EFA810(ActorLinkConstDataAccess* accessor) {
     BaseProc* proc = accessor->getProc();
     Actor* actor = nullptr;
     if (proc && sead::IsDerivedFrom<Actor>(proc))
@@ -133,7 +133,7 @@ void sub_7100EFA810(ActorConstDataAccess* accessor) {
 
 void ActorWeapons::sub_7100EFCC20(BaseProc::DeleteReason reason) {
     for (auto& weapon : mWeapons) {
-        ActorConstDataAccess accessor;
+        ActorLinkConstDataAccess accessor;
         acquireActor(&weapon.link, &accessor);
         if (!accessor.sub_7100D14250())
             accessor.deleteLater(reason);
@@ -160,7 +160,7 @@ void ActorWeapons::sub_7100EFCD98(Actor* owner) {
 
 void ActorWeapons::x() {
     for (auto& weapon : mWeapons) {
-        ActorConstDataAccess accessor;
+        ActorLinkConstDataAccess accessor;
         acquireActor(&weapon.link, &accessor);
         sub_7100EFA810(&accessor);
     }
@@ -211,7 +211,7 @@ bool ActorWeapons::dropWeaponM179(int idx) {
 
 bool ActorWeapons::sub_7100EFD1F8() {
     for (auto& weapon : mWeapons) {
-        ActorConstDataAccess accessor;
+        ActorLinkConstDataAccess accessor;
         acquireActor(&weapon.link, &accessor);
         if (accessor.sub_7100D0FEAC())
             return true;

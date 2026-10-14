@@ -1,6 +1,6 @@
 #include "Game/AI/Action/actionBasicSignalBossAwakeSleep.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Map/mapObjectLink.h"
 
@@ -30,7 +30,7 @@ void BasicSignalBossAwakeSleep::enter_(ksys::act::ai::InlineParamPack* params) {
             for (s32 i = 0; i < objects.size(); ++i) {
                 bool is_calc;
                 {
-                    ksys::act::ActorConstDataAccess accessor;
+                    ksys::act::ActorLinkConstDataAccess accessor;
                     objects(i)->getActorWithAccessor(accessor);
                     is_calc = accessor.isStateCalc();
                 }
@@ -39,7 +39,7 @@ void BasicSignalBossAwakeSleep::enter_(ksys::act::ai::InlineParamPack* params) {
                         if (auto* link_data2 = obj2->getLinkData()) {
                             auto objects2 = link_data2->mObjects;
                             for (s32 j = 0; j < objects2.size(); ++j) {
-                                ksys::act::ActorConstDataAccess accessor2;
+                                ksys::act::ActorLinkConstDataAccess accessor2;
                                 objects2(j)->getActorWithAccessor(accessor2);
                                 _20.sub_710070DBB0(*accessor2.getMessageTransceiverId(), true);
                             }
@@ -84,7 +84,7 @@ void BasicSignalBossAwakeSleep::sub_71000B9770() {
         return;
     auto objects = link_data->mObjects;
     for (s32 i = 0; i < objects.size(); ++i) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         objects(i)->getActorWithAccessor(accessor);
         if (accessor.isStateSleep()) {
             sead::Matrix34f mtx;

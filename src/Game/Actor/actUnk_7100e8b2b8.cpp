@@ -4,7 +4,7 @@
 #include "KingSystem/XLink/xlinkActorUtil.h"
 #include "KingSystem/Utils/Thread/Message.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/Attention/actActorAttention.h"
 #include "KingSystem/ActorSystem/Attention/actAttClient.h"
@@ -149,7 +149,7 @@ bool Unk_7100e8b2b8::sub_7100E8C068(sead::Vector3f* pos) {
     const Unk8 type = _8 & 0xff;
     if (int(type) != Unk8::_3)
         return false;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (!ksys::act::acquireActor(&_20, &accessor))
         return false;
     pos->set(accessor.getPreviousPos2());

@@ -1,7 +1,7 @@
 #include "Game/AI/AI/aiCameraEventTalkAI.h"
 #include <math/seadMathCalcCommon.h>
 #include "Game/Actor/actCameraUtil.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 
 namespace uking::ai {
 
@@ -31,7 +31,7 @@ void CameraEventTalkAI::m50() {
     if (!camera)
         return;
 
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     sub_7100924BE4(&accessor);
     if (!accessor.hasProc())
         return;

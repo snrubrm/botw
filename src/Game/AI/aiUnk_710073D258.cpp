@@ -1,7 +1,7 @@
 #include "Game/AI/aiUnk_710073D258.h"
 #include "Game/UI/uiPauseMenuDataMgr.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
 #include "KingSystem/GameData/gdtSpecialFlags.h"
@@ -23,7 +23,7 @@ void sub_710073D2B4(s32 a1, const sead::Vector3f& a2, u8 a3, void* a4, f32 a5, f
 }
 
 s32 getEnemyRank(ksys::act::BaseProcLink* link) {
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(link, &accessor);
     return accessor.getEnemyRank();
 }

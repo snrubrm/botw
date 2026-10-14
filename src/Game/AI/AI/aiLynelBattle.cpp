@@ -8,7 +8,7 @@
 #include "Game/AI/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
@@ -340,7 +340,7 @@ bool LynelBattle::sub_710048E8BC() {
     const f32 current = life ? f32(*life) : 1.0f;
     if (current <= f32(mActor->getMaxLife()) * *mBreathStartLifeRate_s) {
         if (auto* parts = mActor->m101()) {
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             if (ksys::act::acquireActor(&parts->getActorPartsActor(mBreathPartsKey0_s), &accessor) &&
                 !accessor.isStateSleep()) {
                 return false;
@@ -364,7 +364,7 @@ bool LynelBattle::sub_710048E9EC() {
     const f32 current = life ? f32(*life) : 1.0f;
     if (current <= f32(mActor->getMaxLife()) * *mRoarStartLifeRate_s) {
         if (auto* parts = mActor->m101()) {
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             return ksys::act::acquireActor(&parts->getActorPartsActor(mRoarFlamePartsKey_s), &accessor) &&
                    accessor.isStateSleep();
         }

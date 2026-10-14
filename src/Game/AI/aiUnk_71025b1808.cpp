@@ -1,6 +1,6 @@
 #include "Game/AI/aiUnk_71025b1808.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/Utils/Thread/Message.h"
 #include "KingSystem/Utils/Thread/MessageAck.h"
 
@@ -66,7 +66,7 @@ bool Unk_71025b1808Data::sub_71006F0604(const ksys::MessageAck& ack) {
     for (auto& entry : mEntries) {
         if (!entry.link.hasProcInCalcState())
             continue;
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&entry.link, &accessor);
         const auto& dest = ack.getDestination();
         const auto* id = accessor.getMessageTransceiverId();
@@ -84,7 +84,7 @@ void Unk_71025b1808Data::sub_71006F0734(const ksys::MessageType& type, void* dat
     for (auto& entry : mEntries) {
         if (!entry.link.hasProcInCalcState())
             continue;
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&entry.link, &accessor);
         mOwner->sendMessageOnProcessingThread(*accessor.getMessageTransceiverId(), type, data,
                                               false);

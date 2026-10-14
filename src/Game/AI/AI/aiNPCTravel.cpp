@@ -3,7 +3,7 @@
 #include "Game/AI/aiUnk_71007130BC.h"
 #include "Game/AI/aiUnk_71024f15c0.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/Utils/Thread/Message.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
@@ -84,7 +84,7 @@ bool NPCTravel::handleMessage_(const ksys::Message* message) {
 }
 
 void NPCTravel::sub_71004E3B10(f32 value, bool onProcessingThread) {
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (ksys::act::acquireActor(&_88->_f70, &accessor)) {
         _110.mLock.lock();
         _110.mLink.acquire(mActor, false);
@@ -133,7 +133,7 @@ bool NPCTravel::sub_71004E58FC() {
 }
 
 void NPCTravel::sub_71004E59D4() {
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (ksys::act::acquireActor(&_88->_f70, &accessor)) {
         const sead::Vector3f other_pos = accessor.getActorMtx().getTranslation();
         const sead::Vector3f diff = mActor->getMtx().getTranslation() - other_pos;

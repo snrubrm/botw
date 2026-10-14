@@ -3,7 +3,7 @@
 #include "Game/Actor/actEnemy.h"
 #include "Game/Actor/actSiteBoss.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 
@@ -46,7 +46,7 @@ void LastBossNormalWarpRoot::leave_() {
         for (auto* part : enemy->_1128.mList) {
             if (!part->mLink.hasProc())
                 continue;
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             ksys::act::acquireActor(&part->mLink, &accessor);
         }
     }
@@ -119,7 +119,7 @@ void LastBossNormalWarpRoot::m38() {
             for (auto* part : enemy->_1128.mList) {
                 if (!part->mLink.hasProc())
                     continue;
-                ksys::act::ActorConstDataAccess accessor;
+                ksys::act::ActorLinkConstDataAccess accessor;
                 ksys::act::acquireActor(&part->mLink, &accessor);
                 if (accessor.isStateCalc()) {
                     mActor->sendMessage(*accessor.getMessageTransceiverId(),

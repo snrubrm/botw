@@ -2,7 +2,7 @@
 #include "Game/AI/aiAwarenessFilters.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/AI/aiUnk_71007377D4.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 ksys::act::BaseProcLink* sub_71005E0F68(ksys::act::Actor* actor);
@@ -47,7 +47,7 @@ void TargetBeatGetDrop::calc_() {
 // NON_MATCHING: Accessor cleanup branches merge and translation loads are scheduled differently.
 bool TargetBeatGetDrop::sub_71005BCCE0() {
     if (_50.hasProcInCalcState()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&_50, &accessor);
         if (!accessor.sub_7100D10E6C(30) &&
             !sub_71005DEC08(&_50, mActor, 999.0f, 999.0f, sead::Mathf::pi()))
@@ -69,7 +69,7 @@ bool TargetBeatGetDrop::sub_71005BCCE0() {
         if (!link->hasProcInCalcState())
             continue;
         {
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             ksys::act::acquireActor(link, &accessor);
             if (accessor.sub_7100D10E6C(30) ||
                 sub_71005DEC08(link, mActor, 999.0f, 999.0f, sead::Mathf::pi()))

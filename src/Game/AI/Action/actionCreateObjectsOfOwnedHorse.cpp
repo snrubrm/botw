@@ -1,7 +1,7 @@
 #include "Game/AI/Action/actionCreateObjectsOfOwnedHorse.h"
 #include "Game/gameHorseMgr.h"
 #include "KingSystem/ActorSystem/actActorHeapUtil.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 
 namespace uking::action {
 
@@ -59,7 +59,7 @@ void CreateObjectsOfOwnedHorse::calc_() {
         setFailed();
         return;
     }
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (!ksys::act::acquireActor(&mgr->mOwnedHorse, &accessor))
         setFailed();
     else if (!act::sub_7100E6EAAC(accessor))

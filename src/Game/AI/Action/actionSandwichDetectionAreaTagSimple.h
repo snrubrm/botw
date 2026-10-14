@@ -18,7 +18,7 @@ public:
 
 protected:
     void calc_() override;
-    bool m15(const ksys::act::ActorConstDataAccess& accessor) override;
+    bool m15(const ksys::act::ActorLinkConstDataAccess& accessor) override;
     void m2() override { _48 = false; }
     void m5() override;
     sead::Buffer<Payload>* m6() override { return &_38; }

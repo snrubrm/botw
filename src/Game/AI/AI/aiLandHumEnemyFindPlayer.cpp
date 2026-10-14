@@ -7,7 +7,7 @@
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectGeneral.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectEnemyLevel.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "Game/Damage/dmgInfoManager.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
@@ -42,7 +42,7 @@ void LandHumEnemyFindPlayer::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void LandHumEnemyFindPlayer::getChemTargetPos(sead::Vector3f* pos) {
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(&_1c8, &accessor);
     sead::Matrix34f mtx;
     accessor.sub_7100D11188(&mtx);
@@ -166,7 +166,7 @@ bool LandHumEnemyFindPlayer::sub_7100461D74() {
         return false;
     const bool a = sub_71005DA434(mActor, m53()) && !sub_71005DA434(mActor, *mParams.mNoChemSearchWpIdx_s);
     const bool b = sub_71005DA4F0(mActor, m53()) && !sub_71005DA4F0(mActor, *mParams.mNoChemSearchWpIdx_s);
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(&_1c8, &accessor);
     if ((a && accessor.sub_7100D13448(-1)) ||
         (b && !(accessor.sub_7100D13080() < *mParams.mVoltage_s)))

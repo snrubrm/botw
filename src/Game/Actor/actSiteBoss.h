@@ -18,7 +18,7 @@
 #include "KingSystem/Utils/Thread/Message.h"
 
 namespace ksys::act {
-class ActorConstDataAccess;
+class ActorLinkConstDataAccess;
 }
 namespace ksys::map {
 class Rail;
@@ -118,9 +118,9 @@ public:
     void sub_71002D28BC();
     void sub_71002D1740(s32 value);
     bool sub_71002D2AE0(f32 rate, s32 a, s32 b);
-    static SiteBoss* sub_71002D3B20(const ksys::act::ActorConstDataAccess& accessor);
-    static bool sub_71002D3A68(const ksys::act::ActorConstDataAccess& accessor);
-    static bool sub_71002D3C14(const ksys::act::ActorConstDataAccess& accessor);
+    static SiteBoss* sub_71002D3B20(const ksys::act::ActorLinkConstDataAccess& accessor);
+    static bool sub_71002D3A68(const ksys::act::ActorLinkConstDataAccess& accessor);
+    static bool sub_71002D3C14(const ksys::act::ActorLinkConstDataAccess& accessor);
     // Declaration only: SiteBossBowBlowOff::leave_ passes false.
     void sub_71002CFD04(bool on);
 

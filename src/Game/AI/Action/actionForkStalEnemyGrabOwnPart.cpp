@@ -37,7 +37,7 @@ void ForkStalEnemyGrabOwnPart::enter_(ksys::act::ai::InlineParamPack* params) {
         auto* target =
             sead::IsDerivedFrom<ksys::act::Actor>(proc) ? static_cast<ksys::act::Actor*>(proc)
                                                         : nullptr;
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         if (link->hasProc()) {
             bool acquired = ksys::act::acquireActor(link, &accessor);
             if (target) {
@@ -84,7 +84,7 @@ void ForkStalEnemyGrabOwnPart::calc_() {
         if (actor->getConnectedCalcChild()) {
             const u32 part = *mPartIndex_d;
             auto* link = &sub_7100724F08(actor, part);
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             if (link->hasProc() && ksys::act::acquireActor(link, &accessor) &&
                 accessor.isStateSleep()) {
                 auto* model = actor->getModel();

@@ -3,7 +3,7 @@
 #include <mc/seadCoreInfo.h>
 #include "KingSystem/ActorSystem/Profiles/actPlayerLink.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
+#include "KingSystem/ActorSystem/actBaseProcAccessor.h"
 
 namespace ksys::act {
 
@@ -46,7 +46,7 @@ bool Attention::sub_7100D74148(BaseProcLink* out) {
     return false;
 }
 
-bool Attention::x(ActorLinkConstDataAccess* out) {
+bool Attention::x(BaseProcAccessor* out) {
     if (out && mEnabled && mLists[1].size() != 0) {
         if (auto* client = mLists[1].unsafeAt(0)) {
             if (auto* actor = client->getActor()) {
@@ -92,7 +92,7 @@ bool Attention::sub_7100D747D8(BaseProcLink* out) {
     return false;
 }
 
-bool Attention::sub_7100D7482C(ActorLinkConstDataAccess* out) {
+bool Attention::sub_7100D7482C(BaseProcAccessor* out) {
     if (out) {
         if (auto* client = sub_7100D7457C(false, AttActionCodeValue(int(AttActionCode::None)))) {
             if (auto* actor = client->getActor()) {
@@ -154,7 +154,7 @@ bool Attention::sub_7100D7430C(s32 list, s32 index, BaseProcLink* out) {
     return false;
 }
 
-bool Attention::x_0(s32 list, s32 index, ActorLinkConstDataAccess* out) {
+bool Attention::x_0(s32 list, s32 index, BaseProcAccessor* out) {
     if (index >= 0 && out && index < mLists[list].size()) {
         if (auto* client = mLists[list].at(index)) {
             if (auto* actor = client->getActor()) {
@@ -197,7 +197,7 @@ void Attention::setPlayerLink(PlayerLink* link) {
     _c20 = link;
 }
 
-bool Attention::sub_7100D74488(ActorLinkConstDataAccess* out) {
+bool Attention::sub_7100D74488(BaseProcAccessor* out) {
     if (_c20)
         return _c20->getActorViaAccessor(out);
     return out->acquire(nullptr);

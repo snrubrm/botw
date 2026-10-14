@@ -1,7 +1,7 @@
 #include "Game/AI/AI/aiLastBossShootNormalArrowRoot.h"
 #include <prim/seadSafeString.h>
 #include "Game/Actor/actEnemy.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actActorCreator.h"
@@ -22,7 +22,7 @@ LastBossShootNormalArrowRoot::~LastBossShootNormalArrowRoot() {
         return;
     for (u32 i = 0; i < u32(*mArrowNum_s); ++i) {
         sead::FormatFixedSafeString<32> name("%s%d", mPartsName_s.cstr(), i);
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&enemy->getActorPartsActor(name), &accessor);
         if (accessor.hasProc())
             accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);

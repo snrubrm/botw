@@ -7,7 +7,7 @@
 #include "Game/gameHorseMgr.h"
 #include "Game/gameWolfLinkMgr.h"
 #include "Game/Actor/actHorseBase.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include <nn/ui2d/Pane.h>
 #include "Game/gameUnkRttiPlaceholders.h"
 
@@ -734,7 +734,7 @@ void Unk_7102478a18::m11() {
     auto& link = HorseMgr::instance()->mOwnedHorse;
     if (!link.hasProc())
         return;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(&link, &accessor);
     if (uking::act::sub_7100E6ED04(accessor))
         _48->Stop(1.0f);

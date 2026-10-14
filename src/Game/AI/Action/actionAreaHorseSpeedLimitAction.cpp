@@ -1,6 +1,6 @@
 #include "Game/AI/Action/actionAreaHorseSpeedLimitAction.h"
 #include "Game/Actor/actHorseBase.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/Utils/Thread/Message.h"
 
 namespace uking::action {
@@ -21,8 +21,8 @@ bool AreaHorseSpeedLimitAction::init_(sead::Heap* heap) {
 }
 
 // NON_MATCHING: stack slot of the MessageType temporary
-bool AreaHorseSpeedLimitAction::m15(const ksys::act::ActorConstDataAccess& accessor) {
-    ksys::act::ActorConstDataAccess horse;
+bool AreaHorseSpeedLimitAction::m15(const ksys::act::ActorLinkConstDataAccess& accessor) {
+    ksys::act::ActorLinkConstDataAccess horse;
     horse.acquireActor(accessor);
     if (act::sub_7100E6DC50(horse))
         sendMessage(*horse.getMessageTransceiverId(), ksys::MessageType(0x3800014), nullptr);

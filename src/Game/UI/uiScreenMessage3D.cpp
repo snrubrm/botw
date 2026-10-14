@@ -2,7 +2,7 @@
 #include "Game/UI/euiLayoutEx.h"
 #include "Game/UI/euiMessageMgr.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 
 namespace uking::ui {
 
@@ -550,7 +550,7 @@ void ScreenMessage3D::Entry::sub_71010AEFF8() {
         _59 = true;
     }
     {
-        ksys::act::ActorConstDataAccess access;
+        ksys::act::ActorLinkConstDataAccess access;
         eui::MessageSet* set = nullptr;
         bool have_actor = ksys::act::acquireActor(&m38, &access);
         if (have_actor)

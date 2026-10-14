@@ -1,8 +1,8 @@
 #include "KingSystem/Event/evtEventSystem.h"
 #include <thread/seadCriticalSection.h>
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
+#include "KingSystem/ActorSystem/actBaseProcAccessor.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 
 namespace ksys::evt {
@@ -57,7 +57,7 @@ bool EventSpeaker::setSpeaker(act::Actor* actor) {
 // 0x7100e496f0 (CSV evt::S3::updateActorPosition)
 void EventSpeaker::updateActorPosition() {
     if (mLink.hasProc()) {
-        act::ActorConstDataAccess accessor;
+        act::ActorLinkConstDataAccess accessor;
         act::acquireActor(&mLink, &accessor);
         mPreviousPos = accessor.getPreviousPos2();
         accessor.getActorMtx().getTranslation(mPos);

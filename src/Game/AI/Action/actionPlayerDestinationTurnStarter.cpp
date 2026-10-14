@@ -2,9 +2,9 @@
 #include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
-#include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actBaseProcAccessor.h"
 #include "KingSystem/Event/evtUnk_7100dc816c.h"
 
 namespace uking::action {
@@ -31,7 +31,7 @@ void PlayerDestinationTurnStarter::enter_(ksys::act::ai::InlineParamPack* params
     if (_28.hasProc()) {
         f32 x, z;
         {
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             ksys::act::acquireActor(&_28, &accessor);
             const auto& mtx = accessor.getActorMtx();
             x = mtx(0, 3);

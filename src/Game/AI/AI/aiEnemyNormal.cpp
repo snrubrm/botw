@@ -19,7 +19,7 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
@@ -184,7 +184,7 @@ void EnemyNormal::sub_710039EC4C() {
     sead::Vector3f home;
     actor->getHomePos(&home);
     Unk_71024516a0 filter;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     while (auto* entry = ksys::act::sub_7100D7EEE8(&awareness->_8, &filter)) {
         if (entry->_a8 > *mPressBreakObject_s)
             break;
@@ -621,7 +621,7 @@ bool EnemyNormal::m46(const sead::Vector3f& pos, ksys::act::BaseProcLink& target
 
     const f32 area = sub_71003A234C(&target);
     const bool has_target = target.hasProc();
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(&target, &accessor);
     const auto& mtx = accessor.getActorMtx();
     const sead::Vector2f target_xz(mtx.m[0][3], mtx.m[2][3]);
@@ -724,7 +724,7 @@ ksys::act::Unk_7100d78e50* EnemyNormal::sub_71003A04E0(bool a1, ksys::act::Unk_7
         const f32 range = a3 == 2 ? *mShortRangeTerritoryArea_s : *mCloseRangeTerritoryArea_s;
         f32 dist;
         {
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             ksys::act::acquireActor(link, &accessor);
             const auto& mtx = accessor.getActorMtx();
             const auto& own_mtx = mActor->getMtx();
@@ -910,7 +910,7 @@ void EnemyNormal::sub_710039F938(bool a1) {
         Unk_7102451448 filter;
         while (auto* entry = ksys::act::sub_7100D7EEE8(&awareness->_8, &filter)) {
             if (entry->_a8 < dist) {
-                ksys::act::ActorConstDataAccess accessor;
+                ksys::act::ActorLinkConstDataAccess accessor;
                 ksys::act::acquireActor(&entry->_0.mLink, &accessor);
                 _130.sub_710070DBB0(*accessor.getMessageTransceiverId(), true);
             }
@@ -1189,7 +1189,7 @@ bool EnemyNormal::sub_71003A2E20(Unk2* out, Unk1* info) {
         return false;
     out->_0 = link;
     out->_38 = data._28;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(link, &accessor);
     out->_8 = accessor.getActorMtx();
     return true;
@@ -1201,7 +1201,7 @@ bool EnemyNormal::sub_71003A2F18(Unk2* out) {
         if (auto* unk = sub_71005D9D68(mActor)) {
             auto* link = unk->sub_71002DCEDC(0x100, mActor->getMtx().getTranslation());
             if (link->hasProcInCalcState()) {
-                ksys::act::ActorConstDataAccess accessor;
+                ksys::act::ActorLinkConstDataAccess accessor;
                 ksys::act::acquireActor(link, &accessor);
                 if (accessor.sub_7100D10FB8()) {
                     sead::Vector3f target_pos;
@@ -1229,7 +1229,7 @@ bool EnemyNormal::sub_71003A2F18(Unk2* out) {
     if (_368 > 0.0f || !_290._30)
         return false;
 
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(&_290._38.mLink, &accessor);
     out->_0 = &_290._38.mLink;
     accessor.getActorMtx().getTranslation(out->_38);
@@ -1250,7 +1250,7 @@ bool EnemyNormal::sub_71003A33C0(s32 type, ksys::act::BaseProcLink* target, u16*
     }
 
     if (type == 2) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(target, &accessor);
         if ((*flags & 0x10) && !accessor.sub_7100022ED8())
             return false;
@@ -1295,7 +1295,7 @@ bool EnemyNormal::sub_71003A34D0(Unk2* out, s32 type, Unk1* info) {
     out->_0 = link;
     out->_38 = data._28;
     {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(link, &accessor);
         out->_8 = accessor.getActorMtx();
     }
@@ -1436,7 +1436,7 @@ void EnemyNormal::sub_710039E76C() {
     if (!m46(pos, *link))
         return;
 
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(link, &accessor);
     sead::Vector3f player_pos;
     accessor.getActorMtx().getTranslation(player_pos);
@@ -1605,7 +1605,7 @@ void EnemyNormal::m49(Unk1* out, s32 idx) {
         }
         switch (type) {
         case 1: {
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             ksys::act::acquireActor(&target, &accessor);
             if (accessor.hasProc() && accessor.sub_7100022FD0()) {
                 out->_8 |= 0x4f0;
@@ -1890,7 +1890,7 @@ bool EnemyNormal::m67(Unk2* out, Unk1* info) {
     auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
     if (enemy && enemy->_e84.isOnBit(15)) {
         auto& player = ksys::act::PlayerInfo::getSomeProcLink();
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&player, &accessor);
         sead::Vector3f pos;
         accessor.getActorMtx().getTranslation(pos);
@@ -1948,7 +1948,7 @@ bool Unk_71023e8fa8::m2(ksys::act::Unk_71024dc978* entry) {
 
 void EnemyNormal::Unk2::sub_710039E308(ksys::act::BaseProcLink* link) {
     _0 = link;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(link, &accessor);
     accessor.getActorMtx().getTranslation(_38);
     _8 = accessor.getActorMtx();

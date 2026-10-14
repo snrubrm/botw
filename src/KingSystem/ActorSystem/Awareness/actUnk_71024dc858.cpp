@@ -5,7 +5,7 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/Profiles/actWeaponBase.h"
 #include "KingSystem/ActorSystem/actChemical.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 
 namespace ksys::act {
 
@@ -40,7 +40,7 @@ void Unk_71024dc858::m10(int bit, bool on) {
 }
 
 bool Unk_71024dc858::m7(sead::Vector3f* pos) {
-    ActorConstDataAccess accessor;
+    ActorLinkConstDataAccess accessor;
     if (!acquireActor(&mLink, &accessor))
         return false;
     pos->set(accessor.getPreviousPos());
@@ -48,7 +48,7 @@ bool Unk_71024dc858::m7(sead::Vector3f* pos) {
 }
 
 bool Unk_71024dc858::m8(sead::Vector3f* vel) {
-    ActorConstDataAccess accessor;
+    ActorLinkConstDataAccess accessor;
     if (!acquireActor(&mLink, &accessor))
         return false;
     vel->set(accessor.getVelocity());

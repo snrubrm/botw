@@ -1,6 +1,6 @@
 #include "Game/AI/AI/aiAssassinMiddleAzitoRootAccept.h"
 #include "Game/Actor/actEnemy.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/Event/evtManager.h"
 #include "KingSystem/Event/evtMetadata.h"
 
@@ -36,7 +36,7 @@ void AssassinMiddleAzitoRootAccept::loadParams_() {
 // NON_MATCHING: SafeString member-address scheduling and register allocation differ.
 bool AssassinMiddleAzitoRootAccept::handleMessage_(const ksys::Message* message) {
     if (_360.m2(*message)) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&_360._8, &accessor);
         auto* actor = mActor;
         if (actor->getName() == accessor.getName()) {

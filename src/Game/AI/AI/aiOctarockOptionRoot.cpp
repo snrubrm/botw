@@ -2,7 +2,7 @@
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actPhysicsUserTag.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
@@ -23,7 +23,7 @@ bool Unk_710240da18::invoke(ksys::phys::RigidBody*, ksys::phys::RigidBody* other
     if (other) {
         auto* tag = sead::DynamicCast<ksys::act::PhysicsUserTag>(other->getUserTag());
         if (tag) {
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             tag->acquireActor(&accessor);
             if (ksys::act::isPlayerProfile(accessor))
                 return true;

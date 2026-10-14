@@ -1,7 +1,7 @@
 #include "Game/AI/AI/aiNPCSurprised.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actTag.h"
 #include "Game/AI/aiUnk_7100711020.h"
@@ -17,7 +17,7 @@ bool NPCSurprised::init_(sead::Heap* heap) {
 }
 
 void NPCSurprised::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (ksys::act::acquireActor(mTerrorEmitter_d, &accessor)) {
         if (accessor.hasTag(ksys::act::tags::Explosive))
             sub_7100712388(mActor, accessor, "TerrorExplosion");

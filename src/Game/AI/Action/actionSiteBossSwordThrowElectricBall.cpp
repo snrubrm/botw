@@ -1,7 +1,7 @@
 #include "Game/AI/Action/actionSiteBossSwordThrowElectricBall.h"
 #include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "Game/AI/aiUnk_710073fa90.h"
 
 namespace uking::action {
@@ -41,7 +41,7 @@ void SiteBossSwordThrowElectricBall::leave_() {
         auto* actor = mActor;
         if (auto* enemy = sead::DynamicCast<act::Enemy>(actor)) {
             for (auto& name : _110) {
-                ksys::act::ActorConstDataAccess accessor;
+                ksys::act::ActorLinkConstDataAccess accessor;
                 ksys::act::acquireActor(&enemy->getActorPartsActor(name), &accessor);
                 if (accessor.hasProc() && accessor.isStateCalc())
                     accessor.sleep(ksys::act::BaseProc::SleepWakeReason::_0);

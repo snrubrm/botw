@@ -2,7 +2,7 @@
 #include "Game/Actor/actRideable.h"
 #include "Game/gameHorseMgr.h"
 #include "KingSystem/GameData/gdtManager.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 
 namespace uking::action {
 
@@ -35,7 +35,7 @@ void OwnedHorseObserveAction::calc_() {
     bool update_flag = true;
     u32 calc_tag = false;
     if (auto* mgr = HorseMgr::instance()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         if (ksys::act::acquireActor(&mgr->mOwnedHorse, &accessor)) {
             if (accessor.isStateSleep()) {
                 ActorObserverBase::calc();
@@ -64,7 +64,7 @@ void OwnedHorseObserveAction::calc_() {
     }
 }
 
-bool OwnedHorseObserveAction::m15(const ksys::act::ActorConstDataAccess& accessor) {
+bool OwnedHorseObserveAction::m15(const ksys::act::ActorLinkConstDataAccess& accessor) {
     act::Unk_7100e8b2b8* horse = accessor.getHorseOptions();
     if (!horse)
         return false;

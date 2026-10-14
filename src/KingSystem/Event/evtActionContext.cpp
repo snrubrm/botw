@@ -1,6 +1,6 @@
 #include "KingSystem/Event/evtActionContext.h"
 #include <cstring>
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/Event/evtManager.h"
 #include "KingSystem/Utils/Thread/Message.h"
 #include "evfl/Action.h"
@@ -12,7 +12,7 @@ namespace ksys::evt {
 void ActionContext::x_3(act::BaseProcLink* link) {
     if (!link->hasProc())
         return;
-    act::ActorConstDataAccess accessor;
+    act::ActorLinkConstDataAccess accessor;
     act::acquireActor(link, &accessor);
     mStatus2 = 0;
     Manager::instance()->sub_7100DB0FB0(*accessor.getMessageTransceiverId(), MessageType(0x800006), this);
@@ -22,7 +22,7 @@ void ActionContext::x_3(act::BaseProcLink* link) {
 void ActionContext::sub_7100DA53E4(act::BaseProcLink* link) {
     if (!link->hasProc())
         return;
-    act::ActorConstDataAccess accessor;
+    act::ActorLinkConstDataAccess accessor;
     act::acquireActor(link, &accessor);
     mStatus2 = 1;
     Manager::instance()->sub_7100DB0FB0(*accessor.getMessageTransceiverId(), MessageType(0x800008), this);

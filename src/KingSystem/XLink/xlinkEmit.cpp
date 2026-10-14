@@ -5,7 +5,7 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorUnk6b8.h"
 #include "KingSystem/ActorSystem/actChemical.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
 #include "KingSystem/XLink/xlinkXLink.h"
 
@@ -26,7 +26,7 @@ xlink2::HandleELink searchAndEmitELink(act::Actor* actor, const char* name) {
 // 0x7100da08a0 (the local static is at 0x7102601020, its guard at 0x7102601030; the name is a guess): the same for the
 // actor behind `link`.
 xlink2::HandleELink searchAndEmitELink(act::BaseProcLink* link, const char* name) {
-    act::ActorConstDataAccess accessor;
+    act::ActorLinkConstDataAccess accessor;
     act::acquireActor(link, &accessor);
     if (auto* xlink = accessor.sub_7100D0F214()) {
         if (auto* user_instance = xlink->_48)

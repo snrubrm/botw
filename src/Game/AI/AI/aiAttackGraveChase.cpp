@@ -3,7 +3,7 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/System/Timer.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 
 namespace uking::ai {
 
@@ -17,7 +17,7 @@ bool AttackGraveChase::init_(sead::Heap* heap) {
 
 // inline-only in the original (enter_ and calc_ twice); name is a guess.
 inline void AttackGraveChase::getTargetPos(sead::Vector3f* out) {
-    ksys::act::ActorConstDataAccess acc;
+    ksys::act::ActorLinkConstDataAccess acc;
     ksys::act::acquireActor(mTargetActor_d, &acc);
     acc.getActorMtx().getTranslation(*out);
 }
@@ -62,7 +62,7 @@ void AttackGraveChase::calc_() {
     const f32 x = mActor->getMtx().m[0][3];
     const f32 y = mActor->getMtx().m[1][3];
     const f32 z = mActor->getMtx().m[2][3];
-    ksys::act::ActorConstDataAccess acc;
+    ksys::act::ActorLinkConstDataAccess acc;
     ksys::act::acquireActor(mTargetActor_d, &acc);
     const auto& target_mtx = acc.getActorMtx();
     const sead::Vector2f diff(target_mtx.m[0][3] - x, target_mtx.m[2][3] - z);

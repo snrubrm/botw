@@ -3,7 +3,7 @@
 #include <math/seadMathCalcCommon.h>
 #include "KingSystem/ActorSystem/actAiRoot.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
-#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
+#include "KingSystem/ActorSystem/actBaseProcAccessor.h"
 #include "KingSystem/ActorSystem/Attention/actAttentionSingleton.h"
 #include "Game/Actor/actWeapon.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
@@ -27,7 +27,7 @@ void PlayerZoraRide::enter_(ksys::act::ai::InlineParamPack* params) {
         static_cast<ksys::act::Player*>(mActor)->switchToAnimSequenceMaybe("RunZoraRide", true, -1.0f);
         return;
     }
-    ksys::act::ActorLinkConstDataAccess accessor;
+    ksys::act::BaseProcAccessor accessor;
     f32 angle = 0.0f;
     if (ksys::act::Attention::instance()->sub_7100D7482C(&accessor)) {
         const sead::Matrix34f& target_dir = accessor.getActorMtx();

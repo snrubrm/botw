@@ -1,6 +1,6 @@
 #include "Game/Actor/actActorOption.h"
 #include <basis/seadNew.h>
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actModelBindInfo.h"
 
 namespace uking::act {
@@ -30,7 +30,7 @@ bool ActorOption::shouldUnload(s32* a1) {
     return shouldUnloadBecauseOfDistance(a1);
 }
 
-ksys::act::BaseProcLink& sub_7100000610(const ksys::act::ActorConstDataAccess& accessor) {
+ksys::act::BaseProcLink& sub_7100000610(const ksys::act::ActorLinkConstDataAccess& accessor) {
     auto* option = sead::DynamicCast<ActorOption>(accessor.getProc());
     if (!option)
         return ksys::act::getDummyBaseProcLink();

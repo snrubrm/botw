@@ -1,6 +1,6 @@
 #include "Game/gameSceneSubsys12.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actBaseProcMgr.h"
 #include "KingSystem/System/UIGlue.h"
@@ -128,7 +128,7 @@ Unk_710243be90* GameSceneSubsys12::sub_7100663278(ksys::act::BaseProc* proc) {
 bool GameSceneSubsys12::sub_7100663364(sead::Matrix34f* out) {
     if (!_300.hasProc())
         return false;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     // The original calls acquireActor but discards its result after the hasProc check.
     ksys::act::acquireActor(&_300, &accessor);
     *out = accessor.getActorMtx();
@@ -250,7 +250,7 @@ void GameSceneSubsys12::sub_7100665360() {
     _a78.setBitOff(2);
     _270 = 0.0f;
     sub_7100664484(4, _310);
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (ksys::act::acquireActor(&_300, &accessor))
         accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
 }
@@ -365,7 +365,7 @@ void GameSceneSubsys12::sub_7100662EF0(ksys::act::Actor* actor) {
 
     ksys::act::acc::PlayerBase player;
     player.getPlayerFromPlayerInfo();
-    ksys::act::ActorConstDataAccess child;
+    ksys::act::ActorLinkConstDataAccess child;
     player.acquireConnectedCalcChild(&child);
     if (!child.hasProc(actor) && sUnk_710243bfbc && player.hasProc()) {
         mTransceiver.sendMessage(*player.getMessageTransceiverId(), ksys::MessageType(0x8000016),

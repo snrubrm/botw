@@ -1,7 +1,7 @@
 #include <basis/seadNew.h>
 #include <prim/seadScopedLock.h>
 #include "Game/Actor/actBeamBase.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/Physics/RigidBody/Shape/Capsule/physCapsuleRigidBody.h"
 
@@ -44,7 +44,7 @@ static ksys::act::BaseProc* getProcIfActor(ksys::act::BaseProc* proc) {
     return nullptr;
 }
 
-void sub_71002C7D1C(const ksys::act::ActorConstDataAccess& accessor, const sead::Vector3f& value) {
+void sub_71002C7D1C(const ksys::act::ActorLinkConstDataAccess& accessor, const sead::Vector3f& value) {
     auto* actor = static_cast<ksys::act::Actor*>(getProcIfActor(accessor.getProc()));
     if (auto* beam = sead::DynamicCast<uking::act::LineBeam>(actor)) {
         auto lock = sead::makeScopedLock(beam->_c88);

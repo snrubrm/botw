@@ -18,7 +18,7 @@ public:
 
 protected:
     void calc_() override;
-    bool m15(const ksys::act::ActorConstDataAccess& accessor) override;
+    bool m15(const ksys::act::ActorLinkConstDataAccess& accessor) override;
 
     Unk_710236f520 _98{mActor, 0x8000007};
 };

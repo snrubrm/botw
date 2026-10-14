@@ -7,7 +7,7 @@
 #include "KingSystem/ActorSystem/actAiRoot.h"
 #include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 
 namespace uking::ai {
@@ -33,7 +33,7 @@ SiteBossSwordAttackRoot::~SiteBossSwordAttackRoot() {
             for (s32 i = 0; i < *mElectricCounterMax_s; ++i) {
                 sead::FormatFixedSafeString<32> name("ElectricBall%d", i);
                 if (boss->getActorPartsActor(name).hasProc()) {
-                    ksys::act::ActorConstDataAccess accessor;
+                    ksys::act::ActorLinkConstDataAccess accessor;
                     ksys::act::acquireActor(&boss->getActorPartsActor(name), &accessor);
                     accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
                 }

@@ -9,7 +9,7 @@
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 
 namespace uking::action {
 
@@ -52,7 +52,7 @@ void CameraAiming::m33() {
     _16c = 0.0f;
     _289 = 2;
     _28a = 2;
-    ksys::act::ActorConstDataAccess target;
+    ksys::act::ActorLinkConstDataAccess target;
     {
         ksys::act::acc::PlayerBase current_player;
         sub_7100926A50(&current_player);
@@ -119,7 +119,7 @@ void CameraAiming::m34() {
     if (!player.hasProc())
         return;
     const sead::Vector3f translation = camera->_860._270.getTranslation();
-    ksys::act::ActorConstDataAccess target;
+    ksys::act::ActorLinkConstDataAccess target;
     {
         ksys::act::acc::PlayerBase current_player;
         sub_7100926A50(&current_player);
@@ -369,12 +369,12 @@ void CameraAiming::sub_710074DAE8(sead::Matrix34f* mtx) {
         return;
 
     if (sub_7100926D24()) {
-        ksys::act::ActorConstDataAccess horse;
+        ksys::act::ActorLinkConstDataAccess horse;
         sub_7100926A74(&horse);
         if (horse.hasProc())
             *mtx = horse.getActorMtx();
     } else if (player.m193()) {
-        ksys::act::ActorConstDataAccess parent;
+        ksys::act::ActorLinkConstDataAccess parent;
         player.acquireConnectedCalcParent(&parent);
         *mtx = parent.getActorMtx();
     } else {
@@ -419,7 +419,7 @@ void CameraAiming::sub_710074DD28(const act::Unk_7100922700& polar, sead::Vector
     sub_7100924E48(direction, side, &side_offset);
     *out += side_offset;
     {
-        ksys::act::ActorConstDataAccess target;
+        ksys::act::ActorLinkConstDataAccess target;
         sub_710074E3EC(&target);
         const auto& transform = target.getActorMtx();
         const f32 yaw = sead::Mathf::deg2rad(angleStuff(polar._8 + 180.0f)) -
@@ -444,7 +444,7 @@ void CameraAiming::sub_710074DD28(const act::Unk_7100922700& polar, sead::Vector
         ksys::act::acc::PlayerBase player;
         sub_7100926A50(&player);
         if (player.hasProc() && !_28b) {
-            ksys::act::ActorConstDataAccess mount;
+            ksys::act::ActorLinkConstDataAccess mount;
             sub_7100926A74(&mount);
             if (mount.hasProc()) {
                 if (sub_7100926DF0(mount) || sub_7100926E7C(mount))
@@ -484,21 +484,21 @@ void CameraAiming::sub_710074DD28(const act::Unk_7100922700& polar, sead::Vector
 
 // NON_MATCHING: the original shares one acquireActor call (and one accessor destructor) between the
 // horse and connected-parent paths
-void CameraAiming::sub_710074E3EC(ksys::act::ActorConstDataAccess* accessor) {
+void CameraAiming::sub_710074E3EC(ksys::act::ActorLinkConstDataAccess* accessor) {
     ksys::act::acc::PlayerBase player;
     sub_7100926A50(&player);
     if (!player.hasProc())
         return;
 
     if (sub_7100926D24()) {
-        ksys::act::ActorConstDataAccess horse;
+        ksys::act::ActorLinkConstDataAccess horse;
         sub_7100926A9C(&horse);
         if (horse.hasProc())
             accessor->acquireActor(horse);
         else
             accessor->acquireActor(player);
     } else if (player.m193()) {
-        ksys::act::ActorConstDataAccess parent;
+        ksys::act::ActorLinkConstDataAccess parent;
         player.acquireConnectedCalcParent(&parent);
         if (parent.hasProc())
             accessor->acquireActor(parent);

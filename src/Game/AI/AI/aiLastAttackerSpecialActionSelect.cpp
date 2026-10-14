@@ -2,7 +2,7 @@
 #include "Game/Actor/actEnemy.h"
 #include "Game/AI/aiUnk_710001A69C.h"
 #include "Game/AI/aiUnk_71007368A4.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 
 namespace uking::ai {
@@ -24,7 +24,7 @@ void LastAttackerSpecialActionSelect::enter_(ksys::act::ai::InlineParamPack* par
             return;
         }
         if (*mIsAngerActorSpecial_s) {
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             ksys::act::acquireActor(link, &accessor);
             if (sub_710001A69C(&accessor, 0x40))
                 changeChild("特殊相手", params);

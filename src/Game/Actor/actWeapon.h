@@ -7,7 +7,7 @@
 #include <thread/seadCriticalSection.h>
 #include "Game/AI/aiUnk_7102357210.h"
 #include "KingSystem/ActorSystem/actActorAtk.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem//ActorSystem/Profiles/actWeaponBase.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 
@@ -37,7 +37,7 @@ public:
 KSYS_CHECK_SIZE_NX150(Unk_71023d26f8, 0x38);
 
 namespace ksys::act {
-class ActorConstDataAccess;
+class ActorLinkConstDataAccess;
 class InstParamPack;
 namespace ai {
 struct InlineParamPack;
@@ -128,8 +128,8 @@ struct WeaponModifierInfo {
     bool pickRandomBlueModifierTbox(const sead::SafeString& actor);
     bool pickRandomYellowModifierTbox(const sead::SafeString& actor);
 
-    bool pickRandomBlueModifierActor(const ksys::act::ActorConstDataAccess& acc);
-    bool pickRandomYellowModifierActor(const ksys::act::ActorConstDataAccess& acc);
+    bool pickRandomBlueModifierActor(const ksys::act::ActorLinkConstDataAccess& acc);
+    bool pickRandomYellowModifierActor(const ksys::act::ActorLinkConstDataAccess& acc);
 
     void setModifier(WeaponModifier modifier, s32 value_) {
         flags.setDirect((flags.getDirect() & u32(WeaponModifier::IsYellow)) | u32(modifier));
@@ -519,10 +519,10 @@ public:
 
 namespace ksys::act::acc {
 
-// Access to a uking::act::Weapon through an ActorConstDataAccess (CSV: act::acc::Weapon; functions
+// Access to a uking::act::Weapon through an ActorLinkConstDataAccess (CSV: act::acc::Weapon; functions
 // 0x71002ef980-0x71002f13f0 in the Weapon TU). Namespace as for the other acc:: accessors.
 // TODO: incomplete
-class Weapon : public ActorConstDataAccess {
+class Weapon : public ActorLinkConstDataAccess {
 public:
     // 0x71002ef980: Weapon::hasParentActor() (false if not a weapon)
     bool sub_71002EF980() const;
@@ -547,31 +547,31 @@ bool actorCheckIsGuardJust(ksys::act::Actor* actor);
 // uking::act::Weapon (the default value without one) and read a GParam / member or forward to a virtual.
 // Placeholder names (sub_<ADDR>) where the CSV has none.
 namespace ksys::act {
-bool getWeaponCommonIsPikohan(const ActorConstDataAccess& accessor);
-s32 getShieldMirrorLevel(const ActorConstDataAccess& accessor);
+bool getWeaponCommonIsPikohan(const ActorLinkConstDataAccess& accessor);
+s32 getShieldMirrorLevel(const ActorLinkConstDataAccess& accessor);
 }  // namespace ksys::act
 // 0x71002efc98 / 0x71002efe08: WeaponCommon IsBlunt / IsWeakBreaker.
-bool sub_71002EFC98(const ksys::act::ActorConstDataAccess& accessor);
-bool sub_71002EFE08(const ksys::act::ActorConstDataAccess& accessor);
+bool sub_71002EFC98(const ksys::act::ActorLinkConstDataAccess& accessor);
+bool sub_71002EFE08(const ksys::act::ActorLinkConstDataAccess& accessor);
 // 0x71002efec0: a master sword whose parent has full life. 0x71002f000c: such a master sword's parent life (at least 4),
 // 0 otherwise. 0x71002f034c: the Bow charge rate multiplied by the RapidFire modifier (1 without it or a weapon). 0x71002f0924: `_920 != 0xff || _921`.
-bool sub_71002EFEC0(const ksys::act::ActorConstDataAccess& accessor);
-f32 sub_71002F000C(const ksys::act::ActorConstDataAccess& accessor);
-f32 sub_71002F034C(const ksys::act::ActorConstDataAccess& accessor);
-bool sub_71002F0924(const ksys::act::ActorConstDataAccess& accessor);
+bool sub_71002EFEC0(const ksys::act::ActorLinkConstDataAccess& accessor);
+f32 sub_71002F000C(const ksys::act::ActorLinkConstDataAccess& accessor);
+f32 sub_71002F034C(const ksys::act::ActorLinkConstDataAccess& accessor);
+bool sub_71002F0924(const ksys::act::ActorLinkConstDataAccess& accessor);
 // 0x71002f0154: Weapon::m153. 0x71002f0258: `_cf0` (the weapon type), -1 without a weapon.
-bool sub_71002F0154(const ksys::act::ActorConstDataAccess& accessor);
-s32 sub_71002F0258(const ksys::act::ActorConstDataAccess& accessor);
+bool sub_71002F0154(const ksys::act::ActorLinkConstDataAccess& accessor);
+s32 sub_71002F0258(const ksys::act::ActorLinkConstDataAccess& accessor);
 // 0x71002f0de0: `_1014 < 5`. 0x71002f1400: `_cec = value`.
-bool sub_71002F0DE0(const ksys::act::ActorConstDataAccess& accessor);
-void sub_71002F1400(const ksys::act::ActorConstDataAccess& accessor, s32 value);
+bool sub_71002F0DE0(const ksys::act::ActorLinkConstDataAccess& accessor);
+void sub_71002F1400(const ksys::act::ActorLinkConstDataAccess& accessor, s32 value);
 // 0x71002f1000: Weapon::m214. 0x71002f0ee0: Weapon::isTrueFormMasterSword.
-bool sub_71002F1000(const ksys::act::ActorConstDataAccess& accessor);
+bool sub_71002F1000(const ksys::act::ActorLinkConstDataAccess& accessor);
 // 0x71002f0cb4: Weapon::getShieldGuardPower (0 without a weapon). 0x71002f0490: the Bow reload rate divided by the RapidFire modifier (1 without a weapon).
 // 0x71002f05d8: `&_f98` (the modifier info).
-s32 sub_71002F0CB4(const ksys::act::ActorConstDataAccess& accessor);
-f32 sub_71002F0490(const ksys::act::ActorConstDataAccess& accessor);
-uking::act::WeaponModifierInfo* sub_71002F05D8(const ksys::act::ActorConstDataAccess& accessor);
-bool sub_71002F0EE0(const ksys::act::ActorConstDataAccess& accessor);
+s32 sub_71002F0CB4(const ksys::act::ActorLinkConstDataAccess& accessor);
+f32 sub_71002F0490(const ksys::act::ActorLinkConstDataAccess& accessor);
+uking::act::WeaponModifierInfo* sub_71002F05D8(const ksys::act::ActorLinkConstDataAccess& accessor);
+bool sub_71002F0EE0(const ksys::act::ActorLinkConstDataAccess& accessor);
 // Source owner unknown; native Weapon neighbors wrap the AI weapon-subtype utility.
-const sead::SafeString& sub_71002EF884(const ksys::act::ActorConstDataAccess& accessor);
+const sead::SafeString& sub_71002EF884(const ksys::act::ActorLinkConstDataAccess& accessor);

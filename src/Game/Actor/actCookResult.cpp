@@ -1,5 +1,5 @@
 #include "Game/Actor/actCookResult.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include <basis/seadNew.h>
 
 namespace uking::act {
@@ -15,7 +15,7 @@ ksys::act::BaseProc* CookResult::construct(const CreateArg& arg, sead::Heap* hea
 // NON_MATCHING: the tail (life_recover through is_crit, 0x210-0x225) is a 21-byte
 // word copy in the original (u64 at 0x210 and 0x218, unaligned u64 at 0x21d); scalar field
 // stores do not reproduce it (verified with scratch probes). See the session log.
-bool copyCookResultToCookItem(const ksys::act::ActorConstDataAccess& accessor, CookItem& result) {    ksys::act::Actor* actor = static_cast<ksys::act::Actor*>(accessor.getProc());
+bool copyCookResultToCookItem(const ksys::act::ActorLinkConstDataAccess& accessor, CookItem& result) {    ksys::act::Actor* actor = static_cast<ksys::act::Actor*>(accessor.getProc());
     if (!actor || !actor->checkDerivedRuntimeTypeInfo(ksys::act::Actor::getRuntimeTypeInfoStatic()))
         actor = nullptr;
     if (!sead::IsDerivedFrom<CookResult>(actor))

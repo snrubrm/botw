@@ -3,7 +3,7 @@
 #include "Game/Actor/actEnemy.h"
 #include <random/seadGlobalRandom.h>
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 
 Unk_710038ffb8::~Unk_710038ffb8() {
     // Keep the original vtable store, as in upstream GameDataFlagSelector::~GameDataFlagSelector()
@@ -29,7 +29,7 @@ void Unk_710038ffb8::sub_71003910E4() {
     *_8 = false;
     ksys::act::ai::InlineParamPack pack;
     pack.addActor(_390, "TargetActor", -1);
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(&_390, &accessor);
     sead::Vector3f pos;
     accessor.getActorMtx().getTranslation(pos);
@@ -54,7 +54,7 @@ void Unk_710038ffb8::sub_710039184C() {
         enemy->_e84.resetBit(12);
     ksys::act::ai::InlineParamPack pack;
     pack.addActor(_390, "TargetActor", -1);
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(&_390, &accessor);
     sead::Vector3f pos;
     accessor.getActorMtx().getTranslation(pos);
@@ -67,7 +67,7 @@ void Unk_710038ffb8::sub_7100391A10() {
     *_8 = false;
     ksys::act::ai::InlineParamPack pack;
     pack.addActor(_390, "TargetActor", -1);
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(&_390, &accessor);
     sead::Vector3f pos;
     accessor.getActorMtx().getTranslation(pos);
@@ -87,7 +87,7 @@ void Unk_710038ffb8::sub_7100391B5C() {
         enemy->_e84.resetBit(12);
     ksys::act::ai::InlineParamPack pack;
     pack.addActor(_390, "TargetActor", -1);
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(&_390, &accessor);
     sead::Vector3f pos;
     accessor.getActorMtx().getTranslation(pos);

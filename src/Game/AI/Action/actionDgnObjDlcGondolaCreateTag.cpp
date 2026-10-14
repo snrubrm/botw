@@ -3,7 +3,7 @@
 #include "Game/AI/aiUnk_71024f15c0.h"
 #include "Game/gameStasisMgr.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
 #include "KingSystem/ActorSystem/actActorCreator.h"
 #include "KingSystem/ActorSystem/actActorHeapUtil.h"
@@ -134,7 +134,7 @@ bool DgnObjDlcGondolaCreateTag::handleMessage_(const ksys::Message* message) {
     if (_9e0.m2(*message)) {
         for (u32 i = 0; i < u32(_40.size()); ++i) {
             auto* link = _40[i];
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             ksys::act::acquireActor(link, &accessor);
             if (accessor.hasProc()) {
                 const auto* id = accessor.getMessageTransceiverId();
@@ -157,7 +157,7 @@ bool DgnObjDlcGondolaCreateTag::handleMessage_(const ksys::Message* message) {
 // NON_MATCHING: accessor cleanup branches and their saved-register allocation differ.
 void DgnObjDlcGondolaCreateTag::sub_7100056CD4(ksys::act::BaseProcLink* link,
                                            const ksys::Message* message) {
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(link, &accessor);
     if (accessor.hasProc()) {
         const auto& source = message->getSource();

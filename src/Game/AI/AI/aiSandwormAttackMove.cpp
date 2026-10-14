@@ -5,7 +5,7 @@
 #include <gsys/gsysModelUnit.h>
 #include "Game/AI/aiUnk_71007377D4.h"
 #include "Game/Damage/dmgDamageManager.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 
@@ -95,7 +95,7 @@ void Unk_710241b460::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, dmg::Dama
     if (!attacker->hasProc())
         return;
 
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(attacker, &accessor);
     const sead::Matrix34f& attacker_mtx = accessor.getActorMtx();
     f32 attacker_x = attacker_mtx.m[0][3];

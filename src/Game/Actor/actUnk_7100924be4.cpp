@@ -5,12 +5,12 @@
 #include "Game/Actor/actCamera.h"
 #include "Game/Actor/actCameraUtil.h"
 #include "Game/gameMaskController.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/System/VFR.h"
 #include "KingSystem/Utils/MathUtil.h"
 
-void sub_7100924BE4(ksys::act::ActorConstDataAccess* accessor) {
+void sub_7100924BE4(ksys::act::ActorLinkConstDataAccess* accessor) {
     if (auto* info = ksys::act::PlayerInfo::instance())
         ksys::act::acquireActor(&info->getPlayerLink(), accessor);
 }

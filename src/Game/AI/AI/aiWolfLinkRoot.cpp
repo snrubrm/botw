@@ -2,7 +2,7 @@
 #include "Game/Actor/actWolfLink.h"
 #include "Game/Damage/dmgDamageManager.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
@@ -17,7 +17,7 @@
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectWolfLink.h"
 
 // 0x71002c802c (defined in actMotorcycleAccessors.cpp)
-bool sub_71002C802C(const ksys::act::ActorConstDataAccess& accessor);
+bool sub_71002C802C(const ksys::act::ActorLinkConstDataAccess& accessor);
 
 namespace uking::ai {
 
@@ -236,7 +236,7 @@ void Unk_7102432d78::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
     if (*a1 < 1)
         return;
     auto* manager = sead::DynamicCast<dmg::DamageManager>(mDamageManager);
-    ksys::act::ActorConstDataAccess attacker;
+    ksys::act::ActorLinkConstDataAccess attacker;
     if (manager && manager->getDamageType() == 4) {
         if (ksys::act::acquireActor(manager->getAttacker(), &attacker) &&
             sub_71002C802C(attacker)) {
@@ -248,7 +248,7 @@ void Unk_7102432d78::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
             return;
         }
     }
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (ksys::act::acquireActor(&_28, &accessor)) {
         const s32 life = accessor.getLife();
         const s32 life2 = accessor.getLife();

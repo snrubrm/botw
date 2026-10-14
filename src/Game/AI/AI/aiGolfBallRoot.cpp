@@ -1,6 +1,6 @@
 #include "Game/AI/AI/aiGolfBallRoot.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/Map/mapObject.h"
 
@@ -25,7 +25,7 @@ void GolfBallRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     if (!mActor)
         return;
 
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (auto* obj = ksys::act::findLinkReferenceObj(mActor, "FldObj_FlagChallengeGoal_A", "",
                                                     nullptr)) {
         const sead::Vector3f pos = obj->getTranslate();

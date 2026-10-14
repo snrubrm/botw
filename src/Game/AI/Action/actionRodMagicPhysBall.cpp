@@ -1,7 +1,7 @@
 #include "Game/AI/Action/actionRodMagicPhysBall.h"
 #include "KingSystem/ActorSystem/Profiles/actBullet.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 
 namespace uking::action {
@@ -71,7 +71,7 @@ f32 RodMagicPhysBall::m40() {
 
 bool RodMagicPhysBall::sub_710023B234(Unk1a8* out) {
     if (auto* bullet = sead::DynamicCast<ksys::act::Bullet>(mActor)) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&bullet->_ba0, &accessor);
         if (accessor.hasProc()) {
             accessor.getActorMtx().getTranslation(out->_0);

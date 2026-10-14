@@ -1,7 +1,7 @@
 #include "Game/AI/AI/aiNPCRoot.h"
 #include "Game/AI/aiUnk_7102357210.h"
 #include <prim/seadSafeString.h>
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
@@ -107,7 +107,7 @@ bool NPCRoot::sub_71004DC010(ksys::act::Unk_7100d78e50* entry) {
     if (!link.hasProc())
         return false;
     bool result;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (ksys::act::acquireActor(&link, &accessor) && accessor.getName().startsWith("RemoteBomb"))
         result = true;
     else if (ksys::act::PlayerInfo::getSomeProcLink() == link && entry->_0.m5(9))
@@ -155,7 +155,7 @@ void NPCRoot::sub_71004DC3D4(ksys::act::BaseProcLink* link) {
     for (s32 i = 0; i < 3; ++i) {
         if (_90[i]._8.hasProc())
             continue;
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         if (!ksys::act::acquireActor(link, &accessor))
             continue;
         _90[i]._0 = true;

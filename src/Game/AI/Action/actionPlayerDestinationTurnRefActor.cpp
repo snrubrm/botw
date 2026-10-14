@@ -2,7 +2,7 @@
 #include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUniqueNameSearch.h"
 #include "KingSystem/ActorSystem/actBaseProcMgr.h"
 #include "KingSystem/Event/evtUnk_7100dc816c.h"
@@ -69,7 +69,7 @@ void PlayerDestinationTurnRefActor::sub_71007E95E0() {
         return;
     _58 = 0;
     if (auto* obj = ksys::act::findLinkReferenceObj(&_38, "", mUniqName_d, &_58)) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         obj->getActorWithAccessor(accessor);
         if (accessor.hasProc())
             accessor.linkAcquire(&_48);
@@ -87,7 +87,7 @@ void PlayerDestinationTurnRefActor::sub_71007E95E0() {
 
 void PlayerDestinationTurnRefActor::sub_71007E974C(sead::Matrix34f* out) {
     if (_48.hasProc()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&_48, &accessor);
         *out = accessor.getActorMtx();
     } else {

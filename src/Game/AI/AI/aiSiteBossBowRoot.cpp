@@ -1,7 +1,7 @@
 #include "Game/AI/AI/aiSiteBossBowRoot.h"
 #include "Game/Actor/actSiteBoss.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
 
@@ -16,7 +16,7 @@ void SiteBossBowRoot::sub_7100575448(s32 index) {
     sead::SafeString name = u32(index) < 4 ? sUnitNames[index] : "";
     if (auto* boss = sead::DynamicCast<act::SiteBoss>(mActor)) {
         if (boss->getActorPartsActor(name).hasProc()) {
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             ksys::act::acquireActor(&boss->getActorPartsActor(name), &accessor);
             accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
         }
@@ -28,7 +28,7 @@ void SiteBossBowRoot::sub_7100576744(s32 index) {
     sead::SafeString name = u32(index) < 4 ? sUnitNames[index] : "";
     if (auto* boss = sead::DynamicCast<act::SiteBoss>(mActor)) {
         if (boss->getActorPartsActor(name).hasProc()) {
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             ksys::act::acquireActor(&boss->getActorPartsActor(name), &accessor);
             if (accessor.isStateSleep())
                 accessor.wakeUp(ksys::act::BaseProc::SleepWakeReason::_0);

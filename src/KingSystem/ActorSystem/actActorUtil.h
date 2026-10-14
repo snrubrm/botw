@@ -43,8 +43,8 @@ bool sub_7100EE37EC(sead::Vector3f* position, sead::Vector3f* rotation, Actor* a
                      const sead::SafeString& name);
 s32 sub_7100EEF690(map::Rail* rail, const sead::Vector3f* position);
 class AttClient;
-class ActorConstDataAccess;
 class ActorLinkConstDataAccess;
+class BaseProcAccessor;
 class BaseProcLink;
 
 // 0x7100ee9b68: applies the animation time rate for the actor update.
@@ -57,7 +57,7 @@ bool sub_7100EEB078(phys::RigidBody* body, phys::RigidBody** out,
                     sead::IDelegate2R<phys::RigidBody*, phys::RigidBody*, bool>* filter);
 // 0x7100ee3fa8 (declared only; used by res::AttCheckLine::check): a sphere cast between the actor of `link` and the
 // actor of `accessor` (line of sight when `as_line_of_sight`).
-bool sub_7100EE3FA8(const ActorConstDataAccess& link, const ActorConstDataAccess& accessor,
+bool sub_7100EE3FA8(const ActorLinkConstDataAccess& link, const ActorLinkConstDataAccess& accessor,
                     bool as_line_of_sight, f32 radius);
 
 enum class ArrowType {
@@ -90,19 +90,19 @@ enum class ZukanType {
 
 bool hasTag(Actor* actor, const sead::SafeString& tag);
 bool hasTag(BaseProcLink* link, const sead::SafeString& tag);
-bool hasTag(const ActorConstDataAccess& accessor, const sead::SafeString& tag);
+bool hasTag(const ActorLinkConstDataAccess& accessor, const sead::SafeString& tag);
 bool hasTag(const sead::SafeString& actor, const sead::SafeString& tag);
 
 bool hasTag(Actor* actor, u32 tag);
 bool hasTag(BaseProcLink* link, u32 tag);
-bool hasTag(const ActorConstDataAccess& accessor, u32 tag);
+bool hasTag(const ActorLinkConstDataAccess& accessor, u32 tag);
 bool hasTag(const sead::SafeString& actor, u32 tag);
 
 /// Checks whether the actor has at least one of the specified tags.
 /// @param tags A comma separated list of tags.
 bool hasOneTagAtLeast(Actor* actor, const sead::SafeString& tags);
 bool hasOneTagAtLeast(BaseProcLink* link, const sead::SafeString& tags);
-bool hasOneTagAtLeast(const ActorConstDataAccess& accessor, const sead::SafeString& tags);
+bool hasOneTagAtLeast(const ActorLinkConstDataAccess& accessor, const sead::SafeString& tags);
 
 bool shouldSkipSpawnWhenRaining(const map::Object* obj);
 bool shouldSkipSpawnIfGodForestOff(const map::Object* obj);
@@ -127,7 +127,7 @@ ArrowType arrowTypeFromString(const sead::SafeString& name);
 ZukanType getZukanType(al::ByamlIter* iter);
 ZukanType getZukanType(Actor* actor);
 
-bool isPlayerProfile(const ActorConstDataAccess& accessor);
+bool isPlayerProfile(const ActorLinkConstDataAccess& accessor);
 bool isPlayerProfile(Actor* actor);
 bool isPlayerProfile(BaseProcLink* link);
 
@@ -136,42 +136,42 @@ bool isCameraProfile(Actor* actor);
 bool isTagProfileMaybe(const sead::SafeString& profile);
 bool isTagProfileMaybe(Actor* actor);
 
-bool isNPCProfile(const ActorConstDataAccess& accessor);
+bool isNPCProfile(const ActorLinkConstDataAccess& accessor);
 bool isNPCProfile(Actor* actor);
 bool isNPCProfile(BaseProcLink* link);
 bool isNPCOffPodFromWeapon(Actor* actor);
 
 bool isDemoNPCProfile(Actor* actor);
 
-bool isEnemyProfile(const ActorConstDataAccess& accessor);
+bool isEnemyProfile(const ActorLinkConstDataAccess& accessor);
 bool isEnemyProfile(Actor* actor);
 bool isEnemyProfile(BaseProcLink* link);
 
 bool isGuardianProfile(BaseProcLink* link);
 
-bool isLargeEnemy(const ActorConstDataAccess& accessor);
+bool isLargeEnemy(const ActorLinkConstDataAccess& accessor);
 bool isLargeEnemy(Actor* actor);
 
-bool isGanonBeast(const ActorConstDataAccess& accessor);
+bool isGanonBeast(const ActorLinkConstDataAccess& accessor);
 bool isGanonBeast(BaseProcLink* link);
 
 bool isNotLivingCreature(Actor* actor);
-bool isNotLivingCreature(const ActorConstDataAccess& accessor);
+bool isNotLivingCreature(const ActorLinkConstDataAccess& accessor);
 bool isNotLivingCreature(BaseProcLink* link);
 
-bool isWeaponProfile(const ActorConstDataAccess& accessor);
+bool isWeaponProfile(const ActorLinkConstDataAccess& accessor);
 bool isWeaponProfile(const sead::SafeString& actor);
 bool isWeaponProfile(Actor* actor);
 bool isWeaponProfile(BaseProcLink* link);
 
-bool isWeaponOrArmor(const ActorConstDataAccess& accessor);
+bool isWeaponOrArmor(const ActorLinkConstDataAccess& accessor);
 bool isWeaponOrArmor(Actor* actor);
 
-bool isBulletProfile(const ActorConstDataAccess& accessor);
+bool isBulletProfile(const ActorLinkConstDataAccess& accessor);
 bool isBulletProfile(Actor* actor);
 bool isBulletProfile(BaseProcLink* link);
 
-bool isHorseProfile(const ActorConstDataAccess& accessor);
+bool isHorseProfile(const ActorLinkConstDataAccess& accessor);
 bool isHorseProfile(Actor* actor);
 bool isHorseProfile(BaseProcLink* link);
 
@@ -192,18 +192,18 @@ bool attentionStuff_0(Actor* actor);
 
 bool isStalfosParts(BaseProcLink* link);
 
-bool isDoor(const ActorConstDataAccess& accessor);
+bool isDoor(const ActorLinkConstDataAccess& accessor);
 bool isDoor(BaseProcLink* link);
 
-bool isPreyOrSwarm(const ActorConstDataAccess& accessor);
+bool isPreyOrSwarm(const ActorLinkConstDataAccess& accessor);
 bool isPreyOrSwarm(Actor* actor);
 bool isPreyOrSwarm(BaseProcLink* link);
 
-bool isWolfOrBear(const ActorConstDataAccess& accessor);
+bool isWolfOrBear(const ActorLinkConstDataAccess& accessor);
 bool isWolfOrBear(Actor* actor);
 bool isWolfOrBear(BaseProcLink* link);
 
-bool isRope(const ActorConstDataAccess& accessor);
+bool isRope(const ActorLinkConstDataAccess& accessor);
 bool isRope(Actor* actor);
 bool isRope(BaseProcLink* link);
 
@@ -259,14 +259,14 @@ map::Object* findLinkReferenceObj(BaseProcLink* link, const sead::SafeString& un
 namespace acc {
 // 0x7100ee2348 (CSV act::acc::findLinkReferenceObj, 680 B; declaration only, lane4 s50): the accessor version of the
 // two functions above.
-map::Object* findLinkReferenceObj(ActorConstDataAccess& accessor,
+map::Object* findLinkReferenceObj(ActorLinkConstDataAccess& accessor,
                                   const sead::SafeString& unit_config_name,
                                   const sead::SafeString& a3, int* idx);
 }  // namespace acc
 
 // 0x7100ee2260 (CSV findLinkedActor): acquires the actor that `actor`'s placement
 // link `link_name` points to into `accessor` (an empty accessor if there is none).
-void findLinkedActor(ActorLinkConstDataAccess* accessor, Actor* actor,
+void findLinkedActor(BaseProcAccessor* accessor, Actor* actor,
                      const sead::SafeString& link_name);
 
 // 0x7100ee57fc (declaration only): sets the actor's position through its character controller or rigid
@@ -283,8 +283,8 @@ void setEnabledTalkAndLockOn(Actor* actor, bool enabled);
 // 0x71001228dc): acquires the actor linked by the placement link of the actor into `accessor` (a 0x20-byte
 // accessor object); `a3` is whether the actor has the GroupingDisplayItem tag. The last two arguments are null in
 // NPCClerkRoot.
-bool sub_7100EE2850(Actor* actor, ActorLinkConstDataAccess* accessor, bool a3,
-                    ActorLinkConstDataAccess* a4, void* a5);
+bool sub_7100EE2850(Actor* actor, BaseProcAccessor* accessor, bool a3,
+                    BaseProcAccessor* a4, void* a5);
 // 0x7100ee5aa8 (placeholder name): applies a linear impulse through the character controller, or the main rigid body.
 void sub_7100EE5AA8(Actor* actor, const sead::Vector3f& impulse);
 // 0x7100ee5af8 (placeholder name): passes `mtx` to the actor's InstanceSet::setMtxAndScale with the scale x.
@@ -325,9 +325,9 @@ void sub_7100EE62B0(phys::RigidBody* body, const sead::Vector3f& ang_vel);
 
 // 0x7100ee5d34 (CSV name): acquires the actor owning `body` (through its PhysicsUserTag) into
 // `accessor`; does nothing for a null body or a body without an actor tag.
-void getCollidedActorMaybe(ActorLinkConstDataAccess* accessor, phys::RigidBody* body);
+void getCollidedActorMaybe(BaseProcAccessor* accessor, phys::RigidBody* body);
 // 0x7100eeac50: same without the null check on `body`.
-void sub_7100EEAC50(ActorLinkConstDataAccess* accessor, phys::RigidBody* body);
+void sub_7100EEAC50(BaseProcAccessor* accessor, phys::RigidBody* body);
 
 // 0x7100ee67b0: position of the actor `link` points to.
 void sub_7100EE67B0(sead::Vector3f* pos, BaseProcLink* link);
@@ -339,7 +339,7 @@ void getPlacementNameAndUniqueName(Actor* actor, sead::BufferedSafeString* name,
                                    sead::BufferedSafeString* unique_name);
 // 0x7100ee7854 (lane4 s64; placeholder name): fills both strings from the map object of `accessor`'s actor
 // (without clearing them first).
-void sub_7100EE7854(const ActorConstDataAccess& accessor, sead::BufferedSafeString* name,
+void sub_7100EE7854(const ActorLinkConstDataAccess& accessor, sead::BufferedSafeString* name,
                     sead::BufferedSafeString* unique_name);
 // 0x7100ee9a14 (declared only): whether `body` is a player body other than the one whose Havok
 // name is "SensorForArea".
@@ -371,13 +371,13 @@ s32 actorAIGetInt(Actor* actor, const sead::SafeString& name, s32 default_value)
 }  // namespace ksys::act
 
 // Native EE27B4 / EE3A88 acquire ForSale / SensorBlind linked actors, or clear the output.
-bool sub_7100EE27B4(ksys::act::ActorLinkConstDataAccess* out,
-                   const ksys::act::ActorConstDataAccess& actor);
-bool sub_7100EE3A88(ksys::act::ActorLinkConstDataAccess* out, ksys::act::Actor* actor);
+bool sub_7100EE27B4(ksys::act::BaseProcAccessor* out,
+                   const ksys::act::ActorLinkConstDataAccess& actor);
+bool sub_7100EE3A88(ksys::act::BaseProcAccessor* out, ksys::act::Actor* actor);
 
 // 0x7100ee2800 (lane4 s50, global namespace; placeholder name): acquires the actor of the ForSale link of the actor's
 // map object (an empty accessor if there is none).
-bool sub_7100EE2800(ksys::act::ActorLinkConstDataAccess* accessor, ksys::act::Actor* actor);
+bool sub_7100EE2800(ksys::act::BaseProcAccessor* accessor, ksys::act::Actor* actor);
 
 // 2026-10-07: original returns the first rigid body in the actor chemical elements.
 ksys::phys::RigidBody* sub_7100EE5FE4(ksys::act::Actor* actor);
@@ -402,7 +402,7 @@ void sub_7100EE56C0(ksys::act::Actor* actor);
 // Actor message helpers at 0x71011d75cc / 7650 / 76e0, defined beside the Actor methods.
 void sub_71011D75CC(ksys::act::Actor* actor);
 void sub_71011D7650(ksys::act::Actor* actor, ksys::act::BaseProc* proc);
-void sub_71011D76E0(ksys::act::Actor* actor, const ksys::act::ActorConstDataAccess& accessor);
+void sub_71011D76E0(ksys::act::Actor* actor, const ksys::act::ActorLinkConstDataAccess& accessor);
 
 // Declaration only, source owner unknown. Complete 2F6D8 forwards these vector
 // addresses and three floats to 2FAC8 / 11EE70C. Matrix callers 740118 / 74018C /
@@ -411,7 +411,7 @@ bool sub_710002F6D8(sead::Vector3f* value, const sead::Vector3f& target, f32 wei
                    f32 max_step, f32 min_step);
 
 // Source owner unknown: full Stasis countdown passes a Vector3f output and an acquired accessor.
-bool sub_7100D36F90(sead::Vector3f* out, const ksys::act::ActorConstDataAccess& accessor);
+bool sub_7100D36F90(sead::Vector3f* out, const ksys::act::ActorLinkConstDataAccess& accessor);
 
 // Source owner unknown: D11E54 and Actor reaction pass a Matrix34f output and Actor.
 void sub_7100D36FA0(sead::Matrix34f* out, ksys::act::Actor* actor);

@@ -12,7 +12,7 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "Game/Damage/dmgDamageManager.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
@@ -99,7 +99,7 @@ void Unk_71023f92d8::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
     auto* attack = getAttackInfo(actor, 0);
     if (!attack)
         return;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(&attack->_50, &accessor);
     const sead::SafeString name = accessor.getName();
     const sead::SafeString* guard_actors = &sead::SafeString::cEmptyString;

@@ -3,7 +3,7 @@
 #include <math/seadVector.h>
 #include <thread/seadCriticalSection.h>
 #include "KingSystem/ActorSystem/Profiles/actDynamicActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Utils/Types.h"
 
@@ -88,7 +88,7 @@ KSYS_CHECK_SIZE_NX150(Bullet, 0xd00);
 namespace acc {
 
 // Accessor (CSV act::acc::Bullet::*).
-class Bullet : public ActorConstDataAccess {
+class Bullet : public ActorLinkConstDataAccess {
 public:
     // 0x71000056e4: the bullet's owner link (_ba0), or the dummy link if the actor is no Bullet.
     BaseProcLink& sub_71000056E4() const;

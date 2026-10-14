@@ -14,7 +14,7 @@
 #include "Game/gameScene.h"
 #include "Game/gameSceneSubsys12.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorHeapUtil.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
@@ -1611,7 +1611,7 @@ void PauseMenuDataMgr::removeGrabbedItems() {
 bool PauseMenuDataMgr::removeGrabbedItem(ksys::act::BaseProcLink* link) {
     bool found = false;
     if (link && link->hasProc()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(link, &accessor);
         const auto name = accessor.getName();
         auto& cs = mCritSection;

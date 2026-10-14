@@ -2,7 +2,7 @@
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/Utils/Thread/Message.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/Actor/actSiteBoss.h"
 
@@ -30,7 +30,7 @@ void SiteBossReflectArrowRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     for (s32 i = 0; i < 20; ++i) {
         auto& link = boss->_1560._1e0[i];
         if (link.hasProc()) {
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             ksys::act::acquireActor(&link, &accessor);
             if (accessor.isStateCalc()) {
                 ++_500;
@@ -102,7 +102,7 @@ bool SiteBossReflectArrowRoot::sub_7100582C20(sead::Vector3f* out) {
 
     auto& link = boss->_1560._1e0[_508];
     if (link.hasProc()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&link, &accessor);
         if (accessor.isStateCalc()) {
             accessor.getActorMtx().getTranslation(*out);
@@ -154,7 +154,7 @@ void SiteBossReflectArrowRoot::m45(sead::Vector3f* out) {
 }
 
 void SiteBossReflectArrowRoot::m46(sead::Vector3f* out) {
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(mTargetActor_d, &accessor);
     accessor.getActorMtx().getTranslation(*out);
 }

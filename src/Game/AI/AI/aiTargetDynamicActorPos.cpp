@@ -1,5 +1,5 @@
 #include "Game/AI/AI/aiTargetDynamicActorPos.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 
 namespace uking::ai {
 
@@ -30,7 +30,7 @@ void TargetDynamicActorPos::loadParams_() {
 
 void TargetDynamicActorPos::m35(sead::Vector3f* pos) {
     if (mTargetActor_d->hasProc()) {
-        ksys::act::ActorConstDataAccess acc;
+        ksys::act::ActorLinkConstDataAccess acc;
         ksys::act::acquireActor(mTargetActor_d, &acc);
         acc.getActorMtx().getTranslation(*pos);
     } else {

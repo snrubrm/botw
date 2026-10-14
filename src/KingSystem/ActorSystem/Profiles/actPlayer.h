@@ -194,7 +194,7 @@ public:
     /* 274 */ uking::act::Weapon* m274() override;
     /* 275 */ uking::act::Weapon* m275() override;
     /* 276 */ Actor* m276(int idx) override;
-    /* 277 */ void m277(ActorConstDataAccess* accessor, int idx) override;
+    /* 277 */ void m277(ActorLinkConstDataAccess* accessor, int idx) override;
     /* 278 */ s32 m278(u8 idx) override;
     /* 279 */ s32 getArmorDyeStuff() override;
     /* 280 */ bool m280() override;
@@ -235,8 +235,8 @@ public:
     /* 326 */ f32 m326() override { return _2084; }
     /* 327 */ f32 m327() override { return _2088; }
     /* 328 */ bool m328() override;
-    /* 329 */ bool isRevivalFairyActive(ActorConstDataAccess* accessor) override;
-    /* 330 */ bool isZoraHeroActive(ActorConstDataAccess* accessor) override;
+    /* 329 */ bool isRevivalFairyActive(ActorLinkConstDataAccess* accessor) override;
+    /* 330 */ bool isZoraHeroActive(ActorLinkConstDataAccess* accessor) override;
     /* 331 */ bool canUseRevaliGale() override;
     /* 332 */ bool canUseDarukProtection() override;
     /* 333 */ bool canUseUrbosaFury() override;

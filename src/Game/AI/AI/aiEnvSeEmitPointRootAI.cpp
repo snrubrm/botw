@@ -1,7 +1,7 @@
 #include "Game/AI/AI/aiEnvSeEmitPointRootAI.h"
 #include <limits>
 #include "Game/Actor/actEnvSeEmitPoint.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorSystem.h"
 #include "KingSystem/Sound/sndMgr.h"
 
@@ -20,7 +20,7 @@ bool EnvSeEmitPointRootAI::init_(sead::Heap* heap) {
 void EnvSeEmitPointRootAI::enter_(ksys::act::ai::InlineParamPack* params) {
     f32 distance = std::numeric_limits<f32>::max();
     {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::ActorSystem::instance()->getPlayer(&accessor);
         if (accessor.hasProc()) {
             const auto& mtx = accessor.getActorMtx();
@@ -47,7 +47,7 @@ void EnvSeEmitPointRootAI::enter_(ksys::act::ai::InlineParamPack* params) {
 void EnvSeEmitPointRootAI::calc_() {
     f32 distance = std::numeric_limits<f32>::max();
     {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::ActorSystem::instance()->getPlayer(&accessor);
         if (accessor.hasProc()) {
             const auto& mtx = accessor.getActorMtx();

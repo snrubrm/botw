@@ -1,6 +1,6 @@
 #include "KingSystem/Quest/qstIndicator.h"
 #include "KingSystem/Quest/qstStep.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 
 namespace ksys::qst {
 
@@ -192,7 +192,7 @@ IndicatorActor::~IndicatorActor() = default;
 
 sead::Vector3f IndicatorActor::getPosition() const {
     if (kind == 1) {
-        act::ActorConstDataAccess accessor;
+        act::ActorLinkConstDataAccess accessor;
         act::acquireActor(&link, &accessor);
         if (accessor.hasProc())
             return accessor.getActorMtx().getTranslation();

@@ -7,7 +7,7 @@
 #include "KingSystem/ActorSystem/actActorCreator.h"
 #include "KingSystem/ActorSystem/actActorHeapUtil.h"
 #include "KingSystem/ActorSystem/actInstParamPack.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include <algorithm>
 #include <math/seadMathCalcCommon.h>
 #include "Game/AI/aiUnk_710072BA90.h"
@@ -110,7 +110,7 @@ bool ElectricBlownOff::sub_7100103E00(sead::Heap* heap) {
 void ElectricBlownOff::sub_710010441C() {
     if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
         auto& link = enemy->getActorPartsActor(sead::SafeString(mElectricActorKey_s.cstr()));
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&link, &accessor);
         accessor.setProperties(enemy->getMtx(), nullptr, nullptr, nullptr, false, 0, -1);
     }
@@ -119,7 +119,7 @@ void ElectricBlownOff::sub_710010441C() {
 void ElectricBlownOff::sub_710010451C() {
     if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
         auto& link = enemy->getActorPartsActor(sead::SafeString(mElectricActorKey_s.cstr()));
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&link, &accessor);
         accessor.sleep(ksys::act::BaseProc::SleepWakeReason::_0);
     }

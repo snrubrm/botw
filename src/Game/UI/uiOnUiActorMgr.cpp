@@ -2,7 +2,7 @@
 #include "Game/Actor/actPauseMenuPlayer.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerArmors.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 
 namespace uking::ui {
@@ -34,7 +34,7 @@ void OnUiActorMgr::sub_7100906E70() {
         mActor = nullptr;
     }
     if (_50.hasProc()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&_50, &accessor);
         accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
         _50.reset();

@@ -1,6 +1,6 @@
 #include "Game/Actor/actCamera.h"
 #include "Game/Actor/actCameraUtil.h"
-#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
+#include "KingSystem/ActorSystem/actBaseProcAccessor.h"
 #include "KingSystem/ActorSystem/actBaseProcMgr.h"
 
 namespace uking::act {
@@ -18,7 +18,7 @@ Camera* Root6::sub_71009285F0() {
 
 SEAD_SINGLETON_DISPOSER_IMPL(Root6)
 
-void Root6::sub_71009287CC(ksys::act::ActorLinkConstDataAccess* accessor) {
+void Root6::sub_71009287CC(ksys::act::BaseProcAccessor* accessor) {
     if (accessor)
         accessor->acquire(mCamera);
 }

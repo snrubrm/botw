@@ -12,7 +12,7 @@
 #include "KingSystem/Physics/System/physRayCastForRequest.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actChemical.h"
@@ -318,7 +318,7 @@ void FishRoot::m40() {
 
 void FishRoot::changeToDiscoverInterest() {
     if (!isCurrentChild("興味対象発見")) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         if (ksys::act::acquireActor(&_150, &accessor)) {
             ksys::act::ai::InlineParamPack pack;
             sead::Vector3f pos;

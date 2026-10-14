@@ -6,7 +6,7 @@
 #include "Game/AI/aiUnk_71007377D4.h"
 #include <math/seadMathCalcCommon.h>
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/Resource/Actor/resResourceAttCheck.h"
@@ -43,7 +43,7 @@ bool EnemySearchHorse::init_(sead::Heap* heap) {
 void EnemySearchHorse::sub_71003B9624() {
     ksys::act::ai::InlineParamPack pack;
     if (_58.hasProc()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&_58, &accessor);
         sead::Vector3f pos;
         accessor.getActorMtx().getTranslation(pos);
@@ -63,7 +63,7 @@ void EnemySearchHorse::sub_71003B977C() {
     bool found;
     {
         ksys::res::AttCheck_Unk1 arg;
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&_58, &accessor);
         arg._0 = mActor->getMtx();
         arg._34 = false;
@@ -88,7 +88,7 @@ bool EnemySearchHorse::sub_71003B9914() {
     if (!*mParams.mNoWeaponRiding_s && sub_71005D8B60(mActor))
         return false;
     if (isCurrentChild("直進") && _58.hasProc()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&_58, &accessor);
         if (accessor.getLife() >= 1) {
             sead::Vector3f pos;
@@ -148,7 +148,7 @@ void EnemySearchHorse::calc_() {
         }
     }
     if (isCurrentChild("怒り") && _110.hasProc()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&_110, &accessor);
         child->setDynamicParam(accessor.getActorMtx().getTranslation(), "TargetPos");
     }
@@ -180,7 +180,7 @@ bool EnemySearchHorse::isFinished() const {
 void EnemySearchHorse::changeToStraightMove() {
     ksys::act::ai::InlineParamPack pack;
     if (_58.hasProc()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&_58, &accessor);
         sead::Vector3f pos;
         accessor.getActorMtx().getTranslation(pos);

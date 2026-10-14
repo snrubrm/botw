@@ -1,5 +1,5 @@
 #include "Game/AI/AI/aiPriestBossMeta.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 
 namespace uking::ai {
 
@@ -12,12 +12,12 @@ Unk_7102450fa8* PriestBossMeta::sub_7100525A88() {
         *static_cast<Unk_71025afb58**>(mPriestBossMetaAIUnit_a));
 }
 
-bool PriestBossMeta::sub_7100525B18(int idx, ksys::act::ActorConstDataAccess* accessor) {
+bool PriestBossMeta::sub_7100525B18(int idx, ksys::act::ActorLinkConstDataAccess* accessor) {
     return sub_7100525A88()->sub_71007194D4(idx, accessor);
 }
 
 bool PriestBossMeta::sub_7100525BC0(int idx, ksys::act::BaseProcLink* link) {
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (sub_7100525A88()->sub_71007194D4(idx, &accessor))
         accessor.linkAcquire(link);
     return link->hasProc();

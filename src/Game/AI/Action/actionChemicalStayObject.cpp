@@ -3,7 +3,7 @@
 #include <random/seadGlobalRandom.h>
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorCreator.h"
 #include "KingSystem/ActorSystem/actActorHeapUtil.h"
 #include "KingSystem/ActorSystem/actInstParamPack.h"
@@ -20,7 +20,7 @@ ChemicalStayObject::~ChemicalStayObject() {
     if (_1a8.isBufferReady()) {
         for (s32 i = 0; i < _1a8.size(); ++i) {
             if (_1a8[i].hasProc()) {
-                ksys::act::ActorConstDataAccess accessor;
+                ksys::act::ActorLinkConstDataAccess accessor;
                 ksys::act::acquireActor(&_1a8[i], &accessor);
                 if (!accessor.isDeletedOrDeleting())
                     accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
@@ -162,7 +162,7 @@ void ChemicalStayObject::sub_71000DD774() {
 
     sead::Matrix34f mtx = mActor->getMtx();
     mtx.setTranslation(_c4);
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(&_1a8[_b8], &accessor);
     accessor.setProperties(mtx, nullptr, nullptr, nullptr, false, 0, -1);
     _c4 = pos;

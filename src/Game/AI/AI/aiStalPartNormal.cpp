@@ -1,5 +1,5 @@
 #include "Game/AI/AI/aiStalPartNormal.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "Game/AI/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actActor.h"
@@ -50,7 +50,7 @@ bool StalPartNormal::handleMessage_(const ksys::Message* message) {
 // 0x71005a7854
 void StalPartNormal::sub_71005A7854() {
     ksys::act::ai::InlineParamPack pack;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(&_58, &accessor);
     pack.addVec3(accessor.getActorMtx() * *mParams.mTgtOffset_s, "TargetPos", -1);
     changeChild("気づき", &pack);
@@ -64,7 +64,7 @@ void StalPartNormal::sub_71005A815C() {
         return;
     }
     ksys::act::ai::InlineParamPack pack;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(&_58, &accessor);
     pack.addVec3(accessor.getActorMtx() * *mParams.mTgtOffset_s, "TargetPos", -1);
     changeChild("移動", &pack);
@@ -74,7 +74,7 @@ void StalPartNormal::sub_71005A815C() {
 // 0x71005a82f8
 void StalPartNormal::sub_71005A82F8() {
     ksys::act::ai::InlineParamPack pack;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(&_58, &accessor);
     pack.addVec3(accessor.getActorMtx() * *mParams.mTgtOffset_s, "TargetPos", -1);
     changeChild("ジャンプ", &pack);

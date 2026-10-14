@@ -1,6 +1,6 @@
 #include "Game/AI/Action/actionBolt.h"
 #include "Game/Actor/actModelMaterialUtil.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Map/mapObjectLink.h"
@@ -50,7 +50,7 @@ void Bolt::calc_() {
     }
 
     if (!*mIsNoBindAlive_m) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         if (!ksys::act::acquireActor(&_28, &accessor) || accessor.isStateSleep())
             mActor->deleteLater(ksys::act::BaseProc::DeleteReason::_0);
     }

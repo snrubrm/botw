@@ -1,6 +1,6 @@
 #include "Game/AI/AI/aiPriestBossBlowoffReadyReaction.h"
 #include "Game/AI/aiUnk_7102450fa8.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 
 namespace uking::ai {
 
@@ -25,7 +25,7 @@ void PriestBossBlowoffReadyReaction::sub_7100510E80() {
 
     unit->_34c = 0;
     for (s32 i = 0; i < 8; ++i) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         if (unit->sub_71007194D4(i + 11, &accessor)) {
             {
                 sead::ScopedLock<sead::JobQueueLock> lock(&_40._18.mLock);

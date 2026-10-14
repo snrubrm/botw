@@ -2,7 +2,7 @@
 #include <cmath>
 #include "Game/Actor/actWolfLink.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
@@ -28,7 +28,7 @@ void WolfLinkFollowWait::calc_() {
         return;
 
     if (isCurrentChild("待機")) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         if (!ksys::act::acquireActor(&ksys::act::PlayerInfo::getSomeProcLink(), &accessor)) {
             setFailed();
             return;

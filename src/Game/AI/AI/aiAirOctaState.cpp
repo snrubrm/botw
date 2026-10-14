@@ -5,7 +5,7 @@
 #include "Game/Damage/dmgDamageManager.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
@@ -27,7 +27,7 @@ void AirOctaState::sub_71002FDF9C() {
     if (constraints.size() && constraints[0])
         constraints[0]->sub_7100F6A074();
 
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     auto* manager = sead::DynamicCast<AirOctaDataMgr>(
         *static_cast<Unk_71025afb58**>(mAirOctaDataMgr_a));
     if (ksys::act::acquireActor(&manager->getProc(), &accessor)) {
@@ -45,7 +45,7 @@ AirOctaState::AirOctaState(const InitArg& arg) : EnemyRoot(arg) {}
 
 AirOctaState::~AirOctaState() {
     if (_218.hasProc()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         if (ksys::act::acquireActor(&_218, &accessor))
             accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
     }
@@ -119,7 +119,7 @@ void AirOctaState::sub_71002FEDD0() {
 void AirOctaState::sub_71002FD5BC() {
     if (!isCurrentChild("待機") || m36())
         return;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (ksys::act::acquireActor(
             &sead::DynamicCast<AirOctaDataMgr>(*static_cast<Unk_71025afb58**>(mAirOctaDataMgr_a))
                  ->mBaseProcLink2,
@@ -295,7 +295,7 @@ bool AirOctaState::sub_71002FE954(f32 max_yaw, f32 max_pitch) {
     if (!player_info)
         return false;
 
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (!ksys::act::acquireActor(&player_info->getPlayerLink(), &accessor))
         return false;
 

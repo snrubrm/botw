@@ -7,7 +7,7 @@
 #include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actAiActionBase.h"
 
 ksys::act::BaseProcLink& sub_710073E9A8(ksys::act::Actor* actor, const sead::SafeString& name) {
@@ -16,7 +16,7 @@ ksys::act::BaseProcLink& sub_710073E9A8(ksys::act::Actor* actor, const sead::Saf
     return ksys::act::getDummyBaseProcLink();
 }
 
-void sub_71006DED9C(const ksys::act::ActorConstDataAccess& accessor, ksys::act::BaseProc* proc);
+void sub_71006DED9C(const ksys::act::ActorLinkConstDataAccess& accessor, ksys::act::BaseProc* proc);
 
 void sub_710073EA44(ksys::act::Actor* actor, const sead::SafeString& name, const sead::Matrix34f& mtx,
                     const sead::Vector3f* vel, const sead::Vector3f* ang_vel, bool a6) {
@@ -26,11 +26,11 @@ void sub_710073EA44(ksys::act::Actor* actor, const sead::SafeString& name, const
     auto& link = enemy->getActorPartsActor(name);
     if (!link.hasProc())
         return;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     acquireActor(&link, &accessor);
     accessor.setProperties(mtx, vel, ang_vel, nullptr, true, 2, -1);
     {
-        ksys::act::ActorConstDataAccess accessor2;
+        ksys::act::ActorLinkConstDataAccess accessor2;
         acquireActor(&link, &accessor2);
         sub_71006DED9C(accessor2, enemy);
         if (a6)
@@ -79,7 +79,7 @@ bool Unk_710073ebd4::sub_710073EF50(const ksys::act::ai::ActionBase*) {
         auto* enemy = static_cast<uking::act::Enemy*>(actor);
         auto& link = enemy->getActorPartsActor(mWork);
         if (link.hasProc()) {
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             ksys::act::acquireActor(&link, &accessor);
             return accessor.isStateSleep();
         }
@@ -126,7 +126,7 @@ void Unk_710073ebd4::sub_710073F1BC(sead::Matrix34f* mtx, sead::Vector3f* vel,
     f32 gravity;
     {
         auto& link = sub_710073E9A8(mActor, mWork);
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&link, &accessor);
         sead::Vector3f gravity_vector;
         sub_710072DC50(&gravity_vector, mActor);
@@ -158,7 +158,7 @@ void Unk_710073ebd4::sub_710073F3FC(sead::Vector3f* out, f32 lead_time) {
     f32 gravity;
     {
         auto& link = sub_710073E9A8(mActor, mWork);
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&link, &accessor);
         sead::Vector3f gravity_vector;
         sub_710072DC50(&gravity_vector, mActor);

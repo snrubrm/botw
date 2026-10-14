@@ -2,7 +2,7 @@
 #include "KingSystem/ActorSystem/actAttackSensor.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "Game/Actor/actSwarm.h"
 #include "Game/Actor/actUnk_71025ae680.h"
 
@@ -13,7 +13,7 @@ BeeSwarmRoot::BeeSwarmRoot(const InitArg& arg) : SwarmRoot(arg) {}
 BeeSwarmRoot::~BeeSwarmRoot() {
     auto& link = mActor->getCreateArgBaseProcLink();
     if (link.hasProc()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&link, &accessor);
         mActor->sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x300000d),
                             nullptr, false);

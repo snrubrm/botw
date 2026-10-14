@@ -2,7 +2,7 @@
 #include "Game/AI/aiUnk_71006F5B14.h"
 #include "Game/Actor/actGelEnemy.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 
 namespace uking::ai {
 
@@ -27,7 +27,7 @@ void GelEnemyReaction::enter_(ksys::act::ai::InlineParamPack* params) {
     auto& weapon = enemy->getActorPartsActor("EatWeapon");
     if (!weapon.hasProc())
         return;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(&weapon, &accessor);
     const sead::Vector3f vel(0, 0.2f, 0);
     accessor.setProperties(mActor->getMtx(), &vel, nullptr, nullptr, false, 0, -1);

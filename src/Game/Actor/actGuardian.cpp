@@ -1,7 +1,7 @@
 #include "Game/Actor/actGuardian.h"
 #include <basis/seadNew.h>
 #include "Game/Damage/dmgDamageCallback.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "Game/gameLastBossMgr.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
@@ -26,7 +26,7 @@ void Guardian::onPreDeleteStart_(PrepareArg& arg) {
 void Guardian::onSleepRequested_(SleepWakeReason reason) {
     DynamicActor::onSleepRequested_(reason);
 
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(&_14f8, &accessor);
     accessor.sleep(reason);
     ksys::act::acquireActor(&_1508, &accessor);
@@ -44,7 +44,7 @@ void Guardian::onSleepRequested_(SleepWakeReason reason) {
 void Guardian::onWakeUpRequested_(SleepWakeReason reason) {
     Actor::onWakeUpRequested_(reason);
 
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(&_14f8, &accessor);
     accessor.setProperties(int(reason), accessor.getActorMtx(), nullptr, nullptr, nullptr, false, 0,
                            -1);
@@ -133,7 +133,7 @@ void Guardian::sub_710003B3FC() {
 
 s32 Guardian::sub_710003B098() const {
     for (s32 i = 0; i < 5; ++i) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&_1538[i], &accessor);
         if (accessor.isStateSleep())
             return i;
@@ -193,12 +193,12 @@ bool Guardian::sub_71000370B4() const {
 }  // namespace uking::act
 
 // NON_MATCHING: the first cast initializes RTTI before the null guard and selects its result.
-uking::act::Guardian* sub_710003B738(const ksys::act::ActorConstDataAccess& accessor) {
+uking::act::Guardian* sub_710003B738(const ksys::act::ActorLinkConstDataAccess& accessor) {
     auto* actor = sead::DynamicCast<ksys::act::Actor>(accessor.getProc());
     return sead::DynamicCast<uking::act::Guardian>(actor);
 }
 
-u32 sub_710003B71C(const ksys::act::ActorConstDataAccess& accessor) {
+u32 sub_710003B71C(const ksys::act::ActorLinkConstDataAccess& accessor) {
     auto* guardian = sub_710003B738(accessor);
     return guardian ? guardian->_14d8 : 0;
 }

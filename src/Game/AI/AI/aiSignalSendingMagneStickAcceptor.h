@@ -1,6 +1,6 @@
 #pragma once
 
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace ksys::map {
@@ -23,7 +23,7 @@ public:
 
 protected:
     // 0x710056bd78: acquires the closest placed actor within MagneStickMaxSearchDistance into `acc`
-    void sub_710056BD78(ksys::act::ActorConstDataAccess* acc);
+    void sub_710056BD78(ksys::act::ActorLinkConstDataAccess* acc);
     // 0x710056be7c (declared only, 528 bytes): the next candidate map object from `*index` on (nullptr at the end)
     ksys::map::Object* sub_710056BE7C(ksys::act::Actor* actor, s32* index, void* a3);
 

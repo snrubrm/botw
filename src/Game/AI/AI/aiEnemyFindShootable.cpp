@@ -1,7 +1,7 @@
 #include "Game/AI/AI/aiEnemyFindShootable.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/Resource/Actor/resResourceAttCheck.h"
 
@@ -14,7 +14,7 @@ bool EnemyFindShootable::init_(sead::Heap* heap) {
 }
 
 void EnemyFindShootable::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ActorConstDataAccess acc;
+    ksys::act::ActorLinkConstDataAccess acc;
     ksys::act::acquireActor(mParams.mTargetActor_d, &acc);
     acc.getActorMtx().getTranslation(_68);
     _74 = acc.sub_7100D10E6C(30);
@@ -27,7 +27,7 @@ void EnemyFindShootable::enter_(ksys::act::ai::InlineParamPack* params) {
 // NON_MATCHING: stack slots of the two accessors, the original passes a stack copy of _68 to sub_71005DB1D8, and
 // the AttOffset matrix product is scheduled differently (as in LandHumEnemyUnarmedBattle::sub_7100470D54).
 void EnemyFindShootable::calc_() {
-    ksys::act::ActorConstDataAccess target;
+    ksys::act::ActorLinkConstDataAccess target;
     ksys::act::acquireActor(mParams.mTargetActor_d, &target);
     target.getActorMtx().getTranslation(_68);
     _74 = target.sub_7100D10E6C(30);
@@ -39,7 +39,7 @@ void EnemyFindShootable::calc_() {
 
     // Whether the target can be grabbed from the AttOffset point (its "Grab" attention check).
     const auto canGrab = [this] {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(mParams.mTargetActor_d, &accessor);
         auto* actor = mActor;
         ksys::res::AttCheck_Unk1 arg;

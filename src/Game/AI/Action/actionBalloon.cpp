@@ -2,7 +2,7 @@
 #include "Game/AI/Action/actionOctarockBalloonBase.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorCreator.h"
 #include "KingSystem/ActorSystem/actActorHeapUtil.h"
 #include "KingSystem/ActorSystem/actInstParamPack.h"
@@ -17,7 +17,7 @@ Balloon::Balloon(const InitArg& arg) : BalloonBase(arg) {}
 
 Balloon::~Balloon() {
     if (_118.hasProc()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         if (ksys::act::acquireActor(&_118, &accessor))
             accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
     }

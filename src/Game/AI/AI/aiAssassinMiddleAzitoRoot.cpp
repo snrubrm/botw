@@ -5,7 +5,7 @@
 #include "Game/Actor/actUnk_71002dccbc.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actActorWeapons.h"
 #include "KingSystem/ActorSystem/actTag.h"
@@ -63,7 +63,7 @@ bool AssassinMiddleAzitoRoot::handleMessage_(const ksys::Message* message) {
     if (!_490.m2(*message))
         return false;
     {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&_490._8, &accessor);
         auto* actor = mActor;
         if (actor->getName() == accessor.getName()) {
@@ -204,7 +204,7 @@ void AssassinMiddleAzitoRoot::m59() {
         return;
     }
 
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(&_400, &accessor);
     sead::Vector3f pos;
     accessor.getActorMtx().getTranslation(pos);
@@ -293,7 +293,7 @@ bool AssassinMiddleAzitoRoot::sub_710031E748(const char* unit_config_name) {
         const sead::SafeString name = linked->getUnitConfigName();
         if (unit_config_name && name != unit_config_name)
             continue;
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         linked->getActorWithAccessor(accessor);
         if (accessor.hasProc()) {
             found = true;
@@ -348,7 +348,7 @@ bool Unk_71023d8848::m2(ksys::act::Unk_71024dc978* entry) {
     auto* target = sead::DynamicCast<ksys::act::Unk_71024dc858>(entry);
     if (!target || !target->mLink.hasProcInCalcState())
         return false;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(&target->mLink, &accessor);
     return ksys::util::sub_71010C2EE4(accessor.getName(), *_28, ',');
 }

@@ -2,7 +2,7 @@
 #include "Game/AI/aiUnk_710073CDFC.h"
 #include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorCreator.h"
 #include "KingSystem/ActorSystem/actActorHeapUtil.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
@@ -97,7 +97,7 @@ void ForkSwapPartsItemFromDropTable::calc_() {
             } else {
                 actor->sleep(ksys::act::BaseProc::SleepWakeReason::_0);
                 auto& link = enemy->getActorPartsActor(key);
-                ksys::act::ActorConstDataAccess accessor;
+                ksys::act::ActorLinkConstDataAccess accessor;
                 ksys::act::acquireActor(&link, &accessor);
                 accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
                 enemy->sub_7100D3D2B4(key);

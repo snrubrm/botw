@@ -7,7 +7,7 @@
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace ksys::act {
-class ActorConstDataAccess;
+class ActorLinkConstDataAccess;
 }
 
 namespace uking::action {
@@ -32,7 +32,7 @@ protected:
     void sub_710074DBD0(const sead::Matrix34f& mtx, sead::Vector3f* out);
     void sub_710074DD28(const act::Unk_7100922700& polar, sead::Vector3f* out);
     // Acquires the player (or what the player is riding / connected to) into `accessor`.
-    void sub_710074E3EC(ksys::act::ActorConstDataAccess* accessor);
+    void sub_710074E3EC(ksys::act::ActorLinkConstDataAccess* accessor);
 
     f32 _4c = 0;
     f32 _50 = 0;

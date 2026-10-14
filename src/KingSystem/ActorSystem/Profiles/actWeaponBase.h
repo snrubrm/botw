@@ -4,7 +4,7 @@
 #include <prim/seadSafeString.h>
 #include <thread/seadCriticalSection.h>
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/ActorSystem/actBaseProcHandle.h"
 #include "KingSystem/ActorSystem/actModelBindInfo.h"
@@ -68,7 +68,7 @@ public:
     virtual bool isParentEqualToById(BaseProc* proc) { return _938.hasProcById(proc); }
     virtual bool isParentEqual(const BaseProcLink& link) { return _938 == link; }
     virtual bool m153() { return false; }
-    // 0x7100ef5e3c: the actor linked at +0x938 passes ActorConstDataAccess::sub_7100D12E64.
+    // 0x7100ef5e3c: the actor linked at +0x938 passes ActorLinkConstDataAccess::sub_7100D12E64.
     virtual bool m154();
     virtual bool m155() { return false; }
     virtual bool m156() { return false; }
@@ -272,7 +272,7 @@ namespace ksys::act::acc {
 // Accessor for WeaponBase actors (lane4 s44; the 0x7100ef9bb8-0x7100efb798 functions in the WeaponBase TU, unnamed in
 // the CSV; class and method names are guesses). Each one casts the accessor's proc to a WeaponBase (null / not an
 // actor / not a weapon: the default value) and forwards to a virtual function of the weapon (named after it).
-class WeaponBase : public ActorConstDataAccess {
+class WeaponBase : public ActorLinkConstDataAccess {
 public:
     bool m153() const;
     bool isWeaponType0Or1Or2() const;
@@ -288,7 +288,7 @@ public:
     // flag 2 of its `mSpecialJobTypesMaskOverride`; false without a weapon.
     bool sub_7100EFA6B8() const;
     // 0x7100efa910: acquires the parent actor (`_938`) into `out`.
-    bool acquireParentActor(ActorConstDataAccess* out) const;
+    bool acquireParentActor(ActorLinkConstDataAccess* out) const;
     bool hasParentActor_() const;
     Actor* getParentActor() const;
     bool m188() const;

@@ -2,7 +2,7 @@
 #include "Game/AI/aiXlinkHandle.h"
 #include <cmath>
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
@@ -103,7 +103,7 @@ void RemainsFireDroneNormal::stopAtHomeMaybe() {
 // link search; ours derives &_d0 at the end)
 void RemainsFireDroneNormal::broadcastToLinkedActorMaybe() {
     _d0._18.y(mActor);
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::findLinkedActor(&accessor, mActor, "RegistedActorMessageBroadCastTag");
     if (accessor.hasProc())
         _d0.sub_710070DD78(accessor, true);

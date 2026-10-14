@@ -5,7 +5,7 @@
 #include "KingSystem/ActorSystem/actTag.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/System/physRayCastBodyQuery.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/Utils/Thread/Message.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
@@ -71,7 +71,7 @@ bool GuardianMiniOnNoNavMesh::sub_710041DBE0() {
         if (query.worldRayCast(ksys::phys::ContactLayerType::Entity)) {
             if (auto* body = query.getHitRigidBody()) {
                 if (auto* tag = sead::DynamicCast<ksys::act::PhysicsUserTag>(body->getUserTag())) {
-                    ksys::act::ActorConstDataAccess accessor;
+                    ksys::act::ActorLinkConstDataAccess accessor;
                     tag->acquireActor(&accessor);
                     if (accessor.hasTag(ksys::act::tags::IsIceMakerBlock)) {
                         accessor.linkAcquire(&_40);
@@ -92,7 +92,7 @@ void GuardianMiniOnNoNavMesh::sub_710041E15C() {
         if (isBgGroundHit(mActor, false)) {
             _5c = (_5c & 0xfff9) | 4;
             if (_40.hasProc()) {
-                ksys::act::ActorConstDataAccess accessor;
+                ksys::act::ActorLinkConstDataAccess accessor;
                 ksys::act::acquireActor(&_40, &accessor);
                 sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x8000004), nullptr);
                 _40.reset();
@@ -111,7 +111,7 @@ void GuardianMiniOnNoNavMesh::calc_() {
         auto* child = getCurrentChild();
         if (child->isFinished() || child->isFailed()) {
             if (isCurrentChild("アイスメーカー上") && _40.hasProc()) {
-                ksys::act::ActorConstDataAccess accessor;
+                ksys::act::ActorLinkConstDataAccess accessor;
                 ksys::act::acquireActor(&_40, &accessor);
                 sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x8000004), nullptr);
                 _40.reset();

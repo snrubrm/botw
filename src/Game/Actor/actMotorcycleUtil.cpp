@@ -1,5 +1,5 @@
 #include "Game/Actor/actMotorcycleUtil.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actPhysicsUserTag.h"
 #include "KingSystem/ActorSystem/actTag.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
@@ -45,7 +45,7 @@ void addAngularVelocity(ksys::phys::RigidBody* body, f32 x, f32 y, f32 z) {
 bool isTurnOffTouchMotorcycle(ksys::phys::RigidBody* body) {
     if (auto* user_tag = body->getUserTag()) {
         if (auto* tag = sead::DynamicCast<ksys::act::PhysicsUserTag>(user_tag)) {
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             tag->acquireActor(&accessor);
             if (accessor.hasTag(ksys::act::tags::IsTurnOffTouchMotorcycle))
                 return true;

@@ -8,7 +8,7 @@
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 
 namespace ksys::act {
-class ActorConstDataAccess;
+class ActorLinkConstDataAccess;
 }
 
 namespace ksys::map {
@@ -46,7 +46,7 @@ protected:
     // 0x71007685c0: stores the matrix of reference actor `idx`.
     void sub_71007685C0(int idx);
     // 0x71007686a8 / 0x71007686d8: callbacks of sub_71009248D4 for reference actor _1d8.
-    void sub_71007686A8(ksys::act::ActorConstDataAccess* accessor);
+    void sub_71007686A8(ksys::act::ActorLinkConstDataAccess* accessor);
     void sub_71007686D8(ksys::map::Object* object);
 
     sead::SafeArray<s32, 3> _94{};

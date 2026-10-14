@@ -1,5 +1,5 @@
 #include "Game/AI/AI/aiRemainsWindBatteryAttack.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 
 namespace uking::ai {
 
@@ -8,7 +8,7 @@ RemainsWindBatteryAttack::RemainsWindBatteryAttack(const InitArg& arg)
 
 RemainsWindBatteryAttack::~RemainsWindBatteryAttack() {
     for (s32 i = 0; i < 5; ++i) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&_38[i], &accessor);
         accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
     }

@@ -1,6 +1,6 @@
 #include "Game/AI/Action/actionPlayerSetVisibleWeapon.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorWeapons.h"
 #include "KingSystem/Utils/Thread/Message.h"
 
@@ -23,7 +23,7 @@ bool PlayerSetVisibleWeapon::oneShot_() {
     if (!weapons)
         return false;
 
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     for (int i = 0; i < 3; ++i) {
         auto& link = weapons->mWeapons[i].link;
         if (link.hasProc())

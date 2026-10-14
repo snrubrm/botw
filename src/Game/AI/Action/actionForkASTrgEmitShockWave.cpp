@@ -1,7 +1,7 @@
 #include "Game/AI/Action/actionForkASTrgEmitShockWave.h"
 #include <limits>
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorCreator.h"
 #include "KingSystem/ActorSystem/actActorHeapUtil.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
@@ -19,7 +19,7 @@ ForkASTrgEmitShockWave::~ForkASTrgEmitShockWave() {
     if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor))
         enemy->sub_7100D3CFEC(mShockWavePartsKey_s);
     if (_98.hasProc()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&_98, &accessor);
         accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
     }
@@ -196,7 +196,7 @@ bool ForkASTrgEmitShockWave::m32() {
             link = &ksys::act::sUnk_71026505e0;
     }
     if (link->hasProc()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(link, &accessor);
         if (accessor.isStateSleep())
             return true;
@@ -216,7 +216,7 @@ void ForkASTrgEmitShockWave::sub_710014FA28(const sead::Matrix34f& mtx) {
     }
     if (!link->hasProc())
         return;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(link, &accessor);
     if (accessor.isStateSleep()) {
         accessor.setProperties(mtx, nullptr, nullptr, &scale, false, 0, -1);

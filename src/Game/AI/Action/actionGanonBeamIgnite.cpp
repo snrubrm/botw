@@ -1,6 +1,6 @@
 #include "Game/AI/Action/actionGanonBeamIgnite.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/AI/aiUnk_71007377D4.h"
 #include <gsys/gsysModel.h>
@@ -142,7 +142,7 @@ void GanonBeamIgnite::sub_71001745F8() {
     mtx.m[2][2] = m22 * (cx * cy) + m20 * (sx * sz + sy * cx * cz) +
                  m21 * (sy * sz * cx - sx * cz);
 
-    ksys::act::ActorConstDataAccess access;
+    ksys::act::ActorLinkConstDataAccess access;
     ksys::act::acquireActor(link, &access);
     access.setThisActorAsChild(mActor, false);
 

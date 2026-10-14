@@ -7,7 +7,7 @@
 #include "KingSystem/ActorSystem/actActorSystem.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerLink.h"
 #include "KingSystem/World/worldManager.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/Physics/RigidBody/Shape/Capsule/physCapsuleShape.h"
 #include "KingSystem/Physics/RigidBody/Shape/Capsule/physCapsuleRigidBody.h"
 #include "KingSystem/Physics/System/physHavokAI.h"
@@ -186,7 +186,7 @@ bool MotorcycleMgr::hasHavokQueryStarted() const {
 bool MotorcycleMgr::sub_710067B63C(sead::Vector3f* pos) {
     if (!mProcLink.hasProc())
         return false;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(&mProcLink, &accessor);
     const auto& mtx = accessor.getActorMtx();
     pos->x = mtx(0, 3);
@@ -198,7 +198,7 @@ bool MotorcycleMgr::sub_710067B63C(sead::Vector3f* pos) {
 bool MotorcycleMgr::sub_710067B6BC(sead::Matrix34f* mtx) {
     if (!mProcLink.hasProc())
         return false;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(&mProcLink, &accessor);
     accessor.sub_7100D11860(mtx);
     return true;

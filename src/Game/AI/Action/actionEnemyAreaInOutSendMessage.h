@@ -19,8 +19,8 @@ public:
 protected:
     void calc_() override;
 
-    void m32(const ksys::act::ActorConstDataAccess& accessor) override;
-    void m33(const ksys::act::ActorConstDataAccess& accessor) override;
+    void m32(const ksys::act::ActorLinkConstDataAccess& accessor) override;
+    void m33(const ksys::act::ActorLinkConstDataAccess& accessor) override;
     sead::Buffer<Payload>* m6() override { return &_70; }
 
     // static_param at offset 0x68

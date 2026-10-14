@@ -1,5 +1,5 @@
 #include "Game/AI/AI/aiTargetActorGrabAdapter.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
@@ -14,7 +14,7 @@ bool TargetActorGrabAdapter::init_(sead::Heap* heap) {
 
 void TargetActorGrabAdapter::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::InlineParamPack pack;
-    ksys::act::ActorConstDataAccess acc;
+    ksys::act::ActorLinkConstDataAccess acc;
     ksys::act::acquireActor(mTargetActor_d, &acc);
     sendMessage(*acc.getMessageTransceiverId(), ksys::MessageType(0x8000001), mActor);
     sead::Vector3f pos;
@@ -26,7 +26,7 @@ void TargetActorGrabAdapter::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void TargetActorGrabAdapter::calc_() {
     auto* child = getCurrentChild();
-    ksys::act::ActorConstDataAccess acc;
+    ksys::act::ActorLinkConstDataAccess acc;
     ksys::act::acquireActor(mTargetActor_d, &acc);
     sead::Vector3f pos;
     acc.getActorMtx().getTranslation(pos);

@@ -1,6 +1,6 @@
 #include "Game/AI/AI/aiKeeseSwarmNormal.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 
 namespace uking::ai {
@@ -45,7 +45,7 @@ bool KeeseSwarmNormal::m46(const sead::Vector3f& pos, ksys::act::BaseProcLink& t
     const f32 area_sq = area * area;
 
     const bool has_target = target.hasProc();
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(&target, &accessor);
     const auto& mtx = accessor.getActorMtx();
 

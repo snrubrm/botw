@@ -9,7 +9,7 @@
 #include "KingSystem/Physics/RigidBody/Shape/Cylinder/physCylinderShape.h"
 #include <math/seadMatrix.h>
 #include <prim/seadScopedLock.h>
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorChemicals.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorX6A0.h"
@@ -333,7 +333,7 @@ ChemicalMgr::~ChemicalMgr() = default;
 // The three overriders of Unk_710250cac8 are inline in the original: the vtable group at +0x20 has copies of
 // their bodies (0x71010cc0e8, 0x71010cc1a8, 0x71010cc244) instead of branches to them.
 inline void ChemicalMgr::m3(const sead::Vector3f* pos) {
-    act::ActorConstDataAccess accessor;
+    act::ActorLinkConstDataAccess accessor;
     act::acquireActor(&_d88, &accessor);
     sead::Matrix34f mtx = sead::Matrix34f::ident;
     mtx.setTranslation(*pos);
@@ -380,7 +380,7 @@ void ChemicalMgr::sub_71010CB39C() {
 
 void ChemicalMgr::unload2() {
     sead::ScopedLock<sead::CriticalSection> lock(&mChemicalPairLock);
-    act::ActorConstDataAccess accessor;
+    act::ActorLinkConstDataAccess accessor;
     act::acquireActor(&_d88, &accessor);
     if (accessor.isStateCalc())
         accessor.sleep(act::BaseProc::SleepWakeReason::_0);

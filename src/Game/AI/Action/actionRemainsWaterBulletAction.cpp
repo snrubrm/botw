@@ -4,7 +4,7 @@
 #include "KingSystem/ActorSystem/Profiles/actBullet.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/Utils/MathUtil.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
@@ -99,7 +99,7 @@ void RemainsWaterBulletAction::m34() {
         return;
     if (*mUseParentRevDirRot_s) {
         if (auto* bullet = sead::DynamicCast<ksys::act::Bullet>(actor)) {
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             if (ksys::act::acquireActor(&bullet->_bd0._0, &accessor)) {
                 const sead::Vector3f parent_pos = accessor.getActorMtx().getTranslation();
                 const sead::Vector3f pos = actor->getMtx().getTranslation();

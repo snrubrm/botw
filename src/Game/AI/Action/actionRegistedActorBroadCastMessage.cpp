@@ -1,6 +1,6 @@
 #include "Game/AI/Action/actionRegistedActorBroadCastMessage.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/Utils/Thread/Message.h"
 
 namespace uking::action {
@@ -37,7 +37,7 @@ bool RegistedActorBroadCastMessage::handleMessage_(const ksys::Message* message)
     for (auto& entry : _20.mEntries) {
         if (!entry.link.hasProc())
             continue;
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&entry.link, &accessor);
         const auto& source = message->getSource();
         const auto* id = accessor.getMessageTransceiverId();

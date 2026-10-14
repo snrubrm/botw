@@ -99,7 +99,7 @@ void Unk_7102413808::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
 // 0x710051a6b8
 void Unk_7102413808::sub_710051A6B8() {
     auto* manager = sead::DynamicCast<dmg::DamageManager>(mDamageManager);
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (manager) {
         ksys::act::acquireActor(manager->m37(), &accessor);
         if (accessor.hasProc()) {
@@ -189,7 +189,7 @@ void PriestBossGiantEnemyRoot::calc_() {
         } else {
             auto* manager = sead::DynamicCast<dmg::DamageManager>(mActor->getDamageMgr());
             if (manager && manager->getField50() == 5) {
-                ksys::act::ActorConstDataAccess accessor;
+                ksys::act::ActorLinkConstDataAccess accessor;
                 ksys::act::acquireActor(manager->m37(), &accessor);
                 if (accessor.hasProc() && accessor.getName() == sUnk_7102413930 && handler) {
                     _368._28 = handler->_c8;

@@ -2,7 +2,7 @@
 #include "Game/Actor/actCameraUtil.h"
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/Event/evtManager.h"
 #include "KingSystem/Event/evtUnk_7100dc816c.h"
 
@@ -33,7 +33,7 @@ void CameraEventLook::m47() {
     _140 = 0;
     if (!ksys::act::findLinkReferenceObj(&_120, sead::SafeString::cEmptyString,
                                        mTargetUniqueName_d, &_140)) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&_120, &accessor);
         sead::FixedSafeString<64> name;
         sead::FixedSafeString<64> unique_name;

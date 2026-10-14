@@ -4,7 +4,7 @@
 #include "Game/Cooking/cookManager.h"
 
 namespace ksys::act {
-class ActorConstDataAccess;
+class ActorLinkConstDataAccess;
 }
 
 namespace uking::act {
@@ -25,6 +25,6 @@ public:
 KSYS_CHECK_SIZE_NX150(CookResult, 0xdd8);
 
 // 0x710000a5e4: copies the cook item of the CookResult actor held by `accessor` into `result`.
-bool copyCookResultToCookItem(const ksys::act::ActorConstDataAccess& accessor, CookItem& result);
+bool copyCookResultToCookItem(const ksys::act::ActorLinkConstDataAccess& accessor, CookItem& result);
 
 }  // namespace uking::act

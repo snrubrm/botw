@@ -1,7 +1,7 @@
 #include "Game/AI/Action/actionPlayerSideStepLand.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 #include "KingSystem/ActorSystem/Attention/actAttentionSingleton.h"
-#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
+#include "KingSystem/ActorSystem/actBaseProcAccessor.h"
 #include "Game/gameUnk_710246d058.h"
 
 namespace uking::action {
@@ -64,7 +64,7 @@ void PlayerSideStepLand::calc_() {
     if (player->_d10 && player->_17f1) {
         sead::Vector3f target = sead::Vector3f::zero;
         if (!ksys::act::Attention::instance()->sub_7100D742E8(1)) {
-            ksys::act::ActorLinkConstDataAccess accessor;
+            ksys::act::BaseProcAccessor accessor;
             if (ksys::act::Attention::instance()->x_0(1, 0, &accessor))
                 target = accessor.getActorMtx().getTranslation();
         }

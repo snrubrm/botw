@@ -3,7 +3,7 @@
 #include <random/seadGlobalRandom.h>
 #include "Game/AI/aiUnk_7102450fa8.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 
 namespace uking::ai {
 
@@ -49,7 +49,7 @@ bool PriestBossPhase::sub_7100528C48() {
     for (s32 i = 0; i < count; ++i) {
         auto* entry = i < entries.size() ? ksys::act::sub_7100D78E30(&entries, i) : nullptr;
         auto& link = entry->_0.mLink;
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&link, &accessor);
         if (accessor.getName() != "Item_Fruit_H" && accessor.getName() != "Item_Roast_11")
             continue;

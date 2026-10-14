@@ -3,7 +3,7 @@
 #include <random/seadGlobalRandom.h>
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
@@ -117,7 +117,7 @@ bool EnemyNoticeTerror::sub_71003A7A88() {
 bool EnemyNoticeTerror::sub_71003A7B64(sead::Vector3f* out) {
     if (_60._1c & 1) {
         if (_60._0.hasProcInCalcState()) {
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             ksys::act::acquireActor(&_60._0, &accessor);
             accessor.getActorMtx().getTranslation(*out);
         } else {
@@ -127,7 +127,7 @@ bool EnemyNoticeTerror::sub_71003A7B64(sead::Vector3f* out) {
     }
     if (_80._1c & 1) {
         if (_80._0.hasProcInCalcState()) {
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             ksys::act::acquireActor(&_80._0, &accessor);
             accessor.getActorMtx().getTranslation(*out);
         } else {

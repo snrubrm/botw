@@ -4,7 +4,7 @@
 #include "KingSystem/Utils/Types.h"
 
 namespace ksys::act {
-class ActorLinkConstDataAccess;
+class BaseProcAccessor;
 }  // namespace ksys::act
 
 namespace ksys::phys {
@@ -29,14 +29,14 @@ public:
     bool m12(const ContactIterator& it, const CollisionIterator& begin,
              const CollisionIterator& end) override;
     // Whether the observed actor `accessor` is accepted.
-    virtual bool m15(const ksys::act::ActorConstDataAccess& accessor) { return false; }
+    virtual bool m15(const ksys::act::ActorLinkConstDataAccess& accessor) { return false; }
     // Whether `body` is to be ignored.
     virtual bool m16(ksys::phys::RigidBody* body);
 
     // Whether one of the bodies in [begin, end) belongs to the actor of `accessor`.
-    bool sub_7100E27D7C(const ksys::act::ActorLinkConstDataAccess& accessor,
+    bool sub_7100E27D7C(const ksys::act::BaseProcAccessor& accessor,
                         const CollisionIterator& begin, const CollisionIterator& end);
-    bool sub_7100E27F0C(const ksys::act::ActorLinkConstDataAccess& accessor,
+    bool sub_7100E27F0C(const ksys::act::BaseProcAccessor& accessor,
                         const ContactIterator& begin, const ContactIterator& end);
 };
 KSYS_CHECK_SIZE_NX150(ActorObserver, 0x18);

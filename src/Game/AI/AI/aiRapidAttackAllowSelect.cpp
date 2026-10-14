@@ -1,10 +1,10 @@
 #include "Game/AI/AI/aiRapidAttackAllowSelect.h"
 #include "Game/Actor/actWeapon.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerOrEnemy.h"
 
-s32 sub_71006DEF64(const ksys::act::ActorConstDataAccess* accessor);
+s32 sub_71006DEF64(const ksys::act::ActorLinkConstDataAccess* accessor);
 
 namespace uking::ai {
 
@@ -24,7 +24,7 @@ void RapidAttackAllowSelect::enter_(ksys::act::ai::InlineParamPack* params) {
         return;
     }
 
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(target, &accessor);
     if (accessor.hasProc()) {
         s32 attack = static_cast<ksys::act::PlayerOrEnemy*>(mActor)->getEnemyAtkPower();

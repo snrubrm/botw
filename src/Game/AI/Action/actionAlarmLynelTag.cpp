@@ -1,6 +1,6 @@
 #include "Game/AI/Action/actionAlarmLynelTag.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Map/mapObjectLink.h"
 
@@ -37,7 +37,7 @@ void AlarmLynelTag::sub_710008B5A4() {
 
     auto objects = links->mObjects;
     for (auto it = objects.begin(), end = objects.end(); it != end; ++it) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         (*it)->getActorWithAccessor(accessor);
         if (accessor.hasProc())
             _28.sub_710070DBB0(*accessor.getMessageTransceiverId(), true);

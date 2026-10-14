@@ -3,7 +3,7 @@
 #include "Game/AI/aiUnk_71007368A4.h"
 #include "Game/AI/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 
@@ -25,7 +25,7 @@ void EnemyChaseTargetAndAction::calc_() {
     UnarmedEnemySearch::calc_();
     if (isGoStraightOrMove()) {
         sead::Vector3f pos;
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         if (mTargetActor_d->hasProc()) {
             ksys::act::acquireActor(mTargetActor_d, &accessor);
             accessor.getActorMtx().getTranslation(pos);
@@ -50,7 +50,7 @@ void EnemyChaseTargetAndAction::calc_() {
 bool EnemyChaseTargetAndAction::sub_7100384D50() {
     if (sub_71005DEC08(mTargetActor_d, mActor, *mLostDist_s, *mLostSpeed_s, *mLostAng_s))
         return false;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(mTargetActor_d, &accessor);
     const auto& target_pos = accessor.getActorMtx().getTranslation();
     const auto& pos = mActor->getMtx().getTranslation();
@@ -64,7 +64,7 @@ void EnemyChaseTargetAndAction::m37() {
     if (sub_71005DEC08(mTargetActor_d, mActor, *mLostDist_s, *mLostSpeed_s, *mLostAng_s))
         setFailed();
     _90.reset(*mRepathTime_s);
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(mTargetActor_d, &accessor);
     const auto& target = accessor.getActorMtx().getTranslation();
     if (!sub_710072E154(mActor, target, nullptr, -1)) {

@@ -1,7 +1,7 @@
 #include "Game/AI/AI/aiTargetActorDistanceSelect.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 
 namespace uking::ai {
 
@@ -29,7 +29,7 @@ void TargetActorDistanceSelect::loadParams_() {
 // NON_MATCHING: identical instructions, but ours keeps &accessor in a callee-saved register (x20) for the destructor
 // call while the original recomputes `sp + 8` at the join
 float TargetActorDistanceSelect::m34() {
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (ksys::act::acquireActor(&sub_71005D94AC(mActor), &accessor)) {
         const sead::Vector3f target_pos = accessor.getActorMtx().getTranslation();
         const sead::Vector3f diff = mActor->getMtx().getTranslation() - target_pos;

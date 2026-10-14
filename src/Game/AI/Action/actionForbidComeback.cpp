@@ -27,7 +27,7 @@ void ForbidComeback::calc_() {
 }
 
 // NON_MATCHING: the original loads mActor before the forbidComebackMaybe() call
-bool ForbidComeback::m15(const ksys::act::ActorConstDataAccess& accessor) {
+bool ForbidComeback::m15(const ksys::act::ActorLinkConstDataAccess& accessor) {
     ksys::act::acc::PlayerBase player;
     player.acquireActor(accessor);
     if (!player.isPlayerProfile())

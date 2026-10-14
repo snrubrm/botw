@@ -4,7 +4,7 @@
 #include "Game/Damage/dmgDamageManager.h"
 #include "KingSystem/ActorSystem/Profiles/actBullet.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 
 namespace uking::ai {
@@ -100,7 +100,7 @@ void Unk_7102424170::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, dmg::Dama
             case 2: {
                 if (*a4 == 0) {
                     auto* manager = sead::DynamicCast<dmg::DamageManager>(mDamageManager);
-                    ksys::act::ActorConstDataAccess accessor;
+                    ksys::act::ActorLinkConstDataAccess accessor;
                     if (manager && ksys::act::acquireActor(manager->m37(), &accessor) &&
                         accessor.getProfile() == "WeaponShield") {
                         return;

@@ -1,7 +1,7 @@
 #include "Game/AI/Action/actionLastBossChemicalPillarAttack.h"
 #include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "Game/Damage/dmgDamageManager.h"
 #include "Game/AI/aiUnk_710072BA90.h"
 
@@ -17,7 +17,7 @@ bool LastBossChemicalPillarAttack::sub_71001CF880() {
         for (u32 i = 0; i < 16; ++i) {
             const sead::FormatFixedSafeString<64> name("IronPile%d", i);
             if (enemy->getActorPartsActor(name).hasProc()) {
-                ksys::act::ActorConstDataAccess accessor;
+                ksys::act::ActorLinkConstDataAccess accessor;
                 ksys::act::acquireActor(&enemy->getActorPartsActor(name), &accessor);
                 if (accessor.isStateCalc() && !accessor.sub_7100D13BB8())
                     return false;
@@ -27,7 +27,7 @@ bool LastBossChemicalPillarAttack::sub_71001CF880() {
     return true;
 }
 
-void LastBossChemicalPillarAttack::sub_71001CFA48(s32 index, ksys::act::ActorConstDataAccess* accessor) {
+void LastBossChemicalPillarAttack::sub_71001CFA48(s32 index, ksys::act::ActorLinkConstDataAccess* accessor) {
     if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
         const sead::FormatFixedSafeString<64> name("IronPile%d", index);
         if (enemy->getActorPartsActor(name).hasProc())

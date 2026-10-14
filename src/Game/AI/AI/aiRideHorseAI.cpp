@@ -1,7 +1,7 @@
 #include "Game/AI/AI/aiRideHorseAI.h"
 #include "Game/AI/aiUnk_7100E81220.h"
 #include "Game/Actor/actRideable.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
@@ -16,7 +16,7 @@ bool RideHorseAI::init_(sead::Heap* heap) {
 
 void RideHorseAI::enter_(ksys::act::ai::InlineParamPack* params) {
     _40 = 0;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (!sub_7100E81220(mActor, &accessor)) {
         setFailed();
         return;

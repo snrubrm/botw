@@ -1,6 +1,6 @@
 #include "Game/AI/Action/actionRemainsElectricWeakPointWait.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/GameData/gdtManagerInline.h"
 
@@ -57,7 +57,7 @@ void Unk_71023b3310::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
             auto* entry = sub_71007A255C(actor, 0);
             if (!entry)
                 return;
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             ksys::act::acquireActor(&entry->_e8, &accessor);
             const auto& name = accessor.getName();
             if (name == "BombArrow_A") {

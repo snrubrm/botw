@@ -44,7 +44,7 @@ public:
     bool sub_7100496EE4();
     // 0x7100497978 (CSV checkIsFooledByDisguise, declared only): whether `player`'s mask fools the
     // Lynel (All→any team tag, PhantomGanon→TeamStalfos, else Team<mask>). PlayerBase is the
-    // existing ActorConstDataAccess-derived accessor, not the actor object.
+    // existing ActorLinkConstDataAccess-derived accessor, not the actor object.
     bool sub_7100497978(const ksys::act::acc::PlayerBase* player);
     // 0x710049759c (CSV placeholder, declared only): threat score summed from params/AI state.
     // The disguise helper takes the existing PlayerBase accessor.

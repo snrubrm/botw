@@ -55,7 +55,7 @@ void SoundOcclusionTagAction::loadParams_() {
 }
 
 // NON_MATCHING: the manager and occlusion pointers use different registers.
-bool SoundOcclusionTagAction::m15(const ksys::act::ActorConstDataAccess& accessor) {
+bool SoundOcclusionTagAction::m15(const ksys::act::ActorLinkConstDataAccess& accessor) {
     switch (_50) {
     case 0:
         if (ksys::act::isPlayerProfile(accessor) && mOcclusionLevel_s) {

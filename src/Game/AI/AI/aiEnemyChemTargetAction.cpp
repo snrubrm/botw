@@ -1,7 +1,7 @@
 #include "Game/AI/AI/aiEnemyChemTargetAction.h"
 #include "Game/AI/aiUnk_71007320F0.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
@@ -23,7 +23,7 @@ bool EnemyChemTargetAction::m35() {
         return true;
 
     sead::Matrix34f mtx;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(mTargetActor_d, &accessor);
     accessor.sub_7100D11188(&mtx);
     const sead::Vector2f pos(mtx.m[0][3], mtx.m[2][3]);

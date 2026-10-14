@@ -1,8 +1,8 @@
 #include "Game/AI/Action/actionCameraEventPolarCoordPlayer.h"
 #include <prim/seadDelegate.h>
 #include "Game/Actor/actCameraUtil.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
+#include "KingSystem/ActorSystem/actBaseProcAccessor.h"
 #include "KingSystem/Event/evtEventSystem.h"
 #include "KingSystem/Event/evtUnk_7100dc816c.h"
 #include "KingSystem/Map/mapObject.h"
@@ -66,7 +66,7 @@ void CameraEventPolarCoordPlayer::sub_7100768474(int idx) {
         _118[idx] = ksys::evt::sub_7100DC85D4(mActor);
         break;
     case 1: {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         sub_7100924BE4(&accessor);
         accessor.linkAcquire(&_118[idx]);
         break;
@@ -77,7 +77,7 @@ void CameraEventPolarCoordPlayer::sub_7100768474(int idx) {
         break;
     case 3: {
         _1d8 = idx;
-        sead::Delegate1<CameraEventPolarCoordPlayer, ksys::act::ActorConstDataAccess*> on_actor(
+        sead::Delegate1<CameraEventPolarCoordPlayer, ksys::act::ActorLinkConstDataAccess*> on_actor(
             this, &CameraEventPolarCoordPlayer::sub_71007686A8);
         sead::Delegate1<CameraEventPolarCoordPlayer, ksys::map::Object*> on_object(
             this, &CameraEventPolarCoordPlayer::sub_71007686D8);
@@ -110,7 +110,7 @@ void CameraEventPolarCoordPlayer::sub_71007685C0(int idx) {
     if (_100[idx] != 2 || !_118[idx].hasProc())
         return;
 
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(&_118[idx], &accessor);
     const auto& mtx = accessor.getActorMtx();
     if (!ksys::util::sub_71011F10F4(mtx)) {
@@ -119,7 +119,7 @@ void CameraEventPolarCoordPlayer::sub_71007685C0(int idx) {
     }
 }
 
-void CameraEventPolarCoordPlayer::sub_71007686A8(ksys::act::ActorConstDataAccess* accessor) {
+void CameraEventPolarCoordPlayer::sub_71007686A8(ksys::act::ActorLinkConstDataAccess* accessor) {
     if (accessor && accessor->hasProc())
         accessor->linkAcquire(&_118[_1d8]);
 }

@@ -1,5 +1,5 @@
 #include "Game/AI/AI/aiPriestBossGiantStageRotate.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/AI/aiUnk_7102450fa8.h"
@@ -102,7 +102,7 @@ void PriestBossGiantStageRotate::sub_710051C44C() {
     auto* unit = sub_7100505BE4();
     if (!unit)
         return;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     unit->sub_71007194D4(1, &accessor);
     if (accessor.hasProc()) {
         _118.sub_710070E2BC(false, -1);

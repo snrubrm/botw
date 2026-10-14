@@ -2,7 +2,7 @@
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "Game/AI/aiUnk_71006F5B14.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "Game/Damage/dmgDamageCallback.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
@@ -176,7 +176,7 @@ void KeeseNormal::m38() {
 
 void KeeseNormal::m48(sead::Vector3f* pos) {
     if (_488.hasProc()) {
-        ksys::act::ActorConstDataAccess acc;
+        ksys::act::ActorLinkConstDataAccess acc;
         ksys::act::acquireActor(&_488, &acc);
         *pos = acc.getPreviousPos();
         pos->y = *mRoamHeightFromGlowObj_s + pos->y;

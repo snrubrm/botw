@@ -1,7 +1,7 @@
 #include "Game/AI/AI/aiSiteBossChemicalProjectile.h"
 #include "Game/Actor/actSiteBoss.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actUnk_7102459df8.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actAttackSensor.h"
@@ -278,7 +278,7 @@ bool SiteBossChemicalProjectile::sub_71003EB7C8() {
             return false;
         bool other;
         {
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             ksys::act::acquireActor(&entry->_18, &accessor);
             ksys::phys::ContactLayer layer;
             other = !accessor.sub_7100D117C0(&layer) || layer != ksys::phys::ContactLayer::EntityObject;

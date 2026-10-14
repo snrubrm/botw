@@ -2,7 +2,7 @@
 #include <math/seadVector.h>
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorAtk.h"
 #include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
@@ -43,7 +43,7 @@ void StoneBall_BRoot::scaleReceivedImpulseMaybe(ksys::act::Unk_71006dc134* arg) 
 
     if (actor->getActorFlags2().isOn(ksys::act::Actor::ActorFlag2::_40)) {
         chemical->_14c = 1.0f;
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         if (ksys::act::acquireActor(&info->_d8, &accessor) && accessor.isPlayerProfile()) {
             const sead::Vector3f& player_pos = getPlayerPosition();
             sead::Vector3f dir(actor->getMtx().m[0][3] - player_pos.x, 0.0f,

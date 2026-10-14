@@ -5,7 +5,7 @@
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/System/VFR.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/Utils/MathUtil.h"
 
 namespace uking::action {
@@ -16,7 +16,7 @@ CameraMotorcycleLockOnEmpty::~CameraMotorcycleLockOnEmpty() = default;
 
 // NON_MATCHING: bound loads and scalar scheduling differ.
 void CameraMotorcycleLockOnEmpty::sub_710077B7DC() {
-    ksys::act::ActorConstDataAccess actor;
+    ksys::act::ActorLinkConstDataAccess actor;
     sub_7100926A9C(&actor);
     if (actor.hasProc()) {
         const sead::Vector3f& velocity = actor.getVelocity();

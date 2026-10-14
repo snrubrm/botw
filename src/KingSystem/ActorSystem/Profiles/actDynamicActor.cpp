@@ -3,7 +3,7 @@
 #include <gsys/gsysModel.h>
 #include "KingSystem/ActorSystem/actActorChemicals.h"
 #include "KingSystem/ActorSystem/actActorAtk.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actUnk_71006e45c4.h"
 #include "Game/Actor/actUnk_71025ae680.h"
@@ -240,28 +240,28 @@ static BaseProc* getProcIfActor(BaseProc* proc) {
     return nullptr;
 }
 
-bool ActorConstDataAccess::sub_71006DE298(const sead::SafeString& name) const {
+bool ActorLinkConstDataAccess::sub_71006DE298(const sead::SafeString& name) const {
     auto* actor = static_cast<Actor*>(getProcIfActor(mProc));
     if (!actor)
         return false;
     return actorAIGetBool(actor, name, false);
 }
 
-bool ActorConstDataAccess::sub_71006DE338(const sead::SafeString& name) const {
+bool ActorLinkConstDataAccess::sub_71006DE338(const sead::SafeString& name) const {
     auto* actor = static_cast<Actor*>(getProcIfActor(mProc));
     if (!actor)
         return false;
     return getBoolParam(actor, name, false);
 }
 
-bool ActorConstDataAccess::sub_71006E3E00() const {
+bool ActorLinkConstDataAccess::sub_71006E3E00() const {
     auto* actor = static_cast<Actor*>(getProcIfActor(mProc));
     if (!actor)
         return false;
     return actorAIGetBool(actor, "IsEnemyLiftable", true);
 }
 
-bool ActorConstDataAccess::sub_71006E3FB4() const {
+bool ActorLinkConstDataAccess::sub_71006E3FB4() const {
     auto* actor = static_cast<Actor*>(getProcIfActor(mProc));
     auto* dynamic_actor = sead::DynamicCast<DynamicActor>(actor);
     if (!dynamic_actor)
@@ -269,7 +269,7 @@ bool ActorConstDataAccess::sub_71006E3FB4() const {
     return dynamic_actor->_a69 != 0;
 }
 
-bool ActorConstDataAccess::isBgGroundHit() const {
+bool ActorLinkConstDataAccess::isBgGroundHit() const {
     auto* actor = static_cast<Actor*>(getProcIfActor(mProc));
     if (!actor)
         return false;
@@ -281,7 +281,7 @@ bool ActorConstDataAccess::isBgGroundHit() const {
 void Unk_71006e4478::sub_71006E4478(BaseProcLink* link, const sead::Matrix34f& mtx) {
     _0 = *link;
     _10 = mtx;
-    ActorConstDataAccess accessor;
+    ActorLinkConstDataAccess accessor;
     acquireActor(&_0, &accessor);
     _4c = accessor.getPreviousPos2();
     _5d = false;

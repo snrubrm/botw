@@ -1,7 +1,7 @@
 #include "Game/AI/Action/actionSiteBossLswordAtkWithChemical.h"
 #include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 
 namespace uking::action {
@@ -15,7 +15,7 @@ SiteBossLswordAtkWithChemical::~SiteBossLswordAtkWithChemical() {
             for (s32 i = 0; i < *mEmitNum_s * 2; ++i) {
                 const sead::FormatFixedSafeString<32> name("%s%d", mEmitPartsName_s.cstr(), i);
                 if (enemy->getActorPartsActor(name).hasProc()) {
-                    ksys::act::ActorConstDataAccess accessor;
+                    ksys::act::ActorLinkConstDataAccess accessor;
                     ksys::act::acquireActor(&enemy->getActorPartsActor(name), &accessor);
                     accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
                 }
@@ -99,7 +99,7 @@ void SiteBossLswordAtkWithChemical::sub_710025B7CC() {
             for (s32 i = 0; i < *mEmitNum_s * 2; ++i) {
                 const sead::FormatFixedSafeString<32> name("%s%d", mEmitPartsName_s.cstr(), i);
                 if (enemy->getActorPartsActor(name).hasProc()) {
-                    ksys::act::ActorConstDataAccess accessor;
+                    ksys::act::ActorLinkConstDataAccess accessor;
                     ksys::act::acquireActor(&enemy->getActorPartsActor(name), &accessor);
                     if (accessor.isStateCalc())
                         accessor.sleep(ksys::act::BaseProc::SleepWakeReason::_0);

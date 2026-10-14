@@ -1,5 +1,5 @@
 #include "Game/AI/AI/aiBeeBattle.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 
 namespace uking::ai {
 
@@ -28,7 +28,7 @@ void BeeBattle::loadParams_() {
 }
 
 void BeeBattle::m36(sead::Vector3f* pos) {
-    ksys::act::ActorConstDataAccess acc;
+    ksys::act::ActorLinkConstDataAccess acc;
     ksys::act::acquireActor(&m35(), &acc);
     *pos = acc.getField44C_Vec3();
 }

@@ -163,7 +163,7 @@ bool sub_71005D88AC(ksys::act::Actor* actor, const sead::Vector3f& target, const
 bool sub_71005D9FC0(ksys::act::BaseProcLink* link);
 // 0x71005d8c94 (lane1 s43): Weapon::sub_71002EDBCC on the equipped weapon `idx`.
 void sub_71005D8C94(ksys::act::Actor* actor, int idx, const u32& value);
-// 0x71005d90e0 (lane1 s43): the Enemy's target link satisfies ActorConstDataAccess::sub_7100D12E64.
+// 0x71005d90e0 (lane1 s43): the Enemy's target link satisfies ActorLinkConstDataAccess::sub_7100D12E64.
 bool sub_71005D90E0(ksys::act::Actor* actor);
 // 0x71005e0384: the actor has a LOD state whose _1c is not 1 and is more than 100 from the player.
 bool sub_71005E0384(ksys::act::Actor* actor);
@@ -303,7 +303,7 @@ ksys::act::Actor* sub_71005D7348(ksys::act::Actor* actor);
 /// Bit 6 of Weapon::_e50 of the uking::act::Weapon in slot `idx`.
 bool sub_71005D83C8(ksys::act::Actor* actor, int idx);
 bool sub_71005D723C();
-/// NPC flag 0x2000 of the actor `link` points to (ActorConstDataAccess::sub_7100022FD0).
+/// NPC flag 0x2000 of the actor `link` points to (ActorLinkConstDataAccess::sub_7100022FD0).
 bool sub_71005D777C(ksys::act::BaseProcLink* link);
 /// 0x71005e1064: while the actor falls (velocity.y < 0), whether there is ground (sub_710072E5F8)
 /// between its position and where its velocity takes it within one frame.

@@ -1,6 +1,6 @@
 #include "Game/AI/Action/actionTriggerAllPartsSleep.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "Game/Actor/actEnemy.h"
 
 namespace uking::action {
@@ -21,7 +21,7 @@ bool TriggerAllPartsSleep::oneShot_() {
     if (auto* enemy = sead::DynamicCast<uking::act::Enemy>(mActor)) {
         auto& list = enemy->_1128.mList;
         for (auto it = list.begin(); it != list.end(); ++it) {
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             ksys::act::acquireActor(&(*it)->mLink, &accessor);
             accessor.sleep(ksys::act::BaseProc::SleepWakeReason(0));
         }

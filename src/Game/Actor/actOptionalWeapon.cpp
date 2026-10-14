@@ -3,7 +3,7 @@
 #include <prim/seadScopedLock.h>
 #include "KingSystem/ActorSystem/Profiles/actWeaponBase.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerLink.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actActorSystem.h"
 #include "KingSystem/Graphics/gfxUnk_710260af28.h"
@@ -69,7 +69,7 @@ void OptionalWeapon::sub_7100EF0D44() {
 bool OptionalWeapon::sub_7100EF1ADC() {
     sead::ScopedLock<sead::CriticalSection> lock(&_898._0);
     _898._40[1].reset();
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(&_898._40[0], &accessor);
     if (accessor.sub_7100D10F0C())
         sub_71011D75CC(this);

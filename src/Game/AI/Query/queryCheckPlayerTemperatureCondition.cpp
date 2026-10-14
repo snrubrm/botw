@@ -3,7 +3,7 @@
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 
 // 0x71006deb48: DynamicActor::m151 of the accessor's actor (src/Game/Damage/dmgActorAccessors.cpp).
-bool sub_71006DEB48(const ksys::act::ActorConstDataAccess& accessor, int bit);
+bool sub_71006DEB48(const ksys::act::ActorLinkConstDataAccess& accessor, int bit);
 
 namespace uking::query {
 

@@ -5,7 +5,7 @@
 #include "Game/AI/aiUnk_71007320F0.h"
 #include "Game/AI/aiUnk_71007377D4.h"
 #include "Game/gameStatisticsMgr.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
@@ -50,7 +50,7 @@ bool SwimEnemyFindPlayer::m35() {
 bool SwimEnemyFindPlayer::m36(bool b) {
     if (!*mIsAbleToLand_s) {
         if (auto* link = sub_71005D9050(mActor)) {
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             ksys::act::acquireActor(link, &accessor);
             if (accessor.sub_7100D110E4() <= 0.0f)
                 return false;

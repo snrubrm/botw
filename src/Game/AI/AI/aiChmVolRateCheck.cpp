@@ -1,7 +1,7 @@
 #include "Game/AI/AI/aiChmVolRateCheck.h"
 #include <cmath>
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Map/mapObjectLink.h"
 
@@ -36,7 +36,7 @@ void ChmVolRateCheck::enter_(ksys::act::ai::InlineParamPack* params) {
     if (auto* object = actor->getMapObject()) {
         auto* link_data = object->getLinkData();
         if (link_data && link_data->mObjects.size() >= 1) {
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             if (auto* linked = link_data->mObjects[0]) {
                 linked->getActorWithAccessor(accessor);
                 sead::Vector3f min;

@@ -5,7 +5,7 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorCreator.h"
 #include "KingSystem/ActorSystem/actInstParamPack.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/Event/evtManager.h"
 
 #include <prim/seadScopedLock.h>
@@ -84,7 +84,7 @@ void ActorContextStuff::sub_710065E4BC(bool delete_actor) {
     }
     auto* scene = GameSceneSubsys12::instance();
     if ((scene && scene->_a78.isBitOn(1)) || ksys::evt::Manager::instance()->hasActiveEvent()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         if (ksys::act::acquireActor(&_708, &accessor))
             accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
     }
@@ -94,7 +94,7 @@ bool ActorContextStuff::sub_710065E638() {
     sead::ScopedLock<sead::CriticalSection> lock(&_28);
     if (!sub_710065E710())
         return false;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (ksys::act::acquireActor(&_708, &accessor))
         accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
     return true;
@@ -138,7 +138,7 @@ bool ActorContextStuff::sub_710065ECF8(sead::Matrix34f* matrix, s32 index) {
     if (_68 & 1) {
         entry->sub_71006620F8(matrix);
     } else {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         // Both return values are discarded by the original before using the body matrix.
         ksys::act::acquireActor(&_708, &accessor);
         sead::Matrix34f body_matrix;

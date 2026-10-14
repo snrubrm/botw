@@ -4,7 +4,7 @@
 #include "Game/AI/aiUnk_71007320F0.h"
 #include "Game/AI/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
@@ -24,7 +24,7 @@ void LynelAttackThroughMove::enter_(ksys::act::ai::InlineParamPack* params) {
     auto* actor = mActor;
     if (auto* nav = actor->m45()) {
         if (auto* link = sub_71005D9050(actor)) {
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             ksys::act::acquireActor(link, &accessor);
             if (auto* other = accessor.sub_7100D0F57C())
                 nav->sub_7100F7D1B4(other);

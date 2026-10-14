@@ -4,7 +4,7 @@
 #include "Game/AI/aiUnk_710072BA90.h"
 #include "Game/Damage/dmgDamageManager.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/LOD/actLodState.h"
@@ -268,7 +268,7 @@ bool Unk_71023dcc20::m2(ksys::act::Unk_71024dc978* entry) {
     auto* target = sead::DynamicCast<ksys::act::Unk_71024dc858>(entry);
     if (!target)
         return false;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(&target->mLink, &accessor);
     accessor.getProfile();
     return ksys::act::isPlayerProfile(accessor) || ksys::act::isEnemyProfile(accessor) ||

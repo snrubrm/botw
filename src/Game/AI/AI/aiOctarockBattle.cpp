@@ -3,7 +3,7 @@
 #include "Game/AI/aiUnk_7100D8C538.h"
 #include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
 
@@ -94,7 +94,7 @@ void OctarockBattle::m38() {
         } else {
             auto& shoot_actor = enemy->getActorPartsActor(mShootActorKey_s);
             if (shoot_actor.hasProc()) {
-                ksys::act::ActorConstDataAccess accessor;
+                ksys::act::ActorLinkConstDataAccess accessor;
                 ksys::act::acquireActor(&shoot_actor, &accessor);
                 if (accessor.isStateSleep())
                     next = "画面外攻撃";
@@ -120,7 +120,7 @@ void OctarockBattle::m38() {
     } else {
         auto& shoot_actor = enemy->getActorPartsActor(mShootActorKey_s);
         if (shoot_actor.hasProc()) {
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             ksys::act::acquireActor(&shoot_actor, &accessor);
             if (accessor.isStateSleep())
                 next = "戦闘攻撃";
@@ -139,7 +139,7 @@ bool OctarockBattle::m39() {
         auto& shoot_actor = enemy->getActorPartsActor(mShootActorKey_s);
         if (!shoot_actor.hasProc())
             return false;
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&shoot_actor, &accessor);
         if (!accessor.isStateSleep())
             return false;

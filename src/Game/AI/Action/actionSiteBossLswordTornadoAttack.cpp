@@ -1,7 +1,7 @@
 #include "Game/AI/Action/actionSiteBossLswordTornadoAttack.h"
 #include "Game/AI/aiUnk_71007368A4.h"
 #include "Game/Actor/actEnemy.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 
 namespace uking::action {
 
@@ -27,7 +27,7 @@ void SiteBossLswordTornadoAttack::enter_(ksys::act::ai::InlineParamPack* params)
 void SiteBossLswordTornadoAttack::leave_() {
     if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
         if (enemy->getActorPartsActor("DrawingFlame").hasProc()) {
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             ksys::act::acquireActor(&enemy->getActorPartsActor("DrawingFlame"), &accessor);
             accessor.sleep(ksys::act::BaseProc::SleepWakeReason::_0);
         }

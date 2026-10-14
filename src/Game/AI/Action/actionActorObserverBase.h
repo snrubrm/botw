@@ -12,8 +12,8 @@ class Message;
 }  // namespace ksys
 
 namespace ksys::act {
-class ActorConstDataAccess;
 class ActorLinkConstDataAccess;
+class BaseProcAccessor;
 namespace ai {
 class ActionBase;
 }  // namespace ai
@@ -129,7 +129,7 @@ public:
     // 0x7100e28878 (declared only): finds the next AreaCol link of the owner's actor after link
     // `idx` (-1: from the start) whose object is an Area actor (needs the Area class RTTI), acquires
     // the area into `accessor` and returns the link index (-1 if none).
-    int getAreaCol(ksys::act::ActorConstDataAccess* accessor, int idx);
+    int getAreaCol(ksys::act::ActorLinkConstDataAccess* accessor, int idx);
 
 protected:
     ksys::act::ai::ActionBase* mOwner;

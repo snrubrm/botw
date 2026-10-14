@@ -211,7 +211,7 @@ static BaseProc* getProcIfActor(BaseProc* proc) {
     return nullptr;
 }
 
-bool ActorConstDataAccess::isPlayerOrEnemy() const {
+bool ActorLinkConstDataAccess::isPlayerOrEnemy() const {
     auto* actor = static_cast<Actor*>(getProcIfActor(mProc));
     return sead::IsDerivedFrom<PlayerOrEnemy>(actor);
 }
@@ -245,7 +245,7 @@ bool PlayerOrEnemy::isGuardJust() const {
     return poe->isGuardJust();
 }
 
-bool PlayerOrEnemy::getWeapon(ActorConstDataAccess* accessor, int idx) const {
+bool PlayerOrEnemy::getWeapon(ActorLinkConstDataAccess* accessor, int idx) const {
     auto* poe = getPlayerOrEnemy();
     if (!poe)
         return false;

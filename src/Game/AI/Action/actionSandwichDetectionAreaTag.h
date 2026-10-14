@@ -18,7 +18,7 @@ public:
 
 protected:
     void calc_() override;
-    bool m15(const ksys::act::ActorConstDataAccess& accessor) override;
+    bool m15(const ksys::act::ActorLinkConstDataAccess& accessor) override;
     void m2() override;
     void m5() override;
     bool m13(const CollisionIterator& it, int area_idx) override;

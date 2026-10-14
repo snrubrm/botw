@@ -7,7 +7,7 @@
 #include "Game/Damage/dmgDamageManager.h"
 #include "Game/gameLastBossMgr.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
@@ -44,7 +44,7 @@ void GanonBeastRoot::enter_(ksys::act::ai::InlineParamPack* params) {
         enemy->_e90 = 4;
         sub_71007A397C(mActor);
         {
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             for (auto* part : enemy->_1128.mList) {
                 ksys::act::acquireActor(&part->mLink, &accessor);
                 enemy->sendMessage(*accessor.getMessageTransceiverId(),
@@ -63,7 +63,7 @@ void GanonBeastRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     _50._30 = 30.0f;
     _50._6d = true;
     _110 = ksys::act::PlayerInfo::getSomeProcLink();
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(&_110, &accessor);
     sub_71005D8DE8(mActor, _110, &accessor.getActorMtx(), &accessor.getPreviousPos());
     sub_71005DBC94(mActor, 0, false, false, true, false, true);

@@ -1,7 +1,7 @@
 #include "Game/AI/Action/actionTurnAndLookToObjBase.h"
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
@@ -46,7 +46,7 @@ void TurnAndLookToObjBase::m33() {
 
 bool TurnAndLookToObjBase::m35(ksys::act::BaseProcLink* link, sead::Vector3f* pos,
                            const sead::SafeString& name1, const sead::SafeString& name2) {
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::findLinkedActor(&accessor, mActor, name1);
     auto* obj = ksys::act::findLinkReferenceObj(mActor, name1, "", nullptr);
     if (accessor.hasProc()) {

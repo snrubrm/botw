@@ -7,7 +7,7 @@
 #include "KingSystem/ActorSystem/actActorHeapUtil.h"
 #include "Game/AI/aiUnk_710073033C.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorNameSearch.h"
 #include "KingSystem/ActorSystem/actBaseProcMgr.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
@@ -21,7 +21,7 @@ GerudoQueenBattle::GerudoQueenBattle(const InitArg& arg) : ksys::act::ai::Ai(arg
 
 GerudoQueenBattle::~GerudoQueenBattle() {
     if (_50.hasProc()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&_50, &accessor);
         accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
         _50.reset();
@@ -67,7 +67,7 @@ bool GerudoQueenBattle::sub_71003F3E44(ksys::act::BaseProcMgr* mgr) {
     if (!result)
         return false;
     _60.acquire(result, false);
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(&_60, &accessor);
     accessor.sub_7100D14F94(_80);
     const sead::Vector3f direction =

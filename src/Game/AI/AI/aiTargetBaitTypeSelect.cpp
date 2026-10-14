@@ -1,5 +1,5 @@
 #include "Game/AI/AI/aiTargetBaitTypeSelect.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 
 namespace uking::ai {
 
@@ -14,7 +14,7 @@ void TargetBaitTypeSelect::enter_(ksys::act::ai::InlineParamPack* params) {
 void TargetBaitTypeSelect::sub_71005BC0B4(ksys::act::ai::InlineParamPack* params) {
     auto* bait = sead::DynamicCast<Unk_7102370e70>(*mTargetBaitActorLink_a);
     if (bait && bait->mLink.hasProc()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&bait->mLink, &accessor);
         if (accessor.hasTag(0xb5dc29d8u))
             changeChild("虫", params);

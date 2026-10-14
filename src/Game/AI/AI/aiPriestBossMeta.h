@@ -4,7 +4,7 @@
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace ksys::act {
-class ActorConstDataAccess;
+class ActorLinkConstDataAccess;
 class BaseProcLink;
 }  // namespace ksys::act
 
@@ -25,7 +25,7 @@ public:
 protected:
     // The PriestBossMetaAIUnit object (Unk_7102450fa8) shared through the AI tree variable.
     Unk_7102450fa8* sub_7100525A88();
-    bool sub_7100525B18(int idx, ksys::act::ActorConstDataAccess* accessor);
+    bool sub_7100525B18(int idx, ksys::act::ActorLinkConstDataAccess* accessor);
     bool sub_7100525BC0(int idx, ksys::act::BaseProcLink* link);
 
     // aitree_variable at offset 0x38

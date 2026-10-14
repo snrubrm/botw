@@ -18,7 +18,7 @@ bool AreaRecreateActorAction::init_(sead::Heap* heap) {
     return true;
 }
 
-bool AreaRecreateActorAction::m15(const ksys::act::ActorConstDataAccess& accessor) {
+bool AreaRecreateActorAction::m15(const ksys::act::ActorLinkConstDataAccess& accessor) {
     if (!mActor)
         return true;
     mActor->sub_71011DA808(accessor);

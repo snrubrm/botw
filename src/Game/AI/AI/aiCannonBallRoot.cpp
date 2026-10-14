@@ -1,6 +1,6 @@
 #include "Game/AI/AI/aiCannonBallRoot.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
 
@@ -17,7 +17,7 @@ bool CannonBallRoot::init_(sead::Heap* heap) {
 void CannonBallRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     auto* actor = mActor;
     if (actor->getCreateArgBaseProcLink().hasProc()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&actor->getCreateArgBaseProcLink(), &accessor);
         if (accessor.hasProc()) {
             if (auto* physics = actor->getPhysics())

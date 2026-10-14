@@ -1,7 +1,7 @@
 #include "Game/AI/Action/actionForkMultiSleep.h"
 #include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 
 namespace uking::action {
 
@@ -35,7 +35,7 @@ void ForkMultiSleep::enter_(ksys::act::ai::InlineParamPack* params) {
             key.format("%s%d", mPartsBaseName_s.cstr(), i);
             auto& link = enemy->getActorPartsActor(key.cstr());
             if (link.hasProcInCalcState()) {
-                ksys::act::ActorConstDataAccess accessor;
+                ksys::act::ActorLinkConstDataAccess accessor;
                 ksys::act::acquireActor(&link, &accessor);
                 accessor.sleep(ksys::act::BaseProc::SleepWakeReason::_0);
             }

@@ -5,7 +5,7 @@
 #include "Game/Actor/actRideable.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 
 namespace uking::act {
 
@@ -38,7 +38,7 @@ bool HorseRideInfo::sub_7100E7BEC0(ksys::act::BaseProc* proc) {
     if (!proc)
         return false;
 
-    ksys::act::ActorConstDataAccess accessor(proc);
+    ksys::act::ActorLinkConstDataAccess accessor(proc);
     if (!sub_7100E7BF5C(accessor, _18.hasProcById(proc)))
         return false;
     _18.acquire(proc, false);
@@ -46,7 +46,7 @@ bool HorseRideInfo::sub_7100E7BEC0(ksys::act::BaseProc* proc) {
 }
 
 bool HorseRideInfo::sub_7100E7C054(ksys::act::BaseProcLink* link) {
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (!ksys::act::acquireActor(link, &accessor))
         return false;
     if (!sub_7100E7BF5C(accessor, _18 == *link))

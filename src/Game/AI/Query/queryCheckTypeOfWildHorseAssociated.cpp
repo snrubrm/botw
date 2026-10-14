@@ -4,7 +4,7 @@
 #include "Game/Actor/actHorseBase.h"
 #include "Game/gameHorseMgr.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 
 namespace uking::query {
 
@@ -19,7 +19,7 @@ int CheckTypeOfWildHorseAssociated::doQuery() {
         return 7;
 
     int result;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(link, &accessor);
     const sead::Vector3f horse_pos = accessor.getActorMtx().getTranslation();
     const sead::Vector3f pos = mActor->getMtx().getTranslation();

@@ -29,7 +29,7 @@
 #include "Game/Damage/dmgDamageManager.h"
 #include "Game/Damage/dmgDamageManagerBase.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorCreator.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actBoneControl.h"
@@ -164,7 +164,7 @@ const sead::Vector3f& sub_71005D93CC(ksys::act::Actor* actor) {
     auto& link = sub_71005D94AC(actor);
     if (!link.hasProc())
         return sead::Vector3f::zero;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(&link, &accessor);
     return accessor.getField44C_Vec3();
 }
@@ -173,7 +173,7 @@ const sead::Vector3f& sub_71005D9548(ksys::act::Actor* actor) {
     if (!sead::IsDerivedFrom<Enemy>(actor))
         return sead::Vector3f::zero;
     auto* enemy = static_cast<Enemy*>(actor);
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(&enemy->_c48._8, &accessor);
     return accessor.getVelocity();
 }
@@ -307,7 +307,7 @@ bool sub_71005E1884(ksys::act::Actor* actor, Unk_7102357d20* sender, const char*
     for (s32 i = 0; i < objects.size(); ++i) {
         if (!objects[i])
             continue;
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         objects[i]->getActorWithAccessor(accessor);
         if (accessor.getProc() && accessor.hasTag(tag)) {
             found = true;
@@ -338,7 +338,7 @@ bool sub_71005E19F8(ksys::act::Actor* actor, Unk_7102357d20* sender, const char*
     for (s32 i = 0; i < objects.size(); ++i) {
         if (!objects[i])
             continue;
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         objects[i]->getActorWithAccessor(accessor);
         if (accessor.getProc() && accessor.hasTag(tag)) {
             found = true;
@@ -767,7 +767,7 @@ bool sub_71005DB7E4(ksys::act::Actor* actor, int idx) {
 }
 
 bool sub_71005D777C(ksys::act::BaseProcLink* link) {
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(link, &accessor);
     return accessor.sub_7100022FD0();
 }
@@ -861,7 +861,7 @@ bool sub_71005D9F4C(const sead::Vector3f& pos) {
 }
 
 bool sub_71005D9FC0(ksys::act::BaseProcLink* link) {
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(link, &accessor);
     sead::Vector3f pos;
     accessor.getActorMtx().getTranslation(pos);
@@ -884,7 +884,7 @@ void sub_71005D8C94(ksys::act::Actor* actor, int idx, const u32& value) {
 bool sub_71005D90E0(ksys::act::Actor* actor) {
     if (!sead::IsDerivedFrom<Enemy>(actor))
         return false;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(&static_cast<Enemy*>(actor)->_c48._8, &accessor);
     return accessor.sub_7100D12E64();
 }
@@ -1365,7 +1365,7 @@ bool sub_71005DA9A8(ksys::act::Actor* actor, int idx) {
 bool sub_71005D7270(ksys::act::ai::InlineParamPack* params, const char* key) {
     auto& link = ksys::act::PlayerInfo::getSomeProcLink();
     if (link.hasProc()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&link, &accessor);
         sead::Vector3f pos;
         accessor.getActorMtx().getTranslation(pos);
@@ -1431,7 +1431,7 @@ void sub_71005E0230(sead::Vector3f* out, const ksys::act::Actor* actor, const se
 }
 
 bool sub_71005E02E0(ksys::act::Actor* actor, Unk_7102357d20* sender, ksys::act::BaseProcLink* link) {
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::findLinkedActor(&accessor, actor, "RegistedActorMessageBroadCastTag");
     bool sent = false;
     if (accessor.hasProc()) {
@@ -1491,7 +1491,7 @@ void sub_71005DE398(sead::Vector3f* out, ksys::act::BaseProcLink* link,
                     const sead::Vector3f* target, f32 speed, f32 ratio, f32 mass_limit) {
     if (!out)
         return;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(link, &accessor);
     sead::Vector3f direction = *target - accessor.getActorMtx().getTranslation();
     const f32 length = direction.length();

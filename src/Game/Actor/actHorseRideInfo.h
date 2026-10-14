@@ -8,7 +8,7 @@
 
 namespace ksys::act {
 class Actor;
-class ActorConstDataAccess;
+class ActorLinkConstDataAccess;
 class AwarenessInstance;
 class BaseProc;
 struct Unk117;
@@ -36,7 +36,7 @@ public:
     virtual ~HorseRideInfo();
 
     /* 4 */ virtual void m4() {}
-    /* 5 */ virtual bool m5(const ksys::act::ActorConstDataAccess& accessor) { return true; }
+    /* 5 */ virtual bool m5(const ksys::act::ActorLinkConstDataAccess& accessor) { return true; }
     /* 6 */ virtual void m6() {}
     /* 7 */ virtual bool m7() { return true; }
     /* 8 */ virtual void m8() {}
@@ -45,7 +45,7 @@ public:
     bool init();
     void sub_7100E7C350();
     bool sub_7100E7BEC0(ksys::act::BaseProc* proc);
-    bool sub_7100E7BF5C(ksys::act::ActorConstDataAccess& accessor, bool a2);
+    bool sub_7100E7BF5C(ksys::act::ActorLinkConstDataAccess& accessor, bool a2);
     bool sub_7100E7C054(ksys::act::BaseProcLink* link);
     void sub_7100E7C0EC();
     void sub_7100E7C380();
@@ -86,7 +86,7 @@ public:
     explicit Unk_71023cee88(ksys::act::Actor* actor) : HorseRideInfo(actor) {}
     ~Unk_71023cee88() override;
 
-    bool m5(const ksys::act::ActorConstDataAccess& accessor) override;
+    bool m5(const ksys::act::ActorLinkConstDataAccess& accessor) override;
     void m6() override {}
     bool m7() override { return true; }
     void m8() override {}
@@ -108,7 +108,7 @@ public:
 
     // 0x6e16fc (CSV Player::RideInfo::x): removes the bone handles from their actors.
     void m4() override;
-    bool m5(const ksys::act::ActorConstDataAccess& accessor) override;
+    bool m5(const ksys::act::ActorLinkConstDataAccess& accessor) override;
     void m6() override;
     bool m7() override;
     void m8() override;

@@ -6,7 +6,7 @@
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/Attention/actActorAttention.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorCreator.h"
 #include "KingSystem/ActorSystem/actActorHeapUtil.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
@@ -24,7 +24,7 @@ PriestBossEyeBeam::PriestBossEyeBeam(const InitArg& arg) : ksys::act::ai::Ai(arg
 PriestBossEyeBeam::~PriestBossEyeBeam() {
     if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
         if (enemy->getActorPartsActor(_98).hasProcInCalcState()) {
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             ksys::act::acquireActor(&enemy->getActorPartsActor(_98), &accessor);
             accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
         }
@@ -99,7 +99,7 @@ void PriestBossEyeBeam::leave_() {
     if (mActor->getAttention() && mActor->getAttention()->getClientByName("LockOn"))
         mActor->getAttention()->getClientByName("LockOn")->sub_7100D7250C(1);
     if (_88.hasProc() && ksys::act::isDemoNPCProfile(mActor)) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&_88, &accessor);
         if (accessor.hasProc())
             accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
@@ -138,7 +138,7 @@ void PriestBossEyeBeam::m41() {
     if (!_88.hasProc())
         return;
 
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (ksys::act::acquireActor(&_88, &accessor))
         mActor->sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x8000039), nullptr, true);
 }

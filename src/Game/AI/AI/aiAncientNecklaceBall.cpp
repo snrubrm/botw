@@ -4,7 +4,7 @@
 #include "Game/AI/aiUnk_71007377D4.h"
 #include "Game/Actor/actWeapon.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
@@ -117,7 +117,7 @@ void AncientNecklaceBall::calc_() {
         auto* child = getCurrentChild();
         if (child->isFinished() || child->isFailed() || _170._30) {
             if (_170._38.mLink.hasProc()) {
-                ksys::act::ActorConstDataAccess accessor;
+                ksys::act::ActorLinkConstDataAccess accessor;
                 ksys::act::acquireActor(&_170._38.mLink, &accessor);
                 sead::Vector3f position;
                 accessor.getMtxPos(&position);

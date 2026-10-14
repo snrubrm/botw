@@ -2,7 +2,7 @@
 #include "Game/AI/aiUnk_7100E81220.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 
 namespace uking::action {
 
@@ -18,7 +18,7 @@ bool PlayerDemoAccelerateHorse::init_(sead::Heap* heap) {
 void PlayerDemoAccelerateHorse::enter_(ksys::act::ai::InlineParamPack* params) {
     mActor->getASList()->startAnimationMaybe(-1.0f, -1.0f, mASName_s, 0, 0, true);
     mActor->getASList()->startAnimationMaybe(-1.0f, -1.0f, mASName_s, 1, 0, true);
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (sub_7100E81220(mActor, &accessor)) {
         if (!accessor.sub_7100D10F0C())
             accessor.sub_7100D150E8(mActor);

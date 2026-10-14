@@ -10,7 +10,7 @@
 #include "Game/Damage/dmgDamageMgrPlayer.h"
 #include "Game/gameRuneMgr.h"
 #include "KingSystem/ActorSystem/Attention/actAttentionSingleton.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
 #include "KingSystem/Sound/sndUnk_7102502138.h"
@@ -64,7 +64,7 @@ void Player::sub_710086952C() {
 
 // NON_MATCHING: the original returns the value with `mov w0, w19` (ours: `mov x0, x19`, the struct built from an int)
 AttActionCodeValue sub_710086B194() {
-    ActorConstDataAccess accessor;
+    ActorLinkConstDataAccess accessor;
     Attention::instance()->sub_7100D7482C(&accessor);
     return AttActionCodeValue(accessor.sub_7100D10FB8() ? 0x1800000 :
                                                           int(Attention::instance()->sub_7100D74880()));

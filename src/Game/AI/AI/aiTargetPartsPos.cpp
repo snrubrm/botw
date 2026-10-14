@@ -1,6 +1,6 @@
 #include "Game/AI/AI/aiTargetPartsPos.h"
 #include "Game/Actor/actEnemy.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 
 namespace uking::ai {
 
@@ -40,7 +40,7 @@ void TargetPartsPos::m35(sead::Vector3f* pos) {
     if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
         auto& link = enemy->getActorPartsActor(mPartsName_s);
         if (link.hasProcInCalcState()) {
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             ksys::act::acquireActor(&link, &accessor);
             accessor.getActorMtx().getTranslation(*pos);
         }

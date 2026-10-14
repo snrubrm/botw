@@ -1,6 +1,6 @@
 #include "Game/AI/Action/actionTeachPlayerInAreaForRefActor.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Map/mapObjectLink.h"
@@ -65,7 +65,7 @@ void TeachPlayerInAreaForRefActor::sub_710029450C() {
     if (auto* obj = mActor->getMapObject()) {
         if (auto* link_data = obj->getLinkData()) {
             for (auto* object : link_data->mObjects) {
-                ksys::act::ActorLinkConstDataAccess accessor;
+                ksys::act::BaseProcAccessor accessor;
                 object->getActorWithAccessor(accessor);
                 if (accessor.hasProc())
                     _48.sub_710070DBB0(*accessor.getMessageTransceiverId(), true);

@@ -1,7 +1,7 @@
 #include "Game/AI/AI/aiTargetTypeSelector.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actTag.h"
 
@@ -32,7 +32,7 @@ void TargetTypeSelector::enter_(ksys::act::ai::InlineParamPack* params) {
     else
         changeChild("対象それ以外");
 
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(link, &accessor);
     _40 = accessor.getId();
 }
@@ -50,7 +50,7 @@ void TargetTypeSelector::calc_() {
             return;
         }
         {
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             ksys::act::acquireActor(link, &accessor);
             const u32 id = accessor.getId();
             if (_40 != id) {
@@ -80,7 +80,7 @@ void TargetTypeSelector::calc_() {
             setFailed();
             return;
         }
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(link, &accessor);
         const u32 id = accessor.getId();
         if (_40 != id) {

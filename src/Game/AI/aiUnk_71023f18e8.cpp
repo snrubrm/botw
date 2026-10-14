@@ -1,7 +1,7 @@
 #include "Game/AI/aiUnk_71023f18e8.h"
 #include <cmath>
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/Utils/MathUtil.h"
 
@@ -59,7 +59,7 @@ void Unk_71023f18e8::m5(f32* radius, f32* angle, const sead::Vector3f* base) {
 }
 
 void Unk_71023f18e8::m6(sead::Vector3f* out) {
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(&ksys::act::PlayerInfo::getSomeProcLink(), &accessor);
     accessor.getActorMtx().getTranslation(*out);
     *out += accessor.getVelocity() * 24;

@@ -48,7 +48,7 @@ bool BeastGanonLastBlowOffMes::m15() {
         return true;
 
     bool result;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(&ksys::act::PlayerInfo::getSomeProcLink(), &accessor);
     const sead::Matrix34f& player_mtx = accessor.getActorMtx();
     const f32 player_x = player_mtx(0, 3);

@@ -1,5 +1,5 @@
 #include "Game/AI/Action/actionFootStepCalcOn.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/Event/evtManager.h"
 #include "KingSystem/XLink/xlinkXLink.h"
@@ -31,7 +31,7 @@ void FootStepCalcOn::sub_7100DA1A0C(bool on) {
     auto* manager = ksys::evt::Manager::instance();
     if (auto* link = manager->getBaseProcLinkFromActiveEvent(sead::SafeString(mActor_d.cstr()),
                                                            sead::SafeString(mInstanceName_d.cstr()))) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(link, &accessor);
         if (accessor.sub_7100D0F214()) {
             if (auto* xlink = accessor.sub_7100D0F214())

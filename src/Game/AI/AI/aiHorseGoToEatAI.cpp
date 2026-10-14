@@ -3,7 +3,7 @@
 #include "Game/Actor/actRideable.h"
 #include "KingSystem/System/Timer.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 
 namespace uking::ai {
 
@@ -22,7 +22,7 @@ void HorseGoToEatAI::enter_(ksys::act::ai::InlineParamPack* params) {
     changeChild("移動", &pack);
     _48 = 0.0f;
 
-    ksys::act::ActorConstDataAccess acc;
+    ksys::act::ActorLinkConstDataAccess acc;
     u32 id = -1;
     if (ksys::act::acquireActor(mTargetActor_d, &acc))
         id = acc.getId();

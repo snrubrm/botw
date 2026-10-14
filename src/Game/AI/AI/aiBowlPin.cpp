@@ -1,7 +1,7 @@
 #include "Game/AI/AI/aiBowlPin.h"
 #include <math/seadMathCalcCommon.h>
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actUnk_7102459df8.h"
 
@@ -44,7 +44,7 @@ void BowlPin::calc_() {
         return;
 
     auto* sensed = sub_71007A40D0(actor, 0);
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(&sensed->_50, &accessor);
     if (accessor.getName() == "BowlPin" && !(_40 & 2) && child->isChangeable()) {
         _40 |= 2;

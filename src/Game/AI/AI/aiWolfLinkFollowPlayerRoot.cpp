@@ -1,7 +1,7 @@
 #include "Game/AI/AI/aiWolfLinkFollowPlayerRoot.h"
 #include "Game/Actor/actRideable.h"
 #include "Game/Actor/actWolfLink.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 
 namespace uking::ai {
 
@@ -51,7 +51,7 @@ f32 WolfLinkFollowPlayerRoot::m35() {
 }
 
 void WolfLinkFollowPlayerRoot::m40() {
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (!ksys::act::acquireActor(mTargetActor_d, &accessor))
         return;
 

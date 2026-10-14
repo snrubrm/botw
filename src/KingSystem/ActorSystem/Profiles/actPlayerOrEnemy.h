@@ -2,7 +2,7 @@
 
 #include "KingSystem/ActorSystem/Profiles/actDynamicActor.h"
 #include "KingSystem/ActorSystem/actActorWeapons.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 
 namespace uking::act {
 class Weapon;
@@ -130,12 +130,12 @@ KSYS_CHECK_SIZE_NX150(PlayerOrEnemy, 0xc38);
 
 namespace acc {
 
-// Access to a PlayerOrEnemy through an ActorConstDataAccess (CSV: act::acc::PlayerOrEnemy).
+// Access to a PlayerOrEnemy through an ActorLinkConstDataAccess (CSV: act::acc::PlayerOrEnemy).
 // TODO: incomplete
-class PlayerOrEnemy : public ActorConstDataAccess {
+class PlayerOrEnemy : public ActorLinkConstDataAccess {
 public:
     f32 getGuardableAngle() const;
-    bool getWeapon(ActorConstDataAccess* accessor, int idx) const;
+    bool getWeapon(ActorLinkConstDataAccess* accessor, int idx) const;
     bool isGuard() const;
     bool isGuardJust() const;
     // 0x7100009860 (lane4 s44; names are guesses): the number of weapon slots (the weapons object is fetched through

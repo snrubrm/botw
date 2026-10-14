@@ -4,7 +4,7 @@
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "Game/AI/aiUnk_71007377D4.h"
 
@@ -48,7 +48,7 @@ void BokoblinRoam::loadParams_() {
 }
 
 bool BokoblinRoam::sub_7100333E68() {
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(&ksys::act::PlayerInfo::getSomeProcLink(), &accessor);
     const sead::Vector3f player_position = accessor.getActorMtx().getTranslation();
     sead::Vector3f dir = player_position - mActor->getMtx().getTranslation();

@@ -1,6 +1,6 @@
 #include "Game/AI/Action/actionCameraEventMove.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
+#include "KingSystem/ActorSystem/actBaseProcAccessor.h"
 #include "KingSystem/Event/evtEventSystem.h"
 #include "KingSystem/Event/evtUnk_7100dc816c.h"
 
@@ -12,7 +12,7 @@ CameraEventMove::~CameraEventMove() = default;
 
 void CameraEventMove::m45() {
     if (*mCancelDrawOther_d) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&_108, &accessor);
         sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x3000002), nullptr);
     }
@@ -26,7 +26,7 @@ void CameraEventMove::sub_710075D338(ksys::act::BaseProcLink* link) {
         *link = _2a3 ? ksys::evt::sub_7100DC85D4(mActor) : ksys::evt::EventSystem::instance()->mSpeaker.mLink;
         return;
     }
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     sub_7100924BE4(&accessor);
     accessor.linkAcquire(link);
 }
@@ -37,7 +37,7 @@ void CameraEventMove::sub_710075D3CC(ksys::act::BaseProcLink* link) {
         *link = _2a3 ? ksys::evt::sub_7100DC85D4(mActor) : ksys::evt::EventSystem::instance()->mSpeaker.mLink;
         return;
     }
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     sub_7100924BE4(&accessor);
     accessor.linkAcquire(link);
 }

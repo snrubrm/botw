@@ -4,7 +4,7 @@
 #include "Game/Damage/dmgInfoManager.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
@@ -13,7 +13,7 @@
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectShield.h"
 #include "KingSystem/System/Timer.h"
 
-bool sub_71006DE628(const ksys::act::ActorConstDataAccess& accessor, s32 type);
+bool sub_71006DE628(const ksys::act::ActorLinkConstDataAccess& accessor, s32 type);
 
 namespace uking::dmg {
 
@@ -106,7 +106,7 @@ bool DamageMgrShield::shieldDamageLogic(s32* damage, s32* df48, u32* minDmg, u32
     if (!info)
         return false;
 
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(&info->_50, &accessor);
     if (!sub_71006DE628(accessor, 0) && !(info->_18 & 1))
         return false;

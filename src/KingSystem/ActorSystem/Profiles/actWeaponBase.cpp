@@ -4,7 +4,7 @@
 #include "KingSystem/ActorSystem/actInfoCommon.h"
 #include "KingSystem/ActorSystem/actInfoData.h"
 #include "KingSystem/Ecosystem/ecoLevelSensor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
 #include "KingSystem/ActorSystem/actChemical.h"
 #include <prim/seadScopedLock.h>
@@ -99,7 +99,7 @@ bool WeaponBase::canWakeUp_() {
 void WeaponBase::onSleepRequested_(SleepWakeReason reason) {
     Actor::onSleepRequested_(reason);
     if (_958.hasProc()) {
-        ActorConstDataAccess accessor;
+        ActorLinkConstDataAccess accessor;
         acquireActor(&_958, &accessor);
         accessor.sleep(reason);
     }
@@ -109,7 +109,7 @@ void WeaponBase::onWakeUpRequested_(SleepWakeReason reason) {
     Actor::onWakeUpRequested_(reason);
     m215();
     if (_958.hasProc()) {
-        ActorConstDataAccess accessor;
+        ActorLinkConstDataAccess accessor;
         acquireActor(&_958, &accessor);
         accessor.wakeUp(reason);
     }
@@ -118,7 +118,7 @@ void WeaponBase::onWakeUpRequested_(SleepWakeReason reason) {
 void WeaponBase::onDeleteRequested_(DeleteReason reason) {
     Actor::onDeleteRequested_(reason);
     if (_958.hasProc()) {
-        ActorConstDataAccess accessor;
+        ActorLinkConstDataAccess accessor;
         acquireActor(&_958, &accessor);
         accessor.deleteLater(DeleteReason::_0);
     }
@@ -166,7 +166,7 @@ void WeaponBase::updatePositionMaybe() {
 }
 
 bool WeaponBase::m86() {
-    ActorConstDataAccess accessor;
+    ActorLinkConstDataAccess accessor;
     acquireActor(&_938, &accessor);
     if (accessor.checkFlag2B())
         return false;
@@ -190,7 +190,7 @@ int WeaponBase::handleMessage(const Message& message) {
         return Actor::handleMessage(message);
     }
     if (_958.hasProcInCalcState()) {
-        ActorConstDataAccess accessor;
+        ActorLinkConstDataAccess accessor;
         acquireActor(&_958, &accessor);
         MessageTransceiverBase& transceiver = getMessageTransceiver();
         transceiver.sendMessageOnProcessingThread(*accessor.getMessageTransceiverId(), outgoing_type,
@@ -609,7 +609,7 @@ uking::act::OptionalWeapon* WeaponBase::m163() {
 }
 
 bool WeaponBase::m154() {
-    ActorConstDataAccess accessor;
+    ActorLinkConstDataAccess accessor;
     acquireActor(&_938, &accessor);
     return accessor.sub_7100D12E64();
 }
@@ -715,7 +715,7 @@ bool WeaponBase::sub_7100EFA6B8() const {
     return false;
 }
 
-bool WeaponBase::acquireParentActor(ActorConstDataAccess* out) const {
+bool WeaponBase::acquireParentActor(ActorLinkConstDataAccess* out) const {
     auto* weapon = getWeapon();
     return weapon ? ksys::act::acquireActor(&weapon->_938, out) : false;
 }

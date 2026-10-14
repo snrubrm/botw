@@ -5,7 +5,7 @@
 #include "KingSystem/ActorSystem/Profiles/actPlayerLink.h"
 #include "KingSystem/Resource/resResourceMgrTask.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/Framework/frmWorkerSupportThreadMgr.h"
 #include "KingSystem/Map/mapPlacementMgr.h"
 #include "KingSystem/Terrain/teraSystem.h"
@@ -105,7 +105,7 @@ void ActorSystem::invokeAutoPlacementMgrInvoker3() {
         _280->invoke(0);
 }
 
-bool ActorSystem::getPlayer(ActorConstDataAccess* accessor) {
+bool ActorSystem::getPlayer(ActorLinkConstDataAccess* accessor) {
     if (_c0)
         return _c0->getActorViaAccessor(accessor);
     return accessor->acquire(nullptr);
@@ -123,7 +123,7 @@ void ActorSystem::handleActorCreateFailure() {
 }
 
 bool ActorSystem::getPlayerPosition(sead::Vector3f* out) {
-    ActorConstDataAccess accessor;
+    ActorLinkConstDataAccess accessor;
     ActorSystem::instance()->getPlayer(&accessor);
     if (!accessor.hasProc())
         return false;

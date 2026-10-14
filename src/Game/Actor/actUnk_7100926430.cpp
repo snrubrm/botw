@@ -6,8 +6,8 @@
 #include <controller/seadController.h>
 #include "Game/gameMaskController.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
+#include "KingSystem/ActorSystem/actBaseProcAccessor.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/ActorSystem/actUnk_71024ef4e8.h"
 #include "KingSystem/GameData/gdtManager.h"
@@ -31,18 +31,18 @@ ksys::act::PlayerBase* sub_7100926A2C() {
     return nullptr;
 }
 
-void sub_7100926A50(ksys::act::ActorConstDataAccess* accessor) {
+void sub_7100926A50(ksys::act::ActorLinkConstDataAccess* accessor) {
     if (auto* info = ksys::act::PlayerInfo::instance())
         ksys::act::acquireActor(&info->getPlayerLink(), accessor);
 }
 
-bool sub_7100926A74(ksys::act::ActorConstDataAccess* accessor) {
+bool sub_7100926A74(ksys::act::ActorLinkConstDataAccess* accessor) {
     if (auto* info = ksys::act::PlayerInfo::instance())
         return ksys::act::acquireActor(&info->getHorseLink(), accessor);
     return false;
 }
 
-bool sub_7100926A9C(ksys::act::ActorConstDataAccess* accessor) {
+bool sub_7100926A9C(ksys::act::ActorLinkConstDataAccess* accessor) {
     if (auto* info = ksys::act::PlayerInfo::instance())
         return ksys::act::acquireActor(&info->getHorseLink(), accessor);
     return false;
@@ -127,7 +127,7 @@ Root6* Root6::getInstance() {
     return Root6::instance();
 }
 
-void Root6::sub_7100927198(ksys::act::ActorLinkConstDataAccess* accessor) {
+void Root6::sub_7100927198(ksys::act::BaseProcAccessor* accessor) {
     if (accessor)
         accessor->acquire(mCamera);
 }

@@ -2,7 +2,7 @@
 #include "Game/AI/aiUnk_7100724C64.h"
 #include "Game/Actor/actEnemy.h"
 #include "Game/Actor/actWeapon.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 
 namespace uking::ai {
 
@@ -16,7 +16,7 @@ bool StalPartCatch::init_(sead::Heap* heap) {
 
 void StalPartCatch::enter_(ksys::act::ai::InlineParamPack* params) {
     if (auto* enemy = sub_7100724D7C(mActor)) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         auto& head = sub_7100725588(enemy);
         if (head.hasProc()) {
             ksys::act::acquireActor(&head, &accessor);

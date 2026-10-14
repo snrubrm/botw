@@ -2,7 +2,7 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actTag.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 
 namespace uking::action {
 
@@ -33,7 +33,7 @@ float ArrowShootMoveForLargeObject::m32() {
     return *mRayCastDist_s * 0.5f;
 }
 
-bool ArrowShootMoveForLargeObject::m35(const ksys::act::ActorConstDataAccess& accessor) {
+bool ArrowShootMoveForLargeObject::m35(const ksys::act::ActorLinkConstDataAccess& accessor) {
     return accessor.hasProc() &&
            (accessor.hasTag(ksys::act::tags::IsIceMakerBlock) || accessor.getName() == "GanonTornado");
 }
@@ -42,7 +42,7 @@ f32 ArrowShootMoveForLargeObject::m41() {
     return *mRayCastDist_s;
 }
 
-void ArrowShootMoveForLargeObject::m36(bool* out, const ksys::act::ActorConstDataAccess& accessor) {
+void ArrowShootMoveForLargeObject::m36(bool* out, const ksys::act::ActorLinkConstDataAccess& accessor) {
     if (!accessor.hasTag(ksys::act::tags::IsIceMakerBlock)) {
         *out = false;
         return;

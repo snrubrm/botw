@@ -1,6 +1,6 @@
 #include "Game/AI/Action/actionSendMessage4YunBoCannon.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 
 namespace uking::action {
 
@@ -31,7 +31,7 @@ void SendMessage4YunBoCannon::calc_() {
 
 void SendMessage4YunBoCannon::doSendMessage() {
     auto* actor = mActor;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     switch (*mMsgType_s) {
     case 0:
         if (actor->getCreateArgBaseProcLink().hasProc()) {

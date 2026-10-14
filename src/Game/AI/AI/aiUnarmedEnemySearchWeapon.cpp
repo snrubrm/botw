@@ -8,7 +8,7 @@
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/Actor/actEnemy.h"
 #include "Game/Actor/actWeapon.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
 
 namespace uking::ai {
@@ -26,7 +26,7 @@ void UnarmedEnemySearchWeapon::enter_(ksys::act::ai::InlineParamPack* params) {
 void UnarmedEnemySearchWeapon::calc_() {
     UnarmedEnemySearch::calc_();
     if (isGoStraightOrMove()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         if (_68.hasProcInCalcState()) {
             ksys::act::acquireActor(&_68, &accessor);
             sub_71005DB068(mActor, accessor.getActorMtx().getTranslation());
@@ -96,7 +96,7 @@ bool UnarmedEnemySearchWeapon::sub_71003B8020(ksys::act::BaseProcLink& link) con
     auto* actor = mActor;
     if (sub_7100739030(actor, link))
         return true;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(&link, &accessor);
     sead::Vector3f pos;
     accessor.getActorMtx().getTranslation(pos);
@@ -127,7 +127,7 @@ ksys::act::BaseProcLink* UnarmedEnemySearchWeapon::sub_71003B8E70() {
         const sead::Vector3f pos = nav->_194;
         f32 nearest_distance = std::numeric_limits<f32>::max();
         for (auto& entry : _78) {
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             ksys::act::acquireActor(&entry._0.mLink, &accessor);
             const sead::Matrix34f& mtx = accessor.getActorMtx();
             const sead::Vector3f target(mtx(0, 3), mtx(1, 3), mtx(2, 3));

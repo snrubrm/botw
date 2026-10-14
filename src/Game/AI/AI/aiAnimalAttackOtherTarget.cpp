@@ -1,6 +1,6 @@
 #include "Game/AI/AI/aiAnimalAttackOtherTarget.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 
@@ -12,7 +12,7 @@ namespace {
 // side of the test) reproduces their code.
 bool checkNpc(ksys::act::BaseProcLink* target) {
     {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         if (ksys::act::acquireActor(target, &accessor) && accessor.sub_7100022FD0())
             return true;
     }

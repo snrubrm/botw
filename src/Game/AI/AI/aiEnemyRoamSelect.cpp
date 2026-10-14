@@ -5,16 +5,16 @@
 #include "Game/AI/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Map/mapObjectLink.h"
 #include <random/seadGlobalRandom.h>
 #include "KingSystem/System/Timer.h"
 
 bool sub_710072C9FC(ksys::act::Actor* actor, f32 distance);
-bool sub_71006DE574(const ksys::act::ActorConstDataAccess& accessor);
-bool sub_71006DE3D8(const ksys::act::ActorConstDataAccess& accessor);
-bool sub_71006DE4A4(const ksys::act::ActorConstDataAccess& accessor);
+bool sub_71006DE574(const ksys::act::ActorLinkConstDataAccess& accessor);
+bool sub_71006DE3D8(const ksys::act::ActorLinkConstDataAccess& accessor);
+bool sub_71006DE4A4(const ksys::act::ActorLinkConstDataAccess& accessor);
 
 namespace uking::ai {
 
@@ -93,7 +93,7 @@ bool EnemyRoamSelect::sub_71003B384C() {
     if (!object)
         return false;
     auto* links = object->getLinkData();
-    ksys::act::ActorConstDataAccess found;
+    ksys::act::ActorLinkConstDataAccess found;
     if (!links)
         return false;
     auto objects = links->mObjects;
@@ -101,7 +101,7 @@ bool EnemyRoamSelect::sub_71003B384C() {
     for (s32 i = 0; i < count; ++i) {
         if (!objects[i])
             continue;
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         objects[i]->getActorWithAccessor(accessor);
         if (accessor.isStateCalc() && accessor.hasTag(0xc6bb51c0u)) {
             if (sub_71006DE574(accessor)) {

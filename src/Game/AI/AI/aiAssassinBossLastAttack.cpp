@@ -1,7 +1,7 @@
 #include "Game/AI/AI/aiAssassinBossLastAttack.h"
 #include <prim/seadSafeString.h>
 #include "Game/Actor/actEnemy.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 
 namespace uking::ai {
 
@@ -50,7 +50,7 @@ void AssassinBossLastAttack::calc_() {
 bool AssassinBossLastAttack::sub_7100318F5C() {
     if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
         sead::FixedSafeString<32> name;
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         for (int i = 0; i < *mIronBallNum_s; ++i) {
             name.format("%s%d", mIronBallPartsName_s.cstr(), i);
             ksys::act::acquireActor(&enemy->getActorPartsActor(name), &accessor);

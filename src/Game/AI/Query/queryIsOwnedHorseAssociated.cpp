@@ -4,7 +4,7 @@
 #include "Game/Actor/actHorseBase.h"
 #include "Game/gameHorseMgr.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 
 namespace uking::query {
 
@@ -18,7 +18,7 @@ int IsOwnedHorseAssociated::doQuery() {
     int result = 0;
     bool failed = true;
     if (mgr && (!*mIsRidden || mgr->sub_7100E85334(mgr->_30))) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         if (ksys::act::acquireActor(&mgr->mOwnedHorse, &accessor)) {
             const sead::Vector3f horse_pos = accessor.getActorMtx().getTranslation();
             const sead::Vector3f pos = mActor->getMtx().getTranslation();

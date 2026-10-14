@@ -5,7 +5,7 @@
 #include "Game/AI/aiUnk_71007368A4.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
@@ -45,7 +45,7 @@ bool MimicEnemyNormal::sub_71004A7894() {
             auto* link = &entry->_0.mLink;
             bool check;
             if (enemyTeamStuff(mActor, link)) {
-                ksys::act::ActorConstDataAccess accessor;
+                ksys::act::ActorLinkConstDataAccess accessor;
                 ksys::act::acquireActor(link, &accessor);
                 found = true;
                 check = accessor.sub_7100D12E64();
@@ -75,7 +75,7 @@ bool MimicEnemyNormal::sub_71004A7894() {
                         found = false;
                     }
                 } else if (dist <= *mRideHorseMaskPlayerFindDist_s) {
-                    ksys::act::ActorConstDataAccess accessor;
+                    ksys::act::ActorLinkConstDataAccess accessor;
                     ksys::act::acquireActor(link, &accessor);
                     sead::Vector3f pos;
                     accessor.getActorMtx().getTranslation(pos);
@@ -108,7 +108,7 @@ bool MimicEnemyNormal::sub_71004A7BB4() {
         return false;
     if (!enemyTeamStuff(mActor, link))
         return false;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(link, &accessor);
     sead::Vector3f pos;
     accessor.getActorMtx().getTranslation(pos);
@@ -126,7 +126,7 @@ bool MimicEnemyNormal::sub_71004A7D18() {
         const s32 num = sub_71007A425C(actor);
         for (s32 i = 0; i < num; ++i) {
             if (auto* info = sub_71007A40D0(actor, i)) {
-                ksys::act::ActorConstDataAccess accessor;
+                ksys::act::ActorLinkConstDataAccess accessor;
                 ksys::act::acquireActor(&info->_50, &accessor);
                 if (accessor.hasProc() && accessor.sub_7100D13BB8())
                     return true;

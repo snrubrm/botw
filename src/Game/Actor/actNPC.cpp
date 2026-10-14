@@ -1,7 +1,7 @@
 #include "Game/Actor/actNPC.h"
 #include <basis/seadNew.h>
 #include "Game/AI/aiUnk_71005D6D10.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actBoneControl.h"
 
 namespace uking::act {
@@ -24,7 +24,7 @@ void NPC::m79() {
 
 bool NPC::startPreparingForPreDelete_() {
     if (!(_fe8 & 0x10000)) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         if (ksys::act::acquireActor(&_f70, &accessor))
             accessor.deleteEx(DeleteReason::_0);
     } else if (!_f28._18.isAccessingSpecifiedProcUnsafe(_f28.mActor)) {
@@ -93,7 +93,7 @@ bool NPC::sub_7100022D44(bool on, int mode, const sead::Vector3f& pos,
     if (mode == 2) {
         if (!link)
             return false;
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(link, &accessor);
         if (!accessor.linkAcquire(&_11e0))
             return false;
@@ -168,35 +168,35 @@ static inline uking::act::NPC* getNPC(BaseProc* proc) {
     return sead::DynamicCast<uking::act::NPC>(actor);
 }
 
-bool ActorConstDataAccess::sub_7100022ED8() const {
+bool ActorLinkConstDataAccess::sub_7100022ED8() const {
     auto* npc = getNPC(mProc);
     if (!npc)
         return false;
     return npc->_fe8 & 4;
 }
 
-bool ActorConstDataAccess::sub_7100022FD0() const {
+bool ActorLinkConstDataAccess::sub_7100022FD0() const {
     auto* npc = getNPC(mProc);
     if (!npc)
         return false;
     return npc->_fe8 & 0x2000;
 }
 
-bool ActorConstDataAccess::sub_7100023358() const {
+bool ActorLinkConstDataAccess::sub_7100023358() const {
     auto* npc = getNPC(mProc);
     if (!npc)
         return false;
     return npc->_fe8 & 0x40000;
 }
 
-bool ActorConstDataAccess::sub_7100023450() const {
+bool ActorLinkConstDataAccess::sub_7100023450() const {
     auto* npc = getNPC(mProc);
     if (!npc)
         return false;
     return npc->_1048 == 3;
 }
 
-const sead::Vector3f& ActorConstDataAccess::sub_710002354C() const {
+const sead::Vector3f& ActorLinkConstDataAccess::sub_710002354C() const {
     auto* actor = static_cast<Actor*>(getProcIfActor(mProc));
     if (!sead::IsDerivedFrom<uking::act::NPC>(actor))
         return sead::Vector3f::zero;

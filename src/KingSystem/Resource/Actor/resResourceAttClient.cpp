@@ -188,7 +188,7 @@ bool AttClient::parse_(u8* data, size_t size, sead::Heap* heap) {
     return true;
 }
 
-int AttClient::check(act::Actor* actor, const act::ActorConstDataAccess& accessor,
+int AttClient::check(act::Actor* actor, const act::ActorLinkConstDataAccess& accessor,
                      const sead::Buffer<sead::Matrix34f>& mtxs, const sead::Vector3f& pos,
                      const AttCheck_Unk1* arg, bool a6, bool a7) const {
     const int num = mChecks.size();
@@ -216,7 +216,7 @@ void AttClient::checkM4(act::Actor* actor, sead::Buffer<sead::Matrix34f>& mtxs) 
     }
 }
 
-float AttClient::checkM6(const act::ActorConstDataAccess& accessor,
+float AttClient::checkM6(const act::ActorLinkConstDataAccess& accessor,
                          const sead::Vector3f& scale) const {
     f32 max = -1.0f;
     for (auto* att_check : mChecks)

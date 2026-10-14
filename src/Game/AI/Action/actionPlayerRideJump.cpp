@@ -4,7 +4,7 @@
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actCCAccessor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 
@@ -22,7 +22,7 @@ void PlayerRideJump::leave_() {
         cc->disableContactLayer(ksys::phys::ContactLayer::EntityNPC);
         cc->sub_7100F5F458(ksys::act::MotionType::_1);
     }
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (ksys::act::acquireActor(&ksys::act::PlayerInfo::instance()->getHorseLink(), &accessor)) {
         const auto& mtx = accessor.getActorMtx();
         sead::Vector3f dir;
@@ -40,7 +40,7 @@ void PlayerRideJump::loadParams_() {
 
 void PlayerRideJump::sub_710080D120() {
     sead::Vector3f velocity = sead::Vector3f::zero;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (ksys::act::acquireActor(&ksys::act::PlayerInfo::instance()->getHorseLink(), &accessor))
         velocity = accessor.getVelocity();
     const sead::Vector3f displacement = static_cast<ksys::act::Player*>(mActor)->_181c;

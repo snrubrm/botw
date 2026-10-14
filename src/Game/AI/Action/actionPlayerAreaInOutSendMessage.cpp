@@ -63,11 +63,11 @@ void PlayerAreaInOutSendMessage::calc_() {
     ActorAreaInOutSendMessage::calc_();
 }
 
-bool PlayerAreaInOutSendMessage::m34(const ksys::act::ActorConstDataAccess& accessor) {
+bool PlayerAreaInOutSendMessage::m34(const ksys::act::ActorLinkConstDataAccess& accessor) {
     return !ksys::act::isPlayerProfile(accessor);
 }
 
-void PlayerAreaInOutSendMessage::m32(const ksys::act::ActorConstDataAccess& accessor) {
+void PlayerAreaInOutSendMessage::m32(const ksys::act::ActorLinkConstDataAccess& accessor) {
     {
         sead::ScopedLock<sead::JobQueueLock> lock(&_70._18.mLock);
         _70._18._0 = true;
@@ -77,7 +77,7 @@ void PlayerAreaInOutSendMessage::m32(const ksys::act::ActorConstDataAccess& acce
 
 // NON_MATCHING: the original keeps &_70 (not `this`) in a callee-saved register across
 // isActorDeletedOrDeleting()
-void PlayerAreaInOutSendMessage::m33(const ksys::act::ActorConstDataAccess& accessor) {
+void PlayerAreaInOutSendMessage::m33(const ksys::act::ActorLinkConstDataAccess& accessor) {
     {
         sead::ScopedLock<sead::JobQueueLock> lock(&_70._18.mLock);
         _70._18._0 = false;

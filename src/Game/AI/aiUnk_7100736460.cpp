@@ -2,14 +2,14 @@
 #include "Game/Actor/actWeapon.h"
 #include "KingSystem/System/StageInfo.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actTag.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 
 bool sub_7100736414(ksys::act::BaseProcLink* link) {
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(link, &accessor);
     return accessor.sub_7100022ED8();
 }
@@ -36,12 +36,12 @@ bool isOneHitObliteratorActor(ksys::act::Actor* actor, bool a2) {
 }
 
 bool isOneHitObliteratorBaseProcLink(ksys::act::BaseProcLink* link, bool check_active) {
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(link, &accessor);
     return isOneHitObliteratorActorAccessor(accessor, check_active);
 }
 
-bool isOneHitObliteratorActorAccessor(const ksys::act::ActorConstDataAccess& accessor,
+bool isOneHitObliteratorActorAccessor(const ksys::act::ActorLinkConstDataAccess& accessor,
                                      bool check_active) {
     const auto& name = accessor.getName();
     if (name.isEmpty() || name != "Weapon_Sword_502")
@@ -50,10 +50,10 @@ bool isOneHitObliteratorActorAccessor(const ksys::act::ActorConstDataAccess& acc
 }
 
 // NON_MATCHING: failure paths share the scoped result instead of the native status flag.
-bool isOneHitObliteratorActorActive(const ksys::act::ActorConstDataAccess& accessor) {
+bool isOneHitObliteratorActorActive(const ksys::act::ActorLinkConstDataAccess& accessor) {
     bool active = false;
     if (accessor.isWeaponProfile()) {
-        ksys::act::ActorConstDataAccess weapon;
+        ksys::act::ActorLinkConstDataAccess weapon;
         weapon.acquireActor(accessor);
         if (isPlayingOneHitObliteratorQuest() &&
             (ksys::StageInfo::sIsCDungeon || !hasEscapedOneHitObliteratorQuest(false))) {

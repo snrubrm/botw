@@ -2,7 +2,7 @@
 #include "Game/Actor/actNPC.h"
 #include "Game/Actor/actHorseRideInfo.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
 #include "KingSystem/Map/mapObject.h"
@@ -46,7 +46,7 @@ void NPCHorseRide::leave_() {
     }
 
     if (mActor->getPlayerRideInfo()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&mActor->getPlayerRideInfo()->_18, &accessor);
         mActor->sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x3800007),
                             mActor, true);

@@ -1,6 +1,6 @@
 #include "Game/AI/Action/actionHorseSwimToTargetActor.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
@@ -21,7 +21,7 @@ void HorseSwimToTargetActor::enter_(ksys::act::ai::InlineParamPack* params) {
         setFailed();
         return;
     }
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (ksys::act::acquireActor(mTargetActor_d, &accessor)) {
         sead::Vector3f pos;
         accessor.getActorMtx().getTranslation(pos);

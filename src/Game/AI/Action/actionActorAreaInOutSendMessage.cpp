@@ -1,5 +1,5 @@
 #include "Game/AI/Action/actionActorAreaInOutSendMessage.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 
 namespace uking::action {
 
@@ -28,7 +28,7 @@ void ActorAreaInOutSendMessage::enter_(ksys::act::ai::InlineParamPack* params) {
 void ActorAreaInOutSendMessage::leave_() {
     auto& buffer = _40[_64];
     for (auto it = buffer.begin(); it != buffer.end(); ++it) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&*it, &accessor);
         m33(accessor);
     }
@@ -52,7 +52,7 @@ void ActorAreaInOutSendMessage::m2() {
         it->reset();
 }
 
-bool ActorAreaInOutSendMessage::m15(const ksys::act::ActorConstDataAccess& accessor) {
+bool ActorAreaInOutSendMessage::m15(const ksys::act::ActorLinkConstDataAccess& accessor) {
     if (m34(accessor))
         return false;
 
@@ -89,7 +89,7 @@ void ActorAreaInOutSendMessage::m5() {
             }
         }
         if (entered && cur[i].hasProcInCalcState()) {
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             ksys::act::acquireActor(&cur[i], &accessor);
             m32(accessor);
         }
@@ -97,7 +97,7 @@ void ActorAreaInOutSendMessage::m5() {
 
     for (s32 j = 0; j < prev_size; ++j) {
         if (!(_60 & (1 << j)) && prev[j].hasProcInCalcState()) {
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             ksys::act::acquireActor(&prev[j], &accessor);
             m33(accessor);
         }

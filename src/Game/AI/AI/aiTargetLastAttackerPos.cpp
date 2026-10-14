@@ -1,6 +1,6 @@
 #include "Game/AI/AI/aiTargetLastAttackerPos.h"
 #include "Game/Actor/actEnemy.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 
 namespace uking::ai {
 
@@ -34,7 +34,7 @@ void TargetLastAttackerPos::m35(sead::Vector3f* pos) {
     if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
         auto& attacker = enemy->_e08;
         if (attacker._0.hasProc()) {
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             ksys::act::acquireActor(&attacker._0, &accessor);
             accessor.getActorMtx().getTranslation(*pos);
         } else {

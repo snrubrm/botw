@@ -7,7 +7,7 @@
 #include "KingSystem/Physics/RigidBody/Shape/Box/physBoxRigidBody.h"
 #include "Game/Damage/dmgDamageManager.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actTag.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
@@ -263,7 +263,7 @@ void Unk_71023fd228::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
         return;
 
     auto* damage_manager = sead::DynamicCast<dmg::DamageManager>(mDamageManager);
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (damage_manager && ksys::act::acquireActor(damage_manager->m37(), &accessor) &&
         (accessor.hasTag(ksys::act::tags::CanBreakIceMakerBlock) ||
          accessor.hasTag(ksys::act::tags::AncientWeapon))) {

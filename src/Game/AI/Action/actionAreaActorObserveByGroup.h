@@ -13,7 +13,7 @@ class AreaActorObserveByGroup;
 // Delegate1R one (0x7102367000, which Delegate1R::clone() uses), so the members are of a class
 // derived from Delegate1R that overrides nothing.
 class Unk_7102366fd8
-    : public sead::Delegate1R<AreaActorObserveByGroup, const ksys::act::ActorConstDataAccess&, bool> {
+    : public sead::Delegate1R<AreaActorObserveByGroup, const ksys::act::ActorLinkConstDataAccess&, bool> {
 public:
     using Delegate1R::Delegate1R;
 };
@@ -31,16 +31,16 @@ public:
 
 protected:
     void m32() override;
-    bool m37(const ksys::act::ActorConstDataAccess& accessor) override;
+    bool m37(const ksys::act::ActorLinkConstDataAccess& accessor) override;
     bool m16(ksys::phys::RigidBody* body) override;
 
     // Group filters (indexed by the ActorGroupForObserveTag map unit parameter).
-    bool sub_710009E7AC(const ksys::act::ActorConstDataAccess& accessor);
-    bool sub_710009E7C0(const ksys::act::ActorConstDataAccess& accessor);
-    bool sub_710009E7C8(const ksys::act::ActorConstDataAccess& accessor);
-    bool sub_710009E7D0(const ksys::act::ActorConstDataAccess& accessor);
+    bool sub_710009E7AC(const ksys::act::ActorLinkConstDataAccess& accessor);
+    bool sub_710009E7C0(const ksys::act::ActorLinkConstDataAccess& accessor);
+    bool sub_710009E7C8(const ksys::act::ActorLinkConstDataAccess& accessor);
+    bool sub_710009E7D0(const ksys::act::ActorLinkConstDataAccess& accessor);
     // 0x710009e848 (declared only): needs the act::acc::Bullet accessor (not decompiled).
-    bool sub_710009E848(const ksys::act::ActorConstDataAccess& accessor);
+    bool sub_710009E848(const ksys::act::ActorLinkConstDataAccess& accessor);
 
     sead::SafeArray<Filter, 5> mFilters;
     int mGroup = 0;

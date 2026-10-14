@@ -2,7 +2,7 @@
 #include <gsys/gsysModel.h>
 #include <gsys/gsysModelUnit.h>
 #include "KingSystem/ActorSystem/AS/ASList.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/Ecosystem/ecoSystem.h"
 #include "KingSystem/Event/evtEventSystem.h"
 
@@ -66,7 +66,7 @@ bool Player::sub_7100859EDC(bool a1, int mode, const sead::Vector3f* pos, BasePr
     if (mode == 1) {
         if (!link)
             return false;
-        ActorConstDataAccess accessor;
+        ActorLinkConstDataAccess accessor;
         acquireActor(link, &accessor);
         if (!accessor.linkAcquire(&_2d48))
             return false;

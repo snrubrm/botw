@@ -3,7 +3,7 @@
 #include "Game/AI/aiUnk_71006F5B14.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorChemicals.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorCreator.h"
 #include "KingSystem/ActorSystem/actActorHeapUtil.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
@@ -20,7 +20,7 @@ namespace uking::ai {
 GolemPartRoot::GolemPartRoot(const InitArg& arg) : ReuseBulletPartsRoot(arg) {}
 
 GolemPartRoot::~GolemPartRoot() {
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(&_c8, &accessor);
     if (accessor.hasProc() && accessor.isStateSleep())
         accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
@@ -141,7 +141,7 @@ bool GolemPartRoot::m34() {
 
 void GolemPartRoot::sub_71003FDCF8(const sead::Vector3f* pos) {
     if (_c8.hasProc()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&_c8, &accessor);
         if (accessor.hasProc() && accessor.isStateSleep()) {
             sead::Matrix34f mtx = sead::Matrix34f::ident;

@@ -334,7 +334,7 @@ void Unk_7102475d70::m16() {
 void Unk_7102475d70::m18() {
     bool owned_horse_ok = false;
     if (auto* manager = HorseMgr::instance(); manager && manager->mOwnedHorse.hasProc()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&manager->mOwnedHorse, &accessor);
         owned_horse_ok = act::sub_7100E6ED04(accessor);
     }
@@ -830,7 +830,7 @@ void Unk_7102476640::m16() {
         return;
     sead::Vector3f position(0.0f, 0.0f, 0.0f);
     if (_60.hasProc()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&_60, &accessor);
         position = accessor.getActorMtx().getTranslation();
         _74 = position;
@@ -1034,7 +1034,7 @@ void Unk_7102476640::sub_7100958D4C() {
     if (Manager::instance()->_64c38 == 5 && !(Manager::instance()->_64c30_bytes[2] & 0x20)) {
         _84 = _80;
         if (_60.hasProc()) {
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             if (ksys::act::acquireActor(&_60, &accessor) && sub_710003B738(accessor)) {
                 const u32 state = sub_710003B71C(accessor);
                 _80 = state == 6 || state == 7 ? 1 : (state == 5 ? 2 : 0);

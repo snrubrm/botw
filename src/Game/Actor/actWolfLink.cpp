@@ -3,7 +3,7 @@
 #include "Game/UI/uiUtils.h"
 #include "Game/gameWolfLinkMgr.h"
 #include "KingSystem/ActorSystem/actBoneControl.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/Utils/Thread/Message.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectWolfLink.h"
 
@@ -33,7 +33,7 @@ bool WolfLink::startPreparingForPreDelete_() {
 bool WolfLink::sub_71002F420C() {
     if (!_c48._8.hasProc())
         return false;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (!ksys::act::acquireActor(&_c48._8, &accessor))
         return false;
     const u32 id = accessor.getId();
@@ -48,7 +48,7 @@ bool WolfLink::sub_71002F420C() {
 
 // 0x71002f430c: same search as sub_71002F420C, returns the entry's value at +0x20.
 WolfLink::State WolfLink::sub_71002F430C(const ksys::act::BaseProcLink* link) {
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (!ksys::act::acquireActor(link, &accessor))
         return State();
     const u32 id = accessor.getId();

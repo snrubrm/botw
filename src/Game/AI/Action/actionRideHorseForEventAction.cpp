@@ -2,7 +2,7 @@
 #include "Game/Actor/actHorseRideInfo.h"
 #include "Game/gameHorseMgr.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/Utils/Thread/Message.h"
 #include "KingSystem/ActorSystem/actCCAccessor.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
@@ -33,7 +33,7 @@ void RideHorseForEventAction::loadParams_() {}
 void RideHorseForEventAction::calc_() {
     auto* manager = HorseMgr::instance();
     if (manager && manager->_60.hasProc()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         if (ksys::act::acquireActor(&manager->_60, &accessor)) {
             accessor.sub_7100D150E8(mActor);
             auto* ride_info = mActor->getPlayerRideInfo();

@@ -3,7 +3,7 @@
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actImpulseBaseProcLink.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/System/Timer.h"
@@ -59,7 +59,7 @@ s32 DamageMgrPlayer::m53() {
     // only at return; ours masks a bool at the save. The callee returns an integer in
     // the original, but changing its shared bool declaration would regress its other
     // (matching) callers, which test it with tst after the call.
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     const ksys::act::BaseProcLink* link;
     if (auto* impulse = mActor->getImpulseBaseProcLink())
         link = &impulse->mLink;

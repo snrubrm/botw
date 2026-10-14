@@ -8,7 +8,7 @@ class Constraint;
 }
 
 namespace ksys::act {
-class ActorConstDataAccess;
+class ActorLinkConstDataAccess;
 }
 
 namespace uking::action {
@@ -29,7 +29,7 @@ protected:
 
     virtual void m32(sead::Heap* heap);
     virtual bool m33();
-    virtual void m34(ksys::act::ActorConstDataAccess& accessor, f32 distance);
+    virtual void m34(ksys::act::ActorLinkConstDataAccess& accessor, f32 distance);
 
     // map_unit_param at offset 0x20
     const float* mGrabbedMagneReleaseTime_m{};

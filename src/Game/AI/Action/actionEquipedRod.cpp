@@ -113,7 +113,7 @@ bool EquipedRod::sub_7100110900(sead::Matrix34f* out) {
         ksys::util::sub_71011F0260(out, direction, global_up, position, false);
         return true;
     }
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(&weapon->getParentLink(), &accessor);
     const auto& parent_matrix = accessor.getActorMtx();
     sead::Vector3f up = weapon->getMtx().getBase(1);

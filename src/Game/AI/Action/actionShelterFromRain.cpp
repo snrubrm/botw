@@ -1,6 +1,6 @@
 #include "Game/AI/Action/actionShelterFromRain.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Utils/Thread/Message.h"
 #include "KingSystem/Utils/Thread/MessageAck.h"
@@ -52,9 +52,9 @@ bool ShelterFromRain::handleAck_(const ksys::MessageAck* ack) {
     return false;
 }
 
-bool ShelterFromRain::m15(const ksys::act::ActorConstDataAccess& accessor) {
+bool ShelterFromRain::m15(const ksys::act::ActorLinkConstDataAccess& accessor) {
     ksys::act::BaseProcLink link;
-    ksys::act::ActorConstDataAccess npc;
+    ksys::act::ActorLinkConstDataAccess npc;
     if (!accessor.linkAcquire(&link) || !ksys::act::acquireActor(&link, &npc))
         return false;
 

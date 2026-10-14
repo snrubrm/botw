@@ -3,14 +3,14 @@
 #include "Game/AI/aiUnk_710073fa90.h"
 #include "Game/Actor/actHorseRideInfo.h"
 #include "Game/Actor/actRideable.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Utils/Thread/Message.h"
 
 namespace uking::act {
 // Declaration-only native helper (0x7100e6dc50); namespace and signature are inferred from the call sites.
-bool sub_7100E6DC50(const ksys::act::ActorConstDataAccess& accessor);
+bool sub_7100E6DC50(const ksys::act::ActorLinkConstDataAccess& accessor);
 }  // namespace uking::act
 
 namespace uking::action {
@@ -39,7 +39,7 @@ void RideHorse::enter_(ksys::act::ai::InlineParamPack* params) {
         setFailed();
         return;
     }
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(mTargetActor_d, &accessor);
     if (act::sub_7100E6DC50(accessor)) {
         if (auto* horse = accessor.getHorseOptions()) {
@@ -72,7 +72,7 @@ void RideHorse::sub_710023A4C8() {
     if (ride_info->_30 & 1)
         ride_info->sub_7100E7C0EC();
     if (_180) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(mTargetActor_d, &accessor);
         if (act::sub_7100E6DC50(accessor)) {
             if (auto* horse = accessor.getHorseOptions())
@@ -84,7 +84,7 @@ void RideHorse::sub_710023A4C8() {
 
 // NON_MATCHING: only the order of the two argument register moves at the top differs.
 void RideHorse::sub_710023A6B0(f32 rate, ksys::phys::CharacterController* controller,
-                               ksys::act::ActorLinkConstDataAccess* accessor) {
+                               ksys::act::BaseProcAccessor* accessor) {
     sead::Vector3f front;
     accessor->getActorMtx().getBase(front, 2);
     front.normalize();
@@ -94,7 +94,7 @@ void RideHorse::sub_710023A6B0(f32 rate, ksys::phys::CharacterController* contro
 }
 
 void RideHorse::sub_7100239F8C(ksys::phys::CharacterController* controller,
-                               ksys::act::ActorLinkConstDataAccess* accessor) {
+                               ksys::act::BaseProcAccessor* accessor) {
     if (_68 != 2) {
         bool should_play = isFinishedAS(0, 0);
         if (!should_play) {

@@ -1,6 +1,6 @@
 #include "Game/AI/AI/aiWillBallOperated.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
@@ -8,7 +8,7 @@ namespace uking::ai {
 
 // inline-only in the original; name is a guess (the accessor shares its stack slot with the SafeString temporaries)
 inline void WillBallOperated::getTargetActorPos(sead::Vector3f* pos) const {
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(mParams.mTargetActor_d, &accessor);
     accessor.getActorMtx().getTranslation(*pos);
 }

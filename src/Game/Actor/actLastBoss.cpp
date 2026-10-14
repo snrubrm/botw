@@ -2,7 +2,7 @@
 #include <basis/seadNew.h>
 #include "Game/Actor/actSiteBoss.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
@@ -77,7 +77,7 @@ void LastBoss::sub_71002C6930() {
     for (auto* part : _1128.mList) {
         if (!part->mLink.hasProcInCalcState())
             continue;
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&part->mLink, &accessor);
         if (!accessor.isDeletedOrDeleting())
             accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
@@ -202,12 +202,12 @@ static ksys::act::BaseProc* getProcIfActor(ksys::act::BaseProc* proc) {
     return nullptr;
 }
 
-uking::act::LastBoss* sub_71002C6B30(const ksys::act::ActorConstDataAccess& accessor) {
+uking::act::LastBoss* sub_71002C6B30(const ksys::act::ActorLinkConstDataAccess& accessor) {
     auto* actor = static_cast<ksys::act::Actor*>(getProcIfActor(accessor.getProc()));
     return sead::DynamicCast<uking::act::LastBoss>(actor);
 }
 
-bool sub_71002C6B0C(const ksys::act::ActorConstDataAccess& accessor) {
+bool sub_71002C6B0C(const ksys::act::ActorLinkConstDataAccess& accessor) {
     auto* boss = sub_71002C6B30(accessor);
     return boss ? boss->_14e4 == 1 : false;
 }
@@ -249,7 +249,7 @@ void sub_71002C682C(ksys::act::Actor* actor, f32 value) {
     for (auto* part : enemy->_1128.mList) {
         if (!part->mLink.hasProcInCalcState())
             continue;
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&part->mLink, &accessor);
         accessor.sub_7100D153A4(value);
     }

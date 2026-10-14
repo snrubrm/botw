@@ -20,7 +20,7 @@ public:
 
     // 0x71004a6730: switches to 擬態解除 (jumping off when `a1` is false).
     void sub_71004A6730(bool a1);
-    // 0x71004a69a4: whether a contact of the actor passes ActorConstDataAccess::sub_7100D13BB8.
+    // 0x71004a69a4: whether a contact of the actor passes ActorLinkConstDataAccess::sub_7100D13BB8.
     bool sub_71004A69A4();
 
 protected:

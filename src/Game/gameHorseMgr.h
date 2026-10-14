@@ -14,14 +14,14 @@
 
 namespace ksys::act {
 class Actor;
-class ActorConstDataAccess;
+class ActorLinkConstDataAccess;
 }
 
 namespace uking {
 
 namespace act {
 // 0x7100e6eaac (declaration only; CreateObjectsOfOwnedHorse::calc_): a check of the horse actor.
-bool sub_7100E6EAAC(const ksys::act::ActorConstDataAccess& accessor);
+bool sub_7100E6EAAC(const ksys::act::ActorLinkConstDataAccess& accessor);
 }  // namespace act
 
 // Placeholder declaration (name from the CSV: HorseMgr::createInstance 0x7100e81fb0, ctor
@@ -108,7 +108,7 @@ public:
     // the horse `link` under `name`.
     bool sub_7100E8527C(ksys::act::BaseProcLink* link, const sead::SafeString& name, bool a3);
     // 2026-10-07: the registration wrapper passes its acquired horse accessor here.
-    bool sub_7100E84AE4(const ksys::act::ActorConstDataAccess& accessor,
+    bool sub_7100E84AE4(const ksys::act::ActorLinkConstDataAccess& accessor,
                         const sead::SafeString& name, bool flag);
 
     // 0x7100e857cc (declaration only, placeholder signature): used by NPCReleaseHorse with

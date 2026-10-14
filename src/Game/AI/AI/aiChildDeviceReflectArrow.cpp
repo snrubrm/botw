@@ -3,7 +3,7 @@
 #include "KingSystem/Physics/System/physInstanceSet.h"
 #include <math/seadMathCalcCommon.h>
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Utils/MathUtil.h"
@@ -55,7 +55,7 @@ bool ChildDeviceReflectArrow::m37(bool* broke_ice_block, bool* hit_player) {
         if (!link->hasProc())
             continue;
 
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(link, &accessor);
         if (accessor.getName() == "Enemy_SiteBoss_Bow_ChildDevice") {
             result = false;

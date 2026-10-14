@@ -3,7 +3,7 @@
 #include "KingSystem/ActorSystem/Attention/actAttentionSingleton.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 
 namespace uking::ai {
 
@@ -20,7 +20,7 @@ void PlayerZoraRide::enter_(ksys::act::ai::InlineParamPack* params) {
     _d8 = false;
     _d9 = true;
     if (!mActor->getConnectedCalcParent()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         if (ksys::act::Attention::instance()->sub_7100D7482C(&accessor))
             accessor.setThisActorAsParent(mActor, false);
     }

@@ -1,6 +1,6 @@
 #include "Game/AI/AI/aiSiteBossRoot.h"
 #include "Game/Actor/actSiteBoss.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actTag.h"
 #include "KingSystem/GameData/gdtSpecialFlags.h"
@@ -24,7 +24,7 @@ void SiteBossRoot::x() {
         return;
 
     auto& link = enemy->getActorPartsActor("WeakPoint");
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(&link, &accessor);
     accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
     enemy->sub_7100D3CFEC("WeakPoint");

@@ -7,7 +7,7 @@
 #include <gsys/gsysModelUnit.h>
 #include "KingSystem/ActorSystem/Profiles/actPlayerArmors.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actInfoCommon.h"
 #include "KingSystem/ActorSystem/actInfoData.h"
@@ -145,7 +145,7 @@ bool ArmorBase::sub_7100E2B1DC(sead::Vector3f* out) {
         *out = sead::Vector3f::zero;
         return false;
     }
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (auto* owner = getOwner()) {
         if (auto* armors = owner->getArmors()) {
             ksys::act::acquireActor(&armors->getPartsLink(1), &accessor);
@@ -172,7 +172,7 @@ bool ArmorBase::sub_7100E2B524(sead::Vector3f* out) {
         *out = sead::Vector3f::zero;
         return false;
     }
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (auto* owner = getOwner()) {
         if (auto* armors = owner->getArmors()) {
             ksys::act::acquireActor(&armors->getPartsLink(1), &accessor);
@@ -199,7 +199,7 @@ bool ArmorBase::sub_7100E2B948() {
         return false;
     const sead::SafeString* name = &sead::SafeString::cEmptyString;
     {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         if (auto* owner = getOwner()) {
             if (auto* armors = owner->getArmors()) {
                 ksys::act::acquireActor(&armors->getPartsLink(1), &accessor);
@@ -274,7 +274,7 @@ void ArmorBase::updatePositionMaybe() {
     if (getProfile() == "ArmorExtra2") {
         const sead::SafeString* name = &sead::SafeString::cEmptyString;
         {
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             if (auto* owner = getOwner()) {
                 if (auto* armors = owner->getArmors()) {
                     ksys::act::acquireActor(&armors->getPartsLink(1), &accessor);
@@ -330,7 +330,7 @@ void ArmorBase::m148() {
 ksys::act::Actor* ArmorBase::getOwner() {
     if (!_840.hasProc())
         return nullptr;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(&_840, &accessor);
     Actor* owner = nullptr;
     if (accessor.isStateCalc() || accessor.isPlayerProfile() || accessor.getProfile() == "PauseMenuPlayer")
@@ -384,7 +384,7 @@ void ArmorBase::sub_7100E2A3EC() {
     if (!owner || owner->getActorFlags2().isOn(ActorFlag2::_20))
         return;
 
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (auto* wearer = getOwner()) {
         if (auto* armors = wearer->getArmors()) {
             ksys::act::acquireActor(&armors->getPartsLink(1), &accessor);

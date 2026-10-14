@@ -12,8 +12,8 @@
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "Game/gameSceneSubsysMisc.h"
 #include "Game/gameUnk_710246d058.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
+#include "KingSystem/ActorSystem/actBaseProcAccessor.h"
 #include "KingSystem/ActorSystem/actBaseProcMgr.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
@@ -30,8 +30,8 @@
 bool eventMgrHasActiveEvent();
 
 // Declared only: Motorcycle queries through the actor accessor.
-bool sub_71002C802C(const ksys::act::ActorConstDataAccess& accessor);
-bool sub_71002C8330(const ksys::act::ActorConstDataAccess& accessor, sead::Vector3f* out);
+bool sub_71002C802C(const ksys::act::ActorLinkConstDataAccess& accessor);
+bool sub_71002C8330(const ksys::act::ActorLinkConstDataAccess& accessor, sead::Vector3f* out);
 
 // 0x710084be34: getAttackInfo(actor, 0). Lives here (PlayerBase's TU), not in actPlayer.cpp:
 // playerIsGuardJust must call it out of line.
@@ -95,7 +95,7 @@ s32 PlayerBase::getX() {
 }
 
 bool PlayerBase::m223(sead::Vector3f* out) {
-    ActorConstDataAccess accessor;
+    ActorLinkConstDataAccess accessor;
     return acquireActor(&PlayerInfo::instance()->getHorseLink(), &accessor) &&
            sub_71002C802C(accessor) && sub_71002C8330(accessor, out);
 }
@@ -268,7 +268,7 @@ bool PlayerBase::m240() {
 bool PlayerBase::x_48() {
     auto* info = getPlayerRideInfo();
     if (info && (info->_30 & 1)) {
-        ActorConstDataAccess accessor;
+        ActorLinkConstDataAccess accessor;
         if (acquireActor(&info->_18, &accessor))
             return accessor.sub_7100D14598() == Unk_7100d14598::_11;
     }
@@ -487,7 +487,7 @@ bool PlayerBase::x_51() {
     return _17d0->controllerCheckPressedMaybe(3);
 }
 
-bool PlayerBase::getActorViaAccessor(ActorLinkConstDataAccess* accessor) {
+bool PlayerBase::getActorViaAccessor(BaseProcAccessor* accessor) {
     return accessor->acquire(this);
 }
 
@@ -618,14 +618,14 @@ bool PlayerBase::isRidingThisSandSeal(BaseProc* proc) const {
     return false;
 }
 
-bool PlayerBase::getSandSealActor(ActorConstDataAccess* accessor) const {
+bool PlayerBase::getSandSealActor(ActorLinkConstDataAccess* accessor) const {
     auto* player = getPlayerBase();
     if (player && player->_e98.hasProcInCalcState())
         return act::acquireActor(&player->_e98, accessor);
     return false;
 }
 
-bool PlayerBase::getAttachedTargetActor(ActorConstDataAccess* accessor) const {
+bool PlayerBase::getAttachedTargetActor(ActorLinkConstDataAccess* accessor) const {
     auto* player = getPlayerBase();
     if (!player)
         return false;
@@ -1412,7 +1412,7 @@ bool sub_710084D068() {
     return info->getPlayerLink().hasProc();
 }
 
-s32 sub_710084A5E0(const ksys::act::ActorConstDataAccess& accessor) {
+s32 sub_710084A5E0(const ksys::act::ActorLinkConstDataAccess& accessor) {
     const s32 type = sub_71002F0258(accessor);
     if (type == 3)
         return 2;
@@ -1423,7 +1423,7 @@ s32 sub_710084A5E0(const ksys::act::ActorConstDataAccess& accessor) {
 s32 sub_710084A570(ksys::act::BaseProc* proc) {
     if (!proc)
         return 4;
-    ksys::act::ActorConstDataAccess accessor(proc);
+    ksys::act::ActorLinkConstDataAccess accessor(proc);
     return sub_710084A5E0(accessor);
 }
 

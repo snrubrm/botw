@@ -2,7 +2,7 @@
 #include "Game/Actor/actWeapon.h"
 #include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectWeaponCommon.h"
@@ -26,7 +26,7 @@ void EnemyVacuumWeaponTypeSelect::enter_(ksys::act::ai::InlineParamPack* params)
     if (auto* parts = mActor->m101()) {
         auto& weapon = parts->getActorPartsActor(mPartsKey_s);
         if (weapon.hasProc() && ksys::act::isWeaponProfile(&weapon)) {
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             ksys::act::acquireActor(&weapon, &accessor);
             if (auto* list = accessor.getGParamList()) {
                 if (list->getWeaponCommon()->mIsBoomerang.ref()) {

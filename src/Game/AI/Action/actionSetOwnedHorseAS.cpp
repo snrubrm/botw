@@ -1,7 +1,7 @@
 #include "Game/AI/Action/actionSetOwnedHorseAS.h"
 #include "Game/gameHorseMgr.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
+#include "KingSystem/ActorSystem/actBaseProcAccessor.h"
 #include "KingSystem/Utils/Thread/Message.h"
 
 namespace uking::action {
@@ -22,7 +22,7 @@ bool SetOwnedHorseAS::oneShot_() {
         return false;
     bool result = false;
     {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         if (ksys::act::acquireActor(&mgr->mOwnedHorse, &accessor)) {
             sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x380001b),
                         const_cast<char*>(mASName_d.cstr()));

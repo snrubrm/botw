@@ -1,7 +1,7 @@
 #include "Game/AI/AI/aiPriestBossActorEnemyRoot.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/LOD/actLodState.h"
 #include "Game/AI/aiUnk_710071edf8.h"
@@ -110,7 +110,7 @@ void PriestBossActorEnemyRoot::sub_7100507440(bool a1) {
         _1f0._18.mLink.acquire(mActor, false);
     }
 
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     auto* unit =
         sead::DynamicCast<Unk_7102450fa8>(*static_cast<Unk_71025afb58**>(mPriestBossMetaAIUnit_a));
     if (unit->sub_71007194CC(&accessor)) {

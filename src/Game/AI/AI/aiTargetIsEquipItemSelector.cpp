@@ -1,5 +1,5 @@
 #include "Game/AI/AI/aiTargetIsEquipItemSelector.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 
@@ -15,7 +15,7 @@ bool TargetIsEquipItemSelector::init_(sead::Heap* heap) {
 
 void TargetIsEquipItemSelector::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::InlineParamPack pack;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(mTargetActor_d, &accessor);
     sead::Vector3f pos;
     accessor.getActorMtx().getTranslation(pos);
@@ -29,7 +29,7 @@ void TargetIsEquipItemSelector::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void TargetIsEquipItemSelector::calc_() {
     auto* child = getCurrentChild();
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(mTargetActor_d, &accessor);
     sead::Vector3f pos;
     accessor.getActorMtx().getTranslation(pos);

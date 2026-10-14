@@ -2,7 +2,7 @@
 #include "Game/gameSceneSubsys14.h"
 #include "Game/Damage/dmgDamageManagerBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
@@ -15,7 +15,7 @@
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 bool sub_71007368A4(ksys::act::BaseProcLink* link) {
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(link, &accessor);
     if (accessor.hasTag(ksys::act::tags::TypeKokko))
         return true;
@@ -23,19 +23,19 @@ bool sub_71007368A4(ksys::act::BaseProcLink* link) {
 }
 
 bool sub_710073697C(ksys::act::BaseProcLink* link, const sead::SafeString& name) {
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(link, &accessor);
     return accessor.sub_71006DE298(name);
 }
 
 bool sub_71007369D0(ksys::act::BaseProcLink* link, const sead::SafeString& name) {
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(link, &accessor);
     return accessor.sub_71006DE338(name);
 }
 
 sead::Vector3f sub_7100736A24(ksys::act::BaseProcLink* link) {
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(link, &accessor);
     return accessor.getPreviousPos();
 }
@@ -138,14 +138,14 @@ void sub_7100739918(ksys::act::Actor* actor) {
 }
 
 bool sub_7100739930(ksys::act::Actor* actor, ksys::act::BaseProcLink* link) {
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(link, &accessor);
     const auto* race = actor->getParam()->getRes().mGParamList->getEnemyRace();
     return ksys::util::sub_71010C2EE4(accessor.getName(), race->mEscapeAttackedActorType.ref(),
                                       ',');
 }
 
-bool sub_71007399B4(ksys::act::Actor* actor, const ksys::act::ActorConstDataAccess& accessor) {
+bool sub_71007399B4(ksys::act::Actor* actor, const ksys::act::ActorLinkConstDataAccess& accessor) {
     if (actor->getParam()->getRes().mGParamList->getEnemyRace()->mIsUseTargetTag.ref() &&
         accessor.hasTag(ksys::act::tags::EnemyTarget)) {
         return true;
@@ -155,7 +155,7 @@ bool sub_71007399B4(ksys::act::Actor* actor, const ksys::act::ActorConstDataAcce
 }
 
 bool sub_7100739D74(ksys::act::Actor* actor, ksys::act::BaseProcLink* link) {
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (!ksys::act::acquireActor(link, &accessor))
         return false;
     if (actor->getParam()->getRes().mGParamList->getEnemyRace()->mIsUseTargetTag.ref() &&
@@ -165,7 +165,7 @@ bool sub_7100739D74(ksys::act::Actor* actor, ksys::act::BaseProcLink* link) {
 }
 
 bool sub_7100739E24(ksys::act::Actor* actor, ksys::act::BaseProcLink* link, int kind) {
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(link, &accessor);
     const auto* eat = actor->getParam()->getRes().mGParamList->getEatTarget();
     const sead::SafeString& name = accessor.getName();
@@ -211,7 +211,7 @@ bool sub_7100739E24(ksys::act::Actor* actor, ksys::act::BaseProcLink* link, int 
 }
 
 bool sub_710073A010(ksys::act::Actor* actor, ksys::act::BaseProc* proc) {
-    ksys::act::ActorConstDataAccess accessor(proc);
+    ksys::act::ActorLinkConstDataAccess accessor(proc);
     const auto* eat = actor->getParam()->getRes().mGParamList->getEatTarget();
     const sead::SafeString& name = accessor.getName();
     if (!eat->mFavoriteEatActorTags.ref().isEmpty() &&

@@ -5,7 +5,7 @@
 #include <math/seadMatrix.h>
 #include <math/seadVector.h>
 
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 #include "KingSystem/System/Timer.h"
 
@@ -26,7 +26,7 @@ class Unk_7102407060 {
 public:
     explicit Unk_7102407060(u32 tag) : mTag(tag) {}
     // 0x71004a1e84
-    virtual bool m0(const ksys::act::ActorConstDataAccess& accessor) { return accessor.hasTag(mTag); }
+    virtual bool m0(const ksys::act::ActorLinkConstDataAccess& accessor) { return accessor.hasTag(mTag); }
 
     u32 mTag;
 };
@@ -53,14 +53,14 @@ public:
     virtual bool m40();
     virtual bool m41(const sead::Matrix34f* mtx, const sead::Vector3f* a, const sead::Vector3f* b);
     virtual f32 m42();
-    virtual void m43(sead::Matrix34f* out, ksys::act::ActorLinkConstDataAccess* accessor);
-    virtual bool m44(ksys::act::ActorLinkConstDataAccess* accessor, const sead::Vector3f* pos,
+    virtual void m43(sead::Matrix34f* out, ksys::act::BaseProcAccessor* accessor);
+    virtual bool m44(ksys::act::BaseProcAccessor* accessor, const sead::Vector3f* pos,
                      const sead::BoundBox3f* bounds);
-    virtual bool m45(ksys::act::ActorLinkConstDataAccess* accessor, const sead::Vector3f* pos,
+    virtual bool m45(ksys::act::BaseProcAccessor* accessor, const sead::Vector3f* pos,
                      const sead::BoundBox3f* bounds);
-    virtual bool m46(ksys::act::ActorLinkConstDataAccess* accessor, const sead::Vector3f* pos,
+    virtual bool m46(ksys::act::BaseProcAccessor* accessor, const sead::Vector3f* pos,
                      const sead::BoundBox3f* bounds);
-    virtual bool m47(ksys::act::ActorLinkConstDataAccess* accessor, const sead::Vector3f* pos,
+    virtual bool m47(ksys::act::BaseProcAccessor* accessor, const sead::Vector3f* pos,
                      const sead::BoundBox3f* bounds);
     virtual void m48(f32 radius, const sead::Matrix34f* mtx, const sead::Vector3f* a,
                      const sead::Vector3f* b);
@@ -74,7 +74,7 @@ public:
     ksys::map::Object* sub_71004A0174(ksys::act::BaseProc* proc, s32* idx, Unk_7102407060* filter);
     // 0x71004a0384 (placeholder name): acquires in `out` the nearest linked actor with tag 0x7fe6e43f
     // that is closer than `_88`.
-    void sub_71004A0384(ksys::act::ActorConstDataAccess* out);
+    void sub_71004A0384(ksys::act::ActorLinkConstDataAccess* out);
 
 protected:
     u32 _38 = 0;

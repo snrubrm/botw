@@ -2,7 +2,7 @@
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "Game/Actor/actSiteBoss.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 
 namespace uking::ai {
@@ -62,7 +62,7 @@ void SiteBossShootArrowRoot::enter_(ksys::act::ai::InlineParamPack* params) {
         for (int i = 0; i < 24; ++i) {
             auto* link = boss->_1560.sub_710066DE24(i);
             if (link->hasProcInCalcState()) {
-                ksys::act::ActorConstDataAccess accessor;
+                ksys::act::ActorLinkConstDataAccess accessor;
                 ksys::act::acquireActor(link, &accessor);
                 accessor.sleep(ksys::act::BaseProc::SleepWakeReason::_0);
             }

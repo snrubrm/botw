@@ -2,7 +2,7 @@
 #include <basis/seadNew.h>
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actAttackSensor.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerOrEnemy.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
@@ -174,7 +174,7 @@ void AttackSensor::activateAttackSensor(u32 a1, u32 a2, u32 a3, u32 a4, f32 a5, 
 // NON_MATCHING: the original counts remaining entries down; the range iterator counts up.
 bool sub_71007A0E18(const sead::RingBuffer<ActorAtk::Unk_710079e64c::HistoryEntry>& history,
                    BaseProc* proc) {
-    ActorConstDataAccess accessor(proc);
+    ActorLinkConstDataAccess accessor(proc);
     if (!accessor.hasProc())
         return false;
     const u32 id = accessor.getId();

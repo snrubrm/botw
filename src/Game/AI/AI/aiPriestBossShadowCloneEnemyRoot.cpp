@@ -4,7 +4,7 @@
 #include "Game/Damage/dmgDamageManager.h"
 #include "Game/Damage/dmgDamageManagerBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/Profiles/actDynamicActor.h"
 
 namespace uking::ai {
@@ -53,7 +53,7 @@ void PriestBossShadowCloneEnemyRoot::sub_710052D6E8() {
     if (!unit->sub_7100719978(unit->sub_7100719534(mActor)))
         return;
 
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (unit->sub_71007194CC(&accessor)) {
         {
             // inline-only in the original; the same sequence as setPayload() in PriestBossShadowCloneThrow
@@ -84,7 +84,7 @@ void Unk_7102415ae8::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
         return;
     if (!manager->mActor->getActorFlags2().isOn(ksys::act::Actor::ActorFlag2::_40))
         return;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (!ksys::act::acquireActor(manager->getAttacker(), &accessor))
         return;
     if (accessor.getName() == "Priest_Boss_ShadowClone") {

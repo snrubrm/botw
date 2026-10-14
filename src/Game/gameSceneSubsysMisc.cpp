@@ -3,7 +3,7 @@
 #include <geom/seadSegment.h>
 #include <prim/seadScopedLock.h>
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "Game/AI/aiXlinkHandle.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
@@ -154,7 +154,7 @@ bool GameSceneSubsys5::sub_71009059D4() const {
     return _d8[_148];
 }
 
-void GameSceneSubsys5::sub_71009059EC(ksys::act::ActorConstDataAccess* accessor) {
+void GameSceneSubsys5::sub_71009059EC(ksys::act::ActorLinkConstDataAccess* accessor) {
     if (accessor)
         ksys::act::acquireActor(&_a8, accessor);
 }
@@ -240,7 +240,7 @@ void GameSceneSubsys5::sub_7100905DF8() {
     _b8.reset();
 }
 
-void GameSceneSubsys5::sub_7100905E00(ksys::act::ActorConstDataAccess* accessor) {
+void GameSceneSubsys5::sub_7100905E00(ksys::act::ActorLinkConstDataAccess* accessor) {
     if (accessor)
         ksys::act::acquireActor(&_b8, accessor);
 }

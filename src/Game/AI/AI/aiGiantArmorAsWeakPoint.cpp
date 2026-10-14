@@ -1,7 +1,7 @@
 #include "Game/AI/AI/aiGiantArmorAsWeakPoint.h"
 #include "Game/Actor/actGiantArmor.h"
 #include "KingSystem/ActorSystem/Profiles/actBullet.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 
 namespace uking::ai {
 

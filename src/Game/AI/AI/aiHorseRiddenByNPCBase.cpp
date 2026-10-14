@@ -1,7 +1,7 @@
 #include "Game/AI/AI/aiHorseRiddenByNPCBase.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 
@@ -95,7 +95,7 @@ void HorseRiddenByNPCBase::m34(u32 kind, const sead::Vector3f& pos,
 
 bool HorseRiddenByNPCBase::m35(ksys::act::Unk_7100d78e50* entry, s32 idx) {
     if (!*mIsEscapeFromSameActorType_s) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         if (ksys::act::acquireActor(&entry->_0.mLink, &accessor) &&
             accessor.getProfile() == mActor->getProfile()) {
             return true;

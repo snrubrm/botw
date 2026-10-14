@@ -8,7 +8,7 @@ class ActorBind;
 }
 
 namespace ksys::act {
-class ActorConstDataAccess;
+class ActorLinkConstDataAccess;
 }
 
 namespace uking::act {
@@ -40,6 +40,6 @@ public:
 KSYS_CHECK_SIZE_NX150(ActorOption, 0xbb0);
 
 // 0x7100000610 (placeholder name): the `_b90` link of the accessor's ActorOption, or the dummy link.
-ksys::act::BaseProcLink& sub_7100000610(const ksys::act::ActorConstDataAccess& accessor);
+ksys::act::BaseProcLink& sub_7100000610(const ksys::act::ActorLinkConstDataAccess& accessor);
 
 }  // namespace uking::act

@@ -53,7 +53,7 @@ bool Arrow::sub_71004692FC() {
     if (sub_71002F0154(weapon)) {
         bool is_player;
         {
-            ksys::act::ActorConstDataAccess parent;
+            ksys::act::ActorLinkConstDataAccess parent;
             weapon.acquireParentActor(&parent);
             is_player = parent.isPlayerProfile();
         }

@@ -2,7 +2,7 @@
 #include "KingSystem/Map/mapObjectLink.h"
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "Game/AI/aiUnk_71007130BC.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
@@ -16,7 +16,7 @@
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectNpc.h"
 
 // Source namespace is unknown (same declaration as in actionForkDynActorNoTargetSelf.cpp).
-bool sub_710001A9A4(const ksys::act::ActorConstDataAccess& accessor, ksys::act::BaseProc* proc);
+bool sub_710001A9A4(const ksys::act::ActorLinkConstDataAccess& accessor, ksys::act::BaseProc* proc);
 
 namespace uking::ai {
 
@@ -127,7 +127,7 @@ bool NPCRunaway::sub_71004DEBA0() {
     for (s32 i = 0; i < 10; ++i) {
         if (!_e8[i].hasProc())
             continue;
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&_e8[i], &accessor);
         const sead::Vector3f other_pos = accessor.getActorMtx().getTranslation();
         const sead::Vector3f diff = mActor->getMtx().getTranslation() - other_pos;
@@ -145,7 +145,7 @@ bool NPCRunaway::sub_71004DD654(ksys::act::BaseProcLink* link) {
     if (auto* obj = mActor->getMapObject()) {
         if (auto* link_data = obj->getLinkData()) {
             for (s32 i = 0; i != link_data->mObjects.size(); ++i) {
-                ksys::act::ActorConstDataAccess accessor;
+                ksys::act::ActorLinkConstDataAccess accessor;
                 link_data->mObjects(i)->getActorWithAccessor(accessor);
                 if (accessor.isNPCProfile()) {
                     accessor.linkAcquire(link);
@@ -173,7 +173,7 @@ bool NPCRunaway::sub_71004DE978(ksys::act::BaseProcLink* link) {
             if (entries.size() > i)
                 entry = ksys::act::sub_7100D78E30(&entries, i);
         }
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         if (entry && ksys::act::acquireActor(&entry->_0.mLink, &accessor) &&
             sub_710001A9A4(accessor, mActor)) {
             if (link)

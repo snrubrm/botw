@@ -1,7 +1,7 @@
 #include "Game/AI/AI/aiTargetAngerSelect.h"
 #include "Game/AI/aiUnk_710001A69C.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 
 namespace uking::ai {
 
@@ -15,7 +15,7 @@ bool TargetAngerSelect::init_(sead::Heap* heap) {
 
 void TargetAngerSelect::enter_(ksys::act::ai::InlineParamPack* params) {
     if (auto* target = sub_71005D9050(mActor)) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(target, &accessor);
         if (sub_710001A69C(&accessor, 0x40))
             changeChild("対象怒り", params);
@@ -29,7 +29,7 @@ void TargetAngerSelect::enter_(ksys::act::ai::InlineParamPack* params) {
 void TargetAngerSelect::calc_() {
     bool angry = false;
     if (auto* target = sub_71005D9050(mActor)) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(target, &accessor);
         angry = sub_710001A69C(&accessor, 0x40);
     }

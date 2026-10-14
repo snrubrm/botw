@@ -3,7 +3,7 @@
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/Actor/actUnk_71002dccbc.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
@@ -91,7 +91,7 @@ bool Unk_7102401238::m2(ksys::act::Unk_71024dc978* entry) {
     auto* target = sead::DynamicCast<ksys::act::Unk_71024dc858>(entry);
     if (!target)
         return false;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(&target->mLink, &accessor);
     return accessor.isFlyingBalloon();
 }
@@ -152,7 +152,7 @@ void LandHumEnemyNormal::m58(s32 type, Unk2* target) {
 // &accessor for the destructor)
 void LandHumEnemyNormal::m59() {
     if (isCurrentChild("浮遊物発見")) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&_3f0, &accessor);
         if (accessor.hasProc()) {
             const sead::Vector3f pos = accessor.getActorMtx().getTranslation();
@@ -224,7 +224,7 @@ void LandHumEnemyNormal::changeToAvoidDanger(Unk2* target) {
 void LandHumEnemyNormal::changeToFoundFloatingObject(Unk2* target) {
     ksys::act::ai::InlineParamPack params;
     params.addActor(*target->_0, "TargetActor", -1);
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(target->_0, &accessor);
     sead::Vector3f pos;
     accessor.getActorMtx().getTranslation(pos);

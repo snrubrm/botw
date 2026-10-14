@@ -3,7 +3,7 @@
 #include <random/seadGlobalRandom.h>
 #include "Game/Actor/actSiteBoss.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 
 namespace uking::ai {
@@ -69,7 +69,7 @@ void SiteBossLswordFireBallRoot::leave_() {
     if (!boss->_1128.getActorPartsActor(mThrowActorName_d).hasProc())
         return;
 
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(&boss->_1128.getActorPartsActor(mThrowActorName_d), &accessor);
     if (accessor.isStateCalc())
         accessor.sleep(ksys::act::BaseProc::SleepWakeReason::_0);

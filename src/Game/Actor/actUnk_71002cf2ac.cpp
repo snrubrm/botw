@@ -1,5 +1,5 @@
 #include "Game/Actor/actSiteBoss.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 
 namespace {
 // 2026-10-07: static initializer 0x710066e034 creates this record and registers
@@ -20,7 +20,7 @@ SiteBoss::Unk_71002cf2ac::~Unk_71002cf2ac() {
     for (s32 i = 0; i < 20; ++i) {
         auto& link = _1e0[i];
         if (link.hasProc()) {
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             ksys::act::acquireActor(&link, &accessor);
             if (!accessor.isDeletedOrDeleting())
                 accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
@@ -40,7 +40,7 @@ void SiteBoss::Unk_71002cf2ac::sub_710066DABC(ksys::act::BaseProc* proc, s32 idx
     }
     auto& link = _320[idx];
     if (link.hasProc()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&link, &accessor);
         accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
         link.acquire(proc, false);
@@ -90,7 +90,7 @@ void SiteBoss::Unk_71002cf2ac::sub_710066C634(ksys::act::BaseProcLink* target, i
         auto& link = _3b0(i);
         if (!link.hasProc())
             continue;
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&link, &accessor);
         owner->sendMessage(*accessor.getMessageTransceiverId(), type, &_710[i], true);
     }
@@ -109,7 +109,7 @@ void SiteBoss::Unk_71002cf2ac::sub_710066CBF8(int idx) {
     auto& link = _1e0[idx];
     if (!link.hasProc())
         return;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(&link, &accessor);
     accessor.sleep(ksys::act::BaseProc::SleepWakeReason::_0);
 }
@@ -118,7 +118,7 @@ void SiteBoss::Unk_71002cf2ac::sub_710066CC64(int idx) {
     auto& link = _1e0[idx];
     if (!link.hasProc())
         return;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(&link, &accessor);
     accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
 }
@@ -129,7 +129,7 @@ s32 SiteBoss::Unk_71002cf2ac::sub_710066C074() {
     for (int i = 0; i < 20; ++i) {
         auto& link = _1e0[i];
         if (link.hasProc()) {
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             ksys::act::acquireActor(&link, &accessor);
             count += accessor.isStateCalc();
         }
@@ -162,7 +162,7 @@ void SiteBoss::Unk_71002cf2ac::sub_710066DB98(ksys::act::BaseProc* proc, int idx
     }
     if (!_360.hasProc())
         return;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(&_360, &accessor);
     accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
     _360.acquire(proc, false);
@@ -182,7 +182,7 @@ void SiteBoss::Unk_71002cf2ac::sub_710066CD7C(u32 value) {
     _94 = value;
     for (auto& link : _1e0) {
         if (link.hasProc()) {
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             ksys::act::acquireActor(&link, &accessor);
             accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
         }

@@ -1,6 +1,6 @@
 #include "Game/AI/Action/actionDamageField.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/System/physCollisionInfo.h"
@@ -83,7 +83,7 @@ void DamageField::sub_7100E5DAC(ksys::phys::CollisionInfo* info) {
     info->lock();
     for (; bodies; bodies = info->getCollidingBodies().next(bodies)) {
         if (auto* body = bodies->bodies[1]) {
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             ksys::act::getCollidedActorMaybe(&accessor, body);
             if (accessor.hasProc())
                 _60.sub_710070DBB0(*accessor.getMessageTransceiverId(), true);

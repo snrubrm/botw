@@ -2,7 +2,7 @@
 
 #include <container/seadBuffer.h>
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actBaseProcHandle.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Physics/physDefines.h"
@@ -111,7 +111,7 @@ namespace ksys::act::acc {
 
 // Accessor for RopeBase actors (CSV act::acc::x::requestCutOffHungPoint; lane4 s44; the other names are guesses; functions
 // 0x7100ed8344-0x7100ed8580).
-class RopeBase : public ActorConstDataAccess {
+class RopeBase : public ActorLinkConstDataAccess {
 public:
     // 0x7100ed8344: `_956` is set.
     bool sub_7100ED8344() const;

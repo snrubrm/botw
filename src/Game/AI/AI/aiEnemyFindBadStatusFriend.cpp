@@ -1,6 +1,6 @@
 #include "Game/AI/AI/aiEnemyFindBadStatusFriend.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 
 namespace uking::ai {
 
@@ -39,7 +39,7 @@ void EnemyFindBadStatusFriend::loadParams_() {
 void EnemyFindBadStatusFriend::changeToStasis() {
     ksys::act::ai::InlineParamPack pack;
     sead::Vector3f pos;
-    ksys::act::ActorConstDataAccess acc;
+    ksys::act::ActorLinkConstDataAccess acc;
     ksys::act::acquireActor(mTargetActor_d, &acc);
     acc.getActorMtx().getTranslation(pos);
     pack.addVec3(pos, "TargetPos", -1);
@@ -48,7 +48,7 @@ void EnemyFindBadStatusFriend::changeToStasis() {
 
 void EnemyFindBadStatusFriend::calc_() {
     auto* child = getCurrentChild();
-    ksys::act::ActorConstDataAccess acc;
+    ksys::act::ActorLinkConstDataAccess acc;
     ksys::act::acquireActor(mTargetActor_d, &acc);
     if (child->isChangeable() && !acc.sub_7100D10FB8())
         setFailed();

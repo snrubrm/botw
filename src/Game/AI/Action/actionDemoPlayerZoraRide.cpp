@@ -1,7 +1,7 @@
 #include "Game/AI/Action/actionDemoPlayerZoraRide.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actBaseProcMgr.h"
 #include "KingSystem/GameData/gdtManager.h"
 
@@ -33,7 +33,7 @@ void DemoPlayerZoraRide::enter_(ksys::act::ai::InlineParamPack* params) {
             if (proc->getName() == "Npc_Zora030") {
                 ksys::act::BaseProcLink link;
                 link.acquire(proc, false);
-                ksys::act::ActorConstDataAccess accessor;
+                ksys::act::ActorLinkConstDataAccess accessor;
                 ksys::act::acquireActor(&link, &accessor);
                 accessor.setThisActorAsParent(mActor, false);
                 _20.x(proc);

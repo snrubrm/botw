@@ -105,7 +105,7 @@ public:
     bool sub_7100E8BFF4();
     // 0x7100e8c018: `HorseMgr::instance()` (null: false) `->isLinkedToActor(mActor)`.
     bool sub_7100E8C018();
-    // The ridden animal type of the horse unit param (a 4-byte SEAD_ENUM by value: ActorConstDataAccess::sub_7100D14598
+    // The ridden animal type of the horse unit param (a 4-byte SEAD_ENUM by value: ActorLinkConstDataAccess::sub_7100D14598
     // returns it unchanged, which is where the `and x0, x0, #0xffffffff` comes from).
     ksys::act::Unk_7100d14598 sub_7100E8C03C() const;
     // 0x7100e8c068: with Unk8 3, the previous position of the actor linked in _20.

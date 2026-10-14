@@ -1,6 +1,6 @@
 #include "Game/AI/AI/aiSiteBossGaleArrowRoot.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 
 namespace uking::ai {
@@ -44,7 +44,7 @@ bool SiteBossGaleArrowRoot::m37(bool* broke_ice_block, bool* hit_player) {
         if (!link->hasProc())
             continue;
 
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(link, &accessor);
         if (accessor.getName() == "Enemy_SiteBoss_Bow_ChildDevice") {
             result = false;

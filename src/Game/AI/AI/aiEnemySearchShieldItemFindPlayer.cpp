@@ -10,7 +10,7 @@
 #include "Game/AI/aiUnk_71007302CC.h"
 #include "Game/AI/aiUnk_710073033C.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
@@ -65,7 +65,7 @@ ksys::act::BaseProcLink* EnemySearchShieldItemFindPlayer::sub_71003BB3A4() {
         if (entry->_a8 > *mParams.mSearchObjectDist_s)
             continue;
 
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&entry->_0.mLink, &accessor);
         if (accessor.sub_7100D10E6C(30))
             continue;

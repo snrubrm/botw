@@ -6,7 +6,7 @@
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include <cmath>
 #include "Game/Actor/actMotorcycle.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actTag.h"
 #include "KingSystem/Physics/System/physRayCastBodyQuery.h"
@@ -427,7 +427,7 @@ void CameraHorse::sub_7100771DA8(f32* out) {
         ksys::act::PlayerInfo::instance()->getHorseLink().getProc(nullptr, nullptr));
     if (!ridden_actor)
         return;
-    ksys::act::ActorConstDataAccess accessor(ridden_actor);
+    ksys::act::ActorLinkConstDataAccess accessor(ridden_actor);
     if (sub_7100926DF0(accessor) || sub_7100926E7C(accessor))
         *out += sub_71009221D4();
     else if (ksys::act::hasTag(ridden_actor, ksys::act::tags::IsVehicle))
@@ -441,7 +441,7 @@ void CameraHorse::sub_7100770574() {
     sub_7100771B94();
     sub_71007719C4();
     {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         sub_7100926A9C(&accessor);
         _90 = accessor.getActorMtx().getBase(0);
         _90.y = 0.0f;
@@ -457,7 +457,7 @@ void CameraHorse::sub_71007719C4() {
     sead::Vector3f end = _78;
     sead::Vector3f direction;
     {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         sub_7100926A9C(&accessor);
         direction = accessor.getActorMtx().getBase(0);
         direction.y = 0.0f;
@@ -601,7 +601,7 @@ void CameraHorse::sub_710077002C() {
     _a0 = _88;
     sub_71007719C4();
     {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         sub_7100926A9C(&accessor);
         _90 = accessor.getActorMtx().getBase(0);
         _90.y = 0.0f;
@@ -614,7 +614,7 @@ void CameraHorse::sub_710077002C() {
 
 // NON_MATCHING: branch layout and min/max stack slots differ.
 void CameraHorse::sub_71007701C4() {
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     sub_7100926A9C(&accessor);
     if (!accessor.hasProc())
         return;
@@ -633,7 +633,7 @@ void CameraHorse::sub_71007701C4() {
 
 // NON_MATCHING: float registers differ in the handling return path.
 void CameraHorse::sub_71007702C8() {
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     sub_7100926A74(&accessor);
     const f32 turn = accessor.getAngVelocity().y;
     const f32 epsilon = sead::Mathf::epsilon();

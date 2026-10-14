@@ -12,7 +12,7 @@
 namespace ksys::act {
 
 class Actor;
-class ActorConstDataAccess;
+class ActorLinkConstDataAccess;
 class ActorChemicals;
 class BaseProc;
 
@@ -33,7 +33,7 @@ public:
     void sub_7100E50288();
     bool sub_7100E502B8() const;
     void sub_7100E502EC(BaseProc* proc);
-    bool sub_7100E50334(ActorConstDataAccess* accessor);
+    bool sub_7100E50334(ActorLinkConstDataAccess* accessor);
     // 0x7100e4ff1c (placeholder name).
     void sub_7100E4FF1C(sead::Vector3f* out, const sead::Matrix34f& mtx) const;
     // 0x7100e50390 (placeholder name).

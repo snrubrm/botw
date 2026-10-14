@@ -8,7 +8,7 @@
 #include "Game/UI/uiUnkSingletons.h"
 #include "Game/gameRadarMgr.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
@@ -191,7 +191,7 @@ bool WolfLinkNormalRoot::sub_7100608C84() {
     if (!target->hasProc())
         return false;
 
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (!ksys::act::acquireActor(target, &accessor))
         return false;
     const auto& mtx = accessor.getActorMtx();
@@ -220,7 +220,7 @@ bool WolfLinkNormalRoot::sub_7100606FCC() {
     auto& leader = ksys::act::PlayerInfo::getSomeProcLink();
     if (!leader.hasProc())
         return false;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (!ksys::act::acquireActor(&leader, &accessor))
         return false;
     ksys::act::ai::InlineParamPack params;
@@ -293,7 +293,7 @@ bool WolfLinkNormalRoot::sub_7100609738() {
 // NON_MATCHING: load scheduling of the _19c/_190 components in the else branch
 bool WolfLinkNormalRoot::sub_710060980C() {
     auto& link = ksys::act::PlayerInfo::getSomeProcLink();
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     bool result = false;
     if (ksys::act::acquireActor(&link, &accessor)) {
         if (!(_70->_1698 >> 4 & 1)) {
@@ -314,7 +314,7 @@ bool WolfLinkNormalRoot::sub_71006094FC() {
     if (!_70->sub_71002F3234(_78->mHealRange.ref(), 0, 2, 3))
         return false;
     _70->_1698 &= ~0x400;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (ksys::act::acquireActor(&_70->_c48._8, &accessor) && accessor.hasTag(0x8c06fd5cu) &&
         sub_710073697C(&_70->_c48._8, "IsPlayerPut")) {
         _70->_1698 |= 0x400;
@@ -365,7 +365,7 @@ WolfLinkNormalRoot::State WolfLinkNormalRoot::sub_7100607140() {
         auto* nav = mActor->m45();
         if (!nav)
             return State::_6;
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         if (!ksys::act::acquireActor(&ksys::act::PlayerInfo::getSomeProcLink(), &accessor) ||
             (!accessor.sub_7100D12E64() &&
              !sub_7100742278(_78->mCanReachPlayerNavMeshSearchRadius.ref(), nullptr, nav, &_19c))) {
@@ -461,7 +461,7 @@ bool WolfLinkNormalRoot::sub_71006085C8(State state) {
     if (int(_1a8) == 6) {
         if (auto* nav = mActor->m45()) {
             auto& leader = ksys::act::PlayerInfo::getSomeProcLink();
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             if (ksys::act::acquireActor(&leader, &accessor) &&
                 (accessor.sub_7100D12E64() ||
                  sub_7100742278(_78->mCanReachPlayerNavMeshSearchRadius.ref(), nullptr, nav,
@@ -581,7 +581,7 @@ bool WolfLinkNormalRoot::sub_7100606BB4(State state, bool force) {
 
 void WolfLinkNormalRoot::sub_7100607910() {
     auto* info = ksys::act::PlayerInfo::instance();
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (ksys::act::acquireActor(&info->getPlayerLink(), &accessor) && accessor.sub_7100D12E64()) {
         ksys::act::disableAllAttClients(mActor);
         return;
@@ -614,7 +614,7 @@ void WolfLinkNormalRoot::sub_7100608200() {
     if (int(_1a8) == 4) {
         auto* info = ksys::act::PlayerInfo::instance();
         auto& leader = info->getPlayerLink();
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         if (!ksys::act::acquireActor(&leader, &accessor) || !accessor.sub_7100D12E64())
             getCurrentChild()->setDynamicParam(leader, "TargetActor");
         else

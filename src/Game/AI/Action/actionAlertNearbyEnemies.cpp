@@ -3,7 +3,7 @@
 #include "Game/AI/aiAwarenessFilters.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 
 namespace uking::action {
 
@@ -60,7 +60,7 @@ void AlertNearbyEnemies::calc_() {
         Unk_7102451448 filter;
         while (auto* entry = ksys::act::sub_7100D7EEE8(&awareness->_8, &filter)) {
             if (entry->_a8 < *mAlertRange_s) {
-                ksys::act::ActorConstDataAccess accessor;
+                ksys::act::ActorLinkConstDataAccess accessor;
                 ksys::act::acquireActor(&entry->_0.mLink, &accessor);
                 _80.sub_710070DBB0(*accessor.getMessageTransceiverId(), true);
             }

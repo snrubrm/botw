@@ -1,7 +1,7 @@
 #include "Game/AI/AI/aiWaitAndFaceLeader.h"
 #include <cmath>
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/Utils/MathUtil.h"
@@ -19,7 +19,7 @@ bool WaitAndFaceLeader::init_(sead::Heap* heap) {
 // NON_MATCHING (M): the math is the same but the original keeps the leader position as raw 32-bit words
 // and schedules the two xz terms and the cross product differently; same body as calc_'s turn check
 void WaitAndFaceLeader::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (!ksys::act::acquireActor(mLeaderActor_d, &accessor)) {
         setFailed();
         return;
@@ -51,7 +51,7 @@ void WaitAndFaceLeader::calc_() {
         return;
 
     if (isCurrentChild("待機")) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         if (!ksys::act::acquireActor(mLeaderActor_d, &accessor)) {
             setFailed();
             return;

@@ -1,6 +1,6 @@
 #include "Game/AI/Action/actionSendNoticeMessageBase.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 
 namespace uking::action {
@@ -17,7 +17,7 @@ bool SendNoticeMessageBase::init_(sead::Heap* heap) {
 void SendNoticeMessageBase::enter_(ksys::act::ai::InlineParamPack* params) {
     OnetimeStopASPlay::enter_(params);
     m32();
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::findLinkedActor(&accessor, mActor, mTargetActorName_s);
     _58.sub_710070DD78(accessor, true);
 }

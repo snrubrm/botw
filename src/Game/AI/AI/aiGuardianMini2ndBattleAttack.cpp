@@ -2,7 +2,7 @@
 #include <math/seadMathCalcCommon.h>
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorCreator.h"
 #include "KingSystem/ActorSystem/actActorHeapUtil.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
@@ -16,7 +16,7 @@ GuardianMini2ndBattleAttack::GuardianMini2ndBattleAttack(const InitArg& arg)
 
 GuardianMini2ndBattleAttack::~GuardianMini2ndBattleAttack() {
     if (_68.hasProc()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&_68, &accessor);
         accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
         _68.reset();
@@ -84,7 +84,7 @@ void GuardianMini2ndBattleAttack::calc_() {
         if (!(_78.value <= sead::Mathf::epsilon())) {
             _78.update();
             if (_78.value <= sead::Mathf::epsilon() && _68.hasProc()) {
-                ksys::act::ActorConstDataAccess accessor;
+                ksys::act::ActorLinkConstDataAccess accessor;
                 ksys::act::acquireActor(&_68, &accessor);
                 accessor.setProperties(mActor->getMtx(), nullptr, nullptr, nullptr, false, 0, -1);
             }
@@ -92,7 +92,7 @@ void GuardianMini2ndBattleAttack::calc_() {
         auto* child = getCurrentChild();
         if (child->isFinished() || child->isFailed()) {
             if (_68.hasProc()) {
-                ksys::act::ActorConstDataAccess accessor;
+                ksys::act::ActorLinkConstDataAccess accessor;
                 ksys::act::acquireActor(&_68, &accessor);
                 accessor.sleep(ksys::act::BaseProc::SleepWakeReason::_0);
             }
@@ -117,7 +117,7 @@ void GuardianMini2ndBattleAttack::leave_() {
     }
 
     if (_68.hasProc()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&_68, &accessor);
         accessor.sleep(ksys::act::BaseProc::SleepWakeReason::_0);
     }

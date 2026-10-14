@@ -22,7 +22,7 @@ void SignalSendingMagneStickAcceptor::enter_(ksys::act::ai::InlineParamPack* par
 // iteration, the accessor dtor's return value afterwards) and so keeps `this` out of a callee-saved register; the helper's
 // first parameter is unknown, ours passes `this`
 // 0x710056bd78
-void SignalSendingMagneStickAcceptor::sub_710056BD78(ksys::act::ActorConstDataAccess* acc) {
+void SignalSendingMagneStickAcceptor::sub_710056BD78(ksys::act::ActorLinkConstDataAccess* acc) {
     f32 min_dist = *mMagneStickMaxSearchDistance_m;
     s32 index = 0;
     auto* actor = mActor;
@@ -30,7 +30,7 @@ void SignalSendingMagneStickAcceptor::sub_710056BD78(ksys::act::ActorConstDataAc
         return;
     const sead::Vector3f pos = actor->getMtx().getTranslation();
     while (auto* object = sub_710056BE7C(actor, &index, nullptr)) {
-        ksys::act::ActorConstDataAccess other;
+        ksys::act::ActorLinkConstDataAccess other;
         object->getActorWithAccessor(other);
         const sead::Vector3f other_pos = other.getActorMtx().getTranslation();
         const f32 dist = (other_pos - pos).length();
@@ -46,7 +46,7 @@ void SignalSendingMagneStickAcceptor::calc_() {
     if (!mActor)
         return;
 
-    ksys::act::ActorConstDataAccess acc;
+    ksys::act::ActorLinkConstDataAccess acc;
     sub_710056BD78(&acc);
     if (!acc.hasProc())
         return;

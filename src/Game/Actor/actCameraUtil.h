@@ -135,8 +135,8 @@ class Viewport;
 
 namespace ksys::act {
 class Actor;
-class ActorConstDataAccess;
 class ActorLinkConstDataAccess;
+class BaseProcAccessor;
 class BaseProcLink;
 class PlayerBase;
 }  // namespace ksys::act
@@ -153,7 +153,7 @@ class Unk_710079a8e8;
 
 // Camera math helpers (TU 0x7100924be4-).
 // 0x7100924be4: acquires the player (PlayerInfo's player link) into `accessor`.
-void sub_7100924BE4(ksys::act::ActorConstDataAccess* accessor);
+void sub_7100924BE4(ksys::act::ActorLinkConstDataAccess* accessor);
 // 0x7100924c08: 2 * atan2(tan(fovy / 2) * aspect, 1).
 f32 sub_7100924C08(f32 fovy, f32 aspect);
 // 0x7100924c40: `in` scaled by half the size of the camera manager's viewport (if any).
@@ -205,9 +205,9 @@ bool sub_7100925654(uking::act::Unk_71009214b8* state, const uking::act::Unk_710
                     ksys::phys::SystemGroupHandler* handler);
 // 0x7100926210: the look-at position of the actor (acc::PlayerBase::getLookAtPosForCamera for the
 // player, else getPreviousPos2); false (out unchanged) if it is NaN / infinite.
-bool sub_7100926210(const ksys::act::ActorConstDataAccess& accessor, sead::Vector3f* out);
+bool sub_7100926210(const ksys::act::ActorLinkConstDataAccess& accessor, sead::Vector3f* out);
 // 9262A8 writes the actor matrix when it is finite and its first basis is not nearly zero.
-bool sub_71009262A8(const ksys::act::ActorConstDataAccess& accessor, sead::Matrix34f* out);
+bool sub_71009262A8(const ksys::act::ActorLinkConstDataAccess& accessor, sead::Matrix34f* out);
 // 0x7100926154: the look-at position of `player` (same as sub_7100926210 but acquiring `player`
 // directly); false (out unchanged) if it is NaN / infinite.
 bool sub_7100926154(ksys::act::PlayerBase* player, sead::Vector3f* out);
@@ -218,22 +218,22 @@ bool sub_7100926154(ksys::act::BaseProc* proc, sead::Vector3f* out);
 ksys::act::PlayerBase* sub_7100926A14();
 ksys::act::PlayerBase* sub_7100926A2C();
 // 0x7100926a50: acquires the player into `accessor` (same as sub_7100924BE4).
-void sub_7100926A50(ksys::act::ActorConstDataAccess* accessor);
+void sub_7100926A50(ksys::act::ActorLinkConstDataAccess* accessor);
 // 0x7100926a74 / 0x7100926a9c: acquires the player's horse (PlayerInfo's horse link).
-bool sub_7100926A74(ksys::act::ActorConstDataAccess* accessor);
-bool sub_7100926A9C(ksys::act::ActorConstDataAccess* accessor);
+bool sub_7100926A74(ksys::act::ActorLinkConstDataAccess* accessor);
+bool sub_7100926A9C(ksys::act::ActorLinkConstDataAccess* accessor);
 // 0x7100926ac4 (placeholder name): the player is in one of the m186 / m185 states, not in checkActionX_1 / X_0 /
 // isClimbingStep, and its attached target's attach info has bit 1 of _49 clear.
 bool sub_7100926AC4();
 // 0x7100926df0 / 0x7100926e7c: sub_7100E6ECC4 (the horse's mount state) == 6 / == 8; 0x7100926e0c: the player's horse is
 // in state 8 (false without a horse); 0x710092634c / 0x7100926398 / 0x71009263e4: `out` = the previous position / the
 // field-458 vector / the velocity unless it is NaN or infinite (lane1 s43).
-bool sub_7100926DF0(const ksys::act::ActorConstDataAccess& accessor);
+bool sub_7100926DF0(const ksys::act::ActorLinkConstDataAccess& accessor);
 bool sub_7100926E0C();
-bool sub_7100926E7C(const ksys::act::ActorConstDataAccess& accessor);
-bool sub_710092634C(const ksys::act::ActorConstDataAccess& accessor, sead::Vector3f* out);
-bool sub_7100926398(const ksys::act::ActorConstDataAccess& accessor, sead::Vector3f* out);
-bool sub_71009263E4(const ksys::act::ActorConstDataAccess& accessor, sead::Vector3f* out);
+bool sub_7100926E7C(const ksys::act::ActorLinkConstDataAccess& accessor);
+bool sub_710092634C(const ksys::act::ActorLinkConstDataAccess& accessor, sead::Vector3f* out);
+bool sub_7100926398(const ksys::act::ActorLinkConstDataAccess& accessor, sead::Vector3f* out);
+bool sub_71009263E4(const ksys::act::ActorLinkConstDataAccess& accessor, sead::Vector3f* out);
 // 0x7100926cb0: acc::PlayerBase m190 || m191.
 bool sub_7100926CB0();
 // 0x7100926d24: acc::PlayerBase isRidingHorse || x_15 || x_17 || (x_16 && !x_17 && !x_18).
@@ -272,8 +272,8 @@ const sead::Viewport* sub_710092DAB8();
 const sead::Viewport* sub_710092DAD0();
 // 0x710092dae8 / 0x710092db0c (CSV getRoot6SomeActor): acquire the camera into `accessor` (Root6
 // sub_7100927198 / sub_71009287CC).
-void sub_710092DAE8(ksys::act::ActorLinkConstDataAccess* accessor);
-void getRoot6SomeActor(ksys::act::ActorLinkConstDataAccess* accessor);
+void sub_710092DAE8(ksys::act::BaseProcAccessor* accessor);
+void getRoot6SomeActor(ksys::act::BaseProcAccessor* accessor);
 // 0x710092db30: acquires the camera into `link`.
 void sub_710092DB30(ksys::act::BaseProcLink* link);
 // 0x710092db74: stores the camera (null if not accessible) in `camera`.
@@ -303,20 +303,20 @@ namespace uking::act {
 // 2474250/24742A0 share the already mapped IDelegate1 isNoDummy slots.
 void sub_7100923F44(const sead::SafeString& name, const sead::SafeString& unique_name,
                     const sead::Vector3f& origin,
-                    sead::IDelegate1<ksys::act::ActorConstDataAccess*>* on_actor,
+                    sead::IDelegate1<ksys::act::ActorLinkConstDataAccess*>* on_actor,
                     sead::IDelegate1<ksys::map::Object*>* on_object);
 
-// Native79B400 passes an Actor and ActorConstDataAccess output; null output is ignored.
-void sub_710092486C(ksys::act::Actor* actor, ksys::act::ActorConstDataAccess* accessor);
+// Native79B400 passes an Actor and ActorLinkConstDataAccess output; null output is ignored.
+void sub_710092486C(ksys::act::Actor* actor, ksys::act::ActorLinkConstDataAccess* accessor);
 // Named actor/map callbacks from CameraEventMovePosBase, with camera or event translation as origin.
 void sub_71009248D4(ksys::act::Actor* actor, const sead::SafeString& name,
                     const sead::SafeString& unique_name,
-                    sead::IDelegate1<ksys::act::ActorConstDataAccess*>* on_actor,
+                    sead::IDelegate1<ksys::act::ActorLinkConstDataAccess*>* on_actor,
                     sead::IDelegate1<ksys::map::Object*>* on_object);
 
 // Temporary records produced by 9243FC and consumed by 9240C0/9242AC/92464C.
 struct CameraTargetResult {
-    void sub_7100923ECC(ksys::act::ActorConstDataAccess* accessor);
+    void sub_7100923ECC(ksys::act::ActorLinkConstDataAccess* accessor);
     void sub_7100923F0C(ksys::map::Object* object);
     ksys::act::BaseProcLink link;
     ksys::map::Object* object = nullptr;
@@ -348,7 +348,7 @@ struct Unk_71009241ac {
     void sub_7100924238(const Params& params);
     void sub_71009242AC(Camera* camera);
     void sub_710092464C();
-    bool sub_710092479C(const ksys::act::ActorConstDataAccess& accessor);
+    bool sub_710092479C(const ksys::act::ActorLinkConstDataAccess& accessor);
 
     s32 selector;
     sead::SafeString actorName;
@@ -497,8 +497,8 @@ public:
     Camera* sub_71009285F0();
     Camera* getCameraActor();
     // 0x71009287cc / 0x7100927198: acquires the camera into `accessor` (if not null).
-    void sub_71009287CC(ksys::act::ActorLinkConstDataAccess* accessor);
-    void sub_7100927198(ksys::act::ActorLinkConstDataAccess* accessor);
+    void sub_71009287CC(ksys::act::BaseProcAccessor* accessor);
+    void sub_7100927198(ksys::act::BaseProcAccessor* accessor);
     // 0x7100928838: registers `camera` unless one is registered already.
     bool sub_7100928838(Camera* camera);
     // 0x7100928854: unregisters `camera`.

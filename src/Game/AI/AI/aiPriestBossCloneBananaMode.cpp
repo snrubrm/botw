@@ -1,6 +1,6 @@
 #include "Game/AI/AI/aiPriestBossCloneBananaMode.h"
 #include "Game/AI/aiUnk_7102450fa8.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 
@@ -18,7 +18,7 @@ bool PriestBossCloneBananaMode::init_(sead::Heap* heap) {
 void PriestBossCloneBananaMode::enter_(ksys::act::ai::InlineParamPack* params) {
     sead::Vector3f target_pos = sead::Vector3f::zero;
     if (sub_7100505BE4()->_28.hasProc()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&sub_7100505BE4()->_28, &accessor);
         accessor.getActorMtx().getTranslation(target_pos);
     }
@@ -50,7 +50,7 @@ void PriestBossCloneBananaMode::calc_() {
 
     sead::Vector3f target_pos = sead::Vector3f::zero;
     if (sub_7100505BE4()->_28.hasProc()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&sub_7100505BE4()->_28, &accessor);
         accessor.getActorMtx().getTranslation(target_pos);
     }

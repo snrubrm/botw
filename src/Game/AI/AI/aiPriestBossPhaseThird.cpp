@@ -1,7 +1,7 @@
 #include "Game/AI/AI/aiPriestBossPhaseThird.h"
 #include "Game/DLC/aocHardModeManager.h"
 #include "KingSystem/ActorSystem/actLifeRecoveryInfo.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "Game/AI/aiUnk_7102450fa8.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
@@ -17,7 +17,7 @@ bool PriestBossPhaseThird::init_(sead::Heap* heap) {
 
 void PriestBossPhaseThird::enter_(ksys::act::ai::InlineParamPack* params) {
     PriestBossPhase::enter_(params);
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (sub_7100525B18(1, &accessor)) {
         sead::Matrix34f mtx = mActor->getMtx();
         const sead::Vector3f offset{0, 5, 0};
@@ -48,7 +48,7 @@ void PriestBossPhaseThird::loadParams_() {
 }
 
 bool PriestBossPhaseThird::m37(f32* x) {
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (sub_7100525B18(1, &accessor) && accessor.isStateCalc()) {
         const f32 life = accessor.getLife();
         const f32 max_life = accessor.getMaxLife();
@@ -66,7 +66,7 @@ void PriestBossPhaseThird::m35() {
         !hard_mode->isHardModeChangeOn(aoc::HardModeManager::HardModeChange::EnableLifeRegen))
         return;
     ksys::act::BaseProcLink link;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (sub_7100525B18(1, &accessor)) {
         accessor.linkAcquire(&link);
         if (link.hasProc()) {

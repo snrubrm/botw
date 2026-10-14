@@ -7,7 +7,7 @@
 #include "Game/AI/aiAwarenessFilters.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
@@ -40,7 +40,7 @@ bool EnemyNoiseTarget::sub_710039B240(ksys::act::BaseProcLink* out) {
     auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
     if (enemy && !enemy->sub_7100016284(*mShieldIdx_s) && !enemy->sub_71000161A4(*mShieldIdx_s)) {
         auto& link = enemy->_c38[*mShieldIdx_s];
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&link, &accessor);
         if (link.hasProcInCalcState() && !accessor.sub_7100D13448(-1)) {
             if (out)

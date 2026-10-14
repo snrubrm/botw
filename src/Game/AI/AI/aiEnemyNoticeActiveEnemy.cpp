@@ -1,5 +1,5 @@
 #include "Game/AI/AI/aiEnemyNoticeActiveEnemy.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include <random/seadGlobalRandom.h>
 #include "KingSystem/ActorSystem/actActor.h"
@@ -45,7 +45,7 @@ void EnemyNoticeActiveEnemy::calc_() {
             setFailed();
     }
 
-    ksys::act::ActorConstDataAccess acc;
+    ksys::act::ActorLinkConstDataAccess acc;
     ksys::act::acquireActor(mParams.mTargetActor_d, &acc);
     acc.getActorMtx();
     f32* delay = &_48;
@@ -93,7 +93,7 @@ bool EnemyNoticeActiveEnemy::isFinished() const {
 
 void EnemyNoticeActiveEnemy::m34() {
     if (isCurrentChild("気づき")) {
-        ksys::act::ActorConstDataAccess acc;
+        ksys::act::ActorLinkConstDataAccess acc;
         ksys::act::acquireActor(mParams.mTargetActor_d, &acc);
         sead::Vector3f pos;
         acc.getActorMtx().getTranslation(pos);

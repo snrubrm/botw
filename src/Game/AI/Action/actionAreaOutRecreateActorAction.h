@@ -16,7 +16,7 @@ public:
 
 protected:
     void m2() override { _58 = 0; }
-    bool m15(const ksys::act::ActorConstDataAccess& accessor) override;
+    bool m15(const ksys::act::ActorLinkConstDataAccess& accessor) override;
     void m5() override;
     sead::Buffer<Payload>* m6() override { return &_38; }
 

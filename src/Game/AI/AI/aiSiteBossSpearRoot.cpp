@@ -4,7 +4,7 @@
 #include "Game/Actor/actSiteBoss.h"
 #include "Game/Damage/dmgDamageManager.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
@@ -17,10 +17,10 @@ namespace uking::ai {
 SiteBossSpearRoot::SiteBossSpearRoot(const InitArg& arg) : SiteBossRoot(arg) {}
 
 // NON_MATCHING: the original initialises the data access object after the parts actor lookup (`auto& link =
-// enemy->getActorPartsActor(..)` before `ActorConstDataAccess accessor;` matches, see the log)
+// enemy->getActorPartsActor(..)` before `ActorLinkConstDataAccess accessor;` matches, see the log)
 SiteBossSpearRoot::~SiteBossSpearRoot() {
     if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&enemy->getActorPartsActor("AutoAim0"), &accessor);
         if (accessor.isStateCalc())
             accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
@@ -56,7 +56,7 @@ void SiteBossSpearRoot::leave_() {
     }
     if (mActor->getRootAi()->isActorGoingBackToRootAi()) {
         if (auto* physics = mActor->getPhysics()) {
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             ksys::act::acquireActor(&ksys::act::PlayerInfo::getSomeProcLink(), &accessor);
             if (accessor.hasProc()) {
                 if (auto* handler = accessor.x(0))

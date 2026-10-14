@@ -197,7 +197,7 @@ public:
     // carrier actor (Unk_7100e4e084::sub_7100E50450 / sub_7100E4E084).
     void sub_7100E38C54(Actor* carrier, bool attach);
     // 0x7100e382c4 (declared only; lane4 s30): the index of the chemical called `name` (-1 if none; the
-    // wrapper ActorConstDataAccess::sub_7100D137C0 returns it).
+    // wrapper ActorLinkConstDataAccess::sub_7100D137C0 returns it).
     s32 sub_7100E382C4(const sead::SafeString& name);
 
     /* 0x08 */ sead::CriticalSection mCS;

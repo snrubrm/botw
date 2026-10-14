@@ -1,6 +1,6 @@
 #include "Game/AI/Action/actionSandwormTackleMove.h"
 #include "Game/Actor/actEnemy.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 
 namespace uking::action {
 
@@ -23,7 +23,7 @@ bool Unk_SandwormTackleTarget::sub_710073E5E0(const ksys::MessageAck* ack) {
     } else {
         _58 = 2;
         mActor->sub_7100D3D1E0(_48, _38);
-        ksys::act::ActorConstDataAccess actor;
+        ksys::act::ActorLinkConstDataAccess actor;
         ksys::act::acquireActor(&_38, &actor);
         actor.sleep(ksys::act::BaseProc::SleepWakeReason::_0);
     }
@@ -45,7 +45,7 @@ bool Unk_SandwormTackleTarget::sub_710073E4C4() const {
 bool Unk_SandwormTackleTarget::sub_710073E50C() const {
     bool result = false;
     if (_58 == 2 && _38.hasProc()) {
-        ksys::act::ActorConstDataAccess actor;
+        ksys::act::ActorLinkConstDataAccess actor;
         ksys::act::acquireActor(&_38, &actor);
         result = actor.isStateSleep();
     }

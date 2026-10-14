@@ -5,7 +5,7 @@
 #include "Game/Actor/actEnemy.h"
 #include "Game/Actor/actWeapon.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actUnk_71006e45c4.h"
 
@@ -51,7 +51,7 @@ void LandHumEnemyThrowWeapon::calc_() {
             if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
                 auto& link = enemy->_c38[*mWeaponIdx_s];
                 if (link.hasProc()) {
-                    ksys::act::ActorConstDataAccess acc;
+                    ksys::act::ActorLinkConstDataAccess acc;
                     ksys::act::acquireActor(&link, &acc);
                     sead::Vector3f pos;
                     acc.getMtxPos(&pos);

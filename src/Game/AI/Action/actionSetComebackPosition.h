@@ -18,7 +18,7 @@ public:
 
 protected:
     void calc_() override;
-    bool m15(const ksys::act::ActorConstDataAccess& accessor) override;
+    bool m15(const ksys::act::ActorLinkConstDataAccess& accessor) override;
 
     // map_unit_param at offset 0x38
     const float* mAngleY_m{};

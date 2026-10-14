@@ -6,7 +6,7 @@
 #include "Game/AI/aiUnk_71007377D4.h"
 #include "Game/AI/aiAwarenessFilters.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "Game/Actor/actWeapon.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
@@ -56,7 +56,7 @@ bool EnemyShieldSearchOrBattle::sub_71003BC058(bool check_reach) {
                 if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
                     bool in_range;
                     {
-                        ksys::act::ActorConstDataAccess accessor;
+                        ksys::act::ActorLinkConstDataAccess accessor;
                         ksys::act::acquireActor(&entry->_0.mLink, &accessor);
                         sead::Vector3f position;
                         accessor.getActorMtx().getTranslation(position);

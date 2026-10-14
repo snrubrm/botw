@@ -1,7 +1,7 @@
 #include "Game/AI/AI/aiSiteBossLswordTornadoRoot.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "Game/Actor/actSiteBoss.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
@@ -27,7 +27,7 @@ void SiteBossLswordTornadoRoot::leave_() {
         return;
     if (!enemy->getActorPartsActor("SiteBossBigFlameBall0").hasProc())
         return;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(&enemy->getActorPartsActor("SiteBossBigFlameBall0"), &accessor);
     if (!accessor.isStateSleep())
         mActor->sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x8000004), nullptr, true);

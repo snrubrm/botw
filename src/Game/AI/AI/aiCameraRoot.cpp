@@ -2,7 +2,7 @@
 #include "Game/Actor/actCameraUtil.h"
 #include "KingSystem/ActorSystem/Attention/actAttentionSingleton.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 
 namespace uking::ai {
 
@@ -12,7 +12,7 @@ CameraRoot::~CameraRoot() = default;
 
 // NON_MATCHING: the original loads `_5a` before the stick compare (shared by the clear path), ours reloads it per path.
 void CameraRoot::sub_710079016C() {
-    ksys::act::ActorConstDataAccess player;
+    ksys::act::ActorLinkConstDataAccess player;
     sub_7100926A50(&player);
     if (player.hasProc() && static_cast<ksys::act::acc::PlayerBase&>(player).isRidingHorse()) {
         auto* attention = ksys::act::Attention::instance();

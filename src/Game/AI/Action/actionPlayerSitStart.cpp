@@ -1,6 +1,6 @@
 #include "Game/AI/Action/actionPlayerSitStart.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
+#include "KingSystem/ActorSystem/actBaseProcAccessor.h"
 #include "KingSystem/ActorSystem/Attention/actAttentionSingleton.h"
 #include "KingSystem/Utils/MathUtil.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
@@ -17,7 +17,7 @@ void PlayerSitStart::enter_(ksys::act::ai::InlineParamPack* params) {
     static_cast<ksys::act::Player*>(mActor)->switchToAnimSequenceMaybe("SitDownSt", true, -1.0f);
     if (auto* controller = mActor->getCharacterController()) {
         controller->sub_7100F5EEB8(0.0f);
-        ksys::act::ActorLinkConstDataAccess accessor;
+        ksys::act::BaseProcAccessor accessor;
         if (ksys::act::Attention::instance()->sub_7100D7482C(&accessor)) {
             const auto& mtx = accessor.getActorMtx();
             sead::Vector3f forward;

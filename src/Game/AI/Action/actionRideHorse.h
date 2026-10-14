@@ -5,7 +5,7 @@
 #include "KingSystem/ActorSystem/actModelBindInfo.h"
 
 namespace ksys::act {
-class ActorLinkConstDataAccess;
+class BaseProcAccessor;
 }
 
 namespace ksys::phys {
@@ -62,10 +62,10 @@ protected:
     void sub_710023A4C8();
     // 0x7100239f8c (placeholder name): starts the "HorseRideonMove" AS once and turns towards the target (the rotation
     // speed depends on the distance `_170` against `_174`).
-    void sub_7100239F8C(ksys::phys::CharacterController* controller, ksys::act::ActorLinkConstDataAccess* accessor);
+    void sub_7100239F8C(ksys::phys::CharacterController* controller, ksys::act::BaseProcAccessor* accessor);
     // 0x710023a6b0 (placeholder name): turns the actor so that it faces the direction of the horse accessor.
     void sub_710023A6B0(f32 rate, ksys::phys::CharacterController* controller,
-                        ksys::act::ActorLinkConstDataAccess* accessor);
+                        ksys::act::BaseProcAccessor* accessor);
     // 0x710023a050 (placeholder name): whether the linked actor is the one this actor is attached to.
     bool sub_710023A050(ksys::act::BaseProcLink* link);
 };

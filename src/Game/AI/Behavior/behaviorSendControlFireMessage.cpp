@@ -1,7 +1,7 @@
 #include "Game/AI/Behavior/behaviorSendControlFireMessage.h"
 #include <math/seadMathCalcCommon.h>
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Map/mapObjectLink.h"
 
@@ -35,7 +35,7 @@ void SendControlFireMessage::m8() {
         auto* linked = link_data->mObjects[i];
         if (!linked)
             continue;
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         linked->getActorWithAccessor(accessor);
         if (accessor.hasProc()) {
             mActor->sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x800002c),
@@ -66,7 +66,7 @@ void SendControlFireMessage::m7() {
         auto* linked = link_data->mObjects[i];
         if (!linked)
             continue;
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         linked->getActorWithAccessor(accessor);
         if (accessor.hasProc()) {
             mActor->sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x800002b),

@@ -6,7 +6,7 @@
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/AI/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Utils/Thread/Message.h"
@@ -67,7 +67,7 @@ void OctarockEscape::calc_() {
 
 void OctarockEscape::leave_() {
     if (_40.hasProc()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&_40, &accessor);
         if (accessor.isStateSleep()) {
             accessor.setThisActorAsChild(mActor, false);
@@ -95,7 +95,7 @@ void OctarockEscape::m35() {
 void OctarockEscape::sub_71004EC6F0() {
     auto* actor = mActor;
     if (!actor->getConnectedCalcChild() && _40.hasProc()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&_40, &accessor);
         if (accessor.isStateSleep()) {
             sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x8000001), actor);

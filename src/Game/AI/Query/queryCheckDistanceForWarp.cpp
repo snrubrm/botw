@@ -2,7 +2,7 @@
 #include <evfl/Query.h>
 #include <math/seadMathCalcCommon.h>
 #include "Game/gameSceneMgr.h"
-#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
+#include "KingSystem/ActorSystem/actBaseProcAccessor.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 
 namespace uking::query {

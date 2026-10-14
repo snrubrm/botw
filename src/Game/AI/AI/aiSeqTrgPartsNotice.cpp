@@ -1,6 +1,6 @@
 #include "Game/AI/AI/aiSeqTrgPartsNotice.h"
 #include "Game/Actor/actEnemy.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 
 namespace uking::ai {
 
@@ -40,7 +40,7 @@ void SeqTrgPartsNotice::calc_() {
                 changeChild("後行動");
                 return;
             }
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             ksys::act::acquireActor(&link, &accessor);
             if (accessor.sub_7100D10E6C(25)) {
                 changeChild("後行動");

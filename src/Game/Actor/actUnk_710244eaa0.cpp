@@ -1,7 +1,7 @@
 #include "Game/Actor/actHorseRideInfo.h"
 #include <math/seadMathCalcCommon.h>
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectHorseRider.h"
@@ -20,7 +20,7 @@ void Unk_710244eaa0::m4() {
         mRight.actor->sub_71011DA868(&mRight.bone);
 }
 
-bool Unk_710244eaa0::m5(const ksys::act::ActorConstDataAccess& accessor) {
+bool Unk_710244eaa0::m5(const ksys::act::ActorLinkConstDataAccess& accessor) {
     if (_1e8) {
         f32 angle = 0.0f;
         if (accessor.getGParamList()->getHorseUnit()->mRiddenAnimalType.ref() == 10) {

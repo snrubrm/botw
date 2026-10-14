@@ -4,7 +4,7 @@
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "Game/Actor/actUnk_7100d3cd74.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
 
 namespace uking::ai {
@@ -17,7 +17,7 @@ OctarockRoot::~OctarockRoot() {
         for (const auto& key : mShootActorKey_s) {
             {
                 auto& link = parts->getActorPartsActor(key);
-                ksys::act::ActorConstDataAccess accessor;
+                ksys::act::ActorLinkConstDataAccess accessor;
                 ksys::act::acquireActor(&link, &accessor);
                 if (accessor.hasProc()) {
                     mActor->sendMessage(*accessor.getMessageTransceiverId(),
@@ -65,7 +65,7 @@ void OctarockRoot::leave_() {
     if (auto* parts = mActor->m101()) {
         auto& wig = parts->getActorPartsActor("Wig");
         if (wig.hasProc()) {
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             ksys::act::acquireActor(&wig, &accessor);
             accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
         }

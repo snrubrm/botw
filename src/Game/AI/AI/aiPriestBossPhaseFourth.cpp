@@ -1,5 +1,5 @@
 #include "Game/AI/AI/aiPriestBossPhaseFourth.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 
 namespace uking::ai {
@@ -49,7 +49,7 @@ bool PriestBossPhaseFourth::handleMessage_(const ksys::Message* message) {
 }
 
 bool PriestBossPhaseFourth::m37(f32* x) {
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (sub_7100525B18(1, &accessor) && accessor.isStateCalc()) {
         *x = accessor.getLife() / (accessor.getMaxLife() * 0.5f);
         return true;

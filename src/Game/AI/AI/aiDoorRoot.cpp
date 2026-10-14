@@ -3,7 +3,7 @@
 #include "Game/AI/aiAwarenessFilters.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/GameData/gdtSpecialFlags.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
@@ -40,7 +40,7 @@ bool DoorRoot::sub_7100366D0C() {
     sead::Matrix34f inv;
     sead::Matrix34CalcCommon<f32>::inverse(inv, mtx);
     while (auto* entry = ksys::act::sub_7100D7EEE8(&awareness->_8, &filter)) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&entry->_0.mLink, &accessor);
         const sead::Vector3f entry_pos = accessor.getActorMtx().getTranslation();
         const sead::Vector3f diff = pos - entry_pos;
@@ -95,7 +95,7 @@ void DoorRoot::calc_() {
     auto* child = getCurrentChild();
     mActor->setFlag(ksys::act::Actor::ActorFlag::_2d, true);
     if (_a8._30) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         if (!_a8._8.hasProc())
             return;
         ksys::act::acquireActor(&_a8._8, &accessor);

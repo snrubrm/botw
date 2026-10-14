@@ -1,7 +1,7 @@
 #include "Game/AI/Behavior/behaviorEnemyNeckRotate.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
+#include "KingSystem/ActorSystem/actBaseProcAccessor.h"
 
 namespace uking::behavior {
 
@@ -30,7 +30,7 @@ void EnemyNeckRotate::loadParams() {
 }
 
 void EnemyNeckRotate::m15(sead::Vector3f* out) {
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     const sead::Vector3f* pos;
     if (ksys::act::acquireActor(&sub_71005D94AC(mActor), &accessor))
         pos = &accessor.getPreviousPos2();

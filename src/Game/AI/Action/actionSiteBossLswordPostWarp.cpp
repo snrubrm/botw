@@ -2,7 +2,7 @@
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/AI/aiUnk_71007368A4.h"
 #include "Game/Actor/actSiteBoss.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/Utils/Thread/Message.h"
 
 namespace uking::action {
@@ -45,7 +45,7 @@ void SiteBossLswordPostWarp::calc_() {
     if (!boss->getActorPartsActor(mCancelSleepPartsName_s).hasProc())
         return;
 
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(&boss->getActorPartsActor(mCancelSleepPartsName_s), &accessor);
     if (accessor.isStateSleep()) {
         accessor.setProperties(boss->getMtx(), nullptr, nullptr, nullptr, false, 0, -1);

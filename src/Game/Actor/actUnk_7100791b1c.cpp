@@ -1,9 +1,9 @@
 #include "Game/Actor/actCamera.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 
 namespace uking::act {
 
-EditCamera* sub_7100791A0C(const ksys::act::ActorConstDataAccess& accessor) {
+EditCamera* sub_7100791A0C(const ksys::act::ActorLinkConstDataAccess& accessor) {
     auto* proc = accessor.getProc();
     if (!proc)
         return nullptr;
@@ -12,7 +12,7 @@ EditCamera* sub_7100791A0C(const ksys::act::ActorConstDataAccess& accessor) {
 }
 
 // NON_MATCHING: the original calls sub_71007917C4 with bl + ret instead of a tail call
-EditCamera::CameraNames* sub_7100791B00(const ksys::act::ActorConstDataAccess& accessor) {
+EditCamera::CameraNames* sub_7100791B00(const ksys::act::ActorLinkConstDataAccess& accessor) {
     if (auto* camera = sub_7100791A0C(accessor))
         return camera->sub_71007917C4();
     return nullptr;

@@ -12,7 +12,7 @@
 
 namespace ksys::act {
 
-class ActorLinkConstDataAccess;
+class BaseProcAccessor;
 class BaseProcLink;
 class AttClient;
 class PlayerLink;
@@ -31,7 +31,7 @@ class Attention {
 
 public:
     // 0x7100d741a8 (CSV Attention::x): acquires the current target; false if there is none.
-    bool x(ActorLinkConstDataAccess* out);
+    bool x(BaseProcAccessor* out);
     // 0x7100d74148 (CSV Attention::__auto9): same for a BaseProcLink.
     bool sub_7100D74148(BaseProcLink* out);
     // 0x7100d74114 (CSV Attention::__auto7): whether there is a current target.
@@ -41,11 +41,11 @@ public:
     // 0x7100d742e8 (CSV Attention::__auto10): whether the target list `list` is empty.
     bool sub_7100D742E8(s32 list) const;
     // 0x7100d7438c (CSV Attention::x_0): acquires entry `index` of the target list `list`.
-    bool x_0(s32 list, s32 index, ActorLinkConstDataAccess* out);
+    bool x_0(s32 list, s32 index, BaseProcAccessor* out);
     // 0x7100d7430c (CSV Attention::__auto3): same for a BaseProcLink.
     bool sub_7100D7430C(s32 list, s32 index, BaseProcLink* out);
     // 0x7100d7482c (CSV Attention::__auto0): acquires the target that `__auto8` describes.
-    bool sub_7100D7482C(ActorLinkConstDataAccess* out);
+    bool sub_7100D7482C(BaseProcAccessor* out);
     // 0x7100d747d8 (CSV Attention::__auto2): same for a BaseProcLink.
     bool sub_7100D747D8(BaseProcLink* out);
     // 0x7100d74880 (CSV Attention::__auto8): the target's action code, or 0x1800029 if there is none.
@@ -88,7 +88,7 @@ public:
     // 0x7100d74480 (CSV Attention::setPlayerLink): called by ksys::setPlayerLink.
     void setPlayerLink(PlayerLink* link);
     // 0x7100d74488 (CSV Attention::__auto11): the player's actor, or releases the accessor.
-    bool sub_7100D74488(ActorLinkConstDataAccess* out);
+    bool sub_7100D74488(BaseProcAccessor* out);
     // 0x7100d744a8 (CSV Attention::__auto4): sets bit 0 of the flag byte at +0xe21.
     void sub_7100D744A8();
     // 0x7100d74514 (CSV Attention::__auto1) / 0x7100d74530: set the request state of the flag byte at +0xe22

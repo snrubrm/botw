@@ -1,6 +1,6 @@
 #include "Game/AI/Action/actionFixedMagneSliderBlock.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/Physics/Constraint/physFixedCs.h"
 
 namespace uking::action {
@@ -30,7 +30,7 @@ void FixedMagneSliderBlock::calc_() {
 }
 
 // NON_MATCHING: matrix/scalar load scheduling and register allocation differ.
-void FixedMagneSliderBlock::m34(ksys::act::ActorConstDataAccess& accessor, f32 distance) {
+void FixedMagneSliderBlock::m34(ksys::act::ActorLinkConstDataAccess& accessor, f32 distance) {
     auto* constraint = sead::DynamicCast<ksys::phys::FixedCs>(_38);
     auto* actor = mActor;
     if (!constraint || !actor)

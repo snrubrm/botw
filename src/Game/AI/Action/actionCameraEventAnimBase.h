@@ -7,7 +7,7 @@
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 
 namespace ksys::act {
-class ActorConstDataAccess;
+class ActorLinkConstDataAccess;
 }
 
 namespace ksys::map {
@@ -51,7 +51,7 @@ protected:
     // 0x710075863c (placeholder name): once (_17a bit 1), stores the camera's look-at point (minus the anim
     // object's / the camera's own translation when the animation is placed in the world) in _94.
     void sub_710075863C();
-    void sub_7100758F80(const ksys::act::ActorConstDataAccess* access);
+    void sub_7100758F80(const ksys::act::ActorLinkConstDataAccess* access);
     void sub_7100758FC0(const ksys::map::Object* object);
 
     ksys::act::BaseProcLink _50;

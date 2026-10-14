@@ -5,13 +5,13 @@
 #include "Game/AI/aiAwarenessFilters.h"
 #include "Game/gameLastBossMgr.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 
 namespace uking::ai {
 
 void GerudoHeroSoulGiftRoot::sub_71003F3154() {
     auto* awareness = mActor->getAwareness();
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (awareness) {
         const sead::Vector3f position = mActor->getMtx().getTranslation();
         Unk_7102451448 filter;

@@ -1,7 +1,7 @@
 #include "Game/AI/Action/actionAreaActorObserve.h"
 #include "Game/Actor/actAreaManagement.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/Utils/Thread/Message.h"
 
 namespace uking::action {
@@ -48,7 +48,7 @@ void AreaActorObserve::m5() {
         mActor->emitBasicSigOff();
 }
 
-bool AreaActorObserve::m15(const ksys::act::ActorConstDataAccess& accessor) {
+bool AreaActorObserve::m15(const ksys::act::ActorLinkConstDataAccess& accessor) {
     if (!accessor.hasProc())
         return false;
 
@@ -63,7 +63,7 @@ bool AreaActorObserve::m15(const ksys::act::ActorConstDataAccess& accessor) {
     return *mCount_m <= _34;
 }
 
-bool AreaActorObserve::m37(const ksys::act::ActorConstDataAccess& accessor) {
+bool AreaActorObserve::m37(const ksys::act::ActorLinkConstDataAccess& accessor) {
     return false;
 }
 

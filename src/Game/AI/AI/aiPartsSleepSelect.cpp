@@ -1,6 +1,6 @@
 #include "Game/AI/AI/aiPartsSleepSelect.h"
 #include "Game/Actor/actEnemy.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 
 namespace uking::ai {
 
@@ -46,7 +46,7 @@ bool PartsSleepSelect::sub_71004F50A0() {
     if (!enemy)
         return false;
 
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(&enemy->getActorPartsActor(mPartsName_s), &accessor);
     return !accessor.hasProc() || accessor.isStateSleep();
 }

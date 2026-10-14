@@ -1,7 +1,7 @@
 #include "Game/AI/Behavior/behaviorSetPlayerLargeAttackDeathDCCB.h"
 #include "Game/Damage/dmgDamageManager.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
-#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
+#include "KingSystem/ActorSystem/actBaseProcAccessor.h"
 
 namespace uking::behavior {
 

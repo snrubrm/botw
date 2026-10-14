@@ -1,6 +1,6 @@
 #include "Game/AI/AI/aiEnemyLiftShootItem.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
@@ -19,7 +19,7 @@ void EnemyLiftShootItem::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void EnemyLiftShootItem::changeToLift() {
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(mShootItem_d, &accessor);
     sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x8000001), mActor);
     ksys::act::ai::InlineParamPack pack;
@@ -33,7 +33,7 @@ void EnemyLiftShootItem::changeToLift() {
 sead::Vector3f EnemyLiftShootItem::sub_7100397DB4() {
     const sead::Vector3f ez = sead::Vector3f::ez;
     const sead::Matrix34f mtx = mActor->getMtx();
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (ksys::act::acquireActor(mShootItem_d, &accessor))
         return accessor.getPreviousPos();
     return mtx * ez;

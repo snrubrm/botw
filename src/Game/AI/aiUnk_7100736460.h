@@ -2,7 +2,7 @@
 
 namespace ksys::act {
 class Actor;
-class ActorConstDataAccess;
+class ActorLinkConstDataAccess;
 class BaseProcLink;
 }  // namespace ksys::act
 
@@ -15,7 +15,7 @@ bool sub_7100736460(ksys::act::BaseProcLink* link);
 /// Whether the linked actor has the Explosive tag.
 bool sub_710073646C(ksys::act::BaseProcLink* link);
 
-/// 0x7100736414: whether the linked actor is an NPC of the "warrior" kind (ActorConstDataAccess::sub_7100022ED8;
+/// 0x7100736414: whether the linked actor is an NPC of the "warrior" kind (ActorLinkConstDataAccess::sub_7100022ED8;
 /// TargetNPCTypeSelector). Placeholder name.
 bool sub_7100736414(ksys::act::BaseProcLink* link);
 
@@ -31,8 +31,8 @@ int hasEscapedOneHitObliteratorQuest(bool a1);
 bool isOneHitObliteratorActor(ksys::act::Actor* actor, bool a2);
 /// 0x7100736510 (CSV name; declared only).
 bool isOneHitObliteratorBaseProcLink(ksys::act::BaseProcLink* link, bool a2);
-bool isOneHitObliteratorActorAccessor(const ksys::act::ActorConstDataAccess& accessor, bool a2);
-bool isOneHitObliteratorActorActive(const ksys::act::ActorConstDataAccess& accessor);
+bool isOneHitObliteratorActorAccessor(const ksys::act::ActorLinkConstDataAccess& accessor, bool a2);
+bool isOneHitObliteratorActorActive(const ksys::act::ActorLinkConstDataAccess& accessor);
 }
 
 /// 0x710073681c (CSV name): whether both the actor and the link have the AnimalTypeWolf tag, or both have the

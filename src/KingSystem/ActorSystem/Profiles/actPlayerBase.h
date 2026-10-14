@@ -7,7 +7,7 @@
 #include <thread/seadCriticalSection.h>
 #include "KingSystem/ActorSystem/Profiles/actPlayerLink.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerOrEnemy.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 
 namespace uking {
 class Unk_710246d058;
@@ -183,7 +183,7 @@ public:
     /* 274 */ uking::act::Weapon* m274() override { return nullptr; }
     /* 275 */ uking::act::Weapon* m275() override { return nullptr; }
     /* 276 */ Actor* m276(int idx) override { return nullptr; }
-    /* 277 */ virtual void m277(ActorConstDataAccess* accessor, int idx) {}
+    /* 277 */ virtual void m277(ActorLinkConstDataAccess* accessor, int idx) {}
     /* 278 */ virtual s32 m278(u8 idx) { return -1; }
     /* 279 */ virtual s32 getArmorDyeStuff() { return 0; }
     /* 280 */ virtual bool m280() { return false; }
@@ -252,8 +252,8 @@ public:
     /* 326 */ virtual f32 m326() { return 0.0f; }
     /* 327 */ virtual f32 m327() { return 0.0f; }
     /* 328 */ virtual bool m328() { return false; }
-    /* 329 */ virtual bool isRevivalFairyActive(ActorConstDataAccess* accessor) { return false; }
-    /* 330 */ virtual bool isZoraHeroActive(ActorConstDataAccess* accessor) { return false; }
+    /* 329 */ virtual bool isRevivalFairyActive(ActorLinkConstDataAccess* accessor) { return false; }
+    /* 330 */ virtual bool isZoraHeroActive(ActorLinkConstDataAccess* accessor) { return false; }
     /* 331 */ virtual bool canUseRevaliGale() { return false; }
     /* 332 */ virtual bool canUseDarukProtection() { return false; }
     /* 333 */ virtual bool canUseUrbosaFury() { return false; }
@@ -278,7 +278,7 @@ public:
     /* 352 */ virtual bool m352(sead::Vector3f* out) { return false; }
     /* 353 */ bool m353() override { return false; }
     /* 354 */ virtual f32 getAtkMultiplier() { return 1.0f; }
-    /* 355 */ bool getActorViaAccessor(ActorLinkConstDataAccess* accessor) override;
+    /* 355 */ bool getActorViaAccessor(BaseProcAccessor* accessor) override;
     /* 356 */ PlayerBase* getPlayer() override;
     /* 357 */ virtual sead::Vector3f* m357();
     /* 358 */ SeadController* m358() override;
@@ -513,9 +513,9 @@ KSYS_CHECK_SIZE_NX150(PlayerBase, 0x17f0);
 
 namespace acc {
 
-// Read/write access to a PlayerBase through an ActorConstDataAccess (CSV: act::acc::PlayerBase).
+// Read/write access to a PlayerBase through an ActorLinkConstDataAccess (CSV: act::acc::PlayerBase).
 // TODO: incomplete
-class PlayerBase : public ActorConstDataAccess {
+class PlayerBase : public ActorLinkConstDataAccess {
 public:
     bool getPlayerFromPlayerInfo();
     bool isMainWeaponHitEnemy() const;
@@ -538,8 +538,8 @@ public:
     bool getLastDamageAttacker(sead::BufferedSafeString* name) const;
     bool setRestartBuf(const sead::Vector3f& pos, f32 angle) const;
     bool isRidingThisSandSeal(BaseProc* proc) const;
-    bool getSandSealActor(ActorConstDataAccess* accessor) const;
-    bool getAttachedTargetActor(ActorConstDataAccess* accessor) const;
+    bool getSandSealActor(ActorLinkConstDataAccess* accessor) const;
+    bool getAttachedTargetActor(ActorLinkConstDataAccess* accessor) const;
     bool reserveParashawlStart() const;
     const sead::Vector3f& getPosCopyMagnesis() const;
     const sead::Vector3f& getPosCopyMagnesis2() const;

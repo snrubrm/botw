@@ -79,7 +79,7 @@ void SiteBossLswordThrowFireBall::sub_710025F148(ksys::act::BaseProcLink* link, 
     entry._18.reset();
     entry._28 = 0;
     entry._30.copy(mBindNodeName_s);
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(link, &accessor);
     mActor->sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x8000058), &entry,
                         true);
@@ -128,7 +128,7 @@ void SiteBossLswordThrowFireBall::sub_710025F958(ksys::act::BaseProcLink* link,
     entry._18 = *mTargetActor_d;
     entry._28 = *mInitVelocity_s * scale;
     entry._30.clear();
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(link, &accessor);
     mActor->sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x800003a), &entry,
                         true);

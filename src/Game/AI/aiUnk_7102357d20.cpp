@@ -2,7 +2,7 @@
 #include <prim/seadScopedLock.h>
 #include "Game/AI/aiUnk_71025be918.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Utils/Thread/MessageAck.h"
@@ -23,12 +23,12 @@ bool Unk_7102357d20::sub_710070DC38(ksys::act::Actor* actor, bool ack) {
 }
 
 bool Unk_7102357d20::sub_710070DCC0(ksys::act::BaseProcLink* link, bool ack) {
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(link, &accessor);
     return sub_710070DD78(accessor, ack);
 }
 
-bool Unk_7102357d20::sub_710070DD78(const ksys::act::ActorLinkConstDataAccess& accessor,
+bool Unk_7102357d20::sub_710070DD78(const ksys::act::BaseProcAccessor& accessor,
                                     bool ack) {
     const auto* dest = accessor.getMessageTransceiverId();
     _14 = false;
@@ -53,12 +53,12 @@ bool Unk_7102357d20::sub_710070DE98(ksys::act::Actor* actor, bool ack) {
 }
 
 bool Unk_7102357d20::sub_710070DF20(ksys::act::BaseProcLink* link, bool ack) {
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(link, &accessor);
     return sub_710070DFD8(accessor, ack);
 }
 
-bool Unk_7102357d20::sub_710070DFD8(const ksys::act::ActorLinkConstDataAccess& accessor,
+bool Unk_7102357d20::sub_710070DFD8(const ksys::act::BaseProcAccessor& accessor,
                                     bool ack) {
     const auto* dest = accessor.getMessageTransceiverId();
     _14 = false;

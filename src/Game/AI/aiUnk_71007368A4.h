@@ -8,7 +8,7 @@
 
 namespace ksys::act {
 class Actor;
-class ActorConstDataAccess;
+class ActorLinkConstDataAccess;
 class BaseProc;
 class BaseProcLink;
 class Unk_7100d8557c;
@@ -24,9 +24,9 @@ class RigidBody;
 
 /// Whether the actor is a Cucco (tag TypeKokko or actor name "Kokko_Simple").
 bool sub_71007368A4(ksys::act::BaseProcLink* link);
-/// Bool map unit parameter `name` of the actor (ActorConstDataAccess::sub_71006DE298).
+/// Bool map unit parameter `name` of the actor (ActorLinkConstDataAccess::sub_71006DE298).
 bool sub_710073697C(ksys::act::BaseProcLink* link, const sead::SafeString& name);
-/// Bool AI tree variable `name` of the actor (ActorConstDataAccess::sub_71006DE338).
+/// Bool AI tree variable `name` of the actor (ActorLinkConstDataAccess::sub_71006DE338).
 bool sub_71007369D0(ksys::act::BaseProcLink* link, const sead::SafeString& name);
 /// The actor's previous position.
 sead::Vector3f sub_7100736A24(ksys::act::BaseProcLink* link);
@@ -71,7 +71,7 @@ bool sub_7100739030(ksys::act::Actor* actor, const ksys::act::BaseProcLink& link
 bool sub_7100739930(ksys::act::Actor* actor, ksys::act::BaseProcLink* link);
 /// 0x71007399b4: the actor's EnemyRace parameters use target tags (IsUseTargetTag) and the
 /// accessed actor has the EnemyTarget tag.
-bool sub_71007399B4(ksys::act::Actor* actor, const ksys::act::ActorConstDataAccess& accessor);
+bool sub_71007399B4(ksys::act::Actor* actor, const ksys::act::ActorLinkConstDataAccess& accessor);
 // 0x7100739d74: checks target tags, then the target actor's profile.
 bool sub_7100739D74(ksys::act::Actor* actor, ksys::act::BaseProcLink* link);
 /// 0x7100739a10: `name` is one of the actor's EnemyRace TargetActorType entries.

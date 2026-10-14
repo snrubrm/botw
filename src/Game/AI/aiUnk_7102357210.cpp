@@ -9,7 +9,7 @@
 #include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/ActorSystem/actActorChemicals.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "Game/gameUnkRttiPlaceholders.h"
@@ -808,7 +808,7 @@ bool Unk_71024507c8::sub_71007094F4(ksys::act::Actor* actor) {
 
     if (actor->getConnectedCalcParent())
         actor->resetConnectedCalcParent(false);
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(&_8, &accessor);
     accessor.setThisActorAsParent(actor, false);
     return true;

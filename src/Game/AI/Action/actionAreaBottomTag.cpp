@@ -1,6 +1,6 @@
 #include "Game/AI/Action/actionAreaBottomTag.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Utils/Thread/Message.h"
@@ -41,7 +41,7 @@ void AreaBottomTag::calc_() {
     AreaTagAction::calc_();
 }
 
-bool AreaBottomTag::m15(const ksys::act::ActorConstDataAccess& accessor) {
+bool AreaBottomTag::m15(const ksys::act::ActorLinkConstDataAccess& accessor) {
     if (accessor.hasProc()) {
         mActor->sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x3000007),
                             nullptr, true);
@@ -62,7 +62,7 @@ bool AreaBottomTag::m16(ksys::phys::RigidBody* body) {
         return false;
     }
 
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::getCollidedActorMaybe(&accessor, body);
     if (!accessor.hasProc())
         return true;

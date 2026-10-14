@@ -2,7 +2,7 @@
 #include "KingSystem/ActorSystem/Attention/actAttentionSingleton.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "Game/Actor/actRideable.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/Physics/System/physRayCastBodyQuery.h"
 #include "KingSystem/System/CameraMgr.h"
@@ -13,12 +13,12 @@ namespace ksys::res {
 
 void AttCheck::m4(act::Actor*, sead::Matrix34f*) {}
 
-bool AttCheck::check(act::Actor*, const act::ActorConstDataAccess&, const sead::Matrix34f*,
+bool AttCheck::check(act::Actor*, const act::ActorLinkConstDataAccess&, const sead::Matrix34f*,
                      const sead::Vector3f&, const AttCheck_Unk1*, bool, bool) {
     return true;
 }
 
-float AttCheck::m6(const act::ActorConstDataAccess&, const sead::Vector3f&) {
+float AttCheck::m6(const act::ActorLinkConstDataAccess&, const sead::Vector3f&) {
     return -1.0;
 }
 
@@ -41,7 +41,7 @@ void AttCheckArea::m4(act::Actor* actor, sead::Matrix34f* mtx) {
 
 // NON_MATCHING: register allocation only (the nine products of the local position are the same, the matrix elements
 // sit in other s registers)
-bool AttCheckArea::check(act::Actor* actor, const act::ActorConstDataAccess& accessor,
+bool AttCheckArea::check(act::Actor* actor, const act::ActorLinkConstDataAccess& accessor,
                          const sead::Matrix34f* mtx, const sead::Vector3f& pos,
                          const AttCheck_Unk1* arg, bool a6, bool a7) {
     if (arg && arg->_36)
@@ -67,22 +67,22 @@ bool AttCheckArea::check(act::Actor* actor, const act::ActorConstDataAccess& acc
               diff.x * area_mtx.m[0][1] + diff.y * area_mtx.m[1][1] + diff.z * area_mtx.m[2][1],
               diff.x * area_mtx.m[0][2] + diff.y * area_mtx.m[1][2] + diff.z * area_mtx.m[2][2]);
 
-    act::ActorConstDataAccess link(actor);
+    act::ActorLinkConstDataAccess link(actor);
     return m9(link, local, pos, arg, a6, a7);
 }
 
-float AttCheckArea::m6(const act::ActorConstDataAccess& accessor, const sead::Vector3f& scale) {
+float AttCheckArea::m6(const act::ActorLinkConstDataAccess& accessor, const sead::Vector3f& scale) {
     return mAttPos.offset.ref().length() + m10(accessor, scale);
 }
 
-void AttCheckArea::m7(act::Actor* actor, const act::ActorConstDataAccess& accessor, bool a3) {
+void AttCheckArea::m7(act::Actor* actor, const act::ActorLinkConstDataAccess& accessor, bool a3) {
     sead::Matrix34f mtx;
     if (mFromPlayer.ref())
         mAttPos.x_1(&mtx, accessor);
     else
         mAttPos.x_2(&mtx, actor);
 
-    act::ActorConstDataAccess link(actor);
+    act::ActorLinkConstDataAccess link(actor);
     m11(link, mtx, actor->getScale(), a3);
 }
 
@@ -178,17 +178,17 @@ bool AttCheckEachOtherArea::parse(const CreateArg& arg) {
     return AttCheck::parse(arg);
 }
 
-bool AttCheckLine::check(act::Actor* actor, const act::ActorConstDataAccess& accessor,
+bool AttCheckLine::check(act::Actor* actor, const act::ActorLinkConstDataAccess& accessor,
                          const sead::Matrix34f*, const sead::Vector3f&, const AttCheck_Unk1*, bool,
                          bool a7) {
     if (a7 && mClient && mClient->getActionCode() == act::AttActionCode::None)
         return true;
 
-    act::ActorConstDataAccess link(actor);
+    act::ActorLinkConstDataAccess link(actor);
     return act::sub_7100EE3FA8(link, accessor, mAsLineOfSight.ref(), mRadius.ref());
 }
 
-bool AttCheckScreen::check(act::Actor* actor, const act::ActorConstDataAccess&,
+bool AttCheckScreen::check(act::Actor* actor, const act::ActorLinkConstDataAccess&,
                            const sead::Matrix34f*, const sead::Vector3f&, const AttCheck_Unk1* arg,
                            bool, bool a7) {
     if ((arg && arg->_35) || a7)
@@ -196,12 +196,12 @@ bool AttCheckScreen::check(act::Actor* actor, const act::ActorConstDataAccess&,
     return sub_7100D8C4F8(actor->getPreviousPos());
 }
 
-bool AttCheckWeight::check(act::Actor*, const act::ActorConstDataAccess&, const sead::Matrix34f*,
+bool AttCheckWeight::check(act::Actor*, const act::ActorLinkConstDataAccess&, const sead::Matrix34f*,
                            const sead::Vector3f&, const AttCheck_Unk1* arg, bool, bool) {
     return arg && arg->_34;
 }
 
-bool AttCheckRideSpace::check(act::Actor* actor, const act::ActorConstDataAccess& accessor,
+bool AttCheckRideSpace::check(act::Actor* actor, const act::ActorLinkConstDataAccess& accessor,
                               const sead::Matrix34f*, const sead::Vector3f&,
                               const AttCheck_Unk1* arg, bool a6, bool) {
     if (!actor)
@@ -209,7 +209,7 @@ bool AttCheckRideSpace::check(act::Actor* actor, const act::ActorConstDataAccess
     if (arg)
         return true;
 
-    act::ActorConstDataAccess link(actor);
+    act::ActorLinkConstDataAccess link(actor);
     auto* horse = link.getHorseRideStuff();
 
     sead::Vector3f start;
@@ -228,35 +228,35 @@ bool AttCheckRideSpace::check(act::Actor* actor, const act::ActorConstDataAccess
     return !query.worldRayCast(phys::ContactLayerType::Entity);
 }
 
-bool AttCheckRideHorse::check(act::Actor*, const act::ActorConstDataAccess&, const sead::Matrix34f*,
+bool AttCheckRideHorse::check(act::Actor*, const act::ActorLinkConstDataAccess&, const sead::Matrix34f*,
                               const sead::Vector3f&, const AttCheck_Unk1*, bool, bool) {
     if (auto* attention = act::Attention::instance())
         return !attention->sub_7100D75430();
     return true;
 }
 
-bool AttCheckSwim::check(act::Actor*, const act::ActorConstDataAccess&, const sead::Matrix34f*,
+bool AttCheckSwim::check(act::Actor*, const act::ActorLinkConstDataAccess&, const sead::Matrix34f*,
                          const sead::Vector3f&, const AttCheck_Unk1*, bool, bool) {
     if (auto* attention = act::Attention::instance())
         return !attention->sub_7100D75448();
     return true;
 }
 
-bool AttCheckCarry::check(act::Actor*, const act::ActorConstDataAccess&, const sead::Matrix34f*,
+bool AttCheckCarry::check(act::Actor*, const act::ActorLinkConstDataAccess&, const sead::Matrix34f*,
                           const sead::Vector3f&, const AttCheck_Unk1*, bool, bool) {
     if (auto* attention = act::Attention::instance())
         return attention->sub_7100D75460();
     return true;
 }
 
-bool AttCheckNoCarry::check(act::Actor*, const act::ActorConstDataAccess&, const sead::Matrix34f*,
+bool AttCheckNoCarry::check(act::Actor*, const act::ActorLinkConstDataAccess&, const sead::Matrix34f*,
                             const sead::Vector3f&, const AttCheck_Unk1*, bool, bool) {
     if (auto* attention = act::Attention::instance())
         return !attention->sub_7100D75460();
     return true;
 }
 
-bool AttCheckGrab::check(act::Actor* actor, const act::ActorConstDataAccess&,
+bool AttCheckGrab::check(act::Actor* actor, const act::ActorLinkConstDataAccess&,
                          const sead::Matrix34f*, const sead::Vector3f&, const AttCheck_Unk1*, bool,
                          bool) {
     if (!actor)
@@ -269,7 +269,7 @@ bool AttCheckGrab::check(act::Actor* actor, const act::ActorConstDataAccess&,
     return !info->_bc;
 }
 
-bool AttCheckBootFirstTower::check(act::Actor*, const act::ActorConstDataAccess&,
+bool AttCheckBootFirstTower::check(act::Actor*, const act::ActorLinkConstDataAccess&,
                                    const sead::Matrix34f*, const sead::Vector3f&,
                                    const AttCheck_Unk1*, bool, bool) {
     auto* mgr = gdt::Manager::instance();
@@ -282,7 +282,7 @@ bool AttCheckBootFirstTower::check(act::Actor*, const act::ActorConstDataAccess&
     return activated;
 }
 
-bool AttCheckFireContact::check(act::Actor*, const act::ActorConstDataAccess&,
+bool AttCheckFireContact::check(act::Actor*, const act::ActorLinkConstDataAccess&,
                                 const sead::Matrix34f*, const sead::Vector3f&,
                                 const AttCheck_Unk1*, bool, bool) {
     if (auto* attention = act::Attention::instance())
@@ -290,7 +290,7 @@ bool AttCheckFireContact::check(act::Actor*, const act::ActorConstDataAccess&,
     return false;
 }
 
-bool AttCheckCharacterOn::check(act::Actor* actor, const act::ActorConstDataAccess&,
+bool AttCheckCharacterOn::check(act::Actor* actor, const act::ActorLinkConstDataAccess&,
                                 const sead::Matrix34f*, const sead::Vector3f&,
                                 const AttCheck_Unk1* arg, bool a6, bool) {
     if (arg)
@@ -298,7 +298,7 @@ bool AttCheckCharacterOn::check(act::Actor* actor, const act::ActorConstDataAcce
     return !act::sub_7100EE66C4(actor, a6);
 }
 
-bool AttCheckUnderWater::check(act::Actor* actor, const act::ActorConstDataAccess&,
+bool AttCheckUnderWater::check(act::Actor* actor, const act::ActorLinkConstDataAccess&,
                                const sead::Matrix34f*, const sead::Vector3f&,
                                const AttCheck_Unk1*, bool, bool) {
     return actor && actor->get6f4() <= 0.99f;
@@ -310,7 +310,7 @@ void AttCheckAngle::m4(act::Actor* actor, sead::Matrix34f* mtx) {
 
 // NON_MATCHING: register allocation / scheduling (the original keeps the direction in s8 / s9 the other way round, spills
 // nothing and branches to a shared `return false` in the final comparisons instead of merging them into a `cset`)
-bool AttCheckAngle::check(act::Actor* actor, const act::ActorConstDataAccess& accessor,
+bool AttCheckAngle::check(act::Actor* actor, const act::ActorLinkConstDataAccess& accessor,
                           const sead::Matrix34f* mtx, const sead::Vector3f&, const AttCheck_Unk1*,
                           bool, bool) {
     const sead::Vector3f& actor_pos = actor->getPreviousPos();

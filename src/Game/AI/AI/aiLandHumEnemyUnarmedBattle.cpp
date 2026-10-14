@@ -8,7 +8,7 @@
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectEnemyLevel.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/Resource/Actor/resResourceAttCheck.h"
@@ -33,7 +33,7 @@ void LandHumEnemyUnarmedBattle::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void LandHumEnemyUnarmedBattle::changeToFindItem() {
     if (_118.hasProc()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&_118, &accessor);
         sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x80000c3), mActor);
     }
@@ -93,7 +93,7 @@ bool LandHumEnemyUnarmedBattle::sub_710046F50C() {
 void LandHumEnemyUnarmedBattle::changeToAvoidDanger() {
     if (_138.hasProcInCalcState()) {
         ksys::act::ai::InlineParamPack pack;
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&_138, &accessor);
         const sead::Vector3f pos = accessor.getActorMtx().getTranslation();
         pack.addVec3(pos, "TargetPos", -1);
@@ -111,7 +111,7 @@ void LandHumEnemyUnarmedBattle::leave_() {
         enemy->sub_7100019D38(_108);
     }
     if (_118.hasProc()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&_118, &accessor);
         sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x80000c3), mActor);
     }
@@ -120,7 +120,7 @@ void LandHumEnemyUnarmedBattle::leave_() {
 
 void LandHumEnemyUnarmedBattle::sub_71004703E8() {
     if (_118.hasProc()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&_118, &accessor);
         sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x80000c3), mActor);
     }
@@ -133,7 +133,7 @@ void LandHumEnemyUnarmedBattle::sub_71004703E8() {
 // loads the offset vector pair first and adds the translation after all three dot products)
 bool LandHumEnemyUnarmedBattle::sub_7100470D54(ksys::act::BaseProcLink* link, bool a2) {
     auto* actor = mActor;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(link, &accessor);
     if (!accessor.isAttClientEnabled("Grab"))
         return false;
@@ -157,7 +157,7 @@ bool LandHumEnemyUnarmedBattle::sub_7100470ED4(ksys::act::BaseProcLink& link) co
     auto* actor = mActor;
     if (sub_7100739030(actor, link))
         return true;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(&link, &accessor);
     sead::Vector3f pos;
     accessor.getActorMtx().getTranslation(pos);
@@ -203,7 +203,7 @@ void LandHumEnemyUnarmedBattle::m42() {
 
 void LandHumEnemyUnarmedBattle::changeToBattle() {
     if (_118.hasProc()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&_118, &accessor);
         sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x80000c3), mActor);
     }
@@ -221,7 +221,7 @@ const ksys::act::BaseProcLink* LandHumEnemyUnarmedBattle::sub_7100471E98() {
         const sead::Vector3f nav_pos = nav->_194;
         f32 min_dist = sead::Mathf::maxNumber();
         for (auto& entry : _150) {
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             ksys::act::acquireActor(&entry._0.mLink, &accessor);
             const sead::Vector3f pos = accessor.getActorMtx().getTranslation();
             accessor.getName();
@@ -243,7 +243,7 @@ bool LandHumEnemyUnarmedBattle::sub_7100472020(const ksys::act::BaseProcLink* li
     auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
     if (!enemy)
         return true;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(link, &accessor);
     sead::Vector3f target;
     accessor.getActorMtx().getTranslation(target);

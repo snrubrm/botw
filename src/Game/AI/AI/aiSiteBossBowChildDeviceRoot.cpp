@@ -3,7 +3,7 @@
 #include "Game/AI/aiUnk_710072BA90.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "Game/Actor/actSiteBoss.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actChemical.h"
@@ -157,7 +157,7 @@ void SiteBossBowChildDeviceRoot::loadParams_() {
 // 0x71005749a4
 void SiteBossBowChildDeviceRoot::sub_71005749A4() {
     if (_70.hasProc()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&_70, &accessor);
         mActor->sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x8000057), &_50, true);
     }
@@ -169,7 +169,7 @@ void SiteBossBowChildDeviceRoot::sub_71005749A4() {
 // 0x7100574c2c
 void SiteBossBowChildDeviceRoot::sub_7100574C2C() {
     if (_70.hasProc()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&_70, &accessor);
         mActor->sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x8000057), &_50, true);
     }
@@ -179,14 +179,14 @@ void SiteBossBowChildDeviceRoot::sub_7100574C2C() {
 }
 
 // 0x7100574a74
-// NON_MATCHING: stack slot order only (the original has the ActorConstDataAccess / SafeString temporaries at the
+// NON_MATCHING: stack slot order only (the original has the ActorLinkConstDataAccess / SafeString temporaries at the
 // highest slot, then the pack, then `pos` at sp+0)
 void SiteBossBowChildDeviceRoot::sub_7100574A74() {
     _64 = 7;
     ksys::act::ai::InlineParamPack pack;
     sead::Vector3f pos;
     if (_80.hasProc()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&_80, &accessor);
         accessor.getActorMtx().getTranslation(pos);
     } else {
@@ -211,7 +211,7 @@ bool SiteBossBowChildDeviceRoot::sub_7100574840() {
     auto* attacker = manager->getAttacker();
     if (!attacker->hasProc())
         return true;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(attacker, &accessor);
     if (accessor.isPlayerProfile())
         return true;

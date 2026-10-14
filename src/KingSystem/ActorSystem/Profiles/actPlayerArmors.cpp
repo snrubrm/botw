@@ -2,7 +2,7 @@
 #include "Game/Actor/actArmorBase.h"
 #include "Game/Actor/actArmorStrings.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actInfoData.h"
 #include "KingSystem/ActorSystem/actTag.h"
 #include "KingSystem/GameData/gdtManagerInline.h"
@@ -19,7 +19,7 @@ PlayerArmors::~PlayerArmors() {
 void PlayerArmors::sub_7100E317F0() {
     for (s32 i = 0; i < 3; ++i) {
         if (_10[i].hasProc()) {
-            ActorConstDataAccess accessor;
+            ActorLinkConstDataAccess accessor;
             acquireActor(&_10[i], &accessor);
             if (auto* dispatcher = MessageDispatcher::instance()) {
                 const bool processing = dispatcher->isProcessingOnCurrentThread();
@@ -38,7 +38,7 @@ void PlayerArmors::sub_7100E2D70C() {
     for (s32 i = 0; i < 6; ++i) {
         if (_70[i].isAllocatedOrFailed())
             _70[i].deleteProc();
-        ActorConstDataAccess accessor;
+        ActorLinkConstDataAccess accessor;
         acquireActor(&_10[i], &accessor);
         if (!accessor.sub_7100D14250())
             accessor.deleteLater(BaseProc::DeleteReason::_0);
@@ -68,7 +68,7 @@ void PlayerArmors::sub_7100E31B9C(Unk117* arg) {
 void PlayerArmors::sleep(BaseProc::SleepWakeReason reason) {
     for (int i = 0; i < 6; ++i) {
         if (_10(i).hasProc()) {
-            ActorConstDataAccess accessor;
+            ActorLinkConstDataAccess accessor;
             acquireActor(&_10(i), &accessor);
             accessor.sleep(reason);
         }
@@ -83,7 +83,7 @@ void PlayerArmors::sub_7100E3170C(BaseProc::SleepWakeReason reason) {
         count = !flag ? 3 : 6;
     }
     for (int i = 0; i < count; ++i) {
-        ActorConstDataAccess accessor;
+        ActorLinkConstDataAccess accessor;
         if (acquireActor(&_10[i], &accessor))
             accessor.wakeUp(reason);
     }
@@ -388,7 +388,7 @@ bool PlayerArmors::hasNoPartBeingCreated() {
 }
 
 void PlayerArmors::wakeUpExtraParts() {
-    ActorConstDataAccess accessor;
+    ActorLinkConstDataAccess accessor;
     for (s32 i = 3; i < 6; ++i) {
         if (acquireActor(&_10(i), &accessor))
             accessor.wakeUp(BaseProc::SleepWakeReason::_0);
@@ -396,7 +396,7 @@ void PlayerArmors::wakeUpExtraParts() {
 }
 
 void PlayerArmors::sleepLastPart() {
-    ActorConstDataAccess accessor;
+    ActorLinkConstDataAccess accessor;
     if (acquireActor(&_10(5), &accessor))
         accessor.sleep(BaseProc::SleepWakeReason::_0);
 }
@@ -413,7 +413,7 @@ s32 PlayerArmors::sub_7100E2ED78(s32 idx) {
 void PlayerArmors::sub_7100E2EDF8(s32 idx, sead::BufferedSafeString* out) {
     auto& link = _10[idx];
     if (link.hasProc()) {
-        ActorConstDataAccess accessor;
+        ActorLinkConstDataAccess accessor;
         acquireActor(&link, &accessor);
         out->copy(accessor.getName());
     } else {

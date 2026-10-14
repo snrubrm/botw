@@ -2,7 +2,7 @@
 #include <prim/seadScopedLock.h>
 #include "Game/Actor/actHorseBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actInfoCommon.h"
 #include "KingSystem/ActorSystem/actInfoData.h"
 #include "KingSystem/GameData/gdtManager.h"
@@ -23,7 +23,7 @@ bool HorseMgr::sub_7100E84AB8(ksys::act::Actor* actor) {
 
 bool HorseMgr::sub_7100E8527C(ksys::act::BaseProcLink* link, const sead::SafeString& name,
                                       bool flag) {
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (!ksys::act::acquireActor(link, &accessor))
         return false;
     if (!act::sub_7100E6DC50(accessor))
@@ -248,7 +248,7 @@ bool HorseMgr::isSelectedHorseFamiliarityChecked() {
 s32 HorseMgr::sub_7100E8612C(RiddenAnimalType* type) {
     _228.resetBit(9);
     _228.resetBit(10);
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (ksys::act::acquireActor(&mOwnedHorse, &accessor) && _d0 >= 0) {
         *type = RiddenAnimalType(act::sub_7100E6ECC4(accessor));
         return _d0;
@@ -295,7 +295,7 @@ bool HorseMgr::sub_7100E87710() {
 
 bool HorseMgr::sub_7100E875EC() {
     bool result = false;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (ksys::act::acquireActor(&mOwnedHorse, &accessor)) {
         act::sub_7100E6E98C(accessor, false);
         setFlagOn(Flag::_2);
@@ -306,7 +306,7 @@ bool HorseMgr::sub_7100E875EC() {
 
 bool HorseMgr::sub_7100E87340(const sead::SafeString& name, sead::Heap* heap) {
     bool result = false;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (ksys::act::acquireActor(&mOwnedHorse, &accessor)) {
         act::sub_7100E6E98C(accessor, true);
         result = true;
@@ -317,7 +317,7 @@ bool HorseMgr::sub_7100E87340(const sead::SafeString& name, sead::Heap* heap) {
 
 bool HorseMgr::sub_7100E87424(const sead::SafeString& name, sead::Heap* heap) {
     bool result = false;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (ksys::act::acquireActor(&mOwnedHorse, &accessor)) {
         act::sub_7100E6E98C(accessor, true);
         result = true;
@@ -328,7 +328,7 @@ bool HorseMgr::sub_7100E87424(const sead::SafeString& name, sead::Heap* heap) {
 
 bool HorseMgr::sub_7100E87508(const sead::SafeString& name, sead::Heap* heap) {
     bool result = false;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (ksys::act::acquireActor(&mOwnedHorse, &accessor)) {
         act::sub_7100E6E98C(accessor, true);
         result = true;
@@ -338,7 +338,7 @@ bool HorseMgr::sub_7100E87508(const sead::SafeString& name, sead::Heap* heap) {
 }
 
 void HorseMgr::sub_7100E873BC(const sead::SafeString& name, sead::Heap* heap) {
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (ksys::act::acquireActor(&mOwnedHorse, &accessor)) {
         act::sub_7100E6E98C(accessor, false);
         act::sub_7100E6E140(accessor, name, heap);
@@ -346,7 +346,7 @@ void HorseMgr::sub_7100E873BC(const sead::SafeString& name, sead::Heap* heap) {
 }
 
 void HorseMgr::sub_7100E874A0(const sead::SafeString& name, sead::Heap* heap) {
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (ksys::act::acquireActor(&mOwnedHorse, &accessor)) {
         act::sub_7100E6E98C(accessor, false);
         act::sub_7100E6E404(accessor, name, heap);
@@ -354,7 +354,7 @@ void HorseMgr::sub_7100E874A0(const sead::SafeString& name, sead::Heap* heap) {
 }
 
 void HorseMgr::sub_7100E87584(const sead::SafeString& name, sead::Heap* heap) {
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (ksys::act::acquireActor(&mOwnedHorse, &accessor)) {
         act::sub_7100E6E98C(accessor, false);
         act::sub_7100E6E6C8(accessor, name, heap);

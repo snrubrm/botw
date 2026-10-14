@@ -1,5 +1,5 @@
 #include "Game/AI/AI/aiRemainElectricCannonBeamAttack.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/Utils/Thread/Message.h"
 
 namespace uking::ai {
@@ -21,7 +21,7 @@ bool RemainElectricCannonBeamAttack::init_(sead::Heap* heap) {
 void RemainElectricCannonBeamAttack::enter_(ksys::act::ai::InlineParamPack* params) {
     sub_710053E864();
     if (_38.hasProc()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&_38, &accessor);
         _58.sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x8000085), nullptr,
                         true);

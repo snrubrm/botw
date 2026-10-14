@@ -1,6 +1,6 @@
 #include "Game/AI/Action/actionAirOctaMgr.h"
 #include "Game/AI/aiUnk_7102357d20.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Map/mapObjectLink.h"
@@ -63,7 +63,7 @@ void AirOctaMgr::sub_71000874E8(ksys::act::AwarenessInstance* awareness) {
     bool found = false;
     for (auto* entry = ksys::act::sub_7100D7EEE8(&awareness->_8, &filter); entry;
          entry = ksys::act::sub_7100D7EEE8(&awareness->_8, &filter)) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         if (ksys::act::acquireActor(&entry->_0.mLink, &accessor) &&
             _70.getId() == accessor.getBalloonHungActorBaseProcID()) {
             const f32 y = accessor.getActorMtx()(1, 3);
@@ -90,7 +90,7 @@ bool uking::action::Unk_7102362ea8::m2(ksys::act::Unk_71024dc978* entry) {
     auto* target = sead::DynamicCast<ksys::act::Unk_71024dc858>(entry);
     if (!target)
         return false;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(&target->mLink, &accessor);
     return accessor.isPlayerProfile();
 }
@@ -99,7 +99,7 @@ bool uking::action::Unk_7102362ed0::m2(ksys::act::Unk_71024dc978* entry) {
     auto* target = sead::DynamicCast<ksys::act::Unk_71024dc858>(entry);
     if (!target)
         return false;
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(&target->mLink, &accessor);
     return accessor.isFlyingBalloon();
 }
@@ -119,7 +119,7 @@ void uking::action::AirOctaMgr::sub_71000873F4(ksys::act::AwarenessInstance* awa
             continue;
 
         if (auto* entry = ksys::act::sub_7100D78E30(&sensor->_8, 0)) {
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             if (ksys::act::acquireActor(&entry->_0.mLink, &accessor) && entry->_a4 >= 6.2f) {
                 _354 |= 1;
                 return;

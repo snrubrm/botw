@@ -7,7 +7,7 @@
 #include "Game/Actor/actWeapon.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerOrEnemy.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actActorWeapons.h"
@@ -110,7 +110,7 @@ bool AssassinMiddleRoot::handleMessage_(const ksys::Message* message) {
             if (link.hasProcInCalcState()) {
                 _310.sub_710070DF20(&link, true);
             } else {
-                ksys::act::ActorConstDataAccess accessor;
+                ksys::act::ActorLinkConstDataAccess accessor;
                 ksys::act::acquireActor(&link, &accessor);
                 accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
             }

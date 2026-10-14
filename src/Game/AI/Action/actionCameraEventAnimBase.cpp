@@ -1,5 +1,5 @@
 #include "Game/AI/Action/actionCameraEventAnimBase.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Utils/Thread/Message.h"
@@ -27,7 +27,7 @@ void CameraEventAnimBase::sub_7100757C24() {
     sead::Matrix34f transform;
     sub_7100925AB8(_50, &transform);
     if (ksys::util::sub_71011F10F4(transform)) {
-        ksys::act::ActorConstDataAccess target;
+        ksys::act::ActorLinkConstDataAccess target;
         ksys::act::acquireActor(&_50, &target);
         return;
     }
@@ -52,7 +52,7 @@ void CameraEventAnimBase::sub_71007583CC() {
             _90 = 1;
         } else if (auto* actor = getActor()) {
             if (m52() != u8(-1)) {
-                ksys::act::ActorConstDataAccess access(actor);
+                ksys::act::ActorLinkConstDataAccess access(actor);
                 sendMessage(*access.getMessageTransceiverId(), ksys::MessageType(0x8800007), nullptr);
             }
         }
@@ -62,7 +62,7 @@ void CameraEventAnimBase::sub_71007583CC() {
     sub_7100757C24();
 }
 
-void CameraEventAnimBase::sub_7100758F80(const ksys::act::ActorConstDataAccess* access) {
+void CameraEventAnimBase::sub_7100758F80(const ksys::act::ActorLinkConstDataAccess* access) {
     if (access && access->hasProc()) {
         access->linkAcquire(&_50);
         _90 = 2;

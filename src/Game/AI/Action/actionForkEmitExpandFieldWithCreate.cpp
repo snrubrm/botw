@@ -1,5 +1,5 @@
 #include "Game/AI/Action/actionForkEmitExpandFieldWithCreate.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "Game/Actor/actUnk_7100d3cd74.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
@@ -13,7 +13,7 @@ ForkEmitExpandFieldWithCreate::~ForkEmitExpandFieldWithCreate() {
     if (*mIsSetPartsLink_s && parts) {
         parts->sub_7100D3CFEC(mPartsKey_s);
     } else if (_a8.hasProc()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&_a8, &accessor);
         if (accessor.isStateSleep())
             accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);

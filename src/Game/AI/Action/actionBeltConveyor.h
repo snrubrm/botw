@@ -4,7 +4,7 @@
 
 namespace ksys::act {
 class Actor;
-class ActorConstDataAccess;
+class ActorLinkConstDataAccess;
 }  // namespace ksys::act
 
 namespace ksys::phys {
@@ -14,7 +14,7 @@ class RigidBody;
 namespace uking::action {
 
 // Callback stored in Unk_7102459df8::Unk::_588 by BeltConveyor::enter_ (declared only).
-void sub_71000C4560(ksys::act::Actor* actor, const ksys::act::ActorConstDataAccess* other, void* unused,
+void sub_71000C4560(ksys::act::Actor* actor, const ksys::act::ActorLinkConstDataAccess* other, void* unused,
                     ksys::phys::RigidBody* body);
 
 class BeltConveyor : public ksys::act::ai::Action {

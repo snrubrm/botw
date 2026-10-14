@@ -61,7 +61,7 @@ void DamageInfoMgr::Unk868::sub_7100668468() {
 
 // NON_MATCHING: clang sinks the origin loads and duplicates bounds-selection/loop tails.
 bool DamageInfoMgr::Unk868::sub_71006686D0(s32 group, const ksys::act::BaseProcLink& link) {
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(&link, &accessor);
     const auto origin = accessor.getActorMtx().getTranslation();
     f32 distance_squared = -1.0f;
@@ -85,7 +85,7 @@ bool DamageInfoMgr::Unk868::sub_71006686D0(s32 group, const ksys::act::BaseProcL
                 return true;
             f32 dx, dz;
             {
-                ksys::act::ActorConstDataAccess other;
+                ksys::act::ActorLinkConstDataAccess other;
                 ksys::act::acquireActor(&entry.mLink, &other);
                 const auto pos = other.getActorMtx().getTranslation();
                 dx = pos.x - origin.x;

@@ -4,7 +4,7 @@
 #include <gfx/seadCamera.h>
 #include <math/seadMathCalcCommon.h>
 #include <mc/seadWorkerMgr.h>
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actChemicalElementHolder.h"
 #include "Game/gameGraphics.h"
 #include "KingSystem/ActorSystem/actActorSystem.h"
@@ -424,7 +424,7 @@ void Manager::onStageInit(StageType stage_type, bool is_demo, bool is_main_field
         mPrevCameraPos = mCameraPos;
         mPrevCameraPos.y += 200.0f;
         mCurrentClimate = getClimate(mCameraPos);
-        act::ActorConstDataAccess accessor;
+        act::ActorLinkConstDataAccess accessor;
         act::ActorSystem::instance()->getPlayer(&accessor);
         if (accessor.hasProc()) {
             mPlayerPos = accessor.getPreviousPos();

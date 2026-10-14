@@ -13,7 +13,7 @@
 #include "Game/Damage/dmgInfoManager.h"
 #include "Game/UI/uiPauseMenuDataMgr.h"
 #include "Game/UI/uiUtils.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/Attention/actAttentionSingleton.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actUnk_71006e45c4.h"
@@ -143,7 +143,7 @@ void Weapon::sub_71002E5BB4() {
         return;
     chemical->sub_7100D90D7C(false);
     if (_938.hasProc()) {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&_938, &accessor);
         if (accessor.hasTag(0xf97d1393))
             chemical->sub_7100D90D7C(true);
@@ -307,7 +307,7 @@ bool Weapon::m239() {
 }
 
 void Weapon::invokedEmitBlinkEffect() {
-    ksys::act::ActorConstDataAccess accessor(this);
+    ksys::act::ActorLinkConstDataAccess accessor(this);
     auto* object = getMapObject();
     if (!object || !object->getForSaleLink())
         emitItemKirakira_Plus(accessor.getPreviousPos2(), true);
@@ -608,7 +608,7 @@ bool Weapon::sub_71002ED8A0() {
 bool Weapon::sub_71002ED934() {
     if (!isMasterSword())
         return false;
-    ksys::act::ActorConstDataAccess parent;
+    ksys::act::ActorLinkConstDataAccess parent;
     ksys::act::acquireActor(&getParentLink(), &parent);
     return parent.getLife() >= parent.getMaxLife();
 }
@@ -616,7 +616,7 @@ bool Weapon::sub_71002ED934() {
 f32 Weapon::sub_71002ED9B0() {
     f32 result = 0.0f;
     if (isMasterSword()) {
-        ksys::act::ActorConstDataAccess parent;
+        ksys::act::ActorLinkConstDataAccess parent;
         ksys::act::acquireActor(&getParentLink(), &parent);
         result = std::max(f32(parent.getLife()), 4.0f);
     }
@@ -1340,7 +1340,7 @@ bool WeaponModifierRanges::loadTierBlue(const ksys::res::GParamList& gparamlist)
 }
 
 // NON_MATCHING: isConfigValid() somehow does not match when inlined (but matches the Wii U version)
-bool WeaponModifierInfo::pickRandomBlueModifierActor(const ksys::act::ActorConstDataAccess& acc) {
+bool WeaponModifierInfo::pickRandomBlueModifierActor(const ksys::act::ActorLinkConstDataAccess& acc) {
     WeaponModifierRanges ranges;
     const auto& gparamlist = *acc.getGParamList();
     if (ranges.loadTierBlue(gparamlist)) {
@@ -1391,7 +1391,7 @@ bool WeaponModifierRanges::loadTierYellow(const ksys::res::GParamList& gparamlis
 }
 
 // NON_MATCHING: isConfigValid() somehow does not match when inlined (but matches the Wii U version)
-bool WeaponModifierInfo::pickRandomYellowModifierActor(const ksys::act::ActorConstDataAccess& acc) {
+bool WeaponModifierInfo::pickRandomYellowModifierActor(const ksys::act::ActorLinkConstDataAccess& acc) {
     WeaponModifierRanges ranges;
     const auto& gparamlist = *acc.getGParamList();
     if (ranges.loadTierYellow(gparamlist)) {
@@ -1509,20 +1509,20 @@ bool Weapon::sub_71002F1228() const {
 }  // namespace ksys::act::acc
 
 // inline-only in the original; name is a guess (same cast as acc::Weapon::getWeapon, on a const accessor).
-static inline uking::act::Weapon* getWeaponOfAccessor(const ksys::act::ActorConstDataAccess& accessor) {
+static inline uking::act::Weapon* getWeaponOfAccessor(const ksys::act::ActorLinkConstDataAccess& accessor) {
     auto* actor = static_cast<ksys::act::Actor*>(ksys::act::acc::getProcIfActor(accessor.getProc()));
     return sead::DynamicCast<uking::act::Weapon>(actor);
 }
 
 // Source owner unknown; this global accessor is among Weapon native neighbors.
-const sead::SafeString& sub_71002EF884(const ksys::act::ActorConstDataAccess& accessor) {
+const sead::SafeString& sub_71002EF884(const ksys::act::ActorLinkConstDataAccess& accessor) {
     auto* weapon = getWeaponOfAccessor(accessor);
     return weapon ? sub_710072D96C(weapon) : sead::SafeString::cEmptyString;
 }
 
 namespace ksys::act {
 
-bool getWeaponCommonIsPikohan(const ActorConstDataAccess& accessor) {
+bool getWeaponCommonIsPikohan(const ActorLinkConstDataAccess& accessor) {
     auto* actor = static_cast<ksys::act::Actor*>(ksys::act::acc::getProcIfActor(accessor.getProc()));
     if (!actor)
         return false;
@@ -1530,7 +1530,7 @@ bool getWeaponCommonIsPikohan(const ActorConstDataAccess& accessor) {
     return param && param->mIsPikohan.ref();
 }
 
-s32 getShieldMirrorLevel(const ActorConstDataAccess& accessor) {
+s32 getShieldMirrorLevel(const ActorLinkConstDataAccess& accessor) {
     auto* weapon = getWeaponOfAccessor(accessor);
     if (!weapon)
         return 0;
@@ -1540,7 +1540,7 @@ s32 getShieldMirrorLevel(const ActorConstDataAccess& accessor) {
 
 }  // namespace ksys::act
 
-bool sub_71002EFC98(const ksys::act::ActorConstDataAccess& accessor) {
+bool sub_71002EFC98(const ksys::act::ActorLinkConstDataAccess& accessor) {
     auto* actor = static_cast<ksys::act::Actor*>(ksys::act::acc::getProcIfActor(accessor.getProc()));
     if (!actor)
         return false;
@@ -1548,7 +1548,7 @@ bool sub_71002EFC98(const ksys::act::ActorConstDataAccess& accessor) {
     return param && param->mIsBlunt.ref();
 }
 
-bool sub_71002EFE08(const ksys::act::ActorConstDataAccess& accessor) {
+bool sub_71002EFE08(const ksys::act::ActorLinkConstDataAccess& accessor) {
     auto* actor = static_cast<ksys::act::Actor*>(ksys::act::acc::getProcIfActor(accessor.getProc()));
     if (!actor)
         return false;
@@ -1556,42 +1556,42 @@ bool sub_71002EFE08(const ksys::act::ActorConstDataAccess& accessor) {
     return param && param->mIsWeakBreaker.ref();
 }
 
-bool sub_71002F0154(const ksys::act::ActorConstDataAccess& accessor) {
+bool sub_71002F0154(const ksys::act::ActorLinkConstDataAccess& accessor) {
     auto* weapon = getWeaponOfAccessor(accessor);
     return weapon ? weapon->m153() : false;
 }
 
-s32 sub_71002F0258(const ksys::act::ActorConstDataAccess& accessor) {
+s32 sub_71002F0258(const ksys::act::ActorLinkConstDataAccess& accessor) {
     auto* weapon = getWeaponOfAccessor(accessor);
     return weapon ? weapon->_cf0 : -1;
 }
 
-bool sub_71002F0DE0(const ksys::act::ActorConstDataAccess& accessor) {
+bool sub_71002F0DE0(const ksys::act::ActorLinkConstDataAccess& accessor) {
     auto* weapon = getWeaponOfAccessor(accessor);
     return weapon ? weapon->_1014 < 5 : false;
 }
 
-void sub_71002F1400(const ksys::act::ActorConstDataAccess& accessor, s32 value) {
+void sub_71002F1400(const ksys::act::ActorLinkConstDataAccess& accessor, s32 value) {
     if (auto* weapon = getWeaponOfAccessor(accessor))
         weapon->_cec = value;
 }
 
-bool sub_71002F1000(const ksys::act::ActorConstDataAccess& accessor) {
+bool sub_71002F1000(const ksys::act::ActorLinkConstDataAccess& accessor) {
     auto* weapon = getWeaponOfAccessor(accessor);
     return weapon ? weapon->m214() : false;
 }
 
-bool sub_71002F0EE0(const ksys::act::ActorConstDataAccess& accessor) {
+bool sub_71002F0EE0(const ksys::act::ActorLinkConstDataAccess& accessor) {
     auto* weapon = getWeaponOfAccessor(accessor);
     return weapon ? weapon->isTrueFormMasterSword() : false;
 }
 
-s32 sub_71002F0CB4(const ksys::act::ActorConstDataAccess& accessor) {
+s32 sub_71002F0CB4(const ksys::act::ActorLinkConstDataAccess& accessor) {
     auto* weapon = getWeaponOfAccessor(accessor);
     return weapon ? weapon->getShieldGuardPower() : 0;
 }
 
-f32 sub_71002F0490(const ksys::act::ActorConstDataAccess& accessor) {
+f32 sub_71002F0490(const ksys::act::ActorLinkConstDataAccess& accessor) {
     f32 result = 1.0f;
     if (auto* weapon = getWeaponOfAccessor(accessor)) {
         const f32 rate = weapon->getParam()->getRes().mGParamList->getBow()->mArrowReloadRate.ref();
@@ -1605,25 +1605,25 @@ f32 sub_71002F0490(const ksys::act::ActorConstDataAccess& accessor) {
 
 // NON_MATCHING: the original selects `weapon + 0xf98` / null directly on the RTTI result (one csel), as in
 // acc::WeaponBase::getBindInfo; ours keeps the null test of the cast result
-uking::act::WeaponModifierInfo* sub_71002F05D8(const ksys::act::ActorConstDataAccess& accessor) {
+uking::act::WeaponModifierInfo* sub_71002F05D8(const ksys::act::ActorLinkConstDataAccess& accessor) {
     auto* weapon = getWeaponOfAccessor(accessor);
     return weapon ? &weapon->_f98 : nullptr;
 }
 
-bool sub_71002EFEC0(const ksys::act::ActorConstDataAccess& accessor) {
+bool sub_71002EFEC0(const ksys::act::ActorLinkConstDataAccess& accessor) {
     auto* weapon = getWeaponOfAccessor(accessor);
     if (!weapon || !weapon->isMasterSword())
         return false;
-    ksys::act::ActorConstDataAccess parent;
+    ksys::act::ActorLinkConstDataAccess parent;
     ksys::act::acquireActor(&weapon->getParentLink(), &parent);
     return parent.getLife() >= parent.getMaxLife();
 }
 
-f32 sub_71002F000C(const ksys::act::ActorConstDataAccess& accessor) {
+f32 sub_71002F000C(const ksys::act::ActorLinkConstDataAccess& accessor) {
     f32 result = 0.0f;
     if (auto* weapon = getWeaponOfAccessor(accessor)) {
         if (weapon->isMasterSword()) {
-            ksys::act::ActorConstDataAccess parent;
+            ksys::act::ActorLinkConstDataAccess parent;
             ksys::act::acquireActor(&weapon->getParentLink(), &parent);
             result = std::max(f32(parent.getLife()), 4.0f);
         }
@@ -1631,7 +1631,7 @@ f32 sub_71002F000C(const ksys::act::ActorConstDataAccess& accessor) {
     return result;
 }
 
-f32 sub_71002F034C(const ksys::act::ActorConstDataAccess& accessor) {
+f32 sub_71002F034C(const ksys::act::ActorLinkConstDataAccess& accessor) {
     f32 result = 1.0f;
     if (auto* weapon = getWeaponOfAccessor(accessor)) {
         const f32 rate = weapon->getParam()->getRes().mGParamList->getBow()->mArrowChargeRate.ref();
@@ -1643,7 +1643,7 @@ f32 sub_71002F034C(const ksys::act::ActorConstDataAccess& accessor) {
     return result;
 }
 
-bool sub_71002F0924(const ksys::act::ActorConstDataAccess& accessor) {
+bool sub_71002F0924(const ksys::act::ActorLinkConstDataAccess& accessor) {
     auto* weapon = getWeaponOfAccessor(accessor);
     if (!weapon)
         return false;

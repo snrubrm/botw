@@ -1,7 +1,7 @@
 #include "Game/AI/AI/aiNPCHorseRideWait.h"
 #include "Game/Actor/actHorseRideInfo.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
 #include "KingSystem/ActorSystem/actSchedule.h"
@@ -35,7 +35,7 @@ void NPCHorseRideWait::leave_() {
         }
     }
 
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (ksys::act::acquireActor(&mActor->getPlayerRideInfo()->_18, &accessor)) {
         mActor->sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x3800007),
                             mActor, true);
@@ -69,14 +69,14 @@ void NPCHorseRideWait::sub_71004CC76C() {
     _dc = 1;
 
     {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         if (ksys::act::acquireActor(&mActor->getPlayerRideInfo()->_18, &accessor)) {
             mActor->sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x380000b),
                                 reinterpret_cast<void*>(_dc), true);
         }
     }
     {
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         if (ksys::act::acquireActor(&mActor->getPlayerRideInfo()->_18, &accessor)) {
             mActor->sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x3800004),
                                 &_38, true);

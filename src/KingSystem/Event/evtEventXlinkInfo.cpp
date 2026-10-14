@@ -1,6 +1,6 @@
 #include "KingSystem/Event/evtEventResource.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 
 namespace ksys::evt {
 
@@ -26,7 +26,7 @@ void EventXlinkInfo::x_0() {
 // 0x7100dc9628
 xlink::XLink* EventXlinkInfo::sub_7100DC9628() {
     if (_18.hasProc()) {
-        act::ActorConstDataAccess accessor;
+        act::ActorLinkConstDataAccess accessor;
         if (act::acquireActor(&_18, &accessor))
             return accessor.sub_7100D0F214();
     }

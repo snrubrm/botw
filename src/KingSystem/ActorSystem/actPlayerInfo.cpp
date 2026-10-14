@@ -4,8 +4,8 @@
 #include "KingSystem/System/VFR.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
+#include "KingSystem/ActorSystem/actBaseProcAccessor.h"
 #include "KingSystem/ActorSystem/actBaseProc.h"
 #include "KingSystem/ActorSystem/actBaseProcMgr.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
@@ -204,7 +204,7 @@ PlayerBase* PlayerInfo::getPlayerUnchecked() {
 }
 
 sead::Vector3f& PlayerInfo::getPlayerPos() {
-    ActorConstDataAccess accessor;
+    ActorLinkConstDataAccess accessor;
 
     acquireActor(&mPlayerLink, &accessor);
     accessor.debugLog(1, "getPlayerPos");
@@ -212,7 +212,7 @@ sead::Vector3f& PlayerInfo::getPlayerPos() {
 }
 
 sead::Vector3f& PlayerInfo::getPlayerPosForPostCalc() {
-    ActorConstDataAccess accessor;
+    ActorLinkConstDataAccess accessor;
 
     acquireActor(&mPlayerLink, &accessor);
     accessor.debugLog(0, "getPlayerPosForPostCalc");

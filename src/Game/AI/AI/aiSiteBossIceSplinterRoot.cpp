@@ -8,7 +8,7 @@
 #include "KingSystem/ActorSystem/actActorAtk.h"
 #include "Game/AI/aiUnk_710072BA90.h"
 #include "Game/Damage/dmgDamageManager.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actTag.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
@@ -183,7 +183,7 @@ void SiteBossIceSplinterRoot::m43(bool a) {
         ksys::eft::searchAndEmitSLink(mActor, "ArrowHit", false);
 
         if (field_50 != 6 && dmg->_216.isOn(2)) {
-            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::ActorLinkConstDataAccess accessor;
             if (ksys::act::acquireActor(dmg->getAttacker(), &accessor) &&
                 accessor.hasTag(ksys::act::tags::CanBreakIceMakerBlock)) {
                 _22a = true;

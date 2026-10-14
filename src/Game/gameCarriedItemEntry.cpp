@@ -2,7 +2,7 @@
 #include "Game/gameSceneSubsys12.h"
 
 #include <random/seadGlobalRandom.h>
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/Graphics/gfxUnk_710260af28.h"
@@ -141,13 +141,13 @@ void Unk_710243be90::sub_710066074C(ActorContextStuff* context, s32 index, bool 
 }
 
 void Unk_710243be90::sub_7100661988() {
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (ksys::act::acquireActor(&_30, &accessor) && accessor.isStateCalc())
         accessor.sleep(ksys::act::BaseProc::SleepWakeReason::_0);
 }
 
 void Unk_710243be90::sub_71006619DC() {
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (ksys::act::acquireActor(&_30, &accessor) && accessor.isStateSleep())
         accessor.setProperties(0, accessor.getActorMtx(), nullptr, nullptr, nullptr, false, 3, -1);
 }
@@ -187,7 +187,7 @@ void Unk_710243be90::sub_71006613B0(bool delete_actor) {
         _28 |= 0x80;
         _48->removeFromWorld();
         _40->erase();
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         if (ksys::act::acquireActor(&_30, &accessor))
             accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
         _28 |= 0x81;
@@ -198,7 +198,7 @@ void Unk_710243be90::sub_71006613B0(bool delete_actor) {
 void Unk_710243be90::sub_7100661494(bool immediately) {
     _48->removeFromWorld();
     _40->erase();
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (ksys::act::acquireActor(&_30, &accessor)) {
         if (immediately)
             accessor.deleteEx(ksys::act::BaseProc::DeleteReason::_0);
@@ -213,19 +213,19 @@ bool Unk_710243be90::sub_7100661540(const ksys::act::BaseProcLink& link) const {
 }
 
 bool Unk_710243be90::sub_7100661548(ksys::act::BaseProc* proc) {
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     return ksys::act::acquireActor(&_30, &accessor) && accessor.getName() == proc->getName();
 }
 
 bool Unk_710243be90::sub_7100661650(ksys::act::BaseProcLink* link) {
-    ksys::act::ActorConstDataAccess accessor;
-    ksys::act::ActorConstDataAccess other;
+    ksys::act::ActorLinkConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess other;
     return ksys::act::acquireActor(&_30, &accessor) && ksys::act::acquireActor(link, &other) &&
            accessor.getName() == other.getName();
 }
 
 bool Unk_710243be90::sub_710066178C(sead::BufferedSafeString* out) {
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (!ksys::act::acquireActor(&_30, &accessor))
         return false;
     out->copy(accessor.getName());

@@ -1,6 +1,6 @@
 #include "KingSystem/ActorSystem/actUnk_7102459df8.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actPhysicsUserTag.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
@@ -118,7 +118,7 @@ Unk_710245a0e0::~Unk_710245a0e0() = default;
 
 void Unk_7102459df8::Unk_7102459e60::Unk1::sub_710079F508(
     const sead::Vector3f& position, const sead::Vector3f& normal,
-    const ActorConstDataAccess* actor, const phys::MaterialMask& material1,
+    const ActorLinkConstDataAccess* actor, const phys::MaterialMask& material1,
     const phys::MaterialMask& material2) {
     _28 = material2;
     _40 = material1;
@@ -177,7 +177,7 @@ void Unk_710245a0b8::m2(Actor* actor) {
         if (phys::System::instance())
             phys::System::instance()->getField48().length();
         auto* tag = sead::DynamicCast<PhysicsUserTag>(it.getPoint()->body_b->getUserTag());
-        ActorConstDataAccess accessor;
+        ActorLinkConstDataAccess accessor;
         if (tag)
             tag->acquireActor(&accessor);
         if (sead::Mathf::abs(sead::Mathf::acos(sead::Mathf::clamp(normal.y, -1.0f, 1.0f))) >=

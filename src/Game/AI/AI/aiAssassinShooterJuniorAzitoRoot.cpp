@@ -1,7 +1,7 @@
 #include "Game/AI/AI/aiAssassinShooterJuniorAzitoRoot.h"
 #include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Map/mapObjectLink.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
@@ -40,7 +40,7 @@ void AssassinShooterJuniorAzitoRoot::sub_7100322CA8(const char* name) {
         const char* unit_name = objects(i)->getUnitConfigName();
         if (name && sead::SafeString(unit_name) != name)
             continue;
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         objects(i)->getActorWithAccessor(accessor);
         if (accessor.hasProc())
             _238.sub_710070DD78(accessor, true);

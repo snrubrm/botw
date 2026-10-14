@@ -5,7 +5,7 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Map/mapRail.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
@@ -58,7 +58,7 @@ bool DomesticNormal::sub_710036550C(f32* angle) {
         auto* entry = sub_71007A40D0(mActor, i);
         if (!entry || !ksys::act::isPlayerProfile(&entry->_50))
             continue;
-        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         if (!ksys::act::acquireActor(&entry->_50, &accessor))
             continue;
         const f32 vx = accessor.getVelocity().x - mActor->getVelocity().x;

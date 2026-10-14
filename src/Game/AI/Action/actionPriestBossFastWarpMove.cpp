@@ -1,7 +1,7 @@
 #include "Game/AI/Action/actionPriestBossFastWarpMove.h"
 #include "Game/AI/aiUnk_710073fa90.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/Utils/MathUtil.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
@@ -17,7 +17,7 @@ PriestBossFastWarpMove::~PriestBossFastWarpMove() = default;
 // NON_MATCHING: vector stores and accessor cleanup use different scheduling and registers.
 void PriestBossFastWarpMove::sub_7100222070(s32 idx, const sead::Vector3f& start,
                                             const sead::Vector3f& end, f32 delay) {
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     if (sub_710022134C(idx + 19, &accessor)) {
         const auto* target = idx == 0 ? mAfterImage0Pos_d : mTargetPos_d;
         sead::Vector3f direction;

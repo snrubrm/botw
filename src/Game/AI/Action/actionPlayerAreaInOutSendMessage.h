@@ -21,9 +21,9 @@ protected:
     void calc_() override;
     // 0x710021d4e8 / 0x710021d54c (declared only): set / clear the payload flag and send the
     // message to the transceiver at +0x180 of the unnamed global 0x71025d1760.
-    void m32(const ksys::act::ActorConstDataAccess& accessor) override;
-    void m33(const ksys::act::ActorConstDataAccess& accessor) override;
-    bool m34(const ksys::act::ActorConstDataAccess& accessor) override;
+    void m32(const ksys::act::ActorLinkConstDataAccess& accessor) override;
+    void m33(const ksys::act::ActorLinkConstDataAccess& accessor) override;
+    bool m34(const ksys::act::ActorLinkConstDataAccess& accessor) override;
 
     // static_param at offset 0x68
     const int* mMessageSet_s{};
