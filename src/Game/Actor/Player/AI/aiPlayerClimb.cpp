@@ -6,6 +6,7 @@
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/Utils/MathUtil.h"
 #include "Game/Actor/aiUnk_71007377D4.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/Physics/physMaterialMask.h"
 #include "KingSystem/XLink/xlinkManager.h"
 #include "KingSystem/XLink/xlinkXLink.h"
@@ -125,6 +126,33 @@ void PlayerClimb::calc_() {
         }
     }
     static_cast<Player*>(mActor)->_c44.reset(0x2000000);
+}
+
+void PlayerClimb::sub_7100829AA0() {
+    using Player = ksys::act::Player;
+    ksys::act::ai::InlineParamPack pack;
+    if (static_cast<Player*>(mActor)->_cec.isOnBit(7) || static_cast<Player*>(mActor)->_cf4.isOnBit(19) ||
+        mActor->getVelocity().y > -0.2f) {
+        pack.addBool(false, "EnableStartAnm", -1);
+    } else {
+        pack.addBool(true, "EnableStartAnm", -1);
+    }
+    if (static_cast<Player*>(mActor)->m194())
+        pack.addBool(true, "FromParashawl", -1);
+    else
+        pack.addBool(false, "FromParashawl", -1);
+    pack.addBool(static_cast<Player*>(mActor)->_1cbc == 10, "EnableClimbDown", -1);
+    changeChild("壁登り", &pack);
+    auto* player = static_cast<Player*>(mActor);
+    player->_cec.makeAllZero();
+    player->_cf0.makeAllZero();
+    player->_cf4.makeAllZero();
+    player->_cf8.makeAllZero();
+    static_cast<Player*>(mActor)->_cec.set(0x80);
+    static_cast<Player*>(mActor)->_cec.set(0x10);
+    static_cast<Player*>(mActor)->_cf0.set(0x200);
+    static_cast<Player*>(mActor)->_cf4.set(0x10);
+    static_cast<Player*>(mActor)->_cf4.set(0x80);
 }
 
 // NON_MATCHING: register choice / order of the last `to` component
