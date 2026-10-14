@@ -1,4 +1,6 @@
 #include "Game/Actor/AI/aiTargetStateSelect.h"
+#include "Game/Actor/aiUnk_71005D6D10.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
@@ -11,7 +13,19 @@ bool TargetStateSelect::init_(sead::Heap* heap) {
 }
 
 void TargetStateSelect::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (sub_71005D91A0(mActor, 1.5f)) {
+        ksys::act::ai::InlineParamPack pack;
+        pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+        changeChild("対象泳ぎ", &pack);
+    } else if (sub_71005D90E0(mActor)) {
+        ksys::act::ai::InlineParamPack pack;
+        pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+        changeChild("対象騎乗", &pack);
+    } else {
+        ksys::act::ai::InlineParamPack pack;
+        pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+        changeChild("対象通常", &pack);
+    }
 }
 
 void TargetStateSelect::leave_() {
