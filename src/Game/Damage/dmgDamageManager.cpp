@@ -918,16 +918,9 @@ bool DamageManager::sub_71006D33FC(s32* damage, s32* df48, u32* minDmg, u32* f50
     return false;
 }
 
-// NON_MATCHING: stack layout only; the original places `info` between df48 and minDmg (sp + 0x10), ours below f54.
 bool DamageManager::sub_71006D357C(s32 type, s32 eventId, bool flag, s32 damage, s32 df48, u32 minDmg,
                                    u32 f50, s32 f54, s32 f40) {
-    const s32 prev_type = mDamageType;
-    mDamageType = type;
-    DamageCallbackInfo info;
-    info.mFlags = _8c;
-    callDamageCallbacks(eventId, &damage, &df48, &minDmg, &f50, &f54, &info);
-    _8c = info.mFlags;
-    mDamageType = prev_type;
+    callDamageCallbacks_(type, eventId, &damage, &df48, &minDmg, &f50, &f54);
 
     if (type == 2 && sub_71007A2604(mActor)) {
         const s32 reaction = m49(f50);
@@ -1165,9 +1158,6 @@ void DamageManager::m45(const ConditionDamageInfo& info) {
     }
 }
 
-// NON_MATCHING: stack layout only (the original puts the callback info and the callback values above `damage`, which
-// points at an inlined helper shared with sub_71006D357C and m22: save the damage type, run the callbacks with a
-// DamageCallbackInfo holding _8c, restore both).
 void DamageManager::m54(const ConditionDamageInfo& info) {
     bool update_type;
     s32 f54;
@@ -1222,7 +1212,6 @@ void DamageManager::m54(const ConditionDamageInfo& info) {
         _88 = info._10;
 }
 
-// NON_MATCHING: the direct path (no electric level) differs like sub_71006D888C (stack layout of the callback values).
 void DamageManager::m55(const ConditionDamageInfo& info) {
     s32 f54;
     if (info.mFlags & 2) {
@@ -1266,20 +1255,14 @@ void DamageManager::m55(const ConditionDamageInfo& info) {
     }
 
     s32 damage = info.mDamage;
-    s32 df48 = 0;
-    u32 minDmg = 0;
     u32 f50 = 11;
-    s32 f54_ = f54;
     mField_54 = f54;
-    const s32 prev_type = mDamageType;
-    mDamageType = 6;
-    DamageCallbackInfo cb_info;
-    cb_info.mFlags = _8c;
-    callDamageCallbacks(5, &damage, &df48, &minDmg, &f50, &f54_, &cb_info);
-    _8c = cb_info.mFlags;
-    mDamageType = prev_type;
+    s32 f54_ = f54;
+    u32 minDmg = 0;
+    s32 df48 = 0;
+    callDamageCallbacks_(6, 5, &damage, &df48, &minDmg, &f50, &f54_);
     mDamage += damage;
-    if (prev_type == -1) {
+    if (mDamageType == -1) {
         mField_50 = f50;
         mDamageType = 6;
     }
@@ -1317,19 +1300,13 @@ void DamageManager::sub_71006D888C(const ConditionDamageInfo& info) {
         return;
     }
 
-    s32 df48 = 0;
-    u32 minDmg = 0;
     u32 f50 = 10;
     s32 f54_ = 3;
-    const s32 prev_type = mDamageType;
-    mDamageType = 6;
-    DamageCallbackInfo cb_info;
-    cb_info.mFlags = _8c;
-    callDamageCallbacks(5, &damage, &df48, &minDmg, &f50, &f54_, &cb_info);
-    _8c = cb_info.mFlags;
-    mDamageType = prev_type;
+    u32 minDmg = 0;
+    s32 df48 = 0;
+    callDamageCallbacks_(6, 5, &damage, &df48, &minDmg, &f50, &f54_);
     mDamage += damage;
-    if (prev_type == -1) {
+    if (mDamageType == -1) {
         mField_50 = f50;
         mDamageType = 6;
     }

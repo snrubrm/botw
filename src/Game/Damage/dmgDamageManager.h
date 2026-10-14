@@ -6,6 +6,7 @@
 #include <prim/seadRuntimeTypeInfo.h>
 #include "Game/AI/aiUnk_7102357210.h"
 #include "Game/AI/aiUnk_7102357d20.h"
+#include "Game/Damage/dmgDamageCallback.h"
 #include "Game/Damage/dmgDamageManagerBase.h"
 #include "Game/Damage/dmgDamageMgrNPC.h"
 #include "KingSystem/ActorSystem/actActorAtk.h"
@@ -234,6 +235,19 @@ public:
     u32 _228 = 0;
 
 private:
+    // Inline-only in the original; name is a guess. Evidence: sub_71006D357C, sub_71006D888C and m55 repeat this
+    // sequence (save the damage type, set it, run the callbacks of `event_id` with a DamageCallbackInfo holding _8c,
+    // copy the flags back, restore the type) and place its DamageCallbackInfo first in the frame.
+    void callDamageCallbacks_(s32 type, s32 event_id, s32* damage, s32* df48, u32* min_dmg, u32* f50, s32* f54) {
+        const s32 prev_type = mDamageType;
+        mDamageType = type;
+        DamageCallbackInfo info;
+        info.mFlags = _8c;
+        callDamageCallbacks(event_id, damage, df48, min_dmg, f50, f54, &info);
+        _8c = info.mFlags;
+        mDamageType = prev_type;
+    }
+
     // Inline-only in the original (name is a guess; evidence: m39 / m40 / m41 and the other overrides start with
     // it): the attack info the current damage kind (6: index _88 if bit 8 of _216 is set, 2: index _6c) refers to.
     ksys::act::ActorAtk::Unk_710079e64c::Unk1* getAttackInfo_();
