@@ -6,6 +6,8 @@
 #include "KingSystem/ActorSystem/Profiles/actBullet.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include <limits>
 
 // 0x71002ccc20 (free function, declared only): one of the SiteBoss / Enemy part names by index (a static table).
 const sead::SafeString& sub_71002CCC20(s32 idx);
@@ -26,7 +28,26 @@ bool SandwormRoot::init_(sead::Heap* heap) {
 }
 
 void SandwormRoot::enter_(ksys::act::ai::InlineParamPack* params) {
+    _250._24 = *mWeakPointDamageRate_s;
+    auto* actor = mActor;
+    setDamageCallbackTiming(actor, 0, &_250);
+    sub_7100720140(actor);
+    _288 = 0;
+    if (isRootAiParamINot5()) {
+        if (auto* as_list = mActor->getASList())
+            as_list->startAnimationMaybe(-1.0f, -1.0f, "SwimNormal", 0, 0, true);
+    }
     EnemyRoot::enter_(params);
+    if (auto* sandworm = sead::DynamicCast<act::Sandworm>(actor)) {
+        const f32 offset = *mSandOffset_s;
+        sandworm->_159c = offset;
+        sandworm->_15b0 = offset;
+    }
+    sub_71007A397C(actor);
+    _1e8.x();
+    _240 = 0;
+    _248 = -1.0f;
+    _278.sub_7100721380(std::numeric_limits<f32>::infinity(), mActor);
 }
 
 void SandwormRoot::leave_() {
