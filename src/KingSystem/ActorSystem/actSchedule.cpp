@@ -6,6 +6,7 @@
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerLink.h"
 #include "KingSystem/Resource/Actor/resResourceAISchedule.h"
+#include "KingSystem/GameData/gdtManager.h"
 #include "KingSystem/Quest/qstManager.h"
 #include "KingSystem/Resource/resHandle.h"
 
@@ -118,6 +119,58 @@ void Schedule::sub_7100D192C0(const al::ByamlIter* iter, const char* name, bool 
         _123 = near;
         return;
     }
+}
+
+// NON_MATCHING: the original tests the flag with cbnz (ours tbnz); the rest matches
+bool Schedule::sub_7100D1AAD8() {
+    const al::ByamlIter& timelines = (_2f8 & 1) ? _100 : _f0;
+    if (timelines.isValid()) {
+        al::ByamlIter entry;
+        for (s32 i = timelines.getSize() - 1; i >= 0; --i) {
+            timelines.tryGetIterByIndex(&entry, i);
+            if (!entry.isValid())
+                continue;
+            const char* condition;
+            if (!entry.tryGetStringByKey(&condition, "Condition"))
+                continue;
+            auto* gdm = gdt::Manager::instance();
+            if (!gdm)
+                continue;
+            bool flag;
+            if (gdm->getParam().get().getBool(&flag, condition) && flag) {
+                const bool same = _d0.isEqualData(entry);
+                _d0 = entry;
+                return !same;
+            }
+        }
+    }
+    const bool same = _d0.isEqualData((_2f8 & 1) ? _110 : _e0);
+    _d0 = (_2f8 & 1) ? _110 : _e0;
+    return !same;
+}
+
+// NON_MATCHING: our build duplicates the epilogue for the early-out path (the original branches to a shared one)
+bool Schedule::sub_7100D1C698() {
+    bool result = false;
+    if (mActor && !_125 && _d0.isValid()) {
+        al::ByamlIter trigger_events;
+        if (_d0.tryGetIterByKey(&trigger_events, "TriggerEvents")) {
+            al::ByamlIter entry;
+            for (s32 i = 0; i < trigger_events.getSize(); ++i) {
+                trigger_events.tryGetIterByIndex(&entry, i);
+                if (!entry.isValid())
+                    continue;
+                const char* trigger;
+                if (!entry.tryGetStringByKey(&trigger, "Trigger"))
+                    continue;
+                if (sead::SafeString(trigger) == "Talk") {
+                    result = true;
+                    break;
+                }
+            }
+        }
+    }
+    return result;
 }
 
 }  // namespace ksys::act

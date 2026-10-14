@@ -38,8 +38,9 @@ public:
     void reset();
     // 0x7100D192C0: ActLink passes the actor's schedule, a nullable iterator, name and bool.
     void sub_7100D192C0(const al::ByamlIter* iter, const char* name, bool value);
-    // 0x7100d1aad8 (352 B, declaration only; placeholder name): called after the timelines are (re)set.
-    void sub_7100D1AAD8();
+    // 0x7100d1aad8 (placeholder name): selects the current timeline (_d0): the last conditional timeline whose
+    // "Condition" flag is set, else the default one; true when it changed.
+    bool sub_7100D1AAD8();
     // 0x7100d1c27c (1052 B, declaration only; placeholder name): checks the "Near" trigger parameters.
     bool sub_7100D1C27C(const al::ByamlIter* params, bool active);
     // 0x7100d1c698 (declaration only, 356 bytes; placeholder name): read by act::x_6.
