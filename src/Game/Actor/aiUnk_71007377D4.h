@@ -29,6 +29,7 @@ class Unk_7100d860d8;
 
 namespace uking::act {
 class Rideable;
+struct WeaponModifierInfo;
 }
 
 // Declaration only: Weapon subtype selected from the actor's GParam list, or cEmptyString.
@@ -63,6 +64,12 @@ void sub_7100734228(ksys::act::Actor* actor);
 bool sub_710073DB94(const char* name, ksys::act::BaseProcHandle* handle,
                     ksys::act::InstParamPack* params, sead::Heap* heap);
 bool sub_710073CD5C(const char* name, sead::Heap* heap);
+// 0x710073c9b4 (CSV createActorPickOutFromPorch; declared only): requests the creation of the item actor
+// `name` in front of the player (offsets `a` / `b` scale the player matrix axes); EventPickOutFromPorch::enter_
+// passes the item value and its weapon modifiers.
+bool createActorPickOutFromPorch(const char* name, sead::Heap* heap, s32 value,
+                                 const uking::act::WeaponModifierInfo* modifier,
+                                 ksys::act::BaseProcHandle* handle, f32 a, f32 b);
 // EnemyRoot::m34 and PreyRoot::enter_ pass the dead-condition parameter.
 void sub_710073DCB4(ksys::act::Actor* actor, int condition);
 ksys::act::Unk_DynamicActorA58* sub_710073DC28(ksys::act::Actor* actor);

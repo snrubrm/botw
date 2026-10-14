@@ -15,5 +15,8 @@ extern const f32 sUnk_7101e7c5c8;  // 1.4f
 extern const f32 sUnk_7101e7c5d0;
 extern const f32 sUnk_7101e7c5d4;  // 0.38f
 extern const f32 sUnk_7101e7c5d8;  // 0.2f
+// 0x7101e7d6ec / 0x7101e7d6f0: also read through the GOT by EventPickOutFromPorch::enter_ and 0x71008712cc.
+extern const f32 sUnk_7101e7d6ec;  // 0.8f
+extern const f32 sUnk_7101e7d6f0;  // -0.8f
 
 }  // namespace uking

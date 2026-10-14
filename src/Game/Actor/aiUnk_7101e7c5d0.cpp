@@ -10,5 +10,7 @@ const f32 sUnk_7101e7c5c8 = 1.4f;
 const f32 sUnk_7101e7c5d0 = 0.5f;
 const f32 sUnk_7101e7c5d4 = 0.38f;
 const f32 sUnk_7101e7c5d8 = 0.2f;
+const f32 sUnk_7101e7d6ec = 0.8f;
+const f32 sUnk_7101e7d6f0 = -0.8f;
 
 }  // namespace uking
