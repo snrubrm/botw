@@ -9,6 +9,12 @@ class Actor;
 // singleton at 0x71026064c0; its 0x180-byte allocation and members remain unrecovered.
 class Reaction {
 public:
+    // Placeholder: the object at _a8 (class unknown). 0x7100ec66fc (declared only) sets its _110 to 2; the actor
+    // argument is unused. Called by OctarockOptionRoot::calc_ when the player touches the rock.
+    struct Unk1 {
+        void sub_7100EC66FC(Actor* actor);
+    };
+
     static Reaction* instance() { return sInstance; }
     static Reaction* sInstance;
     // Surface raycast/XLink update called by GolemRootBase::calc_; declaration only.
@@ -20,5 +26,7 @@ public:
     Actor* _28;
     Actor* _30;
     Actor* _38;
+    u8 _40[0xa8 - 0x40];
+    Unk1* _a8;
 };
 }  // namespace ksys::act

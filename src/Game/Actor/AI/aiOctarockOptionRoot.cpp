@@ -7,6 +7,11 @@
 #include "KingSystem/ActorSystem/actPhysicsUserTag.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include <prim/seadDelegate.h>
+#include "Game/Actor/Damage/dmgDamageManager.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/ActorSystem/actReaction.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
 
 namespace uking::ai {
 
@@ -50,6 +55,46 @@ void OctarockOptionRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     }
     if (*mIsMimicry_s)
         sub_71005DD1CC(mActor, false, 1.0f, 5.0f);
+}
+
+// NON_MATCHING: the original builds the filter vtable address directly (adrp/add: a TU-local vtable); ours goes
+// through the GOT
+void OctarockOptionRoot::calc_() {
+    SimpleLiftable::calc_();
+
+    if (*mIsBreakable_s) {
+        auto* parent = sead::DynamicCast<ksys::act::Actor>(mActor->getConnectedCalcParent());
+        if (!parent || sub_71007A2604(parent) || sub_71007A2604(mActor)) {
+            if (mActor->m135())
+                mActor->m135()->_4 = 1;
+            callDeleteAndCreateDropAndEmit(mActor, 0);
+        }
+    }
+
+    if (sub_71007A274C(mActor)) {
+        auto* manager = sead::DynamicCast<act::DamageManager>(mActor->getDamageMgr());
+        sead::Vector3f pos;
+        if (manager && manager->getPosition(&pos)) {
+            ksys::eft::sub_710105E000(mActor, 13, 1.0f);
+            ksys::eft::searchAndEmitSLink(mActor, "Hit", false);
+            Unk_71012419b4 handle{};
+            xlinkSearchAndEmit(mActor, "Hit", 0, &handle);
+            handle.sub_71012419B4(pos);
+        }
+    }
+
+    auto* set = mActor->getRigidBodyByName(sub_71007A24D0()->cstr());
+    if (!set || set->getRigidBodies().size() == 0)
+        return;
+    auto* body = set->getRigidBody(0);
+    if (!body)
+        return;
+    Unk_710240da18 filter;
+    if (!ksys::act::sub_7100EEB078(body, nullptr, &filter))
+        return;
+    auto* reaction = ksys::act::Reaction::instance();
+    if (reaction && reaction->_a8)
+        reaction->_a8->sub_7100EC66FC(mActor);
 }
 
 void OctarockOptionRoot::leave_() {
