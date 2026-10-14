@@ -1,4 +1,7 @@
 #include "Game/Actor/Action/actionEnemyRigidBodySpinDie.h"
+#include "Game/Actor/aiUnk_71005D6D10.h"
+#include "Game/Actor/aiUnk_71007377D4.h"
+#include "Game/Actor/aiUnk_710072BA90.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
@@ -57,6 +60,31 @@ void EnemyRigidBodySpinDie::calc_() {
         if (ksys::act::sub_7100EEB078(body, nullptr, &filter))
             setFinished();
     }
+}
+
+// NON_MATCHING: the original computes the linear velocity before the spin axis and the scaled axis before
+// storing the velocity (scheduling only; see lane3 log, borderline locals).
+// Like EnemyRigidBodyDie::m32, plus a spin around the horizontal axis perpendicular to the blow direction.
+void EnemyRigidBodySpinDie::m32(sead::Vector3f* velocity, sead::Vector3f* angular_velocity) {
+    auto* actor = mActor;
+    if (!actor->getDamageMgr()) {
+        EnemyRigidBodyDieBase::m32(velocity, angular_velocity);
+        return;
+    }
+
+    sead::Vector3f up = getGravity(actor) * (1.0f / 900.0f);
+    up.normalize();
+
+    sead::Vector3f dir{0.0f, 0.0f, 1.0f};
+    auto* damage_mgr = sub_710072BA90(mActor);
+    sub_71005E2318(&dir, mActor, damage_mgr);
+    sead::Vector3f axis;
+    axis.setCross(sead::Vector3f::ey, dir);
+    if (axis.x == 0.0f && axis.y == 0.0f && axis.z == 0.0f)
+        axis.setRotated(actor->getMtx(), sead::Vector3f(-1.0f, 0.0f, 0.0f));
+    axis.normalize();
+    *velocity = (dir * *mSpeed_s - up * *mRiseSpeed_s) * 30.0f;
+    *angular_velocity = axis * *mRotSpeed_s * 30.0f;
 }
 
 bool Unk_710237a2d8::invoke(ksys::phys::RigidBody*, ksys::phys::RigidBody* other) {
