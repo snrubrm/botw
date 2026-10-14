@@ -5,6 +5,7 @@
 #include "KingSystem/ActorSystem/actLodState.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/Camera/CameraMgr.h"
 
 namespace uking::ai {
 
@@ -51,6 +52,39 @@ void OutOfScreen::sub_71004F4054() {
     ksys::act::ai::InlineParamPack params;
     params.addVec3(pos, "TargetPos", -1);
     changeChild("移動", &params);
+}
+
+// A point TagetDistance away from the actor, beside the camera's view direction on the actor's front side.
+void OutOfScreen::sub_71004F4270(sead::Vector3f* out) {
+    const auto& mtx = mActor->getMtx();
+    sead::Vector3f front = {mtx.m[0][2], 0.0f, mtx.m[2][2]};
+    sead::Vector3f camera_pos;
+    ksys::sub_7100D8C6AC(&camera_pos);
+    sead::Vector3f camera_dir;
+    ksys::sub_7100D8C7FC(&camera_dir);
+
+    camera_dir.y = 0.0f;
+    front.normalize();
+    camera_dir.normalize();
+
+    sead::Vector3f side;
+    side.setCross(camera_dir, front);
+    sead::Vector3f dir;
+    dir.setCross(camera_dir, side);
+    if (front.dot(dir) < 0.0f)
+        dir = -dir;
+
+    sead::Vector3f offset = {dir.x, 0.1f, dir.z};
+    const f32 distance = *mTagetDistance_s;
+    const f32 length = offset.length();
+    if (length > 0.0f)
+        offset *= distance / length;
+
+    mActor->getMtx().getTranslation(*out);
+    *out += offset;
+
+    const int interval = *mUpdateInterval_s;
+    _50.reset(interval < 0 ? 1.0f : static_cast<f32>(interval), interval < 0 ? 0.0f : -1.0f);
 }
 
 void OutOfScreen::leave_() {
