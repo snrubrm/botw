@@ -27,6 +27,79 @@ void EnemyLifted::enter_(ksys::act::ai::InlineParamPack* params) {
     changeChild("所持");
 }
 
+void EnemyLifted::calc_() {
+    auto* actor = mActor;
+    if (auto* physics = actor->getPhysics()) {
+        if (physics->getFlags().isOn(ksys::phys::InstanceSet::Flag::_800))
+            physics->getFlags().reset(ksys::phys::InstanceSet::Flag::_800);
+    }
+
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed()) {
+        if (isCurrentChild("投擲")) {
+            ksys::act::ai::InlineParamPack params;
+            params.addVec3(_38, "SetupSpeed", -1);
+            changeChild("着地", &params);
+            return;
+        }
+        if (!isCurrentChild("所持")) {
+            setFinished();
+            return;
+        }
+        if (!actor->getConnectedCalcParent()) {
+            setFailed();
+            return;
+        }
+        if (sub_71005DC470(actor)) {
+            auto* player =
+                sead::DynamicCast<ksys::act::PlayerBase>(actor->getConnectedCalcParent());
+            sub_7100396E8C(sub_71005DC54C(actor), player != nullptr);
+            return;
+        }
+        if (sub_71005DC4C8(actor)) {
+            m34();
+            return;
+        }
+        auto* player = sead::DynamicCast<ksys::act::PlayerBase>(actor->getConnectedCalcParent());
+        if (!player || !player->_c50.isOnBit(10)) {
+            setFailed();
+            actor->resetConnectedCalcParent(false);
+            return;
+        }
+        actor->resetConnectedCalcParent(false);
+        actor->deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+        return;
+    }
+
+    if (isCurrentChild("所持")) {
+        auto* parent = sead::DynamicCast<ksys::act::Actor>(actor->getConnectedCalcParent());
+        if (parent && !parent->getActorFlags2().isOn(ksys::act::Actor::ActorFlag2::_40)) {
+            if (sub_71005DC470(actor)) {
+                sub_7100396E8C(sub_71005DC54C(actor), ksys::act::isPlayerProfile(actor));
+                return;
+            }
+            if (sub_71005DC4F4(actor) || sub_71005DC4C8(actor)) {
+                m34();
+                return;
+            }
+            auto* player =
+                sead::DynamicCast<ksys::act::PlayerBase>(actor->getConnectedCalcParent());
+            if (player && player->_c50.isOnBit(10)) {
+                actor->resetConnectedCalcParent(false);
+                actor->deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+            }
+            return;
+        }
+    } else if (isCurrentChild("設置")) {
+        if (actor->getConnectedCalcParent())
+            return;
+    } else {
+        _38 = actor->getVelocity() * 30.0f;
+        return;
+    }
+    setFailed();
+}
+
 void EnemyLifted::leave_() {
     auto* actor = mActor;
     actor->resetConnectedCalcParent(false);
