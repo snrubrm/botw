@@ -522,6 +522,19 @@ void ScreenMainScreen::sub_7100A1DE08() {
     _1e0.sendMessage(*player->getMesTransceiverId(), ksys::MessageType(0x800007a), nullptr, false);
 }
 
+// 0x7100a1de60
+// NON_MATCHING: register allocation of the accessor address in the second send.
+void ScreenMainScreen::sub_7100A1DE60() {
+    auto* player = static_cast<ksys::act::PlayerBase*>(getPlayerActor(nullptr));
+    if (!player)
+        return;
+    ksys::act::ActorConstDataAccess accessor;
+    if (player->isRevivalFairyActive(&accessor))
+        _1e0.sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x800007b), nullptr, false);
+    if (player->isZoraHeroActive(&accessor))
+        _1e0.sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x800007b), nullptr, false);
+}
+
 // 0x7100a1e3ec
 bool ScreenMainScreen::sub_7100A1E3EC(const ksys::qst::Quest* quest) {
     if (_3cb0)
