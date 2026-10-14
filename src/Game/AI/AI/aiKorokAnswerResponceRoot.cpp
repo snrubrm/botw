@@ -93,12 +93,14 @@ void KorokAnswerResponceRoot::sub_7100457BB4() {
     }
 }
 
-// NON_MATCHING: the original builds the identity / scale / offset matrices from literal-pool vectors
-// and vectorises the products; ours copies sead::Matrix34f::ident. Semantics match.
+// NON_MATCHING: the matrix copy and the scale / offset matrix products are scheduled differently
+// (the original builds the scale and offset rows before the inverse call).
 void KorokAnswerResponceRoot::sub_7100457EB8(const sead::Matrix34f& matrix,
                                              const sead::Vector3f& position) {
-    sead::Matrix34f result = sead::Matrix34f::ident;
-    sead::Matrix34f inv = sead::Matrix34f::ident;
+    sead::Matrix34f result;
+    result.makeIdentity();
+    sead::Matrix34f inv;
+    inv.makeIdentity();
     sead::Matrix34f mtx = matrix;
     const f32 size = *mEffectDispSize_m;
     const sead::Vector3f offset = *mEffectDIspOffset_m;
@@ -107,7 +109,8 @@ void KorokAnswerResponceRoot::sub_7100457EB8(const sead::Matrix34f& matrix,
     sead::Matrix34f scale;
     scale.makeS(size, size, size);
     inv = scale * inv;
-    sead::Matrix34f trans = sead::Matrix34f::ident;
+    sead::Matrix34f trans;
+    trans.makeIdentity();
     trans.setTranslation(offset);
     inv = trans * inv;
     mtx = mtx * inv;
