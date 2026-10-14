@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Game/Actor/aiUnk_71024f15c0.h"
+#include "Game/Actor/aiUnk_71024f1658.h"
 #include <prim/seadSafeString.h>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Utils/Types.h"
@@ -29,7 +29,7 @@ public:
     void updatePositionMaybe() override;
     void m76(ksys::VFR::ScopedDeltaSetter* setter) override;
 
-    /* 0x840 */ void* _840 = nullptr;
+    /* 0x840 */ Unk_71024f1658* _840 = nullptr;  // NPCTravel::_1f8 / AssassinRoot::_290
     /* 0x848 */ Unk_71024f15c0 _848;  // ctor 0x7100eebaac (CSV Rail::ctor)
     /* 0x8a8 */ sead::SafeString _8a8;
     /* 0x8b8 */ u8 _8b8 = 0;

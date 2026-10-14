@@ -14,7 +14,7 @@ int CheckRoad::doQuery() {
     auto* npc = sead::DynamicCast<act::NPC>(mActor);
     if (!npc)
         return 0;
-    // NPCBase::_840 is a void* in the header (NPCTravel compares it with the address of its own `_1f8`).
+    // NPCBase::_840 points to an Unk_71024f1658 (NPCTravel::_1f8), which derives from Unk_71024f15c0.
     auto* mover = static_cast<Unk_71024f15c0*>(npc->_840);
     if (!mover || !mover->sub_7100EEBB74())
         return 0;
