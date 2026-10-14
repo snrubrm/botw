@@ -7,7 +7,15 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/Framework/frmWorkerSupportThreadMgr.h"
+#include <cmath>
+#include <gfx/seadCamera.h>
+#include "Game/Scene/gameScene.h"
+#include "KingSystem/Camera/CameraMgr.h"
+#include "KingSystem/Event/evtManager.h"
+#include "KingSystem/Map/mapMapProperties.h"
 #include "KingSystem/Map/mapObject.h"
+#include "KingSystem/Map/mapPlacementMapMgr.h"
+#include "KingSystem/System/VFR.h"
 #include "KingSystem/Map/mapPlacementMgr.h"
 #include "KingSystem/Terrain/teraSystem.h"
 
@@ -176,6 +184,38 @@ void ActorSystem::submitReqCallAutoPlacementMgrFn() {
 }  // namespace ksys::act
 
 namespace ksys::act {
+
+void ActorSystem::onBaseProcMgrCalc() {
+    sead::Vector3f pos;
+    {
+        ActorLinkConstDataAccess accessor;
+        ActorSystem::instance()->getPlayer(&accessor);
+        if (accessor.hasProc())
+            accessor.getActorMtx().getTranslation(pos);
+    }
+
+    if (getSceneStatus() == 0 && !evt::Manager::instance()->getActiveEvent()) {
+        auto* placement_mgr = map::PlacementMgr::instance();
+        if (placement_mgr && placement_mgr->mPlacementMapMgr->getMapProps()->m0() == 0) {
+            const f32 dx = pos.x - mPlayerPos.x;
+            const f32 dz = pos.z - mPlayerPos.z;
+            const f32 speed = std::sqrt(dx * dx + dz * dz) / VFR::instance()->getDeltaFrame();
+            if (speed > 0.8f && speed > _e4)
+                _e4 = speed;
+        }
+    }
+    mPlayerPos = pos;
+
+    if (_c0 && _c0->m184()) {
+        _e8 = 0;
+        auto* camera = CameraMgr::instance()->getLookAtCamera();
+        _ec = camera->getAt() - camera->getPos();
+        _ec.normalize();
+        _f8 = camera->getPos();
+    } else {
+        _e8 += 1.0f;
+    }
+}
 
 bool ActorSystem::isPlayerTurnedTowardsTurnActorBowChargeActor(const map::Object* object) const {
     if (!object->getFlags().isOn(map::Object::Flag::IsTurnActorBowChargeAndHasBasicSigLink))

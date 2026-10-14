@@ -106,7 +106,7 @@ private:
     uking::Unk_710243c7c8* _c8 = nullptr;
     sead::Heap* mEmergencyHeap = nullptr;
     sead::Vector3f mPlayerPos = sead::Vector3f::zero;
-    u32 _e4 = 0;
+    f32 _e4 = 0;  // highest player XZ speed seen outside events (onBaseProcMgrCalc)
     f32 _e8 = 0;
     sead::Vector3f _ec = sead::Vector3f::zero;
     sead::Vector3f _f8 = sead::Vector3f::zero;

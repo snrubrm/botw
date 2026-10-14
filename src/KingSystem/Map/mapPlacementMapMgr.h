@@ -49,6 +49,8 @@ public:
     ~PlacementMapMgr();
 
     bool isShrineOrDivineBeast() const { return mIsShrineOrDivineBeast; }
+    // Read inline by ActorSystem::onBaseProcMgrCalc (name is a guess).
+    MapProperties* getMapProps() const { return mMapProps; }
 
     PlacementMap* getMap(int idx);
     // 0x0000007100d47270
