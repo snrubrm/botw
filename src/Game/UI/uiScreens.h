@@ -896,6 +896,20 @@ class Unk_710248ea70 {
 public:
     virtual ~Unk_710248ea70();
     void sub_7100A1964C(eui::LayoutEx* layout, sead::Heap* heap);
+    // inline-only in the original; name is a guess: the destructor (0x7100a1ea44) and ScreenMainScreen::m90
+    // (0x7100a19e44) repeat this sequence
+    void unload() {
+        if (mTextureHandle) {
+            mTextureHandle->requestUnload();
+            const auto* fallback_texture = &mTexInfo;
+            if (mMaterials[0])
+                mMaterials[0]->GetTexMapArray()[0].ReplaceTextureInfo(fallback_texture);
+            if (mMaterials[1])
+                mMaterials[1]->GetTexMapArray()[0].ReplaceTextureInfo(fallback_texture);
+        }
+        _38 = -1;
+        _40 = -1;
+    }
     /* 0x08 */ eui::LayoutEx* mLayout = nullptr;
     /* 0x10 */ eui::Animator* mGauge = nullptr;
     /* 0x18 */ eui::Animator* mIconOff = nullptr;
@@ -916,6 +930,7 @@ public:
     void m85() override;
     void m88() override;
     bool isEnableControl() const override;
+    void m90() override;
     ~ScreenMainScreen() override;
     SEAD_RTTI_OVERRIDE(ScreenMainScreen, ScreenEx)
 

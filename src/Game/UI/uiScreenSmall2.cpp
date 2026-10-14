@@ -40,16 +40,7 @@
 namespace uking::ui {
 
 Unk_710248ea70::~Unk_710248ea70() {
-    if (mTextureHandle) {
-        mTextureHandle->requestUnload();
-        const auto* fallback_texture = &mTexInfo;
-        if (mMaterials[0])
-            mMaterials[0]->GetTexMapArray()[0].ReplaceTextureInfo(fallback_texture);
-        if (mMaterials[1])
-            mMaterials[1]->GetTexMapArray()[0].ReplaceTextureInfo(fallback_texture);
-    }
-    _38 = -1;
-    _40 = -1;
+    unload();
     if (mTextureHandle) {
         delete mTextureHandle;
         mTextureHandle = nullptr;
@@ -507,6 +498,11 @@ void ScreenMainScreen::sub_7100A1AE54() {
 void ScreenMainScreen::sub_7100A1AF60() {
     if (_3d68)
         _3d68->sub_71009C0310();
+}
+
+// 0x7100a19e44
+void ScreenMainScreen::m90() {
+    mGaugeHelper.unload();
 }
 
 // 0x7100a1de04
