@@ -110,6 +110,151 @@ void EnemyChaseShield::enter_(ksys::act::ai::InlineParamPack*) {
         sub_7100383768();
 }
 
+// NON_MATCHING: stack layout of the SafeString temporaries and the accessor, block layout of the shared exits.
+void EnemyChaseShield::calc_() {
+    // Acquires the shield when it is in reach, gives up otherwise.
+    const auto acquireOrFail = [this](act::Weapon* weapon) {
+        auto* actor = mActor;
+        const f32 reach = *mShieldReachDist_s;
+        if (sub_7100738FA8(actor, weapon) ||
+            (weapon->getMtx().getTranslation() - actor->getMtx().getTranslation()).length() < reach) {
+            changeToAcquire();
+        } else {
+            sub_71003835C0();
+        }
+    };
+    const auto getWeapon = [this]() -> act::Weapon* {
+        auto* actor = sead::DynamicCast<ksys::act::Actor>(mTargetWeapon_d->getProc(nullptr, nullptr));
+        return sead::DynamicCast<act::Weapon>(actor);
+    };
+    const auto updateTargetPos = [this] {
+        auto* link = mTargetWeapon_d;
+        if (!link || !link->hasProc())
+            return;
+        ksys::act::ActorLinkConstDataAccess accessor;
+        ksys::act::acquireActor(link, &accessor);
+        sead::Vector3f pos;
+        accessor.getActorMtx().getTranslation(pos);
+        getCurrentChild()->setDynamicParam(pos, "TargetPos");
+    };
+
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed()) {
+        if (isCurrentChild("回転")) {
+            sub_7100383768();
+            return;
+        }
+        if (isCurrentChild("追跡") || isCurrentChild("ナビ追跡")) {
+            if (!mTargetWeapon_d) {
+                sub_71003835C0();
+                return;
+            }
+            auto* weapon = getWeapon();
+            if (!weapon) {
+                sub_71003835C0();
+                return;
+            }
+            acquireOrFail(weapon);
+            return;
+        }
+        if (isCurrentChild("取得")) {
+            if (getCurrentChild()->isFinished())
+                setFinished();
+            else
+                sub_71003835C0();
+            return;
+        }
+    }
+
+    if (!isCurrentChild("追跡") && !isCurrentChild("ナビ追跡") && !isCurrentChild("回転"))
+        return;
+
+    if (!getCurrentChild()->isChangeable()) {
+        updateTargetPos();
+        return;
+    }
+
+    auto* link = mTargetWeapon_d;
+    if (!link || !link->hasProc()) {
+        sub_71003835C0();
+        return;
+    }
+    auto* weapon = getWeapon();
+    if (!weapon || weapon->hasParentActor() || weapon->sub_71002E9A50() ||
+        weapon->getActorFlags2().isOn(ksys::act::Actor::ActorFlag2::_40)) {
+        sub_71003835C0();
+        return;
+    }
+    {
+        auto* actor = mActor;
+        const f32 reach = *mShieldReachDist_s;
+        if (sub_7100738FA8(actor, weapon) ||
+            (weapon->getMtx().getTranslation() - actor->getMtx().getTranslation()).length() < reach) {
+            changeToAcquire();
+            return;
+        }
+    }
+
+    if (isCurrentChild("追跡")) {
+        if (auto* unk = _58) {
+            if (unk->_8 == 2) {
+                sub_71003835C0();
+                return;
+            }
+            if (unk->_8 == 1) {
+                if (auto* nav = unk->_0) {
+                    sead::Vector3f end;
+                    {
+                        auto lock = sead::makeScopedLock(nav->_1e0);
+                        end = nav->_194;
+                    }
+                    auto* nav2 = _58->_0;
+                    if (nav2 && (_58->_8 == 1 || _58->_8 == 3)) {
+                        sead::Vector3f goal;
+                        {
+                            auto lock = sead::makeScopedLock(nav2->_1e0);
+                            goal = nav2->_1a0;
+                        }
+                        if (sead::Vector2f(end.x - goal.x, end.z - goal.z).length() >= *mShieldReachDist_s) {
+                            sub_71003835C0();
+                            return;
+                        }
+                    }
+                }
+                sub_7100384290();
+                return;
+            }
+        }
+        updateTargetPos();
+        return;
+    }
+
+    if (isCurrentChild("ナビ追跡")) {
+        auto* nav = mActor->m45();
+        if (nav && _58) {
+            if (_58->_8 != 3) {
+                sead::Vector3f pos;
+                {
+                    auto lock = sead::makeScopedLock(nav->_1e0);
+                    pos = nav->_1ac;
+                }
+                if ((pos - mActor->getMtx().getTranslation()).length() > *mShieldReachDist_s) {
+                    updateTargetPos();
+                    return;
+                }
+            }
+            auto* weapon2 = getWeapon();
+            if (!weapon2) {
+                updateTargetPos();
+                return;
+            }
+            acquireOrFail(weapon2);
+            return;
+        }
+    }
+    updateTargetPos();
+}
+
 void EnemyChaseShield::loadParams_() {
     getDynamicParam(&mTargetWeapon_d, "TargetWeapon");
     getStaticParam(&mEquipItemSearchIdx_s, "EquipItemSearchIdx");
