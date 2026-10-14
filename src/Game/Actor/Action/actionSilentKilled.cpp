@@ -1,4 +1,7 @@
 #include "Game/Actor/Action/actionSilentKilled.h"
+#include "KingSystem/ActorSystem/Profiles/actDynamicActor.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/ActorSystem/actUnk_71006ecc78.h"
 
 namespace uking::action {
 
@@ -12,6 +15,14 @@ bool SilentKilled::init_(sead::Heap* heap) {
 
 void SilentKilled::enter_(ksys::act::ai::InlineParamPack* params) {
     Ragdoll::enter_(params);
+    sub_7100227134();
+    if (auto* actor = sead::DynamicCast<ksys::act::DynamicActor>(mActor)) {
+        ksys::act::Unk_71006ED100Arg arg;
+        arg._5e = !isBgGroundHit(actor, false);
+        arg._62 = true;
+        actor->sub_71006DD8F8(arg);
+    }
+    sub_7100227184();
 }
 
 void SilentKilled::leave_() {

@@ -16,6 +16,7 @@ namespace ksys::act {
 
 class Unk_71006e45c4;
 class Unk_71006ecc78;
+struct Unk_71006ED100Arg;
 class Unk_7102459df8;
 
 // Placeholder name (ctor 0x71006dc134, inlined into DynamicActor::m36 0x71006dc16c): the argument
@@ -119,6 +120,8 @@ public:
     void sub_71006DC89C();
     // 0x71006de274 (lane4 s64; placeholder name): sets / clears bit 0 of the drop data's flags `_c` (if there is drop data).
     void sub_71006DE274(bool on);
+    // 0x71006dd8f8 (declared only; placeholder name): forwards to _868 (Unk_71006ecc78::sub_71006ED100(arg)) if it exists.
+    void sub_71006DD8F8(const Unk_71006ED100Arg& arg);
     // 0x71006dd908 (declared only): forwards to _868 (Unk_71006ecc78::sub_71006EE128(out)) if it exists.
     void sub_71006DD908(sead::Vector3f* out);
     // 0x71006dd918 (placeholder name): the ragdoll handler's value (Unk_71006ecc78::sub_71006EE148), 0 without one.

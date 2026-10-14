@@ -42,6 +42,29 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(Unk_7100e9d810, 0xe8);
 
+// Placeholder name: the argument of Unk_71006ecc78::sub_71006ED100 (built on the stack by SilentKilled::enter_).
+// sub_71006ED100 picks a name from it: _61 "HeadShot", _62 "SilentKill", else the index _30 (< 13) in a table
+// starting with "Sword", else "Default".
+struct Unk_71006ED100Arg {
+    sead::Matrix34f _0 = sead::Matrix34f::ident;
+    s32 _30 = -1;
+    s32 _34 = -1;
+    s32 _38 = -1;
+    s32 _3c = 0;
+    sead::Vector3f _40 = sead::Vector3f::zero;
+    sead::Vector3f _4c = sead::Vector3f::zero;
+    f32 _58 = 1.0f;
+    bool _5c = false;
+    bool _5d = false;
+    bool _5e = false;
+    bool _5f = false;
+    bool _60 = false;
+    bool _61 = false;
+    bool _62 = false;
+    bool _63 = true;
+};
+KSYS_CHECK_SIZE_NX150(Unk_71006ED100Arg, 0x64);
+
 // Placeholder name (functions at 0x71006ecc78-0x71006ee3e0; ctor inlined into DynamicActor::initField868
 // 0x71006dc5d4): the ragdoll handler of a DynamicActor (DynamicActor::_868, size 0xd8). Only the members
 // needed so far are named; the functions are the ones called by AI actions.
@@ -57,6 +80,8 @@ public:
     // 0x71006ecd6c: sets the contact layer of the actor's rigid bodies.
     void sub_71006ECD6C(bool a1);
 
+    // 0x71006ed100 (declared only; placeholder name)
+    void sub_71006ED100(const Unk_71006ED100Arg& arg);
     // 0x71006ed484
     void sub_71006ED484();
     // 0x71006ee07c (declared only; lane5 s5, placeholder name; Tumble::sub_710029D1BC): the transform of the bone `key`
