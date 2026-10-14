@@ -204,6 +204,62 @@ void Unk_710260f0c0::m7(f32 fade_sec) {
     }
 }
 
+void Unk_710260f0c0::sub_7100FF8F34(Bgm* bgm) {
+    bgm->m8(_c4 & 1);
+    switch (bgm->getKind()) {
+    case BgmKind::_3:
+        _a8 = sead::DynamicCast<::Unk_71024fe368>(bgm);
+        break;
+    case BgmKind::_11:
+        if (_90)
+            _90->sub_710100D874(Unk_71024fe948Slot::_1, sead::DynamicCast<::Unk_71024fe808>(bgm));
+        break;
+    case BgmKind::_12:
+        if (_90)
+            _90->sub_710100D874(Unk_71024fe948Slot::_2, sead::DynamicCast<::Unk_71024fe808>(bgm));
+        break;
+    case BgmKind::_16:
+        _98 = sead::DynamicCast<::Unk_71024fefe8>(bgm);
+        break;
+    case BgmKind::_17:
+        _a0 = sead::DynamicCast<::Unk_71024feae8>(bgm);
+        break;
+    case BgmKind::_18:
+        _b0 = sead::DynamicCast<::Unk_71024fd6c8>(bgm);
+        _b0->_1f4 |= 0x10;
+        break;
+    case BgmKind::_20:
+        _b8 = sead::DynamicCast<::Unk_71024fd948>(bgm);
+        break;
+    default:
+        break;
+    }
+}
+
+void Unk_710260f0c0::sub_7100FF92BC(Bgm* bgm) {
+    switch (bgm->getKind()) {
+    case BgmKind::_11:
+        if (_90)
+            _90->sub_710100D874(Unk_71024fe948Slot::_1, nullptr);
+        break;
+    case BgmKind::_12:
+        if (_90)
+            _90->sub_710100D874(Unk_71024fe948Slot::_2, nullptr);
+        break;
+    case BgmKind::_16:
+        _98 = nullptr;
+        break;
+    case BgmKind::_17:
+        _a0 = nullptr;
+        break;
+    case BgmKind::_20:
+        _b8 = nullptr;
+        break;
+    default:
+        break;
+    }
+}
+
 void Unk_710260f0c0::m9(const Unk_BgmControllerM8Arg& arg) {
     auto* state = _90;
     if (!state)

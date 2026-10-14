@@ -2280,6 +2280,10 @@ public:
     void sub_7101002194();
     void sub_7101002274();
     void m14(sead::TextWriter& writer) override {}
+
+    u8 _190[0x1f4 - 0x190];
+    // ksys::snd::Unk_710260f0c0::sub_7100FF8F34 sets bit 0x10.
+    u8 _1f4;
 };
 
 // vtable 0x71024fd808 (17 slots); placeholder generated from the vtable (genskel.py).

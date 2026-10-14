@@ -257,6 +257,8 @@ public:
     virtual void m13(f32 fade_sec);
     virtual void m14(sead::TextWriter& writer);
 
+    BgmKind getKind() const { return _c; }
+
 protected:
     friend class Unk_710260f160;
 
@@ -502,6 +504,9 @@ KSYS_CHECK_SIZE_NX150(Unk_BgmControllerM8Arg, 0x10);
 // names are unknown; the switch covers 1..11.
 SEAD_ENUM(BgmControllerType, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11)
 
+// Slot of the BGM tables of Unk_71024fe948 (0..5; spilled and range-checked like a SEAD_ENUM). Names unknown.
+SEAD_ENUM(Unk_71024fe948Slot, _0, _1, _2, _3, _4, _5)
+
 // Placeholder (vtable 0x71024fe948, three slots, no RTTI): the 0x88-byte object at +0x90 of Unk_710260f0c0 and
 // Unk_710260f198 (constructor 0x710100d5bc).
 class Unk_71024fe948 {
@@ -514,6 +519,9 @@ public:
     void sub_710100D604(sead::Heap* heap);
     // 0x710100d694
     void sub_710100D694();
+    // 0x710100d874 (declared only): stores `bgm` in the table at +0x20 and, if it is set, gives it the value of the
+    // table at +0x50 (at its +0x190).
+    void sub_710100D874(Unk_71024fe948Slot slot, Unk_71025ce380* bgm);
     // 0x710100d860: clears _1c and _8 when _8 is set.
     void sub_710100D860();
 
