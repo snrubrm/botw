@@ -1,9 +1,41 @@
 #include "Game/Actor/AI/aiAnimalRndMove.h"
 #include "Game/Actor/aiUnk_71006F1DF0.h"
+#include <math/seadMathCalcCommon.h>
+#include <thread/seadMutex.h>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
 
 namespace uking::ai {
+
+// NON_MATCHING: scheduling / registers of the territory distance test
+bool AnimalRndMove::sub_710030AE5C() {
+    f32 radius = *mSearchNextPathRadius_s;
+    auto* nav = mActor->m45();
+    if (radius < sead::Mathf::epsilon() || !nav)
+        return false;
+
+    const f32 territory = *mTerritoryArea_m;
+    if (territory > 0.0f && _a4) {
+        sead::Vector3f home;
+        mActor->getHomePos(&home);
+        bool in_territory;
+        {
+            auto lock = sead::makeScopedLock(nav->_1e0);
+            if (nav->_194.isNan())
+                return true;
+            in_territory = (nav->_194 - home).squaredLength() < sead::Mathf::square(territory * 1.1f);
+        }
+        if (!in_territory)
+            return true;
+        radius = sead::Mathf::min(radius, territory * 0.4f);
+    }
+
+    const sead::Vector3f pos = mActor->getMtx().getTranslation();
+    auto lock = sead::makeScopedLock(nav->_1e0);
+    if (nav->_194.isNan())
+        return false;
+    return (nav->_194 - pos).squaredLength() < radius * radius;
+}
 
 bool AnimalRndMove::sub_710030B070(const sead::Vector3f& pos) {
     if (*mEnableNoEntryAreaCheck_m)

@@ -20,6 +20,9 @@ public:
     virtual bool m35();
 
     bool sub_710030B070(const sead::Vector3f& pos);
+    // 0x710030ae5c (placeholder name): whether the nav mesh goal is within SearchNextPathRadius (at most 0.4 of the
+    // territory) of the actor; true when there is no goal or it is outside 1.1 of the territory around home.
+    bool sub_710030AE5C();
 
 protected:
     // static_param at offset 0x38
