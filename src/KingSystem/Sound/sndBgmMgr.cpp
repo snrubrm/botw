@@ -362,4 +362,15 @@ void Unk_SoundMgr30::sub_7100FF8B94(Unk_710260f248* obj) {
     }
 }
 
+Unk_710260f248Entry* Unk_SoundMgr30::sub_7100FF89A0() {
+    for (s32 i = 0; i < mEntryPool.size(); ++i) {
+        auto* entry = mEntryPool.get(i);
+        if (!entry->mNode.isLinked()) {
+            entry->sub_7100FF6A44();
+            return entry;
+        }
+    }
+    return nullptr;
+}
+
 }  // namespace ksys::snd

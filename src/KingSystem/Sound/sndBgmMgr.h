@@ -2,6 +2,7 @@
 
 #include <basis/seadTypes.h>
 #include <aal/aalTimedFader.h>
+#include <container/seadBuffer.h>
 #include <container/seadOffsetList.h>
 #include <container/seadObjList.h>
 #include <prim/seadDelegate.h>
@@ -16,9 +17,9 @@
 #include <aal/aalISpeakerBalanceSupplier.h>
 #include <container/seadPtrArray.h>
 #include <container/seadSafeArray.h>
+#include <xlink2/xlink2HandleSLink.h>
 
 namespace xlink2 {
-class HandleSLink;
 class Locator;
 class PropertyDefinition;
 class UserInstanceSLink;
@@ -45,11 +46,12 @@ namespace ksys::snd {
 
 class Unk_710260f248;
 
-// Placeholder: the entries of Unk_710260f248::mEntries (list node at +0x40; created by Unk_SoundMgr30 0x7100ff89a0).
-// Methods in the Bgm TU; declared only.
+// Placeholder: the entries of Unk_710260f248::mEntries (0x58 bytes, list node at +0x40; a buffer of them sits at
+// Unk_SoundMgr30 +0x20, 0x7100ff89a0 returns a free one). The f048 code at 0x7100ff62d0 calls 0x7100ff6df4 out of
+// line, so the methods are defined in sndBgmMgr.cpp rather than with the Bgm code.
 class Unk_710260f248Entry {
 public:
-    // 0x7100ff6df4: whether the entry belongs to `owner` (and its handle is still valid).
+    // 0x7100ff6df4: whether the entry belongs to `owner` and its handle is still valid.
     bool sub_7100FF6DF4(const Unk_710260f248* owner) const;
     // 0x7100ff6a50: stores `value` in the float array at +0x28 (index 0..3).
     void sub_7100FF6A50(s32 index, f32 value);
@@ -57,10 +59,20 @@ public:
     void sub_7100FF6A64(f32 fade_sec);
     // 0x7100ff6c1c (declared only): per-frame update for `owner`; false when the entry is finished.
     bool sub_7100FF6C1C(Unk_710260f248* owner);
-    // 0x7100ff6a44 (declared only): releases the entry.
+    // 0x7100ff6a44: releases the entry.
     void sub_7100FF6A44();
-    // 0x7100ff6a18 (declared only): takes over the emitted handle for `owner`.
+    // 0x7100ff6a18: takes over the emitted handle for `owner`.
     void sub_7100FF6A18(Unk_710260f248* owner, const xlink2::HandleSLink& handle);
+
+    u8 _0[8];
+    Unk_710260f248* mOwner;
+    xlink2::HandleSLink mHandle;
+    f32 _20;
+    f32 _24;
+    f32 mVolumes[4];
+    bool _38;
+    sead::ListNode mNode;
+    u8 _50[8];
 };
 
 // Argument of Unk_710260f248::m3 (callers unknown): only the handle pointer at +0x8 is read.
@@ -874,14 +886,17 @@ struct Unk_SoundMgr30 {
     void sub_7100FF8B94(Unk_710260f248* obj);
     // 0x7100ff8a24 (declared only)
     Unk_SoundMgr30_30* sub_7100FF8A24();
-    // 0x7100ff89a0 (declared only): a free entry of the buffer at +0x20.
+    // 0x7100ff89a0: a free entry of the pool at +0x20 (reset), or null.
     Unk_710260f248Entry* sub_7100FF89A0();
 
     u8 _0[0x8];
     /* 0x08 */ MusicDefinition* _8;
     /* 0x10 */ Unk_SoundMgr30_10* _10;
     /* 0x18 */ Unk_SoundMgr30_18* _18;
-    u8 _20[0x20];
+    // Pool of the sound object entries (0x7100ff89a0 hands out the unlinked ones).
+    /* 0x20 */ sead::Buffer<Unk_710260f248Entry> mEntryPool;
+    // A buffer of the 0x20-byte speaker balance suppliers (count, pointer; 0x7100ff8a24).
+    /* 0x30 */ u8 _30[0x10];
     /* 0x40 */ BgmControllerType _40;
     u8 _44[4];
     /* 0x48 */ Unk_71024fca78* _48;
