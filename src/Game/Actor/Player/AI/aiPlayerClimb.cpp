@@ -5,6 +5,10 @@
 #include "KingSystem/ActorSystem/Attention/actAttentionSingleton.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/Utils/MathUtil.h"
+#include "Game/Actor/aiUnk_71007377D4.h"
+#include "KingSystem/Physics/physMaterialMask.h"
+#include "KingSystem/XLink/xlinkManager.h"
+#include "KingSystem/XLink/xlinkXLink.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 
 namespace uking::ai {
@@ -121,6 +125,28 @@ void PlayerClimb::calc_() {
         }
     }
     static_cast<Player*>(mActor)->_c44.reset(0x2000000);
+}
+
+// NON_MATCHING: register choice / order of the last `to` component
+void PlayerClimb::sub_7100829E68() {
+    auto* xlink = mActor->getXLink();
+    if (!xlink)
+        return;
+    auto* user = xlink->_50;
+    if (!user)
+        return;
+
+    ksys::phys::MaterialMask mask;
+    const auto& mtx = mActor->getMtx();
+    const sead::Vector3f dir = mtx.getBase(2);
+    const sead::Vector3f from = mtx.getTranslation();
+    const sead::Vector3f to = dir * 1.5f + from;
+    if (sub_710072E928(from, to, nullptr, nullptr, &mask, 0.0f)) {
+        const int material = mask.getMaterial();
+        user->setPropertyValue(0, material);
+        const int sub_material = mask.getSubMaterialIdx();
+        user->setPropertyValue(1, ksys::xlink::Manager::instance()->getSubMaterialIndex(material, sub_material));
+    }
 }
 
 }  // namespace uking::ai
