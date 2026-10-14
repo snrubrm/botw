@@ -1222,6 +1222,71 @@ void DamageManager::m54(const ConditionDamageInfo& info) {
         _88 = info._10;
 }
 
+// NON_MATCHING: the direct path (no electric level) differs like sub_71006D888C (stack layout of the callback values).
+void DamageManager::m55(const ConditionDamageInfo& info) {
+    s32 f54;
+    if (info.mFlags & 2) {
+        _8c |= 0x1000;
+        f54 = 31;
+    } else if (info.mFlags & 0x20) {
+        f54 = 28;
+    } else if (info.mFlags & 0x10) {
+        auto* param = getActorDamageParam();
+        if (!param || !param->mProofElecAtSmallDamage.ref())
+            return;
+        f54 = 15;
+    } else if (info.mFlags & 1) {
+        f54 = 0;
+    } else if (info.mFlags & 0x80) {
+        if (info._8 & 4)
+            f54 = 22;
+        else if (info._8 & 2)
+            f54 = 21;
+        else
+            f54 = (info._8 & 1) ? 17 : -1;
+        if (f54 == -1)
+            f54 = 4;
+    } else {
+        f54 = 4;
+    }
+
+    if (f54 == -1)
+        return;
+
+    if (f54 != 4) {
+        s32 damage = info.mDamage;
+        if (_214 & 0x40)
+            damage = (info.mFlags & 1) ? damage : 0;
+        if (!sub_71006D357C(6, 5, info.mFlags & 8, damage, 0, 0, 11, f54, 0))
+            return;
+        _216.change(0x100, info.mFlags & 8);
+        if (info.mFlags & 8)
+            _88 = info._10;
+        return;
+    }
+
+    s32 damage = info.mDamage;
+    s32 df48 = 0;
+    u32 minDmg = 0;
+    u32 f50 = 11;
+    s32 f54_ = f54;
+    mField_54 = f54;
+    const s32 prev_type = mDamageType;
+    mDamageType = 6;
+    DamageCallbackInfo cb_info;
+    cb_info.mFlags = _8c;
+    callDamageCallbacks(5, &damage, &df48, &minDmg, &f50, &f54_, &cb_info);
+    _8c = cb_info.mFlags;
+    mDamageType = prev_type;
+    mDamage += damage;
+    if (prev_type == -1) {
+        mField_50 = f50;
+        mDamageType = 6;
+    }
+    mField_54 = f54_;
+    _216.change(0x100, info.mFlags & 8);
+}
+
 void DamageManager::sub_71006D888C(const ConditionDamageInfo& info) {
     s32 f54;
     if (info.mFlags & 2) {
