@@ -965,6 +965,32 @@ bool sub_71006D7038(ksys::act::Actor* actor, ksys::act::ActorAtk::Unk_710079e64c
     return sub_7100735D2C(&info->_d8, actor);
 }
 
+s32 DamageManager::sub_71006D6D88(ksys::act::ActorAtk::Unk_710079e64c::Unk1* info) {
+    if (info->sub_71007A1F68(1))
+        return 0;
+    if (info->sub_71007A1F68(2))
+        return 1;
+    if (info->sub_71007A1F68(4))
+        return 2;
+    if (info->sub_71007A1F68(8))
+        return 3;
+    if (info->sub_71007A1F68(0x2000))
+        return 5;
+    if (info->sub_71007A1F68(0x10))
+        return 4;
+    if (info->sub_71007A1F68(0x400))
+        return 14;
+    if (info->sub_71007A1F68(0x1000))
+        return 16;
+    if (info->sub_71007A1F68(0x8000))
+        return 7;
+    if (info->sub_71007A1F68(0x10000))
+        return 17;
+    if (info->sub_71007A1F68(0x800))
+        return sub_71006D7FB0(info);
+    return -1;
+}
+
 void DamageManager::handleDamageForPlayer(u32* a2, u32* a3, u32* a4, u32* a5, u32* a6) {
     DamageManagerBase::handleDamageForPlayer(a2, a3, a4, a5, a6);
     auto* info = sead::DynamicCast<Struct20_2>(mStruct20_b);
