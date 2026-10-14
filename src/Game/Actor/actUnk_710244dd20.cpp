@@ -37,6 +37,11 @@ bool Unk_71008502cc::sub_7100850CF4() const {
     return _8.isOn(0x587);
 }
 
+// 0x71006d2130: only forwards to the base implementation.
+void Unk_710244dd20::m7() {
+    Unk_71025ae680::m7();
+}
+
 }  // namespace uking::act
 
 // NON_MATCHING: placeholder destructor; the original (0x7100850314) also destroys members or bases
