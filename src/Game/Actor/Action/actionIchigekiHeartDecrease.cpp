@@ -4,6 +4,7 @@
 #include "Game/UI/uiScreens.h"
 #include "Game/UI/uiUnkSingletons.h"
 #include "Game/UI/uiUtils.h"
+#include "KingSystem/System/VFR.h"
 
 namespace uking::action {
 
@@ -49,8 +50,50 @@ void IchigekiHeartDecrease::loadParams_() {
     getDynamicParam(&mIsUseConstSpeed_d, "IsUseConstSpeed");
 }
 
+// NON_MATCHING: scheduling / the `life % 4 == 0 && _38 != life` test is a ccmp chain in the original.
 void IchigekiHeartDecrease::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (isFinished() || isFailed())
+        return;
+
+    const auto update_life = [this](s32 life) {
+        auto* info = act::PlayerInfo::instance();
+        if (!info)
+            return;
+        info->setLifeForPlayerActor(life);
+        if (life % 4 == 0 && _38 != life && _30 != 0.0f) {
+            auto* screen = sead::DynamicCast<ui::ScreenMainScreenHeartIchigekiDLC>(
+                eui::ScreenMgr::instance()->getScreen(ui::ScreenId::MainScreenHeartIchigekiDLC));
+            if (screen) {
+                if (life >= 5) {
+                    screen->invokeSoundLink2Event_("mc_HeartDown");
+                } else if (life == 4) {
+                    screen->sub_7100A16ADC();
+                    ui::playSound("mc_HeartAlert_L", nullptr);
+                    ui::Unk_71025d6578::instance()->_3a = 1;
+                }
+            }
+        }
+        _38 = life;
+    };
+
+    switch (*mIsUseConstSpeed_d) {
+    case 0: {
+        s32 life = sead::Mathf::ceil(_34 + _30 * (-119.0f / *mUseFrame_d));
+        if (life < 1)
+            life = 1;
+        update_life(life);
+        break;
+    }
+    case 1:
+        update_life(sead::Mathf::ceil(_34 - _30 * ((_34 - 1.0f) / *mUseFrame_d)));
+        break;
+    }
+
+    if (_30 >= *mUseFrame_d) {
+        setFinished();
+        mFlags.set(Flag::Changeable);
+    }
+    _30 += ksys::VFR::instance()->getDeltaTime();
 }
 
 }  // namespace uking::action
