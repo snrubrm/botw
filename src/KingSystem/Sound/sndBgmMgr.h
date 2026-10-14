@@ -262,6 +262,7 @@ class HorseBgmInfo;
 class AssassinSeniorBgmInfo;
 class MazeForestBgmInfo;
 class BigMazeBgmInfo;
+class TutorialDungeonBattleBgmInfo;
 
 // Placeholder (D1 0x710103ab10, declared only): a 4-byte object holding a ducker index (SoundMgr::DuckerType value;
 // its destructor releases the ducker entry in SoundMgr +0x80). Members of the Bgm children (fd448: 10, fec18: 11).
@@ -495,7 +496,6 @@ public:
     // 0x7101026924 (declared only; 240 B)
     void m14(sead::TextWriter& writer) override;
     void hm14() override;
-    // 0x710102661c (declared only; 388 B)
     void hm15() override;
 
     // Plays the lesson track for `state` (0: "Lesson1") or records it for later (state 2).
@@ -504,9 +504,9 @@ public:
     void sub_7101026888();
 
 private:
-    MusicInfo* mInfo = nullptr;
+    TutorialDungeonBattleBgmInfo* mInfo = nullptr;
     s32 mState = 0;
-    s32 _19c = 0;
+    f32 mTimer = 0;
     Unk_71010267A8 mLesson{0};
     Unk_710260f248Entry* mEntry = nullptr;
 };
