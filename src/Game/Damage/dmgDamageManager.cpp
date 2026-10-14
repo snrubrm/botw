@@ -156,13 +156,11 @@ DamageManagerUnk220::DamageManagerUnk220() = default;
 void DamageManagerUnk220::sub_71006D99F4() {
     mHits.clear();
     _278 = 0;
+    _279 = 0;
     _27a = false;
     _27b = 0;
     _27c = {0, 0, 0};
-    _288 = 0;
-    _28c = 0;
-    _290 = 0;
-    _292 = 0;
+    _288 = {0, 0, 0};
     _294 = -1.0f;
 }
 

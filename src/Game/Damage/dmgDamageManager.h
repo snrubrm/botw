@@ -52,14 +52,14 @@ struct DamageManagerUnk220 {
 
     // Eight records; the storage starts in the tail padding of the RingBuffer header (0x14).
     /* 0x000 */ sead::FixedRingBuffer<DamageManagerHit, 8> mHits;
-    /* 0x278 */ u16 _278 = 0;
+    /* 0x278 */ u8 _278 = 0;
+    // A hit counter capped at the record capacity (0x71006da5c4).
+    /* 0x279 */ u8 _279 = 0;
     /* 0x27a */ bool _27a = false;
     /* 0x27b */ u8 _27b = 0;
     /* 0x27c */ sead::Vector3f _27c{0, 0, 0};
-    /* 0x288 */ u32 _288 = 0;
-    /* 0x28c */ u32 _28c = 0;
-    /* 0x290 */ u16 _290 = 0;
-    /* 0x292 */ u16 _292 = 0;
+    // Copied from the third argument of 0x71006da5c4.
+    /* 0x288 */ sead::Vector3f _288{0, 0, 0};
     /* 0x294 */ f32 _294 = -1.0f;
 };
 KSYS_CHECK_SIZE_NX150(DamageManagerUnk220, 0x298);
