@@ -2,6 +2,9 @@
 #include "Game/Actor/aiUnk_710073fa90.h"
 #include "Game/Actor/aiUnk_71005D6D10.h"
 #include "Game/Actor/actEnemy.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
+#include "KingSystem/Physics/System/physRayCastBodyQuery.h"
+#include "KingSystem/Utils/MathUtil.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
 namespace uking::action {
@@ -70,6 +73,44 @@ const sead::Vector3f* GanonThrowTornado::m33(int idx) {
 
 bool GanonThrowTornado::isFinished() const {
     return isFinishedAS(0, 0);
+}
+
+// NON_MATCHING: scheduling of the appear position transform and stack slots.
+void GanonThrowTornado::sub_710017CFF8(int idx) {
+    if (!sead::DynamicCast<act::Enemy>(mActor))
+        return;
+    auto& link = m32(idx);
+    if (!link.hasProc())
+        return;
+
+    sead::Vector3f dir = *mTargetPos_d;
+    auto* actor = mActor;
+    sead::Vector3f pos = actor->getMtx().getTranslation();
+    sead::Vector3f offset;
+    offset.setRotated(actor->getMtx(), *m33(idx));
+    pos += offset;
+
+    ksys::phys::RayCastBodyQuery query(nullptr, ksys::phys::GroundHit::HitAll);
+    query.enableLayer(ksys::phys::ContactLayer::EntityGround);
+    query.enableLayer(ksys::phys::ContactLayer::EntityGroundRough);
+    query.enableLayer(ksys::phys::ContactLayer::EntityGroundObject);
+    query.setStartAndDisplacementScaled(pos, {0.0f, -1.0f, 0.0f}, 12.0f);
+    sead::Vector3f hit_pos = pos;
+    if (query.worldRayCast(ksys::phys::ContactLayerType::Entity))
+        query.getHitPosition(&hit_pos);
+    else
+        hit_pos.y = *mCreateHeight_s;
+    hit_pos.y += 4.0f;
+    pos = hit_pos;
+
+    dir -= pos;
+    dir.normalize();
+    sead::Matrix34f mtx;
+    ksys::util::sub_71011F00EC(&mtx, dir, sead::Vector3f::ey, pos, false);
+    dir *= *mInitVelocity_s;
+    ksys::act::ActorLinkConstDataAccess accessor;
+    ksys::act::acquireActor(&link, &accessor);
+    accessor.setProperties(mtx, &dir, nullptr, nullptr, false, 0, -1);
 }
 
 }  // namespace uking::action
