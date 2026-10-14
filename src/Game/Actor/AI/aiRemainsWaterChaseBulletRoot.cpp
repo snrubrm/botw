@@ -62,6 +62,58 @@ void RemainsWaterChaseBulletRoot::enter_(ksys::act::ai::InlineParamPack* params)
     }
 }
 
+void RemainsWaterChaseBulletRoot::calc_() {
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed()) {
+        if (isCurrentChild("復活")) {
+            sub_710054AC5C();
+            mActor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_10000);
+            changeChild("待機");
+            return;
+        }
+        if (isCurrentChild("通常") || isCurrentChild("待機")) {
+            sub_7100549E90();
+            return;
+        }
+        if (isCurrentChild("爆発")) {
+            mActor->sleep(ksys::act::BaseProc::SleepWakeReason::_0);
+            return;
+        }
+        if (isCurrentChild("ダメージ")) {
+            _39 = false;
+            sub_710054AAD8();
+            changeChild("消滅");
+            return;
+        }
+    }
+
+    if (isCurrentChild("通常") || isCurrentChild("待機") || isCurrentChild("ダメージ")) {
+        if (sub_7100549F6C()) {
+            sub_7100549E90();
+            return;
+        }
+        sub_710054A100();
+        sub_710054A2CC();
+        if (_39) {
+            _39 = false;
+            sub_710054AAD8();
+            changeChild("消滅");
+        }
+        if (_3b && !isCurrentChild("ダメージ")) {
+            _3b = false;
+            changeChild("ダメージ");
+        }
+    }
+
+    if (isCurrentChild("通常") && sub_710054A6C0()) {
+        sub_7100549E90();
+        return;
+    }
+
+    if (_3a && isCurrentChild("待機"))
+        sub_710054A930();
+}
+
 void RemainsWaterChaseBulletRoot::leave_() {
     sub_710054AAD8();
 }
