@@ -20,7 +20,7 @@ Unk_710260f248::~Unk_710260f248() {
     mEntries.clear();
 }
 
-void Unk_710260f248::m3(const Unk_710260f248M3Arg& arg) {
+void Unk_710260f248::hm3(const Unk_710260f248M3Arg& arg) {
     auto* supplier = sub_7100FFD71C()->sub_7100FF8A24();
     if (!supplier)
         return;

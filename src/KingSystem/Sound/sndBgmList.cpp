@@ -1,5 +1,6 @@
 #include "KingSystem/Sound/sndBgmMgr.h"
 #include "Game/gameUnkRttiPlaceholders.h"
+#include "KingSystem/Sound/sndMusicInfo.h"
 
 namespace ksys::snd {
 
@@ -44,3 +45,14 @@ Unk_71024fee78::~Unk_71024fee78() = default;
 Unk_71024fefe8::~Unk_71024fefe8() = default;
 
 Unk_71024ff268::~Unk_71024ff268() = default;
+
+namespace ksys::snd {
+
+Unk_710260f278::Unk_710260f278(const BgmInitArg& arg) : Unk_71025ce380(arg) {
+    _1c0.setCurveType(aal::FadeCurveType::Square);
+    auto* heap = arg.heap;
+    mInfo = static_cast<HorseBgmInfo*>(sub_7100FFD76C()->getInfo(MusicInfoType::_1));
+    Unk_SpotBgmHandle::init(heap, "HorseBgm", nullptr);
+}
+
+}  // namespace ksys::snd

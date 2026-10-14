@@ -15,6 +15,7 @@
 #include <aal/aalHandle.h>
 #include <aal/aalISpeakerBalanceSupplier.h>
 #include <container/seadPtrArray.h>
+#include <container/seadSafeArray.h>
 
 namespace xlink2 {
 class PropertyDefinition;
@@ -40,7 +41,17 @@ class Unk_71024fd948;
 
 namespace ksys::snd {
 
-class Unk_710260f248Entry;
+class Unk_710260f248;
+
+// Placeholder: the entries of Unk_710260f248::mEntries (list node at +0x40; created by Unk_SoundMgr30 0x7100ff89a0).
+// Methods in the Bgm TU; declared only.
+class Unk_710260f248Entry {
+public:
+    // 0x7100ff6df4: whether the entry belongs to `owner` (and its handle is still valid).
+    bool sub_7100FF6DF4(const Unk_710260f248* owner) const;
+    // 0x7100ff6a50: stores `value` in the float array at +0x28 (index 0..3).
+    void sub_7100FF6A50(s32 index, f32 value);
+};
 
 // Argument of Unk_710260f248::m3 (callers unknown): only the handle pointer at +0x8 is read.
 struct Unk_710260f248M3Arg {
@@ -79,29 +90,38 @@ SEAD_ENUM(Unk_710260f248Type, _0, _1, _2, _3)
 // with ObjList functions 0x7100ff8b24 / 0x7100ff8b94). Base of Unk_SpotBgmHandle.
 class Unk_710260f248 {
 public:
+    // Virtual names: `hmN` is slot N (the trivial slots' meaning is unknown); `hm` avoids clashing with Bgm's mN in
+    // the classes that derive from both.
     explicit Unk_710260f248(Unk_710260f248Type type);
 
     // 0x7100ff6628 / 0x7100ff6630 / 0x7100ff6634 (inline bodies emitted in the Bgm TU).
-    virtual bool m0() { return false; }
-    virtual void m1() {}
-    virtual bool m2() { return false; }
+    virtual bool hm0() { return false; }
+    virtual void hm1() {}
+    virtual bool hm2() { return false; }
     // 0x7101020c90: lets the first free speaker balance supplier of Unk_SoundMgr30 control the sound of `arg`.
-    virtual void m3(const Unk_710260f248M3Arg& arg);
-    virtual void m4() {}
-    virtual bool m5() { return false; }
+    virtual void hm3(const Unk_710260f248M3Arg& arg);
+    virtual void hm4() {}
+    virtual bool hm5() { return false; }
 
     SEAD_RTTI_BASE(Unk_710260f248)
 
     virtual ~Unk_710260f248();
     // 0x710102052c: copies `name`, reads the music definition and creates the xlink2 user instance.
-    virtual void m10(sead::Heap* heap, const sead::SafeString& name,
+    virtual void init(sead::Heap* heap, const sead::SafeString& name,
                      const sead::PtrArray<const xlink2::PropertyDefinition>* properties);
     // 0x7101020898
-    virtual void m11();
+    virtual void calc();
     // 0x7101020e40
-    virtual f32 m12() { return _a0 * _a4 * _a8.getValue(); }
+    virtual f32 getVolume() { return _a0 * _a4 * _a8.getValue(); }
     // 0x7100ff6808
-    virtual const sead::SafeString* m13() { return &mName; }
+    virtual const sead::SafeString* getName() { return &mName; }
+
+    // 0x71010209fc (declared only): emits the asset `name` and returns its new entry (or null).
+    Unk_710260f248Entry* sub_71010209FC(const sead::SafeString& name);
+    // 0x7101020bb0 (declared only): restarts the fader at 0 and moves it to 1 in `fade_sec` (nothing for 0).
+    void sub_7101020BB0(f32 fade_sec);
+    // 0x7101020c08 (declared only): fades out the entries that belong to this object.
+    void sub_7101020C08(f32 fade_sec);
 
     sead::FixedSafeString<64> mName;
     xlink2::UserInstanceSLink* mUserInstance = nullptr;
@@ -126,12 +146,16 @@ class Unk_SpotBgmHandle : public ksys::snd::Unk_710260f248 {
 public:
     explicit Unk_SpotBgmHandle(ksys::snd::Unk_710260f248Type type);
     ~Unk_SpotBgmHandle() override;
-    void m10(sead::Heap* heap, const sead::SafeString& name,
+    void init(sead::Heap* heap, const sead::SafeString& name,
              const sead::PtrArray<const xlink2::PropertyDefinition>* properties) override;
-    void m11() override;
+    void calc() override;
     // 0x7100ff67ec
-    f32 m12() override { return _138.getValue() * Unk_710260f248::m12(); }
+    f32 getVolume() override { return _138.getValue() * Unk_710260f248::getVolume(); }
 
+    // 0x710101d9d8 / 0x710101d9f4 / 0x710101da34 (declared only): start / stop (with a fade) / reset the state `_124`.
+    void sub_710101D9D8();
+    void sub_710101D9F4(f32 fade_sec);
+    void sub_710101DA34();
     // 0x710101d9a4
     void sub_710101D9A4();
     // 0x710101d970 (52 B)
@@ -139,11 +163,13 @@ public:
 
     sead::FixedSafeString<32> mCategory;
     s32 mPriority = 0;
+    // State (0..5; 3 and 4 are playing).
     u32 _124 = 0;
     u64 _128 = 0;
     u64 _130 = 0;
     aal::TimedFader _138{1.0, aal::FadeCurveType(1), 1.0};
-    u64 _160 = 0;
+    // [1] is the playing time (0x710101da4c adds the frame time to it in states 3 and 4).
+    f32 _160[2]{};
     u64 _168 = 0;
     u64 _170 = 0;
     bool _178 = false;
@@ -162,9 +188,9 @@ namespace ksys::snd {
 class Unk_71024fc7f8 : public Unk_SpotBgmHandle {
 public:
     using Unk_SpotBgmHandle::Unk_SpotBgmHandle;
-    virtual void m14() = 0;
-    virtual void m15() = 0;
-    virtual void m16() {}
+    virtual void hm14() = 0;
+    virtual void hm15() = 0;
+    virtual void hm16() {}
 };
 KSYS_CHECK_SIZE_NX150(Unk_71024fc7f8, 0x180);
 
@@ -190,9 +216,25 @@ public:
 // unknown; the controllers use kinds 0..35.
 SEAD_ENUM(BgmKind, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16, _17, _18, _19, _20, _21, _22, _23, _24, _25, _26, _27, _28, _29, _30, _31, _32, _33, _34, _35)
 
+class MusicInfo;
+class HorseBgmInfo;
+class AssassinSeniorBgmInfo;
+
+// The argument of allocBgm (0x7100ff6e2c, which switches on `kind` and passes it on to the constructors).
+struct BgmInitArg {
+    BgmKind kind;
+    Unk_710260f248Type handle_type;
+    sead::Heap* heap;
+};
+
+// Index of the music info table of Unk_SoundMgr30_18 (the factory 0x710101b84c creates 0 EnvBgmInfo, 1 HorseBgmInfo,
+// 3 SpotBgmInfo, ...). Spilled and reloaded like a SEAD_ENUM; enumerator names are unknown.
+SEAD_ENUM(MusicInfoType, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16, _17, _18, _19, _20, _21, _22, _23, _24, _25, _26)
+
 // RTTI root at 0x71025ce360; primary vtable at 0x71024fc8a0.
 class Bgm {
 public:
+    explicit Bgm(BgmKind kind) : _c(kind) {}
     virtual ~Bgm() = default;
     SEAD_RTTI_BASE(Bgm)
 
@@ -211,7 +253,7 @@ public:
 protected:
     friend class Unk_710260f160;
 
-    bool mActive;
+    bool mActive = false;
     u8 _9[3];
     BgmKind _c;
 };
@@ -220,11 +262,41 @@ KSYS_CHECK_SIZE_NX150(Bgm, 0x10);
 // Intermediate BGM RTTI typeInfo 0x71025ce380, derived from Bgm.
 class Unk_71025ce380 : public Bgm, public Unk_71024fc7f8 {
     SEAD_RTTI_OVERRIDE(Unk_71025ce380, Bgm)
+public:
+    explicit Unk_71025ce380(const BgmInitArg& arg) : Bgm(arg.kind), Unk_71024fc7f8(arg.handle_type) {}
+
+    // 0x7100ff6544 (CSV snd::BgmCastle::m6; shared by the children's vtables)
+    void m6(f32 fade_sec) override {
+        if (mActive)
+            return;
+        sub_7101020BB0(fade_sec);
+        m12(fade_sec);
+        m8(true);
+    }
+    // 0x7100ff6610 (CSV snd::BgmCastle::m9; shared by the children's vtables)
+    bool m9() override { return mEntries.size() == 0; }
 };
 
 // RTTI typeInfo 0x710260f278, derived from Unk_71025ce380 (sub_7100FFDD38 casts BGM kind 2 to it).
+// The horse BGM ("HorseBgm"; 0x1f0 bytes, constructor 0x7101012918).
 class Unk_710260f278 : public Unk_71025ce380 {
     SEAD_RTTI_OVERRIDE(Unk_710260f278, Unk_71025ce380)
+public:
+    explicit Unk_710260f278(const BgmInitArg& arg);
+
+    // Overrides of Unk_71024fc7f8's slots 14 / 15 (primary slots 15 / 16); declared only.
+    void hm14() override;
+    void hm15() override;
+
+    HorseBgmInfo* mInfo = nullptr;
+    u32 _198 = 0;
+    u8 _19c = 0;
+    u64 _1a0 = 0;
+    u64 _1a8 = 0;
+    u32 _1b0 = 0;
+    u64 _1b8 = 0;
+    aal::TimedFader _1c0{0.0, aal::FadeCurveType::Linear, 1.0};
+    bool _1e8 = false;
 };
 
 // RTTI typeInfo 0x710260f2a8, derived from Bgm (sub_7100FFE094 casts BGM kind 15 to it).
@@ -254,13 +326,34 @@ class Unk_710260f288 : public Unk_71025ce380 {
 class Unk_710260f048 : public Unk_71025ce380 {
     SEAD_RTTI_OVERRIDE(Unk_710260f048, Unk_71025ce380)
 public:
-    // The assassin boss BGM (was Unk_7100ffdfdc in Game/AI/aiUnk_7100FFDFDC.h).
+    // The assassin boss BGM ("AssassinBossBgm"; 0x1c0 bytes, constructor 0x7100ff6060; was Unk_7100ffdfdc in
+    // Game/AI/aiUnk_7100FFDFDC.h).
+    explicit Unk_710260f048(const BgmInitArg& arg);
+
+    void m5() override;
+    bool m10() override;
+    void m12(f32 fade_sec) override;
+    void m13(f32 fade_sec) override;
+    void m14(sead::TextWriter& writer) override {}
+    void hm14() override;
+    void hm15() override;
+
     // 0x7100ff61bc (4 B, empty; CSV nullsub_4300)
     void sub_7100FF61BC();
     void sub_7100FF61C0();
+    // 0x7100ff61f8: fades the "main" track in (to battle) or out (to the demo).
+    void sub_7100FF61F8(bool battle);
     void sub_7100FF6220();
     void sub_7100FF6268();
+
+private:
+    AssassinSeniorBgmInfo* mInfo;
+    s32 mState = 0;
+    u16 mStopTimer = 0;
+    aal::SimpleTimedFader mMainFader{1.0};
+    Unk_710260f248Entry* mMainEntry;
 };
+KSYS_CHECK_SIZE_NX150(Unk_710260f048, 0x1c0);
 
 // RTTI typeInfo 0x710260f1a8, derived from Bgm (sub_7100FFE14C casts BGM kind 5 to it).
 class Unk_710260f1a8 : public Bgm {
@@ -613,7 +706,15 @@ Unk_710260f1a8* sub_7100FFE14C();
 
 // Placeholders (types unknown): SoundMgr::_30->_8 / _18 (returned by sub_7100FFD73C / sub_7100FFD76C).
 class MusicDefinition;
-struct Unk_SoundMgr30_18;
+// SoundMgr::_30->_18: one music info object per MusicInfoType (created by 0x710101b84c).
+struct Unk_SoundMgr30_18 {
+    // inline-only in the original; name is a guess (the Bgm constructors 0x7101012918, ... index the table with a
+    // spilled enum whose stack slot is shared with later temporaries).
+    MusicInfo* getInfo(MusicInfoType type) const { return mInfos[type]; }
+
+    u8 _0[8];
+    sead::SafeArray<MusicInfo*, 27> mInfos;
+};
 
 // Placeholder name (SoundMgr::_30): the BGM side of the sound manager.
 struct Unk_SoundMgr30 {
