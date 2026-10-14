@@ -1,130 +1,34 @@
 target_sources(uking PRIVATE
     AS/ASList.h
     AS/ASList.cpp
-    AS/ASListUnk1.cpp
-    AS/ASListUnk2.cpp
-    AS/ASListUnk5.cpp
-    AS/asAngleBlender.cpp
-    AS/asAnmAsset.cpp
-    AS/asElementMake.cpp
-    AS/asAngleSelector.cpp
-    AS/asAsset.cpp
-    AS/asBlender.cpp
-    AS/asBoneBlender.cpp
-    AS/asBoolSelector.cpp
-    AS/asClearMatAnmAsset.cpp
-    AS/asDungeonClearSelector.cpp
-    AS/asComboSelector.cpp
-    AS/asContext.cpp
-    AS/asFrame.cpp
-    AS/asElement.cpp
-    AS/asElementParams.cpp
-    AS/asEventFlagSelector.cpp
-    AS/asFloatSelector.cpp
-    AS/asGraphicsAsset.cpp
-    AS/asIntSelector.cpp
-    AS/asGroundNormalBlender.cpp
-    AS/asGroundNormalSelector.cpp
-    AS/asNodePosSelector.cpp
-    AS/asPreASSelector.cpp
-    AS/asRandomSelector.cpp
-    AS/asSelector.cpp
-    AS/asSelectorBase.cpp
-    AS/asSkeltalAsset.cpp
-    AS/asSpeedBlender.cpp
-    AS/asSpeedSelector.cpp
-    AS/asStringSelector.cpp
-    AS/asSequencePlayContainer.cpp
-    AS/asSyncPlayContainer.cpp
-    AS/asTimeSelector.cpp
-    AS/asWeatherSelector.cpp
-    AS/asWindVelocityBlender.cpp
-    AS/asYSpeedBlender.cpp
-    AS/asYSpeedSelector.cpp
-    AS/asZEx00ExposureBlender.cpp
-    AS/asZEx00ExposureSelector.cpp
-    AS/asElement.h
-    
-    Attention/actActorAttention.cpp
-    Attention/actActorAttention.h
-    Attention/actAttentionSingleton.cpp
-    Attention/actAttentionSingleton.h
-    Attention/actAttClient.cpp
-    Attention/actAttClient.h
+
     Attention/actAttention.cpp
     Attention/actAttention.h
 
-    Awareness/actAITerror.cpp
-    Awareness/actAITerror.h
     Awareness/actAwareness.cpp
-    Awareness/actAwarenessUnk1.cpp
     Awareness/actAwareness.h
     Awareness/actAwarenessDefs.cpp
     Awareness/actAwarenessDefs.h
     Awareness/actAwarenessInstance.cpp
     Awareness/actAwarenessInstance.h
-    Awareness/actAwarenessRequest.h
-    Awareness/actUnk_71024dc858.cpp
-    Awareness/actUnk_71024dce08.cpp
-    Awareness/actUnk_71024dccf8.cpp
 
-
-    LOD/actLODMgr.cpp
-    LOD/actLODMgr.h
-    LOD/actLodState.cpp
-    LOD/actLodState.h
-
-    Profiles/actAirWall.cpp
-    Profiles/actArea.cpp
-    Profiles/actAreaActor.cpp
-    Profiles/actAreaActor.h
-    Profiles/actBullet.cpp
-    Profiles/actSweepCollision.cpp
-    Profiles/actBullet.h
-    Profiles/actDynamicActor.cpp
-    Profiles/actDynamicActor.h
-    Profiles/actPlayer.cpp
-    Profiles/actPlayerSlotTargets.cpp
-    Profiles/actPlayerBowUtil.cpp
-    Profiles/actPlayerOutOfLine.cpp
-    Profiles/actPlayerAnim.cpp
-    Profiles/actPlayer.h
-    Profiles/actPlayerArmors.cpp
-    Profiles/actPlayerBase.cpp
-    Profiles/actPlayerBase.h
-    Profiles/actPlayerLink.h
-    Profiles/actPlayerRideInfo.cpp
-    Profiles/actPlayerOrEnemy.cpp
-    Profiles/actPlayerOrEnemyAtk.cpp
-    Profiles/actPlayerStamina.cpp
-    Profiles/actPlayerWeapons.cpp
-    Profiles/actPlayerOrEnemy.h
     Profiles/actRopeBase.cpp
     Profiles/actRopeBase.h
     Profiles/actWeaponBase.cpp
     Profiles/actWeaponBase.h
 
     actActor.cpp
-    actActorMaxHp.cpp
     actActor.h
-    actActorX6A0.cpp
-    actActorX6A0.h
-    actActorX6A0Sub.cpp
-    actImpulseBaseProcLink.h
     actActorAtk.cpp
     actActorAtk.h
-    actAttackInfo.cpp
-    actAttackSensor.h
-    actActorCaptureMgr.cpp
-    actActorCaptureMgr.h
-    actActorChemicals.cpp
-    actActorChemicals.h
     actActorBind.cpp
     actActorBind.h
     actActorBindSet.cpp
     actActorBindSet.h
-    actActorLinkConstDataAccess.cpp
-    actActorLinkConstDataAccess.h
+    actActorCaptureMgr.cpp
+    actActorCaptureMgr.h
+    actActorChemicals.cpp
+    actActorChemicals.h
     actActorCreator.cpp
     actActorCreator.h
     actActorEditorNode.cpp
@@ -135,8 +39,9 @@ target_sources(uking PRIVATE
     actActorHeapUtil.h
     actActorLimiter.cpp
     actActorLimiter.h
-    actBaseProcAccessor.cpp
-    actBaseProcAccessor.h
+    actActorLinkConstDataAccess.cpp
+    actActorLinkConstDataAccess.h
+    actActorMaxHp.cpp
     actActorParam.cpp
     actActorParam.h
     actActorParamMgr.cpp
@@ -146,17 +51,19 @@ target_sources(uking PRIVATE
     actActorSensorUtil.cpp
     actActorSensorUtil.h
     actActorSystem.cpp
-    actReaction.cpp
     actActorSystem.h
     actActorTemplate.cpp
     actActorTemplate.h
+    actActorUniqueNameSearch.cpp
+    actActorUniqueNameSearch.h
     actActorUnk117.h
     actActorUtil.cpp
     actActorUtil.h
-    actActorUniqueNameSearch.cpp
-    actActorUniqueNameSearch.h
     actActorWeapons.cpp
     actActorWeapons.h
+    actActorX6A0.cpp
+    actActorX6A0.h
+    actActorX6A0Sub.cpp
     actAiAction.cpp
     actAiAction.h
     actAiActionBase.cpp
@@ -174,12 +81,12 @@ target_sources(uking PRIVATE
     actAiQuery.h
     actAiQueries.cpp
     actAiQueries.h
-    actAiRoot.cpp
-    actAiRoot.h
-    actASSetting.cpp
-    actASSetting.h
+    actAttackInfo.cpp
+    actAttackSensor.h
     actBaseProc.cpp
     actBaseProc.h
+    actBaseProcAccessor.cpp
+    actBaseProcAccessor.h
     actBaseProcCreateTask.cpp
     actBaseProcCreateTask.h
     actBaseProcCreateTaskSelector.cpp
@@ -205,23 +112,20 @@ target_sources(uking PRIVATE
     actBaseProcMgr.cpp
     actBaseProcMgr.h
     actBoneControl.cpp
-    actBoneControlUnk_7100d8557c.cpp
-    actBoneControlUnk_7100d83054.cpp
-    actBoneControlUnk_7100d860d8.cpp
     actBoneControl.h
+    actBoneControlUnk_7100d83054.cpp
+    actBoneControlUnk_7100d8557c.cpp
+    actBoneControlUnk_7100d860d8.cpp
     actBoneHandle.cpp
     actBoneHandle.h
     actBoneHandleBase.cpp
-    actUnk_7100d3bc4c.cpp
-    actUnk_7100d3bc4c.h
     actCCAccessor.cpp
     actCCAccessor.h
-    actUnk_710072AFD0.cpp
     actChemical.cpp
     actChemical.h
-    actChemicalUserTag.h
     actChemicalElementHolder.cpp
     actChemicalElementHolder.h
+    actChemicalUserTag.h
     actClusteredRenderer.cpp
     actClusteredRenderer.h
     actDebug.cpp
@@ -230,50 +134,148 @@ target_sources(uking PRIVATE
     actDropData.h
     actGlobalParameter.cpp
     actGlobalParameter.h
+    actImpulseBaseProcLink.h
     actInfoCommon.cpp
     actInfoCommon.h
     actInfoData.cpp
     actInfoData.h
     actInstParamPack.cpp
     actInstParamPack.h
-    actLifeRecoveryInfo.cpp
     actLifeRecoveryInfo.h
-    actModelBindInfo.cpp
-    actModelBindInfo.h
+    actLodState.cpp
+    actLodState.h
     actPhysicsConstraints.cpp
     actPhysicsConstraints.h
     actPhysicsUserTag.cpp
     actPhysicsUserTag.h
+    actTag.h
+    actionDummyAction.cpp
+    actionDummyAction.h
+    actLifeRecoveryInfo.cpp
+    actModelBindInfo.cpp
+    actModelBindInfo.h
     actPlayerInfo.cpp
-    actPlayerPosition.cpp
     actPlayerInfo.h
     actPlayerInfoBase.cpp
     actPlayerInfoStub.cpp
+    actPlayerPosition.cpp
+    actReaction.cpp
     actStruct8Base.cpp
-    actTag.h
     actUnk_71006e45c4.cpp
     actUnk_71006e45c4.h
-    actUnk_710079d5a0.cpp
-    actUnk_710079e64c.cpp
-    actUnk_7100e4e084.cpp
-    actUnk_7100e4e084.h
-    actUnk_71024ef4e8.cpp
-    actUnk_71024ef4e8Attach.cpp
-    actUnk_71024ef4e8.h
-    actUnk_71024ef620.cpp
-    actUnk_71024ef620.h
     actUnk_71006ecc78.cpp
     actUnk_71006ecc78.h
-    actUnk_7102459df8.cpp
+    actUnk_710072AFD0.cpp
+    actUnk_710079d5a0.cpp
+    actUnk_710079e64c.cpp
     actUnk_710079fe9c.cpp
+    actUnk_7100d3bc4c.cpp
+    actUnk_7100d3bc4c.h
+    actUnk_7100e4e084.cpp
+    actUnk_7100e4e084.h
+    actUnk_7102459df8.cpp
     actUnk_7102459df8.h
-
-    actionDummyAction.cpp
-    actionDummyAction.h
+    actUnk_71024ef4e8.cpp
+    actUnk_71024ef4e8.h
+    actUnk_71024ef4e8Attach.cpp
+    actUnk_71024ef620.cpp
+    actUnk_71024ef620.h
     aiDummyAi.cpp
     aiDummyAi.h
+    aiRootAi.cpp
+    aiRootAi.h
     behaviorDummyBehavior.cpp
     behaviorDummyBehavior.h
     queryDummyQuery.cpp
     queryDummyQuery.h
+
+    ../Resource/Actor/resResourceASSettingMgr.h
+
+    AS/asAngleBlender.cpp
+    AS/asAngleSelector.cpp
+    AS/asAnmAsset.cpp
+    AS/asAsset.cpp
+    AS/asBlender.cpp
+    AS/asBoneBlender.cpp
+    AS/asBoolSelector.cpp
+    AS/asClearMatAnmAsset.cpp
+    AS/asComboSelector.cpp
+    AS/asContext.cpp
+    AS/asDungeonClearSelector.cpp
+    AS/asElement.cpp
+    AS/asElement.h
+    AS/asElementMake.cpp
+    AS/asElementParams.cpp
+    AS/asEventFlagSelector.cpp
+    AS/asFloatSelector.cpp
+    AS/asFrame.cpp
+    AS/asGraphicsAsset.cpp
+    AS/asGroundNormalBlender.cpp
+    AS/asGroundNormalSelector.cpp
+    AS/asIntSelector.cpp
+    AS/ASListUnk1.cpp
+    AS/ASListUnk2.cpp
+    AS/ASListUnk5.cpp
+    AS/asNodePosSelector.cpp
+    AS/asPreASSelector.cpp
+    AS/asRandomSelector.cpp
+    AS/asSelector.cpp
+    AS/asSelectorBase.cpp
+    AS/asSequencePlayContainer.cpp
+    AS/asSkeltalAsset.cpp
+    AS/asSpeedBlender.cpp
+    AS/asSpeedSelector.cpp
+    AS/asStringSelector.cpp
+    AS/asSyncPlayContainer.cpp
+    AS/asTimeSelector.cpp
+    AS/asWeatherSelector.cpp
+    AS/asWindVelocityBlender.cpp
+    AS/asYSpeedBlender.cpp
+    AS/asYSpeedSelector.cpp
+    AS/asZEx00ExposureBlender.cpp
+    AS/asZEx00ExposureSelector.cpp
+
+    Attention/actActorAttention.cpp
+    Attention/actActorAttention.h
+    Attention/actAttClient.cpp
+    Attention/actAttClient.h
+    Attention/actAttentionSingleton.cpp
+    Attention/actAttentionSingleton.h
+
+    Awareness/actAITerror.cpp
+    Awareness/actAITerror.h
+    Awareness/actAwarenessRequest.h
+    Awareness/actAwarenessUnk1.cpp
+    Awareness/actUnk_71024dc858.cpp
+    Awareness/actUnk_71024dccf8.cpp
+    Awareness/actUnk_71024dce08.cpp
+
+    LOD/actLODMgr.cpp
+    LOD/actLODMgr.h
+
+    Profiles/actAirWall.cpp
+    Profiles/actArea.cpp
+    Profiles/actAreaActor.cpp
+    Profiles/actAreaActor.h
+    Profiles/actBullet.cpp
+    Profiles/actBullet.h
+    Profiles/actDynamicActor.cpp
+    Profiles/actDynamicActor.h
+    Profiles/actPlayer.cpp
+    Profiles/actPlayer.h
+    Profiles/actPlayerAnim.cpp
+    Profiles/actPlayerArmors.cpp
+    Profiles/actPlayerBase.cpp
+    Profiles/actPlayerBase.h
+    Profiles/actPlayerBowUtil.cpp
+    Profiles/actPlayerLink.h
+    Profiles/actPlayerOrEnemy.cpp
+    Profiles/actPlayerOrEnemy.h
+    Profiles/actPlayerOrEnemyAtk.cpp
+    Profiles/actPlayerOutOfLine.cpp
+    Profiles/actPlayerRideInfo.cpp
+    Profiles/actPlayerSlotTargets.cpp
+    Profiles/actPlayerStamina.cpp
+    Profiles/actPlayerWeapons.cpp
+    Profiles/actSweepCollision.cpp
     )

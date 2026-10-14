@@ -3,7 +3,7 @@
 #include "KingSystem/Resource/resHandle.h"
 #include "KingSystem/Utils/Types.h"
 
-namespace ksys::map {
+namespace ksys::act {
 
 // Complete map-manager construction D44358 allocates 0x78 and calls 124AA74.
 // Complete 124AA74/124AAAC and independent 124AAD0 establish the Handle at +8.
@@ -23,4 +23,4 @@ private:
 };
 KSYS_CHECK_SIZE_NX150(FarActorMerge, 0x78);
 
-}  // namespace ksys::map
+}  // namespace ksys::act

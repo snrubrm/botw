@@ -2,7 +2,7 @@
 #include "Game/Actor/actHorseRideInfo.h"
 #include "Game/Actor/actRideable.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actAiRoot.h"
+#include "KingSystem/ActorSystem/aiRootAi.h"
 #include "KingSystem/Map/mapObject.h"
 
 namespace uking::ai {

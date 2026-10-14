@@ -11,7 +11,7 @@
 #include "KingSystem/GameData/gdtSpecialFlags.h"
 #include "Game/Damage/dmgDamageManagerBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actAiRoot.h"
+#include "KingSystem/ActorSystem/aiRootAi.h"
 #include "KingSystem/Utils/Thread/Message.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/Attention/actAttClient.h"

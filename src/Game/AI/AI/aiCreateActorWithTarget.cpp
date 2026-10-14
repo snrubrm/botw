@@ -5,7 +5,7 @@
 #include <math/seadVector.h>
 #include <random/seadGlobalRandom.h>
 #include "Game/gameResetter.h"
-#include "KingSystem/ActorSystem/LOD/actLodState.h"
+#include "KingSystem/ActorSystem/actLodState.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorCreator.h"
 #include "KingSystem/ActorSystem/actActorHeapUtil.h"

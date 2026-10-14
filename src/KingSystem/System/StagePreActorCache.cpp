@@ -1,4 +1,4 @@
-#include "KingSystem/Map/mapStagePreActorCache.h"
+#include "KingSystem/System/StagePreActorCache.h"
 #include "KingSystem/Graphics/gfxForestRenderer.h"
 #include "KingSystem/Map/mapLazyTraverseList.h"
 #include "KingSystem/Map/mapPlacement18.h"
@@ -6,7 +6,7 @@
 #include "KingSystem/Map/mapPlacementMapMgr.h"
 #include "KingSystem/Utils/HeapUtil.h"
 
-namespace ksys::map {
+namespace ksys {
 
 SEAD_SINGLETON_DISPOSER_IMPL(StagePreActorCache)
 
@@ -59,4 +59,4 @@ void StagePreActorCache::m4(int* x, int* z, const sead::SafeString& name) {
     *z = name.at(2) - '1';
 }
 
-}  // namespace ksys::map
+}  // namespace ksys

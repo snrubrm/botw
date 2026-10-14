@@ -1,7 +1,7 @@
 #include "Game/AI/Action/actionPlayerZoraRide.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include <math/seadMathCalcCommon.h>
-#include "KingSystem/ActorSystem/actAiRoot.h"
+#include "KingSystem/ActorSystem/aiRootAi.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actBaseProcAccessor.h"
 #include "KingSystem/ActorSystem/Attention/actAttentionSingleton.h"

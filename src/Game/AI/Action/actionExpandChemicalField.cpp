@@ -1,6 +1,6 @@
 #include "Game/AI/Action/actionExpandChemicalField.h"
 #include "Game/AI/aiXlinkHandle.h"
-#include "KingSystem/ActorSystem/LOD/actLodState.h"
+#include "KingSystem/ActorSystem/actLodState.h"
 #include "KingSystem/ActorSystem/Profiles/actBullet.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"

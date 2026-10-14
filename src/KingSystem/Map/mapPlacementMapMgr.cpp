@@ -1,6 +1,6 @@
 #include "KingSystem/Map/mapPlacementMapMgr.h"
 #include "KingSystem/Map/mapMapProperties.h"
-#include "KingSystem/Map/mapFarActorMerge.h"
+#include "KingSystem/ActorSystem/actFarActorMerge.h"
 #include "KingSystem/Map/mapPlacementMgr.h"
 #include "KingSystem/Terrain/teraSystem.h"
 

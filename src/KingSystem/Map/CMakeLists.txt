@@ -1,34 +1,33 @@
 target_sources(uking PRIVATE
-  mapTypes.h
   mapAutoPlacement.cpp
   mapAutoPlacement.h
   mapAutoPlacementFlowMgr.cpp
   mapAutoPlacementFlowMgr.h
   mapAutoPlacementMgr.cpp
   mapAutoPlacementMgr.h
+  mapTypes.h
   mapDebug.cpp
   mapDebug.h
-  mapFarActorMerge.cpp
-  mapFarActorMerge.h
   mapLazyTraverseList.cpp
+  mapLazyTraverseList.h
   mapLinkTag.cpp
   mapLinkTag.h
-  mapLazyTraverseList.h
   mapMapProperties.cpp
   mapMapProperties.h
+  mapMassRenderer.cpp
   mapMubinIter.cpp
   mapMubinIter.h
   mapObject.cpp
   mapObject.h
+  mapObjectBodyGroup.cpp
   mapObjectEffect.h
   mapObjectGenGroup.cpp
   mapObjectGenGroup.h
-  mapObjectBodyGroup.cpp
   mapObjectLink.cpp
-  mapObjectTransform.cpp
   mapObjectLink.h
-  mapPlacement18.h
+  mapObjectTransform.cpp
   mapPlacement18.cpp
+  mapPlacement18.h
   mapPlacementActors.cpp
   mapPlacementActors.h
   mapPlacementAreaMgr.cpp
@@ -37,14 +36,17 @@ target_sources(uking PRIVATE
   mapPlacementMap.h
   mapPlacementMapMgr.cpp
   mapPlacementMapMgr.h
-  mapMassRenderer.cpp
   mapPlacementMgr.cpp
-  mapPlacementObjs.cpp
   mapPlacementMgr.h
+  mapPlacementObjs.cpp
   mapPlacementTree.cpp
   mapPlacementTree.h
   mapRail.cpp
   mapRail.h
-  mapStagePreActorCache.cpp
-  mapStagePreActorCache.h
+
+  ../ActorSystem/actFarActorMerge.cpp
+  ../ActorSystem/actFarActorMerge.h
+
+  ../System/StagePreActorCache.cpp
+  ../System/StagePreActorCache.h
 )

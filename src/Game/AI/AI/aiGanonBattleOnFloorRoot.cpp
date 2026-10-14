@@ -4,7 +4,7 @@
 #include <random/seadGlobalRandom.h>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
-#include "KingSystem/ActorSystem/actAiRoot.h"
+#include "KingSystem/ActorSystem/aiRootAi.h"
 
 // 0x71002d2a80 (declaration only; the source namespace is unknown): the player is neither dead nor in the state
 // checked by 0x6debec(.., 8).

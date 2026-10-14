@@ -1,7 +1,7 @@
 #include "Game/AI/Action/actionTeleportBase.h"
 #include <random/seadGlobalRandom.h>
 #include "Game/AI/aiUnk_71007377D4.h"
-#include "KingSystem/ActorSystem/LOD/actLodState.h"
+#include "KingSystem/ActorSystem/actLodState.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"

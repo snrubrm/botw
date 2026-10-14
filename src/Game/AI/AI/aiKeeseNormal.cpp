@@ -6,7 +6,7 @@
 #include "Game/Damage/dmgDamageCallback.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
-#include "KingSystem/ActorSystem/actAiRoot.h"
+#include "KingSystem/ActorSystem/aiRootAi.h"
 #include "Game/AI/aiUnk_71007377D4.h"
 #include "KingSystem/Physics/System/physRayCastForRequest.h"
 

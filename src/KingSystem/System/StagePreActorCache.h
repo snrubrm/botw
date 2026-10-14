@@ -15,14 +15,16 @@ class DualHeap;
 }
 
 namespace ksys::map {
-
 class LazyTraverseList;
 class Placement18;
 class PlacementActors;
 class PlacementMapMgr;
+}  // namespace ksys::map
+
+namespace ksys {
 
 // TODO
-class StagePreActorCache : public MapProperties {
+class StagePreActorCache : public map::MapProperties {
     SEAD_SINGLETON_DISPOSER(StagePreActorCache)
     StagePreActorCache();
 
@@ -38,15 +40,15 @@ public:
     bool getMapName(sead::BufferedSafeString* out, int x, int z) override;
     void m4(int* x, int* z, const sead::SafeString& name) override;
 
-    LazyTraverseList* getObjects() const { return mObjects; }
-    Placement18* getPlacement18() const { return mPlacement18; }
+    map::LazyTraverseList* getObjects() const { return mObjects; }
+    map::Placement18* getPlacement18() const { return mPlacement18; }
     auto* getForestRenderer() { return mForestRenderer; }
 
 private:
-    PlacementActors* mPlacementActors = nullptr;
-    PlacementMapMgr* mPlacementMapMgr = nullptr;
-    Placement18* mPlacement18 = nullptr;
-    LazyTraverseList* mObjects = nullptr;
+    map::PlacementActors* mPlacementActors = nullptr;
+    map::PlacementMapMgr* mPlacementMapMgr = nullptr;
+    map::Placement18* mPlacement18 = nullptr;
+    map::LazyTraverseList* mObjects = nullptr;
     gfx::ForestRenderer* mForestRenderer = nullptr;
     util::DualHeap* mHeap = nullptr;
     util::DualHeap* mForestRendererHeap = nullptr;
@@ -56,4 +58,4 @@ private:
 };
 KSYS_CHECK_SIZE_NX150(StagePreActorCache, 0xc8);
 
-}  // namespace ksys::map
+}  // namespace ksys

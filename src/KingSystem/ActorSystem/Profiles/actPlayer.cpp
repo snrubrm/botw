@@ -10,7 +10,7 @@
 #include "Game/Damage/dmgInfoManager.h"
 #include "Game/AI/aiUnk_7100FFDFDC.h"
 #include "Game/gameRoot4.h"
-#include "KingSystem/ActorSystem/actAiRoot.h"
+#include "KingSystem/ActorSystem/aiRootAi.h"
 #include "Game/AI/aiUnk_7100736460.h"
 #include "Game/Actor/actHorseRideInfo.h"
 #include "Game/Actor/actMotorcycle.h"

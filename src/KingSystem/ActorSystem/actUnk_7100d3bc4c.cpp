@@ -1,5 +1,5 @@
 #include "KingSystem/ActorSystem/actUnk_7100d3bc4c.h"
-#include "KingSystem/ActorSystem/LOD/actLodState.h"
+#include "KingSystem/ActorSystem/actLodState.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/System/VFR.h"
 

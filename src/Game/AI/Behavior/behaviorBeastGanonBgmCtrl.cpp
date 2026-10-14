@@ -1,7 +1,7 @@
 #include "Game/AI/Behavior/behaviorBeastGanonBgmCtrl.h"
 #include "Game/AI/aiUnk_7100FFDFDC.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actAiRoot.h"
+#include "KingSystem/ActorSystem/aiRootAi.h"
 
 namespace uking::behavior {
 

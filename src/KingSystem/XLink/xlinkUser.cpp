@@ -6,7 +6,7 @@
 #include <gsys/gsysModelUnit.h>
 #include <utility/aglScreenShotMgr.h>
 #include "KingSystem/ActorSystem/AS/ASList.h"
-#include "KingSystem/ActorSystem/actAiRoot.h"
+#include "KingSystem/ActorSystem/aiRootAi.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/System/CameraMgr.h"
 #include "KingSystem/XLink/xlinkXLink.h"

@@ -5,7 +5,7 @@
 #include "KingSystem/ActorSystem/actInfoData.h"
 #include "KingSystem/Ecosystem/ecoLevelSensor.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
-#include "KingSystem/ActorSystem/actAiRoot.h"
+#include "KingSystem/ActorSystem/aiRootAi.h"
 #include "KingSystem/ActorSystem/actChemical.h"
 #include <prim/seadScopedLock.h>
 #include "Game/Actor/actOptionalWeapon.h"

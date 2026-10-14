@@ -2,7 +2,7 @@
 #include <random/seadGlobalRandom.h>
 #include "Game/AI/aiUnk_71007130BC.h"
 #include "Game/Damage/dmgInfoManager.h"
-#include "KingSystem/ActorSystem/LOD/actLodState.h"
+#include "KingSystem/ActorSystem/actLodState.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/System/Timer.h"
 #include "KingSystem/World/worldWeatherMgr.h"

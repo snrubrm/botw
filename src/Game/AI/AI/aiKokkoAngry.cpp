@@ -2,7 +2,7 @@
 #include "Game/AI/aiActorLink.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
-#include "KingSystem/ActorSystem/actAiRoot.h"
+#include "KingSystem/ActorSystem/aiRootAi.h"
 #include "Game/AI/Action/actionSpotBgmTriggerAction.h"
 #include "Game/Actor/actEnemy.h"
 #include "KingSystem/GameData/gdtSpecialFlags.h"

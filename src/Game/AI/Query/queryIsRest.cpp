@@ -1,7 +1,7 @@
 #include "Game/AI/Query/queryIsRest.h"
 #include <evfl/Query.h>
 #include "Game/Actor/actNPC.h"
-#include "KingSystem/ActorSystem/actAiRoot.h"
+#include "KingSystem/ActorSystem/aiRootAi.h"
 
 namespace uking::query {
 

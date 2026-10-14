@@ -1,7 +1,7 @@
 #include "Game/AI/Behavior/behaviorAwarenessScale.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actAiRoot.h"
+#include "KingSystem/ActorSystem/aiRootAi.h"
 
 namespace uking::behavior {
 

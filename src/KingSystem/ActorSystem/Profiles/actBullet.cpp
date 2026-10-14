@@ -6,7 +6,7 @@
 #include "KingSystem/ActorSystem/actTag.h"
 #include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/ActorSystem/actAiParam.h"
-#include "KingSystem/ActorSystem/actAiRoot.h"
+#include "KingSystem/ActorSystem/aiRootAi.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Graphics/gfxUnk_710260af28.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"

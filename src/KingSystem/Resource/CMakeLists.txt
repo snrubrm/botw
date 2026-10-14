@@ -84,6 +84,7 @@ target_sources(uking PRIVATE
 
   resArchiveWork.cpp
   resArchiveWork.h
+  resBfRes.cpp
   resBfRes.h
   resCache.cpp
   resCache.h
@@ -117,17 +118,35 @@ target_sources(uking PRIVATE
   resOffsetReadFileDevice.h
   resPlacement.cpp
   resPlacement.h
+  resResDerived.cpp
+  resResDerived.h
   resResourceMgrTask.cpp
   resResourceMgrTask.h
-  resResourceMgrTaskRtti.cpp
-  resResourceFileUtil.cpp
-  resBfRes.cpp
-  resResourceJpg.cpp
-  resResourceJpg.h
   resSystem.cpp
   resSystem.h
   resTempResourceLoader.cpp
   resTempResourceLoader.h
+  resTextureHandleList.cpp
+  resTextureHandleList.h
+  resTextureHandleMgr.cpp
+  resTextureHandleMgr.h
+  resUnit.cpp
+  resUnit.h
+  resUnitPool.cpp
+  resUnitPool.h
+  resResource.cpp
+  resResource.h
+  resResourceArchive.cpp
+  resResourceArchive.h
+  resResourceFileUtil.cpp
+  resResourceGameData.cpp
+  resResourceGameData.h
+  resResourceGameSaveData.cpp
+  resResourceGameSaveData.h
+  resResourceJpg.cpp
+  resResourceJpg.h
+  resResourceMgrTaskRtti.cpp
+  resTextureHandleListEntry.cpp
   resUnk_71024F97F8.cpp
   resUnk_71024F97F8.h
   resUnk_71024F97F8Rtti.cpp
@@ -138,35 +157,13 @@ target_sources(uking PRIVATE
   resUnk_71024F9938.h
   resUnk_71024F9D48.cpp
   resUnk_71024F9D48.h
+  resUnk_710251A700.cpp
+  resUnk_710251A700.h
   resUnk_710251A740.cpp
   resUnk_710251A740.h
   resUnk_710251A740Rtti.cpp
-  resUnk_710251A700.cpp
-  resUnk_710251A700.h
-  resTextureHandleList.cpp
-  resTextureHandleListEntry.cpp
-  resTextureHandleList.h
-  resTextureHandleMgr.cpp
-  resTextureHandleMgr.h
   resVfxResourceMgr.cpp
   resVfxResourceMgr.h
-  resUnit.cpp
-  resUnit.h
-  resUnitPool.cpp
-  resUnitPool.h
-
-  resResDerived.cpp
-  resResDerived.h
-  resResource.cpp
-  resResource.h
-  resResourceASSetting.cpp
-  resResourceASSetting.h
-  resResourceArchive.cpp
-  resResourceArchive.h
-  resResourceGameData.cpp
-  resResourceGameData.h
-  resResourceGameSaveData.cpp
-  resResourceGameSaveData.h
 
   Actor/resResourceActorCapture.cpp
   Actor/resResourceActorCapture.h
@@ -184,8 +181,10 @@ target_sources(uking PRIVATE
   Actor/resResourceASList.h
   Actor/resResourceASResource.cpp
   Actor/resResourceASResource.h
-  Actor/resResourceASResourceExtension.cpp
   Actor/resResourceASResourceExtension.h
+  Actor/resResourceASSetting.cpp
+  Actor/resResourceASSetting.h
+  Actor/resResourceASSettingMgr.h
   Actor/resResourceAttCheck.cpp
   Actor/resResourceAttCheck.h
   Actor/resResourceAttClient.cpp

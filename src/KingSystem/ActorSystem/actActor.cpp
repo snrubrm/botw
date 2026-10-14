@@ -17,7 +17,7 @@
 #include <gsys/gsysModel.h>
 #include <gsys/gsysModelUnit.h>
 #include <thread/seadThread.h>
-#include "KingSystem/ActorSystem/LOD/actLodState.h"
+#include "KingSystem/ActorSystem/actLodState.h"
 #include "KingSystem/ActorSystem/actActorChemicals.h"
 #include "KingSystem/ActorSystem/actImpulseBaseProcLink.h"
 #include "KingSystem/ActorSystem/actChemical.h"
@@ -44,7 +44,7 @@
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectGrab.h"
 #include "KingSystem/Resource/Actor/resResourceModelList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectGeneral.h"
-#include "KingSystem/ActorSystem/actAiRoot.h"
+#include "KingSystem/ActorSystem/aiRootAi.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/ActorSystem/actBaseProcMgr.h"
 #include "KingSystem/ActorSystem/actBoneControl.h"

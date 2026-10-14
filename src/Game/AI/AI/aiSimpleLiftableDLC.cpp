@@ -4,7 +4,7 @@
 #include "KingSystem/Physics/System/physInstanceSet.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
-#include "KingSystem/ActorSystem/actAiRoot.h"
+#include "KingSystem/ActorSystem/aiRootAi.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 // 0x710005a4c8 (not in the CSV; placeholder name): a variadic debug-print stub (saves the argument

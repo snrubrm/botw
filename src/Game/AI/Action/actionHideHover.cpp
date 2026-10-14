@@ -1,5 +1,5 @@
 #include "Game/AI/Action/actionHideHover.h"
-#include "KingSystem/ActorSystem/LOD/actLodState.h"
+#include "KingSystem/ActorSystem/actLodState.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/System/Timer.h"
 

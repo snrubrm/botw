@@ -5,7 +5,7 @@
 #include "KingSystem/System/Timer.h"
 #include "KingSystem/System/VFR.h"
 #include "KingSystem/System/VFRValue.h"
-#include "KingSystem/ActorSystem/actAiRoot.h"
+#include "KingSystem/ActorSystem/aiRootAi.h"
 
 namespace uking::action {
 

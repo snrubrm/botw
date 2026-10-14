@@ -4,7 +4,7 @@
 #include "Game/Actor/actRideable.h"
 #include "Game/Actor/actNPC.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
-#include "KingSystem/ActorSystem/actAiRoot.h"
+#include "KingSystem/ActorSystem/aiRootAi.h"
 #include "KingSystem/Event/evtManager.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 

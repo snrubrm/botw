@@ -7,7 +7,7 @@
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/Damage/dmgDamageManagerBase.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
-#include "KingSystem/ActorSystem/actAiRoot.h"
+#include "KingSystem/ActorSystem/aiRootAi.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessRequest.h"
 #include "KingSystem/System/Timer.h"

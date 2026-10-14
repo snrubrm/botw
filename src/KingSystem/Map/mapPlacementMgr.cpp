@@ -14,7 +14,7 @@
 #include "KingSystem/Graphics/gfxForestRenderer.h"
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Map/mapObjectLink.h"
-#include "KingSystem/Map/mapStagePreActorCache.h"
+#include "KingSystem/System/StagePreActorCache.h"
 #include "KingSystem/Physics/System/physSystem.h"
 #include "KingSystem/System/OverlayArenaSystem.h"
 #include "KingSystem/Map/mapPlacementActors.h"

@@ -3,7 +3,7 @@
 #include "KingSystem/Graphics/gfxForestRenderer.h"
 #include "KingSystem/Map/mapPlacementMapMgr.h"
 #include "KingSystem/Map/mapPlacementMgr.h"
-#include "KingSystem/Map/mapStagePreActorCache.h"
+#include "KingSystem/System/StagePreActorCache.h"
 #include "KingSystem/Resource/resResourceMgrTask.h"
 
 namespace ksys::res {
@@ -36,7 +36,7 @@ void CompactionMgr::stopCompactionIfTooLong(const CalcArg& arg) {
     }
 
     bool forest_busy = false;
-    auto* cache = map::StagePreActorCache::instance();
+    auto* cache = StagePreActorCache::instance();
     if (cache) {
         auto* forest = cache->getForestRenderer();
         if (forest && forest->x_9())

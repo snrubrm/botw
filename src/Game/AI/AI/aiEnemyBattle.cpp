@@ -11,7 +11,7 @@
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
 #include "KingSystem/System/Timer.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
-#include "KingSystem/ActorSystem/actAiRoot.h"
+#include "KingSystem/ActorSystem/aiRootAi.h"
 #include "KingSystem/ActorSystem/Attention/actAttentionSingleton.h"
 #include "Game/AI/aiUnk_7100D8C538.h"
 #include "KingSystem/ActorSystem/actActorParam.h"

@@ -2,7 +2,7 @@
 #include "Game/AI/aiUnk_71002CA6AC.h"
 #include "Game/gameScene.h"
 #include "KingSystem/Map/mapPlacement18.h"
-#include "KingSystem/Map/mapStagePreActorCache.h"
+#include "KingSystem/System/StagePreActorCache.h"
 
 s32 getMainFieldDungeonType(const sead::SafeString& map_name);
 ksys::map::Rail* sub_71002CA808(s32 id);
@@ -32,7 +32,7 @@ ksys::map::Rail* RailMoveRemainsBGCamera::m34() {
     const sead::SafeString map_name = GameScene::getCurrentMapName();
     if (map_name.findIndex(mDungeonName_s) == -1)
         return nullptr;
-    return ksys::map::StagePreActorCache::instance()->getPlacement18()->sub_7100D48744(mRailName_s);
+    return ksys::StagePreActorCache::instance()->getPlacement18()->sub_7100D48744(mRailName_s);
 }
 
 void RailMoveRemainsBGCamera::calc_() {

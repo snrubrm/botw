@@ -4,7 +4,7 @@
 #include "Game/Actor/actNPC.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actAiRoot.h"
+#include "KingSystem/ActorSystem/aiRootAi.h"
 #include "KingSystem/Map/mapObject.h"
 
 namespace uking::action {

@@ -1,7 +1,5 @@
 target_sources(uking PRIVATE
-    UI/ArcResource.cpp
     UI/ArcResource.h
-    UI/ArcResourceMgr.cpp
     UI/ArcResourceMgr.h
     UI/LayoutResourceMgr.cpp
     UI/LayoutResourceMgr.h
@@ -14,20 +12,22 @@ target_sources(uking PRIVATE
     BasicProfiler.h
     CameraEditor.cpp
     CameraEditor.h
+    CameraLookAt.cpp
     CameraMgr.cpp
     CameraMgr.h
-    CameraLookAt.cpp
     CameraPairSelector.cpp
     CameraS1.cpp
     CameraS1.h
     CameraUtil.cpp
+    Controller.cpp
+    Controller.h
     CoreInfo.h
     DebugBoard.cpp
     DebugBoard.h
     DebugBoardMgr.cpp
-    DebugFinder.cpp
-    DebugFinder.h
     DebugMessage.h
+    GameTool.cpp
+    GameTool.h
     HavokWorkerMgr.cpp
     HavokWorkerMgr.h
     Hio.cpp
@@ -42,18 +42,12 @@ target_sources(uking PRIVATE
     MemoryProfiler.h
     MessageCapture.cpp
     MessageCapture.h
-    NXArgs.cpp
-    NXArgs.h
-    PosTrackerUploader.cpp
-    PosTrackerUploader.h
-    PosTrackerUploadJob.cpp
-    PosTrackerUploadJob.h
-    OcclusionQueryCylinder.cpp
-    OcclusionQueryCylinder.h
-    GameTool.cpp
-    GameTool.h
     MoviePlayer.cpp
     MoviePlayer.h
+    NXArgs.cpp
+    NXArgs.h
+    OcclusionQueryCylinder.cpp
+    OcclusionQueryCylinder.h
     OverlayArena.cpp
     OverlayArena.h
     OverlayArenaSystem.cpp
@@ -68,12 +62,14 @@ target_sources(uking PRIVATE
     PlayerTrackReporter.h
     PlayReportMgr.cpp
     PlayReportMgr.h
+    PosTrackerUploader.cpp
+    PosTrackerUploader.h
+    PosTrackerUploadJob.cpp
+    PosTrackerUploadJob.h
     ProductReporter.cpp
     ProductReporter.h
     Revision.cpp
     Revision.h
-    Controller.cpp
-    Controller.h
     SeadController.cpp
     SeadController.h
     StageInfo.cpp
@@ -93,10 +89,16 @@ target_sources(uking PRIVATE
     UIGlue.h
     VideoRecorder.cpp
     VideoRecorder.h
-    Vibration.cpp
-    Vibration.h
     VFR.cpp
     VFR.h
     VFRValue.cpp
     VFRValue.h
+    Vibration.cpp
+    Vibration.h
+
+    ../ActorSystem/actDebugFinder.cpp
+    ../ActorSystem/actDebugFinder.h
+
+    UI/ArcResource.cpp
+    UI/ArcResourceMgr.cpp
 )

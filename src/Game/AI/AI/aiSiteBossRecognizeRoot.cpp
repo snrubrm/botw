@@ -1,7 +1,7 @@
 #include "Game/AI/AI/aiSiteBossRecognizeRoot.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "Game/Actor/actSiteBoss.h"
-#include "KingSystem/ActorSystem/actAiRoot.h"
+#include "KingSystem/ActorSystem/aiRootAi.h"
 
 bool sub_71002D17D4(ksys::act::Actor* actor, const sead::Vector3f* home,
                   const sead::Vector3f* target, const sead::Vector3f* distance,

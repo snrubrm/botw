@@ -2,7 +2,7 @@
 #include <math/seadMathCalcCommon.h>
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/LOD/actLodState.h"
+#include "KingSystem/ActorSystem/actLodState.h"
 #include "KingSystem/ActorSystem/actBaseProcHandle.h"
 
 namespace uking::action {

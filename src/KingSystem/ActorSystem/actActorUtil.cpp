@@ -19,7 +19,7 @@
 #include "KingSystem/ActorSystem/actDropMgr.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
-#include "KingSystem/ActorSystem/actAiRoot.h"
+#include "KingSystem/ActorSystem/aiRootAi.h"
 #include "KingSystem/ActorSystem/actPhysicsUserTag.h"
 #include "KingSystem/Physics/System/physRayCast.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"

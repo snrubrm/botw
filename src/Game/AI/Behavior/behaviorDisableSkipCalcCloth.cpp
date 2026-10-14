@@ -1,5 +1,5 @@
 #include "Game/AI/Behavior/behaviorDisableSkipCalcCloth.h"
-#include "KingSystem/ActorSystem/LOD/actLodState.h"
+#include "KingSystem/ActorSystem/actLodState.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::behavior {

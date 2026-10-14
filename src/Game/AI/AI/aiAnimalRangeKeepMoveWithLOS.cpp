@@ -5,7 +5,7 @@
 #include <random/seadGlobalRandom.h>
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
-#include "KingSystem/ActorSystem/actAiRoot.h"
+#include "KingSystem/ActorSystem/aiRootAi.h"
 #include "KingSystem/System/Timer.h"
 
 bool sub_7100742738(sead::Vector3f* out, uking::act::WolfLink* wolf, f32 value);

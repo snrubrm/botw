@@ -1,7 +1,7 @@
 #include "Game/Actor/actHorseBase.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/Map/mapObject.h"
-#include "KingSystem/ActorSystem/LOD/actLodState.h"
+#include "KingSystem/ActorSystem/actLodState.h"
 #include <math/seadMathCalcCommon.h>
 #include <gsys/gsysModel.h>
 #include <gsys/gsysModelUnitGroup.h>

@@ -2,7 +2,7 @@
 #include "Game/Actor/actWeapon.h"
 #include "Game/gameGraphics.h"
 #include "KingSystem/ActorSystem/Profiles/actBullet.h"
-#include "KingSystem/ActorSystem/LOD/actLodState.h"
+#include "KingSystem/ActorSystem/actLodState.h"
 #include <gsys/gsysModel.h>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorCreator.h"

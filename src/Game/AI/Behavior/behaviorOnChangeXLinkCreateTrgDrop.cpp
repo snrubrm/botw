@@ -1,6 +1,6 @@
 #include "Game/AI/Behavior/behaviorOnChangeXLinkCreateTrgDrop.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actAiRoot.h"
+#include "KingSystem/ActorSystem/aiRootAi.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
 
 namespace uking::behavior {

@@ -1,5 +1,5 @@
 #include "Game/AI/AI/aiGanonGrudgeNormal.h"
-#include "KingSystem/ActorSystem/actAiRoot.h"
+#include "KingSystem/ActorSystem/aiRootAi.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {

@@ -7,7 +7,7 @@
 #include <nn/g3d/ICalculateBlendWeightCallback.h>
 #include "KingSystem/ActorSystem/AS/asElement.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/Resource/resResourceASSetting.h"
+#include "KingSystem/Resource/Actor/resResourceASSetting.h"
 namespace ksys::res {
 class ModelList;
 class AS;

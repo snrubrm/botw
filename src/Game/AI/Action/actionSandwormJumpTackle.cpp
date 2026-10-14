@@ -1,7 +1,7 @@
 #include "Game/AI/Action/actionSandwormJumpTackle.h"
 #include "Game/AI/aiUnk_7102451120.h"
 #include "Game/AI/aiUnk_71007377D4.h"
-#include "KingSystem/ActorSystem/LOD/actLodState.h"
+#include "KingSystem/ActorSystem/actLodState.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actCCAccessor.h"
 #include "KingSystem/ActorSystem/actActor.h"

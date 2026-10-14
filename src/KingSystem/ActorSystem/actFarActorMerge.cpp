@@ -1,6 +1,6 @@
-#include "KingSystem/Map/mapFarActorMerge.h"
+#include "KingSystem/ActorSystem/actFarActorMerge.h"
 
-namespace ksys::map {
+namespace ksys::act {
 
 FarActorMerge::~FarActorMerge() {
     cleanup();
@@ -8,4 +8,4 @@ FarActorMerge::~FarActorMerge() {
 
 void FarActorMerge::sub_710124ABC0(const sead::SafeString& name, sead::Heap* heap) {}
 
-}  // namespace ksys::map
+}  // namespace ksys::act

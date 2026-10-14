@@ -4,7 +4,7 @@
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
-#include "KingSystem/ActorSystem/actAiRoot.h"
+#include "KingSystem/ActorSystem/aiRootAi.h"
 #include "KingSystem/Resource/Actor/resResourceAIProgram.h"
 #include "KingSystem/Utils/InitTimeInfo.h"
 #include "KingSystem/Utils/Thread/MessageTransceiverId.h"

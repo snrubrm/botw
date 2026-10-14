@@ -4,7 +4,7 @@
 #include "Game/Actor/actRideable.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
-#include "KingSystem/ActorSystem/actAiRoot.h"
+#include "KingSystem/ActorSystem/aiRootAi.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "Game/AI/aiUnk_PartsActorDelete.h"
 #include "Game/Damage/dmgDamageManagerBase.h"

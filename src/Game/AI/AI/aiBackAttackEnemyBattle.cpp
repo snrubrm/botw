@@ -4,7 +4,7 @@
 #include "Game/Damage/dmgDamageCallback.h"
 #include "Game/Actor/actEnemy.h"
 #include "Game/AI/aiUnk_71007377D4.h"
-#include "KingSystem/ActorSystem/actAiRoot.h"
+#include "KingSystem/ActorSystem/aiRootAi.h"
 #include "KingSystem/Utils/MathUtil.h"
 #include <math/seadMathCalcCommon.h>
 

@@ -1,6 +1,6 @@
 #include "Game/AI/Action/actionInCarryBox.h"
 #include "Game/gameSceneSubsys12.h"
-#include "KingSystem/ActorSystem/LOD/actLodState.h"
+#include "KingSystem/ActorSystem/actLodState.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actChemical.h"

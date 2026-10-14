@@ -1,6 +1,6 @@
 #include "Game/AI/AI/aiGanonWeaponAttackOnFloor.h"
 #include "Game/Actor/actLastBoss.h"
-#include "KingSystem/ActorSystem/actAiRoot.h"
+#include "KingSystem/ActorSystem/aiRootAi.h"
 #include "KingSystem/System/Timer.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actActor.h"

@@ -8,7 +8,7 @@
 #include "Game/AI/aiUnk_71007320F0.h"
 #include "Game/AI/aiUnk_71007368A4.h"
 #include "Game/Actor/actEnemy.h"
-#include "KingSystem/ActorSystem/actAiRoot.h"
+#include "KingSystem/ActorSystem/aiRootAi.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectEnemyLevel.h"

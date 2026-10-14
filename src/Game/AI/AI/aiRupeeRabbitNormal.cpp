@@ -1,7 +1,7 @@
 #include "Game/AI/AI/aiRupeeRabbitNormal.h"
 #include <math/seadMathCalcCommon.h>
 #include <random/seadGlobalRandom.h>
-#include "KingSystem/ActorSystem/LOD/actLodState.h"
+#include "KingSystem/ActorSystem/actLodState.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
