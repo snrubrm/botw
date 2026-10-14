@@ -2,39 +2,64 @@
 
 #include <basis/seadTypes.h>
 #include <heap/seadDisposer.h>
+#include <prim/seadEnum.h>
+#include <prim/seadSafeString.h>
+#include <thread/seadMutex.h>
+#include <time/seadTickTime.h>
 #include "KingSystem/Utils/Types.h"
 
 namespace uking {
 
-// Placeholder name: the rumble pattern index. It is passed by value in a register through a stack slot (the callee
-// stores / reloads it), i.e. a one-member struct (SEAD_ENUM style).
-struct RumblePattern {
-    RumblePattern(s32 value) : mValue(value) {}
-    s32 mValue;
-};
+// Placeholder names: the rumble pattern index. A SEAD_ENUM: it is read through `operator int() const volatile`
+// (the callees store / reload it through a stack slot), and the pattern tables in gameRumble.cpp have six entries.
+SEAD_ENUM(RumblePattern, _0, _1, _2, _3, _4, _5)
 
-// Name from the CSV (Rumble::createInstance 0x7100897b74, deleteInstance 0x7100897c28, `__auto0`
-// 0x7100897fe4). A sead singleton (size 0xa0, instance pointer at GOT 0x257a0d0 = 0x71026...) that
-// starts controller rumble patterns; 24+ callers (Player damage actions, ControllerRumble, ...).
-// Only what the callers use is declared; the member layout is not modelled.
+// Name from the CSV (Rumble::createInstance 0x7100897b74, deleteInstance 0x7100897c28). A sead singleton
+// (size 0xa0) that plays controller rumble patterns ("*--*-" strings, see gameRumble.cpp).
 class Rumble {
     SEAD_SINGLETON_DISPOSER(Rumble)
-    Rumble();
-    virtual ~Rumble();
+    Rumble() = default;
+    virtual ~Rumble() = default;
 
 public:
-    // 0x7100897fe4 (CSV Rumble::__auto0, declaration only; placeholder name): starts the rumble pattern
-    // `pattern` (an index into a table of 0x10-byte entries at 0x71025d0370; takes it by value through a
-    // stack slot, so probably a SEAD_ENUM) `count` times unless a stronger pattern is already running.
-    void sub_7100897FE4(RumblePattern pattern, s32 count);
-    // 0x710089813c (declaration only; placeholder name): starts the pattern `pattern` for `seconds` seconds
-    // (TimeSpecControllerRumble::enter_).
-    void sub_710089813C(s64 pattern, s32 seconds);
-    // 0x710089878c (CSV Rumble::__auto1, declaration only; placeholder name): stops the running rumble.
-    void sub_710089878C();
+    // lane4 s85 (placeholder names): the pattern state at +0x28; 0x7100898990 (calc) and 0x7100898794 (stop)
+    // take its address.
+    struct State {
+        // 0x7100898990: stops the pattern once `mDurationSeconds` have passed, starts a requested pattern on the
+        // controller rumble addon and records whether the addon is still playing.
+        void calc();
+        // 0x7100898794 (444 B, not decompiled): stops the pattern on the controller rumble addon(s).
+        void stop();
 
-    // lane4 s46: the members are not modelled (size 0xa0: createInstance allocates it).
-    u8 _28[0xa0 - 0x28];
+        bool mIsPlaying = false;
+        bool mStartRequested = false;
+        const char* mPattern = nullptr;
+        u32 mPatternDuration = 0;
+        u32 _3c = 0;
+        sead::TickTime mStartTime;
+        u32 mDurationSeconds = 0;
+    };
+
+    // 0x7100897fe4 (CSV Rumble::__auto0; placeholder name): plays `pattern` `count` times unless a pattern with a
+    // higher index is already playing.
+    void sub_7100897FE4(RumblePattern pattern, s32 count);
+    // 0x710089813c (placeholder name): plays `pattern` for `seconds` seconds (TimeSpecControllerRumble::enter_).
+    void sub_710089813C(RumblePattern pattern, s32 seconds);
+    // 0x710089829c (CSV Rumble::init): copies the default pattern strings into the pattern buffers.
+    void init();
+    // 0x710089878c (CSV Rumble::__auto1; placeholder name): stops the running rumble.
+    void sub_710089878C();
+    // 0x7100898950 (CSV Rumble::calc)
+    void calc();
+
+private:
+    // 0x7100898a20 (1768 B, not decompiled)
+    void sub_7100898A20();
+
+    State mState;
+    RumblePattern mCurrentPattern;
+    sead::Mutex mMutex;
+    u32 _98 = 0;
 };
 KSYS_CHECK_SIZE_NX150(Rumble, 0xa0);
 
