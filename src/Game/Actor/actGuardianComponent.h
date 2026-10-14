@@ -11,7 +11,7 @@ class GuardianComponent;
 // Declaration-only prefix of the component's heap bind interface. Whole 3BBB4 / 40750
 // identify its independent RTTI root at 25AF258. The full 13-slot object table at
 // 235B408 was read; slots after the destructor are not declared here because their
-// parameter domains remain incomplete. Do not construct or emit this interface.
+// parameter domains remain incomplete. Its destructor is the key function (D0 3C2E0).
 class GuardianComponentBind {
     SEAD_RTTI_BASE(GuardianComponentBind)
 public:
