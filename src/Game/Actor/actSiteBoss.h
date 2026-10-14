@@ -108,6 +108,8 @@ public:
     void sub_71002D1FD4();
     void x_5(bool on);
     void x_6(bool on);
+    // 0x71002d3740 (CSV SiteBoss::x; declared only; lane3 s71): called first by SiteBossDie::enter_.
+    void x();
     bool sub_71002D33D0(f32 value) const;
     void sub_71002D1B18(bool on);
     void sub_71002D38EC(const sead::SafeString& name);

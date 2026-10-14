@@ -1,6 +1,7 @@
 #pragma once
 
 #include <xlink2/xlink2HandleELink.h>
+#include "KingSystem/System/Timer.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -26,9 +27,7 @@ protected:
     // static_param at offset 0x28
     const bool* mIsUseYAxisSignal_s{};
     xlink2::HandleELink _30;
-    int _40 = 0;
-    int _44 = 0;
-    int _48 = 0;
+    ksys::Timer _40{0, 0, 0};
 };
 
 }  // namespace uking::action
