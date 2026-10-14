@@ -19,17 +19,12 @@ bool ReferenceNPCViewWithDynAS::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
 }
 
-// NON_MATCHING: stack slot of `pos` (the original places it below the param pack)
 void ReferenceNPCViewWithDynAS::enter_(ksys::act::ai::InlineParamPack* params) {
     sead::Vector3f pos;
     if (!sub_710053B7B4(&pos)) {
-        ksys::act::ai::InlineParamPack pack;
-        pack.addString(mParams.mDynASKey_d, "DynASKey", -1);
-        changeChild("待機", &pack);
+        changeToWait();
     } else if (sub_710053B8F4(pos)) {
-        ksys::act::ai::InlineParamPack pack;
-        pack.addString(mParams.mDynASKey_d, "DynASKey", -1);
-        changeChild("待機", &pack);
+        changeToWait();
     } else {
         sub_710053BB30(pos);
     }
@@ -107,6 +102,24 @@ void ReferenceNPCViewWithDynAS::sub_710053BB30(const sead::Vector3f& pos) {
     pack.addString(mParams.mDynASKey_d, "DynASKey", -1);
     pack.addVec3(pos, "TargetPos", -1);
     changeChild("回転", &pack);
+}
+
+void ReferenceNPCViewWithDynAS::calc_() {
+    auto* child = getCurrentChild();
+    if (isCurrentChild("回転")) {
+        sead::Vector3f pos;
+        if (sub_710053B7B4(&pos))
+            getCurrentChild()->setDynamicParam(pos, "TargetPos");
+        if (child->isFinished() || child->isFailed()) {
+            changeToWait();
+            return;
+        }
+    }
+    if (*mParams.mCheckOnce_s && child->isChangeable() && isCurrentChild("待機")) {
+        sead::Vector3f pos;
+        if (sub_710053B7B4(&pos) && !sub_710053B8F4(pos))
+            sub_710053BB30(pos);
+    }
 }
 
 }  // namespace uking::ai
