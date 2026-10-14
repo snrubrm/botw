@@ -2,6 +2,10 @@
 #include <cmath>
 #include <math/seadMathCalcCommon.h>
 #include "Game/Actor/aiUnk_71007377D4.h"
+#include "Game/Actor/actEnemy.h"
+#include "KingSystem/ActorSystem/actActorWeapons.h"
+#include "KingSystem/ActorSystem/Profiles/actWeaponBase.h"
+#include "KingSystem/Physics/System/physRayCastBodyQuery.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
@@ -93,6 +97,32 @@ void BokoblinArrowAttack::loadParams_() {
     getStaticParam(&mBackWalkEndDist_s, "BackWalkEndDist");
     getStaticParam(&mCliffCheckDist_s, "CliffCheckDist");
     getDynamicParam(&mTargetPos_d, "TargetPos");
+}
+
+// NON_MATCHING: the weapon position is kept in integer registers and stored to the stack late in the original (stack
+// layout of the ray end points).
+// Whether the line from the equipped weapon towards the target (at most 25) hits the ground.
+bool BokoblinArrowAttack::sub_7100330328() {
+    auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
+    if (!enemy)
+        return false;
+    const s32 idx = *mWeaponIdx_s;
+    auto* weapon = sead::DynamicCast<ksys::act::Actor>(enemy->getWeapons()->getEquippedWeapon(idx));
+    if (!weapon)
+        return false;
+
+    const sead::Vector3f start = weapon->getMtx().getTranslation();
+    sead::Vector3f dir = *mTargetPos_d - start;
+    const f32 length = dir.normalize();
+    const sead::Vector3f end = start + dir * sead::Mathf::min(length, 25.0f);
+    ksys::phys::RayCastBodyQuery query(nullptr, ksys::phys::GroundHit::Arrow);
+    query.setStartAndEnd(start, end);
+    query.enableLayer(ksys::phys::ContactLayer::EntityGround);
+    query.enableLayer(ksys::phys::ContactLayer::EntityGroundRough);
+    query.enableLayer(ksys::phys::ContactLayer::EntityGroundObject);
+    query.enableLayer(ksys::phys::ContactLayer::EntityTree);
+    query.worldRayCast(ksys::phys::ContactLayerType::Entity);
+    return query.hasHit();
 }
 
 }  // namespace uking::ai

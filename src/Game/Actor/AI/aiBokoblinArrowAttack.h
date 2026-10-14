@@ -17,7 +17,7 @@ public:
     void loadParams_() override;
 
 protected:
-    // 0x7100330328 (placeholder name; declared only, 604 B): whether moving forward is useful.
+    // 0x7100330328 (placeholder name): whether the ray from the equipped weapon to the target hits the ground.
     bool sub_7100330328();
 
     // static_param at offset 0x38
