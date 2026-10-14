@@ -35,8 +35,11 @@ public:
     virtual ~ActorX6A0();
     void sub_71010F21C4();
     void sub_71010F21E0();
-    // Full 60-byte wrapper and 1536-byte target update this state; record and actor callers agree.
+    // 0x71010f220c: with flag 0x10 or 0x20 set, appends this to the world manager's array, then calls
+    // sub_71010F2248.
     void sub_71010F220C();
+    // 0x71010f2248 (declaration only, 1536 bytes).
+    void sub_71010F2248();
     void* sub_71010F2848();
 
     sead::BitFlag16 _8;

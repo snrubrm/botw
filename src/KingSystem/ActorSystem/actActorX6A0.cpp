@@ -1,5 +1,6 @@
 #include "KingSystem/ActorSystem/actActorX6A0.h"
 #include "KingSystem/Physics/System/physRayCastForRequest.h"
+#include "KingSystem/World/worldManager.h"
 
 namespace ksys::act {
 
@@ -34,6 +35,12 @@ void ActorX6A0::sub_71010F21C4() {
     _10._24 = false;
     _7a = true;
     _5c = {0.0f, 0.0f, 0.0f};
+}
+
+void ActorX6A0::sub_71010F220C() {
+    if (_8.isOn(0x30))
+        world::Manager::instance()->mAtomicPtrArray.pushBack(this);
+    sub_71010F2248();
 }
 
 void* ActorX6A0::sub_71010F2848() {

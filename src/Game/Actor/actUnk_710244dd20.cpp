@@ -11,16 +11,14 @@
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectPlayer.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayer.h"
-#include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/Utils/Thread/Message.h"
-
-// Defined in actPlayerBase.cpp (0x710084beec).
-bool j_eventMgrHasActiveEventMaybe(ksys::act::Actor* actor);
 
 namespace uking::act {
 
 
 Unk_710244dd20::Unk_710244dd20(ksys::act::Actor* actor) : Unk_71025ae680(actor) {}
+
+Unk_710244dd20::~Unk_710244dd20() = default;
 
 f32 Unk_710244dd20::sub_71006D1D48() {
     f32 ratio = 1.0f;
@@ -45,59 +43,6 @@ bool Unk_710244dd20::sub_71006D1DA0() {
 
 bool Unk_710244dd20::m17(s32 bit) const {
     return _139.isOnBit(bit);
-}
-
-bool Unk_71008502cc::m9() {
-    return j_eventMgrHasActiveEventMaybe(sead::DynamicCast<ksys::act::Player>(_10));
-}
-
-void Unk_71008502cc::m12(int index) {
-    switch (index) {
-    case 0: {
-        auto* player = sead::DynamicCast<uking::act::PlayerBase>(_10);
-        if (!player || !player->sub_710084CF24())
-            _8.setBit(0);
-        break;
-    }
-    case 1: {
-        auto* player = sead::DynamicCast<uking::act::PlayerBase>(_10);
-        if (!player || !player->sub_710084CF24())
-            _8.setBit(1);
-        break;
-    }
-    case 5:
-        _140 = _10->getParam()->getRes().mGParamList->getPlayer()->mShockTime.ref();
-        _8.setBit(5);
-        break;
-    default:
-        Unk_710244dd20::m12(index);
-        break;
-    }
-}
-
-void Unk_71008502cc::m13(int index) {
-    switch (index) {
-    case 0:
-        _8.resetBit(0);
-        break;
-    case 1:
-        _8.resetBit(1);
-        break;
-    case 5:
-        _8.resetBit(5);
-        break;
-    default:
-        Unk_710244dd20::m13(index);
-        break;
-    }
-}
-
-bool Unk_71008502cc::sub_7100850CE4() const {
-    return _8.isOn(0x3);
-}
-
-bool Unk_71008502cc::sub_7100850CF4() const {
-    return _8.isOn(0x587);
 }
 
 void Unk_710244dd20::m5() {
@@ -484,7 +429,3 @@ void Unk_710244dd20::m7() {
 }
 
 }  // namespace uking::act
-
-// NON_MATCHING: placeholder destructor; the original (0x7100850314) also destroys members or bases
-// this class does not declare yet.
-Unk_710246a960::~Unk_710246a960() = default;

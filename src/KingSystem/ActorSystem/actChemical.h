@@ -141,8 +141,10 @@ public:
     bool sub_7100D913BC(const Chemical& other);
     int sub_7100D914C0() const;
     bool sub_7100D91508() const;
-    // Full tail wrapper and 604-byte target refresh volumes; carried-record update passes this chemical.
+    // 0x7100d97578: out-of-line wrapper that tail-calls sub_7100D9054C.
     void sub_7100D97578();
+    // 0x7100d9054c (declaration only, 604 bytes): refreshes values from the owner (_18 slots 26 / 23).
+    void sub_7100D9054C();
     // 0x7100d91360: `_1c8->_1a`, or byte 0x182 while _c0 is 2, else 0.
     u8 sub_7100D91360() const;
     sead::Vector3f sub_7100D9155C() const;

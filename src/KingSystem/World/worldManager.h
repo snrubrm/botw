@@ -33,6 +33,10 @@ namespace uking::ai {
 class ChangeWeatherTagRoot;
 }
 
+namespace ksys::act {
+class ActorX6A0;
+}
+
 namespace ksys::world {
 
 struct ClimateInfo {
@@ -258,6 +262,7 @@ private:
     friend class SkyMgr;  // SkyMgr::sub_71010E4FFC reads mTimer directly (0x71010e5068).
     friend class WindMgr;  // Wind speed selectors read the existing manual wind timer directly.
     friend class TempMgr;
+    friend class act::ActorX6A0;  // sub_71010F220C appends itself to mAtomicPtrArray (0x5d0).
     friend class WeatherMgr;
 
     enum class WorldInfoLoadStatus : u8 {
@@ -281,7 +286,8 @@ private:
     sead::Resource* mInfoRes{};
 
     sead::PtrArray<Job> mMgrs;
-    agl::utl::AtomicPtrArray<void*> mAtomicPtrArray;
+    // ActorX6A0::sub_71010F220C appends its object here.
+    agl::utl::AtomicPtrArray<act::ActorX6A0> mAtomicPtrArray;
     sead::BitFlag32 _5e0 = 1;
     CalcType mCalcType = CalcType::Invalid;
     sead::FixedSizeJQ mJobQueue;

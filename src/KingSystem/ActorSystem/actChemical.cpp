@@ -620,4 +620,8 @@ bool Chemical::sub_7100D915A8() const {
     return false;
 }
 
+void Chemical::sub_7100D97578() {
+    sub_7100D9054C();
+}
+
 }  // namespace ksys::act

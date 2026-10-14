@@ -115,6 +115,8 @@ class Unk_710244dd20 : public Unk_71025ae680, public Unk_710244dd20Base2 {
     SEAD_RTTI_OVERRIDE(Unk_710244dd20, Unk_71025ae680)
 public:
     explicit Unk_710244dd20(ksys::act::Actor* actor);
+    // 0x71006cf074 (out of line: Unk_71008502cc's destructor tail-calls it).
+    ~Unk_710244dd20() override;
 
     // 0x71006d1d48 / 0x71006d1d7c / 0x71006d1da0: damage-resource ice/electric properties.
     f32 sub_71006D1D48();
@@ -202,9 +204,14 @@ KSYS_CHECK_SIZE_NX150(Unk_710244dd20, 0x140);
 // Placeholder name (ctor 0x8502cc; own vtable, GOT 0x2592e28). The Unk_710244dd20 subclass embedded in
 // Player at 0x2550 (Player::m159). Size 0x150.
 // TODO: incomplete.
+// vtable 0x710246a960 (formerly the placeholder Unk_710246a960 in gameUnkRttiPlaceholders.h).
 class Unk_71008502cc : public Unk_710244dd20 {
+    SEAD_RTTI_OVERRIDE(Unk_71008502cc, Unk_710244dd20)
 public:
     explicit Unk_71008502cc(ksys::act::Actor* actor);
+    // 0x7100850314
+    ~Unk_71008502cc() override;
+    bool m4() override { return true; }
     // Slot 9 (0x7100850c58): whether the player (Player cast of the actor) is in an event.
     bool m9() override;
     // Slot 12 (0x710085062c): conditions 0 / 1 set their bit unless the player's 0x710084cf24 says otherwise, 5 also
