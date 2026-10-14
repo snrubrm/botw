@@ -660,6 +660,23 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(Unk_710105a6f0, 0x60);
 
+// Placeholder name (vtable 0x710246be38): game-side BGM condition queries (game data flags). A 0x30-byte singleton
+// created by 0x710089469c that stores itself at SoundMgr::_c8; its destructor 0x7100894740 clears that pointer.
+// Slot signatures from the bodies at 0x7100894aac..0x7100894de0 (m3 is not checked yet).
+class Unk_710246be38 {
+public:
+    virtual ~Unk_710246be38();
+    virtual void m2();
+    virtual void m3();
+    virtual bool m4();
+    virtual bool m5();
+    virtual bool m6();
+    virtual bool m7();
+    virtual s32 m8();
+    // 0x7100894de0: returns gdt::getFlag_FinalTrial_FirstMessage(false).
+    virtual bool m9();
+};
+
 // FIXME: incomplete
 struct SoundMgr {
     SEAD_SINGLETON_DISPOSER(SoundMgr)
@@ -707,7 +724,9 @@ public:
     /* 0x98 */ Unk_710103b704* _98;
     /* 0xa0 */ Unk_710105a6f0* _a0;
     /* 0xa8 */ Unk_SoundMgra8* _a8;
-    u8 _b0[0xd8 - 0xb0];
+    u8 _b0[0xc8 - 0xb0];
+    /* 0xc8 */ Unk_710246be38* _c8;
+    u8 _d0[0xd8 - 0xd0];
     // Created by 0x71011fab7c and queried through the Heap virtual interface.
     sead::Heap* mSLinkUserCreateHeap;
     u8 _e0[4];

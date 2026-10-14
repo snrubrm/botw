@@ -21,6 +21,8 @@ namespace uking::action {
 class SoundOcclusionTagAction;
 }
 
+class Unk_7102500a00;
+
 namespace ksys::snd {
 
 // Placeholder name (`SoundMgr::_30->_78`, see sub_7100FFD784; the BGM interface used by the EventBgm* actions). Only the
@@ -56,6 +58,8 @@ public:
     virtual void m14(sead::TextWriter& writer);
 
 protected:
+    friend class Unk_710260f160;
+
     bool mActive;
     u8 _9[3];
     s32 _c;
@@ -296,7 +300,29 @@ Unk_710260f0c0* sub_7100FFDB28();
 // RTTI typeInfo 0x710260f160, a BGM controller (sub_7100FFDBD4 casts SoundMgr::_30->_48 to it).
 class Unk_710260f160 : public Unk_71024fca78 {
     SEAD_RTTI_OVERRIDE(Unk_710260f160, Unk_71024fca78)
+public:
+    Unk_710260f160();
+
+    // m4-m6 (0x7100ffab6c / 0x7100ffabfc / 0x7100ffac7c) also query the object at SoundMgr+0xc8 (vtable
+    // 0x710246be38, slot 9); declared only until that class exists.
+    void m4(sead::Heap* heap) override;
+    void m5() override;
+    void m6(f32 fade_sec) override;
+    void m7(f32 fade_sec) override;
+    void m8(const Unk_BgmControllerM8Arg& arg) override {}
+    void m12() override {}
+
+    void sub_7100FFAAB0(Bgm* bgm);
+    void sub_7100FFAB58(Bgm* bgm);
+
+    bool _90 = false;
+    bool _91 = false;
+    sead::Delegate1<Unk_710260f160, Bgm*> _98{this, &Unk_710260f160::sub_7100FFAAB0};
+    sead::Delegate1<Unk_710260f160, Bgm*> _b8{this, &Unk_710260f160::sub_7100FFAB58};
+    // The kind 34 BGM, set by sub_7100FFAAB0 when it is a ::Unk_7102500a00.
+    ::Unk_7102500a00* _d8 = nullptr;
 };
+KSYS_CHECK_SIZE_NX150(Unk_710260f160, 0xe0);
 Unk_710260f160* sub_7100FFDBD4();
 
 // RTTI typeInfo 0x710260f218; the GuardianMini practice BGM controller.

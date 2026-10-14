@@ -243,6 +243,53 @@ void Unk_710260f150::sub_7100FFA72C() {
         bgm->sub_71010038C0();
 }
 
+Unk_710260f160::Unk_710260f160() = default;
+
+void Unk_710260f160::sub_7100FFAAB0(Bgm* bgm) {
+    bgm->m8(_90);
+    if (bgm->_c == 34)
+        _d8 = sead::DynamicCast<::Unk_7102500a00>(bgm);
+}
+
+void Unk_710260f160::sub_7100FFAB58(Bgm* bgm) {
+    if (bgm->_c == 34)
+        _d8 = nullptr;
+}
+
+void Unk_710260f160::m4(sead::Heap* heap) {
+    _8.sub_7100FF75DC(3, heap);
+    _8._30 = &_98;
+    _8._38 = &_b8;
+    _8.sub_7100FF7920(34, heap);
+    _8.sub_7100FF7920(35, heap);
+    _91 = !SoundMgr::instance()->_c8->m9();
+}
+
+void Unk_710260f160::m5() {
+    if (_91 && SoundMgr::instance()->_c8->m9() && _90 && _d8) {
+        _d8->m6(0.5f);
+        _91 = false;
+    }
+    if (_90)
+        _8.sub_7100FF7698();
+}
+
+void Unk_710260f160::m6(f32 fade_sec) {
+    if (!_90) {
+        _8.sub_7100FF7830(fade_sec);
+        if (_91 && _d8)
+            _d8->m7(0.001f);
+        _90 = true;
+    }
+}
+
+void Unk_710260f160::m7(f32 fade_sec) {
+    if (_90) {
+        _8.sub_7100FF78A8(fade_sec);
+        _90 = false;
+    }
+}
+
 }  // namespace ksys::snd
 
 // NON_MATCHING: placeholder destructor; the original (0x7100ffd044) also destroys members or bases
