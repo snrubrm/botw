@@ -3,6 +3,8 @@
 #include "KingSystem/Physics/physMaterialMask.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/ActorSystem/actActorChemicals.h"
+#include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/ActorSystem/actChemicalElementHolder.h"
 #include "KingSystem/World/worldChemicalMgr.h"
 #include "KingSystem/World/worldManager.h"
@@ -134,6 +136,31 @@ void Unk_710244fee8::m10() {
     _20._8.reset();
     // called through a pointer in the original (not devirtualised)
     (&_20)->m3();
+}
+
+void Unk_71025ae680::sub_71006EEFB4(s32 condition, s32 chemical_idx) {
+    _8.resetBit(condition);
+    if (chemical_idx < 0)
+        return;
+    auto* chemicals = _10->getChemicalContainer();
+    if (!chemicals)
+        return;
+    auto* chemical = chemicals->sub_7100E380FC(chemical_idx);
+    if (!chemical)
+        return;
+    switch (condition) {
+    case 3:
+        chemical->sub_7100D8EEE0();
+        break;
+    case 4:
+        chemical->sub_7100D945BC(chemical->sub_7100D945AC(), 1.0f, 1.0f);
+        break;
+    case 2:
+        chemical->sub_7100D90B78();
+        break;
+    default:
+        break;
+    }
 }
 
 void Unk_71025ae680::sub_71006DF750() {
