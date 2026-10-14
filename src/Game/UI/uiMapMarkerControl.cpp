@@ -135,6 +135,54 @@ void Unk_7102477fc0::m9() {
         _20->AppendChild(pane);
 }
 
+// 0x710098cb98
+// NON_MATCHING: block layout and the shared visible-store tail differ.
+void Unk_7102477fc0::sub_710098CB98(bool force) {
+    if (!_10)
+        return;
+    if (!_18) {
+        if (force)
+            _2c = false;
+        return;
+    }
+    const s32 index = _18->_40;
+    if (index < 0)
+        return;
+    const u32 flags = _18->_3c;
+    if (force) {
+        u8& alpha = _10->_230[index];
+        if (flags & 1) {
+            alpha = 255;
+            _2c = true;
+            if (_18->_3c & 0x100) {
+                _10->_230[index] = 0;
+                _18->_3c &= ~0x100;
+            }
+            return;
+        }
+        alpha = 0;
+    } else {
+        if (flags & 1) {
+            if ((flags & 0x30) != 0x20) {
+                if ((flags & 0x30) != 0x30 && (flags & 3) != 3)
+                    return;
+                u8& alpha = _10->_230[index];
+                alpha = 255;
+                _2c = true;
+                if (_18->_3c & 0x100) {
+                    _10->_230[index] = 0;
+                    _18->_3c &= ~0x100;
+                }
+                return;
+            }
+        } else if ((flags & 3) != 2) {
+            return;
+        }
+        _10->_230[index] = 0;
+    }
+    _2c = false;
+}
+
 // 0x710098cd5c
 // NON_MATCHING: the flag tests are emitted in a different order (the original keeps the source order 0x30, 3, 0x4000
 // via mvn and tests 0x20 before 0x30 in the layout path).
