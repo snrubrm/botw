@@ -4,6 +4,8 @@
 #include "Game/Damage/dmgDamageCallback.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include <random/seadGlobalRandom.h>
+#include "Game/AI/aiUnk_71007320F0.h"
+#include "Game/AI/aiUnk_71007377D4.h"
 
 namespace uking::ai {
 
@@ -60,6 +62,103 @@ void BokoblinArrowBattle::changeToWithdraw() {
 
 bool BokoblinArrowBattle::isChangeable() const {
     return getCurrentChild()->isChangeable();
+}
+
+// NON_MATCHING: load scheduling of the target / actor positions in the distance tests (same operations).
+void BokoblinArrowBattle::calc_() {
+    // Whether the target is outside the shooting distance or height band.
+    const auto isOutOfShootRange = [this] {
+        const sead::Vector3f target = *mParams.mTargetPos_d;
+        const sead::Matrix34f& mtx = mActor->getMtx();
+        const f32 dist = sead::Vector3f(target.x - mtx(0, 3), 0.0f, target.z - mtx(2, 3)).length();
+        const f32 height = target.y - mtx(1, 3);
+        return dist >= *mParams.mBaseDist_s +
+                           sub_71007320F0(mActor, *mParams.mWeaponIdx_s) *
+                               *mParams.mShootDistRatio_s +
+                           *mParams.mOutDist_s ||
+               height <= *mParams.mOutDistVMin_s || height >= *mParams.mOutDistVMax_s;
+    };
+    // Updates the aim point (_11c) while the target is visible and passes it to the child.
+    const auto updateAimTarget = [this] {
+        if (sub_710072E1B4(mActor, false) || sub_71005D9744(mActor) == 3) {
+            _11c = *mParams.mTargetPos_d;
+            _11c.y += sub_71005D960C(mActor).y - sub_71005D9330(mActor).y;
+        }
+        getCurrentChild()->setDynamicParam(_11c, "TargetPos");
+    };
+
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed()) {
+        if (isCurrentChild("離脱")) {
+            if (getCurrentChild()->isFinished())
+                changeToWait();
+            else
+                changeToReadyBow();
+            return;
+        }
+        if (isCurrentChild("弓構え")) {
+            if (*mParams.mIsEndAfterAttack_s) {
+                if (getCurrentChild()->isFinished())
+                    setFinished();
+                else
+                    setFailed();
+            }
+            if (sub_710072E1B4(mActor, false) || sub_71005D9744(mActor) == 3) {
+                _114 = 0;
+                changeToWait();
+                return;
+            }
+            if (++_114 < _118) {
+                changeToWait();
+                return;
+            }
+            setFailed();
+            changeToWait();
+            return;
+        }
+    }
+
+    if (isCurrentChild("待機")) {
+        if (isOutOfShootRange()) {
+            setFailed();
+            changeToWait();
+            return;
+        }
+        updateAimTarget();
+        if ((*mParams.mTargetPos_d - mActor->getMtx().getTranslation()).length() <=
+            *mParams.mLeaveStartDist_s)
+            _108.update();
+        else
+            _108 = ksys::Timer(*mParams.mLeaveWaitTime_s, *mParams.mLeaveWaitTime_s);
+        _f0.update();
+        if (_f0.value <= sead::Mathf::epsilon()) {
+            _f0 = ksys::Timer(0, 0);
+            if ((*mParams.mTargetPos_d - mActor->getMtx().getTranslation()).length() >
+                *mParams.mLeaveStartDist_s) {
+                changeToReadyBow();
+                return;
+            }
+        }
+        if (_108.value > sead::Mathf::epsilon())
+            return;
+        changeToWithdraw();
+    } else if (isCurrentChild("離脱")) {
+        getCurrentChild()->setDynamicParam(*mParams.mTargetPos_d, "TargetPos");
+        _fc.update();
+        if (_fc.value <= sead::Mathf::epsilon() ||
+            sead::Vector2f(mParams.mTargetPos_d->x - mActor->getMtx()(0, 3),
+                           mParams.mTargetPos_d->z - mActor->getMtx()(2, 3))
+                    .length() >= *mParams.mLeaveEndDist_s) {
+            changeToWait();
+        }
+    } else if (isCurrentChild("弓構え")) {
+        if (getCurrentChild()->isChangeable() && isOutOfShootRange()) {
+            setFailed();
+            changeToWait();
+            return;
+        }
+        updateAimTarget();
+    }
 }
 
 void BokoblinArrowBattle::leave_() {
