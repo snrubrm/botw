@@ -1,6 +1,8 @@
 #include "Game/Actor/AI/aiArrow.h"
 #include "Game/Actor/aiXlinkHandle.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Map/mapObject.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/Physics/System/physRayCastBodyQuery.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "Game/Actor/aiUnk_7100D8C538.h"
@@ -104,7 +106,7 @@ bool Arrow::sub_7100469628() {
         if (query.worldRayCast(ksys::phys::ContactLayerType::Entity)) {
             sead::Vector3f hit;
             query.getHitPosition(&hit);
-            result = sead::Mathf::abs(hit.y - _e0) <= 1.3f;
+            result = sead::Mathf::abs(hit.y - _dc.y) <= 1.3f;
         }
         return result;
     }
@@ -122,6 +124,41 @@ bool Arrow::sub_7100469628() {
         }
     }
     return false;
+}
+
+void Arrow::sub_71004693A0() {
+    if (!_190) {
+        m40(mActor);
+        return;
+    }
+
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(_38, "StickPos", -1);
+    pack.addVec3(sead::Vector3f::zero, "StickPosDiv", -1);
+    pack.acquireActor(_190->tryGetActor(false), "StickActor", -1);
+    pack.addString(sead::SafeString::cEmptyString, "StickBodyName", -1);
+    changeChild("刺さる", &pack);
+
+    bool burning = false;
+    if (auto* chemical = mActor->getChemicalStuff()) {
+        if (auto* chemicals = mActor->getChemicalContainer()) {
+            if (auto* element = chemicals->sub_7100E37FA8(0))
+                burning = element->_18->isRigidAttribute6Or14Set(element->_288);
+        }
+        burning = burning || (chemical->mMaterial->attribute.ref() & 0x8000) ||
+                  ((chemical->mMaterial->attribute.ref() & 0x108) == 0x108 && !(chemical->_be & 4)) ||
+                  chemical->_1b8 > 0.0f;
+    }
+    if (burning || _b9) {
+        mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_20);
+        ksys::act::disableAllAttClients(mActor);
+        return;
+    }
+    ksys::act::enableAllAttClients(mActor);
+    if (ksys::act::hasTag(_190->tryGetActor(false), 0x170cf1e2)) {
+        _c8.acquire(_190->tryGetActor(false), false);
+        _dc = _190->tryGetActor(false)->getMtx().getTranslation();
+    }
 }
 
 void Arrow::sub_7100468028() {

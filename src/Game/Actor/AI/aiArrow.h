@@ -10,6 +10,10 @@
 #include "KingSystem/System/Timer.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
 
+namespace ksys::map {
+class Object;
+}
+
 namespace uking::ai {
 
 class Arrow : public ksys::act::ai::Ai {
@@ -53,6 +57,10 @@ public:
     // Arrow ExtraDamage * Weapon::sub_71002EA21C, scaled by the shooter's PlayerBase::m232 rate (depending on tag
     // 0x5e27ef10), times _d04 (1 with m38()).
     f32 sub_710046A7BC();
+    // 0x71004693a0 (placeholder name): sticks into the map object _190 (刺さる with StickPos / StickPosDiv /
+    // StickActor / StickBodyName), disables the att clients while burning (or _b9), otherwise enables them and
+    // follows the object's actor when it has tag 0x170cf1e2; without an object: m40(mActor).
+    void sub_71004693A0();
     // 0x71004692fc (placeholder name): the linked weapon's parent actor is the player.
     bool sub_71004692FC();
     // 0x7100467d20 / 0x7100467e24 / 0x7100467f28 (placeholder names): the Weapon the arrow is connected to as a
@@ -102,9 +110,7 @@ protected:
     f32 _c0 = 1.0f;
     ksys::act::BaseProcLink _c8;
     bool _d8 = false;
-    u32 _dc = 0;
-    f32 _e0 = 0;  // a height (sub_7100469628)
-    u32 _e4 = 0;
+    sead::Vector3f _dc{0, 0, 0};  // position of the stick target (sub_71004693A0); its height is checked by sub_7100469628
     f32 _e8 = 0;  // range (sub_7100466C48 uses 10 * _e8)
     bool _ec = false;
     Unk_71012419b4 _f0;
@@ -112,7 +118,7 @@ protected:
     Unk_71012419b4 _130;
     Unk_71012419b4 _150;
     Unk_71012419b4 _170;
-    void* _190;
+    ksys::map::Object* _190;
     ksys::act::BaseProcLink _198;
     ksys::act::BaseProcHandle _1a8;
     Unk_71024013b8 _1b8{mActor, 0x80000bb};
