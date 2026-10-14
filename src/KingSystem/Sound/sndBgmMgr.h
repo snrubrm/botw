@@ -862,6 +862,9 @@ Unk_710260f1a8* sub_7100FFE14C();
 // (false if SoundMgr, _30 or the controller is null).
 bool sub_7100FFED80();
 bool sub_7100FFEDC8();
+// 0x7100ffee10 (placeholder name; CSV nullsub_4329): empty in the release build. AdvanceTime::enter_ calls it before
+// changing the time of day.
+void sub_7100FFEE10();
 
 // Placeholders (types unknown): SoundMgr::_30->_8 / _18 (returned by sub_7100FFD73C / sub_7100FFD76C).
 class MusicDefinition;

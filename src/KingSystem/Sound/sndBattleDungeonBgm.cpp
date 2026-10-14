@@ -125,6 +125,8 @@ bool sub_7100FFEDC8() {
     return controller->_8._81;
 }
 
+void sub_7100FFEE10() {}
+
 Unk_710260f218::Unk_710260f218() = default;
 
 void Unk_710260f218::sub_7100FFC5C8(Bgm* bgm) {
