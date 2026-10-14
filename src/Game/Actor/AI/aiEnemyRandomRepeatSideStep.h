@@ -17,7 +17,8 @@ public:
     void calc_() override;
     void loadParams_() override;
 
-    // 0x71003aa3e0 (placeholder name; declared only): picks the next side step position.
+    // 0x71003aa3e0 (placeholder name): picks the next side step position (left or right of the front by StepAngle,
+    // StepDist away), rejecting blocked ones and ones with an aware actor in that direction.
     bool sub_71003AA3E0(sead::Vector3f* out);
 
 protected:

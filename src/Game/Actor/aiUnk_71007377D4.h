@@ -224,6 +224,10 @@ bool sub_710072F944(ksys::act::Actor* actor, const sead::Vector3f& target, sead:
 /// back as the position the probe reports. Placeholder name; parameter types guessed.
 bool sub_710072FBD4(f32 a1, f32 a2, ksys::act::Actor* actor, const sead::Vector3f& from,
                     const sead::Vector3f& to, sead::Vector3f* out_pos, s32 a6);
+/// 0x710072f99c (lane1 s79; declared only): like sub_710072FAB0 from `from` to `to` (EnemyRandomRepeatSideStep
+/// passes a null `out_pos` and -1 / -1 / -1). Placeholder name; parameter types from the CSV symbol.
+bool sub_710072F99C(ksys::act::Actor* actor, const sead::Vector3f& from, const sead::Vector3f& to,
+                    sead::Vector3f* out_pos, s32 a5, f32 a6, f32 a7);
 /// 0x710072fab0 (lane1 s25; declared only; 22 callers, all pass -1 / -1 / -1): forwards the normalized
 /// direction from the actor to `target` and its length to 0x710072edfc. `a5` is forwarded, `a6` is set
 /// by every caller but not read by the wrapper. Placeholder name; parameter types guessed.

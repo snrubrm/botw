@@ -1,6 +1,8 @@
 #include "Game/Actor/AI/aiEnemyRandomRepeatSideStep.h"
 #include <random/seadGlobalRandom.h>
+#include "Game/Actor/aiAwarenessFilters.h"
 #include "Game/Actor/aiUnk_71007320F0.h"
+#include "Game/Actor/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 
@@ -90,6 +92,64 @@ bool EnemyRandomRepeatSideStep::isFinished() const {
     if (_78 <= 1 && isCurrentChild("サイドステップ"))
         return getCurrentChild()->isFinished();
     return false;
+}
+
+// NON_MATCHING: operand order of the axis scale (ours: angle * ey via sead::Vector3CalcCommon<f32>::multScalar) and the
+// resulting scheduling / register allocation.
+bool EnemyRandomRepeatSideStep::sub_71003AA3E0(sead::Vector3f* out) {
+    sead::Vector3f front;
+    mActor->getMtx().getBase(front, 2);
+    front.y = 0.0f;
+    front.normalize();
+
+    sead::Vector3f dirs[2];
+    const sead::Vector3f axis = sead::Vector3f::ey * *mStepAngle_s;
+    sead::Matrix34f rot;
+    rot.makeR(axis);
+    dirs[0].setRotated(rot, front);
+    dirs[0].normalize();
+    rot.makeR(-axis);
+    dirs[1].setRotated(rot, front);
+    dirs[1].normalize();
+
+    bool ok[2] = {true, true};
+    sead::Vector3f targets[2];
+    for (s32 i = 0; i < 2; ++i) {
+        const sead::Vector3f pos = mActor->getMtx().getTranslation();
+        targets[i] = pos + dirs[i] * *mStepDist_s;
+        if (!sub_710072F99C(mActor, mActor->getMtx().getTranslation(), targets[i], nullptr, -1, -1.0f,
+                            -1.0f)) {
+            ok[i] = false;
+            continue;
+        }
+        auto* awareness = mActor->getAwareness();
+        if (!awareness)
+            continue;
+        Unk_7102451448 filter;
+        while (auto* entry = ksys::act::sub_7100D7EEE8(&awareness->_8, &filter)) {
+            const sead::Vector3f diff = entry->_58.getTranslation() - pos;
+            sead::Vector3f dir(diff.x, 0.0f, diff.z);
+            dir.normalize();
+            if (!(sead::Mathf::abs(diff.y) <= 3.0f))
+                continue;
+            const f32 dot = dir.dot(dirs[i]);
+            const f32 distance = sead::Vector2f(diff.x, diff.z).length();
+            if (dot >= 0.0f && distance <= *mStepDist_s + *mStepDist_s) {
+                ok[i] = false;
+                break;
+            }
+        }
+    }
+
+    if (ok[0]) {
+        *out = targets[0];
+        if (!ok[1] || s32(sead::GlobalRandom::instance()->getU32()) >= 0)
+            return true;
+    } else if (!ok[1]) {
+        return false;
+    }
+    *out = targets[1];
+    return true;
 }
 
 }  // namespace uking::ai
