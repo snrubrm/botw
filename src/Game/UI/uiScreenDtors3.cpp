@@ -50,7 +50,6 @@ ScreenAppAlbum::~ScreenAppAlbum() {
 }
 ScreenAppPictureBook::~ScreenAppPictureBook() = default;
 ScreenAppMapDungeon::~ScreenAppMapDungeon() = default;
-ScreenMainScreen::~ScreenMainScreen() = default;
 // 0x7100a3eff4 (D1): returns the slots to the free list
 ScreenPickUp::~ScreenPickUp() {
     for (s32 i = 0; i < _3650.size(); ++i) {

@@ -957,7 +957,9 @@ public:
     /* 0x3704 */ s32 _3704;
     u8 _pad_3708[0x3720 - 0x3708];
     /* 0x3720 */ f32 _3720;  // -99.0f initially
-    u8 _pad_3724[0x3968 - 0x3724];
+    u8 _pad_3724[0x3728 - 0x3724];
+    /* 0x3728 */ sead::CriticalSection _3728;  // destroyed by the destructor 0x7100a17ff4
+    u8 _pad_3768[0x3968 - 0x3768];
     /* 0x3968 */ eui::LayoutEx* mLocationNameLayout;
     /* 0x3970 */ eui::LayoutEx* mLocationNameSLayout;
     u8 _pad_3978[0x3aa8 - 0x3978];

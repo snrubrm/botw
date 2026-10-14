@@ -500,6 +500,9 @@ void ScreenMainScreen::sub_7100A1AF60() {
         _3d68->sub_71009C0310();
 }
 
+// 0x7100a17ff4
+ScreenMainScreen::~ScreenMainScreen() = default;
+
 // 0x7100a19e44
 void ScreenMainScreen::m90() {
     mGaugeHelper.unload();
