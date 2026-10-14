@@ -46,6 +46,8 @@ KSYS_CHECK_SIZE_NX150(Unk_71023d04f8, 0x38);
 // Placeholder name (ctor 0x7100722420(this + 0x2390, boss), dtor 0x71007224cc; size 0x258): SiteBoss::_2390. Wraps a
 // Unk_71025b2aa8Data at +0x240. TODO: incomplete (not modelled).
 struct Unk_7100722420 {
+    // 0x7100722420 (declared only).
+    explicit Unk_7100722420(ksys::act::Actor* actor);
     // 2026-10-07: original 0x71007224cc closes the embedded dialog at +0x240.
     ~Unk_7100722420();
     // 0x71007224d4 (declared only; lane5 s5): forwards to the Unk_71025b2aa8Data at +0x240 (sub_7100721EFC).
@@ -83,6 +85,8 @@ public:
 
     explicit SiteBoss(const CreateArg& arg);
     ~SiteBoss() override;
+    // 0x71002cf134 (CSV SiteBoss::construct; the ctor is inlined there).
+    static ksys::act::BaseProc* construct(const CreateArg& arg, sead::Heap* heap);
 
 protected:
     bool startPreparingForPreDelete_() override;
@@ -112,8 +116,8 @@ public:
     // 0x71002d2958 (placeholder name): puts the untagged part actors to sleep, then _1560.sub_710066D094().
     void sub_71002D2958();
     void x_1(bool a1, bool a2, bool skip_flag);
-    // 0x71002d20b8 (CSV SiteBoss::x_3; declared only; lane1 s25): called with no arguments by
-    // LastBossBeamAttackRoot::enter_.
+    // 0x71002d20b8 (CSV SiteBoss::x_3; lane1 s25): fades the Elec_Sword / Elec_Shield effects (bits 4 / 5 of _1558);
+    // called with no arguments by LastBossBeamAttackRoot::enter_.
     void sub_71002D20B8();
     // 0x71002d1fd4 (declared only; placeholder name, 228 B): fades the xlink event of the handle at +0x2348.
     void sub_71002D1FD4();
@@ -175,6 +179,8 @@ public:
     // stride 0x18 / 0x28; spin lock at 0xdb0).
     // TODO: incomplete.
     struct Unk_71002cf2ac {
+        // 0x71002cf2ac (declared only).
+        explicit Unk_71002cf2ac(SiteBoss* boss);
         // 2026-10-07: real original D1 0x710066b9b8 called by SiteBoss::~SiteBoss.
         ~Unk_71002cf2ac();
         // 0x710066c164: sends `type` to bound actor `idx` (every bound actor when idx >= 20).
@@ -281,7 +287,7 @@ public:
         /* 0xd50 */ sead::SafeArray<ksys::MessageType, 24> mPendingMessages;
         /* 0xdb0 */ sead::JobQueueLock _db0;
     };
-    /* 0x1560 */ Unk_71002cf2ac _1560;
+    /* 0x1560 */ Unk_71002cf2ac _1560{this};
     /* 0x2318 */ sead::Vector3f _2318;  // home position (m63)
     /* 0x2324 */ u8 _2324[0x2328 - 0x2324];
     /* 0x2328 */ sead::SafeString _2328;
@@ -293,13 +299,13 @@ public:
     /* 0x2378 */ u8 _2378 = 0;
     /* 0x2379 */ u8 _2379 = 0;
     /* 0x237a */ u8 _237a = 0;
-    /* 0x237b */ u8 _237b;  // not initialised by the ctor
+    /* 0x237b */ u8 _237b = 0;  // zeroed by the ctor (8-byte store at 0x2378)
     /* 0x237c */ u32 _237c = 0;
     /* 0x2380 */ u32 _2380 = 0;
     /* 0x2384 */ u32 _2384 = 0;
     /* 0x2388 */ u32 _2388 = 0;
     // object with ctor 0x7100722420(this + 0x2390, this) and dtor 0x71007224cc
-    /* 0x2390 */ Unk_7100722420 _2390;
+    /* 0x2390 */ Unk_7100722420 _2390{this};
     /* 0x25e8 */ ksys::evt::ResidentEvent _25e8;
     /* 0x27b8 */ ksys::evt::ResidentEvent _27b8;
 };

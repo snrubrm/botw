@@ -162,6 +162,13 @@ void SiteBoss::sub_71002D223C() {
         _2348 = ksys::eft::searchAndEmitELink(this, "Elec_Shield");
 }
 
+void SiteBoss::sub_71002D20B8() {
+    if (_1558.isOnBit(4))
+        _2338.fade();
+    if (_1558.isOnBit(5))
+        _2348.fade();
+}
+
 void SiteBoss::sub_71002D1FD4() {
     if (_1558.isOnBit(5))
         _2348.fade();
@@ -236,6 +243,14 @@ void SiteBoss::sub_71002D2A1C(const char* name) {
 
 void SiteBoss::m117(ksys::act::Unk117* arg) {
     forwardX17ToParts(this, arg);
+}
+
+SiteBoss::SiteBoss(const CreateArg& arg) : Enemy(arg) {}
+
+// NON_MATCHING: member store order / widths of the inlined ctor (0x1518 / 0x151c are one 8-byte store, the
+// 0x2378 - 0x238b block is stored as 8 + 8 + 4 bytes).
+ksys::act::BaseProc* SiteBoss::construct(const CreateArg& arg, sead::Heap* heap) {
+    return new (heap, std::nothrow) SiteBoss(arg);
 }
 
 SiteBoss::~SiteBoss() = default;
