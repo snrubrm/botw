@@ -145,6 +145,7 @@ class BaseProcLink;
 }  // namespace ksys::act
 
 namespace ksys::phys {
+class ShapeCast;
 class SystemGroupHandler;
 }
 
@@ -153,6 +154,11 @@ class Camera;
 class Unk_71009214b8;
 class Unk_710079a8e8;
 }  // namespace uking::act
+
+// 0x710092ad34 (placeholder; declared only): sphere cast from the near-plane point of `camera`
+// (sub_7100921A90, radius sub_7100921A24) along a fixed offset; true if the hit is that point.
+// Uses `cast` (reset first) or a local SphereCast. The third argument is not read.
+bool sub_710092AD34(const uking::act::Unk_71009214b8& camera, ksys::phys::ShapeCast* cast, bool a3);
 
 // Camera math helpers (TU 0x7100924be4-).
 // 0x7100924be4: acquires the player (PlayerInfo's player link) into `accessor`.

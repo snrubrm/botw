@@ -101,6 +101,26 @@ void CameraWaterRemainsHowling::sub_710078C1F0() {
     _a0.sub_710079C3F8(*mConnect_s);
 }
 
+// NON_MATCHING: the original branches to two _818 |= 1 / 2 paths (ours selects the bit with cinc).
+void CameraWaterRemainsHowling::m34() {
+    auto* camera = getCamera();
+    if (!camera)
+        return;
+    _a0.sub_710079C408();
+    if (_a0._18 >= 1.0f)
+        _110 = true;
+    sub_710078C4F8();
+    if (!_110 && sub_710092AD34(camera->_860._0, nullptr, false)) {
+        _a0.sub_710079C510(1.0f);
+        _110 = true;
+        sub_710078C4F8();
+    }
+    if (_110)
+        camera->_860._818 |= 1;
+    else
+        camera->_860._818 |= 2;
+}
+
 // NON_MATCHING: polar/vector copies and field-load scheduling differ.
 void CameraWaterRemainsHowling::sub_710078C4F8() {
     auto* camera = getCamera();
