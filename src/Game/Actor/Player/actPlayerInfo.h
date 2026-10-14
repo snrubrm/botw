@@ -7,6 +7,7 @@
 
 namespace uking::action {
 class DemoApplyDamageForPlayer;
+class IchigekiHeartDecrease;
 }
 
 namespace ksys::act {
@@ -76,6 +77,7 @@ public:
 private:
     // Reads mPlayerActor inline (the original does not call getPlayerUnchecked()).
     friend class uking::action::DemoApplyDamageForPlayer;
+    friend class uking::action::IchigekiHeartDecrease;
 
     // These are probably debug stuff that were removed
     class Info1 : public PlayerInfoBase {
