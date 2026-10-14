@@ -332,7 +332,9 @@ public:
     /* 0x308 */ s32 _308;  // number of valid `_280` entries
     /* 0x30c */ u8 _30c[0x318 - 0x30c];
     /* 0x318 */ u32 _318;  // bit 3 follows !IsInHyruleCastleArea (EnemyRoot::sub_71003B5644)
-    /* 0x31c */ u8 _31c[0x328 - 0x31c];
+    /* 0x31c */ u8 _31c[0x320 - 0x31c];
+    /* 0x320 */ u32 _320;  // NPCRoot::leave_ sets 0x100000 for Npc_Kakariko016
+    /* 0x324 */ u8 _324[0x328 - 0x324];
     /* 0x328 */ u32 _328;  // WolfLinkRoot::enter_ (0x2000b8)
     /* 0x32c */ u8 _32c[0x334 - 0x32c];
     s8 _334;

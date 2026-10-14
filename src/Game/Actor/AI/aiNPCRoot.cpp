@@ -61,7 +61,21 @@ void NPCRoot::sub_71004D8C5C() {
 }
 
 void NPCRoot::leave_() {
-    ksys::act::ai::Ai::leave_();
+    _203 = false;
+    _208 = sead::Vector3f::zero;
+    if (mActor->getRootAi()->getNewChildIdx() != 0)
+        return;
+
+    if (_80.hasProc()) {
+        _1c0 = {-1.0f, -1.0f, 0.0f};
+        sub_71004DC3D4(&_80);
+    }
+    if (mActor->getASList()->x_1(1, 0).findIndex("Talk") != -1)
+        changeAS("Face_C_Default", true, 1, 0);
+    if (mActor->getName() == "Npc_Kakariko016") {
+        if (auto* awareness = mActor->getAwareness())
+            awareness->_320 |= 0x100000;
+    }
 }
 
 void NPCRoot::onPreDelete() {
