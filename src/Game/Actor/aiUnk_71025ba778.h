@@ -34,7 +34,7 @@ public:
     // The constructor is inline in the original (LynelRoot's constructor inlines it).
     /* 0x20 */ gsys::BoneAccessKeyEx _20;
     /* 0x58 */ sead::SafeString _58;
-    /* 0x68 */ s32 _68 = 0;
+    /* 0x68 */ f32 _68 = 0.0f;  // blended towards Unk_71025ba778::_c by Unk_71025ba778::sub_710070F400
     /* 0x70 */ Unk_7100F72BF8* _70 = nullptr;  // owned object (deleted by the destructor)
     /* 0x78 */ sead::Matrix34f _78 = sead::Matrix34f::ident;
     /* 0xa8 */ sead::Matrix34f _a8 = sead::Matrix34f::ident;
