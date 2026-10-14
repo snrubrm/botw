@@ -23,7 +23,8 @@ static sead::Vector2f sUnk_71025d6a88{-100000.0f, 0.0f};
 static sead::Vector3f sUnk_71025d6d0c{-100000.0f, 0.0f, 0.0f};
 
 
-// NON_MATCHING: vector assignments use component copies instead of the native paired loads/stores.
+// NON_MATCHING: the original reaches sUnk_71025d6d0c through the TU's merged static block at 0x71025d6c70
+// (+0x9c); the statics before it (0x25d6c70..0x25d6cf4) are not defined yet, so our offset differs.
 UiSubsys1Entry::~UiSubsys1Entry() {
     _8 = nullptr;
     _10 = nullptr;
@@ -31,8 +32,8 @@ UiSubsys1Entry::~UiSubsys1Entry() {
     _1c = 45;
     _20 = 25;
     _24 = 33;
-    _28 = sUnk_71025d6d0c;
-    _34 = sUnk_71025d6a88;
+    _28.set(sUnk_71025d6d0c);
+    _34.set(sUnk_71025d6a88);
     _3c = 0;
     _40 = -1;
     _44 = -1;
@@ -679,7 +680,11 @@ void Unk_7102476350::m17() {
     UiSubsys1Entry::m17();
 }
 
-Unk_7102476350::~Unk_7102476350() = default;
+// NON_MATCHING: static block offset of sUnk_71025d6d0c only (see UiSubsys1Entry::~UiSubsys1Entry).
+Unk_7102476350::~Unk_7102476350() {
+    _50 = nullptr;
+    _58 = nullptr;
+}
 
 
 
@@ -727,7 +732,11 @@ void Unk_7102476548::m21() {
     sub_710095156C(true);
 }
 
-Unk_7102476548::~Unk_7102476548() = default;
+// NON_MATCHING: static block offset of sUnk_71025d6d0c only (see UiSubsys1Entry::~UiSubsys1Entry).
+Unk_7102476548::~Unk_7102476548() {
+    _50 = -1;
+    _54 = -1;
+}
 
 void Unk_7102476640::m4() {
     _3c &= ~0x777f;
@@ -995,7 +1004,11 @@ void Unk_7102476640::sub_7100958D4C() {
     }
 }
 
-Unk_7102476640::~Unk_7102476640() = default;
+// NON_MATCHING: static block offset of sUnk_71025d6d0c only (see UiSubsys1Entry::~UiSubsys1Entry).
+Unk_7102476640::~Unk_7102476640() {
+    if (_60.hasProc())
+        _60.reset();
+}
 
 s32 Unk_7102476738::m10() {
     return 5;
@@ -1133,7 +1146,11 @@ void Unk_7102476830::m25(bool enabled) {
     }
 }
 
-Unk_7102476830::~Unk_7102476830() = default;
+// NON_MATCHING: static block offset of sUnk_71025d6d0c only (see UiSubsys1Entry::~UiSubsys1Entry).
+Unk_7102476830::~Unk_7102476830() {
+    _50.init(0.0f);
+    _68.init(0.0f);
+}
 // NON_MATCHING: direct search removes the native nullable-find guard.
 void Unk_7102476928::m25(bool enabled) {
     UiSubsys1Entry::m25(enabled);
