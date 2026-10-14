@@ -6,10 +6,13 @@
 #include "Game/AI/aiUnk_71005E0420.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/Utils/Thread/Message.h"
 
 // The original helper's source namespace is unknown.
 bool sub_7100700A78(s32 slot);
+// 0x7100701774 (placeholder name; declared only): whether `weapon` can be put on the stand slot `slot`.
+bool sub_7100701774(ksys::act::Actor* weapon, s32 slot);
 
 namespace uking::ai {
 
@@ -49,11 +52,104 @@ void EquipStand::enter_(ksys::act::ai::InlineParamPack* params) {
 
 // 0x71003c7ad8 (placeholder name): a debug text function whose body is compiled out (only the
 // variadic register save remains). EquipStand::calc_ calls it with "なにを飾ろうとしているのだ".
-void sub_71003C7AD8(const char* name, const sead::Vector3f* pos, const sead::Color4f* color, s32 a4,
+// inline: the original keeps the calls to this empty function, which happens only for an inline (weak) definition;
+// a strong definition in this file lets the compiler drop the calls.
+inline void sub_71003C7AD8(const char* name, const sead::Vector3f* pos, const sead::Color4f* color, s32 a4,
                     const char* format, f32 scale, ...) {
     std::va_list args;
     va_start(args, scale);
     va_end(args);
+}
+
+// NON_MATCHING: the attention key addresses and the _38 address are kept in different registers, and the debug text
+// position copy is scheduled differently.
+void EquipStand::calc_() {
+    auto* actor = mActor;
+    auto* child = getCurrentChild();
+
+    if (isCurrentChild("待機")) {
+        if (!_a8)
+            return;
+
+        ksys::act::Actor* weapon;
+        {
+            ksys::act::acc::PlayerBase player;
+            player.getPlayerFromPlayerInfo();
+            weapon = player.x_43();
+        }
+
+        if (!weapon) {
+            const sead::Vector3f pos = actor->getMtx().getTranslation();
+            const sead::Color4f color(1, 1, 1, 1);
+            sub_71003C7AD8("", &pos, &color, 90, "かざる装備を持っていません", 2.0f);
+        } else if (sub_7100701774(weapon, *mEquipStandSlot_m)) {
+            _a8 = false;
+            _38.x();
+            auto* self = mActor;
+            ksys::act::disableAttClient(self, mTakeOutAttKey_s);
+            ksys::act::disableAttClient(self, mDisplayAttKey_s);
+            changeChild("飾る");
+            return;
+        } else {
+            const sead::Vector3f pos = actor->getMtx().getTranslation();
+            const sead::Color4f color(1, 1, 1, 1);
+            sub_71003C7AD8("", &pos, &color, 90, "なにを飾ろうとしているのだ", 2.0f);
+        }
+        _a8 = false;
+        _38.x();
+        return;
+    }
+
+    const char* next;
+    if (isCurrentChild("飾る")) {
+        if (child->isFinished()) {
+            _a8 = false;
+            _38.x();
+            auto* self = mActor;
+            ksys::act::enableAttClient(self, mTakeOutAttKey_s);
+            ksys::act::disableAttClient(self, mDisplayAttKey_s);
+            next = "飾り待機";
+        } else if (child->isFailed()) {
+            _a8 = false;
+            _38.x();
+            auto* self = mActor;
+            ksys::act::disableAttClient(self, mTakeOutAttKey_s);
+            ksys::act::enableAttClient(self, mDisplayAttKey_s);
+            next = "待機";
+        } else {
+            return;
+        }
+    } else if (isCurrentChild("飾り待機")) {
+        if (!_38._30 || _38._39 || _38._3a)
+            return;
+        _a8 = false;
+        _38.x();
+        auto* self = mActor;
+        ksys::act::disableAttClient(self, mTakeOutAttKey_s);
+        ksys::act::disableAttClient(self, mDisplayAttKey_s);
+        next = "飾りゲット";
+    } else if (isCurrentChild("飾り生成")) {
+        if (!child->isFinished() && !child->isFailed())
+            return;
+        _a8 = false;
+        _38.x();
+        auto* self = mActor;
+        ksys::act::enableAttClient(self, mTakeOutAttKey_s);
+        ksys::act::disableAttClient(self, mDisplayAttKey_s);
+        next = "飾り待機";
+    } else if (isCurrentChild("飾りゲット")) {
+        if (!child->isFinished() && !child->isFailed())
+            return;
+        _a8 = false;
+        _38.x();
+        auto* self = mActor;
+        ksys::act::disableAttClient(self, mTakeOutAttKey_s);
+        ksys::act::enableAttClient(self, mDisplayAttKey_s);
+        next = "待機";
+    } else {
+        return;
+    }
+    changeChild(next);
 }
 
 void EquipStand::leave_() {
