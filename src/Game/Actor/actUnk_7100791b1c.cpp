@@ -26,4 +26,11 @@ void Unk_7100791b1c::sub_7100791B88() {
     _60.reset();
 }
 
+// NON_MATCHING: this / other swapped between x19 and x20 (regalloc only).
+void Unk_7100791b1c::sub_7100791BAC(const Unk_7100791b1c& other) {
+    _0 = other._0;
+    _58 = other._58;
+    _60 = other._60;
+}
+
 }  // namespace uking::act

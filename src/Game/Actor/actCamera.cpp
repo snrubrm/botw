@@ -31,6 +31,12 @@ const ksys::res::GParamListObjectCamera* Unk_7102459708::sub_7100791DE8() const 
     return list->getCamera();
 }
 
+void uking::act::Camera::requestCameraPack(const Unk_7100791b1c& request) {
+    auto& slot = _860._5a0[sead::CoreInfo::getPlatformCoreId(sead::CoreInfo::getCurrentCoreId())];
+    if (slot._58 < request._58)
+        slot.sub_7100791BAC(request);
+}
+
 bool uking::act::Camera::sub_7100795F40(f32** out) {
     if (!out)
         return false;

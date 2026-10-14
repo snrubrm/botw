@@ -72,6 +72,8 @@ public:
 
     // 0x7100791b88: clears the name, _58 = -1 and resets the link.
     void sub_7100791B88();
+    // 0x7100791bac: copies the name, _58 and the link.
+    void sub_7100791BAC(const Unk_7100791b1c& other);
 
     /* 0x00 */ sead::FixedSafeString<64> _0;
     /* 0x58 */ s32 _58 = -1;
@@ -277,7 +279,8 @@ public:
     /* 0x4f4 */ f32 _4f4;  // 0.5 (returned by 0x710092213c)
     /* 0x4f8 */ sead::FixedSafeString<32> _4f8;
     /* 0x530 */ Unk_7100791b1c _530;
-    /* 0x5a0 */ Unk_7100791b1c _5a0[3]{};
+    // Per-core camera pack requests (Camera::requestCameraPack).
+    /* 0x5a0 */ sead::SafeArray<Unk_7100791b1c, 3> _5a0{};
     // Per-core scalar values: 79BDC4 writes one 4-byte slot; BE40 chooses its signed maximum magnitude.
     /* 0x6f0 */ sead::SafeArray<f32, 3> _6f0{};
     /* 0x6fc */ sead::Matrix34f _6fc = sead::Matrix34f::ident;
@@ -477,6 +480,10 @@ public:
     // 0x71007953c8: moves _860._0._28 towards 0 (unless sub_7100922078()).
     void sub_71007953C8();
     void setSunazarashiTurnParam(const f32& value);
+    // 0x710079547c: keeps the request with the higher _58 in the current core's slot.
+    void requestCameraPack(const Unk_7100791b1c& request);
+    // 0x7100799664 (declared only).
+    void setWaterRemainsData(const sead::Matrix34f& mtx, const sead::Vector3f& pos);
     // 0x71007929e0: copies camera state _860._e0 into _860._0 / _38 / _70 / _a8 (and its look-at
     // point into _860._150), resets _1240, _860 and some flags, and the unused _860._7c0 link.
     void sub_71007929E0();
@@ -580,8 +587,6 @@ namespace ksys::act::acc {
 
 // Access to a uking::act::Camera through an ActorLinkConstDataAccess (CSV: act::acc::Camera; functions
 // 0x7100799f60-0x710079a6xx in the Camera TU). Namespace as for the other acc:: accessors.
-// TODO: incomplete (requestCameraPack, setSunazarashiTurnParam, setWaterRemainsData,
-// getPlayerAlphaRate not declared).
 class Camera : public ActorLinkConstDataAccess {
 public:
     // 0x7100799f60 / 0x710079a05c / 0x710079a158: Camera::sub_710079614C / sub_7100796164 /
@@ -591,6 +596,10 @@ public:
     bool sub_710079A158() const;
     // 0x710079a4ac (called by ForkASTrgRemainsHowl::sub_7100143180).
     void setWaterRemainsData(const sead::Matrix34f& mtx, const sead::Vector3f& pos) const;
+    void requestCameraPack(const uking::act::Unk_7100791b1c& request) const;
+    void setSunazarashiTurnParam(const f32& value) const;
+    // 1.0 without a camera.
+    f32 getPlayerAlphaRate() const;
 
 protected:
     uking::act::Camera* getCamera() const;

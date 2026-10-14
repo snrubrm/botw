@@ -31,4 +31,30 @@ bool Camera::sub_710079A158() const {
     return camera->sub_7100794FD0();
 }
 
+void Camera::requestCameraPack(const uking::act::Unk_7100791b1c& request) const {
+    debugLog(1, "requestCameraPack");
+    if (auto* camera = getCamera())
+        camera->requestCameraPack(request);
+}
+
+void Camera::setSunazarashiTurnParam(const f32& value) const {
+    debugLog(1, "setSunazarashiTurnParam");
+    if (auto* camera = getCamera())
+        camera->setSunazarashiTurnParam(value);
+}
+
+void Camera::setWaterRemainsData(const sead::Matrix34f& mtx, const sead::Vector3f& pos) const {
+    debugLog(1, "setWaterRemainsData");
+    if (auto* camera = getCamera())
+        camera->setWaterRemainsData(mtx, pos);
+}
+
+f32 Camera::getPlayerAlphaRate() const {
+    debugLog(4, "getPlayerAlphaRate");
+    auto* camera = getCamera();
+    if (!camera)
+        return 1.0f;
+    return camera->_13f4;
+}
+
 }  // namespace ksys::act::acc
