@@ -299,12 +299,12 @@ Unk_710260f160::Unk_710260f160() = default;
 
 void Unk_710260f160::sub_7100FFAAB0(Bgm* bgm) {
     bgm->m8(_90);
-    if (bgm->_c == 34)
+    if (bgm->_c == BgmKind::_34)
         _d8 = sead::DynamicCast<::Unk_7102500a00>(bgm);
 }
 
 void Unk_710260f160::sub_7100FFAB58(Bgm* bgm) {
-    if (bgm->_c == 34)
+    if (bgm->_c == BgmKind::_34)
         _d8 = nullptr;
 }
 
@@ -365,8 +365,6 @@ void Unk_710260f1f8::sub_7100FFC1C8(Bgm* bgm) {
     bgm->m8(_90);
 }
 
-// NON_MATCHING: the default kind is `mov x1, xzr` in the original. sub_7100FF7920 / sub_7100FF7C74 spill and reload
-// the kind like a SEAD_ENUM wrapper (4-byte class passed in a full register); we still declare it as s32.
 void Unk_710260f1f8::m4(sead::Heap* heap) {
     _8.sub_7100FF75DC(3, heap);
     _8._30 = &_98;

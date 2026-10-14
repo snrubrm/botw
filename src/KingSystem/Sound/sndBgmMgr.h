@@ -39,6 +39,11 @@ public:
     bool sub_7101007C90();
 };
 
+// The kind of a BGM (Bgm::_c). A four-byte enum wrapper: sub_7100FF7920 / sub_7100FF7C74 and the controller BGM
+// callbacks spill and reload it like SEAD_ENUM values, and a zero kind is passed as `mov x1, xzr`. Enumerator names are
+// unknown; the controllers use kinds 0..35.
+SEAD_ENUM(BgmKind, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16, _17, _18, _19, _20, _21, _22, _23, _24, _25, _26, _27, _28, _29, _30, _31, _32, _33, _34, _35)
+
 // RTTI root at 0x71025ce360; primary vtable at 0x71024fc8a0.
 class Bgm {
 public:
@@ -62,7 +67,7 @@ protected:
 
     bool mActive;
     u8 _9[3];
-    s32 _c;
+    BgmKind _c;
 };
 KSYS_CHECK_SIZE_NX150(Bgm, 0x10);
 
@@ -165,9 +170,9 @@ public:
     void sub_7100FF7830(f32 fade_sec);
     void sub_7100FF78A8(f32 fade_sec);
     // 0x7100ff7920 (184 B, CSV name snd::changeBgm): adds a reference to the entry of `kind`, or allocates the BGM.
-    void sub_7100FF7920(s32 kind, sead::Heap* heap);
+    void sub_7100FF7920(BgmKind kind, sead::Heap* heap);
     void sub_7100FF7BE0(Unk_7100FF7BE0 state);
-    Bgm* sub_7100FF7C74(s32 kind);
+    Bgm* sub_7100FF7C74(BgmKind kind);
 
 private:
     // FF79D8 constructs 0x10-byte values in the 0x20-byte ObjList nodes.
