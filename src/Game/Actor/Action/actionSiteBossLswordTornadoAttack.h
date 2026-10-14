@@ -20,6 +20,9 @@ public:
 protected:
     void calc_() override;
 
+    // 0x710025fef0 (declared only; placeholder name): called every frame once the tornado has started (_48).
+    void sub_710025FEF0();
+
     // static_param at offset 0x20
     const float* mEndTime_s{};
     // static_param at offset 0x28

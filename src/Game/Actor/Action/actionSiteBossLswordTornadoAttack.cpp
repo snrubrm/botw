@@ -1,7 +1,10 @@
 #include "Game/Actor/Action/actionSiteBossLswordTornadoAttack.h"
 #include "Game/Actor/aiUnk_71007368A4.h"
 #include "Game/Actor/actEnemy.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
+#include "KingSystem/World/worldManager.h"
+#include "KingSystem/World/worldWeatherMgr.h"
 
 namespace uking::action {
 
@@ -44,7 +47,27 @@ void SiteBossLswordTornadoAttack::loadParams_() {
 }
 
 void SiteBossLswordTornadoAttack::calc_() {
-    ksys::act::ai::Action::calc_();
+    _4c.update();
+    sub_71007398E4(mActor, true);
+    _58._28 = 0;
+    if (mActor->getASList()->x(59, nullptr, 0, 0, &ksys::as::ASList::Unk2::sub_71011637EC, true)) {
+        _48 = true;
+        if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
+            if (enemy->getActorPartsActor("DrawingFlame").hasProc()) {
+                ksys::act::ActorLinkConstDataAccess accessor;
+                ksys::act::acquireActor(&enemy->getActorPartsActor("DrawingFlame"), &accessor);
+                accessor.setProperties(mActor->getMtx(), nullptr, nullptr, nullptr, false, 0, -1);
+            }
+        }
+    }
+
+    if (_48) {
+        ksys::world::Manager::instance()->getWeatherMgrUnchecked()->_33c = 4;
+        sub_710025FEF0();
+    }
+
+    if (_4c.value <= sead::Mathf::epsilon())
+        setFinished();
 }
 
 }  // namespace uking::action
