@@ -90,6 +90,8 @@ public:
         };
 
         virtual ~Unk_7102459e88();
+        // lane4 s85: slot 2 (Unk_7102459df8::m8 calls it with the actor; overridden by 0x710245a028 / 0x710245a000).
+        virtual void m2(Actor* actor) = 0;
         void sub_710079FE9C();
 
         sead::SafeArray<Unk1, 8> mEntries;
@@ -110,6 +112,10 @@ public:
         KSYS_CHECK_SIZE_NX150(Unk1, 0xb0);
 
         void sub_710079F600();
+        // 0x710079f9c0 / 0x710079f66c (544 / 852 B, declared only; placeholder names): Unk_7102459df8::m8 passes
+        // its _38 / _28 buffers and the actor.
+        void sub_710079F9C0(sead::Buffer<u8>* buffer, Actor* actor);
+        void sub_710079F66C(sead::Buffer<u8>* buffer, Actor* actor);
 
         sead::SafeArray<Unk1, 8> mEntries;
         s16 mNum;
