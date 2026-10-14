@@ -160,6 +160,45 @@ bool FlyingEnemyKeepMove::sub_71003D1C48() {
     return true;
 }
 
+// NON_MATCHING: register allocation and the order of the final products (same operations).
+// Moves SpaceDistance from the actor along the base circle (radius BaseDist around m36) towards the target
+// (m35 of m34), plus the escape direction of sub_71003D2880.
+bool FlyingEnemyKeepMove::sub_71003D20B0(sead::Vector3f* out) {
+    if (!out)
+        return false;
+
+    const f32 space = *mParams.mSpaceDistance_s;
+    const sead::Vector3f pos = mActor->getMtx().getTranslation();
+    sead::Vector3f base;
+    m36(&base);
+    sead::Vector3f dir;
+    m34(&dir);
+    sead::Vector3f target;
+    m35(&target, dir);
+
+    sead::Vector3f side = (base - pos).cross(sead::Vector3f::ey);
+    side.normalize();
+    const f32 dy = target.y - pos.y;
+    if (side.dot(target - pos) < 0.0f)
+        side = -side;
+
+    sead::Vector3f to_target = target - base;
+    to_target.normalize();
+    sead::Vector3f to_actor = pos - base;
+    to_actor.normalize();
+    const f32 arc =
+        *mParams.mBaseDist_s * std::acos(sead::Mathf::clamp(to_target.dot(to_actor), -1.0f, 1.0f));
+    const f32 len = std::sqrt(dy * dy + arc * arc);
+
+    sead::Vector3f result(pos.x + space * side.x * (arc / len), pos.y + space * (dy / len),
+                          pos.z + space * side.z * (arc / len));
+    sead::Vector3f escape(0.0f, 0.0f, 0.0f);
+    if (sub_71003D2880(space, &escape))
+        result += escape;
+    *out = result;
+    return true;
+}
+
 void FlyingEnemyKeepMove::leave_() {
     ksys::act::ai::Ai::leave_();
 }
