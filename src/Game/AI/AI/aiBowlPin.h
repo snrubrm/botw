@@ -12,13 +12,14 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
 
 protected:
     // static_param at offset 0x38
     const float* mDegree_s{};
-    bool _40{};
+    u8 _40{};  // bit 0: hit by a snow ball, bit 1: hit by a pin
 };
 
 }  // namespace uking::ai
