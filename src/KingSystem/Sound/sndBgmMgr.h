@@ -55,6 +55,10 @@ public:
     void sub_7100FF6A50(s32 index, f32 value);
     // 0x7100ff6a64 (declared only)
     void sub_7100FF6A64(f32 fade_sec);
+    // 0x7100ff6c1c (declared only): per-frame update for `owner`; false when the entry is finished.
+    bool sub_7100FF6C1C(Unk_710260f248* owner);
+    // 0x7100ff6a44 (declared only): releases the entry.
+    void sub_7100FF6A44();
     // 0x7100ff6a18 (declared only): takes over the emitted handle for `owner`.
     void sub_7100FF6A18(Unk_710260f248* owner, const xlink2::HandleSLink& handle);
 };

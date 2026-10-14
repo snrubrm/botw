@@ -3,6 +3,7 @@
 #include "KingSystem/Sound/sndBgmMgr.h"
 #include <xlink2/xlink2HandleSLink.h>
 #include <xlink2/xlink2Locator.h>
+#include <xlink2/xlink2SystemSLink.h>
 #include "KingSystem/Sound/sndMgr.h"
 
 namespace ksys::snd {
@@ -35,6 +36,26 @@ void Unk_710260f248::hm3(const Unk_710260f248M3Arg& arg) {
         return;
     source->setSpeakerBalanceSupplier(supplier);
     supplier->sub_7100FF8C74(*handle);
+}
+
+void Unk_710260f248::calc() {
+    _a8.calc();
+    bool playing = false;
+    for (auto& entry : mEntries.robustRange()) {
+        if (entry.sub_7100FF6C1C(this)) {
+            playing = true;
+        } else {
+            entry.sub_7100FF6A44();
+            mEntries.erase(&entry);
+        }
+    }
+    if (!mUserInstance)
+        return;
+    if (playing || xlink2::SystemSLink::instance()->isServerConnecting()) {
+        auto* user_instance = mUserInstance;
+        user_instance->preCalc();
+        user_instance->postCalc();
+    }
 }
 
 Unk_710260f248Entry* Unk_710260f248::sub_71010209FC(const sead::SafeString& name) {
