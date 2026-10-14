@@ -180,6 +180,8 @@ public:
 
     void sub_710079AD90();
     f32 sub_710079ADA0() const;
+    // 0x710079ae60: _160 if bit 0x8000 of _804 is set, else the far clip of Graphics (or sub_7100922064()).
+    f32 sub_710079AE60() const;
     bool sub_710079ADBC() const;
     // 0x710079add8 / 0x710079ae88: _15c (near) / _160 (far) = value and set _804 bit 0x2000 /
     // 0x8000 (unless value is NaN or not positive).
@@ -492,6 +494,9 @@ public:
     // 0x71007953c8: moves _860._0._28 towards 0 (unless sub_7100922078()).
     void sub_71007953C8();
     void setSunazarashiTurnParam(const f32& value);
+    // 0x710079565c (CSV x_3): sets bit 5 of _13fd, copies the far clip into the six camera states, updates
+    // the matrix and copies _860._e0 into _860._118.
+    void sub_710079565C();
     // 0x710079547c: keeps the request with the higher _58 in the current core's slot.
     void requestCameraPack(const Unk_7100791b1c& request);
     // 0x7100799664 (declared only).

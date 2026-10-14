@@ -7,6 +7,7 @@
 #include "Game/Actor/actCamera.h"
 #include "KingSystem/Utils/MathUtil.h"
 #include "Game/gameSceneSubsysMisc.h"
+#include "Game/gameGraphics.h"
 #include "Game/Actor/Player/actPlayerBase.h"
 #include "Game/Actor/actMotorcycle.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
@@ -411,6 +412,14 @@ void Unk_710079a8e8::sub_710079ADD8(f32 value) {
         return;
     _15c = value;
     _804.sub_710079AE20(0x2000);
+}
+
+f32 Unk_710079a8e8::sub_710079AE60() const {
+    if (_804.sub_710079AE50(0x8000))
+        return _160;
+    if (auto* graphics = Graphics::instance())
+        return graphics->sub_7100F35F38();
+    return sub_7100922064();
 }
 
 void Unk_710079a8e8::sub_710079AE88(f32 value) {

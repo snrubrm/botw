@@ -6,6 +6,10 @@
 #include "KingSystem/XLink/xlinkActorUtil.h"
 #include "KingSystem/Utils/Types.h"
 
+namespace sead {
+class Heap;
+}
+
 namespace ksys {
 class Message;
 namespace act {
@@ -39,7 +43,8 @@ public:
     virtual ~Unk_71025ae680() { ; }
 
     // FIXME: figure out return types, parameters and names
-    virtual bool m4() { return true; }
+    // Called with the heap right after construction (Item::prepareInit_ 0x71002c3c68).
+    virtual bool m4(sead::Heap* heap) { return true; }
     virtual void m5() {}
     virtual void m6();
     virtual void m7();
@@ -87,11 +92,18 @@ bool sub_71006DF4F0(ksys::act::Actor* actor);
 // Declaration only: Enemy::m178 builds this 0x70-byte controller (vtable 0x710244edc0).
 // RTTI6E9910 / 6E99DC establish the base; FishRoot3CC69C writes the Boolean at +0x68.
 // The callback and other derived state between +0x1c and +0x68 remain opaque.
+// Created by Item::prepareInit_ (0x71002c3c68; ctor inlined there).
 class Unk_710244edc0 : public Unk_71025ae680 {
     SEAD_RTTI_OVERRIDE(Unk_710244edc0, Unk_71025ae680)
 public:
-    /* 0x1c */ u8 _1c[0x68 - 0x1c];
-    /* 0x68 */ bool _68;
+    explicit Unk_710244edc0(ksys::act::Actor* actor) : Unk_71025ae680(actor) {}
+
+    /* 0x1c */ u32 _1c = 0;
+    /* 0x20 */ u32 _20 = 0;
+    /* 0x24 */ u32 _24 = 0;
+    /* 0x28 */ u32 _28 = 0;
+    /* 0x30 */ Unk_7102450768 _30{2};
+    /* 0x68 */ bool _68 = false;
 };
 KSYS_CHECK_SIZE_NX150(Unk_710244edc0, 0x70);
 
@@ -211,7 +223,7 @@ public:
     explicit Unk_71008502cc(ksys::act::Actor* actor);
     // 0x7100850314
     ~Unk_71008502cc() override;
-    bool m4() override { return true; }
+    bool m4(sead::Heap* heap) override { return true; }
     // Slot 9 (0x7100850c58): whether the player (Player cast of the actor) is in an event.
     bool m9() override;
     // Slot 12 (0x710085062c): conditions 0 / 1 set their bit unless the player's 0x710084cf24 says otherwise, 5 also
@@ -241,7 +253,7 @@ public:
         : Unk_71025ae680(actor), _1c(-1), _20(-1), _24(-1), _28(0) {}
     ~Unk_710244ff68() override;
 
-    bool m4() override { return true; }
+    bool m4(sead::Heap* heap) override { return true; }
     void m5() override {
         _8.makeAllZero();
         _28 = 0;
@@ -269,7 +281,7 @@ class Unk_710244ebc8 : public Unk_71025ae680 {
 public:
     explicit Unk_710244ebc8(ksys::act::Actor* actor) : Unk_71025ae680(actor) {}
     ~Unk_710244ebc8() override;
-    bool m4() override { return true; }
+    bool m4(sead::Heap* heap) override { return true; }
     void m5() override { _8.makeAllZero(); }
     void m7() override { Unk_71025ae680::m7(); }
     bool m8(const ksys::Message& message) override;
@@ -289,7 +301,7 @@ class Unk_710244eb48 : public Unk_71025ae680 {
 public:
     explicit Unk_710244eb48(ksys::act::Actor* actor) : Unk_71025ae680(actor) {}
     ~Unk_710244eb48() override;
-    bool m4() override { return true; }
+    bool m4(sead::Heap* heap) override { return true; }
     void m5() override;
     // 0x71006e252c (lane4 s64; placeholder name): m5's body, called by LastBoss code.
     void sub_71006E252C();
@@ -311,7 +323,7 @@ class Unk_710244fee8 : public Unk_71025ae680 {
 public:
     explicit Unk_710244fee8(ksys::act::Actor* actor) : Unk_71025ae680(actor) {}
     ~Unk_710244fee8() override;
-    bool m4() override { return true; }
+    bool m4(sead::Heap* heap) override { return true; }
     void m5() override;
     // 0x71006ee354 (lane4 s64; placeholder name): m5's body, called by SiteBoss code.
     void sub_71006EE354();

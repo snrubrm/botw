@@ -515,6 +515,76 @@ bool sub_71009258B0(ksys::act::Actor* actor, sead::Matrix34f* out) {
     return true;
 }
 
+bool sub_7100925D38(const ksys::act::BaseProcLink& link, sead::Vector3f* out) {
+    if (!link.hasProc())
+        return false;
+    auto* manager = ksys::act::BaseProcMgr::instance();
+    if (!manager)
+        return false;
+    sead::Vector3f pos;
+    if (manager->getJobType() == ksys::act::JobType::Calc1) {
+        auto* actor = sead::DynamicCast<ksys::act::Actor>(link.getProc(nullptr, nullptr));
+        if (!actor)
+            return false;
+        pos = actor->getPreviousPos2();
+    } else {
+        ksys::act::ActorLinkConstDataAccess accessor;
+        ksys::act::acquireActor(&link, &accessor);
+        pos = accessor.getPreviousPos2();
+    }
+    if (std::isnan(pos.z) || std::isnan(pos.y) || std::isnan(pos.x))
+        return false;
+    *out = pos;
+    return true;
+}
+
+bool sub_7100925E88(const ksys::act::BaseProcLink& link, sead::Vector3f* out) {
+    if (!link.hasProc())
+        return false;
+    auto* manager = ksys::act::BaseProcMgr::instance();
+    if (!manager)
+        return false;
+    sead::Vector3f pos;
+    if (manager->getJobType() == ksys::act::JobType::Calc1) {
+        auto* actor = sead::DynamicCast<ksys::act::Actor>(link.getProc(nullptr, nullptr));
+        if (!actor)
+            return false;
+        pos = actor->get460();
+    } else {
+        ksys::act::ActorLinkConstDataAccess accessor;
+        ksys::act::acquireActor(&link, &accessor);
+        pos = accessor.getField458_Vec3();
+    }
+    if (std::isnan(pos.z) || std::isnan(pos.y) || std::isnan(pos.x))
+        return false;
+    *out = pos;
+    return true;
+}
+
+// NON_MATCHING: stack slots of pos / accessor swapped and the final copy reloads differently.
+bool sub_7100925FD8(const ksys::act::BaseProcLink& link, sead::Vector3f* out) {
+    if (!link.hasProc())
+        return false;
+    auto* manager = ksys::act::BaseProcMgr::instance();
+    if (!manager)
+        return false;
+    sead::Vector3f pos{0.0f, 0.0f, 0.0f};
+    if (manager->getJobType() == ksys::act::JobType::Calc1) {
+        auto* actor = sead::DynamicCast<ksys::act::Actor>(link.getProc(nullptr, nullptr));
+        if (!actor)
+            return false;
+        pos = actor->get46c();
+    } else {
+        ksys::act::ActorLinkConstDataAccess accessor;
+        ksys::act::acquireActor(&link, &accessor);
+        accessor.sub_7100D10BD4(&pos);
+    }
+    if (std::isnan(pos.x) || std::isnan(pos.y) || std::isnan(pos.z))
+        return false;
+    *out = pos;
+    return true;
+}
+
 namespace uking::act {
 
 void CameraTargetResult::sub_7100923ECC(ksys::act::ActorLinkConstDataAccess* accessor) {

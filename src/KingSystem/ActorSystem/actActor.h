@@ -376,6 +376,9 @@ public:
     void setModelDrawEnabled(bool enabled);
     const sead::Vector3f& getPreviousPos() const;
     const sead::Vector3f& getPreviousPos2() const { return mPreviousPos2; }
+    // Placeholder names (lane4 s86; camera util 0x7100925e88 / 0x7100925fd8 read them in Calc1).
+    const sead::Vector3f& get460() const { return _460; }
+    const sead::Vector3f& get46c() const { return _46c; }
     // CSV name. Adds `handle` to the bone handle list _4d8 (if the actor has a model).
     void boneHandleStuff(BoneHandleBase* handle, bool sorted);
     // Removes `handle` from the bone handle list _4d8.

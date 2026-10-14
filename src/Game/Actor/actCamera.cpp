@@ -37,6 +37,20 @@ void uking::act::Camera::requestCameraPack(const Unk_7100791b1c& request) {
         slot.sub_7100791BAC(request);
 }
 
+void uking::act::Camera::sub_710079565C() {
+    if (!(_13fd & 0x20))
+        _13fd |= 0x20;
+    const f32 far = _860.sub_710079AE60();
+    _860._118._34 = far;
+    _860._e0._34 = far;
+    _860._a8._34 = far;
+    _860._70._34 = far;
+    _860._38._34 = far;
+    _860._0._34 = far;
+    updateMatrix(true);
+    _860._118 = _860._e0;
+}
+
 bool uking::act::Camera::sub_7100795F40(f32** out) {
     if (!out)
         return false;
