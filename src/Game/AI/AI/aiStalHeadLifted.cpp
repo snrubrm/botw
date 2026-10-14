@@ -1,6 +1,8 @@
 #include "Game/AI/AI/aiStalHeadLifted.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
@@ -30,6 +32,24 @@ void StalHeadLifted::calc_() {
         if ((child->isFinished() || child->isFailed()) && isCurrentChild("逃走"))
             setFinished();
     }
+}
+
+void StalHeadLifted::sub_71005A66E8(const sead::Vector3f& direction, bool a1) {
+    auto* actor = mActor;
+    ksys::act::ai::InlineParamPack params;
+    if (direction.x == 0.0f && direction.y == 0.0f && direction.z == 0.0f) {
+        params.addFloat(0.0f, "Power", -1);
+        params.addVec3(direction, "TargetDir", -1);
+        params.addBool(a1, "IsShootByPlayer", -1);
+    } else {
+        sead::Vector3f dir = direction;
+        const f32 power = dir.normalize();
+        params.addFloat(power, "Power", -1);
+        params.addVec3(dir, "TargetDir", -1);
+        params.addBool(a1, "IsShootByPlayer", -1);
+    }
+    actor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_40000000);
+    changeChild("逃走", &params);
 }
 
 void StalHeadLifted::leave_() {

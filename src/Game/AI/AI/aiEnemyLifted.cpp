@@ -66,22 +66,21 @@ bool EnemyLifted::isFinished() const {
     return false;
 }
 
-// NON_MATCHING: the original ends both branches with their own IsShootByPlayer / flag / changeChild tail (tail-duplicated),
-// ours joins them; same operations.
 void EnemyLifted::sub_7100396E8C(const sead::Vector3f& direction, bool player_parent) {
     ksys::act::ai::InlineParamPack pack;
     if (direction.x == 0.0f && direction.y == 0.0f && direction.z == 0.0f) {
         pack.addFloat(0.0f, "Power", -1);
         pack.addVec3(direction, "TargetDir", -1);
+        pack.addBool(player_parent, "IsShootByPlayer", -1);
     } else {
         sead::Vector3f normalized = direction;
         const f32 power = normalized.normalize();
         pack.addFloat(power, "Power", -1);
         pack.addVec3(normalized, "TargetDir", -1);
+        pack.addBool(player_parent, "IsShootByPlayer", -1);
     }
-    pack.addBool(player_parent, "IsShootByPlayer", -1);
     mActor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_40000000);
-    _38 = sead::Vector3f::zero;
+    _38.set(0.0f, 0.0f, 0.0f);
     changeChild("投擲", &pack);
 }
 
