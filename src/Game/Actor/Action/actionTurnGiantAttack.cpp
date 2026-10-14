@@ -2,6 +2,9 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "Game/Actor/aiUnk_71005D6D10.h"
 #include "Game/Actor/aiUnk_71007377D4.h"
+#include "Game/Actor/aiUnk_710073fa90.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/System/VFR.h"
 #include <gsys/gsysModel.h>
 #include <gsys/gsysModelAccessKey.h>
 #include <gsys/gsysModelUnit.h>
@@ -93,6 +96,29 @@ void TurnGiantAttack::sub_71002A1A08() {
         _50.z = mtx.m[2][3];
     }
     mActor->boneHandleStuff(&_90, false);
+}
+
+// NON_MATCHING: scheduling of the final pivot offset (pos = _50 - _68 * _5c).
+// Turns the actor towards TargetPos around the RotBaseBone pivot (_50, _5c in actor space) at a speed easing
+// towards RotSpeed.
+void TurnGiantAttack::sub_71002A1C38() {
+    auto* controller = mActor->getCharacterController();
+    if (!controller)
+        return;
+
+    const sead::Vector3f pos = mActor->getMtx().getTranslation();
+    sead::Vector3f dir = *mTargetPos_d;
+    dir -= pos;
+    dir.normalize();
+    const sead::Vector3f up = getUpDir(mActor);
+
+    ksys::VFR::lerp(&_8c, *mRotSpeed_s, 0.14f);
+    sub_710073FA94(&_68, mActor);
+    sub_71007407F0(&_68, dir, up, true, _8c);
+    sub_7100740F1C(_68, mActor);
+
+    const sead::Vector3f pos_offset = _68 * -_5c;
+    controller->sub_7100F5FBE0(_50 + pos_offset);
 }
 
 }  // namespace uking::action

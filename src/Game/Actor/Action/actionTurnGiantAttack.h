@@ -1,5 +1,7 @@
 #pragma once
 
+#include <math/seadMatrix.h>
+
 #include "Game/Actor/Action/actionUnk_7102451320.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
@@ -35,7 +37,7 @@ protected:
     sead::Vector3f* mTargetPos_d{};
     sead::Vector3f _50;
     sead::Vector3f _5c;
-    u8 _68[0x24];
+    sead::Matrix33f _68;
     f32 _8c = 0.0f;
     Unk_7102451320 _90;
 };
