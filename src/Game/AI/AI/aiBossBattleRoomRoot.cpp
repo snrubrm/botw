@@ -7,6 +7,7 @@
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/System/VFR.h"
 
 namespace uking::ai {
 
@@ -302,6 +303,83 @@ bool BossBattleRoomRoot::handleMessage_(const ksys::Message* message) {
     if (!_140._30 && _140.m2(*message))
         return true;
     return false;
+}
+
+// NON_MATCHING: SEAD_ENUM temporary stack slot, quaternion slerp / matrix float scheduling.
+void BossBattleRoomRoot::calc_() {
+    if (!_1e0)
+        return;
+
+    if (_140._30)
+        sub_7100335EB0();
+
+    if (_1b4.isOnBit(Flag(Flag::_3))) {
+        _1a8.update();
+        if (_1a8.value <= sead::Mathf::epsilon()) {
+            if (_1d4 < *mParams.mNumTimesRoll_s)
+                sub_71003355E8();
+            else
+                sub_7100335C38();
+        }
+    }
+
+    if (!_1b4.isOnBit(Flag(Flag::_0)) && !_1b4.isOnBit(Flag(Flag::_1)) &&
+        !_1b4.isOnBit(Flag(Flag::_2))) {
+        _1e0->setAngularVelocity(sead::Vector3f::zero);
+        _1e8->setAngularVelocity(sead::Vector3f::zero);
+        _1f8.fade();
+        return;
+    }
+
+    sead::Quatf from;
+    sead::Quatf to;
+    _80.toQuat(from);
+    _b0.toQuat(to);
+
+    f32 t;
+    const bool rotate = _1b4.isOnBit(Flag(Flag::_0));
+    if (1.0f - _1d0 <= sead::Mathf::epsilon()) {
+        if (rotate)
+            sub_7100335B74();
+        else if (_1b4.isOnBit(Flag(Flag::_2)))
+            sub_7100335C38();
+        else if (_1b4.isOnBit(Flag(Flag::_1)))
+            sub_7100335DA8();
+        _1d0 = 1.0f;
+        t = 1.0f;
+        if (_208) {
+            auto handle = ksys::eft::searchAndEmitSLink(mActor, "Stop", false);
+            sub_7100336B84(&handle);
+        }
+    } else {
+        f32 frames;
+        if (rotate)
+            frames = *mParams.mFramesRotate_s;
+        else if (_1b4.isOnBit(Flag(Flag::_2)))
+            frames = *mParams.mFramesRoll_s;
+        else
+            frames = *mParams.mFramesReset_s;
+        _1d0 += (1.0f / frames) * ksys::VFR::instance()->getDeltaFrame();
+        t = _1d0 * _1d0 * (_1d0 * -2.0f + 3.0f);
+    }
+
+    from.slerpTo(from, to, t);
+    sead::Matrix34f mtx;
+    mtx.makeQT(from, {_190, _194, _198});
+    _1e0->changeRotation(mtx);
+    _1e8->changeRotation(mtx);
+
+    if (_208) {
+        if (!_1f8.isActive())
+            _1f8 = ksys::eft::searchAndEmitSLink(mActor, "Move", false);
+        sub_7100336B84(&_1f8);
+    }
+
+    if (_1f0) {
+        sead::Matrix34f shape_mtx = mtx;
+        shape_mtx.setTranslation(mActor->getMtx().getTranslation());
+        _1f0->setActorMatrix(shape_mtx);
+    }
 }
 
 void BossBattleRoomRoot::leave_() {

@@ -26,6 +26,7 @@ public:
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
+    void calc_() override;
     void loadParams_() override;
     // 0x7100336b84 (placeholder name): gives the sound sources of the handle's event (before playback starts) the
     // room shape `_1f0`.
