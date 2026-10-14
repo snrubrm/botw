@@ -349,9 +349,36 @@ public:
 };
 
 // RTTI typeInfo 0x710260f2a8, derived from Bgm (sub_7100FFE094 casts BGM kind 15 to it).
+// The dragon BGM (BGM kind 15; 0x68 bytes, constructor 0x71010010fc). It owns two heap-allocated BGM handles.
 class Unk_710260f2a8 : public Bgm {
     SEAD_RTTI_OVERRIDE(Unk_710260f2a8, Bgm)
+public:
+    explicit Unk_710260f2a8(const BgmInitArg& arg);
+    ~Unk_710260f2a8() override;
+
+    // 0x7101001818 / 0x7101001478 / 0x7101001770 / 0x71010016f8 / 0x71010018b4 (declared only)
+    void m4() override;
+    void m5() override;
+    bool m9() override;
+    void m12(f32 fade_sec) override;
+    void m13(f32 fade_sec) override;
+    void m14(sead::TextWriter& writer) override;
+
+    // 0x7101001194 (declared only; 508 B): called at the end of the constructor.
+    void sub_7101001194(const BgmInitArg& arg);
+
+    u64 _10 = 0;
+    Unk_SpotBgmHandle* _18 = nullptr;
+    Unk_SpotBgmHandle* _20 = nullptr;
+    u64 _28 = 0;
+    u64 _30 = 0;
+    aal::SimpleTimedFader _38{1.0};
+    u64 _50 = 0;
+    bool _58 = false;
+    f32 _5c = 800.0;
+    bool _60 = true;
 };
+KSYS_CHECK_SIZE_NX150(Unk_710260f2a8, 0x68);
 
 // RTTI typeInfo 0x71025ce350, derived from Bgm (sub_7100FFDC80 casts BGM kind 0 to it).
 class Unk_71025ce350 : public Bgm {

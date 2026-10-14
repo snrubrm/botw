@@ -476,6 +476,34 @@ namespace {
 sead::SafeString sStr_DungeonBattleBgm = "DungeonBattleBgm";
 }  // namespace
 
+namespace ksys::snd {
+
+// NON_MATCHING: zero stores of 0x10 / 0x18..0x28 / 0x58 scheduled in another order.
+Unk_710260f2a8::Unk_710260f2a8(const BgmInitArg& arg) : Bgm(arg.kind) {
+    _38.setValueImmediate(1.0);
+    sub_7101001194(arg);
+}
+
+Unk_710260f2a8::~Unk_710260f2a8() {
+    if (_18) {
+        _18->sub_710101D9A4();
+        delete _18;
+        _18 = nullptr;
+    }
+    if (_20) {
+        _20->sub_710101D9A4();
+        delete _20;
+        _20 = nullptr;
+    }
+}
+
+void Unk_710260f2a8::m12(f32 fade_sec) {
+    _18->sub_7101020BB0(fade_sec);
+    _20->sub_7101020BB0(fade_sec);
+}
+
+}  // namespace ksys::snd
+
 Unk_71024fd6c8::Unk_71024fd6c8(const ksys::snd::BgmInitArg& arg) : Unk_71025ce380(arg) {
     Unk_SpotBgmHandle::init(arg.heap, sStr_DungeonBattleBgm, nullptr);
     mInfo = ksys::snd::sub_7100FFD76C()->getInfo(ksys::snd::MusicInfoType::_21);
