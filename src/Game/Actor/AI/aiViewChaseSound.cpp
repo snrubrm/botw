@@ -3,6 +3,9 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
+#include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
+#include "KingSystem/ActorSystem/Awareness/actAwarenessRequest.h"
+#include <cmath>
 
 namespace uking::ai {
 
@@ -14,8 +17,36 @@ bool ViewChaseSound::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
 }
 
+// NON_MATCHING: request construction store order (the original zeroes _c with _8 next to the vtable) and the scheduling
+// of the direction subtraction
 void ViewChaseSound::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (auto* awareness = mActor->getAwareness()) {
+        Unk_71023e26d8 request;
+        if (auto* sensor = awareness->_260[0])
+            sensor->m4(&request);
+        const sead::Vector3f target = *mTargetPos_d;
+        sead::Vector3f pos;
+        mActor->getMtx().getTranslation(pos);
+        const sead::Vector3f dir = mActor->getMtx().getBase(2);
+        if (sub_710072DEF0(target, request._20, request._24, request._2c, pos, dir, request._28, 1.0f, 1.2f)) {
+            changeChild("見まわし");
+            return;
+        }
+    }
+
+    sead::Vector3f dir;
+    dir.setSub(*mTargetPos_d, mActor->getMtx().getTranslation());
+    dir.normalize();
+    if (dir.dot(mActor->getMtx().getBase(2)) >= std::cos(*mTurnDir_s)) {
+        auto* nav = mActor->m45();
+        const f32 radius = nav ? nav->getRadiusMaybe() : 0.0f;
+        if (sub_710072F944(mActor, *mTargetPos_d, nullptr, radius, 10.0f))
+            sub_71005E4268();
+        else
+            sub_71005E4150();
+    } else {
+        sub_71005E39E8();
+    }
 }
 
 void ViewChaseSound::leave_() {
