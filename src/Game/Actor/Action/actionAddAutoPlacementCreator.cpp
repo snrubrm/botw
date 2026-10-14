@@ -1,6 +1,6 @@
 #include "Game/Actor/Action/actionAddAutoPlacementCreator.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/Map/mapAutoPlacementMgr.h"
+#include "Game/AutoPlacement/AutoPlacementMgr.h"
 #include "KingSystem/Map/mapDebug.h"
 #include "KingSystem/Utils/MathUtil.h"
 
@@ -43,8 +43,8 @@ void AddAutoPlacementCreator::enter_(ksys::act::ai::InlineParamPack* params) {
         return;
     }
 
-    if (ksys::map::AutoPlacementMgr::instance() != nullptr &&
-        ksys::map::AutoPlacementMgr::instance()->sub_7100659E40(mActor, mActorName_m, *mCount_m,
+    if (uking::AutoPlacementMgr::instance() != nullptr &&
+        uking::AutoPlacementMgr::instance()->sub_7100659E40(mActor, mActorName_m, *mCount_m,
                                                                 is_box)) {
         actor->setDeleteDistance(actor->getDeleteDistance() + 100.0f);
         mInitialised = true;
@@ -57,8 +57,8 @@ void AddAutoPlacementCreator::leave_() {
     if (!mInitialised)
         return;
 
-    if (ksys::map::AutoPlacementMgr::instance() != nullptr)
-        ksys::map::AutoPlacementMgr::instance()->sub_7100659F94(mActor);
+    if (uking::AutoPlacementMgr::instance() != nullptr)
+        uking::AutoPlacementMgr::instance()->sub_7100659F94(mActor);
 
     mInitialised = false;
 }

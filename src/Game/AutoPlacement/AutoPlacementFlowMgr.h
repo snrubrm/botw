@@ -8,7 +8,7 @@
 #include "KingSystem/Resource/resHandle.h"
 #include "KingSystem/Utils/Types.h"
 
-namespace ksys::map {
+namespace uking {
 
 class AutoPlacement;
 
@@ -20,7 +20,7 @@ struct AutoPlacementFlowRes {
     bool load(int idx, sead::Heap* heap);
     void start(AutoPlacement* placement, const sead::SafeString& unit_name, int*);
 
-    res::Handle handle;
+    ksys::res::Handle handle;
     sead::SafeString evfl_name;
     evfl::FlowchartContext flowchart_ctx;
     AutoPlacement* placement;
@@ -55,4 +55,4 @@ private:
 };
 KSYS_CHECK_SIZE_NX150(AutoPlacementFlowMgr, 0x4758);
 
-}  // namespace ksys::map
+}  // namespace uking

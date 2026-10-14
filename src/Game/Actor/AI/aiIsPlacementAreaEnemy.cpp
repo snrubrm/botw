@@ -1,6 +1,6 @@
 #include "Game/Actor/AI/aiIsPlacementAreaEnemy.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/Map/mapAutoPlacementMgr.h"
+#include "Game/AutoPlacement/AutoPlacementMgr.h"
 
 namespace uking::ai {
 
@@ -14,7 +14,7 @@ bool IsPlacementAreaEnemy::init_(sead::Heap* heap) {
 
 void IsPlacementAreaEnemy::enter_(ksys::act::ai::InlineParamPack* params) {
     const sead::Vector3f pos = mActor->getMtx().getTranslation();
-    if (auto* mgr = ksys::map::AutoPlacementMgr::instance()) {
+    if (auto* mgr = uking::AutoPlacementMgr::instance()) {
         const int type = *mCheckType_s;
         if (type == 0) {
             if (mgr->auto0(pos, 0)) {
@@ -48,7 +48,7 @@ void IsPlacementAreaEnemy::enter_(ksys::act::ai::InlineParamPack* params) {
 void IsPlacementAreaEnemy::calc_() {
     const sead::Vector3f pos = mActor->getMtx().getTranslation();
     bool permitted = true;
-    if (auto* mgr = ksys::map::AutoPlacementMgr::instance()) {
+    if (auto* mgr = uking::AutoPlacementMgr::instance()) {
         const int type = *mCheckType_s;
         if (type == 0) {
             if (mgr->auto0(pos, 0))

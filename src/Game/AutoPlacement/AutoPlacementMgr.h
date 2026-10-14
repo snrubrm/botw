@@ -19,7 +19,7 @@ namespace ksys::act {
 class Actor;
 }  // namespace ksys::act
 
-namespace ksys::map {
+namespace uking {
 
 // Placeholder (CSV AutoPlacementInfo::ctor 0x7100e8c60c, x 0x7100e8ce54 (pos -> grid cell lookup), x_0): embedded in the
 // AutoPlacementMgr at 0x171ef0 (size is a guess: up to the next member at 0x189df8; not decompiled).
@@ -42,9 +42,9 @@ public:
     AutoPlacementMgr();
     virtual ~AutoPlacementMgr();
 
-    bool sub_7100659E40(act::Actor* actor, const sead::SafeString& actor_name, int count,
+    bool sub_7100659E40(ksys::act::Actor* actor, const sead::SafeString& actor_name, int count,
                         u32 is_box);
-    void sub_7100659F94(act::Actor* actor);
+    void sub_7100659F94(ksys::act::Actor* actor);
     // 0x7100655568 (CSV stopThread)
     void stopThread();
     // 0x7100659158 (CSV __auto10; placeholder name): placement type of the flow `idx` (near flows with `near_flow`).
@@ -77,7 +77,7 @@ public:
 
     // TODO: rename
     struct Unk1 {
-        act::Actor* actor;
+        ksys::act::Actor* actor;
         sead::SafeString name;
         // The actor's matrix / scale when it was registered (sub_7100659E40).
         sead::Matrix34f mtx;
@@ -122,4 +122,4 @@ f32 sub_7100659298(const sead::Vector3f& pos, void* const* stats);
 // origin at (-5000, -4000)) of `pos`, clamped to the grid.
 void sub_710065622C(s32* col, s32* row, const sead::Vector3f* pos);
 
-}  // namespace ksys::map
+}  // namespace uking

@@ -1,5 +1,5 @@
 #include "Game/Actor/Action/actionPlayerInAreaAutoEnemyForbidTag.h"
-#include "KingSystem/Map/mapAutoPlacementMgr.h"
+#include "Game/AutoPlacement/AutoPlacementMgr.h"
 
 namespace uking::action {
 
@@ -38,7 +38,7 @@ void PlayerInAreaAutoEnemyForbidTag::loadParams_() {
 void PlayerInAreaAutoEnemyForbidTag::m32() {
     if (_58)
         return;
-    if (auto* mgr = ksys::map::AutoPlacementMgr::instance()) {
+    if (auto* mgr = uking::AutoPlacementMgr::instance()) {
         if (*mNonAutoPlacementAnimal_m)
             mgr->sub_7100659DE0(1, true);
         if (*mNonAutoPlacementBird_m)
@@ -60,7 +60,7 @@ void PlayerInAreaAutoEnemyForbidTag::m32() {
 void PlayerInAreaAutoEnemyForbidTag::m33() {
     if (!_58)
         return;
-    if (auto* mgr = ksys::map::AutoPlacementMgr::instance()) {
+    if (auto* mgr = uking::AutoPlacementMgr::instance()) {
         if (*mNonAutoPlacementAnimal_m)
             mgr->sub_7100659DE0(1, false);
         if (*mNonAutoPlacementBird_m)

@@ -6,7 +6,7 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actUnk_71006ecc78.h"
-#include "KingSystem/Map/mapAutoPlacementMgr.h"
+#include "Game/AutoPlacement/AutoPlacementMgr.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Physics/System/physHavokAI.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
@@ -83,7 +83,7 @@ void LandTeleport::m36() {
     const sead::Vector3f start = _b0;
     if ((_b0 - _98).length() > 0.1f) {
         const bool found = sub_710072F788(actor, start, _98, &fallback);
-        auto* mgr = ksys::map::AutoPlacementMgr::instance();
+        auto* mgr = uking::AutoPlacementMgr::instance();
         if (found) {
             if (!mgr || !mgr->isNonAutoPlacement(_98, true)) {
                 _b0.set(_98);
@@ -133,7 +133,7 @@ bool LandTeleport::m39(const sead::Vector3f& in, sead::Vector3f* out) {
     }
     if (!found)
         return false;
-    auto* mgr = ksys::map::AutoPlacementMgr::instance();
+    auto* mgr = uking::AutoPlacementMgr::instance();
     if (mgr && mgr->isNonAutoPlacement(*out, true))
         return false;
     _b0.set(*out);
@@ -149,7 +149,7 @@ void LandTeleport::m40() {
 }
 
 bool LandTeleport::sub_71001CDF68(const sead::Vector3f& pos) {
-    if (auto* mgr = ksys::map::AutoPlacementMgr::instance()) {
+    if (auto* mgr = uking::AutoPlacementMgr::instance()) {
         if (mgr->isNonAutoPlacement(pos, true))
             return true;
     }
@@ -159,7 +159,7 @@ bool LandTeleport::sub_71001CDF68(const sead::Vector3f& pos) {
 bool LandTeleport::m41() {
     if (!ksys::sub_7100D8C4F8(_98))
         return true;
-    if (auto* mgr = ksys::map::AutoPlacementMgr::instance()) {
+    if (auto* mgr = uking::AutoPlacementMgr::instance()) {
         if (mgr->isNonAutoPlacement(_98, true))
             return true;
     }

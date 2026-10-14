@@ -11,7 +11,7 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
-#include "KingSystem/Map/mapAutoPlacementMgr.h"
+#include "Game/AutoPlacement/AutoPlacementMgr.h"
 #include "KingSystem/System/StageInfo.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
@@ -103,7 +103,7 @@ bool AppearFromTarget::isFinished() const {
 }
 
 bool AppearFromTarget::sub_710030E930(const sead::Vector3f& pos) {
-    auto* mgr = ksys::map::AutoPlacementMgr::instance();
+    auto* mgr = uking::AutoPlacementMgr::instance();
     if (mgr && (mgr->auto0(pos, 0) || mgr->isNonAutoPlacement(pos, true)))
         return false;
     if (!m36(pos))
@@ -113,7 +113,7 @@ bool AppearFromTarget::sub_710030E930(const sead::Vector3f& pos) {
         if (!sub_710072C21C(&height, &pos) || !(sead::Mathf::abs(pos.y - height) < *mTeraDist_s))
             return false;
     }
-    mgr = ksys::map::AutoPlacementMgr::instance();
+    mgr = uking::AutoPlacementMgr::instance();
     if (mgr && (mgr->sub_7100659230(pos) > 0.0f || mgr->sub_71006592E8(pos) < 6.0f))
         return false;
     return true;

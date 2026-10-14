@@ -2,7 +2,7 @@
 #include "Game/Actor/aiUnk_71005D6D10.h"
 #include "Game/Actor/aiUnk_71007320F0.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/Map/mapAutoPlacementMgr.h"
+#include "Game/AutoPlacement/AutoPlacementMgr.h"
 
 namespace uking::ai {
 
@@ -40,7 +40,7 @@ f32 TiredDistSelect::m34() {
 // NON_MATCHING: the original keeps the second isNonAutoPlacement result as a branch (`tbnz; mov w21,
 // wzr`) instead of returning it directly
 bool TiredDistSelect::m35() {
-    auto* mgr = ksys::map::AutoPlacementMgr::instance();
+    auto* mgr = uking::AutoPlacementMgr::instance();
     if (!mgr)
         return false;
 

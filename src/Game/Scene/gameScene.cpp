@@ -4,7 +4,7 @@
 #include "Game/gameResidentActorMgr.h"
 #include "Game/Actor/Damage/dmgInfoManager.h"
 #include "KingSystem/ActorSystem/actGlobalParameter.h"
-#include "KingSystem/Map/mapAutoPlacementFlowMgr.h"
+#include "Game/AutoPlacement/AutoPlacementFlowMgr.h"
 #include "KingSystem/System/StarterPackMgr.h"
 #include "KingSystem/Utils/HeapUtil.h"
 #include "KingSystem/System/GameTool.h"
@@ -457,7 +457,7 @@ void GameScene::initGlobalParamE3TipsActorAndPlacement() {
     E3Mgr::instance()->loadBuildTimeStubbed();
     TipsMgr::instance()->loadTipFiles();
     ResidentActorMgr::instance()->loadByml();
-    ksys::map::AutoPlacementFlowMgr::instance()->loadEventFlows();
+    uking::AutoPlacementFlowMgr::instance()->loadEventFlows();
     if (act::DamageInfoMgr::instance())
         act::DamageInfoMgr::instance()->sub_7100673D8C();
 }

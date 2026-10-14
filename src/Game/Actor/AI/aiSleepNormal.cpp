@@ -1,7 +1,7 @@
 #include "Game/Actor/AI/aiSleepNormal.h"
 #include "Game/Actor/aiAwarenessFilters.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/Map/mapAutoPlacementMgr.h"
+#include "Game/AutoPlacement/AutoPlacementMgr.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/aiRootAi.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
@@ -131,11 +131,11 @@ ksys::act::Unk_7100d78e50* SleepNormal::m37(int* x) {
     if (!awareness || awareness->_300 == 0)
         return nullptr;
 
-    ksys::map::AutoPlacementMgr* mgr;
+    uking::AutoPlacementMgr* mgr;
     {
         sead::Vector3f pos;
         mActor->getMtx().getTranslation(pos);
-        mgr = ksys::map::AutoPlacementMgr::instance();
+        mgr = uking::AutoPlacementMgr::instance();
         if (mgr && mgr->isNonAutoPlacement(pos, true))
             return nullptr;
     }
@@ -154,7 +154,7 @@ ksys::act::Unk_7100d78e50* SleepNormal::m37(int* x) {
     ksys::act::Unk_7100d78e50* entry;
     {
         Unk_71024514c0 filter{mActor};
-        mgr = ksys::map::AutoPlacementMgr::instance();
+        mgr = uking::AutoPlacementMgr::instance();
         if (mgr) {
             do {
                 entry = nullptr;
@@ -176,7 +176,7 @@ ksys::act::Unk_7100d78e50* SleepNormal::m37(int* x) {
 
     {
         Unk_71024514c0 filter{mActor};
-        mgr = ksys::map::AutoPlacementMgr::instance();
+        mgr = uking::AutoPlacementMgr::instance();
         if (mgr) {
             do {
                 entry = nullptr;

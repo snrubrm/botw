@@ -8,7 +8,7 @@
 #include "Game/Actor/actWeapon.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/aiRootAi.h"
-#include "KingSystem/Map/mapAutoPlacementMgr.h"
+#include "Game/AutoPlacement/AutoPlacementMgr.h"
 #include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
@@ -51,7 +51,7 @@ bool AssassinShooterBattle::sub_7100322560() {
     if (_70 <= 0) {
         result = true;
     } else {
-        auto* mgr = ksys::map::AutoPlacementMgr::instance();
+        auto* mgr = uking::AutoPlacementMgr::instance();
         bool non_auto_placement = false;
         if (mgr) {
             const sead::Vector3f pos = mActor->getMtx().getTranslation();

@@ -1,10 +1,10 @@
-#include "KingSystem/Map/mapAutoPlacementFlowMgr.h"
+#include "Game/AutoPlacement/AutoPlacementFlowMgr.h"
 #include <container/seadBuffer.h>
 #include <heap/seadExpHeap.h>
 #include <evfl/ResActor.h>
 #include "KingSystem/Resource/resLoadRequest.h"
 
-namespace ksys::map {
+namespace uking {
 
 void* autoPlacementBfevflAlloc(size_t size, size_t alignment, void* userdata) {
     return static_cast<sead::Heap*>(userdata)->alloc(size, alignment);
@@ -54,7 +54,7 @@ void AutoPlacementFlowMgr::loadEventFlows() {
 
         sead::FixedSafeString<128> path;
         path.format("EventFlow/%s", flow.evfl_name.cstr());
-        res::LoadRequest req;
+        ksys::res::LoadRequest req;
         req.mRequester = "AutoPlacementFlow";
 
         flow.handle.requestLoad(path, &req);
@@ -67,7 +67,7 @@ void AutoPlacementFlowMgr::loadEventFlows() {
 
         sead::FixedSafeString<128> path;
         path.format("EventFlow/%s", flow.evfl_name.cstr());
-        res::LoadRequest req;
+        ksys::res::LoadRequest req;
         req.mRequester = "AutoPlacementFlow";
 
         flow.handle.requestLoad(path, &req);
@@ -114,4 +114,4 @@ AutoPlacementFlowRes* AutoPlacementFlowMgr::getFlow(const sead::SafeString& acto
     return nullptr;
 }
 
-}  // namespace ksys::map
+}  // namespace uking

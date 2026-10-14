@@ -1,6 +1,6 @@
 #include "E3Mgr.h"
 #include "Game/gameStageStateMaybe.h"
-#include "KingSystem/Map/mapAutoPlacementMgr.h"
+#include "Game/AutoPlacement/AutoPlacementMgr.h"
 #include "KingSystem/Map/mapPlacementMgr.h"
 #include "KingSystem/Resource/resLoadRequest.h"
 #include "controller/seadController.h"

@@ -1,5 +1,5 @@
 #include "Game/Actor/Action/actionNoAutoPlacementEnemyDeadlyQuest.h"
-#include "KingSystem/Map/mapAutoPlacementMgr.h"
+#include "Game/AutoPlacement/AutoPlacementMgr.h"
 
 namespace uking::action {
 
@@ -13,7 +13,7 @@ bool NoAutoPlacementEnemyDeadlyQuest::init_(sead::Heap* heap) {
 }
 
 bool NoAutoPlacementEnemyDeadlyQuest::oneShot_() {
-    if (auto* mgr = ksys::map::AutoPlacementMgr::instance())
+    if (auto* mgr = uking::AutoPlacementMgr::instance())
         mgr->sub_7100659DE0(0, true);
     return ksys::act::ai::Action::oneShot_();
 }

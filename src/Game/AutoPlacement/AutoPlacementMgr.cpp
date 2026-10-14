@@ -1,4 +1,4 @@
-#include "KingSystem/Map/mapAutoPlacementMgr.h"
+#include "Game/AutoPlacement/AutoPlacementMgr.h"
 #include <prim/seadScopedLock.h>
 #include "Game/Actor/aiUnk_7100736460.h"
 #include "Game/gameStatisticsMgr.h"
@@ -6,13 +6,13 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorSystem.h"
 #include "KingSystem/Physics/System/physSystem.h"
-#include "KingSystem/Map/mapAutoPlacementFlowMgr.h"
+#include "Game/AutoPlacement/AutoPlacementFlowMgr.h"
 
-namespace ksys::map {
+namespace uking {
 
 SEAD_SINGLETON_DISPOSER_IMPL(AutoPlacementMgr)
 
-void AutoPlacementMgr::sub_7100659F94(act::Actor* actor) {
+void AutoPlacementMgr::sub_7100659F94(ksys::act::Actor* actor) {
     auto lock = sead::makeScopedLock(mCS);
     for (auto& entry : _5b118) {
         if (entry.actor == actor) {
@@ -78,11 +78,11 @@ void AutoPlacementMgr::stopThread() {
     _50.load();
     if (mThread) {
         mThread->quitAndDestroySingleThread(false);
-        phys::System::instance()->sub_71012157B4(mThread, false);
+        ksys::phys::System::instance()->sub_71012157B4(mThread, false);
         delete mThread;
         mThread = nullptr;
     }
-    act::ActorSystem::instance()->clearAutoPlacementMgrDelegates();
+    ksys::act::ActorSystem::instance()->clearAutoPlacementMgrDelegates();
 }
 
 int AutoPlacementMgr::sub_7100659158(int idx, bool near_flow) {
@@ -128,7 +128,7 @@ f32 AutoPlacementMgr::sub_71006592E8(const sead::Vector3f& pos) {
 
 // NON_MATCHING: only the select polarity of the free-entry choice (`csel x25, x12, x25, eq` in the original, `csel
 // x25, x25, x12, ne` here). `is_box` is a u32 (the original stores the raw argument register).
-bool AutoPlacementMgr::sub_7100659E40(act::Actor* actor, const sead::SafeString& actor_name, int count,
+bool AutoPlacementMgr::sub_7100659E40(ksys::act::Actor* actor, const sead::SafeString& actor_name, int count,
                                       u32 is_box) {
     if (u32(count - 1) >= 0x7fff)
         return false;
@@ -165,4 +165,4 @@ void AutoPlacementMgr::sub_7100659DE0(int type, bool enable) {
     }
 }
 
-}  // namespace ksys::map
+}  // namespace uking

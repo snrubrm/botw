@@ -1,7 +1,7 @@
 #include "Game/Actor/AI/aiAssassinRoot.h"
 #include "Game/Actor/actNPCBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/Map/mapAutoPlacementMgr.h"
+#include "Game/AutoPlacement/AutoPlacementMgr.h"
 
 namespace uking::ai {
 
@@ -30,7 +30,7 @@ void AssassinRoot::enter_(ksys::act::ai::InlineParamPack* params) {
 void AssassinRoot::calc_() {
     NPCRoot::calc_();
     const sead::Vector3f pos = mActor->getMtx().getTranslation();
-    if (auto* mgr = ksys::map::AutoPlacementMgr::instance()) {
+    if (auto* mgr = uking::AutoPlacementMgr::instance()) {
         if (mgr->isNonAutoPlacement(pos, true) && mgr->auto0(pos, 0))
             mActor->deleteEx(ksys::act::Actor::DeleteType::_1, ksys::act::BaseProc::DeleteReason::_0);
     }

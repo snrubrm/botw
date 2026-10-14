@@ -1,10 +1,4 @@
 target_sources(uking PRIVATE
-  mapAutoPlacement.cpp
-  mapAutoPlacement.h
-  mapAutoPlacementFlowMgr.cpp
-  mapAutoPlacementFlowMgr.h
-  mapAutoPlacementMgr.cpp
-  mapAutoPlacementMgr.h
   mapTypes.h
   mapDebug.cpp
   mapDebug.h

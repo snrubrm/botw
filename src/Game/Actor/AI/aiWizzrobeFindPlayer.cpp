@@ -2,7 +2,7 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "Game/Actor/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
-#include "KingSystem/Map/mapAutoPlacementMgr.h"
+#include "Game/AutoPlacement/AutoPlacementMgr.h"
 #include <math/seadMathCalcCommon.h>
 
 namespace uking::ai {
@@ -83,7 +83,7 @@ bool WizzrobeFindPlayer::sub_71005FDF08() {
 
     const auto& target = sub_71005D9330(actor);
     const sead::Vector3f pos = actor->getMtx().getTranslation();
-    if (auto* mgr = ksys::map::AutoPlacementMgr::instance()) {
+    if (auto* mgr = uking::AutoPlacementMgr::instance()) {
         if (mgr->isNonAutoPlacement(target, true))
             return false;
     }

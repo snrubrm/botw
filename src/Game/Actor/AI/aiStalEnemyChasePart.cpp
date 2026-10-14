@@ -1,6 +1,6 @@
 #include "Game/Actor/AI/aiStalEnemyChasePart.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
-#include "KingSystem/Map/mapAutoPlacementMgr.h"
+#include "Game/AutoPlacement/AutoPlacementMgr.h"
 
 namespace uking::ai {
 
@@ -13,7 +13,7 @@ bool StalEnemyChasePart::init_(sead::Heap* heap) {
 }
 
 void StalEnemyChasePart::enter_(ksys::act::ai::InlineParamPack* params) {
-    auto* mgr = ksys::map::AutoPlacementMgr::instance();
+    auto* mgr = uking::AutoPlacementMgr::instance();
     if (mgr && mgr->isNonAutoPlacement(*mTargetPos_d, true)) {
         ksys::act::ai::InlineParamPack pack;
         pack.addVec3(*mTargetPos_d, "TargetPos", -1);

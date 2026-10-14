@@ -37,7 +37,7 @@
 #include "KingSystem/ActorSystem/actDropData.h"
 #include "KingSystem/ActorSystem/actUnk_7100e4e084.h"
 #include "KingSystem/ActorSystem/actUnk_71006ecc78.h"
-#include "KingSystem/Map/mapAutoPlacementMgr.h"
+#include "Game/AutoPlacement/AutoPlacementMgr.h"
 #include "KingSystem/ActorSystem/actLodState.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/Map/mapObject.h"
@@ -854,7 +854,7 @@ bool sub_71005D9E68(ksys::act::Actor* actor) {
 }
 
 bool sub_71005D9F4C(const sead::Vector3f& pos) {
-    auto* mgr = ksys::map::AutoPlacementMgr::instance();
+    auto* mgr = uking::AutoPlacementMgr::instance();
     if (!mgr)
         return false;
     return mgr->isNonAutoPlacement(pos, true);
@@ -865,7 +865,7 @@ bool sub_71005D9FC0(ksys::act::BaseProcLink* link) {
     ksys::act::acquireActor(link, &accessor);
     sead::Vector3f pos;
     accessor.getActorMtx().getTranslation(pos);
-    auto* mgr = ksys::map::AutoPlacementMgr::instance();
+    auto* mgr = uking::AutoPlacementMgr::instance();
     if (!mgr)
         return false;
     return mgr->isNonAutoPlacement(pos, true);
@@ -892,7 +892,7 @@ bool sub_71005D90E0(ksys::act::Actor* actor) {
 bool sub_71005D9F70(ksys::act::Actor* actor) {
     sead::Vector3f pos;
     actor->getMtx().getTranslation(pos);
-    auto* mgr = ksys::map::AutoPlacementMgr::instance();
+    auto* mgr = uking::AutoPlacementMgr::instance();
     if (!mgr)
         return false;
     return mgr->isNonAutoPlacement(pos, true);

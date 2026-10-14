@@ -1,5 +1,5 @@
 #include "Game/Actor/AI/aiEnemyNormal.h"
-#include "KingSystem/Map/mapAutoPlacementMgr.h"
+#include "Game/AutoPlacement/AutoPlacementMgr.h"
 #include "Game/Actor/actWeapon.h"
 #include "Game/Actor/Damage/dmgDamageManagerBase.h"
 #include "KingSystem/ActorSystem/actChemical.h"
@@ -513,8 +513,8 @@ bool EnemyNormal::handleMessage_(const ksys::Message* message) {
             _188.x();
             return false;
         }
-        if (ksys::map::AutoPlacementMgr::instance() &&
-            ksys::map::AutoPlacementMgr::instance()->isNonAutoPlacement(_188._38.mData._28, true)) {
+        if (uking::AutoPlacementMgr::instance() &&
+            uking::AutoPlacementMgr::instance()->isNonAutoPlacement(_188._38.mData._28, true)) {
             return false;
         }
         _290.x();
@@ -641,7 +641,7 @@ bool EnemyNormal::m46(const sead::Vector3f& pos, ksys::act::BaseProcLink& target
     if (has_target && !((center_xz - target_xz).squaredLength() < area_sq))
         return false;
 
-    auto* mgr = ksys::map::AutoPlacementMgr::instance();
+    auto* mgr = uking::AutoPlacementMgr::instance();
     if (!mgr)
         return true;
     sead::Vector3f own_pos;
@@ -695,7 +695,7 @@ ksys::act::Unk_7100d78e50* EnemyNormal::sub_71003A04E0(bool a1, ksys::act::Unk_7
     auto* actor = mActor;
     sead::Vector3f pos;
     actor->getMtx().getTranslation(pos);
-    if (auto* mgr = ksys::map::AutoPlacementMgr::instance()) {
+    if (auto* mgr = uking::AutoPlacementMgr::instance()) {
         if (mgr->isNonAutoPlacement(pos, true))
             return nullptr;
     }
