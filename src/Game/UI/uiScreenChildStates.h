@@ -159,15 +159,19 @@ public:
     void sub_71009C082C();
 
     // Full setup and independent callbacks identify eight animators and their current selection.
-    u8 _130[0x140 - 0x130];
-    /* 0x140 */ f32 _140;
-    /* 0x144 */ f32 _144;
-    /* 0x148 */ f32 _148;
-    /* 0x14c */ s32 _14c;
-    /* 0x150 */ s32 _150;
-    u8 _154[4];
-    /* 0x158 */ eui::Animator* mAnimators[8];
-    /* 0x198 */ eui::Animator* mCurrentAnimator;
+    // Initial values from the ctor 0x9bf770.
+    /* 0x130 */ f32 _130 = 1.0f;
+    /* 0x134 */ f32 _134 = 0.4f;
+    /* 0x138 */ f32 _138 = 2.0f;
+    /* 0x13c */ f32 _13c = 0.0f;
+    /* 0x140 */ f32 _140 = 0.0f;
+    /* 0x144 */ f32 _144 = 0.0f;
+    /* 0x148 */ f32 _148 = 0.0f;
+    /* 0x14c */ s32 _14c = 0;
+    /* 0x150 */ s32 _150 = 0;
+    /* 0x154 */ u8 _154 = 0;
+    /* 0x158 */ eui::Animator* mAnimators[8]{};
+    /* 0x198 */ eui::Animator* mCurrentAnimator = nullptr;
 };
 static_assert(sizeof(Unk_710247c368) == 0x1a0);
 

@@ -970,6 +970,9 @@ void Unk_710247c368::sub_71009C082C() {
 }
 
 // NON_MATCHING: the inlined ScreenChild member teardown differs in register allocation / scheduling only.
+// 0x71009bf770
+Unk_710247c368::Unk_710247c368(eui::LayoutEx* layout) : ScreenChildEx(layout) {}
+
 Unk_710247c368::~Unk_710247c368() = default;
 
 Unk_7102477110::~Unk_7102477110() = default;
