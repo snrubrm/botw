@@ -142,6 +142,28 @@ void Unk_710079a8e8::sub_710079AED0() {
     _804.sub_710079AE40(0x8000);
 }
 
+void Unk_710079a8e8::sub_710079B16C() {
+    _200.reset();
+    auto* attention = ksys::act::Attention::instance();
+    if (!attention || !attention->sub_7100D74114())
+        return;
+    attention->sub_7100D74148(&_200);
+    if (!_200.hasProc())
+        return;
+    sead::Matrix34f mtx = sead::Matrix34f::ident;
+    if (sub_7100925AB8(_200, &mtx))
+        _2d0 = mtx;
+    sead::Vector3f pos = sead::Vector3f::zero;
+    if (sub_7100925D38(_200, &pos))
+        _300 = pos;
+    sead::Vector3f pos2 = sead::Vector3f::zero;
+    if (sub_7100925E88(_200, &pos2))
+        _30c = pos2;
+    sead::Vector3f pos3 = sead::Vector3f::zero;
+    if (sub_7100925FD8(_200, &pos3))
+        _318 = pos3;
+}
+
 void Unk_710079a8e8::sub_710079B2C4() {
     _210.reset();
     if (auto* attention = ksys::act::Attention::instance())
@@ -166,7 +188,57 @@ void Unk_710079a8e8::sub_710079B308(Camera* camera) {
         _324 = accessor.getActorMtx();
 }
 
+// NON_MATCHING: the accessor address is kept in an extra callee-saved register (regalloc only).
+void Unk_710079a8e8::sub_710079B3C8(Camera* camera) {
+    if (!camera || (!camera->get1a0() &&
+                    !(camera->getMapObject() &&
+                      camera->getMapObject()->getFlags0().isOn(ksys::map::Object::Flag0::_20000)))) {
+        _230.reset();
+        return;
+    }
+    ksys::act::ActorLinkConstDataAccess accessor;
+    sub_710092486C(camera, &accessor);
+    if (!accessor.hasProc()) {
+        _230.reset();
+        return;
+    }
+    accessor.linkAcquire(&_230);
+    const auto& mtx = accessor.getActorMtx();
+    if (!ksys::util::sub_71011F10F4(mtx))
+        _354 = mtx;
+    const auto& pos = accessor.getPreviousPos2();
+    if (!ksys::util::sub_71011F1040(pos))
+        _384 = pos;
+    const auto& pos2 = accessor.getField458_Vec3();
+    if (!ksys::util::sub_71011F1040(pos2))
+        _390 = pos2;
+}
+
 void Unk_710079a8e8::sub_710079B4F0() {}
+
+// NON_MATCHING: the bit 0x80 update computes the reset value first (and / orr order; `!(x <= 0)` fixes it
+// but gives csel hi instead of gt).
+void Unk_710079a8e8::sub_710079B4F4() {
+    auto* player = sub_7100926A14();
+    if (player && player->_cf4.isOnBit(2))
+        _7fc.sub_710079B62C(4);
+    if (_800.sub_710079C0CC(4) || !_7fc.sub_710079C0CC(4))
+        return;
+    _250 = _210;
+    if (!_250.hasProc())
+        return;
+    sead::Matrix34f mtx = sead::Matrix34f::ident;
+    if (sub_7100925AB8(_250, &mtx))
+        _3e4 = mtx;
+    const sead::Vector3f dir(_3e4(0, 2), _3e4(1, 2), _3e4(2, 2));
+    const sead::Vector3f pos(_3e4(0, 3), _3e4(1, 3), _3e4(2, 3));
+    const auto& player_mtx = player->getMtx();
+    const sead::Vector3f player_pos(player_mtx(0, 3), player_mtx(1, 3), player_mtx(2, 3));
+    if (dir.dot(player_pos - pos) > 0.0f)
+        _804.sub_710079AE20(0x80);
+    else
+        _804.sub_710079AE40(0x80);
+}
 
 bool Unk_710079a8e8::sub_710079B63C(u32 mask) const {
     if (_800.sub_710079C0CC(mask))

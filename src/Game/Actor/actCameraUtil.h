@@ -294,6 +294,11 @@ bool sub_710092DC00();
 
 // 0x7100925ab8: writes the linked actor matrix if the link resolves and its components are not NaN.
 bool sub_7100925AB8(const ksys::act::BaseProcLink& link, sead::Matrix34f* out);
+// 0x7100925d38 / 0x7100925e88 / 0x7100925fd8: write a position of the linked actor (declared only; placeholder
+// names; Unk_710079a8e8::sub_710079B16C stores them in _300 / _30c / _318).
+bool sub_7100925D38(const ksys::act::BaseProcLink& link, sead::Vector3f* out);
+bool sub_7100925E88(const ksys::act::BaseProcLink& link, sead::Vector3f* out);
+bool sub_7100925FD8(const ksys::act::BaseProcLink& link, sead::Vector3f* out);
 
 // 0x71009238f8: replaces matrix with inverse(basis) * matrix.
 void sub_71009238F8(sead::Matrix33f* matrix, const sead::Matrix33f& basis);
