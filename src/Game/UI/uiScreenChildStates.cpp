@@ -125,6 +125,14 @@ void Unk_710247c010::m82() {
 
 Unk_710247c010::~Unk_710247c010() = default;
 
+// 0x710098a1f4
+// NON_MATCHING: the inlined FixedObjList free-list setup differs in scheduling / register allocation only.
+ScreenMainScreenUnk3648::ScreenMainScreenUnk3648(eui::LayoutEx* layout) : ScreenChildEx(layout) {}
+
+// 0x710098a2c8
+// NON_MATCHING: the inlined ScreenChild member teardown differs in scheduling only.
+ScreenMainScreenUnk3648::~ScreenMainScreenUnk3648() = default;
+
 // 0x710098b59c
 ScreenMainScreenUnk3658::ScreenMainScreenUnk3658(eui::LayoutEx* layout) : ScreenChildEx(layout) {}
 

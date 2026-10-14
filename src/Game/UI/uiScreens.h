@@ -2,6 +2,7 @@
 
 #include <container/seadBuffer.h>
 #include <container/seadFreeList.h>
+#include <container/seadObjList.h>
 #include <container/seadPtrArray.h>
 #include <container/seadRingBuffer.h>
 #include <math/seadBoundBox.h>
@@ -823,7 +824,22 @@ struct ScreenMainScreenUnk3648 : ScreenChildEx {
     void sub_710098A93C(s32 type, const sead::SafeString& text);
     // 0x710098ae8c (declared only)
     void sub_710098AE8C(s32 a1);
-    u8 _130[0x390 - 0x130];
+
+    // Element of the three-entry list at 0x1f0 (0x78-byte list nodes); contents not known yet.
+    struct Entry {
+        u8 _0[0x68];
+    };
+
+    /* 0x130 */ void* _130 = nullptr;
+    /* 0x138 */ void* _138 = nullptr;
+    /* 0x140 */ f32 _140 = 1.0f;
+    /* 0x144 */ bool _144 = false;
+    /* 0x148 */ s32 _148 = -1;
+    /* 0x150 */ sead::FixedSafeString<64> _150;
+    /* 0x1a8 */ bool _1a8 = false;
+    /* 0x1b0 */ sead::CriticalSection _1b0;
+    /* 0x1f0 */ sead::FixedObjList<Entry, 3> _1f0;
+    /* 0x388 */ bool _388 = false;
 };
 static_assert(sizeof(ScreenMainScreenUnk3648) == 0x390);
 
