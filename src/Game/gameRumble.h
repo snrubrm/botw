@@ -49,6 +49,9 @@ public:
     void init();
     // 0x710089878c (CSV Rumble::__auto1; placeholder name): stops the running rumble.
     void sub_710089878C();
+    // 0x7100899108 (placeholder name): the duration of `pattern` in seconds (one character per 1/120 s; 0.5 without a
+    // pattern string).
+    f32 sub_7100899108(RumblePattern pattern) const;
     // 0x7100898950 (CSV Rumble::calc)
     void calc();
 

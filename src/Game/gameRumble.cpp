@@ -150,4 +150,11 @@ void Rumble::calc() {
         sub_7100898A20();
 }
 
+f32 Rumble::sub_7100899108(RumblePattern pattern) const {
+    const sead::SafeString* str = &sPatterns[pattern];
+    if (str == nullptr)
+        return 0.5f;
+    return str->calcLength() / 120.0f;
+}
+
 }  // namespace uking
