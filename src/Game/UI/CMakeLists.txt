@@ -122,6 +122,8 @@ target_sources(uking PRIVATE
   uiScreenAppMapWidget.cpp
   uiScreenKologNum.cpp
   uiScreenMamoNum.cpp
+  uiScreenMessageGet.cpp
+  uiScreenPauseMenuInfo.cpp
   uiScreenConstSlots.cpp
   uiScreenAppPictureBook.cpp
   uiScreenAppPictureBookUnk784.cpp
