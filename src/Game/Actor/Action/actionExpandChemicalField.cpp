@@ -10,6 +10,8 @@
 #include "KingSystem/ActorSystem/actAttackSensor.h"
 #include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/System/VFR.h"
+#include "KingSystem/Terrain/teraSystem.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectAttack.h"
@@ -110,8 +112,46 @@ void ExpandChemicalField::sub_7100129760() {
     mActor->deleteLater(ksys::act::BaseProc::DeleteReason::_0);
 }
 
+// NON_MATCHING: the inlined Mathf::chase tests are combined with fccmp here (cset / orr in the original).
 void ExpandChemicalField::calc_() {
-    ksys::act::ai::Action::calc_();
+    auto* actor = mActor;
+    f32 scale = actor->getScale().x;
+    if (scale >= _7c) {
+        sub_7100129760();
+    } else {
+        const f32 step = _78 * ksys::VFR::instance()->getDeltaTime();
+        sead::Mathf::chase(&scale, _7c, step);
+        actor->setScale(sead::Vector3f::ones * scale);
+    }
+
+    if (*mCutGrassType_m == 0)
+        return;
+    auto* terrain = ksys::tera::Terrain::instance();
+    if (!terrain || !terrain->isGrassEnabled())
+        return;
+
+    switch (*mCutGrassType_m) {
+    case 2: {
+        auto* grass = terrain->sub_710114DE4C();
+        const sead::Vector3f position = actor->getMtx().getTranslation();
+        grass->sub_7101151064(&position, actor->getScale().x, 4.0f, true, true, true);
+        break;
+    }
+    case 3: {
+        auto* grass = terrain->sub_710114DE4C();
+        const sead::Vector3f position = actor->getMtx().getTranslation();
+        grass->sub_7101150BE0(&position, actor->getScale().x, 4.0f);
+        break;
+    }
+    case 1: {
+        auto* grass = terrain->sub_710114DE4C();
+        const sead::Vector3f position = actor->getMtx().getTranslation();
+        grass->sub_7101150A7C(&position, actor->getScale().x, 0.0f);
+        break;
+    }
+    default:
+        break;
+    }
 }
 
 }  // namespace uking::action

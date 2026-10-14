@@ -74,6 +74,8 @@ public:
 
         void sub_7101150990(bool enabled);
         void sub_7101150A7C(const sead::Vector3f* pos, f32 radius, f32 value);
+        // 0x7101150be0 (declared only; placeholder name; ExpandChemicalField::calc_ with cut grass type 3).
+        void sub_7101150BE0(const sead::Vector3f* pos, f32 radius, f32 value);
 
         // Shared flags read and written by 0x7101150990 and 0x710114dd4c.
         u8 _0[8];
