@@ -11,6 +11,12 @@ PlayerInfo::Info4::Info4() = default;
 PlayerInfo::Info4::~Info4() = default;
 PlayerInfo::Info5::Info5() = default;
 PlayerInfo::Info5::~Info5() = default;
+
+// 0x71008529e8
+bool sub_71008529E8() {
+    return true;
+}
+
 PlayerInfo::Info6::Info6() = default;
 PlayerInfo::Info6::~Info6() = default;
 PlayerInfo::Info7::Info7() = default;

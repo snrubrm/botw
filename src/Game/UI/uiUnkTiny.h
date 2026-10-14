@@ -482,9 +482,10 @@ public:
 };
 static_assert(sizeof(Unk_710247ae28) == 0x20);
 
-// Element of Unk_710247d8f8's array at 0x158 (implicit ctor 0x9c5074).
+// Element of Unk_710247d8f8's array at 0x158 (ctor 0x9c5074).
 class Unk_710247d8d8 {
 public:
+    Unk_710247d8d8();
     virtual ~Unk_710247d8d8();
 
     /* 0x08 */ s32 _8 = -1;

@@ -130,6 +130,10 @@ private:
 };
 KSYS_CHECK_SIZE_NX150(PlayerInfo, 0x3B0);
 
+// 0x71008529e8 (placeholder name): always true. Called before PlayerBase::sub_710084CDD4 by UI 0x7100986268
+// and by RuneMgr / PlayerNormal code.
+bool sub_71008529E8();
+
 }  // namespace uking::act
 
 // 0x710072b82c (CSV name; namespace unknown)

@@ -217,6 +217,8 @@ int sub_7100AA7B1C(const ksys::act::acc::Weapon& weapon, int kind);
 bool sub_7100AA7BAC(sead::BufferedSafeString* out);
 // 0x7100a951b0 (uiPouchFacade.cpp)
 bool sub_7100A951B0();
+// 0x7100a9b94c (uiManagerFacade.cpp): the UI manager's `_a0`.
+f32 sub_7100A9B94C();
 
 // TODO: move these to another translation unit (TBD)
 // Do not implement until the location is figured out
@@ -562,3 +564,6 @@ bool isFindDungeonActivated();
 // 0x7100a9d800 (CSV unnamed; declared only)
 s32 sub_7100A9D800();
 }  // namespace wm
+
+// 0x7100a95214 (uiPouchFacade.cpp; global namespace in the CSV)
+s32 sub_7100A95214();

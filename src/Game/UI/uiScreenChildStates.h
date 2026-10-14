@@ -3,11 +3,16 @@
 #include "Game/UI/uiScreens.h"
 #include <container/seadSafeArray.h>
 #include "Game/UI/uiControlCreator.h"
+#include <thread/seadCriticalSection.h>
 #include "KingSystem/System/StringBoard.h"
 #include "KingSystem/World/worldDefines.h"
 
 // ScreenChildEx-derived classes (their constructors call ScreenChildEx's) with their own state callback slots (105+, groups of four: void, void, void, s32).
 // Placeholder names after the vtable; their destructors / RTTI are not decompiled yet.
+namespace ksys {
+class ManagedTaskHandle;
+}
+
 namespace eui {
 class LetterAnimControl;
 class MessageString;
@@ -137,7 +142,7 @@ public:
     /* 0x130 */ void* _130 = nullptr;
     /* 0x138 */ bool _138 = false;
     /* 0x140 */ Unk_710247dc50 _140;
-    /* 0x158 */ Unk_710247d8d8 _158[14]{};
+    /* 0x158 */ sead::SafeArray<Unk_710247d8d8, 14> _158;
     /* 0x388 */ u8 _388[0x80]{};
 };
 static_assert(sizeof(Unk_710247d8f8) == 0x408);
@@ -187,6 +192,22 @@ public:
 };
 static_assert(sizeof(Unk_7102477c30) == 0x130);
 
+// Polymorphic loader embedded in Unk_71009cb0c8 at 0x80 (vtable 0x710247e990; ctor 9cc648 and D1 9cc7c4 are not
+// decompiled). Queue count/state are consumed by 9cc3a0 / 9cc970; 9cbcc0 reads the task handle at 0x200 under the
+// owner's lock.
+class Unk_710247e990 {
+public:
+    Unk_710247e990();
+    virtual ~Unk_710247e990();
+
+    /* 0x08 */ s32 mQueueCount;
+    u8 _c[0x48 - 0xc];
+    /* 0x48 */ s32 mQueueState;
+    u8 _4c[0x200 - 0x4c];
+    /* 0x200 */ ksys::ManagedTaskHandle* mTaskHandle;
+};
+static_assert(sizeof(Unk_710247e990) == 0x208);
+
 // Native ctor 9cb0c8 and D1 9cbcc0 establish this non-polymorphic 0x2e8-byte controller.
 // Queue count/state are also initialized by inner ctor 9cc648 and consumed by 9cc3a0 / 9cc970.
 class Unk_71009cb0c8 {
@@ -211,11 +232,10 @@ public:
     /* 0x18 */ nn::ui2d::Material* mMaterial;
     /* 0x20 */ nn::ui2d::ExternalTextureInfo mTexInfo;
     /* 0x38 */ eui::Animator* mAnimator;
-    u8 _40[0x88 - 0x40];
-    /* 0x88 */ s32 mQueueCount;
-    u8 _8c[0xc8 - 0x8c];
-    /* 0xc8 */ s32 mQueueState;
-    u8 _cc[0x2e8 - 0xcc];
+    /* 0x40 */ sead::CriticalSection mCS;
+    /* 0x80 */ Unk_710247e990 mLoader;
+    // Member delegates set up by the ctor 9cb0c8 (trivially destroyed).
+    u8 _288[0x2e8 - 0x288];
 };
 static_assert(sizeof(Unk_71009cb0c8) == 0x2e8);
 

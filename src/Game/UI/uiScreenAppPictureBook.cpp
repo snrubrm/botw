@@ -186,6 +186,200 @@ void ScreenAppPictureBookEntry::sub_710093AF74() {
     }
 }
 
+// 0x710093bb48
+// NON_MATCHING: case 0 tests _d0 == 3 before _d0 == 1 and does not share the madd tail; the empty-string path
+// stores _38.y before the shared tail.
+void ScreenAppPictureBookEntry::sub_710093BB48() {
+    if (!mGroupList)
+        return;
+
+    if (mParams._d8.isEmpty()) {
+        if (mParams._2a8.x != std::numeric_limits<f32>::max())
+            mGroupList->_38.x = mParams._2a8.x;
+        if (mParams._2a8.y != std::numeric_limits<f32>::max())
+            mGroupList->_38.y = mParams._2a8.y;
+    } else {
+        Unk_7102474f10** it = mGroupList->_8;
+        Unk_7102474f10** end = it + mGroupList->_0;
+        for (; it != end; ++it) {
+            Unk_7102474f10* group = *it;
+            for (s32 i = 0; i < group->mUnits.size(); ++i) {
+                s32 index;
+                switch (mController->_cc) {
+                case 0:
+                    switch (mController->_d0) {
+                    case 1:
+                        index = (i % mParams._2a4) * mParams._2a0 + i / mParams._2a4;
+                        break;
+                    case 3:
+                        index = i;
+                        break;
+                    default:
+                        continue;
+                    }
+                    break;
+                case 1:
+                    switch (mController->_d0) {
+                    case 3:
+                        index = (mParams._2a0 - 1 - i / mParams._2a4) * mParams._2a4 + i % mParams._2a4;
+                        break;
+                    case 0:
+                        index = (i % mParams._2a4) * mParams._2a0 + (mParams._2a0 - 1 - i / mParams._2a4);
+                        break;
+                    default:
+                        continue;
+                    }
+                    break;
+                case 2:
+                    switch (mController->_d0) {
+                    case 2:
+                        index = i + mParams._2a4 - 2 * (i % mParams._2a4) - 1;
+                        break;
+                    case 1:
+                        index = (mParams._2a4 - 1 - i % mParams._2a4) * mParams._2a0 + i / mParams._2a4;
+                        break;
+                    default:
+                        continue;
+                    }
+                    break;
+                case 3:
+                    switch (mController->_d0) {
+                    case 2:
+                        index = (mParams._2a0 - 1 - i / mParams._2a4) * mParams._2a4 +
+                                (mParams._2a4 - 1 - i % mParams._2a4);
+                        break;
+                    case 0:
+                        index = (mParams._2a4 - 1 - i % mParams._2a4) * mParams._2a0 +
+                                (mParams._2a0 - 1 - i / mParams._2a4);
+                        break;
+                    default:
+                        continue;
+                    }
+                    break;
+                default:
+                    continue;
+                }
+                group->mUnits.unsafeAt(i)->_3c = index;
+            }
+        }
+
+        if (mParams._2a4 > 1) {
+            mGroupList->_38.x = mGroupList->_20.x - mParams._2a4 * mGroupList->_30.x;
+            mGroupList->_38.x /= mParams._2a4 - 1;
+        } else {
+            mGroupList->_38.x = 0.0f;
+        }
+        if (mParams._2a0 > 1) {
+            mGroupList->_38.y = mGroupList->_20.y - mParams._2a0 * mGroupList->_30.y;
+            mGroupList->_38.y /= mParams._2a0 - 1;
+        } else {
+            mGroupList->_38.y = 0.0f;
+        }
+    }
+
+    mGroupList->_40.x = mGroupList->_30.x + mGroupList->_38.x;
+    mGroupList->_40.y = mGroupList->_30.y + mGroupList->_38.y;
+}
+
+// 0x710093bdfc
+// NON_MATCHING: register allocation of the center vector and scheduling of the _318 / _308 sizes.
+void ScreenAppPictureBookEntry::sub_710093BDFC() {
+    const sead::Vector2f& center = sead::Vector2f::zero;
+    _2f8.setFromCenterAndXY(center, 0.0f, 0.0f);
+    _308.setFromCenterAndXY(center, 0.0f, 0.0f);
+    _318.setFromCenterAndXY(center, 0.0f, 0.0f);
+    _328.setFromCenterAndXY(center, 0.0f, 0.0f);
+
+    auto* list = mGroupList;
+    if (!list)
+        return;
+
+    if (mParams._2a8.x == std::numeric_limits<f32>::max())
+        mParams._2a8.x = list->_38.x;
+    if (mParams._2a8.y == std::numeric_limits<f32>::max())
+        mParams._2a8.y = list->_38.y;
+
+    const s32 count = sead::Mathi::max(mParams._298 - 2, 1);
+    f32 width = list->_20.x;
+    f32 height = list->_20.y;
+    for (s32 i = 1; i < count; ++i) {
+        width += list->_20.x + mParams._2a8.x;
+        height += list->_20.y + mParams._2a8.y;
+    }
+    _2f8.setFromCenterAndXY(center, width, height);
+
+    const sead::Vector2f page_size = mParams._2a8 + list->_30;
+    const sead::Vector2f margin(sead::Mathf::max(mParams._2a8.x, 0.0f) + 0.001f,
+                                sead::Mathf::max(mParams._2a8.y, 0.0f) + 0.001f);
+    const f32 box_width = _2f8.getSizeX();
+    const f32 box_height = _2f8.getSizeY();
+    _318.setFromCenterAndXY(center, mParams._2c0.x + margin.x + box_width,
+                            mParams._2c0.y + margin.y + box_height);
+    _308.setFromCenterAndXY(center, mParams._2b8.x + (page_size.x + page_size.x) + box_width,
+                            mParams._2b8.y + (page_size.y + page_size.y) + box_height);
+    _328.setFromCenterAndXY(center, box_width - list->_30.x, box_height - list->_30.y);
+}
+
+// 0x710093c040
+// NON_MATCHING: the original copies the zero vector into _338 / _340 as one 64-bit value; scheduling of the
+// _348 size.
+void ScreenAppPictureBookEntry::sub_710093C040() {
+    auto* list = mGroupList;
+    if (!list || !mController)
+        return;
+
+    const sead::Vector2f& center = sead::Vector2f::zero;
+    _338 = center;
+    _340 = center;
+    _348.setFromCenterAndXY(center, 0.0f, 0.0f);
+    _358.setFromCenterAndXY(center, 0.0f, 0.0f);
+
+    const s32 pages = _2f4;
+    const s32 gaps = pages - 1;
+    if (gaps < 0)
+        return;
+
+    if (mController->_c0 == 0) {
+        _338.x = pages * list->_20.x + gaps * mParams._2a8.x;
+        _338.y = list->_20.y;
+    } else if (mController->_c0 == 1) {
+        _338.x = list->_20.x;
+        _338.y = list->_20.y * pages + mParams._2a8.y * gaps;
+    }
+
+    if (pages > 1) {
+        if (mController->_c0 == 0) {
+            _340.x = list->_20.x + mParams._2a8.x;
+            _340.y = 0.0f;
+        } else if (mController->_c0 == 1) {
+            _340.x = 0.0f;
+            _340.y = list->_20.y + mParams._2a8.y;
+        }
+    }
+
+    const f32 width = 2 * (mParams._2a8.x + list->_20.x);
+    const f32 height = 2 * (mParams._2a8.y + list->_20.y);
+    _348.setFromCenterAndXY(center, mParams._2b0.x + width + _2f8.getSizeX(),
+                            mParams._2b0.y + height + _2f8.getSizeY());
+
+    sead::Vector2f scroll = center;
+    switch (mController->_c8) {
+    case 0:
+        scroll.y = -(_340.y * gaps);
+        break;
+    case 1:
+        scroll.y = _340.y * gaps;
+        break;
+    case 2:
+        scroll.x = _340.x * gaps;
+        break;
+    case 3:
+        scroll.x = -(_340.x * gaps);
+        break;
+    }
+    _358.set(scroll.x, scroll.y, 0.0f, 0.0f);
+}
+
 // 0x710093a500
 void ScreenAppPictureBookEntry::sub_710093A500(sead::Heap* heap) {
     const s32 count = mParams._298;

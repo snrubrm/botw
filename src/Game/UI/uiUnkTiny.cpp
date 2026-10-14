@@ -605,6 +605,9 @@ void Unk_710247ae28::sub_71009B2EF0() {
         mCategory = 1;
 }
 
+// 0x71009c5074
+Unk_710247d8d8::Unk_710247d8d8() = default;
+
 // 0x71009c5098
 Unk_710247d8d8::~Unk_710247d8d8() = default;
 

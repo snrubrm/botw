@@ -2517,6 +2517,13 @@ struct PictureBookGroupList {
     /* 0x0 */ s32 _0;
     u8 _4[0x8 - 0x4];
     /* 0x8 */ Unk_7102474f10** _8;
+    u8 _10[0x20 - 0x10];
+    // Layout sizes read and written by ScreenAppPictureBookEntry 93bb48 / 93bdfc / 93c040.
+    /* 0x20 */ sead::Vector2f _20;
+    u8 _28[0x30 - 0x28];
+    /* 0x30 */ sead::Vector2f _30;
+    /* 0x38 */ sead::Vector2f _38;
+    /* 0x40 */ sead::Vector2f _40;
 };
 
 struct ScreenAppPictureBookUnk {
@@ -2576,9 +2583,15 @@ struct ScreenAppPictureBookUnk {
     /* 0x038 */ void* _38;
     /* 0x040 */ eui::LayoutEx* _40[4];
     /* 0x060 */ ScreenEx* mScreen;
-    u8 _68[0xc8 - 0x68];
+    u8 _68[0xc0 - 0x68];
+    // Layout direction of the entry pages (0: horizontal, 1: vertical; read by 93c040).
+    /* 0x0c0 */ s32 _c0;
+    u8 _c4[0xc8 - 0xc4];
     /* 0x0c8 */ s32 _c8;
-    u8 _cc[0x288 - 0xcc];
+    // Item order modes read by 93bb48 (_cc 0-3 with _d0).
+    /* 0x0cc */ s32 _cc;
+    /* 0x0d0 */ s32 _d0;
+    u8 _d4[0x288 - 0xd4];
     // Full producer 943e80 calls PtrArrayImpl::allocBuffer at +288 then pushes 0x398 entries.
     /* 0x288 */ sead::PtrArray<ScreenAppPictureBookEntry> mEntries;
     /* 0x298 */ s32 _298;

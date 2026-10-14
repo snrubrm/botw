@@ -7,6 +7,8 @@
 #include "Game/UI/euiMessageString.h"
 #include "KingSystem/Quest/qstQuest.h"
 #include "Game/UI/uiUtils.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 #include "Game/UI/uiUnkSingletons.h"
 #include "Game/gameSaveSystem.h"
 #include "Game/gameRadarMgr.h"
@@ -15,6 +17,7 @@
 #include "KingSystem/Event/evtManager.h"
 #include "KingSystem/World/worldManager.h"
 #include "KingSystem/Resource/resHandle.h"
+#include "KingSystem/Utils/Thread/ManagedTaskHandle.h"
 #include <nn/ui2d/Pane.h>
 #include <math/seadMathCalcCommon.h>
 #include "Game/gameUnkRttiPlaceholders.h"
@@ -38,13 +41,29 @@ void Unk_710247ae48::m7() {
     sub_71009B30F0();
 }
 
+// 0x71009cbcc0
+Unk_71009cb0c8::~Unk_71009cb0c8() {
+    ksys::ManagedTaskHandle* task_handle;
+    {
+        auto lock = sead::makeScopedLock(mCS);
+        task_handle = mLoader.mTaskHandle;
+    }
+    if (task_handle && task_handle->hasTask())
+        task_handle->removeTaskFromQueue();
+    if (mTextureHandle) {
+        mTextureHandle->requestUnload();
+        delete mTextureHandle;
+        mTextureHandle = nullptr;
+    }
+}
+
 // 0x71009cbe38
 void Unk_71009cb0c8::sub_71009CBE38() {
     if (mApplied)
         return;
-    if (mQueueCount != 0)
+    if (mLoader.mQueueCount != 0)
         return;
-    if (mQueueState != 5)
+    if (mLoader.mQueueState != 5)
         return;
     auto* texture_info = sub_71009CBECC();
     if (!texture_info)
@@ -79,16 +98,16 @@ void Unk_71009cb0c8::sub_71009CBDE8(eui::LayoutEx* layout, const sead::SafeStrin
 
 // 0x71009cbeac
 bool Unk_71009cb0c8::sub_71009CBEAC() const {
-    if (mQueueCount != 0)
+    if (mLoader.mQueueCount != 0)
         return false;
-    return mQueueState == 5;
+    return mLoader.mQueueState == 5;
 }
 
 // 0x71009cbfa4
 bool Unk_71009cb0c8::sub_71009CBFA4() const {
-    if (mQueueCount != 0)
+    if (mLoader.mQueueCount != 0)
         return false;
-    return mQueueState == 13;
+    return mLoader.mQueueState == 13;
 }
 
 // 0x71009bd404
@@ -322,6 +341,41 @@ eui::CapturePane* sub_7100986FFC(eui::ControlBase* control, const sead::SafeStri
 void Unk_7102476db8::m25() {
     if (_104 == 7 || _104 == 1 || _104 == 3 || _104 == 5)
         sub_7100986268();
+}
+
+// 0x7100986268
+// NON_MATCHING: the original reloads mZoom after evaluating Stop's argument (C++14 order) and loads mInvalid's
+// frame separately in each branch.
+void Unk_7102476db8::sub_7100986268() {
+    auto* player = act::PlayerInfo::instance()->getPlayer();
+    bool zoom = false;
+    bool invalid = false;
+    if (player) {
+        zoom = player->m184();
+        if (act::sub_71008529E8())
+            zoom |= player->sub_710084CDD4();
+        invalid = player->m184() && !sub_7100AA7BAC(nullptr) && sub_7100A95214() < 1;
+    }
+
+    if (mDisable && mDisable->mFrame != 0)
+        mDisable->StopAtMin();
+
+    if (mZoom) {
+        if (zoom) {
+            mZoom->Stop(sub_7100A9B94C() * mZoom->GetFrameSize());
+        } else if (mZoom->mFrame != 0 && mZoom->mRate == 0) {
+            mZoom->PlayFromCurrent(eui::Animator::PlayType(0), -1.0f);
+        }
+    }
+
+    if (mInvalid) {
+        if (invalid) {
+            if (mInvalid->mFrame != mInvalid->GetFrameSize())
+                mInvalid->StopAtMax();
+        } else if (mInvalid->mFrame != 0) {
+            mInvalid->StopAtMin();
+        }
+    }
 }
 
 // 0x710098640c
@@ -990,9 +1044,8 @@ Unk_7102478048::~Unk_7102478048() {
 Unk_710247d580::~Unk_710247d580() = default;
 
 // 0x71009c54e4
-// NON_MATCHING: the original calls Unk_710247d8d8's implicit ctor (0x9c5074) out of line for each of the 14
-// elements after the memset; clang inlines it here.
-Unk_710247d8f8::Unk_710247d8f8(eui::LayoutEx* layout) : ScreenChildEx(layout) {}
+// NON_MATCHING: the original stores _130 after the _158 element ctors (just before the _388 memset).
+Unk_710247d8f8::Unk_710247d8f8(eui::LayoutEx* layout) : ScreenChildEx(layout), _158() {}
 
 Unk_710247d8f8::~Unk_710247d8f8() = default;
 
