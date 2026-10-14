@@ -340,26 +340,37 @@ void Unk_71025d9170::m16() {}
 
 Unk_7102478428::~Unk_7102478428() = default;
 
-// NON_MATCHING: frame selection uses conditional selects instead of native branches.
 void Unk_7102478428::m8() {
     Unk_7102477fc0::m8();
     if (!_18 || !(_18->_3c & 1))
         return;
     if (auto* entry = sead::DynamicCast<Unk_71024755d8>(_18)) {
-        if (_40)
-            _40->Stop((entry->_3c & 0x80000) ? 2.0f : (entry->_3c & 0x20000) ? 1.0f : 0.0f);
+        if (auto* animator = _40) {
+            if (entry->_3c & 0x80000)
+                animator->Stop(2.0f);
+            else if (entry->_3c & 0x20000)
+                animator->Stop(1.0f);
+            else
+                animator->Stop(0.0f);
+        }
     }
 }
 
-// NON_MATCHING: combined flag tests and frame selection are if-converted.
+// NON_MATCHING: the flag tests are if-converted into a ccmp chain here.
 void Unk_7102478428::m11() {
     Unk_7102477fc0::m11();
     if (!(_18->_3c & 1) ||
         (!(_18->_3c & 0x4000) && (_18->_3c & 3) != 3 && (_18->_3c & 0x30) != 0x30))
         return;
     if (auto* entry = sead::DynamicCast<Unk_71024755d8>(_18)) {
-        if (_40)
-            _40->Stop((entry->_3c & 0x80000) ? 2.0f : (entry->_3c & 0x20000) ? 1.0f : 0.0f);
+        if (auto* animator = _40) {
+            if (entry->_3c & 0x80000)
+                animator->Stop(2.0f);
+            else if (entry->_3c & 0x20000)
+                animator->Stop(1.0f);
+            else
+                animator->Stop(0.0f);
+        }
     }
 }
 
@@ -716,7 +727,6 @@ void Unk_7102478ab0::m11() {
         _48->Stop(1.0f);
 }
 
-// NON_MATCHING: the animator receiver loads before the predicate call, and frame selection uses conditional selects.
 void Unk_7102478a18::m11() {
     Unk_7102477fc0::m11();
     if (!_18 || !(_18->_3c & 1) || !HorseMgr::instance())
@@ -726,15 +736,20 @@ void Unk_7102478a18::m11() {
         return;
     ksys::act::ActorConstDataAccess accessor;
     ksys::act::acquireActor(&link, &accessor);
-    _48->Stop(uking::act::sub_7100E6ED04(accessor) ? 1.0f : 0.0f);
+    if (uking::act::sub_7100E6ED04(accessor))
+        _48->Stop(1.0f);
+    else
+        _48->Stop(0.0f);
 }
 
-// NON_MATCHING: the animator receiver loads before the predicate call, and frame selection uses conditional selects.
 void Unk_7102478b48::m11() {
     Unk_7102477fc0::m11();
     if (!_18 || !(_18->_3c & 1) || !WolfLinkMgr::instance())
         return;
-    _48->Stop(WolfLinkMgr::instance()->sub_7100682CB4() ? 1.0f : 0.0f);
+    if (WolfLinkMgr::instance()->sub_7100682CB4())
+        _48->Stop(1.0f);
+    else
+        _48->Stop(0.0f);
 }
 
 Unk_7102478be0::~Unk_7102478be0() {
