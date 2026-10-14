@@ -75,8 +75,6 @@ void Unk_SpotBgmInstance::sub_71010242F0() {
     _310.setValueImmediate(0.0f);
 }
 
-// NON_MATCHING: placeholder destructor; the original (0x7101021558) also destroys members or bases
-// this class does not declare yet.
 Unk_71025008d0::~Unk_71025008d0() = default;
 
 // NON_MATCHING: placeholder destructor; the original (0x7101021db8) also destroys members or bases

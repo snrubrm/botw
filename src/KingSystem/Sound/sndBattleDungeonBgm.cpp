@@ -417,8 +417,6 @@ void Unk_710260f1f8::m8(const Unk_BgmControllerM8Arg& arg) {
 // this class does not declare yet.
 Unk_71024fd0a8::~Unk_71024fd0a8() = default;
 
-// NON_MATCHING: placeholder destructor; the original (0x7100fff62c) also destroys members or bases
-// this class does not declare yet.
 Unk_71024fd188::~Unk_71024fd188() = default;
 
 // NON_MATCHING: placeholder destructor; the original (0x7100fffde4) also destroys members or bases
@@ -429,14 +427,8 @@ Unk_71024fd318::~Unk_71024fd318() = default;
 // this class does not declare yet.
 Unk_71024fd448::~Unk_71024fd448() = default;
 
-// NON_MATCHING: placeholder destructor; the original (0x7101002560) also destroys members or bases
-// this class does not declare yet.
 Unk_71024fd6c8::~Unk_71024fd6c8() = default;
 
-// NON_MATCHING: placeholder destructor; the original (0x71010032f8) also destroys members or bases
-// this class does not declare yet.
 Unk_71024fd808::~Unk_71024fd808() = default;
 
-// NON_MATCHING: placeholder destructor; the original (0x7101003b40) also destroys members or bases
-// this class does not declare yet.
 Unk_71024fd948::~Unk_71024fd948() = default;
