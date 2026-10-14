@@ -173,4 +173,10 @@ bool Schedule::sub_7100D1C698() {
     return result;
 }
 
+void Schedule::sub_7100D1C7FC() {
+    if (_2fc-- > 0)
+        return;
+    mActor->getUniqueName();
+}
+
 }  // namespace ksys::act

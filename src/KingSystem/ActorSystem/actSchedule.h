@@ -43,6 +43,9 @@ public:
     bool sub_7100D1AAD8();
     // 0x7100d1c27c (1052 B, declaration only; placeholder name): checks the "Near" trigger parameters.
     bool sub_7100D1C27C(const al::ByamlIter* params, bool active);
+    // 0x7100d1c7fc (CSV ActorQuestLink::getUniqueName; placeholder name): counts _2fc down and, once it runs out,
+    // calls mActor->getUniqueName() and discards the result (debug output stripped from the release build).
+    void sub_7100D1C7FC();
     // 0x7100d1c698 (declaration only, 356 bytes; placeholder name): read by act::x_6.
     bool sub_7100D1C698();
 
@@ -117,7 +120,7 @@ public:
     /* 0x2f0 */ u32 _2f0 = 0;
     /* 0x2f4 */ u32 _2f4 = 0;
     /* 0x2f8 */ u32 _2f8 = 0;  // flags (bit 1 set by KakarikoKokkoTimeline::init_)
-    /* 0x2fc */ u32 _2fc = 0;
+    /* 0x2fc */ s32 _2fc = 0;  // countdown of sub_7100D1C7FC
 };
 KSYS_CHECK_SIZE_NX150(Schedule, 0x300);
 
