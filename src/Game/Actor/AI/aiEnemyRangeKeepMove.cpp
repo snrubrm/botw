@@ -14,8 +14,22 @@ EnemyRangeKeepMove::EnemyRangeKeepMove(const InitArg& arg) : ksys::act::ai::Ai(a
 
 EnemyRangeKeepMove::~EnemyRangeKeepMove() = default;
 
+// NON_MATCHING: same as NavMoveTarget::init_ (the Data pointer of the re-cast is selected with branches in the
+// original).
 bool EnemyRangeKeepMove::init_(sead::Heap* heap) {
-    return ksys::act::ai::Ai::init_(heap);
+    if (*mPosVibrateFrame_s >= 1) {
+        if (!_f0.acquire(heap, static_cast<Unk_71025afb58**>(mRefPosVibrateCheckerForAI_a)))
+            return false;
+        _f0.getData()->_84 = 3.0f;
+        if (*mPosVibrateFrame_s >= 1)
+            _f0.getData()->_88 = *mPosVibrateFrame_s;
+    }
+    if (*mRotVelVibrateFrame_s >= 1) {
+        if (!_f8.acquire(heap, static_cast<Unk_71025afb58**>(mRefVelRotVibrateCheckerforAI_a)))
+            return false;
+        _f8.getData()->sub_710071F494(*mRotVelVibrateFrame_s, 3.0f);
+    }
+    return true;
 }
 
 // NON_MATCHING: the original selects the Data base pointer of the re-cast with branches (null / +8); we get csel
