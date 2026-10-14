@@ -19,6 +19,10 @@ public:
 protected:
     void calc_() override;
 
+    // 0x71001b0e38 (declared only; placeholder name): the shooting target position (from TargetPos and the offset
+    // range params).
+    void sub_71001B0E38(sead::Vector3f* out);
+
     // static_param at offset 0x30
     const int* mWeaponIdx_s{};
     // static_param at offset 0x38

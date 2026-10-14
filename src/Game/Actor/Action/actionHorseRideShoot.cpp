@@ -1,5 +1,7 @@
 #include "Game/Actor/Action/actionHorseRideShoot.h"
 #include "Game/Actor/aiUnk_71005D6D10.h"
+#include "Game/Actor/actEnemy.h"
+#include "Game/Actor/actWeapon.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
@@ -42,7 +44,31 @@ void HorseRideShoot::loadParams_() {
 }
 
 void HorseRideShoot::calc_() {
+    if (sub_71005DD734(mActor, 44, nullptr, 0, 0))
+        sub_71005DB3B8(mActor);
+    else if (sub_71005DD5B0(mActor, 44, nullptr, 0, 0))
+        sub_71001ADAA8();
+
+    if (sub_71005DD798(mActor, 44, nullptr, 0, 0))
+        sub_71005DB110(mActor, *mTargetPos_d);
+    else
+        sub_71001ADAA0(*mTargetPos_d);
+
     HorseRideBase::calc_();
+
+    if (sub_71005DD780(mActor, 71, nullptr, 0, 0)) {
+        sead::Vector3f target;
+        sub_71001B0E38(&target);
+        if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor))
+            enemy->sub_7100016494();
+        sub_71005D80FC(mActor, *mWeaponIdx_s, target, 0, 1.0f, nullptr, nullptr);
+        _78 = true;
+    } else if (!_78) {
+        sub_71005D787C(mActor, *mWeaponIdx_s, act::Unk_71002eda38(4));
+    }
+
+    if (sub_71001ADA78())
+        setFinished();
 }
 
 }  // namespace uking::action
