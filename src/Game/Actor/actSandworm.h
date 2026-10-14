@@ -23,6 +23,13 @@ public:
     explicit Sandworm(const CreateArg& arg);
     ~Sandworm() override;
 
+    // 0x71002cd930 (96 B, not decompiled; placeholder name, lane4 s85): writes `pos` into the 15 entries of the
+    // object at +0x1588 (called by SandwormTeraPach::m8).
+    void sub_71002CD930(const sead::Vector3f& pos);
+    // 0x71002cd990 (80 B, not decompiled; placeholder name): called by SandwormTeraPach::m7 with the blended
+    // node position.
+    void sub_71002CD990(const sead::Vector3f& pos);
+
     static ksys::act::BaseProc* construct(const CreateArg& arg, sead::Heap* heap);
 
 protected:
