@@ -8,7 +8,7 @@
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/aiRootAi.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
 
@@ -57,7 +57,7 @@ void SiteBossSpearRoot::leave_() {
     if (mActor->getRootAi()->isActorGoingBackToRootAi()) {
         if (auto* physics = mActor->getPhysics()) {
             ksys::act::ActorLinkConstDataAccess accessor;
-            ksys::act::acquireActor(&ksys::act::PlayerInfo::getSomeProcLink(), &accessor);
+            ksys::act::acquireActor(&uking::act::PlayerInfo::getSomeProcLink(), &accessor);
             if (accessor.hasProc()) {
                 if (auto* handler = accessor.x(0))
                     physics->systemGroupHandlerStuff(handler, ksys::phys::ContactLayerType::Entity);

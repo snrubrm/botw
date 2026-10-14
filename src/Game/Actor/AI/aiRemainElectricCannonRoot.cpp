@@ -1,7 +1,7 @@
 #include "Game/Actor/AI/aiRemainElectricCannonRoot.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/GameData/gdtManager.h"
 
 namespace uking::ai {

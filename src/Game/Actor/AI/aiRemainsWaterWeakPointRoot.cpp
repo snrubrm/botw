@@ -1,7 +1,7 @@
 #include "Game/Actor/AI/aiRemainsWaterWeakPointRoot.h"
 #include "Game/Actor/aiUnk_710072BA90.h"
 #include "Game/Actor/Damage/dmgDamageManager.h"
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Map/mapObjectLink.h"

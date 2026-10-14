@@ -2,8 +2,8 @@
 #include "Game/Actor/aiUnk_71005D6D10.h"
 #include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 
 namespace uking::ai {
 
@@ -45,7 +45,7 @@ void EternalPlayerTarget::calc_() {
 void EternalPlayerTarget::sub_71003C9AAC(bool force) {
     ksys::act::acc::PlayerBase player;
     player.getPlayerFromPlayerInfo();
-    sub_71005D8DE8(mActor, ksys::act::PlayerInfo::getSomeProcLink(), &player.getActorMtx(),
+    sub_71005D8DE8(mActor, uking::act::PlayerInfo::getSomeProcLink(), &player.getActorMtx(),
                    &player.getPreviousPos());
     if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor))
         enemy->_c48._7c = 5;

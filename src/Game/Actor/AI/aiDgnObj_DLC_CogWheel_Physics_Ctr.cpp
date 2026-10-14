@@ -2,7 +2,7 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "Game/gameGearMgr.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/Utils/Thread/Message.h"
 
 namespace uking::ai {

@@ -3,7 +3,7 @@
 #include "Game/UI/uiUtils.h"
 #include "Game/UI/euiScreen.h"
 #include "Game/UI/uiScreens.h"
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/GameData/gdtSpecialFlagNames.h"
 #include "KingSystem/GameData/gdtSpecialFlags.h"
 
@@ -23,7 +23,7 @@ inline u32 Unk_71025d6578::getCurrentHeartValue() const {
     u32 value = sub_7100A9B690();
     if ((~_63 & 0xa) && sub_7100AA8F30()) {
         // getPlayerActor(nullptr) returns PlayerInfo's PlayerBase pointer.
-        if (auto* player = static_cast<ksys::act::PlayerBase*>(getPlayerActor(nullptr)))
+        if (auto* player = static_cast<uking::act::PlayerBase*>(getPlayerActor(nullptr)))
             value -= player->m321();
     }
     return value;
@@ -34,7 +34,7 @@ inline u32 Unk_71025d6578::getMaxHeartValue() const {
         return _50;
     u32 value = sub_7100A9B6B0();
     if ((~_63 & 0xa) && sub_7100AA8F30()) {
-        if (auto* player = static_cast<ksys::act::PlayerBase*>(getPlayerActor(nullptr)))
+        if (auto* player = static_cast<uking::act::PlayerBase*>(getPlayerActor(nullptr)))
             value -= player->m321();
     }
     return value;
@@ -43,7 +43,7 @@ inline u32 Unk_71025d6578::getMaxHeartValue() const {
 inline u32 Unk_71025d6578::getExtraHeartValue() const {
     if (_4a)
         return _54;
-    auto* player = static_cast<ksys::act::PlayerBase*>(getPlayerActor(nullptr));
+    auto* player = static_cast<uking::act::PlayerBase*>(getPlayerActor(nullptr));
     if (!player || ((~_63 & 0xa) && sub_7100AA8F30()))
         return 0;
     return player->m321();

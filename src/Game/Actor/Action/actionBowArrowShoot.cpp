@@ -1,5 +1,5 @@
 #include "Game/Actor/Action/actionBowArrowShoot.h"
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "Game/Actor/actWeapon.h"
 

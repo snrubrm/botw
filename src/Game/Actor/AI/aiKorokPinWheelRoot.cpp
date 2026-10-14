@@ -1,7 +1,7 @@
 #include "Game/Actor/AI/aiKorokPinWheelRoot.h"
 #include "Game/Actor/aiUnk_710073fa90.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace uking::ai {

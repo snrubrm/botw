@@ -2,13 +2,13 @@
 
 #include "KingSystem/ActorSystem/actAiAction.h"
 
-namespace ksys::act {
+namespace uking::act {
 class PlayerBase;
 }
 
 // 0x71001c2c68 (declaration only; an unnamed free function in this TU): tail-called by
 // ItemConductorDemoBind::sub_71001C21C0 with the armor owner.
-bool sub_71001C2C68(ksys::act::PlayerBase* player);
+bool sub_71001C2C68(uking::act::PlayerBase* player);
 
 namespace uking::action {
 

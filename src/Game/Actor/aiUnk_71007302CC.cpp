@@ -1,6 +1,6 @@
 #include "Game/Actor/aiUnk_71007302CC.h"
 #include "Game/Actor/aiUnk_71007377D4.h"
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actBaseProcAccessor.h"

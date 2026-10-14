@@ -1,5 +1,5 @@
 #include "Game/Actor/Action/actionEventRecoverPlayerEnergy.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 
 namespace uking::action {
 
@@ -13,7 +13,7 @@ bool EventRecoverPlayerEnergy::init_(sead::Heap* heap) {
 }
 
 bool EventRecoverPlayerEnergy::oneShot_() {
-    if (auto* player_info = ksys::act::PlayerInfo::instance())
+    if (auto* player_info = uking::act::PlayerInfo::instance())
         player_info->recoverStamina();
     return true;
 }

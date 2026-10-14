@@ -1,7 +1,7 @@
 #include "Game/Actor/Query/queryIsEquippedWithLowerBody.h"
 #include <evfl/Query.h>
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 
 namespace uking::query {
 
@@ -10,7 +10,7 @@ IsEquippedWithLowerBody::IsEquippedWithLowerBody(const InitArg& arg) : ksys::act
 IsEquippedWithLowerBody::~IsEquippedWithLowerBody() = default;
 
 int IsEquippedWithLowerBody::doQuery() {
-    if (auto* info = ksys::act::PlayerInfo::instance()) {
+    if (auto* info = uking::act::PlayerInfo::instance()) {
         auto* player = info->getPlayer();
         if (player && !player->_c44.isOnBit(7))
             return 0;

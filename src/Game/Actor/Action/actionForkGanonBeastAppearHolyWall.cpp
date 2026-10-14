@@ -1,7 +1,7 @@
 #include "Game/Actor/Action/actionForkGanonBeastAppearHolyWall.h"
 #include "Game/UI/uiUtils.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/Utils/MathUtil.h"
 
 namespace uking::action {

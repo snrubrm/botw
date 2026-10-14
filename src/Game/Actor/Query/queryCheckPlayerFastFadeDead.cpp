@@ -1,7 +1,7 @@
 #include "Game/Actor/Query/queryCheckPlayerFastFadeDead.h"
 #include <evfl/Query.h>
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 
 namespace uking::query {
 
@@ -10,7 +10,7 @@ CheckPlayerFastFadeDead::CheckPlayerFastFadeDead(const InitArg& arg) : ksys::act
 CheckPlayerFastFadeDead::~CheckPlayerFastFadeDead() = default;
 
 int CheckPlayerFastFadeDead::doQuery() {
-    if (auto* info = ksys::act::PlayerInfo::instance()) {
+    if (auto* info = uking::act::PlayerInfo::instance()) {
         if (auto* player = info->getPlayer())
             return player->_c44.isOnBit(30);
     }

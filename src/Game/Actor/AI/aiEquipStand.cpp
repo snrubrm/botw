@@ -6,7 +6,7 @@
 #include "Game/Actor/aiUnk_71005E0420.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/Utils/Thread/Message.h"
 
 // The original helper's source namespace is unknown.

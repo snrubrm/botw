@@ -1,5 +1,5 @@
 #include "Game/Actor/Behavior/behaviorPlayerLandNoise.h"
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 
 namespace uking::behavior {
 
@@ -12,7 +12,7 @@ bool PlayerLandNoise::m6(sead::Heap* heap) {
 }
 
 void PlayerLandNoise::m7() {
-    if (auto* player = sead::DynamicCast<ksys::act::PlayerBase>(mActor)) {
+    if (auto* player = sead::DynamicCast<uking::act::PlayerBase>(mActor)) {
         if (player->m195())
             return;
     }
@@ -33,7 +33,7 @@ void PlayerLandNoise::loadParams() {
 
 f32 PlayerLandNoise::m14() {
     f32 value = *mNoiseValue_s;
-    if (auto* player = sead::DynamicCast<ksys::act::PlayerBase>(mActor))
+    if (auto* player = sead::DynamicCast<uking::act::PlayerBase>(mActor))
         value *= player->m319();
     return value;
 }

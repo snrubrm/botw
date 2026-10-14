@@ -1,8 +1,8 @@
 #include "Game/Actor/AI/aiPriestBossActorNormalRoot.h"
 #include "Game/Actor/aiUnk_7102450fa8.h"
 #include "Game/Actor/actEnemy.h"
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 
@@ -26,7 +26,7 @@ void PriestBossActorNormalRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::acc::PlayerBase player;
     player.getPlayerFromPlayerInfo();
     if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
-        enemy->_c48.sub_71002DBC8C(ksys::act::PlayerInfo::getSomeProcLink(),
+        enemy->_c48.sub_71002DBC8C(uking::act::PlayerInfo::getSomeProcLink(),
                                   &player.getActorMtx(), &player.getPreviousPos());
         enemy->_c48._7c = 5;
     }

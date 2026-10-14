@@ -1,7 +1,7 @@
 #include "Game/Actor/Action/actionDemoApplyDamageForPlayer.h"
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 
 namespace uking::action {
 
@@ -18,7 +18,7 @@ bool DemoApplyDamageForPlayer::oneShot_() {
     if (!DemoApplyDamageBase::oneShot_())
         return false;
 
-    auto* info = ksys::act::PlayerInfo::instance();
+    auto* info = uking::act::PlayerInfo::instance();
     if (!info)
         return false;
     auto* player = info->mPlayerActor;

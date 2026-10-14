@@ -1,8 +1,8 @@
 #include "Game/Actor/AI/aiBokoblinRoam.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include <random/seadGlobalRandom.h>
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
@@ -49,7 +49,7 @@ void BokoblinRoam::loadParams_() {
 
 bool BokoblinRoam::sub_7100333E68() {
     ksys::act::ActorLinkConstDataAccess accessor;
-    ksys::act::acquireActor(&ksys::act::PlayerInfo::getSomeProcLink(), &accessor);
+    ksys::act::acquireActor(&uking::act::PlayerInfo::getSomeProcLink(), &accessor);
     const sead::Vector3f player_position = accessor.getActorMtx().getTranslation();
     sead::Vector3f dir = player_position - mActor->getMtx().getTranslation();
     dir.y = 0.0f;
@@ -86,7 +86,7 @@ void BokoblinRoam::changeToSearch() {
 // NON_MATCHING: the two stores of the timer are not merged into one stp in the original
 void BokoblinRoam::sub_7100333FEC() {
     ksys::act::acc::PlayerBase accessor;
-    ksys::act::acquireActor(&ksys::act::PlayerInfo::getSomeProcLink(), &accessor);
+    ksys::act::acquireActor(&uking::act::PlayerInfo::getSomeProcLink(), &accessor);
     if (accessor.getSpAttackTarget().hasProcById(mActor)) {
         const f32 time = *mNoSpAttackMoveTime_s;
         if (_c4.value < time) {

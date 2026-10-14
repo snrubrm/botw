@@ -5,7 +5,7 @@
 #include "Game/Actor/aiUnk_71005D6D10.h"
 #include "Game/Actor/actLastBoss.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 
 namespace uking::ai {
 

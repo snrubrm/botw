@@ -2,8 +2,8 @@
 #include "Game/UI/uiManager.h"
 #include "Game/UI/uiUtils.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 
 // Thin UI-side wrappers around the game data flags (and a few Manager flag readers) from the 0x7100aa8000 UI TU.
@@ -79,14 +79,14 @@ bool getMainScreenOnOff() {
 ksys::act::Actor* getPlayerActor(ksys::act::Actor* actor) {
     if (actor)
         return actor;
-    if (auto* info = ksys::act::PlayerInfo::instance())
+    if (auto* info = uking::act::PlayerInfo::instance())
         return info->getPlayer();
     return nullptr;
 }
 
 // 0x7100aa8f94 (placeholder name): bit 29 of the player's state word at 0xc44
 bool sub_7100AA8F94() {
-    auto* info = ksys::act::PlayerInfo::instance();
+    auto* info = uking::act::PlayerInfo::instance();
     if (!info)
         return false;
     auto* player = info->getPlayer();
@@ -95,7 +95,7 @@ bool sub_7100AA8F94() {
 
 // 0x7100a9c340 (placeholder name): bit 22 of the player's word at 0xcf0 is clear
 bool sub_7100A9C340() {
-    auto* info = ksys::act::PlayerInfo::instance();
+    auto* info = uking::act::PlayerInfo::instance();
     if (!info)
         return false;
     auto* player = info->getPlayer();
@@ -104,7 +104,7 @@ bool sub_7100A9C340() {
 
 // 0x7100a9b7bc (placeholder name): bit 22 of the word at 0xcf0 and bit 2 of the word at 0xcf8 are both clear
 bool sub_7100A9B7BC() {
-    auto* info = ksys::act::PlayerInfo::instance();
+    auto* info = uking::act::PlayerInfo::instance();
     if (!info)
         return false;
     auto* player = info->getPlayer();

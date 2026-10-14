@@ -133,12 +133,15 @@ namespace sead {
 class Viewport;
 }
 
+namespace uking::act {
+class PlayerBase;
+}
+
 namespace ksys::act {
 class Actor;
 class ActorLinkConstDataAccess;
 class BaseProcAccessor;
 class BaseProcLink;
-class PlayerBase;
 }  // namespace ksys::act
 
 namespace ksys::phys {
@@ -210,13 +213,13 @@ bool sub_7100926210(const ksys::act::ActorLinkConstDataAccess& accessor, sead::V
 bool sub_71009262A8(const ksys::act::ActorLinkConstDataAccess& accessor, sead::Matrix34f* out);
 // 0x7100926154: the look-at position of `player` (same as sub_7100926210 but acquiring `player`
 // directly); false (out unchanged) if it is NaN / infinite.
-bool sub_7100926154(ksys::act::PlayerBase* player, sead::Vector3f* out);
+bool sub_7100926154(uking::act::PlayerBase* player, sead::Vector3f* out);
 // The PlayerBase overload above is a stale declaration without a native identity or body.
 // Native 926154 acquires the generic BaseProc before testing its actor profile.
 bool sub_7100926154(ksys::act::BaseProc* proc, sead::Vector3f* out);
 // 0x7100926a14 / 0x7100926a2c: PlayerInfo::getPlayer() / getPlayer_() (null without PlayerInfo).
-ksys::act::PlayerBase* sub_7100926A14();
-ksys::act::PlayerBase* sub_7100926A2C();
+uking::act::PlayerBase* sub_7100926A14();
+uking::act::PlayerBase* sub_7100926A2C();
 // 0x7100926a50: acquires the player into `accessor` (same as sub_7100924BE4).
 void sub_7100926A50(ksys::act::ActorLinkConstDataAccess* accessor);
 // 0x7100926a74 / 0x7100926a9c: acquires the player's horse (PlayerInfo's horse link).

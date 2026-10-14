@@ -2,7 +2,7 @@
 #include "KingSystem/Map/mapObjectLink.h"
 #include "KingSystem/Map/mapObject.h"
 #include "Game/Actor/aiUnk_71007130BC.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"

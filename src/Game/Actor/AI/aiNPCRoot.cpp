@@ -3,8 +3,8 @@
 #include <prim/seadSafeString.h>
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "Game/Actor/actModelMaterialUtil.h"
 #include "Game/Actor/actNPC.h"
@@ -110,7 +110,7 @@ bool NPCRoot::sub_71004DC010(ksys::act::Unk_7100d78e50* entry) {
     ksys::act::ActorLinkConstDataAccess accessor;
     if (ksys::act::acquireActor(&link, &accessor) && accessor.getName().startsWith("RemoteBomb"))
         result = true;
-    else if (ksys::act::PlayerInfo::getSomeProcLink() == link && entry->_0.m5(9))
+    else if (uking::act::PlayerInfo::getSomeProcLink() == link && entry->_0.m5(9))
         result = true;
     else
         result = false;
@@ -120,7 +120,7 @@ bool NPCRoot::sub_71004DC010(ksys::act::Unk_7100d78e50* entry) {
 // 0x71004dc204
 bool NPCRoot::sub_71004DC204() {
     ksys::act::acc::PlayerBase accessor;
-    ksys::act::acquireActor(&ksys::act::PlayerInfo::getSomeProcLink(), &accessor);
+    ksys::act::acquireActor(&uking::act::PlayerInfo::getSomeProcLink(), &accessor);
     sead::FixedSafeString<32> series;
     accessor.getArmorSeriesType(&series);
     return series == "Black" || series == "Stalfos" || series == "PhantomGanon";

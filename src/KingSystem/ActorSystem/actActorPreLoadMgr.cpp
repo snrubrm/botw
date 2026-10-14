@@ -3,7 +3,7 @@
 #include <thread/seadThread.h>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorSystem.h"
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actBaseProcMgr.h"
 #include "KingSystem/Event/evtEventResource.h"
 

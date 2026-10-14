@@ -1,7 +1,7 @@
 #include "Game/Actor/Camera/AI/aiCameraRoot.h"
 #include "Game/Actor/actCameraUtil.h"
 #include "KingSystem/ActorSystem/Attention/actAttentionSingleton.h"
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 
 namespace uking::ai {

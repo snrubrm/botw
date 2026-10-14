@@ -1,11 +1,11 @@
 #include "Game/Actor/Damage/dmgDamageMgrPlayer.h"
 #include "Game/Actor/Player/AI/aiPlayerNormal.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actImpulseBaseProcLink.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/System/Timer.h"
 
 namespace uking::act {
@@ -19,8 +19,8 @@ void DamageMgrPlayer::resetDamage() {
 
 void DamageMgrPlayer::m22() {
     auto* actor = mActor;
-    if (sead::IsDerivedFrom<ksys::act::PlayerBase>(actor)) {
-        auto* player = static_cast<ksys::act::PlayerBase*>(actor);
+    if (sead::IsDerivedFrom<uking::act::PlayerBase>(actor)) {
+        auto* player = static_cast<uking::act::PlayerBase*>(actor);
         if (_22c > 0.0f) {
             if (!player->_cec.isOnBit(31))
                 ksys::Timer::update(&_22c, -1.0f);
@@ -34,7 +34,7 @@ void DamageMgrPlayer::m22() {
 
 bool DamageMgrPlayer::m50(s32*, s32*, u32*, u32*, s32*, s32*) {
     // Discarded IsDerivedFrom (a real virtual call in the target asm); always false.
-    sead::IsDerivedFrom<ksys::act::PlayerBase>(mActor);
+    sead::IsDerivedFrom<uking::act::PlayerBase>(mActor);
     return false;
 }
 
@@ -44,8 +44,8 @@ bool DamageMgrPlayer::m51(const ksys::act::BaseProcLink* link) {
         result = true;
     } else if (isSlowTimeMaybe()) {
         auto* actor = mActor;
-        if (sead::IsDerivedFrom<ksys::act::PlayerBase>(actor)) {
-            auto* player = static_cast<ksys::act::PlayerBase*>(actor);
+        if (sead::IsDerivedFrom<uking::act::PlayerBase>(actor)) {
+            auto* player = static_cast<uking::act::PlayerBase*>(actor);
             ksys::act::BaseProcLink tmp;
             if (player->sub_710084AA9C(&tmp) && link->hasProc())
                 result = *link == tmp;
@@ -73,8 +73,8 @@ s32 DamageMgrPlayer::m53() {
 
 bool DamageMgrPlayer::m56() {
     auto* actor = mActor;
-    if (sead::IsDerivedFrom<ksys::act::PlayerBase>(actor)) {
-        auto* player = static_cast<ksys::act::PlayerBase*>(actor);
+    if (sead::IsDerivedFrom<uking::act::PlayerBase>(actor)) {
+        auto* player = static_cast<uking::act::PlayerBase*>(actor);
         if (player->_cf0.isOnBit(8))
             return false;
     }

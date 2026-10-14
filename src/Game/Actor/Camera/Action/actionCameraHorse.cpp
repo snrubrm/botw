@@ -2,8 +2,8 @@
 #include "KingSystem/System/VFRValue.h"
 #include <math/seadMathCalcCommon.h>
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 #include <cmath>
 #include "Game/Actor/actMotorcycle.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
@@ -276,7 +276,7 @@ void CameraHorse::sub_71007712B0(f32* out) {
     if (!target)
         return;
     auto* player = sead::DynamicCast<ksys::act::Actor>(
-        ksys::act::PlayerInfo::instance()->getHorseLink().getProc(nullptr, nullptr));
+        uking::act::PlayerInfo::instance()->getHorseLink().getProc(nullptr, nullptr));
     if (!player)
         return;
     const sead::Vector3f target_position = target->getMtx().getTranslation();
@@ -302,7 +302,7 @@ void CameraHorse::sub_710077154C(f32* out) {
         return;
     const act::Unk_7100922700 polar(camera->_860._0._0 - camera->_860._0._c);
     auto* player = sead::DynamicCast<ksys::act::Actor>(
-        ksys::act::PlayerInfo::instance()->getHorseLink().getProc(nullptr, nullptr));
+        uking::act::PlayerInfo::instance()->getHorseLink().getProc(nullptr, nullptr));
     if (!player)
         return;
     const sead::Vector3f direction = -player->getMtx().getBase(2);
@@ -321,7 +321,7 @@ void CameraHorse::sub_7100771758(f32* out) {
     if (!target)
         return;
     auto* player = sead::DynamicCast<ksys::act::Actor>(
-        ksys::act::PlayerInfo::instance()->getHorseLink().getProc(nullptr, nullptr));
+        uking::act::PlayerInfo::instance()->getHorseLink().getProc(nullptr, nullptr));
     if (!player)
         return;
     const sead::Vector3f base = player->getMtx().getBase(2);
@@ -407,7 +407,7 @@ void CameraHorse::sub_7100770DA8() {
 void CameraHorse::sub_7100771C30(f32* out) {
     *out = *mSideOffsetSlow_s + (*mSideOffsetFast_s - *mSideOffsetSlow_s) * _50;
     auto* ridden_actor = sead::DynamicCast<ksys::act::Actor>(
-        ksys::act::PlayerInfo::instance()->getHorseLink().getProc(nullptr, nullptr));
+        uking::act::PlayerInfo::instance()->getHorseLink().getProc(nullptr, nullptr));
     f32 speed;
     if (auto* motorcycle = sead::DynamicCast<act::Motorcycle>(ridden_actor)) {
         speed = motorcycle->speedStuff_1();
@@ -424,7 +424,7 @@ void CameraHorse::sub_7100771C30(f32* out) {
 void CameraHorse::sub_7100771DA8(f32* out) {
     *out = *mOffsetYMin_s + (*mOffsetYMax_s - *mOffsetYMin_s) * _50;
     auto* ridden_actor = sead::DynamicCast<ksys::act::Actor>(
-        ksys::act::PlayerInfo::instance()->getHorseLink().getProc(nullptr, nullptr));
+        uking::act::PlayerInfo::instance()->getHorseLink().getProc(nullptr, nullptr));
     if (!ridden_actor)
         return;
     ksys::act::ActorLinkConstDataAccess accessor(ridden_actor);
@@ -488,7 +488,7 @@ void CameraHorse::m34() {
     if (!player)
         return;
     auto* ridden_actor = sead::DynamicCast<ksys::act::Actor>(
-        ksys::act::PlayerInfo::instance()->getHorseLink().getProc(nullptr, nullptr));
+        uking::act::PlayerInfo::instance()->getHorseLink().getProc(nullptr, nullptr));
     if (!ridden_actor)
         return;
     const sead::Vector3f forward = ridden_actor->getMtx().getBase(2);
@@ -508,7 +508,7 @@ void CameraHorse::m34() {
     sub_7100770474();
     sub_7100771480(&_64);
     if (auto* ridden = sead::DynamicCast<ksys::act::Actor>(
-            ksys::act::PlayerInfo::instance()->getHorseLink().getProc(nullptr, nullptr)))
+            uking::act::PlayerInfo::instance()->getHorseLink().getProc(nullptr, nullptr)))
         _78 = ridden->getMtx().getTranslation();
     sub_7100770574();
     _6c = _78 + _90;
@@ -593,7 +593,7 @@ void CameraHorse::m34() {
 // NON_MATCHING: translation copying and saved registers differ.
 void CameraHorse::sub_710077002C() {
     if (auto* ridden_actor = sead::DynamicCast<ksys::act::Actor>(
-            ksys::act::PlayerInfo::instance()->getHorseLink().getProc(nullptr, nullptr)))
+            uking::act::PlayerInfo::instance()->getHorseLink().getProc(nullptr, nullptr)))
         _78 = ridden_actor->getMtx().getTranslation();
     sub_7100771C30(&_84);
     sub_7100771DA8(&_88);

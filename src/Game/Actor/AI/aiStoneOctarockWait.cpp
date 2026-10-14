@@ -1,6 +1,6 @@
 #include "Game/Actor/AI/aiStoneOctarockWait.h"
 #include <random/seadGlobalRandom.h>
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/System/Timer.h"
 #include "Game/Actor/Damage/dmgDamageManagerBase.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"

@@ -5,10 +5,10 @@
 #include "Game/gameUnk_71024739d0.h"
 #include <controller/seadController.h>
 #include "Game/gameMaskController.h"
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actBaseProcAccessor.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/ActorSystem/actUnk_71024ef4e8.h"
 #include "KingSystem/GameData/gdtManager.h"
 #include "KingSystem/Utils/MathUtil.h"
@@ -17,33 +17,33 @@ bool sub_71009269F8(const sead::Vector3f& pos, f32* out) {
     return sub_7100926430(pos, 3, out, 1.0f, 1.0f, 5.0f);
 }
 
-ksys::act::PlayerBase* sub_7100926A14() {
-    if (auto* info = ksys::act::PlayerInfo::instance())
+uking::act::PlayerBase* sub_7100926A14() {
+    if (auto* info = uking::act::PlayerInfo::instance())
         return info->getPlayer();
     return nullptr;
 }
 
 // NON_MATCHING: the original calls getPlayer_ with bl + ret instead of a tail call (return types
 // differ somehow)
-ksys::act::PlayerBase* sub_7100926A2C() {
-    if (auto* info = ksys::act::PlayerInfo::instance())
+uking::act::PlayerBase* sub_7100926A2C() {
+    if (auto* info = uking::act::PlayerInfo::instance())
         return info->getPlayer_();
     return nullptr;
 }
 
 void sub_7100926A50(ksys::act::ActorLinkConstDataAccess* accessor) {
-    if (auto* info = ksys::act::PlayerInfo::instance())
+    if (auto* info = uking::act::PlayerInfo::instance())
         ksys::act::acquireActor(&info->getPlayerLink(), accessor);
 }
 
 bool sub_7100926A74(ksys::act::ActorLinkConstDataAccess* accessor) {
-    if (auto* info = ksys::act::PlayerInfo::instance())
+    if (auto* info = uking::act::PlayerInfo::instance())
         return ksys::act::acquireActor(&info->getHorseLink(), accessor);
     return false;
 }
 
 bool sub_7100926A9C(ksys::act::ActorLinkConstDataAccess* accessor) {
-    if (auto* info = ksys::act::PlayerInfo::instance())
+    if (auto* info = uking::act::PlayerInfo::instance())
         return ksys::act::acquireActor(&info->getHorseLink(), accessor);
     return false;
 }

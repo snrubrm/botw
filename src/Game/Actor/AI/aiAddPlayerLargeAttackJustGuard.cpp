@@ -1,8 +1,8 @@
 #include "Game/Actor/AI/aiAddPlayerLargeAttackJustGuard.h"
 #include "Game/Actor/aiUnk_71005D6D10.h"
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 
 namespace uking::ai {
 
@@ -31,7 +31,7 @@ void AddPlayerLargeAttackJustGuard::enter_(ksys::act::ai::InlineParamPack* param
 
 void AddPlayerLargeAttackJustGuard::calc_() {
     auto* link = sub_71005D9050(mActor);
-    auto* info = ksys::act::PlayerInfo::instance();
+    auto* info = uking::act::PlayerInfo::instance();
     if (link == nullptr || info == nullptr || !(*link == info->getPlayerLink()))
         return;
 

@@ -1,5 +1,5 @@
 #include "Game/Actor/Action/actionDemoFindPlayer.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "Game/Actor/aiUnk_71005D6D10.h"
 
@@ -11,7 +11,7 @@ DemoFindPlayer::~DemoFindPlayer() = default;
 
 void DemoFindPlayer::enter_(ksys::act::ai::InlineParamPack* params) {
     TimeredASPlay::enter_(params);
-    sub_71005D8DE8(mActor, ksys::act::PlayerInfo::getSomeProcLink(), nullptr, nullptr);
+    sub_71005D8DE8(mActor, uking::act::PlayerInfo::getSomeProcLink(), nullptr, nullptr);
     mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_2000000);
 }
 

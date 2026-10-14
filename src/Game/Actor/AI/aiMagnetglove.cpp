@@ -1,7 +1,7 @@
 #include "Game/Actor/AI/aiMagnetglove.h"
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace uking::ai {
@@ -15,8 +15,8 @@ bool Magnetglove::init_(sead::Heap* heap) {
 }
 
 void Magnetglove::enter_(ksys::act::ai::InlineParamPack* params) {
-    auto* player = sead::DynamicCast<ksys::act::PlayerBase>(sead::DynamicCast<ksys::act::Actor>(
-        ksys::act::PlayerInfo::getSomeProcLink().getProc(nullptr, mActor)));
+    auto* player = sead::DynamicCast<uking::act::PlayerBase>(sead::DynamicCast<ksys::act::Actor>(
+        uking::act::PlayerInfo::getSomeProcLink().getProc(nullptr, mActor)));
     if (player && player->_cf0.isOnBit(22))
         changeChild("マグネフォース発生");
     else
@@ -27,8 +27,8 @@ void Magnetglove::calc_() {
     if (isCurrentChild("消滅"))
         return;
 
-    auto* player = sead::DynamicCast<ksys::act::PlayerBase>(sead::DynamicCast<ksys::act::Actor>(
-        ksys::act::PlayerInfo::getSomeProcLink().getProc(nullptr, mActor)));
+    auto* player = sead::DynamicCast<uking::act::PlayerBase>(sead::DynamicCast<ksys::act::Actor>(
+        uking::act::PlayerInfo::getSomeProcLink().getProc(nullptr, mActor)));
     if (!player) {
         setFailed();
         return;

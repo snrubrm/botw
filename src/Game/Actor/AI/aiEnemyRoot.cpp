@@ -6,7 +6,7 @@
 #include "Game/Actor/actHorseRideInfo.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/ActorSystem/aiRootAi.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
@@ -84,7 +84,7 @@ void EnemyRoot::m34(ksys::act::ai::InlineParamPack* params) {
     const u32 initial_state = actor->getRootAi()->getI();
     actor = mActor;
     if (actor->getRootAi()->getI() != 5 && *mIsNearCreate_m) {
-        sub_71005D8DE8(actor, ksys::act::PlayerInfo::getSomeProcLink(), nullptr, nullptr);
+        sub_71005D8DE8(actor, uking::act::PlayerInfo::getSomeProcLink(), nullptr, nullptr);
         mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_2000000);
         changeChild("近接湧出");
     } else if (ride_info && (ride_info->_30 & 1)) {
@@ -168,7 +168,7 @@ void EnemyRoot::m43() {
     auto& target = sub_71005D94AC(actor);
     if (*mForceSealSilentKillCount_a > 0 ||
         actor->getActorFlags2().isOn(ksys::act::Actor::ActorFlag2::_1000000) ||
-        (target == ksys::act::PlayerInfo::getSomeProcLink() &&
+        (target == uking::act::PlayerInfo::getSomeProcLink() &&
          (!enemyTeamStuff(mActor, &target) || enemy->_e84.isOnBit(1)))) {
         ksys::act::disableAttClient(actor, "AwakeSilentKill");
     } else {

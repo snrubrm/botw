@@ -11,7 +11,7 @@
 #include "KingSystem/ActorSystem/Awareness/actAITerror.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerArmors.h"
 #include "KingSystem/ActorSystem/actBoneHandle.h"
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/Physics/physDefines.h"
 #include "KingSystem/System/Timer.h"
 #include "KingSystem/System/VFRValue.h"
@@ -30,8 +30,8 @@ namespace ksys::act {
 // that PlayerBase does not override (in PlayerLink declaration order of the overriders below)
 // plus the new virtuals m362, m363 and m386. Keep the order of that block.
 // TODO: incomplete.
-class Player : public PlayerBase {
-    SEAD_RTTI_OVERRIDE(Player, PlayerBase)
+class Player : public uking::act::PlayerBase {
+    SEAD_RTTI_OVERRIDE(Player, uking::act::PlayerBase)
 public:
     // 0x710084aad8: selects the player controller and checks its descendant RTTI.
     void initControllerMaybe();

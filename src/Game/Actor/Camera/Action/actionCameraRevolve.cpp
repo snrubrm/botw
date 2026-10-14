@@ -1,8 +1,8 @@
 #include "Game/Actor/Camera/Action/actionCameraRevolve.h"
 #include <math/seadMathCalcCommon.h>
 #include <cmath>
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/ActorSystem/aiRootAi.h"
 #include "KingSystem/System/VFR.h"
 
@@ -55,7 +55,7 @@ void CameraRevolve::m34() {
     ksys::act::Actor* subject = player;
     if (sub_7100926D24()) {
         subject = sead::DynamicCast<ksys::act::Actor>(
-            ksys::act::PlayerInfo::instance()->getHorseLink().getProc(nullptr, nullptr));
+            uking::act::PlayerInfo::instance()->getHorseLink().getProc(nullptr, nullptr));
         if (!subject)
             return;
     }

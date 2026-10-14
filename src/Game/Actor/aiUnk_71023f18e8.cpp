@@ -1,8 +1,8 @@
 #include "Game/Actor/aiUnk_71023f18e8.h"
 #include <cmath>
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/Utils/MathUtil.h"
 
 bool Unk_71023f18e8::m1(sead::Vector3f* out) {
@@ -27,7 +27,7 @@ bool Unk_71023f18e8::m2(sead::BufferedSafeString* out) {
 // is finished and loads `*radius` before the compare)
 void Unk_71023f18e8::m5(f32* radius, f32* angle, const sead::Vector3f* base) {
     ksys::act::acc::PlayerBase accessor;
-    ksys::act::acquireActor(&ksys::act::PlayerInfo::getSomeProcLink(), &accessor);
+    ksys::act::acquireActor(&uking::act::PlayerInfo::getSomeProcLink(), &accessor);
     f32 limit = _3c;
     if (!_6d) {
         if (accessor.isRidingHorse()) {
@@ -60,7 +60,7 @@ void Unk_71023f18e8::m5(f32* radius, f32* angle, const sead::Vector3f* base) {
 
 void Unk_71023f18e8::m6(sead::Vector3f* out) {
     ksys::act::ActorLinkConstDataAccess accessor;
-    ksys::act::acquireActor(&ksys::act::PlayerInfo::getSomeProcLink(), &accessor);
+    ksys::act::acquireActor(&uking::act::PlayerInfo::getSomeProcLink(), &accessor);
     accessor.getActorMtx().getTranslation(*out);
     *out += accessor.getVelocity() * 24;
 }

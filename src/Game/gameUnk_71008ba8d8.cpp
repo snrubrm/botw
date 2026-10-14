@@ -1,7 +1,7 @@
 #include "Game/gameUnk_71008ba8d8.h"
 #include "Game/Scene/gameScene.h"
 #include "KingSystem/System/Vibration.h"
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/Event/evtActorBase.h"

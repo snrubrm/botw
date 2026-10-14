@@ -2,7 +2,7 @@
 #include "KingSystem/Utils/MathUtil.h"
 #include <cmath>
 #include <math/seadMathCalcCommon.h>
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/System/Timer.h"
 #include "KingSystem/System/VFRValue.h"
 #include "KingSystem/ActorSystem/aiRootAi.h"

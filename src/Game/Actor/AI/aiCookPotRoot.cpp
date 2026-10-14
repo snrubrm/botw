@@ -7,7 +7,7 @@
 #include "KingSystem/ActorSystem/aiRootAi.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actChemical.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include <math/seadMathCalcCommon.h>
 #include "KingSystem/Utils/Thread/Message.h"
 #include "KingSystem/World/worldEnvMgr.h"

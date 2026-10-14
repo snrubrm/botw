@@ -1,6 +1,6 @@
 #include "Game/Actor/Behavior/behaviorPlayerEmitInterest.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::behavior {
@@ -24,7 +24,7 @@ void PlayerEmitInterest::loadParams() {
 }
 
 void PlayerEmitInterest::m7() {
-    auto* player = sead::DynamicCast<ksys::act::PlayerBase>(mActor);
+    auto* player = sead::DynamicCast<uking::act::PlayerBase>(mActor);
     if (!player)
         return;
     auto* unit = mActor->get548();

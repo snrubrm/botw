@@ -14,7 +14,7 @@
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/Utils/MathUtil.h"
 #include "Game/Actor/aiUnk_71024f15c0.h"
 #include "KingSystem/Map/mapRail.h"

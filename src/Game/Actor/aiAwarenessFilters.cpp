@@ -10,10 +10,10 @@
 #include "Game/Actor/actWeapon.h"
 #include <prim/seadSafeString.h>
 #include "KingSystem/ActorSystem/Profiles/actBullet.h"
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/ActorSystem/actTag.h"
 #include "KingSystem/Resource/Actor/resResourceAttCheck.h"
 
@@ -279,7 +279,7 @@ bool Unk_71024514e8::m2(Unk_71024dc978* entry) {
                 // fallthrough
             case uking::act::Unk_7100e8b2b8::Unk8::_1:
                 if (sub_7100739A10(_28, "Player")) {
-                    if ((_30 & 4) && enemyTeamStuff(_28, &ksys::act::PlayerInfo::getSomeProcLink()))
+                    if ((_30 & 4) && enemyTeamStuff(_28, &uking::act::PlayerInfo::getSomeProcLink()))
                         return false;
                     return true;
                 }

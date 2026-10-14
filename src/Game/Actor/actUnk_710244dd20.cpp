@@ -11,7 +11,7 @@
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectPlayer.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayer.h"
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/Utils/Thread/Message.h"
 
 // Defined in actPlayerBase.cpp (0x710084beec).
@@ -54,13 +54,13 @@ bool Unk_71008502cc::m9() {
 void Unk_71008502cc::m12(int index) {
     switch (index) {
     case 0: {
-        auto* player = sead::DynamicCast<ksys::act::PlayerBase>(_10);
+        auto* player = sead::DynamicCast<uking::act::PlayerBase>(_10);
         if (!player || !player->sub_710084CF24())
             _8.setBit(0);
         break;
     }
     case 1: {
-        auto* player = sead::DynamicCast<ksys::act::PlayerBase>(_10);
+        auto* player = sead::DynamicCast<uking::act::PlayerBase>(_10);
         if (!player || !player->sub_710084CF24())
             _8.setBit(1);
         break;

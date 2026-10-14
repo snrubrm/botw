@@ -1,7 +1,7 @@
 #include "Game/gameRuneMgr.h"
 #include <prim/seadScopedLock.h>
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 
 namespace uking {
@@ -56,7 +56,7 @@ bool RuneMgr::isSelectedRune(s32 rune) const {
     return _248 == rune;
 }
 
-bool RuneMgr::checkIsSelectedRuneAndCanUse(s32 rune, ksys::act::PlayerBase* player) {
+bool RuneMgr::checkIsSelectedRuneAndCanUse(s32 rune, uking::act::PlayerBase* player) {
     if (_248 != rune)
         return false;
     return checkCanUseRune(rune, player);
@@ -64,9 +64,9 @@ bool RuneMgr::checkIsSelectedRuneAndCanUse(s32 rune, ksys::act::PlayerBase* play
 
 // NON_MATCHING: identical code, but the original lays out the PlayerInfo lookup (`if (!player)`) inline
 // before the dispatch while ours moves it behind it (block placement; five source forms tried).
-bool RuneMgr::checkCanUseRune(s32 rune, ksys::act::PlayerBase* player) {
+bool RuneMgr::checkCanUseRune(s32 rune, uking::act::PlayerBase* player) {
     if (!player) {
-        auto* info = ksys::act::PlayerInfo::instance();
+        auto* info = uking::act::PlayerInfo::instance();
         if (!info)
             return false;
         player = info->getPlayer();

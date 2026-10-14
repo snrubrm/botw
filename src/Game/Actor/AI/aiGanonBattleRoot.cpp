@@ -4,7 +4,7 @@
 #include "Game/Actor/Damage/dmgDamageManager.h"
 #include "Game/Actor/actLastBoss.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"

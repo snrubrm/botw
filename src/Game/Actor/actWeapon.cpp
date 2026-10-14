@@ -18,7 +18,7 @@
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actUnk_71006e45c4.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerOrEnemy.h"
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/ActorSystem/Profiles/actBullet.h"
 #include "KingSystem/ActorSystem/actLodState.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
@@ -302,7 +302,7 @@ bool Weapon::m250(ksys::act::Actor* actor) {
 bool Weapon::m239() {
     if (!isParentPlayer())
         return false;
-    auto* parent = sead::DynamicCast<ksys::act::PlayerBase>(getParentActor());
+    auto* parent = sead::DynamicCast<uking::act::PlayerBase>(getParentActor());
     return parent && parent->m271() == 1 && parent->getWeapons()->mWeapons[0]._10;
 }
 
@@ -339,14 +339,14 @@ bool Weapon::m225() {
 bool Weapon::m226() {
     if (!isParentPlayer())
         return false;
-    auto* player = sead::DynamicCast<ksys::act::PlayerBase>(getParentActor());
+    auto* player = sead::DynamicCast<uking::act::PlayerBase>(getParentActor());
     return player && player->m206();
 }
 
 bool Weapon::m155() {
     if (!isParentPlayer())
         return false;
-    auto* player = sead::DynamicCast<ksys::act::PlayerBase>(getParentActor());
+    auto* player = sead::DynamicCast<uking::act::PlayerBase>(getParentActor());
     if (!player || player->m203())
         return false;
     return player->_d11 != 0 || player->m194();
@@ -355,7 +355,7 @@ bool Weapon::m155() {
 bool Weapon::m156() {
     if (!isParentPlayer())
         return false;
-    auto* player = sead::DynamicCast<ksys::act::PlayerBase>(getParentActor());
+    auto* player = sead::DynamicCast<uking::act::PlayerBase>(getParentActor());
     return player && (player->m199() || player->_cec.isOnBit(4));
 }
 
@@ -477,7 +477,7 @@ void Weapon::m246(sead::Vector3f* out) {
 }
 
 void Weapon::m247(sead::Vector3f* out) {
-    if (auto* player = sead::DynamicCast<ksys::act::PlayerBase>(getParentActor())) {
+    if (auto* player = sead::DynamicCast<uking::act::PlayerBase>(getParentActor())) {
         ksys::act::acc::Armor accessor;
         player->m277(&accessor, 1);
         if (accessor.hasProc()) {
@@ -489,7 +489,7 @@ void Weapon::m247(sead::Vector3f* out) {
 }
 
 void Weapon::m248(sead::Vector3f* out) {
-    if (auto* player = sead::DynamicCast<ksys::act::PlayerBase>(getParentActor())) {
+    if (auto* player = sead::DynamicCast<uking::act::PlayerBase>(getParentActor())) {
         ksys::act::acc::Armor accessor;
         player->m277(&accessor, 1);
         if (accessor.hasProc()) {

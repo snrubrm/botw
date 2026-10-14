@@ -1,14 +1,14 @@
 #include "Game/Actor/AI/aiItemConductor.h"
 #include "Game/Actor/actArmorBase.h"
 #include "Game/gameRuneMgr.h"
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/Effect/eftEffect.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 // 0x71001c2c68 (declared only; an unnamed free function in the ItemConductorDemoBind TU, takes the player).
-bool sub_71001C2C68(ksys::act::PlayerBase* player);
+bool sub_71001C2C68(uking::act::PlayerBase* player);
 
 namespace uking::ai {
 
@@ -85,7 +85,7 @@ bool ItemConductor::sub_710044EC60() {
     auto* armor = sead::DynamicCast<act::ArmorBase>(mActor);
     if (!armor)
         return false;
-    auto* player = sead::DynamicCast<ksys::act::PlayerBase>(armor->getOwner());
+    auto* player = sead::DynamicCast<uking::act::PlayerBase>(armor->getOwner());
     if (!player)
         return false;
     return sub_71001C2C68(player);
@@ -108,7 +108,7 @@ bool ItemConductor::sub_710044F408() {
     auto* armor = sead::DynamicCast<act::ArmorBase>(mActor);
     if (!armor)
         return false;
-    auto* player = sead::DynamicCast<ksys::act::PlayerBase>(armor->getOwner());
+    auto* player = sead::DynamicCast<uking::act::PlayerBase>(armor->getOwner());
     if (!player)
         return false;
     return player->m287();

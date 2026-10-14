@@ -2,7 +2,7 @@
 #include <limits>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Map/mapObjectLink.h"
@@ -140,7 +140,7 @@ void ZoraHeroRelicBattleNormal::sub_7100612D98(const sead::Vector3f& pos) {
 bool ZoraHeroRelicBattleNormal::sub_7100613404(f32 top, f32 bottom, const sead::Vector3f& pos,
                                                sead::Vector3f* hit_pos) {
     ksys::phys::RayCastBodyQuery query(
-        sub_7100738C18(&ksys::act::PlayerInfo::getSomeProcLink(), 0), ksys::phys::GroundHit::HitAll);
+        sub_7100738C18(&uking::act::PlayerInfo::getSomeProcLink(), 0), ksys::phys::GroundHit::HitAll);
     query.enableLayer(ksys::phys::ContactLayer::EntityWater);
     query.setGroundHit(ksys::phys::GroundHit::HitAll);
     query.setNormalCheckingMode(ksys::phys::RayCast::NormalCheckingMode::_0);

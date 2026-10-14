@@ -1,7 +1,7 @@
 #include "Game/Actor/Action/actionRecoverMasterSword.h"
 #include "Game/UI/uiUtils.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerOrEnemy.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectMasterSword.h"
 #include "KingSystem/Utils/Thread/Message.h"
@@ -21,7 +21,7 @@ void RecoverMasterSword::loadParams_() {}
 bool RecoverMasterSword::oneShot_() {
     ui::recoverMasterSword(false, false);
     ksys::act::acc::PlayerOrEnemy player;
-    ksys::act::acquireActor(&ksys::act::PlayerInfo::getSomeProcLink(), &player);
+    ksys::act::acquireActor(&uking::act::PlayerInfo::getSomeProcLink(), &player);
     sendMessage(*player.getMessageTransceiverId(), ksys::MessageType(0x8000023), nullptr);
     ksys::act::ActorLinkConstDataAccess weapon;
     player.getWeapon(&weapon, 0);

@@ -1,6 +1,6 @@
 #include "Game/Actor/Query/queryCheckPlayerTemperatureCondition.h"
 #include <evfl/Query.h>
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 
 // 0x71006deb48: DynamicActor::m151 of the accessor's actor (src/Game/Damage/dmgActorAccessors.cpp).
 bool sub_71006DEB48(const ksys::act::ActorLinkConstDataAccess& accessor, int bit);

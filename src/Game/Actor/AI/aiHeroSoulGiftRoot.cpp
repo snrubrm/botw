@@ -1,6 +1,6 @@
 #include "Game/Actor/AI/aiHeroSoulGiftRoot.h"
 #include "KingSystem/ActorSystem/actLodState.h"
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Utils/Thread/Message.h"
 

@@ -2,7 +2,7 @@
 #include <cmath>
 #include <math/seadMathCalcCommon.h>
 #include <math/seadMatrixCalcCommon.h>
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/System/Timer.h"
 #include "KingSystem/System/VFR.h"
 #include "KingSystem/ActorSystem/actUnk_71024ef4e8.h"

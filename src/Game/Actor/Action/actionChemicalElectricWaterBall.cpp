@@ -1,7 +1,7 @@
 #include "Game/Actor/Action/actionChemicalElectricWaterBall.h"
 #include <gsys/gsysModel.h>
 #include "KingSystem/ActorSystem/Profiles/actBullet.h"
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorLimiter.h"
 #include "KingSystem/ActorSystem/actActorParam.h"

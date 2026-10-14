@@ -1,8 +1,8 @@
 #include "Game/Actor/Action/actionForceSetPlayerRestartPosAngle.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/Event/evtUnk_7100dc816c.h"
 #include "KingSystem/Map/mapObject.h"
 
@@ -33,7 +33,7 @@ void ForceSetPlayerRestartPosAngle::sub_7100138D68() {
         return;
     auto* object = sub_7100EE5240(mActor, mAnchorName_d, mUniqueName_d);
     if (object) {
-        auto* info = ksys::act::PlayerInfo::instance();
+        auto* info = uking::act::PlayerInfo::instance();
         if (!info)
             return;
         ksys::act::acc::PlayerBase player;

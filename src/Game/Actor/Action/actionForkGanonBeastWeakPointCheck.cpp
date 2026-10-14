@@ -2,7 +2,7 @@
 #include "Game/Actor/Damage/dmgDamageManager.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "Game/Actor/aiUnk_710070284C.h"
 #include "Game/Actor/aiUnk_71025b2d88.h"
 #include "KingSystem/ActorSystem/actTag.h"

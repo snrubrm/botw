@@ -1,6 +1,6 @@
 #include "Game/Actor/Action/actionItemConductorDemoBind.h"
 #include "Game/Actor/actArmorBase.h"
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
@@ -13,7 +13,7 @@ bool ItemConductorDemoBind::sub_71001C20C0() {
     auto* armor = sead::DynamicCast<act::ArmorBase>(mActor);
     if (!armor)
         return false;
-    auto* player = sead::DynamicCast<ksys::act::PlayerBase>(armor->getOwner());
+    auto* player = sead::DynamicCast<uking::act::PlayerBase>(armor->getOwner());
     return player && player->_c44.isOnBit(16);
 }
 
@@ -21,7 +21,7 @@ bool ItemConductorDemoBind::sub_71001C21C0() {
     auto* armor = sead::DynamicCast<act::ArmorBase>(mActor);
     if (!armor)
         return false;
-    auto* player = sead::DynamicCast<ksys::act::PlayerBase>(armor->getOwner());
+    auto* player = sead::DynamicCast<uking::act::PlayerBase>(armor->getOwner());
     if (!player)
         return false;
     return sub_71001C2C68(player);

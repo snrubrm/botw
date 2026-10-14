@@ -1,6 +1,6 @@
 #include "Game/Actor/Action/actionWarpPlayer.h"
 #include "Game/gameSceneMgr.h"
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 
 namespace uking::action {
 

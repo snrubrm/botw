@@ -1,7 +1,7 @@
 #include "Game/Actor/AI/aiGetItemBrightBow.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 
 namespace uking::ai {
 
@@ -38,7 +38,7 @@ bool GetItemBrightBow::m34() {
 
 // NON_MATCHING: the original negates the m270() result with mvn+and in its own return block
 bool GetItemBrightBow::m35() {
-    auto* player = ksys::act::PlayerInfo::instance()->getPlayer();
+    auto* player = uking::act::PlayerInfo::instance()->getPlayer();
     if (!player)
         return true;
     return !player->m270();

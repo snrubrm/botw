@@ -14,7 +14,7 @@
 #include "Game/Actor/actWeapon.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectRod.h"
 #include "KingSystem/Physics/System/physRayCastBodyQuery.h"
@@ -101,7 +101,7 @@ bool EquipedRod::sub_7100110900(sead::Matrix34f* out) {
     }
     if (!_98 && weapon->isParentPlayer() && weapon->_d38 &&
         s32(weapon->_d38->sub_71002EF74C()) > 0) {
-        auto* player = sead::DynamicCast<ksys::act::PlayerBase>(parent);
+        auto* player = sead::DynamicCast<uking::act::PlayerBase>(parent);
         sead::Vector3f target;
         if (player && player->m352(&target)) {
             target.y += 1.0f;
@@ -358,7 +358,7 @@ bool EquipedRod::sub_7100111C48() {
     auto* weapon = sead::DynamicCast<uking::act::Weapon>(mActor);
     if (!weapon)
         return false;
-    auto* player = sead::DynamicCast<ksys::act::PlayerBase>(weapon->getParentActor());
+    auto* player = sead::DynamicCast<uking::act::PlayerBase>(weapon->getParentActor());
     return player && player->m296() == 1;
 }
 

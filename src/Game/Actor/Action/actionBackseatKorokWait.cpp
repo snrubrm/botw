@@ -1,7 +1,7 @@
 #include "Game/Actor/Action/actionBackseatKorokWait.h"
 #include "Game/Actor/actNPC.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "Game/Actor/actNPC.h"
 
 namespace uking::action {

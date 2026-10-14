@@ -1,8 +1,8 @@
 #include "Game/Actor/Action/actionIncreasePlayerMaxStamina.h"
 #include "Game/Actor/aiUnk_710073BB28.h"
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerLink.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 
 namespace uking::ui {
 // 0x7100a9b4a4 (uiManagerFacade.cpp)
@@ -21,14 +21,14 @@ bool IncreasePlayerMaxStamina::init_(sead::Heap* heap) {
 }
 
 void IncreasePlayerMaxStamina::enter_(ksys::act::ai::InlineParamPack* params) {
-    if (!ksys::act::PlayerInfo::instance()) {
+    if (!uking::act::PlayerInfo::instance()) {
         setFailed();
         return;
     }
 
     const s32 value = *mValue_d;
     const bool is_move_center = *mIsMoveCenter_d;
-    using ksys::act::PlayerInfo;
+    using uking::act::PlayerInfo;
     const f32 max_stamina = f32(s32(PlayerInfo::instance()->getStaminaMax()) + value * 200);
     PlayerInfo::instance()->setStaminaMax(max_stamina);
     if (auto* player = PlayerInfo::instance()->getPlayer()) {

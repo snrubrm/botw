@@ -12,9 +12,9 @@
 #include "KingSystem/Event/evtEventFlow.h"
 #include "KingSystem/Event/evtUnk_7100dc816c.h"
 #include "KingSystem/Map/mapObject.h"
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/Utils/MathUtil.h"
 
 bool sub_7100EE7168(const ksys::map::Object* obj, sead::Matrix34f* out);
@@ -742,7 +742,7 @@ void sub_71009243FC(ksys::act::Actor* actor, s32 selector, const sead::SafeStrin
     }
     case 1: {
         ksys::act::ActorLinkConstDataAccess accessor;
-        if (auto* info = ksys::act::PlayerInfo::instance())
+        if (auto* info = uking::act::PlayerInfo::instance())
             ksys::act::acquireActor(&info->getPlayerLink(), &accessor);
         if (accessor.getProc()) {
             accessor.linkAcquire(&result->link);
@@ -1067,7 +1067,7 @@ bool sub_7100926DF0(const ksys::act::ActorLinkConstDataAccess& accessor) {
 bool sub_7100926E0C() {
     ksys::act::ActorLinkConstDataAccess accessor;
     bool result = false;
-    if (auto* info = ksys::act::PlayerInfo::instance()) {
+    if (auto* info = uking::act::PlayerInfo::instance()) {
         if (ksys::act::acquireActor(&info->getHorseLink(), &accessor))
             result = uking::act::sub_7100E6ECC4(accessor) == 8;
     }

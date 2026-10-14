@@ -16,7 +16,7 @@
 #include "KingSystem/ActorSystem/aiRootAi.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/Profiles/actWeaponBase.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/ActorSystem/actTag.h"
 #include "KingSystem/System/PlayReportMgr.h"
 // For Enemy::m75: the callback element type (lane5 owns it; used, not modified).
@@ -482,7 +482,7 @@ bool Enemy::sub_7100016284(s32 idx) {
     auto* weapon = sead::DynamicCast<Weapon>(_c38[idx].getProc(nullptr, nullptr));
     if (!weapon)
         return false;
-    return weapon->isParentEqual(ksys::act::PlayerInfo::getSomeProcLink());
+    return weapon->isParentEqual(uking::act::PlayerInfo::getSomeProcLink());
 }
 
 bool Enemy::sub_71000161A4(s32 idx) {

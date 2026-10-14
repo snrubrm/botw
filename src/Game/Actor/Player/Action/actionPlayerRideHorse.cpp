@@ -143,7 +143,7 @@ void PlayerRideHorse::calc_() {
     if (_d0 == 2)
         sub_7100808F88();
     auto* ride_actor = act::getRideActor(mActor);
-    auto* player = sead::DynamicCast<ksys::act::PlayerBase>(mActor);
+    auto* player = sead::DynamicCast<uking::act::PlayerBase>(mActor);
     // The original queries the ride info here even though the result is unused.
     mActor->getPlayerRideInfo();
     if (!ride_actor) {
@@ -166,7 +166,7 @@ void PlayerRideHorse::calc_() {
 // NON_MATCHING: animation-name tests and the steering/landing branches compile differently.
 void PlayerRideHorse::sub_710080A224() {
     auto* bike = sead::DynamicCast<act::Motorcycle>(act::getRideActor(mActor));
-    auto* player = sead::DynamicCast<ksys::act::PlayerBase>(mActor);
+    auto* player = sead::DynamicCast<uking::act::PlayerBase>(mActor);
     auto* list = mActor->getASList();
     auto* ride_info = mActor->getPlayerRideInfo();
     // Both original virtual queries discard their results here.

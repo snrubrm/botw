@@ -22,14 +22,14 @@
 #include "Game/Scene/gameStageInfo.h"
 #include "Game/gameStageBinder.h"
 #include "KingSystem/ActorSystem/actActorSystem.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/System/StageInfo.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Event/evtManager.h"
 #include "KingSystem/Event/evtEventFlow.h"
 #include "Game/gameStage.h"
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/Resource/resResource.h"
 #include "Game/UI/euiScreen.h"
 #include "Game/UI/uiScreens.h"
@@ -524,7 +524,7 @@ bool GameScene::canTriggerPanicBloodMoon() {
         return false;
     if (ksys::evt::Manager::instance()->hasActiveEvent())
         return false;
-    auto* player = ksys::act::PlayerInfo::instance()->getPlayer();
+    auto* player = uking::act::PlayerInfo::instance()->getPlayer();
     if (!player)
         return false;
     sead::Vector3f save_pos;

@@ -8,7 +8,7 @@
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/aiRootAi.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
 namespace uking::ai {
@@ -79,7 +79,7 @@ void MimicCliffStopEnemyNormal::sub_71004A6730(bool a1) {
         controller->sub_7100F62BB8();
 
     if (!a1) {
-        sub_71005D8DE8(mActor, ksys::act::PlayerInfo::getSomeProcLink(), nullptr, nullptr);
+        sub_71005D8DE8(mActor, uking::act::PlayerInfo::getSomeProcLink(), nullptr, nullptr);
         mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_2000000);
     }
     changeChild("擬態解除", &params);

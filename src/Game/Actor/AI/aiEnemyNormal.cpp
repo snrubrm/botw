@@ -3,7 +3,7 @@
 #include "Game/Actor/actWeapon.h"
 #include "Game/Actor/Damage/dmgDamageManagerBase.h"
 #include "KingSystem/ActorSystem/actChemical.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
 #include "Game/Actor/actEnemy.h"
 #include <cmath>
@@ -996,7 +996,7 @@ bool EnemyNormal::m71(Unk2* out, Unk1* info) {
         return false;
     }
 
-    if (m45(getPlayerPosition(), ksys::act::PlayerInfo::getSomeProcLink(), false))
+    if (m45(getPlayerPosition(), uking::act::PlayerInfo::getSomeProcLink(), false))
         return false;
     if (m45(sub_71005D9330(mActor), sub_71005D94AC(mActor), false))
         return false;
@@ -1094,7 +1094,7 @@ bool EnemyNormal::m72(Unk2* out, Unk1* info) {
     }
 
     auto* unk = sub_71005D9D68(mActor);
-    auto& player = ksys::act::PlayerInfo::getSomeProcLink();
+    auto& player = uking::act::PlayerInfo::getSomeProcLink();
     if (!unk || !unk->sub_71002DC9E8(player, 8, false))
         return false;
 
@@ -1423,7 +1423,7 @@ void EnemyNormal::sub_710039E76C() {
     if (_3ac.isOff(4))
         return;
 
-    auto* player_info = ksys::act::PlayerInfo::instance();
+    auto* player_info = uking::act::PlayerInfo::instance();
     if (!player_info) {
         _3b8 = 0;
         _3ac.reset(4);
@@ -1889,13 +1889,13 @@ bool EnemyNormal::m67(Unk2* out, Unk1* info) {
 
     auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
     if (enemy && enemy->_e84.isOnBit(15)) {
-        auto& player = ksys::act::PlayerInfo::getSomeProcLink();
+        auto& player = uking::act::PlayerInfo::getSomeProcLink();
         ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&player, &accessor);
         sead::Vector3f pos;
         accessor.getActorMtx().getTranslation(pos);
         if (!m45(pos, player, false)) {
-            out->sub_710039E308(&ksys::act::PlayerInfo::getSomeProcLink());
+            out->sub_710039E308(&uking::act::PlayerInfo::getSomeProcLink());
             out->_44 |= 1;
             return true;
         }

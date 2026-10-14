@@ -1,9 +1,9 @@
 #include "Game/Actor/Action/actionForkGanonBeastHeadBarrier.h"
 #include <geom/seadGeometry.h>
 #include <geom/seadSegment.h>
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
 
 namespace uking::action {
@@ -41,7 +41,7 @@ void ForkGanonBeastHeadBarrier::loadParams_() {
 bool ForkGanonBeastHeadBarrier::sub_7100154628() {
     auto* actor = mActor;
     ksys::act::acc::PlayerBase accessor;
-    ksys::act::acquireActor(&ksys::act::PlayerInfo::getSomeProcLink(), &accessor);
+    ksys::act::acquireActor(&uking::act::PlayerInfo::getSomeProcLink(), &accessor);
     bool result = false;
     if (!accessor.isGroundForEvent()) {
         const auto& player_mtx = accessor.getActorMtx();
@@ -85,7 +85,7 @@ void ForkGanonBeastHeadBarrier::calc_() {
 
     auto* actor = mActor;
     _48.x(actor, actor->getMtx().getTranslation());
-    _48.sub_710070DCC0(&ksys::act::PlayerInfo::getSomeProcLink(), false);
+    _48.sub_710070DCC0(&uking::act::PlayerInfo::getSomeProcLink(), false);
 
     Unk_71012419b4 handle;
     xlinkSearchAndEmit(mActor, "Shockwave", 2, &handle);

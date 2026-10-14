@@ -2,7 +2,7 @@
 #include <random/seadGlobalRandom.h>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Map/mapObjectLink.h"
 
@@ -114,14 +114,14 @@ void DogNormal::sub_7100364610() {
 
     ksys::act::ai::InlineParamPack pack;
     pack.addVec3(target, "TargetPos", -1);
-    pack.addActor(ksys::act::PlayerInfo::getSomeProcLink(), "LeaderActor", -1);
+    pack.addActor(uking::act::PlayerInfo::getSomeProcLink(), "LeaderActor", -1);
     changeChild("宝まで誘導", &pack);
 }
 
 void DogNormal::changeToFriendly() {
     sub_7100500B50(false, false, false);
     ksys::act::ai::InlineParamPack pack;
-    pack.addActor(ksys::act::PlayerInfo::getSomeProcLink(), "TargetActor", -1);
+    pack.addActor(uking::act::PlayerInfo::getSomeProcLink(), "TargetActor", -1);
     pack.addFloat(0.0f, "DistanceKept", -1);
     changeChild("なつき", &pack);
     _464.setBit(Flag(Flag::_4));

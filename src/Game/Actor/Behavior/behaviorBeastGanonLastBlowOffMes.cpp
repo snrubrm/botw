@@ -3,9 +3,9 @@
 #include <gsys/gsysModel.h>
 #include <gsys/gsysModelUnit.h>
 #include "KingSystem/ActorSystem/AS/ASList.h"
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 
 namespace uking::behavior {
 
@@ -24,7 +24,7 @@ bool BeastGanonLastBlowOffMes::m6(sead::Heap* heap) {
 void BeastGanonLastBlowOffMes::m7() {
     SimpleAtvUnitOpenDlgRnd3::m7();
     ksys::act::acc::PlayerBase accessor;
-    ksys::act::acquireActor(&ksys::act::PlayerInfo::getSomeProcLink(), &accessor);
+    ksys::act::acquireActor(&uking::act::PlayerInfo::getSomeProcLink(), &accessor);
     if (accessor.isGroundForEvent() && _84)
         m16();
 }
@@ -49,7 +49,7 @@ bool BeastGanonLastBlowOffMes::m15() {
 
     bool result;
     ksys::act::ActorLinkConstDataAccess accessor;
-    ksys::act::acquireActor(&ksys::act::PlayerInfo::getSomeProcLink(), &accessor);
+    ksys::act::acquireActor(&uking::act::PlayerInfo::getSomeProcLink(), &accessor);
     const sead::Matrix34f& player_mtx = accessor.getActorMtx();
     const f32 player_x = player_mtx(0, 3);
     const f32 player_z = player_mtx(2, 3);

@@ -1,6 +1,6 @@
 #include "Game/Actor/Action/actionSetExtraLifeOfPlayer.h"
 #include "Game/UI/uiUtils.h"
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 
 namespace uking::action {
 

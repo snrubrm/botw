@@ -14,7 +14,7 @@
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectPrey.h"
 #include "Game/Actor/actRideable.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/ActorSystem/aiRootAi.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/World/worldEnvMgr.h"

@@ -1,7 +1,7 @@
 #include "Game/Actor/Camera/Action/actionCameraWaterfallClimb.h"
 #include <math/seadMathCalcCommon.h>
 #include <cmath>
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/System/VFR.h"
 
 namespace uking::action {

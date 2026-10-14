@@ -1,6 +1,6 @@
 #include "Game/Actor/Action/actionPlayerWarpEffectValueSetter.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayer.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "math/seadMathCalcCommon.h"
 
 namespace uking::action {
@@ -20,7 +20,7 @@ void PlayerWarpEffectValueSetter::enter_(ksys::act::ai::InlineParamPack* params)
     _3c = time;
     _30 = ksys::Timer(time, time);
     const f32 ratio = sead::Mathf::clamp(_30.value / _3c, 0.0f, 1.0f);
-    if (auto* player = ksys::act::PlayerInfo::instance()->getPlayer()) {
+    if (auto* player = uking::act::PlayerInfo::instance()->getPlayer()) {
         if (*mChangeType_d)
             static_cast<ksys::act::Player*>(player)->sub_710084BA90(1.0f - ratio);
         else
@@ -42,7 +42,7 @@ void PlayerWarpEffectValueSetter::calc_() {
         return;
     _30.update();
     const f32 ratio = sead::Mathf::clamp(_30.value / _3c, 0.0f, 1.0f);
-    if (auto* player = ksys::act::PlayerInfo::instance()->getPlayer()) {
+    if (auto* player = uking::act::PlayerInfo::instance()->getPlayer()) {
         if (*mChangeType_d)
             static_cast<ksys::act::Player*>(player)->sub_710084BA90(1.0f - ratio);
         else

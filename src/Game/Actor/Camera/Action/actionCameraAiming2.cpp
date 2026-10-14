@@ -6,8 +6,8 @@
 #include "KingSystem/System/VFRValue.h"
 #include "Game/Framework/gameSystemStruct1.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/Utils/MathUtil.h"
 
 namespace uking::action {
@@ -377,7 +377,7 @@ void CameraAiming2::sub_710074FDF0(sead::Vector3f* out) {
     *out = camera->_860._2b8;
     if (sub_7100926D24()) {
         if (auto* actor = sead::DynamicCast<ksys::act::Actor>(
-                ksys::act::PlayerInfo::instance()->getHorseLink().getProc(nullptr, nullptr)))
+                uking::act::PlayerInfo::instance()->getHorseLink().getProc(nullptr, nullptr)))
             actor->getMtx().getTranslation(*out);
     } else {
         ksys::act::acc::PlayerBase player;

@@ -4,7 +4,7 @@
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "Game/gameUnkRttiPlaceholders.h"
 
 void Unk_71024518c8::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,

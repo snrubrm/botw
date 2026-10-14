@@ -3,7 +3,7 @@
 #include <math/seadMathCalcCommon.h>
 #include "Game/gameSceneMgr.h"
 #include "KingSystem/ActorSystem/actBaseProcAccessor.h"
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 
 namespace uking::query {
 

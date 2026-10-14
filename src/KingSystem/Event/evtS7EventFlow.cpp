@@ -2,7 +2,7 @@
 #include "Game/gameRoot38.h"
 #include "Game/UI/uiUnkSingletons.h"
 #include "Game/UI/uiUI.h"
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/Event/evtEventSystem.h"
 #include "KingSystem/Event/evtManager.h"
 #include "KingSystem/Physics/System/physSystem.h"

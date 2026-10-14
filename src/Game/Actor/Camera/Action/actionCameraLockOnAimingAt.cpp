@@ -9,8 +9,8 @@
 const sead::Vector2f& sub_7100A9B928();
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include <math/seadMathCalcCommon.h>
 
 namespace uking::action {
@@ -121,7 +121,7 @@ void CameraLockOnAimingAt::sub_7100775368(ksys::act::BaseProcLink* link) {
         return;
 
     if (sub_7100926D24()) {
-        auto* proc = ksys::act::PlayerInfo::instance()->getHorseLink().getProc(nullptr, nullptr);
+        auto* proc = uking::act::PlayerInfo::instance()->getHorseLink().getProc(nullptr, nullptr);
         if (sead::IsDerivedFrom<ksys::act::Actor>(proc))
             link->acquire(proc, false);
         else
@@ -199,7 +199,7 @@ void CameraLockOnAimingAt::sub_71007748EC() {
 void CameraLockOnAimingAt::sub_7100774AF4() {
     _16c = _144;
     _16c.y += *mOffsetY_s;
-    auto* proc = ksys::act::PlayerInfo::instance()->getHorseLink().getProc(nullptr, nullptr);
+    auto* proc = uking::act::PlayerInfo::instance()->getHorseLink().getProc(nullptr, nullptr);
     if (auto* actor = sead::DynamicCast<ksys::act::Actor>(proc)) {
         ksys::act::ActorLinkConstDataAccess accessor(actor);
         if (sub_7100926DF0(accessor) || sub_7100926E7C(accessor))

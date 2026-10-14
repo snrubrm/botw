@@ -1,9 +1,9 @@
 #include "Game/Actor/aiUnk_71007377D4.h"
 #include <math/seadMathCalcCommon.h>
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
@@ -25,7 +25,7 @@ f32 sub_710072DC58(ksys::act::Actor* actor) {
 }
 
 ksys::act::Actor* sub_710072BB4C() {
-    if (auto* info = ksys::act::PlayerInfo::instance())
+    if (auto* info = uking::act::PlayerInfo::instance())
         return info->getPlayer_();
     return nullptr;
 }

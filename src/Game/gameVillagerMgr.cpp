@@ -1,5 +1,5 @@
 #include "Game/gameVillagerMgr.h"
-#include "KingSystem/Framework/GameConfig.h"
+#include "KingSystem/System/GameConfig.h"
 #include "KingSystem/Physics/System/physRayCastForRequest.h"
 
 namespace uking {
@@ -19,7 +19,7 @@ void VillagerMgr::init(sead::Heap* heap) {
         entry._0 = -1;
     }
     mFlags = 0;
-    if (GameConfig::getInstance()->_3dc)
+    if (ksys::GameConfig::getInstance()->_3dc)
         mFlags |= 0x20;
     using ksys::phys::ContactLayer;
     mLayerMasks.addLayer(ContactLayer::EntityAirWall);

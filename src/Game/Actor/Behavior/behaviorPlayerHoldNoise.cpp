@@ -1,6 +1,6 @@
 #include "Game/Actor/Behavior/behaviorPlayerHoldNoise.h"
 #include "Game/Actor/aiUnk_71005D6D10.h"
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 
 namespace uking::behavior {
 
@@ -10,7 +10,7 @@ void PlayerHoldNoise::m8() {}
 
 void PlayerHoldNoise::m7() {
     f32 noise = *mNoiseValue_s;
-    if (auto* player = sead::DynamicCast<ksys::act::PlayerBase>(mActor))
+    if (auto* player = sead::DynamicCast<uking::act::PlayerBase>(mActor))
         noise *= player->m319();
     sub_71005D8D4C(mActor, noise, 1, false);
 }

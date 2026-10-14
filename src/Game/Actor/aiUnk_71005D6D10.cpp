@@ -7,7 +7,7 @@
 #include <cmath>
 #include "Game/Actor/aiUnk_7102357d20.h"
 #include "Game/Actor/aiUnk_71007377D4.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/System/VFR.h"
 #include "KingSystem/ActorSystem/actAiParam.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
@@ -28,7 +28,7 @@
 #include "Game/Actor/Damage/dmgDamageCallback.h"
 #include "Game/Actor/Damage/dmgDamageManager.h"
 #include "Game/Actor/Damage/dmgDamageManagerBase.h"
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorCreator.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
@@ -1363,7 +1363,7 @@ bool sub_71005DA9A8(ksys::act::Actor* actor, int idx) {
 }
 
 bool sub_71005D7270(ksys::act::ai::InlineParamPack* params, const char* key) {
-    auto& link = ksys::act::PlayerInfo::getSomeProcLink();
+    auto& link = uking::act::PlayerInfo::getSomeProcLink();
     if (link.hasProc()) {
         ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&link, &accessor);

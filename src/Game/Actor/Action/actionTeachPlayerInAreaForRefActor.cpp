@@ -1,7 +1,7 @@
 #include "Game/Actor/Action/actionTeachPlayerInAreaForRefActor.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Map/mapObjectLink.h"
 
@@ -58,7 +58,7 @@ void TeachPlayerInAreaForRefActor::calc_() {
 // `cmp w21, #1; b.lt` instead of `cbz`
 void TeachPlayerInAreaForRefActor::sub_710029450C() {
     {
-        const auto& link = ksys::act::PlayerInfo::getSomeProcLink();
+        const auto& link = uking::act::PlayerInfo::getSomeProcLink();
         sead::ScopedLock<sead::JobQueueLock> lock(&_48._18.mLock);
         _48._18.mLink = link;
     }

@@ -1,9 +1,9 @@
 #include "Game/Actor/AI/aiAttackGrave.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/XLink/xlinkXLink.h"
 
 namespace uking::ai {
@@ -24,7 +24,7 @@ void AttackGrave::enter_(ksys::act::ai::InlineParamPack* params) {
 
     ksys::act::ai::InlineParamPack pack;
     pack.addVec3(getPlayerPosition(), "TargetPos", -1);
-    pack.addActor(ksys::act::PlayerInfo::getSomeProcLink(), "TargetActor", -1);
+    pack.addActor(uking::act::PlayerInfo::getSomeProcLink(), "TargetActor", -1);
     changeChild("先行動", &pack);
 }
 

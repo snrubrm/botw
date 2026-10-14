@@ -4,7 +4,7 @@
 #include <heap/seadExpHeap.h>
 #include <prim/seadSafeString.h>
 #include "Game/DLC/aocManager.h"
-#include "KingSystem/Framework/GameConfig.h"
+#include "KingSystem/System/GameConfig.h"
 #include "KingSystem/Resource/resEntryFactory.h"
 #include "KingSystem/Resource/resHandle.h"
 #include "KingSystem/Resource/resLoadRequest.h"

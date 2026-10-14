@@ -1,5 +1,5 @@
 #include "Game/Actor/Action/actionIchigekiHeartDecrease.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 
 namespace uking::action {
 
@@ -16,7 +16,7 @@ void IchigekiHeartDecrease::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void IchigekiHeartDecrease::leave_() {
-    if (auto* info = ksys::act::PlayerInfo::instance())
+    if (auto* info = uking::act::PlayerInfo::instance())
         info->setLifeForPlayerActor(1);
 }
 

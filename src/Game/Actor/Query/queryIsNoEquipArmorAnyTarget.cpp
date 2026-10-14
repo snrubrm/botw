@@ -1,6 +1,6 @@
 #include "Game/Actor/Query/queryIsNoEquipArmorAnyTarget.h"
 #include <evfl/Query.h>
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 
 namespace uking::query {
 

@@ -1,6 +1,6 @@
 #include "Game/Actor/AI/aiGoronHeroSoulGiftRoot.h"
 #include <algorithm>
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 
 namespace uking::ai {
 

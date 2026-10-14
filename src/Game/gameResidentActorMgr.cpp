@@ -7,8 +7,8 @@
 #include "KingSystem/ActorSystem/actActorHeapUtil.h"
 #include "KingSystem/ActorSystem/actBaseProcMgr.h"
 #include "KingSystem/ActorSystem/actInstParamPack.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
-#include "KingSystem/Framework/GameConfig.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
+#include "KingSystem/System/GameConfig.h"
 #include "KingSystem/Resource/resLoadRequest.h"
 #include "KingSystem/Utils/Byaml/Byaml.h"
 
@@ -92,7 +92,7 @@ void ResidentActorMgr::generateResidentActors(sead::Heap* heap) {
 }
 
 void ResidentActorMgr::finishLoadingResidentActors() {
-    if (GameConfig::getInstance()->_419) {
+    if (ksys::GameConfig::getInstance()->_419) {
         ksys::act::BaseProcMgr::instance()->writeResidentActorsCsv(
             "%PROJECT_ROOT%/Log/BootupPatrol/resident_actors.csv");
     }
@@ -109,7 +109,7 @@ void ResidentActorMgr::finishLoadingResidentActors() {
         }
     }
 
-    if (auto* player = ksys::act::PlayerInfo::instance()->getPlayer())
+    if (auto* player = uking::act::PlayerInfo::instance()->getPlayer())
         static_cast<ksys::act::Player*>(player)->initResidentActors();
 }
 

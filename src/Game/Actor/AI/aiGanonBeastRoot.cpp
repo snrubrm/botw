@@ -10,7 +10,7 @@
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/Graphics/gfxUnk_710260af28.h"
 #include "KingSystem/Camera/CameraMgr.h"
 
@@ -62,7 +62,7 @@ void GanonBeastRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     _50._38 = 45.0f;
     _50._30 = 30.0f;
     _50._6d = true;
-    _110 = ksys::act::PlayerInfo::getSomeProcLink();
+    _110 = uking::act::PlayerInfo::getSomeProcLink();
     ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(&_110, &accessor);
     sub_71005D8DE8(mActor, _110, &accessor.getActorMtx(), &accessor.getPreviousPos());

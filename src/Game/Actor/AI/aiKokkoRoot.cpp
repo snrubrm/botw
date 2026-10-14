@@ -10,7 +10,7 @@
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actActorX6A0.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/Event/evtManager.h"
 #include "KingSystem/Event/evtMetadata.h"
 #include "KingSystem/GameData/gdtSpecialFlags.h"
@@ -92,7 +92,7 @@ void KokkoRoot::calc_() {
                     ksys::act::isEnemyProfile(&accessor.sub_71000056E4())) {
                     link = accessor.sub_71000056E4();
                 } else {
-                    link = ksys::act::PlayerInfo::getSomeProcLink();
+                    link = uking::act::PlayerInfo::getSomeProcLink();
                     check_world = true;
                 }
             }

@@ -11,7 +11,7 @@
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actActorWeapons.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/Event/evtUnk_7100dc816c.h"
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
@@ -154,7 +154,7 @@ void AssassinMiddleRoot::m43() {
     if (*mForceSealSilentKillCount_a > 0 ||
         actor->getActorFlags2().isOn(ksys::act::Actor::ActorFlag2::_1000000) ||
         (actor->getActorFlags2().isOn(ksys::act::Actor::ActorFlag2::_2000000) &&
-         link == ksys::act::PlayerInfo::getSomeProcLink())) {
+         link == uking::act::PlayerInfo::getSomeProcLink())) {
         ksys::act::disableAttClient(actor, "AwakeSilentKill");
     } else {
         ksys::act::enableAttClient(actor, "AwakeSilentKill");

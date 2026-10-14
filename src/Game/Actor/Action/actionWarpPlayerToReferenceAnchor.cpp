@@ -1,6 +1,6 @@
 #include "Game/Actor/Action/actionWarpPlayerToReferenceAnchor.h"
 #include "Game/gameResetter.h"
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Map/mapPlacementMgr.h"

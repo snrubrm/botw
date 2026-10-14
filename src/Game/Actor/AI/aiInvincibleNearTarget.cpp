@@ -2,11 +2,11 @@
 #include <random/seadGlobalRandom.h>
 #include "Game/Actor/aiUnk_71005D6D10.h"
 #include "Game/Actor/aiUnk_71005E0AAC.h"
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
@@ -57,7 +57,7 @@ bool InvincibleNearTarget::m35(float distance) {
     if (target && ksys::act::isPlayerProfile(target) &&
         sub_71005E0AAC(mActor, false, *mGuardStartAngle_s)) {
         ksys::act::acc::PlayerBase player;
-        ksys::act::acquireActor(&ksys::act::PlayerInfo::getSomeProcLink(), &player);
+        ksys::act::acquireActor(&uking::act::PlayerInfo::getSomeProcLink(), &player);
         result = player.m302();
     }
     return result;

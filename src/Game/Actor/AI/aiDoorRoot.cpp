@@ -4,7 +4,7 @@
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/GameData/gdtSpecialFlags.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
@@ -117,7 +117,7 @@ void DoorRoot::calc_() {
             _a8.x();
             return;
         }
-        sub_7100366B9C(player ? ksys::act::PlayerInfo::getSomeProcLink() :
+        sub_7100366B9C(player ? uking::act::PlayerInfo::getSomeProcLink() :
                              ksys::act::getDummyBaseProcLink(), as_name);
         return;
     }

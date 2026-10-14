@@ -3,7 +3,7 @@
 #include "KingSystem/Physics/System/physHavokAI.h"
 #include "KingSystem/Physics/System/physRayCastForRequest.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 
 namespace uking::ai {
 
@@ -43,7 +43,7 @@ void WolfLinkWarp::enter_(ksys::act::ai::InlineParamPack* params) {
         setFlag(Flag::_1);
 
     ksys::act::ai::InlineParamPack pack;
-    pack.addActor(ksys::act::PlayerInfo::getSomeProcLink(), "LeaderActor", -1);
+    pack.addActor(uking::act::PlayerInfo::getSomeProcLink(), "LeaderActor", -1);
     changeChild("ワープ前", &pack);
 }
 

@@ -12,7 +12,7 @@
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actInstParamPack.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/Physics/System/physRayCastBodyQuery.h"
 #include "KingSystem/Utils/MathUtil.h"
 #include "KingSystem/Utils/Thread/Message.h"
@@ -43,7 +43,7 @@ bool PriestBossEyeBeam::init_(sead::Heap* heap) {
 }
 
 void PriestBossEyeBeam::enter_(ksys::act::ai::InlineParamPack* params) {
-    sub_71005D8DE8(mActor, ksys::act::PlayerInfo::getSomeProcLink(), nullptr, nullptr);
+    sub_71005D8DE8(mActor, uking::act::PlayerInfo::getSomeProcLink(), nullptr, nullptr);
     _ac.set(sead::Vector3f::zero);
     m34();
     if (*mParams.mIsChangeable_s)

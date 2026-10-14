@@ -5,7 +5,7 @@
 #include "Game/Actor/actLastBoss.h"
 #include "Game/Actor/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include <math/seadMathCalcCommon.h>
 #include <cstring>
 

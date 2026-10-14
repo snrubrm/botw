@@ -1,7 +1,7 @@
 #include "Game/Actor/Action/actionBowArrowReload.h"
 #include "Game/Actor/actWeapon.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 
 namespace uking::action {
 

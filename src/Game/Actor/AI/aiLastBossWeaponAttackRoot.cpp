@@ -2,7 +2,7 @@
 #include "Game/Actor/aiUnk_71005D6D10.h"
 #include "Game/Actor/aiUnk_710072BA90.h"
 #include "Game/Actor/aiAwarenessFilters.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "Game/Actor/Damage/dmgDamageManager.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/aiRootAi.h"
@@ -65,7 +65,7 @@ void LastBossWeaponAttackRoot::calc_() {
             if (auto* awareness = mActor->getAwareness()) {
                 Unk_7102451678 filter;
                 auto* entry = ksys::act::sub_7100D7EEE8(&awareness->_8, &filter);
-                const auto& link = entry ? entry->_0.mLink : ksys::act::PlayerInfo::getSomeProcLink();
+                const auto& link = entry ? entry->_0.mLink : uking::act::PlayerInfo::getSomeProcLink();
                 sub_71005D8DE8(mActor, link, entry ? &entry->_58 : nullptr, nullptr);
             }
         }

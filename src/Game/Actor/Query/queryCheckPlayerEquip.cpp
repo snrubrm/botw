@@ -1,7 +1,7 @@
 #include "Game/Actor/Query/queryCheckPlayerEquip.h"
 #include <evfl/Query.h>
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 
 namespace uking::query {
 
@@ -10,7 +10,7 @@ CheckPlayerEquip::CheckPlayerEquip(const InitArg& arg) : ksys::act::ai::Query(ar
 CheckPlayerEquip::~CheckPlayerEquip() = default;
 
 int CheckPlayerEquip::doQuery() {
-    if (auto* player = ksys::act::PlayerInfo::instance()->getPlayer()) {
+    if (auto* player = uking::act::PlayerInfo::instance()->getPlayer()) {
         switch (*mPlayerEquipType) {
         case 0:
             return player->m268();

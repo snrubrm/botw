@@ -1,5 +1,5 @@
 #include "Game/Actor/Action/actionSetPlayerStateToUnequipAndWait.h"
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 
 namespace uking::action {
 

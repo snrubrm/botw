@@ -32,7 +32,7 @@
 #include "Game/Scene/gameScene.h"
 #include "KingSystem/GameData/gdtSpecialFlags.h"
 #include "KingSystem/System/StageInfo.h"
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 #include <nn/os.h>
 #include "Game/gameUnkRttiPlaceholders.h"
@@ -515,7 +515,7 @@ void ScreenMainScreen::sub_7100A1DE04() {
 
 // 0x7100a1de08
 void ScreenMainScreen::sub_7100A1DE08() {
-    auto* player = static_cast<ksys::act::PlayerBase*>(getPlayerActor(nullptr));
+    auto* player = static_cast<uking::act::PlayerBase*>(getPlayerActor(nullptr));
     if (!player || player->_c44.isOnBit(29))
         return;
     _1e0.sendMessage(*player->getMesTransceiverId(), ksys::MessageType(0x800007a), nullptr, false);
@@ -524,7 +524,7 @@ void ScreenMainScreen::sub_7100A1DE08() {
 // 0x7100a1de60
 // NON_MATCHING: register allocation of the accessor address in the second send.
 void ScreenMainScreen::sub_7100A1DE60() {
-    auto* player = static_cast<ksys::act::PlayerBase*>(getPlayerActor(nullptr));
+    auto* player = static_cast<uking::act::PlayerBase*>(getPlayerActor(nullptr));
     if (!player)
         return;
     ksys::act::ActorLinkConstDataAccess accessor;
@@ -1434,7 +1434,7 @@ void ScreenMainShortCut::m155() {
     sub_7100A20CBC();
     getPlayerActor(nullptr);
     sub_7100A2063C();
-    auto* player = static_cast<ksys::act::PlayerBase*>(getPlayerActor(nullptr));
+    auto* player = static_cast<uking::act::PlayerBase*>(getPlayerActor(nullptr));
     if (player && player->_c48.isOnBit(28) && _3700.isOnBit(2))
         sub_7100A209E4();
     if (_38cc == 0) {

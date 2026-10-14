@@ -154,10 +154,6 @@ target_sources(uking PRIVATE
     actLifeRecoveryInfo.cpp
     actModelBindInfo.cpp
     actModelBindInfo.h
-    actPlayerInfo.cpp
-    actPlayerInfo.h
-    actPlayerInfoBase.cpp
-    actPlayerInfoStub.cpp
     actPlayerPosition.cpp
     actReaction.cpp
     actStruct8Base.cpp
@@ -287,8 +283,6 @@ target_sources(uking PRIVATE
     Profiles/actPlayer.h
     Profiles/actPlayerAnim.cpp
     Profiles/actPlayerArmors.cpp
-    Profiles/actPlayerBase.cpp
-    Profiles/actPlayerBase.h
     Profiles/actPlayerBowUtil.cpp
     Profiles/actPlayerLink.h
     Profiles/actPlayerOrEnemy.cpp

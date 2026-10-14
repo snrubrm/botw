@@ -1,8 +1,8 @@
 #include "Game/Actor/Action/actionSwitchPlayerEquipment.h"
 #include "Game/Actor/actPlayerCreateMgr.h"
 #include "Game/UI/uiPauseMenuDataMgr.h"
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 
 namespace uking::action {
 
@@ -29,7 +29,7 @@ void SwitchPlayerEquipment::enter_(ksys::act::ai::InlineParamPack* params) {
     } else if (*mUnequipWeapon_d) {
         auto* mgr = ui::PauseMenuDataMgr::instance();
         if (mgr) {
-            auto* player = ksys::act::PlayerInfo::instance()->getPlayer();
+            auto* player = uking::act::PlayerInfo::instance()->getPlayer();
             if (player) {
                 mgr->unequipAll(ui::PouchItemType::Sword);
                 player->switchEquipment(mgr->getDefaultEquipment(ui::EquipmentSlot::WeaponRight),
@@ -47,7 +47,7 @@ void SwitchPlayerEquipment::enter_(ksys::act::ai::InlineParamPack* params) {
     } else if (*mUnequipShield_d) {
         auto* mgr = ui::PauseMenuDataMgr::instance();
         if (mgr) {
-            auto* player = ksys::act::PlayerInfo::instance()->getPlayer();
+            auto* player = uking::act::PlayerInfo::instance()->getPlayer();
             if (player) {
                 mgr->unequipAll(ui::PouchItemType::Shield);
                 player->switchEquipment(mgr->getDefaultEquipment(ui::EquipmentSlot::WeaponLeft),
@@ -65,7 +65,7 @@ void SwitchPlayerEquipment::enter_(ksys::act::ai::InlineParamPack* params) {
     } else if (*mUnequipBow_d) {
         auto* mgr = ui::PauseMenuDataMgr::instance();
         if (mgr) {
-            auto* player = ksys::act::PlayerInfo::instance()->getPlayer();
+            auto* player = uking::act::PlayerInfo::instance()->getPlayer();
             if (player) {
                 mgr->unequipAll(ui::PouchItemType::Bow);
                 player->switchEquipment(mgr->getDefaultEquipment(ui::EquipmentSlot::WeaponBow),
@@ -159,7 +159,7 @@ void SwitchPlayerEquipment::enter_(ksys::act::ai::InlineParamPack* params) {
     }
 
     if (check) {
-        auto* player_info = ksys::act::PlayerInfo::instance();
+        auto* player_info = uking::act::PlayerInfo::instance();
         if (!player_info || !player_info->getPlayer()) {
             setFailed();
             return;
@@ -202,7 +202,7 @@ void SwitchPlayerEquipment::calc_() {
     if (!act::CreatePlayerEquipActorMgr::instance()->areAllWeaponActorsReady())
         return;
     if (!_c1) {
-        if (auto* player = ksys::act::PlayerInfo::instance()->getPlayer())
+        if (auto* player = uking::act::PlayerInfo::instance()->getPlayer())
             player->setC98Locked(0x20);
         _c1 = true;
     }

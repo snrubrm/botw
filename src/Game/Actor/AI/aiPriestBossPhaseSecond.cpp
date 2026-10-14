@@ -1,5 +1,5 @@
 #include "Game/Actor/AI/aiPriestBossPhaseSecond.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "Game/Actor/aiUnk_7102450fa8.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"

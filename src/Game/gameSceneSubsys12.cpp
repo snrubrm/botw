@@ -1,7 +1,7 @@
 #include "Game/gameSceneSubsys12.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actBaseProcMgr.h"
 #include "KingSystem/System/UIGlue.h"
 #include "KingSystem/System/Timer.h"

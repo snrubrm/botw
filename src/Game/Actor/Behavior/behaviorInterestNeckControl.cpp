@@ -2,11 +2,11 @@
 #include <math/seadMathCalcCommon.h>
 #include "Game/Actor/aiUnk_71005D6D10.h"
 #include "Game/Actor/actNPC.h"
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actBoneControl.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessRequest.h"
 #include "KingSystem/ActorSystem/actActor.h"
@@ -57,7 +57,7 @@ void InterestNeckControl::m7() {
     }
 
     ksys::act::acc::PlayerBase player;
-    ksys::act::acquireActor(&ksys::act::PlayerInfo::instance()->getPlayerLink(), &player);
+    ksys::act::acquireActor(&uking::act::PlayerInfo::instance()->getPlayerLink(), &player);
     if (npc->_fe8 & 0x2000000) {
         control->sub_7100D8571C(player.getPreviousPos2());
         control->sub_7100D85750();

@@ -2,7 +2,7 @@
 #include <prim/seadRuntimeTypeInfo.h>
 #include "Game/Actor/Damage/dmgDamageMgrWeapon.h"
 #include "Game/Actor/Damage/dmgInfoManager.h"
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorParam.h"

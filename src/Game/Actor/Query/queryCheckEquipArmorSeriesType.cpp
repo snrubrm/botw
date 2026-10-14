@@ -1,7 +1,7 @@
 #include "Game/Actor/Query/queryCheckEquipArmorSeriesType.h"
 #include <evfl/Query.h>
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "Game/Actor/actArmorStrings.h"
 
 namespace uking::query {
@@ -42,7 +42,7 @@ int CheckEquipArmorSeriesType::doQuery() {
     bool result;
     {
         ksys::act::acc::PlayerBase accessor;
-        if (auto* info = ksys::act::PlayerInfo::instance())
+        if (auto* info = uking::act::PlayerInfo::instance())
             ksys::act::acquireActor(&info->getPlayerLink(), &accessor);
         if ((parts & 1) && !accessor.armorSeriesStuff(0, mCheckType)) {
             result = false;

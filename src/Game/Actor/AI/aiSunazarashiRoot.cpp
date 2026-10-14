@@ -1,10 +1,10 @@
 #include "Game/Actor/AI/aiSunazarashiRoot.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include <cmath>
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Physics/Cloth/physClothSet.h"
@@ -143,7 +143,7 @@ bool SunazarashiRoot::sub_71005AF91C() {
 
 void SunazarashiRoot::m41() {
     if (!isCurrentChild("牽引")) {
-        if (auto* info = ksys::act::PlayerInfo::instance()) {
+        if (auto* info = uking::act::PlayerInfo::instance()) {
             ksys::act::acc::PlayerBase player;
             ksys::act::acquireActor(&info->getPlayerLink(), &player);
             if (player.hasProc() && player.isRidingSandSeal() &&
@@ -207,7 +207,7 @@ void SunazarashiRoot::m43() {
 }
 
 void SunazarashiRoot::m44() {
-    if (auto* info = ksys::act::PlayerInfo::instance()) {
+    if (auto* info = uking::act::PlayerInfo::instance()) {
         ksys::act::acc::PlayerBase player;
         ksys::act::acquireActor(&info->getPlayerLink(), &player);
         if (player.hasProc() && player.isRidingSandSeal() && player.isRidingThisSandSeal(mActor)) {

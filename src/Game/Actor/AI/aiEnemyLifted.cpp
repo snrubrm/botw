@@ -6,7 +6,7 @@
 #include "Game/Actor/Damage/dmgDamageCallback.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
 #include "KingSystem/ActorSystem/Profiles/actDynamicActor.h"
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/Utils/Thread/Message.h"
 
 namespace uking::ai {
@@ -52,7 +52,7 @@ void EnemyLifted::calc_() {
         }
         if (sub_71005DC470(actor)) {
             auto* player =
-                sead::DynamicCast<ksys::act::PlayerBase>(actor->getConnectedCalcParent());
+                sead::DynamicCast<uking::act::PlayerBase>(actor->getConnectedCalcParent());
             sub_7100396E8C(sub_71005DC54C(actor), player != nullptr);
             return;
         }
@@ -60,7 +60,7 @@ void EnemyLifted::calc_() {
             m34();
             return;
         }
-        auto* player = sead::DynamicCast<ksys::act::PlayerBase>(actor->getConnectedCalcParent());
+        auto* player = sead::DynamicCast<uking::act::PlayerBase>(actor->getConnectedCalcParent());
         if (!player || !player->_c50.isOnBit(10)) {
             setFailed();
             actor->resetConnectedCalcParent(false);
@@ -83,7 +83,7 @@ void EnemyLifted::calc_() {
                 return;
             }
             auto* player =
-                sead::DynamicCast<ksys::act::PlayerBase>(actor->getConnectedCalcParent());
+                sead::DynamicCast<uking::act::PlayerBase>(actor->getConnectedCalcParent());
             if (player && player->_c50.isOnBit(10)) {
                 actor->resetConnectedCalcParent(false);
                 actor->deleteLater(ksys::act::BaseProc::DeleteReason::_0);
@@ -118,7 +118,7 @@ void EnemyLifted::m34() {}
 bool EnemyLifted::handleMessage_(const ksys::Message* message) {
     if (message->getType() != 0x8000002)
         return false;
-    auto* parent = sead::DynamicCast<ksys::act::PlayerBase>(mActor->getConnectedCalcParent());
+    auto* parent = sead::DynamicCast<uking::act::PlayerBase>(mActor->getConnectedCalcParent());
     auto* actor = mActor;
     actor->resetConnectedCalcParent(false);
     if (isCurrentChild("所持")) {

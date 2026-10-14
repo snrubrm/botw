@@ -5,7 +5,7 @@
 #include "Game/Actor/actPlayerCreateUtils.h"
 #include "Game/Actor/actWeapon.h"
 #include "Game/UI/uiPauseMenuDataMgr.h"
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/ActorSystem/Profiles/actWeaponBase.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorCreator.h"
@@ -14,7 +14,7 @@
 #include "KingSystem/ActorSystem/actInfoCommon.h"
 #include "KingSystem/ActorSystem/actInfoData.h"
 #include "KingSystem/ActorSystem/actInstParamPack.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 
 namespace uking::act {
@@ -155,7 +155,7 @@ void CreatePlayerEquipActorMgr::requestCreateWeapon(s32 slot_idx, const sead::Sa
     auto scope = mTracer.trace()->makeScope("requestCreateWeapon", caller, 1);
 
     deleteLoadingProc(slot_idx);
-    auto* player = ksys::act::PlayerInfo::instance()->getPlayer();
+    auto* player = uking::act::PlayerInfo::instance()->getPlayer();
 
     sead::Matrix34f pos;
     pos.makeT(player->getMtx().getTranslation());
@@ -207,7 +207,7 @@ void CreatePlayerEquipActorMgr::requestCreateArmor(s32 slot_idx, const sead::Saf
 
     {
         ksys::act::ActorLinkConstDataAccess access;
-        ksys::act::acquireActor(&ksys::act::PlayerInfo::instance()->getPlayerLink(), &access);
+        ksys::act::acquireActor(&uking::act::PlayerInfo::instance()->getPlayerLink(), &access);
         sead::Vector3f pos;
         access.getActorMtx().getTranslation(pos);
         params->addPosition(pos);

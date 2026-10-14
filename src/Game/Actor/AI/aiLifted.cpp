@@ -4,7 +4,7 @@
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "Game/Actor/aiUnk_71005D6D10.h"
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actUnk_7100e4e084.h"
 
@@ -63,12 +63,12 @@ void Lifted::calc_() {
             }
             sub_7100482000(sub_71005DC54C(actor), true);
         } else if (sub_71005DC470(actor)) {
-            auto* player = sead::DynamicCast<ksys::act::PlayerBase>(actor->getConnectedCalcParent());
+            auto* player = sead::DynamicCast<uking::act::PlayerBase>(actor->getConnectedCalcParent());
             sub_7100482000(sub_71005DC54C(actor), player != nullptr);
         } else if (sub_71005DC4F4(actor) || sub_71005DC4C8(actor)) {
             changeChild("設置");
         } else {
-            auto* player = sead::DynamicCast<ksys::act::PlayerBase>(actor->getConnectedCalcParent());
+            auto* player = sead::DynamicCast<uking::act::PlayerBase>(actor->getConnectedCalcParent());
             if (player && player->_c50.isOnBit(10)) {
                 actor->resetConnectedCalcParent(false);
                 actor->deleteLater(ksys::act::BaseProc::DeleteReason::_0);

@@ -1,7 +1,7 @@
 #include "Game/Actor/Action/actionDemoMotorcyclePutMaterials.h"
 #include <gsys/gsysModel.h>
 #include <gsys/gsysModelUnit.h>
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include <prim/seadSafeString.h>
 #include "Game/Actor/actMotorcycle.h"
 #include "Game/gameSceneSubsys12.h"
@@ -105,7 +105,7 @@ void DemoMotorcyclePutMaterials::sub_7100055160(GameSceneSubsys12* scene, bool p
         root_local = sead::Matrix34f::ident;
     }
     const sead::Vector3f position = mActor->getMtx().getTranslation();
-    const auto& player_position = ksys::act::PlayerInfo::instance()->getPlayerPos();
+    const auto& player_position = uking::act::PlayerInfo::instance()->getPlayerPos();
     sead::Vector3f front(player_position.x - position.x, 0.0f, player_position.z - position.z);
     const f32 length = front.normalize();
     sead::Matrix34f facing = sead::Matrix34f::ident;

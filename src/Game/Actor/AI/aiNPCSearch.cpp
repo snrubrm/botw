@@ -2,7 +2,7 @@
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 
 namespace uking::ai {
 
@@ -40,7 +40,7 @@ void NPCSearch::calc_() {
                                       ksys::act::sub_7100D78E30(&current->_8, i) :
                                       nullptr;
                     auto& link = entry->_0.mLink;
-                    if (link == ksys::act::PlayerInfo::getSomeProcLink()) {
+                    if (link == uking::act::PlayerInfo::getSomeProcLink()) {
                         ksys::act::ai::InlineParamPack params;
                         params.addBool(false, "ForceNotice", -1);
                         params.addActor(link, "TargetActor", -1);

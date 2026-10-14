@@ -2,7 +2,7 @@
 #include "Game/UI/uiUtils.h"
 #include "Game/gameSaveSystem.h"
 #include "Game/Scene/gameScene.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/GameData/gdtManager.h"
 
 namespace uking::action {
@@ -24,7 +24,7 @@ void RestartStageFromGameOver::enter_(ksys::act::ai::InlineParamPack* params) {
         gdm->onRestartStageFromGameOverMaybe();
     setIsRestartStageFromGameOver();
     if (sIsRestartStageFromGameOver) {
-        if (auto* player_info = ksys::act::PlayerInfo::instance()) {
+        if (auto* player_info = uking::act::PlayerInfo::instance()) {
             player_info->updateLifeAfterGameOver();
             GameScene::sub_71007AEF94();
         }

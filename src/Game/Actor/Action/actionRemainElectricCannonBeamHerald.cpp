@@ -1,6 +1,6 @@
 #include "Game/Actor/Action/actionRemainElectricCannonBeamHerald.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/GameData/gdtManager.h"
 #include "KingSystem/GameData/gdtManagerInline.h"
 #include "KingSystem/System/Timer.h"
@@ -80,7 +80,7 @@ void RemainElectricCannonBeamHerald::calc_() {
     }
     if (_30 <= 0.0f)
         setFinished();
-    if (auto* player_info = ksys::act::PlayerInfo::instance())
+    if (auto* player_info = uking::act::PlayerInfo::instance())
         player_info->getPlayerPos();
     _48._88 = sead::Mathf::min(1.0f, _30 / *mHeraldTime_s);
     _48._8c = !*mWillBeProtected_d;

@@ -1,7 +1,7 @@
 #include "Game/Actor/Query/queryCheckPlayerHellType.h"
 #include <evfl/Query.h>
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 
 namespace uking::query {
 
@@ -10,7 +10,7 @@ CheckPlayerHellType::CheckPlayerHellType(const InitArg& arg) : ksys::act::ai::Qu
 CheckPlayerHellType::~CheckPlayerHellType() = default;
 
 int CheckPlayerHellType::doQuery() {
-    auto* player = ksys::act::PlayerInfo::instance()->getPlayer();
+    auto* player = uking::act::PlayerInfo::instance()->getPlayer();
     if (player)
         return *mPlayerHellType == player->_d18;
     return 0;

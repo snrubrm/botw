@@ -1,4 +1,4 @@
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/System/SeadController.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
@@ -17,7 +17,7 @@
 #include "KingSystem/ActorSystem/actBaseProcMgr.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/aiRootAi.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/System/VFR.h"
@@ -81,7 +81,7 @@ bool sub_710084BD48(ksys::act::Actor* actor) {
     return static_cast<uking::act::DamageMgrPlayer*>(mgr)->_22c > 0.0f;
 }
 
-namespace ksys::act {
+namespace uking::act {
 
 void PlayerBase::x_1(bool on) {
     if (_548)
@@ -95,7 +95,7 @@ s32 PlayerBase::getX() {
 }
 
 bool PlayerBase::m223(sead::Vector3f* out) {
-    ActorLinkConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
     return acquireActor(&PlayerInfo::instance()->getHorseLink(), &accessor) &&
            sub_71002C802C(accessor) && sub_71002C8330(accessor, out);
 }
@@ -124,6 +124,10 @@ bool PlayerBase::m179() {
     return _d30 == sEquipmentTypeNames[3];
 }
 
+}  // namespace uking::act
+
+namespace ksys::act {
+
 void PlayerLink::m379(sead::BufferedSafeString* out) {}
 
 void PlayerLink::m380(sead::BufferedSafeString* out) {}
@@ -134,11 +138,15 @@ Actor* PlayerLink::m382() {
     return nullptr;
 }
 
-Unk_71024ef4e8* PlayerBase::getAttachedTargetActor2() {
+}  // namespace ksys::act
+
+namespace uking::act {
+
+ksys::act::Unk_71024ef4e8* PlayerBase::getAttachedTargetActor2() {
     return nullptr;
 }
 
-Unk_71024ef4e8* PlayerBase::getAttachedTargetActor() {
+ksys::act::Unk_71024ef4e8* PlayerBase::getAttachedTargetActor() {
     return nullptr;
 }
 
@@ -157,7 +165,7 @@ bool PlayerBase::x_2() {
 }
 
 bool PlayerBase::isSlowTime() const {
-    return VFR::instance()->getTimeSpeedMultiplierValue(0) < 1.0f;
+    return ksys::VFR::instance()->getTimeSpeedMultiplierValue(0) < 1.0f;
 }
 
 bool PlayerBase::x_50() {
@@ -177,11 +185,11 @@ bool PlayerBase::sub_7100848F5C() {
 }
 
 bool PlayerBase::sub_7100848F68() {
-    return SeadController::getInstance()->isHold(1 << sead::Controller::cPadIdx_Up);
+    return ksys::SeadController::getInstance()->isHold(1 << sead::Controller::cPadIdx_Up);
 }
 
 bool PlayerBase::sub_7100848F84() {
-    return SeadController::getInstance()->isHold(1 << sead::Controller::cPadIdx_Down);
+    return ksys::SeadController::getInstance()->isHold(1 << sead::Controller::cPadIdx_Down);
 }
 
 bool PlayerBase::runeMgrCheckCanUseRoundBomb() {
@@ -211,7 +219,7 @@ bool PlayerBase::runeMgrCheckIsCameraSelected() {
     return false;
 }
 
-void PlayerBase::m92(phys::RigidBody* body) {
+void PlayerBase::m92(ksys::phys::RigidBody* body) {
     sead::Vector3f position;
     body->getPosition(&position);
 }
@@ -268,9 +276,9 @@ bool PlayerBase::m240() {
 bool PlayerBase::x_48() {
     auto* info = getPlayerRideInfo();
     if (info && (info->_30 & 1)) {
-        ActorLinkConstDataAccess accessor;
+        ksys::act::ActorLinkConstDataAccess accessor;
         if (acquireActor(&info->_18, &accessor))
-            return accessor.sub_7100D14598() == Unk_7100d14598::_11;
+            return accessor.sub_7100D14598() == ksys::act::Unk_7100d14598::_11;
     }
     return false;
 }
@@ -293,7 +301,7 @@ sead::Vector3f* PlayerBase::m357() {
     return &_1770;
 }
 
-SeadController* PlayerBase::m358() {
+ksys::SeadController* PlayerBase::m358() {
     return _17d0;
 }
 
@@ -442,7 +450,7 @@ void PlayerBase::x_12(bool keep_extra) {
 }
 
 // NON_MATCHING: the original keeps the full word load of _c40 (ldr + tbz #14) where we narrow it to a byte load
-bool PlayerBase::sub_710084AA9C(BaseProcLink* out) {
+bool PlayerBase::sub_710084AA9C(ksys::act::BaseProcLink* out) {
     if (out && _c40.isOnBit(14)) {
         *out = _1280;
         return true;
@@ -467,7 +475,7 @@ sead::Vector3f& PlayerBase::getPlayerPosForPostCalc() {
 }
 
 PlayerBase* PlayerBase::getPlayer() {
-    BaseProcMgr::instance()->isAccessingProcSafe(this, nullptr);
+    ksys::act::BaseProcMgr::instance()->isAccessingProcSafe(this, nullptr);
     return this;
 }
 
@@ -487,11 +495,11 @@ bool PlayerBase::x_51() {
     return _17d0->controllerCheckPressedMaybe(3);
 }
 
-bool PlayerBase::getActorViaAccessor(BaseProcAccessor* accessor) {
+bool PlayerBase::getActorViaAccessor(ksys::act::BaseProcAccessor* accessor) {
     return accessor->acquire(this);
 }
 
-}  // namespace ksys::act
+}  // namespace uking::act
 
 namespace ksys::act::acc {
 
@@ -500,7 +508,7 @@ bool PlayerBase::x_3() const {
         return false;
     if (!eventMgrHasActiveEvent())
         return false;
-    auto* info = ksys::act::PlayerInfo::instance();
+    auto* info = uking::act::PlayerInfo::instance();
     info->setStaminaCurrentMax(info->getMaxStaminaFromPlayerActor());
     return true;
 }
@@ -510,7 +518,7 @@ bool PlayerBase::x_4() const {
         return false;
     if (!eventMgrHasActiveEvent())
         return false;
-    auto* info = ksys::act::PlayerInfo::instance();
+    auto* info = uking::act::PlayerInfo::instance();
     info->setLifeForPlayerActor(info->getMaxLifeFromPlayerActor());
     return true;
 }
@@ -523,37 +531,37 @@ bool PlayerBase::isMainWeaponHitEnemy() const {
     Weapon weapon;
     auto& link = player->getWeapons()->mWeapons[0].link;
     if (link.hasProc())
-        act::acquireActor(&link, &weapon);
+        ksys::act::acquireActor(&link, &weapon);
     return weapon.isHitEnemy();
 }
 
 bool PlayerBase::getPlayerFromPlayerInfo() {
-    auto* info = PlayerInfo::instance();
+    auto* info = uking::act::PlayerInfo::instance();
     if (!info)
         return false;
-    act::acquireActor(&info->getPlayerLink(), this);
+    ksys::act::acquireActor(&info->getPlayerLink(), this);
     return hasProc();
 }
 
-static BaseProc* getProcIfActor(BaseProc* proc) {
-    if (proc && sead::IsDerivedFrom<Actor>(proc))
+static ksys::act::BaseProc* getProcIfActor(ksys::act::BaseProc* proc) {
+    if (proc && sead::IsDerivedFrom<ksys::act::Actor>(proc))
         return proc;
     return nullptr;
 }
 
-act::PlayerBase* PlayerBase::getPlayerBase() const {
-    auto* actor = static_cast<Actor*>(getProcIfActor(mProc));
-    return sead::DynamicCast<act::PlayerBase>(actor);
+uking::act::PlayerBase* PlayerBase::getPlayerBase() const {
+    auto* actor = static_cast<ksys::act::Actor*>(getProcIfActor(mProc));
+    return sead::DynamicCast<uking::act::PlayerBase>(actor);
 }
 
-void PlayerBase::x_0(BaseProc* proc) const {
+void PlayerBase::x_0(ksys::act::BaseProc* proc) const {
     if (auto* player = getPlayerBase()) {
         const auto lock = sead::makeScopedLock(player->_1530);
         player->_1570.acquire(proc, false);
     }
 }
 
-void PlayerBase::x_1(bool a, const sead::SafeString& name, BaseProc* proc) const {
+void PlayerBase::x_1(bool a, const sead::SafeString& name, ksys::act::BaseProc* proc) const {
     if (auto* player = getPlayerBase()) {
         const auto lock = sead::makeScopedLock(player->_1238);
         player->_1278 = a;
@@ -612,7 +620,7 @@ bool PlayerBase::setRestartBuf(const sead::Vector3f& pos, f32 angle) const {
     return true;
 }
 
-bool PlayerBase::isRidingThisSandSeal(BaseProc* proc) const {
+bool PlayerBase::isRidingThisSandSeal(ksys::act::BaseProc* proc) const {
     if (auto* player = getPlayerBase())
         return player->_e98.hasProcById(proc);
     return false;
@@ -621,7 +629,7 @@ bool PlayerBase::isRidingThisSandSeal(BaseProc* proc) const {
 bool PlayerBase::getSandSealActor(ActorLinkConstDataAccess* accessor) const {
     auto* player = getPlayerBase();
     if (player && player->_e98.hasProcInCalcState())
-        return act::acquireActor(&player->_e98, accessor);
+        return ksys::act::acquireActor(&player->_e98, accessor);
     return false;
 }
 
@@ -638,7 +646,7 @@ bool PlayerBase::getAttachedTargetActor(ActorLinkConstDataAccess* accessor) cons
     auto* info = target->mAttachInfo;
     if (!info)
         return false;
-    act::acquireActor(&info->mTargetLink, accessor);
+    ksys::act::acquireActor(&info->mTargetLink, accessor);
     return info->mTargetLink.hasProc();
 }
 
@@ -929,10 +937,10 @@ bool PlayerBase::isOnIceMakerBlock() const {
     return player->_c98.isOnBit(10);
 }
 
-BaseProcLink& PlayerBase::getSpAttackTarget() const {
+ksys::act::BaseProcLink& PlayerBase::getSpAttackTarget() const {
     auto* player = getPlayerBase();
     if (!player)
-        return getDummyBaseProcLink();
+        return ksys::act::getDummyBaseProcLink();
     debugLog(1, "getSpAttackTarget");
     return player->getSpAttackTarget();
 }
@@ -958,7 +966,7 @@ bool PlayerBase::slowTimeStuff() const {
     auto* player = getPlayerBase();
     if (!player)
         return false;
-    if (VFR::instance()->getTimeSpeedMultiplierValue(0) < 1.0f)
+    if (ksys::VFR::instance()->getTimeSpeedMultiplierValue(0) < 1.0f)
         return false;
     return !player->_c4c.isOnBit(15);
 }
@@ -967,7 +975,7 @@ f32 PlayerBase::getBowSlowRateDiam() const {
     auto* player = getPlayerBase();
     if (!player)
         return 1.0f;
-    if (VFR::instance()->getTimeSpeedMultiplierValue(0) < 1.0f && player->_cf4.isOnBit(17))
+    if (ksys::VFR::instance()->getTimeSpeedMultiplierValue(0) < 1.0f && player->_cf4.isOnBit(17))
         return player->getParam()->getRes().mGParamList->getPlayer()->mBowSlowRateDiam.ref();
     return 1.0f;
 }
@@ -1379,9 +1387,9 @@ bool PlayerBase::isRidingHorse() const {
     return false;
 }
 
-Actor* PlayerBase::x_43() const {
+ksys::act::Actor* PlayerBase::x_43() const {
     if (auto* player = getPlayerBase())
-        return sead::DynamicCast<Actor>(player->_e88.getProc(nullptr, nullptr));
+        return sead::DynamicCast<ksys::act::Actor>(player->_e88.getProc(nullptr, nullptr));
     return nullptr;
 }
 
@@ -1406,7 +1414,7 @@ f32 PlayerBase::x_44() const {
 }  // namespace ksys::act::acc
 
 bool sub_710084D068() {
-    auto* info = ksys::act::PlayerInfo::instance();
+    auto* info = uking::act::PlayerInfo::instance();
     if (!info)
         return false;
     return info->getPlayerLink().hasProc();
@@ -1427,7 +1435,7 @@ s32 sub_710084A570(ksys::act::BaseProc* proc) {
     return sub_710084A5E0(accessor);
 }
 
-namespace ksys::act {
+namespace uking::act {
 
 s32 PlayerBase::sub_710084ACF0(f32 stamina) {
     if (stamina < 0.0f)
@@ -1441,7 +1449,7 @@ s32 PlayerBase::sub_710084ACF0(f32 stamina) {
 // NON_MATCHING: the original adds the 0x18 value offset of the parameters to the selected address (`add #0x70` /
 // `add #0x50`, then a plain load) where we fold it into the load.
 f32 PlayerBase::getBombReloadTime() {
-    if (gdt::getFlag_IsGet_Obj_RemoteBombLv2(false))
+    if (ksys::gdt::getFlag_IsGet_Obj_RemoteBombLv2(false))
         return getParam()->getRes().mGParamList->getPlayer()->mBombReloadTime2.ref();
     return getParam()->getRes().mGParamList->getPlayer()->mBombReloadTime1.ref();
 }
@@ -1508,4 +1516,4 @@ bool PlayerBase::sub_71008494E4() {
     return m288() > 1;
 }
 
-}  // namespace ksys::act
+}  // namespace uking::act

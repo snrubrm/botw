@@ -26,6 +26,7 @@ target_sources(uking PRIVATE
     DebugBoard.h
     DebugBoardMgr.cpp
     DebugMessage.h
+    GameConfig.h
     GameTool.cpp
     GameTool.h
     HavokWorkerMgr.cpp

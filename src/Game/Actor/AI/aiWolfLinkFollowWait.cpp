@@ -5,7 +5,7 @@
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 
 namespace uking::ai {
 
@@ -29,7 +29,7 @@ void WolfLinkFollowWait::calc_() {
 
     if (isCurrentChild("待機")) {
         ksys::act::ActorLinkConstDataAccess accessor;
-        if (!ksys::act::acquireActor(&ksys::act::PlayerInfo::getSomeProcLink(), &accessor)) {
+        if (!ksys::act::acquireActor(&uking::act::PlayerInfo::getSomeProcLink(), &accessor)) {
             setFailed();
             return;
         }

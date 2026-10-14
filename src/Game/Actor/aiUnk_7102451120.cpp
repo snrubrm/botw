@@ -4,7 +4,7 @@
 #include "Game/Actor/Damage/dmgInfoManager.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actAttackSensor.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
 #include "KingSystem/Physics/System/physContactPointInfo.h"
@@ -17,7 +17,7 @@ void sub_7100720140(ksys::act::Actor* actor) {
 }
 
 void sub_710072009C(ksys::act::Actor* actor) {
-    sub_71005D8DE8(actor, ksys::act::PlayerInfo::instance()->getPlayerLink(), nullptr, nullptr);
+    sub_71005D8DE8(actor, uking::act::PlayerInfo::instance()->getPlayerLink(), nullptr, nullptr);
 }
 
 void sub_71007200B8(ksys::act::Actor* actor) {

@@ -2,7 +2,7 @@
 #include "Game/Actor/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/System/VFR.h"
 
 namespace uking::action {

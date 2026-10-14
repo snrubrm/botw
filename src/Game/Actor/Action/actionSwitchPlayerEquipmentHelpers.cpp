@@ -2,8 +2,8 @@
 #include "Game/Actor/actPlayerCreateMgr.h"
 #include "Game/Actor/actWeapon.h"
 #include "Game/UI/uiPauseMenuDataMgr.h"
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 
 namespace uking::action {
 
@@ -11,7 +11,7 @@ namespace uking::action {
 // share one `mov w0, wzr` block.
 bool sub_710028DA58(const sead::SafeString& name) {
     if (!name.isEmpty()) {
-        auto* player_info = ksys::act::PlayerInfo::instance();
+        auto* player_info = uking::act::PlayerInfo::instance();
         if (!player_info)
             return false;
         if (!player_info->getPlayer())
@@ -19,7 +19,7 @@ bool sub_710028DA58(const sead::SafeString& name) {
         auto* create_mgr = act::CreatePlayerEquipActorMgr::instance();
         auto* mgr = ui::PauseMenuDataMgr::instance();
         if (create_mgr && mgr) {
-            auto* player = ksys::act::PlayerInfo::instance()->getPlayer();
+            auto* player = uking::act::PlayerInfo::instance()->getPlayer();
             bool changed = false;
             if (name.comparen("Weapon_Default_", 15) != 0) {
                 int value = 0;
@@ -42,7 +42,7 @@ bool sub_710028DA58(const sead::SafeString& name) {
 // NON_MATCHING: as sub_710028DA58.
 bool sub_710028DBC8(const sead::SafeString& name, bool needs_head_b) {
     if (!name.isEmpty()) {
-        auto* player_info = ksys::act::PlayerInfo::instance();
+        auto* player_info = uking::act::PlayerInfo::instance();
         if (!player_info)
             return false;
         if (!player_info->getPlayer())
@@ -50,7 +50,7 @@ bool sub_710028DBC8(const sead::SafeString& name, bool needs_head_b) {
         auto* create_mgr = act::CreatePlayerEquipActorMgr::instance();
         auto* mgr = ui::PauseMenuDataMgr::instance();
         if (create_mgr && mgr) {
-            ksys::act::PlayerInfo::instance()->getPlayer();
+            uking::act::PlayerInfo::instance()->getPlayer();
             int dye = -1;
             if (name.comparen("Armor_Default_", 14) != 0) {
                 if (!mgr->switchEquipment(name, &dye))

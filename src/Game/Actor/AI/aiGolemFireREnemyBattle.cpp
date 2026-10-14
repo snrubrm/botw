@@ -1,5 +1,5 @@
 #include "Game/Actor/AI/aiGolemFireREnemyBattle.h"
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 #include <math/seadMathCalcCommon.h>
 
 namespace uking::ai {

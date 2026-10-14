@@ -19,7 +19,7 @@
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/aiRootAi.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 
 namespace uking::ai {
 
@@ -126,7 +126,7 @@ void ChuchuRoot::m34(ksys::act::ai::InlineParamPack* params) {
 }
 
 void ChuchuRoot::changeToCreateDrop() {
-    sub_71005D8DE8(mActor, ksys::act::PlayerInfo::getSomeProcLink(), nullptr, nullptr);
+    sub_71005D8DE8(mActor, uking::act::PlayerInfo::getSomeProcLink(), nullptr, nullptr);
     mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_2000000);
     ksys::act::ai::InlineParamPack pack;
     pack.addVec3(getPlayerPosition(), "TargetPos", -1);

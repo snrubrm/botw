@@ -1,6 +1,6 @@
 #include "Game/Actor/AI/aiCollaborationShootingStarRoot.h"
 #include <codec/seadHashCRC32.h>
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/System/StageInfo.h"
 

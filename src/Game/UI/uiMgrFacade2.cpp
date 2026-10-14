@@ -11,10 +11,10 @@
 #include "Game/UI/uiUI.h"
 #include "Game/UI/uiUnkSingletons.h"
 #include "Game/UI/uiUtils.h"
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actInfoData.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/Physics/System/physRayCast.h"
 #include "KingSystem/Physics/System/physRayCastBodyQuery.h"
 #include "KingSystem/Utils/MathUtil.h"
@@ -238,9 +238,9 @@ bool isSelectedRuneEqualToItemType(s32 type) {
 }
 
 // 0x7100a9bebc (placeholder name): whether the player (the current one if null) can use UI rune `rune`.
-bool sub_7100A9BEBC(s32 rune, ksys::act::PlayerBase* player) {
+bool sub_7100A9BEBC(s32 rune, uking::act::PlayerBase* player) {
     if (!player) {
-        auto* info = ksys::act::PlayerInfo::instance();
+        auto* info = uking::act::PlayerInfo::instance();
         if (!info)
             return false;
         player = info->getPlayer();

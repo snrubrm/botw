@@ -2,8 +2,8 @@
 #include <math/seadMathCalcCommon.h>
 #include "Game/gameRumble.h"
 #include "Game/gameSceneMgr.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/Event/evtAction.h"
 #include "KingSystem/Event/evtActorBase.h"
 #include "KingSystem/Event/evtBaseProcLinkForEvent.h"
@@ -54,7 +54,7 @@ bool EventDelegate::canStartEventEvenInAir(const ksys::evt::BaseProcLinkForEvent
     const sead::SafeString entry = link.mMetadata.getEntryPointName().cstr();
 
     if (event == "SDemo_E-6" && entry == "FirstTouchdown") {
-        auto* info = ksys::act::PlayerInfo::instance();
+        auto* info = uking::act::PlayerInfo::instance();
         if (!info)
             return false;
         auto* player = info->getPlayer();

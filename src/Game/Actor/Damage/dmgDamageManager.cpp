@@ -19,8 +19,8 @@
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
 #include "KingSystem/Resource/Actor/resResourceDamageParam.h"
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 
 namespace uking::act {
 
@@ -170,7 +170,7 @@ f32 DamageManagerUnk220::sub_71006D9A24(ksys::act::Actor* actor) const {
     if (!_27a) {
         ratio = f32(mHits.size()) / f32(mHits.capacity());
     } else {
-        if (auto* info = ksys::act::PlayerInfo::instance()) {
+        if (auto* info = uking::act::PlayerInfo::instance()) {
             ksys::act::acc::PlayerBase accessor;
             ksys::act::acquireActor(&info->getPlayerLink(), &accessor);
             if (value > 0.0f)
@@ -191,7 +191,7 @@ f32 DamageManagerUnk220::sub_71006D9B30(const ksys::act::ActorLinkConstDataAcces
     if (!_27a) {
         ratio = f32(mHits.size()) / f32(mHits.capacity());
     } else {
-        if (auto* info = ksys::act::PlayerInfo::instance()) {
+        if (auto* info = uking::act::PlayerInfo::instance()) {
             ksys::act::acc::PlayerBase accessor;
             ksys::act::acquireActor(&info->getPlayerLink(), &accessor);
             if (value > 0.0f)
@@ -1005,7 +1005,7 @@ bool DamageManager::sub_71006D6EC0(ksys::act::ActorAtk::Unk_710079e64c::Unk1* in
             return false;
     }
     if (info->sub_71007A1F78(0x80000000)) {
-        auto* player = sead::DynamicCast<ksys::act::PlayerBase>(mActor);
+        auto* player = sead::DynamicCast<uking::act::PlayerBase>(mActor);
         if (!player || !player->isDarukProtectionEnabled())
             return false;
     }

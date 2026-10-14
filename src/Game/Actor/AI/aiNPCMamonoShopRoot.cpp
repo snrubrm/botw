@@ -5,7 +5,7 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/ActorSystem/actSchedule.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
@@ -82,7 +82,7 @@ bool NPCMamonoShopRoot::sub_71004CD42C() {
         f32 radius = 30.0f;
         if (!mActor->isCalc())
             radius = 5.0f;
-        const auto& player_pos = ksys::act::PlayerInfo::instance()->getPlayerPos();
+        const auto& player_pos = uking::act::PlayerInfo::instance()->getPlayerPos();
         const f32 dx = shop_pos.x - player_pos.x;
         const f32 dz = shop_pos.z - player_pos.z;
         if (std::sqrt(dx * dx + dz * dz) < radius)

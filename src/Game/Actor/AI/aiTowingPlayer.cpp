@@ -3,7 +3,7 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/aiRootAi.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
@@ -41,7 +41,7 @@ void TowingPlayer::leave_() {
         return;
 
     if (!_75)
-        _d8.sub_710070DCC0(&ksys::act::PlayerInfo::getSomeProcLink(), true);
+        _d8.sub_710070DCC0(&uking::act::PlayerInfo::getSomeProcLink(), true);
     if (auto* attention = mActor->getAttention()) {
         attention->enableAllClients();
         ksys::act::disableAttClient(mActor, "Hang");

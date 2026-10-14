@@ -1,6 +1,6 @@
 #include "Game/Actor/AI/aiLynelRecognizeTarget.h"
 #include <prim/seadFormatPrint.h>
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actTag.h"
 #include "Game/Actor/actEnemy.h"

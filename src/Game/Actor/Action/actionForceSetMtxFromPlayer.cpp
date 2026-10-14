@@ -1,6 +1,6 @@
 #include "Game/Actor/Action/actionForceSetMtxFromPlayer.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
@@ -25,7 +25,7 @@ void ForceSetMtxFromPlayer::loadParams_() {}
 
 // NON_MATCHING: regalloc (the original rematerialises the accessor address for the destructor)
 void ForceSetMtxFromPlayer::calc_() {
-    auto* info = ksys::act::PlayerInfo::instance();
+    auto* info = uking::act::PlayerInfo::instance();
     if (!info)
         return;
     ksys::act::ActorLinkConstDataAccess accessor;

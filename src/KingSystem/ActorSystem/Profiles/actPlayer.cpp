@@ -32,7 +32,7 @@
 #include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/Ecosystem/ecoSystem.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodySphere.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectPlayer.h"
 #include "KingSystem/Event/evtEventSystem.h"
@@ -246,7 +246,7 @@ void Player::m277(ActorLinkConstDataAccess* accessor, int idx) {
 
 Actor* Player::m382() {
     return sead::DynamicCast<Actor>(
-        PlayerInfo::instance()->getHorseLink().getProc(nullptr, nullptr));
+        uking::act::PlayerInfo::instance()->getHorseLink().getProc(nullptr, nullptr));
 }
 
 f32 Player::getAtkMultiplier() {
@@ -291,18 +291,18 @@ f32 Player::getNoDeathDamage() {
     const auto* param = getParam()->getRes().mGParamList->getPlayer();
     const s32 base = param->mNoDeathDamageBase.ref();
     const s32 add = param->mNoDeathDamageAdd.ref();
-    return base + PlayerInfo::instance()->getMaxLifeFromPlayerActor() * add / 4;
+    return base + uking::act::PlayerInfo::instance()->getMaxLifeFromPlayerActor() * add / 4;
 }
 
 bool Player::m373() {
-    return PlayerInfo::instance()->getStaminaCurrentMax() + _2000 <
+    return uking::act::PlayerInfo::instance()->getStaminaCurrentMax() + _2000 <
            getParam()->getRes().mGParamList->getPlayer()->mEnergyTiredValue.ref();
 }
 
 void Player::m372() {
     if (_c44.isOnBit(20)) {
-        if (PlayerInfo::instance()->getStaminaCurrentMax() !=
-            PlayerInfo::instance()->getMaxStaminaFromPlayerActor())
+        if (uking::act::PlayerInfo::instance()->getStaminaCurrentMax() !=
+            uking::act::PlayerInfo::instance()->getMaxStaminaFromPlayerActor())
             return;
     }
     const f32 value = getParam()->getRes().mGParamList->getPlayer()->mEnergyAutoRecoverInvalidTime1.ref();
@@ -615,7 +615,7 @@ bool Player::startPreparingForPreDelete_() {
     } else {
         result = PlayerOrEnemy::startPreparingForPreDelete_();
     }
-    if (auto* info = PlayerInfo::instance())
+    if (auto* info = uking::act::PlayerInfo::instance())
         info->resetPlayer(this);
     return result;
 }
@@ -985,7 +985,7 @@ void Player::showRuntimeTipForColdHotStatusEffects() {
 }
 
 void Player::m69_x_1() {
-    if (PlayerInfo::instance()->getStaminaCurrentMax() == 0.0f && _2000 == 0.0f) {
+    if (uking::act::PlayerInfo::instance()->getStaminaCurrentMax() == 0.0f && _2000 == 0.0f) {
         _c44.setBit(20);
         uking::ui::showRuntimeTip(4);
     }

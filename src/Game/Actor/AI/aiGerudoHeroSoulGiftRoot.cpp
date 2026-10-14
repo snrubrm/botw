@@ -1,7 +1,7 @@
 #include "Game/Actor/AI/aiGerudoHeroSoulGiftRoot.h"
 #include "Game/Actor/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 #include "Game/Actor/aiAwarenessFilters.h"
 #include "Game/gameLastBossMgr.h"
 #include "KingSystem/ActorSystem/actActor.h"

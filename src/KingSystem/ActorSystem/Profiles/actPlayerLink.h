@@ -12,11 +12,14 @@ namespace uking::act {
 class Weapon;
 }
 
+namespace uking::act {
+class PlayerBase;
+}
+
 namespace ksys::act {
 
 class Actor;
 class BaseProcAccessor;
-class PlayerBase;
 class Unk_71024ef4e8;
 
 // Interface implemented by the player actor (PlayerBase is-a PlayerLink at offset 0xc38;
@@ -110,7 +113,7 @@ public:
     /* 79 */ virtual void m307() = 0;
     /* 80 */ virtual int m384() { return 0; }
     /* 81 */ virtual int m385() { return 0; }
-    /* 82 */ virtual PlayerBase* getPlayer() = 0;
+    /* 82 */ virtual uking::act::PlayerBase* getPlayer() = 0;
 };
 
 }  // namespace ksys::act

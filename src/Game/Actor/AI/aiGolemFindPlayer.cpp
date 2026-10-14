@@ -1,6 +1,6 @@
 #include "Game/Actor/AI/aiGolemFindPlayer.h"
 #include "Game/Actor/aiUnk_71007377D4.h"
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 #include "Game/Actor/aiUnk_71005D6D10.h"
 
 namespace uking::ai {

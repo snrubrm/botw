@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Game/Actor/aiUnk_7101e7c5d0.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 
 namespace uking {
 

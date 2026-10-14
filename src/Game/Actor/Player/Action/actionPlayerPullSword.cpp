@@ -2,7 +2,7 @@
 
 #include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 #include "KingSystem/ActorSystem/actActorWeapons.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/Event/evtManager.h"
 #include "Game/gameRoot4.h"
 #include "Game/gameRumble.h"
@@ -32,7 +32,7 @@ void PlayerPullSword::enter_(ksys::act::ai::InlineParamPack* params) {
     const s32 max_life = life ? *life : 1;
     const s32 consumed_life = static_cast<ksys::act::Player*>(mActor)->m321();
     static_cast<ksys::act::Player*>(mActor)->_17f0 = max_life - consumed_life >= *mSuccessLife_s;
-    ksys::act::PlayerInfo::instance()->saveLifeInfoForSwordPull();
+    uking::act::PlayerInfo::instance()->saveLifeInfoForSwordPull();
     static_cast<ksys::act::Player*>(mActor)->_1ffc = 0;
     Root4::instance()->sub_71008BCF44(Root4::FlagIdx::_1, true);
 }
@@ -61,7 +61,7 @@ void PlayerPullSword::loadParams_() {
 
 // NON_MATCHING: state predicates and actor loads produce different block order and register allocation.
 void PlayerPullSword::calc_() {
-    if (ksys::act::PlayerInfo::instance()->getLifeFromPlayerActor() == 0 && _68 != 10) {
+    if (uking::act::PlayerInfo::instance()->getLifeFromPlayerActor() == 0 && _68 != 10) {
         _68 = 10;
         static_cast<ksys::act::Player*>(mActor)->_cf0.set(0x100);
         static_cast<ksys::act::Player*>(mActor)->_c48.set(1);
@@ -99,7 +99,7 @@ void PlayerPullSword::calc_() {
             return;
         uking::ui::sub_7100A95F5C(14);
         if (!ksys::gdt::getFlag_Get_MasterSword_FirstFailure(false) &&
-            ksys::act::PlayerInfo::instance()->getLifeFromPlayerActor() == 1) {
+            uking::act::PlayerInfo::instance()->getLifeFromPlayerActor() == 1) {
             _68 = 9;
             static_cast<ksys::act::Player*>(mActor)->_c48.set(0x4000000);
             auto* actor = mActor;
@@ -179,7 +179,7 @@ void PlayerPullSword::sub_7100807630() {
     if (!(time >= interval))
         return;
     if (!ksys::gdt::getFlag_Get_MasterSword_FirstFailure(false) &&
-        ksys::act::PlayerInfo::instance()->getLifeFromPlayerActor() == 2 &&
+        uking::act::PlayerInfo::instance()->getLifeFromPlayerActor() == 2 &&
         !static_cast<ksys::act::Player*>(mActor)->_17f0) {
         _68 = 9;
         static_cast<ksys::act::Player*>(mActor)->_c48.set(0x4000000);

@@ -1,6 +1,6 @@
 #include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 
 namespace ksys::act {
@@ -20,8 +20,8 @@ bool Player::x_21() {
 
 bool Player::x_44() {
     if (_c44.isOnBit(20)) {
-        if (PlayerInfo::instance()->getStaminaCurrentMax() !=
-            PlayerInfo::instance()->getMaxStaminaFromPlayerActor())
+        if (uking::act::PlayerInfo::instance()->getStaminaCurrentMax() !=
+            uking::act::PlayerInfo::instance()->getMaxStaminaFromPlayerActor())
             return true;
     }
     return false;

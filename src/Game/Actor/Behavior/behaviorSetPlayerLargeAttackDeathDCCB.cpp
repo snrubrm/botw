@@ -1,6 +1,6 @@
 #include "Game/Actor/Behavior/behaviorSetPlayerLargeAttackDeathDCCB.h"
 #include "Game/Actor/Damage/dmgDamageManager.h"
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actBaseProcAccessor.h"
 
 namespace uking::behavior {

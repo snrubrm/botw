@@ -1,5 +1,5 @@
 #include "Game/Actor/Action/actionSetExtraEnergyOfPlayer.h"
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 
 // 0x7100947444: source namespace is unknown; follows existing global consumer declarations.
 void sub_7100947444(f32 value);

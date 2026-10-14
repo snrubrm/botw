@@ -4,7 +4,7 @@
 #include <prim/seadScopedLock.h>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 #include "Game/Actor/aiXlinkHandle.h"
 #include "Game/Actor/aiUnk_71005D6D10.h"
 #include "KingSystem/Physics/System/physHavokAI.h"

@@ -17,16 +17,17 @@ namespace uking::act {
 class Weapon;
 }
 
-namespace ksys::act {
-
-namespace acc {
+namespace ksys::act::acc {
 class PlayerBase;
 }
+
+namespace uking::act {
+
 class PlayerInfo;
 
 // TODO: incomplete. The vtable has 360 slots (177-359 are new); PlayerLink is at 0xc38.
 // Size 0x17f0 (Player's first member).
-class PlayerBase : public PlayerOrEnemy, public PlayerLink {
+class PlayerBase : public ksys::act::PlayerOrEnemy, public ksys::act::PlayerLink {
     SEAD_RTTI_OVERRIDE(PlayerBase, PlayerOrEnemy)
 public:
     explicit PlayerBase(const CreateArg& arg);
@@ -71,14 +72,14 @@ public:
     // `keep_extra`) and the block at _11a8.
     void x_12(bool keep_extra);
     // 0x710084aa9c (placeholder name): copies the link _1280 to `out` if _c40 bit 14 is set.
-    bool sub_710084AA9C(BaseProcLink* out);
+    bool sub_710084AA9C(ksys::act::BaseProcLink* out);
     // 0x710084aef8 (placeholder name; no `this`): resets the player info's current maximum stamina.
     static void sub_710084AEF8();
     // 0x710084ab8c (CSV Player::setNewPlayerMtx): stores the matrix under _1700 and sets _ce0 bit 7.
     void setNewPlayerMtx(const sead::Matrix34f& mtx);
 
     // FIXME: takes a phys::RigidBody* (calls RigidBody::getPosition on it), like Actor::m92
-    void m92(phys::RigidBody* body) override;
+    void m92(ksys::phys::RigidBody* body) override;
     bool m140() override { return _cf0.isOnBit(25) || m180(); }
 
     // FIXME: figure out return types, parameters and names
@@ -168,8 +169,8 @@ public:
     /* 260 */ virtual bool m260() { return false; }
     /* 261 */ virtual bool m261(f32* out) { return false; }
     /* 262 */ bool isGroundForEvent() override;
-    /* 263 */ Unk_71024ef4e8* getAttachedTargetActor2() override;
-    /* 264 */ Unk_71024ef4e8* getAttachedTargetActor() override;
+    /* 263 */ ksys::act::Unk_71024ef4e8* getAttachedTargetActor2() override;
+    /* 264 */ ksys::act::Unk_71024ef4e8* getAttachedTargetActor() override;
     /* 265 */ virtual const sead::Vector3f* m265() { return &sead::Vector3f::zero; }
     /* 266 */ virtual void m266(const sead::SafeString& slot, int frames);
     // (s32, Actor*, bool, bool): from Player::sub_710086C84C and the register use of Player::m267.
@@ -183,7 +184,7 @@ public:
     /* 274 */ uking::act::Weapon* m274() override { return nullptr; }
     /* 275 */ uking::act::Weapon* m275() override { return nullptr; }
     /* 276 */ Actor* m276(int idx) override { return nullptr; }
-    /* 277 */ virtual void m277(ActorLinkConstDataAccess* accessor, int idx) {}
+    /* 277 */ virtual void m277(ksys::act::ActorLinkConstDataAccess* accessor, int idx) {}
     /* 278 */ virtual s32 m278(u8 idx) { return -1; }
     /* 279 */ virtual s32 getArmorDyeStuff() { return 0; }
     /* 280 */ virtual bool m280() { return false; }
@@ -252,8 +253,8 @@ public:
     /* 326 */ virtual f32 m326() { return 0.0f; }
     /* 327 */ virtual f32 m327() { return 0.0f; }
     /* 328 */ virtual bool m328() { return false; }
-    /* 329 */ virtual bool isRevivalFairyActive(ActorLinkConstDataAccess* accessor) { return false; }
-    /* 330 */ virtual bool isZoraHeroActive(ActorLinkConstDataAccess* accessor) { return false; }
+    /* 329 */ virtual bool isRevivalFairyActive(ksys::act::ActorLinkConstDataAccess* accessor) { return false; }
+    /* 330 */ virtual bool isZoraHeroActive(ksys::act::ActorLinkConstDataAccess* accessor) { return false; }
     /* 331 */ virtual bool canUseRevaliGale() { return false; }
     /* 332 */ virtual bool canUseDarukProtection() { return false; }
     /* 333 */ virtual bool canUseUrbosaFury() { return false; }
@@ -274,21 +275,21 @@ public:
     /* 348 */ virtual bool m348() { return false; }
     /* 349 */ sead::Vector3f& getPlayerPosForPostCalc() override;
     /* 350 */ virtual f32 getNoDeathDamage() { return 0.0f; }
-    /* 351 */ virtual BaseProcLink& getSpAttackTarget() { return getDummyBaseProcLink(); }
+    /* 351 */ virtual ksys::act::BaseProcLink& getSpAttackTarget() { return ksys::act::getDummyBaseProcLink(); }
     /* 352 */ virtual bool m352(sead::Vector3f* out) { return false; }
     /* 353 */ bool m353() override { return false; }
     /* 354 */ virtual f32 getAtkMultiplier() { return 1.0f; }
-    /* 355 */ bool getActorViaAccessor(BaseProcAccessor* accessor) override;
+    /* 355 */ bool getActorViaAccessor(ksys::act::BaseProcAccessor* accessor) override;
     /* 356 */ PlayerBase* getPlayer() override;
     /* 357 */ virtual sead::Vector3f* m357();
-    /* 358 */ SeadController* m358() override;
+    /* 358 */ ksys::SeadController* m358() override;
     /* 359 */ virtual bool m359() { return false; }
 
     // Non-virtual member functions defined in PlayerBase's TU (CSV names, prefix "Player::").
     bool isSlowTime() const;                 // 0x848f10 (reads a global slow-time object)
     bool x_51();                             // 0x848f34 (controller object at 0x17d0, check 3)
     uking::Unk_710246d058* get17d0() const { return _17d0; }
-    BaseProcLink& get1280() { return _1280; }
+    ksys::act::BaseProcLink& get1280() { return _1280; }
     bool x_50();                             // 0x848f4c
     // lane4 s45 (placeholder names, from the bodies): controller checks on `_17d0`.
     bool sub_7100848F40();  // playerCheckController(5)
@@ -347,7 +348,7 @@ public:
     bool sub_71008494E4();
 
 protected:
-    friend class acc::PlayerBase;
+    friend class ksys::act::acc::PlayerBase;
     friend class PlayerInfo;
 
 public:
@@ -436,10 +437,10 @@ protected:
     /* 0xe60 */ sead::Color4f _e60{0.0f, 0.0f, 0.0f, 0.0f};
     /* 0xe70 */ sead::SafeArray<s32, 3> _e70;  // per core: life delta
     /* 0xe7c */ sead::SafeArray<f32, 3> _e7c;  // per core: stamina delta (setStaminaDelta)
-    /* 0xe88 */ BaseProcLink _e88;
-    /* 0xe98 */ BaseProcLink _e98;
+    /* 0xe88 */ ksys::act::BaseProcLink _e88;
+    /* 0xe98 */ ksys::act::BaseProcLink _e98;
 public:  // read by PlayerLookAtObject::m38
-    /* 0xea8 */ BaseProcLink _ea8;
+    /* 0xea8 */ ksys::act::BaseProcLink _ea8;
 protected:
     /* 0xeb8 */ u8 _eb8[0x1140 - 0xeb8];
     /* 0x1140 */ sead::CriticalSection _1140;
@@ -462,7 +463,7 @@ protected:
     /* 0x11f0 */ u8 _11f0[0x1238 - 0x11f0];
     /* 0x1238 */ sead::CriticalSection _1238;
     /* 0x1278 */ bool _1278;
-    /* 0x1280 */ BaseProcLink _1280;
+    /* 0x1280 */ ksys::act::BaseProcLink _1280;
     /* 0x1290 */ sead::FixedSafeString<32> _1290;
     /* 0x12c8 */ u8 _12c8[0x1358 - 0x12c8];
     /* 0x1358 */ sead::CriticalSection _1358;
@@ -477,7 +478,7 @@ public:
 protected:
     /* 0x14c1 */ u8 _14c1[0x1530 - 0x14c1];
     /* 0x1530 */ sead::CriticalSection _1530;
-    /* 0x1570 */ BaseProcLink _1570;
+    /* 0x1570 */ ksys::act::BaseProcLink _1570;
     /* 0x1580 */ u8 _1580[0x1610 - 0x1580];
     /* 0x1610 */ sead::CriticalSection _1610;
     /* 0x1650 */ bool _1650;  // set under _1610 together with _1654 (Player::sub_710084BA90)
@@ -511,11 +512,13 @@ protected:
 };
 KSYS_CHECK_SIZE_NX150(PlayerBase, 0x17f0);
 
-namespace acc {
+}  // namespace uking::act
+
+namespace ksys::act::acc {
 
 // Read/write access to a PlayerBase through an ActorLinkConstDataAccess (CSV: act::acc::PlayerBase).
 // TODO: incomplete
-class PlayerBase : public ActorLinkConstDataAccess {
+class PlayerBase : public ksys::act::ActorLinkConstDataAccess {
 public:
     bool getPlayerFromPlayerInfo();
     bool isMainWeaponHitEnemy() const;
@@ -523,8 +526,8 @@ public:
     // RemainsFireRoot::calc_)
     bool x_5();
 
-    void x_0(BaseProc* proc) const;
-    void x_1(bool a, const sead::SafeString& name, BaseProc* proc) const;
+    void x_0(ksys::act::BaseProc* proc) const;
+    void x_1(bool a, const sead::SafeString& name, ksys::act::BaseProc* proc) const;
     void setExtraEnergy(f32 energy) const;
     void setExtraLife(f32 life) const;
     void setMtx(const sead::Matrix34f& mtx) const;
@@ -537,7 +540,7 @@ public:
     bool runeMgrCheckCanUseSquareBomb() const;  // CSV name (0x710084f3d4)
     bool getLastDamageAttacker(sead::BufferedSafeString* name) const;
     bool setRestartBuf(const sead::Vector3f& pos, f32 angle) const;
-    bool isRidingThisSandSeal(BaseProc* proc) const;
+    bool isRidingThisSandSeal(ksys::act::BaseProc* proc) const;
     bool getSandSealActor(ActorLinkConstDataAccess* accessor) const;
     bool getAttachedTargetActor(ActorLinkConstDataAccess* accessor) const;
     bool reserveParashawlStart() const;
@@ -585,7 +588,7 @@ public:
     bool isNoShieldDamageFloor() const;
     bool isOnRaft() const;
     bool isOnIceMakerBlock() const;
-    BaseProcLink& getSpAttackTarget() const;
+    ksys::act::BaseProcLink& getSpAttackTarget() const;
     const sead::Vector3f& getLookAtPosForCamera() const;
     bool isSlowStartInterval() const;
     // 0x710084ead0 (CSV slowTimeStuff): false while time is slowed, otherwise whether the slow start interval flag
@@ -659,15 +662,13 @@ public:
     bool x_42() const;
     bool m187() const;
     bool isRidingHorse() const;
-    Actor* x_43() const;
+    ksys::act::Actor* x_43() const;
     f32 m231() const;
     f32 x_44() const;
 
 protected:
-    act::PlayerBase* getPlayerBase() const;
+    uking::act::PlayerBase* getPlayerBase() const;
 };
 KSYS_CHECK_SIZE_NX150(PlayerBase, 0x18);
 
-}  // namespace acc
-
-}  // namespace ksys::act
+}  // namespace ksys::act::acc

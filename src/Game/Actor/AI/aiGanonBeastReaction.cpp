@@ -5,7 +5,7 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 
 namespace uking::ai {
 
@@ -21,7 +21,7 @@ void GanonBeastReaction::enter_(ksys::act::ai::InlineParamPack* params) {
     mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_80000000);
     if (sub_71007028CC(mActor)) {
         ksys::act::ActorLinkConstDataAccess accessor;
-        ksys::act::acquireActor(&ksys::act::PlayerInfo::getSomeProcLink(), &accessor);
+        ksys::act::acquireActor(&uking::act::PlayerInfo::getSomeProcLink(), &accessor);
         mActor->sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x80000c1),
                             nullptr, false);
         changeChild("死亡");
@@ -41,7 +41,7 @@ void GanonBeastReaction::calc_() {
         auto* actor = mActor;
         if (!isCurrentChild("死亡") && sub_71007028CC(actor)) {
             ksys::act::ActorLinkConstDataAccess accessor;
-            ksys::act::acquireActor(&ksys::act::PlayerInfo::getSomeProcLink(), &accessor);
+            ksys::act::acquireActor(&uking::act::PlayerInfo::getSomeProcLink(), &accessor);
             mActor->sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x80000c1),
                                 nullptr, false);
             changeChild("死亡");

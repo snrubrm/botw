@@ -1,5 +1,5 @@
 #include "Game/Actor/Action/actionGanonBoneControl.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "Game/Actor/aiUnk_71007368A4.h"
 #include "Game/Actor/aiUnk_71005D6D10.h"
 

@@ -1,8 +1,8 @@
 #include "Game/Actor/Action/actionIncreasePlayerMaxHeart.h"
 #include "Game/UI/uiUtils.h"
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerLink.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 
 namespace uking::ui {
 // uiManagerFacade.cpp / uiMiscFacade.cpp
@@ -21,7 +21,7 @@ bool IncreasePlayerMaxHeart::init_(sead::Heap* heap) {
 }
 
 void IncreasePlayerMaxHeart::enter_(ksys::act::ai::InlineParamPack* params) {
-    using ksys::act::PlayerInfo;
+    using uking::act::PlayerInfo;
     _30 = 0;
     if (!PlayerInfo::instance()) {
         setFailed();

@@ -4,7 +4,7 @@
 #include "Game/Actor/aiUnk_7100D8C538.h"
 #include "KingSystem/ActorSystem/actLodState.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/Map/mapObject.h"
 
 namespace uking::behavior {

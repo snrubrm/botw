@@ -1,7 +1,7 @@
 #include "Game/Actor/Query/queryCheckPlayerDeadCause.h"
 #include <evfl/Query.h>
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 
 namespace uking::query {
 
@@ -13,7 +13,7 @@ CheckPlayerDeadCause::~CheckPlayerDeadCause() = default;
 // tests cause 12 / 10 (ours sinks the selects below those tests), and subtracts 1 from the whole reason (`sub w8, w0,
 // #1`) before masking the index to 16 bits (ours: `add w9, w0, #0xffff`).
 int CheckPlayerDeadCause::doQuery() {
-    auto* player = ksys::act::PlayerInfo::instance()->getPlayer();
+    auto* player = uking::act::PlayerInfo::instance()->getPlayer();
     if (!player)
         return 0;
 

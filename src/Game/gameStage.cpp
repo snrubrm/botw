@@ -17,7 +17,7 @@
 #include "KingSystem/Physics/System/physHavokAI.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "KingSystem/System/StageInfo.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/World/worldManager.h"
 #include "KingSystem/World/worldEnvMgr.h"
 #include "Game/gameUnkRttiPlaceholders.h"
@@ -129,10 +129,10 @@ void GameScene::sub_71007B1C64() {
 }
 
 void recoverLifeAndStamina() {
-    ksys::act::PlayerInfo::instance()->setLifeForPlayerActor(
-        ksys::act::PlayerInfo::instance()->getMaxLifeFromPlayerActor());
-    ksys::act::PlayerInfo::instance()->setStaminaCurrentMax(
-        ksys::act::PlayerInfo::instance()->getMaxStaminaFromPlayerActor());
+    uking::act::PlayerInfo::instance()->setLifeForPlayerActor(
+        uking::act::PlayerInfo::instance()->getMaxLifeFromPlayerActor());
+    uking::act::PlayerInfo::instance()->setStaminaCurrentMax(
+        uking::act::PlayerInfo::instance()->getMaxStaminaFromPlayerActor());
 }
 
 // 0x71025cc6a8 (.bss; the type is unknown: a string object that TitleStageArg::m8 hands out; its initialiser is

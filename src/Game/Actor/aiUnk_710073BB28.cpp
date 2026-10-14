@@ -5,7 +5,7 @@
 #include "Game/gamePlayReport.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actTag.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/Event/evtManager.h"
 #include "KingSystem/Event/evtMetadata.h"
 
@@ -51,7 +51,7 @@ void setItemDataToPouch(const sead::SafeString& name,
                        const uking::act::WeaponModifierInfo* modifier) {
     if (ksys::act::hasTag(name, ksys::act::tags::ZukanWeapon) &&
         !uking::ui::PauseMenuDataMgr::instance()->cannotGetItem(name, 1)) {
-        auto* info = ksys::act::PlayerInfo::instance();
+        auto* info = uking::act::PlayerInfo::instance();
         uking::reportGetItem(info ? info->getPlayerPos() : sead::Vector3f::zero, name);
     }
     doGetItem(name, modifier);

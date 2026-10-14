@@ -1,7 +1,7 @@
 #include "Game/Actor/AI/aiStoneOctarockGuardNearTarget.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/Utils/Thread/Message.h"
 
 namespace uking::ai {

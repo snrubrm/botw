@@ -1,9 +1,9 @@
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "Game/UI/uiUtils.h"
 #include "Game/Scene/gameScene.h"
 #include "KingSystem/System/VFR.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayer.h"
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actBaseProcAccessor.h"
 #include "KingSystem/ActorSystem/actBaseProc.h"
@@ -11,7 +11,7 @@
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "KingSystem/ksys.h"
 
-namespace ksys::act {
+namespace uking::act {
 
 SEAD_SINGLETON_DISPOSER_IMPL(PlayerInfo)
 
@@ -20,7 +20,7 @@ PlayerInfo::~PlayerInfo() = default;
 
 // NON_MATCHING: the compiler combines the restart flag and integer clamp with CCMP.
 void PlayerInfo::updateLifeAfterGameOver() {
-    s32 life = gdt::getFlag_CurrentHart(false);
+    s32 life = ksys::gdt::getFlag_CurrentHart(false);
     if (uking::sIsRestartStageFromGameOver)
         life = sead::Mathi::max(life, 12);
     if (mPlayerActor)
@@ -46,11 +46,11 @@ void PlayerInfo::resetPlayer(PlayerBase* player) {
     }
 }
 
-bool PlayerInfo::acquireHorse(BaseProc* horse) {
+bool PlayerInfo::acquireHorse(ksys::act::BaseProc* horse) {
     return mHorseLink.acquire(horse, false);
 }
 
-void PlayerInfo::setHorseLink(const BaseProcLink& horse_link) {
+void PlayerInfo::setHorseLink(const ksys::act::BaseProcLink& horse_link) {
     mHorseLink = horse_link;
 }
 
@@ -58,7 +58,7 @@ PlayerBase* PlayerInfo::getPlayer() const {
     if (!mPlayerActor) {
         return nullptr;
     }
-    BaseProcMgr::instance()->isAccessingProcSafe(mPlayerActor, nullptr);
+    ksys::act::BaseProcMgr::instance()->isAccessingProcSafe(mPlayerActor, nullptr);
     return mPlayerActor;
 }
 
@@ -66,20 +66,20 @@ PlayerBase* PlayerInfo::getPlayer_() const {
     if (!mPlayerActor) {
         return nullptr;
     }
-    BaseProcMgr::instance()->isAccessingProcSafe(mPlayerActor, nullptr);
+    ksys::act::BaseProcMgr::instance()->isAccessingProcSafe(mPlayerActor, nullptr);
     return mPlayerActor;
 }
 
-Actor* PlayerInfo::getRiddenHorse() const {
+ksys::act::Actor* PlayerInfo::getRiddenHorse() const {
     auto* player = getPlayer();
     if (!player || !player->isRidingHorse())
         return nullptr;
-    return sead::DynamicCast<Actor>(mHorseLink.getProc(nullptr, nullptr));
+    return sead::DynamicCast<ksys::act::Actor>(mHorseLink.getProc(nullptr, nullptr));
 }
 
 void PlayerInfo::setMaxLifeForPlayerActor(s32 max_heart) {
     if (mPlayerActor)
-        static_cast<Player*>(mPlayerActor)->_1868 = max_heart;
+        static_cast<ksys::act::Player*>(mPlayerActor)->_1868 = max_heart;
 }
 
 s32 PlayerInfo::getMaxLifeFromPlayerActor() const {
@@ -87,7 +87,7 @@ s32 PlayerInfo::getMaxLifeFromPlayerActor() const {
 }
 
 void PlayerInfo::setMaxHeartValue(s32 quarter_hearts) {
-    gdt::setFlag_MaxHartValue(quarter_hearts);
+    ksys::gdt::setFlag_MaxHartValue(quarter_hearts);
     mMaxHeartValue = static_cast<f32>(quarter_hearts);
 }
 
@@ -97,7 +97,7 @@ u32 PlayerInfo::getMaxHeartValue() const {
 }
 
 void PlayerInfo::updateMaxHeartValueFromGameData() {
-    mMaxHeartValue = static_cast<f32>(gdt::getFlag_MaxHartValue());
+    mMaxHeartValue = static_cast<f32>(ksys::gdt::getFlag_MaxHartValue());
 }
 
 void PlayerInfo::setLifeForPlayerActor(s32 life) {
@@ -120,7 +120,7 @@ void PlayerInfo::updateCurrentHartFlagFromPlayerActor() {
         life = getMaxLifeFromPlayerActor();
         setLifeForPlayerActor(life);
     }
-    gdt::setFlag_CurrentHart(life);
+    ksys::gdt::setFlag_CurrentHart(life);
 }
 
 void PlayerInfo::saveLifeInfoForSwordPull() {
@@ -151,7 +151,7 @@ void PlayerInfo::recoverLife() {
 }
 
 void PlayerInfo::setStaminaCurrentMax(f32 max_stamina) {
-    gdt::setFlag_StaminaCurrentMax(max_stamina);
+    ksys::gdt::setFlag_StaminaCurrentMax(max_stamina);
     mStaminaCurrentMax = max_stamina;
 }
 
@@ -160,11 +160,11 @@ f32 PlayerInfo::getStaminaCurrentMax() const {
 }
 
 void PlayerInfo::updateStaminaCurrentMaxFromGameData() {
-    mStaminaCurrentMax = gdt::getFlag_StaminaCurrentMax();
+    mStaminaCurrentMax = ksys::gdt::getFlag_StaminaCurrentMax();
 }
 
 void PlayerInfo::setStaminaMax(f32 max_stamina) {
-    gdt::setFlag_StaminaMax(max_stamina);
+    ksys::gdt::setFlag_StaminaMax(max_stamina);
     mStaminaMax = max_stamina;
 }
 
@@ -173,17 +173,17 @@ f32 PlayerInfo::getStaminaMax() const {
 }
 
 void PlayerInfo::updateStaminaMaxFromGameData() {
-    mStaminaMax = gdt::getFlag_StaminaMax();
+    mStaminaMax = ksys::gdt::getFlag_StaminaMax();
 }
 
 void PlayerInfo::setMaxStaminaForPlayerActor(f32 max_stamina) {
     if (mPlayerActor)
-        static_cast<Player*>(mPlayerActor)->_186c = max_stamina;
+        static_cast<ksys::act::Player*>(mPlayerActor)->_186c = max_stamina;
 }
 
 f32 PlayerInfo::getMaxStaminaFromPlayerActor() const {
     if (mPlayerActor)
-        return static_cast<Player*>(mPlayerActor)->_186c;
+        return static_cast<ksys::act::Player*>(mPlayerActor)->_186c;
     return 0.0f;
 }
 
@@ -204,7 +204,7 @@ PlayerBase* PlayerInfo::getPlayerUnchecked() {
 }
 
 sead::Vector3f& PlayerInfo::getPlayerPos() {
-    ActorLinkConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
 
     acquireActor(&mPlayerLink, &accessor);
     accessor.debugLog(1, "getPlayerPos");
@@ -212,7 +212,7 @@ sead::Vector3f& PlayerInfo::getPlayerPos() {
 }
 
 sead::Vector3f& PlayerInfo::getPlayerPosForPostCalc() {
-    ActorLinkConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
 
     acquireActor(&mPlayerLink, &accessor);
     accessor.debugLog(0, "getPlayerPosForPostCalc");
@@ -225,10 +225,10 @@ const sead::Vector3f& PlayerInfo::getPlayerM265() const {
     return sead::Vector3f::zero;
 }
 
-}  // namespace ksys::act
+}  // namespace uking::act
 
 bool sub_710072B660() {
-    auto* info = ksys::act::PlayerInfo::instance();
+    auto* info = uking::act::PlayerInfo::instance();
     if (!info)
         return true;
     ksys::act::acc::PlayerBase accessor;
@@ -241,7 +241,7 @@ bool isSlowTimeMaybe() {
         if (vfr->getTimeSpeedMultiplierValue(0) < 1.0f)
             return true;
     }
-    auto* info = ksys::act::PlayerInfo::instance();
+    auto* info = uking::act::PlayerInfo::instance();
     if (!info)
         return false;
     ksys::act::acc::PlayerBase accessor;
@@ -250,7 +250,7 @@ bool isSlowTimeMaybe() {
 }
 
 bool sub_710072B7C4() {
-    auto* info = ksys::act::PlayerInfo::instance();
+    auto* info = uking::act::PlayerInfo::instance();
     if (!info)
         return false;
     ksys::act::acc::PlayerBase accessor;
@@ -258,10 +258,10 @@ bool sub_710072B7C4() {
     return accessor.x_40();
 }
 
-ksys::act::BaseProcLink& ksys::act::PlayerInfo::getSomeProcLink() {
+ksys::act::BaseProcLink& uking::act::PlayerInfo::getSomeProcLink() {
     if (auto* info = instance())
         return info->getPlayerLink();
-    return getDummyBaseProcLink();
+    return ksys::act::getDummyBaseProcLink();
 }
 
 bool sub_710072B8E4() {

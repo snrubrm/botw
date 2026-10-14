@@ -1,6 +1,6 @@
 #include "Game/Actor/Action/actionStorePlayerPosAndRotate.h"
 #include <cmath>
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/GameData/gdtManager.h"
 
 namespace uking::action {

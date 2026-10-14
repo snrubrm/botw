@@ -7,8 +7,8 @@
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 
 namespace uking::ai {
 
@@ -27,7 +27,7 @@ void LynelRodeo::enter_(ksys::act::ai::InlineParamPack* params) {
         enemy->_e84.setBit(1);
     ksys::act::acc::PlayerBase player;
     player.getPlayerFromPlayerInfo();
-    sub_71005D8DE8(mActor, ksys::act::PlayerInfo::getSomeProcLink(), &player.getActorMtx(),
+    sub_71005D8DE8(mActor, uking::act::PlayerInfo::getSomeProcLink(), &player.getActorMtx(),
                    &player.getPreviousPos());
     changeChild("暴れる");
 }

@@ -1,6 +1,6 @@
 #include "Game/Actor/AI/aiPriestBossBeamExplode.h"
 #include "Game/Actor/actBeamBase.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/Utils/Thread/Message.h"
 
 namespace uking::ai {

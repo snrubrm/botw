@@ -1,5 +1,5 @@
 #include "Game/Scene/gameStageInfo.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/System/StageInfo.h"
 #include "KingSystem/Utils/InitTimeInfo.h"
 
@@ -22,7 +22,7 @@ void StageInfo::setPSavePosForStageGen(const sead::Vector3f& pos) {
 }
 
 void StageInfo::setCurrentMapNameFromPlayerPos() {
-    if (auto* info = ksys::act::PlayerInfo::instance()) {
+    if (auto* info = uking::act::PlayerInfo::instance()) {
         const sead::Vector3f& pos = info->getPlayerPos();
         if (!ksys::StageInfo::sIsDungeon && !ksys::StageInfo::sIsActorViewer)
             ksys::StageInfo::setCurrentMapNameForFieldPos(pos);

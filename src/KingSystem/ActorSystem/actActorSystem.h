@@ -20,11 +20,14 @@ class PlayerLink;
 void setPlayerLink(act::PlayerLink* link);
 }  // namespace ksys
 
+namespace uking::act {
+class PlayerBase;
+}
+
 namespace ksys::act {
 
 class Actor;
 class ActorLinkConstDataAccess;
-class PlayerBase;
 class PlayerLink;
 
 // TODO: incomplete
@@ -40,7 +43,7 @@ public:
     bool getPlayer(ActorLinkConstDataAccess* accessor);
     // 0x7100d5d4c0: the player actor (null without a player link). New virtual-slot-free
     // overload; the bool one above takes an accessor.
-    PlayerBase* getPlayer();
+    uking::act::PlayerBase* getPlayer();
 
     // 0x7100d5d954: sets _138 and tail-calls ResourceMgrTask::sub_7101208400
     // (return type uncertain; no in-tree callers).

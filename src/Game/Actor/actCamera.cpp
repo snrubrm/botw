@@ -3,7 +3,7 @@
 #include <cmath>
 #include <math/seadMathCalcCommon.h>
 #include <mc/seadCoreInfo.h>
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actAiActionBase.h"
 #include "KingSystem/ActorSystem/actActorParam.h"

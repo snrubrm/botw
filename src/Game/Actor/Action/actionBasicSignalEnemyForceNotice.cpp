@@ -1,6 +1,6 @@
 #include "Game/Actor/Action/actionBasicSignalEnemyForceNotice.h"
 #include "KingSystem/System/Timer.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "Game/Actor/aiUnk_71005D6D10.h"
@@ -35,7 +35,7 @@ void BasicSignalEnemyForceNotice::calc_() {
 }
 
 void BasicSignalEnemyForceNotice::sub_71000BA308() {
-    auto& link = ksys::act::PlayerInfo::getSomeProcLink();
+    auto& link = uking::act::PlayerInfo::getSomeProcLink();
     ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(&link, &accessor);
     const sead::Vector3f pos = accessor.getActorMtx().getTranslation();

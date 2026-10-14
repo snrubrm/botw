@@ -29,8 +29,8 @@
 #include "KingSystem/ActorSystem/aiRootAi.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
@@ -605,7 +605,7 @@ uking::act::Rideable* sub_710073D3C8(ksys::act::Actor* actor) {
 }
 
 const sead::Matrix34f& getPlayerPositionViaPlayerInfo() {
-    if (auto* info = ksys::act::PlayerInfo::instance()) {
+    if (auto* info = uking::act::PlayerInfo::instance()) {
         ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&info->getPlayerLink(), &accessor);
         return accessor.getActorMtx();

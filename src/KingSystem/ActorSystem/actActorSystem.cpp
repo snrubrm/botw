@@ -111,7 +111,7 @@ bool ActorSystem::getPlayer(ActorLinkConstDataAccess* accessor) {
     return accessor->acquire(nullptr);
 }
 
-PlayerBase* ActorSystem::getPlayer() {
+uking::act::PlayerBase* ActorSystem::getPlayer() {
     if (!_c0)
         return nullptr;
     return _c0->getPlayer();

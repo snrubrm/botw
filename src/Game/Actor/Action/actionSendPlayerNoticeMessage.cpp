@@ -1,7 +1,7 @@
 #include "Game/Actor/Action/actionSendPlayerNoticeMessage.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 
 namespace uking::action {
 
@@ -32,7 +32,7 @@ void SendPlayerNoticeMessage::calc_() {
 
 void SendPlayerNoticeMessage::m32() {
     ksys::act::ActorLinkConstDataAccess accessor;
-    auto& link = ksys::act::PlayerInfo::getSomeProcLink();
+    auto& link = uking::act::PlayerInfo::getSomeProcLink();
     ksys::act::acquireActor(&link, &accessor);
     const sead::Vector3f pos = accessor.getActorMtx().getTranslation();
     auto* actor = mActor;

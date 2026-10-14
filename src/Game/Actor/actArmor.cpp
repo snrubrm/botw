@@ -1,7 +1,7 @@
 #include <basis/seadNew.h>
 #include "Game/Actor/actArmorBase.h"
 #include "Game/gameRoot38.h"
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerArmors.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "KingSystem/Graphics/gfxUnk_710260af28.h"
@@ -50,7 +50,7 @@ bool Armor::m81(const ksys::Message& message) {
 
 void Armor::m148() {
     if (auto* owner = getOwner()) {
-        if (auto* player = sead::DynamicCast<ksys::act::PlayerBase>(owner)) {
+        if (auto* player = sead::DynamicCast<uking::act::PlayerBase>(owner)) {
             const f32 value = player->m317();
             if (_9a8 != value) {
                 Unk_710260af28::instance()->sub_7100F1EAF8(mModel, value);

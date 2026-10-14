@@ -8,8 +8,8 @@
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace uking::ai {
@@ -84,7 +84,7 @@ void GolemWeakPointRoot::calc_() {
         mActor->sub_71011CCB1C(attacker->m139());
     }
 
-    auto* player_link = &ksys::act::PlayerInfo::getSomeProcLink();
+    auto* player_link = &uking::act::PlayerInfo::getSomeProcLink();
     ksys::act::acc::PlayerBase player;
     ksys::act::acquireActor(player_link, &player);
     if (!player.x_23()) {

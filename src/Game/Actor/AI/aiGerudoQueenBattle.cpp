@@ -10,7 +10,7 @@
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorNameSearch.h"
 #include "KingSystem/ActorSystem/actBaseProcMgr.h"
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/World/worldEnvMgr.h"
 #include "KingSystem/World/worldManager.h"
 #include "KingSystem/ActorSystem/actUnk_71024ef620.h"

@@ -1,5 +1,5 @@
 #include "Game/Actor/Player/Action/actionDemoPlayerZoraRide.h"
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actBaseProcMgr.h"
@@ -44,7 +44,7 @@ void DemoPlayerZoraRide::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void DemoPlayerZoraRide::leave_() {
-    static_cast<ksys::act::PlayerBase*>(mActor)->_c48.resetBit(8);
+    static_cast<uking::act::PlayerBase*>(mActor)->_c48.resetBit(8);
     mActor->sub_71011DA834(&_20);
 }
 

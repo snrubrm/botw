@@ -1,7 +1,7 @@
 #include "Game/Actor/AI/aiPriestBossAttackGrave.h"
 #include "Game/Actor/aiUnk_710071edf8.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodySphere.h"
 
 namespace uking::ai {

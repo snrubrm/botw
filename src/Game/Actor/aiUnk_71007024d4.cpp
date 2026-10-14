@@ -2,7 +2,7 @@
 #include <cmath>
 #include <math/seadMathCalcCommon.h>
 #include <random/seadGlobalRandom.h>
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/Camera/CameraMgr.h"
 #include "KingSystem/Utils/MathUtil.h"
 

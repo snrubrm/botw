@@ -1,7 +1,7 @@
 #include "Game/Actor/Action/actionDestPlayerWarpBase.h"
 #include <math/seadMathCalcCommon.h>
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "KingSystem/System/Timer.h"
 #include "KingSystem/World/worldManager.h"
@@ -40,7 +40,7 @@ void DestPlayerWarpBase::calc_() {
     }
     const sead::Vector3f pos = _1c.getTranslation();
     if (m34(pos)) {
-        if (auto* info = ksys::act::PlayerInfo::instance()) {
+        if (auto* info = uking::act::PlayerInfo::instance()) {
             f32 remaining = 0.0f;
             {
                 ksys::act::ActorLinkConstDataAccess accessor;
@@ -84,7 +84,7 @@ bool DestPlayerWarpBase::m34(const sead::Vector3f& pos) {
 }
 
 void DestPlayerWarpBase::m35(const sead::Vector3f& pos, f32 angle) {
-    if (auto* info = ksys::act::PlayerInfo::instance()) {
+    if (auto* info = uking::act::PlayerInfo::instance()) {
         ksys::act::acc::PlayerBase accessor;
         ksys::act::acquireActor(&info->getPlayerLink(), &accessor);
         accessor.setRestartBuf(pos, sead::Mathf::rad2deg(angle));

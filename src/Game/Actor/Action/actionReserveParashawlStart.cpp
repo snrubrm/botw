@@ -1,5 +1,5 @@
 #include "Game/Actor/Action/actionReserveParashawlStart.h"
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 
 namespace uking::action {
 

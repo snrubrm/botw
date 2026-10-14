@@ -1,6 +1,6 @@
 #include "Game/Actor/AI/aiTargetPosTracking.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/System/VFR.h"
 
 namespace uking::ai {

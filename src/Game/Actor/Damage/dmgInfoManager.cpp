@@ -2,7 +2,7 @@
 #include <limits>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "Game/Actor/aiUnk_71007130BC.h"
 #include "Game/Scene/gameScene.h"
 #include "KingSystem/ActorSystem/actGlobalParameter.h"

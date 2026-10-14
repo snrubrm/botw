@@ -13,14 +13,14 @@
 #include "Game/gameItemUtils.h"
 #include "Game/Scene/gameScene.h"
 #include "Game/gameSceneSubsys12.h"
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorHeapUtil.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/ActorSystem/actInfoCommon.h"
 #include "KingSystem/ActorSystem/actInfoData.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "KingSystem/GameData/gdtManager.h"
 #include "KingSystem/GameData/gdtSpecialFlagNames.h"
@@ -316,7 +316,7 @@ void PauseMenuDataMgr::initForNewSave() {
     mCanSeeHealthBar = false;
     mEquippedWeapons.fill({});
 
-    auto* player = ksys::act::PlayerInfo::instance()->getPlayer();
+    auto* player = uking::act::PlayerInfo::instance()->getPlayer();
     if (player) {
         player->switchEquipment(getDefaultEquipment(EquipmentSlot::WeaponRight), 1);
         player->switchEquipment(getDefaultEquipment(EquipmentSlot::WeaponLeft), 1);
@@ -1358,7 +1358,7 @@ void PauseMenuDataMgr::removeItem(const sead::SafeString& name) {
 
 void PauseMenuDataMgr::removeWeaponIfEquipped(const sead::SafeString& name) {
     const auto lock = sead::makeScopedLock(mCritSection);
-    if (!ksys::act::PlayerInfo::instance()->getPlayer())
+    if (!uking::act::PlayerInfo::instance()->getPlayer())
         return;
 
     const auto& items = getItems();
@@ -1503,7 +1503,7 @@ void PauseMenuDataMgr::createPlayerEquipment() {
         }
     }
 
-    auto* player = ksys::act::PlayerInfo::instance()->getPlayer();
+    auto* player = uking::act::PlayerInfo::instance()->getPlayer();
 
     s32 slot = 0;  // <- this is required to match
     for (u64 i = 0; i != equipment_items.size(); slot = s32(++i)) {

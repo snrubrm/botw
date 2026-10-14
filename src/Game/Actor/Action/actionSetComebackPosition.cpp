@@ -1,5 +1,5 @@
 #include "Game/Actor/Action/actionSetComebackPosition.h"
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {

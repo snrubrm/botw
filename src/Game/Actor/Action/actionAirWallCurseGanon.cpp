@@ -1,7 +1,7 @@
 #include "Game/Actor/Action/actionAirWallCurseGanon.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
@@ -24,7 +24,7 @@ bool AirWallCurseGanon::init_(sead::Heap* heap) {
 void AirWallCurseGanon::enter_(ksys::act::ai::InlineParamPack* params) {
     AirWallHorse::enter_(params);
     ksys::act::ActorLinkConstDataAccess player;
-    ksys::act::acquireActor(&ksys::act::PlayerInfo::getSomeProcLink(), &player);
+    ksys::act::acquireActor(&uking::act::PlayerInfo::getSomeProcLink(), &player);
     if (!player.hasProc())
         return;
     auto* handler = player.x(0);

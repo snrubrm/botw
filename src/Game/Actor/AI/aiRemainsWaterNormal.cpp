@@ -1,7 +1,7 @@
 #include "Game/Actor/AI/aiRemainsWaterNormal.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/Map/mapObject.h"
 
 namespace uking::ai {

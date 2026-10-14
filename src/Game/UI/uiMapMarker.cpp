@@ -9,8 +9,8 @@
 #include "Game/UI/uiScreens.h"
 #include "Game/gameWolfLinkMgr.h"
 #include "Game/gameSceneSubsys13.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/GameData/gdtManager.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "KingSystem/Map/mapObject.h"
@@ -292,14 +292,14 @@ s32 Unk_7102475d70::m10() {
 }
 
 void Unk_7102475d70::m11() {
-    if (auto* player = ksys::act::PlayerInfo::instance()->getPlayer())
+    if (auto* player = uking::act::PlayerInfo::instance()->getPlayer())
         _50 = player->isRidingHorse();
     m25(!_50 && ksys::gdt::getFlag_Horse_ActiveIndex(false) != -1);
 }
 
 void Unk_7102475d70::m12() {
     bool riding = false;
-    if (auto* player = ksys::act::PlayerInfo::instance()->getPlayer_()) {
+    if (auto* player = uking::act::PlayerInfo::instance()->getPlayer_()) {
         if (auto* ride = player->getPlayerRideInfo()) {
             if ((ride->_30 & 3) == 3 && ride->_18.hasProc()) {
                 if (auto* manager = HorseMgr::instance())
@@ -464,7 +464,7 @@ Unk_7102476058::~Unk_7102476058() = default;
 
 void Unk_7102476058::m11() {
     auto* manager = MotorcycleMgr::instance();
-    auto* player = ksys::act::PlayerInfo::instance()->getPlayer_();
+    auto* player = uking::act::PlayerInfo::instance()->getPlayer_();
     if (!manager || !player || manager->checkIsActorRidingMotorcycle(player))
         m25(false);
     else
@@ -473,7 +473,7 @@ void Unk_7102476058::m11() {
 
 void Unk_7102476058::m12() {
     auto* manager = MotorcycleMgr::instance();
-    auto* player = ksys::act::PlayerInfo::instance()->getPlayer_();
+    auto* player = uking::act::PlayerInfo::instance()->getPlayer_();
     if (!manager || !player || manager->checkIsActorRidingMotorcycle(player))
         m25(false);
     else

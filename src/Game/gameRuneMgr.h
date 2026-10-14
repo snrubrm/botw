@@ -8,9 +8,12 @@
 #include "KingSystem/Utils/Thread/ActorMessageTransceiver.h"
 #include "KingSystem/Utils/Types.h"
 
+namespace uking::act {
+class PlayerBase;
+}
+
 namespace ksys::act {
 class Actor;
-class PlayerBase;
 }  // namespace ksys::act
 
 namespace uking {
@@ -56,10 +59,10 @@ public:
     // 0x710067622c: whether the selected rune (`_248`) is `rune`.
     bool isSelectedRune(s32 rune) const;
     // 0x7100676214: `_248 == rune && checkCanUseRune(rune, player)`.
-    bool checkIsSelectedRuneAndCanUse(s32 rune, ksys::act::PlayerBase* player);
+    bool checkIsSelectedRuneAndCanUse(s32 rune, uking::act::PlayerBase* player);
     // 0x710067613c: dispatches on `rune` to the player's checkCanUse* (the current player when
     // `player` is null).
-    bool checkCanUseRune(s32 rune, ksys::act::PlayerBase* player);
+    bool checkCanUseRune(s32 rune, uking::act::PlayerBase* player);
 
     // 0x71006757b8 (CSV __auto0; declared only, lane2 s46): sets the duration (1e-4) of the two UiTimers at 0x3c8 / 0x3e0.
     void sub_71006757B8();

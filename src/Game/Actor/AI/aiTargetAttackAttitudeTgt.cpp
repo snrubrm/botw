@@ -2,7 +2,7 @@
 #include <math/seadMathCalcCommon.h>
 #include "Game/Actor/actEnemy.h"
 #include "Game/Actor/aiUnk_71005D6D10.h"
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 

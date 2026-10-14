@@ -3,7 +3,7 @@
 #include "Game/Actor/actBeamBase.h"
 #include "Game/Actor/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/Terrain/teraSystem.h"
 #include "KingSystem/Utils/MathUtil.h"
 

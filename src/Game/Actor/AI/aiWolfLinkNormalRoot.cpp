@@ -14,7 +14,7 @@
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/aiRootAi.h"
 #include "KingSystem/ActorSystem/Attention/actActorAttention.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectWolfLink.h"
@@ -101,7 +101,7 @@ void WolfLinkNormalRoot::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 bool WolfLinkNormalRoot::sub_7100609190() {
-    auto& leader = ksys::act::PlayerInfo::getSomeProcLink();
+    auto& leader = uking::act::PlayerInfo::getSomeProcLink();
     if (!leader.hasProc())
         return false;
     ksys::act::disableAllAttClients(mActor);
@@ -112,7 +112,7 @@ bool WolfLinkNormalRoot::sub_7100609190() {
 }
 
 bool WolfLinkNormalRoot::sub_71006090A0() {
-    auto& leader = ksys::act::PlayerInfo::getSomeProcLink();
+    auto& leader = uking::act::PlayerInfo::getSomeProcLink();
     if (!leader.hasProc())
         return false;
     ksys::act::ai::InlineParamPack params;
@@ -122,7 +122,7 @@ bool WolfLinkNormalRoot::sub_71006090A0() {
 }
 
 bool WolfLinkNormalRoot::sub_7100609288() {
-    auto& leader = ksys::act::PlayerInfo::getSomeProcLink();
+    auto& leader = uking::act::PlayerInfo::getSomeProcLink();
     if (!leader.hasProc())
         return false;
     ksys::act::ai::InlineParamPack params;
@@ -198,7 +198,7 @@ bool WolfLinkNormalRoot::sub_7100608C84() {
     sead::Vector3f pos;
     mtx.getTranslation(pos);
     ksys::act::ai::InlineParamPack params;
-    params.addActor(ksys::act::PlayerInfo::getSomeProcLink(), "LeaderActor", -1);
+    params.addActor(uking::act::PlayerInfo::getSomeProcLink(), "LeaderActor", -1);
     params.addVec3(pos, "TargetPos", -1);
     changeChild("狩り", &params);
     return true;
@@ -217,7 +217,7 @@ bool WolfLinkNormalRoot::sub_7100608DFC() {
 }
 
 bool WolfLinkNormalRoot::sub_7100606FCC() {
-    auto& leader = ksys::act::PlayerInfo::getSomeProcLink();
+    auto& leader = uking::act::PlayerInfo::getSomeProcLink();
     if (!leader.hasProc())
         return false;
     ksys::act::ActorLinkConstDataAccess accessor;
@@ -226,7 +226,7 @@ bool WolfLinkNormalRoot::sub_7100606FCC() {
     ksys::act::ai::InlineParamPack params;
     params.addFloat(0.0f, "DistanceKept", -1);
     if (accessor.sub_7100D12E64())
-        params.addActor(ksys::act::PlayerInfo::instance()->getHorseLink(), "TargetActor", -1);
+        params.addActor(uking::act::PlayerInfo::instance()->getHorseLink(), "TargetActor", -1);
     else
         params.addActor(leader, "TargetActor", -1);
     changeChild("追従", &params);
@@ -237,7 +237,7 @@ bool WolfLinkNormalRoot::sub_7100606FCC() {
 // `false` (the key SafeString is built per branch, one shared call), ours computes the bool with `cset`.
 // 0x7100608f0c
 bool WolfLinkNormalRoot::sub_7100608F0C() {
-    auto& leader = ksys::act::PlayerInfo::getSomeProcLink();
+    auto& leader = uking::act::PlayerInfo::getSomeProcLink();
     if (!leader.hasProc())
         return false;
     if (!mActor->m45())
@@ -292,7 +292,7 @@ bool WolfLinkNormalRoot::sub_7100609738() {
 
 // NON_MATCHING: load scheduling of the _19c/_190 components in the else branch
 bool WolfLinkNormalRoot::sub_710060980C() {
-    auto& link = ksys::act::PlayerInfo::getSomeProcLink();
+    auto& link = uking::act::PlayerInfo::getSomeProcLink();
     ksys::act::ActorLinkConstDataAccess accessor;
     bool result = false;
     if (ksys::act::acquireActor(&link, &accessor)) {
@@ -366,7 +366,7 @@ WolfLinkNormalRoot::State WolfLinkNormalRoot::sub_7100607140() {
         if (!nav)
             return State::_6;
         ksys::act::ActorLinkConstDataAccess accessor;
-        if (!ksys::act::acquireActor(&ksys::act::PlayerInfo::getSomeProcLink(), &accessor) ||
+        if (!ksys::act::acquireActor(&uking::act::PlayerInfo::getSomeProcLink(), &accessor) ||
             (!accessor.sub_7100D12E64() &&
              !sub_7100742278(_78->mCanReachPlayerNavMeshSearchRadius.ref(), nullptr, nav, &_19c))) {
             return State::_6;
@@ -460,7 +460,7 @@ bool WolfLinkNormalRoot::sub_71006085C8(State state) {
         return true;
     if (int(_1a8) == 6) {
         if (auto* nav = mActor->m45()) {
-            auto& leader = ksys::act::PlayerInfo::getSomeProcLink();
+            auto& leader = uking::act::PlayerInfo::getSomeProcLink();
             ksys::act::ActorLinkConstDataAccess accessor;
             if (ksys::act::acquireActor(&leader, &accessor) &&
                 (accessor.sub_7100D12E64() ||
@@ -580,7 +580,7 @@ bool WolfLinkNormalRoot::sub_7100606BB4(State state, bool force) {
 }
 
 void WolfLinkNormalRoot::sub_7100607910() {
-    auto* info = ksys::act::PlayerInfo::instance();
+    auto* info = uking::act::PlayerInfo::instance();
     ksys::act::ActorLinkConstDataAccess accessor;
     if (ksys::act::acquireActor(&info->getPlayerLink(), &accessor) && accessor.sub_7100D12E64()) {
         ksys::act::disableAllAttClients(mActor);
@@ -612,7 +612,7 @@ void WolfLinkNormalRoot::sub_7100607910() {
 // NON_MATCHING: register assignment (this/leader in x19/x20 swapped)
 void WolfLinkNormalRoot::sub_7100608200() {
     if (int(_1a8) == 4) {
-        auto* info = ksys::act::PlayerInfo::instance();
+        auto* info = uking::act::PlayerInfo::instance();
         auto& leader = info->getPlayerLink();
         ksys::act::ActorLinkConstDataAccess accessor;
         if (!ksys::act::acquireActor(&leader, &accessor) || !accessor.sub_7100D12E64())

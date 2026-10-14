@@ -1,6 +1,6 @@
 #include "Game/Actor/Action/actionAppearFollowChallenge.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/Event/evtManager.h"
 #include "KingSystem/System/VFR.h"
 
@@ -18,7 +18,7 @@ bool AppearFollowChallenge::init_(sead::Heap* heap) {
 }
 
 void AppearFollowChallenge::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::acquireActor(&ksys::act::PlayerInfo::instance()->getPlayerLink(), &_30);
+    ksys::act::acquireActor(&uking::act::PlayerInfo::instance()->getPlayerLink(), &_30);
     _4cc.set(mActor->getMtx().getTranslation());
     _4d8[0] = sead::SafeString("SheikerRingNo_00");
     _4d8[1] = sead::SafeString("SheikerRingNo_01");

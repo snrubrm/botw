@@ -7,8 +7,8 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/System/VFR.h"
 #include "Game/Actor/aiUnk_71005D6D10.h"
 #include "KingSystem/Utils/Thread/Message.h"
@@ -97,7 +97,7 @@ void AirOctaState::sub_71002FEC08() {
     if (isCurrentChild("待機")) {
         ksys::act::ai::InlineParamPack pack;
         mActor->getASList()->x_2(66, 40, _278.isOnBit(3), false);
-        pack.addActor(ksys::act::PlayerInfo::getSomeProcLink(), "TargetActor", -1);
+        pack.addActor(uking::act::PlayerInfo::getSomeProcLink(), "TargetActor", -1);
         pack.addBool(true, "ForceNotice", -1);
         changeChild("発見", &pack);
         _278.set(0x320);
@@ -291,7 +291,7 @@ void AirOctaState::m38() {
 void AirOctaState::m39() {}
 
 bool AirOctaState::sub_71002FE954(f32 max_yaw, f32 max_pitch) {
-    auto* player_info = ksys::act::PlayerInfo::instance();
+    auto* player_info = uking::act::PlayerInfo::instance();
     if (!player_info)
         return false;
 

@@ -1,8 +1,8 @@
 #include "Game/Actor/Action/actionDeletePorchItemIncludeEquip.h"
 #include "Game/Actor/actPlayerCreateMgr.h"
 #include "Game/UI/uiPauseMenuDataMgr.h"
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 
 namespace uking::action {
 
@@ -49,7 +49,7 @@ void DeletePorchItemIncludeEquip::calc_() {
     if (_39) {
         if (!act::CreatePlayerEquipActorMgr::instance()->areAllWeaponActorsReady())
             return;
-        if (auto* player = ksys::act::PlayerInfo::instance()->getPlayer())
+        if (auto* player = uking::act::PlayerInfo::instance()->getPlayer())
             player->setC98Locked(0x20);
     }
     setFinished();

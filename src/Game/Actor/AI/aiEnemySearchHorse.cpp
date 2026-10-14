@@ -8,7 +8,7 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/Resource/Actor/resResourceAttCheck.h"
 
 namespace uking::ai {
@@ -52,7 +52,7 @@ void EnemySearchHorse::sub_71003B9624() {
         _58.reset();
     } else {
         sub_71005D7270(&pack, "TargetPos");
-        _110.operator=(ksys::act::PlayerInfo::getSomeProcLink());
+        _110.operator=(uking::act::PlayerInfo::getSomeProcLink());
     }
     changeChild("怒り", &pack);
 }

@@ -1,6 +1,6 @@
 #include "KingSystem/Effect/Actor/Action/actionFootStepCalcOn.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/Event/evtManager.h"
 #include "KingSystem/XLink/xlinkXLink.h"
 

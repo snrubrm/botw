@@ -1,9 +1,9 @@
 #include "Game/Actor/AI/aiTargetClimbSelect.h"
 #include "Game/Actor/aiUnk_71005D6D10.h"
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 
 namespace uking::ai {
 
@@ -20,7 +20,7 @@ void TargetClimbSelect::enter_(ksys::act::ai::InlineParamPack* params) {
     auto* link = sub_71005D9050(mActor);
     if (link && ksys::act::isPlayerProfile(link)) {
         ksys::act::acc::PlayerBase player;
-        ksys::act::acquireActor(&ksys::act::PlayerInfo::instance()->getPlayerLink(), &player);
+        ksys::act::acquireActor(&uking::act::PlayerInfo::instance()->getPlayerLink(), &player);
         flag = player.m186();
     }
     if (flag)
@@ -42,7 +42,7 @@ void TargetClimbSelect::calc_() {
         bool flag;
         {
             ksys::act::acc::PlayerBase player;
-            ksys::act::acquireActor(&ksys::act::PlayerInfo::instance()->getPlayerLink(), &player);
+            ksys::act::acquireActor(&uking::act::PlayerInfo::instance()->getPlayerLink(), &player);
             flag = player.m186();
         }
         if (flag)
@@ -52,7 +52,7 @@ void TargetClimbSelect::calc_() {
         auto* link = sub_71005D9050(mActor);
         if (link && ksys::act::isPlayerProfile(link)) {
             ksys::act::acc::PlayerBase player;
-            ksys::act::acquireActor(&ksys::act::PlayerInfo::instance()->getPlayerLink(), &player);
+            ksys::act::acquireActor(&uking::act::PlayerInfo::instance()->getPlayerLink(), &player);
             flag = player.m186();
         }
         if (!flag)

@@ -14,7 +14,7 @@
 #include "Game/UI/uiUnkSingletons.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "Game/UI/uiUtils.h"
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/Resource/resGameResourceSystem.h"
 #include "KingSystem/Camera/CameraMgr.h"
 #include <gfx/seadCamera.h>
@@ -652,7 +652,7 @@ void return0_2() {
 
 // 0x7100a9b96c (placeholder name; getPlayerActor is out of line in the original)
 bool sub_7100A9B96C() {
-    if (auto* player = static_cast<ksys::act::PlayerBase*>(getPlayerActor(nullptr)))
+    if (auto* player = static_cast<uking::act::PlayerBase*>(getPlayerActor(nullptr)))
         return player->sub_710084CF24();
     return false;
 }

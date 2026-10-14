@@ -26,8 +26,8 @@
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "KingSystem/GameData/gdtManager.h"
 #include "KingSystem/Utils/Byaml/Byaml.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/Event/evtManager.h"
 #include "KingSystem/Event/evtEventFlow.h"
 #include "KingSystem/Sound/sndSound.h"
@@ -274,7 +274,7 @@ bool isMasterSwordItem(const PouchItem& item) {
 // NON_MATCHING: FixedSafeString default initialization and resulting stack/register use differ.
 bool sub_7100A9FA60() {
     sead::FixedSafeString<64> name;
-    ksys::act::PlayerInfo::instance()->getPlayer()->m379(&name);
+    uking::act::PlayerInfo::instance()->getPlayer()->m379(&name);
     return isOneHitObliteratorActorName(name);
 }
 
@@ -282,7 +282,7 @@ bool shouldUseWeaponSword503() {
     if (ksys::evt::Manager::instance() && ksys::evt::Manager::instance()->getActiveEvent() &&
         ksys::evt::Manager::instance()->getActiveEvent()->mEventName == "Demo601_1")
         return true;
-    return dlc::isOneHitObliteratorActor(ksys::act::PlayerInfo::instance()->getPlayer()->m273(), true);
+    return dlc::isOneHitObliteratorActor(uking::act::PlayerInfo::instance()->getPlayer()->m273(), true);
 }
 
 // 0x7100a9fc20 (placeholder name): the "infinite" attack power (-111; see formatSpecialAttackPower) of the One-Hit

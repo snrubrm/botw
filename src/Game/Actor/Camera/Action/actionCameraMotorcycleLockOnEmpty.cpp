@@ -2,7 +2,7 @@
 #include <cmath>
 #include <math/seadMathCalcCommon.h>
 #include "Game/Actor/actMotorcycle.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/System/VFR.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
@@ -72,7 +72,7 @@ void CameraMotorcycleLockOnEmpty::m36() {
 // NON_MATCHING: RTTI guards, transform/vector copies and scalar scheduling differ.
 void CameraMotorcycleLockOnEmpty::m33() {
     auto* actor = sead::DynamicCast<act::Motorcycle>(sead::DynamicCast<ksys::act::Actor>(
-        ksys::act::PlayerInfo::instance()->getHorseLink().getProc(nullptr, nullptr)));
+        uking::act::PlayerInfo::instance()->getHorseLink().getProc(nullptr, nullptr)));
     if (!actor)
         return;
     auto* camera = getCamera();
@@ -94,7 +94,7 @@ void CameraMotorcycleLockOnEmpty::m33() {
 
 void CameraMotorcycleLockOnEmpty::sub_710077BD98() {
     auto* actor = sead::DynamicCast<act::Motorcycle>(sead::DynamicCast<ksys::act::Actor>(
-        ksys::act::PlayerInfo::instance()->getHorseLink().getProc(nullptr, nullptr)));
+        uking::act::PlayerInfo::instance()->getHorseLink().getProc(nullptr, nullptr)));
     if (actor)
         _168 = actor->getMainBody()->getTransform();
 }
@@ -135,7 +135,7 @@ void CameraMotorcycleLockOnEmpty::sub_710077CC90() {
 // NON_MATCHING: RTTI guards, transform/vector copies and scalar scheduling differ.
 void CameraMotorcycleLockOnEmpty::sub_710077CDA4() {
     auto* actor = sead::DynamicCast<act::Motorcycle>(sead::DynamicCast<ksys::act::Actor>(
-        ksys::act::PlayerInfo::instance()->getHorseLink().getProc(nullptr, nullptr)));
+        uking::act::PlayerInfo::instance()->getHorseLink().getProc(nullptr, nullptr)));
     if (!actor)
         return;
     const sead::Vector3f origin = _168.getTranslation();
@@ -166,7 +166,7 @@ void CameraMotorcycleLockOnEmpty::sub_710077C7A4() {
 // NON_MATCHING: RTTI guards, quaternion/vector copies and float scheduling differ.
 void CameraMotorcycleLockOnEmpty::sub_710077BED8() {
     auto* actor = sead::DynamicCast<act::Motorcycle>(sead::DynamicCast<ksys::act::Actor>(
-        ksys::act::PlayerInfo::instance()->getHorseLink().getProc(nullptr, nullptr)));
+        uking::act::PlayerInfo::instance()->getHorseLink().getProc(nullptr, nullptr)));
     if (!actor)
         return;
     sead::CoreInfo::getCurrentCoreId();
@@ -224,7 +224,7 @@ void CameraMotorcycleLockOnEmpty::sub_710077BED8() {
 // NON_MATCHING: RTTI guards, frame and bound scalar scheduling differ.
 void CameraMotorcycleLockOnEmpty::sub_710077CA0C() {
     auto* actor = sead::DynamicCast<act::Motorcycle>(sead::DynamicCast<ksys::act::Actor>(
-        ksys::act::PlayerInfo::instance()->getHorseLink().getProc(nullptr, nullptr)));
+        uking::act::PlayerInfo::instance()->getHorseLink().getProc(nullptr, nullptr)));
     if (!actor)
         return;
     const f32 frame = ksys::VFR::instance()->getDeltaTime();
@@ -249,7 +249,7 @@ void CameraMotorcycleLockOnEmpty::m34() {
     if (!camera)
         return;
     auto* actor = sead::DynamicCast<act::Motorcycle>(sead::DynamicCast<ksys::act::Actor>(
-        ksys::act::PlayerInfo::instance()->getHorseLink().getProc(nullptr, nullptr)));
+        uking::act::PlayerInfo::instance()->getHorseLink().getProc(nullptr, nullptr)));
     if (!actor)
         return;
     sub_710077B7DC();

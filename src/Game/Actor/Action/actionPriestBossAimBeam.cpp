@@ -1,7 +1,7 @@
 #include "Game/Actor/Action/actionPriestBossAimBeam.h"
 #include <math/seadMatrix.h>
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/Physics/System/physRayCastBodyQuery.h"
 
 namespace uking::action {

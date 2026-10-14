@@ -1,7 +1,7 @@
 #include "Game/Actor/Action/actionWarpPLToPosAndResetGimmick.h"
 #include <prim/seadSafeString.h>
 #include "Game/gameResetter.h"
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/Event/evtManager.h"
 
 namespace uking::action {

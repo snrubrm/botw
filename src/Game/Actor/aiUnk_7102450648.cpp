@@ -1,11 +1,11 @@
 #include "Game/Actor/aiUnk_7102357210.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 
 bool Unk_7102450648::m2(const ksys::Message& message) {
     if (message.getType() != _34)
         return false;
 
-    _8 = ksys::act::PlayerInfo::getSomeProcLink();
+    _8 = uking::act::PlayerInfo::getSomeProcLink();
     const auto* data = static_cast<const bool*>(message.getUserData());
     _38 = data ? *data : false;
     _30 = true;
@@ -16,7 +16,7 @@ bool Unk_7102450648::m2(const ksys::Message& message) {
 // Signed IDs below this range are rejected before the second type query.
 bool Unk_7102450648::sub_710070A674(const ksys::Message& message) {
     if (s32(message.getType()) >= 0x1800000 && s32(message.getType()) < 0x180002a) {
-        _8 = ksys::act::PlayerInfo::getSomeProcLink();
+        _8 = uking::act::PlayerInfo::getSomeProcLink();
         _30 = true;
         _18 = message.getSource();
         return true;

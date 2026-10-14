@@ -4,7 +4,7 @@
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 
 namespace uking::ai {
@@ -141,7 +141,7 @@ void MoveRemainsElectric::loadParams_() {
 }
 
 bool MoveRemainsElectric::m40() {
-    auto& player = ksys::act::PlayerInfo::getSomeProcLink();
+    auto& player = uking::act::PlayerInfo::getSomeProcLink();
     if (!player.hasProc())
         return false;
     return !sub_710073033C(mActor, &player, *mReactiveRange_s);

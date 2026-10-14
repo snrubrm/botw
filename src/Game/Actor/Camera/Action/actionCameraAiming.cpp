@@ -6,9 +6,9 @@
 #include "KingSystem/System/VFRValue.h"
 #include "KingSystem/Utils/MathUtil.h"
 #include "Game/Actor/actMotorcycle.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 
 namespace uking::action {
@@ -458,7 +458,7 @@ void CameraAiming::sub_710074DD28(const act::Unk_7100922700& polar, sead::Vector
     if (!player || !player->x_48())
         return;
     auto* actor = sead::DynamicCast<ksys::act::Actor>(
-        ksys::act::PlayerInfo::instance()->getHorseLink().getProc(nullptr, nullptr));
+        uking::act::PlayerInfo::instance()->getHorseLink().getProc(nullptr, nullptr));
     auto* motorcycle = sead::DynamicCast<act::Motorcycle>(actor);
     if (!motorcycle)
         return;
