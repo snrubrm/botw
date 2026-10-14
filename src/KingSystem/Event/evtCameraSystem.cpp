@@ -23,7 +23,7 @@ bool CameraSystem::finishLoad() {
             all_ready &= _10[i].isReadyOrNeedsParse();
         if (all_ready) {
             _8 = 2;
-            util::LowPrioThreadMgr::Request request;
+            LowPrioThreadMgr::Request request;
             request.lane_id = 2;
             request.flags.setDirect(4);
             request.delegate = &_2c8;

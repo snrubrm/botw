@@ -545,7 +545,7 @@ public:
     /* 0x13fc */ u8 _13fc = 0;
     /* 0x13fd */ u8 _13fd = 0;
     /* 0x13fe */ u8 _13fe = 0;
-    /* 0x1400 */ ksys::util::TaskDelegateT<Camera> _1400;
+    /* 0x1400 */ ksys::TaskDelegateT<Camera> _1400;
     // m163 waits for the worker task 1 when set, m164 / m75 use _1421.
     /* 0x1420 */ u8 _1420 = 0;
     /* 0x1421 */ u8 _1421 = 0;

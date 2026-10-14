@@ -235,7 +235,7 @@ private:
     /* 0x944 */ sead::Atomic<u32> _944;
     /* 0x948 */ sead::Atomic<u32> _948;
     u8 _94c[0x950 - 0x94c];
-    /* 0x950 */ ksys::util::Event _950;
+    /* 0x950 */ ksys::Event _950;
 };
 
 // Free functions of the GameScene TU (CSV names; the namespace is a guess).

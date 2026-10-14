@@ -539,11 +539,6 @@ void minigameScreenMove();
 
 int countCookResultsCheck(const sead::SafeString& name, s32 effect_type);
 int countCookResultsAllOk(const sead::SafeString& name);
-int getItemValue(const sead::SafeString& name);
-
-// TODO: move these to another translation unit (TBD)
-// Do not implement until the location is figured out
-void applyScreenFade(float progress);
 
 act::CreateEquipmentSlot getCreateEquipmentSlot(ui::PouchItemType type);
 ui::EquipmentSlot getEquipmentSlot(act::CreateEquipmentSlot slot);

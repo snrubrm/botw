@@ -406,11 +406,15 @@ namespace uking::ui {
 using SGetItemValueHandlerFn = s32 (*)(const sead::SafeString&);
 SGetItemValueHandlerFn sGetItemValueHandler;
 
+}  // namespace uking::ui
+
+namespace ksys::ui {
+
 // 0x7100edc398
 s32 getItemValue(const sead::SafeString& name) {
-    if (sGetItemValueHandler)
-        return sGetItemValueHandler(name);
+    if (uking::ui::sGetItemValueHandler)
+        return uking::ui::sGetItemValueHandler(name);
     return 0;
 }
 
-}  // namespace uking::ui
+}  // namespace ksys::ui

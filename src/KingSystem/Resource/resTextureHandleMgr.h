@@ -20,11 +20,11 @@ namespace nn::gfx {
 class ResTexture;
 }
 
-namespace ksys::util {
+namespace ksys {
 class Task;
 class TaskThread;
 class TaskMgr;
-}  // namespace ksys::util
+}  // namespace ksys
 
 namespace ksys::res {
 
@@ -108,10 +108,10 @@ public:
     bool bfres_file_stuff_2(void* data);
     // Complete FE6134 and independent FE3760 establish this native helper.
     bool x_0(nn::g3d::ResFile* file, bool tex1, Unk_71024f9a08** resource);
-    void invoked7(util::TaskPostRunResult* result, const util::TaskPostRunContext& context);
-    void repairExecute(util::TaskPostRunResult* result, const util::TaskPostRunContext& context);
-    void invoked8(const util::TaskRemoveCallbackContext& context);
-    void invoked9(const util::TaskRemoveCallbackContext& context);
+    void invoked7(TaskPostRunResult* result, const TaskPostRunContext& context);
+    void repairExecute(TaskPostRunResult* result, const TaskPostRunContext& context);
+    void invoked8(const TaskRemoveCallbackContext& context);
+    void invoked9(const TaskRemoveCallbackContext& context);
     bool repairTexture(Unk_71024f9a08* resource);
     void repairHandleForSync(Unk_71024f9a08* resource);
     void clearAllCache();
@@ -140,10 +140,10 @@ private:
     u8 _10[0x20 - 0x10];
     CompactedHeap* mTextureHeap;
     Counter* mHeapCounter;
-    util::Task* _30;
+    Task* _30;
     u8 _38[0x48 - 0x38];
-    util::TaskMgr* _48;
-    util::TaskThread* _50;
+    TaskMgr* _48;
+    TaskThread* _50;
     // Complete FE2534 constructs this lock; FE4318 holds it during repair.
     sead::CriticalSection mCS;
     sead::TickTime _98;
@@ -163,20 +163,20 @@ private:
     // Complete FE2890 initializes this delegate for FE3628; FE5B44 uses it.
     sead::Delegate1R<TextureHandleMgr, void*, bool> _198{nullptr, nullptr};
     // Complete FE2890 initializes this delegate for FE3760.
-    util::TaskDelegateT<TextureHandleMgr> _1b8{nullptr, nullptr};
+    TaskDelegateT<TextureHandleMgr> _1b8{nullptr, nullptr};
     // Complete FE2890 initializes this delegate for FE3DC0.
-    util::TaskDelegateT<TextureHandleMgr> _1d8{nullptr, nullptr};
+    TaskDelegateT<TextureHandleMgr> _1d8{nullptr, nullptr};
     // Complete FE2890 initializes this delegate for FE4318; FE5C98 uses it.
     sead::Delegate1R<TextureHandleMgr, void*, bool> _1f8{nullptr, nullptr};
     // FE5D84 / FE5EC4 independently supply these as the native task callbacks.
-    util::TaskPostRunCallbackT<TextureHandleMgr> _218{nullptr, nullptr};
+    TaskPostRunCallbackT<TextureHandleMgr> _218{nullptr, nullptr};
     // Complete FE2890 initializes this post-run callback for FE4918.
-    util::TaskPostRunCallbackT<TextureHandleMgr> _238{nullptr, nullptr};
+    TaskPostRunCallbackT<TextureHandleMgr> _238{nullptr, nullptr};
     // Complete FE2890 initializes this removal callback for FE4B6C.
-    util::TaskRemoveCallbackT<TextureHandleMgr> _258{nullptr, nullptr};
-    util::TaskRemoveCallbackT<TextureHandleMgr> _278{nullptr, nullptr};
+    TaskRemoveCallbackT<TextureHandleMgr> _258{nullptr, nullptr};
+    TaskRemoveCallbackT<TextureHandleMgr> _278{nullptr, nullptr};
     // Complete FE2890 initializes this task delegate for FE43B8.
-    util::TaskDelegateT<TextureHandleMgr> _298{nullptr, nullptr};
+    TaskDelegateT<TextureHandleMgr> _298{nullptr, nullptr};
     u8 _2b8[0x5e0 - 0x2b8];
     // Complete FE2534 constructs this loader; independent FE4B6C unloads it.
     TempResourceLoader mLoader;

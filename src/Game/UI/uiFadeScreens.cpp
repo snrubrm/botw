@@ -1,19 +1,25 @@
 #include "Game/UI/uiScreens.h"
 #include "KingSystem/Event/evtS7.h"
 #include "Game/UI/uiUtils.h"
+#include "KingSystem/System/UIGlue.h"
 
 // Helpers around the two fade screens (ScreenFadeDemo, Fade) of eui::ScreenMgr. The CSV names the first
 // group evt::S7::*; none of them uses `this`.
-namespace uking::ui {
+namespace ksys::ui {
 
 void applyScreenFade(float progress) {
     auto* mgr = eui::ScreenMgr::instance();
     if (!mgr)
         return;
-    auto* screen = sead::DynamicCast<Fade>(mgr->getScreen(ScreenId::Fade));
+    auto* screen =
+        sead::DynamicCast<uking::ui::Fade>(mgr->getScreen(uking::ui::ScreenId::Fade));
     if (screen)
         screen->sub_71010A0EE8(progress);
 }
+
+}  // namespace ksys::ui
+
+namespace uking::ui {
 
 // 0x71008ae818
 void sub_71008AE818() {

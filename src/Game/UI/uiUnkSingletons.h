@@ -29,12 +29,12 @@ namespace ksys::act {
 class Actor;
 }
 
-namespace ksys::util {
+namespace ksys {
 class TaskThread;
 class TaskMgr;
 class ManagedTaskHandle;
 class ManagedTask;
-}
+}  // namespace ksys
 
 namespace eui {
 class LayoutEx;
@@ -64,23 +64,23 @@ public:
     void start(const sead::SafeString& name, sead::Heap* heap, sead::CoreId core, s32 priority);
 
     struct Request {
-        ksys::util::TaskDelegate* delegate;
+        ksys::TaskDelegate* delegate;
         void* user_data;
-        ksys::util::TaskRemoveCallback* remove_callback;
-        ksys::util::TaskPostRunCallback* post_run_callback;
-        ksys::util::ManagedTaskHandle* handle;
-        ksys::util::ManagedTask* task;
+        ksys::TaskRemoveCallback* remove_callback;
+        ksys::TaskPostRunCallback* post_run_callback;
+        ksys::ManagedTaskHandle* handle;
+        ksys::ManagedTask* task;
     };
-    ksys::util::ManagedTaskHandle* submitRequest(const Request& request);
+    ksys::ManagedTaskHandle* submitRequest(const Request& request);
 
     // 0x7100a6d978 / 0x7100a6d988 / 0x7100a6d998
     void pause();
     void resume();
     void clearQueue();
 
-    /* 0x28 */ ksys::util::TaskThread* _28 = nullptr;
-    /* 0x30 */ ksys::util::TaskMgr* _30 = nullptr;
-    /* 0x38 */ ksys::util::ManagedTaskHandle* _38[100]{};
+    /* 0x28 */ ksys::TaskThread* _28 = nullptr;
+    /* 0x30 */ ksys::TaskMgr* _30 = nullptr;
+    /* 0x38 */ ksys::ManagedTaskHandle* _38[100]{};
 };
 KSYS_CHECK_SIZE_NX150(UiLowPrioThreadMgr, 0x358);
 

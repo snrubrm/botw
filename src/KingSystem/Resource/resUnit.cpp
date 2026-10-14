@@ -107,12 +107,12 @@ bool ResourceUnit::init(const ResourceUnit::InitArg& arg) {
     }
 
     {
-        util::TaskDelegateSetter setter;
+        TaskDelegateSetter setter;
         mTask1.setDelegate(setter);
     }
 
     {
-        util::TaskDelegateSetter setter;
+        TaskDelegateSetter setter;
         mTask2.setDelegate(setter);
     }
 
@@ -163,7 +163,7 @@ void ResourceUnit::updateStatus() {
 }
 
 bool ResourceUnit::isTask1NotQueued() const {
-    return mTask1.getStatus() == util::Task::Status::RemovedFromQueue;
+    return mTask1.getStatus() == Task::Status::RemovedFromQueue;
 }
 
 bool ResourceUnit::isStatus0() const {
@@ -252,7 +252,7 @@ bool ResourceUnit::removeTask3FromQueue() {
 void ResourceUnit::requestInitLoad(const RequestInitLoadArg& arg) {
     mStatus = Status::_7;
 
-    util::TaskRequest req;
+    TaskRequest req;
     req.mHasHandle = arg.has_handle;
     req.mSynchronous = false;
     req.mLaneId = arg.lane_id;
@@ -490,8 +490,8 @@ void ResourceUnit::doRetryLoad() {
     }
 }
 
-void ResourceUnit::requestPrepareLoad(util::TaskPostRunResult* result,
-                                      const util::TaskPostRunContext& ctx) {
+void ResourceUnit::requestPrepareLoad(TaskPostRunResult* result,
+                                      const TaskPostRunContext& ctx) {
     if (!mHeap || mStatus != Status::_7)
         return;
 
@@ -514,7 +514,7 @@ void ResourceUnit::requestPrepareLoad(util::TaskPostRunResult* result,
         break;
     }
 
-    util::TaskRequest req;
+    TaskRequest req;
     req.mHasHandle = true;
     req.mSynchronous = false;
     req.mLaneId = lane_id;
@@ -576,8 +576,8 @@ bool ResourceUnit::unloadForSync() {
     return true;
 }
 
-void ResourceUnit::requestUnload(util::TaskPostRunResult* result,
-                                 const util::TaskPostRunContext& ctx) {
+void ResourceUnit::requestUnload(TaskPostRunResult* result,
+                                 const TaskPostRunContext& ctx) {
     if (mRefCount > 0)
         return;
 
@@ -601,8 +601,8 @@ void ResourceUnit::requestUnload(util::TaskPostRunResult* result,
         stubbedLogFunction();
 }
 
-void ResourceUnit::requestClearCache(util::TaskPostRunResult* result,
-                                     const util::TaskPostRunContext& ctx) {
+void ResourceUnit::requestClearCache(TaskPostRunResult* result,
+                                     const TaskPostRunContext& ctx) {
     if (returnFalse())
         stubbedLogFunction();
 
@@ -624,8 +624,8 @@ void ResourceUnit::requestClearCache(util::TaskPostRunResult* result,
 }
 
 // NON_MATCHING: the status == 5 test comes before the status == 1 test in the original (ours compares 1 first)
-void ResourceUnit::postUnload(util::TaskPostRunResult* result,
-                              const util::TaskPostRunContext& ctx) {
+void ResourceUnit::postUnload(TaskPostRunResult* result,
+                              const TaskPostRunContext& ctx) {
     if (returnFalse())
         stubbedLogFunction();
 
@@ -669,8 +669,8 @@ void ResourceUnit::postUnload(util::TaskPostRunResult* result,
         stubbedLogFunction();
 }
 
-void ResourceUnit::postClearCache(util::TaskPostRunResult* result,
-                                  const util::TaskPostRunContext& ctx) {
+void ResourceUnit::postClearCache(TaskPostRunResult* result,
+                                  const TaskPostRunContext& ctx) {
     if (returnFalse())
         stubbedLogFunction();
 

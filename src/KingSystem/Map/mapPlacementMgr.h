@@ -24,9 +24,9 @@ namespace ksys::tera {
 class System;
 }
 
-namespace ksys::util {
+namespace ksys {
 class Task;
-}
+}  // namespace ksys
 
 namespace ksys::map {
 
@@ -124,7 +124,7 @@ public:
     // 0x71011eb46c (CSV __auto19; placeholder name): PlacementActors::sub_7100D52CA4(obj).
     void sub_71011EB46C(Object* obj);
     // 0x71011e4da8 (CSV invoked2): runs invoked2_ (0x71011ea4c8, declaration only) and returns true.
-    bool invoked1(util::Task* task);
+    bool invoked1(Task* task);
     bool invoked2(void* arg);
     // Whole 11EA4C8 reads ActorData::mActorName at +0x148 and returns true.
     bool invoked2_(ActorData* data);
@@ -326,7 +326,7 @@ public:
     u32 mMassRendererStatus = 0;
 
     // Passed to BaseProcMgr::removeInitializerTasksIf at 0x71011e70ec.
-    sead::Delegate1R<PlacementMgr, util::Task*, bool> mInvoker;
+    sead::Delegate1R<PlacementMgr, Task*, bool> mInvoker;
 
     s32 _7f0 = -1;
 

@@ -343,7 +343,7 @@ bool Unk_71024F9D48::sub_7100FE7FBC(void* arg) {
         _38.removeTaskFromQueue();
         const auto status = _38.getStatus();
         _38.finalize();
-        if (status == util::ManagedTaskHandle::Status::TaskRemoved) {
+        if (status == ManagedTaskHandle::Status::TaskRemoved) {
             stubbedLogFunction();
             return true;
         }
@@ -423,7 +423,7 @@ bool Unk_71024F9D48::sub_7100FE8338() {
         _38.removeTaskFromQueue();
         const auto status = _38.getStatus();
         _38.finalize();
-        if (status == util::ManagedTaskHandle::Status::TaskRemoved) {
+        if (status == ManagedTaskHandle::Status::TaskRemoved) {
             stubbedLogFunction();
             return true;
         }

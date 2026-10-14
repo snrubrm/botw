@@ -38,11 +38,9 @@ class SZSDecompressor;
 namespace ksys {
 class OverlayArena;
 
-namespace util {
 class TaskMgr;
 class TaskPostRunResult;
 class TaskThread;
-}  // namespace util
 }  // namespace ksys
 
 namespace ksys::res {
@@ -115,7 +113,7 @@ public:
 
     using ResourceUnitDelegate = sead::Delegate1RFunc<void*, bool>;
     using TaskCallback =
-        sead::Delegate2Func<util::TaskPostRunResult*, const util::TaskPostRunContext&>;
+        sead::Delegate2Func<TaskPostRunResult*, const TaskPostRunContext&>;
     using MemoryTaskDelegate = sead::Delegate1R<ResourceMgrTask, void*, bool>;
 
     struct ResourceUnitDelegatePair {
@@ -129,7 +127,7 @@ public:
 
     void insertOverlayArena(OverlayArena* arena);
 
-    util::TaskThread* makeResourceLoadingThread(sead::Heap* heap, bool use_game_task_thread);
+    TaskThread* makeResourceLoadingThread(sead::Heap* heap, bool use_game_task_thread);
 
     void clearAllCaches(OverlayArena* arena);
     OverlayArena* getTexHandleMgrArena() const;
@@ -176,7 +174,7 @@ public:
     void registerUnit(ResourceUnit* unit);
     void deregisterUnit(ResourceUnit* unit);
 
-    void requestClearCache(ResourceUnit** p_unit, util::Task* task = nullptr);
+    void requestClearCache(ResourceUnit** p_unit, Task* task = nullptr);
     void requestClearCacheForSync(ResourceUnit** p_unit, bool clear_immediately,
                                   bool delete_immediately);
 
@@ -228,7 +226,7 @@ public:
     ResourceUnit* clearCachesAndGetUnit(const GetUnitArg& arg);
 
     struct SetActorCreateInitializerThreadsArg {
-        sead::PtrArray<util::TaskThread>* threads;
+        sead::PtrArray<TaskThread>* threads;
     };
     void setActorCreateInitializerThreads(const SetActorCreateInitializerThreadsArg& arg);
     void clearActorCreateInitializerThreads();
@@ -306,10 +304,10 @@ public:
 
     void removeOverlayArena(OverlayArena* arena);
 
-    util::TaskThread* getResourceLoadingThread() const { return mResourceLoadingThread; }
-    util::TaskThread* getResourceControlThread() const { return mResourceControlThread; }
-    util::TaskThread* getResourceMemoryThread() const { return mResourceMemoryThread; }
-    util::TaskThread* getMovableMemoryThread() const { return mMovableMemoryThread; }
+    TaskThread* getResourceLoadingThread() const { return mResourceLoadingThread; }
+    TaskThread* getResourceControlThread() const { return mResourceControlThread; }
+    TaskThread* getResourceMemoryThread() const { return mResourceMemoryThread; }
+    TaskThread* getMovableMemoryThread() const { return mMovableMemoryThread; }
 
     ResourceUnitDelegatePair& getUnitInitLoadFn() { return mUnitInitLoadFn; }
     auto& getUnitPrepareLoadFn() { return mUnitPrepareLoadFn; }
@@ -349,22 +347,22 @@ private:
     // The unit delegate functions (placeholder names; 0x7101205f5c .. 0x7101206008): each forwards the
     // task user data (the ResourceUnit) to the unit's method.
     static bool sub_7101205F5C(void* unit);
-    static void sub_7101205F64(util::TaskPostRunResult* result,
-                               const util::TaskPostRunContext& context);
+    static void sub_7101205F64(TaskPostRunResult* result,
+                               const TaskPostRunContext& context);
     static bool sub_7101205F7C(void* unit);
     static bool sub_7101205F84(void* unit);
     static bool sub_7101205F8C(void* unit);
-    static void sub_7101205F90(util::TaskPostRunResult* result,
-                               const util::TaskPostRunContext& context);
+    static void sub_7101205F90(TaskPostRunResult* result,
+                               const TaskPostRunContext& context);
     static bool sub_7101205FA8(void* unit);
-    static void sub_7101205FB0(util::TaskPostRunResult* result,
-                               const util::TaskPostRunContext& context);
+    static void sub_7101205FB0(TaskPostRunResult* result,
+                               const TaskPostRunContext& context);
     static bool sub_7101205FC8(void* unit);
-    static void sub_7101205FD0(util::TaskPostRunResult* result,
-                               const util::TaskPostRunContext& context);
+    static void sub_7101205FD0(TaskPostRunResult* result,
+                               const TaskPostRunContext& context);
     static bool sub_7101205FE8(void* unit);
-    static void sub_7101205FF0(util::TaskPostRunResult* result,
-                               const util::TaskPostRunContext& context);
+    static void sub_7101205FF0(TaskPostRunResult* result,
+                               const TaskPostRunContext& context);
     static bool sub_7101206008(void* unit);
 
     bool calc_(void* userdata);
@@ -385,8 +383,8 @@ private:
     // heaps.
     void compactionThreadFunc(sead::Thread* thread, sead::MessageQueue::Element message);
     bool doLoadOnThread(void* userdata);
-    void callCacheLoad2(util::TaskPostRunResult* result, const util::TaskPostRunContext& context);
-    void loadTaskRemoveCb(const util::TaskRemoveCallbackContext& context);
+    void callCacheLoad2(TaskPostRunResult* result, const TaskPostRunContext& context);
+    void loadTaskRemoveCb(const TaskRemoveCallbackContext& context);
     void jamThreadMessageQueuesAndWait();
     void systemCalc_();
     bool callSystemCalc_(void* userdata);
@@ -409,17 +407,17 @@ private:
     sead::TypedBitFlag<CacheControlFlag> mCacheControlFlags;
     u32 _17c = 0;
     sead::Heap* mResSystemHeap = nullptr;
-    util::TaskThread* mResourceLoadingThread = nullptr;
-    util::TaskThread* mResourceControlThread = nullptr;
-    util::TaskThread* mResourceMemoryThread = nullptr;
-    util::TaskThread* mMovableMemoryThread = nullptr;
-    sead::PtrArray<util::TaskThread>* mActorCreateInitializerThreads = nullptr;
-    util::TaskMgr* mResourceControlTaskMgr = nullptr;
-    util::TaskMgr* mResourceMemoryTaskMgr;
+    TaskThread* mResourceLoadingThread = nullptr;
+    TaskThread* mResourceControlThread = nullptr;
+    TaskThread* mResourceMemoryThread = nullptr;
+    TaskThread* mMovableMemoryThread = nullptr;
+    sead::PtrArray<TaskThread>* mActorCreateInitializerThreads = nullptr;
+    TaskMgr* mResourceControlTaskMgr = nullptr;
+    TaskMgr* mResourceMemoryTaskMgr;
     ControlTask* mControlTask = nullptr;
-    util::Task* mTask1 = nullptr;
-    util::Task* mTask2 = nullptr;
-    util::Task* mTask3 = nullptr;
+    Task* mTask1 = nullptr;
+    Task* mTask2 = nullptr;
+    Task* mTask3 = nullptr;
 
     EntryFactoryBase* mEntryFactoryBase = nullptr;
     EntryFactoryBase* mDefaultEntryFactory = nullptr;
@@ -443,9 +441,9 @@ private:
     MemoryTaskDelegate mDefragAllMemoryMgrFn;
 
     MemoryTaskDelegate mLoadFn;
-    sead::Delegate2<ResourceMgrTask, util::TaskPostRunResult*, const util::TaskPostRunContext&>
+    sead::Delegate2<ResourceMgrTask, TaskPostRunResult*, const TaskPostRunContext&>
         mLoadCb;
-    sead::Delegate1<ResourceMgrTask, const util::TaskRemoveCallbackContext&> mLoadTaskRemoveCb;
+    sead::Delegate1<ResourceMgrTask, const TaskRemoveCallbackContext&> mLoadTaskRemoveCb;
 
     MemoryTaskDelegate mCalcFn;
     MemoryTaskDelegate mCalcArenaHeapSizeFn;
@@ -506,7 +504,7 @@ private:
     u32 _9c0d94;
     OverlayArena::HeapSizeArg mHeapSizeArg;
 
-    util::Task mTask;                     // TODO: rename
+    Task mTask;                     // TODO: rename
     sead::CriticalSection mCritSection4;  // TODO: rename
     sead::TickTime mTickTime;
     MemoryTaskDelegate mSystemCalcFn;

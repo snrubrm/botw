@@ -57,7 +57,7 @@ bool PosTrackerUploader::queueUpload() {
     mUploadDelegate = sead::Delegate1R<PosTrackerUploader, void*, bool>(this, &PosTrackerUploader::doUpload);
     _f0 = 1;
 
-    util::LowPrioThreadMgr::Request request;
+    LowPrioThreadMgr::Request request;
     request.lane_id = 1;
     request.flags.setDirect(4);
     request.delegate = &mUploadDelegate;

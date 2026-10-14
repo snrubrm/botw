@@ -9,8 +9,10 @@ using SUnk_7102606a90HandlerFn = void (*)();
 extern SUnk_7102606a90HandlerFn sUnk_7102606a90Handler;
 
 int getPorchNum(const sead::SafeString& name);
+int getItemValue(const sead::SafeString& name);
 void initRupeeCounter();
 bool isRupeeCounterActive();
+void applyScreenFade(float progress);
 
 // Further handler wrappers (UIGlue.cpp)
 // 0x7100edc2e4 (declared only)

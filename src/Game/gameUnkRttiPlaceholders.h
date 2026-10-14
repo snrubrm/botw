@@ -392,8 +392,8 @@ public:
 };
 
 // vtable 0x710247e990 (4 slots); placeholder generated from the vtable (genskel.py).
-class Unk_710247e990 : public ksys::util::TaskData {
-    SEAD_RTTI_OVERRIDE(Unk_710247e990, ksys::util::TaskData)
+class Unk_710247e990 : public ksys::TaskData {
+    SEAD_RTTI_OVERRIDE(Unk_710247e990, ksys::TaskData)
 public:
     ~Unk_710247e990() override;
 };

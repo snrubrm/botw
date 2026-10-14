@@ -18,7 +18,7 @@ void OverlayArenaSystemS2::sub_71012BBAF4(u32 value) {
     if (!_28)
         return;
     _0 = value;
-    util::LowPrioThreadMgr::Request request;
+    LowPrioThreadMgr::Request request;
     request.lane_id = 1;
     request.flags.set(1);
     request.delegate = &mDelegate;

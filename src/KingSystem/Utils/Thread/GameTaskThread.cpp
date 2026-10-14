@@ -1,7 +1,7 @@
 #include "KingSystem/Utils/Thread/GameTaskThread.h"
 #include "KingSystem/Physics/System/physSystem.h"
 
-namespace ksys::util {
+namespace ksys {
 
 GameTaskThread::GameTaskThread(const sead::SafeString& name, sead::Heap* heap, s32 priority,
                                sead::MessageQueue::BlockType block_type, long quit_msg,
@@ -31,4 +31,4 @@ void GameTaskThread::calc_(sead::MessageQueue::Element msg) {
     TaskThread::calc_(msg);
 }
 
-}  // namespace ksys::util
+}  // namespace ksys

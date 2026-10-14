@@ -17,8 +17,8 @@ class Actor;
 class ActorParam;
 
 // Native factory and pool stride prove the composition and 0xb08 extent.
-class ActorPreLoadTask : public util::TaskData {
-    SEAD_RTTI_OVERRIDE(ActorPreLoadTask, util::TaskData)
+class ActorPreLoadTask : public TaskData {
+    SEAD_RTTI_OVERRIDE(ActorPreLoadTask, TaskData)
     friend class ActorPreLoadMgr;
 
 public:
@@ -40,7 +40,7 @@ private:
     u16 mState = 0;
     bool mPackRequested = false;
     bool mRunAgain = false;
-    util::ManagedTaskHandle mTaskHandle;
+    ManagedTaskHandle mTaskHandle;
     u8 _ae8[8];
     ActorParam* mActorParam = nullptr;
     sead::Vector2f _af8 = sead::Vector2f::zero;
@@ -77,13 +77,13 @@ private:
     void makeTaskMaybe(const sead::SafeString& name);
     void cleanupTasks();
     bool invoked1(void* data);
-    void invoked2(util::TaskPostRunResult* result, const util::TaskPostRunContext& context);
+    void invoked2(TaskPostRunResult* result, const TaskPostRunContext& context);
 
     sead::FixedObjArray<ActorPreLoadTask, 1024> mTasks;
     sead::CriticalSection mCS;
     sead::FixedObjArray<Entry, 512> mEntries;
-    util::TaskDelegateT<ActorPreLoadMgr> mTaskDelegate;
-    util::TaskPostRunCallbackT<ActorPreLoadMgr> mPostRunCallback;
+    TaskDelegateT<ActorPreLoadMgr> mTaskDelegate;
+    TaskPostRunCallbackT<ActorPreLoadMgr> mPostRunCallback;
 };
 KSYS_CHECK_SIZE_NX150(ActorPreLoadMgr, 0x2e70e0);
 

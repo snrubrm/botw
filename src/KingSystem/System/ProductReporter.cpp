@@ -6,7 +6,7 @@
 #include <nn/account.h>
 #include <nn/oe.h>
 
-#include "KingSystem/Framework/Framework.h"
+#include "KingSystem/Framework/frmFramework.h"
 #include "KingSystem/Map/mapPlacementMgr.h"
 #include "KingSystem/Sound/sndSound.h"
 #include "KingSystem/System/CameraMgr.h"

@@ -2,8 +2,8 @@
 
 namespace ksys::evt {
 
-bool submitLowPriorityRequest(const util::LowPrioThreadMgr::Request& request) {
-    if (auto* mgr = util::LowPrioThreadMgr::instance())
+bool submitLowPriorityRequest(const LowPrioThreadMgr::Request& request) {
+    if (auto* mgr = LowPrioThreadMgr::instance())
         return mgr->submitRequest(request);
     return false;
 }

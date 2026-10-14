@@ -324,9 +324,9 @@ public:
     virtual void m6();
 };
 
-// vtable 0x71024f9bb8 (4 slots): derives from ksys::util::TaskRequest.
-class Unk_71024f9bb8 : public ksys::util::TaskRequest {
-    SEAD_RTTI_OVERRIDE(Unk_71024f9bb8, ksys::util::TaskRequest)
+// vtable 0x71024f9bb8 (4 slots): derives from ksys::TaskRequest.
+class Unk_71024f9bb8 : public ksys::TaskRequest {
+    SEAD_RTTI_OVERRIDE(Unk_71024f9bb8, ksys::TaskRequest)
 public:
     ~Unk_71024f9bb8() override;
 
@@ -352,9 +352,9 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(Unk_71024f9bb8, 0xc8);
 
-// vtable 0x71024f9e28 (4 slots): derives from ksys::util::TaskData.
-class Unk_71024f9e28 : public ksys::util::TaskData {
-    SEAD_RTTI_OVERRIDE(Unk_71024f9e28, ksys::util::TaskData)
+// vtable 0x71024f9e28 (4 slots): derives from ksys::TaskData.
+class Unk_71024f9e28 : public ksys::TaskData {
+    SEAD_RTTI_OVERRIDE(Unk_71024f9e28, ksys::TaskData)
 public:
     ~Unk_71024f9e28() override;
 

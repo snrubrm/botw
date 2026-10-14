@@ -32,8 +32,8 @@ namespace ksys::res {
 static bool sUnk_71026529C8;
 
 namespace {
-class ClearCachesTaskData : public util::TaskData {
-    SEAD_RTTI_OVERRIDE(ClearCachesTaskData, util::TaskData)
+class ClearCachesTaskData : public TaskData {
+    SEAD_RTTI_OVERRIDE(ClearCachesTaskData, TaskData)
 public:
     virtual ~ClearCachesTaskData() = default;
 
@@ -115,15 +115,15 @@ void ResourceMgrTask::insertOverlayArena(OverlayArena* arena) {
     }
 }
 
-util::TaskThread* ResourceMgrTask::makeResourceLoadingThread(sead::Heap* heap,
+TaskThread* ResourceMgrTask::makeResourceLoadingThread(sead::Heap* heap,
                                                              bool use_game_task_thread) {
     if (use_game_task_thread) {
-        return new (heap) util::GameTaskThread(
+        return new (heap) GameTaskThread(
             "Resource Loading", heap, sead::ThreadUtil::ConvertPrioritySeadToPlatform(19),
             sead::MessageQueue::BlockType::Blocking, 0x7fffffff, 0xfa000, 32);
     }
 
-    return new (heap) util::TaskThread(
+    return new (heap) TaskThread(
         "Resource Loading", heap, sead::ThreadUtil::ConvertPrioritySeadToPlatform(19),
         sead::MessageQueue::BlockType::Blocking, 0x7fffffff, 0xa000, 32);
 }
@@ -144,7 +144,7 @@ void ResourceMgrTask::clearAllCaches(OverlayArena* arena) {
     req.mData_c = -1;
     req.mData_mStr = arena->getHeap()->getName();
 
-    util::TaskMgrRequest task_mgr_request;
+    TaskMgrRequest task_mgr_request;
     task_mgr_request.request = &req;
     mResourceMemoryTaskMgr->submitRequest(task_mgr_request);
 }
@@ -154,7 +154,7 @@ OverlayArena* ResourceMgrTask::getTexHandleMgrArena() const {
 }
 
 bool ResourceMgrTask::isDefragDone() const {
-    return mTask2->getStatus() == util::Task::Status::PostFinishCallback;
+    return mTask2->getStatus() == Task::Status::PostFinishCallback;
 }
 
 f32 ResourceMgrTask::getDefragProgress() const {
@@ -276,8 +276,8 @@ bool ResourceMgrTask::doLoadOnThread(void* userdata) {
     return true;
 }
 
-void ResourceMgrTask::callCacheLoad2(util::TaskPostRunResult* result,
-                                     const util::TaskPostRunContext& context) {
+void ResourceMgrTask::callCacheLoad2(TaskPostRunResult* result,
+                                     const TaskPostRunContext& context) {
     auto* data = static_cast<ControlTaskData*>(context.mUserData);
     Handle* handle = data->mResHandle;
     if (res::returnFalse())
@@ -288,7 +288,7 @@ void ResourceMgrTask::callCacheLoad2(util::TaskPostRunResult* result,
         stubbedLogFunction();
 }
 
-void ResourceMgrTask::loadTaskRemoveCb(const util::TaskRemoveCallbackContext& context) {
+void ResourceMgrTask::loadTaskRemoveCb(const TaskRemoveCallbackContext& context) {
     auto* data = static_cast<ControlTaskData*>(context.mUserData);
     Handle* handle = data->mResHandle;
     if (res::returnFalse())
@@ -350,7 +350,7 @@ void ResourceMgrTask::requestUnload(Handle* handle) {
     req.mPostRunCallback = &mUnitUnloadForSyncFn.cb;
     req.mName = "Unload";
 
-    util::TaskMgrRequest task_mgr_request;
+    TaskMgrRequest task_mgr_request;
     task_mgr_request.request = &req;
     mResourceControlTaskMgr->submitRequest(task_mgr_request);
 }
@@ -376,12 +376,12 @@ void ResourceMgrTask::requestUnloadForSync(Handle* handle) {
     req.mPostRunCallback = &mUnitUnloadForSyncFn.cb;
     req.mName = "Unload(ForSync)";
 
-    util::TaskMgrRequest task_mgr_request;
+    TaskMgrRequest task_mgr_request;
     task_mgr_request.request = &req;
     mResourceControlTaskMgr->submitRequest(task_mgr_request);
 }
 
-void ResourceMgrTask::requestClearCache(ResourceUnit** p_unit, util::Task* task) {
+void ResourceMgrTask::requestClearCache(ResourceUnit** p_unit, Task* task) {
     if (!p_unit || !*p_unit || !(*p_unit)->isStatusFlag8000Set()) {
         stubbedLogFunction();
         return;
@@ -515,8 +515,8 @@ bool ResourceMgrTask::sub_7101205F5C(void* unit) {
     return static_cast<ResourceUnit*>(unit)->initLoad();
 }
 
-void ResourceMgrTask::sub_7101205F64(util::TaskPostRunResult* result,
-                                     const util::TaskPostRunContext& context) {
+void ResourceMgrTask::sub_7101205F64(TaskPostRunResult* result,
+                                     const TaskPostRunContext& context) {
     static_cast<ResourceUnit*>(context.mUserData)->requestPrepareLoad(result, context);
 }
 
@@ -532,8 +532,8 @@ bool ResourceMgrTask::sub_7101205F8C(void* unit) {
     return static_cast<ResourceUnit*>(unit)->unloadForSync();
 }
 
-void ResourceMgrTask::sub_7101205F90(util::TaskPostRunResult* result,
-                                     const util::TaskPostRunContext& context) {
+void ResourceMgrTask::sub_7101205F90(TaskPostRunResult* result,
+                                     const TaskPostRunContext& context) {
     static_cast<ResourceUnit*>(context.mUserData)->requestUnload(result, context);
 }
 
@@ -541,8 +541,8 @@ bool ResourceMgrTask::sub_7101205FA8(void* unit) {
     return static_cast<ResourceUnit*>(unit)->unload(unit);
 }
 
-void ResourceMgrTask::sub_7101205FB0(util::TaskPostRunResult* result,
-                                     const util::TaskPostRunContext& context) {
+void ResourceMgrTask::sub_7101205FB0(TaskPostRunResult* result,
+                                     const TaskPostRunContext& context) {
     static_cast<ResourceUnit*>(context.mUserData)->postUnload(result, context);
 }
 
@@ -550,8 +550,8 @@ bool ResourceMgrTask::sub_7101205FC8(void* unit) {
     return static_cast<ResourceUnit*>(unit)->clearCacheForSync(false);
 }
 
-void ResourceMgrTask::sub_7101205FD0(util::TaskPostRunResult* result,
-                                     const util::TaskPostRunContext& context) {
+void ResourceMgrTask::sub_7101205FD0(TaskPostRunResult* result,
+                                     const TaskPostRunContext& context) {
     static_cast<ResourceUnit*>(context.mUserData)->requestClearCache(result, context);
 }
 
@@ -559,8 +559,8 @@ bool ResourceMgrTask::sub_7101205FE8(void* unit) {
     return static_cast<ResourceUnit*>(unit)->clearCache(unit);
 }
 
-void ResourceMgrTask::sub_7101205FF0(util::TaskPostRunResult* result,
-                                     const util::TaskPostRunContext& context) {
+void ResourceMgrTask::sub_7101205FF0(TaskPostRunResult* result,
+                                     const TaskPostRunContext& context) {
     static_cast<ResourceUnit*>(context.mUserData)->postClearCache(result, context);
 }
 
@@ -734,7 +734,7 @@ bool ResourceMgrTask::calc_(void*) {
         req.mData_8 = false;
         req.mData_c = -1;
 
-        util::TaskMgrRequest request;
+        TaskMgrRequest request;
         request.request = &req;
         mResourceMemoryTaskMgr->submitRequest(request);
         mTexHandleMgr->clearAllCache();
@@ -892,7 +892,7 @@ ResourceUnit* ResourceMgrTask::clearCachesAndGetUnit(const GetUnitArg& arg) {
     auto* unit = mUnitPool.tryAlloc();
 
     if (!unit) {
-        util::TaskQueueLock lock;
+        TaskQueueLock lock;
 
         auto* queue = mResourceControlThread->getTaskQueue();
         auto it = queue->activeTasksRobustBegin(&lock);
@@ -911,7 +911,7 @@ ResourceUnit* ResourceMgrTask::clearCachesAndGetUnit(const GetUnitArg& arg) {
         ClearCachesTaskData data;
         data._8 = true;
         data._c = 100;
-        util::TaskRequest req;
+        TaskRequest req;
         req.mLaneId = u8(LaneId::_8);
         req.mHasHandle = true;
         req.mSynchronous = true;
@@ -925,7 +925,7 @@ ResourceUnit* ResourceMgrTask::clearCachesAndGetUnit(const GetUnitArg& arg) {
     }
 
     if (!unit) {
-        util::TaskQueueLock lock;
+        TaskQueueLock lock;
 
         auto* queue = mResourceControlThread->getTaskQueue();
         auto it = queue->activeTasksRobustBegin(&lock);
@@ -1028,7 +1028,7 @@ void ResourceMgrTask::clearUnits_() {
 
 void ResourceMgrTask::systemCalc_() {
     if (mTask1->canSubmitRequest()) {
-        util::TaskRequest request;
+        TaskRequest request;
         request.mSynchronous = false;
         request.mHasHandle = false;
         request.mLaneId = u8(LaneId::_6);
@@ -1186,7 +1186,7 @@ void ResourceMgrTask::x_4() {
     req.mData_8 = false;
     req.mData_c = -1;
 
-    util::TaskMgrRequest task_mgr_request;
+    TaskMgrRequest task_mgr_request;
     task_mgr_request.request = &req;
     mResourceMemoryTaskMgr->submitRequest(task_mgr_request);
     mTexHandleMgr->clearAllCache();
@@ -1207,7 +1207,7 @@ void ResourceMgrTask::x_5() {
     req.mData_8 = false;
     req.mData_c = -1;
 
-    util::TaskMgrRequest task_mgr_request;
+    TaskMgrRequest task_mgr_request;
     task_mgr_request.request = &req;
     mResourceMemoryTaskMgr->submitRequest(task_mgr_request);
 }
@@ -1227,7 +1227,7 @@ void ResourceMgrTask::x_6() {
     req.mData_8 = false;
     req.mData_c = -1;
 
-    util::TaskMgrRequest task_mgr_request;
+    TaskMgrRequest task_mgr_request;
     task_mgr_request.request = &req;
     mResourceMemoryTaskMgr->submitRequest(task_mgr_request);
 }
@@ -1255,7 +1255,7 @@ void ResourceMgrTask::clearAllCachesSynchronously(OverlayArena* arena) {
     req.mData_c = -1;
     req.mData_mStr = arena->getHeap()->getName();
 
-    util::TaskMgrRequest task_mgr_request;
+    TaskMgrRequest task_mgr_request;
     task_mgr_request.request = &req;
     mResourceMemoryTaskMgr->submitRequest(task_mgr_request);
 }
@@ -1304,7 +1304,7 @@ void ResourceMgrTask::requestDefragAllMemoryMgr() {
         req.mData_c = -1;
         req.mData_mStr = arena->getHeap()->getName();
 
-        util::TaskMgrRequest task_mgr_request;
+        TaskMgrRequest task_mgr_request;
         task_mgr_request.request = &req;
         mResourceMemoryTaskMgr->submitRequest(task_mgr_request);
     }
@@ -1350,9 +1350,9 @@ void ResourceMgrTask::setPack(Handle* pack) {
 
 // Complete prepare 120464C calls the two checked task-manager specializations;
 // their delegate factories 120CEA0 / 120CEDC construct the existing resource task types.
-template void ksys::util::TaskMgr::initAndCheckType<ksys::res::ControlTask>(
+template void ksys::TaskMgr::initAndCheckType<ksys::res::ControlTask>(
     s32 num_tasks, sead::Heap* heap);
-template void ksys::util::TaskMgr::initAndCheckType<ksys::res::MemoryTask>(
+template void ksys::TaskMgr::initAndCheckType<ksys::res::MemoryTask>(
     s32 num_tasks, sead::Heap* heap);
 
 // Complete prepare 120464C binds the compaction thread callback to this native delegate.

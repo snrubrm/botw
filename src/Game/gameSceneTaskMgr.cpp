@@ -28,11 +28,11 @@ GameSceneTaskMgr::~GameSceneTaskMgr() = default;
 
 void GameSceneTaskMgr::init(const sead::SafeString& thread_name, sead::Heap* heap,
                             sead::CoreId core, s32 priority) {
-    mThread = new (heap) ksys::util::GameTaskThread(thread_name, heap, priority,
+    mThread = new (heap) ksys::GameTaskThread(thread_name, heap, priority,
                                                     sead::MessageQueue::BlockType::Blocking,
                                                     0x7fffffff, 0x40000, 32);
 
-    ksys::util::TaskThread::InitArg arg;
+    ksys::TaskThread::InitArg arg;
     arg.batch_size = 0;
     arg.heap = nullptr;
     arg.queue = nullptr;
@@ -43,9 +43,9 @@ void GameSceneTaskMgr::init(const sead::SafeString& thread_name, sead::Heap* hea
     mThread->start();
 
     mDelegate = new (heap)
-        ksys::util::TaskDelegateT<GameSceneTaskMgr>(this, &GameSceneTaskMgr::invokeInvoker);
-    mTask = new (heap) ksys::util::Task(heap);
-    ksys::util::TaskDelegateSetter setter;
+        ksys::TaskDelegateT<GameSceneTaskMgr>(this, &GameSceneTaskMgr::invokeInvoker);
+    mTask = new (heap) ksys::Task(heap);
+    ksys::TaskDelegateSetter setter;
     setter.setDelegate(mDelegate);
     mTask->setDelegate(setter);
 }
@@ -65,7 +65,7 @@ GameSceneTaskHandle::~GameSceneTaskHandle() = default;
 bool GameSceneTaskHandle::isComplete() const {
     if (!mTask)
         return true;
-    return mTask->getStatus() == ksys::util::Task::Status::PostFinishCallback;
+    return mTask->getStatus() == ksys::Task::Status::PostFinishCallback;
 }
 
 // NON_MATCHING: only the schedule differs (the original loads the TaskRequest vtable address and the SafeString
@@ -74,7 +74,7 @@ GameSceneTaskHandle GameSceneTaskMgr::submitRequest(const Invoker2& invoker) {
     mInvoker.mCallable =
         invoker.mCallable ? invoker.mCallable->copyTo(mInvoker.mStorage) : nullptr;
 
-    ksys::util::TaskRequest request(false);
+    ksys::TaskRequest request(false);
     request.mSynchronous = false;
     request.mThread = mThread;
     request.mDelegate = mDelegate;

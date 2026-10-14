@@ -223,7 +223,7 @@ void PlacementMgr::sub_71011EB46C(Object* obj) {
     mPlacementActors->sub_7100D52CA4(obj);
 }
 
-bool PlacementMgr::invoked1(util::Task* task) {
+bool PlacementMgr::invoked1(Task* task) {
     auto* create_task = sead::DynamicCast<act::BaseProcCreateTask>(task);
     if (!create_task)
         return false;

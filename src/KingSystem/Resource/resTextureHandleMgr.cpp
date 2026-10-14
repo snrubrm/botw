@@ -75,23 +75,23 @@ nn::gfx::ResTexture* sub_7100FE0F8C(Unk_71024f9a08* resource) {
 
 
 // FE2890 allocates 0x140 bytes; FE85E8 constructs ManagedTask and the 0x80-byte data.
-class Unk_71024f9da0 : public util::ManagedTask {
-    SEAD_RTTI_OVERRIDE(Unk_71024f9da0, util::ManagedTask)
+class Unk_71024f9da0 : public ManagedTask {
+    SEAD_RTTI_OVERRIDE(Unk_71024f9da0, ManagedTask)
 public:
     explicit Unk_71024f9da0(sead::Heap* heap);
     ~Unk_71024f9da0() override;
 
 protected:
-    void prepareImpl_(util::TaskRequest* request) override;
+    void prepareImpl_(TaskRequest* request) override;
 
     ::Unk_71024f9e28 mData;
 };
 KSYS_CHECK_SIZE_NX150(Unk_71024f9da0, 0x140);
 
-Unk_71024f9da0::Unk_71024f9da0(sead::Heap* heap) : util::ManagedTask(heap) {}
+Unk_71024f9da0::Unk_71024f9da0(sead::Heap* heap) : ManagedTask(heap) {}
 
 // NON_MATCHING: request flags are copied by field instead of the native whole block.
-void Unk_71024f9da0::prepareImpl_(util::TaskRequest* request) {
+void Unk_71024f9da0::prepareImpl_(TaskRequest* request) {
     auto* req = sead::DynamicCast<::Unk_71024f9bb8>(request);
     if (!req)
         return;
@@ -349,7 +349,7 @@ void TextureHandleMgr::calc() {
     if (!_30->canSubmitRequest())
         return;
 
-    util::TaskRequest req;
+    TaskRequest req;
     req.mHasHandle = false;
     req.mSynchronous = false;
     req.mLaneId = 8;
@@ -458,12 +458,12 @@ bool TextureHandleMgr::validateUser(const ValidateArg& arg) {
     request._88 = arg.mPath;
     request._98 = arg.mHash;
     request.mName = "Texture::ValidateUser";
-    util::ManagedTaskHandle handle;
-    util::TaskMgrRequest manager_request;
+    ManagedTaskHandle handle;
+    TaskMgrRequest manager_request;
     manager_request.request = &request;
     manager_request.handle = &handle;
     _48->submitRequest(manager_request);
-    if (handle.getStatus() == util::ManagedTaskHandle::Status::TaskRemoved) {
+    if (handle.getStatus() == ManagedTaskHandle::Status::TaskRemoved) {
         stubbedLogFunction();
         arg.mHandle->sub_7100FE8328(4);
         return false;
@@ -485,7 +485,7 @@ bool TextureHandleMgr::invalidateUser(const InvalidateArg& arg) {
     request.mDelegate = &_198;
     request._a0 = resource;
     request.mName = "Texture::InvalidateUser";
-    util::TaskMgrRequest manager_request;
+    TaskMgrRequest manager_request;
     manager_request.request = &request;
     if (arg._0) {
         _48->submitRequest(manager_request);
@@ -498,10 +498,10 @@ bool TextureHandleMgr::invalidateUser(const InvalidateArg& arg) {
 }
 
 // NON_MATCHING: native request setup and loader cleanup branch layout differ.
-void TextureHandleMgr::repairExecute(util::TaskPostRunResult* result,
-                                     const util::TaskPostRunContext& context) {
+void TextureHandleMgr::repairExecute(TaskPostRunResult* result,
+                                     const TaskPostRunContext& context) {
     auto* data = sead::DynamicCast<::Unk_71024f9e28>(
-        static_cast<util::TaskData*>(context.mUserData));
+        static_cast<TaskData*>(context.mUserData));
     if (!data)
         return;
     auto* resource = static_cast<Unk_71024f9a08*>(data->_60);
@@ -532,8 +532,8 @@ void TextureHandleMgr::repairExecute(util::TaskPostRunResult* result,
             request.mPostRunCallback = &_218;
             request.mRemoveCallback = &_258;
             request._a8 = resource;
-            util::TaskMgrRequest manager_request;
-            manager_request.task = static_cast<util::ManagedTask*>(context.mTask);
+            TaskMgrRequest manager_request;
+            manager_request.task = static_cast<ManagedTask*>(context.mTask);
             manager_request.request = &request;
             manager_request.handle = &resource->mTaskHandle;
             const bool submitted = _48->trySubmitRequest(manager_request);
@@ -551,10 +551,10 @@ void TextureHandleMgr::repairExecute(util::TaskPostRunResult* result,
 }
 
 // NON_MATCHING: native retains the address of the task data repair fields.
-void TextureHandleMgr::invoked7(util::TaskPostRunResult* result,
-                               const util::TaskPostRunContext& context) {
+void TextureHandleMgr::invoked7(TaskPostRunResult* result,
+                               const TaskPostRunContext& context) {
     auto* data = sead::DynamicCast<::Unk_71024f9e28>(
-        static_cast<util::TaskData*>(context.mUserData));
+        static_cast<TaskData*>(context.mUserData));
     if (!data)
         return;
     if (!mLoader.isLoading() && !mLoader.isSuccess())
@@ -573,9 +573,9 @@ void TextureHandleMgr::invoked7(util::TaskPostRunResult* result,
     result->setResult(true);
 }
 
-void TextureHandleMgr::invoked8(const util::TaskRemoveCallbackContext& context) {
+void TextureHandleMgr::invoked8(const TaskRemoveCallbackContext& context) {
     auto* data = sead::DynamicCast<::Unk_71024f9e28>(
-        static_cast<util::TaskData*>(context.mUserData));
+        static_cast<TaskData*>(context.mUserData));
     if (!data)
         return;
     auto* resource = static_cast<Unk_71024f9a08*>(data->_60);
@@ -583,9 +583,9 @@ void TextureHandleMgr::invoked8(const util::TaskRemoveCallbackContext& context) 
     resource->sub_7100FE0850();
 }
 
-void TextureHandleMgr::invoked9(const util::TaskRemoveCallbackContext& context) {
+void TextureHandleMgr::invoked9(const TaskRemoveCallbackContext& context) {
     auto* data = sead::DynamicCast<::Unk_71024f9e28>(
-        static_cast<util::TaskData*>(context.mUserData));
+        static_cast<TaskData*>(context.mUserData));
     if (!data)
         return;
     auto* resource = static_cast<Unk_71024f9a08*>(data->_60);
@@ -668,7 +668,7 @@ bool TextureHandleMgr::x_0(nn::g3d::ResFile* file, bool tex1, Unk_71024f9a08** r
 
 // NON_MATCHING: resource reloads around the diagnostic string arguments differ.
 bool TextureHandleMgr::invoked6(void* user_data) {
-    auto* data = sead::DynamicCast<::Unk_71024f9e28>(static_cast<util::TaskData*>(user_data));
+    auto* data = sead::DynamicCast<::Unk_71024f9e28>(static_cast<TaskData*>(user_data));
     if (!data)
         return false;
     auto* resource = static_cast<Unk_71024f9a08*>(data->_60);
@@ -740,7 +740,7 @@ bool TextureHandleMgr::invoked2(void*) {
 
 // NON_MATCHING: typed key lifetimes and structured allocation / retry paths alter code layout.
 bool TextureHandleMgr::invoked3(void* user_data) {
-    auto* data = sead::DynamicCast<::Unk_71024f9e28>(static_cast<util::TaskData*>(user_data));
+    auto* data = sead::DynamicCast<::Unk_71024f9e28>(static_cast<TaskData*>(user_data));
     if (!data)
         return false;
     auto* handle = static_cast<Unk_71024F9D48*>(data->_18);
@@ -885,7 +885,7 @@ bool TextureHandleMgr::doCalc() {
 
 // NON_MATCHING: structured archive loading and diagnostic / request lifetimes differ.
 bool TextureHandleMgr::bfres_file_stuff(void* user_data) {
-    auto* data = sead::DynamicCast<::Unk_71024f9e28>(static_cast<util::TaskData*>(user_data));
+    auto* data = sead::DynamicCast<::Unk_71024f9e28>(static_cast<TaskData*>(user_data));
     if (!data)
         return false;
     auto* resource = static_cast<Unk_71024f9a08*>(data->_60);
@@ -988,7 +988,7 @@ bool TextureHandleMgr::bfres_file_stuff(void* user_data) {
 
 // NON_MATCHING: structured archive loading and request / context lifetimes differ.
 bool TextureHandleMgr::bfres_file_stuff_2(void* user_data) {
-    auto* data = sead::DynamicCast<::Unk_71024f9e28>(static_cast<util::TaskData*>(user_data));
+    auto* data = sead::DynamicCast<::Unk_71024f9e28>(static_cast<TaskData*>(user_data));
     if (!data)
         return false;
     sead::SafeString path = data->_70;
@@ -1072,7 +1072,7 @@ bool TextureHandleMgr::bfres_file_stuff_2(void* user_data) {
 void TextureHandleMgr::x_1(s32* count) {
     mCS.lock();
     if (*count < 100) {
-        util::TaskQueueLock queue_lock;
+        TaskQueueLock queue_lock;
         _50->lock(&queue_lock);
         s32 repaired = 0;
         for (auto* resource = mResources.front(); resource; resource = mResources.next(resource)) {
@@ -1108,7 +1108,7 @@ void TextureHandleMgr::x_1(s32* count) {
 
 // NON_MATCHING: the status query is inlined and the u16 result is masked.
 bool TextureHandleMgr::invoked4(void* data) {
-    auto* task_data = sead::DynamicCast<::Unk_71024f9e28>(static_cast<util::TaskData*>(data));
+    auto* task_data = sead::DynamicCast<::Unk_71024f9e28>(static_cast<TaskData*>(data));
     if (!task_data)
         return false;
     auto* resource = static_cast<Unk_71024f9a08*>(task_data->_58);
@@ -1158,7 +1158,7 @@ bool TextureHandleMgr::repairTexture(Unk_71024f9a08* resource) {
     request.mPostRunCallback = &_218;
     request.mRemoveCallback = &_278;
     request._a8 = resource;
-    util::TaskMgrRequest manager_request;
+    TaskMgrRequest manager_request;
     manager_request.request = &request;
     manager_request.handle = &resource->mTaskHandle;
     return _48->trySubmitRequest(manager_request);
@@ -1174,7 +1174,7 @@ void TextureHandleMgr::repairHandleForSync(Unk_71024f9a08* resource) {
     request.mRemoveCallback = &_278;
     request._a8 = resource;
     request.mName = "RepairHandle(ForSync)";
-    util::TaskMgrRequest manager_request;
+    TaskMgrRequest manager_request;
     manager_request.request = &request;
     manager_request.handle = &resource->mTaskHandle;
     _48->submitRequest(manager_request);
@@ -1188,7 +1188,7 @@ void TextureHandleMgr::repairAllHandlesForSync() {
     request.mThread = _50;
     request.mDelegate = &_1f8;
     request.mName = "RepairAllHandles(ForSync)";
-    util::TaskMgrRequest manager_request;
+    TaskMgrRequest manager_request;
     manager_request.request = &request;
     _48->submitRequest(manager_request);
 }
@@ -1201,7 +1201,7 @@ void TextureHandleMgr::clearAllCache() {
     request.mThread = _50;
     request.mDelegate = &_158;
     request.mName = "Texture::ClearAllCache";
-    util::TaskMgrRequest manager_request;
+    TaskMgrRequest manager_request;
     manager_request.request = &request;
     _48->submitRequest(manager_request);
 }
@@ -1211,5 +1211,5 @@ void TextureHandleMgr::clearAllCache() {
 // NON_MATCHING: makeTaskType_ inlines the texture ManagedTask constructor.
 // Complete FE4C14 and FE6798, independently called by FE2890, instantiate the
 // existing task manager factory for the 0x140-byte texture ManagedTask.
-template void ksys::util::TaskMgr::initAndCheckType<ksys::res::Unk_71024f9da0>(
+template void ksys::TaskMgr::initAndCheckType<ksys::res::Unk_71024f9da0>(
     s32 num_tasks, sead::Heap* heap);

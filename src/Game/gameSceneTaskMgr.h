@@ -55,7 +55,7 @@ public:
     // 0x71007cb548
     bool isComplete() const;
 
-    ksys::util::Task* mTask;
+    ksys::Task* mTask;
 };
 
 // Runs invokers on a task thread (CSV GameSceneTaskMgr; the name is the CSV's).
@@ -71,9 +71,9 @@ public:
     GameSceneTaskHandle submitRequest(const Invoker2& invoker);
 
 private:
-    ksys::util::GameTaskThread* mThread{};
-    ksys::util::Task* mTask{};
-    ksys::util::TaskDelegate* mDelegate{};
+    ksys::GameTaskThread* mThread{};
+    ksys::Task* mTask{};
+    ksys::TaskDelegate* mDelegate{};
     Invoker2 mInvoker;
 };
 KSYS_CHECK_SIZE_NX150(GameSceneTaskMgr, 0x60);

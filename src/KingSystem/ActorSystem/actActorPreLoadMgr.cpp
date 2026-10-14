@@ -103,7 +103,7 @@ void ActorPreLoadMgr::makeTaskMaybe(const sead::SafeString& name) {
     auto* task = makeTaskMaybe();
     if (!task || !task->sub_7100D5947C(name))
         return;
-    util::LowPrioThreadMgr::Request request;
+    LowPrioThreadMgr::Request request;
     request.lane_id = 1;
     request.flags.setDirect(6);
     request.delegate = &mTaskDelegate;
@@ -141,7 +141,7 @@ void ActorPreLoadMgr::update() {
 }
 
 bool ActorPreLoadMgr::invoked1(void* data) {
-    auto* task = sead::DynamicCast<ActorPreLoadTask>(static_cast<util::TaskData*>(data));
+    auto* task = sead::DynamicCast<ActorPreLoadTask>(static_cast<TaskData*>(data));
     if (!task)
         return false;
     task->run();
@@ -149,23 +149,23 @@ bool ActorPreLoadMgr::invoked1(void* data) {
 }
 
 // NON_MATCHING: request stack layout and field-store scheduling differ.
-void ActorPreLoadMgr::invoked2(util::TaskPostRunResult* result,
-                              const util::TaskPostRunContext& context) {
+void ActorPreLoadMgr::invoked2(TaskPostRunResult* result,
+                              const TaskPostRunContext& context) {
     auto* task = sead::DynamicCast<ActorPreLoadTask>(
-        static_cast<util::TaskData*>(context.mUserData));
+        static_cast<TaskData*>(context.mUserData));
     if (!task)
         return;
     const bool run_again = task->mRunAgain;
     task->mRunAgain = false;
     if (run_again && context.mUserData) {
-        util::LowPrioThreadMgr::Request request;
+        LowPrioThreadMgr::Request request;
         request.lane_id = 1;
         request.flags.setDirect(6);
         request.delegate = &mTaskDelegate;
         request.user_data = task;
         request.post_callback = &mPostRunCallback;
         // LowPrioThreadMgr initializes its task pools with ManagedTask elements.
-        request.task = static_cast<util::ManagedTask*>(context.mTask);
+        request.task = static_cast<ManagedTask*>(context.mTask);
         request.handle = &task->mTaskHandle;
         request.name = "";
         if (task->mState >= 2 && task->mState <= 4)

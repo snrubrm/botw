@@ -197,19 +197,19 @@ private:
 
     bool initLoad(void* x = nullptr);
     bool prepareLoad(void* x = nullptr);
-    void requestPrepareLoad(util::TaskPostRunResult* result, const util::TaskPostRunContext& ctx);
+    void requestPrepareLoad(TaskPostRunResult* result, const TaskPostRunContext& ctx);
     // 0x7101212f3c (CSV unnamed): the heap adjustment step after a load (OverlayArena size bookkeeping).
     bool sub_7101212F3C(void* x = nullptr);
 
     bool unloadForSync();
     bool clearCacheForSync(bool x);
-    void requestUnload(util::TaskPostRunResult* result, const util::TaskPostRunContext& ctx);
-    void postUnload(util::TaskPostRunResult* result, const util::TaskPostRunContext& ctx);
+    void requestUnload(TaskPostRunResult* result, const TaskPostRunContext& ctx);
+    void postUnload(TaskPostRunResult* result, const TaskPostRunContext& ctx);
 
     bool unload(void* x);
     bool clearCache(void* x);
-    void requestClearCache(util::TaskPostRunResult* result, const util::TaskPostRunContext& ctx);
-    void postClearCache(util::TaskPostRunResult* result, const util::TaskPostRunContext& ctx);
+    void requestClearCache(TaskPostRunResult* result, const TaskPostRunContext& ctx);
+    void postClearCache(TaskPostRunResult* result, const TaskPostRunContext& ctx);
 
     sead::TypedBitFlag<CacheFlag> mCacheFlags;
     sead::TypedBitFlag<Flag> mFlags;
@@ -232,12 +232,12 @@ private:
     sead::ListNode mArenaUnitListNode;
     sead::ListNode mArenaUnitListNode2;
     sead::ListNode mResMgrUnitListNode;
-    util::Task mTask1;
-    util::Task mTask2;
-    util::Task mTask3;
+    Task mTask1;
+    Task mTask2;
+    Task mTask3;
     ResourceUnitMapNode mMapNode{this};
     sead::Atomic<s32> mCounter;
-    util::Event mEvent{nullptr,
+    Event mEvent{nullptr,
                        sead::IDisposer::HeapNullOption::DoNotAppendDisposerIfNoHeapSpecified, true};
     sead::ResourceMgr::LoadArg mLoadArg;
     sead::FixedSafeString<128> mPath;

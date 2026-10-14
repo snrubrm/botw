@@ -114,7 +114,7 @@ public:
     // FE0D38 increments this independently of the current handle-list count.
     u16 _1a;
     u8 _1c[4];
-    util::Event mEvent;
+    Event mEvent;
     // Complete FE0144 constructs both 0x20-byte allocation records.
     CompactedHeap::Allocation mAllocation;
     CompactedHeap::Allocation mMipAllocation;
@@ -123,7 +123,7 @@ public:
     sead::CriticalSection mCS;
     Unk_71024f9a28 mNode{this};
     // FE0144 constructs this, and FE028C/FE02F0 destroy it.
-    util::ManagedTaskHandle mTaskHandle;
+    ManagedTaskHandle mTaskHandle;
     // FE0584 copies the request byte; FE0860 uses it in the texture path suffix.
     u8 _158;
     // FE0584 and FE0860 independently set the load-result byte.
@@ -205,7 +205,7 @@ private:
     u32 _20 = 1;
     Unk_71024f9a08* _28 = nullptr;
     Unk_71024f9d68* _30 = nullptr;
-    util::ManagedTaskHandle _38;
+    ManagedTaskHandle _38;
 };
 KSYS_CHECK_SIZE_NX150(Unk_71024F9D48, 0x60);
 
