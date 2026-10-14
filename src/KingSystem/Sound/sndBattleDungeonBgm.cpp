@@ -434,8 +434,35 @@ Unk_71024fd188::~Unk_71024fd188() = default;
 // this class does not declare yet.
 Unk_71024fd318::~Unk_71024fd318() = default;
 
-// NON_MATCHING: placeholder destructor; the original (0x710100094c) also destroys members or bases
-// this class does not declare yet.
+namespace {
+const char* sRemainsBossBgmNames[] = {"RemainsWindBossBgm", "RemainsFireBossBgm", "RemainsElecBossBgm",
+                                      "RemainsWaterBossBgm"};
+}  // namespace
+
+// NON_MATCHING: the original has one more (dead) reload of the spilled `type` after the store to mType.
+Unk_71024fd448::Unk_71024fd448(const ksys::snd::BgmInitArg& arg) : Unk_71025ce380(arg) {
+    auto* heap = arg.heap;
+    ksys::snd::RemainsBossBgmType type;
+    switch (arg.kind) {
+    case ksys::snd::BgmKind::_27:
+        type = ksys::snd::RemainsBossBgmType::Wind;
+        break;
+    case ksys::snd::BgmKind::_28:
+        type = ksys::snd::RemainsBossBgmType::Elec;
+        break;
+    case ksys::snd::BgmKind::_29:
+        type = ksys::snd::RemainsBossBgmType::Fire;
+        break;
+    case ksys::snd::BgmKind::_30:
+        type = ksys::snd::RemainsBossBgmType::Water;
+        break;
+    default:
+        return;
+    }
+    Unk_SpotBgmHandle::init(heap, sRemainsBossBgmNames[type], nullptr);
+    mType = type;
+}
+
 Unk_71024fd448::~Unk_71024fd448() = default;
 
 namespace {

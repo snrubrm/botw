@@ -2269,11 +2269,23 @@ public:
 };
 
 // vtable 0x71024fd448 (17 slots); placeholder generated from the vtable (genskel.py).
+// The Remains (Divine Beast) boss BGM (BGM kinds 27..30; 0x1b0 bytes, constructor 0x7101000254).
 class Unk_71024fd448 : public ksys::snd::Unk_71025ce380 {
     SEAD_RTTI_OVERRIDE(Unk_71024fd448, ksys::snd::Unk_71025ce380)
 public:
+    explicit Unk_71024fd448(const ksys::snd::BgmInitArg& arg);
     ~Unk_71024fd448() override;
+    // 0x710100064c / 0x7101000b00 (declared only)
+    void hm14() override;
+    void hm15() override;
+
+    u32 _190 = 0;
+    u64 _198 = 0;
+    ksys::snd::Unk_710103AB10 _1a0{10};
+    ksys::snd::RemainsBossBgmType mType;
+    u32 _1a8 = 0;
 };
+KSYS_CHECK_SIZE_NX150(Unk_71024fd448, 0x1b0);
 
 // vtable 0x71024fd6c8 (17 slots); placeholder generated from the vtable (genskel.py).
 class Unk_71024fd6c8 : public ksys::snd::Unk_71025ce380 {

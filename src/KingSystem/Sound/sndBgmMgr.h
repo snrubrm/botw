@@ -247,6 +247,20 @@ class AssassinSeniorBgmInfo;
 class MazeForestBgmInfo;
 class BigMazeBgmInfo;
 
+// Placeholder (D1 0x710103ab10, declared only): a 4-byte object holding a ducker index (SoundMgr::DuckerType value;
+// its destructor releases the ducker entry in SoundMgr +0x80). Members of the Bgm children (fd448: 10, fec18: 11).
+class Unk_710103AB10 {
+public:
+    explicit Unk_710103AB10(s32 type) : mType(type) {}
+    ~Unk_710103AB10();
+
+    s32 mType;
+};
+
+// Which Remains (Divine Beast) boss BGM an Unk_71024fd448 plays; the names come from its name table at 0x71024fd578
+// ("RemainsWindBossBgm", "RemainsFireBossBgm", "RemainsElecBossBgm", "RemainsWaterBossBgm").
+SEAD_ENUM(RemainsBossBgmType, Wind, Fire, Elec, Water)
+
 // The argument of allocBgm (0x7100ff6e2c, which switches on `kind` and passes it on to the constructors).
 struct BgmInitArg {
     BgmKind kind;
