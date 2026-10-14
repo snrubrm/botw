@@ -2,6 +2,8 @@
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include <prim/seadSafeString.h>
 #include "Game/Actor/actEnemy.h"
+#include "Game/Actor/actLastBoss.h"
+#include <random/seadGlobalRandom.h>
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 
 namespace uking::ai {
@@ -28,6 +30,73 @@ bool GanonFarAttackRootOnWall::sub_71003E8F1C() {
         }
     }
     return false;
+}
+
+// NON_MATCHING: the original schedules the per-state weights after the Random::getU32 call
+// (one fewer callee-saved register).
+void GanonFarAttackRootOnWall::sub_71003E8884() {
+    const int state = _54;
+    auto* boss = mActor;
+    u32 can_lightning = state != 5;
+    u32 can_tornado = state != 4;
+    u32 can_ice = state != 6;
+    u32 can_gust = state != 7;
+    u32 can_beam = state != 8;
+    if (auto* last_boss = sead::DynamicCast<act::LastBoss>(boss); last_boss && last_boss->_14e8.isOnBit(1)) {
+        can_gust = 0;
+        can_ice = 0;
+        can_tornado = 0;
+        can_lightning = 0;
+    } else {
+        can_beam = 0;
+    }
+
+    const u32 count = (state != 1) + (state != 2) + (state != 3) + can_beam + can_gust + can_ice +
+                      can_tornado + can_lightning;
+    const int r = int( sead::GlobalRandom::instance()->getU32(count * 10));
+    const int arrow = state == 1 ? 0 : 10;
+    const int spear = state == 2 ? 0 : 10;
+    const int fireball = state == 3 ? 0 : 10;
+
+    int limit = arrow;
+    if (r < limit) {
+        _54 = 1;
+        ksys::act::ai::InlineParamPack pack;
+        pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+        changeChild("弓矢攻撃", &pack);
+        return;
+    }
+    if (r < (limit += spear)) {
+        changeToThrowSpear();
+        return;
+    }
+    if (r < (limit += fireball)) {
+        changeToFireball();
+        return;
+    }
+    if (r < (limit += can_lightning ? 10 : 0)) {
+        changeToLightning();
+        return;
+    }
+    if (r < (limit += can_tornado ? 10 : 0)) {
+        changeToTornado();
+        return;
+    }
+    if (r < (limit += can_ice ? 10 : 0)) {
+        changeToIcePillar();
+        return;
+    }
+    if (r < limit + (can_gust ? 10 : 0)) {
+        _54 = 7;
+        ksys::act::ai::InlineParamPack pack;
+        pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+        changeChild("疾風弾", &pack);
+    } else {
+        _54 = 8;
+        ksys::act::ai::InlineParamPack pack;
+        pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+        changeChild("ビーム攻撃", &pack);
+    }
 }
 
 bool GanonFarAttackRootOnWall::init_(sead::Heap* heap) {
