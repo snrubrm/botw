@@ -465,4 +465,54 @@ void MagneStickRoot::m48(f32 radius, const sead::Matrix34f* mtx, const sead::Vec
     }
 }
 
+// NON_MATCHING: scheduling of the front / back end points and the local target position, and the exit
+// blocks around the accessor destructor.
+bool MagneStickRoot::m40() {
+    *mIsTargetFixedAcceptor_a = false;
+    auto* actor = mActor;
+    if (!actor)
+        return false;
+
+    ksys::act::ActorConstDataAccess target;
+    sub_71004A0384(&target);
+    if (!target.hasProc())
+        return false;
+
+    *mIsTargetFixedAcceptor_a = target.hasTag(ksys::act::tags::IsFixedAcceptor);
+    sead::Matrix34f target_mtx;
+    m43(&target_mtx, &target);
+
+    auto* body = actor->getMainBody();
+    if (!body)
+        return false;
+
+    sead::BoundBox3f box;
+    body->getAabbInLocal(&box);
+    const f32 half_length = (box.getMax().z - box.getMin().z) * 0.5f;
+    const sead::Vector3f target_pos = target_mtx.getTranslation();
+    const sead::Matrix34f mtx = actor->getMtx();
+    const sead::Vector3f front = mtx * sead::Vector3f(0, 0, half_length);
+    const sead::Vector3f back = mtx * sead::Vector3f(0, 0, -half_length);
+    sead::Matrix34f inv;
+    inv.setInverse(mtx);
+    const sead::Vector3f local = inv * target_pos;
+    const sead::Vector3f end = local.z > 0 ? front : back;
+
+    if (m44(&target, &end, &box)) {
+        body->changeMotionType(ksys::phys::MotionType::Dynamic);
+        return false;
+    }
+
+    if (sead::Mathf::abs(local.z) - half_length <= 0.01f && m41(&target_mtx, &local, &end))
+        return true;
+
+    const f32 offset = local.z - m42() * (local.z > 0 ? 1.0f : -1.0f);
+    if (sead::Mathf::abs(offset) - half_length <= 0.01f) {
+        const f32 radius = sead::Mathf::min((box.getMax().x - box.getMin().x) * 0.5f,
+                                            (box.getMax().y - box.getMin().y) * 0.5f);
+        m48(radius, &target_mtx, &local, &end);
+    }
+    return false;
+}
+
 }  // namespace uking::ai
