@@ -13,10 +13,13 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
 
     void changeToMove();
+    // 0x71003cfb58 (placeholder name; declared only): the escape reaction.
+    void sub_71003CFB58();
 
 protected:
     // static_param at offset 0x38
