@@ -1,8 +1,27 @@
 #include "Game/Actor/Damage/dmgInfoManager.h"
 #include <prim/seadScopedLock.h>
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/World/worldManager.h"
 
 namespace uking::act {
+
+bool DamageInfoMgr::Unk790::sub_71006726DC(s32 weather) {
+    auto* wm = ksys::world::Manager::instance();
+    if (!wm)
+        return false;
+    const auto climate = wm->getCurrentClimate();
+    switch (weather) {
+    case 0:
+        return wm->getWeatherRainRate(climate) > 0 || wm->getWeatherHeavyRainRate(climate) > 0 ||
+               wm->getWeatherStormRate(climate) > 0;
+    case 1:
+        return wm->getWeatherBlueskyRate(climate) > 0 || wm->getWeatherCloudyRate(climate) > 0;
+    case 2:
+        return wm->getWeatherRainRate(climate) > 0 || wm->getWeatherHeavyRainRate(climate) > 0;
+    default:
+        return false;
+    }
+}
 
 bool DamageInfoMgr::Unk790::sub_7100672B00(ksys::act::Actor* actor) const {
     return mStatus == 2 && mLink.hasProcById(actor);
