@@ -10,6 +10,8 @@
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actTag.h"
+#include "KingSystem/ActorSystem/actPhysicsUserTag.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include <cmath>
@@ -21,6 +23,42 @@
 #include "KingSystem/Physics/System/physCollisionInfo.h"
 
 namespace uking::ai {
+
+// NON_MATCHING: the original destroys the accessor before testing isPlayerProfile (one dtor call); ours runs it on
+// both paths.
+bool IceMakerBlock::sub_7100447D70() {
+    ksys::act::acc::PlayerBase player;
+    if (!player.getPlayerFromPlayerInfo())
+        return false;
+    if (!player.m188() || !player.isHitRoof())
+        return false;
+
+    auto* main_body = mActor->getMainBody();
+    if (!main_body)
+        return false;
+    auto* info = main_body->getCollisionInfo();
+    if (!info || info->getCollidingBodies().size() == 0)
+        return false;
+
+    auto* bodies = info->getCollidingBodies().front();
+    info->lock();
+    for (; bodies; bodies = info->getCollidingBodies().next(bodies)) {
+        auto* body = bodies->bodies[1];
+        if (!body)
+            continue;
+        auto* tag = sead::DynamicCast<ksys::act::PhysicsUserTag>(body->getUserTag());
+        if (!tag)
+            continue;
+        ksys::act::ActorLinkConstDataAccess accessor;
+        tag->acquireActor(&accessor);
+        if (accessor.isPlayerProfile()) {
+            info->unlock();
+            return player.sub_7100D110E4() >= 2.0f;
+        }
+    }
+    info->unlock();
+    return false;
+}
 
 void IceMakerBlock::sub_7100447F20() {
     if (auto* as_list = mActor->getASList()) {
