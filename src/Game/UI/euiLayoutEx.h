@@ -35,7 +35,7 @@ void sub_7100BEDD34(nn::ui2d::Pane* pane, LayoutEx* layout);
 // 0x7100befa30 (placeholder name): sizes the pane to its text, centers the pane pair, then sub_7100BEDD34
 void sub_7100BEFA30(nn::ui2d::Pane* pane, LayoutEx* layout);
 
-// The eui layout (CSV eui::LayoutEx; derives from nn::ui2d::Layout, vtable 0x24c7d18 with 26 slots). Only the
+// The eui layout (CSV eui::LayoutEx; derives from nn::ui2d::Layout, vtable 0x24c7d08 with 26 slots; its destructor slot is nn::ui2d::Layout's: the implicit destructor is an alias). Only the
 // fields and functions used so far are declared.
 class LayoutEx : public nn::ui2d::Layout {
 public:
@@ -48,7 +48,6 @@ public:
     explicit LayoutEx(Screen* screen);
     // 0x7100bdd1b4 (not decompiled): copies `other` (including its pane tree) under the name `name`
     LayoutEx(const LayoutEx& other, const char* name, LayoutEx* parent);
-    ~LayoutEx() override;
 
     bool BuildImpl(nn::ui2d::BuildResultInformation*, nn::gfx::Device*, const void*,
                    nn::ui2d::ResourceAccessor*, const nn::ui2d::BuildArgSet&,
