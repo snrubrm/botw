@@ -73,6 +73,38 @@ bool HorseRideInfo::sub_7100E7BF5C(ksys::act::ActorLinkConstDataAccess& accessor
     return true;
 }
 
+void HorseRideInfo::sub_7100E7C380() {
+    if (_18.hasProc()) {
+        if (!(_30 & 2) && !_18.isAccessingSpecifiedProcUnsafe(mActor)) {
+            if (auto* actor = sead::DynamicCast<ksys::act::Actor>(_18.getProc(nullptr, mActor))) {
+                if (auto* stuff = actor->getMotorcyclePriorityStuffMaybe()) {
+                    stuff->sub_7100E8BD6C(mActor);
+                    _30 |= 2;
+                }
+            }
+        }
+        if (auto* nav = mActor->m45()) {
+            if (auto* ai = nav->_18) {
+                _10 = ai;
+                ai->sub_7100F82C88(nav);
+            }
+        }
+    } else {
+        if (_30 & 1) {
+            _30 &= ~0x30;
+            sub_7100E7C0EC();
+        }
+        if (_30 & 0x20) {
+            if (auto* physics = mActor->getPhysics())
+                physics->sub_7100FBDFA4(physics->get178(0));
+            _30 &= ~0x30;
+        } else if (_30 & 0x10) {
+            _30 = (_30 & ~0x30) | 0x20;
+        }
+    }
+    m9();
+}
+
 bool HorseRideInfo::sub_7100E7C054(ksys::act::BaseProcLink* link) {
     ksys::act::ActorLinkConstDataAccess accessor;
     if (!ksys::act::acquireActor(link, &accessor))
