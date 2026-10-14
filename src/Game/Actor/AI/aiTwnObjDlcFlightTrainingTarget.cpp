@@ -7,6 +7,8 @@
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Map/mapObject.h"
+#include "KingSystem/System/VFR.h"
 
 namespace uking::ai {
 
@@ -26,6 +28,50 @@ void TwnObjDlcFlightTrainingTarget::enter_(ksys::act::ai::InlineParamPack* param
     mActor->emitBasicSigOff();
     if (ksys::gdt::getFlag_BalladOfHeroRito_TargetEffect(false))
         xlinkSearchAndEmit(mActor, "FlightTrainingTarget_Open", 2, nullptr);
+}
+
+void TwnObjDlcFlightTrainingTarget::calc_() {
+    if (!_45 && !ksys::gdt::getFlag_BalladOfHeroRito_TargetEffect(false)) {
+        sub_710124127C(mActor, 2);
+        _45 = true;
+    }
+
+    if (isCurrentChild("待機")) {
+        auto* life = mActor->getLife();
+        if (life && *life <= 0) {
+            changeChild("壊れ");
+            sub_71005D34D8();
+            _40 = *mLimitTime_s;
+        }
+    } else if (isCurrentChild("壊れ")) {
+        if (ksys::gdt::getFlag_BalladOfHeroRito_TargetEffect(false))
+            _44 = !ksys::gdt::getFlag_BalladOfHeroRito_TargetHittingSuccess(false);
+        else
+            _44 = false;
+        if (!_44) {
+            if (auto* object = mActor->getMapObject())
+                object->setFlags0(ksys::map::Object::Flag0::_100000);
+            mActor->deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+        } else {
+            _40 -= ksys::VFR::instance()->getDeltaTime();
+            if (_40 < 0.0f) {
+                changeChild("復活");
+                auto* actor = mActor;
+                const s32 max_life = actor->getMaxLife();
+                if (auto* life = actor->getLife())
+                    *life = max_life;
+                if (auto* body = mActor->getMainBody())
+                    body->addToWorld();
+            }
+        }
+    } else if (isCurrentChild("復活")) {
+        changeChild("待機");
+        mActor->getModel()->x(true, 0);
+        sub_71007A3540(mActor);
+        mActor->emitBasicSigOff();
+        if (ksys::gdt::getFlag_BalladOfHeroRito_TargetEffect(false))
+            xlinkSearchAndEmit(mActor, "FlightTrainingTarget_Open", 2, nullptr);
+    }
 }
 
 void TwnObjDlcFlightTrainingTarget::leave_() {
