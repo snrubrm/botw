@@ -30,6 +30,10 @@ public:
     void sub_71003AB3FC();
     void changeToBattleBackAway();
     void changeToBattleWait();
+    // 0x71003acb14 (placeholder name): updates the vibrate checkers in use (position / actor).
+    void sub_71003ACB14();
+    // 0x71003ace4c (placeholder name): whether one of the vibrate checkers in use reports the actor as stuck.
+    bool sub_71003ACE4C();
     bool sub_71003AD058();
     bool sub_71003AD160();
     bool sub_71003AD1F8();

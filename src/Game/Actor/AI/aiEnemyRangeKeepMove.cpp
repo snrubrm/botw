@@ -158,6 +158,42 @@ void EnemyRangeKeepMove::changeToBattleWait() {
     changeChild("戦闘待機", &pack);
 }
 
+// NON_MATCHING: getData() selects +8 / null with csel; the original branches (as in sub_71003AB3FC)
+void EnemyRangeKeepMove::sub_71003ACB14() {
+    if (_f0._0) {
+        auto* checker = sead::DynamicCast<Unk_71025b0578>(*_f0._0);
+        if (checker && checker->mRefCount >= 1) {
+            sead::Vector3f pos;
+            mActor->getMtx().getTranslation(pos);
+            _f0.getData()->sub_7100716408(pos);
+        }
+    }
+    if (_f8._0) {
+        auto* checker = sead::DynamicCast<Unk_71025b7688>(*_f8._0);
+        if (checker && checker->mRefCount >= 1)
+            _f8.getData()->sub_710071F374(mActor);
+    }
+}
+
+// NON_MATCHING: same getData() difference as sub_71003AB3FC (the original drops the null check of the re-cast and
+// uses the object directly; ours selects +8 / null with csel)
+bool EnemyRangeKeepMove::sub_71003ACE4C() {
+    if (_f0._0) {
+        auto* checker = sead::DynamicCast<Unk_71025b0578>(*_f0._0);
+        if (checker && checker->mRefCount >= 1) {
+            auto* data = _f0.getData();
+            if (data->_78 <= 0.0f || data->sub_71007169CC(0.05f))
+                return true;
+        }
+    }
+    if (_f8._0) {
+        auto* checker = sead::DynamicCast<Unk_71025b7688>(*_f8._0);
+        if (checker && checker->mRefCount >= 1 && _f8.getData()->_c < 1)
+            return true;
+    }
+    return false;
+}
+
 bool EnemyRangeKeepMove::sub_71003AD058() {
     if (!*mIsCheckBack_s)
         return false;
