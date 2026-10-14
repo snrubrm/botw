@@ -1131,6 +1131,9 @@ public:
     Unk_7102476640** sub_71009580A4(Unk_7102476640* key);
     bool sub_71009580E4(Unk_7102476640** entry);
     bool sub_7100958134(Unk_7102476640* entry);
+    // 0x7100958fcc / 0x710095900c (placeholder names): find / erase an entry of the list at 0x620
+    UiSubsys1Entry** sub_7100958FCC(UiSubsys1Entry* key);
+    bool sub_710095900C(UiSubsys1Entry** entry);
     bool sub_7100958D18() const;
     void sub_71009637D4();
     // 0x710096023c (CSV uiSubsys1::__auto3; placeholder name): ends the timer at 0x6f0 and clears the flag at 0x6ec

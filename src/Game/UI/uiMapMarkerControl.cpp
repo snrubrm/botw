@@ -402,6 +402,21 @@ void Unk_7102478980::m12() {
 
 Unk_7102478d98::~Unk_7102478d98() = default;
 
+// 0x710098f7ec
+void Unk_7102478d98::m12() {
+    if (!_10 || _2c || !_18 || !_18->_8)
+        return;
+    const s32 index = _18->_40;
+    if (index < 0 || _10->_230[index] != 0)
+        return;
+    if (auto* entry = sead::DynamicCast<Unk_7102476738>(_18)) {
+        if (auto* found = UiSubsys1::instance()->sub_7100958FCC(entry))
+            UiSubsys1::instance()->sub_710095900C(found);
+    }
+    _18->m24(false);
+    _18->m22();
+}
+
 // NON_MATCHING: native spills an enum conversion; the entry kind is still declared as an integer.
 s32 Unk_7102478d98::m14() const {
     return _18->_1c - 27;
