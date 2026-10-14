@@ -5,6 +5,7 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/ActorSystem/actCCAccessor.h"
 
 namespace uking::ai {
 
@@ -16,8 +17,34 @@ bool PriestBossGiantDownSeq::init_(sead::Heap* heap) {
     return PriestBoss::init_(heap);
 }
 
+// NON_MATCHING: dead SEAD_ENUM stack round trip (value 0) before the mode store, as in PriestBossGiantStageRotate::leave_
 void PriestBossGiantDownSeq::enter_(ksys::act::ai::InlineParamPack* params) {
     PriestBoss::enter_(params);
+    _104 = false;
+    _105 = false;
+    mActor->getMtx().getTranslation(_f8);
+    if (auto* unit = sub_7100505BE4()) {
+        {
+            sead::ScopedLock<sead::JobQueueLock> lock(&_80._18.mLock);
+            _80._18._c = false;
+            _80._18._8 = 1;
+        }
+        _80.sub_710070DBB0(unit->_1a0, true);
+        _104 = true;
+    }
+
+    auto* controller = mActor->getCharacterController();
+    if (int(controller->sub_7100F5F0E4()) != 3 && *mRecoverIfAlreadyDown_s) {
+        *mIsActive_a = false;
+        if (controller->sub_7100F5F14C()) {
+            if (mActor->getASList()->x_1(0, 0) == mHitGroundASName_s)
+                changeChild("ダウン");
+            else
+                changeChild("復帰");
+            return;
+        }
+    }
+    changeChild("空中");
 }
 
 // NON_MATCHING: the original retains an unused enum read between the lock and payload stores.
