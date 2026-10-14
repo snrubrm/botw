@@ -3,6 +3,7 @@
 #include "Game/UI/uiUI.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/Utils/MathUtil.h"
 
 namespace uking::ai {
@@ -41,6 +42,46 @@ void NPCTalkBalloon::sub_71004E1684() {
     pack.addVec3(*mTargetPos_d, "TargetPos", -1);
     pack.addVec3(rot, "TargetRot", -1);
     changeChild("振り向く", &pack);
+}
+
+// NON_MATCHING: block layout of the 注目 branch (checkAS / x_7 / timer chain) and the message split
+void NPCTalkBalloon::calc_() {
+    if (_60 && !(_64.value <= sead::Mathf::epsilon()))
+        _64.update();
+
+    if (isCurrentChild("振り向く")) {
+        if (getCurrentChild()->isFinished()) {
+            ksys::act::ai::InlineParamPack pack;
+            if (_80.isEmpty())
+                pack.addString("Wait", "DynASName", -1);
+            else
+                pack.addString(_80, "DynASName", -1);
+            changeChild("注目", &pack);
+        }
+        getCurrentChild()->setDynamicParam(*mTargetPos_d, "TargetPos");
+    } else if (isCurrentChild("注目")) {
+        if (!_60) {
+            _70.update();
+            if (_70.value > sead::Mathf::epsilon())
+                return;
+            auto* ui = ui::UI::instance();
+            if (!ui)
+                return;
+            const s32 index = mMessageId_d.rfindIndex(":");
+            if (index < 1) {
+                setFailed();
+                return;
+            }
+            sead::FixedSafeString<64> message_set;
+            message_set.copy(mMessageId_d, index);
+            ui->sub_71010A6454(message_set, mMessageId_d.getPart(index + 1), mActor, 30.0f, false);
+            _60 = true;
+        } else if (checkAS(0, 0) ||
+                   (mActor->getASList()->x_7(0, 0, &ksys::as::ASList::Unk2::sub_7101162FE8) &&
+                    _64.value <= sead::Mathf::epsilon())) {
+            setFinished();
+        }
+    }
 }
 
 void NPCTalkBalloon::leave_() {
