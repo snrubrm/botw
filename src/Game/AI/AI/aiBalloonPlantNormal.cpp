@@ -5,6 +5,13 @@
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actInstParamPack.h"
+#include "Game/AI/aiUnk_71007377D4.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actPhysicsUserTag.h"
+#include "KingSystem/ActorSystem/actTag.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/System/physQueryContactPointInfo.h"
+#include "KingSystem/Physics/System/physShapeCastWithInfo.h"
 
 namespace uking::ai {
 
@@ -29,6 +36,66 @@ bool BalloonPlantNormal::sub_7100327B54() {
     if (actor && _c8 == actor->getId() && actor->findPhysicsBodyByName("Body", _60.cstr()))
         return true;
     return false;
+}
+
+// NON_MATCHING: block layout of the contact-point loop and a devirtualised executeQuery call
+// (the original dispatches through the vtable).
+void BalloonPlantNormal::sub_7100327D48() {
+    if (_c4)
+        return;
+
+    auto* actor = mActor;
+    ksys::phys::SphereCast cast{ksys::phys::ContactLayer::EntitySmallObject,
+                                ksys::phys::GroundHit::HitAll,
+                                sub_710072E804(actor, 0),
+                                8,
+                                ksys::phys::ShapeCast::Mode::_1,
+                                sead::Vector3f::zero,
+                                0.5f,
+                                sead::SafeString::cEmptyString,
+                                ksys::phys::LowPriority::No};
+    auto* info = cast.getContactPointInfo();
+    if (!info)
+        return;
+
+    info->subscribeLayer(ksys::phys::ContactLayer::EntityGround);
+    info->subscribeLayer(ksys::phys::ContactLayer::EntityGroundSmooth);
+    info->subscribeLayer(ksys::phys::ContactLayer::EntityGroundObject);
+    info->subscribeLayer(ksys::phys::ContactLayer::EntityTree);
+    info->subscribeLayer(ksys::phys::ContactLayer::EntityObject);
+    info->subscribeLayer(ksys::phys::ContactLayer::EntitySmallObject);
+
+    const sead::Vector3f start = actor->getMtx().getTranslation();
+    cast.setStartAndDisplacementScaled(start, -sead::Vector3f::ey, 0.1f);
+    if (!cast.executeQuery(ksys::phys::ShapeCast::WeldClosestPoints::Yes))
+        return;
+
+    for (auto it = info->begin(), end = info->end(); it != end; ++it) {
+        sead::Vector3f pos;
+        it.getPointPosition(&pos, ksys::phys::ContactPointInfo::Iterator::Point::BodyB);
+        auto* body = it.getPoint()->body_b;
+        if (!body || body->getMotionType() != ksys::phys::MotionType::Dynamic)
+            continue;
+
+        ksys::act::ActorConstDataAccess accessor;
+        if (auto* tag = sead::DynamicCast<ksys::act::PhysicsUserTag>(body->getUserTag()))
+            tag->acquireActor(&accessor);
+        if (accessor.hasProc() && !accessor.hasConnectedCalcParent() &&
+            accessor.hasTag(ksys::act::tags::CanBalloonParasite)) {
+            _60.copy(body->getHkBodyName());
+            if (_60.isEmpty())
+                continue;
+
+            _c8 = accessor.getId();
+            sead::Matrix34f mtx;
+            body->getTransform(&mtx);
+            mtx.setInverse(mtx);
+            _b8 = mtx * pos;
+            accessor.setThisActorAsChild(actor, false);
+            _c4 = true;
+            break;
+        }
+    }
 }
 
 void BalloonPlantNormal::enter_(ksys::act::ai::InlineParamPack* params) {

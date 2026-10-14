@@ -46,6 +46,8 @@ public:
     // Inline-only in the original (MagneStickRoot::m47 / m46 / m45 store 2 here after setStartAndEnd);
     // the name is a guess.
     void setMode(Mode mode) { mMode = mode; }
+    // Inline in the original (BalloonPlantNormal::sub_7100327D48 iterates the cast's contact points).
+    QueryContactPointInfo* getContactPointInfo() const { return mContactPointInfo; }
 
     void setRotation(sead::Quatf rotation);
     void setRotation(const sead::Matrix33f& rotation_matrix);
