@@ -12,6 +12,8 @@ class ActorLinkConstDataAccess;
 
 namespace ksys::phys {
 class Constraint;
+class FixedCs;
+class SystemGroupHandler;
 class ContactPointInfo;
 class RigidBody;
 }  // namespace ksys::phys
@@ -43,6 +45,7 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
     bool handleMessage_(const ksys::Message* message) override;
@@ -56,14 +59,14 @@ protected:
     // static_param at offset 0x38
     const sead::Vector3f* mFixPoint_s{};
     bool _40 = false;
-    void* _48 = nullptr;
+    ksys::phys::SystemGroupHandler* _48 = nullptr;  // GearMgr::_1050
     // Enter_ stores the tagged linked map object; both position and activation helpers use it.
     ksys::map::Object* _50 = nullptr;
-    ksys::phys::Constraint* _58 = nullptr;
+    ksys::phys::FixedCs* _58 = nullptr;
     ksys::phys::RigidBody* _60 = nullptr;
     ksys::phys::RigidBody* _68 = nullptr;
     ksys::phys::ContactPointInfo* _70 = nullptr;
-    u32 _78 = 0;
+    s32 _78 = 0;  // frames left since the last contact (10 on contact)
 };
 KSYS_CHECK_SIZE_NX150(StoneStickRoot, 0x80);
 
