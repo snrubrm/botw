@@ -1,4 +1,5 @@
 #include "Game/Actor/Action/actionHiddenKorokAppear.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
 #include "Game/gamePlayReport.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
@@ -68,7 +69,7 @@ bool HiddenKorokAppear::oneShot_() {
         new_mtx.m[2][2] = n.z;
     }
     actor->setMtx(new_mtx, false, true);
-    actor->x_6();
+    ksys::act::x_6(actor);
     actor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_20);
     sub_71007A3540(actor);
     auto* controller = actor->getCharacterController();

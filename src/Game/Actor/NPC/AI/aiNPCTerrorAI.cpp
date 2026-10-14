@@ -1,4 +1,5 @@
 #include "Game/Actor/NPC/AI/aiNPCTerrorAI.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
@@ -55,7 +56,7 @@ void NPCTerrorAI::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void NPCTerrorAI::leave_() {
-    mActor->x_6();
+    ksys::act::x_6(mActor);
     if (auto* schedule = mActor->getSchedule())
         schedule->_124 = false;
 }

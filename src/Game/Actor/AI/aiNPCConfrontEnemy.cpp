@@ -61,7 +61,7 @@ bool NPCConfrontEnemy::sub_71004C83DC() {
 
 // 0x71004c82d0
 void NPCConfrontEnemy::sub_71004C82D0() {
-    mActor->x_6();
+    ksys::act::x_6(mActor);
     _98[0] = ksys::Timer(5.0f, 5.0f);
     ksys::act::ai::InlineParamPack pack;
     pack.addBool(false, "TerrorOccurring", -1);
@@ -84,7 +84,7 @@ void NPCConfrontEnemy::sub_71004C8DDC(const sead::Vector3f& pos) {
 
 // 0x71004c84c8
 void NPCConfrontEnemy::sub_71004C84C8() {
-    mActor->x_6();
+    ksys::act::x_6(mActor);
     if (!_90 && !_91) {
         if (_93) {
             _88->_1048 = 0;

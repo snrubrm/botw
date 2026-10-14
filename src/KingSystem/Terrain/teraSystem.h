@@ -166,7 +166,9 @@ public:
     Core* _360;
     u8 _368[0x60];
     f32 _3c8;
-    u8 _3cc[0x400 - 0x3cc];
+    // Passed by sub_710110B4A4 to sub_710110AA5C.
+    f32 _3cc;
+    u8 _3d0[0x400 - 0x3d0];
     f32 _400;
     u8 _404[0x680 - 0x404];
     sead::Matrix44f mProjectionMatrix;
@@ -184,21 +186,37 @@ class ResourceHolder;
 class Scene {
     void exportFileBinary();
 };
+// Placeholder: the object System::sub_710111F504 returns (`*_e0 + 0x2300`); sub_710110AA5C reads it and its +0x20.
+struct Unk_710111F504 {
+    u8 _0[0x20];
+    u8 _20;
+};
+
 class System {
 public:
     static System* instance();
+    // 0x710111f504 (declaration only): `*_e0 + 0x2300`.
+    Unk_710111F504* sub_710111F504();
     void sub_710111F518(int level, int type);
     void sub_7101112A74();
     void allocateApertureMapsCollectorImage(sead::Heap* heap);
     void loadScene();
     // 0x710111f618 (CSV TeraSystem::x_0): bit 3 of the flags of the `index`th scene (the first if out of range)
     bool sub_710111F618(s32 index);
+
+    u8 _0[0x8];
+    // Checked by sub_710110B4A4 (no query without it).
+    void* _8;
 };
 class Water {
     void setUpAttributeTable();
 };
 
+// 0x710110aa5c (declaration only, 536 bytes): height query used by sub_710110B4A4.
+u32 sub_710110AA5C(f32 a, f32 b, f32* out_height, const sead::Vector2f* xz, const u8* info_20,
+                   const Unk_710111F504* info);
 // CreateTeraSystem passes the System created at 0x71011113d4 to PlacementMgr.
+// 0x710110b4a4: 0 without a scene (System+0x8) or unless Terrain flags 2 and 4 are both set.
 u32 sub_710110B4A4(f32* out_height, const sead::Vector2f* xz, System* system);
 // Full 110C02C writes material and submaterial; independent 1224C1C consumes both.
 u32 sub_710110C02C(phys::Material* material, s32* submaterial, const sead::Vector2f* xz,

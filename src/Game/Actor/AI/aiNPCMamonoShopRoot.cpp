@@ -43,7 +43,7 @@ void NPCMamonoShopRoot::calc_() {
     if (_248 && schedule->_88 == "Action2" && accessor.hasProc() && !accessor.sub_7100D10E6C(5)) {
         _248 = false;
         mActor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_20);
-        mActor->x_6();
+        ksys::act::x_6(mActor);
         if (auto* controller = mActor->getCharacterController())
             controller->sub_7100F60604();
         if (auto* body = mActor->findPhysicsBodyByName(sub_71007A24D0()->cstr(), "Body"))

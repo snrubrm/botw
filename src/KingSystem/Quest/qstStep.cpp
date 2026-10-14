@@ -1,4 +1,5 @@
 #include "KingSystem/Quest/qstStep.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
 #include <memory>
 #include "KingSystem/AOC/aocManager.h"
 #include "KingSystem/ActorSystem/actSchedule.h"
@@ -171,7 +172,7 @@ void Step::ActLink::sub_71012B4274() {
         if (actor && actor->getSchedule()) {
             actor->getSchedule()->sub_7100D192C0(nullptr, &sead::SafeString::cNullChar, false);
             actor->getSchedule()->_2ec = actor->getSchedule()->_2f0;
-            actor->x_6();
+            act::x_6(actor);
             actor->getActorFlags2().reset(act::Actor::ActorFlag2::_100);
         }
     }
@@ -193,7 +194,7 @@ void Step::ActLink::sub_71012B44F4(const sead::SafeString& name) {
     actor->getSchedule()->sub_7100D192C0(_40, name.cstr(), false);
     actor->getSchedule()->_2ec = _18;
     actor->getSchedule()->_12a = true;
-    actor->x_6();
+    act::x_6(actor);
     actor->getActorFlags2().change(act::Actor::ActorFlag2::_100, _1c != 0);
 }
 

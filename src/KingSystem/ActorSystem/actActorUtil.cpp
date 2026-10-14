@@ -1,4 +1,5 @@
 #include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actSchedule.h"
 #include "KingSystem/ActorSystem/actActorNameSearch.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "Game/gameGraphics.h"
@@ -1508,6 +1509,24 @@ void sub_7100EEAECC(phys::RayCast* cast) {
     cast->enableLayer(phys::ContactLayer::EntityGroundObject);
     cast->enableLayer(phys::ContactLayer::EntityTree);
     cast->enableLayer(phys::ContactLayer::EntityObject);
+}
+
+void x_6(Actor* actor) {
+    if (!actor || !actor->getAttention())
+        return;
+    auto* talk = actor->getAttention()->getClientByName("Talk");
+    auto* lock_on = actor->getAttention()->getClientByName("LockOn");
+    const bool enabled = actor->getSchedule() && actor->getSchedule()->sub_7100D1C698();
+    if (!talk)
+        return;
+    talk->disable();
+    if (enabled)
+        talk->enable();
+    if (lock_on) {
+        lock_on->disable();
+        if (enabled)
+            lock_on->enable();
+    }
 }
 
 void setEnabledTalkAndLockOn(Actor* actor, bool enabled) {

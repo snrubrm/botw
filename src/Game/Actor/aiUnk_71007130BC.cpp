@@ -17,7 +17,7 @@ void sub_71007130BC(ksys::act::Actor* actor, bool on) {
     if (!actor)
         return;
     if (on)
-        actor->x_6();
+        ksys::act::x_6(actor);
     else
         ksys::act::setEnabledTalkAndLockOn(actor, false);
 }

@@ -277,6 +277,9 @@ void sub_7100EE58C0(Actor* actor, const sead::Matrix34f& mtx);
 
 // 0x7100ee3f08 (CSV act::setEnabledTalkAndLockOn; declaration only, lane2 s21): enables / disables the "Talk" and
 // "LockOn" attention clients of the actor.
+// 0x7100ee3e44 (CSV Actor::x_6; a free function: it null-checks the actor like its neighbours): disables the "Talk"
+// and "LockOn" attention clients, then enables them again if the actor's schedule says so (Schedule::sub_7100D1C698).
+void x_6(Actor* actor);
 void setEnabledTalkAndLockOn(Actor* actor, bool enabled);
 
 // 0x7100ee2850 (declaration only; lane2 s21, placeholder name; 1.7 KB, 4 callers: NPCClerkRoot enter_ / calc_,

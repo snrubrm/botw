@@ -490,9 +490,6 @@ public:
     void updatePlacementObjDistanceFlags();
     // 0x71011c9814 (CSV Actor::deleteAndEmit): deleteLater + emitSignalsOrDisappearEffectForDelete
     bool deleteAndEmit(s32 type);
-    // 0x7100ee3e44 (CSV Actor::x_6; declared only; lane2 s20): looks up two attention clients by name and
-    // disables them, re-enabling them again when the schedule (_638) reports a flag.
-    void x_6();
     // 0x71011ccef0 (CSV Actor::checkDeleteDistanceAndDeleteIfNeeded; declared only; lane4 s31)
     void checkDeleteDistanceAndDeleteIfNeeded();
     // 0x71011cdcd0 (CSV Actor::attentionStuff; declared only; lane4 s31): called by job2_2.

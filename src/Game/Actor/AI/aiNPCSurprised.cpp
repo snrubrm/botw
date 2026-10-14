@@ -47,7 +47,7 @@ void NPCSurprised::calc_() {
 
 void NPCSurprised::leave_() {
     sub_71005D7518(mActor, true);
-    mActor->x_6();
+    ksys::act::x_6(mActor);
 }
 
 void NPCSurprised::loadParams_() {

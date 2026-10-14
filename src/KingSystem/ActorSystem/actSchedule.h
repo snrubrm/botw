@@ -16,6 +16,8 @@ class Schedule {
 public:
     // 0x7100D192C0: ActLink passes the actor's schedule, a nullable iterator, name and bool.
     void sub_7100D192C0(const al::ByamlIter* iter, const char* name, bool value);
+    // 0x7100d1c698 (declaration only, 356 bytes; placeholder name): read by act::x_6.
+    bool sub_7100D1C698();
 
     /* 0x000 */ u8 _0[0x68];
     /* 0x068 */ sead::SafeString _68;  // TimelineAI::m34 (the timeline's name; empty when the actor has no schedule)
