@@ -18,7 +18,7 @@ public:
     void loadParams_() override;
 
 protected:
-    // 0x7100233fd0 (declared only): out of line in the original.
+    // 0x7100233fd0: eases the two scale factors _e8 / _ec towards the values for the current bullet kind.
     void sub_7100233FD0();
     void calc_() override;
     void m32() override;

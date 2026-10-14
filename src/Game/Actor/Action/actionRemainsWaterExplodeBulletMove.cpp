@@ -1,4 +1,5 @@
 #include "Game/Actor/Action/actionRemainsWaterExplodeBulletMove.h"
+#include "KingSystem/System/VFR.h"
 
 namespace uking::action {
 
@@ -39,6 +40,27 @@ void RemainsWaterExplodeBulletMove::loadParams_() {
 void RemainsWaterExplodeBulletMove::calc_() {
     sub_7100233FD0();
     RemainsWaterBulletAction::calc_();
+}
+
+void RemainsWaterExplodeBulletMove::sub_7100233FD0() {
+    switch (sub_7100230688()) {
+    case 0:
+        ksys::VFR::lerp(&_e8, 2.8f, 0.2f, 0.005f, 0.001f);
+        ksys::VFR::lerp(&_ec, 1.2f, 0.2f, 0.005f, 0.001f);
+        break;
+    case 1:
+        ksys::VFR::lerp(&_e8, 1.0f, 0.2f, 0.1f, 0.01f);
+        ksys::VFR::lerp(&_ec, 1.0f, 0.2f, 0.1f, 0.01f);
+        break;
+    case 2:
+        ksys::VFR::lerp(&_e8, 2.0f, 0.2f, 0.005f, 0.001f);
+        ksys::VFR::lerp(&_ec, 0.6f, 0.2f, 0.005f, 0.001f);
+        break;
+    case 3:
+        ksys::VFR::lerp(&_e8, 2.0f, 0.2f, 0.005f, 0.001f);
+        ksys::VFR::lerp(&_ec, 0.8f, 0.2f, 0.005f, 0.001f);
+        break;
+    }
 }
 
 }  // namespace uking::action
