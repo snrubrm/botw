@@ -1008,6 +1008,31 @@ bool DamageManager::sub_71006D6EC0(ksys::act::ActorAtk::Unk_710079e64c::Unk1* in
     return info->_18 & 2;
 }
 
+// NON_MATCHING: the original builds the mask 0xb01f0000 with mov + movk (ours: one movn); probably an OR of named
+// attack flags.
+void DamageManager::sub_71006D7628(s32 type, s32* damage, s32*, u32*, u32*, s32* f54) {
+    if (type == 1 || *f54 == -1)
+        return;
+    auto* actor = sead::DynamicCast<ksys::act::DynamicActor>(mActor);
+    if (!actor)
+        return;
+    if (actor->m151(4) && actor->m155())
+        actor->m149(4);
+    if (type == 2) {
+        if (_6c < 0)
+            return;
+        auto* info = ::sub_71007A255C(mActor, _6c);
+        if (!info || !info->sub_71007A1F68(0xb01f0000))
+            return;
+    }
+    if (!m56())
+        return;
+    *damage = s32(actor->m153() * static_cast<f32>(*damage));
+    if (*f54 <= 22)
+        *f54 = 23;
+    actor->m149(3);
+}
+
 void DamageManager::handleDamageForPlayer(u32* a2, u32* a3, u32* a4, u32* a5, u32* a6) {
     DamageManagerBase::handleDamageForPlayer(a2, a3, a4, a5, a6);
     auto* info = sead::DynamicCast<Struct20_2>(mStruct20_b);

@@ -150,6 +150,9 @@ public:
     // 0x71006d6ec0 (placeholder name): whether the attack info `info` can hit this actor (not while DynamicActor slot
     // 151 has bit 3 or 4; flag 0x80000000 needs a player with Daruk's protection; not with flag 8; bit 0 or 1 of _18).
     bool sub_71006D6EC0(ksys::act::ActorAtk::Unk_710079e64c::Unk1* info);
+    // 0x71006d7628 (placeholder name; callers setFlagsStuff / impulseStuff / 0x71006d4e70): scales the damage of a
+    // DynamicActor by its slot 153 factor when m56() is set (kind 2 needs attack flags 0xb01f0000), raising f54 to 23.
+    void sub_71006D7628(s32 type, s32* damage, s32* df48, u32* minDmg, u32* f50, s32* f54);
     // 0x71006d27bc / 0x71006d81d8 (lane4 s48; placeholder names): sets the maximum impulse of the main body / character
     // controller to `_80` times the first non-negative impulse threshold of the actor's damage param (-1 if none),
     // unless the param has IsCommonCalcImpuleDamage; the second one first stores `value` in `_80`.
