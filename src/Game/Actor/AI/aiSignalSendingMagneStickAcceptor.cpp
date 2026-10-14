@@ -18,9 +18,6 @@ void SignalSendingMagneStickAcceptor::enter_(ksys::act::ai::InlineParamPack* par
     changeChild("抜けた");
 }
 
-// NON_MATCHING: the original never sets x0 for the 0x710056be7c call (it keeps whatever was in x0: `this` on the first
-// iteration, the accessor dtor's return value afterwards) and so keeps `this` out of a callee-saved register; the helper's
-// first parameter is unknown, ours passes `this`
 // 0x710056bd78
 void SignalSendingMagneStickAcceptor::sub_710056BD78(ksys::act::ActorLinkConstDataAccess* acc) {
     f32 min_dist = *mMagneStickMaxSearchDistance_m;
@@ -40,6 +37,46 @@ void SignalSendingMagneStickAcceptor::sub_710056BD78(ksys::act::ActorLinkConstDa
         }
         ++index;
     }
+}
+
+// NON_MATCHING: the original keeps `index != nullptr` in a register of its own and counts the loop in 32 bits
+// (`i != num`); ours tests the pointer and uses a 64-bit counter
+ksys::map::Object* SignalSendingMagneStickAcceptor::sub_710056BE7C(
+    ksys::act::Actor* actor, s32* index,
+    sead::IDelegate1R<const ksys::act::ActorLinkConstDataAccess&, bool>* filter) {
+    if (!actor) {
+        if (index)
+            *index = -1;
+        return nullptr;
+    }
+
+    ksys::act::ActorLinkConstDataAccess acc(actor);
+    s32 start = 0;
+    if (index) {
+        start = sead::Mathi::max(*index, 0);
+        *index = -1;
+    }
+
+    auto* link_data = acc.getMapObjectLinkData();
+    if (!link_data)
+        return nullptr;
+
+    const s32 num = link_data->mObjects.size();
+    auto* objects = link_data->mObjects.getBufferPtr();
+    for (s32 i = start; i < num; ++i) {
+        if (!objects[i])
+            continue;
+        ksys::act::ActorLinkConstDataAccess other;
+        objects[i]->getActorWithAccessor(other);
+        if (!other.hasProc())
+            continue;
+        if (filter && !(*filter)(other))
+            continue;
+        if (index)
+            *index = i;
+        return objects[i];
+    }
+    return nullptr;
 }
 
 void SignalSendingMagneStickAcceptor::calc_() {
