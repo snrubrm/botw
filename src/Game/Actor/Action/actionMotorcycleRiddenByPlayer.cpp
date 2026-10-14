@@ -1,5 +1,11 @@
 #include "Game/Actor/Action/actionMotorcycleRiddenByPlayer.h"
+#include "Game/Actor/actMotorcycle.h"
+#include "Game/Actor/actRideable.h"
+#include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
+#include "KingSystem/Physics/System/physHavokAI.h"
+#include "gsys/gsysModel.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodySphere.h"
 
 namespace uking::action {
@@ -18,7 +24,39 @@ bool MotorcycleRiddenByPlayer::init_(sead::Heap* heap) {
 }
 
 void MotorcycleRiddenByPlayer::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    mFlags.set(Flag::Changeable);
+    _b0 = 0;
+    _b4 = -1.0f;
+    _180.reset();
+    _184 = false;
+    _186 = sead::BitFlag16(1);
+    if (auto* model = mActor->getModel()) {
+        _178 = model->searchBone("Wheel_R");
+        _17c = model->searchBone("Wheel_F");
+    } else {
+        _178.reset();
+        _17c.reset();
+    }
+    if (auto* priority = mActor->getMotorcyclePriorityStuffMaybe())
+        priority->sub_7100E8BE10();
+
+    f32 speed = 0.0f;
+    if (auto* motorcycle = sead::DynamicCast<act::Motorcycle>(mActor))
+        speed = motorcycle->_e58;
+    _b8 = speed;
+
+    if (auto* unit = mActor->get548()) {
+        _c0.setRadius(*mTerrorRadius_s);
+        _c0.x(2, 0x80, 0.0f);
+        unit->sub_7100D783E4(&_c0);
+    }
+    if (auto* physics = mActor->getPhysics())
+        physics->sub_7100FBAC4C(ksys::phys::ContactLayer::SensorAttackPlayer);
+    int i = 0;
+    while (auto* nav = mActor->getPhysics()->sub_7100FC00EC(i)) {
+        nav->sub_7100F7FB0C(false);
+        ++i;
+    }
 }
 
 void MotorcycleRiddenByPlayer::leave_() {
