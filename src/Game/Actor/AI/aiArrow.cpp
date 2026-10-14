@@ -349,6 +349,36 @@ bool Arrow::sub_7100467384() {
     return true;
 }
 
+// NON_MATCHING: register allocation of the two chemical pointers
+bool Arrow::sub_7100468A18(const sead::Vector3f& pos) {
+    if (!_1a8.isProcReady())
+        return false;
+    auto* ball = sead::DynamicCast<ksys::act::Actor>(_1a8.releaseAndWakeProc());
+    if (!ball)
+        return false;
+
+    sead::Vector3f rot = sead::Vector3f::zero;
+    sead::Vector3f position = pos;
+    ball->sub_71011C88F8(&position, &rot, nullptr);
+    auto* ball_chemical = ball->sub_71011D8A44(0);
+    auto* chemicals = mActor->getChemicalContainer();
+    auto* bullet = sead::DynamicCast<ksys::act::Bullet>(mActor);
+    ksys::act::Actor* owner = nullptr;
+    if (chemicals && ball_chemical && bullet) {
+        owner = bullet->m163();
+        if (owner) {
+            if (auto* chemical = owner->sub_71011D8A34(0))
+                ball_chemical->sub_7100D8EAB4(chemical->_10);
+        }
+    }
+    auto* ball_bullet = sead::DynamicCast<ksys::act::Bullet>(ball);
+    if (owner && ball_bullet) {
+        ball_bullet->sub_71000048BC(owner);
+        ball_bullet->sub_710000497C(owner);
+    }
+    return true;
+}
+
 f32 Arrow::sub_710046A7BC() {
     auto* actor = sead::DynamicCast<ksys::act::Actor>(mActor->getConnectedCalcParent());
     auto* weapon = sead::DynamicCast<act::Weapon>(actor);

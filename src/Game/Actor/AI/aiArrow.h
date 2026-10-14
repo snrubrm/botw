@@ -68,7 +68,8 @@ public:
     // 0x7100467384 (placeholder name): while flying or stuck / bounced, updates a burning arrow on water (the
     // fire is put out, or kept with the electric water ball from sub_7100468A18).
     bool sub_7100467384();
-    // 0x7100468a18 (not decompiled): uses the electric water ball handle _1a8 at `pos`.
+    // 0x7100468a18 (placeholder name): releases the prepared electric water ball (_1a8) at `pos`, giving it the
+    // owner's chemical value and making the arrow's owner its owner.
     bool sub_7100468A18(const sead::Vector3f& pos);
     // 0x71004692fc (placeholder name): the linked weapon's parent actor is the player.
     bool sub_71004692FC();
