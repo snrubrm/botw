@@ -7,6 +7,7 @@
 #include "KingSystem/ActorSystem/actBaseProcAccessor.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/aiRootAi.h"
+#include "KingSystem/System/VFR.h"
 #include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actUnk_7100e4e084.h"
@@ -83,8 +84,7 @@ void IgnitedThrown::enter_(ksys::act::ai::InlineParamPack* params) {
         }
     }
     _71 = true;
-    _74 = _78 = 10.0f;
-    _7c = -1.0f;
+    _74.reset(10.0f);
     if (*mIsScaling_s && mActor->getRootAi()->getI() != 5)
         mActor->mScale.set(0.2f, 0.2f, 0.2f);
     if (!*mIsFadeIn_s)
@@ -121,8 +121,23 @@ void IgnitedThrown::loadParams_() {
     getStaticParam(&mAS_s, "AS");
 }
 
+// NON_MATCHING: stack slots of the three core id temporaries (VFR delta lookups) are permuted.
 void IgnitedThrown::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (_70) {
+        _70 = false;
+    } else if (*mIsScaling_s) {
+        auto* actor = mActor;
+        ksys::VFR::chase(&actor->mScale.x, 1.0f, 0.2f);
+        ksys::VFR::chase(&actor->mScale.y, 1.0f, 0.2f);
+        ksys::VFR::chase(&actor->mScale.z, 1.0f, 0.2f);
+    }
+    if (_71) {
+        if (_74.value > sead::Mathf::epsilon())
+            _74.update();
+        else
+            sub_7100738DC8(mActor);
+    }
+    sub_71001B5C4C();
 }
 
 bool IgnitedThrown::isFinished() const {

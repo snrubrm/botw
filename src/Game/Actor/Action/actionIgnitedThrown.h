@@ -1,5 +1,7 @@
 #pragma once
 
+#include "KingSystem/System/Timer.h"
+
 #include <xlink2/xlink2HandleSLink.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
 
@@ -19,6 +21,8 @@ public:
 
 protected:
     void calc_() override;
+    // 0x71001b5c4c (declared only): while _9e, updates xlink properties from the actor velocity.
+    void sub_71001B5C4C();
 
     // static_param at offset 0x20
     const int* mReactionLevel_s{};
@@ -42,9 +46,7 @@ protected:
     bool _71 = false;
     bool _72 = false;
     u8 _73[0x1];
-    f32 _74 = 0.0f;
-    f32 _78 = 0.0f;
-    f32 _7c = 0.0f;
+    ksys::Timer _74{0.0f, 0.0f, 0.0f};
     xlink2::HandleSLink _80;
     sead::Vector3f _90 = sead::Vector3f::zero;
     u16 _9c = 0;
