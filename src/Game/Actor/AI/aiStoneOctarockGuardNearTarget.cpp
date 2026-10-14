@@ -7,25 +7,25 @@
 namespace uking::ai {
 
 StoneOctarockGuardNearTarget::StoneOctarockGuardNearTarget(const InitArg& arg)
-    : TimedGuardNearTarget(arg) {}
+    : InvincibleNearTarget(arg) {}
 
 StoneOctarockGuardNearTarget::~StoneOctarockGuardNearTarget() = default;
 
 bool StoneOctarockGuardNearTarget::init_(sead::Heap* heap) {
-    return TimedGuardNearTarget::init_(heap);
+    return InvincibleNearTarget::init_(heap);
 }
 
 void StoneOctarockGuardNearTarget::enter_(ksys::act::ai::InlineParamPack* params) {
     _b8 = false;
-    TimedGuardNearTarget::enter_(params);
+    InvincibleNearTarget::enter_(params);
 }
 
 void StoneOctarockGuardNearTarget::leave_() {
-    TimedGuardNearTarget::leave_();
+    InvincibleNearTarget::leave_();
 }
 
 void StoneOctarockGuardNearTarget::loadParams_() {
-    TimedGuardNearTarget::loadParams_();
+    InvincibleNearTarget::loadParams_();
     getStaticParam(&mNoticeTerrorLevel_s, "NoticeTerrorLevel");
 }
 
@@ -39,7 +39,7 @@ bool StoneOctarockGuardNearTarget::handleMessage_(const ksys::Message* message) 
 
 void StoneOctarockGuardNearTarget::m37(bool enable) {
     _b8 = enable;
-    GuardNearTarget::m37(enable);
+    InvincibleNearTargetBase::m37(enable);
 }
 
 void StoneOctarockGuardNearTarget::calc_() {
@@ -49,11 +49,11 @@ void StoneOctarockGuardNearTarget::calc_() {
         else
             _60._24 = true;
     }
-    TimedGuardNearTarget::calc_();
+    InvincibleNearTarget::calc_();
 }
 
 bool StoneOctarockGuardNearTarget::m39(float distance) {
-    if (!TimedGuardNearTarget::m39(distance))
+    if (!InvincibleNearTarget::m39(distance))
         return false;
     auto* awareness = mActor->getAwareness();
     if (awareness && awareness->_260[2]) {

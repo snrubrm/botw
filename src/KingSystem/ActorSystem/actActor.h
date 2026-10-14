@@ -36,7 +36,7 @@ class Unk_7100e8b2b8;
 
 namespace uking::action {
 class NPCTargetMove;
-class ChemicalAttack;
+class EmitAttackBase;
 class DragonFixPlacement;
 class BrightBowSlowFall;
 class KokkoCreateDrop;
@@ -333,7 +333,7 @@ public:
     const sead::Vector3f& get454() const { return _454; }
     const sead::BoundBox3f& getAabb() const { return mAabb; }
     // mScale and mStartModelOpacity are written inline (element-wise / single stores) by AI actions
-    // (EquipedWeaponChild, PlayerStoleOpen, ChemicalAttack, ForkModelVisibleOff) and other classes.
+    // (EquipedWeaponChild, PlayerStoleOpen, EmitAttackBase, ForkModelVisibleOff) and other classes.
     void setScale(const sead::Vector3f& scale) { mScale = scale; }
     void setStartModelOpacity(f32 opacity) { mStartModelOpacity = opacity; }
     // 0x71011ccad8 (CSV Actor::x_3, declaration only): sets _4f4 (and notifies the model when it changed).
@@ -870,7 +870,7 @@ protected:
     friend class uking::ai::GerudoQueenBattle;  // updates mMtx before notifying the actor.
     friend class uking::action::DragonFixPlacement;  // F3AB8 writes translation before setMtx.
     friend class uking::action::BrightBowSlowFall;  // D2674 copies the initial world matrix.
-    friend class uking::action::ChemicalAttack;  // lerps mScale.x in place
+    friend class uking::action::EmitAttackBase;  // lerps mScale.x in place
     friend class uking::action::IgnitedThrown;  // writes mScale directly (enter_)
 
     struct Unk1 {

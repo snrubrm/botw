@@ -14,12 +14,12 @@
 namespace uking::action {
 
 ChemicalElectricWaterBall::ChemicalElectricWaterBall(const InitArg& arg)
-    : ChemicalAttackBall(arg) {}
+    : ChemicalAttack(arg) {}
 
 ChemicalElectricWaterBall::~ChemicalElectricWaterBall() = default;
 
 bool ChemicalElectricWaterBall::init_(sead::Heap* heap) {
-    if (!ChemicalAttackBall::init_(heap))
+    if (!ChemicalAttack::init_(heap))
         return false;
     *static_cast<Unk_71025afb58**>(mChemicalBulletBindActor_a) = &_138;
     return true;
@@ -27,7 +27,7 @@ bool ChemicalElectricWaterBall::init_(sead::Heap* heap) {
 
 // NON_MATCHING: model-versus-actor matrix selection uses different registers.
 void ChemicalElectricWaterBall::enter_(ksys::act::ai::InlineParamPack* params) {
-    ChemicalAttackBall::enter_(params);
+    ChemicalAttack::enter_(params);
     _b0.reset(*mDeleteTime_s);
     _bc = false;
     if (auto* link = sead::DynamicCast<Unk_7102370e70>(
@@ -56,11 +56,11 @@ void ChemicalElectricWaterBall::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void ChemicalElectricWaterBall::leave_() {
     mActor->sub_71011DA834(&_c0);
-    ChemicalAttackBall::leave_();
+    ChemicalAttack::leave_();
 }
 
 void ChemicalElectricWaterBall::loadParams_() {
-    ChemicalAttackBall::loadParams_();
+    ChemicalAttack::loadParams_();
     getStaticParam(&mDeleteTime_s, "DeleteTime");
     getStaticParam(&mTargetScale_s, "TargetScale");
     getStaticParam(&mScaleKeep_s, "ScaleKeep");
@@ -114,7 +114,7 @@ bool ChemicalElectricWaterBall::sub_71000DBC74() {
 }
 
 int ChemicalElectricWaterBall::m36() {
-    return ChemicalAttackBall::m36() | 8;
+    return ChemicalAttack::m36() | 8;
 }
 
 int ChemicalElectricWaterBall::m37() {

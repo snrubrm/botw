@@ -2,14 +2,14 @@
 
 #include <math/seadVector.h>
 
-#include "Game/Actor/AI/aiFlyingEnemyKeepMove.h"
+#include "Game/Actor/AI/aiFlyingEnemyDistanceKeepMove.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 #include "KingSystem/ActorSystem/actUnk_7100d3bc4c.h"
 
 namespace uking::ai {
 
-class FlyingEnemySideKeepMove : public FlyingEnemyKeepMove {
-    SEAD_RTTI_OVERRIDE(FlyingEnemySideKeepMove, FlyingEnemyKeepMove)
+class FlyingEnemySideKeepMove : public FlyingEnemyDistanceKeepMove {
+    SEAD_RTTI_OVERRIDE(FlyingEnemySideKeepMove, FlyingEnemyDistanceKeepMove)
 public:
     explicit FlyingEnemySideKeepMove(const InitArg& arg);
     ~FlyingEnemySideKeepMove() override;

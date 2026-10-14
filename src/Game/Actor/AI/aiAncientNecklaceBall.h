@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Game/Actor/AI/aiAncientNecklaceBallBase.h"
+#include "Game/Actor/AI/aiPlayASSwitch.h"
 #include "Game/Actor/aiUnk_7102357210.h"
 #include "Game/Actor/aiUnk_7102357d20.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
@@ -9,8 +9,8 @@
 
 namespace uking::ai {
 
-class AncientNecklaceBall : public AncientNecklaceBallBase {
-    SEAD_RTTI_OVERRIDE(AncientNecklaceBall, AncientNecklaceBallBase)
+class AncientNecklaceBall : public PlayASSwitch {
+    SEAD_RTTI_OVERRIDE(AncientNecklaceBall, PlayASSwitch)
 public:
     explicit AncientNecklaceBall(const InitArg& arg);
     ~AncientNecklaceBall() override;

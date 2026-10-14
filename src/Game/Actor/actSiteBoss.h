@@ -241,7 +241,7 @@ public:
         // 2026-10-07: SiteBossSwordRoot::init_ 0x710059881c sets this from _1534 bits 2/3.
         /* 0x099 */ bool _99;
         /* 0x09a */ u8 _9a[2];
-        /* 0x09c */ u32 _9c;  // bit idx: bound actor idx (cleared by SiteBossChemicalProjectile)
+        /* 0x09c */ u32 _9c;  // bit idx: bound actor idx (cleared by GanonFlameBall)
         /* 0x0a0 */ sead::SafeArray<ksys::act::BaseProcHandle, 20> _a0;
         /* 0x1e0 */ sead::SafeArray<ksys::act::BaseProcLink, 20> _1e0;
         /* 0x320 */ sead::SafeArray<ksys::act::BaseProcLink, 4> _320;

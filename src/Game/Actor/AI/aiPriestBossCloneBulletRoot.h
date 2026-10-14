@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Game/Actor/AI/aiPriestBossMode.h"
+#include "Game/Actor/AI/aiPriestBoss.h"
 #include "Game/Actor/aiUnk_7102357210.h"
 #include "Game/Actor/aiUnk_7102357d20.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
@@ -8,8 +8,8 @@
 
 namespace uking::ai {
 
-class PriestBossCloneBulletRoot : public PriestBossMode {
-    SEAD_RTTI_OVERRIDE(PriestBossCloneBulletRoot, PriestBossMode)
+class PriestBossCloneBulletRoot : public PriestBoss {
+    SEAD_RTTI_OVERRIDE(PriestBossCloneBulletRoot, PriestBoss)
 public:
     explicit PriestBossCloneBulletRoot(const InitArg& arg);
     ~PriestBossCloneBulletRoot() override;

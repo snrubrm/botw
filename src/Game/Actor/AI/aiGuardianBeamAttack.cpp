@@ -8,7 +8,7 @@
 
 namespace uking::ai {
 
-GuardianBeamAttack::GuardianBeamAttack(const InitArg& arg) : GuardianBeamAttackBase(arg) {}
+GuardianBeamAttack::GuardianBeamAttack(const InitArg& arg) : GuardianCommonBeamAttack(arg) {}
 
 GuardianBeamAttack::~GuardianBeamAttack() {
     if (_78) {
@@ -23,14 +23,14 @@ bool Unk_71023f6f80::m5(ksys::act::BaseProc* proc) {
 }
 
 bool GuardianBeamAttack::init_(sead::Heap* heap) {
-    if (!GuardianBeamAttackBase::init_(heap))
+    if (!GuardianCommonBeamAttack::init_(heap))
         return false;
     _78 = new (heap, 8) Unk_71023f6f80(this);
     return true;
 }
 
 void GuardianBeamAttack::enter_(ksys::act::ai::InlineParamPack* params) {
-    GuardianBeamAttackBase::enter_(params);
+    GuardianCommonBeamAttack::enter_(params);
     auto* guardian = sub_7100411DE0();
     changeChild("待機");
     if (guardian) {
@@ -54,7 +54,7 @@ void GuardianBeamAttack::sub_710040F7C0(bool prepare) {
 }
 
 void GuardianBeamAttack::calc_() {
-    GuardianBeamAttackBase::calc_();
+    GuardianCommonBeamAttack::calc_();
     if (auto* component = sub_7100411E74()) {
         if (auto* bind = sead::DynamicCast<act::Unk_710235b408>(component->_ba8)) {
             sub_710040EFDC(&bind->_30);
@@ -79,7 +79,7 @@ void GuardianBeamAttack::sub_710040F8B8() {
 }
 
 void GuardianBeamAttack::leave_() {
-    GuardianBeamAttackBase::leave_();
+    GuardianCommonBeamAttack::leave_();
     mActor->sub_71011DA834(_78);
     _48.fade();
     _58.fade();
@@ -123,7 +123,7 @@ bool GuardianBeamAttack::handleMessage_(const ksys::Message* message) {
 }
 
 void GuardianBeamAttack::loadParams_() {
-    GuardianBeamAttackBase::loadParams_();
+    GuardianCommonBeamAttack::loadParams_();
     getStaticParam(&mLightRadius_s, "LightRadius");
     getStaticParam(&mLightLength_s, "LightLength");
     getStaticParam(&mLightLengthOffset_s, "LightLengthOffset");

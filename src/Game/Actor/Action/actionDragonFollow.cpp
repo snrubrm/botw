@@ -3,12 +3,12 @@
 
 namespace uking::action {
 
-DragonFollow::DragonFollow(const InitArg& arg) : FollowChallenge(arg) {}
+DragonFollow::DragonFollow(const InitArg& arg) : AppearFollowChallenge(arg) {}
 
 DragonFollow::~DragonFollow() = default;
 
 bool DragonFollow::init_(sead::Heap* heap) {
-    if (!FollowChallenge::init_(heap))
+    if (!AppearFollowChallenge::init_(heap))
         return false;
     sub_710004E2B4(false);
     sub_71000F4798();
@@ -16,21 +16,21 @@ bool DragonFollow::init_(sead::Heap* heap) {
 }
 
 void DragonFollow::enter_(ksys::act::ai::InlineParamPack* params) {
-    FollowChallenge::enter_(params);
+    AppearFollowChallenge::enter_(params);
 }
 
 void DragonFollow::leave_() {
-    FollowChallenge::leave_();
+    AppearFollowChallenge::leave_();
     mActor->sub_71011DA834(&mBindInfo);
 }
 
 void DragonFollow::loadParams_() {
-    FollowChallenge::loadParams_();
+    AppearFollowChallenge::loadParams_();
     getStaticParam(&mDungeonName_s, "DungeonName");
 }
 
 void DragonFollow::calc_() {
-    FollowChallenge::calc_();
+    AppearFollowChallenge::calc_();
     const u32 delay = _c38;
     if (delay)
         --_c38;

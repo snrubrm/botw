@@ -2,13 +2,13 @@
 
 #include <xlink2/xlink2HandleELink.h>
 #include "KingSystem/ActorSystem/actModelBindInfo.h"
-#include "Game/Actor/Action/actionChemicalAttackBall.h"
+#include "Game/Actor/Action/actionChemicalAttack.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class LyzalfosFlame : public ChemicalAttackBall {
-    SEAD_RTTI_OVERRIDE(LyzalfosFlame, ChemicalAttackBall)
+class LyzalfosFlame : public ChemicalAttack {
+    SEAD_RTTI_OVERRIDE(LyzalfosFlame, ChemicalAttack)
 public:
     explicit LyzalfosFlame(const InitArg& arg);
     ~LyzalfosFlame() override;

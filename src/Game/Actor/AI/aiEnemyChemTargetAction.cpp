@@ -6,20 +6,20 @@
 
 namespace uking::ai {
 
-EnemyChemTargetAction::EnemyChemTargetAction(const InitArg& arg) : EnemyChemTargetActionBase(arg) {}
+EnemyChemTargetAction::EnemyChemTargetAction(const InitArg& arg) : EnemyTargetAction(arg) {}
 
 EnemyChemTargetAction::~EnemyChemTargetAction() = default;
 
 bool EnemyChemTargetAction::init_(sead::Heap* heap) {
-    return EnemyChemTargetActionBase::init_(heap);
+    return EnemyTargetAction::init_(heap);
 }
 
 void EnemyChemTargetAction::enter_(ksys::act::ai::InlineParamPack* params) {
-    EnemyChemTargetActionBase::enter_(params);
+    EnemyTargetAction::enter_(params);
 }
 
 bool EnemyChemTargetAction::m35() {
-    if (EnemyChemTargetActionBase::m35())
+    if (EnemyTargetAction::m35())
         return true;
 
     sead::Matrix34f mtx;
@@ -34,15 +34,15 @@ bool EnemyChemTargetAction::m35() {
 }
 
 void EnemyChemTargetAction::calc_() {
-    EnemyChemTargetActionBase::calc_();
+    EnemyTargetAction::calc_();
 }
 
 void EnemyChemTargetAction::leave_() {
-    EnemyChemTargetActionBase::leave_();
+    EnemyTargetAction::leave_();
 }
 
 void EnemyChemTargetAction::loadParams_() {
-    EnemyChemTargetActionBase::loadParams_();
+    EnemyTargetAction::loadParams_();
     getDynamicParam(&mTargetActor_d, "TargetActor");
 }
 

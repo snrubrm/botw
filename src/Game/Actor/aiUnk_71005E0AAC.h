@@ -6,7 +6,7 @@ namespace ksys::act {
 class Actor;
 }
 
-// Unnamed free helper (placeholder name; users: TimedGuardNearTarget, ViewWait*).
+// Unnamed free helper (placeholder name; users: InvincibleNearTarget, ViewWait*).
 
 // 0x71005e0aac: whether the camera looks at `actor` within `angle` (compares the dot product of the
 // direction from the camera to the actor with the camera direction against cos(angle)); only when

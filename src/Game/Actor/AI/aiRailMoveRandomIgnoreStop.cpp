@@ -30,7 +30,7 @@ void RailMoveRandomIgnoreStop::loadParams_() {
 
 void RailMoveRandomIgnoreStop::m39() {
     if (sead::GlobalRandom::instance()->getS32Range(0, 100) < *mStopRate_s)
-        RailMove::m39();
+        BezierRailMove::m39();
     else
         sub_710032C088();
 }

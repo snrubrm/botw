@@ -5,16 +5,16 @@
 namespace uking::ai {
 
 DungeonRotateTag4FireApp::DungeonRotateTag4FireApp(const InitArg& arg)
-    : WholeDungeonRotateTag(arg) {}
+    : DungeonRotateTagApp(arg) {}
 
 DungeonRotateTag4FireApp::~DungeonRotateTag4FireApp() = default;
 
 bool DungeonRotateTag4FireApp::init_(sead::Heap* heap) {
-    return WholeDungeonRotateTag::init_(heap);
+    return DungeonRotateTagApp::init_(heap);
 }
 
 void DungeonRotateTag4FireApp::enter_(ksys::act::ai::InlineParamPack* params) {
-    WholeDungeonRotateTag::enter_(params);
+    DungeonRotateTagApp::enter_(params);
     _48 = 0;
     _40 = 0;
     _44 = 0;
@@ -23,11 +23,11 @@ void DungeonRotateTag4FireApp::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void DungeonRotateTag4FireApp::calc_() {
-    WholeDungeonRotateTag::calc_();
+    DungeonRotateTagApp::calc_();
 }
 
 void DungeonRotateTag4FireApp::leave_() {
-    WholeDungeonRotateTag::leave_();
+    DungeonRotateTagApp::leave_();
 }
 
 bool DungeonRotateTag4FireApp::m34() {
@@ -103,11 +103,11 @@ void DungeonRotateTag4FireApp::m45() {
     else if (state == 2)
         state = 1;
     m43(state);
-    WholeDungeonRotateTag::m45();
+    DungeonRotateTagApp::m45();
 }
 
 void DungeonRotateTag4FireApp::loadParams_() {
-    WholeDungeonRotateTag::loadParams_();
+    DungeonRotateTagApp::loadParams_();
 }
 
 }  // namespace uking::ai

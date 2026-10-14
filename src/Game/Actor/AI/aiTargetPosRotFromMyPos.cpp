@@ -4,31 +4,31 @@
 
 namespace uking::ai {
 
-TargetPosRotFromMyPos::TargetPosRotFromMyPos(const InitArg& arg) : TargetPosAI(arg) {}
+TargetPosRotFromMyPos::TargetPosRotFromMyPos(const InitArg& arg) : TargetActorPos(arg) {}
 
 TargetPosRotFromMyPos::~TargetPosRotFromMyPos() = default;
 
 bool TargetPosRotFromMyPos::init_(sead::Heap* heap) {
-    return TargetPosAI::init_(heap);
+    return TargetActorPos::init_(heap);
 }
 
 void TargetPosRotFromMyPos::enter_(ksys::act::ai::InlineParamPack* params) {
     mAngle = *mParams.mIsRandSign_s ?
                  s32((sead::GlobalRandom::instance()->getU32() & 2) - 1) * *mParams.mAngle_s :
                  *mParams.mAngle_s;
-    TargetPosAI::enter_(params);
+    TargetActorPos::enter_(params);
 }
 
 void TargetPosRotFromMyPos::calc_() {
-    TargetPosAI::calc_();
+    TargetActorPos::calc_();
 }
 
 void TargetPosRotFromMyPos::leave_() {
-    TargetPosAI::leave_();
+    TargetActorPos::leave_();
 }
 
 void TargetPosRotFromMyPos::loadParams_() {
-    TargetPosAI::loadParams_();
+    TargetActorPos::loadParams_();
     getStaticParam(&mParams.mIsRandSign_s, "IsRandSign");
     getStaticParam(&mParams.mAngle_s, "Angle");
     getDynamicParam(&mParams.mTargetPos_d, "TargetPos");

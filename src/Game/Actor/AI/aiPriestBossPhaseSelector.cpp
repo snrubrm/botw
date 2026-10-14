@@ -2,16 +2,16 @@
 
 namespace uking::ai {
 
-PriestBossPhaseSelector::PriestBossPhaseSelector(const InitArg& arg) : PriestBossMode(arg) {}
+PriestBossPhaseSelector::PriestBossPhaseSelector(const InitArg& arg) : PriestBoss(arg) {}
 
 PriestBossPhaseSelector::~PriestBossPhaseSelector() = default;
 
 bool PriestBossPhaseSelector::init_(sead::Heap* heap) {
-    return PriestBossMode::init_(heap);
+    return PriestBoss::init_(heap);
 }
 
 void PriestBossPhaseSelector::enter_(ksys::act::ai::InlineParamPack* params) {
-    PriestBossMode::enter_(params);
+    PriestBoss::enter_(params);
     auto* unit = sub_7100505BE4();
     if (!unit)
         return;
@@ -39,7 +39,7 @@ void PriestBossPhaseSelector::enter_(ksys::act::ai::InlineParamPack* params) {
 // NON_MATCHING: the original reloads _48 and _4c for the comparison (as with SEAD_ENUM's volatile
 // operator int on both sides); the member operator!= compares the stored values directly
 void PriestBossPhaseSelector::calc_() {
-    PriestBossMode::calc_();
+    PriestBoss::calc_();
     auto* unit = sub_7100505BE4();
     if (!unit)
         return;
@@ -75,11 +75,11 @@ void PriestBossPhaseSelector::calc_() {
 }
 
 void PriestBossPhaseSelector::leave_() {
-    PriestBossMode::leave_();
+    PriestBoss::leave_();
 }
 
 void PriestBossPhaseSelector::loadParams_() {
-    PriestBossMode::loadParams_();
+    PriestBoss::loadParams_();
     getStaticParam(&mIsSelectOnlyOnce_s, "IsSelectOnlyOnce");
 }
 

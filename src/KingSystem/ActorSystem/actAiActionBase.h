@@ -118,7 +118,7 @@ public:
     // lane1 s47 (DemoRootAI): bit 3 of the flags.
     bool isTriggerAction() const { return mFlags.isOn(Flag::TriggerAction); }
     // inline-only in the original; name is a guess. Evidence: `child->isFinished() || child->isFailed()` on one
-    // cached child pointer inside a larger `&&` / `||` expression (SpecialEnemySleep::isChangeable keeps all three
+    // cached child pointer inside a larger `&&` / `||` expression (SleepNormal::isChangeable keeps all three
     // SafeString temporaries in distinct stack slots, WolfLinkNormalRoot helpers repeat it five times).
     bool isFinishedOrFailed() const { return isFinished() || isFailed(); }
 

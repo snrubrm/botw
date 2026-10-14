@@ -24,12 +24,12 @@ bool SiteBossRecognizeRoot::sub_710058196C() {
     return sub_71002D17D4(mActor, &home, &target, mChaseDist_s, mChaseDistOffset_s, special);
 }
 
-SiteBossRecognizeRoot::SiteBossRecognizeRoot(const InitArg& arg) : SiteBossRecognizeRootBase(arg) {}
+SiteBossRecognizeRoot::SiteBossRecognizeRoot(const InitArg& arg) : LastBossRecognizeRoot(arg) {}
 
 SiteBossRecognizeRoot::~SiteBossRecognizeRoot() = default;
 
 bool SiteBossRecognizeRoot::init_(sead::Heap* heap) {
-    return SiteBossRecognizeRootBase::init_(heap);
+    return LastBossRecognizeRoot::init_(heap);
 }
 
 void SiteBossRecognizeRoot::enter_(ksys::act::ai::InlineParamPack* params) {
@@ -39,15 +39,15 @@ void SiteBossRecognizeRoot::enter_(ksys::act::ai::InlineParamPack* params) {
         m40();
         return;
     }
-    SiteBossRecognizeRootBase::enter_(params);
+    LastBossRecognizeRoot::enter_(params);
 }
 
 void SiteBossRecognizeRoot::leave_() {
-    SiteBossRecognizeRootBase::leave_();
+    LastBossRecognizeRoot::leave_();
 }
 
 void SiteBossRecognizeRoot::loadParams_() {
-    SiteBossRecognizeRootBase::loadParams_();
+    LastBossRecognizeRoot::loadParams_();
     getStaticParam(&mIgnoreWaprDistMax_s, "IgnoreWaprDistMax");
     getStaticParam(&mIsCheckChildDevice_s, "IsCheckChildDevice");
     getStaticParam(&mIgnoreWarpDistRetFromDamage_s, "IgnoreWarpDistRetFromDamage");
@@ -62,7 +62,7 @@ void SiteBossRecognizeRoot::m34(bool on) {
 }
 
 bool SiteBossRecognizeRoot::m35() {
-    bool ret = SiteBossRecognizeRootBase::m35();
+    bool ret = LastBossRecognizeRoot::m35();
     if (testRootAiFlag2(ksys::act::ai::RootAiFlag2::_0)) {
         if (++_94 < *mIgnoreWaprDistMax_s)
             return false;
@@ -73,7 +73,7 @@ bool SiteBossRecognizeRoot::m35() {
 // NON_MATCHING: the original tests kind - 1 in {0, 4, 8} and kind in {0, 4, 8} separately (two
 // bit tests) and keeps the "ret = false" branch
 bool SiteBossRecognizeRoot::m36() {
-    bool ret = SiteBossRecognizeRootBase::m36();
+    bool ret = LastBossRecognizeRoot::m36();
     if (auto* boss = sead::DynamicCast<act::SiteBoss>(mActor)) {
         const s32 kind = boss->_1534;
         if ((kind == 1 || kind == 5 || kind == 9 || kind == 0 || kind == 4 || kind == 8) &&
@@ -85,7 +85,7 @@ bool SiteBossRecognizeRoot::m36() {
 }
 
 void SiteBossRecognizeRoot::m38(ksys::act::ai::InlineParamPack* params) {
-    SiteBossRecognizeRootBase::m38(params);
+    LastBossRecognizeRoot::m38(params);
     params->addBool(false, "IsCancelAttack", -1);
 }
 

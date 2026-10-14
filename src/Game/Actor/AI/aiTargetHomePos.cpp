@@ -3,28 +3,28 @@
 
 namespace uking::ai {
 
-TargetHomePos::TargetHomePos(const InitArg& arg) : TargetPosAI(arg) {}
+TargetHomePos::TargetHomePos(const InitArg& arg) : TargetActorPos(arg) {}
 
 TargetHomePos::~TargetHomePos() = default;
 
 bool TargetHomePos::init_(sead::Heap* heap) {
-    return TargetPosAI::init_(heap);
+    return TargetActorPos::init_(heap);
 }
 
 void TargetHomePos::enter_(ksys::act::ai::InlineParamPack* params) {
-    TargetPosAI::enter_(params);
+    TargetActorPos::enter_(params);
 }
 
 void TargetHomePos::calc_() {
-    TargetPosAI::calc_();
+    TargetActorPos::calc_();
 }
 
 void TargetHomePos::leave_() {
-    TargetPosAI::leave_();
+    TargetActorPos::leave_();
 }
 
 void TargetHomePos::loadParams_() {
-    TargetPosAI::loadParams_();
+    TargetActorPos::loadParams_();
 }
 
 void TargetHomePos::m35(sead::Vector3f* pos) {

@@ -160,7 +160,7 @@ bool sub_710072D344(sead::Vector3f* velocity, const sead::Vector3f& start,
                     const sead::Vector3f& target, f32 speed, f32 gravity);
 
 /// 0x71000891c8 (the one out-of-line copy of an inline function of the original; it sits in the
-/// AirOctaFloatBase TU, ~35 callers): the actor's forward direction (matrix Z axis) with the
+/// AirOctaMoveBase TU, ~35 callers): the actor's forward direction (matrix Z axis) with the
 /// component along its up direction removed, normalised. Placeholder name.
 void sub_71000891C8(sead::Vector3f* out, ksys::act::Actor* actor);
 

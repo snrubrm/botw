@@ -15,16 +15,16 @@ bool sub_71006E8610(ksys::act::Actor* actor);
 
 namespace uking::ai {
 
-InsectRoot::InsectRoot(const InitArg& arg) : SimpleWildlifeRoot(arg) {}
+InsectRoot::InsectRoot(const InitArg& arg) : CapturedActorRoot(arg) {}
 
 InsectRoot::~InsectRoot() = default;
 
 bool InsectRoot::init_(sead::Heap* heap) {
-    return SimpleWildlifeRoot::init_(heap);
+    return CapturedActorRoot::init_(heap);
 }
 
 void InsectRoot::enter_(ksys::act::ai::InlineParamPack* params) {
-    SimpleWildlifeRoot::enter_(params);
+    CapturedActorRoot::enter_(params);
     _100 = ksys::Timer(20.0f, 20.0f);
     _10c = false;
     if (auto* cc = mActor->getCharacterController()) {
@@ -37,11 +37,11 @@ void InsectRoot::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void InsectRoot::leave_() {
-    SimpleWildlifeRoot::leave_();
+    CapturedActorRoot::leave_();
 }
 
 void InsectRoot::loadParams_() {
-    SimpleWildlifeRoot::loadParams_();
+    CapturedActorRoot::loadParams_();
     getStaticParam(&mIsEscapeInWater_s, "IsEscapeInWater");
 }
 
@@ -59,14 +59,14 @@ bool InsectRoot::handleMessage_(const ksys::Message* message) {
 bool InsectRoot::m34() {
     if (_10c)
         return false;
-    return SimpleWildlifeRoot::m34();
+    return CapturedActorRoot::m34();
 }
 
 bool InsectRoot::m35() {
     auto* damage_mgr = mActor->getDamageMgr();
     if (damage_mgr && damage_mgr->getField54() == 0x1c)
         return false;
-    return SimpleWildlifeRoot::m35();
+    return CapturedActorRoot::m35();
 }
 
 void InsectRoot::m40() {
@@ -76,7 +76,7 @@ void InsectRoot::m40() {
             cc->sub_7100F60398(impulse);
         }
     }
-    SimpleWildlifeRoot::m40();
+    CapturedActorRoot::m40();
 }
 
 // 0x710044b36c
@@ -115,7 +115,7 @@ void InsectRoot::calc_() {
 
     if (mActor->get68f() && *mIsEscapeInWater_s) {
         if (isCurrentChild("逃走") || isCurrentChild("死亡")) {
-            SimpleWildlifeRoot::calc_();
+            CapturedActorRoot::calc_();
         } else {
             _c4 = ksys::Timer(-1.0f, -1.0f);
             const sead::Vector3f trans = mActor->getMtx().getTranslation();
@@ -130,7 +130,7 @@ void InsectRoot::calc_() {
         _b8.set(trans.x - front.x, trans.y - front.y, trans.z - front.z);
         m39();
     } else {
-        SimpleWildlifeRoot::calc_();
+        CapturedActorRoot::calc_();
     }
 }
 

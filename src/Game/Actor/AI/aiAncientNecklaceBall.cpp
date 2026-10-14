@@ -78,12 +78,12 @@ void AncientNecklaceBall::sub_7100301A5C() {
     }
 }
 
-AncientNecklaceBall::AncientNecklaceBall(const InitArg& arg) : AncientNecklaceBallBase(arg) {}
+AncientNecklaceBall::AncientNecklaceBall(const InitArg& arg) : PlayASSwitch(arg) {}
 
 AncientNecklaceBall::~AncientNecklaceBall() = default;
 
 bool AncientNecklaceBall::init_(sead::Heap* heap) {
-    if (!AncientNecklaceBallBase::init_(heap))
+    if (!PlayASSwitch::init_(heap))
         return false;
 
     if (auto* body = mActor->getMainBody())
@@ -96,7 +96,7 @@ void AncientNecklaceBall::enter_(ksys::act::ai::InlineParamPack* params) {
     if (!mGiantNecklaceActiveSaveFlag_m.isEmpty())
         ksys::gdt::setBoolByKey(true, mGiantNecklaceActiveSaveFlag_m);
     _120 = ksys::Timer(1.0f, 1.0f, 0.0f);
-    AncientNecklaceBallBase::enter_(params);
+    PlayASSwitch::enter_(params);
 }
 
 void AncientNecklaceBall::leave_() {
@@ -107,7 +107,7 @@ void AncientNecklaceBall::leave_() {
             sub_7100301D90(true);
         }
     }
-    AncientNecklaceBallBase::leave_();
+    PlayASSwitch::leave_();
     if (!mGiantNecklaceActiveSaveFlag_m.isEmpty())
         ksys::gdt::setBoolByKey(false, mGiantNecklaceActiveSaveFlag_m);
 }
@@ -145,7 +145,7 @@ void AncientNecklaceBall::calc_() {
             return;
         }
     }
-    AncientNecklaceBallBase::calc_();
+    PlayASSwitch::calc_();
     _120.update();
     if (_120.value <= sead::Mathf::epsilon()) {
         _120.reset(1.0f, 0.0f);
@@ -157,7 +157,7 @@ void AncientNecklaceBall::calc_() {
 }
 
 void AncientNecklaceBall::loadParams_() {
-    AncientNecklaceBallBase::loadParams_();
+    PlayASSwitch::loadParams_();
     getStaticParam(&mLandNoiseLevel_s, "LandNoiseLevel");
     getMapUnitParam(&mGrabNodeIndex_m, "GrabNodeIndex");
     getMapUnitParam(&mGiantNecklaceActiveSaveFlag_m, "GiantNecklaceActiveSaveFlag");
@@ -166,7 +166,7 @@ void AncientNecklaceBall::loadParams_() {
 bool AncientNecklaceBall::handleMessage_(const ksys::Message* message) {
     if (_170.m2(*message))
         return true;
-    return AncientNecklaceBallBase::handleMessage_(message);
+    return PlayASSwitch::handleMessage_(message);
 }
 
 // NON_MATCHING: the original computes &_140 after the bind->sub_7100D3C5E0(mActor) argument call; ours

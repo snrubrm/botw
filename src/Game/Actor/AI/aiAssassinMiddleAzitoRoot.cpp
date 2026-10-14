@@ -18,19 +18,19 @@
 
 namespace uking::ai {
 
-AssassinMiddleAzitoRoot::AssassinMiddleAzitoRoot(const InitArg& arg) : AssassinNormal(arg) {}
+AssassinMiddleAzitoRoot::AssassinMiddleAzitoRoot(const InitArg& arg) : GuardHomePosNormal(arg) {}
 
 AssassinMiddleAzitoRoot::~AssassinMiddleAzitoRoot() = default;
 
 bool AssassinMiddleAzitoRoot::init_(sead::Heap* heap) {
-    if (!AssassinNormal::init_(heap))
+    if (!GuardHomePosNormal::init_(heap))
         return false;
     _568 = false;
     return true;
 }
 
 void AssassinMiddleAzitoRoot::enter_(ksys::act::ai::InlineParamPack* params) {
-    AssassinNormal::enter_(params);
+    GuardHomePosNormal::enter_(params);
     auto* actor = mActor;
     if (auto* weapon = sub_71005D83E8(actor, 2)) {
         weapon->sub_71002EDB3C(uking::act::Weapon::Unk3::_3);
@@ -46,7 +46,7 @@ void AssassinMiddleAzitoRoot::enter_(ksys::act::ai::InlineParamPack* params) {
 
 // NON_MATCHING: SafeString member-address scheduling and saved-register allocation differ.
 void AssassinMiddleAzitoRoot::leave_() {
-    AssassinNormal::leave_();
+    GuardHomePosNormal::leave_();
     if (!m76()) {
         const char* demo = mDemoName_s.cstr();
         ksys::evt::Metadata metadata(demo, mEntryPoint_s.cstr(), "");
@@ -81,7 +81,7 @@ bool AssassinMiddleAzitoRoot::handleMessage_(const ksys::Message* message) {
 }
 
 void AssassinMiddleAzitoRoot::loadParams_() {
-    AssassinNormal::loadParams_();
+    GuardHomePosNormal::loadParams_();
     getStaticParam(&mEntryPoint_s, "EntryPoint");
     getStaticParam(&mDemoName_s, "DemoName");
     getStaticParam(&mLikeItem_s, "LikeItem");
@@ -108,7 +108,7 @@ void AssassinMiddleAzitoRoot::calc_() {
         sub_710031EAD0(&_400);
     }
 
-    AssassinNormal::calc_();
+    GuardHomePosNormal::calc_();
 }
 
 void AssassinMiddleAzitoRoot::m49(Unk1* out, s32 idx) {
@@ -156,7 +156,7 @@ void AssassinMiddleAzitoRoot::m49(Unk1* out, s32 idx) {
         return;
     }
 
-    AssassinNormal::m49(out, idx);
+    GuardHomePosNormal::m49(out, idx);
 }
 
 s32 AssassinMiddleAzitoRoot::m52(s32 idx) {
@@ -169,7 +169,7 @@ bool AssassinMiddleAzitoRoot::m56(Unk2* out, Unk1* info) {
         Unk_71023d8848 filter(&mLikeItem_s);
         return sub_710040CF88(&filter, out);
     }
-    return AssassinNormal::m56(out, info);
+    return GuardHomePosNormal::m56(out, info);
 }
 
 void AssassinMiddleAzitoRoot::m57(s32 type, Unk2* target) {
@@ -186,7 +186,7 @@ void AssassinMiddleAzitoRoot::m57(s32 type, Unk2* target) {
         _400 = *target->_0;
         return;
     }
-    AssassinNormal::m57(type, target);
+    GuardHomePosNormal::m57(type, target);
 }
 
 void AssassinMiddleAzitoRoot::m58(s32 type, Unk2* target) {
@@ -194,13 +194,13 @@ void AssassinMiddleAzitoRoot::m58(s32 type, Unk2* target) {
         assassinMiddleFindLikeItem(target);
         return;
     }
-    AssassinNormal::m58(type, target);
+    GuardHomePosNormal::m58(type, target);
 }
 
 void AssassinMiddleAzitoRoot::m59() {
     auto* child = getCurrentChild();
     if (!isCurrentChild("好物発見")) {
-        AssassinNormal::m59();
+        GuardHomePosNormal::m59();
         return;
     }
 
@@ -217,7 +217,7 @@ void AssassinMiddleAzitoRoot::m60(Unk3* out) {
         out->_0 = 3;
         return;
     }
-    AssassinNormal::m60(out);
+    GuardHomePosNormal::m60(out);
 }
 
 void AssassinMiddleAzitoRoot::m61(Unk3* out) {
@@ -226,7 +226,7 @@ void AssassinMiddleAzitoRoot::m61(Unk3* out) {
             out->_0 = 3;
         return;
     }
-    AssassinNormal::m61(out);
+    GuardHomePosNormal::m61(out);
 }
 
 // NON_MATCHING: the seal flag is computed with branches in the original; `or` operand order; order

@@ -4,16 +4,16 @@
 namespace uking::ai {
 
 PriestBossStageRotationSelector::PriestBossStageRotationSelector(const InitArg& arg)
-    : PriestBossMode(arg) {}
+    : PriestBoss(arg) {}
 
 PriestBossStageRotationSelector::~PriestBossStageRotationSelector() = default;
 
 bool PriestBossStageRotationSelector::init_(sead::Heap* heap) {
-    return PriestBossMode::init_(heap);
+    return PriestBoss::init_(heap);
 }
 
 void PriestBossStageRotationSelector::enter_(ksys::act::ai::InlineParamPack* params) {
-    PriestBossMode::enter_(params);
+    PriestBoss::enter_(params);
     auto* unit = sub_7100505BE4();
     if (!unit)
         return;
@@ -41,11 +41,11 @@ void PriestBossStageRotationSelector::calc_() {
 }
 
 void PriestBossStageRotationSelector::leave_() {
-    PriestBossMode::leave_();
+    PriestBoss::leave_();
 }
 
 void PriestBossStageRotationSelector::loadParams_() {
-    PriestBossMode::loadParams_();
+    PriestBoss::loadParams_();
 }
 
 }  // namespace uking::ai

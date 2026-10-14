@@ -8,7 +8,7 @@
 namespace uking::ai {
 
 // NON_MATCHING: scheduling / register allocation of the inlined FixedObjList setup stores (the node addresses now match)
-UnarmedEnemyNoiseTarget::UnarmedEnemyNoiseTarget(const InitArg& arg) : UnarmedEnemySearch(arg) {}
+UnarmedEnemyNoiseTarget::UnarmedEnemyNoiseTarget(const InitArg& arg) : NavMove(arg) {}
 
 UnarmedEnemyNoiseTarget::~UnarmedEnemyNoiseTarget() = default;
 
@@ -16,16 +16,16 @@ void UnarmedEnemyNoiseTarget::enter_(ksys::act::ai::InlineParamPack* params) {
     _e0 = sub_71005D9330(mActor);
     _100.clear();
     _c8 = *mLostTime_s;
-    UnarmedEnemySearch::enter_(params);
+    NavMove::enter_(params);
 }
 
 void UnarmedEnemyNoiseTarget::m35(const sead::Vector3f& target) {
     sub_71005D4C28();
-    UnarmedEnemySearch::m35(target);
+    NavMove::m35(target);
 }
 
 void UnarmedEnemyNoiseTarget::leave_() {
-    UnarmedEnemySearch::leave_();
+    NavMove::leave_();
     sub_71005DB3EC(mActor);
     if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
         enemy->sub_7100019C58(sub_71005D83E8(enemy, *mWeaponIdx_s));
@@ -35,7 +35,7 @@ void UnarmedEnemyNoiseTarget::leave_() {
 }
 
 void UnarmedEnemyNoiseTarget::loadParams_() {
-    UnarmedEnemySearch::loadParams_();
+    NavMove::loadParams_();
     getStaticParam(&mLostTime_s, "LostTime");
     getStaticParam(&mWeaponIdx_s, "WeaponIdx");
     getStaticParam(&mLostRange_s, "LostRange");

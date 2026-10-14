@@ -1,0 +1,36 @@
+#pragma once
+
+#include "KingSystem/ActorSystem/actAiAi.h"
+
+namespace ksys::phys {
+class RigidBody;
+}
+
+namespace uking::ai {
+
+class SimpleBeamExplode : public ksys::act::ai::Ai {
+    SEAD_RTTI_OVERRIDE(SimpleBeamExplode, ksys::act::ai::Ai)
+public:
+    explicit SimpleBeamExplode(const InitArg& arg);
+    ~SimpleBeamExplode() override;
+
+    bool init_(sead::Heap* heap) override;
+    void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
+    void leave_() override;
+    void loadParams_() override;
+    virtual void m34();
+
+    void changeToCleanup();
+    // 0x710056ca8c: removes `_50` from the world and stops it.
+    void sub_710056CA8C();
+protected:
+    // static_param at offset 0x38
+    const float* mMaxDistance_s{};
+    // static_param at offset 0x40
+    const bool* mIsDelete_s{};
+    ksys::phys::RigidBody* _48{};
+    ksys::phys::RigidBody* _50{};
+};
+
+}  // namespace uking::ai

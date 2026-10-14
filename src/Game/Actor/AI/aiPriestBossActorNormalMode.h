@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Game/Actor/AI/aiPriestBossMode.h"
+#include "Game/Actor/AI/aiPriestBoss.h"
 #include "Game/Actor/aiPriestBossWeightedPool.h"
 #include <container/seadSafeArray.h>
 #include <prim/seadEnum.h>
@@ -9,8 +9,8 @@
 
 namespace uking::ai {
 
-class PriestBossActorNormalMode : public PriestBossMode {
-    SEAD_RTTI_OVERRIDE(PriestBossActorNormalMode, PriestBossMode)
+class PriestBossActorNormalMode : public PriestBoss {
+    SEAD_RTTI_OVERRIDE(PriestBossActorNormalMode, PriestBoss)
 public:
     explicit PriestBossActorNormalMode(const InitArg& arg);
     ~PriestBossActorNormalMode() override;

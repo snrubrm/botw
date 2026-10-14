@@ -12,16 +12,16 @@ bool sub_71002D17D4(ksys::act::Actor* actor, const sead::Vector3f* home, const s
 
 namespace uking::action {
 
-SiteBossBowBlowOff::SiteBossBowBlowOff(const InitArg& arg) : SiteBossBlowOff(arg) {}
+SiteBossBowBlowOff::SiteBossBowBlowOff(const InitArg& arg) : LastBossBlowOff(arg) {}
 
 SiteBossBowBlowOff::~SiteBossBowBlowOff() = default;
 
 bool SiteBossBowBlowOff::init_(sead::Heap* heap) {
-    return SiteBossBlowOff::init_(heap);
+    return LastBossBlowOff::init_(heap);
 }
 
 void SiteBossBowBlowOff::enter_(ksys::act::ai::InlineParamPack* params) {
-    SiteBossBlowOff::enter_(params);
+    LastBossBlowOff::enter_(params);
     if (auto* body = mActor->getMainBody()) {
         body->enableContactLayer(ksys::phys::ContactLayer::EntityPlayer);
         body->enableContactLayer(ksys::phys::ContactLayer::EntityNPC);
@@ -39,7 +39,7 @@ void SiteBossBowBlowOff::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void SiteBossBowBlowOff::leave_() {
-    SiteBossBlowOff::leave_();
+    LastBossBlowOff::leave_();
     if (auto* boss = sead::DynamicCast<act::SiteBoss>(mActor)) {
         boss->_1558.setBit(3);
         boss->sub_71002CFD04(false);
@@ -49,7 +49,7 @@ void SiteBossBowBlowOff::leave_() {
 }
 
 void SiteBossBowBlowOff::loadParams_() {
-    SiteBossBlowOff::loadParams_();
+    LastBossBlowOff::loadParams_();
     getStaticParam(&mAddForceRecoverTime_s, "AddForceRecoverTime");
     getStaticParam(&mIsRemoveCharacterController_s, "IsRemoveCharacterController");
     getStaticParam(&mForceRecoverDist_s, "ForceRecoverDist");
@@ -65,7 +65,7 @@ void SiteBossBowBlowOff::calc_() {
         if (_ec == 1)
             setFinished();
     }
-    SiteBossBlowOff::calc_();
+    LastBossBlowOff::calc_();
 }
 
 bool SiteBossBowBlowOff::sub_7100256C34() {
@@ -86,7 +86,7 @@ bool SiteBossBowBlowOff::sub_7100256C34() {
 }
 
 bool SiteBossBowBlowOff::m36() {
-    bool result = SiteBossBlowOff::m36();
+    bool result = LastBossBlowOff::m36();
     result |= sub_7100256C34();
     if (auto* boss = sead::DynamicCast<act::SiteBoss>(mActor)) {
         result |= boss->_1500 <= boss->_14c8._34;
@@ -96,7 +96,7 @@ bool SiteBossBowBlowOff::m36() {
 }
 
 s32 SiteBossBowBlowOff::m37() {
-    const s32 time = SiteBossBlowOff::m37();
+    const s32 time = LastBossBlowOff::m37();
     int level = getNumberOfDeadBlights();
     if (auto* boss = sead::DynamicCast<act::SiteBoss>(mActor)) {
         const s32 kind = boss->_1534 & ~3;

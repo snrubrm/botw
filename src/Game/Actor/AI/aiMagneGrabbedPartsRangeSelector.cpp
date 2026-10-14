@@ -5,7 +5,7 @@
 namespace uking::ai {
 
 MagneGrabbedPartsRangeSelector::MagneGrabbedPartsRangeSelector(const InitArg& arg)
-    : RangeSelect(arg) {}
+    : NewRangeSelect(arg) {}
 
 MagneGrabbedPartsRangeSelector::~MagneGrabbedPartsRangeSelector() {
     if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor))
@@ -13,7 +13,7 @@ MagneGrabbedPartsRangeSelector::~MagneGrabbedPartsRangeSelector() {
 }
 
 bool MagneGrabbedPartsRangeSelector::init_(sead::Heap* heap) {
-    if (!RangeSelect::init_(heap))
+    if (!NewRangeSelect::init_(heap))
         return false;
     auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
     if (!enemy)
@@ -23,19 +23,19 @@ bool MagneGrabbedPartsRangeSelector::init_(sead::Heap* heap) {
 }
 
 void MagneGrabbedPartsRangeSelector::enter_(ksys::act::ai::InlineParamPack* params) {
-    RangeSelect::enter_(params);
+    NewRangeSelect::enter_(params);
 }
 
 void MagneGrabbedPartsRangeSelector::calc_() {
-    RangeSelect::calc_();
+    NewRangeSelect::calc_();
 }
 
 void MagneGrabbedPartsRangeSelector::leave_() {
-    RangeSelect::leave_();
+    NewRangeSelect::leave_();
 }
 
 void MagneGrabbedPartsRangeSelector::loadParams_() {
-    RangeSelect::loadParams_();
+    NewRangeSelect::loadParams_();
     getStaticParam(&mPartsName_s, "PartsName");
 }
 

@@ -3,28 +3,28 @@
 
 namespace uking::ai {
 
-TargetTargetPos::TargetTargetPos(const InitArg& arg) : TargetPosAI(arg) {}
+TargetTargetPos::TargetTargetPos(const InitArg& arg) : TargetActorPos(arg) {}
 
 TargetTargetPos::~TargetTargetPos() = default;
 
 bool TargetTargetPos::init_(sead::Heap* heap) {
-    return TargetPosAI::init_(heap);
+    return TargetActorPos::init_(heap);
 }
 
 void TargetTargetPos::enter_(ksys::act::ai::InlineParamPack* params) {
-    TargetPosAI::enter_(params);
+    TargetActorPos::enter_(params);
 }
 
 void TargetTargetPos::calc_() {
-    TargetPosAI::calc_();
+    TargetActorPos::calc_();
 }
 
 void TargetTargetPos::leave_() {
-    TargetPosAI::leave_();
+    TargetActorPos::leave_();
 }
 
 void TargetTargetPos::loadParams_() {
-    TargetPosAI::loadParams_();
+    TargetActorPos::loadParams_();
     getStaticParam(&mAddSpeed_s, "AddSpeed");
 }
 

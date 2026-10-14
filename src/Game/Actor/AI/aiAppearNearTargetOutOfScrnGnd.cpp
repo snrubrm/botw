@@ -5,28 +5,28 @@
 namespace uking::ai {
 
 AppearNearTargetOutOfScrnGnd::AppearNearTargetOutOfScrnGnd(const InitArg& arg)
-    : AppearNearTarget(arg) {}
+    : AppearFromTarget(arg) {}
 
 AppearNearTargetOutOfScrnGnd::~AppearNearTargetOutOfScrnGnd() = default;
 
 bool AppearNearTargetOutOfScrnGnd::init_(sead::Heap* heap) {
-    return AppearNearTarget::init_(heap);
+    return AppearFromTarget::init_(heap);
 }
 
 void AppearNearTargetOutOfScrnGnd::enter_(ksys::act::ai::InlineParamPack* params) {
-    AppearNearTarget::enter_(params);
+    AppearFromTarget::enter_(params);
 }
 
 void AppearNearTargetOutOfScrnGnd::calc_() {
-    AppearNearTarget::calc_();
+    AppearFromTarget::calc_();
 }
 
 void AppearNearTargetOutOfScrnGnd::leave_() {
-    AppearNearTarget::leave_();
+    AppearFromTarget::leave_();
 }
 
 void AppearNearTargetOutOfScrnGnd::loadParams_() {
-    AppearNearTarget::loadParams_();
+    AppearFromTarget::loadParams_();
 }
 
 void AppearNearTargetOutOfScrnGnd::m34(sead::Vector3f* out) {

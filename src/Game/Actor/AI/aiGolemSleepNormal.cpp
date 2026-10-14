@@ -9,16 +9,16 @@
 
 namespace uking::ai {
 
-GolemSleepNormal::GolemSleepNormal(const InitArg& arg) : SpecialEnemySleep(arg) {}
+GolemSleepNormal::GolemSleepNormal(const InitArg& arg) : SleepNormal(arg) {}
 
 GolemSleepNormal::~GolemSleepNormal() = default;
 
 bool GolemSleepNormal::init_(sead::Heap* heap) {
-    return SpecialEnemySleep::init_(heap);
+    return SleepNormal::init_(heap);
 }
 
 void GolemSleepNormal::enter_(ksys::act::ai::InlineParamPack* params) {
-    SpecialEnemySleep::enter_(params);
+    SleepNormal::enter_(params);
     if (auto* giant = sead::DynamicCast<act::GiantEnemy>(mActor)) {
         giant->_e90 = 1;
         giant->_1568 = 1;
@@ -42,7 +42,7 @@ void GolemSleepNormal::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void GolemSleepNormal::calc_() {
-    SpecialEnemySleep::calc_();
+    SleepNormal::calc_();
     if (sub_71005DD5B0(mActor, 42, nullptr, 0, 0)) {
         if (auto* controller = sead::DynamicCast<Unk_7102450410>(
                 *static_cast<Unk_71025afb58**>(mGolemChemicalController_a))) {
@@ -53,7 +53,7 @@ void GolemSleepNormal::calc_() {
 }
 
 void GolemSleepNormal::leave_() {
-    SpecialEnemySleep::leave_();
+    SleepNormal::leave_();
     if (auto* giant = sead::DynamicCast<act::GiantEnemy>(mActor)) {
         giant->_e90 = 4;
         giant->_1568 = 0;
@@ -82,11 +82,11 @@ void GolemSleepNormal::m34() {
     if (auto* giant = sead::DynamicCast<act::GiantEnemy>(mActor))
         giant->_1568 = 0;
     sub_7100708FF0(mActor, 30.0f);
-    SpecialEnemySleep::m34();
+    SleepNormal::m34();
 }
 
 void GolemSleepNormal::loadParams_() {
-    SpecialEnemySleep::loadParams_();
+    SleepNormal::loadParams_();
     getAITreeVariable(&mGolemChemicalController_a, "GolemChemicalController");
 }
 

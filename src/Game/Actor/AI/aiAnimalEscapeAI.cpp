@@ -10,21 +10,21 @@
 
 namespace uking::ai {
 
-AnimalEscapeAI::AnimalEscapeAI(const InitArg& arg) : AnimalRoamBase(arg) {}
+AnimalEscapeAI::AnimalEscapeAI(const InitArg& arg) : AnimalRndMove(arg) {}
 
 AnimalEscapeAI::~AnimalEscapeAI() = default;
 
 bool AnimalEscapeAI::init_(sead::Heap* heap) {
-    return AnimalRoamBase::init_(heap);
+    return AnimalRndMove::init_(heap);
 }
 
 void AnimalEscapeAI::enter_(ksys::act::ai::InlineParamPack* params) {
-    AnimalRoamBase::enter_(params);
+    AnimalRndMove::enter_(params);
 }
 
 // NON_MATCHING: Finite radius comparison uses a different equivalent branch after the NaN check.
 void AnimalEscapeAI::leave_() {
-    AnimalRoamBase::leave_();
+    AnimalRndMove::leave_();
     if (auto* nav = mActor->m45()) {
         {
             auto lock = sead::makeScopedLock(nav->_1e0);
@@ -122,7 +122,7 @@ void AnimalEscapeAI::sub_71003051C0() {
 }
 
 void AnimalEscapeAI::loadParams_() {
-    AnimalRoamBase::loadParams_();
+    AnimalRndMove::loadParams_();
     getStaticParam(&mNumTimesAllowStuck_s, "NumTimesAllowStuck");
     getStaticParam(&mContinueDistance_s, "ContinueDistance");
     getStaticParam(&mShouldEscapeDistance_s, "ShouldEscapeDistance");
@@ -217,7 +217,7 @@ bool AnimalEscapeAI::m34(const sead::Vector3f* pos) {
         const bool invalid = dir.isNan() || dir == sead::Vector3f(0.0f, 0.0f, 0.0f);
         rideable->_148 = invalid ? sead::Vector3f::zero : dir;
     }
-    return AnimalRoamBase::m34(&dir);
+    return AnimalRndMove::m34(&dir);
 }
 
 bool AnimalEscapeAI::m37() {

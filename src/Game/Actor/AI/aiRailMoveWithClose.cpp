@@ -5,20 +5,20 @@
 
 namespace uking::ai {
 
-RailMoveWithClose::RailMoveWithClose(const InitArg& arg) : RailMove(arg) {}
+RailMoveWithClose::RailMoveWithClose(const InitArg& arg) : BezierRailMove(arg) {}
 
 RailMoveWithClose::~RailMoveWithClose() = default;
 
 bool RailMoveWithClose::init_(sead::Heap* heap) {
-    return RailMove::init_(heap);
+    return BezierRailMove::init_(heap);
 }
 
 void RailMoveWithClose::enter_(ksys::act::ai::InlineParamPack* params) {
-    RailMove::enter_(params);
+    BezierRailMove::enter_(params);
 }
 
 void RailMoveWithClose::calc_() {
-    RailMove::calc_();
+    BezierRailMove::calc_();
     if (getCurrentChild()->isFinishedOrFailed() && isCurrentChild("レールに向かう")) {
         if (!getCurrentChild()->isFinished()) {
             sead::Vector3f pos;
@@ -40,11 +40,11 @@ void RailMoveWithClose::calc_() {
 }
 
 void RailMoveWithClose::leave_() {
-    RailMove::leave_();
+    BezierRailMove::leave_();
 }
 
 void RailMoveWithClose::loadParams_() {
-    RailMove::loadParams_();
+    BezierRailMove::loadParams_();
     getStaticParam(&mOnRailDistance_s, "OnRailDistance");
     getStaticParam(&mFarDistance_s, "FarDistance");
     getStaticParam(&mSpeed_s, "Speed");

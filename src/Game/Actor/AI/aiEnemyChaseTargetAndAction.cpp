@@ -10,19 +10,19 @@
 namespace uking::ai {
 
 EnemyChaseTargetAndAction::EnemyChaseTargetAndAction(const InitArg& arg)
-    : UnarmedEnemySearch(arg) {}
+    : NavMove(arg) {}
 
 EnemyChaseTargetAndAction::~EnemyChaseTargetAndAction() = default;
 
 void EnemyChaseTargetAndAction::enter_(ksys::act::ai::InlineParamPack* params) {
-    UnarmedEnemySearch::enter_(params);
+    NavMove::enter_(params);
     m37();
 }
 
 // NON_MATCHING: register allocation only (ours keeps &accessor in a callee-saved register across the
 // acquire call, the original re-materialises it)
 void EnemyChaseTargetAndAction::calc_() {
-    UnarmedEnemySearch::calc_();
+    NavMove::calc_();
     if (isGoStraightOrMove()) {
         sead::Vector3f pos;
         ksys::act::ActorLinkConstDataAccess accessor;
@@ -115,12 +115,12 @@ bool EnemyChaseTargetAndAction::isChangeable() const {
 }
 
 void EnemyChaseTargetAndAction::leave_() {
-    UnarmedEnemySearch::leave_();
+    NavMove::leave_();
     sub_71005DB3EC(mActor);
 }
 
 void EnemyChaseTargetAndAction::loadParams_() {
-    UnarmedEnemySearch::loadParams_();
+    NavMove::loadParams_();
     getStaticParam(&mRepathTime_s, "RepathTime");
     getStaticParam(&mLostDist_s, "LostDist");
     getStaticParam(&mLostSpeed_s, "LostSpeed");

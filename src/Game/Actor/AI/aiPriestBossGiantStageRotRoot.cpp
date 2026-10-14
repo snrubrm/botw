@@ -10,12 +10,12 @@
 namespace uking::ai {
 
 PriestBossGiantStageRotRoot::PriestBossGiantStageRotRoot(const InitArg& arg)
-    : PriestBossMode(arg), _a8() {}
+    : PriestBoss(arg), _a8() {}
 
 PriestBossGiantStageRotRoot::~PriestBossGiantStageRotRoot() = default;
 
 bool PriestBossGiantStageRotRoot::init_(sead::Heap* heap) {
-    if (!PriestBossMode::init_(heap))
+    if (!PriestBoss::init_(heap))
         return false;
     for (auto& sender : _a8)
         sender._8 = &mActor->getMessageTransceiver();
@@ -23,7 +23,7 @@ bool PriestBossGiantStageRotRoot::init_(sead::Heap* heap) {
 }
 
 void PriestBossGiantStageRotRoot::enter_(ksys::act::ai::InlineParamPack* params) {
-    PriestBossMode::enter_(params);
+    PriestBoss::enter_(params);
     _468 = (sead::GlobalRandom::instance()->getU32() & 1) == 0;
     _46c = 0;
     _464 = *mBallsReleaseIntervalFrames_s > 0.0f ? 0 : 8;
@@ -44,7 +44,7 @@ void PriestBossGiantStageRotRoot::enter_(ksys::act::ai::InlineParamPack* params)
 }
 
 void PriestBossGiantStageRotRoot::calc_() {
-    PriestBossMode::calc_();
+    PriestBoss::calc_();
     sub_710071EB3C(mActor);
 
     switch (_46c) {
@@ -96,7 +96,7 @@ void PriestBossGiantStageRotRoot::calc_() {
 }
 
 void PriestBossGiantStageRotRoot::leave_() {
-    PriestBossMode::leave_();
+    PriestBoss::leave_();
     *mIsActive_a = false;
 }
 
@@ -198,7 +198,7 @@ bool PriestBossGiantStageRotRoot::sub_710051D438() {
 }
 
 void PriestBossGiantStageRotRoot::loadParams_() {
-    PriestBossMode::loadParams_();
+    PriestBoss::loadParams_();
     getStaticParam(&mCentralAngle_s, "CentralAngle");
     getStaticParam(&mPercentRadiusHeight_s, "PercentRadiusHeight");
     getStaticParam(&mIronBallHeightOffset_s, "IronBallHeightOffset");

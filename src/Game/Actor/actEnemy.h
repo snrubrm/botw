@@ -391,7 +391,7 @@ public:
 
     // inline-only in the original; name is a guess (lane1 s22). Evidence: `time = _f28.sub_7100001AA4(
     // scale); _e68 = Timer(time, time)` is inlined, with the scale argument evaluated first, in
-    // EnemyBattle::sub_7100381ED4, AssassinFieldShooterBattleBase::enter_, MoriblinSpearBattle,
+    // EnemyBattle::sub_7100381ED4, AssassinShooterBattle::enter_, MoriblinSpearBattle,
     // EnemySkyArrowAttack::m35, RodEnemyFindPlayer::calc_, GanonBeastWait and others.
     void startAttackInterval(f32 scale) {
         const s32 time = _f28.sub_7100001AA4(scale);

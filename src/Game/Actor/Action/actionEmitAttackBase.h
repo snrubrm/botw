@@ -1,0 +1,57 @@
+#pragma once
+
+#include "KingSystem/ActorSystem/actAiAction.h"
+
+namespace ksys::phys {
+class RigidBody;
+}
+
+namespace uking::action {
+
+class EmitAttackBase : public ksys::act::ai::Action {
+    SEAD_RTTI_OVERRIDE(EmitAttackBase, ksys::act::ai::Action)
+public:
+    explicit EmitAttackBase(const InitArg& arg);
+    ~EmitAttackBase() override;
+
+    bool init_(sead::Heap* heap) override;
+    void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void leave_() override;
+    void loadParams_() override;
+
+protected:
+    void calc_() override;
+    virtual void m32();
+    virtual bool m33();
+    virtual float m34();
+    virtual int m35();
+    virtual int m36();
+    virtual int m37();
+    virtual int m38();
+    virtual int m39();
+
+    // Non-virtual helpers shared with subclasses.
+    sead::SafeString* sub_710010559C();
+    ksys::phys::RigidBody* sub_71001055A4() const;
+
+    // static_param at offset 0x20
+    const int* mAttackIntensity_s{};
+    // static_param at offset 0x28
+    const int* mAttackMinPower_s{};
+    // map_unit_param at offset 0x30
+    const int* mAttackPower_m{};
+    // map_unit_param at offset 0x38
+    const int* mAttackPowerForPlayer_m{};
+    // map_unit_param at offset 0x40
+    const float* mScaleTime_m{};
+    // map_unit_param at offset 0x48
+    const float* mRange_m{};
+    // map_unit_param at offset 0x50
+    sead::SafeString mRigidBodyName_m{};
+    sead::Vector3f _60;
+    sead::Vector3f _6c;
+    f32 _78 = 0;
+    f32 _7c = 1.0f;
+};
+
+}  // namespace uking::action

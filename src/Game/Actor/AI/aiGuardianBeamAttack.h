@@ -3,7 +3,7 @@
 #include <math/seadVector.h>
 #include <xlink2/xlink2HandleELink.h>
 #include <xlink2/xlink2HandleSLink.h>
-#include "Game/Actor/AI/aiGuardianBeamAttackBase.h"
+#include "Game/Actor/AI/aiGuardianCommonBeamAttack.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 #include "KingSystem/ActorSystem/actModelBindInfo.h"
 
@@ -24,8 +24,8 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(Unk_71023f6f80, 0xa8);
 
-class GuardianBeamAttack : public GuardianBeamAttackBase {
-    SEAD_RTTI_OVERRIDE(GuardianBeamAttack, GuardianBeamAttackBase)
+class GuardianBeamAttack : public GuardianCommonBeamAttack {
+    SEAD_RTTI_OVERRIDE(GuardianBeamAttack, GuardianCommonBeamAttack)
 public:
     explicit GuardianBeamAttack(const InitArg& arg);
     ~GuardianBeamAttack() override;

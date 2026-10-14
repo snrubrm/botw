@@ -7,23 +7,23 @@
 
 namespace uking::ai {
 
-StalEnemySleep::StalEnemySleep(const InitArg& arg) : SpecialEnemySleep(arg) {}
+StalEnemySleep::StalEnemySleep(const InitArg& arg) : SleepNormal(arg) {}
 
 StalEnemySleep::~StalEnemySleep() = default;
 
 bool StalEnemySleep::init_(sead::Heap* heap) {
-    return SpecialEnemySleep::init_(heap);
+    return SleepNormal::init_(heap);
 }
 
 void StalEnemySleep::enter_(ksys::act::ai::InlineParamPack* params) {
     mActor->getMtx().getBase(_70, 0);
     _70.normalize();
-    SpecialEnemySleep::enter_(params);
+    SleepNormal::enter_(params);
     _7c = isRootAiParamINot5();
 }
 
 void StalEnemySleep::calc_() {
-    SpecialEnemySleep::calc_();
+    SleepNormal::calc_();
     if (!isCurrentChild("睡眠") || !mActor->sub_7100EE1E94())
         return;
     if (_7c) {
@@ -48,12 +48,12 @@ void StalEnemySleep::calc_() {
 }
 
 void StalEnemySleep::leave_() {
-    SpecialEnemySleep::leave_();
+    SleepNormal::leave_();
     _7c = false;
 }
 
 void StalEnemySleep::loadParams_() {
-    SpecialEnemySleep::loadParams_();
+    SleepNormal::loadParams_();
     getStaticParam(&mUseAwarenessWakeUp_s, "UseAwarenessWakeUp");
     getStaticParam(&mUseNoticeActiveWakeUp_s, "UseNoticeActiveWakeUp");
 }
@@ -70,7 +70,7 @@ bool StalEnemySleep::m36() {
 ksys::act::Unk_7100d78e50* StalEnemySleep::m37(int* x) {
     if (!*mUseAwarenessWakeUp_s)
         return nullptr;
-    return SpecialEnemySleep::m37(x);
+    return SleepNormal::m37(x);
 }
 
 bool StalEnemySleep::m39(sead::Vector3f* pos) {

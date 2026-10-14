@@ -33,7 +33,7 @@ void TiredDistSelect::loadParams_() {
 
 f32 TiredDistSelect::m34() {
     if (*mTerritoryArea_m <= 0)
-        return RangeSelect::m34();
+        return NewRangeSelect::m34();
     return *mTerritoryArea_m + sub_71007320F0(mActor, *mWeaponIdx_s);
 }
 

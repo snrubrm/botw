@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Game/Actor/AI/aiSimpleWildlifeRoot.h"
+#include "Game/Actor/AI/aiCapturedActorRoot.h"
 #include <container/seadBuffer.h>
 #include <gsys/gsysModelAccessKey.h>
 #include <math/seadMatrix.h>
@@ -39,8 +39,8 @@ struct FishRootBoneEntry {
 };
 KSYS_CHECK_SIZE_NX150(FishRootBoneEntry, 0xe8);
 
-class FishRoot : public SimpleWildlifeRoot {
-    SEAD_RTTI_OVERRIDE(FishRoot, SimpleWildlifeRoot)
+class FishRoot : public CapturedActorRoot {
+    SEAD_RTTI_OVERRIDE(FishRoot, CapturedActorRoot)
 public:
     explicit FishRoot(const InitArg& arg);
     ~FishRoot() override;

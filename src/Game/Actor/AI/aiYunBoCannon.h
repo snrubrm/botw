@@ -4,7 +4,7 @@
 #include <math/seadMatrix.h>
 #include <prim/seadSafeString.h>
 #include <thread/seadCriticalSection.h>
-#include "Game/Actor/AI/aiGoronCannonBase.h"
+#include "Game/Actor/AI/aiBigCannon.h"
 #include "Game/Actor/aiUnk_7102357d20.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
@@ -30,8 +30,8 @@ public:
 
 namespace uking::ai {
 
-class YunBoCannon : public GoronCannonBase {
-    SEAD_RTTI_OVERRIDE(YunBoCannon, GoronCannonBase)
+class YunBoCannon : public BigCannon {
+    SEAD_RTTI_OVERRIDE(YunBoCannon, BigCannon)
 public:
     explicit YunBoCannon(const InitArg& arg);
     ~YunBoCannon() override;

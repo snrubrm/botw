@@ -5,20 +5,20 @@
 namespace uking::ai {
 
 AssassinFieldShooterBattle::AssassinFieldShooterBattle(const InitArg& arg)
-    : AssassinFieldShooterBattleBase(arg) {}
+    : AssassinShooterBattle(arg) {}
 
 AssassinFieldShooterBattle::~AssassinFieldShooterBattle() = default;
 
 bool AssassinFieldShooterBattle::init_(sead::Heap* heap) {
-    return AssassinFieldShooterBattleBase::init_(heap);
+    return AssassinShooterBattle::init_(heap);
 }
 
 void AssassinFieldShooterBattle::enter_(ksys::act::ai::InlineParamPack* params) {
-    AssassinFieldShooterBattleBase::enter_(params);
+    AssassinShooterBattle::enter_(params);
 }
 
 void AssassinFieldShooterBattle::calc_() {
-    AssassinFieldShooterBattleBase::calc_();
+    AssassinShooterBattle::calc_();
     auto* child = getCurrentChild();
     if (child->isFinished() || child->isFailed() || !child->isChangeable())
         return;
@@ -31,7 +31,7 @@ void AssassinFieldShooterBattle::calc_() {
 }
 
 void AssassinFieldShooterBattle::leave_() {
-    AssassinFieldShooterBattleBase::leave_();
+    AssassinShooterBattle::leave_();
 }
 
 bool AssassinFieldShooterBattle::m34() {
@@ -39,7 +39,7 @@ bool AssassinFieldShooterBattle::m34() {
 }
 
 void AssassinFieldShooterBattle::loadParams_() {
-    AssassinFieldShooterBattleBase::loadParams_();
+    AssassinShooterBattle::loadParams_();
 }
 
 }  // namespace uking::ai

@@ -10,7 +10,7 @@ namespace uking::action {
 
 // NON_MATCHING: the compiler removes redundant record zero stores after the bulk clear;
 // default and explicit payload value initialization produce the same result.
-PriestBossFastWarpMove::PriestBossFastWarpMove(const InitArg& arg) : PriestBossWarpOrVanish(arg) {}
+PriestBossFastWarpMove::PriestBossFastWarpMove(const InitArg& arg) : PriestBossCloneFastWarp(arg) {}
 
 PriestBossFastWarpMove::~PriestBossFastWarpMove() = default;
 
@@ -43,12 +43,12 @@ void PriestBossFastWarpMove::sub_7100222070(s32 idx, const sead::Vector3f& start
 }
 
 bool PriestBossFastWarpMove::init_(sead::Heap* heap) {
-    return PriestBossWarpOrVanish::init_(heap);
+    return PriestBossCloneFastWarp::init_(heap);
 }
 
 // NON_MATCHING: horizontal vector arithmetic and translation stores have different scheduling.
 void PriestBossFastWarpMove::enter_(ksys::act::ai::InlineParamPack* params) {
-    PriestBossWarpOrVanish::enter_(params);
+    PriestBossCloneFastWarp::enter_(params);
     auto* controller = mActor->getCharacterController();
     if (!controller) {
         setFailed();
@@ -95,7 +95,7 @@ void PriestBossFastWarpMove::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void PriestBossFastWarpMove::leave_() {
-    PriestBossWarpOrVanish::leave_();
+    PriestBossCloneFastWarp::leave_();
     if (auto* controller = mActor->getCharacterController()) {
         controller->sub_7100F60604();
         controller->sub_7100F5E764(true);
@@ -105,7 +105,7 @@ void PriestBossFastWarpMove::leave_() {
 }
 
 void PriestBossFastWarpMove::loadParams_() {
-    PriestBossWarpOrVanish::loadParams_();
+    PriestBossCloneFastWarp::loadParams_();
     getStaticParam(&mAfterImage0AppearFrame_s, "AfterImage0AppearFrame");
     getStaticParam(&mAfterImage1AppearFrame_s, "AfterImage1AppearFrame");
     getStaticParam(&mAppearFrame_s, "AppearFrame");
@@ -119,7 +119,7 @@ void PriestBossFastWarpMove::loadParams_() {
 }
 
 void PriestBossFastWarpMove::calc_() {
-    PriestBossWarpOrVanish::calc_();
+    PriestBossCloneFastWarp::calc_();
 }
 
 }  // namespace uking::action

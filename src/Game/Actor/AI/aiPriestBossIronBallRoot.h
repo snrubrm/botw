@@ -4,7 +4,7 @@
 #include <prim/seadBitFlag.h>
 #include <prim/seadDelegate.h>
 #include <prim/seadEnum.h>
-#include "Game/Actor/AI/aiPriestBossMode.h"
+#include "Game/Actor/AI/aiPriestBoss.h"
 #include "Game/Actor/aiUnk_7102357210.h"
 #include "Game/Actor/aiUnk_7102357d20.h"
 #include "KingSystem/ActorSystem/Profiles/actDynamicActor.h"
@@ -14,8 +14,8 @@
 
 namespace uking::ai {
 
-class PriestBossIronBallRoot : public PriestBossMode {
-    SEAD_RTTI_OVERRIDE(PriestBossIronBallRoot, PriestBossMode)
+class PriestBossIronBallRoot : public PriestBoss {
+    SEAD_RTTI_OVERRIDE(PriestBossIronBallRoot, PriestBoss)
 public:
     SEAD_ENUM(Flag, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9)
 

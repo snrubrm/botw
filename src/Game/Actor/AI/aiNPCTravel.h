@@ -2,7 +2,7 @@
 
 #include <math/seadMatrix.h>
 #include <thread/seadCriticalSection.h>
-#include "Game/Actor/AI/aiNPCTravelBase.h"
+#include "Game/Actor/AI/aiNPCScheduleMove.h"
 #include "Game/Actor/aiLockedProcLink.h"
 #include "Game/Actor/aiUnk_71024f1658.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
@@ -15,8 +15,8 @@ class NPC;
 
 namespace uking::ai {
 
-class NPCTravel : public NPCTravelBase {
-    SEAD_RTTI_OVERRIDE(NPCTravel, NPCTravelBase)
+class NPCTravel : public NPCScheduleMove {
+    SEAD_RTTI_OVERRIDE(NPCTravel, NPCScheduleMove)
 public:
     explicit NPCTravel(const InitArg& arg);
     ~NPCTravel() override;

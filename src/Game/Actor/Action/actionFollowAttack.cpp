@@ -2,38 +2,38 @@
 
 namespace uking::action {
 
-FollowAttack::FollowAttack(const InitArg& arg) : RotateTurnToTarget(arg) {}
+FollowAttack::FollowAttack(const InitArg& arg) : ASPlayRotateTurnToTarget(arg) {}
 
 FollowAttack::~FollowAttack() = default;
 
 bool FollowAttack::init_(sead::Heap* heap) {
-    if (!RotateTurnToTarget::init_(heap))
+    if (!ASPlayRotateTurnToTarget::init_(heap))
         return false;
     _78.init(heap);
     return true;
 }
 
 void FollowAttack::enter_(ksys::act::ai::InlineParamPack* params) {
-    RotateTurnToTarget::enter_(params);
+    ASPlayRotateTurnToTarget::enter_(params);
     m35();
     _78._89 = *mIsRodDirHosei_s;
     _78.enter(params);
 }
 
 void FollowAttack::leave_() {
-    RotateTurnToTarget::leave_();
+    ASPlayRotateTurnToTarget::leave_();
     _78.leave();
 }
 
 void FollowAttack::loadParams_() {
-    RotateTurnToTarget::loadParams_();
+    ASPlayRotateTurnToTarget::loadParams_();
     _78.loadParams();
     getStaticParam(&mForceKillMode_s, "ForceKillMode");
     getStaticParam(&mIsRodDirHosei_s, "IsRodDirHosei");
 }
 
 void FollowAttack::calc_() {
-    RotateTurnToTarget::calc_();
+    ASPlayRotateTurnToTarget::calc_();
     _78.calc();
 }
 

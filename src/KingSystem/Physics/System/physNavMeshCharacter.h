@@ -177,7 +177,7 @@ public:
     }
 
     // Inline-only in the original; name is a guess. Evidence: `nav ? nav->_2a8 * nav->_2ac : X` is repeated
-    // in AssassinNormal, NavMoveNearTarget, NavMoveTarget::m36/m37, HorseRideEnemyFindPlayer,
+    // in GuardHomePosNormal, NavMoveNearTarget, NavMoveTarget::m36/m37, HorseRideEnemyFindPlayer,
     // GiantNavMoveTarget and LynelNavMoveNoStop (no out-of-line copy).
     f32 getRadiusMaybe() const { return _2a8 * _2ac; }
 

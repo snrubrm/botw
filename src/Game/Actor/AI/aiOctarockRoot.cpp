@@ -9,7 +9,7 @@
 
 namespace uking::ai {
 
-OctarockRoot::OctarockRoot(const InitArg& arg) : OctarockRootBase(arg) {}
+OctarockRoot::OctarockRoot(const InitArg& arg) : VacuumEnemyRoot(arg) {}
 
 OctarockRoot::~OctarockRoot() {
     if (auto* parts = mActor->m101()) {
@@ -32,7 +32,7 @@ OctarockRoot::~OctarockRoot() {
 }
 
 bool OctarockRoot::init_(sead::Heap* heap) {
-    return OctarockRootBase::init_(heap);
+    return VacuumEnemyRoot::init_(heap);
 }
 
 void OctarockRoot::enter_(ksys::act::ai::InlineParamPack* params) {
@@ -42,7 +42,7 @@ void OctarockRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     _368.mLink.reset();
     _318 = false;
     _328.sub_7100714918();
-    OctarockRootBase::enter_(params);
+    VacuumEnemyRoot::enter_(params);
 }
 
 // NON_MATCHING: regalloc (the original recomputes `this + 0x300` for the link copy instead of keeping it in a register)
@@ -54,7 +54,7 @@ bool OctarockRoot::handleMessage_(const ksys::Message* message) {
         _31c.set(15.0f, 15.0f, -1.0f);
         return true;
     }
-    return OctarockRootBase::handleMessage_(message);
+    return VacuumEnemyRoot::handleMessage_(message);
 }
 
 void OctarockRoot::leave_() {
@@ -70,13 +70,13 @@ void OctarockRoot::leave_() {
             accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
         }
     }
-    OctarockRootBase::leave_();
+    VacuumEnemyRoot::leave_();
 }
 
 // NON_MATCHING: the lib's StringPrintFormatter has no output destructor call (the original calls
 // ~StringCutOffPrintOutput 0xb0c528 after each flush) and the frame is 8 bytes off (libwork)
 void OctarockRoot::loadParams_() {
-    OctarockRootBase::loadParams_();
+    VacuumEnemyRoot::loadParams_();
     getStaticParam(&mIsWigBreakable_s, "IsWigBreakable");
     getStaticParam(&mItemName_s, "ItemName");
     getStaticParam(&mConnectRigidBodyName_s, "ConnectRigidBodyName");

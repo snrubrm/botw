@@ -40,7 +40,7 @@ public:
     Rail();
     virtual ~Rail();
     virtual void init(MubinIter* iter, sead::Heap* heap);
-    // Tested as a bool (DragonRootBase::m36 checks it before following a junction).
+    // Tested as a bool (ControlRailRoot::m36 checks it before following a junction).
     virtual bool x_18() { return false; }
     // Whether this is a route (RailRoute overrides it; tested as a bool by AI_Query_CheckRoad).
     virtual bool x_20() { return false; }

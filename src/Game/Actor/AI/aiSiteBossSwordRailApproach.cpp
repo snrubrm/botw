@@ -40,7 +40,7 @@ void SiteBossSwordRailApproach::loadParams_() {
 }
 
 // NON_MATCHING: the original computes the getU32 argument before loading the GlobalRandom instance
-// (C++14 evaluation order, see SiteBossRecognizeRootBase::enter_) and register allocation
+// (C++14 evaluation order, see LastBossRecognizeRoot::enter_) and register allocation
 void SiteBossSwordRailApproach::m34(sead::Vector3f* out) {
     const sead::Vector3f pos = mActor->getMtx().getTranslation();
     auto* object = mActor->getMapObject();

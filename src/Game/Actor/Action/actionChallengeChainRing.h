@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Game/Actor/Action/actionFollowChallenge.h"
+#include "Game/Actor/Action/actionAppearFollowChallenge.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 #include "KingSystem/System/Timer.h"
 #include <math/seadVector.h>
@@ -10,8 +10,8 @@ namespace ksys::map { class Rail; }
 
 namespace uking::action {
 
-class ChallengeChainRing : public FollowChallenge {
-    SEAD_RTTI_OVERRIDE(ChallengeChainRing, FollowChallenge)
+class ChallengeChainRing : public AppearFollowChallenge {
+    SEAD_RTTI_OVERRIDE(ChallengeChainRing, AppearFollowChallenge)
 public:
     explicit ChallengeChainRing(const InitArg& arg);
     ~ChallengeChainRing() override;

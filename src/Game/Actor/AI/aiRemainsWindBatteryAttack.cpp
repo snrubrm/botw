@@ -4,7 +4,7 @@
 namespace uking::ai {
 
 RemainsWindBatteryAttack::RemainsWindBatteryAttack(const InitArg& arg)
-    : GuardianBeamAttackBase(arg) {}
+    : GuardianCommonBeamAttack(arg) {}
 
 RemainsWindBatteryAttack::~RemainsWindBatteryAttack() {
     for (s32 i = 0; i < 5; ++i) {
@@ -15,20 +15,20 @@ RemainsWindBatteryAttack::~RemainsWindBatteryAttack() {
 }
 
 bool RemainsWindBatteryAttack::init_(sead::Heap* heap) {
-    return GuardianBeamAttackBase::init_(heap);
+    return GuardianCommonBeamAttack::init_(heap);
 }
 
 void RemainsWindBatteryAttack::enter_(ksys::act::ai::InlineParamPack* params) {
-    GuardianBeamAttackBase::enter_(params);
+    GuardianCommonBeamAttack::enter_(params);
     changeChild("待機");
 }
 
 void RemainsWindBatteryAttack::leave_() {
-    GuardianBeamAttackBase::leave_();
+    GuardianCommonBeamAttack::leave_();
 }
 
 void RemainsWindBatteryAttack::loadParams_() {
-    GuardianBeamAttackBase::loadParams_();
+    GuardianCommonBeamAttack::loadParams_();
     getDynamicParam(&mTargetPos_d, "TargetPos");
 }
 

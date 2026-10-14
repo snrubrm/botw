@@ -15,7 +15,7 @@ class Actor;
 namespace uking::ai {
 
 // Name from the CSV (GuardianAimBeamState::ctor 0x71006f1ea0, init, update, end; destructor
-// 0x71006f1f58). Embedded in GuardianAimBeam (+0x68), PriestBossAimBeam and MiniBeamAttack.
+// 0x71006f1f58). Embedded in GuardianAimBeam (+0x68), PriestBossAimBeam and GuideBeamAttackEnemyBattle.
 // TODO: incomplete (init / update / end not decompiled; member types partly guessed from the
 // constructor: four {s32, pointer} pairs are taken to be sead::Buffers).
 class GuardianAimBeamState {

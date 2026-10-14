@@ -11,28 +11,28 @@
 
 namespace uking::ai {
 
-SandwormNormal::SandwormNormal(const InitArg& arg) : SandwormNormalBase(arg) {}
+SandwormNormal::SandwormNormal(const InitArg& arg) : AwnSeal(arg) {}
 
 SandwormNormal::~SandwormNormal() = default;
 
 bool SandwormNormal::init_(sead::Heap* heap) {
-    return SandwormNormalBase::init_(heap);
+    return AwnSeal::init_(heap);
 }
 
 void SandwormNormal::enter_(ksys::act::ai::InlineParamPack* params) {
-    SandwormNormalBase::enter_(params);
+    AwnSeal::enter_(params);
 }
 
 void SandwormNormal::calc_() {
-    SandwormNormalBase::calc_();
+    AwnSeal::calc_();
 }
 
 void SandwormNormal::leave_() {
-    SandwormNormalBase::leave_();
+    AwnSeal::leave_();
 }
 
 void SandwormNormal::loadParams_() {
-    SandwormNormalBase::loadParams_();
+    AwnSeal::loadParams_();
 }
 
 bool SandwormNormal::m72(Unk2* out, Unk1* info) {
@@ -106,7 +106,7 @@ bool SandwormNormal::m44(const sead::Vector3f& pos) {
 bool SandwormNormal::handleMessage_(const ksys::Message* message) {
     if (message->getType() == ksys::MessageType(0x8000006))
         return true;
-    return SandwormNormalBase::handleMessage_(message);
+    return AwnSeal::handleMessage_(message);
 }
 
 }  // namespace uking::ai

@@ -5,31 +5,31 @@
 
 namespace uking::ai {
 
-TargetKnockBackBasePos::TargetKnockBackBasePos(const InitArg& arg) : TargetPosAI(arg) {}
+TargetKnockBackBasePos::TargetKnockBackBasePos(const InitArg& arg) : TargetActorPos(arg) {}
 
 TargetKnockBackBasePos::~TargetKnockBackBasePos() = default;
 
 bool TargetKnockBackBasePos::init_(sead::Heap* heap) {
-    return TargetPosAI::init_(heap);
+    return TargetActorPos::init_(heap);
 }
 
 void TargetKnockBackBasePos::enter_(ksys::act::ai::InlineParamPack* params) {
     sub_71005E2318(&_40, mActor, sub_710072BA90(mActor));
     _40 *= -3.0f;
     _40 += mActor->getMtx().getTranslation();
-    TargetPosAI::enter_(params);
+    TargetActorPos::enter_(params);
 }
 
 void TargetKnockBackBasePos::calc_() {
-    TargetPosAI::calc_();
+    TargetActorPos::calc_();
 }
 
 void TargetKnockBackBasePos::leave_() {
-    TargetPosAI::leave_();
+    TargetActorPos::leave_();
 }
 
 void TargetKnockBackBasePos::loadParams_() {
-    TargetPosAI::loadParams_();
+    TargetActorPos::loadParams_();
 }
 
 void TargetKnockBackBasePos::m35(sead::Vector3f* pos) {

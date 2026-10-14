@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Game/Actor/Action/actionOctarockBalloonBase.h"
+#include "Game/Actor/Action/actionBalloonRopeBase.h"
 #include "KingSystem/ActorSystem/actUnk_7100d3bc4c.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
@@ -10,8 +10,8 @@ class SphereRigidBody;
 
 namespace uking::action {
 
-class OctarockBalloon : public OctarockBalloonBase {
-    SEAD_RTTI_OVERRIDE(OctarockBalloon, OctarockBalloonBase)
+class OctarockBalloon : public BalloonRopeBase {
+    SEAD_RTTI_OVERRIDE(OctarockBalloon, BalloonRopeBase)
 public:
     explicit OctarockBalloon(const InitArg& arg);
     ~OctarockBalloon() override;

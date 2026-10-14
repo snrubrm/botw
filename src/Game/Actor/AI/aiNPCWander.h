@@ -1,14 +1,14 @@
 #pragma once
 
-#include "Game/Actor/AI/aiNPCTravelBase.h"
+#include "Game/Actor/AI/aiNPCScheduleMove.h"
 #include "Game/Actor/aiUnk_71024f15c0.h"
 #include "Game/Actor/actNPC.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
 
-class NPCWander : public NPCTravelBase {
-    SEAD_RTTI_OVERRIDE(NPCWander, NPCTravelBase)
+class NPCWander : public NPCScheduleMove {
+    SEAD_RTTI_OVERRIDE(NPCWander, NPCScheduleMove)
 public:
     explicit NPCWander(const InitArg& arg);
     ~NPCWander() override;

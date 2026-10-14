@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Game/Actor/AI/aiAssassinNormal.h"
+#include "Game/Actor/AI/aiGuardHomePosNormal.h"
 #include "Game/Actor/aiAwarenessFilters.h"
 #include "Game/Actor/aiUnk_7102357210.h"
 #include "Game/Actor/aiUnk_7102357d20.h"
@@ -26,8 +26,8 @@ public:
     bool m2(ksys::act::Unk_71024dc978* entry) override;
 };
 
-class AssassinMiddleAzitoRoot : public AssassinNormal {
-    SEAD_RTTI_OVERRIDE(AssassinMiddleAzitoRoot, AssassinNormal)
+class AssassinMiddleAzitoRoot : public GuardHomePosNormal {
+    SEAD_RTTI_OVERRIDE(AssassinMiddleAzitoRoot, GuardHomePosNormal)
 public:
     explicit AssassinMiddleAzitoRoot(const InitArg& arg);
     ~AssassinMiddleAzitoRoot() override;

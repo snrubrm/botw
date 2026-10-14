@@ -49,7 +49,7 @@ public:
 };
 
 // vtable 0x71024519a8 (functions at 0x71007484c8..0x7100748768; `call` reads its last argument as a
-// pointer to an object of an unknown RTTI class, so it is not defined yet). Embedded in GuardNearTarget,
+// pointer to an object of an unknown RTTI class, so it is not defined yet). Embedded in InvincibleNearTargetBase,
 // InvincibleHiddenOctarock, StoneOctarockWait and the SetAllNoDamageDCCallback behavior.
 class Unk_71024519a8 : public uking::act::DamageCallback {
     SEAD_RTTI_OVERRIDE(Unk_71024519a8, uking::act::DamageCallback)

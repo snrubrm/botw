@@ -8,14 +8,14 @@
 
 namespace uking::action {
 
-FlyingCharacterFreeze::FlyingCharacterFreeze(const InitArg& arg) : FlyingCharacterReaction(arg) {}
+FlyingCharacterFreeze::FlyingCharacterFreeze(const InitArg& arg) : FlyingCharacterFreeFallBase(arg) {}
 
 bool FlyingCharacterFreeze::init_(sead::Heap* heap) {
-    return FlyingCharacterReaction::init_(heap);
+    return FlyingCharacterFreeFallBase::init_(heap);
 }
 
 void FlyingCharacterFreeze::enter_(ksys::act::ai::InlineParamPack* params) {
-    FlyingCharacterReaction::enter_(params);
+    FlyingCharacterFreeFallBase::enter_(params);
     if (auto* as_list = mActor->getASList())
         as_list->x_3(0, 0, &ksys::as::ASList::Unk2::sub_71011631BC, 0.0f);
     if (auto* controller = mActor->getCharacterController())
@@ -26,7 +26,7 @@ void FlyingCharacterFreeze::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void FlyingCharacterFreeze::leave_() {
-    FlyingCharacterReaction::leave_();
+    FlyingCharacterFreeFallBase::leave_();
     if (auto* as_list = mActor->getASList())
         as_list->x_3(0, 0, &ksys::as::ASList::Unk2::sub_71011631BC, 1.0f);
     if (auto* xlink = mActor->getXLink())
@@ -41,12 +41,12 @@ bool FlyingCharacterFreeze::isFinished() const {
 }
 
 void FlyingCharacterFreeze::loadParams_() {
-    FlyingCharacterReaction::loadParams_();
+    FlyingCharacterFreeFallBase::loadParams_();
     getStaticParam(&mStopTime_s, "StopTime");
 }
 
 void FlyingCharacterFreeze::calc_() {
-    FlyingCharacterReaction::calc_();
+    FlyingCharacterFreeFallBase::calc_();
 }
 
 void FlyingCharacterFreeze::m34(ksys::phys::CharacterController* controller) {

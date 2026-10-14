@@ -5,10 +5,10 @@
 
 namespace uking::action {
 
-PlayerKokkoGlide::PlayerKokkoGlide(const InitArg& arg) : PlayerGlide(arg) {}
+PlayerKokkoGlide::PlayerKokkoGlide(const InitArg& arg) : PlayerParashawlGlideBase(arg) {}
 
 void PlayerKokkoGlide::enter_(ksys::act::ai::InlineParamPack* params) {
-    PlayerGlide::enter_(params);
+    PlayerParashawlGlideBase::enter_(params);
     static_cast<ksys::act::Player*>(mActor)->_cec.set(0x10000);
     static_cast<ksys::act::Player*>(mActor)->_cf0.set(0x200);
     static_cast<ksys::act::Player*>(mActor)->_cf0.set(0x4);
@@ -20,19 +20,19 @@ void PlayerKokkoGlide::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void PlayerKokkoGlide::leave_() {
-    PlayerGlide::leave_();
+    PlayerParashawlGlideBase::leave_();
     static_cast<ksys::act::Player*>(mActor)->x_19(-1.0f);
     static_cast<ksys::act::Player*>(mActor)->getAttachedTargetActor2()->sub_7100EB56E8();
 }
 
 void PlayerKokkoGlide::loadParams_() {
-    PlayerGlide::loadParams_();
+    PlayerParashawlGlideBase::loadParams_();
     getStaticParam(&mEnergyGlide_s, "EnergyGlide");
     getStaticParam(&mNoEnergyTime_s, "NoEnergyTime");
 }
 
 void PlayerKokkoGlide::calc_() {
-    PlayerGlide::calc_();
+    PlayerParashawlGlideBase::calc_();
     auto* player = static_cast<ksys::act::Player*>(mActor);
     const f32 eps = sead::Mathf::epsilon();
     if (!(player->_1844.value <= eps)) {

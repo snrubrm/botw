@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Game/Actor/Action/actionAtkTackleMove.h"
+#include "Game/Actor/Action/actionTackleAttack.h"
 #include <container/seadPtrArray.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
 #include "Game/Actor/aiUnk_7102357d20.h"
@@ -59,8 +59,8 @@ struct Unk_SandwormTackleMoveList {
     sead::FixedPtrArray<Unk_SandwormTackleTarget, 2> mTargets;
 };
 
-class SandwormTackleMove : public AtkTackleMove {
-    SEAD_RTTI_OVERRIDE(SandwormTackleMove, AtkTackleMove)
+class SandwormTackleMove : public TackleAttack {
+    SEAD_RTTI_OVERRIDE(SandwormTackleMove, TackleAttack)
 public:
     explicit SandwormTackleMove(const InitArg& arg);
     ~SandwormTackleMove() override;

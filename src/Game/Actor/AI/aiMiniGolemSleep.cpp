@@ -8,16 +8,16 @@
 
 namespace uking::ai {
 
-MiniGolemSleep::MiniGolemSleep(const InitArg& arg) : SpecialEnemySleep(arg) {}
+MiniGolemSleep::MiniGolemSleep(const InitArg& arg) : SleepNormal(arg) {}
 
 MiniGolemSleep::~MiniGolemSleep() = default;
 
 bool MiniGolemSleep::init_(sead::Heap* heap) {
-    return SpecialEnemySleep::init_(heap);
+    return SleepNormal::init_(heap);
 }
 
 void MiniGolemSleep::enter_(ksys::act::ai::InlineParamPack* params) {
-    SpecialEnemySleep::enter_(params);
+    SleepNormal::enter_(params);
     if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor))
         enemy->_e90 = 1;
     if (auto* controller = mActor->getCharacterController())
@@ -32,7 +32,7 @@ void MiniGolemSleep::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void MiniGolemSleep::calc_() {
-    SpecialEnemySleep::calc_();
+    SleepNormal::calc_();
 }
 
 void MiniGolemSleep::leave_() {
@@ -47,11 +47,11 @@ void MiniGolemSleep::leave_() {
     }
     ksys::act::enableAllAttClients(mActor);
     _68.x();
-    SpecialEnemySleep::leave_();
+    SleepNormal::leave_();
 }
 
 void MiniGolemSleep::loadParams_() {
-    SpecialEnemySleep::loadParams_();
+    SleepNormal::loadParams_();
     getAITreeVariable(&mGolemChemicalController_a, "GolemChemicalController");
 }
 

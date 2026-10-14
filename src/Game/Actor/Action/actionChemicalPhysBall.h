@@ -1,13 +1,13 @@
 #pragma once
 
 #include "KingSystem/System/Timer.h"
-#include "Game/Actor/Action/actionChemicalAttackBall.h"
+#include "Game/Actor/Action/actionChemicalAttack.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class ChemicalPhysBall : public ChemicalAttackBall {
-    SEAD_RTTI_OVERRIDE(ChemicalPhysBall, ChemicalAttackBall)
+class ChemicalPhysBall : public ChemicalAttack {
+    SEAD_RTTI_OVERRIDE(ChemicalPhysBall, ChemicalAttack)
 public:
     explicit ChemicalPhysBall(const InitArg& arg);
     ~ChemicalPhysBall() override;

@@ -463,7 +463,7 @@ public:
     void* m2() override { return nullptr; }
 };
 
-// vtable 0x710239c018 (HorseRideChaseBattleAttackMove, HorseRideDynSetGearCommand, HorseRideMoveCommand):
+// vtable 0x710239c018 (HorseRideChaseBattleAttackMove, HorseRideDynSetGearCommand, HorseRideSetGearCommand):
 // sends an int payload
 class Unk_710239c018 : public Unk_7102357d20 {
 public:
@@ -473,7 +473,7 @@ public:
     s32 _18 = 0;
 };
 
-// vtable 0x710239c040 (HorseRideChaseBattleAttackMove, HorseRideDynSetGearCommand, HorseRideMoveCommand)
+// vtable 0x710239c040 (HorseRideChaseBattleAttackMove, HorseRideDynSetGearCommand, HorseRideSetGearCommand)
 class Unk_710239c040 : public Unk_7102357d20 {
 public:
     using Unk_7102357d20::Unk_7102357d20;
@@ -552,7 +552,7 @@ public:
     sead::JobQueueLock _28;
 };
 
-// vtable 0x710240bc48 (NPCTravelBase at +0x38, NPCMove at +0x2c0); message 0x8000009. D2 / D0 / m2 at
+// vtable 0x710240bc48 (NPCScheduleMove at +0x38, NPCMove at +0x2c0); message 0x8000009. D2 / D0 / m2 at
 // 0x71004cdc50 / 0x71004d4f64 / 0x71004d4f98 (lane2 s21).
 class Unk_710240bc48 : public Unk_7102357d20 {
 public:

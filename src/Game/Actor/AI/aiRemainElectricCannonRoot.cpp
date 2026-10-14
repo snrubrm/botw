@@ -7,28 +7,28 @@
 namespace uking::ai {
 
 RemainElectricCannonRoot::RemainElectricCannonRoot(const InitArg& arg)
-    : RemainElectricCannonRootBase(arg) {}
+    : LargeCannonRoot(arg) {}
 
 RemainElectricCannonRoot::~RemainElectricCannonRoot() = default;
 
 bool RemainElectricCannonRoot::init_(sead::Heap* heap) {
-    return RemainElectricCannonRootBase::init_(heap);
+    return LargeCannonRoot::init_(heap);
 }
 
 void RemainElectricCannonRoot::enter_(ksys::act::ai::InlineParamPack* params) {
-    RemainElectricCannonRootBase::enter_(params);
+    LargeCannonRoot::enter_(params);
 }
 
 void RemainElectricCannonRoot::calc_() {
-    RemainElectricCannonRootBase::calc_();
+    LargeCannonRoot::calc_();
 }
 
 void RemainElectricCannonRoot::leave_() {
-    RemainElectricCannonRootBase::leave_();
+    LargeCannonRoot::leave_();
 }
 
 void RemainElectricCannonRoot::loadParams_() {
-    RemainElectricCannonRootBase::loadParams_();
+    LargeCannonRoot::loadParams_();
     getStaticParam(&mSearchMaxDistLoiter_s, "SearchMaxDistLoiter");
 }
 
@@ -44,7 +44,7 @@ bool RemainElectricCannonRoot::m35() {
         return false;
     if (getPlayerPosition().y - mActor->getMtx().m[1][3] > 0.0f)
         return false;
-    return RemainElectricCannonRootBase::m35();
+    return LargeCannonRoot::m35();
 }
 
 f32 RemainElectricCannonRoot::m41() {
@@ -52,7 +52,7 @@ f32 RemainElectricCannonRoot::m41() {
     if (auto* gdm = ksys::gdt::Manager::instance())
         gdm->getParam().get().getBool(&is_battle, "Electric_Relic_Battle");
     if (is_battle)
-        return RemainElectricCannonRootBase::m41();
+        return LargeCannonRoot::m41();
     return *mSearchMaxDistLoiter_s;
 }
 

@@ -1,13 +1,13 @@
 #pragma once
 
-#include "Game/Actor/Action/actionPriestBossWarpOrVanish.h"
+#include "Game/Actor/Action/actionPriestBossCloneFastWarp.h"
 #include "KingSystem/System/Timer.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class PriestBossShadowCloneVanish : public PriestBossWarpOrVanish {
-    SEAD_RTTI_OVERRIDE(PriestBossShadowCloneVanish, PriestBossWarpOrVanish)
+class PriestBossShadowCloneVanish : public PriestBossCloneFastWarp {
+    SEAD_RTTI_OVERRIDE(PriestBossShadowCloneVanish, PriestBossCloneFastWarp)
 public:
     explicit PriestBossShadowCloneVanish(const InitArg& arg);
     ~PriestBossShadowCloneVanish() override;

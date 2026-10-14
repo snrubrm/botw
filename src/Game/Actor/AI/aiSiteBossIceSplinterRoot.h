@@ -1,14 +1,14 @@
 #pragma once
 
 #include <prim/seadDelegate.h>
-#include "Game/Actor/AI/aiSiteBossChemicalProjectile.h"
+#include "Game/Actor/AI/aiGanonFlameBall.h"
 #include "KingSystem/ActorSystem/Profiles/actDynamicActor.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
 
-class SiteBossIceSplinterRoot : public SiteBossChemicalProjectile {
-    SEAD_RTTI_OVERRIDE(SiteBossIceSplinterRoot, SiteBossChemicalProjectile)
+class SiteBossIceSplinterRoot : public GanonFlameBall {
+    SEAD_RTTI_OVERRIDE(SiteBossIceSplinterRoot, GanonFlameBall)
 public:
     explicit SiteBossIceSplinterRoot(const InitArg& arg);
     ~SiteBossIceSplinterRoot() override;

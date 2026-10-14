@@ -1,13 +1,13 @@
 #pragma once
 
-#include "Game/Actor/Action/actionBattleCloseAction.h"
+#include "Game/Actor/Action/actionAvoidingCloseMoveBase.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 #include "KingSystem/System/VFRValue.h"
 
 namespace uking::action {
 
-class AvoidingCloseMoveActionBase : public BattleCloseAction {
-    SEAD_RTTI_OVERRIDE(AvoidingCloseMoveActionBase, BattleCloseAction)
+class AvoidingCloseMoveActionBase : public AvoidingCloseMoveBase {
+    SEAD_RTTI_OVERRIDE(AvoidingCloseMoveActionBase, AvoidingCloseMoveBase)
 public:
     explicit AvoidingCloseMoveActionBase(const InitArg& arg);
     ~AvoidingCloseMoveActionBase() override;

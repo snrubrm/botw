@@ -29,7 +29,7 @@ bool Unk_71023f4198::invoke(ksys::phys::RigidBody*, ksys::phys::RigidBody* other
 
 }  // namespace
 
-GiantSleepNormal::GiantSleepNormal(const InitArg& arg) : SpecialEnemySleep(arg) {}
+GiantSleepNormal::GiantSleepNormal(const InitArg& arg) : SleepNormal(arg) {}
 
 // The original keeps the vtable store that a defaulted destructor drops (same form as upstream's
 // GameDataFlagSelector::~GameDataFlagSelector() { ; }, commit 96101229).
@@ -38,14 +38,14 @@ GiantSleepNormal::~GiantSleepNormal() {
 }
 
 bool GiantSleepNormal::init_(sead::Heap* heap) {
-    if (!SpecialEnemySleep::init_(heap))
+    if (!SleepNormal::init_(heap))
         return false;
     _78 = mActor->findPhysicsBodyByName(ksys::act::getStr_Body().cstr(), mAwakeRbName_s.cstr());
     return true;
 }
 
 void GiantSleepNormal::enter_(ksys::act::ai::InlineParamPack* params) {
-    SpecialEnemySleep::enter_(params);
+    SleepNormal::enter_(params);
     _98 = 0;
     if (auto* giant = sead::DynamicCast<act::GiantEnemy>(mActor)) {
         giant->_1568 = 1;
@@ -97,7 +97,7 @@ void GiantSleepNormal::calc_() {
             }
         }
     }
-    SpecialEnemySleep::calc_();
+    SleepNormal::calc_();
 }
 
 void GiantSleepNormal::leave_() {
@@ -119,11 +119,11 @@ void GiantSleepNormal::leave_() {
             }
         }
     }
-    SpecialEnemySleep::leave_();
+    SleepNormal::leave_();
 }
 
 void GiantSleepNormal::loadParams_() {
-    SpecialEnemySleep::loadParams_();
+    SleepNormal::loadParams_();
     getStaticParam(&mForceAwakeDist_s, "ForceAwakeDist");
     getStaticParam(&mAwakeRbName_s, "AwakeRbName");
 }
@@ -131,7 +131,7 @@ void GiantSleepNormal::loadParams_() {
 void GiantSleepNormal::m34() {
     if (auto* awareness = mActor->getAwareness())
         awareness->sub_7100D7E9BC(0);
-    SpecialEnemySleep::m34();
+    SleepNormal::m34();
 }
 
 void GiantSleepNormal::m35() {

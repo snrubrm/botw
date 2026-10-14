@@ -54,10 +54,10 @@ struct Unk_71023b1608_Payload {
     sead::JobQueueLock mLock;
 };
 
-// Message 0x8000009 (sender Unk_710240bc48; NPCTravelBase / NPCMove)
+// Message 0x8000009 (sender Unk_710240bc48; NPCScheduleMove / NPCMove)
 struct Unk_710240bc48_Payload {
     ksys::act::BaseProcLink mLink;
-    // NPCTravelBase 4dfb9c and NPCMove 4d12ac lock this field around link acquisition.
+    // NPCScheduleMove 4dfb9c and NPCMove 4d12ac lock this field around link acquisition.
     sead::JobQueueLock mLock;
 };
 

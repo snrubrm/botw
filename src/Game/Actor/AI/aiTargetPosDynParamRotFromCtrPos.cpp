@@ -3,28 +3,28 @@
 namespace uking::ai {
 
 TargetPosDynParamRotFromCtrPos::TargetPosDynParamRotFromCtrPos(const InitArg& arg)
-    : TargetPosDynParamRot(arg) {}
+    : TargetPosDynParamRotFromMyPos(arg) {}
 
 TargetPosDynParamRotFromCtrPos::~TargetPosDynParamRotFromCtrPos() = default;
 
 bool TargetPosDynParamRotFromCtrPos::init_(sead::Heap* heap) {
-    return TargetPosDynParamRot::init_(heap);
+    return TargetPosDynParamRotFromMyPos::init_(heap);
 }
 
 void TargetPosDynParamRotFromCtrPos::enter_(ksys::act::ai::InlineParamPack* params) {
-    TargetPosDynParamRot::enter_(params);
+    TargetPosDynParamRotFromMyPos::enter_(params);
 }
 
 void TargetPosDynParamRotFromCtrPos::calc_() {
-    TargetPosDynParamRot::calc_();
+    TargetPosDynParamRotFromMyPos::calc_();
 }
 
 void TargetPosDynParamRotFromCtrPos::leave_() {
-    TargetPosDynParamRot::leave_();
+    TargetPosDynParamRotFromMyPos::leave_();
 }
 
 void TargetPosDynParamRotFromCtrPos::loadParams_() {
-    TargetPosDynParamRot::loadParams_();
+    TargetPosDynParamRotFromMyPos::loadParams_();
     getDynamicParam(&mCenterPos_d, "CenterPos");
 }
 

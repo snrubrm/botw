@@ -61,7 +61,7 @@ bool Unk_71023d8428::m2(ksys::act::Unk_71024dc978* entry) {
 
 bool AssassinMiddleAzitoDlcRoot::m74(Unk2* out, Unk1* info) {
     Unk_71023d8428 filter;
-    if (AssassinNormal::m74(out, info))
+    if (GuardHomePosNormal::m74(out, info))
         return true;
     return sub_710040CF88(&filter, out);
 }

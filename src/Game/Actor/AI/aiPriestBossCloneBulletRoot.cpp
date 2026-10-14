@@ -6,17 +6,17 @@
 
 namespace uking::ai {
 
-PriestBossCloneBulletRoot::PriestBossCloneBulletRoot(const InitArg& arg) : PriestBossMode(arg) {}
+PriestBossCloneBulletRoot::PriestBossCloneBulletRoot(const InitArg& arg) : PriestBoss(arg) {}
 
 PriestBossCloneBulletRoot::~PriestBossCloneBulletRoot() = default;
 
 bool PriestBossCloneBulletRoot::init_(sead::Heap* heap) {
-    return PriestBossMode::init_(heap);
+    return PriestBoss::init_(heap);
 }
 
 // NON_MATCHING: the original computes the ground hit mask before calling getContactLayer()
 void PriestBossCloneBulletRoot::enter_(ksys::act::ai::InlineParamPack* params) {
-    PriestBossMode::enter_(params);
+    PriestBoss::enter_(params);
     sub_71007A3800(mActor);
     changeChild("待機");
     _48 = ksys::Timer(360.0f, 360.0f);
@@ -36,11 +36,11 @@ void PriestBossCloneBulletRoot::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void PriestBossCloneBulletRoot::leave_() {
-    PriestBossMode::leave_();
+    PriestBoss::leave_();
 }
 
 void PriestBossCloneBulletRoot::loadParams_() {
-    PriestBossMode::loadParams_();
+    PriestBoss::loadParams_();
     getAITreeVariable(&mPriestBossMetaAIUnit_a, "PriestBossMetaAIUnit");
 }
 

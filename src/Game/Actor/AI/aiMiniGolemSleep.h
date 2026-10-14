@@ -1,13 +1,13 @@
 #pragma once
 
-#include "Game/Actor/AI/aiSpecialEnemySleep.h"
+#include "Game/Actor/AI/aiSleepNormal.h"
 #include "Game/Actor/aiUnk_7102357210.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
 
-class MiniGolemSleep : public SpecialEnemySleep {
-    SEAD_RTTI_OVERRIDE(MiniGolemSleep, SpecialEnemySleep)
+class MiniGolemSleep : public SleepNormal {
+    SEAD_RTTI_OVERRIDE(MiniGolemSleep, SleepNormal)
 public:
     explicit MiniGolemSleep(const InitArg& arg);
     ~MiniGolemSleep() override;

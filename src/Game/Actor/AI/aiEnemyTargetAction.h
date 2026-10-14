@@ -1,0 +1,33 @@
+#pragma once
+
+#include "KingSystem/ActorSystem/actAiAi.h"
+
+namespace uking::ai {
+
+class EnemyTargetAction : public ksys::act::ai::Ai {
+    SEAD_RTTI_OVERRIDE(EnemyTargetAction, ksys::act::ai::Ai)
+public:
+    explicit EnemyTargetAction(const InitArg& arg);
+
+    bool init_(sead::Heap* heap) override;
+    void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
+    void leave_() override;
+    void loadParams_() override;
+
+    virtual bool m34();
+    virtual bool m35();
+    virtual void m36(ksys::act::ai::InlineParamPack* params);
+
+protected:
+    // static_param at offset 0x38
+    const int* mWeaponIdx_s{};
+    // static_param at offset 0x40
+    const float* mActionDist_s{};
+    // static_param at offset 0x48
+    const float* mActionDir_s{};
+    // dynamic_param at offset 0x50
+    sead::Vector3f* mTargetPos_d{};
+};
+
+}  // namespace uking::ai

@@ -43,7 +43,7 @@ void PullOutTree::enter_(ksys::act::ai::InlineParamPack* params) {
         sub_7100532CF8();
 }
 
-// NON_MATCHING: same shape as SeqTwoLineReachableTargetActionBase::calc_ — the original has the child's vtable
+// NON_MATCHING: same shape as SeqTwoLineReachableTarget::calc_ — the original has the child's vtable
 // load hoisted into the condition blocks (the shared body starts with the same isFailed() call as the second
 // condition); ours keeps the loads in their blocks
 void PullOutTree::calc_() {

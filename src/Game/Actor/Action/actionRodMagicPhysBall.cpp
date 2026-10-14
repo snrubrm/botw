@@ -83,7 +83,7 @@ bool RodMagicPhysBall::sub_710023B234(Unk1a8* out) {
 
 int RodMagicPhysBall::m36() {
     const int type = *mChemicalType_s;
-    int flags = ChemicalAttackBall::m36();
+    int flags = ChemicalAttack::m36();
     if (type == 1)
         flags |= 8;
     return flags;

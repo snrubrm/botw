@@ -4,17 +4,17 @@
 namespace uking::ai {
 
 TargetAttackAttitudeTgtSelect::TargetAttackAttitudeTgtSelect(const InitArg& arg)
-    : TargetAttackAttitudeTgtSelectBase(arg) {}
+    : TargetAttackAttitudeTgt(arg) {}
 
 TargetAttackAttitudeTgtSelect::~TargetAttackAttitudeTgtSelect() = default;
 
 void TargetAttackAttitudeTgtSelect::calc_() {
-    TargetAttackAttitudeTgtSelectBase::calc_();
+    TargetAttackAttitudeTgt::calc_();
     getCurrentChild()->setDynamicParam(*mTargetPos_d, "TargetPos");
 }
 
 void TargetAttackAttitudeTgtSelect::loadParams_() {
-    TargetAttackAttitudeTgtSelectBase::loadParams_();
+    TargetAttackAttitudeTgt::loadParams_();
     getDynamicParam(&mTargetPos_d, "TargetPos");
 }
 

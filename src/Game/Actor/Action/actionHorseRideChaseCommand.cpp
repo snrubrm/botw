@@ -5,30 +5,30 @@
 
 namespace uking::action {
 
-HorseRideChaseCommand::HorseRideChaseCommand(const InitArg& arg) : HorseRideMoveCommand(arg) {}
+HorseRideChaseCommand::HorseRideChaseCommand(const InitArg& arg) : HorseRideSetGearCommand(arg) {}
 
 // NON_MATCHING: instruction scheduling (the original computes &payload lock before the sender vtable stores)
 HorseRideChaseCommand::~HorseRideChaseCommand() = default;
 
 bool HorseRideChaseCommand::init_(sead::Heap* heap) {
-    return HorseRideMoveCommand::init_(heap);
+    return HorseRideSetGearCommand::init_(heap);
 }
 
 void HorseRideChaseCommand::enter_(ksys::act::ai::InlineParamPack* params) {
-    HorseRideMoveCommand::enter_(params);
+    HorseRideSetGearCommand::enter_(params);
 }
 
 void HorseRideChaseCommand::leave_() {
-    HorseRideMoveCommand::leave_();
+    HorseRideSetGearCommand::leave_();
 }
 
 void HorseRideChaseCommand::loadParams_() {
-    HorseRideMoveCommand::loadParams_();
+    HorseRideSetGearCommand::loadParams_();
     getStaticParam(&mChaseKeepDist_s, "ChaseKeepDist");
 }
 
 void HorseRideChaseCommand::calc_() {
-    HorseRideMoveCommand::calc_();
+    HorseRideSetGearCommand::calc_();
 }
 
 bool HorseRideChaseCommand::m32(ksys::act::Actor* actor) {
@@ -43,7 +43,7 @@ bool HorseRideChaseCommand::m32(ksys::act::Actor* actor) {
     }
     if (!_a0.sub_710070DC38(actor, true))
         return false;
-    return HorseRideMoveCommand::m32(actor);
+    return HorseRideSetGearCommand::m32(actor);
 }
 
 }  // namespace uking::action

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Game/Actor/Horse/AI/aiNonPlayerHorseRide.h"
+#include "Game/Actor/Horse/AI/aiRideHorseNonPlayer.h"
 #include "Game/Actor/Damage/dmgDamageCallback.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
@@ -27,8 +27,8 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(Unk_71023e8398, 0x28);
 
-class EnemyHorseRide : public NonPlayerHorseRide {
-    SEAD_RTTI_OVERRIDE(EnemyHorseRide, NonPlayerHorseRide)
+class EnemyHorseRide : public RideHorseNonPlayer {
+    SEAD_RTTI_OVERRIDE(EnemyHorseRide, RideHorseNonPlayer)
 public:
     explicit EnemyHorseRide(const InitArg& arg);
     ~EnemyHorseRide() override;

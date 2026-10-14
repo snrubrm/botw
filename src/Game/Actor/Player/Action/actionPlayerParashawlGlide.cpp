@@ -12,11 +12,11 @@
 
 namespace uking::action {
 
-PlayerParashawlGlide::PlayerParashawlGlide(const InitArg& arg) : PlayerGlide(arg) {}
+PlayerParashawlGlide::PlayerParashawlGlide(const InitArg& arg) : PlayerParashawlGlideBase(arg) {}
 
 void PlayerParashawlGlide::enter_(ksys::act::ai::InlineParamPack* params) {
     const u32 flags = static_cast<ksys::act::Player*>(mActor)->_cf0.getDirect();
-    PlayerGlide::enter_(params);
+    PlayerParashawlGlideBase::enter_(params);
     static_cast<ksys::act::Player*>(mActor)->_cf0.set(0x200);
     static_cast<ksys::act::Player*>(mActor)->_cf4.set(0x20000);
     static_cast<ksys::act::Player*>(mActor)->_c44.reset(0x40000);
@@ -57,7 +57,7 @@ void PlayerParashawlGlide::enter_(ksys::act::ai::InlineParamPack* params) {
 // NON_MATCHING: the original copies the velocity element-wise onto itself (x / z / y loads and stores back to
 // the same stack slot) before the `y > 0` test; no source form found.
 void PlayerParashawlGlide::leave_() {
-    PlayerGlide::leave_();
+    PlayerParashawlGlideBase::leave_();
     auto* proc = static_cast<ksys::act::Player*>(mActor)->_2c28.getProc(nullptr, nullptr);
     if (auto* actor = sead::DynamicCast<ksys::act::Actor>(proc))
         actor->sleep(ksys::act::BaseProc::SleepWakeReason::_0);
@@ -83,13 +83,13 @@ void PlayerParashawlGlide::leave_() {
 }
 
 void PlayerParashawlGlide::loadParams_() {
-    PlayerGlide::loadParams_();
+    PlayerParashawlGlideBase::loadParams_();
     getStaticParam(&mEnergyGlide_s, "EnergyGlide");
     getStaticParam(&mNoEnergyTime_s, "NoEnergyTime");
 }
 
 void PlayerParashawlGlide::calc_() {
-    PlayerGlide::calc_();
+    PlayerParashawlGlideBase::calc_();
     auto* player = static_cast<ksys::act::Player*>(mActor);
     if (player->_cf0.isOnBit(23)) {
         const s32 slot = player->playerWeapons_return1();

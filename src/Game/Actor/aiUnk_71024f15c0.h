@@ -14,7 +14,7 @@ class RailConnectablePoint;
 class RailPoint;
 }
 
-// Unnamed rail follower embedded in uking::ai::RailMove (vtable 0x71024f15c0, size 0x60; CSV names
+// Unnamed rail follower embedded in uking::ai::BezierRailMove (vtable 0x71024f15c0, size 0x60; CSV names
 // "Rail::ctor", "Rail::x", "Rail::x_0"). Its functions live at 0x7100eeb800-0x7100eefc00, together
 // with the free helpers below. Placeholder names (sub_<addr>).
 class Unk_71024f15c0 {

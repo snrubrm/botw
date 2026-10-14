@@ -11,12 +11,12 @@
 
 namespace uking::ai {
 
-MoveAndFreeFallGondola::MoveAndFreeFallGondola(const InitArg& arg) : RailMove(arg) {}
+MoveAndFreeFallGondola::MoveAndFreeFallGondola(const InitArg& arg) : BezierRailMove(arg) {}
 
 MoveAndFreeFallGondola::~MoveAndFreeFallGondola() = default;
 
 bool MoveAndFreeFallGondola::init_(sead::Heap* heap) {
-    return RailMove::init_(heap);
+    return BezierRailMove::init_(heap);
 }
 
 void MoveAndFreeFallGondola::enter_(ksys::act::ai::InlineParamPack* params) {
@@ -24,11 +24,11 @@ void MoveAndFreeFallGondola::enter_(ksys::act::ai::InlineParamPack* params) {
         mActor->deleteLater(ksys::act::BaseProc::DeleteReason::_0);
         return;
     }
-    RailMove::enter_(params);
+    BezierRailMove::enter_(params);
 }
 
 void MoveAndFreeFallGondola::calc_() {
-    RailMove::calc_();
+    BezierRailMove::calc_();
     // called through a pointer in the original (not devirtualised)
     if (!isCurrentChild("停止") && (&_40)->m3()) {
         _c0.sub_710070DC38(sead::DynamicCast<ksys::act::Actor>(_b0.getProc(nullptr, nullptr)), false);
@@ -85,7 +85,7 @@ void MoveAndFreeFallGondola::m37() {
     _f8 = 0.0f;
 }ksys::map::Rail* MoveAndFreeFallGondola::m36() {
     if (sub_7100EEF034(mActor, 0))
-        return RailMove::m36();
+        return BezierRailMove::m36();
     return _f0;
 }
 
@@ -98,11 +98,11 @@ bool MoveAndFreeFallGondola::m40() {
 }
 
 void MoveAndFreeFallGondola::leave_() {
-    RailMove::leave_();
+    BezierRailMove::leave_();
 }
 
 void MoveAndFreeFallGondola::loadParams_() {
-    RailMove::loadParams_();
+    BezierRailMove::loadParams_();
     getMapUnitParam(&mRailMoveSpeed_m, "RailMoveSpeed");
     getMapUnitParam(&mGondolaRailOffsetTime_m, "GondolaRailOffsetTime");
 }

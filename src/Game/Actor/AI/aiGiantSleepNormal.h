@@ -2,7 +2,7 @@
 
 #include <math/seadVector.h>
 
-#include "Game/Actor/AI/aiSpecialEnemySleep.h"
+#include "Game/Actor/AI/aiSleepNormal.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace ksys::phys {
@@ -11,8 +11,8 @@ class RigidBody;
 
 namespace uking::ai {
 
-class GiantSleepNormal : public SpecialEnemySleep {
-    SEAD_RTTI_OVERRIDE(GiantSleepNormal, SpecialEnemySleep)
+class GiantSleepNormal : public SleepNormal {
+    SEAD_RTTI_OVERRIDE(GiantSleepNormal, SleepNormal)
 public:
     explicit GiantSleepNormal(const InitArg& arg);
     ~GiantSleepNormal() override;

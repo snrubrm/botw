@@ -19,7 +19,7 @@
 namespace uking::ai {
 
 SiteBossIceSplinterRoot::SiteBossIceSplinterRoot(const InitArg& arg)
-    : SiteBossChemicalProjectile(arg) {}
+    : GanonFlameBall(arg) {}
 
 // The original keeps the vtable store that a defaulted destructor drops (same form as upstream's
 // GameDataFlagSelector::~GameDataFlagSelector() { ; }, commit 96101229).
@@ -28,7 +28,7 @@ SiteBossIceSplinterRoot::~SiteBossIceSplinterRoot() {
 }
 
 bool SiteBossIceSplinterRoot::init_(sead::Heap* heap) {
-    if (!SiteBossChemicalProjectile::init_(heap))
+    if (!GanonFlameBall::init_(heap))
         return false;
     if (auto* actor = sead::DynamicCast<ksys::act::DynamicActor>(mActor))
         actor->_a70 = &_270;
@@ -38,7 +38,7 @@ bool SiteBossIceSplinterRoot::init_(sead::Heap* heap) {
 }
 
 void SiteBossIceSplinterRoot::enter_(ksys::act::ai::InlineParamPack* params) {
-    SiteBossChemicalProjectile::enter_(params);
+    GanonFlameBall::enter_(params);
     _23c = 0;
     _244 = 0;
     _22c = false;
@@ -60,14 +60,14 @@ void SiteBossIceSplinterRoot::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void SiteBossIceSplinterRoot::leave_() {
-    SiteBossChemicalProjectile::leave_();
+    GanonFlameBall::leave_();
 }
 
 // NON_MATCHING: same compares/calls; the original keeps the result in a callee-saved register and
 // shares one "enable contact layer" block between messages 0x3000004 / 0x80000b6 / 0x80000b7
 bool SiteBossIceSplinterRoot::handleMessage_(const ksys::Message* message) {
     if (!message || message->getBrokerId() != u32(-1))
-        return SiteBossChemicalProjectile::handleMessage_(message);
+        return GanonFlameBall::handleMessage_(message);
 
     if (message->getType() == 0x3000003) {
         sub_71007A2D7C(mActor, "AtkBody");
@@ -91,7 +91,7 @@ bool SiteBossIceSplinterRoot::handleMessage_(const ksys::Message* message) {
     } else if (message->getType() == 0x80000b7) {
         mActor->sub_71011D0228(0x80);
     } else {
-        return SiteBossChemicalProjectile::handleMessage_(message);
+        return GanonFlameBall::handleMessage_(message);
     }
     if (auto* body = mActor->getMainBody())
         body->enableContactLayer(ksys::phys::ContactLayer::EntityPlayer);
@@ -99,7 +99,7 @@ bool SiteBossIceSplinterRoot::handleMessage_(const ksys::Message* message) {
 }
 
 void SiteBossIceSplinterRoot::loadParams_() {
-    SiteBossChemicalProjectile::loadParams_();
+    GanonFlameBall::loadParams_();
     getStaticParam(&mReflectAtkPower_s, "ReflectAtkPower");
     getStaticParam(&mChaseAngleMin_s, "ChaseAngleMin");
     getStaticParam(&mRotateSpeed_s, "RotateSpeed");
@@ -214,7 +214,7 @@ void SiteBossIceSplinterRoot::m43(bool a) {
 
 void SiteBossIceSplinterRoot::m44() {
     if (!(getAttackInfo(mActor, 0)->_18 & 0xa)) {
-        SiteBossChemicalProjectile::m44();
+        GanonFlameBall::m44();
         return;
     }
 

@@ -5,29 +5,29 @@
 namespace uking::action {
 
 ForkASTrgEmitShockWavePos::ForkASTrgEmitShockWavePos(const InitArg& arg)
-    : ForkASTrgEmitShockWave(arg) {}
+    : ForkEmitShockWave(arg) {}
 
 ForkASTrgEmitShockWavePos::~ForkASTrgEmitShockWavePos() = default;
 
 bool ForkASTrgEmitShockWavePos::init_(sead::Heap* heap) {
-    return ForkASTrgEmitShockWave::init_(heap);
+    return ForkEmitShockWave::init_(heap);
 }
 
 void ForkASTrgEmitShockWavePos::enter_(ksys::act::ai::InlineParamPack* params) {
-    ForkASTrgEmitShockWave::enter_(params);
+    ForkEmitShockWave::enter_(params);
 }
 
 void ForkASTrgEmitShockWavePos::leave_() {
-    ForkASTrgEmitShockWave::leave_();
+    ForkEmitShockWave::leave_();
 }
 
 void ForkASTrgEmitShockWavePos::loadParams_() {
-    ForkASTrgEmitShockWave::loadParams_();
+    ForkEmitShockWave::loadParams_();
     getStaticParam(&mOffsetPos_s, "OffsetPos");
 }
 
 void ForkASTrgEmitShockWavePos::calc_() {
-    ForkASTrgEmitShockWave::calc_();
+    ForkEmitShockWave::calc_();
 }
 
 bool ForkASTrgEmitShockWavePos::m33(sead::Matrix34f* mtx) {

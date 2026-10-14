@@ -1,14 +1,14 @@
 #pragma once
 
-#include "Game/Actor/AI/aiPriestBossMode.h"
+#include "Game/Actor/AI/aiPriestBoss.h"
 #include "Game/Actor/aiUnk_7102357210.h"
 #include "Game/Actor/aiUnk_7102357d20.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
 
-class PriestBossGiantDownSeq : public PriestBossMode {
-    SEAD_RTTI_OVERRIDE(PriestBossGiantDownSeq, PriestBossMode)
+class PriestBossGiantDownSeq : public PriestBoss {
+    SEAD_RTTI_OVERRIDE(PriestBossGiantDownSeq, PriestBoss)
 public:
     explicit PriestBossGiantDownSeq(const InitArg& arg);
     ~PriestBossGiantDownSeq() override;

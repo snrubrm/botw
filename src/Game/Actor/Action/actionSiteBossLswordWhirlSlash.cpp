@@ -39,7 +39,7 @@ int SiteBossLswordWhirlSlash::m34() {
     ksys::as::ASList::Unk4 query;
     if (sub_71005DD5B0(mActor, 0xe, &query, 0, 0))
         return 1;
-    return SiteBossLswordAtk::m34();
+    return SiteBossLswordAttack::m34();
 }
 
 f32 SiteBossLswordWhirlSlash::m38() {

@@ -2,7 +2,7 @@
 
 namespace uking::action {
 
-SetGetFlagByActorName::SetGetFlagByActorName(const InitArg& arg) : SetGetFlagBase(arg) {}
+SetGetFlagByActorName::SetGetFlagByActorName(const InitArg& arg) : SetFlag(arg) {}
 
 // Empty-statement body as in upstream's GameDataFlagSelector::~GameDataFlagSelector() (96101229):
 // the original keeps the vtable store that a defaulted destructor drops.
@@ -11,11 +11,11 @@ SetGetFlagByActorName::~SetGetFlagByActorName() {
 }
 
 bool SetGetFlagByActorName::init_(sead::Heap* heap) {
-    return SetGetFlagBase::init_(heap);
+    return SetFlag::init_(heap);
 }
 
 void SetGetFlagByActorName::loadParams_() {
-    SetGetFlagBase::loadParams_();
+    SetFlag::loadParams_();
     getDynamicParam(&mActorName_d, "ActorName");
 }
 

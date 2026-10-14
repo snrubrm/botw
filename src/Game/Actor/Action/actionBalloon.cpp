@@ -1,5 +1,5 @@
 #include "Game/Actor/Action/actionBalloon.h"
-#include "Game/Actor/Action/actionOctarockBalloonBase.h"
+#include "Game/Actor/Action/actionBalloonRopeBase.h"
 #include "Game/Actor/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
@@ -30,7 +30,7 @@ bool Balloon::init_(sead::Heap* heap) {
     sub_71000B782C(mActor->getMtx().m[1][3]);
     // The original calls the sibling class's helper directly on this object (it only reads
     // Action+0x8, so the layout is compatible); reached through BalloonBase.
-    static_cast<OctarockBalloonBase*>(static_cast<BalloonBase*>(this))->sub_71000B8928(0.1f);
+    static_cast<BalloonRopeBase*>(static_cast<BalloonBase*>(this))->sub_71000B8928(0.1f);
     if (!sub_71005D6D10() && !sub_71000B70DC())
         return false;
     return true;

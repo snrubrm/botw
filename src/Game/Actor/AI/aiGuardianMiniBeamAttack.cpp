@@ -144,14 +144,14 @@ void GuardianMiniBeamAttack::sub_71004179D4(const sead::Vector3f& target) {
     sub_71005DB44C(actor, _2d0, 0.0f);
 }
 
-GuardianMiniBeamAttack::GuardianMiniBeamAttack(const InitArg& arg) : MiniBeamAttack(arg) {}
+GuardianMiniBeamAttack::GuardianMiniBeamAttack(const InitArg& arg) : GuideBeamAttackEnemyBattle(arg) {}
 
 // The SafeString members make the original keep the vtable store that a defaulted destructor drops;
 // written as upstream's GameDataFlagSelector::~GameDataFlagSelector() { ; } (commit 96101229).
 GuardianMiniBeamAttack::~GuardianMiniBeamAttack() { ; }
 
 void GuardianMiniBeamAttack::enter_(ksys::act::ai::InlineParamPack* params) {
-    MiniBeamAttack::enter_(params);
+    GuideBeamAttackEnemyBattle::enter_(params);
     _2c4 = ksys::Timer(*mAttackInterval_s, *mAttackInterval_s);
     if (*mAttackInterval_s >= 0)
         sub_710033F27C(0);
@@ -178,7 +178,7 @@ void GuardianMiniBeamAttack::calc_() {
         _2d0 = sub_71005DB4DC(mActor);
         if (!mPreLaunchEffectName_s.isEmpty())
             xlinkSearchAndEmit(mActor, mPreLaunchEffectName_s.cstr(), 2, nullptr);
-        MiniBeamAttack::m37();
+        GuideBeamAttackEnemyBattle::m37();
         return;
     }
     auto* child = getCurrentChild();
@@ -211,12 +211,12 @@ void GuardianMiniBeamAttack::calc_() {
             }
         }
     }
-    MiniBeamAttack::calc_();
+    GuideBeamAttackEnemyBattle::calc_();
 }
 
 void GuardianMiniBeamAttack::leave_() {
     sub_71005DB498(mActor);
-    MiniBeamAttack::leave_();
+    GuideBeamAttackEnemyBattle::leave_();
 }
 
 bool GuardianMiniBeamAttack::isChangeable() const {
@@ -226,7 +226,7 @@ bool GuardianMiniBeamAttack::isChangeable() const {
 }
 
 void GuardianMiniBeamAttack::loadParams_() {
-    MiniBeamAttack::loadParams_();
+    GuideBeamAttackEnemyBattle::loadParams_();
     getStaticParam(&mHeadNodeName_s, "HeadNodeName");
     getStaticParam(&mAttackInterval_s, "AttackInterval");
     getStaticParam(&mEndShaderASFrame_s, "EndShaderASFrame");
@@ -239,7 +239,7 @@ void GuardianMiniBeamAttack::loadParams_() {
 }
 
 // NON_MATCHING: the original tail-calls sub_71005D960C, so that function returns a pointer; our reference
-// declaration (shared with ~12 users) makes clang keep a frame (return attribute mismatch, see MiniBeamAttack::m35)
+// declaration (shared with ~12 users) makes clang keep a frame (return attribute mismatch, see GuideBeamAttackEnemyBattle::m35)
 const sead::Vector3f* GuardianMiniBeamAttack::m35() {
     if (*mIsFinalBattle_s)
         return &sub_71005D960C(mActor);
@@ -273,7 +273,7 @@ void GuardianMiniBeamAttack::m41() {
         beam->sub_7100002DA8(mActor);
         beam->_c38.acquire(mActor, false);
     }
-    MiniBeamAttack::m41();
+    GuideBeamAttackEnemyBattle::m41();
 }
 
 bool GuardianMiniBeamAttack::m46(sead::Vector3f* out) {
@@ -290,7 +290,7 @@ void GuardianMiniBeamAttack::m37() {
         _2d0 = sub_71005DB4DC(mActor);
         if (!mPreLaunchEffectName_s.isEmpty())
             xlinkSearchAndEmit(mActor, mPreLaunchEffectName_s.cstr(), 2, nullptr);
-        MiniBeamAttack::m37();
+        GuideBeamAttackEnemyBattle::m37();
         return;
     }
     ksys::act::ai::InlineParamPack pack;

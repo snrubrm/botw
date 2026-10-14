@@ -10,7 +10,7 @@
 namespace uking::action {
 
 FlyingCharacterBlownOff::FlyingCharacterBlownOff(const InitArg& arg)
-    : FlyingCharacterReaction(arg) {}
+    : FlyingCharacterFreeFallBase(arg) {}
 
 // Empty-statement body as in upstream's GameDataFlagSelector::~GameDataFlagSelector() (96101229):
 // the original keeps the vtable store that a defaulted destructor drops.
@@ -19,13 +19,13 @@ FlyingCharacterBlownOff::~FlyingCharacterBlownOff() {
 }
 
 bool FlyingCharacterBlownOff::init_(sead::Heap* heap) {
-    return FlyingCharacterReaction::init_(heap);
+    return FlyingCharacterFreeFallBase::init_(heap);
 }
 
 // NON_MATCHING: operand order of the three `fmul`s of the second product (the original multiplies the vector
 // component by the scalar, we get scalar * component).
 void FlyingCharacterBlownOff::enter_(ksys::act::ai::InlineParamPack* params) {
-    FlyingCharacterReaction::enter_(params);
+    FlyingCharacterFreeFallBase::enter_(params);
     playAS("Fall", false, 0, 0, -1.0f);
     auto* controller = mActor->getCharacterController();
     if (!controller) {
@@ -42,11 +42,11 @@ void FlyingCharacterBlownOff::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void FlyingCharacterBlownOff::leave_() {
-    FlyingCharacterReaction::leave_();
+    FlyingCharacterFreeFallBase::leave_();
 }
 
 void FlyingCharacterBlownOff::loadParams_() {
-    FlyingCharacterReaction::loadParams_();
+    FlyingCharacterFreeFallBase::loadParams_();
     getStaticParam(&mPosReduceRatioOnGround_s, "PosReduceRatioOnGround");
     getStaticParam(&mRotReduceRatioOnGround_s, "RotReduceRatioOnGround");
     getStaticParam(&mSpeed_s, "Speed");
@@ -56,7 +56,7 @@ void FlyingCharacterBlownOff::loadParams_() {
 }
 
 void FlyingCharacterBlownOff::calc_() {
-    FlyingCharacterReaction::calc_();
+    FlyingCharacterFreeFallBase::calc_();
 }
 
 void FlyingCharacterBlownOff::m32() {
@@ -65,7 +65,7 @@ void FlyingCharacterBlownOff::m32() {
 }
 
 void FlyingCharacterBlownOff::m34(ksys::phys::CharacterController* controller) {
-    FlyingCharacterReaction::m34(controller);
+    FlyingCharacterFreeFallBase::m34(controller);
 }
 
 void FlyingCharacterBlownOff::m35() {

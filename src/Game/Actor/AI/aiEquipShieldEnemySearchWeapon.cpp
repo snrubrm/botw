@@ -5,13 +5,13 @@
 namespace uking::ai {
 
 EquipShieldEnemySearchWeapon::EquipShieldEnemySearchWeapon(const InitArg& arg)
-    : UnarmedEnemySearchWeapon(arg) {}
+    : EnemySearch(arg) {}
 
 EquipShieldEnemySearchWeapon::~EquipShieldEnemySearchWeapon() = default;
 
 void EquipShieldEnemySearchWeapon::enter_(ksys::act::ai::InlineParamPack* params) {
     _6e8 = false;
-    UnarmedEnemySearchWeapon::enter_(params);
+    EnemySearch::enter_(params);
 }
 
 void EquipShieldEnemySearchWeapon::calc_() {
@@ -29,20 +29,20 @@ void EquipShieldEnemySearchWeapon::calc_() {
                 setFinished();
         }
     } else {
-        UnarmedEnemySearchWeapon::calc_();
+        EnemySearch::calc_();
     }
 }
 
 void EquipShieldEnemySearchWeapon::m44() {
     if (isCurrentChild("盾捨て"))
-        UnarmedEnemySearchWeapon::m44();
+        EnemySearch::m44();
     else
         changeChild("盾捨て");
 }
 
 void EquipShieldEnemySearchWeapon::m45() {
     if (isCurrentChild("見まわす")) {
-        UnarmedEnemySearchWeapon::m45();
+        EnemySearch::m45();
     } else {
         _6e8 = true;
         changeToLookAround();
@@ -50,11 +50,11 @@ void EquipShieldEnemySearchWeapon::m45() {
 }
 
 void EquipShieldEnemySearchWeapon::leave_() {
-    UnarmedEnemySearchWeapon::leave_();
+    EnemySearch::leave_();
 }
 
 void EquipShieldEnemySearchWeapon::loadParams_() {
-    UnarmedEnemySearchWeapon::loadParams_();
+    EnemySearch::loadParams_();
 }
 
 bool EquipShieldEnemySearchWeapon::m46(ksys::act::BaseProcLink& target) {

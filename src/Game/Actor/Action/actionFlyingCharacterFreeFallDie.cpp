@@ -7,7 +7,7 @@
 namespace uking::action {
 
 FlyingCharacterFreeFallDie::FlyingCharacterFreeFallDie(const InitArg& arg)
-    : FlyingCharacterReaction(arg) {}
+    : FlyingCharacterFreeFallBase(arg) {}
 
 // Empty-statement body as in upstream's GameDataFlagSelector::~GameDataFlagSelector() (96101229):
 // the original keeps the vtable store that a defaulted destructor drops.
@@ -16,20 +16,20 @@ FlyingCharacterFreeFallDie::~FlyingCharacterFreeFallDie() {
 }
 
 bool FlyingCharacterFreeFallDie::init_(sead::Heap* heap) {
-    return FlyingCharacterReaction::init_(heap);
+    return FlyingCharacterFreeFallBase::init_(heap);
 }
 
 void FlyingCharacterFreeFallDie::enter_(ksys::act::ai::InlineParamPack* params) {
-    FlyingCharacterReaction::enter_(params);
+    FlyingCharacterFreeFallBase::enter_(params);
     sub_710072BB28(mActor);
 }
 
 void FlyingCharacterFreeFallDie::leave_() {
-    FlyingCharacterReaction::leave_();
+    FlyingCharacterFreeFallBase::leave_();
 }
 
 void FlyingCharacterFreeFallDie::loadParams_() {
-    FlyingCharacterReaction::loadParams_();
+    FlyingCharacterFreeFallBase::loadParams_();
     getStaticParam(&mPosReduceRatioOnGround_s, "PosReduceRatioOnGround");
     getStaticParam(&mRotReduceRatioOnGround_s, "RotReduceRatioOnGround");
     getStaticParam(&mFallAS_s, "FallAS");
@@ -37,7 +37,7 @@ void FlyingCharacterFreeFallDie::loadParams_() {
 }
 
 void FlyingCharacterFreeFallDie::calc_() {
-    FlyingCharacterReaction::calc_();
+    FlyingCharacterFreeFallBase::calc_();
 }
 
 void FlyingCharacterFreeFallDie::m32() {
@@ -46,7 +46,7 @@ void FlyingCharacterFreeFallDie::m32() {
 }
 
 void FlyingCharacterFreeFallDie::m34(ksys::phys::CharacterController* controller) {
-    FlyingCharacterReaction::m34(controller);
+    FlyingCharacterFreeFallBase::m34(controller);
 }
 
 void FlyingCharacterFreeFallDie::m35() {
@@ -72,7 +72,7 @@ void FlyingCharacterFreeFallDie::m37(ksys::phys::CharacterController* controller
     if (isFinishedAS(0, 0))
         setFinished();
     else
-        FlyingCharacterReaction::m37(controller);
+        FlyingCharacterFreeFallBase::m37(controller);
 }
 
 }  // namespace uking::action

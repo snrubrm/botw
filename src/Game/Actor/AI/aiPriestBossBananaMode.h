@@ -3,7 +3,7 @@
 #include <math/seadVector.h>
 #include <prim/seadBitFlag.h>
 #include <prim/seadEnum.h>
-#include "Game/Actor/AI/aiPriestBossMode.h"
+#include "Game/Actor/AI/aiPriestBoss.h"
 #include "Game/Actor/aiUnk_7102357d20.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 #include "KingSystem/System/Timer.h"
@@ -11,8 +11,8 @@
 
 namespace uking::ai {
 
-class PriestBossBananaMode : public PriestBossMode {
-    SEAD_RTTI_OVERRIDE(PriestBossBananaMode, PriestBossMode)
+class PriestBossBananaMode : public PriestBoss {
+    SEAD_RTTI_OVERRIDE(PriestBossBananaMode, PriestBoss)
 public:
     SEAD_ENUM(Flag, _0, _1, _2, _3)
 

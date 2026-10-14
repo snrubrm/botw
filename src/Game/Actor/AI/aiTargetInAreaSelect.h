@@ -16,8 +16,8 @@ public:
     void leave_() override;
     void loadParams_() override;
 
-    // Pure in the original vtable (slot 34 is null); AssassinMagicTgtSelect / EnemyTargetInAreaSelect
-    // / TargetInFanAreaSelect override it. m35 / m36 are empty (emitted in AssassinMagicTgtSelect's
+    // Pure in the original vtable (slot 34 is null); TargetHeightAreaSelect / EnemyTargetInAreaSelect
+    // / TargetInFanAreaSelect override it. m35 / m36 are empty (emitted in TargetHeightAreaSelect's
     // TU); TargetInFanAreaSelect overrides them with the InlineParamPack* parameter.
     virtual bool m34() = 0;
     virtual void m35(ksys::act::ai::InlineParamPack* params) {}

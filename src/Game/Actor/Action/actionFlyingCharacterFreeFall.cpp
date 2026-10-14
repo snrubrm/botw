@@ -4,29 +4,29 @@
 namespace uking::action {
 
 FlyingCharacterFreeFall::FlyingCharacterFreeFall(const InitArg& arg)
-    : FlyingCharacterReaction(arg) {}
+    : FlyingCharacterFreeFallBase(arg) {}
 
 FlyingCharacterFreeFall::~FlyingCharacterFreeFall() = default;
 
 bool FlyingCharacterFreeFall::init_(sead::Heap* heap) {
-    return FlyingCharacterReaction::init_(heap);
+    return FlyingCharacterFreeFallBase::init_(heap);
 }
 
 void FlyingCharacterFreeFall::enter_(ksys::act::ai::InlineParamPack* params) {
-    FlyingCharacterReaction::enter_(params);
+    FlyingCharacterFreeFallBase::enter_(params);
     playAS("Fall", false, 0, 0, -1.0f);
 }
 
 void FlyingCharacterFreeFall::leave_() {
-    FlyingCharacterReaction::leave_();
+    FlyingCharacterFreeFallBase::leave_();
 }
 
 void FlyingCharacterFreeFall::loadParams_() {
-    FlyingCharacterReaction::loadParams_();
+    FlyingCharacterFreeFallBase::loadParams_();
 }
 
 void FlyingCharacterFreeFall::calc_() {
-    FlyingCharacterReaction::calc_();
+    FlyingCharacterFreeFallBase::calc_();
     if (isFinished() || isFailed())
         return;
     if (isBgGroundHit(mActor, false))

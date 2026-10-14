@@ -1,13 +1,13 @@
 #pragma once
 
-#include "Game/Actor/Action/actionAirOctaFloatBase.h"
+#include "Game/Actor/Action/actionAirOctaMoveBase.h"
 #include "Game/Actor/aiUnk_7100D3D3A8.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class AirOctaFloat : public AirOctaFloatBase {
-    SEAD_RTTI_OVERRIDE(AirOctaFloat, AirOctaFloatBase)
+class AirOctaFloat : public AirOctaMoveBase {
+    SEAD_RTTI_OVERRIDE(AirOctaFloat, AirOctaMoveBase)
 public:
     explicit AirOctaFloat(const InitArg& arg);
     ~AirOctaFloat() override;

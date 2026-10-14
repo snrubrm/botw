@@ -11,18 +11,18 @@
 
 namespace uking::action {
 
-BackFlip::BackFlip(const InitArg& arg) : RotateTurnToTarget(arg) {}
+BackFlip::BackFlip(const InitArg& arg) : ASPlayRotateTurnToTarget(arg) {}
 
 BackFlip::~BackFlip() = default;
 
 bool BackFlip::init_(sead::Heap* heap) {
-    if (!RotateTurnToTarget::init_(heap))
+    if (!ASPlayRotateTurnToTarget::init_(heap))
         return false;
     return _a0.acquire(heap, static_cast<Unk_71025afb58**>(mRefPosVibrateChecker_a));
 }
 
 void BackFlip::enter_(ksys::act::ai::InlineParamPack* params) {
-    RotateTurnToTarget::enter_(params);
+    ASPlayRotateTurnToTarget::enter_(params);
     _cc = false;
     _cd = false;
     if (auto* checker = sead::DynamicCast<Unk_71025b0578>(*_a0._0))
@@ -30,14 +30,14 @@ void BackFlip::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void BackFlip::leave_() {
-    RotateTurnToTarget::leave_();
+    ASPlayRotateTurnToTarget::leave_();
     auto* actor = mActor;
     sub_7100738AA8(actor, 0.0f);
     sub_7100738428(actor, 0.1f);
 }
 
 void BackFlip::loadParams_() {
-    RotateTurnToTarget::loadParams_();
+    ASPlayRotateTurnToTarget::loadParams_();
     getStaticParam(&mSpeed_s, "Speed");
     getStaticParam(&mPosRestRatio_s, "PosRestRatio");
     getStaticParam(&mJumpHeight_s, "JumpHeight");
@@ -67,7 +67,7 @@ void BackFlip::calc_() {
         if (checker->_78 <= 0.0f)
             setFinished();
     }
-    RotateTurnToTarget::calc_();
+    ASPlayRotateTurnToTarget::calc_();
 }
 
 void BackFlip::m33(ksys::act::Actor* actor, float x) {

@@ -15,12 +15,12 @@
 
 namespace uking::ai {
 
-LandHumEnemyFindBait::LandHumEnemyFindBait(const InitArg& arg) : UnarmedEnemySearch(arg) {}
+LandHumEnemyFindBait::LandHumEnemyFindBait(const InitArg& arg) : NavMove(arg) {}
 
 LandHumEnemyFindBait::~LandHumEnemyFindBait() = default;
 
 void LandHumEnemyFindBait::enter_(ksys::act::ai::InlineParamPack* params) {
-    UnarmedEnemySearch::enter_(params);
+    NavMove::enter_(params);
     _b4 = 10;
     _b8 = 45;
     _b0 = sead::GlobalRandom::instance()->getS32Range(10, 45);
@@ -51,7 +51,7 @@ void LandHumEnemyFindBait::calc_() {
                 unk->sub_71002DC3A8(child, 0x100);
         }
     } else {
-        UnarmedEnemySearch::calc_();
+        NavMove::calc_();
     }
 
     if (isGoStraightOrMove()) {
@@ -179,7 +179,7 @@ bool LandHumEnemyFindBait::isChangeable() const {
 }
 
 void LandHumEnemyFindBait::leave_() {
-    UnarmedEnemySearch::leave_();
+    NavMove::leave_();
     sub_71005DB3EC(mActor);
     if (auto* unit = ksys::act::sub_7100D82FFC(mActor->getBoneControl()))
         unit->_8c &= 0xffcf;
@@ -192,7 +192,7 @@ void LandHumEnemyFindBait::leave_() {
 }
 
 void LandHumEnemyFindBait::loadParams_() {
-    UnarmedEnemySearch::loadParams_();
+    NavMove::loadParams_();
     getStaticParam(&mRepathTime_s, "RepathTime");
     getDynamicParam(&mTargetBait_d, "TargetBait");
     getDynamicParam(&mIsNotice_d, "IsNotice");

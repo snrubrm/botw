@@ -89,7 +89,7 @@ void PriestBossActorNormalMode::sub_710050BB0C() {
 }
 
 // NON_MATCHING: the original uses separate scalar stores where the natural constructor merges them.
-PriestBossActorNormalMode::PriestBossActorNormalMode(const InitArg& arg) : PriestBossMode(arg) {}
+PriestBossActorNormalMode::PriestBossActorNormalMode(const InitArg& arg) : PriestBoss(arg) {}
 
 PriestBossActorNormalMode::~PriestBossActorNormalMode() {
     if (_120) {
@@ -99,12 +99,12 @@ PriestBossActorNormalMode::~PriestBossActorNormalMode() {
 }
 
 bool PriestBossActorNormalMode::init_(sead::Heap* heap) {
-    return PriestBossMode::init_(heap);
+    return PriestBoss::init_(heap);
 }
 
 // NON_MATCHING: the two vector copies use different load and store scheduling.
 void PriestBossActorNormalMode::enter_(ksys::act::ai::InlineParamPack* params) {
-    PriestBossMode::enter_(params);
+    PriestBoss::enter_(params);
     _d8 = 0;
     *mEquipWeaponBufIndex_a = sub_710071E288(mActor);
     const auto& target = sub_71005D9330(mActor);
@@ -123,11 +123,11 @@ void PriestBossActorNormalMode::leave_() {
     }
     if (auto* unit = sub_7100505BE4())
         unit->sub_7100719D5C(mActor);
-    PriestBossMode::leave_();
+    PriestBoss::leave_();
 }
 
 void PriestBossActorNormalMode::loadParams_() {
-    PriestBossMode::loadParams_();
+    PriestBoss::loadParams_();
     getStaticParam(&mApproachWarpRate_s, "ApproachWarpRate");
     getStaticParam(&mApproachStartDistance_s, "ApproachStartDistance");
     getStaticParam(&mLeaveStartDistance_s, "LeaveStartDistance");

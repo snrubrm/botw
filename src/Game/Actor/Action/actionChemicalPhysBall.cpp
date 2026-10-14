@@ -5,16 +5,16 @@
 
 namespace uking::action {
 
-ChemicalPhysBall::ChemicalPhysBall(const InitArg& arg) : ChemicalAttackBall(arg) {}
+ChemicalPhysBall::ChemicalPhysBall(const InitArg& arg) : ChemicalAttack(arg) {}
 
 ChemicalPhysBall::~ChemicalPhysBall() = default;
 
 bool ChemicalPhysBall::init_(sead::Heap* heap) {
-    return ChemicalAttackBall::init_(heap);
+    return ChemicalAttack::init_(heap);
 }
 
 void ChemicalPhysBall::enter_(ksys::act::ai::InlineParamPack* params) {
-    ChemicalAttackBall::enter_(params);
+    ChemicalAttack::enter_(params);
     _98 = mActor->getMtx().getTranslation();
     _a4 = 0;
     if (*mDeleteTime_s >= 0) {
@@ -27,16 +27,16 @@ void ChemicalPhysBall::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void ChemicalPhysBall::leave_() {
-    ChemicalAttackBall::leave_();
+    ChemicalAttack::leave_();
 }
 
 void ChemicalPhysBall::loadParams_() {
-    ChemicalAttackBall::loadParams_();
+    ChemicalAttack::loadParams_();
     getStaticParam(&mDeleteTime_s, "DeleteTime");
 }
 
 void ChemicalPhysBall::calc_() {
-    ChemicalAttackBall::calc_();
+    ChemicalAttack::calc_();
     sead::Vector3f pos;
     mActor->getMtx().getTranslation(pos);
     _a4 += (pos - _98).length();

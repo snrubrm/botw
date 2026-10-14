@@ -3,7 +3,7 @@
 #include <gsys/gsysModelAccessKey.h>
 #include <xlink2/xlink2HandleELink.h>
 #include <xlink2/xlink2HandleSLink.h>
-#include "Game/Actor/AI/aiRailMove.h"
+#include "Game/Actor/AI/aiBezierRailMove.h"
 #include "Game/Actor/aiUnk_7102357210.h"
 #include "Game/Actor/aiUnk_7102357d20.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
@@ -24,8 +24,8 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(Unk_71024192e0, 0xa8);
 
-class RemainsFireDroneNormal : public RailMove {
-    SEAD_RTTI_OVERRIDE(RemainsFireDroneNormal, RailMove)
+class RemainsFireDroneNormal : public BezierRailMove {
+    SEAD_RTTI_OVERRIDE(RemainsFireDroneNormal, BezierRailMove)
 public:
     explicit RemainsFireDroneNormal(const InitArg& arg);
     ~RemainsFireDroneNormal() override;

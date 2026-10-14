@@ -10,12 +10,12 @@
 namespace uking::ai {
 
 AppearFromTargetFrontAfterChase::AppearFromTargetFrontAfterChase(const InitArg& arg)
-    : AppearNearTarget(arg) {}
+    : AppearFromTarget(arg) {}
 
 AppearFromTargetFrontAfterChase::~AppearFromTargetFrontAfterChase() = default;
 
 void AppearFromTargetFrontAfterChase::enter_(ksys::act::ai::InlineParamPack* params) {
-    AppearNearTarget::enter_(params);
+    AppearFromTarget::enter_(params);
 }
 
 void AppearFromTargetFrontAfterChase::calc_() {
@@ -29,7 +29,7 @@ void AppearFromTargetFrontAfterChase::calc_() {
 
     if (isCurrentChild("湧出準備")) {
         sub_71005DD34C(mActor, false);
-        AppearNearTarget::calc_();
+        AppearFromTarget::calc_();
         return;
     }
 
@@ -45,7 +45,7 @@ void AppearFromTargetFrontAfterChase::calc_() {
     }
 
     if (!isCurrentChild("湧出出現")) {
-        AppearNearTarget::calc_();
+        AppearFromTarget::calc_();
         return;
     }
 
@@ -71,11 +71,11 @@ void AppearFromTargetFrontAfterChase::leave_() {
     mActor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_20);
     mActor->getXLink()->_cc.set(0x80000);
     sub_71005DD34C(mActor, true);
-    AppearNearTarget::leave_();
+    AppearFromTarget::leave_();
 }
 
 void AppearFromTargetFrontAfterChase::loadParams_() {
-    AppearNearTarget::loadParams_();
+    AppearFromTarget::loadParams_();
     getStaticParam(&mAppearDist_s, "AppearDist");
 }
 
@@ -85,7 +85,7 @@ void AppearFromTargetFrontAfterChase::m37(const sead::Vector3f& pos) {
     mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_20);
     mActor->getXLink()->_cc.reset(0x80000);
     sub_71005DD34C(mActor, false);
-    AppearNearTarget::m37(pos);
+    AppearFromTarget::m37(pos);
 }
 
 void AppearFromTargetFrontAfterChase::changeToSpawnAppear() {

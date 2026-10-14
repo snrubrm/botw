@@ -623,7 +623,7 @@ public:
     /* 0x17f8 */ s32 _17f8;  // state copied from _1cb0 (PlayerDisplayWait::enter_)
     /* 0x17fc */ u8 _17fc[0x1800 - 0x17fc];
     /* 0x1800 */ f32 _1800;  // copy of _1770.y (PlayerSuperJump::enter_)
-    /* 0x1804 */ f32 _1804;  // zeroed by PlayerGlide::enter_
+    /* 0x1804 */ f32 _1804;  // zeroed by PlayerParashawlGlideBase::enter_
     /* 0x1808 */ f32 _1808;
     /* 0x180c */ f32 _180c;
     /* 0x1810 */ sead::Vector3f _1810;  // compared with _1770 by PlayerSuperJumpCharge::calc_

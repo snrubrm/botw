@@ -55,16 +55,16 @@ void Unk_71023e8398::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, act::Dama
         *a5 = 22;
 }
 
-EnemyHorseRide::EnemyHorseRide(const InitArg& arg) : NonPlayerHorseRide(arg) {}
+EnemyHorseRide::EnemyHorseRide(const InitArg& arg) : RideHorseNonPlayer(arg) {}
 
 EnemyHorseRide::~EnemyHorseRide() = default;
 
 bool EnemyHorseRide::init_(sead::Heap* heap) {
-    return NonPlayerHorseRide::init_(heap);
+    return RideHorseNonPlayer::init_(heap);
 }
 
 void EnemyHorseRide::enter_(ksys::act::ai::InlineParamPack* params) {
-    NonPlayerHorseRide::enter_(params);
+    RideHorseNonPlayer::enter_(params);
 }
 
 // NON_MATCHING: the original passes a second argument (0) to ASList::sub_710115EA64, which the callee does not read;
@@ -118,7 +118,7 @@ void EnemyHorseRide::calc_() {
 }
 
 void EnemyHorseRide::leave_() {
-    NonPlayerHorseRide::leave_();
+    RideHorseNonPlayer::leave_();
     auto* actor = mActor;
     if (auto* damage_mgr = actor->getDamageMgr()) {
         damage_mgr->removeDamageCallback(&_f8);
@@ -150,7 +150,7 @@ void EnemyHorseRide::leave_() {
 }
 
 void EnemyHorseRide::loadParams_() {
-    NonPlayerHorseRide::loadParams_();
+    RideHorseNonPlayer::loadParams_();
     getStaticParam(&mUpperBodyASSlot_s, "UpperBodyASSlot");
     getStaticParam(&mLowerBodyASSlot_s, "LowerBodyASSlot");
 }
@@ -164,7 +164,7 @@ bool EnemyHorseRide::handleMessage_(const ksys::Message* message) {
 void EnemyHorseRide::m34() {
     if (mActor->isDelete())
         return;
-    NonPlayerHorseRide::m34();
+    RideHorseNonPlayer::m34();
 }
 
 }  // namespace uking::ai

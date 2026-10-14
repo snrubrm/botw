@@ -8,7 +8,7 @@
 #include "KingSystem/System/ControllerSnapshot.h"
 
 namespace uking::action {
-class CameraLockOnBase;
+class CameraTrackBase;
 }
 #include "KingSystem/Utils/Thread/Task.h"
 #include "KingSystem/Utils/Thread/TaskData.h"
@@ -207,8 +207,8 @@ class Unk_7102457a80 {
 public:
     struct InitArg {
         SEAD_RTTI_BASE(InitArg)
-        explicit InitArg(uking::action::CameraLockOnBase* owner) : _8(owner) {}
-        uking::action::CameraLockOnBase* _8;
+        explicit InitArg(uking::action::CameraTrackBase* owner) : _8(owner) {}
+        uking::action::CameraTrackBase* _8;
     };
 
     virtual ~Unk_7102457a80();
@@ -217,7 +217,7 @@ public:
     virtual void m5() {}
 
     // Native 0x7100786d18 and the camera array readers establish these fields.
-    uking::action::CameraLockOnBase* _8 = nullptr;
+    uking::action::CameraTrackBase* _8 = nullptr;
     uking::act::Unk_71009214b8 _10;
 };
 
@@ -227,7 +227,7 @@ class Unk_7102457ac0 : public Unk_7102457a80 {
 public:
     struct InitArg : Unk_7102457a80::InitArg {
         SEAD_RTTI_OVERRIDE(InitArg, Unk_7102457a80::InitArg)
-        InitArg(uking::action::CameraLockOnBase* owner,
+        InitArg(uking::action::CameraTrackBase* owner,
                 sead::IDelegate1<uking::act::Unk_71009214b8*>* callback)
             : Unk_7102457a80::InitArg(owner), _10(callback) {}
         sead::IDelegate1<uking::act::Unk_71009214b8*>* _10;

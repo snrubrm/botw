@@ -3,7 +3,7 @@
 
 namespace uking::action {
 
-CameraLockOn::CameraLockOn(const InitArg& arg) : CameraLockOnBase(arg) {}
+CameraLockOn::CameraLockOn(const InitArg& arg) : CameraTrackBase(arg) {}
 
 float CameraLockOn::m44() {
     return sub_71009222F4();

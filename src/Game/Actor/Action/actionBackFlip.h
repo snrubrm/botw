@@ -1,14 +1,14 @@
 #pragma once
 
 #include <math/seadMatrix.h>
-#include "Game/Actor/Action/actionRotateTurnToTarget.h"
+#include "Game/Actor/Action/actionASPlayRotateTurnToTarget.h"
 #include "Game/Actor/aiUnk_71025b0578.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class BackFlip : public RotateTurnToTarget {
-    SEAD_RTTI_OVERRIDE(BackFlip, RotateTurnToTarget)
+class BackFlip : public ASPlayRotateTurnToTarget {
+    SEAD_RTTI_OVERRIDE(BackFlip, ASPlayRotateTurnToTarget)
 public:
     explicit BackFlip(const InitArg& arg);
     ~BackFlip() override;

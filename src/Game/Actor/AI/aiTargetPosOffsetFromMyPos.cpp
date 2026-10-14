@@ -2,28 +2,28 @@
 
 namespace uking::ai {
 
-TargetPosOffsetFromMyPos::TargetPosOffsetFromMyPos(const InitArg& arg) : TargetPosOffset(arg) {}
+TargetPosOffsetFromMyPos::TargetPosOffsetFromMyPos(const InitArg& arg) : OffsetTargetPos(arg) {}
 
 TargetPosOffsetFromMyPos::~TargetPosOffsetFromMyPos() = default;
 
 bool TargetPosOffsetFromMyPos::init_(sead::Heap* heap) {
-    return TargetPosOffset::init_(heap);
+    return OffsetTargetPos::init_(heap);
 }
 
 void TargetPosOffsetFromMyPos::enter_(ksys::act::ai::InlineParamPack* params) {
-    TargetPosOffset::enter_(params);
+    OffsetTargetPos::enter_(params);
 }
 
 void TargetPosOffsetFromMyPos::calc_() {
-    TargetPosOffset::calc_();
+    OffsetTargetPos::calc_();
 }
 
 void TargetPosOffsetFromMyPos::leave_() {
-    TargetPosOffset::leave_();
+    OffsetTargetPos::leave_();
 }
 
 void TargetPosOffsetFromMyPos::loadParams_() {
-    TargetPosOffset::loadParams_();
+    OffsetTargetPos::loadParams_();
     getDynamicParam(&mTargetPos_d, "TargetPos");
 }
 

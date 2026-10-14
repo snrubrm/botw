@@ -2,33 +2,33 @@
 
 namespace uking::action {
 
-FollowIgniteToSelfPos::FollowIgniteToSelfPos(const InitArg& arg) : RotateTurnToTarget(arg) {}
+FollowIgniteToSelfPos::FollowIgniteToSelfPos(const InitArg& arg) : ASPlayRotateTurnToTarget(arg) {}
 
 FollowIgniteToSelfPos::~FollowIgniteToSelfPos() = default;
 
 bool FollowIgniteToSelfPos::init_(sead::Heap* heap) {
-    if (!RotateTurnToTarget::init_(heap))
+    if (!ASPlayRotateTurnToTarget::init_(heap))
         return false;
     return _78.init(heap);
 }
 
 void FollowIgniteToSelfPos::enter_(ksys::act::ai::InlineParamPack* params) {
-    RotateTurnToTarget::enter_(params);
+    ASPlayRotateTurnToTarget::enter_(params);
     _78.enter(params);
 }
 
 void FollowIgniteToSelfPos::leave_() {
-    RotateTurnToTarget::leave_();
+    ASPlayRotateTurnToTarget::leave_();
     _78.leave();
 }
 
 void FollowIgniteToSelfPos::loadParams_() {
-    RotateTurnToTarget::loadParams_();
+    ASPlayRotateTurnToTarget::loadParams_();
     _78.loadParams();
 }
 
 void FollowIgniteToSelfPos::calc_() {
-    RotateTurnToTarget::calc_();
+    ASPlayRotateTurnToTarget::calc_();
     _78.calc();
 }
 

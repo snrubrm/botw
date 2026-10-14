@@ -19,17 +19,17 @@ struct Unk_80000c8_Payload {
 };
 }  // namespace
 
-AirOctaFloat::AirOctaFloat(const InitArg& arg) : AirOctaFloatBase(arg) {}
+AirOctaFloat::AirOctaFloat(const InitArg& arg) : AirOctaMoveBase(arg) {}
 
 AirOctaFloat::~AirOctaFloat() = default;
 
 bool AirOctaFloat::init_(sead::Heap* heap) {
-    return AirOctaFloatBase::init_(heap);
+    return AirOctaMoveBase::init_(heap);
 }
 
 // NON_MATCHING: vector address scheduling and zero-vector copy stores differ.
 void AirOctaFloat::enter_(ksys::act::ai::InlineParamPack* params) {
-    AirOctaFloatBase::enter_(params);
+    AirOctaMoveBase::enter_(params);
     if (auto* manager = sub_7100088DA8()) {
         if (manager->mBaseProcLink2.hasProc())
             _1c4.set(0.005f, 1.7f, 0.005f);
@@ -39,11 +39,11 @@ void AirOctaFloat::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void AirOctaFloat::leave_() {
-    AirOctaFloatBase::leave_();
+    AirOctaMoveBase::leave_();
 }
 
 void AirOctaFloat::loadParams_() {
-    AirOctaFloatBase::loadParams_();
+    AirOctaMoveBase::loadParams_();
 }
 
 bool AirOctaFloat::handleMessage_(const ksys::Message* message) {
@@ -78,7 +78,7 @@ void AirOctaFloat::calc_() {
             body->applyLinearImpulse(impulse);
         }
     }
-    AirOctaFloatBase::calc_();
+    AirOctaMoveBase::calc_();
 }
 
 void AirOctaFloat::m33(sead::Vector3f* min, sead::Vector3f* max) {

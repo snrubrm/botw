@@ -4,28 +4,28 @@
 namespace uking::ai {
 
 SeqTwoLineReachableTargetAction::SeqTwoLineReachableTargetAction(const InitArg& arg)
-    : SeqTwoLineReachableTargetActionBase(arg) {}
+    : SeqTwoLineReachableTarget(arg) {}
 
 SeqTwoLineReachableTargetAction::~SeqTwoLineReachableTargetAction() = default;
 
 bool SeqTwoLineReachableTargetAction::init_(sead::Heap* heap) {
-    return SeqTwoLineReachableTargetActionBase::init_(heap);
+    return SeqTwoLineReachableTarget::init_(heap);
 }
 
 void SeqTwoLineReachableTargetAction::enter_(ksys::act::ai::InlineParamPack* params) {
-    SeqTwoLineReachableTargetActionBase::enter_(params);
+    SeqTwoLineReachableTarget::enter_(params);
 }
 
 void SeqTwoLineReachableTargetAction::calc_() {
-    SeqTwoLineReachableTargetActionBase::calc_();
+    SeqTwoLineReachableTarget::calc_();
 }
 
 void SeqTwoLineReachableTargetAction::leave_() {
-    SeqTwoLineReachableTargetActionBase::leave_();
+    SeqTwoLineReachableTarget::leave_();
 }
 
 void SeqTwoLineReachableTargetAction::loadParams_() {
-    SeqTwoLineReachableTargetActionBase::loadParams_();
+    SeqTwoLineReachableTarget::loadParams_();
 }
 
 const sead::Vector3f* SeqTwoLineReachableTargetAction::m36() {

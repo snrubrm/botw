@@ -3,7 +3,7 @@
 
 namespace uking::ai {
 
-OneMemoryMagicBattle::OneMemoryMagicBattle(const InitArg& arg) : OneMemoryMagicBattleBase(arg) {}
+OneMemoryMagicBattle::OneMemoryMagicBattle(const InitArg& arg) : MagicBattle(arg) {}
 
 OneMemoryMagicBattle::~OneMemoryMagicBattle() {
     if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor))
@@ -11,7 +11,7 @@ OneMemoryMagicBattle::~OneMemoryMagicBattle() {
 }
 
 bool OneMemoryMagicBattle::init_(sead::Heap* heap) {
-    if (!OneMemoryMagicBattleBase::init_(heap))
+    if (!MagicBattle::init_(heap))
         return false;
     if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor))
         enemy->sub_7100D3CED8(mMemoryPartsName_s, heap);
@@ -19,20 +19,20 @@ bool OneMemoryMagicBattle::init_(sead::Heap* heap) {
 }
 
 void OneMemoryMagicBattle::enter_(ksys::act::ai::InlineParamPack* params) {
-    OneMemoryMagicBattleBase::enter_(params);
+    MagicBattle::enter_(params);
 }
 
 void OneMemoryMagicBattle::calc_() {
-    OneMemoryMagicBattleBase::calc_();
+    MagicBattle::calc_();
     getCurrentChild()->isChangeable();
 }
 
 void OneMemoryMagicBattle::leave_() {
-    OneMemoryMagicBattleBase::leave_();
+    MagicBattle::leave_();
 }
 
 void OneMemoryMagicBattle::loadParams_() {
-    OneMemoryMagicBattleBase::loadParams_();
+    MagicBattle::loadParams_();
     getStaticParam(&mMemoryPartsName_s, "MemoryPartsName");
 }
 
@@ -40,7 +40,7 @@ bool OneMemoryMagicBattle::m45() {
     auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
     if (enemy && enemy->getActorPartsActor(mMemoryPartsName_s).hasProcInCalcState())
         return false;
-    return OneMemoryMagicBattleBase::m45();
+    return MagicBattle::m45();
 }
 
 }  // namespace uking::ai

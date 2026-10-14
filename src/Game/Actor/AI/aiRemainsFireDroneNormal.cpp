@@ -18,7 +18,7 @@ bool Unk_71024192e0::m5(ksys::act::BaseProc* proc) {
 
 
 
-RemainsFireDroneNormal::RemainsFireDroneNormal(const InitArg& arg) : RailMove(arg) {}
+RemainsFireDroneNormal::RemainsFireDroneNormal(const InitArg& arg) : BezierRailMove(arg) {}
 
 RemainsFireDroneNormal::~RemainsFireDroneNormal() {
     if (_320) {
@@ -28,15 +28,15 @@ RemainsFireDroneNormal::~RemainsFireDroneNormal() {
 }
 
 bool RemainsFireDroneNormal::init_(sead::Heap* heap) {
-    return RailMove::init_(heap);
+    return BezierRailMove::init_(heap);
 }
 
 void RemainsFireDroneNormal::enter_(ksys::act::ai::InlineParamPack* params) {
-    RailMove::enter_(params);
+    BezierRailMove::enter_(params);
 }
 
 void RemainsFireDroneNormal::leave_() {
-    RailMove::leave_();
+    BezierRailMove::leave_();
     mActor->sub_71011DA834(_320);
     uking::xlink::fade(_2f0, -1);
     uking::xlink::fade(_300, -1);
@@ -45,7 +45,7 @@ void RemainsFireDroneNormal::leave_() {
 }
 
 void RemainsFireDroneNormal::loadParams_() {
-    RailMove::loadParams_();
+    BezierRailMove::loadParams_();
     getStaticParam(&mLightLengthOffset_s, "LightLengthOffset");
     getStaticParam(&mAdjustRadius_s, "AdjustRadius");
     getMapUnitParam(&mSearchLightType_m, "SearchLightType");

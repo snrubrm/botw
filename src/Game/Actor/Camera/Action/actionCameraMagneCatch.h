@@ -1,14 +1,14 @@
 #pragma once
 
-#include "Game/Actor/Camera/Action/actionCameraLockOnBase.h"
+#include "Game/Actor/Camera/Action/actionCameraTrackBase.h"
 #include <container/seadSafeArray.h>
 #include <prim/seadDelegate.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class CameraMagneCatch : public CameraLockOnBase {
-    SEAD_RTTI_OVERRIDE(CameraMagneCatch, CameraLockOnBase)
+class CameraMagneCatch : public CameraTrackBase {
+    SEAD_RTTI_OVERRIDE(CameraMagneCatch, CameraTrackBase)
 public:
     explicit CameraMagneCatch(const InitArg& arg);
     ~CameraMagneCatch() override;

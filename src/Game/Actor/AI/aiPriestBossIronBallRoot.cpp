@@ -22,7 +22,7 @@ namespace uking::ai {
 const char* sUnk_7102414060 = "Explosion";
 const char* sUnk_7102414068 = "Disappear";
 
-PriestBossIronBallRoot::PriestBossIronBallRoot(const InitArg& arg) : PriestBossMode(arg) {}
+PriestBossIronBallRoot::PriestBossIronBallRoot(const InitArg& arg) : PriestBoss(arg) {}
 
 PriestBossIronBallRoot::~PriestBossIronBallRoot() {
     if (_70.hasProc()) {
@@ -33,7 +33,7 @@ PriestBossIronBallRoot::~PriestBossIronBallRoot() {
 }
 
 bool PriestBossIronBallRoot::init_(sead::Heap* heap) {
-    if (!PriestBossMode::init_(heap))
+    if (!PriestBoss::init_(heap))
         return false;
 
     if (!sub_71005D6D10()) {
@@ -59,17 +59,17 @@ bool PriestBossIronBallRoot::init_(sead::Heap* heap) {
 }
 
 void PriestBossIronBallRoot::enter_(ksys::act::ai::InlineParamPack* params) {
-    PriestBossMode::enter_(params);
+    PriestBoss::enter_(params);
 }
 
 void PriestBossIronBallRoot::leave_() {
-    PriestBossMode::leave_();
+    PriestBoss::leave_();
     m35();
     _27c = 0;
 }
 
 void PriestBossIronBallRoot::loadParams_() {
-    PriestBossMode::loadParams_();
+    PriestBoss::loadParams_();
     getStaticParam(&mAttackPower_s, "AttackPower");
     getStaticParam(&mAttackPowerForPlayer_s, "AttackPowerForPlayer");
     getStaticParam(&mAtMinDamage_s, "AtMinDamage");

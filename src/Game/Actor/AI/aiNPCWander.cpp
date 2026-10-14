@@ -7,7 +7,7 @@
 
 namespace uking::ai {
 
-NPCWander::NPCWander(const InitArg& arg) : NPCTravelBase(arg) {}
+NPCWander::NPCWander(const InitArg& arg) : NPCScheduleMove(arg) {}
 
 // The original keeps the vtable store that a defaulted destructor drops (same form as upstream's
 // GameDataFlagSelector::~GameDataFlagSelector() { ; }, commit 96101229).
@@ -16,7 +16,7 @@ NPCWander::~NPCWander() {
 }
 
 bool NPCWander::init_(sead::Heap* heap) {
-    if (!NPCTravelBase::init_(heap))
+    if (!NPCScheduleMove::init_(heap))
         return false;
 
     if (auto* npc = sead::DynamicCast<act::NPC>(mActor)) {
@@ -29,15 +29,15 @@ bool NPCWander::init_(sead::Heap* heap) {
 }
 
 void NPCWander::enter_(ksys::act::ai::InlineParamPack* params) {
-    NPCTravelBase::enter_(params);
+    NPCScheduleMove::enter_(params);
 }
 
 void NPCWander::leave_() {
-    NPCTravelBase::leave_();
+    NPCScheduleMove::leave_();
 }
 
 void NPCWander::loadParams_() {
-    NPCTravelBase::loadParams_();
+    NPCScheduleMove::loadParams_();
     getStaticParam(&mRainWaitTime_s, "RainWaitTime");
     getStaticParam(&mGoalDistance_s, "GoalDistance");
     getStaticParam(&mRailUpdateDistRate_s, "RailUpdateDistRate");

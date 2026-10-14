@@ -42,11 +42,11 @@ bool FlyingBirdDie::m38() {
         return true;
 
     if (_108.value <= sead::Mathf::epsilon())
-        return FlyingCharacterReaction::m38();
+        return FlyingCharacterFreeFallBase::m38();
 
     _108.update();
     if (_108.value <= sead::Mathf::epsilon())
-        return FlyingCharacterReaction::m38();
+        return FlyingCharacterFreeFallBase::m38();
 
     return false;
 }

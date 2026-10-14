@@ -103,7 +103,7 @@ void FishRoot::sub_71003CC878() {
 }
 
 // NON_MATCHING: initialization of the vector/counter block is not aggregated into one clear.
-FishRoot::FishRoot(const InitArg& arg) : SimpleWildlifeRoot(arg) {}
+FishRoot::FishRoot(const InitArg& arg) : CapturedActorRoot(arg) {}
 
 // NON_MATCHING: regalloc of the element destructor loop (we hoist the element address `end - 0xe8` into x21 for the two
 // calls; the original recomputes it in each branch).
@@ -172,7 +172,7 @@ bool FishRoot::sub_71003CD93C() {
 
 // NON_MATCHING: stack/register allocation and buffer cleanup block placement differ.
 bool FishRoot::init_(sead::Heap* heap) {
-    if (!SimpleWildlifeRoot::init_(heap))
+    if (!CapturedActorRoot::init_(heap))
         return false;
     auto* model = mActor->getModel();
     if (!model)
@@ -219,7 +219,7 @@ bool FishRoot::init_(sead::Heap* heap) {
 }
 
 void FishRoot::enter_(ksys::act::ai::InlineParamPack* params) {
-    SimpleWildlifeRoot::enter_(params);
+    CapturedActorRoot::enter_(params);
 }
 
 void FishRoot::sub_71003CC69C() {
@@ -234,7 +234,7 @@ void FishRoot::sub_71003CC69C() {
 
 void FishRoot::calc_() {
     sub_71003CC878();
-    SimpleWildlifeRoot::calc_();
+    CapturedActorRoot::calc_();
     const sead::Vector3f position = mActor->getMtx().getTranslation();
     _1a4 = (position - getPlayerPosition()).squaredLength();
     sub_71003CCA34();
@@ -247,11 +247,11 @@ void FishRoot::leave_() {
     if (_1c0)
         _1c0->release();
     _1c0 = nullptr;
-    SimpleWildlifeRoot::leave_();
+    CapturedActorRoot::leave_();
 }
 
 void FishRoot::loadParams_() {
-    SimpleWildlifeRoot::loadParams_();
+    CapturedActorRoot::loadParams_();
     getStaticParam(&mParams.mInWaterDepth_s, "InWaterDepth");
     getStaticParam(&mParams.mOnGroundDepth_s, "OnGroundDepth");
     getStaticParam(&mParams.mNextJumpTimeBase_s, "NextJumpTimeBase");
@@ -266,11 +266,11 @@ void FishRoot::loadParams_() {
 }
 
 bool FishRoot::m34() {
-    return SimpleWildlifeRoot::m34();
+    return CapturedActorRoot::m34();
 }
 
 bool FishRoot::m35() {
-    if (SimpleWildlifeRoot::m35())
+    if (CapturedActorRoot::m35())
         return true;
     auto* chemical = mActor->sub_71011D8A34(0);
     if (chemical && chemical->_1b8 > 0.0f)
@@ -313,7 +313,7 @@ void FishRoot::m41() {
 void FishRoot::m40() {
     if (auto* controller = mActor->getCharacterController())
         controller->sub_7100F60604();
-    SimpleWildlifeRoot::m40();
+    CapturedActorRoot::m40();
 }
 
 void FishRoot::changeToDiscoverInterest() {

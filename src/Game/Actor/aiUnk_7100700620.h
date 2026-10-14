@@ -7,7 +7,7 @@ class Actor;
 }
 
 // Placeholder name (0x7100700620, no name known): an 8-byte state struct embedded in
-// WaterUpDownMoveBase (+0x7c) and WaterUpDownAnmDrivenMove. Its constructor is out of line.
+// WaterDepthMoveBase (+0x7c) and WaterUpDownAnmDrivenMove. Its constructor is out of line.
 struct Unk_7100700620 {
     Unk_7100700620();
     ~Unk_7100700620();

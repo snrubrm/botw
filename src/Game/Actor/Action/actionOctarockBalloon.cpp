@@ -15,7 +15,7 @@ inline void OctarockBalloon::applyScale_(ksys::phys::SphereRigidBody* body, f32 
     body->resetInertiaAndCenterOfMass();
 }
 
-OctarockBalloon::OctarockBalloon(const InitArg& arg) : OctarockBalloonBase(arg) {}
+OctarockBalloon::OctarockBalloon(const InitArg& arg) : BalloonRopeBase(arg) {}
 
 // Empty-statement body as in upstream's GameDataFlagSelector::~GameDataFlagSelector() (96101229):
 // the original keeps the vtable store that a defaulted destructor drops.
@@ -24,7 +24,7 @@ OctarockBalloon::~OctarockBalloon() {
 }
 
 bool OctarockBalloon::init_(sead::Heap* heap) {
-    return OctarockBalloonBase::init_(heap);
+    return BalloonRopeBase::init_(heap);
 }
 
 void OctarockBalloon::sub_710020ECB0() {
@@ -57,7 +57,7 @@ void OctarockBalloon::sub_710020ECB0() {
 
 void OctarockBalloon::enter_(ksys::act::ai::InlineParamPack* params) {
     sub_710020ECB0();
-    OctarockBalloonBase::enter_(params);
+    BalloonRopeBase::enter_(params);
     _190 = 0;
     if (auto* sphere = sead::DynamicCast<ksys::phys::SphereRigidBody>(mActor->getMainBody())) {
         _180 = sphere->getRadius();
@@ -85,11 +85,11 @@ void OctarockBalloon::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void OctarockBalloon::leave_() {
-    OctarockBalloonBase::leave_();
+    BalloonRopeBase::leave_();
 }
 
 void OctarockBalloon::loadParams_() {
-    OctarockBalloonBase::loadParams_();
+    BalloonRopeBase::loadParams_();
     getStaticParam(&mTargetScale_s, "TargetScale");
     getStaticParam(&mStartSignTimer_s, "StartSignTimer");
     getStaticParam(&mStartASName_s, "StartASName");
@@ -97,7 +97,7 @@ void OctarockBalloon::loadParams_() {
 }
 
 void OctarockBalloon::calc_() {
-    OctarockBalloonBase::calc_();
+    BalloonRopeBase::calc_();
     auto* actor = mActor;
     if (!(_168.mTimer.value <= sead::Mathf::epsilon()))
         _168.sub_7100D3BCE4();

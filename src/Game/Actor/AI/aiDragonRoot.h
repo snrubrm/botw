@@ -2,7 +2,7 @@
 
 #include <container/seadBuffer.h>
 #include <prim/seadBitFlag.h>
-#include "Game/Actor/AI/aiDragonRootBase.h"
+#include "Game/Actor/AI/aiControlRailRoot.h"
 #include "Game/Actor/aiUnk_7102357d20.h"
 #include "Game/Actor/Damage/dmgDamageCallback.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
@@ -20,8 +20,8 @@ public:
     void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, act::DamageCallbackInfo* a6) override;
 };
 
-class DragonRoot : public DragonRootBase {
-    SEAD_RTTI_OVERRIDE(DragonRoot, DragonRootBase)
+class DragonRoot : public ControlRailRoot {
+    SEAD_RTTI_OVERRIDE(DragonRoot, ControlRailRoot)
 public:
     explicit DragonRoot(const InitArg& arg);
     ~DragonRoot() override;

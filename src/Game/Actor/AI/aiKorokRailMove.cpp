@@ -22,7 +22,7 @@ void KorokRailMove::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 // NON_MATCHING: the original keeps the normalized direction in registers and stores it once
-// afterwards (same as RailMove::calc_)
+// afterwards (same as BezierRailMove::calc_)
 void KorokRailMove::calc_() {
     if (isFinished() || isFailed())
         return;

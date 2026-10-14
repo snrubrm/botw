@@ -11,7 +11,7 @@
 namespace uking::action {
 
 FlyingActorDamageBase::FlyingActorDamageBase(const InitArg& arg)
-    : FlyingCharacterReaction(arg) {}
+    : FlyingCharacterFreeFallBase(arg) {}
 
 // Empty-statement body as in upstream's GameDataFlagSelector::~GameDataFlagSelector() (96101229):
 // the original keeps the vtable store that a defaulted destructor drops.
@@ -20,11 +20,11 @@ FlyingActorDamageBase::~FlyingActorDamageBase() {
 }
 
 bool FlyingActorDamageBase::init_(sead::Heap* heap) {
-    return FlyingCharacterReaction::init_(heap);
+    return FlyingCharacterFreeFallBase::init_(heap);
 }
 
 void FlyingActorDamageBase::enter_(ksys::act::ai::InlineParamPack* params) {
-    FlyingCharacterReaction::enter_(params);
+    FlyingCharacterFreeFallBase::enter_(params);
     if (auto* controller = mActor->getCharacterController()) {
         sead::Vector3f dir = sead::Vector3f::ez;
         auto* mgr = sub_710072BA90(mActor);
@@ -34,11 +34,11 @@ void FlyingActorDamageBase::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void FlyingActorDamageBase::leave_() {
-    FlyingCharacterReaction::leave_();
+    FlyingCharacterFreeFallBase::leave_();
 }
 
 void FlyingActorDamageBase::loadParams_() {
-    FlyingCharacterReaction::loadParams_();
+    FlyingCharacterFreeFallBase::loadParams_();
     getStaticParam(&mHitImpactForceSmallSwordS_s, "HitImpactForceSmallSwordS");
     getStaticParam(&mHitImpactForceSmallSwordL_s, "HitImpactForceSmallSwordL");
     getStaticParam(&mHitImpactForceLargeSwordS_s, "HitImpactForceLargeSwordS");
@@ -57,7 +57,7 @@ void FlyingActorDamageBase::loadParams_() {
 }
 
 void FlyingActorDamageBase::calc_() {
-    FlyingCharacterReaction::calc_();
+    FlyingCharacterFreeFallBase::calc_();
     auto* controller = mActor->getCharacterController();
     if (!controller) {
         setFailed();
@@ -87,7 +87,7 @@ void FlyingActorDamageBase::m34(ksys::phys::CharacterController* controller) {
         setFinished();
         return;
     }
-    FlyingCharacterReaction::m34(controller);
+    FlyingCharacterFreeFallBase::m34(controller);
 }
 
 void FlyingActorDamageBase::m36() {
@@ -113,7 +113,7 @@ void FlyingActorDamageBase::m37(ksys::phys::CharacterController* controller) {
         sub_7100738660(controller, *mRotReduceRatioOnGround_s);
     }
     sub_7100737C0C(controller, *mPosReduceRatioOnGround_s, -sead::Vector3f::ey);
-    FlyingCharacterReaction::m37(controller);
+    FlyingCharacterFreeFallBase::m37(controller);
 }
 
 // NON_MATCHING: the original keeps three separate branches (one sub_7100736B68 call each) where ours selects

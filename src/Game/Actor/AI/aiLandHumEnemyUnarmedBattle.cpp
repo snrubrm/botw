@@ -19,7 +19,7 @@ namespace uking::ai {
 // NON_MATCHING: scheduling / register allocation of the inlined FixedObjList setup stores (same as
 // UnarmedEnemyNoiseTarget's ctor)
 LandHumEnemyUnarmedBattle::LandHumEnemyUnarmedBattle(const InitArg& arg)
-    : UnarmedEnemySearch(arg) {}
+    : NavMove(arg) {}
 
 LandHumEnemyUnarmedBattle::~LandHumEnemyUnarmedBattle() = default;
 
@@ -28,7 +28,7 @@ void LandHumEnemyUnarmedBattle::enter_(ksys::act::ai::InlineParamPack* params) {
     _148 = -1;
     _798 = sub_7100726E54(mActor);
     _799 = true;
-    UnarmedEnemySearch::enter_(params);
+    NavMove::enter_(params);
 }
 
 void LandHumEnemyUnarmedBattle::changeToFindItem() {
@@ -103,7 +103,7 @@ void LandHumEnemyUnarmedBattle::changeToAvoidDanger() {
 }
 
 void LandHumEnemyUnarmedBattle::leave_() {
-    UnarmedEnemySearch::leave_();
+    NavMove::leave_();
     sub_71005DB3EC(mActor);
     if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
         enemy->sub_7100019C58(sub_71005D83E8(enemy, *mParams.mEquipItemSearchIdx_s));
@@ -168,7 +168,7 @@ bool LandHumEnemyUnarmedBattle::sub_7100470ED4(ksys::act::BaseProcLink& link) co
 }
 
 void LandHumEnemyUnarmedBattle::loadParams_() {
-    UnarmedEnemySearch::loadParams_();
+    NavMove::loadParams_();
     getStaticParam(&mParams.mLostTimer_s, "LostTimer");
     getStaticParam(&mParams.mEquipItemSearchIdx_s, "EquipItemSearchIdx");
     getStaticParam(&mParams.mSearchWeaponDist_s, "SearchWeaponDist");
@@ -193,7 +193,7 @@ void LandHumEnemyUnarmedBattle::loadParams_() {
 
 void LandHumEnemyUnarmedBattle::m35(const sead::Vector3f& target) {
     sub_710046FC10();
-    UnarmedEnemySearch::m35(target);
+    NavMove::m35(target);
 }
 
 void LandHumEnemyUnarmedBattle::m42() {

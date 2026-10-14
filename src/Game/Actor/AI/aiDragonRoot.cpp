@@ -75,12 +75,12 @@ void Unk_71023e3a40::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, act::Dama
     }
 }
 
-DragonRoot::DragonRoot(const InitArg& arg) : DragonRootBase(arg) {}
+DragonRoot::DragonRoot(const InitArg& arg) : ControlRailRoot(arg) {}
 
 DragonRoot::~DragonRoot() = default;
 
 bool DragonRoot::init_(sead::Heap* heap) {
-    if (!DragonRootBase::init_(heap))
+    if (!ControlRailRoot::init_(heap))
         return false;
 
     mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_20);
@@ -107,11 +107,11 @@ bool DragonRoot::init_(sead::Heap* heap) {
 }
 
 void DragonRoot::enter_(ksys::act::ai::InlineParamPack* params) {
-    DragonRootBase::enter_(params);
+    ControlRailRoot::enter_(params);
 }
 
 bool DragonRoot::reenter_(ksys::act::ai::ActionBase* other, bool x) {
-    if (!DragonRootBase::reenter_(other, true))
+    if (!ControlRailRoot::reenter_(other, true))
         return false;
     auto* root = sead::DynamicCast<DragonRoot>(other);
     if (!root)
@@ -152,11 +152,11 @@ void DragonRoot::sub_710036F80C() {
 }
 
 void DragonRoot::leave_() {
-    DragonRootBase::leave_();
+    ControlRailRoot::leave_();
 }
 
 void DragonRoot::loadParams_() {
-    DragonRootBase::loadParams_();
+    ControlRailRoot::loadParams_();
     getStaticParam(&mChemicalBulletRate_s, "ChemicalBulletRate");
     getStaticParam(&mChemicalBulletNum_s, "ChemicalBulletNum");
     getStaticParam(&mUpdraftInterval_s, "UpdraftInterval");

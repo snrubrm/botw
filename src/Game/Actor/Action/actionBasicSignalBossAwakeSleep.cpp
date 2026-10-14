@@ -6,16 +6,16 @@
 
 namespace uking::action {
 
-BasicSignalBossAwakeSleep::BasicSignalBossAwakeSleep(const InitArg& arg) : BasicSignalEnemy(arg) {}
+BasicSignalBossAwakeSleep::BasicSignalBossAwakeSleep(const InitArg& arg) : BasicSignalEnemyNotice(arg) {}
 
 BasicSignalBossAwakeSleep::~BasicSignalBossAwakeSleep() = default;
 
 bool BasicSignalBossAwakeSleep::init_(sead::Heap* heap) {
-    return BasicSignalEnemy::init_(heap);
+    return BasicSignalEnemyNotice::init_(heap);
 }
 
 void BasicSignalBossAwakeSleep::enter_(ksys::act::ai::InlineParamPack* params) {
-    BasicSignalEnemy::enter_(params);
+    BasicSignalEnemyNotice::enter_(params);
     _50 = 3;
     _54 = false;
     if (_1c) {
@@ -55,15 +55,15 @@ void BasicSignalBossAwakeSleep::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void BasicSignalBossAwakeSleep::leave_() {
     mActor->emitBasicSigOff();
-    BasicSignalEnemy::leave_();
+    BasicSignalEnemyNotice::leave_();
 }
 
 void BasicSignalBossAwakeSleep::loadParams_() {
-    BasicSignalEnemy::loadParams_();
+    BasicSignalEnemyNotice::loadParams_();
 }
 
 void BasicSignalBossAwakeSleep::calc_() {
-    BasicSignalEnemy::calc_();
+    BasicSignalEnemyNotice::calc_();
 }
 
 void BasicSignalBossAwakeSleep::m32() {

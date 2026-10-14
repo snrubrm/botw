@@ -4,28 +4,28 @@
 
 namespace uking::ai {
 
-TargetLastAttackedPos::TargetLastAttackedPos(const InitArg& arg) : TargetPosAI(arg) {}
+TargetLastAttackedPos::TargetLastAttackedPos(const InitArg& arg) : TargetActorPos(arg) {}
 
 TargetLastAttackedPos::~TargetLastAttackedPos() = default;
 
 bool TargetLastAttackedPos::init_(sead::Heap* heap) {
-    return TargetPosAI::init_(heap);
+    return TargetActorPos::init_(heap);
 }
 
 void TargetLastAttackedPos::enter_(ksys::act::ai::InlineParamPack* params) {
-    TargetPosAI::enter_(params);
+    TargetActorPos::enter_(params);
 }
 
 void TargetLastAttackedPos::calc_() {
-    TargetPosAI::calc_();
+    TargetActorPos::calc_();
 }
 
 void TargetLastAttackedPos::leave_() {
-    TargetPosAI::leave_();
+    TargetActorPos::leave_();
 }
 
 void TargetLastAttackedPos::loadParams_() {
-    TargetPosAI::loadParams_();
+    TargetActorPos::loadParams_();
 }
 
 // NON_MATCHING: block layout and the numbering of the callee-saved registers holding the actor position

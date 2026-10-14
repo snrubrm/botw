@@ -10,16 +10,16 @@
 
 namespace uking::ai {
 
-AnimalRoam::AnimalRoam(const InitArg& arg) : AnimalRoamBase(arg) {}
+AnimalRoam::AnimalRoam(const InitArg& arg) : AnimalRndMove(arg) {}
 
 AnimalRoam::~AnimalRoam() = default;
 
 bool AnimalRoam::init_(sead::Heap* heap) {
-    return AnimalRoamBase::init_(heap);
+    return AnimalRndMove::init_(heap);
 }
 
 void AnimalRoam::enter_(ksys::act::ai::InlineParamPack* params) {
-    AnimalRoamBase::enter_(params);
+    AnimalRndMove::enter_(params);
     auto* nav = mActor->m45();
     if (!nav) {
         setFailed();
@@ -31,7 +31,7 @@ void AnimalRoam::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void AnimalRoam::calc_() {
-    AnimalRoamBase::calc_();
+    AnimalRndMove::calc_();
     if (m38())
         m34(nullptr);
     if (!(_ec.value <= sead::Mathf::epsilon()))
@@ -56,7 +56,7 @@ void AnimalRoam::calc_() {
 }
 
 bool AnimalRoam::m35() {
-    if (!AnimalRoamBase::m35())
+    if (!AnimalRndMove::m35())
         return false;
     if (!*mParams.mCheckLOS_s)
         return true;
@@ -65,11 +65,11 @@ bool AnimalRoam::m35() {
 }
 
 void AnimalRoam::leave_() {
-    AnimalRoamBase::leave_();
+    AnimalRndMove::leave_();
 }
 
 void AnimalRoam::loadParams_() {
-    AnimalRoamBase::loadParams_();
+    AnimalRndMove::loadParams_();
     getStaticParam(&mParams.mFinishChangeCount_s, "FinishChangeCount");
     getStaticParam(&mParams.mLimitRadius_s, "LimitRadius");
     getStaticParam(&mParams.mChangeWaitRate_s, "ChangeWaitRate");
@@ -126,7 +126,7 @@ bool AnimalRoam::m34(const sead::Vector3f* pos) {
     auto* nav = mActor->m45();
     const f32 time = (nav && (nav->_2a4 & 0xffff) != 0x17) ? 10.0f : 150.0f;
     _ec = ksys::Timer(time, time);
-    return AnimalRoamBase::m34(&dir);
+    return AnimalRndMove::m34(&dir);
 }
 
 void AnimalRoam::m36() {

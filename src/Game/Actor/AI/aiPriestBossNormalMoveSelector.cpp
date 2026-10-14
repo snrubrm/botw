@@ -3,20 +3,20 @@
 namespace uking::ai {
 
 PriestBossNormalMoveSelector::PriestBossNormalMoveSelector(const InitArg& arg)
-    : PriestBossMode(arg) {}
+    : PriestBoss(arg) {}
 
 PriestBossNormalMoveSelector::~PriestBossNormalMoveSelector() = default;
 
 bool PriestBossNormalMoveSelector::init_(sead::Heap* heap) {
-    return PriestBossMode::init_(heap);
+    return PriestBoss::init_(heap);
 }
 
 void PriestBossNormalMoveSelector::enter_(ksys::act::ai::InlineParamPack* params) {
-    PriestBossMode::enter_(params);
+    PriestBoss::enter_(params);
 }
 
 void PriestBossNormalMoveSelector::calc_() {
-    PriestBossMode::calc_();
+    PriestBoss::calc_();
     if (isFinished() || isFailed())
         return;
     auto* child = getCurrentChild();
@@ -25,11 +25,11 @@ void PriestBossNormalMoveSelector::calc_() {
 }
 
 void PriestBossNormalMoveSelector::leave_() {
-    PriestBossMode::leave_();
+    PriestBoss::leave_();
 }
 
 void PriestBossNormalMoveSelector::loadParams_() {
-    PriestBossMode::loadParams_();
+    PriestBoss::loadParams_();
     getDynamicParam(&mMoveTargetPos_d, "MoveTargetPos");
 }
 

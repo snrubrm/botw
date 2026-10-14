@@ -9,12 +9,12 @@
 
 namespace uking::action {
 
-WindCutter::WindCutter(const InitArg& arg) : ChemicalAttack(arg) {}
+WindCutter::WindCutter(const InitArg& arg) : EmitAttackBase(arg) {}
 
 WindCutter::~WindCutter() = default;
 
 bool WindCutter::init_(sead::Heap* heap) {
-    return ChemicalAttack::init_(heap);
+    return EmitAttackBase::init_(heap);
 }
 
 // NON_MATCHING: operand order of two commutative fmuls (level * ScaleMult and scale.z * mult).
@@ -28,20 +28,20 @@ void WindCutter::enter_(ksys::act::ai::InlineParamPack* params) {
         scale *= mult;
         actor->setScale(scale);
     }
-    ChemicalAttack::enter_(params);
+    EmitAttackBase::enter_(params);
     if (auto* bullet = sead::DynamicCast<ksys::act::Bullet>(actor))
         bullet->_cf4 |= 1;
     _c0 = true;
 }
 
 void WindCutter::leave_() {
-    ChemicalAttack::leave_();
+    EmitAttackBase::leave_();
     if (auto* bullet = sead::DynamicCast<ksys::act::Bullet>(mActor))
         bullet->_cf4 &= ~1;
 }
 
 void WindCutter::loadParams_() {
-    ChemicalAttack::loadParams_();
+    EmitAttackBase::loadParams_();
     getStaticParam(&mLevelAtkMult_s, "LevelAtkMult");
     getStaticParam(&mLevelBaseScaleAdd_s, "LevelBaseScaleAdd");
     getStaticParam(&mLevelRangeMult_s, "LevelRangeMult");
@@ -54,7 +54,7 @@ void WindCutter::loadParams_() {
 
 // NON_MATCHING: vector projection temporaries and half-size arithmetic use different registers and scheduling.
 void WindCutter::calc_() {
-    ChemicalAttack::calc_();
+    EmitAttackBase::calc_();
     if (_c0) {
         _c0 = false;
         return;
@@ -88,7 +88,7 @@ void WindCutter::calc_() {
 int WindCutter::m39() {
     if (sead::DynamicCast<ksys::act::Bullet>(mActor))
         return *mAttackDirType_m;
-    return ChemicalAttack::m39();
+    return EmitAttackBase::m39();
 }
 
 int WindCutter::m35() {
@@ -96,11 +96,11 @@ int WindCutter::m35() {
 }
 
 f32 WindCutter::m34() {
-    return ChemicalAttack::m34() * sead::Mathi::max(*mAttackLevel_m, 0) * *mLevelRangeMult_s;
+    return EmitAttackBase::m34() * sead::Mathi::max(*mAttackLevel_m, 0) * *mLevelRangeMult_s;
 }
 
 int WindCutter::m36() {
-    int result = ChemicalAttack::m36();
+    int result = EmitAttackBase::m36();
     if (*mAttackAttrEventKill_a)
         result |= 0x40000000;
     return result;
@@ -111,7 +111,7 @@ int WindCutter::m37() {
 }
 
 bool WindCutter::m33() {
-    if (ChemicalAttack::m33())
+    if (EmitAttackBase::m33())
         return true;
     auto* actor = mActor;
     return isLandedMaybe(actor, false) || isBgGroundHit(actor, false) ||

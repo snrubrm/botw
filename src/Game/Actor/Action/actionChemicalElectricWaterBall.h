@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Game/Actor/Action/actionChemicalAttackBall.h"
+#include "Game/Actor/Action/actionChemicalAttack.h"
 #include "Game/Actor/aiActorLink.h"
 #include "Game/Actor/aiUnk_710244ECF0.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
@@ -8,8 +8,8 @@
 
 namespace uking::action {
 
-class ChemicalElectricWaterBall : public ChemicalAttackBall {
-    SEAD_RTTI_OVERRIDE(ChemicalElectricWaterBall, ChemicalAttackBall)
+class ChemicalElectricWaterBall : public ChemicalAttack {
+    SEAD_RTTI_OVERRIDE(ChemicalElectricWaterBall, ChemicalAttack)
 public:
     explicit ChemicalElectricWaterBall(const InitArg& arg);
     ~ChemicalElectricWaterBall() override;

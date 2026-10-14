@@ -5,29 +5,29 @@
 
 namespace uking::action {
 
-HorseRideChargeCommand::HorseRideChargeCommand(const InitArg& arg) : HorseRideMoveCommand(arg) {}
+HorseRideChargeCommand::HorseRideChargeCommand(const InitArg& arg) : HorseRideSetGearCommand(arg) {}
 
 // NON_MATCHING: instruction scheduling (the original computes &payload lock before the sender vtable stores)
 HorseRideChargeCommand::~HorseRideChargeCommand() = default;
 
 bool HorseRideChargeCommand::init_(sead::Heap* heap) {
-    return HorseRideMoveCommand::init_(heap);
+    return HorseRideSetGearCommand::init_(heap);
 }
 
 void HorseRideChargeCommand::enter_(ksys::act::ai::InlineParamPack* params) {
-    HorseRideMoveCommand::enter_(params);
+    HorseRideSetGearCommand::enter_(params);
 }
 
 void HorseRideChargeCommand::leave_() {
-    HorseRideMoveCommand::leave_();
+    HorseRideSetGearCommand::leave_();
 }
 
 void HorseRideChargeCommand::loadParams_() {
-    HorseRideMoveCommand::loadParams_();
+    HorseRideSetGearCommand::loadParams_();
 }
 
 void HorseRideChargeCommand::calc_() {
-    HorseRideMoveCommand::calc_();
+    HorseRideSetGearCommand::calc_();
 }
 
 bool HorseRideChargeCommand::m32(ksys::act::Actor* actor) {
@@ -41,7 +41,7 @@ bool HorseRideChargeCommand::m32(ksys::act::Actor* actor) {
     }
     if (!_98.sub_710070DC38(actor, true))
         return false;
-    return HorseRideMoveCommand::m32(actor);
+    return HorseRideSetGearCommand::m32(actor);
 }
 
 }  // namespace uking::action

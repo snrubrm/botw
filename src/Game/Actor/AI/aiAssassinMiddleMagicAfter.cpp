@@ -3,24 +3,24 @@
 namespace uking::ai {
 
 AssassinMiddleMagicAfter::AssassinMiddleMagicAfter(const InitArg& arg)
-    : AssassinMagicTgtSelect(arg) {}
+    : TargetHeightAreaSelect(arg) {}
 
 AssassinMiddleMagicAfter::~AssassinMiddleMagicAfter() = default;
 
 bool AssassinMiddleMagicAfter::init_(sead::Heap* heap) {
-    return AssassinMagicTgtSelect::init_(heap);
+    return TargetHeightAreaSelect::init_(heap);
 }
 
 void AssassinMiddleMagicAfter::enter_(ksys::act::ai::InlineParamPack* params) {
     if (*mIsInterseptAttack_a)
         changeChild("一度やられた");
     else
-        AssassinMagicTgtSelect::enter_(params);
+        TargetHeightAreaSelect::enter_(params);
     _48 = false;
 }
 
 void AssassinMiddleMagicAfter::calc_() {
-    AssassinMagicTgtSelect::calc_();
+    TargetHeightAreaSelect::calc_();
     if (isFinished() || isFailed())
         _48 = true;
 }
@@ -28,11 +28,11 @@ void AssassinMiddleMagicAfter::calc_() {
 void AssassinMiddleMagicAfter::leave_() {
     if (!_48)
         *mIsInterseptAttack_a = true;
-    AssassinMagicTgtSelect::leave_();
+    TargetHeightAreaSelect::leave_();
 }
 
 void AssassinMiddleMagicAfter::loadParams_() {
-    AssassinMagicTgtSelect::loadParams_();
+    TargetHeightAreaSelect::loadParams_();
     getAITreeVariable(&mIsInterseptAttack_a, "IsInterseptAttack");
 }
 

@@ -7,7 +7,7 @@
 namespace uking::action {
 
 SiteBossLswordAtkWithChemical::SiteBossLswordAtkWithChemical(const InitArg& arg)
-    : SiteBossLswordAtk(arg), _1c8() {}
+    : SiteBossLswordAttack(arg), _1c8() {}
 
 SiteBossLswordAtkWithChemical::~SiteBossLswordAtkWithChemical() {
     if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
@@ -29,11 +29,11 @@ SiteBossLswordAtkWithChemical::~SiteBossLswordAtkWithChemical() {
 }
 
 bool SiteBossLswordAtkWithChemical::init_(sead::Heap* heap) {
-    return SiteBossLswordAtk::init_(heap);
+    return SiteBossLswordAttack::init_(heap);
 }
 
 void SiteBossLswordAtkWithChemical::enter_(ksys::act::ai::InlineParamPack* params) {
-    SiteBossLswordAtk::enter_(params);
+    SiteBossLswordAttack::enter_(params);
     _188 = false;
     _189 = false;
     _18a = false;
@@ -46,13 +46,13 @@ void SiteBossLswordAtkWithChemical::enter_(ksys::act::ai::InlineParamPack* param
 }
 
 void SiteBossLswordAtkWithChemical::leave_() {
-    SiteBossLswordAtk::leave_();
+    SiteBossLswordAttack::leave_();
     if (sub_710072B7C4() || _189)
         sub_710025B7CC();
 }
 
 void SiteBossLswordAtkWithChemical::loadParams_() {
-    SiteBossLswordAtk::loadParams_();
+    SiteBossLswordAttack::loadParams_();
     getStaticParam(&mEmitNum_s, "EmitNum");
     getStaticParam(&mEmitInterval_s, "EmitInterval");
     getStaticParam(&mEmitAttackDamage_s, "EmitAttackDamage");
@@ -73,7 +73,7 @@ void SiteBossLswordAtkWithChemical::loadParams_() {
 }
 
 void SiteBossLswordAtkWithChemical::calc_() {
-    SiteBossLswordAtk::calc_();
+    SiteBossLswordAttack::calc_();
 }
 
 void SiteBossLswordAtkWithChemical::m37(sead::Vector3f* pos) {

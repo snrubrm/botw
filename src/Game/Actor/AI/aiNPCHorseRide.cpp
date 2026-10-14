@@ -10,7 +10,7 @@
 
 namespace uking::ai {
 
-NPCHorseRide::NPCHorseRide(const InitArg& arg) : NonPlayerHorseRide(arg) {}
+NPCHorseRide::NPCHorseRide(const InitArg& arg) : RideHorseNonPlayer(arg) {}
 
 NPCHorseRide::~NPCHorseRide() = default;
 
@@ -24,7 +24,7 @@ void NPCHorseRide::onPreDelete() {
 }
 
 bool NPCHorseRide::init_(sead::Heap* heap) {
-    if (!NonPlayerHorseRide::init_(heap))
+    if (!RideHorseNonPlayer::init_(heap))
         return false;
     _110 = sead::DynamicCast<act::NPC>(mActor);
     *static_cast<Unk_71025afb58**>(mEventBindUnit_a) = &_270;
@@ -33,7 +33,7 @@ bool NPCHorseRide::init_(sead::Heap* heap) {
 }
 
 void NPCHorseRide::enter_(ksys::act::ai::InlineParamPack* params) {
-    NonPlayerHorseRide::enter_(params);
+    RideHorseNonPlayer::enter_(params);
 }
 
 void NPCHorseRide::leave_() {
@@ -51,7 +51,7 @@ void NPCHorseRide::leave_() {
         mActor->sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x3800007),
                             mActor, true);
     }
-    NonPlayerHorseRide::leave_();
+    RideHorseNonPlayer::leave_();
 }
 
 void NPCHorseRide::loadParams_() {

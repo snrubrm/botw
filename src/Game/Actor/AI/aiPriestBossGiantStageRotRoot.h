@@ -1,15 +1,15 @@
 #pragma once
 
 #include <container/seadSafeArray.h>
-#include "Game/Actor/AI/aiPriestBossMode.h"
+#include "Game/Actor/AI/aiPriestBoss.h"
 #include "Game/Actor/aiUnk_7102357d20.h"
 #include "KingSystem/System/Timer.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
 
-class PriestBossGiantStageRotRoot : public PriestBossMode {
-    SEAD_RTTI_OVERRIDE(PriestBossGiantStageRotRoot, PriestBossMode)
+class PriestBossGiantStageRotRoot : public PriestBoss {
+    SEAD_RTTI_OVERRIDE(PriestBossGiantStageRotRoot, PriestBoss)
 public:
     explicit PriestBossGiantStageRotRoot(const InitArg& arg);
     ~PriestBossGiantStageRotRoot() override;

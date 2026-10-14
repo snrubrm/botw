@@ -1,13 +1,13 @@
 #pragma once
 
-#include "Game/Actor/Action/actionBasicSignalEnemy.h"
+#include "Game/Actor/Action/actionBasicSignalEnemyNotice.h"
 #include "Game/Actor/aiUnk_7102357d20.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class BasicSignalBossAwakeSleep : public BasicSignalEnemy {
-    SEAD_RTTI_OVERRIDE(BasicSignalBossAwakeSleep, BasicSignalEnemy)
+class BasicSignalBossAwakeSleep : public BasicSignalEnemyNotice {
+    SEAD_RTTI_OVERRIDE(BasicSignalBossAwakeSleep, BasicSignalEnemyNotice)
 public:
     explicit BasicSignalBossAwakeSleep(const InitArg& arg);
     ~BasicSignalBossAwakeSleep() override;

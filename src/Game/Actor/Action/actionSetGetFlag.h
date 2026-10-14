@@ -1,13 +1,13 @@
 #pragma once
 
-#include "Game/Actor/Action/actionSetGetFlagBase.h"
+#include "Game/Actor/Action/actionSetFlag.h"
 #include <prim/seadSafeString.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class SetGetFlag : public SetGetFlagBase {
-    SEAD_RTTI_OVERRIDE(SetGetFlag, SetGetFlagBase)
+class SetGetFlag : public SetFlag {
+    SEAD_RTTI_OVERRIDE(SetGetFlag, SetFlag)
 public:
     explicit SetGetFlag(const InitArg& arg);
     ~SetGetFlag() override;

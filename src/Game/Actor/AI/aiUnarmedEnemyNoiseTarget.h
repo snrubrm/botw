@@ -1,7 +1,7 @@
 #pragma once
 
 #include <container/seadObjList.h>
-#include "Game/Actor/AI/aiUnarmedEnemySearch.h"
+#include "Game/Actor/AI/aiNavMove.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/System/Timer.h"
@@ -9,8 +9,8 @@
 
 namespace uking::ai {
 
-class UnarmedEnemyNoiseTarget : public UnarmedEnemySearch {
-    SEAD_RTTI_OVERRIDE(UnarmedEnemyNoiseTarget, UnarmedEnemySearch)
+class UnarmedEnemyNoiseTarget : public NavMove {
+    SEAD_RTTI_OVERRIDE(UnarmedEnemyNoiseTarget, NavMove)
 public:
     explicit UnarmedEnemyNoiseTarget(const InitArg& arg);
     ~UnarmedEnemyNoiseTarget() override;

@@ -6,23 +6,23 @@
 
 namespace uking::ai {
 
-ForestGiantFindPlayer::ForestGiantFindPlayer(const InitArg& arg) : LargeEnemyFindPlayer(arg) {}
+ForestGiantFindPlayer::ForestGiantFindPlayer(const InitArg& arg) : GiantEnemyFindPlayer(arg) {}
 
 ForestGiantFindPlayer::~ForestGiantFindPlayer() = default;
 
 bool ForestGiantFindPlayer::init_(sead::Heap* heap) {
-    if (!LargeEnemyFindPlayer::init_(heap))
+    if (!GiantEnemyFindPlayer::init_(heap))
         return false;
     sub_71005E2C58(mActor);
     return true;
 }
 
 void ForestGiantFindPlayer::enter_(ksys::act::ai::InlineParamPack* params) {
-    LargeEnemyFindPlayer::enter_(params);
+    GiantEnemyFindPlayer::enter_(params);
 }
 
 void ForestGiantFindPlayer::calc_() {
-    LargeEnemyFindPlayer::calc_();
+    GiantEnemyFindPlayer::calc_();
     ksys::act::ActorLinkConstDataAccess accessor;
     auto& link = mActor->getWeapons()->mWeapons[0].link;
     if (link.hasProc()) {
@@ -33,11 +33,11 @@ void ForestGiantFindPlayer::calc_() {
 }
 
 void ForestGiantFindPlayer::leave_() {
-    LargeEnemyFindPlayer::leave_();
+    GiantEnemyFindPlayer::leave_();
 }
 
 void ForestGiantFindPlayer::loadParams_() {
-    LargeEnemyFindPlayer::loadParams_();
+    GiantEnemyFindPlayer::loadParams_();
 }
 
 }  // namespace uking::ai

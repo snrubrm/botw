@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Game/Actor/Horse/AI/aiNonPlayerHorseRide.h"
+#include "Game/Actor/Horse/AI/aiRideHorseNonPlayer.h"
 #include "Game/Actor/Action/actionEventBind.h"
 #include "Game/Actor/aiLockedProcLink.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
@@ -12,8 +12,8 @@ class NPC;
 
 namespace uking::ai {
 
-class NPCHorseRide : public NonPlayerHorseRide {
-    SEAD_RTTI_OVERRIDE(NPCHorseRide, NonPlayerHorseRide)
+class NPCHorseRide : public RideHorseNonPlayer {
+    SEAD_RTTI_OVERRIDE(NPCHorseRide, RideHorseNonPlayer)
 public:
     explicit NPCHorseRide(const InitArg& arg);
     ~NPCHorseRide() override;

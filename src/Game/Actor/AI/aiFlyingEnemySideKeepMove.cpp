@@ -4,12 +4,12 @@
 
 namespace uking::ai {
 
-FlyingEnemySideKeepMove::FlyingEnemySideKeepMove(const InitArg& arg) : FlyingEnemyKeepMove(arg) {}
+FlyingEnemySideKeepMove::FlyingEnemySideKeepMove(const InitArg& arg) : FlyingEnemyDistanceKeepMove(arg) {}
 
 FlyingEnemySideKeepMove::~FlyingEnemySideKeepMove() = default;
 
 bool FlyingEnemySideKeepMove::init_(sead::Heap* heap) {
-    return FlyingEnemyKeepMove::init_(heap);
+    return FlyingEnemyDistanceKeepMove::init_(heap);
 }
 
 void FlyingEnemySideKeepMove::enter_(ksys::act::ai::InlineParamPack* params) {
@@ -35,7 +35,7 @@ void FlyingEnemySideKeepMove::enter_(ksys::act::ai::InlineParamPack* params) {
     }
     _98.mActor = mActor;
     _98.mValue = 15.0f;
-    FlyingEnemyKeepMove::enter_(params);
+    FlyingEnemyDistanceKeepMove::enter_(params);
 }
 
 void FlyingEnemySideKeepMove::calc_() {
@@ -46,15 +46,15 @@ void FlyingEnemySideKeepMove::calc_() {
             sub_71003D342C();
         }
     }
-    FlyingEnemyKeepMove::calc_();
+    FlyingEnemyDistanceKeepMove::calc_();
 }
 
 void FlyingEnemySideKeepMove::leave_() {
-    FlyingEnemyKeepMove::leave_();
+    FlyingEnemyDistanceKeepMove::leave_();
 }
 
 void FlyingEnemySideKeepMove::loadParams_() {
-    FlyingEnemyKeepMove::loadParams_();
+    FlyingEnemyDistanceKeepMove::loadParams_();
     getStaticParam(&mSideDirType_s, "SideDirType");
 }
 

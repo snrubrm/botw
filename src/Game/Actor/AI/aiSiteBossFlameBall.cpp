@@ -10,16 +10,16 @@
 
 namespace uking::ai {
 
-SiteBossFlameBall::SiteBossFlameBall(const InitArg& arg) : SiteBossChemicalProjectile(arg) {}
+SiteBossFlameBall::SiteBossFlameBall(const InitArg& arg) : GanonFlameBall(arg) {}
 
 SiteBossFlameBall::~SiteBossFlameBall() = default;
 
 bool SiteBossFlameBall::init_(sead::Heap* heap) {
-    return SiteBossChemicalProjectile::init_(heap);
+    return GanonFlameBall::init_(heap);
 }
 
 void SiteBossFlameBall::enter_(ksys::act::ai::InlineParamPack* params) {
-    SiteBossChemicalProjectile::enter_(params);
+    GanonFlameBall::enter_(params);
     _1c8 = false;
     _1c9 = true;
     _1c0 = *mCountOffset_s * f32(*mCount_m);
@@ -46,7 +46,7 @@ void SiteBossFlameBall::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void SiteBossFlameBall::calc_() {
-    SiteBossChemicalProjectile::calc_();
+    GanonFlameBall::calc_();
 
     if (isCurrentChild("発射") && _1c4 > 0.0f) {
         ksys::Timer::update(&_1c4, -1.0f);
@@ -56,14 +56,14 @@ void SiteBossFlameBall::calc_() {
             if (main_body && physics) {
                 main_body->setContactLayerAndHandler(ksys::phys::ContactLayer::EntityObject,
                                                      physics->get188(0));
-                SiteBossChemicalProjectile::m53(main_body);
+                GanonFlameBall::m53(main_body);
             }
 
             if (auto* atk_body =
                     mActor->findPhysicsBodyByName(sub_71007A24BC()->cstr(), "AtkBody")) {
                 atk_body->setContactLayerAndHandler(ksys::phys::ContactLayer::SensorAttackEnemy,
                                                     physics->get188(1));
-                SiteBossChemicalProjectile::m52(atk_body);
+                GanonFlameBall::m52(atk_body);
             }
 
             auto* body = mActor->findPhysicsBodyByName(sub_71007A24BC()->cstr(), "RigidBody_0");
@@ -77,17 +77,17 @@ void SiteBossFlameBall::calc_() {
 }
 
 void SiteBossFlameBall::leave_() {
-    SiteBossChemicalProjectile::leave_();
+    GanonFlameBall::leave_();
 }
 
 bool SiteBossFlameBall::handleMessage_(const ksys::Message* message) {
     if (!message || message->getBrokerId() != u32(-1) || message->getType() != 0x8000058 ||
         !message->getUserData()) {
-        return SiteBossChemicalProjectile::handleMessage_(message);
+        return GanonFlameBall::handleMessage_(message);
     }
     auto* payload = static_cast<SiteBossProjectilePayload*>(message->getUserData());
     if (!getCurrentChild())
-        return SiteBossChemicalProjectile::handleMessage_(message);
+        return GanonFlameBall::handleMessage_(message);
 
     ksys::act::ai::InlineParamPack params;
     params.addString(payload->mNodeName.cstr(), "NodeName", -1);
@@ -100,7 +100,7 @@ bool SiteBossFlameBall::handleMessage_(const ksys::Message* message) {
 }
 
 void SiteBossFlameBall::loadParams_() {
-    SiteBossChemicalProjectile::loadParams_();
+    GanonFlameBall::loadParams_();
     getStaticParam(&mChemicalIndex_s, "ChemicalIndex");
     getStaticParam(&mAtAttr_s, "AtAttr");
     getStaticParam(&mMoveSpeed_s, "MoveSpeed");

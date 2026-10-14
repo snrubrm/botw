@@ -5,29 +5,29 @@ namespace uking::action {
 
 // NON_MATCHING: scheduling only: the original stores the zeroed PtrArray (stp xzr, xzr, [x19, #0x138]) before `_130.mActor`
 // and computes the buffer address (x2) after the loads.
-SandwormTackleMove::SandwormTackleMove(const InitArg& arg) : AtkTackleMove(arg) {}
+SandwormTackleMove::SandwormTackleMove(const InitArg& arg) : TackleAttack(arg) {}
 
 SandwormTackleMove::~SandwormTackleMove() {
     _130.sub_71F858();
 }
 
 bool SandwormTackleMove::init_(sead::Heap* heap) {
-    if (!AtkTackleMove::init_(heap))
+    if (!TackleAttack::init_(heap))
         return false;
     return _130.sub_71F6DC(heap);
 }
 
 void SandwormTackleMove::enter_(ksys::act::ai::InlineParamPack* params) {
-    AtkTackleMove::enter_(params);
+    TackleAttack::enter_(params);
 }
 
 void SandwormTackleMove::leave_() {
-    AtkTackleMove::leave_();
+    TackleAttack::leave_();
     _130.sub_71FEFC();
 }
 
 void SandwormTackleMove::loadParams_() {
-    AtkTackleMove::loadParams_();
+    TackleAttack::loadParams_();
     getStaticParam(&mTargetSandOffset_s, "TargetSandOffset");
     getStaticParam(&mSandOffsetSpeed_s, "SandOffsetSpeed");
     getStaticParam(&mEatRadius_s, "EatRadius");
@@ -36,7 +36,7 @@ void SandwormTackleMove::loadParams_() {
 }
 
 void SandwormTackleMove::calc_() {
-    AtkTackleMove::calc_();
+    TackleAttack::calc_();
 }
 
 bool SandwormTackleMove::handleAck_(const ksys::MessageAck* ack) {

@@ -14,16 +14,16 @@
 namespace uking::ai {
 
 MimicCliffStopEnemyNormal::MimicCliffStopEnemyNormal(const InitArg& arg)
-    : MimicCliffStopEnemyNormalBase(arg) {}
+    : CliffStopEnemyNormal(arg) {}
 
 MimicCliffStopEnemyNormal::~MimicCliffStopEnemyNormal() = default;
 
 bool MimicCliffStopEnemyNormal::init_(sead::Heap* heap) {
-    return MimicCliffStopEnemyNormalBase::init_(heap);
+    return CliffStopEnemyNormal::init_(heap);
 }
 
 void MimicCliffStopEnemyNormal::enter_(ksys::act::ai::InlineParamPack* params) {
-    MimicCliffStopEnemyNormalBase::enter_(params);
+    CliffStopEnemyNormal::enter_(params);
     ksys::act::disableAllAttClients(mActor);
     setDamageCallbackTiming(mActor, 4, &_1e8);
 }
@@ -46,7 +46,7 @@ void MimicCliffStopEnemyNormal::calc_() {
         }
     }
 
-    MimicCliffStopEnemyNormalBase::calc_();
+    CliffStopEnemyNormal::calc_();
 }
 
 // NON_MATCHING: the translation and the Y axis are loaded as integers and the X/Y sums are stored per
@@ -108,11 +108,11 @@ bool MimicCliffStopEnemyNormal::sub_71004A69A4() {
 void MimicCliffStopEnemyNormal::leave_() {
     sub_71005DD2E8(mActor);
     sub_71005DA114(mActor, &_1e8);
-    MimicCliffStopEnemyNormalBase::leave_();
+    CliffStopEnemyNormal::leave_();
 }
 
 void MimicCliffStopEnemyNormal::loadParams_() {
-    MimicCliffStopEnemyNormalBase::loadParams_();
+    CliffStopEnemyNormal::loadParams_();
     getStaticParam(&mJumpDistXZ_s, "JumpDistXZ");
 }
 

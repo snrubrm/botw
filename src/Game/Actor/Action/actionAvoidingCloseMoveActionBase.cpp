@@ -6,7 +6,7 @@
 
 namespace uking::action {
 
-AvoidingCloseMoveActionBase::AvoidingCloseMoveActionBase(const InitArg& arg) : BattleCloseAction(arg) {}
+AvoidingCloseMoveActionBase::AvoidingCloseMoveActionBase(const InitArg& arg) : AvoidingCloseMoveBase(arg) {}
 
 // Empty-statement body as in upstream's GameDataFlagSelector::~GameDataFlagSelector() (96101229):
 // the original keeps the vtable store that a defaulted destructor drops.
@@ -15,11 +15,11 @@ AvoidingCloseMoveActionBase::~AvoidingCloseMoveActionBase() {
 }
 
 bool AvoidingCloseMoveActionBase::init_(sead::Heap* heap) {
-    return BattleCloseAction::init_(heap);
+    return AvoidingCloseMoveBase::init_(heap);
 }
 
 void AvoidingCloseMoveActionBase::enter_(ksys::act::ai::InlineParamPack* params) {
-    BattleCloseAction::enter_(params);
+    AvoidingCloseMoveBase::enter_(params);
     auto* actor = mActor;
     const sead::Vector3f& vel = actor->getVelocity();
     const f32 speed = sead::Mathf::sqrt(vel.x * vel.x + vel.z * vel.z);
@@ -31,15 +31,15 @@ void AvoidingCloseMoveActionBase::enter_(ksys::act::ai::InlineParamPack* params)
 }
 
 void AvoidingCloseMoveActionBase::leave_() {
-    BattleCloseAction::leave_();
+    AvoidingCloseMoveBase::leave_();
 }
 
 void AvoidingCloseMoveActionBase::loadParams_() {
-    BattleCloseAction::loadParams_();
+    AvoidingCloseMoveBase::loadParams_();
 }
 
 void AvoidingCloseMoveActionBase::calc_() {
-    BattleCloseAction::calc_();
+    AvoidingCloseMoveBase::calc_();
 }
 
 bool AvoidingCloseMoveActionBase::m37(ksys::phys::CharacterController* controller, f32 speed,

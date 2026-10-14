@@ -36,11 +36,11 @@ public:
     /* 0x160 */ sead::SafeString _160;  // DynAS name (NPCReturnAnchor: fine weather)
     /* 0x170 */ sead::SafeString _170;  // DynAS name (NPCReturnAnchor: rain / snow / thunderstorm)
     /* 0x180 */ u8 _180[0x1a0 - 0x180];
-    /* 0x1a0 */ s32 _1a0;  // NPCTravelBase::sub_71004DF7EC / NPCMove: meeting state values (selected by the weather / flags)
+    /* 0x1a0 */ s32 _1a0;  // NPCScheduleMove::sub_71004DF7EC / NPCMove: meeting state values (selected by the weather / flags)
     /* 0x1a4 */ s32 _1a4;
     /* 0x1a8 */ s32 _1a8;
     /* 0x1ac */ u8 _1ac[0x1b0 - 0x1ac];
-    /* 0x1b0 */ s32 _1b0;  // NPCTravelBase::sub_71004DF978: the values passed to the DynAS name lookup
+    /* 0x1b0 */ s32 _1b0;  // NPCScheduleMove::sub_71004DF978: the values passed to the DynAS name lookup
     /* 0x1b4 */ s32 _1b4;
     /* 0x1b8 */ s32 _1b8;
     /* 0x1bc */ u8 _1bc[0x248 - 0x1bc];

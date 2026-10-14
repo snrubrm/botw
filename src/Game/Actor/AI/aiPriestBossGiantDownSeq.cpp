@@ -8,21 +8,21 @@
 
 namespace uking::ai {
 
-PriestBossGiantDownSeq::PriestBossGiantDownSeq(const InitArg& arg) : PriestBossMode(arg) {}
+PriestBossGiantDownSeq::PriestBossGiantDownSeq(const InitArg& arg) : PriestBoss(arg) {}
 
 PriestBossGiantDownSeq::~PriestBossGiantDownSeq() = default;
 
 bool PriestBossGiantDownSeq::init_(sead::Heap* heap) {
-    return PriestBossMode::init_(heap);
+    return PriestBoss::init_(heap);
 }
 
 void PriestBossGiantDownSeq::enter_(ksys::act::ai::InlineParamPack* params) {
-    PriestBossMode::enter_(params);
+    PriestBoss::enter_(params);
 }
 
 // NON_MATCHING: the original retains an unused enum read between the lock and payload stores.
 void PriestBossGiantDownSeq::leave_() {
-    PriestBossMode::leave_();
+    PriestBoss::leave_();
     if (!_104 || _105 || !sub_7100505BE4())
         return;
     {
@@ -34,7 +34,7 @@ void PriestBossGiantDownSeq::leave_() {
 }
 
 void PriestBossGiantDownSeq::loadParams_() {
-    PriestBossMode::loadParams_();
+    PriestBoss::loadParams_();
     getStaticParam(&mRecoverIfAlreadyDown_s, "RecoverIfAlreadyDown");
     getStaticParam(&mIsUseRecover_s, "IsUseRecover");
     getStaticParam(&mHitGroundASName_s, "HitGroundASName");
@@ -62,7 +62,7 @@ void PriestBossGiantDownSeq::sub_7100519264() {
 }
 
 void PriestBossGiantDownSeq::calc_() {
-    PriestBossMode::calc_();
+    PriestBoss::calc_();
     if (isFinished() || isFailed())
         return;
 

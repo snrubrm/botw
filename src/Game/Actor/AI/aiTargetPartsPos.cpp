@@ -4,7 +4,7 @@
 
 namespace uking::ai {
 
-TargetPartsPos::TargetPartsPos(const InitArg& arg) : TargetPosAI(arg) {}
+TargetPartsPos::TargetPartsPos(const InitArg& arg) : TargetActorPos(arg) {}
 
 TargetPartsPos::~TargetPartsPos() {
     if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor))
@@ -12,7 +12,7 @@ TargetPartsPos::~TargetPartsPos() {
 }
 
 bool TargetPartsPos::init_(sead::Heap* heap) {
-    if (!TargetPosAI::init_(heap))
+    if (!TargetActorPos::init_(heap))
         return false;
     if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor))
         enemy->sub_7100D3CED8(mPartsName_s, heap);
@@ -20,19 +20,19 @@ bool TargetPartsPos::init_(sead::Heap* heap) {
 }
 
 void TargetPartsPos::enter_(ksys::act::ai::InlineParamPack* params) {
-    TargetPosAI::enter_(params);
+    TargetActorPos::enter_(params);
 }
 
 void TargetPartsPos::calc_() {
-    TargetPosAI::calc_();
+    TargetActorPos::calc_();
 }
 
 void TargetPartsPos::leave_() {
-    TargetPosAI::leave_();
+    TargetActorPos::leave_();
 }
 
 void TargetPartsPos::loadParams_() {
-    TargetPosAI::loadParams_();
+    TargetActorPos::loadParams_();
     getStaticParam(&mPartsName_s, "PartsName");
 }
 
