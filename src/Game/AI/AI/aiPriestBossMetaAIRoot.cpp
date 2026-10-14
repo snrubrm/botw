@@ -3,7 +3,7 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Map/mapObjectLink.h"
-#include "KingSystem/Physics/RigidBody/Shape/Cylinder/physCylinderRigidBody.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodyCylinder.h"
 
 namespace uking::ai {
 

@@ -4,7 +4,7 @@
 #include <Havok/Physics2012/Dynamics/Entity/hkpRigidBody.h>
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodyRequestMgr.h"
-#include "KingSystem/Physics/StaticCompound/physStaticCompoundMgr.h"
+#include "KingSystem/Physics/System/physStaticCompoundMgr.h"
 #include "KingSystem/Physics/System/physSystem.h"
 
 namespace ksys::phys {

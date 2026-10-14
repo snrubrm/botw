@@ -1,7 +1,7 @@
 #include "Game/AI/Action/actionAirWallHorse.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
-#include "KingSystem/Physics/RigidBody/Shape/Box/physBoxRigidBody.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodyBox.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
 

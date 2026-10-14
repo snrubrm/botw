@@ -4,8 +4,8 @@
 #include "Game/AI/aiXlinkHandle.h"
 #include "Game/gameNFP.h"
 #include "KingSystem/GameData/gdtManager.h"
-#include "KingSystem/Physics/RigidBody/Shape/Cylinder/physCylinderRigidBody.h"
-#include "KingSystem/Physics/RigidBody/Shape/Cylinder/physCylinderShape.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodyCylinder.h"
+#include "KingSystem/Physics/RigidBody/Shape/physCylinderShape.h"
 #include "KingSystem/Physics/System/physQueryContactPointInfo.h"
 #include "KingSystem/World/worldManager.h"
 

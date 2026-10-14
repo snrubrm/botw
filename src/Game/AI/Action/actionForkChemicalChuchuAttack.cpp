@@ -2,7 +2,7 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
-#include "KingSystem/Physics/RigidBody/Shape/Sphere/physSphereRigidBody.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodySphere.h"
 #include "KingSystem/System/Timer.h"
 
 namespace uking::action {

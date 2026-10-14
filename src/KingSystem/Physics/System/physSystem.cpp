@@ -1,5 +1,5 @@
 #include "KingSystem/Physics/System/physSystem.h"
-#include "KingSystem/Physics/StaticCompound/physStaticCompoundMgr.h"
+#include "KingSystem/Physics/System/physStaticCompoundMgr.h"
 #include "KingSystem/Physics/System/physContactMgr.h"
 #include "KingSystem/Physics/System/physWorld.h"
 #include <heap/seadHeap.h>
@@ -12,7 +12,7 @@
 #include "KingSystem/Physics/Ragdoll/physRagdollResource.h"
 #include "KingSystem/Physics/RigidBody/TeraMesh/physTeraMeshRigidBodyResource.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodyResource.h"
-#include "KingSystem/Physics/StaticCompound/physStaticCompound.h"
+#include "KingSystem/Physics/System/physStaticCompound.h"
 #include "KingSystem/Physics/SupportBone/physSupportBoneResource.h"
 #include "KingSystem/Physics/System/physContactListener.h"
 #include "KingSystem/Physics/System/physContactMgr.h"
@@ -24,7 +24,7 @@
 #include "KingSystem/Physics/System/physRayCastRequestMgr.h"
 #include "KingSystem/Physics/System/physSensorGroupFilter.h"
 #include "KingSystem/Physics/System/physSystemData.h"
-#include "KingSystem/Physics/physHavokMemoryAllocator.h"
+#include "KingSystem/Physics/System/physHavokMemoryAllocator.h"
 #include "KingSystem/Resource/resEntryFactory.h"
 #include "KingSystem/Resource/resSystem.h"
 

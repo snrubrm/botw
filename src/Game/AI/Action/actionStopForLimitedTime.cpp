@@ -2,7 +2,7 @@
 #include "math/seadMathCalcCommon.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/Physics/StaticCompound/physStaticCompoundMgr.h"
+#include "KingSystem/Physics/System/physStaticCompoundMgr.h"
 #include "KingSystem/Physics/System/physSystem.h"
 #include "KingSystem/System/VFR.h"
 

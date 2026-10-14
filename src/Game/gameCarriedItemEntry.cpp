@@ -9,8 +9,8 @@
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/System/physContactPointInfo.h"
-#include "KingSystem/Physics/RigidBody/Shape/Sphere/physSphereRigidBody.h"
-#include "KingSystem/Physics/RigidBody/Shape/Sphere/physSphereShape.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodySphere.h"
+#include "KingSystem/Physics/RigidBody/Shape/physSphereShape.h"
 #include "KingSystem/System/VFR.h"
 
 // NON_MATCHING: scalar initializer stores are scheduled/coalesced differently.

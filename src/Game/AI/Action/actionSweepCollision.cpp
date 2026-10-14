@@ -1,7 +1,7 @@
 #include "Game/AI/Action/actionSweepCollision.h"
 #include "KingSystem/ActorSystem/Profiles/actAreaActor.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/Physics/RigidBody/Shape/Capsule/physCapsuleRigidBody.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodyCapsule.h"
 
 namespace uking::action {
 

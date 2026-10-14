@@ -1,6 +1,6 @@
 #include "Game/AI/aiUnk_71010F122C.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
-#include "KingSystem/Physics/RigidBody/Shape/Box/physBoxRigidBody.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodyBox.h"
 #include "Game/gameUnkRttiPlaceholders.h"
 
 Unk_710250d530::Unk_710250d530() = default;

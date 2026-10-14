@@ -55,7 +55,7 @@
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
-#include "KingSystem/Physics/StaticCompound/physStaticCompoundMgr.h"
+#include "KingSystem/Physics/System/physStaticCompoundMgr.h"
 #include "KingSystem/Physics/Ragdoll/physRagdollInstance.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
 #include "KingSystem/Physics/System/physSystem.h"

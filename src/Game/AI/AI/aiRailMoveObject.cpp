@@ -8,7 +8,7 @@
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actAttackSensor.h"
 #include "KingSystem/Map/mapRail.h"
-#include "KingSystem/Physics/StaticCompound/physStaticCompoundMgr.h"
+#include "KingSystem/Physics/System/physStaticCompoundMgr.h"
 #include "KingSystem/Physics/System/physSystem.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"

@@ -1,7 +1,7 @@
 #include "Game/AI/Action/actionDemoSweep.h"
 #include "KingSystem/ActorSystem/Profiles/actAreaActor.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/Physics/RigidBody/Shape/Capsule/physCapsuleRigidBody.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodyCapsule.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/System/physEntityGroupFilter.h"
 

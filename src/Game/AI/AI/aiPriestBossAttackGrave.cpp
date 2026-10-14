@@ -2,7 +2,7 @@
 #include "Game/AI/aiUnk_710071edf8.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
-#include "KingSystem/Physics/RigidBody/Shape/Sphere/physSphereRigidBody.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodySphere.h"
 
 namespace uking::ai {
 

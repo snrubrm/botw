@@ -9,7 +9,7 @@
 #include "KingSystem/ActorSystem/actActorSystem.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actDebug.h"
-#include "KingSystem/Physics/RigidBody/Shape/Sphere/physSphereRigidBody.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodySphere.h"
 #include "KingSystem/Physics/System/physCollisionInfo.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
 

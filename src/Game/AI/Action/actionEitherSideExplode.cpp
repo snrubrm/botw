@@ -1,5 +1,5 @@
 #include "Game/AI/Action/actionEitherSideExplode.h"
-#include "KingSystem/Physics/RigidBody/Shape/Sphere/physSphereRigidBody.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodySphere.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"

@@ -4,7 +4,7 @@
 #include "KingSystem/Physics/System/physContactMgr.h"
 #include "KingSystem/Physics/System/physContactPointInfo.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
-#include "KingSystem/Physics/RigidBody/Shape/Box/physBoxRigidBody.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodyBox.h"
 #include "Game/Damage/dmgDamageManager.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
@@ -16,7 +16,7 @@
 #include "KingSystem/Physics/System/physInstanceSet.h"
 #include "KingSystem/System/VFR.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
-#include "KingSystem/Physics/RigidBody/Shape/Box/physBoxRigidBody.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodyBox.h"
 #include "KingSystem/Physics/System/physCollisionInfo.h"
 
 namespace uking::ai {

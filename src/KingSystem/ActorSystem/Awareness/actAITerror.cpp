@@ -1,8 +1,8 @@
 #include "KingSystem/ActorSystem/Awareness/actAITerror.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/Awareness/actAwareness.h"
-#include "KingSystem/Physics/RigidBody/Shape/Sphere/physSphereRigidBody.h"
-#include "KingSystem/Physics/RigidBody/Shape/Sphere/physSphereShape.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodySphere.h"
+#include "KingSystem/Physics/RigidBody/Shape/physSphereShape.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
 
 namespace ksys::act {

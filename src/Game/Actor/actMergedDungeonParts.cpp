@@ -2,7 +2,7 @@
 #include <basis/seadNew.h>
 #include <gsys/gsysModel.h>
 #include <gsys/gsysModelUnit.h>
-#include "KingSystem/Physics/StaticCompound/physStaticCompoundMgr.h"
+#include "KingSystem/Physics/System/physStaticCompoundMgr.h"
 #include "KingSystem/Physics/System/physSystem.h"
 
 namespace uking::act {

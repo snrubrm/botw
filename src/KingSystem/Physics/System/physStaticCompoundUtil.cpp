@@ -1,9 +1,9 @@
-#include "KingSystem/Physics/StaticCompound/physStaticCompoundUtil.h"
+#include "KingSystem/Physics/System/physStaticCompoundUtil.h"
 #include <Havok/Physics2012/Collide/Agent/Collidable/hkpCollidable.h>
 #include <Havok/Physics2012/Collide/Shape/Compound/Collection/List/hkpListShape.h>
 #include <Havok/Physics2012/Internal/Collide/BvCompressedMesh/hkpBvCompressedMeshShape.h>
 #include <Havok/Physics2012/Internal/Collide/StaticCompound/hkpStaticCompoundShape.h>
-#include "KingSystem/Physics/StaticCompound/physStaticCompoundMgr.h"
+#include "KingSystem/Physics/System/physStaticCompoundMgr.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/System/physSystem.h"
 

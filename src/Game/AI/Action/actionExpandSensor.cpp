@@ -8,7 +8,7 @@
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectAttack.h"
-#include "KingSystem/Physics/RigidBody/Shape/Capsule/physCapsuleRigidBody.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodyCapsule.h"
 
 namespace uking::action {
 

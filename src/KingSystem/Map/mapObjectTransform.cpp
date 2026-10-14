@@ -1,5 +1,5 @@
 #include "KingSystem/Map/mapObject.h"
-#include "KingSystem/Physics/StaticCompound/physStaticCompoundMgr.h"
+#include "KingSystem/Physics/System/physStaticCompoundMgr.h"
 #include "KingSystem/Physics/System/physSystem.h"
 
 namespace ksys::phys {

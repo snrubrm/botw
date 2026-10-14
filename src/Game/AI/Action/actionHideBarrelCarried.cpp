@@ -1,6 +1,6 @@
 #include "Game/AI/Action/actionHideBarrelCarried.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/Physics/RigidBody/Shape/Cylinder/physCylinderRigidBody.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodyCylinder.h"
 
 namespace uking::action {
 

@@ -31,7 +31,7 @@
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/Ecosystem/ecoSystem.h"
-#include "KingSystem/Physics/RigidBody/Shape/Sphere/physSphereRigidBody.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodySphere.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectPlayer.h"

@@ -8,7 +8,7 @@
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectAttack.h"
-#include "KingSystem/Physics/RigidBody/Shape/Capsule/physCapsuleRigidBody.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodyCapsule.h"
 
 // Native 5A4C8 is the variadic debug-print stub also called by SimpleLiftableDLC.
 void sub_710005A4C8(const char*, const sead::Vector3f*, const sead::Color4f*, const char*, ...);

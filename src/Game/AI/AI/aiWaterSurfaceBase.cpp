@@ -7,7 +7,7 @@
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Effect/eftEffect.h"
-#include "KingSystem/Physics/RigidBody/Shape/BoxWater/physBoxWaterRigidBody.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodyBoxWater.h"
 #include "KingSystem/System/StageInfo.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
 #include "KingSystem/XLink/xlinkXLink.h"

@@ -1,6 +1,6 @@
 #include "Game/AI/Action/actionMotorcycleRiddenByPlayer.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/Physics/RigidBody/Shape/Sphere/physSphereRigidBody.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodySphere.h"
 
 namespace uking::action {
 

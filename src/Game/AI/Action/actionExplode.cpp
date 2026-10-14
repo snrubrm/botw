@@ -10,7 +10,7 @@
 #include <gsys/gsysModel.h>
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actChemical.h"
-#include "KingSystem/Physics/RigidBody/Shape/Sphere/physSphereRigidBody.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodySphere.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"

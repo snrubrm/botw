@@ -2,7 +2,7 @@
 
 #include "KingSystem/ActorSystem/Awareness/actAITerror.h"
 #include "KingSystem/ActorSystem/actAiBehavior.h"
-#include "KingSystem/Physics/RigidBody/Shape/Sphere/physSphereRigidBody.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodySphere.h"
 
 namespace uking::behavior {
 

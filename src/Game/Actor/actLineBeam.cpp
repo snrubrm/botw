@@ -3,7 +3,7 @@
 #include "Game/Actor/actBeamBase.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
-#include "KingSystem/Physics/RigidBody/Shape/Capsule/physCapsuleRigidBody.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodyCapsule.h"
 
 namespace uking::act {
 
