@@ -28,6 +28,48 @@ DamageManager::DamageManager(ksys::act::Actor* actor)
     _216.set(9);
 }
 
+void DamageManager::sub_71006D276C() {
+    // NON_MATCHING: identical instruction multiset and registers, but different store
+    // scheduling (ours: _7c/_218/_6c/_88, and+strh216, _c0, _5c; original: _6c/_7c/_88/_218,
+    // and, _c0, _5c, strh216). Tried _216.reset() first / between _218 and _c0 / last.
+    DamageManagerBase::resetStuff();
+    _6c = -1;
+    _7c = 0;
+    _88 = -1;
+    _8c = 0;
+    _218 = 0;
+    _219 = false;
+    // Clears bits 1, 5, 7 and 8 (single and with ~0x1a2).
+    _216.reset(0x1a2);
+    _c0 = {0, 0, 0};
+    mDamageType = -1;
+}
+
+// NON_MATCHING: store scheduling (_5c / _68 pair, _218), and the original stores _216 twice (after the 0x10 update and
+// after clearing 0x1a0) where ours merges them.
+void DamageManager::resetDamage() {
+    DamageManagerBase::resetDamage();
+    sub_71006D276C();
+    _68 = 0;
+    _70 = 0;
+    _84 = mActor->getMtx()(1, 3);
+    _f0.x();
+    _140.x();
+    _1a8.x();
+    _212 = 0;
+    _214 = 0;
+    if (!sub_71007A40A8(mActor) || isBgGroundHit(mActor, false))
+        _216.set(0x10);
+    else
+        _216.reset(0x10);
+    _216.reset(0x1a0);
+    _218 = 0;
+    sub_71006D27BC();
+    _88 = -1;
+    mFlags2 = 0;
+    _228 = 0;
+}
+
 void DamageManager::sub_71006D32F8() {
     auto* actor = sead::DynamicCast<ksys::act::DynamicActor>(mActor);
     if (!actor)

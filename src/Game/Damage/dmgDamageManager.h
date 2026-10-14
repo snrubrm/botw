@@ -151,6 +151,10 @@ public:
     // lightning hit (LightningAffect with _78 < 1 and Actor::m50), of m50, or of a gust (GustAffect and the wind flag
     // of the actor's Chemical).
     bool sub_71006D33FC(s32* damage, s32* df48, u32* minDmg, u32* f50, s32* f54, s32* f40);
+    // 0x71006d276c (was DamageMgrPlayer::x; in the DamageManager TU, inlined into resetDamage; called by
+    // DamageMgrPlayer::applyDamage and PlayerNormal::enter_): resets the damage indices, flags and direction.
+    // Placeholder name.
+    void sub_71006D276C();
     // 0x71006d888c (placeholder name): condition damage of kind 3 (m45).
     void sub_71006D888C(const ConditionDamageInfo& info);
     bool sub_71006D357C(s32 type, s32 eventId, bool flag, s32 damage, s32 df48, u32 minDmg, u32 f50, s32 f54,
