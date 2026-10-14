@@ -991,6 +991,23 @@ s32 DamageManager::sub_71006D6D88(ksys::act::ActorAtk::Unk_710079e64c::Unk1* inf
     return -1;
 }
 
+bool DamageManager::sub_71006D6EC0(ksys::act::ActorAtk::Unk_710079e64c::Unk1* info) {
+    if (auto* actor = sead::DynamicCast<ksys::act::DynamicActor>(mActor)) {
+        if (actor->m151(3) || actor->m151(4))
+            return false;
+    }
+    if (info->sub_71007A1F78(0x80000000)) {
+        auto* player = sead::DynamicCast<ksys::act::PlayerBase>(mActor);
+        if (!player || !player->isDarukProtectionEnabled())
+            return false;
+    }
+    if (info->sub_71007A1F78(8))
+        return false;
+    if (info->_18 & 1)
+        return true;
+    return info->_18 & 2;
+}
+
 void DamageManager::handleDamageForPlayer(u32* a2, u32* a3, u32* a4, u32* a5, u32* a6) {
     DamageManagerBase::handleDamageForPlayer(a2, a3, a4, a5, a6);
     auto* info = sead::DynamicCast<Struct20_2>(mStruct20_b);
