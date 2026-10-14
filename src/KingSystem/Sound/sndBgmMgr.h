@@ -51,6 +51,8 @@ public:
     bool sub_7100FF6DF4(const Unk_710260f248* owner) const;
     // 0x7100ff6a50: stores `value` in the float array at +0x28 (index 0..3).
     void sub_7100FF6A50(s32 index, f32 value);
+    // 0x7100ff6a64 (declared only)
+    void sub_7100FF6A64(f32 fade_sec);
 };
 
 // Argument of Unk_710260f248::m3 (callers unknown): only the handle pointer at +0x8 is read.
@@ -386,14 +388,36 @@ class Unk_710260f1a8 : public Bgm {
 struct Unk_71010267A8 {
     s32 value;
 };
-// GuardianMini practice BGM RTTI typeInfo 0x710260f228.
+// GuardianMini practice BGM RTTI typeInfo 0x710260f228 ("DungeonTutorialBgm"; 0x1b0 bytes, constructor 0x7101026544).
+// Its D1 slot points at the identical 0x71010032f0.
 class Unk_710260f228 : public Unk_71025ce380 {
     SEAD_RTTI_OVERRIDE(Unk_710260f228, Unk_71025ce380)
 public:
+    explicit Unk_710260f228(const BgmInitArg& arg);
+
+    bool m10() override;
+    void m5() override {}
+    void m12(f32 fade_sec) override;
+    void m13(f32 fade_sec) override;
+    // 0x7101026924 (declared only; 240 B)
+    void m14(sead::TextWriter& writer) override;
+    void hm14() override;
+    // 0x710102661c (declared only; 388 B)
+    void hm15() override;
+
+    // Plays the lesson track for `state` (0: "Lesson1") or records it for later (state 2).
     void sub_71010267A8(const Unk_71010267A8& state);
     // 0x7101026888 (called by Unk_710260f218::m10).
     void sub_7101026888();
+
+private:
+    MusicInfo* mInfo = nullptr;
+    s32 mState = 0;
+    s32 _19c = 0;
+    Unk_71010267A8 mLesson{0};
+    Unk_710260f248Entry* mEntry = nullptr;
 };
+KSYS_CHECK_SIZE_NX150(Unk_710260f228, 0x1b0);
 
 // Placeholder name (ctor 0x71010073f4, constructed by the BgmMgr's init 0xff7f14): a list of BGM objects (their list node
 // is at +0x190) guarded by a critical section.
