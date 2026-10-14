@@ -109,6 +109,57 @@ void FlyingEnemyKeepMove::calc_() {
     child->setDynamicParam(target, "TargetPos");
 }
 
+// NON_MATCHING: distance load scheduling (as in calc_) and the height compares use the swapped fcmp operands /
+// branch layout.
+bool FlyingEnemyKeepMove::sub_71003D1C48() {
+    // The XZ distance between the actor and the base position (m36).
+    const auto calcBaseDist = [this] {
+        sead::Vector3f base;
+        m36(&base);
+        const sead::Vector2f pos(mActor->getMtx()(0, 3), mActor->getMtx()(2, 3));
+        return (pos - sead::Vector2f(base.x, base.z)).length();
+    };
+
+    if (calcBaseDist() > *mParams.mBaseDist_s + *mParams.mFarDist_s) {
+        sead::Vector3f target;
+        m36(&target);
+        ksys::act::ai::InlineParamPack pack;
+        pack.addVec3(target, "TargetPos", -1);
+        changeChild("移動", &pack);
+        return true;
+    }
+
+    if (calcBaseDist() < *mParams.mBaseDist_s + *mParams.mNearDist_s) {
+        changeToAdjustPosition();
+        return true;
+    }
+
+    if (!sub_71003D1F88()) {
+        sead::Vector3f target;
+        sub_71003D20B0(&target);
+        ksys::act::ai::InlineParamPack pack;
+        pack.addVec3(target, "TargetPos", -1);
+        changeChild("位置調整", &pack);
+        return true;
+    }
+
+    sead::Vector3f dir;
+    if (mActor->getMtx()(1, 3) <
+        sub_71005D9330(mActor).y + *mParams.mBaseHeight_s + *mParams.mLowHeight_s) {
+        if (sub_71003D2880(*mParams.mSpaceDistance_s, &dir) && dir.y < 0.0f)
+            return false;
+        sub_71003D2500();
+    } else if (mActor->getMtx()(1, 3) >
+               sub_71005D9330(mActor).y + *mParams.mBaseHeight_s + *mParams.mHighHeight_s) {
+        if (sub_71003D2880(*mParams.mSpaceDistance_s, &dir) && dir.y > 0.0f)
+            return false;
+        sub_71003D25F8();
+    } else {
+        return false;
+    }
+    return true;
+}
+
 void FlyingEnemyKeepMove::leave_() {
     ksys::act::ai::Ai::leave_();
 }

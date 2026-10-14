@@ -27,7 +27,8 @@ public:
     void changeToAdjustPosition();
 
     bool sub_71003D1F88();
-    // 0x71003d1c48 (placeholder name; declared only): changes to 位置調整 when the actor needs to adjust its position.
+    // 0x71003d1c48 (placeholder name): keeps the actor between NearDist / FarDist and the height band around the
+    // target (移動 / 位置調整 / height adjust); false when nothing changed.
     bool sub_71003D1C48();
     // 0x71003d20b0 (placeholder name; declared only): the 位置調整 target position.
     bool sub_71003D20B0(sead::Vector3f* out);
