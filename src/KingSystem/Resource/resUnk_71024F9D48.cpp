@@ -307,21 +307,6 @@ void Unk_71024f9a08::sub_7100FE10D8() {
         --_1a;
 }
 
-// FE852C receives the fallback ResTexture from TextureHandleMgr::xx; FE83EC consumes it.
-nn::gfx::ResTexture* sUnk_710260EAD0;
-
-void sub_7100FE852C(nn::gfx::ResTexture* texture) {
-    sUnk_710260EAD0 = texture;
-}
-
-Unk_71024f9d68::Unk_71024f9d68() : _8(-1), _c(-1), _10(-1) {}
-
-void Unk_71024f9d68::sub_7100FE85DC() {
-    _8 = -1;
-}
-
-Unk_71024f9d68::~Unk_71024f9d68() = default;
-
 static sead::Atomic<s32> sUnk_710260EAE0;
 
 Unk_71024F9D48::Unk_71024F9D48() {
@@ -477,7 +462,6 @@ void Unk_71024F9D48::sub_7100FE8474(Unk_71024f9a08* resource, u32 status) {
     _18.set(1);
 }
 
-// NON_MATCHING: the compiler inlines the native out-of-line callback dispatch helper.
 void Unk_71024F9D48::sub_7100FE848C() {
     if (!_30)
         return;
@@ -487,7 +471,6 @@ void Unk_71024F9D48::sub_7100FE848C() {
     _30->sub_7100FE85AC(&arg);
 }
 
-// NON_MATCHING: the compiler inlines the native out-of-line generation check and callback helper.
 void Unk_71024F9D48::sub_7100FE84D4() {
     if (!_30)
         return;
@@ -495,17 +478,6 @@ void Unk_71024F9D48::sub_7100FE84D4() {
     arg.mGeneration = TextureHandleMgr::instance()->getGeneration();
     arg.mHandle = this;
     _30->sub_7100FE85B8(&arg);
-}
-
-void Unk_71024f9d68::sub_7100FE85AC(const CallbackArg* arg) {
-    m3(arg);
-}
-
-void Unk_71024f9d68::sub_7100FE85B8(const CallbackArg* arg) {
-    if (_10 == arg->mGeneration)
-        return;
-    _10 = arg->mGeneration;
-    m4(arg);
 }
 
 }  // namespace ksys::res

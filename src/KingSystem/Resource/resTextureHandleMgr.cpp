@@ -345,6 +345,32 @@ void TextureHandleMgr::setInstance(TextureHandleMgr* mgr) {
     sInstance = mgr;
 }
 
+// FE852C receives the fallback ResTexture from TextureHandleMgr::xx; FE83EC consumes it.
+nn::gfx::ResTexture* sUnk_710260EAD0;
+
+void sub_7100FE852C(nn::gfx::ResTexture* texture) {
+    sUnk_710260EAD0 = texture;
+}
+
+Unk_71024f9d68::Unk_71024f9d68() : _8(-1), _c(-1), _10(-1) {}
+
+Unk_71024f9d68::~Unk_71024f9d68() = default;
+
+void Unk_71024f9d68::sub_7100FE85AC(const CallbackArg* arg) {
+    m3(arg);
+}
+
+void Unk_71024f9d68::sub_7100FE85B8(const CallbackArg* arg) {
+    if (_10 == arg->mGeneration)
+        return;
+    _10 = arg->mGeneration;
+    m4(arg);
+}
+
+void Unk_71024f9d68::sub_7100FE85DC() {
+    _8 = -1;
+}
+
 void TextureHandleMgr::calc() {
     if (!_30->canSubmitRequest())
         return;

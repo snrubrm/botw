@@ -33,12 +33,11 @@ void SimpleAtvUnitOpenDlgRnd3::loadParams() {
     getStaticParam(&mlabelName3_s, "labelName3");
 }
 
-// NON_MATCHING: csel operand order (the first select uses `ne`)
 const sead::SafeString* SimpleAtvUnitOpenDlgRnd3::m14() {
-    if (_88 == 1)
-        return &mlabelName2_s;
     if (_88 == 2)
         return &mlabelName3_s;
+    if (_88 == 1)
+        return &mlabelName2_s;
     return &mlabelName_s;
 }
 

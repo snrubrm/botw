@@ -152,6 +152,7 @@ void sub_7100FE0D98(Unk_71024f9a08* resource, Unk_71024F9D48* handle);
 bool sub_7100FE0F14(Unk_71024f9a08* resource);
 bool sub_7100FE0F44(Unk_71024f9a08* resource);
 nn::gfx::ResTexture* sub_7100FE0F8C(Unk_71024f9a08* resource);
+extern nn::gfx::ResTexture* sUnk_710260EAD0;
 void sub_7100FE852C(nn::gfx::ResTexture* texture);
 
 // Texture-loading arguments: complete FE6FC8 constructor and FE7190 consumer.
