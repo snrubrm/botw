@@ -5,6 +5,11 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "Game/Actor/actEnemy.h"
+#include "Game/Actor/aiUnk_7100724C64.h"
+#include "KingSystem/ActorSystem/aiRootAi.h"
+
+bool sub_710001AAA8(const ksys::act::ActorLinkConstDataAccess& accessor, const sead::SafeString& name);
 
 namespace uking::ai {
 
@@ -17,7 +22,47 @@ bool StalPartNormal::init_(sead::Heap* heap) {
 }
 
 void StalPartNormal::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (auto* body = mActor->getMainBody()) {
+        _f4 = !body->hasFlag(ksys::phys::RigidBody::Flag::_2000000);
+        body->clearFlag2000000(false);
+    }
+    _ec = 0;
+    _e8 = 0;
+    _f0 = 0;
+    if (testRootAiFlag2(ksys::act::ai::RootAiFlag2::_0))
+        sub_71005A7750();
+    else
+        _58.reset();
+
+    if (_58.hasProc()) {
+        sub_7100738CB0(mActor, &_58);
+        sub_71005A7854();
+    } else if (testRootAiFlag2(ksys::act::ai::RootAiFlag2::_0)) {
+        sub_7100738DC8(mActor);
+        _58.reset();
+        changeChild("待機");
+    } else {
+        _58.reset();
+        changeChild("行動禁止");
+    }
+    ksys::act::enableAttClient(mActor, "UsePick");
+    ksys::act::enableAttClient(mActor, "NoticeDo");
+    ksys::act::enableAttClient(mActor, "NameBalloon");
+}
+
+void StalPartNormal::sub_71005A7750() {
+    if (!_58.hasProcInCalcState())
+        return;
+    ksys::act::ActorLinkConstDataAccess accessor;
+    ksys::act::acquireActor(&_58, &accessor);
+    auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
+    const char* name = sub_71007251D0();
+    if (!enemy)
+        name = sub_71007251DC();
+    if (sub_710001AAA8(accessor, name)) {
+        sub_7100738DC8(mActor);
+        _58.reset();
+    }
 }
 
 void StalPartNormal::leave_() {

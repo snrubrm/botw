@@ -24,6 +24,8 @@ protected:
     void sub_71005A82F8();
     // 0x71005a815c: "気づき" while "待機", else the "移動" child at the offset position
     void sub_71005A815C();
+    // 0x71005a7750 (placeholder name): releases _58 when the linked enemy has the part actor of this kind
+    void sub_71005A7750();
     // 0x71005a7854: changes to the "気づき" child at the offset position of the linked actor
     void sub_71005A7854();
     struct Params {
