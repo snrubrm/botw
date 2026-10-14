@@ -83,7 +83,7 @@ void Unk_710260f048::hm15() {
         mMainEntry->sub_7100FF6A50(1, mMainFader.getValue());
 }
 
-void Bgm::m4() {}
+void Bgm::m4(sead::Heap* heap) {}
 
 void Bgm::m6(f32 fade_sec) {
     if (mActive)

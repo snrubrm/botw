@@ -279,7 +279,8 @@ public:
     virtual ~Bgm() = default;
     SEAD_RTTI_BASE(Bgm)
 
-    virtual void m4();
+    // Unk_71025ce380's and Unk_710260f2a8's overrides pass the heap on to Unk_710260f248::sub_7101020988.
+    virtual void m4(sead::Heap* heap);
     virtual void m5() = 0;
     virtual void m6(f32 fade_sec);
     virtual void m7(f32 fade_sec);
@@ -308,6 +309,8 @@ class Unk_71025ce380 : public Bgm, public Unk_71024fc7f8 {
 public:
     explicit Unk_71025ce380(const BgmInitArg& arg) : Bgm(arg.kind), Unk_71024fc7f8(arg.handle_type) {}
 
+    // 0x7100ff653c (CSV snd::BgmCastle::m4; shared by the children's vtables)
+    void m4(sead::Heap* heap) override { sub_7101020988(heap); }
     // 0x7100ff6544 (CSV snd::BgmCastle::m6; shared by the children's vtables)
     void m6(f32 fade_sec) override {
         if (mActive)
@@ -357,7 +360,7 @@ public:
     ~Unk_710260f2a8() override;
 
     // 0x7101001818 / 0x7101001478 / 0x7101001770 / 0x71010016f8 / 0x71010018b4 (declared only)
-    void m4() override;
+    void m4(sead::Heap* heap) override;
     void m5() override;
     bool m9() override;
     void m12(f32 fade_sec) override;
@@ -368,10 +371,11 @@ public:
     void sub_7101001194(const BgmInitArg& arg);
 
     u64 _10 = 0;
-    Unk_SpotBgmHandle* _18 = nullptr;
-    Unk_SpotBgmHandle* _20 = nullptr;
-    u64 _28 = 0;
-    u64 _30 = 0;
+    // Indexed by DragonBgmInfo::DragonEnum (DragonBgm, GrudgeDragonBgm).
+    sead::SafeArray<Unk_SpotBgmHandle*, 2> mHandles{};
+    Unk_SpotBgmHandle* _28 = nullptr;
+    u32 _30 = 0;
+    u32 _34 = 0;
     aal::SimpleTimedFader _38{1.0};
     u64 _50 = 0;
     bool _58 = false;

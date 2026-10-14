@@ -485,21 +485,48 @@ Unk_710260f2a8::Unk_710260f2a8(const BgmInitArg& arg) : Bgm(arg.kind) {
 }
 
 Unk_710260f2a8::~Unk_710260f2a8() {
-    if (_18) {
-        _18->sub_710101D9A4();
-        delete _18;
-        _18 = nullptr;
-    }
-    if (_20) {
-        _20->sub_710101D9A4();
-        delete _20;
-        _20 = nullptr;
+    for (auto*& handle : mHandles) {
+        if (handle) {
+            handle->sub_710101D9A4();
+            delete handle;
+            handle = nullptr;
+        }
     }
 }
 
+void Unk_710260f2a8::m4(sead::Heap* heap) {
+    DragonBgmInfo::DragonEnum type = DragonBgmInfo::DragonEnum::DragonBgm;
+    if (mHandles[type])
+        mHandles[type]->sub_7101020988(heap);
+    type = DragonBgmInfo::DragonEnum::GrudgeDragonBgm;
+    if (mHandles[type])
+        mHandles[type]->sub_7101020988(heap);
+}
+
+// NON_MATCHING: the first size test is inverted (cmp #0 / b.le instead of cmp #1 / b.ge to the shared return).
+bool Unk_710260f2a8::m9() {
+    DragonBgmInfo::DragonEnum type = DragonBgmInfo::DragonEnum::DragonBgm;
+    if (mHandles[type] && mHandles[type]->mEntries.size() >= 1)
+        return false;
+    type = DragonBgmInfo::DragonEnum::GrudgeDragonBgm;
+    if (mHandles[type] && mHandles[type]->mEntries.size() > 0)
+        return false;
+    return true;
+}
+
 void Unk_710260f2a8::m12(f32 fade_sec) {
-    _18->sub_7101020BB0(fade_sec);
-    _20->sub_7101020BB0(fade_sec);
+    for (auto* handle : mHandles)
+        handle->sub_7101020BB0(fade_sec);
+}
+
+void Unk_710260f2a8::m13(f32 fade_sec) {
+    DragonBgmInfo::DragonEnum type = DragonBgmInfo::DragonEnum::DragonBgm;
+    mHandles[type]->sub_710101D9F4(fade_sec);
+    type = DragonBgmInfo::DragonEnum::GrudgeDragonBgm;
+    mHandles[type]->sub_710101D9F4(fade_sec);
+    _28->sub_710101D9F4(0.0);
+    _50 = 0;
+    _34 = 0;
 }
 
 }  // namespace ksys::snd
