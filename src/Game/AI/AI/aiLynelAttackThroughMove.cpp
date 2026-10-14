@@ -8,6 +8,7 @@
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
@@ -29,16 +30,13 @@ void LynelAttackThroughMove::enter_(ksys::act::ai::InlineParamPack* params) {
                 nav->sub_7100F7D1B4(other);
         }
     }
-    _94 = _98 = *mParams.mCliffFailTime_s;
+    _90.min = _90.max = *mParams.mCliffFailTime_s;
     actor->getMtx().getTranslation(_78);
     sub_710048BF14();
 }
 
 void LynelAttackThroughMove::sub_710048BF14() {
-    s32 value = _94;
-    if (_98 != _94)
-        value = sead::GlobalRandom::instance()->getS32Range(_94, _98);
-    _90 = value;
+    _90.reset();
 
     const sead::Vector3f* pos = mParams.mTargetPos_d;
     const s32 type = *mParams.mSideOffsetDirType_s;
@@ -59,6 +57,66 @@ void LynelAttackThroughMove::sub_710048BF14() {
     ksys::act::ai::InlineParamPack pack;
     pack.addVec3(target, "TargetPos", -1);
     changeChild("近づき", &pack);
+}
+
+// NON_MATCHING: the original reuses the child vtable pointer loaded after each virtual call; register
+// allocation of the actor position.
+void LynelAttackThroughMove::calc_() {
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed()) {
+        if (child->isFailed()) {
+            setFailed();
+            return;
+        }
+        if (isCurrentChild("近づき")) {
+            sub_710048C958(&_84);
+            ksys::act::ai::InlineParamPack pack;
+            pack.addVec3(_84, "TargetPos", -1);
+            changeChild("通り過ぎ", &pack);
+        } else {
+            setFinished();
+        }
+    } else if (child->isChangeable()) {
+        if (isCurrentChild("通り過ぎ")) {
+            const sead::Vector3f pos = mActor->getMtx().getTranslation();
+            const sead::Vector3f& target = *mParams.mTargetPos_d;
+            const f32 dist = sead::Vector2f(pos.x - target.x, pos.z - target.z).length();
+            if (dist > *mParams.mThroughDist_s || mActor->getMtx().getBase(2).dot(_84 - pos) <= 0.0f) {
+                setFinished();
+                return;
+            }
+        } else if (isCurrentChild("近づき") && *mParams.mCliffFailTime_s > 0 && _90.value <= 0.0f) {
+            setFailed();
+        }
+    }
+
+    if (!isCurrentChild("近づき"))
+        return;
+
+    const sead::Vector3f* pos = mParams.mTargetPos_d;
+    const s32 type = *mParams.mSideOffsetDirType_s;
+    sead::Vector3f target;
+    if (type == 0) {
+        target = *pos;
+    } else {
+        sead::Vector3f dir;
+        mActor->getMtx().getBase(dir, 0);
+        dir.normalize();
+        if (type == 2)
+            dir = -dir;
+        const f32 offset = *mParams.mSideOffset_s;
+        target.x = dir.x * offset + pos->x;
+        target.y = dir.y * offset + pos->y;
+        target.z = dir.z * offset + pos->z;
+    }
+    getCurrentChild()->setDynamicParam(target, "TargetPos");
+
+    if (*mParams.mCliffFailTime_s > 0) {
+        if (sub_710048C58C(target))
+            _90.update();
+        else
+            _90.reset();
+    }
 }
 
 bool LynelAttackThroughMove::sub_710048C58C(const sead::Vector3f& target) {
