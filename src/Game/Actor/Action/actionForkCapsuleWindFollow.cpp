@@ -14,8 +14,17 @@ bool ForkCapsuleWindFollow::init_(sead::Heap* heap) {
     return true;
 }
 
+// NON_MATCHING: matrix-product scheduling, as in calc_.
 void ForkCapsuleWindFollow::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    sead::Vector3f dir = *mDir_s;
+    dir.normalize();
+    if (dir.x == 0.0f && dir.y == 0.0f && dir.z == 0.0f)
+        dir = sead::Vector3f::ez;
+    sub_7100149878(&_c8, sead::Vector3f::ez, dir);
+
+    sead::Matrix34f matrix;
+    sead::Matrix34CalcCommon<f32>::multiply(matrix, mActor->getMtx(), _c8);
+    _40.sub_71010C449C(*mSpeed_s, *mRadius_s * mActor->getScale().y, *mLength_s, matrix);
 }
 
 void ForkCapsuleWindFollow::leave_() {
