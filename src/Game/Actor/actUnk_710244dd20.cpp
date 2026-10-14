@@ -10,8 +10,12 @@
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectPlayer.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/Utils/Thread/Message.h"
+
+// Defined in actPlayerBase.cpp (0x710084beec).
+bool j_eventMgrHasActiveEventMaybe(ksys::act::Actor* actor);
 
 namespace uking::act {
 
@@ -41,6 +45,10 @@ bool Unk_710244dd20::sub_71006D1DA0() {
 
 bool Unk_710244dd20::m17(s32 bit) const {
     return _139.isOnBit(bit);
+}
+
+bool Unk_71008502cc::m9() {
+    return j_eventMgrHasActiveEventMaybe(sead::DynamicCast<ksys::act::Player>(_10));
 }
 
 void Unk_71008502cc::m12(int index) {
