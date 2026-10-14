@@ -264,7 +264,24 @@ Unk_710260f198* sub_7100FFD7CC();
 // RTTI typeInfo 0x710260f1f8, a BGM controller (sub_7100FFD878 casts SoundMgr::_30->_48 to it).
 class Unk_710260f1f8 : public Unk_71024fca78 {
     SEAD_RTTI_OVERRIDE(Unk_710260f1f8, Unk_71024fca78)
+public:
+    explicit Unk_710260f1f8(BgmControllerType type);
+
+    void m4(sead::Heap* heap) override;
+    void m5() override;
+    void m6(f32 fade_sec) override;
+    void m7(f32 fade_sec) override;
+    void m8(const Unk_BgmControllerM8Arg& arg) override;
+    void m12() override {}
+
+    void sub_7100FFC1C8(Bgm* bgm);
+
+    bool _90 = false;
+    // 0..3, set from the controller types 6..9; m4 maps it to the BGM kinds 22, 24, 23, 25.
+    s32 _94 = 0;
+    sead::Delegate1<Unk_710260f1f8, Bgm*> _98{this, &Unk_710260f1f8::sub_7100FFC1C8};
 };
+KSYS_CHECK_SIZE_NX150(Unk_710260f1f8, 0xb8);
 Unk_710260f1f8* sub_7100FFD878();
 
 // RTTI typeInfo 0x710260f150, a BGM controller (sub_7100FFD924 casts SoundMgr::_30->_48 to it).

@@ -2361,6 +2361,8 @@ class Unk_71024fee78 : public ksys::snd::Unk_71025ce380 {
     SEAD_RTTI_OVERRIDE(Unk_71024fee78, ksys::snd::Unk_71025ce380)
 public:
     ~Unk_71024fee78() override;
+    // 0x710101157c: stores the first dword of `arg` at +0x1d0 (called by Unk_710260f1f8::m8 on its kind 26 BGM).
+    void sub_710101157C(const ksys::snd::Unk_BgmControllerM8Arg& arg);
 };
 
 // vtable 0x71024fefe8 (17 slots); placeholder generated from the vtable (genskel.py).

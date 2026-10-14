@@ -290,6 +290,80 @@ void Unk_710260f160::m7(f32 fade_sec) {
     }
 }
 
+Unk_710260f1f8::Unk_710260f1f8(BgmControllerType type) {
+    switch (type) {
+    case BgmControllerType::_6:
+        _94 = 0;
+        break;
+    case BgmControllerType::_7:
+        _94 = 2;
+        break;
+    case BgmControllerType::_8:
+        _94 = 1;
+        break;
+    case BgmControllerType::_9:
+        _94 = 3;
+        break;
+    default:
+        break;
+    }
+}
+
+void Unk_710260f1f8::sub_7100FFC1C8(Bgm* bgm) {
+    bgm->m8(_90);
+}
+
+// NON_MATCHING: the default kind is `mov x1, xzr` in the original. sub_7100FF7920 / sub_7100FF7C74 spill and reload
+// the kind like a SEAD_ENUM wrapper (4-byte class passed in a full register); we still declare it as s32.
+void Unk_710260f1f8::m4(sead::Heap* heap) {
+    _8.sub_7100FF75DC(3, heap);
+    _8._30 = &_98;
+    s32 kind;
+    switch (_94) {
+    case 0:
+        kind = 22;
+        break;
+    case 1:
+        kind = 24;
+        break;
+    case 2:
+        kind = 23;
+        break;
+    case 3:
+        kind = 25;
+        break;
+    default:
+        kind = 0;
+        break;
+    }
+    _8.sub_7100FF7920(kind, heap);
+    _8.sub_7100FF7920(26, heap);
+}
+
+void Unk_710260f1f8::m5() {
+    if (_90)
+        _8.sub_7100FF7698();
+}
+
+void Unk_710260f1f8::m6(f32 fade_sec) {
+    if (!_90) {
+        _8.sub_7100FF7830(fade_sec);
+        _90 = true;
+    }
+}
+
+void Unk_710260f1f8::m7(f32 fade_sec) {
+    if (_90) {
+        _8.sub_7100FF78A8(fade_sec);
+        _90 = false;
+    }
+}
+
+void Unk_710260f1f8::m8(const Unk_BgmControllerM8Arg& arg) {
+    if (auto* bgm = sead::DynamicCast<Unk_71024fee78>(_8.sub_7100FF7C74(26)))
+        bgm->sub_710101157C(arg);
+}
+
 }  // namespace ksys::snd
 
 // NON_MATCHING: placeholder destructor; the original (0x7100ffd044) also destroys members or bases
