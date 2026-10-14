@@ -34,8 +34,10 @@ public:
     void loadParams_() override;
 
     void sub_7100447C8C();
-    // 0x7100446da8 (placeholder name)
+    // 0x7100446da8 (placeholder name): starts 生成中 and places the two sub bodies (_78) on the block.
     void sub_7100446DA8();
+    // 0x7100446448 (placeholder name; declared only, 608 B): the block scale (y: growth ratio).
+    sead::Vector3f sub_7100446448();
     // 0x71004473a8 (placeholder name)
     void sub_71004473A8();
     // 0x7100447f20 (placeholder name): reads `_148` from the AS event 0x2f and eases `_144` towards it.

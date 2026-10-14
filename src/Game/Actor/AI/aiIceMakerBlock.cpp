@@ -12,6 +12,7 @@
 #include "KingSystem/ActorSystem/actTag.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include <cmath>
 #include <prim/seadStringUtil.h>
 #include "KingSystem/Physics/System/physInstanceSet.h"
 #include "KingSystem/System/VFR.h"
@@ -170,6 +171,35 @@ bool IceMakerBlock::sub_7100446B0C() {
         _88[i] = body;
     }
     return true;
+}
+
+// NON_MATCHING: scheduling of the height sum and the matrix product.
+void IceMakerBlock::sub_7100446DA8() {
+    changeChild("生成中");
+    const sead::Vector3f scale = sub_7100446448();
+    sead::Matrix34f mtx = sead::Matrix34f::ident;
+    const f32 t = sead::Mathf::clamp(scale.y, 0.0f, 1.0f);
+    const f32 height = t * *mParams.mSubRigidEndOffset_s + (1.0f - t) * *mParams.mSubRigidStartOffset_s +
+                       std::sin(sead::Mathf::clamp(t, 0.0f, 1.0f) * sead::Mathf::pi()) *
+                           *mParams.mSubRigidExOffset_s +
+                       t * _138.y;
+    sead::Matrix34f offset = sead::Matrix34f::ident;
+    offset.setTranslation(sead::Vector3f(0.0f, height, 0.0f));
+    mtx.setMul(mActor->getMtx(), offset);
+
+    const sead::Vector3f extents(sead::Mathf::max(scale.x * _12c.x - 0.2f, 0.5f), _12c.y,
+                                 sead::Mathf::max(scale.x * _12c.z - 0.2f, 0.5f));
+    _78[0]->setExtents(extents);
+    _78[0]->setTransform(mtx);
+    _78[0]->addToWorld();
+    _78[1]->setExtents(extents);
+    _78[1]->setTransform(mtx);
+    _78[1]->addToWorld();
+    _a0 = 0;
+    if (auto* body = mActor->getMainBody())
+        body->setGravityFactor(0.0f);
+    sub_7100446FD8(scale);
+    _a7 = false;
 }
 
 void IceMakerBlock::enter_(ksys::act::ai::InlineParamPack* params) {
