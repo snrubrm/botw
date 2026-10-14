@@ -38,8 +38,7 @@ bool BalloonPlantNormal::sub_7100327B54() {
     return false;
 }
 
-// NON_MATCHING: block layout of the contact-point loop and a devirtualised executeQuery call
-// (the original dispatches through the vtable).
+// NON_MATCHING: block layout of the contact-point loop and stack slot assignment.
 void BalloonPlantNormal::sub_7100327D48() {
     if (_c4)
         return;
@@ -67,7 +66,8 @@ void BalloonPlantNormal::sub_7100327D48() {
 
     const sead::Vector3f start = actor->getMtx().getTranslation();
     cast.setStartAndDisplacementScaled(start, -sead::Vector3f::ey, 0.1f);
-    if (!cast.executeQuery(ksys::phys::ShapeCast::WeldClosestPoints::Yes))
+    // called through a pointer in the original (not devirtualised)
+    if (!(&cast)->executeQuery(ksys::phys::ShapeCast::WeldClosestPoints::Yes))
         return;
 
     for (auto it = info->begin(), end = info->end(); it != end; ++it) {
