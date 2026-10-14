@@ -1,6 +1,8 @@
 #include "Game/Actor/actUnk_71025ae680.h"
 #include "KingSystem/Resource/Actor/resResourceDamageParam.h"
 #include "Game/gameUnkRttiPlaceholders.h"
+#include "Game/Damage/dmgDamageManagerBase.h"
+#include "KingSystem/System/Timer.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/Utils/Thread/Message.h"
@@ -113,6 +115,88 @@ void Unk_710244dd20::m20() {
     if (_88._30)
         sub_71006D0AB8();
     _88.x();
+}
+
+void Unk_710244dd20::sub_71006CF9B4() {
+    if (!_8.isOn(0x800))
+        return;
+    if (_44 < 0.0f)
+        return;
+    if (_48 < 60.0f)
+        return;
+    ksys::Timer::update(&_44, -1.0f);
+    if (!(_44 < 0.0f))
+        return;
+    if (!_8.isOn(0x800))
+        return;
+
+    auto* param = sub_71006DF5A4();
+    if (param && param->mCurseContinuousDamage.ref() >= 1) {
+        dmg::ConditionDamageInfo info;
+        info.mKind = 11;
+        info.mDamage = param->mCurseContinuousDamage.ref();
+        info.mFlags = 1;
+        sub_71006DF5CC(info);
+    }
+    param = sub_71006DF5A4();
+    _44 = param ? static_cast<f32>(param->mCurseInterval.ref()) : 0.0f;
+}
+
+void Unk_710244dd20::sub_71006D0AB8() {
+    if (_138 & 8)
+        return;
+    auto* param = sub_71006DF5A4();
+    if (!param || !param->mGerudoHeroAffect.ref())
+        return;
+
+    param = sub_71006DF5A4();
+    const s32 time = param ? param->mGerudoHeroTime.ref() : 0;
+    param = sub_71006DF5A4();
+    const s32 damage = param ? param->mGerudoHeroDamage.ref() : 0;
+    if (time <= 0) {
+        dmg::ConditionDamageInfo info;
+        info.mKind = 4;
+        info.mDamage = damage;
+        info._8 = 4;
+        info.mFlags = 0x180;
+        sub_71006DF5CC(info);
+    } else {
+        if (!_118.sub_7101241B6C())
+            xlinkSearchAndEmit(_10, "ElectricShock", 2, &_118);
+        dmg::ConditionDamageInfo info;
+        info.mKind = 4;
+        info.mDamage = damage;
+        info.mFlags = 0x100;
+        sub_71006DF5CC(info);
+        _c0 |= 0x10;
+        _3c = static_cast<f32>(time);
+        _8.set(0x10);
+    }
+}
+
+void Unk_710244dd20::sub_71006D19AC() {
+    if (sub_71006D1C34()) {
+        auto* param = sub_71006DF5A4();
+        if (param && param->mCurseAffect.ref() && !_8.isOn(0x800)) {
+            sub_71006DF750();
+            param = sub_71006DF5A4();
+            _44 = param ? static_cast<f32>(param->mCurseInterval.ref()) : 0.0f;
+            _8.set(0x800);
+            param = sub_71006DF5A4();
+            if (param && param->mCurseDamage.ref() >= 1) {
+                dmg::ConditionDamageInfo info;
+                info.mKind = 11;
+                info.mDamage = param->mCurseDamage.ref();
+                sub_71006DF5CC(info);
+            }
+        }
+        _48 = 60.0f;
+    } else if (_48 > 0.0f) {
+        ksys::Timer::update(&_48, -1.0f);
+    } else {
+        sub_71006DF750();
+    }
+    _50.x();
 }
 
 // 0x71006d2130: only forwards to the base implementation.

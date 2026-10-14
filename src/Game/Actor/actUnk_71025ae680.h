@@ -90,12 +90,6 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(Unk_710244edc0, 0x70);
 
-// Placeholder (Unk_710244dd20::_f8, four entries zeroed by the ctor).
-struct Unk_710244dd20Entry {
-    void* _0 = nullptr;
-    u32 _8 = 0;
-};
-
 // Second base of Unk_710244dd20 (at 0x20; its vtable at 0x710244dd20 + 0xc8 only holds the destructor thunks
 // 0x71006cf0f8 / 0x71006cf1f4). Placeholder name; the two words are zeroed by the ctor.
 class Unk_710244dd20Base2 {
@@ -137,6 +131,8 @@ public:
     void sub_71006D15EC();
     void sub_71006D19AC();
     void sub_71006D0AB8();
+    // 0x71006d1c34 (not decompiled; placeholder name): used by sub_71006D19AC.
+    bool sub_71006D1C34();
 
     // New virtuals (slots 14-20, 0x71006d22ac / 0x71006cfcc0 / 0x71006d20cc / 0x71006d22b4 / 0x71006d094c /
     // 0x71006d0774 / 0x71006d0bdc); placeholder names, only m14 and m17 are decompiled.
@@ -152,7 +148,12 @@ public:
     virtual void m20();
 
     /* 0x038 */ f32 _38 = 1.0f;  // FlyingCharacterFreezeDie: 0 in enter_, 1 in leave_
-    /* 0x03c */ u32 _3c[4]{};
+    // Electric time (sub_71006D0AB8).
+    /* 0x03c */ f32 _3c = 0.0f;
+    /* 0x040 */ f32 _40 = 0.0f;
+    // Curse damage interval timer (sub_71006CF9B4) and the timer started at 60 by sub_71006D19AC.
+    /* 0x044 */ f32 _44 = 0.0f;
+    /* 0x048 */ f32 _48 = 0.0f;
     /* 0x04c */ u8 _4c[4];
     // Listener (message 0x8000084).
     /* 0x050 */ Unk_7102450768 _50{2};
@@ -173,7 +174,9 @@ public:
     /* 0x0e8 */ f32 _e8;
     /* 0x0ec */ f32 _ec;
     /* 0x0f0 */ f32 _f0;
-    /* 0x0f8 */ Unk_710244dd20Entry _f8[4];
+    /* 0x0f8 */ Unk_71012419b4 _f8;
+    // xlink handles of the electric shock effect (sub_71006D0AB8).
+    /* 0x118 */ Unk_71012419b4 _118;
     /* 0x138 */ u8 _138 = 0;  // flags: 1 burn, 2 ice, 4 electric invalidated (behavior InvalidateCondition)
     /* 0x139 */ sead::BitFlag8 _139 = 0;
     /* 0x13a */ u8 _13a = 0;

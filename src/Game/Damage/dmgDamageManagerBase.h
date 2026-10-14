@@ -39,9 +39,9 @@ class DamageCallbackInfo;
 struct ConditionDamageInfo {
     s32 mKind;    // DamageManager::m45 switches on it (0-11)
     s32 mDamage;
-    u32 _8;       // bit 6: DamageManager::_8c |= 4
-    u32 mFlags;   // bits 0-5, 8 tested by DamageManager::m45 / m54 / m55
-    s32 _10;      // copied to DamageManager::_88 with bit 3 of mFlags
+    u32 _8 = 0;       // bit 6: DamageManager::_8c |= 4
+    u32 mFlags = 0;   // bits 0-5, 8 tested by DamageManager::m45 / m54 / m55
+    s32 _10 = -1;     // copied to DamageManager::_88 with bit 3 of mFlags
 };
 
 class DamageManagerBase_UnknownBase1 {
