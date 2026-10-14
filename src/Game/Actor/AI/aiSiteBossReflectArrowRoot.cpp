@@ -1,4 +1,5 @@
 #include "Game/Actor/AI/aiSiteBossReflectArrowRoot.h"
+#include <cmath>
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/Utils/Thread/Message.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
@@ -28,7 +29,8 @@ void SiteBossReflectArrowRoot::enter_(ksys::act::ai::InlineParamPack* params) {
 
     _500 = 0;
     for (s32 i = 0; i < 20; ++i) {
-        auto& link = boss->_1560._1e0[i];
+        auto& unit = boss->_1560;
+        auto& link = unit._1e0[i];
         if (link.hasProc()) {
             ksys::act::ActorLinkConstDataAccess accessor;
             ksys::act::acquireActor(&link, &accessor);
@@ -56,6 +58,46 @@ void SiteBossReflectArrowRoot::enter_(ksys::act::ai::InlineParamPack* params) {
 
 // NON_MATCHING: scheduling / register allocation of the arrow search loops and the `_1560` + `_1e0` address
 // folding (the original adds 0x1560 before the saturated index and 0x1e0 after it); control flow identical
+// NON_MATCHING: frame 0x10 smaller; the original loads the actor x before the front vector and spills
+// differently
+// Scores the bound arrows: the distance of each one that is in front of the boss (within the m53 angle) and at
+// least 15 away, else -1.
+void SiteBossReflectArrowRoot::sub_7100582688() {
+    auto* boss = sead::DynamicCast<act::SiteBoss>(mActor);
+    if (!boss)
+        return;
+
+    const auto& mtx = mActor->getMtx();
+    const sead::Vector3f actor_pos = mtx.getTranslation();
+    sead::Vector3f front;
+    mtx.getBase(front, 2);
+    front.normalize();
+
+    sead::Vector3f pos;
+    for (s32 i = 0; i < *mArrowNum_s; ++i) {
+        if (_488[i]) {
+            _4b0[i] = -1.0f;
+            continue;
+        }
+        auto& unit = boss->_1560;
+        auto& link = unit._1e0[i];
+        if (!link.hasProc())
+            continue;
+
+        ksys::act::ActorLinkConstDataAccess accessor;
+        ksys::act::acquireActor(&link, &accessor);
+        if (accessor.isStateCalc())
+            accessor.getActorMtx().getTranslation(pos);
+
+        sead::Vector3f dir{pos.x - actor_pos.x, 0.0f, pos.z - actor_pos.z};
+        const f32 dist = dir.normalize();
+        if (dist < 15.0f || front.dot(dir) < std::cos(sead::Mathf::deg2rad(m53())))
+            _4b0[i] = -1.0f;
+        else
+            _4b0[i] = dist;
+    }
+}
+
 bool SiteBossReflectArrowRoot::sub_7100582C20(sead::Vector3f* out) {
     auto* boss = sead::DynamicCast<act::SiteBoss>(mActor);
     if (!boss)
