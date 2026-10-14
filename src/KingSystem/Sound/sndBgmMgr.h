@@ -125,6 +125,8 @@ class Unk_710260f228 : public Unk_71025ce380 {
     SEAD_RTTI_OVERRIDE(Unk_710260f228, Unk_71025ce380)
 public:
     void sub_71010267A8(const Unk_71010267A8& state);
+    // 0x7101026888 (called by Unk_710260f218::m10).
+    void sub_7101026888();
 };
 
 // Placeholder name (ctor 0x71010073f4, constructed by the BgmMgr's init 0xff7f14): a list of BGM objects (their list node
@@ -347,10 +349,28 @@ Unk_710260f160* sub_7100FFDBD4();
 class Unk_710260f218 : public Unk_71024fca78 {
     SEAD_RTTI_OVERRIDE(Unk_710260f218, Unk_71024fca78)
 public:
+    Unk_710260f218();
+
+    void m4(sead::Heap* heap) override;
+    void m5() override;
+    void m6(f32 fade_sec) override;
+    void m7(f32 fade_sec) override;
+    void m8(const Unk_BgmControllerM8Arg& arg) override {}
+    void m10() override;
+    void m12() override {}
+
+    void sub_7100FFC5C8(Bgm* bgm);
+    void sub_7100FFC758();
     void sub_7100FFC7F4();
     void sub_7100FFC894();
     void sub_7100FFC934();
+    void sub_7100FFC9D4();
+    void sub_7100FFCA70();
+
+    bool _90 = false;
+    sead::Delegate1<Unk_710260f218, Bgm*> _98{this, &Unk_710260f218::sub_7100FFC5C8};
 };
+KSYS_CHECK_SIZE_NX150(Unk_710260f218, 0xb8);
 Unk_710260f218* sub_7100FFDA7C();
 
 // 0x7100ffdd38 / 0x7100ffe094 (placeholder names): BGM kind 2 / 15 of the controller at SoundMgr::_30->_48, cast to its

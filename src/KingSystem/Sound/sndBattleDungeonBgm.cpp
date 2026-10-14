@@ -101,6 +101,48 @@ Unk_710260f1a8* sub_7100FFE14C() {
     return sead::DynamicCast<Unk_710260f1a8>(controller ? controller->_8.sub_7100FF7C74(5) : nullptr);
 }
 
+Unk_710260f218::Unk_710260f218() = default;
+
+void Unk_710260f218::sub_7100FFC5C8(Bgm* bgm) {
+    bgm->m8(_90);
+}
+
+void Unk_710260f218::m4(sead::Heap* heap) {
+    _8.sub_7100FF75DC(2, heap);
+    _8._30 = &_98;
+    _8.sub_7100FF7920(19, heap);
+    _8.sub_7100FF7920(21, heap);
+}
+
+void Unk_710260f218::m5() {
+    if (_90)
+        _8.sub_7100FF7698();
+}
+
+void Unk_710260f218::m6(f32 fade_sec) {
+    if (!_90) {
+        _8.sub_7100FF7830(fade_sec);
+        _90 = true;
+    }
+}
+
+void Unk_710260f218::m7(f32 fade_sec) {
+    if (_90) {
+        _8.sub_7100FF78A8(fade_sec);
+        _90 = false;
+    }
+}
+
+void Unk_710260f218::m10() {
+    if (auto* bgm = sead::DynamicCast<Unk_710260f228>(_8.sub_7100FF7C74(21)))
+        bgm->sub_7101026888();
+}
+
+void Unk_710260f218::sub_7100FFC758() {
+    if (auto* bgm = sead::DynamicCast<Unk_710260f228>(_8.sub_7100FF7C74(21)))
+        bgm->sub_71010267A8(Unk_71010267A8{0});
+}
+
 void Unk_710260f218::sub_7100FFC7F4() {
     if (auto* bgm = sead::DynamicCast<Unk_710260f228>(_8.sub_7100FF7C74(21)))
         bgm->sub_71010267A8(Unk_71010267A8{1});
@@ -114,6 +156,16 @@ void Unk_710260f218::sub_7100FFC894() {
 void Unk_710260f218::sub_7100FFC934() {
     if (auto* bgm = sead::DynamicCast<Unk_710260f228>(_8.sub_7100FF7C74(21)))
         bgm->sub_71010267A8(Unk_71010267A8{3});
+}
+
+void Unk_710260f218::sub_7100FFC9D4() {
+    if (auto* bgm = sead::DynamicCast<Unk_71024fd808>(_8.sub_7100FF7C74(19)))
+        bgm->sub_71010029B8();
+}
+
+void Unk_710260f218::sub_7100FFCA70() {
+    if (auto* bgm = sead::DynamicCast<Unk_71024fd808>(_8.sub_7100FF7C74(19)))
+        bgm->sub_71010029CC();
 }
 
 Unk_710260f130::Unk_710260f130() = default;
