@@ -1,4 +1,7 @@
 #include "Game/Actor/Action/actionTurnAndLookToObject.h"
+#include <cmath>
+#include "KingSystem/ActorSystem/actGlobalParameter.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectGlobal.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/Utils/MathUtil.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
@@ -134,6 +137,46 @@ void TurnAndLookToObject::m41(ksys::phys::CharacterController* controller) {
     }
     if (isFinishedAS(0, 0))
         setFinished();
+}
+
+// NON_MATCHING: register allocation and scheduling around the two normalizations.
+void TurnAndLookToObject::m40() {
+    auto* controller = mActor->getCharacterController();
+    if (_d0) {
+        setFinished();
+        return;
+    }
+
+    _38.y = 0;
+    _38.normalize();
+    sead::Vector3f front;
+    mActor->getMtx().getBase(front, 2);
+    front.y = 0;
+    front.normalize();
+
+    f32 offset = 0.0f;
+    if (u32(_30 - 1) >= 2 && !*mIsConfront_d) {
+        f32 limit = 0.0f;
+        auto* global = ksys::act::GlobalParameter::instance();
+        const ksys::res::GParamListObjectGlobal* param = global ? global->getGlobalParam() : nullptr;
+        if (param)
+            limit = param->mNPCTurnAngleDiff.ref() * sead::Mathf::deg2rad(1);
+        if (atan2f(front.cross(_38).length(), front.dot(_38)) < limit) {
+            setFinished();
+            return;
+        }
+        offset = param->mNPCTurnAngleDiff.ref();
+    }
+
+    sead::Vector3f axis;
+    f32 angle;
+    ksys::util::sub_71011EEB08(&axis, &angle, front, _38, sead::Vector3f::ey);
+    mActor->getASList()->x_6(9, 0, axis.y * (angle * sead::Mathf::rad2deg(1) - offset));
+    playAS("Turn", false, 0, 0, -1.0f);
+    if (controller) {
+        controller->sub_7100F5E7F0(0.0f);
+        controller->sub_7100F5FB24(sead::Vector3f::zero);
+    }
 }
 
 }  // namespace uking::action
