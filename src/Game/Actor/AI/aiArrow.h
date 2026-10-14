@@ -39,6 +39,8 @@ public:
     void sub_71004640B0();
     // 0x71004682cc: kills the ELink event of _170 (if it is still the one that was emitted).
     void sub_71004682CC();
+    // 0x7100468028 (placeholder name): kills the ELink events and fades the SLink events of _f0 and _110.
+    void sub_7100468028();
     // 0x71004692fc (placeholder name): the linked weapon's parent actor is the player.
     bool sub_71004692FC();
     // 0x7100467d20 / 0x7100467e24 / 0x7100467f28 (placeholder names): the Weapon the arrow is connected to as a

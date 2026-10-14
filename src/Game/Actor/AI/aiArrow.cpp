@@ -40,6 +40,13 @@ void Arrow::sub_7100463940() {
         xlink::fade(_170.mELink, -1);
 }
 
+void Arrow::sub_7100468028() {
+    _f0.mELink.kill();
+    _110.mELink.kill();
+    _f0.mSLink.fade();
+    _110.mSLink.fade();
+}
+
 void Arrow::sub_71004682CC() {
     if (_170.sub_7101241AD8(0))
         xlink::kill(_170.mELink);
