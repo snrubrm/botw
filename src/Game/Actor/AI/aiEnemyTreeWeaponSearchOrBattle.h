@@ -18,6 +18,10 @@ public:
     void loadParams_() override;
 
 protected:
+    // 0x71003c1e20 (placeholder name; declared only, 1168 B): searches a tree weapon (sets _60) or a tree (sets
+    // _61) into _50.
+    bool sub_71003C1E20();
+
     // static_param at offset 0x38
     const int* mWeaponIdx_s{};
     // static_param at offset 0x40
