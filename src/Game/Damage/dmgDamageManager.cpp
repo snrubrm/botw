@@ -1110,3 +1110,28 @@ void DamageManager::sub_71006D888C(const ConditionDamageInfo& info) {
 }
 
 }  // namespace uking::dmg
+
+// Existing global damage callback cleanup (also called by DynamicActor and Rope).
+void sub_7100D2D424(uking::dmg::DamageManagerBase* manager);
+
+uking::dmg::DamageManager* gameObjectInitField(ksys::act::Actor* actor, sead::Heap* heap) {
+    auto* manager = new (heap, 8) uking::dmg::DamageManager(actor);
+    if (!manager)
+        return nullptr;
+
+    const s32 num_callbacks = manager->getNumCallbacks();
+    if (num_callbacks != 0) {
+        manager->mCallbacks.allocBufferAssert(num_callbacks, heap);
+        manager->mCallbacks.fill(nullptr);
+    }
+    if ((num_callbacks == 0 || manager->mCallbacks.getBufferPtr()) && manager->allocStruct20(heap) &&
+        manager->initCallbacks(heap)) {
+        return manager;
+    }
+
+    sub_7100D2D424(manager);
+    manager->preDelete1();
+    manager->preDelete2();
+    delete manager;
+    return nullptr;
+}
