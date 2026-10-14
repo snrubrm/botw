@@ -22,6 +22,11 @@ class SoundOcclusionTagAction;
 }
 
 class Unk_7102500a00;
+class Unk_71024fefe8;
+class Unk_71024feae8;
+class Unk_71024fe368;
+class Unk_71024fd6c8;
+class Unk_71024fd948;
 
 namespace ksys::snd {
 
@@ -211,12 +216,34 @@ KSYS_CHECK_SIZE_NX150(Unk_BgmControllerM8Arg, 0x10);
 // names are unknown; the switch covers 1..11.
 SEAD_ENUM(BgmControllerType, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11)
 
+// Placeholder (vtable 0x71024fe948, three slots, no RTTI): the 0x88-byte object at +0x90 of Unk_710260f0c0 and
+// Unk_710260f198 (constructor 0x710100d5bc).
+class Unk_71024fe948 {
+public:
+    Unk_71024fe948();
+    virtual ~Unk_71024fe948();
+    virtual void m2();
+
+    // 0x710100d604
+    void sub_710100D604(sead::Heap* heap);
+    // 0x710100d694
+    void sub_710100D694();
+    // 0x710100d860: clears _1c and _8 when _8 is set.
+    void sub_710100D860();
+
+    bool _8;
+    u8 _9[0x88 - 0x9];
+};
+KSYS_CHECK_SIZE_NX150(Unk_71024fe948, 0x88);
+
 // The RTTI root of the BGM controller family (vtable 0x71024fca78). `_8` is common to the family: the helpers
 // sub_7100FFDD38 etc. call `_48->_8.sub_7100FF7C74()` on the base pointer without a cast. The controllers derive from
 // it directly (their checkDerivedRuntimeTypeInfo tests their own typeInfo and then this class's).
 class Unk_71024fca78 {
 public:
-    virtual ~Unk_71024fca78();
+    // Inline: the Unk_710260f0c0 destructor (0x7100ff9338, in the sndBgmMgr.cpp TU) and the controller D0s (in
+    // sndBattleDungeonBgm.cpp) all inline it.
+    virtual ~Unk_71024fca78() = default;
     SEAD_RTTI_BASE(Unk_71024fca78)
 
     // Slots 4-7 are pure in the original vtable; 8-12 have empty or `return nullptr` default bodies.
@@ -225,7 +252,7 @@ public:
     virtual void m6(f32 fade_sec) = 0;
     virtual void m7(f32 fade_sec) = 0;
     virtual void m8(const Unk_BgmControllerM8Arg& arg) {}
-    virtual void m9() {}
+    virtual void m9(const Unk_BgmControllerM8Arg& arg) {}
     virtual void m10() {}
     virtual void* m11() { return nullptr; }
     virtual void m12() {}
@@ -318,7 +345,46 @@ Unk_710260f150* sub_7100FFD924();
 // RTTI typeInfo 0x710260f0c0, a BGM controller (sub_7100FFDB28 casts SoundMgr::_30->_48 to it).
 class Unk_710260f0c0 : public Unk_71024fca78 {
     SEAD_RTTI_OVERRIDE(Unk_710260f0c0, Unk_71024fca78)
+public:
+    Unk_710260f0c0();
+    ~Unk_710260f0c0() override;
+
+    void m4(sead::Heap* heap) override;
+    void m5() override;
+    void m6(f32 fade_sec) override;
+    void m7(f32 fade_sec) override;
+    // 0x7100ff9690 / 0x7100ff978c / 0x7100ff97b8: declared only (they need the layouts of the BGMs at _a8 / _b0
+    // and of _90).
+    void m8(const Unk_BgmControllerM8Arg& arg) override;
+    void m9(const Unk_BgmControllerM8Arg& arg) override;
+    void m10() override;
+    void m12() override {}
+
+    // Delegate callbacks (0x7100ff8f34 / 0x7100ff92bc): declared only; they pass a kind enum to
+    // Unk_71024fe948::sub_710100D874.
+    void sub_7100FF8F34(Bgm* bgm);
+    void sub_7100FF92BC(Bgm* bgm);
+    // Called by uking::act::Guardian with its +0x60 value and whether its +0x15b0 / +0x15b0-like pointer is null.
+    void sub_7100FF9810(s32 id, bool use_a0);
+    void sub_7100FF9830(s32 id, bool use_a0);
+    void sub_7100FF9850(s32 a, bool b, s32 id, bool use_a0);
+    void sub_7100FF987C(bool a, s32 id, bool use_a0);
+    // Called by uking::action::SceneBgmCtrlAction::oneShot_.
+    void sub_7100FF98A4();
+
+    Unk_71024fe948* _90 = nullptr;
+    // Set by sub_7100FF8F34 from the BGM kinds 16, 17, 3, 18 and 20.
+    ::Unk_71024fefe8* _98 = nullptr;
+    ::Unk_71024feae8* _a0 = nullptr;
+    ::Unk_71024fe368* _a8 = nullptr;
+    ::Unk_71024fd6c8* _b0 = nullptr;
+    ::Unk_71024fd948* _b8 = nullptr;
+    f32 _c0 = 0;
+    u8 _c4 = 0;
+    sead::Delegate1<Unk_710260f0c0, Bgm*> _c8{this, &Unk_710260f0c0::sub_7100FF8F34};
+    sead::Delegate1<Unk_710260f0c0, Bgm*> _e8{this, &Unk_710260f0c0::sub_7100FF92BC};
 };
+KSYS_CHECK_SIZE_NX150(Unk_710260f0c0, 0x108);
 Unk_710260f0c0* sub_7100FFDB28();
 
 // RTTI typeInfo 0x710260f160, a BGM controller (sub_7100FFDBD4 casts SoundMgr::_30->_48 to it).

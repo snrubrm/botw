@@ -4,9 +4,6 @@
 
 namespace ksys::snd {
 
-// Defined here: the controller destructors inline it while it calls ~Unk_7100ff7444 (0x7100ff7444) out of line.
-Unk_71024fca78::~Unk_71024fca78() = default;
-
 Unk_710260f130* sub_7100FFD9D0() {
     Unk_71024fca78* controller = nullptr;
     if (auto* sound = SoundMgr::instance()) {

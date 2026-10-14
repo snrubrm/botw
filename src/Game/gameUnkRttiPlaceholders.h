@@ -2333,6 +2333,11 @@ class Unk_71024feae8 : public ksys::snd::Unk_71025ce380 {
     SEAD_RTTI_OVERRIDE(Unk_71024feae8, ksys::snd::Unk_71025ce380)
 public:
     ~Unk_71024feae8() override;
+    // Called by ksys::snd::Unk_710260f0c0 on its kind 17 BGM.
+    void sub_710100F798();
+    void sub_710100F860();
+    void sub_710100F8B0(bool value);
+    void sub_710100F900(bool flag, s32 value);
     void m14(sead::TextWriter& writer) override {}
 };
 
@@ -2372,6 +2377,11 @@ class Unk_71024fefe8 : public ksys::snd::Unk_71025ce380 {
     SEAD_RTTI_OVERRIDE(Unk_71024fefe8, ksys::snd::Unk_71025ce380)
 public:
     ~Unk_71024fefe8() override;
+    // Called by ksys::snd::Unk_710260f0c0 on its kind 16 BGM.
+    void sub_71010121D8();
+    void sub_71010122A0();
+    void sub_71010122F0(bool value);
+    void sub_7101012340(s32 value, bool flag);
     void m14(sead::TextWriter& writer) override {}
 };
 
