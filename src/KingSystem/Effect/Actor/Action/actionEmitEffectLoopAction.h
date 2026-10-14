@@ -3,7 +3,7 @@
 #include <xlink2/xlink2HandleELink.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
 
-namespace uking::action {
+namespace ksys::eft {
 
 class EmitEffectLoopAction : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(EmitEffectLoopAction, ksys::act::ai::Action)
@@ -61,4 +61,4 @@ protected:
     xlink2::HandleELink _e0;
 };
 
-}  // namespace uking::action
+}  // namespace ksys::eft

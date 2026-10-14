@@ -1,8 +1,8 @@
-#include "Game/Actor/Action/actionEmitEffectLoopAction.h"
+#include "KingSystem/Effect/Actor/Action/actionEmitEffectLoopAction.h"
 #include "Game/Actor/aiXlinkHandle.h"
 #include "KingSystem/Effect/eftEffect.h"
 
-namespace uking::action {
+namespace ksys::eft {
 
 EmitEffectLoopAction::EmitEffectLoopAction(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
@@ -18,7 +18,7 @@ void EmitEffectLoopAction::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void EmitEffectLoopAction::leave_() {
     if (!*mNoFade_d)
-        xlink::fade(_d0, -1);
+        uking::xlink::fade(_d0, -1);
 }
 
 void EmitEffectLoopAction::loadParams_() {
@@ -54,4 +54,4 @@ void EmitEffectLoopAction::calc_() {
     }
 }
 
-}  // namespace uking::action
+}  // namespace ksys::eft

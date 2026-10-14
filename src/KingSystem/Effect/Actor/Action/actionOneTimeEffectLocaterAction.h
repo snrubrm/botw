@@ -3,7 +3,7 @@
 #include "KingSystem/ActorSystem/actAiAction.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
 
-namespace uking::action {
+namespace ksys::eft {
 
 class OneTimeEffectLocaterAction : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(OneTimeEffectLocaterAction, ksys::act::ai::Action)
@@ -22,4 +22,4 @@ protected:
     Unk_71012419b4 _20;
 };
 
-}  // namespace uking::action
+}  // namespace ksys::eft

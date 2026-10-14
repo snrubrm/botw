@@ -1,8 +1,8 @@
-#include "Game/Actor/Action/actionOneTimeEffectLocaterAction.h"
+#include "KingSystem/Effect/Actor/Action/actionOneTimeEffectLocaterAction.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/XLink/xlinkXLink.h"
 
-namespace uking::action {
+namespace ksys::eft {
 
 OneTimeEffectLocaterAction::OneTimeEffectLocaterAction(const InitArg& arg)
     : ksys::act::ai::Action(arg) {}
@@ -46,4 +46,4 @@ void OneTimeEffectLocaterAction::calc_() {
     }
 }
 
-}  // namespace uking::action
+}  // namespace ksys::eft
