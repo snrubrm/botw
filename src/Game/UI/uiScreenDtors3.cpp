@@ -43,7 +43,11 @@ ScreenAppTool::~ScreenAppTool() {
     if (auto* screen = sead::DynamicCast<ScreenAppHome>(eui::ScreenMgr::instance()->getScreen(ScreenId::AppHome)))
         screen->sub_71009DC77C(0, nullptr);
 }
-ScreenAppAlbum::~ScreenAppAlbum() = default;
+// 0x71009d3718 (D1): resets the ScreenAppHome slot 2
+ScreenAppAlbum::~ScreenAppAlbum() {
+    if (auto* screen = sead::DynamicCast<ScreenAppHome>(eui::ScreenMgr::instance()->getScreen(ScreenId::AppHome)))
+        screen->sub_71009DC77C(2, nullptr);
+}
 ScreenAppPictureBook::~ScreenAppPictureBook() = default;
 ScreenAppMapDungeon::~ScreenAppMapDungeon() = default;
 ScreenMainScreen::~ScreenMainScreen() = default;
