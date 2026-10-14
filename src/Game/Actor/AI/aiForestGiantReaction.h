@@ -16,6 +16,8 @@ public:
     void calc_() override;
     void leave_() override;
     void loadParams_() override;
+    void m35(act::DamageManagerBase* damage_mgr, int damage_type, bool x,
+             ksys::act::ai::InlineParamPack* params) override;
 
 protected:
     // static_param at offset 0x68
