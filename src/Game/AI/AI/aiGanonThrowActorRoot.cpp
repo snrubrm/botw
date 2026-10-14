@@ -5,6 +5,11 @@
 #include "KingSystem/ActorSystem/actAiRoot.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "Game/Actor/actSiteBoss.h"
+#include "KingSystem/ActorSystem/actActorCreator.h"
+#include "KingSystem/ActorSystem/actActorHeapUtil.h"
+#include "KingSystem/ActorSystem/actInstParamPack.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
 
 namespace uking::ai {
 
@@ -173,6 +178,41 @@ void GanonThrowActorRoot::m36() {
     params.addActor(*target, "TargetActor", -1);
     params.addString(mRegisterPartsName_s.cstr(), "ThrowPartsName", -1);
     changeChild("投げる", &params);
+}
+
+// Creates the thrown actor (ThrowActorName) 1 above the actor with the attack params; its attack power grows with
+// the number of defeated Blights (counted 3 / 4 for the SiteBoss kinds 4 / 8).
+ksys::act::Actor* GanonThrowActorRoot::sub_71003EF66C(s32 count) {
+    ksys::act::InstParamPack pack;
+    ksys::act::ActorCreator::setCreatePriorityState1(pack, mActor);
+    pack->addPosition(mActor->getMtx().getTranslation() + sead::Vector3f(0.0f, 1.0f, 0.0f));
+
+    s32 num_dead = getNumberOfDeadBlights();
+    if (mActor->getProfile() == "SiteBoss") {
+        if (auto* boss = sead::DynamicCast<act::SiteBoss>(mActor)) {
+            const u32 kind = boss->_1534 & ~3u;
+            if (kind == 4)
+                num_dead = 3;
+            else if (kind == 8)
+                num_dead = 4;
+        }
+    }
+    pack->add(*mAttackDamage_s + *mAddAtackPower_s * num_dead, "AttackPower");
+    pack->add(120.0f, "ScaleTime");
+    pack->add(200.0f, "Range");
+    ksys::act::ActorCreator::addScale(pack, 1.0f);
+    pack->add(0.4f, "AtkRadiusMax");
+    pack->add(*mAtMinDamage_s, "AtMinDamage");
+    pack->add(m37(count), "Count");
+    pack->add(sead::Vector3f(0.0f, 2.0f, 0.0f), "PosOffset");
+
+    auto* proc = ksys::act::ActorCreator::instance()->createActor(
+        mThrowActorName_s.cstr(), ksys::act::ActorHeapUtil::instance()->getBaseProcHeap(), &pack,
+        true, false);
+    auto* actor = sead::DynamicCast<ksys::act::Actor>(proc);
+    if (actor && *mIsSetSystemGroupHandler_s && actor->getPhysics() && mActor->getPhysics())
+        actor->getPhysics()->sub_7100FBDFA4(mActor->getPhysics()->get188(0));
+    return actor;
 }
 
 void GanonThrowActorRoot::m38() {
