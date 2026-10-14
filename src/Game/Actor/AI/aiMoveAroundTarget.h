@@ -21,6 +21,9 @@ public:
 
     void sub_71004B004C();
     sead::Vector3f sub_71004B0238();
+    // 0x71004b0848 (placeholder name): restarts the turn timer (_8c) and returns the next position around `target`:
+    // `pos` rotated by -angle around the target at distance _80 when farther than _80 * 1.1, else 3 further away.
+    sead::Vector3f sub_71004B0848(f32 angle, const sead::Vector3f& pos, const sead::Vector3f& target);
 protected:
     // static_param at offset 0x38
     const int* mTurnTimeBase_s{};

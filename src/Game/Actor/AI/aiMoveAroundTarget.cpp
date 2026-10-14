@@ -53,6 +53,27 @@ void MoveAroundTarget::calc_() {
     getCurrentChild()->setDynamicParam(target, "TargetPos");
 }
 
+// NON_MATCHING: the final addition loads the base vector per component (three pointers) in the original, and the
+// radius scaling multiplies in the other operand order.
+sead::Vector3f MoveAroundTarget::sub_71004B0848(f32 angle, const sead::Vector3f& pos,
+                                                const sead::Vector3f& target) {
+    _8c = _90 == _94 ? _90 : sead::GlobalRandom::instance()->getS32Range(_90, _94);
+    sead::Vector3f dir(pos.x - target.x, 0.0f, pos.z - target.z);
+    const f32 distance = dir.normalize();
+    if (distance > _80.value * 1.1f) {
+        sead::Matrix34f rot;
+        rot.makeR({0.0f, -angle, 0.0f});
+        sead::Vector3f offset;
+        offset.setRotated(rot, dir);
+        const f32 radius = _80.value;
+        const f32 length = offset.length();
+        if (length > 0.0f)
+            offset = offset * (radius / length);
+        return offset + target;
+    }
+    return dir * 3.0f + pos;
+}
+
 void MoveAroundTarget::leave_() {
     ksys::act::ai::Ai::leave_();
 }
