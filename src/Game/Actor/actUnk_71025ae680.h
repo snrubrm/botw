@@ -102,9 +102,11 @@ class Unk_710244dd20Base2 {
 public:
     virtual ~Unk_710244dd20Base2() = default;
 
-    // Named by their offsets in Unk_710244dd20 (0x28 / 0x30): `_8` / `_10` would hide the first base's members.
+    // Named by their offsets in Unk_710244dd20 (0x28 / 0x30 / 0x34): `_8` / `_10` would hide the first base's
+    // members. Unk_710244dd20::m5 clears the word at 0x30 alone.
     void* _28 = nullptr;
-    void* _30 = nullptr;
+    u32 _30 = 0;
+    u32 _34 = 0;
 };
 
 // Placeholder name (vtable 0x710244dd20; ctor 0x71006cef7c, size 0x140). Horse::_1028 and the
@@ -120,14 +122,29 @@ public:
     bool sub_71006D1D7C();
     bool sub_71006D1DA0();
 
+    void m5() override;
     void m7() override;
     bool m8(const ksys::Message& message) override;
+    void m10() override;
+    void m11(bool enable) override;
+
+    // 0x71006cf338 / 0x71006cf770 / 0x71006cf9b4 (not decompiled; placeholder names): the parts of m10.
+    void sub_71006CF338();
+    void sub_71006CF770();
+    void sub_71006CF9B4();
+    // 0x71006d0c38 / 0x71006d15ec / 0x71006d19ac / 0x71006d0ab8 (not decompiled; placeholder names): the parts of m20.
+    void sub_71006D0C38();
+    void sub_71006D15EC();
+    void sub_71006D19AC();
+    void sub_71006D0AB8();
 
     // New virtuals (slots 14-20, 0x71006d22ac / 0x71006cfcc0 / 0x71006d20cc / 0x71006d22b4 / 0x71006d094c /
     // 0x71006d0774 / 0x71006d0bdc); placeholder names, only m14 and m17 are decompiled.
     virtual bool m14() { return false; }
     virtual void m15();
-    virtual void m16(s32 kind);
+    // Slot 16 (0x71006d20cc): false only while the chemical state blocks the condition `kind` (3: bit 1 of the
+    // Chemical's byte at 0xb9, 4: the value at 0x1b8 is positive); placeholder name.
+    virtual bool m16(s32 kind);
     // Slot 17 (0x71006d22b4; was sub_71006D22B4): whether bit `bit` of `_139` is set.
     virtual bool m17(s32 bit) const;
     virtual void m18();
@@ -142,11 +159,20 @@ public:
     // Listener (message 0x800009b); PriestBossShadowCloneEnemyRoot::enter_ resets it (x()).
     /* 0x088 */ Unk_710235a0c0 _88;
     /* 0x0c0 */ u16 _c0 = 0;
-    /* 0x0c2 */ u8 _c2[0xd0 - 0xc2];
+    // 0x0c4 - 0x0f0: twelve factors that m5 resets to 1.
+    /* 0x0c4 */ f32 _c4;
+    /* 0x0c8 */ f32 _c8;
+    /* 0x0cc */ f32 _cc;
     // Set by Player's 0x710088588c / 0x710088592c (ice / electric; the matching `_138` bits 2 / 4 say whether it is 0).
     /* 0x0d0 */ f32 _d0;
     /* 0x0d4 */ f32 _d4;
-    /* 0x0d8 */ u8 _d8[0xf8 - 0xd8];
+    /* 0x0d8 */ f32 _d8;
+    /* 0x0dc */ f32 _dc;
+    /* 0x0e0 */ f32 _e0;
+    /* 0x0e4 */ f32 _e4;
+    /* 0x0e8 */ f32 _e8;
+    /* 0x0ec */ f32 _ec;
+    /* 0x0f0 */ f32 _f0;
     /* 0x0f8 */ Unk_710244dd20Entry _f8[4];
     /* 0x138 */ u8 _138 = 0;  // flags: 1 burn, 2 ice, 4 electric invalidated (behavior InvalidateCondition)
     /* 0x139 */ sead::BitFlag8 _139 = 0;
