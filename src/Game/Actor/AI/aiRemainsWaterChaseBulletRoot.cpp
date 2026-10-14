@@ -1,4 +1,5 @@
 #include "Game/Actor/AI/aiRemainsWaterChaseBulletRoot.h"
+#include "KingSystem/ActorSystem/Profiles/actBullet.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
 #include "KingSystem/ActorSystem/actTag.h"
 #include "Game/Actor/Damage/dmgDamageManager.h"
@@ -224,6 +225,27 @@ bool RemainsWaterChaseBulletRoot::sub_710054A6C0() {
         info->unlock();
     }
     return hit;
+}
+
+// Shoots the bullet away from its owner (horizontally, ShootAddSpd per frame) and returns to the normal child.
+void RemainsWaterChaseBulletRoot::sub_710054A930() {
+    if (auto* bullet = sead::DynamicCast<ksys::act::Bullet>(mActor)) {
+        ksys::act::ActorLinkConstDataAccess accessor;
+        if (ksys::act::acquireActor(&bullet->_bd0._0, &accessor)) {
+            const sead::Vector3f owner_pos = accessor.getActorMtx().getTranslation();
+            const sead::Vector3f pos = bullet->getMtx().getTranslation();
+            const f32 dx = pos.x - owner_pos.x;
+            const f32 dz = pos.z - owner_pos.z;
+            if (sead::Mathf::sqrt(dx * dx + dz * dz) > 0.0f) {
+                sead::Vector3f dir{dx, 0.0f, dz};
+                dir.normalize();
+                const sead::Vector3f velocity = dir * (*mParams.mShootAddSpd_s * 30.0f);
+                if (auto* body = mActor->getMainBody())
+                    body->setLinearVelocity(velocity);
+            }
+        }
+    }
+    changeChild("通常");
 }
 
 void RemainsWaterChaseBulletRoot::leave_() {
