@@ -358,6 +358,8 @@ public:
     virtual void m150();
     virtual void m151();
     virtual s32 m152();
+    void m35(void* a1) override {}
+    void m37(void* a1) override {}
 
     u8 _130[0x1a8 - 0x130];
     /* 0x1a8 */ eui::Animator* _1a8;  // stopped at max / min by m114 depending on the JumpButtonChange flag
@@ -414,6 +416,7 @@ public:
     /* 0x18a */ bool _18a;
     /* 0x18b */ bool _18b;
     u8 _18c[0x190 - 0x18c];
+    void m33() override {}
 };
 static_assert(sizeof(Unk_710247e468) == 0x190);
 
