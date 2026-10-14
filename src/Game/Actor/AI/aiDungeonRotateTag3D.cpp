@@ -119,6 +119,23 @@ void DungeonRotateTag3D::calc_() {
         proxy->sub_710105A4FC();
 }
 
+void DungeonRotateTag3D::sub_71003776A0() {
+    if (!_100)
+        return;
+    auto* manager = ksys::snd::SoundMgr::instance()->_a0;
+    if (auto* proxy = manager->sub_710105A830(findSoundProxyObject())) {
+        xlink2::HandleSLink handle;
+        proxy->sub_710105A10C("Start", &handle);
+        if (!_100->isActive())
+            proxy->sub_710105A10C("Rotate", _100);
+    } else {
+        xlink2::HandleSLink handle;
+        ksys::eft::sub_710105DDB8(mActor, "Start", &handle);
+        if (!_100->isActive())
+            ksys::eft::sub_710105DDB8(mActor, "Rotate", _100);
+    }
+}
+
 void DungeonRotateTag3D::leave_() {
     if (_100)
         xlink::fade(*_100, -1);
