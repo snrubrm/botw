@@ -1,5 +1,7 @@
 #include "Game/AI/AI/aiLynelDirSelect.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include <math/seadMathCalcCommon.h>
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -58,5 +60,40 @@ void LynelDirSelect::calc_() {
 }
 
 void LynelDirSelect::m34() {}
+
+// NON_MATCHING: the original keeps the front vector in integer registers (csel on the y component); same operations.
+// Returns the side of the actor the target is on: 0 front, 1 back, 2 / 3 the two sides.
+s32 LynelDirSelect::sub_7100490308() {
+    const sead::Matrix34f& mtx = mActor->getMtx();
+    sead::Vector3f front(mtx(0, 2), *mIsCheckOnlyXZ_s ? 0.0f : mtx(1, 2), mtx(2, 2));
+    const sead::Vector3f pos = mtx.getTranslation();
+    front.normalize();
+
+    sead::Vector3f front_base;
+    front_base.setMul(mtx, sead::Vector3f(0.0f, 0.0f, *mBasePosOffsetFront_s));
+    sead::Vector3f dir = *mTargetPos_d - front_base;
+    if (*mIsCheckOnlyXZ_s)
+        dir.y = 0.0f;
+    dir.normalize();
+    if (front.dot(dir) >= sead::Mathf::cos(*mFrontAngle_s))
+        return 0;
+
+    sead::Vector3f back_base;
+    back_base.setMul(mtx, sead::Vector3f(0.0f, 0.0f, -*mBasePosOffsetBack_s));
+    dir = *mTargetPos_d - back_base;
+    if (*mIsCheckOnlyXZ_s)
+        dir.y = 0.0f;
+    dir.normalize();
+    if ((-front).dot(dir) >= sead::Mathf::cos(*mBackAngle_s))
+        return 1;
+
+    dir = *mTargetPos_d - pos;
+    if (*mIsCheckOnlyXZ_s)
+        dir.y = 0.0f;
+    dir.normalize();
+    if (front.cross(dir).y >= 0.0f)
+        return 2;
+    return 3;
+}
 
 }  // namespace uking::ai
