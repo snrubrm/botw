@@ -219,6 +219,7 @@ SEAD_ENUM(BgmKind, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _
 class MusicInfo;
 class HorseBgmInfo;
 class AssassinSeniorBgmInfo;
+class MazeForestBgmInfo;
 
 // The argument of allocBgm (0x7100ff6e2c, which switches on `kind` and passes it on to the constructors).
 struct BgmInitArg {
@@ -318,9 +319,30 @@ class Unk_71025ce350 : public Bgm {
 KSYS_CHECK_SIZE_NX150(Unk_71025ce350, 0x40);
 
 // RTTI typeInfo 0x710260f288, derived from Unk_71025ce380 (sub_7100FFDDF0 casts BGM kind 6 to it).
+// The maze forest BGM ("MazeForestBgm"; 0x1d8 bytes, constructor 0x7101013c50).
 class Unk_710260f288 : public Unk_71025ce380 {
     SEAD_RTTI_OVERRIDE(Unk_710260f288, Unk_71025ce380)
+public:
+    explicit Unk_710260f288(const BgmInitArg& arg);
+
+    void m13(f32 fade_sec) override;
+    // 0x7101013d20 (declared only; 512 B): follows the env palette and runs the state machine.
+    void m5() override;
+    void m14(sead::TextWriter& writer) override {}
+    void hm14() override;
+    void hm15() override {}
+
+private:
+    MazeForestBgmInfo* mInfo = nullptr;
+    s32 mState = 0;
+    f32 mTimer = 0;
+    aal::TimedFader mFader{0.0, aal::FadeCurveType::Linear, 1.0};
+    bool _1c8 = false;
+    f32 _1cc = 0;
+    bool _1d0 = false;
+    f32 _1d4 = 0;
 };
+KSYS_CHECK_SIZE_NX150(Unk_710260f288, 0x1d8);
 
 // RTTI typeInfo 0x710260f048, derived from Unk_71025ce380 (sub_7100FFDFDC casts BGM kind 14 to it).
 class Unk_710260f048 : public Unk_71025ce380 {

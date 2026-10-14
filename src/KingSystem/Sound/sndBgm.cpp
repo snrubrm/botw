@@ -6,7 +6,7 @@ namespace ksys::snd {
 
 namespace {
 sead::SafeString sStr_AssassinBossBgm = "AssassinBossBgm";
-sead::SafeString sStr_main = "main";
+sead::SafeString sStr_AssassinBossBgmMain = "main";
 }  // namespace
 
 Unk_710260f048::Unk_710260f048(const BgmInitArg& arg) : Unk_71025ce380(arg) {
@@ -72,7 +72,7 @@ bool Unk_710260f048::m10() {
 }
 
 void Unk_710260f048::hm14() {
-    mMainEntry = sub_71010209FC(sStr_main);
+    mMainEntry = sub_71010209FC(sStr_AssassinBossBgmMain);
     if (mMainEntry && mMainEntry->sub_7100FF6DF4(this))
         mMainEntry->sub_7100FF6A50(1, 1.0);
 }
