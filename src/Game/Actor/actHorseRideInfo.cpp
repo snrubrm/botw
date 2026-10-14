@@ -73,6 +73,36 @@ bool HorseRideInfo::sub_7100E7BF5C(ksys::act::ActorLinkConstDataAccess& accessor
     return true;
 }
 
+// NON_MATCHING: one load width (the original reads _30 with ldrh for the bit 4 test; ours ldrb)
+void HorseRideInfo::sub_7100E7C0EC() {
+    m6();
+    if (auto* actor = sead::DynamicCast<ksys::act::Actor>(_18.getProc(nullptr, mActor))) {
+        if (auto* stuff = actor->getMotorcyclePriorityStuffMaybe()) {
+            stuff->m22(Unk_7100e8b2b8::Unk8::_0);
+            stuff->sub_7100E8BD6C(nullptr);
+        }
+    }
+    auto* parent = mActor->getConnectedCalcParent();
+    if (parent == sead::DynamicCast<ksys::act::Actor>(_18.getProc(nullptr, mActor)))
+        mActor->resetConnectedCalcParent(false);
+    _18.reset();
+    _30 &= ~1;
+    if (auto* controller = mActor->getCharacterController()) {
+        controller->sub_7100F5F458(ksys::act::MotionType::_1);
+        controller->sub_7100F5F6FC(sead::Vector3f::zero);
+        controller->sub_7100F5FB24(sead::Vector3f::zero);
+    }
+    if (auto* physics = mActor->getPhysics()) {
+        if (!(_30 & 0x10))
+            physics->sub_7100FBDFA4(physics->get178(0));
+    }
+    if (_10) {
+        if (auto* nav = mActor->m45())
+            _10->sub_7100F82BCC(nav);
+    }
+    _28 = nullptr;
+}
+
 void HorseRideInfo::sub_7100E7C380() {
     if (_18.hasProc()) {
         if (!(_30 & 2) && !_18.isAccessingSpecifiedProcUnsafe(mActor)) {
